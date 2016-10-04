@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 import sun.reflect.misc.ReflectUtil;
 import sun.swing.SwingUtilities2;
 import sun.swing.UIAction;
 
-import java.applet.*;
+import jbvb.bpplet.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.dnd.DropTarget;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.dnd.DropTbrget;
 
-import java.lang.reflect.*;
+import jbvb.lbng.reflect.*;
 
-import javax.accessibility.*;
-import javax.swing.event.MenuDragMouseEvent;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.View;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.event.MenuDrbgMouseEvent;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.View;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
 /**
  * A collection of utility methods for Swing.
  *
- * @author unknown
+ * @buthor unknown
  * @since 1.2
  */
-public class SwingUtilities implements SwingConstants
+public clbss SwingUtilities implements SwingConstbnts
 {
-    // These states are system-wide, rather than AppContext wide.
-    private static boolean canAccessEventQueue = false;
-    private static boolean eventQueueTested = false;
+    // These stbtes bre system-wide, rbther thbn AppContext wide.
+    privbte stbtic boolebn cbnAccessEventQueue = fblse;
+    privbte stbtic boolebn eventQueueTested = fblse;
 
     /**
-     * Indicates if we should change the drop target when a
-     * {@code TransferHandler} is set.
+     * Indicbtes if we should chbnge the drop tbrget when b
+     * {@code TrbnsferHbndler} is set.
      */
-    private static boolean suppressDropSupport;
+    privbte stbtic boolebn suppressDropSupport;
 
     /**
-     * Indiciates if we've checked the system property for suppressing
+     * Indicibtes if we've checked the system property for suppressing
      * drop support.
      */
-    private static boolean checkedSuppressDropSupport;
+    privbte stbtic boolebn checkedSuppressDropSupport;
 
 
     /**
-     * Returns true if <code>setTransferHandler</code> should change the
-     * <code>DropTarget</code>.
+     * Returns true if <code>setTrbnsferHbndler</code> should chbnge the
+     * <code>DropTbrget</code>.
      */
-    private static boolean getSuppressDropTarget() {
+    privbte stbtic boolebn getSuppressDropTbrget() {
         if (!checkedSuppressDropSupport) {
-            suppressDropSupport = Boolean.valueOf(
+            suppressDropSupport = Boolebn.vblueOf(
                 AccessController.doPrivileged(
                     new GetPropertyAction("suppressSwingDropSupport")));
             checkedSuppressDropSupport = true;
@@ -85,64 +85,64 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Installs a {@code DropTarget} on the component as necessary for a
-     * {@code TransferHandler} change.
+     * Instblls b {@code DropTbrget} on the component bs necessbry for b
+     * {@code TrbnsferHbndler} chbnge.
      */
-    static void installSwingDropTargetAsNecessary(Component c,
-                                                         TransferHandler t) {
+    stbtic void instbllSwingDropTbrgetAsNecessbry(Component c,
+                                                         TrbnsferHbndler t) {
 
-        if (!getSuppressDropTarget()) {
-            DropTarget dropHandler = c.getDropTarget();
-            if ((dropHandler == null) || (dropHandler instanceof UIResource)) {
+        if (!getSuppressDropTbrget()) {
+            DropTbrget dropHbndler = c.getDropTbrget();
+            if ((dropHbndler == null) || (dropHbndler instbnceof UIResource)) {
                 if (t == null) {
-                    c.setDropTarget(null);
-                } else if (!GraphicsEnvironment.isHeadless()) {
-                    c.setDropTarget(new TransferHandler.SwingDropTarget(c));
+                    c.setDropTbrget(null);
+                } else if (!GrbphicsEnvironment.isHebdless()) {
+                    c.setDropTbrget(new TrbnsferHbndler.SwingDropTbrget(c));
                 }
             }
         }
     }
 
     /**
-     * Return {@code true} if @{code a} contains {@code b}
+     * Return {@code true} if @{code b} contbins {@code b}
      *
-     * @param a the first rectangle
-     * @param b the second rectangle
+     * @pbrbm b the first rectbngle
+     * @pbrbm b the second rectbngle
      *
-     * @return {@code true} if @{code a} contains {@code b}
+     * @return {@code true} if @{code b} contbins {@code b}
      */
-    public static boolean isRectangleContainingRectangle(Rectangle a,Rectangle b) {
-        return b.x >= a.x && (b.x + b.width) <= (a.x + a.width) &&
-                b.y >= a.y && (b.y + b.height) <= (a.y + a.height);
+    public stbtic boolebn isRectbngleContbiningRectbngle(Rectbngle b,Rectbngle b) {
+        return b.x >= b.x && (b.x + b.width) <= (b.x + b.width) &&
+                b.y >= b.y && (b.y + b.height) <= (b.y + b.height);
     }
 
     /**
-     * Return the rectangle (0,0,bounds.width,bounds.height) for the component {@code aComponent}
+     * Return the rectbngle (0,0,bounds.width,bounds.height) for the component {@code bComponent}
      *
-     * @param aComponent a component
-     * @return the local bounds for the component {@code aComponent}
+     * @pbrbm bComponent b component
+     * @return the locbl bounds for the component {@code bComponent}
      */
-    public static Rectangle getLocalBounds(Component aComponent) {
-        Rectangle b = new Rectangle(aComponent.getBounds());
+    public stbtic Rectbngle getLocblBounds(Component bComponent) {
+        Rectbngle b = new Rectbngle(bComponent.getBounds());
         b.x = b.y = 0;
         return b;
     }
 
 
     /**
-     * Returns the first <code>Window </code> ancestor of <code>c</code>, or
-     * {@code null} if <code>c</code> is not contained inside a <code>Window</code>.
+     * Returns the first <code>Window </code> bncestor of <code>c</code>, or
+     * {@code null} if <code>c</code> is not contbined inside b <code>Window</code>.
      *
-     * @param c <code>Component</code> to get <code>Window</code> ancestor
+     * @pbrbm c <code>Component</code> to get <code>Window</code> bncestor
      *        of.
-     * @return the first <code>Window </code> ancestor of <code>c</code>, or
-     *         {@code null} if <code>c</code> is not contained inside a
+     * @return the first <code>Window </code> bncestor of <code>c</code>, or
+     *         {@code null} if <code>c</code> is not contbined inside b
      *         <code>Window</code>.
      * @since 1.3
      */
-    public static Window getWindowAncestor(Component c) {
-        for(Container p = c.getParent(); p != null; p = p.getParent()) {
-            if (p instanceof Window) {
+    public stbtic Window getWindowAncestor(Component c) {
+        for(Contbiner p = c.getPbrent(); p != null; p = p.getPbrent()) {
+            if (p instbnceof Window) {
                 return (Window)p;
             }
         }
@@ -150,169 +150,169 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Converts the location <code>x</code> <code>y</code> to the
-     * parents coordinate system, returning the location.
+     * Converts the locbtion <code>x</code> <code>y</code> to the
+     * pbrents coordinbte system, returning the locbtion.
      */
-    static Point convertScreenLocationToParent(Container parent,int x, int y) {
-        for (Container p = parent; p != null; p = p.getParent()) {
-            if (p instanceof Window) {
+    stbtic Point convertScreenLocbtionToPbrent(Contbiner pbrent,int x, int y) {
+        for (Contbiner p = pbrent; p != null; p = p.getPbrent()) {
+            if (p instbnceof Window) {
                 Point point = new Point(x, y);
 
-                SwingUtilities.convertPointFromScreen(point, parent);
+                SwingUtilities.convertPointFromScreen(point, pbrent);
                 return point;
             }
         }
-        throw new Error("convertScreenLocationToParent: no window ancestor");
+        throw new Error("convertScreenLocbtionToPbrent: no window bncestor");
     }
 
     /**
-     * Convert a <code>aPoint</code> in <code>source</code> coordinate system to
-     * <code>destination</code> coordinate system.
-     * If <code>source</code> is {@code null}, <code>aPoint</code> is assumed to be in <code>destination</code>'s
-     * root component coordinate system.
-     * If <code>destination</code> is {@code null}, <code>aPoint</code> will be converted to <code>source</code>'s
-     * root component coordinate system.
-     * If both <code>source</code> and <code>destination</code> are {@code null}, return <code>aPoint</code>
-     * without any conversion.
+     * Convert b <code>bPoint</code> in <code>source</code> coordinbte system to
+     * <code>destinbtion</code> coordinbte system.
+     * If <code>source</code> is {@code null}, <code>bPoint</code> is bssumed to be in <code>destinbtion</code>'s
+     * root component coordinbte system.
+     * If <code>destinbtion</code> is {@code null}, <code>bPoint</code> will be converted to <code>source</code>'s
+     * root component coordinbte system.
+     * If both <code>source</code> bnd <code>destinbtion</code> bre {@code null}, return <code>bPoint</code>
+     * without bny conversion.
      *
-     * @param source the source component
-     * @param aPoint the point
-     * @param destination the destination component
+     * @pbrbm source the source component
+     * @pbrbm bPoint the point
+     * @pbrbm destinbtion the destinbtion component
      *
-     * @return the converted coordinate
+     * @return the converted coordinbte
      */
-    public static Point convertPoint(Component source,Point aPoint,Component destination) {
+    public stbtic Point convertPoint(Component source,Point bPoint,Component destinbtion) {
         Point p;
 
-        if(source == null && destination == null)
-            return aPoint;
+        if(source == null && destinbtion == null)
+            return bPoint;
         if(source == null) {
-            source = getWindowAncestor(destination);
+            source = getWindowAncestor(destinbtion);
             if(source == null)
-                throw new Error("Source component not connected to component tree hierarchy");
+                throw new Error("Source component not connected to component tree hierbrchy");
         }
-        p = new Point(aPoint);
+        p = new Point(bPoint);
         convertPointToScreen(p,source);
-        if(destination == null) {
-            destination = getWindowAncestor(source);
-            if(destination == null)
-                throw new Error("Destination component not connected to component tree hierarchy");
+        if(destinbtion == null) {
+            destinbtion = getWindowAncestor(source);
+            if(destinbtion == null)
+                throw new Error("Destinbtion component not connected to component tree hierbrchy");
         }
-        convertPointFromScreen(p,destination);
+        convertPointFromScreen(p,destinbtion);
         return p;
     }
 
     /**
-     * Convert the point <code>(x,y)</code> in <code>source</code> coordinate system to
-     * <code>destination</code> coordinate system.
-     * If <code>source</code> is {@code null}, <code>(x,y)</code> is assumed to be in <code>destination</code>'s
-     * root component coordinate system.
-     * If <code>destination</code> is {@code null}, <code>(x,y)</code> will be converted to <code>source</code>'s
-     * root component coordinate system.
-     * If both <code>source</code> and <code>destination</code> are {@code null}, return <code>(x,y)</code>
-     * without any conversion.
+     * Convert the point <code>(x,y)</code> in <code>source</code> coordinbte system to
+     * <code>destinbtion</code> coordinbte system.
+     * If <code>source</code> is {@code null}, <code>(x,y)</code> is bssumed to be in <code>destinbtion</code>'s
+     * root component coordinbte system.
+     * If <code>destinbtion</code> is {@code null}, <code>(x,y)</code> will be converted to <code>source</code>'s
+     * root component coordinbte system.
+     * If both <code>source</code> bnd <code>destinbtion</code> bre {@code null}, return <code>(x,y)</code>
+     * without bny conversion.
      *
-     * @param source the source component
-     * @param x the x-coordinate of the point
-     * @param y the y-coordinate of the point
-     * @param destination the destination component
+     * @pbrbm source the source component
+     * @pbrbm x the x-coordinbte of the point
+     * @pbrbm y the y-coordinbte of the point
+     * @pbrbm destinbtion the destinbtion component
      *
-     * @return the converted coordinate
+     * @return the converted coordinbte
      */
-    public static Point convertPoint(Component source,int x, int y,Component destination) {
+    public stbtic Point convertPoint(Component source,int x, int y,Component destinbtion) {
         Point point = new Point(x,y);
-        return convertPoint(source,point,destination);
+        return convertPoint(source,point,destinbtion);
     }
 
     /**
-     * Convert the rectangle <code>aRectangle</code> in <code>source</code> coordinate system to
-     * <code>destination</code> coordinate system.
-     * If <code>source</code> is {@code null}, <code>aRectangle</code> is assumed to be in <code>destination</code>'s
-     * root component coordinate system.
-     * If <code>destination</code> is {@code null}, <code>aRectangle</code> will be converted to <code>source</code>'s
-     * root component coordinate system.
-     * If both <code>source</code> and <code>destination</code> are {@code null}, return <code>aRectangle</code>
-     * without any conversion.
+     * Convert the rectbngle <code>bRectbngle</code> in <code>source</code> coordinbte system to
+     * <code>destinbtion</code> coordinbte system.
+     * If <code>source</code> is {@code null}, <code>bRectbngle</code> is bssumed to be in <code>destinbtion</code>'s
+     * root component coordinbte system.
+     * If <code>destinbtion</code> is {@code null}, <code>bRectbngle</code> will be converted to <code>source</code>'s
+     * root component coordinbte system.
+     * If both <code>source</code> bnd <code>destinbtion</code> bre {@code null}, return <code>bRectbngle</code>
+     * without bny conversion.
      *
-     * @param source the source component
-     * @param aRectangle a rectangle
-     * @param destination the destination component
+     * @pbrbm source the source component
+     * @pbrbm bRectbngle b rectbngle
+     * @pbrbm destinbtion the destinbtion component
      *
-     * @return the converted rectangle
+     * @return the converted rectbngle
      */
-    public static Rectangle convertRectangle(Component source,Rectangle aRectangle,Component destination) {
-        Point point = new Point(aRectangle.x,aRectangle.y);
-        point =  convertPoint(source,point,destination);
-        return new Rectangle(point.x,point.y,aRectangle.width,aRectangle.height);
+    public stbtic Rectbngle convertRectbngle(Component source,Rectbngle bRectbngle,Component destinbtion) {
+        Point point = new Point(bRectbngle.x,bRectbngle.y);
+        point =  convertPoint(source,point,destinbtion);
+        return new Rectbngle(point.x,point.y,bRectbngle.width,bRectbngle.height);
     }
 
     /**
-     * Convenience method for searching above <code>comp</code> in the
-     * component hierarchy and returns the first object of class <code>c</code> it
-     * finds. Can return {@code null}, if a class <code>c</code> cannot be found.
+     * Convenience method for sebrching bbove <code>comp</code> in the
+     * component hierbrchy bnd returns the first object of clbss <code>c</code> it
+     * finds. Cbn return {@code null}, if b clbss <code>c</code> cbnnot be found.
      *
-     * @param c the class of a component
-     * @param comp the component
+     * @pbrbm c the clbss of b component
+     * @pbrbm comp the component
      *
-     * @return the ancestor of the {@code comp},
-     *         or {@code null} if {@code c} cannot be found.
+     * @return the bncestor of the {@code comp},
+     *         or {@code null} if {@code c} cbnnot be found.
      */
-    public static Container getAncestorOfClass(Class<?> c, Component comp)
+    public stbtic Contbiner getAncestorOfClbss(Clbss<?> c, Component comp)
     {
         if(comp == null || c == null)
             return null;
 
-        Container parent = comp.getParent();
-        while(parent != null && !(c.isInstance(parent)))
-            parent = parent.getParent();
-        return parent;
+        Contbiner pbrent = comp.getPbrent();
+        while(pbrent != null && !(c.isInstbnce(pbrent)))
+            pbrent = pbrent.getPbrent();
+        return pbrent;
     }
 
     /**
-     * Convenience method for searching above <code>comp</code> in the
-     * component hierarchy and returns the first object of <code>name</code> it
-     * finds. Can return {@code null}, if <code>name</code> cannot be found.
+     * Convenience method for sebrching bbove <code>comp</code> in the
+     * component hierbrchy bnd returns the first object of <code>nbme</code> it
+     * finds. Cbn return {@code null}, if <code>nbme</code> cbnnot be found.
      *
-     * @param name the name of a component
-     * @param comp the component
+     * @pbrbm nbme the nbme of b component
+     * @pbrbm comp the component
      *
-     * @return the ancestor of the {@code comp},
-     *         or {@code null} if {@code name} cannot be found.
+     * @return the bncestor of the {@code comp},
+     *         or {@code null} if {@code nbme} cbnnot be found.
      */
-    public static Container getAncestorNamed(String name, Component comp) {
-        if(comp == null || name == null)
+    public stbtic Contbiner getAncestorNbmed(String nbme, Component comp) {
+        if(comp == null || nbme == null)
             return null;
 
-        Container parent = comp.getParent();
-        while(parent != null && !(name.equals(parent.getName())))
-            parent = parent.getParent();
-        return parent;
+        Contbiner pbrent = comp.getPbrent();
+        while(pbrent != null && !(nbme.equbls(pbrent.getNbme())))
+            pbrent = pbrent.getPbrent();
+        return pbrent;
     }
 
     /**
-     * Returns the deepest visible descendent Component of <code>parent</code>
-     * that contains the location <code>x</code>, <code>y</code>.
-     * If <code>parent</code> does not contain the specified location,
-     * then <code>null</code> is returned.  If <code>parent</code> is not a
-     * container, or none of <code>parent</code>'s visible descendents
-     * contain the specified location, <code>parent</code> is returned.
+     * Returns the deepest visible descendent Component of <code>pbrent</code>
+     * thbt contbins the locbtion <code>x</code>, <code>y</code>.
+     * If <code>pbrent</code> does not contbin the specified locbtion,
+     * then <code>null</code> is returned.  If <code>pbrent</code> is not b
+     * contbiner, or none of <code>pbrent</code>'s visible descendents
+     * contbin the specified locbtion, <code>pbrent</code> is returned.
      *
-     * @param parent the root component to begin the search
-     * @param x the x target location
-     * @param y the y target location
+     * @pbrbm pbrent the root component to begin the sebrch
+     * @pbrbm x the x tbrget locbtion
+     * @pbrbm y the y tbrget locbtion
      *
      * @return the deepest component
      */
-    public static Component getDeepestComponentAt(Component parent, int x, int y) {
-        if (!parent.contains(x, y)) {
+    public stbtic Component getDeepestComponentAt(Component pbrent, int x, int y) {
+        if (!pbrent.contbins(x, y)) {
             return null;
         }
-        if (parent instanceof Container) {
-            Component components[] = ((Container)parent).getComponents();
+        if (pbrent instbnceof Contbiner) {
+            Component components[] = ((Contbiner)pbrent).getComponents();
             for (Component comp : components) {
                 if (comp != null && comp.isVisible()) {
-                    Point loc = comp.getLocation();
-                    if (comp instanceof Container) {
+                    Point loc = comp.getLocbtion();
+                    if (comp instbnceof Contbiner) {
                         comp = getDeepestComponentAt(comp, x - loc.x, y - loc.y);
                     } else {
                         comp = comp.getComponentAt(x - loc.x, y - loc.y);
@@ -323,44 +323,44 @@ public class SwingUtilities implements SwingConstants
                 }
             }
         }
-        return parent;
+        return pbrent;
     }
 
 
     /**
-     * Returns a MouseEvent similar to <code>sourceEvent</code> except that its x
-     * and y members have been converted to <code>destination</code>'s coordinate
-     * system.  If <code>source</code> is {@code null}, <code>sourceEvent</code> x and y members
-     * are assumed to be into <code>destination</code>'s root component coordinate system.
-     * If <code>destination</code> is <code>null</code>, the
-     * returned MouseEvent will be in <code>source</code>'s coordinate system.
-     * <code>sourceEvent</code> will not be changed. A new event is returned.
+     * Returns b MouseEvent similbr to <code>sourceEvent</code> except thbt its x
+     * bnd y members hbve been converted to <code>destinbtion</code>'s coordinbte
+     * system.  If <code>source</code> is {@code null}, <code>sourceEvent</code> x bnd y members
+     * bre bssumed to be into <code>destinbtion</code>'s root component coordinbte system.
+     * If <code>destinbtion</code> is <code>null</code>, the
+     * returned MouseEvent will be in <code>source</code>'s coordinbte system.
+     * <code>sourceEvent</code> will not be chbnged. A new event is returned.
      * the <code>source</code> field of the returned event will be set
-     * to <code>destination</code> if destination is non-{@code null}
-     * use the translateMouseEvent() method to translate a mouse event from
-     * one component to another without changing the source.
+     * to <code>destinbtion</code> if destinbtion is non-{@code null}
+     * use the trbnslbteMouseEvent() method to trbnslbte b mouse event from
+     * one component to bnother without chbnging the source.
      *
-     * @param source the source component
-     * @param sourceEvent the source mouse event
-     * @param destination the destination component
+     * @pbrbm source the source component
+     * @pbrbm sourceEvent the source mouse event
+     * @pbrbm destinbtion the destinbtion component
      *
      * @return the new mouse event
      */
-    public static MouseEvent convertMouseEvent(Component source,
+    public stbtic MouseEvent convertMouseEvent(Component source,
                                                MouseEvent sourceEvent,
-                                               Component destination) {
+                                               Component destinbtion) {
         Point p = convertPoint(source,new Point(sourceEvent.getX(),
                                                 sourceEvent.getY()),
-                               destination);
+                               destinbtion);
         Component newSource;
 
-        if(destination != null)
-            newSource = destination;
+        if(destinbtion != null)
+            newSource = destinbtion;
         else
             newSource = source;
 
         MouseEvent newEvent;
-        if (sourceEvent instanceof MouseWheelEvent) {
+        if (sourceEvent instbnceof MouseWheelEvent) {
             MouseWheelEvent sourceWheelEvent = (MouseWheelEvent)sourceEvent;
             newEvent = new MouseWheelEvent(newSource,
                                            sourceWheelEvent.getID(),
@@ -374,22 +374,22 @@ public class SwingUtilities implements SwingConstants
                                            sourceWheelEvent.isPopupTrigger(),
                                            sourceWheelEvent.getScrollType(),
                                            sourceWheelEvent.getScrollAmount(),
-                                           sourceWheelEvent.getWheelRotation());
+                                           sourceWheelEvent.getWheelRotbtion());
         }
-        else if (sourceEvent instanceof MenuDragMouseEvent) {
-            MenuDragMouseEvent sourceMenuDragEvent = (MenuDragMouseEvent)sourceEvent;
-            newEvent = new MenuDragMouseEvent(newSource,
-                                              sourceMenuDragEvent.getID(),
-                                              sourceMenuDragEvent.getWhen(),
-                                              sourceMenuDragEvent.getModifiers()
-                                                      | sourceMenuDragEvent.getModifiersEx(),
+        else if (sourceEvent instbnceof MenuDrbgMouseEvent) {
+            MenuDrbgMouseEvent sourceMenuDrbgEvent = (MenuDrbgMouseEvent)sourceEvent;
+            newEvent = new MenuDrbgMouseEvent(newSource,
+                                              sourceMenuDrbgEvent.getID(),
+                                              sourceMenuDrbgEvent.getWhen(),
+                                              sourceMenuDrbgEvent.getModifiers()
+                                                      | sourceMenuDrbgEvent.getModifiersEx(),
                                               p.x,p.y,
-                                              sourceMenuDragEvent.getXOnScreen(),
-                                              sourceMenuDragEvent.getYOnScreen(),
-                                              sourceMenuDragEvent.getClickCount(),
-                                              sourceMenuDragEvent.isPopupTrigger(),
-                                              sourceMenuDragEvent.getPath(),
-                                              sourceMenuDragEvent.getMenuSelectionManager());
+                                              sourceMenuDrbgEvent.getXOnScreen(),
+                                              sourceMenuDrbgEvent.getYOnScreen(),
+                                              sourceMenuDrbgEvent.getClickCount(),
+                                              sourceMenuDrbgEvent.isPopupTrigger(),
+                                              sourceMenuDrbgEvent.getPbth(),
+                                              sourceMenuDrbgEvent.getMenuSelectionMbnbger());
         }
         else {
             newEvent = new MouseEvent(newSource,
@@ -409,27 +409,27 @@ public class SwingUtilities implements SwingConstants
 
 
     /**
-     * Convert a point from a component's coordinate system to
-     * screen coordinates.
+     * Convert b point from b component's coordinbte system to
+     * screen coordinbtes.
      *
-     * @param p  a Point object (converted to the new coordinate system)
-     * @param c  a Component object
+     * @pbrbm p  b Point object (converted to the new coordinbte system)
+     * @pbrbm c  b Component object
      */
-    public static void convertPointToScreen(Point p,Component c) {
-            Rectangle b;
+    public stbtic void convertPointToScreen(Point p,Component c) {
+            Rectbngle b;
             int x,y;
 
             do {
-                if(c instanceof JComponent) {
+                if(c instbnceof JComponent) {
                     x = c.getX();
                     y = c.getY();
-                } else if(c instanceof java.applet.Applet ||
-                          c instanceof java.awt.Window) {
+                } else if(c instbnceof jbvb.bpplet.Applet ||
+                          c instbnceof jbvb.bwt.Window) {
                     try {
-                        Point pp = c.getLocationOnScreen();
+                        Point pp = c.getLocbtionOnScreen();
                         x = pp.x;
                         y = pp.y;
-                    } catch (IllegalComponentStateException icse) {
+                    } cbtch (IllegblComponentStbteException icse) {
                         x = c.getX();
                         y = c.getY();
                     }
@@ -441,34 +441,34 @@ public class SwingUtilities implements SwingConstants
                 p.x += x;
                 p.y += y;
 
-                if(c instanceof java.awt.Window || c instanceof java.applet.Applet)
-                    break;
-                c = c.getParent();
+                if(c instbnceof jbvb.bwt.Window || c instbnceof jbvb.bpplet.Applet)
+                    brebk;
+                c = c.getPbrent();
             } while(c != null);
         }
 
     /**
-     * Convert a point from a screen coordinates to a component's
-     * coordinate system
+     * Convert b point from b screen coordinbtes to b component's
+     * coordinbte system
      *
-     * @param p  a Point object (converted to the new coordinate system)
-     * @param c  a Component object
+     * @pbrbm p  b Point object (converted to the new coordinbte system)
+     * @pbrbm c  b Component object
      */
-    public static void convertPointFromScreen(Point p,Component c) {
-        Rectangle b;
+    public stbtic void convertPointFromScreen(Point p,Component c) {
+        Rectbngle b;
         int x,y;
 
         do {
-            if(c instanceof JComponent) {
+            if(c instbnceof JComponent) {
                 x = c.getX();
                 y = c.getY();
-            }  else if(c instanceof java.applet.Applet ||
-                       c instanceof java.awt.Window) {
+            }  else if(c instbnceof jbvb.bpplet.Applet ||
+                       c instbnceof jbvb.bwt.Window) {
                 try {
-                    Point pp = c.getLocationOnScreen();
+                    Point pp = c.getLocbtionOnScreen();
                     x = pp.x;
                     y = pp.y;
-                } catch (IllegalComponentStateException icse) {
+                } cbtch (IllegblComponentStbteException icse) {
                     x = c.getX();
                     y = c.getY();
                 }
@@ -480,62 +480,62 @@ public class SwingUtilities implements SwingConstants
             p.x -= x;
             p.y -= y;
 
-            if(c instanceof java.awt.Window || c instanceof java.applet.Applet)
-                break;
-            c = c.getParent();
+            if(c instbnceof jbvb.bwt.Window || c instbnceof jbvb.bpplet.Applet)
+                brebk;
+            c = c.getPbrent();
         } while(c != null);
     }
 
     /**
-     * Returns the first <code>Window </code> ancestor of <code>c</code>, or
-     * {@code null} if <code>c</code> is not contained inside a <code>Window</code>.
+     * Returns the first <code>Window </code> bncestor of <code>c</code>, or
+     * {@code null} if <code>c</code> is not contbined inside b <code>Window</code>.
      * <p>
-     * Note: This method provides the same functionality as
+     * Note: This method provides the sbme functionblity bs
      * <code>getWindowAncestor</code>.
      *
-     * @param c <code>Component</code> to get <code>Window</code> ancestor
+     * @pbrbm c <code>Component</code> to get <code>Window</code> bncestor
      *        of.
-     * @return the first <code>Window </code> ancestor of <code>c</code>, or
-     *         {@code null} if <code>c</code> is not contained inside a
+     * @return the first <code>Window </code> bncestor of <code>c</code>, or
+     *         {@code null} if <code>c</code> is not contbined inside b
      *         <code>Window</code>.
      */
-    public static Window windowForComponent(Component c) {
+    public stbtic Window windowForComponent(Component c) {
         return getWindowAncestor(c);
     }
 
     /**
-     * Return {@code true} if a component {@code a} descends from a component {@code b}
+     * Return {@code true} if b component {@code b} descends from b component {@code b}
      *
-     * @param a the first component
-     * @param b the second component
-     * @return {@code true} if a component {@code a} descends from a component {@code b}
+     * @pbrbm b the first component
+     * @pbrbm b the second component
+     * @return {@code true} if b component {@code b} descends from b component {@code b}
      */
-    public static boolean isDescendingFrom(Component a,Component b) {
-        if(a == b)
+    public stbtic boolebn isDescendingFrom(Component b,Component b) {
+        if(b == b)
             return true;
-        for(Container p = a.getParent();p!=null;p=p.getParent())
+        for(Contbiner p = b.getPbrent();p!=null;p=p.getPbrent())
             if(p == b)
                 return true;
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Convenience to calculate the intersection of two rectangles
-     * without allocating a new rectangle.
-     * If the two rectangles don't intersect,
-     * then the returned rectangle begins at (0,0)
-     * and has zero width and height.
+     * Convenience to cblculbte the intersection of two rectbngles
+     * without bllocbting b new rectbngle.
+     * If the two rectbngles don't intersect,
+     * then the returned rectbngle begins bt (0,0)
+     * bnd hbs zero width bnd height.
      *
-     * @param x       the X coordinate of the first rectangle's top-left point
-     * @param y       the Y coordinate of the first rectangle's top-left point
-     * @param width   the width of the first rectangle
-     * @param height  the height of the first rectangle
-     * @param dest    the second rectangle
+     * @pbrbm x       the X coordinbte of the first rectbngle's top-left point
+     * @pbrbm y       the Y coordinbte of the first rectbngle's top-left point
+     * @pbrbm width   the width of the first rectbngle
+     * @pbrbm height  the height of the first rectbngle
+     * @pbrbm dest    the second rectbngle
      *
      * @return <code>dest</code>, modified to specify the intersection
      */
-    public static Rectangle computeIntersection(int x,int y,int width,int height,Rectangle dest) {
+    public stbtic Rectbngle computeIntersection(int x,int y,int width,int height,Rectbngle dest) {
         int x1 = (x > dest.x) ? x : dest.x;
         int x2 = ((x+width) < (dest.x + dest.width)) ? (x+width) : (dest.x + dest.width);
         int y1 = (y > dest.y) ? y : dest.y;
@@ -546,7 +546,7 @@ public class SwingUtilities implements SwingConstants
         dest.width = x2 - x1;
         dest.height = y2 - y1;
 
-        // If rectangles don't intersect, return zero'd intersection.
+        // If rectbngles don't intersect, return zero'd intersection.
         if (dest.width < 0 || dest.height < 0) {
             dest.x = dest.y = dest.width = dest.height = 0;
         }
@@ -555,18 +555,18 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Convenience method that calculates the union of two rectangles
-     * without allocating a new rectangle.
+     * Convenience method thbt cblculbtes the union of two rectbngles
+     * without bllocbting b new rectbngle.
      *
-     * @param x the x-coordinate of the first rectangle
-     * @param y the y-coordinate of the first rectangle
-     * @param width the width of the first rectangle
-     * @param height the height of the first rectangle
-     * @param dest  the coordinates of the second rectangle; the union
-     *    of the two rectangles is returned in this rectangle
-     * @return the <code>dest</code> <code>Rectangle</code>
+     * @pbrbm x the x-coordinbte of the first rectbngle
+     * @pbrbm y the y-coordinbte of the first rectbngle
+     * @pbrbm width the width of the first rectbngle
+     * @pbrbm height the height of the first rectbngle
+     * @pbrbm dest  the coordinbtes of the second rectbngle; the union
+     *    of the two rectbngles is returned in this rectbngle
+     * @return the <code>dest</code> <code>Rectbngle</code>
      */
-    public static Rectangle computeUnion(int x,int y,int width,int height,Rectangle dest) {
+    public stbtic Rectbngle computeUnion(int x,int y,int width,int height,Rectbngle dest) {
         int x1 = (x < dest.x) ? x : dest.x;
         int x2 = ((x+width) > (dest.x + dest.width)) ? (x+width) : (dest.x + dest.width);
         int y1 = (y < dest.y) ? y : dest.y;
@@ -580,51 +580,51 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Convenience returning an array of rect representing the regions within
-     * <code>rectA</code> that do not overlap with <code>rectB</code>. If the
-     * two Rects do not overlap, returns an empty array
+     * Convenience returning bn brrby of rect representing the regions within
+     * <code>rectA</code> thbt do not overlbp with <code>rectB</code>. If the
+     * two Rects do not overlbp, returns bn empty brrby
      *
-     * @param rectA the first rectangle
-     * @param rectB the second rectangle
+     * @pbrbm rectA the first rectbngle
+     * @pbrbm rectB the second rectbngle
      *
-     * @return an array of rectangles representing the regions within {@code rectA}
-     *         that do not overlap with {@code rectB}.
+     * @return bn brrby of rectbngles representing the regions within {@code rectA}
+     *         thbt do not overlbp with {@code rectB}.
      */
-    public static Rectangle[] computeDifference(Rectangle rectA,Rectangle rectB) {
-        if (rectB == null || !rectA.intersects(rectB) || isRectangleContainingRectangle(rectB,rectA)) {
-            return new Rectangle[0];
+    public stbtic Rectbngle[] computeDifference(Rectbngle rectA,Rectbngle rectB) {
+        if (rectB == null || !rectA.intersects(rectB) || isRectbngleContbiningRectbngle(rectB,rectA)) {
+            return new Rectbngle[0];
         }
 
-        Rectangle t = new Rectangle();
-        Rectangle a=null,b=null,c=null,d=null;
-        Rectangle result[];
+        Rectbngle t = new Rectbngle();
+        Rectbngle b=null,b=null,c=null,d=null;
+        Rectbngle result[];
         int rectCount = 0;
 
-        /* rectA contains rectB */
-        if (isRectangleContainingRectangle(rectA,rectB)) {
+        /* rectA contbins rectB */
+        if (isRectbngleContbiningRectbngle(rectA,rectB)) {
             t.x = rectA.x; t.y = rectA.y; t.width = rectB.x - rectA.x; t.height = rectA.height;
             if(t.width > 0 && t.height > 0) {
-                a = new Rectangle(t);
+                b = new Rectbngle(t);
                 rectCount++;
             }
 
             t.x = rectB.x; t.y = rectA.y; t.width = rectB.width; t.height = rectB.y - rectA.y;
             if(t.width > 0 && t.height > 0) {
-                b = new Rectangle(t);
+                b = new Rectbngle(t);
                 rectCount++;
             }
 
             t.x = rectB.x; t.y = rectB.y + rectB.height; t.width = rectB.width;
             t.height = rectA.y + rectA.height - (rectB.y + rectB.height);
             if(t.width > 0 && t.height > 0) {
-                c = new Rectangle(t);
+                c = new Rectbngle(t);
                 rectCount++;
             }
 
             t.x = rectB.x + rectB.width; t.y = rectA.y; t.width = rectA.x + rectA.width - (rectB.x + rectB.width);
             t.height = rectA.height;
             if(t.width > 0 && t.height > 0) {
-                d = new Rectangle(t);
+                d = new Rectbngle(t);
                 rectCount++;
             }
         } else {
@@ -635,14 +635,14 @@ public class SwingUtilities implements SwingConstants
                     t.x = rectA.x; t.y = rectB.y + rectB.height;
                     t.width = rectA.width; t.height = rectA.y + rectA.height - (rectB.y + rectB.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = t;
+                        b = t;
                         rectCount++;
                     }
                 } else if ((rectB.y + rectB.height) > (rectA.y + rectA.height)) {
                     t.setBounds((rectB.x + rectB.width), rectA.y,
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width), rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = t;
+                        b = t;
                         rectCount++;
                     }
                 } else {
@@ -650,14 +650,14 @@ public class SwingUtilities implements SwingConstants
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width),
                                 (rectB.y + rectB.height) - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, (rectB.y + rectB.height), rectA.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 }
@@ -665,20 +665,20 @@ public class SwingUtilities implements SwingConstants
                 if ((rectB.x + rectB.width) > (rectA.x + rectA.width)) {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = t;
+                        b = t;
                         rectCount++;
                     }
                 } else {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                     t.setBounds((rectB.x + rectB.width), rectB.y,
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width),
                                 (rectA.y + rectA.height) - rectB.y);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 }
@@ -686,20 +686,20 @@ public class SwingUtilities implements SwingConstants
                 if ((rectB.x + rectB.width) >= (rectA.x + rectA.width)) {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width>0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, (rectB.y + rectB.height), rectA.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 } else {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
@@ -707,14 +707,14 @@ public class SwingUtilities implements SwingConstants
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width),
                                 rectB.height);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, (rectB.y + rectB.height), rectA.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        c = new Rectangle(t);
+                        c = new Rectbngle(t);
                         rectCount++;
                     }
                 }
@@ -722,54 +722,54 @@ public class SwingUtilities implements SwingConstants
                 if (rectB.y <= rectA.y && (rectB.y + rectB.height) > (rectA.y + rectA.height)) {
                     t.setBounds(rectA.x, rectA.y, rectB.x - rectA.x, rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = t;
+                        b = t;
                         rectCount++;
                     }
                 } else if (rectB.y <= rectA.y) {
                     t.setBounds(rectA.x, rectA.y, rectB.x - rectA.x,
                                 (rectB.y + rectB.height) - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, (rectB.y + rectB.height), rectA.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 } else if ((rectB.y + rectB.height) > (rectA.y + rectA.height)) {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, rectB.y, rectB.x - rectA.x,
                                 (rectA.y + rectA.height) - rectB.y);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 } else {
                     t.setBounds(rectA.x, rectA.y, rectA.width, rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, rectB.y, rectB.x - rectA.x,
                                 rectB.height);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectA.x, (rectB.y + rectB.height), rectA.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        c = new Rectangle(t);
+                        c = new Rectbngle(t);
                         rectCount++;
                     }
                 }
@@ -777,19 +777,19 @@ public class SwingUtilities implements SwingConstants
                 if (rectB.y <= rectA.y && (rectB.y + rectB.height) > (rectA.y + rectA.height)) {
                     t.setBounds(rectA.x, rectA.y, rectB.x - rectA.x, rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                     t.setBounds((rectB.x + rectB.width), rectA.y,
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width), rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
                 } else if (rectB.y <= rectA.y) {
                     t.setBounds(rectA.x, rectA.y, rectB.x - rectA.x, rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
@@ -797,44 +797,44 @@ public class SwingUtilities implements SwingConstants
                                 rectB.width,
                                 (rectA.y + rectA.height) - (rectB.y + rectB.height));
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds((rectB.x + rectB.width), rectA.y,
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width), rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        c = new Rectangle(t);
+                        c = new Rectbngle(t);
                         rectCount++;
                     }
                 } else {
                     t.setBounds(rectA.x, rectA.y, rectB.x - rectA.x, rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        a = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds(rectB.x, rectA.y, rectB.width,
                                 rectB.y - rectA.y);
                     if(t.width > 0 && t.height > 0) {
-                        b = new Rectangle(t);
+                        b = new Rectbngle(t);
                         rectCount++;
                     }
 
                     t.setBounds((rectB.x + rectB.width), rectA.y,
                                 (rectA.x + rectA.width) - (rectB.x + rectB.width), rectA.height);
                     if(t.width > 0 && t.height > 0) {
-                        c = new Rectangle(t);
+                        c = new Rectbngle(t);
                         rectCount++;
                     }
                 }
             }
         }
 
-        result = new Rectangle[rectCount];
+        result = new Rectbngle[rectCount];
         rectCount = 0;
-        if(a != null)
-            result[rectCount++] = a;
+        if(b != null)
+            result[rectCount++] = b;
         if(b != null)
             result[rectCount++] = b;
         if(c != null)
@@ -847,203 +847,203 @@ public class SwingUtilities implements SwingConstants
     /**
      * Returns true if the mouse event specifies the left mouse button.
      *
-     * @param anEvent  a MouseEvent object
-     * @return true if the left mouse button was active
+     * @pbrbm bnEvent  b MouseEvent object
+     * @return true if the left mouse button wbs bctive
      */
-    public static boolean isLeftMouseButton(MouseEvent anEvent) {
-         return ((anEvent.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0 ||
-                 anEvent.getButton() == MouseEvent.BUTTON1);
+    public stbtic boolebn isLeftMouseButton(MouseEvent bnEvent) {
+         return ((bnEvent.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0 ||
+                 bnEvent.getButton() == MouseEvent.BUTTON1);
     }
 
     /**
      * Returns true if the mouse event specifies the middle mouse button.
      *
-     * @param anEvent  a MouseEvent object
-     * @return true if the middle mouse button was active
+     * @pbrbm bnEvent  b MouseEvent object
+     * @return true if the middle mouse button wbs bctive
      */
-    public static boolean isMiddleMouseButton(MouseEvent anEvent) {
-        return ((anEvent.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0 ||
-                anEvent.getButton() == MouseEvent.BUTTON2);
+    public stbtic boolebn isMiddleMouseButton(MouseEvent bnEvent) {
+        return ((bnEvent.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0 ||
+                bnEvent.getButton() == MouseEvent.BUTTON2);
     }
 
     /**
      * Returns true if the mouse event specifies the right mouse button.
      *
-     * @param anEvent  a MouseEvent object
-     * @return true if the right mouse button was active
+     * @pbrbm bnEvent  b MouseEvent object
+     * @return true if the right mouse button wbs bctive
      */
-    public static boolean isRightMouseButton(MouseEvent anEvent) {
-        return ((anEvent.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0 ||
-                anEvent.getButton() == MouseEvent.BUTTON3);
+    public stbtic boolebn isRightMouseButton(MouseEvent bnEvent) {
+        return ((bnEvent.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0 ||
+                bnEvent.getButton() == MouseEvent.BUTTON3);
     }
 
     /**
-     * Compute the width of the string using a font with the specified
+     * Compute the width of the string using b font with the specified
      * "metrics" (sizes).
      *
-     * @param fm   a FontMetrics object to compute with
-     * @param str  the String to compute
-     * @return an int containing the string width
+     * @pbrbm fm   b FontMetrics object to compute with
+     * @pbrbm str  the String to compute
+     * @return bn int contbining the string width
      */
-    public static int computeStringWidth(FontMetrics fm,String str) {
-        // You can't assume that a string's width is the sum of its
-        // characters' widths in Java2D -- it may be smaller due to
+    public stbtic int computeStringWidth(FontMetrics fm,String str) {
+        // You cbn't bssume thbt b string's width is the sum of its
+        // chbrbcters' widths in Jbvb2D -- it mby be smbller due to
         // kerning, etc.
         return SwingUtilities2.stringWidth(null, fm, str);
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * The JComponents orientation (LEADING/TRAILING) will also be taken
-     * into account and translated into LEFT/RIGHT values accordingly.
+     * Compute bnd return the locbtion of the icons origin, the
+     * locbtion of origin of the text bbseline, bnd b possibly clipped
+     * version of the compound lbbels string.  Locbtions bre computed
+     * relbtive to the viewR rectbngle.
+     * The JComponents orientbtion (LEADING/TRAILING) will blso be tbken
+     * into bccount bnd trbnslbted into LEFT/RIGHT vblues bccordingly.
      *
-     * @param c the component
-     * @param fm the instance of {@code FontMetrics}
-     * @param text the text
-     * @param icon the icon
-     * @param verticalAlignment the vertical alignment
-     * @param horizontalAlignment the horizontal alignment
-     * @param verticalTextPosition the vertical text position
-     * @param horizontalTextPosition the horizontal text position
-     * @param viewR the available rectangle
-     * @param iconR the rectangle for the icon
-     * @param textR the rectangle for the text
-     * @param textIconGap the gap between text and icon
+     * @pbrbm c the component
+     * @pbrbm fm the instbnce of {@code FontMetrics}
+     * @pbrbm text the text
+     * @pbrbm icon the icon
+     * @pbrbm verticblAlignment the verticbl blignment
+     * @pbrbm horizontblAlignment the horizontbl blignment
+     * @pbrbm verticblTextPosition the verticbl text position
+     * @pbrbm horizontblTextPosition the horizontbl text position
+     * @pbrbm viewR the bvbilbble rectbngle
+     * @pbrbm iconR the rectbngle for the icon
+     * @pbrbm textR the rectbngle for the text
+     * @pbrbm textIconGbp the gbp between text bnd icon
      *
-     * @return the possibly clipped version of the compound labels string
+     * @return the possibly clipped version of the compound lbbels string
      */
-    public static String layoutCompoundLabel(JComponent c,
+    public stbtic String lbyoutCompoundLbbel(JComponent c,
                                              FontMetrics fm,
                                              String text,
                                              Icon icon,
-                                             int verticalAlignment,
-                                             int horizontalAlignment,
-                                             int verticalTextPosition,
-                                             int horizontalTextPosition,
-                                             Rectangle viewR,
-                                             Rectangle iconR,
-                                             Rectangle textR,
-                                             int textIconGap)
+                                             int verticblAlignment,
+                                             int horizontblAlignment,
+                                             int verticblTextPosition,
+                                             int horizontblTextPosition,
+                                             Rectbngle viewR,
+                                             Rectbngle iconR,
+                                             Rectbngle textR,
+                                             int textIconGbp)
     {
-        boolean orientationIsLeftToRight = true;
-        int     hAlign = horizontalAlignment;
-        int     hTextPos = horizontalTextPosition;
+        boolebn orientbtionIsLeftToRight = true;
+        int     hAlign = horizontblAlignment;
+        int     hTextPos = horizontblTextPosition;
 
         if (c != null) {
-            if (!(c.getComponentOrientation().isLeftToRight())) {
-                orientationIsLeftToRight = false;
+            if (!(c.getComponentOrientbtion().isLeftToRight())) {
+                orientbtionIsLeftToRight = fblse;
             }
         }
 
-        // Translate LEADING/TRAILING values in horizontalAlignment
-        // to LEFT/RIGHT values depending on the components orientation
-        switch (horizontalAlignment) {
-        case LEADING:
-            hAlign = (orientationIsLeftToRight) ? LEFT : RIGHT;
-            break;
-        case TRAILING:
-            hAlign = (orientationIsLeftToRight) ? RIGHT : LEFT;
-            break;
+        // Trbnslbte LEADING/TRAILING vblues in horizontblAlignment
+        // to LEFT/RIGHT vblues depending on the components orientbtion
+        switch (horizontblAlignment) {
+        cbse LEADING:
+            hAlign = (orientbtionIsLeftToRight) ? LEFT : RIGHT;
+            brebk;
+        cbse TRAILING:
+            hAlign = (orientbtionIsLeftToRight) ? RIGHT : LEFT;
+            brebk;
         }
 
-        // Translate LEADING/TRAILING values in horizontalTextPosition
-        // to LEFT/RIGHT values depending on the components orientation
-        switch (horizontalTextPosition) {
-        case LEADING:
-            hTextPos = (orientationIsLeftToRight) ? LEFT : RIGHT;
-            break;
-        case TRAILING:
-            hTextPos = (orientationIsLeftToRight) ? RIGHT : LEFT;
-            break;
+        // Trbnslbte LEADING/TRAILING vblues in horizontblTextPosition
+        // to LEFT/RIGHT vblues depending on the components orientbtion
+        switch (horizontblTextPosition) {
+        cbse LEADING:
+            hTextPos = (orientbtionIsLeftToRight) ? LEFT : RIGHT;
+            brebk;
+        cbse TRAILING:
+            hTextPos = (orientbtionIsLeftToRight) ? RIGHT : LEFT;
+            brebk;
         }
 
-        return layoutCompoundLabelImpl(c,
+        return lbyoutCompoundLbbelImpl(c,
                                        fm,
                                        text,
                                        icon,
-                                       verticalAlignment,
+                                       verticblAlignment,
                                        hAlign,
-                                       verticalTextPosition,
+                                       verticblTextPosition,
                                        hTextPos,
                                        viewR,
                                        iconR,
                                        textR,
-                                       textIconGap);
+                                       textIconGbp);
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * This layoutCompoundLabel() does not know how to handle LEADING/TRAILING
-     * values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER).
-     * Use the other version of layoutCompoundLabel() instead.
+     * Compute bnd return the locbtion of the icons origin, the
+     * locbtion of origin of the text bbseline, bnd b possibly clipped
+     * version of the compound lbbels string.  Locbtions bre computed
+     * relbtive to the viewR rectbngle.
+     * This lbyoutCompoundLbbel() does not know how to hbndle LEADING/TRAILING
+     * vblues in horizontblTextPosition (they will defbult to RIGHT) bnd in
+     * horizontblAlignment (they will defbult to CENTER).
+     * Use the other version of lbyoutCompoundLbbel() instebd.
      *
-     * @param fm the instance of {@code FontMetrics}
-     * @param text the text
-     * @param icon the icon
-     * @param verticalAlignment the vertical alignment
-     * @param horizontalAlignment the horizontal alignment
-     * @param verticalTextPosition the vertical text position
-     * @param horizontalTextPosition the horizontal text position
-     * @param viewR the available rectangle
-     * @param iconR the rectangle for the icon
-     * @param textR the rectangle for the text
-     * @param textIconGap the gap between text and icon
+     * @pbrbm fm the instbnce of {@code FontMetrics}
+     * @pbrbm text the text
+     * @pbrbm icon the icon
+     * @pbrbm verticblAlignment the verticbl blignment
+     * @pbrbm horizontblAlignment the horizontbl blignment
+     * @pbrbm verticblTextPosition the verticbl text position
+     * @pbrbm horizontblTextPosition the horizontbl text position
+     * @pbrbm viewR the bvbilbble rectbngle
+     * @pbrbm iconR the rectbngle for the icon
+     * @pbrbm textR the rectbngle for the text
+     * @pbrbm textIconGbp the gbp between text bnd icon
      *
-     * @return the possibly clipped version of the compound labels string
+     * @return the possibly clipped version of the compound lbbels string
      */
-    public static String layoutCompoundLabel(
+    public stbtic String lbyoutCompoundLbbel(
         FontMetrics fm,
         String text,
         Icon icon,
-        int verticalAlignment,
-        int horizontalAlignment,
-        int verticalTextPosition,
-        int horizontalTextPosition,
-        Rectangle viewR,
-        Rectangle iconR,
-        Rectangle textR,
-        int textIconGap)
+        int verticblAlignment,
+        int horizontblAlignment,
+        int verticblTextPosition,
+        int horizontblTextPosition,
+        Rectbngle viewR,
+        Rectbngle iconR,
+        Rectbngle textR,
+        int textIconGbp)
     {
-        return layoutCompoundLabelImpl(null, fm, text, icon,
-                                       verticalAlignment,
-                                       horizontalAlignment,
-                                       verticalTextPosition,
-                                       horizontalTextPosition,
-                                       viewR, iconR, textR, textIconGap);
+        return lbyoutCompoundLbbelImpl(null, fm, text, icon,
+                                       verticblAlignment,
+                                       horizontblAlignment,
+                                       verticblTextPosition,
+                                       horizontblTextPosition,
+                                       viewR, iconR, textR, textIconGbp);
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * This layoutCompoundLabel() does not know how to handle LEADING/TRAILING
-     * values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER).
-     * Use the other version of layoutCompoundLabel() instead.
+     * Compute bnd return the locbtion of the icons origin, the
+     * locbtion of origin of the text bbseline, bnd b possibly clipped
+     * version of the compound lbbels string.  Locbtions bre computed
+     * relbtive to the viewR rectbngle.
+     * This lbyoutCompoundLbbel() does not know how to hbndle LEADING/TRAILING
+     * vblues in horizontblTextPosition (they will defbult to RIGHT) bnd in
+     * horizontblAlignment (they will defbult to CENTER).
+     * Use the other version of lbyoutCompoundLbbel() instebd.
      */
-    private static String layoutCompoundLabelImpl(
+    privbte stbtic String lbyoutCompoundLbbelImpl(
         JComponent c,
         FontMetrics fm,
         String text,
         Icon icon,
-        int verticalAlignment,
-        int horizontalAlignment,
-        int verticalTextPosition,
-        int horizontalTextPosition,
-        Rectangle viewR,
-        Rectangle iconR,
-        Rectangle textR,
-        int textIconGap)
+        int verticblAlignment,
+        int horizontblAlignment,
+        int verticblTextPosition,
+        int horizontblTextPosition,
+        Rectbngle viewR,
+        Rectbngle iconR,
+        Rectbngle textR,
+        int textIconGbp)
     {
-        /* Initialize the icon bounds rectangle iconR.
+        /* Initiblize the icon bounds rectbngle iconR.
          */
 
         if (icon != null) {
@@ -1054,59 +1054,59 @@ public class SwingUtilities implements SwingConstants
             iconR.width = iconR.height = 0;
         }
 
-        /* Initialize the text bounds rectangle textR.  If a null
-         * or and empty String was specified we substitute "" here
-         * and use 0,0,0,0 for textR.
+        /* Initiblize the text bounds rectbngle textR.  If b null
+         * or bnd empty String wbs specified we substitute "" here
+         * bnd use 0,0,0,0 for textR.
          */
 
-        boolean textIsEmpty = (text == null) || text.equals("");
+        boolebn textIsEmpty = (text == null) || text.equbls("");
         int lsb = 0;
         int rsb = 0;
-        /* Unless both text and icon are non-null, we effectively ignore
-         * the value of textIconGap.
+        /* Unless both text bnd icon bre non-null, we effectively ignore
+         * the vblue of textIconGbp.
          */
-        int gap;
+        int gbp;
 
         View v;
         if (textIsEmpty) {
             textR.width = textR.height = 0;
             text = "";
-            gap = 0;
+            gbp = 0;
         }
         else {
-            int availTextWidth;
-            gap = (icon == null) ? 0 : textIconGap;
+            int bvbilTextWidth;
+            gbp = (icon == null) ? 0 : textIconGbp;
 
-            if (horizontalTextPosition == CENTER) {
-                availTextWidth = viewR.width;
+            if (horizontblTextPosition == CENTER) {
+                bvbilTextWidth = viewR.width;
             }
             else {
-                availTextWidth = viewR.width - (iconR.width + gap);
+                bvbilTextWidth = viewR.width - (iconR.width + gbp);
             }
             v = (c != null) ? (View) c.getClientProperty("html") : null;
             if (v != null) {
-                textR.width = Math.min(availTextWidth,
-                                       (int) v.getPreferredSpan(View.X_AXIS));
-                textR.height = (int) v.getPreferredSpan(View.Y_AXIS);
+                textR.width = Mbth.min(bvbilTextWidth,
+                                       (int) v.getPreferredSpbn(View.X_AXIS));
+                textR.height = (int) v.getPreferredSpbn(View.Y_AXIS);
             } else {
                 textR.width = SwingUtilities2.stringWidth(c, fm, text);
-                lsb = SwingUtilities2.getLeftSideBearing(c, fm, text);
+                lsb = SwingUtilities2.getLeftSideBebring(c, fm, text);
                 if (lsb < 0) {
-                    // If lsb is negative, add it to the width and later
-                    // adjust the x location. This gives more space than is
-                    // actually needed.
-                    // This is done like this for two reasons:
-                    // 1. If we set the width to the actual bounds all
-                    //    callers would have to account for negative lsb
-                    //    (pref size calculations ONLY look at width of
+                    // If lsb is negbtive, bdd it to the width bnd lbter
+                    // bdjust the x locbtion. This gives more spbce thbn is
+                    // bctublly needed.
+                    // This is done like this for two rebsons:
+                    // 1. If we set the width to the bctubl bounds bll
+                    //    cbllers would hbve to bccount for negbtive lsb
+                    //    (pref size cblculbtions ONLY look bt width of
                     //    textR)
-                    // 2. You can do a drawString at the returned location
-                    //    and the text won't be clipped.
+                    // 2. You cbn do b drbwString bt the returned locbtion
+                    //    bnd the text won't be clipped.
                     textR.width -= lsb;
                 }
-                if (textR.width > availTextWidth) {
+                if (textR.width > bvbilTextWidth) {
                     text = SwingUtilities2.clipString(c, fm, text,
-                                                      availTextWidth);
+                                                      bvbilTextWidth);
                     textR.width = SwingUtilities2.stringWidth(c, fm, text);
                 }
                 textR.height = fm.getHeight();
@@ -1114,82 +1114,82 @@ public class SwingUtilities implements SwingConstants
         }
 
 
-        /* Compute textR.x,y given the verticalTextPosition and
-         * horizontalTextPosition properties
+        /* Compute textR.x,y given the verticblTextPosition bnd
+         * horizontblTextPosition properties
          */
 
-        if (verticalTextPosition == TOP) {
-            if (horizontalTextPosition != CENTER) {
+        if (verticblTextPosition == TOP) {
+            if (horizontblTextPosition != CENTER) {
                 textR.y = 0;
             }
             else {
-                textR.y = -(textR.height + gap);
+                textR.y = -(textR.height + gbp);
             }
         }
-        else if (verticalTextPosition == CENTER) {
+        else if (verticblTextPosition == CENTER) {
             textR.y = (iconR.height / 2) - (textR.height / 2);
         }
-        else { // (verticalTextPosition == BOTTOM)
-            if (horizontalTextPosition != CENTER) {
+        else { // (verticblTextPosition == BOTTOM)
+            if (horizontblTextPosition != CENTER) {
                 textR.y = iconR.height - textR.height;
             }
             else {
-                textR.y = (iconR.height + gap);
+                textR.y = (iconR.height + gbp);
             }
         }
 
-        if (horizontalTextPosition == LEFT) {
-            textR.x = -(textR.width + gap);
+        if (horizontblTextPosition == LEFT) {
+            textR.x = -(textR.width + gbp);
         }
-        else if (horizontalTextPosition == CENTER) {
+        else if (horizontblTextPosition == CENTER) {
             textR.x = (iconR.width / 2) - (textR.width / 2);
         }
-        else { // (horizontalTextPosition == RIGHT)
-            textR.x = (iconR.width + gap);
+        else { // (horizontblTextPosition == RIGHT)
+            textR.x = (iconR.width + gbp);
         }
 
-        // WARNING: DefaultTreeCellEditor uses a shortened version of
-        // this algorithm to position it's Icon. If you change how this
-        // is calculated, be sure and update DefaultTreeCellEditor too.
+        // WARNING: DefbultTreeCellEditor uses b shortened version of
+        // this blgorithm to position it's Icon. If you chbnge how this
+        // is cblculbted, be sure bnd updbte DefbultTreeCellEditor too.
 
-        /* labelR is the rectangle that contains iconR and textR.
-         * Move it to its proper position given the labelAlignment
+        /* lbbelR is the rectbngle thbt contbins iconR bnd textR.
+         * Move it to its proper position given the lbbelAlignment
          * properties.
          *
-         * To avoid actually allocating a Rectangle, Rectangle.union
-         * has been inlined below.
+         * To bvoid bctublly bllocbting b Rectbngle, Rectbngle.union
+         * hbs been inlined below.
          */
-        int labelR_x = Math.min(iconR.x, textR.x);
-        int labelR_width = Math.max(iconR.x + iconR.width,
-                                    textR.x + textR.width) - labelR_x;
-        int labelR_y = Math.min(iconR.y, textR.y);
-        int labelR_height = Math.max(iconR.y + iconR.height,
-                                     textR.y + textR.height) - labelR_y;
+        int lbbelR_x = Mbth.min(iconR.x, textR.x);
+        int lbbelR_width = Mbth.mbx(iconR.x + iconR.width,
+                                    textR.x + textR.width) - lbbelR_x;
+        int lbbelR_y = Mbth.min(iconR.y, textR.y);
+        int lbbelR_height = Mbth.mbx(iconR.y + iconR.height,
+                                     textR.y + textR.height) - lbbelR_y;
 
         int dx, dy;
 
-        if (verticalAlignment == TOP) {
-            dy = viewR.y - labelR_y;
+        if (verticblAlignment == TOP) {
+            dy = viewR.y - lbbelR_y;
         }
-        else if (verticalAlignment == CENTER) {
-            dy = (viewR.y + (viewR.height / 2)) - (labelR_y + (labelR_height / 2));
+        else if (verticblAlignment == CENTER) {
+            dy = (viewR.y + (viewR.height / 2)) - (lbbelR_y + (lbbelR_height / 2));
         }
-        else { // (verticalAlignment == BOTTOM)
-            dy = (viewR.y + viewR.height) - (labelR_y + labelR_height);
+        else { // (verticblAlignment == BOTTOM)
+            dy = (viewR.y + viewR.height) - (lbbelR_y + lbbelR_height);
         }
 
-        if (horizontalAlignment == LEFT) {
-            dx = viewR.x - labelR_x;
+        if (horizontblAlignment == LEFT) {
+            dx = viewR.x - lbbelR_x;
         }
-        else if (horizontalAlignment == RIGHT) {
-            dx = (viewR.x + viewR.width) - (labelR_x + labelR_width);
+        else if (horizontblAlignment == RIGHT) {
+            dx = (viewR.x + viewR.width) - (lbbelR_x + lbbelR_width);
         }
-        else { // (horizontalAlignment == CENTER)
+        else { // (horizontblAlignment == CENTER)
             dx = (viewR.x + (viewR.width / 2)) -
-                 (labelR_x + (labelR_width / 2));
+                 (lbbelR_x + (lbbelR_width / 2));
         }
 
-        /* Translate textR and glypyR by dx,dy.
+        /* Trbnslbte textR bnd glypyR by dx,dy.
          */
 
         textR.x += dx;
@@ -1199,8 +1199,8 @@ public class SwingUtilities implements SwingConstants
         iconR.y += dy;
 
         if (lsb < 0) {
-            // lsb is negative. Shift the x location so that the text is
-            // visually drawn at the right location.
+            // lsb is negbtive. Shift the x locbtion so thbt the text is
+            // visublly drbwn bt the right locbtion.
             textR.x -= lsb;
 
             textR.width += lsb;
@@ -1214,242 +1214,242 @@ public class SwingUtilities implements SwingConstants
 
 
     /**
-     * Paints a component to the specified <code>Graphics</code>.
-     * This method is primarily useful to render
-     * <code>Component</code>s that don't exist as part of the visible
-     * containment hierarchy, but are used for rendering.  For
-     * example, if you are doing your own rendering and want to render
-     * some text (or even HTML), you could make use of
-     * <code>JLabel</code>'s text rendering support and have it paint
-     * directly by way of this method, without adding the label to the
-     * visible containment hierarchy.
+     * Pbints b component to the specified <code>Grbphics</code>.
+     * This method is primbrily useful to render
+     * <code>Component</code>s thbt don't exist bs pbrt of the visible
+     * contbinment hierbrchy, but bre used for rendering.  For
+     * exbmple, if you bre doing your own rendering bnd wbnt to render
+     * some text (or even HTML), you could mbke use of
+     * <code>JLbbel</code>'s text rendering support bnd hbve it pbint
+     * directly by wby of this method, without bdding the lbbel to the
+     * visible contbinment hierbrchy.
      * <p>
-     * This method makes use of <code>CellRendererPane</code> to handle
-     * the actual painting, and is only recommended if you use one
-     * component for rendering.  If you make use of multiple components
-     * to handle the rendering, as <code>JTable</code> does, use
-     * <code>CellRendererPane</code> directly.  Otherwise, as described
-     * below, you could end up with a <code>CellRendererPane</code>
+     * This method mbkes use of <code>CellRendererPbne</code> to hbndle
+     * the bctubl pbinting, bnd is only recommended if you use one
+     * component for rendering.  If you mbke use of multiple components
+     * to hbndle the rendering, bs <code>JTbble</code> does, use
+     * <code>CellRendererPbne</code> directly.  Otherwise, bs described
+     * below, you could end up with b <code>CellRendererPbne</code>
      * per <code>Component</code>.
      * <p>
-     * If <code>c</code>'s parent is not a <code>CellRendererPane</code>,
-     * a new <code>CellRendererPane</code> is created, <code>c</code> is
-     * added to it, and the <code>CellRendererPane</code> is added to
-     * <code>p</code>.  If <code>c</code>'s parent is a
-     * <code>CellRendererPane</code> and the <code>CellRendererPane</code>s
-     * parent is not <code>p</code>, it is added to <code>p</code>.
+     * If <code>c</code>'s pbrent is not b <code>CellRendererPbne</code>,
+     * b new <code>CellRendererPbne</code> is crebted, <code>c</code> is
+     * bdded to it, bnd the <code>CellRendererPbne</code> is bdded to
+     * <code>p</code>.  If <code>c</code>'s pbrent is b
+     * <code>CellRendererPbne</code> bnd the <code>CellRendererPbne</code>s
+     * pbrent is not <code>p</code>, it is bdded to <code>p</code>.
      * <p>
      * The component should either descend from <code>JComponent</code>
-     * or be another kind of lightweight component.
+     * or be bnother kind of lightweight component.
      * A lightweight component is one whose "lightweight" property
      * (returned by the <code>Component</code>
      * <code>isLightweight</code> method)
-     * is true. If the Component is not lightweight, bad things map happen:
-     * crashes, exceptions, painting problems...
+     * is true. If the Component is not lightweight, bbd things mbp hbppen:
+     * crbshes, exceptions, pbinting problems...
      *
-     * @param g  the <code>Graphics</code> object to draw on
-     * @param c  the <code>Component</code> to draw
-     * @param p  the intermediate <code>Container</code>
-     * @param x  an int specifying the left side of the area draw in, in pixels,
-     *           measured from the left edge of the graphics context
-     * @param y  an int specifying the top of the area to draw in, in pixels
-     *           measured down from the top edge of the graphics context
-     * @param w  an int specifying the width of the area draw in, in pixels
-     * @param h  an int specifying the height of the area draw in, in pixels
+     * @pbrbm g  the <code>Grbphics</code> object to drbw on
+     * @pbrbm c  the <code>Component</code> to drbw
+     * @pbrbm p  the intermedibte <code>Contbiner</code>
+     * @pbrbm x  bn int specifying the left side of the breb drbw in, in pixels,
+     *           mebsured from the left edge of the grbphics context
+     * @pbrbm y  bn int specifying the top of the breb to drbw in, in pixels
+     *           mebsured down from the top edge of the grbphics context
+     * @pbrbm w  bn int specifying the width of the breb drbw in, in pixels
+     * @pbrbm h  bn int specifying the height of the breb drbw in, in pixels
      *
-     * @see CellRendererPane
-     * @see java.awt.Component#isLightweight
+     * @see CellRendererPbne
+     * @see jbvb.bwt.Component#isLightweight
      */
-    public static void paintComponent(Graphics g, Component c, Container p, int x, int y, int w, int h) {
-        getCellRendererPane(c, p).paintComponent(g, c, p, x, y, w, h,false);
+    public stbtic void pbintComponent(Grbphics g, Component c, Contbiner p, int x, int y, int w, int h) {
+        getCellRendererPbne(c, p).pbintComponent(g, c, p, x, y, w, h,fblse);
     }
 
     /**
-     * Paints a component to the specified <code>Graphics</code>.  This
-     * is a cover method for
-     * {@link #paintComponent(Graphics,Component,Container,int,int,int,int)}.
-     * Refer to it for more information.
+     * Pbints b component to the specified <code>Grbphics</code>.  This
+     * is b cover method for
+     * {@link #pbintComponent(Grbphics,Component,Contbiner,int,int,int,int)}.
+     * Refer to it for more informbtion.
      *
-     * @param g  the <code>Graphics</code> object to draw on
-     * @param c  the <code>Component</code> to draw
-     * @param p  the intermediate <code>Container</code>
-     * @param r  the <code>Rectangle</code> to draw in
+     * @pbrbm g  the <code>Grbphics</code> object to drbw on
+     * @pbrbm c  the <code>Component</code> to drbw
+     * @pbrbm p  the intermedibte <code>Contbiner</code>
+     * @pbrbm r  the <code>Rectbngle</code> to drbw in
      *
-     * @see #paintComponent(Graphics,Component,Container,int,int,int,int)
-     * @see CellRendererPane
+     * @see #pbintComponent(Grbphics,Component,Contbiner,int,int,int,int)
+     * @see CellRendererPbne
      */
-    public static void paintComponent(Graphics g, Component c, Container p, Rectangle r) {
-        paintComponent(g, c, p, r.x, r.y, r.width, r.height);
+    public stbtic void pbintComponent(Grbphics g, Component c, Contbiner p, Rectbngle r) {
+        pbintComponent(g, c, p, r.x, r.y, r.width, r.height);
     }
 
 
     /*
-     * Ensures that cell renderer <code>c</code> has a
-     * <code>ComponentShell</code> parent and that
-     * the shell's parent is p.
+     * Ensures thbt cell renderer <code>c</code> hbs b
+     * <code>ComponentShell</code> pbrent bnd thbt
+     * the shell's pbrent is p.
      */
-    private static CellRendererPane getCellRendererPane(Component c, Container p) {
-        Container shell = c.getParent();
-        if (shell instanceof CellRendererPane) {
-            if (shell.getParent() != p) {
-                p.add(shell);
+    privbte stbtic CellRendererPbne getCellRendererPbne(Component c, Contbiner p) {
+        Contbiner shell = c.getPbrent();
+        if (shell instbnceof CellRendererPbne) {
+            if (shell.getPbrent() != p) {
+                p.bdd(shell);
             }
         } else {
-            shell = new CellRendererPane();
-            shell.add(c);
-            p.add(shell);
+            shell = new CellRendererPbne();
+            shell.bdd(c);
+            p.bdd(shell);
         }
-        return (CellRendererPane)shell;
+        return (CellRendererPbne)shell;
     }
 
     /**
-     * A simple minded look and feel change: ask each node in the tree
-     * to <code>updateUI()</code> -- that is, to initialize its UI property
-     * with the current look and feel.
+     * A simple minded look bnd feel chbnge: bsk ebch node in the tree
+     * to <code>updbteUI()</code> -- thbt is, to initiblize its UI property
+     * with the current look bnd feel.
      *
-     * @param c the component
+     * @pbrbm c the component
      */
-    public static void updateComponentTreeUI(Component c) {
-        updateComponentTreeUI0(c);
-        c.invalidate();
-        c.validate();
-        c.repaint();
+    public stbtic void updbteComponentTreeUI(Component c) {
+        updbteComponentTreeUI0(c);
+        c.invblidbte();
+        c.vblidbte();
+        c.repbint();
     }
 
-    private static void updateComponentTreeUI0(Component c) {
-        if (c instanceof JComponent) {
+    privbte stbtic void updbteComponentTreeUI0(Component c) {
+        if (c instbnceof JComponent) {
             JComponent jc = (JComponent) c;
-            jc.updateUI();
+            jc.updbteUI();
             JPopupMenu jpm =jc.getComponentPopupMenu();
             if(jpm != null) {
-                updateComponentTreeUI(jpm);
+                updbteComponentTreeUI(jpm);
             }
         }
         Component[] children = null;
-        if (c instanceof JMenu) {
+        if (c instbnceof JMenu) {
             children = ((JMenu)c).getMenuComponents();
         }
-        else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        else if (c instbnceof Contbiner) {
+            children = ((Contbiner)c).getComponents();
         }
         if (children != null) {
             for (Component child : children) {
-                updateComponentTreeUI0(child);
+                updbteComponentTreeUI0(child);
             }
         }
     }
 
 
     /**
-     * Causes <i>doRun.run()</i> to be executed asynchronously on the
-     * AWT event dispatching thread.  This will happen after all
-     * pending AWT events have been processed.  This method should
-     * be used when an application thread needs to update the GUI.
-     * In the following example the <code>invokeLater</code> call queues
-     * the <code>Runnable</code> object <code>doHelloWorld</code>
-     * on the event dispatching thread and
-     * then prints a message.
+     * Cbuses <i>doRun.run()</i> to be executed bsynchronously on the
+     * AWT event dispbtching threbd.  This will hbppen bfter bll
+     * pending AWT events hbve been processed.  This method should
+     * be used when bn bpplicbtion threbd needs to updbte the GUI.
+     * In the following exbmple the <code>invokeLbter</code> cbll queues
+     * the <code>Runnbble</code> object <code>doHelloWorld</code>
+     * on the event dispbtching threbd bnd
+     * then prints b messbge.
      * <pre>
-     * Runnable doHelloWorld = new Runnable() {
+     * Runnbble doHelloWorld = new Runnbble() {
      *     public void run() {
-     *         System.out.println("Hello World on " + Thread.currentThread());
+     *         System.out.println("Hello World on " + Threbd.currentThrebd());
      *     }
      * };
      *
-     * SwingUtilities.invokeLater(doHelloWorld);
-     * System.out.println("This might well be displayed before the other message.");
+     * SwingUtilities.invokeLbter(doHelloWorld);
+     * System.out.println("This might well be displbyed before the other messbge.");
      * </pre>
-     * If invokeLater is called from the event dispatching thread --
-     * for example, from a JButton's ActionListener -- the <i>doRun.run()</i> will
-     * still be deferred until all pending events have been processed.
-     * Note that if the <i>doRun.run()</i> throws an uncaught exception
-     * the event dispatching thread will unwind (not the current thread).
+     * If invokeLbter is cblled from the event dispbtching threbd --
+     * for exbmple, from b JButton's ActionListener -- the <i>doRun.run()</i> will
+     * still be deferred until bll pending events hbve been processed.
+     * Note thbt if the <i>doRun.run()</i> throws bn uncbught exception
+     * the event dispbtching threbd will unwind (not the current threbd).
      * <p>
-     * Additional documentation and examples for this method can be
+     * Additionbl documentbtion bnd exbmples for this method cbn be
      * found in
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency in Swing</a>.
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency in Swing</b>.
      * <p>
-     * As of 1.3 this method is just a cover for <code>java.awt.EventQueue.invokeLater()</code>.
+     * As of 1.3 this method is just b cover for <code>jbvb.bwt.EventQueue.invokeLbter()</code>.
      * <p>
-     * Unlike the rest of Swing, this method can be invoked from any thread.
+     * Unlike the rest of Swing, this method cbn be invoked from bny threbd.
      *
-     * @param doRun the instance of {@code Runnable}
-     * @see #invokeAndWait
+     * @pbrbm doRun the instbnce of {@code Runnbble}
+     * @see #invokeAndWbit
      */
-    public static void invokeLater(Runnable doRun) {
-        EventQueue.invokeLater(doRun);
+    public stbtic void invokeLbter(Runnbble doRun) {
+        EventQueue.invokeLbter(doRun);
     }
 
 
     /**
-     * Causes <code>doRun.run()</code> to be executed synchronously on the
-     * AWT event dispatching thread.  This call blocks until
-     * all pending AWT events have been processed and (then)
+     * Cbuses <code>doRun.run()</code> to be executed synchronously on the
+     * AWT event dispbtching threbd.  This cbll blocks until
+     * bll pending AWT events hbve been processed bnd (then)
      * <code>doRun.run()</code> returns. This method should
-     * be used when an application thread needs to update the GUI.
-     * It shouldn't be called from the event dispatching thread.
-     * Here's an example that creates a new application thread
-     * that uses <code>invokeAndWait</code> to print a string from the event
-     * dispatching thread and then, when that's finished, print
-     * a string from the application thread.
+     * be used when bn bpplicbtion threbd needs to updbte the GUI.
+     * It shouldn't be cblled from the event dispbtching threbd.
+     * Here's bn exbmple thbt crebtes b new bpplicbtion threbd
+     * thbt uses <code>invokeAndWbit</code> to print b string from the event
+     * dispbtching threbd bnd then, when thbt's finished, print
+     * b string from the bpplicbtion threbd.
      * <pre>
-     * final Runnable doHelloWorld = new Runnable() {
+     * finbl Runnbble doHelloWorld = new Runnbble() {
      *     public void run() {
-     *         System.out.println("Hello World on " + Thread.currentThread());
+     *         System.out.println("Hello World on " + Threbd.currentThrebd());
      *     }
      * };
      *
-     * Thread appThread = new Thread() {
+     * Threbd bppThrebd = new Threbd() {
      *     public void run() {
      *         try {
-     *             SwingUtilities.invokeAndWait(doHelloWorld);
+     *             SwingUtilities.invokeAndWbit(doHelloWorld);
      *         }
-     *         catch (Exception e) {
-     *             e.printStackTrace();
+     *         cbtch (Exception e) {
+     *             e.printStbckTrbce();
      *         }
-     *         System.out.println("Finished on " + Thread.currentThread());
+     *         System.out.println("Finished on " + Threbd.currentThrebd());
      *     }
      * };
-     * appThread.start();
+     * bppThrebd.stbrt();
      * </pre>
-     * Note that if the <code>Runnable.run</code> method throws an
-     * uncaught exception
-     * (on the event dispatching thread) it's caught and rethrown, as
-     * an <code>InvocationTargetException</code>, on the caller's thread.
+     * Note thbt if the <code>Runnbble.run</code> method throws bn
+     * uncbught exception
+     * (on the event dispbtching threbd) it's cbught bnd rethrown, bs
+     * bn <code>InvocbtionTbrgetException</code>, on the cbller's threbd.
      * <p>
-     * Additional documentation and examples for this method can be
+     * Additionbl documentbtion bnd exbmples for this method cbn be
      * found in
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency in Swing</a>.
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency in Swing</b>.
      * <p>
-     * As of 1.3 this method is just a cover for
-     * <code>java.awt.EventQueue.invokeAndWait()</code>.
+     * As of 1.3 this method is just b cover for
+     * <code>jbvb.bwt.EventQueue.invokeAndWbit()</code>.
      *
-     * @param doRun the instance of {@code Runnable}
-     * @exception  InterruptedException if we're interrupted while waiting for
-     *             the event dispatching thread to finish executing
+     * @pbrbm doRun the instbnce of {@code Runnbble}
+     * @exception  InterruptedException if we're interrupted while wbiting for
+     *             the event dispbtching threbd to finish executing
      *             <code>doRun.run()</code>
-     * @exception  InvocationTargetException  if an exception is thrown
+     * @exception  InvocbtionTbrgetException  if bn exception is thrown
      *             while running <code>doRun</code>
      *
-     * @see #invokeLater
+     * @see #invokeLbter
      */
-    public static void invokeAndWait(final Runnable doRun)
-        throws InterruptedException, InvocationTargetException
+    public stbtic void invokeAndWbit(finbl Runnbble doRun)
+        throws InterruptedException, InvocbtionTbrgetException
     {
-        EventQueue.invokeAndWait(doRun);
+        EventQueue.invokeAndWbit(doRun);
     }
 
     /**
-     * Returns true if the current thread is an AWT event dispatching thread.
+     * Returns true if the current threbd is bn AWT event dispbtching threbd.
      * <p>
-     * As of 1.3 this method is just a cover for
-     * <code>java.awt.EventQueue.isDispatchThread()</code>.
+     * As of 1.3 this method is just b cover for
+     * <code>jbvb.bwt.EventQueue.isDispbtchThrebd()</code>.
      *
-     * @return true if the current thread is an AWT event dispatching thread
+     * @return true if the current threbd is bn AWT event dispbtching threbd
      */
-    public static boolean isEventDispatchThread()
+    public stbtic boolebn isEventDispbtchThrebd()
     {
-        return EventQueue.isDispatchThread();
+        return EventQueue.isDispbtchThrebd();
     }
 
 
@@ -1459,53 +1459,53 @@ public class SwingUtilities implements SwingConstants
      */
 
     /**
-     * Get the index of this object in its accessible parent.<p>
+     * Get the index of this object in its bccessible pbrent.<p>
      *
-     * Note: as of the Java 2 platform v1.3, it is recommended that developers call
-     * Component.AccessibleAWTComponent.getAccessibleIndexInParent() instead
+     * Note: bs of the Jbvb 2 plbtform v1.3, it is recommended thbt developers cbll
+     * Component.AccessibleAWTComponent.getAccessibleIndexInPbrent() instebd
      * of using this method.
      *
-     * @param c the component
-     * @return -1 of this object does not have an accessible parent.
-     * Otherwise, the index of the child in its accessible parent.
+     * @pbrbm c the component
+     * @return -1 of this object does not hbve bn bccessible pbrent.
+     * Otherwise, the index of the child in its bccessible pbrent.
      */
-    public static int getAccessibleIndexInParent(Component c) {
-        return c.getAccessibleContext().getAccessibleIndexInParent();
+    public stbtic int getAccessibleIndexInPbrent(Component c) {
+        return c.getAccessibleContext().getAccessibleIndexInPbrent();
     }
 
     /**
-     * Returns the <code>Accessible</code> child contained at the
-     * local coordinate <code>Point</code>, if one exists.
+     * Returns the <code>Accessible</code> child contbined bt the
+     * locbl coordinbte <code>Point</code>, if one exists.
      * Otherwise returns <code>null</code>.
      *
-     * @param c the component
-     * @param p the local coordinate
-     * @return the <code>Accessible</code> at the specified location,
+     * @pbrbm c the component
+     * @pbrbm p the locbl coordinbte
+     * @return the <code>Accessible</code> bt the specified locbtion,
      *    if it exists; otherwise <code>null</code>
      */
-    public static Accessible getAccessibleAt(Component c, Point p) {
-        if (c instanceof Container) {
+    public stbtic Accessible getAccessibleAt(Component c, Point p) {
+        if (c instbnceof Contbiner) {
             return c.getAccessibleContext().getAccessibleComponent().getAccessibleAt(p);
-        } else if (c instanceof Accessible) {
-            Accessible a = (Accessible) c;
-            if (a != null) {
-                AccessibleContext ac = a.getAccessibleContext();
-                if (ac != null) {
-                    AccessibleComponent acmp;
-                    Point location;
-                    int nchildren = ac.getAccessibleChildrenCount();
+        } else if (c instbnceof Accessible) {
+            Accessible b = (Accessible) c;
+            if (b != null) {
+                AccessibleContext bc = b.getAccessibleContext();
+                if (bc != null) {
+                    AccessibleComponent bcmp;
+                    Point locbtion;
+                    int nchildren = bc.getAccessibleChildrenCount();
                     for (int i=0; i < nchildren; i++) {
-                        a = ac.getAccessibleChild(i);
-                        if ((a != null)) {
-                            ac = a.getAccessibleContext();
-                            if (ac != null) {
-                                acmp = ac.getAccessibleComponent();
-                                if ((acmp != null) && (acmp.isShowing())) {
-                                    location = acmp.getLocation();
-                                    Point np = new Point(p.x-location.x,
-                                                         p.y-location.y);
-                                    if (acmp.contains(np)){
-                                        return a;
+                        b = bc.getAccessibleChild(i);
+                        if ((b != null)) {
+                            bc = b.getAccessibleContext();
+                            if (bc != null) {
+                                bcmp = bc.getAccessibleComponent();
+                                if ((bcmp != null) && (bcmp.isShowing())) {
+                                    locbtion = bcmp.getLocbtion();
+                                    Point np = new Point(p.x-locbtion.x,
+                                                         p.y-locbtion.y);
+                                    if (bcmp.contbins(np)){
+                                        return b;
                                     }
                                 }
                             }
@@ -1519,74 +1519,74 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Get the state of this object. <p>
+     * Get the stbte of this object. <p>
      *
-     * Note: as of the Java 2 platform v1.3, it is recommended that developers call
-     * Component.AccessibleAWTComponent.getAccessibleIndexInParent() instead
+     * Note: bs of the Jbvb 2 plbtform v1.3, it is recommended thbt developers cbll
+     * Component.AccessibleAWTComponent.getAccessibleIndexInPbrent() instebd
      * of using this method.
      *
-     * @param c the component
-     * @return an instance of AccessibleStateSet containing the current state
+     * @pbrbm c the component
+     * @return bn instbnce of AccessibleStbteSet contbining the current stbte
      * set of the object
-     * @see AccessibleState
+     * @see AccessibleStbte
      */
-    public static AccessibleStateSet getAccessibleStateSet(Component c) {
-        return c.getAccessibleContext().getAccessibleStateSet();
+    public stbtic AccessibleStbteSet getAccessibleStbteSet(Component c) {
+        return c.getAccessibleContext().getAccessibleStbteSet();
     }
 
     /**
-     * Returns the number of accessible children in the object.  If all
-     * of the children of this object implement Accessible, than this
+     * Returns the number of bccessible children in the object.  If bll
+     * of the children of this object implement Accessible, thbn this
      * method should return the number of children of this object. <p>
      *
-     * Note: as of the Java 2 platform v1.3, it is recommended that developers call
-     * Component.AccessibleAWTComponent.getAccessibleIndexInParent() instead
+     * Note: bs of the Jbvb 2 plbtform v1.3, it is recommended thbt developers cbll
+     * Component.AccessibleAWTComponent.getAccessibleIndexInPbrent() instebd
      * of using this method.
      *
-     * @param c the component
-     * @return the number of accessible children in the object.
+     * @pbrbm c the component
+     * @return the number of bccessible children in the object.
      */
-    public static int getAccessibleChildrenCount(Component c) {
+    public stbtic int getAccessibleChildrenCount(Component c) {
         return c.getAccessibleContext().getAccessibleChildrenCount();
     }
 
     /**
      * Return the nth Accessible child of the object. <p>
      *
-     * Note: as of the Java 2 platform v1.3, it is recommended that developers call
-     * Component.AccessibleAWTComponent.getAccessibleIndexInParent() instead
+     * Note: bs of the Jbvb 2 plbtform v1.3, it is recommended thbt developers cbll
+     * Component.AccessibleAWTComponent.getAccessibleIndexInPbrent() instebd
      * of using this method.
      *
-     * @param c the component
-     * @param i zero-based index of child
+     * @pbrbm c the component
+     * @pbrbm i zero-bbsed index of child
      * @return the nth Accessible child of the object
      */
-    public static Accessible getAccessibleChild(Component c, int i) {
+    public stbtic Accessible getAccessibleChild(Component c, int i) {
         return c.getAccessibleContext().getAccessibleChild(i);
     }
 
     /**
      * Return the child <code>Component</code> of the specified
-     * <code>Component</code> that is the focus owner, if any.
+     * <code>Component</code> thbt is the focus owner, if bny.
      *
-     * @param c the root of the <code>Component</code> hierarchy to
-     *        search for the focus owner
+     * @pbrbm c the root of the <code>Component</code> hierbrchy to
+     *        sebrch for the focus owner
      * @return the focus owner, or <code>null</code> if there is no focus
-     *         owner, or if the focus owner is not <code>comp</code>, or a
-     *         descendant of <code>comp</code>
+     *         owner, or if the focus owner is not <code>comp</code>, or b
+     *         descendbnt of <code>comp</code>
      *
-     * @see java.awt.KeyboardFocusManager#getFocusOwner
-     * @deprecated As of 1.4, replaced by
-     *   <code>KeyboardFocusManager.getFocusOwner()</code>.
+     * @see jbvb.bwt.KeybobrdFocusMbnbger#getFocusOwner
+     * @deprecbted As of 1.4, replbced by
+     *   <code>KeybobrdFocusMbnbger.getFocusOwner()</code>.
      */
-    @Deprecated
-    public static Component findFocusOwner(Component c) {
-        Component focusOwner = KeyboardFocusManager.
-            getCurrentKeyboardFocusManager().getFocusOwner();
+    @Deprecbted
+    public stbtic Component findFocusOwner(Component c) {
+        Component focusOwner = KeybobrdFocusMbnbger.
+            getCurrentKeybobrdFocusMbnbger().getFocusOwner();
 
-        // verify focusOwner is a descendant of c
+        // verify focusOwner is b descendbnt of c
         for (Component temp = focusOwner; temp != null;
-             temp = (temp instanceof Window) ? null : temp.getParent())
+             temp = (temp instbnceof Window) ? null : temp.getPbrent())
         {
             if (temp == c) {
                 return focusOwner;
@@ -1597,19 +1597,19 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * If c is a JRootPane descendant return its JRootPane ancestor.
-     * If c is a RootPaneContainer then return its JRootPane.
+     * If c is b JRootPbne descendbnt return its JRootPbne bncestor.
+     * If c is b RootPbneContbiner then return its JRootPbne.
      *
-     * @param c the component
-     * @return the JRootPane for Component c or {@code null}.
+     * @pbrbm c the component
+     * @return the JRootPbne for Component c or {@code null}.
      */
-    public static JRootPane getRootPane(Component c) {
-        if (c instanceof RootPaneContainer) {
-            return ((RootPaneContainer)c).getRootPane();
+    public stbtic JRootPbne getRootPbne(Component c) {
+        if (c instbnceof RootPbneContbiner) {
+            return ((RootPbneContbiner)c).getRootPbne();
         }
-        for( ; c != null; c = c.getParent()) {
-            if (c instanceof JRootPane) {
-                return (JRootPane)c;
+        for( ; c != null; c = c.getPbrent()) {
+            if (c instbnceof JRootPbne) {
+                return (JRootPbne)c;
             }
         }
         return null;
@@ -1619,27 +1619,27 @@ public class SwingUtilities implements SwingConstants
     /**
      * Returns the root component for the current component tree.
      *
-     * @param c the component
-     * @return the first ancestor of c that's a Window or the last Applet ancestor
+     * @pbrbm c the component
+     * @return the first bncestor of c thbt's b Window or the lbst Applet bncestor
      */
-    public static Component getRoot(Component c) {
-        Component applet = null;
-        for(Component p = c; p != null; p = p.getParent()) {
-            if (p instanceof Window) {
+    public stbtic Component getRoot(Component c) {
+        Component bpplet = null;
+        for(Component p = c; p != null; p = p.getPbrent()) {
+            if (p instbnceof Window) {
                 return p;
             }
-            if (p instanceof Applet) {
-                applet = p;
+            if (p instbnceof Applet) {
+                bpplet = p;
             }
         }
-        return applet;
+        return bpplet;
     }
 
-    static JComponent getPaintingOrigin(JComponent c) {
-        Container p = c;
-        while ((p = p.getParent()) instanceof JComponent) {
+    stbtic JComponent getPbintingOrigin(JComponent c) {
+        Contbiner p = c;
+        while ((p = p.getPbrent()) instbnceof JComponent) {
             JComponent jp = (JComponent) p;
-            if (jp.isPaintingOrigin()) {
+            if (jp.isPbintingOrigin()) {
                 return jp;
             }
         }
@@ -1647,266 +1647,266 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Process the key bindings for the <code>Component</code> associated with
+     * Process the key bindings for the <code>Component</code> bssocibted with
      * <code>event</code>. This method is only useful if
      * <code>event.getComponent()</code> does not descend from
-     * <code>JComponent</code>, or your are not invoking
+     * <code>JComponent</code>, or your bre not invoking
      * <code>super.processKeyEvent</code> from within your
-     * <code>JComponent</code> subclass. <code>JComponent</code>
-     * automatically processes bindings from within its
-     * <code>processKeyEvent</code> method, hence you rarely need
+     * <code>JComponent</code> subclbss. <code>JComponent</code>
+     * butombticblly processes bindings from within its
+     * <code>processKeyEvent</code> method, hence you rbrely need
      * to directly invoke this method.
      *
-     * @param event KeyEvent used to identify which bindings to process, as
-     *              well as which Component has focus.
-     * @return true if a binding has found and processed
+     * @pbrbm event KeyEvent used to identify which bindings to process, bs
+     *              well bs which Component hbs focus.
+     * @return true if b binding hbs found bnd processed
      * @since 1.4
      */
-    public static boolean processKeyBindings(KeyEvent event) {
+    public stbtic boolebn processKeyBindings(KeyEvent event) {
         if (event != null) {
             if (event.isConsumed()) {
-                return false;
+                return fblse;
             }
 
             Component component = event.getComponent();
-            boolean pressed = (event.getID() == KeyEvent.KEY_PRESSED);
+            boolebn pressed = (event.getID() == KeyEvent.KEY_PRESSED);
 
-            if (!isValidKeyEventForKeyBindings(event)) {
-                return false;
+            if (!isVblidKeyEventForKeyBindings(event)) {
+                return fblse;
             }
-            // Find the first JComponent in the ancestor hierarchy, and
+            // Find the first JComponent in the bncestor hierbrchy, bnd
             // invoke processKeyBindings on it
             while (component != null) {
-                if (component instanceof JComponent) {
+                if (component instbnceof JComponent) {
                     return ((JComponent)component).processKeyBindings(
                                                    event, pressed);
                 }
-                if ((component instanceof Applet) ||
-                    (component instanceof Window)) {
-                    // No JComponents, if Window or Applet parent, process
+                if ((component instbnceof Applet) ||
+                    (component instbnceof Window)) {
+                    // No JComponents, if Window or Applet pbrent, process
                     // WHEN_IN_FOCUSED_WINDOW bindings.
                     return JComponent.processKeyBindingsForAllComponents(
-                                  event, (Container)component, pressed);
+                                  event, (Contbiner)component, pressed);
                 }
-                component = component.getParent();
+                component = component.getPbrent();
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if the <code>e</code> is a valid KeyEvent to use in
-     * processing the key bindings associated with JComponents.
+     * Returns true if the <code>e</code> is b vblid KeyEvent to use in
+     * processing the key bindings bssocibted with JComponents.
      */
-    static boolean isValidKeyEventForKeyBindings(KeyEvent e) {
+    stbtic boolebn isVblidKeyEventForKeyBindings(KeyEvent e) {
         return true;
     }
 
     /**
-     * Invokes <code>actionPerformed</code> on <code>action</code> if
-     * <code>action</code> is enabled (and non-{@code null}). The command for the
+     * Invokes <code>bctionPerformed</code> on <code>bction</code> if
+     * <code>bction</code> is enbbled (bnd non-{@code null}). The commbnd for the
      * ActionEvent is determined by:
      * <ol>
-     *   <li>If the action was registered via
-     *       <code>registerKeyboardAction</code>, then the command string
-     *       passed in ({@code null} will be used if {@code null} was passed in).
-     *   <li>Action value with name Action.ACTION_COMMAND_KEY, unless {@code null}.
-     *   <li>String value of the KeyEvent, unless <code>getKeyChar</code>
+     *   <li>If the bction wbs registered vib
+     *       <code>registerKeybobrdAction</code>, then the commbnd string
+     *       pbssed in ({@code null} will be used if {@code null} wbs pbssed in).
+     *   <li>Action vblue with nbme Action.ACTION_COMMAND_KEY, unless {@code null}.
+     *   <li>String vblue of the KeyEvent, unless <code>getKeyChbr</code>
      *       returns KeyEvent.CHAR_UNDEFINED..
      * </ol>
-     * This will return true if <code>action</code> is non-{@code null} and
-     * actionPerformed is invoked on it.
+     * This will return true if <code>bction</code> is non-{@code null} bnd
+     * bctionPerformed is invoked on it.
      *
-     * @param action an action
-     * @param ks a key stroke
-     * @param event a key event
-     * @param sender a sender
-     * @param modifiers action modifiers
-     * @return {@code true} if {@code action} is non-{@code null} and
-     *         actionPerformed is invoked on it.
+     * @pbrbm bction bn bction
+     * @pbrbm ks b key stroke
+     * @pbrbm event b key event
+     * @pbrbm sender b sender
+     * @pbrbm modifiers bction modifiers
+     * @return {@code true} if {@code bction} is non-{@code null} bnd
+     *         bctionPerformed is invoked on it.
      *
      * @since 1.3
      */
-    public static boolean notifyAction(Action action, KeyStroke ks,
+    public stbtic boolebn notifyAction(Action bction, KeyStroke ks,
                                        KeyEvent event, Object sender,
                                        int modifiers) {
-        if (action == null) {
-            return false;
+        if (bction == null) {
+            return fblse;
         }
-        if (action instanceof UIAction) {
-            if (!((UIAction)action).isEnabled(sender)) {
-                return false;
+        if (bction instbnceof UIAction) {
+            if (!((UIAction)bction).isEnbbled(sender)) {
+                return fblse;
             }
         }
-        else if (!action.isEnabled()) {
-            return false;
+        else if (!bction.isEnbbled()) {
+            return fblse;
         }
-        Object commandO;
-        boolean stayNull;
+        Object commbndO;
+        boolebn stbyNull;
 
-        // Get the command object.
-        commandO = action.getValue(Action.ACTION_COMMAND_KEY);
-        if (commandO == null && (action instanceof JComponent.ActionStandin)) {
-            // ActionStandin is used for historical reasons to support
-            // registerKeyboardAction with a null value.
-            stayNull = true;
+        // Get the commbnd object.
+        commbndO = bction.getVblue(Action.ACTION_COMMAND_KEY);
+        if (commbndO == null && (bction instbnceof JComponent.ActionStbndin)) {
+            // ActionStbndin is used for historicbl rebsons to support
+            // registerKeybobrdAction with b null vblue.
+            stbyNull = true;
         }
         else {
-            stayNull = false;
+            stbyNull = fblse;
         }
 
-        // Convert it to a string.
-        String command;
+        // Convert it to b string.
+        String commbnd;
 
-        if (commandO != null) {
-            command = commandO.toString();
+        if (commbndO != null) {
+            commbnd = commbndO.toString();
         }
-        else if (!stayNull && event.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
-            command = String.valueOf(event.getKeyChar());
+        else if (!stbyNull && event.getKeyChbr() != KeyEvent.CHAR_UNDEFINED) {
+            commbnd = String.vblueOf(event.getKeyChbr());
         }
         else {
-            // Do null for undefined chars, or if registerKeyboardAction
-            // was called with a null.
-            command = null;
+            // Do null for undefined chbrs, or if registerKeybobrdAction
+            // wbs cblled with b null.
+            commbnd = null;
         }
-        action.actionPerformed(new ActionEvent(sender,
-                        ActionEvent.ACTION_PERFORMED, command, event.getWhen(),
+        bction.bctionPerformed(new ActionEvent(sender,
+                        ActionEvent.ACTION_PERFORMED, commbnd, event.getWhen(),
                         modifiers));
         return true;
     }
 
 
     /**
-     * Convenience method to change the UI InputMap for <code>component</code>
-     * to <code>uiInputMap</code>. If <code>uiInputMap</code> is {@code null},
-     * this removes any previously installed UI InputMap.
+     * Convenience method to chbnge the UI InputMbp for <code>component</code>
+     * to <code>uiInputMbp</code>. If <code>uiInputMbp</code> is {@code null},
+     * this removes bny previously instblled UI InputMbp.
      *
-     * @param component a component
-     * @param type a type
-     * @param uiInputMap an {@code InputMap}
+     * @pbrbm component b component
+     * @pbrbm type b type
+     * @pbrbm uiInputMbp bn {@code InputMbp}
      * @since 1.3
      */
-    public static void replaceUIInputMap(JComponent component, int type,
-                                         InputMap uiInputMap) {
-        InputMap map = component.getInputMap(type, (uiInputMap != null));
+    public stbtic void replbceUIInputMbp(JComponent component, int type,
+                                         InputMbp uiInputMbp) {
+        InputMbp mbp = component.getInputMbp(type, (uiInputMbp != null));
 
-        while (map != null) {
-            InputMap parent = map.getParent();
-            if (parent == null || (parent instanceof UIResource)) {
-                map.setParent(uiInputMap);
+        while (mbp != null) {
+            InputMbp pbrent = mbp.getPbrent();
+            if (pbrent == null || (pbrent instbnceof UIResource)) {
+                mbp.setPbrent(uiInputMbp);
                 return;
             }
-            map = parent;
+            mbp = pbrent;
         }
     }
 
 
     /**
-     * Convenience method to change the UI ActionMap for <code>component</code>
-     * to <code>uiActionMap</code>. If <code>uiActionMap</code> is {@code null},
-     * this removes any previously installed UI ActionMap.
+     * Convenience method to chbnge the UI ActionMbp for <code>component</code>
+     * to <code>uiActionMbp</code>. If <code>uiActionMbp</code> is {@code null},
+     * this removes bny previously instblled UI ActionMbp.
      *
-     * @param component a component
-     * @param uiActionMap an {@code ActionMap}
+     * @pbrbm component b component
+     * @pbrbm uiActionMbp bn {@code ActionMbp}
      * @since 1.3
      */
-    public static void replaceUIActionMap(JComponent component,
-                                          ActionMap uiActionMap) {
-        ActionMap map = component.getActionMap((uiActionMap != null));
+    public stbtic void replbceUIActionMbp(JComponent component,
+                                          ActionMbp uiActionMbp) {
+        ActionMbp mbp = component.getActionMbp((uiActionMbp != null));
 
-        while (map != null) {
-            ActionMap parent = map.getParent();
-            if (parent == null || (parent instanceof UIResource)) {
-                map.setParent(uiActionMap);
+        while (mbp != null) {
+            ActionMbp pbrent = mbp.getPbrent();
+            if (pbrent == null || (pbrent instbnceof UIResource)) {
+                mbp.setPbrent(uiActionMbp);
                 return;
             }
-            map = parent;
+            mbp = pbrent;
         }
     }
 
 
     /**
-     * Returns the InputMap provided by the UI for condition
+     * Returns the InputMbp provided by the UI for condition
      * <code>condition</code> in component <code>component</code>.
-     * <p>This will return {@code null} if the UI has not installed an InputMap
+     * <p>This will return {@code null} if the UI hbs not instblled bn InputMbp
      * of the specified type.
      *
-     * @param component a component
-     * @param condition a condition
-     * @return the {@code ActionMap} provided by the UI for {@code condition}
-     *         in the component, or {@code null} if the UI has not installed
-     *         an InputMap of the specified type.
+     * @pbrbm component b component
+     * @pbrbm condition b condition
+     * @return the {@code ActionMbp} provided by the UI for {@code condition}
+     *         in the component, or {@code null} if the UI hbs not instblled
+     *         bn InputMbp of the specified type.
      * @since 1.3
      */
-    public static InputMap getUIInputMap(JComponent component, int condition) {
-        InputMap map = component.getInputMap(condition, false);
-        while (map != null) {
-            InputMap parent = map.getParent();
-            if (parent instanceof UIResource) {
-                return parent;
+    public stbtic InputMbp getUIInputMbp(JComponent component, int condition) {
+        InputMbp mbp = component.getInputMbp(condition, fblse);
+        while (mbp != null) {
+            InputMbp pbrent = mbp.getPbrent();
+            if (pbrent instbnceof UIResource) {
+                return pbrent;
             }
-            map = parent;
+            mbp = pbrent;
         }
         return null;
     }
 
     /**
-     * Returns the ActionMap provided by the UI
+     * Returns the ActionMbp provided by the UI
      * in component <code>component</code>.
-     * <p>This will return {@code null} if the UI has not installed an ActionMap.
+     * <p>This will return {@code null} if the UI hbs not instblled bn ActionMbp.
      *
-     * @param component a component
-     * @return the {@code ActionMap} provided by the UI in the component,
-     *         or {@code null} if the UI has not installed an ActionMap.
+     * @pbrbm component b component
+     * @return the {@code ActionMbp} provided by the UI in the component,
+     *         or {@code null} if the UI hbs not instblled bn ActionMbp.
      * @since 1.3
      */
-    public static ActionMap getUIActionMap(JComponent component) {
-        ActionMap map = component.getActionMap(false);
-        while (map != null) {
-            ActionMap parent = map.getParent();
-            if (parent instanceof UIResource) {
-                return parent;
+    public stbtic ActionMbp getUIActionMbp(JComponent component) {
+        ActionMbp mbp = component.getActionMbp(fblse);
+        while (mbp != null) {
+            ActionMbp pbrent = mbp.getPbrent();
+            if (pbrent instbnceof UIResource) {
+                return pbrent;
             }
-            map = parent;
+            mbp = pbrent;
         }
         return null;
     }
 
 
-    // Don't use String, as it's not guaranteed to be unique in a Hashtable.
-    private static final Object sharedOwnerFrameKey =
-       new StringBuffer("SwingUtilities.sharedOwnerFrame");
+    // Don't use String, bs it's not gubrbnteed to be unique in b Hbshtbble.
+    privbte stbtic finbl Object shbredOwnerFrbmeKey =
+       new StringBuffer("SwingUtilities.shbredOwnerFrbme");
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class SharedOwnerFrame extends Frame implements WindowListener {
-        public void addNotify() {
-            super.addNotify();
-            installListeners();
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss ShbredOwnerFrbme extends Frbme implements WindowListener {
+        public void bddNotify() {
+            super.bddNotify();
+            instbllListeners();
         }
 
         /**
-         * Install window listeners on owned windows to watch for displayability changes
+         * Instbll window listeners on owned windows to wbtch for displbybbility chbnges
          */
-        void installListeners() {
+        void instbllListeners() {
             Window[] windows = getOwnedWindows();
             for (Window window : windows) {
                 if (window != null) {
                     window.removeWindowListener(this);
-                    window.addWindowListener(this);
+                    window.bddWindowListener(this);
                 }
             }
         }
 
         /**
-         * Watches for displayability changes and disposes shared instance if there are no
-         * displayable children left.
+         * Wbtches for displbybbility chbnges bnd disposes shbred instbnce if there bre no
+         * displbybble children left.
          */
         public void windowClosed(WindowEvent e) {
             synchronized(getTreeLock()) {
                 Window[] windows = getOwnedWindows();
                 for (Window window : windows) {
                     if (window != null) {
-                        if (window.isDisplayable()) {
+                        if (window.isDisplbybble()) {
                             return;
                         }
                         window.removeWindowListener(this);
@@ -1923,119 +1923,119 @@ public class SwingUtilities implements SwingConstants
         }
         public void windowDeiconified(WindowEvent e) {
         }
-        public void windowActivated(WindowEvent e) {
+        public void windowActivbted(WindowEvent e) {
         }
-        public void windowDeactivated(WindowEvent e) {
+        public void windowDebctivbted(WindowEvent e) {
         }
 
         public void show() {
-            // This frame can never be shown
+            // This frbme cbn never be shown
         }
         public void dispose() {
             try {
                 getToolkit().getSystemEventQueue();
                 super.dispose();
-            } catch (Exception e) {
-                // untrusted code not allowed to dispose
+            } cbtch (Exception e) {
+                // untrusted code not bllowed to dispose
             }
         }
     }
 
     /**
-     * Returns a toolkit-private, shared, invisible Frame
-     * to be the owner for JDialogs and JWindows created with
+     * Returns b toolkit-privbte, shbred, invisible Frbme
+     * to be the owner for JDiblogs bnd JWindows crebted with
      * {@code null} owners.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    static Frame getSharedOwnerFrame() throws HeadlessException {
-        Frame sharedOwnerFrame =
-            (Frame)SwingUtilities.appContextGet(sharedOwnerFrameKey);
-        if (sharedOwnerFrame == null) {
-            sharedOwnerFrame = new SharedOwnerFrame();
-            SwingUtilities.appContextPut(sharedOwnerFrameKey,
-                                         sharedOwnerFrame);
+    stbtic Frbme getShbredOwnerFrbme() throws HebdlessException {
+        Frbme shbredOwnerFrbme =
+            (Frbme)SwingUtilities.bppContextGet(shbredOwnerFrbmeKey);
+        if (shbredOwnerFrbme == null) {
+            shbredOwnerFrbme = new ShbredOwnerFrbme();
+            SwingUtilities.bppContextPut(shbredOwnerFrbmeKey,
+                                         shbredOwnerFrbme);
         }
-        return sharedOwnerFrame;
+        return shbredOwnerFrbme;
     }
 
     /**
-     * Returns a SharedOwnerFrame's shutdown listener to dispose the SharedOwnerFrame
-     * if it has no more displayable children.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Returns b ShbredOwnerFrbme's shutdown listener to dispose the ShbredOwnerFrbme
+     * if it hbs no more displbybble children.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    static WindowListener getSharedOwnerFrameShutdownListener() throws HeadlessException {
-        Frame sharedOwnerFrame = getSharedOwnerFrame();
-        return (WindowListener)sharedOwnerFrame;
+    stbtic WindowListener getShbredOwnerFrbmeShutdownListener() throws HebdlessException {
+        Frbme shbredOwnerFrbme = getShbredOwnerFrbme();
+        return (WindowListener)shbredOwnerFrbme;
     }
 
-    /* Don't make these AppContext accessors public or protected --
-     * since AppContext is in sun.awt in 1.2, we shouldn't expose it
-     * even indirectly with a public API.
+    /* Don't mbke these AppContext bccessors public or protected --
+     * since AppContext is in sun.bwt in 1.2, we shouldn't expose it
+     * even indirectly with b public API.
      */
-    // REMIND(aim): phase out use of 4 methods below since they
-    // are just private covers for AWT methods (?)
+    // REMIND(bim): phbse out use of 4 methods below since they
+    // bre just privbte covers for AWT methods (?)
 
-    static Object appContextGet(Object key) {
+    stbtic Object bppContextGet(Object key) {
         return AppContext.getAppContext().get(key);
     }
 
-    static void appContextPut(Object key, Object value) {
-        AppContext.getAppContext().put(key, value);
+    stbtic void bppContextPut(Object key, Object vblue) {
+        AppContext.getAppContext().put(key, vblue);
     }
 
-    static void appContextRemove(Object key) {
+    stbtic void bppContextRemove(Object key) {
         AppContext.getAppContext().remove(key);
     }
 
 
-    static Class<?> loadSystemClass(String className) throws ClassNotFoundException {
-        ReflectUtil.checkPackageAccess(className);
-        return Class.forName(className, true, Thread.currentThread().
-                             getContextClassLoader());
+    stbtic Clbss<?> lobdSystemClbss(String clbssNbme) throws ClbssNotFoundException {
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
+        return Clbss.forNbme(clbssNbme, true, Threbd.currentThrebd().
+                             getContextClbssLobder());
     }
 
 
    /*
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convenience function for determining ComponentOrientbtion.  Helps us
+     * bvoid hbving Munge directives throughout the code.
      */
-    static boolean isLeftToRight( Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtic boolebn isLeftToRight( Component c ) {
+        return c.getComponentOrientbtion().isLeftToRight();
     }
-    private SwingUtilities() {
-        throw new Error("SwingUtilities is just a container for static methods");
+    privbte SwingUtilities() {
+        throw new Error("SwingUtilities is just b contbiner for stbtic methods");
     }
 
     /**
-     * Returns true if the Icon <code>icon</code> is an instance of
-     * ImageIcon, and the image it contains is the same as <code>image</code>.
+     * Returns true if the Icon <code>icon</code> is bn instbnce of
+     * ImbgeIcon, bnd the imbge it contbins is the sbme bs <code>imbge</code>.
      */
-    static boolean doesIconReferenceImage(Icon icon, Image image) {
-        Image iconImage = (icon != null && (icon instanceof ImageIcon)) ?
-                           ((ImageIcon)icon).getImage() : null;
-        return (iconImage == image);
+    stbtic boolebn doesIconReferenceImbge(Icon icon, Imbge imbge) {
+        Imbge iconImbge = (icon != null && (icon instbnceof ImbgeIcon)) ?
+                           ((ImbgeIcon)icon).getImbge() : null;
+        return (iconImbge == imbge);
     }
 
     /**
      * Returns index of the first occurrence of <code>mnemonic</code>
-     * within string <code>text</code>. Matching algorithm is not
-     * case-sensitive.
+     * within string <code>text</code>. Mbtching blgorithm is not
+     * cbse-sensitive.
      *
-     * @param text The text to search through, may be {@code null}
-     * @param mnemonic The mnemonic to find the character for.
+     * @pbrbm text The text to sebrch through, mby be {@code null}
+     * @pbrbm mnemonic The mnemonic to find the chbrbcter for.
      * @return index into the string if exists, otherwise -1
      */
-    static int findDisplayedMnemonicIndex(String text, int mnemonic) {
+    stbtic int findDisplbyedMnemonicIndex(String text, int mnemonic) {
         if (text == null || mnemonic == '\0') {
             return -1;
         }
 
-        char uc = Character.toUpperCase((char)mnemonic);
-        char lc = Character.toLowerCase((char)mnemonic);
+        chbr uc = Chbrbcter.toUpperCbse((chbr)mnemonic);
+        chbr lc = Chbrbcter.toLowerCbse((chbr)mnemonic);
 
         int uci = text.indexOf(uc);
         int lci = text.indexOf(lc);
@@ -2050,32 +2050,32 @@ public class SwingUtilities implements SwingConstants
     }
 
     /**
-     * Stores the position and size of
-     * the inner painting area of the specified component
-     * in <code>r</code> and returns <code>r</code>.
-     * The position and size specify the bounds of the component,
-     * adjusted so as not to include the border area (the insets).
-     * This method is useful for classes
-     * that implement painting code.
+     * Stores the position bnd size of
+     * the inner pbinting breb of the specified component
+     * in <code>r</code> bnd returns <code>r</code>.
+     * The position bnd size specify the bounds of the component,
+     * bdjusted so bs not to include the border breb (the insets).
+     * This method is useful for clbsses
+     * thbt implement pbinting code.
      *
-     * @param c  the JComponent in question; if {@code null}, this method returns {@code null}
-     * @param r  the Rectangle instance to be modified;
-     *           may be {@code null}
+     * @pbrbm c  the JComponent in question; if {@code null}, this method returns {@code null}
+     * @pbrbm r  the Rectbngle instbnce to be modified;
+     *           mby be {@code null}
      * @return {@code null} if the Component is {@code null};
-     *         otherwise, returns the passed-in rectangle (if non-{@code null})
-     *         or a new rectangle specifying position and size information
+     *         otherwise, returns the pbssed-in rectbngle (if non-{@code null})
+     *         or b new rectbngle specifying position bnd size informbtion
      *
      * @since 1.4
      */
-    public static Rectangle calculateInnerArea(JComponent c, Rectangle r) {
+    public stbtic Rectbngle cblculbteInnerAreb(JComponent c, Rectbngle r) {
         if (c == null) {
             return null;
         }
-        Rectangle rect = r;
+        Rectbngle rect = r;
         Insets insets = c.getInsets();
 
         if (rect == null) {
-            rect = new Rectangle();
+            rect = new Rectbngle();
         }
 
         rect.x = insets.left;
@@ -2086,111 +2086,111 @@ public class SwingUtilities implements SwingConstants
         return rect;
     }
 
-    static void updateRendererOrEditorUI(Object rendererOrEditor) {
+    stbtic void updbteRendererOrEditorUI(Object rendererOrEditor) {
         if (rendererOrEditor == null) {
             return;
         }
 
         Component component = null;
 
-        if (rendererOrEditor instanceof Component) {
+        if (rendererOrEditor instbnceof Component) {
             component = (Component)rendererOrEditor;
         }
-        if (rendererOrEditor instanceof DefaultCellEditor) {
-            component = ((DefaultCellEditor)rendererOrEditor).getComponent();
+        if (rendererOrEditor instbnceof DefbultCellEditor) {
+            component = ((DefbultCellEditor)rendererOrEditor).getComponent();
         }
 
         if (component != null) {
-            SwingUtilities.updateComponentTreeUI(component);
+            SwingUtilities.updbteComponentTreeUI(component);
         }
     }
 
     /**
-     * Returns the first ancestor of the {@code component}
-     * which is not an instance of {@link JLayer}.
+     * Returns the first bncestor of the {@code component}
+     * which is not bn instbnce of {@link JLbyer}.
      *
-     * @param component {@code Component} to get
-     * the first ancestor of, which is not a {@link JLayer} instance.
+     * @pbrbm component {@code Component} to get
+     * the first bncestor of, which is not b {@link JLbyer} instbnce.
      *
-     * @return the first ancestor of the {@code component}
-     * which is not an instance of {@link JLayer}.
-     * If such an ancestor can not be found, {@code null} is returned.
+     * @return the first bncestor of the {@code component}
+     * which is not bn instbnce of {@link JLbyer}.
+     * If such bn bncestor cbn not be found, {@code null} is returned.
      *
      * @throws NullPointerException if {@code component} is {@code null}
-     * @see JLayer
+     * @see JLbyer
      *
      * @since 1.7
      */
-    public static Container getUnwrappedParent(Component component) {
-        Container parent = component.getParent();
-        while(parent instanceof JLayer) {
-            parent = parent.getParent();
+    public stbtic Contbiner getUnwrbppedPbrent(Component component) {
+        Contbiner pbrent = component.getPbrent();
+        while(pbrent instbnceof JLbyer) {
+            pbrent = pbrent.getPbrent();
         }
-        return parent;
+        return pbrent;
     }
 
     /**
-     * Returns the first {@code JViewport}'s descendant
-     * which is not an instance of {@code JLayer}.
-     * If such a descendant can not be found, {@code null} is returned.
+     * Returns the first {@code JViewport}'s descendbnt
+     * which is not bn instbnce of {@code JLbyer}.
+     * If such b descendbnt cbn not be found, {@code null} is returned.
      *
-     * If the {@code viewport}'s view component is not a {@code JLayer},
-     * this method is equivalent to {@link JViewport#getView()}
-     * otherwise {@link JLayer#getView()} will be recursively
-     * called on all descending {@code JLayer}s.
+     * If the {@code viewport}'s view component is not b {@code JLbyer},
+     * this method is equivblent to {@link JViewport#getView()}
+     * otherwise {@link JLbyer#getView()} will be recursively
+     * cblled on bll descending {@code JLbyer}s.
      *
-     * @param viewport {@code JViewport} to get the first descendant of,
-     * which in not a {@code JLayer} instance.
+     * @pbrbm viewport {@code JViewport} to get the first descendbnt of,
+     * which in not b {@code JLbyer} instbnce.
      *
-     * @return the first {@code JViewport}'s descendant
-     * which is not an instance of {@code JLayer}.
-     * If such a descendant can not be found, {@code null} is returned.
+     * @return the first {@code JViewport}'s descendbnt
+     * which is not bn instbnce of {@code JLbyer}.
+     * If such b descendbnt cbn not be found, {@code null} is returned.
      *
      * @throws NullPointerException if {@code viewport} is {@code null}
      * @see JViewport#getView()
-     * @see JLayer
+     * @see JLbyer
      *
      * @since 1.7
      */
-    public static Component getUnwrappedView(JViewport viewport) {
+    public stbtic Component getUnwrbppedView(JViewport viewport) {
         Component view = viewport.getView();
-        while (view instanceof JLayer) {
-            view = ((JLayer)view).getView();
+        while (view instbnceof JLbyer) {
+            view = ((JLbyer)view).getView();
         }
         return view;
     }
 
    /**
-     * Retrieves the validate root of a given container.
+     * Retrieves the vblidbte root of b given contbiner.
      *
-     * If the container is contained within a {@code CellRendererPane}, this
-     * method returns {@code null} due to the synthetic nature of the {@code
-     * CellRendererPane}.
+     * If the contbiner is contbined within b {@code CellRendererPbne}, this
+     * method returns {@code null} due to the synthetic nbture of the {@code
+     * CellRendererPbne}.
      * <p>
-     * The component hierarchy must be displayable up to the toplevel component
-     * (either a {@code Frame} or an {@code Applet} object.) Otherwise this
+     * The component hierbrchy must be displbybble up to the toplevel component
+     * (either b {@code Frbme} or bn {@code Applet} object.) Otherwise this
      * method returns {@code null}.
      * <p>
-     * If the {@code visibleOnly} argument is {@code true}, the found validate
-     * root and all its parents up to the toplevel component must also be
+     * If the {@code visibleOnly} brgument is {@code true}, the found vblidbte
+     * root bnd bll its pbrents up to the toplevel component must blso be
      * visible. Otherwise this method returns {@code null}.
      *
-     * @return the validate root of the given container or null
-     * @see java.awt.Component#isDisplayable()
-     * @see java.awt.Component#isVisible()
+     * @return the vblidbte root of the given contbiner or null
+     * @see jbvb.bwt.Component#isDisplbybble()
+     * @see jbvb.bwt.Component#isVisible()
      * @since 1.7
      */
-    static Container getValidateRoot(Container c, boolean visibleOnly) {
-        Container root = null;
+    stbtic Contbiner getVblidbteRoot(Contbiner c, boolebn visibleOnly) {
+        Contbiner root = null;
 
-        for (; c != null; c = c.getParent())
+        for (; c != null; c = c.getPbrent())
         {
-            if (!c.isDisplayable() || c instanceof CellRendererPane) {
+            if (!c.isDisplbybble() || c instbnceof CellRendererPbne) {
                 return null;
             }
-            if (c.isValidateRoot()) {
+            if (c.isVblidbteRoot()) {
                 root = c;
-                break;
+                brebk;
             }
         }
 
@@ -2198,11 +2198,11 @@ public class SwingUtilities implements SwingConstants
             return null;
         }
 
-        for (; c != null; c = c.getParent()) {
-            if (!c.isDisplayable() || (visibleOnly && !c.isVisible())) {
+        for (; c != null; c = c.getPbrent()) {
+            if (!c.isDisplbybble() || (visibleOnly && !c.isVisible())) {
                 return null;
             }
-            if (c instanceof Window || c instanceof Applet) {
+            if (c instbnceof Window || c instbnceof Applet) {
                 return root;
             }
         }

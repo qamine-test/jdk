@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.InputStream;
-import java.io.FilterInputStream;
-import java.io.PrintStream;
-import java.io.ByteArrayInputStream;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.io.InputStrebm;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
 
 /**
- * A transparent stream that updates the associated message digest using
- * the bits going through the stream.
+ * A trbnspbrent strebm thbt updbtes the bssocibted messbge digest using
+ * the bits going through the strebm.
  *
- * <p>To complete the message digest computation, call one of the
- * {@code digest} methods on the associated message
- * digest after your calls to one of this digest input stream's
- * {@link #read() read} methods.
+ * <p>To complete the messbge digest computbtion, cbll one of the
+ * {@code digest} methods on the bssocibted messbge
+ * digest bfter your cblls to one of this digest input strebm's
+ * {@link #rebd() rebd} methods.
  *
- * <p>It is possible to turn this stream on or off (see
- * {@link #on(boolean) on}). When it is on, a call to one of the
- * {@code read} methods
- * results in an update on the message digest.  But when it is off,
- * the message digest is not updated. The default is for the stream
+ * <p>It is possible to turn this strebm on or off (see
+ * {@link #on(boolebn) on}). When it is on, b cbll to one of the
+ * {@code rebd} methods
+ * results in bn updbte on the messbge digest.  But when it is off,
+ * the messbge digest is not updbted. The defbult is for the strebm
  * to be on.
  *
- * <p>Note that digest objects can compute only one digest (see
- * {@link MessageDigest}),
- * so that in order to compute intermediate digests, a caller should
- * retain a handle onto the digest object, and clone it for each
- * digest to be computed, leaving the orginal digest untouched.
+ * <p>Note thbt digest objects cbn compute only one digest (see
+ * {@link MessbgeDigest}),
+ * so thbt in order to compute intermedibte digests, b cbller should
+ * retbin b hbndle onto the digest object, bnd clone it for ebch
+ * digest to be computed, lebving the orginbl digest untouched.
  *
- * @see MessageDigest
+ * @see MessbgeDigest
  *
- * @see DigestOutputStream
+ * @see DigestOutputStrebm
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
 
-public class DigestInputStream extends FilterInputStream {
+public clbss DigestInputStrebm extends FilterInputStrebm {
 
-    /* NOTE: This should be made a generic UpdaterInputStream */
+    /* NOTE: This should be mbde b generic UpdbterInputStrebm */
 
     /* Are we on or off? */
-    private boolean on = true;
+    privbte boolebn on = true;
 
     /**
-     * The message digest associated with this stream.
+     * The messbge digest bssocibted with this strebm.
      */
-    protected MessageDigest digest;
+    protected MessbgeDigest digest;
 
     /**
-     * Creates a digest input stream, using the specified input stream
-     * and message digest.
+     * Crebtes b digest input strebm, using the specified input strebm
+     * bnd messbge digest.
      *
-     * @param stream the input stream.
+     * @pbrbm strebm the input strebm.
      *
-     * @param digest the message digest to associate with this stream.
+     * @pbrbm digest the messbge digest to bssocibte with this strebm.
      */
-    public DigestInputStream(InputStream stream, MessageDigest digest) {
-        super(stream);
-        setMessageDigest(digest);
+    public DigestInputStrebm(InputStrebm strebm, MessbgeDigest digest) {
+        super(strebm);
+        setMessbgeDigest(digest);
     }
 
     /**
-     * Returns the message digest associated with this stream.
+     * Returns the messbge digest bssocibted with this strebm.
      *
-     * @return the message digest associated with this stream.
-     * @see #setMessageDigest(java.security.MessageDigest)
+     * @return the messbge digest bssocibted with this strebm.
+     * @see #setMessbgeDigest(jbvb.security.MessbgeDigest)
      */
-    public MessageDigest getMessageDigest() {
+    public MessbgeDigest getMessbgeDigest() {
         return digest;
     }
 
     /**
-     * Associates the specified message digest with this stream.
+     * Associbtes the specified messbge digest with this strebm.
      *
-     * @param digest the message digest to be associated with this stream.
-     * @see #getMessageDigest()
+     * @pbrbm digest the messbge digest to be bssocibted with this strebm.
+     * @see #getMessbgeDigest()
      */
-    public void setMessageDigest(MessageDigest digest) {
+    public void setMessbgeDigest(MessbgeDigest digest) {
         this.digest = digest;
     }
 
     /**
-     * Reads a byte, and updates the message digest (if the digest
-     * function is on).  That is, this method reads a byte from the
-     * input stream, blocking until the byte is actually read. If the
-     * digest function is on (see {@link #on(boolean) on}), this method
-     * will then call {@code update} on the message digest associated
-     * with this stream, passing it the byte read.
+     * Rebds b byte, bnd updbtes the messbge digest (if the digest
+     * function is on).  Thbt is, this method rebds b byte from the
+     * input strebm, blocking until the byte is bctublly rebd. If the
+     * digest function is on (see {@link #on(boolebn) on}), this method
+     * will then cbll {@code updbte} on the messbge digest bssocibted
+     * with this strebm, pbssing it the byte rebd.
      *
-     * @return the byte read.
+     * @return the byte rebd.
      *
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      *
-     * @see MessageDigest#update(byte)
+     * @see MessbgeDigest#updbte(byte)
      */
-    public int read() throws IOException {
-        int ch = in.read();
+    public int rebd() throws IOException {
+        int ch = in.rebd();
         if (on && ch != -1) {
-            digest.update((byte)ch);
+            digest.updbte((byte)ch);
         }
         return ch;
     }
 
     /**
-     * Reads into a byte array, and updates the message digest (if the
-     * digest function is on).  That is, this method reads up to
-     * {@code len} bytes from the input stream into the array
-     * {@code b}, starting at offset {@code off}. This method
-     * blocks until the data is actually
-     * read. If the digest function is on (see
-     * {@link #on(boolean) on}), this method will then call {@code update}
-     * on the message digest associated with this stream, passing it
-     * the data.
+     * Rebds into b byte brrby, bnd updbtes the messbge digest (if the
+     * digest function is on).  Thbt is, this method rebds up to
+     * {@code len} bytes from the input strebm into the brrby
+     * {@code b}, stbrting bt offset {@code off}. This method
+     * blocks until the dbtb is bctublly
+     * rebd. If the digest function is on (see
+     * {@link #on(boolebn) on}), this method will then cbll {@code updbte}
+     * on the messbge digest bssocibted with this strebm, pbssing it
+     * the dbtb.
      *
-     * @param b the array into which the data is read.
+     * @pbrbm b the brrby into which the dbtb is rebd.
      *
-     * @param off the starting offset into {@code b} of where the
-     * data should be placed.
+     * @pbrbm off the stbrting offset into {@code b} of where the
+     * dbtb should be plbced.
      *
-     * @param len the maximum number of bytes to be read from the input
-     * stream into b, starting at offset {@code off}.
+     * @pbrbm len the mbximum number of bytes to be rebd from the input
+     * strebm into b, stbrting bt offset {@code off}.
      *
-     * @return  the actual number of bytes read. This is less than
-     * {@code len} if the end of the stream is reached prior to
-     * reading {@code len} bytes. -1 is returned if no bytes were
-     * read because the end of the stream had already been reached when
-     * the call was made.
+     * @return  the bctubl number of bytes rebd. This is less thbn
+     * {@code len} if the end of the strebm is rebched prior to
+     * rebding {@code len} bytes. -1 is returned if no bytes were
+     * rebd becbuse the end of the strebm hbd blrebdy been rebched when
+     * the cbll wbs mbde.
      *
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      *
-     * @see MessageDigest#update(byte[], int, int)
+     * @see MessbgeDigest#updbte(byte[], int, int)
      */
-    public int read(byte[] b, int off, int len) throws IOException {
-        int result = in.read(b, off, len);
+    public int rebd(byte[] b, int off, int len) throws IOException {
+        int result = in.rebd(b, off, len);
         if (on && result != -1) {
-            digest.update(b, off, result);
+            digest.updbte(b, off, result);
         }
         return result;
     }
 
     /**
-     * Turns the digest function on or off. The default is on.  When
-     * it is on, a call to one of the {@code read} methods results in an
-     * update on the message digest.  But when it is off, the message
-     * digest is not updated.
+     * Turns the digest function on or off. The defbult is on.  When
+     * it is on, b cbll to one of the {@code rebd} methods results in bn
+     * updbte on the messbge digest.  But when it is off, the messbge
+     * digest is not updbted.
      *
-     * @param on true to turn the digest function on, false to turn
+     * @pbrbm on true to turn the digest function on, fblse to turn
      * it off.
      */
-    public void on(boolean on) {
+    public void on(boolebn on) {
         this.on = on;
     }
 
     /**
-     * Prints a string representation of this digest input stream and
-     * its associated message digest object.
+     * Prints b string representbtion of this digest input strebm bnd
+     * its bssocibted messbge digest object.
      */
      public String toString() {
-         return "[Digest Input Stream] " + digest.toString();
+         return "[Digest Input Strebm] " + digest.toString();
      }
 }

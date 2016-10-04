@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.util.*;
-import java.security.cert.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.cert.*;
 import sun.security.x509.X509CertImpl;
 import sun.security.x509.X509CRLImpl;
 import sun.security.pkcs.PKCS7;
-import sun.security.provider.certpath.X509CertPath;
-import sun.security.provider.certpath.X509CertificatePair;
-import sun.security.util.DerValue;
-import sun.security.util.Cache;
-import java.util.Base64;
-import sun.security.pkcs.ParsingException;
+import sun.security.provider.certpbth.X509CertPbth;
+import sun.security.provider.certpbth.X509CertificbtePbir;
+import sun.security.util.DerVblue;
+import sun.security.util.Cbche;
+import jbvb.util.Bbse64;
+import sun.security.pkcs.PbrsingException;
 
 /**
- * This class defines a certificate factory for X.509 v3 certificates &
- * certification paths, and X.509 v2 certificate revocation lists (CRLs).
+ * This clbss defines b certificbte fbctory for X.509 v3 certificbtes &
+ * certificbtion pbths, bnd X.509 v2 certificbte revocbtion lists (CRLs).
  *
- * @author Jan Luehe
- * @author Hemma Prafullchandra
- * @author Sean Mullan
+ * @buthor Jbn Luehe
+ * @buthor Hemmb Prbfullchbndrb
+ * @buthor Sebn Mullbn
  *
  *
- * @see java.security.cert.CertificateFactorySpi
- * @see java.security.cert.Certificate
- * @see java.security.cert.CertPath
- * @see java.security.cert.CRL
- * @see java.security.cert.X509Certificate
- * @see java.security.cert.X509CRL
+ * @see jbvb.security.cert.CertificbteFbctorySpi
+ * @see jbvb.security.cert.Certificbte
+ * @see jbvb.security.cert.CertPbth
+ * @see jbvb.security.cert.CRL
+ * @see jbvb.security.cert.X509Certificbte
+ * @see jbvb.security.cert.X509CRL
  * @see sun.security.x509.X509CertImpl
  * @see sun.security.x509.X509CRLImpl
  */
 
-public class X509Factory extends CertificateFactorySpi {
+public clbss X509Fbctory extends CertificbteFbctorySpi {
 
-    public static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
-    public static final String END_CERT = "-----END CERTIFICATE-----";
+    public stbtic finbl String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
+    public stbtic finbl String END_CERT = "-----END CERTIFICATE-----";
 
-    private static final int ENC_MAX_LENGTH = 4096 * 1024; // 4 MB MAX
+    privbte stbtic finbl int ENC_MAX_LENGTH = 4096 * 1024; // 4 MB MAX
 
-    private static final Cache<Object, X509CertImpl> certCache
-        = Cache.newSoftMemoryCache(750);
-    private static final Cache<Object, X509CRLImpl> crlCache
-        = Cache.newSoftMemoryCache(750);
+    privbte stbtic finbl Cbche<Object, X509CertImpl> certCbche
+        = Cbche.newSoftMemoryCbche(750);
+    privbte stbtic finbl Cbche<Object, X509CRLImpl> crlCbche
+        = Cbche.newSoftMemoryCbche(750);
 
     /**
-     * Generates an X.509 certificate object and initializes it with
-     * the data read from the input stream <code>is</code>.
+     * Generbtes bn X.509 certificbte object bnd initiblizes it with
+     * the dbtb rebd from the input strebm <code>is</code>.
      *
-     * @param is an input stream with the certificate data.
+     * @pbrbm is bn input strebm with the certificbte dbtb.
      *
-     * @return an X.509 certificate object initialized with the data
-     * from the input stream.
+     * @return bn X.509 certificbte object initiblized with the dbtb
+     * from the input strebm.
      *
-     * @exception CertificateException on parsing errors.
+     * @exception CertificbteException on pbrsing errors.
      */
-    public Certificate engineGenerateCertificate(InputStream is)
-        throws CertificateException
+    public Certificbte engineGenerbteCertificbte(InputStrebm is)
+        throws CertificbteException
     {
         if (is == null) {
-            // clear the caches (for debugging)
-            certCache.clear();
-            X509CertificatePair.clearCache();
-            throw new CertificateException("Missing input stream");
+            // clebr the cbches (for debugging)
+            certCbche.clebr();
+            X509CertificbtePbir.clebrCbche();
+            throw new CertificbteException("Missing input strebm");
         }
         try {
-            byte[] encoding = readOneBlock(is);
+            byte[] encoding = rebdOneBlock(is);
             if (encoding != null) {
-                X509CertImpl cert = getFromCache(certCache, encoding);
+                X509CertImpl cert = getFromCbche(certCbche, encoding);
                 if (cert != null) {
                     return cert;
                 }
                 cert = new X509CertImpl(encoding);
-                addToCache(certCache, cert.getEncodedInternal(), cert);
+                bddToCbche(certCbche, cert.getEncodedInternbl(), cert);
                 return cert;
             } else {
                 throw new IOException("Empty input");
             }
-        } catch (IOException ioe) {
-            throw (CertificateException)new CertificateException
-            ("Could not parse certificate: " + ioe.toString()).initCause(ioe);
+        } cbtch (IOException ioe) {
+            throw (CertificbteException)new CertificbteException
+            ("Could not pbrse certificbte: " + ioe.toString()).initCbuse(ioe);
         }
     }
 
     /**
-     * Read from the stream until length bytes have been read or EOF has
-     * been reached. Return the number of bytes actually read.
+     * Rebd from the strebm until length bytes hbve been rebd or EOF hbs
+     * been rebched. Return the number of bytes bctublly rebd.
      */
-    private static int readFully(InputStream in, ByteArrayOutputStream bout,
+    privbte stbtic int rebdFully(InputStrebm in, ByteArrbyOutputStrebm bout,
             int length) throws IOException {
-        int read = 0;
+        int rebd = 0;
         byte[] buffer = new byte[2048];
         while (length > 0) {
-            int n = in.read(buffer, 0, length<2048?length:2048);
+            int n = in.rebd(buffer, 0, length<2048?length:2048);
             if (n <= 0) {
-                break;
+                brebk;
             }
             bout.write(buffer, 0, n);
-            read += n;
+            rebd += n;
             length -= n;
         }
-        return read;
+        return rebd;
     }
 
     /**
-     * Return an interned X509CertImpl for the given certificate.
-     * If the given X509Certificate or X509CertImpl is already present
-     * in the cert cache, the cached object is returned. Otherwise,
-     * if it is a X509Certificate, it is first converted to a X509CertImpl.
-     * Then the X509CertImpl is added to the cache and returned.
+     * Return bn interned X509CertImpl for the given certificbte.
+     * If the given X509Certificbte or X509CertImpl is blrebdy present
+     * in the cert cbche, the cbched object is returned. Otherwise,
+     * if it is b X509Certificbte, it is first converted to b X509CertImpl.
+     * Then the X509CertImpl is bdded to the cbche bnd returned.
      *
-     * Note that all certificates created via generateCertificate(InputStream)
-     * are already interned and this method does not need to be called.
-     * It is useful for certificates that cannot be created via
-     * generateCertificate() and for converting other X509Certificate
-     * implementations to an X509CertImpl.
+     * Note thbt bll certificbtes crebted vib generbteCertificbte(InputStrebm)
+     * bre blrebdy interned bnd this method does not need to be cblled.
+     * It is useful for certificbtes thbt cbnnot be crebted vib
+     * generbteCertificbte() bnd for converting other X509Certificbte
+     * implementbtions to bn X509CertImpl.
      */
-    public static synchronized X509CertImpl intern(X509Certificate c)
-            throws CertificateException {
+    public stbtic synchronized X509CertImpl intern(X509Certificbte c)
+            throws CertificbteException {
         if (c == null) {
             return null;
         }
-        boolean isImpl = c instanceof X509CertImpl;
+        boolebn isImpl = c instbnceof X509CertImpl;
         byte[] encoding;
         if (isImpl) {
-            encoding = ((X509CertImpl)c).getEncodedInternal();
+            encoding = ((X509CertImpl)c).getEncodedInternbl();
         } else {
             encoding = c.getEncoded();
         }
-        X509CertImpl newC = getFromCache(certCache, encoding);
+        X509CertImpl newC = getFromCbche(certCbche, encoding);
         if (newC != null) {
             return newC;
         }
@@ -161,29 +161,29 @@ public class X509Factory extends CertificateFactorySpi {
             newC = (X509CertImpl)c;
         } else {
             newC = new X509CertImpl(encoding);
-            encoding = newC.getEncodedInternal();
+            encoding = newC.getEncodedInternbl();
         }
-        addToCache(certCache, encoding, newC);
+        bddToCbche(certCbche, encoding, newC);
         return newC;
     }
 
     /**
-     * Return an interned X509CRLImpl for the given certificate.
-     * For more information, see intern(X509Certificate).
+     * Return bn interned X509CRLImpl for the given certificbte.
+     * For more informbtion, see intern(X509Certificbte).
      */
-    public static synchronized X509CRLImpl intern(X509CRL c)
+    public stbtic synchronized X509CRLImpl intern(X509CRL c)
             throws CRLException {
         if (c == null) {
             return null;
         }
-        boolean isImpl = c instanceof X509CRLImpl;
+        boolebn isImpl = c instbnceof X509CRLImpl;
         byte[] encoding;
         if (isImpl) {
-            encoding = ((X509CRLImpl)c).getEncodedInternal();
+            encoding = ((X509CRLImpl)c).getEncodedInternbl();
         } else {
             encoding = c.getEncoded();
         }
-        X509CRLImpl newC = getFromCache(crlCache, encoding);
+        X509CRLImpl newC = getFromCbche(crlCbche, encoding);
         if (newC != null) {
             return newC;
         }
@@ -191,467 +191,467 @@ public class X509Factory extends CertificateFactorySpi {
             newC = (X509CRLImpl)c;
         } else {
             newC = new X509CRLImpl(encoding);
-            encoding = newC.getEncodedInternal();
+            encoding = newC.getEncodedInternbl();
         }
-        addToCache(crlCache, encoding, newC);
+        bddToCbche(crlCbche, encoding, newC);
         return newC;
     }
 
     /**
-     * Get the X509CertImpl or X509CRLImpl from the cache.
+     * Get the X509CertImpl or X509CRLImpl from the cbche.
      */
-    private static synchronized <K,V> V getFromCache(Cache<K,V> cache,
+    privbte stbtic synchronized <K,V> V getFromCbche(Cbche<K,V> cbche,
             byte[] encoding) {
-        Object key = new Cache.EqualByteArray(encoding);
-        return cache.get(key);
+        Object key = new Cbche.EqublByteArrby(encoding);
+        return cbche.get(key);
     }
 
     /**
-     * Add the X509CertImpl or X509CRLImpl to the cache.
+     * Add the X509CertImpl or X509CRLImpl to the cbche.
      */
-    private static synchronized <V> void addToCache(Cache<Object, V> cache,
-            byte[] encoding, V value) {
+    privbte stbtic synchronized <V> void bddToCbche(Cbche<Object, V> cbche,
+            byte[] encoding, V vblue) {
         if (encoding.length > ENC_MAX_LENGTH) {
             return;
         }
-        Object key = new Cache.EqualByteArray(encoding);
-        cache.put(key, value);
+        Object key = new Cbche.EqublByteArrby(encoding);
+        cbche.put(key, vblue);
     }
 
     /**
-     * Generates a <code>CertPath</code> object and initializes it with
-     * the data read from the <code>InputStream</code> inStream. The data
-     * is assumed to be in the default encoding.
+     * Generbtes b <code>CertPbth</code> object bnd initiblizes it with
+     * the dbtb rebd from the <code>InputStrebm</code> inStrebm. The dbtb
+     * is bssumed to be in the defbult encoding.
      *
-     * @param inStream an <code>InputStream</code> containing the data
-     * @return a <code>CertPath</code> initialized with the data from the
-     *   <code>InputStream</code>
-     * @exception CertificateException if an exception occurs while decoding
+     * @pbrbm inStrebm bn <code>InputStrebm</code> contbining the dbtb
+     * @return b <code>CertPbth</code> initiblized with the dbtb from the
+     *   <code>InputStrebm</code>
+     * @exception CertificbteException if bn exception occurs while decoding
      * @since 1.4
      */
-    public CertPath engineGenerateCertPath(InputStream inStream)
-        throws CertificateException
+    public CertPbth engineGenerbteCertPbth(InputStrebm inStrebm)
+        throws CertificbteException
     {
-        if (inStream == null) {
-            throw new CertificateException("Missing input stream");
+        if (inStrebm == null) {
+            throw new CertificbteException("Missing input strebm");
         }
         try {
-            byte[] encoding = readOneBlock(inStream);
+            byte[] encoding = rebdOneBlock(inStrebm);
             if (encoding != null) {
-                return new X509CertPath(new ByteArrayInputStream(encoding));
+                return new X509CertPbth(new ByteArrbyInputStrebm(encoding));
             } else {
                 throw new IOException("Empty input");
             }
-        } catch (IOException ioe) {
-            throw new CertificateException(ioe.getMessage());
+        } cbtch (IOException ioe) {
+            throw new CertificbteException(ioe.getMessbge());
         }
     }
 
     /**
-     * Generates a <code>CertPath</code> object and initializes it with
-     * the data read from the <code>InputStream</code> inStream. The data
-     * is assumed to be in the specified encoding.
+     * Generbtes b <code>CertPbth</code> object bnd initiblizes it with
+     * the dbtb rebd from the <code>InputStrebm</code> inStrebm. The dbtb
+     * is bssumed to be in the specified encoding.
      *
-     * @param inStream an <code>InputStream</code> containing the data
-     * @param encoding the encoding used for the data
-     * @return a <code>CertPath</code> initialized with the data from the
-     *   <code>InputStream</code>
-     * @exception CertificateException if an exception occurs while decoding or
+     * @pbrbm inStrebm bn <code>InputStrebm</code> contbining the dbtb
+     * @pbrbm encoding the encoding used for the dbtb
+     * @return b <code>CertPbth</code> initiblized with the dbtb from the
+     *   <code>InputStrebm</code>
+     * @exception CertificbteException if bn exception occurs while decoding or
      *   the encoding requested is not supported
      * @since 1.4
      */
-    public CertPath engineGenerateCertPath(InputStream inStream,
-        String encoding) throws CertificateException
+    public CertPbth engineGenerbteCertPbth(InputStrebm inStrebm,
+        String encoding) throws CertificbteException
     {
-        if (inStream == null) {
-            throw new CertificateException("Missing input stream");
+        if (inStrebm == null) {
+            throw new CertificbteException("Missing input strebm");
         }
         try {
-            byte[] data = readOneBlock(inStream);
-            if (data != null) {
-                return new X509CertPath(new ByteArrayInputStream(data), encoding);
+            byte[] dbtb = rebdOneBlock(inStrebm);
+            if (dbtb != null) {
+                return new X509CertPbth(new ByteArrbyInputStrebm(dbtb), encoding);
             } else {
                 throw new IOException("Empty input");
             }
-        } catch (IOException ioe) {
-            throw new CertificateException(ioe.getMessage());
+        } cbtch (IOException ioe) {
+            throw new CertificbteException(ioe.getMessbge());
         }
     }
 
     /**
-     * Generates a <code>CertPath</code> object and initializes it with
-     * a <code>List</code> of <code>Certificate</code>s.
+     * Generbtes b <code>CertPbth</code> object bnd initiblizes it with
+     * b <code>List</code> of <code>Certificbte</code>s.
      * <p>
-     * The certificates supplied must be of a type supported by the
-     * <code>CertificateFactory</code>. They will be copied out of the supplied
+     * The certificbtes supplied must be of b type supported by the
+     * <code>CertificbteFbctory</code>. They will be copied out of the supplied
      * <code>List</code> object.
      *
-     * @param certificates a <code>List</code> of <code>Certificate</code>s
-     * @return a <code>CertPath</code> initialized with the supplied list of
-     *   certificates
-     * @exception CertificateException if an exception occurs
+     * @pbrbm certificbtes b <code>List</code> of <code>Certificbte</code>s
+     * @return b <code>CertPbth</code> initiblized with the supplied list of
+     *   certificbtes
+     * @exception CertificbteException if bn exception occurs
      * @since 1.4
      */
-    public CertPath
-        engineGenerateCertPath(List<? extends Certificate> certificates)
-        throws CertificateException
+    public CertPbth
+        engineGenerbteCertPbth(List<? extends Certificbte> certificbtes)
+        throws CertificbteException
     {
-        return(new X509CertPath(certificates));
+        return(new X509CertPbth(certificbtes));
     }
 
     /**
-     * Returns an iteration of the <code>CertPath</code> encodings supported
-     * by this certificate factory, with the default encoding first.
+     * Returns bn iterbtion of the <code>CertPbth</code> encodings supported
+     * by this certificbte fbctory, with the defbult encoding first.
      * <p>
-     * Attempts to modify the returned <code>Iterator</code> via its
-     * <code>remove</code> method result in an
-     * <code>UnsupportedOperationException</code>.
+     * Attempts to modify the returned <code>Iterbtor</code> vib its
+     * <code>remove</code> method result in bn
+     * <code>UnsupportedOperbtionException</code>.
      *
-     * @return an <code>Iterator</code> over the names of the supported
-     *         <code>CertPath</code> encodings (as <code>String</code>s)
+     * @return bn <code>Iterbtor</code> over the nbmes of the supported
+     *         <code>CertPbth</code> encodings (bs <code>String</code>s)
      * @since 1.4
      */
-    public Iterator<String> engineGetCertPathEncodings() {
-        return(X509CertPath.getEncodingsStatic());
+    public Iterbtor<String> engineGetCertPbthEncodings() {
+        return(X509CertPbth.getEncodingsStbtic());
     }
 
     /**
-     * Returns a (possibly empty) collection view of X.509 certificates read
-     * from the given input stream <code>is</code>.
+     * Returns b (possibly empty) collection view of X.509 certificbtes rebd
+     * from the given input strebm <code>is</code>.
      *
-     * @param is the input stream with the certificates.
+     * @pbrbm is the input strebm with the certificbtes.
      *
-     * @return a (possibly empty) collection view of X.509 certificate objects
-     * initialized with the data from the input stream.
+     * @return b (possibly empty) collection view of X.509 certificbte objects
+     * initiblized with the dbtb from the input strebm.
      *
-     * @exception CertificateException on parsing errors.
+     * @exception CertificbteException on pbrsing errors.
      */
-    public Collection<? extends java.security.cert.Certificate>
-            engineGenerateCertificates(InputStream is)
-            throws CertificateException {
+    public Collection<? extends jbvb.security.cert.Certificbte>
+            engineGenerbteCertificbtes(InputStrebm is)
+            throws CertificbteException {
         if (is == null) {
-            throw new CertificateException("Missing input stream");
+            throw new CertificbteException("Missing input strebm");
         }
         try {
-            return parseX509orPKCS7Cert(is);
-        } catch (IOException ioe) {
-            throw new CertificateException(ioe);
+            return pbrseX509orPKCS7Cert(is);
+        } cbtch (IOException ioe) {
+            throw new CertificbteException(ioe);
         }
     }
 
     /**
-     * Generates an X.509 certificate revocation list (CRL) object and
-     * initializes it with the data read from the given input stream
+     * Generbtes bn X.509 certificbte revocbtion list (CRL) object bnd
+     * initiblizes it with the dbtb rebd from the given input strebm
      * <code>is</code>.
      *
-     * @param is an input stream with the CRL data.
+     * @pbrbm is bn input strebm with the CRL dbtb.
      *
-     * @return an X.509 CRL object initialized with the data
-     * from the input stream.
+     * @return bn X.509 CRL object initiblized with the dbtb
+     * from the input strebm.
      *
-     * @exception CRLException on parsing errors.
+     * @exception CRLException on pbrsing errors.
      */
-    public CRL engineGenerateCRL(InputStream is)
+    public CRL engineGenerbteCRL(InputStrebm is)
         throws CRLException
     {
         if (is == null) {
-            // clear the cache (for debugging)
-            crlCache.clear();
-            throw new CRLException("Missing input stream");
+            // clebr the cbche (for debugging)
+            crlCbche.clebr();
+            throw new CRLException("Missing input strebm");
         }
         try {
-            byte[] encoding = readOneBlock(is);
+            byte[] encoding = rebdOneBlock(is);
             if (encoding != null) {
-                X509CRLImpl crl = getFromCache(crlCache, encoding);
+                X509CRLImpl crl = getFromCbche(crlCbche, encoding);
                 if (crl != null) {
                     return crl;
                 }
                 crl = new X509CRLImpl(encoding);
-                addToCache(crlCache, crl.getEncodedInternal(), crl);
+                bddToCbche(crlCbche, crl.getEncodedInternbl(), crl);
                 return crl;
             } else {
                 throw new IOException("Empty input");
             }
-        } catch (IOException ioe) {
-            throw new CRLException(ioe.getMessage());
+        } cbtch (IOException ioe) {
+            throw new CRLException(ioe.getMessbge());
         }
     }
 
     /**
-     * Returns a (possibly empty) collection view of X.509 CRLs read
-     * from the given input stream <code>is</code>.
+     * Returns b (possibly empty) collection view of X.509 CRLs rebd
+     * from the given input strebm <code>is</code>.
      *
-     * @param is the input stream with the CRLs.
+     * @pbrbm is the input strebm with the CRLs.
      *
-     * @return a (possibly empty) collection view of X.509 CRL objects
-     * initialized with the data from the input stream.
+     * @return b (possibly empty) collection view of X.509 CRL objects
+     * initiblized with the dbtb from the input strebm.
      *
-     * @exception CRLException on parsing errors.
+     * @exception CRLException on pbrsing errors.
      */
-    public Collection<? extends java.security.cert.CRL> engineGenerateCRLs(
-            InputStream is) throws CRLException
+    public Collection<? extends jbvb.security.cert.CRL> engineGenerbteCRLs(
+            InputStrebm is) throws CRLException
     {
         if (is == null) {
-            throw new CRLException("Missing input stream");
+            throw new CRLException("Missing input strebm");
         }
         try {
-            return parseX509orPKCS7CRL(is);
-        } catch (IOException ioe) {
-            throw new CRLException(ioe.getMessage());
+            return pbrseX509orPKCS7CRL(is);
+        } cbtch (IOException ioe) {
+            throw new CRLException(ioe.getMessbge());
         }
     }
 
     /*
-     * Parses the data in the given input stream as a sequence of DER
-     * encoded X.509 certificates (in binary or base 64 encoded format) OR
-     * as a single PKCS#7 encoded blob (in binary or base64 encoded format).
+     * Pbrses the dbtb in the given input strebm bs b sequence of DER
+     * encoded X.509 certificbtes (in binbry or bbse 64 encoded formbt) OR
+     * bs b single PKCS#7 encoded blob (in binbry or bbse64 encoded formbt).
      */
-    private Collection<? extends java.security.cert.Certificate>
-        parseX509orPKCS7Cert(InputStream is)
-        throws CertificateException, IOException
+    privbte Collection<? extends jbvb.security.cert.Certificbte>
+        pbrseX509orPKCS7Cert(InputStrebm is)
+        throws CertificbteException, IOException
     {
-        Collection<X509CertImpl> coll = new ArrayList<>();
-        byte[] data = readOneBlock(is);
-        if (data == null) {
-            return new ArrayList<>(0);
+        Collection<X509CertImpl> coll = new ArrbyList<>();
+        byte[] dbtb = rebdOneBlock(is);
+        if (dbtb == null) {
+            return new ArrbyList<>(0);
         }
         try {
-            PKCS7 pkcs7 = new PKCS7(data);
-            X509Certificate[] certs = pkcs7.getCertificates();
-            // certs are optional in PKCS #7
+            PKCS7 pkcs7 = new PKCS7(dbtb);
+            X509Certificbte[] certs = pkcs7.getCertificbtes();
+            // certs bre optionbl in PKCS #7
             if (certs != null) {
-                return Arrays.asList(certs);
+                return Arrbys.bsList(certs);
             } else {
                 // no crls provided
-                return new ArrayList<>(0);
+                return new ArrbyList<>(0);
             }
-        } catch (ParsingException e) {
-            while (data != null) {
-                coll.add(new X509CertImpl(data));
-                data = readOneBlock(is);
+        } cbtch (PbrsingException e) {
+            while (dbtb != null) {
+                coll.bdd(new X509CertImpl(dbtb));
+                dbtb = rebdOneBlock(is);
             }
         }
         return coll;
     }
 
     /*
-     * Parses the data in the given input stream as a sequence of DER encoded
-     * X.509 CRLs (in binary or base 64 encoded format) OR as a single PKCS#7
-     * encoded blob (in binary or base 64 encoded format).
+     * Pbrses the dbtb in the given input strebm bs b sequence of DER encoded
+     * X.509 CRLs (in binbry or bbse 64 encoded formbt) OR bs b single PKCS#7
+     * encoded blob (in binbry or bbse 64 encoded formbt).
      */
-    private Collection<? extends java.security.cert.CRL>
-        parseX509orPKCS7CRL(InputStream is)
+    privbte Collection<? extends jbvb.security.cert.CRL>
+        pbrseX509orPKCS7CRL(InputStrebm is)
         throws CRLException, IOException
     {
-        Collection<X509CRLImpl> coll = new ArrayList<>();
-        byte[] data = readOneBlock(is);
-        if (data == null) {
-            return new ArrayList<>(0);
+        Collection<X509CRLImpl> coll = new ArrbyList<>();
+        byte[] dbtb = rebdOneBlock(is);
+        if (dbtb == null) {
+            return new ArrbyList<>(0);
         }
         try {
-            PKCS7 pkcs7 = new PKCS7(data);
+            PKCS7 pkcs7 = new PKCS7(dbtb);
             X509CRL[] crls = pkcs7.getCRLs();
-            // CRLs are optional in PKCS #7
+            // CRLs bre optionbl in PKCS #7
             if (crls != null) {
-                return Arrays.asList(crls);
+                return Arrbys.bsList(crls);
             } else {
                 // no crls provided
-                return new ArrayList<>(0);
+                return new ArrbyList<>(0);
             }
-        } catch (ParsingException e) {
-            while (data != null) {
-                coll.add(new X509CRLImpl(data));
-                data = readOneBlock(is);
+        } cbtch (PbrsingException e) {
+            while (dbtb != null) {
+                coll.bdd(new X509CRLImpl(dbtb));
+                dbtb = rebdOneBlock(is);
             }
         }
         return coll;
     }
 
     /**
-     * Returns an ASN.1 SEQUENCE from a stream, which might be a BER-encoded
-     * binary block or a PEM-style BASE64-encoded ASCII data. In the latter
-     * case, it's de-BASE64'ed before return.
+     * Returns bn ASN.1 SEQUENCE from b strebm, which might be b BER-encoded
+     * binbry block or b PEM-style BASE64-encoded ASCII dbtb. In the lbtter
+     * cbse, it's de-BASE64'ed before return.
      *
-     * After the reading, the input stream pointer is after the BER block, or
-     * after the newline character after the -----END SOMETHING----- line.
+     * After the rebding, the input strebm pointer is bfter the BER block, or
+     * bfter the newline chbrbcter bfter the -----END SOMETHING----- line.
      *
-     * @param is the InputStream
-     * @returns byte block or null if end of stream
-     * @throws IOException If any parsing error
+     * @pbrbm is the InputStrebm
+     * @returns byte block or null if end of strebm
+     * @throws IOException If bny pbrsing error
      */
-    private static byte[] readOneBlock(InputStream is) throws IOException {
+    privbte stbtic byte[] rebdOneBlock(InputStrebm is) throws IOException {
 
-        // The first character of a BLOCK.
-        int c = is.read();
+        // The first chbrbcter of b BLOCK.
+        int c = is.rebd();
         if (c == -1) {
             return null;
         }
-        if (c == DerValue.tag_Sequence) {
-            ByteArrayOutputStream bout = new ByteArrayOutputStream(2048);
+        if (c == DerVblue.tbg_Sequence) {
+            ByteArrbyOutputStrebm bout = new ByteArrbyOutputStrebm(2048);
             bout.write(c);
-            readBERInternal(is, bout, c);
-            return bout.toByteArray();
+            rebdBERInternbl(is, bout, c);
+            return bout.toByteArrby();
         } else {
-            // Read BASE64 encoded data, might skip info at the beginning
-            char[] data = new char[2048];
+            // Rebd BASE64 encoded dbtb, might skip info bt the beginning
+            chbr[] dbtb = new chbr[2048];
             int pos = 0;
 
-            // Step 1: Read until header is found
+            // Step 1: Rebd until hebder is found
             int hyphen = (c=='-') ? 1: 0;   // count of consequent hyphens
-            int last = (c=='-') ? -1: c;    // the char before hyphen
+            int lbst = (c=='-') ? -1: c;    // the chbr before hyphen
             while (true) {
-                int next = is.read();
+                int next = is.rebd();
                 if (next == -1) {
-                    // We accept useless data after the last block,
-                    // say, empty lines.
+                    // We bccept useless dbtb bfter the lbst block,
+                    // sby, empty lines.
                     return null;
                 }
                 if (next == '-') {
                     hyphen++;
                 } else {
                     hyphen = 0;
-                    last = next;
+                    lbst = next;
                 }
-                if (hyphen == 5 && (last == -1 || last == '\r' || last == '\n')) {
-                    break;
+                if (hyphen == 5 && (lbst == -1 || lbst == '\r' || lbst == '\n')) {
+                    brebk;
                 }
             }
 
-            // Step 2: Read the rest of header, determine the line end
+            // Step 2: Rebd the rest of hebder, determine the line end
             int end;
-            StringBuilder header = new StringBuilder("-----");
+            StringBuilder hebder = new StringBuilder("-----");
             while (true) {
-                int next = is.read();
+                int next = is.rebd();
                 if (next == -1) {
-                    throw new IOException("Incomplete data");
+                    throw new IOException("Incomplete dbtb");
                 }
                 if (next == '\n') {
                     end = '\n';
-                    break;
+                    brebk;
                 }
                 if (next == '\r') {
-                    next = is.read();
+                    next = is.rebd();
                     if (next == -1) {
-                        throw new IOException("Incomplete data");
+                        throw new IOException("Incomplete dbtb");
                     }
                     if (next == '\n') {
                         end = '\n';
                     } else {
                         end = '\r';
-                        data[pos++] = (char)next;
+                        dbtb[pos++] = (chbr)next;
                     }
-                    break;
+                    brebk;
                 }
-                header.append((char)next);
+                hebder.bppend((chbr)next);
             }
 
-            // Step 3: Read the data
+            // Step 3: Rebd the dbtb
             while (true) {
-                int next = is.read();
+                int next = is.rebd();
                 if (next == -1) {
-                    throw new IOException("Incomplete data");
+                    throw new IOException("Incomplete dbtb");
                 }
                 if (next != '-') {
-                    data[pos++] = (char)next;
-                    if (pos >= data.length) {
-                        data = Arrays.copyOf(data, data.length+1024);
+                    dbtb[pos++] = (chbr)next;
+                    if (pos >= dbtb.length) {
+                        dbtb = Arrbys.copyOf(dbtb, dbtb.length+1024);
                     }
                 } else {
-                    break;
+                    brebk;
                 }
             }
 
             // Step 4: Consume the footer
             StringBuilder footer = new StringBuilder("-");
             while (true) {
-                int next = is.read();
-                // Add next == '\n' for maximum safety, in case endline
+                int next = is.rebd();
+                // Add next == '\n' for mbximum sbfety, in cbse endline
                 // is not consistent.
                 if (next == -1 || next == end || next == '\n') {
-                    break;
+                    brebk;
                 }
-                if (next != '\r') footer.append((char)next);
+                if (next != '\r') footer.bppend((chbr)next);
             }
 
-            checkHeaderFooter(header.toString(), footer.toString());
+            checkHebderFooter(hebder.toString(), footer.toString());
 
-            return Base64.getMimeDecoder().decode(new String(data, 0, pos));
+            return Bbse64.getMimeDecoder().decode(new String(dbtb, 0, pos));
         }
     }
 
-    private static void checkHeaderFooter(String header,
+    privbte stbtic void checkHebderFooter(String hebder,
             String footer) throws IOException {
-        if (header.length() < 16 || !header.startsWith("-----BEGIN ") ||
-                !header.endsWith("-----")) {
-            throw new IOException("Illegal header: " + header);
+        if (hebder.length() < 16 || !hebder.stbrtsWith("-----BEGIN ") ||
+                !hebder.endsWith("-----")) {
+            throw new IOException("Illegbl hebder: " + hebder);
         }
-        if (footer.length() < 14 || !footer.startsWith("-----END ") ||
+        if (footer.length() < 14 || !footer.stbrtsWith("-----END ") ||
                 !footer.endsWith("-----")) {
-            throw new IOException("Illegal footer: " + footer);
+            throw new IOException("Illegbl footer: " + footer);
         }
-        String headerType = header.substring(11, header.length()-5);
+        String hebderType = hebder.substring(11, hebder.length()-5);
         String footerType = footer.substring(9, footer.length()-5);
-        if (!headerType.equals(footerType)) {
-            throw new IOException("Header and footer do not match: " +
-                    header + " " + footer);
+        if (!hebderType.equbls(footerType)) {
+            throw new IOException("Hebder bnd footer do not mbtch: " +
+                    hebder + " " + footer);
         }
     }
 
     /**
-     * Read one BER data block. This method is aware of indefinite-length BER
-     * encoding and will read all of the sub-sections in a recursive way
+     * Rebd one BER dbtb block. This method is bwbre of indefinite-length BER
+     * encoding bnd will rebd bll of the sub-sections in b recursive wby
      *
-     * @param is    Read from this InputStream
-     * @param bout  Write into this OutputStream
-     * @param tag   Tag already read (-1 mean not read)
-     * @returns     The current tag, used to check EOC in indefinite-length BER
-     * @throws IOException Any parsing error
+     * @pbrbm is    Rebd from this InputStrebm
+     * @pbrbm bout  Write into this OutputStrebm
+     * @pbrbm tbg   Tbg blrebdy rebd (-1 mebn not rebd)
+     * @returns     The current tbg, used to check EOC in indefinite-length BER
+     * @throws IOException Any pbrsing error
      */
-    private static int readBERInternal(InputStream is,
-            ByteArrayOutputStream bout, int tag) throws IOException {
+    privbte stbtic int rebdBERInternbl(InputStrebm is,
+            ByteArrbyOutputStrebm bout, int tbg) throws IOException {
 
-        if (tag == -1) {        // Not read before the call, read now
-            tag = is.read();
-            if (tag == -1) {
-                throw new IOException("BER/DER tag info absent");
+        if (tbg == -1) {        // Not rebd before the cbll, rebd now
+            tbg = is.rebd();
+            if (tbg == -1) {
+                throw new IOException("BER/DER tbg info bbsent");
             }
-            if ((tag & 0x1f) == 0x1f) {
-                throw new IOException("Multi octets tag not supported");
+            if ((tbg & 0x1f) == 0x1f) {
+                throw new IOException("Multi octets tbg not supported");
             }
-            bout.write(tag);
+            bout.write(tbg);
         }
 
-        int n = is.read();
+        int n = is.rebd();
         if (n == -1) {
-            throw new IOException("BER/DER length info ansent");
+            throw new IOException("BER/DER length info bnsent");
         }
         bout.write(n);
 
         int length;
 
         if (n == 0x80) {        // Indefinite-length encoding
-            if ((tag & 0x20) != 0x20) {
+            if ((tbg & 0x20) != 0x20) {
                 throw new IOException(
-                        "Non constructed encoding must have definite length");
+                        "Non constructed encoding must hbve definite length");
             }
             while (true) {
-                int subTag = readBERInternal(is, bout, -1);
-                if (subTag == 0) {   // EOC, end of indefinite-length section
-                    break;
+                int subTbg = rebdBERInternbl(is, bout, -1);
+                if (subTbg == 0) {   // EOC, end of indefinite-length section
+                    brebk;
                 }
             }
         } else {
             if (n < 0x80) {
                 length = n;
             } else if (n == 0x81) {
-                length = is.read();
+                length = is.rebd();
                 if (length == -1) {
                     throw new IOException("Incomplete BER/DER length info");
                 }
                 bout.write(length);
             } else if (n == 0x82) {
-                int highByte = is.read();
-                int lowByte = is.read();
+                int highByte = is.rebd();
+                int lowByte = is.rebd();
                 if (lowByte == -1) {
                     throw new IOException("Incomplete BER/DER length info");
                 }
@@ -659,9 +659,9 @@ public class X509Factory extends CertificateFactorySpi {
                 bout.write(lowByte);
                 length = (highByte << 8) | lowByte;
             } else if (n == 0x83) {
-                int highByte = is.read();
-                int midByte = is.read();
-                int lowByte = is.read();
+                int highByte = is.rebd();
+                int midByte = is.rebd();
+                int lowByte = is.rebd();
                 if (lowByte == -1) {
                     throw new IOException("Incomplete BER/DER length info");
                 }
@@ -670,15 +670,15 @@ public class X509Factory extends CertificateFactorySpi {
                 bout.write(lowByte);
                 length = (highByte << 16) | (midByte << 8) | lowByte;
             } else if (n == 0x84) {
-                int highByte = is.read();
-                int nextByte = is.read();
-                int midByte = is.read();
-                int lowByte = is.read();
+                int highByte = is.rebd();
+                int nextByte = is.rebd();
+                int midByte = is.rebd();
+                int lowByte = is.rebd();
                 if (lowByte == -1) {
                     throw new IOException("Incomplete BER/DER length info");
                 }
                 if (highByte > 127) {
-                    throw new IOException("Invalid BER/DER data (a little huge?)");
+                    throw new IOException("Invblid BER/DER dbtb (b little huge?)");
                 }
                 bout.write(highByte);
                 bout.write(nextByte);
@@ -687,12 +687,12 @@ public class X509Factory extends CertificateFactorySpi {
                 length = (highByte << 24 ) | (nextByte << 16) |
                         (midByte << 8) | lowByte;
             } else { // ignore longer length forms
-                throw new IOException("Invalid BER/DER data (too huge?)");
+                throw new IOException("Invblid BER/DER dbtb (too huge?)");
             }
-            if (readFully(is, bout, length) != length) {
-                throw new IOException("Incomplete BER/DER data");
+            if (rebdFully(is, bout, length) != length) {
+                throw new IOException("Incomplete BER/DER dbtb");
             }
         }
-        return tag;
+        return tbg;
     }
 }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jps;
+pbckbge sun.tools.jps;
 
-import java.util.*;
-import java.net.*;
-import sun.jvmstat.monitor.*;
+import jbvb.util.*;
+import jbvb.net.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * Application to provide a listing of monitorable java processes.
+ * Applicbtion to provide b listing of monitorbble jbvb processes.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Jps {
+public clbss Jps {
 
-    private static Arguments arguments;
+    privbte stbtic Arguments brguments;
 
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            arguments = new Arguments(args);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-            Arguments.printUsage(System.err);
+            brguments = new Arguments(brgs);
+        } cbtch (IllegblArgumentException e) {
+            System.err.println(e.getMessbge());
+            Arguments.printUsbge(System.err);
             System.exit(1);
         }
 
-        if (arguments.isHelp()) {
-            Arguments.printUsage(System.err);
+        if (brguments.isHelp()) {
+            Arguments.printUsbge(System.err);
             System.exit(0);
         }
 
         try {
-            HostIdentifier hostId = arguments.hostId();
+            HostIdentifier hostId = brguments.hostId();
             MonitoredHost monitoredHost =
                     MonitoredHost.getMonitoredHost(hostId);
 
-            // get the set active JVMs on the specified host.
-            Set<Integer> jvms = monitoredHost.activeVms();
+            // get the set bctive JVMs on the specified host.
+            Set<Integer> jvms = monitoredHost.bctiveVms();
 
             for (Integer jvm: jvms) {
                 StringBuilder output = new StringBuilder();
-                Throwable lastError = null;
+                Throwbble lbstError = null;
 
                 int lvmid = jvm;
 
-                output.append(String.valueOf(lvmid));
+                output.bppend(String.vblueOf(lvmid));
 
-                if (arguments.isQuiet()) {
+                if (brguments.isQuiet()) {
                     System.out.println(output);
                     continue;
                 }
@@ -80,89 +80,89 @@ public class Jps {
                 String errorString = null;
 
                 try {
-                    // Note: The VM associated with the current VM id may
-                    // no longer be running so these queries may fail. We
-                    // already added the VM id to the output stream above.
-                    // If one of the queries fails, then we try to add a
-                    // reasonable message to indicate that the requested
-                    // info is not available.
+                    // Note: The VM bssocibted with the current VM id mby
+                    // no longer be running so these queries mby fbil. We
+                    // blrebdy bdded the VM id to the output strebm bbove.
+                    // If one of the queries fbils, then we try to bdd b
+                    // rebsonbble messbge to indicbte thbt the requested
+                    // info is not bvbilbble.
 
-                    errorString = " -- process information unavailable";
+                    errorString = " -- process informbtion unbvbilbble";
                     VmIdentifier id = new VmIdentifier(vmidString);
                     vm = monitoredHost.getMonitoredVm(id, 0);
 
-                    errorString = " -- main class information unavailable";
-                    output.append(" " + MonitoredVmUtil.mainClass(vm,
-                            arguments.showLongPaths()));
+                    errorString = " -- mbin clbss informbtion unbvbilbble";
+                    output.bppend(" " + MonitoredVmUtil.mbinClbss(vm,
+                            brguments.showLongPbths()));
 
-                    if (arguments.showMainArgs()) {
-                        errorString = " -- main args information unavailable";
-                        String mainArgs = MonitoredVmUtil.mainArgs(vm);
-                        if (mainArgs != null && mainArgs.length() > 0) {
-                            output.append(" " + mainArgs);
+                    if (brguments.showMbinArgs()) {
+                        errorString = " -- mbin brgs informbtion unbvbilbble";
+                        String mbinArgs = MonitoredVmUtil.mbinArgs(vm);
+                        if (mbinArgs != null && mbinArgs.length() > 0) {
+                            output.bppend(" " + mbinArgs);
                         }
                     }
-                    if (arguments.showVmArgs()) {
-                        errorString = " -- jvm args information unavailable";
+                    if (brguments.showVmArgs()) {
+                        errorString = " -- jvm brgs informbtion unbvbilbble";
                         String jvmArgs = MonitoredVmUtil.jvmArgs(vm);
                         if (jvmArgs != null && jvmArgs.length() > 0) {
-                          output.append(" " + jvmArgs);
+                          output.bppend(" " + jvmArgs);
                         }
                     }
-                    if (arguments.showVmFlags()) {
-                        errorString = " -- jvm flags information unavailable";
-                        String jvmFlags = MonitoredVmUtil.jvmFlags(vm);
-                        if (jvmFlags != null && jvmFlags.length() > 0) {
-                            output.append(" " + jvmFlags);
+                    if (brguments.showVmFlbgs()) {
+                        errorString = " -- jvm flbgs informbtion unbvbilbble";
+                        String jvmFlbgs = MonitoredVmUtil.jvmFlbgs(vm);
+                        if (jvmFlbgs != null && jvmFlbgs.length() > 0) {
+                            output.bppend(" " + jvmFlbgs);
                         }
                     }
 
-                    errorString = " -- detach failed";
-                    monitoredHost.detach(vm);
+                    errorString = " -- detbch fbiled";
+                    monitoredHost.detbch(vm);
 
                     System.out.println(output);
 
                     errorString = null;
-                } catch (URISyntaxException e) {
-                    // unexpected as vmidString is based on a validated hostid
-                    lastError = e;
-                    assert false;
-                } catch (Exception e) {
-                    lastError = e;
-                } finally {
+                } cbtch (URISyntbxException e) {
+                    // unexpected bs vmidString is bbsed on b vblidbted hostid
+                    lbstError = e;
+                    bssert fblse;
+                } cbtch (Exception e) {
+                    lbstError = e;
+                } finblly {
                     if (errorString != null) {
                         /*
-                         * we ignore most exceptions, as there are race
-                         * conditions where a JVM in 'jvms' may terminate
-                         * before we get a chance to list its information.
-                         * Other errors, such as access and I/O exceptions
-                         * should stop us from iterating over the complete set.
+                         * we ignore most exceptions, bs there bre rbce
+                         * conditions where b JVM in 'jvms' mby terminbte
+                         * before we get b chbnce to list its informbtion.
+                         * Other errors, such bs bccess bnd I/O exceptions
+                         * should stop us from iterbting over the complete set.
                          */
-                        output.append(errorString);
-                        if (arguments.isDebug()) {
-                            if ((lastError != null)
-                                    && (lastError.getMessage() != null)) {
-                                output.append("\n\t");
-                                output.append(lastError.getMessage());
+                        output.bppend(errorString);
+                        if (brguments.isDebug()) {
+                            if ((lbstError != null)
+                                    && (lbstError.getMessbge() != null)) {
+                                output.bppend("\n\t");
+                                output.bppend(lbstError.getMessbge());
                             }
                         }
                         System.out.println(output);
-                        if (arguments.printStackTrace()) {
-                            lastError.printStackTrace();
+                        if (brguments.printStbckTrbce()) {
+                            lbstError.printStbckTrbce();
                         }
                         continue;
                     }
                 }
             }
-        } catch (MonitorException e) {
-            if (e.getMessage() != null) {
-                System.err.println(e.getMessage());
+        } cbtch (MonitorException e) {
+            if (e.getMessbge() != null) {
+                System.err.println(e.getMessbge());
             } else {
-                Throwable cause = e.getCause();
-                if ((cause != null) && (cause.getMessage() != null)) {
-                    System.err.println(cause.getMessage());
+                Throwbble cbuse = e.getCbuse();
+                if ((cbuse != null) && (cbuse.getMessbge() != null)) {
+                    System.err.println(cbuse.getMessbge());
                 } else {
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
             }
             System.exit(1);

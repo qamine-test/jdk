@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown to indicate that an {@code invokedynamic} instruction has
- * failed to find its bootstrap method,
- * or the bootstrap method has failed to provide a
- * {@linkplain java.lang.invoke.CallSite call site} with a {@linkplain java.lang.invoke.CallSite#getTarget target}
- * of the correct {@linkplain java.lang.invoke.MethodHandle#type method type}.
+ * Thrown to indicbte thbt bn {@code invokedynbmic} instruction hbs
+ * fbiled to find its bootstrbp method,
+ * or the bootstrbp method hbs fbiled to provide b
+ * {@linkplbin jbvb.lbng.invoke.CbllSite cbll site} with b {@linkplbin jbvb.lbng.invoke.CbllSite#getTbrget tbrget}
+ * of the correct {@linkplbin jbvb.lbng.invoke.MethodHbndle#type method type}.
  *
- * @author John Rose, JSR 292 EG
+ * @buthor John Rose, JSR 292 EG
  * @since 1.7
  */
-public class BootstrapMethodError extends LinkageError {
-    private static final long serialVersionUID = 292L;
+public clbss BootstrbpMethodError extends LinkbgeError {
+    privbte stbtic finbl long seriblVersionUID = 292L;
 
     /**
-     * Constructs a {@code BootstrapMethodError} with no detail message.
+     * Constructs b {@code BootstrbpMethodError} with no detbil messbge.
      */
-    public BootstrapMethodError() {
+    public BootstrbpMethodError() {
         super();
     }
 
     /**
-     * Constructs a {@code BootstrapMethodError} with the specified
-     * detail message.
+     * Constructs b {@code BootstrbpMethodError} with the specified
+     * detbil messbge.
      *
-     * @param s the detail message.
+     * @pbrbm s the detbil messbge.
      */
-    public BootstrapMethodError(String s) {
+    public BootstrbpMethodError(String s) {
         super(s);
     }
 
     /**
-     * Constructs a {@code BootstrapMethodError} with the specified
-     * detail message and cause.
+     * Constructs b {@code BootstrbpMethodError} with the specified
+     * detbil messbge bnd cbuse.
      *
-     * @param s the detail message.
-     * @param cause the cause, may be {@code null}.
+     * @pbrbm s the detbil messbge.
+     * @pbrbm cbuse the cbuse, mby be {@code null}.
      */
-    public BootstrapMethodError(String s, Throwable cause) {
-        super(s, cause);
+    public BootstrbpMethodError(String s, Throwbble cbuse) {
+        super(s, cbuse);
     }
 
     /**
-     * Constructs a {@code BootstrapMethodError} with the specified
-     * cause.
+     * Constructs b {@code BootstrbpMethodError} with the specified
+     * cbuse.
      *
-     * @param cause the cause, may be {@code null}.
+     * @pbrbm cbuse the cbuse, mby be {@code null}.
      */
-    public BootstrapMethodError(Throwable cause) {
-        // cf. Throwable(Throwable cause) constructor.
-        super(cause == null ? null : cause.toString());
-        initCause(cause);
+    public BootstrbpMethodError(Throwbble cbuse) {
+        // cf. Throwbble(Throwbble cbuse) constructor.
+        super(cbuse == null ? null : cbuse.toString());
+        initCbuse(cbuse);
     }
 }

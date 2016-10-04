@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 
-import java.beans.ConstructorProperties;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 
 /**
- * <code>JSplitPane</code> is used to divide two (and only two)
+ * <code>JSplitPbne</code> is used to divide two (bnd only two)
  * <code>Component</code>s. The two <code>Component</code>s
- * are graphically divided based on the look and feel
- * implementation, and the two <code>Component</code>s can then be
- * interactively resized by the user.
- * Information on using <code>JSplitPane</code> is in
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/splitpane.html">How to Use Split Panes</a> in
- * <em>The Java Tutorial</em>.
+ * bre grbphicblly divided bbsed on the look bnd feel
+ * implementbtion, bnd the two <code>Component</code>s cbn then be
+ * interbctively resized by the user.
+ * Informbtion on using <code>JSplitPbne</code> is in
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/splitpbne.html">How to Use Split Pbnes</b> in
+ * <em>The Jbvb Tutoribl</em>.
  * <p>
- * The two <code>Component</code>s in a split pane can be aligned
+ * The two <code>Component</code>s in b split pbne cbn be bligned
  * left to right using
- * <code>JSplitPane.HORIZONTAL_SPLIT</code>, or top to bottom using
- * <code>JSplitPane.VERTICAL_SPLIT</code>.
- * The preferred way to change the size of the <code>Component</code>s
+ * <code>JSplitPbne.HORIZONTAL_SPLIT</code>, or top to bottom using
+ * <code>JSplitPbne.VERTICAL_SPLIT</code>.
+ * The preferred wby to chbnge the size of the <code>Component</code>s
  * is to invoke
- * <code>setDividerLocation</code> where <code>location</code> is either
- * the new x or y position, depending on the orientation of the
- * <code>JSplitPane</code>.
+ * <code>setDividerLocbtion</code> where <code>locbtion</code> is either
+ * the new x or y position, depending on the orientbtion of the
+ * <code>JSplitPbne</code>.
  * <p>
  * To resize the <code>Component</code>s to their preferred sizes invoke
  * <code>resetToPreferredSizes</code>.
  * <p>
  * When the user is resizing the <code>Component</code>s the minimum
  * size of the <code>Components</code> is used to determine the
- * maximum/minimum position the <code>Component</code>s
- * can be set to. If the minimum size of the two
- * components is greater than the size of the split pane the divider
- * will not allow you to resize it. To alter the minimum size of a
+ * mbximum/minimum position the <code>Component</code>s
+ * cbn be set to. If the minimum size of the two
+ * components is grebter thbn the size of the split pbne the divider
+ * will not bllow you to resize it. To blter the minimum size of b
  * <code>JComponent</code>, see {@link JComponent#setMinimumSize}.
  * <p>
- * When the user resizes the split pane the new space is distributed between
- * the two components based on the <code>resizeWeight</code> property.
- * A value of 0,
- * the default, indicates the right/bottom component gets all the space,
- * where as a value of 1 indicates the left/top component gets all the space.
+ * When the user resizes the split pbne the new spbce is distributed between
+ * the two components bbsed on the <code>resizeWeight</code> property.
+ * A vblue of 0,
+ * the defbult, indicbtes the right/bottom component gets bll the spbce,
+ * where bs b vblue of 1 indicbtes the left/top component gets bll the spbce.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see #setDividerLocation
+ * @see #setDividerLocbtion
  * @see #resetToPreferredSizes
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JSplitPane extends JComponent implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JSplitPbne extends JComponent implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "SplitPaneUI";
+    privbte stbtic finbl String uiClbssID = "SplitPbneUI";
 
     /**
-     * Vertical split indicates the <code>Component</code>s are
-     * split along the y axis.  For example the two
+     * Verticbl split indicbtes the <code>Component</code>s bre
+     * split blong the y bxis.  For exbmple the two
      * <code>Component</code>s will be split one on top of the other.
      */
-    public final static int VERTICAL_SPLIT = 0;
+    public finbl stbtic int VERTICAL_SPLIT = 0;
 
     /**
-     * Horizontal split indicates the <code>Component</code>s are
-     * split along the x axis.  For example the two
+     * Horizontbl split indicbtes the <code>Component</code>s bre
+     * split blong the x bxis.  For exbmple the two
      * <code>Component</code>s will be split one to the left of the
      * other.
      */
-    public final static int HORIZONTAL_SPLIT = 1;
+    public finbl stbtic int HORIZONTAL_SPLIT = 1;
 
     /**
-     * Used to add a <code>Component</code> to the left of the other
+     * Used to bdd b <code>Component</code> to the left of the other
      * <code>Component</code>.
      */
-    public final static String LEFT = "left";
+    public finbl stbtic String LEFT = "left";
 
     /**
-     * Used to add a <code>Component</code> to the right of the other
+     * Used to bdd b <code>Component</code> to the right of the other
      * <code>Component</code>.
      */
-    public final static String RIGHT = "right";
+    public finbl stbtic String RIGHT = "right";
 
     /**
-     * Used to add a <code>Component</code> above the other
+     * Used to bdd b <code>Component</code> bbove the other
      * <code>Component</code>.
      */
-    public final static String TOP = "top";
+    public finbl stbtic String TOP = "top";
 
     /**
-     * Used to add a <code>Component</code> below the other
+     * Used to bdd b <code>Component</code> below the other
      * <code>Component</code>.
      */
-    public final static String BOTTOM = "bottom";
+    public finbl stbtic String BOTTOM = "bottom";
 
     /**
-     * Used to add a <code>Component</code> that will represent the divider.
+     * Used to bdd b <code>Component</code> thbt will represent the divider.
      */
-    public final static String DIVIDER = "divider";
+    public finbl stbtic String DIVIDER = "divider";
 
     /**
-     * Bound property name for orientation (horizontal or vertical).
+     * Bound property nbme for orientbtion (horizontbl or verticbl).
      */
-    public final static String ORIENTATION_PROPERTY = "orientation";
+    public finbl stbtic String ORIENTATION_PROPERTY = "orientbtion";
 
     /**
-     * Bound property name for continuousLayout.
+     * Bound property nbme for continuousLbyout.
      */
-    public final static String CONTINUOUS_LAYOUT_PROPERTY = "continuousLayout";
+    public finbl stbtic String CONTINUOUS_LAYOUT_PROPERTY = "continuousLbyout";
 
     /**
-     * Bound property name for border.
+     * Bound property nbme for border.
      */
-    public final static String DIVIDER_SIZE_PROPERTY = "dividerSize";
+    public finbl stbtic String DIVIDER_SIZE_PROPERTY = "dividerSize";
 
     /**
-     * Bound property for oneTouchExpandable.
+     * Bound property for oneTouchExpbndbble.
      */
-    public final static String ONE_TOUCH_EXPANDABLE_PROPERTY =
-                               "oneTouchExpandable";
+    public finbl stbtic String ONE_TOUCH_EXPANDABLE_PROPERTY =
+                               "oneTouchExpbndbble";
 
     /**
-     * Bound property for lastLocation.
+     * Bound property for lbstLocbtion.
      */
-    public final static String LAST_DIVIDER_LOCATION_PROPERTY =
-                               "lastDividerLocation";
+    public finbl stbtic String LAST_DIVIDER_LOCATION_PROPERTY =
+                               "lbstDividerLocbtion";
 
     /**
-     * Bound property for the dividerLocation.
+     * Bound property for the dividerLocbtion.
      * @since 1.3
      */
-    public final static String DIVIDER_LOCATION_PROPERTY = "dividerLocation";
+    public finbl stbtic String DIVIDER_LOCATION_PROPERTY = "dividerLocbtion";
 
     /**
      * Bound property for weight.
      * @since 1.3
      */
-    public final static String RESIZE_WEIGHT_PROPERTY = "resizeWeight";
+    public finbl stbtic String RESIZE_WEIGHT_PROPERTY = "resizeWeight";
 
     /**
-     * How the views are split.
+     * How the views bre split.
      */
-    protected int orientation;
+    protected int orientbtion;
 
     /**
-     * Whether or not the views are continuously redisplayed while
+     * Whether or not the views bre continuously redisplbyed while
      * resizing.
      */
-    protected boolean continuousLayout;
+    protected boolebn continuousLbyout;
 
     /**
      * The left or top component.
@@ -216,216 +216,216 @@ public class JSplitPane extends JComponent implements Accessible
      * Size of the divider.
      */
     protected int dividerSize;
-    private boolean dividerSizeSet = false;
+    privbte boolebn dividerSizeSet = fblse;
 
     /**
-     * Is a little widget provided to quickly expand/collapse the
-     * split pane?
+     * Is b little widget provided to quickly expbnd/collbpse the
+     * split pbne?
      */
-    protected boolean oneTouchExpandable;
-    private boolean oneTouchExpandableSet;
+    protected boolebn oneTouchExpbndbble;
+    privbte boolebn oneTouchExpbndbbleSet;
 
     /**
-     * Previous location of the split pane.
+     * Previous locbtion of the split pbne.
      */
-    protected int lastDividerLocation;
+    protected int lbstDividerLocbtion;
 
     /**
-     * How to distribute extra space.
+     * How to distribute extrb spbce.
      */
-    private double resizeWeight;
+    privbte double resizeWeight;
 
     /**
-     * Location of the divider, at least the value that was set, the UI may
-     * have a different value.
+     * Locbtion of the divider, bt lebst the vblue thbt wbs set, the UI mby
+     * hbve b different vblue.
      */
-    private int dividerLocation;
+    privbte int dividerLocbtion;
 
 
     /**
-     * Creates a new <code>JSplitPane</code> configured to arrange the child
-     * components side-by-side horizontally, using two buttons for the components.
+     * Crebtes b new <code>JSplitPbne</code> configured to brrbnge the child
+     * components side-by-side horizontblly, using two buttons for the components.
      */
-    public JSplitPane() {
-        this(JSplitPane.HORIZONTAL_SPLIT,
-                UIManager.getBoolean("SplitPane.continuousLayout"),
-                new JButton(UIManager.getString("SplitPane.leftButtonText")),
-                new JButton(UIManager.getString("SplitPane.rightButtonText")));
+    public JSplitPbne() {
+        this(JSplitPbne.HORIZONTAL_SPLIT,
+                UIMbnbger.getBoolebn("SplitPbne.continuousLbyout"),
+                new JButton(UIMbnbger.getString("SplitPbne.leftButtonText")),
+                new JButton(UIMbnbger.getString("SplitPbne.rightButtonText")));
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> configured with the
-     * specified orientation.
+     * Crebtes b new <code>JSplitPbne</code> configured with the
+     * specified orientbtion.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @exception IllegalArgumentException if <code>orientation</code>
+     * @pbrbm newOrientbtion  <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                        <code>JSplitPbne.VERTICAL_SPLIT</code>
+     * @exception IllegblArgumentException if <code>orientbtion</code>
      *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
      */
-    @ConstructorProperties({"orientation"})
-    public JSplitPane(int newOrientation) {
-        this(newOrientation,
-                UIManager.getBoolean("SplitPane.continuousLayout"));
+    @ConstructorProperties({"orientbtion"})
+    public JSplitPbne(int newOrientbtion) {
+        this(newOrientbtion,
+                UIMbnbger.getBoolebn("SplitPbne.continuousLbyout"));
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and redrawing style.
+     * Crebtes b new <code>JSplitPbne</code> with the specified
+     * orientbtion bnd redrbwing style.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newContinuousLayout  a boolean, true for the components to
-     *        redraw continuously as the divider changes position, false
-     *        to wait until the divider position stops changing to redraw
-     * @exception IllegalArgumentException if <code>orientation</code>
+     * @pbrbm newOrientbtion  <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                        <code>JSplitPbne.VERTICAL_SPLIT</code>
+     * @pbrbm newContinuousLbyout  b boolebn, true for the components to
+     *        redrbw continuously bs the divider chbnges position, fblse
+     *        to wbit until the divider position stops chbnging to redrbw
+     * @exception IllegblArgumentException if <code>orientbtion</code>
      *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
-                      boolean newContinuousLayout) {
-        this(newOrientation, newContinuousLayout, null, null);
+    public JSplitPbne(int newOrientbtion,
+                      boolebn newContinuousLbyout) {
+        this(newOrientbtion, newContinuousLbyout, null, null);
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and the specified components.
+     * Crebtes b new <code>JSplitPbne</code> with the specified
+     * orientbtion bnd the specified components.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newLeftComponent the <code>Component</code> that will
-     *          appear on the left
-     *          of a horizontally-split pane, or at the top of a
-     *          vertically-split pane
-     * @param newRightComponent the <code>Component</code> that will
-     *          appear on the right
-     *          of a horizontally-split pane, or at the bottom of a
-     *          vertically-split pane
-     * @exception IllegalArgumentException if <code>orientation</code>
+     * @pbrbm newOrientbtion  <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                        <code>JSplitPbne.VERTICAL_SPLIT</code>
+     * @pbrbm newLeftComponent the <code>Component</code> thbt will
+     *          bppebr on the left
+     *          of b horizontblly-split pbne, or bt the top of b
+     *          verticblly-split pbne
+     * @pbrbm newRightComponent the <code>Component</code> thbt will
+     *          bppebr on the right
+     *          of b horizontblly-split pbne, or bt the bottom of b
+     *          verticblly-split pbne
+     * @exception IllegblArgumentException if <code>orientbtion</code>
      *          is not one of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
+    public JSplitPbne(int newOrientbtion,
                       Component newLeftComponent,
                       Component newRightComponent){
-        this(newOrientation,
-                UIManager.getBoolean("SplitPane.continuousLayout"),
+        this(newOrientbtion,
+                UIMbnbger.getBoolebn("SplitPbne.continuousLbyout"),
                 newLeftComponent, newRightComponent);
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and
-     * redrawing style, and with the specified components.
+     * Crebtes b new <code>JSplitPbne</code> with the specified
+     * orientbtion bnd
+     * redrbwing style, bnd with the specified components.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newContinuousLayout  a boolean, true for the components to
-     *        redraw continuously as the divider changes position, false
-     *        to wait until the divider position stops changing to redraw
-     * @param newLeftComponent the <code>Component</code> that will
-     *          appear on the left
-     *          of a horizontally-split pane, or at the top of a
-     *          vertically-split pane
-     * @param newRightComponent the <code>Component</code> that will
-     *          appear on the right
-     *          of a horizontally-split pane, or at the bottom of a
-     *          vertically-split pane
-     * @exception IllegalArgumentException if <code>orientation</code>
+     * @pbrbm newOrientbtion  <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                        <code>JSplitPbne.VERTICAL_SPLIT</code>
+     * @pbrbm newContinuousLbyout  b boolebn, true for the components to
+     *        redrbw continuously bs the divider chbnges position, fblse
+     *        to wbit until the divider position stops chbnging to redrbw
+     * @pbrbm newLeftComponent the <code>Component</code> thbt will
+     *          bppebr on the left
+     *          of b horizontblly-split pbne, or bt the top of b
+     *          verticblly-split pbne
+     * @pbrbm newRightComponent the <code>Component</code> thbt will
+     *          bppebr on the right
+     *          of b horizontblly-split pbne, or bt the bottom of b
+     *          verticblly-split pbne
+     * @exception IllegblArgumentException if <code>orientbtion</code>
      *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
-                      boolean newContinuousLayout,
+    public JSplitPbne(int newOrientbtion,
+                      boolebn newContinuousLbyout,
                       Component newLeftComponent,
                       Component newRightComponent){
         super();
 
-        dividerLocation = -1;
-        setLayout(null);
-        setUIProperty("opaque", Boolean.TRUE);
-        orientation = newOrientation;
-        if (orientation != HORIZONTAL_SPLIT && orientation != VERTICAL_SPLIT)
-            throw new IllegalArgumentException("cannot create JSplitPane, " +
-                                               "orientation must be one of " +
-                                               "JSplitPane.HORIZONTAL_SPLIT " +
-                                               "or JSplitPane.VERTICAL_SPLIT");
-        continuousLayout = newContinuousLayout;
+        dividerLocbtion = -1;
+        setLbyout(null);
+        setUIProperty("opbque", Boolebn.TRUE);
+        orientbtion = newOrientbtion;
+        if (orientbtion != HORIZONTAL_SPLIT && orientbtion != VERTICAL_SPLIT)
+            throw new IllegblArgumentException("cbnnot crebte JSplitPbne, " +
+                                               "orientbtion must be one of " +
+                                               "JSplitPbne.HORIZONTAL_SPLIT " +
+                                               "or JSplitPbne.VERTICAL_SPLIT");
+        continuousLbyout = newContinuousLbyout;
         if (newLeftComponent != null)
             setLeftComponent(newLeftComponent);
         if (newRightComponent != null)
             setRightComponent(newRightComponent);
-        updateUI();
+        updbteUI();
 
     }
 
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>SplitPaneUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>SplitPbneUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(SplitPaneUI ui) {
-        if ((SplitPaneUI)this.ui != ui) {
+    public void setUI(SplitPbneUI ui) {
+        if ((SplitPbneUI)this.ui != ui) {
             super.setUI(ui);
-            revalidate();
+            revblidbte();
         }
     }
 
 
     /**
-     * Returns the <code>SplitPaneUI</code> that is providing the
-     * current look and feel.
+     * Returns the <code>SplitPbneUI</code> thbt is providing the
+     * current look bnd feel.
      *
-     * @return the <code>SplitPaneUI</code> object that renders this component
-     * @beaninfo
+     * @return the <code>SplitPbneUI</code> object thbt renders this component
+     * @bebninfo
      *       expert: true
-     *  description: The L&amp;F object that renders this component.
+     *  description: The L&bmp;F object thbt renders this component.
      */
-    public SplitPaneUI getUI() {
-        return (SplitPaneUI)ui;
+    public SplitPbneUI getUI() {
+        return (SplitPbneUI)ui;
     }
 
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the L&bmp;F hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((SplitPaneUI)UIManager.getUI(this));
-        revalidate();
+    public void updbteUI() {
+        setUI((SplitPbneUI)UIMbnbger.getUI(this));
+        revblidbte();
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "SplitPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @return the string "SplitPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     * @bebninfo
      *       expert: true
-     *  description: A string that specifies the name of the L&amp;F class.
+     *  description: A string thbt specifies the nbme of the L&bmp;F clbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
      * Sets the size of the divider.
      *
-     * @param newSize an integer giving the size of the divider in pixels
-     * @beaninfo
+     * @pbrbm newSize bn integer giving the size of the divider in pixels
+     * @bebninfo
      *        bound: true
      *  description: The size of the divider.
      */
@@ -435,7 +435,7 @@ public class JSplitPane extends JComponent implements Accessible
         dividerSizeSet = true;
         if (oldSize != newSize) {
             dividerSize = newSize;
-            firePropertyChange(DIVIDER_SIZE_PROPERTY, oldSize, newSize);
+            firePropertyChbnge(DIVIDER_SIZE_PROPERTY, oldSize, newSize);
         }
     }
 
@@ -443,7 +443,7 @@ public class JSplitPane extends JComponent implements Accessible
     /**
      * Returns the size of the divider.
      *
-     * @return an integer giving the size of the divider in pixels
+     * @return bn integer giving the size of the divider in pixels
      */
     public int getDividerSize() {
         return dividerSize;
@@ -451,9 +451,9 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Sets the component to the left (or above) the divider.
+     * Sets the component to the left (or bbove) the divider.
      *
-     * @param comp the <code>Component</code> to display in that position
+     * @pbrbm comp the <code>Component</code> to displby in thbt position
      */
     public void setLeftComponent(Component comp) {
         if (comp == null) {
@@ -462,18 +462,18 @@ public class JSplitPane extends JComponent implements Accessible
                 leftComponent = null;
             }
         } else {
-            add(comp, JSplitPane.LEFT);
+            bdd(comp, JSplitPbne.LEFT);
         }
     }
 
 
     /**
-     * Returns the component to the left (or above) the divider.
+     * Returns the component to the left (or bbove) the divider.
      *
-     * @return the <code>Component</code> displayed in that position
-     * @beaninfo
+     * @return the <code>Component</code> displbyed in thbt position
+     * @bebninfo
      *    preferred: true
-     *  description: The component to the left (or above) the divider.
+     *  description: The component to the left (or bbove) the divider.
      */
     public Component getLeftComponent() {
         return leftComponent;
@@ -481,11 +481,11 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Sets the component above, or to the left of the divider.
+     * Sets the component bbove, or to the left of the divider.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
-     *  description: The component above, or to the left of the divider.
+     * @pbrbm comp the <code>Component</code> to displby in thbt position
+     * @bebninfo
+     *  description: The component bbove, or to the left of the divider.
      */
     public void setTopComponent(Component comp) {
         setLeftComponent(comp);
@@ -493,9 +493,9 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Returns the component above, or to the left of the divider.
+     * Returns the component bbove, or to the left of the divider.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @return the <code>Component</code> displbyed in thbt position
      */
     public Component getTopComponent() {
         return leftComponent;
@@ -505,8 +505,8 @@ public class JSplitPane extends JComponent implements Accessible
     /**
      * Sets the component to the right (or below) the divider.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
+     * @pbrbm comp the <code>Component</code> to displby in thbt position
+     * @bebninfo
      *    preferred: true
      *  description: The component to the right (or below) the divider.
      */
@@ -517,7 +517,7 @@ public class JSplitPane extends JComponent implements Accessible
                 rightComponent = null;
             }
         } else {
-            add(comp, JSplitPane.RIGHT);
+            bdd(comp, JSplitPbne.RIGHT);
         }
     }
 
@@ -525,7 +525,7 @@ public class JSplitPane extends JComponent implements Accessible
     /**
      * Returns the component to the right (or below) the divider.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @return the <code>Component</code> displbyed in thbt position
      */
     public Component getRightComponent() {
         return rightComponent;
@@ -535,8 +535,8 @@ public class JSplitPane extends JComponent implements Accessible
     /**
      * Sets the component below, or to the right of the divider.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
+     * @pbrbm comp the <code>Component</code> to displby in thbt position
+     * @bebninfo
      *  description: The component below, or to the right of the divider.
      */
     public void setBottomComponent(Component comp) {
@@ -547,7 +547,7 @@ public class JSplitPane extends JComponent implements Accessible
     /**
      * Returns the component below, or to the right of the divider.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @return the <code>Component</code> displbyed in thbt position
      */
     public Component getBottomComponent() {
         return rightComponent;
@@ -555,188 +555,188 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Sets the value of the <code>oneTouchExpandable</code> property,
+     * Sets the vblue of the <code>oneTouchExpbndbble</code> property,
      * which must be <code>true</code> for the
-     * <code>JSplitPane</code> to provide a UI widget
-     * on the divider to quickly expand/collapse the divider.
-     * The default value of this property is <code>false</code>.
-     * Some look and feels might not support one-touch expanding;
+     * <code>JSplitPbne</code> to provide b UI widget
+     * on the divider to quickly expbnd/collbpse the divider.
+     * The defbult vblue of this property is <code>fblse</code>.
+     * Some look bnd feels might not support one-touch expbnding;
      * they will ignore this property.
      *
-     * @param newValue <code>true</code> to specify that the split pane should provide a
-     *        collapse/expand widget
-     * @beaninfo
+     * @pbrbm newVblue <code>true</code> to specify thbt the split pbne should provide b
+     *        collbpse/expbnd widget
+     * @bebninfo
      *        bound: true
      *  description: UI widget on the divider to quickly
-     *               expand/collapse the divider.
+     *               expbnd/collbpse the divider.
      *
-     * @see #isOneTouchExpandable
+     * @see #isOneTouchExpbndbble
      */
-    public void setOneTouchExpandable(boolean newValue) {
-        boolean           oldValue = oneTouchExpandable;
+    public void setOneTouchExpbndbble(boolebn newVblue) {
+        boolebn           oldVblue = oneTouchExpbndbble;
 
-        oneTouchExpandable = newValue;
-        oneTouchExpandableSet = true;
-        firePropertyChange(ONE_TOUCH_EXPANDABLE_PROPERTY, oldValue, newValue);
-        repaint();
+        oneTouchExpbndbble = newVblue;
+        oneTouchExpbndbbleSet = true;
+        firePropertyChbnge(ONE_TOUCH_EXPANDABLE_PROPERTY, oldVblue, newVblue);
+        repbint();
     }
 
 
     /**
-     * Gets the <code>oneTouchExpandable</code> property.
+     * Gets the <code>oneTouchExpbndbble</code> property.
      *
-     * @return the value of the <code>oneTouchExpandable</code> property
-     * @see #setOneTouchExpandable
+     * @return the vblue of the <code>oneTouchExpbndbble</code> property
+     * @see #setOneTouchExpbndbble
      */
-    public boolean isOneTouchExpandable() {
-        return oneTouchExpandable;
+    public boolebn isOneTouchExpbndbble() {
+        return oneTouchExpbndbble;
     }
 
 
     /**
-     * Sets the last location the divider was at to
-     * <code>newLastLocation</code>.
+     * Sets the lbst locbtion the divider wbs bt to
+     * <code>newLbstLocbtion</code>.
      *
-     * @param newLastLocation an integer specifying the last divider location
-     *        in pixels, from the left (or upper) edge of the pane to the
+     * @pbrbm newLbstLocbtion bn integer specifying the lbst divider locbtion
+     *        in pixels, from the left (or upper) edge of the pbne to the
      *        left (or upper) edge of the divider
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: The last location the divider was at.
+     *  description: The lbst locbtion the divider wbs bt.
      */
-    public void setLastDividerLocation(int newLastLocation) {
-        int               oldLocation = lastDividerLocation;
+    public void setLbstDividerLocbtion(int newLbstLocbtion) {
+        int               oldLocbtion = lbstDividerLocbtion;
 
-        lastDividerLocation = newLastLocation;
-        firePropertyChange(LAST_DIVIDER_LOCATION_PROPERTY, oldLocation,
-                           newLastLocation);
+        lbstDividerLocbtion = newLbstLocbtion;
+        firePropertyChbnge(LAST_DIVIDER_LOCATION_PROPERTY, oldLocbtion,
+                           newLbstLocbtion);
     }
 
 
     /**
-     * Returns the last location the divider was at.
+     * Returns the lbst locbtion the divider wbs bt.
      *
-     * @return an integer specifying the last divider location as a count
-     *       of pixels from the left (or upper) edge of the pane to the
+     * @return bn integer specifying the lbst divider locbtion bs b count
+     *       of pixels from the left (or upper) edge of the pbne to the
      *       left (or upper) edge of the divider
      */
-    public int getLastDividerLocation() {
-        return lastDividerLocation;
+    public int getLbstDividerLocbtion() {
+        return lbstDividerLocbtion;
     }
 
 
     /**
-     * Sets the orientation, or how the splitter is divided. The options
-     * are:<ul>
-     * <li>JSplitPane.VERTICAL_SPLIT  (above/below orientation of components)
-     * <li>JSplitPane.HORIZONTAL_SPLIT  (left/right orientation of components)
+     * Sets the orientbtion, or how the splitter is divided. The options
+     * bre:<ul>
+     * <li>JSplitPbne.VERTICAL_SPLIT  (bbove/below orientbtion of components)
+     * <li>JSplitPbne.HORIZONTAL_SPLIT  (left/right orientbtion of components)
      * </ul>
      *
-     * @param orientation an integer specifying the orientation
-     * @exception IllegalArgumentException if orientation is not one of:
+     * @pbrbm orientbtion bn integer specifying the orientbtion
+     * @exception IllegblArgumentException if orientbtion is not one of:
      *        HORIZONTAL_SPLIT or VERTICAL_SPLIT.
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: The orientation, or how the splitter is divided.
-     *         enum: HORIZONTAL_SPLIT JSplitPane.HORIZONTAL_SPLIT
-     *               VERTICAL_SPLIT   JSplitPane.VERTICAL_SPLIT
+     *  description: The orientbtion, or how the splitter is divided.
+     *         enum: HORIZONTAL_SPLIT JSplitPbne.HORIZONTAL_SPLIT
+     *               VERTICAL_SPLIT   JSplitPbne.VERTICAL_SPLIT
      */
-    public void setOrientation(int orientation) {
-        if ((orientation != VERTICAL_SPLIT) &&
-            (orientation != HORIZONTAL_SPLIT)) {
-           throw new IllegalArgumentException("JSplitPane: orientation must " +
+    public void setOrientbtion(int orientbtion) {
+        if ((orientbtion != VERTICAL_SPLIT) &&
+            (orientbtion != HORIZONTAL_SPLIT)) {
+           throw new IllegblArgumentException("JSplitPbne: orientbtion must " +
                                               "be one of " +
-                                              "JSplitPane.VERTICAL_SPLIT or " +
-                                              "JSplitPane.HORIZONTAL_SPLIT");
+                                              "JSplitPbne.VERTICAL_SPLIT or " +
+                                              "JSplitPbne.HORIZONTAL_SPLIT");
         }
 
-        int           oldOrientation = this.orientation;
+        int           oldOrientbtion = this.orientbtion;
 
-        this.orientation = orientation;
-        firePropertyChange(ORIENTATION_PROPERTY, oldOrientation, orientation);
+        this.orientbtion = orientbtion;
+        firePropertyChbnge(ORIENTATION_PROPERTY, oldOrientbtion, orientbtion);
     }
 
 
     /**
-     * Returns the orientation.
+     * Returns the orientbtion.
      *
-     * @return an integer giving the orientation
-     * @see #setOrientation
+     * @return bn integer giving the orientbtion
+     * @see #setOrientbtion
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
 
     /**
-     * Sets the value of the <code>continuousLayout</code> property,
+     * Sets the vblue of the <code>continuousLbyout</code> property,
      * which must be <code>true</code> for the child components
      * to be continuously
-     * redisplayed and laid out during user intervention.
-     * The default value of this property is look and feel dependent.
-     * Some look and feels might not support continuous layout;
+     * redisplbyed bnd lbid out during user intervention.
+     * The defbult vblue of this property is look bnd feel dependent.
+     * Some look bnd feels might not support continuous lbyout;
      * they will ignore this property.
      *
-     * @param newContinuousLayout  <code>true</code> if the components
-     *        should continuously be redrawn as the divider changes position
-     * @beaninfo
+     * @pbrbm newContinuousLbyout  <code>true</code> if the components
+     *        should continuously be redrbwn bs the divider chbnges position
+     * @bebninfo
      *        bound: true
-     *  description: Whether the child components are
-     *               continuously redisplayed and laid out during
+     *  description: Whether the child components bre
+     *               continuously redisplbyed bnd lbid out during
      *               user intervention.
-     * @see #isContinuousLayout
+     * @see #isContinuousLbyout
      */
-    public void setContinuousLayout(boolean newContinuousLayout) {
-        boolean           oldCD = continuousLayout;
+    public void setContinuousLbyout(boolebn newContinuousLbyout) {
+        boolebn           oldCD = continuousLbyout;
 
-        continuousLayout = newContinuousLayout;
-        firePropertyChange(CONTINUOUS_LAYOUT_PROPERTY, oldCD,
-                           newContinuousLayout);
+        continuousLbyout = newContinuousLbyout;
+        firePropertyChbnge(CONTINUOUS_LAYOUT_PROPERTY, oldCD,
+                           newContinuousLbyout);
     }
 
 
     /**
-     * Gets the <code>continuousLayout</code> property.
+     * Gets the <code>continuousLbyout</code> property.
      *
-     * @return the value of the <code>continuousLayout</code> property
-     * @see #setContinuousLayout
+     * @return the vblue of the <code>continuousLbyout</code> property
+     * @see #setContinuousLbyout
      */
-    public boolean isContinuousLayout() {
-        return continuousLayout;
+    public boolebn isContinuousLbyout() {
+        return continuousLbyout;
     }
 
     /**
-     * Specifies how to distribute extra space when the size of the split pane
-     * changes. A value of 0, the default,
-     * indicates the right/bottom component gets all the extra space (the
-     * left/top component acts fixed), where as a value of 1 specifies the
-     * left/top component gets all the extra space (the right/bottom component
-     * acts fixed). Specifically, the left/top component gets (weight * diff)
-     * extra space and the right/bottom component gets (1 - weight) * diff
-     * extra space.
+     * Specifies how to distribute extrb spbce when the size of the split pbne
+     * chbnges. A vblue of 0, the defbult,
+     * indicbtes the right/bottom component gets bll the extrb spbce (the
+     * left/top component bcts fixed), where bs b vblue of 1 specifies the
+     * left/top component gets bll the extrb spbce (the right/bottom component
+     * bcts fixed). Specificblly, the left/top component gets (weight * diff)
+     * extrb spbce bnd the right/bottom component gets (1 - weight) * diff
+     * extrb spbce.
      *
-     * @param value as described above
-     * @exception IllegalArgumentException if <code>value</code> is &lt; 0 or &gt; 1
+     * @pbrbm vblue bs described bbove
+     * @exception IllegblArgumentException if <code>vblue</code> is &lt; 0 or &gt; 1
      * @since 1.3
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Specifies how to distribute extra space when the split pane
+     *  description: Specifies how to distribute extrb spbce when the split pbne
      *               resizes.
      */
-    public void setResizeWeight(double value) {
-        if (value < 0 || value > 1) {
-            throw new IllegalArgumentException("JSplitPane weight must be between 0 and 1");
+    public void setResizeWeight(double vblue) {
+        if (vblue < 0 || vblue > 1) {
+            throw new IllegblArgumentException("JSplitPbne weight must be between 0 bnd 1");
         }
         double         oldWeight = resizeWeight;
 
-        resizeWeight = value;
-        firePropertyChange(RESIZE_WEIGHT_PROPERTY, oldWeight, value);
+        resizeWeight = vblue;
+        firePropertyChbnge(RESIZE_WEIGHT_PROPERTY, oldWeight, vblue);
     }
 
     /**
-     * Returns the number that determines how extra space is distributed.
-     * @return how extra space is to be distributed on a resize of the
-     *         split pane
+     * Returns the number thbt determines how extrb spbce is distributed.
+     * @return how extrb spbce is to be distributed on b resize of the
+     *         split pbne
      * @since 1.3
      */
     public double getResizeWeight() {
@@ -744,12 +744,12 @@ public class JSplitPane extends JComponent implements Accessible
     }
 
     /**
-     * Lays out the <code>JSplitPane</code> layout based on the preferred size
-     * of the children components. This will likely result in changing
-     * the divider location.
+     * Lbys out the <code>JSplitPbne</code> lbyout bbsed on the preferred size
+     * of the children components. This will likely result in chbnging
+     * the divider locbtion.
      */
     public void resetToPreferredSizes() {
-        SplitPaneUI         ui = getUI();
+        SplitPbneUI         ui = getUI();
 
         if (ui != null) {
             ui.resetToPreferredSizes(this);
@@ -758,120 +758,120 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Sets the divider location as a percentage of the
-     * <code>JSplitPane</code>'s size.
+     * Sets the divider locbtion bs b percentbge of the
+     * <code>JSplitPbne</code>'s size.
      * <p>
      * This method is implemented in terms of
-     * <code>setDividerLocation(int)</code>.
-     * This method immediately changes the size of the split pane based on
-     * its current size. If the split pane is not correctly realized and on
-     * screen, this method will have no effect (new divider location will
-     * become (current size * proportionalLocation) which is 0).
+     * <code>setDividerLocbtion(int)</code>.
+     * This method immedibtely chbnges the size of the split pbne bbsed on
+     * its current size. If the split pbne is not correctly reblized bnd on
+     * screen, this method will hbve no effect (new divider locbtion will
+     * become (current size * proportionblLocbtion) which is 0).
      *
-     * @param proportionalLocation  a double-precision floating point value
-     *        that specifies a percentage, from zero (top/left) to 1.0
+     * @pbrbm proportionblLocbtion  b double-precision flobting point vblue
+     *        thbt specifies b percentbge, from zero (top/left) to 1.0
      *        (bottom/right)
-     * @exception IllegalArgumentException if the specified location is &lt; 0
+     * @exception IllegblArgumentException if the specified locbtion is &lt; 0
      *            or &gt; 1.0
-     * @beaninfo
-     *  description: The location of the divider.
+     * @bebninfo
+     *  description: The locbtion of the divider.
      */
-    public void setDividerLocation(double proportionalLocation) {
-        if (proportionalLocation < 0.0 ||
-           proportionalLocation > 1.0) {
-            throw new IllegalArgumentException("proportional location must " +
-                                               "be between 0.0 and 1.0.");
+    public void setDividerLocbtion(double proportionblLocbtion) {
+        if (proportionblLocbtion < 0.0 ||
+           proportionblLocbtion > 1.0) {
+            throw new IllegblArgumentException("proportionbl locbtion must " +
+                                               "be between 0.0 bnd 1.0.");
         }
-        if (getOrientation() == VERTICAL_SPLIT) {
-            setDividerLocation((int)((double)(getHeight() - getDividerSize()) *
-                                     proportionalLocation));
+        if (getOrientbtion() == VERTICAL_SPLIT) {
+            setDividerLocbtion((int)((double)(getHeight() - getDividerSize()) *
+                                     proportionblLocbtion));
         } else {
-            setDividerLocation((int)((double)(getWidth() - getDividerSize()) *
-                                     proportionalLocation));
+            setDividerLocbtion((int)((double)(getWidth() - getDividerSize()) *
+                                     proportionblLocbtion));
         }
     }
 
 
     /**
-     * Sets the location of the divider. This is passed off to the
-     * look and feel implementation, and then listeners are notified. A value
-     * less than 0 implies the divider should be reset to a value that
-     * attempts to honor the preferred size of the left/top component.
-     * After notifying the listeners, the last divider location is updated,
-     * via <code>setLastDividerLocation</code>.
+     * Sets the locbtion of the divider. This is pbssed off to the
+     * look bnd feel implementbtion, bnd then listeners bre notified. A vblue
+     * less thbn 0 implies the divider should be reset to b vblue thbt
+     * bttempts to honor the preferred size of the left/top component.
+     * After notifying the listeners, the lbst divider locbtion is updbted,
+     * vib <code>setLbstDividerLocbtion</code>.
      *
-     * @param location an int specifying a UI-specific value (typically a
+     * @pbrbm locbtion bn int specifying b UI-specific vblue (typicblly b
      *        pixel count)
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: The location of the divider.
+     *  description: The locbtion of the divider.
      */
-    public void setDividerLocation(int location) {
-        int                 oldValue = dividerLocation;
+    public void setDividerLocbtion(int locbtion) {
+        int                 oldVblue = dividerLocbtion;
 
-        dividerLocation = location;
+        dividerLocbtion = locbtion;
 
         // Notify UI.
-        SplitPaneUI         ui = getUI();
+        SplitPbneUI         ui = getUI();
 
         if (ui != null) {
-            ui.setDividerLocation(this, location);
+            ui.setDividerLocbtion(this, locbtion);
         }
 
         // Then listeners
-        firePropertyChange(DIVIDER_LOCATION_PROPERTY, oldValue, location);
+        firePropertyChbnge(DIVIDER_LOCATION_PROPERTY, oldVblue, locbtion);
 
-        // And update the last divider location.
-        setLastDividerLocation(oldValue);
+        // And updbte the lbst divider locbtion.
+        setLbstDividerLocbtion(oldVblue);
     }
 
 
     /**
-     * Returns the last value passed to <code>setDividerLocation</code>.
-     * The value returned from this method may differ from the actual
-     * divider location (if <code>setDividerLocation</code> was passed a
-     * value bigger than the current size).
+     * Returns the lbst vblue pbssed to <code>setDividerLocbtion</code>.
+     * The vblue returned from this method mby differ from the bctubl
+     * divider locbtion (if <code>setDividerLocbtion</code> wbs pbssed b
+     * vblue bigger thbn the current size).
      *
-     * @return an integer specifying the location of the divider
+     * @return bn integer specifying the locbtion of the divider
      */
-    public int getDividerLocation() {
-        return dividerLocation;
+    public int getDividerLocbtion() {
+        return dividerLocbtion;
     }
 
 
     /**
-     * Returns the minimum location of the divider from the look and feel
-     * implementation.
+     * Returns the minimum locbtion of the divider from the look bnd feel
+     * implementbtion.
      *
-     * @return an integer specifying a UI-specific value for the minimum
-     *          location (typically a pixel count); or -1 if the UI is
+     * @return bn integer specifying b UI-specific vblue for the minimum
+     *          locbtion (typicblly b pixel count); or -1 if the UI is
      *          <code>null</code>
-     * @beaninfo
-     *  description: The minimum location of the divider from the L&amp;F.
+     * @bebninfo
+     *  description: The minimum locbtion of the divider from the L&bmp;F.
      */
-    public int getMinimumDividerLocation() {
-        SplitPaneUI         ui = getUI();
+    public int getMinimumDividerLocbtion() {
+        SplitPbneUI         ui = getUI();
 
         if (ui != null) {
-            return ui.getMinimumDividerLocation(this);
+            return ui.getMinimumDividerLocbtion(this);
         }
         return -1;
     }
 
 
     /**
-     * Returns the maximum location of the divider from the look and feel
-     * implementation.
+     * Returns the mbximum locbtion of the divider from the look bnd feel
+     * implementbtion.
      *
-     * @return an integer specifying a UI-specific value for the maximum
-     *          location (typically a pixel count); or -1 if the  UI is
+     * @return bn integer specifying b UI-specific vblue for the mbximum
+     *          locbtion (typicblly b pixel count); or -1 if the  UI is
      *          <code>null</code>
      */
-    public int getMaximumDividerLocation() {
-        SplitPaneUI         ui = getUI();
+    public int getMbximumDividerLocbtion() {
+        SplitPbneUI         ui = getUI();
 
         if (ui != null) {
-            return ui.getMaximumDividerLocation(this);
+            return ui.getMbximumDividerLocbtion(this);
         }
         return -1;
     }
@@ -879,10 +879,10 @@ public class JSplitPane extends JComponent implements Accessible
 
     /**
      * Removes the child component, <code>component</code> from the
-     * pane. Resets the <code>leftComponent</code> or
-     * <code>rightComponent</code> instance variable, as necessary.
+     * pbne. Resets the <code>leftComponent</code> or
+     * <code>rightComponent</code> instbnce vbribble, bs necessbry.
      *
-     * @param component the <code>Component</code> to remove
+     * @pbrbm component the <code>Component</code> to remove
      */
     public void remove(Component component) {
         if (component == leftComponent) {
@@ -892,19 +892,19 @@ public class JSplitPane extends JComponent implements Accessible
         }
         super.remove(component);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbte the JSplitPbne on the screen
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Removes the <code>Component</code> at the specified index.
-     * Updates the <code>leftComponent</code> and <code>rightComponent</code>
-     * instance variables as necessary, and then messages super.
+     * Removes the <code>Component</code> bt the specified index.
+     * Updbtes the <code>leftComponent</code> bnd <code>rightComponent</code>
+     * instbnce vbribbles bs necessbry, bnd then messbges super.
      *
-     * @param index an integer specifying the component to remove, where
-     *        1 specifies the left/top component and 2 specifies the
+     * @pbrbm index bn integer specifying the component to remove, where
+     *        1 specifies the left/top component bnd 2 specifies the
      *        bottom/right component
      */
     public void remove(int index) {
@@ -917,204 +917,204 @@ public class JSplitPane extends JComponent implements Accessible
         }
         super.remove(index);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbte the JSplitPbne on the screen
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Removes all the child components from the split pane. Resets the
-     * <code>leftComonent</code> and <code>rightComponent</code>
-     * instance variables.
+     * Removes bll the child components from the split pbne. Resets the
+     * <code>leftComonent</code> bnd <code>rightComponent</code>
+     * instbnce vbribbles.
      */
     public void removeAll() {
         leftComponent = rightComponent = null;
         super.removeAll();
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbte the JSplitPbne on the screen
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns true, so that calls to <code>revalidate</code>
-     * on any descendant of this <code>JSplitPane</code>
-     * will cause a request to be queued that
-     * will validate the <code>JSplitPane</code> and all its descendants.
+     * Returns true, so thbt cblls to <code>revblidbte</code>
+     * on bny descendbnt of this <code>JSplitPbne</code>
+     * will cbuse b request to be queued thbt
+     * will vblidbte the <code>JSplitPbne</code> bnd bll its descendbnts.
      *
      * @return true
-     * @see JComponent#revalidate
-     * @see java.awt.Container#isValidateRoot
+     * @see JComponent#revblidbte
+     * @see jbvb.bwt.Contbiner#isVblidbteRoot
      *
-     * @beaninfo
+     * @bebninfo
      *    hidden: true
      */
     @Override
-    public boolean isValidateRoot() {
+    public boolebn isVblidbteRoot() {
         return true;
     }
 
 
     /**
-     * Adds the specified component to this split pane.
-     * If <code>constraints</code> identifies the left/top or
-     * right/bottom child component, and a component with that identifier
-     * was previously added, it will be removed and then <code>comp</code>
-     * will be added in its place. If <code>constraints</code> is not
-     * one of the known identifiers the layout manager may throw an
-     * <code>IllegalArgumentException</code>.
+     * Adds the specified component to this split pbne.
+     * If <code>constrbints</code> identifies the left/top or
+     * right/bottom child component, bnd b component with thbt identifier
+     * wbs previously bdded, it will be removed bnd then <code>comp</code>
+     * will be bdded in its plbce. If <code>constrbints</code> is not
+     * one of the known identifiers the lbyout mbnbger mby throw bn
+     * <code>IllegblArgumentException</code>.
      * <p>
-     * The possible constraints objects (Strings) are:
+     * The possible constrbints objects (Strings) bre:
      * <ul>
-     * <li>JSplitPane.TOP
-     * <li>JSplitPane.LEFT
-     * <li>JSplitPane.BOTTOM
-     * <li>JSplitPane.RIGHT
+     * <li>JSplitPbne.TOP
+     * <li>JSplitPbne.LEFT
+     * <li>JSplitPbne.BOTTOM
+     * <li>JSplitPbne.RIGHT
      * </ul>
-     * If the <code>constraints</code> object is <code>null</code>,
-     * the component is added in the
-     * first available position (left/top if open, else right/bottom).
+     * If the <code>constrbints</code> object is <code>null</code>,
+     * the component is bdded in the
+     * first bvbilbble position (left/top if open, else right/bottom).
      *
-     * @param comp        the component to add
-     * @param constraints an <code>Object</code> specifying the
-     *                    layout constraints
+     * @pbrbm comp        the component to bdd
+     * @pbrbm constrbints bn <code>Object</code> specifying the
+     *                    lbyout constrbints
      *                    (position) for this component
-     * @param index       an integer specifying the index in the container's
+     * @pbrbm index       bn integer specifying the index in the contbiner's
      *                    list.
-     * @exception IllegalArgumentException  if the <code>constraints</code>
-     *          object does not match an existing component
-     * @see java.awt.Container#addImpl(Component, Object, int)
+     * @exception IllegblArgumentException  if the <code>constrbints</code>
+     *          object does not mbtch bn existing component
+     * @see jbvb.bwt.Contbiner#bddImpl(Component, Object, int)
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protected void bddImpl(Component comp, Object constrbints, int index)
     {
         Component             toRemove;
 
-        if (constraints != null && !(constraints instanceof String)) {
-            throw new IllegalArgumentException("cannot add to layout: " +
-                                               "constraint must be a string " +
+        if (constrbints != null && !(constrbints instbnceof String)) {
+            throw new IllegblArgumentException("cbnnot bdd to lbyout: " +
+                                               "constrbint must be b string " +
                                                "(or null)");
         }
 
-        /* If the constraints are null and the left/right component is
-           invalid, add it at the left/right component. */
-        if (constraints == null) {
+        /* If the constrbints bre null bnd the left/right component is
+           invblid, bdd it bt the left/right component. */
+        if (constrbints == null) {
             if (getLeftComponent() == null) {
-                constraints = JSplitPane.LEFT;
+                constrbints = JSplitPbne.LEFT;
             } else if (getRightComponent() == null) {
-                constraints = JSplitPane.RIGHT;
+                constrbints = JSplitPbne.RIGHT;
             }
         }
 
-        /* Find the Component that already exists and remove it. */
-        if (constraints != null && (constraints.equals(JSplitPane.LEFT) ||
-                                   constraints.equals(JSplitPane.TOP))) {
+        /* Find the Component thbt blrebdy exists bnd remove it. */
+        if (constrbints != null && (constrbints.equbls(JSplitPbne.LEFT) ||
+                                   constrbints.equbls(JSplitPbne.TOP))) {
             toRemove = getLeftComponent();
             if (toRemove != null) {
                 remove(toRemove);
             }
             leftComponent = comp;
             index = -1;
-        } else if (constraints != null &&
-                   (constraints.equals(JSplitPane.RIGHT) ||
-                    constraints.equals(JSplitPane.BOTTOM))) {
+        } else if (constrbints != null &&
+                   (constrbints.equbls(JSplitPbne.RIGHT) ||
+                    constrbints.equbls(JSplitPbne.BOTTOM))) {
             toRemove = getRightComponent();
             if (toRemove != null) {
                 remove(toRemove);
             }
             rightComponent = comp;
             index = -1;
-        } else if (constraints != null &&
-                constraints.equals(JSplitPane.DIVIDER)) {
+        } else if (constrbints != null &&
+                constrbints.equbls(JSplitPbne.DIVIDER)) {
             index = -1;
         }
-        /* LayoutManager should raise for else condition here. */
+        /* LbyoutMbnbger should rbise for else condition here. */
 
-        super.addImpl(comp, constraints, index);
+        super.bddImpl(comp, constrbints, index);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbte the JSplitPbne on the screen
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Subclassed to message the UI with <code>finishedPaintingChildren</code>
-     * after super has been messaged, as well as painting the border.
+     * Subclbssed to messbge the UI with <code>finishedPbintingChildren</code>
+     * bfter super hbs been messbged, bs well bs pbinting the border.
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g the <code>Grbphics</code> context within which to pbint
      */
-    protected void paintChildren(Graphics g) {
-        super.paintChildren(g);
+    protected void pbintChildren(Grbphics g) {
+        super.pbintChildren(g);
 
-        SplitPaneUI        ui = getUI();
+        SplitPbneUI        ui = getUI();
 
         if (ui != null) {
-            Graphics           tempG = g.create();
-            ui.finishedPaintingChildren(this, tempG);
+            Grbphics           tempG = g.crebte();
+            ui.finishedPbintingChildren(this, tempG);
             tempG.dispose();
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "dividerSize") {
+    void setUIProperty(String propertyNbme, Object vblue) {
+        if (propertyNbme == "dividerSize") {
             if (!dividerSizeSet) {
-                setDividerSize(((Number)value).intValue());
-                dividerSizeSet = false;
+                setDividerSize(((Number)vblue).intVblue());
+                dividerSizeSet = fblse;
             }
-        } else if (propertyName == "oneTouchExpandable") {
-            if (!oneTouchExpandableSet) {
-                setOneTouchExpandable(((Boolean)value).booleanValue());
-                oneTouchExpandableSet = false;
+        } else if (propertyNbme == "oneTouchExpbndbble") {
+            if (!oneTouchExpbndbbleSet) {
+                setOneTouchExpbndbble(((Boolebn)vblue).boolebnVblue());
+                oneTouchExpbndbbleSet = fblse;
             }
         } else {
-            super.setUIProperty(propertyName, value);
+            super.setUIProperty(propertyNbme, vblue);
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JSplitPane</code>.
+     * Returns b string representbtion of this <code>JSplitPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JSplitPane</code>.
+     * @return  b string representbtion of this <code>JSplitPbne</code>.
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL_SPLIT ?
+    protected String pbrbmString() {
+        String orientbtionString = (orientbtion == HORIZONTAL_SPLIT ?
                                     "HORIZONTAL_SPLIT" : "VERTICAL_SPLIT");
-        String continuousLayoutString = (continuousLayout ?
-                                         "true" : "false");
-        String oneTouchExpandableString = (oneTouchExpandable ?
-                                           "true" : "false");
+        String continuousLbyoutString = (continuousLbyout ?
+                                         "true" : "fblse");
+        String oneTouchExpbndbbleString = (oneTouchExpbndbble ?
+                                           "true" : "fblse");
 
-        return super.paramString() +
-        ",continuousLayout=" + continuousLayoutString +
+        return super.pbrbmString() +
+        ",continuousLbyout=" + continuousLbyoutString +
         ",dividerSize=" + dividerSize +
-        ",lastDividerLocation=" + lastDividerLocation +
-        ",oneTouchExpandable=" + oneTouchExpandableString +
-        ",orientation=" + orientationString;
+        ",lbstDividerLocbtion=" + lbstDividerLocbtion +
+        ",oneTouchExpbndbble=" + oneTouchExpbndbbleString +
+        ",orientbtion=" + orientbtionString;
     }
 
 
@@ -1125,132 +1125,132 @@ public class JSplitPane extends JComponent implements Accessible
 
 
     /**
-     * Gets the AccessibleContext associated with this JSplitPane.
-     * For split panes, the AccessibleContext takes the form of an
-     * AccessibleJSplitPane.
-     * A new AccessibleJSplitPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JSplitPbne.
+     * For split pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleJSplitPbne.
+     * A new AccessibleJSplitPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJSplitPane that serves as the
-     *         AccessibleContext of this JSplitPane
-     * @beaninfo
+     * @return bn AccessibleJSplitPbne thbt serves bs the
+     *         AccessibleContext of this JSplitPbne
+     * @bebninfo
      *       expert: true
-     *  description: The AccessibleContext associated with this SplitPane.
+     *  description: The AccessibleContext bssocibted with this SplitPbne.
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSplitPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJSplitPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JSplitPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to split pane user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JSplitPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to split pbne user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJSplitPane extends AccessibleJComponent
-        implements AccessibleValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJSplitPbne extends AccessibleJComponent
+        implements AccessibleVblue {
         /**
-         * Gets the state set of this object.
+         * Gets the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            // FIXME: [[[WDW - Should also add BUSY if this implements
-            // Adjustable at some point.  If this happens, we probably
-            // should also add actions.]]]
-            if (getOrientation() == VERTICAL_SPLIT) {
-                states.add(AccessibleState.VERTICAL);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            // FIXME: [[[WDW - Should blso bdd BUSY if this implements
+            // Adjustbble bt some point.  If this hbppens, we probbbly
+            // should blso bdd bctions.]]]
+            if (getOrientbtion() == VERTICAL_SPLIT) {
+                stbtes.bdd(AccessibleStbte.VERTICAL);
             } else {
-                states.add(AccessibleState.HORIZONTAL);
+                stbtes.bdd(AccessibleStbte.HORIZONTAL);
             }
-            return states;
+            return stbtes;
         }
 
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleVblue bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * AccessibleVblue interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
 
         /**
-         * Gets the accessible value of this object.
+         * Gets the bccessible vblue of this object.
          *
-         * @return a localized String describing the value of this object
+         * @return b locblized String describing the vblue of this object
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getDividerLocation());
+        public Number getCurrentAccessibleVblue() {
+            return Integer.vblueOf(getDividerLocbtion());
         }
 
 
         /**
-         * Sets the value of this object as a Number.
+         * Sets the vblue of this object bs b Number.
          *
-         * @return True if the value was set.
+         * @return True if the vblue wbs set.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        public boolebn setCurrentAccessibleVblue(Number n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                return fblse;
             }
-            setDividerLocation(n.intValue());
+            setDividerLocbtion(n.intVblue());
             return true;
         }
 
 
         /**
-         * Gets the minimum accessible value of this object.
+         * Gets the minimum bccessible vblue of this object.
          *
-         * @return The minimum value of this object.
+         * @return The minimum vblue of this object.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getUI().getMinimumDividerLocation(
-                                                        JSplitPane.this));
+        public Number getMinimumAccessibleVblue() {
+            return Integer.vblueOf(getUI().getMinimumDividerLocbtion(
+                                                        JSplitPbne.this));
         }
 
 
         /**
-         * Gets the maximum accessible value of this object.
+         * Gets the mbximum bccessible vblue of this object.
          *
-         * @return The maximum value of this object.
+         * @return The mbximum vblue of this object.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(getUI().getMaximumDividerLocation(
-                                                        JSplitPane.this));
+        public Number getMbximumAccessibleVblue() {
+            return Integer.vblueOf(getUI().getMbximumDividerLocbtion(
+                                                        JSplitPbne.this));
         }
 
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of
+         * @return bn instbnce of AccessibleRole describing the role of
          * the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SPLIT_PANE;
         }
-    } // inner class AccessibleJSplitPane
+    } // inner clbss AccessibleJSplitPbne
 }

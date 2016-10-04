@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.FocusListener;
+import jbvb.bwt.*;
+import jbvb.bwt.event.FocusListener;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicEditorPaneUI;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicEditorPbneUI;
+import jbvbx.swing.text.*;
 
-public class AquaEditorPaneUI extends BasicEditorPaneUI {
-    public static ComponentUI createUI(final JComponent c){
-        return new AquaEditorPaneUI();
+public clbss AqubEditorPbneUI extends BbsicEditorPbneUI {
+    public stbtic ComponentUI crebteUI(finbl JComponent c){
+        return new AqubEditorPbneUI();
     }
 
-    boolean oldDragState = false;
-    protected void installDefaults(){
-        super.installDefaults();
-        if(!GraphicsEnvironment.isHeadless()){
-            oldDragState = getComponent().getDragEnabled();
-            getComponent().setDragEnabled(true);
+    boolebn oldDrbgStbte = fblse;
+    protected void instbllDefbults(){
+        super.instbllDefbults();
+        if(!GrbphicsEnvironment.isHebdless()){
+            oldDrbgStbte = getComponent().getDrbgEnbbled();
+            getComponent().setDrbgEnbbled(true);
         }
     }
 
-    protected void uninstallDefaults(){
-        if(!GraphicsEnvironment.isHeadless()){
-            getComponent().setDragEnabled(oldDragState);
+    protected void uninstbllDefbults(){
+        if(!GrbphicsEnvironment.isHebdless()){
+            getComponent().setDrbgEnbbled(oldDrbgStbte);
         }
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
     FocusListener focusListener;
-    protected void installListeners(){
-        super.installListeners();
-        focusListener = createFocusListener();
-        getComponent().addFocusListener(focusListener);
+    protected void instbllListeners(){
+        super.instbllListeners();
+        focusListener = crebteFocusListener();
+        getComponent().bddFocusListener(focusListener);
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
-        AquaKeyBindings bindings = AquaKeyBindings.instance();
-        bindings.setDefaultAction(getKeymapName());
-        final JTextComponent c = getComponent();
-        bindings.installAquaUpDownActions(c);
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
+        AqubKeyBindings bindings = AqubKeyBindings.instbnce();
+        bindings.setDefbultAction(getKeymbpNbme());
+        finbl JTextComponent c = getComponent();
+        bindings.instbllAqubUpDownActions(c);
     }
 
-    protected void uninstallListeners(){
+    protected void uninstbllListeners(){
         getComponent().removeFocusListener(focusListener);
-        super.uninstallListeners();
+        super.uninstbllListeners();
     }
 
-    protected FocusListener createFocusListener(){
-        return new AquaFocusHandler();
+    protected FocusListener crebteFocusListener(){
+        return new AqubFocusHbndler();
     }
 
-    protected Caret createCaret(){
-        final Window owningWindow = SwingUtilities.getWindowAncestor(getComponent());
-        final AquaCaret returnValue = new AquaCaret(owningWindow, getComponent());
-        return returnValue;
+    protected Cbret crebteCbret(){
+        finbl Window owningWindow = SwingUtilities.getWindowAncestor(getComponent());
+        finbl AqubCbret returnVblue = new AqubCbret(owningWindow, getComponent());
+        return returnVblue;
     }
 
-    protected Highlighter createHighlighter(){
-        return new AquaHighlighter();
+    protected Highlighter crebteHighlighter(){
+        return new AqubHighlighter();
     }
 }

@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.GraphicsConfiguration;
-import sun.awt.image.BufImgVolatileSurfaceManager;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.java2d.d3d.D3DGraphicsConfig;
-import sun.java2d.d3d.D3DVolatileSurfaceManager;
-import sun.java2d.opengl.WGLGraphicsConfig;
-import sun.java2d.opengl.WGLVolatileSurfaceManager;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import sun.bwt.imbge.BufImgVolbtileSurfbceMbnbger;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.VolbtileSurfbceMbnbger;
+import sun.jbvb2d.d3d.D3DGrbphicsConfig;
+import sun.jbvb2d.d3d.D3DVolbtileSurfbceMbnbger;
+import sun.jbvb2d.opengl.WGLGrbphicsConfig;
+import sun.jbvb2d.opengl.WGLVolbtileSurfbceMbnbger;
 
 /**
- * The SurfaceManagerFactory that creates VolatileSurfaceManager
- * implementations for the Windows volatile images.
+ * The SurfbceMbnbgerFbctory thbt crebtes VolbtileSurfbceMbnbger
+ * implementbtions for the Windows volbtile imbges.
  */
-public class WindowsSurfaceManagerFactory extends SurfaceManagerFactory {
+public clbss WindowsSurfbceMbnbgerFbctory extends SurfbceMbnbgerFbctory {
 
     /**
-     * Creates a new instance of a VolatileSurfaceManager given any
-     * arbitrary SunVolatileImage.  An optional context Object can be supplied
-     * as a way for the caller to pass pipeline-specific context data to
-     * the VolatileSurfaceManager (such as a backbuffer handle, for example).
+     * Crebtes b new instbnce of b VolbtileSurfbceMbnbger given bny
+     * brbitrbry SunVolbtileImbge.  An optionbl context Object cbn be supplied
+     * bs b wby for the cbller to pbss pipeline-specific context dbtb to
+     * the VolbtileSurfbceMbnbger (such bs b bbckbuffer hbndle, for exbmple).
      *
-     * For Windows platforms, this method returns a Windows-specific
-     * VolatileSurfaceManager.
+     * For Windows plbtforms, this method returns b Windows-specific
+     * VolbtileSurfbceMbnbger.
      */
-    public VolatileSurfaceManager createVolatileManager(SunVolatileImage vImg,
+    public VolbtileSurfbceMbnbger crebteVolbtileMbnbger(SunVolbtileImbge vImg,
                                                         Object context)
     {
-        GraphicsConfiguration gc = vImg.getGraphicsConfig();
-        if (gc instanceof D3DGraphicsConfig) {
-            return new D3DVolatileSurfaceManager(vImg, context);
-        } else if (gc instanceof WGLGraphicsConfig) {
-            return new WGLVolatileSurfaceManager(vImg, context);
+        GrbphicsConfigurbtion gc = vImg.getGrbphicsConfig();
+        if (gc instbnceof D3DGrbphicsConfig) {
+            return new D3DVolbtileSurfbceMbnbger(vImg, context);
+        } else if (gc instbnceof WGLGrbphicsConfig) {
+            return new WGLVolbtileSurfbceMbnbger(vImg, context);
         } else {
-            return new BufImgVolatileSurfaceManager(vImg, context);
+            return new BufImgVolbtileSurfbceMbnbger(vImg, context);
         }
     }
 

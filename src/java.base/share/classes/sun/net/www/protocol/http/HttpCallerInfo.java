@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.net.Authenticator.RequestorType;
-import java.net.InetAddress;
-import java.net.URL;
+import jbvb.net.Authenticbtor.RequestorType;
+import jbvb.net.InetAddress;
+import jbvb.net.URL;
 
 /**
- * Used in HTTP/Negotiate, to feed HTTP request info into JGSS as a HttpCaller,
- * so that special actions can be taken, including special callback handler,
- * special useSubjectCredsOnly value.
+ * Used in HTTP/Negotibte, to feed HTTP request info into JGSS bs b HttpCbller,
+ * so thbt specibl bctions cbn be tbken, including specibl cbllbbck hbndler,
+ * specibl useSubjectCredsOnly vblue.
  *
- * This is an immutable class. It can be instantiated in two styles;
+ * This is bn immutbble clbss. It cbn be instbntibted in two styles;
  *
- * 1. Un-schemed: Create at the beginning before the preferred scheme is
- * determined. This object can be fed into AuthenticationHeader to check
+ * 1. Un-schemed: Crebte bt the beginning before the preferred scheme is
+ * determined. This object cbn be fed into AuthenticbtionHebder to check
  * for the preference.
  *
- * 2. Schemed: With the scheme field filled, can be used in JGSS-API calls.
+ * 2. Schemed: With the scheme field filled, cbn be used in JGSS-API cblls.
  */
-final public class HttpCallerInfo {
-    // All info that an Authenticator needs.
-    final public URL url;
-    final public String host, protocol, prompt, scheme;
-    final public int port;
-    final public InetAddress addr;
-    final public RequestorType authType;
+finbl public clbss HttpCbllerInfo {
+    // All info thbt bn Authenticbtor needs.
+    finbl public URL url;
+    finbl public String host, protocol, prompt, scheme;
+    finbl public int port;
+    finbl public InetAddress bddr;
+    finbl public RequestorType buthType;
 
     /**
-     * Create a schemed object based on an un-schemed one.
+     * Crebte b schemed object bbsed on bn un-schemed one.
      */
-    public HttpCallerInfo(HttpCallerInfo old, String scheme) {
+    public HttpCbllerInfo(HttpCbllerInfo old, String scheme) {
         this.url = old.url;
         this.host = old.host;
         this.protocol = old.protocol;
         this.prompt = old.prompt;
         this.port = old.port;
-        this.addr = old.addr;
-        this.authType = old.authType;
+        this.bddr = old.bddr;
+        this.buthType = old.buthType;
         this.scheme = scheme;
     }
 
     /**
-     * Constructor an un-schemed object for site access.
+     * Constructor bn un-schemed object for site bccess.
      */
-    public HttpCallerInfo(URL url) {
+    public HttpCbllerInfo(URL url) {
         this.url= url;
         prompt = "";
         host = url.getHost();
 
         int p = url.getPort();
         if (p == -1) {
-            port = url.getDefaultPort();
+            port = url.getDefbultPort();
         } else {
             port = p;
         }
 
-        InetAddress ia;
+        InetAddress ib;
         try {
-            ia = InetAddress.getByName(url.getHost());
-        } catch (Exception e) {
-            ia = null;
+            ib = InetAddress.getByNbme(url.getHost());
+        } cbtch (Exception e) {
+            ib = null;
         }
-        addr = ia;
+        bddr = ib;
 
         protocol = url.getProtocol();
-        authType = RequestorType.SERVER;
+        buthType = RequestorType.SERVER;
         scheme = "";
     }
 
     /**
-     * Constructor an un-schemed object for proxy access.
+     * Constructor bn un-schemed object for proxy bccess.
      */
-    public HttpCallerInfo(URL url, String host, int port) {
+    public HttpCbllerInfo(URL url, String host, int port) {
         this.url= url;
         this.host = host;
         this.port = port;
         prompt = "";
-        addr = null;
+        bddr = null;
         protocol = url.getProtocol();
-        authType = RequestorType.PROXY;
+        buthType = RequestorType.PROXY;
         scheme = "";
     }
 }

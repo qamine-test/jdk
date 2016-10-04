@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.PopupMenu;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.util.Locale;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.CheckboxMenuItem;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.PopupMenu;
+import jbvb.bwt.Menu;
+import jbvb.bwt.MenuItem;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.util.Locble;
+import jbvbx.swing.JCheckBoxMenuItem;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JDiblog;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JPopupMenu;
+import jbvbx.swing.JMenu;
+import jbvbx.swing.JMenuItem;
 
 /**
  * <code>InputMethodPopupMenu</code> provides the popup selection menu
  */
 
-abstract class InputMethodPopupMenu implements ActionListener {
+bbstrbct clbss InputMethodPopupMenu implements ActionListener {
 
-    // Factory method to provide the menu, depending on the client, i.e.,
-    // provide Swing popup menu if client is a swing app, otherwise AWT popup
-    // is created.
-    static InputMethodPopupMenu getInstance(Component client, String title) {
-        if ((client instanceof JFrame) ||
-            (client instanceof JDialog)) {
+    // Fbctory method to provide the menu, depending on the client, i.e.,
+    // provide Swing popup menu if client is b swing bpp, otherwise AWT popup
+    // is crebted.
+    stbtic InputMethodPopupMenu getInstbnce(Component client, String title) {
+        if ((client instbnceof JFrbme) ||
+            (client instbnceof JDiblog)) {
                 return new JInputMethodPopupMenu(title);
         } else {
             return new AWTInputMethodPopupMenu(title);
         }
     }
 
-    abstract void show(Component c, int x, int y);
+    bbstrbct void show(Component c, int x, int y);
 
-    abstract void removeAll();
+    bbstrbct void removeAll();
 
-    abstract void addSeparator();
+    bbstrbct void bddSepbrbtor();
 
-    abstract void addToComponent(Component c);
+    bbstrbct void bddToComponent(Component c);
 
-    abstract Object createSubmenu(String label);
+    bbstrbct Object crebteSubmenu(String lbbel);
 
-    abstract void add(Object menuItem);
+    bbstrbct void bdd(Object menuItem);
 
-    abstract void addMenuItem(String label, String command, String currentSelection);
+    bbstrbct void bddMenuItem(String lbbel, String commbnd, String currentSelection);
 
-    abstract void addMenuItem(Object targetMenu, String label, String command,
+    bbstrbct void bddMenuItem(Object tbrgetMenu, String lbbel, String commbnd,
                               String currentSelection);
 
-    void addOneInputMethodToMenu(InputMethodLocator locator, String currentSelection) {
-        InputMethodDescriptor descriptor = locator.getDescriptor();
-        String label = descriptor.getInputMethodDisplayName(null, Locale.getDefault());
-        String command = locator.getActionCommandString();
-        Locale[] locales = null;
-        int localeCount;
+    void bddOneInputMethodToMenu(InputMethodLocbtor locbtor, String currentSelection) {
+        InputMethodDescriptor descriptor = locbtor.getDescriptor();
+        String lbbel = descriptor.getInputMethodDisplbyNbme(null, Locble.getDefbult());
+        String commbnd = locbtor.getActionCommbndString();
+        Locble[] locbles = null;
+        int locbleCount;
         try {
-            locales = descriptor.getAvailableLocales();
-            localeCount = locales.length;
-        } catch (AWTException e) {
-            // ??? should have better error handling -
-            // tell user what happened, then remove this input method from the list.
-            // For the time being, just show it disabled.
-            localeCount = 0;
+            locbles = descriptor.getAvbilbbleLocbles();
+            locbleCount = locbles.length;
+        } cbtch (AWTException e) {
+            // ??? should hbve better error hbndling -
+            // tell user whbt hbppened, then remove this input method from the list.
+            // For the time being, just show it disbbled.
+            locbleCount = 0;
         }
-        if (localeCount == 0) {
-            // could be IIIMP adapter which has lost its connection
-            addMenuItem(label, null, currentSelection);
-        } else if (localeCount == 1) {
-            if (descriptor.hasDynamicLocaleList()) {
-                // try to make sure that what the user sees and what
-                // we eventually select is consistent even if the locale
-                // list changes in the meantime
-                label = descriptor.getInputMethodDisplayName(locales[0], Locale.getDefault());
-                command = locator.deriveLocator(locales[0]).getActionCommandString();
+        if (locbleCount == 0) {
+            // could be IIIMP bdbpter which hbs lost its connection
+            bddMenuItem(lbbel, null, currentSelection);
+        } else if (locbleCount == 1) {
+            if (descriptor.hbsDynbmicLocbleList()) {
+                // try to mbke sure thbt whbt the user sees bnd whbt
+                // we eventublly select is consistent even if the locble
+                // list chbnges in the mebntime
+                lbbel = descriptor.getInputMethodDisplbyNbme(locbles[0], Locble.getDefbult());
+                commbnd = locbtor.deriveLocbtor(locbles[0]).getActionCommbndString();
             }
-            addMenuItem(label, command, currentSelection);
+            bddMenuItem(lbbel, commbnd, currentSelection);
         } else {
-            Object submenu = createSubmenu(label);
-            add(submenu);
-            for (int j = 0; j < localeCount; j++) {
-                Locale locale = locales[j];
-                String subLabel = getLocaleName(locale);
-                String subCommand = locator.deriveLocator(locale).getActionCommandString();
-                addMenuItem(submenu, subLabel, subCommand, currentSelection);
+            Object submenu = crebteSubmenu(lbbel);
+            bdd(submenu);
+            for (int j = 0; j < locbleCount; j++) {
+                Locble locble = locbles[j];
+                String subLbbel = getLocbleNbme(locble);
+                String subCommbnd = locbtor.deriveLocbtor(locble).getActionCommbndString();
+                bddMenuItem(submenu, subLbbel, subCommbnd, currentSelection);
             }
         }
     }
 
     /**
-     * Returns whether command indicates the same input method as currentSelection,
-     * taking into account that command may not specify a locale where currentSelection does.
+     * Returns whether commbnd indicbtes the sbme input method bs currentSelection,
+     * tbking into bccount thbt commbnd mby not specify b locble where currentSelection does.
      */
-    static boolean isSelected(String command, String currentSelection) {
-        if (command == null || currentSelection == null) {
-            return false;
+    stbtic boolebn isSelected(String commbnd, String currentSelection) {
+        if (commbnd == null || currentSelection == null) {
+            return fblse;
         }
-        if (command.equals(currentSelection)) {
+        if (commbnd.equbls(currentSelection)) {
             return true;
         }
-        // currentSelection may indicate a locale where command does not
+        // currentSelection mby indicbte b locble where commbnd does not
         int index = currentSelection.indexOf('\n');
-        if (index != -1 && currentSelection.substring(0, index).equals(command)) {
+        if (index != -1 && currentSelection.substring(0, index).equbls(commbnd)) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a localized locale name for input methods with the
-     * given locale. It falls back to Locale.getDisplayName() and
-     * then to Locale.toString() if no localized locale name is found.
+     * Returns b locblized locble nbme for input methods with the
+     * given locble. It fblls bbck to Locble.getDisplbyNbme() bnd
+     * then to Locble.toString() if no locblized locble nbme is found.
      *
-     * @param locale Locale for which localized locale name is obtained
+     * @pbrbm locble Locble for which locblized locble nbme is obtbined
      */
-    String getLocaleName(Locale locale) {
-        String localeString = locale.toString();
-        String localeName = Toolkit.getProperty("AWT.InputMethodLanguage." + localeString, null);
-        if (localeName == null) {
-            localeName = locale.getDisplayName();
-            if (localeName == null || localeName.length() == 0)
-                localeName = localeString;
+    String getLocbleNbme(Locble locble) {
+        String locbleString = locble.toString();
+        String locbleNbme = Toolkit.getProperty("AWT.InputMethodLbngubge." + locbleString, null);
+        if (locbleNbme == null) {
+            locbleNbme = locble.getDisplbyNbme();
+            if (locbleNbme == null || locbleNbme.length() == 0)
+                locbleNbme = locbleString;
         }
-        return localeName;
+        return locbleNbme;
     }
 
-    // ActionListener implementation
-    public void actionPerformed(ActionEvent event) {
-        String choice = event.getActionCommand();
-        ((ExecutableInputMethodManager)InputMethodManager.getInstance()).changeInputMethod(choice);
+    // ActionListener implementbtion
+    public void bctionPerformed(ActionEvent event) {
+        String choice = event.getActionCommbnd();
+        ((ExecutbbleInputMethodMbnbger)InputMethodMbnbger.getInstbnce()).chbngeInputMethod(choice);
     }
 
 }
 
-class JInputMethodPopupMenu extends InputMethodPopupMenu {
-    static JPopupMenu delegate = null;
+clbss JInputMethodPopupMenu extends InputMethodPopupMenu {
+    stbtic JPopupMenu delegbte = null;
 
     JInputMethodPopupMenu(String title) {
         synchronized (this) {
-            if (delegate == null) {
-                delegate = new JPopupMenu(title);
+            if (delegbte == null) {
+                delegbte = new JPopupMenu(title);
             }
         }
     }
 
     void show(Component c, int x, int y) {
-        delegate.show(c, x, y);
+        delegbte.show(c, x, y);
     }
 
     void removeAll() {
-        delegate.removeAll();
+        delegbte.removeAll();
     }
 
-    void addSeparator() {
-        delegate.addSeparator();
+    void bddSepbrbtor() {
+        delegbte.bddSepbrbtor();
     }
 
-    void addToComponent(Component c) {
+    void bddToComponent(Component c) {
     }
 
-    Object createSubmenu(String label) {
-        return new JMenu(label);
+    Object crebteSubmenu(String lbbel) {
+        return new JMenu(lbbel);
     }
 
-    void add(Object menuItem) {
-        delegate.add((JMenuItem)menuItem);
+    void bdd(Object menuItem) {
+        delegbte.bdd((JMenuItem)menuItem);
     }
 
-    void addMenuItem(String label, String command, String currentSelection) {
-        addMenuItem(delegate, label, command, currentSelection);
+    void bddMenuItem(String lbbel, String commbnd, String currentSelection) {
+        bddMenuItem(delegbte, lbbel, commbnd, currentSelection);
     }
 
-    void addMenuItem(Object targetMenu, String label, String command, String currentSelection) {
+    void bddMenuItem(Object tbrgetMenu, String lbbel, String commbnd, String currentSelection) {
         JMenuItem menuItem;
-        if (isSelected(command, currentSelection)) {
-            menuItem = new JCheckBoxMenuItem(label, true);
+        if (isSelected(commbnd, currentSelection)) {
+            menuItem = new JCheckBoxMenuItem(lbbel, true);
         } else {
-            menuItem = new JMenuItem(label);
+            menuItem = new JMenuItem(lbbel);
         }
-        menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
-        menuItem.setEnabled(command != null);
-        if (targetMenu instanceof JMenu) {
-            ((JMenu)targetMenu).add(menuItem);
+        menuItem.setActionCommbnd(commbnd);
+        menuItem.bddActionListener(this);
+        menuItem.setEnbbled(commbnd != null);
+        if (tbrgetMenu instbnceof JMenu) {
+            ((JMenu)tbrgetMenu).bdd(menuItem);
         } else {
-            ((JPopupMenu)targetMenu).add(menuItem);
+            ((JPopupMenu)tbrgetMenu).bdd(menuItem);
         }
     }
 
 }
 
-class AWTInputMethodPopupMenu extends InputMethodPopupMenu {
-    static PopupMenu delegate = null;
+clbss AWTInputMethodPopupMenu extends InputMethodPopupMenu {
+    stbtic PopupMenu delegbte = null;
 
     AWTInputMethodPopupMenu(String title) {
         synchronized (this) {
-            if (delegate == null) {
-                delegate = new PopupMenu(title);
+            if (delegbte == null) {
+                delegbte = new PopupMenu(title);
             }
         }
     }
 
     void show(Component c, int x, int y) {
-        delegate.show(c, x, y);
+        delegbte.show(c, x, y);
     }
 
     void removeAll() {
-        delegate.removeAll();
+        delegbte.removeAll();
     }
 
-    void addSeparator() {
-        delegate.addSeparator();
+    void bddSepbrbtor() {
+        delegbte.bddSepbrbtor();
     }
 
-    void addToComponent(Component c) {
-        c.add(delegate);
+    void bddToComponent(Component c) {
+        c.bdd(delegbte);
     }
 
-    Object createSubmenu(String label) {
-        return new Menu(label);
+    Object crebteSubmenu(String lbbel) {
+        return new Menu(lbbel);
     }
 
-    void add(Object menuItem) {
-        delegate.add((MenuItem)menuItem);
+    void bdd(Object menuItem) {
+        delegbte.bdd((MenuItem)menuItem);
     }
 
-    void addMenuItem(String label, String command, String currentSelection) {
-        addMenuItem(delegate, label, command, currentSelection);
+    void bddMenuItem(String lbbel, String commbnd, String currentSelection) {
+        bddMenuItem(delegbte, lbbel, commbnd, currentSelection);
     }
 
-    void addMenuItem(Object targetMenu, String label, String command, String currentSelection) {
+    void bddMenuItem(Object tbrgetMenu, String lbbel, String commbnd, String currentSelection) {
         MenuItem menuItem;
-        if (isSelected(command, currentSelection)) {
-            menuItem = new CheckboxMenuItem(label, true);
+        if (isSelected(commbnd, currentSelection)) {
+            menuItem = new CheckboxMenuItem(lbbel, true);
         } else {
-            menuItem = new MenuItem(label);
+            menuItem = new MenuItem(lbbel);
         }
-        menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
-        menuItem.setEnabled(command != null);
-        ((Menu)targetMenu).add(menuItem);
+        menuItem.setActionCommbnd(commbnd);
+        menuItem.bddActionListener(this);
+        menuItem.setEnbbled(commbnd != null);
+        ((Menu)tbrgetMenu).bdd(menuItem);
     }
 }

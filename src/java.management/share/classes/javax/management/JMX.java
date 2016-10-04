@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
+import com.sun.jmx.mbebnserver.Introspector;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Static methods from the JMX API.  There are no instances of this class.
+ * Stbtic methods from the JMX API.  There bre no instbnces of this clbss.
  *
  * @since 1.6
  */
-public class JMX {
-    /* Code within this package can prove that by providing this instance of
-     * this class.
+public clbss JMX {
+    /* Code within this pbckbge cbn prove thbt by providing this instbnce of
+     * this clbss.
      */
-    static final JMX proof = new JMX();
+    stbtic finbl JMX proof = new JMX();
 
-    private JMX() {}
+    privbte JMX() {}
 
     /**
-     * The name of the <a href="Descriptor.html#defaultValue">{@code
-     * defaultValue}</a> field.
+     * The nbme of the <b href="Descriptor.html#defbultVblue">{@code
+     * defbultVblue}</b> field.
      */
-    public static final String DEFAULT_VALUE_FIELD = "defaultValue";
+    public stbtic finbl String DEFAULT_VALUE_FIELD = "defbultVblue";
 
     /**
-     * The name of the <a href="Descriptor.html#immutableInfo">{@code
-     * immutableInfo}</a> field.
+     * The nbme of the <b href="Descriptor.html#immutbbleInfo">{@code
+     * immutbbleInfo}</b> field.
      */
-    public static final String IMMUTABLE_INFO_FIELD = "immutableInfo";
+    public stbtic finbl String IMMUTABLE_INFO_FIELD = "immutbbleInfo";
 
     /**
-     * The name of the <a href="Descriptor.html#interfaceClassName">{@code
-     * interfaceClassName}</a> field.
+     * The nbme of the <b href="Descriptor.html#interfbceClbssNbme">{@code
+     * interfbceClbssNbme}</b> field.
      */
-    public static final String INTERFACE_CLASS_NAME_FIELD = "interfaceClassName";
+    public stbtic finbl String INTERFACE_CLASS_NAME_FIELD = "interfbceClbssNbme";
 
     /**
-     * The name of the <a href="Descriptor.html#legalValues">{@code
-     * legalValues}</a> field.
+     * The nbme of the <b href="Descriptor.html#legblVblues">{@code
+     * legblVblues}</b> field.
      */
-    public static final String LEGAL_VALUES_FIELD = "legalValues";
+    public stbtic finbl String LEGAL_VALUES_FIELD = "legblVblues";
 
     /**
-     * The name of the <a href="Descriptor.html#maxValue">{@code
-     * maxValue}</a> field.
+     * The nbme of the <b href="Descriptor.html#mbxVblue">{@code
+     * mbxVblue}</b> field.
      */
-    public static final String MAX_VALUE_FIELD = "maxValue";
+    public stbtic finbl String MAX_VALUE_FIELD = "mbxVblue";
 
     /**
-     * The name of the <a href="Descriptor.html#minValue">{@code
-     * minValue}</a> field.
+     * The nbme of the <b href="Descriptor.html#minVblue">{@code
+     * minVblue}</b> field.
      */
-    public static final String MIN_VALUE_FIELD = "minValue";
+    public stbtic finbl String MIN_VALUE_FIELD = "minVblue";
 
     /**
-     * The name of the <a href="Descriptor.html#mxbean">{@code
-     * mxbean}</a> field.
+     * The nbme of the <b href="Descriptor.html#mxbebn">{@code
+     * mxbebn}</b> field.
      */
-    public static final String MXBEAN_FIELD = "mxbean";
+    public stbtic finbl String MXBEAN_FIELD = "mxbebn";
 
     /**
-     * The name of the <a href="Descriptor.html#openType">{@code
-     * openType}</a> field.
+     * The nbme of the <b href="Descriptor.html#openType">{@code
+     * openType}</b> field.
      */
-    public static final String OPEN_TYPE_FIELD = "openType";
+    public stbtic finbl String OPEN_TYPE_FIELD = "openType";
 
     /**
-     * The name of the <a href="Descriptor.html#originalType">{@code
-     * originalType}</a> field.
+     * The nbme of the <b href="Descriptor.html#originblType">{@code
+     * originblType}</b> field.
      */
-    public static final String ORIGINAL_TYPE_FIELD = "originalType";
+    public stbtic finbl String ORIGINAL_TYPE_FIELD = "originblType";
 
     /**
-     * <p>Make a proxy for a Standard MBean in a local or remote
-     * MBean Server.</p>
+     * <p>Mbke b proxy for b Stbndbrd MBebn in b locbl or remote
+     * MBebn Server.</p>
      *
-     * <p>If you have an MBean Server {@code mbs} containing an MBean
-     * with {@link ObjectName} {@code name}, and if the MBean's
-     * management interface is described by the Java interface
-     * {@code MyMBean}, you can construct a proxy for the MBean like
+     * <p>If you hbve bn MBebn Server {@code mbs} contbining bn MBebn
+     * with {@link ObjectNbme} {@code nbme}, bnd if the MBebn's
+     * mbnbgement interfbce is described by the Jbvb interfbce
+     * {@code MyMBebn}, you cbn construct b proxy for the MBebn like
      * this:</p>
      *
      * <pre>
-     * MyMBean proxy = JMX.newMBeanProxy(mbs, name, MyMBean.class);
+     * MyMBebn proxy = JMX.newMBebnProxy(mbs, nbme, MyMBebn.clbss);
      * </pre>
      *
-     * <p>Suppose, for example, {@code MyMBean} looks like this:</p>
+     * <p>Suppose, for exbmple, {@code MyMBebn} looks like this:</p>
      *
      * <pre>
-     * public interface MyMBean {
+     * public interfbce MyMBebn {
      *     public String getSomeAttribute();
-     *     public void setSomeAttribute(String value);
-     *     public void someOperation(String param1, int param2);
+     *     public void setSomeAttribute(String vblue);
+     *     public void someOperbtion(String pbrbm1, int pbrbm2);
      * }
      * </pre>
      *
-     * <p>Then you can execute:</p>
+     * <p>Then you cbn execute:</p>
      *
      * <ul>
      *
-     * <li>{@code proxy.getSomeAttribute()} which will result in a
-     * call to {@code mbs.}{@link MBeanServerConnection#getAttribute
-     * getAttribute}{@code (name, "SomeAttribute")}.
+     * <li>{@code proxy.getSomeAttribute()} which will result in b
+     * cbll to {@code mbs.}{@link MBebnServerConnection#getAttribute
+     * getAttribute}{@code (nbme, "SomeAttribute")}.
      *
-     * <li>{@code proxy.setSomeAttribute("whatever")} which will result
-     * in a call to {@code mbs.}{@link MBeanServerConnection#setAttribute
-     * setAttribute}{@code (name, new Attribute("SomeAttribute", "whatever"))}.
+     * <li>{@code proxy.setSomeAttribute("whbtever")} which will result
+     * in b cbll to {@code mbs.}{@link MBebnServerConnection#setAttribute
+     * setAttribute}{@code (nbme, new Attribute("SomeAttribute", "whbtever"))}.
      *
-     * <li>{@code proxy.someOperation("param1", 2)} which will be
-     * translated into a call to {@code mbs.}{@link
-     * MBeanServerConnection#invoke invoke}{@code (name, "someOperation", <etc>)}.
+     * <li>{@code proxy.someOperbtion("pbrbm1", 2)} which will be
+     * trbnslbted into b cbll to {@code mbs.}{@link
+     * MBebnServerConnection#invoke invoke}{@code (nbme, "someOperbtion", <etc>)}.
      *
      * </ul>
      *
-     * <p>The object returned by this method is a
-     * {@link Proxy} whose {@code InvocationHandler} is an
-     * {@link MBeanServerInvocationHandler}.</p>
+     * <p>The object returned by this method is b
+     * {@link Proxy} whose {@code InvocbtionHbndler} is bn
+     * {@link MBebnServerInvocbtionHbndler}.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #newMBeanProxy(MBeanServerConnection, ObjectName, Class,
-     * boolean) newMBeanProxy(connection, objectName, interfaceClass,
-     * false)}.</p>
+     * <p>This method is equivblent to {@link
+     * #newMBebnProxy(MBebnServerConnection, ObjectNbme, Clbss,
+     * boolebn) newMBebnProxy(connection, objectNbme, interfbceClbss,
+     * fblse)}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the management interface that the MBean
-     * exports, which will also be implemented by the returned proxy.
+     * @pbrbm connection the MBebn server to forwbrd to.
+     * @pbrbm objectNbme the nbme of the MBebn within
+     * {@code connection} to forwbrd to.
+     * @pbrbm interfbceClbss the mbnbgement interfbce thbt the MBebn
+     * exports, which will blso be implemented by the returned proxy.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMBean.class}, for
-     * example, then the return type is {@code MyMBean}.
+     * @pbrbm <T> bllows the compiler to know thbt if the {@code
+     * interfbceClbss} pbrbmeter is {@code MyMBebn.clbss}, for
+     * exbmple, then the return type is {@code MyMBebn}.
      *
-     * @return the new proxy instance.
+     * @return the new proxy instbnce.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a <a href="package-summary.html#mgIface">compliant MBean
-     * interface</a>
+     * @throws IllegblArgumentException if {@code interfbceClbss} is not
+     * b <b href="pbckbge-summbry.html#mgIfbce">complibnt MBebn
+     * interfbce</b>
      */
-    public static <T> T newMBeanProxy(MBeanServerConnection connection,
-                                      ObjectName objectName,
-                                      Class<T> interfaceClass) {
-        return newMBeanProxy(connection, objectName, interfaceClass, false);
+    public stbtic <T> T newMBebnProxy(MBebnServerConnection connection,
+                                      ObjectNbme objectNbme,
+                                      Clbss<T> interfbceClbss) {
+        return newMBebnProxy(connection, objectNbme, interfbceClbss, fblse);
     }
 
     /**
-     * <p>Make a proxy for a Standard MBean in a local or remote MBean
-     * Server that may also support the methods of {@link
-     * NotificationEmitter}.</p>
+     * <p>Mbke b proxy for b Stbndbrd MBebn in b locbl or remote MBebn
+     * Server thbt mby blso support the methods of {@link
+     * NotificbtionEmitter}.</p>
      *
-     * <p>This method behaves the same as {@link
-     * #newMBeanProxy(MBeanServerConnection, ObjectName, Class)}, but
-     * additionally, if {@code notificationEmitter} is {@code
-     * true}, then the MBean is assumed to be a {@link
-     * NotificationBroadcaster} or {@link NotificationEmitter} and the
-     * returned proxy will implement {@link NotificationEmitter} as
-     * well as {@code interfaceClass}.  A call to {@link
-     * NotificationBroadcaster#addNotificationListener} on the proxy
-     * will result in a call to {@link
-     * MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}, and
+     * <p>This method behbves the sbme bs {@link
+     * #newMBebnProxy(MBebnServerConnection, ObjectNbme, Clbss)}, but
+     * bdditionblly, if {@code notificbtionEmitter} is {@code
+     * true}, then the MBebn is bssumed to be b {@link
+     * NotificbtionBrobdcbster} or {@link NotificbtionEmitter} bnd the
+     * returned proxy will implement {@link NotificbtionEmitter} bs
+     * well bs {@code interfbceClbss}.  A cbll to {@link
+     * NotificbtionBrobdcbster#bddNotificbtionListener} on the proxy
+     * will result in b cbll to {@link
+     * MBebnServerConnection#bddNotificbtionListener(ObjectNbme,
+     * NotificbtionListener, NotificbtionFilter, Object)}, bnd
      * likewise for the other methods of {@link
-     * NotificationBroadcaster} and {@link NotificationEmitter}.</p>
+     * NotificbtionBrobdcbster} bnd {@link NotificbtionEmitter}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the management interface that the MBean
-     * exports, which will also be implemented by the returned proxy.
-     * @param notificationEmitter make the returned proxy
-     * implement {@link NotificationEmitter} by forwarding its methods
-     * via {@code connection}.
+     * @pbrbm connection the MBebn server to forwbrd to.
+     * @pbrbm objectNbme the nbme of the MBebn within
+     * {@code connection} to forwbrd to.
+     * @pbrbm interfbceClbss the mbnbgement interfbce thbt the MBebn
+     * exports, which will blso be implemented by the returned proxy.
+     * @pbrbm notificbtionEmitter mbke the returned proxy
+     * implement {@link NotificbtionEmitter} by forwbrding its methods
+     * vib {@code connection}.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMBean.class}, for
-     * example, then the return type is {@code MyMBean}.
+     * @pbrbm <T> bllows the compiler to know thbt if the {@code
+     * interfbceClbss} pbrbmeter is {@code MyMBebn.clbss}, for
+     * exbmple, then the return type is {@code MyMBebn}.
      *
-     * @return the new proxy instance.
+     * @return the new proxy instbnce.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a <a href="package-summary.html#mgIface">compliant MBean
-     * interface</a>
+     * @throws IllegblArgumentException if {@code interfbceClbss} is not
+     * b <b href="pbckbge-summbry.html#mgIfbce">complibnt MBebn
+     * interfbce</b>
      */
-    public static <T> T newMBeanProxy(MBeanServerConnection connection,
-                                      ObjectName objectName,
-                                      Class<T> interfaceClass,
-                                      boolean notificationEmitter) {
-        return createProxy(connection, objectName, interfaceClass, notificationEmitter, false);
+    public stbtic <T> T newMBebnProxy(MBebnServerConnection connection,
+                                      ObjectNbme objectNbme,
+                                      Clbss<T> interfbceClbss,
+                                      boolebn notificbtionEmitter) {
+        return crebteProxy(connection, objectNbme, interfbceClbss, notificbtionEmitter, fblse);
     }
 
     /**
-     * Make a proxy for an MXBean in a local or remote MBean Server.
+     * Mbke b proxy for bn MXBebn in b locbl or remote MBebn Server.
      *
-     * <p>If you have an MBean Server {@code mbs} containing an
-     * MXBean with {@link ObjectName} {@code name}, and if the
-     * MXBean's management interface is described by the Java
-     * interface {@code MyMXBean}, you can construct a proxy for
-     * the MXBean like this:</p>
+     * <p>If you hbve bn MBebn Server {@code mbs} contbining bn
+     * MXBebn with {@link ObjectNbme} {@code nbme}, bnd if the
+     * MXBebn's mbnbgement interfbce is described by the Jbvb
+     * interfbce {@code MyMXBebn}, you cbn construct b proxy for
+     * the MXBebn like this:</p>
      *
      * <pre>
-     * MyMXBean proxy = JMX.newMXBeanProxy(mbs, name, MyMXBean.class);
+     * MyMXBebn proxy = JMX.newMXBebnProxy(mbs, nbme, MyMXBebn.clbss);
      * </pre>
      *
-     * <p>Suppose, for example, {@code MyMXBean} looks like this:</p>
+     * <p>Suppose, for exbmple, {@code MyMXBebn} looks like this:</p>
      *
      * <pre>
-     * public interface MyMXBean {
+     * public interfbce MyMXBebn {
      *     public String getSimpleAttribute();
-     *     public void setSimpleAttribute(String value);
-     *     public {@link java.lang.management.MemoryUsage} getMappedAttribute();
-     *     public void setMappedAttribute(MemoryUsage memoryUsage);
-     *     public MemoryUsage someOperation(String param1, MemoryUsage param2);
+     *     public void setSimpleAttribute(String vblue);
+     *     public {@link jbvb.lbng.mbnbgement.MemoryUsbge} getMbppedAttribute();
+     *     public void setMbppedAttribute(MemoryUsbge memoryUsbge);
+     *     public MemoryUsbge someOperbtion(String pbrbm1, MemoryUsbge pbrbm2);
      * }
      * </pre>
      *
@@ -245,192 +245,192 @@ public class JMX {
      *
      * <ul>
      *
-     * <li><p>{@code proxy.getSimpleAttribute()} will result in a
-     * call to {@code mbs.}{@link MBeanServerConnection#getAttribute
-     * getAttribute}{@code (name, "SimpleAttribute")}.</p>
+     * <li><p>{@code proxy.getSimpleAttribute()} will result in b
+     * cbll to {@code mbs.}{@link MBebnServerConnection#getAttribute
+     * getAttribute}{@code (nbme, "SimpleAttribute")}.</p>
      *
-     * <li><p>{@code proxy.setSimpleAttribute("whatever")} will result
-     * in a call to {@code mbs.}{@link
-     * MBeanServerConnection#setAttribute setAttribute}<code>(name,
-     * new Attribute("SimpleAttribute", "whatever"))</code>.</p>
+     * <li><p>{@code proxy.setSimpleAttribute("whbtever")} will result
+     * in b cbll to {@code mbs.}{@link
+     * MBebnServerConnection#setAttribute setAttribute}<code>(nbme,
+     * new Attribute("SimpleAttribute", "whbtever"))</code>.</p>
      *
-     *     <p>Because {@code String} is a <em>simple type</em>, in the
-     *     sense of {@link javax.management.openmbean.SimpleType}, it
-     *     is not changed in the context of an MXBean.  The MXBean
-     *     proxy behaves the same as a Standard MBean proxy (see
-     *     {@link #newMBeanProxy(MBeanServerConnection, ObjectName,
-     *     Class) newMBeanProxy}) for the attribute {@code
+     *     <p>Becbuse {@code String} is b <em>simple type</em>, in the
+     *     sense of {@link jbvbx.mbnbgement.openmbebn.SimpleType}, it
+     *     is not chbnged in the context of bn MXBebn.  The MXBebn
+     *     proxy behbves the sbme bs b Stbndbrd MBebn proxy (see
+     *     {@link #newMBebnProxy(MBebnServerConnection, ObjectNbme,
+     *     Clbss) newMBebnProxy}) for the bttribute {@code
      *     SimpleAttribute}.</p>
      *
-     * <li><p>{@code proxy.getMappedAttribute()} will result in a call
-     * to {@code mbs.getAttribute("MappedAttribute")}.  The MXBean
-     * mapping rules mean that the actual type of the attribute {@code
-     * MappedAttribute} will be {@link
-     * javax.management.openmbean.CompositeData CompositeData} and
-     * that is what the {@code mbs.getAttribute} call will return.
-     * The proxy will then convert the {@code CompositeData} back into
-     * the expected type {@code MemoryUsage} using the MXBean mapping
+     * <li><p>{@code proxy.getMbppedAttribute()} will result in b cbll
+     * to {@code mbs.getAttribute("MbppedAttribute")}.  The MXBebn
+     * mbpping rules mebn thbt the bctubl type of the bttribute {@code
+     * MbppedAttribute} will be {@link
+     * jbvbx.mbnbgement.openmbebn.CompositeDbtb CompositeDbtb} bnd
+     * thbt is whbt the {@code mbs.getAttribute} cbll will return.
+     * The proxy will then convert the {@code CompositeDbtb} bbck into
+     * the expected type {@code MemoryUsbge} using the MXBebn mbpping
      * rules.</p>
      *
-     * <li><p>Similarly, {@code proxy.setMappedAttribute(memoryUsage)}
-     * will convert the {@code MemoryUsage} argument into a {@code
-     * CompositeData} before calling {@code mbs.setAttribute}.</p>
+     * <li><p>Similbrly, {@code proxy.setMbppedAttribute(memoryUsbge)}
+     * will convert the {@code MemoryUsbge} brgument into b {@code
+     * CompositeDbtb} before cblling {@code mbs.setAttribute}.</p>
      *
-     * <li><p>{@code proxy.someOperation("whatever", memoryUsage)}
-     * will convert the {@code MemoryUsage} argument into a {@code
-     * CompositeData} and call {@code mbs.invoke}.  The value returned
-     * by {@code mbs.invoke} will be also be a {@code CompositeData},
-     * and the proxy will convert this into the expected type {@code
-     * MemoryUsage} using the MXBean mapping rules.</p>
+     * <li><p>{@code proxy.someOperbtion("whbtever", memoryUsbge)}
+     * will convert the {@code MemoryUsbge} brgument into b {@code
+     * CompositeDbtb} bnd cbll {@code mbs.invoke}.  The vblue returned
+     * by {@code mbs.invoke} will be blso be b {@code CompositeDbtb},
+     * bnd the proxy will convert this into the expected type {@code
+     * MemoryUsbge} using the MXBebn mbpping rules.</p>
      *
      * </ul>
      *
-     * <p>The object returned by this method is a
-     * {@link Proxy} whose {@code InvocationHandler} is an
-     * {@link MBeanServerInvocationHandler}.</p>
+     * <p>The object returned by this method is b
+     * {@link Proxy} whose {@code InvocbtionHbndler} is bn
+     * {@link MBebnServerInvocbtionHbndler}.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #newMXBeanProxy(MBeanServerConnection, ObjectName, Class,
-     * boolean) newMXBeanProxy(connection, objectName, interfaceClass,
-     * false)}.</p>
+     * <p>This method is equivblent to {@link
+     * #newMXBebnProxy(MBebnServerConnection, ObjectNbme, Clbss,
+     * boolebn) newMXBebnProxy(connection, objectNbme, interfbceClbss,
+     * fblse)}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the MXBean interface,
-     * which will also be implemented by the returned proxy.
+     * @pbrbm connection the MBebn server to forwbrd to.
+     * @pbrbm objectNbme the nbme of the MBebn within
+     * {@code connection} to forwbrd to.
+     * @pbrbm interfbceClbss the MXBebn interfbce,
+     * which will blso be implemented by the returned proxy.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMXBean.class}, for
-     * example, then the return type is {@code MyMXBean}.
+     * @pbrbm <T> bllows the compiler to know thbt if the {@code
+     * interfbceClbss} pbrbmeter is {@code MyMXBebn.clbss}, for
+     * exbmple, then the return type is {@code MyMXBebn}.
      *
-     * @return the new proxy instance.
+     * @return the new proxy instbnce.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a {@link javax.management.MXBean compliant MXBean interface}
+     * @throws IllegblArgumentException if {@code interfbceClbss} is not
+     * b {@link jbvbx.mbnbgement.MXBebn complibnt MXBebn interfbce}
      */
-    public static <T> T newMXBeanProxy(MBeanServerConnection connection,
-                                       ObjectName objectName,
-                                       Class<T> interfaceClass) {
-        return newMXBeanProxy(connection, objectName, interfaceClass, false);
+    public stbtic <T> T newMXBebnProxy(MBebnServerConnection connection,
+                                       ObjectNbme objectNbme,
+                                       Clbss<T> interfbceClbss) {
+        return newMXBebnProxy(connection, objectNbme, interfbceClbss, fblse);
     }
 
     /**
-     * <p>Make a proxy for an MXBean in a local or remote MBean
-     * Server that may also support the methods of {@link
-     * NotificationEmitter}.</p>
+     * <p>Mbke b proxy for bn MXBebn in b locbl or remote MBebn
+     * Server thbt mby blso support the methods of {@link
+     * NotificbtionEmitter}.</p>
      *
-     * <p>This method behaves the same as {@link
-     * #newMXBeanProxy(MBeanServerConnection, ObjectName, Class)}, but
-     * additionally, if {@code notificationEmitter} is {@code
-     * true}, then the MXBean is assumed to be a {@link
-     * NotificationBroadcaster} or {@link NotificationEmitter} and the
-     * returned proxy will implement {@link NotificationEmitter} as
-     * well as {@code interfaceClass}.  A call to {@link
-     * NotificationBroadcaster#addNotificationListener} on the proxy
-     * will result in a call to {@link
-     * MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}, and
+     * <p>This method behbves the sbme bs {@link
+     * #newMXBebnProxy(MBebnServerConnection, ObjectNbme, Clbss)}, but
+     * bdditionblly, if {@code notificbtionEmitter} is {@code
+     * true}, then the MXBebn is bssumed to be b {@link
+     * NotificbtionBrobdcbster} or {@link NotificbtionEmitter} bnd the
+     * returned proxy will implement {@link NotificbtionEmitter} bs
+     * well bs {@code interfbceClbss}.  A cbll to {@link
+     * NotificbtionBrobdcbster#bddNotificbtionListener} on the proxy
+     * will result in b cbll to {@link
+     * MBebnServerConnection#bddNotificbtionListener(ObjectNbme,
+     * NotificbtionListener, NotificbtionFilter, Object)}, bnd
      * likewise for the other methods of {@link
-     * NotificationBroadcaster} and {@link NotificationEmitter}.</p>
+     * NotificbtionBrobdcbster} bnd {@link NotificbtionEmitter}.</p>
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * {@code connection} to forward to.
-     * @param interfaceClass the MXBean interface,
-     * which will also be implemented by the returned proxy.
-     * @param notificationEmitter make the returned proxy
-     * implement {@link NotificationEmitter} by forwarding its methods
-     * via {@code connection}.
+     * @pbrbm connection the MBebn server to forwbrd to.
+     * @pbrbm objectNbme the nbme of the MBebn within
+     * {@code connection} to forwbrd to.
+     * @pbrbm interfbceClbss the MXBebn interfbce,
+     * which will blso be implemented by the returned proxy.
+     * @pbrbm notificbtionEmitter mbke the returned proxy
+     * implement {@link NotificbtionEmitter} by forwbrding its methods
+     * vib {@code connection}.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMXBean.class}, for
-     * example, then the return type is {@code MyMXBean}.
+     * @pbrbm <T> bllows the compiler to know thbt if the {@code
+     * interfbceClbss} pbrbmeter is {@code MyMXBebn.clbss}, for
+     * exbmple, then the return type is {@code MyMXBebn}.
      *
-     * @return the new proxy instance.
+     * @return the new proxy instbnce.
      *
-     * @throws IllegalArgumentException if {@code interfaceClass} is not
-     * a {@link javax.management.MXBean compliant MXBean interface}
+     * @throws IllegblArgumentException if {@code interfbceClbss} is not
+     * b {@link jbvbx.mbnbgement.MXBebn complibnt MXBebn interfbce}
      */
-    public static <T> T newMXBeanProxy(MBeanServerConnection connection,
-                                       ObjectName objectName,
-                                       Class<T> interfaceClass,
-                                       boolean notificationEmitter) {
-        return createProxy(connection, objectName, interfaceClass, notificationEmitter, true);
+    public stbtic <T> T newMXBebnProxy(MBebnServerConnection connection,
+                                       ObjectNbme objectNbme,
+                                       Clbss<T> interfbceClbss,
+                                       boolebn notificbtionEmitter) {
+        return crebteProxy(connection, objectNbme, interfbceClbss, notificbtionEmitter, true);
     }
 
     /**
-     * <p>Test whether an interface is an MXBean interface.
-     * An interface is an MXBean interface if it is public,
-     * annotated {@link MXBean &#64;MXBean} or {@code @MXBean(true)}
-     * or if it does not have an {@code @MXBean} annotation
-     * and its name ends with "{@code MXBean}".</p>
+     * <p>Test whether bn interfbce is bn MXBebn interfbce.
+     * An interfbce is bn MXBebn interfbce if it is public,
+     * bnnotbted {@link MXBebn &#64;MXBebn} or {@code @MXBebn(true)}
+     * or if it does not hbve bn {@code @MXBebn} bnnotbtion
+     * bnd its nbme ends with "{@code MXBebn}".</p>
      *
-     * @param interfaceClass The candidate interface.
+     * @pbrbm interfbceClbss The cbndidbte interfbce.
      *
-     * @return true if {@code interfaceClass} is a
-     * {@link javax.management.MXBean compliant MXBean interface}
+     * @return true if {@code interfbceClbss} is b
+     * {@link jbvbx.mbnbgement.MXBebn complibnt MXBebn interfbce}
      *
-     * @throws NullPointerException if {@code interfaceClass} is null.
+     * @throws NullPointerException if {@code interfbceClbss} is null.
      */
-    public static boolean isMXBeanInterface(Class<?> interfaceClass) {
-        if (!interfaceClass.isInterface())
-            return false;
-        if (!Modifier.isPublic(interfaceClass.getModifiers()) &&
+    public stbtic boolebn isMXBebnInterfbce(Clbss<?> interfbceClbss) {
+        if (!interfbceClbss.isInterfbce())
+            return fblse;
+        if (!Modifier.isPublic(interfbceClbss.getModifiers()) &&
             !Introspector.ALLOW_NONPUBLIC_MBEAN) {
-            return false;
+            return fblse;
         }
-        MXBean a = interfaceClass.getAnnotation(MXBean.class);
-        if (a != null)
-            return a.value();
-        return interfaceClass.getName().endsWith("MXBean");
-        // We don't bother excluding the case where the name is
-        // exactly the string "MXBean" since that would mean there
-        // was no package name, which is pretty unlikely in practice.
+        MXBebn b = interfbceClbss.getAnnotbtion(MXBebn.clbss);
+        if (b != null)
+            return b.vblue();
+        return interfbceClbss.getNbme().endsWith("MXBebn");
+        // We don't bother excluding the cbse where the nbme is
+        // exbctly the string "MXBebn" since thbt would mebn there
+        // wbs no pbckbge nbme, which is pretty unlikely in prbctice.
     }
 
     /**
-     * Centralised M(X)Bean proxy creation code
-     * @param connection {@linkplain MBeanServerConnection} to use
-     * @param objectName M(X)Bean object name
-     * @param interfaceClass M(X)Bean interface class
-     * @param notificationEmitter Is a notification emitter?
-     * @param isMXBean Is an MXBean?
-     * @return Returns an M(X)Bean proxy generated for the provided interface class
+     * Centrblised M(X)Bebn proxy crebtion code
+     * @pbrbm connection {@linkplbin MBebnServerConnection} to use
+     * @pbrbm objectNbme M(X)Bebn object nbme
+     * @pbrbm interfbceClbss M(X)Bebn interfbce clbss
+     * @pbrbm notificbtionEmitter Is b notificbtion emitter?
+     * @pbrbm isMXBebn Is bn MXBebn?
+     * @return Returns bn M(X)Bebn proxy generbted for the provided interfbce clbss
      * @throws SecurityException
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      */
-    private static <T> T createProxy(MBeanServerConnection connection,
-                                     ObjectName objectName,
-                                     Class<T> interfaceClass,
-                                     boolean notificationEmitter,
-                                     boolean isMXBean) {
+    privbte stbtic <T> T crebteProxy(MBebnServerConnection connection,
+                                     ObjectNbme objectNbme,
+                                     Clbss<T> interfbceClbss,
+                                     boolebn notificbtionEmitter,
+                                     boolebn isMXBebn) {
 
         try {
-            if (isMXBean) {
-                // Check interface for MXBean compliance
-                Introspector.testComplianceMXBeanInterface(interfaceClass);
+            if (isMXBebn) {
+                // Check interfbce for MXBebn complibnce
+                Introspector.testComplibnceMXBebnInterfbce(interfbceClbss);
             } else {
-                // Check interface for MBean compliance
-                Introspector.testComplianceMBeanInterface(interfaceClass);
+                // Check interfbce for MBebn complibnce
+                Introspector.testComplibnceMBebnInterfbce(interfbceClbss);
             }
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+        } cbtch (NotComplibntMBebnException e) {
+            throw new IllegblArgumentException(e);
         }
 
-        InvocationHandler handler = new MBeanServerInvocationHandler(
-                connection, objectName, isMXBean);
-        final Class<?>[] interfaces;
-        if (notificationEmitter) {
-            interfaces =
-                new Class<?>[] {interfaceClass, NotificationEmitter.class};
+        InvocbtionHbndler hbndler = new MBebnServerInvocbtionHbndler(
+                connection, objectNbme, isMXBebn);
+        finbl Clbss<?>[] interfbces;
+        if (notificbtionEmitter) {
+            interfbces =
+                new Clbss<?>[] {interfbceClbss, NotificbtionEmitter.clbss};
         } else
-            interfaces = new Class<?>[] {interfaceClass};
+            interfbces = new Clbss<?>[] {interfbceClbss};
 
-        Object proxy = Proxy.newProxyInstance(
-                interfaceClass.getClassLoader(),
-                interfaces,
-                handler);
-        return interfaceClass.cast(proxy);
+        Object proxy = Proxy.newProxyInstbnce(
+                interfbceClbss.getClbssLobder(),
+                interfbces,
+                hbndler);
+        return interfbceClbss.cbst(proxy);
     }
 }

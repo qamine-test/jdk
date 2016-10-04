@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
-import javax.accessibility.AccessibleContext;
-import java.awt.*;
-import java.awt.KeyboardFocusManager;
-import java.awt.DefaultKeyboardFocusManager;
-import java.awt.event.InputEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferStrategy;
-import java.awt.peer.ComponentPeer;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvb.bwt.*;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.DefbultKeybobrdFocusMbnbger;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.imbge.BufferStrbtegy;
+import jbvb.bwt.peer.ComponentPeer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessControlContext;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.AccessControlContext;
 
-import java.io.File;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import jbvb.io.File;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Vector;
 
 /**
- * The AWTAccessor utility class.
- * The main purpose of this class is to enable accessing
- * private and package-private fields of classes from
- * different classes/packages. See sun.misc.SharedSecretes
- * for another example.
+ * The AWTAccessor utility clbss.
+ * The mbin purpose of this clbss is to enbble bccessing
+ * privbte bnd pbckbge-privbte fields of clbsses from
+ * different clbsses/pbckbges. See sun.misc.ShbredSecretes
+ * for bnother exbmple.
  */
-public final class AWTAccessor {
+public finbl clbss AWTAccessor {
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
     /*
-     * We don't need any objects of this class.
-     * It's rather a collection of static methods
-     * and interfaces.
+     * We don't need bny objects of this clbss.
+     * It's rbther b collection of stbtic methods
+     * bnd interfbces.
      */
-    private AWTAccessor() {
+    privbte AWTAccessor() {
     }
 
     /*
-     * An interface of accessor for the java.awt.Component class.
+     * An interfbce of bccessor for the jbvb.bwt.Component clbss.
      */
-    public interface ComponentAccessor {
+    public interfbce ComponentAccessor {
         /*
-         * Sets whether the native background erase for a component
-         * has been disabled via SunToolkit.disableBackgroundErase().
+         * Sets whether the nbtive bbckground erbse for b component
+         * hbs been disbbled vib SunToolkit.disbbleBbckgroundErbse().
          */
-        void setBackgroundEraseDisabled(Component comp, boolean disabled);
+        void setBbckgroundErbseDisbbled(Component comp, boolebn disbbled);
         /*
-         * Indicates whether the native background erase for a
-         * component has been disabled via
-         * SunToolkit.disableBackgroundErase().
+         * Indicbtes whether the nbtive bbckground erbse for b
+         * component hbs been disbbled vib
+         * SunToolkit.disbbleBbckgroundErbse().
          */
-        boolean getBackgroundEraseDisabled(Component comp);
+        boolebn getBbckgroundErbseDisbbled(Component comp);
         /*
          *
-         * Gets the bounds of this component in the form of a
-         * <code>Rectangle</code> object. The bounds specify this
-         * component's width, height, and location relative to
-         * its parent.
+         * Gets the bounds of this component in the form of b
+         * <code>Rectbngle</code> object. The bounds specify this
+         * component's width, height, bnd locbtion relbtive to
+         * its pbrent.
          */
-        Rectangle getBounds(Component comp);
+        Rectbngle getBounds(Component comp);
         /*
-         * Sets the shape of a lw component to cut out from hw components.
+         * Sets the shbpe of b lw component to cut out from hw components.
          *
-         * See 6797587, 6776743, 6768307, and 6768332 for details
+         * See 6797587, 6776743, 6768307, bnd 6768332 for detbils
          */
-        void setMixingCutoutShape(Component comp, Shape shape);
+        void setMixingCutoutShbpe(Component comp, Shbpe shbpe);
 
         /**
-         * Sets GraphicsConfiguration value for the component.
+         * Sets GrbphicsConfigurbtion vblue for the component.
          */
-        void setGraphicsConfiguration(Component comp, GraphicsConfiguration gc);
+        void setGrbphicsConfigurbtion(Component comp, GrbphicsConfigurbtion gc);
         /*
          * Requests focus to the component.
          */
-        boolean requestFocus(Component comp, CausedFocusEvent.Cause cause);
+        boolebn requestFocus(Component comp, CbusedFocusEvent.Cbuse cbuse);
         /*
-         * Determines if the component can gain focus.
+         * Determines if the component cbn gbin focus.
          */
-        boolean canBeFocusOwner(Component comp);
+        boolebn cbnBeFocusOwner(Component comp);
 
         /**
          * Returns whether the component is visible without invoking
-         * any client code.
+         * bny client code.
          */
-        boolean isVisible(Component comp);
+        boolebn isVisible(Component comp);
 
         /**
          * Sets the RequestFocusController.
@@ -119,49 +119,49 @@ public final class AWTAccessor {
         void setRequestFocusController(RequestFocusController requestController);
 
         /**
-         * Returns the appContext of the component.
+         * Returns the bppContext of the component.
          */
         AppContext getAppContext(Component comp);
 
         /**
-         * Sets the appContext of the component.
+         * Sets the bppContext of the component.
          */
-        void setAppContext(Component comp, AppContext appContext);
+        void setAppContext(Component comp, AppContext bppContext);
 
         /**
-         * Returns the parent of the component.
+         * Returns the pbrent of the component.
          */
-        Container getParent(Component comp);
+        Contbiner getPbrent(Component comp);
 
         /**
-         * Sets the parent of the component to the specified parent.
+         * Sets the pbrent of the component to the specified pbrent.
          */
-        void setParent(Component comp, Container parent);
+        void setPbrent(Component comp, Contbiner pbrent);
 
         /**
-         * Resizes the component to the specified width and height.
+         * Resizes the component to the specified width bnd height.
          */
         void setSize(Component comp, int width, int height);
 
         /**
-         * Returns the location of the component.
+         * Returns the locbtion of the component.
          */
-        Point getLocation(Component comp);
+        Point getLocbtion(Component comp);
 
         /**
-         * Moves the component to the new location.
+         * Moves the component to the new locbtion.
          */
-        void setLocation(Component comp, int x, int y);
+        void setLocbtion(Component comp, int x, int y);
 
         /**
-         * Determines whether this component is enabled.
+         * Determines whether this component is enbbled.
          */
-        boolean isEnabled(Component comp);
+        boolebn isEnbbled(Component comp);
 
         /**
-         * Determines whether this component is displayable.
+         * Determines whether this component is displbybble.
          */
-        boolean isDisplayable(Component comp);
+        boolebn isDisplbybble(Component comp);
 
         /**
          * Gets the cursor set in the component.
@@ -181,13 +181,13 @@ public final class AWTAccessor {
         /**
          * Determines whether this component is lightweight.
          */
-        boolean isLightweight(Component comp);
+        boolebn isLightweight(Component comp);
 
         /**
-         * Returns whether or not paint messages received from
-         * the operating system should be ignored.
+         * Returns whether or not pbint messbges received from
+         * the operbting system should be ignored.
          */
-        boolean getIgnoreRepaint(Component comp);
+        boolebn getIgnoreRepbint(Component comp);
 
         /**
          * Returns the width of the component.
@@ -200,12 +200,12 @@ public final class AWTAccessor {
         int getHeight(Component comp);
 
         /**
-         * Returns the x coordinate of the component.
+         * Returns the x coordinbte of the component.
          */
         int getX(Component comp);
 
         /**
-         * Returns the y coordinate of the component.
+         * Returns the y coordinbte of the component.
          */
         int getY(Component comp);
 
@@ -215,14 +215,14 @@ public final class AWTAccessor {
         Color getForeground(Component comp);
 
         /**
-         * Gets the background color of this component.
+         * Gets the bbckground color of this component.
          */
-        Color getBackground(Component comp);
+        Color getBbckground(Component comp);
 
         /**
-         * Sets the background of this component to the specified color.
+         * Sets the bbckground of this component to the specified color.
          */
-        void setBackground(Component comp, Color background);
+        void setBbckground(Component comp, Color bbckground);
 
         /**
          * Gets the font of the component.
@@ -236,219 +236,219 @@ public final class AWTAccessor {
 
 
         /*
-         * Returns the acc this component was constructed with.
+         * Returns the bcc this component wbs constructed with.
          */
         AccessControlContext getAccessControlContext(Component comp);
 
         /**
-         * Revalidates the component synchronously.
+         * Revblidbtes the component synchronously.
          */
-        void revalidateSynchronously(Component comp);
+        void revblidbteSynchronously(Component comp);
 
         /**
-         * Creates a new strategy for multi-buffering on this component.
+         * Crebtes b new strbtegy for multi-buffering on this component.
          */
-        void createBufferStrategy(Component comp, int numBuffers,
-                BufferCapabilities caps) throws AWTException;
+        void crebteBufferStrbtegy(Component comp, int numBuffers,
+                BufferCbpbbilities cbps) throws AWTException;
 
         /**
-         * returns the buffer strategy used by this component.
+         * returns the buffer strbtegy used by this component.
          */
-        BufferStrategy getBufferStrategy(Component comp);
+        BufferStrbtegy getBufferStrbtegy(Component comp);
     }
 
     /*
-     * An interface of accessor for the java.awt.Container class.
+     * An interfbce of bccessor for the jbvb.bwt.Contbiner clbss.
      */
-    public interface ContainerAccessor {
+    public interfbce ContbinerAccessor {
         /**
-         * Validates the container unconditionally.
+         * Vblidbtes the contbiner unconditionblly.
          */
-        void validateUnconditionally(Container cont);
+        void vblidbteUnconditionblly(Contbiner cont);
 
         /**
          *
-         * Access to the private version of findComponentAt method which has
-         * a controllable behavior. Setting 'ignoreEnabled' to 'false'
-         * bypasses disabled Components during the search.
+         * Access to the privbte version of findComponentAt method which hbs
+         * b controllbble behbvior. Setting 'ignoreEnbbled' to 'fblse'
+         * bypbsses disbbled Components during the sebrch.
          */
-        Component findComponentAt(Container cont, int x, int y, boolean ignoreEnabled);
+        Component findComponentAt(Contbiner cont, int x, int y, boolebn ignoreEnbbled);
 
         /**
-         * Starts LW Modal.
+         * Stbrts LW Modbl.
          */
-        void startLWModal(Container cont);
+        void stbrtLWModbl(Contbiner cont);
 
         /**
-         * Starts LW Modal.
+         * Stbrts LW Modbl.
          */
-        void stopLWModal(Container cont);
+        void stopLWModbl(Contbiner cont);
     }
 
     /*
-     * An interface of accessor for java.awt.Window class.
+     * An interfbce of bccessor for jbvb.bwt.Window clbss.
      */
-    public interface WindowAccessor {
+    public interfbce WindowAccessor {
         /*
-         * Get opacity level of the given window.
+         * Get opbcity level of the given window.
          */
-        float getOpacity(Window window);
+        flobt getOpbcity(Window window);
         /*
-         * Set opacity level to the given window.
+         * Set opbcity level to the given window.
          */
-        void setOpacity(Window window, float opacity);
+        void setOpbcity(Window window, flobt opbcity);
         /*
-         * Get a shape assigned to the given window.
+         * Get b shbpe bssigned to the given window.
          */
-        Shape getShape(Window window);
+        Shbpe getShbpe(Window window);
         /*
-         * Set a shape to the given window.
+         * Set b shbpe to the given window.
          */
-        void setShape(Window window, Shape shape);
+        void setShbpe(Window window, Shbpe shbpe);
         /*
-         * Set the opaque preoperty to the given window.
+         * Set the opbque preoperty to the given window.
          */
-        void setOpaque(Window window, boolean isOpaque);
+        void setOpbque(Window window, boolebn isOpbque);
         /*
-         * Update the image of a non-opaque (translucent) window.
+         * Updbte the imbge of b non-opbque (trbnslucent) window.
          */
-        void updateWindow(Window window);
+        void updbteWindow(Window window);
 
-        /** Get the size of the security warning.
+        /** Get the size of the security wbrning.
          */
-        Dimension getSecurityWarningSize(Window w);
+        Dimension getSecurityWbrningSize(Window w);
 
         /**
-         * Set the size of the security warning.
+         * Set the size of the security wbrning.
          */
-        void setSecurityWarningSize(Window w, int width, int height);
+        void setSecurityWbrningSize(Window w, int width, int height);
 
-        /** Set the position of the security warning.
+        /** Set the position of the security wbrning.
          */
-        void setSecurityWarningPosition(Window w, Point2D point,
-                float alignmentX, float alignmentY);
+        void setSecurityWbrningPosition(Window w, Point2D point,
+                flobt blignmentX, flobt blignmentY);
 
-        /** Request to recalculate the new position of the security warning for
-         * the given window size/location as reported by the native system.
+        /** Request to recblculbte the new position of the security wbrning for
+         * the given window size/locbtion bs reported by the nbtive system.
          */
-        Point2D calculateSecurityWarningPosition(Window window,
+        Point2D cblculbteSecurityWbrningPosition(Window window,
                 double x, double y, double w, double h);
 
-        /** Sets the synchronous status of focus requests on lightweight
-         * components in the specified window to the specified value.
+        /** Sets the synchronous stbtus of focus requests on lightweight
+         * components in the specified window to the specified vblue.
          */
-        void setLWRequestStatus(Window changed, boolean status);
+        void setLWRequestStbtus(Window chbnged, boolebn stbtus);
 
         /**
-         * Indicates whether this window should receive focus on subsequently
+         * Indicbtes whether this window should receive focus on subsequently
          * being shown, or being moved to the front.
          */
-        boolean isAutoRequestFocus(Window w);
+        boolebn isAutoRequestFocus(Window w);
 
         /**
-         * Indicates whether the specified window is an utility window for TrayIcon.
+         * Indicbtes whether the specified window is bn utility window for TrbyIcon.
          */
-        boolean isTrayIconWindow(Window w);
+        boolebn isTrbyIconWindow(Window w);
 
         /**
-         * Marks the specified window as an utility window for TrayIcon.
+         * Mbrks the specified window bs bn utility window for TrbyIcon.
          */
-        void setTrayIconWindow(Window w, boolean isTrayIconWindow);
+        void setTrbyIconWindow(Window w, boolebn isTrbyIconWindow);
     }
 
     /**
-     * An accessor for the AWTEvent class.
+     * An bccessor for the AWTEvent clbss.
      */
-    public interface AWTEventAccessor {
+    public interfbce AWTEventAccessor {
         /**
-         * Marks the event as posted.
+         * Mbrks the event bs posted.
          */
         void setPosted(AWTEvent ev);
 
         /**
-         * Sets the flag on this AWTEvent indicating that it was
-         * generated by the system.
+         * Sets the flbg on this AWTEvent indicbting thbt it wbs
+         * generbted by the system.
          */
-        void setSystemGenerated(AWTEvent ev);
+        void setSystemGenerbted(AWTEvent ev);
 
         /**
-         * Indicates whether this AWTEvent was generated by the system.
+         * Indicbtes whether this AWTEvent wbs generbted by the system.
          */
-        boolean isSystemGenerated(AWTEvent ev);
+        boolebn isSystemGenerbted(AWTEvent ev);
 
         /**
-         * Returns the acc this event was constructed with.
+         * Returns the bcc this event wbs constructed with.
          */
         AccessControlContext getAccessControlContext(AWTEvent ev);
 
         /**
-         * Returns binary data associated with this event;
+         * Returns binbry dbtb bssocibted with this event;
          */
-        byte[] getBData(AWTEvent ev);
+        byte[] getBDbtb(AWTEvent ev);
 
         /**
-         * Associates binary data with this event;
+         * Associbtes binbry dbtb with this event;
          */
-        void setBData(AWTEvent ev, byte[] bdata);
+        void setBDbtb(AWTEvent ev, byte[] bdbtb);
     }
 
-    public interface InputEventAccessor {
+    public interfbce InputEventAccessor {
         /*
-         * Accessor for InputEvent.getButtonDownMasks()
+         * Accessor for InputEvent.getButtonDownMbsks()
          */
-        int[] getButtonDownMasks();
+        int[] getButtonDownMbsks();
 
         /*
-         * Accessor for InputEvent.canAccessSystemClipboard field
+         * Accessor for InputEvent.cbnAccessSystemClipbobrd field
          */
-        boolean canAccessSystemClipboard(InputEvent event);
+        boolebn cbnAccessSystemClipbobrd(InputEvent event);
     }
 
     /*
-     * An accessor for the java.awt.Frame class.
+     * An bccessor for the jbvb.bwt.Frbme clbss.
      */
-    public interface FrameAccessor {
+    public interfbce FrbmeAccessor {
         /*
-         * Sets the state of this frame.
+         * Sets the stbte of this frbme.
          */
-        void setExtendedState(Frame frame, int state);
+        void setExtendedStbte(Frbme frbme, int stbte);
         /*
-         * Gets the state of this frame.
+         * Gets the stbte of this frbme.
          */
-       int getExtendedState(Frame frame);
+       int getExtendedStbte(Frbme frbme);
         /*
-         * Gets the maximized bounds of this frame.
+         * Gets the mbximized bounds of this frbme.
          */
-       Rectangle getMaximizedBounds(Frame frame);
+       Rectbngle getMbximizedBounds(Frbme frbme);
     }
 
     /**
-     * An interface of accessor for the java.awt.KeyboardFocusManager class.
+     * An interfbce of bccessor for the jbvb.bwt.KeybobrdFocusMbnbger clbss.
      */
-    public interface KeyboardFocusManagerAccessor {
+    public interfbce KeybobrdFocusMbnbgerAccessor {
         /**
-         * Indicates whether the native implementation should
-         * proceed with a pending focus request for the heavyweight.
+         * Indicbtes whether the nbtive implementbtion should
+         * proceed with b pending focus request for the hebvyweight.
          */
-        int shouldNativelyFocusHeavyweight(Component heavyweight,
-                                           Component descendant,
-                                           boolean temporary,
-                                           boolean focusedWindowChangeAllowed,
+        int shouldNbtivelyFocusHebvyweight(Component hebvyweight,
+                                           Component descendbnt,
+                                           boolebn temporbry,
+                                           boolebn focusedWindowChbngeAllowed,
                                            long time,
-                                           CausedFocusEvent.Cause cause);
+                                           CbusedFocusEvent.Cbuse cbuse);
         /**
-         * Delivers focus for the lightweight descendant of the heavyweight
+         * Delivers focus for the lightweight descendbnt of the hebvyweight
          * synchronously.
          */
-        boolean processSynchronousLightweightTransfer(Component heavyweight,
-                                                      Component descendant,
-                                                      boolean temporary,
-                                                      boolean focusedWindowChangeAllowed,
+        boolebn processSynchronousLightweightTrbnsfer(Component hebvyweight,
+                                                      Component descendbnt,
+                                                      boolebn temporbry,
+                                                      boolebn focusedWindowChbngeAllowed,
                                                       long time);
         /**
-         * Removes the last focus request for the heavyweight from the queue.
+         * Removes the lbst focus request for the hebvyweight from the queue.
          */
-        void removeLastFocusRequest(Component heavyweight);
+        void removeLbstFocusRequest(Component hebvyweight);
 
         /**
          * Sets the most recent focus owner in the window.
@@ -458,37 +458,37 @@ public final class AWTAccessor {
         /**
          * Returns current KFM of the specified AppContext.
          */
-        KeyboardFocusManager getCurrentKeyboardFocusManager(AppContext ctx);
+        KeybobrdFocusMbnbger getCurrentKeybobrdFocusMbnbger(AppContext ctx);
 
         /**
          * Return the current focus cycle root
          */
-        Container getCurrentFocusCycleRoot();
+        Contbiner getCurrentFocusCycleRoot();
     }
 
     /**
-     * An accessor for the MenuComponent class.
+     * An bccessor for the MenuComponent clbss.
      */
-    public interface MenuComponentAccessor {
+    public interfbce MenuComponentAccessor {
         /**
-         * Returns the appContext of the menu component.
+         * Returns the bppContext of the menu component.
          */
         AppContext getAppContext(MenuComponent menuComp);
 
         /**
-         * Sets the appContext of the menu component.
+         * Sets the bppContext of the menu component.
          */
-        void setAppContext(MenuComponent menuComp, AppContext appContext);
+        void setAppContext(MenuComponent menuComp, AppContext bppContext);
 
         /**
-         * Returns the menu container of the menu component.
+         * Returns the menu contbiner of the menu component.
          */
-        MenuContainer getParent(MenuComponent menuComp);
+        MenuContbiner getPbrent(MenuComponent menuComp);
 
         /**
-         * Sets the menu container of the menu component.
+         * Sets the menu contbiner of the menu component.
          */
-        void  setParent(MenuComponent menuComp, MenuContainer menuContainer);
+        void  setPbrent(MenuComponent menuComp, MenuContbiner menuContbiner);
 
         /**
          * Gets the font used for this menu component.
@@ -497,45 +497,45 @@ public final class AWTAccessor {
     }
 
     /**
-     * An accessor for the EventQueue class
+     * An bccessor for the EventQueue clbss
      */
-    public interface EventQueueAccessor {
+    public interfbce EventQueueAccessor {
         /**
-         * Gets the event dispatch thread.
+         * Gets the event dispbtch threbd.
          */
-        Thread getDispatchThread(EventQueue eventQueue);
+        Threbd getDispbtchThrebd(EventQueue eventQueue);
 
         /**
-         * Checks if the current thread is EDT for the given EQ.
+         * Checks if the current threbd is EDT for the given EQ.
          */
-        public boolean isDispatchThreadImpl(EventQueue eventQueue);
+        public boolebn isDispbtchThrebdImpl(EventQueue eventQueue);
 
         /**
-         * Removes any pending events for the specified source object.
+         * Removes bny pending events for the specified source object.
          */
-        void removeSourceEvents(EventQueue eventQueue, Object source, boolean removeAllEvents);
+        void removeSourceEvents(EventQueue eventQueue, Object source, boolebn removeAllEvents);
 
         /**
-         * Returns whether an event is pending on any of the separate Queues.
+         * Returns whether bn event is pending on bny of the sepbrbte Queues.
          */
-        boolean noEvents(EventQueue eventQueue);
+        boolebn noEvents(EventQueue eventQueue);
 
         /**
-         * Called from PostEventQueue.postEvent to notify that a new event
-         * appeared.
+         * Cblled from PostEventQueue.postEvent to notify thbt b new event
+         * bppebred.
          */
-        void wakeup(EventQueue eventQueue, boolean isShutdown);
+        void wbkeup(EventQueue eventQueue, boolebn isShutdown);
 
         /**
-         * Static in EventQueue
+         * Stbtic in EventQueue
          */
-        void invokeAndWait(Object source, Runnable r)
-            throws InterruptedException, InvocationTargetException;
+        void invokeAndWbit(Object source, Runnbble r)
+            throws InterruptedException, InvocbtionTbrgetException;
 
         /**
-         * Sets the delegate for the EventQueue used by FX/AWT single threaded mode
+         * Sets the delegbte for the EventQueue used by FX/AWT single threbded mode
          */
-        void setFwDispatcher(EventQueue eventQueue, FwDispatcher dispatcher);
+        void setFwDispbtcher(EventQueue eventQueue, FwDispbtcher dispbtcher);
 
         /**
          * Gets most recent event time in the EventQueue
@@ -544,121 +544,121 @@ public final class AWTAccessor {
     }
 
     /*
-     * An accessor for the PopupMenu class
+     * An bccessor for the PopupMenu clbss
      */
-    public interface PopupMenuAccessor {
+    public interfbce PopupMenuAccessor {
         /*
-         * Returns whether the popup menu is attached to a tray
+         * Returns whether the popup menu is bttbched to b trby
          */
-        boolean isTrayIconPopup(PopupMenu popupMenu);
+        boolebn isTrbyIconPopup(PopupMenu popupMenu);
     }
 
     /*
-     * An accessor for the FileDialog class
+     * An bccessor for the FileDiblog clbss
      */
-    public interface FileDialogAccessor {
+    public interfbce FileDiblogAccessor {
         /*
          * Sets the files the user selects
          */
-        void setFiles(FileDialog fileDialog, File files[]);
+        void setFiles(FileDiblog fileDiblog, File files[]);
 
         /*
          * Sets the file the user selects
          */
-        void setFile(FileDialog fileDialog, String file);
+        void setFile(FileDiblog fileDiblog, String file);
 
         /*
          * Sets the directory the user selects
          */
-        void setDirectory(FileDialog fileDialog, String directory);
+        void setDirectory(FileDiblog fileDiblog, String directory);
 
         /*
-         * Returns whether the file dialog allows the multiple file selection.
+         * Returns whether the file diblog bllows the multiple file selection.
          */
-        boolean isMultipleMode(FileDialog fileDialog);
+        boolebn isMultipleMode(FileDiblog fileDiblog);
     }
 
     /*
-     * An accessor for the ScrollPaneAdjustable class.
+     * An bccessor for the ScrollPbneAdjustbble clbss.
      */
-    public interface ScrollPaneAdjustableAccessor {
+    public interfbce ScrollPbneAdjustbbleAccessor {
         /*
-         * Sets the value of this scrollbar to the specified value.
+         * Sets the vblue of this scrollbbr to the specified vblue.
          */
-        void setTypedValue(final ScrollPaneAdjustable adj, final int v,
-                           final int type);
+        void setTypedVblue(finbl ScrollPbneAdjustbble bdj, finbl int v,
+                           finbl int type);
     }
 
     /**
-     * An accessor for the CheckboxMenuItem class
+     * An bccessor for the CheckboxMenuItem clbss
      */
-    public interface CheckboxMenuItemAccessor {
+    public interfbce CheckboxMenuItemAccessor {
         /**
          * Returns whether menu item is checked
          */
-        boolean getState(CheckboxMenuItem cmi);
+        boolebn getStbte(CheckboxMenuItem cmi);
     }
 
     /**
-     * An accessor for the Cursor class
+     * An bccessor for the Cursor clbss
      */
-    public interface CursorAccessor {
+    public interfbce CursorAccessor {
         /**
-         * Returns pData of the Cursor class
+         * Returns pDbtb of the Cursor clbss
          */
-        long getPData(Cursor cursor);
+        long getPDbtb(Cursor cursor);
 
         /**
-         * Sets pData to the Cursor class
+         * Sets pDbtb to the Cursor clbss
          */
-        void setPData(Cursor cursor, long pData);
+        void setPDbtb(Cursor cursor, long pDbtb);
 
         /**
-         * Return type of the Cursor class
+         * Return type of the Cursor clbss
          */
         int getType(Cursor cursor);
     }
 
     /**
-     * An accessor for the MenuBar class
+     * An bccessor for the MenuBbr clbss
      */
-    public interface MenuBarAccessor {
+    public interfbce MenuBbrAccessor {
         /**
          * Returns help menu
          */
-        Menu getHelpMenu(MenuBar menuBar);
+        Menu getHelpMenu(MenuBbr menuBbr);
 
         /**
          * Returns menus
          */
-        Vector<Menu> getMenus(MenuBar menuBar);
+        Vector<Menu> getMenus(MenuBbr menuBbr);
     }
 
     /**
-     * An accessor for the MenuItem class
+     * An bccessor for the MenuItem clbss
      */
-    public interface MenuItemAccessor {
+    public interfbce MenuItemAccessor {
         /**
-         * Returns whether menu item is enabled
+         * Returns whether menu item is enbbled
          */
-        boolean isEnabled(MenuItem item);
+        boolebn isEnbbled(MenuItem item);
 
         /**
-         * Gets the command name of the action event that is fired
+         * Gets the commbnd nbme of the bction event thbt is fired
          * by this menu item.
          */
-        String getActionCommandImpl(MenuItem item);
+        String getActionCommbndImpl(MenuItem item);
 
         /**
-         * Returns true if the item and all its ancestors are
-         * enabled, false otherwise
+         * Returns true if the item bnd bll its bncestors bre
+         * enbbled, fblse otherwise
          */
-        boolean isItemEnabled(MenuItem item);
+        boolebn isItemEnbbled(MenuItem item);
 
         /**
-         * Returns label
+         * Returns lbbel
          */
-        String getLabel(MenuItem item);
+        String getLbbel(MenuItem item);
 
         /**
          * Returns shortcut
@@ -667,28 +667,28 @@ public final class AWTAccessor {
     }
 
     /**
-     * An accessor for the Menu class
+     * An bccessor for the Menu clbss
      */
-    public interface MenuAccessor {
+    public interfbce MenuAccessor {
         /**
-         * Returns vector of the items that are part of the Menu
+         * Returns vector of the items thbt bre pbrt of the Menu
          */
         Vector<MenuItem> getItems(Menu menu);
     }
 
     /**
-     * An accessor for the KeyEvent class
+     * An bccessor for the KeyEvent clbss
      */
-    public interface KeyEventAccessor {
+    public interfbce KeyEventAccessor {
         /**
-         * Sets rawCode field for KeyEvent
+         * Sets rbwCode field for KeyEvent
          */
-        void setRawCode(KeyEvent ev, long rawCode);
+        void setRbwCode(KeyEvent ev, long rbwCode);
 
         /**
-         * Sets primaryLevelUnicode field for KeyEvent
+         * Sets primbryLevelUnicode field for KeyEvent
          */
-        void setPrimaryLevelUnicode(KeyEvent ev, long primaryLevelUnicode);
+        void setPrimbryLevelUnicode(KeyEvent ev, long primbryLevelUnicode);
 
         /**
          * Sets extendedKeyCode field for KeyEvent
@@ -696,15 +696,15 @@ public final class AWTAccessor {
         void setExtendedKeyCode(KeyEvent ev, long extendedKeyCode);
 
         /**
-         * Gets original source for KeyEvent
+         * Gets originbl source for KeyEvent
          */
-        Component getOriginalSource(KeyEvent ev);
+        Component getOriginblSource(KeyEvent ev);
     }
 
     /**
-     * An accessor for the ClientPropertyKey class
+     * An bccessor for the ClientPropertyKey clbss
      */
-    public interface ClientPropertyKeyAccessor {
+    public interfbce ClientPropertyKeyAccessor {
         /**
          * Retrieves JComponent_TRANSFER_HANDLER enum object
          */
@@ -712,563 +712,563 @@ public final class AWTAccessor {
     }
 
     /**
-     * An accessor for the SystemTray class
+     * An bccessor for the SystemTrby clbss
      */
-    public interface SystemTrayAccessor {
+    public interfbce SystemTrbyAccessor {
         /**
-         * Support for reporting bound property changes for Object properties.
+         * Support for reporting bound property chbnges for Object properties.
          */
-        void firePropertyChange(SystemTray tray, String propertyName, Object oldValue, Object newValue);
+        void firePropertyChbnge(SystemTrby trby, String propertyNbme, Object oldVblue, Object newVblue);
     }
 
     /**
-     * An accessor for the TrayIcon class
+     * An bccessor for the TrbyIcon clbss
      */
-    public interface TrayIconAccessor {
-        void addNotify(TrayIcon trayIcon) throws AWTException;
-        void removeNotify(TrayIcon trayIcon);
+    public interfbce TrbyIconAccessor {
+        void bddNotify(TrbyIcon trbyIcon) throws AWTException;
+        void removeNotify(TrbyIcon trbyIcon);
     }
 
     /**
-     * An accessor for the DefaultKeyboardFocusManager class
+     * An bccessor for the DefbultKeybobrdFocusMbnbger clbss
      */
-    public interface DefaultKeyboardFocusManagerAccessor {
-        public void consumeNextKeyTyped(DefaultKeyboardFocusManager dkfm, KeyEvent e);
+    public interfbce DefbultKeybobrdFocusMbnbgerAccessor {
+        public void consumeNextKeyTyped(DefbultKeybobrdFocusMbnbger dkfm, KeyEvent e);
     }
 
     /*
-     * An accessor for the SequencedEventAccessor class
+     * An bccessor for the SequencedEventAccessor clbss
      */
-    public interface SequencedEventAccessor {
+    public interfbce SequencedEventAccessor {
         /*
          * Returns the nested event.
          */
         AWTEvent getNested(AWTEvent sequencedEvent);
 
         /*
-         * Returns true if the event is an instances of SequencedEvent.
+         * Returns true if the event is bn instbnces of SequencedEvent.
          */
-        boolean isSequencedEvent(AWTEvent event);
+        boolebn isSequencedEvent(AWTEvent event);
     }
 
     /*
-     * An accessor for the Toolkit class
+     * An bccessor for the Toolkit clbss
      */
-    public interface ToolkitAccessor {
-        void setPlatformResources(ResourceBundle bundle);
+    public interfbce ToolkitAccessor {
+        void setPlbtformResources(ResourceBundle bundle);
     }
 
     /*
-     * An accessor object for the InvocationEvent class
+     * An bccessor object for the InvocbtionEvent clbss
      */
-    public interface InvocationEventAccessor {
-        void dispose(InvocationEvent event);
+    public interfbce InvocbtionEventAccessor {
+        void dispose(InvocbtionEvent event);
     }
 
     /*
-     * An accessor object for the SystemColor class
+     * An bccessor object for the SystemColor clbss
      */
-    public interface SystemColorAccessor {
-        void updateSystemColors();
+    public interfbce SystemColorAccessor {
+        void updbteSystemColors();
     }
 
     /*
-     * An accessor object for the AccessibleContext class
+     * An bccessor object for the AccessibleContext clbss
      */
-    public interface AccessibleContextAccessor {
-        void setAppContext(AccessibleContext accessibleContext, AppContext appContext);
-        AppContext getAppContext(AccessibleContext accessibleContext);
+    public interfbce AccessibleContextAccessor {
+        void setAppContext(AccessibleContext bccessibleContext, AppContext bppContext);
+        AppContext getAppContext(AccessibleContext bccessibleContext);
     }
 
     /*
-     * Accessor instances are initialized in the static initializers of
-     * corresponding AWT classes by using setters defined below.
+     * Accessor instbnces bre initiblized in the stbtic initiblizers of
+     * corresponding AWT clbsses by using setters defined below.
      */
-    private static ComponentAccessor componentAccessor;
-    private static ContainerAccessor containerAccessor;
-    private static WindowAccessor windowAccessor;
-    private static AWTEventAccessor awtEventAccessor;
-    private static InputEventAccessor inputEventAccessor;
-    private static FrameAccessor frameAccessor;
-    private static KeyboardFocusManagerAccessor kfmAccessor;
-    private static MenuComponentAccessor menuComponentAccessor;
-    private static EventQueueAccessor eventQueueAccessor;
-    private static PopupMenuAccessor popupMenuAccessor;
-    private static FileDialogAccessor fileDialogAccessor;
-    private static ScrollPaneAdjustableAccessor scrollPaneAdjustableAccessor;
-    private static CheckboxMenuItemAccessor checkboxMenuItemAccessor;
-    private static CursorAccessor cursorAccessor;
-    private static MenuBarAccessor menuBarAccessor;
-    private static MenuItemAccessor menuItemAccessor;
-    private static MenuAccessor menuAccessor;
-    private static KeyEventAccessor keyEventAccessor;
-    private static ClientPropertyKeyAccessor clientPropertyKeyAccessor;
-    private static SystemTrayAccessor systemTrayAccessor;
-    private static TrayIconAccessor trayIconAccessor;
-    private static DefaultKeyboardFocusManagerAccessor defaultKeyboardFocusManagerAccessor;
-    private static SequencedEventAccessor sequencedEventAccessor;
-    private static ToolkitAccessor toolkitAccessor;
-    private static InvocationEventAccessor invocationEventAccessor;
-    private static SystemColorAccessor systemColorAccessor;
-    private static AccessibleContextAccessor accessibleContextAccessor;
+    privbte stbtic ComponentAccessor componentAccessor;
+    privbte stbtic ContbinerAccessor contbinerAccessor;
+    privbte stbtic WindowAccessor windowAccessor;
+    privbte stbtic AWTEventAccessor bwtEventAccessor;
+    privbte stbtic InputEventAccessor inputEventAccessor;
+    privbte stbtic FrbmeAccessor frbmeAccessor;
+    privbte stbtic KeybobrdFocusMbnbgerAccessor kfmAccessor;
+    privbte stbtic MenuComponentAccessor menuComponentAccessor;
+    privbte stbtic EventQueueAccessor eventQueueAccessor;
+    privbte stbtic PopupMenuAccessor popupMenuAccessor;
+    privbte stbtic FileDiblogAccessor fileDiblogAccessor;
+    privbte stbtic ScrollPbneAdjustbbleAccessor scrollPbneAdjustbbleAccessor;
+    privbte stbtic CheckboxMenuItemAccessor checkboxMenuItemAccessor;
+    privbte stbtic CursorAccessor cursorAccessor;
+    privbte stbtic MenuBbrAccessor menuBbrAccessor;
+    privbte stbtic MenuItemAccessor menuItemAccessor;
+    privbte stbtic MenuAccessor menuAccessor;
+    privbte stbtic KeyEventAccessor keyEventAccessor;
+    privbte stbtic ClientPropertyKeyAccessor clientPropertyKeyAccessor;
+    privbte stbtic SystemTrbyAccessor systemTrbyAccessor;
+    privbte stbtic TrbyIconAccessor trbyIconAccessor;
+    privbte stbtic DefbultKeybobrdFocusMbnbgerAccessor defbultKeybobrdFocusMbnbgerAccessor;
+    privbte stbtic SequencedEventAccessor sequencedEventAccessor;
+    privbte stbtic ToolkitAccessor toolkitAccessor;
+    privbte stbtic InvocbtionEventAccessor invocbtionEventAccessor;
+    privbte stbtic SystemColorAccessor systemColorAccessor;
+    privbte stbtic AccessibleContextAccessor bccessibleContextAccessor;
 
     /*
-     * Set an accessor object for the java.awt.Component class.
+     * Set bn bccessor object for the jbvb.bwt.Component clbss.
      */
-    public static void setComponentAccessor(ComponentAccessor ca) {
-        componentAccessor = ca;
+    public stbtic void setComponentAccessor(ComponentAccessor cb) {
+        componentAccessor = cb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.Component class.
+     * Retrieve the bccessor object for the jbvb.bwt.Component clbss.
      */
-    public static ComponentAccessor getComponentAccessor() {
+    public stbtic ComponentAccessor getComponentAccessor() {
         if (componentAccessor == null) {
-            unsafe.ensureClassInitialized(Component.class);
+            unsbfe.ensureClbssInitiblized(Component.clbss);
         }
 
         return componentAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.Container class.
+     * Set bn bccessor object for the jbvb.bwt.Contbiner clbss.
      */
-    public static void setContainerAccessor(ContainerAccessor ca) {
-        containerAccessor = ca;
+    public stbtic void setContbinerAccessor(ContbinerAccessor cb) {
+        contbinerAccessor = cb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.Container class.
+     * Retrieve the bccessor object for the jbvb.bwt.Contbiner clbss.
      */
-    public static ContainerAccessor getContainerAccessor() {
-        if (containerAccessor == null) {
-            unsafe.ensureClassInitialized(Container.class);
+    public stbtic ContbinerAccessor getContbinerAccessor() {
+        if (contbinerAccessor == null) {
+            unsbfe.ensureClbssInitiblized(Contbiner.clbss);
         }
 
-        return containerAccessor;
+        return contbinerAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.Window class.
+     * Set bn bccessor object for the jbvb.bwt.Window clbss.
      */
-    public static void setWindowAccessor(WindowAccessor wa) {
-        windowAccessor = wa;
+    public stbtic void setWindowAccessor(WindowAccessor wb) {
+        windowAccessor = wb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.Window class.
+     * Retrieve the bccessor object for the jbvb.bwt.Window clbss.
      */
-    public static WindowAccessor getWindowAccessor() {
+    public stbtic WindowAccessor getWindowAccessor() {
         if (windowAccessor == null) {
-            unsafe.ensureClassInitialized(Window.class);
+            unsbfe.ensureClbssInitiblized(Window.clbss);
         }
         return windowAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.AWTEvent class.
+     * Set bn bccessor object for the jbvb.bwt.AWTEvent clbss.
      */
-    public static void setAWTEventAccessor(AWTEventAccessor aea) {
-        awtEventAccessor = aea;
+    public stbtic void setAWTEventAccessor(AWTEventAccessor beb) {
+        bwtEventAccessor = beb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.AWTEvent class.
+     * Retrieve the bccessor object for the jbvb.bwt.AWTEvent clbss.
      */
-    public static AWTEventAccessor getAWTEventAccessor() {
-        if (awtEventAccessor == null) {
-            unsafe.ensureClassInitialized(AWTEvent.class);
+    public stbtic AWTEventAccessor getAWTEventAccessor() {
+        if (bwtEventAccessor == null) {
+            unsbfe.ensureClbssInitiblized(AWTEvent.clbss);
         }
-        return awtEventAccessor;
+        return bwtEventAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.event.InputEvent class.
+     * Set bn bccessor object for the jbvb.bwt.event.InputEvent clbss.
      */
-    public static void setInputEventAccessor(InputEventAccessor iea) {
-        inputEventAccessor = iea;
+    public stbtic void setInputEventAccessor(InputEventAccessor ieb) {
+        inputEventAccessor = ieb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.event.InputEvent class.
+     * Retrieve the bccessor object for the jbvb.bwt.event.InputEvent clbss.
      */
-    public static InputEventAccessor getInputEventAccessor() {
+    public stbtic InputEventAccessor getInputEventAccessor() {
         if (inputEventAccessor == null) {
-            unsafe.ensureClassInitialized(InputEvent.class);
+            unsbfe.ensureClbssInitiblized(InputEvent.clbss);
         }
         return inputEventAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.Frame class.
+     * Set bn bccessor object for the jbvb.bwt.Frbme clbss.
      */
-    public static void setFrameAccessor(FrameAccessor fa) {
-        frameAccessor = fa;
+    public stbtic void setFrbmeAccessor(FrbmeAccessor fb) {
+        frbmeAccessor = fb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.Frame class.
+     * Retrieve the bccessor object for the jbvb.bwt.Frbme clbss.
      */
-    public static FrameAccessor getFrameAccessor() {
-        if (frameAccessor == null) {
-            unsafe.ensureClassInitialized(Frame.class);
+    public stbtic FrbmeAccessor getFrbmeAccessor() {
+        if (frbmeAccessor == null) {
+            unsbfe.ensureClbssInitiblized(Frbme.clbss);
         }
-        return frameAccessor;
+        return frbmeAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.KeyboardFocusManager class.
+     * Set bn bccessor object for the jbvb.bwt.KeybobrdFocusMbnbger clbss.
      */
-    public static void setKeyboardFocusManagerAccessor(KeyboardFocusManagerAccessor kfma) {
-        kfmAccessor = kfma;
+    public stbtic void setKeybobrdFocusMbnbgerAccessor(KeybobrdFocusMbnbgerAccessor kfmb) {
+        kfmAccessor = kfmb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.KeyboardFocusManager class.
+     * Retrieve the bccessor object for the jbvb.bwt.KeybobrdFocusMbnbger clbss.
      */
-    public static KeyboardFocusManagerAccessor getKeyboardFocusManagerAccessor() {
+    public stbtic KeybobrdFocusMbnbgerAccessor getKeybobrdFocusMbnbgerAccessor() {
         if (kfmAccessor == null) {
-            unsafe.ensureClassInitialized(KeyboardFocusManager.class);
+            unsbfe.ensureClbssInitiblized(KeybobrdFocusMbnbger.clbss);
         }
         return kfmAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.MenuComponent class.
+     * Set bn bccessor object for the jbvb.bwt.MenuComponent clbss.
      */
-    public static void setMenuComponentAccessor(MenuComponentAccessor mca) {
-        menuComponentAccessor = mca;
+    public stbtic void setMenuComponentAccessor(MenuComponentAccessor mcb) {
+        menuComponentAccessor = mcb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.MenuComponent class.
+     * Retrieve the bccessor object for the jbvb.bwt.MenuComponent clbss.
      */
-    public static MenuComponentAccessor getMenuComponentAccessor() {
+    public stbtic MenuComponentAccessor getMenuComponentAccessor() {
         if (menuComponentAccessor == null) {
-            unsafe.ensureClassInitialized(MenuComponent.class);
+            unsbfe.ensureClbssInitiblized(MenuComponent.clbss);
         }
         return menuComponentAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.EventQueue class.
+     * Set bn bccessor object for the jbvb.bwt.EventQueue clbss.
      */
-    public static void setEventQueueAccessor(EventQueueAccessor eqa) {
-        eventQueueAccessor = eqa;
+    public stbtic void setEventQueueAccessor(EventQueueAccessor eqb) {
+        eventQueueAccessor = eqb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.EventQueue class.
+     * Retrieve the bccessor object for the jbvb.bwt.EventQueue clbss.
      */
-    public static EventQueueAccessor getEventQueueAccessor() {
+    public stbtic EventQueueAccessor getEventQueueAccessor() {
         if (eventQueueAccessor == null) {
-            unsafe.ensureClassInitialized(EventQueue.class);
+            unsbfe.ensureClbssInitiblized(EventQueue.clbss);
         }
         return eventQueueAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.PopupMenu class.
+     * Set bn bccessor object for the jbvb.bwt.PopupMenu clbss.
      */
-    public static void setPopupMenuAccessor(PopupMenuAccessor pma) {
-        popupMenuAccessor = pma;
+    public stbtic void setPopupMenuAccessor(PopupMenuAccessor pmb) {
+        popupMenuAccessor = pmb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.PopupMenu class.
+     * Retrieve the bccessor object for the jbvb.bwt.PopupMenu clbss.
      */
-    public static PopupMenuAccessor getPopupMenuAccessor() {
+    public stbtic PopupMenuAccessor getPopupMenuAccessor() {
         if (popupMenuAccessor == null) {
-            unsafe.ensureClassInitialized(PopupMenu.class);
+            unsbfe.ensureClbssInitiblized(PopupMenu.clbss);
         }
         return popupMenuAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.FileDialog class.
+     * Set bn bccessor object for the jbvb.bwt.FileDiblog clbss.
      */
-    public static void setFileDialogAccessor(FileDialogAccessor fda) {
-        fileDialogAccessor = fda;
+    public stbtic void setFileDiblogAccessor(FileDiblogAccessor fdb) {
+        fileDiblogAccessor = fdb;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.FileDialog class.
+     * Retrieve the bccessor object for the jbvb.bwt.FileDiblog clbss.
      */
-    public static FileDialogAccessor getFileDialogAccessor() {
-        if (fileDialogAccessor == null) {
-            unsafe.ensureClassInitialized(FileDialog.class);
+    public stbtic FileDiblogAccessor getFileDiblogAccessor() {
+        if (fileDiblogAccessor == null) {
+            unsbfe.ensureClbssInitiblized(FileDiblog.clbss);
         }
-        return fileDialogAccessor;
+        return fileDiblogAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.ScrollPaneAdjustable class.
+     * Set bn bccessor object for the jbvb.bwt.ScrollPbneAdjustbble clbss.
      */
-    public static void setScrollPaneAdjustableAccessor(ScrollPaneAdjustableAccessor adj) {
-        scrollPaneAdjustableAccessor = adj;
+    public stbtic void setScrollPbneAdjustbbleAccessor(ScrollPbneAdjustbbleAccessor bdj) {
+        scrollPbneAdjustbbleAccessor = bdj;
     }
 
     /*
-     * Retrieve the accessor object for the java.awt.ScrollPaneAdjustable
-     * class.
+     * Retrieve the bccessor object for the jbvb.bwt.ScrollPbneAdjustbble
+     * clbss.
      */
-    public static ScrollPaneAdjustableAccessor getScrollPaneAdjustableAccessor() {
-        if (scrollPaneAdjustableAccessor == null) {
-            unsafe.ensureClassInitialized(ScrollPaneAdjustable.class);
+    public stbtic ScrollPbneAdjustbbleAccessor getScrollPbneAdjustbbleAccessor() {
+        if (scrollPbneAdjustbbleAccessor == null) {
+            unsbfe.ensureClbssInitiblized(ScrollPbneAdjustbble.clbss);
         }
-        return scrollPaneAdjustableAccessor;
+        return scrollPbneAdjustbbleAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.CheckboxMenuItem class.
+     * Set bn bccessor object for the jbvb.bwt.CheckboxMenuItem clbss.
      */
-    public static void setCheckboxMenuItemAccessor(CheckboxMenuItemAccessor cmia) {
-        checkboxMenuItemAccessor = cmia;
+    public stbtic void setCheckboxMenuItemAccessor(CheckboxMenuItemAccessor cmib) {
+        checkboxMenuItemAccessor = cmib;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.CheckboxMenuItem class.
+     * Retrieve the bccessor object for the jbvb.bwt.CheckboxMenuItem clbss.
      */
-    public static CheckboxMenuItemAccessor getCheckboxMenuItemAccessor() {
+    public stbtic CheckboxMenuItemAccessor getCheckboxMenuItemAccessor() {
         if (checkboxMenuItemAccessor == null) {
-            unsafe.ensureClassInitialized(CheckboxMenuItemAccessor.class);
+            unsbfe.ensureClbssInitiblized(CheckboxMenuItemAccessor.clbss);
         }
         return checkboxMenuItemAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.Cursor class.
+     * Set bn bccessor object for the jbvb.bwt.Cursor clbss.
      */
-    public static void setCursorAccessor(CursorAccessor ca) {
-        cursorAccessor = ca;
+    public stbtic void setCursorAccessor(CursorAccessor cb) {
+        cursorAccessor = cb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.Cursor class.
+     * Retrieve the bccessor object for the jbvb.bwt.Cursor clbss.
      */
-    public static CursorAccessor getCursorAccessor() {
+    public stbtic CursorAccessor getCursorAccessor() {
         if (cursorAccessor == null) {
-            unsafe.ensureClassInitialized(CursorAccessor.class);
+            unsbfe.ensureClbssInitiblized(CursorAccessor.clbss);
         }
         return cursorAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.MenuBar class.
+     * Set bn bccessor object for the jbvb.bwt.MenuBbr clbss.
      */
-    public static void setMenuBarAccessor(MenuBarAccessor mba) {
-        menuBarAccessor = mba;
+    public stbtic void setMenuBbrAccessor(MenuBbrAccessor mbb) {
+        menuBbrAccessor = mbb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.MenuBar class.
+     * Retrieve the bccessor object for the jbvb.bwt.MenuBbr clbss.
      */
-    public static MenuBarAccessor getMenuBarAccessor() {
-        if (menuBarAccessor == null) {
-            unsafe.ensureClassInitialized(MenuBarAccessor.class);
+    public stbtic MenuBbrAccessor getMenuBbrAccessor() {
+        if (menuBbrAccessor == null) {
+            unsbfe.ensureClbssInitiblized(MenuBbrAccessor.clbss);
         }
-        return menuBarAccessor;
+        return menuBbrAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.MenuItem class.
+     * Set bn bccessor object for the jbvb.bwt.MenuItem clbss.
      */
-    public static void setMenuItemAccessor(MenuItemAccessor mia) {
-        menuItemAccessor = mia;
+    public stbtic void setMenuItemAccessor(MenuItemAccessor mib) {
+        menuItemAccessor = mib;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.MenuItem class.
+     * Retrieve the bccessor object for the jbvb.bwt.MenuItem clbss.
      */
-    public static MenuItemAccessor getMenuItemAccessor() {
+    public stbtic MenuItemAccessor getMenuItemAccessor() {
         if (menuItemAccessor == null) {
-            unsafe.ensureClassInitialized(MenuItemAccessor.class);
+            unsbfe.ensureClbssInitiblized(MenuItemAccessor.clbss);
         }
         return menuItemAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.Menu class.
+     * Set bn bccessor object for the jbvb.bwt.Menu clbss.
      */
-    public static void setMenuAccessor(MenuAccessor ma) {
-        menuAccessor = ma;
+    public stbtic void setMenuAccessor(MenuAccessor mb) {
+        menuAccessor = mb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.Menu class.
+     * Retrieve the bccessor object for the jbvb.bwt.Menu clbss.
      */
-    public static MenuAccessor getMenuAccessor() {
+    public stbtic MenuAccessor getMenuAccessor() {
         if (menuAccessor == null) {
-            unsafe.ensureClassInitialized(MenuAccessor.class);
+            unsbfe.ensureClbssInitiblized(MenuAccessor.clbss);
         }
         return menuAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.event.KeyEvent class.
+     * Set bn bccessor object for the jbvb.bwt.event.KeyEvent clbss.
      */
-    public static void setKeyEventAccessor(KeyEventAccessor kea) {
-        keyEventAccessor = kea;
+    public stbtic void setKeyEventAccessor(KeyEventAccessor keb) {
+        keyEventAccessor = keb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.event.KeyEvent class.
+     * Retrieve the bccessor object for the jbvb.bwt.event.KeyEvent clbss.
      */
-    public static KeyEventAccessor getKeyEventAccessor() {
+    public stbtic KeyEventAccessor getKeyEventAccessor() {
         if (keyEventAccessor == null) {
-            unsafe.ensureClassInitialized(KeyEventAccessor.class);
+            unsbfe.ensureClbssInitiblized(KeyEventAccessor.clbss);
         }
         return keyEventAccessor;
     }
 
     /**
-     * Set an accessor object for the javax.swing.ClientPropertyKey class.
+     * Set bn bccessor object for the jbvbx.swing.ClientPropertyKey clbss.
      */
-    public static void setClientPropertyKeyAccessor(ClientPropertyKeyAccessor cpka) {
-        clientPropertyKeyAccessor = cpka;
+    public stbtic void setClientPropertyKeyAccessor(ClientPropertyKeyAccessor cpkb) {
+        clientPropertyKeyAccessor = cpkb;
     }
 
     /**
-     * Retrieve the accessor object for the javax.swing.ClientPropertyKey class.
+     * Retrieve the bccessor object for the jbvbx.swing.ClientPropertyKey clbss.
      */
-    public static ClientPropertyKeyAccessor getClientPropertyKeyAccessor() {
+    public stbtic ClientPropertyKeyAccessor getClientPropertyKeyAccessor() {
         if (clientPropertyKeyAccessor == null) {
-            unsafe.ensureClassInitialized(ClientPropertyKeyAccessor.class);
+            unsbfe.ensureClbssInitiblized(ClientPropertyKeyAccessor.clbss);
         }
         return clientPropertyKeyAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.SystemTray class.
+     * Set bn bccessor object for the jbvb.bwt.SystemTrby clbss.
      */
-    public static void setSystemTrayAccessor(SystemTrayAccessor sta) {
-        systemTrayAccessor = sta;
+    public stbtic void setSystemTrbyAccessor(SystemTrbyAccessor stb) {
+        systemTrbyAccessor = stb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.SystemTray class.
+     * Retrieve the bccessor object for the jbvb.bwt.SystemTrby clbss.
      */
-    public static SystemTrayAccessor getSystemTrayAccessor() {
-        if (systemTrayAccessor == null) {
-            unsafe.ensureClassInitialized(SystemTrayAccessor.class);
+    public stbtic SystemTrbyAccessor getSystemTrbyAccessor() {
+        if (systemTrbyAccessor == null) {
+            unsbfe.ensureClbssInitiblized(SystemTrbyAccessor.clbss);
         }
-        return systemTrayAccessor;
+        return systemTrbyAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.TrayIcon class.
+     * Set bn bccessor object for the jbvb.bwt.TrbyIcon clbss.
      */
-    public static void setTrayIconAccessor(TrayIconAccessor tia) {
-        trayIconAccessor = tia;
+    public stbtic void setTrbyIconAccessor(TrbyIconAccessor tib) {
+        trbyIconAccessor = tib;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.TrayIcon class.
+     * Retrieve the bccessor object for the jbvb.bwt.TrbyIcon clbss.
      */
-    public static TrayIconAccessor getTrayIconAccessor() {
-        if (trayIconAccessor == null) {
-            unsafe.ensureClassInitialized(TrayIconAccessor.class);
+    public stbtic TrbyIconAccessor getTrbyIconAccessor() {
+        if (trbyIconAccessor == null) {
+            unsbfe.ensureClbssInitiblized(TrbyIconAccessor.clbss);
         }
-        return trayIconAccessor;
+        return trbyIconAccessor;
     }
 
     /**
-     * Set an accessor object for the java.awt.DefaultKeyboardFocusManager class.
+     * Set bn bccessor object for the jbvb.bwt.DefbultKeybobrdFocusMbnbger clbss.
      */
-    public static void setDefaultKeyboardFocusManagerAccessor(DefaultKeyboardFocusManagerAccessor dkfma) {
-        defaultKeyboardFocusManagerAccessor = dkfma;
+    public stbtic void setDefbultKeybobrdFocusMbnbgerAccessor(DefbultKeybobrdFocusMbnbgerAccessor dkfmb) {
+        defbultKeybobrdFocusMbnbgerAccessor = dkfmb;
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.DefaultKeyboardFocusManager class.
+     * Retrieve the bccessor object for the jbvb.bwt.DefbultKeybobrdFocusMbnbger clbss.
      */
-    public static DefaultKeyboardFocusManagerAccessor getDefaultKeyboardFocusManagerAccessor() {
-        if (defaultKeyboardFocusManagerAccessor == null) {
-            unsafe.ensureClassInitialized(DefaultKeyboardFocusManagerAccessor.class);
+    public stbtic DefbultKeybobrdFocusMbnbgerAccessor getDefbultKeybobrdFocusMbnbgerAccessor() {
+        if (defbultKeybobrdFocusMbnbgerAccessor == null) {
+            unsbfe.ensureClbssInitiblized(DefbultKeybobrdFocusMbnbgerAccessor.clbss);
         }
-        return defaultKeyboardFocusManagerAccessor;
+        return defbultKeybobrdFocusMbnbgerAccessor;
     }
     /*
-     * Set an accessor object for the java.awt.SequencedEvent class.
+     * Set bn bccessor object for the jbvb.bwt.SequencedEvent clbss.
      */
-    public static void setSequencedEventAccessor(SequencedEventAccessor sea) {
-        sequencedEventAccessor = sea;
+    public stbtic void setSequencedEventAccessor(SequencedEventAccessor seb) {
+        sequencedEventAccessor = seb;
     }
 
     /*
-     * Get the accessor object for the java.awt.SequencedEvent class.
+     * Get the bccessor object for the jbvb.bwt.SequencedEvent clbss.
      */
-    public static SequencedEventAccessor getSequencedEventAccessor() {
-        // The class is not public. So we can't ensure it's initialized.
-        // Null returned value means it's not initialized
-        // (so not a single instance of the event has been created).
+    public stbtic SequencedEventAccessor getSequencedEventAccessor() {
+        // The clbss is not public. So we cbn't ensure it's initiblized.
+        // Null returned vblue mebns it's not initiblized
+        // (so not b single instbnce of the event hbs been crebted).
         return sequencedEventAccessor;
     }
 
     /*
-     * Set an accessor object for the java.awt.Toolkit class.
+     * Set bn bccessor object for the jbvb.bwt.Toolkit clbss.
      */
-    public static void setToolkitAccessor(ToolkitAccessor ta) {
-        toolkitAccessor = ta;
+    public stbtic void setToolkitAccessor(ToolkitAccessor tb) {
+        toolkitAccessor = tb;
     }
 
     /*
-     * Get the accessor object for the java.awt.Toolkit class.
+     * Get the bccessor object for the jbvb.bwt.Toolkit clbss.
      */
-    public static ToolkitAccessor getToolkitAccessor() {
+    public stbtic ToolkitAccessor getToolkitAccessor() {
         if (toolkitAccessor == null) {
-            unsafe.ensureClassInitialized(Toolkit.class);
+            unsbfe.ensureClbssInitiblized(Toolkit.clbss);
         }
 
         return toolkitAccessor;
     }
 
     /*
-     * Get the accessor object for the java.awt.event.InvocationEvent class.
+     * Get the bccessor object for the jbvb.bwt.event.InvocbtionEvent clbss.
      */
-    public static void setInvocationEventAccessor(InvocationEventAccessor invocationEventAccessor) {
-        AWTAccessor.invocationEventAccessor = invocationEventAccessor;
+    public stbtic void setInvocbtionEventAccessor(InvocbtionEventAccessor invocbtionEventAccessor) {
+        AWTAccessor.invocbtionEventAccessor = invocbtionEventAccessor;
     }
 
     /*
-     * Set the accessor object for the java.awt.event.InvocationEvent class.
+     * Set the bccessor object for the jbvb.bwt.event.InvocbtionEvent clbss.
      */
-    public static InvocationEventAccessor getInvocationEventAccessor() {
-        return invocationEventAccessor;
+    public stbtic InvocbtionEventAccessor getInvocbtionEventAccessor() {
+        return invocbtionEventAccessor;
     }
 
     /*
-     * Get the accessor object for the java.awt.SystemColor class.
+     * Get the bccessor object for the jbvb.bwt.SystemColor clbss.
      */
-    public static SystemColorAccessor getSystemColorAccessor() {
+    public stbtic SystemColorAccessor getSystemColorAccessor() {
         if (systemColorAccessor == null) {
-            unsafe.ensureClassInitialized(SystemColor.class);
+            unsbfe.ensureClbssInitiblized(SystemColor.clbss);
         }
 
         return systemColorAccessor;
     }
 
      /*
-     * Set the accessor object for the java.awt.SystemColor class.
+     * Set the bccessor object for the jbvb.bwt.SystemColor clbss.
      */
-     public static void setSystemColorAccessor(SystemColorAccessor systemColorAccessor) {
+     public stbtic void setSystemColorAccessor(SystemColorAccessor systemColorAccessor) {
          AWTAccessor.systemColorAccessor = systemColorAccessor;
      }
 
     /*
-     * Get the accessor object for the javax.accessibility.AccessibleContext class.
+     * Get the bccessor object for the jbvbx.bccessibility.AccessibleContext clbss.
      */
-    public static AccessibleContextAccessor getAccessibleContextAccessor() {
-        if (accessibleContextAccessor == null) {
-            unsafe.ensureClassInitialized(AccessibleContext.class);
+    public stbtic AccessibleContextAccessor getAccessibleContextAccessor() {
+        if (bccessibleContextAccessor == null) {
+            unsbfe.ensureClbssInitiblized(AccessibleContext.clbss);
         }
-        return accessibleContextAccessor;
+        return bccessibleContextAccessor;
     }
 
    /*
-    * Set the accessor object for the javax.accessibility.AccessibleContext class.
+    * Set the bccessor object for the jbvbx.bccessibility.AccessibleContext clbss.
     */
-    public static void setAccessibleContextAccessor(AccessibleContextAccessor accessor) {
-        AWTAccessor.accessibleContextAccessor = accessor;
+    public stbtic void setAccessibleContextAccessor(AccessibleContextAccessor bccessor) {
+        AWTAccessor.bccessibleContextAccessor = bccessor;
     }
 }

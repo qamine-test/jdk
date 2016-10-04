@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
 /**
- * Represents a stack frame.
+ * Represents b stbck frbme.
  */
 
-public class StackFrame {
+public clbss StbckFrbme {
 
     //
-    // Values for the lineNumber data member.  These are the same
-    // as the values used in the JDK 1.2 heap dump file.
+    // Vblues for the lineNumber dbtb member.  These bre the sbme
+    // bs the vblues used in the JDK 1.2 hebp dump file.
     //
-    public final static int LINE_NUMBER_UNKNOWN = -1;
-    public final static int LINE_NUMBER_COMPILED = -2;
-    public final static int LINE_NUMBER_NATIVE = -3;
+    public finbl stbtic int LINE_NUMBER_UNKNOWN = -1;
+    public finbl stbtic int LINE_NUMBER_COMPILED = -2;
+    public finbl stbtic int LINE_NUMBER_NATIVE = -3;
 
-    private String methodName;
-    private String methodSignature;
-    private String className;
-    private String sourceFileName;
-    private int lineNumber;
+    privbte String methodNbme;
+    privbte String methodSignbture;
+    privbte String clbssNbme;
+    privbte String sourceFileNbme;
+    privbte int lineNumber;
 
-    public StackFrame(String methodName, String methodSignature,
-                      String className, String sourceFileName, int lineNumber) {
-        this.methodName = methodName;
-        this.methodSignature = methodSignature;
-        this.className = className;
-        this.sourceFileName = sourceFileName;
+    public StbckFrbme(String methodNbme, String methodSignbture,
+                      String clbssNbme, String sourceFileNbme, int lineNumber) {
+        this.methodNbme = methodNbme;
+        this.methodSignbture = methodSignbture;
+        this.clbssNbme = clbssNbme;
+        this.sourceFileNbme = sourceFileNbme;
         this.lineNumber = lineNumber;
     }
 
-    public void resolve(Snapshot snapshot) {
+    public void resolve(Snbpshot snbpshot) {
     }
 
-    public String getMethodName() {
-        return methodName;
+    public String getMethodNbme() {
+        return methodNbme;
     }
 
-    public String getMethodSignature() {
-        return methodSignature;
+    public String getMethodSignbture() {
+        return methodSignbture;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClbssNbme() {
+        return clbssNbme;
     }
 
-    public String getSourceFileName() {
-        return sourceFileName;
+    public String getSourceFileNbme() {
+        return sourceFileNbme;
     }
 
     public String getLineNumber() {
         switch(lineNumber) {
-            case LINE_NUMBER_UNKNOWN:
+            cbse LINE_NUMBER_UNKNOWN:
                 return "(unknown)";
-            case LINE_NUMBER_COMPILED:
+            cbse LINE_NUMBER_COMPILED:
                 return "(compiled method)";
-            case LINE_NUMBER_NATIVE:
-                return "(native method)";
-            default:
+            cbse LINE_NUMBER_NATIVE:
+                return "(nbtive method)";
+            defbult:
                 return Integer.toString(lineNumber, 10);
         }
     }

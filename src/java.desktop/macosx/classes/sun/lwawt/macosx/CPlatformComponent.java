@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.Insets;
+import jbvb.bwt.Insets;
 
-import sun.lwawt.PlatformComponent;
-import sun.lwawt.PlatformWindow;
+import sun.lwbwt.PlbtformComponent;
+import sun.lwbwt.PlbtformWindow;
 
 /**
- * On OSX {@code CPlatformComponent} stores pointer to the native CAlayer which
- * can be used from JAWT.
+ * On OSX {@code CPlbtformComponent} stores pointer to the nbtive CAlbyer which
+ * cbn be used from JAWT.
  */
-class CPlatformComponent extends CFRetainedResource
-        implements PlatformComponent {
+clbss CPlbtformComponent extends CFRetbinedResource
+        implements PlbtformComponent {
 
-    private volatile PlatformWindow platformWindow;
+    privbte volbtile PlbtformWindow plbtformWindow;
 
-    CPlatformComponent() {
+    CPlbtformComponent() {
         super(0, true);
     }
 
@@ -49,19 +49,19 @@ class CPlatformComponent extends CFRetainedResource
     }
 
     @Override
-    public void initialize(final PlatformWindow platformWindow) {
-        this.platformWindow = platformWindow;
-        setPtr(nativeCreateComponent(platformWindow.getLayerPtr()));
+    public void initiblize(finbl PlbtformWindow plbtformWindow) {
+        this.plbtformWindow = plbtformWindow;
+        setPtr(nbtiveCrebteComponent(plbtformWindow.getLbyerPtr()));
     }
 
     // TODO: visibility, z-order
 
     @Override
-    public void setBounds(final int x, final int y, final int w, final int h) {
-        // translates values from the coordinate system of the top-level window
-        // to the coordinate system of the content view
-        final Insets insets = platformWindow.getPeer().getInsets();
-        nativeSetBounds(getPointer(), x - insets.left, y - insets.top, w, h);
+    public void setBounds(finbl int x, finbl int y, finbl int w, finbl int h) {
+        // trbnslbtes vblues from the coordinbte system of the top-level window
+        // to the coordinbte system of the content view
+        finbl Insets insets = plbtformWindow.getPeer().getInsets();
+        nbtiveSetBounds(getPointer(), x - insets.left, y - insets.top, w, h);
     }
 
     @Override
@@ -69,7 +69,7 @@ class CPlatformComponent extends CFRetainedResource
         super.dispose();
     }
 
-    private native long nativeCreateComponent(long windowLayer);
+    privbte nbtive long nbtiveCrebteComponent(long windowLbyer);
 
-    private native void nativeSetBounds(long ptr, int x, int y, int w, int h);
+    privbte nbtive void nbtiveSetBounds(long ptr, int x, int y, int w, int h);
 }

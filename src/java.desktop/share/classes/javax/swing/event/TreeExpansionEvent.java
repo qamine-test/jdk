@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventObject;
-import javax.swing.tree.TreePath;
+import jbvb.util.EventObject;
+import jbvbx.swing.tree.TreePbth;
 
 /**
- * An event used to identify a single path in a tree.  The source
- * returned by <b>getSource</b> will be an instance of JTree.
+ * An event used to identify b single pbth in b tree.  The source
+ * returned by <b>getSource</b> will be bn instbnce of JTree.
  * <p>
- * For further documentation and examples see
- * the following sections in <em>The Java Tutorial</em>:
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/treeexpansionlistener.html">How to Write a Tree Expansion Listener</a> and
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/treewillexpandlistener.html">How to Write a Tree-Will-Expand Listener</a>.
+ * For further documentbtion bnd exbmples see
+ * the following sections in <em>The Jbvb Tutoribl</em>:
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/treeexpbnsionlistener.html">How to Write b Tree Expbnsion Listener</b> bnd
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/treewillexpbndlistener.html">How to Write b Tree-Will-Expbnd Listener</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TreeExpansionEvent extends EventObject
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TreeExpbnsionEvent extends EventObject
 {
     /**
-      * Path to the value this event represents.
+      * Pbth to the vblue this event represents.
       */
-    protected TreePath path;
+    protected TreePbth pbth;
 
     /**
-     * Constructs a TreeExpansionEvent object.
+     * Constructs b TreeExpbnsionEvent object.
      *
-     * @param source  the Object that originated the event
-     *                (typically <code>this</code>)
-     * @param path    a TreePath object identifying the newly expanded
+     * @pbrbm source  the Object thbt originbted the event
+     *                (typicblly <code>this</code>)
+     * @pbrbm pbth    b TreePbth object identifying the newly expbnded
      *                node
      */
-    public TreeExpansionEvent(Object source, TreePath path) {
+    public TreeExpbnsionEvent(Object source, TreePbth pbth) {
         super(source);
-        this.path = path;
+        this.pbth = pbth;
     }
 
     /**
-      * Returns the path to the value that has been expanded/collapsed.
+      * Returns the pbth to the vblue thbt hbs been expbnded/collbpsed.
       *
-      * @return this event's {@code TreePath} object
+      * @return this event's {@code TreePbth} object
       */
-    public TreePath getPath() { return path; }
+    public TreePbth getPbth() { return pbth; }
 }

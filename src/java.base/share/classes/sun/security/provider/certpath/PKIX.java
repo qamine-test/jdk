@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyStore;
-import java.security.PublicKey;
-import java.security.cert.*;
-import java.security.interfaces.DSAPublicKey;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.KeyStore;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.*;
+import jbvb.security.interfbces.DSAPublicKey;
+import jbvb.util.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.Debug;
 
 /**
- * Common utility methods and classes used by the PKIX CertPathValidator and
- * CertPathBuilder implementation.
+ * Common utility methods bnd clbsses used by the PKIX CertPbthVblidbtor bnd
+ * CertPbthBuilder implementbtion.
  */
-class PKIX {
+clbss PKIX {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    private PKIX() { }
+    privbte PKIX() { }
 
-    static boolean isDSAPublicKeyWithoutParams(PublicKey publicKey) {
-        return (publicKey instanceof DSAPublicKey &&
-               ((DSAPublicKey)publicKey).getParams() == null);
+    stbtic boolebn isDSAPublicKeyWithoutPbrbms(PublicKey publicKey) {
+        return (publicKey instbnceof DSAPublicKey &&
+               ((DSAPublicKey)publicKey).getPbrbms() == null);
     }
 
-    static ValidatorParams checkParams(CertPath cp, CertPathParameters params)
-        throws InvalidAlgorithmParameterException
+    stbtic VblidbtorPbrbms checkPbrbms(CertPbth cp, CertPbthPbrbmeters pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (!(params instanceof PKIXParameters)) {
-            throw new InvalidAlgorithmParameterException("inappropriate "
-                + "params, must be an instance of PKIXParameters");
+        if (!(pbrbms instbnceof PKIXPbrbmeters)) {
+            throw new InvblidAlgorithmPbrbmeterException("inbppropribte "
+                + "pbrbms, must be bn instbnce of PKIXPbrbmeters");
         }
-        return new ValidatorParams(cp, (PKIXParameters)params);
+        return new VblidbtorPbrbms(cp, (PKIXPbrbmeters)pbrbms);
     }
 
-    static BuilderParams checkBuilderParams(CertPathParameters params)
-        throws InvalidAlgorithmParameterException
+    stbtic BuilderPbrbms checkBuilderPbrbms(CertPbthPbrbmeters pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (!(params instanceof PKIXBuilderParameters)) {
-            throw new InvalidAlgorithmParameterException("inappropriate "
-                + "params, must be an instance of PKIXBuilderParameters");
+        if (!(pbrbms instbnceof PKIXBuilderPbrbmeters)) {
+            throw new InvblidAlgorithmPbrbmeterException("inbppropribte "
+                + "pbrbms, must be bn instbnce of PKIXBuilderPbrbmeters");
         }
-        return new BuilderParams((PKIXBuilderParameters)params);
+        return new BuilderPbrbms((PKIXBuilderPbrbmeters)pbrbms);
     }
 
     /**
-     * PKIXParameters that are shared by the PKIX CertPathValidator
-     * implementation. Provides additional functionality and avoids
-     * unnecessary cloning.
+     * PKIXPbrbmeters thbt bre shbred by the PKIX CertPbthVblidbtor
+     * implementbtion. Provides bdditionbl functionblity bnd bvoids
+     * unnecessbry cloning.
      */
-    static class ValidatorParams {
-        private final PKIXParameters params;
-        private CertPath certPath;
-        private List<PKIXCertPathChecker> checkers;
-        private List<CertStore> stores;
-        private boolean gotDate;
-        private Date date;
-        private Set<String> policies;
-        private boolean gotConstraints;
-        private CertSelector constraints;
-        private Set<TrustAnchor> anchors;
-        private List<X509Certificate> certs;
+    stbtic clbss VblidbtorPbrbms {
+        privbte finbl PKIXPbrbmeters pbrbms;
+        privbte CertPbth certPbth;
+        privbte List<PKIXCertPbthChecker> checkers;
+        privbte List<CertStore> stores;
+        privbte boolebn gotDbte;
+        privbte Dbte dbte;
+        privbte Set<String> policies;
+        privbte boolebn gotConstrbints;
+        privbte CertSelector constrbints;
+        privbte Set<TrustAnchor> bnchors;
+        privbte List<X509Certificbte> certs;
 
-        ValidatorParams(CertPath cp, PKIXParameters params)
-            throws InvalidAlgorithmParameterException
+        VblidbtorPbrbms(CertPbth cp, PKIXPbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException
         {
-            this(params);
-            if (!cp.getType().equals("X.509") && !cp.getType().equals("X509")) {
-                throw new InvalidAlgorithmParameterException("inappropriate "
-                    + "CertPath type specified, must be X.509 or X509");
+            this(pbrbms);
+            if (!cp.getType().equbls("X.509") && !cp.getType().equbls("X509")) {
+                throw new InvblidAlgorithmPbrbmeterException("inbppropribte "
+                    + "CertPbth type specified, must be X.509 or X509");
             }
-            this.certPath = cp;
+            this.certPbth = cp;
         }
 
-        ValidatorParams(PKIXParameters params)
-            throws InvalidAlgorithmParameterException
+        VblidbtorPbrbms(PKIXPbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException
         {
-            this.anchors = params.getTrustAnchors();
-            // Make sure that none of the trust anchors include name constraints
+            this.bnchors = pbrbms.getTrustAnchors();
+            // Mbke sure thbt none of the trust bnchors include nbme constrbints
             // (not supported).
-            for (TrustAnchor anchor : this.anchors) {
-                if (anchor.getNameConstraints() != null) {
-                    throw new InvalidAlgorithmParameterException
-                        ("name constraints in trust anchor not supported");
+            for (TrustAnchor bnchor : this.bnchors) {
+                if (bnchor.getNbmeConstrbints() != null) {
+                    throw new InvblidAlgorithmPbrbmeterException
+                        ("nbme constrbints in trust bnchor not supported");
                 }
             }
-            this.params = params;
+            this.pbrbms = pbrbms;
         }
 
-        CertPath certPath() {
-            return certPath;
+        CertPbth certPbth() {
+            return certPbth;
         }
-        // called by CertPathBuilder after path has been built
-        void setCertPath(CertPath cp) {
-            this.certPath = cp;
+        // cblled by CertPbthBuilder bfter pbth hbs been built
+        void setCertPbth(CertPbth cp) {
+            this.certPbth = cp;
         }
-        List<X509Certificate> certificates() {
+        List<X509Certificbte> certificbtes() {
             if (certs == null) {
-                if (certPath == null) {
+                if (certPbth == null) {
                     certs = Collections.emptyList();
                 } else {
-                    // Reverse the ordering for validation so that the target
-                    // cert is the last certificate
-                    @SuppressWarnings("unchecked")
-                    List<X509Certificate> xc = new ArrayList<>
-                        ((List<X509Certificate>)certPath.getCertificates());
+                    // Reverse the ordering for vblidbtion so thbt the tbrget
+                    // cert is the lbst certificbte
+                    @SuppressWbrnings("unchecked")
+                    List<X509Certificbte> xc = new ArrbyList<>
+                        ((List<X509Certificbte>)certPbth.getCertificbtes());
                     Collections.reverse(xc);
                     certs = xc;
                 }
             }
             return certs;
         }
-        List<PKIXCertPathChecker> certPathCheckers() {
+        List<PKIXCertPbthChecker> certPbthCheckers() {
             if (checkers == null)
-                checkers = params.getCertPathCheckers();
+                checkers = pbrbms.getCertPbthCheckers();
             return checkers;
         }
         List<CertStore> certStores() {
             if (stores == null)
-                stores = params.getCertStores();
+                stores = pbrbms.getCertStores();
             return stores;
         }
-        Date date() {
-            if (!gotDate) {
-                date = params.getDate();
-                if (date == null)
-                    date = new Date();
-                gotDate = true;
+        Dbte dbte() {
+            if (!gotDbte) {
+                dbte = pbrbms.getDbte();
+                if (dbte == null)
+                    dbte = new Dbte();
+                gotDbte = true;
             }
-            return date;
+            return dbte;
         }
-        Set<String> initialPolicies() {
+        Set<String> initiblPolicies() {
             if (policies == null)
-                policies = params.getInitialPolicies();
+                policies = pbrbms.getInitiblPolicies();
             return policies;
         }
-        CertSelector targetCertConstraints() {
-            if (!gotConstraints) {
-                constraints = params.getTargetCertConstraints();
-                gotConstraints = true;
+        CertSelector tbrgetCertConstrbints() {
+            if (!gotConstrbints) {
+                constrbints = pbrbms.getTbrgetCertConstrbints();
+                gotConstrbints = true;
             }
-            return constraints;
+            return constrbints;
         }
         Set<TrustAnchor> trustAnchors() {
-            return anchors;
+            return bnchors;
         }
-        boolean revocationEnabled() {
-            return params.isRevocationEnabled();
+        boolebn revocbtionEnbbled() {
+            return pbrbms.isRevocbtionEnbbled();
         }
-        boolean policyMappingInhibited() {
-            return params.isPolicyMappingInhibited();
+        boolebn policyMbppingInhibited() {
+            return pbrbms.isPolicyMbppingInhibited();
         }
-        boolean explicitPolicyRequired() {
-            return params.isExplicitPolicyRequired();
+        boolebn explicitPolicyRequired() {
+            return pbrbms.isExplicitPolicyRequired();
         }
-        boolean policyQualifiersRejected() {
-            return params.getPolicyQualifiersRejected();
+        boolebn policyQublifiersRejected() {
+            return pbrbms.getPolicyQublifiersRejected();
         }
-        String sigProvider() { return params.getSigProvider(); }
-        boolean anyPolicyInhibited() { return params.isAnyPolicyInhibited(); }
+        String sigProvider() { return pbrbms.getSigProvider(); }
+        boolebn bnyPolicyInhibited() { return pbrbms.isAnyPolicyInhibited(); }
 
-        // in rare cases we need access to the original params, for example
-        // in order to clone CertPathCheckers before building a new chain
-        PKIXParameters getPKIXParameters() {
-            return params;
+        // in rbre cbses we need bccess to the originbl pbrbms, for exbmple
+        // in order to clone CertPbthCheckers before building b new chbin
+        PKIXPbrbmeters getPKIXPbrbmeters() {
+            return pbrbms;
         }
     }
 
-    static class BuilderParams extends ValidatorParams {
-        private PKIXBuilderParameters params;
-        private boolean buildForward = true;
-        private List<CertStore> stores;
-        private X500Principal targetSubject;
+    stbtic clbss BuilderPbrbms extends VblidbtorPbrbms {
+        privbte PKIXBuilderPbrbmeters pbrbms;
+        privbte boolebn buildForwbrd = true;
+        privbte List<CertStore> stores;
+        privbte X500Principbl tbrgetSubject;
 
-        BuilderParams(PKIXBuilderParameters params)
-            throws InvalidAlgorithmParameterException
+        BuilderPbrbms(PKIXBuilderPbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException
         {
-            super(params);
-            checkParams(params);
+            super(pbrbms);
+            checkPbrbms(pbrbms);
         }
-        private void checkParams(PKIXBuilderParameters params)
-            throws InvalidAlgorithmParameterException
+        privbte void checkPbrbms(PKIXBuilderPbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException
         {
-            CertSelector sel = targetCertConstraints();
-            if (!(sel instanceof X509CertSelector)) {
-                throw new InvalidAlgorithmParameterException("the "
-                    + "targetCertConstraints parameter must be an "
+            CertSelector sel = tbrgetCertConstrbints();
+            if (!(sel instbnceof X509CertSelector)) {
+                throw new InvblidAlgorithmPbrbmeterException("the "
+                    + "tbrgetCertConstrbints pbrbmeter must be bn "
                     + "X509CertSelector");
             }
-            if (params instanceof SunCertPathBuilderParameters) {
-                buildForward =
-                    ((SunCertPathBuilderParameters)params).getBuildForward();
+            if (pbrbms instbnceof SunCertPbthBuilderPbrbmeters) {
+                buildForwbrd =
+                    ((SunCertPbthBuilderPbrbmeters)pbrbms).getBuildForwbrd();
             }
-            this.params = params;
-            this.targetSubject = getTargetSubject(
-                certStores(), (X509CertSelector)targetCertConstraints());
+            this.pbrbms = pbrbms;
+            this.tbrgetSubject = getTbrgetSubject(
+                certStores(), (X509CertSelector)tbrgetCertConstrbints());
         }
         @Override List<CertStore> certStores() {
             if (stores == null) {
-                // reorder CertStores so that local CertStores are tried first
-                stores = new ArrayList<>(params.getCertStores());
-                Collections.sort(stores, new CertStoreComparator());
+                // reorder CertStores so thbt locbl CertStores bre tried first
+                stores = new ArrbyList<>(pbrbms.getCertStores());
+                Collections.sort(stores, new CertStoreCompbrbtor());
             }
             return stores;
         }
-        int maxPathLength() { return params.getMaxPathLength(); }
-        boolean buildForward() { return buildForward; }
-        PKIXBuilderParameters params() { return params; }
-        X500Principal targetSubject() { return targetSubject; }
+        int mbxPbthLength() { return pbrbms.getMbxPbthLength(); }
+        boolebn buildForwbrd() { return buildForwbrd; }
+        PKIXBuilderPbrbmeters pbrbms() { return pbrbms; }
+        X500Principbl tbrgetSubject() { return tbrgetSubject; }
 
         /**
-         * Returns the target subject DN from the first X509Certificate that
-         * is fetched that matches the specified X509CertSelector.
+         * Returns the tbrget subject DN from the first X509Certificbte thbt
+         * is fetched thbt mbtches the specified X509CertSelector.
          */
-        private static X500Principal getTargetSubject(List<CertStore> stores,
+        privbte stbtic X500Principbl getTbrgetSubject(List<CertStore> stores,
                                                       X509CertSelector sel)
-            throws InvalidAlgorithmParameterException
+            throws InvblidAlgorithmPbrbmeterException
         {
-            X500Principal subject = sel.getSubject();
+            X500Principbl subject = sel.getSubject();
             if (subject != null) {
                 return subject;
             }
-            X509Certificate cert = sel.getCertificate();
+            X509Certificbte cert = sel.getCertificbte();
             if (cert != null) {
-                subject = cert.getSubjectX500Principal();
+                subject = cert.getSubjectX500Principbl();
             }
             if (subject != null) {
                 return subject;
             }
             for (CertStore store : stores) {
                 try {
-                    Collection<? extends Certificate> certs =
-                        (Collection<? extends Certificate>)
-                            store.getCertificates(sel);
+                    Collection<? extends Certificbte> certs =
+                        (Collection<? extends Certificbte>)
+                            store.getCertificbtes(sel);
                     if (!certs.isEmpty()) {
-                        X509Certificate xc =
-                            (X509Certificate)certs.iterator().next();
-                        return xc.getSubjectX500Principal();
+                        X509Certificbte xc =
+                            (X509Certificbte)certs.iterbtor().next();
+                        return xc.getSubjectX500Principbl();
                     }
-                } catch (CertStoreException e) {
+                } cbtch (CertStoreException e) {
                     // ignore but log it
                     if (debug != null) {
-                        debug.println("BuilderParams.getTargetSubjectDN: " +
-                            "non-fatal exception retrieving certs: " + e);
-                        e.printStackTrace();
+                        debug.println("BuilderPbrbms.getTbrgetSubjectDN: " +
+                            "non-fbtbl exception retrieving certs: " + e);
+                        e.printStbckTrbce();
                     }
                 }
             }
-            throw new InvalidAlgorithmParameterException
-                ("Could not determine unique target subject");
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Could not determine unique tbrget subject");
         }
     }
 
     /**
-     * A CertStoreException with additional information about the type of
-     * CertStore that generated the exception.
+     * A CertStoreException with bdditionbl informbtion bbout the type of
+     * CertStore thbt generbted the exception.
      */
-    static class CertStoreTypeException extends CertStoreException {
-        private static final long serialVersionUID = 7463352639238322556L;
+    stbtic clbss CertStoreTypeException extends CertStoreException {
+        privbte stbtic finbl long seriblVersionUID = 7463352639238322556L;
 
-        private final String type;
+        privbte finbl String type;
 
         CertStoreTypeException(String type, CertStoreException cse) {
-            super(cse.getMessage(), cse.getCause());
+            super(cse.getMessbge(), cse.getCbuse());
             this.type = type;
         }
         String getType() {
@@ -296,15 +296,15 @@ class PKIX {
     }
 
     /**
-     * Comparator that orders CertStores so that local CertStores come before
+     * Compbrbtor thbt orders CertStores so thbt locbl CertStores come before
      * remote CertStores.
      */
-    private static class CertStoreComparator implements Comparator<CertStore> {
+    privbte stbtic clbss CertStoreCompbrbtor implements Compbrbtor<CertStore> {
         @Override
-        public int compare(CertStore store1, CertStore store2) {
-            if (store1.getType().equals("Collection") ||
-                store1.getCertStoreParameters() instanceof
-                CollectionCertStoreParameters) {
+        public int compbre(CertStore store1, CertStore store2) {
+            if (store1.getType().equbls("Collection") ||
+                store1.getCertStorePbrbmeters() instbnceof
+                CollectionCertStorePbrbmeters) {
                 return -1;
             } else {
                 return 1;

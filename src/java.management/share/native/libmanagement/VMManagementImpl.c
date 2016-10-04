@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jni.h>
 #include <stdlib.h>
 #include "jvm.h"
-#include "management.h"
-#include "sun_management_VMManagementImpl.h"
+#include "mbnbgement.h"
+#include "sun_mbnbgement_VMMbnbgementImpl.h"
 
 #define MAX_VERSION_LEN   20
 
 JNIEXPORT jstring JNICALL
-Java_sun_management_VMManagementImpl_getVersion0
-  (JNIEnv *env, jclass dummy)
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getVersion0
+  (JNIEnv *env, jclbss dummy)
 {
-    char buf[MAX_VERSION_LEN];
+    chbr buf[MAX_VERSION_LEN];
     jstring version_string = NULL;
 
-    unsigned int major = ((unsigned int) jmm_version & 0x0FFF0000) >> 16;
+    unsigned int mbjor = ((unsigned int) jmm_version & 0x0FFF0000) >> 16;
     unsigned int minor = ((unsigned int) jmm_version & 0xFF00) >> 8;
 
-    // for internal use
+    // for internbl use
     unsigned int micro = (unsigned int) jmm_version & 0xFF;
 
-    sprintf(buf, "%d.%d", major, minor);
+    sprintf(buf, "%d.%d", mbjor, minor);
     version_string = (*env)->NewStringUTF(env, buf);
     return version_string;
 }
 
-static void setStaticBooleanField
-   (JNIEnv* env, jclass cls, const char* name, jboolean value)
+stbtic void setStbticBoolebnField
+   (JNIEnv* env, jclbss cls, const chbr* nbme, jboolebn vblue)
 {
     jfieldID fid;
-    fid = (*env)->GetStaticFieldID(env, cls, name, "Z");
+    fid = (*env)->GetStbticFieldID(env, cls, nbme, "Z");
     if (fid != 0) {
-        (*env)->SetStaticBooleanField(env, cls, fid, value);
+        (*env)->SetStbticBoolebnField(env, cls, fid, vblue);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_VMManagementImpl_initOptionalSupportFields
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_initOptionblSupportFields
+  (JNIEnv *env, jclbss cls)
 {
-    jmmOptionalSupport mos;
-    jint ret = jmm_interface->GetOptionalSupport(env, &mos);
+    jmmOptionblSupport mos;
+    jint ret = jmm_interfbce->GetOptionblSupport(env, &mos);
 
-    jboolean value;
+    jboolebn vblue;
 
-    value = mos.isCompilationTimeMonitoringSupported;
-    setStaticBooleanField(env, cls, "compTimeMonitoringSupport", value);
+    vblue = mos.isCompilbtionTimeMonitoringSupported;
+    setStbticBoolebnField(env, cls, "compTimeMonitoringSupport", vblue);
 
-    value = mos.isThreadContentionMonitoringSupported;
-    setStaticBooleanField(env, cls, "threadContentionMonitoringSupport", value);
+    vblue = mos.isThrebdContentionMonitoringSupported;
+    setStbticBoolebnField(env, cls, "threbdContentionMonitoringSupport", vblue);
 
-    value = mos.isCurrentThreadCpuTimeSupported;
-    setStaticBooleanField(env, cls, "currentThreadCpuTimeSupport", value);
+    vblue = mos.isCurrentThrebdCpuTimeSupported;
+    setStbticBoolebnField(env, cls, "currentThrebdCpuTimeSupport", vblue);
 
-    value = mos.isOtherThreadCpuTimeSupported;
-    setStaticBooleanField(env, cls, "otherThreadCpuTimeSupport", value);
+    vblue = mos.isOtherThrebdCpuTimeSupported;
+    setStbticBoolebnField(env, cls, "otherThrebdCpuTimeSupport", vblue);
 
-    value = mos.isBootClassPathSupported;
-    setStaticBooleanField(env, cls, "bootClassPathSupport", value);
+    vblue = mos.isBootClbssPbthSupported;
+    setStbticBoolebnField(env, cls, "bootClbssPbthSupport", vblue);
 
     if (jmm_version >= JMM_VERSION_1_1) {
-        value = mos.isObjectMonitorUsageSupported;
-        setStaticBooleanField(env, cls, "objectMonitorUsageSupport", value);
+        vblue = mos.isObjectMonitorUsbgeSupported;
+        setStbticBoolebnField(env, cls, "objectMonitorUsbgeSupport", vblue);
 
-        value = mos.isSynchronizerUsageSupported;
-        setStaticBooleanField(env, cls, "synchronizerUsageSupport", value);
+        vblue = mos.isSynchronizerUsbgeSupported;
+        setStbticBoolebnField(env, cls, "synchronizerUsbgeSupport", vblue);
     } else {
-        setStaticBooleanField(env, cls, "objectMonitorUsageSupport", JNI_FALSE);
-        setStaticBooleanField(env, cls, "synchronizerUsageSupport", JNI_FALSE);
+        setStbticBoolebnField(env, cls, "objectMonitorUsbgeSupport", JNI_FALSE);
+        setStbticBoolebnField(env, cls, "synchronizerUsbgeSupport", JNI_FALSE);
     }
 
-    value = mos.isThreadAllocatedMemorySupported;
-    setStaticBooleanField(env, cls, "threadAllocatedMemorySupport", value);
+    vblue = mos.isThrebdAllocbtedMemorySupported;
+    setStbticBoolebnField(env, cls, "threbdAllocbtedMemorySupport", vblue);
 
-    value = mos.isRemoteDiagnosticCommandsSupported;
-    setStaticBooleanField(env, cls, "remoteDiagnosticCommandsSupport", value);
+    vblue = mos.isRemoteDibgnosticCommbndsSupported;
+    setStbticBoolebnField(env, cls, "remoteDibgnosticCommbndsSupport", vblue);
 
     if ((jmm_version > JMM_VERSION_1_2) ||
         (jmm_version == JMM_VERSION_1_2 && ((jmm_version&0xFF) >= 1))) {
-        setStaticBooleanField(env, cls, "gcNotificationSupport", JNI_TRUE);
+        setStbticBoolebnField(env, cls, "gcNotificbtionSupport", JNI_TRUE);
     } else {
-        setStaticBooleanField(env, cls, "gcNotificationSupport", JNI_FALSE);
+        setStbticBoolebnField(env, cls, "gcNotificbtionSupport", JNI_FALSE);
     }
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_VMManagementImpl_getVmArguments0
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getVmArguments0
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetInputArgumentArray(env);
+    return jmm_interfbce->GetInputArgumentArrby(env);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalClassCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getTotblClbssCount
   (JNIEnv *env, jobject dummy)
 {
-    /* JMM_CLASS_LOADED_COUNT is the total number of classes loaded */
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    /* JMM_CLASS_LOADED_COUNT is the totbl number of clbsses lobded */
+    jlong count = jmm_interfbce->GetLongAttribute(env, NULL,
                                                   JMM_CLASS_LOADED_COUNT);
     return count;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUnloadedClassCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getUnlobdedClbssCount
   (JNIEnv *env, jobject dummy)
 {
-    /* JMM_CLASS_UNLOADED_COUNT is the total number of classes unloaded */
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    /* JMM_CLASS_UNLOADED_COUNT is the totbl number of clbsses unlobded */
+    jlong count = jmm_interfbce->GetLongAttribute(env, NULL,
                                                   JMM_CLASS_UNLOADED_COUNT);
     return count;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_getVerboseGC
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getVerboseGC
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_VERBOSE_GC);
+    return jmm_interfbce->GetBoolAttribute(env, JMM_VERBOSE_GC);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_getVerboseClass
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getVerboseClbss
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_VERBOSE_CLASS);
+    return jmm_interfbce->GetBoolAttribute(env, JMM_VERBOSE_CLASS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalThreadCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getTotblThrebdCount
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_THREAD_TOTAL_COUNT);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getLiveThreadCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getLiveThrebdCount
   (JNIEnv *env, jobject dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong count = jmm_interfbce->GetLongAttribute(env, NULL,
                                                   JMM_THREAD_LIVE_COUNT);
     return (jint) count;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getPeakThreadCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getPebkThrebdCount
   (JNIEnv *env, jobject dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong count = jmm_interfbce->GetLongAttribute(env, NULL,
                                                   JMM_THREAD_PEAK_COUNT);
     return (jint) count;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getDaemonThreadCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getDbemonThrebdCount
   (JNIEnv *env, jobject dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong count = jmm_interfbce->GetLongAttribute(env, NULL,
                                                   JMM_THREAD_DAEMON_COUNT);
     return (jint) count;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalCompileTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getTotblCompileTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_COMPILE_TOTAL_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getStartupTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getStbrtupTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_JVM_INIT_DONE_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUptime0
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getUptime0
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL, JMM_JVM_UPTIME_MS);
+    return jmm_interfbce->GetLongAttribute(env, NULL, JMM_JVM_UPTIME_MS);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadContentionMonitoringEnabled
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_isThrebdContentionMonitoringEnbbled
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetBoolAttribute(env,
+    return jmm_interfbce->GetBoolAttribute(env,
                                            JMM_THREAD_CONTENTION_MONITORING);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadCpuTimeEnabled
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_isThrebdCpuTimeEnbbled
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_THREAD_CPU_TIME);
+    return jmm_interfbce->GetBoolAttribute(env, JMM_THREAD_CPU_TIME);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadAllocatedMemoryEnabled
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_isThrebdAllocbtedMemoryEnbbled
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY);
+    return jmm_interfbce->GetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getProcessId
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getProcessId
   (JNIEnv *env, jobject dummy)
 {
-    jlong pid = jmm_interface->GetLongAttribute(env, NULL,
+    jlong pid = jmm_interfbce->GetLongAttribute(env, NULL,
                                                 JMM_OS_PROCESS_ID);
     return (jint) pid;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getAvailableProcessors
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getAvbilbbleProcessors
   (JNIEnv *env, jobject dummy)
 {
     return JVM_ActiveProcessorCount();
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getSafepointCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getSbfepointCount
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_SAFEPOINT_COUNT);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalSafepointTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getTotblSbfepointTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_TOTAL_STOPPED_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getSafepointSyncTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getSbfepointSyncTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_TOTAL_SAFEPOINTSYNC_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalApplicationNonStoppedTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getTotblApplicbtionNonStoppedTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_TOTAL_APP_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getLoadedClassSize
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getLobdedClbssSize
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_CLASS_LOADED_BYTES);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUnloadedClassSize
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getUnlobdedClbssSize
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_CLASS_UNLOADED_BYTES);
 }
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassLoadingTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getClbssLobdingTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_TOTAL_CLASSLOAD_TIME_MS);
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getMethodDataSize
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getMethodDbtbSize
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_METHOD_DATA_SIZE_BYTES);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getInitializedClassCount
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getInitiblizedClbssCount
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_CLASS_INIT_TOTAL_COUNT);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassInitializationTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getClbssInitiblizbtionTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_CLASS_INIT_TOTAL_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassVerificationTime
+Jbvb_sun_mbnbgement_VMMbnbgementImpl_getClbssVerificbtionTime
   (JNIEnv *env, jobject dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    return jmm_interfbce->GetLongAttribute(env, NULL,
                                            JMM_CLASS_VERIFY_TOTAL_TIME_MS);
 }

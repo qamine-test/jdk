@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A point within the executing code of the target VM.
- * Locations are used to identify the current position of
- * a suspended thread (analogous to an instruction pointer or
- * program counter register in native programs). They are also used
- * to identify the position at which to set a breakpoint.
+ * A point within the executing code of the tbrget VM.
+ * Locbtions bre used to identify the current position of
+ * b suspended threbd (bnblogous to bn instruction pointer or
+ * progrbm counter register in nbtive progrbms). They bre blso used
+ * to identify the position bt which to set b brebkpoint.
  * <p>
- * The availability of a line number for a location will
- * depend on the level of debugging information available from the
- * target VM.
+ * The bvbilbbility of b line number for b locbtion will
+ * depend on the level of debugging informbtion bvbilbble from the
+ * tbrget VM.
  * <p>
- * Several mirror interfaces have locations. Each such mirror
- * extends a {@link Locatable} interface.
+ * Severbl mirror interfbces hbve locbtions. Ebch such mirror
+ * extends b {@link Locbtbble} interfbce.
  * <p>
- * <a name="strata"><b>Strata</b></a>
+ * <b nbme="strbtb"><b>Strbtb</b></b>
  * <p>
- * The source information for a Location is dependent on the
- * <i>stratum</i> which is used. A stratum is a source code
- * level within a sequence of translations.  For example,
- * say the baz program is written in the programming language
- * "Foo" then translated to the language "Bar" and finally
- * translated into the Java programming language.  The
- * Java programming language stratum is named
- * <code>"Java"</code>, let's say the other strata are named
- * "Foo" and "Bar".  A given location (as viewed by the
- * {@link #sourceName()} and {@link #lineNumber()} methods)
- * might be at line 14 of "baz.foo" in the <code>"Foo"</code>
- * stratum, line 23 of "baz.bar" in the <code>"Bar"</code>
- * stratum and line 71 of the <code>"Java"</code> stratum.
- * Note that while the Java programming language may have
- * only one source file for a reference type, this restriction
- * does not apply to other strata - thus each Location should
- * be consulted to determine its source path.
- * Queries which do not specify a stratum
- * ({@link #sourceName()}, {@link #sourcePath()} and
- * {@link #lineNumber()}) use the VM's default stratum
- * ({@link VirtualMachine#getDefaultStratum()}).
- * If the specified stratum (whether explicitly specified
- * by a method parameter or implicitly as the VM's default)
- * is <code>null</code> or is not available in the declaring
- * type, the declaring type's default stratum is used
- * ({@link #declaringType()}.{@link ReferenceType#defaultStratum()
- * defaultStratum()}).  Note that in the normal case, of code
- * that originates as Java programming language source, there
- * will be only one stratum (<code>"Java"</code>) and it will be
- * returned as the default.  To determine the available strata
- * use {@link ReferenceType#availableStrata()}.
+ * The source informbtion for b Locbtion is dependent on the
+ * <i>strbtum</i> which is used. A strbtum is b source code
+ * level within b sequence of trbnslbtions.  For exbmple,
+ * sby the bbz progrbm is written in the progrbmming lbngubge
+ * "Foo" then trbnslbted to the lbngubge "Bbr" bnd finblly
+ * trbnslbted into the Jbvb progrbmming lbngubge.  The
+ * Jbvb progrbmming lbngubge strbtum is nbmed
+ * <code>"Jbvb"</code>, let's sby the other strbtb bre nbmed
+ * "Foo" bnd "Bbr".  A given locbtion (bs viewed by the
+ * {@link #sourceNbme()} bnd {@link #lineNumber()} methods)
+ * might be bt line 14 of "bbz.foo" in the <code>"Foo"</code>
+ * strbtum, line 23 of "bbz.bbr" in the <code>"Bbr"</code>
+ * strbtum bnd line 71 of the <code>"Jbvb"</code> strbtum.
+ * Note thbt while the Jbvb progrbmming lbngubge mby hbve
+ * only one source file for b reference type, this restriction
+ * does not bpply to other strbtb - thus ebch Locbtion should
+ * be consulted to determine its source pbth.
+ * Queries which do not specify b strbtum
+ * ({@link #sourceNbme()}, {@link #sourcePbth()} bnd
+ * {@link #lineNumber()}) use the VM's defbult strbtum
+ * ({@link VirtublMbchine#getDefbultStrbtum()}).
+ * If the specified strbtum (whether explicitly specified
+ * by b method pbrbmeter or implicitly bs the VM's defbult)
+ * is <code>null</code> or is not bvbilbble in the declbring
+ * type, the declbring type's defbult strbtum is used
+ * ({@link #declbringType()}.{@link ReferenceType#defbultStrbtum()
+ * defbultStrbtum()}).  Note thbt in the normbl cbse, of code
+ * thbt originbtes bs Jbvb progrbmming lbngubge source, there
+ * will be only one strbtum (<code>"Jbvb"</code>) bnd it will be
+ * returned bs the defbult.  To determine the bvbilbble strbtb
+ * use {@link ReferenceType#bvbilbbleStrbtb()}.
  *
- * @see com.sun.jdi.request.EventRequestManager
- * @see StackFrame
- * @see com.sun.jdi.event.BreakpointEvent
+ * @see com.sun.jdi.request.EventRequestMbnbger
+ * @see StbckFrbme
+ * @see com.sun.jdi.event.BrebkpointEvent
  * @see com.sun.jdi.event.ExceptionEvent
- * @see Locatable
+ * @see Locbtbble
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since 1.3
  */
 @jdk.Exported
-public interface Location extends Mirror, Comparable<Location> {
+public interfbce Locbtion extends Mirror, Compbrbble<Locbtion> {
 
     /**
-     * Gets the type to which this Location belongs. Normally
-     * the declaring type is a {@link ClassType}, but executable
-     * locations also may exist within the static initializer of an
-     * {@link InterfaceType}.
+     * Gets the type to which this Locbtion belongs. Normblly
+     * the declbring type is b {@link ClbssType}, but executbble
+     * locbtions blso mby exist within the stbtic initiblizer of bn
+     * {@link InterfbceType}.
      *
-     * @return the {@link ReferenceType} containing this Location.
+     * @return the {@link ReferenceType} contbining this Locbtion.
      */
-    ReferenceType declaringType();
+    ReferenceType declbringType();
 
     /**
-     * Gets the method containing this Location.
+     * Gets the method contbining this Locbtion.
      *
-     * @return the location's {@link Method}.
+     * @return the locbtion's {@link Method}.
      */
     Method method();
 
     /**
-     * Gets the code position within this location's method.
+     * Gets the code position within this locbtion's method.
      *
      * @return the long representing the position within the method
-     * or -1 if location is within a native method.
+     * or -1 if locbtion is within b nbtive method.
      */
     long codeIndex();
 
     /**
-     * Gets an identifing name for the source corresponding to
-     * this location.
+     * Gets bn identifing nbme for the source corresponding to
+     * this locbtion.
      * <P>
-     * This method is equivalent to
-     * <code>sourceName(vm.getDefaultStratum())</code> -
-     * see {@link #sourceName(String)}
-     * for more information.
+     * This method is equivblent to
+     * <code>sourceNbme(vm.getDefbultStrbtum())</code> -
+     * see {@link #sourceNbme(String)}
+     * for more informbtion.
      *
-     * @return a string specifying the source
-     * @throws AbsentInformationException if the source name is not
+     * @return b string specifying the source
+     * @throws AbsentInformbtionException if the source nbme is not
      * known
      */
-    String sourceName() throws AbsentInformationException;
+    String sourceNbme() throws AbsentInformbtionException;
 
 
     /**
-     * Gets an identifing name for the source corresponding to
-     * this location. Interpretation of this string is the
-     * responsibility of the source repository mechanism.
+     * Gets bn identifing nbme for the source corresponding to
+     * this locbtion. Interpretbtion of this string is the
+     * responsibility of the source repository mechbnism.
      * <P>
-     * Returned name is for the specified <i>stratum</i>
-     * (see the {@link Location class comment} for a
-     * description of strata).
+     * Returned nbme is for the specified <i>strbtum</i>
+     * (see the {@link Locbtion clbss comment} for b
+     * description of strbtb).
      * <P>
-     * The returned string is the unqualified name of the source
-     * file for this Location.  For example,
-     * <CODE>java.lang.Thread</CODE> would return
-     * <CODE>"Thread.java"</CODE>.
+     * The returned string is the unqublified nbme of the source
+     * file for this Locbtion.  For exbmple,
+     * <CODE>jbvb.lbng.Threbd</CODE> would return
+     * <CODE>"Threbd.jbvb"</CODE>.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the declbring type's
+     * defbult strbtum.
      *
-     * @return a string specifying the source
+     * @return b string specifying the source
      *
-     * @throws AbsentInformationException if the source name is not
+     * @throws AbsentInformbtionException if the source nbme is not
      * known
      *
      * @since 1.4
      */
-    String sourceName(String stratum)
-                        throws AbsentInformationException;
+    String sourceNbme(String strbtum)
+                        throws AbsentInformbtionException;
 
     /**
-     * Gets the path to the source corresponding to this
-     * location.
+     * Gets the pbth to the source corresponding to this
+     * locbtion.
      * <P>
-     * This method is equivalent to
-     * <code>sourcePath(vm.getDefaultStratum())</code> -
-     * see {@link #sourcePath(String)}
-     * for more information.
+     * This method is equivblent to
+     * <code>sourcePbth(vm.getDefbultStrbtum())</code> -
+     * see {@link #sourcePbth(String)}
+     * for more informbtion.
      *
-     * @return a string specifying the source
+     * @return b string specifying the source
      *
-     * @throws AbsentInformationException if the source name is not
+     * @throws AbsentInformbtionException if the source nbme is not
      * known
      */
-    String sourcePath() throws AbsentInformationException;
+    String sourcePbth() throws AbsentInformbtionException;
 
 
     /**
-     * Gets the path to the source corresponding to this
-     * location. Interpretation of this string is the
-     * responsibility of the source repository mechanism.
+     * Gets the pbth to the source corresponding to this
+     * locbtion. Interpretbtion of this string is the
+     * responsibility of the source repository mechbnism.
      * <P>
-     * Returned path is for the specified <i>stratum</i>
-     * (see the {@link Location class comment} for a
-     * description of strata).
+     * Returned pbth is for the specified <i>strbtum</i>
+     * (see the {@link Locbtion clbss comment} for b
+     * description of strbtb).
      * <P>
-     * In the reference implementation, for strata which
-     * do not explicitly specify source path (the Java
-     * programming language stratum never does), the returned
-     * string is the package name of {@link #declaringType()}
-     * converted to a platform dependent path followed by the
-     * unqualified name of the source file for this Location
-     * ({@link #sourceName sourceName(stratum)}).
-     * For example, on a
-     * Windows platform, <CODE>java.lang.Thread</CODE>
+     * In the reference implementbtion, for strbtb which
+     * do not explicitly specify source pbth (the Jbvb
+     * progrbmming lbngubge strbtum never does), the returned
+     * string is the pbckbge nbme of {@link #declbringType()}
+     * converted to b plbtform dependent pbth followed by the
+     * unqublified nbme of the source file for this Locbtion
+     * ({@link #sourceNbme sourceNbme(strbtum)}).
+     * For exbmple, on b
+     * Windows plbtform, <CODE>jbvb.lbng.Threbd</CODE>
      * would return
-     * <CODE>"java\lang\Thread.java"</CODE>.
+     * <CODE>"jbvb\lbng\Threbd.jbvb"</CODE>.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the declbring type's
+     * defbult strbtum.
      *
-     * @return a string specifying the source
+     * @return b string specifying the source
      *
-     * @throws AbsentInformationException if the source name is not
+     * @throws AbsentInformbtionException if the source nbme is not
      * known
      *
      * @since 1.4
      */
-    String sourcePath(String stratum)
-                         throws AbsentInformationException;
+    String sourcePbth(String strbtum)
+                         throws AbsentInformbtionException;
 
     /**
-     * Gets the line number of this Location.
+     * Gets the line number of this Locbtion.
      * <P>
-     * This method is equivalent to
-     * <code>lineNumber(vm.getDefaultStratum())</code> -
+     * This method is equivblent to
+     * <code>lineNumber(vm.getDefbultStrbtum())</code> -
      * see {@link #lineNumber(String)}
-     * for more information.
+     * for more informbtion.
      *
-     * @return an int specifying the line in the source, returns
-     * -1 if the information is not available; specifically, always
-     * returns -1 for native methods.
+     * @return bn int specifying the line in the source, returns
+     * -1 if the informbtion is not bvbilbble; specificblly, blwbys
+     * returns -1 for nbtive methods.
      */
     int lineNumber();
 
     /**
-     * The line number of this Location.  The line number is
-     * relative to the source specified by
-     * {@link #sourceName(String) sourceName(stratum)}.
+     * The line number of this Locbtion.  The line number is
+     * relbtive to the source specified by
+     * {@link #sourceNbme(String) sourceNbme(strbtum)}.
      * <P>
-     * Returned line number is for the specified <i>stratum</i>
-     * (see the {@link Location class comment} for a
-     * description of strata).
+     * Returned line number is for the specified <i>strbtum</i>
+     * (see the {@link Locbtion clbss comment} for b
+     * description of strbtb).
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the declbring type's
+     * defbult strbtum.
      *
-     * @return an int specifying the line in the source, returns
-     * -1 if the information is not available; specifically, always
-     * returns -1 for native methods.
+     * @return bn int specifying the line in the source, returns
+     * -1 if the informbtion is not bvbilbble; specificblly, blwbys
+     * returns -1 for nbtive methods.
      *
      * @since 1.4
      */
-    int lineNumber(String stratum);
+    int lineNumber(String strbtum);
 
     /**
-     * Compares the specified Object with this Location for equality.
+     * Compbres the specified Object with this Locbtion for equblity.
      *
-     * @return true if the Object is a Location and if it refers to
-     * the same point in the same VM as this Location.
+     * @return true if the Object is b Locbtion bnd if it refers to
+     * the sbme point in the sbme VM bs this Locbtion.
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this Location.
+     * Returns the hbsh code vblue for this Locbtion.
      *
-     * @return the integer hash code
+     * @return the integer hbsh code
      */
-    int hashCode();
+    int hbshCode();
 }

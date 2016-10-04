@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.*;
-import java.awt.peer.*;
-import java.awt.event.KeyEvent;
-import java.awt.datatransfer.Clipboard;
-import java.awt.TrayIcon;
-import java.beans.PropertyChangeListener;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.awt.AppContext;
-import sun.awt.AWTAutoShutdown;
-import sun.awt.AWTPermissions;
-import sun.awt.AppContext;
-import sun.awt.LightweightFrame;
-import sun.awt.SunToolkit;
-import sun.awt.util.ThreadGroupUtils;
-import sun.awt.Win32GraphicsDevice;
-import sun.awt.Win32GraphicsEnvironment;
-import sun.awt.datatransfer.DataTransferer;
-import sun.java2d.d3d.D3DRenderQueue;
-import sun.java2d.opengl.OGLRenderQueue;
+import jbvb.bwt.*;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.TrbyIcon;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.bwt.AppContext;
+import sun.bwt.AWTAutoShutdown;
+import sun.bwt.AWTPermissions;
+import sun.bwt.AppContext;
+import sun.bwt.LightweightFrbme;
+import sun.bwt.SunToolkit;
+import sun.bwt.util.ThrebdGroupUtils;
+import sun.bwt.Win32GrbphicsDevice;
+import sun.bwt.Win32GrbphicsEnvironment;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.jbvb2d.d3d.D3DRenderQueue;
+import sun.jbvb2d.opengl.OGLRenderQueue;
 
 import sun.print.PrintJob2D;
 
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
+import jbvb.bwt.dnd.DrbgSource;
+import jbvb.bwt.dnd.DrbgGestureListener;
+import jbvb.bwt.dnd.DrbgGestureEvent;
+import jbvb.bwt.dnd.DrbgGestureRecognizer;
+import jbvb.bwt.dnd.MouseDrbgGestureRecognizer;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
 
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
 
-import sun.font.FontManager;
-import sun.font.FontManagerFactory;
-import sun.font.SunFontManager;
-import sun.misc.PerformanceLogger;
-import sun.util.logging.PlatformLogger;
+import sun.font.FontMbnbger;
+import sun.font.FontMbnbgerFbctory;
+import sun.font.SunFontMbnbger;
+import sun.misc.PerformbnceLogger;
+import sun.util.logging.PlbtformLogger;
 
-public final class WToolkit extends SunToolkit implements Runnable {
+public finbl clbss WToolkit extends SunToolkit implements Runnbble {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WToolkit");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.windows.WToolkit");
 
-    // Desktop property which specifies whether XP visual styles are in effect
-    public static final String XPSTYLE_THEME_ACTIVE = "win.xpstyle.themeActive";
+    // Desktop property which specifies whether XP visubl styles bre in effect
+    public stbtic finbl String XPSTYLE_THEME_ACTIVE = "win.xpstyle.themeActive";
 
-    static GraphicsConfiguration config;
+    stbtic GrbphicsConfigurbtion config;
 
-    // System clipboard.
-    WClipboard clipboard;
+    // System clipbobrd.
+    WClipbobrd clipbobrd;
 
-    // cache of font peers
-    private Hashtable<String,FontPeer> cacheFontPeer;
+    // cbche of font peers
+    privbte Hbshtbble<String,FontPeer> cbcheFontPeer;
 
     // Windows properties
-    private WDesktopProperties  wprops;
+    privbte WDesktopProperties  wprops;
 
-    // Dynamic Layout Resize client code setting
-    protected boolean dynamicLayoutSetting = false;
+    // Dynbmic Lbyout Resize client code setting
+    protected boolebn dynbmicLbyoutSetting = fblse;
 
-    //Is it allowed to generate events assigned to extra mouse buttons.
-    //Set to true by default.
-    private static boolean areExtraMouseButtonsEnabled = true;
+    //Is it bllowed to generbte events bssigned to extrb mouse buttons.
+    //Set to true by defbult.
+    privbte stbtic boolebn breExtrbMouseButtonsEnbbled = true;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
-    private static boolean loaded = false;
-    public static void loadLibraries() {
-        if (!loaded) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
+    privbte stbtic nbtive void initIDs();
+    privbte stbtic boolebn lobded = fblse;
+    public stbtic void lobdLibrbries() {
+        if (!lobded) {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void>() {
                     @Override
                     public Void run() {
-                        System.loadLibrary("awt");
+                        System.lobdLibrbry("bwt");
                         return null;
                     }
                 });
-            loaded = true;
+            lobded = true;
         }
     }
 
-    private static native String getWindowsVersion();
+    privbte stbtic nbtive String getWindowsVersion();
 
-    static {
-        loadLibraries();
+    stbtic {
+        lobdLibrbries();
         initIDs();
 
         // Print out which version of Windows is running
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Win version: " + getWindowsVersion());
         }
 
@@ -131,156 +131,156 @@ public final class WToolkit extends SunToolkit implements Runnable {
             @Override
             public Void run() {
                 String browserProp = System.getProperty("browser");
-                if (browserProp != null && browserProp.equals("sun.plugin")) {
-                    disableCustomPalette();
+                if (browserProp != null && browserProp.equbls("sun.plugin")) {
+                    disbbleCustomPblette();
                 }
                 return null;
             }
         });
     }
 
-    private static native void disableCustomPalette();
+    privbte stbtic nbtive void disbbleCustomPblette();
 
     /*
-     * Reset the static GraphicsConfiguration to the default.  Called on
-     * startup and when display settings have changed.
+     * Reset the stbtic GrbphicsConfigurbtion to the defbult.  Cblled on
+     * stbrtup bnd when displby settings hbve chbnged.
      */
-    public static void resetGC() {
-        if (GraphicsEnvironment.isHeadless()) {
+    public stbtic void resetGC() {
+        if (GrbphicsEnvironment.isHebdless()) {
             config = null;
         } else {
-          config = (GraphicsEnvironment
-                  .getLocalGraphicsEnvironment()
-          .getDefaultScreenDevice()
-          .getDefaultConfiguration());
+          config = (GrbphicsEnvironment
+                  .getLocblGrbphicsEnvironment()
+          .getDefbultScreenDevice()
+          .getDefbultConfigurbtion());
         }
     }
 
     /*
-     * NOTE: The following embedded*() methods are non-public API intended
-     * for internal use only.  The methods are unsupported and could go
-     * away in future releases.
+     * NOTE: The following embedded*() methods bre non-public API intended
+     * for internbl use only.  The methods bre unsupported bnd could go
+     * bwby in future relebses.
      *
-     * New hook functions for using the AWT as an embedded service. These
-     * functions replace the global C function AwtInit() which was previously
-     * exported by awt.dll.
+     * New hook functions for using the AWT bs bn embedded service. These
+     * functions replbce the globbl C function AwtInit() which wbs previously
+     * exported by bwt.dll.
      *
-     * When used as an embedded service, the AWT does NOT have its own
-     * message pump. It instead relies on the parent application to provide
-     * this functionality. embeddedInit() assumes that the thread on which it
-     * is called is the message pumping thread. Violating this assumption
-     * will lead to undefined behavior.
+     * When used bs bn embedded service, the AWT does NOT hbve its own
+     * messbge pump. It instebd relies on the pbrent bpplicbtion to provide
+     * this functionblity. embeddedInit() bssumes thbt the threbd on which it
+     * is cblled is the messbge pumping threbd. Violbting this bssumption
+     * will lebd to undefined behbvior.
      *
-     * embeddedInit must be called before the WToolkit() constructor.
-     * embeddedDispose should be called before the applicaton terminates the
-     * Java VM. It is currently unsafe to reinitialize the toolkit again
-     * after it has been disposed. Instead, awt.dll must be reloaded and the
-     * class loader which loaded WToolkit must be finalized before it is
-     * safe to reuse AWT. Dynamic reusability may be added to the toolkit in
+     * embeddedInit must be cblled before the WToolkit() constructor.
+     * embeddedDispose should be cblled before the bpplicbton terminbtes the
+     * Jbvb VM. It is currently unsbfe to reinitiblize the toolkit bgbin
+     * bfter it hbs been disposed. Instebd, bwt.dll must be relobded bnd the
+     * clbss lobder which lobded WToolkit must be finblized before it is
+     * sbfe to reuse AWT. Dynbmic reusbbility mby be bdded to the toolkit in
      * the future.
      */
 
     /**
-     * Initializes the Toolkit for use in an embedded environment.
+     * Initiblizes the Toolkit for use in bn embedded environment.
      *
-     * @return true if the the initialization succeeded; false if it failed.
-     *         The function will fail if the Toolkit was already initialized.
+     * @return true if the the initiblizbtion succeeded; fblse if it fbiled.
+     *         The function will fbil if the Toolkit wbs blrebdy initiblized.
      * @since 1.3
      */
-    public static native boolean embeddedInit();
+    public stbtic nbtive boolebn embeddedInit();
 
     /**
-     * Disposes the Toolkit in an embedded environment. This method should
-     * not be called on exit unless the Toolkit was constructed with
+     * Disposes the Toolkit in bn embedded environment. This method should
+     * not be cblled on exit unless the Toolkit wbs constructed with
      * embeddedInit.
      *
-     * @return true if the disposal succeeded; false if it failed. The
-     *         function will fail if the calling thread is not the same
-     *         thread which called embeddedInit(), or if the Toolkit was
-     *         already disposed.
+     * @return true if the disposbl succeeded; fblse if it fbiled. The
+     *         function will fbil if the cblling threbd is not the sbme
+     *         threbd which cblled embeddedInit(), or if the Toolkit wbs
+     *         blrebdy disposed.
      * @since 1.3
      */
-    public static native boolean embeddedDispose();
+    public stbtic nbtive boolebn embeddedDispose();
 
     /**
-     * To be called after processing the event queue by users of the above
-     * embeddedInit() function.  The reason for this additional call is that
-     * there are some operations performed during idle time in the AwtToolkit
-     * event loop which should also be performed during idle time in any
-     * other native event loop.  Failure to do so could result in
-     * deadlocks.
+     * To be cblled bfter processing the event queue by users of the bbove
+     * embeddedInit() function.  The rebson for this bdditionbl cbll is thbt
+     * there bre some operbtions performed during idle time in the AwtToolkit
+     * event loop which should blso be performed during idle time in bny
+     * other nbtive event loop.  Fbilure to do so could result in
+     * debdlocks.
      *
-     * This method was added at the last minute of the jdk1.4 release
-     * to work around a specific customer problem.  As with the above
-     * embedded*() class, this method is non-public and should not be
-     * used by external applications.
+     * This method wbs bdded bt the lbst minute of the jdk1.4 relebse
+     * to work bround b specific customer problem.  As with the bbove
+     * embedded*() clbss, this method is non-public bnd should not be
+     * used by externbl bpplicbtions.
      *
-     * See bug #4526587 for more information.
+     * See bug #4526587 for more informbtion.
      */
-    public native void embeddedEventLoopIdleProcessing();
+    public nbtive void embeddedEventLoopIdleProcessing();
 
-    static class ToolkitDisposer implements sun.java2d.DisposerRecord {
+    stbtic clbss ToolkitDisposer implements sun.jbvb2d.DisposerRecord {
         @Override
         public void dispose() {
             WToolkit.postDispose();
         }
     }
 
-    private final Object anchor = new Object();
+    privbte finbl Object bnchor = new Object();
 
-    private static native void postDispose();
+    privbte stbtic nbtive void postDispose();
 
-    private static native boolean startToolkitThread(Runnable thread, ThreadGroup rootThreadGroup);
+    privbte stbtic nbtive boolebn stbrtToolkitThrebd(Runnbble threbd, ThrebdGroup rootThrebdGroup);
 
     public WToolkit() {
-        // Startup toolkit threads
-        if (PerformanceLogger.loggingEnabled()) {
-            PerformanceLogger.setTime("WToolkit construction");
+        // Stbrtup toolkit threbds
+        if (PerformbnceLogger.loggingEnbbled()) {
+            PerformbnceLogger.setTime("WToolkit construction");
         }
 
-        sun.java2d.Disposer.addRecord(anchor, new ToolkitDisposer());
+        sun.jbvb2d.Disposer.bddRecord(bnchor, new ToolkitDisposer());
 
         /*
          * Fix for 4701990.
-         * AWTAutoShutdown state must be changed before the toolkit thread
-         * starts to avoid race condition.
+         * AWTAutoShutdown stbte must be chbnged before the toolkit threbd
+         * stbrts to bvoid rbce condition.
          */
-        AWTAutoShutdown.notifyToolkitThreadBusy();
+        AWTAutoShutdown.notifyToolkitThrebdBusy();
 
-        // Find a root TG and attach Appkit thread to it
-        ThreadGroup rootTG = AccessController.doPrivileged(
-                (PrivilegedAction<ThreadGroup>) ThreadGroupUtils::getRootThreadGroup);
-        if (!startToolkitThread(this, rootTG)) {
-            Thread toolkitThread = new Thread(rootTG, this, "AWT-Windows");
-            toolkitThread.setDaemon(true);
-            toolkitThread.start();
+        // Find b root TG bnd bttbch Appkit threbd to it
+        ThrebdGroup rootTG = AccessController.doPrivileged(
+                (PrivilegedAction<ThrebdGroup>) ThrebdGroupUtils::getRootThrebdGroup);
+        if (!stbrtToolkitThrebd(this, rootTG)) {
+            Threbd toolkitThrebd = new Threbd(rootTG, this, "AWT-Windows");
+            toolkitThrebd.setDbemon(true);
+            toolkitThrebd.stbrt();
         }
 
         try {
             synchronized(this) {
                 while(!inited) {
-                    wait();
+                    wbit();
                 }
             }
-        } catch (InterruptedException x) {
-            // swallow the exception
+        } cbtch (InterruptedException x) {
+            // swbllow the exception
         }
 
-        // Enabled "live resizing" by default.  It remains controlled
-        // by the native system though.
-        setDynamicLayout(true);
+        // Enbbled "live resizing" by defbult.  It rembins controlled
+        // by the nbtive system though.
+        setDynbmicLbyout(true);
 
-        areExtraMouseButtonsEnabled = Boolean.parseBoolean(System.getProperty("sun.awt.enableExtraMouseButtons", "true"));
-        //set system property if not yet assigned
-        System.setProperty("sun.awt.enableExtraMouseButtons", ""+areExtraMouseButtonsEnabled);
-        setExtraMouseButtonsEnabledNative(areExtraMouseButtonsEnabled);
+        breExtrbMouseButtonsEnbbled = Boolebn.pbrseBoolebn(System.getProperty("sun.bwt.enbbleExtrbMouseButtons", "true"));
+        //set system property if not yet bssigned
+        System.setProperty("sun.bwt.enbbleExtrbMouseButtons", ""+breExtrbMouseButtonsEnbbled);
+        setExtrbMouseButtonsEnbbledNbtive(breExtrbMouseButtonsEnbbled);
     }
 
-    private final void registerShutdownHook() {
+    privbte finbl void registerShutdownHook() {
         AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-            Thread shutdown = new Thread(ThreadGroupUtils.getRootThreadGroup(), this::shutdown);
-            shutdown.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(shutdown);
+            Threbd shutdown = new Threbd(ThrebdGroupUtils.getRootThrebdGroup(), this::shutdown);
+            shutdown.setContextClbssLobder(null);
+            Runtime.getRuntime().bddShutdownHook(shutdown);
             return null;
          });
      }
@@ -288,13 +288,13 @@ public final class WToolkit extends SunToolkit implements Runnable {
     @Override
     public void run() {
         AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-            Thread.currentThread().setContextClassLoader(null);
+            Threbd.currentThrebd().setContextClbssLobder(null);
             return null;
         });
-        Thread.currentThread().setPriority(Thread.NORM_PRIORITY + 1);
-        boolean startPump = init();
+        Threbd.currentThrebd().setPriority(Threbd.NORM_PRIORITY + 1);
+        boolebn stbrtPump = init();
 
-        if (startPump) {
+        if (stbrtPump) {
             registerShutdownHook();
         }
 
@@ -303,305 +303,305 @@ public final class WToolkit extends SunToolkit implements Runnable {
             notifyAll();
         }
 
-        if (startPump) {
+        if (stbrtPump) {
             eventLoop(); // will Dispose Toolkit when shutdown hook executes
         }
     }
 
     /*
-     * eventLoop() begins the native message pump which retrieves and processes
-     * native events.
+     * eventLoop() begins the nbtive messbge pump which retrieves bnd processes
+     * nbtive events.
      *
-     * When shutdown() is called by the ShutdownHook added in run(), a
-     * WM_QUIT message is posted to the Toolkit thread indicating that
-     * eventLoop() should Dispose the toolkit and exit.
+     * When shutdown() is cblled by the ShutdownHook bdded in run(), b
+     * WM_QUIT messbge is posted to the Toolkit threbd indicbting thbt
+     * eventLoop() should Dispose the toolkit bnd exit.
      */
-    private native boolean init();
-    private boolean inited = false;
+    privbte nbtive boolebn init();
+    privbte boolebn inited = fblse;
 
-    private native void eventLoop();
-    private native void shutdown();
+    privbte nbtive void eventLoop();
+    privbte nbtive void shutdown();
 
     /*
-     * Instead of blocking the "AWT-Windows" thread uselessly on a semaphore,
-     * use these functions. startSecondaryEventLoop() corresponds to wait()
-     * and quitSecondaryEventLoop() corresponds to notify.
+     * Instebd of blocking the "AWT-Windows" threbd uselessly on b sembphore,
+     * use these functions. stbrtSecondbryEventLoop() corresponds to wbit()
+     * bnd quitSecondbryEventLoop() corresponds to notify.
      *
-     * These functions simulate blocking while allowing the AWT to continue
-     * processing native events, eliminating a potential deadlock situation
-     * with SendMessage.
+     * These functions simulbte blocking while bllowing the AWT to continue
+     * processing nbtive events, eliminbting b potentibl debdlock situbtion
+     * with SendMessbge.
      *
-     * WARNING: startSecondaryEventLoop must only be called from the "AWT-
-     * Windows" thread.
+     * WARNING: stbrtSecondbryEventLoop must only be cblled from the "AWT-
+     * Windows" threbd.
      */
-    static native void startSecondaryEventLoop();
-    static native void quitSecondaryEventLoop();
+    stbtic nbtive void stbrtSecondbryEventLoop();
+    stbtic nbtive void quitSecondbryEventLoop();
 
     /*
-     * Create peer objects.
+     * Crebte peer objects.
      */
 
     @Override
-    public ButtonPeer createButton(Button target) {
-        ButtonPeer peer = new WButtonPeer(target);
-        targetCreatedPeer(target, peer);
+    public ButtonPeer crebteButton(Button tbrget) {
+        ButtonPeer peer = new WButtonPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public TextFieldPeer createTextField(TextField target) {
-        TextFieldPeer peer = new WTextFieldPeer(target);
-        targetCreatedPeer(target, peer);
+    public TextFieldPeer crebteTextField(TextField tbrget) {
+        TextFieldPeer peer = new WTextFieldPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public LabelPeer createLabel(Label target) {
-        LabelPeer peer = new WLabelPeer(target);
-        targetCreatedPeer(target, peer);
+    public LbbelPeer crebteLbbel(Lbbel tbrget) {
+        LbbelPeer peer = new WLbbelPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public ListPeer createList(List target) {
-        ListPeer peer = new WListPeer(target);
-        targetCreatedPeer(target, peer);
+    public ListPeer crebteList(List tbrget) {
+        ListPeer peer = new WListPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public CheckboxPeer createCheckbox(Checkbox target) {
-        CheckboxPeer peer = new WCheckboxPeer(target);
-        targetCreatedPeer(target, peer);
+    public CheckboxPeer crebteCheckbox(Checkbox tbrget) {
+        CheckboxPeer peer = new WCheckboxPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public ScrollbarPeer createScrollbar(Scrollbar target) {
-        ScrollbarPeer peer = new WScrollbarPeer(target);
-        targetCreatedPeer(target, peer);
+    public ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget) {
+        ScrollbbrPeer peer = new WScrollbbrPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public ScrollPanePeer createScrollPane(ScrollPane target) {
-        ScrollPanePeer peer = new WScrollPanePeer(target);
-        targetCreatedPeer(target, peer);
+    public ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget) {
+        ScrollPbnePeer peer = new WScrollPbnePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public TextAreaPeer createTextArea(TextArea target) {
-        TextAreaPeer peer = new WTextAreaPeer(target);
-        targetCreatedPeer(target, peer);
+    public TextArebPeer crebteTextAreb(TextAreb tbrget) {
+        TextArebPeer peer = new WTextArebPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public ChoicePeer createChoice(Choice target) {
-        ChoicePeer peer = new WChoicePeer(target);
-        targetCreatedPeer(target, peer);
+    public ChoicePeer crebteChoice(Choice tbrget) {
+        ChoicePeer peer = new WChoicePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public FramePeer  createFrame(Frame target) {
-        FramePeer peer = new WFramePeer(target);
-        targetCreatedPeer(target, peer);
+    public FrbmePeer  crebteFrbme(Frbme tbrget) {
+        FrbmePeer peer = new WFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public FramePeer createLightweightFrame(LightweightFrame target) {
-        FramePeer peer = new WLightweightFramePeer(target);
-        targetCreatedPeer(target, peer);
+    public FrbmePeer crebteLightweightFrbme(LightweightFrbme tbrget) {
+        FrbmePeer peer = new WLightweightFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public CanvasPeer createCanvas(Canvas target) {
-        CanvasPeer peer = new WCanvasPeer(target);
-        targetCreatedPeer(target, peer);
+    public CbnvbsPeer crebteCbnvbs(Cbnvbs tbrget) {
+        CbnvbsPeer peer = new WCbnvbsPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void disableBackgroundErase(Canvas canvas) {
-        WCanvasPeer peer = (WCanvasPeer)canvas.getPeer();
+    @SuppressWbrnings("deprecbtion")
+    public void disbbleBbckgroundErbse(Cbnvbs cbnvbs) {
+        WCbnvbsPeer peer = (WCbnvbsPeer)cbnvbs.getPeer();
         if (peer == null) {
-            throw new IllegalStateException("Canvas must have a valid peer");
+            throw new IllegblStbteException("Cbnvbs must hbve b vblid peer");
         }
-        peer.disableBackgroundErase();
+        peer.disbbleBbckgroundErbse();
     }
 
     @Override
-    public PanelPeer createPanel(Panel target) {
-        PanelPeer peer = new WPanelPeer(target);
-        targetCreatedPeer(target, peer);
+    public PbnelPeer crebtePbnel(Pbnel tbrget) {
+        PbnelPeer peer = new WPbnelPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public WindowPeer createWindow(Window target) {
-        WindowPeer peer = new WWindowPeer(target);
-        targetCreatedPeer(target, peer);
+    public WindowPeer crebteWindow(Window tbrget) {
+        WindowPeer peer = new WWindowPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public DialogPeer createDialog(Dialog target) {
-        DialogPeer peer = new WDialogPeer(target);
-        targetCreatedPeer(target, peer);
+    public DiblogPeer crebteDiblog(Diblog tbrget) {
+        DiblogPeer peer = new WDiblogPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public FileDialogPeer createFileDialog(FileDialog target) {
-        FileDialogPeer peer = new WFileDialogPeer(target);
-        targetCreatedPeer(target, peer);
+    public FileDiblogPeer crebteFileDiblog(FileDiblog tbrget) {
+        FileDiblogPeer peer = new WFileDiblogPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public MenuBarPeer createMenuBar(MenuBar target) {
-        MenuBarPeer peer = new WMenuBarPeer(target);
-        targetCreatedPeer(target, peer);
+    public MenuBbrPeer crebteMenuBbr(MenuBbr tbrget) {
+        MenuBbrPeer peer = new WMenuBbrPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public MenuPeer createMenu(Menu target) {
-        MenuPeer peer = new WMenuPeer(target);
-        targetCreatedPeer(target, peer);
+    public MenuPeer crebteMenu(Menu tbrget) {
+        MenuPeer peer = new WMenuPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public PopupMenuPeer createPopupMenu(PopupMenu target) {
-        PopupMenuPeer peer = new WPopupMenuPeer(target);
-        targetCreatedPeer(target, peer);
+    public PopupMenuPeer crebtePopupMenu(PopupMenu tbrget) {
+        PopupMenuPeer peer = new WPopupMenuPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public MenuItemPeer createMenuItem(MenuItem target) {
-        MenuItemPeer peer = new WMenuItemPeer(target);
-        targetCreatedPeer(target, peer);
+    public MenuItemPeer crebteMenuItem(MenuItem tbrget) {
+        MenuItemPeer peer = new WMenuItemPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target) {
-        CheckboxMenuItemPeer peer = new WCheckboxMenuItemPeer(target);
-        targetCreatedPeer(target, peer);
+    public CheckboxMenuItemPeer crebteCheckboxMenuItem(CheckboxMenuItem tbrget) {
+        CheckboxMenuItemPeer peer = new WCheckboxMenuItemPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen) {
-        // (target is unused for now)
-        // Robot's don't need to go in the peer map since
+    public RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen) {
+        // (tbrget is unused for now)
+        // Robot's don't need to go in the peer mbp since
         // they're not Component's
         return new WRobotPeer(screen);
     }
 
-    public WEmbeddedFramePeer createEmbeddedFrame(WEmbeddedFrame target) {
-        WEmbeddedFramePeer peer = new WEmbeddedFramePeer(target);
-        targetCreatedPeer(target, peer);
+    public WEmbeddedFrbmePeer crebteEmbeddedFrbme(WEmbeddedFrbme tbrget) {
+        WEmbeddedFrbmePeer peer = new WEmbeddedFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    WPrintDialogPeer createWPrintDialog(WPrintDialog target) {
-        WPrintDialogPeer peer = new WPrintDialogPeer(target);
-        targetCreatedPeer(target, peer);
+    WPrintDiblogPeer crebteWPrintDiblog(WPrintDiblog tbrget) {
+        WPrintDiblogPeer peer = new WPrintDiblogPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    WPageDialogPeer createWPageDialog(WPageDialog target) {
-        WPageDialogPeer peer = new WPageDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
-    }
-
-    @Override
-    public TrayIconPeer createTrayIcon(TrayIcon target) {
-        WTrayIconPeer peer = new WTrayIconPeer(target);
-        targetCreatedPeer(target, peer);
+    WPbgeDiblogPeer crebteWPbgeDiblog(WPbgeDiblog tbrget) {
+        WPbgeDiblogPeer peer = new WPbgeDiblogPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public SystemTrayPeer createSystemTray(SystemTray target) {
-        return new WSystemTrayPeer(target);
+    public TrbyIconPeer crebteTrbyIcon(TrbyIcon tbrget) {
+        WTrbyIconPeer peer = new WTrbyIconPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
+        return peer;
     }
 
     @Override
-    public boolean isTraySupported() {
+    public SystemTrbyPeer crebteSystemTrby(SystemTrby tbrget) {
+        return new WSystemTrbyPeer(tbrget);
+    }
+
+    @Override
+    public boolebn isTrbySupported() {
         return true;
     }
 
     @Override
-    public DataTransferer getDataTransferer() {
-        return WDataTransferer.getInstanceImpl();
+    public DbtbTrbnsferer getDbtbTrbnsferer() {
+        return WDbtbTrbnsferer.getInstbnceImpl();
     }
 
     @Override
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer()
-      throws HeadlessException
+    public KeybobrdFocusMbnbgerPeer getKeybobrdFocusMbnbgerPeer()
+      throws HebdlessException
     {
-        return WKeyboardFocusManagerPeer.getInstance();
+        return WKeybobrdFocusMbnbgerPeer.getInstbnce();
     }
 
-    private native void setDynamicLayoutNative(boolean b);
+    privbte nbtive void setDynbmicLbyoutNbtive(boolebn b);
 
     @Override
-    public void setDynamicLayout(boolean b) {
-        if (b == dynamicLayoutSetting) {
+    public void setDynbmicLbyout(boolebn b) {
+        if (b == dynbmicLbyoutSetting) {
             return;
         }
 
-        dynamicLayoutSetting = b;
-        setDynamicLayoutNative(b);
+        dynbmicLbyoutSetting = b;
+        setDynbmicLbyoutNbtive(b);
     }
 
     @Override
-    protected boolean isDynamicLayoutSet() {
-        return dynamicLayoutSetting;
+    protected boolebn isDynbmicLbyoutSet() {
+        return dynbmicLbyoutSetting;
     }
 
     /*
-     * Called from lazilyLoadDynamicLayoutSupportedProperty because
-     * Windows doesn't always send WM_SETTINGCHANGE when it should.
+     * Cblled from lbzilyLobdDynbmicLbyoutSupportedProperty becbuse
+     * Windows doesn't blwbys send WM_SETTINGCHANGE when it should.
      */
-    private native boolean isDynamicLayoutSupportedNative();
+    privbte nbtive boolebn isDynbmicLbyoutSupportedNbtive();
 
     @Override
-    public boolean isDynamicLayoutActive() {
-        return (isDynamicLayoutSet() && isDynamicLayoutSupported());
+    public boolebn isDynbmicLbyoutActive() {
+        return (isDynbmicLbyoutSet() && isDynbmicLbyoutSupported());
     }
 
     /**
-     * Returns <code>true</code> if this frame state is supported.
+     * Returns <code>true</code> if this frbme stbte is supported.
      */
     @Override
-    public boolean isFrameStateSupported(int state) {
-        switch (state) {
-          case Frame.NORMAL:
-          case Frame.ICONIFIED:
-          case Frame.MAXIMIZED_BOTH:
+    public boolebn isFrbmeStbteSupported(int stbte) {
+        switch (stbte) {
+          cbse Frbme.NORMAL:
+          cbse Frbme.ICONIFIED:
+          cbse Frbme.MAXIMIZED_BOTH:
               return true;
-          default:
-              return false;
+          defbult:
+              return fblse;
         }
     }
 
-    static native ColorModel makeColorModel();
-    static ColorModel screenmodel;
+    stbtic nbtive ColorModel mbkeColorModel();
+    stbtic ColorModel screenmodel;
 
-    static ColorModel getStaticColorModel() {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new IllegalArgumentException();
+    stbtic ColorModel getStbticColorModel() {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new IllegblArgumentException();
         }
         if (config == null) {
             resetGC();
@@ -611,93 +611,93 @@ public final class WToolkit extends SunToolkit implements Runnable {
 
     @Override
     public ColorModel getColorModel() {
-        return getStaticColorModel();
+        return getStbticColorModel();
     }
 
     @Override
-    public Insets getScreenInsets(GraphicsConfiguration gc)
+    public Insets getScreenInsets(GrbphicsConfigurbtion gc)
     {
-        return getScreenInsets(((Win32GraphicsDevice) gc.getDevice()).getScreen());
+        return getScreenInsets(((Win32GrbphicsDevice) gc.getDevice()).getScreen());
     }
 
     @Override
     public int getScreenResolution() {
-        Win32GraphicsEnvironment ge = (Win32GraphicsEnvironment)
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Win32GrbphicsEnvironment ge = (Win32GrbphicsEnvironment)
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
         return ge.getXResolution();
     }
     @Override
-    protected native int getScreenWidth();
+    protected nbtive int getScreenWidth();
     @Override
-    protected native int getScreenHeight();
-    private native Insets getScreenInsets(int screen);
+    protected nbtive int getScreenHeight();
+    privbte nbtive Insets getScreenInsets(int screen);
 
 
     @Override
     public FontMetrics getFontMetrics(Font font) {
-        // This is an unsupported hack, but left in for a customer.
+        // This is bn unsupported hbck, but left in for b customer.
         // Do not remove.
-        FontManager fm = FontManagerFactory.getInstance();
-        if (fm instanceof SunFontManager
-            && ((SunFontManager) fm).usePlatformFontMetrics()) {
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+        if (fm instbnceof SunFontMbnbger
+            && ((SunFontMbnbger) fm).usePlbtformFontMetrics()) {
             return WFontMetrics.getFontMetrics(font);
         }
         return super.getFontMetrics(font);
     }
 
     @Override
-    public FontPeer getFontPeer(String name, int style) {
-        FontPeer retval = null;
-        String lcName = name.toLowerCase();
-        if (null != cacheFontPeer) {
-            retval = cacheFontPeer.get(lcName + style);
-            if (null != retval) {
-                return retval;
+    public FontPeer getFontPeer(String nbme, int style) {
+        FontPeer retvbl = null;
+        String lcNbme = nbme.toLowerCbse();
+        if (null != cbcheFontPeer) {
+            retvbl = cbcheFontPeer.get(lcNbme + style);
+            if (null != retvbl) {
+                return retvbl;
             }
         }
-        retval = new WFontPeer(name, style);
-        if (retval != null) {
-            if (null == cacheFontPeer) {
-                cacheFontPeer = new Hashtable<>(5, 0.9f);
+        retvbl = new WFontPeer(nbme, style);
+        if (retvbl != null) {
+            if (null == cbcheFontPeer) {
+                cbcheFontPeer = new Hbshtbble<>(5, 0.9f);
             }
-            if (null != cacheFontPeer) {
-                cacheFontPeer.put(lcName + style, retval);
+            if (null != cbcheFontPeer) {
+                cbcheFontPeer.put(lcNbme + style, retvbl);
             }
         }
-        return retval;
+        return retvbl;
     }
 
-    private native void nativeSync();
+    privbte nbtive void nbtiveSync();
 
     @Override
     public void sync() {
         // flush the GDI/DD buffers
-        nativeSync();
-        // now flush the OGL pipeline (this is a no-op if OGL is not enabled)
+        nbtiveSync();
+        // now flush the OGL pipeline (this is b no-op if OGL is not enbbled)
         OGLRenderQueue.sync();
-        // now flush the D3D pipeline (this is a no-op if D3D is not enabled)
+        // now flush the D3D pipeline (this is b no-op if D3D is not enbbled)
         D3DRenderQueue.sync();
     }
 
     @Override
-    public PrintJob getPrintJob(Frame frame, String doctitle,
+    public PrintJob getPrintJob(Frbme frbme, String doctitle,
                                 Properties props) {
-        return getPrintJob(frame, doctitle, null, null);
+        return getPrintJob(frbme, doctitle, null, null);
     }
 
     @Override
-    public PrintJob getPrintJob(Frame frame, String doctitle,
+    public PrintJob getPrintJob(Frbme frbme, String doctitle,
                                 JobAttributes jobAttributes,
-                                PageAttributes pageAttributes)
+                                PbgeAttributes pbgeAttributes)
     {
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbme == null) {
+            throw new NullPointerException("frbme must not be null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle,
-                                             jobAttributes, pageAttributes);
+        PrintJob2D printJob = new PrintJob2D(frbme, doctitle,
+                                             jobAttributes, pbgeAttributes);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblse) {
             printJob = null;
         }
 
@@ -705,107 +705,107 @@ public final class WToolkit extends SunToolkit implements Runnable {
     }
 
     @Override
-    public native void beep();
+    public nbtive void beep();
 
     @Override
-    public boolean getLockingKeyState(int key) {
+    public boolebn getLockingKeyStbte(int key) {
         if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
                key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+            throw new IllegblArgumentException("invblid key for Toolkit.getLockingKeyStbte");
         }
-        return getLockingKeyStateNative(key);
+        return getLockingKeyStbteNbtive(key);
     }
 
-    private native boolean getLockingKeyStateNative(int key);
+    privbte nbtive boolebn getLockingKeyStbteNbtive(int key);
 
     @Override
-    public void setLockingKeyState(int key, boolean on) {
+    public void setLockingKeyStbte(int key, boolebn on) {
         if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
                key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.setLockingKeyState");
+            throw new IllegblArgumentException("invblid key for Toolkit.setLockingKeyStbte");
         }
-        setLockingKeyStateNative(key, on);
+        setLockingKeyStbteNbtive(key, on);
     }
 
-    private native void setLockingKeyStateNative(int key, boolean on);
+    privbte nbtive void setLockingKeyStbteNbtive(int key, boolebn on);
 
     @Override
-    public Clipboard getSystemClipboard() {
-        SecurityManager security = System.getSecurityManager();
+    public Clipbobrd getSystemClipbobrd() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
         }
         synchronized (this) {
-            if (clipboard == null) {
-                clipboard = new WClipboard();
+            if (clipbobrd == null) {
+                clipbobrd = new WClipbobrd();
             }
         }
-        return clipboard;
+        return clipbobrd;
     }
 
     @Override
-    protected native void loadSystemColors(int[] systemColors);
+    protected nbtive void lobdSystemColors(int[] systemColors);
 
-    public static final Object targetToPeer(Object target) {
-        return SunToolkit.targetToPeer(target);
+    public stbtic finbl Object tbrgetToPeer(Object tbrget) {
+        return SunToolkit.tbrgetToPeer(tbrget);
     }
 
-    public static final void targetDisposedPeer(Object target, Object peer) {
-        SunToolkit.targetDisposedPeer(target, peer);
+    public stbtic finbl void tbrgetDisposedPeer(Object tbrget, Object peer) {
+        SunToolkit.tbrgetDisposedPeer(tbrget, peer);
     }
 
     /**
-     * Returns a new input method adapter descriptor for native input methods.
+     * Returns b new input method bdbpter descriptor for nbtive input methods.
      */
     @Override
-    public InputMethodDescriptor getInputMethodAdapterDescriptor() {
+    public InputMethodDescriptor getInputMethodAdbpterDescriptor() {
         return new WInputMethodDescriptor();
     }
 
     /**
-     * Returns a style map for the input method highlight.
+     * Returns b style mbp for the input method highlight.
      */
     @Override
-    public Map<java.awt.font.TextAttribute,?> mapInputMethodHighlight(
+    public Mbp<jbvb.bwt.font.TextAttribute,?> mbpInputMethodHighlight(
         InputMethodHighlight highlight)
     {
-        return WInputMethod.mapInputMethodHighlight(highlight);
+        return WInputMethod.mbpInputMethodHighlight(highlight);
     }
 
     /**
-     * Returns whether enableInputMethods should be set to true for peered
-     * TextComponent instances on this platform.
+     * Returns whether enbbleInputMethods should be set to true for peered
+     * TextComponent instbnces on this plbtform.
      */
     @Override
-    public boolean enableInputMethodsForTextComponent() {
+    public boolebn enbbleInputMethodsForTextComponent() {
         return true;
     }
 
     /**
-     * Returns the default keyboard locale of the underlying operating system
+     * Returns the defbult keybobrd locble of the underlying operbting system
      */
     @Override
-    public Locale getDefaultKeyboardLocale() {
-        Locale locale = WInputMethod.getNativeLocale();
+    public Locble getDefbultKeybobrdLocble() {
+        Locble locble = WInputMethod.getNbtiveLocble();
 
-        if (locale == null) {
-            return super.getDefaultKeyboardLocale();
+        if (locble == null) {
+            return super.getDefbultKeybobrdLocble();
         } else {
-            return locale;
+            return locble;
         }
     }
 
     /**
-     * Returns a new custom cursor.
+     * Returns b new custom cursor.
      */
     @Override
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
+    public Cursor crebteCustomCursor(Imbge cursor, Point hotSpot, String nbme)
         throws IndexOutOfBoundsException {
-        return new WCustomCursor(cursor, hotSpot, name);
+        return new WCustomCursor(cursor, hotSpot, nbme);
     }
 
     /**
-     * Returns the supported cursor size (Win32 only has one).
+     * Returns the supported cursor size (Win32 only hbs one).
      */
     @Override
     public Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
@@ -814,48 +814,48 @@ public final class WToolkit extends SunToolkit implements Runnable {
     }
 
     @Override
-    public native int getMaximumCursorColors();
+    public nbtive int getMbximumCursorColors();
 
-    static void paletteChanged() {
-        ((Win32GraphicsEnvironment)GraphicsEnvironment
-        .getLocalGraphicsEnvironment())
-        .paletteChanged();
+    stbtic void pbletteChbnged() {
+        ((Win32GrbphicsEnvironment)GrbphicsEnvironment
+        .getLocblGrbphicsEnvironment())
+        .pbletteChbnged();
     }
 
     /*
-     * Called from Toolkit native code when a WM_DISPLAYCHANGE occurs.
-     * Have Win32GraphicsEnvironment execute the display change code on the
-     * Event thread.
+     * Cblled from Toolkit nbtive code when b WM_DISPLAYCHANGE occurs.
+     * Hbve Win32GrbphicsEnvironment execute the displby chbnge code on the
+     * Event threbd.
      */
-    static public void displayChanged() {
-        EventQueue.invokeLater(new Runnable() {
+    stbtic public void displbyChbnged() {
+        EventQueue.invokeLbter(new Runnbble() {
             @Override
             public void run() {
-                ((Win32GraphicsEnvironment)GraphicsEnvironment
-                .getLocalGraphicsEnvironment())
-                .displayChanged();
+                ((Win32GrbphicsEnvironment)GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment())
+                .displbyChbnged();
             }
         });
     }
 
     /**
-     * create the peer for a DragSourceContext
+     * crebte the peer for b DrbgSourceContext
      */
 
     @Override
-    public DragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        return WDragSourceContextPeer.createDragSourceContextPeer(dge);
+    public DrbgSourceContextPeer crebteDrbgSourceContextPeer(DrbgGestureEvent dge) throws InvblidDnDOperbtionException {
+        return WDrbgSourceContextPeer.crebteDrbgSourceContextPeer(dge);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> abstractRecognizerClass,
-                                    DragSource ds, Component c, int srcActions,
-                                    DragGestureListener dgl)
+    @SuppressWbrnings("unchecked")
+    public <T extends DrbgGestureRecognizer> T
+        crebteDrbgGestureRecognizer(Clbss<T> bbstrbctRecognizerClbss,
+                                    DrbgSource ds, Component c, int srcActions,
+                                    DrbgGestureListener dgl)
     {
-        if (MouseDragGestureRecognizer.class.equals(abstractRecognizerClass))
-            return (T)new WMouseDragGestureRecognizer(ds, c, srcActions, dgl);
+        if (MouseDrbgGestureRecognizer.clbss.equbls(bbstrbctRecognizerClbss))
+            return (T)new WMouseDrbgGestureRecognizer(ds, c, srcActions, dgl);
         else
             return null;
     }
@@ -864,160 +864,160 @@ public final class WToolkit extends SunToolkit implements Runnable {
      *
      */
 
-    private static final String prefix  = "DnD.Cursor.";
-    private static final String postfix = ".32x32";
-    private static final String awtPrefix  = "awt.";
-    private static final String dndPrefix  = "DnD.";
+    privbte stbtic finbl String prefix  = "DnD.Cursor.";
+    privbte stbtic finbl String postfix = ".32x32";
+    privbte stbtic finbl String bwtPrefix  = "bwt.";
+    privbte stbtic finbl String dndPrefix  = "DnD.";
 
     @Override
-    protected Object lazilyLoadDesktopProperty(String name) {
-        if (name.startsWith(prefix)) {
-            String cursorName = name.substring(prefix.length(), name.length()) + postfix;
+    protected Object lbzilyLobdDesktopProperty(String nbme) {
+        if (nbme.stbrtsWith(prefix)) {
+            String cursorNbme = nbme.substring(prefix.length(), nbme.length()) + postfix;
 
             try {
-                return Cursor.getSystemCustomCursor(cursorName);
-            } catch (AWTException awte) {
-                throw new RuntimeException("cannot load system cursor: " + cursorName, awte);
+                return Cursor.getSystemCustomCursor(cursorNbme);
+            } cbtch (AWTException bwte) {
+                throw new RuntimeException("cbnnot lobd system cursor: " + cursorNbme, bwte);
             }
         }
 
-        if (name.equals("awt.dynamicLayoutSupported")) {
-            return  Boolean.valueOf(isDynamicLayoutSupported());
+        if (nbme.equbls("bwt.dynbmicLbyoutSupported")) {
+            return  Boolebn.vblueOf(isDynbmicLbyoutSupported());
         }
 
-        if (WDesktopProperties.isWindowsProperty(name) ||
-            name.startsWith(awtPrefix) || name.startsWith(dndPrefix))
+        if (WDesktopProperties.isWindowsProperty(nbme) ||
+            nbme.stbrtsWith(bwtPrefix) || nbme.stbrtsWith(dndPrefix))
         {
             synchronized(this) {
-                lazilyInitWProps();
-                return desktopProperties.get(name);
+                lbzilyInitWProps();
+                return desktopProperties.get(nbme);
             }
         }
 
-        return super.lazilyLoadDesktopProperty(name);
+        return super.lbzilyLobdDesktopProperty(nbme);
     }
 
-    private synchronized void lazilyInitWProps() {
+    privbte synchronized void lbzilyInitWProps() {
         if (wprops == null) {
             wprops = new WDesktopProperties(this);
-            updateProperties(wprops.getProperties());
+            updbteProperties(wprops.getProperties());
         }
     }
 
     /*
-     * Called from lazilyLoadDesktopProperty because Windows doesn't
-     * always send WM_SETTINGCHANGE when it should.
+     * Cblled from lbzilyLobdDesktopProperty becbuse Windows doesn't
+     * blwbys send WM_SETTINGCHANGE when it should.
      */
-    private synchronized boolean isDynamicLayoutSupported() {
-        boolean nativeDynamic = isDynamicLayoutSupportedNative();
-        lazilyInitWProps();
-        Boolean prop = (Boolean) desktopProperties.get("awt.dynamicLayoutSupported");
+    privbte synchronized boolebn isDynbmicLbyoutSupported() {
+        boolebn nbtiveDynbmic = isDynbmicLbyoutSupportedNbtive();
+        lbzilyInitWProps();
+        Boolebn prop = (Boolebn) desktopProperties.get("bwt.dynbmicLbyoutSupported");
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("In WTK.isDynamicLayoutSupported()" +
-                      "   nativeDynamic == " + nativeDynamic +
-                      "   wprops.dynamic == " + prop);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("In WTK.isDynbmicLbyoutSupported()" +
+                      "   nbtiveDynbmic == " + nbtiveDynbmic +
+                      "   wprops.dynbmic == " + prop);
         }
 
-        if ((prop == null) || (nativeDynamic != prop.booleanValue())) {
+        if ((prop == null) || (nbtiveDynbmic != prop.boolebnVblue())) {
             // We missed the WM_SETTINGCHANGE, so we pretend
-            // we just got one - fire the propertyChange, etc.
-            windowsSettingChange();
-            return nativeDynamic;
+            // we just got one - fire the propertyChbnge, etc.
+            windowsSettingChbnge();
+            return nbtiveDynbmic;
         }
 
-        return prop.booleanValue();
+        return prop.boolebnVblue();
     }
 
     /*
-     * Called from native toolkit code when WM_SETTINGCHANGE message received
-     * Also called from lazilyLoadDynamicLayoutSupportedProperty because
-     * Windows doesn't always send WM_SETTINGCHANGE when it should.
+     * Cblled from nbtive toolkit code when WM_SETTINGCHANGE messbge received
+     * Also cblled from lbzilyLobdDynbmicLbyoutSupportedProperty becbuse
+     * Windows doesn't blwbys send WM_SETTINGCHANGE when it should.
      */
-    private void windowsSettingChange() {
-        // JDK-8039383: Have to update the value of XPSTYLE_THEME_ACTIVE property
-        // as soon as possible to prevent NPE and other errors because theme data
-        // has become unavailable.
-        final Map<String, Object> props = getWProps();
+    privbte void windowsSettingChbnge() {
+        // JDK-8039383: Hbve to updbte the vblue of XPSTYLE_THEME_ACTIVE property
+        // bs soon bs possible to prevent NPE bnd other errors becbuse theme dbtb
+        // hbs become unbvbilbble.
+        finbl Mbp<String, Object> props = getWProps();
         if (props == null) {
-            // props has not been initialized, so we have nothing to update
+            // props hbs not been initiblized, so we hbve nothing to updbte
             return;
         }
 
-        updateXPStyleEnabled(props.get(XPSTYLE_THEME_ACTIVE));
+        updbteXPStyleEnbbled(props.get(XPSTYLE_THEME_ACTIVE));
 
         if (AppContext.getAppContext() == null) {
-            // We cannot post the update to any EventQueue. Listeners will
-            // be called on EDTs by DesktopPropertyChangeSupport
-            updateProperties(props);
+            // We cbnnot post the updbte to bny EventQueue. Listeners will
+            // be cblled on EDTs by DesktopPropertyChbngeSupport
+            updbteProperties(props);
         } else {
-            // Cannot update on Toolkit thread.
-            // DesktopPropertyChangeSupport will call listeners on Toolkit
-            // thread if it has AppContext (standalone mode)
-            EventQueue.invokeLater(() -> updateProperties(props));
+            // Cbnnot updbte on Toolkit threbd.
+            // DesktopPropertyChbngeSupport will cbll listeners on Toolkit
+            // threbd if it hbs AppContext (stbndblone mode)
+            EventQueue.invokeLbter(() -> updbteProperties(props));
         }
     }
 
-    private synchronized void updateProperties(final Map<String, Object> props) {
+    privbte synchronized void updbteProperties(finbl Mbp<String, Object> props) {
         if (null == props) {
             return;
         }
 
-        updateXPStyleEnabled(props.get(XPSTYLE_THEME_ACTIVE));
+        updbteXPStyleEnbbled(props.get(XPSTYLE_THEME_ACTIVE));
 
-        for (String propName : props.keySet()) {
-            Object val = props.get(propName);
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("changed " + propName + " to " + val);
+        for (String propNbme : props.keySet()) {
+            Object vbl = props.get(propNbme);
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("chbnged " + propNbme + " to " + vbl);
             }
-            setDesktopProperty(propName, val);
+            setDesktopProperty(propNbme, vbl);
         }
     }
 
-    private synchronized Map<String, Object> getWProps() {
+    privbte synchronized Mbp<String, Object> getWProps() {
         return (wprops != null) ? wprops.getProperties() : null;
     }
 
-    private void updateXPStyleEnabled(final Object dskProp) {
-        ThemeReader.xpStyleEnabled = Boolean.TRUE.equals(dskProp);
+    privbte void updbteXPStyleEnbbled(finbl Object dskProp) {
+        ThemeRebder.xpStyleEnbbled = Boolebn.TRUE.equbls(dskProp);
     }
 
     @Override
-    public synchronized void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        if (name == null) {
-            // See JavaDoc for the Toolkit.addPropertyChangeListener() method
+    public synchronized void bddPropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        if (nbme == null) {
+            // See JbvbDoc for the Toolkit.bddPropertyChbngeListener() method
             return;
         }
-        if ( WDesktopProperties.isWindowsProperty(name)
-             || name.startsWith(awtPrefix)
-             || name.startsWith(dndPrefix))
+        if ( WDesktopProperties.isWindowsProperty(nbme)
+             || nbme.stbrtsWith(bwtPrefix)
+             || nbme.stbrtsWith(dndPrefix))
         {
             // someone is interested in Windows-specific desktop properties
-            // we should initialize wprops
-            lazilyInitWProps();
+            // we should initiblize wprops
+            lbzilyInitWProps();
         }
-        super.addPropertyChangeListener(name, pcl);
+        super.bddPropertyChbngeListener(nbme, pcl);
     }
 
     /*
-     * initialize only static props here and do not try to initialize props which depends on wprops,
-     * this should be done in lazilyLoadDesktopProperty() only.
+     * initiblize only stbtic props here bnd do not try to initiblize props which depends on wprops,
+     * this should be done in lbzilyLobdDesktopProperty() only.
      */
     @Override
-    protected synchronized void initializeDesktopProperties() {
-        desktopProperties.put("DnD.Autoscroll.initialDelay",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.Autoscroll.interval",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.isDragImageSupported",
-                              Boolean.TRUE);
-        desktopProperties.put("Shell.shellFolderManager",
-                              "sun.awt.shell.Win32ShellFolderManager2");
+    protected synchronized void initiblizeDesktopProperties() {
+        desktopProperties.put("DnD.Autoscroll.initiblDelby",
+                              Integer.vblueOf(50));
+        desktopProperties.put("DnD.Autoscroll.intervbl",
+                              Integer.vblueOf(50));
+        desktopProperties.put("DnD.isDrbgImbgeSupported",
+                              Boolebn.TRUE);
+        desktopProperties.put("Shell.shellFolderMbnbger",
+                              "sun.bwt.shell.Win32ShellFolderMbnbger2");
     }
 
     /*
-     * This returns the value for the desktop property "awt.font.desktophints"
-     * This requires that the Windows properties have already been gathered.
+     * This returns the vblue for the desktop property "bwt.font.desktophints"
+     * This requires thbt the Windows properties hbve blrebdy been gbthered.
      */
     @Override
     protected synchronized RenderingHints getDesktopAAHints() {
@@ -1029,90 +1029,90 @@ public final class WToolkit extends SunToolkit implements Runnable {
     }
 
     @Override
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return (modalityType == null) ||
-               (modalityType == Dialog.ModalityType.MODELESS) ||
-               (modalityType == Dialog.ModalityType.DOCUMENT_MODAL) ||
-               (modalityType == Dialog.ModalityType.APPLICATION_MODAL) ||
-               (modalityType == Dialog.ModalityType.TOOLKIT_MODAL);
+    public boolebn isModblityTypeSupported(Diblog.ModblityType modblityType) {
+        return (modblityType == null) ||
+               (modblityType == Diblog.ModblityType.MODELESS) ||
+               (modblityType == Diblog.ModblityType.DOCUMENT_MODAL) ||
+               (modblityType == Diblog.ModblityType.APPLICATION_MODAL) ||
+               (modblityType == Diblog.ModblityType.TOOLKIT_MODAL);
     }
 
     @Override
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
+    public boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType exclusionType) {
         return (exclusionType == null) ||
-               (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+               (exclusionType == Diblog.ModblExclusionType.NO_EXCLUDE) ||
+               (exclusionType == Diblog.ModblExclusionType.APPLICATION_EXCLUDE) ||
+               (exclusionType == Diblog.ModblExclusionType.TOOLKIT_EXCLUDE);
     }
 
-    public static WToolkit getWToolkit() {
-        WToolkit toolkit = (WToolkit)Toolkit.getDefaultToolkit();
+    public stbtic WToolkit getWToolkit() {
+        WToolkit toolkit = (WToolkit)Toolkit.getDefbultToolkit();
         return toolkit;
     }
 
     /**
-     * There are two reasons why we don't use buffer per window when
-     * Vista's DWM (aka Aero) is enabled:
-     * - since with DWM all windows are already double-buffered, the application
-     *   doesn't get expose events so we don't get to use our true back-buffer,
-     *   wasting memory and performance (this is valid for both d3d and gdi
+     * There bre two rebsons why we don't use buffer per window when
+     * Vistb's DWM (bkb Aero) is enbbled:
+     * - since with DWM bll windows bre blrebdy double-buffered, the bpplicbtion
+     *   doesn't get expose events so we don't get to use our true bbck-buffer,
+     *   wbsting memory bnd performbnce (this is vblid for both d3d bnd gdi
      *   pipelines)
-     * - in some cases with buffer per window enabled it is possible for the
-     *   paint manager to redirect rendering to the screen for some operations
-     *   (like copyArea), and since bpw uses its own BufferStrategy the
-     *   d3d onscreen rendering support is disabled and rendering goes through
-     *   GDI. This doesn't work well with Vista's DWM since one
-     *   can not perform GDI and D3D operations on the same surface
+     * - in some cbses with buffer per window enbbled it is possible for the
+     *   pbint mbnbger to redirect rendering to the screen for some operbtions
+     *   (like copyAreb), bnd since bpw uses its own BufferStrbtegy the
+     *   d3d onscreen rendering support is disbbled bnd rendering goes through
+     *   GDI. This doesn't work well with Vistb's DWM since one
+     *   cbn not perform GDI bnd D3D operbtions on the sbme surfbce
      *   (see 6630702 for more info)
      *
-     * Note: even though DWM composition state can change during the lifetime
-     * of the application it is a rare event, and it is more often that it
-     * is temporarily disabled (because of some app) than it is getting
-     * permanently enabled so we can live with this approach without the
-     * complexity of dwm state listeners and such. This can be revisited if
+     * Note: even though DWM composition stbte cbn chbnge during the lifetime
+     * of the bpplicbtion it is b rbre event, bnd it is more often thbt it
+     * is temporbrily disbbled (becbuse of some bpp) thbn it is getting
+     * permbnently enbbled so we cbn live with this bpprobch without the
+     * complexity of dwm stbte listeners bnd such. This cbn be revisited if
      * proved otherwise.
      */
     @Override
-    public boolean useBufferPerWindow() {
-        return !Win32GraphicsEnvironment.isDWMCompositionEnabled();
+    public boolebn useBufferPerWindow() {
+        return !Win32GrbphicsEnvironment.isDWMCompositionEnbbled();
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void grab(Window w) {
+    @SuppressWbrnings("deprecbtion")
+    public void grbb(Window w) {
         if (w.getPeer() != null) {
-            ((WWindowPeer)w.getPeer()).grab();
+            ((WWindowPeer)w.getPeer()).grbb();
         }
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void ungrab(Window w) {
+    @SuppressWbrnings("deprecbtion")
+    public void ungrbb(Window w) {
         if (w.getPeer() != null) {
-           ((WWindowPeer)w.getPeer()).ungrab();
+           ((WWindowPeer)w.getPeer()).ungrbb();
         }
     }
 
     @Override
-    public native boolean syncNativeQueue(final long timeout);
+    public nbtive boolebn syncNbtiveQueue(finbl long timeout);
     @Override
-    public boolean isDesktopSupported() {
+    public boolebn isDesktopSupported() {
         return true;
     }
 
     @Override
-    public DesktopPeer createDesktopPeer(Desktop target) {
+    public DesktopPeer crebteDesktopPeer(Desktop tbrget) {
         return new WDesktopPeer();
     }
 
-    private static native void setExtraMouseButtonsEnabledNative(boolean enable);
+    privbte stbtic nbtive void setExtrbMouseButtonsEnbbledNbtive(boolebn enbble);
 
     @Override
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        return areExtraMouseButtonsEnabled;
+    public boolebn breExtrbMouseButtonsEnbbled() throws HebdlessException {
+        return breExtrbMouseButtonsEnbbled;
     }
 
-    private native synchronized int getNumberOfButtonsImpl();
+    privbte nbtive synchronized int getNumberOfButtonsImpl();
 
     @Override
     public int getNumberOfButtons(){
@@ -1123,32 +1123,32 @@ public final class WToolkit extends SunToolkit implements Runnable {
     }
 
     @Override
-    public boolean isWindowOpacitySupported() {
-        // supported in Win2K and later
+    public boolebn isWindowOpbcitySupported() {
+        // supported in Win2K bnd lbter
         return true;
     }
 
     @Override
-    public boolean isWindowShapingSupported() {
+    public boolebn isWindowShbpingSupported() {
         return true;
     }
 
     @Override
-    public boolean isWindowTranslucencySupported() {
-        // supported in Win2K and later
+    public boolebn isWindowTrbnslucencySupported() {
+        // supported in Win2K bnd lbter
         return true;
     }
 
     @Override
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        //XXX: worth checking if 8-bit? Anyway, it doesn't hurt.
+    public boolebn isTrbnslucencyCbpbble(GrbphicsConfigurbtion gc) {
+        //XXX: worth checking if 8-bit? Anywby, it doesn't hurt.
         return true;
     }
 
-    // On MS Windows one must use the peer.updateWindow() to implement
-    // non-opaque windows.
+    // On MS Windows one must use the peer.updbteWindow() to implement
+    // non-opbque windows.
     @Override
-    public boolean needUpdateWindow() {
+    public boolebn needUpdbteWindow() {
         return true;
     }
 }

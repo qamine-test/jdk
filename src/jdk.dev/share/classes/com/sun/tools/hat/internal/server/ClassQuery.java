@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
+import com.sun.tools.hbt.internbl.model.*;
+import com.sun.tools.hbt.internbl.util.ArrbySorter;
+import com.sun.tools.hbt.internbl.util.Compbrer;
 
-import java.util.Enumeration;
+import jbvb.util.Enumerbtion;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-class ClassQuery extends QueryHandler {
+clbss ClbssQuery extends QueryHbndler {
 
 
-    public ClassQuery() {
+    public ClbssQuery() {
     }
 
     public void run() {
-        startHtml("Class " + query);
-        JavaClass clazz = snapshot.findClass(query);
-        if (clazz == null) {
-            error("class not found: " + query);
+        stbrtHtml("Clbss " + query);
+        JbvbClbss clbzz = snbpshot.findClbss(query);
+        if (clbzz == null) {
+            error("clbss not found: " + query);
         } else {
-            printFullClass(clazz);
+            printFullClbss(clbzz);
         }
         endHtml();
     }
 
-    protected void printFullClass(JavaClass clazz) {
+    protected void printFullClbss(JbvbClbss clbzz) {
         out.print("<h1>");
-        print(clazz.toString());
+        print(clbzz.toString());
         out.println("</h1>");
 
-        out.println("<h2>Superclass:</h2>");
-        printClass(clazz.getSuperclass());
+        out.println("<h2>Superclbss:</h2>");
+        printClbss(clbzz.getSuperclbss());
 
-        out.println("<h2>Loader Details</h2>");
-        out.println("<h3>ClassLoader:</h3>");
-        printThing(clazz.getLoader());
+        out.println("<h2>Lobder Detbils</h2>");
+        out.println("<h3>ClbssLobder:</h3>");
+        printThing(clbzz.getLobder());
 
         out.println("<h3>Signers:</h3>");
-        printThing(clazz.getSigners());
+        printThing(clbzz.getSigners());
 
-        out.println("<h3>Protection Domain:</h3>");
-        printThing(clazz.getProtectionDomain());
+        out.println("<h3>Protection Dombin:</h3>");
+        printThing(clbzz.getProtectionDombin());
 
-        out.println("<h2>Subclasses:</h2>");
-        JavaClass[] sc = clazz.getSubclasses();
+        out.println("<h2>Subclbsses:</h2>");
+        JbvbClbss[] sc = clbzz.getSubclbsses();
         for (int i = 0; i < sc.length; i++) {
             out.print("    ");
-            printClass(sc[i]);
+            printClbss(sc[i]);
             out.println("<br>");
         }
 
-        out.println("<h2>Instance Data Members:</h2>");
-        JavaField[] ff = clazz.getFields().clone();
-        ArraySorter.sort(ff, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                JavaField left = (JavaField) lhs;
-                JavaField right = (JavaField) rhs;
-                return left.getName().compareTo(right.getName());
+        out.println("<h2>Instbnce Dbtb Members:</h2>");
+        JbvbField[] ff = clbzz.getFields().clone();
+        ArrbySorter.sort(ff, new Compbrer() {
+            public int compbre(Object lhs, Object rhs) {
+                JbvbField left = (JbvbField) lhs;
+                JbvbField right = (JbvbField) rhs;
+                return left.getNbme().compbreTo(right.getNbme());
             }
         });
         for (int i = 0; i < ff.length; i++) {
@@ -102,88 +102,88 @@ class ClassQuery extends QueryHandler {
             out.println("<br>");
         }
 
-        out.println("<h2>Static Data Members:</h2>");
-        JavaStatic[] ss = clazz.getStatics();
+        out.println("<h2>Stbtic Dbtb Members:</h2>");
+        JbvbStbtic[] ss = clbzz.getStbtics();
         for (int i = 0; i < ss.length; i++) {
-            printStatic(ss[i]);
+            printStbtic(ss[i]);
             out.println("<br>");
         }
 
-        out.println("<h2>Instances</h2>");
+        out.println("<h2>Instbnces</h2>");
 
-        printAnchorStart();
-        print("instances/" + encodeForURL(clazz));
+        printAnchorStbrt();
+        print("instbnces/" + encodeForURL(clbzz));
         out.print("\">");
-        out.println("Exclude subclasses</a><br>");
+        out.println("Exclude subclbsses</b><br>");
 
-        printAnchorStart();
-        print("allInstances/" + encodeForURL(clazz));
+        printAnchorStbrt();
+        print("bllInstbnces/" + encodeForURL(clbzz));
         out.print("\">");
-        out.println("Include subclasses</a><br>");
+        out.println("Include subclbsses</b><br>");
 
 
-        if (snapshot.getHasNewSet()) {
-            out.println("<h2>New Instances</h2>");
+        if (snbpshot.getHbsNewSet()) {
+            out.println("<h2>New Instbnces</h2>");
 
-            printAnchorStart();
-            print("newInstances/" + encodeForURL(clazz));
+            printAnchorStbrt();
+            print("newInstbnces/" + encodeForURL(clbzz));
             out.print("\">");
-            out.println("Exclude subclasses</a><br>");
+            out.println("Exclude subclbsses</b><br>");
 
-            printAnchorStart();
-            print("allNewInstances/" + encodeForURL(clazz));
+            printAnchorStbrt();
+            print("bllNewInstbnces/" + encodeForURL(clbzz));
             out.print("\">");
-            out.println("Include subclasses</a><br>");
+            out.println("Include subclbsses</b><br>");
         }
 
-        out.println("<h2>References summary by Type</h2>");
-        printAnchorStart();
-        print("refsByType/" + encodeForURL(clazz));
+        out.println("<h2>References summbry by Type</h2>");
+        printAnchorStbrt();
+        print("refsByType/" + encodeForURL(clbzz));
         out.print("\">");
-        out.println("References summary by type</a>");
+        out.println("References summbry by type</b>");
 
-        printReferencesTo(clazz);
+        printReferencesTo(clbzz);
     }
 
-    protected void printReferencesTo(JavaHeapObject obj) {
+    protected void printReferencesTo(JbvbHebpObject obj) {
         if (obj.getId() == -1) {
             return;
         }
         out.println("<h2>References to this object:</h2>");
         out.flush();
-        Enumeration<JavaThing> referers = obj.getReferers();
-        while (referers.hasMoreElements()) {
-            JavaHeapObject ref = (JavaHeapObject) referers.nextElement();
+        Enumerbtion<JbvbThing> referers = obj.getReferers();
+        while (referers.hbsMoreElements()) {
+            JbvbHebpObject ref = (JbvbHebpObject) referers.nextElement();
             printThing(ref);
-            print (" : " + ref.describeReferenceTo(obj, snapshot));
-            // If there are more than one references, this only gets the
+            print (" : " + ref.describeReferenceTo(obj, snbpshot));
+            // If there bre more thbn one references, this only gets the
             // first one.
             out.println("<br>");
         }
 
         out.println("<h2>Other Queries</h2>");
-        out.println("Reference Chains from Rootset");
+        out.println("Reference Chbins from Rootset");
         long id = obj.getId();
 
         out.print("<ul><li>");
-        printAnchorStart();
+        printAnchorStbrt();
         out.print("roots/");
         printHex(id);
         out.print("\">");
-        out.println("Exclude weak refs</a>");
+        out.println("Exclude webk refs</b>");
 
         out.print("<li>");
-        printAnchorStart();
-        out.print("allRoots/");
+        printAnchorStbrt();
+        out.print("bllRoots/");
         printHex(id);
         out.print("\">");
-        out.println("Include weak refs</a></ul>");
+        out.println("Include webk refs</b></ul>");
 
-        printAnchorStart();
-        out.print("reachableFrom/");
+        printAnchorStbrt();
+        out.print("rebchbbleFrom/");
         printHex(id);
         out.print("\">");
-        out.println("Objects reachable from here</a><br>");
+        out.println("Objects rebchbble from here</b><br>");
     }
 
 

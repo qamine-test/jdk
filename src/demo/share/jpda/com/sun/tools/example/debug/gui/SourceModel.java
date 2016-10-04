@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Represents and manages one source file.
- * Caches source lines.  Holds other source file info.
+ * Represents bnd mbnbges one source file.
+ * Cbches source lines.  Holds other source file info.
  */
-public class SourceModel extends AbstractListModel {
+public clbss SourceModel extends AbstrbctListModel {
 
-    private File path;
+    privbte File pbth;
 
-    boolean isActuallySource = true;
+    boolebn isActubllySource = true;
 
-    private List<ReferenceType> classes = new ArrayList<ReferenceType>();
+    privbte List<ReferenceType> clbsses = new ArrbyList<ReferenceType>();
 
-    private Environment env;
+    privbte Environment env;
 
-    // Cached line-by-line access.
+    // Cbched line-by-line bccess.
 
     //### Unify this with source model used in source view?
-    //### What is our cache-management policy for these?
-    //### Even with weak refs, we won't discard any part of the
-    //### source if the SourceModel object is reachable.
+    //### Whbt is our cbche-mbnbgement policy for these?
+    //### Even with webk refs, we won't discbrd bny pbrt of the
+    //### source if the SourceModel object is rebchbble.
     /**
      * List of Line.
      */
-    private List<Line> sourceLines = null;
+    privbte List<Line> sourceLines = null;
 
-    public static class Line {
+    public stbtic clbss Line {
         public String text;
-        public boolean hasBreakpoint = false;
+        public boolebn hbsBrebkpoint = fblse;
         public ReferenceType refType = null;
         Line(String text) {
             this.text = text;
         }
-        public boolean isExecutable() {
+        public boolebn isExecutbble() {
             return refType != null;
         }
-        public boolean hasBreakpoint() {
-            return hasBreakpoint;
+        public boolebn hbsBrebkpoint() {
+            return hbsBrebkpoint;
         }
     };
 
-    // 132 characters long, all printable characters.
-    public static final Line prototypeCellValue = new Line(
-                                        "abcdefghijklmnopqrstuvwxyz" +
+    // 132 chbrbcters long, bll printbble chbrbcters.
+    public stbtic finbl Line prototypeCellVblue = new Line(
+                                        "bbcdefghijklmnopqrstuvwxyz" +
                                         "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                                         "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                                         "1234567890~!@#$%^&*()_+{}|" +
                                         ":<>?`-=[];',.XXXXXXXXXXXX/\\\"");
 
-    SourceModel(Environment env, File path) {
+    SourceModel(Environment env, File pbth) {
         this.env = env;
-        this.path = path;
+        this.pbth = pbth;
     }
 
-    public SourceModel(String message) {
-        this.path = null;
-        setMessage(message);
+    public SourceModel(String messbge) {
+        this.pbth = null;
+        setMessbge(messbge);
     }
 
-    private void setMessage(String message) {
-        isActuallySource = false;
-        sourceLines = new ArrayList<Line>();
-        sourceLines.add(new Line(message));
+    privbte void setMessbge(String messbge) {
+        isActubllySource = fblse;
+        sourceLines = new ArrbyList<Line>();
+        sourceLines.bdd(new Line(messbge));
     }
 
     // **** Implement ListModel  *****
@@ -111,7 +111,7 @@ public class SourceModel extends AbstractListModel {
     @Override
     public Object getElementAt(int index) {
         if (sourceLines == null) {
-            initialize();
+            initiblize();
         }
         return sourceLines.get(index);
     }
@@ -119,24 +119,24 @@ public class SourceModel extends AbstractListModel {
     @Override
     public int getSize() {
         if (sourceLines == null) {
-            initialize();
+            initiblize();
         }
         return sourceLines.size();
     }
 
-    // ***** Other functionality *****
+    // ***** Other functionblity *****
 
-    public File fileName() {
-        return path;
+    public File fileNbme() {
+        return pbth;
     }
 
-    public BufferedReader sourceReader() throws IOException {
-        return new BufferedReader(new FileReader(path));
+    public BufferedRebder sourceRebder() throws IOException {
+        return new BufferedRebder(new FileRebder(pbth));
     }
 
     public Line line(int lineNo) {
         if (sourceLines == null) {
-            initialize();
+            initiblize();
         }
         int index = lineNo - 1; // list is 0-indexed
         if (index >= sourceLines.size() || index < 0) {
@@ -155,12 +155,12 @@ public class SourceModel extends AbstractListModel {
         }
     }
 
-    void addClass(ReferenceType refType) {
-        // Logically is Set
-        if (classes.indexOf(refType) == -1) {
-            classes.add(refType);
+    void bddClbss(ReferenceType refType) {
+        // Logicblly is Set
+        if (clbsses.indexOf(refType) == -1) {
+            clbsses.bdd(refType);
             if (sourceLines != null) {
-                markClassLines(refType);
+                mbrkClbssLines(refType);
             }
         }
     }
@@ -170,82 +170,82 @@ public class SourceModel extends AbstractListModel {
      * in this source file.
      */
     public List<ReferenceType> referenceTypes() {
-        return Collections.unmodifiableList(classes);
+        return Collections.unmodifibbleList(clbsses);
     }
 
-    private void initialize() {
+    privbte void initiblize() {
         try {
-            rawInit();
-        } catch (IOException exc) {
-            setMessage("[Error reading source code]");
+            rbwInit();
+        } cbtch (IOException exc) {
+            setMessbge("[Error rebding source code]");
         }
     }
 
-    public void showBreakpoint(int ln, boolean hasBreakpoint) {
-        line(ln).hasBreakpoint = hasBreakpoint;
-        fireContentsChanged(this, ln, ln);
+    public void showBrebkpoint(int ln, boolebn hbsBrebkpoint) {
+        line(ln).hbsBrebkpoint = hbsBrebkpoint;
+        fireContentsChbnged(this, ln, ln);
     }
 
-    public void showExecutable(int ln, ReferenceType refType) {
+    public void showExecutbble(int ln, ReferenceType refType) {
         line(ln).refType = refType;
-        fireContentsChanged(this, ln, ln);
+        fireContentsChbnged(this, ln, ln);
     }
 
     /**
-     * Mark executable lines and breakpoints, but only
+     * Mbrk executbble lines bnd brebkpoints, but only
      * when sourceLines is set.
      */
-    private void markClassLines(ReferenceType refType) {
+    privbte void mbrkClbssLines(ReferenceType refType) {
         for (Method meth : refType.methods()) {
             try {
-                for (Location loc : meth.allLineLocations()) {
-                    showExecutable(loc.lineNumber(), refType);
+                for (Locbtion loc : meth.bllLineLocbtions()) {
+                    showExecutbble(loc.lineNumber(), refType);
                 }
-            } catch (AbsentInformationException exc) {
+            } cbtch (AbsentInformbtionException exc) {
                 // do nothing
             }
         }
-        for (BreakpointRequest bp :
-                 env.getExecutionManager().eventRequestManager().breakpointRequests()) {
-            if (bp.location() != null) {
-                Location loc = bp.location();
-                if (loc.declaringType().equals(refType)) {
-                    showBreakpoint(loc.lineNumber(),true);
+        for (BrebkpointRequest bp :
+                 env.getExecutionMbnbger().eventRequestMbnbger().brebkpointRequests()) {
+            if (bp.locbtion() != null) {
+                Locbtion loc = bp.locbtion();
+                if (loc.declbringType().equbls(refType)) {
+                    showBrebkpoint(loc.lineNumber(),true);
                 }
             }
         }
     }
 
-    private void rawInit() throws IOException {
-        sourceLines = new ArrayList<Line>();
-        BufferedReader reader = sourceReader();
+    privbte void rbwInit() throws IOException {
+        sourceLines = new ArrbyList<Line>();
+        BufferedRebder rebder = sourceRebder();
         try {
-            String line = reader.readLine();
+            String line = rebder.rebdLine();
             while (line != null) {
-                sourceLines.add(new Line(expandTabs(line)));
-                line = reader.readLine();
+                sourceLines.bdd(new Line(expbndTbbs(line)));
+                line = rebder.rebdLine();
             }
-        } finally {
-            reader.close();
+        } finblly {
+            rebder.close();
         }
-        for (ReferenceType refType : classes) {
-            markClassLines(refType);
+        for (ReferenceType refType : clbsses) {
+            mbrkClbssLines(refType);
         }
     }
 
-    private String expandTabs(String s) {
+    privbte String expbndTbbs(String s) {
         int col = 0;
         int len = s.length();
         StringBuilder sb = new StringBuilder(132);
         for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            sb.append(c);
+            chbr c = s.chbrAt(i);
+            sb.bppend(c);
             if (c == '\t') {
-                int pad = (8 - (col % 8));
-                for (int j = 0; j < pad; j++) {
-                    sb.append(' ');
+                int pbd = (8 - (col % 8));
+                for (int j = 0; j < pbd; j++) {
+                    sb.bppend(' ');
                 }
-                col += pad;
+                col += pbd;
             } else {
                 col++;
             }

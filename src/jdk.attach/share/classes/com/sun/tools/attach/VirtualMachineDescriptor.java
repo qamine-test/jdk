@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.attach;
+pbckbge com.sun.tools.bttbch;
 
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
 /**
- * Describes a Java virtual machine.
+ * Describes b Jbvb virtubl mbchine.
  *
- * <p> A <code>VirtualMachineDescriptor</code> is a container class used to
- * describe a Java virtual machine. It encapsulates an identifier that identifies
- * a target virtual machine, and a reference to the {@link
- * com.sun.tools.attach.spi.AttachProvider AttachProvider} that should be used
- * when attempting to attach to the virtual machine. The identifier is
- * implementation-dependent but is typically the process identifier (or pid)
- * environments where each Java virtual machine runs in its own operating system
+ * <p> A <code>VirtublMbchineDescriptor</code> is b contbiner clbss used to
+ * describe b Jbvb virtubl mbchine. It encbpsulbtes bn identifier thbt identifies
+ * b tbrget virtubl mbchine, bnd b reference to the {@link
+ * com.sun.tools.bttbch.spi.AttbchProvider AttbchProvider} thbt should be used
+ * when bttempting to bttbch to the virtubl mbchine. The identifier is
+ * implementbtion-dependent but is typicblly the process identifier (or pid)
+ * environments where ebch Jbvb virtubl mbchine runs in its own operbting system
  * process. </p>
  *
- * <p> A <code>VirtualMachineDescriptor</code> also has a {@link #displayName() displayName}.
- * The display name is typically a human readable string that a tool might
- * display to a user. For example, a tool that shows a list of Java
- * virtual machines running on a system might use the display name rather
- * than the identifier. A <code>VirtualMachineDescriptor</code> may be
- * created without a <i>display name</i>. In that case the identifier is
- * used as the <i>display name</i>.
+ * <p> A <code>VirtublMbchineDescriptor</code> blso hbs b {@link #displbyNbme() displbyNbme}.
+ * The displby nbme is typicblly b humbn rebdbble string thbt b tool might
+ * displby to b user. For exbmple, b tool thbt shows b list of Jbvb
+ * virtubl mbchines running on b system might use the displby nbme rbther
+ * thbn the identifier. A <code>VirtublMbchineDescriptor</code> mby be
+ * crebted without b <i>displby nbme</i>. In thbt cbse the identifier is
+ * used bs the <i>displby nbme</i>.
  *
- * <p> <code>VirtualMachineDescriptor</code> instances are typically created by
- * invoking the {@link com.sun.tools.attach.VirtualMachine#list VirtualMachine.list()}
+ * <p> <code>VirtublMbchineDescriptor</code> instbnces bre typicblly crebted by
+ * invoking the {@link com.sun.tools.bttbch.VirtublMbchine#list VirtublMbchine.list()}
  * method. This returns the complete list of descriptors to describe the
- * Java virtual machines known to all installed {@link
- * com.sun.tools.attach.spi.AttachProvider attach providers}.
+ * Jbvb virtubl mbchines known to bll instblled {@link
+ * com.sun.tools.bttbch.spi.AttbchProvider bttbch providers}.
  *
  * @since 1.6
  */
 @jdk.Exported
-public class VirtualMachineDescriptor {
+public clbss VirtublMbchineDescriptor {
 
-    private AttachProvider provider;
-    private String id;
-    private String displayName;
+    privbte AttbchProvider provider;
+    privbte String id;
+    privbte String displbyNbme;
 
-    private volatile int hash;        // 0 => not computed
+    privbte volbtile int hbsh;        // 0 => not computed
 
     /**
-     * Creates a virtual machine descriptor from the given components.
+     * Crebtes b virtubl mbchine descriptor from the given components.
      *
-     * @param   provider      The AttachProvider to attach to the Java virtual machine.
-     * @param   id            The virtual machine identifier.
-     * @param   displayName   The display name.
+     * @pbrbm   provider      The AttbchProvider to bttbch to the Jbvb virtubl mbchine.
+     * @pbrbm   id            The virtubl mbchine identifier.
+     * @pbrbm   displbyNbme   The displby nbme.
      *
      * @throws  NullPointerException
-     *          If any of the arguments are <code>null</code>
+     *          If bny of the brguments bre <code>null</code>
      */
-    public VirtualMachineDescriptor(AttachProvider provider, String id, String displayName) {
+    public VirtublMbchineDescriptor(AttbchProvider provider, String id, String displbyNbme) {
         if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+            throw new NullPointerException("provider cbnnot be null");
         }
         if (id == null) {
-            throw new NullPointerException("identifier cannot be null");
+            throw new NullPointerException("identifier cbnnot be null");
         }
-        if (displayName == null) {
-            throw new NullPointerException("display name cannot be null");
+        if (displbyNbme == null) {
+            throw new NullPointerException("displby nbme cbnnot be null");
         }
         this.provider = provider;
         this.id = id;
-        this.displayName = displayName;
+        this.displbyNbme = displbyNbme;
     }
 
     /**
-     * Creates a virtual machine descriptor from the given components.
+     * Crebtes b virtubl mbchine descriptor from the given components.
      *
-     * <p> This convenience constructor works as if by invoking the
-     * three-argument constructor as follows:
+     * <p> This convenience constructor works bs if by invoking the
+     * three-brgument constructor bs follows:
      *
      * <blockquote><tt>
-     * new&nbsp;{@link #VirtualMachineDescriptor(AttachProvider, String, String)
-     * VirtualMachineDescriptor}(provider, &nbsp;id, &nbsp;id);
+     * new&nbsp;{@link #VirtublMbchineDescriptor(AttbchProvider, String, String)
+     * VirtublMbchineDescriptor}(provider, &nbsp;id, &nbsp;id);
      * </tt></blockquote>
      *
-     * <p> That is, it creates a virtual machine descriptor such that
-     * the <i>display name</i> is the same as the virtual machine
+     * <p> Thbt is, it crebtes b virtubl mbchine descriptor such thbt
+     * the <i>displby nbme</i> is the sbme bs the virtubl mbchine
      * identifier.
      *
-     * @param   provider      The AttachProvider to attach to the Java virtual machine.
-     * @param   id            The virtual machine identifier.
+     * @pbrbm   provider      The AttbchProvider to bttbch to the Jbvb virtubl mbchine.
+     * @pbrbm   id            The virtubl mbchine identifier.
      *
      * @throws  NullPointerException
      *          If <tt>provider</tt> or <tt>id</tt> is <tt>null</tt>.
      */
-    public VirtualMachineDescriptor(AttachProvider provider, String id) {
+    public VirtublMbchineDescriptor(AttbchProvider provider, String id) {
         this(provider, id, id);
     }
 
     /**
-     * Return the <code>AttachProvider</code> that this descriptor references.
+     * Return the <code>AttbchProvider</code> thbt this descriptor references.
      *
-     * @return The <code>AttachProvider</code> that this descriptor references.
+     * @return The <code>AttbchProvider</code> thbt this descriptor references.
      */
-    public AttachProvider provider() {
+    public AttbchProvider provider() {
         return provider;
     }
 
@@ -133,69 +133,69 @@ public class VirtualMachineDescriptor {
     }
 
     /**
-     * Return the <i>display name</i> component of this descriptor.
+     * Return the <i>displby nbme</i> component of this descriptor.
      *
-     * @return  The display name component of this descriptor.
+     * @return  The displby nbme component of this descriptor.
      */
-    public String displayName() {
-        return displayName;
+    public String displbyNbme() {
+        return displbyNbme;
     }
 
     /**
-     * Returns a hash-code value for this VirtualMachineDescriptor. The hash
-     * code is based upon the descriptor's components, and satifies
-     * the general contract of the {@link java.lang.Object#hashCode()
-     * Object.hashCode} method.
+     * Returns b hbsh-code vblue for this VirtublMbchineDescriptor. The hbsh
+     * code is bbsed upon the descriptor's components, bnd sbtifies
+     * the generbl contrbct of the {@link jbvb.lbng.Object#hbshCode()
+     * Object.hbshCode} method.
      *
-     * @return  A hash-code value for this descriptor.
+     * @return  A hbsh-code vblue for this descriptor.
      */
-    public int hashCode() {
-        if (hash != 0) {
-            return hash;
+    public int hbshCode() {
+        if (hbsh != 0) {
+            return hbsh;
         }
-        hash = provider.hashCode() * 127 + id.hashCode();
-        return hash;
+        hbsh = provider.hbshCode() * 127 + id.hbshCode();
+        return hbsh;
     }
 
     /**
-     * Tests this VirtualMachineDescriptor for equality with another object.
+     * Tests this VirtublMbchineDescriptor for equblity with bnother object.
      *
-     * <p> If the given object is not a VirtualMachineDescriptor then this
-     * method returns <tt>false</tt>. For two VirtualMachineDescriptors to
-     * be considered equal requires that they both reference the same
-     * provider, and their {@link #id() identifiers} are equal. </p>
+     * <p> If the given object is not b VirtublMbchineDescriptor then this
+     * method returns <tt>fblse</tt>. For two VirtublMbchineDescriptors to
+     * be considered equbl requires thbt they both reference the sbme
+     * provider, bnd their {@link #id() identifiers} bre equbl. </p>
      *
-     * <p> This method satisfies the general contract of the {@link
-     * java.lang.Object#equals(Object) Object.equals} method. </p>
+     * <p> This method sbtisfies the generbl contrbct of the {@link
+     * jbvb.lbng.Object#equbls(Object) Object.equbls} method. </p>
      *
-     * @param   ob   The object to which this object is to be compared
+     * @pbrbm   ob   The object to which this object is to be compbred
      *
-     * @return  <tt>true</tt> if, and only if, the given object is
-     *                a VirtualMachineDescriptor that is equal to this
-     *                VirtualMachineDescriptor.
+     * @return  <tt>true</tt> if, bnd only if, the given object is
+     *                b VirtublMbchineDescriptor thbt is equbl to this
+     *                VirtublMbchineDescriptor.
      */
-    public boolean equals(Object ob) {
+    public boolebn equbls(Object ob) {
         if (ob == this)
             return true;
-        if (!(ob instanceof VirtualMachineDescriptor))
-            return false;
-        VirtualMachineDescriptor other = (VirtualMachineDescriptor)ob;
+        if (!(ob instbnceof VirtublMbchineDescriptor))
+            return fblse;
+        VirtublMbchineDescriptor other = (VirtublMbchineDescriptor)ob;
         if (other.provider() != this.provider()) {
-            return false;
+            return fblse;
         }
-        if (!other.id().equals(this.id())) {
-            return false;
+        if (!other.id().equbls(this.id())) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns the string representation of the <code>VirtualMachineDescriptor</code>.
+     * Returns the string representbtion of the <code>VirtublMbchineDescriptor</code>.
      */
     public String toString() {
         String s = provider.toString() + ": " + id;
-        if (displayName != id) {
-            s += " " + displayName;
+        if (displbyNbme != id) {
+            s += " " + displbyNbme;
         }
         return s;
     }

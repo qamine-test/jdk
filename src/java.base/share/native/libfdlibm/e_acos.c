@@ -1,49 +1,49 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* __ieee754_acos(x)
+/* __ieee754_bcos(x)
  * Method :
- *      acos(x)  = pi/2 - asin(x)
- *      acos(-x) = pi/2 + asin(x)
+ *      bcos(x)  = pi/2 - bsin(x)
+ *      bcos(-x) = pi/2 + bsin(x)
  * For |x|<=0.5
- *      acos(x) = pi/2 - (x + x*x^2*R(x^2))     (see asin.c)
+ *      bcos(x) = pi/2 - (x + x*x^2*R(x^2))     (see bsin.c)
  * For x>0.5
- *      acos(x) = pi/2 - (pi/2 - 2asin(sqrt((1-x)/2)))
- *              = 2asin(sqrt((1-x)/2))
+ *      bcos(x) = pi/2 - (pi/2 - 2bsin(sqrt((1-x)/2)))
+ *              = 2bsin(sqrt((1-x)/2))
  *              = 2s + 2s*z*R(z)        ...z=(1-x)/2, s=sqrt(z)
  *              = 2f + (2c + 2s*z*R(z))
- *     where f=hi part of s, and c = (z-f*f)/(s+f) is the correction term
- *     for f so that f+c ~ sqrt(z).
+ *     where f=hi pbrt of s, bnd c = (z-f*f)/(s+f) is the correction term
+ *     for f so thbt f+c ~ sqrt(z).
  * For x<-0.5
- *      acos(x) = pi - 2asin(sqrt((1-|x|)/2))
+ *      bcos(x) = pi - 2bsin(sqrt((1-|x|)/2))
  *              = pi - 0.5*(s+s*z*R(z)), where z=(1-|x|)/2,s=sqrt(z)
  *
- * Special cases:
- *      if x is NaN, return x itself;
- *      if |x|>1, return NaN with invalid signal.
+ * Specibl cbses:
+ *      if x is NbN, return x itself;
+ *      if |x|>1, return NbN with invblid signbl.
  *
  * Function needed: sqrt
  */
@@ -51,9 +51,9 @@
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static const double
+stbtic const double
 #else
-static double
+stbtic double
 #endif
 one=  1.00000000000000000000e+00, /* 0x3FF00000, 0x00000000 */
 pi =  3.14159265358979311600e+00, /* 0x400921FB, 0x54442D18 */
@@ -71,9 +71,9 @@ qS3 = -6.88283971605453293030e-01, /* 0xBFE6066C, 0x1B8D0159 */
 qS4 =  7.70381505559019352791e-02; /* 0x3FB3B8C5, 0xB12E9282 */
 
 #ifdef __STDC__
-        double __ieee754_acos(double x)
+        double __ieee754_bcos(double x)
 #else
-        double __ieee754_acos(x)
+        double __ieee754_bcos(x)
         double x;
 #endif
 {
@@ -83,10 +83,10 @@ qS4 =  7.70381505559019352791e-02; /* 0x3FB3B8C5, 0xB12E9282 */
         ix = hx&0x7fffffff;
         if(ix>=0x3ff00000) {    /* |x| >= 1 */
             if(((ix-0x3ff00000)|__LO(x))==0) {  /* |x|==1 */
-                if(hx>0) return 0.0;            /* acos(1) = 0  */
-                else return pi+2.0*pio2_lo;     /* acos(-1)= pi */
+                if(hx>0) return 0.0;            /* bcos(1) = 0  */
+                else return pi+2.0*pio2_lo;     /* bcos(-1)= pi */
             }
-            return (x-x)/(x-x);         /* acos(|x|>1) is NaN */
+            return (x-x)/(x-x);         /* bcos(|x|>1) is NbN */
         }
         if(ix<0x3fe00000) {     /* |x| < 0.5 */
             if(ix<=0x3c600000) return pio2_hi+pio2_lo;/*if|x|<2**-57*/

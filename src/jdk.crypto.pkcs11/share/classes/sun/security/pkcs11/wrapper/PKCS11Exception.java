@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,34 +45,34 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
-import java.util.*;
+import jbvb.util.*;
 
 
 /**
- * This is the superclass of all checked exceptions used by this package. An
- * exception of this class indicates that a function call to the underlying
- * PKCS#11 module returned a value not equal to CKR_OK. The application can get
- * the returned value by calling getErrorCode(). A return value not equal to
- * CKR_OK is the only reason for such an exception to be thrown.
- * PKCS#11 defines the meaning of an error-code, which may depend on the
+ * This is the superclbss of bll checked exceptions used by this pbckbge. An
+ * exception of this clbss indicbtes thbt b function cbll to the underlying
+ * PKCS#11 module returned b vblue not equbl to CKR_OK. The bpplicbtion cbn get
+ * the returned vblue by cblling getErrorCode(). A return vblue not equbl to
+ * CKR_OK is the only rebson for such bn exception to be thrown.
+ * PKCS#11 defines the mebning of bn error-code, which mby depend on the
  * context in which the error occurs.
  *
- * @author <a href="mailto:Karl.Scheibelhofer@iaik.at"> Karl Scheibelhofer </a>
- * @invariants
+ * @buthor <b href="mbilto:Kbrl.Scheibelhofer@ibik.bt"> Kbrl Scheibelhofer </b>
+ * @invbribnts
  */
-public class PKCS11Exception extends Exception {
-    private static final long serialVersionUID = 4877072363729195L;
+public clbss PKCS11Exception extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 4877072363729195L;
 
     /**
-     * The code of the error which was the reason for this exception.
+     * The code of the error which wbs the rebson for this exception.
      */
     protected long errorCode_;
 
-    private static final Map<Long,String> errorMap;
+    privbte stbtic finbl Mbp<Long,String> errorMbp;
 
-    static {
+    stbtic {
         int[] errorCodes = new int[] {
             0x00000000,
             0x00000001,
@@ -161,7 +161,7 @@ public class PKCS11Exception extends Exception {
             0x00000200,
             0x80000000,
         };
-        String[] errorMessages = new String[] {
+        String[] errorMessbges = new String[] {
             "CKR_OK",
             "CKR_CANCEL",
             "CKR_HOST_MEMORY",
@@ -249,15 +249,15 @@ public class PKCS11Exception extends Exception {
             "CKR_FUNCTION_REJECTED",
             "CKR_VENDOR_DEFINED",
         };
-        errorMap = new HashMap<Long,String>();
+        errorMbp = new HbshMbp<Long,String>();
         for (int i = 0; i < errorCodes.length; i++) {
-            errorMap.put(Long.valueOf(errorCodes[i]), errorMessages[i]);
+            errorMbp.put(Long.vblueOf(errorCodes[i]), errorMessbges[i]);
         }
     }
 
 
     /**
-     * Constructor taking the error code as defined for the CKR_* constants
+     * Constructor tbking the error code bs defined for the CKR_* constbnts
      * in PKCS#11.
      */
     public PKCS11Exception(long errorCode) {
@@ -265,21 +265,21 @@ public class PKCS11Exception extends Exception {
     }
 
     /**
-     * This method gets the corresponding text error message from
-     * a property file. If this file is not available, it returns the error
-     * code as a hex-string.
+     * This method gets the corresponding text error messbge from
+     * b property file. If this file is not bvbilbble, it returns the error
+     * code bs b hex-string.
      *
-     * @return The message or the error code; e.g. "CKR_DEVICE_ERROR" or
+     * @return The messbge or the error code; e.g. "CKR_DEVICE_ERROR" or
      *         "0x00000030".
      * @preconditions
      * @postconditions (result <> null)
      */
-    public String getMessage() {
-        String message = errorMap.get(Long.valueOf(errorCode_));
-        if (message == null) {
-            message = "0x" + Functions.toFullHexString((int)errorCode_);
+    public String getMessbge() {
+        String messbge = errorMbp.get(Long.vblueOf(errorCode_));
+        if (messbge == null) {
+            messbge = "0x" + Functions.toFullHexString((int)errorCode_);
         }
-        return message;
+        return messbge;
     }
 
     /**

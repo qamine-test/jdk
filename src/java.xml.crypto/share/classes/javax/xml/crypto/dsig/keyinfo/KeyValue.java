@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: KeyValue.java,v 1.4 2005/05/10 16:35:35 mullan Exp $
+ * $Id: KeyVblue.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbckbge jbvbx.xml.crypto.dsig.keyinfo;
 
-import java.security.KeyException;
-import java.security.KeyStore;
-import java.security.PublicKey;
-import java.security.interfaces.DSAPublicKey;
-import java.security.interfaces.RSAPublicKey;
-import javax.xml.crypto.XMLStructure;
+import jbvb.security.KeyException;
+import jbvb.security.KeyStore;
+import jbvb.security.PublicKey;
+import jbvb.security.interfbces.DSAPublicKey;
+import jbvb.security.interfbces.RSAPublicKey;
+import jbvbx.xml.crypto.XMLStructure;
 
 /**
- * A representation of the XML <code>KeyValue</code> element as defined
- * in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>. A
- * <code>KeyValue</code> object contains a single public key that may be
- * useful in validating the signature. The XML schema definition is defined as:
+ * A representbtion of the XML <code>KeyVblue</code> element bs defined
+ * in the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>. A
+ * <code>KeyVblue</code> object contbins b single public key thbt mby be
+ * useful in vblidbting the signbture. The XML schemb definition is defined bs:
  *
  * <pre>
- *    &lt;element name="KeyValue" type="ds:KeyValueType"/&gt;
- *    &lt;complexType name="KeyValueType" mixed="true"&gt;
+ *    &lt;element nbme="KeyVblue" type="ds:KeyVblueType"/&gt;
+ *    &lt;complexType nbme="KeyVblueType" mixed="true"&gt;
  *      &lt;choice&gt;
- *        &lt;element ref="ds:DSAKeyValue"/&gt;
- *        &lt;element ref="ds:RSAKeyValue"/&gt;
- *        &lt;any namespace="##other" processContents="lax"/&gt;
+ *        &lt;element ref="ds:DSAKeyVblue"/&gt;
+ *        &lt;element ref="ds:RSAKeyVblue"/&gt;
+ *        &lt;bny nbmespbce="##other" processContents="lbx"/&gt;
  *      &lt;/choice&gt;
  *    &lt;/complexType&gt;
  *
- *    &lt;element name="DSAKeyValue" type="ds:DSAKeyValueType"/&gt;
- *    &lt;complexType name="DSAKeyValueType"&gt;
+ *    &lt;element nbme="DSAKeyVblue" type="ds:DSAKeyVblueType"/&gt;
+ *    &lt;complexType nbme="DSAKeyVblueType"&gt;
  *      &lt;sequence&gt;
  *        &lt;sequence minOccurs="0"&gt;
- *          &lt;element name="P" type="ds:CryptoBinary"/&gt;
- *          &lt;element name="Q" type="ds:CryptoBinary"/&gt;
+ *          &lt;element nbme="P" type="ds:CryptoBinbry"/&gt;
+ *          &lt;element nbme="Q" type="ds:CryptoBinbry"/&gt;
  *        &lt;/sequence&gt;
- *        &lt;element name="G" type="ds:CryptoBinary" minOccurs="0"/&gt;
- *        &lt;element name="Y" type="ds:CryptoBinary"/&gt;
- *        &lt;element name="J" type="ds:CryptoBinary" minOccurs="0"/&gt;
+ *        &lt;element nbme="G" type="ds:CryptoBinbry" minOccurs="0"/&gt;
+ *        &lt;element nbme="Y" type="ds:CryptoBinbry"/&gt;
+ *        &lt;element nbme="J" type="ds:CryptoBinbry" minOccurs="0"/&gt;
  *        &lt;sequence minOccurs="0"&gt;
- *          &lt;element name="Seed" type="ds:CryptoBinary"/&gt;
- *          &lt;element name="PgenCounter" type="ds:CryptoBinary"/&gt;
+ *          &lt;element nbme="Seed" type="ds:CryptoBinbry"/&gt;
+ *          &lt;element nbme="PgenCounter" type="ds:CryptoBinbry"/&gt;
  *        &lt;/sequence&gt;
  *      &lt;/sequence&gt;
  *    &lt;/complexType&gt;
  *
- *    &lt;element name="RSAKeyValue" type="ds:RSAKeyValueType"/&gt;
- *    &lt;complexType name="RSAKeyValueType"&gt;
+ *    &lt;element nbme="RSAKeyVblue" type="ds:RSAKeyVblueType"/&gt;
+ *    &lt;complexType nbme="RSAKeyVblueType"&gt;
  *      &lt;sequence&gt;
- *        &lt;element name="Modulus" type="ds:CryptoBinary"/&gt;
- *        &lt;element name="Exponent" type="ds:CryptoBinary"/&gt;
+ *        &lt;element nbme="Modulus" type="ds:CryptoBinbry"/&gt;
+ *        &lt;element nbme="Exponent" type="ds:CryptoBinbry"/&gt;
  *      &lt;/sequence&gt;
  *    &lt;/complexType&gt;
  * </pre>
- * A <code>KeyValue</code> instance may be created by invoking the
- * {@link KeyInfoFactory#newKeyValue newKeyValue} method of the
- * {@link KeyInfoFactory} class, and passing it a {@link
- * java.security.PublicKey} representing the value of the public key. Here is
- * an example of creating a <code>KeyValue</code> from a {@link DSAPublicKey}
- * of a {@link java.security.cert.Certificate} stored in a
- * {@link java.security.KeyStore}:
+ * A <code>KeyVblue</code> instbnce mby be crebted by invoking the
+ * {@link KeyInfoFbctory#newKeyVblue newKeyVblue} method of the
+ * {@link KeyInfoFbctory} clbss, bnd pbssing it b {@link
+ * jbvb.security.PublicKey} representing the vblue of the public key. Here is
+ * bn exbmple of crebting b <code>KeyVblue</code> from b {@link DSAPublicKey}
+ * of b {@link jbvb.security.cert.Certificbte} stored in b
+ * {@link jbvb.security.KeyStore}:
  * <pre>
- * KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
- * PublicKey dsaPublicKey = keyStore.getCertificate("myDSASigningCert").getPublicKey();
- * KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- * KeyValue keyValue = factory.newKeyValue(dsaPublicKey);
+ * KeyStore keyStore = KeyStore.getInstbnce(KeyStore.getDefbultType());
+ * PublicKey dsbPublicKey = keyStore.getCertificbte("myDSASigningCert").getPublicKey();
+ * KeyInfoFbctory fbctory = KeyInfoFbctory.getInstbnce("DOM");
+ * KeyVblue keyVblue = fbctory.newKeyVblue(dsbPublicKey);
  * </pre>
  *
- * This class returns the <code>DSAKeyValue</code> and
- * <code>RSAKeyValue</code> elements as objects of type
- * {@link DSAPublicKey} and {@link RSAPublicKey}, respectively. Note that not
- * all of the fields in the schema are accessible as parameters of these
+ * This clbss returns the <code>DSAKeyVblue</code> bnd
+ * <code>RSAKeyVblue</code> elements bs objects of type
+ * {@link DSAPublicKey} bnd {@link RSAPublicKey}, respectively. Note thbt not
+ * bll of the fields in the schemb bre bccessible bs pbrbmeters of these
  * types.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see KeyInfoFactory#newKeyValue(PublicKey)
+ * @see KeyInfoFbctory#newKeyVblue(PublicKey)
  */
-public interface KeyValue extends XMLStructure {
+public interfbce KeyVblue extends XMLStructure {
 
     /**
-     * URI identifying the DSA KeyValue KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#DSAKeyValue. This can be specified as
-     * the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote
-     * <code>DSAKeyValue</code> structure.
+     * URI identifying the DSA KeyVblue KeyInfo type:
+     * http://www.w3.org/2000/09/xmldsig#DSAKeyVblue. This cbn be specified bs
+     * the vblue of the <code>type</code> pbrbmeter of the
+     * {@link RetrievblMethod} clbss to describe b remote
+     * <code>DSAKeyVblue</code> structure.
      */
-    final static String DSA_TYPE =
-        "http://www.w3.org/2000/09/xmldsig#DSAKeyValue";
+    finbl stbtic String DSA_TYPE =
+        "http://www.w3.org/2000/09/xmldsig#DSAKeyVblue";
 
     /**
-     * URI identifying the RSA KeyValue KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#RSAKeyValue. This can be specified as
-     * the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote
-     * <code>RSAKeyValue</code> structure.
+     * URI identifying the RSA KeyVblue KeyInfo type:
+     * http://www.w3.org/2000/09/xmldsig#RSAKeyVblue. This cbn be specified bs
+     * the vblue of the <code>type</code> pbrbmeter of the
+     * {@link RetrievblMethod} clbss to describe b remote
+     * <code>RSAKeyVblue</code> structure.
      */
-    final static String RSA_TYPE =
-        "http://www.w3.org/2000/09/xmldsig#RSAKeyValue";
+    finbl stbtic String RSA_TYPE =
+        "http://www.w3.org/2000/09/xmldsig#RSAKeyVblue";
 
     /**
-     * Returns the public key of this <code>KeyValue</code>.
+     * Returns the public key of this <code>KeyVblue</code>.
      *
-     * @return the public key of this <code>KeyValue</code>
-     * @throws KeyException if this <code>KeyValue</code> cannot be converted
-     *    to a <code>PublicKey</code>
+     * @return the public key of this <code>KeyVblue</code>
+     * @throws KeyException if this <code>KeyVblue</code> cbnnot be converted
+     *    to b <code>PublicKey</code>
      */
     PublicKey getPublicKey() throws KeyException;
 }

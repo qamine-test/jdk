@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * Hash table based mapping, which uses weak references to store keys
- * and reference-equality in place of object-equality to compare them.
- * An entry will automatically be removed when its key is no longer
- * in ordinary use.  Both null values and the null key are supported.
- * This class does not require additional synchronization.
- * A thread-safety is provided by a fragile combination
- * of synchronized blocks and volatile fields.
- * Be very careful during editing!
+ * Hbsh tbble bbsed mbpping, which uses webk references to store keys
+ * bnd reference-equblity in plbce of object-equblity to compbre them.
+ * An entry will butombticblly be removed when its key is no longer
+ * in ordinbry use.  Both null vblues bnd the null key bre supported.
+ * This clbss does not require bdditionbl synchronizbtion.
+ * A threbd-sbfety is provided by b frbgile combinbtion
+ * of synchronized blocks bnd volbtile fields.
+ * Be very cbreful during editing!
  *
- * @see java.util.IdentityHashMap
- * @see java.util.WeakHashMap
+ * @see jbvb.util.IdentityHbshMbp
+ * @see jbvb.util.WebkHbshMbp
  */
-abstract class WeakIdentityMap<T> {
+bbstrbct clbss WebkIdentityMbp<T> {
 
-    private static final int MAXIMUM_CAPACITY = 1 << 30; // it MUST be a power of two
-    private static final Object NULL = new Object(); // special object for null key
+    privbte stbtic finbl int MAXIMUM_CAPACITY = 1 << 30; // it MUST be b power of two
+    privbte stbtic finbl Object NULL = new Object(); // specibl object for null key
 
-    private final ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
+    privbte finbl ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
 
-    private volatile Entry<T>[] table = newTable(1<<3); // table's length MUST be a power of two
-    private int threshold = 6; // the next size value at which to resize
-    private int size = 0; // the number of key-value mappings
+    privbte volbtile Entry<T>[] tbble = newTbble(1<<3); // tbble's length MUST be b power of two
+    privbte int threshold = 6; // the next size vblue bt which to resize
+    privbte int size = 0; // the number of key-vblue mbppings
 
     public T get(Object key) {
-        removeStaleEntries();
+        removeStbleEntries();
         if (key == null) {
             key = NULL;
         }
-        int hash = key.hashCode();
-        Entry<T>[] table = this.table;
-        // unsynchronized search improves performance
-        // the null value does not mean that there are no needed entry
-        int index = getIndex(table, hash);
-        for (Entry<T> entry = table[index]; entry != null; entry = entry.next) {
-            if (entry.isMatched(key, hash)) {
-                return entry.value;
+        int hbsh = key.hbshCode();
+        Entry<T>[] tbble = this.tbble;
+        // unsynchronized sebrch improves performbnce
+        // the null vblue does not mebn thbt there bre no needed entry
+        int index = getIndex(tbble, hbsh);
+        for (Entry<T> entry = tbble[index]; entry != null; entry = entry.next) {
+            if (entry.isMbtched(key, hbsh)) {
+                return entry.vblue;
             }
         }
         synchronized (NULL) {
-            // synchronized search improves stability
-            // we must create and add new value if there are no needed entry
-            index = getIndex(this.table, hash);
-            for (Entry<T> entry = this.table[index]; entry != null; entry = entry.next) {
-                if (entry.isMatched(key, hash)) {
-                    return entry.value;
+            // synchronized sebrch improves stbbility
+            // we must crebte bnd bdd new vblue if there bre no needed entry
+            index = getIndex(this.tbble, hbsh);
+            for (Entry<T> entry = this.tbble[index]; entry != null; entry = entry.next) {
+                if (entry.isMbtched(key, hbsh)) {
+                    return entry.vblue;
                 }
             }
-            T value = create(key);
-            this.table[index] = new Entry<T>(key, hash, value, this.queue, this.table[index]);
+            T vblue = crebte(key);
+            this.tbble[index] = new Entry<T>(key, hbsh, vblue, this.queue, this.tbble[index]);
             if (++this.size >= this.threshold) {
-                if (this.table.length == MAXIMUM_CAPACITY) {
+                if (this.tbble.length == MAXIMUM_CAPACITY) {
                     this.threshold = Integer.MAX_VALUE;
                 }
                 else {
-                    removeStaleEntries();
-                    table = newTable(this.table.length * 2);
-                    transfer(this.table, table);
-                    // If ignoring null elements and processing ref queue caused massive
-                    // shrinkage, then restore old table.  This should be rare, but avoids
-                    // unbounded expansion of garbage-filled tables.
+                    removeStbleEntries();
+                    tbble = newTbble(this.tbble.length * 2);
+                    trbnsfer(this.tbble, tbble);
+                    // If ignoring null elements bnd processing ref queue cbused mbssive
+                    // shrinkbge, then restore old tbble.  This should be rbre, but bvoids
+                    // unbounded expbnsion of gbrbbge-filled tbbles.
                     if (this.size >= this.threshold / 2) {
-                        this.table = table;
+                        this.tbble = tbble;
                         this.threshold *= 2;
                     }
                     else {
-                        transfer(table, this.table);
+                        trbnsfer(tbble, this.tbble);
                     }
                 }
             }
-            return value;
+            return vblue;
         }
     }
 
-    protected abstract T create(Object key);
+    protected bbstrbct T crebte(Object key);
 
-    private void removeStaleEntries() {
+    privbte void removeStbleEntries() {
         Object ref = this.queue.poll();
         if (ref != null) {
             synchronized (NULL) {
                 do {
-                    @SuppressWarnings("unchecked")
+                    @SuppressWbrnings("unchecked")
                     Entry<T> entry = (Entry<T>) ref;
-                    int index = getIndex(this.table, entry.hash);
+                    int index = getIndex(this.tbble, entry.hbsh);
 
-                    Entry<T> prev = this.table[index];
+                    Entry<T> prev = this.tbble[index];
                     Entry<T> current = prev;
                     while (current != null) {
                         Entry<T> next = current.next;
                         if (current == entry) {
                             if (prev == entry) {
-                                this.table[index] = next;
+                                this.tbble[index] = next;
                             }
                             else {
                                 prev.next = next;
                             }
-                            entry.value = null; // Help GC
+                            entry.vblue = null; // Help GC
                             entry.next = null; // Help GC
                             this.size--;
-                            break;
+                            brebk;
                         }
                         prev = current;
                         current = next;
@@ -139,22 +139,22 @@ abstract class WeakIdentityMap<T> {
         }
     }
 
-    private void transfer(Entry<T>[] oldTable, Entry<T>[] newTable) {
-        for (int i = 0; i < oldTable.length; i++) {
-            Entry<T> entry = oldTable[i];
-            oldTable[i] = null;
+    privbte void trbnsfer(Entry<T>[] oldTbble, Entry<T>[] newTbble) {
+        for (int i = 0; i < oldTbble.length; i++) {
+            Entry<T> entry = oldTbble[i];
+            oldTbble[i] = null;
             while (entry != null) {
                 Entry<T> next = entry.next;
                 Object key = entry.get();
                 if (key == null) {
-                    entry.value = null; // Help GC
+                    entry.vblue = null; // Help GC
                     entry.next = null; // Help GC
                     this.size--;
                 }
                 else {
-                    int index = getIndex(newTable, entry.hash);
-                    entry.next = newTable[index];
-                    newTable[index] = entry;
+                    int index = getIndex(newTbble, entry.hbsh);
+                    entry.next = newTbble[index];
+                    newTbble[index] = entry;
                 }
                 entry = next;
             }
@@ -162,29 +162,29 @@ abstract class WeakIdentityMap<T> {
     }
 
 
-    @SuppressWarnings("unchecked")
-    private Entry<T>[] newTable(int length) {
+    @SuppressWbrnings("unchecked")
+    privbte Entry<T>[] newTbble(int length) {
         return (Entry<T>[]) new Entry<?>[length];
     }
 
-    private static int getIndex(Entry<?>[] table, int hash) {
-        return hash & (table.length - 1);
+    privbte stbtic int getIndex(Entry<?>[] tbble, int hbsh) {
+        return hbsh & (tbble.length - 1);
     }
 
-    private static class Entry<T> extends WeakReference<Object> {
-        private final int hash;
-        private volatile T value;
-        private volatile Entry<T> next;
+    privbte stbtic clbss Entry<T> extends WebkReference<Object> {
+        privbte finbl int hbsh;
+        privbte volbtile T vblue;
+        privbte volbtile Entry<T> next;
 
-        Entry(Object key, int hash, T value, ReferenceQueue<Object> queue, Entry<T> next) {
+        Entry(Object key, int hbsh, T vblue, ReferenceQueue<Object> queue, Entry<T> next) {
             super(key, queue);
-            this.hash = hash;
-            this.value = value;
+            this.hbsh = hbsh;
+            this.vblue = vblue;
             this.next  = next;
         }
 
-        boolean isMatched(Object key, int hash) {
-            return (this.hash == hash) && (key == get());
+        boolebn isMbtched(Object key, int hbsh) {
+            return (this.hbsh == hbsh) && (key == get());
         }
     }
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,83 +56,83 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
+import jdk.internbl.org.objectweb.bsm.TypeReference;
 
 /**
- * A {@link FieldVisitor} that checks that its methods are properly used.
+ * A {@link FieldVisitor} thbt checks thbt its methods bre properly used.
  */
-public class CheckFieldAdapter extends FieldVisitor {
+public clbss CheckFieldAdbpter extends FieldVisitor {
 
-    private boolean end;
+    privbte boolebn end;
 
     /**
-     * Constructs a new {@link CheckFieldAdapter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #CheckFieldAdapter(int, FieldVisitor)} version.
+     * Constructs b new {@link CheckFieldAdbpter}. <i>Subclbsses must not use
+     * this constructor</i>. Instebd, they must use the
+     * {@link #CheckFieldAdbpter(int, FieldVisitor)} version.
      *
-     * @param fv
-     *            the field visitor to which this adapter must delegate calls.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm fv
+     *            the field visitor to which this bdbpter must delegbte cblls.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public CheckFieldAdapter(final FieldVisitor fv) {
+    public CheckFieldAdbpter(finbl FieldVisitor fv) {
         this(Opcodes.ASM5, fv);
-        if (getClass() != CheckFieldAdapter.class) {
-            throw new IllegalStateException();
+        if (getClbss() != CheckFieldAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link CheckFieldAdapter}.
+     * Constructs b new {@link CheckFieldAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param fv
-     *            the field visitor to which this adapter must delegate calls.
+     * @pbrbm fv
+     *            the field visitor to which this bdbpter must delegbte cblls.
      */
-    protected CheckFieldAdapter(final int api, final FieldVisitor fv) {
-        super(api, fv);
+    protected CheckFieldAdbpter(finbl int bpi, finbl FieldVisitor fv) {
+        super(bpi, fv);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
         checkEnd();
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitAnnotbtion(desc, visible));
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public AnnotbtionVisitor visitTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         checkEnd();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.FIELD) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTypeAnnotation(typeRef,
-                typePath, desc, visible));
+        CheckClbssAdbpter.checkTypeRefAndPbth(typeRef, typePbth);
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitTypeAnnotbtion(typeRef,
+                typePbth, desc, visible));
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
+    public void visitAttribute(finbl Attribute bttr) {
         checkEnd();
-        if (attr == null) {
-            throw new IllegalArgumentException(
-                    "Invalid attribute (must not be null)");
+        if (bttr == null) {
+            throw new IllegblArgumentException(
+                    "Invblid bttribute (must not be null)");
         }
-        super.visitAttribute(attr);
+        super.visitAttribute(bttr);
     }
 
     @Override
@@ -142,10 +142,10 @@ public class CheckFieldAdapter extends FieldVisitor {
         super.visitEnd();
     }
 
-    private void checkEnd() {
+    privbte void checkEnd() {
         if (end) {
-            throw new IllegalStateException(
-                    "Cannot call a visit method after visitEnd has been called");
+            throw new IllegblStbteException(
+                    "Cbnnot cbll b visit method bfter visitEnd hbs been cblled");
         }
     }
 }

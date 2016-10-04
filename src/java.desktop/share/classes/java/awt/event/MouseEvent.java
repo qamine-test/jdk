@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.awt.IllegalComponentStateException;
-import java.awt.MouseInfo;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.bwt.IllegblComponentStbteException;
+import jbvb.bwt.MouseInfo;
+import sun.bwt.SunToolkit;
 
 /**
- * An event which indicates that a mouse action occurred in a component.
- * A mouse action is considered to occur in a particular component if and only
- * if the mouse cursor is over the unobscured part of the component's bounds
- * when the action happens.
- * For lightweight components, such as Swing's components, mouse events
- * are only dispatched to the component if the mouse event type has been
- * enabled on the component. A mouse event type is enabled by adding the
- * appropriate mouse-based {@code EventListener} to the component
+ * An event which indicbtes thbt b mouse bction occurred in b component.
+ * A mouse bction is considered to occur in b pbrticulbr component if bnd only
+ * if the mouse cursor is over the unobscured pbrt of the component's bounds
+ * when the bction hbppens.
+ * For lightweight components, such bs Swing's components, mouse events
+ * bre only dispbtched to the component if the mouse event type hbs been
+ * enbbled on the component. A mouse event type is enbbled by bdding the
+ * bppropribte mouse-bbsed {@code EventListener} to the component
  * ({@link MouseListener} or {@link MouseMotionListener}), or by invoking
- * {@link Component#enableEvents(long)} with the appropriate mask parameter
+ * {@link Component#enbbleEvents(long)} with the bppropribte mbsk pbrbmeter
  * ({@code AWTEvent.MOUSE_EVENT_MASK} or {@code AWTEvent.MOUSE_MOTION_EVENT_MASK}).
- * If the mouse event type has not been enabled on the component, the
- * corresponding mouse events are dispatched to the first ancestor that
- * has enabled the mouse event type.
+ * If the mouse event type hbs not been enbbled on the component, the
+ * corresponding mouse events bre dispbtched to the first bncestor thbt
+ * hbs enbbled the mouse event type.
  *<p>
- * For example, if a {@code MouseListener} has been added to a component, or
- * {@code enableEvents(AWTEvent.MOUSE_EVENT_MASK)} has been invoked, then all
- * the events defined by {@code MouseListener} are dispatched to the component.
- * On the other hand, if a {@code MouseMotionListener} has not been added and
- * {@code enableEvents} has not been invoked with
- * {@code AWTEvent.MOUSE_MOTION_EVENT_MASK}, then mouse motion events are not
- * dispatched to the component. Instead the mouse motion events are
- * dispatched to the first ancestors that has enabled mouse motion
+ * For exbmple, if b {@code MouseListener} hbs been bdded to b component, or
+ * {@code enbbleEvents(AWTEvent.MOUSE_EVENT_MASK)} hbs been invoked, then bll
+ * the events defined by {@code MouseListener} bre dispbtched to the component.
+ * On the other hbnd, if b {@code MouseMotionListener} hbs not been bdded bnd
+ * {@code enbbleEvents} hbs not been invoked with
+ * {@code AWTEvent.MOUSE_MOTION_EVENT_MASK}, then mouse motion events bre not
+ * dispbtched to the component. Instebd the mouse motion events bre
+ * dispbtched to the first bncestors thbt hbs enbbled mouse motion
  * events.
  * <P>
- * This low-level event is generated by a component object for:
+ * This low-level event is generbted by b component object for:
  * <ul>
  * <li>Mouse Events
  *     <ul>
- *     <li>a mouse button is pressed
- *     <li>a mouse button is released
- *     <li>a mouse button is clicked (pressed and released)
- *     <li>the mouse cursor enters the unobscured part of component's geometry
- *     <li>the mouse cursor exits the unobscured part of component's geometry
+ *     <li>b mouse button is pressed
+ *     <li>b mouse button is relebsed
+ *     <li>b mouse button is clicked (pressed bnd relebsed)
+ *     <li>the mouse cursor enters the unobscured pbrt of component's geometry
+ *     <li>the mouse cursor exits the unobscured pbrt of component's geometry
  *     </ul>
  * <li> Mouse Motion Events
  *     <ul>
  *     <li>the mouse is moved
- *     <li>the mouse is dragged
+ *     <li>the mouse is drbgged
  *     </ul>
  * </ul>
  * <P>
- * A <code>MouseEvent</code> object is passed to every
+ * A <code>MouseEvent</code> object is pbssed to every
  * <code>MouseListener</code>
- * or <code>MouseAdapter</code> object which is registered to receive
+ * or <code>MouseAdbpter</code> object which is registered to receive
  * the "interesting" mouse events using the component's
- * <code>addMouseListener</code> method.
- * (<code>MouseAdapter</code> objects implement the
- * <code>MouseListener</code> interface.) Each such listener object
- * gets a <code>MouseEvent</code> containing the mouse event.
+ * <code>bddMouseListener</code> method.
+ * (<code>MouseAdbpter</code> objects implement the
+ * <code>MouseListener</code> interfbce.) Ebch such listener object
+ * gets b <code>MouseEvent</code> contbining the mouse event.
  * <P>
- * A <code>MouseEvent</code> object is also passed to every
+ * A <code>MouseEvent</code> object is blso pbssed to every
  * <code>MouseMotionListener</code> or
- * <code>MouseMotionAdapter</code> object which is registered to receive
+ * <code>MouseMotionAdbpter</code> object which is registered to receive
  * mouse motion events using the component's
- * <code>addMouseMotionListener</code>
- * method. (<code>MouseMotionAdapter</code> objects implement the
- * <code>MouseMotionListener</code> interface.) Each such listener object
- * gets a <code>MouseEvent</code> containing the mouse motion event.
+ * <code>bddMouseMotionListener</code>
+ * method. (<code>MouseMotionAdbpter</code> objects implement the
+ * <code>MouseMotionListener</code> interfbce.) Ebch such listener object
+ * gets b <code>MouseEvent</code> contbining the mouse motion event.
  * <P>
- * When a mouse button is clicked, events are generated and sent to the
+ * When b mouse button is clicked, events bre generbted bnd sent to the
  * registered <code>MouseListener</code>s.
- * The state of modal keys can be retrieved using {@link InputEvent#getModifiers}
- * and {@link InputEvent#getModifiersEx}.
- * The button mask returned by {@link InputEvent#getModifiers} reflects
- * only the button that changed state, not the current state of all buttons.
- * (Note: Due to overlap in the values of ALT_MASK/BUTTON2_MASK and
- * META_MASK/BUTTON3_MASK, this is not always true for mouse events involving
+ * The stbte of modbl keys cbn be retrieved using {@link InputEvent#getModifiers}
+ * bnd {@link InputEvent#getModifiersEx}.
+ * The button mbsk returned by {@link InputEvent#getModifiers} reflects
+ * only the button thbt chbnged stbte, not the current stbte of bll buttons.
+ * (Note: Due to overlbp in the vblues of ALT_MASK/BUTTON2_MASK bnd
+ * META_MASK/BUTTON3_MASK, this is not blwbys true for mouse events involving
  * modifier keys).
- * To get the state of all buttons and modifier keys, use
+ * To get the stbte of bll buttons bnd modifier keys, use
  * {@link InputEvent#getModifiersEx}.
- * The button which has changed state is returned by {@link MouseEvent#getButton}
+ * The button which hbs chbnged stbte is returned by {@link MouseEvent#getButton}
  * <P>
- * For example, if the first mouse button is pressed, events are sent in the
+ * For exbmple, if the first mouse button is pressed, events bre sent in the
  * following order:
  * <PRE>
  *    <b   >id           </b   >   <b   >modifiers   </b   > <b   >button </b   >
@@ -117,12 +117,12 @@ import sun.awt.SunToolkit;
  *    <code>MOUSE_RELEASED</code>: <code>BUTTON1_MASK</code> <code>BUTTON1</code>
  *    <code>MOUSE_CLICKED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
  * </PRE>
- * When multiple mouse buttons are pressed, each press, release, and click
- * results in a separate event.
+ * When multiple mouse buttons bre pressed, ebch press, relebse, bnd click
+ * results in b sepbrbte event.
  * <P>
- * For example, if the user presses <b>button 1</b> followed by
- * <b>button 2</b>, and then releases them in the same order,
- * the following sequence of events is generated:
+ * For exbmple, if the user presses <b>button 1</b> followed by
+ * <b>button 2</b>, bnd then relebses them in the sbme order,
+ * the following sequence of events is generbted:
  * <PRE>
  *    <b   >id           </b   >   <b   >modifiers   </b   > <b   >button </b   >
  *    <code>MOUSE_PRESSED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
@@ -132,220 +132,220 @@ import sun.awt.SunToolkit;
  *    <code>MOUSE_RELEASED</code>: <code>BUTTON2_MASK</code> <code>BUTTON2</code>
  *    <code>MOUSE_CLICKED</code>:  <code>BUTTON2_MASK</code> <code>BUTTON2</code>
  * </PRE>
- * If <b>button 2</b> is released first, the
- * <code>MOUSE_RELEASED</code>/<code>MOUSE_CLICKED</code> pair
- * for <code>BUTTON2_MASK</code> arrives first,
- * followed by the pair for <code>BUTTON1_MASK</code>.
+ * If <b>button 2</b> is relebsed first, the
+ * <code>MOUSE_RELEASED</code>/<code>MOUSE_CLICKED</code> pbir
+ * for <code>BUTTON2_MASK</code> brrives first,
+ * followed by the pbir for <code>BUTTON1_MASK</code>.
  * <p>
- * Some extra mouse buttons are added to extend the standard set of buttons
- * represented by the following constants:{@code BUTTON1}, {@code BUTTON2}, and {@code BUTTON3}.
- * Extra buttons have no assigned {@code BUTTONx}
- * constants as well as their button masks have no assigned {@code BUTTONx_DOWN_MASK}
- * constants. Nevertheless, ordinal numbers starting from 4 may be
- * used as button numbers (button ids). Values obtained by the
- * {@link InputEvent#getMaskForButton(int) getMaskForButton(button)} method may be used
- * as button masks.
+ * Some extrb mouse buttons bre bdded to extend the stbndbrd set of buttons
+ * represented by the following constbnts:{@code BUTTON1}, {@code BUTTON2}, bnd {@code BUTTON3}.
+ * Extrb buttons hbve no bssigned {@code BUTTONx}
+ * constbnts bs well bs their button mbsks hbve no bssigned {@code BUTTONx_DOWN_MASK}
+ * constbnts. Nevertheless, ordinbl numbers stbrting from 4 mby be
+ * used bs button numbers (button ids). Vblues obtbined by the
+ * {@link InputEvent#getMbskForButton(int) getMbskForButton(button)} method mby be used
+ * bs button mbsks.
  * <p>
- * {@code MOUSE_DRAGGED} events are delivered to the {@code Component}
- * in which the mouse button was pressed until the mouse button is released
- * (regardless of whether the mouse position is within the bounds of the
- * {@code Component}).  Due to platform-dependent Drag&amp;Drop implementations,
- * {@code MOUSE_DRAGGED} events may not be delivered during a native
- * Drag&amp;Drop operation.
+ * {@code MOUSE_DRAGGED} events bre delivered to the {@code Component}
+ * in which the mouse button wbs pressed until the mouse button is relebsed
+ * (regbrdless of whether the mouse position is within the bounds of the
+ * {@code Component}).  Due to plbtform-dependent Drbg&bmp;Drop implementbtions,
+ * {@code MOUSE_DRAGGED} events mby not be delivered during b nbtive
+ * Drbg&bmp;Drop operbtion.
  *
- * In a multi-screen environment mouse drag events are delivered to the
+ * In b multi-screen environment mouse drbg events bre delivered to the
  * <code>Component</code> even if the mouse position is outside the bounds of the
- * <code>GraphicsConfiguration</code> associated with that
- * <code>Component</code>. However, the reported position for mouse drag events
- * in this case may differ from the actual mouse position:
+ * <code>GrbphicsConfigurbtion</code> bssocibted with thbt
+ * <code>Component</code>. However, the reported position for mouse drbg events
+ * in this cbse mby differ from the bctubl mouse position:
  * <ul>
- * <li>In a multi-screen environment without a virtual device:
+ * <li>In b multi-screen environment without b virtubl device:
  * <br>
- * The reported coordinates for mouse drag events are clipped to fit within the
- * bounds of the <code>GraphicsConfiguration</code> associated with
+ * The reported coordinbtes for mouse drbg events bre clipped to fit within the
+ * bounds of the <code>GrbphicsConfigurbtion</code> bssocibted with
  * the <code>Component</code>.
- * <li>In a multi-screen environment with a virtual device:
+ * <li>In b multi-screen environment with b virtubl device:
  * <br>
- * The reported coordinates for mouse drag events are clipped to fit within the
- * bounds of the virtual device associated with the <code>Component</code>.
+ * The reported coordinbtes for mouse drbg events bre clipped to fit within the
+ * bounds of the virtubl device bssocibted with the <code>Component</code>.
  * </ul>
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code MouseEvent} instance is not
- * in the range from {@code MOUSE_FIRST} to {@code MOUSE_LAST}-1
- * ({@code MOUSE_WHEEL} is not acceptable).
+ * An unspecified behbvior will be cbused if the {@code id} pbrbmeter
+ * of bny pbrticulbr {@code MouseEvent} instbnce is not
+ * in the rbnge from {@code MOUSE_FIRST} to {@code MOUSE_LAST}-1
+ * ({@code MOUSE_WHEEL} is not bcceptbble).
  *
- * @author Carl Quinn
+ * @buthor Cbrl Quinn
  *
- * @see MouseAdapter
+ * @see MouseAdbpter
  * @see MouseListener
- * @see MouseMotionAdapter
+ * @see MouseMotionAdbpter
  * @see MouseMotionListener
  * @see MouseWheelListener
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mouselistener.html">Tutorial: Writing a Mouse Listener</a>
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mousemotionlistener.html">Tutorial: Writing a Mouse Motion Listener</a>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/mouselistener.html">Tutoribl: Writing b Mouse Listener</b>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/mousemotionlistener.html">Tutoribl: Writing b Mouse Motion Listener</b>
  *
  * @since 1.1
  */
-public class MouseEvent extends InputEvent {
+public clbss MouseEvent extends InputEvent {
 
     /**
-     * The first number in the range of ids used for mouse events.
+     * The first number in the rbnge of ids used for mouse events.
      */
-    public static final int MOUSE_FIRST         = 500;
+    public stbtic finbl int MOUSE_FIRST         = 500;
 
     /**
-     * The last number in the range of ids used for mouse events.
+     * The lbst number in the rbnge of ids used for mouse events.
      */
-    public static final int MOUSE_LAST          = 507;
+    public stbtic finbl int MOUSE_LAST          = 507;
 
     /**
      * The "mouse clicked" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is pressed and released.
+     * occurs when b mouse button is pressed bnd relebsed.
      */
-    public static final int MOUSE_CLICKED = MOUSE_FIRST;
+    public stbtic finbl int MOUSE_CLICKED = MOUSE_FIRST;
 
     /**
      * The "mouse pressed" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is pushed down.
+     * occurs when b mouse button is pushed down.
      */
-    public static final int MOUSE_PRESSED = 1 + MOUSE_FIRST; //Event.MOUSE_DOWN
+    public stbtic finbl int MOUSE_PRESSED = 1 + MOUSE_FIRST; //Event.MOUSE_DOWN
 
     /**
-     * The "mouse released" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is let up.
+     * The "mouse relebsed" event. This <code>MouseEvent</code>
+     * occurs when b mouse button is let up.
      */
-    public static final int MOUSE_RELEASED = 2 + MOUSE_FIRST; //Event.MOUSE_UP
+    public stbtic finbl int MOUSE_RELEASED = 2 + MOUSE_FIRST; //Event.MOUSE_UP
 
     /**
      * The "mouse moved" event. This <code>MouseEvent</code>
-     * occurs when the mouse position changes.
+     * occurs when the mouse position chbnges.
      */
-    public static final int MOUSE_MOVED = 3 + MOUSE_FIRST; //Event.MOUSE_MOVE
+    public stbtic finbl int MOUSE_MOVED = 3 + MOUSE_FIRST; //Event.MOUSE_MOVE
 
     /**
      * The "mouse entered" event. This <code>MouseEvent</code>
-     * occurs when the mouse cursor enters the unobscured part of component's
+     * occurs when the mouse cursor enters the unobscured pbrt of component's
      * geometry.
      */
-    public static final int MOUSE_ENTERED = 4 + MOUSE_FIRST; //Event.MOUSE_ENTER
+    public stbtic finbl int MOUSE_ENTERED = 4 + MOUSE_FIRST; //Event.MOUSE_ENTER
 
     /**
      * The "mouse exited" event. This <code>MouseEvent</code>
-     * occurs when the mouse cursor exits the unobscured part of component's
+     * occurs when the mouse cursor exits the unobscured pbrt of component's
      * geometry.
      */
-    public static final int MOUSE_EXITED = 5 + MOUSE_FIRST; //Event.MOUSE_EXIT
+    public stbtic finbl int MOUSE_EXITED = 5 + MOUSE_FIRST; //Event.MOUSE_EXIT
 
     /**
-     * The "mouse dragged" event. This <code>MouseEvent</code>
-     * occurs when the mouse position changes while a mouse button is pressed.
+     * The "mouse drbgged" event. This <code>MouseEvent</code>
+     * occurs when the mouse position chbnges while b mouse button is pressed.
      */
-    public static final int MOUSE_DRAGGED = 6 + MOUSE_FIRST; //Event.MOUSE_DRAG
+    public stbtic finbl int MOUSE_DRAGGED = 6 + MOUSE_FIRST; //Event.MOUSE_DRAG
 
     /**
      * The "mouse wheel" event.  This is the only <code>MouseWheelEvent</code>.
-     * It occurs when a mouse equipped with a wheel has its wheel rotated.
+     * It occurs when b mouse equipped with b wheel hbs its wheel rotbted.
      * @since 1.4
      */
-    public static final int MOUSE_WHEEL = 7 + MOUSE_FIRST;
+    public stbtic finbl int MOUSE_WHEEL = 7 + MOUSE_FIRST;
 
     /**
-     * Indicates no mouse buttons; used by {@link #getButton}.
+     * Indicbtes no mouse buttons; used by {@link #getButton}.
      * @since 1.4
      */
-    public static final int NOBUTTON = 0;
+    public stbtic finbl int NOBUTTON = 0;
 
     /**
-     * Indicates mouse button #1; used by {@link #getButton}.
+     * Indicbtes mouse button #1; used by {@link #getButton}.
      * @since 1.4
      */
-    public static final int BUTTON1 = 1;
+    public stbtic finbl int BUTTON1 = 1;
 
     /**
-     * Indicates mouse button #2; used by {@link #getButton}.
+     * Indicbtes mouse button #2; used by {@link #getButton}.
      * @since 1.4
      */
-    public static final int BUTTON2 = 2;
+    public stbtic finbl int BUTTON2 = 2;
 
     /**
-     * Indicates mouse button #3; used by {@link #getButton}.
+     * Indicbtes mouse button #3; used by {@link #getButton}.
      * @since 1.4
      */
-    public static final int BUTTON3 = 3;
+    public stbtic finbl int BUTTON3 = 3;
 
     /**
-     * The mouse event's x coordinate.
-     * The x value is relative to the component that fired the event.
+     * The mouse event's x coordinbte.
+     * The x vblue is relbtive to the component thbt fired the event.
      *
-     * @serial
+     * @seribl
      * @see #getX()
      */
     int x;
 
     /**
-     * The mouse event's y coordinate.
-     * The y value is relative to the component that fired the event.
+     * The mouse event's y coordinbte.
+     * The y vblue is relbtive to the component thbt fired the event.
      *
-     * @serial
+     * @seribl
      * @see #getY()
      */
     int y;
 
     /**
-     * The mouse event's x absolute coordinate.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * The mouse event's x bbsolute coordinbte.
+     * In b virtubl device multi-screen environment in which the
+     * desktop breb could spbn multiple physicbl screen devices,
+     * this coordinbte is relbtive to the virtubl coordinbte system.
+     * Otherwise, this coordinbte is relbtive to the coordinbte system
+     * bssocibted with the Component's GrbphicsConfigurbtion.
      *
-     * @serial
+     * @seribl
    */
-    private int xAbs;
+    privbte int xAbs;
 
     /**
-     * The mouse event's y absolute coordinate.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * The mouse event's y bbsolute coordinbte.
+     * In b virtubl device multi-screen environment in which the
+     * desktop breb could spbn multiple physicbl screen devices,
+     * this coordinbte is relbtive to the virtubl coordinbte system.
+     * Otherwise, this coordinbte is relbtive to the coordinbte system
+     * bssocibted with the Component's GrbphicsConfigurbtion.
      *
-     * @serial
+     * @seribl
      */
-    private int yAbs;
+    privbte int yAbs;
 
     /**
-     * Indicates the number of quick consecutive clicks of
-     * a mouse button.
-     * clickCount will be valid for only three mouse events :<BR>
+     * Indicbtes the number of quick consecutive clicks of
+     * b mouse button.
+     * clickCount will be vblid for only three mouse events :<BR>
      * <code>MOUSE_CLICKED</code>,
-     * <code>MOUSE_PRESSED</code> and
+     * <code>MOUSE_PRESSED</code> bnd
      * <code>MOUSE_RELEASED</code>.
-     * For the above, the <code>clickCount</code> will be at least 1.
-     * For all other events the count will be 0.
+     * For the bbove, the <code>clickCount</code> will be bt lebst 1.
+     * For bll other events the count will be 0.
      *
-     * @serial
+     * @seribl
      * @see #getClickCount()
      */
     int clickCount;
 
     /**
-     * Indicates which, if any, of the mouse buttons has changed state.
+     * Indicbtes which, if bny, of the mouse buttons hbs chbnged stbte.
      *
-     * The valid values are ranged from 0 to the value returned by the
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()} method.
-     * This range already includes constants {@code NOBUTTON}, {@code BUTTON1},
-     * {@code BUTTON2}, and {@code BUTTON3}
-     * if these buttons are present. So it is allowed to use these constants too.
-     * For example, for a mouse with two buttons this field may contain the following values:
+     * The vblid vblues bre rbnged from 0 to the vblue returned by the
+     * {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()} method.
+     * This rbnge blrebdy includes constbnts {@code NOBUTTON}, {@code BUTTON1},
+     * {@code BUTTON2}, bnd {@code BUTTON3}
+     * if these buttons bre present. So it is bllowed to use these constbnts too.
+     * For exbmple, for b mouse with two buttons this field mby contbin the following vblues:
      * <ul>
      * <li> 0 ({@code NOBUTTON})
      * <li> 1 ({@code BUTTON1})
      * <li> 2 ({@code BUTTON2})
      * </ul>
-     * If a mouse has 5 buttons, this field may contain the following values:
+     * If b mouse hbs 5 buttons, this field mby contbin the following vblues:
      * <ul>
      * <li> 0 ({@code NOBUTTON})
      * <li> 1 ({@code BUTTON1})
@@ -354,88 +354,88 @@ public class MouseEvent extends InputEvent {
      * <li> 4
      * <li> 5
      * </ul>
-     * If support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled()} disabled by Java
-     * then the field may not contain the value larger than {@code BUTTON3}.
-     * @serial
+     * If support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled()} disbbled by Jbvb
+     * then the field mby not contbin the vblue lbrger thbn {@code BUTTON3}.
+     * @seribl
      * @see #getButton()
-     * @see java.awt.Toolkit#areExtraMouseButtonsEnabled()
+     * @see jbvb.bwt.Toolkit#breExtrbMouseButtonsEnbbled()
      */
     int button;
 
     /**
-     * A property used to indicate whether a Popup Menu
-     * should appear  with a certain gestures.
-     * If <code>popupTrigger</code> = <code>false</code>,
-     * no popup menu should appear.  If it is <code>true</code>
-     * then a popup menu should appear.
+     * A property used to indicbte whether b Popup Menu
+     * should bppebr  with b certbin gestures.
+     * If <code>popupTrigger</code> = <code>fblse</code>,
+     * no popup menu should bppebr.  If it is <code>true</code>
+     * then b popup menu should bppebr.
      *
-     * @serial
-     * @see java.awt.PopupMenu
+     * @seribl
+     * @see jbvb.bwt.PopupMenu
      * @see #isPopupTrigger()
      */
-    boolean popupTrigger = false;
+    boolebn popupTrigger = fblse;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -991214153494842848L;
+    privbte stbtic finbl long seriblVersionUID = -991214153494842848L;
 
     /**
-     * A number of buttons available on the mouse at the {@code Toolkit} machinery startup.
+     * A number of buttons bvbilbble on the mouse bt the {@code Toolkit} mbchinery stbrtup.
      */
-    private static int cachedNumberOfButtons;
+    privbte stbtic int cbchedNumberOfButtons;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
-        final Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
-            cachedNumberOfButtons = ((SunToolkit)tk).getNumberOfButtons();
+        finbl Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof SunToolkit) {
+            cbchedNumberOfButtons = ((SunToolkit)tk).getNumberOfButtons();
         } else {
-            //It's expected that some toolkits (Headless,
-            //whatever besides SunToolkit) could also operate.
-            cachedNumberOfButtons = 3;
+            //It's expected thbt some toolkits (Hebdless,
+            //whbtever besides SunToolkit) could blso operbte.
+            cbchedNumberOfButtons = 3;
         }
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     *  accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+     *  bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * Returns the absolute x, y position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * these coordinates are relative to the virtual coordinate system.
-     * Otherwise, these coordinates are relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Returns the bbsolute x, y position of the event.
+     * In b virtubl device multi-screen environment in which the
+     * desktop breb could spbn multiple physicbl screen devices,
+     * these coordinbtes bre relbtive to the virtubl coordinbte system.
+     * Otherwise, these coordinbtes bre relbtive to the coordinbte system
+     * bssocibted with the Component's GrbphicsConfigurbtion.
      *
-     * @return a <code>Point</code> object containing the absolute  x
-     *  and y coordinates.
+     * @return b <code>Point</code> object contbining the bbsolute  x
+     *  bnd y coordinbtes.
      *
-     * @see java.awt.GraphicsConfiguration
+     * @see jbvb.bwt.GrbphicsConfigurbtion
      * @since 1.6
      */
-    public Point getLocationOnScreen(){
+    public Point getLocbtionOnScreen(){
       return new Point(xAbs, yAbs);
     }
 
     /**
-     * Returns the absolute horizontal x position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Returns the bbsolute horizontbl x position of the event.
+     * In b virtubl device multi-screen environment in which the
+     * desktop breb could spbn multiple physicbl screen devices,
+     * this coordinbte is relbtive to the virtubl coordinbte system.
+     * Otherwise, this coordinbte is relbtive to the coordinbte system
+     * bssocibted with the Component's GrbphicsConfigurbtion.
      *
-     * @return x  an integer indicating absolute horizontal position.
+     * @return x  bn integer indicbting bbsolute horizontbl position.
      *
-     * @see java.awt.GraphicsConfiguration
+     * @see jbvb.bwt.GrbphicsConfigurbtion
      * @since 1.6
      */
     public int getXOnScreen() {
@@ -443,16 +443,16 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Returns the absolute vertical y position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Returns the bbsolute verticbl y position of the event.
+     * In b virtubl device multi-screen environment in which the
+     * desktop breb could spbn multiple physicbl screen devices,
+     * this coordinbte is relbtive to the virtubl coordinbte system.
+     * Otherwise, this coordinbte is relbtive to the coordinbte system
+     * bssocibted with the Component's GrbphicsConfigurbtion.
      *
-     * @return y  an integer indicating absolute vertical position.
+     * @return y  bn integer indicbting bbsolute verticbl position.
      *
-     * @see java.awt.GraphicsConfiguration
+     * @see jbvb.bwt.GrbphicsConfigurbtion
      * @since 1.6
      */
     public int getYOnScreen() {
@@ -460,83 +460,83 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
+     * Constructs b <code>MouseEvent</code> object with the
      * specified source component,
-     * type, time, modifiers, coordinates, click count, popupTrigger flag,
-     * and button number.
+     * type, time, modifiers, coordinbtes, click count, popupTrigger flbg,
+     * bnd button number.
      * <p>
-     * Creating an invalid event (such
-     * as by using more than one of the old _MASKs, or modifier/button
-     * values which don't match) results in unspecified behavior.
-     * An invocation of the form
+     * Crebting bn invblid event (such
+     * bs by using more thbn one of the old _MASKs, or modifier/button
+     * vblues which don't mbtch) results in unspecified behbvior.
+     * An invocbtion of the form
      * <tt>MouseEvent(source, id, when, modifiers, x, y, clickCount, popupTrigger, button)</tt>
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      * <tt> {@link #MouseEvent(Component, int, long, int, int, int,
-     * int, int, int, boolean, int) MouseEvent}(source, id, when, modifiers,
+     * int, int, int, boolebn, int) MouseEvent}(source, id, when, modifiers,
      * x, y, xAbs, yAbs, clickCount, popupTrigger, button)</tt>
-     * where xAbs and yAbs defines as source's location on screen plus
-     * relative coordinates x and y.
-     * xAbs and yAbs are set to zero if the source is not showing.
-     * This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * where xAbs bnd yAbs defines bs source's locbtion on screen plus
+     * relbtive coordinbtes x bnd y.
+     * xAbs bnd yAbs bre set to zero if the source is not showing.
+     * This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
+     * @pbrbm source       The <code>Component</code> thbt originbted the event
+     * @pbrbm id              An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link MouseEvent}
+     * @pbrbm when         A long integer thbt gives the time the event occurred.
+     *                     Pbssing negbtive or zero vblue
      *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
+     * @pbrbm modifiers    b modifier mbsk describing the modifier keys bnd mouse
+     *                     buttons (for exbmple, shift, ctrl, blt, bnd metb) thbt
+     *                     bre down during the event.
+     *                     Only extended modifiers bre bllowed to be used bs b
+     *                     vblue for this pbrbmeter (see the {@link InputEvent#getModifiersEx}
+     *                     clbss for the description of extended modifiers).
+     *                     Pbssing negbtive pbrbmeter
      *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
+     *                     Zero vblue mebns thbt no modifiers were pbssed
+     * @pbrbm x            The horizontbl x coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm y            The verticbl y coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm clickCount   The number of mouse clicks bssocibted with event.
+     *                       Pbssing negbtive vblue
      *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @param button       An integer that indicates, which of the mouse buttons has
-     *                     changed its state.
-     * The following rules are applied to this parameter:
+     * @pbrbm popupTrigger A boolebn thbt equbls {@code true} if this event
+     *                     is b trigger for b popup menu
+     * @pbrbm button       An integer thbt indicbtes, which of the mouse buttons hbs
+     *                     chbnged its stbte.
+     * The following rules bre bpplied to this pbrbmeter:
      * <ul>
      * <li>If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects only with the standard buttons:
-     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, and
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * then it is bllowed to crebte {@code MouseEvent} objects only with the stbndbrd buttons:
+     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, bnd
      * {@code BUTTON3}.
      * <li> If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects with
-     * the standard buttons.
-     * In case the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java, then
-     * in addition to the standard buttons, {@code MouseEvent} objects can be created
-     * using buttons from the range starting from 4 to
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * if the mouse has more than three buttons.
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
+     * then it is bllowed to crebte {@code MouseEvent} objects with
+     * the stbndbrd buttons.
+     * In cbse the support for extended mouse buttons is
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb, then
+     * in bddition to the stbndbrd buttons, {@code MouseEvent} objects cbn be crebted
+     * using buttons from the rbnge stbrting from 4 to
+     * {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
+     * if the mouse hbs more thbn three buttons.
      * </ul>
-     * @throws IllegalArgumentException if {@code button} is less then zero
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @throws IllegalArgumentException if {@code button} is greater then BUTTON3 and the support for extended mouse buttons is
-     *                                  {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if {@code button} is greater then the
-     *                                  {@link java.awt.MouseInfo#getNumberOfButtons() current number of buttons} and the support
-     *                                  for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled}
-     *                                  by Java
-     * @throws IllegalArgumentException if an invalid <code>button</code>
-     *            value is passed in
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @throws IllegblArgumentException if {@code button} is less then zero
+     * @throws IllegblArgumentException if <code>source</code> is null
+     * @throws IllegblArgumentException if {@code button} is grebter then BUTTON3 bnd the support for extended mouse buttons is
+     *                                  {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * @throws IllegblArgumentException if {@code button} is grebter then the
+     *                                  {@link jbvb.bwt.MouseInfo#getNumberOfButtons() current number of buttons} bnd the support
+     *                                  for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled}
+     *                                  by Jbvb
+     * @throws IllegblArgumentException if bn invblid <code>button</code>
+     *            vblue is pbssed in
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
      * @see #getWhen()
@@ -549,63 +549,63 @@ public class MouseEvent extends InputEvent {
      * @since 1.4
      */
     public MouseEvent(Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger,
+                      int x, int y, int clickCount, boolebn popupTrigger,
                       int button)
     {
         this(source, id, when, modifiers, x, y, 0, 0, clickCount, popupTrigger, button);
-        Point eventLocationOnScreen = new Point(0, 0);
+        Point eventLocbtionOnScreen = new Point(0, 0);
         try {
-          eventLocationOnScreen = source.getLocationOnScreen();
-          this.xAbs = eventLocationOnScreen.x + x;
-          this.yAbs = eventLocationOnScreen.y + y;
-        } catch (IllegalComponentStateException e){
+          eventLocbtionOnScreen = source.getLocbtionOnScreen();
+          this.xAbs = eventLocbtionOnScreen.x + x;
+          this.yAbs = eventLocbtionOnScreen.y + y;
+        } cbtch (IllegblComponentStbteException e){
           this.xAbs = 0;
           this.yAbs = 0;
         }
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
+     * Constructs b <code>MouseEvent</code> object with the
      * specified source component,
-     * type, modifiers, coordinates, click count, and popupTrigger flag.
-     * An invocation of the form
+     * type, modifiers, coordinbtes, click count, bnd popupTrigger flbg.
+     * An invocbtion of the form
      * <tt>MouseEvent(source, id, when, modifiers, x, y, clickCount, popupTrigger)</tt>
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      * <tt> {@link #MouseEvent(Component, int, long, int, int, int,
-     * int, int, int, boolean, int) MouseEvent}(source, id, when, modifiers,
+     * int, int, int, boolebn, int) MouseEvent}(source, id, when, modifiers,
      * x, y, xAbs, yAbs, clickCount, popupTrigger, MouseEvent.NOBUTTON)</tt>
-     * where xAbs and yAbs defines as source's location on screen plus
-     * relative coordinates x and y.
-     * xAbs and yAbs are set to zero if the source is not showing.
-     * This method throws an <code>IllegalArgumentException</code>
+     * where xAbs bnd yAbs defines bs source's locbtion on screen plus
+     * relbtive coordinbtes x bnd y.
+     * xAbs bnd yAbs bre set to zero if the source is not showing.
+     * This method throws bn <code>IllegblArgumentException</code>
      * if <code>source</code> is <code>null</code>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
+     * @pbrbm source       The <code>Component</code> thbt originbted the event
+     * @pbrbm id              An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link MouseEvent}
+     * @pbrbm when         A long integer thbt gives the time the event occurred.
+     *                     Pbssing negbtive or zero vblue
      *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
+     * @pbrbm modifiers    b modifier mbsk describing the modifier keys bnd mouse
+     *                     buttons (for exbmple, shift, ctrl, blt, bnd metb) thbt
+     *                     bre down during the event.
+     *                     Only extended modifiers bre bllowed to be used bs b
+     *                     vblue for this pbrbmeter (see the {@link InputEvent#getModifiersEx}
+     *                     clbss for the description of extended modifiers).
+     *                     Pbssing negbtive pbrbmeter
      *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
+     *                     Zero vblue mebns thbt no modifiers were pbssed
+     * @pbrbm x            The horizontbl x coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm y            The verticbl y coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm clickCount   The number of mouse clicks bssocibted with event.
+     *                       Pbssing negbtive vblue
      *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm popupTrigger A boolebn thbt equbls {@code true} if this event
+     *                     is b trigger for b popup menu
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
      * @see #getWhen()
@@ -616,14 +616,14 @@ public class MouseEvent extends InputEvent {
      * @see #isPopupTrigger()
      */
      public MouseEvent(Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger) {
+                      int x, int y, int clickCount, boolebn popupTrigger) {
         this(source, id, when, modifiers, x, y, clickCount, popupTrigger, NOBUTTON);
      }
 
 
-    /* if the button is an extra button and it is released or clicked then in Xsystem its state
-       is not modified. Exclude this button number from ExtModifiers mask.*/
-    transient private boolean shouldExcludeButtonFromExtModifiers = false;
+    /* if the button is bn extrb button bnd it is relebsed or clicked then in Xsystem its stbte
+       is not modified. Exclude this button number from ExtModifiers mbsk.*/
+    trbnsient privbte boolebn shouldExcludeButtonFromExtModifiers = fblse;
 
     /**
      * {@inheritDoc}
@@ -631,87 +631,87 @@ public class MouseEvent extends InputEvent {
     public int getModifiersEx() {
         int tmpModifiers = modifiers;
         if (shouldExcludeButtonFromExtModifiers) {
-            tmpModifiers &= ~(InputEvent.getMaskForButton(getButton()));
+            tmpModifiers &= ~(InputEvent.getMbskForButton(getButton()));
         }
         return tmpModifiers & ~JDK_1_3_MODIFIERS;
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
+     * Constructs b <code>MouseEvent</code> object with the
      * specified source component,
-     * type, time, modifiers, coordinates, absolute coordinates, click count, popupTrigger flag,
-     * and button number.
+     * type, time, modifiers, coordinbtes, bbsolute coordinbtes, click count, popupTrigger flbg,
+     * bnd button number.
      * <p>
-     * Creating an invalid event (such
-     * as by using more than one of the old _MASKs, or modifier/button
-     * values which don't match) results in unspecified behavior.
-     * Even if inconsistent values for relative and absolute coordinates are
-     * passed to the constructor, the mouse event instance is still
-     * created and no exception is thrown.
-     * This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Crebting bn invblid event (such
+     * bs by using more thbn one of the old _MASKs, or modifier/button
+     * vblues which don't mbtch) results in unspecified behbvior.
+     * Even if inconsistent vblues for relbtive bnd bbsolute coordinbtes bre
+     * pbssed to the constructor, the mouse event instbnce is still
+     * crebted bnd no exception is thrown.
+     * This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
+     * @pbrbm source       The <code>Component</code> thbt originbted the event
+     * @pbrbm id              An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link MouseEvent}
+     * @pbrbm when         A long integer thbt gives the time the event occurred.
+     *                     Pbssing negbtive or zero vblue
      *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
+     * @pbrbm modifiers    b modifier mbsk describing the modifier keys bnd mouse
+     *                     buttons (for exbmple, shift, ctrl, blt, bnd metb) thbt
+     *                     bre down during the event.
+     *                     Only extended modifiers bre bllowed to be used bs b
+     *                     vblue for this pbrbmeter (see the {@link InputEvent#getModifiersEx}
+     *                     clbss for the description of extended modifiers).
+     *                     Pbssing negbtive pbrbmeter
      *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param xAbs           The absolute horizontal x coordinate for the mouse location
-     *                       It is allowed to pass negative values
-     * @param yAbs           The absolute vertical y coordinate for the mouse location
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
+     *                     Zero vblue mebns thbt no modifiers were pbssed
+     * @pbrbm x            The horizontbl x coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm y            The verticbl y coordinbte for the mouse locbtion.
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm xAbs           The bbsolute horizontbl x coordinbte for the mouse locbtion
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm yAbs           The bbsolute verticbl y coordinbte for the mouse locbtion
+     *                       It is bllowed to pbss negbtive vblues
+     * @pbrbm clickCount   The number of mouse clicks bssocibted with event.
+     *                       Pbssing negbtive vblue
      *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @param button       An integer that indicates, which of the mouse buttons has
-     *                     changed its state.
-     * The following rules are applied to this parameter:
+     * @pbrbm popupTrigger A boolebn thbt equbls {@code true} if this event
+     *                     is b trigger for b popup menu
+     * @pbrbm button       An integer thbt indicbtes, which of the mouse buttons hbs
+     *                     chbnged its stbte.
+     * The following rules bre bpplied to this pbrbmeter:
      * <ul>
      * <li>If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects only with the standard buttons:
-     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, and
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * then it is bllowed to crebte {@code MouseEvent} objects only with the stbndbrd buttons:
+     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, bnd
      * {@code BUTTON3}.
      * <li> If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects with
-     * the standard buttons.
-     * In case the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java, then
-     * in addition to the standard buttons, {@code MouseEvent} objects can be created
-     * using buttons from the range starting from 4 to
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * if the mouse has more than three buttons.
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
+     * then it is bllowed to crebte {@code MouseEvent} objects with
+     * the stbndbrd buttons.
+     * In cbse the support for extended mouse buttons is
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb, then
+     * in bddition to the stbndbrd buttons, {@code MouseEvent} objects cbn be crebted
+     * using buttons from the rbnge stbrting from 4 to
+     * {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
+     * if the mouse hbs more thbn three buttons.
      * </ul>
-     * @throws IllegalArgumentException if {@code button} is less then zero
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @throws IllegalArgumentException if {@code button} is greater then BUTTON3 and the support for extended mouse buttons is
-     *                                  {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if {@code button} is greater then the
-     *                                  {@link java.awt.MouseInfo#getNumberOfButtons() current number of buttons} and the support
-     *                                  for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled}
-     *                                  by Java
-     * @throws IllegalArgumentException if an invalid <code>button</code>
-     *            value is passed in
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @throws IllegblArgumentException if {@code button} is less then zero
+     * @throws IllegblArgumentException if <code>source</code> is null
+     * @throws IllegblArgumentException if {@code button} is grebter then BUTTON3 bnd the support for extended mouse buttons is
+     *                                  {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * @throws IllegblArgumentException if {@code button} is grebter then the
+     *                                  {@link jbvb.bwt.MouseInfo#getNumberOfButtons() current number of buttons} bnd the support
+     *                                  for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled}
+     *                                  by Jbvb
+     * @throws IllegblArgumentException if bn invblid <code>button</code>
+     *            vblue is pbssed in
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
      * @see #getWhen()
@@ -724,14 +724,14 @@ public class MouseEvent extends InputEvent {
      * @see #isPopupTrigger()
      * @see #getButton()
      * @see #button
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see InputEvent#getMaskForButton(int)
+     * @see Toolkit#breExtrbMouseButtonsEnbbled()
+     * @see jbvb.bwt.MouseInfo#getNumberOfButtons()
+     * @see InputEvent#getMbskForButton(int)
      * @since 1.6
      */
     public MouseEvent(Component source, int id, long when, int modifiers,
                       int x, int y, int xAbs, int yAbs,
-                      int clickCount, boolean popupTrigger, int button)
+                      int clickCount, boolebn popupTrigger, int button)
     {
         super(source, id, when, modifiers);
         this.x = x;
@@ -741,25 +741,25 @@ public class MouseEvent extends InputEvent {
         this.clickCount = clickCount;
         this.popupTrigger = popupTrigger;
         if (button < NOBUTTON){
-            throw new IllegalArgumentException("Invalid button value :" + button);
+            throw new IllegblArgumentException("Invblid button vblue :" + button);
         }
         if (button > BUTTON3) {
-            if (!Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled()){
-                throw new IllegalArgumentException("Extra mouse events are disabled " + button);
+            if (!Toolkit.getDefbultToolkit().breExtrbMouseButtonsEnbbled()){
+                throw new IllegblArgumentException("Extrb mouse events bre disbbled " + button);
             } else {
-                if (button > cachedNumberOfButtons) {
-                    throw new IllegalArgumentException("Nonexistent button " + button);
+                if (button > cbchedNumberOfButtons) {
+                    throw new IllegblArgumentException("Nonexistent button " + button);
                 }
             }
-            // XToolkit: extra buttons are not reporting about their state correctly.
-            // Being pressed they report the state=0 both on the press and on the release.
-            // For 1-3 buttons the state value equals zero on press and non-zero on release.
-            // Other modifiers like Shift, ALT etc seem report well with extra buttons.
-            // The problem reveals as follows: one button is pressed and then another button is pressed and released.
-            // So, the getModifiersEx() would not be zero due to a first button and we will skip this modifier.
-            // This may have to be moved into the peer code instead if possible.
+            // XToolkit: extrb buttons bre not reporting bbout their stbte correctly.
+            // Being pressed they report the stbte=0 both on the press bnd on the relebse.
+            // For 1-3 buttons the stbte vblue equbls zero on press bnd non-zero on relebse.
+            // Other modifiers like Shift, ALT etc seem report well with extrb buttons.
+            // The problem revebls bs follows: one button is pressed bnd then bnother button is pressed bnd relebsed.
+            // So, the getModifiersEx() would not be zero due to b first button bnd we will skip this modifier.
+            // This mby hbve to be moved into the peer code instebd if possible.
 
-            if (getModifiersEx() != 0) { //There is at least one more button in a pressed state.
+            if (getModifiersEx() != 0) { //There is bt lebst one more button in b pressed stbte.
                 if (id == MouseEvent.MOUSE_RELEASED || id == MouseEvent.MOUSE_CLICKED){
                     shouldExcludeButtonFromExtModifiers = true;
                 }
@@ -779,10 +779,10 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Returns the horizontal x position of the event relative to the
+     * Returns the horizontbl x position of the event relbtive to the
      * source component.
      *
-     * @return x  an integer indicating horizontal position relative to
+     * @return x  bn integer indicbting horizontbl position relbtive to
      *            the component
      */
     public int getX() {
@@ -790,10 +790,10 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Returns the vertical y position of the event relative to the
+     * Returns the verticbl y position of the event relbtive to the
      * source component.
      *
-     * @return y  an integer indicating vertical position relative to
+     * @return y  bn integer indicbting verticbl position relbtive to
      *            the component
      */
     public int getY() {
@@ -801,10 +801,10 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Returns the x,y position of the event relative to the source component.
+     * Returns the x,y position of the event relbtive to the source component.
      *
-     * @return a <code>Point</code> object containing the x and y coordinates
-     *         relative to the source component
+     * @return b <code>Point</code> object contbining the x bnd y coordinbtes
+     *         relbtive to the source component
      *
      */
     public Point getPoint() {
@@ -818,55 +818,55 @@ public class MouseEvent extends InputEvent {
     }
 
     /**
-     * Translates the event's coordinates to a new position
-     * by adding specified <code>x</code> (horizontal) and <code>y</code>
-     * (vertical) offsets.
+     * Trbnslbtes the event's coordinbtes to b new position
+     * by bdding specified <code>x</code> (horizontbl) bnd <code>y</code>
+     * (verticbl) offsets.
      *
-     * @param x the horizontal x value to add to the current x
-     *          coordinate position
-     * @param y the vertical y value to add to the current y
-                coordinate position
+     * @pbrbm x the horizontbl x vblue to bdd to the current x
+     *          coordinbte position
+     * @pbrbm y the verticbl y vblue to bdd to the current y
+                coordinbte position
      */
-    public synchronized void translatePoint(int x, int y) {
+    public synchronized void trbnslbtePoint(int x, int y) {
         this.x += x;
         this.y += y;
     }
 
     /**
-     * Returns the number of mouse clicks associated with this event.
+     * Returns the number of mouse clicks bssocibted with this event.
      *
-     * @return integer value for the number of clicks
+     * @return integer vblue for the number of clicks
      */
     public int getClickCount() {
         return clickCount;
     }
 
     /**
-     * Returns which, if any, of the mouse buttons has changed state.
-     * The returned value is ranged
-     * from 0 to the {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * value.
-     * The returned value includes at least the following constants:
+     * Returns which, if bny, of the mouse buttons hbs chbnged stbte.
+     * The returned vblue is rbnged
+     * from 0 to the {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
+     * vblue.
+     * The returned vblue includes bt lebst the following constbnts:
      * <ul>
      * <li> {@code NOBUTTON}
      * <li> {@code BUTTON1}
      * <li> {@code BUTTON2}
      * <li> {@code BUTTON3}
      * </ul>
-     * It is allowed to use those constants to compare with the returned button number in the application.
-     * For example,
+     * It is bllowed to use those constbnts to compbre with the returned button number in the bpplicbtion.
+     * For exbmple,
      * <pre>
-     * if (anEvent.getButton() == MouseEvent.BUTTON1) {
+     * if (bnEvent.getButton() == MouseEvent.BUTTON1) {
      * </pre>
-     * In particular, for a mouse with one, two, or three buttons this method may return the following values:
+     * In pbrticulbr, for b mouse with one, two, or three buttons this method mby return the following vblues:
      * <ul>
      * <li> 0 ({@code NOBUTTON})
      * <li> 1 ({@code BUTTON1})
      * <li> 2 ({@code BUTTON2})
      * <li> 3 ({@code BUTTON3})
      * </ul>
-     * Button numbers greater then {@code BUTTON3} have no constant identifier. So if a mouse with five buttons is
-     * installed, this method may return the following values:
+     * Button numbers grebter then {@code BUTTON3} hbve no constbnt identifier. So if b mouse with five buttons is
+     * instblled, this method mby return the following vblues:
      * <ul>
      * <li> 0 ({@code NOBUTTON})
      * <li> 1 ({@code BUTTON1})
@@ -876,22 +876,22 @@ public class MouseEvent extends InputEvent {
      * <li> 5
      * </ul>
      * <p>
-     * Note: If support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
+     * Note: If support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
      * then the AWT event subsystem does not produce mouse events for the extended mouse
-     * buttons. So it is not expected that this method returns anything except {@code NOBUTTON}, {@code BUTTON1},
+     * buttons. So it is not expected thbt this method returns bnything except {@code NOBUTTON}, {@code BUTTON1},
      * {@code BUTTON2}, {@code BUTTON3}.
      *
-     * @return one of the values from 0 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     *         if support for the extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java.
-     *         That range includes {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, {@code BUTTON3};
+     * @return one of the vblues from 0 to {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
+     *         if support for the extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb.
+     *         Thbt rbnge includes {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, {@code BUTTON3};
      *         <br>
      *         {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2} or {@code BUTTON3}
-     *         if support for the extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
+     *         if support for the extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
      * @since 1.4
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see #MouseEvent(Component, int, long, int, int, int, int, int, int, boolean, int)
-     * @see InputEvent#getMaskForButton(int)
+     * @see Toolkit#breExtrbMouseButtonsEnbbled()
+     * @see jbvb.bwt.MouseInfo#getNumberOfButtons()
+     * @see #MouseEvent(Component, int, long, int, int, int, int, int, int, boolebn, int)
+     * @see InputEvent#getMbskForButton(int)
      */
     public int getButton() {
         return button;
@@ -899,160 +899,160 @@ public class MouseEvent extends InputEvent {
 
     /**
      * Returns whether or not this mouse event is the popup menu
-     * trigger event for the platform.
-     * <p><b>Note</b>: Popup menus are triggered differently
+     * trigger event for the plbtform.
+     * <p><b>Note</b>: Popup menus bre triggered differently
      * on different systems. Therefore, <code>isPopupTrigger</code>
      * should be checked in both <code>mousePressed</code>
-     * and <code>mouseReleased</code>
-     * for proper cross-platform functionality.
+     * bnd <code>mouseRelebsed</code>
+     * for proper cross-plbtform functionblity.
      *
-     * @return boolean, true if this event is the popup menu trigger
-     *         for this platform
+     * @return boolebn, true if this event is the popup menu trigger
+     *         for this plbtform
      */
-    public boolean isPopupTrigger() {
+    public boolebn isPopupTrigger() {
         return popupTrigger;
     }
 
     /**
-     * Returns a <code>String</code> instance describing the modifier keys and
-     * mouse buttons that were down during the event, such as "Shift",
-     * or "Ctrl+Shift". These strings can be localized by changing
-     * the <code>awt.properties</code> file.
+     * Returns b <code>String</code> instbnce describing the modifier keys bnd
+     * mouse buttons thbt were down during the event, such bs "Shift",
+     * or "Ctrl+Shift". These strings cbn be locblized by chbnging
+     * the <code>bwt.properties</code> file.
      * <p>
-     * Note that the <code>InputEvent.ALT_MASK</code> and
-     * <code>InputEvent.BUTTON2_MASK</code> have equal values,
+     * Note thbt the <code>InputEvent.ALT_MASK</code> bnd
+     * <code>InputEvent.BUTTON2_MASK</code> hbve equbl vblues,
      * so the "Alt" string is returned for both modifiers.  Likewise,
-     * the <code>InputEvent.META_MASK</code> and
-     * <code>InputEvent.BUTTON3_MASK</code> have equal values,
-     * so the "Meta" string is returned for both modifiers.
+     * the <code>InputEvent.META_MASK</code> bnd
+     * <code>InputEvent.BUTTON3_MASK</code> hbve equbl vblues,
+     * so the "Metb" string is returned for both modifiers.
      * <p>
-     * Note that passing negative parameter is incorrect,
-     * and will cause the returning an unspecified string.
-     * Zero parameter means that no modifiers were passed and will
-     * cause the returning an empty string.
+     * Note thbt pbssing negbtive pbrbmeter is incorrect,
+     * bnd will cbuse the returning bn unspecified string.
+     * Zero pbrbmeter mebns thbt no modifiers were pbssed bnd will
+     * cbuse the returning bn empty string.
      *
-     * @param modifiers A modifier mask describing the modifier keys and
-     *                  mouse buttons that were down during the event
-     * @return string   string text description of the combination of modifier
-     *                  keys and mouse buttons that were down during the event
+     * @pbrbm modifiers A modifier mbsk describing the modifier keys bnd
+     *                  mouse buttons thbt were down during the event
+     * @return string   string text description of the combinbtion of modifier
+     *                  keys bnd mouse buttons thbt were down during the event
      * @see InputEvent#getModifiersExText(int)
      * @since 1.4
      */
-    public static String getMouseModifiersText(int modifiers) {
+    public stbtic String getMouseModifiersText(int modifiers) {
         StringBuilder buf = new StringBuilder();
         if ((modifiers & InputEvent.ALT_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.alt", "Alt"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.blt", "Alt"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.META_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.meta", "Meta"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.metb", "Metb"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.control", "Ctrl"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.control", "Ctrl"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.shift", "Shift"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.shift", "Shift"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.ALT_GRAPH_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.altGraph", "Alt Graph"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.bltGrbph", "Alt Grbph"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.BUTTON1_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button1", "Button1"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.button1", "Button1"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.BUTTON2_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button2", "Button2"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.button2", "Button2"));
+            buf.bppend("+");
         }
         if ((modifiers & InputEvent.BUTTON3_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button3", "Button3"));
-            buf.append("+");
+            buf.bppend(Toolkit.getProperty("AWT.button3", "Button3"));
+            buf.bppend("+");
         }
 
-        int mask;
+        int mbsk;
 
-        // TODO: add a toolkit field that holds a number of button on the mouse.
-        // As the method getMouseModifiersText() is static and obtain
-        // an integer as a parameter then we may not restrict this with the number
-        // of buttons installed on the mouse.
-        // It's a temporary solution. We need to somehow hold the number of buttons somewhere else.
-        for (int i = 1; i <= cachedNumberOfButtons; i++){
-            mask = InputEvent.getMaskForButton(i);
-            if ((modifiers & mask) != 0 &&
-                buf.indexOf(Toolkit.getProperty("AWT.button"+i, "Button"+i)) == -1) //1,2,3 buttons may already be there; so don't duplicate it.
+        // TODO: bdd b toolkit field thbt holds b number of button on the mouse.
+        // As the method getMouseModifiersText() is stbtic bnd obtbin
+        // bn integer bs b pbrbmeter then we mby not restrict this with the number
+        // of buttons instblled on the mouse.
+        // It's b temporbry solution. We need to somehow hold the number of buttons somewhere else.
+        for (int i = 1; i <= cbchedNumberOfButtons; i++){
+            mbsk = InputEvent.getMbskForButton(i);
+            if ((modifiers & mbsk) != 0 &&
+                buf.indexOf(Toolkit.getProperty("AWT.button"+i, "Button"+i)) == -1) //1,2,3 buttons mby blrebdy be there; so don't duplicbte it.
             {
-                buf.append(Toolkit.getProperty("AWT.button"+i, "Button"+i));
-                buf.append("+");
+                buf.bppend(Toolkit.getProperty("AWT.button"+i, "Button"+i));
+                buf.bppend("+");
             }
         }
 
         if (buf.length() > 0) {
-            buf.setLength(buf.length()-1); // remove trailing '+'
+            buf.setLength(buf.length()-1); // remove trbiling '+'
         }
         return buf.toString();
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Returns b pbrbmeter string identifying this event.
+     * This method is useful for event-logging bnd for debugging.
      *
-     * @return a string identifying the event and its attributes
+     * @return b string identifying the event bnd its bttributes
      */
-    public String paramString() {
+    public String pbrbmString() {
         StringBuilder str = new StringBuilder(80);
 
         switch(id) {
-          case MOUSE_PRESSED:
-              str.append("MOUSE_PRESSED");
-              break;
-          case MOUSE_RELEASED:
-              str.append("MOUSE_RELEASED");
-              break;
-          case MOUSE_CLICKED:
-              str.append("MOUSE_CLICKED");
-              break;
-          case MOUSE_ENTERED:
-              str.append("MOUSE_ENTERED");
-              break;
-          case MOUSE_EXITED:
-              str.append("MOUSE_EXITED");
-              break;
-          case MOUSE_MOVED:
-              str.append("MOUSE_MOVED");
-              break;
-          case MOUSE_DRAGGED:
-              str.append("MOUSE_DRAGGED");
-              break;
-          case MOUSE_WHEEL:
-              str.append("MOUSE_WHEEL");
-              break;
-           default:
-              str.append("unknown type");
+          cbse MOUSE_PRESSED:
+              str.bppend("MOUSE_PRESSED");
+              brebk;
+          cbse MOUSE_RELEASED:
+              str.bppend("MOUSE_RELEASED");
+              brebk;
+          cbse MOUSE_CLICKED:
+              str.bppend("MOUSE_CLICKED");
+              brebk;
+          cbse MOUSE_ENTERED:
+              str.bppend("MOUSE_ENTERED");
+              brebk;
+          cbse MOUSE_EXITED:
+              str.bppend("MOUSE_EXITED");
+              brebk;
+          cbse MOUSE_MOVED:
+              str.bppend("MOUSE_MOVED");
+              brebk;
+          cbse MOUSE_DRAGGED:
+              str.bppend("MOUSE_DRAGGED");
+              brebk;
+          cbse MOUSE_WHEEL:
+              str.bppend("MOUSE_WHEEL");
+              brebk;
+           defbult:
+              str.bppend("unknown type");
         }
 
-        // (x,y) coordinates
-        str.append(",(").append(x).append(",").append(y).append(")");
-        str.append(",absolute(").append(xAbs).append(",").append(yAbs).append(")");
+        // (x,y) coordinbtes
+        str.bppend(",(").bppend(x).bppend(",").bppend(y).bppend(")");
+        str.bppend(",bbsolute(").bppend(xAbs).bppend(",").bppend(yAbs).bppend(")");
 
         if (id != MOUSE_DRAGGED && id != MOUSE_MOVED){
-            str.append(",button=").append(getButton());
+            str.bppend(",button=").bppend(getButton());
         }
 
         if (getModifiers() != 0) {
-            str.append(",modifiers=").append(getMouseModifiersText(modifiers));
+            str.bppend(",modifiers=").bppend(getMouseModifiersText(modifiers));
         }
 
         if (getModifiersEx() != 0) {
-            //Using plain "modifiers" here does show an excluded extended buttons in the string event representation.
+            //Using plbin "modifiers" here does show bn excluded extended buttons in the string event representbtion.
             //getModifiersEx() solves the problem.
-            str.append(",extModifiers=").append(getModifiersExText(getModifiersEx()));
+            str.bppend(",extModifiers=").bppend(getModifiersExText(getModifiersEx()));
         }
 
-        str.append(",clickCount=").append(clickCount);
+        str.bppend(",clickCount=").bppend(clickCount);
 
         return str.toString();
     }
@@ -1061,7 +1061,7 @@ public class MouseEvent extends InputEvent {
      * Sets new modifiers by the old ones.
      * Also sets button.
      */
-    private void setNewModifiers() {
+    privbte void setNewModifiers() {
         if ((modifiers & BUTTON1_MASK) != 0) {
             modifiers |= BUTTON1_DOWN_MASK;
         }
@@ -1115,21 +1115,21 @@ public class MouseEvent extends InputEvent {
     /**
      * Sets old modifiers by the new ones.
      */
-    private void setOldModifiers() {
+    privbte void setOldModifiers() {
         if (id == MOUSE_PRESSED
             || id == MOUSE_RELEASED
             || id == MOUSE_CLICKED)
         {
             switch(button) {
-            case BUTTON1:
+            cbse BUTTON1:
                 modifiers |= BUTTON1_MASK;
-                break;
-            case BUTTON2:
+                brebk;
+            cbse BUTTON2:
                 modifiers |= BUTTON2_MASK;
-                break;
-            case BUTTON3:
+                brebk;
+            cbse BUTTON3:
                 modifiers |= BUTTON3_MASK;
-                break;
+                brebk;
             }
         } else {
             if ((modifiers & BUTTON1_DOWN_MASK) != 0) {
@@ -1161,11 +1161,11 @@ public class MouseEvent extends InputEvent {
 
     /**
      * Sets new modifiers by the old ones.
-     * @serial
+     * @seribl
      */
-    private void readObject(ObjectInputStream s)
-      throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
         if (getModifiers() != 0 && getModifiersEx() == 0) {
             setNewModifiers();
         }

@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Map;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Mbp;
+import jbvb.util.LinkedList;
+import jbvb.util.ResourceBundle;
 
-import com.sun.security.auth.UnixPrincipal;
-import com.sun.security.auth.UnixNumericUserPrincipal;
-import com.sun.security.auth.UnixNumericGroupPrincipal;
+import com.sun.security.buth.UnixPrincipbl;
+import com.sun.security.buth.UnixNumericUserPrincipbl;
+import com.sun.security.buth.UnixNumericGroupPrincipbl;
 
 
 /**
- * <p> The module prompts for a username and password
- * and then verifies the password against the password stored in
- * a directory service configured under JNDI.
+ * <p> The module prompts for b usernbme bnd pbssword
+ * bnd then verifies the pbssword bgbinst the pbssword stored in
+ * b directory service configured under JNDI.
  *
- * <p> This <code>LoginModule</code> interoperates with
- * any conformant JNDI service provider.  To direct this
- * <code>LoginModule</code> to use a specific JNDI service provider,
- * two options must be specified in the login <code>Configuration</code>
+ * <p> This <code>LoginModule</code> interoperbtes with
+ * bny conformbnt JNDI service provider.  To direct this
+ * <code>LoginModule</code> to use b specific JNDI service provider,
+ * two options must be specified in the login <code>Configurbtion</code>
  * for this <code>LoginModule</code>.
  * <pre>
- *      user.provider.url=<b>name_service_url</b>
- *      group.provider.url=<b>name_service_url</b>
+ *      user.provider.url=<b>nbme_service_url</b>
+ *      group.provider.url=<b>nbme_service_url</b>
  * </pre>
  *
- * <b>name_service_url</b> specifies
- * the directory service and path where this <code>LoginModule</code>
- * can access the relevant user and group information.  Because this
- * <code>LoginModule</code> only performs one-level searches to
- * find the relevant user information, the <code>URL</code>
- * must point to a directory one level above where the user and group
- * information is stored in the directory service.
- * For example, to instruct this <code>LoginModule</code>
- * to contact a NIS server, the following URLs must be specified:
+ * <b>nbme_service_url</b> specifies
+ * the directory service bnd pbth where this <code>LoginModule</code>
+ * cbn bccess the relevbnt user bnd group informbtion.  Becbuse this
+ * <code>LoginModule</code> only performs one-level sebrches to
+ * find the relevbnt user informbtion, the <code>URL</code>
+ * must point to b directory one level bbove where the user bnd group
+ * informbtion is stored in the directory service.
+ * For exbmple, to instruct this <code>LoginModule</code>
+ * to contbct b NIS server, the following URLs must be specified:
  * <pre>
- *    user.provider.url="nis://<b>NISServerHostName</b>/<b>NISDomain</b>/user"
- *    group.provider.url="nis://<b>NISServerHostName</b>/<b>NISDomain</b>/system/group"
+ *    user.provider.url="nis://<b>NISServerHostNbme</b>/<b>NISDombin</b>/user"
+ *    group.provider.url="nis://<b>NISServerHostNbme</b>/<b>NISDombin</b>/system/group"
  * </pre>
  *
- * <b>NISServerHostName</b> specifies the server host name of the
- * NIS server (for example, <i>nis.sun.com</i>, and <b>NISDomain</b>
- * specifies the domain for that NIS server (for example, <i>jaas.sun.com</i>.
- * To contact an LDAP server, the following URLs must be specified:
+ * <b>NISServerHostNbme</b> specifies the server host nbme of the
+ * NIS server (for exbmple, <i>nis.sun.com</i>, bnd <b>NISDombin</b>
+ * specifies the dombin for thbt NIS server (for exbmple, <i>jbbs.sun.com</i>.
+ * To contbct bn LDAP server, the following URLs must be specified:
  * <pre>
- *    user.provider.url="ldap://<b>LDAPServerHostName</b>/<b>LDAPName</b>"
- *    group.provider.url="ldap://<b>LDAPServerHostName</b>/<b>LDAPName</b>"
+ *    user.provider.url="ldbp://<b>LDAPServerHostNbme</b>/<b>LDAPNbme</b>"
+ *    group.provider.url="ldbp://<b>LDAPServerHostNbme</b>/<b>LDAPNbme</b>"
  * </pre>
  *
- * <b>LDAPServerHostName</b> specifies the server host name of the
- * LDAP server, which may include a port number
- * (for example, <i>ldap.sun.com:389</i>),
- * and <b>LDAPName</b> specifies the entry name in the LDAP directory
- * (for example, <i>ou=People,o=Sun,c=US</i> and <i>ou=Groups,o=Sun,c=US</i>
- * for user and group information, respectively).
+ * <b>LDAPServerHostNbme</b> specifies the server host nbme of the
+ * LDAP server, which mby include b port number
+ * (for exbmple, <i>ldbp.sun.com:389</i>),
+ * bnd <b>LDAPNbme</b> specifies the entry nbme in the LDAP directory
+ * (for exbmple, <i>ou=People,o=Sun,c=US</i> bnd <i>ou=Groups,o=Sun,c=US</i>
+ * for user bnd group informbtion, respectively).
  *
- * <p> The format in which the user's information must be stored in
- * the directory service is specified in RFC 2307.  Specifically,
- * this <code>LoginModule</code> will search for the user's entry in the
- * directory service using the user's <i>uid</i> attribute,
- * where <i>uid=<b>username</b></i>.  If the search succeeds,
+ * <p> The formbt in which the user's informbtion must be stored in
+ * the directory service is specified in RFC 2307.  Specificblly,
+ * this <code>LoginModule</code> will sebrch for the user's entry in the
+ * directory service using the user's <i>uid</i> bttribute,
+ * where <i>uid=<b>usernbme</b></i>.  If the sebrch succeeds,
  * this <code>LoginModule</code> will then
- * obtain the user's encrypted password from the retrieved entry
- * using the <i>userPassword</i> attribute.
- * This <code>LoginModule</code> assumes that the password is stored
- * as a byte array, which when converted to a <code>String</code>,
- * has the following format:
+ * obtbin the user's encrypted pbssword from the retrieved entry
+ * using the <i>userPbssword</i> bttribute.
+ * This <code>LoginModule</code> bssumes thbt the pbssword is stored
+ * bs b byte brrby, which when converted to b <code>String</code>,
+ * hbs the following formbt:
  * <pre>
- *      "{crypt}<b>encrypted_password</b>"
+ *      "{crypt}<b>encrypted_pbssword</b>"
  * </pre>
  *
  * The LDAP directory server must be configured
- * to permit read access to the userPassword attribute.
- * If the user entered a valid username and password,
- * this <code>LoginModule</code> associates a
- * <code>UnixPrincipal</code>, <code>UnixNumericUserPrincipal</code>,
- * and the relevant UnixNumericGroupPrincipals with the
+ * to permit rebd bccess to the userPbssword bttribute.
+ * If the user entered b vblid usernbme bnd pbssword,
+ * this <code>LoginModule</code> bssocibtes b
+ * <code>UnixPrincipbl</code>, <code>UnixNumericUserPrincipbl</code>,
+ * bnd the relevbnt UnixNumericGroupPrincipbls with the
  * <code>Subject</code>.
  *
- * <p> This LoginModule also recognizes the following <code>Configuration</code>
+ * <p> This LoginModule blso recognizes the following <code>Configurbtion</code>
  * options:
  * <pre>
- *    debug          if, true, debug messages are output to System.out.
+ *    debug          if, true, debug messbges bre output to System.out.
  *
- *    useFirstPass   if, true, this LoginModule retrieves the
- *                   username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for authentication.
- *                   If authentication fails, no attempt for a retry is made,
- *                   and the failure is reported back to the calling
- *                   application.
+ *    useFirstPbss   if, true, this LoginModule retrieves the
+ *                   usernbme bnd pbssword from the module's shbred stbte,
+ *                   using "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys.  The retrieved vblues bre used for buthenticbtion.
+ *                   If buthenticbtion fbils, no bttempt for b retry is mbde,
+ *                   bnd the fbilure is reported bbck to the cblling
+ *                   bpplicbtion.
  *
- *    tryFirstPass   if, true, this LoginModule retrieves the
- *                   the username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for authentication.
- *                   If authentication fails, the module uses the
- *                   CallbackHandler to retrieve a new username and password,
- *                   and another attempt to authenticate is made.
- *                   If the authentication fails, the failure is reported
- *                   back to the calling application.
+ *    tryFirstPbss   if, true, this LoginModule retrieves the
+ *                   the usernbme bnd pbssword from the module's shbred stbte,
+ *                   using "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys.  The retrieved vblues bre used for buthenticbtion.
+ *                   If buthenticbtion fbils, the module uses the
+ *                   CbllbbckHbndler to retrieve b new usernbme bnd pbssword,
+ *                   bnd bnother bttempt to buthenticbte is mbde.
+ *                   If the buthenticbtion fbils, the fbilure is reported
+ *                   bbck to the cblling bpplicbtion.
  *
- *    storePass      if, true, this LoginModule stores the username and password
- *                   obtained from the CallbackHandler in the module's
- *                   shared state, using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  This is not performed if existing values already
- *                   exist for the username and password in the shared state,
- *                   or if authentication fails.
+ *    storePbss      if, true, this LoginModule stores the usernbme bnd pbssword
+ *                   obtbined from the CbllbbckHbndler in the module's
+ *                   shbred stbte, using "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys.  This is not performed if existing vblues blrebdy
+ *                   exist for the usernbme bnd pbssword in the shbred stbte,
+ *                   or if buthenticbtion fbils.
  *
- *    clearPass     if, true, this <code>LoginModule</code> clears the
- *                  username and password stored in the module's shared state
- *                  after both phases of authentication (login and commit)
- *                  have completed.
+ *    clebrPbss     if, true, this <code>LoginModule</code> clebrs the
+ *                  usernbme bnd pbssword stored in the module's shbred stbte
+ *                  bfter both phbses of buthenticbtion (login bnd commit)
+ *                  hbve completed.
  * </pre>
  *
  */
 @jdk.Exported
-public class JndiLoginModule implements LoginModule {
+public clbss JndiLoginModule implements LoginModule {
 
-    private static final ResourceBundle rb = AccessController.doPrivileged(
+    privbte stbtic finbl ResourceBundle rb = AccessController.doPrivileged(
             new PrivilegedAction<ResourceBundle>() {
                 public ResourceBundle run() {
                     return ResourceBundle.getBundle(
@@ -164,119 +164,119 @@ public class JndiLoginModule implements LoginModule {
     );
 
     /** JNDI Provider */
-    public final String USER_PROVIDER = "user.provider.url";
-    public final String GROUP_PROVIDER = "group.provider.url";
+    public finbl String USER_PROVIDER = "user.provider.url";
+    public finbl String GROUP_PROVIDER = "group.provider.url";
 
-    // configurable options
-    private boolean debug = false;
-    private boolean strongDebug = false;
-    private String userProvider;
-    private String groupProvider;
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
+    // configurbble options
+    privbte boolebn debug = fblse;
+    privbte boolebn strongDebug = fblse;
+    privbte String userProvider;
+    privbte String groupProvider;
+    privbte boolebn useFirstPbss = fblse;
+    privbte boolebn tryFirstPbss = fblse;
+    privbte boolebn storePbss = fblse;
+    privbte boolebn clebrPbss = fblse;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // the buthenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
 
-    // username, password, and JNDI context
-    private String username;
-    private char[] password;
+    // usernbme, pbssword, bnd JNDI context
+    privbte String usernbme;
+    privbte chbr[] pbssword;
     DirContext ctx;
 
-    // the user (assume it is a UnixPrincipal)
-    private UnixPrincipal userPrincipal;
-    private UnixNumericUserPrincipal UIDPrincipal;
-    private UnixNumericGroupPrincipal GIDPrincipal;
-    private LinkedList<UnixNumericGroupPrincipal> supplementaryGroups =
+    // the user (bssume it is b UnixPrincipbl)
+    privbte UnixPrincipbl userPrincipbl;
+    privbte UnixNumericUserPrincipbl UIDPrincipbl;
+    privbte UnixNumericGroupPrincipbl GIDPrincipbl;
+    privbte LinkedList<UnixNumericGroupPrincipbl> supplementbryGroups =
                                 new LinkedList<>();
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
+    // initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, Object> shbredStbte;
+    privbte Mbp<String, ?> options;
 
-    private static final String CRYPT = "{crypt}";
-    private static final String USER_PWD = "userPassword";
-    private static final String USER_UID = "uidNumber";
-    private static final String USER_GID = "gidNumber";
-    private static final String GROUP_ID = "gidNumber";
-    private static final String NAME = "javax.security.auth.login.name";
-    private static final String PWD = "javax.security.auth.login.password";
+    privbte stbtic finbl String CRYPT = "{crypt}";
+    privbte stbtic finbl String USER_PWD = "userPbssword";
+    privbte stbtic finbl String USER_UID = "uidNumber";
+    privbte stbtic finbl String USER_GID = "gidNumber";
+    privbte stbtic finbl String GROUP_ID = "gidNumber";
+    privbte stbtic finbl String NAME = "jbvbx.security.buth.login.nbme";
+    privbte stbtic finbl String PWD = "jbvbx.security.buth.login.pbssword";
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *                  with the end user (prompting for usernames and
-     *                  passwords, for example). <p>
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> for communicbting
+     *                  with the end user (prompting for usernbmes bnd
+     *                  pbsswords, for exbmple). <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    // Unchecked warnings from options.get(String) are safe since we are
-    // passing known keys.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options) {
+    // Unchecked wbrning from (Mbp<String, Object>)shbredStbte is sbfe
+    // since jbvbx.security.buth.login.LoginContext pbsses b rbw HbshMbp.
+    // Unchecked wbrnings from options.get(String) bre sbfe since we bre
+    // pbssing known keys.
+    @SuppressWbrnings("unchecked")
+    public void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String,?> shbredStbte,
+                           Mbp<String,?> options) {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = (Mbp<String, Object>)shbredStbte;
         this.options = options;
 
-        // initialize any configured options
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
+        // initiblize bny configured options
+        debug = "true".equblsIgnoreCbse((String)options.get("debug"));
         strongDebug =
-                "true".equalsIgnoreCase((String)options.get("strongDebug"));
+                "true".equblsIgnoreCbse((String)options.get("strongDebug"));
         userProvider = (String)options.get(USER_PROVIDER);
         groupProvider = (String)options.get(GROUP_PROVIDER);
-        tryFirstPass =
-                "true".equalsIgnoreCase((String)options.get("tryFirstPass"));
-        useFirstPass =
-                "true".equalsIgnoreCase((String)options.get("useFirstPass"));
-        storePass =
-                "true".equalsIgnoreCase((String)options.get("storePass"));
-        clearPass =
-                "true".equalsIgnoreCase((String)options.get("clearPass"));
+        tryFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("tryFirstPbss"));
+        useFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("useFirstPbss"));
+        storePbss =
+                "true".equblsIgnoreCbse((String)options.get("storePbss"));
+        clebrPbss =
+                "true".equblsIgnoreCbse((String)options.get("clebrPbss"));
     }
 
     /**
-     * <p> Prompt for username and password.
-     * Verify the password against the relevant name service.
+     * <p> Prompt for usernbme bnd pbssword.
+     * Verify the pbssword bgbinst the relevbnt nbme service.
      *
      * <p>
      *
-     * @return true always, since this <code>LoginModule</code>
+     * @return true blwbys, since this <code>LoginModule</code>
      *          should not be ignored.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @exception FbiledLoginException if the buthenticbtion fbils. <p>
      *
      * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     *          is unbble to perform the buthenticbtion.
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
         if (userProvider == null) {
             throw new LoginException
-                ("Error: Unable to locate JNDI user provider");
+                ("Error: Unbble to locbte JNDI user provider");
         }
         if (groupProvider == null) {
             throw new LoginException
-                ("Error: Unable to locate JNDI group provider");
+                ("Error: Unbble to locbte JNDI group provider");
         }
 
         if (debug) {
@@ -286,215 +286,215 @@ public class JndiLoginModule implements LoginModule {
                                 groupProvider);
         }
 
-        // attempt the authentication
-        if (tryFirstPass) {
+        // bttempt the buthenticbtion
+        if (tryFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (debug) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "tryFirstPass succeeded");
+                                "tryFirstPbss succeeded");
                 }
                 return true;
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled -- try bgbin below by prompting
+                clebnStbte();
                 if (debug) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "tryFirstPass failed with:" +
+                                "tryFirstPbss fbiled with:" +
                                 le.toString());
                 }
             }
 
-        } else if (useFirstPass) {
+        } else if (useFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (debug) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "useFirstPass succeeded");
+                                "useFirstPbss succeeded");
                 }
                 return true;
-            } catch (LoginException le) {
-                // authentication failed
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled
+                clebnStbte();
                 if (debug) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "useFirstPass failed");
+                                "useFirstPbss fbiled");
                 }
                 throw le;
             }
         }
 
-        // attempt the authentication by prompting for the username and pwd
+        // bttempt the buthenticbtion by prompting for the usernbme bnd pwd
         try {
-            attemptAuthentication(false);
+            bttemptAuthenticbtion(fblse);
 
-            // authentication succeeded
+            // buthenticbtion succeeded
            succeeded = true;
             if (debug) {
                 System.out.println("\t\t[JndiLoginModule] " +
-                                "regular authentication succeeded");
+                                "regulbr buthenticbtion succeeded");
             }
             return true;
-        } catch (LoginException le) {
-            cleanState();
+        } cbtch (LoginException le) {
+            clebnStbte();
             if (debug) {
                 System.out.println("\t\t[JndiLoginModule] " +
-                                "regular authentication failed");
+                                "regulbr buthenticbtion fbiled");
             }
             throw le;
         }
     }
 
     /**
-     * Abstract method to commit the authentication process (phase 2).
+     * Abstrbct method to commit the buthenticbtion process (phbse 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>UnixPrincipal</code>
-     * with the <code>Subject</code> located in the
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes b
+     * <code>UnixPrincipbl</code>
+     * with the <code>Subject</code> locbted in the
      * <code>LoginModule</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails
+     * @exception LoginException if the commit fbils
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
-    public boolean commit() throws LoginException {
+    public boolebn commit() throws LoginException {
 
-        if (succeeded == false) {
-            return false;
+        if (succeeded == fblse) {
+            return fblse;
         } else {
-            if (subject.isReadOnly()) {
-                cleanState();
-                throw new LoginException ("Subject is Readonly");
+            if (subject.isRebdOnly()) {
+                clebnStbte();
+                throw new LoginException ("Subject is Rebdonly");
             }
-            // add Principals to the Subject
-            if (!subject.getPrincipals().contains(userPrincipal))
-                subject.getPrincipals().add(userPrincipal);
-            if (!subject.getPrincipals().contains(UIDPrincipal))
-                subject.getPrincipals().add(UIDPrincipal);
-            if (!subject.getPrincipals().contains(GIDPrincipal))
-                subject.getPrincipals().add(GIDPrincipal);
-            for (int i = 0; i < supplementaryGroups.size(); i++) {
-                if (!subject.getPrincipals().contains
-                        (supplementaryGroups.get(i)))
-                    subject.getPrincipals().add(supplementaryGroups.get(i));
+            // bdd Principbls to the Subject
+            if (!subject.getPrincipbls().contbins(userPrincipbl))
+                subject.getPrincipbls().bdd(userPrincipbl);
+            if (!subject.getPrincipbls().contbins(UIDPrincipbl))
+                subject.getPrincipbls().bdd(UIDPrincipbl);
+            if (!subject.getPrincipbls().contbins(GIDPrincipbl))
+                subject.getPrincipbls().bdd(GIDPrincipbl);
+            for (int i = 0; i < supplementbryGroups.size(); i++) {
+                if (!subject.getPrincipbls().contbins
+                        (supplementbryGroups.get(i)))
+                    subject.getPrincipbls().bdd(supplementbryGroups.get(i));
             }
 
             if (debug) {
                 System.out.println("\t\t[JndiLoginModule]: " +
-                                   "added UnixPrincipal,");
-                System.out.println("\t\t\t\tUnixNumericUserPrincipal,");
-                System.out.println("\t\t\t\tUnixNumericGroupPrincipal(s),");
+                                   "bdded UnixPrincipbl,");
+                System.out.println("\t\t\t\tUnixNumericUserPrincipbl,");
+                System.out.println("\t\t\t\tUnixNumericGroupPrincipbl(s),");
                 System.out.println("\t\t\t to Subject");
             }
         }
-        // in any case, clean out state
-        cleanState();
+        // in bny cbse, clebn out stbte
+        clebnStbte();
         commitSucceeded = true;
         return true;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @exception LoginException if the bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
-    public boolean abort() throws LoginException {
+    public boolebn bbort() throws LoginException {
         if (debug)
             System.out.println("\t\t[JndiLoginModule]: " +
-                "aborted authentication failed");
+                "bborted buthenticbtion fbiled");
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
 
-            // Clean out state
-            succeeded = false;
-            cleanState();
+            // Clebn out stbte
+            succeeded = fblse;
+            clebnStbte();
 
-            userPrincipal = null;
-            UIDPrincipal = null;
-            GIDPrincipal = null;
-            supplementaryGroups = new LinkedList<UnixNumericGroupPrincipal>();
+            userPrincipbl = null;
+            UIDPrincipbl = null;
+            GIDPrincipbl = null;
+            supplementbryGroups = new LinkedList<UnixNumericGroupPrincipbl>();
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return true;
     }
 
     /**
-     * Logout a user.
+     * Logout b user.
      *
-     * <p> This method removes the Principals
-     * that were added by the <code>commit</code> method.
+     * <p> This method removes the Principbls
+     * thbt were bdded by the <code>commit</code> method.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @exception LoginException if the logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
-    public boolean logout() throws LoginException {
-        if (subject.isReadOnly()) {
-            cleanState();
-            throw new LoginException ("Subject is Readonly");
+    public boolebn logout() throws LoginException {
+        if (subject.isRebdOnly()) {
+            clebnStbte();
+            throw new LoginException ("Subject is Rebdonly");
         }
-        subject.getPrincipals().remove(userPrincipal);
-        subject.getPrincipals().remove(UIDPrincipal);
-        subject.getPrincipals().remove(GIDPrincipal);
-        for (int i = 0; i < supplementaryGroups.size(); i++) {
-            subject.getPrincipals().remove(supplementaryGroups.get(i));
+        subject.getPrincipbls().remove(userPrincipbl);
+        subject.getPrincipbls().remove(UIDPrincipbl);
+        subject.getPrincipbls().remove(GIDPrincipbl);
+        for (int i = 0; i < supplementbryGroups.size(); i++) {
+            subject.getPrincipbls().remove(supplementbryGroups.get(i));
         }
 
 
-        // clean out state
-        cleanState();
-        succeeded = false;
-        commitSucceeded = false;
+        // clebn out stbte
+        clebnStbte();
+        succeeded = fblse;
+        commitSucceeded = fblse;
 
-        userPrincipal = null;
-        UIDPrincipal = null;
-        GIDPrincipal = null;
-        supplementaryGroups = new LinkedList<UnixNumericGroupPrincipal>();
+        userPrincipbl = null;
+        UIDPrincipbl = null;
+        GIDPrincipbl = null;
+        supplementbryGroups = new LinkedList<UnixNumericGroupPrincipbl>();
 
         if (debug) {
             System.out.println("\t\t[JndiLoginModule]: " +
@@ -504,276 +504,276 @@ public class JndiLoginModule implements LoginModule {
     }
 
     /**
-     * Attempt authentication
+     * Attempt buthenticbtion
      *
      * <p>
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm getPbsswdFromShbredStbte boolebn thbt tells this method whether
+     *          to retrieve the pbssword from the shbredStbte.
      */
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
+    privbte void bttemptAuthenticbtion(boolebn getPbsswdFromShbredStbte)
     throws LoginException {
 
-        String encryptedPassword = null;
+        String encryptedPbssword = null;
 
-        // first get the username and password
-        getUsernamePassword(getPasswdFromSharedState);
+        // first get the usernbme bnd pbssword
+        getUsernbmePbssword(getPbsswdFromShbredStbte);
 
         try {
 
-            // get the user's passwd entry from the user provider URL
-            InitialContext iCtx = new InitialContext();
+            // get the user's pbsswd entry from the user provider URL
+            InitiblContext iCtx = new InitiblContext();
             ctx = (DirContext)iCtx.lookup(userProvider);
 
             /*
-            SearchControls controls = new SearchControls
-                                        (SearchControls.ONELEVEL_SCOPE,
+            SebrchControls controls = new SebrchControls
+                                        (SebrchControls.ONELEVEL_SCOPE,
                                         0,
                                         5000,
                                         new String[] { USER_PWD },
-                                        false,
-                                        false);
+                                        fblse,
+                                        fblse);
             */
 
-            SearchControls controls = new SearchControls();
-            NamingEnumeration<SearchResult> ne = ctx.search("",
-                                        "(uid=" + username + ")",
+            SebrchControls controls = new SebrchControls();
+            NbmingEnumerbtion<SebrchResult> ne = ctx.sebrch("",
+                                        "(uid=" + usernbme + ")",
                                         controls);
-            if (ne.hasMore()) {
-                SearchResult result = ne.next();
-                Attributes attributes = result.getAttributes();
+            if (ne.hbsMore()) {
+                SebrchResult result = ne.next();
+                Attributes bttributes = result.getAttributes();
 
-                // get the password
+                // get the pbssword
 
                 // this module works only if the LDAP directory server
-                // is configured to permit read access to the userPassword
-                // attribute. The directory administrator need to grant
-                // this access.
+                // is configured to permit rebd bccess to the userPbssword
+                // bttribute. The directory bdministrbtor need to grbnt
+                // this bccess.
                 //
-                // A workaround would be to make the server do authentication
+                // A workbround would be to mbke the server do buthenticbtion
                 // by setting the Context.SECURITY_PRINCIPAL
-                // and Context.SECURITY_CREDENTIALS property.
-                // However, this would make it not work with systems that
-                // don't do authentication at the server (like NIS).
+                // bnd Context.SECURITY_CREDENTIALS property.
+                // However, this would mbke it not work with systems thbt
+                // don't do buthenticbtion bt the server (like NIS).
                 //
-                // Setting the SECURITY_* properties and using "simple"
-                // authentication for LDAP is recommended only for secure
-                // channels. For nonsecure channels, SSL is recommended.
+                // Setting the SECURITY_* properties bnd using "simple"
+                // buthenticbtion for LDAP is recommended only for secure
+                // chbnnels. For nonsecure chbnnels, SSL is recommended.
 
-                Attribute pwd = attributes.get(USER_PWD);
+                Attribute pwd = bttributes.get(USER_PWD);
                 String encryptedPwd = new String((byte[])pwd.get(), "UTF8");
-                encryptedPassword = encryptedPwd.substring(CRYPT.length());
+                encryptedPbssword = encryptedPwd.substring(CRYPT.length());
 
-                // check the password
-                if (verifyPassword
-                    (encryptedPassword, new String(password)) == true) {
+                // check the pbssword
+                if (verifyPbssword
+                    (encryptedPbssword, new String(pbssword)) == true) {
 
-                    // authentication succeeded
+                    // buthenticbtion succeeded
                     if (debug)
                         System.out.println("\t\t[JndiLoginModule] " +
-                                "attemptAuthentication() succeeded");
+                                "bttemptAuthenticbtion() succeeded");
 
                 } else {
-                    // authentication failed
+                    // buthenticbtion fbiled
                     if (debug)
                         System.out.println("\t\t[JndiLoginModule] " +
-                                "attemptAuthentication() failed");
-                    throw new FailedLoginException("Login incorrect");
+                                "bttemptAuthenticbtion() fbiled");
+                    throw new FbiledLoginException("Login incorrect");
                 }
 
-                // save input as shared state only if
-                // authentication succeeded
-                if (storePass &&
-                    !sharedState.containsKey(NAME) &&
-                    !sharedState.containsKey(PWD)) {
-                    sharedState.put(NAME, username);
-                    sharedState.put(PWD, password);
+                // sbve input bs shbred stbte only if
+                // buthenticbtion succeeded
+                if (storePbss &&
+                    !shbredStbte.contbinsKey(NAME) &&
+                    !shbredStbte.contbinsKey(PWD)) {
+                    shbredStbte.put(NAME, usernbme);
+                    shbredStbte.put(PWD, pbssword);
                 }
 
-                // create the user principal
-                userPrincipal = new UnixPrincipal(username);
+                // crebte the user principbl
+                userPrincipbl = new UnixPrincipbl(usernbme);
 
                 // get the UID
-                Attribute uid = attributes.get(USER_UID);
+                Attribute uid = bttributes.get(USER_UID);
                 String uidNumber = (String)uid.get();
-                UIDPrincipal = new UnixNumericUserPrincipal(uidNumber);
+                UIDPrincipbl = new UnixNumericUserPrincipbl(uidNumber);
                 if (debug && uidNumber != null) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username + "' has UID: " +
+                                "user: '" + usernbme + "' hbs UID: " +
                                 uidNumber);
                 }
 
                 // get the GID
-                Attribute gid = attributes.get(USER_GID);
+                Attribute gid = bttributes.get(USER_GID);
                 String gidNumber = (String)gid.get();
-                GIDPrincipal = new UnixNumericGroupPrincipal
+                GIDPrincipbl = new UnixNumericGroupPrincipbl
                                 (gidNumber, true);
                 if (debug && gidNumber != null) {
                     System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username + "' has GID: " +
+                                "user: '" + usernbme + "' hbs GID: " +
                                 gidNumber);
                 }
 
-                // get the supplementary groups from the group provider URL
+                // get the supplementbry groups from the group provider URL
                 ctx = (DirContext)iCtx.lookup(groupProvider);
-                ne = ctx.search("", new BasicAttributes("memberUid", username));
+                ne = ctx.sebrch("", new BbsicAttributes("memberUid", usernbme));
 
-                while (ne.hasMore()) {
+                while (ne.hbsMore()) {
                     result = ne.next();
-                    attributes = result.getAttributes();
+                    bttributes = result.getAttributes();
 
-                    gid = attributes.get(GROUP_ID);
+                    gid = bttributes.get(GROUP_ID);
                     String suppGid = (String)gid.get();
-                    if (!gidNumber.equals(suppGid)) {
-                        UnixNumericGroupPrincipal suppPrincipal =
-                            new UnixNumericGroupPrincipal(suppGid, false);
-                        supplementaryGroups.add(suppPrincipal);
+                    if (!gidNumber.equbls(suppGid)) {
+                        UnixNumericGroupPrincipbl suppPrincipbl =
+                            new UnixNumericGroupPrincipbl(suppGid, fblse);
+                        supplementbryGroups.bdd(suppPrincipbl);
                         if (debug && suppGid != null) {
                             System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username +
-                                "' has Supplementary Group: " +
+                                "user: '" + usernbme +
+                                "' hbs Supplementbry Group: " +
                                 suppGid);
                         }
                     }
                 }
 
             } else {
-                // bad username
+                // bbd usernbme
                 if (debug) {
                     System.out.println("\t\t[JndiLoginModule]: User not found");
                 }
-                throw new FailedLoginException("User not found");
+                throw new FbiledLoginException("User not found");
             }
-        } catch (NamingException ne) {
-            // bad username
+        } cbtch (NbmingException ne) {
+            // bbd usernbme
             if (debug) {
                 System.out.println("\t\t[JndiLoginModule]:  User not found");
-                ne.printStackTrace();
+                ne.printStbckTrbce();
             }
-            throw new FailedLoginException("User not found");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            // password stored in incorrect format
+            throw new FbiledLoginException("User not found");
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            // pbssword stored in incorrect formbt
             if (debug) {
                 System.out.println("\t\t[JndiLoginModule]:  " +
-                                "password incorrectly encoded");
-                uee.printStackTrace();
+                                "pbssword incorrectly encoded");
+                uee.printStbckTrbce();
             }
-            throw new LoginException("Login failure due to incorrect " +
-                                "password encoding in the password database");
+            throw new LoginException("Login fbilure due to incorrect " +
+                                "pbssword encoding in the pbssword dbtbbbse");
         }
 
-        // authentication succeeded
+        // buthenticbtion succeeded
     }
 
     /**
-     * Get the username and password.
-     * This method does not return any value.
-     * Instead, it sets global name and password variables.
+     * Get the usernbme bnd pbssword.
+     * This method does not return bny vblue.
+     * Instebd, it sets globbl nbme bnd pbssword vbribbles.
      *
-     * <p> Also note that this method will set the username and password
-     * values in the shared state in case subsequent LoginModules
-     * want to use them via use/tryFirstPass.
+     * <p> Also note thbt this method will set the usernbme bnd pbssword
+     * vblues in the shbred stbte in cbse subsequent LoginModules
+     * wbnt to use them vib use/tryFirstPbss.
      *
      * <p>
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm getPbsswdFromShbredStbte boolebn thbt tells this method whether
+     *          to retrieve the pbssword from the shbredStbte.
      */
-    private void getUsernamePassword(boolean getPasswdFromSharedState)
+    privbte void getUsernbmePbssword(boolebn getPbsswdFromShbredStbte)
     throws LoginException {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            username = (String)sharedState.get(NAME);
-            password = (char[])sharedState.get(PWD);
+        if (getPbsswdFromShbredStbte) {
+            // use the pbssword sbved by the first module in the stbck
+            usernbme = (String)shbredStbte.get(NAME);
+            pbssword = (chbr[])shbredStbte.get(PWD);
             return;
         }
 
-        // prompt for a username and password
-        if (callbackHandler == null)
-            throw new LoginException("Error: no CallbackHandler available " +
-                "to garner authentication information from the user");
+        // prompt for b usernbme bnd pbssword
+        if (cbllbbckHbndler == null)
+            throw new LoginException("Error: no CbllbbckHbndler bvbilbble " +
+                "to gbrner buthenticbtion informbtion from the user");
 
         String protocol = userProvider.substring(0, userProvider.indexOf(':'));
 
-        Callback[] callbacks = new Callback[2];
-        callbacks[0] = new NameCallback(protocol + " "
-                                            + rb.getString("username."));
-        callbacks[1] = new PasswordCallback(protocol + " " +
-                                                rb.getString("password."),
-                                            false);
+        Cbllbbck[] cbllbbcks = new Cbllbbck[2];
+        cbllbbcks[0] = new NbmeCbllbbck(protocol + " "
+                                            + rb.getString("usernbme."));
+        cbllbbcks[1] = new PbsswordCbllbbck(protocol + " " +
+                                                rb.getString("pbssword."),
+                                            fblse);
 
         try {
-            callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            char[] tmpPassword = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new char[tmpPassword.length];
-            System.arraycopy(tmpPassword, 0,
-                                password, 0, tmpPassword.length);
-            ((PasswordCallback)callbacks[1]).clearPassword();
+            cbllbbckHbndler.hbndle(cbllbbcks);
+            usernbme = ((NbmeCbllbbck)cbllbbcks[0]).getNbme();
+            chbr[] tmpPbssword = ((PbsswordCbllbbck)cbllbbcks[1]).getPbssword();
+            pbssword = new chbr[tmpPbssword.length];
+            System.brrbycopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.length);
+            ((PbsswordCbllbbck)cbllbbcks[1]).clebrPbssword();
 
-        } catch (java.io.IOException ioe) {
+        } cbtch (jbvb.io.IOException ioe) {
             throw new LoginException(ioe.toString());
-        } catch (UnsupportedCallbackException uce) {
-            throw new LoginException("Error: " + uce.getCallback().toString() +
-                        " not available to garner authentication information " +
+        } cbtch (UnsupportedCbllbbckException uce) {
+            throw new LoginException("Error: " + uce.getCbllbbck().toString() +
+                        " not bvbilbble to gbrner buthenticbtion informbtion " +
                         "from the user");
         }
 
-        // print debugging information
+        // print debugging informbtion
         if (strongDebug) {
             System.out.println("\t\t[JndiLoginModule] " +
-                                "user entered username: " +
-                                username);
+                                "user entered usernbme: " +
+                                usernbme);
             System.out.print("\t\t[JndiLoginModule] " +
-                                "user entered password: ");
-            for (int i = 0; i < password.length; i++)
-                System.out.print(password[i]);
+                                "user entered pbssword: ");
+            for (int i = 0; i < pbssword.length; i++)
+                System.out.print(pbssword[i]);
             System.out.println();
         }
     }
 
     /**
-     * Verify a password against the encrypted passwd from /etc/shadow
+     * Verify b pbssword bgbinst the encrypted pbsswd from /etc/shbdow
      */
-    private boolean verifyPassword(String encryptedPassword, String password) {
+    privbte boolebn verifyPbssword(String encryptedPbssword, String pbssword) {
 
-        if (encryptedPassword == null)
-            return false;
+        if (encryptedPbssword == null)
+            return fblse;
 
         Crypt c = new Crypt();
         try {
-            byte oldCrypt[] = encryptedPassword.getBytes("UTF8");
-            byte newCrypt[] = c.crypt(password.getBytes("UTF8"),
+            byte oldCrypt[] = encryptedPbssword.getBytes("UTF8");
+            byte newCrypt[] = c.crypt(pbssword.getBytes("UTF8"),
                                       oldCrypt);
             if (newCrypt.length != oldCrypt.length)
-                return false;
+                return fblse;
             for (int i = 0; i < newCrypt.length; i++) {
                 if (oldCrypt[i] != newCrypt[i])
-                    return false;
+                    return fblse;
             }
-        } catch (java.io.UnsupportedEncodingException uee) {
-            // cannot happen, but return false just to be safe
-            return false;
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            // cbnnot hbppen, but return fblse just to be sbfe
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Clean out state because of a failed authentication attempt
+     * Clebn out stbte becbuse of b fbiled buthenticbtion bttempt
      */
-    private void cleanState() {
-        username = null;
-        if (password != null) {
-            for (int i = 0; i < password.length; i++)
-                password[i] = ' ';
-            password = null;
+    privbte void clebnStbte() {
+        usernbme = null;
+        if (pbssword != null) {
+            for (int i = 0; i < pbssword.length; i++)
+                pbssword[i] = ' ';
+            pbssword = null;
         }
         ctx = null;
 
-        if (clearPass) {
-            sharedState.remove(NAME);
-            sharedState.remove(PWD);
+        if (clebrPbss) {
+            shbredStbte.remove(NAME);
+            shbredStbte.remove(PWD);
         }
     }
 }

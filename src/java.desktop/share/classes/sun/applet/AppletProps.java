@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.awt.*;
-import java.io.*;
-import java.util.Properties;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.util.Properties;
 import sun.net.www.http.HttpClient;
 import sun.net.ftp.FtpClient;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
 
-import sun.security.action.*;
+import sun.security.bction.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-class AppletProps extends Frame {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+clbss AppletProps extends Frbme {
 
     TextField proxyHost;
     TextField proxyPort;
-    Choice accessMode;
+    Choice bccessMode;
 
     AppletProps() {
-        setTitle(amh.getMessage("title"));
-        Panel p = new Panel();
-        p.setLayout(new GridLayout(0, 2));
+        setTitle(bmh.getMessbge("title"));
+        Pbnel p = new Pbnel();
+        p.setLbyout(new GridLbyout(0, 2));
 
-        p.add(new Label(amh.getMessage("label.http.server", "Http proxy server:")));
-        p.add(proxyHost = new TextField());
+        p.bdd(new Lbbel(bmh.getMessbge("lbbel.http.server", "Http proxy server:")));
+        p.bdd(proxyHost = new TextField());
 
-        p.add(new Label(amh.getMessage("label.http.proxy")));
-        p.add(proxyPort = new TextField());
+        p.bdd(new Lbbel(bmh.getMessbge("lbbel.http.proxy")));
+        p.bdd(proxyPort = new TextField());
 
-        p.add(new Label(amh.getMessage("label.class")));
-        p.add(accessMode = new Choice());
-        accessMode.addItem(amh.getMessage("choice.class.item.restricted"));
-        accessMode.addItem(amh.getMessage("choice.class.item.unrestricted"));
+        p.bdd(new Lbbel(bmh.getMessbge("lbbel.clbss")));
+        p.bdd(bccessMode = new Choice());
+        bccessMode.bddItem(bmh.getMessbge("choice.clbss.item.restricted"));
+        bccessMode.bddItem(bmh.getMessbge("choice.clbss.item.unrestricted"));
 
-        add("Center", p);
-        p = new Panel();
-        p.add(new Button(amh.getMessage("button.apply")));
-        p.add(new Button(amh.getMessage("button.reset")));
-        p.add(new Button(amh.getMessage("button.cancel")));
-        add("South", p);
+        bdd("Center", p);
+        p = new Pbnel();
+        p.bdd(new Button(bmh.getMessbge("button.bpply")));
+        p.bdd(new Button(bmh.getMessbge("button.reset")));
+        p.bdd(new Button(bmh.getMessbge("button.cbncel")));
+        bdd("South", p);
         move(200, 150);
-        pack();
+        pbck();
         reset();
     }
 
     void reset() {
-        AppletSecurity security = (AppletSecurity) System.getSecurityManager();
+        AppletSecurity security = (AppletSecurity) System.getSecurityMbnbger();
         if (security != null)
             security.reset();
 
@@ -81,14 +81,14 @@ class AppletProps extends Frame {
         String proxyport = AccessController.doPrivileged(
                 new GetPropertyAction("http.proxyPort"));
 
-        Boolean tmp = AccessController.doPrivileged(
-                new GetBooleanAction("package.restrict.access.sun"));
+        Boolebn tmp = AccessController.doPrivileged(
+                new GetBoolebnAction("pbckbge.restrict.bccess.sun"));
 
-        boolean packageRestrict = tmp.booleanValue();
-        if (packageRestrict) {
-           accessMode.select(amh.getMessage("choice.class.item.restricted"));
+        boolebn pbckbgeRestrict = tmp.boolebnVblue();
+        if (pbckbgeRestrict) {
+           bccessMode.select(bmh.getMessbge("choice.clbss.item.restricted"));
         } else {
-           accessMode.select(amh.getMessage("choice.class.item.unrestricted"));
+           bccessMode.select(bmh.getMessbge("choice.clbss.item.unrestricted"));
         }
 
         if (proxyhost != null) {
@@ -100,119 +100,119 @@ class AppletProps extends Frame {
         }
     }
 
-    void apply() {
-        String proxyHostValue = proxyHost.getText().trim();
-        String proxyPortValue = proxyPort.getText().trim();
+    void bpply() {
+        String proxyHostVblue = proxyHost.getText().trim();
+        String proxyPortVblue = proxyPort.getText().trim();
 
         // Get properties
-        final Properties props = AccessController.doPrivileged(
+        finbl Properties props = AccessController.doPrivileged(
              new PrivilegedAction<Properties>() {
                  public Properties run() {
                      return System.getProperties();
                  }
         });
 
-        if (proxyHostValue.length() != 0) {
+        if (proxyHostVblue.length() != 0) {
             /* 4066402 */
-            /* Check for parsable value in proxy port number field before */
-            /* applying. Display warning to user until parsable value is  */
+            /* Check for pbrsbble vblue in proxy port number field before */
+            /* bpplying. Displby wbrning to user until pbrsbble vblue is  */
             /* entered. */
             int proxyPortNumber = 0;
             try {
-                proxyPortNumber = Integer.parseInt(proxyPortValue);
-            } catch (NumberFormatException e) {}
+                proxyPortNumber = Integer.pbrseInt(proxyPortVblue);
+            } cbtch (NumberFormbtException e) {}
 
             if (proxyPortNumber <= 0) {
                 proxyPort.selectAll();
                 proxyPort.requestFocus();
-                (new AppletPropsErrorDialog(this,
-                                            amh.getMessage("title.invalidproxy"),
-                                            amh.getMessage("label.invalidproxy"),
-                                            amh.getMessage("button.ok"))).show();
+                (new AppletPropsErrorDiblog(this,
+                                            bmh.getMessbge("title.invblidproxy"),
+                                            bmh.getMessbge("lbbel.invblidproxy"),
+                                            bmh.getMessbge("button.ok"))).show();
                 return;
             }
             /* end 4066402 */
 
-            props.put("http.proxyHost", proxyHostValue);
-            props.put("http.proxyPort", proxyPortValue);
+            props.put("http.proxyHost", proxyHostVblue);
+            props.put("http.proxyPort", proxyPortVblue);
         } else {
             props.put("http.proxyHost", "");
         }
 
-        if (amh.getMessage("choice.class.item.restricted").equals(accessMode.getSelectedItem())) {
-            props.put("package.restrict.access.sun", "true");
+        if (bmh.getMessbge("choice.clbss.item.restricted").equbls(bccessMode.getSelectedItem())) {
+            props.put("pbckbge.restrict.bccess.sun", "true");
         } else {
-            props.put("package.restrict.access.sun", "false");
+            props.put("pbckbge.restrict.bccess.sun", "fblse");
         }
 
-        // Save properties
+        // Sbve properties
         try {
             reset();
             AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                 public Object run() throws IOException {
-                    File dotAV = Main.theUserPropertiesFile;
-                    FileOutputStream out = new FileOutputStream(dotAV);
-                    Properties avProps = new Properties();
-                    for (int i = 0; i < Main.avDefaultUserProps.length; i++) {
-                        String avKey = Main.avDefaultUserProps[i][0];
-                        avProps.setProperty(avKey, props.getProperty(avKey));
+                    File dotAV = Mbin.theUserPropertiesFile;
+                    FileOutputStrebm out = new FileOutputStrebm(dotAV);
+                    Properties bvProps = new Properties();
+                    for (int i = 0; i < Mbin.bvDefbultUserProps.length; i++) {
+                        String bvKey = Mbin.bvDefbultUserProps[i][0];
+                        bvProps.setProperty(bvKey, props.getProperty(bvKey));
                     }
-                    avProps.store(out, amh.getMessage("prop.store"));
+                    bvProps.store(out, bmh.getMessbge("prop.store"));
                     out.close();
                     return null;
                 }
             });
             hide();
-        } catch (java.security.PrivilegedActionException e) {
-            System.out.println(amh.getMessage("apply.exception",
+        } cbtch (jbvb.security.PrivilegedActionException e) {
+            System.out.println(bmh.getMessbge("bpply.exception",
                                               e.getException()));
-            // XXX what's the general feeling on stack traces to System.out?
-            e.printStackTrace();
+            // XXX whbt's the generbl feeling on stbck trbces to System.out?
+            e.printStbckTrbce();
             reset();
         }
     }
 
-    public boolean action(Event evt, Object obj) {
-        if (amh.getMessage("button.apply").equals(obj)) {
-            apply();
+    public boolebn bction(Event evt, Object obj) {
+        if (bmh.getMessbge("button.bpply").equbls(obj)) {
+            bpply();
             return true;
         }
-        if (amh.getMessage("button.reset").equals(obj)) {
+        if (bmh.getMessbge("button.reset").equbls(obj)) {
             reset();
             return true;
         }
-        if (amh.getMessage("button.cancel").equals(obj)) {
+        if (bmh.getMessbge("button.cbncel").equbls(obj)) {
             reset();
             hide();
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletprops");
+    privbte stbtic AppletMessbgeHbndler bmh = new AppletMessbgeHbndler("bppletprops");
 
 }
 
 /* 4066432 */
-/* Dialog class to display property-related errors to user */
-@SuppressWarnings("serial") // JDK implementation class
-class AppletPropsErrorDialog extends Dialog {
-    public AppletPropsErrorDialog(Frame parent, String title, String message,
+/* Diblog clbss to displby property-relbted errors to user */
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+clbss AppletPropsErrorDiblog extends Diblog {
+    public AppletPropsErrorDiblog(Frbme pbrent, String title, String messbge,
                 String buttonText) {
-        super(parent, title, true);
-        Panel p = new Panel();
-        add("Center", new Label(message));
-        p.add(new Button(buttonText));
-        add("South", p);
-        pack();
+        super(pbrent, title, true);
+        Pbnel p = new Pbnel();
+        bdd("Center", new Lbbel(messbge));
+        p.bdd(new Button(buttonText));
+        bdd("South", p);
+        pbck();
 
         Dimension dDim = size();
-        Rectangle fRect = parent.bounds();
+        Rectbngle fRect = pbrent.bounds();
         move(fRect.x + ((fRect.width - dDim.width) / 2),
              fRect.y + ((fRect.height - dDim.height) / 2));
     }
 
-    public boolean action(Event event, Object object) {
+    public boolebn bction(Event event, Object object) {
         hide();
         dispose();
         return true;

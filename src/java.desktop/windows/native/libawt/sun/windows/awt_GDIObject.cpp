@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_GDIObject.h"
+#include "bwt_GDIObject.h"
 
 /**
- * These methods work around a bug in Windows where allocating
- * the max number of GDI Objects (HDC, Pen, Brush, etc.) will cause the
- * application and desktop to become unusable.  The workaround
- * ensures we never reach this maximum, by refcounting
- * HDC, Pen, and Brush objects that are active.  We increment the refcount
- * when we create these objects and decrement the
- * refcount when we release them, so that our numCurrentObjects
- * counter should always equal the number of unreleased objects.
- * We only do this for HDC, Pen, and Brush because these are the only GDI
- * objects that may grow without bound in our implementation (we cache
- * these objects per thread, so a growing number of threads may have
- * unique HDC/Pen/Brush objects per thread and might approach the maximum).
- * Also, we do not count objects allocated on a temporary basis (such as
- * the many calls to GetDC() in our code, followed quickly by ReleaseDC());
- * we only care about long-lived GDI objects that might bloat our total
- * object usage.
+ * These methods work bround b bug in Windows where bllocbting
+ * the mbx number of GDI Objects (HDC, Pen, Brush, etc.) will cbuse the
+ * bpplicbtion bnd desktop to become unusbble.  The workbround
+ * ensures we never rebch this mbximum, by refcounting
+ * HDC, Pen, bnd Brush objects thbt bre bctive.  We increment the refcount
+ * when we crebte these objects bnd decrement the
+ * refcount when we relebse them, so thbt our numCurrentObjects
+ * counter should blwbys equbl the number of unrelebsed objects.
+ * We only do this for HDC, Pen, bnd Brush becbuse these bre the only GDI
+ * objects thbt mby grow without bound in our implementbtion (we cbche
+ * these objects per threbd, so b growing number of threbds mby hbve
+ * unique HDC/Pen/Brush objects per threbd bnd might bpprobch the mbximum).
+ * Also, we do not count objects bllocbted on b temporbry bbsis (such bs
+ * the mbny cblls to GetDC() in our code, followed quickly by RelebseDC());
+ * we only cbre bbout long-lived GDI objects thbt might blobt our totbl
+ * object usbge.
  */
 
 /**
- * Default GDI Object limit for win2k and XP is 10,000
- * Set our limit much lower than that to allow a buffer for objects
- * created beyond the per-thread HDC/Brush/Pen objects we are
- * counting here, including objects created by the overall process
- * (which could include the browser, in the case of applets)
+ * Defbult GDI Object limit for win2k bnd XP is 10,000
+ * Set our limit much lower thbn thbt to bllow b buffer for objects
+ * crebted beyond the per-threbd HDC/Brush/Pen objects we bre
+ * counting here, including objects crebted by the overbll process
+ * (which could include the browser, in the cbse of bpplets)
  */
 #define MAX_GDI_OBJECTS 9000
 
-// Static initialization of these globals used in AwtGDIObject
+// Stbtic initiblizbtion of these globbls used in AwtGDIObject
 int AwtGDIObject::numCurrentObjects = 0;
-// this variable will never be deleted. initialized below with SafeCreate.
-CriticalSection* AwtGDIObject::objectCounterLock = NULL;
-int AwtGDIObject::maxGDIObjects = GetMaxGDILimit();
+// this vbribble will never be deleted. initiblized below with SbfeCrebte.
+CriticblSection* AwtGDIObject::objectCounterLock = NULL;
+int AwtGDIObject::mbxGDIObjects = GetMbxGDILimit();
 
 /**
- * Sets up max GDI limit; we query the registry key that
- * defines this value on WindowsXP and Windows2000.
- * If we fail here, we will use the default value
- * MAX_GDI_OBJECTS as a fallback value.  This is not unreasonable -
- * it seems unlikely that many people would change this
+ * Sets up mbx GDI limit; we query the registry key thbt
+ * defines this vblue on WindowsXP bnd Windows2000.
+ * If we fbil here, we will use the defbult vblue
+ * MAX_GDI_OBJECTS bs b fbllbbck vblue.  This is not unrebsonbble -
+ * it seems unlikely thbt mbny people would chbnge this
  * registry key setting.
- * NOTE: This function is called automatically at startup to
- * set the value of maxGDIObjects; it should not be necessary to
- * call this function from anywhere else.  Think of it like a static
- * block in Java.
+ * NOTE: This function is cblled butombticblly bt stbrtup to
+ * set the vblue of mbxGDIObjects; it should not be necessbry to
+ * cbll this function from bnywhere else.  Think of it like b stbtic
+ * block in Jbvb.
  */
-int AwtGDIObject::GetMaxGDILimit() {
+int AwtGDIObject::GetMbxGDILimit() {
     int limit = MAX_GDI_OBJECTS;
     HKEY hKey = NULL;
     DWORD ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
         L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows", 0,
         KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
-        DWORD valueLength = 4;
-        DWORD regValue;
-        ret = RegQueryValueEx(hKey, L"GDIProcessHandleQuota", NULL, NULL,
-            (LPBYTE)&regValue, &valueLength);
+        DWORD vblueLength = 4;
+        DWORD regVblue;
+        ret = RegQueryVblueEx(hKey, L"GDIProcessHbndleQuotb", NULL, NULL,
+            (LPBYTE)&regVblue, &vblueLength);
         if (ret == ERROR_SUCCESS) {
-            // Set limit to 90% of the actual limit to account for other
-            // GDI objects that the process might need
-            limit = (int)(regValue * .9);
+            // Set limit to 90% of the bctubl limit to bccount for other
+            // GDI objects thbt the process might need
+            limit = (int)(regVblue * .9);
         } else {
-            J2dTraceLn(J2D_TRACE_WARNING,
-                "Problem with RegQueryValueEx in GetMaxGDILimit");
+            J2dTrbceLn(J2D_TRACE_WARNING,
+                "Problem with RegQueryVblueEx in GetMbxGDILimit");
         }
         RegCloseKey(hKey);
     } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "Problem with RegOpenKeyEx in GetMaxGDILimit");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+            "Problem with RegOpenKeyEx in GetMbxGDILimit");
     }
     return limit;
 }
 
 /**
- * Increment the object counter to indicate that we are about to
- * create a new GDI object.  If the limit has been reached, skip the
- * increment and return FALSE to indicate that an object should
- * not be allocated.
+ * Increment the object counter to indicbte thbt we bre bbout to
+ * crebte b new GDI object.  If the limit hbs been rebched, skip the
+ * increment bnd return FALSE to indicbte thbt bn object should
+ * not be bllocbted.
  */
-BOOL AwtGDIObject::IncrementIfAvailable() {
-    BOOL available;
-    CriticalSection* pLock = SafeCreate(objectCounterLock);
+BOOL AwtGDIObject::IncrementIfAvbilbble() {
+    BOOL bvbilbble;
+    CriticblSection* pLock = SbfeCrebte(objectCounterLock);
     pLock->Enter();
-    if (numCurrentObjects < maxGDIObjects) {
-        available = TRUE;
+    if (numCurrentObjects < mbxGDIObjects) {
+        bvbilbble = TRUE;
         ++numCurrentObjects;
     } else {
-        // First, flush the cache; we may have run out simply because
-        // we have unused colors still reserved in the cache
-        GDIHashtable::flushAll();
-        // Now check again to see if flushing helped.  If not, we really
-        // have run out.
-        if (numCurrentObjects < maxGDIObjects) {
-            available = TRUE;
+        // First, flush the cbche; we mby hbve run out simply becbuse
+        // we hbve unused colors still reserved in the cbche
+        GDIHbshtbble::flushAll();
+        // Now check bgbin to see if flushing helped.  If not, we reblly
+        // hbve run out.
+        if (numCurrentObjects < mbxGDIObjects) {
+            bvbilbble = TRUE;
             ++numCurrentObjects;
         } else {
-            available = FALSE;
+            bvbilbble = FALSE;
         }
     }
-    pLock->Leave();
-    return available;
+    pLock->Lebve();
+    return bvbilbble;
 }
 
 /**
- * Decrement the counter after releasing a GDI Object
+ * Decrement the counter bfter relebsing b GDI Object
  */
 void AwtGDIObject::Decrement() {
-    CriticalSection* pLock = SafeCreate(objectCounterLock);
+    CriticblSection* pLock = SbfeCrebte(objectCounterLock);
     pLock->Enter();
     --numCurrentObjects;
-    pLock->Leave();
+    pLock->Lebve();
 }
 
 /**
- * This utility method is called by subclasses of AwtGDIObject
- * to ensure capacity for an additional GDI object.  Failure
- * results in throwing an AWTException.
+ * This utility method is cblled by subclbsses of AwtGDIObject
+ * to ensure cbpbcity for bn bdditionbl GDI object.  Fbilure
+ * results in throwing bn AWTException.
  */
-BOOL AwtGDIObject::EnsureGDIObjectAvailability()
+BOOL AwtGDIObject::EnsureGDIObjectAvbilbbility()
 {
-    if (!IncrementIfAvailable()) {
-        // IncrementIfAvailable flushed the cache but still failed; must
-        // have hit the limit.  Throw an exception to indicate the problem.
+    if (!IncrementIfAvbilbble()) {
+        // IncrementIfAvbilbble flushed the cbche but still fbiled; must
+        // hbve hit the limit.  Throw bn exception to indicbte the problem.
         if (jvm != NULL) {
             JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            if (env != NULL && !safe_ExceptionOccurred(env)) {
-                JNU_ThrowByName(env, "java/awt/AWTError",
-                    "Pen/Brush creation failure - " \
-                    "exceeded maximum GDI resources");
+            if (env != NULL && !sbfe_ExceptionOccurred(env)) {
+                JNU_ThrowByNbme(env, "jbvb/bwt/AWTError",
+                    "Pen/Brush crebtion fbilure - " \
+                    "exceeded mbximum GDI resources");
             }
         }
         return FALSE;

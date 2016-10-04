@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicMenuUI;
-import javax.swing.event.MouseInputListener;
-import javax.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicMenuUI;
+import jbvbx.swing.event.MouseInputListener;
+import jbvbx.swing.*;
 
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte;
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public class WindowsMenuUI extends BasicMenuUI {
-    protected Integer menuBarHeight;
-    protected boolean hotTrackingOn;
+public clbss WindowsMenuUI extends BbsicMenuUI {
+    protected Integer menuBbrHeight;
+    protected boolebn hotTrbckingOn;
 
-    final WindowsMenuItemUIAccessor accessor =
+    finbl WindowsMenuItemUIAccessor bccessor =
         new WindowsMenuItemUIAccessor() {
 
             public JMenuItem getMenuItem() {
                 return menuItem;
             }
 
-            public State getState(JMenuItem menu) {
-                State state = menu.isEnabled() ? State.NORMAL
-                        : State.DISABLED;
+            public Stbte getStbte(JMenuItem menu) {
+                Stbte stbte = menu.isEnbbled() ? Stbte.NORMAL
+                        : Stbte.DISABLED;
                 ButtonModel model = menu.getModel();
                 if (model.isArmed() || model.isSelected()) {
-                    state = (menu.isEnabled()) ? State.PUSHED
-                            : State.DISABLEDPUSHED;
+                    stbte = (menu.isEnbbled()) ? Stbte.PUSHED
+                            : Stbte.DISABLEDPUSHED;
                 } else if (model.isRollover()
                            && ((JMenu) menu).isTopLevelMenu()) {
                     /*
-                     * Only paint rollover if no other menu on menubar is
+                     * Only pbint rollover if no other menu on menubbr is
                      * selected
                      */
-                    State stateTmp = state;
-                    state = (menu.isEnabled()) ? State.HOT
-                            : State.DISABLEDHOT;
+                    Stbte stbteTmp = stbte;
+                    stbte = (menu.isEnbbled()) ? Stbte.HOT
+                            : Stbte.DISABLEDHOT;
                     for (MenuElement menuElement :
-                        ((JMenuBar) menu.getParent()).getSubElements()) {
+                        ((JMenuBbr) menu.getPbrent()).getSubElements()) {
                         if (((JMenuItem) menuElement).isSelected()) {
-                            state = stateTmp;
-                            break;
+                            stbte = stbteTmp;
+                            brebk;
                         }
                     }
                 }
 
-                //non top level menus have HOT state instead of PUSHED
+                //non top level menus hbve HOT stbte instebd of PUSHED
                 if (!((JMenu) menu).isTopLevelMenu()) {
-                    if (state == State.PUSHED) {
-                        state = State.HOT;
-                    } else if (state == State.DISABLEDPUSHED) {
-                        state = State.DISABLEDHOT;
+                    if (stbte == Stbte.PUSHED) {
+                        stbte = Stbte.HOT;
+                    } else if (stbte == Stbte.DISABLEDPUSHED) {
+                        stbte = Stbte.DISABLEDHOT;
                     }
                 }
 
                 /*
-                 * on Vista top level menu for non active frame looks disabled
+                 * on Vistb top level menu for non bctive frbme looks disbbled
                  */
-                if (((JMenu) menu).isTopLevelMenu() && WindowsMenuItemUI.isVistaPainting()) {
-                    if (! WindowsMenuBarUI.isActive(menu)) {
-                        state = State.DISABLED;
+                if (((JMenu) menu).isTopLevelMenu() && WindowsMenuItemUI.isVistbPbinting()) {
+                    if (! WindowsMenuBbrUI.isActive(menu)) {
+                        stbte = Stbte.DISABLED;
                     }
                 }
-                return state;
+                return stbte;
             }
 
-            public Part getPart(JMenuItem menuItem) {
-                return ((JMenu) menuItem).isTopLevelMenu() ? Part.MP_BARITEM
-                        : Part.MP_POPUPITEM;
+            public Pbrt getPbrt(JMenuItem menuItem) {
+                return ((JMenu) menuItem).isTopLevelMenu() ? Pbrt.MP_BARITEM
+                        : Pbrt.MP_POPUPITEM;
             }
     };
-    public static ComponentUI createUI(JComponent x) {
+    public stbtic ComponentUI crebteUI(JComponent x) {
         return new WindowsMenuUI();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        if (!WindowsLookAndFeel.isClassicWindows()) {
-            menuItem.setRolloverEnabled(true);
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        if (!WindowsLookAndFeel.isClbssicWindows()) {
+            menuItem.setRolloverEnbbled(true);
         }
 
-        menuBarHeight = (Integer)UIManager.getInt("MenuBar.height");
+        menuBbrHeight = (Integer)UIMbnbger.getInt("MenuBbr.height");
 
-        Object obj      = UIManager.get("MenuBar.rolloverEnabled");
-        hotTrackingOn = (obj instanceof Boolean) ? (Boolean)obj : true;
+        Object obj      = UIMbnbger.get("MenuBbr.rolloverEnbbled");
+        hotTrbckingOn = (obj instbnceof Boolebn) ? (Boolebn)obj : true;
     }
 
     /**
-     * Draws the background of the menu.
+     * Drbws the bbckground of the menu.
      * @since 1.4
      */
-    protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintBackground(accessor, g, menuItem, bgColor);
+    protected void pbintBbckground(Grbphics g, JMenuItem menuItem, Color bgColor) {
+        if (WindowsMenuItemUI.isVistbPbinting()) {
+            WindowsMenuItemUI.pbintBbckground(bccessor, g, menuItem, bgColor);
             return;
         }
 
         JMenu menu = (JMenu)menuItem;
         ButtonModel model = menu.getModel();
 
-        // Use superclass method for the old Windows LAF,
-        // for submenus, and for XP toplevel if selected or pressed
-        if (WindowsLookAndFeel.isClassicWindows() ||
+        // Use superclbss method for the old Windows LAF,
+        // for submenus, bnd for XP toplevel if selected or pressed
+        if (WindowsLookAndFeel.isClbssicWindows() ||
             !menu.isTopLevelMenu() ||
             (XPStyle.getXP() != null && (model.isArmed() || model.isSelected()))) {
 
-            super.paintBackground(g, menu, bgColor);
+            super.pbintBbckground(g, menu, bgColor);
             return;
         }
 
@@ -150,46 +150,46 @@ public class WindowsMenuUI extends BasicMenuUI {
         int menuWidth = menu.getWidth();
         int menuHeight = menu.getHeight();
 
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Color highlight = table.getColor("controlLtHighlight");
-        Color shadow = table.getColor("controlShadow");
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Color highlight = tbble.getColor("controlLtHighlight");
+        Color shbdow = tbble.getColor("controlShbdow");
 
-        g.setColor(menu.getBackground());
+        g.setColor(menu.getBbckground());
         g.fillRect(0,0, menuWidth, menuHeight);
 
-        if (menu.isOpaque()) {
+        if (menu.isOpbque()) {
             if (model.isArmed() || model.isSelected()) {
-                // Draw a lowered bevel border
-                g.setColor(shadow);
-                g.drawLine(0,0, menuWidth - 1,0);
-                g.drawLine(0,0, 0,menuHeight - 2);
+                // Drbw b lowered bevel border
+                g.setColor(shbdow);
+                g.drbwLine(0,0, menuWidth - 1,0);
+                g.drbwLine(0,0, 0,menuHeight - 2);
 
                 g.setColor(highlight);
-                g.drawLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
-                g.drawLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
-            } else if (model.isRollover() && model.isEnabled()) {
-                // Only paint rollover if no other menu on menubar is selected
-                boolean otherMenuSelected = false;
-                MenuElement[] menus = ((JMenuBar)menu.getParent()).getSubElements();
+                g.drbwLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
+                g.drbwLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
+            } else if (model.isRollover() && model.isEnbbled()) {
+                // Only pbint rollover if no other menu on menubbr is selected
+                boolebn otherMenuSelected = fblse;
+                MenuElement[] menus = ((JMenuBbr)menu.getPbrent()).getSubElements();
                 for (int i = 0; i < menus.length; i++) {
                     if (((JMenuItem)menus[i]).isSelected()) {
                         otherMenuSelected = true;
-                        break;
+                        brebk;
                     }
                 }
                 if (!otherMenuSelected) {
                     if (XPStyle.getXP() != null) {
-                        g.setColor(selectionBackground); // Uses protected field.
+                        g.setColor(selectionBbckground); // Uses protected field.
                         g.fillRect(0, 0, menuWidth, menuHeight);
                     } else {
-                        // Draw a raised bevel border
+                        // Drbw b rbised bevel border
                         g.setColor(highlight);
-                        g.drawLine(0,0, menuWidth - 1,0);
-                        g.drawLine(0,0, 0,menuHeight - 2);
+                        g.drbwLine(0,0, menuWidth - 1,0);
+                        g.drbwLine(0,0, 0,menuHeight - 2);
 
-                        g.setColor(shadow);
-                        g.drawLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
-                        g.drawLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
+                        g.setColor(shbdow);
+                        g.drbwLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
+                        g.drbwLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
                     }
                 }
             }
@@ -200,64 +200,64 @@ public class WindowsMenuUI extends BasicMenuUI {
     /**
      * Method which renders the text of the current menu item.
      * <p>
-     * @param g Graphics context
-     * @param menuItem Current menu item to render
-     * @param textRect Bounding rectangle to render the text.
-     * @param text String to render
+     * @pbrbm g Grbphics context
+     * @pbrbm menuItem Current menu item to render
+     * @pbrbm textRect Bounding rectbngle to render the text.
+     * @pbrbm text String to render
      * @since 1.4
      */
-    protected void paintText(Graphics g, JMenuItem menuItem,
-                             Rectangle textRect, String text) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintText(accessor, g, menuItem, textRect, text);
+    protected void pbintText(Grbphics g, JMenuItem menuItem,
+                             Rectbngle textRect, String text) {
+        if (WindowsMenuItemUI.isVistbPbinting()) {
+            WindowsMenuItemUI.pbintText(bccessor, g, menuItem, textRect, text);
             return;
         }
         JMenu menu = (JMenu)menuItem;
         ButtonModel model = menuItem.getModel();
         Color oldColor = g.getColor();
 
-        // Only paint rollover if no other menu on menubar is selected
-        boolean paintRollover = model.isRollover();
-        if (paintRollover && menu.isTopLevelMenu()) {
-            MenuElement[] menus = ((JMenuBar)menu.getParent()).getSubElements();
+        // Only pbint rollover if no other menu on menubbr is selected
+        boolebn pbintRollover = model.isRollover();
+        if (pbintRollover && menu.isTopLevelMenu()) {
+            MenuElement[] menus = ((JMenuBbr)menu.getPbrent()).getSubElements();
             for (int i = 0; i < menus.length; i++) {
                 if (((JMenuItem)menus[i]).isSelected()) {
-                    paintRollover = false;
-                    break;
+                    pbintRollover = fblse;
+                    brebk;
                 }
             }
         }
 
-        if ((model.isSelected() && (WindowsLookAndFeel.isClassicWindows() ||
+        if ((model.isSelected() && (WindowsLookAndFeel.isClbssicWindows() ||
                                     !menu.isTopLevelMenu())) ||
-            (XPStyle.getXP() != null && (paintRollover ||
+            (XPStyle.getXP() != null && (pbintRollover ||
                                          model.isArmed() ||
                                          model.isSelected()))) {
             g.setColor(selectionForeground); // Uses protected field.
         }
 
-        WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+        WindowsGrbphicsUtils.pbintText(g, menuItem, textRect, text, 0);
 
         g.setColor(oldColor);
     }
 
-    protected MouseInputListener createMouseInputListener(JComponent c) {
-        return new WindowsMouseInputHandler();
+    protected MouseInputListener crebteMouseInputListener(JComponent c) {
+        return new WindowsMouseInputHbndler();
     }
 
     /**
-     * This class implements a mouse handler that sets the rollover flag to
-     * true when the mouse enters the menu and false when it exits.
+     * This clbss implements b mouse hbndler thbt sets the rollover flbg to
+     * true when the mouse enters the menu bnd fblse when it exits.
      * @since 1.4
      */
-    protected class WindowsMouseInputHandler extends BasicMenuUI.MouseInputHandler {
+    protected clbss WindowsMouseInputHbndler extends BbsicMenuUI.MouseInputHbndler {
         public void mouseEntered(MouseEvent evt) {
             super.mouseEntered(evt);
 
             JMenu menu = (JMenu)evt.getSource();
-            if (hotTrackingOn && menu.isTopLevelMenu() && menu.isRolloverEnabled()) {
+            if (hotTrbckingOn && menu.isTopLevelMenu() && menu.isRolloverEnbbled()) {
                 menu.getModel().setRollover(true);
-                menuItem.repaint();
+                menuItem.repbint();
             }
         }
 
@@ -266,28 +266,28 @@ public class WindowsMenuUI extends BasicMenuUI {
 
             JMenu menu = (JMenu)evt.getSource();
             ButtonModel model = menu.getModel();
-            if (menu.isRolloverEnabled()) {
-                model.setRollover(false);
-                menuItem.repaint();
+            if (menu.isRolloverEnbbled()) {
+                model.setRollover(fblse);
+                menuItem.repbint();
             }
         }
     }
 
     protected Dimension getPreferredMenuItemSize(JComponent c,
                                                      Icon checkIcon,
-                                                     Icon arrowIcon,
-                                                     int defaultTextIconGap) {
+                                                     Icon brrowIcon,
+                                                     int defbultTextIconGbp) {
 
-        Dimension d = super.getPreferredMenuItemSize(c, checkIcon, arrowIcon,
-                                                     defaultTextIconGap);
+        Dimension d = super.getPreferredMenuItemSize(c, checkIcon, brrowIcon,
+                                                     defbultTextIconGbp);
 
-        // Note: When toolbar containers (rebars) are implemented, only do
-        // this if the JMenuBar is not in a rebar (i.e. ignore the desktop
-        // property win.menu.height if in a rebar.)
-        if (c instanceof JMenu && ((JMenu)c).isTopLevelMenu() &&
-            menuBarHeight != null && d.height < menuBarHeight) {
+        // Note: When toolbbr contbiners (rebbrs) bre implemented, only do
+        // this if the JMenuBbr is not in b rebbr (i.e. ignore the desktop
+        // property win.menu.height if in b rebbr.)
+        if (c instbnceof JMenu && ((JMenu)c).isTopLevelMenu() &&
+            menuBbrHeight != null && d.height < menuBbrHeight) {
 
-            d.height = menuBarHeight;
+            d.height = menuBbrHeight;
         }
 
         return d;

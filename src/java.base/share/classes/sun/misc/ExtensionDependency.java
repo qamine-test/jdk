@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.net.URL;
-import java.net.MalformedURLException;
-import sun.net.www.ParseUtil;
+import jbvb.io.File;
+import jbvb.io.FilenbmeFilter;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.Attributes.Nbme;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import sun.net.www.PbrseUtil;
 
 /**
  * <p>
- * This class checks dependent extensions a particular jar file may have
- * declared through its manifest attributes.
+ * This clbss checks dependent extensions b pbrticulbr jbr file mby hbve
+ * declbred through its mbnifest bttributes.
  * </p>
- * Jar file declared dependent extensions through the extension-list
- * attribute. The extension-list contains a list of keys used to
- * fetch the other attributes describing the required extension.
- * If key is the extension key declared in the extension-list
- * attribute, the following describing attribute can be found in
- * the manifest :
- * key-Extension-Name:  (Specification package name)
- * key-Specification-Version: (Specification-Version)
- * key-Implementation-Version: (Implementation-Version)
- * key-Implementation-Vendor-Id: (Imlementation-Vendor-Id)
- * key-Implementation-Version: (Implementation version)
- * key-Implementation-URL: (URL to download the requested extension)
+ * Jbr file declbred dependent extensions through the extension-list
+ * bttribute. The extension-list contbins b list of keys used to
+ * fetch the other bttributes describing the required extension.
+ * If key is the extension key declbred in the extension-list
+ * bttribute, the following describing bttribute cbn be found in
+ * the mbnifest :
+ * key-Extension-Nbme:  (Specificbtion pbckbge nbme)
+ * key-Specificbtion-Version: (Specificbtion-Version)
+ * key-Implementbtion-Version: (Implementbtion-Version)
+ * key-Implementbtion-Vendor-Id: (Imlementbtion-Vendor-Id)
+ * key-Implementbtion-Version: (Implementbtion version)
+ * key-Implementbtion-URL: (URL to downlobd the requested extension)
  * <p>
- * This class also maintain versioning consistency of installed
- * extensions dependencies declared in jar file manifest.
+ * This clbss blso mbintbin versioning consistency of instblled
+ * extensions dependencies declbred in jbr file mbnifest.
  * </p>
- * @author  Jerome Dochez
+ * @buthor  Jerome Dochez
  */
-public class ExtensionDependency {
+public clbss ExtensionDependency {
 
-    /* Callbak interfaces to delegate installation of missing extensions */
-    private static Vector<ExtensionInstallationProvider> providers;
+    /* Cbllbbk interfbces to delegbte instbllbtion of missing extensions */
+    privbte stbtic Vector<ExtensionInstbllbtionProvider> providers;
 
     /**
      * <p>
-     * Register an ExtensionInstallationProvider. The provider is responsible
-     * for handling the installation (upgrade) of any missing extensions.
+     * Register bn ExtensionInstbllbtionProvider. The provider is responsible
+     * for hbndling the instbllbtion (upgrbde) of bny missing extensions.
      * </p>
-     * @param eip ExtensionInstallationProvider implementation
+     * @pbrbm eip ExtensionInstbllbtionProvider implementbtion
      */
-    public synchronized static void addExtensionInstallationProvider
-        (ExtensionInstallationProvider eip)
+    public synchronized stbtic void bddExtensionInstbllbtionProvider
+        (ExtensionInstbllbtionProvider eip)
     {
         if (providers == null) {
             providers = new Vector<>();
         }
-        providers.add(eip);
+        providers.bdd(eip);
     }
 
     /**
      * <p>
-     * Unregister a previously installed installation provider
+     * Unregister b previously instblled instbllbtion provider
      * </p>
      */
-    public synchronized static void removeExtensionInstallationProvider
-        (ExtensionInstallationProvider eip)
+    public synchronized stbtic void removeExtensionInstbllbtionProvider
+        (ExtensionInstbllbtionProvider eip)
     {
         providers.remove(eip);
     }
 
     /**
      * <p>
-     * Checks the dependencies of the jar file on installed extension.
+     * Checks the dependencies of the jbr file on instblled extension.
      * </p>
-     * @param jarFile containing the attriutes declaring the dependencies
+     * @pbrbm jbrFile contbining the bttriutes declbring the dependencies
      */
-    public static boolean checkExtensionsDependencies(JarFile jar)
+    public stbtic boolebn checkExtensionsDependencies(JbrFile jbr)
     {
         if (providers == null) {
-            // no need to bother, nobody is registered to install missing
+            // no need to bother, nobody is registered to instbll missing
             // extensions
             return true;
         }
 
         try {
             ExtensionDependency extDep = new ExtensionDependency();
-            return extDep.checkExtensions(jar);
-        } catch (ExtensionInstallationException e) {
-            debug(e.getMessage());
+            return extDep.checkExtensions(jbr);
+        } cbtch (ExtensionInstbllbtionException e) {
+            debug(e.getMessbge());
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Check for all declared required extensions in the jar file
-     * manifest.
+     * Check for bll declbred required extensions in the jbr file
+     * mbnifest.
      */
-    protected boolean checkExtensions(JarFile jar)
-        throws ExtensionInstallationException
+    protected boolebn checkExtensions(JbrFile jbr)
+        throws ExtensionInstbllbtionException
     {
-        Manifest man;
+        Mbnifest mbn;
         try {
-            man = jar.getManifest();
-        } catch (IOException e) {
-            return false;
+            mbn = jbr.getMbnifest();
+        } cbtch (IOException e) {
+            return fblse;
         }
 
-        if (man == null) {
-            // The applet does not define a manifest file, so
-            // we just assume all dependencies are satisfied.
+        if (mbn == null) {
+            // The bpplet does not define b mbnifest file, so
+            // we just bssume bll dependencies bre sbtisfied.
             return true;
         }
 
-        boolean result = true;
-        Attributes attr = man.getMainAttributes();
-        if (attr != null) {
-            // Let's get the list of declared dependencies
-            String value = attr.getValue(Name.EXTENSION_LIST);
-            if (value != null) {
-                StringTokenizer st = new StringTokenizer(value);
-                // Iterate over all declared dependencies
-                while (st.hasMoreTokens()) {
-                    String extensionName = st.nextToken();
-                    debug("The file " + jar.getName() +
-                          " appears to depend on " + extensionName);
-                    // Sanity Check
-                    String extName = extensionName + "-" +
-                        Name.EXTENSION_NAME.toString();
-                    if (attr.getValue(extName) == null) {
-                        debug("The jar file " + jar.getName() +
-                              " appers to depend on "
-                              + extensionName + " but does not define the " +
-                              extName + " attribute in its manifest ");
+        boolebn result = true;
+        Attributes bttr = mbn.getMbinAttributes();
+        if (bttr != null) {
+            // Let's get the list of declbred dependencies
+            String vblue = bttr.getVblue(Nbme.EXTENSION_LIST);
+            if (vblue != null) {
+                StringTokenizer st = new StringTokenizer(vblue);
+                // Iterbte over bll declbred dependencies
+                while (st.hbsMoreTokens()) {
+                    String extensionNbme = st.nextToken();
+                    debug("The file " + jbr.getNbme() +
+                          " bppebrs to depend on " + extensionNbme);
+                    // Sbnity Check
+                    String extNbme = extensionNbme + "-" +
+                        Nbme.EXTENSION_NAME.toString();
+                    if (bttr.getVblue(extNbme) == null) {
+                        debug("The jbr file " + jbr.getNbme() +
+                              " bppers to depend on "
+                              + extensionNbme + " but does not define the " +
+                              extNbme + " bttribute in its mbnifest ");
 
                     } else {
-                        if (!checkExtension(extensionName, attr)) {
-                            debug("Failed installing " + extensionName);
-                            result = false;
+                        if (!checkExtension(extensionNbme, bttr)) {
+                            debug("Fbiled instblling " + extensionNbme);
+                            result = fblse;
                         }
                     }
                 }
             } else {
-                debug("No dependencies for " + jar.getName());
+                debug("No dependencies for " + jbr.getNbme());
             }
         }
         return result;
@@ -180,217 +180,217 @@ public class ExtensionDependency {
 
     /*
      * <p>
-     * Check that a particular dependency on an extension is satisfied.
+     * Check thbt b pbrticulbr dependency on bn extension is sbtisfied.
      * </p>
-     * @param extensionName is the key used for the attributes in the manifest
-     * @param attr is the attributes of the manifest file
+     * @pbrbm extensionNbme is the key used for the bttributes in the mbnifest
+     * @pbrbm bttr is the bttributes of the mbnifest file
      *
-     * @return true if the dependency is satisfied by the installed extensions
+     * @return true if the dependency is sbtisfied by the instblled extensions
      */
-    protected synchronized boolean checkExtension(final String extensionName,
-                                     final Attributes attr)
-        throws ExtensionInstallationException
+    protected synchronized boolebn checkExtension(finbl String extensionNbme,
+                                     finbl Attributes bttr)
+        throws ExtensionInstbllbtionException
     {
-        debug("Checking extension " + extensionName);
-        if (checkExtensionAgainstInstalled(extensionName, attr))
+        debug("Checking extension " + extensionNbme);
+        if (checkExtensionAgbinstInstblled(extensionNbme, bttr))
             return true;
 
-        debug("Extension not currently installed ");
-        ExtensionInfo reqInfo = new ExtensionInfo(extensionName, attr);
-        return installExtension(reqInfo, null);
+        debug("Extension not currently instblled ");
+        ExtensionInfo reqInfo = new ExtensionInfo(extensionNbme, bttr);
+        return instbllExtension(reqInfo, null);
     }
 
     /*
      * <p>
-     * Check if a particular extension is part of the currently installed
+     * Check if b pbrticulbr extension is pbrt of the currently instblled
      * extensions.
      * </p>
-     * @param extensionName is the key for the attributes in the manifest
-     * @param attr is the attributes of the manifest
+     * @pbrbm extensionNbme is the key for the bttributes in the mbnifest
+     * @pbrbm bttr is the bttributes of the mbnifest
      *
-     * @return true if the requested extension is already installed
+     * @return true if the requested extension is blrebdy instblled
      */
-    boolean checkExtensionAgainstInstalled(String extensionName,
-                                           Attributes attr)
-        throws ExtensionInstallationException
+    boolebn checkExtensionAgbinstInstblled(String extensionNbme,
+                                           Attributes bttr)
+        throws ExtensionInstbllbtionException
     {
-        File fExtension = checkExtensionExists(extensionName);
+        File fExtension = checkExtensionExists(extensionNbme);
 
         if (fExtension != null) {
-        // Extension already installed, just check against this one
+        // Extension blrebdy instblled, just check bgbinst this one
             try {
-                if (checkExtensionAgainst(extensionName, attr, fExtension))
+                if (checkExtensionAgbinst(extensionNbme, bttr, fExtension))
                     return true;
-            } catch (FileNotFoundException e) {
+            } cbtch (FileNotFoundException e) {
                 debugException(e);
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 debugException(e);
             }
-            return false;
+            return fblse;
 
         } else {
-        // Not sure if extension is already installed, so check all the
-        // installed extension jar files to see if we get a match
+        // Not sure if extension is blrebdy instblled, so check bll the
+        // instblled extension jbr files to see if we get b mbtch
 
-            File[] installedExts;
+            File[] instblledExts;
 
             try {
-            // Get the list of installed extension jar files so we can
-            // compare the installed versus the requested extension
-                installedExts = getInstalledExtensions();
-            } catch(IOException e) {
+            // Get the list of instblled extension jbr files so we cbn
+            // compbre the instblled versus the requested extension
+                instblledExts = getInstblledExtensions();
+            } cbtch(IOException e) {
                 debugException(e);
-                return false;
+                return fblse;
             }
 
-            for (int i=0;i<installedExts.length;i++) {
+            for (int i=0;i<instblledExts.length;i++) {
                 try {
-                    if (checkExtensionAgainst(extensionName, attr, installedExts[i]))
+                    if (checkExtensionAgbinst(extensionNbme, bttr, instblledExts[i]))
                         return true;
-                } catch (FileNotFoundException e) {
+                } cbtch (FileNotFoundException e) {
                     debugException(e);
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     debugException(e);
-                    // let's continue with the next installed extension
+                    // let's continue with the next instblled extension
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
      * <p>
-     * Check if the requested extension described by the attributes
-     * in the manifest under the key extensionName is compatible with
-     * the jar file.
+     * Check if the requested extension described by the bttributes
+     * in the mbnifest under the key extensionNbme is compbtible with
+     * the jbr file.
      * </p>
      *
-     * @param extensionName key in the attribute list
-     * @param attr manifest file attributes
-     * @param file installed extension jar file to compare the requested
-     * extension against.
+     * @pbrbm extensionNbme key in the bttribute list
+     * @pbrbm bttr mbnifest file bttributes
+     * @pbrbm file instblled extension jbr file to compbre the requested
+     * extension bgbinst.
      */
-    protected boolean checkExtensionAgainst(String extensionName,
-                                            Attributes attr,
-                                            final File file)
+    protected boolebn checkExtensionAgbinst(String extensionNbme,
+                                            Attributes bttr,
+                                            finbl File file)
         throws IOException,
                FileNotFoundException,
-               ExtensionInstallationException
+               ExtensionInstbllbtionException
     {
 
-        debug("Checking extension " + extensionName +
-              " against " + file.getName());
+        debug("Checking extension " + extensionNbme +
+              " bgbinst " + file.getNbme());
 
-        // Load the jar file ...
-        Manifest man;
+        // Lobd the jbr file ...
+        Mbnifest mbn;
         try {
-            man = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Manifest>() {
-                    public Manifest run()
+            mbn = AccessController.doPrivileged(
+                new PrivilegedExceptionAction<Mbnifest>() {
+                    public Mbnifest run()
                             throws IOException, FileNotFoundException {
                          if (!file.exists())
-                             throw new FileNotFoundException(file.getName());
-                         JarFile jarFile =  new JarFile(file);
-                         return jarFile.getManifest();
+                             throw new FileNotFoundException(file.getNbme());
+                         JbrFile jbrFile =  new JbrFile(file);
+                         return jbrFile.getMbnifest();
                      }
                  });
-        } catch(PrivilegedActionException e) {
-            if (e.getException() instanceof FileNotFoundException)
+        } cbtch(PrivilegedActionException e) {
+            if (e.getException() instbnceof FileNotFoundException)
                 throw (FileNotFoundException) e.getException();
             throw (IOException) e.getException();
         }
 
-        // Construct the extension information object
-        ExtensionInfo reqInfo = new ExtensionInfo(extensionName, attr);
+        // Construct the extension informbtion object
+        ExtensionInfo reqInfo = new ExtensionInfo(extensionNbme, bttr);
         debug("Requested Extension : " + reqInfo);
 
-        int isCompatible = ExtensionInfo.INCOMPATIBLE;
+        int isCompbtible = ExtensionInfo.INCOMPATIBLE;
         ExtensionInfo instInfo = null;
 
-        if (man != null) {
-            Attributes instAttr = man.getMainAttributes();
+        if (mbn != null) {
+            Attributes instAttr = mbn.getMbinAttributes();
             if (instAttr != null) {
                 instInfo = new ExtensionInfo(null, instAttr);
-                debug("Extension Installed " + instInfo);
-                isCompatible = instInfo.isCompatibleWith(reqInfo);
-                switch(isCompatible) {
-                case ExtensionInfo.COMPATIBLE:
-                    debug("Extensions are compatible");
+                debug("Extension Instblled " + instInfo);
+                isCompbtible = instInfo.isCompbtibleWith(reqInfo);
+                switch(isCompbtible) {
+                cbse ExtensionInfo.COMPATIBLE:
+                    debug("Extensions bre compbtible");
                     return true;
 
-                case ExtensionInfo.INCOMPATIBLE:
-                    debug("Extensions are incompatible");
-                    return false;
+                cbse ExtensionInfo.INCOMPATIBLE:
+                    debug("Extensions bre incompbtible");
+                    return fblse;
 
-                default:
+                defbult:
                     // everything else
-                    debug("Extensions require an upgrade or vendor switch");
-                    return installExtension(reqInfo, instInfo);
+                    debug("Extensions require bn upgrbde or vendor switch");
+                    return instbllExtension(reqInfo, instInfo);
 
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
      * <p>
-     * An required extension is missing, if an ExtensionInstallationProvider is
-     * registered, delegate the installation of that particular extension to it.
+     * An required extension is missing, if bn ExtensionInstbllbtionProvider is
+     * registered, delegbte the instbllbtion of thbt pbrticulbr extension to it.
      * </p>
      *
-     * @param reqInfo Missing extension information
-     * @param instInfo Older installed version information
+     * @pbrbm reqInfo Missing extension informbtion
+     * @pbrbm instInfo Older instblled version informbtion
      *
-     * @return true if the installation is successful
+     * @return true if the instbllbtion is successful
      */
-    protected boolean installExtension(ExtensionInfo reqInfo,
+    protected boolebn instbllExtension(ExtensionInfo reqInfo,
                                        ExtensionInfo instInfo)
-        throws ExtensionInstallationException
+        throws ExtensionInstbllbtionException
     {
-        Vector<ExtensionInstallationProvider> currentProviders;
+        Vector<ExtensionInstbllbtionProvider> currentProviders;
         synchronized(providers) {
-            @SuppressWarnings("unchecked")
-            Vector<ExtensionInstallationProvider> tmp =
-                (Vector<ExtensionInstallationProvider>) providers.clone();
+            @SuppressWbrnings("unchecked")
+            Vector<ExtensionInstbllbtionProvider> tmp =
+                (Vector<ExtensionInstbllbtionProvider>) providers.clone();
             currentProviders = tmp;
         }
-        for (Enumeration<ExtensionInstallationProvider> e = currentProviders.elements();
-                e.hasMoreElements();) {
-            ExtensionInstallationProvider eip = e.nextElement();
+        for (Enumerbtion<ExtensionInstbllbtionProvider> e = currentProviders.elements();
+                e.hbsMoreElements();) {
+            ExtensionInstbllbtionProvider eip = e.nextElement();
 
             if (eip!=null) {
-                // delegate the installation to the provider
-                if (eip.installExtension(reqInfo, instInfo)) {
-                    debug(reqInfo.name + " installation successful");
-                    Launcher.ExtClassLoader cl = (Launcher.ExtClassLoader)
-                        Launcher.getLauncher().getClassLoader().getParent();
-                    addNewExtensionsToClassLoader(cl);
+                // delegbte the instbllbtion to the provider
+                if (eip.instbllExtension(reqInfo, instInfo)) {
+                    debug(reqInfo.nbme + " instbllbtion successful");
+                    Lbuncher.ExtClbssLobder cl = (Lbuncher.ExtClbssLobder)
+                        Lbuncher.getLbuncher().getClbssLobder().getPbrent();
+                    bddNewExtensionsToClbssLobder(cl);
                     return true;
                 }
             }
         }
-        // We have tried all of our providers, noone could install this
-        // extension, we just return failure at this point
-        debug(reqInfo.name + " installation failed");
-        return false;
+        // We hbve tried bll of our providers, noone could instbll this
+        // extension, we just return fbilure bt this point
+        debug(reqInfo.nbme + " instbllbtion fbiled");
+        return fblse;
     }
 
     /**
      * <p>
-     * Checks if the extension, that is specified in the extension-list in
-     * the applet jar manifest, is already installed (i.e. exists in the
+     * Checks if the extension, thbt is specified in the extension-list in
+     * the bpplet jbr mbnifest, is blrebdy instblled (i.e. exists in the
      * extension directory).
      * </p>
      *
-     * @param extensionName extension name in the extension-list
+     * @pbrbm extensionNbme extension nbme in the extension-list
      *
      * @return the extension if it exists in the extension directory
      */
-    private File checkExtensionExists(String extensionName) {
-        // Function added to fix bug 4504166
-        final String extName = extensionName;
-        final String[] fileExt = {".jar", ".zip"};
+    privbte File checkExtensionExists(String extensionNbme) {
+        // Function bdded to fix bug 4504166
+        finbl String extNbme = extensionNbme;
+        finbl String[] fileExt = {".jbr", ".zip"};
 
         return AccessController.doPrivileged(
             new PrivilegedAction<File>() {
@@ -399,16 +399,16 @@ public class ExtensionDependency {
                         File fExtension;
                         File[] dirs = getExtDirs();
 
-                        // Search the extension directories for the extension that is specified
-                        // in the attribute extension-list in the applet jar manifest
+                        // Sebrch the extension directories for the extension thbt is specified
+                        // in the bttribute extension-list in the bpplet jbr mbnifest
                         for (int i=0;i<dirs.length;i++) {
                             for (int j=0;j<fileExt.length;j++) {
-                                if (extName.toLowerCase().endsWith(fileExt[j])) {
-                                    fExtension = new File(dirs[i], extName);
+                                if (extNbme.toLowerCbse().endsWith(fileExt[j])) {
+                                    fExtension = new File(dirs[i], extNbme);
                                 } else {
-                                    fExtension = new File(dirs[i], extName+fileExt[j]);
+                                    fExtension = new File(dirs[i], extNbme+fileExt[j]);
                                 }
-                                debug("checkExtensionExists:fileName " + fExtension.getName());
+                                debug("checkExtensionExists:fileNbme " + fExtension.getNbme());
                                 if (fExtension.exists()) {
                                     return fExtension;
                                 }
@@ -416,7 +416,7 @@ public class ExtensionDependency {
                         }
                         return null;
 
-                    } catch(Exception e) {
+                    } cbtch(Exception e) {
                          debugException(e);
                          return null;
                     }
@@ -426,17 +426,17 @@ public class ExtensionDependency {
 
     /**
      * <p>
-     * @return the java.ext.dirs property as a list of directory
+     * @return the jbvb.ext.dirs property bs b list of directory
      * </p>
      */
-    private static File[] getExtDirs() {
-        String s = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("java.ext.dirs"));
+    privbte stbtic File[] getExtDirs() {
+        String s = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("jbvb.ext.dirs"));
 
         File[] dirs;
         if (s != null) {
             StringTokenizer st =
-                new StringTokenizer(s, File.pathSeparator);
+                new StringTokenizer(s, File.pbthSepbrbtor);
             int count = st.countTokens();
             debug("getExtDirs count " + count);
             dirs = new File[count];
@@ -454,44 +454,44 @@ public class ExtensionDependency {
 
     /*
      * <p>
-     * Scan the directories and return all files installed in those
+     * Scbn the directories bnd return bll files instblled in those
      * </p>
-     * @param dirs list of directories to scan
+     * @pbrbm dirs list of directories to scbn
      *
-     * @return the list of files installed in all the directories
+     * @return the list of files instblled in bll the directories
      */
-    private static File[] getExtFiles(File[] dirs) throws IOException {
+    privbte stbtic File[] getExtFiles(File[] dirs) throws IOException {
         Vector<File> urls = new Vector<File>();
         for (int i = 0; i < dirs.length; i++) {
-            String[] files = dirs[i].list(new JarFilter());
+            String[] files = dirs[i].list(new JbrFilter());
             if (files != null) {
                 debug("getExtFiles files.length " + files.length);
                 for (int j = 0; j < files.length; j++) {
                     File f = new File(dirs[i], files[j]);
-                    urls.add(f);
+                    urls.bdd(f);
                     debug("getExtFiles f["+j+"] "+ f);
                 }
             }
         }
-        File[] ua = new File[urls.size()];
-        urls.copyInto(ua);
-        debug("getExtFiles ua.length " + ua.length);
-        return ua;
+        File[] ub = new File[urls.size()];
+        urls.copyInto(ub);
+        debug("getExtFiles ub.length " + ub.length);
+        return ub;
     }
 
     /*
      * <p>
-     * @return the list of installed extensions jar files
+     * @return the list of instblled extensions jbr files
      * </p>
      */
-    private File[] getInstalledExtensions() throws IOException {
+    privbte File[] getInstblledExtensions() throws IOException {
         return AccessController.doPrivileged(
             new PrivilegedAction<File[]>() {
                 public File[] run() {
                      try {
                          return getExtFiles(getExtDirs());
-                     } catch(IOException e) {
-                         debug("Cannot get list of installed extensions");
+                     } cbtch(IOException e) {
+                         debug("Cbnnot get list of instblled extensions");
                          debugException(e);
                         return new File[0];
                      }
@@ -501,24 +501,24 @@ public class ExtensionDependency {
 
     /*
      * <p>
-     * Add the newly installed jar file to the extension class loader.
+     * Add the newly instblled jbr file to the extension clbss lobder.
      * </p>
      *
-     * @param cl the current installed extension class loader
+     * @pbrbm cl the current instblled extension clbss lobder
      *
      * @return true if successful
      */
-    private Boolean addNewExtensionsToClassLoader(Launcher.ExtClassLoader cl) {
+    privbte Boolebn bddNewExtensionsToClbssLobder(Lbuncher.ExtClbssLobder cl) {
         try {
-            File[] installedExts = getInstalledExtensions();
-            for (int i=0;i<installedExts.length;i++) {
-                final File instFile = installedExts[i];
+            File[] instblledExts = getInstblledExtensions();
+            for (int i=0;i<instblledExts.length;i++) {
+                finbl File instFile = instblledExts[i];
                 URL instURL = AccessController.doPrivileged(
                     new PrivilegedAction<URL>() {
                         public URL run() {
                             try {
-                                return ParseUtil.fileToEncodedURL(instFile);
-                            } catch (MalformedURLException e) {
+                                return PbrseUtil.fileToEncodedURL(instFile);
+                            } cbtch (MblformedURLException e) {
                                 debugException(e);
                                 return null;
                             }
@@ -526,44 +526,44 @@ public class ExtensionDependency {
                     });
                 if (instURL != null) {
                     URL[] urls = cl.getURLs();
-                    boolean found=false;
+                    boolebn found=fblse;
                     for (int j = 0; j<urls.length; j++) {
                         debug("URL["+j+"] is " + urls[j] + " looking for "+
                                            instURL);
-                        if (urls[j].toString().compareToIgnoreCase(
+                        if (urls[j].toString().compbreToIgnoreCbse(
                                     instURL.toString())==0) {
                             found=true;
                             debug("Found !");
                         }
                     }
                     if (!found) {
-                        debug("Not Found ! adding to the classloader " +
+                        debug("Not Found ! bdding to the clbsslobder " +
                               instURL);
-                        cl.addExtURL(instURL);
+                        cl.bddExtURL(instURL);
                     }
                 }
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // let's continue with the next installed extension
+        } cbtch (MblformedURLException e) {
+            e.printStbckTrbce();
+        } cbtch (IOException e) {
+            e.printStbckTrbce();
+            // let's continue with the next instblled extension
         }
-        return Boolean.TRUE;
+        return Boolebn.TRUE;
     }
 
-    // True to display all debug and trace messages
-    static final boolean DEBUG = false;
+    // True to displby bll debug bnd trbce messbges
+    stbtic finbl boolebn DEBUG = fblse;
 
-    private static void debug(String s) {
+    privbte stbtic void debug(String s) {
         if (DEBUG) {
             System.err.println(s);
         }
     }
 
-    private void debugException(Throwable e) {
+    privbte void debugException(Throwbble e) {
         if (DEBUG) {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 

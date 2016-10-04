@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -s
+#!/usr/sbin/dtrbce -s
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,53 +35,53 @@
 
 /*
  * Description:
- * dtrace -c option launches the command specified in the -c argument and
- * starts tracing the process. Typically, you can run a D script and trace
- * a Java application as follows:
- *    dscript.d -Zc "java HelloWorld"
+ * dtrbce -c option lbunches the commbnd specified in the -c brgument bnd
+ * stbrts trbcing the process. Typicblly, you cbn run b D script bnd trbce
+ * b Jbvb bpplicbtion bs follows:
+ *    dscript.d -Zc "jbvb HelloWorld"
  *
- * The -Z option is needed to permit probe descriptions that match zero
- * probes because Hotspot probes definitions are located in libjvm.so which
- * has not been yet loaded and thus can't be enabled until the application
- * is started.
+ * The -Z option is needed to permit probe descriptions thbt mbtch zero
+ * probes becbuse Hotspot probes definitions bre locbted in libjvm.so which
+ * hbs not been yet lobded bnd thus cbn't be enbbled until the bpplicbtion
+ * is stbrted.
  *
- * Straightforward attempt to run D script may fail, e.g.: 
- *    dscript.d -c "java HelloWorld" 
- *    "probe description hotspotPID:::probename does not match any probes"
+ * Strbightforwbrd bttempt to run D script mby fbil, e.g.: 
+ *    dscript.d -c "jbvb HelloWorld" 
+ *    "probe description hotspotPID:::probenbme does not mbtch bny probes"
  *
- * This is because DTrace tries to enable probes before libjvm.so is loaded.
- * The -Z option requires Solaris patch 118822-30 installed on your system.
+ * This is becbuse DTrbce tries to enbble probes before libjvm.so is lobded.
+ * The -Z option requires Solbris pbtch 118822-30 instblled on your system.
  *
- * In case you don't have this Solaris patch use dtrace_helper.d script.
- * This script waits until the Hotspot DTrace probes are loaded and then
- * stops the Java process (passed as '-c' options). After the process is
- * stopped, another D script (passed as first argument) is called to do real
- * trace of Java process.
+ * In cbse you don't hbve this Solbris pbtch use dtrbce_helper.d script.
+ * This script wbits until the Hotspot DTrbce probes bre lobded bnd then
+ * stops the Jbvb process (pbssed bs '-c' options). After the process is
+ * stopped, bnother D script (pbssed bs first brgument) is cblled to do rebl
+ * trbce of Jbvb process.
  *
- * Usage example:
- *   dtrace_helper.d -c "java ..." ../hotspot/class_loading_stat.d
+ * Usbge exbmple:
+ *   dtrbce_helper.d -c "jbvb ..." ../hotspot/clbss_lobding_stbt.d
  */
 
-#pragma D option quiet
-#pragma D option destructive
+#prbgmb D option quiet
+#prbgmb D option destructive
 
 
-pid$target::dlopen:entry
+pid$tbrget::dlopen:entry
 {
-    self->filename = arg0;
+    self->filenbme = brg0;
 }
 
 
-pid$target::dlopen:return
-/self->filename && basename(copyinstr(self->filename)) == "libjvm.so"/
+pid$tbrget::dlopen:return
+/self->filenbme && bbsenbme(copyinstr(self->filenbme)) == "libjvm.so"/
 {
-    printf(" loaded %s\n", basename(copyinstr(self->filename)));
-    self->filename = 0;
+    printf(" lobded %s\n", bbsenbme(copyinstr(self->filenbme)));
+    self->filenbme = 0;
 
     stop();
-    printf(" stopped java process with pid=%d \n", $target);
+    printf(" stopped jbvb process with pid=%d \n", $tbrget);
 
-    printf(" run: %s -p %d &", $1, $target);
-    system("(%s -p %d) &", $1, $target);
+    printf(" run: %s -p %d &", $1, $tbrget);
+    system("(%s -p %d) &", $1, $tbrget);
     exit(0);
 }

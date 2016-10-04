@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
- * <p>Base class used to maintain a strongly typed enumeration.  This is
- * the superclass of {@link AccessibleState} and {@link AccessibleRole}.
- * <p>The toDisplayString method allows you to obtain the localized string
- * for a locale independent key from a predefined ResourceBundle for the
- * keys defined in this class.  This localized string is intended to be
- * readable by humans.
+ * <p>Bbse clbss used to mbintbin b strongly typed enumerbtion.  This is
+ * the superclbss of {@link AccessibleStbte} bnd {@link AccessibleRole}.
+ * <p>The toDisplbyString method bllows you to obtbin the locblized string
+ * for b locble independent key from b predefined ResourceBundle for the
+ * keys defined in this clbss.  This locblized string is intended to be
+ * rebdbble by humbns.
  *
  * @see AccessibleRole
- * @see AccessibleState
+ * @see AccessibleStbte
  *
- * @author      Willie Walker
- * @author      Peter Korn
- * @author      Lynn Monsanto
+ * @buthor      Willie Wblker
+ * @buthor      Peter Korn
+ * @buthor      Lynn Monsbnto
  */
-public abstract class AccessibleBundle {
+public bbstrbct clbss AccessibleBundle {
 
-    private static Hashtable<Locale, Hashtable<String, Object>> table = new Hashtable<>();
-    private final String defaultResourceBundleName
-        = "com.sun.accessibility.internal.resources.accessibility";
+    privbte stbtic Hbshtbble<Locble, Hbshtbble<String, Object>> tbble = new Hbshtbble<>();
+    privbte finbl String defbultResourceBundleNbme
+        = "com.sun.bccessibility.internbl.resources.bccessibility";
 
     /**
-     * Construct an {@code AccessibleBundle}.
+     * Construct bn {@code AccessibleBundle}.
      */
     public AccessibleBundle() {
     }
 
     /**
-     * The locale independent name of the state.  This is a programmatic
-     * name that is not intended to be read by humans.
-     * @see #toDisplayString
+     * The locble independent nbme of the stbte.  This is b progrbmmbtic
+     * nbme thbt is not intended to be rebd by humbns.
+     * @see #toDisplbyString
      */
     protected String key = null;
 
     /**
-     * Obtains the key as a localized string.
-     * If a localized string cannot be found for the key, the
-     * locale independent key stored in the role will be returned.
-     * This method is intended to be used only by subclasses so that they
-     * can specify their own resource bundles which contain localized
+     * Obtbins the key bs b locblized string.
+     * If b locblized string cbnnot be found for the key, the
+     * locble independent key stored in the role will be returned.
+     * This method is intended to be used only by subclbsses so thbt they
+     * cbn specify their own resource bundles which contbin locblized
      * strings for their keys.
-     * @param resourceBundleName the name of the resource bundle to use for
+     * @pbrbm resourceBundleNbme the nbme of the resource bundle to use for
      * lookup
-     * @param locale the locale for which to obtain a localized string
-     * @return a localized String for the key.
+     * @pbrbm locble the locble for which to obtbin b locblized string
+     * @return b locblized String for the key.
      */
-    protected String toDisplayString(String resourceBundleName,
-                                     Locale locale) {
+    protected String toDisplbyString(String resourceBundleNbme,
+                                     Locble locble) {
 
-        // loads the resource bundle if necessary
-        loadResourceBundle(resourceBundleName, locale);
+        // lobds the resource bundle if necessbry
+        lobdResourceBundle(resourceBundleNbme, locble);
 
-        // returns the localized string
-        Hashtable<String, Object> ht = table.get(locale);
+        // returns the locblized string
+        Hbshtbble<String, Object> ht = tbble.get(locble);
         if (ht != null) {
             Object o = ht.get(key);
-            if (o != null && o instanceof String) {
+            if (o != null && o instbnceof String) {
                 return (String)o;
             }
         }
@@ -96,58 +96,58 @@ public abstract class AccessibleBundle {
     }
 
     /**
-     * Obtains the key as a localized string.
-     * If a localized string cannot be found for the key, the
-     * locale independent key stored in the role will be returned.
+     * Obtbins the key bs b locblized string.
+     * If b locblized string cbnnot be found for the key, the
+     * locble independent key stored in the role will be returned.
      *
-     * @param locale the locale for which to obtain a localized string
-     * @return a localized String for the key.
+     * @pbrbm locble the locble for which to obtbin b locblized string
+     * @return b locblized String for the key.
      */
-    public String toDisplayString(Locale locale) {
-        return toDisplayString(defaultResourceBundleName, locale);
+    public String toDisplbyString(Locble locble) {
+        return toDisplbyString(defbultResourceBundleNbme, locble);
     }
 
     /**
-     * Gets localized string describing the key using the default locale.
-     * @return a localized String describing the key for the default locale
+     * Gets locblized string describing the key using the defbult locble.
+     * @return b locblized String describing the key for the defbult locble
      */
-    public String toDisplayString() {
-        return toDisplayString(Locale.getDefault());
+    public String toDisplbyString() {
+        return toDisplbyString(Locble.getDefbult());
     }
 
     /**
-     * Gets localized string describing the key using the default locale.
-     * @return a localized String describing the key using the default locale
-     * @see #toDisplayString
+     * Gets locblized string describing the key using the defbult locble.
+     * @return b locblized String describing the key using the defbult locble
+     * @see #toDisplbyString
      */
     public String toString() {
-        return toDisplayString();
+        return toDisplbyString();
     }
 
     /*
-     * Loads the Accessibility resource bundle if necessary.
+     * Lobds the Accessibility resource bundle if necessbry.
      */
-    private void loadResourceBundle(String resourceBundleName,
-                                    Locale locale) {
-        if (! table.contains(locale)) {
+    privbte void lobdResourceBundle(String resourceBundleNbme,
+                                    Locble locble) {
+        if (! tbble.contbins(locble)) {
 
             try {
-                Hashtable<String, Object> resourceTable = new Hashtable<>();
+                Hbshtbble<String, Object> resourceTbble = new Hbshtbble<>();
 
-                ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleName, locale);
+                ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleNbme, locble);
 
-                Enumeration<String> iter = bundle.getKeys();
-                while(iter.hasMoreElements()) {
+                Enumerbtion<String> iter = bundle.getKeys();
+                while(iter.hbsMoreElements()) {
                     String key = iter.nextElement();
-                    resourceTable.put(key, bundle.getObject(key));
+                    resourceTbble.put(key, bundle.getObject(key));
                 }
 
-                table.put(locale, resourceTable);
+                tbble.put(locble, resourceTbble);
             }
-            catch (MissingResourceException e) {
-                System.err.println("loadResourceBundle: " + e);
-                // Just return so toDisplayString() returns the
-                // non-localized key.
+            cbtch (MissingResourceException e) {
+                System.err.println("lobdResourceBundle: " + e);
+                // Just return so toDisplbyString() returns the
+                // non-locblized key.
                 return;
             }
         }

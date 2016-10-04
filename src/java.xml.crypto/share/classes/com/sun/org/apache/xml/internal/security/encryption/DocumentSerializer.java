@@ -3,87 +3,87 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.StringRebder;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.DocumentFrbgment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.xml.sbx.InputSource;
+import org.xml.sbx.SAXException;
 
 /**
- * Converts <code>String</code>s into <code>Node</code>s and visa versa.
+ * Converts <code>String</code>s into <code>Node</code>s bnd visb versb.
  */
-public class DocumentSerializer extends AbstractSerializer {
+public clbss DocumentSeriblizer extends AbstrbctSeriblizer {
 
-    protected DocumentBuilderFactory dbf;
+    protected DocumentBuilderFbctory dbf;
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
+     * @pbrbm source
+     * @pbrbm ctx
+     * @return the Node resulting from the pbrse of the source
      * @throws XMLEncryptionException
      */
-    public Node deserialize(byte[] source, Node ctx) throws XMLEncryptionException {
-        byte[] fragment = createContext(source, ctx);
-        return deserialize(ctx, new InputSource(new ByteArrayInputStream(fragment)));
+    public Node deseriblize(byte[] source, Node ctx) throws XMLEncryptionException {
+        byte[] frbgment = crebteContext(source, ctx);
+        return deseriblize(ctx, new InputSource(new ByteArrbyInputStrebm(frbgment)));
     }
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
+     * @pbrbm source
+     * @pbrbm ctx
+     * @return the Node resulting from the pbrse of the source
      * @throws XMLEncryptionException
      */
-    public Node deserialize(String source, Node ctx) throws XMLEncryptionException {
-        String fragment = createContext(source, ctx);
-        return deserialize(ctx, new InputSource(new StringReader(fragment)));
+    public Node deseriblize(String source, Node ctx) throws XMLEncryptionException {
+        String frbgment = crebteContext(source, ctx);
+        return deseriblize(ctx, new InputSource(new StringRebder(frbgment)));
     }
 
     /**
-     * @param ctx
-     * @param inputSource
-     * @return the Node resulting from the parse of the source
+     * @pbrbm ctx
+     * @pbrbm inputSource
+     * @return the Node resulting from the pbrse of the source
      * @throws XMLEncryptionException
      */
-    private Node deserialize(Node ctx, InputSource inputSource) throws XMLEncryptionException {
+    privbte Node deseriblize(Node ctx, InputSource inputSource) throws XMLEncryptionException {
         try {
             if (dbf == null) {
-                dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                dbf.setAttribute("http://xml.org/sax/features/namespaces", Boolean.TRUE);
-                dbf.setValidating(false);
+                dbf = DocumentBuilderFbctory.newInstbnce();
+                dbf.setNbmespbceAwbre(true);
+                dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
+                dbf.setAttribute("http://xml.org/sbx/febtures/nbmespbces", Boolebn.TRUE);
+                dbf.setVblidbting(fblse);
             }
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document d = db.parse(inputSource);
+            Document d = db.pbrse(inputSource);
 
             Document contextDocument = null;
             if (Node.DOCUMENT_NODE == ctx.getNodeType()) {
@@ -92,21 +92,21 @@ public class DocumentSerializer extends AbstractSerializer {
                 contextDocument = ctx.getOwnerDocument();
             }
 
-            Element fragElt =
+            Element frbgElt =
                     (Element) contextDocument.importNode(d.getDocumentElement(), true);
-            DocumentFragment result = contextDocument.createDocumentFragment();
-            Node child = fragElt.getFirstChild();
+            DocumentFrbgment result = contextDocument.crebteDocumentFrbgment();
+            Node child = frbgElt.getFirstChild();
             while (child != null) {
-                fragElt.removeChild(child);
-                result.appendChild(child);
-                child = fragElt.getFirstChild();
+                frbgElt.removeChild(child);
+                result.bppendChild(child);
+                child = frbgElt.getFirstChild();
             }
             return result;
-        } catch (SAXException se) {
+        } cbtch (SAXException se) {
             throw new XMLEncryptionException("empty", se);
-        } catch (ParserConfigurationException pce) {
+        } cbtch (PbrserConfigurbtionException pce) {
             throw new XMLEncryptionException("empty", pce);
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             throw new XMLEncryptionException("empty", ioe);
         }
     }

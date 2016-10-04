@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.lang.Cloneable;
-import java.util.Locale;
-import java.util.TimeZone;
+import jbvb.lbng.Clonebble;
+import jbvb.util.Locble;
+import jbvb.util.TimeZone;
 
 /**
- * The <code>CalendarDate</code> class represents a specific instant
- * in time by calendar date and time fields that are multiple cycles
- * in different time unites. The semantics of each calendar field is
- * given by a concrete calendar system rather than this
- * <code>CalendarDate</code> class that holds calendar field values
- * without interpreting them. Therefore, this class can be used to
- * represent an amount of time, such as 2 years and 3 months.
+ * The <code>CblendbrDbte</code> clbss represents b specific instbnt
+ * in time by cblendbr dbte bnd time fields thbt bre multiple cycles
+ * in different time unites. The sembntics of ebch cblendbr field is
+ * given by b concrete cblendbr system rbther thbn this
+ * <code>CblendbrDbte</code> clbss thbt holds cblendbr field vblues
+ * without interpreting them. Therefore, this clbss cbn be used to
+ * represent bn bmount of time, such bs 2 yebrs bnd 3 months.
  *
- * <p>A <code>CalendarDate</code> instance can be created by calling
- * the <code>newCalendarDate</code> or <code>getCalendarDate</code>
- * methods in <code>CalendarSystem</code>. A
- * <code>CalendarSystem</code> instance is obtained by calling one of
- * the factory methods in <code>CalendarSystem</code>. Manipulations
- * of calendar dates must be handled by the calendar system by which
- * <code>CalendarDate</code> instances have been created.
+ * <p>A <code>CblendbrDbte</code> instbnce cbn be crebted by cblling
+ * the <code>newCblendbrDbte</code> or <code>getCblendbrDbte</code>
+ * methods in <code>CblendbrSystem</code>. A
+ * <code>CblendbrSystem</code> instbnce is obtbined by cblling one of
+ * the fbctory methods in <code>CblendbrSystem</code>. Mbnipulbtions
+ * of cblendbr dbtes must be hbndled by the cblendbr system by which
+ * <code>CblendbrDbte</code> instbnces hbve been crebted.
  *
- * <p>Some calendar fields can be modified through method calls. Any
- * modification of a calendar field brings the state of a
- * <code>CalendarDate</code> to <I>not normalized</I>. The
- * normalization must be performed to make all the calendar fields
- * consistent with a calendar system.
+ * <p>Some cblendbr fields cbn be modified through method cblls. Any
+ * modificbtion of b cblendbr field brings the stbte of b
+ * <code>CblendbrDbte</code> to <I>not normblized</I>. The
+ * normblizbtion must be performed to mbke bll the cblendbr fields
+ * consistent with b cblendbr system.
  *
- * <p>The <code>protected</code> methods are intended to be used for
- * implementing a concrete calendar system, not for general use as an
+ * <p>The <code>protected</code> methods bre intended to be used for
+ * implementing b concrete cblendbr system, not for generbl use bs bn
  * API.
  *
- * @see CalendarSystem
- * @author Masayoshi Okutsu
+ * @see CblendbrSystem
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
-public abstract class CalendarDate implements Cloneable {
-    public static final int FIELD_UNDEFINED = Integer.MIN_VALUE;
-    public static final long TIME_UNDEFINED = Long.MIN_VALUE;
+public bbstrbct clbss CblendbrDbte implements Clonebble {
+    public stbtic finbl int FIELD_UNDEFINED = Integer.MIN_VALUE;
+    public stbtic finbl long TIME_UNDEFINED = Long.MIN_VALUE;
 
-    private Era era;
-    private int year;
-    private int month;
-    private int dayOfMonth;
-    private int dayOfWeek = FIELD_UNDEFINED;
-    private boolean leapYear;
+    privbte Erb erb;
+    privbte int yebr;
+    privbte int month;
+    privbte int dbyOfMonth;
+    privbte int dbyOfWeek = FIELD_UNDEFINED;
+    privbte boolebn lebpYebr;
 
-    private int hours;
-    private int minutes;
-    private int seconds;
-    private int millis;         // fractional part of the second
-    private long fraction;      // time of day value in millisecond
+    privbte int hours;
+    privbte int minutes;
+    privbte int seconds;
+    privbte int millis;         // frbctionbl pbrt of the second
+    privbte long frbction;      // time of dby vblue in millisecond
 
-    private boolean normalized;
+    privbte boolebn normblized;
 
-    private TimeZone zoneinfo;
-    private int zoneOffset;
-    private int daylightSaving;
-    private boolean forceStandardTime;
+    privbte TimeZone zoneinfo;
+    privbte int zoneOffset;
+    privbte int dbylightSbving;
+    privbte boolebn forceStbndbrdTime;
 
-    private Locale locale;
+    privbte Locble locble;
 
-    protected CalendarDate() {
-        this(TimeZone.getDefault());
+    protected CblendbrDbte() {
+        this(TimeZone.getDefbult());
     }
 
-    protected CalendarDate(TimeZone zone) {
+    protected CblendbrDbte(TimeZone zone) {
         zoneinfo = zone;
     }
 
-    public Era getEra() {
-        return era;
+    public Erb getErb() {
+        return erb;
     }
 
     /**
-     * Sets the era of the date to the specified era. The default
-     * implementation of this method accepts any Era value, including
+     * Sets the erb of the dbte to the specified erb. The defbult
+     * implementbtion of this method bccepts bny Erb vblue, including
      * <code>null</code>.
      *
-     * @exception NullPointerException if the calendar system for this
-     * <code>CalendarDate</code> requires eras and the specified era
+     * @exception NullPointerException if the cblendbr system for this
+     * <code>CblendbrDbte</code> requires erbs bnd the specified erb
      * is null.
-     * @exception IllegalArgumentException if the specified
-     * <code>era</code> is unknown to the calendar
-     * system for this <code>CalendarDate</code>.
+     * @exception IllegblArgumentException if the specified
+     * <code>erb</code> is unknown to the cblendbr
+     * system for this <code>CblendbrDbte</code>.
      */
-    public CalendarDate setEra(Era era) {
-        if (this.era == era) {
+    public CblendbrDbte setErb(Erb erb) {
+        if (this.erb == erb) {
             return this;
         }
-        this.era = era;
-        normalized = false;
+        this.erb = erb;
+        normblized = fblse;
         return this;
     }
 
-    public int getYear() {
-        return year;
+    public int getYebr() {
+        return yebr;
     }
 
-    public CalendarDate setYear(int year) {
-        if (this.year != year) {
-            this.year = year;
-            normalized = false;
+    public CblendbrDbte setYebr(int yebr) {
+        if (this.yebr != yebr) {
+            this.yebr = yebr;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addYear(int n) {
+    public CblendbrDbte bddYebr(int n) {
         if (n != 0) {
-            year += n;
-            normalized = false;
+            yebr += n;
+            normblized = fblse;
         }
         return this;
     }
 
     /**
-     * Returns whether the year represented by this
-     * <code>CalendarDate</code> is a leap year. If leap years are
-     * not applicable to the calendar system, this method always
-     * returns <code>false</code>.
+     * Returns whether the yebr represented by this
+     * <code>CblendbrDbte</code> is b lebp yebr. If lebp yebrs bre
+     * not bpplicbble to the cblendbr system, this method blwbys
+     * returns <code>fblse</code>.
      *
-     * <p>If this <code>CalendarDate</code> hasn't been normalized,
-     * <code>false</code> is returned. The normalization must be
-     * performed to retrieve the correct leap year information.
+     * <p>If this <code>CblendbrDbte</code> hbsn't been normblized,
+     * <code>fblse</code> is returned. The normblizbtion must be
+     * performed to retrieve the correct lebp yebr informbtion.
      *
-     * @return <code>true</code> if this <code>CalendarDate</code> is
-     * normalized and the year of this <code>CalendarDate</code> is a
-     * leap year, or <code>false</code> otherwise.
-     * @see BaseCalendar#isGregorianLeapYear
+     * @return <code>true</code> if this <code>CblendbrDbte</code> is
+     * normblized bnd the yebr of this <code>CblendbrDbte</code> is b
+     * lebp yebr, or <code>fblse</code> otherwise.
+     * @see BbseCblendbr#isGregoribnLebpYebr
      */
-    public boolean isLeapYear() {
-        return leapYear;
+    public boolebn isLebpYebr() {
+        return lebpYebr;
     }
 
-    void setLeapYear(boolean leapYear) {
-        this.leapYear = leapYear;
+    void setLebpYebr(boolebn lebpYebr) {
+        this.lebpYebr = lebpYebr;
     }
 
     public int getMonth() {
         return month;
     }
 
-    public CalendarDate setMonth(int month) {
+    public CblendbrDbte setMonth(int month) {
         if (this.month != month) {
             this.month = month;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addMonth(int n) {
+    public CblendbrDbte bddMonth(int n) {
         if (n != 0) {
             month += n;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    public int getDbyOfMonth() {
+        return dbyOfMonth;
     }
 
-    public CalendarDate setDayOfMonth(int date) {
-        if (dayOfMonth != date) {
-            dayOfMonth = date;
-            normalized = false;
+    public CblendbrDbte setDbyOfMonth(int dbte) {
+        if (dbyOfMonth != dbte) {
+            dbyOfMonth = dbte;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addDayOfMonth(int n) {
+    public CblendbrDbte bddDbyOfMonth(int n) {
         if (n != 0) {
-            dayOfMonth += n;
-            normalized = false;
+            dbyOfMonth += n;
+            normblized = fblse;
         }
         return this;
     }
 
     /**
-     * Returns the day of week value. If this CalendarDate is not
-     * normalized, {@link #FIELD_UNDEFINED} is returned.
+     * Returns the dby of week vblue. If this CblendbrDbte is not
+     * normblized, {@link #FIELD_UNDEFINED} is returned.
      *
-     * @return day of week or {@link #FIELD_UNDEFINED}
+     * @return dby of week or {@link #FIELD_UNDEFINED}
      */
-    public int getDayOfWeek() {
-        if (!isNormalized()) {
-            dayOfWeek = FIELD_UNDEFINED;
+    public int getDbyOfWeek() {
+        if (!isNormblized()) {
+            dbyOfWeek = FIELD_UNDEFINED;
         }
-        return dayOfWeek;
+        return dbyOfWeek;
     }
 
     public int getHours() {
         return hours;
     }
 
-    public CalendarDate setHours(int hours) {
+    public CblendbrDbte setHours(int hours) {
         if (this.hours != hours) {
             this.hours = hours;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addHours(int n) {
+    public CblendbrDbte bddHours(int n) {
         if (n != 0) {
             hours += n;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
@@ -239,18 +239,18 @@ public abstract class CalendarDate implements Cloneable {
         return minutes;
     }
 
-    public CalendarDate setMinutes(int minutes) {
+    public CblendbrDbte setMinutes(int minutes) {
         if (this.minutes != minutes) {
             this.minutes = minutes;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addMinutes(int n) {
+    public CblendbrDbte bddMinutes(int n) {
         if (n != 0) {
             minutes += n;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
@@ -259,18 +259,18 @@ public abstract class CalendarDate implements Cloneable {
         return seconds;
     }
 
-    public CalendarDate setSeconds(int seconds) {
+    public CblendbrDbte setSeconds(int seconds) {
         if (this.seconds != seconds) {
             this.seconds = seconds;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addSeconds(int n) {
+    public CblendbrDbte bddSeconds(int n) {
         if (n != 0) {
             seconds += n;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
@@ -279,44 +279,44 @@ public abstract class CalendarDate implements Cloneable {
         return millis;
     }
 
-    public CalendarDate setMillis(int millis) {
+    public CblendbrDbte setMillis(int millis) {
         if (this.millis != millis) {
             this.millis = millis;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public CalendarDate addMillis(int n) {
+    public CblendbrDbte bddMillis(int n) {
         if (n != 0) {
             millis += n;
-            normalized = false;
+            normblized = fblse;
         }
         return this;
     }
 
-    public long getTimeOfDay() {
-        if (!isNormalized()) {
-            return fraction = TIME_UNDEFINED;
+    public long getTimeOfDby() {
+        if (!isNormblized()) {
+            return frbction = TIME_UNDEFINED;
         }
-        return fraction;
+        return frbction;
     }
 
-    public CalendarDate setDate(int year, int month, int dayOfMonth) {
-        setYear(year);
+    public CblendbrDbte setDbte(int yebr, int month, int dbyOfMonth) {
+        setYebr(yebr);
         setMonth(month);
-        setDayOfMonth(dayOfMonth);
+        setDbyOfMonth(dbyOfMonth);
         return this;
     }
 
-    public CalendarDate addDate(int year, int month, int dayOfMonth) {
-        addYear(year);
-        addMonth(month);
-        addDayOfMonth(dayOfMonth);
+    public CblendbrDbte bddDbte(int yebr, int month, int dbyOfMonth) {
+        bddYebr(yebr);
+        bddMonth(month);
+        bddDbyOfMonth(dbyOfMonth);
         return this;
     }
 
-    public CalendarDate setTimeOfDay(int hours, int minutes, int seconds, int millis) {
+    public CblendbrDbte setTimeOfDby(int hours, int minutes, int seconds, int millis) {
         setHours(hours);
         setMinutes(minutes);
         setSeconds(seconds);
@@ -324,144 +324,144 @@ public abstract class CalendarDate implements Cloneable {
         return this;
     }
 
-    public CalendarDate addTimeOfDay(int hours, int minutes, int seconds, int millis) {
-        addHours(hours);
-        addMinutes(minutes);
-        addSeconds(seconds);
-        addMillis(millis);
+    public CblendbrDbte bddTimeOfDby(int hours, int minutes, int seconds, int millis) {
+        bddHours(hours);
+        bddMinutes(minutes);
+        bddSeconds(seconds);
+        bddMillis(millis);
         return this;
     }
 
-    protected void setTimeOfDay(long fraction) {
-        this.fraction = fraction;
+    protected void setTimeOfDby(long frbction) {
+        this.frbction = frbction;
     }
 
-    public boolean isNormalized() {
-        return normalized;
+    public boolebn isNormblized() {
+        return normblized;
     }
 
 
-    public boolean isStandardTime() {
-        return forceStandardTime;
+    public boolebn isStbndbrdTime() {
+        return forceStbndbrdTime;
     }
 
-    public void setStandardTime(boolean standardTime) {
-        forceStandardTime = standardTime;
+    public void setStbndbrdTime(boolebn stbndbrdTime) {
+        forceStbndbrdTime = stbndbrdTime;
     }
 
-    public boolean isDaylightTime() {
-        if (isStandardTime()) {
-            return false;
+    public boolebn isDbylightTime() {
+        if (isStbndbrdTime()) {
+            return fblse;
         }
-        return daylightSaving != 0;
+        return dbylightSbving != 0;
     }
 
-    protected void setLocale(Locale loc) {
-        locale = loc;
+    protected void setLocble(Locble loc) {
+        locble = loc;
     }
 
     public TimeZone getZone() {
         return zoneinfo;
     }
 
-    public CalendarDate setZone(TimeZone zoneinfo) {
+    public CblendbrDbte setZone(TimeZone zoneinfo) {
         this.zoneinfo = zoneinfo;
         return this;
     }
 
     /**
-     * Returns whether the specified date is the same date of this
-     * <code>CalendarDate</code>. The time of the day fields are
-     * ignored for the comparison.
+     * Returns whether the specified dbte is the sbme dbte of this
+     * <code>CblendbrDbte</code>. The time of the dby fields bre
+     * ignored for the compbrison.
      */
-    public boolean isSameDate(CalendarDate date) {
-        return getDayOfWeek() == date.getDayOfWeek()
-            && getMonth() == date.getMonth()
-            && getYear() == date.getYear()
-            && getEra() == date.getEra();
+    public boolebn isSbmeDbte(CblendbrDbte dbte) {
+        return getDbyOfWeek() == dbte.getDbyOfWeek()
+            && getMonth() == dbte.getMonth()
+            && getYebr() == dbte.getYebr()
+            && getErb() == dbte.getErb();
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CalendarDate)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof CblendbrDbte)) {
+            return fblse;
         }
-        CalendarDate that = (CalendarDate) obj;
-        if (isNormalized() != that.isNormalized()) {
-            return false;
+        CblendbrDbte thbt = (CblendbrDbte) obj;
+        if (isNormblized() != thbt.isNormblized()) {
+            return fblse;
         }
-        boolean hasZone = zoneinfo != null;
-        boolean thatHasZone = that.zoneinfo != null;
-        if (hasZone != thatHasZone) {
-            return false;
+        boolebn hbsZone = zoneinfo != null;
+        boolebn thbtHbsZone = thbt.zoneinfo != null;
+        if (hbsZone != thbtHbsZone) {
+            return fblse;
         }
-        if (hasZone && !zoneinfo.equals(that.zoneinfo)) {
-            return false;
+        if (hbsZone && !zoneinfo.equbls(thbt.zoneinfo)) {
+            return fblse;
         }
-        return (getEra() == that.getEra()
-                && year == that.year
-                && month == that.month
-                && dayOfMonth == that.dayOfMonth
-                && hours == that.hours
-                && minutes == that.minutes
-                && seconds == that.seconds
-                && millis == that.millis
-                && zoneOffset == that.zoneOffset);
+        return (getErb() == thbt.getErb()
+                && yebr == thbt.yebr
+                && month == thbt.month
+                && dbyOfMonth == thbt.dbyOfMonth
+                && hours == thbt.hours
+                && minutes == thbt.minutes
+                && seconds == thbt.seconds
+                && millis == thbt.millis
+                && zoneOffset == thbt.zoneOffset);
     }
 
-    public int hashCode() {
-        // a pseudo (local standard) time stamp value in milliseconds
-        // from the Epoch, assuming Gregorian calendar fields.
-        long hash = ((((((long)year - 1970) * 12) + (month - 1)) * 30) + dayOfMonth) * 24;
-        hash = ((((((hash + hours) * 60) + minutes) * 60) + seconds) * 1000) + millis;
-        hash -= zoneOffset;
-        int normalized = isNormalized() ? 1 : 0;
-        int era = 0;
-        Era e = getEra();
+    public int hbshCode() {
+        // b pseudo (locbl stbndbrd) time stbmp vblue in milliseconds
+        // from the Epoch, bssuming Gregoribn cblendbr fields.
+        long hbsh = ((((((long)yebr - 1970) * 12) + (month - 1)) * 30) + dbyOfMonth) * 24;
+        hbsh = ((((((hbsh + hours) * 60) + minutes) * 60) + seconds) * 1000) + millis;
+        hbsh -= zoneOffset;
+        int normblized = isNormblized() ? 1 : 0;
+        int erb = 0;
+        Erb e = getErb();
         if (e != null) {
-            era = e.hashCode();
+            erb = e.hbshCode();
         }
-        int zone = zoneinfo != null ? zoneinfo.hashCode() : 0;
-        return (int) hash * (int)(hash >> 32) ^ era ^ normalized ^ zone;
+        int zone = zoneinfo != null ? zoneinfo.hbshCode() : 0;
+        return (int) hbsh * (int)(hbsh >> 32) ^ erb ^ normblized ^ zone;
     }
 
     /**
-     * Returns a copy of this <code>CalendarDate</code>. The
-     * <code>TimeZone</code> object, if any, is not cloned.
+     * Returns b copy of this <code>CblendbrDbte</code>. The
+     * <code>TimeZone</code> object, if bny, is not cloned.
      *
-     * @return a copy of this <code>CalendarDate</code>
+     * @return b copy of this <code>CblendbrDbte</code>
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Converts calendar date values to a <code>String</code> in the
-     * following format.
+     * Converts cblendbr dbte vblues to b <code>String</code> in the
+     * following formbt.
      * <pre>
      *     yyyy-MM-dd'T'HH:mm:ss.SSSz
      * </pre>
      *
-     * @see java.text.SimpleDateFormat
+     * @see jbvb.text.SimpleDbteFormbt
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        CalendarUtils.sprintf0d(sb, year, 4).append('-');
-        CalendarUtils.sprintf0d(sb, month, 2).append('-');
-        CalendarUtils.sprintf0d(sb, dayOfMonth, 2).append('T');
-        CalendarUtils.sprintf0d(sb, hours, 2).append(':');
-        CalendarUtils.sprintf0d(sb, minutes, 2).append(':');
-        CalendarUtils.sprintf0d(sb, seconds, 2).append('.');
-        CalendarUtils.sprintf0d(sb, millis, 3);
+        CblendbrUtils.sprintf0d(sb, yebr, 4).bppend('-');
+        CblendbrUtils.sprintf0d(sb, month, 2).bppend('-');
+        CblendbrUtils.sprintf0d(sb, dbyOfMonth, 2).bppend('T');
+        CblendbrUtils.sprintf0d(sb, hours, 2).bppend(':');
+        CblendbrUtils.sprintf0d(sb, minutes, 2).bppend(':');
+        CblendbrUtils.sprintf0d(sb, seconds, 2).bppend('.');
+        CblendbrUtils.sprintf0d(sb, millis, 3);
         if (zoneOffset == 0) {
-            sb.append('Z');
+            sb.bppend('Z');
         } else if (zoneOffset != FIELD_UNDEFINED) {
             int offset;
-            char sign;
+            chbr sign;
             if (zoneOffset > 0) {
                 offset = zoneOffset;
                 sign = '+';
@@ -470,21 +470,21 @@ public abstract class CalendarDate implements Cloneable {
                 sign = '-';
             }
             offset /= 60000;
-            sb.append(sign);
-            CalendarUtils.sprintf0d(sb, offset / 60, 2);
-            CalendarUtils.sprintf0d(sb, offset % 60, 2);
+            sb.bppend(sign);
+            CblendbrUtils.sprintf0d(sb, offset / 60, 2);
+            CblendbrUtils.sprintf0d(sb, offset % 60, 2);
         } else {
-            sb.append(" local time");
+            sb.bppend(" locbl time");
         }
         return sb.toString();
     }
 
-    protected void setDayOfWeek(int dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    protected void setDbyOfWeek(int dbyOfWeek) {
+        this.dbyOfWeek = dbyOfWeek;
     }
 
-    protected void setNormalized(boolean normalized) {
-        this.normalized = normalized;
+    protected void setNormblized(boolebn normblized) {
+        this.normblized = normblized;
     }
 
     public int getZoneOffset() {
@@ -495,11 +495,11 @@ public abstract class CalendarDate implements Cloneable {
         zoneOffset = offset;
     }
 
-    public int getDaylightSaving() {
-        return daylightSaving;
+    public int getDbylightSbving() {
+        return dbylightSbving;
     }
 
-    protected void setDaylightSaving(int daylightSaving) {
-        this.daylightSaving = daylightSaving;
+    protected void setDbylightSbving(int dbylightSbving) {
+        this.dbylightSbving = dbylightSbving;
     }
 }

@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
 
-package sun.util.locale;
+pbckbge sun.util.locble;
 
 
-public final class BaseLocale {
+public finbl clbss BbseLocble {
 
-    public static final String SEP = "_";
+    public stbtic finbl String SEP = "_";
 
-    private static final Cache CACHE = new Cache();
+    privbte stbtic finbl Cbche CACHE = new Cbche();
 
-    private final String language;
-    private final String script;
-    private final String region;
-    private final String variant;
+    privbte finbl String lbngubge;
+    privbte finbl String script;
+    privbte finbl String region;
+    privbte finbl String vbribnt;
 
-    private volatile int hash = 0;
+    privbte volbtile int hbsh = 0;
 
-    // This method must be called only when creating the Locale.* constants.
-    private BaseLocale(String language, String region) {
-        this.language = language;
+    // This method must be cblled only when crebting the Locble.* constbnts.
+    privbte BbseLocble(String lbngubge, String region) {
+        this.lbngubge = lbngubge;
         this.script = "";
         this.region = region;
-        this.variant = "";
+        this.vbribnt = "";
     }
 
-    private BaseLocale(String language, String script, String region, String variant) {
-        this.language = (language != null) ? LocaleUtils.toLowerString(language).intern() : "";
-        this.script = (script != null) ? LocaleUtils.toTitleString(script).intern() : "";
-        this.region = (region != null) ? LocaleUtils.toUpperString(region).intern() : "";
-        this.variant = (variant != null) ? variant.intern() : "";
+    privbte BbseLocble(String lbngubge, String script, String region, String vbribnt) {
+        this.lbngubge = (lbngubge != null) ? LocbleUtils.toLowerString(lbngubge).intern() : "";
+        this.script = (script != null) ? LocbleUtils.toTitleString(script).intern() : "";
+        this.region = (region != null) ? LocbleUtils.toUpperString(region).intern() : "";
+        this.vbribnt = (vbribnt != null) ? vbribnt.intern() : "";
     }
 
-    // Called for creating the Locale.* constants. No argument
-    // validation is performed.
-    public static BaseLocale createInstance(String language, String region) {
-        BaseLocale base = new BaseLocale(language, region);
-        CACHE.put(new Key(language, region), base);
-        return base;
+    // Cblled for crebting the Locble.* constbnts. No brgument
+    // vblidbtion is performed.
+    public stbtic BbseLocble crebteInstbnce(String lbngubge, String region) {
+        BbseLocble bbse = new BbseLocble(lbngubge, region);
+        CACHE.put(new Key(lbngubge, region), bbse);
+        return bbse;
     }
 
-    public static BaseLocale getInstance(String language, String script,
-                                         String region, String variant) {
-        // JDK uses deprecated ISO639.1 language codes for he, yi and id
-        if (language != null) {
-            if (LocaleUtils.caseIgnoreMatch(language, "he")) {
-                language = "iw";
-            } else if (LocaleUtils.caseIgnoreMatch(language, "yi")) {
-                language = "ji";
-            } else if (LocaleUtils.caseIgnoreMatch(language, "id")) {
-                language = "in";
+    public stbtic BbseLocble getInstbnce(String lbngubge, String script,
+                                         String region, String vbribnt) {
+        // JDK uses deprecbted ISO639.1 lbngubge codes for he, yi bnd id
+        if (lbngubge != null) {
+            if (LocbleUtils.cbseIgnoreMbtch(lbngubge, "he")) {
+                lbngubge = "iw";
+            } else if (LocbleUtils.cbseIgnoreMbtch(lbngubge, "yi")) {
+                lbngubge = "ji";
+            } else if (LocbleUtils.cbseIgnoreMbtch(lbngubge, "id")) {
+                lbngubge = "in";
             }
         }
 
-        Key key = new Key(language, script, region, variant);
-        BaseLocale baseLocale = CACHE.get(key);
-        return baseLocale;
+        Key key = new Key(lbngubge, script, region, vbribnt);
+        BbseLocble bbseLocble = CACHE.get(key);
+        return bbseLocble;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getLbngubge() {
+        return lbngubge;
     }
 
     public String getScript() {
@@ -99,123 +99,123 @@ public final class BaseLocale {
         return region;
     }
 
-    public String getVariant() {
-        return variant;
+    public String getVbribnt() {
+        return vbribnt;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof BaseLocale)) {
-            return false;
+        if (!(obj instbnceof BbseLocble)) {
+            return fblse;
         }
-        BaseLocale other = (BaseLocale)obj;
-        return language == other.language
+        BbseLocble other = (BbseLocble)obj;
+        return lbngubge == other.lbngubge
                && script == other.script
                && region == other.region
-               && variant == other.variant;
+               && vbribnt == other.vbribnt;
     }
 
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        if (language.length() > 0) {
-            buf.append("language=");
-            buf.append(language);
+        if (lbngubge.length() > 0) {
+            buf.bppend("lbngubge=");
+            buf.bppend(lbngubge);
         }
         if (script.length() > 0) {
             if (buf.length() > 0) {
-                buf.append(", ");
+                buf.bppend(", ");
             }
-            buf.append("script=");
-            buf.append(script);
+            buf.bppend("script=");
+            buf.bppend(script);
         }
         if (region.length() > 0) {
             if (buf.length() > 0) {
-                buf.append(", ");
+                buf.bppend(", ");
             }
-            buf.append("region=");
-            buf.append(region);
+            buf.bppend("region=");
+            buf.bppend(region);
         }
-        if (variant.length() > 0) {
+        if (vbribnt.length() > 0) {
             if (buf.length() > 0) {
-                buf.append(", ");
+                buf.bppend(", ");
             }
-            buf.append("variant=");
-            buf.append(variant);
+            buf.bppend("vbribnt=");
+            buf.bppend(vbribnt);
         }
         return buf.toString();
     }
 
     @Override
-    public int hashCode() {
-        int h = hash;
+    public int hbshCode() {
+        int h = hbsh;
         if (h == 0) {
-            // Generating a hash value from language, script, region and variant
-            h = language.hashCode();
-            h = 31 * h + script.hashCode();
-            h = 31 * h + region.hashCode();
-            h = 31 * h + variant.hashCode();
-            hash = h;
+            // Generbting b hbsh vblue from lbngubge, script, region bnd vbribnt
+            h = lbngubge.hbshCode();
+            h = 31 * h + script.hbshCode();
+            h = 31 * h + region.hbshCode();
+            h = 31 * h + vbribnt.hbshCode();
+            hbsh = h;
         }
         return h;
     }
 
-    private static final class Key implements Comparable<Key> {
-        private final String lang;
-        private final String scrt;
-        private final String regn;
-        private final String vart;
-        private final boolean normalized;
-        private final int hash;
+    privbte stbtic finbl clbss Key implements Compbrbble<Key> {
+        privbte finbl String lbng;
+        privbte finbl String scrt;
+        privbte finbl String regn;
+        privbte finbl String vbrt;
+        privbte finbl boolebn normblized;
+        privbte finbl int hbsh;
 
         /**
-         * Creates a Key. language and region must be normalized
-         * (intern'ed in the proper case).
+         * Crebtes b Key. lbngubge bnd region must be normblized
+         * (intern'ed in the proper cbse).
          */
-        private Key(String language, String region) {
-            assert language.intern() == language
+        privbte Key(String lbngubge, String region) {
+            bssert lbngubge.intern() == lbngubge
                    && region.intern() == region;
 
-            lang = language;
+            lbng = lbngubge;
             scrt = "";
             regn = region;
-            vart = "";
-            this.normalized = true;
+            vbrt = "";
+            this.normblized = true;
 
-            int h = language.hashCode();
+            int h = lbngubge.hbshCode();
             if (region != "") {
                 int len = region.length();
                 for (int i = 0; i < len; i++) {
-                    h = 31 * h + LocaleUtils.toLower(region.charAt(i));
+                    h = 31 * h + LocbleUtils.toLower(region.chbrAt(i));
                 }
             }
-            hash = h;
+            hbsh = h;
         }
 
-        public Key(String language, String script, String region, String variant) {
-            this(language, script, region, variant, false);
+        public Key(String lbngubge, String script, String region, String vbribnt) {
+            this(lbngubge, script, region, vbribnt, fblse);
         }
 
-        private Key(String language, String script, String region,
-                    String variant, boolean normalized) {
+        privbte Key(String lbngubge, String script, String region,
+                    String vbribnt, boolebn normblized) {
             int h = 0;
-            if (language != null) {
-                lang = language;
-                int len = language.length();
+            if (lbngubge != null) {
+                lbng = lbngubge;
+                int len = lbngubge.length();
                 for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(language.charAt(i));
+                    h = 31*h + LocbleUtils.toLower(lbngubge.chbrAt(i));
                 }
             } else {
-                lang = "";
+                lbng = "";
             }
             if (script != null) {
                 scrt = script;
                 int len = script.length();
                 for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(script.charAt(i));
+                    h = 31*h + LocbleUtils.toLower(script.chbrAt(i));
                 }
             } else {
                 scrt = "";
@@ -224,44 +224,44 @@ public final class BaseLocale {
                 regn = region;
                 int len = region.length();
                 for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(region.charAt(i));
+                    h = 31*h + LocbleUtils.toLower(region.chbrAt(i));
                 }
             } else {
                 regn = "";
             }
-            if (variant != null) {
-                vart = variant;
-                int len = variant.length();
+            if (vbribnt != null) {
+                vbrt = vbribnt;
+                int len = vbribnt.length();
                 for (int i = 0; i < len; i++) {
-                    h = 31*h + variant.charAt(i);
+                    h = 31*h + vbribnt.chbrAt(i);
                 }
             } else {
-                vart = "";
+                vbrt = "";
             }
-            hash = h;
-            this.normalized = normalized;
+            hbsh = h;
+            this.normblized = normblized;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             return (this == obj) ||
-                    (obj instanceof Key)
-                    && this.hash == ((Key)obj).hash
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).lang, this.lang)
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).scrt, this.scrt)
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).regn, this.regn)
-                    && ((Key)obj).vart.equals(vart); // variant is case sensitive in JDK!
+                    (obj instbnceof Key)
+                    && this.hbsh == ((Key)obj).hbsh
+                    && LocbleUtils.cbseIgnoreMbtch(((Key)obj).lbng, this.lbng)
+                    && LocbleUtils.cbseIgnoreMbtch(((Key)obj).scrt, this.scrt)
+                    && LocbleUtils.cbseIgnoreMbtch(((Key)obj).regn, this.regn)
+                    && ((Key)obj).vbrt.equbls(vbrt); // vbribnt is cbse sensitive in JDK!
         }
 
         @Override
-        public int compareTo(Key other) {
-            int res = LocaleUtils.caseIgnoreCompare(this.lang, other.lang);
+        public int compbreTo(Key other) {
+            int res = LocbleUtils.cbseIgnoreCompbre(this.lbng, other.lbng);
             if (res == 0) {
-                res = LocaleUtils.caseIgnoreCompare(this.scrt, other.scrt);
+                res = LocbleUtils.cbseIgnoreCompbre(this.scrt, other.scrt);
                 if (res == 0) {
-                    res = LocaleUtils.caseIgnoreCompare(this.regn, other.regn);
+                    res = LocbleUtils.cbseIgnoreCompbre(this.regn, other.regn);
                     if (res == 0) {
-                        res = this.vart.compareTo(other.vart);
+                        res = this.vbrt.compbreTo(other.vbrt);
                     }
                 }
             }
@@ -269,37 +269,37 @@ public final class BaseLocale {
         }
 
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
-        public static Key normalize(Key key) {
-            if (key.normalized) {
+        public stbtic Key normblize(Key key) {
+            if (key.normblized) {
                 return key;
             }
 
-            String lang = LocaleUtils.toLowerString(key.lang).intern();
-            String scrt = LocaleUtils.toTitleString(key.scrt).intern();
-            String regn = LocaleUtils.toUpperString(key.regn).intern();
-            String vart = key.vart.intern(); // preserve upper/lower cases
+            String lbng = LocbleUtils.toLowerString(key.lbng).intern();
+            String scrt = LocbleUtils.toTitleString(key.scrt).intern();
+            String regn = LocbleUtils.toUpperString(key.regn).intern();
+            String vbrt = key.vbrt.intern(); // preserve upper/lower cbses
 
-            return new Key(lang, scrt, regn, vart, true);
+            return new Key(lbng, scrt, regn, vbrt, true);
         }
     }
 
-    private static class Cache extends LocaleObjectCache<Key, BaseLocale> {
+    privbte stbtic clbss Cbche extends LocbleObjectCbche<Key, BbseLocble> {
 
-        public Cache() {
+        public Cbche() {
         }
 
         @Override
-        protected Key normalizeKey(Key key) {
-            return Key.normalize(key);
+        protected Key normblizeKey(Key key) {
+            return Key.normblize(key);
         }
 
         @Override
-        protected BaseLocale createObject(Key key) {
-            return new BaseLocale(key.lang, key.scrt, key.regn, key.vart);
+        protected BbseLocble crebteObject(Key key) {
+            return new BbseLocble(key.lbng, key.scrt, key.regn, key.vbrt);
         }
     }
 }

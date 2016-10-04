@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.ComboBoxEditor;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import java.awt.Component;
-import java.awt.event.*;
+import jbvbx.swing.ComboBoxEditor;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.border.Border;
+import jbvb.bwt.Component;
+import jbvb.bwt.event.*;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.Method;
 
 import sun.reflect.misc.MethodUtil;
 
 /**
- * The default editor for editable combo boxes. The editor is implemented as a JTextField.
+ * The defbult editor for editbble combo boxes. The editor is implemented bs b JTextField.
  *
- * @author Arnaud Weber
- * @author Mark Davidson
+ * @buthor Arnbud Weber
+ * @buthor Mbrk Dbvidson
  */
-public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
+public clbss BbsicComboBoxEditor implements ComboBoxEditor,FocusListener {
     /**
-     * An instance of {@code JTextField}.
+     * An instbnce of {@code JTextField}.
      */
     protected JTextField editor;
-    private Object oldValue;
+    privbte Object oldVblue;
 
     /**
-     * Constructs a new instance of {@code BasicComboBoxEditor}.
+     * Constructs b new instbnce of {@code BbsicComboBoxEditor}.
      */
-    public BasicComboBoxEditor() {
-        editor = createEditorComponent();
+    public BbsicComboBoxEditor() {
+        editor = crebteEditorComponent();
     }
 
     public Component getEditorComponent() {
@@ -59,61 +59,61 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
     }
 
     /**
-     * Creates the internal editor component. Override this to provide
-     * a custom implementation.
+     * Crebtes the internbl editor component. Override this to provide
+     * b custom implementbtion.
      *
-     * @return a new editor component
+     * @return b new editor component
      * @since 1.6
      */
-    protected JTextField createEditorComponent() {
+    protected JTextField crebteEditorComponent() {
         JTextField editor = new BorderlessTextField("",9);
         editor.setBorder(null);
         return editor;
     }
 
     /**
-     * Sets the item that should be edited.
+     * Sets the item thbt should be edited.
      *
-     * @param anObject the displayed value of the editor
+     * @pbrbm bnObject the displbyed vblue of the editor
      */
-    public void setItem(Object anObject) {
+    public void setItem(Object bnObject) {
         String text;
 
-        if ( anObject != null )  {
-            text = anObject.toString();
+        if ( bnObject != null )  {
+            text = bnObject.toString();
             if (text == null) {
                 text = "";
             }
-            oldValue = anObject;
+            oldVblue = bnObject;
         } else {
             text = "";
         }
-        // workaround for 4530952
-        if (! text.equals(editor.getText())) {
+        // workbround for 4530952
+        if (! text.equbls(editor.getText())) {
             editor.setText(text);
         }
     }
 
     public Object getItem() {
-        Object newValue = editor.getText();
+        Object newVblue = editor.getText();
 
-        if (oldValue != null && !(oldValue instanceof String))  {
-            // The original value is not a string. Should return the value in it's
-            // original type.
-            if (newValue.equals(oldValue.toString()))  {
-                return oldValue;
+        if (oldVblue != null && !(oldVblue instbnceof String))  {
+            // The originbl vblue is not b string. Should return the vblue in it's
+            // originbl type.
+            if (newVblue.equbls(oldVblue.toString()))  {
+                return oldVblue;
             } else {
-                // Must take the value from the editor and get the value and cast it to the new type.
-                Class<?> cls = oldValue.getClass();
+                // Must tbke the vblue from the editor bnd get the vblue bnd cbst it to the new type.
+                Clbss<?> cls = oldVblue.getClbss();
                 try {
-                    Method method = MethodUtil.getMethod(cls, "valueOf", new Class<?>[]{String.class});
-                    newValue = MethodUtil.invoke(method, oldValue, new Object[] { editor.getText()});
-                } catch (Exception ex) {
-                    // Fail silently and return the newValue (a String object)
+                    Method method = MethodUtil.getMethod(cls, "vblueOf", new Clbss<?>[]{String.clbss});
+                    newVblue = MethodUtil.invoke(method, oldVblue, new Object[] { editor.getText()});
+                } cbtch (Exception ex) {
+                    // Fbil silently bnd return the newVblue (b String object)
                 }
             }
         }
-        return newValue;
+        return newVblue;
     }
 
     public void selectAll() {
@@ -122,59 +122,59 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
     }
 
     // This used to do something but now it doesn't.  It couldn't be
-    // removed because it would be an API change to do so.
-    public void focusGained(FocusEvent e) {}
+    // removed becbuse it would be bn API chbnge to do so.
+    public void focusGbined(FocusEvent e) {}
 
     // This used to do something but now it doesn't.  It couldn't be
-    // removed because it would be an API change to do so.
+    // removed becbuse it would be bn API chbnge to do so.
     public void focusLost(FocusEvent e) {}
 
-    public void addActionListener(ActionListener l) {
-        editor.addActionListener(l);
+    public void bddActionListener(ActionListener l) {
+        editor.bddActionListener(l);
     }
 
     public void removeActionListener(ActionListener l) {
         editor.removeActionListener(l);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BorderlessTextField extends JTextField {
-        public BorderlessTextField(String value,int n) {
-            super(value,n);
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss BorderlessTextField extends JTextField {
+        public BorderlessTextField(String vblue,int n) {
+            super(vblue,n);
         }
 
-        // workaround for 4530952
+        // workbround for 4530952
         public void setText(String s) {
-            if (getText().equals(s)) {
+            if (getText().equbls(s)) {
                 return;
             }
             super.setText(s);
         }
 
         public void setBorder(Border b) {
-            if (!(b instanceof UIResource)) {
+            if (!(b instbnceof UIResource)) {
                 super.setBorder(b);
             }
         }
     }
 
     /**
-     * A subclass of BasicComboBoxEditor that implements UIResource.
-     * BasicComboBoxEditor doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with BasicListCellRenderer subclasses.
+     * A subclbss of BbsicComboBoxEditor thbt implements UIResource.
+     * BbsicComboBoxEditor doesn't implement UIResource
+     * directly so thbt bpplicbtions cbn sbfely override the
+     * cellRenderer property with BbsicListCellRenderer subclbsses.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends BasicComboBoxEditor
-    implements javax.swing.plaf.UIResource {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UIResource extends BbsicComboBoxEditor
+    implements jbvbx.swing.plbf.UIResource {
     }
 }

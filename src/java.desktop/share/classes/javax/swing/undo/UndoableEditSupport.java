@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.undo;
+pbckbge jbvbx.swing.undo;
 
-import javax.swing.event.*;
-import java.util.*;
+import jbvbx.swing.event.*;
+import jbvb.util.*;
 
 /**
- * A support class used for managing <code>UndoableEdit</code> listeners.
+ * A support clbss used for mbnbging <code>UndobbleEdit</code> listeners.
  *
- * @author Ray Ryan
+ * @buthor Rby Rybn
  */
-public class UndoableEditSupport {
-    protected int updateLevel;
+public clbss UndobbleEditSupport {
+    protected int updbteLevel;
     protected CompoundEdit compoundEdit;
-    protected Vector<UndoableEditListener> listeners;
-    protected Object realSource;
+    protected Vector<UndobbleEditListener> listeners;
+    protected Object reblSource;
 
     /**
-     * Constructs an <code>UndoableEditSupport</code> object.
+     * Constructs bn <code>UndobbleEditSupport</code> object.
      */
-    public UndoableEditSupport() {
+    public UndobbleEditSupport() {
         this(null);
     }
 
     /**
-     * Constructs an <code>UndoableEditSupport</code> object.
+     * Constructs bn <code>UndobbleEditSupport</code> object.
      *
-     * @param r  an <code>Object</code>
+     * @pbrbm r  bn <code>Object</code>
      */
-    public UndoableEditSupport(Object r) {
-        realSource = r == null ? this : r;
-        updateLevel = 0;
+    public UndobbleEditSupport(Object r) {
+        reblSource = r == null ? this : r;
+        updbteLevel = 0;
         compoundEdit = null;
-        listeners = new Vector<UndoableEditListener>();
+        listeners = new Vector<UndobbleEditListener>();
     }
 
     /**
-     * Registers an <code>UndoableEditListener</code>.
-     * The listener is notified whenever an edit occurs which can be undone.
+     * Registers bn <code>UndobbleEditListener</code>.
+     * The listener is notified whenever bn edit occurs which cbn be undone.
      *
-     * @param l  an <code>UndoableEditListener</code> object
-     * @see #removeUndoableEditListener
+     * @pbrbm l  bn <code>UndobbleEditListener</code> object
+     * @see #removeUndobbleEditListener
      */
-    public synchronized void addUndoableEditListener(UndoableEditListener l) {
-        listeners.addElement(l);
+    public synchronized void bddUndobbleEditListener(UndobbleEditListener l) {
+        listeners.bddElement(l);
     }
 
     /**
-     * Removes an <code>UndoableEditListener</code>.
+     * Removes bn <code>UndobbleEditListener</code>.
      *
-     * @param l  the <code>UndoableEditListener</code> object to be removed
-     * @see #addUndoableEditListener
+     * @pbrbm l  the <code>UndobbleEditListener</code> object to be removed
+     * @see #bddUndobbleEditListener
      */
-    public synchronized void removeUndoableEditListener(UndoableEditListener l)
+    public synchronized void removeUndobbleEditListener(UndobbleEditListener l)
     {
         listeners.removeElement(l);
     }
 
     /**
-     * Returns an array of all the <code>UndoableEditListener</code>s added
-     * to this UndoableEditSupport with addUndoableEditListener().
+     * Returns bn brrby of bll the <code>UndobbleEditListener</code>s bdded
+     * to this UndobbleEditSupport with bddUndobbleEditListener().
      *
-     * @return all of the <code>UndoableEditListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>UndobbleEditListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public synchronized UndoableEditListener[] getUndoableEditListeners() {
-        return listeners.toArray(new UndoableEditListener[0]);
+    public synchronized UndobbleEditListener[] getUndobbleEditListeners() {
+        return listeners.toArrby(new UndobbleEditListener[0]);
     }
 
     /**
-     * Called only from <code>postEdit</code> and <code>endUpdate</code>. Calls
-     * <code>undoableEditHappened</code> in all listeners. No synchronization
-     * is performed here, since the two calling methods are synchronized.
+     * Cblled only from <code>postEdit</code> bnd <code>endUpdbte</code>. Cblls
+     * <code>undobbleEditHbppened</code> in bll listeners. No synchronizbtion
+     * is performed here, since the two cblling methods bre synchronized.
      *
-     * @param e edit to be verified
+     * @pbrbm e edit to be verified
      */
-    protected void _postEdit(UndoableEdit e) {
-        UndoableEditEvent ev = new UndoableEditEvent(realSource, e);
-        @SuppressWarnings("unchecked")
-        Enumeration<UndoableEditListener> cursor =
-            ((Vector<UndoableEditListener>)listeners.clone()).elements();
-        while (cursor.hasMoreElements()) {
-            cursor.nextElement().undoableEditHappened(ev);
+    protected void _postEdit(UndobbleEdit e) {
+        UndobbleEditEvent ev = new UndobbleEditEvent(reblSource, e);
+        @SuppressWbrnings("unchecked")
+        Enumerbtion<UndobbleEditListener> cursor =
+            ((Vector<UndobbleEditListener>)listeners.clone()).elements();
+        while (cursor.hbsMoreElements()) {
+            cursor.nextElement().undobbleEditHbppened(ev);
         }
     }
 
     /**
-     * DEADLOCK WARNING: Calling this method may call
-     * <code>undoableEditHappened</code> in all listeners.
-     * It is unwise to call this method from one of its listeners.
+     * DEADLOCK WARNING: Cblling this method mby cbll
+     * <code>undobbleEditHbppened</code> in bll listeners.
+     * It is unwise to cbll this method from one of its listeners.
      *
-     * @param e edit to be posted
+     * @pbrbm e edit to be posted
      */
-    public synchronized void postEdit(UndoableEdit e) {
-        if (updateLevel == 0) {
+    public synchronized void postEdit(UndobbleEdit e) {
+        if (updbteLevel == 0) {
             _postEdit(e);
         } else {
-            // PENDING(rjrjr) Throw an exception if this fails?
-            compoundEdit.addEdit(e);
+            // PENDING(rjrjr) Throw bn exception if this fbils?
+            compoundEdit.bddEdit(e);
         }
     }
 
     /**
-     * Returns the update level value.
+     * Returns the updbte level vblue.
      *
-     * @return an integer representing the update level
+     * @return bn integer representing the updbte level
      */
-    public int getUpdateLevel() {
-        return updateLevel;
+    public int getUpdbteLevel() {
+        return updbteLevel;
     }
 
     /**
      *
      */
-    public synchronized void beginUpdate() {
-        if (updateLevel == 0) {
-            compoundEdit = createCompoundEdit();
+    public synchronized void beginUpdbte() {
+        if (updbteLevel == 0) {
+            compoundEdit = crebteCompoundEdit();
         }
-        updateLevel++;
+        updbteLevel++;
     }
 
     /**
-     * Called only from <code>beginUpdate</code>.
-     * Exposed here for subclasses' use.
+     * Cblled only from <code>beginUpdbte</code>.
+     * Exposed here for subclbsses' use.
      *
-     * @return new created {@code CompoundEdit} object
+     * @return new crebted {@code CompoundEdit} object
      */
-    protected CompoundEdit createCompoundEdit() {
+    protected CompoundEdit crebteCompoundEdit() {
         return new CompoundEdit();
     }
 
     /**
-     * DEADLOCK WARNING: Calling this method may call
-     * <code>undoableEditHappened</code> in all listeners.
-     * It is unwise to call this method from one of its listeners.
+     * DEADLOCK WARNING: Cblling this method mby cbll
+     * <code>undobbleEditHbppened</code> in bll listeners.
+     * It is unwise to cbll this method from one of its listeners.
      */
-    public synchronized void endUpdate() {
-        updateLevel--;
-        if (updateLevel == 0) {
+    public synchronized void endUpdbte() {
+        updbteLevel--;
+        if (updbteLevel == 0) {
             compoundEdit.end();
             _postEdit(compoundEdit);
             compoundEdit = null;
@@ -169,14 +169,14 @@ public class UndoableEditSupport {
     }
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a <code>String</code> representation of this object
+     * @return b <code>String</code> representbtion of this object
      */
     public String toString() {
         return super.toString() +
-            " updateLevel: " + updateLevel +
+            " updbteLevel: " + updbteLevel +
             " listeners: " + listeners +
             " compoundEdit: " + compoundEdit;
     }

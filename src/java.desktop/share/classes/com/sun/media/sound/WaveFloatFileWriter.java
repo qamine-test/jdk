@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioFileFormat.Type;
-import javax.sound.sampled.spi.AudioFileWriter;
+import jbvbx.sound.sbmpled.AudioFileFormbt;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioFormbt.Encoding;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.AudioFileFormbt.Type;
+import jbvbx.sound.sbmpled.spi.AudioFileWriter;
 
 /**
- * Floating-point encoded (format 3) WAVE file writer.
+ * Flobting-point encoded (formbt 3) WAVE file writer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class WaveFloatFileWriter extends AudioFileWriter {
+public finbl clbss WbveFlobtFileWriter extends AudioFileWriter {
 
     public Type[] getAudioFileTypes() {
         return new Type[] { Type.WAVE };
     }
 
-    public Type[] getAudioFileTypes(AudioInputStream stream) {
+    public Type[] getAudioFileTypes(AudioInputStrebm strebm) {
 
-        if (!stream.getFormat().getEncoding().equals(Encoding.PCM_FLOAT))
+        if (!strebm.getFormbt().getEncoding().equbls(Encoding.PCM_FLOAT))
             return new Type[0];
         return new Type[] { Type.WAVE };
     }
 
-    private void checkFormat(AudioFileFormat.Type type, AudioInputStream stream) {
-        if (!Type.WAVE.equals(type))
-            throw new IllegalArgumentException("File type " + type
+    privbte void checkFormbt(AudioFileFormbt.Type type, AudioInputStrebm strebm) {
+        if (!Type.WAVE.equbls(type))
+            throw new IllegblArgumentException("File type " + type
                     + " not supported.");
-        if (!stream.getFormat().getEncoding().equals(Encoding.PCM_FLOAT))
-            throw new IllegalArgumentException("File format "
-                    + stream.getFormat() + " not supported.");
+        if (!strebm.getFormbt().getEncoding().equbls(Encoding.PCM_FLOAT))
+            throw new IllegblArgumentException("File formbt "
+                    + strebm.getFormbt() + " not supported.");
     }
 
-    public void write(AudioInputStream stream, RIFFWriter writer)
+    public void write(AudioInputStrebm strebm, RIFFWriter writer)
             throws IOException {
 
         RIFFWriter fmt_chunk = writer.writeChunk("fmt ");
 
-        AudioFormat format = stream.getFormat();
+        AudioFormbt formbt = strebm.getFormbt();
         fmt_chunk.writeUnsignedShort(3); // WAVE_FORMAT_IEEE_FLOAT
-        fmt_chunk.writeUnsignedShort(format.getChannels());
-        fmt_chunk.writeUnsignedInt((int) format.getSampleRate());
-        fmt_chunk.writeUnsignedInt(((int) format.getFrameRate())
-                * format.getFrameSize());
-        fmt_chunk.writeUnsignedShort(format.getFrameSize());
-        fmt_chunk.writeUnsignedShort(format.getSampleSizeInBits());
+        fmt_chunk.writeUnsignedShort(formbt.getChbnnels());
+        fmt_chunk.writeUnsignedInt((int) formbt.getSbmpleRbte());
+        fmt_chunk.writeUnsignedInt(((int) formbt.getFrbmeRbte())
+                * formbt.getFrbmeSize());
+        fmt_chunk.writeUnsignedShort(formbt.getFrbmeSize());
+        fmt_chunk.writeUnsignedShort(formbt.getSbmpleSizeInBits());
         fmt_chunk.close();
-        RIFFWriter data_chunk = writer.writeChunk("data");
+        RIFFWriter dbtb_chunk = writer.writeChunk("dbtb");
         byte[] buff = new byte[1024];
         int len;
-        while ((len = stream.read(buff, 0, buff.length)) != -1)
-            data_chunk.write(buff, 0, len);
-        data_chunk.close();
+        while ((len = strebm.rebd(buff, 0, buff.length)) != -1)
+            dbtb_chunk.write(buff, 0, len);
+        dbtb_chunk.close();
     }
 
-    private static class NoCloseOutputStream extends OutputStream {
-        final OutputStream out;
+    privbte stbtic clbss NoCloseOutputStrebm extends OutputStrebm {
+        finbl OutputStrebm out;
 
-        NoCloseOutputStream(OutputStream out) {
+        NoCloseOutputStrebm(OutputStrebm out) {
             this.out = out;
         }
 
@@ -109,35 +109,35 @@ public final class WaveFloatFileWriter extends AudioFileWriter {
         }
     }
 
-    private AudioInputStream toLittleEndian(AudioInputStream ais) {
-        AudioFormat format = ais.getFormat();
-        AudioFormat targetFormat = new AudioFormat(format.getEncoding(), format
-                .getSampleRate(), format.getSampleSizeInBits(), format
-                .getChannels(), format.getFrameSize(), format.getFrameRate(),
-                false);
-        return AudioSystem.getAudioInputStream(targetFormat, ais);
+    privbte AudioInputStrebm toLittleEndibn(AudioInputStrebm bis) {
+        AudioFormbt formbt = bis.getFormbt();
+        AudioFormbt tbrgetFormbt = new AudioFormbt(formbt.getEncoding(), formbt
+                .getSbmpleRbte(), formbt.getSbmpleSizeInBits(), formbt
+                .getChbnnels(), formbt.getFrbmeSize(), formbt.getFrbmeRbte(),
+                fblse);
+        return AudioSystem.getAudioInputStrebm(tbrgetFormbt, bis);
     }
 
-    public int write(AudioInputStream stream, Type fileType, OutputStream out)
+    public int write(AudioInputStrebm strebm, Type fileType, OutputStrebm out)
             throws IOException {
 
-        checkFormat(fileType, stream);
-        if (stream.getFormat().isBigEndian())
-            stream = toLittleEndian(stream);
-        RIFFWriter writer = new RIFFWriter(new NoCloseOutputStream(out), "WAVE");
-        write(stream, writer);
+        checkFormbt(fileType, strebm);
+        if (strebm.getFormbt().isBigEndibn())
+            strebm = toLittleEndibn(strebm);
+        RIFFWriter writer = new RIFFWriter(new NoCloseOutputStrebm(out), "WAVE");
+        write(strebm, writer);
         int fpointer = (int) writer.getFilePointer();
         writer.close();
         return fpointer;
     }
 
-    public int write(AudioInputStream stream, Type fileType, File out)
+    public int write(AudioInputStrebm strebm, Type fileType, File out)
             throws IOException {
-        checkFormat(fileType, stream);
-        if (stream.getFormat().isBigEndian())
-            stream = toLittleEndian(stream);
+        checkFormbt(fileType, strebm);
+        if (strebm.getFormbt().isBigEndibn())
+            strebm = toLittleEndibn(strebm);
         RIFFWriter writer = new RIFFWriter(out, "WAVE");
-        write(stream, writer);
+        write(strebm, writer);
         int fpointer = (int) writer.getFilePointer();
         writer.close();
         return fpointer;

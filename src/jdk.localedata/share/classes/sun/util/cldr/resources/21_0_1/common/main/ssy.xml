@@ -3,179 +3,179 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="ssy"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="ssy"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="aa" draft="unconfirmed">Qafar</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb" drbft="unconfirmed">Qbfbr</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Latn" draft="unconfirmed">Latin</script>
+			<script type="Lbtn" drbft="unconfirmed">Lbtin</script>
 		</scripts>
 		<territories>
-			<territory type="DJ" draft="unconfirmed">Yabuuti</territory>
-			<territory type="ER" draft="unconfirmed">Eretria</territory>
-			<territory type="ET" draft="unconfirmed">Otobbia</territory>
+			<territory type="DJ" drbft="unconfirmed">Ybbuuti</territory>
+			<territory type="ER" drbft="unconfirmed">Eretrib</territory>
+			<territory type="ET" drbft="unconfirmed">Otobbib</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters draft="unconfirmed">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters drbft="unconfirmed">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Qun</month>
-							<month type="2" draft="unconfirmed">Nah</month>
-							<month type="3" draft="unconfirmed">Cig</month>
-							<month type="4" draft="unconfirmed">Agd</month>
-							<month type="5" draft="unconfirmed">Cax</month>
-							<month type="6" draft="unconfirmed">Qas</month>
-							<month type="7" draft="unconfirmed">Qad</month>
-							<month type="8" draft="unconfirmed">Leq</month>
-							<month type="9" draft="unconfirmed">Way</month>
-							<month type="10" draft="unconfirmed">Dit</month>
-							<month type="11" draft="unconfirmed">Xim</month>
-							<month type="12" draft="unconfirmed">Kax</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">Qun</month>
+							<month type="2" drbft="unconfirmed">Nbh</month>
+							<month type="3" drbft="unconfirmed">Cig</month>
+							<month type="4" drbft="unconfirmed">Agd</month>
+							<month type="5" drbft="unconfirmed">Cbx</month>
+							<month type="6" drbft="unconfirmed">Qbs</month>
+							<month type="7" drbft="unconfirmed">Qbd</month>
+							<month type="8" drbft="unconfirmed">Leq</month>
+							<month type="9" drbft="unconfirmed">Wby</month>
+							<month type="10" drbft="unconfirmed">Dit</month>
+							<month type="11" drbft="unconfirmed">Xim</month>
+							<month type="12" drbft="unconfirmed">Kbx</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Qunxa Garablu</month>
-							<month type="2" draft="unconfirmed">Kudo</month>
-							<month type="3" draft="unconfirmed">Ciggilta Kudo</month>
-							<month type="4" draft="unconfirmed">Agda Baxis</month>
-							<month type="5" draft="unconfirmed">Caxah Alsa</month>
-							<month type="6" draft="unconfirmed">Qasa Dirri</month>
-							<month type="7" draft="unconfirmed">Qado Dirri</month>
-							<month type="8" draft="unconfirmed">Liiqen</month>
-							<month type="9" draft="unconfirmed">Waysu</month>
-							<month type="10" draft="unconfirmed">Diteli</month>
-							<month type="11" draft="unconfirmed">Ximoli</month>
-							<month type="12" draft="unconfirmed">Kaxxa Garablu</month>
+							<month type="1" drbft="unconfirmed">Qunxb Gbrbblu</month>
+							<month type="2" drbft="unconfirmed">Kudo</month>
+							<month type="3" drbft="unconfirmed">Ciggiltb Kudo</month>
+							<month type="4" drbft="unconfirmed">Agdb Bbxis</month>
+							<month type="5" drbft="unconfirmed">Cbxbh Alsb</month>
+							<month type="6" drbft="unconfirmed">Qbsb Dirri</month>
+							<month type="7" drbft="unconfirmed">Qbdo Dirri</month>
+							<month type="8" drbft="unconfirmed">Liiqen</month>
+							<month type="9" drbft="unconfirmed">Wbysu</month>
+							<month type="10" drbft="unconfirmed">Diteli</month>
+							<month type="11" drbft="unconfirmed">Ximoli</month>
+							<month type="12" drbft="unconfirmed">Kbxxb Gbrbblu</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">Q</month>
-							<month type="2" draft="unconfirmed">N</month>
-							<month type="3" draft="unconfirmed">C</month>
-							<month type="4" draft="unconfirmed">A</month>
-							<month type="5" draft="unconfirmed">C</month>
-							<month type="6" draft="unconfirmed">Q</month>
-							<month type="7" draft="unconfirmed">Q</month>
-							<month type="8" draft="unconfirmed">L</month>
-							<month type="9" draft="unconfirmed">W</month>
-							<month type="10" draft="unconfirmed">D</month>
-							<month type="11" draft="unconfirmed">X</month>
-							<month type="12" draft="unconfirmed">K</month>
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
+							<month type="1" drbft="unconfirmed">Q</month>
+							<month type="2" drbft="unconfirmed">N</month>
+							<month type="3" drbft="unconfirmed">C</month>
+							<month type="4" drbft="unconfirmed">A</month>
+							<month type="5" drbft="unconfirmed">C</month>
+							<month type="6" drbft="unconfirmed">Q</month>
+							<month type="7" drbft="unconfirmed">Q</month>
+							<month type="8" drbft="unconfirmed">L</month>
+							<month type="9" drbft="unconfirmed">W</month>
+							<month type="10" drbft="unconfirmed">D</month>
+							<month type="11" drbft="unconfirmed">X</month>
+							<month type="12" drbft="unconfirmed">K</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Nab</day>
-							<day type="mon" draft="unconfirmed">San</day>
-							<day type="tue" draft="unconfirmed">Sal</day>
-							<day type="wed" draft="unconfirmed">Rab</day>
-							<day type="thu" draft="unconfirmed">Cam</day>
-							<day type="fri" draft="unconfirmed">Jum</day>
-							<day type="sat" draft="unconfirmed">Qun</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Naba Sambat</day>
-							<day type="mon" draft="unconfirmed">Sani</day>
-							<day type="tue" draft="unconfirmed">Salus</day>
-							<day type="wed" draft="unconfirmed">Rabuq</day>
-							<day type="thu" draft="unconfirmed">Camus</day>
-							<day type="fri" draft="unconfirmed">Jumqata</day>
-							<day type="sat" draft="unconfirmed">Qunxa Sambat</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">N</day>
-							<day type="mon" draft="unconfirmed">S</day>
-							<day type="tue" draft="unconfirmed">S</day>
-							<day type="wed" draft="unconfirmed">R</day>
-							<day type="thu" draft="unconfirmed">C</day>
-							<day type="fri" draft="unconfirmed">J</day>
-							<day type="sat" draft="unconfirmed">Q</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">saaku</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">carra</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">Yaasuusuk Duma</era>
-						<era type="1" draft="unconfirmed">Yaasuusuk Wadir</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, MMMM dd, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">dd-MMM-y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">dd/MM/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Nbb</dby>
+							<dby type="mon" drbft="unconfirmed">Sbn</dby>
+							<dby type="tue" drbft="unconfirmed">Sbl</dby>
+							<dby type="wed" drbft="unconfirmed">Rbb</dby>
+							<dby type="thu" drbft="unconfirmed">Cbm</dby>
+							<dby type="fri" drbft="unconfirmed">Jum</dby>
+							<dby type="sbt" drbft="unconfirmed">Qun</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Nbbb Sbmbbt</dby>
+							<dby type="mon" drbft="unconfirmed">Sbni</dby>
+							<dby type="tue" drbft="unconfirmed">Sblus</dby>
+							<dby type="wed" drbft="unconfirmed">Rbbuq</dby>
+							<dby type="thu" drbft="unconfirmed">Cbmus</dby>
+							<dby type="fri" drbft="unconfirmed">Jumqbtb</dby>
+							<dby type="sbt" drbft="unconfirmed">Qunxb Sbmbbt</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun" drbft="unconfirmed">N</dby>
+							<dby type="mon" drbft="unconfirmed">S</dby>
+							<dby type="tue" drbft="unconfirmed">S</dby>
+							<dby type="wed" drbft="unconfirmed">R</dby>
+							<dby type="thu" drbft="unconfirmed">C</dby>
+							<dby type="fri" drbft="unconfirmed">J</dby>
+							<dby type="sbt" drbft="unconfirmed">Q</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm" drbft="unconfirmed">sbbku</dbyPeriod>
+							<dbyPeriod type="pm" drbft="unconfirmed">cbrrb</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbAbbr>
+						<erb type="0" drbft="unconfirmed">Ybbsuusuk Dumb</erb>
+						<erb type="1" drbft="unconfirmed">Ybbsuusuk Wbdir</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE, MMMM dd, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">dd-MMM-y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">dd/MM/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="unconfirmed">¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern drbft="unconfirmed">¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="ERN">
 				<symbol>Nfk</symbol>

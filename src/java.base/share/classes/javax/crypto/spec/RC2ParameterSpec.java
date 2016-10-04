@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class specifies the parameters used with the
- * <a href="http://www.ietf.org/rfc/rfc2268.txt"><i>RC2</i></a>
- * algorithm.
+ * This clbss specifies the pbrbmeters used with the
+ * <b href="http://www.ietf.org/rfc/rfc2268.txt"><i>RC2</i></b>
+ * blgorithm.
  *
- * <p> The parameters consist of an effective key size and optionally
- * an 8-byte initialization vector (IV) (only in feedback mode).
+ * <p> The pbrbmeters consist of bn effective key size bnd optionblly
+ * bn 8-byte initiblizbtion vector (IV) (only in feedbbck mode).
  *
- * <p> This class can be used to initialize a <code>Cipher</code> object that
- * implements the <i>RC2</i> algorithm.
+ * <p> This clbss cbn be used to initiblize b <code>Cipher</code> object thbt
+ * implements the <i>RC2</i> blgorithm.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class RC2ParameterSpec implements AlgorithmParameterSpec {
+public clbss RC2PbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private byte[] iv = null;
-    private int effectiveKeyBits;
+    privbte byte[] iv = null;
+    privbte int effectiveKeyBits;
 
     /**
-     * Constructs a parameter set for RC2 from the given effective key size
+     * Constructs b pbrbmeter set for RC2 from the given effective key size
      * (in bits).
      *
-     * @param effectiveKeyBits the effective key size in bits.
+     * @pbrbm effectiveKeyBits the effective key size in bits.
      */
-    public RC2ParameterSpec(int effectiveKeyBits) {
+    public RC2PbrbmeterSpec(int effectiveKeyBits) {
         this.effectiveKeyBits = effectiveKeyBits;
     }
 
     /**
-     * Constructs a parameter set for RC2 from the given effective key size
-     * (in bits) and an 8-byte IV.
+     * Constructs b pbrbmeter set for RC2 from the given effective key size
+     * (in bits) bnd bn 8-byte IV.
      *
-     * <p> The bytes that constitute the IV are those between
-     * <code>iv[0]</code> and <code>iv[7]</code> inclusive.
+     * <p> The bytes thbt constitute the IV bre those between
+     * <code>iv[0]</code> bnd <code>iv[7]</code> inclusive.
      *
-     * @param effectiveKeyBits the effective key size in bits.
-     * @param iv the buffer with the 8-byte IV. The first 8 bytes of
-     * the buffer are copied to protect against subsequent modification.
-     * @exception IllegalArgumentException if <code>iv</code> is null.
+     * @pbrbm effectiveKeyBits the effective key size in bits.
+     * @pbrbm iv the buffer with the 8-byte IV. The first 8 bytes of
+     * the buffer bre copied to protect bgbinst subsequent modificbtion.
+     * @exception IllegblArgumentException if <code>iv</code> is null.
      */
-    public RC2ParameterSpec(int effectiveKeyBits, byte[] iv) {
+    public RC2PbrbmeterSpec(int effectiveKeyBits, byte[] iv) {
         this(effectiveKeyBits, iv, 0);
     }
 
     /**
-     * Constructs a parameter set for RC2 from the given effective key size
-     * (in bits) and IV.
+     * Constructs b pbrbmeter set for RC2 from the given effective key size
+     * (in bits) bnd IV.
      *
-     * <p> The IV is taken from <code>iv</code>, starting at
+     * <p> The IV is tbken from <code>iv</code>, stbrting bt
      * <code>offset</code> inclusive.
-     * The bytes that constitute the IV are those between
-     * <code>iv[offset]</code> and <code>iv[offset+7]</code> inclusive.
+     * The bytes thbt constitute the IV bre those between
+     * <code>iv[offset]</code> bnd <code>iv[offset+7]</code> inclusive.
      *
-     * @param effectiveKeyBits the effective key size in bits.
-     * @param iv the buffer with the IV. The first 8 bytes
-     * of the buffer beginning at <code>offset</code> inclusive
-     * are copied to protect against subsequent modification.
-     * @param offset the offset in <code>iv</code> where the 8-byte IV
-     * starts.
-     * @exception IllegalArgumentException if <code>iv</code> is null.
+     * @pbrbm effectiveKeyBits the effective key size in bits.
+     * @pbrbm iv the buffer with the IV. The first 8 bytes
+     * of the buffer beginning bt <code>offset</code> inclusive
+     * bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>iv</code> where the 8-byte IV
+     * stbrts.
+     * @exception IllegblArgumentException if <code>iv</code> is null.
      */
-    public RC2ParameterSpec(int effectiveKeyBits, byte[] iv, int offset) {
+    public RC2PbrbmeterSpec(int effectiveKeyBits, byte[] iv, int offset) {
         this.effectiveKeyBits = effectiveKeyBits;
-        if (iv == null) throw new IllegalArgumentException("IV missing");
+        if (iv == null) throw new IllegblArgumentException("IV missing");
         int blockSize = 8;
         if (iv.length - offset < blockSize) {
-            throw new IllegalArgumentException("IV too short");
+            throw new IllegblArgumentException("IV too short");
         }
         this.iv = new byte[blockSize];
-        System.arraycopy(iv, offset, this.iv, 0, blockSize);
+        System.brrbycopy(iv, offset, this.iv, 0, blockSize);
     }
 
     /**
@@ -111,50 +111,50 @@ public class RC2ParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns the IV or null if this parameter set does not contain an IV.
+     * Returns the IV or null if this pbrbmeter set does not contbin bn IV.
      *
-     * @return the IV or null if this parameter set does not contain an IV.
-     * Returns a new array each time this method is called.
+     * @return the IV or null if this pbrbmeter set does not contbin bn IV.
+     * Returns b new brrby ebch time this method is cblled.
      */
     public byte[] getIV() {
         return (iv == null? null:iv.clone());
     }
 
    /**
-     * Tests for equality between the specified object and this
-     * object. Two RC2ParameterSpec objects are considered equal if their
-     * effective key sizes and IVs are equal.
-     * (Two IV references are considered equal if both are <tt>null</tt>.)
+     * Tests for equblity between the specified object bnd this
+     * object. Two RC2PbrbmeterSpec objects bre considered equbl if their
+     * effective key sizes bnd IVs bre equbl.
+     * (Two IV references bre considered equbl if both bre <tt>null</tt>.)
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if the objects are considered equal, false if
+     * @return true if the objects bre considered equbl, fblse if
      * <code>obj</code> is null or otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof RC2ParameterSpec)) {
-            return false;
+        if (!(obj instbnceof RC2PbrbmeterSpec)) {
+            return fblse;
         }
-        RC2ParameterSpec other = (RC2ParameterSpec) obj;
+        RC2PbrbmeterSpec other = (RC2PbrbmeterSpec) obj;
 
         return ((effectiveKeyBits == other.effectiveKeyBits) &&
-                java.util.Arrays.equals(iv, other.iv));
+                jbvb.util.Arrbys.equbls(iv, other.iv));
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         if (iv != null) {
             for (int i = 1; i < iv.length; i++) {
-                retval += iv[i] * i;
+                retvbl += iv[i] * i;
             }
         }
-        return (retval += effectiveKeyBits);
+        return (retvbl += effectiveKeyBits);
     }
 }

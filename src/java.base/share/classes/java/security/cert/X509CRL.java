@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.InvalidKeyException;
-import java.security.SignatureException;
-import java.security.Principal;
-import java.security.Provider;
-import java.security.PublicKey;
-import javax.security.auth.x500.X500Principal;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.SignbtureException;
+import jbvb.security.Principbl;
+import jbvb.security.Provider;
+import jbvb.security.PublicKey;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.Set;
-import java.util.Arrays;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Dbte;
+import jbvb.util.Set;
+import jbvb.util.Arrbys;
 
 import sun.security.x509.X509CRLImpl;
 
 /**
  * <p>
- * Abstract class for an X.509 Certificate Revocation List (CRL).
- * A CRL is a time-stamped list identifying revoked certificates.
- * It is signed by a Certificate Authority (CA) and made freely
- * available in a public repository.
+ * Abstrbct clbss for bn X.509 Certificbte Revocbtion List (CRL).
+ * A CRL is b time-stbmped list identifying revoked certificbtes.
+ * It is signed by b Certificbte Authority (CA) bnd mbde freely
+ * bvbilbble in b public repository.
  *
- * <p>Each revoked certificate is
- * identified in a CRL by its certificate serial number. When a
- * certificate-using system uses a certificate (e.g., for verifying a
- * remote user's digital signature), that system not only checks the
- * certificate signature and validity but also acquires a suitably-
- * recent CRL and checks that the certificate serial number is not on
- * that CRL.  The meaning of "suitably-recent" may vary with local
- * policy, but it usually means the most recently-issued CRL.  A CA
- * issues a new CRL on a regular periodic basis (e.g., hourly, daily, or
- * weekly).  Entries are added to CRLs as revocations occur, and an
- * entry may be removed when the certificate expiration date is reached.
+ * <p>Ebch revoked certificbte is
+ * identified in b CRL by its certificbte seribl number. When b
+ * certificbte-using system uses b certificbte (e.g., for verifying b
+ * remote user's digitbl signbture), thbt system not only checks the
+ * certificbte signbture bnd vblidity but blso bcquires b suitbbly-
+ * recent CRL bnd checks thbt the certificbte seribl number is not on
+ * thbt CRL.  The mebning of "suitbbly-recent" mby vbry with locbl
+ * policy, but it usublly mebns the most recently-issued CRL.  A CA
+ * issues b new CRL on b regulbr periodic bbsis (e.g., hourly, dbily, or
+ * weekly).  Entries bre bdded to CRLs bs revocbtions occur, bnd bn
+ * entry mby be removed when the certificbte expirbtion dbte is rebched.
  * <p>
- * The X.509 v2 CRL format is described below in ASN.1:
+ * The X.509 v2 CRL formbt is described below in ASN.1:
  * <pre>
- * CertificateList  ::=  SEQUENCE  {
+ * CertificbteList  ::=  SEQUENCE  {
  *     tbsCertList          TBSCertList,
- *     signatureAlgorithm   AlgorithmIdentifier,
- *     signature            BIT STRING  }
+ *     signbtureAlgorithm   AlgorithmIdentifier,
+ *     signbture            BIT STRING  }
  * </pre>
  * <p>
- * More information can be found in
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280: Internet X.509
- * Public Key Infrastructure Certificate and CRL Profile</a>.
+ * More informbtion cbn be found in
+ * <b href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280: Internet X.509
+ * Public Key Infrbstructure Certificbte bnd CRL Profile</b>.
  * <p>
  * The ASN.1 definition of {@code tbsCertList} is:
  * <pre>
  * TBSCertList  ::=  SEQUENCE  {
  *     version                 Version OPTIONAL,
  *                             -- if present, must be v2
- *     signature               AlgorithmIdentifier,
- *     issuer                  Name,
- *     thisUpdate              ChoiceOfTime,
- *     nextUpdate              ChoiceOfTime OPTIONAL,
- *     revokedCertificates     SEQUENCE OF SEQUENCE  {
- *         userCertificate         CertificateSerialNumber,
- *         revocationDate          ChoiceOfTime,
+ *     signbture               AlgorithmIdentifier,
+ *     issuer                  Nbme,
+ *     thisUpdbte              ChoiceOfTime,
+ *     nextUpdbte              ChoiceOfTime OPTIONAL,
+ *     revokedCertificbtes     SEQUENCE OF SEQUENCE  {
+ *         userCertificbte         CertificbteSeriblNumber,
+ *         revocbtionDbte          ChoiceOfTime,
  *         crlEntryExtensions      Extensions OPTIONAL
  *                                 -- if present, must be v2
  *         }  OPTIONAL,
@@ -92,26 +92,26 @@ import sun.security.x509.X509CRLImpl;
  *     }
  * </pre>
  * <p>
- * CRLs are instantiated using a certificate factory. The following is an
- * example of how to instantiate an X.509 CRL:
+ * CRLs bre instbntibted using b certificbte fbctory. The following is bn
+ * exbmple of how to instbntibte bn X.509 CRL:
  * <pre>{@code
- * try (InputStream inStream = new FileInputStream("fileName-of-crl")) {
- *     CertificateFactory cf = CertificateFactory.getInstance("X.509");
- *     X509CRL crl = (X509CRL)cf.generateCRL(inStream);
+ * try (InputStrebm inStrebm = new FileInputStrebm("fileNbme-of-crl")) {
+ *     CertificbteFbctory cf = CertificbteFbctory.getInstbnce("X.509");
+ *     X509CRL crl = (X509CRL)cf.generbteCRL(inStrebm);
  * }
  * }</pre>
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  *
  *
  * @see CRL
- * @see CertificateFactory
+ * @see CertificbteFbctory
  * @see X509Extension
  */
 
-public abstract class X509CRL extends CRL implements X509Extension {
+public bbstrbct clbss X509CRL extends CRL implements X509Extension {
 
-    private transient X500Principal issuerPrincipal;
+    privbte trbnsient X500Principbl issuerPrincipbl;
 
     /**
      * Constructor for X.509 CRLs.
@@ -121,348 +121,348 @@ public abstract class X509CRL extends CRL implements X509Extension {
     }
 
     /**
-     * Compares this CRL for equality with the given
-     * object. If the {@code other} object is an
-     * {@code instanceof} {@code X509CRL}, then
-     * its encoded form is retrieved and compared with the
+     * Compbres this CRL for equblity with the given
+     * object. If the {@code other} object is bn
+     * {@code instbnceof} {@code X509CRL}, then
+     * its encoded form is retrieved bnd compbred with the
      * encoded form of this CRL.
      *
-     * @param other the object to test for equality with this CRL.
+     * @pbrbm other the object to test for equblity with this CRL.
      *
      * @return true iff the encoded forms of the two CRLs
-     * match, false otherwise.
+     * mbtch, fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof X509CRL)) {
-            return false;
+        if (!(other instbnceof X509CRL)) {
+            return fblse;
         }
         try {
-            byte[] thisCRL = X509CRLImpl.getEncodedInternal(this);
-            byte[] otherCRL = X509CRLImpl.getEncodedInternal((X509CRL)other);
+            byte[] thisCRL = X509CRLImpl.getEncodedInternbl(this);
+            byte[] otherCRL = X509CRLImpl.getEncodedInternbl((X509CRL)other);
 
-            return Arrays.equals(thisCRL, otherCRL);
-        } catch (CRLException e) {
-            return false;
+            return Arrbys.equbls(thisCRL, otherCRL);
+        } cbtch (CRLException e) {
+            return fblse;
         }
     }
 
     /**
-     * Returns a hashcode value for this CRL from its
+     * Returns b hbshcode vblue for this CRL from its
      * encoded form.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         try {
-            byte[] crlData = X509CRLImpl.getEncodedInternal(this);
-            for (int i = 1; i < crlData.length; i++) {
-                 retval += crlData[i] * i;
+            byte[] crlDbtb = X509CRLImpl.getEncodedInternbl(this);
+            for (int i = 1; i < crlDbtb.length; i++) {
+                 retvbl += crlDbtb[i] * i;
             }
-            return retval;
-        } catch (CRLException e) {
-            return retval;
+            return retvbl;
+        } cbtch (CRLException e) {
+            return retvbl;
         }
     }
 
     /**
      * Returns the ASN.1 DER-encoded form of this CRL.
      *
-     * @return the encoded form of this certificate
-     * @exception CRLException if an encoding error occurs.
+     * @return the encoded form of this certificbte
+     * @exception CRLException if bn encoding error occurs.
      */
-    public abstract byte[] getEncoded()
+    public bbstrbct byte[] getEncoded()
         throws CRLException;
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key.
+     * Verifies thbt this CRL wbs signed using the
+     * privbte key thbt corresponds to the given public key.
      *
-     * @param key the PublicKey used to carry out the verification.
+     * @pbrbm key the PublicKey used to cbrry out the verificbtion.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException if there's no default provider.
-     * @exception SignatureException on signature errors.
+     * @exception NoSuchAlgorithmException on unsupported signbture
+     * blgorithms.
+     * @exception InvblidKeyException on incorrect key.
+     * @exception NoSuchProviderException if there's no defbult provider.
+     * @exception SignbtureException on signbture errors.
      * @exception CRLException on encoding errors.
      */
-    public abstract void verify(PublicKey key)
+    public bbstrbct void verify(PublicKey key)
         throws CRLException,  NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException;
+        InvblidKeyException, NoSuchProviderException,
+        SignbtureException;
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key.
-     * This method uses the signature verification engine
+     * Verifies thbt this CRL wbs signed using the
+     * privbte key thbt corresponds to the given public key.
+     * This method uses the signbture verificbtion engine
      * supplied by the given provider.
      *
-     * @param key the PublicKey used to carry out the verification.
-     * @param sigProvider the name of the signature provider.
+     * @pbrbm key the PublicKey used to cbrry out the verificbtion.
+     * @pbrbm sigProvider the nbme of the signbture provider.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
+     * @exception NoSuchAlgorithmException on unsupported signbture
+     * blgorithms.
+     * @exception InvblidKeyException on incorrect key.
      * @exception NoSuchProviderException on incorrect provider.
-     * @exception SignatureException on signature errors.
+     * @exception SignbtureException on signbture errors.
      * @exception CRLException on encoding errors.
      */
-    public abstract void verify(PublicKey key, String sigProvider)
+    public bbstrbct void verify(PublicKey key, String sigProvider)
         throws CRLException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException;
+        InvblidKeyException, NoSuchProviderException,
+        SignbtureException;
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key.
-     * This method uses the signature verification engine
-     * supplied by the given provider. Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * Verifies thbt this CRL wbs signed using the
+     * privbte key thbt corresponds to the given public key.
+     * This method uses the signbture verificbtion engine
+     * supplied by the given provider. Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * This method was added to version 1.8 of the Java Platform Standard
-     * Edition. In order to maintain backwards compatibility with existing
-     * service providers, this method is not {@code abstract}
-     * and it provides a default implementation.
+     * This method wbs bdded to version 1.8 of the Jbvb Plbtform Stbndbrd
+     * Edition. In order to mbintbin bbckwbrds compbtibility with existing
+     * service providers, this method is not {@code bbstrbct}
+     * bnd it provides b defbult implementbtion.
      *
-     * @param key the PublicKey used to carry out the verification.
-     * @param sigProvider the signature provider.
+     * @pbrbm key the PublicKey used to cbrry out the verificbtion.
+     * @pbrbm sigProvider the signbture provider.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception SignatureException on signature errors.
+     * @exception NoSuchAlgorithmException on unsupported signbture
+     * blgorithms.
+     * @exception InvblidKeyException on incorrect key.
+     * @exception SignbtureException on signbture errors.
      * @exception CRLException on encoding errors.
      * @since 1.8
      */
     public void verify(PublicKey key, Provider sigProvider)
         throws CRLException, NoSuchAlgorithmException,
-        InvalidKeyException, SignatureException {
+        InvblidKeyException, SignbtureException {
         X509CRLImpl.verify(this, key, sigProvider);
     }
 
     /**
-     * Gets the {@code version} (version number) value from the CRL.
+     * Gets the {@code version} (version number) vblue from the CRL.
      * The ASN.1 definition for this is:
      * <pre>
      * version    Version OPTIONAL,
      *             -- if present, must be v2
      *
      * Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
-     *             -- v3 does not apply to CRLs but appears for consistency
+     *             -- v3 does not bpply to CRLs but bppebrs for consistency
      *             -- with definition of Version for certs
      * </pre>
      *
      * @return the version number, i.e. 1 or 2.
      */
-    public abstract int getVersion();
+    public bbstrbct int getVersion();
 
     /**
-     * <strong>Denigrated</strong>, replaced by {@linkplain
-     * #getIssuerX500Principal()}. This method returns the {@code issuer}
-     * as an implementation specific Principal object, which should not be
-     * relied upon by portable code.
+     * <strong>Denigrbted</strong>, replbced by {@linkplbin
+     * #getIssuerX500Principbl()}. This method returns the {@code issuer}
+     * bs bn implementbtion specific Principbl object, which should not be
+     * relied upon by portbble code.
      *
      * <p>
-     * Gets the {@code issuer} (issuer distinguished name) value from
-     * the CRL. The issuer name identifies the entity that signed (and
+     * Gets the {@code issuer} (issuer distinguished nbme) vblue from
+     * the CRL. The issuer nbme identifies the entity thbt signed (bnd
      * issued) the CRL.
      *
-     * <p>The issuer name field contains an
-     * X.500 distinguished name (DN).
+     * <p>The issuer nbme field contbins bn
+     * X.500 distinguished nbme (DN).
      * The ASN.1 definition for this is:
      * <pre>
-     * issuer    Name
+     * issuer    Nbme
      *
-     * Name ::= CHOICE { RDNSequence }
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
-     * RelativeDistinguishedName ::=
-     *     SET OF AttributeValueAssertion
+     * Nbme ::= CHOICE { RDNSequence }
+     * RDNSequence ::= SEQUENCE OF RelbtiveDistinguishedNbme
+     * RelbtiveDistinguishedNbme ::=
+     *     SET OF AttributeVblueAssertion
      *
-     * AttributeValueAssertion ::= SEQUENCE {
+     * AttributeVblueAssertion ::= SEQUENCE {
      *                               AttributeType,
-     *                               AttributeValue }
+     *                               AttributeVblue }
      * AttributeType ::= OBJECT IDENTIFIER
-     * AttributeValue ::= ANY
+     * AttributeVblue ::= ANY
      * </pre>
-     * The {@code Name} describes a hierarchical name composed of
-     * attributes,
-     * such as country name, and corresponding values, such as US.
-     * The type of the {@code AttributeValue} component is determined by
-     * the {@code AttributeType}; in general it will be a
-     * {@code directoryString}. A {@code directoryString} is usually
-     * one of {@code PrintableString},
-     * {@code TeletexString} or {@code UniversalString}.
+     * The {@code Nbme} describes b hierbrchicbl nbme composed of
+     * bttributes,
+     * such bs country nbme, bnd corresponding vblues, such bs US.
+     * The type of the {@code AttributeVblue} component is determined by
+     * the {@code AttributeType}; in generbl it will be b
+     * {@code directoryString}. A {@code directoryString} is usublly
+     * one of {@code PrintbbleString},
+     * {@code TeletexString} or {@code UniversblString}.
      *
-     * @return a Principal whose name is the issuer distinguished name.
+     * @return b Principbl whose nbme is the issuer distinguished nbme.
      */
-    public abstract Principal getIssuerDN();
+    public bbstrbct Principbl getIssuerDN();
 
     /**
-     * Returns the issuer (issuer distinguished name) value from the
-     * CRL as an {@code X500Principal}.
+     * Returns the issuer (issuer distinguished nbme) vblue from the
+     * CRL bs bn {@code X500Principbl}.
      * <p>
-     * It is recommended that subclasses override this method.
+     * It is recommended thbt subclbsses override this method.
      *
-     * @return an {@code X500Principal} representing the issuer
-     *          distinguished name
+     * @return bn {@code X500Principbl} representing the issuer
+     *          distinguished nbme
      * @since 1.4
      */
-    public X500Principal getIssuerX500Principal() {
-        if (issuerPrincipal == null) {
-            issuerPrincipal = X509CRLImpl.getIssuerX500Principal(this);
+    public X500Principbl getIssuerX500Principbl() {
+        if (issuerPrincipbl == null) {
+            issuerPrincipbl = X509CRLImpl.getIssuerX500Principbl(this);
         }
-        return issuerPrincipal;
+        return issuerPrincipbl;
     }
 
     /**
-     * Gets the {@code thisUpdate} date from the CRL.
+     * Gets the {@code thisUpdbte} dbte from the CRL.
      * The ASN.1 definition for this is:
      * <pre>
-     * thisUpdate   ChoiceOfTime
+     * thisUpdbte   ChoiceOfTime
      * ChoiceOfTime ::= CHOICE {
      *     utcTime        UTCTime,
-     *     generalTime    GeneralizedTime }
+     *     generblTime    GenerblizedTime }
      * </pre>
      *
-     * @return the {@code thisUpdate} date from the CRL.
+     * @return the {@code thisUpdbte} dbte from the CRL.
      */
-    public abstract Date getThisUpdate();
+    public bbstrbct Dbte getThisUpdbte();
 
     /**
-     * Gets the {@code nextUpdate} date from the CRL.
+     * Gets the {@code nextUpdbte} dbte from the CRL.
      *
-     * @return the {@code nextUpdate} date from the CRL, or null if
+     * @return the {@code nextUpdbte} dbte from the CRL, or null if
      * not present.
      */
-    public abstract Date getNextUpdate();
+    public bbstrbct Dbte getNextUpdbte();
 
     /**
-     * Gets the CRL entry, if any, with the given certificate serialNumber.
+     * Gets the CRL entry, if bny, with the given certificbte seriblNumber.
      *
-     * @param serialNumber the serial number of the certificate for which a CRL entry
+     * @pbrbm seriblNumber the seribl number of the certificbte for which b CRL entry
      * is to be looked up
-     * @return the entry with the given serial number, or null if no such entry
+     * @return the entry with the given seribl number, or null if no such entry
      * exists in this CRL.
      * @see X509CRLEntry
      */
-    public abstract X509CRLEntry
-        getRevokedCertificate(BigInteger serialNumber);
+    public bbstrbct X509CRLEntry
+        getRevokedCertificbte(BigInteger seriblNumber);
 
     /**
-     * Get the CRL entry, if any, for the given certificate.
+     * Get the CRL entry, if bny, for the given certificbte.
      *
-     * <p>This method can be used to lookup CRL entries in indirect CRLs,
-     * that means CRLs that contain entries from issuers other than the CRL
-     * issuer. The default implementation will only return entries for
-     * certificates issued by the CRL issuer. Subclasses that wish to
+     * <p>This method cbn be used to lookup CRL entries in indirect CRLs,
+     * thbt mebns CRLs thbt contbin entries from issuers other thbn the CRL
+     * issuer. The defbult implementbtion will only return entries for
+     * certificbtes issued by the CRL issuer. Subclbsses thbt wish to
      * support indirect CRLs should override this method.
      *
-     * @param certificate the certificate for which a CRL entry is to be looked
+     * @pbrbm certificbte the certificbte for which b CRL entry is to be looked
      *   up
-     * @return the entry for the given certificate, or null if no such entry
+     * @return the entry for the given certificbte, or null if no such entry
      *   exists in this CRL.
-     * @exception NullPointerException if certificate is null
+     * @exception NullPointerException if certificbte is null
      *
      * @since 1.5
      */
-    public X509CRLEntry getRevokedCertificate(X509Certificate certificate) {
-        X500Principal certIssuer = certificate.getIssuerX500Principal();
-        X500Principal crlIssuer = getIssuerX500Principal();
-        if (certIssuer.equals(crlIssuer) == false) {
+    public X509CRLEntry getRevokedCertificbte(X509Certificbte certificbte) {
+        X500Principbl certIssuer = certificbte.getIssuerX500Principbl();
+        X500Principbl crlIssuer = getIssuerX500Principbl();
+        if (certIssuer.equbls(crlIssuer) == fblse) {
             return null;
         }
-        return getRevokedCertificate(certificate.getSerialNumber());
+        return getRevokedCertificbte(certificbte.getSeriblNumber());
     }
 
     /**
-     * Gets all the entries from this CRL.
-     * This returns a Set of X509CRLEntry objects.
+     * Gets bll the entries from this CRL.
+     * This returns b Set of X509CRLEntry objects.
      *
-     * @return all the entries or null if there are none present.
+     * @return bll the entries or null if there bre none present.
      * @see X509CRLEntry
      */
-    public abstract Set<? extends X509CRLEntry> getRevokedCertificates();
+    public bbstrbct Set<? extends X509CRLEntry> getRevokedCertificbtes();
 
     /**
-     * Gets the DER-encoded CRL information, the
+     * Gets the DER-encoded CRL informbtion, the
      * {@code tbsCertList} from this CRL.
-     * This can be used to verify the signature independently.
+     * This cbn be used to verify the signbture independently.
      *
-     * @return the DER-encoded CRL information.
-     * @exception CRLException if an encoding error occurs.
+     * @return the DER-encoded CRL informbtion.
+     * @exception CRLException if bn encoding error occurs.
      */
-    public abstract byte[] getTBSCertList() throws CRLException;
+    public bbstrbct byte[] getTBSCertList() throws CRLException;
 
     /**
-     * Gets the {@code signature} value (the raw signature bits) from
+     * Gets the {@code signbture} vblue (the rbw signbture bits) from
      * the CRL.
      * The ASN.1 definition for this is:
      * <pre>
-     * signature     BIT STRING
+     * signbture     BIT STRING
      * </pre>
      *
-     * @return the signature.
+     * @return the signbture.
      */
-    public abstract byte[] getSignature();
+    public bbstrbct byte[] getSignbture();
 
     /**
-     * Gets the signature algorithm name for the CRL
-     * signature algorithm. An example is the string "SHA256withRSA".
+     * Gets the signbture blgorithm nbme for the CRL
+     * signbture blgorithm. An exbmple is the string "SHA256withRSA".
      * The ASN.1 definition for this is:
      * <pre>
-     * signatureAlgorithm   AlgorithmIdentifier
+     * signbtureAlgorithm   AlgorithmIdentifier
      *
      * AlgorithmIdentifier  ::=  SEQUENCE  {
-     *     algorithm               OBJECT IDENTIFIER,
-     *     parameters              ANY DEFINED BY algorithm OPTIONAL  }
-     *                             -- contains a value of the type
+     *     blgorithm               OBJECT IDENTIFIER,
+     *     pbrbmeters              ANY DEFINED BY blgorithm OPTIONAL  }
+     *                             -- contbins b vblue of the type
      *                             -- registered for use with the
-     *                             -- algorithm object identifier value
+     *                             -- blgorithm object identifier vblue
      * </pre>
      *
-     * <p>The algorithm name is determined from the {@code algorithm}
+     * <p>The blgorithm nbme is determined from the {@code blgorithm}
      * OID string.
      *
-     * @return the signature algorithm name.
+     * @return the signbture blgorithm nbme.
      */
-    public abstract String getSigAlgName();
+    public bbstrbct String getSigAlgNbme();
 
     /**
-     * Gets the signature algorithm OID string from the CRL.
-     * An OID is represented by a set of nonnegative whole numbers separated
+     * Gets the signbture blgorithm OID string from the CRL.
+     * An OID is represented by b set of nonnegbtive whole numbers sepbrbted
      * by periods.
-     * For example, the string "1.2.840.10040.4.3" identifies the SHA-1
-     * with DSA signature algorithm defined in
-     * <a href="http://www.ietf.org/rfc/rfc3279.txt">RFC 3279: Algorithms and
-     * Identifiers for the Internet X.509 Public Key Infrastructure Certificate
-     * and CRL Profile</a>.
+     * For exbmple, the string "1.2.840.10040.4.3" identifies the SHA-1
+     * with DSA signbture blgorithm defined in
+     * <b href="http://www.ietf.org/rfc/rfc3279.txt">RFC 3279: Algorithms bnd
+     * Identifiers for the Internet X.509 Public Key Infrbstructure Certificbte
+     * bnd CRL Profile</b>.
      *
-     * <p>See {@link #getSigAlgName() getSigAlgName} for
-     * relevant ASN.1 definitions.
+     * <p>See {@link #getSigAlgNbme() getSigAlgNbme} for
+     * relevbnt ASN.1 definitions.
      *
-     * @return the signature algorithm OID string.
+     * @return the signbture blgorithm OID string.
      */
-    public abstract String getSigAlgOID();
+    public bbstrbct String getSigAlgOID();
 
     /**
-     * Gets the DER-encoded signature algorithm parameters from this
-     * CRL's signature algorithm. In most cases, the signature
-     * algorithm parameters are null; the parameters are usually
+     * Gets the DER-encoded signbture blgorithm pbrbmeters from this
+     * CRL's signbture blgorithm. In most cbses, the signbture
+     * blgorithm pbrbmeters bre null; the pbrbmeters bre usublly
      * supplied with the public key.
-     * If access to individual parameter values is needed then use
-     * {@link java.security.AlgorithmParameters AlgorithmParameters}
-     * and instantiate with the name returned by
-     * {@link #getSigAlgName() getSigAlgName}.
+     * If bccess to individubl pbrbmeter vblues is needed then use
+     * {@link jbvb.security.AlgorithmPbrbmeters AlgorithmPbrbmeters}
+     * bnd instbntibte with the nbme returned by
+     * {@link #getSigAlgNbme() getSigAlgNbme}.
      *
-     * <p>See {@link #getSigAlgName() getSigAlgName} for
-     * relevant ASN.1 definitions.
+     * <p>See {@link #getSigAlgNbme() getSigAlgNbme} for
+     * relevbnt ASN.1 definitions.
      *
-     * @return the DER-encoded signature algorithm parameters, or
-     *         null if no parameters are present.
+     * @return the DER-encoded signbture blgorithm pbrbmeters, or
+     *         null if no pbrbmeters bre present.
      */
-    public abstract byte[] getSigAlgParams();
+    public bbstrbct byte[] getSigAlgPbrbms();
 }

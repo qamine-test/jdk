@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
 /**
- * A {@code MutableCallSite} is a {@link CallSite} whose target variable
- * behaves like an ordinary field.
- * An {@code invokedynamic} instruction linked to a {@code MutableCallSite} delegates
- * all calls to the site's current target.
- * The {@linkplain CallSite#dynamicInvoker dynamic invoker} of a mutable call site
- * also delegates each call to the site's current target.
+ * A {@code MutbbleCbllSite} is b {@link CbllSite} whose tbrget vbribble
+ * behbves like bn ordinbry field.
+ * An {@code invokedynbmic} instruction linked to b {@code MutbbleCbllSite} delegbtes
+ * bll cblls to the site's current tbrget.
+ * The {@linkplbin CbllSite#dynbmicInvoker dynbmic invoker} of b mutbble cbll site
+ * blso delegbtes ebch cbll to the site's current tbrget.
  * <p>
- * Here is an example of a mutable call site which introduces a
- * state variable into a method handle chain.
- * <!-- JavaDocExamplesTest.testMutableCallSite -->
+ * Here is bn exbmple of b mutbble cbll site which introduces b
+ * stbte vbribble into b method hbndle chbin.
+ * <!-- JbvbDocExbmplesTest.testMutbbleCbllSite -->
  * <blockquote><pre>{@code
-MutableCallSite name = new MutableCallSite(MethodType.methodType(String.class));
-MethodHandle MH_name = name.dynamicInvoker();
-MethodType MT_str1 = MethodType.methodType(String.class);
-MethodHandle MH_upcase = MethodHandles.lookup()
-    .findVirtual(String.class, "toUpperCase", MT_str1);
-MethodHandle worker1 = MethodHandles.filterReturnValue(MH_name, MH_upcase);
-name.setTarget(MethodHandles.constant(String.class, "Rocky"));
-assertEquals("ROCKY", (String) worker1.invokeExact());
-name.setTarget(MethodHandles.constant(String.class, "Fred"));
-assertEquals("FRED", (String) worker1.invokeExact());
-// (mutation can be continued indefinitely)
+MutbbleCbllSite nbme = new MutbbleCbllSite(MethodType.methodType(String.clbss));
+MethodHbndle MH_nbme = nbme.dynbmicInvoker();
+MethodType MT_str1 = MethodType.methodType(String.clbss);
+MethodHbndle MH_upcbse = MethodHbndles.lookup()
+    .findVirtubl(String.clbss, "toUpperCbse", MT_str1);
+MethodHbndle worker1 = MethodHbndles.filterReturnVblue(MH_nbme, MH_upcbse);
+nbme.setTbrget(MethodHbndles.constbnt(String.clbss, "Rocky"));
+bssertEqubls("ROCKY", (String) worker1.invokeExbct());
+nbme.setTbrget(MethodHbndles.constbnt(String.clbss, "Fred"));
+bssertEqubls("FRED", (String) worker1.invokeExbct());
+// (mutbtion cbn be continued indefinitely)
  * }</pre></blockquote>
  * <p>
- * The same call site may be used in several places at once.
+ * The sbme cbll site mby be used in severbl plbces bt once.
  * <blockquote><pre>{@code
-MethodType MT_str2 = MethodType.methodType(String.class, String.class);
-MethodHandle MH_cat = lookup().findVirtual(String.class,
-  "concat", methodType(String.class, String.class));
-MethodHandle MH_dear = MethodHandles.insertArguments(MH_cat, 1, ", dear?");
-MethodHandle worker2 = MethodHandles.filterReturnValue(MH_name, MH_dear);
-assertEquals("Fred, dear?", (String) worker2.invokeExact());
-name.setTarget(MethodHandles.constant(String.class, "Wilma"));
-assertEquals("WILMA", (String) worker1.invokeExact());
-assertEquals("Wilma, dear?", (String) worker2.invokeExact());
+MethodType MT_str2 = MethodType.methodType(String.clbss, String.clbss);
+MethodHbndle MH_cbt = lookup().findVirtubl(String.clbss,
+  "concbt", methodType(String.clbss, String.clbss));
+MethodHbndle MH_debr = MethodHbndles.insertArguments(MH_cbt, 1, ", debr?");
+MethodHbndle worker2 = MethodHbndles.filterReturnVblue(MH_nbme, MH_debr);
+bssertEqubls("Fred, debr?", (String) worker2.invokeExbct());
+nbme.setTbrget(MethodHbndles.constbnt(String.clbss, "Wilmb"));
+bssertEqubls("WILMA", (String) worker1.invokeExbct());
+bssertEqubls("Wilmb, debr?", (String) worker2.invokeExbct());
  * }</pre></blockquote>
  * <p>
- * <em>Non-synchronization of target values:</em>
- * A write to a mutable call site's target does not force other threads
- * to become aware of the updated value.  Threads which do not perform
- * suitable synchronization actions relative to the updated call site
- * may cache the old target value and delay their use of the new target
- * value indefinitely.
- * (This is a normal consequence of the Java Memory Model as applied
+ * <em>Non-synchronizbtion of tbrget vblues:</em>
+ * A write to b mutbble cbll site's tbrget does not force other threbds
+ * to become bwbre of the updbted vblue.  Threbds which do not perform
+ * suitbble synchronizbtion bctions relbtive to the updbted cbll site
+ * mby cbche the old tbrget vblue bnd delby their use of the new tbrget
+ * vblue indefinitely.
+ * (This is b normbl consequence of the Jbvb Memory Model bs bpplied
  * to object fields.)
  * <p>
- * The {@link #syncAll syncAll} operation provides a way to force threads
- * to accept a new target value, even if there is no other synchronization.
+ * The {@link #syncAll syncAll} operbtion provides b wby to force threbds
+ * to bccept b new tbrget vblue, even if there is no other synchronizbtion.
  * <p>
- * For target values which will be frequently updated, consider using
- * a {@linkplain VolatileCallSite volatile call site} instead.
- * @author John Rose, JSR 292 EG
+ * For tbrget vblues which will be frequently updbted, consider using
+ * b {@linkplbin VolbtileCbllSite volbtile cbll site} instebd.
+ * @buthor John Rose, JSR 292 EG
  */
-public class MutableCallSite extends CallSite {
+public clbss MutbbleCbllSite extends CbllSite {
     /**
-     * Creates a blank call site object with the given method type.
-     * The initial target is set to a method handle of the given type
-     * which will throw an {@link IllegalStateException} if called.
+     * Crebtes b blbnk cbll site object with the given method type.
+     * The initibl tbrget is set to b method hbndle of the given type
+     * which will throw bn {@link IllegblStbteException} if cblled.
      * <p>
-     * The type of the call site is permanently set to the given type.
+     * The type of the cbll site is permbnently set to the given type.
      * <p>
-     * Before this {@code CallSite} object is returned from a bootstrap method,
-     * or invoked in some other manner,
-     * it is usually provided with a more useful target method,
-     * via a call to {@link CallSite#setTarget(MethodHandle) setTarget}.
-     * @param type the method type that this call site will have
+     * Before this {@code CbllSite} object is returned from b bootstrbp method,
+     * or invoked in some other mbnner,
+     * it is usublly provided with b more useful tbrget method,
+     * vib b cbll to {@link CbllSite#setTbrget(MethodHbndle) setTbrget}.
+     * @pbrbm type the method type thbt this cbll site will hbve
      * @throws NullPointerException if the proposed type is null
      */
-    public MutableCallSite(MethodType type) {
+    public MutbbleCbllSite(MethodType type) {
         super(type);
     }
 
     /**
-     * Creates a call site object with an initial target method handle.
-     * The type of the call site is permanently set to the initial target's type.
-     * @param target the method handle that will be the initial target of the call site
-     * @throws NullPointerException if the proposed target is null
+     * Crebtes b cbll site object with bn initibl tbrget method hbndle.
+     * The type of the cbll site is permbnently set to the initibl tbrget's type.
+     * @pbrbm tbrget the method hbndle thbt will be the initibl tbrget of the cbll site
+     * @throws NullPointerException if the proposed tbrget is null
      */
-    public MutableCallSite(MethodHandle target) {
-        super(target);
+    public MutbbleCbllSite(MethodHbndle tbrget) {
+        super(tbrget);
     }
 
     /**
-     * Returns the target method of the call site, which behaves
-     * like a normal field of the {@code MutableCallSite}.
+     * Returns the tbrget method of the cbll site, which behbves
+     * like b normbl field of the {@code MutbbleCbllSite}.
      * <p>
-     * The interactions of {@code getTarget} with memory are the same
-     * as of a read from an ordinary variable, such as an array element or a
-     * non-volatile, non-final field.
+     * The interbctions of {@code getTbrget} with memory bre the sbme
+     * bs of b rebd from bn ordinbry vbribble, such bs bn brrby element or b
+     * non-volbtile, non-finbl field.
      * <p>
-     * In particular, the current thread may choose to reuse the result
-     * of a previous read of the target from memory, and may fail to see
-     * a recent update to the target by another thread.
+     * In pbrticulbr, the current threbd mby choose to reuse the result
+     * of b previous rebd of the tbrget from memory, bnd mby fbil to see
+     * b recent updbte to the tbrget by bnother threbd.
      *
-     * @return the linkage state of this call site, a method handle which can change over time
-     * @see #setTarget
+     * @return the linkbge stbte of this cbll site, b method hbndle which cbn chbnge over time
+     * @see #setTbrget
      */
-    @Override public final MethodHandle getTarget() {
-        return target;
+    @Override public finbl MethodHbndle getTbrget() {
+        return tbrget;
     }
 
     /**
-     * Updates the target method of this call site, as a normal variable.
-     * The type of the new target must agree with the type of the old target.
+     * Updbtes the tbrget method of this cbll site, bs b normbl vbribble.
+     * The type of the new tbrget must bgree with the type of the old tbrget.
      * <p>
-     * The interactions with memory are the same
-     * as of a write to an ordinary variable, such as an array element or a
-     * non-volatile, non-final field.
+     * The interbctions with memory bre the sbme
+     * bs of b write to bn ordinbry vbribble, such bs bn brrby element or b
+     * non-volbtile, non-finbl field.
      * <p>
-     * In particular, unrelated threads may fail to see the updated target
-     * until they perform a read from memory.
-     * Stronger guarantees can be created by putting appropriate operations
-     * into the bootstrap method and/or the target methods used
-     * at any given call site.
+     * In pbrticulbr, unrelbted threbds mby fbil to see the updbted tbrget
+     * until they perform b rebd from memory.
+     * Stronger gubrbntees cbn be crebted by putting bppropribte operbtions
+     * into the bootstrbp method bnd/or the tbrget methods used
+     * bt bny given cbll site.
      *
-     * @param newTarget the new target
-     * @throws NullPointerException if the proposed new target is null
-     * @throws WrongMethodTypeException if the proposed new target
-     *         has a method type that differs from the previous target
-     * @see #getTarget
+     * @pbrbm newTbrget the new tbrget
+     * @throws NullPointerException if the proposed new tbrget is null
+     * @throws WrongMethodTypeException if the proposed new tbrget
+     *         hbs b method type thbt differs from the previous tbrget
+     * @see #getTbrget
      */
-    @Override public void setTarget(MethodHandle newTarget) {
-        checkTargetChange(this.target, newTarget);
-        setTargetNormal(newTarget);
+    @Override public void setTbrget(MethodHbndle newTbrget) {
+        checkTbrgetChbnge(this.tbrget, newTbrget);
+        setTbrgetNormbl(newTbrget);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final MethodHandle dynamicInvoker() {
-        return makeDynamicInvoker();
+    public finbl MethodHbndle dynbmicInvoker() {
+        return mbkeDynbmicInvoker();
     }
 
     /**
-     * Performs a synchronization operation on each call site in the given array,
-     * forcing all other threads to throw away any cached values previously
-     * loaded from the target of any of the call sites.
+     * Performs b synchronizbtion operbtion on ebch cbll site in the given brrby,
+     * forcing bll other threbds to throw bwby bny cbched vblues previously
+     * lobded from the tbrget of bny of the cbll sites.
      * <p>
-     * This operation does not reverse any calls that have already started
-     * on an old target value.
-     * (Java supports {@linkplain java.lang.Object#wait() forward time travel} only.)
+     * This operbtion does not reverse bny cblls thbt hbve blrebdy stbrted
+     * on bn old tbrget vblue.
+     * (Jbvb supports {@linkplbin jbvb.lbng.Object#wbit() forwbrd time trbvel} only.)
      * <p>
-     * The overall effect is to force all future readers of each call site's target
-     * to accept the most recently stored value.
-     * ("Most recently" is reckoned relative to the {@code syncAll} itself.)
-     * Conversely, the {@code syncAll} call may block until all readers have
-     * (somehow) decached all previous versions of each call site's target.
+     * The overbll effect is to force bll future rebders of ebch cbll site's tbrget
+     * to bccept the most recently stored vblue.
+     * ("Most recently" is reckoned relbtive to the {@code syncAll} itself.)
+     * Conversely, the {@code syncAll} cbll mby block until bll rebders hbve
+     * (somehow) decbched bll previous versions of ebch cbll site's tbrget.
      * <p>
-     * To avoid race conditions, calls to {@code setTarget} and {@code syncAll}
-     * should generally be performed under some sort of mutual exclusion.
-     * Note that reader threads may observe an updated target as early
-     * as the {@code setTarget} call that install the value
-     * (and before the {@code syncAll} that confirms the value).
-     * On the other hand, reader threads may observe previous versions of
-     * the target until the {@code syncAll} call returns
-     * (and after the {@code setTarget} that attempts to convey the updated version).
+     * To bvoid rbce conditions, cblls to {@code setTbrget} bnd {@code syncAll}
+     * should generblly be performed under some sort of mutubl exclusion.
+     * Note thbt rebder threbds mby observe bn updbted tbrget bs ebrly
+     * bs the {@code setTbrget} cbll thbt instbll the vblue
+     * (bnd before the {@code syncAll} thbt confirms the vblue).
+     * On the other hbnd, rebder threbds mby observe previous versions of
+     * the tbrget until the {@code syncAll} cbll returns
+     * (bnd bfter the {@code setTbrget} thbt bttempts to convey the updbted version).
      * <p>
-     * This operation is likely to be expensive and should be used sparingly.
-     * If possible, it should be buffered for batch processing on sets of call sites.
+     * This operbtion is likely to be expensive bnd should be used spbringly.
+     * If possible, it should be buffered for bbtch processing on sets of cbll sites.
      * <p>
-     * If {@code sites} contains a null element,
-     * a {@code NullPointerException} will be raised.
-     * In this case, some non-null elements in the array may be
-     * processed before the method returns abnormally.
-     * Which elements these are (if any) is implementation-dependent.
+     * If {@code sites} contbins b null element,
+     * b {@code NullPointerException} will be rbised.
+     * In this cbse, some non-null elements in the brrby mby be
+     * processed before the method returns bbnormblly.
+     * Which elements these bre (if bny) is implementbtion-dependent.
      *
-     * <h1>Java Memory Model details</h1>
-     * In terms of the Java Memory Model, this operation performs a synchronization
-     * action which is comparable in effect to the writing of a volatile variable
-     * by the current thread, and an eventual volatile read by every other thread
-     * that may access one of the affected call sites.
+     * <h1>Jbvb Memory Model detbils</h1>
+     * In terms of the Jbvb Memory Model, this operbtion performs b synchronizbtion
+     * bction which is compbrbble in effect to the writing of b volbtile vbribble
+     * by the current threbd, bnd bn eventubl volbtile rebd by every other threbd
+     * thbt mby bccess one of the bffected cbll sites.
      * <p>
-     * The following effects are apparent, for each individual call site {@code S}:
+     * The following effects bre bppbrent, for ebch individubl cbll site {@code S}:
      * <ul>
-     * <li>A new volatile variable {@code V} is created, and written by the current thread.
-     *     As defined by the JMM, this write is a global synchronization event.
-     * <li>As is normal with thread-local ordering of write events,
-     *     every action already performed by the current thread is
-     *     taken to happen before the volatile write to {@code V}.
-     *     (In some implementations, this means that the current thread
-     *     performs a global release operation.)
-     * <li>Specifically, the write to the current target of {@code S} is
-     *     taken to happen before the volatile write to {@code V}.
-     * <li>The volatile write to {@code V} is placed
-     *     (in an implementation specific manner)
-     *     in the global synchronization order.
-     * <li>Consider an arbitrary thread {@code T} (other than the current thread).
-     *     If {@code T} executes a synchronization action {@code A}
-     *     after the volatile write to {@code V} (in the global synchronization order),
-     *     it is therefore required to see either the current target
-     *     of {@code S}, or a later write to that target,
-     *     if it executes a read on the target of {@code S}.
-     *     (This constraint is called "synchronization-order consistency".)
-     * <li>The JMM specifically allows optimizing compilers to elide
-     *     reads or writes of variables that are known to be useless.
-     *     Such elided reads and writes have no effect on the happens-before
-     *     relation.  Regardless of this fact, the volatile {@code V}
-     *     will not be elided, even though its written value is
-     *     indeterminate and its read value is not used.
+     * <li>A new volbtile vbribble {@code V} is crebted, bnd written by the current threbd.
+     *     As defined by the JMM, this write is b globbl synchronizbtion event.
+     * <li>As is normbl with threbd-locbl ordering of write events,
+     *     every bction blrebdy performed by the current threbd is
+     *     tbken to hbppen before the volbtile write to {@code V}.
+     *     (In some implementbtions, this mebns thbt the current threbd
+     *     performs b globbl relebse operbtion.)
+     * <li>Specificblly, the write to the current tbrget of {@code S} is
+     *     tbken to hbppen before the volbtile write to {@code V}.
+     * <li>The volbtile write to {@code V} is plbced
+     *     (in bn implementbtion specific mbnner)
+     *     in the globbl synchronizbtion order.
+     * <li>Consider bn brbitrbry threbd {@code T} (other thbn the current threbd).
+     *     If {@code T} executes b synchronizbtion bction {@code A}
+     *     bfter the volbtile write to {@code V} (in the globbl synchronizbtion order),
+     *     it is therefore required to see either the current tbrget
+     *     of {@code S}, or b lbter write to thbt tbrget,
+     *     if it executes b rebd on the tbrget of {@code S}.
+     *     (This constrbint is cblled "synchronizbtion-order consistency".)
+     * <li>The JMM specificblly bllows optimizing compilers to elide
+     *     rebds or writes of vbribbles thbt bre known to be useless.
+     *     Such elided rebds bnd writes hbve no effect on the hbppens-before
+     *     relbtion.  Regbrdless of this fbct, the volbtile {@code V}
+     *     will not be elided, even though its written vblue is
+     *     indeterminbte bnd its rebd vblue is not used.
      * </ul>
-     * Because of the last point, the implementation behaves as if a
-     * volatile read of {@code V} were performed by {@code T}
-     * immediately after its action {@code A}.  In the local ordering
-     * of actions in {@code T}, this read happens before any future
-     * read of the target of {@code S}.  It is as if the
-     * implementation arbitrarily picked a read of {@code S}'s target
-     * by {@code T}, and forced a read of {@code V} to precede it,
-     * thereby ensuring communication of the new target value.
+     * Becbuse of the lbst point, the implementbtion behbves bs if b
+     * volbtile rebd of {@code V} were performed by {@code T}
+     * immedibtely bfter its bction {@code A}.  In the locbl ordering
+     * of bctions in {@code T}, this rebd hbppens before bny future
+     * rebd of the tbrget of {@code S}.  It is bs if the
+     * implementbtion brbitrbrily picked b rebd of {@code S}'s tbrget
+     * by {@code T}, bnd forced b rebd of {@code V} to precede it,
+     * thereby ensuring communicbtion of the new tbrget vblue.
      * <p>
-     * As long as the constraints of the Java Memory Model are obeyed,
-     * implementations may delay the completion of a {@code syncAll}
-     * operation while other threads ({@code T} above) continue to
-     * use previous values of {@code S}'s target.
-     * However, implementations are (as always) encouraged to avoid
-     * livelock, and to eventually require all threads to take account
-     * of the updated target.
+     * As long bs the constrbints of the Jbvb Memory Model bre obeyed,
+     * implementbtions mby delby the completion of b {@code syncAll}
+     * operbtion while other threbds ({@code T} bbove) continue to
+     * use previous vblues of {@code S}'s tbrget.
+     * However, implementbtions bre (bs blwbys) encourbged to bvoid
+     * livelock, bnd to eventublly require bll threbds to tbke bccount
+     * of the updbted tbrget.
      *
-     * <p style="font-size:smaller;">
+     * <p style="font-size:smbller;">
      * <em>Discussion:</em>
-     * For performance reasons, {@code syncAll} is not a virtual method
-     * on a single call site, but rather applies to a set of call sites.
-     * Some implementations may incur a large fixed overhead cost
-     * for processing one or more synchronization operations,
-     * but a small incremental cost for each additional call site.
-     * In any case, this operation is likely to be costly, since
-     * other threads may have to be somehow interrupted
-     * in order to make them notice the updated target value.
-     * However, it may be observed that a single call to synchronize
-     * several sites has the same formal effect as many calls,
-     * each on just one of the sites.
+     * For performbnce rebsons, {@code syncAll} is not b virtubl method
+     * on b single cbll site, but rbther bpplies to b set of cbll sites.
+     * Some implementbtions mby incur b lbrge fixed overhebd cost
+     * for processing one or more synchronizbtion operbtions,
+     * but b smbll incrementbl cost for ebch bdditionbl cbll site.
+     * In bny cbse, this operbtion is likely to be costly, since
+     * other threbds mby hbve to be somehow interrupted
+     * in order to mbke them notice the updbted tbrget vblue.
+     * However, it mby be observed thbt b single cbll to synchronize
+     * severbl sites hbs the sbme formbl effect bs mbny cblls,
+     * ebch on just one of the sites.
      *
-     * <p style="font-size:smaller;">
-     * <em>Implementation Note:</em>
-     * Simple implementations of {@code MutableCallSite} may use
-     * a volatile variable for the target of a mutable call site.
-     * In such an implementation, the {@code syncAll} method can be a no-op,
-     * and yet it will conform to the JMM behavior documented above.
+     * <p style="font-size:smbller;">
+     * <em>Implementbtion Note:</em>
+     * Simple implementbtions of {@code MutbbleCbllSite} mby use
+     * b volbtile vbribble for the tbrget of b mutbble cbll site.
+     * In such bn implementbtion, the {@code syncAll} method cbn be b no-op,
+     * bnd yet it will conform to the JMM behbvior documented bbove.
      *
-     * @param sites an array of call sites to be synchronized
-     * @throws NullPointerException if the {@code sites} array reference is null
-     *                              or the array contains a null
+     * @pbrbm sites bn brrby of cbll sites to be synchronized
+     * @throws NullPointerException if the {@code sites} brrby reference is null
+     *                              or the brrby contbins b null
      */
-    public static void syncAll(MutableCallSite[] sites) {
+    public stbtic void syncAll(MutbbleCbllSite[] sites) {
         if (sites.length == 0)  return;
-        STORE_BARRIER.lazySet(0);
-        for (MutableCallSite site : sites) {
-            site.getClass();  // trigger NPE on first null
+        STORE_BARRIER.lbzySet(0);
+        for (MutbbleCbllSite site : sites) {
+            site.getClbss();  // trigger NPE on first null
         }
         // FIXME: NYI
     }
-    private static final AtomicInteger STORE_BARRIER = new AtomicInteger();
+    privbte stbtic finbl AtomicInteger STORE_BARRIER = new AtomicInteger();
 }

@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * (C) Copyright IBM Corp. 1998-2001 - All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by IBM. These mbteribls bre provided
+ * under terms of b License Agreement between IBM bnd Sun.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-#include "FontInstanceAdapter.h"
+#include "FontInstbnceAdbpter.h"
 
-FontInstanceAdapter::FontInstanceAdapter(JNIEnv *theEnv,
+FontInstbnceAdbpter::FontInstbnceAdbpter(JNIEnv *theEnv,
                                          jobject theFont2D,
                                          jobject theFontStrike,
-                                         float *matrix,
+                                         flobt *mbtrix,
                                          le_int32 xRes, le_int32 yRes,
                                          le_int32 theUPEM,
-                                         TTLayoutTableCache *ltables)
+                                         TTLbyoutTbbleCbche *ltbbles)
     : env(theEnv), font2D(theFont2D), fontStrike(theFontStrike),
       xppem(0), yppem(0),
-      xScaleUnitsToPoints(0), yScaleUnitsToPoints(0),
-      xScalePixelsToUnits(0), yScalePixelsToUnits(0),
-      upem(theUPEM), layoutTables(ltables)
+      xScbleUnitsToPoints(0), yScbleUnitsToPoints(0),
+      xScblePixelsToUnits(0), yScblePixelsToUnits(0),
+      upem(theUPEM), lbyoutTbbles(ltbbles)
 {
-    xPointSize = euclidianDistance(matrix[0], matrix[1]);
-    yPointSize = euclidianDistance(matrix[2], matrix[3]);
+    xPointSize = euclidibnDistbnce(mbtrix[0], mbtrix[1]);
+    yPointSize = euclidibnDistbnce(mbtrix[2], mbtrix[3]);
 
-    txMat[0] = matrix[0]/xPointSize;
-    txMat[1] = matrix[1]/xPointSize;
-    txMat[2] = matrix[2]/yPointSize;
-    txMat[3] = matrix[3]/yPointSize;
+    txMbt[0] = mbtrix[0]/xPointSize;
+    txMbt[1] = mbtrix[1]/xPointSize;
+    txMbt[2] = mbtrix[2]/yPointSize;
+    txMbt[3] = mbtrix[3]/yPointSize;
 
-    xppem = ((float) xRes / 72) * xPointSize;
-    yppem = ((float) yRes / 72) * yPointSize;
+    xppem = ((flobt) xRes / 72) * xPointSize;
+    yppem = ((flobt) yRes / 72) * yPointSize;
 
-    xScaleUnitsToPoints = xPointSize / upem;
-    yScaleUnitsToPoints = yPointSize / upem;
+    xScbleUnitsToPoints = xPointSize / upem;
+    yScbleUnitsToPoints = yPointSize / upem;
 
-    xScalePixelsToUnits = upem / xppem;
-    yScalePixelsToUnits = upem / yppem;
+    xScblePixelsToUnits = upem / xppem;
+    yScblePixelsToUnits = upem / yppem;
 };
 
 
-const void *FontInstanceAdapter::getFontTable(LETag tableTag) const
+const void *FontInstbnceAdbpter::getFontTbble(LETbg tbbleTbg) const
 {
   size_t ignored = 0;
-  return getFontTable(tableTag, ignored);
+  return getFontTbble(tbbleTbg, ignored);
 }
 
-static const LETag cacheMap[LAYOUTCACHE_ENTRIES] = {
+stbtic const LETbg cbcheMbp[LAYOUTCACHE_ENTRIES] = {
   GPOS_TAG, GDEF_TAG, GSUB_TAG, MORT_TAG, MORX_TAG, KERN_TAG
 };
 
-const void *FontInstanceAdapter::getFontTable(LETag tableTag, size_t &length) const
+const void *FontInstbnceAdbpter::getFontTbble(LETbg tbbleTbg, size_t &length) const
 {
   length = 0;
 
-  if (!layoutTables) { // t1 font
+  if (!lbyoutTbbles) { // t1 font
     return 0;
   }
 
-  // cache in font's pscaler object
-  // font disposer will handle for us
+  // cbche in font's pscbler object
+  // font disposer will hbndle for us
 
-  int cacheIdx;
-  for (cacheIdx=0;cacheIdx<LAYOUTCACHE_ENTRIES;cacheIdx++) {
-    if (tableTag==cacheMap[cacheIdx]) break;
+  int cbcheIdx;
+  for (cbcheIdx=0;cbcheIdx<LAYOUTCACHE_ENTRIES;cbcheIdx++) {
+    if (tbbleTbg==cbcheMbp[cbcheIdx]) brebk;
   }
 
-  if (cacheIdx<LAYOUTCACHE_ENTRIES) { // if found
-    if (layoutTables->entries[cacheIdx].len != -1) {
-      length = layoutTables->entries[cacheIdx].len;
-      return layoutTables->entries[cacheIdx].ptr;
+  if (cbcheIdx<LAYOUTCACHE_ENTRIES) { // if found
+    if (lbyoutTbbles->entries[cbcheIdx].len != -1) {
+      length = lbyoutTbbles->entries[cbcheIdx].len;
+      return lbyoutTbbles->entries[cbcheIdx].ptr;
     }
   } else {
-    //fprintf(stderr, "unexpected table request from font instance adapter: %x\n", tableTag);
-    // (don't load any other tables)
+    //fprintf(stderr, "unexpected tbble request from font instbnce bdbpter: %x\n", tbbleTbg);
+    // (don't lobd bny other tbbles)
     return 0;
   }
 
   jbyte* result = 0;
   jsize  len = 0;
-  jbyteArray tableBytes = (jbyteArray)
-    env->CallObjectMethod(font2D, sunFontIDs.getTableBytesMID, tableTag);
-  if (!IS_NULL(tableBytes)) {
-    len = env->GetArrayLength(tableBytes);
+  jbyteArrby tbbleBytes = (jbyteArrby)
+    env->CbllObjectMethod(font2D, sunFontIDs.getTbbleBytesMID, tbbleTbg);
+  if (!IS_NULL(tbbleBytes)) {
+    len = env->GetArrbyLength(tbbleBytes);
     result = new jbyte[len];
-    env->GetByteArrayRegion(tableBytes, 0, len, result);
+    env->GetByteArrbyRegion(tbbleBytes, 0, len, result);
   }
 
-  if (cacheIdx<LAYOUTCACHE_ENTRIES) { // if cacheable table
-    layoutTables->entries[cacheIdx].len = len;
-    layoutTables->entries[cacheIdx].ptr = (const void*)result;
+  if (cbcheIdx<LAYOUTCACHE_ENTRIES) { // if cbchebble tbble
+    lbyoutTbbles->entries[cbcheIdx].len = len;
+    lbyoutTbbles->entries[cbcheIdx].ptr = (const void*)result;
   }
 
   length = len;
   return (const void*)result;
 };
 
-LEGlyphID FontInstanceAdapter::mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const
+LEGlyphID FontInstbnceAdbpter::mbpChbrToGlyph(LEUnicode32 ch, const LEChbrMbpper *mbpper) const
 {
-    LEUnicode32 mappedChar = mapper->mapChar(ch);
+    LEUnicode32 mbppedChbr = mbpper->mbpChbr(ch);
 
-    if (mappedChar == 0xFFFF || mappedChar == 0xFFFE) {
+    if (mbppedChbr == 0xFFFF || mbppedChbr == 0xFFFE) {
         return 0xFFFF;
     }
 
-    if (mappedChar == 0x200C || mappedChar == 0x200D) {
+    if (mbppedChbr == 0x200C || mbppedChbr == 0x200D) {
         return 1;
     }
 
-    LEGlyphID id = (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.f2dCharToGlyphMID, (jint)mappedChar);
+    LEGlyphID id = (LEGlyphID)env->CbllIntMethod(font2D, sunFontIDs.f2dChbrToGlyphMID, (jint)mbppedChbr);
     return id;
 }
 
-LEGlyphID FontInstanceAdapter::mapCharToGlyph(LEUnicode32 ch) const
+LEGlyphID FontInstbnceAdbpter::mbpChbrToGlyph(LEUnicode32 ch) const
 {
-    LEGlyphID id = (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.f2dCharToGlyphMID, ch);
+    LEGlyphID id = (LEGlyphID)env->CbllIntMethod(font2D, sunFontIDs.f2dChbrToGlyphMID, ch);
     return id;
 }
 
-void FontInstanceAdapter::mapCharsToWideGlyphs(const LEUnicode chars[],
+void FontInstbnceAdbpter::mbpChbrsToWideGlyphs(const LEUnicode chbrs[],
     le_int32 offset, le_int32 count, le_bool reverse,
-    const LECharMapper *mapper, le_uint32 glyphs[]) const
+    const LEChbrMbpper *mbpper, le_uint32 glyphs[]) const
 {
     le_int32 i, out = 0, dir = 1;
 
@@ -157,18 +157,18 @@ void FontInstanceAdapter::mapCharsToWideGlyphs(const LEUnicode chars[],
     }
 
     for (i = offset; i < offset + count; i += 1, out += dir) {
-                LEUnicode16 high = chars[i];
+                LEUnicode16 high = chbrs[i];
                 LEUnicode32 code = high;
 
                 if (i < offset + count - 1 && high >= 0xD800 && high <= 0xDBFF) {
-                        LEUnicode16 low = chars[i + 1];
+                        LEUnicode16 low = chbrs[i + 1];
 
                         if (low >= 0xDC00 && low <= 0xDFFF) {
                                 code = (high - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
                         }
                 }
 
-        glyphs[out] = mapCharToWideGlyph(code, mapper);
+        glyphs[out] = mbpChbrToWideGlyph(code, mbpper);
 
                 if (code >= 0x10000) {
                         i += 1;
@@ -177,153 +177,153 @@ void FontInstanceAdapter::mapCharsToWideGlyphs(const LEUnicode chars[],
     }
 }
 
-le_uint32 FontInstanceAdapter::mapCharToWideGlyph(LEUnicode32 ch, const LECharMapper *mapper) const
+le_uint32 FontInstbnceAdbpter::mbpChbrToWideGlyph(LEUnicode32 ch, const LEChbrMbpper *mbpper) const
 {
-    LEUnicode32 mappedChar = mapper->mapChar(ch);
+    LEUnicode32 mbppedChbr = mbpper->mbpChbr(ch);
 
-    if (mappedChar == 0xFFFF) {
+    if (mbppedChbr == 0xFFFF) {
         return 0xFFFF;
     }
 
-    if (mappedChar == 0x200C || mappedChar == 0x200D) {
+    if (mbppedChbr == 0x200C || mbppedChbr == 0x200D) {
         return 1;
     }
 
-    return (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.charToGlyphMID,
-                                         mappedChar);
+    return (LEGlyphID)env->CbllIntMethod(font2D, sunFontIDs.chbrToGlyphMID,
+                                         mbppedChbr);
 }
 
-void FontInstanceAdapter::getGlyphAdvance(LEGlyphID glyph, LEPoint &advance) const
+void FontInstbnceAdbpter::getGlyphAdvbnce(LEGlyphID glyph, LEPoint &bdvbnce) const
 {
-    getWideGlyphAdvance((le_uint32)glyph, advance);
+    getWideGlyphAdvbnce((le_uint32)glyph, bdvbnce);
 }
 
-void FontInstanceAdapter::getKerningAdjustment(LEPoint &adjustment) const
+void FontInstbnceAdbpter::getKerningAdjustment(LEPoint &bdjustment) const
 {
-    float xx, xy, yx, yy;
-    le_bool isIdentityMatrix;
+    flobt xx, xy, yx, yy;
+    le_bool isIdentityMbtrix;
 
-    isIdentityMatrix = (txMat[0] == 1 && txMat[1] == 0 &&
-                        txMat[2] == 0 && txMat[3] == 1);
+    isIdentityMbtrix = (txMbt[0] == 1 && txMbt[1] == 0 &&
+                        txMbt[2] == 0 && txMbt[3] == 1);
 
-    if (!isIdentityMatrix) {
-      xx = adjustment.fX;
-      xy = xx * txMat[1];
-      xx = xx * txMat[0];
+    if (!isIdentityMbtrix) {
+      xx = bdjustment.fX;
+      xy = xx * txMbt[1];
+      xx = xx * txMbt[0];
 
-      yy = adjustment.fY;
-      yx = yy * txMat[2];
-      yy = yy * txMat[3];
+      yy = bdjustment.fY;
+      yx = yy * txMbt[2];
+      yy = yy * txMbt[3];
 
-      adjustment.fX = xx + yx;
-      adjustment.fY = xy + yy;
+      bdjustment.fX = xx + yx;
+      bdjustment.fY = xy + yy;
     }
 
-    jobject pt = env->NewObject(sunFontIDs.pt2DFloatClass,
-                                sunFontIDs.pt2DFloatCtr,
-                                adjustment.fX, adjustment.fY);
+    jobject pt = env->NewObject(sunFontIDs.pt2DFlobtClbss,
+                                sunFontIDs.pt2DFlobtCtr,
+                                bdjustment.fX, bdjustment.fY);
     if (pt == NULL) {
-        env->ExceptionClear();
-        adjustment.fX = 0.0f;
-        adjustment.fY = 0.0f;
+        env->ExceptionClebr();
+        bdjustment.fX = 0.0f;
+        bdjustment.fY = 0.0f;
     } else {
-        env->CallObjectMethod(fontStrike, sunFontIDs.adjustPointMID, pt);
-        adjustment.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        adjustment.fY = env->GetFloatField(pt, sunFontIDs.yFID);
+        env->CbllObjectMethod(fontStrike, sunFontIDs.bdjustPointMID, pt);
+        bdjustment.fX = env->GetFlobtField(pt, sunFontIDs.xFID);
+        bdjustment.fY = env->GetFlobtField(pt, sunFontIDs.yFID);
     }
 }
 
-void FontInstanceAdapter::getWideGlyphAdvance(le_uint32 glyph, LEPoint &advance) const
+void FontInstbnceAdbpter::getWideGlyphAdvbnce(le_uint32 glyph, LEPoint &bdvbnce) const
 {
     if ((glyph & 0xfffe) == 0xfffe) {
-        advance.fX = 0;
-        advance.fY = 0;
+        bdvbnce.fX = 0;
+        bdvbnce.fY = 0;
         return;
     }
-    jobject pt = env->CallObjectMethod(fontStrike,
+    jobject pt = env->CbllObjectMethod(fontStrike,
                                        sunFontIDs.getGlyphMetricsMID, glyph);
     if (pt != NULL) {
-        advance.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        advance.fY = env->GetFloatField(pt, sunFontIDs.yFID);
-        env->DeleteLocalRef(pt);
+        bdvbnce.fX = env->GetFlobtField(pt, sunFontIDs.xFID);
+        bdvbnce.fY = env->GetFlobtField(pt, sunFontIDs.yFID);
+        env->DeleteLocblRef(pt);
     }
 }
 
-le_bool FontInstanceAdapter::getGlyphPoint(LEGlyphID glyph,
+le_bool FontInstbnceAdbpter::getGlyphPoint(LEGlyphID glyph,
                                            le_int32 pointNumber,
                                            LEPoint &point) const
 {
-  /* This upcall is not ideal, since it will make another down call.
-   * The intention is to move up some of this code into Java. But
-   * a HashMap has been added to the Java PhysicalStrike object to cache
-   * these points so that they don't need to be repeatedly recalculated
-   * which is expensive as it needs the font scaler to re-generate the
-   * hinted glyph outline. This turns out to be a huge win over 1.4.x
+  /* This upcbll is not idebl, since it will mbke bnother down cbll.
+   * The intention is to move up some of this code into Jbvb. But
+   * b HbshMbp hbs been bdded to the Jbvb PhysicblStrike object to cbche
+   * these points so thbt they don't need to be repebtedly recblculbted
+   * which is expensive bs it needs the font scbler to re-generbte the
+   * hinted glyph outline. This turns out to be b huge win over 1.4.x
    */
-     jobject pt = env->CallObjectMethod(fontStrike,
+     jobject pt = env->CbllObjectMethod(fontStrike,
                                         sunFontIDs.getGlyphPointMID,
                                         glyph, pointNumber);
      if (pt != NULL) {
-       /* point is a java.awt.geom.Point2D.Float */
-        point.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        /* convert from java coordinate system to internal '+y up' coordinate system */
-        point.fY = -env->GetFloatField(pt, sunFontIDs.yFID);
+       /* point is b jbvb.bwt.geom.Point2D.Flobt */
+        point.fX = env->GetFlobtField(pt, sunFontIDs.xFID);
+        /* convert from jbvb coordinbte system to internbl '+y up' coordinbte system */
+        point.fY = -env->GetFlobtField(pt, sunFontIDs.yFID);
         return true;
      } else {
-        return false;
+        return fblse;
      }
 }
 
-void FontInstanceAdapter::transformFunits(float xFunits, float yFunits, LEPoint &pixels) const
+void FontInstbnceAdbpter::trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixels) const
 {
-    float xx, xy, yx, yy;
-    le_bool isIdentityMatrix;
+    flobt xx, xy, yx, yy;
+    le_bool isIdentityMbtrix;
 
-    isIdentityMatrix = (txMat[0] == 1 && txMat[1] == 0 &&
-                        txMat[2] == 0 && txMat[3] == 1);
+    isIdentityMbtrix = (txMbt[0] == 1 && txMbt[1] == 0 &&
+                        txMbt[2] == 0 && txMbt[3] == 1);
 
-    xx = xFunits * xScaleUnitsToPoints;
+    xx = xFunits * xScbleUnitsToPoints;
     xy = 0;
-    if (!isIdentityMatrix) {
-        xy = xx * txMat[1];
-        xx = xx * txMat[0];
+    if (!isIdentityMbtrix) {
+        xy = xx * txMbt[1];
+        xx = xx * txMbt[0];
     };
 
     yx = 0;
-    yy = yFunits * yScaleUnitsToPoints;
-    if (!isIdentityMatrix) {
-        yx = yy * txMat[2];
-        yy = yy * txMat[3];
+    yy = yFunits * yScbleUnitsToPoints;
+    if (!isIdentityMbtrix) {
+        yx = yy * txMbt[2];
+        yy = yy * txMbt[3];
     };
     pixels.fX = xx + yx;
     pixels.fY = xy + yy;
 }
 
 
-float FontInstanceAdapter::euclidianDistance(float a, float b)
+flobt FontInstbnceAdbpter::euclidibnDistbnce(flobt b, flobt b)
 {
-    if (a < 0) {
-        a = -a;
+    if (b < 0) {
+        b = -b;
     }
 
     if (b < 0) {
         b = -b;
     }
 
-    if (a == 0) {
+    if (b == 0) {
         return b;
     }
 
     if (b == 0) {
-        return a;
+        return b;
     }
 
-    float root = a > b ? a + (b / 2) : b + (a / 2); /* Do an initial approximation, in root */
+    flobt root = b > b ? b + (b / 2) : b + (b / 2); /* Do bn initibl bpproximbtion, in root */
 
-        /* An unrolled Newton-Raphson iteration sequence */
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
+        /* An unrolled Newton-Rbphson iterbtion sequence */
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
 
     return root;
 }

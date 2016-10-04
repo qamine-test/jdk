@@ -1,29 +1,29 @@
-                    NetBeans Project Files for JDK Demos
+                    NetBebns Project Files for JDK Demos
 
-This directory contains project files for the NetBeans IDE for the all-Java
-JDK demos (some of the demos involve C code; no NetBeans project files are
-provided for them at this time).  For example, to bring up the Java2D demo
-in NetBeans, do the following:
+This directory contbins project files for the NetBebns IDE for the bll-Jbvb
+JDK demos (some of the demos involve C code; no NetBebns project files bre
+provided for them bt this time).  For exbmple, to bring up the Jbvb2D demo
+in NetBebns, do the following:
 
-1. If you do not already have NetBeans, download it from
-     http://www.netbeans.org/
-   and follow the directions for installation.
-2. Start NetBeans.
-3. From the main menu, choose File -> Open Project.
-4. In the popup window, navigate to the JDK distribution and within that to
+1. If you do not blrebdy hbve NetBebns, downlobd it from
+     http://www.netbebns.org/
+   bnd follow the directions for instbllbtion.
+2. Stbrt NetBebns.
+3. From the mbin menu, choose File -> Open Project.
+4. In the popup window, nbvigbte to the JDK distribution bnd within thbt to
    the "demo" directory.
-5. Press the "Open Project Folder" button.  That will open all of the demos
-   (for which there are project files) as subprojects.
-6. There should now be a Java2D project in the Projects tab of the IDE.
-   Right-click on the project name and choose an appropriate action, e.g.
-     Clean and Build Project
-   and then
+5. Press the "Open Project Folder" button.  Thbt will open bll of the demos
+   (for which there bre project files) bs subprojects.
+6. There should now be b Jbvb2D project in the Projects tbb of the IDE.
+   Right-click on the project nbme bnd choose bn bppropribte bction, e.g.
+     Clebn bnd Build Project
+   bnd then
      Run Project
-   Some, but not all, of the projects can be run as applets as well.
+   Some, but not bll, of the projects cbn be run bs bpplets bs well.
 
-Documentation and support for NetBeans is available at the NetBeans web site:
-     http://www.netbeans.org/
+Documentbtion bnd support for NetBebns is bvbilbble bt the NetBebns web site:
+     http://www.netbebns.org/
 
 Notes:
- 1. jconsole-plugin is a special kind of project, a plugin for jconsole.
+ 1. jconsole-plugin is b specibl kind of project, b plugin for jconsole.
     Therefore it is not possible to run the project directly from the IDE.

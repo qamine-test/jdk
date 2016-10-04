@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,57 +29,57 @@
 #include "net_util.h"
 #include "jdk_net_SocketFlow.h"
 
-static jclass sf_status_class;          /* Status enum type */
+stbtic jclbss sf_stbtus_clbss;          /* Stbtus enum type */
 
-static jfieldID sf_status;
-static jfieldID sf_priority;
-static jfieldID sf_bandwidth;
+stbtic jfieldID sf_stbtus;
+stbtic jfieldID sf_priority;
+stbtic jfieldID sf_bbndwidth;
 
-static jfieldID sf_fd_fdID;             /* FileDescriptor.fd */
+stbtic jfieldID sf_fd_fdID;             /* FileDescriptor.fd */
 
-/* References to the literal enum values */
+/* References to the literbl enum vblues */
 
-static jobject sfs_NOSTATUS;
-static jobject sfs_OK;
-static jobject sfs_NOPERMISSION;
-static jobject sfs_NOTCONNECTED;
-static jobject sfs_NOTSUPPORTED;
-static jobject sfs_ALREADYCREATED;
-static jobject sfs_INPROGRESS;
-static jobject sfs_OTHER;
+stbtic jobject sfs_NOSTATUS;
+stbtic jobject sfs_OK;
+stbtic jobject sfs_NOPERMISSION;
+stbtic jobject sfs_NOTCONNECTED;
+stbtic jobject sfs_NOTSUPPORTED;
+stbtic jobject sfs_ALREADYCREATED;
+stbtic jobject sfs_INPROGRESS;
+stbtic jobject sfs_OTHER;
 
-static jobject getEnumField(JNIEnv *env, char *name);
-static void setStatus(JNIEnv *env, jobject obj, int errval);
+stbtic jobject getEnumField(JNIEnv *env, chbr *nbme);
+stbtic void setStbtus(JNIEnv *env, jobject obj, int errvbl);
 
 /* OS specific code is implemented in these three functions */
 
-static jboolean flowSupported0() ;
+stbtic jboolebn flowSupported0() ;
 
 /*
- * Class:     sun_net_ExtendedOptionsImpl
+ * Clbss:     sun_net_ExtendedOptionsImpl
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_init
-  (JNIEnv *env, jclass UNUSED)
+JNIEXPORT void JNICALL Jbvb_sun_net_ExtendedOptionsImpl_init
+  (JNIEnv *env, jclbss UNUSED)
 {
-    static int initialized = 0;
-    jclass c;
+    stbtic int initiblized = 0;
+    jclbss c;
 
-    /* Global class references */
+    /* Globbl clbss references */
 
-    if (initialized) {
+    if (initiblized) {
         return;
     }
 
-    c = (*env)->FindClass(env, "jdk/net/SocketFlow$Status");
+    c = (*env)->FindClbss(env, "jdk/net/SocketFlow$Stbtus");
     CHECK_NULL(c);
-    sf_status_class = (*env)->NewGlobalRef(env, c);
-    CHECK_NULL(sf_status_class);
+    sf_stbtus_clbss = (*env)->NewGlobblRef(env, c);
+    CHECK_NULL(sf_stbtus_clbss);
 
-    /* int "fd" field of java.io.FileDescriptor  */
+    /* int "fd" field of jbvb.io.FileDescriptor  */
 
-    c = (*env)->FindClass(env, "java/io/FileDescriptor");
+    c = (*env)->FindClbss(env, "jbvb/io/FileDescriptor");
     CHECK_NULL(c);
     sf_fd_fdID = (*env)->GetFieldID(env, c, "fd", "I");
     CHECK_NULL(sf_fd_fdID);
@@ -87,25 +87,25 @@ JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_init
 
     /* SocketFlow fields */
 
-    c = (*env)->FindClass(env, "jdk/net/SocketFlow");
+    c = (*env)->FindClbss(env, "jdk/net/SocketFlow");
 
-    /* status */
+    /* stbtus */
 
-    sf_status = (*env)->GetFieldID(env, c, "status",
-                                        "Ljdk/net/SocketFlow$Status;");
-    CHECK_NULL(sf_status);
+    sf_stbtus = (*env)->GetFieldID(env, c, "stbtus",
+                                        "Ljdk/net/SocketFlow$Stbtus;");
+    CHECK_NULL(sf_stbtus);
 
     /* priority */
 
     sf_priority = (*env)->GetFieldID(env, c, "priority", "I");
     CHECK_NULL(sf_priority);
 
-    /* bandwidth */
+    /* bbndwidth */
 
-    sf_bandwidth = (*env)->GetFieldID(env, c, "bandwidth", "J");
-    CHECK_NULL(sf_bandwidth);
+    sf_bbndwidth = (*env)->GetFieldID(env, c, "bbndwidth", "J");
+    CHECK_NULL(sf_bbndwidth);
 
-    /* Initialize the static enum values */
+    /* Initiblize the stbtic enum vblues */
 
     sfs_NOSTATUS = getEnumField(env, "NO_STATUS");
     CHECK_NULL(sfs_NOSTATUS);
@@ -123,72 +123,72 @@ JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_init
     CHECK_NULL(sfs_INPROGRESS);
     sfs_OTHER = getEnumField(env, "OTHER");
     CHECK_NULL(sfs_OTHER);
-    initialized = JNI_TRUE;
+    initiblized = JNI_TRUE;
 }
 
-static jobject getEnumField(JNIEnv *env, char *name)
+stbtic jobject getEnumField(JNIEnv *env, chbr *nbme)
 {
     jobject f;
-    jfieldID fID = (*env)->GetStaticFieldID(env, sf_status_class, name,
-        "Ljdk/net/SocketFlow$Status;");
+    jfieldID fID = (*env)->GetStbticFieldID(env, sf_stbtus_clbss, nbme,
+        "Ljdk/net/SocketFlow$Stbtus;");
     CHECK_NULL_RETURN(fID, NULL);
 
-    f = (*env)->GetStaticObjectField(env, sf_status_class, fID);
+    f = (*env)->GetStbticObjectField(env, sf_stbtus_clbss, fID);
     CHECK_NULL_RETURN(f, NULL);
-    f  = (*env)->NewGlobalRef(env, f);
+    f  = (*env)->NewGlobblRef(env, f);
     CHECK_NULL_RETURN(f, NULL);
     return f;
 }
 
 /*
- * Retrieve the int file-descriptor from a public socket type object.
- * Gets impl, then the FileDescriptor from the impl, and then the fd
- * from that.
+ * Retrieve the int file-descriptor from b public socket type object.
+ * Gets impl, then the FileDescriptor from the impl, bnd then the fd
+ * from thbt.
  */
-static int getFD(JNIEnv *env, jobject fileDesc) {
+stbtic int getFD(JNIEnv *env, jobject fileDesc) {
     return (*env)->GetIntField(env, fileDesc, sf_fd_fdID);
 }
 
 /**
- * Sets the status field of a SocketFlow to one of the
- * canned enum values
+ * Sets the stbtus field of b SocketFlow to one of the
+ * cbnned enum vblues
  */
-static void setStatus (JNIEnv *env, jobject obj, int errval)
+stbtic void setStbtus (JNIEnv *env, jobject obj, int errvbl)
 {
-    switch (errval) {
-      case 0: /* OK */
-        (*env)->SetObjectField(env, obj, sf_status, sfs_OK);
-        break;
-      case EPERM:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_NOPERMISSION);
-        break;
-      case ENOTCONN:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_NOTCONNECTED);
-        break;
-      case EOPNOTSUPP:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_NOTSUPPORTED);
-        break;
-      case EALREADY:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_ALREADYCREATED);
-        break;
-      case EINPROGRESS:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_INPROGRESS);
-        break;
-      default:
-        (*env)->SetObjectField(env, obj, sf_status, sfs_OTHER);
-        break;
+    switch (errvbl) {
+      cbse 0: /* OK */
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_OK);
+        brebk;
+      cbse EPERM:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_NOPERMISSION);
+        brebk;
+      cbse ENOTCONN:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_NOTCONNECTED);
+        brebk;
+      cbse EOPNOTSUPP:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_NOTSUPPORTED);
+        brebk;
+      cbse EALREADY:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_ALREADYCREATED);
+        brebk;
+      cbse EINPROGRESS:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_INPROGRESS);
+        brebk;
+      defbult:
+        (*env)->SetObjectField(env, obj, sf_stbtus, sfs_OTHER);
+        brebk;
     }
 }
 
-#ifdef __solaris__
+#ifdef __solbris__
 
 /*
- * Class:     sun_net_ExtendedOptionsImpl
+ * Clbss:     sun_net_ExtendedOptionsImpl
  * Method:    setFlowOption
- * Signature: (Ljava/io/FileDescriptor;Ljdk/net/SocketFlow;)V
+ * Signbture: (Ljbvb/io/FileDescriptor;Ljdk/net/SocketFlow;)V
  */
-JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setFlowOption
-  (JNIEnv *env, jclass UNUSED, jobject fileDesc, jobject flow)
+JNIEXPORT void JNICALL Jbvb_sun_net_ExtendedOptionsImpl_setFlowOption
+  (JNIEnv *env, jclbss UNUSED, jobject fileDesc, jobject flow)
 {
     int fd = getFD(env, fileDesc);
 
@@ -197,7 +197,7 @@ JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setFlowOption
         return;
     } else {
         sock_flow_props_t props;
-        jlong bandwidth;
+        jlong bbndwidth;
         int rv;
 
         jint priority = (*env)->GetIntField(env, flow, sf_priority);
@@ -205,39 +205,39 @@ JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setFlowOption
         props.sfp_version = SOCK_FLOW_PROP_VERSION1;
 
         if (priority != jdk_net_SocketFlow_UNSET) {
-            props.sfp_mask |= SFP_PRIORITY;
+            props.sfp_mbsk |= SFP_PRIORITY;
             props.sfp_priority = priority;
         }
-        bandwidth = (*env)->GetLongField(env, flow, sf_bandwidth);
-        if (bandwidth > -1)  {
-            props.sfp_mask |= SFP_MAXBW;
-            props.sfp_maxbw = (uint64_t) bandwidth;
+        bbndwidth = (*env)->GetLongField(env, flow, sf_bbndwidth);
+        if (bbndwidth > -1)  {
+            props.sfp_mbsk |= SFP_MAXBW;
+            props.sfp_mbxbw = (uint64_t) bbndwidth;
         }
         rv = setsockopt(fd, SOL_SOCKET, SO_FLOW_SLA, &props, sizeof(props));
         if (rv < 0) {
             if (errno == ENOPROTOOPT) {
-                JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+                JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException",
                         "unsupported socket option");
             } else if (errno == EACCES || errno == EPERM) {
                 NET_ERROR(env, JNU_JAVANETPKG "SocketException",
                                 "Permission denied");
             } else {
                 NET_ERROR(env, JNU_JAVANETPKG "SocketException",
-                                "set option SO_FLOW_SLA failed");
+                                "set option SO_FLOW_SLA fbiled");
             }
             return;
         }
-        setStatus(env, flow, props.sfp_status);
+        setStbtus(env, flow, props.sfp_stbtus);
     }
 }
 
 /*
- * Class:     sun_net_ExtendedOptionsImpl
+ * Clbss:     sun_net_ExtendedOptionsImpl
  * Method:    getFlowOption
- * Signature: (Ljava/io/FileDescriptor;Ljdk/net/SocketFlow;)V
+ * Signbture: (Ljbvb/io/FileDescriptor;Ljdk/net/SocketFlow;)V
  */
-JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_getFlowOption
-  (JNIEnv *env, jclass UNUSED, jobject fileDesc, jobject flow)
+JNIEXPORT void JNICALL Jbvb_sun_net_ExtendedOptionsImpl_getFlowOption
+  (JNIEnv *env, jclbss UNUSED, jobject fileDesc, jobject flow)
 {
     int fd = getFD(env, fileDesc);
 
@@ -246,45 +246,45 @@ JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_getFlowOption
         return;
     } else {
         sock_flow_props_t props;
-        int status;
+        int stbtus;
         socklen_t sz = sizeof(props);
 
         int rv = getsockopt(fd, SOL_SOCKET, SO_FLOW_SLA, &props, &sz);
         if (rv < 0) {
             if (errno == ENOPROTOOPT) {
-                JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+                JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException",
                         "unsupported socket option");
             } else if (errno == EACCES || errno == EPERM) {
                 NET_ERROR(env, JNU_JAVANETPKG "SocketException",
                                 "Permission denied");
             } else {
                 NET_ERROR(env, JNU_JAVANETPKG "SocketException",
-                                "set option SO_FLOW_SLA failed");
+                                "set option SO_FLOW_SLA fbiled");
             }
             return;
         }
-        /* first check status to see if flow exists */
-        status = props.sfp_status;
-        setStatus(env, flow, status);
-        if (status == 0) { /* OK */
-            /* can set the other fields now */
-            if (props.sfp_mask & SFP_PRIORITY) {
+        /* first check stbtus to see if flow exists */
+        stbtus = props.sfp_stbtus;
+        setStbtus(env, flow, stbtus);
+        if (stbtus == 0) { /* OK */
+            /* cbn set the other fields now */
+            if (props.sfp_mbsk & SFP_PRIORITY) {
                 (*env)->SetIntField(env, flow, sf_priority, props.sfp_priority);
             }
-            if (props.sfp_mask & SFP_MAXBW) {
-                (*env)->SetLongField(env, flow, sf_bandwidth,
-                                        (jlong)props.sfp_maxbw);
+            if (props.sfp_mbsk & SFP_MAXBW) {
+                (*env)->SetLongField(env, flow, sf_bbndwidth,
+                                        (jlong)props.sfp_mbxbw);
             }
         }
     }
 }
 
-static jboolean flowsupported;
-static jboolean flowsupported_set = JNI_FALSE;
+stbtic jboolebn flowsupported;
+stbtic jboolebn flowsupported_set = JNI_FALSE;
 
-static jboolean flowSupported0()
+stbtic jboolebn flowSupported0()
 {
-    /* Do a simple dummy call, and try to figure out from that */
+    /* Do b simple dummy cbll, bnd try to figure out from thbt */
     sock_flow_props_t props;
     int rv, s;
     if (flowsupported_set) {
@@ -298,7 +298,7 @@ static jboolean flowSupported0()
     }
     memset(&props, 0, sizeof(props));
     props.sfp_version = SOCK_FLOW_PROP_VERSION1;
-    props.sfp_mask |= SFP_PRIORITY;
+    props.sfp_mbsk |= SFP_PRIORITY;
     props.sfp_priority = SFP_PRIO_NORMAL;
     rv = setsockopt(s, SOL_SOCKET, SO_FLOW_SLA, &props, sizeof(props));
     if (rv != 0 && errno == ENOPROTOOPT) {
@@ -312,32 +312,32 @@ static jboolean flowSupported0()
     return flowsupported;
 }
 
-#else /* __solaris__ */
+#else /* __solbris__ */
 
-/* Non Solaris. Functionality is not supported. So, throw UnsupportedOpExc */
+/* Non Solbris. Functionblity is not supported. So, throw UnsupportedOpExc */
 
-JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setFlowOption
-  (JNIEnv *env, jclass UNUSED, jobject fileDesc, jobject flow)
+JNIEXPORT void JNICALL Jbvb_sun_net_ExtendedOptionsImpl_setFlowOption
+  (JNIEnv *env, jclbss UNUSED, jobject fileDesc, jobject flow)
 {
-    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+    JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException",
         "unsupported socket option");
 }
 
-JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_getFlowOption
-  (JNIEnv *env, jclass UNUSED, jobject fileDesc, jobject flow)
+JNIEXPORT void JNICALL Jbvb_sun_net_ExtendedOptionsImpl_getFlowOption
+  (JNIEnv *env, jclbss UNUSED, jobject fileDesc, jobject flow)
 {
-    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+    JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException",
         "unsupported socket option");
 }
 
-static jboolean flowSupported0()  {
+stbtic jboolebn flowSupported0()  {
     return JNI_FALSE;
 }
 
-#endif /* __solaris__ */
+#endif /* __solbris__ */
 
-JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_flowSupported
-  (JNIEnv *env, jclass UNUSED)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_net_ExtendedOptionsImpl_flowSupported
+  (JNIEnv *env, jclbss UNUSED)
 {
     return flowSupported0();
 }

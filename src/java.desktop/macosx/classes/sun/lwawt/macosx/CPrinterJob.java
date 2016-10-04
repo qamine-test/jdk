@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.print.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.print.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import javax.print.*;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.standard.PageRanges;
+import jbvbx.print.*;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.PbgeRbnges;
 
-import sun.java2d.*;
+import sun.jbvb2d.*;
 import sun.print.*;
 
-public final class CPrinterJob extends RasterPrinterJob {
-    // NOTE: This uses RasterPrinterJob as a base, but it doesn't use
-    // all of the RasterPrinterJob functions. RasterPrinterJob will
-    // break down printing to pieces that aren't necessary under MacOSX
-    // printing, such as controlling the # of copies and collating. These
-    // are handled by the native printing. RasterPrinterJob is kept for
-    // future compatibility and the state keeping that it handles.
+public finbl clbss CPrinterJob extends RbsterPrinterJob {
+    // NOTE: This uses RbsterPrinterJob bs b bbse, but it doesn't use
+    // bll of the RbsterPrinterJob functions. RbsterPrinterJob will
+    // brebk down printing to pieces thbt bren't necessbry under MbcOSX
+    // printing, such bs controlling the # of copies bnd collbting. These
+    // bre hbndled by the nbtive printing. RbsterPrinterJob is kept for
+    // future compbtibility bnd the stbte keeping thbt it hbndles.
 
-    private static String sShouldNotReachHere = "Should not reach here.";
+    privbte stbtic String sShouldNotRebchHere = "Should not rebch here.";
 
-    private volatile SecondaryLoop printingLoop;
+    privbte volbtile SecondbryLoop printingLoop;
 
-    private boolean noDefaultPrinter = false;
+    privbte boolebn noDefbultPrinter = fblse;
 
-    private static Font defaultFont;
+    privbte stbtic Font defbultFont;
 
-    // This is the NSPrintInfo for this PrinterJob. Protect multi thread
-    //  access to it. It is used by the pageDialog, jobDialog, and printLoop.
-    //  This way the state of these items is shared across these calls.
-    //  PageFormat data is passed in and set on the fNSPrintInfo on a per call
-    //  basis.
-    private long fNSPrintInfo = -1;
-    private Object fNSPrintInfoLock = new Object();
+    // This is the NSPrintInfo for this PrinterJob. Protect multi threbd
+    //  bccess to it. It is used by the pbgeDiblog, jobDiblog, bnd printLoop.
+    //  This wby the stbte of these items is shbred bcross these cblls.
+    //  PbgeFormbt dbtb is pbssed in bnd set on the fNSPrintInfo on b per cbll
+    //  bbsis.
+    privbte long fNSPrintInfo = -1;
+    privbte Object fNSPrintInfoLock = new Object();
 
-    static {
-        // AWT has to be initialized for the native code to function correctly.
-        Toolkit.getDefaultToolkit();
+    stbtic {
+        // AWT hbs to be initiblized for the nbtive code to function correctly.
+        Toolkit.getDefbultToolkit();
     }
 
     /**
-     * Presents a dialog to the user for changing the properties of
+     * Presents b diblog to the user for chbnging the properties of
      * the print job.
-     * This method will display a native dialog if a native print
-     * service is selected, and user choice of printers will be restricted
-     * to these native print services.
-     * To present the cross platform print dialog for all services,
-     * including native ones instead use
-     * <code>printDialog(PrintRequestAttributeSet)</code>.
+     * This method will displby b nbtive diblog if b nbtive print
+     * service is selected, bnd user choice of printers will be restricted
+     * to these nbtive print services.
+     * To present the cross plbtform print diblog for bll services,
+     * including nbtive ones instebd use
+     * <code>printDiblog(PrintRequestAttributeSet)</code>.
      * <p>
-     * PrinterJob implementations which can use PrintService's will update
+     * PrinterJob implementbtions which cbn use PrintService's will updbte
      * the PrintService for this PrinterJob to reflect the new service
      * selected by the user.
-     * @return <code>true</code> if the user does not cancel the dialog;
-     * <code>false</code> otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return <code>true</code> if the user does not cbncel the diblog;
+     * <code>fblse</code> otherwise.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
     @Override
-    public boolean printDialog() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public boolebn printDiblog() throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        if (noDefaultPrinter) {
-            return false;
+        if (noDefbultPrinter) {
+            return fblse;
         }
 
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
+        if (bttributes == null) {
+            bttributes = new HbshPrintRequestAttributeSet();
         }
 
-        if (getPrintService() instanceof StreamPrintService) {
-            return super.printDialog(attributes);
+        if (getPrintService() instbnceof StrebmPrintService) {
+            return super.printDiblog(bttributes);
         }
 
-        return jobSetup(getPageable(), checkAllowedToPrintToFile());
+        return jobSetup(getPbgebble(), checkAllowedToPrintToFile());
     }
 
     /**
-     * Displays a dialog that allows modification of a
-     * <code>PageFormat</code> instance.
-     * The <code>page</code> argument is used to initialize controls
-     * in the page setup dialog.
-     * If the user cancels the dialog then this method returns the
-     * original <code>page</code> object unmodified.
-     * If the user okays the dialog then this method returns a new
-     * <code>PageFormat</code> object with the indicated changes.
-     * In either case, the original <code>page</code> object is
+     * Displbys b diblog thbt bllows modificbtion of b
+     * <code>PbgeFormbt</code> instbnce.
+     * The <code>pbge</code> brgument is used to initiblize controls
+     * in the pbge setup diblog.
+     * If the user cbncels the diblog then this method returns the
+     * originbl <code>pbge</code> object unmodified.
+     * If the user okbys the diblog then this method returns b new
+     * <code>PbgeFormbt</code> object with the indicbted chbnges.
+     * In either cbse, the originbl <code>pbge</code> object is
      * not modified.
-     * @param page the default <code>PageFormat</code> presented to the
-     *            user for modification
-     * @return    the original <code>page</code> object if the dialog
-     *            is cancelled; a new <code>PageFormat</code> object
-     *          containing the format indicated by the user if the
-     *          dialog is acknowledged.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm pbge the defbult <code>PbgeFormbt</code> presented to the
+     *            user for modificbtion
+     * @return    the originbl <code>pbge</code> object if the diblog
+     *            is cbncelled; b new <code>PbgeFormbt</code> object
+     *          contbining the formbt indicbted by the user if the
+     *          diblog is bcknowledged.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
     @Override
-    public PageFormat pageDialog(PageFormat page) throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public PbgeFormbt pbgeDiblog(PbgeFormbt pbge) throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        if (noDefaultPrinter) {
-            return page;
+        if (noDefbultPrinter) {
+            return pbge;
         }
 
-        if (getPrintService() instanceof StreamPrintService) {
-            return super.pageDialog(page);
+        if (getPrintService() instbnceof StrebmPrintService) {
+            return super.pbgeDiblog(pbge);
         }
 
-        PageFormat pageClone = (PageFormat) page.clone();
-        boolean doIt = pageSetup(pageClone, null);
-        return doIt ? pageClone : page;
+        PbgeFormbt pbgeClone = (PbgeFormbt) pbge.clone();
+        boolebn doIt = pbgeSetup(pbgeClone, null);
+        return doIt ? pbgeClone : pbge;
     }
 
     /**
-     * Clones the <code>PageFormat</code> argument and alters the
-     * clone to describe a default page size and orientation.
-     * @param page the <code>PageFormat</code> to be cloned and altered
-     * @return clone of <code>page</code>, altered to describe a default
-     *                      <code>PageFormat</code>.
+     * Clones the <code>PbgeFormbt</code> brgument bnd blters the
+     * clone to describe b defbult pbge size bnd orientbtion.
+     * @pbrbm pbge the <code>PbgeFormbt</code> to be cloned bnd bltered
+     * @return clone of <code>pbge</code>, bltered to describe b defbult
+     *                      <code>PbgeFormbt</code>.
      */
     @Override
-    public PageFormat defaultPage(PageFormat page) {
-        PageFormat newPage = (PageFormat)page.clone();
-        getDefaultPage(newPage);
-        return newPage;
+    public PbgeFormbt defbultPbge(PbgeFormbt pbge) {
+        PbgeFormbt newPbge = (PbgeFormbt)pbge.clone();
+        getDefbultPbge(newPbge);
+        return newPbge;
     }
 
     @Override
-    protected void setAttributes(PrintRequestAttributeSet attributes) throws PrinterException {
-        super.setAttributes(attributes);
+    protected void setAttributes(PrintRequestAttributeSet bttributes) throws PrinterException {
+        super.setAttributes(bttributes);
 
-        if (attributes == null) {
+        if (bttributes == null) {
             return;
         }
 
-        // See if this has an NSPrintInfo in it.
-        NSPrintInfo nsPrintInfo = (NSPrintInfo)attributes.get(NSPrintInfo.class);
+        // See if this hbs bn NSPrintInfo in it.
+        NSPrintInfo nsPrintInfo = (NSPrintInfo)bttributes.get(NSPrintInfo.clbss);
         if (nsPrintInfo != null) {
-            fNSPrintInfo = nsPrintInfo.getValue();
+            fNSPrintInfo = nsPrintInfo.getVblue();
         }
 
-        PageRanges pageRangesAttr =  (PageRanges)attributes.get(PageRanges.class);
-        if (isSupportedValue(pageRangesAttr, attributes)) {
-            SunPageSelection rangeSelect = (SunPageSelection)attributes.get(SunPageSelection.class);
-            // If rangeSelect is not null, we are using AWT's print dialog that has
-            // All, Selection, and Range radio buttons
-            if (rangeSelect == null || rangeSelect == SunPageSelection.RANGE) {
-                int[][] range = pageRangesAttr.getMembers();
-                // setPageRange will set firstPage and lastPage as called in getFirstPage
-                // and getLastPage
-                setPageRange(range[0][0] - 1, range[0][1] - 1);
+        PbgeRbnges pbgeRbngesAttr =  (PbgeRbnges)bttributes.get(PbgeRbnges.clbss);
+        if (isSupportedVblue(pbgeRbngesAttr, bttributes)) {
+            SunPbgeSelection rbngeSelect = (SunPbgeSelection)bttributes.get(SunPbgeSelection.clbss);
+            // If rbngeSelect is not null, we bre using AWT's print diblog thbt hbs
+            // All, Selection, bnd Rbnge rbdio buttons
+            if (rbngeSelect == null || rbngeSelect == SunPbgeSelection.RANGE) {
+                int[][] rbnge = pbgeRbngesAttr.getMembers();
+                // setPbgeRbnge will set firstPbge bnd lbstPbge bs cblled in getFirstPbge
+                // bnd getLbstPbge
+                setPbgeRbnge(rbnge[0][0] - 1, rbnge[0][1] - 1);
             }
         }
     }
 
-    volatile boolean onEventThread;
+    volbtile boolebn onEventThrebd;
 
     @Override
-    protected void cancelDoc() throws PrinterAbortException {
-        super.cancelDoc();
+    protected void cbncelDoc() throws PrinterAbortException {
+        super.cbncelDoc();
         if (printingLoop != null) {
             printingLoop.exit();
         }
     }
 
-    private void completePrintLoop() {
-        Runnable r = new Runnable() { public void run() {
+    privbte void completePrintLoop() {
+        Runnbble r = new Runnbble() { public void run() {
             synchronized(this) {
-                performingPrinting = false;
+                performingPrinting = fblse;
             }
             if (printingLoop != null) {
                 printingLoop.exit();
             }
         }};
 
-        if (onEventThread) {
-            try { EventQueue.invokeAndWait(r); } catch (Exception e) { e.printStackTrace(); }
+        if (onEventThrebd) {
+            try { EventQueue.invokeAndWbit(r); } cbtch (Exception e) { e.printStbckTrbce(); }
         } else {
             r.run();
         }
     }
 
     @Override
-    public void print(PrintRequestAttributeSet attributes) throws PrinterException {
-        // NOTE: Some of this code is copied from RasterPrinterJob.
+    public void print(PrintRequestAttributeSet bttributes) throws PrinterException {
+        // NOTE: Some of this code is copied from RbsterPrinterJob.
 
 
-        // this code uses javax.print APIs
-        // this will make it print directly to the printer
+        // this code uses jbvbx.print APIs
+        // this will mbke it print directly to the printer
         // this will not work if the user clicks on the "Preview" button
-        // However if the printer is a StreamPrintService, its the right path.
+        // However if the printer is b StrebmPrintService, its the right pbth.
         PrintService psvc = getPrintService();
-        if (psvc instanceof StreamPrintService) {
-            spoolToService(psvc, attributes);
+        if (psvc instbnceof StrebmPrintService) {
+            spoolToService(psvc, bttributes);
             return;
         }
 
 
-        setAttributes(attributes);
-        // throw exception for invalid destination
-        if (destinationAttr != null) {
-            validateDestination(destinationAttr);
+        setAttributes(bttributes);
+        // throw exception for invblid destinbtion
+        if (destinbtionAttr != null) {
+            vblidbteDestinbtion(destinbtionAttr);
         }
 
-        /* Get the range of pages we are to print. If the
-         * last page to print is unknown, then we print to
-         * the end of the document. Note that firstPage
-         * and lastPage are 0 based page indices.
+        /* Get the rbnge of pbges we bre to print. If the
+         * lbst pbge to print is unknown, then we print to
+         * the end of the document. Note thbt firstPbge
+         * bnd lbstPbge bre 0 bbsed pbge indices.
          */
 
-        int firstPage = getFirstPage();
-        int lastPage = getLastPage();
-        if(lastPage == Pageable.UNKNOWN_NUMBER_OF_PAGES) {
-            int totalPages = mDocument.getNumberOfPages();
-            if (totalPages != Pageable.UNKNOWN_NUMBER_OF_PAGES) {
-                lastPage = mDocument.getNumberOfPages() - 1;
+        int firstPbge = getFirstPbge();
+        int lbstPbge = getLbstPbge();
+        if(lbstPbge == Pbgebble.UNKNOWN_NUMBER_OF_PAGES) {
+            int totblPbges = mDocument.getNumberOfPbges();
+            if (totblPbges != Pbgebble.UNKNOWN_NUMBER_OF_PAGES) {
+                lbstPbge = mDocument.getNumberOfPbges() - 1;
             }
         }
 
         try {
             synchronized (this) {
                 performingPrinting = true;
-                userCancelled = false;
+                userCbncelled = fblse;
             }
 
-            //Add support for PageRange
-            PageRanges pr = (attributes == null) ?  null
-                                                 : (PageRanges)attributes.get(PageRanges.class);
+            //Add support for PbgeRbnge
+            PbgeRbnges pr = (bttributes == null) ?  null
+                                                 : (PbgeRbnges)bttributes.get(PbgeRbnges.clbss);
             int[][] prMembers = (pr == null) ? new int[0][0] : pr.getMembers();
             int loopi = 0;
             do {
-                if (EventQueue.isDispatchThread()) {
-                    // This is an AWT EventQueue, and this print rendering loop needs to block it.
+                if (EventQueue.isDispbtchThrebd()) {
+                    // This is bn AWT EventQueue, bnd this print rendering loop needs to block it.
 
-                    onEventThread = true;
+                    onEventThrebd = true;
 
-                    printingLoop = AccessController.doPrivileged(new PrivilegedAction<SecondaryLoop>() {
+                    printingLoop = AccessController.doPrivileged(new PrivilegedAction<SecondbryLoop>() {
                         @Override
-                        public SecondaryLoop run() {
-                            return Toolkit.getDefaultToolkit()
+                        public SecondbryLoop run() {
+                            return Toolkit.getDefbultToolkit()
                                     .getSystemEventQueue()
-                                    .createSecondaryLoop();
+                                    .crebteSecondbryLoop();
                         }
                     });
 
                     try {
-                        // Fire off the print rendering loop on the AppKit thread, and don't have
-                        //  it wait and block this thread.
-                        if (printLoop(false, firstPage, lastPage)) {
-                            // Start a secondary loop on EDT until printing operation is finished or cancelled
+                        // Fire off the print rendering loop on the AppKit threbd, bnd don't hbve
+                        //  it wbit bnd block this threbd.
+                        if (printLoop(fblse, firstPbge, lbstPbge)) {
+                            // Stbrt b secondbry loop on EDT until printing operbtion is finished or cbncelled
                             printingLoop.enter();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
               } else {
-                    // Fire off the print rendering loop on the AppKit, and block this thread
+                    // Fire off the print rendering loop on the AppKit, bnd block this threbd
                     //  until it is done.
-                    // But don't actually block... we need to come back here!
-                    onEventThread = false;
+                    // But don't bctublly block... we need to come bbck here!
+                    onEventThrebd = fblse;
 
                     try {
-                        printLoop(true, firstPage, lastPage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        printLoop(true, firstPbge, lbstPbge);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 }
                 if (++loopi < prMembers.length) {
-                     firstPage = prMembers[loopi][0]-1;
-                     lastPage = prMembers[loopi][1] -1;
+                     firstPbge = prMembers[loopi][0]-1;
+                     lbstPbge = prMembers[loopi][1] -1;
                 }
             }  while (loopi < prMembers.length);
-        } finally {
+        } finblly {
             synchronized (this) {
-                // NOTE: Native code shouldn't allow exceptions out while
-                // printing. They should cancel the print loop.
-                performingPrinting = false;
+                // NOTE: Nbtive code shouldn't bllow exceptions out while
+                // printing. They should cbncel the print loop.
+                performingPrinting = fblse;
                 notify();
             }
             if (printingLoop != null) {
@@ -322,270 +322,270 @@ public final class CPrinterJob extends RasterPrinterJob {
             }
         }
 
-        // Normalize the collated, # copies, numPages, first/last pages. Need to
-        //  make note of pageRangesAttr.
+        // Normblize the collbted, # copies, numPbges, first/lbst pbges. Need to
+        //  mbke note of pbgeRbngesAttr.
 
-        // Set up NSPrintInfo with the java settings (PageFormat & Paper).
+        // Set up NSPrintInfo with the jbvb settings (PbgeFormbt & Pbper).
 
-        // Create an NSView for printing. Have knowsPageRange return YES, and give the correct
-        //  range, or MAX? if unknown. Have rectForPage do a peekGraphics check before returning
-        //  the rectangle. Have drawRect do the real render of the page. Have printJobTitle do
+        // Crebte bn NSView for printing. Hbve knowsPbgeRbnge return YES, bnd give the correct
+        //  rbnge, or MAX? if unknown. Hbve rectForPbge do b peekGrbphics check before returning
+        //  the rectbngle. Hbve drbwRect do the rebl render of the pbge. Hbve printJobTitle do
         //  the right thing.
 
-        // Call NSPrintOperation, it will call NSView.drawRect: for each page.
+        // Cbll NSPrintOperbtion, it will cbll NSView.drbwRect: for ebch pbge.
 
-        // NSView.drawRect: will create a CPrinterGraphics with the current CGContextRef, and then
-        //  pass this Graphics onto the Printable with the appropriate PageFormat and index.
+        // NSView.drbwRect: will crebte b CPrinterGrbphics with the current CGContextRef, bnd then
+        //  pbss this Grbphics onto the Printbble with the bppropribte PbgeFormbt bnd index.
 
-        // Need to be able to cancel the NSPrintOperation (using code from RasterPrinterJob, be
-        //  sure to initialize userCancelled and performingPrinting member variables).
+        // Need to be bble to cbncel the NSPrintOperbtion (using code from RbsterPrinterJob, be
+        //  sure to initiblize userCbncelled bnd performingPrinting member vbribbles).
 
-        // Extensions available from AppKit: Print to PDF or EPS file!
+        // Extensions bvbilbble from AppKit: Print to PDF or EPS file!
     }
 
     /**
-     * Returns the resolution in dots per inch across the width
-     * of the page.
+     * Returns the resolution in dots per inch bcross the width
+     * of the pbge.
      */
     @Override
     protected double getXRes() {
-        // NOTE: This is not used in the CPrinterJob code path.
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
      * Returns the resolution in dots per inch down the height
-     * of the page.
+     * of the pbge.
      */
     @Override
     protected double getYRes() {
-        // NOTE: This is not used in the CPrinterJob code path.
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPrintableX(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPrintbbleX(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPrintableY(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPrintbbleY(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPrintableWidth(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPrintbbleWidth(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPrintableHeight(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPrintbbleHeight(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPageWidth(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPbgeWidth(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
     @Override
-    protected double getPhysicalPageHeight(Paper p) {
-        // NOTE: This is not used in the CPrinterJob code path.
+    protected double getPhysicblPbgeHeight(Pbper p) {
+        // NOTE: This is not used in the CPrinterJob code pbth.
         return 0;
     }
 
     /**
-     * Begin a new page. This call's Window's
-     * StartPage routine.
+     * Begin b new pbge. This cbll's Window's
+     * StbrtPbge routine.
      */
-    protected void startPage(PageFormat format, Printable painter, int index) throws PrinterException {
-        // NOTE: This is not used in the CPrinterJob code path.
-        throw new PrinterException(sShouldNotReachHere);
+    protected void stbrtPbge(PbgeFormbt formbt, Printbble pbinter, int index) throws PrinterException {
+        // NOTE: This is not used in the CPrinterJob code pbth.
+        throw new PrinterException(sShouldNotRebchHere);
     }
 
     /**
-     * End a page.
-     */
-    @Override
-    protected void endPage(PageFormat format, Printable painter, int index) throws PrinterException {
-        // NOTE: This is not used in the CPrinterJob code path.
-        throw new PrinterException(sShouldNotReachHere);
-    }
-
-    /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller.
+     * End b pbge.
      */
     @Override
-    protected void printBand(byte[] data, int x, int y, int width, int height) throws PrinterException {
-        // NOTE: This is not used in the CPrinterJob code path.
-        throw new PrinterException(sShouldNotReachHere);
+    protected void endPbge(PbgeFormbt formbt, Printbble pbinter, int index) throws PrinterException {
+        // NOTE: This is not used in the CPrinterJob code pbth.
+        throw new PrinterException(sShouldNotRebchHere);
     }
 
     /**
-     * Called by the print() method at the start of
-     * a print job.
+     * Prints the contents of the brrby of ints, 'dbtb'
+     * to the current pbge. The bbnd is plbced bt the
+     * locbtion (x, y) in device coordinbtes on the
+     * pbge. The width bnd height of the bbnd is
+     * specified by the cbller.
      */
     @Override
-    protected void startDoc() throws PrinterException {
-        // NOTE: This is not used in the CPrinterJob code path.
-        throw new PrinterException(sShouldNotReachHere);
+    protected void printBbnd(byte[] dbtb, int x, int y, int width, int height) throws PrinterException {
+        // NOTE: This is not used in the CPrinterJob code pbth.
+        throw new PrinterException(sShouldNotRebchHere);
     }
 
     /**
-     * Called by the print() method at the end of
-     * a print job.
+     * Cblled by the print() method bt the stbrt of
+     * b print job.
+     */
+    @Override
+    protected void stbrtDoc() throws PrinterException {
+        // NOTE: This is not used in the CPrinterJob code pbth.
+        throw new PrinterException(sShouldNotRebchHere);
+    }
+
+    /**
+     * Cblled by the print() method bt the end of
+     * b print job.
      */
     @Override
     protected void endDoc() throws PrinterException {
-        // NOTE: This is not used in the CPrinterJob code path.
-        throw new PrinterException(sShouldNotReachHere);
+        // NOTE: This is not used in the CPrinterJob code pbth.
+        throw new PrinterException(sShouldNotRebchHere);
     }
 
-    /* Called by cancelDoc */
+    /* Cblled by cbncelDoc */
     @Override
-    protected native void abortDoc();
+    protected nbtive void bbortDoc();
 
     /**
-     * Displays the page setup dialog placing the user's
-     * settings into 'page'.
+     * Displbys the pbge setup diblog plbcing the user's
+     * settings into 'pbge'.
      */
-    public boolean pageSetup(PageFormat page, Printable painter) {
-        CPrinterDialog printerDialog = new CPrinterPageDialog(null, this, page, painter);
-        printerDialog.setVisible(true);
-        boolean result = printerDialog.getRetVal();
-        printerDialog.dispose();
+    public boolebn pbgeSetup(PbgeFormbt pbge, Printbble pbinter) {
+        CPrinterDiblog printerDiblog = new CPrinterPbgeDiblog(null, this, pbge, pbinter);
+        printerDiblog.setVisible(true);
+        boolebn result = printerDiblog.getRetVbl();
+        printerDiblog.dispose();
         return result;
     }
 
     /**
-     * Displays the print dialog and records the user's settings
-     * into this object. Return false if the user cancels the
-     * dialog.
-     * If the dialog is to use a set of attributes, useAttributes is true.
+     * Displbys the print diblog bnd records the user's settings
+     * into this object. Return fblse if the user cbncels the
+     * diblog.
+     * If the diblog is to use b set of bttributes, useAttributes is true.
      */
-    private boolean jobSetup(Pageable doc, boolean allowPrintToFile) {
-        CPrinterDialog printerDialog = new CPrinterJobDialog(null, this, doc, allowPrintToFile);
-        printerDialog.setVisible(true);
-        boolean result = printerDialog.getRetVal();
-        printerDialog.dispose();
+    privbte boolebn jobSetup(Pbgebble doc, boolebn bllowPrintToFile) {
+        CPrinterDiblog printerDiblog = new CPrinterJobDiblog(null, this, doc, bllowPrintToFile);
+        printerDiblog.setVisible(true);
+        boolebn result = printerDiblog.getRetVbl();
+        printerDiblog.dispose();
         return result;
     }
 
     /**
-     * Alters the orientation and Paper to match defaults obtained
-     * from a printer.
+     * Alters the orientbtion bnd Pbper to mbtch defbults obtbined
+     * from b printer.
      */
-    private native void getDefaultPage(PageFormat page);
+    privbte nbtive void getDefbultPbge(PbgeFormbt pbge);
 
     /**
-     * validate the paper size against the current printer.
+     * vblidbte the pbper size bgbinst the current printer.
      */
     @Override
-    protected native void validatePaper(Paper origPaper, Paper newPaper );
+    protected nbtive void vblidbtePbper(Pbper origPbper, Pbper newPbper );
 
-    // The following methods are CPrinterJob specific.
+    // The following methods bre CPrinterJob specific.
 
     @Override
-    protected void finalize() {
+    protected void finblize() {
         if (fNSPrintInfo != -1) {
             dispose(fNSPrintInfo);
         }
     }
 
-    private native long createNSPrintInfo();
-    private native void dispose(long printInfo);
+    privbte nbtive long crebteNSPrintInfo();
+    privbte nbtive void dispose(long printInfo);
 
-    private long getNSPrintInfo() {
-        // This is called from the native side.
+    privbte long getNSPrintInfo() {
+        // This is cblled from the nbtive side.
         synchronized (fNSPrintInfoLock) {
             if (fNSPrintInfo == -1) {
-                fNSPrintInfo = createNSPrintInfo();
+                fNSPrintInfo = crebteNSPrintInfo();
             }
             return fNSPrintInfo;
         }
     }
 
-    private native boolean printLoop(boolean waitUntilDone, int firstPage, int lastPage) throws PrinterException;
+    privbte nbtive boolebn printLoop(boolebn wbitUntilDone, int firstPbge, int lbstPbge) throws PrinterException;
 
-    private PageFormat getPageFormat(int pageIndex) {
-        // This is called from the native side.
-        PageFormat page;
+    privbte PbgeFormbt getPbgeFormbt(int pbgeIndex) {
+        // This is cblled from the nbtive side.
+        PbgeFormbt pbge;
         try {
-            page = getPageable().getPageFormat(pageIndex);
-        } catch (Exception e) {
+            pbge = getPbgebble().getPbgeFormbt(pbgeIndex);
+        } cbtch (Exception e) {
             return null;
         }
-        return page;
+        return pbge;
     }
 
-    private Printable getPrintable(int pageIndex) {
-        // This is called from the native side.
-        Printable painter;
+    privbte Printbble getPrintbble(int pbgeIndex) {
+        // This is cblled from the nbtive side.
+        Printbble pbinter;
         try {
-            painter = getPageable().getPrintable(pageIndex);
-        } catch (Exception e) {
+            pbinter = getPbgebble().getPrintbble(pbgeIndex);
+        } cbtch (Exception e) {
             return null;
         }
-        return painter;
+        return pbinter;
     }
 
-    private String getPrinterName(){
-        // This is called from the native side.
+    privbte String getPrinterNbme(){
+        // This is cblled from the nbtive side.
         PrintService service = getPrintService();
         if (service == null) return null;
-        return service.getName();
+        return service.getNbme();
     }
 
-    private void setPrinterServiceFromNative(String printerName) {
-        // This is called from the native side.
-        PrintService[] services = PrintServiceLookup.lookupPrintServices(DocFlavor.SERVICE_FORMATTED.PAGEABLE, null);
+    privbte void setPrinterServiceFromNbtive(String printerNbme) {
+        // This is cblled from the nbtive side.
+        PrintService[] services = PrintServiceLookup.lookupPrintServices(DocFlbvor.SERVICE_FORMATTED.PAGEABLE, null);
 
         for (int i = 0; i < services.length; i++) {
             PrintService service = services[i];
 
-            if (printerName.equals(service.getName())) {
+            if (printerNbme.equbls(service.getNbme())) {
                 try {
                     setPrintService(service);
-                } catch (PrinterException e) {
+                } cbtch (PrinterException e) {
                     // ignored
                 }
                 return;
@@ -593,110 +593,110 @@ public final class CPrinterJob extends RasterPrinterJob {
         }
     }
 
-    private Rectangle2D getPageFormatArea(PageFormat page) {
-        Rectangle2D.Double pageFormatArea =
-            new Rectangle2D.Double(page.getImageableX(),
-                    page.getImageableY(),
-                    page.getImageableWidth(),
-                    page.getImageableHeight());
-        return pageFormatArea;
+    privbte Rectbngle2D getPbgeFormbtAreb(PbgeFormbt pbge) {
+        Rectbngle2D.Double pbgeFormbtAreb =
+            new Rectbngle2D.Double(pbge.getImbgebbleX(),
+                    pbge.getImbgebbleY(),
+                    pbge.getImbgebbleWidth(),
+                    pbge.getImbgebbleHeight());
+        return pbgeFormbtAreb;
     }
 
-    private boolean cancelCheck() {
-        // This is called from the native side.
+    privbte boolebn cbncelCheck() {
+        // This is cblled from the nbtive side.
 
-        // This is used to avoid deadlock
-        // We would like to just call if isCancelled(),
-        // but that will block the AppKit thread against whomever is holding the synchronized lock
-        boolean cancelled = (performingPrinting && userCancelled);
-        if (cancelled) {
+        // This is used to bvoid debdlock
+        // We would like to just cbll if isCbncelled(),
+        // but thbt will block the AppKit threbd bgbinst whomever is holding the synchronized lock
+        boolebn cbncelled = (performingPrinting && userCbncelled);
+        if (cbncelled) {
             try {
-                LWCToolkit.invokeLater(new Runnable() { public void run() {
+                LWCToolkit.invokeLbter(new Runnbble() { public void run() {
                     try {
-                    cancelDoc();
-                    } catch (PrinterAbortException pae) {
-                        // no-op, let the native side handle it
+                    cbncelDoc();
+                    } cbtch (PrinterAbortException pbe) {
+                        // no-op, let the nbtive side hbndle it
                     }
                 }}, null);
-            } catch (java.lang.reflect.InvocationTargetException ite) {}
+            } cbtch (jbvb.lbng.reflect.InvocbtionTbrgetException ite) {}
         }
-        return cancelled;
+        return cbncelled;
     }
 
-    private PeekGraphics createFirstPassGraphics(PrinterJob printerJob, PageFormat page) {
-        // This is called from the native side.
-        BufferedImage bimg = new BufferedImage((int)Math.round(page.getWidth()), (int)Math.round(page.getHeight()), BufferedImage.TYPE_INT_ARGB_PRE);
-        PeekGraphics peekGraphics = createPeekGraphics(bimg.createGraphics(), printerJob);
-        Rectangle2D pageFormatArea = getPageFormatArea(page);
-        initPrinterGraphics(peekGraphics, pageFormatArea);
-        return peekGraphics;
+    privbte PeekGrbphics crebteFirstPbssGrbphics(PrinterJob printerJob, PbgeFormbt pbge) {
+        // This is cblled from the nbtive side.
+        BufferedImbge bimg = new BufferedImbge((int)Mbth.round(pbge.getWidth()), (int)Mbth.round(pbge.getHeight()), BufferedImbge.TYPE_INT_ARGB_PRE);
+        PeekGrbphics peekGrbphics = crebtePeekGrbphics(bimg.crebteGrbphics(), printerJob);
+        Rectbngle2D pbgeFormbtAreb = getPbgeFormbtAreb(pbge);
+        initPrinterGrbphics(peekGrbphics, pbgeFormbtAreb);
+        return peekGrbphics;
     }
 
-    private void printToPathGraphics(    final PeekGraphics graphics, // Always an actual PeekGraphics
-                                        final PrinterJob printerJob, // Always an actual CPrinterJob
-                                        final Printable painter, // Client class
-                                        final PageFormat page, // Client class
-                                        final int pageIndex,
-                                        final long context) throws PrinterException {
-        // This is called from the native side.
-        Runnable r = new Runnable() { public void run() {
+    privbte void printToPbthGrbphics(    finbl PeekGrbphics grbphics, // Alwbys bn bctubl PeekGrbphics
+                                        finbl PrinterJob printerJob, // Alwbys bn bctubl CPrinterJob
+                                        finbl Printbble pbinter, // Client clbss
+                                        finbl PbgeFormbt pbge, // Client clbss
+                                        finbl int pbgeIndex,
+                                        finbl long context) throws PrinterException {
+        // This is cblled from the nbtive side.
+        Runnbble r = new Runnbble() { public void run() {
             try {
-                SurfaceData sd = CPrinterSurfaceData.createData(page, context); // Just stores page into an ivar
-                if (defaultFont == null) {
-                    defaultFont = new Font("Dialog", Font.PLAIN, 12);
+                SurfbceDbtb sd = CPrinterSurfbceDbtb.crebteDbtb(pbge, context); // Just stores pbge into bn ivbr
+                if (defbultFont == null) {
+                    defbultFont = new Font("Diblog", Font.PLAIN, 12);
                 }
-                Graphics2D delegate = new SunGraphics2D(sd, Color.black, Color.white, defaultFont);
+                Grbphics2D delegbte = new SunGrbphics2D(sd, Color.blbck, Color.white, defbultFont);
 
-                Graphics2D pathGraphics = new CPrinterGraphics(delegate, printerJob); // Just stores delegate into an ivar
-                Rectangle2D pageFormatArea = getPageFormatArea(page);
-                initPrinterGraphics(pathGraphics, pageFormatArea);
-                painter.print(pathGraphics, page, pageIndex);
-                delegate.dispose();
-                delegate = null;
-        } catch (PrinterException pe) { throw new java.lang.reflect.UndeclaredThrowableException(pe); }
+                Grbphics2D pbthGrbphics = new CPrinterGrbphics(delegbte, printerJob); // Just stores delegbte into bn ivbr
+                Rectbngle2D pbgeFormbtAreb = getPbgeFormbtAreb(pbge);
+                initPrinterGrbphics(pbthGrbphics, pbgeFormbtAreb);
+                pbinter.print(pbthGrbphics, pbge, pbgeIndex);
+                delegbte.dispose();
+                delegbte = null;
+        } cbtch (PrinterException pe) { throw new jbvb.lbng.reflect.UndeclbredThrowbbleException(pe); }
         }};
 
-        if (onEventThread) {
-            try { EventQueue.invokeAndWait(r);
-            } catch (java.lang.reflect.InvocationTargetException ite) {
-                Throwable te = ite.getTargetException();
-                if (te instanceof PrinterException) throw (PrinterException)te;
-                else te.printStackTrace();
-            } catch (Exception e) { e.printStackTrace(); }
+        if (onEventThrebd) {
+            try { EventQueue.invokeAndWbit(r);
+            } cbtch (jbvb.lbng.reflect.InvocbtionTbrgetException ite) {
+                Throwbble te = ite.getTbrgetException();
+                if (te instbnceof PrinterException) throw (PrinterException)te;
+                else te.printStbckTrbce();
+            } cbtch (Exception e) { e.printStbckTrbce(); }
         } else {
             r.run();
         }
 
     }
 
-    // Returns either 1. an array of 3 object (PageFormat, Printable, PeekGraphics) or 2. null
-    private Object[] getPageformatPrintablePeekgraphics(final int pageIndex) {
-        final Object[] ret = new Object[3];
-        final PrinterJob printerJob = this;
+    // Returns either 1. bn brrby of 3 object (PbgeFormbt, Printbble, PeekGrbphics) or 2. null
+    privbte Object[] getPbgeformbtPrintbblePeekgrbphics(finbl int pbgeIndex) {
+        finbl Object[] ret = new Object[3];
+        finbl PrinterJob printerJob = this;
 
-        Runnable r = new Runnable() { public void run() { synchronized(ret) {
+        Runnbble r = new Runnbble() { public void run() { synchronized(ret) {
             try {
-                Pageable pageable = getPageable();
-                PageFormat pageFormat = pageable.getPageFormat(pageIndex);
-                if (pageFormat != null) {
-                    Printable printable = pageable.getPrintable(pageIndex);
-                    if (printable != null) {
-                        BufferedImage bimg = new BufferedImage((int)Math.round(pageFormat.getWidth()), (int)Math.round(pageFormat.getHeight()), BufferedImage.TYPE_INT_ARGB_PRE);
-                        PeekGraphics peekGraphics = createPeekGraphics(bimg.createGraphics(), printerJob);
-                        Rectangle2D pageFormatArea = getPageFormatArea(pageFormat);
-                        initPrinterGraphics(peekGraphics, pageFormatArea);
+                Pbgebble pbgebble = getPbgebble();
+                PbgeFormbt pbgeFormbt = pbgebble.getPbgeFormbt(pbgeIndex);
+                if (pbgeFormbt != null) {
+                    Printbble printbble = pbgebble.getPrintbble(pbgeIndex);
+                    if (printbble != null) {
+                        BufferedImbge bimg = new BufferedImbge((int)Mbth.round(pbgeFormbt.getWidth()), (int)Mbth.round(pbgeFormbt.getHeight()), BufferedImbge.TYPE_INT_ARGB_PRE);
+                        PeekGrbphics peekGrbphics = crebtePeekGrbphics(bimg.crebteGrbphics(), printerJob);
+                        Rectbngle2D pbgeFormbtAreb = getPbgeFormbtAreb(pbgeFormbt);
+                        initPrinterGrbphics(peekGrbphics, pbgeFormbtAreb);
 
-                        // Do the assignment here!
-                        ret[0] = pageFormat;
-                        ret[1] = printable;
-                        ret[2] = peekGraphics;
+                        // Do the bssignment here!
+                        ret[0] = pbgeFormbt;
+                        ret[1] = printbble;
+                        ret[2] = peekGrbphics;
                     }
                 }
-            } catch (Exception e) {} // Original code bailed on any exception
+            } cbtch (Exception e) {} // Originbl code bbiled on bny exception
         }}};
 
-        if (onEventThread) {
-            try { EventQueue.invokeAndWait(r); } catch (Exception e) { e.printStackTrace(); }
+        if (onEventThrebd) {
+            try { EventQueue.invokeAndWbit(r); } cbtch (Exception e) { e.printStbckTrbce(); }
         } else {
             r.run();
         }
@@ -708,20 +708,20 @@ public final class CPrinterJob extends RasterPrinterJob {
         }
     }
 
-    private Rectangle2D printAndGetPageFormatArea(final Printable printable, final Graphics graphics, final PageFormat pageFormat, final int pageIndex) {
-        final Rectangle2D[] ret = new Rectangle2D[1];
+    privbte Rectbngle2D printAndGetPbgeFormbtAreb(finbl Printbble printbble, finbl Grbphics grbphics, finbl PbgeFormbt pbgeFormbt, finbl int pbgeIndex) {
+        finbl Rectbngle2D[] ret = new Rectbngle2D[1];
 
-        Runnable r = new Runnable() { public void run() { synchronized(ret) {
+        Runnbble r = new Runnbble() { public void run() { synchronized(ret) {
             try {
-                int pageResult = printable.print(graphics, pageFormat, pageIndex);
-                if (pageResult != Printable.NO_SUCH_PAGE) {
-                    ret[0] = getPageFormatArea(pageFormat);
+                int pbgeResult = printbble.print(grbphics, pbgeFormbt, pbgeIndex);
+                if (pbgeResult != Printbble.NO_SUCH_PAGE) {
+                    ret[0] = getPbgeFormbtAreb(pbgeFormbt);
                 }
-            } catch (Exception e) {} // Original code bailed on any exception
+            } cbtch (Exception e) {} // Originbl code bbiled on bny exception
         }}};
 
-        if (onEventThread) {
-            try { EventQueue.invokeAndWait(r); } catch (Exception e) { e.printStackTrace(); }
+        if (onEventThrebd) {
+            try { EventQueue.invokeAndWbit(r); } cbtch (Exception e) { e.printStbckTrbce(); }
         } else {
             r.run();
         }
@@ -729,16 +729,16 @@ public final class CPrinterJob extends RasterPrinterJob {
         synchronized(ret) { return ret[0]; }
     }
 
-    // upcall from native
-    private static void detachPrintLoop(final long target, final long arg) {
-        new Thread() { public void run() {
-            _safePrintLoop(target, arg);
-        }}.start();
+    // upcbll from nbtive
+    privbte stbtic void detbchPrintLoop(finbl long tbrget, finbl long brg) {
+        new Threbd() { public void run() {
+            _sbfePrintLoop(tbrget, brg);
+        }}.stbrt();
     }
-    private static native void _safePrintLoop(long target, long arg);
+    privbte stbtic nbtive void _sbfePrintLoop(long tbrget, long brg);
 
     @Override
-    protected void startPage(PageFormat arg0, Printable arg1, int arg2, boolean arg3) throws PrinterException {
-        // TODO Auto-generated method stub
+    protected void stbrtPbge(PbgeFormbt brg0, Printbble brg1, int brg2, boolebn brg3) throws PrinterException {
+        // TODO Auto-generbted method stub
     }
 }

@@ -1,696 +1,696 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.text.spi.NumberFormatProvider;
-import java.util.Currency;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.spi.LocaleServiceProvider;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.mbth.RoundingMode;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.Currency;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.spi.LocbleServiceProvider;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleServiceProviderPool;
 
 /**
- * <code>NumberFormat</code> is the abstract base class for all number
- * formats. This class provides the interface for formatting and parsing
- * numbers. <code>NumberFormat</code> also provides methods for determining
- * which locales have number formats, and what their names are.
+ * <code>NumberFormbt</code> is the bbstrbct bbse clbss for bll number
+ * formbts. This clbss provides the interfbce for formbtting bnd pbrsing
+ * numbers. <code>NumberFormbt</code> blso provides methods for determining
+ * which locbles hbve number formbts, bnd whbt their nbmes bre.
  *
  * <p>
- * <code>NumberFormat</code> helps you to format and parse numbers for any locale.
- * Your code can be completely independent of the locale conventions for
- * decimal points, thousands-separators, or even the particular decimal
- * digits used, or whether the number format is even decimal.
+ * <code>NumberFormbt</code> helps you to formbt bnd pbrse numbers for bny locble.
+ * Your code cbn be completely independent of the locble conventions for
+ * decimbl points, thousbnds-sepbrbtors, or even the pbrticulbr decimbl
+ * digits used, or whether the number formbt is even decimbl.
  *
  * <p>
- * To format a number for the current Locale, use one of the factory
- * class methods:
+ * To formbt b number for the current Locble, use one of the fbctory
+ * clbss methods:
  * <blockquote>
  * <pre>{@code
- * myString = NumberFormat.getInstance().format(myNumber);
+ * myString = NumberFormbt.getInstbnce().formbt(myNumber);
  * }</pre>
  * </blockquote>
- * If you are formatting multiple numbers, it is
- * more efficient to get the format and use it multiple times so that
- * the system doesn't have to fetch the information about the local
- * language and country conventions multiple times.
+ * If you bre formbtting multiple numbers, it is
+ * more efficient to get the formbt bnd use it multiple times so thbt
+ * the system doesn't hbve to fetch the informbtion bbout the locbl
+ * lbngubge bnd country conventions multiple times.
  * <blockquote>
  * <pre>{@code
- * NumberFormat nf = NumberFormat.getInstance();
+ * NumberFormbt nf = NumberFormbt.getInstbnce();
  * for (int i = 0; i < myNumber.length; ++i) {
- *     output.println(nf.format(myNumber[i]) + "; ");
+ *     output.println(nf.formbt(myNumber[i]) + "; ");
  * }
  * }</pre>
  * </blockquote>
- * To format a number for a different Locale, specify it in the
- * call to <code>getInstance</code>.
+ * To formbt b number for b different Locble, specify it in the
+ * cbll to <code>getInstbnce</code>.
  * <blockquote>
  * <pre>{@code
- * NumberFormat nf = NumberFormat.getInstance(Locale.FRENCH);
+ * NumberFormbt nf = NumberFormbt.getInstbnce(Locble.FRENCH);
  * }</pre>
  * </blockquote>
- * You can also use a <code>NumberFormat</code> to parse numbers:
+ * You cbn blso use b <code>NumberFormbt</code> to pbrse numbers:
  * <blockquote>
  * <pre>{@code
- * myNumber = nf.parse(myString);
+ * myNumber = nf.pbrse(myString);
  * }</pre>
  * </blockquote>
- * Use <code>getInstance</code> or <code>getNumberInstance</code> to get the
- * normal number format. Use <code>getIntegerInstance</code> to get an
- * integer number format. Use <code>getCurrencyInstance</code> to get the
- * currency number format. And use <code>getPercentInstance</code> to get a
- * format for displaying percentages. With this format, a fraction like
- * 0.53 is displayed as 53%.
+ * Use <code>getInstbnce</code> or <code>getNumberInstbnce</code> to get the
+ * normbl number formbt. Use <code>getIntegerInstbnce</code> to get bn
+ * integer number formbt. Use <code>getCurrencyInstbnce</code> to get the
+ * currency number formbt. And use <code>getPercentInstbnce</code> to get b
+ * formbt for displbying percentbges. With this formbt, b frbction like
+ * 0.53 is displbyed bs 53%.
  *
  * <p>
- * You can also control the display of numbers with such methods as
- * <code>setMinimumFractionDigits</code>.
- * If you want even more control over the format or parsing,
- * or want to give your users more control,
- * you can try casting the <code>NumberFormat</code> you get from the factory methods
- * to a <code>DecimalFormat</code>. This will work for the vast majority
- * of locales; just remember to put it in a <code>try</code> block in case you
- * encounter an unusual one.
+ * You cbn blso control the displby of numbers with such methods bs
+ * <code>setMinimumFrbctionDigits</code>.
+ * If you wbnt even more control over the formbt or pbrsing,
+ * or wbnt to give your users more control,
+ * you cbn try cbsting the <code>NumberFormbt</code> you get from the fbctory methods
+ * to b <code>DecimblFormbt</code>. This will work for the vbst mbjority
+ * of locbles; just remember to put it in b <code>try</code> block in cbse you
+ * encounter bn unusubl one.
  *
  * <p>
- * NumberFormat and DecimalFormat are designed such that some controls
- * work for formatting and others work for parsing.  The following is
- * the detailed description for each these control methods,
+ * NumberFormbt bnd DecimblFormbt bre designed such thbt some controls
+ * work for formbtting bnd others work for pbrsing.  The following is
+ * the detbiled description for ebch these control methods,
  * <p>
- * setParseIntegerOnly : only affects parsing, e.g.
- * if true,  "3456.78" &rarr; 3456 (and leaves the parse position just after index 6)
- * if false, "3456.78" &rarr; 3456.78 (and leaves the parse position just after index 8)
- * This is independent of formatting.  If you want to not show a decimal point
- * where there might be no digits after the decimal point, use
- * setDecimalSeparatorAlwaysShown.
+ * setPbrseIntegerOnly : only bffects pbrsing, e.g.
+ * if true,  "3456.78" &rbrr; 3456 (bnd lebves the pbrse position just bfter index 6)
+ * if fblse, "3456.78" &rbrr; 3456.78 (bnd lebves the pbrse position just bfter index 8)
+ * This is independent of formbtting.  If you wbnt to not show b decimbl point
+ * where there might be no digits bfter the decimbl point, use
+ * setDecimblSepbrbtorAlwbysShown.
  * <p>
- * setDecimalSeparatorAlwaysShown : only affects formatting, and only where
- * there might be no digits after the decimal point, such as with a pattern
+ * setDecimblSepbrbtorAlwbysShown : only bffects formbtting, bnd only where
+ * there might be no digits bfter the decimbl point, such bs with b pbttern
  * like "#,##0.##", e.g.,
- * if true,  3456.00 &rarr; "3,456."
- * if false, 3456.00 &rarr; "3456"
- * This is independent of parsing.  If you want parsing to stop at the decimal
- * point, use setParseIntegerOnly.
+ * if true,  3456.00 &rbrr; "3,456."
+ * if fblse, 3456.00 &rbrr; "3456"
+ * This is independent of pbrsing.  If you wbnt pbrsing to stop bt the decimbl
+ * point, use setPbrseIntegerOnly.
  *
  * <p>
- * You can also use forms of the <code>parse</code> and <code>format</code>
- * methods with <code>ParsePosition</code> and <code>FieldPosition</code> to
- * allow you to:
+ * You cbn blso use forms of the <code>pbrse</code> bnd <code>formbt</code>
+ * methods with <code>PbrsePosition</code> bnd <code>FieldPosition</code> to
+ * bllow you to:
  * <ul>
- * <li> progressively parse through pieces of a string
- * <li> align the decimal point and other areas
+ * <li> progressively pbrse through pieces of b string
+ * <li> blign the decimbl point bnd other brebs
  * </ul>
- * For example, you can align numbers in two ways:
+ * For exbmple, you cbn blign numbers in two wbys:
  * <ol>
- * <li> If you are using a monospaced font with spacing for alignment,
- *      you can pass the <code>FieldPosition</code> in your format call, with
+ * <li> If you bre using b monospbced font with spbcing for blignment,
+ *      you cbn pbss the <code>FieldPosition</code> in your formbt cbll, with
  *      <code>field</code> = <code>INTEGER_FIELD</code>. On output,
  *      <code>getEndIndex</code> will be set to the offset between the
- *      last character of the integer and the decimal. Add
- *      (desiredSpaceCount - getEndIndex) spaces at the front of the string.
+ *      lbst chbrbcter of the integer bnd the decimbl. Add
+ *      (desiredSpbceCount - getEndIndex) spbces bt the front of the string.
  *
- * <li> If you are using proportional fonts,
- *      instead of padding with spaces, measure the width
- *      of the string in pixels from the start to <code>getEndIndex</code>.
+ * <li> If you bre using proportionbl fonts,
+ *      instebd of pbdding with spbces, mebsure the width
+ *      of the string in pixels from the stbrt to <code>getEndIndex</code>.
  *      Then move the pen by
- *      (desiredPixelWidth - widthToAlignmentPoint) before drawing the text.
- *      It also works where there is no decimal, but possibly additional
- *      characters at the end, e.g., with parentheses in negative
+ *      (desiredPixelWidth - widthToAlignmentPoint) before drbwing the text.
+ *      It blso works where there is no decimbl, but possibly bdditionbl
+ *      chbrbcters bt the end, e.g., with pbrentheses in negbtive
  *      numbers: "(12)" for -12.
  * </ol>
  *
- * <h3><a name="synchronization">Synchronization</a></h3>
+ * <h3><b nbme="synchronizbtion">Synchronizbtion</b></h3>
  *
  * <p>
- * Number formats are generally not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Number formbts bre generblly not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
- * @see          DecimalFormat
- * @see          ChoiceFormat
- * @author       Mark Davis
- * @author       Helena Shih
+ * @see          DecimblFormbt
+ * @see          ChoiceFormbt
+ * @buthor       Mbrk Dbvis
+ * @buthor       Helenb Shih
  */
-public abstract class NumberFormat extends Format  {
+public bbstrbct clbss NumberFormbt extends Formbt  {
 
     /**
-     * Field constant used to construct a FieldPosition object. Signifies that
-     * the position of the integer part of a formatted number should be returned.
-     * @see java.text.FieldPosition
+     * Field constbnt used to construct b FieldPosition object. Signifies thbt
+     * the position of the integer pbrt of b formbtted number should be returned.
+     * @see jbvb.text.FieldPosition
      */
-    public static final int INTEGER_FIELD = 0;
+    public stbtic finbl int INTEGER_FIELD = 0;
 
     /**
-     * Field constant used to construct a FieldPosition object. Signifies that
-     * the position of the fraction part of a formatted number should be returned.
-     * @see java.text.FieldPosition
+     * Field constbnt used to construct b FieldPosition object. Signifies thbt
+     * the position of the frbction pbrt of b formbtted number should be returned.
+     * @see jbvb.text.FieldPosition
      */
-    public static final int FRACTION_FIELD = 1;
+    public stbtic finbl int FRACTION_FIELD = 1;
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected NumberFormat() {
+    protected NumberFormbt() {
     }
 
     /**
-     * Formats a number and appends the resulting text to the given string
+     * Formbts b number bnd bppends the resulting text to the given string
      * buffer.
-     * The number can be of any subclass of {@link java.lang.Number}.
+     * The number cbn be of bny subclbss of {@link jbvb.lbng.Number}.
      * <p>
-     * This implementation extracts the number's value using
-     * {@link java.lang.Number#longValue()} for all integral type values that
-     * can be converted to <code>long</code> without loss of information,
-     * including <code>BigInteger</code> values with a
-     * {@link java.math.BigInteger#bitLength() bit length} of less than 64,
-     * and {@link java.lang.Number#doubleValue()} for all other types. It
-     * then calls
-     * {@link #format(long,java.lang.StringBuffer,java.text.FieldPosition)}
-     * or {@link #format(double,java.lang.StringBuffer,java.text.FieldPosition)}.
-     * This may result in loss of magnitude information and precision for
-     * <code>BigInteger</code> and <code>BigDecimal</code> values.
-     * @param number     the number to format
-     * @param toAppendTo the <code>StringBuffer</code> to which the formatted
-     *                   text is to be appended
-     * @param pos        On input: an alignment field, if desired.
-     *                   On output: the offsets of the alignment field.
-     * @return           the value passed in as <code>toAppendTo</code>
-     * @exception        IllegalArgumentException if <code>number</code> is
-     *                   null or not an instance of <code>Number</code>.
+     * This implementbtion extrbcts the number's vblue using
+     * {@link jbvb.lbng.Number#longVblue()} for bll integrbl type vblues thbt
+     * cbn be converted to <code>long</code> without loss of informbtion,
+     * including <code>BigInteger</code> vblues with b
+     * {@link jbvb.mbth.BigInteger#bitLength() bit length} of less thbn 64,
+     * bnd {@link jbvb.lbng.Number#doubleVblue()} for bll other types. It
+     * then cblls
+     * {@link #formbt(long,jbvb.lbng.StringBuffer,jbvb.text.FieldPosition)}
+     * or {@link #formbt(double,jbvb.lbng.StringBuffer,jbvb.text.FieldPosition)}.
+     * This mby result in loss of mbgnitude informbtion bnd precision for
+     * <code>BigInteger</code> bnd <code>BigDecimbl</code> vblues.
+     * @pbrbm number     the number to formbt
+     * @pbrbm toAppendTo the <code>StringBuffer</code> to which the formbtted
+     *                   text is to be bppended
+     * @pbrbm pos        On input: bn blignment field, if desired.
+     *                   On output: the offsets of the blignment field.
+     * @return           the vblue pbssed in bs <code>toAppendTo</code>
+     * @exception        IllegblArgumentException if <code>number</code> is
+     *                   null or not bn instbnce of <code>Number</code>.
      * @exception        NullPointerException if <code>toAppendTo</code> or
      *                   <code>pos</code> is null
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see              java.text.FieldPosition
+     * @see              jbvb.text.FieldPosition
      */
     @Override
-    public StringBuffer format(Object number,
+    public StringBuffer formbt(Object number,
                                StringBuffer toAppendTo,
                                FieldPosition pos) {
-        if (number instanceof Long || number instanceof Integer ||
-            number instanceof Short || number instanceof Byte ||
-            number instanceof AtomicInteger || number instanceof AtomicLong ||
-            (number instanceof BigInteger &&
+        if (number instbnceof Long || number instbnceof Integer ||
+            number instbnceof Short || number instbnceof Byte ||
+            number instbnceof AtomicInteger || number instbnceof AtomicLong ||
+            (number instbnceof BigInteger &&
              ((BigInteger)number).bitLength() < 64)) {
-            return format(((Number)number).longValue(), toAppendTo, pos);
-        } else if (number instanceof Number) {
-            return format(((Number)number).doubleValue(), toAppendTo, pos);
+            return formbt(((Number)number).longVblue(), toAppendTo, pos);
+        } else if (number instbnceof Number) {
+            return formbt(((Number)number).doubleVblue(), toAppendTo, pos);
         } else {
-            throw new IllegalArgumentException("Cannot format given Object as a Number");
+            throw new IllegblArgumentException("Cbnnot formbt given Object bs b Number");
         }
     }
 
     /**
-     * Parses text from a string to produce a <code>Number</code>.
+     * Pbrses text from b string to produce b <code>Number</code>.
      * <p>
-     * The method attempts to parse text starting at the index given by
+     * The method bttempts to pbrse text stbrting bt the index given by
      * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * number is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * If pbrsing succeeds, then the index of <code>pos</code> is updbted
+     * to the index bfter the lbst chbrbcter used (pbrsing does not necessbrily
+     * use bll chbrbcters up to the end of the string), bnd the pbrsed
+     * number is returned. The updbted <code>pos</code> cbn be used to
+     * indicbte the stbrting point for the next cbll to this method.
+     * If bn error occurs, then the index of <code>pos</code> is not
+     * chbnged, the error index of <code>pos</code> is set to the index of
+     * the chbrbcter where the error occurred, bnd null is returned.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on number parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on number pbrsing.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error
-     *            index information as described above.
-     * @return A <code>Number</code> parsed from the string. In case of
+     * @pbrbm source A <code>String</code>, pbrt of which should be pbrsed.
+     * @pbrbm pos A <code>PbrsePosition</code> object with index bnd error
+     *            index informbtion bs described bbove.
+     * @return A <code>Number</code> pbrsed from the string. In cbse of
      *         error, returns null.
      * @exception NullPointerException if <code>pos</code> is null.
      */
     @Override
-    public final Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
+    public finbl Object pbrseObject(String source, PbrsePosition pos) {
+        return pbrse(source, pos);
     }
 
    /**
-     * Specialization of format.
+     * Speciblizbtion of formbt.
      *
-     * @param number the double number to format
-     * @return the formatted String
+     * @pbrbm number the double number to formbt
+     * @return the formbtted String
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.Format#format
+     * @see jbvb.text.Formbt#formbt
      */
-    public final String format(double number) {
-        // Use fast-path for double result if that works
-        String result = fastFormat(number);
+    public finbl String formbt(double number) {
+        // Use fbst-pbth for double result if thbt works
+        String result = fbstFormbt(number);
         if (result != null)
             return result;
 
-        return format(number, new StringBuffer(),
-                      DontCareFieldPosition.INSTANCE).toString();
+        return formbt(number, new StringBuffer(),
+                      DontCbreFieldPosition.INSTANCE).toString();
     }
 
     /*
-     * fastFormat() is supposed to be implemented in concrete subclasses only.
-     * Default implem always returns null.
+     * fbstFormbt() is supposed to be implemented in concrete subclbsses only.
+     * Defbult implem blwbys returns null.
      */
-    String fastFormat(double number) { return null; }
+    String fbstFormbt(double number) { return null; }
 
    /**
-     * Specialization of format.
+     * Speciblizbtion of formbt.
      *
-     * @param number the long number to format
-     * @return the formatted String
+     * @pbrbm number the long number to formbt
+     * @return the formbtted String
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.Format#format
+     * @see jbvb.text.Formbt#formbt
      */
-    public final String format(long number) {
-        return format(number, new StringBuffer(),
-                      DontCareFieldPosition.INSTANCE).toString();
+    public finbl String formbt(long number) {
+        return formbt(number, new StringBuffer(),
+                      DontCbreFieldPosition.INSTANCE).toString();
     }
 
    /**
-     * Specialization of format.
+     * Speciblizbtion of formbt.
      *
-     * @param number     the double number to format
-     * @param toAppendTo the StringBuffer to which the formatted text is to be
-     *                   appended
-     * @param pos        the field position
-     * @return the formatted StringBuffer
+     * @pbrbm number     the double number to formbt
+     * @pbrbm toAppendTo the StringBuffer to which the formbtted text is to be
+     *                   bppended
+     * @pbrbm pos        the field position
+     * @return the formbtted StringBuffer
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.Format#format
+     * @see jbvb.text.Formbt#formbt
      */
-    public abstract StringBuffer format(double number,
+    public bbstrbct StringBuffer formbt(double number,
                                         StringBuffer toAppendTo,
                                         FieldPosition pos);
 
    /**
-     * Specialization of format.
+     * Speciblizbtion of formbt.
      *
-     * @param number     the long number to format
-     * @param toAppendTo the StringBuffer to which the formatted text is to be
-     *                   appended
-     * @param pos        the field position
-     * @return the formatted StringBuffer
+     * @pbrbm number     the long number to formbt
+     * @pbrbm toAppendTo the StringBuffer to which the formbtted text is to be
+     *                   bppended
+     * @pbrbm pos        the field position
+     * @return the formbtted StringBuffer
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.Format#format
+     * @see jbvb.text.Formbt#formbt
      */
-    public abstract StringBuffer format(long number,
+    public bbstrbct StringBuffer formbt(long number,
                                         StringBuffer toAppendTo,
                                         FieldPosition pos);
 
    /**
-     * Returns a Long if possible (e.g., within the range [Long.MIN_VALUE,
-     * Long.MAX_VALUE] and with no decimals), otherwise a Double.
-     * If IntegerOnly is set, will stop at a decimal
-     * point (or equivalent; e.g., for rational numbers "1 2/3", will stop
-     * after the 1).
-     * Does not throw an exception; if no object can be parsed, index is
-     * unchanged!
+     * Returns b Long if possible (e.g., within the rbnge [Long.MIN_VALUE,
+     * Long.MAX_VALUE] bnd with no decimbls), otherwise b Double.
+     * If IntegerOnly is set, will stop bt b decimbl
+     * point (or equivblent; e.g., for rbtionbl numbers "1 2/3", will stop
+     * bfter the 1).
+     * Does not throw bn exception; if no object cbn be pbrsed, index is
+     * unchbnged!
      *
-     * @param source the String to parse
-     * @param parsePosition the parse position
-     * @return the parsed value
-     * @see java.text.NumberFormat#isParseIntegerOnly
-     * @see java.text.Format#parseObject
+     * @pbrbm source the String to pbrse
+     * @pbrbm pbrsePosition the pbrse position
+     * @return the pbrsed vblue
+     * @see jbvb.text.NumberFormbt#isPbrseIntegerOnly
+     * @see jbvb.text.Formbt#pbrseObject
      */
-    public abstract Number parse(String source, ParsePosition parsePosition);
+    public bbstrbct Number pbrse(String source, PbrsePosition pbrsePosition);
 
     /**
-     * Parses text from the beginning of the given string to produce a number.
-     * The method may not use the entire text of the given string.
+     * Pbrses text from the beginning of the given string to produce b number.
+     * The method mby not use the entire text of the given string.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on number parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on number pbrsing.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return A <code>Number</code> parsed from the string.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @pbrbm source A <code>String</code> whose beginning should be pbrsed.
+     * @return A <code>Number</code> pbrsed from the string.
+     * @exception PbrseException if the beginning of the specified string
+     *            cbnnot be pbrsed.
      */
-    public Number parse(String source) throws ParseException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        Number result = parse(source, parsePosition);
-        if (parsePosition.index == 0) {
-            throw new ParseException("Unparseable number: \"" + source + "\"",
-                                     parsePosition.errorIndex);
+    public Number pbrse(String source) throws PbrseException {
+        PbrsePosition pbrsePosition = new PbrsePosition(0);
+        Number result = pbrse(source, pbrsePosition);
+        if (pbrsePosition.index == 0) {
+            throw new PbrseException("Unpbrsebble number: \"" + source + "\"",
+                                     pbrsePosition.errorIndex);
         }
         return result;
     }
 
     /**
-     * Returns true if this format will parse numbers as integers only.
-     * For example in the English locale, with ParseIntegerOnly true, the
-     * string "1234." would be parsed as the integer value 1234 and parsing
-     * would stop at the "." character.  Of course, the exact format accepted
-     * by the parse operation is locale dependant and determined by sub-classes
-     * of NumberFormat.
+     * Returns true if this formbt will pbrse numbers bs integers only.
+     * For exbmple in the English locble, with PbrseIntegerOnly true, the
+     * string "1234." would be pbrsed bs the integer vblue 1234 bnd pbrsing
+     * would stop bt the "." chbrbcter.  Of course, the exbct formbt bccepted
+     * by the pbrse operbtion is locble dependbnt bnd determined by sub-clbsses
+     * of NumberFormbt.
      *
-     * @return {@code true} if numbers should be parsed as integers only;
-     *         {@code false} otherwise
+     * @return {@code true} if numbers should be pbrsed bs integers only;
+     *         {@code fblse} otherwise
      */
-    public boolean isParseIntegerOnly() {
-        return parseIntegerOnly;
+    public boolebn isPbrseIntegerOnly() {
+        return pbrseIntegerOnly;
     }
 
     /**
-     * Sets whether or not numbers should be parsed as integers only.
+     * Sets whether or not numbers should be pbrsed bs integers only.
      *
-     * @param value {@code true} if numbers should be parsed as integers only;
-     *              {@code false} otherwise
-     * @see #isParseIntegerOnly
+     * @pbrbm vblue {@code true} if numbers should be pbrsed bs integers only;
+     *              {@code fblse} otherwise
+     * @see #isPbrseIntegerOnly
      */
-    public void setParseIntegerOnly(boolean value) {
-        parseIntegerOnly = value;
+    public void setPbrseIntegerOnly(boolebn vblue) {
+        pbrseIntegerOnly = vblue;
     }
 
-    //============== Locale Stuff =====================
+    //============== Locble Stuff =====================
 
     /**
-     * Returns a general-purpose number format for the current default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * This is the same as calling
-     * {@link #getNumberInstance() getNumberInstance()}.
+     * Returns b generbl-purpose number formbt for the current defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * This is the sbme bs cblling
+     * {@link #getNumberInstbnce() getNumberInstbnce()}.
      *
-     * @return the {@code NumberFormat} instance for general-purpose number
-     * formatting
+     * @return the {@code NumberFormbt} instbnce for generbl-purpose number
+     * formbtting
      */
-    public final static NumberFormat getInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), NUMBERSTYLE);
-    }
-
-    /**
-     * Returns a general-purpose number format for the specified locale.
-     * This is the same as calling
-     * {@link #getNumberInstance(java.util.Locale) getNumberInstance(inLocale)}.
-     *
-     * @param inLocale the desired locale
-     * @return the {@code NumberFormat} instance for general-purpose number
-     * formatting
-     */
-    public static NumberFormat getInstance(Locale inLocale) {
-        return getInstance(inLocale, NUMBERSTYLE);
+    public finbl stbtic NumberFormbt getInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), NUMBERSTYLE);
     }
 
     /**
-     * Returns a general-purpose number format for the current default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getNumberInstance(Locale)
-     *     getNumberInstance(Locale.getDefault(Locale.Category.FORMAT))}.
+     * Returns b generbl-purpose number formbt for the specified locble.
+     * This is the sbme bs cblling
+     * {@link #getNumberInstbnce(jbvb.util.Locble) getNumberInstbnce(inLocble)}.
      *
-     * @return the {@code NumberFormat} instance for general-purpose number
-     * formatting
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
+     * @pbrbm inLocble the desired locble
+     * @return the {@code NumberFormbt} instbnce for generbl-purpose number
+     * formbtting
      */
-    public final static NumberFormat getNumberInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), NUMBERSTYLE);
+    public stbtic NumberFormbt getInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, NUMBERSTYLE);
     }
 
     /**
-     * Returns a general-purpose number format for the specified locale.
+     * Returns b generbl-purpose number formbt for the current defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getNumberInstbnce(Locble)
+     *     getNumberInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
-     * @param inLocale the desired locale
-     * @return the {@code NumberFormat} instance for general-purpose number
-     * formatting
+     * @return the {@code NumberFormbt} instbnce for generbl-purpose number
+     * formbtting
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
      */
-    public static NumberFormat getNumberInstance(Locale inLocale) {
-        return getInstance(inLocale, NUMBERSTYLE);
+    public finbl stbtic NumberFormbt getNumberInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), NUMBERSTYLE);
     }
 
     /**
-     * Returns an integer number format for the current default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale. The
-     * returned number format is configured to round floating point numbers
-     * to the nearest integer using half-even rounding (see {@link
-     * java.math.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}) for formatting,
-     * and to parse only the integer part of an input string (see {@link
-     * #isParseIntegerOnly isParseIntegerOnly}).
-     * <p>This is equivalent to calling
-     * {@link #getIntegerInstance(Locale)
-     *     getIntegerInstance(Locale.getDefault(Locale.Category.FORMAT))}.
+     * Returns b generbl-purpose number formbt for the specified locble.
+     *
+     * @pbrbm inLocble the desired locble
+     * @return the {@code NumberFormbt} instbnce for generbl-purpose number
+     * formbtting
+     */
+    public stbtic NumberFormbt getNumberInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, NUMBERSTYLE);
+    }
+
+    /**
+     * Returns bn integer number formbt for the current defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble. The
+     * returned number formbt is configured to round flobting point numbers
+     * to the nebrest integer using hblf-even rounding (see {@link
+     * jbvb.mbth.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}) for formbtting,
+     * bnd to pbrse only the integer pbrt of bn input string (see {@link
+     * #isPbrseIntegerOnly isPbrseIntegerOnly}).
+     * <p>This is equivblent to cblling
+     * {@link #getIntegerInstbnce(Locble)
+     *     getIntegerInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
      * @see #getRoundingMode()
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a number format for integer values
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return b number formbt for integer vblues
      * @since 1.4
      */
-    public final static NumberFormat getIntegerInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), INTEGERSTYLE);
+    public finbl stbtic NumberFormbt getIntegerInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), INTEGERSTYLE);
     }
 
     /**
-     * Returns an integer number format for the specified locale. The
-     * returned number format is configured to round floating point numbers
-     * to the nearest integer using half-even rounding (see {@link
-     * java.math.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}) for formatting,
-     * and to parse only the integer part of an input string (see {@link
-     * #isParseIntegerOnly isParseIntegerOnly}).
+     * Returns bn integer number formbt for the specified locble. The
+     * returned number formbt is configured to round flobting point numbers
+     * to the nebrest integer using hblf-even rounding (see {@link
+     * jbvb.mbth.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}) for formbtting,
+     * bnd to pbrse only the integer pbrt of bn input string (see {@link
+     * #isPbrseIntegerOnly isPbrseIntegerOnly}).
      *
-     * @param inLocale the desired locale
+     * @pbrbm inLocble the desired locble
      * @see #getRoundingMode()
-     * @return a number format for integer values
+     * @return b number formbt for integer vblues
      * @since 1.4
      */
-    public static NumberFormat getIntegerInstance(Locale inLocale) {
-        return getInstance(inLocale, INTEGERSTYLE);
+    public stbtic NumberFormbt getIntegerInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, INTEGERSTYLE);
     }
 
     /**
-     * Returns a currency format for the current default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getCurrencyInstance(Locale)
-     *     getCurrencyInstance(Locale.getDefault(Locale.Category.FORMAT))}.
+     * Returns b currency formbt for the current defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getCurrencyInstbnce(Locble)
+     *     getCurrencyInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
-     * @return the {@code NumberFormat} instance for currency formatting
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
+     * @return the {@code NumberFormbt} instbnce for currency formbtting
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
      */
-    public final static NumberFormat getCurrencyInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), CURRENCYSTYLE);
+    public finbl stbtic NumberFormbt getCurrencyInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), CURRENCYSTYLE);
     }
 
     /**
-     * Returns a currency format for the specified locale.
+     * Returns b currency formbt for the specified locble.
      *
-     * @param inLocale the desired locale
-     * @return the {@code NumberFormat} instance for currency formatting
+     * @pbrbm inLocble the desired locble
+     * @return the {@code NumberFormbt} instbnce for currency formbtting
      */
-    public static NumberFormat getCurrencyInstance(Locale inLocale) {
-        return getInstance(inLocale, CURRENCYSTYLE);
+    public stbtic NumberFormbt getCurrencyInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, CURRENCYSTYLE);
     }
 
     /**
-     * Returns a percentage format for the current default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getPercentInstance(Locale)
-     *     getPercentInstance(Locale.getDefault(Locale.Category.FORMAT))}.
+     * Returns b percentbge formbt for the current defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getPercentInstbnce(Locble)
+     *     getPercentInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
-     * @return the {@code NumberFormat} instance for percentage formatting
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
+     * @return the {@code NumberFormbt} instbnce for percentbge formbtting
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
      */
-    public final static NumberFormat getPercentInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), PERCENTSTYLE);
+    public finbl stbtic NumberFormbt getPercentInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), PERCENTSTYLE);
     }
 
     /**
-     * Returns a percentage format for the specified locale.
+     * Returns b percentbge formbt for the specified locble.
      *
-     * @param inLocale the desired locale
-     * @return the {@code NumberFormat} instance for percentage formatting
+     * @pbrbm inLocble the desired locble
+     * @return the {@code NumberFormbt} instbnce for percentbge formbtting
      */
-    public static NumberFormat getPercentInstance(Locale inLocale) {
-        return getInstance(inLocale, PERCENTSTYLE);
+    public stbtic NumberFormbt getPercentInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, PERCENTSTYLE);
     }
 
     /**
-     * Returns a scientific format for the current default locale.
+     * Returns b scientific formbt for the current defbult locble.
      */
-    /*public*/ final static NumberFormat getScientificInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT), SCIENTIFICSTYLE);
+    /*public*/ finbl stbtic NumberFormbt getScientificInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT), SCIENTIFICSTYLE);
     }
 
     /**
-     * Returns a scientific format for the specified locale.
+     * Returns b scientific formbt for the specified locble.
      *
-     * @param inLocale the desired locale
+     * @pbrbm inLocble the desired locble
      */
-    /*public*/ static NumberFormat getScientificInstance(Locale inLocale) {
-        return getInstance(inLocale, SCIENTIFICSTYLE);
+    /*public*/ stbtic NumberFormbt getScientificInstbnce(Locble inLocble) {
+        return getInstbnce(inLocble, SCIENTIFICSTYLE);
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>get*Instance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.NumberFormatProvider NumberFormatProvider} implementations.
-     * It must contain at least a <code>Locale</code> instance equal to
-     * {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the
+     * <code>get*Instbnce</code> methods of this clbss cbn return
+     * locblized instbnces.
+     * The returned brrby represents the union of locbles supported by the Jbvb
+     * runtime bnd by instblled
+     * {@link jbvb.text.spi.NumberFormbtProvider NumberFormbtProvider} implementbtions.
+     * It must contbin bt lebst b <code>Locble</code> instbnce equbl to
+     * {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>NumberFormat</code> instances are available.
+     * @return An brrby of locbles for which locblized
+     *         <code>NumberFormbt</code> instbnces bre bvbilbble.
      */
-    public static Locale[] getAvailableLocales() {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(NumberFormatProvider.class);
-        return pool.getAvailableLocales();
+    public stbtic Locble[] getAvbilbbleLocbles() {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(NumberFormbtProvider.clbss);
+        return pool.getAvbilbbleLocbles();
     }
 
     /**
-     * Overrides hashCode.
+     * Overrides hbshCode.
      */
     @Override
-    public int hashCode() {
-        return maximumIntegerDigits * 37 + maxFractionDigits;
-        // just enough fields for a reasonable distribution
+    public int hbshCode() {
+        return mbximumIntegerDigits * 37 + mbxFrbctionDigits;
+        // just enough fields for b rebsonbble distribution
     }
 
     /**
-     * Overrides equals.
+     * Overrides equbls.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == null) {
-            return false;
+            return fblse;
         }
         if (this == obj) {
             return true;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
+        if (getClbss() != obj.getClbss()) {
+            return fblse;
         }
-        NumberFormat other = (NumberFormat) obj;
-        return (maximumIntegerDigits == other.maximumIntegerDigits
+        NumberFormbt other = (NumberFormbt) obj;
+        return (mbximumIntegerDigits == other.mbximumIntegerDigits
             && minimumIntegerDigits == other.minimumIntegerDigits
-            && maximumFractionDigits == other.maximumFractionDigits
-            && minimumFractionDigits == other.minimumFractionDigits
+            && mbximumFrbctionDigits == other.mbximumFrbctionDigits
+            && minimumFrbctionDigits == other.minimumFrbctionDigits
             && groupingUsed == other.groupingUsed
-            && parseIntegerOnly == other.parseIntegerOnly);
+            && pbrseIntegerOnly == other.pbrseIntegerOnly);
     }
 
     /**
-     * Overrides Cloneable.
+     * Overrides Clonebble.
      */
     @Override
     public Object clone() {
-        NumberFormat other = (NumberFormat) super.clone();
+        NumberFormbt other = (NumberFormbt) super.clone();
         return other;
     }
 
     /**
-     * Returns true if grouping is used in this format. For example, in the
-     * English locale, with grouping on, the number 1234567 might be formatted
-     * as "1,234,567". The grouping separator as well as the size of each group
-     * is locale dependant and is determined by sub-classes of NumberFormat.
+     * Returns true if grouping is used in this formbt. For exbmple, in the
+     * English locble, with grouping on, the number 1234567 might be formbtted
+     * bs "1,234,567". The grouping sepbrbtor bs well bs the size of ebch group
+     * is locble dependbnt bnd is determined by sub-clbsses of NumberFormbt.
      *
      * @return {@code true} if grouping is used;
-     *         {@code false} otherwise
+     *         {@code fblse} otherwise
      * @see #setGroupingUsed
      */
-    public boolean isGroupingUsed() {
+    public boolebn isGroupingUsed() {
         return groupingUsed;
     }
 
     /**
-     * Set whether or not grouping will be used in this format.
+     * Set whether or not grouping will be used in this formbt.
      *
-     * @param newValue {@code true} if grouping is used;
-     *                 {@code false} otherwise
+     * @pbrbm newVblue {@code true} if grouping is used;
+     *                 {@code fblse} otherwise
      * @see #isGroupingUsed
      */
-    public void setGroupingUsed(boolean newValue) {
-        groupingUsed = newValue;
+    public void setGroupingUsed(boolebn newVblue) {
+        groupingUsed = newVblue;
     }
 
     /**
-     * Returns the maximum number of digits allowed in the integer portion of a
+     * Returns the mbximum number of digits bllowed in the integer portion of b
      * number.
      *
-     * @return the maximum number of digits
-     * @see #setMaximumIntegerDigits
+     * @return the mbximum number of digits
+     * @see #setMbximumIntegerDigits
      */
-    public int getMaximumIntegerDigits() {
-        return maximumIntegerDigits;
+    public int getMbximumIntegerDigits() {
+        return mbximumIntegerDigits;
     }
 
     /**
-     * Sets the maximum number of digits allowed in the integer portion of a
-     * number. maximumIntegerDigits must be &ge; minimumIntegerDigits.  If the
-     * new value for maximumIntegerDigits is less than the current value
-     * of minimumIntegerDigits, then minimumIntegerDigits will also be set to
-     * the new value.
+     * Sets the mbximum number of digits bllowed in the integer portion of b
+     * number. mbximumIntegerDigits must be &ge; minimumIntegerDigits.  If the
+     * new vblue for mbximumIntegerDigits is less thbn the current vblue
+     * of minimumIntegerDigits, then minimumIntegerDigits will blso be set to
+     * the new vblue.
      *
-     * @param newValue the maximum number of integer digits to be shown; if
-     * less than zero, then zero is used. The concrete subclass may enforce an
-     * upper limit to this value appropriate to the numeric type being formatted.
-     * @see #getMaximumIntegerDigits
+     * @pbrbm newVblue the mbximum number of integer digits to be shown; if
+     * less thbn zero, then zero is used. The concrete subclbss mby enforce bn
+     * upper limit to this vblue bppropribte to the numeric type being formbtted.
+     * @see #getMbximumIntegerDigits
      */
-    public void setMaximumIntegerDigits(int newValue) {
-        maximumIntegerDigits = Math.max(0,newValue);
-        if (minimumIntegerDigits > maximumIntegerDigits) {
-            minimumIntegerDigits = maximumIntegerDigits;
+    public void setMbximumIntegerDigits(int newVblue) {
+        mbximumIntegerDigits = Mbth.mbx(0,newVblue);
+        if (minimumIntegerDigits > mbximumIntegerDigits) {
+            minimumIntegerDigits = mbximumIntegerDigits;
         }
     }
 
     /**
-     * Returns the minimum number of digits allowed in the integer portion of a
+     * Returns the minimum number of digits bllowed in the integer portion of b
      * number.
      *
      * @return the minimum number of digits
@@ -701,534 +701,534 @@ public abstract class NumberFormat extends Format  {
     }
 
     /**
-     * Sets the minimum number of digits allowed in the integer portion of a
-     * number. minimumIntegerDigits must be &le; maximumIntegerDigits.  If the
-     * new value for minimumIntegerDigits exceeds the current value
-     * of maximumIntegerDigits, then maximumIntegerDigits will also be set to
-     * the new value
+     * Sets the minimum number of digits bllowed in the integer portion of b
+     * number. minimumIntegerDigits must be &le; mbximumIntegerDigits.  If the
+     * new vblue for minimumIntegerDigits exceeds the current vblue
+     * of mbximumIntegerDigits, then mbximumIntegerDigits will blso be set to
+     * the new vblue
      *
-     * @param newValue the minimum number of integer digits to be shown; if
-     * less than zero, then zero is used. The concrete subclass may enforce an
-     * upper limit to this value appropriate to the numeric type being formatted.
+     * @pbrbm newVblue the minimum number of integer digits to be shown; if
+     * less thbn zero, then zero is used. The concrete subclbss mby enforce bn
+     * upper limit to this vblue bppropribte to the numeric type being formbtted.
      * @see #getMinimumIntegerDigits
      */
-    public void setMinimumIntegerDigits(int newValue) {
-        minimumIntegerDigits = Math.max(0,newValue);
-        if (minimumIntegerDigits > maximumIntegerDigits) {
-            maximumIntegerDigits = minimumIntegerDigits;
+    public void setMinimumIntegerDigits(int newVblue) {
+        minimumIntegerDigits = Mbth.mbx(0,newVblue);
+        if (minimumIntegerDigits > mbximumIntegerDigits) {
+            mbximumIntegerDigits = minimumIntegerDigits;
         }
     }
 
     /**
-     * Returns the maximum number of digits allowed in the fraction portion of a
+     * Returns the mbximum number of digits bllowed in the frbction portion of b
      * number.
      *
-     * @return the maximum number of digits.
-     * @see #setMaximumFractionDigits
+     * @return the mbximum number of digits.
+     * @see #setMbximumFrbctionDigits
      */
-    public int getMaximumFractionDigits() {
-        return maximumFractionDigits;
+    public int getMbximumFrbctionDigits() {
+        return mbximumFrbctionDigits;
     }
 
     /**
-     * Sets the maximum number of digits allowed in the fraction portion of a
-     * number. maximumFractionDigits must be &ge; minimumFractionDigits.  If the
-     * new value for maximumFractionDigits is less than the current value
-     * of minimumFractionDigits, then minimumFractionDigits will also be set to
-     * the new value.
+     * Sets the mbximum number of digits bllowed in the frbction portion of b
+     * number. mbximumFrbctionDigits must be &ge; minimumFrbctionDigits.  If the
+     * new vblue for mbximumFrbctionDigits is less thbn the current vblue
+     * of minimumFrbctionDigits, then minimumFrbctionDigits will blso be set to
+     * the new vblue.
      *
-     * @param newValue the maximum number of fraction digits to be shown; if
-     * less than zero, then zero is used. The concrete subclass may enforce an
-     * upper limit to this value appropriate to the numeric type being formatted.
-     * @see #getMaximumFractionDigits
+     * @pbrbm newVblue the mbximum number of frbction digits to be shown; if
+     * less thbn zero, then zero is used. The concrete subclbss mby enforce bn
+     * upper limit to this vblue bppropribte to the numeric type being formbtted.
+     * @see #getMbximumFrbctionDigits
      */
-    public void setMaximumFractionDigits(int newValue) {
-        maximumFractionDigits = Math.max(0,newValue);
-        if (maximumFractionDigits < minimumFractionDigits) {
-            minimumFractionDigits = maximumFractionDigits;
+    public void setMbximumFrbctionDigits(int newVblue) {
+        mbximumFrbctionDigits = Mbth.mbx(0,newVblue);
+        if (mbximumFrbctionDigits < minimumFrbctionDigits) {
+            minimumFrbctionDigits = mbximumFrbctionDigits;
         }
     }
 
     /**
-     * Returns the minimum number of digits allowed in the fraction portion of a
+     * Returns the minimum number of digits bllowed in the frbction portion of b
      * number.
      *
      * @return the minimum number of digits
-     * @see #setMinimumFractionDigits
+     * @see #setMinimumFrbctionDigits
      */
-    public int getMinimumFractionDigits() {
-        return minimumFractionDigits;
+    public int getMinimumFrbctionDigits() {
+        return minimumFrbctionDigits;
     }
 
     /**
-     * Sets the minimum number of digits allowed in the fraction portion of a
-     * number. minimumFractionDigits must be &le; maximumFractionDigits.  If the
-     * new value for minimumFractionDigits exceeds the current value
-     * of maximumFractionDigits, then maximumIntegerDigits will also be set to
-     * the new value
+     * Sets the minimum number of digits bllowed in the frbction portion of b
+     * number. minimumFrbctionDigits must be &le; mbximumFrbctionDigits.  If the
+     * new vblue for minimumFrbctionDigits exceeds the current vblue
+     * of mbximumFrbctionDigits, then mbximumIntegerDigits will blso be set to
+     * the new vblue
      *
-     * @param newValue the minimum number of fraction digits to be shown; if
-     * less than zero, then zero is used. The concrete subclass may enforce an
-     * upper limit to this value appropriate to the numeric type being formatted.
-     * @see #getMinimumFractionDigits
+     * @pbrbm newVblue the minimum number of frbction digits to be shown; if
+     * less thbn zero, then zero is used. The concrete subclbss mby enforce bn
+     * upper limit to this vblue bppropribte to the numeric type being formbtted.
+     * @see #getMinimumFrbctionDigits
      */
-    public void setMinimumFractionDigits(int newValue) {
-        minimumFractionDigits = Math.max(0,newValue);
-        if (maximumFractionDigits < minimumFractionDigits) {
-            maximumFractionDigits = minimumFractionDigits;
+    public void setMinimumFrbctionDigits(int newVblue) {
+        minimumFrbctionDigits = Mbth.mbx(0,newVblue);
+        if (mbximumFrbctionDigits < minimumFrbctionDigits) {
+            mbximumFrbctionDigits = minimumFrbctionDigits;
         }
     }
 
     /**
-     * Gets the currency used by this number format when formatting
-     * currency values. The initial value is derived in a locale dependent
-     * way. The returned value may be null if no valid
-     * currency could be determined and no currency has been set using
-     * {@link #setCurrency(java.util.Currency) setCurrency}.
+     * Gets the currency used by this number formbt when formbtting
+     * currency vblues. The initibl vblue is derived in b locble dependent
+     * wby. The returned vblue mby be null if no vblid
+     * currency could be determined bnd no currency hbs been set using
+     * {@link #setCurrency(jbvb.util.Currency) setCurrency}.
      * <p>
-     * The default implementation throws
-     * <code>UnsupportedOperationException</code>.
+     * The defbult implementbtion throws
+     * <code>UnsupportedOperbtionException</code>.
      *
-     * @return the currency used by this number format, or <code>null</code>
-     * @exception UnsupportedOperationException if the number format class
-     * doesn't implement currency formatting
+     * @return the currency used by this number formbt, or <code>null</code>
+     * @exception UnsupportedOperbtionException if the number formbt clbss
+     * doesn't implement currency formbtting
      * @since 1.4
      */
     public Currency getCurrency() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Sets the currency used by this number format when formatting
-     * currency values. This does not update the minimum or maximum
-     * number of fraction digits used by the number format.
+     * Sets the currency used by this number formbt when formbtting
+     * currency vblues. This does not updbte the minimum or mbximum
+     * number of frbction digits used by the number formbt.
      * <p>
-     * The default implementation throws
-     * <code>UnsupportedOperationException</code>.
+     * The defbult implementbtion throws
+     * <code>UnsupportedOperbtionException</code>.
      *
-     * @param currency the new currency to be used by this number format
-     * @exception UnsupportedOperationException if the number format class
-     * doesn't implement currency formatting
+     * @pbrbm currency the new currency to be used by this number formbt
+     * @exception UnsupportedOperbtionException if the number formbt clbss
+     * doesn't implement currency formbtting
      * @exception NullPointerException if <code>currency</code> is null
      * @since 1.4
      */
     public void setCurrency(Currency currency) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Gets the {@link java.math.RoundingMode} used in this NumberFormat.
-     * The default implementation of this method in NumberFormat
-     * always throws {@link java.lang.UnsupportedOperationException}.
-     * Subclasses which handle different rounding modes should override
+     * Gets the {@link jbvb.mbth.RoundingMode} used in this NumberFormbt.
+     * The defbult implementbtion of this method in NumberFormbt
+     * blwbys throws {@link jbvb.lbng.UnsupportedOperbtionException}.
+     * Subclbsses which hbndle different rounding modes should override
      * this method.
      *
-     * @exception UnsupportedOperationException The default implementation
-     *     always throws this exception
-     * @return The <code>RoundingMode</code> used for this NumberFormat.
+     * @exception UnsupportedOperbtionException The defbult implementbtion
+     *     blwbys throws this exception
+     * @return The <code>RoundingMode</code> used for this NumberFormbt.
      * @see #setRoundingMode(RoundingMode)
      * @since 1.6
      */
     public RoundingMode getRoundingMode() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Sets the {@link java.math.RoundingMode} used in this NumberFormat.
-     * The default implementation of this method in NumberFormat always
-     * throws {@link java.lang.UnsupportedOperationException}.
-     * Subclasses which handle different rounding modes should override
+     * Sets the {@link jbvb.mbth.RoundingMode} used in this NumberFormbt.
+     * The defbult implementbtion of this method in NumberFormbt blwbys
+     * throws {@link jbvb.lbng.UnsupportedOperbtionException}.
+     * Subclbsses which hbndle different rounding modes should override
      * this method.
      *
-     * @exception UnsupportedOperationException The default implementation
-     *     always throws this exception
+     * @exception UnsupportedOperbtionException The defbult implementbtion
+     *     blwbys throws this exception
      * @exception NullPointerException if <code>roundingMode</code> is null
-     * @param roundingMode The <code>RoundingMode</code> to be used
+     * @pbrbm roundingMode The <code>RoundingMode</code> to be used
      * @see #getRoundingMode()
      * @since 1.6
      */
     public void setRoundingMode(RoundingMode roundingMode) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
-    // =======================privates===============================
+    // =======================privbtes===============================
 
-    private static NumberFormat getInstance(Locale desiredLocale,
+    privbte stbtic NumberFormbt getInstbnce(Locble desiredLocble,
                                            int choice) {
-        LocaleProviderAdapter adapter;
-        adapter = LocaleProviderAdapter.getAdapter(NumberFormatProvider.class,
-                                                   desiredLocale);
-        NumberFormat numberFormat = getInstance(adapter, desiredLocale, choice);
-        if (numberFormat == null) {
-            numberFormat = getInstance(LocaleProviderAdapter.forJRE(),
-                                       desiredLocale, choice);
+        LocbleProviderAdbpter bdbpter;
+        bdbpter = LocbleProviderAdbpter.getAdbpter(NumberFormbtProvider.clbss,
+                                                   desiredLocble);
+        NumberFormbt numberFormbt = getInstbnce(bdbpter, desiredLocble, choice);
+        if (numberFormbt == null) {
+            numberFormbt = getInstbnce(LocbleProviderAdbpter.forJRE(),
+                                       desiredLocble, choice);
         }
-        return numberFormat;
+        return numberFormbt;
     }
 
-    private static NumberFormat getInstance(LocaleProviderAdapter adapter,
-                                            Locale locale, int choice) {
-        NumberFormatProvider provider = adapter.getNumberFormatProvider();
-        NumberFormat numberFormat = null;
+    privbte stbtic NumberFormbt getInstbnce(LocbleProviderAdbpter bdbpter,
+                                            Locble locble, int choice) {
+        NumberFormbtProvider provider = bdbpter.getNumberFormbtProvider();
+        NumberFormbt numberFormbt = null;
         switch (choice) {
-        case NUMBERSTYLE:
-            numberFormat = provider.getNumberInstance(locale);
-            break;
-        case PERCENTSTYLE:
-            numberFormat = provider.getPercentInstance(locale);
-            break;
-        case CURRENCYSTYLE:
-            numberFormat = provider.getCurrencyInstance(locale);
-            break;
-        case INTEGERSTYLE:
-            numberFormat = provider.getIntegerInstance(locale);
-            break;
+        cbse NUMBERSTYLE:
+            numberFormbt = provider.getNumberInstbnce(locble);
+            brebk;
+        cbse PERCENTSTYLE:
+            numberFormbt = provider.getPercentInstbnce(locble);
+            brebk;
+        cbse CURRENCYSTYLE:
+            numberFormbt = provider.getCurrencyInstbnce(locble);
+            brebk;
+        cbse INTEGERSTYLE:
+            numberFormbt = provider.getIntegerInstbnce(locble);
+            brebk;
         }
-        return numberFormat;
+        return numberFormbt;
     }
 
     /**
-     * First, read in the default serializable data.
+     * First, rebd in the defbult seriblizbble dbtb.
      *
-     * Then, if <code>serialVersionOnStream</code> is less than 1, indicating that
-     * the stream was written by JDK 1.1,
-     * set the <code>int</code> fields such as <code>maximumIntegerDigits</code>
-     * to be equal to the <code>byte</code> fields such as <code>maxIntegerDigits</code>,
+     * Then, if <code>seriblVersionOnStrebm</code> is less thbn 1, indicbting thbt
+     * the strebm wbs written by JDK 1.1,
+     * set the <code>int</code> fields such bs <code>mbximumIntegerDigits</code>
+     * to be equbl to the <code>byte</code> fields such bs <code>mbxIntegerDigits</code>,
      * since the <code>int</code> fields were not present in JDK 1.1.
-     * Finally, set serialVersionOnStream back to the maximum allowed value so that
-     * default serialization will work properly if this object is streamed out again.
+     * Finblly, set seriblVersionOnStrebm bbck to the mbximum bllowed vblue so thbt
+     * defbult seriblizbtion will work properly if this object is strebmed out bgbin.
      *
-     * <p>If <code>minimumIntegerDigits</code> is greater than
-     * <code>maximumIntegerDigits</code> or <code>minimumFractionDigits</code>
-     * is greater than <code>maximumFractionDigits</code>, then the stream data
-     * is invalid and this method throws an <code>InvalidObjectException</code>.
-     * In addition, if any of these values is negative, then this method throws
-     * an <code>InvalidObjectException</code>.
+     * <p>If <code>minimumIntegerDigits</code> is grebter thbn
+     * <code>mbximumIntegerDigits</code> or <code>minimumFrbctionDigits</code>
+     * is grebter thbn <code>mbximumFrbctionDigits</code>, then the strebm dbtb
+     * is invblid bnd this method throws bn <code>InvblidObjectException</code>.
+     * In bddition, if bny of these vblues is negbtive, then this method throws
+     * bn <code>InvblidObjectException</code>.
      *
      * @since 1.2
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm strebm)
+         throws IOException, ClbssNotFoundException
     {
-        stream.defaultReadObject();
-        if (serialVersionOnStream < 1) {
-            // Didn't have additional int fields, reassign to use them.
-            maximumIntegerDigits = maxIntegerDigits;
+        strebm.defbultRebdObject();
+        if (seriblVersionOnStrebm < 1) {
+            // Didn't hbve bdditionbl int fields, rebssign to use them.
+            mbximumIntegerDigits = mbxIntegerDigits;
             minimumIntegerDigits = minIntegerDigits;
-            maximumFractionDigits = maxFractionDigits;
-            minimumFractionDigits = minFractionDigits;
+            mbximumFrbctionDigits = mbxFrbctionDigits;
+            minimumFrbctionDigits = minFrbctionDigits;
         }
-        if (minimumIntegerDigits > maximumIntegerDigits ||
-            minimumFractionDigits > maximumFractionDigits ||
-            minimumIntegerDigits < 0 || minimumFractionDigits < 0) {
-            throw new InvalidObjectException("Digit count range invalid");
+        if (minimumIntegerDigits > mbximumIntegerDigits ||
+            minimumFrbctionDigits > mbximumFrbctionDigits ||
+            minimumIntegerDigits < 0 || minimumFrbctionDigits < 0) {
+            throw new InvblidObjectException("Digit count rbnge invblid");
         }
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
     }
 
     /**
-     * Write out the default serializable data, after first setting
-     * the <code>byte</code> fields such as <code>maxIntegerDigits</code> to be
-     * equal to the <code>int</code> fields such as <code>maximumIntegerDigits</code>
-     * (or to <code>Byte.MAX_VALUE</code>, whichever is smaller), for compatibility
-     * with the JDK 1.1 version of the stream format.
+     * Write out the defbult seriblizbble dbtb, bfter first setting
+     * the <code>byte</code> fields such bs <code>mbxIntegerDigits</code> to be
+     * equbl to the <code>int</code> fields such bs <code>mbximumIntegerDigits</code>
+     * (or to <code>Byte.MAX_VALUE</code>, whichever is smbller), for compbtibility
+     * with the JDK 1.1 version of the strebm formbt.
      *
      * @since 1.2
      */
-    private void writeObject(ObjectOutputStream stream)
+    privbte void writeObject(ObjectOutputStrebm strebm)
          throws IOException
     {
-        maxIntegerDigits = (maximumIntegerDigits > Byte.MAX_VALUE) ?
-                           Byte.MAX_VALUE : (byte)maximumIntegerDigits;
+        mbxIntegerDigits = (mbximumIntegerDigits > Byte.MAX_VALUE) ?
+                           Byte.MAX_VALUE : (byte)mbximumIntegerDigits;
         minIntegerDigits = (minimumIntegerDigits > Byte.MAX_VALUE) ?
                            Byte.MAX_VALUE : (byte)minimumIntegerDigits;
-        maxFractionDigits = (maximumFractionDigits > Byte.MAX_VALUE) ?
-                            Byte.MAX_VALUE : (byte)maximumFractionDigits;
-        minFractionDigits = (minimumFractionDigits > Byte.MAX_VALUE) ?
-                            Byte.MAX_VALUE : (byte)minimumFractionDigits;
-        stream.defaultWriteObject();
+        mbxFrbctionDigits = (mbximumFrbctionDigits > Byte.MAX_VALUE) ?
+                            Byte.MAX_VALUE : (byte)mbximumFrbctionDigits;
+        minFrbctionDigits = (minimumFrbctionDigits > Byte.MAX_VALUE) ?
+                            Byte.MAX_VALUE : (byte)minimumFrbctionDigits;
+        strebm.defbultWriteObject();
     }
 
-    // Constants used by factory methods to specify a style of format.
-    private static final int NUMBERSTYLE = 0;
-    private static final int CURRENCYSTYLE = 1;
-    private static final int PERCENTSTYLE = 2;
-    private static final int SCIENTIFICSTYLE = 3;
-    private static final int INTEGERSTYLE = 4;
+    // Constbnts used by fbctory methods to specify b style of formbt.
+    privbte stbtic finbl int NUMBERSTYLE = 0;
+    privbte stbtic finbl int CURRENCYSTYLE = 1;
+    privbte stbtic finbl int PERCENTSTYLE = 2;
+    privbte stbtic finbl int SCIENTIFICSTYLE = 3;
+    privbte stbtic finbl int INTEGERSTYLE = 4;
 
     /**
-     * True if the grouping (i.e. thousands) separator is used when
-     * formatting and parsing numbers.
+     * True if the grouping (i.e. thousbnds) sepbrbtor is used when
+     * formbtting bnd pbrsing numbers.
      *
-     * @serial
+     * @seribl
      * @see #isGroupingUsed
      */
-    private boolean groupingUsed = true;
+    privbte boolebn groupingUsed = true;
 
     /**
-     * The maximum number of digits allowed in the integer portion of a
-     * number.  <code>maxIntegerDigits</code> must be greater than or equal to
+     * The mbximum number of digits bllowed in the integer portion of b
+     * number.  <code>mbxIntegerDigits</code> must be grebter thbn or equbl to
      * <code>minIntegerDigits</code>.
      * <p>
-     * <strong>Note:</strong> This field exists only for serialization
-     * compatibility with JDK 1.1.  In Java platform 2 v1.2 and higher, the new
-     * <code>int</code> field <code>maximumIntegerDigits</code> is used instead.
-     * When writing to a stream, <code>maxIntegerDigits</code> is set to
-     * <code>maximumIntegerDigits</code> or <code>Byte.MAX_VALUE</code>,
-     * whichever is smaller.  When reading from a stream, this field is used
-     * only if <code>serialVersionOnStream</code> is less than 1.
+     * <strong>Note:</strong> This field exists only for seriblizbtion
+     * compbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd higher, the new
+     * <code>int</code> field <code>mbximumIntegerDigits</code> is used instebd.
+     * When writing to b strebm, <code>mbxIntegerDigits</code> is set to
+     * <code>mbximumIntegerDigits</code> or <code>Byte.MAX_VALUE</code>,
+     * whichever is smbller.  When rebding from b strebm, this field is used
+     * only if <code>seriblVersionOnStrebm</code> is less thbn 1.
      *
-     * @serial
-     * @see #getMaximumIntegerDigits
+     * @seribl
+     * @see #getMbximumIntegerDigits
      */
-    private byte    maxIntegerDigits = 40;
+    privbte byte    mbxIntegerDigits = 40;
 
     /**
-     * The minimum number of digits allowed in the integer portion of a
-     * number.  <code>minimumIntegerDigits</code> must be less than or equal to
-     * <code>maximumIntegerDigits</code>.
+     * The minimum number of digits bllowed in the integer portion of b
+     * number.  <code>minimumIntegerDigits</code> must be less thbn or equbl to
+     * <code>mbximumIntegerDigits</code>.
      * <p>
-     * <strong>Note:</strong> This field exists only for serialization
-     * compatibility with JDK 1.1.  In Java platform 2 v1.2 and higher, the new
-     * <code>int</code> field <code>minimumIntegerDigits</code> is used instead.
-     * When writing to a stream, <code>minIntegerDigits</code> is set to
+     * <strong>Note:</strong> This field exists only for seriblizbtion
+     * compbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd higher, the new
+     * <code>int</code> field <code>minimumIntegerDigits</code> is used instebd.
+     * When writing to b strebm, <code>minIntegerDigits</code> is set to
      * <code>minimumIntegerDigits</code> or <code>Byte.MAX_VALUE</code>,
-     * whichever is smaller.  When reading from a stream, this field is used
-     * only if <code>serialVersionOnStream</code> is less than 1.
+     * whichever is smbller.  When rebding from b strebm, this field is used
+     * only if <code>seriblVersionOnStrebm</code> is less thbn 1.
      *
-     * @serial
+     * @seribl
      * @see #getMinimumIntegerDigits
      */
-    private byte    minIntegerDigits = 1;
+    privbte byte    minIntegerDigits = 1;
 
     /**
-     * The maximum number of digits allowed in the fractional portion of a
-     * number.  <code>maximumFractionDigits</code> must be greater than or equal to
-     * <code>minimumFractionDigits</code>.
+     * The mbximum number of digits bllowed in the frbctionbl portion of b
+     * number.  <code>mbximumFrbctionDigits</code> must be grebter thbn or equbl to
+     * <code>minimumFrbctionDigits</code>.
      * <p>
-     * <strong>Note:</strong> This field exists only for serialization
-     * compatibility with JDK 1.1.  In Java platform 2 v1.2 and higher, the new
-     * <code>int</code> field <code>maximumFractionDigits</code> is used instead.
-     * When writing to a stream, <code>maxFractionDigits</code> is set to
-     * <code>maximumFractionDigits</code> or <code>Byte.MAX_VALUE</code>,
-     * whichever is smaller.  When reading from a stream, this field is used
-     * only if <code>serialVersionOnStream</code> is less than 1.
+     * <strong>Note:</strong> This field exists only for seriblizbtion
+     * compbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd higher, the new
+     * <code>int</code> field <code>mbximumFrbctionDigits</code> is used instebd.
+     * When writing to b strebm, <code>mbxFrbctionDigits</code> is set to
+     * <code>mbximumFrbctionDigits</code> or <code>Byte.MAX_VALUE</code>,
+     * whichever is smbller.  When rebding from b strebm, this field is used
+     * only if <code>seriblVersionOnStrebm</code> is less thbn 1.
      *
-     * @serial
-     * @see #getMaximumFractionDigits
+     * @seribl
+     * @see #getMbximumFrbctionDigits
      */
-    private byte    maxFractionDigits = 3;    // invariant, >= minFractionDigits
+    privbte byte    mbxFrbctionDigits = 3;    // invbribnt, >= minFrbctionDigits
 
     /**
-     * The minimum number of digits allowed in the fractional portion of a
-     * number.  <code>minimumFractionDigits</code> must be less than or equal to
-     * <code>maximumFractionDigits</code>.
+     * The minimum number of digits bllowed in the frbctionbl portion of b
+     * number.  <code>minimumFrbctionDigits</code> must be less thbn or equbl to
+     * <code>mbximumFrbctionDigits</code>.
      * <p>
-     * <strong>Note:</strong> This field exists only for serialization
-     * compatibility with JDK 1.1.  In Java platform 2 v1.2 and higher, the new
-     * <code>int</code> field <code>minimumFractionDigits</code> is used instead.
-     * When writing to a stream, <code>minFractionDigits</code> is set to
-     * <code>minimumFractionDigits</code> or <code>Byte.MAX_VALUE</code>,
-     * whichever is smaller.  When reading from a stream, this field is used
-     * only if <code>serialVersionOnStream</code> is less than 1.
+     * <strong>Note:</strong> This field exists only for seriblizbtion
+     * compbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd higher, the new
+     * <code>int</code> field <code>minimumFrbctionDigits</code> is used instebd.
+     * When writing to b strebm, <code>minFrbctionDigits</code> is set to
+     * <code>minimumFrbctionDigits</code> or <code>Byte.MAX_VALUE</code>,
+     * whichever is smbller.  When rebding from b strebm, this field is used
+     * only if <code>seriblVersionOnStrebm</code> is less thbn 1.
      *
-     * @serial
-     * @see #getMinimumFractionDigits
+     * @seribl
+     * @see #getMinimumFrbctionDigits
      */
-    private byte    minFractionDigits = 0;
+    privbte byte    minFrbctionDigits = 0;
 
     /**
-     * True if this format will parse numbers as integers only.
+     * True if this formbt will pbrse numbers bs integers only.
      *
-     * @serial
-     * @see #isParseIntegerOnly
+     * @seribl
+     * @see #isPbrseIntegerOnly
      */
-    private boolean parseIntegerOnly = false;
+    privbte boolebn pbrseIntegerOnly = fblse;
 
-    // new fields for 1.2.  byte is too small for integer digits.
+    // new fields for 1.2.  byte is too smbll for integer digits.
 
     /**
-     * The maximum number of digits allowed in the integer portion of a
-     * number.  <code>maximumIntegerDigits</code> must be greater than or equal to
+     * The mbximum number of digits bllowed in the integer portion of b
+     * number.  <code>mbximumIntegerDigits</code> must be grebter thbn or equbl to
      * <code>minimumIntegerDigits</code>.
      *
-     * @serial
+     * @seribl
      * @since 1.2
-     * @see #getMaximumIntegerDigits
+     * @see #getMbximumIntegerDigits
      */
-    private int    maximumIntegerDigits = 40;
+    privbte int    mbximumIntegerDigits = 40;
 
     /**
-     * The minimum number of digits allowed in the integer portion of a
-     * number.  <code>minimumIntegerDigits</code> must be less than or equal to
-     * <code>maximumIntegerDigits</code>.
+     * The minimum number of digits bllowed in the integer portion of b
+     * number.  <code>minimumIntegerDigits</code> must be less thbn or equbl to
+     * <code>mbximumIntegerDigits</code>.
      *
-     * @serial
+     * @seribl
      * @since 1.2
      * @see #getMinimumIntegerDigits
      */
-    private int    minimumIntegerDigits = 1;
+    privbte int    minimumIntegerDigits = 1;
 
     /**
-     * The maximum number of digits allowed in the fractional portion of a
-     * number.  <code>maximumFractionDigits</code> must be greater than or equal to
-     * <code>minimumFractionDigits</code>.
+     * The mbximum number of digits bllowed in the frbctionbl portion of b
+     * number.  <code>mbximumFrbctionDigits</code> must be grebter thbn or equbl to
+     * <code>minimumFrbctionDigits</code>.
      *
-     * @serial
+     * @seribl
      * @since 1.2
-     * @see #getMaximumFractionDigits
+     * @see #getMbximumFrbctionDigits
      */
-    private int    maximumFractionDigits = 3;    // invariant, >= minFractionDigits
+    privbte int    mbximumFrbctionDigits = 3;    // invbribnt, >= minFrbctionDigits
 
     /**
-     * The minimum number of digits allowed in the fractional portion of a
-     * number.  <code>minimumFractionDigits</code> must be less than or equal to
-     * <code>maximumFractionDigits</code>.
+     * The minimum number of digits bllowed in the frbctionbl portion of b
+     * number.  <code>minimumFrbctionDigits</code> must be less thbn or equbl to
+     * <code>mbximumFrbctionDigits</code>.
      *
-     * @serial
+     * @seribl
      * @since 1.2
-     * @see #getMinimumFractionDigits
+     * @see #getMinimumFrbctionDigits
      */
-    private int    minimumFractionDigits = 0;
+    privbte int    minimumFrbctionDigits = 0;
 
-    static final int currentSerialVersion = 1;
+    stbtic finbl int currentSeriblVersion = 1;
 
     /**
-     * Describes the version of <code>NumberFormat</code> present on the stream.
-     * Possible values are:
+     * Describes the version of <code>NumberFormbt</code> present on the strebm.
+     * Possible vblues bre:
      * <ul>
-     * <li><b>0</b> (or uninitialized): the JDK 1.1 version of the stream format.
-     *     In this version, the <code>int</code> fields such as
-     *     <code>maximumIntegerDigits</code> were not present, and the <code>byte</code>
-     *     fields such as <code>maxIntegerDigits</code> are used instead.
+     * <li><b>0</b> (or uninitiblized): the JDK 1.1 version of the strebm formbt.
+     *     In this version, the <code>int</code> fields such bs
+     *     <code>mbximumIntegerDigits</code> were not present, bnd the <code>byte</code>
+     *     fields such bs <code>mbxIntegerDigits</code> bre used instebd.
      *
-     * <li><b>1</b>: the 1.2 version of the stream format.  The values of the
-     *     <code>byte</code> fields such as <code>maxIntegerDigits</code> are ignored,
-     *     and the <code>int</code> fields such as <code>maximumIntegerDigits</code>
-     *     are used instead.
+     * <li><b>1</b>: the 1.2 version of the strebm formbt.  The vblues of the
+     *     <code>byte</code> fields such bs <code>mbxIntegerDigits</code> bre ignored,
+     *     bnd the <code>int</code> fields such bs <code>mbximumIntegerDigits</code>
+     *     bre used instebd.
      * </ul>
-     * When streaming out a <code>NumberFormat</code>, the most recent format
-     * (corresponding to the highest allowable <code>serialVersionOnStream</code>)
-     * is always written.
+     * When strebming out b <code>NumberFormbt</code>, the most recent formbt
+     * (corresponding to the highest bllowbble <code>seriblVersionOnStrebm</code>)
+     * is blwbys written.
      *
-     * @serial
+     * @seribl
      * @since 1.2
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 
-    // Removed "implements Cloneable" clause.  Needs to update serialization
-    // ID for backward compatibility.
-    static final long serialVersionUID = -2308460125733713944L;
+    // Removed "implements Clonebble" clbuse.  Needs to updbte seriblizbtion
+    // ID for bbckwbrd compbtibility.
+    stbtic finbl long seriblVersionUID = -2308460125733713944L;
 
 
     //
-    // class for AttributedCharacterIterator attributes
+    // clbss for AttributedChbrbcterIterbtor bttributes
     //
     /**
-     * Defines constants that are used as attribute keys in the
-     * <code>AttributedCharacterIterator</code> returned
-     * from <code>NumberFormat.formatToCharacterIterator</code> and as
+     * Defines constbnts thbt bre used bs bttribute keys in the
+     * <code>AttributedChbrbcterIterbtor</code> returned
+     * from <code>NumberFormbt.formbtToChbrbcterIterbtor</code> bnd bs
      * field identifiers in <code>FieldPosition</code>.
      *
      * @since 1.4
      */
-    public static class Field extends Format.Field {
+    public stbtic clbss Field extends Formbt.Field {
 
-        // Proclaim serial compatibility with 1.4 FCS
-        private static final long serialVersionUID = 7494728892700160890L;
+        // Proclbim seribl compbtibility with 1.4 FCS
+        privbte stbtic finbl long seriblVersionUID = 7494728892700160890L;
 
-        // table of all instances in this class, used by readResolve
-        private static final Map<String, Field> instanceMap = new HashMap<>(11);
+        // tbble of bll instbnces in this clbss, used by rebdResolve
+        privbte stbtic finbl Mbp<String, Field> instbnceMbp = new HbshMbp<>(11);
 
         /**
-         * Creates a Field instance with the specified
-         * name.
+         * Crebtes b Field instbnce with the specified
+         * nbme.
          *
-         * @param name Name of the attribute
+         * @pbrbm nbme Nbme of the bttribute
          */
-        protected Field(String name) {
-            super(name);
-            if (this.getClass() == NumberFormat.Field.class) {
-                instanceMap.put(name, this);
+        protected Field(String nbme) {
+            super(nbme);
+            if (this.getClbss() == NumberFormbt.Field.clbss) {
+                instbnceMbp.put(nbme, this);
             }
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Resolves instbnces being deseriblized to the predefined constbnts.
          *
-         * @throws InvalidObjectException if the constant could not be resolved.
-         * @return resolved NumberFormat.Field constant
+         * @throws InvblidObjectException if the constbnt could not be resolved.
+         * @return resolved NumberFormbt.Field constbnt
          */
         @Override
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != NumberFormat.Field.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        protected Object rebdResolve() throws InvblidObjectException {
+            if (this.getClbss() != NumberFormbt.Field.clbss) {
+                throw new InvblidObjectException("subclbss didn't correctly implement rebdResolve");
             }
 
-            Object instance = instanceMap.get(getName());
-            if (instance != null) {
-                return instance;
+            Object instbnce = instbnceMbp.get(getNbme());
+            if (instbnce != null) {
+                return instbnce;
             } else {
-                throw new InvalidObjectException("unknown attribute name");
+                throw new InvblidObjectException("unknown bttribute nbme");
             }
         }
 
         /**
-         * Constant identifying the integer field.
+         * Constbnt identifying the integer field.
          */
-        public static final Field INTEGER = new Field("integer");
+        public stbtic finbl Field INTEGER = new Field("integer");
 
         /**
-         * Constant identifying the fraction field.
+         * Constbnt identifying the frbction field.
          */
-        public static final Field FRACTION = new Field("fraction");
+        public stbtic finbl Field FRACTION = new Field("frbction");
 
         /**
-         * Constant identifying the exponent field.
+         * Constbnt identifying the exponent field.
          */
-        public static final Field EXPONENT = new Field("exponent");
+        public stbtic finbl Field EXPONENT = new Field("exponent");
 
         /**
-         * Constant identifying the decimal separator field.
+         * Constbnt identifying the decimbl sepbrbtor field.
          */
-        public static final Field DECIMAL_SEPARATOR =
-                            new Field("decimal separator");
+        public stbtic finbl Field DECIMAL_SEPARATOR =
+                            new Field("decimbl sepbrbtor");
 
         /**
-         * Constant identifying the sign field.
+         * Constbnt identifying the sign field.
          */
-        public static final Field SIGN = new Field("sign");
+        public stbtic finbl Field SIGN = new Field("sign");
 
         /**
-         * Constant identifying the grouping separator field.
+         * Constbnt identifying the grouping sepbrbtor field.
          */
-        public static final Field GROUPING_SEPARATOR =
-                            new Field("grouping separator");
+        public stbtic finbl Field GROUPING_SEPARATOR =
+                            new Field("grouping sepbrbtor");
 
         /**
-         * Constant identifying the exponent symbol field.
+         * Constbnt identifying the exponent symbol field.
          */
-        public static final Field EXPONENT_SYMBOL = new
+        public stbtic finbl Field EXPONENT_SYMBOL = new
                             Field("exponent symbol");
 
         /**
-         * Constant identifying the percent field.
+         * Constbnt identifying the percent field.
          */
-        public static final Field PERCENT = new Field("percent");
+        public stbtic finbl Field PERCENT = new Field("percent");
 
         /**
-         * Constant identifying the permille field.
+         * Constbnt identifying the permille field.
          */
-        public static final Field PERMILLE = new Field("per mille");
+        public stbtic finbl Field PERMILLE = new Field("per mille");
 
         /**
-         * Constant identifying the currency field.
+         * Constbnt identifying the currency field.
          */
-        public static final Field CURRENCY = new Field("currency");
+        public stbtic finbl Field CURRENCY = new Field("currency");
 
         /**
-         * Constant identifying the exponent sign field.
+         * Constbnt identifying the exponent sign field.
          */
-        public static final Field EXPONENT_SIGN = new Field("exponent sign");
+        public stbtic finbl Field EXPONENT_SIGN = new Field("exponent sign");
     }
 }

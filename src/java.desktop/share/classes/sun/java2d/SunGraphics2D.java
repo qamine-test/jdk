@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.RenderingHints.Key;
-import java.awt.geom.Area;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.image.renderable.RenderContext;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.Image;
-import java.awt.Composite;
-import java.awt.Color;
-import java.awt.image.ColorModel;
-import java.awt.GraphicsConfiguration;
-import java.awt.Paint;
-import java.awt.GradientPaint;
-import java.awt.LinearGradientPaint;
-import java.awt.RadialGradientPaint;
-import java.awt.TexturePaint;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.GeneralPath;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.text.AttributedCharacterIterator;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.image.ImageObserver;
-import java.awt.Transparency;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.RenderingHints.Key;
+import jbvb.bwt.geom.Areb;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.renderbble.RenderbbleImbge;
+import jbvb.bwt.imbge.renderbble.RenderContext;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Color;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.GrbdientPbint;
+import jbvb.bwt.LinebrGrbdientPbint;
+import jbvb.bwt.RbdiblGrbdientPbint;
+import jbvb.bwt.TexturePbint;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Stroke;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Rectbngle;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.bwt.Font;
+import jbvb.bwt.Point;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
 
-import sun.awt.image.SurfaceManager;
+import sun.bwt.imbge.SurfbceMbnbger;
 import sun.font.FontDesignMetrics;
 import sun.font.FontUtilities;
-import sun.java2d.pipe.PixelDrawPipe;
-import sun.java2d.pipe.PixelFillPipe;
-import sun.java2d.pipe.ShapeDrawPipe;
-import sun.java2d.pipe.ValidatePipe;
-import sun.java2d.pipe.ShapeSpanIterator;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.TextPipe;
-import sun.java2d.pipe.DrawImagePipe;
-import sun.java2d.pipe.LoopPipe;
-import sun.java2d.loops.FontInfo;
-import sun.java2d.loops.RenderLoops;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.MaskFill;
-import java.awt.font.FontRenderContext;
-import sun.java2d.loops.XORComposite;
-import sun.awt.ConstrainableGraphics;
-import sun.awt.SunHints;
-import java.util.Map;
-import java.util.Iterator;
-import sun.misc.PerformanceLogger;
+import sun.jbvb2d.pipe.PixelDrbwPipe;
+import sun.jbvb2d.pipe.PixelFillPipe;
+import sun.jbvb2d.pipe.ShbpeDrbwPipe;
+import sun.jbvb2d.pipe.VblidbtePipe;
+import sun.jbvb2d.pipe.ShbpeSpbnIterbtor;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.TextPipe;
+import sun.jbvb2d.pipe.DrbwImbgePipe;
+import sun.jbvb2d.pipe.LoopPipe;
+import sun.jbvb2d.loops.FontInfo;
+import sun.jbvb2d.loops.RenderLoops;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskFill;
+import jbvb.bwt.font.FontRenderContext;
+import sun.jbvb2d.loops.XORComposite;
+import sun.bwt.ConstrbinbbleGrbphics;
+import sun.bwt.SunHints;
+import jbvb.util.Mbp;
+import jbvb.util.Iterbtor;
+import sun.misc.PerformbnceLogger;
 
-import java.lang.annotation.Native;
-import sun.awt.image.MultiResolutionImage;
+import jbvb.lbng.bnnotbtion.Nbtive;
+import sun.bwt.imbge.MultiResolutionImbge;
 
-import static java.awt.geom.AffineTransform.TYPE_FLIP;
-import static java.awt.geom.AffineTransform.TYPE_MASK_SCALE;
-import static java.awt.geom.AffineTransform.TYPE_TRANSLATION;
-import sun.awt.image.MultiResolutionToolkitImage;
-import sun.awt.image.ToolkitImage;
+import stbtic jbvb.bwt.geom.AffineTrbnsform.TYPE_FLIP;
+import stbtic jbvb.bwt.geom.AffineTrbnsform.TYPE_MASK_SCALE;
+import stbtic jbvb.bwt.geom.AffineTrbnsform.TYPE_TRANSLATION;
+import sun.bwt.imbge.MultiResolutionToolkitImbge;
+import sun.bwt.imbge.ToolkitImbge;
 
 /**
- * This is a the master Graphics2D superclass for all of the Sun
- * Graphics implementations.  This class relies on subclasses to
- * manage the various device information, but provides an overall
- * general framework for performing all of the requests in the
- * Graphics and Graphics2D APIs.
+ * This is b the mbster Grbphics2D superclbss for bll of the Sun
+ * Grbphics implementbtions.  This clbss relies on subclbsses to
+ * mbnbge the vbrious device informbtion, but provides bn overbll
+ * generbl frbmework for performing bll of the requests in the
+ * Grbphics bnd Grbphics2D APIs.
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  */
-public final class SunGraphics2D
-    extends Graphics2D
-    implements ConstrainableGraphics, Cloneable, DestSurfaceProvider
+public finbl clbss SunGrbphics2D
+    extends Grbphics2D
+    implements ConstrbinbbleGrbphics, Clonebble, DestSurfbceProvider
 {
     /*
-     * Attribute States
+     * Attribute Stbtes
      */
-    /* Paint */
-    @Native
-    public static final int PAINT_CUSTOM       = 6; /* Any other Paint object */
-    @Native
-    public static final int PAINT_TEXTURE      = 5; /* Tiled Image */
-    @Native
-    public static final int PAINT_RAD_GRADIENT = 4; /* Color RadialGradient */
-    @Native
-    public static final int PAINT_LIN_GRADIENT = 3; /* Color LinearGradient */
-    @Native
-    public static final int PAINT_GRADIENT     = 2; /* Color Gradient */
-    @Native
-    public static final int PAINT_ALPHACOLOR   = 1; /* Non-opaque Color */
-    @Native
-    public static final int PAINT_OPAQUECOLOR  = 0; /* Opaque Color */
+    /* Pbint */
+    @Nbtive
+    public stbtic finbl int PAINT_CUSTOM       = 6; /* Any other Pbint object */
+    @Nbtive
+    public stbtic finbl int PAINT_TEXTURE      = 5; /* Tiled Imbge */
+    @Nbtive
+    public stbtic finbl int PAINT_RAD_GRADIENT = 4; /* Color RbdiblGrbdient */
+    @Nbtive
+    public stbtic finbl int PAINT_LIN_GRADIENT = 3; /* Color LinebrGrbdient */
+    @Nbtive
+    public stbtic finbl int PAINT_GRADIENT     = 2; /* Color Grbdient */
+    @Nbtive
+    public stbtic finbl int PAINT_ALPHACOLOR   = 1; /* Non-opbque Color */
+    @Nbtive
+    public stbtic finbl int PAINT_OPAQUECOLOR  = 0; /* Opbque Color */
 
     /* Composite*/
-    @Native
-    public static final int COMP_CUSTOM = 3;/* Custom Composite */
-    @Native
-    public static final int COMP_XOR    = 2;/* XOR Mode Composite */
-    @Native
-    public static final int COMP_ALPHA  = 1;/* AlphaComposite */
-    @Native
-    public static final int COMP_ISCOPY = 0;/* simple stores into destination,
-                                             * i.e. Src, SrcOverNoEa, and other
-                                             * alpha modes which replace
-                                             * the destination.
+    @Nbtive
+    public stbtic finbl int COMP_CUSTOM = 3;/* Custom Composite */
+    @Nbtive
+    public stbtic finbl int COMP_XOR    = 2;/* XOR Mode Composite */
+    @Nbtive
+    public stbtic finbl int COMP_ALPHA  = 1;/* AlphbComposite */
+    @Nbtive
+    public stbtic finbl int COMP_ISCOPY = 0;/* simple stores into destinbtion,
+                                             * i.e. Src, SrcOverNoEb, bnd other
+                                             * blphb modes which replbce
+                                             * the destinbtion.
                                              */
 
     /* Stroke */
-    @Native
-    public static final int STROKE_CUSTOM = 3; /* custom Stroke */
-    @Native
-    public static final int STROKE_WIDE   = 2; /* BasicStroke */
-    @Native
-    public static final int STROKE_THINDASHED   = 1; /* BasicStroke */
-    @Native
-    public static final int STROKE_THIN   = 0; /* BasicStroke */
+    @Nbtive
+    public stbtic finbl int STROKE_CUSTOM = 3; /* custom Stroke */
+    @Nbtive
+    public stbtic finbl int STROKE_WIDE   = 2; /* BbsicStroke */
+    @Nbtive
+    public stbtic finbl int STROKE_THINDASHED   = 1; /* BbsicStroke */
+    @Nbtive
+    public stbtic finbl int STROKE_THIN   = 0; /* BbsicStroke */
 
-    /* Transform */
-    @Native
-    public static final int TRANSFORM_GENERIC = 4; /* any 3x2 */
-    @Native
-    public static final int TRANSFORM_TRANSLATESCALE = 3; /* scale XY */
-    @Native
-    public static final int TRANSFORM_ANY_TRANSLATE = 2; /* non-int translate */
-    @Native
-    public static final int TRANSFORM_INT_TRANSLATE = 1; /* int translate */
-    @Native
-    public static final int TRANSFORM_ISIDENT = 0; /* Identity */
+    /* Trbnsform */
+    @Nbtive
+    public stbtic finbl int TRANSFORM_GENERIC = 4; /* bny 3x2 */
+    @Nbtive
+    public stbtic finbl int TRANSFORM_TRANSLATESCALE = 3; /* scble XY */
+    @Nbtive
+    public stbtic finbl int TRANSFORM_ANY_TRANSLATE = 2; /* non-int trbnslbte */
+    @Nbtive
+    public stbtic finbl int TRANSFORM_INT_TRANSLATE = 1; /* int trbnslbte */
+    @Nbtive
+    public stbtic finbl int TRANSFORM_ISIDENT = 0; /* Identity */
 
     /* Clipping */
-    @Native
-    public static final int CLIP_SHAPE       = 2; /* arbitrary clip */
-    @Native
-    public static final int CLIP_RECTANGULAR = 1; /* rectangular clip */
-    @Native
-    public static final int CLIP_DEVICE      = 0; /* no clipping set */
+    @Nbtive
+    public stbtic finbl int CLIP_SHAPE       = 2; /* brbitrbry clip */
+    @Nbtive
+    public stbtic finbl int CLIP_RECTANGULAR = 1; /* rectbngulbr clip */
+    @Nbtive
+    public stbtic finbl int CLIP_DEVICE      = 0; /* no clipping set */
 
-    /* The following fields are used when the current Paint is a Color. */
-    public int eargb;  // ARGB value with ExtraAlpha baked in
-    public int pixel;  // pixel value for eargb
+    /* The following fields bre used when the current Pbint is b Color. */
+    public int ebrgb;  // ARGB vblue with ExtrbAlphb bbked in
+    public int pixel;  // pixel vblue for ebrgb
 
-    public SurfaceData surfaceData;
+    public SurfbceDbtb surfbceDbtb;
 
-    public PixelDrawPipe drawpipe;
+    public PixelDrbwPipe drbwpipe;
     public PixelFillPipe fillpipe;
-    public DrawImagePipe imagepipe;
-    public ShapeDrawPipe shapepipe;
+    public DrbwImbgePipe imbgepipe;
+    public ShbpeDrbwPipe shbpepipe;
     public TextPipe textpipe;
-    public MaskFill alphafill;
+    public MbskFill blphbfill;
 
     public RenderLoops loops;
 
-    public CompositeType imageComp;     /* Image Transparency checked on fly */
+    public CompositeType imbgeComp;     /* Imbge Trbnspbrency checked on fly */
 
-    public int paintState;
-    public int compositeState;
-    public int strokeState;
-    public int transformState;
-    public int clipState;
+    public int pbintStbte;
+    public int compositeStbte;
+    public int strokeStbte;
+    public int trbnsformStbte;
+    public int clipStbte;
 
     public Color foregroundColor;
-    public Color backgroundColor;
+    public Color bbckgroundColor;
 
-    public AffineTransform transform;
-    public int transX;
-    public int transY;
+    public AffineTrbnsform trbnsform;
+    public int trbnsX;
+    public int trbnsY;
 
-    protected static final Stroke defaultStroke = new BasicStroke();
-    protected static final Composite defaultComposite = AlphaComposite.SrcOver;
-    private static final Font defaultFont =
+    protected stbtic finbl Stroke defbultStroke = new BbsicStroke();
+    protected stbtic finbl Composite defbultComposite = AlphbComposite.SrcOver;
+    privbte stbtic finbl Font defbultFont =
         new Font(Font.DIALOG, Font.PLAIN, 12);
 
-    public Paint paint;
+    public Pbint pbint;
     public Stroke stroke;
     public Composite composite;
     protected Font font;
     protected FontMetrics fontMetrics;
 
     public int renderHint;
-    public int antialiasHint;
-    public int textAntialiasHint;
-    protected int fractionalMetricsHint;
+    public int bntiblibsHint;
+    public int textAntiblibsHint;
+    protected int frbctionblMetricsHint;
 
-    /* A gamma adjustment to the colour used in lcd text blitting */
-    public int lcdTextContrast;
-    private static int lcdTextContrastDefaultValue = 140;
+    /* A gbmmb bdjustment to the colour used in lcd text blitting */
+    public int lcdTextContrbst;
+    privbte stbtic int lcdTextContrbstDefbultVblue = 140;
 
-    private int interpolationHint;      // raw value of rendering Hint
+    privbte int interpolbtionHint;      // rbw vblue of rendering Hint
     public int strokeHint;
 
-    public int interpolationType;       // algorithm choice based on
-                                        // interpolation and render Hints
+    public int interpolbtionType;       // blgorithm choice bbsed on
+                                        // interpolbtion bnd render Hints
 
     public RenderingHints hints;
 
-    public Region constrainClip;        // lightweight bounds in pixels
-    public int constrainX;
-    public int constrainY;
+    public Region constrbinClip;        // lightweight bounds in pixels
+    public int constrbinX;
+    public int constrbinY;
 
     public Region clipRegion;
-    public Shape usrClip;
-    protected Region devClip;           // Actual physical drawable in pixels
+    public Shbpe usrClip;
+    protected Region devClip;           // Actubl physicbl drbwbble in pixels
 
-    private final int devScale;         // Actual physical scale factor
-    private int resolutionVariantHint;
+    privbte finbl int devScble;         // Actubl physicbl scble fbctor
+    privbte int resolutionVbribntHint;
 
-    // cached state for text rendering
-    private boolean validFontInfo;
-    private FontInfo fontInfo;
-    private FontInfo glyphVectorFontInfo;
-    private FontRenderContext glyphVectorFRC;
+    // cbched stbte for text rendering
+    privbte boolebn vblidFontInfo;
+    privbte FontInfo fontInfo;
+    privbte FontInfo glyphVectorFontInfo;
+    privbte FontRenderContext glyphVectorFRC;
 
-    private final static int slowTextTransformMask =
-                            AffineTransform.TYPE_GENERAL_TRANSFORM
-                        |   AffineTransform.TYPE_MASK_ROTATION
-                        |   AffineTransform.TYPE_FLIP;
+    privbte finbl stbtic int slowTextTrbnsformMbsk =
+                            AffineTrbnsform.TYPE_GENERAL_TRANSFORM
+                        |   AffineTrbnsform.TYPE_MASK_ROTATION
+                        |   AffineTrbnsform.TYPE_FLIP;
 
-    static {
-        if (PerformanceLogger.loggingEnabled()) {
-            PerformanceLogger.setTime("SunGraphics2D static initialization");
+    stbtic {
+        if (PerformbnceLogger.loggingEnbbled()) {
+            PerformbnceLogger.setTime("SunGrbphics2D stbtic initiblizbtion");
         }
     }
 
-    public SunGraphics2D(SurfaceData sd, Color fg, Color bg, Font f) {
-        surfaceData = sd;
+    public SunGrbphics2D(SurfbceDbtb sd, Color fg, Color bg, Font f) {
+        surfbceDbtb = sd;
         foregroundColor = fg;
-        backgroundColor = bg;
+        bbckgroundColor = bg;
 
-        transform = new AffineTransform();
-        stroke = defaultStroke;
-        composite = defaultComposite;
-        paint = foregroundColor;
+        trbnsform = new AffineTrbnsform();
+        stroke = defbultStroke;
+        composite = defbultComposite;
+        pbint = foregroundColor;
 
-        imageComp = CompositeType.SrcOverNoEa;
+        imbgeComp = CompositeType.SrcOverNoEb;
 
         renderHint = SunHints.INTVAL_RENDER_DEFAULT;
-        antialiasHint = SunHints.INTVAL_ANTIALIAS_OFF;
-        textAntialiasHint = SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT;
-        fractionalMetricsHint = SunHints.INTVAL_FRACTIONALMETRICS_OFF;
-        lcdTextContrast = lcdTextContrastDefaultValue;
-        interpolationHint = -1;
+        bntiblibsHint = SunHints.INTVAL_ANTIALIAS_OFF;
+        textAntiblibsHint = SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT;
+        frbctionblMetricsHint = SunHints.INTVAL_FRACTIONALMETRICS_OFF;
+        lcdTextContrbst = lcdTextContrbstDefbultVblue;
+        interpolbtionHint = -1;
         strokeHint = SunHints.INTVAL_STROKE_DEFAULT;
-        resolutionVariantHint = SunHints.INTVAL_RESOLUTION_VARIANT_DEFAULT;
+        resolutionVbribntHint = SunHints.INTVAL_RESOLUTION_VARIANT_DEFAULT;
 
-        interpolationType = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
+        interpolbtionType = AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR;
 
-        validateColor();
+        vblidbteColor();
 
-        devScale = sd.getDefaultScale();
-        if (devScale != 1) {
-            transform.setToScale(devScale, devScale);
-            invalidateTransform();
+        devScble = sd.getDefbultScble();
+        if (devScble != 1) {
+            trbnsform.setToScble(devScble, devScble);
+            invblidbteTrbnsform();
         }
 
         font = f;
         if (font == null) {
-            font = defaultFont;
+            font = defbultFont;
         }
 
         setDevClip(sd.getBounds());
-        invalidatePipe();
+        invblidbtePipe();
     }
 
     protected Object clone() {
         try {
-            SunGraphics2D g = (SunGraphics2D) super.clone();
-            g.transform = new AffineTransform(this.transform);
+            SunGrbphics2D g = (SunGrbphics2D) super.clone();
+            g.trbnsform = new AffineTrbnsform(this.trbnsform);
             if (hints != null) {
                 g.hints = (RenderingHints) this.hints.clone();
             }
-            /* FontInfos are re-used, so must be cloned too, if they
-             * are valid, and be nulled out if invalid.
-             * The implied trade-off is that there is more to be gained
-             * from re-using these objects than is lost by having to
+            /* FontInfos bre re-used, so must be cloned too, if they
+             * bre vblid, bnd be nulled out if invblid.
+             * The implied trbde-off is thbt there is more to be gbined
+             * from re-using these objects thbn is lost by hbving to
              * clone them when the SG2D is cloned.
              */
             if (this.fontInfo != null) {
-                if (this.validFontInfo) {
+                if (this.vblidFontInfo) {
                     g.fontInfo = (FontInfo)this.fontInfo.clone();
                 } else {
                     g.fontInfo = null;
@@ -329,233 +329,233 @@ public final class SunGraphics2D
                     (FontInfo)this.glyphVectorFontInfo.clone();
                 g.glyphVectorFRC = this.glyphVectorFRC;
             }
-            //g.invalidatePipe();
+            //g.invblidbtePipe();
             return g;
-        } catch (CloneNotSupportedException e) {
+        } cbtch (CloneNotSupportedException e) {
         }
         return null;
     }
 
     /**
-     * Create a new SunGraphics2D based on this one.
+     * Crebte b new SunGrbphics2D bbsed on this one.
      */
-    public Graphics create() {
-        return (Graphics) clone();
+    public Grbphics crebte() {
+        return (Grbphics) clone();
     }
 
     public void setDevClip(int x, int y, int w, int h) {
-        Region c = constrainClip;
+        Region c = constrbinClip;
         if (c == null) {
-            devClip = Region.getInstanceXYWH(x, y, w, h);
+            devClip = Region.getInstbnceXYWH(x, y, w, h);
         } else {
             devClip = c.getIntersectionXYWH(x, y, w, h);
         }
-        validateCompClip();
+        vblidbteCompClip();
     }
 
-    public void setDevClip(Rectangle r) {
+    public void setDevClip(Rectbngle r) {
         setDevClip(r.x, r.y, r.width, r.height);
     }
 
     /**
-     * Constrain rendering for lightweight objects.
+     * Constrbin rendering for lightweight objects.
      */
-    public void constrain(int x, int y, int w, int h, Region region) {
+    public void constrbin(int x, int y, int w, int h, Region region) {
         if ((x | y) != 0) {
-            translate(x, y);
+            trbnslbte(x, y);
         }
-        if (transformState > TRANSFORM_TRANSLATESCALE) {
+        if (trbnsformStbte > TRANSFORM_TRANSLATESCALE) {
             clipRect(0, 0, w, h);
             return;
         }
-        // changes parameters according to the current scale and translate.
-        final double scaleX = transform.getScaleX();
-        final double scaleY = transform.getScaleY();
-        x = constrainX = (int) transform.getTranslateX();
-        y = constrainY = (int) transform.getTranslateY();
-        w = Region.dimAdd(x, Region.clipScale(w, scaleX));
-        h = Region.dimAdd(y, Region.clipScale(h, scaleY));
+        // chbnges pbrbmeters bccording to the current scble bnd trbnslbte.
+        finbl double scbleX = trbnsform.getScbleX();
+        finbl double scbleY = trbnsform.getScbleY();
+        x = constrbinX = (int) trbnsform.getTrbnslbteX();
+        y = constrbinY = (int) trbnsform.getTrbnslbteY();
+        w = Region.dimAdd(x, Region.clipScble(w, scbleX));
+        h = Region.dimAdd(y, Region.clipScble(h, scbleY));
 
-        Region c = constrainClip;
+        Region c = constrbinClip;
         if (c == null) {
-            c = Region.getInstanceXYXY(x, y, w, h);
+            c = Region.getInstbnceXYXY(x, y, w, h);
         } else {
             c = c.getIntersectionXYXY(x, y, w, h);
         }
         if (region != null) {
-            region = region.getScaledRegion(scaleX, scaleY);
-            region = region.getTranslatedRegion(x, y);
+            region = region.getScbledRegion(scbleX, scbleY);
+            region = region.getTrbnslbtedRegion(x, y);
             c = c.getIntersection(region);
         }
 
-        if (c == constrainClip) {
-            // Common case to ignore
+        if (c == constrbinClip) {
+            // Common cbse to ignore
             return;
         }
 
-        constrainClip = c;
+        constrbinClip = c;
         if (!devClip.isInsideQuickCheck(c)) {
             devClip = devClip.getIntersection(c);
-            validateCompClip();
+            vblidbteCompClip();
         }
     }
 
     /**
-     * Constrain rendering for lightweight objects.
+     * Constrbin rendering for lightweight objects.
      *
-     * REMIND: This method will back off to the "workaround"
-     * of using translate and clipRect if the Graphics
-     * to be constrained has a complex transform.  The
-     * drawback of the workaround is that the resulting
-     * clip and device origin cannot be "enforced".
+     * REMIND: This method will bbck off to the "workbround"
+     * of using trbnslbte bnd clipRect if the Grbphics
+     * to be constrbined hbs b complex trbnsform.  The
+     * drbwbbck of the workbround is thbt the resulting
+     * clip bnd device origin cbnnot be "enforced".
      *
-     * @exception IllegalStateException If the Graphics
-     * to be constrained has a complex transform.
+     * @exception IllegblStbteException If the Grbphics
+     * to be constrbined hbs b complex trbnsform.
      */
     @Override
-    public void constrain(int x, int y, int w, int h) {
-        constrain(x, y, w, h, null);
+    public void constrbin(int x, int y, int w, int h) {
+        constrbin(x, y, w, h, null);
     }
 
-    protected static ValidatePipe invalidpipe = new ValidatePipe();
+    protected stbtic VblidbtePipe invblidpipe = new VblidbtePipe();
 
     /*
-     * Invalidate the pipeline
+     * Invblidbte the pipeline
      */
-    protected void invalidatePipe() {
-        drawpipe = invalidpipe;
-        fillpipe = invalidpipe;
-        shapepipe = invalidpipe;
-        textpipe = invalidpipe;
-        imagepipe = invalidpipe;
+    protected void invblidbtePipe() {
+        drbwpipe = invblidpipe;
+        fillpipe = invblidpipe;
+        shbpepipe = invblidpipe;
+        textpipe = invblidpipe;
+        imbgepipe = invblidpipe;
         loops = null;
     }
 
-    public void validatePipe() {
-        /* This workaround is for the situation when we update the Pipelines
-         * for invalid SurfaceData and run further code when the current
-         * pipeline doesn't support the type of new SurfaceData created during
-         * the current pipeline's work (in place of the invalid SurfaceData).
-         * Usually SurfaceData and Pipelines are repaired (through revalidateAll)
-         * and called again in the exception handlers */
+    public void vblidbtePipe() {
+        /* This workbround is for the situbtion when we updbte the Pipelines
+         * for invblid SurfbceDbtb bnd run further code when the current
+         * pipeline doesn't support the type of new SurfbceDbtb crebted during
+         * the current pipeline's work (in plbce of the invblid SurfbceDbtb).
+         * Usublly SurfbceDbtb bnd Pipelines bre repbired (through revblidbteAll)
+         * bnd cblled bgbin in the exception hbndlers */
 
-        if (!surfaceData.isValid()) {
-            throw new InvalidPipeException("attempt to validate Pipe with invalid SurfaceData");
+        if (!surfbceDbtb.isVblid()) {
+            throw new InvblidPipeException("bttempt to vblidbte Pipe with invblid SurfbceDbtb");
         }
 
-        surfaceData.validatePipe(this);
+        surfbceDbtb.vblidbtePipe(this);
     }
 
     /*
-     * Intersect two Shapes by the simplest method, attempting to produce
-     * a simplified result.
-     * The boolean arguments keep1 and keep2 specify whether or not
-     * the first or second shapes can be modified during the operation
-     * or whether that shape must be "kept" unmodified.
+     * Intersect two Shbpes by the simplest method, bttempting to produce
+     * b simplified result.
+     * The boolebn brguments keep1 bnd keep2 specify whether or not
+     * the first or second shbpes cbn be modified during the operbtion
+     * or whether thbt shbpe must be "kept" unmodified.
      */
-    Shape intersectShapes(Shape s1, Shape s2, boolean keep1, boolean keep2) {
-        if (s1 instanceof Rectangle && s2 instanceof Rectangle) {
-            return ((Rectangle) s1).intersection((Rectangle) s2);
+    Shbpe intersectShbpes(Shbpe s1, Shbpe s2, boolebn keep1, boolebn keep2) {
+        if (s1 instbnceof Rectbngle && s2 instbnceof Rectbngle) {
+            return ((Rectbngle) s1).intersection((Rectbngle) s2);
         }
-        if (s1 instanceof Rectangle2D) {
-            return intersectRectShape((Rectangle2D) s1, s2, keep1, keep2);
-        } else if (s2 instanceof Rectangle2D) {
-            return intersectRectShape((Rectangle2D) s2, s1, keep2, keep1);
+        if (s1 instbnceof Rectbngle2D) {
+            return intersectRectShbpe((Rectbngle2D) s1, s2, keep1, keep2);
+        } else if (s2 instbnceof Rectbngle2D) {
+            return intersectRectShbpe((Rectbngle2D) s2, s1, keep2, keep1);
         }
-        return intersectByArea(s1, s2, keep1, keep2);
+        return intersectByAreb(s1, s2, keep1, keep2);
     }
 
     /*
-     * Intersect a Rectangle with a Shape by the simplest method,
-     * attempting to produce a simplified result.
-     * The boolean arguments keep1 and keep2 specify whether or not
-     * the first or second shapes can be modified during the operation
-     * or whether that shape must be "kept" unmodified.
+     * Intersect b Rectbngle with b Shbpe by the simplest method,
+     * bttempting to produce b simplified result.
+     * The boolebn brguments keep1 bnd keep2 specify whether or not
+     * the first or second shbpes cbn be modified during the operbtion
+     * or whether thbt shbpe must be "kept" unmodified.
      */
-    Shape intersectRectShape(Rectangle2D r, Shape s,
-                             boolean keep1, boolean keep2) {
-        if (s instanceof Rectangle2D) {
-            Rectangle2D r2 = (Rectangle2D) s;
-            Rectangle2D outrect;
+    Shbpe intersectRectShbpe(Rectbngle2D r, Shbpe s,
+                             boolebn keep1, boolebn keep2) {
+        if (s instbnceof Rectbngle2D) {
+            Rectbngle2D r2 = (Rectbngle2D) s;
+            Rectbngle2D outrect;
             if (!keep1) {
                 outrect = r;
             } else if (!keep2) {
                 outrect = r2;
             } else {
-                outrect = new Rectangle2D.Float();
+                outrect = new Rectbngle2D.Flobt();
             }
-            double x1 = Math.max(r.getX(), r2.getX());
-            double x2 = Math.min(r.getX()  + r.getWidth(),
+            double x1 = Mbth.mbx(r.getX(), r2.getX());
+            double x2 = Mbth.min(r.getX()  + r.getWidth(),
                                  r2.getX() + r2.getWidth());
-            double y1 = Math.max(r.getY(), r2.getY());
-            double y2 = Math.min(r.getY()  + r.getHeight(),
+            double y1 = Mbth.mbx(r.getY(), r2.getY());
+            double y2 = Mbth.min(r.getY()  + r.getHeight(),
                                  r2.getY() + r2.getHeight());
 
             if (((x2 - x1) < 0) || ((y2 - y1) < 0))
-                // Width or height is negative. No intersection.
-                outrect.setFrameFromDiagonal(0, 0, 0, 0);
+                // Width or height is negbtive. No intersection.
+                outrect.setFrbmeFromDibgonbl(0, 0, 0, 0);
             else
-                outrect.setFrameFromDiagonal(x1, y1, x2, y2);
+                outrect.setFrbmeFromDibgonbl(x1, y1, x2, y2);
             return outrect;
         }
-        if (r.contains(s.getBounds2D())) {
+        if (r.contbins(s.getBounds2D())) {
             if (keep2) {
-                s = cloneShape(s);
+                s = cloneShbpe(s);
             }
             return s;
         }
-        return intersectByArea(r, s, keep1, keep2);
+        return intersectByAreb(r, s, keep1, keep2);
     }
 
-    protected static Shape cloneShape(Shape s) {
-        return new GeneralPath(s);
+    protected stbtic Shbpe cloneShbpe(Shbpe s) {
+        return new GenerblPbth(s);
     }
 
     /*
-     * Intersect two Shapes using the Area class.  Presumably other
-     * attempts at simpler intersection methods proved fruitless.
-     * The boolean arguments keep1 and keep2 specify whether or not
-     * the first or second shapes can be modified during the operation
-     * or whether that shape must be "kept" unmodified.
-     * @see #intersectShapes
-     * @see #intersectRectShape
+     * Intersect two Shbpes using the Areb clbss.  Presumbbly other
+     * bttempts bt simpler intersection methods proved fruitless.
+     * The boolebn brguments keep1 bnd keep2 specify whether or not
+     * the first or second shbpes cbn be modified during the operbtion
+     * or whether thbt shbpe must be "kept" unmodified.
+     * @see #intersectShbpes
+     * @see #intersectRectShbpe
      */
-    Shape intersectByArea(Shape s1, Shape s2, boolean keep1, boolean keep2) {
-        Area a1, a2;
+    Shbpe intersectByAreb(Shbpe s1, Shbpe s2, boolebn keep1, boolebn keep2) {
+        Areb b1, b2;
 
-        // First see if we can find an overwriteable source shape
-        // to use as our destination area to avoid duplication.
-        if (!keep1 && (s1 instanceof Area)) {
-            a1 = (Area) s1;
-        } else if (!keep2 && (s2 instanceof Area)) {
-            a1 = (Area) s2;
+        // First see if we cbn find bn overwritebble source shbpe
+        // to use bs our destinbtion breb to bvoid duplicbtion.
+        if (!keep1 && (s1 instbnceof Areb)) {
+            b1 = (Areb) s1;
+        } else if (!keep2 && (s2 instbnceof Areb)) {
+            b1 = (Areb) s2;
             s2 = s1;
         } else {
-            a1 = new Area(s1);
+            b1 = new Areb(s1);
         }
 
-        if (s2 instanceof Area) {
-            a2 = (Area) s2;
+        if (s2 instbnceof Areb) {
+            b2 = (Areb) s2;
         } else {
-            a2 = new Area(s2);
+            b2 = new Areb(s2);
         }
 
-        a1.intersect(a2);
-        if (a1.isRectangular()) {
-            return a1.getBounds();
+        b1.intersect(b2);
+        if (b1.isRectbngulbr()) {
+            return b1.getBounds();
         }
 
-        return a1;
+        return b1;
     }
 
     /*
-     * Intersect usrClip bounds and device bounds to determine the composite
-     * rendering boundaries.
+     * Intersect usrClip bounds bnd device bounds to determine the composite
+     * rendering boundbries.
      */
     public Region getCompClip() {
-        if (!surfaceData.isValid()) {
-            // revalidateAll() implicitly recalculcates the composite clip
-            revalidateAll();
+        if (!surfbceDbtb.isVblid()) {
+            // revblidbteAll() implicitly recblculcbtes the composite clip
+            revblidbteAll();
         }
 
         return clipRegion;
@@ -563,89 +563,89 @@ public final class SunGraphics2D
 
     public Font getFont() {
         if (font == null) {
-            font = defaultFont;
+            font = defbultFont;
         }
         return font;
     }
 
-    private static final double[] IDENT_MATRIX = {1, 0, 0, 1};
-    private static final AffineTransform IDENT_ATX =
-        new AffineTransform();
+    privbte stbtic finbl double[] IDENT_MATRIX = {1, 0, 0, 1};
+    privbte stbtic finbl AffineTrbnsform IDENT_ATX =
+        new AffineTrbnsform();
 
-    private static final int MINALLOCATED = 8;
-    private static final int TEXTARRSIZE = 17;
-    private static double[][] textTxArr = new double[TEXTARRSIZE][];
-    private static AffineTransform[] textAtArr =
-        new AffineTransform[TEXTARRSIZE];
+    privbte stbtic finbl int MINALLOCATED = 8;
+    privbte stbtic finbl int TEXTARRSIZE = 17;
+    privbte stbtic double[][] textTxArr = new double[TEXTARRSIZE][];
+    privbte stbtic AffineTrbnsform[] textAtArr =
+        new AffineTrbnsform[TEXTARRSIZE];
 
-    static {
+    stbtic {
         for (int i=MINALLOCATED;i<TEXTARRSIZE;i++) {
           textTxArr[i] = new double [] {i, 0, 0, i};
-          textAtArr[i] = new AffineTransform( textTxArr[i]);
+          textAtArr[i] = new AffineTrbnsform( textTxArr[i]);
         }
     }
 
-    // cached state for various draw[String,Char,Byte] optimizations
+    // cbched stbte for vbrious drbw[String,Chbr,Byte] optimizbtions
     public FontInfo checkFontInfo(FontInfo info, Font font,
                                   FontRenderContext frc) {
-        /* Do not create a FontInfo object as part of construction of an
-         * SG2D as its possible it may never be needed - ie if no text
-         * is drawn using this SG2D.
+        /* Do not crebte b FontInfo object bs pbrt of construction of bn
+         * SG2D bs its possible it mby never be needed - ie if no text
+         * is drbwn using this SG2D.
          */
         if (info == null) {
             info = new FontInfo();
         }
 
-        float ptSize = font.getSize2D();
+        flobt ptSize = font.getSize2D();
         int txFontType;
-        AffineTransform devAt, textAt=null;
-        if (font.isTransformed()) {
-            textAt = font.getTransform();
-            textAt.scale(ptSize, ptSize);
+        AffineTrbnsform devAt, textAt=null;
+        if (font.isTrbnsformed()) {
+            textAt = font.getTrbnsform();
+            textAt.scble(ptSize, ptSize);
             txFontType = textAt.getType();
-            info.originX = (float)textAt.getTranslateX();
-            info.originY = (float)textAt.getTranslateY();
-            textAt.translate(-info.originX, -info.originY);
-            if (transformState >= TRANSFORM_TRANSLATESCALE) {
-                transform.getMatrix(info.devTx = new double[4]);
-                devAt = new AffineTransform(info.devTx);
-                textAt.preConcatenate(devAt);
+            info.originX = (flobt)textAt.getTrbnslbteX();
+            info.originY = (flobt)textAt.getTrbnslbteY();
+            textAt.trbnslbte(-info.originX, -info.originY);
+            if (trbnsformStbte >= TRANSFORM_TRANSLATESCALE) {
+                trbnsform.getMbtrix(info.devTx = new double[4]);
+                devAt = new AffineTrbnsform(info.devTx);
+                textAt.preConcbtenbte(devAt);
             } else {
                 info.devTx = IDENT_MATRIX;
                 devAt = IDENT_ATX;
             }
-            textAt.getMatrix(info.glyphTx = new double[4]);
-            double shearx = textAt.getShearX();
-            double scaley = textAt.getScaleY();
-            if (shearx != 0) {
-                scaley = Math.sqrt(shearx * shearx + scaley * scaley);
+            textAt.getMbtrix(info.glyphTx = new double[4]);
+            double shebrx = textAt.getShebrX();
+            double scbley = textAt.getScbleY();
+            if (shebrx != 0) {
+                scbley = Mbth.sqrt(shebrx * shebrx + scbley * scbley);
             }
-            info.pixelHeight = (int)(Math.abs(scaley)+0.5);
+            info.pixelHeight = (int)(Mbth.bbs(scbley)+0.5);
         } else {
-            txFontType = AffineTransform.TYPE_IDENTITY;
+            txFontType = AffineTrbnsform.TYPE_IDENTITY;
             info.originX = info.originY = 0;
-            if (transformState >= TRANSFORM_TRANSLATESCALE) {
-                transform.getMatrix(info.devTx = new double[4]);
-                devAt = new AffineTransform(info.devTx);
+            if (trbnsformStbte >= TRANSFORM_TRANSLATESCALE) {
+                trbnsform.getMbtrix(info.devTx = new double[4]);
+                devAt = new AffineTrbnsform(info.devTx);
                 info.glyphTx = new double[4];
                 for (int i = 0; i < 4; i++) {
                     info.glyphTx[i] = info.devTx[i] * ptSize;
                 }
-                textAt = new AffineTransform(info.glyphTx);
-                double shearx = transform.getShearX();
-                double scaley = transform.getScaleY();
-                if (shearx != 0) {
-                    scaley = Math.sqrt(shearx * shearx + scaley * scaley);
+                textAt = new AffineTrbnsform(info.glyphTx);
+                double shebrx = trbnsform.getShebrX();
+                double scbley = trbnsform.getScbleY();
+                if (shebrx != 0) {
+                    scbley = Mbth.sqrt(shebrx * shebrx + scbley * scbley);
                 }
-                info.pixelHeight = (int)(Math.abs(scaley * ptSize)+0.5);
+                info.pixelHeight = (int)(Mbth.bbs(scbley * ptSize)+0.5);
             } else {
-                /* If the double represents a common integral, we
-                 * may have pre-allocated objects.
-                 * A "sparse" array be seems to be as fast as a switch
-                 * even for 3 or 4 pt sizes, and is more flexible.
-                 * This should perform comparably in single-threaded
+                /* If the double represents b common integrbl, we
+                 * mby hbve pre-bllocbted objects.
+                 * A "spbrse" brrby be seems to be bs fbst bs b switch
+                 * even for 3 or 4 pt sizes, bnd is more flexible.
+                 * This should perform compbrbbly in single-threbded
                  * rendering to the old code which synchronized on the
-                 * class and scale better on MP systems.
+                 * clbss bnd scble better on MP systems.
                  */
                 int pszInt = (int)ptSize;
                 if (ptSize == pszInt &&
@@ -658,7 +658,7 @@ public final class SunGraphics2D
                 }
                 if (textAt == null) {
                     info.glyphTx = new double[] {ptSize, 0, 0, ptSize};
-                    textAt = new AffineTransform(info.glyphTx);
+                    textAt = new AffineTrbnsform(info.glyphTx);
                 }
 
                 info.devTx = IDENT_MATRIX;
@@ -668,172 +668,172 @@ public final class SunGraphics2D
 
         info.font2D = FontUtilities.getFont2D(font);
 
-        int fmhint = fractionalMetricsHint;
+        int fmhint = frbctionblMetricsHint;
         if (fmhint == SunHints.INTVAL_FRACTIONALMETRICS_DEFAULT) {
             fmhint = SunHints.INTVAL_FRACTIONALMETRICS_OFF;
         }
-        info.lcdSubPixPos = false; // conditionally set true in LCD mode.
+        info.lcdSubPixPos = fblse; // conditionblly set true in LCD mode.
 
-        /* The text anti-aliasing hints that are set by the client need
-         * to be interpreted for the current state and stored in the
-         * FontInfo.aahint which is what will actually be used and
+        /* The text bnti-blibsing hints thbt bre set by the client need
+         * to be interpreted for the current stbte bnd stored in the
+         * FontInfo.bbhint which is whbt will bctublly be used bnd
          * will be one of OFF, ON, LCD_HRGB or LCD_VRGB.
-         * This is what pipe selection code should typically refer to, not
-         * textAntialiasHint. This means we are now evaluating the meaning
-         * of "default" here. Any pipe that really cares about that will
-         * also need to consult that variable.
-         * Otherwise these are being used only as args to getStrike,
-         * and are encapsulated in that object which is part of the
-         * FontInfo, so we do not need to store them directly as fields
+         * This is whbt pipe selection code should typicblly refer to, not
+         * textAntiblibsHint. This mebns we bre now evblubting the mebning
+         * of "defbult" here. Any pipe thbt reblly cbres bbout thbt will
+         * blso need to consult thbt vbribble.
+         * Otherwise these bre being used only bs brgs to getStrike,
+         * bnd bre encbpsulbted in thbt object which is pbrt of the
+         * FontInfo, so we do not need to store them directly bs fields
          * in the FontInfo object.
-         * That could change if FontInfo's were more selectively
-         * revalidated when graphics state changed. Presently this
-         * method re-evaluates all fields in the fontInfo.
+         * Thbt could chbnge if FontInfo's were more selectively
+         * revblidbted when grbphics stbte chbnged. Presently this
+         * method re-evblubtes bll fields in the fontInfo.
          * The strike doesn't need to know the RGB subpixel order. Just
-         * if its H or V orientation, so if an LCD option is specified we
-         * always pass in the RGB hint to the strike.
-         * frc is non-null only if this is a GlyphVector. For reasons
-         * which are probably a historical mistake the AA hint in a GV
-         * is honoured when we render, overriding the Graphics setting.
+         * if its H or V orientbtion, so if bn LCD option is specified we
+         * blwbys pbss in the RGB hint to the strike.
+         * frc is non-null only if this is b GlyphVector. For rebsons
+         * which bre probbbly b historicbl mistbke the AA hint in b GV
+         * is honoured when we render, overriding the Grbphics setting.
          */
-        int aahint;
+        int bbhint;
         if (frc == null) {
-            aahint = textAntialiasHint;
+            bbhint = textAntiblibsHint;
         } else {
-            aahint = ((SunHints.Value)frc.getAntiAliasingHint()).getIndex();
+            bbhint = ((SunHints.Vblue)frc.getAntiAlibsingHint()).getIndex();
         }
-        if (aahint == SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT) {
-            if (antialiasHint == SunHints.INTVAL_ANTIALIAS_ON) {
-                aahint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
+        if (bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT) {
+            if (bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON) {
+                bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
             } else {
-                aahint = SunHints.INTVAL_TEXT_ANTIALIAS_OFF;
+                bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_OFF;
             }
         } else {
-            /* If we are in checkFontInfo because a rendering hint has been
-             * set then all pipes are revalidated. But we can also
-             * be here because setFont() has been called when the 'gasp'
-             * hint is set, as then the font size determines the text pipe.
-             * See comments in SunGraphics2d.setFont(Font).
+            /* If we bre in checkFontInfo becbuse b rendering hint hbs been
+             * set then bll pipes bre revblidbted. But we cbn blso
+             * be here becbuse setFont() hbs been cblled when the 'gbsp'
+             * hint is set, bs then the font size determines the text pipe.
+             * See comments in SunGrbphics2d.setFont(Font).
              */
-            if (aahint == SunHints.INTVAL_TEXT_ANTIALIAS_GASP) {
+            if (bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_GASP) {
                 if (info.font2D.useAAForPtSize(info.pixelHeight)) {
-                    aahint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
+                    bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
                 } else {
-                    aahint = SunHints.INTVAL_TEXT_ANTIALIAS_OFF;
+                    bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_OFF;
                 }
-            } else if (aahint >= SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB) {
-                /* loops for default rendering modes are installed in the SG2D
-                 * constructor. If there are none this will be null.
-                 * Not all compositing modes update the render loops, so
-                 * we also test that this is a mode we know should support
-                 * this. One minor issue is that the loops aren't necessarily
-                 * installed for a new rendering mode until after this
-                 * method is called during pipeline validation. So it is
-                 * theoretically possible that it was set to null for a
-                 * compositing mode, the composite is then set back to Src,
-                 * but the loop is still null when this is called and AA=ON
-                 * is installed instead of an LCD mode.
-                 * However this is done in the right order in SurfaceData.java
-                 * so this is not likely to be a problem - but not
-                 * guaranteed.
+            } else if (bbhint >= SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB) {
+                /* loops for defbult rendering modes bre instblled in the SG2D
+                 * constructor. If there bre none this will be null.
+                 * Not bll compositing modes updbte the render loops, so
+                 * we blso test thbt this is b mode we know should support
+                 * this. One minor issue is thbt the loops bren't necessbrily
+                 * instblled for b new rendering mode until bfter this
+                 * method is cblled during pipeline vblidbtion. So it is
+                 * theoreticblly possible thbt it wbs set to null for b
+                 * compositing mode, the composite is then set bbck to Src,
+                 * but the loop is still null when this is cblled bnd AA=ON
+                 * is instblled instebd of bn LCD mode.
+                 * However this is done in the right order in SurfbceDbtb.jbvb
+                 * so this is not likely to be b problem - but not
+                 * gubrbnteed.
                  */
                 if (
-                    !surfaceData.canRenderLCDText(this)
-//                    loops.drawGlyphListLCDLoop == null ||
-//                    compositeState > COMP_ISCOPY ||
-//                    paintState > PAINT_ALPHACOLOR
+                    !surfbceDbtb.cbnRenderLCDText(this)
+//                    loops.drbwGlyphListLCDLoop == null ||
+//                    compositeStbte > COMP_ISCOPY ||
+//                    pbintStbte > PAINT_ALPHACOLOR
                       ) {
-                    aahint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
+                    bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
                 } else {
                     info.lcdRGBOrder = true;
-                    /* Collapse these into just HRGB or VRGB.
+                    /* Collbpse these into just HRGB or VRGB.
                      * Pipe selection code needs only to test for these two.
-                     * Since these both select the same pipe anyway its
-                     * tempting to collapse into one value. But they are
-                     * different strikes (glyph caches) so the distinction
-                     * needs to be made for that purpose.
+                     * Since these both select the sbme pipe bnywby its
+                     * tempting to collbpse into one vblue. But they bre
+                     * different strikes (glyph cbches) so the distinction
+                     * needs to be mbde for thbt purpose.
                      */
-                    if (aahint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HBGR) {
-                        aahint = SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
-                        info.lcdRGBOrder = false;
+                    if (bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HBGR) {
+                        bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
+                        info.lcdRGBOrder = fblse;
                     } else if
-                        (aahint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VBGR) {
-                        aahint = SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
-                        info.lcdRGBOrder = false;
+                        (bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VBGR) {
+                        bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
+                        info.lcdRGBOrder = fblse;
                     }
-                    /* Support subpixel positioning only for the case in
-                     * which the horizontal resolution is increased
+                    /* Support subpixel positioning only for the cbse in
+                     * which the horizontbl resolution is increbsed
                      */
                     info.lcdSubPixPos =
                         fmhint == SunHints.INTVAL_FRACTIONALMETRICS_ON &&
-                        aahint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
+                        bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
                 }
             }
         }
-        info.aaHint = aahint;
+        info.bbHint = bbhint;
         info.fontStrike = info.font2D.getStrike(font, devAt, textAt,
-                                                aahint, fmhint);
+                                                bbhint, fmhint);
         return info;
     }
 
-    public static boolean isRotated(double [] mtx) {
+    public stbtic boolebn isRotbted(double [] mtx) {
         if ((mtx[0] == mtx[3]) &&
             (mtx[1] == 0.0) &&
             (mtx[2] == 0.0) &&
             (mtx[0] > 0.0))
         {
-            return false;
+            return fblse;
         }
 
         return true;
     }
 
     public void setFont(Font font) {
-        /* replacing the reference equality test font != this.font with
-         * !font.equals(this.font) did not yield any measurable difference
-         * in testing, but there may be yet to be identified cases where it
-         * is beneficial.
+        /* replbcing the reference equblity test font != this.font with
+         * !font.equbls(this.font) did not yield bny mebsurbble difference
+         * in testing, but there mby be yet to be identified cbses where it
+         * is beneficibl.
          */
-        if (font != null && font!=this.font/*!font.equals(this.font)*/) {
-            /* In the GASP AA case the textpipe depends on the glyph size
-             * as determined by graphics and font transforms as well as the
-             * font size, and information in the font. But we may invalidate
-             * the pipe only to find that it made no difference.
-             * Deferring pipe invalidation to checkFontInfo won't work because
-             * when called we may already be rendering to the wrong pipe.
-             * So, if the font is transformed, or the graphics has more than
-             * a simple scale, we'll take that as enough of a hint to
-             * revalidate everything. But if they aren't we will
-             * use the font's point size to query the gasp table and see if
-             * what it says matches what's currently being used, in which
-             * case there's no need to invalidate the textpipe.
-             * This should be sufficient for all typical uses cases.
+        if (font != null && font!=this.font/*!font.equbls(this.font)*/) {
+            /* In the GASP AA cbse the textpipe depends on the glyph size
+             * bs determined by grbphics bnd font trbnsforms bs well bs the
+             * font size, bnd informbtion in the font. But we mby invblidbte
+             * the pipe only to find thbt it mbde no difference.
+             * Deferring pipe invblidbtion to checkFontInfo won't work becbuse
+             * when cblled we mby blrebdy be rendering to the wrong pipe.
+             * So, if the font is trbnsformed, or the grbphics hbs more thbn
+             * b simple scble, we'll tbke thbt bs enough of b hint to
+             * revblidbte everything. But if they bren't we will
+             * use the font's point size to query the gbsp tbble bnd see if
+             * whbt it sbys mbtches whbt's currently being used, in which
+             * cbse there's no need to invblidbte the textpipe.
+             * This should be sufficient for bll typicbl uses cbses.
              */
-            if (textAntialiasHint == SunHints.INTVAL_TEXT_ANTIALIAS_GASP &&
-                textpipe != invalidpipe &&
-                (transformState > TRANSFORM_ANY_TRANSLATE ||
-                 font.isTransformed() ||
-                 fontInfo == null || // Precaution, if true shouldn't get here
-                 (fontInfo.aaHint == SunHints.INTVAL_TEXT_ANTIALIAS_ON) !=
+            if (textAntiblibsHint == SunHints.INTVAL_TEXT_ANTIALIAS_GASP &&
+                textpipe != invblidpipe &&
+                (trbnsformStbte > TRANSFORM_ANY_TRANSLATE ||
+                 font.isTrbnsformed() ||
+                 fontInfo == null || // Precbution, if true shouldn't get here
+                 (fontInfo.bbHint == SunHints.INTVAL_TEXT_ANTIALIAS_ON) !=
                      FontUtilities.getFont2D(font).
                          useAAForPtSize(font.getSize()))) {
-                textpipe = invalidpipe;
+                textpipe = invblidpipe;
             }
             this.font = font;
             this.fontMetrics = null;
-            this.validFontInfo = false;
+            this.vblidFontInfo = fblse;
         }
     }
 
     public FontInfo getFontInfo() {
-        if (!validFontInfo) {
+        if (!vblidFontInfo) {
             this.fontInfo = checkFontInfo(this.fontInfo, font, null);
-            validFontInfo = true;
+            vblidFontInfo = true;
         }
         return this.fontInfo;
     }
 
-    /* Used by drawGlyphVector which specifies its own font. */
+    /* Used by drbwGlyphVector which specifies its own font. */
     public FontInfo getGVFontInfo(Font font, FontRenderContext frc) {
         if (glyphVectorFontInfo != null &&
             glyphVectorFontInfo.font == font &&
@@ -850,7 +850,7 @@ public final class SunGraphics2D
         if (this.fontMetrics != null) {
             return this.fontMetrics;
         }
-        /* NB the constructor and the setter disallow "font" being null */
+        /* NB the constructor bnd the setter disbllow "font" being null */
         return this.fontMetrics =
            FontDesignMetrics.getMetrics(font, getFontRenderContext());
     }
@@ -869,231 +869,231 @@ public final class SunGraphics2D
     }
 
     /**
-     * Checks to see if a Path intersects the specified Rectangle in device
-     * space.  The rendering attributes taken into account include the
-     * clip, transform, and stroke attributes.
-     * @param rect The area in device space to check for a hit.
-     * @param p The path to check for a hit.
-     * @param onStroke Flag to choose between testing the stroked or
-     * the filled path.
-     * @return True if there is a hit, false otherwise.
+     * Checks to see if b Pbth intersects the specified Rectbngle in device
+     * spbce.  The rendering bttributes tbken into bccount include the
+     * clip, trbnsform, bnd stroke bttributes.
+     * @pbrbm rect The breb in device spbce to check for b hit.
+     * @pbrbm p The pbth to check for b hit.
+     * @pbrbm onStroke Flbg to choose between testing the stroked or
+     * the filled pbth.
+     * @return True if there is b hit, fblse otherwise.
      * @see #setStroke
-     * @see #fillPath
-     * @see #drawPath
-     * @see #transform
-     * @see #setTransform
+     * @see #fillPbth
+     * @see #drbwPbth
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      */
-    public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
+    public boolebn hit(Rectbngle rect, Shbpe s, boolebn onStroke) {
         if (onStroke) {
-            s = stroke.createStrokedShape(s);
+            s = stroke.crebteStrokedShbpe(s);
         }
 
-        s = transformShape(s);
-        if ((constrainX|constrainY) != 0) {
-            rect = new Rectangle(rect);
-            rect.translate(constrainX, constrainY);
+        s = trbnsformShbpe(s);
+        if ((constrbinX|constrbinY) != 0) {
+            rect = new Rectbngle(rect);
+            rect.trbnslbte(constrbinX, constrbinY);
         }
 
         return s.intersects(rect);
     }
 
     /**
-     * Return the ColorModel associated with this Graphics2D.
+     * Return the ColorModel bssocibted with this Grbphics2D.
      */
     public ColorModel getDeviceColorModel() {
-        return surfaceData.getColorModel();
+        return surfbceDbtb.getColorModel();
     }
 
     /**
-     * Return the device configuration associated with this Graphics2D.
+     * Return the device configurbtion bssocibted with this Grbphics2D.
      */
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return surfaceData.getDeviceConfiguration();
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return surfbceDbtb.getDeviceConfigurbtion();
     }
 
     /**
-     * Return the SurfaceData object assigned to manage the destination
-     * drawable surface of this Graphics2D.
+     * Return the SurfbceDbtb object bssigned to mbnbge the destinbtion
+     * drbwbble surfbce of this Grbphics2D.
      */
-    public final SurfaceData getSurfaceData() {
-        return surfaceData;
+    public finbl SurfbceDbtb getSurfbceDbtb() {
+        return surfbceDbtb;
     }
 
     /**
-     * Sets the Composite in the current graphics state. Composite is used
-     * in all drawing methods such as drawImage, drawString, drawPath,
-     * and fillPath.  It specifies how new pixels are to be combined with
-     * the existing pixels on the graphics device in the rendering process.
-     * @param comp The Composite object to be used for drawing.
-     * @see java.awt.Graphics#setXORMode
-     * @see java.awt.Graphics#setPaintMode
-     * @see AlphaComposite
+     * Sets the Composite in the current grbphics stbte. Composite is used
+     * in bll drbwing methods such bs drbwImbge, drbwString, drbwPbth,
+     * bnd fillPbth.  It specifies how new pixels bre to be combined with
+     * the existing pixels on the grbphics device in the rendering process.
+     * @pbrbm comp The Composite object to be used for drbwing.
+     * @see jbvb.bwt.Grbphics#setXORMode
+     * @see jbvb.bwt.Grbphics#setPbintMode
+     * @see AlphbComposite
      */
     public void setComposite(Composite comp) {
         if (composite == comp) {
             return;
         }
-        int newCompState;
+        int newCompStbte;
         CompositeType newCompType;
-        if (comp instanceof AlphaComposite) {
-            AlphaComposite alphacomp = (AlphaComposite) comp;
-            newCompType = CompositeType.forAlphaComposite(alphacomp);
-            if (newCompType == CompositeType.SrcOverNoEa) {
-                if (paintState == PAINT_OPAQUECOLOR ||
-                    (paintState > PAINT_ALPHACOLOR &&
-                     paint.getTransparency() == Transparency.OPAQUE))
+        if (comp instbnceof AlphbComposite) {
+            AlphbComposite blphbcomp = (AlphbComposite) comp;
+            newCompType = CompositeType.forAlphbComposite(blphbcomp);
+            if (newCompType == CompositeType.SrcOverNoEb) {
+                if (pbintStbte == PAINT_OPAQUECOLOR ||
+                    (pbintStbte > PAINT_ALPHACOLOR &&
+                     pbint.getTrbnspbrency() == Trbnspbrency.OPAQUE))
                 {
-                    newCompState = COMP_ISCOPY;
+                    newCompStbte = COMP_ISCOPY;
                 } else {
-                    newCompState = COMP_ALPHA;
+                    newCompStbte = COMP_ALPHA;
                 }
-            } else if (newCompType == CompositeType.SrcNoEa ||
+            } else if (newCompType == CompositeType.SrcNoEb ||
                        newCompType == CompositeType.Src ||
-                       newCompType == CompositeType.Clear)
+                       newCompType == CompositeType.Clebr)
             {
-                newCompState = COMP_ISCOPY;
-            } else if (surfaceData.getTransparency() == Transparency.OPAQUE &&
+                newCompStbte = COMP_ISCOPY;
+            } else if (surfbceDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE &&
                        newCompType == CompositeType.SrcIn)
             {
-                newCompState = COMP_ISCOPY;
+                newCompStbte = COMP_ISCOPY;
             } else {
-                newCompState = COMP_ALPHA;
+                newCompStbte = COMP_ALPHA;
             }
-        } else if (comp instanceof XORComposite) {
-            newCompState = COMP_XOR;
+        } else if (comp instbnceof XORComposite) {
+            newCompStbte = COMP_XOR;
             newCompType = CompositeType.Xor;
         } else if (comp == null) {
-            throw new IllegalArgumentException("null Composite");
+            throw new IllegblArgumentException("null Composite");
         } else {
-            surfaceData.checkCustomComposite();
-            newCompState = COMP_CUSTOM;
-            newCompType = CompositeType.General;
+            surfbceDbtb.checkCustomComposite();
+            newCompStbte = COMP_CUSTOM;
+            newCompType = CompositeType.Generbl;
         }
-        if (compositeState != newCompState ||
-            imageComp != newCompType)
+        if (compositeStbte != newCompStbte ||
+            imbgeComp != newCompType)
         {
-            compositeState = newCompState;
-            imageComp = newCompType;
-            invalidatePipe();
-            validFontInfo = false;
+            compositeStbte = newCompStbte;
+            imbgeComp = newCompType;
+            invblidbtePipe();
+            vblidFontInfo = fblse;
         }
         composite = comp;
-        if (paintState <= PAINT_ALPHACOLOR) {
-            validateColor();
+        if (pbintStbte <= PAINT_ALPHACOLOR) {
+            vblidbteColor();
         }
     }
 
     /**
-     * Sets the Paint in the current graphics state.
-     * @param paint The Paint object to be used to generate color in
+     * Sets the Pbint in the current grbphics stbte.
+     * @pbrbm pbint The Pbint object to be used to generbte color in
      * the rendering process.
-     * @see java.awt.Graphics#setColor
-     * @see GradientPaint
-     * @see TexturePaint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see GrbdientPbint
+     * @see TexturePbint
      */
-    public void setPaint(Paint paint) {
-        if (paint instanceof Color) {
-            setColor((Color) paint);
+    public void setPbint(Pbint pbint) {
+        if (pbint instbnceof Color) {
+            setColor((Color) pbint);
             return;
         }
-        if (paint == null || this.paint == paint) {
+        if (pbint == null || this.pbint == pbint) {
             return;
         }
-        this.paint = paint;
-        if (imageComp == CompositeType.SrcOverNoEa) {
-            // special case where compState depends on opacity of paint
-            if (paint.getTransparency() == Transparency.OPAQUE) {
-                if (compositeState != COMP_ISCOPY) {
-                    compositeState = COMP_ISCOPY;
+        this.pbint = pbint;
+        if (imbgeComp == CompositeType.SrcOverNoEb) {
+            // specibl cbse where compStbte depends on opbcity of pbint
+            if (pbint.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+                if (compositeStbte != COMP_ISCOPY) {
+                    compositeStbte = COMP_ISCOPY;
                 }
             } else {
-                if (compositeState == COMP_ISCOPY) {
-                    compositeState = COMP_ALPHA;
+                if (compositeStbte == COMP_ISCOPY) {
+                    compositeStbte = COMP_ALPHA;
                 }
             }
         }
-        Class<? extends Paint> paintClass = paint.getClass();
-        if (paintClass == GradientPaint.class) {
-            paintState = PAINT_GRADIENT;
-        } else if (paintClass == LinearGradientPaint.class) {
-            paintState = PAINT_LIN_GRADIENT;
-        } else if (paintClass == RadialGradientPaint.class) {
-            paintState = PAINT_RAD_GRADIENT;
-        } else if (paintClass == TexturePaint.class) {
-            paintState = PAINT_TEXTURE;
+        Clbss<? extends Pbint> pbintClbss = pbint.getClbss();
+        if (pbintClbss == GrbdientPbint.clbss) {
+            pbintStbte = PAINT_GRADIENT;
+        } else if (pbintClbss == LinebrGrbdientPbint.clbss) {
+            pbintStbte = PAINT_LIN_GRADIENT;
+        } else if (pbintClbss == RbdiblGrbdientPbint.clbss) {
+            pbintStbte = PAINT_RAD_GRADIENT;
+        } else if (pbintClbss == TexturePbint.clbss) {
+            pbintStbte = PAINT_TEXTURE;
         } else {
-            paintState = PAINT_CUSTOM;
+            pbintStbte = PAINT_CUSTOM;
         }
-        validFontInfo = false;
-        invalidatePipe();
+        vblidFontInfo = fblse;
+        invblidbtePipe();
     }
 
-    static final int NON_UNIFORM_SCALE_MASK =
-        (AffineTransform.TYPE_GENERAL_TRANSFORM |
-         AffineTransform.TYPE_GENERAL_SCALE);
-    public static final double MinPenSizeAA =
-        sun.java2d.pipe.RenderingEngine.getInstance().getMinimumAAPenSize();
-    public static final double MinPenSizeAASquared =
+    stbtic finbl int NON_UNIFORM_SCALE_MASK =
+        (AffineTrbnsform.TYPE_GENERAL_TRANSFORM |
+         AffineTrbnsform.TYPE_GENERAL_SCALE);
+    public stbtic finbl double MinPenSizeAA =
+        sun.jbvb2d.pipe.RenderingEngine.getInstbnce().getMinimumAAPenSize();
+    public stbtic finbl double MinPenSizeAASqubred =
         (MinPenSizeAA * MinPenSizeAA);
-    // Since inaccuracies in the trig package can cause us to
-    // calculated a rotated pen width of just slightly greater
-    // than 1.0, we add a fudge factor to our comparison value
-    // here so that we do not misclassify single width lines as
-    // wide lines under certain rotations.
-    public static final double MinPenSizeSquared = 1.000000001;
+    // Since inbccurbcies in the trig pbckbge cbn cbuse us to
+    // cblculbted b rotbted pen width of just slightly grebter
+    // thbn 1.0, we bdd b fudge fbctor to our compbrison vblue
+    // here so thbt we do not misclbssify single width lines bs
+    // wide lines under certbin rotbtions.
+    public stbtic finbl double MinPenSizeSqubred = 1.000000001;
 
-    private void validateBasicStroke(BasicStroke bs) {
-        boolean aa = (antialiasHint == SunHints.INTVAL_ANTIALIAS_ON);
-        if (transformState < TRANSFORM_TRANSLATESCALE) {
-            if (aa) {
+    privbte void vblidbteBbsicStroke(BbsicStroke bs) {
+        boolebn bb = (bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON);
+        if (trbnsformStbte < TRANSFORM_TRANSLATESCALE) {
+            if (bb) {
                 if (bs.getLineWidth() <= MinPenSizeAA) {
-                    if (bs.getDashArray() == null) {
-                        strokeState = STROKE_THIN;
+                    if (bs.getDbshArrby() == null) {
+                        strokeStbte = STROKE_THIN;
                     } else {
-                        strokeState = STROKE_THINDASHED;
+                        strokeStbte = STROKE_THINDASHED;
                     }
                 } else {
-                    strokeState = STROKE_WIDE;
+                    strokeStbte = STROKE_WIDE;
                 }
             } else {
-                if (bs == defaultStroke) {
-                    strokeState = STROKE_THIN;
+                if (bs == defbultStroke) {
+                    strokeStbte = STROKE_THIN;
                 } else if (bs.getLineWidth() <= 1.0f) {
-                    if (bs.getDashArray() == null) {
-                        strokeState = STROKE_THIN;
+                    if (bs.getDbshArrby() == null) {
+                        strokeStbte = STROKE_THIN;
                     } else {
-                        strokeState = STROKE_THINDASHED;
+                        strokeStbte = STROKE_THINDASHED;
                     }
                 } else {
-                    strokeState = STROKE_WIDE;
+                    strokeStbte = STROKE_WIDE;
                 }
             }
         } else {
-            double widthsquared;
-            if ((transform.getType() & NON_UNIFORM_SCALE_MASK) == 0) {
-                /* sqrt omitted, compare to squared limits below. */
-                widthsquared = Math.abs(transform.getDeterminant());
+            double widthsqubred;
+            if ((trbnsform.getType() & NON_UNIFORM_SCALE_MASK) == 0) {
+                /* sqrt omitted, compbre to squbred limits below. */
+                widthsqubred = Mbth.bbs(trbnsform.getDeterminbnt());
             } else {
-                /* First calculate the "maximum scale" of this transform. */
-                double A = transform.getScaleX();       // m00
-                double C = transform.getShearX();       // m01
-                double B = transform.getShearY();       // m10
-                double D = transform.getScaleY();       // m11
+                /* First cblculbte the "mbximum scble" of this trbnsform. */
+                double A = trbnsform.getScbleX();       // m00
+                double C = trbnsform.getShebrX();       // m01
+                double B = trbnsform.getShebrY();       // m10
+                double D = trbnsform.getScbleY();       // m11
 
                 /*
-                 * Given a 2 x 2 affine matrix [ A B ] such that
+                 * Given b 2 x 2 bffine mbtrix [ A B ] such thbt
                  *                             [ C D ]
-                 * v' = [x' y'] = [Ax + Cy, Bx + Dy], we want to
-                 * find the maximum magnitude (norm) of the vector v'
-                 * with the constraint (x^2 + y^2 = 1).
-                 * The equation to maximize is
+                 * v' = [x' y'] = [Ax + Cy, Bx + Dy], we wbnt to
+                 * find the mbximum mbgnitude (norm) of the vector v'
+                 * with the constrbint (x^2 + y^2 = 1).
+                 * The equbtion to mbximize is
                  *     |v'| = sqrt((Ax+Cy)^2+(Bx+Dy)^2)
                  * or  |v'| = sqrt((AA+BB)x^2 + 2(AC+BD)xy + (CC+DD)y^2).
-                 * Since sqrt is monotonic we can maximize |v'|^2
-                 * instead and plug in the substitution y = sqrt(1 - x^2).
-                 * Trigonometric equalities can then be used to get
+                 * Since sqrt is monotonic we cbn mbximize |v'|^2
+                 * instebd bnd plug in the substitution y = sqrt(1 - x^2).
+                 * Trigonometric equblities cbn then be used to get
                  * rid of most of the sqrt terms.
                  */
                 double EA = A*A + B*B;          // x^2 coefficient
@@ -1101,267 +1101,267 @@ public final class SunGraphics2D
                 double EC = C*C + D*D;          // y^2 coefficient
 
                 /*
-                 * There is a lot of calculus omitted here.
+                 * There is b lot of cblculus omitted here.
                  *
-                 * Conceptually, in the interests of understanding the
-                 * terms that the calculus produced we can consider
-                 * that EA and EC end up providing the lengths along
-                 * the major axes and the hypot term ends up being an
-                 * adjustment for the additional length along the off-axis
-                 * angle of rotated or sheared ellipses as well as an
-                 * adjustment for the fact that the equation below
-                 * averages the two major axis lengths.  (Notice that
-                 * the hypot term contains a part which resolves to the
-                 * difference of these two axis lengths in the absence
-                 * of rotation.)
+                 * Conceptublly, in the interests of understbnding the
+                 * terms thbt the cblculus produced we cbn consider
+                 * thbt EA bnd EC end up providing the lengths blong
+                 * the mbjor bxes bnd the hypot term ends up being bn
+                 * bdjustment for the bdditionbl length blong the off-bxis
+                 * bngle of rotbted or shebred ellipses bs well bs bn
+                 * bdjustment for the fbct thbt the equbtion below
+                 * bverbges the two mbjor bxis lengths.  (Notice thbt
+                 * the hypot term contbins b pbrt which resolves to the
+                 * difference of these two bxis lengths in the bbsence
+                 * of rotbtion.)
                  *
-                 * In the calculus, the ratio of the EB and (EA-EC) terms
-                 * ends up being the tangent of 2*theta where theta is
-                 * the angle that the long axis of the ellipse makes
-                 * with the horizontal axis.  Thus, this equation is
-                 * calculating the length of the hypotenuse of a triangle
-                 * along that axis.
+                 * In the cblculus, the rbtio of the EB bnd (EA-EC) terms
+                 * ends up being the tbngent of 2*thetb where thetb is
+                 * the bngle thbt the long bxis of the ellipse mbkes
+                 * with the horizontbl bxis.  Thus, this equbtion is
+                 * cblculbting the length of the hypotenuse of b tribngle
+                 * blong thbt bxis.
                  */
-                double hypot = Math.sqrt(EB*EB + (EA-EC)*(EA-EC));
+                double hypot = Mbth.sqrt(EB*EB + (EA-EC)*(EA-EC));
 
-                /* sqrt omitted, compare to squared limits below. */
-                widthsquared = ((EA + EC + hypot)/2.0);
+                /* sqrt omitted, compbre to squbred limits below. */
+                widthsqubred = ((EA + EC + hypot)/2.0);
             }
-            if (bs != defaultStroke) {
-                widthsquared *= bs.getLineWidth() * bs.getLineWidth();
+            if (bs != defbultStroke) {
+                widthsqubred *= bs.getLineWidth() * bs.getLineWidth();
             }
-            if (widthsquared <=
-                (aa ? MinPenSizeAASquared : MinPenSizeSquared))
+            if (widthsqubred <=
+                (bb ? MinPenSizeAASqubred : MinPenSizeSqubred))
             {
-                if (bs.getDashArray() == null) {
-                    strokeState = STROKE_THIN;
+                if (bs.getDbshArrby() == null) {
+                    strokeStbte = STROKE_THIN;
                 } else {
-                    strokeState = STROKE_THINDASHED;
+                    strokeStbte = STROKE_THINDASHED;
                 }
             } else {
-                strokeState = STROKE_WIDE;
+                strokeStbte = STROKE_WIDE;
             }
         }
     }
 
     /*
-     * Sets the Stroke in the current graphics state.
-     * @param s The Stroke object to be used to stroke a Path in
+     * Sets the Stroke in the current grbphics stbte.
+     * @pbrbm s The Stroke object to be used to stroke b Pbth in
      * the rendering process.
-     * @see BasicStroke
+     * @see BbsicStroke
      */
     public void setStroke(Stroke s) {
         if (s == null) {
-            throw new IllegalArgumentException("null Stroke");
+            throw new IllegblArgumentException("null Stroke");
         }
-        int saveStrokeState = strokeState;
+        int sbveStrokeStbte = strokeStbte;
         stroke = s;
-        if (s instanceof BasicStroke) {
-            validateBasicStroke((BasicStroke) s);
+        if (s instbnceof BbsicStroke) {
+            vblidbteBbsicStroke((BbsicStroke) s);
         } else {
-            strokeState = STROKE_CUSTOM;
+            strokeStbte = STROKE_CUSTOM;
         }
-        if (strokeState != saveStrokeState) {
-            invalidatePipe();
+        if (strokeStbte != sbveStrokeStbte) {
+            invblidbtePipe();
         }
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hintKey The key of hint to be set. The strings are
-     * defined in the RenderingHints class.
-     * @param hintValue The value indicating preferences for the specified
-     * hint category. These strings are defined in the RenderingHints
-     * class.
+     * Sets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hintKey The key of hint to be set. The strings bre
+     * defined in the RenderingHints clbss.
+     * @pbrbm hintVblue The vblue indicbting preferences for the specified
+     * hint cbtegory. These strings bre defined in the RenderingHints
+     * clbss.
      * @see RenderingHints
      */
-    public void setRenderingHint(Key hintKey, Object hintValue) {
-        // If we recognize the key, we must recognize the value
-        //     otherwise throw an IllegalArgumentException
-        //     and do not change the Hints object
-        // If we do not recognize the key, just pass it through
+    public void setRenderingHint(Key hintKey, Object hintVblue) {
+        // If we recognize the key, we must recognize the vblue
+        //     otherwise throw bn IllegblArgumentException
+        //     bnd do not chbnge the Hints object
+        // If we do not recognize the key, just pbss it through
         //     to the Hints object untouched
-        if (!hintKey.isCompatibleValue(hintValue)) {
-            throw new IllegalArgumentException
-                (hintValue+" is not compatible with "+hintKey);
+        if (!hintKey.isCompbtibleVblue(hintVblue)) {
+            throw new IllegblArgumentException
+                (hintVblue+" is not compbtible with "+hintKey);
         }
-        if (hintKey instanceof SunHints.Key) {
-            boolean stateChanged;
-            boolean textStateChanged = false;
-            boolean recognized = true;
+        if (hintKey instbnceof SunHints.Key) {
+            boolebn stbteChbnged;
+            boolebn textStbteChbnged = fblse;
+            boolebn recognized = true;
             SunHints.Key sunKey = (SunHints.Key) hintKey;
             int newHint;
             if (sunKey == SunHints.KEY_TEXT_ANTIALIAS_LCD_CONTRAST) {
-                newHint = ((Integer)hintValue).intValue();
+                newHint = ((Integer)hintVblue).intVblue();
             } else {
-                newHint = ((SunHints.Value) hintValue).getIndex();
+                newHint = ((SunHints.Vblue) hintVblue).getIndex();
             }
             switch (sunKey.getIndex()) {
-            case SunHints.INTKEY_RENDERING:
-                stateChanged = (renderHint != newHint);
-                if (stateChanged) {
+            cbse SunHints.INTKEY_RENDERING:
+                stbteChbnged = (renderHint != newHint);
+                if (stbteChbnged) {
                     renderHint = newHint;
-                    if (interpolationHint == -1) {
-                        interpolationType =
+                    if (interpolbtionHint == -1) {
+                        interpolbtionType =
                             (newHint == SunHints.INTVAL_RENDER_QUALITY
-                             ? AffineTransformOp.TYPE_BILINEAR
-                             : AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+                             ? AffineTrbnsformOp.TYPE_BILINEAR
+                             : AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR);
                     }
                 }
-                break;
-            case SunHints.INTKEY_ANTIALIASING:
-                stateChanged = (antialiasHint != newHint);
-                antialiasHint = newHint;
-                if (stateChanged) {
-                    textStateChanged =
-                        (textAntialiasHint ==
+                brebk;
+            cbse SunHints.INTKEY_ANTIALIASING:
+                stbteChbnged = (bntiblibsHint != newHint);
+                bntiblibsHint = newHint;
+                if (stbteChbnged) {
+                    textStbteChbnged =
+                        (textAntiblibsHint ==
                          SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT);
-                    if (strokeState != STROKE_CUSTOM) {
-                        validateBasicStroke((BasicStroke) stroke);
+                    if (strokeStbte != STROKE_CUSTOM) {
+                        vblidbteBbsicStroke((BbsicStroke) stroke);
                     }
                 }
-                break;
-            case SunHints.INTKEY_TEXT_ANTIALIASING:
-                stateChanged = (textAntialiasHint != newHint);
-                textStateChanged = stateChanged;
-                textAntialiasHint = newHint;
-                break;
-            case SunHints.INTKEY_FRACTIONALMETRICS:
-                stateChanged = (fractionalMetricsHint != newHint);
-                textStateChanged = stateChanged;
-                fractionalMetricsHint = newHint;
-                break;
-            case SunHints.INTKEY_AATEXT_LCD_CONTRAST:
-                stateChanged = false;
-                /* Already have validated it is an int 100 <= newHint <= 250 */
-                lcdTextContrast = newHint;
-                break;
-            case SunHints.INTKEY_INTERPOLATION:
-                interpolationHint = newHint;
+                brebk;
+            cbse SunHints.INTKEY_TEXT_ANTIALIASING:
+                stbteChbnged = (textAntiblibsHint != newHint);
+                textStbteChbnged = stbteChbnged;
+                textAntiblibsHint = newHint;
+                brebk;
+            cbse SunHints.INTKEY_FRACTIONALMETRICS:
+                stbteChbnged = (frbctionblMetricsHint != newHint);
+                textStbteChbnged = stbteChbnged;
+                frbctionblMetricsHint = newHint;
+                brebk;
+            cbse SunHints.INTKEY_AATEXT_LCD_CONTRAST:
+                stbteChbnged = fblse;
+                /* Alrebdy hbve vblidbted it is bn int 100 <= newHint <= 250 */
+                lcdTextContrbst = newHint;
+                brebk;
+            cbse SunHints.INTKEY_INTERPOLATION:
+                interpolbtionHint = newHint;
                 switch (newHint) {
-                case SunHints.INTVAL_INTERPOLATION_BICUBIC:
-                    newHint = AffineTransformOp.TYPE_BICUBIC;
-                    break;
-                case SunHints.INTVAL_INTERPOLATION_BILINEAR:
-                    newHint = AffineTransformOp.TYPE_BILINEAR;
-                    break;
-                default:
-                case SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
-                    newHint = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
-                    break;
+                cbse SunHints.INTVAL_INTERPOLATION_BICUBIC:
+                    newHint = AffineTrbnsformOp.TYPE_BICUBIC;
+                    brebk;
+                cbse SunHints.INTVAL_INTERPOLATION_BILINEAR:
+                    newHint = AffineTrbnsformOp.TYPE_BILINEAR;
+                    brebk;
+                defbult:
+                cbse SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
+                    newHint = AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR;
+                    brebk;
                 }
-                stateChanged = (interpolationType != newHint);
-                interpolationType = newHint;
-                break;
-            case SunHints.INTKEY_STROKE_CONTROL:
-                stateChanged = (strokeHint != newHint);
+                stbteChbnged = (interpolbtionType != newHint);
+                interpolbtionType = newHint;
+                brebk;
+            cbse SunHints.INTKEY_STROKE_CONTROL:
+                stbteChbnged = (strokeHint != newHint);
                 strokeHint = newHint;
-                break;
-            case SunHints.INTKEY_RESOLUTION_VARIANT:
-                stateChanged = (resolutionVariantHint != newHint);
-                resolutionVariantHint = newHint;
-                break;
-            default:
-                recognized = false;
-                stateChanged = false;
-                break;
+                brebk;
+            cbse SunHints.INTKEY_RESOLUTION_VARIANT:
+                stbteChbnged = (resolutionVbribntHint != newHint);
+                resolutionVbribntHint = newHint;
+                brebk;
+            defbult:
+                recognized = fblse;
+                stbteChbnged = fblse;
+                brebk;
             }
             if (recognized) {
-                if (stateChanged) {
-                    invalidatePipe();
-                    if (textStateChanged) {
+                if (stbteChbnged) {
+                    invblidbtePipe();
+                    if (textStbteChbnged) {
                         fontMetrics = null;
-                        this.cachedFRC = null;
-                        validFontInfo = false;
+                        this.cbchedFRC = null;
+                        vblidFontInfo = fblse;
                         this.glyphVectorFontInfo = null;
                     }
                 }
                 if (hints != null) {
-                    hints.put(hintKey, hintValue);
+                    hints.put(hintKey, hintVblue);
                 }
                 return;
             }
         }
-        // Nothing we recognize so none of "our state" has changed
+        // Nothing we recognize so none of "our stbte" hbs chbnged
         if (hints == null) {
-            hints = makeHints(null);
+            hints = mbkeHints(null);
         }
-        hints.put(hintKey, hintValue);
+        hints.put(hintKey, hintVblue);
     }
 
 
     /**
-     * Returns the preferences for the rendering algorithms.
-     * @param hintCategory The category of hint to be set. The strings
-     * are defined in the RenderingHints class.
-     * @return The preferences for rendering algorithms. The strings
-     * are defined in the RenderingHints class.
+     * Returns the preferences for the rendering blgorithms.
+     * @pbrbm hintCbtegory The cbtegory of hint to be set. The strings
+     * bre defined in the RenderingHints clbss.
+     * @return The preferences for rendering blgorithms. The strings
+     * bre defined in the RenderingHints clbss.
      * @see RenderingHints
      */
     public Object getRenderingHint(Key hintKey) {
         if (hints != null) {
             return hints.get(hintKey);
         }
-        if (!(hintKey instanceof SunHints.Key)) {
+        if (!(hintKey instbnceof SunHints.Key)) {
             return null;
         }
         int keyindex = ((SunHints.Key)hintKey).getIndex();
         switch (keyindex) {
-        case SunHints.INTKEY_RENDERING:
-            return SunHints.Value.get(SunHints.INTKEY_RENDERING,
+        cbse SunHints.INTKEY_RENDERING:
+            return SunHints.Vblue.get(SunHints.INTKEY_RENDERING,
                                       renderHint);
-        case SunHints.INTKEY_ANTIALIASING:
-            return SunHints.Value.get(SunHints.INTKEY_ANTIALIASING,
-                                      antialiasHint);
-        case SunHints.INTKEY_TEXT_ANTIALIASING:
-            return SunHints.Value.get(SunHints.INTKEY_TEXT_ANTIALIASING,
-                                      textAntialiasHint);
-        case SunHints.INTKEY_FRACTIONALMETRICS:
-            return SunHints.Value.get(SunHints.INTKEY_FRACTIONALMETRICS,
-                                      fractionalMetricsHint);
-        case SunHints.INTKEY_AATEXT_LCD_CONTRAST:
-            return lcdTextContrast;
-        case SunHints.INTKEY_INTERPOLATION:
-            switch (interpolationHint) {
-            case SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
+        cbse SunHints.INTKEY_ANTIALIASING:
+            return SunHints.Vblue.get(SunHints.INTKEY_ANTIALIASING,
+                                      bntiblibsHint);
+        cbse SunHints.INTKEY_TEXT_ANTIALIASING:
+            return SunHints.Vblue.get(SunHints.INTKEY_TEXT_ANTIALIASING,
+                                      textAntiblibsHint);
+        cbse SunHints.INTKEY_FRACTIONALMETRICS:
+            return SunHints.Vblue.get(SunHints.INTKEY_FRACTIONALMETRICS,
+                                      frbctionblMetricsHint);
+        cbse SunHints.INTKEY_AATEXT_LCD_CONTRAST:
+            return lcdTextContrbst;
+        cbse SunHints.INTKEY_INTERPOLATION:
+            switch (interpolbtionHint) {
+            cbse SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
                 return SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-            case SunHints.INTVAL_INTERPOLATION_BILINEAR:
+            cbse SunHints.INTVAL_INTERPOLATION_BILINEAR:
                 return SunHints.VALUE_INTERPOLATION_BILINEAR;
-            case SunHints.INTVAL_INTERPOLATION_BICUBIC:
+            cbse SunHints.INTVAL_INTERPOLATION_BICUBIC:
                 return SunHints.VALUE_INTERPOLATION_BICUBIC;
             }
             return null;
-        case SunHints.INTKEY_STROKE_CONTROL:
-            return SunHints.Value.get(SunHints.INTKEY_STROKE_CONTROL,
+        cbse SunHints.INTKEY_STROKE_CONTROL:
+            return SunHints.Vblue.get(SunHints.INTKEY_STROKE_CONTROL,
                                       strokeHint);
-        case SunHints.INTKEY_RESOLUTION_VARIANT:
-            return SunHints.Value.get(SunHints.INTKEY_RESOLUTION_VARIANT,
-                                      resolutionVariantHint);
+        cbse SunHints.INTKEY_RESOLUTION_VARIANT:
+            return SunHints.Vblue.get(SunHints.INTKEY_RESOLUTION_VARIANT,
+                                      resolutionVbribntHint);
         }
         return null;
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
+     * Sets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hints The rendering hints to be set
      * @see RenderingHints
      */
-    public void setRenderingHints(Map<?,?> hints) {
+    public void setRenderingHints(Mbp<?,?> hints) {
         this.hints = null;
         renderHint = SunHints.INTVAL_RENDER_DEFAULT;
-        antialiasHint = SunHints.INTVAL_ANTIALIAS_OFF;
-        textAntialiasHint = SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT;
-        fractionalMetricsHint = SunHints.INTVAL_FRACTIONALMETRICS_OFF;
-        lcdTextContrast = lcdTextContrastDefaultValue;
-        interpolationHint = -1;
-        interpolationType = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
-        boolean customHintPresent = false;
-        Iterator<?> iter = hints.keySet().iterator();
-        while (iter.hasNext()) {
+        bntiblibsHint = SunHints.INTVAL_ANTIALIAS_OFF;
+        textAntiblibsHint = SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT;
+        frbctionblMetricsHint = SunHints.INTVAL_FRACTIONALMETRICS_OFF;
+        lcdTextContrbst = lcdTextContrbstDefbultVblue;
+        interpolbtionHint = -1;
+        interpolbtionType = AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR;
+        boolebn customHintPresent = fblse;
+        Iterbtor<?> iter = hints.keySet().iterbtor();
+        while (iter.hbsNext()) {
             Object key = iter.next();
             if (key == SunHints.KEY_RENDERING ||
                 key == SunHints.KEY_ANTIALIASING ||
@@ -1377,22 +1377,22 @@ public final class SunGraphics2D
             }
         }
         if (customHintPresent) {
-            this.hints = makeHints(hints);
+            this.hints = mbkeHints(hints);
         }
-        invalidatePipe();
+        invblidbtePipe();
     }
 
     /**
-     * Adds a number of preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
+     * Adds b number of preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hints The rendering hints to be set
      * @see RenderingHints
      */
-    public void addRenderingHints(Map<?,?> hints) {
-        boolean customHintPresent = false;
-        Iterator<?> iter = hints.keySet().iterator();
-        while (iter.hasNext()) {
+    public void bddRenderingHints(Mbp<?,?> hints) {
+        boolebn customHintPresent = fblse;
+        Iterbtor<?> iter = hints.keySet().iterbtor();
+        while (iter.hbsNext()) {
             Object key = iter.next();
             if (key == SunHints.KEY_RENDERING ||
                 key == SunHints.KEY_ANTIALIASING ||
@@ -1409,7 +1409,7 @@ public final class SunGraphics2D
         }
         if (customHintPresent) {
             if (this.hints == null) {
-                this.hints = makeHints(hints);
+                this.hints = mbkeHints(hints);
             } else {
                 this.hints.putAll(hints);
             }
@@ -1417,293 +1417,293 @@ public final class SunGraphics2D
     }
 
     /**
-     * Gets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
+     * Gets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
      * @see RenderingHints
      */
     public RenderingHints getRenderingHints() {
         if (hints == null) {
-            return makeHints(null);
+            return mbkeHints(null);
         } else {
             return (RenderingHints) hints.clone();
         }
     }
 
-    RenderingHints makeHints(Map<?,?> hints) {
+    RenderingHints mbkeHints(Mbp<?,?> hints) {
         RenderingHints model = new RenderingHints(null);
         if (hints != null) {
             model.putAll(hints);
         }
         model.put(SunHints.KEY_RENDERING,
-                  SunHints.Value.get(SunHints.INTKEY_RENDERING,
+                  SunHints.Vblue.get(SunHints.INTKEY_RENDERING,
                                      renderHint));
         model.put(SunHints.KEY_ANTIALIASING,
-                  SunHints.Value.get(SunHints.INTKEY_ANTIALIASING,
-                                     antialiasHint));
+                  SunHints.Vblue.get(SunHints.INTKEY_ANTIALIASING,
+                                     bntiblibsHint));
         model.put(SunHints.KEY_TEXT_ANTIALIASING,
-                  SunHints.Value.get(SunHints.INTKEY_TEXT_ANTIALIASING,
-                                     textAntialiasHint));
+                  SunHints.Vblue.get(SunHints.INTKEY_TEXT_ANTIALIASING,
+                                     textAntiblibsHint));
         model.put(SunHints.KEY_FRACTIONALMETRICS,
-                  SunHints.Value.get(SunHints.INTKEY_FRACTIONALMETRICS,
-                                     fractionalMetricsHint));
+                  SunHints.Vblue.get(SunHints.INTKEY_FRACTIONALMETRICS,
+                                     frbctionblMetricsHint));
         model.put(SunHints.KEY_TEXT_ANTIALIAS_LCD_CONTRAST,
-                  Integer.valueOf(lcdTextContrast));
-        Object value;
-        switch (interpolationHint) {
-        case SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
-            value = SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-            break;
-        case SunHints.INTVAL_INTERPOLATION_BILINEAR:
-            value = SunHints.VALUE_INTERPOLATION_BILINEAR;
-            break;
-        case SunHints.INTVAL_INTERPOLATION_BICUBIC:
-            value = SunHints.VALUE_INTERPOLATION_BICUBIC;
-            break;
-        default:
-            value = null;
-            break;
+                  Integer.vblueOf(lcdTextContrbst));
+        Object vblue;
+        switch (interpolbtionHint) {
+        cbse SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR:
+            vblue = SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+            brebk;
+        cbse SunHints.INTVAL_INTERPOLATION_BILINEAR:
+            vblue = SunHints.VALUE_INTERPOLATION_BILINEAR;
+            brebk;
+        cbse SunHints.INTVAL_INTERPOLATION_BICUBIC:
+            vblue = SunHints.VALUE_INTERPOLATION_BICUBIC;
+            brebk;
+        defbult:
+            vblue = null;
+            brebk;
         }
-        if (value != null) {
-            model.put(SunHints.KEY_INTERPOLATION, value);
+        if (vblue != null) {
+            model.put(SunHints.KEY_INTERPOLATION, vblue);
         }
         model.put(SunHints.KEY_STROKE_CONTROL,
-                  SunHints.Value.get(SunHints.INTKEY_STROKE_CONTROL,
+                  SunHints.Vblue.get(SunHints.INTKEY_STROKE_CONTROL,
                                      strokeHint));
         return model;
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translation transformation.
-     * This is equivalent to calling transform(T), where T is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * trbnslbtion trbnsformbtion.
+     * This is equivblent to cblling trbnsform(T), where T is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   1    0    tx  ]
      *          [   0    1    ty  ]
      *          [   0    0    1   ]
      * </pre>
      */
-    public void translate(double tx, double ty) {
-        transform.translate(tx, ty);
-        invalidateTransform();
+    public void trbnslbte(double tx, double ty) {
+        trbnsform.trbnslbte(tx, ty);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * rotation transformation.
-     * This is equivalent to calling transform(R), where R is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * rotbtion trbnsformbtion.
+     * This is equivblent to cblling trbnsform(R), where R is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
-     *          [   cos(theta)    -sin(theta)    0   ]
-     *          [   sin(theta)     cos(theta)    0   ]
+     *          [   cos(thetb)    -sin(thetb)    0   ]
+     *          [   sin(thetb)     cos(thetb)    0   ]
      *          [       0              0         1   ]
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb The bngle of rotbtion in rbdibns.
      */
-    public void rotate(double theta) {
-        transform.rotate(theta);
-        invalidateTransform();
+    public void rotbte(double thetb) {
+        trbnsform.rotbte(thetb);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translated rotation transformation.
-     * This is equivalent to the following sequence of calls:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * trbnslbted rotbtion trbnsformbtion.
+     * This is equivblent to the following sequence of cblls:
      * <pre>
-     *          translate(x, y);
-     *          rotate(theta);
-     *          translate(-x, -y);
+     *          trbnslbte(x, y);
+     *          rotbte(thetb);
+     *          trbnslbte(-x, -y);
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
-     * @param x The x coordinate of the origin of the rotation
-     * @param y The x coordinate of the origin of the rotation
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb The bngle of rotbtion in rbdibns.
+     * @pbrbm x The x coordinbte of the origin of the rotbtion
+     * @pbrbm y The x coordinbte of the origin of the rotbtion
      */
-    public void rotate(double theta, double x, double y) {
-        transform.rotate(theta, x, y);
-        invalidateTransform();
+    public void rotbte(double thetb, double x, double y) {
+        trbnsform.rotbte(thetb, x, y);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * scaling transformation.
-     * This is equivalent to calling transform(S), where S is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * scbling trbnsformbtion.
+     * This is equivblent to cblling trbnsform(S), where S is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   sx   0    0   ]
      *          [   0    sy   0   ]
      *          [   0    0    1   ]
      * </pre>
      */
-    public void scale(double sx, double sy) {
-        transform.scale(sx, sy);
-        invalidateTransform();
+    public void scble(double sx, double sy) {
+        trbnsform.scble(sx, sy);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * shearing transformation.
-     * This is equivalent to calling transform(SH), where SH is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * shebring trbnsformbtion.
+     * This is equivblent to cblling trbnsform(SH), where SH is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   1   shx   0   ]
      *          [  shy   1    0   ]
      *          [   0    0    1   ]
      * </pre>
-     * @param shx The factor by which coordinates are shifted towards the
-     * positive X axis direction according to their Y coordinate
-     * @param shy The factor by which coordinates are shifted towards the
-     * positive Y axis direction according to their X coordinate
+     * @pbrbm shx The fbctor by which coordinbtes bre shifted towbrds the
+     * positive X bxis direction bccording to their Y coordinbte
+     * @pbrbm shy The fbctor by which coordinbtes bre shifted towbrds the
+     * positive Y bxis direction bccording to their X coordinbte
      */
-    public void shear(double shx, double shy) {
-        transform.shear(shx, shy);
-        invalidateTransform();
+    public void shebr(double shx, double shy) {
+        trbnsform.shebr(shx, shy);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Composes a Transform object with the transform in this
-     * Graphics2D according to the rule last-specified-first-applied.
-     * If the currrent transform is Cx, the result of composition
-     * with Tx is a new transform Cx'.  Cx' becomes the current
-     * transform for this Graphics2D.
-     * Transforming a point p by the updated transform Cx' is
-     * equivalent to first transforming p by Tx and then transforming
-     * the result by the original transform Cx.  In other words,
+     * Composes b Trbnsform object with the trbnsform in this
+     * Grbphics2D bccording to the rule lbst-specified-first-bpplied.
+     * If the currrent trbnsform is Cx, the result of composition
+     * with Tx is b new trbnsform Cx'.  Cx' becomes the current
+     * trbnsform for this Grbphics2D.
+     * Trbnsforming b point p by the updbted trbnsform Cx' is
+     * equivblent to first trbnsforming p by Tx bnd then trbnsforming
+     * the result by the originbl trbnsform Cx.  In other words,
      * Cx'(p) = Cx(Tx(p)).
-     * A copy of the Tx is made, if necessary, so further
-     * modifications to Tx do not affect rendering.
-     * @param Tx The Transform object to be composed with the current
-     * transform.
-     * @see #setTransform
-     * @see AffineTransform
+     * A copy of the Tx is mbde, if necessbry, so further
+     * modificbtions to Tx do not bffect rendering.
+     * @pbrbm Tx The Trbnsform object to be composed with the current
+     * trbnsform.
+     * @see #setTrbnsform
+     * @see AffineTrbnsform
      */
-    public void transform(AffineTransform xform) {
-        this.transform.concatenate(xform);
-        invalidateTransform();
+    public void trbnsform(AffineTrbnsform xform) {
+        this.trbnsform.concbtenbte(xform);
+        invblidbteTrbnsform();
     }
 
     /**
-     * Translate
+     * Trbnslbte
      */
-    public void translate(int x, int y) {
-        transform.translate(x, y);
-        if (transformState <= TRANSFORM_INT_TRANSLATE) {
-            transX += x;
-            transY += y;
-            transformState = (((transX | transY) == 0) ?
+    public void trbnslbte(int x, int y) {
+        trbnsform.trbnslbte(x, y);
+        if (trbnsformStbte <= TRANSFORM_INT_TRANSLATE) {
+            trbnsX += x;
+            trbnsY += y;
+            trbnsformStbte = (((trbnsX | trbnsY) == 0) ?
                               TRANSFORM_ISIDENT : TRANSFORM_INT_TRANSLATE);
         } else {
-            invalidateTransform();
+            invblidbteTrbnsform();
         }
     }
 
     /**
-     * Sets the Transform in the current graphics state.
-     * @param Tx The Transform object to be used in the rendering process.
-     * @see #transform
-     * @see TransformChain
-     * @see AffineTransform
+     * Sets the Trbnsform in the current grbphics stbte.
+     * @pbrbm Tx The Trbnsform object to be used in the rendering process.
+     * @see #trbnsform
+     * @see TrbnsformChbin
+     * @see AffineTrbnsform
      */
     @Override
-    public void setTransform(AffineTransform Tx) {
-        if ((constrainX | constrainY) == 0 && devScale == 1) {
-            transform.setTransform(Tx);
+    public void setTrbnsform(AffineTrbnsform Tx) {
+        if ((constrbinX | constrbinY) == 0 && devScble == 1) {
+            trbnsform.setTrbnsform(Tx);
         } else {
-            transform.setTransform(devScale, 0, 0, devScale, constrainX,
-                                   constrainY);
-            transform.concatenate(Tx);
+            trbnsform.setTrbnsform(devScble, 0, 0, devScble, constrbinX,
+                                   constrbinY);
+            trbnsform.concbtenbte(Tx);
         }
-        invalidateTransform();
+        invblidbteTrbnsform();
     }
 
-    protected void invalidateTransform() {
-        int type = transform.getType();
-        int origTransformState = transformState;
-        if (type == AffineTransform.TYPE_IDENTITY) {
-            transformState = TRANSFORM_ISIDENT;
-            transX = transY = 0;
-        } else if (type == AffineTransform.TYPE_TRANSLATION) {
-            double dtx = transform.getTranslateX();
-            double dty = transform.getTranslateY();
-            transX = (int) Math.floor(dtx + 0.5);
-            transY = (int) Math.floor(dty + 0.5);
-            if (dtx == transX && dty == transY) {
-                transformState = TRANSFORM_INT_TRANSLATE;
+    protected void invblidbteTrbnsform() {
+        int type = trbnsform.getType();
+        int origTrbnsformStbte = trbnsformStbte;
+        if (type == AffineTrbnsform.TYPE_IDENTITY) {
+            trbnsformStbte = TRANSFORM_ISIDENT;
+            trbnsX = trbnsY = 0;
+        } else if (type == AffineTrbnsform.TYPE_TRANSLATION) {
+            double dtx = trbnsform.getTrbnslbteX();
+            double dty = trbnsform.getTrbnslbteY();
+            trbnsX = (int) Mbth.floor(dtx + 0.5);
+            trbnsY = (int) Mbth.floor(dty + 0.5);
+            if (dtx == trbnsX && dty == trbnsY) {
+                trbnsformStbte = TRANSFORM_INT_TRANSLATE;
             } else {
-                transformState = TRANSFORM_ANY_TRANSLATE;
+                trbnsformStbte = TRANSFORM_ANY_TRANSLATE;
             }
-        } else if ((type & (AffineTransform.TYPE_FLIP |
-                            AffineTransform.TYPE_MASK_ROTATION |
-                            AffineTransform.TYPE_GENERAL_TRANSFORM)) == 0)
+        } else if ((type & (AffineTrbnsform.TYPE_FLIP |
+                            AffineTrbnsform.TYPE_MASK_ROTATION |
+                            AffineTrbnsform.TYPE_GENERAL_TRANSFORM)) == 0)
         {
-            transformState = TRANSFORM_TRANSLATESCALE;
-            transX = transY = 0;
+            trbnsformStbte = TRANSFORM_TRANSLATESCALE;
+            trbnsX = trbnsY = 0;
         } else {
-            transformState = TRANSFORM_GENERIC;
-            transX = transY = 0;
+            trbnsformStbte = TRANSFORM_GENERIC;
+            trbnsX = trbnsY = 0;
         }
 
-        if (transformState >= TRANSFORM_TRANSLATESCALE ||
-            origTransformState >= TRANSFORM_TRANSLATESCALE)
+        if (trbnsformStbte >= TRANSFORM_TRANSLATESCALE ||
+            origTrbnsformStbte >= TRANSFORM_TRANSLATESCALE)
         {
-            /* Its only in this case that the previous or current transform
-             * was more than a translate that font info is invalidated
+            /* Its only in this cbse thbt the previous or current trbnsform
+             * wbs more thbn b trbnslbte thbt font info is invblidbted
              */
-            cachedFRC = null;
-            this.validFontInfo = false;
+            cbchedFRC = null;
+            this.vblidFontInfo = fblse;
             this.fontMetrics = null;
             this.glyphVectorFontInfo = null;
 
-            if (transformState != origTransformState) {
-                invalidatePipe();
+            if (trbnsformStbte != origTrbnsformStbte) {
+                invblidbtePipe();
             }
         }
-        if (strokeState != STROKE_CUSTOM) {
-            validateBasicStroke((BasicStroke) stroke);
+        if (strokeStbte != STROKE_CUSTOM) {
+            vblidbteBbsicStroke((BbsicStroke) stroke);
         }
     }
 
     /**
-     * Returns the current Transform in the Graphics2D state.
-     * @see #transform
-     * @see #setTransform
+     * Returns the current Trbnsform in the Grbphics2D stbte.
+     * @see #trbnsform
+     * @see #setTrbnsform
      */
     @Override
-    public AffineTransform getTransform() {
-        if ((constrainX | constrainY) == 0 && devScale == 1) {
-            return new AffineTransform(transform);
+    public AffineTrbnsform getTrbnsform() {
+        if ((constrbinX | constrbinY) == 0 && devScble == 1) {
+            return new AffineTrbnsform(trbnsform);
         }
-        final double invScale = 1.0 / devScale;
-        AffineTransform tx = new AffineTransform(invScale, 0, 0, invScale,
-                                                 -constrainX * invScale,
-                                                 -constrainY * invScale);
-        tx.concatenate(transform);
+        finbl double invScble = 1.0 / devScble;
+        AffineTrbnsform tx = new AffineTrbnsform(invScble, 0, 0, invScble,
+                                                 -constrbinX * invScble,
+                                                 -constrbinY * invScble);
+        tx.concbtenbte(trbnsform);
         return tx;
     }
 
     /**
-     * Returns the current Transform ignoring the "constrain"
-     * rectangle.
+     * Returns the current Trbnsform ignoring the "constrbin"
+     * rectbngle.
      */
-    public AffineTransform cloneTransform() {
-        return new AffineTransform(transform);
+    public AffineTrbnsform cloneTrbnsform() {
+        return new AffineTrbnsform(trbnsform);
     }
 
     /**
-     * Returns the current Paint in the Graphics2D state.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
+     * Returns the current Pbint in the Grbphics2D stbte.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
      */
-    public Paint getPaint() {
-        return paint;
+    public Pbint getPbint() {
+        return pbint;
     }
 
     /**
-     * Returns the current Composite in the Graphics2D state.
+     * Returns the current Composite in the Grbphics2D stbte.
      * @see #setComposite
      */
     public Composite getComposite() {
@@ -1715,151 +1715,151 @@ public final class SunGraphics2D
     }
 
     /*
-     * Validate the eargb and pixel fields against the current color.
+     * Vblidbte the ebrgb bnd pixel fields bgbinst the current color.
      *
-     * The eargb field must take into account the extraAlpha
-     * value of an AlphaComposite.  It may also take into account
-     * the Fsrc Porter-Duff blending function if such a function is
-     * a constant (see handling of Clear mode below).  For instance,
-     * by factoring in the (Fsrc == 0) state of the Clear mode we can
-     * use a SrcNoEa loop just as easily as a general Alpha loop
-     * since the math will be the same in both cases.
+     * The ebrgb field must tbke into bccount the extrbAlphb
+     * vblue of bn AlphbComposite.  It mby blso tbke into bccount
+     * the Fsrc Porter-Duff blending function if such b function is
+     * b constbnt (see hbndling of Clebr mode below).  For instbnce,
+     * by fbctoring in the (Fsrc == 0) stbte of the Clebr mode we cbn
+     * use b SrcNoEb loop just bs ebsily bs b generbl Alphb loop
+     * since the mbth will be the sbme in both cbses.
      *
-     * The pixel field will always be the best pixel data choice for
-     * the final result of all calculations applied to the eargb field.
+     * The pixel field will blwbys be the best pixel dbtb choice for
+     * the finbl result of bll cblculbtions bpplied to the ebrgb field.
      *
-     * Note that this method is only necessary under the following
+     * Note thbt this method is only necessbry under the following
      * conditions:
-     *     (paintState <= PAINT_ALPHA_COLOR &&
-     *      compositeState <= COMP_CUSTOM)
-     * though nothing bad will happen if it is run in other states.
+     *     (pbintStbte <= PAINT_ALPHA_COLOR &&
+     *      compositeStbte <= COMP_CUSTOM)
+     * though nothing bbd will hbppen if it is run in other stbtes.
      */
-    final void validateColor() {
-        int eargb;
-        if (imageComp == CompositeType.Clear) {
-            eargb = 0;
+    finbl void vblidbteColor() {
+        int ebrgb;
+        if (imbgeComp == CompositeType.Clebr) {
+            ebrgb = 0;
         } else {
-            eargb = foregroundColor.getRGB();
-            if (compositeState <= COMP_ALPHA &&
-                imageComp != CompositeType.SrcNoEa &&
-                imageComp != CompositeType.SrcOverNoEa)
+            ebrgb = foregroundColor.getRGB();
+            if (compositeStbte <= COMP_ALPHA &&
+                imbgeComp != CompositeType.SrcNoEb &&
+                imbgeComp != CompositeType.SrcOverNoEb)
             {
-                AlphaComposite alphacomp = (AlphaComposite) composite;
-                int a = Math.round(alphacomp.getAlpha() * (eargb >>> 24));
-                eargb = (eargb & 0x00ffffff) | (a << 24);
+                AlphbComposite blphbcomp = (AlphbComposite) composite;
+                int b = Mbth.round(blphbcomp.getAlphb() * (ebrgb >>> 24));
+                ebrgb = (ebrgb & 0x00ffffff) | (b << 24);
             }
         }
-        this.eargb = eargb;
-        this.pixel = surfaceData.pixelFor(eargb);
+        this.ebrgb = ebrgb;
+        this.pixel = surfbceDbtb.pixelFor(ebrgb);
     }
 
     public void setColor(Color color) {
-        if (color == null || color == paint) {
+        if (color == null || color == pbint) {
             return;
         }
-        this.paint = foregroundColor = color;
-        validateColor();
-        if ((eargb >> 24) == -1) {
-            if (paintState == PAINT_OPAQUECOLOR) {
+        this.pbint = foregroundColor = color;
+        vblidbteColor();
+        if ((ebrgb >> 24) == -1) {
+            if (pbintStbte == PAINT_OPAQUECOLOR) {
                 return;
             }
-            paintState = PAINT_OPAQUECOLOR;
-            if (imageComp == CompositeType.SrcOverNoEa) {
-                // special case where compState depends on opacity of paint
-                compositeState = COMP_ISCOPY;
+            pbintStbte = PAINT_OPAQUECOLOR;
+            if (imbgeComp == CompositeType.SrcOverNoEb) {
+                // specibl cbse where compStbte depends on opbcity of pbint
+                compositeStbte = COMP_ISCOPY;
             }
         } else {
-            if (paintState == PAINT_ALPHACOLOR) {
+            if (pbintStbte == PAINT_ALPHACOLOR) {
                 return;
             }
-            paintState = PAINT_ALPHACOLOR;
-            if (imageComp == CompositeType.SrcOverNoEa) {
-                // special case where compState depends on opacity of paint
-                compositeState = COMP_ALPHA;
+            pbintStbte = PAINT_ALPHACOLOR;
+            if (imbgeComp == CompositeType.SrcOverNoEb) {
+                // specibl cbse where compStbte depends on opbcity of pbint
+                compositeStbte = COMP_ALPHA;
             }
         }
-        validFontInfo = false;
-        invalidatePipe();
+        vblidFontInfo = fblse;
+        invblidbtePipe();
     }
 
     /**
-     * Sets the background color in this context used for clearing a region.
-     * When Graphics2D is constructed for a component, the backgroung color is
-     * inherited from the component. Setting the background color in the
-     * Graphics2D context only affects the subsequent clearRect() calls and
-     * not the background color of the component. To change the background
-     * of the component, use appropriate methods of the component.
-     * @param color The background color that should be used in
-     * subsequent calls to clearRect().
-     * @see getBackground
-     * @see Graphics.clearRect()
+     * Sets the bbckground color in this context used for clebring b region.
+     * When Grbphics2D is constructed for b component, the bbckgroung color is
+     * inherited from the component. Setting the bbckground color in the
+     * Grbphics2D context only bffects the subsequent clebrRect() cblls bnd
+     * not the bbckground color of the component. To chbnge the bbckground
+     * of the component, use bppropribte methods of the component.
+     * @pbrbm color The bbckground color thbt should be used in
+     * subsequent cblls to clebrRect().
+     * @see getBbckground
+     * @see Grbphics.clebrRect()
      */
-    public void setBackground(Color color) {
-        backgroundColor = color;
+    public void setBbckground(Color color) {
+        bbckgroundColor = color;
     }
 
     /**
-     * Returns the background color used for clearing a region.
-     * @see setBackground
+     * Returns the bbckground color used for clebring b region.
+     * @see setBbckground
      */
-    public Color getBackground() {
-        return backgroundColor;
+    public Color getBbckground() {
+        return bbckgroundColor;
     }
 
     /**
-     * Returns the current Stroke in the Graphics2D state.
+     * Returns the current Stroke in the Grbphics2D stbte.
      * @see setStroke
      */
     public Stroke getStroke() {
         return stroke;
     }
 
-    public Rectangle getClipBounds() {
-        if (clipState == CLIP_DEVICE) {
+    public Rectbngle getClipBounds() {
+        if (clipStbte == CLIP_DEVICE) {
             return null;
         }
-        return getClipBounds(new Rectangle());
+        return getClipBounds(new Rectbngle());
     }
 
-    public Rectangle getClipBounds(Rectangle r) {
-        if (clipState != CLIP_DEVICE) {
-            if (transformState <= TRANSFORM_INT_TRANSLATE) {
-                if (usrClip instanceof Rectangle) {
-                    r.setBounds((Rectangle) usrClip);
+    public Rectbngle getClipBounds(Rectbngle r) {
+        if (clipStbte != CLIP_DEVICE) {
+            if (trbnsformStbte <= TRANSFORM_INT_TRANSLATE) {
+                if (usrClip instbnceof Rectbngle) {
+                    r.setBounds((Rectbngle) usrClip);
                 } else {
-                    r.setFrame(usrClip.getBounds2D());
+                    r.setFrbme(usrClip.getBounds2D());
                 }
-                r.translate(-transX, -transY);
+                r.trbnslbte(-trbnsX, -trbnsY);
             } else {
-                r.setFrame(getClip().getBounds2D());
+                r.setFrbme(getClip().getBounds2D());
             }
         } else if (r == null) {
-            throw new NullPointerException("null rectangle parameter");
+            throw new NullPointerException("null rectbngle pbrbmeter");
         }
         return r;
     }
 
-    public boolean hitClip(int x, int y, int width, int height) {
+    public boolebn hitClip(int x, int y, int width, int height) {
         if (width <= 0 || height <= 0) {
-            return false;
+            return fblse;
         }
-        if (transformState > TRANSFORM_INT_TRANSLATE) {
-            // Note: Technically the most accurate test would be to
-            // raster scan the parallelogram of the transformed rectangle
-            // and do a span for span hit test against the clip, but for
-            // speed we approximate the test with a bounding box of the
-            // transformed rectangle.  The cost of rasterizing the
-            // transformed rectangle is probably high enough that it is
-            // not worth doing so to save the caller from having to call
-            // a rendering method where we will end up discovering the
-            // same answer in about the same amount of time anyway.
-            // This logic breaks down if this hit test is being performed
-            // on the bounds of a group of shapes in which case it might
-            // be beneficial to be a little more accurate to avoid lots
-            // of subsequent rendering calls.  In either case, this relaxed
-            // test should not be significantly less accurate than the
-            // optimal test for most transforms and so the conservative
-            // answer should not cause too much extra work.
+        if (trbnsformStbte > TRANSFORM_INT_TRANSLATE) {
+            // Note: Technicblly the most bccurbte test would be to
+            // rbster scbn the pbrbllelogrbm of the trbnsformed rectbngle
+            // bnd do b spbn for spbn hit test bgbinst the clip, but for
+            // speed we bpproximbte the test with b bounding box of the
+            // trbnsformed rectbngle.  The cost of rbsterizing the
+            // trbnsformed rectbngle is probbbly high enough thbt it is
+            // not worth doing so to sbve the cbller from hbving to cbll
+            // b rendering method where we will end up discovering the
+            // sbme bnswer in bbout the sbme bmount of time bnywby.
+            // This logic brebks down if this hit test is being performed
+            // on the bounds of b group of shbpes in which cbse it might
+            // be beneficibl to be b little more bccurbte to bvoid lots
+            // of subsequent rendering cblls.  In either cbse, this relbxed
+            // test should not be significbntly less bccurbte thbn the
+            // optimbl test for most trbnsforms bnd so the conservbtive
+            // bnswer should not cbuse too much extrb work.
 
             double d[] = {
                 x, y,
@@ -1867,162 +1867,162 @@ public final class SunGraphics2D
                 x, y+height,
                 x+width, y+height
             };
-            transform.transform(d, 0, d, 0, 4);
-            x = (int) Math.floor(Math.min(Math.min(d[0], d[2]),
-                                          Math.min(d[4], d[6])));
-            y = (int) Math.floor(Math.min(Math.min(d[1], d[3]),
-                                          Math.min(d[5], d[7])));
-            width = (int) Math.ceil(Math.max(Math.max(d[0], d[2]),
-                                             Math.max(d[4], d[6])));
-            height = (int) Math.ceil(Math.max(Math.max(d[1], d[3]),
-                                              Math.max(d[5], d[7])));
+            trbnsform.trbnsform(d, 0, d, 0, 4);
+            x = (int) Mbth.floor(Mbth.min(Mbth.min(d[0], d[2]),
+                                          Mbth.min(d[4], d[6])));
+            y = (int) Mbth.floor(Mbth.min(Mbth.min(d[1], d[3]),
+                                          Mbth.min(d[5], d[7])));
+            width = (int) Mbth.ceil(Mbth.mbx(Mbth.mbx(d[0], d[2]),
+                                             Mbth.mbx(d[4], d[6])));
+            height = (int) Mbth.ceil(Mbth.mbx(Mbth.mbx(d[1], d[3]),
+                                              Mbth.mbx(d[5], d[7])));
         } else {
-            x += transX;
-            y += transY;
+            x += trbnsX;
+            y += trbnsY;
             width += x;
             height += y;
         }
 
         try {
             if (!getCompClip().intersectsQuickCheckXYXY(x, y, width, height)) {
-                return false;
+                return fblse;
             }
-        } catch (InvalidPipeException e) {
-            return false;
+        } cbtch (InvblidPipeException e) {
+            return fblse;
         }
-        // REMIND: We could go one step further here and examine the
-        // non-rectangular clip shape more closely if there is one.
-        // Since the clip has already been rasterized, the performance
-        // penalty of doing the scan is probably still within the bounds
-        // of a good tradeoff between speed and quality of the answer.
+        // REMIND: We could go one step further here bnd exbmine the
+        // non-rectbngulbr clip shbpe more closely if there is one.
+        // Since the clip hbs blrebdy been rbsterized, the performbnce
+        // penblty of doing the scbn is probbbly still within the bounds
+        // of b good trbdeoff between speed bnd qublity of the bnswer.
         return true;
     }
 
-    protected void validateCompClip() {
-        int origClipState = clipState;
+    protected void vblidbteCompClip() {
+        int origClipStbte = clipStbte;
         if (usrClip == null) {
-            clipState = CLIP_DEVICE;
+            clipStbte = CLIP_DEVICE;
             clipRegion = devClip;
-        } else if (usrClip instanceof Rectangle2D) {
-            clipState = CLIP_RECTANGULAR;
-            if (usrClip instanceof Rectangle) {
-                clipRegion = devClip.getIntersection((Rectangle)usrClip);
+        } else if (usrClip instbnceof Rectbngle2D) {
+            clipStbte = CLIP_RECTANGULAR;
+            if (usrClip instbnceof Rectbngle) {
+                clipRegion = devClip.getIntersection((Rectbngle)usrClip);
             } else {
                 clipRegion = devClip.getIntersection(usrClip.getBounds());
             }
         } else {
-            PathIterator cpi = usrClip.getPathIterator(null);
+            PbthIterbtor cpi = usrClip.getPbthIterbtor(null);
             int box[] = new int[4];
-            ShapeSpanIterator sr = LoopPipe.getFillSSI(this);
+            ShbpeSpbnIterbtor sr = LoopPipe.getFillSSI(this);
             try {
-                sr.setOutputArea(devClip);
-                sr.appendPath(cpi);
-                sr.getPathBox(box);
-                Region r = Region.getInstance(box);
-                r.appendSpans(sr);
+                sr.setOutputAreb(devClip);
+                sr.bppendPbth(cpi);
+                sr.getPbthBox(box);
+                Region r = Region.getInstbnce(box);
+                r.bppendSpbns(sr);
                 clipRegion = r;
-                clipState =
-                    r.isRectangular() ? CLIP_RECTANGULAR : CLIP_SHAPE;
-            } finally {
+                clipStbte =
+                    r.isRectbngulbr() ? CLIP_RECTANGULAR : CLIP_SHAPE;
+            } finblly {
                 sr.dispose();
             }
         }
-        if (origClipState != clipState &&
-            (clipState == CLIP_SHAPE || origClipState == CLIP_SHAPE))
+        if (origClipStbte != clipStbte &&
+            (clipStbte == CLIP_SHAPE || origClipStbte == CLIP_SHAPE))
         {
-            validFontInfo = false;
-            invalidatePipe();
+            vblidFontInfo = fblse;
+            invblidbtePipe();
         }
     }
 
-    static final int NON_RECTILINEAR_TRANSFORM_MASK =
-        (AffineTransform.TYPE_GENERAL_TRANSFORM |
-         AffineTransform.TYPE_GENERAL_ROTATION);
+    stbtic finbl int NON_RECTILINEAR_TRANSFORM_MASK =
+        (AffineTrbnsform.TYPE_GENERAL_TRANSFORM |
+         AffineTrbnsform.TYPE_GENERAL_ROTATION);
 
-    protected Shape transformShape(Shape s) {
+    protected Shbpe trbnsformShbpe(Shbpe s) {
         if (s == null) {
             return null;
         }
-        if (transformState > TRANSFORM_INT_TRANSLATE) {
-            return transformShape(transform, s);
+        if (trbnsformStbte > TRANSFORM_INT_TRANSLATE) {
+            return trbnsformShbpe(trbnsform, s);
         } else {
-            return transformShape(transX, transY, s);
+            return trbnsformShbpe(trbnsX, trbnsY, s);
         }
     }
 
-    public Shape untransformShape(Shape s) {
+    public Shbpe untrbnsformShbpe(Shbpe s) {
         if (s == null) {
             return null;
         }
-        if (transformState > TRANSFORM_INT_TRANSLATE) {
+        if (trbnsformStbte > TRANSFORM_INT_TRANSLATE) {
             try {
-                return transformShape(transform.createInverse(), s);
-            } catch (NoninvertibleTransformException e) {
+                return trbnsformShbpe(trbnsform.crebteInverse(), s);
+            } cbtch (NoninvertibleTrbnsformException e) {
                 return null;
             }
         } else {
-            return transformShape(-transX, -transY, s);
+            return trbnsformShbpe(-trbnsX, -trbnsY, s);
         }
     }
 
-    protected static Shape transformShape(int tx, int ty, Shape s) {
+    protected stbtic Shbpe trbnsformShbpe(int tx, int ty, Shbpe s) {
         if (s == null) {
             return null;
         }
 
-        if (s instanceof Rectangle) {
-            Rectangle r = s.getBounds();
-            r.translate(tx, ty);
+        if (s instbnceof Rectbngle) {
+            Rectbngle r = s.getBounds();
+            r.trbnslbte(tx, ty);
             return r;
         }
-        if (s instanceof Rectangle2D) {
-            Rectangle2D rect = (Rectangle2D) s;
-            return new Rectangle2D.Double(rect.getX() + tx,
+        if (s instbnceof Rectbngle2D) {
+            Rectbngle2D rect = (Rectbngle2D) s;
+            return new Rectbngle2D.Double(rect.getX() + tx,
                                           rect.getY() + ty,
                                           rect.getWidth(),
                                           rect.getHeight());
         }
 
         if (tx == 0 && ty == 0) {
-            return cloneShape(s);
+            return cloneShbpe(s);
         }
 
-        AffineTransform mat = AffineTransform.getTranslateInstance(tx, ty);
-        return mat.createTransformedShape(s);
+        AffineTrbnsform mbt = AffineTrbnsform.getTrbnslbteInstbnce(tx, ty);
+        return mbt.crebteTrbnsformedShbpe(s);
     }
 
-    protected static Shape transformShape(AffineTransform tx, Shape clip) {
+    protected stbtic Shbpe trbnsformShbpe(AffineTrbnsform tx, Shbpe clip) {
         if (clip == null) {
             return null;
         }
 
-        if (clip instanceof Rectangle2D &&
+        if (clip instbnceof Rectbngle2D &&
             (tx.getType() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
         {
-            Rectangle2D rect = (Rectangle2D) clip;
-            double matrix[] = new double[4];
-            matrix[0] = rect.getX();
-            matrix[1] = rect.getY();
-            matrix[2] = matrix[0] + rect.getWidth();
-            matrix[3] = matrix[1] + rect.getHeight();
-            tx.transform(matrix, 0, matrix, 0, 2);
-            fixRectangleOrientation(matrix, rect);
-            return new Rectangle2D.Double(matrix[0], matrix[1],
-                                          matrix[2] - matrix[0],
-                                          matrix[3] - matrix[1]);
+            Rectbngle2D rect = (Rectbngle2D) clip;
+            double mbtrix[] = new double[4];
+            mbtrix[0] = rect.getX();
+            mbtrix[1] = rect.getY();
+            mbtrix[2] = mbtrix[0] + rect.getWidth();
+            mbtrix[3] = mbtrix[1] + rect.getHeight();
+            tx.trbnsform(mbtrix, 0, mbtrix, 0, 2);
+            fixRectbngleOrientbtion(mbtrix, rect);
+            return new Rectbngle2D.Double(mbtrix[0], mbtrix[1],
+                                          mbtrix[2] - mbtrix[0],
+                                          mbtrix[3] - mbtrix[1]);
         }
 
         if (tx.isIdentity()) {
-            return cloneShape(clip);
+            return cloneShbpe(clip);
         }
 
-        return tx.createTransformedShape(clip);
+        return tx.crebteTrbnsformedShbpe(clip);
     }
 
     /**
-     * Sets orientation of the rectangle according to the clip.
+     * Sets orientbtion of the rectbngle bccording to the clip.
      */
-    private static void fixRectangleOrientation(double[] m, Rectangle2D clip) {
+    privbte stbtic void fixRectbngleOrientbtion(double[] m, Rectbngle2D clip) {
         if (clip.getWidth() > 0 != (m[2] - m[0] > 0)) {
             double t = m[0];
             m[0] = m[2];
@@ -2036,110 +2036,110 @@ public final class SunGraphics2D
     }
 
     public void clipRect(int x, int y, int w, int h) {
-        clip(new Rectangle(x, y, w, h));
+        clip(new Rectbngle(x, y, w, h));
     }
 
     public void setClip(int x, int y, int w, int h) {
-        setClip(new Rectangle(x, y, w, h));
+        setClip(new Rectbngle(x, y, w, h));
     }
 
-    public Shape getClip() {
-        return untransformShape(usrClip);
+    public Shbpe getClip() {
+        return untrbnsformShbpe(usrClip);
     }
 
-    public void setClip(Shape sh) {
-        usrClip = transformShape(sh);
-        validateCompClip();
+    public void setClip(Shbpe sh) {
+        usrClip = trbnsformShbpe(sh);
+        vblidbteCompClip();
     }
 
     /**
-     * Intersects the current clip with the specified Path and sets the
-     * current clip to the resulting intersection. The clip is transformed
-     * with the current transform in the Graphics2D state before being
-     * intersected with the current clip. This method is used to make the
-     * current clip smaller. To make the clip larger, use any setClip method.
-     * @param p The Path to be intersected with the current clip.
+     * Intersects the current clip with the specified Pbth bnd sets the
+     * current clip to the resulting intersection. The clip is trbnsformed
+     * with the current trbnsform in the Grbphics2D stbte before being
+     * intersected with the current clip. This method is used to mbke the
+     * current clip smbller. To mbke the clip lbrger, use bny setClip method.
+     * @pbrbm p The Pbth to be intersected with the current clip.
      */
-    public void clip(Shape s) {
-        s = transformShape(s);
+    public void clip(Shbpe s) {
+        s = trbnsformShbpe(s);
         if (usrClip != null) {
-            s = intersectShapes(usrClip, s, true, true);
+            s = intersectShbpes(usrClip, s, true, true);
         }
         usrClip = s;
-        validateCompClip();
+        vblidbteCompClip();
     }
 
-    public void setPaintMode() {
-        setComposite(AlphaComposite.SrcOver);
+    public void setPbintMode() {
+        setComposite(AlphbComposite.SrcOver);
     }
 
     public void setXORMode(Color c) {
         if (c == null) {
-            throw new IllegalArgumentException("null XORColor");
+            throw new IllegblArgumentException("null XORColor");
         }
-        setComposite(new XORComposite(c, surfaceData));
+        setComposite(new XORComposite(c, surfbceDbtb));
     }
 
-    Blit lastCAblit;
-    Composite lastCAcomp;
+    Blit lbstCAblit;
+    Composite lbstCAcomp;
 
-    public void copyArea(int x, int y, int w, int h, int dx, int dy) {
+    public void copyAreb(int x, int y, int w, int h, int dx, int dy) {
         try {
-            doCopyArea(x, y, w, h, dx, dy);
-        } catch (InvalidPipeException e) {
+            doCopyAreb(x, y, w, h, dx, dy);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                doCopyArea(x, y, w, h, dx, dy);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                doCopyAreb(x, y, w, h, dx, dy);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    private void doCopyArea(int x, int y, int w, int h, int dx, int dy) {
+    privbte void doCopyAreb(int x, int y, int w, int h, int dx, int dy) {
         if (w <= 0 || h <= 0) {
             return;
         }
-        SurfaceData theData = surfaceData;
-        if (theData.copyArea(this, x, y, w, h, dx, dy)) {
+        SurfbceDbtb theDbtb = surfbceDbtb;
+        if (theDbtb.copyAreb(this, x, y, w, h, dx, dy)) {
             return;
         }
-        if (transformState > TRANSFORM_TRANSLATESCALE) {
-            throw new InternalError("transformed copyArea not implemented yet");
+        if (trbnsformStbte > TRANSFORM_TRANSLATESCALE) {
+            throw new InternblError("trbnsformed copyAreb not implemented yet");
         }
-        // REMIND: This method does not deal with missing data from the
+        // REMIND: This method does not debl with missing dbtb from the
         // source object (i.e. it does not send exposure events...)
 
         Region clip = getCompClip();
 
         Composite comp = composite;
-        if (lastCAcomp != comp) {
-            SurfaceType dsttype = theData.getSurfaceType();
-            CompositeType comptype = imageComp;
-            if (CompositeType.SrcOverNoEa.equals(comptype) &&
-                theData.getTransparency() == Transparency.OPAQUE)
+        if (lbstCAcomp != comp) {
+            SurfbceType dsttype = theDbtb.getSurfbceType();
+            CompositeType comptype = imbgeComp;
+            if (CompositeType.SrcOverNoEb.equbls(comptype) &&
+                theDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE)
             {
-                comptype = CompositeType.SrcNoEa;
+                comptype = CompositeType.SrcNoEb;
             }
-            lastCAblit = Blit.locate(dsttype, comptype, dsttype);
-            lastCAcomp = comp;
+            lbstCAblit = Blit.locbte(dsttype, comptype, dsttype);
+            lbstCAcomp = comp;
         }
 
         double[] coords = {x, y, x + w, y + h, x + dx, y + dy};
-        transform.transform(coords, 0, coords, 0, 3);
+        trbnsform.trbnsform(coords, 0, coords, 0, 3);
 
-        x = (int)Math.ceil(coords[0] - 0.5);
-        y = (int)Math.ceil(coords[1] - 0.5);
-        w = ((int)Math.ceil(coords[2] - 0.5)) - x;
-        h = ((int)Math.ceil(coords[3] - 0.5)) - y;
-        dx = ((int)Math.ceil(coords[4] - 0.5)) - x;
-        dy = ((int)Math.ceil(coords[5] - 0.5)) - y;
+        x = (int)Mbth.ceil(coords[0] - 0.5);
+        y = (int)Mbth.ceil(coords[1] - 0.5);
+        w = ((int)Mbth.ceil(coords[2] - 0.5)) - x;
+        h = ((int)Mbth.ceil(coords[3] - 0.5)) - y;
+        dx = ((int)Mbth.ceil(coords[4] - 0.5)) - x;
+        dy = ((int)Mbth.ceil(coords[5] - 0.5)) - y;
 
-        // In case of negative scale transform, reflect the rect coords.
+        // In cbse of negbtive scble trbnsform, reflect the rect coords.
         if (w < 0) {
             w *= -1;
             x -= w;
@@ -2149,72 +2149,72 @@ public final class SunGraphics2D
             y -= h;
         }
 
-        Blit ob = lastCAblit;
+        Blit ob = lbstCAblit;
         if (dy == 0 && dx > 0 && dx < w) {
             while (w > 0) {
-                int partW = Math.min(w, dx);
-                w -= partW;
+                int pbrtW = Mbth.min(w, dx);
+                w -= pbrtW;
                 int sx = x + w;
-                ob.Blit(theData, theData, comp, clip,
-                        sx, y, sx+dx, y+dy, partW, h);
+                ob.Blit(theDbtb, theDbtb, comp, clip,
+                        sx, y, sx+dx, y+dy, pbrtW, h);
             }
             return;
         }
         if (dy > 0 && dy < h && dx > -w && dx < w) {
             while (h > 0) {
-                int partH = Math.min(h, dy);
-                h -= partH;
+                int pbrtH = Mbth.min(h, dy);
+                h -= pbrtH;
                 int sy = y + h;
-                ob.Blit(theData, theData, comp, clip,
-                        x, sy, x+dx, sy+dy, w, partH);
+                ob.Blit(theDbtb, theDbtb, comp, clip,
+                        x, sy, x+dx, sy+dy, w, pbrtH);
             }
             return;
         }
-        ob.Blit(theData, theData, comp, clip, x, y, x+dx, y+dy, w, h);
+        ob.Blit(theDbtb, theDbtb, comp, clip, x, y, x+dx, y+dy, w, h);
     }
 
     /*
-    public void XcopyArea(int x, int y, int w, int h, int dx, int dy) {
-        Rectangle rect = new Rectangle(x, y, w, h);
-        rect = transformBounds(rect, transform);
-        Point2D    point = new Point2D.Float(dx, dy);
-        Point2D    root  = new Point2D.Float(0, 0);
-        point = transform.transform(point, point);
-        root  = transform.transform(root, root);
+    public void XcopyAreb(int x, int y, int w, int h, int dx, int dy) {
+        Rectbngle rect = new Rectbngle(x, y, w, h);
+        rect = trbnsformBounds(rect, trbnsform);
+        Point2D    point = new Point2D.Flobt(dx, dy);
+        Point2D    root  = new Point2D.Flobt(0, 0);
+        point = trbnsform.trbnsform(point, point);
+        root  = trbnsform.trbnsform(root, root);
         int fdx = (int)(point.getX()-root.getX());
         int fdy = (int)(point.getY()-root.getY());
 
-        Rectangle r = getCompBounds().intersection(rect.getBounds());
+        Rectbngle r = getCompBounds().intersection(rect.getBounds());
 
         if (r.isEmpty()) {
             return;
         }
 
-        // Begin Rasterizer for Clip Shape
-        boolean skipClip = true;
-        byte[] clipAlpha = null;
+        // Begin Rbsterizer for Clip Shbpe
+        boolebn skipClip = true;
+        byte[] clipAlphb = null;
 
-        if (clipState == CLIP_SHAPE) {
+        if (clipStbte == CLIP_SHAPE) {
 
             int box[] = new int[4];
 
             clipRegion.getBounds(box);
-            Rectangle devR = new Rectangle(box[0], box[1],
+            Rectbngle devR = new Rectbngle(box[0], box[1],
                                            box[2] - box[0],
                                            box[3] - box[1]);
             if (!devR.isEmpty()) {
-                OutputManager mgr = getOutputManager();
-                RegionIterator ri = clipRegion.getIterator();
-                while (ri.nextYRange(box)) {
-                    int spany = box[1];
-                    int spanh = box[3] - spany;
-                    while (ri.nextXBand(box)) {
-                        int spanx = box[0];
-                        int spanw = box[2] - spanx;
-                        mgr.copyArea(this, null,
-                                     spanw, 0,
-                                     spanx, spany,
-                                     spanw, spanh,
+                OutputMbnbger mgr = getOutputMbnbger();
+                RegionIterbtor ri = clipRegion.getIterbtor();
+                while (ri.nextYRbnge(box)) {
+                    int spbny = box[1];
+                    int spbnh = box[3] - spbny;
+                    while (ri.nextXBbnd(box)) {
+                        int spbnx = box[0];
+                        int spbnw = box[2] - spbnx;
+                        mgr.copyAreb(this, null,
+                                     spbnw, 0,
+                                     spbnx, spbny,
+                                     spbnw, spbnh,
                                      fdx, fdy,
                                      null);
                     }
@@ -2222,9 +2222,9 @@ public final class SunGraphics2D
             }
             return;
         }
-        // End Rasterizer for Clip Shape
+        // End Rbsterizer for Clip Shbpe
 
-        getOutputManager().copyArea(this, null,
+        getOutputMbnbger().copyAreb(this, null,
                                     r.width, 0,
                                     r.x, r.y, r.width,
                                     r.height, fdx, fdy,
@@ -2232,337 +2232,337 @@ public final class SunGraphics2D
     }
     */
 
-    public void drawLine(int x1, int y1, int x2, int y2) {
+    public void drbwLine(int x1, int y1, int x2, int y2) {
         try {
-            drawpipe.drawLine(this, x1, y1, x2, y2);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwLine(this, x1, y1, x2, y2);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawLine(this, x1, y1, x2, y2);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwLine(this, x1, y1, x2, y2);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawRoundRect(int x, int y, int w, int h, int arcW, int arcH) {
+    public void drbwRoundRect(int x, int y, int w, int h, int brcW, int brcH) {
         try {
-            drawpipe.drawRoundRect(this, x, y, w, h, arcW, arcH);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwRoundRect(this, x, y, w, h, brcW, brcH);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawRoundRect(this, x, y, w, h, arcW, arcH);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwRoundRect(this, x, y, w, h, brcW, brcH);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void fillRoundRect(int x, int y, int w, int h, int arcW, int arcH) {
+    public void fillRoundRect(int x, int y, int w, int h, int brcW, int brcH) {
         try {
-            fillpipe.fillRoundRect(this, x, y, w, h, arcW, arcH);
-        } catch (InvalidPipeException e) {
+            fillpipe.fillRoundRect(this, x, y, w, h, brcW, brcH);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                fillpipe.fillRoundRect(this, x, y, w, h, arcW, arcH);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                fillpipe.fillRoundRect(this, x, y, w, h, brcW, brcH);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawOval(int x, int y, int w, int h) {
+    public void drbwOvbl(int x, int y, int w, int h) {
         try {
-            drawpipe.drawOval(this, x, y, w, h);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwOvbl(this, x, y, w, h);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawOval(this, x, y, w, h);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwOvbl(this, x, y, w, h);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void fillOval(int x, int y, int w, int h) {
+    public void fillOvbl(int x, int y, int w, int h) {
         try {
-            fillpipe.fillOval(this, x, y, w, h);
-        } catch (InvalidPipeException e) {
+            fillpipe.fillOvbl(this, x, y, w, h);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                fillpipe.fillOval(this, x, y, w, h);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                fillpipe.fillOvbl(this, x, y, w, h);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawArc(int x, int y, int w, int h,
-                        int startAngl, int arcAngl) {
+    public void drbwArc(int x, int y, int w, int h,
+                        int stbrtAngl, int brcAngl) {
         try {
-            drawpipe.drawArc(this, x, y, w, h, startAngl, arcAngl);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwArc(this, x, y, w, h, stbrtAngl, brcAngl);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawArc(this, x, y, w, h, startAngl, arcAngl);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwArc(this, x, y, w, h, stbrtAngl, brcAngl);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     public void fillArc(int x, int y, int w, int h,
-                        int startAngl, int arcAngl) {
+                        int stbrtAngl, int brcAngl) {
         try {
-            fillpipe.fillArc(this, x, y, w, h, startAngl, arcAngl);
-        } catch (InvalidPipeException e) {
+            fillpipe.fillArc(this, x, y, w, h, stbrtAngl, brcAngl);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                fillpipe.fillArc(this, x, y, w, h, startAngl, arcAngl);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                fillpipe.fillArc(this, x, y, w, h, stbrtAngl, brcAngl);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawPolyline(int xPoints[], int yPoints[], int nPoints) {
+    public void drbwPolyline(int xPoints[], int yPoints[], int nPoints) {
         try {
-            drawpipe.drawPolyline(this, xPoints, yPoints, nPoints);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwPolyline(this, xPoints, yPoints, nPoints);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawPolyline(this, xPoints, yPoints, nPoints);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwPolyline(this, xPoints, yPoints, nPoints);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawPolygon(int xPoints[], int yPoints[], int nPoints) {
+    public void drbwPolygon(int xPoints[], int yPoints[], int nPoints) {
         try {
-            drawpipe.drawPolygon(this, xPoints, yPoints, nPoints);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwPolygon(this, xPoints, yPoints, nPoints);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawPolygon(this, xPoints, yPoints, nPoints);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwPolygon(this, xPoints, yPoints, nPoints);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     public void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
         try {
             fillpipe.fillPolygon(this, xPoints, yPoints, nPoints);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
+                revblidbteAll();
                 fillpipe.fillPolygon(this, xPoints, yPoints, nPoints);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawRect (int x, int y, int w, int h) {
+    public void drbwRect (int x, int y, int w, int h) {
         try {
-            drawpipe.drawRect(this, x, y, w, h);
-        } catch (InvalidPipeException e) {
+            drbwpipe.drbwRect(this, x, y, w, h);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                drawpipe.drawRect(this, x, y, w, h);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                drbwpipe.drbwRect(this, x, y, w, h);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     public void fillRect (int x, int y, int w, int h) {
         try {
             fillpipe.fillRect(this, x, y, w, h);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
+                revblidbteAll();
                 fillpipe.fillRect(this, x, y, w, h);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    private void revalidateAll() {
+    privbte void revblidbteAll() {
         try {
-            // REMIND: This locking needs to be done around the
-            // caller of this method so that the pipe stays valid
-            // long enough to call the new primitive.
-            // REMIND: No locking yet in screen SurfaceData objects!
-            // surfaceData.lock();
-            surfaceData = surfaceData.getReplacement();
-            if (surfaceData == null) {
-                surfaceData = NullSurfaceData.theInstance;
+            // REMIND: This locking needs to be done bround the
+            // cbller of this method so thbt the pipe stbys vblid
+            // long enough to cbll the new primitive.
+            // REMIND: No locking yet in screen SurfbceDbtb objects!
+            // surfbceDbtb.lock();
+            surfbceDbtb = surfbceDbtb.getReplbcement();
+            if (surfbceDbtb == null) {
+                surfbceDbtb = NullSurfbceDbtb.theInstbnce;
             }
 
-            invalidatePipe();
+            invblidbtePipe();
 
-            // this will recalculate the composite clip
-            setDevClip(surfaceData.getBounds());
+            // this will recblculbte the composite clip
+            setDevClip(surfbceDbtb.getBounds());
 
-            if (paintState <= PAINT_ALPHACOLOR) {
-                validateColor();
+            if (pbintStbte <= PAINT_ALPHACOLOR) {
+                vblidbteColor();
             }
-            if (composite instanceof XORComposite) {
+            if (composite instbnceof XORComposite) {
                 Color c = ((XORComposite) composite).getXorColor();
-                setComposite(new XORComposite(c, surfaceData));
+                setComposite(new XORComposite(c, surfbceDbtb));
             }
-            validatePipe();
-        } finally {
-            // REMIND: No locking yet in screen SurfaceData objects!
-            // surfaceData.unlock();
+            vblidbtePipe();
+        } finblly {
+            // REMIND: No locking yet in screen SurfbceDbtb objects!
+            // surfbceDbtb.unlock();
         }
     }
 
-    public void clearRect(int x, int y, int w, int h) {
-        // REMIND: has some "interesting" consequences if threads are
+    public void clebrRect(int x, int y, int w, int h) {
+        // REMIND: hbs some "interesting" consequences if threbds bre
         // not synchronized
         Composite c = composite;
-        Paint p = paint;
-        setComposite(AlphaComposite.Src);
-        setColor(getBackground());
+        Pbint p = pbint;
+        setComposite(AlphbComposite.Src);
+        setColor(getBbckground());
         fillRect(x, y, w, h);
-        setPaint(p);
+        setPbint(p);
         setComposite(c);
     }
 
     /**
-     * Strokes the outline of a Path using the settings of the current
-     * graphics state.  The rendering attributes applied include the
-     * clip, transform, paint or color, composite and stroke attributes.
-     * @param p The path to be drawn.
+     * Strokes the outline of b Pbth using the settings of the current
+     * grbphics stbte.  The rendering bttributes bpplied include the
+     * clip, trbnsform, pbint or color, composite bnd stroke bttributes.
+     * @pbrbm p The pbth to be drbwn.
      * @see #setStroke
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      * @see #setComposite
      */
-    public void draw(Shape s) {
+    public void drbw(Shbpe s) {
         try {
-            shapepipe.draw(this, s);
-        } catch (InvalidPipeException e) {
+            shbpepipe.drbw(this, s);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                shapepipe.draw(this, s);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                shbpepipe.drbw(this, s);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
 
     /**
-     * Fills the interior of a Path using the settings of the current
-     * graphics state. The rendering attributes applied include the
-     * clip, transform, paint or color, and composite.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * Fills the interior of b Pbth using the settings of the current
+     * grbphics stbte. The rendering bttributes bpplied include the
+     * clip, trbnsform, pbint or color, bnd composite.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void fill(Shape s) {
+    public void fill(Shbpe s) {
         try {
-            shapepipe.fill(this, s);
-        } catch (InvalidPipeException e) {
+            shbpepipe.fill(this, s);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                shapepipe.fill(this, s);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                shbpepipe.fill(this, s);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
-     * Returns true if the given AffineTransform is an integer
-     * translation.
+     * Returns true if the given AffineTrbnsform is bn integer
+     * trbnslbtion.
      */
-    private static boolean isIntegerTranslation(AffineTransform xform) {
+    privbte stbtic boolebn isIntegerTrbnslbtion(AffineTrbnsform xform) {
         if (xform.isIdentity()) {
             return true;
         }
-        if (xform.getType() == AffineTransform.TYPE_TRANSLATION) {
-            double tx = xform.getTranslateX();
-            double ty = xform.getTranslateY();
+        if (xform.getType() == AffineTrbnsform.TYPE_TRANSLATION) {
+            double tx = xform.getTrbnslbteX();
+            double ty = xform.getTrbnslbteY();
             return (tx == (int)tx && ty == (int)ty);
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Returns the index of the tile corresponding to the supplied position
-     * given the tile grid offset and size along the same axis.
+     * given the tile grid offset bnd size blong the sbme bxis.
      */
-    private static int getTileIndex(int p, int tileGridOffset, int tileSize) {
+    privbte stbtic int getTileIndex(int p, int tileGridOffset, int tileSize) {
         p -= tileGridOffset;
         if (p < 0) {
             p += 1 - tileSize;          // force round to -infinity (ceiling)
@@ -2571,22 +2571,22 @@ public final class SunGraphics2D
     }
 
     /**
-     * Returns a rectangle in image coordinates that may be required
-     * in order to draw the given image into the given clipping region
-     * through a pair of AffineTransforms.  In addition, horizontal and
-     * vertical padding factors for antialising and interpolation may
+     * Returns b rectbngle in imbge coordinbtes thbt mby be required
+     * in order to drbw the given imbge into the given clipping region
+     * through b pbir of AffineTrbnsforms.  In bddition, horizontbl bnd
+     * verticbl pbdding fbctors for bntiblising bnd interpolbtion mby
      * be used.
      */
-    private static Rectangle getImageRegion(RenderedImage img,
+    privbte stbtic Rectbngle getImbgeRegion(RenderedImbge img,
                                             Region compClip,
-                                            AffineTransform transform,
-                                            AffineTransform xform,
-                                            int padX, int padY) {
-        Rectangle imageRect =
-            new Rectangle(img.getMinX(), img.getMinY(),
+                                            AffineTrbnsform trbnsform,
+                                            AffineTrbnsform xform,
+                                            int pbdX, int pbdY) {
+        Rectbngle imbgeRect =
+            new Rectbngle(img.getMinX(), img.getMinY(),
                           img.getWidth(), img.getHeight());
 
-        Rectangle result = null;
+        Rectbngle result = null;
         try {
             double p[] = new double[8];
             p[0] = p[2] = compClip.getLoX();
@@ -2594,11 +2594,11 @@ public final class SunGraphics2D
             p[1] = p[5] = compClip.getLoY();
             p[3] = p[7] = compClip.getHiY();
 
-            // Inverse transform the output bounding rect
-            transform.inverseTransform(p, 0, p, 0, 4);
-            xform.inverseTransform(p, 0, p, 0, 4);
+            // Inverse trbnsform the output bounding rect
+            trbnsform.inverseTrbnsform(p, 0, p, 0, 4);
+            xform.inverseTrbnsform(p, 0, p, 0, 4);
 
-            // Determine a bounding box for the inverse transformed region
+            // Determine b bounding box for the inverse trbnsformed region
             double x0,x1,y0,y1;
             x0 = x1 = p[0];
             y0 = y1 = p[1];
@@ -2618,127 +2618,127 @@ public final class SunGraphics2D
                 }
             }
 
-            // This is padding for anti-aliasing and such.  It may
-            // be more than is needed.
-            int x = (int)x0 - padX;
-            int w = (int)(x1 - x0 + 2*padX);
-            int y = (int)y0 - padY;
-            int h = (int)(y1 - y0 + 2*padY);
+            // This is pbdding for bnti-blibsing bnd such.  It mby
+            // be more thbn is needed.
+            int x = (int)x0 - pbdX;
+            int w = (int)(x1 - x0 + 2*pbdX);
+            int y = (int)y0 - pbdY;
+            int h = (int)(y1 - y0 + 2*pbdY);
 
-            Rectangle clipRect = new Rectangle(x,y,w,h);
-            result = clipRect.intersection(imageRect);
-        } catch (NoninvertibleTransformException nte) {
-            // Worst case bounds are the bounds of the image.
-            result = imageRect;
+            Rectbngle clipRect = new Rectbngle(x,y,w,h);
+            result = clipRect.intersection(imbgeRect);
+        } cbtch (NoninvertibleTrbnsformException nte) {
+            // Worst cbse bounds bre the bounds of the imbge.
+            result = imbgeRect;
         }
 
         return result;
     }
 
     /**
-     * Draws an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * and composite attributes. Note that the result is
-     * undefined, if the given transform is noninvertible.
-     * @param img The image to be drawn. Does nothing if img is null.
-     * @param xform The transformation from image space into user space.
-     * @see #transform
-     * @see #setTransform
+     * Drbws bn imbge, bpplying b trbnsform from imbge spbce into user spbce
+     * before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current trbnsform in the Grbphics2D.
+     * The given trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the Grbphics2D stbte is bpplied.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * bnd composite bttributes. Note thbt the result is
+     * undefined, if the given trbnsform is noninvertible.
+     * @pbrbm img The imbge to be drbwn. Does nothing if img is null.
+     * @pbrbm xform The trbnsformbtion from imbge spbce into user spbce.
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void drawRenderedImage(RenderedImage img,
-                                  AffineTransform xform) {
+    public void drbwRenderedImbge(RenderedImbge img,
+                                  AffineTrbnsform xform) {
 
         if (img == null) {
             return;
         }
 
-        // BufferedImage case: use a simple drawImage call
-        if (img instanceof BufferedImage) {
-            BufferedImage bufImg = (BufferedImage)img;
-            drawImage(bufImg,xform,null);
+        // BufferedImbge cbse: use b simple drbwImbge cbll
+        if (img instbnceof BufferedImbge) {
+            BufferedImbge bufImg = (BufferedImbge)img;
+            drbwImbge(bufImg,xform,null);
             return;
         }
 
-        // transformState tracks the state of transform and
-        // transX, transY contain the integer casts of the
-        // translation factors
-        boolean isIntegerTranslate =
-            (transformState <= TRANSFORM_INT_TRANSLATE) &&
-            isIntegerTranslation(xform);
+        // trbnsformStbte trbcks the stbte of trbnsform bnd
+        // trbnsX, trbnsY contbin the integer cbsts of the
+        // trbnslbtion fbctors
+        boolebn isIntegerTrbnslbte =
+            (trbnsformStbte <= TRANSFORM_INT_TRANSLATE) &&
+            isIntegerTrbnslbtion(xform);
 
-        // Include padding for interpolation/antialiasing if necessary
-        int pad = isIntegerTranslate ? 0 : 3;
+        // Include pbdding for interpolbtion/bntiblibsing if necessbry
+        int pbd = isIntegerTrbnslbte ? 0 : 3;
 
         Region clip;
         try {
             clip = getCompClip();
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             return;
         }
 
-        // Determine the region of the image that may contribute to
-        // the clipped drawing area
-        Rectangle region = getImageRegion(img,
+        // Determine the region of the imbge thbt mby contribute to
+        // the clipped drbwing breb
+        Rectbngle region = getImbgeRegion(img,
                                           clip,
-                                          transform,
+                                          trbnsform,
                                           xform,
-                                          pad, pad);
+                                          pbd, pbd);
         if (region.width <= 0 || region.height <= 0) {
             return;
         }
 
-        // Attempt to optimize integer translation of tiled images.
-        // Although theoretically we are O.K. if the concatenation of
-        // the user transform and the device transform is an integer
-        // translation, we'll play it safe and only optimize the case
-        // where both are integer translations.
-        if (isIntegerTranslate) {
+        // Attempt to optimize integer trbnslbtion of tiled imbges.
+        // Although theoreticblly we bre O.K. if the concbtenbtion of
+        // the user trbnsform bnd the device trbnsform is bn integer
+        // trbnslbtion, we'll plby it sbfe bnd only optimize the cbse
+        // where both bre integer trbnslbtions.
+        if (isIntegerTrbnslbte) {
             // Use optimized code
-            // Note that drawTranslatedRenderedImage calls copyImage
-            // which takes the user space to device space transform into
-            // account, but we need to provide the image space to user space
-            // translations.
+            // Note thbt drbwTrbnslbtedRenderedImbge cblls copyImbge
+            // which tbkes the user spbce to device spbce trbnsform into
+            // bccount, but we need to provide the imbge spbce to user spbce
+            // trbnslbtions.
 
-            drawTranslatedRenderedImage(img, region,
-                                        (int) xform.getTranslateX(),
-                                        (int) xform.getTranslateY());
+            drbwTrbnslbtedRenderedImbge(img, region,
+                                        (int) xform.getTrbnslbteX(),
+                                        (int) xform.getTrbnslbteY());
             return;
         }
 
-        // General case: cobble the necessary region into a single Raster
-        Raster raster = img.getData(region);
+        // Generbl cbse: cobble the necessbry region into b single Rbster
+        Rbster rbster = img.getDbtb(region);
 
-        // Make a new Raster with the same contents as raster
-        // but starting at (0, 0).  This raster is thus in the same
-        // coordinate system as the SampleModel of the original raster.
-        WritableRaster wRaster =
-              Raster.createWritableRaster(raster.getSampleModel(),
-                                          raster.getDataBuffer(),
+        // Mbke b new Rbster with the sbme contents bs rbster
+        // but stbrting bt (0, 0).  This rbster is thus in the sbme
+        // coordinbte system bs the SbmpleModel of the originbl rbster.
+        WritbbleRbster wRbster =
+              Rbster.crebteWritbbleRbster(rbster.getSbmpleModel(),
+                                          rbster.getDbtbBuffer(),
                                           null);
 
-        // If the original raster was in a different coordinate
-        // system than its SampleModel, we need to perform an
-        // additional translation in order to get the (minX, minY)
-        // pixel of raster to be pixel (0, 0) of wRaster.  We also
-        // have to have the correct width and height.
-        int minX = raster.getMinX();
-        int minY = raster.getMinY();
-        int width = raster.getWidth();
-        int height = raster.getHeight();
-        int px = minX - raster.getSampleModelTranslateX();
-        int py = minY - raster.getSampleModelTranslateY();
-        if (px != 0 || py != 0 || width != wRaster.getWidth() ||
-            height != wRaster.getHeight()) {
-            wRaster =
-                wRaster.createWritableChild(px,
+        // If the originbl rbster wbs in b different coordinbte
+        // system thbn its SbmpleModel, we need to perform bn
+        // bdditionbl trbnslbtion in order to get the (minX, minY)
+        // pixel of rbster to be pixel (0, 0) of wRbster.  We blso
+        // hbve to hbve the correct width bnd height.
+        int minX = rbster.getMinX();
+        int minY = rbster.getMinY();
+        int width = rbster.getWidth();
+        int height = rbster.getHeight();
+        int px = minX - rbster.getSbmpleModelTrbnslbteX();
+        int py = minY - rbster.getSbmpleModelTrbnslbteY();
+        if (px != 0 || py != 0 || width != wRbster.getWidth() ||
+            height != wRbster.getHeight()) {
+            wRbster =
+                wRbster.crebteWritbbleChild(px,
                                             py,
                                             width,
                                             height,
@@ -2746,35 +2746,35 @@ public final class SunGraphics2D
                                             null);
         }
 
-        // Now we have a BufferedImage starting at (0, 0)
-        // with the same contents that started at (minX, minY)
-        // in raster.  So we must draw the BufferedImage with a
-        // translation of (minX, minY).
-        AffineTransform transXform = (AffineTransform)xform.clone();
-        transXform.translate(minX, minY);
+        // Now we hbve b BufferedImbge stbrting bt (0, 0)
+        // with the sbme contents thbt stbrted bt (minX, minY)
+        // in rbster.  So we must drbw the BufferedImbge with b
+        // trbnslbtion of (minX, minY).
+        AffineTrbnsform trbnsXform = (AffineTrbnsform)xform.clone();
+        trbnsXform.trbnslbte(minX, minY);
 
         ColorModel cm = img.getColorModel();
-        BufferedImage bufImg = new BufferedImage(cm,
-                                                 wRaster,
-                                                 cm.isAlphaPremultiplied(),
+        BufferedImbge bufImg = new BufferedImbge(cm,
+                                                 wRbster,
+                                                 cm.isAlphbPremultiplied(),
                                                  null);
-        drawImage(bufImg, transXform, null);
+        drbwImbge(bufImg, trbnsXform, null);
     }
 
     /**
-     * Intersects <code>destRect</code> with <code>clip</code> and
+     * Intersects <code>destRect</code> with <code>clip</code> bnd
      * overwrites <code>destRect</code> with the result.
-     * Returns false if the intersection was empty, true otherwise.
+     * Returns fblse if the intersection wbs empty, true otherwise.
      */
-    private boolean clipTo(Rectangle destRect, Rectangle clip) {
-        int x1 = Math.max(destRect.x, clip.x);
-        int x2 = Math.min(destRect.x + destRect.width, clip.x + clip.width);
-        int y1 = Math.max(destRect.y, clip.y);
-        int y2 = Math.min(destRect.y + destRect.height, clip.y + clip.height);
+    privbte boolebn clipTo(Rectbngle destRect, Rectbngle clip) {
+        int x1 = Mbth.mbx(destRect.x, clip.x);
+        int x2 = Mbth.min(destRect.x + destRect.width, clip.x + clip.width);
+        int y1 = Mbth.mbx(destRect.y, clip.y);
+        int y2 = Mbth.min(destRect.y + destRect.height, clip.y + clip.height);
         if (((x2 - x1) < 0) || ((y2 - y1) < 0)) {
-            destRect.width = -1; // Set both just to be safe
+            destRect.width = -1; // Set both just to be sbfe
             destRect.height = -1;
-            return false;
+            return fblse;
         } else {
             destRect.x = x1;
             destRect.y = y1;
@@ -2785,42 +2785,42 @@ public final class SunGraphics2D
     }
 
     /**
-     * Draw a portion of a RenderedImage tile-by-tile with a given
-     * integer image to user space translation.  The user to
-     * device transform must also be an integer translation.
+     * Drbw b portion of b RenderedImbge tile-by-tile with b given
+     * integer imbge to user spbce trbnslbtion.  The user to
+     * device trbnsform must blso be bn integer trbnslbtion.
      */
-    private void drawTranslatedRenderedImage(RenderedImage img,
-                                             Rectangle region,
-                                             int i2uTransX,
-                                             int i2uTransY) {
-        // Cache tile grid info
+    privbte void drbwTrbnslbtedRenderedImbge(RenderedImbge img,
+                                             Rectbngle region,
+                                             int i2uTrbnsX,
+                                             int i2uTrbnsY) {
+        // Cbche tile grid info
         int tileGridXOffset = img.getTileGridXOffset();
         int tileGridYOffset = img.getTileGridYOffset();
         int tileWidth = img.getTileWidth();
         int tileHeight = img.getTileHeight();
 
-        // Determine the tile index extrema in each direction
+        // Determine the tile index extremb in ebch direction
         int minTileX =
             getTileIndex(region.x, tileGridXOffset, tileWidth);
         int minTileY =
             getTileIndex(region.y, tileGridYOffset, tileHeight);
-        int maxTileX =
+        int mbxTileX =
             getTileIndex(region.x + region.width - 1,
                          tileGridXOffset, tileWidth);
-        int maxTileY =
+        int mbxTileY =
             getTileIndex(region.y + region.height - 1,
                          tileGridYOffset, tileHeight);
 
-        // Create a single ColorModel to use for all BufferedImages
+        // Crebte b single ColorModel to use for bll BufferedImbges
         ColorModel colorModel = img.getColorModel();
 
-        // Reuse the same Rectangle for each iteration
-        Rectangle tileRect = new Rectangle();
+        // Reuse the sbme Rectbngle for ebch iterbtion
+        Rectbngle tileRect = new Rectbngle();
 
-        for (int ty = minTileY; ty <= maxTileY; ty++) {
-            for (int tx = minTileX; tx <= maxTileX; tx++) {
+        for (int ty = minTileY; ty <= mbxTileY; ty++) {
+            for (int tx = minTileX; tx <= mbxTileX; tx++) {
                 // Get the current tile.
-                Raster raster = img.getTile(tx, ty);
+                Rbster rbster = img.getTile(tx, ty);
 
                 // Fill in tileRect with the tile bounds
                 tileRect.x = tx*tileWidth + tileGridXOffset;
@@ -2828,339 +2828,339 @@ public final class SunGraphics2D
                 tileRect.width = tileWidth;
                 tileRect.height = tileHeight;
 
-                // Clip the tile against the image bounds and
-                // backwards mapped clip region
-                // The result can't be empty
+                // Clip the tile bgbinst the imbge bounds bnd
+                // bbckwbrds mbpped clip region
+                // The result cbn't be empty
                 clipTo(tileRect, region);
 
-                // Create a WritableRaster containing the tile
-                WritableRaster wRaster = null;
-                if (raster instanceof WritableRaster) {
-                    wRaster = (WritableRaster)raster;
+                // Crebte b WritbbleRbster contbining the tile
+                WritbbleRbster wRbster = null;
+                if (rbster instbnceof WritbbleRbster) {
+                    wRbster = (WritbbleRbster)rbster;
                 } else {
-                    // Create a WritableRaster in the same coordinate system
-                    // as the original raster.
-                    wRaster =
-                        Raster.createWritableRaster(raster.getSampleModel(),
-                                                    raster.getDataBuffer(),
+                    // Crebte b WritbbleRbster in the sbme coordinbte system
+                    // bs the originbl rbster.
+                    wRbster =
+                        Rbster.crebteWritbbleRbster(rbster.getSbmpleModel(),
+                                                    rbster.getDbtbBuffer(),
                                                     null);
                 }
 
-                // Translate wRaster to start at (0, 0) and to contain
+                // Trbnslbte wRbster to stbrt bt (0, 0) bnd to contbin
                 // only the relevent portion of the tile
-                wRaster = wRaster.createWritableChild(tileRect.x, tileRect.y,
+                wRbster = wRbster.crebteWritbbleChild(tileRect.x, tileRect.y,
                                                       tileRect.width,
                                                       tileRect.height,
                                                       0, 0,
                                                       null);
 
-                // Wrap wRaster in a BufferedImage
-                BufferedImage bufImg =
-                    new BufferedImage(colorModel,
-                                      wRaster,
-                                      colorModel.isAlphaPremultiplied(),
+                // Wrbp wRbster in b BufferedImbge
+                BufferedImbge bufImg =
+                    new BufferedImbge(colorModel,
+                                      wRbster,
+                                      colorModel.isAlphbPremultiplied(),
                                       null);
-                // Now we have a BufferedImage starting at (0, 0) that
-                // represents data from a Raster starting at
-                // (tileRect.x, tileRect.y).  Additionally, it needs
-                // to be translated by (i2uTransX, i2uTransY).  We call
-                // copyImage to draw just the region of interest
-                // without needing to create a child image.
-                copyImage(bufImg, tileRect.x + i2uTransX,
-                          tileRect.y + i2uTransY, 0, 0, tileRect.width,
+                // Now we hbve b BufferedImbge stbrting bt (0, 0) thbt
+                // represents dbtb from b Rbster stbrting bt
+                // (tileRect.x, tileRect.y).  Additionblly, it needs
+                // to be trbnslbted by (i2uTrbnsX, i2uTrbnsY).  We cbll
+                // copyImbge to drbw just the region of interest
+                // without needing to crebte b child imbge.
+                copyImbge(bufImg, tileRect.x + i2uTrbnsX,
+                          tileRect.y + i2uTrbnsY, 0, 0, tileRect.width,
                           tileRect.height, null, null);
             }
         }
     }
 
-    public void drawRenderableImage(RenderableImage img,
-                                    AffineTransform xform) {
+    public void drbwRenderbbleImbge(RenderbbleImbge img,
+                                    AffineTrbnsform xform) {
 
         if (img == null) {
             return;
         }
 
-        AffineTransform pipeTransform = transform;
-        AffineTransform concatTransform = new AffineTransform(xform);
-        concatTransform.concatenate(pipeTransform);
-        AffineTransform reverseTransform;
+        AffineTrbnsform pipeTrbnsform = trbnsform;
+        AffineTrbnsform concbtTrbnsform = new AffineTrbnsform(xform);
+        concbtTrbnsform.concbtenbte(pipeTrbnsform);
+        AffineTrbnsform reverseTrbnsform;
 
-        RenderContext rc = new RenderContext(concatTransform);
+        RenderContext rc = new RenderContext(concbtTrbnsform);
 
         try {
-            reverseTransform = pipeTransform.createInverse();
-        } catch (NoninvertibleTransformException nte) {
-            rc = new RenderContext(pipeTransform);
-            reverseTransform = new AffineTransform();
+            reverseTrbnsform = pipeTrbnsform.crebteInverse();
+        } cbtch (NoninvertibleTrbnsformException nte) {
+            rc = new RenderContext(pipeTrbnsform);
+            reverseTrbnsform = new AffineTrbnsform();
         }
 
-        RenderedImage rendering = img.createRendering(rc);
-        drawRenderedImage(rendering,reverseTransform);
+        RenderedImbge rendering = img.crebteRendering(rc);
+        drbwRenderedImbge(rendering,reverseTrbnsform);
     }
 
 
 
     /*
-     * Transform the bounding box of the BufferedImage
+     * Trbnsform the bounding box of the BufferedImbge
      */
-    protected Rectangle transformBounds(Rectangle rect,
-                                        AffineTransform tx) {
+    protected Rectbngle trbnsformBounds(Rectbngle rect,
+                                        AffineTrbnsform tx) {
         if (tx.isIdentity()) {
             return rect;
         }
 
-        Shape s = transformShape(tx, rect);
+        Shbpe s = trbnsformShbpe(tx, rect);
         return s.getBounds();
     }
 
     // text rendering methods
-    public void drawString(String str, int x, int y) {
+    public void drbwString(String str, int x, int y) {
         if (str == null) {
             throw new NullPointerException("String is null");
         }
 
-        if (font.hasLayoutAttributes()) {
+        if (font.hbsLbyoutAttributes()) {
             if (str.length() == 0) {
                 return;
             }
-            new TextLayout(str, font, getFontRenderContext()).draw(this, x, y);
+            new TextLbyout(str, font, getFontRenderContext()).drbw(this, x, y);
             return;
         }
 
         try {
-            textpipe.drawString(this, str, x, y);
-        } catch (InvalidPipeException e) {
+            textpipe.drbwString(this, str, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                textpipe.drawString(this, str, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                textpipe.drbwString(this, str, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawString(String str, float x, float y) {
+    public void drbwString(String str, flobt x, flobt y) {
         if (str == null) {
             throw new NullPointerException("String is null");
         }
 
-        if (font.hasLayoutAttributes()) {
+        if (font.hbsLbyoutAttributes()) {
             if (str.length() == 0) {
                 return;
             }
-            new TextLayout(str, font, getFontRenderContext()).draw(this, x, y);
+            new TextLbyout(str, font, getFontRenderContext()).drbw(this, x, y);
             return;
         }
 
         try {
-            textpipe.drawString(this, str, x, y);
-        } catch (InvalidPipeException e) {
+            textpipe.drbwString(this, str, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                textpipe.drawString(this, str, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                textpipe.drbwString(this, str, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawString(AttributedCharacterIterator iterator,
+    public void drbwString(AttributedChbrbcterIterbtor iterbtor,
                            int x, int y) {
-        if (iterator == null) {
-            throw new NullPointerException("AttributedCharacterIterator is null");
+        if (iterbtor == null) {
+            throw new NullPointerException("AttributedChbrbcterIterbtor is null");
         }
-        if (iterator.getBeginIndex() == iterator.getEndIndex()) {
-            return; /* nothing to draw */
+        if (iterbtor.getBeginIndex() == iterbtor.getEndIndex()) {
+            return; /* nothing to drbw */
         }
-        TextLayout tl = new TextLayout(iterator, getFontRenderContext());
-        tl.draw(this, (float) x, (float) y);
+        TextLbyout tl = new TextLbyout(iterbtor, getFontRenderContext());
+        tl.drbw(this, (flobt) x, (flobt) y);
     }
 
-    public void drawString(AttributedCharacterIterator iterator,
-                           float x, float y) {
-        if (iterator == null) {
-            throw new NullPointerException("AttributedCharacterIterator is null");
+    public void drbwString(AttributedChbrbcterIterbtor iterbtor,
+                           flobt x, flobt y) {
+        if (iterbtor == null) {
+            throw new NullPointerException("AttributedChbrbcterIterbtor is null");
         }
-        if (iterator.getBeginIndex() == iterator.getEndIndex()) {
-            return; /* nothing to draw */
+        if (iterbtor.getBeginIndex() == iterbtor.getEndIndex()) {
+            return; /* nothing to drbw */
         }
-        TextLayout tl = new TextLayout(iterator, getFontRenderContext());
-        tl.draw(this, x, y);
+        TextLbyout tl = new TextLbyout(iterbtor, getFontRenderContext());
+        tl.drbw(this, x, y);
     }
 
-    public void drawGlyphVector(GlyphVector gv, float x, float y)
+    public void drbwGlyphVector(GlyphVector gv, flobt x, flobt y)
     {
         if (gv == null) {
             throw new NullPointerException("GlyphVector is null");
         }
 
         try {
-            textpipe.drawGlyphVector(this, gv, x, y);
-        } catch (InvalidPipeException e) {
+            textpipe.drbwGlyphVector(this, gv, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                textpipe.drawGlyphVector(this, gv, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                textpipe.drbwGlyphVector(this, gv, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawChars(char data[], int offset, int length, int x, int y) {
+    public void drbwChbrs(chbr dbtb[], int offset, int length, int x, int y) {
 
-        if (data == null) {
-            throw new NullPointerException("char data is null");
+        if (dbtb == null) {
+            throw new NullPointerException("chbr dbtb is null");
         }
-        if (offset < 0 || length < 0 || offset + length > data.length) {
-            throw new ArrayIndexOutOfBoundsException("bad offset/length");
+        if (offset < 0 || length < 0 || offset + length > dbtb.length) {
+            throw new ArrbyIndexOutOfBoundsException("bbd offset/length");
         }
-        if (font.hasLayoutAttributes()) {
-            if (data.length == 0) {
+        if (font.hbsLbyoutAttributes()) {
+            if (dbtb.length == 0) {
                 return;
             }
-            new TextLayout(new String(data, offset, length),
-                           font, getFontRenderContext()).draw(this, x, y);
+            new TextLbyout(new String(dbtb, offset, length),
+                           font, getFontRenderContext()).drbw(this, x, y);
             return;
         }
 
         try {
-            textpipe.drawChars(this, data, offset, length, x, y);
-        } catch (InvalidPipeException e) {
+            textpipe.drbwChbrs(this, dbtb, offset, length, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                textpipe.drawChars(this, data, offset, length, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                textpipe.drbwChbrs(this, dbtb, offset, length, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawBytes(byte data[], int offset, int length, int x, int y) {
-        if (data == null) {
-            throw new NullPointerException("byte data is null");
+    public void drbwBytes(byte dbtb[], int offset, int length, int x, int y) {
+        if (dbtb == null) {
+            throw new NullPointerException("byte dbtb is null");
         }
-        if (offset < 0 || length < 0 || offset + length > data.length) {
-            throw new ArrayIndexOutOfBoundsException("bad offset/length");
+        if (offset < 0 || length < 0 || offset + length > dbtb.length) {
+            throw new ArrbyIndexOutOfBoundsException("bbd offset/length");
         }
-        /* Byte data is interpreted as 8-bit ASCII. Re-use drawChars loops */
-        char chData[] = new char[length];
+        /* Byte dbtb is interpreted bs 8-bit ASCII. Re-use drbwChbrs loops */
+        chbr chDbtb[] = new chbr[length];
         for (int i = length; i-- > 0; ) {
-            chData[i] = (char)(data[i+offset] & 0xff);
+            chDbtb[i] = (chbr)(dbtb[i+offset] & 0xff);
         }
-        if (font.hasLayoutAttributes()) {
-            if (data.length == 0) {
+        if (font.hbsLbyoutAttributes()) {
+            if (dbtb.length == 0) {
                 return;
             }
-            new TextLayout(new String(chData),
-                           font, getFontRenderContext()).draw(this, x, y);
+            new TextLbyout(new String(chDbtb),
+                           font, getFontRenderContext()).drbw(this, x, y);
             return;
         }
 
         try {
-            textpipe.drawChars(this, chData, 0, length, x, y);
-        } catch (InvalidPipeException e) {
+            textpipe.drbwChbrs(this, chDbtb, 0, length, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                textpipe.drawChars(this, chData, 0, length, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                textpipe.drbwChbrs(this, chDbtb, 0, length, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 // end of text rendering methods
 
-    private boolean isHiDPIImage(final Image img) {
-        return (SurfaceManager.getImageScale(img) != 1) ||
-               (resolutionVariantHint != SunHints.INTVAL_RESOLUTION_VARIANT_OFF
-                    && img instanceof MultiResolutionImage);
+    privbte boolebn isHiDPIImbge(finbl Imbge img) {
+        return (SurfbceMbnbger.getImbgeScble(img) != 1) ||
+               (resolutionVbribntHint != SunHints.INTVAL_RESOLUTION_VARIANT_OFF
+                    && img instbnceof MultiResolutionImbge);
     }
 
-    private boolean drawHiDPIImage(Image img, int dx1, int dy1, int dx2,
+    privbte boolebn drbwHiDPIImbge(Imbge img, int dx1, int dy1, int dx2,
                                    int dy2, int sx1, int sy1, int sx2, int sy2,
-                                   Color bgcolor, ImageObserver observer) {
+                                   Color bgcolor, ImbgeObserver observer) {
 
-        if (SurfaceManager.getImageScale(img) != 1) {  // Volatile Image
-            final int scale = SurfaceManager.getImageScale(img);
-            sx1 = Region.clipScale(sx1, scale);
-            sx2 = Region.clipScale(sx2, scale);
-            sy1 = Region.clipScale(sy1, scale);
-            sy2 = Region.clipScale(sy2, scale);
-        } else if (img instanceof MultiResolutionImage) {
-            // get scaled destination image size
+        if (SurfbceMbnbger.getImbgeScble(img) != 1) {  // Volbtile Imbge
+            finbl int scble = SurfbceMbnbger.getImbgeScble(img);
+            sx1 = Region.clipScble(sx1, scble);
+            sx2 = Region.clipScble(sx2, scble);
+            sy1 = Region.clipScble(sy1, scble);
+            sy2 = Region.clipScble(sy2, scble);
+        } else if (img instbnceof MultiResolutionImbge) {
+            // get scbled destinbtion imbge size
 
             int width = img.getWidth(observer);
             int height = img.getHeight(observer);
 
-            Image resolutionVariant = getResolutionVariant(
-                    (MultiResolutionImage) img, width, height,
+            Imbge resolutionVbribnt = getResolutionVbribnt(
+                    (MultiResolutionImbge) img, width, height,
                     dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2);
 
-            if (resolutionVariant != img && resolutionVariant != null) {
-                // recalculate source region for the resolution variant
+            if (resolutionVbribnt != img && resolutionVbribnt != null) {
+                // recblculbte source region for the resolution vbribnt
 
-                ImageObserver rvObserver = MultiResolutionToolkitImage.
-                        getResolutionVariantObserver(img, observer,
+                ImbgeObserver rvObserver = MultiResolutionToolkitImbge.
+                        getResolutionVbribntObserver(img, observer,
                                 width, height, -1, -1);
 
-                int rvWidth = resolutionVariant.getWidth(rvObserver);
-                int rvHeight = resolutionVariant.getHeight(rvObserver);
+                int rvWidth = resolutionVbribnt.getWidth(rvObserver);
+                int rvHeight = resolutionVbribnt.getHeight(rvObserver);
 
                 if (0 < width && 0 < height && 0 < rvWidth && 0 < rvHeight) {
 
-                    float widthScale = ((float) rvWidth) / width;
-                    float heightScale = ((float) rvHeight) / height;
+                    flobt widthScble = ((flobt) rvWidth) / width;
+                    flobt heightScble = ((flobt) rvHeight) / height;
 
-                    sx1 = Region.clipScale(sx1, widthScale);
-                    sy1 = Region.clipScale(sy1, heightScale);
-                    sx2 = Region.clipScale(sx2, widthScale);
-                    sy2 = Region.clipScale(sy2, heightScale);
+                    sx1 = Region.clipScble(sx1, widthScble);
+                    sy1 = Region.clipScble(sy1, heightScble);
+                    sx2 = Region.clipScble(sx2, widthScble);
+                    sy2 = Region.clipScble(sy2, heightScble);
 
                     observer = rvObserver;
-                    img = resolutionVariant;
+                    img = resolutionVbribnt;
                 }
             }
         }
 
         try {
-            return imagepipe.scaleImage(this, img, dx1, dy1, dx2, dy2, sx1, sy1,
+            return imbgepipe.scbleImbge(this, img, dx1, dy1, dx2, dy2, sx1, sy1,
                                         sx2, sy2, bgcolor, observer);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.scaleImage(this, img, dx1, dy1, dx2, dy2, sx1,
+                revblidbteAll();
+                return imbgepipe.scbleImbge(this, img, dx1, dy1, dx2, dy2, sx1,
                                             sy1, sx2, sy2, bgcolor, observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    private Image getResolutionVariant(MultiResolutionImage img,
+    privbte Imbge getResolutionVbribnt(MultiResolutionImbge img,
             int srcWidth, int srcHeight, int dx1, int dy1, int dx2, int dy2,
             int sx1, int sy1, int sx2, int sy2) {
 
@@ -3175,7 +3175,7 @@ public final class SunGraphics2D
             return null;
         }
 
-        int type = transform.getType();
+        int type = trbnsform.getType();
         int dw = dx2 - dx1;
         int dh = dy2 - dy1;
         double destRegionWidth;
@@ -3185,74 +3185,74 @@ public final class SunGraphics2D
             destRegionWidth = dw;
             destRegionHeight = dh;
         } else if ((type & ~(TYPE_TRANSLATION | TYPE_FLIP | TYPE_MASK_SCALE)) == 0) {
-            destRegionWidth = dw * transform.getScaleX();
-            destRegionHeight = dh * transform.getScaleY();
+            destRegionWidth = dw * trbnsform.getScbleX();
+            destRegionHeight = dh * trbnsform.getScbleY();
         } else {
-            destRegionWidth = dw * Math.hypot(
-                    transform.getScaleX(), transform.getShearY());
-            destRegionHeight = dh * Math.hypot(
-                    transform.getShearX(), transform.getScaleY());
+            destRegionWidth = dw * Mbth.hypot(
+                    trbnsform.getScbleX(), trbnsform.getShebrY());
+            destRegionHeight = dh * Mbth.hypot(
+                    trbnsform.getShebrX(), trbnsform.getScbleY());
         }
 
-        int destImageWidth = (int) Math.abs(srcWidth * destRegionWidth / sw);
-        int destImageHeight = (int) Math.abs(srcHeight * destRegionHeight / sh);
+        int destImbgeWidth = (int) Mbth.bbs(srcWidth * destRegionWidth / sw);
+        int destImbgeHeight = (int) Mbth.bbs(srcHeight * destRegionHeight / sh);
 
-        Image resolutionVariant
-                = img.getResolutionVariant(destImageWidth, destImageHeight);
+        Imbge resolutionVbribnt
+                = img.getResolutionVbribnt(destImbgeWidth, destImbgeHeight);
 
-        if (resolutionVariant instanceof ToolkitImage
-                && ((ToolkitImage) resolutionVariant).hasError()) {
+        if (resolutionVbribnt instbnceof ToolkitImbge
+                && ((ToolkitImbge) resolutionVbribnt).hbsError()) {
             return null;
         }
 
-        return resolutionVariant;
+        return resolutionVbribnt;
     }
 
     /**
-     * Draws an image scaled to x,y,w,h in nonblocking mode with a
-     * callback object.
+     * Drbws bn imbge scbled to x,y,w,h in nonblocking mode with b
+     * cbllbbck object.
      */
-    public boolean drawImage(Image img, int x, int y, int width, int height,
-                             ImageObserver observer) {
-        return drawImage(img, x, y, width, height, null, observer);
+    public boolebn drbwImbge(Imbge img, int x, int y, int width, int height,
+                             ImbgeObserver observer) {
+        return drbwImbge(img, x, y, width, height, null, observer);
     }
 
     /**
-     * Not part of the advertised API but a useful utility method
-     * to call internally.  This is for the case where we are
-     * drawing to/from given coordinates using a given width/height,
-     * but we guarantee that the surfaceData's width/height of the src and dest
-     * areas are equal (no scale needed). Note that this method intentionally
-     * ignore scale factor of the source image, and copy it as is.
+     * Not pbrt of the bdvertised API but b useful utility method
+     * to cbll internblly.  This is for the cbse where we bre
+     * drbwing to/from given coordinbtes using b given width/height,
+     * but we gubrbntee thbt the surfbceDbtb's width/height of the src bnd dest
+     * brebs bre equbl (no scble needed). Note thbt this method intentionblly
+     * ignore scble fbctor of the source imbge, bnd copy it bs is.
      */
-    public boolean copyImage(Image img, int dx, int dy, int sx, int sy,
+    public boolebn copyImbge(Imbge img, int dx, int dy, int sx, int sy,
                              int width, int height, Color bgcolor,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
         try {
-            return imagepipe.copyImage(this, img, dx, dy, sx, sy,
+            return imbgepipe.copyImbge(this, img, dx, dy, sx, sy,
                                        width, height, bgcolor, observer);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.copyImage(this, img, dx, dy, sx, sy,
+                revblidbteAll();
+                return imbgepipe.copyImbge(this, img, dx, dy, sx, sy,
                                            width, height, bgcolor, observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
-     * Draws an image scaled to x,y,w,h in nonblocking mode with a
-     * solid background color and a callback object.
+     * Drbws bn imbge scbled to x,y,w,h in nonblocking mode with b
+     * solid bbckground color bnd b cbllbbck object.
      */
-    public boolean drawImage(Image img, int x, int y, int width, int height,
-                             Color bg, ImageObserver observer) {
+    public boolebn drbwImbge(Imbge img, int x, int y, int width, int height,
+                             Color bg, ImbgeObserver observer) {
 
         if (img == null) {
             return true;
@@ -3262,98 +3262,98 @@ public final class SunGraphics2D
             return true;
         }
 
-        final int imgW = img.getWidth(null);
-        final int imgH = img.getHeight(null);
-        if (isHiDPIImage(img)) {
-            return drawHiDPIImage(img, x, y, x + width, y + height, 0, 0, imgW,
+        finbl int imgW = img.getWidth(null);
+        finbl int imgH = img.getHeight(null);
+        if (isHiDPIImbge(img)) {
+            return drbwHiDPIImbge(img, x, y, x + width, y + height, 0, 0, imgW,
                                   imgH, bg, observer);
         }
 
         if (width == imgW && height == imgH) {
-            return copyImage(img, x, y, 0, 0, width, height, bg, observer);
+            return copyImbge(img, x, y, 0, 0, width, height, bg, observer);
         }
 
         try {
-            return imagepipe.scaleImage(this, img, x, y, width, height,
+            return imbgepipe.scbleImbge(this, img, x, y, width, height,
                                         bg, observer);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.scaleImage(this, img, x, y, width, height,
+                revblidbteAll();
+                return imbgepipe.scbleImbge(this, img, x, y, width, height,
                                             bg, observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
-     * Draws an image at x,y in nonblocking mode.
+     * Drbws bn imbge bt x,y in nonblocking mode.
      */
-    public boolean drawImage(Image img, int x, int y, ImageObserver observer) {
-        return drawImage(img, x, y, null, observer);
+    public boolebn drbwImbge(Imbge img, int x, int y, ImbgeObserver observer) {
+        return drbwImbge(img, x, y, null, observer);
     }
 
     /**
-     * Draws an image at x,y in nonblocking mode with a solid background
-     * color and a callback object.
+     * Drbws bn imbge bt x,y in nonblocking mode with b solid bbckground
+     * color bnd b cbllbbck object.
      */
-    public boolean drawImage(Image img, int x, int y, Color bg,
-                             ImageObserver observer) {
+    public boolebn drbwImbge(Imbge img, int x, int y, Color bg,
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
 
-        if (isHiDPIImage(img)) {
-            final int imgW = img.getWidth(null);
-            final int imgH = img.getHeight(null);
-            return drawHiDPIImage(img, x, y, x + imgW, y + imgH, 0, 0, imgW,
+        if (isHiDPIImbge(img)) {
+            finbl int imgW = img.getWidth(null);
+            finbl int imgH = img.getHeight(null);
+            return drbwHiDPIImbge(img, x, y, x + imgW, y + imgH, 0, 0, imgW,
                                   imgH, bg, observer);
         }
 
         try {
-            return imagepipe.copyImage(this, img, x, y, bg, observer);
-        } catch (InvalidPipeException e) {
+            return imbgepipe.copyImbge(this, img, x, y, bg, observer);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.copyImage(this, img, x, y, bg, observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+                revblidbteAll();
+                return imbgepipe.copyImbge(this, img, x, y, bg, observer);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
-     * Draws a subrectangle of an image scaled to a destination rectangle
-     * in nonblocking mode with a callback object.
+     * Drbws b subrectbngle of bn imbge scbled to b destinbtion rectbngle
+     * in nonblocking mode with b cbllbbck object.
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             ImageObserver observer) {
-        return drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null,
+                             ImbgeObserver observer) {
+        return drbwImbge(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null,
                          observer);
     }
 
     /**
-     * Draws a subrectangle of an image scaled to a destination rectangle in
-     * nonblocking mode with a solid background color and a callback object.
+     * Drbws b subrectbngle of bn imbge scbled to b destinbtion rectbngle in
+     * nonblocking mode with b solid bbckground color bnd b cbllbbck object.
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             Color bgcolor, ImageObserver observer) {
+                             Color bgcolor, ImbgeObserver observer) {
 
         if (img == null) {
             return true;
@@ -3365,15 +3365,15 @@ public final class SunGraphics2D
             return true;
         }
 
-        if (isHiDPIImage(img)) {
-            return drawHiDPIImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+        if (isHiDPIImbge(img)) {
+            return drbwHiDPIImbge(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
                                   bgcolor, observer);
         }
 
         if (((sx2 - sx1) == (dx2 - dx1)) &&
             ((sy2 - sy1) == (dy2 - dy1)))
         {
-            // Not a scale - forward it to a copy routine
+            // Not b scble - forwbrd it to b copy routine
             int srcX, srcY, dstX, dstY, width, height;
             if (sx2 > sx1) {
                 width = sx2 - sx1;
@@ -3393,92 +3393,92 @@ public final class SunGraphics2D
                 srcY = sy2;
                 dstY = dy2;
             }
-            return copyImage(img, dstX, dstY, srcX, srcY,
+            return copyImbge(img, dstX, dstY, srcX, srcY,
                              width, height, bgcolor, observer);
         }
 
         try {
-            return imagepipe.scaleImage(this, img, dx1, dy1, dx2, dy2,
+            return imbgepipe.scbleImbge(this, img, dx1, dy1, dx2, dy2,
                                           sx1, sy1, sx2, sy2, bgcolor,
                                           observer);
-        } catch (InvalidPipeException e) {
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.scaleImage(this, img, dx1, dy1, dx2, dy2,
+                revblidbteAll();
+                return imbgepipe.scbleImbge(this, img, dx1, dy1, dx2, dy2,
                                               sx1, sy1, sx2, sy2, bgcolor,
                                               observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
-     * Draw an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color and composite attributes. Note that the result is
-     * undefined, if the given transform is non-invertible.
-     * @param img The image to be drawn.
-     * @param xform The transformation from image space into user space.
-     * @param observer The image observer to be notified on the image producing
+     * Drbw bn imbge, bpplying b trbnsform from imbge spbce into user spbce
+     * before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current trbnsform in the Grbphics2D.
+     * The given trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the Grbphics2D stbte is bpplied.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * pbint or color bnd composite bttributes. Note thbt the result is
+     * undefined, if the given trbnsform is non-invertible.
+     * @pbrbm img The imbge to be drbwn.
+     * @pbrbm xform The trbnsformbtion from imbge spbce into user spbce.
+     * @pbrbm observer The imbge observer to be notified on the imbge producing
      * progress.
-     * @see #transform
+     * @see #trbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public boolean drawImage(Image img,
-                             AffineTransform xform,
-                             ImageObserver observer) {
+    public boolebn drbwImbge(Imbge img,
+                             AffineTrbnsform xform,
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
 
         if (xform == null || xform.isIdentity()) {
-            return drawImage(img, 0, 0, null, observer);
+            return drbwImbge(img, 0, 0, null, observer);
         }
 
-        if (isHiDPIImage(img)) {
-            final int w = img.getWidth(null);
-            final int h = img.getHeight(null);
-            final AffineTransform tx = new AffineTransform(transform);
-            transform(xform);
-            boolean result = drawHiDPIImage(img, 0, 0, w, h, 0, 0, w, h, null,
+        if (isHiDPIImbge(img)) {
+            finbl int w = img.getWidth(null);
+            finbl int h = img.getHeight(null);
+            finbl AffineTrbnsform tx = new AffineTrbnsform(trbnsform);
+            trbnsform(xform);
+            boolebn result = drbwHiDPIImbge(img, 0, 0, w, h, 0, 0, w, h, null,
                                             observer);
-            transform.setTransform(tx);
-            invalidateTransform();
+            trbnsform.setTrbnsform(tx);
+            invblidbteTrbnsform();
             return result;
         }
 
         try {
-            return imagepipe.transformImage(this, img, xform, observer);
-        } catch (InvalidPipeException e) {
+            return imbgepipe.trbnsformImbge(this, img, xform, observer);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                return imagepipe.transformImage(this, img, xform, observer);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
-                return false;
+                revblidbteAll();
+                return imbgepipe.trbnsformImbge(this, img, xform, observer);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
+                return fblse;
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
-    public void drawImage(BufferedImage bImg,
-                          BufferedImageOp op,
+    public void drbwImbge(BufferedImbge bImg,
+                          BufferedImbgeOp op,
                           int x,
                           int y)  {
 
@@ -3487,100 +3487,100 @@ public final class SunGraphics2D
         }
 
         try {
-            imagepipe.transformImage(this, bImg, op, x, y);
-        } catch (InvalidPipeException e) {
+            imbgepipe.trbnsformImbge(this, bImg, op, x, y);
+        } cbtch (InvblidPipeException e) {
             try {
-                revalidateAll();
-                imagepipe.transformImage(this, bImg, op, x, y);
-            } catch (InvalidPipeException e2) {
-                // Still catching the exception; we are not yet ready to
-                // validate the surfaceData correctly.  Fail for now and
-                // try again next time around.
+                revblidbteAll();
+                imbgepipe.trbnsformImbge(this, bImg, op, x, y);
+            } cbtch (InvblidPipeException e2) {
+                // Still cbtching the exception; we bre not yet rebdy to
+                // vblidbte the surfbceDbtb correctly.  Fbil for now bnd
+                // try bgbin next time bround.
             }
-        } finally {
-            surfaceData.markDirty();
+        } finblly {
+            surfbceDbtb.mbrkDirty();
         }
     }
 
     /**
     * Get the rendering context of the font
-    * within this Graphics2D context.
+    * within this Grbphics2D context.
     */
     public FontRenderContext getFontRenderContext() {
-        if (cachedFRC == null) {
-            int aahint = textAntialiasHint;
-            if (aahint == SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT &&
-                antialiasHint == SunHints.INTVAL_ANTIALIAS_ON) {
-                aahint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
+        if (cbchedFRC == null) {
+            int bbhint = textAntiblibsHint;
+            if (bbhint == SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT &&
+                bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON) {
+                bbhint = SunHints.INTVAL_TEXT_ANTIALIAS_ON;
             }
-            // Translation components should be excluded from the FRC transform
-            AffineTransform tx = null;
-            if (transformState >= TRANSFORM_TRANSLATESCALE) {
-                if (transform.getTranslateX() == 0 &&
-                    transform.getTranslateY() == 0) {
-                    tx = transform;
+            // Trbnslbtion components should be excluded from the FRC trbnsform
+            AffineTrbnsform tx = null;
+            if (trbnsformStbte >= TRANSFORM_TRANSLATESCALE) {
+                if (trbnsform.getTrbnslbteX() == 0 &&
+                    trbnsform.getTrbnslbteY() == 0) {
+                    tx = trbnsform;
                 } else {
-                    tx = new AffineTransform(transform.getScaleX(),
-                                             transform.getShearY(),
-                                             transform.getShearX(),
-                                             transform.getScaleY(),
+                    tx = new AffineTrbnsform(trbnsform.getScbleX(),
+                                             trbnsform.getShebrY(),
+                                             trbnsform.getShebrX(),
+                                             trbnsform.getScbleY(),
                                              0, 0);
                 }
             }
-            cachedFRC = new FontRenderContext(tx,
-             SunHints.Value.get(SunHints.INTKEY_TEXT_ANTIALIASING, aahint),
-             SunHints.Value.get(SunHints.INTKEY_FRACTIONALMETRICS,
-                                fractionalMetricsHint));
+            cbchedFRC = new FontRenderContext(tx,
+             SunHints.Vblue.get(SunHints.INTKEY_TEXT_ANTIALIASING, bbhint),
+             SunHints.Vblue.get(SunHints.INTKEY_FRACTIONALMETRICS,
+                                frbctionblMetricsHint));
         }
-        return cachedFRC;
+        return cbchedFRC;
     }
-    private FontRenderContext cachedFRC;
+    privbte FontRenderContext cbchedFRC;
 
     /**
-     * This object has no resources to dispose of per se, but the
-     * doc comments for the base method in java.awt.Graphics imply
-     * that this object will not be useable after it is disposed.
-     * So, we sabotage the object to prevent further use to prevent
-     * developers from relying on behavior that may not work on
-     * other, less forgiving, VMs that really need to dispose of
+     * This object hbs no resources to dispose of per se, but the
+     * doc comments for the bbse method in jbvb.bwt.Grbphics imply
+     * thbt this object will not be usebble bfter it is disposed.
+     * So, we sbbotbge the object to prevent further use to prevent
+     * developers from relying on behbvior thbt mby not work on
+     * other, less forgiving, VMs thbt reblly need to dispose of
      * resources.
      */
     public void dispose() {
-        surfaceData = NullSurfaceData.theInstance;
-        invalidatePipe();
+        surfbceDbtb = NullSurfbceDbtb.theInstbnce;
+        invblidbtePipe();
     }
 
     /**
-     * Graphics has a finalize method that automatically calls dispose()
-     * for subclasses.  For SunGraphics2D we do not need to be finalized
-     * so that method simply causes us to be enqueued on the Finalizer
-     * queues for no good reason.  Unfortunately, that method and
-     * implementation are now considered part of the public contract
-     * of that base class so we can not remove or gut the method.
-     * We override it here with an empty method and the VM is smart
-     * enough to know that if our override is empty then it should not
-     * mark us as finalizeable.
+     * Grbphics hbs b finblize method thbt butombticblly cblls dispose()
+     * for subclbsses.  For SunGrbphics2D we do not need to be finblized
+     * so thbt method simply cbuses us to be enqueued on the Finblizer
+     * queues for no good rebson.  Unfortunbtely, thbt method bnd
+     * implementbtion bre now considered pbrt of the public contrbct
+     * of thbt bbse clbss so we cbn not remove or gut the method.
+     * We override it here with bn empty method bnd the VM is smbrt
+     * enough to know thbt if our override is empty then it should not
+     * mbrk us bs finblizebble.
      */
-    public void finalize() {
+    public void finblize() {
         // DO NOT REMOVE THIS METHOD
     }
 
     /**
-     * Returns destination that this Graphics renders to.  This could be
-     * either an Image or a Component; subclasses of SurfaceData are
-     * responsible for returning the appropriate object.
+     * Returns destinbtion thbt this Grbphics renders to.  This could be
+     * either bn Imbge or b Component; subclbsses of SurfbceDbtb bre
+     * responsible for returning the bppropribte object.
      */
-    public Object getDestination() {
-        return surfaceData.getDestination();
+    public Object getDestinbtion() {
+        return surfbceDbtb.getDestinbtion();
     }
 
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.DestSurfaceProvider#getDestSurface
+     * @see sun.jbvb2d.DestSurfbceProvider#getDestSurfbce
      */
     @Override
-    public Surface getDestSurface() {
-        return surfaceData;
+    public Surfbce getDestSurfbce() {
+        return surfbceDbtb;
     }
 }

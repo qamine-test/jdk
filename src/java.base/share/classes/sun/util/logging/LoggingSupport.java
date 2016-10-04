@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.util.logging;
+pbckbge sun.util.logging;
 
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Date;
+import jbvb.lbng.reflect.Field;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Dbte;
 
 /**
- * Internal API to support JRE implementation to detect if the java.util.logging
- * support is available but with no dependency on the java.util.logging
- * classes.  This LoggingSupport class provides several static methods to
- * access the java.util.logging functionality that requires the caller
- * to ensure that the logging support is {@linkplain #isAvailable available}
+ * Internbl API to support JRE implementbtion to detect if the jbvb.util.logging
+ * support is bvbilbble but with no dependency on the jbvb.util.logging
+ * clbsses.  This LoggingSupport clbss provides severbl stbtic methods to
+ * bccess the jbvb.util.logging functionblity thbt requires the cbller
+ * to ensure thbt the logging support is {@linkplbin #isAvbilbble bvbilbble}
  * before invoking it.
  *
- * @see sun.util.logging.PlatformLogger if you want to log messages even
- * if the logging support is not available
+ * @see sun.util.logging.PlbtformLogger if you wbnt to log messbges even
+ * if the logging support is not bvbilbble
  */
-public class LoggingSupport {
-    private LoggingSupport() { }
+public clbss LoggingSupport {
+    privbte LoggingSupport() { }
 
-    private static final LoggingProxy proxy =
+    privbte stbtic finbl LoggingProxy proxy =
         AccessController.doPrivileged(new PrivilegedAction<LoggingProxy>() {
             public LoggingProxy run() {
                 try {
-                    // create a LoggingProxyImpl instance when
-                    // java.util.logging classes exist
-                    Class<?> c = Class.forName("java.util.logging.LoggingProxyImpl", true, null);
-                    Field f = c.getDeclaredField("INSTANCE");
+                    // crebte b LoggingProxyImpl instbnce when
+                    // jbvb.util.logging clbsses exist
+                    Clbss<?> c = Clbss.forNbme("jbvb.util.logging.LoggingProxyImpl", true, null);
+                    Field f = c.getDeclbredField("INSTANCE");
                     f.setAccessible(true);
                     return (LoggingProxy) f.get(null);
-                } catch (ClassNotFoundException cnf) {
+                } cbtch (ClbssNotFoundException cnf) {
                     return null;
-                } catch (NoSuchFieldException e) {
+                } cbtch (NoSuchFieldException e) {
                     throw new AssertionError(e);
-                } catch (IllegalAccessException e) {
+                } cbtch (IllegblAccessException e) {
                     throw new AssertionError(e);
                 }
             }});
 
     /**
-     * Returns true if java.util.logging support is available.
+     * Returns true if jbvb.util.logging support is bvbilbble.
      */
-    public static boolean isAvailable() {
+    public stbtic boolebn isAvbilbble() {
         return proxy != null;
     }
 
-    private static void ensureAvailable() {
+    privbte stbtic void ensureAvbilbble() {
         if (proxy == null)
             throw new AssertionError("Should not here");
     }
 
-    public static java.util.List<String> getLoggerNames() {
-        ensureAvailable();
-        return proxy.getLoggerNames();
+    public stbtic jbvb.util.List<String> getLoggerNbmes() {
+        ensureAvbilbble();
+        return proxy.getLoggerNbmes();
     }
-    public static String getLoggerLevel(String loggerName) {
-        ensureAvailable();
-        return proxy.getLoggerLevel(loggerName);
-    }
-
-    public static void setLoggerLevel(String loggerName, String levelName) {
-        ensureAvailable();
-        proxy.setLoggerLevel(loggerName, levelName);
+    public stbtic String getLoggerLevel(String loggerNbme) {
+        ensureAvbilbble();
+        return proxy.getLoggerLevel(loggerNbme);
     }
 
-    public static String getParentLoggerName(String loggerName) {
-        ensureAvailable();
-        return proxy.getParentLoggerName(loggerName);
+    public stbtic void setLoggerLevel(String loggerNbme, String levelNbme) {
+        ensureAvbilbble();
+        proxy.setLoggerLevel(loggerNbme, levelNbme);
     }
 
-    public static Object getLogger(String name) {
-        ensureAvailable();
-        return proxy.getLogger(name);
+    public stbtic String getPbrentLoggerNbme(String loggerNbme) {
+        ensureAvbilbble();
+        return proxy.getPbrentLoggerNbme(loggerNbme);
     }
 
-    public static Object getLevel(Object logger) {
-        ensureAvailable();
+    public stbtic Object getLogger(String nbme) {
+        ensureAvbilbble();
+        return proxy.getLogger(nbme);
+    }
+
+    public stbtic Object getLevel(Object logger) {
+        ensureAvbilbble();
         return proxy.getLevel(logger);
     }
 
-    public static void setLevel(Object logger, Object newLevel) {
-        ensureAvailable();
+    public stbtic void setLevel(Object logger, Object newLevel) {
+        ensureAvbilbble();
         proxy.setLevel(logger, newLevel);
     }
 
-    public static boolean isLoggable(Object logger, Object level) {
-        ensureAvailable();
-        return proxy.isLoggable(logger,level);
+    public stbtic boolebn isLoggbble(Object logger, Object level) {
+        ensureAvbilbble();
+        return proxy.isLoggbble(logger,level);
     }
 
-    public static void log(Object logger, Object level, String msg) {
-        ensureAvailable();
+    public stbtic void log(Object logger, Object level, String msg) {
+        ensureAvbilbble();
         proxy.log(logger, level, msg);
     }
 
-    public static void log(Object logger, Object level, String msg, Throwable t) {
-        ensureAvailable();
+    public stbtic void log(Object logger, Object level, String msg, Throwbble t) {
+        ensureAvbilbble();
         proxy.log(logger, level, msg, t);
     }
 
-    public static void log(Object logger, Object level, String msg, Object... params) {
-        ensureAvailable();
-        proxy.log(logger, level, msg, params);
+    public stbtic void log(Object logger, Object level, String msg, Object... pbrbms) {
+        ensureAvbilbble();
+        proxy.log(logger, level, msg, pbrbms);
     }
 
-    public static Object parseLevel(String levelName) {
-        ensureAvailable();
-        return proxy.parseLevel(levelName);
+    public stbtic Object pbrseLevel(String levelNbme) {
+        ensureAvbilbble();
+        return proxy.pbrseLevel(levelNbme);
     }
 
-    public static String getLevelName(Object level) {
-        ensureAvailable();
-        return proxy.getLevelName(level);
+    public stbtic String getLevelNbme(Object level) {
+        ensureAvbilbble();
+        return proxy.getLevelNbme(level);
     }
 
-    public static int getLevelValue(Object level) {
-        ensureAvailable();
-        return proxy.getLevelValue(level);
+    public stbtic int getLevelVblue(Object level) {
+        ensureAvbilbble();
+        return proxy.getLevelVblue(level);
     }
 
-    private static final String DEFAULT_FORMAT =
+    privbte stbtic finbl String DEFAULT_FORMAT =
         "%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%6$s%n";
 
-    private static final String FORMAT_PROP_KEY = "java.util.logging.SimpleFormatter.format";
-    public static String getSimpleFormat() {
-        return getSimpleFormat(true);
+    privbte stbtic finbl String FORMAT_PROP_KEY = "jbvb.util.logging.SimpleFormbtter.formbt";
+    public stbtic String getSimpleFormbt() {
+        return getSimpleFormbt(true);
     }
 
-    // useProxy if true will cause initialization of
-    // java.util.logging and read its configuration
-    static String getSimpleFormat(boolean useProxy) {
-        String format =
+    // useProxy if true will cbuse initiblizbtion of
+    // jbvb.util.logging bnd rebd its configurbtion
+    stbtic String getSimpleFormbt(boolebn useProxy) {
+        String formbt =
             AccessController.doPrivileged(
                 new PrivilegedAction<String>() {
                     public String run() {
@@ -164,22 +164,22 @@ public class LoggingSupport {
                     }
                 });
 
-        if (useProxy && proxy != null && format == null) {
-            format = proxy.getProperty(FORMAT_PROP_KEY);
+        if (useProxy && proxy != null && formbt == null) {
+            formbt = proxy.getProperty(FORMAT_PROP_KEY);
         }
 
-        if (format != null) {
+        if (formbt != null) {
             try {
-                // validate the user-defined format string
-                String.format(format, new Date(), "", "", "", "", "");
-            } catch (IllegalArgumentException e) {
-                // illegal syntax; fall back to the default format
-                format = DEFAULT_FORMAT;
+                // vblidbte the user-defined formbt string
+                String.formbt(formbt, new Dbte(), "", "", "", "", "");
+            } cbtch (IllegblArgumentException e) {
+                // illegbl syntbx; fbll bbck to the defbult formbt
+                formbt = DEFAULT_FORMAT;
             }
         } else {
-            format = DEFAULT_FORMAT;
+            formbt = DEFAULT_FORMAT;
         }
-        return format;
+        return formbt;
     }
 
 }

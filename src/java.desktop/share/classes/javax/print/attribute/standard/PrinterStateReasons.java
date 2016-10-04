@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.HashMap;
-import java.util.Set;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Set;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PrinterStateReasons is a printing attribute class, a set of
- * enumeration values, that provides additional information about the
- * printer's current state, i.e., information that augments the value of the
- * printer's {@link PrinterState PrinterState} attribute.
+ * Clbss PrinterStbteRebsons is b printing bttribute clbss, b set of
+ * enumerbtion vblues, thbt provides bdditionbl informbtion bbout the
+ * printer's current stbte, i.e., informbtion thbt bugments the vblue of the
+ * printer's {@link PrinterStbte PrinterStbte} bttribute.
  * <P>
- * Instances of {@link PrinterStateReason PrinterStateReason} do not appear in
- *  a Print Service's attribute set directly. Rather, a PrinterStateReasons
- * attribute appears in the Print Service's attribute set. The
- * PrinterStateReasons attribute contains zero, one, or more than one {@link
- * PrinterStateReason PrinterStateReason} objects which pertain to the Print
- * Service's status, and each {@link PrinterStateReason PrinterStateReason}
- * object is associated with a {@link Severity Severity} level of REPORT
- *  (least severe), WARNING, or ERROR (most severe). The printer adds a {@link
- * PrinterStateReason PrinterStateReason} object to the Print Service's
- * PrinterStateReasons attribute when the corresponding condition becomes true
- * of the printer, and the printer removes the {@link PrinterStateReason
- * PrinterStateReason} object again when the corresponding condition becomes
- * false, regardless of whether the Print Service's overall
- * {@link PrinterState PrinterState} also changed.
+ * Instbnces of {@link PrinterStbteRebson PrinterStbteRebson} do not bppebr in
+ *  b Print Service's bttribute set directly. Rbther, b PrinterStbteRebsons
+ * bttribute bppebrs in the Print Service's bttribute set. The
+ * PrinterStbteRebsons bttribute contbins zero, one, or more thbn one {@link
+ * PrinterStbteRebson PrinterStbteRebson} objects which pertbin to the Print
+ * Service's stbtus, bnd ebch {@link PrinterStbteRebson PrinterStbteRebson}
+ * object is bssocibted with b {@link Severity Severity} level of REPORT
+ *  (lebst severe), WARNING, or ERROR (most severe). The printer bdds b {@link
+ * PrinterStbteRebson PrinterStbteRebson} object to the Print Service's
+ * PrinterStbteRebsons bttribute when the corresponding condition becomes true
+ * of the printer, bnd the printer removes the {@link PrinterStbteRebson
+ * PrinterStbteRebson} object bgbin when the corresponding condition becomes
+ * fblse, regbrdless of whether the Print Service's overbll
+ * {@link PrinterStbte PrinterStbte} blso chbnged.
  * <P>
- * Class PrinterStateReasons inherits its implementation from class {@link
- * java.util.HashMap java.util.HashMap}. Each entry in the map consists of a
- * {@link PrinterStateReason PrinterStateReason} object (key) mapping to a
- * {@link Severity Severity} object (value):
+ * Clbss PrinterStbteRebsons inherits its implementbtion from clbss {@link
+ * jbvb.util.HbshMbp jbvb.util.HbshMbp}. Ebch entry in the mbp consists of b
+ * {@link PrinterStbteRebson PrinterStbteRebson} object (key) mbpping to b
+ * {@link Severity Severity} object (vblue):
  * <P>
- * Unlike most printing attributes which are immutable once constructed, class
- * PrinterStateReasons is designed to be mutable; you can add {@link
- * PrinterStateReason PrinterStateReason} objects to an existing
- * PrinterStateReasons object and remove them again. However, like class
- *  {@link java.util.HashMap java.util.HashMap}, class PrinterStateReasons is
- * not multiple thread safe. If a PrinterStateReasons object will be used by
- * multiple threads, be sure to synchronize its operations (e.g., using a
- * synchronized map view obtained from class {@link java.util.Collections
- * java.util.Collections}).
+ * Unlike most printing bttributes which bre immutbble once constructed, clbss
+ * PrinterStbteRebsons is designed to be mutbble; you cbn bdd {@link
+ * PrinterStbteRebson PrinterStbteRebson} objects to bn existing
+ * PrinterStbteRebsons object bnd remove them bgbin. However, like clbss
+ *  {@link jbvb.util.HbshMbp jbvb.util.HbshMbp}, clbss PrinterStbteRebsons is
+ * not multiple threbd sbfe. If b PrinterStbteRebsons object will be used by
+ * multiple threbds, be sure to synchronize its operbtions (e.g., using b
+ * synchronized mbp view obtbined from clbss {@link jbvb.util.Collections
+ * jbvb.util.Collections}).
  * <P>
- * <B>IPP Compatibility:</B> The string values returned by each individual
- * {@link PrinterStateReason PrinterStateReason} object's and the associated
+ * <B>IPP Compbtibility:</B> The string vblues returned by ebch individubl
+ * {@link PrinterStbteRebson PrinterStbteRebson} object's bnd the bssocibted
  * {@link Severity Severity} object's <CODE>toString()</CODE> methods,
- * concatenated
- * together with a hyphen (<CODE>"-"</CODE>) in between, gives the IPP keyword
- * value. The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * concbtenbted
+ * together with b hyphen (<CODE>"-"</CODE>) in between, gives the IPP keyword
+ * vblue. The cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP
+ * bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterStateReasons
-    extends HashMap<PrinterStateReason,Severity>
+public finbl clbss PrinterStbteRebsons
+    extends HbshMbp<PrinterStbteRebson,Severity>
     implements PrintServiceAttribute
 {
 
-    private static final long serialVersionUID = -3731791085163619457L;
+    privbte stbtic finbl long seriblVersionUID = -3731791085163619457L;
 
     /**
-     * Construct a new, empty printer state reasons attribute; the underlying
-     * hash map has the default initial capacity and load factor.
+     * Construct b new, empty printer stbte rebsons bttribute; the underlying
+     * hbsh mbp hbs the defbult initibl cbpbcity bnd lobd fbctor.
      */
-    public PrinterStateReasons() {
+    public PrinterStbteRebsons() {
         super();
     }
 
     /**
-     * super a new, empty printer state reasons attribute; the underlying
-     * hash map has the given initial capacity and the default load factor.
+     * super b new, empty printer stbte rebsons bttribute; the underlying
+     * hbsh mbp hbs the given initibl cbpbcity bnd the defbult lobd fbctor.
      *
-     * @param  initialCapacity  Initial capacity.
+     * @pbrbm  initiblCbpbcity  Initibl cbpbcity.
      *
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @throws IllegblArgumentException if the initibl cbpbcity is less
+     *     thbn zero.
      */
-    public PrinterStateReasons(int initialCapacity) {
-        super (initialCapacity);
+    public PrinterStbteRebsons(int initiblCbpbcity) {
+        super (initiblCbpbcity);
     }
 
     /**
-     * Construct a new, empty printer state reasons attribute; the underlying
-     * hash map has the given initial capacity and load factor.
+     * Construct b new, empty printer stbte rebsons bttribute; the underlying
+     * hbsh mbp hbs the given initibl cbpbcity bnd lobd fbctor.
      *
-     * @param  initialCapacity  Initial capacity.
-     * @param  loadFactor       Load factor.
+     * @pbrbm  initiblCbpbcity  Initibl cbpbcity.
+     * @pbrbm  lobdFbctor       Lobd fbctor.
      *
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @throws IllegblArgumentException if the initibl cbpbcity is less
+     *     thbn zero.
      */
-    public PrinterStateReasons(int initialCapacity, float loadFactor) {
-        super (initialCapacity, loadFactor);
+    public PrinterStbteRebsons(int initiblCbpbcity, flobt lobdFbctor) {
+        super (initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Construct a new printer state reasons attribute that contains the same
-     * {@link PrinterStateReason PrinterStateReason}-to-{@link Severity
-     * Severity} mappings as the given map. The underlying hash map's initial
-     * capacity and load factor are as specified in the superclass constructor
-     * {@link java.util.HashMap#HashMap(java.util.Map)
-     * HashMap(Map)}.
+     * Construct b new printer stbte rebsons bttribute thbt contbins the sbme
+     * {@link PrinterStbteRebson PrinterStbteRebson}-to-{@link Severity
+     * Severity} mbppings bs the given mbp. The underlying hbsh mbp's initibl
+     * cbpbcity bnd lobd fbctor bre bs specified in the superclbss constructor
+     * {@link jbvb.util.HbshMbp#HbshMbp(jbvb.util.Mbp)
+     * HbshMbp(Mbp)}.
      *
-     * @param  map  Map to copy.
+     * @pbrbm  mbp  Mbp to copy.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>map</CODE> is null or if any
-     *     key or value in <CODE>map</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if any key in <CODE>map</CODE> is not
-     *   an instance of class {@link PrinterStateReason PrinterStateReason} or
-     *     if any value in <CODE>map</CODE> is not an instance of class
+     *     (unchecked exception) Thrown if <CODE>mbp</CODE> is null or if bny
+     *     key or vblue in <CODE>mbp</CODE> is null.
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if bny key in <CODE>mbp</CODE> is not
+     *   bn instbnce of clbss {@link PrinterStbteRebson PrinterStbteRebson} or
+     *     if bny vblue in <CODE>mbp</CODE> is not bn instbnce of clbss
      *     {@link Severity Severity}.
      */
-    public PrinterStateReasons(Map<PrinterStateReason,Severity> map) {
+    public PrinterStbteRebsons(Mbp<PrinterStbteRebson,Severity> mbp) {
         this();
-        for (Map.Entry<PrinterStateReason,Severity> e : map.entrySet())
-            put(e.getKey(), e.getValue());
+        for (Mbp.Entry<PrinterStbteRebson,Severity> e : mbp.entrySet())
+            put(e.getKey(), e.getVblue());
     }
 
     /**
-     * Adds the given printer state reason to this printer state reasons
-     * attribute, associating it with the given severity level. If this
-     * printer state reasons attribute previously contained a mapping for the
-     * given printer state reason, the old value is replaced.
+     * Adds the given printer stbte rebson to this printer stbte rebsons
+     * bttribute, bssocibting it with the given severity level. If this
+     * printer stbte rebsons bttribute previously contbined b mbpping for the
+     * given printer stbte rebson, the old vblue is replbced.
      *
-     * @param  reason    Printer state reason. This must be an instance of
-     *                    class {@link PrinterStateReason PrinterStateReason}.
-     * @param  severity  Severity of the printer state reason. This must be
-     *                      an instance of class {@link Severity Severity}.
+     * @pbrbm  rebson    Printer stbte rebson. This must be bn instbnce of
+     *                    clbss {@link PrinterStbteRebson PrinterStbteRebson}.
+     * @pbrbm  severity  Severity of the printer stbte rebson. This must be
+     *                      bn instbnce of clbss {@link Severity Severity}.
      *
-     * @return  Previous severity associated with the given printer state
-     *          reason, or <tt>null</tt> if the given printer state reason was
+     * @return  Previous severity bssocibted with the given printer stbte
+     *          rebson, or <tt>null</tt> if the given printer stbte rebson wbs
      *          not present.
      *
      * @throws  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>reason</CODE> is null or
+     *     (unchecked exception) Thrown if <CODE>rebson</CODE> is null or
      *     <CODE>severity</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>reason</CODE> is not an
-     *   instance of class {@link PrinterStateReason PrinterStateReason} or if
-     *     <CODE>severity</CODE> is not an instance of class {@link Severity
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if <CODE>rebson</CODE> is not bn
+     *   instbnce of clbss {@link PrinterStbteRebson PrinterStbteRebson} or if
+     *     <CODE>severity</CODE> is not bn instbnce of clbss {@link Severity
      *     Severity}.
      * @since 1.5
      */
-    public Severity put(PrinterStateReason reason, Severity severity) {
-        if (reason == null) {
-            throw new NullPointerException("reason is null");
+    public Severity put(PrinterStbteRebson rebson, Severity severity) {
+        if (rebson == null) {
+            throw new NullPointerException("rebson is null");
         }
         if (severity == null) {
             throw new NullPointerException("severity is null");
         }
-        return super.put(reason, severity);
+        return super.put(rebson, severity);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterStateReasons, the
-     * category is class PrinterStateReasons itself.
+     * For clbss PrinterStbteRebsons, the
+     * cbtegory is clbss PrinterStbteRebsons itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterStateReasons.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterStbteRebsons.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterStateReasons, the
-     * category name is <CODE>"printer-state-reasons"</CODE>.
+     * For clbss PrinterStbteRebsons, the
+     * cbtegory nbme is <CODE>"printer-stbte-rebsons"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "printer-state-reasons";
+    public finbl String getNbme() {
+        return "printer-stbte-rebsons";
     }
 
     /**
-     * Obtain an unmodifiable set view of the individual printer state reason
-     * attributes at the given severity level in this PrinterStateReasons
-     * attribute. Each element in the set view is a {@link PrinterStateReason
-     * PrinterStateReason} object. The only elements in the set view are the
-     * {@link PrinterStateReason PrinterStateReason} objects that map to the
-     * given severity value. The set view is backed by this
-     * PrinterStateReasons attribute, so changes to this PrinterStateReasons
-     * attribute are reflected  in the set view.
+     * Obtbin bn unmodifibble set view of the individubl printer stbte rebson
+     * bttributes bt the given severity level in this PrinterStbteRebsons
+     * bttribute. Ebch element in the set view is b {@link PrinterStbteRebson
+     * PrinterStbteRebson} object. The only elements in the set view bre the
+     * {@link PrinterStbteRebson PrinterStbteRebson} objects thbt mbp to the
+     * given severity vblue. The set view is bbcked by this
+     * PrinterStbteRebsons bttribute, so chbnges to this PrinterStbteRebsons
+     * bttribute bre reflected  in the set view.
      * The set view does not support element insertion or
-     * removal. The set view's iterator does not support element removal.
+     * removbl. The set view's iterbtor does not support element removbl.
      *
-     * @param  severity  Severity level.
+     * @pbrbm  severity  Severity level.
      *
-     * @return  Set view of the individual {@link PrinterStateReason
-     *          PrinterStateReason} attributes at the given {@link Severity
+     * @return  Set view of the individubl {@link PrinterStbteRebson
+     *          PrinterStbteRebson} bttributes bt the given {@link Severity
      *          Severity} level.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>severity</CODE> is null.
      */
-    public Set<PrinterStateReason> printerStateReasonSet(Severity severity) {
+    public Set<PrinterStbteRebson> printerStbteRebsonSet(Severity severity) {
         if (severity == null) {
             throw new NullPointerException("severity is null");
         }
-        return new PrinterStateReasonSet (severity, entrySet());
+        return new PrinterStbteRebsonSet (severity, entrySet());
     }
 
-    private class PrinterStateReasonSet
-        extends AbstractSet<PrinterStateReason>
+    privbte clbss PrinterStbteRebsonSet
+        extends AbstrbctSet<PrinterStbteRebson>
     {
-        private Severity mySeverity;
+        privbte Severity mySeverity;
 
-        private Set<Map.Entry<PrinterStateReason, Severity>> myEntrySet;
+        privbte Set<Mbp.Entry<PrinterStbteRebson, Severity>> myEntrySet;
 
-        public PrinterStateReasonSet(Severity severity,
-                                     Set<Map.Entry<PrinterStateReason, Severity>> entrySet) {
+        public PrinterStbteRebsonSet(Severity severity,
+                                     Set<Mbp.Entry<PrinterStbteRebson, Severity>> entrySet) {
             mySeverity = severity;
             myEntrySet = entrySet;
         }
 
         public int size() {
             int result = 0;
-            Iterator<PrinterStateReason> iter = iterator();
-            while (iter.hasNext()) {
+            Iterbtor<PrinterStbteRebson> iter = iterbtor();
+            while (iter.hbsNext()) {
                 iter.next();
                 ++ result;
             }
             return result;
         }
 
-        public Iterator<PrinterStateReason> iterator() {
-            return new PrinterStateReasonSetIterator(mySeverity,
-                                                     myEntrySet.iterator());
+        public Iterbtor<PrinterStbteRebson> iterbtor() {
+            return new PrinterStbteRebsonSetIterbtor(mySeverity,
+                                                     myEntrySet.iterbtor());
         }
     }
 
-    private class PrinterStateReasonSetIterator implements Iterator<PrinterStateReason> {
-        private Severity mySeverity;
-        private Iterator<Map.Entry<PrinterStateReason, Severity>> myIterator;
-        private Map.Entry<PrinterStateReason, Severity> myEntry;
+    privbte clbss PrinterStbteRebsonSetIterbtor implements Iterbtor<PrinterStbteRebson> {
+        privbte Severity mySeverity;
+        privbte Iterbtor<Mbp.Entry<PrinterStbteRebson, Severity>> myIterbtor;
+        privbte Mbp.Entry<PrinterStbteRebson, Severity> myEntry;
 
-        public PrinterStateReasonSetIterator(Severity severity,
-                                             Iterator<Map.Entry<PrinterStateReason, Severity>> iterator) {
+        public PrinterStbteRebsonSetIterbtor(Severity severity,
+                                             Iterbtor<Mbp.Entry<PrinterStbteRebson, Severity>> iterbtor) {
             mySeverity = severity;
-            myIterator = iterator;
+            myIterbtor = iterbtor;
             goToNext();
         }
 
-        private void goToNext() {
+        privbte void goToNext() {
             myEntry = null;
-            while (myEntry == null && myIterator.hasNext()) {
-                myEntry = myIterator.next();
-                if (myEntry.getValue() != mySeverity) {
+            while (myEntry == null && myIterbtor.hbsNext()) {
+                myEntry = myIterbtor.next();
+                if (myEntry.getVblue() != mySeverity) {
                     myEntry = null;
                 }
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return myEntry != null;
         }
 
-        public PrinterStateReason next() {
+        public PrinterStbteRebson next() {
             if (myEntry == null) {
                 throw new NoSuchElementException();
             }
-            PrinterStateReason result = myEntry.getKey();
+            PrinterStbteRebson result = myEntry.getKey();
             goToNext();
             return result;
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 

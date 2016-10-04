@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Instances of the file descriptor class serve as an opaque handle
- * to the underlying machine-specific structure representing an
- * open file, an open socket, or another source or sink of bytes.
- * The main practical use for a file descriptor is to create a
- * {@link FileInputStream} or {@link FileOutputStream} to contain it.
+ * Instbnces of the file descriptor clbss serve bs bn opbque hbndle
+ * to the underlying mbchine-specific structure representing bn
+ * open file, bn open socket, or bnother source or sink of bytes.
+ * The mbin prbcticbl use for b file descriptor is to crebte b
+ * {@link FileInputStrebm} or {@link FileOutputStrebm} to contbin it.
  *
- * <p>Applications should not create their own file descriptors.
+ * <p>Applicbtions should not crebte their own file descriptors.
  *
- * @author  Pavani Diwanji
+ * @buthor  Pbvbni Diwbnji
  * @since   1.0
  */
-public final class FileDescriptor {
+public finbl clbss FileDescriptor {
 
-    private int fd;
+    privbte int fd;
 
-    private long handle;
+    privbte long hbndle;
 
-    private Closeable parent;
-    private List<Closeable> otherParents;
-    private boolean closed;
+    privbte Closebble pbrent;
+    privbte List<Closebble> otherPbrents;
+    privbte boolebn closed;
 
     /**
-     * Constructs an (invalid) FileDescriptor
+     * Constructs bn (invblid) FileDescriptor
      * object.
      */
     public /**/ FileDescriptor() {
         fd = -1;
-        handle = -1;
+        hbndle = -1;
     }
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    // Set up JavaIOFileDescriptorAccess in SharedSecrets
-    static {
-        sun.misc.SharedSecrets.setJavaIOFileDescriptorAccess(
-            new sun.misc.JavaIOFileDescriptorAccess() {
+    // Set up JbvbIOFileDescriptorAccess in ShbredSecrets
+    stbtic {
+        sun.misc.ShbredSecrets.setJbvbIOFileDescriptorAccess(
+            new sun.misc.JbvbIOFileDescriptorAccess() {
                 public void set(FileDescriptor obj, int fd) {
                     obj.fd = fd;
                 }
@@ -75,153 +75,153 @@ public final class FileDescriptor {
                     return obj.fd;
                 }
 
-                public void setHandle(FileDescriptor obj, long handle) {
-                    obj.handle = handle;
+                public void setHbndle(FileDescriptor obj, long hbndle) {
+                    obj.hbndle = hbndle;
                 }
 
-                public long getHandle(FileDescriptor obj) {
-                    return obj.handle;
+                public long getHbndle(FileDescriptor obj) {
+                    return obj.hbndle;
                 }
             }
         );
     }
 
     /**
-     * A handle to the standard input stream. Usually, this file
-     * descriptor is not used directly, but rather via the input stream
-     * known as {@code System.in}.
+     * A hbndle to the stbndbrd input strebm. Usublly, this file
+     * descriptor is not used directly, but rbther vib the input strebm
+     * known bs {@code System.in}.
      *
-     * @see     java.lang.System#in
+     * @see     jbvb.lbng.System#in
      */
-    public static final FileDescriptor in = standardStream(0);
+    public stbtic finbl FileDescriptor in = stbndbrdStrebm(0);
 
     /**
-     * A handle to the standard output stream. Usually, this file
-     * descriptor is not used directly, but rather via the output stream
-     * known as {@code System.out}.
-     * @see     java.lang.System#out
+     * A hbndle to the stbndbrd output strebm. Usublly, this file
+     * descriptor is not used directly, but rbther vib the output strebm
+     * known bs {@code System.out}.
+     * @see     jbvb.lbng.System#out
      */
-    public static final FileDescriptor out = standardStream(1);
+    public stbtic finbl FileDescriptor out = stbndbrdStrebm(1);
 
     /**
-     * A handle to the standard error stream. Usually, this file
-     * descriptor is not used directly, but rather via the output stream
-     * known as {@code System.err}.
+     * A hbndle to the stbndbrd error strebm. Usublly, this file
+     * descriptor is not used directly, but rbther vib the output strebm
+     * known bs {@code System.err}.
      *
-     * @see     java.lang.System#err
+     * @see     jbvb.lbng.System#err
      */
-    public static final FileDescriptor err = standardStream(2);
+    public stbtic finbl FileDescriptor err = stbndbrdStrebm(2);
 
     /**
-     * Tests if this file descriptor object is valid.
+     * Tests if this file descriptor object is vblid.
      *
-     * @return  {@code true} if the file descriptor object represents a
-     *          valid, open file, socket, or other active I/O connection;
-     *          {@code false} otherwise.
+     * @return  {@code true} if the file descriptor object represents b
+     *          vblid, open file, socket, or other bctive I/O connection;
+     *          {@code fblse} otherwise.
      */
-    public boolean valid() {
-        return ((handle != -1) || (fd != -1));
+    public boolebn vblid() {
+        return ((hbndle != -1) || (fd != -1));
     }
 
     /**
-     * Force all system buffers to synchronize with the underlying
-     * device.  This method returns after all modified data and
-     * attributes of this FileDescriptor have been written to the
-     * relevant device(s).  In particular, if this FileDescriptor
-     * refers to a physical storage medium, such as a file in a file
-     * system, sync will not return until all in-memory modified copies
-     * of buffers associated with this FileDesecriptor have been
-     * written to the physical medium.
+     * Force bll system buffers to synchronize with the underlying
+     * device.  This method returns bfter bll modified dbtb bnd
+     * bttributes of this FileDescriptor hbve been written to the
+     * relevbnt device(s).  In pbrticulbr, if this FileDescriptor
+     * refers to b physicbl storbge medium, such bs b file in b file
+     * system, sync will not return until bll in-memory modified copies
+     * of buffers bssocibted with this FileDesecriptor hbve been
+     * written to the physicbl medium.
      *
-     * sync is meant to be used by code that requires physical
-     * storage (such as a file) to be in a known state  For
-     * example, a class that provided a simple transaction facility
-     * might use sync to ensure that all changes to a file caused
-     * by a given transaction were recorded on a storage medium.
+     * sync is mebnt to be used by code thbt requires physicbl
+     * storbge (such bs b file) to be in b known stbte  For
+     * exbmple, b clbss thbt provided b simple trbnsbction fbcility
+     * might use sync to ensure thbt bll chbnges to b file cbused
+     * by b given trbnsbction were recorded on b storbge medium.
      *
-     * sync only affects buffers downstream of this FileDescriptor.  If
-     * any in-memory buffering is being done by the application (for
-     * example, by a BufferedOutputStream object), those buffers must
-     * be flushed into the FileDescriptor (for example, by invoking
-     * OutputStream.flush) before that data will be affected by sync.
+     * sync only bffects buffers downstrebm of this FileDescriptor.  If
+     * bny in-memory buffering is being done by the bpplicbtion (for
+     * exbmple, by b BufferedOutputStrebm object), those buffers must
+     * be flushed into the FileDescriptor (for exbmple, by invoking
+     * OutputStrebm.flush) before thbt dbtb will be bffected by sync.
      *
-     * @exception SyncFailedException
-     *        Thrown when the buffers cannot be flushed,
-     *        or because the system cannot guarantee that all the
-     *        buffers have been synchronized with physical media.
+     * @exception SyncFbiledException
+     *        Thrown when the buffers cbnnot be flushed,
+     *        or becbuse the system cbnnot gubrbntee thbt bll the
+     *        buffers hbve been synchronized with physicbl medib.
      * @since     1.1
      */
-    public native void sync() throws SyncFailedException;
+    public nbtive void sync() throws SyncFbiledException;
 
-    /* This routine initializes JNI field offsets for the class */
-    private static native void initIDs();
+    /* This routine initiblizes JNI field offsets for the clbss */
+    privbte stbtic nbtive void initIDs();
 
-    private static native long set(int d);
+    privbte stbtic nbtive long set(int d);
 
-    private static FileDescriptor standardStream(int fd) {
+    privbte stbtic FileDescriptor stbndbrdStrebm(int fd) {
         FileDescriptor desc = new FileDescriptor();
-        desc.handle = set(fd);
+        desc.hbndle = set(fd);
         return desc;
     }
 
     /*
-     * Package private methods to track referents.
-     * If multiple streams point to the same FileDescriptor, we cycle
-     * through the list of all referents and call close()
+     * Pbckbge privbte methods to trbck referents.
+     * If multiple strebms point to the sbme FileDescriptor, we cycle
+     * through the list of bll referents bnd cbll close()
      */
 
     /**
-     * Attach a Closeable to this FD for tracking.
-     * parent reference is added to otherParents when
-     * needed to make closeAll simpler.
+     * Attbch b Closebble to this FD for trbcking.
+     * pbrent reference is bdded to otherPbrents when
+     * needed to mbke closeAll simpler.
      */
-    synchronized void attach(Closeable c) {
-        if (parent == null) {
-            // first caller gets to do this
-            parent = c;
-        } else if (otherParents == null) {
-            otherParents = new ArrayList<>();
-            otherParents.add(parent);
-            otherParents.add(c);
+    synchronized void bttbch(Closebble c) {
+        if (pbrent == null) {
+            // first cbller gets to do this
+            pbrent = c;
+        } else if (otherPbrents == null) {
+            otherPbrents = new ArrbyList<>();
+            otherPbrents.bdd(pbrent);
+            otherPbrents.bdd(c);
         } else {
-            otherParents.add(c);
+            otherPbrents.bdd(c);
         }
     }
 
     /**
-     * Cycle through all Closeables sharing this FD and call
-     * close() on each one.
+     * Cycle through bll Closebbles shbring this FD bnd cbll
+     * close() on ebch one.
      *
-     * The caller closeable gets to call close0().
+     * The cbller closebble gets to cbll close0().
      */
-    @SuppressWarnings("try")
-    synchronized void closeAll(Closeable releaser) throws IOException {
+    @SuppressWbrnings("try")
+    synchronized void closeAll(Closebble relebser) throws IOException {
         if (!closed) {
             closed = true;
             IOException ioe = null;
-            try (Closeable c = releaser) {
-                if (otherParents != null) {
-                    for (Closeable referent : otherParents) {
+            try (Closebble c = relebser) {
+                if (otherPbrents != null) {
+                    for (Closebble referent : otherPbrents) {
                         try {
                             referent.close();
-                        } catch(IOException x) {
+                        } cbtch(IOException x) {
                             if (ioe == null) {
                                 ioe = x;
                             } else {
-                                ioe.addSuppressed(x);
+                                ioe.bddSuppressed(x);
                             }
                         }
                     }
                 }
-            } catch(IOException ex) {
+            } cbtch(IOException ex) {
                 /*
-                 * If releaser close() throws IOException
-                 * add other exceptions as suppressed.
+                 * If relebser close() throws IOException
+                 * bdd other exceptions bs suppressed.
                  */
                 if (ioe != null)
-                    ex.addSuppressed(ioe);
+                    ex.bddSuppressed(ioe);
                 ioe = ex;
-            } finally {
+            } finblly {
                 if (ioe != null)
                     throw ioe;
             }

@@ -1,254 +1,254 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.util.Locale;
+import jbvb.io.IOException;
+import jbvb.util.Locble;
 
 import sun.security.util.*;
 
 /**
- * This class implements the RFC822Name as required by the GeneralNames
+ * This clbss implements the RFC822Nbme bs required by the GenerblNbmes
  * ASN.1 object.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
+ * @see GenerblNbme
+ * @see GenerblNbmes
+ * @see GenerblNbmeInterfbce
  */
-public class RFC822Name implements GeneralNameInterface
+public clbss RFC822Nbme implements GenerblNbmeInterfbce
 {
-    private String name;
+    privbte String nbme;
 
     /**
-     * Create the RFC822Name object from the passed encoded Der value.
+     * Crebte the RFC822Nbme object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER RFC822Name.
+     * @pbrbm derVblue the encoded DER RFC822Nbme.
      * @exception IOException on error.
      */
-    public RFC822Name(DerValue derValue) throws IOException {
-        name = derValue.getIA5String();
-        parseName(name);
+    public RFC822Nbme(DerVblue derVblue) throws IOException {
+        nbme = derVblue.getIA5String();
+        pbrseNbme(nbme);
     }
 
     /**
-     * Create the RFC822Name object with the specified name.
+     * Crebte the RFC822Nbme object with the specified nbme.
      *
-     * @param name the RFC822Name.
-     * @throws IOException on invalid input name
+     * @pbrbm nbme the RFC822Nbme.
+     * @throws IOException on invblid input nbme
      */
-    public RFC822Name(String name) throws IOException {
-        parseName(name);
-        this.name = name;
+    public RFC822Nbme(String nbme) throws IOException {
+        pbrseNbme(nbme);
+        this.nbme = nbme;
     }
 
     /**
-     * Parse an RFC822Name string to see if it is a valid
-     * addr-spec according to IETF RFC822 and RFC2459:
-     * [local-part@]domain
+     * Pbrse bn RFC822Nbme string to see if it is b vblid
+     * bddr-spec bccording to IETF RFC822 bnd RFC2459:
+     * [locbl-pbrt@]dombin
      * <p>
-     * local-part@ could be empty for an RFC822Name NameConstraint,
-     * but the domain at least must be non-empty.  Case is not
-     * significant.
+     * locbl-pbrt@ could be empty for bn RFC822Nbme NbmeConstrbint,
+     * but the dombin bt lebst must be non-empty.  Cbse is not
+     * significbnt.
      *
-     * @param name the RFC822Name string
-     * @throws IOException if name is not valid
+     * @pbrbm nbme the RFC822Nbme string
+     * @throws IOException if nbme is not vblid
      */
-    public void parseName(String name) throws IOException {
-        if (name == null || name.length() == 0) {
-            throw new IOException("RFC822Name may not be null or empty");
+    public void pbrseNbme(String nbme) throws IOException {
+        if (nbme == null || nbme.length() == 0) {
+            throw new IOException("RFC822Nbme mby not be null or empty");
         }
-        // See if domain is a valid domain name
-        String domain = name.substring(name.indexOf('@')+1);
-        if (domain.length() == 0) {
-            throw new IOException("RFC822Name may not end with @");
+        // See if dombin is b vblid dombin nbme
+        String dombin = nbme.substring(nbme.indexOf('@')+1);
+        if (dombin.length() == 0) {
+            throw new IOException("RFC822Nbme mby not end with @");
         } else {
-            //An RFC822 NameConstraint could start with a ., although
-            //a DNSName may not
-            if (domain.startsWith(".")) {
-                if (domain.length() == 1)
-                    throw new IOException("RFC822Name domain may not be just .");
+            //An RFC822 NbmeConstrbint could stbrt with b ., blthough
+            //b DNSNbme mby not
+            if (dombin.stbrtsWith(".")) {
+                if (dombin.length() == 1)
+                    throw new IOException("RFC822Nbme dombin mby not be just .");
             }
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_RFC822);
+        return (GenerblNbmeInterfbce.NAME_RFC822);
     }
 
     /**
-     * Return the actual name value of the GeneralName.
+     * Return the bctubl nbme vblue of the GenerblNbme.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Encode the RFC822 name into the DerOutputStream.
+     * Encode the RFC822 nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the RFC822Name to.
+     * @pbrbm out the DER strebm to encode the RFC822Nbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        out.putIA5String(name);
+    public void encode(DerOutputStrebm out) throws IOException {
+        out.putIA5String(nbme);
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convert the nbme into user rebdbble string.
      */
     public String toString() {
-        return ("RFC822Name: " + name);
+        return ("RFC822Nbme: " + nbme);
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbres this nbme with bnother, for equblity.
      *
-     * @return true iff the names are equivalent
-     * according to RFC2459.
+     * @return true iff the nbmes bre equivblent
+     * bccording to RFC2459.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)
             return true;
 
-        if (!(obj instanceof RFC822Name))
-            return false;
+        if (!(obj instbnceof RFC822Nbme))
+            return fblse;
 
-        RFC822Name other = (RFC822Name)obj;
+        RFC822Nbme other = (RFC822Nbme)obj;
 
-        // RFC2459 mandates that these names are
-        // not case-sensitive
-        return name.equalsIgnoreCase(other.name);
+        // RFC2459 mbndbtes thbt these nbmes bre
+        // not cbse-sensitive
+        return nbme.equblsIgnoreCbse(other.nbme);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return name.toUpperCase(Locale.ENGLISH).hashCode();
+    public int hbshCode() {
+        return nbme.toUpperCbse(Locble.ENGLISH).hbshCode();
     }
 
     /**
-     * Return constraint type:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain)
-     *   <li>NAME_MATCH = 0: input name matches name
-     *   <li>NAME_NARROWS = 1: input name narrows name
-     *   <li>NAME_WIDENS = 2: input name widens name
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return constrbint type:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme (i.e. does not constrbin)
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme, but is sbme type
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      * <p>
-     * [RFC2459]    When the subjectAltName extension contains an Internet mail address,
-     * the address MUST be included as an rfc822Name. The format of an
-     * rfc822Name is an "addr-spec" as defined in RFC 822 [RFC 822]. An
-     * addr-spec has the form "local-part@domain". Note that an addr-spec
-     * has no phrase (such as a common name) before it, has no comment (text
-     * surrounded in parentheses) after it, and is not surrounded by "&lt;" and
-     * "&gt;". Note that while upper and lower case letters are allowed in an
-     * RFC 822 addr-spec, no significance is attached to the case.
+     * [RFC2459]    When the subjectAltNbme extension contbins bn Internet mbil bddress,
+     * the bddress MUST be included bs bn rfc822Nbme. The formbt of bn
+     * rfc822Nbme is bn "bddr-spec" bs defined in RFC 822 [RFC 822]. An
+     * bddr-spec hbs the form "locbl-pbrt@dombin". Note thbt bn bddr-spec
+     * hbs no phrbse (such bs b common nbme) before it, hbs no comment (text
+     * surrounded in pbrentheses) bfter it, bnd is not surrounded by "&lt;" bnd
+     * "&gt;". Note thbt while upper bnd lower cbse letters bre bllowed in bn
+     * RFC 822 bddr-spec, no significbnce is bttbched to the cbse.
      * <p>
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but narrowing and widening are
-     *          not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is not exbct mbtch, but nbrrowing bnd widening bre
+     *          not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != (GeneralNameInterface.NAME_RFC822)) {
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (inputNbme.getType() != (GenerblNbmeInterfbce.NAME_RFC822)) {
+            constrbintType = NAME_DIFF_TYPE;
         } else {
-            //RFC2459 specifies that case is not significant in RFC822Names
-            String inName =
-                (((RFC822Name)inputName).getName()).toLowerCase(Locale.ENGLISH);
-            String thisName = name.toLowerCase(Locale.ENGLISH);
-            if (inName.equals(thisName)) {
-                constraintType = NAME_MATCH;
-            } else if (thisName.endsWith(inName)) {
-                /* if both names contain @, then they had to match exactly */
-                if (inName.indexOf('@') != -1) {
-                    constraintType = NAME_SAME_TYPE;
-                } else if (inName.startsWith(".")) {
-                    constraintType = NAME_WIDENS;
+            //RFC2459 specifies thbt cbse is not significbnt in RFC822Nbmes
+            String inNbme =
+                (((RFC822Nbme)inputNbme).getNbme()).toLowerCbse(Locble.ENGLISH);
+            String thisNbme = nbme.toLowerCbse(Locble.ENGLISH);
+            if (inNbme.equbls(thisNbme)) {
+                constrbintType = NAME_MATCH;
+            } else if (thisNbme.endsWith(inNbme)) {
+                /* if both nbmes contbin @, then they hbd to mbtch exbctly */
+                if (inNbme.indexOf('@') != -1) {
+                    constrbintType = NAME_SAME_TYPE;
+                } else if (inNbme.stbrtsWith(".")) {
+                    constrbintType = NAME_WIDENS;
                 } else {
-                    int inNdx = thisName.lastIndexOf(inName);
-                    if (thisName.charAt(inNdx-1) == '@' ) {
-                        constraintType = NAME_WIDENS;
+                    int inNdx = thisNbme.lbstIndexOf(inNbme);
+                    if (thisNbme.chbrAt(inNdx-1) == '@' ) {
+                        constrbintType = NAME_WIDENS;
                     } else {
-                        constraintType = NAME_SAME_TYPE;
+                        constrbintType = NAME_SAME_TYPE;
                     }
                 }
-            } else if (inName.endsWith(thisName)) {
-                /* if thisName contains @, then they had to match exactly */
-                if (thisName.indexOf('@') != -1) {
-                    constraintType = NAME_SAME_TYPE;
-                } else if (thisName.startsWith(".")) {
-                    constraintType = NAME_NARROWS;
+            } else if (inNbme.endsWith(thisNbme)) {
+                /* if thisNbme contbins @, then they hbd to mbtch exbctly */
+                if (thisNbme.indexOf('@') != -1) {
+                    constrbintType = NAME_SAME_TYPE;
+                } else if (thisNbme.stbrtsWith(".")) {
+                    constrbintType = NAME_NARROWS;
                 } else {
-                    int ndx = inName.lastIndexOf(thisName);
-                    if (inName.charAt(ndx-1) == '@') {
-                        constraintType = NAME_NARROWS;
+                    int ndx = inNbme.lbstIndexOf(thisNbme);
+                    if (inNbme.chbrAt(ndx-1) == '@') {
+                        constrbintType = NAME_NARROWS;
                     } else {
-                        constraintType = NAME_SAME_TYPE;
+                        constrbintType = NAME_SAME_TYPE;
                     }
                 }
             } else {
-                constraintType = NAME_SAME_TYPE;
+                constrbintType = NAME_SAME_TYPE;
             }
         }
-        return constraintType;
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        String subtree=name;
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        String subtree=nbme;
         int i=1;
 
-        /* strip off name@ portion */
-        int atNdx = subtree.lastIndexOf('@');
-        if (atNdx >= 0) {
+        /* strip off nbme@ portion */
+        int btNdx = subtree.lbstIndexOf('@');
+        if (btNdx >= 0) {
             i++;
-            subtree=subtree.substring(atNdx+1);
+            subtree=subtree.substring(btNdx+1);
         }
 
-        /* count dots in dnsname, adding one if dnsname preceded by @ */
-        for (; subtree.lastIndexOf('.') >= 0; i++) {
-            subtree=subtree.substring(0,subtree.lastIndexOf('.'));
+        /* count dots in dnsnbme, bdding one if dnsnbme preceded by @ */
+        for (; subtree.lbstIndexOf('.') >= 0; i++) {
+            subtree=subtree.substring(0,subtree.lbstIndexOf('.'));
         }
 
         return i;

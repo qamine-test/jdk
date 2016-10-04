@@ -1,460 +1,460 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.security.PrivilegedAction;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
-import sun.lwawt.macosx.LWCToolkit;
-import apple.laf.JRSUIConstants.AlignmentHorizontal;
-import apple.laf.JRSUIConstants.AlignmentVertical;
-import apple.laf.JRSUIConstants.Direction;
-import apple.laf.JRSUIConstants.State;
-import apple.laf.JRSUIConstants.Widget;
-import apple.laf.*;
+import sun.lwbwt.mbcosx.LWCToolkit;
+import bpple.lbf.JRSUIConstbnts.AlignmentHorizontbl;
+import bpple.lbf.JRSUIConstbnts.AlignmentVerticbl;
+import bpple.lbf.JRSUIConstbnts.Direction;
+import bpple.lbf.JRSUIConstbnts.Stbte;
+import bpple.lbf.JRSUIConstbnts.Widget;
+import bpple.lbf.*;
 
-import com.apple.eio.FileManager;
-import com.apple.laf.AquaIcon.InvertableIcon;
-import com.apple.laf.AquaIcon.JRSUIControlSpec;
-import com.apple.laf.AquaIcon.SystemIcon;
-import com.apple.laf.AquaUtils.RecyclableObject;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import sun.awt.image.MultiResolutionImage;
-import sun.awt.image.MultiResolutionCachedImage;
+import com.bpple.eio.FileMbnbger;
+import com.bpple.lbf.AqubIcon.InvertbbleIcon;
+import com.bpple.lbf.AqubIcon.JRSUIControlSpec;
+import com.bpple.lbf.AqubIcon.SystemIcon;
+import com.bpple.lbf.AqubUtils.RecyclbbleObject;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import sun.bwt.imbge.MultiResolutionImbge;
+import sun.bwt.imbge.MultiResolutionCbchedImbge;
 
-public class AquaImageFactory {
-    public static IconUIResource getConfirmImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
+public clbss AqubImbgeFbctory {
+    public stbtic IconUIResource getConfirmImbgeIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
 
-        return new IconUIResource(new AquaIcon.CachingScalingIcon(kAlertIconSize, kAlertIconSize) {
-            Image createImage() {
-                return getGenericJavaIcon();
+        return new IconUIResource(new AqubIcon.CbchingScblingIcon(kAlertIconSize, kAlertIconSize) {
+            Imbge crebteImbge() {
+                return getGenericJbvbIcon();
             }
         });
     }
 
-    public static IconUIResource getCautionImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return getAppIconCompositedOn(AquaIcon.SystemIcon.getCautionIcon());
+    public stbtic IconUIResource getCbutionImbgeIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return getAppIconCompositedOn(AqubIcon.SystemIcon.getCbutionIcon());
     }
 
-    public static IconUIResource getStopImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return getAppIconCompositedOn(AquaIcon.SystemIcon.getStopIcon());
+    public stbtic IconUIResource getStopImbgeIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return getAppIconCompositedOn(AqubIcon.SystemIcon.getStopIcon());
     }
 
-    public static IconUIResource getLockImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        if (JRSUIUtils.Images.shouldUseLegacySecurityUIPath()) {
-            final Image lockIcon = AquaUtils.getCImageCreator().createImageFromFile("/System/Library/CoreServices/SecurityAgent.app/Contents/Resources/Security.icns", kAlertIconSize, kAlertIconSize);
+    public stbtic IconUIResource getLockImbgeIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        if (JRSUIUtils.Imbges.shouldUseLegbcySecurityUIPbth()) {
+            finbl Imbge lockIcon = AqubUtils.getCImbgeCrebtor().crebteImbgeFromFile("/System/Librbry/CoreServices/SecurityAgent.bpp/Contents/Resources/Security.icns", kAlertIconSize, kAlertIconSize);
             return getAppIconCompositedOn(lockIcon);
         }
 
-        final Image lockIcon = Toolkit.getDefaultToolkit().getImage("NSImage://NSSecurity");
+        finbl Imbge lockIcon = Toolkit.getDefbultToolkit().getImbge("NSImbge://NSSecurity");
         return getAppIconCompositedOn(lockIcon);
     }
 
-    static Image getGenericJavaIcon() {
-        return java.security.AccessController.doPrivileged(new PrivilegedAction<Image>() {
-            public Image run() {
-                return com.apple.eawt.Application.getApplication().getDockIconImage();
+    stbtic Imbge getGenericJbvbIcon() {
+        return jbvb.security.AccessController.doPrivileged(new PrivilegedAction<Imbge>() {
+            public Imbge run() {
+                return com.bpple.ebwt.Applicbtion.getApplicbtion().getDockIconImbge();
             }
         });
     }
 
-    static String getPathToThisApplication() {
-        return java.security.AccessController.doPrivileged(new PrivilegedAction<String>() {
+    stbtic String getPbthToThisApplicbtion() {
+        return jbvb.security.AccessController.doPrivileged(new PrivilegedAction<String>() {
             public String run() {
-                return FileManager.getPathToApplicationBundle();
+                return FileMbnbger.getPbthToApplicbtionBundle();
             }
         });
     }
 
-    static IconUIResource getAppIconCompositedOn(final SystemIcon systemIcon) {
+    stbtic IconUIResource getAppIconCompositedOn(finbl SystemIcon systemIcon) {
         systemIcon.setSize(kAlertIconSize, kAlertIconSize);
-        return getAppIconCompositedOn(systemIcon.createImage());
+        return getAppIconCompositedOn(systemIcon.crebteImbge());
     }
 
-    private static final int kAlertIconSize = 64;
-    static IconUIResource getAppIconCompositedOn(final Image background) {
+    privbte stbtic finbl int kAlertIconSize = 64;
+    stbtic IconUIResource getAppIconCompositedOn(finbl Imbge bbckground) {
 
-        if (background instanceof MultiResolutionCachedImage) {
-            int width = background.getWidth(null);
-            Image mrIconImage = ((MultiResolutionCachedImage) background).map(
-                    rv -> getAppIconImageCompositedOn(rv, rv.getWidth(null) / width));
-            return new IconUIResource(new ImageIcon(mrIconImage));
+        if (bbckground instbnceof MultiResolutionCbchedImbge) {
+            int width = bbckground.getWidth(null);
+            Imbge mrIconImbge = ((MultiResolutionCbchedImbge) bbckground).mbp(
+                    rv -> getAppIconImbgeCompositedOn(rv, rv.getWidth(null) / width));
+            return new IconUIResource(new ImbgeIcon(mrIconImbge));
         }
 
-        BufferedImage iconImage = getAppIconImageCompositedOn(background, 1);
-        return new IconUIResource(new ImageIcon(iconImage));
+        BufferedImbge iconImbge = getAppIconImbgeCompositedOn(bbckground, 1);
+        return new IconUIResource(new ImbgeIcon(iconImbge));
     }
 
-    static BufferedImage getAppIconImageCompositedOn(final Image background, int scaleFactor) {
+    stbtic BufferedImbge getAppIconImbgeCompositedOn(finbl Imbge bbckground, int scbleFbctor) {
 
-        final int scaledAlertIconSize = kAlertIconSize * scaleFactor;
-        final int kAlertSubIconSize = (int) (scaledAlertIconSize * 0.5);
-        final int kAlertSubIconInset = scaledAlertIconSize - kAlertSubIconSize;
-        final Icon smallAppIconScaled = new AquaIcon.CachingScalingIcon(
+        finbl int scbledAlertIconSize = kAlertIconSize * scbleFbctor;
+        finbl int kAlertSubIconSize = (int) (scbledAlertIconSize * 0.5);
+        finbl int kAlertSubIconInset = scbledAlertIconSize - kAlertSubIconSize;
+        finbl Icon smbllAppIconScbled = new AqubIcon.CbchingScblingIcon(
                 kAlertSubIconSize, kAlertSubIconSize) {
-                    Image createImage() {
-                        return getGenericJavaIcon();
+                    Imbge crebteImbge() {
+                        return getGenericJbvbIcon();
                     }
                 };
 
-        final BufferedImage image = new BufferedImage(scaledAlertIconSize,
-                scaledAlertIconSize, BufferedImage.TYPE_INT_ARGB);
-        final Graphics g = image.getGraphics();
-        g.drawImage(background, 0, 0,
-                scaledAlertIconSize, scaledAlertIconSize, null);
-        if (g instanceof Graphics2D) {
-            // improves icon rendering quality in Quartz
-            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING,
+        finbl BufferedImbge imbge = new BufferedImbge(scbledAlertIconSize,
+                scbledAlertIconSize, BufferedImbge.TYPE_INT_ARGB);
+        finbl Grbphics g = imbge.getGrbphics();
+        g.drbwImbge(bbckground, 0, 0,
+                scbledAlertIconSize, scbledAlertIconSize, null);
+        if (g instbnceof Grbphics2D) {
+            // improves icon rendering qublity in Qubrtz
+            ((Grbphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING,
                     RenderingHints.VALUE_RENDER_QUALITY);
         }
 
-        smallAppIconScaled.paintIcon(null, g,
+        smbllAppIconScbled.pbintIcon(null, g,
                 kAlertSubIconInset, kAlertSubIconInset);
         g.dispose();
 
-        return image;
+        return imbge;
     }
 
-    public static IconUIResource getTreeFolderIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getFolderIconUIResource();
+    public stbtic IconUIResource getTreeFolderIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.SystemIcon.getFolderIconUIResource();
     }
 
-    public static IconUIResource getTreeOpenFolderIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getOpenFolderIconUIResource();
+    public stbtic IconUIResource getTreeOpenFolderIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.SystemIcon.getOpenFolderIconUIResource();
     }
 
-    public static IconUIResource getTreeDocumentIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getDocumentIconUIResource();
+    public stbtic IconUIResource getTreeDocumentIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.SystemIcon.getDocumentIconUIResource();
     }
 
-    public static UIResource getTreeExpandedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.DOWN);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    public stbtic UIResource getTreeExpbndedIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.getIconFor(new JRSUIControlSpec() {
+            public void initIconPbinter(finbl AqubPbinter<? extends JRSUIStbte> pbinter) {
+                pbinter.stbte.set(Widget.DISCLOSURE_TRIANGLE);
+                pbinter.stbte.set(Stbte.ACTIVE);
+                pbinter.stbte.set(Direction.DOWN);
+                pbinter.stbte.set(AlignmentHorizontbl.CENTER);
+                pbinter.stbte.set(AlignmentVerticbl.CENTER);
             }
         }, 20, 20);
     }
 
-    public static UIResource getTreeCollapsedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.RIGHT);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    public stbtic UIResource getTreeCollbpsedIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.getIconFor(new JRSUIControlSpec() {
+            public void initIconPbinter(finbl AqubPbinter<? extends JRSUIStbte> pbinter) {
+                pbinter.stbte.set(Widget.DISCLOSURE_TRIANGLE);
+                pbinter.stbte.set(Stbte.ACTIVE);
+                pbinter.stbte.set(Direction.RIGHT);
+                pbinter.stbte.set(AlignmentHorizontbl.CENTER);
+                pbinter.stbte.set(AlignmentVerticbl.CENTER);
             }
         }, 20, 20);
     }
 
-    public static UIResource getTreeRightToLeftCollapsedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.LEFT);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    public stbtic UIResource getTreeRightToLeftCollbpsedIcon() {
+        // public, becbuse UIDefbults.ProxyLbzyVblue uses reflection to get this vblue
+        return AqubIcon.getIconFor(new JRSUIControlSpec() {
+            public void initIconPbinter(finbl AqubPbinter<? extends JRSUIStbte> pbinter) {
+                pbinter.stbte.set(Widget.DISCLOSURE_TRIANGLE);
+                pbinter.stbte.set(Stbte.ACTIVE);
+                pbinter.stbte.set(Direction.LEFT);
+                pbinter.stbte.set(AlignmentHorizontbl.CENTER);
+                pbinter.stbte.set(AlignmentVerticbl.CENTER);
             }
         }, 20, 20);
     }
 
-    static class NamedImageSingleton extends RecyclableSingleton<Image> {
-        final String namedImage;
+    stbtic clbss NbmedImbgeSingleton extends RecyclbbleSingleton<Imbge> {
+        finbl String nbmedImbge;
 
-        NamedImageSingleton(final String namedImage) {
-            this.namedImage = namedImage;
+        NbmedImbgeSingleton(finbl String nbmedImbge) {
+            this.nbmedImbge = nbmedImbge;
         }
 
         @Override
-        protected Image getInstance() {
-            return getNSIcon(namedImage);
+        protected Imbge getInstbnce() {
+            return getNSIcon(nbmedImbge);
         }
     }
 
-    static class IconUIResourceSingleton extends RecyclableSingleton<IconUIResource> {
-        final NamedImageSingleton holder;
+    stbtic clbss IconUIResourceSingleton extends RecyclbbleSingleton<IconUIResource> {
+        finbl NbmedImbgeSingleton holder;
 
-        public IconUIResourceSingleton(final NamedImageSingleton holder) {
+        public IconUIResourceSingleton(finbl NbmedImbgeSingleton holder) {
             this.holder = holder;
         }
 
         @Override
-        protected IconUIResource getInstance() {
-            return new IconUIResource(new ImageIcon(holder.get()));
+        protected IconUIResource getInstbnce() {
+            return new IconUIResource(new ImbgeIcon(holder.get()));
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class InvertableImageIcon extends ImageIcon implements InvertableIcon, UIResource {
-        Icon invertedImage;
-        public InvertableImageIcon(final Image image) {
-            super(image);
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss InvertbbleImbgeIcon extends ImbgeIcon implements InvertbbleIcon, UIResource {
+        Icon invertedImbge;
+        public InvertbbleImbgeIcon(finbl Imbge imbge) {
+            super(imbge);
         }
 
         @Override
         public Icon getInvertedIcon() {
-            if (invertedImage != null) return invertedImage;
-            return invertedImage = new IconUIResource(new ImageIcon(AquaUtils.generateLightenedImage(getImage(), 100)));
+            if (invertedImbge != null) return invertedImbge;
+            return invertedImbge = new IconUIResource(new ImbgeIcon(AqubUtils.generbteLightenedImbge(getImbge(), 100)));
         }
     }
 
-    protected static final NamedImageSingleton northArrow = new NamedImageSingleton("NSMenuScrollUp");
-    protected static final IconUIResourceSingleton northArrowIcon = new IconUIResourceSingleton(northArrow);
-    protected static final NamedImageSingleton southArrow = new NamedImageSingleton("NSMenuScrollDown");
-    protected static final IconUIResourceSingleton southArrowIcon = new IconUIResourceSingleton(southArrow);
-    protected static final NamedImageSingleton westArrow = new NamedImageSingleton("NSMenuSubmenuLeft");
-    protected static final IconUIResourceSingleton westArrowIcon = new IconUIResourceSingleton(westArrow);
-    protected static final NamedImageSingleton eastArrow = new NamedImageSingleton("NSMenuSubmenu");
-    protected static final IconUIResourceSingleton eastArrowIcon = new IconUIResourceSingleton(eastArrow);
+    protected stbtic finbl NbmedImbgeSingleton northArrow = new NbmedImbgeSingleton("NSMenuScrollUp");
+    protected stbtic finbl IconUIResourceSingleton northArrowIcon = new IconUIResourceSingleton(northArrow);
+    protected stbtic finbl NbmedImbgeSingleton southArrow = new NbmedImbgeSingleton("NSMenuScrollDown");
+    protected stbtic finbl IconUIResourceSingleton southArrowIcon = new IconUIResourceSingleton(southArrow);
+    protected stbtic finbl NbmedImbgeSingleton westArrow = new NbmedImbgeSingleton("NSMenuSubmenuLeft");
+    protected stbtic finbl IconUIResourceSingleton westArrowIcon = new IconUIResourceSingleton(westArrow);
+    protected stbtic finbl NbmedImbgeSingleton ebstArrow = new NbmedImbgeSingleton("NSMenuSubmenu");
+    protected stbtic finbl IconUIResourceSingleton ebstArrowIcon = new IconUIResourceSingleton(ebstArrow);
 
-    static Image getArrowImageForDirection(final int direction) {
+    stbtic Imbge getArrowImbgeForDirection(finbl int direction) {
         switch(direction) {
-            case SwingConstants.NORTH: return northArrow.get();
-            case SwingConstants.SOUTH: return southArrow.get();
-            case SwingConstants.EAST: return eastArrow.get();
-            case SwingConstants.WEST: return westArrow.get();
+            cbse SwingConstbnts.NORTH: return northArrow.get();
+            cbse SwingConstbnts.SOUTH: return southArrow.get();
+            cbse SwingConstbnts.EAST: return ebstArrow.get();
+            cbse SwingConstbnts.WEST: return westArrow.get();
         }
         return null;
     }
 
-    static Icon getArrowIconForDirection(int direction) {
+    stbtic Icon getArrowIconForDirection(int direction) {
         switch(direction) {
-            case SwingConstants.NORTH: return northArrowIcon.get();
-            case SwingConstants.SOUTH: return southArrowIcon.get();
-            case SwingConstants.EAST: return eastArrowIcon.get();
-            case SwingConstants.WEST: return westArrowIcon.get();
+            cbse SwingConstbnts.NORTH: return northArrowIcon.get();
+            cbse SwingConstbnts.SOUTH: return southArrowIcon.get();
+            cbse SwingConstbnts.EAST: return ebstArrowIcon.get();
+            cbse SwingConstbnts.WEST: return westArrowIcon.get();
         }
         return null;
     }
 
-    public static Icon getMenuArrowIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(eastArrow.get(), 25));
+    public stbtic Icon getMenuArrowIcon() {
+        return new InvertbbleImbgeIcon(AqubUtils.generbteLightenedImbge(ebstArrow.get(), 25));
     }
 
-    public static Icon getMenuItemCheckIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(
+    public stbtic Icon getMenuItemCheckIcon() {
+        return new InvertbbleImbgeIcon(AqubUtils.generbteLightenedImbge(
                 getNSIcon("NSMenuItemSelection"), 25));
     }
 
-    public static Icon getMenuItemDashIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(
-                getNSIcon("NSMenuMixedState"), 25));
+    public stbtic Icon getMenuItemDbshIcon() {
+        return new InvertbbleImbgeIcon(AqubUtils.generbteLightenedImbge(
+                getNSIcon("NSMenuMixedStbte"), 25));
     }
 
-    private static Image getNSIcon(String imageName) {
-        Image icon = Toolkit.getDefaultToolkit()
-                .getImage("NSImage://" + imageName);
+    privbte stbtic Imbge getNSIcon(String imbgeNbme) {
+        Imbge icon = Toolkit.getDefbultToolkit()
+                .getImbge("NSImbge://" + imbgeNbme);
         return icon;
     }
 
-    public static class NineSliceMetrics {
-        public final int wCut, eCut, nCut, sCut;
-        public final int minW, minH;
-        public final boolean showMiddle, stretchH, stretchV;
+    public stbtic clbss NineSliceMetrics {
+        public finbl int wCut, eCut, nCut, sCut;
+        public finbl int minW, minH;
+        public finbl boolebn showMiddle, stretchH, stretchV;
 
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut) {
-            this(minWidth, minHeight, westCut, eastCut, northCut, southCut, true);
+        public NineSliceMetrics(finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut) {
+            this(minWidth, minHeight, westCut, ebstCut, northCut, southCut, true);
         }
 
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean showMiddle) {
-            this(minWidth, minHeight, westCut, eastCut, northCut, southCut, showMiddle, true, true);
+        public NineSliceMetrics(finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn showMiddle) {
+            this(minWidth, minHeight, westCut, ebstCut, northCut, southCut, showMiddle, true, true);
         }
 
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean showMiddle, final boolean stretchHorizontally, final boolean stretchVertically) {
-            this.wCut = westCut; this.eCut = eastCut; this.nCut = northCut; this.sCut = southCut;
+        public NineSliceMetrics(finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn showMiddle, finbl boolebn stretchHorizontblly, finbl boolebn stretchVerticblly) {
+            this.wCut = westCut; this.eCut = ebstCut; this.nCut = northCut; this.sCut = southCut;
             this.minW = minWidth; this.minH = minHeight;
-            this.showMiddle = showMiddle; this.stretchH = stretchHorizontally; this.stretchV = stretchVertically;
+            this.showMiddle = showMiddle; this.stretchH = stretchHorizontblly; this.stretchV = stretchVerticblly;
         }
     }
 
     /*
-     * A "paintable" which holds nine images, which represent a sliced up initial
-     * image that can be streched from its middles.
+     * A "pbintbble" which holds nine imbges, which represent b sliced up initibl
+     * imbge thbt cbn be streched from its middles.
      */
-    public static class SlicedImageControl {
-        final BufferedImage NW, N, NE;
-        final BufferedImage W, C, E;
-        final BufferedImage SW, S, SE;
+    public stbtic clbss SlicedImbgeControl {
+        finbl BufferedImbge NW, N, NE;
+        finbl BufferedImbge W, C, E;
+        finbl BufferedImbge SW, S, SE;
 
-        final NineSliceMetrics metrics;
+        finbl NineSliceMetrics metrics;
 
-        final int totalWidth, totalHeight;
-        final int centerColWidth, centerRowHeight;
+        finbl int totblWidth, totblHeight;
+        finbl int centerColWidth, centerRowHeight;
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut) {
-            this(img, westCut, eastCut, northCut, southCut, true);
+        public SlicedImbgeControl(finbl Imbge img, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut) {
+            this(img, westCut, ebstCut, northCut, southCut, true);
         }
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle) {
-            this(img, westCut, eastCut, northCut, southCut, useMiddle, true, true);
+        public SlicedImbgeControl(finbl Imbge img, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn useMiddle) {
+            this(img, westCut, ebstCut, northCut, southCut, useMiddle, true, true);
         }
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle, final boolean stretchHorizontally, final boolean stretchVertically) {
-            this(img, new NineSliceMetrics(img.getWidth(null), img.getHeight(null), westCut, eastCut, northCut, southCut, useMiddle, stretchHorizontally, stretchVertically));
+        public SlicedImbgeControl(finbl Imbge img, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn useMiddle, finbl boolebn stretchHorizontblly, finbl boolebn stretchVerticblly) {
+            this(img, new NineSliceMetrics(img.getWidth(null), img.getHeight(null), westCut, ebstCut, northCut, southCut, useMiddle, stretchHorizontblly, stretchVerticblly));
         }
 
-        public SlicedImageControl(final Image img, final NineSliceMetrics metrics) {
+        public SlicedImbgeControl(finbl Imbge img, finbl NineSliceMetrics metrics) {
             this.metrics = metrics;
 
             if (img.getWidth(null) != metrics.minW || img.getHeight(null) != metrics.minH) {
-                throw new IllegalArgumentException("SlicedImageControl: template image and NineSliceMetrics don't agree on minimum dimensions");
+                throw new IllegblArgumentException("SlicedImbgeControl: templbte imbge bnd NineSliceMetrics don't bgree on minimum dimensions");
             }
 
-            totalWidth = metrics.minW;
-            totalHeight = metrics.minH;
-            centerColWidth = totalWidth - metrics.wCut - metrics.eCut;
-            centerRowHeight = totalHeight - metrics.nCut - metrics.sCut;
+            totblWidth = metrics.minW;
+            totblHeight = metrics.minH;
+            centerColWidth = totblWidth - metrics.wCut - metrics.eCut;
+            centerRowHeight = totblHeight - metrics.nCut - metrics.sCut;
 
-            NW = createSlice(img, 0, 0, metrics.wCut, metrics.nCut);
-            N = createSlice(img, metrics.wCut, 0, centerColWidth, metrics.nCut);
-            NE = createSlice(img, totalWidth - metrics.eCut, 0, metrics.eCut, metrics.nCut);
-            W = createSlice(img, 0, metrics.nCut, metrics.wCut, centerRowHeight);
-            C = metrics.showMiddle ? createSlice(img, metrics.wCut, metrics.nCut, centerColWidth, centerRowHeight) : null;
-            E = createSlice(img, totalWidth - metrics.eCut, metrics.nCut, metrics.eCut, centerRowHeight);
-            SW = createSlice(img, 0, totalHeight - metrics.sCut, metrics.wCut, metrics.sCut);
-            S = createSlice(img, metrics.wCut, totalHeight - metrics.sCut, centerColWidth, metrics.sCut);
-            SE = createSlice(img, totalWidth - metrics.eCut, totalHeight - metrics.sCut, metrics.eCut, metrics.sCut);
+            NW = crebteSlice(img, 0, 0, metrics.wCut, metrics.nCut);
+            N = crebteSlice(img, metrics.wCut, 0, centerColWidth, metrics.nCut);
+            NE = crebteSlice(img, totblWidth - metrics.eCut, 0, metrics.eCut, metrics.nCut);
+            W = crebteSlice(img, 0, metrics.nCut, metrics.wCut, centerRowHeight);
+            C = metrics.showMiddle ? crebteSlice(img, metrics.wCut, metrics.nCut, centerColWidth, centerRowHeight) : null;
+            E = crebteSlice(img, totblWidth - metrics.eCut, metrics.nCut, metrics.eCut, centerRowHeight);
+            SW = crebteSlice(img, 0, totblHeight - metrics.sCut, metrics.wCut, metrics.sCut);
+            S = crebteSlice(img, metrics.wCut, totblHeight - metrics.sCut, centerColWidth, metrics.sCut);
+            SE = crebteSlice(img, totblWidth - metrics.eCut, totblHeight - metrics.sCut, metrics.eCut, metrics.sCut);
         }
 
-        static BufferedImage createSlice(final Image img, final int x, final int y, final int w, final int h) {
+        stbtic BufferedImbge crebteSlice(finbl Imbge img, finbl int x, finbl int y, finbl int w, finbl int h) {
             if (w == 0 || h == 0) return null;
 
-            final BufferedImage slice = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
-            final Graphics2D g2d = slice.createGraphics();
-            g2d.drawImage(img, 0, 0, w, h, x, y, x + w, y + h, null);
+            finbl BufferedImbge slice = new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB_PRE);
+            finbl Grbphics2D g2d = slice.crebteGrbphics();
+            g2d.drbwImbge(img, 0, 0, w, h, x, y, x + w, y + h, null);
             g2d.dispose();
 
             return slice;
         }
 
-        public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
-            g.translate(x, y);
+        public void pbint(finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
+            g.trbnslbte(x, y);
 
-            if (w < totalWidth || h < totalHeight) {
-                paintCompressed(g, w, h);
+            if (w < totblWidth || h < totblHeight) {
+                pbintCompressed(g, w, h);
             } else {
-                paintStretchedMiddles(g, w, h);
+                pbintStretchedMiddles(g, w, h);
             }
 
-            g.translate(-x, -y);
+            g.trbnslbte(-x, -y);
         }
 
-        void paintStretchedMiddles(final Graphics g, final int w, final int h) {
-            int baseX = metrics.stretchH ? 0 : ((w / 2) - (totalWidth / 2));
-            int baseY = metrics.stretchV ? 0 : ((h / 2) - (totalHeight / 2));
-            int adjustedWidth = metrics.stretchH ? w : totalWidth;
-            int adjustedHeight = metrics.stretchV ? h : totalHeight;
+        void pbintStretchedMiddles(finbl Grbphics g, finbl int w, finbl int h) {
+            int bbseX = metrics.stretchH ? 0 : ((w / 2) - (totblWidth / 2));
+            int bbseY = metrics.stretchV ? 0 : ((h / 2) - (totblHeight / 2));
+            int bdjustedWidth = metrics.stretchH ? w : totblWidth;
+            int bdjustedHeight = metrics.stretchV ? h : totblHeight;
 
-            if (NW != null) g.drawImage(NW, baseX, baseY, null);
-            if (N != null) g.drawImage(N, baseX + metrics.wCut, baseY, adjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut, null);
-            if (NE != null) g.drawImage(NE, baseX + adjustedWidth - metrics.eCut, baseY, null);
-            if (W != null) g.drawImage(W, baseX, baseY + metrics.nCut, metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (C != null) g.drawImage(C, baseX + metrics.wCut, baseY + metrics.nCut, adjustedWidth - metrics.eCut - metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (E != null) g.drawImage(E, baseX + adjustedWidth - metrics.eCut, baseY + metrics.nCut, metrics.eCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (SW != null) g.drawImage(SW, baseX, baseY + adjustedHeight - metrics.sCut, null);
-            if (S != null) g.drawImage(S, baseX + metrics.wCut, baseY + adjustedHeight - metrics.sCut, adjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut, null);
-            if (SE != null) g.drawImage(SE, baseX + adjustedWidth - metrics.eCut, baseY + adjustedHeight - metrics.sCut, null);
+            if (NW != null) g.drbwImbge(NW, bbseX, bbseY, null);
+            if (N != null) g.drbwImbge(N, bbseX + metrics.wCut, bbseY, bdjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut, null);
+            if (NE != null) g.drbwImbge(NE, bbseX + bdjustedWidth - metrics.eCut, bbseY, null);
+            if (W != null) g.drbwImbge(W, bbseX, bbseY + metrics.nCut, metrics.wCut, bdjustedHeight - metrics.nCut - metrics.sCut, null);
+            if (C != null) g.drbwImbge(C, bbseX + metrics.wCut, bbseY + metrics.nCut, bdjustedWidth - metrics.eCut - metrics.wCut, bdjustedHeight - metrics.nCut - metrics.sCut, null);
+            if (E != null) g.drbwImbge(E, bbseX + bdjustedWidth - metrics.eCut, bbseY + metrics.nCut, metrics.eCut, bdjustedHeight - metrics.nCut - metrics.sCut, null);
+            if (SW != null) g.drbwImbge(SW, bbseX, bbseY + bdjustedHeight - metrics.sCut, null);
+            if (S != null) g.drbwImbge(S, bbseX + metrics.wCut, bbseY + bdjustedHeight - metrics.sCut, bdjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut, null);
+            if (SE != null) g.drbwImbge(SE, bbseX + bdjustedWidth - metrics.eCut, bbseY + bdjustedHeight - metrics.sCut, null);
 
             /*
-            if (NW != null) {g.setColor(Color.GREEN); g.fillRect(baseX, baseY, NW.getWidth(), NW.getHeight());}
-            if (N != null) {g.setColor(Color.RED); g.fillRect(baseX + metrics.wCut, baseY, adjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut);}
-            if (NE != null) {g.setColor(Color.BLUE); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY, NE.getWidth(), NE.getHeight());}
-            if (W != null) {g.setColor(Color.PINK); g.fillRect(baseX, baseY + metrics.nCut, metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (C != null) {g.setColor(Color.ORANGE); g.fillRect(baseX + metrics.wCut, baseY + metrics.nCut, adjustedWidth - metrics.eCut - metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (E != null) {g.setColor(Color.CYAN); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY + metrics.nCut, metrics.eCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (SW != null) {g.setColor(Color.MAGENTA); g.fillRect(baseX, baseY + adjustedHeight - metrics.sCut, SW.getWidth(), SW.getHeight());}
-            if (S != null) {g.setColor(Color.DARK_GRAY); g.fillRect(baseX + metrics.wCut, baseY + adjustedHeight - metrics.sCut, adjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut);}
-            if (SE != null) {g.setColor(Color.YELLOW); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY + adjustedHeight - metrics.sCut, SE.getWidth(), SE.getHeight());}
+            if (NW != null) {g.setColor(Color.GREEN); g.fillRect(bbseX, bbseY, NW.getWidth(), NW.getHeight());}
+            if (N != null) {g.setColor(Color.RED); g.fillRect(bbseX + metrics.wCut, bbseY, bdjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut);}
+            if (NE != null) {g.setColor(Color.BLUE); g.fillRect(bbseX + bdjustedWidth - metrics.eCut, bbseY, NE.getWidth(), NE.getHeight());}
+            if (W != null) {g.setColor(Color.PINK); g.fillRect(bbseX, bbseY + metrics.nCut, metrics.wCut, bdjustedHeight - metrics.nCut - metrics.sCut);}
+            if (C != null) {g.setColor(Color.ORANGE); g.fillRect(bbseX + metrics.wCut, bbseY + metrics.nCut, bdjustedWidth - metrics.eCut - metrics.wCut, bdjustedHeight - metrics.nCut - metrics.sCut);}
+            if (E != null) {g.setColor(Color.CYAN); g.fillRect(bbseX + bdjustedWidth - metrics.eCut, bbseY + metrics.nCut, metrics.eCut, bdjustedHeight - metrics.nCut - metrics.sCut);}
+            if (SW != null) {g.setColor(Color.MAGENTA); g.fillRect(bbseX, bbseY + bdjustedHeight - metrics.sCut, SW.getWidth(), SW.getHeight());}
+            if (S != null) {g.setColor(Color.DARK_GRAY); g.fillRect(bbseX + metrics.wCut, bbseY + bdjustedHeight - metrics.sCut, bdjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut);}
+            if (SE != null) {g.setColor(Color.YELLOW); g.fillRect(bbseX + bdjustedWidth - metrics.eCut, bbseY + bdjustedHeight - metrics.sCut, SE.getWidth(), SE.getHeight());}
             */
         }
 
-        void paintCompressed(final Graphics g, final int w, final int h) {
-            final double heightRatio = h > totalHeight ? 1.0 : (double)h / (double)totalHeight;
-            final double widthRatio = w > totalWidth ? 1.0 : (double)w / (double)totalWidth;
+        void pbintCompressed(finbl Grbphics g, finbl int w, finbl int h) {
+            finbl double heightRbtio = h > totblHeight ? 1.0 : (double)h / (double)totblHeight;
+            finbl double widthRbtio = w > totblWidth ? 1.0 : (double)w / (double)totblWidth;
 
-            final int northHeight = (int)(metrics.nCut * heightRatio);
-            final int southHeight = (int)(metrics.sCut * heightRatio);
-            final int centerHeight = h - northHeight - southHeight;
+            finbl int northHeight = (int)(metrics.nCut * heightRbtio);
+            finbl int southHeight = (int)(metrics.sCut * heightRbtio);
+            finbl int centerHeight = h - northHeight - southHeight;
 
-            final int westWidth = (int)(metrics.wCut * widthRatio);
-            final int eastWidth = (int)(metrics.eCut * widthRatio);
-            final int centerWidth = w - westWidth - eastWidth;
+            finbl int westWidth = (int)(metrics.wCut * widthRbtio);
+            finbl int ebstWidth = (int)(metrics.eCut * widthRbtio);
+            finbl int centerWidth = w - westWidth - ebstWidth;
 
-            if (NW != null) g.drawImage(NW, 0, 0, westWidth, northHeight, null);
-            if (N != null) g.drawImage(N, westWidth, 0, centerWidth, northHeight, null);
-            if (NE != null) g.drawImage(NE, w - eastWidth, 0, eastWidth, northHeight, null);
-            if (W != null) g.drawImage(W, 0, northHeight, westWidth, centerHeight, null);
-            if (C != null) g.drawImage(C, westWidth, northHeight, centerWidth, centerHeight, null);
-            if (E != null) g.drawImage(E, w - eastWidth, northHeight, eastWidth, centerHeight, null);
-            if (SW != null) g.drawImage(SW, 0, h - southHeight, westWidth, southHeight, null);
-            if (S != null) g.drawImage(S, westWidth, h - southHeight, centerWidth, southHeight, null);
-            if (SE != null) g.drawImage(SE, w - eastWidth, h - southHeight, eastWidth, southHeight, null);
+            if (NW != null) g.drbwImbge(NW, 0, 0, westWidth, northHeight, null);
+            if (N != null) g.drbwImbge(N, westWidth, 0, centerWidth, northHeight, null);
+            if (NE != null) g.drbwImbge(NE, w - ebstWidth, 0, ebstWidth, northHeight, null);
+            if (W != null) g.drbwImbge(W, 0, northHeight, westWidth, centerHeight, null);
+            if (C != null) g.drbwImbge(C, westWidth, northHeight, centerWidth, centerHeight, null);
+            if (E != null) g.drbwImbge(E, w - ebstWidth, northHeight, ebstWidth, centerHeight, null);
+            if (SW != null) g.drbwImbge(SW, 0, h - southHeight, westWidth, southHeight, null);
+            if (S != null) g.drbwImbge(S, westWidth, h - southHeight, centerWidth, southHeight, null);
+            if (SE != null) g.drbwImbge(SE, w - ebstWidth, h - southHeight, ebstWidth, southHeight, null);
         }
     }
 
-    public abstract static class RecyclableSlicedImageControl extends RecyclableObject<SlicedImageControl> {
-        final NineSliceMetrics metrics;
+    public bbstrbct stbtic clbss RecyclbbleSlicedImbgeControl extends RecyclbbleObject<SlicedImbgeControl> {
+        finbl NineSliceMetrics metrics;
 
-        public RecyclableSlicedImageControl(final NineSliceMetrics metrics) {
+        public RecyclbbleSlicedImbgeControl(finbl NineSliceMetrics metrics) {
             this.metrics = metrics;
         }
 
         @Override
-        protected SlicedImageControl create() {
-            return new SlicedImageControl(createTemplateImage(metrics.minW, metrics.minH), metrics);
+        protected SlicedImbgeControl crebte() {
+            return new SlicedImbgeControl(crebteTemplbteImbge(metrics.minW, metrics.minH), metrics);
         }
 
-        protected abstract Image createTemplateImage(final int width, final int height);
+        protected bbstrbct Imbge crebteTemplbteImbge(finbl int width, finbl int height);
     }
 
-    // when we use SystemColors, we need to proxy the color with something that implements UIResource,
-    // so that it will be uninstalled when the look and feel is changed.
-    @SuppressWarnings("serial") // JDK implementation class
-    private static class SystemColorProxy extends Color implements UIResource {
-        final Color color;
-        public SystemColorProxy(final Color color) {
+    // when we use SystemColors, we need to proxy the color with something thbt implements UIResource,
+    // so thbt it will be uninstblled when the look bnd feel is chbnged.
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    privbte stbtic clbss SystemColorProxy extends Color implements UIResource {
+        finbl Color color;
+        public SystemColorProxy(finbl Color color) {
             super(color.getRGB());
             this.color = color;
         }
@@ -464,36 +464,36 @@ public class AquaImageFactory {
         }
     }
 
-    public static Color getWindowBackgroundColorUIResource() {
-        //return AquaNativeResources.getWindowBackgroundColorUIResource();
+    public stbtic Color getWindowBbckgroundColorUIResource() {
+        //return AqubNbtiveResources.getWindowBbckgroundColorUIResource();
         return new SystemColorProxy(SystemColor.window);
     }
 
-    public static Color getTextSelectionBackgroundColorUIResource() {
+    public stbtic Color getTextSelectionBbckgroundColorUIResource() {
         return new SystemColorProxy(SystemColor.textHighlight);
     }
 
-    public static Color getTextSelectionForegroundColorUIResource() {
+    public stbtic Color getTextSelectionForegroundColorUIResource() {
         return new SystemColorProxy(SystemColor.textHighlightText);
     }
 
-    public static Color getSelectionBackgroundColorUIResource() {
+    public stbtic Color getSelectionBbckgroundColorUIResource() {
         return new SystemColorProxy(SystemColor.controlHighlight);
     }
 
-    public static Color getSelectionForegroundColorUIResource() {
+    public stbtic Color getSelectionForegroundColorUIResource() {
         return new SystemColorProxy(SystemColor.controlLtHighlight);
     }
 
-    public static Color getFocusRingColorUIResource() {
+    public stbtic Color getFocusRingColorUIResource() {
         return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.KEYBOARD_FOCUS_COLOR));
     }
 
-    public static Color getSelectionInactiveBackgroundColorUIResource() {
+    public stbtic Color getSelectionInbctiveBbckgroundColorUIResource() {
         return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.INACTIVE_SELECTION_BACKGROUND_COLOR));
     }
 
-    public static Color getSelectionInactiveForegroundColorUIResource() {
+    public stbtic Color getSelectionInbctiveForegroundColorUIResource() {
         return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.INACTIVE_SELECTION_FOREGROUND_COLOR));
     }
 }

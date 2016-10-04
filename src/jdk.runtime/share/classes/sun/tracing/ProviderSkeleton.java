@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tracing;
+pbckbge sun.trbcing;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.AnnotbtedElement;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.util.HbshMbp;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import com.sun.tracing.Provider;
-import com.sun.tracing.Probe;
-import com.sun.tracing.ProviderName;
+import com.sun.trbcing.Provider;
+import com.sun.trbcing.Probe;
+import com.sun.trbcing.ProviderNbme;
 
 /**
- * Provides a common code for implementation of {@code Provider} classes.
+ * Provides b common code for implementbtion of {@code Provider} clbsses.
  *
- * Each tracing subsystem needs to provide three classes, a factory
- * (derived from {@code ProviderFactory}, a provider (a subclass of
- * {@code Provider}, and a probe type (subclass of {@code ProbeSkeleton}).
+ * Ebch trbcing subsystem needs to provide three clbsses, b fbctory
+ * (derived from {@code ProviderFbctory}, b provider (b subclbss of
+ * {@code Provider}, bnd b probe type (subclbss of {@code ProbeSkeleton}).
  *
- * The factory object takes a user-defined interface and provides an
- * implementation of it whose method calls will trigger probes in the
- * tracing framework.
+ * The fbctory object tbkes b user-defined interfbce bnd provides bn
+ * implementbtion of it whose method cblls will trigger probes in the
+ * trbcing frbmework.
  *
- * The framework's provider class, and its instances, are not seen by the
- * user at all -- they usually sit in the background and receive and dispatch
- * the calls to the user's provider interface.  The {@code ProviderSkeleton}
- * class provides almost all of the implementation needed by a framework
- * provider.  Framework providers must only provide a constructor and
- * disposal method, and implement the {@code createProbe} method to create
- * an appropriate {@code ProbeSkeleton} subclass.
+ * The frbmework's provider clbss, bnd its instbnces, bre not seen by the
+ * user bt bll -- they usublly sit in the bbckground bnd receive bnd dispbtch
+ * the cblls to the user's provider interfbce.  The {@code ProviderSkeleton}
+ * clbss provides blmost bll of the implementbtion needed by b frbmework
+ * provider.  Frbmework providers must only provide b constructor bnd
+ * disposbl method, bnd implement the {@code crebteProbe} method to crebte
+ * bn bppropribte {@code ProbeSkeleton} subclbss.
  *
- * The framework's probe class provides the implementation of the two
- * probe methods, {@code isEnabled()} and {@code uncheckedTrigger()}.  Both are
- * framework-dependent implementations.
+ * The frbmework's probe clbss provides the implementbtion of the two
+ * probe methods, {@code isEnbbled()} bnd {@code uncheckedTrigger()}.  Both bre
+ * frbmework-dependent implementbtions.
  *
  * @since 1.7
  */
 
-public abstract class ProviderSkeleton implements InvocationHandler, Provider {
+public bbstrbct clbss ProviderSkeleton implements InvocbtionHbndler, Provider {
 
-    protected boolean active; // set to false after dispose() is called
-    protected Class<? extends Provider> providerType; // user's interface
-    protected HashMap<Method, ProbeSkeleton> probes; // methods to probes
+    protected boolebn bctive; // set to fblse bfter dispose() is cblled
+    protected Clbss<? extends Provider> providerType; // user's interfbce
+    protected HbshMbp<Method, ProbeSkeleton> probes; // methods to probes
 
-
-    /**
-     * Creates a framework-specific probe subtype.
-     *
-     * This method is implemented by the framework's provider and returns
-     * framework-specific probes for a method.
-     *
-     * @param method A method in the user's interface
-     * @return a subclass of ProbeSkeleton for the particular framework.
-     */
-    protected abstract ProbeSkeleton createProbe(Method method);
 
     /**
-     * Initializes the provider.
+     * Crebtes b frbmework-specific probe subtype.
      *
-     * @param type the user's interface
+     * This method is implemented by the frbmework's provider bnd returns
+     * frbmework-specific probes for b method.
+     *
+     * @pbrbm method A method in the user's interfbce
+     * @return b subclbss of ProbeSkeleton for the pbrticulbr frbmework.
      */
-    protected ProviderSkeleton(Class<? extends Provider> type) {
-        this.active = false; // in case of some error during initialization
+    protected bbstrbct ProbeSkeleton crebteProbe(Method method);
+
+    /**
+     * Initiblizes the provider.
+     *
+     * @pbrbm type the user's interfbce
+     */
+    protected ProviderSkeleton(Clbss<? extends Provider> type) {
+        this.bctive = fblse; // in cbse of some error during initiblizbtion
         this.providerType = type;
-        this.probes = new HashMap<Method,ProbeSkeleton>();
+        this.probes = new HbshMbp<Method,ProbeSkeleton>();
     }
 
     /**
-     * Post-constructor initialization routine.
+     * Post-constructor initiblizbtion routine.
      *
-     * Subclass instances must be initialized before they can create probes.
-     * It is up to the factory implementations to call this after construction.
+     * Subclbss instbnces must be initiblized before they cbn crebte probes.
+     * It is up to the fbctory implementbtions to cbll this bfter construction.
      */
     public void init() {
         Method[] methods = AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
             public Method[] run() {
-                return providerType.getDeclaredMethods();
+                return providerType.getDeclbredMethods();
             }
         });
 
         for (Method m : methods) {
             if ( m.getReturnType() != Void.TYPE ) {
-                throw new IllegalArgumentException(
-                   "Return value of method is not void");
+                throw new IllegblArgumentException(
+                   "Return vblue of method is not void");
             } else {
-                probes.put(m, createProbe(m));
+                probes.put(m, crebteProbe(m));
             }
         }
-        this.active = true;
+        this.bctive = true;
     }
 
     /**
-     * Magic routine which creates an implementation of the user's interface.
+     * Mbgic routine which crebtes bn implementbtion of the user's interfbce.
      *
-     * This method creates the instance of the user's interface which is
-     * passed back to the user.  Every call upon that interface will be
-     * redirected to the {@code invoke()} method of this class (until
+     * This method crebtes the instbnce of the user's interfbce which is
+     * pbssed bbck to the user.  Every cbll upon thbt interfbce will be
+     * redirected to the {@code invoke()} method of this clbss (until
      * overridden by the VM).
      *
-     * @return an implementation of the user's interface
+     * @return bn implementbtion of the user's interfbce
      */
-    @SuppressWarnings("unchecked")
-    public <T extends Provider> T newProxyInstance() {
-        final InvocationHandler ih = this;
+    @SuppressWbrnings("unchecked")
+    public <T extends Provider> T newProxyInstbnce() {
+        finbl InvocbtionHbndler ih = this;
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             public T run() {
-               return (T)Proxy.newProxyInstance(providerType.getClassLoader(),
-                   new Class<?>[] { providerType }, ih);
+               return (T)Proxy.newProxyInstbnce(providerType.getClbssLobder(),
+                   new Clbss<?>[] { providerType }, ih);
             }});
     }
 
     /**
-     * Triggers a framework probe when a user interface method is called.
+     * Triggers b frbmework probe when b user interfbce method is cblled.
      *
-     * This method dispatches a user interface method call to the appropriate
-     * probe associated with this framework.
+     * This method dispbtches b user interfbce method cbll to the bppropribte
+     * probe bssocibted with this frbmework.
      *
-     * If the invoked method is not a user-defined member of the interface,
-     * then it is a member of {@code Provider} or {@code Object} and we
+     * If the invoked method is not b user-defined member of the interfbce,
+     * then it is b member of {@code Provider} or {@code Object} bnd we
      * invoke the method directly.
      *
-     * @param proxy the instance whose method was invoked
-     * @param method the method that was called
-     * @param args the arguments passed in the call.
-     * @return always null, if the method is a user-defined probe
+     * @pbrbm proxy the instbnce whose method wbs invoked
+     * @pbrbm method the method thbt wbs cblled
+     * @pbrbm brgs the brguments pbssed in the cbll.
+     * @return blwbys null, if the method is b user-defined probe
      */
-    public Object invoke(Object proxy, Method method, Object[] args) {
-        Class<?> declaringClass = method.getDeclaringClass();
-        // not a provider subtype's own method
-        if (declaringClass != providerType) {
+    public Object invoke(Object proxy, Method method, Object[] brgs) {
+        Clbss<?> declbringClbss = method.getDeclbringClbss();
+        // not b provider subtype's own method
+        if (declbringClbss != providerType) {
             try {
-                // delegate only to methods declared by
-                // com.sun.tracing.Provider or java.lang.Object
-                if (declaringClass == Provider.class ||
-                    declaringClass == Object.class) {
-                    return method.invoke(this, args);
+                // delegbte only to methods declbred by
+                // com.sun.trbcing.Provider or jbvb.lbng.Object
+                if (declbringClbss == Provider.clbss ||
+                    declbringClbss == Object.clbss) {
+                    return method.invoke(this, brgs);
                 } else {
-                    // assert false : "this should never happen"
-                    //    reaching here would indicate a breach
-                    //    in security in the higher layers
+                    // bssert fblse : "this should never hbppen"
+                    //    rebching here would indicbte b brebch
+                    //    in security in the higher lbyers
                     throw new SecurityException();
                 }
-            } catch (IllegalAccessException e) {
-                assert false;
-            } catch (InvocationTargetException e) {
-                assert false;
+            } cbtch (IllegblAccessException e) {
+                bssert fblse;
+            } cbtch (InvocbtionTbrgetException e) {
+                bssert fblse;
             }
         } else {
-            triggerProbe(method, args);
+            triggerProbe(method, brgs);
         }
         return null;
     }
 
     /**
-     * Direct accessor for {@code Probe} objects.
+     * Direct bccessor for {@code Probe} objects.
      *
-     * @param m the method corresponding to a probe
-     * @return the method associated probe object, or null
+     * @pbrbm m the method corresponding to b probe
+     * @return the method bssocibted probe object, or null
      */
     public Probe getProbe(Method m) {
-        return active ? probes.get(m) : null;
+        return bctive ? probes.get(m) : null;
     }
 
     /**
-     * Default provider disposal method.
+     * Defbult provider disposbl method.
      *
-     * This is overridden in subclasses as needed.
+     * This is overridden in subclbsses bs needed.
      */
     public void dispose() {
-        active = false;
-        probes.clear();
+        bctive = fblse;
+        probes.clebr();
     }
 
     /**
-     * Gets the user-specified provider name for the user's interface.
+     * Gets the user-specified provider nbme for the user's interfbce.
      *
-     * If the user's interface has a {@ProviderName} annotation, that value
-     * is used.  Otherwise we use the simple name of the user interface's class.
-     * @return the provider name
+     * If the user's interfbce hbs b {@ProviderNbme} bnnotbtion, thbt vblue
+     * is used.  Otherwise we use the simple nbme of the user interfbce's clbss.
+     * @return the provider nbme
      */
-    protected String getProviderName() {
-        return getAnnotationString(
-                providerType, ProviderName.class, providerType.getSimpleName());
+    protected String getProviderNbme() {
+        return getAnnotbtionString(
+                providerType, ProviderNbme.clbss, providerType.getSimpleNbme());
     }
 
     /**
-     * Utility method for getting a string value from an annotation.
+     * Utility method for getting b string vblue from bn bnnotbtion.
      *
-     * Used for getting a string value from an annotation with a 'value' method.
+     * Used for getting b string vblue from bn bnnotbtion with b 'vblue' method.
      *
-     * @param element the element that was annotated, either a class or method
-     * @param annotation the class of the annotation we're interested in
-     * @param defaultValue the value to return if the annotation doesn't
-     * exist, doesn't have a "value", or the value is empty.
+     * @pbrbm element the element thbt wbs bnnotbted, either b clbss or method
+     * @pbrbm bnnotbtion the clbss of the bnnotbtion we're interested in
+     * @pbrbm defbultVblue the vblue to return if the bnnotbtion doesn't
+     * exist, doesn't hbve b "vblue", or the vblue is empty.
      */
-    protected static String getAnnotationString(
-            AnnotatedElement element, Class<? extends Annotation> annotation,
-            String defaultValue) {
-        String ret = (String)getAnnotationValue(
-                element, annotation, "value", defaultValue);
-        return ret.isEmpty() ? defaultValue : ret;
+    protected stbtic String getAnnotbtionString(
+            AnnotbtedElement element, Clbss<? extends Annotbtion> bnnotbtion,
+            String defbultVblue) {
+        String ret = (String)getAnnotbtionVblue(
+                element, bnnotbtion, "vblue", defbultVblue);
+        return ret.isEmpty() ? defbultVblue : ret;
     }
 
     /**
-     * Utility method for calling an arbitrary method in an annotation.
+     * Utility method for cblling bn brbitrbry method in bn bnnotbtion.
      *
-     * @param element the element that was annotated, either a class or method
-     * @param annotation the class of the annotation we're interested in
-     * @param methodName the name of the method in the annotation we wish
-     * to call.
-     * @param defaultValue the value to return if the annotation doesn't
-     * exist, or we couldn't invoke the method for some reason.
-     * @return the result of calling the annotation method, or the default.
+     * @pbrbm element the element thbt wbs bnnotbted, either b clbss or method
+     * @pbrbm bnnotbtion the clbss of the bnnotbtion we're interested in
+     * @pbrbm methodNbme the nbme of the method in the bnnotbtion we wish
+     * to cbll.
+     * @pbrbm defbultVblue the vblue to return if the bnnotbtion doesn't
+     * exist, or we couldn't invoke the method for some rebson.
+     * @return the result of cblling the bnnotbtion method, or the defbult.
      */
-    protected static Object getAnnotationValue(
-            AnnotatedElement element, Class<? extends Annotation> annotation,
-            String methodName, Object defaultValue) {
-        Object ret = defaultValue;
+    protected stbtic Object getAnnotbtionVblue(
+            AnnotbtedElement element, Clbss<? extends Annotbtion> bnnotbtion,
+            String methodNbme, Object defbultVblue) {
+        Object ret = defbultVblue;
         try {
-            Method m = annotation.getMethod(methodName);
-            Annotation a = element.getAnnotation(annotation);
-            ret = m.invoke(a);
-        } catch (NoSuchMethodException e) {
-            assert false;
-        } catch (IllegalAccessException e) {
-            assert false;
-        } catch (InvocationTargetException e) {
-            assert false;
-        } catch (NullPointerException e) {
-            assert false;
+            Method m = bnnotbtion.getMethod(methodNbme);
+            Annotbtion b = element.getAnnotbtion(bnnotbtion);
+            ret = m.invoke(b);
+        } cbtch (NoSuchMethodException e) {
+            bssert fblse;
+        } cbtch (IllegblAccessException e) {
+            bssert fblse;
+        } cbtch (InvocbtionTbrgetException e) {
+            bssert fblse;
+        } cbtch (NullPointerException e) {
+            bssert fblse;
         }
         return ret;
     }
 
-    protected void triggerProbe(Method method, Object[] args) {
-        if (active) {
+    protected void triggerProbe(Method method, Object[] brgs) {
+        if (bctive) {
             ProbeSkeleton p = probes.get(method);
             if (p != null) {
-                // Skips argument check -- already done by javac
-                p.uncheckedTrigger(args);
+                // Skips brgument check -- blrebdy done by jbvbc
+                p.uncheckedTrigger(brgs);
             }
         }
     }

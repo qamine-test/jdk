@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code ChoiceCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to display a list of choices
- * and to retrieve the selected choice(s).
+ * <p> Underlying security services instbntibte bnd pbss b
+ * {@code ChoiceCbllbbck} to the {@code hbndle}
+ * method of b {@code CbllbbckHbndler} to displby b list of choices
+ * bnd to retrieve the selected choice(s).
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
  */
-public class ChoiceCallback implements Callback, java.io.Serializable {
+public clbss ChoiceCbllbbck implements Cbllbbck, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -3975664071579892167L;
+    privbte stbtic finbl long seriblVersionUID = -3975664071579892167L;
 
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private String prompt;
+    privbte String prompt;
     /**
-     * @serial the list of choices
+     * @seribl the list of choices
      * @since 1.4
      */
-    private String[] choices;
+    privbte String[] choices;
     /**
-     * @serial the choice to be used as the default choice
+     * @seribl the choice to be used bs the defbult choice
      * @since 1.4
      */
-    private int defaultChoice;
+    privbte int defbultChoice;
     /**
-     * @serial whether multiple selections are allowed from the list of
+     * @seribl whether multiple selections bre bllowed from the list of
      * choices
      * @since 1.4
      */
-    private boolean multipleSelectionsAllowed;
+    privbte boolebn multipleSelectionsAllowed;
     /**
-     * @serial the selected choices, represented as indexes into the
+     * @seribl the selected choices, represented bs indexes into the
      *          {@code choices} list.
      * @since 1.4
      */
-    private int[] selections;
+    privbte int[] selections;
 
     /**
-     * Construct a {@code ChoiceCallback} with a prompt,
-     * a list of choices, a default choice, and a boolean specifying
-     * whether or not multiple selections from the list of choices are allowed.
+     * Construct b {@code ChoiceCbllbbck} with b prompt,
+     * b list of choices, b defbult choice, bnd b boolebn specifying
+     * whether or not multiple selections from the list of choices bre bllowed.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of choices. <p>
+     * @pbrbm prompt the prompt used to describe the list of choices. <p>
      *
-     * @param choices the list of choices. <p>
+     * @pbrbm choices the list of choices. <p>
      *
-     * @param defaultChoice the choice to be used as the default choice
-     *                  when the list of choices are displayed.  This value
-     *                  is represented as an index into the
-     *                  {@code choices} array. <p>
+     * @pbrbm defbultChoice the choice to be used bs the defbult choice
+     *                  when the list of choices bre displbyed.  This vblue
+     *                  is represented bs bn index into the
+     *                  {@code choices} brrby. <p>
      *
-     * @param multipleSelectionsAllowed boolean specifying whether or
-     *                  not multiple selections can be made from the
+     * @pbrbm multipleSelectionsAllowed boolebn specifying whether or
+     *                  not multiple selections cbn be mbde from the
      *                  list of choices.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
+     * @exception IllegblArgumentException if {@code prompt} is null,
+     *                  if {@code prompt} hbs b length of 0,
      *                  if {@code choices} is null,
-     *                  if {@code choices} has a length of 0,
-     *                  if any element from {@code choices} is null,
-     *                  if any element from {@code choices}
-     *                  has a length of 0 or if {@code defaultChoice}
-     *                  does not fall within the array boundaries of
+     *                  if {@code choices} hbs b length of 0,
+     *                  if bny element from {@code choices} is null,
+     *                  if bny element from {@code choices}
+     *                  hbs b length of 0 or if {@code defbultChoice}
+     *                  does not fbll within the brrby boundbries of
      *                  {@code choices}.
      */
-    public ChoiceCallback(String prompt, String[] choices,
-                int defaultChoice, boolean multipleSelectionsAllowed) {
+    public ChoiceCbllbbck(String prompt, String[] choices,
+                int defbultChoice, boolebn multipleSelectionsAllowed) {
 
         if (prompt == null || prompt.length() == 0 ||
             choices == null || choices.length == 0 ||
-            defaultChoice < 0 || defaultChoice >= choices.length)
-            throw new IllegalArgumentException();
+            defbultChoice < 0 || defbultChoice >= choices.length)
+            throw new IllegblArgumentException();
 
         for (int i = 0; i < choices.length; i++) {
             if (choices[i] == null || choices[i].length() == 0)
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
         }
 
         this.prompt = prompt;
         this.choices = choices;
-        this.defaultChoice = defaultChoice;
+        this.defbultChoice = defbultChoice;
         this.multipleSelectionsAllowed = multipleSelectionsAllowed;
     }
 
@@ -137,26 +137,26 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
     }
 
     /**
-     * Get the defaultChoice.
+     * Get the defbultChoice.
      *
      * <p>
      *
-     * @return the defaultChoice, represented as an index into
+     * @return the defbultChoice, represented bs bn index into
      *          the {@code choices} list.
      */
-    public int getDefaultChoice() {
-        return defaultChoice;
+    public int getDefbultChoice() {
+        return defbultChoice;
     }
 
     /**
-     * Get the boolean determining whether multiple selections from
-     * the {@code choices} list are allowed.
+     * Get the boolebn determining whether multiple selections from
+     * the {@code choices} list bre bllowed.
      *
      * <p>
      *
-     * @return whether multiple selections are allowed.
+     * @return whether multiple selections bre bllowed.
      */
-    public boolean allowMultipleSelections() {
+    public boolebn bllowMultipleSelections() {
         return multipleSelectionsAllowed;
     }
 
@@ -165,7 +165,7 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
      *
      * <p>
      *
-     * @param selection the selection represented as an index into the
+     * @pbrbm selection the selection represented bs bn index into the
      *          {@code choices} list.
      *
      * @see #getSelectedIndexes
@@ -180,18 +180,18 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
      *
      * <p>
      *
-     * @param selections the selections represented as indexes into the
+     * @pbrbm selections the selections represented bs indexes into the
      *          {@code choices} list.
      *
-     * @exception UnsupportedOperationException if multiple selections are
-     *          not allowed, as determined by
-     *          {@code allowMultipleSelections}.
+     * @exception UnsupportedOperbtionException if multiple selections bre
+     *          not bllowed, bs determined by
+     *          {@code bllowMultipleSelections}.
      *
      * @see #getSelectedIndexes
      */
     public void setSelectedIndexes(int[] selections) {
         if (!multipleSelectionsAllowed)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         this.selections = selections;
     }
 
@@ -200,7 +200,7 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
      *
      * <p>
      *
-     * @return the selected choices, represented as indexes into the
+     * @return the selected choices, represented bs indexes into the
      *          {@code choices} list.
      *
      * @see #setSelectedIndexes

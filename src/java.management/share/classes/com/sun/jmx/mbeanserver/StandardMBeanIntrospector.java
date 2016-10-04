@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.WeakHashMap;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.IntrospectionException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanOperationInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationBroadcasterSupport;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.WebkHbshMbp;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
 import sun.reflect.misc.MethodUtil;
 
 /**
  * @since 1.6
  */
-class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
-    private static final StandardMBeanIntrospector instance =
-        new StandardMBeanIntrospector();
+clbss StbndbrdMBebnIntrospector extends MBebnIntrospector<Method> {
+    privbte stbtic finbl StbndbrdMBebnIntrospector instbnce =
+        new StbndbrdMBebnIntrospector();
 
-    static StandardMBeanIntrospector getInstance() {
-        return instance;
+    stbtic StbndbrdMBebnIntrospector getInstbnce() {
+        return instbnce;
     }
 
     @Override
-    PerInterfaceMap<Method> getPerInterfaceMap() {
-        return perInterfaceMap;
+    PerInterfbceMbp<Method> getPerInterfbceMbp() {
+        return perInterfbceMbp;
     }
 
     @Override
-    MBeanInfoMap getMBeanInfoMap() {
-        return mbeanInfoMap;
+    MBebnInfoMbp getMBebnInfoMbp() {
+        return mbebnInfoMbp;
     }
 
     @Override
-    MBeanAnalyzer<Method> getAnalyzer(Class<?> mbeanInterface)
-            throws NotCompliantMBeanException {
-        return MBeanAnalyzer.analyzer(mbeanInterface, this);
+    MBebnAnblyzer<Method> getAnblyzer(Clbss<?> mbebnInterfbce)
+            throws NotComplibntMBebnException {
+        return MBebnAnblyzer.bnblyzer(mbebnInterfbce, this);
     }
 
     @Override
-    boolean isMXBean() {
-        return false;
+    boolebn isMXBebn() {
+        return fblse;
     }
 
     @Override
@@ -78,8 +78,8 @@ class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
     }
 
     @Override
-    String getName(Method m) {
-        return m.getName();
+    String getNbme(Method m) {
+        return m.getNbme();
     }
 
     @Override
@@ -88,16 +88,16 @@ class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
     }
 
     @Override
-    Type[] getGenericParameterTypes(Method m) {
-        return m.getGenericParameterTypes();
+    Type[] getGenericPbrbmeterTypes(Method m) {
+        return m.getGenericPbrbmeterTypes();
     }
 
     @Override
-    String[] getSignature(Method m) {
-        Class<?>[] params = m.getParameterTypes();
-        String[] sig = new String[params.length];
-        for (int i = 0; i < params.length; i++)
-            sig[i] = params[i].getName();
+    String[] getSignbture(Method m) {
+        Clbss<?>[] pbrbms = m.getPbrbmeterTypes();
+        String[] sig = new String[pbrbms.length];
+        for (int i = 0; i < pbrbms.length; i++)
+            sig[i] = pbrbms[i].getNbme();
         return sig;
     }
 
@@ -106,88 +106,88 @@ class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
     }
 
     @Override
-    Object invokeM2(Method m, Object target, Object[] args, Object cookie)
-            throws InvocationTargetException, IllegalAccessException,
-                   MBeanException {
-        return MethodUtil.invoke(m, target, args);
+    Object invokeM2(Method m, Object tbrget, Object[] brgs, Object cookie)
+            throws InvocbtionTbrgetException, IllegblAccessException,
+                   MBebnException {
+        return MethodUtil.invoke(m, tbrget, brgs);
     }
 
     @Override
-    boolean validParameter(Method m, Object value, int paramNo, Object cookie) {
-        return isValidParameter(m, value, paramNo);
+    boolebn vblidPbrbmeter(Method m, Object vblue, int pbrbmNo, Object cookie) {
+        return isVblidPbrbmeter(m, vblue, pbrbmNo);
     }
 
     @Override
-    MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
+    MBebnAttributeInfo getMBebnAttributeInfo(String bttributeNbme,
             Method getter, Method setter) {
 
-        final String description = "Attribute exposed for management";
+        finbl String description = "Attribute exposed for mbnbgement";
         try {
-            return new MBeanAttributeInfo(attributeName, description,
+            return new MBebnAttributeInfo(bttributeNbme, description,
                                           getter, setter);
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e); // should not happen
+        } cbtch (IntrospectionException e) {
+            throw new RuntimeException(e); // should not hbppen
         }
     }
 
     @Override
-    MBeanOperationInfo getMBeanOperationInfo(String operationName,
-            Method operation) {
-        final String description = "Operation exposed for management";
-        return new MBeanOperationInfo(description, operation);
+    MBebnOperbtionInfo getMBebnOperbtionInfo(String operbtionNbme,
+            Method operbtion) {
+        finbl String description = "Operbtion exposed for mbnbgement";
+        return new MBebnOperbtionInfo(description, operbtion);
     }
 
     @Override
-    Descriptor getBasicMBeanDescriptor() {
-        /* We don't bother saying mxbean=false, and we can't know whether
-           the info is immutable until we know whether the MBean class
-           (not interface) is a NotificationBroadcaster. */
-        return ImmutableDescriptor.EMPTY_DESCRIPTOR;
+    Descriptor getBbsicMBebnDescriptor() {
+        /* We don't bother sbying mxbebn=fblse, bnd we cbn't know whether
+           the info is immutbble until we know whether the MBebn clbss
+           (not interfbce) is b NotificbtionBrobdcbster. */
+        return ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
     }
 
     @Override
-    Descriptor getMBeanDescriptor(Class<?> resourceClass) {
-        boolean immutable = isDefinitelyImmutableInfo(resourceClass);
-        return new ImmutableDescriptor("mxbean=false",
-                                       "immutableInfo=" + immutable);
+    Descriptor getMBebnDescriptor(Clbss<?> resourceClbss) {
+        boolebn immutbble = isDefinitelyImmutbbleInfo(resourceClbss);
+        return new ImmutbbleDescriptor("mxbebn=fblse",
+                                       "immutbbleInfo=" + immutbble);
     }
 
-    /* Return true if and only if we can be sure that the given MBean implementation
-     * class has immutable MBeanInfo.  A Standard MBean that is a
-     * NotificationBroadcaster is allowed to return different values at
-     * different times from its getNotificationInfo() method, which is when
-     * we might not know if it is immutable.  But if it is a subclass of
-     * NotificationBroadcasterSupport and does not override
-     * getNotificationInfo(), then we know it won't change.
+    /* Return true if bnd only if we cbn be sure thbt the given MBebn implementbtion
+     * clbss hbs immutbble MBebnInfo.  A Stbndbrd MBebn thbt is b
+     * NotificbtionBrobdcbster is bllowed to return different vblues bt
+     * different times from its getNotificbtionInfo() method, which is when
+     * we might not know if it is immutbble.  But if it is b subclbss of
+     * NotificbtionBrobdcbsterSupport bnd does not override
+     * getNotificbtionInfo(), then we know it won't chbnge.
      */
-    static boolean isDefinitelyImmutableInfo(Class<?> implClass) {
-        if (!NotificationBroadcaster.class.isAssignableFrom(implClass))
+    stbtic boolebn isDefinitelyImmutbbleInfo(Clbss<?> implClbss) {
+        if (!NotificbtionBrobdcbster.clbss.isAssignbbleFrom(implClbss))
             return true;
-        synchronized (definitelyImmutable) {
-            Boolean immutable = definitelyImmutable.get(implClass);
-            if (immutable == null) {
-                final Class<NotificationBroadcasterSupport> nbs =
-                        NotificationBroadcasterSupport.class;
-                if (nbs.isAssignableFrom(implClass)) {
+        synchronized (definitelyImmutbble) {
+            Boolebn immutbble = definitelyImmutbble.get(implClbss);
+            if (immutbble == null) {
+                finbl Clbss<NotificbtionBrobdcbsterSupport> nbs =
+                        NotificbtionBrobdcbsterSupport.clbss;
+                if (nbs.isAssignbbleFrom(implClbss)) {
                     try {
-                        Method m = implClass.getMethod("getNotificationInfo");
-                        immutable = (m.getDeclaringClass() == nbs);
-                    } catch (Exception e) {
-                        // Too bad, we'll say no for now.
-                        return false;
+                        Method m = implClbss.getMethod("getNotificbtionInfo");
+                        immutbble = (m.getDeclbringClbss() == nbs);
+                    } cbtch (Exception e) {
+                        // Too bbd, we'll sby no for now.
+                        return fblse;
                     }
                 } else
-                    immutable = false;
-                definitelyImmutable.put(implClass, immutable);
+                    immutbble = fblse;
+                definitelyImmutbble.put(implClbss, immutbble);
             }
-            return immutable;
+            return immutbble;
         }
     }
-    private static final WeakHashMap<Class<?>, Boolean> definitelyImmutable =
-            new WeakHashMap<Class<?>, Boolean>();
+    privbte stbtic finbl WebkHbshMbp<Clbss<?>, Boolebn> definitelyImmutbble =
+            new WebkHbshMbp<Clbss<?>, Boolebn>();
 
-    private static final PerInterfaceMap<Method>
-        perInterfaceMap = new PerInterfaceMap<Method>();
+    privbte stbtic finbl PerInterfbceMbp<Method>
+        perInterfbceMbp = new PerInterfbceMbp<Method>();
 
-    private static final MBeanInfoMap mbeanInfoMap = new MBeanInfoMap();
+    privbte stbtic finbl MBebnInfoMbp mbebnInfoMbp = new MBebnInfoMbp();
 }

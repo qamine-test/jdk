@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.io.InputStream;
-import java.util.PropertyResourceBundle;
-import java.net.URL;
+import jbvb.io.InputStrebm;
+import jbvb.util.PropertyResourceBundle;
+import jbvb.net.URL;
 
 /**
- * Class to simplify use of internationalization message strings.
- * Property files are constructed in terms of content as for JAI with
- * one "key=value" pair per line. All such files however have the same
- * name "properties". The resource extractor resolves the extraction of
- * the file from the jar as the package name is included automatically.
+ * Clbss to simplify use of internbtionblizbtion messbge strings.
+ * Property files bre constructed in terms of content bs for JAI with
+ * one "key=vblue" pbir per line. All such files however hbve the sbme
+ * nbme "properties". The resource extrbctor resolves the extrbction of
+ * the file from the jbr bs the pbckbge nbme is included butombticblly.
  *
- * <p>Extenders need only provide a static method
- * <code>getString(String)</code> which calls the static method in this
- * class with the name of the invoking class and returns a
+ * <p>Extenders need only provide b stbtic method
+ * <code>getString(String)</code> which cblls the stbtic method in this
+ * clbss with the nbme of the invoking clbss bnd returns b
  * <code>String</code>.
  */
-public class I18NImpl {
+public clbss I18NImpl {
     /**
-     * Returns the message string with the specified key from the
-     * "properties" file in the package containing the class with
-     * the specified name.
+     * Returns the messbge string with the specified key from the
+     * "properties" file in the pbckbge contbining the clbss with
+     * the specified nbme.
      */
-    protected static final String getString(String className, String resource_name, String key) {
+    protected stbtic finbl String getString(String clbssNbme, String resource_nbme, String key) {
         PropertyResourceBundle bundle = null;
         try {
-            InputStream stream =
-                Class.forName(className).getResourceAsStream(resource_name);
-            bundle = new PropertyResourceBundle(stream);
-        } catch(Throwable e) {
-            throw new RuntimeException(e); // Chain the exception.
+            InputStrebm strebm =
+                Clbss.forNbme(clbssNbme).getResourceAsStrebm(resource_nbme);
+            bundle = new PropertyResourceBundle(strebm);
+        } cbtch(Throwbble e) {
+            throw new RuntimeException(e); // Chbin the exception.
         }
 
-        return (String)bundle.handleGetObject(key);
+        return (String)bundle.hbndleGetObject(key);
     }
 }

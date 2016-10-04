@@ -1,5 +1,5 @@
-# Providers for FormatConversion
-com.sun.media.sound.AudioFloatFormatConverter
-com.sun.media.sound.UlawCodec
-com.sun.media.sound.AlawCodec
-com.sun.media.sound.PCMtoPCMCodec
+# Providers for FormbtConversion
+com.sun.medib.sound.AudioFlobtFormbtConverter
+com.sun.medib.sound.UlbwCodec
+com.sun.medib.sound.AlbwCodec
+com.sun.medib.sound.PCMtoPCMCodec

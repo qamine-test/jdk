@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import javax.swing.SwingConstants;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.event.*;
 
 /**
  * <p>
- * A very important part of the text package is the <code>View</code> class.
- * As the name suggests it represents a view of the text model,
- * or a piece of the text model.
- * It is this class that is responsible for the look of the text component.
- * The view is not intended to be some completely new thing that one must
- * learn, but rather is much like a lightweight component.
+ * A very importbnt pbrt of the text pbckbge is the <code>View</code> clbss.
+ * As the nbme suggests it represents b view of the text model,
+ * or b piece of the text model.
+ * It is this clbss thbt is responsible for the look of the text component.
+ * The view is not intended to be some completely new thing thbt one must
+ * lebrn, but rbther is much like b lightweight component.
  * <p>
-By default, a view is very light.  It contains a reference to the parent
-view from which it can fetch many things without holding state, and it
-contains a reference to a portion of the model (<code>Element</code>).
+By defbult, b view is very light.  It contbins b reference to the pbrent
+view from which it cbn fetch mbny things without holding stbte, bnd it
+contbins b reference to b portion of the model (<code>Element</code>).
 A view does not
-have to exactly represent an element in the model, that is simply a typical
-and therefore convenient mapping.  A view can alternatively maintain a couple
-of Position objects to maintain its location in the model (i.e. represent
-a fragment of an element).  This is typically the result of formatting where
-views have been broken down into pieces.  The convenience of a substantial
-relationship to the element makes it easier to build factories to produce the
-views, and makes it easier  to keep track of the view pieces as the model is
-changed and the view must be changed to reflect the model.  Simple views
-therefore represent an Element directly and complex views do not.
+hbve to exbctly represent bn element in the model, thbt is simply b typicbl
+bnd therefore convenient mbpping.  A view cbn blternbtively mbintbin b couple
+of Position objects to mbintbin its locbtion in the model (i.e. represent
+b frbgment of bn element).  This is typicblly the result of formbtting where
+views hbve been broken down into pieces.  The convenience of b substbntibl
+relbtionship to the element mbkes it ebsier to build fbctories to produce the
+views, bnd mbkes it ebsier  to keep trbck of the view pieces bs the model is
+chbnged bnd the view must be chbnged to reflect the model.  Simple views
+therefore represent bn Element directly bnd complex views do not.
 <p>
-A view has the following responsibilities:
+A view hbs the following responsibilities:
   <dl>
 
-    <dt><b>Participate in layout.</b>
+    <dt><b>Pbrticipbte in lbyout.</b>
     <dd>
-    <p>The view has a <code>setSize</code> method which is like
-    <code>doLayout</code> and <code>setSize</code> in <code>Component</code> combined.
-    The view has a <code>preferenceChanged</code> method which is
-    like <code>invalidate</code> in <code>Component</code> except that one can
-    invalidate just one axis
-    and the child requesting the change is identified.
-    <p>A View expresses the size that it would like to be in terms of three
-    values, a minimum, a preferred, and a maximum span.  Layout in a view is
-    can be done independently upon each axis.  For a properly functioning View
-    implementation, the minimum span will be &lt;= the preferred span which in turn
-    will be &lt;= the maximum span.
+    <p>The view hbs b <code>setSize</code> method which is like
+    <code>doLbyout</code> bnd <code>setSize</code> in <code>Component</code> combined.
+    The view hbs b <code>preferenceChbnged</code> method which is
+    like <code>invblidbte</code> in <code>Component</code> except thbt one cbn
+    invblidbte just one bxis
+    bnd the child requesting the chbnge is identified.
+    <p>A View expresses the size thbt it would like to be in terms of three
+    vblues, b minimum, b preferred, bnd b mbximum spbn.  Lbyout in b view is
+    cbn be done independently upon ebch bxis.  For b properly functioning View
+    implementbtion, the minimum spbn will be &lt;= the preferred spbn which in turn
+    will be &lt;= the mbximum spbn.
     </p>
-    <p style="text-align:center"><img src="doc-files/View-flexibility.jpg"
-                     alt="The above text describes this graphic.">
-    <p>The minimum set of methods for layout are:
+    <p style="text-blign:center"><img src="doc-files/View-flexibility.jpg"
+                     blt="The bbove text describes this grbphic.">
+    <p>The minimum set of methods for lbyout bre:
     <ul>
-    <li>{@link #getMinimumSpan(int) getMinimumSpan}
-    <li>{@link #getPreferredSpan(int) getPreferredSpan}
-    <li>{@link #getMaximumSpan(int) getMaximumSpan}
+    <li>{@link #getMinimumSpbn(int) getMinimumSpbn}
+    <li>{@link #getPreferredSpbn(int) getPreferredSpbn}
+    <li>{@link #getMbximumSpbn(int) getMbximumSpbn}
     <li>{@link #getAlignment(int) getAlignment}
-    <li>{@link #preferenceChanged(javax.swing.text.View, boolean, boolean) preferenceChanged}
-    <li>{@link #setSize(float, float) setSize}
+    <li>{@link #preferenceChbnged(jbvbx.swing.text.View, boolebn, boolebn) preferenceChbnged}
+    <li>{@link #setSize(flobt, flobt) setSize}
     </ul>
 
-  <p>The <code>setSize</code> method should be prepared to be called a number of times
-    (i.e. It may be called even if the size didn't change).
+  <p>The <code>setSize</code> method should be prepbred to be cblled b number of times
+    (i.e. It mby be cblled even if the size didn't chbnge).
     The <code>setSize</code> method
-    is generally called to make sure the View layout is complete prior to trying
-    to perform an operation on it that requires an up-to-date layout.  A view's
-    size should <em>always</em> be set to a value within the minimum and maximum
-    span specified by that view.  Additionally, the view must always call the
-    <code>preferenceChanged</code> method on the parent if it has changed the
-    values for the
-    layout it would like, and expects the parent to honor.  The parent View is
-    not required to recognize a change until the <code>preferenceChanged</code>
-    has been sent.
-    This allows parent View implementations to cache the child requirements if
-    desired.  The calling sequence looks something like the following:
+    is generblly cblled to mbke sure the View lbyout is complete prior to trying
+    to perform bn operbtion on it thbt requires bn up-to-dbte lbyout.  A view's
+    size should <em>blwbys</em> be set to b vblue within the minimum bnd mbximum
+    spbn specified by thbt view.  Additionblly, the view must blwbys cbll the
+    <code>preferenceChbnged</code> method on the pbrent if it hbs chbnged the
+    vblues for the
+    lbyout it would like, bnd expects the pbrent to honor.  The pbrent View is
+    not required to recognize b chbnge until the <code>preferenceChbnged</code>
+    hbs been sent.
+    This bllows pbrent View implementbtions to cbche the child requirements if
+    desired.  The cblling sequence looks something like the following:
     </p>
-    <p style="text-align:center">
-      <img src="doc-files/View-layout.jpg"
-       alt="Sample calling sequence between parent view and child view:
-       setSize, getMinimum, getPreferred, getMaximum, getAlignment, setSize">
-    <p>The exact calling sequence is up to the layout functionality of
-    the parent view (if the view has any children).  The view may collect
-    the preferences of the children prior to determining what it will give
-    each child, or it might iteratively update the children one at a time.
+    <p style="text-blign:center">
+      <img src="doc-files/View-lbyout.jpg"
+       blt="Sbmple cblling sequence between pbrent view bnd child view:
+       setSize, getMinimum, getPreferred, getMbximum, getAlignment, setSize">
+    <p>The exbct cblling sequence is up to the lbyout functionblity of
+    the pbrent view (if the view hbs bny children).  The view mby collect
+    the preferences of the children prior to determining whbt it will give
+    ebch child, or it might iterbtively updbte the children one bt b time.
     </p>
 
-    <dt><b>Render a portion of the model.</b>
+    <dt><b>Render b portion of the model.</b>
     <dd>
-    <p>This is done in the paint method, which is pretty much like a component
-    paint method.  Views are expected to potentially populate a fairly large
-    tree.  A <code>View</code> has the following semantics for rendering:
+    <p>This is done in the pbint method, which is pretty much like b component
+    pbint method.  Views bre expected to potentiblly populbte b fbirly lbrge
+    tree.  A <code>View</code> hbs the following sembntics for rendering:
     </p>
     <ul>
-    <li>The view gets its allocation from the parent at paint time, so it
-    must be prepared to redo layout if the allocated area is different from
-    what it is prepared to deal with.
-    <li>The coordinate system is the same as the hosting <code>Component</code>
+    <li>The view gets its bllocbtion from the pbrent bt pbint time, so it
+    must be prepbred to redo lbyout if the bllocbted breb is different from
+    whbt it is prepbred to debl with.
+    <li>The coordinbte system is the sbme bs the hosting <code>Component</code>
     (i.e. the <code>Component</code> returned by the
-    {@link #getContainer getContainer} method).
-    This means a child view lives in the same coordinate system as the parent
-    view unless the parent has explicitly changed the coordinate system.
-    To schedule itself to be repainted a view can call repaint on the hosting
+    {@link #getContbiner getContbiner} method).
+    This mebns b child view lives in the sbme coordinbte system bs the pbrent
+    view unless the pbrent hbs explicitly chbnged the coordinbte system.
+    To schedule itself to be repbinted b view cbn cbll repbint on the hosting
     <code>Component</code>.
-    <li>The default is to <em>not clip</em> the children.  It is more efficient
-    to allow a view to clip only if it really feels it needs clipping.
-    <li>The <code>Graphics</code> object given is not initialized in any way.
-    A view should set any settings needed.
-    <li>A <code>View</code> is inherently transparent.  While a view may render into its
-    entire allocation, typically a view does not.  Rendering is performed by
-    traversing down the tree of <code>View</code> implementations.
-    Each <code>View</code> is responsible
-    for rendering its children.  This behavior is depended upon for thread
-    safety.  While view implementations do not necessarily have to be implemented
-    with thread safety in mind, other view implementations that do make use of
-    concurrency can depend upon a tree traversal to guarantee thread safety.
-    <li>The order of views relative to the model is up to the implementation.
-    Although child views will typically be arranged in the same order that they
-    occur in the model, they may be visually arranged in an entirely different
-    order.  View implementations may have Z-Order associated with them if the
-    children are overlapping.
+    <li>The defbult is to <em>not clip</em> the children.  It is more efficient
+    to bllow b view to clip only if it reblly feels it needs clipping.
+    <li>The <code>Grbphics</code> object given is not initiblized in bny wby.
+    A view should set bny settings needed.
+    <li>A <code>View</code> is inherently trbnspbrent.  While b view mby render into its
+    entire bllocbtion, typicblly b view does not.  Rendering is performed by
+    trbversing down the tree of <code>View</code> implementbtions.
+    Ebch <code>View</code> is responsible
+    for rendering its children.  This behbvior is depended upon for threbd
+    sbfety.  While view implementbtions do not necessbrily hbve to be implemented
+    with threbd sbfety in mind, other view implementbtions thbt do mbke use of
+    concurrency cbn depend upon b tree trbversbl to gubrbntee threbd sbfety.
+    <li>The order of views relbtive to the model is up to the implementbtion.
+    Although child views will typicblly be brrbnged in the sbme order thbt they
+    occur in the model, they mby be visublly brrbnged in bn entirely different
+    order.  View implementbtions mby hbve Z-Order bssocibted with them if the
+    children bre overlbpping.
     </ul>
-    <p>The methods for rendering are:
+    <p>The methods for rendering bre:
     <ul>
-    <li>{@link #paint(java.awt.Graphics, java.awt.Shape) paint}
+    <li>{@link #pbint(jbvb.bwt.Grbphics, jbvb.bwt.Shbpe) pbint}
     </ul>
 
-    <dt><b>Translate between the model and view coordinate systems.</b>
+    <dt><b>Trbnslbte between the model bnd view coordinbte systems.</b>
     <dd>
-    <p>Because the view objects are produced from a factory and therefore cannot
-    necessarily be counted upon to be in a particular pattern, one must be able
-    to perform translation to properly locate spatial representation of the model.
-    The methods for doing this are:
+    <p>Becbuse the view objects bre produced from b fbctory bnd therefore cbnnot
+    necessbrily be counted upon to be in b pbrticulbr pbttern, one must be bble
+    to perform trbnslbtion to properly locbte spbtibl representbtion of the model.
+    The methods for doing this bre:
     <ul>
-    <li>{@link #modelToView(int, javax.swing.text.Position.Bias, int, javax.swing.text.Position.Bias, java.awt.Shape) modelToView}
-    <li>{@link #viewToModel(float, float, java.awt.Shape, javax.swing.text.Position.Bias[]) viewToModel}
+    <li>{@link #modelToView(int, jbvbx.swing.text.Position.Bibs, int, jbvbx.swing.text.Position.Bibs, jbvb.bwt.Shbpe) modelToView}
+    <li>{@link #viewToModel(flobt, flobt, jbvb.bwt.Shbpe, jbvbx.swing.text.Position.Bibs[]) viewToModel}
     <li>{@link #getDocument() getDocument}
     <li>{@link #getElement() getElement}
-    <li>{@link #getStartOffset() getStartOffset}
+    <li>{@link #getStbrtOffset() getStbrtOffset}
     <li>{@link #getEndOffset() getEndOffset}
     </ul>
-    <p>The layout must be valid prior to attempting to make the translation.
-    The translation is not valid, and must not be attempted while changes
-    are being broadcasted from the model via a <code>DocumentEvent</code>.
+    <p>The lbyout must be vblid prior to bttempting to mbke the trbnslbtion.
+    The trbnslbtion is not vblid, bnd must not be bttempted while chbnges
+    bre being brobdcbsted from the model vib b <code>DocumentEvent</code>.
     </p>
 
-    <dt><b>Respond to changes from the model.</b>
+    <dt><b>Respond to chbnges from the model.</b>
     <dd>
-    <p>If the overall view is represented by many pieces (which is the best situation
-    if one want to be able to change the view and write the least amount of new code),
-    it would be impractical to have a huge number of <code>DocumentListener</code>s.
-    If each
-    view listened to the model, only a few would actually be interested in the
-    changes broadcasted at any given time.   Since the model has no knowledge of
-    views, it has no way to filter the broadcast of change information.  The view
-    hierarchy itself is instead responsible for propagating the change information.
-    At any level in the view hierarchy, that view knows enough about its children to
-    best distribute the change information further.   Changes are therefore broadcasted
-    starting from the root of the view hierarchy.
-    The methods for doing this are:
+    <p>If the overbll view is represented by mbny pieces (which is the best situbtion
+    if one wbnt to be bble to chbnge the view bnd write the lebst bmount of new code),
+    it would be imprbcticbl to hbve b huge number of <code>DocumentListener</code>s.
+    If ebch
+    view listened to the model, only b few would bctublly be interested in the
+    chbnges brobdcbsted bt bny given time.   Since the model hbs no knowledge of
+    views, it hbs no wby to filter the brobdcbst of chbnge informbtion.  The view
+    hierbrchy itself is instebd responsible for propbgbting the chbnge informbtion.
+    At bny level in the view hierbrchy, thbt view knows enough bbout its children to
+    best distribute the chbnge informbtion further.   Chbnges bre therefore brobdcbsted
+    stbrting from the root of the view hierbrchy.
+    The methods for doing this bre:
     <ul>
-    <li>{@link #insertUpdate insertUpdate}
-    <li>{@link #removeUpdate removeUpdate}
-    <li>{@link #changedUpdate changedUpdate}
+    <li>{@link #insertUpdbte insertUpdbte}
+    <li>{@link #removeUpdbte removeUpdbte}
+    <li>{@link #chbngedUpdbte chbngedUpdbte}
     </ul>
 </dl>
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public abstract class View implements SwingConstants {
+public bbstrbct clbss View implements SwingConstbnts {
 
     /**
-     * Creates a new <code>View</code> object.
+     * Crebtes b new <code>View</code> object.
      *
-     * @param elem the <code>Element</code> to represent
+     * @pbrbm elem the <code>Element</code> to represent
      */
     public View(Element elem) {
         this.elem = elem;
     }
 
     /**
-     * Returns the parent of the view.
+     * Returns the pbrent of the view.
      *
-     * @return the parent, or <code>null</code> if none exists
+     * @return the pbrent, or <code>null</code> if none exists
      */
-    public View getParent() {
-        return parent;
+    public View getPbrent() {
+        return pbrent;
     }
 
     /**
-     *  Returns a boolean that indicates whether
-     *  the view is visible or not.  By default
-     *  all views are visible.
+     *  Returns b boolebn thbt indicbtes whether
+     *  the view is visible or not.  By defbult
+     *  bll views bre visible.
      *
-     *  @return always returns true
+     *  @return blwbys returns true
      */
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return true;
     }
 
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Determines the preferred spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view
-     * @see View#getPreferredSpan
+     * @return   the spbn the view would like to be rendered into.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view
+     * @see View#getPreferredSpbn
      */
-    public abstract float getPreferredSpan(int axis);
+    public bbstrbct flobt getPreferredSpbn(int bxis);
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @return  the minimum spbn the view cbn be rendered into
+     * @see View#getPreferredSpbn
      */
-    public float getMinimumSpan(int axis) {
-        int w = getResizeWeight(axis);
+    public flobt getMinimumSpbn(int bxis) {
+        int w = getResizeWeight(bxis);
         if (w == 0) {
-            // can't resize
-            return getPreferredSpan(axis);
+            // cbn't resize
+            return getPreferredSpbn(bxis);
         }
         return 0;
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return  the maximum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @return  the mbximum spbn the view cbn be rendered into
+     * @see View#getPreferredSpbn
      */
-    public float getMaximumSpan(int axis) {
-        int w = getResizeWeight(axis);
+    public flobt getMbximumSpbn(int bxis) {
+        int w = getResizeWeight(bxis);
         if (w == 0) {
-            // can't resize
-            return getPreferredSpan(axis);
+            // cbn't resize
+            return getPreferredSpbn(bxis);
         }
         return Integer.MAX_VALUE;
     }
 
     /**
-     * Child views can call this on the parent to indicate that
-     * the preference has changed and should be reconsidered
-     * for layout.  By default this just propagates upward to
-     * the next parent.  The root view will call
-     * <code>revalidate</code> on the associated text component.
+     * Child views cbn cbll this on the pbrent to indicbte thbt
+     * the preference hbs chbnged bnd should be reconsidered
+     * for lbyout.  By defbult this just propbgbtes upwbrd to
+     * the next pbrent.  The root view will cbll
+     * <code>revblidbte</code> on the bssocibted text component.
      *
-     * @param child the child view
-     * @param width true if the width preference has changed
-     * @param height true if the height preference has changed
-     * @see javax.swing.JComponent#revalidate
+     * @pbrbm child the child view
+     * @pbrbm width true if the width preference hbs chbnged
+     * @pbrbm height true if the height preference hbs chbnged
+     * @see jbvbx.swing.JComponent#revblidbte
      */
-    public void preferenceChanged(View child, boolean width, boolean height) {
-        View parent = getParent();
-        if (parent != null) {
-            parent.preferenceChanged(this, width, height);
+    public void preferenceChbnged(View child, boolebn width, boolebn height) {
+        View pbrent = getPbrent();
+        if (pbrent != null) {
+            pbrent.preferenceChbnged(this, width, height);
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  The desired alignment is returned.  This should be
-     * a value &gt;= 0.0 and &lt;= 1.0, where 0 indicates alignment at
-     * the origin and 1.0 indicates alignment to the full span
-     * away from the origin.  An alignment of 0.5 would be the
+     * Determines the desired blignment for this view blong bn
+     * bxis.  The desired blignment is returned.  This should be
+     * b vblue &gt;= 0.0 bnd &lt;= 1.0, where 0 indicbtes blignment bt
+     * the origin bnd 1.0 indicbtes blignment to the full spbn
+     * bwby from the origin.  An blignment of 0.5 would be the
      * center of the view.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return the value 0.5
+     * @return the vblue 0.5
      */
-    public float getAlignment(int axis) {
+    public flobt getAlignment(int bxis) {
         return 0.5f;
     }
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.  The view may need to do layout and create child
-     * views to enable itself to render into the given allocation.
+     * Renders using the given rendering surfbce bnd breb on thbt
+     * surfbce.  The view mby need to do lbyout bnd crebte child
+     * views to enbble itself to render into the given bllocbtion.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm bllocbtion the bllocbted region to render into
      */
-    public abstract void paint(Graphics g, Shape allocation);
+    public bbstrbct void pbint(Grbphics g, Shbpe bllocbtion);
 
     /**
-     * Establishes the parent view for this view.  This is
-     * guaranteed to be called before any other methods if the
-     * parent view is functioning properly.  This is also
-     * the last method called, since it is called to indicate
-     * the view has been removed from the hierarchy as
-     * well. When this method is called to set the parent to
-     * null, this method does the same for each of its children,
-     * propagating the notification that they have been
+     * Estbblishes the pbrent view for this view.  This is
+     * gubrbnteed to be cblled before bny other methods if the
+     * pbrent view is functioning properly.  This is blso
+     * the lbst method cblled, since it is cblled to indicbte
+     * the view hbs been removed from the hierbrchy bs
+     * well. When this method is cblled to set the pbrent to
+     * null, this method does the sbme for ebch of its children,
+     * propbgbting the notificbtion thbt they hbve been
      * disconnected from the view tree. If this is
-     * reimplemented, <code>super.setParent()</code> should
-     * be called.
+     * reimplemented, <code>super.setPbrent()</code> should
+     * be cblled.
      *
-     * @param parent the new parent, or <code>null</code> if the view is
-     *          being removed from a parent
+     * @pbrbm pbrent the new pbrent, or <code>null</code> if the view is
+     *          being removed from b pbrent
      */
-    public void setParent(View parent) {
-        // if the parent is null then propogate down the view tree
-        if (parent == null) {
+    public void setPbrent(View pbrent) {
+        // if the pbrent is null then propogbte down the view tree
+        if (pbrent == null) {
             for (int i = 0; i < getViewCount(); i++) {
-                if (getView(i).getParent() == this) {
-                    // in FlowView.java view might be referenced
-                    // from two super-views as a child. see logicalView
-                    getView(i).setParent(null);
+                if (getView(i).getPbrent() == this) {
+                    // in FlowView.jbvb view might be referenced
+                    // from two super-views bs b child. see logicblView
+                    getView(i).setPbrent(null);
                 }
             }
         }
-        this.parent = parent;
+        this.pbrent = pbrent;
     }
 
     /**
      * Returns the number of views in this view.  Since
-     * the default is to not be a composite view this
+     * the defbult is to not be b composite view this
      * returns 0.
      *
      * @return the number of views &gt;= 0
@@ -357,10 +357,10 @@ public abstract class View implements SwingConstants {
     }
 
     /**
-     * Gets the <i>n</i>th child view.  Since there are no
-     * children by default, this returns <code>null</code>.
+     * Gets the <i>n</i>th child view.  Since there bre no
+     * children by defbult, this returns <code>null</code>.
      *
-     * @param n the number of the view to get, &gt;= 0 &amp;&amp; &lt; getViewCount()
+     * @pbrbm n the number of the view to get, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
      * @return the view
      */
     public View getView(int n) {
@@ -369,432 +369,432 @@ public abstract class View implements SwingConstants {
 
 
     /**
-     * Removes all of the children.  This is a convenience
-     * call to <code>replace</code>.
+     * Removes bll of the children.  This is b convenience
+     * cbll to <code>replbce</code>.
      *
      * @since 1.3
      */
     public void removeAll() {
-        replace(0, getViewCount(), null);
+        replbce(0, getViewCount(), null);
     }
 
     /**
-     * Removes one of the children at the given position.
-     * This is a convenience call to <code>replace</code>.
+     * Removes one of the children bt the given position.
+     * This is b convenience cbll to <code>replbce</code>.
      * @since 1.3
      */
     public void remove(int i) {
-        replace(i, 1, null);
+        replbce(i, 1, null);
     }
 
     /**
-     * Inserts a single child view.  This is a convenience
-     * call to <code>replace</code>.
+     * Inserts b single child view.  This is b convenience
+     * cbll to <code>replbce</code>.
      *
-     * @param offs the offset of the view to insert before &gt;= 0
-     * @param v the view
-     * @see #replace
+     * @pbrbm offs the offset of the view to insert before &gt;= 0
+     * @pbrbm v the view
+     * @see #replbce
      * @since 1.3
      */
     public void insert(int offs, View v) {
         View[] one = new View[1];
         one[0] = v;
-        replace(offs, 0, one);
+        replbce(offs, 0, one);
     }
 
     /**
-     * Appends a single child view.  This is a convenience
-     * call to <code>replace</code>.
+     * Appends b single child view.  This is b convenience
+     * cbll to <code>replbce</code>.
      *
-     * @param v the view
-     * @see #replace
+     * @pbrbm v the view
+     * @see #replbce
      * @since 1.3
      */
-    public void append(View v) {
+    public void bppend(View v) {
         View[] one = new View[1];
         one[0] = v;
-        replace(getViewCount(), 0, one);
+        replbce(getViewCount(), 0, one);
     }
 
     /**
-     * Replaces child views.  If there are no views to remove
-     * this acts as an insert.  If there are no views to
-     * add this acts as a remove.  Views being removed will
-     * have the parent set to <code>null</code>, and the internal reference
-     * to them removed so that they can be garbage collected.
-     * This is implemented to do nothing, because by default
-     * a view has no children.
+     * Replbces child views.  If there bre no views to remove
+     * this bcts bs bn insert.  If there bre no views to
+     * bdd this bcts bs b remove.  Views being removed will
+     * hbve the pbrent set to <code>null</code>, bnd the internbl reference
+     * to them removed so thbt they cbn be gbrbbge collected.
+     * This is implemented to do nothing, becbuse by defbult
+     * b view hbs no children.
      *
-     * @param offset the starting index into the child views to insert
-     *   the new views.  This should be a value &gt;= 0 and &lt;= getViewCount
-     * @param length the number of existing child views to remove
-     *   This should be a value &gt;= 0 and &lt;= (getViewCount() - offset).
-     * @param views the child views to add.  This value can be
-     *   <code>null</code> to indicate no children are being added
+     * @pbrbm offset the stbrting index into the child views to insert
+     *   the new views.  This should be b vblue &gt;= 0 bnd &lt;= getViewCount
+     * @pbrbm length the number of existing child views to remove
+     *   This should be b vblue &gt;= 0 bnd &lt;= (getViewCount() - offset).
+     * @pbrbm views the child views to bdd.  This vblue cbn be
+     *   <code>null</code> to indicbte no children bre being bdded
      *   (useful to remove).
      * @since 1.3
      */
-    public void replace(int offset, int length, View[] views) {
+    public void replbce(int offset, int length, View[] views) {
     }
 
     /**
      * Returns the child view index representing the given position in
-     * the model.  By default a view has no children so this is implemented
-     * to return -1 to indicate there is no valid child index for any
+     * the model.  By defbult b view hbs no children so this is implemented
+     * to return -1 to indicbte there is no vblid child index for bny
      * position.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      * @since 1.3
      */
-    public int getViewIndex(int pos, Position.Bias b) {
+    public int getViewIndex(int pos, Position.Bibs b) {
         return -1;
     }
 
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located, without assuming how the views store
-     * their location.  This returns <code>null</code> since the
-     * default is to not have any child views.
+     * Fetches the bllocbtion for the given child view.
+     * This enbbles finding out where vbrious views
+     * bre locbted, without bssuming how the views store
+     * their locbtion.  This returns <code>null</code> since the
+     * defbult is to not hbve bny child views.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt;
+     * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &lt;
      *          <code>getViewCount()</code>
-     * @param a  the allocation to this view
-     * @return the allocation to the child
+     * @pbrbm b  the bllocbtion to this view
+     * @return the bllocbtion to the child
      */
-    public Shape getChildAllocation(int index, Shape a) {
+    public Shbpe getChildAllocbtion(int index, Shbpe b) {
         return null;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location at which one might place a caret.
-     * Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * Provides b wby to determine the next visublly represented model
+     * locbtion bt which one might plbce b cbret.
+     * Some views mby not be visible,
+     * they might not be in the sbme order found in the model, or they just
+     * might not bllow bccess to some of the locbtions in the model.
+     * This method enbbles specifying b position to convert
+     * within the rbnge of &gt;=0.  If the vblue is -1, b position
+     * will be cblculbted butombticblly.  If the vblue &lt; -1,
+     * the {@code BbdLocbtionException} will be thrown.
      *
-     * @param pos the position to convert
-     * @param a the allocated region in which to render
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard.
-     *  This will be one of the following values:
+     * @pbrbm pos the position to convert
+     * @pbrbm b the bllocbted region in which to render
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd.
+     *  This will be one of the following vblues:
      * <ul>
-     * <li>SwingConstants.WEST
-     * <li>SwingConstants.EAST
-     * <li>SwingConstants.NORTH
-     * <li>SwingConstants.SOUTH
+     * <li>SwingConstbnts.WEST
+     * <li>SwingConstbnts.EAST
+     * <li>SwingConstbnts.NORTH
+     * <li>SwingConstbnts.SOUTH
      * </ul>
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException the given position is not a valid
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position
+     * @exception BbdLocbtionException the given position is not b vblid
      *                                 position within the document
-     * @exception IllegalArgumentException if <code>direction</code>
-     *          doesn't have one of the legal values above
+     * @exception IllegblArgumentException if <code>direction</code>
+     *          doesn't hbve one of the legbl vblues bbove
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
-                                         int direction, Position.Bias[] biasRet)
-      throws BadLocationException {
+    public int getNextVisublPositionFrom(int pos, Position.Bibs b, Shbpe b,
+                                         int direction, Position.Bibs[] bibsRet)
+      throws BbdLocbtionException {
         if (pos < -1) {
-            // -1 is a reserved value, see the code below
-            throw new BadLocationException("Invalid position", pos);
+            // -1 is b reserved vblue, see the code below
+            throw new BbdLocbtionException("Invblid position", pos);
         }
 
-        biasRet[0] = Position.Bias.Forward;
+        bibsRet[0] = Position.Bibs.Forwbrd;
         switch (direction) {
-        case NORTH:
-        case SOUTH:
+        cbse NORTH:
+        cbse SOUTH:
         {
             if (pos == -1) {
-                pos = (direction == NORTH) ? Math.max(0, getEndOffset() - 1) :
-                    getStartOffset();
-                break;
+                pos = (direction == NORTH) ? Mbth.mbx(0, getEndOffset() - 1) :
+                    getStbrtOffset();
+                brebk;
             }
-            JTextComponent target = (JTextComponent) getContainer();
-            Caret c = (target != null) ? target.getCaret() : null;
-            // YECK! Ideally, the x location from the magic caret position
-            // would be passed in.
+            JTextComponent tbrget = (JTextComponent) getContbiner();
+            Cbret c = (tbrget != null) ? tbrget.getCbret() : null;
+            // YECK! Ideblly, the x locbtion from the mbgic cbret position
+            // would be pbssed in.
             Point mcp;
             if (c != null) {
-                mcp = c.getMagicCaretPosition();
+                mcp = c.getMbgicCbretPosition();
             }
             else {
                 mcp = null;
             }
             int x;
             if (mcp == null) {
-                Rectangle loc = target.modelToView(pos);
+                Rectbngle loc = tbrget.modelToView(pos);
                 x = (loc == null) ? 0 : loc.x;
             }
             else {
                 x = mcp.x;
             }
             if (direction == NORTH) {
-                pos = Utilities.getPositionAbove(target, pos, x);
+                pos = Utilities.getPositionAbove(tbrget, pos, x);
             }
             else {
-                pos = Utilities.getPositionBelow(target, pos, x);
+                pos = Utilities.getPositionBelow(tbrget, pos, x);
             }
         }
-            break;
-        case WEST:
+            brebk;
+        cbse WEST:
             if(pos == -1) {
-                pos = Math.max(0, getEndOffset() - 1);
+                pos = Mbth.mbx(0, getEndOffset() - 1);
             }
             else {
-                pos = Math.max(0, pos - 1);
+                pos = Mbth.mbx(0, pos - 1);
             }
-            break;
-        case EAST:
+            brebk;
+        cbse EAST:
             if(pos == -1) {
-                pos = getStartOffset();
+                pos = getStbrtOffset();
             }
             else {
-                pos = Math.min(pos + 1, getDocument().getLength());
+                pos = Mbth.min(pos + 1, getDocument().getLength());
             }
-            break;
-        default:
-            throw new IllegalArgumentException("Bad direction: " + direction);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Bbd direction: " + direction);
         }
         return pos;
     }
 
     /**
-     * Provides a mapping, for a given character,
-     * from the document model coordinate space
-     * to the view coordinate space.
+     * Provides b mbpping, for b given chbrbcter,
+     * from the document model coordinbte spbce
+     * to the view coordinbte spbce.
      *
-     * @param pos the position of the desired character (&gt;=0)
-     * @param a the area of the view, which encompasses the requested character
-     * @param b the bias toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views; <code>b</code> will have one
-     *  of these values:
+     * @pbrbm pos the position of the desired chbrbcter (&gt;=0)
+     * @pbrbm b the breb of the view, which encompbsses the requested chbrbcter
+     * @pbrbm b the bibs towbrd the previous chbrbcter or the
+     *  next chbrbcter represented by the offset, in cbse the
+     *  position is b boundbry of two views; <code>b</code> will hbve one
+     *  of these vblues:
      * <ul>
-     * <li> <code>Position.Bias.Forward</code>
-     * <li> <code>Position.Bias.Backward</code>
+     * <li> <code>Position.Bibs.Forwbrd</code>
+     * <li> <code>Position.Bibs.Bbckwbrd</code>
      * </ul>
-     * @return the bounding box, in view coordinate space,
-     *          of the character at the specified position
-     * @exception BadLocationException  if the specified position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException if <code>b</code> is not one of the
-     *          legal <code>Position.Bias</code> values listed above
+     * @return the bounding box, in view coordinbte spbce,
+     *          of the chbrbcter bt the specified position
+     * @exception BbdLocbtionException  if the specified position does
+     *   not represent b vblid locbtion in the bssocibted document
+     * @exception IllegblArgumentException if <code>b</code> is not one of the
+     *          legbl <code>Position.Bibs</code> vblues listed bbove
      * @see View#viewToModel
      */
-    public abstract Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException;
+    public bbstrbct Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException;
 
     /**
-     * Provides a mapping, for a given region,
-     * from the document model coordinate space
-     * to the view coordinate space. The specified region is
-     * created as a union of the first and last character positions.
+     * Provides b mbpping, for b given region,
+     * from the document model coordinbte spbce
+     * to the view coordinbte spbce. The specified region is
+     * crebted bs b union of the first bnd lbst chbrbcter positions.
      *
-     * @param p0 the position of the first character (&gt;=0)
-     * @param b0 the bias of the first character position,
-     *  toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views; <code>b0</code> will have one
-     *  of these values:
+     * @pbrbm p0 the position of the first chbrbcter (&gt;=0)
+     * @pbrbm b0 the bibs of the first chbrbcter position,
+     *  towbrd the previous chbrbcter or the
+     *  next chbrbcter represented by the offset, in cbse the
+     *  position is b boundbry of two views; <code>b0</code> will hbve one
+     *  of these vblues:
      * <ul style="list-style-type:none">
-     * <li> <code>Position.Bias.Forward</code>
-     * <li> <code>Position.Bias.Backward</code>
+     * <li> <code>Position.Bibs.Forwbrd</code>
+     * <li> <code>Position.Bibs.Bbckwbrd</code>
      * </ul>
-     * @param p1 the position of the last character (&gt;=0)
-     * @param b1 the bias for the second character position, defined
-     *          one of the legal values shown above
-     * @param a the area of the view, which encompasses the requested region
-     * @return the bounding box which is a union of the region specified
-     *          by the first and last character positions
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException if <code>b0</code> or
-     *          <code>b1</code> are not one of the
-     *          legal <code>Position.Bias</code> values listed above
+     * @pbrbm p1 the position of the lbst chbrbcter (&gt;=0)
+     * @pbrbm b1 the bibs for the second chbrbcter position, defined
+     *          one of the legbl vblues shown bbove
+     * @pbrbm b the breb of the view, which encompbsses the requested region
+     * @return the bounding box which is b union of the region specified
+     *          by the first bnd lbst chbrbcter positions
+     * @exception BbdLocbtionException  if the given position does
+     *   not represent b vblid locbtion in the bssocibted document
+     * @exception IllegblArgumentException if <code>b0</code> or
+     *          <code>b1</code> bre not one of the
+     *          legbl <code>Position.Bibs</code> vblues listed bbove
      * @see View#viewToModel
      */
-    public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
-        Shape s0 = modelToView(p0, a, b0);
-        Shape s1;
+    public Shbpe modelToView(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Shbpe b) throws BbdLocbtionException {
+        Shbpe s0 = modelToView(p0, b, b0);
+        Shbpe s1;
         if (p1 == getEndOffset()) {
             try {
-                s1 = modelToView(p1, a, b1);
-            } catch (BadLocationException ble) {
+                s1 = modelToView(p1, b, b1);
+            } cbtch (BbdLocbtionException ble) {
                 s1 = null;
             }
             if (s1 == null) {
                 // Assume extends left to right.
-                Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                                  a.getBounds();
-                s1 = new Rectangle(alloc.x + alloc.width - 1, alloc.y,
-                                   1, alloc.height);
+                Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b :
+                                  b.getBounds();
+                s1 = new Rectbngle(blloc.x + blloc.width - 1, blloc.y,
+                                   1, blloc.height);
             }
         }
         else {
-            s1 = modelToView(p1, a, b1);
+            s1 = modelToView(p1, b, b1);
         }
-        Rectangle r0 = s0.getBounds();
-        Rectangle r1 = (s1 instanceof Rectangle) ? (Rectangle) s1 :
+        Rectbngle r0 = s0.getBounds();
+        Rectbngle r1 = (s1 instbnceof Rectbngle) ? (Rectbngle) s1 :
                                                    s1.getBounds();
         if (r0.y != r1.y) {
-            // If it spans lines, force it to be the width of the view.
-            Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                              a.getBounds();
-            r0.x = alloc.x;
-            r0.width = alloc.width;
+            // If it spbns lines, force it to be the width of the view.
+            Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b :
+                              b.getBounds();
+            r0.x = blloc.x;
+            r0.width = blloc.width;
         }
-        r0.add(r1);
+        r0.bdd(r1);
         return r0;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.  The <code>biasReturn</code>
-     * argument will be filled in to indicate that the point given is
-     * closer to the next character in the model or the previous
-     * character in the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.  The <code>bibsReturn</code>
+     * brgument will be filled in to indicbte thbt the point given is
+     * closer to the next chbrbcter in the model or the previous
+     * chbrbcter in the model.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region in which to render
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0.  The <code>biasReturn</code>
-     *  argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm b the bllocbted region in which to render
+     * @return the locbtion within the model thbt best represents the
+     *  given point in the view &gt;= 0.  The <code>bibsReturn</code>
+     *  brgument will be
+     * filled in to indicbte thbt the point given is closer to the next
+     * chbrbcter in the model or the previous chbrbcter in the model.
      */
-    public abstract int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn);
+    public bbstrbct int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibsReturn);
 
     /**
-     * Gives notification that something was inserted into
-     * the document in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
+     * Gives notificbtion thbt something wbs inserted into
+     * the document in b locbtion thbt this view is responsible for.
+     * To reduce the burden to subclbsses, this functionblity is
+     * sprebd out into the following cblls thbt subclbsses cbn
      * reimplement:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
+     * <li>{@link #updbteChildren updbteChildren} is cblled
+     * if there were bny chbnges to the element this view is
+     * responsible for.  If this view hbs child views thbt bre
      * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
+     * whbtever is necessbry to mbke sure the child views correctly
      * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #forwbrdUpdbte forwbrdUpdbte} is cblled
+     * to forwbrd the DocumentEvent to the bppropribte child views.
+     * <li>{@link #updbteLbyout updbteLbyout} is cblled to
+     * give the view b chbnce to either repbir its lbyout, to reschedule
+     * lbyout, or do nothing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#insertUpdbte
      */
-    public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
         if (getViewCount() > 0) {
             Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
+            DocumentEvent.ElementChbnge ec = e.getChbnge(elem);
             if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
+                if (! updbteChildren(ec, e, f)) {
+                    // don't consider the element chbnges they
+                    // bre for b view further down.
                     ec = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbte(ec, e, b, f);
+            updbteLbyout(ec, e, b);
         }
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
+     * Gives notificbtion thbt something wbs removed from the document
+     * in b locbtion thbt this view is responsible for.
+     * To reduce the burden to subclbsses, this functionblity is
+     * sprebd out into the following cblls thbt subclbsses cbn
      * reimplement:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
+     * <li>{@link #updbteChildren updbteChildren} is cblled
+     * if there were bny chbnges to the element this view is
+     * responsible for.  If this view hbs child views thbt bre
      * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
+     * whbtever is necessbry to mbke sure the child views correctly
      * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #forwbrdUpdbte forwbrdUpdbte} is cblled
+     * to forwbrd the DocumentEvent to the bppropribte child views.
+     * <li>{@link #updbteLbyout updbteLbyout} is cblled to
+     * give the view b chbnce to either repbir its lbyout, to reschedule
+     * lbyout, or do nothing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#removeUpdbte
      */
-    public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
         if (getViewCount() > 0) {
             Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
+            DocumentEvent.ElementChbnge ec = e.getChbnge(elem);
             if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
+                if (! updbteChildren(ec, e, f)) {
+                    // don't consider the element chbnges they
+                    // bre for b view further down.
                     ec = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbte(ec, e, b, f);
+            updbteLbyout(ec, e, b);
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
+     * To reduce the burden to subclbsses, this functionblity is
+     * sprebd out into the following cblls thbt subclbsses cbn
      * reimplement:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
+     * <li>{@link #updbteChildren updbteChildren} is cblled
+     * if there were bny chbnges to the element this view is
+     * responsible for.  If this view hbs child views thbt bre
      * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
+     * whbtever is necessbry to mbke sure the child views correctly
      * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #forwbrdUpdbte forwbrdUpdbte} is cblled
+     * to forwbrd the DocumentEvent to the bppropribte child views.
+     * <li>{@link #updbteLbyout updbteLbyout} is cblled to
+     * give the view b chbnce to either repbir its lbyout, to reschedule
+     * lbyout, or do nothing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
         if (getViewCount() > 0) {
             Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
+            DocumentEvent.ElementChbnge ec = e.getChbnge(elem);
             if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
+                if (! updbteChildren(ec, e, f)) {
+                    // don't consider the element chbnges they
+                    // bre for b view further down.
                     ec = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbte(ec, e, b, f);
+            updbteLbyout(ec, e, b);
         }
     }
 
     /**
-     * Fetches the model associated with the view.
+     * Fetches the model bssocibted with the view.
      *
      * @return the view model, <code>null</code> if none
      * @see View#getDocument
@@ -807,11 +807,11 @@ public abstract class View implements SwingConstants {
      * Fetches the portion of the model for which this view is
      * responsible.
      *
-     * @return the starting offset into the model &gt;= 0
-     * @see View#getStartOffset
+     * @return the stbrting offset into the model &gt;= 0
+     * @see View#getStbrtOffset
      */
-    public int getStartOffset() {
-        return elem.getStartOffset();
+    public int getStbrtOffset() {
+        return elem.getStbrtOffset();
     }
 
     /**
@@ -826,8 +826,8 @@ public abstract class View implements SwingConstants {
     }
 
     /**
-     * Fetches the structural portion of the subject that this
-     * view is mapped to.  The view may not be responsible for the
+     * Fetches the structurbl portion of the subject thbt this
+     * view is mbpped to.  The view mby not be responsible for the
      * entire portion of the element.
      *
      * @return the subject
@@ -838,31 +838,31 @@ public abstract class View implements SwingConstants {
     }
 
     /**
-     * Fetch a <code>Graphics</code> for rendering.
-     * This can be used to determine
-     * font characteristics, and will be different for a print view
-     * than a component view.
+     * Fetch b <code>Grbphics</code> for rendering.
+     * This cbn be used to determine
+     * font chbrbcteristics, bnd will be different for b print view
+     * thbn b component view.
      *
-     * @return a <code>Graphics</code> object for rendering
+     * @return b <code>Grbphics</code> object for rendering
      * @since 1.3
      */
-    public Graphics getGraphics() {
-        // PENDING(prinz) this is a temporary implementation
-        Component c = getContainer();
-        return c.getGraphics();
+    public Grbphics getGrbphics() {
+        // PENDING(prinz) this is b temporbry implementbtion
+        Component c = getContbiner();
+        return c.getGrbphics();
     }
 
     /**
-     * Fetches the attributes to use when rendering.  By default
-     * this simply returns the attributes of the associated element.
-     * This method should be used rather than using the element
-     * directly to obtain access to the attributes to allow
-     * view-specific attributes to be mixed in or to allow the
-     * view to have view-specific conversion of attributes by
-     * subclasses.
-     * Each view should document what attributes it recognizes
-     * for the purpose of rendering or layout, and should always
-     * access them through the <code>AttributeSet</code> returned
+     * Fetches the bttributes to use when rendering.  By defbult
+     * this simply returns the bttributes of the bssocibted element.
+     * This method should be used rbther thbn using the element
+     * directly to obtbin bccess to the bttributes to bllow
+     * view-specific bttributes to be mixed in or to bllow the
+     * view to hbve view-specific conversion of bttributes by
+     * subclbsses.
+     * Ebch view should document whbt bttributes it recognizes
+     * for the purpose of rendering or lbyout, bnd should blwbys
+     * bccess them through the <code>AttributeSet</code> returned
      * by this method.
      */
     public AttributeSet getAttributes() {
@@ -870,174 +870,174 @@ public abstract class View implements SwingConstants {
     }
 
     /**
-     * Tries to break this view on the given axis.  This is
-     * called by views that try to do formatting of their
-     * children.  For example, a view of a paragraph will
-     * typically try to place its children into row and
-     * views representing chunks of text can sometimes be
-     * broken down into smaller pieces.
+     * Tries to brebk this view on the given bxis.  This is
+     * cblled by views thbt try to do formbtting of their
+     * children.  For exbmple, b view of b pbrbgrbph will
+     * typicblly try to plbce its children into row bnd
+     * views representing chunks of text cbn sometimes be
+     * broken down into smbller pieces.
      * <p>
      * This is implemented to return the view itself, which
-     * represents the default behavior on not being
-     * breakable.  If the view does support breaking, the
-     * starting offset of the view returned should be the
-     * given offset, and the end offset should be less than
-     * or equal to the end offset of the view being broken.
+     * represents the defbult behbvior on not being
+     * brebkbble.  If the view does support brebking, the
+     * stbrting offset of the view returned should be the
+     * given offset, bnd the end offset should be less thbn
+     * or equbl to the end offset of the view being broken.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @param offset the location in the document model
-     *   that a broken fragment would occupy &gt;= 0.  This
-     *   would be the starting offset of the fragment
+     * @pbrbm offset the locbtion in the document model
+     *   thbt b broken frbgment would occupy &gt;= 0.  This
+     *   would be the stbrting offset of the frbgment
      *   returned
-     * @param pos the position along the axis that the
-     *  broken view would occupy &gt;= 0.  This may be useful for
-     *  things like tab calculations
-     * @param len specifies the distance along the axis
-     *  where a potential break is desired &gt;= 0
-     * @return the fragment of the view that represents the
-     *  given span, if the view can be broken.  If the view
-     *  doesn't support breaking behavior, the view itself is
+     * @pbrbm pos the position blong the bxis thbt the
+     *  broken view would occupy &gt;= 0.  This mby be useful for
+     *  things like tbb cblculbtions
+     * @pbrbm len specifies the distbnce blong the bxis
+     *  where b potentibl brebk is desired &gt;= 0
+     * @return the frbgment of the view thbt represents the
+     *  given spbn, if the view cbn be broken.  If the view
+     *  doesn't support brebking behbvior, the view itself is
      *  returned.
-     * @see ParagraphView
+     * @see PbrbgrbphView
      */
-    public View breakView(int axis, int offset, float pos, float len) {
+    public View brebkView(int bxis, int offset, flobt pos, flobt len) {
         return this;
     }
 
     /**
-     * Creates a view that represents a portion of the element.
-     * This is potentially useful during formatting operations
-     * for taking measurements of fragments of the view.  If
-     * the view doesn't support fragmenting (the default), it
+     * Crebtes b view thbt represents b portion of the element.
+     * This is potentiblly useful during formbtting operbtions
+     * for tbking mebsurements of frbgments of the view.  If
+     * the view doesn't support frbgmenting (the defbult), it
      * should return itself.
      *
-     * @param p0 the starting offset &gt;= 0.  This should be a value
-     *   greater or equal to the element starting offset and
-     *   less than the element ending offset.
-     * @param p1 the ending offset &gt; p0.  This should be a value
-     *   less than or equal to the elements end offset and
-     *   greater than the elements starting offset.
-     * @return the view fragment, or itself if the view doesn't
-     *   support breaking into fragments
-     * @see LabelView
+     * @pbrbm p0 the stbrting offset &gt;= 0.  This should be b vblue
+     *   grebter or equbl to the element stbrting offset bnd
+     *   less thbn the element ending offset.
+     * @pbrbm p1 the ending offset &gt; p0.  This should be b vblue
+     *   less thbn or equbl to the elements end offset bnd
+     *   grebter thbn the elements stbrting offset.
+     * @return the view frbgment, or itself if the view doesn't
+     *   support brebking into frbgments
+     * @see LbbelView
      */
-    public View createFragment(int p0, int p1) {
+    public View crebteFrbgment(int p0, int p1) {
         return this;
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This can be used for determining which
-     * view is the most attractive to call <code>breakView</code>
-     * on in the process of formatting.  A view that represents
-     * text that has whitespace in it might be more attractive
-     * than a view that has no whitespace, for example.  The
-     * higher the weight, the more attractive the break.  A
-     * value equal to or lower than <code>BadBreakWeight</code>
-     * should not be considered for a break.  A value greater
-     * than or equal to <code>ForcedBreakWeight</code> should
+     * Determines how bttrbctive b brebk opportunity in
+     * this view is.  This cbn be used for determining which
+     * view is the most bttrbctive to cbll <code>brebkView</code>
+     * on in the process of formbtting.  A view thbt represents
+     * text thbt hbs whitespbce in it might be more bttrbctive
+     * thbn b view thbt hbs no whitespbce, for exbmple.  The
+     * higher the weight, the more bttrbctive the brebk.  A
+     * vblue equbl to or lower thbn <code>BbdBrebkWeight</code>
+     * should not be considered for b brebk.  A vblue grebter
+     * thbn or equbl to <code>ForcedBrebkWeight</code> should
      * be broken.
      * <p>
-     * This is implemented to provide the default behavior
-     * of returning <code>BadBreakWeight</code> unless the length
-     * is greater than the length of the view in which case the
-     * entire view represents the fragment.  Unless a view has
-     * been written to support breaking behavior, it is not
-     * attractive to try and break the view.  An example of
-     * a view that does support breaking is <code>LabelView</code>.
-     * An example of a view that uses break weight is
-     * <code>ParagraphView</code>.
+     * This is implemented to provide the defbult behbvior
+     * of returning <code>BbdBrebkWeight</code> unless the length
+     * is grebter thbn the length of the view in which cbse the
+     * entire view represents the frbgment.  Unless b view hbs
+     * been written to support brebking behbvior, it is not
+     * bttrbctive to try bnd brebk the view.  An exbmple of
+     * b view thbt does support brebking is <code>LbbelView</code>.
+     * An exbmple of b view thbt uses brebk weight is
+     * <code>PbrbgrbphView</code>.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @param pos the potential location of the start of the
-     *   broken view &gt;= 0.  This may be useful for calculating tab
+     * @pbrbm pos the potentibl locbtion of the stbrt of the
+     *   broken view &gt;= 0.  This mby be useful for cblculbting tbb
      *   positions
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired &gt;= 0
-     * @return the weight, which should be a value between
-     *   ForcedBreakWeight and BadBreakWeight
-     * @see LabelView
-     * @see ParagraphView
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @pbrbm len specifies the relbtive length from <em>pos</em>
+     *   where b potentibl brebk is desired &gt;= 0
+     * @return the weight, which should be b vblue between
+     *   ForcedBrebkWeight bnd BbdBrebkWeight
+     * @see LbbelView
+     * @see PbrbgrbphView
+     * @see #BbdBrebkWeight
+     * @see #GoodBrebkWeight
+     * @see #ExcellentBrebkWeight
+     * @see #ForcedBrebkWeight
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (len > getPreferredSpan(axis)) {
-            return GoodBreakWeight;
+    public int getBrebkWeight(int bxis, flobt pos, flobt len) {
+        if (len > getPreferredSpbn(bxis)) {
+            return GoodBrebkWeight;
         }
-        return BadBreakWeight;
+        return BbdBrebkWeight;
     }
 
     /**
-     * Determines the resizability of the view along the
-     * given axis.  A value of 0 or less is not resizable.
+     * Determines the resizbbility of the view blong the
+     * given bxis.  A vblue of 0 or less is not resizbble.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
      * @return the weight
      */
-    public int getResizeWeight(int axis) {
+    public int getResizeWeight(int bxis) {
         return 0;
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view along the given axis, if it
-     * has any layout duties.
+     * Sets the size of the view.  This should cbuse
+     * lbyout of the view blong the given bxis, if it
+     * hbs bny lbyout duties.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm width the width &gt;= 0
+     * @pbrbm height the height &gt;= 0
      */
-    public void setSize(float width, float height) {
+    public void setSize(flobt width, flobt height) {
     }
 
     /**
-     * Fetches the container hosting the view.  This is useful for
-     * things like scheduling a repaint, finding out the host
-     * components font, etc.  The default implementation
-     * of this is to forward the query to the parent view.
+     * Fetches the contbiner hosting the view.  This is useful for
+     * things like scheduling b repbint, finding out the host
+     * components font, etc.  The defbult implementbtion
+     * of this is to forwbrd the query to the pbrent view.
      *
-     * @return the container, <code>null</code> if none
+     * @return the contbiner, <code>null</code> if none
      */
-    public Container getContainer() {
-        View v = getParent();
-        return (v != null) ? v.getContainer() : null;
+    public Contbiner getContbiner() {
+        View v = getPbrent();
+        return (v != null) ? v.getContbiner() : null;
     }
 
     /**
-     * Fetches the <code>ViewFactory</code> implementation that is feeding
-     * the view hierarchy.  Normally the views are given this
-     * as an argument to updates from the model when they
-     * are most likely to need the factory, but this
-     * method serves to provide it at other times.
+     * Fetches the <code>ViewFbctory</code> implementbtion thbt is feeding
+     * the view hierbrchy.  Normblly the views bre given this
+     * bs bn brgument to updbtes from the model when they
+     * bre most likely to need the fbctory, but this
+     * method serves to provide it bt other times.
      *
-     * @return the factory, <code>null</code> if none
+     * @return the fbctory, <code>null</code> if none
      */
-    public ViewFactory getViewFactory() {
-        View v = getParent();
-        return (v != null) ? v.getViewFactory() : null;
+    public ViewFbctory getViewFbctory() {
+        View v = getPbrent();
+        return (v != null) ? v.getViewFbctory() : null;
     }
 
     /**
-     * Returns the tooltip text at the specified location. The default
-     * implementation returns the value from the child View identified by
-     * the passed in location.
+     * Returns the tooltip text bt the specified locbtion. The defbult
+     * implementbtion returns the vblue from the child View identified by
+     * the pbssed in locbtion.
      *
      * @since 1.4
      * @see JTextComponent#getToolTipText
      */
-    public String getToolTipText(float x, float y, Shape allocation) {
-        int viewIndex = getViewIndex(x, y, allocation);
+    public String getToolTipText(flobt x, flobt y, Shbpe bllocbtion) {
+        int viewIndex = getViewIndex(x, y, bllocbtion);
         if (viewIndex >= 0) {
-            allocation = getChildAllocation(viewIndex, allocation);
-            Rectangle rect = (allocation instanceof Rectangle) ?
-                             (Rectangle)allocation : allocation.getBounds();
-            if (rect.contains(x, y)) {
-                return getView(viewIndex).getToolTipText(x, y, allocation);
+            bllocbtion = getChildAllocbtion(viewIndex, bllocbtion);
+            Rectbngle rect = (bllocbtion instbnceof Rectbngle) ?
+                             (Rectbngle)bllocbtion : bllocbtion.getBounds();
+            if (rect.contbins(x, y)) {
+                return getView(viewIndex).getToolTipText(x, y, bllocbtion);
             }
         }
         return null;
@@ -1045,25 +1045,25 @@ public abstract class View implements SwingConstants {
 
     /**
      * Returns the child view index representing the given position in
-     * the view. This iterates over all the children returning the
-     * first with a bounds that contains <code>x</code>, <code>y</code>.
+     * the view. This iterbtes over bll the children returning the
+     * first with b bounds thbt contbins <code>x</code>, <code>y</code>.
      *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param allocation current allocation of the View.
-     * @return  index of the view representing the given location, or
-     *   -1 if no view represents that position
+     * @pbrbm x the x coordinbte
+     * @pbrbm y the y coordinbte
+     * @pbrbm bllocbtion current bllocbtion of the View.
+     * @return  index of the view representing the given locbtion, or
+     *   -1 if no view represents thbt position
      * @since 1.4
      */
-    public int getViewIndex(float x, float y, Shape allocation) {
+    public int getViewIndex(flobt x, flobt y, Shbpe bllocbtion) {
         for (int counter = getViewCount() - 1; counter >= 0; counter--) {
-            Shape childAllocation = getChildAllocation(counter, allocation);
+            Shbpe childAllocbtion = getChildAllocbtion(counter, bllocbtion);
 
-            if (childAllocation != null) {
-                Rectangle rect = (childAllocation instanceof Rectangle) ?
-                         (Rectangle)childAllocation : childAllocation.getBounds();
+            if (childAllocbtion != null) {
+                Rectbngle rect = (childAllocbtion instbnceof Rectbngle) ?
+                         (Rectbngle)childAllocbtion : childAllocbtion.getBounds();
 
-                if (rect.contains(x, y)) {
+                if (rect.contbins(x, y)) {
                     return counter;
                 }
             }
@@ -1072,43 +1072,43 @@ public abstract class View implements SwingConstants {
     }
 
     /**
-     * Updates the child views in response to receiving notification
-     * that the model changed, and there is change record for the
+     * Updbtes the child views in response to receiving notificbtion
+     * thbt the model chbnged, bnd there is chbnge record for the
      * element this view is responsible for.  This is implemented
-     * to assume the child views are directly responsible for the
+     * to bssume the child views bre directly responsible for the
      * child elements of the element this view represents.  The
-     * <code>ViewFactory</code> is used to create child views for each element
-     * specified as added in the <code>ElementChange</code>, starting at the
-     * index specified in the given <code>ElementChange</code>.  The number of
-     * child views representing the removed elements specified are
+     * <code>ViewFbctory</code> is used to crebte child views for ebch element
+     * specified bs bdded in the <code>ElementChbnge</code>, stbrting bt the
+     * index specified in the given <code>ElementChbnge</code>.  The number of
+     * child views representing the removed elements specified bre
      * removed.
      *
-     * @param ec the change information for the element this view
+     * @pbrbm ec the chbnge informbtion for the element this view
      *  is responsible for.  This should not be <code>null</code> if
-     *  this method gets called
-     * @param e the change information from the associated document
-     * @param f the factory to use to build child views
+     *  this method gets cblled
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm f the fbctory to use to build child views
      * @return whether or not the child views represent the
      *  child elements of the element this view is responsible
-     *  for.  Some views create children that represent a portion
-     *  of the element they are responsible for, and should return
-     *  false.  This information is used to determine if views
-     *  in the range of the added elements should be forwarded to
+     *  for.  Some views crebte children thbt represent b portion
+     *  of the element they bre responsible for, bnd should return
+     *  fblse.  This informbtion is used to determine if views
+     *  in the rbnge of the bdded elements should be forwbrded to
      *  or not
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @see #insertUpdbte
+     * @see #removeUpdbte
+     * @see #chbngedUpdbte
      * @since 1.3
      */
-    protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                         DocumentEvent e, ViewFactory f) {
+    protected boolebn updbteChildren(DocumentEvent.ElementChbnge ec,
+                                         DocumentEvent e, ViewFbctory f) {
         Element[] removedElems = ec.getChildrenRemoved();
-        Element[] addedElems = ec.getChildrenAdded();
-        View[] added = null;
-        if (addedElems != null) {
-            added = new View[addedElems.length];
-            for (int i = 0; i < addedElems.length; i++) {
-                added[i] = f.create(addedElems[i]);
+        Element[] bddedElems = ec.getChildrenAdded();
+        View[] bdded = null;
+        if (bddedElems != null) {
+            bdded = new View[bddedElems.length];
+            for (int i = 0; i < bddedElems.length; i++) {
+                bdded[i] = f.crebte(bddedElems[i]);
             }
         }
         int nremoved = 0;
@@ -1116,254 +1116,254 @@ public abstract class View implements SwingConstants {
         if (removedElems != null) {
             nremoved = removedElems.length;
         }
-        replace(index, nremoved, added);
+        replbce(index, nremoved, bdded);
         return true;
     }
 
     /**
-     * Forwards the given <code>DocumentEvent</code> to the child views
-     * that need to be notified of the change to the model.
-     * If there were changes to the element this view is
-     * responsible for, that should be considered when
-     * forwarding (i.e. new child views should not get
+     * Forwbrds the given <code>DocumentEvent</code> to the child views
+     * thbt need to be notified of the chbnge to the model.
+     * If there were chbnges to the element this view is
+     * responsible for, thbt should be considered when
+     * forwbrding (i.e. new child views should not get
      * notified).
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes).
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @pbrbm ec chbnges to the element this view is responsible
+     *  for (mby be <code>null</code> if there were no chbnges).
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see #insertUpdbte
+     * @see #removeUpdbte
+     * @see #chbngedUpdbte
      * @since 1.3
      */
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                      DocumentEvent e, Shape a, ViewFactory f) {
-        calculateUpdateIndexes(e);
+    protected void forwbrdUpdbte(DocumentEvent.ElementChbnge ec,
+                                      DocumentEvent e, Shbpe b, ViewFbctory f) {
+        cblculbteUpdbteIndexes(e);
 
-        int hole0 = lastUpdateIndex + 1;
+        int hole0 = lbstUpdbteIndex + 1;
         int hole1 = hole0;
-        Element[] addedElems = (ec != null) ? ec.getChildrenAdded() : null;
-        if ((addedElems != null) && (addedElems.length > 0)) {
+        Element[] bddedElems = (ec != null) ? ec.getChildrenAdded() : null;
+        if ((bddedElems != null) && (bddedElems.length > 0)) {
             hole0 = ec.getIndex();
-            hole1 = hole0 + addedElems.length - 1;
+            hole1 = hole0 + bddedElems.length - 1;
         }
 
-        // forward to any view not in the forwarding hole
-        // formed by added elements (i.e. they will be updated
-        // by initialization.
-        for (int i = firstUpdateIndex; i <= lastUpdateIndex; i++) {
+        // forwbrd to bny view not in the forwbrding hole
+        // formed by bdded elements (i.e. they will be updbted
+        // by initiblizbtion.
+        for (int i = firstUpdbteIndex; i <= lbstUpdbteIndex; i++) {
             if (! ((i >= hole0) && (i <= hole1))) {
                 View v = getView(i);
                 if (v != null) {
-                    Shape childAlloc = getChildAllocation(i, a);
-                    forwardUpdateToView(v, e, childAlloc, f);
+                    Shbpe childAlloc = getChildAllocbtion(i, b);
+                    forwbrdUpdbteToView(v, e, childAlloc, f);
                 }
             }
         }
     }
 
     /**
-     * Calculates the first and the last indexes of the child views
-     * that need to be notified of the change to the model.
-     * @param e the change information from the associated document
+     * Cblculbtes the first bnd the lbst indexes of the child views
+     * thbt need to be notified of the chbnge to the model.
+     * @pbrbm e the chbnge informbtion from the bssocibted document
      */
-    void calculateUpdateIndexes(DocumentEvent e) {
+    void cblculbteUpdbteIndexes(DocumentEvent e) {
         int pos = e.getOffset();
-        firstUpdateIndex = getViewIndex(pos, Position.Bias.Forward);
-        if (firstUpdateIndex == -1 && e.getType() == DocumentEvent.EventType.REMOVE &&
+        firstUpdbteIndex = getViewIndex(pos, Position.Bibs.Forwbrd);
+        if (firstUpdbteIndex == -1 && e.getType() == DocumentEvent.EventType.REMOVE &&
             pos >= getEndOffset()) {
-            // Event beyond our offsets. We may have represented this, that is
-            // the remove may have removed one of our child Elements that
-            // represented this, so, we should forward to last element.
-            firstUpdateIndex = getViewCount() - 1;
+            // Event beyond our offsets. We mby hbve represented this, thbt is
+            // the remove mby hbve removed one of our child Elements thbt
+            // represented this, so, we should forwbrd to lbst element.
+            firstUpdbteIndex = getViewCount() - 1;
         }
-        lastUpdateIndex = firstUpdateIndex;
-        View v = (firstUpdateIndex >= 0) ? getView(firstUpdateIndex) : null;
+        lbstUpdbteIndex = firstUpdbteIndex;
+        View v = (firstUpdbteIndex >= 0) ? getView(firstUpdbteIndex) : null;
         if (v != null) {
-            if ((v.getStartOffset() == pos) && (pos > 0)) {
-                // If v is at a boundary, forward the event to the previous
+            if ((v.getStbrtOffset() == pos) && (pos > 0)) {
+                // If v is bt b boundbry, forwbrd the event to the previous
                 // view too.
-                firstUpdateIndex = Math.max(firstUpdateIndex - 1, 0);
+                firstUpdbteIndex = Mbth.mbx(firstUpdbteIndex - 1, 0);
             }
         }
         if (e.getType() != DocumentEvent.EventType.REMOVE) {
-            lastUpdateIndex = getViewIndex(pos + e.getLength(), Position.Bias.Forward);
-            if (lastUpdateIndex < 0) {
-                lastUpdateIndex = getViewCount() - 1;
+            lbstUpdbteIndex = getViewIndex(pos + e.getLength(), Position.Bibs.Forwbrd);
+            if (lbstUpdbteIndex < 0) {
+                lbstUpdbteIndex = getViewCount() - 1;
             }
         }
-        firstUpdateIndex = Math.max(firstUpdateIndex, 0);
+        firstUpdbteIndex = Mbth.mbx(firstUpdbteIndex, 0);
     }
 
     /**
-     * Forwards the <code>DocumentEvent</code> to the give child view.  This
-     * simply messages the view with a call to <code>insertUpdate</code>,
-     * <code>removeUpdate</code>, or <code>changedUpdate</code> depending
-     * upon the type of the event.  This is called by
-     * {@link #forwardUpdate forwardUpdate} to forward
-     * the event to children that need it.
+     * Forwbrds the <code>DocumentEvent</code> to the give child view.  This
+     * simply messbges the view with b cbll to <code>insertUpdbte</code>,
+     * <code>removeUpdbte</code>, or <code>chbngedUpdbte</code> depending
+     * upon the type of the event.  This is cblled by
+     * {@link #forwbrdUpdbte forwbrdUpdbte} to forwbrd
+     * the event to children thbt need it.
      *
-     * @param v the child view to forward the event to
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #forwardUpdate
+     * @pbrbm v the child view to forwbrd the event to
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see #forwbrdUpdbte
      * @since 1.3
      */
-    protected void forwardUpdateToView(View v, DocumentEvent e,
-                                           Shape a, ViewFactory f) {
+    protected void forwbrdUpdbteToView(View v, DocumentEvent e,
+                                           Shbpe b, ViewFbctory f) {
         DocumentEvent.EventType type = e.getType();
         if (type == DocumentEvent.EventType.INSERT) {
-            v.insertUpdate(e, a, f);
+            v.insertUpdbte(e, b, f);
         } else if (type == DocumentEvent.EventType.REMOVE) {
-            v.removeUpdate(e, a, f);
+            v.removeUpdbte(e, b, f);
         } else {
-            v.changedUpdate(e, a, f);
+            v.chbngedUpdbte(e, b, f);
         }
     }
 
     /**
-     * Updates the layout in response to receiving notification of
-     * change from the model.  This is implemented to call
-     * <code>preferenceChanged</code> to reschedule a new layout
-     * if the <code>ElementChange</code> record is not <code>null</code>.
+     * Updbtes the lbyout in response to receiving notificbtion of
+     * chbnge from the model.  This is implemented to cbll
+     * <code>preferenceChbnged</code> to reschedule b new lbyout
+     * if the <code>ElementChbnge</code> record is not <code>null</code>.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes)
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @pbrbm ec chbnges to the element this view is responsible
+     *  for (mby be <code>null</code> if there were no chbnges)
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @see #insertUpdbte
+     * @see #removeUpdbte
+     * @see #chbngedUpdbte
      * @since 1.3
      */
-    protected void updateLayout(DocumentEvent.ElementChange ec,
-                                    DocumentEvent e, Shape a) {
-        if ((ec != null) && (a != null)) {
-            // should damage more intelligently
-            preferenceChanged(null, true, true);
-            Container host = getContainer();
+    protected void updbteLbyout(DocumentEvent.ElementChbnge ec,
+                                    DocumentEvent e, Shbpe b) {
+        if ((ec != null) && (b != null)) {
+            // should dbmbge more intelligently
+            preferenceChbnged(null, true, true);
+            Contbiner host = getContbiner();
             if (host != null) {
-                host.repaint();
+                host.repbint();
             }
         }
     }
 
     /**
-     * The weight to indicate a view is a bad break
-     * opportunity for the purpose of formatting.  This
-     * value indicates that no attempt should be made to
-     * break the view into fragments as the view has
-     * not been written to support fragmenting.
+     * The weight to indicbte b view is b bbd brebk
+     * opportunity for the purpose of formbtting.  This
+     * vblue indicbtes thbt no bttempt should be mbde to
+     * brebk the view into frbgments bs the view hbs
+     * not been written to support frbgmenting.
      *
-     * @see #getBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @see #getBrebkWeight
+     * @see #GoodBrebkWeight
+     * @see #ExcellentBrebkWeight
+     * @see #ForcedBrebkWeight
      */
-    public static final int BadBreakWeight = 0;
+    public stbtic finbl int BbdBrebkWeight = 0;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * but better opportunities probably exist.
+     * The weight to indicbte b view supports brebking,
+     * but better opportunities probbbly exist.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @see #getBrebkWeight
+     * @see #BbdBrebkWeight
+     * @see #ExcellentBrebkWeight
+     * @see #ForcedBrebkWeight
      */
-    public static final int GoodBreakWeight = 1000;
+    public stbtic finbl int GoodBrebkWeight = 1000;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * and this represents a very attractive place to
-     * break.
+     * The weight to indicbte b view supports brebking,
+     * bnd this represents b very bttrbctive plbce to
+     * brebk.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ForcedBreakWeight
+     * @see #getBrebkWeight
+     * @see #BbdBrebkWeight
+     * @see #GoodBrebkWeight
+     * @see #ForcedBrebkWeight
      */
-    public static final int ExcellentBreakWeight = 2000;
+    public stbtic finbl int ExcellentBrebkWeight = 2000;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * and must be broken to be represented properly
-     * when placed in a view that formats its children
-     * by breaking them.
+     * The weight to indicbte b view supports brebking,
+     * bnd must be broken to be represented properly
+     * when plbced in b view thbt formbts its children
+     * by brebking them.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
+     * @see #getBrebkWeight
+     * @see #BbdBrebkWeight
+     * @see #GoodBrebkWeight
+     * @see #ExcellentBrebkWeight
      */
-    public static final int ForcedBreakWeight = 3000;
+    public stbtic finbl int ForcedBrebkWeight = 3000;
 
     /**
-     * Axis for format/break operations.
+     * Axis for formbt/brebk operbtions.
      */
-    public static final int X_AXIS = HORIZONTAL;
+    public stbtic finbl int X_AXIS = HORIZONTAL;
 
     /**
-     * Axis for format/break operations.
+     * Axis for formbt/brebk operbtions.
      */
-    public static final int Y_AXIS = VERTICAL;
+    public stbtic finbl int Y_AXIS = VERTICAL;
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it. This is
-     * implemented to default the bias to <code>Position.Bias.Forward</code>
-     * which was previously implied.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it. This is
+     * implemented to defbult the bibs to <code>Position.Bibs.Forwbrd</code>
+     * which wbs previously implied.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region in which to render
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b the bllocbted region in which to render
      * @return the bounding box of the given position is returned
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does
+     *   not represent b vblid locbtion in the bssocibted document
      * @see View#modelToView
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public Shape modelToView(int pos, Shape a) throws BadLocationException {
-        return modelToView(pos, a, Position.Bias.Forward);
+    @Deprecbted
+    public Shbpe modelToView(int pos, Shbpe b) throws BbdLocbtionException {
+        return modelToView(pos, b, Position.Bibs.Forwbrd);
     }
 
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region in which to render
-     * @return the location within the model that best represents the
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm b the bllocbted region in which to render
+     * @return the locbtion within the model thbt best represents the
      *  given point in the view &gt;= 0
      * @see View#viewToModel
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public int viewToModel(float x, float y, Shape a) {
-        sharedBiasReturn[0] = Position.Bias.Forward;
-        return viewToModel(x, y, a, sharedBiasReturn);
+    @Deprecbted
+    public int viewToModel(flobt x, flobt y, Shbpe b) {
+        shbredBibsReturn[0] = Position.Bibs.Forwbrd;
+        return viewToModel(x, y, b, shbredBibsReturn);
     }
 
-    // static argument available for viewToModel calls since only
-    // one thread at a time may call this method.
-    static final Position.Bias[] sharedBiasReturn = new Position.Bias[1];
+    // stbtic brgument bvbilbble for viewToModel cblls since only
+    // one threbd bt b time mby cbll this method.
+    stbtic finbl Position.Bibs[] shbredBibsReturn = new Position.Bibs[1];
 
-    private View parent;
-    private Element elem;
+    privbte View pbrent;
+    privbte Element elem;
 
     /**
      * The index of the first child view to be notified.
      */
-    int firstUpdateIndex;
+    int firstUpdbteIndex;
 
     /**
-     * The index of the last child view to be notified.
+     * The index of the lbst child view to be notified.
      */
-    int lastUpdateIndex;
+    int lbstUpdbteIndex;
 
 };

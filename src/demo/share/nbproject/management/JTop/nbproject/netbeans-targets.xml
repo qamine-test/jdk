@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Redistribution bnd use in source bnd binbry forms, with or without
+ modificbtion, bre permitted provided thbt the following conditions
+ bre met:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Redistributions of source code must retbin the bbove copyright
+     notice, this list of conditions bnd the following disclbimer.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Redistributions in binbry form must reproduce the bbove copyright
+     notice, this list of conditions bnd the following disclbimer in the
+     documentbtion bnd/or other mbteribls provided with the distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Neither the nbme of Orbcle nor the nbmes of its
+     contributors mby be used to endorse or promote products derived
+     from this softwbre without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,51 +31,51 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project basedir=".." name="JTop/NB">
+<project bbsedir=".." nbme="JTop/NB">
 
     <import file="../build.xml"/>
     
-    <target name="debug" depends="compile,-jdk-presetdef-nbjpdastart">
-        <nbjpdastart addressproperty="jpda.address" name="JTop" transport="dt_socket">
-            <classpath path="${run.cp}"/>
-        </nbjpdastart>
-        <java classname="${main.class}" failonerror="true" fork="true">
-            <classpath path="${run.cp}"/>
-            <jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xnoagent"/>
-            <jvmarg value="-Djava.compiler=none"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
-        </java>
-    </target>
+    <tbrget nbme="debug" depends="compile,-jdk-presetdef-nbjpdbstbrt">
+        <nbjpdbstbrt bddressproperty="jpdb.bddress" nbme="JTop" trbnsport="dt_socket">
+            <clbsspbth pbth="${run.cp}"/>
+        </nbjpdbstbrt>
+        <jbvb clbssnbme="${mbin.clbss}" fbilonerror="true" fork="true">
+            <clbsspbth pbth="${run.cp}"/>
+            <jvmbrg vblue="-Xdebug"/>
+            <jvmbrg vblue="-Xnobgent"/>
+            <jvmbrg vblue="-Djbvb.compiler=none"/>
+            <jvmbrg vblue="-Xrunjdwp:trbnsport=dt_socket,bddress=${jpdb.bddress}"/>
+        </jbvb>
+    </tbrget>
     
-    <target name="debug-fix" depends="-init">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="${deprecation}">
-            <classpath path="${cp}"/>
-            <include name="${class}.java"/>
-        </javac>
-        <nbjpdareload>
-            <fileset dir="${classes.dir}">
-                <include name="${class}.class"/>
+    <tbrget nbme="debug-fix" depends="-init">
+        <jbvbc srcdir="${src.dir}" destdir="${clbsses.dir}" debug="true" deprecbtion="${deprecbtion}">
+            <clbsspbth pbth="${cp}"/>
+            <include nbme="${clbss}.jbvb"/>
+        </jbvbc>
+        <nbjpdbrelobd>
+            <fileset dir="${clbsses.dir}">
+                <include nbme="${clbss}.clbss"/>
             </fileset>
-        </nbjpdareload>
-    </target>
+        </nbjpdbrelobd>
+    </tbrget>
     
-    <target name="show-javadoc" depends="javadoc">
-        <nbbrowse file="${javadoc.dir}/index.html"/>
-    </target>
+    <tbrget nbme="show-jbvbdoc" depends="jbvbdoc">
+        <nbbrowse file="${jbvbdoc.dir}/index.html"/>
+    </tbrget>
     
-    <target name="profile" depends="compile">
+    <tbrget nbme="profile" depends="compile">
         <nbprofiledirect>
-            <classpath path="${run.cp}"/>
+            <clbsspbth pbth="${run.cp}"/>
         </nbprofiledirect>
         <property environment="env"/>
-        <java classname="${main.class}" fork="true" failonerror="true" dir="${profiler.session.working.dir}" jvm="${profiler.info.jvm}">
-            <classpath path="${run.cp}"/>
-            <jvmarg value="${profiler.info.jvmargs.agent}"/>
-            <jvmarg line="${profiler.info.jvmargs}"/>
-            <env key="LD_LIBRARY_PATH" path="${profiler.info.agentpath}:${env.LD_LIBRARY_PATH}"/>
-            <env key="Path" path="${profiler.info.agentpath}:${env.Path}"/>
-        </java>
-    </target>
+        <jbvb clbssnbme="${mbin.clbss}" fork="true" fbilonerror="true" dir="${profiler.session.working.dir}" jvm="${profiler.info.jvm}">
+            <clbsspbth pbth="${run.cp}"/>
+            <jvmbrg vblue="${profiler.info.jvmbrgs.bgent}"/>
+            <jvmbrg line="${profiler.info.jvmbrgs}"/>
+            <env key="LD_LIBRARY_PATH" pbth="${profiler.info.bgentpbth}:${env.LD_LIBRARY_PATH}"/>
+            <env key="Pbth" pbth="${profiler.info.bgentpbth}:${env.Pbth}"/>
+        </jbvb>
+    </tbrget>
     
 </project>

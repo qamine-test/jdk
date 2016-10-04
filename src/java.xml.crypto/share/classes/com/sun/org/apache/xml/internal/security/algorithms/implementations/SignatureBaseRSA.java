@@ -3,342 +3,342 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.algorithms.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.Key;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.SecureRbndom;
+import jbvb.security.Signbture;
+import jbvb.security.SignbtureException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithmSpi;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignature;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.JCEMbpper;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithmSpi;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbture;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
 
-public abstract class SignatureBaseRSA extends SignatureAlgorithmSpi {
+public bbstrbct clbss SignbtureBbseRSA extends SignbtureAlgorithmSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SignatureBaseRSA.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(SignbtureBbseRSA.clbss.getNbme());
 
     /** @inheritDoc */
-    public abstract String engineGetURI();
+    public bbstrbct String engineGetURI();
 
-    /** Field algorithm */
-    private java.security.Signature signatureAlgorithm = null;
+    /** Field blgorithm */
+    privbte jbvb.security.Signbture signbtureAlgorithm = null;
 
     /**
-     * Constructor SignatureRSA
+     * Constructor SignbtureRSA
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public SignatureBaseRSA() throws XMLSignatureException {
-        String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
+    public SignbtureBbseRSA() throws XMLSignbtureException {
+        String blgorithmID = JCEMbpper.trbnslbteURItoJCEID(this.engineGetURI());
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Created SignatureRSA using " + algorithmID);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Crebted SignbtureRSA using " + blgorithmID);
         }
-        String provider = JCEMapper.getProviderId();
+        String provider = JCEMbpper.getProviderId();
         try {
             if (provider == null) {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID);
+                this.signbtureAlgorithm = Signbture.getInstbnce(blgorithmID);
             } else {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID,provider);
+                this.signbtureAlgorithm = Signbture.getInstbnce(blgorithmID,provider);
             }
-        } catch (java.security.NoSuchAlgorithmException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+        } cbtch (jbvb.security.NoSuchAlgorithmException ex) {
+            Object[] exArgs = { blgorithmID, ex.getLocblizedMessbge() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
-        } catch (NoSuchProviderException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs);
+        } cbtch (NoSuchProviderException ex) {
+            Object[] exArgs = { blgorithmID, ex.getLocblizedMessbge() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs);
         }
     }
 
     /** @inheritDoc */
-    protected void engineSetParameter(AlgorithmParameterSpec params)
-        throws XMLSignatureException {
+    protected void engineSetPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+        throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.setParameter(params);
-        } catch (InvalidAlgorithmParameterException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.setPbrbmeter(pbrbms);
+        } cbtch (InvblidAlgorithmPbrbmeterException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected boolean engineVerify(byte[] signature) throws XMLSignatureException {
+    protected boolebn engineVerify(byte[] signbture) throws XMLSignbtureException {
         try {
-            return this.signatureAlgorithm.verify(signature);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return this.signbtureAlgorithm.verify(signbture);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitVerify(Key publicKey) throws XMLSignatureException {
-        if (!(publicKey instanceof PublicKey)) {
-            String supplied = publicKey.getClass().getName();
-            String needed = PublicKey.class.getName();
+    protected void engineInitVerify(Key publicKey) throws XMLSignbtureException {
+        if (!(publicKey instbnceof PublicKey)) {
+            String supplied = publicKey.getClbss().getNbme();
+            String needed = PublicKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initVerify((PublicKey) publicKey);
-        } catch (InvalidKeyException ex) {
-            // reinstantiate Signature object to work around bug in JDK
+            this.signbtureAlgorithm.initVerify((PublicKey) publicKey);
+        } cbtch (InvblidKeyException ex) {
+            // reinstbntibte Signbture object to work bround bug in JDK
             // see: http://bugs.sun.com/view_bug.do?bug_id=4953555
-            Signature sig = this.signatureAlgorithm;
+            Signbture sig = this.signbtureAlgorithm;
             try {
-                this.signatureAlgorithm = Signature.getInstance(signatureAlgorithm.getAlgorithm());
-            } catch (Exception e) {
+                this.signbtureAlgorithm = Signbture.getInstbnce(signbtureAlgorithm.getAlgorithm());
+            } cbtch (Exception e) {
                 // this shouldn't occur, but if it does, restore previous
-                // Signature
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Exception when reinstantiating Signature:" + e);
+                // Signbture
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Exception when reinstbntibting Signbture:" + e);
                 }
-                this.signatureAlgorithm = sig;
+                this.signbtureAlgorithm = sig;
             }
-            throw new XMLSignatureException("empty", ex);
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected byte[] engineSign() throws XMLSignatureException {
+    protected byte[] engineSign() throws XMLSignbtureException {
         try {
-            return this.signatureAlgorithm.sign();
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return this.signbtureAlgorithm.sign();
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitSign(Key privateKey, SecureRandom secureRandom)
-        throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
+    protected void engineInitSign(Key privbteKey, SecureRbndom secureRbndom)
+        throws XMLSignbtureException {
+        if (!(privbteKey instbnceof PrivbteKey)) {
+            String supplied = privbteKey.getClbss().getNbme();
+            String needed = PrivbteKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey, secureRandom);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.initSign((PrivbteKey) privbteKey, secureRbndom);
+        } cbtch (InvblidKeyException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitSign(Key privateKey) throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
+    protected void engineInitSign(Key privbteKey) throws XMLSignbtureException {
+        if (!(privbteKey instbnceof PrivbteKey)) {
+            String supplied = privbteKey.getClbss().getNbme();
+            String needed = PrivbteKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
-        }
-    }
-
-    /** @inheritDoc */
-    protected void engineUpdate(byte[] input) throws XMLSignatureException {
-        try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.initSign((PrivbteKey) privbteKey);
+        } cbtch (InvblidKeyException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineUpdate(byte input) throws XMLSignatureException {
+    protected void engineUpdbte(byte[] input) throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.updbte(input);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineUpdate(byte buf[], int offset, int len) throws XMLSignatureException {
+    protected void engineUpdbte(byte input) throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.update(buf, offset, len);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.updbte(input);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        }
+    }
+
+    /** @inheritDoc */
+    protected void engineUpdbte(byte buf[], int offset, int len) throws XMLSignbtureException {
+        try {
+            this.signbtureAlgorithm.updbte(buf, offset, len);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
     protected String engineGetJCEAlgorithmString() {
-        return this.signatureAlgorithm.getAlgorithm();
+        return this.signbtureAlgorithm.getAlgorithm();
     }
 
     /** @inheritDoc */
-    protected String engineGetJCEProviderName() {
-        return this.signatureAlgorithm.getProvider().getName();
+    protected String engineGetJCEProviderNbme() {
+        return this.signbtureAlgorithm.getProvider().getNbme();
     }
 
     /** @inheritDoc */
     protected void engineSetHMACOutputLength(int HMACOutputLength)
-        throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.HMACOutputLengthOnlyForHMAC");
+        throws XMLSignbtureException {
+        throw new XMLSignbtureException("blgorithms.HMACOutputLengthOnlyForHMAC");
     }
 
     /** @inheritDoc */
     protected void engineInitSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnRSA");
+        Key signingKey, AlgorithmPbrbmeterSpec blgorithmPbrbmeterSpec
+    ) throws XMLSignbtureException {
+        throw new XMLSignbtureException("blgorithms.CbnnotUseAlgorithmPbrbmeterSpecOnRSA");
     }
 
     /**
-     * Class SignatureRSASHA1
+     * Clbss SignbtureRSASHA1
      */
-    public static class SignatureRSASHA1 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSASHA1 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSASHA1
+         * Constructor SignbtureRSASHA1
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSASHA1() throws XMLSignatureException {
+        public SignbtureRSASHA1() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA1;
+            return XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA1;
         }
     }
 
     /**
-     * Class SignatureRSASHA256
+     * Clbss SignbtureRSASHA256
      */
-    public static class SignatureRSASHA256 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSASHA256 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSASHA256
+         * Constructor SignbtureRSASHA256
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSASHA256() throws XMLSignatureException {
+        public SignbtureRSASHA256() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA256;
+            return XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA256;
         }
     }
 
     /**
-     * Class SignatureRSASHA384
+     * Clbss SignbtureRSASHA384
      */
-    public static class SignatureRSASHA384 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSASHA384 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSASHA384
+         * Constructor SignbtureRSASHA384
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSASHA384() throws XMLSignatureException {
+        public SignbtureRSASHA384() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA384;
+            return XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA384;
         }
     }
 
     /**
-     * Class SignatureRSASHA512
+     * Clbss SignbtureRSASHA512
      */
-    public static class SignatureRSASHA512 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSASHA512 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSASHA512
+         * Constructor SignbtureRSASHA512
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSASHA512() throws XMLSignatureException {
+        public SignbtureRSASHA512() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA512;
+            return XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA512;
         }
     }
 
     /**
-     * Class SignatureRSARIPEMD160
+     * Clbss SignbtureRSARIPEMD160
      */
-    public static class SignatureRSARIPEMD160 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSARIPEMD160 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSARIPEMD160
+         * Constructor SignbtureRSARIPEMD160
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSARIPEMD160() throws XMLSignatureException {
+        public SignbtureRSARIPEMD160() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_RIPEMD160;
+            return XMLSignbture.ALGO_ID_SIGNATURE_RSA_RIPEMD160;
         }
     }
 
     /**
-     * Class SignatureRSAMD5
+     * Clbss SignbtureRSAMD5
      */
-    public static class SignatureRSAMD5 extends SignatureBaseRSA {
+    public stbtic clbss SignbtureRSAMD5 extends SignbtureBbseRSA {
 
         /**
-         * Constructor SignatureRSAMD5
+         * Constructor SignbtureRSAMD5
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureRSAMD5() throws XMLSignatureException {
+        public SignbtureRSAMD5() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5;
+            return XMLSignbture.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5;
         }
     }
 }

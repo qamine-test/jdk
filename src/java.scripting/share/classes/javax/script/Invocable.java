@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
 /**
- * The optional interface implemented by ScriptEngines whose methods allow the invocation of
- * procedures in scripts that have previously been executed.
+ * The optionbl interfbce implemented by ScriptEngines whose methods bllow the invocbtion of
+ * procedures in scripts thbt hbve previously been executed.
  *
- * @author  Mike Grogan
- * @author  A. Sundararajan
+ * @buthor  Mike Grogbn
+ * @buthor  A. Sundbrbrbjbn
  * @since 1.6
  */
-public interface Invocable  {
+public interfbce Invocbble  {
     /**
-     * Calls a method on a script object compiled during a previous script execution,
-     * which is retained in the state of the <code>ScriptEngine</code>.
+     * Cblls b method on b script object compiled during b previous script execution,
+     * which is retbined in the stbte of the <code>ScriptEngine</code>.
      *
-     * @param name The name of the procedure to be called.
+     * @pbrbm nbme The nbme of the procedure to be cblled.
      *
-     * @param thiz If the procedure is a member  of a class
-     * defined in the script and thiz is an instance of that class
-     * returned by a previous execution or invocation, the named method is
-     * called through that instance.
+     * @pbrbm thiz If the procedure is b member  of b clbss
+     * defined in the script bnd thiz is bn instbnce of thbt clbss
+     * returned by b previous execution or invocbtion, the nbmed method is
+     * cblled through thbt instbnce.
      *
-     * @param args Arguments to pass to the procedure.  The rules for converting
-     * the arguments to scripting variables are implementation-specific.
+     * @pbrbm brgs Arguments to pbss to the procedure.  The rules for converting
+     * the brguments to scripting vbribbles bre implementbtion-specific.
      *
-     * @return The value returned by the procedure.  The rules for converting the scripting
-     * variable returned by the script method to a Java Object are implementation-specific.
+     * @return The vblue returned by the procedure.  The rules for converting the scripting
+     * vbribble returned by the script method to b Jbvb Object bre implementbtion-specific.
      *
-     * @throws ScriptException if an error occurs during invocation of the method.
-     * @throws NoSuchMethodException if method with given name or matching argument types cannot be found.
-     * @throws NullPointerException if the method name is null.
-     * @throws IllegalArgumentException if the specified thiz is null or the specified Object is
-     * does not represent a scripting object.
+     * @throws ScriptException if bn error occurs during invocbtion of the method.
+     * @throws NoSuchMethodException if method with given nbme or mbtching brgument types cbnnot be found.
+     * @throws NullPointerException if the method nbme is null.
+     * @throws IllegblArgumentException if the specified thiz is null or the specified Object is
+     * does not represent b scripting object.
      */
-    public Object invokeMethod(Object thiz, String name, Object... args)
+    public Object invokeMethod(Object thiz, String nbme, Object... brgs)
         throws ScriptException, NoSuchMethodException;
 
     /**
-     * Used to call top-level procedures and functions defined in scripts.
+     * Used to cbll top-level procedures bnd functions defined in scripts.
      *
-     * @param name of the procedure or function to call
-     * @param args Arguments to pass to the procedure or function
-     * @return The value returned by the procedure or function
+     * @pbrbm nbme of the procedure or function to cbll
+     * @pbrbm brgs Arguments to pbss to the procedure or function
+     * @return The vblue returned by the procedure or function
      *
-     * @throws ScriptException if an error occurs during invocation of the method.
-     * @throws NoSuchMethodException if method with given name or matching argument types cannot be found.
-     * @throws NullPointerException if method name is null.
+     * @throws ScriptException if bn error occurs during invocbtion of the method.
+     * @throws NoSuchMethodException if method with given nbme or mbtching brgument types cbnnot be found.
+     * @throws NullPointerException if method nbme is null.
      */
-     public Object invokeFunction(String name, Object... args)
+     public Object invokeFunction(String nbme, Object... brgs)
         throws ScriptException, NoSuchMethodException;
 
 
      /**
-     * Returns an implementation of an interface using functions compiled in
-     * the interpreter. The methods of the interface
-     * may be implemented using the <code>invokeFunction</code> method.
+     * Returns bn implementbtion of bn interfbce using functions compiled in
+     * the interpreter. The methods of the interfbce
+     * mby be implemented using the <code>invokeFunction</code> method.
      *
-     * @param <T> the type of the interface to return
-     * @param clasz The <code>Class</code> object of the interface to return.
+     * @pbrbm <T> the type of the interfbce to return
+     * @pbrbm clbsz The <code>Clbss</code> object of the interfbce to return.
      *
-     * @return An instance of requested interface - null if the requested interface is unavailable,
-     * i. e. if compiled functions in the <code>ScriptEngine</code> cannot be found matching
-     * the ones in the requested interface.
+     * @return An instbnce of requested interfbce - null if the requested interfbce is unbvbilbble,
+     * i. e. if compiled functions in the <code>ScriptEngine</code> cbnnot be found mbtching
+     * the ones in the requested interfbce.
      *
-     * @throws IllegalArgumentException if the specified <code>Class</code> object
-     * is null or is not an interface.
+     * @throws IllegblArgumentException if the specified <code>Clbss</code> object
+     * is null or is not bn interfbce.
      */
-    public <T> T getInterface(Class<T> clasz);
+    public <T> T getInterfbce(Clbss<T> clbsz);
 
     /**
-     * Returns an implementation of an interface using member functions of
-     * a scripting object compiled in the interpreter. The methods of the
-     * interface may be implemented using the <code>invokeMethod</code> method.
+     * Returns bn implementbtion of bn interfbce using member functions of
+     * b scripting object compiled in the interpreter. The methods of the
+     * interfbce mby be implemented using the <code>invokeMethod</code> method.
      *
-     * @param <T> the type of the interface to return
-     * @param thiz The scripting object whose member functions are used to implement the methods of the interface.
-     * @param clasz The <code>Class</code> object of the interface to return.
+     * @pbrbm <T> the type of the interfbce to return
+     * @pbrbm thiz The scripting object whose member functions bre used to implement the methods of the interfbce.
+     * @pbrbm clbsz The <code>Clbss</code> object of the interfbce to return.
      *
-     * @return An instance of requested interface - null if the requested interface is unavailable,
-     * i. e. if compiled methods in the <code>ScriptEngine</code> cannot be found matching
-     * the ones in the requested interface.
+     * @return An instbnce of requested interfbce - null if the requested interfbce is unbvbilbble,
+     * i. e. if compiled methods in the <code>ScriptEngine</code> cbnnot be found mbtching
+     * the ones in the requested interfbce.
      *
-     * @throws IllegalArgumentException if the specified <code>Class</code> object
-     * is null or is not an interface, or if the specified Object is
-     * null or does not represent a scripting object.
+     * @throws IllegblArgumentException if the specified <code>Clbss</code> object
+     * is null or is not bn interfbce, or if the specified Object is
+     * null or does not represent b scripting object.
      */
-     public <T> T getInterface(Object thiz, Class<T> clasz);
+     public <T> T getInterfbce(Object thiz, Clbss<T> clbsz);
 
 }

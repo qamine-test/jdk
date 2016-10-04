@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.DHParameterSpec;
-import javax.crypto.spec.DHGenParameterSpec;
+import jbvb.mbth.BigInteger;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvbx.crypto.spec.DHPbrbmeterSpec;
+import jbvbx.crypto.spec.DHGenPbrbmeterSpec;
 
-import sun.security.provider.ParameterCache;
+import sun.security.provider.PbrbmeterCbche;
 
 /**
- * This class represents the key pair generator for Diffie-Hellman key pairs.
+ * This clbss represents the key pbir generbtor for Diffie-Hellmbn key pbirs.
  *
- * <p>This key pair generator may be initialized in two different ways:
+ * <p>This key pbir generbtor mby be initiblized in two different wbys:
  *
  * <ul>
  * <li>By providing the size in bits of the prime modulus -
- * This will be used to create a prime modulus and base generator, which will
- * then be used to create the Diffie-Hellman key pair. The default size of the
+ * This will be used to crebte b prime modulus bnd bbse generbtor, which will
+ * then be used to crebte the Diffie-Hellmbn key pbir. The defbult size of the
  * prime modulus is 1024 bits.
- * <li>By providing a prime modulus and base generator
+ * <li>By providing b prime modulus bnd bbse generbtor
  * </ul>
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see java.security.KeyPairGenerator
+ * @see jbvb.security.KeyPbirGenerbtor
  */
-public final class DHKeyPairGenerator extends KeyPairGeneratorSpi {
+public finbl clbss DHKeyPbirGenerbtor extends KeyPbirGenerbtorSpi {
 
-    // parameters to use or null if not specified
-    private DHParameterSpec params;
+    // pbrbmeters to use or null if not specified
+    privbte DHPbrbmeterSpec pbrbms;
 
     // The size in bits of the prime modulus
-    private int pSize;
+    privbte int pSize;
 
-    // The size in bits of the random exponent (private value)
-    private int lSize;
+    // The size in bits of the rbndom exponent (privbte vblue)
+    privbte int lSize;
 
-    // The source of randomness
-    private SecureRandom random;
+    // The source of rbndomness
+    privbte SecureRbndom rbndom;
 
-    public DHKeyPairGenerator() {
+    public DHKeyPbirGenerbtor() {
         super();
-        initialize(1024, null);
+        initiblize(1024, null);
     }
 
     /**
-     * Initializes this key pair generator for a certain keysize and source of
-     * randomness.
-     * The keysize is specified as the size in bits of the prime modulus.
+     * Initiblizes this key pbir generbtor for b certbin keysize bnd source of
+     * rbndomness.
+     * The keysize is specified bs the size in bits of the prime modulus.
      *
-     * @param keysize the keysize (size of prime modulus) in bits
-     * @param random the source of randomness
+     * @pbrbm keysize the keysize (size of prime modulus) in bits
+     * @pbrbm rbndom the source of rbndomness
      */
-    public void initialize(int keysize, SecureRandom random) {
+    public void initiblize(int keysize, SecureRbndom rbndom) {
         if ((keysize < 512) || (keysize > 2048) || (keysize % 64 != 0)) {
-            throw new InvalidParameterException("Keysize must be multiple "
-                                                + "of 64, and can only range "
+            throw new InvblidPbrbmeterException("Keysize must be multiple "
+                                                + "of 64, bnd cbn only rbnge "
                                                 + "from 512 to 2048 "
                                                 + "(inclusive)");
         }
         this.pSize = keysize;
         this.lSize = 0;
-        this.random = random;
-        this.params = null;
+        this.rbndom = rbndom;
+        this.pbrbms = null;
     }
 
     /**
-     * Initializes this key pair generator for the specified parameter
-     * set and source of randomness.
+     * Initiblizes this key pbir generbtor for the specified pbrbmeter
+     * set bnd source of rbndomness.
      *
-     * <p>The given parameter set contains the prime modulus, the base
-     * generator, and optionally the requested size in bits of the random
-     * exponent (private value).
+     * <p>The given pbrbmeter set contbins the prime modulus, the bbse
+     * generbtor, bnd optionblly the requested size in bits of the rbndom
+     * exponent (privbte vblue).
      *
-     * @param params the parameter set used to generate the key pair
-     * @param random the source of randomness
+     * @pbrbm pbrbms the pbrbmeter set used to generbte the key pbir
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key pbir generbtor
      */
-    public void initialize(AlgorithmParameterSpec algParams,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (!(algParams instanceof DHParameterSpec)){
-            throw new InvalidAlgorithmParameterException
-                ("Inappropriate parameter type");
+    public void initiblize(AlgorithmPbrbmeterSpec blgPbrbms,
+            SecureRbndom rbndom) throws InvblidAlgorithmPbrbmeterException {
+        if (!(blgPbrbms instbnceof DHPbrbmeterSpec)){
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Inbppropribte pbrbmeter type");
         }
 
-        params = (DHParameterSpec)algParams;
-        pSize = params.getP().bitLength();
+        pbrbms = (DHPbrbmeterSpec)blgPbrbms;
+        pSize = pbrbms.getP().bitLength();
         if ((pSize < 512) || (pSize > 2048) ||
             (pSize % 64 != 0)) {
-            throw new InvalidAlgorithmParameterException
-                ("Prime size must be multiple of 64, and can only range "
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Prime size must be multiple of 64, bnd cbn only rbnge "
                  + "from 512 to 2048 (inclusive)");
         }
 
-        // exponent size is optional, could be 0
-        lSize = params.getL();
+        // exponent size is optionbl, could be 0
+        lSize = pbrbms.getL();
 
         // Require exponentSize < primeSize
         if ((lSize != 0) && (lSize > pSize)) {
-            throw new InvalidAlgorithmParameterException
-                ("Exponent size must not be larger than modulus size");
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Exponent size must not be lbrger thbn modulus size");
         }
-        this.random = random;
+        this.rbndom = rbndom;
     }
 
     /**
-     * Generates a key pair.
+     * Generbtes b key pbir.
      *
-     * @return the new key pair
+     * @return the new key pbir
      */
-    public KeyPair generateKeyPair() {
-        if (random == null) {
-            random = SunJCE.getRandom();
+    public KeyPbir generbteKeyPbir() {
+        if (rbndom == null) {
+            rbndom = SunJCE.getRbndom();
         }
 
-        if (params == null) {
+        if (pbrbms == null) {
             try {
-                params = ParameterCache.getDHParameterSpec(pSize, random);
-            } catch (GeneralSecurityException e) {
-                // should never happen
+                pbrbms = PbrbmeterCbche.getDHPbrbmeterSpec(pSize, rbndom);
+            } cbtch (GenerblSecurityException e) {
+                // should never hbppen
                 throw new ProviderException(e);
             }
         }
 
-        BigInteger p = params.getP();
-        BigInteger g = params.getG();
+        BigInteger p = pbrbms.getP();
+        BigInteger g = pbrbms.getG();
 
         if (lSize <= 0) {
             lSize = pSize >> 1;
-            // use an exponent size of (pSize / 2) but at least 384 bits
+            // use bn exponent size of (pSize / 2) but bt lebst 384 bits
             if (lSize < 384) {
                 lSize = 384;
             }
         }
 
         BigInteger x;
-        BigInteger pMinus2 = p.subtract(BigInteger.valueOf(2));
+        BigInteger pMinus2 = p.subtrbct(BigInteger.vblueOf(2));
 
         //
-        // PKCS#3 section 7.1 "Private-value generation"
-        // Repeat if either of the followings does not hold:
+        // PKCS#3 section 7.1 "Privbte-vblue generbtion"
+        // Repebt if either of the followings does not hold:
         //     0 < x < p-1
         //     2^(lSize-1) <= x < 2^(lSize)
         //
         do {
-            // generate random x up to 2^lSize bits long
-            x = new BigInteger(lSize, random);
-        } while ((x.compareTo(BigInteger.ONE) < 0) ||
-            ((x.compareTo(pMinus2) > 0)) || (x.bitLength() != lSize));
+            // generbte rbndom x up to 2^lSize bits long
+            x = new BigInteger(lSize, rbndom);
+        } while ((x.compbreTo(BigInteger.ONE) < 0) ||
+            ((x.compbreTo(pMinus2) > 0)) || (x.bitLength() != lSize));
 
-        // calculate public value y
+        // cblculbte public vblue y
         BigInteger y = g.modPow(x, p);
 
         DHPublicKey pubKey = new DHPublicKey(y, p, g, lSize);
-        DHPrivateKey privKey = new DHPrivateKey(x, p, g, lSize);
-        return new KeyPair(pubKey, privKey);
+        DHPrivbteKey privKey = new DHPrivbteKey(x, p, g, lSize);
+        return new KeyPbir(pubKey, privKey);
     }
 }

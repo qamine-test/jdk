@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Collections;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Collections;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * The BasicPermission class extends the Permission class, and
- * can be used as the base class for permissions that want to
- * follow the same naming convention as BasicPermission.
+ * The BbsicPermission clbss extends the Permission clbss, bnd
+ * cbn be used bs the bbse clbss for permissions thbt wbnt to
+ * follow the sbme nbming convention bs BbsicPermission.
  * <P>
- * The name for a BasicPermission is the name of the given permission
- * (for example, "exit",
- * "setFactory", "print.queueJob", etc). The naming
- * convention follows the  hierarchical property naming convention.
- * An asterisk may appear by itself, or if immediately preceded by a "."
- * may appear at the end of the name, to signify a wildcard match.
- * For example, "*" and "java.*" signify a wildcard match, while "*java", "a*b",
- * and "java*" do not.
+ * The nbme for b BbsicPermission is the nbme of the given permission
+ * (for exbmple, "exit",
+ * "setFbctory", "print.queueJob", etc). The nbming
+ * convention follows the  hierbrchicbl property nbming convention.
+ * An bsterisk mby bppebr by itself, or if immedibtely preceded by b "."
+ * mby bppebr bt the end of the nbme, to signify b wildcbrd mbtch.
+ * For exbmple, "*" bnd "jbvb.*" signify b wildcbrd mbtch, while "*jbvb", "b*b",
+ * bnd "jbvb*" do not.
  * <P>
- * The action string (inherited from Permission) is unused.
- * Thus, BasicPermission is commonly used as the base class for
- * "named" permissions
- * (ones that contain a name but no actions list; you either have the
- * named permission or you don't.)
- * Subclasses may implement actions on top of BasicPermission,
+ * The bction string (inherited from Permission) is unused.
+ * Thus, BbsicPermission is commonly used bs the bbse clbss for
+ * "nbmed" permissions
+ * (ones thbt contbin b nbme but no bctions list; you either hbve the
+ * nbmed permission or you don't.)
+ * Subclbsses mby implement bctions on top of BbsicPermission,
  * if desired.
  * <p>
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  */
 
-public abstract class BasicPermission extends Permission
-    implements java.io.Serializable
+public bbstrbct clbss BbsicPermission extends Permission
+    implements jbvb.io.Seriblizbble
 {
 
-    private static final long serialVersionUID = 6279438298436773498L;
+    privbte stbtic finbl long seriblVersionUID = 6279438298436773498L;
 
-    // does this permission have a wildcard at the end?
-    private transient boolean wildcard;
+    // does this permission hbve b wildcbrd bt the end?
+    privbte trbnsient boolebn wildcbrd;
 
-    // the name without the wildcard on the end
-    private transient String path;
+    // the nbme without the wildcbrd on the end
+    privbte trbnsient String pbth;
 
     // is this permission the old-style exitVM permission (pre JDK 1.6)?
-    private transient boolean exitVM;
+    privbte trbnsient boolebn exitVM;
 
     /**
-     * initialize a BasicPermission object. Common to all constructors.
+     * initiblize b BbsicPermission object. Common to bll constructors.
      */
-    private void init(String name) {
-        if (name == null)
-            throw new NullPointerException("name can't be null");
+    privbte void init(String nbme) {
+        if (nbme == null)
+            throw new NullPointerException("nbme cbn't be null");
 
-        int len = name.length();
+        int len = nbme.length();
 
         if (len == 0) {
-            throw new IllegalArgumentException("name can't be empty");
+            throw new IllegblArgumentException("nbme cbn't be empty");
         }
 
-        char last = name.charAt(len - 1);
+        chbr lbst = nbme.chbrAt(len - 1);
 
-        // Is wildcard or ends with ".*"?
-        if (last == '*' && (len == 1 || name.charAt(len - 2) == '.')) {
-            wildcard = true;
+        // Is wildcbrd or ends with ".*"?
+        if (lbst == '*' && (len == 1 || nbme.chbrAt(len - 2) == '.')) {
+            wildcbrd = true;
             if (len == 1) {
-                path = "";
+                pbth = "";
             } else {
-                path = name.substring(0, len - 1);
+                pbth = nbme.substring(0, len - 1);
             }
         } else {
-            if (name.equals("exitVM")) {
-                wildcard = true;
-                path = "exitVM.";
+            if (nbme.equbls("exitVM")) {
+                wildcbrd = true;
+                pbth = "exitVM.";
                 exitVM = true;
             } else {
-                path = name;
+                pbth = nbme;
             }
         }
     }
 
     /**
-     * Creates a new BasicPermission with the specified name.
-     * Name is the symbolic name of the permission, such as
-     * "setFactory",
+     * Crebtes b new BbsicPermission with the specified nbme.
+     * Nbme is the symbolic nbme of the permission, such bs
+     * "setFbctory",
      * "print.queueJob", or "topLevelWindow", etc.
      *
-     * @param name the name of the BasicPermission.
+     * @pbrbm nbme the nbme of the BbsicPermission.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public BasicPermission(String name) {
-        super(name);
-        init(name);
+    public BbsicPermission(String nbme) {
+        super(nbme);
+        init(nbme);
     }
 
 
     /**
-     * Creates a new BasicPermission object with the specified name.
-     * The name is the symbolic name of the BasicPermission, and the
-     * actions String is currently unused.
+     * Crebtes b new BbsicPermission object with the specified nbme.
+     * The nbme is the symbolic nbme of the BbsicPermission, bnd the
+     * bctions String is currently unused.
      *
-     * @param name the name of the BasicPermission.
-     * @param actions ignored.
+     * @pbrbm nbme the nbme of the BbsicPermission.
+     * @pbrbm bctions ignored.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public BasicPermission(String name, String actions) {
-        super(name);
-        init(name);
+    public BbsicPermission(String nbme, String bctions) {
+        super(nbme);
+        init(nbme);
     }
 
     /**
      * Checks if the specified permission is "implied" by
      * this object.
      * <P>
-     * More specifically, this method returns true if:
+     * More specificblly, this method returns true if:
      * <ul>
-     * <li> <i>p</i>'s class is the same as this object's class, and
-     * <li> <i>p</i>'s name equals or (in the case of wildcards)
+     * <li> <i>p</i>'s clbss is the sbme bs this object's clbss, bnd
+     * <li> <i>p</i>'s nbme equbls or (in the cbse of wildcbrds)
      *      is implied by this object's
-     *      name. For example, "a.b.*" implies "a.b.c".
+     *      nbme. For exbmple, "b.b.*" implies "b.b.c".
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
-     * @return true if the passed permission is equal to or
-     * implied by this permission, false otherwise.
+     * @return true if the pbssed permission is equbl to or
+     * implied by this permission, fblse otherwise.
      */
-    public boolean implies(Permission p) {
-        if ((p == null) || (p.getClass() != getClass()))
-            return false;
+    public boolebn implies(Permission p) {
+        if ((p == null) || (p.getClbss() != getClbss()))
+            return fblse;
 
-        BasicPermission that = (BasicPermission) p;
+        BbsicPermission thbt = (BbsicPermission) p;
 
-        if (this.wildcard) {
-            if (that.wildcard) {
-                // one wildcard can imply another
-                return that.path.startsWith(path);
+        if (this.wildcbrd) {
+            if (thbt.wildcbrd) {
+                // one wildcbrd cbn imply bnother
+                return thbt.pbth.stbrtsWith(pbth);
             } else {
-                // make sure ap.path is longer so a.b.* doesn't imply a.b
-                return (that.path.length() > this.path.length()) &&
-                    that.path.startsWith(this.path);
+                // mbke sure bp.pbth is longer so b.b.* doesn't imply b.b
+                return (thbt.pbth.length() > this.pbth.length()) &&
+                    thbt.pbth.stbrtsWith(this.pbth);
             }
         } else {
-            if (that.wildcard) {
-                // a non-wildcard can't imply a wildcard
-                return false;
+            if (thbt.wildcbrd) {
+                // b non-wildcbrd cbn't imply b wildcbrd
+                return fblse;
             }
             else {
-                return this.path.equals(that.path);
+                return this.pbth.equbls(thbt.pbth);
             }
         }
     }
 
     /**
-     * Checks two BasicPermission objects for equality.
-     * Checks that <i>obj</i>'s class is the same as this object's class
-     * and has the same name as this object.
+     * Checks two BbsicPermission objects for equblity.
+     * Checks thbt <i>obj</i>'s clbss is the sbme bs this object's clbss
+     * bnd hbs the sbme nbme bs this object.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i>'s class is the same as this object's class
-     *  and has the same name as this BasicPermission object, false otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if <i>obj</i>'s clbss is the sbme bs this object's clbss
+     *  bnd hbs the sbme nbme bs this BbsicPermission object, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if ((obj == null) || (obj.getClass() != getClass()))
-            return false;
+        if ((obj == null) || (obj.getClbss() != getClbss()))
+            return fblse;
 
-        BasicPermission bp = (BasicPermission) obj;
+        BbsicPermission bp = (BbsicPermission) obj;
 
-        return getName().equals(bp.getName());
+        return getNbme().equbls(bp.getNbme());
     }
 
 
     /**
-     * Returns the hash code value for this object.
-     * The hash code used is the hash code of the name, that is,
-     * {@code getName().hashCode()}, where {@code getName} is
-     * from the Permission superclass.
+     * Returns the hbsh code vblue for this object.
+     * The hbsh code used is the hbsh code of the nbme, thbt is,
+     * {@code getNbme().hbshCode()}, where {@code getNbme} is
+     * from the Permission superclbss.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return this.getName().hashCode();
+    public int hbshCode() {
+        return this.getNbme().hbshCode();
     }
 
     /**
-     * Returns the canonical string representation of the actions,
-     * which currently is the empty string "", since there are no actions for
-     * a BasicPermission.
+     * Returns the cbnonicbl string representbtion of the bctions,
+     * which currently is the empty string "", since there bre no bctions for
+     * b BbsicPermission.
      *
      * @return the empty string "".
      */
@@ -237,317 +237,317 @@ public abstract class BasicPermission extends Permission
     }
 
     /**
-     * Returns a new PermissionCollection object for storing BasicPermission
+     * Returns b new PermissionCollection object for storing BbsicPermission
      * objects.
      *
-     * <p>BasicPermission objects must be stored in a manner that allows them
-     * to be inserted in any order, but that also enables the
+     * <p>BbsicPermission objects must be stored in b mbnner thbt bllows them
+     * to be inserted in bny order, but thbt blso enbbles the
      * PermissionCollection {@code implies} method
-     * to be implemented in an efficient (and consistent) manner.
+     * to be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for
-     * storing BasicPermissions.
+     * @return b new PermissionCollection object suitbble for
+     * storing BbsicPermissions.
      */
     public PermissionCollection newPermissionCollection() {
-        return new BasicPermissionCollection(this.getClass());
+        return new BbsicPermissionCollection(this.getClbss());
     }
 
     /**
-     * readObject is called to restore the state of the BasicPermission from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the BbsicPermission from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        // init is called to initialize the rest of the values.
-        init(getName());
+        s.defbultRebdObject();
+        // init is cblled to initiblize the rest of the vblues.
+        init(getNbme());
     }
 
     /**
-     * Returns the canonical name of this BasicPermission.
-     * All internal invocations of getName should invoke this method, so
-     * that the pre-JDK 1.6 "exitVM" and current "exitVM.*" permission are
-     * equivalent in equals/hashCode methods.
+     * Returns the cbnonicbl nbme of this BbsicPermission.
+     * All internbl invocbtions of getNbme should invoke this method, so
+     * thbt the pre-JDK 1.6 "exitVM" bnd current "exitVM.*" permission bre
+     * equivblent in equbls/hbshCode methods.
      *
-     * @return the canonical name of this BasicPermission.
+     * @return the cbnonicbl nbme of this BbsicPermission.
      */
-    final String getCanonicalName() {
-        return exitVM ? "exitVM.*" : getName();
+    finbl String getCbnonicblNbme() {
+        return exitVM ? "exitVM.*" : getNbme();
     }
 }
 
 /**
- * A BasicPermissionCollection stores a collection
- * of BasicPermission permissions. BasicPermission objects
- * must be stored in a manner that allows them to be inserted in any
- * order, but enable the implies function to evaluate the implies
- * method in an efficient (and consistent) manner.
+ * A BbsicPermissionCollection stores b collection
+ * of BbsicPermission permissions. BbsicPermission objects
+ * must be stored in b mbnner thbt bllows them to be inserted in bny
+ * order, but enbble the implies function to evblubte the implies
+ * method in bn efficient (bnd consistent) mbnner.
  *
- * A BasicPermissionCollection handles comparing a permission like "a.b.c.d.e"
- * with a Permission such as "a.b.*", or "*".
+ * A BbsicPermissionCollection hbndles compbring b permission like "b.b.c.d.e"
+ * with b Permission such bs "b.b.*", or "*".
  *
- * @see java.security.Permission
- * @see java.security.Permissions
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
 
-final class BasicPermissionCollection
+finbl clbss BbsicPermissionCollection
     extends PermissionCollection
-    implements java.io.Serializable
+    implements jbvb.io.Seriblizbble
 {
 
-    private static final long serialVersionUID = 739301742472979399L;
+    privbte stbtic finbl long seriblVersionUID = 739301742472979399L;
 
     /**
-      * Key is name, value is permission. All permission objects in
-      * collection must be of the same type.
-      * Not serialized; see serialization section at end of class.
+      * Key is nbme, vblue is permission. All permission objects in
+      * collection must be of the sbme type.
+      * Not seriblized; see seriblizbtion section bt end of clbss.
       */
-    private transient Map<String, Permission> perms;
+    privbte trbnsient Mbp<String, Permission> perms;
 
     /**
-     * This is set to {@code true} if this BasicPermissionCollection
-     * contains a BasicPermission with '*' as its permission name.
+     * This is set to {@code true} if this BbsicPermissionCollection
+     * contbins b BbsicPermission with '*' bs its permission nbme.
      *
-     * @see #serialPersistentFields
+     * @see #seriblPersistentFields
      */
-    private boolean all_allowed;
+    privbte boolebn bll_bllowed;
 
     /**
-     * The class to which all BasicPermissions in this
-     * BasicPermissionCollection belongs.
+     * The clbss to which bll BbsicPermissions in this
+     * BbsicPermissionCollection belongs.
      *
-     * @see #serialPersistentFields
+     * @see #seriblPersistentFields
      */
-    private Class<?> permClass;
+    privbte Clbss<?> permClbss;
 
     /**
-     * Create an empty BasicPermissionCollection object.
+     * Crebte bn empty BbsicPermissionCollection object.
      *
      */
 
-    public BasicPermissionCollection(Class<?> clazz) {
-        perms = new HashMap<String, Permission>(11);
-        all_allowed = false;
-        permClass = clazz;
+    public BbsicPermissionCollection(Clbss<?> clbzz) {
+        perms = new HbshMbp<String, Permission>(11);
+        bll_bllowed = fblse;
+        permClbss = clbzz;
     }
 
     /**
-     * Adds a permission to the BasicPermissions. The key for the hash is
-     * permission.path.
+     * Adds b permission to the BbsicPermissions. The key for the hbsh is
+     * permission.pbth.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       BasicPermission, or if
+     * @exception IllegblArgumentException - if the permission is not b
+     *                                       BbsicPermission, or if
      *                                       the permission is not of the
-     *                                       same Class as the other
+     *                                       sbme Clbss bs the other
      *                                       permissions in this collection.
      *
-     * @exception SecurityException - if this BasicPermissionCollection object
-     *                                has been marked readonly
+     * @exception SecurityException - if this BbsicPermissionCollection object
+     *                                hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof BasicPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof BbsicPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        if (isRebdOnly())
+            throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
-        BasicPermission bp = (BasicPermission) permission;
+        BbsicPermission bp = (BbsicPermission) permission;
 
-        // make sure we only add new BasicPermissions of the same class
-        // Also check null for compatibility with deserialized form from
+        // mbke sure we only bdd new BbsicPermissions of the sbme clbss
+        // Also check null for compbtibility with deseriblized form from
         // previous versions.
-        if (permClass == null) {
-            // adding first permission
-            permClass = bp.getClass();
+        if (permClbss == null) {
+            // bdding first permission
+            permClbss = bp.getClbss();
         } else {
-            if (bp.getClass() != permClass)
-                throw new IllegalArgumentException("invalid permission: " +
+            if (bp.getClbss() != permClbss)
+                throw new IllegblArgumentException("invblid permission: " +
                                                 permission);
         }
 
         synchronized (this) {
-            perms.put(bp.getCanonicalName(), permission);
+            perms.put(bp.getCbnonicblNbme(), permission);
         }
 
-        // No sync on all_allowed; staleness OK
-        if (!all_allowed) {
-            if (bp.getCanonicalName().equals("*"))
-                all_allowed = true;
+        // No sync on bll_bllowed; stbleness OK
+        if (!bll_bllowed) {
+            if (bp.getCbnonicblNbme().equbls("*"))
+                bll_bllowed = true;
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
+     * Check bnd see if this set of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the set, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof BasicPermission))
-            return false;
+    public boolebn implies(Permission permission) {
+        if (! (permission instbnceof BbsicPermission))
+            return fblse;
 
-        BasicPermission bp = (BasicPermission) permission;
+        BbsicPermission bp = (BbsicPermission) permission;
 
-        // random subclasses of BasicPermission do not imply each other
-        if (bp.getClass() != permClass)
-            return false;
+        // rbndom subclbsses of BbsicPermission do not imply ebch other
+        if (bp.getClbss() != permClbss)
+            return fblse;
 
-        // short circuit if the "*" Permission was added
-        if (all_allowed)
+        // short circuit if the "*" Permission wbs bdded
+        if (bll_bllowed)
             return true;
 
-        // strategy:
-        // Check for full match first. Then work our way up the
-        // path looking for matches on a.b..*
+        // strbtegy:
+        // Check for full mbtch first. Then work our wby up the
+        // pbth looking for mbtches on b.b..*
 
-        String path = bp.getCanonicalName();
-        //System.out.println("check "+path);
+        String pbth = bp.getCbnonicblNbme();
+        //System.out.println("check "+pbth);
 
         Permission x;
 
         synchronized (this) {
-            x = perms.get(path);
+            x = perms.get(pbth);
         }
 
         if (x != null) {
-            // we have a direct hit!
+            // we hbve b direct hit!
             return x.implies(permission);
         }
 
-        // work our way up the tree...
-        int last, offset;
+        // work our wby up the tree...
+        int lbst, offset;
 
-        offset = path.length()-1;
+        offset = pbth.length()-1;
 
-        while ((last = path.lastIndexOf('.', offset)) != -1) {
+        while ((lbst = pbth.lbstIndexOf('.', offset)) != -1) {
 
-            path = path.substring(0, last+1) + "*";
-            //System.out.println("check "+path);
+            pbth = pbth.substring(0, lbst+1) + "*";
+            //System.out.println("check "+pbth);
 
             synchronized (this) {
-                x = perms.get(path);
+                x = perms.get(pbth);
             }
 
             if (x != null) {
                 return x.implies(permission);
             }
-            offset = last -1;
+            offset = lbst -1;
         }
 
-        // we don't have to check for "*" as it was already checked
-        // at the top (all_allowed), so we just return false
-        return false;
+        // we don't hbve to check for "*" bs it wbs blrebdy checked
+        // bt the top (bll_bllowed), so we just return fblse
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the BasicPermission objects in the
-     * container.
+     * Returns bn enumerbtion of bll the BbsicPermission objects in the
+     * contbiner.
      *
-     * @return an enumeration of all the BasicPermission objects.
+     * @return bn enumerbtion of bll the BbsicPermission objects.
      */
-    public Enumeration<Permission> elements() {
-        // Convert Iterator of Map values into an Enumeration
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor of Mbp vblues into bn Enumerbtion
         synchronized (this) {
-            return Collections.enumeration(perms.values());
+            return Collections.enumerbtion(perms.vblues());
         }
     }
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
     //
-    // @serial the Hashtable is indexed by the BasicPermission name
+    // @seribl the Hbshtbble is indexed by the BbsicPermission nbme
     //
-    // private Hashtable permissions;
+    // privbte Hbshtbble permissions;
     /**
-     * @serialField permissions java.util.Hashtable
-     *    The BasicPermissions in this BasicPermissionCollection.
-     *    All BasicPermissions in the collection must belong to the same class.
-     *    The Hashtable is indexed by the BasicPermission name; the value
-     *    of the Hashtable entry is the permission.
-     * @serialField all_allowed boolean
-     *   This is set to {@code true} if this BasicPermissionCollection
-     *   contains a BasicPermission with '*' as its permission name.
-     * @serialField permClass java.lang.Class
-     *   The class to which all BasicPermissions in this
-     *   BasicPermissionCollection belongs.
+     * @seriblField permissions jbvb.util.Hbshtbble
+     *    The BbsicPermissions in this BbsicPermissionCollection.
+     *    All BbsicPermissions in the collection must belong to the sbme clbss.
+     *    The Hbshtbble is indexed by the BbsicPermission nbme; the vblue
+     *    of the Hbshtbble entry is the permission.
+     * @seriblField bll_bllowed boolebn
+     *   This is set to {@code true} if this BbsicPermissionCollection
+     *   contbins b BbsicPermission with '*' bs its permission nbme.
+     * @seriblField permClbss jbvb.lbng.Clbss
+     *   The clbss to which bll BbsicPermissions in this
+     *   BbsicPermissionCollection belongs.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Hashtable.class),
-        new ObjectStreamField("all_allowed", Boolean.TYPE),
-        new ObjectStreamField("permClass", Class.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Hbshtbble.clbss),
+        new ObjectStrebmField("bll_bllowed", Boolebn.TYPE),
+        new ObjectStrebmField("permClbss", Clbss.clbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @seriblDbtb Defbult fields.
      */
     /*
-     * Writes the contents of the perms field out as a Hashtable for
-     * serialization compatibility with earlier releases. all_allowed
-     * and permClass unchanged.
+     * Writes the contents of the perms field out bs b Hbshtbble for
+     * seriblizbtion compbtibility with ebrlier relebses. bll_bllowed
+     * bnd permClbss unchbnged.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
-        // Copy perms into a Hashtable
-        Hashtable<String, Permission> permissions =
-                new Hashtable<>(perms.size()*2);
+        // Copy perms into b Hbshtbble
+        Hbshtbble<String, Permission> permissions =
+                new Hbshtbble<>(perms.size()*2);
 
         synchronized (this) {
             permissions.putAll(perms);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("all_allowed", all_allowed);
+        // Write out seriblizbble fields
+        ObjectOutputStrebm.PutField pfields = out.putFields();
+        pfields.put("bll_bllowed", bll_bllowed);
         pfields.put("permissions", permissions);
-        pfields.put("permClass", permClass);
+        pfields.put("permClbss", permClbss);
         out.writeFields();
     }
 
     /**
-     * readObject is called to restore the state of the
-     * BasicPermissionCollection from a stream.
+     * rebdObject is cblled to restore the stbte of the
+     * BbsicPermissionCollection from b strebm.
      */
-    private void readObject(java.io.ObjectInputStream in)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+         throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
         // Get permissions
-        // writeObject writes a Hashtable<String, Permission> for the
-        // permissions key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<String, Permission> permissions =
-                (Hashtable<String, Permission>)gfields.get("permissions", null);
-        perms = new HashMap<String, Permission>(permissions.size()*2);
+        // writeObject writes b Hbshtbble<String, Permission> for the
+        // permissions key, so this cbst is sbfe, unless the dbtb is corrupt.
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, Permission> permissions =
+                (Hbshtbble<String, Permission>)gfields.get("permissions", null);
+        perms = new HbshMbp<String, Permission>(permissions.size()*2);
         perms.putAll(permissions);
 
-        // Get all_allowed
-        all_allowed = gfields.get("all_allowed", false);
+        // Get bll_bllowed
+        bll_bllowed = gfields.get("bll_bllowed", fblse);
 
-        // Get permClass
-        permClass = (Class<?>) gfields.get("permClass", null);
+        // Get permClbss
+        permClbss = (Clbss<?>) gfields.get("permClbss", null);
 
-        if (permClass == null) {
-            // set permClass
-            Enumeration<Permission> e = permissions.elements();
-            if (e.hasMoreElements()) {
+        if (permClbss == null) {
+            // set permClbss
+            Enumerbtion<Permission> e = permissions.elements();
+            if (e.hbsMoreElements()) {
                 Permission p = e.nextElement();
-                permClass = p.getClass();
+                permClbss = p.getClbss();
             }
         }
     }

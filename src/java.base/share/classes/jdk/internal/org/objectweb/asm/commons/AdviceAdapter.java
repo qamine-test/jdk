@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,583 +56,583 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A {@link jdk.internal.org.objectweb.asm.MethodVisitor} to insert before, after and around
- * advices in methods and constructors.
+ * A {@link jdk.internbl.org.objectweb.bsm.MethodVisitor} to insert before, bfter bnd bround
+ * bdvices in methods bnd constructors.
  * <p>
- * The behavior for constructors is like this:
+ * The behbvior for constructors is like this:
  * <ol>
  *
- * <li>as long as the INVOKESPECIAL for the object initialization has not been
- * reached, every bytecode instruction is dispatched in the ctor code visitor</li>
+ * <li>bs long bs the INVOKESPECIAL for the object initiblizbtion hbs not been
+ * rebched, every bytecode instruction is dispbtched in the ctor code visitor</li>
  *
- * <li>when this one is reached, it is only added in the ctor code visitor and a
- * JP invoke is added</li>
+ * <li>when this one is rebched, it is only bdded in the ctor code visitor bnd b
+ * JP invoke is bdded</li>
  *
- * <li>after that, only the other code visitor receives the instructions</li>
+ * <li>bfter thbt, only the other code visitor receives the instructions</li>
  *
  * </ol>
  *
- * @author Eugene Kuleshov
- * @author Eric Bruneton
+ * @buthor Eugene Kuleshov
+ * @buthor Eric Bruneton
  */
-public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes {
+public bbstrbct clbss AdviceAdbpter extends GenerbtorAdbpter implements Opcodes {
 
-    private static final Object THIS = new Object();
+    privbte stbtic finbl Object THIS = new Object();
 
-    private static final Object OTHER = new Object();
+    privbte stbtic finbl Object OTHER = new Object();
 
     protected int methodAccess;
 
     protected String methodDesc;
 
-    private boolean constructor;
+    privbte boolebn constructor;
 
-    private boolean superInitialized;
+    privbte boolebn superInitiblized;
 
-    private List<Object> stackFrame;
+    privbte List<Object> stbckFrbme;
 
-    private Map<Label, List<Object>> branches;
+    privbte Mbp<Lbbel, List<Object>> brbnches;
 
     /**
-     * Creates a new {@link AdviceAdapter}.
+     * Crebtes b new {@link AdviceAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
      */
-    protected AdviceAdapter(final int api, final MethodVisitor mv,
-            final int access, final String name, final String desc) {
-        super(api, mv, access, name, desc);
-        methodAccess = access;
+    protected AdviceAdbpter(finbl int bpi, finbl MethodVisitor mv,
+            finbl int bccess, finbl String nbme, finbl String desc) {
+        super(bpi, mv, bccess, nbme, desc);
+        methodAccess = bccess;
         methodDesc = desc;
-        constructor = "<init>".equals(name);
+        constructor = "<init>".equbls(nbme);
     }
 
     @Override
     public void visitCode() {
         mv.visitCode();
         if (constructor) {
-            stackFrame = new ArrayList<Object>();
-            branches = new HashMap<Label, List<Object>>();
+            stbckFrbme = new ArrbyList<Object>();
+            brbnches = new HbshMbp<Lbbel, List<Object>>();
         } else {
-            superInitialized = true;
+            superInitiblized = true;
             onMethodEnter();
         }
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        mv.visitLabel(label);
-        if (constructor && branches != null) {
-            List<Object> frame = branches.get(label);
-            if (frame != null) {
-                stackFrame = frame;
-                branches.remove(label);
+    public void visitLbbel(finbl Lbbel lbbel) {
+        mv.visitLbbel(lbbel);
+        if (constructor && brbnches != null) {
+            List<Object> frbme = brbnches.get(lbbel);
+            if (frbme != null) {
+                stbckFrbme = frbme;
+                brbnches.remove(lbbel);
             }
         }
     }
 
     @Override
-    public void visitInsn(final int opcode) {
+    public void visitInsn(finbl int opcode) {
         if (constructor) {
             int s;
             switch (opcode) {
-            case RETURN: // empty stack
+            cbse RETURN: // empty stbck
                 onMethodExit(opcode);
-                break;
-            case IRETURN: // 1 before n/a after
-            case FRETURN: // 1 before n/a after
-            case ARETURN: // 1 before n/a after
-            case ATHROW: // 1 before n/a after
-                popValue();
+                brebk;
+            cbse IRETURN: // 1 before n/b bfter
+            cbse FRETURN: // 1 before n/b bfter
+            cbse ARETURN: // 1 before n/b bfter
+            cbse ATHROW: // 1 before n/b bfter
+                popVblue();
                 onMethodExit(opcode);
-                break;
-            case LRETURN: // 2 before n/a after
-            case DRETURN: // 2 before n/a after
-                popValue();
-                popValue();
+                brebk;
+            cbse LRETURN: // 2 before n/b bfter
+            cbse DRETURN: // 2 before n/b bfter
+                popVblue();
+                popVblue();
                 onMethodExit(opcode);
-                break;
-            case NOP:
-            case LALOAD: // remove 2 add 2
-            case DALOAD: // remove 2 add 2
-            case LNEG:
-            case DNEG:
-            case FNEG:
-            case INEG:
-            case L2D:
-            case D2L:
-            case F2I:
-            case I2B:
-            case I2C:
-            case I2S:
-            case I2F:
-            case ARRAYLENGTH:
-                break;
-            case ACONST_NULL:
-            case ICONST_M1:
-            case ICONST_0:
-            case ICONST_1:
-            case ICONST_2:
-            case ICONST_3:
-            case ICONST_4:
-            case ICONST_5:
-            case FCONST_0:
-            case FCONST_1:
-            case FCONST_2:
-            case F2L: // 1 before 2 after
-            case F2D:
-            case I2L:
-            case I2D:
-                pushValue(OTHER);
-                break;
-            case LCONST_0:
-            case LCONST_1:
-            case DCONST_0:
-            case DCONST_1:
-                pushValue(OTHER);
-                pushValue(OTHER);
-                break;
-            case IALOAD: // remove 2 add 1
-            case FALOAD: // remove 2 add 1
-            case AALOAD: // remove 2 add 1
-            case BALOAD: // remove 2 add 1
-            case CALOAD: // remove 2 add 1
-            case SALOAD: // remove 2 add 1
-            case POP:
-            case IADD:
-            case FADD:
-            case ISUB:
-            case LSHL: // 3 before 2 after
-            case LSHR: // 3 before 2 after
-            case LUSHR: // 3 before 2 after
-            case L2I: // 2 before 1 after
-            case L2F: // 2 before 1 after
-            case D2I: // 2 before 1 after
-            case D2F: // 2 before 1 after
-            case FSUB:
-            case FMUL:
-            case FDIV:
-            case FREM:
-            case FCMPL: // 2 before 1 after
-            case FCMPG: // 2 before 1 after
-            case IMUL:
-            case IDIV:
-            case IREM:
-            case ISHL:
-            case ISHR:
-            case IUSHR:
-            case IAND:
-            case IOR:
-            case IXOR:
-            case MONITORENTER:
-            case MONITOREXIT:
-                popValue();
-                break;
-            case POP2:
-            case LSUB:
-            case LMUL:
-            case LDIV:
-            case LREM:
-            case LADD:
-            case LAND:
-            case LOR:
-            case LXOR:
-            case DADD:
-            case DMUL:
-            case DSUB:
-            case DDIV:
-            case DREM:
-                popValue();
-                popValue();
-                break;
-            case IASTORE:
-            case FASTORE:
-            case AASTORE:
-            case BASTORE:
-            case CASTORE:
-            case SASTORE:
-            case LCMP: // 4 before 1 after
-            case DCMPL:
-            case DCMPG:
-                popValue();
-                popValue();
-                popValue();
-                break;
-            case LASTORE:
-            case DASTORE:
-                popValue();
-                popValue();
-                popValue();
-                popValue();
-                break;
-            case DUP:
-                pushValue(peekValue());
-                break;
-            case DUP_X1:
-                s = stackFrame.size();
-                stackFrame.add(s - 2, stackFrame.get(s - 1));
-                break;
-            case DUP_X2:
-                s = stackFrame.size();
-                stackFrame.add(s - 3, stackFrame.get(s - 1));
-                break;
-            case DUP2:
-                s = stackFrame.size();
-                stackFrame.add(s - 2, stackFrame.get(s - 1));
-                stackFrame.add(s - 2, stackFrame.get(s - 1));
-                break;
-            case DUP2_X1:
-                s = stackFrame.size();
-                stackFrame.add(s - 3, stackFrame.get(s - 1));
-                stackFrame.add(s - 3, stackFrame.get(s - 1));
-                break;
-            case DUP2_X2:
-                s = stackFrame.size();
-                stackFrame.add(s - 4, stackFrame.get(s - 1));
-                stackFrame.add(s - 4, stackFrame.get(s - 1));
-                break;
-            case SWAP:
-                s = stackFrame.size();
-                stackFrame.add(s - 2, stackFrame.get(s - 1));
-                stackFrame.remove(s);
-                break;
+                brebk;
+            cbse NOP:
+            cbse LALOAD: // remove 2 bdd 2
+            cbse DALOAD: // remove 2 bdd 2
+            cbse LNEG:
+            cbse DNEG:
+            cbse FNEG:
+            cbse INEG:
+            cbse L2D:
+            cbse D2L:
+            cbse F2I:
+            cbse I2B:
+            cbse I2C:
+            cbse I2S:
+            cbse I2F:
+            cbse ARRAYLENGTH:
+                brebk;
+            cbse ACONST_NULL:
+            cbse ICONST_M1:
+            cbse ICONST_0:
+            cbse ICONST_1:
+            cbse ICONST_2:
+            cbse ICONST_3:
+            cbse ICONST_4:
+            cbse ICONST_5:
+            cbse FCONST_0:
+            cbse FCONST_1:
+            cbse FCONST_2:
+            cbse F2L: // 1 before 2 bfter
+            cbse F2D:
+            cbse I2L:
+            cbse I2D:
+                pushVblue(OTHER);
+                brebk;
+            cbse LCONST_0:
+            cbse LCONST_1:
+            cbse DCONST_0:
+            cbse DCONST_1:
+                pushVblue(OTHER);
+                pushVblue(OTHER);
+                brebk;
+            cbse IALOAD: // remove 2 bdd 1
+            cbse FALOAD: // remove 2 bdd 1
+            cbse AALOAD: // remove 2 bdd 1
+            cbse BALOAD: // remove 2 bdd 1
+            cbse CALOAD: // remove 2 bdd 1
+            cbse SALOAD: // remove 2 bdd 1
+            cbse POP:
+            cbse IADD:
+            cbse FADD:
+            cbse ISUB:
+            cbse LSHL: // 3 before 2 bfter
+            cbse LSHR: // 3 before 2 bfter
+            cbse LUSHR: // 3 before 2 bfter
+            cbse L2I: // 2 before 1 bfter
+            cbse L2F: // 2 before 1 bfter
+            cbse D2I: // 2 before 1 bfter
+            cbse D2F: // 2 before 1 bfter
+            cbse FSUB:
+            cbse FMUL:
+            cbse FDIV:
+            cbse FREM:
+            cbse FCMPL: // 2 before 1 bfter
+            cbse FCMPG: // 2 before 1 bfter
+            cbse IMUL:
+            cbse IDIV:
+            cbse IREM:
+            cbse ISHL:
+            cbse ISHR:
+            cbse IUSHR:
+            cbse IAND:
+            cbse IOR:
+            cbse IXOR:
+            cbse MONITORENTER:
+            cbse MONITOREXIT:
+                popVblue();
+                brebk;
+            cbse POP2:
+            cbse LSUB:
+            cbse LMUL:
+            cbse LDIV:
+            cbse LREM:
+            cbse LADD:
+            cbse LAND:
+            cbse LOR:
+            cbse LXOR:
+            cbse DADD:
+            cbse DMUL:
+            cbse DSUB:
+            cbse DDIV:
+            cbse DREM:
+                popVblue();
+                popVblue();
+                brebk;
+            cbse IASTORE:
+            cbse FASTORE:
+            cbse AASTORE:
+            cbse BASTORE:
+            cbse CASTORE:
+            cbse SASTORE:
+            cbse LCMP: // 4 before 1 bfter
+            cbse DCMPL:
+            cbse DCMPG:
+                popVblue();
+                popVblue();
+                popVblue();
+                brebk;
+            cbse LASTORE:
+            cbse DASTORE:
+                popVblue();
+                popVblue();
+                popVblue();
+                popVblue();
+                brebk;
+            cbse DUP:
+                pushVblue(peekVblue());
+                brebk;
+            cbse DUP_X1:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 2, stbckFrbme.get(s - 1));
+                brebk;
+            cbse DUP_X2:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 3, stbckFrbme.get(s - 1));
+                brebk;
+            cbse DUP2:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 2, stbckFrbme.get(s - 1));
+                stbckFrbme.bdd(s - 2, stbckFrbme.get(s - 1));
+                brebk;
+            cbse DUP2_X1:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 3, stbckFrbme.get(s - 1));
+                stbckFrbme.bdd(s - 3, stbckFrbme.get(s - 1));
+                brebk;
+            cbse DUP2_X2:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 4, stbckFrbme.get(s - 1));
+                stbckFrbme.bdd(s - 4, stbckFrbme.get(s - 1));
+                brebk;
+            cbse SWAP:
+                s = stbckFrbme.size();
+                stbckFrbme.bdd(s - 2, stbckFrbme.get(s - 1));
+                stbckFrbme.remove(s);
+                brebk;
             }
         } else {
             switch (opcode) {
-            case RETURN:
-            case IRETURN:
-            case FRETURN:
-            case ARETURN:
-            case LRETURN:
-            case DRETURN:
-            case ATHROW:
+            cbse RETURN:
+            cbse IRETURN:
+            cbse FRETURN:
+            cbse ARETURN:
+            cbse LRETURN:
+            cbse DRETURN:
+            cbse ATHROW:
                 onMethodExit(opcode);
-                break;
+                brebk;
             }
         }
         mv.visitInsn(opcode);
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        super.visitVarInsn(opcode, var);
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
+        super.visitVbrInsn(opcode, vbr);
         if (constructor) {
             switch (opcode) {
-            case ILOAD:
-            case FLOAD:
-                pushValue(OTHER);
-                break;
-            case LLOAD:
-            case DLOAD:
-                pushValue(OTHER);
-                pushValue(OTHER);
-                break;
-            case ALOAD:
-                pushValue(var == 0 ? THIS : OTHER);
-                break;
-            case ASTORE:
-            case ISTORE:
-            case FSTORE:
-                popValue();
-                break;
-            case LSTORE:
-            case DSTORE:
-                popValue();
-                popValue();
-                break;
+            cbse ILOAD:
+            cbse FLOAD:
+                pushVblue(OTHER);
+                brebk;
+            cbse LLOAD:
+            cbse DLOAD:
+                pushVblue(OTHER);
+                pushVblue(OTHER);
+                brebk;
+            cbse ALOAD:
+                pushVblue(vbr == 0 ? THIS : OTHER);
+                brebk;
+            cbse ASTORE:
+            cbse ISTORE:
+            cbse FSTORE:
+                popVblue();
+                brebk;
+            cbse LSTORE:
+            cbse DSTORE:
+                popVblue();
+                popVblue();
+                brebk;
             }
         }
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        mv.visitFieldInsn(opcode, owner, name, desc);
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        mv.visitFieldInsn(opcode, owner, nbme, desc);
         if (constructor) {
-            char c = desc.charAt(0);
-            boolean longOrDouble = c == 'J' || c == 'D';
+            chbr c = desc.chbrAt(0);
+            boolebn longOrDouble = c == 'J' || c == 'D';
             switch (opcode) {
-            case GETSTATIC:
-                pushValue(OTHER);
+            cbse GETSTATIC:
+                pushVblue(OTHER);
                 if (longOrDouble) {
-                    pushValue(OTHER);
+                    pushVblue(OTHER);
                 }
-                break;
-            case PUTSTATIC:
-                popValue();
+                brebk;
+            cbse PUTSTATIC:
+                popVblue();
                 if (longOrDouble) {
-                    popValue();
+                    popVblue();
                 }
-                break;
-            case PUTFIELD:
-                popValue();
+                brebk;
+            cbse PUTFIELD:
+                popVblue();
                 if (longOrDouble) {
-                    popValue();
-                    popValue();
+                    popVblue();
+                    popVblue();
                 }
-                break;
-            // case GETFIELD:
-            default:
+                brebk;
+            // cbse GETFIELD:
+            defbult:
                 if (longOrDouble) {
-                    pushValue(OTHER);
+                    pushVblue(OTHER);
                 }
             }
         }
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        mv.visitIntInsn(opcode, operand);
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
+        mv.visitIntInsn(opcode, operbnd);
         if (constructor && opcode != NEWARRAY) {
-            pushValue(OTHER);
+            pushVblue(OTHER);
         }
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
+    public void visitLdcInsn(finbl Object cst) {
         mv.visitLdcInsn(cst);
         if (constructor) {
-            pushValue(OTHER);
-            if (cst instanceof Double || cst instanceof Long) {
-                pushValue(OTHER);
+            pushVblue(OTHER);
+            if (cst instbnceof Double || cst instbnceof Long) {
+                pushVblue(OTHER);
             }
         }
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        mv.visitMultiANewArrayInsn(desc, dims);
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        mv.visitMultiANewArrbyInsn(desc, dims);
         if (constructor) {
             for (int i = 0; i < dims; i++) {
-                popValue();
+                popVblue();
             }
-            pushValue(OTHER);
+            pushVblue(OTHER);
         }
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
         mv.visitTypeInsn(opcode, type);
-        // ANEWARRAY, CHECKCAST or INSTANCEOF don't change stack
+        // ANEWARRAY, CHECKCAST or INSTANCEOF don't chbnge stbck
         if (constructor && opcode == NEW) {
-            pushValue(OTHER);
+            pushVblue(OTHER);
         }
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
+        doVisitMethodInsn(opcode, owner, nbme, desc,
                 opcode == Opcodes.INVOKEINTERFACE);
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMethodInsn(opcode, owner, nbme, desc, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        mv.visitMethodInsn(opcode, owner, name, desc, itf);
+    privbte void doVisitMethodInsn(int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        mv.visitMethodInsn(opcode, owner, nbme, desc, itf);
         if (constructor) {
             Type[] types = Type.getArgumentTypes(desc);
             for (int i = 0; i < types.length; i++) {
-                popValue();
+                popVblue();
                 if (types[i].getSize() == 2) {
-                    popValue();
+                    popVblue();
                 }
             }
             switch (opcode) {
-            // case INVOKESTATIC:
-            // break;
-            case INVOKEINTERFACE:
-            case INVOKEVIRTUAL:
-                popValue(); // objectref
-                break;
-            case INVOKESPECIAL:
-                Object type = popValue(); // objectref
-                if (type == THIS && !superInitialized) {
+            // cbse INVOKESTATIC:
+            // brebk;
+            cbse INVOKEINTERFACE:
+            cbse INVOKEVIRTUAL:
+                popVblue(); // objectref
+                brebk;
+            cbse INVOKESPECIAL:
+                Object type = popVblue(); // objectref
+                if (type == THIS && !superInitiblized) {
                     onMethodEnter();
-                    superInitialized = true;
-                    // once super has been initialized it is no longer
-                    // necessary to keep track of stack state
-                    constructor = false;
+                    superInitiblized = true;
+                    // once super hbs been initiblized it is no longer
+                    // necessbry to keep trbck of stbck stbte
+                    constructor = fblse;
                 }
-                break;
+                brebk;
             }
 
             Type returnType = Type.getReturnType(desc);
             if (returnType != Type.VOID_TYPE) {
-                pushValue(OTHER);
+                pushVblue(OTHER);
                 if (returnType.getSize() == 2) {
-                    pushValue(OTHER);
+                    pushVblue(OTHER);
                 }
             }
         }
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        mv.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
         if (constructor) {
             Type[] types = Type.getArgumentTypes(desc);
             for (int i = 0; i < types.length; i++) {
-                popValue();
+                popVblue();
                 if (types[i].getSize() == 2) {
-                    popValue();
+                    popVblue();
                 }
             }
 
             Type returnType = Type.getReturnType(desc);
             if (returnType != Type.VOID_TYPE) {
-                pushValue(OTHER);
+                pushVblue(OTHER);
                 if (returnType.getSize() == 2) {
-                    pushValue(OTHER);
+                    pushVblue(OTHER);
                 }
             }
         }
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        mv.visitJumpInsn(opcode, label);
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
+        mv.visitJumpInsn(opcode, lbbel);
         if (constructor) {
             switch (opcode) {
-            case IFEQ:
-            case IFNE:
-            case IFLT:
-            case IFGE:
-            case IFGT:
-            case IFLE:
-            case IFNULL:
-            case IFNONNULL:
-                popValue();
-                break;
-            case IF_ICMPEQ:
-            case IF_ICMPNE:
-            case IF_ICMPLT:
-            case IF_ICMPGE:
-            case IF_ICMPGT:
-            case IF_ICMPLE:
-            case IF_ACMPEQ:
-            case IF_ACMPNE:
-                popValue();
-                popValue();
-                break;
-            case JSR:
-                pushValue(OTHER);
-                break;
+            cbse IFEQ:
+            cbse IFNE:
+            cbse IFLT:
+            cbse IFGE:
+            cbse IFGT:
+            cbse IFLE:
+            cbse IFNULL:
+            cbse IFNONNULL:
+                popVblue();
+                brebk;
+            cbse IF_ICMPEQ:
+            cbse IF_ICMPNE:
+            cbse IF_ICMPLT:
+            cbse IF_ICMPGE:
+            cbse IF_ICMPGT:
+            cbse IF_ICMPLE:
+            cbse IF_ACMPEQ:
+            cbse IF_ACMPNE:
+                popVblue();
+                popVblue();
+                brebk;
+            cbse JSR:
+                pushVblue(OTHER);
+                brebk;
             }
-            addBranch(label);
+            bddBrbnch(lbbel);
         }
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        mv.visitLookupSwitchInsn(dflt, keys, labels);
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        mv.visitLookupSwitchInsn(dflt, keys, lbbels);
         if (constructor) {
-            popValue();
-            addBranches(dflt, labels);
+            popVblue();
+            bddBrbnches(dflt, lbbels);
         }
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        mv.visitTableSwitchInsn(min, max, dflt, labels);
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        mv.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
         if (constructor) {
-            popValue();
-            addBranches(dflt, labels);
+            popVblue();
+            bddBrbnches(dflt, lbbels);
         }
     }
 
     @Override
-    public void visitTryCatchBlock(Label start, Label end, Label handler,
+    public void visitTryCbtchBlock(Lbbel stbrt, Lbbel end, Lbbel hbndler,
             String type) {
-        super.visitTryCatchBlock(start, end, handler, type);
-        if (constructor && !branches.containsKey(handler)) {
-            List<Object> stackFrame = new ArrayList<Object>();
-            stackFrame.add(OTHER);
-            branches.put(handler, stackFrame);
+        super.visitTryCbtchBlock(stbrt, end, hbndler, type);
+        if (constructor && !brbnches.contbinsKey(hbndler)) {
+            List<Object> stbckFrbme = new ArrbyList<Object>();
+            stbckFrbme.bdd(OTHER);
+            brbnches.put(hbndler, stbckFrbme);
         }
     }
 
-    private void addBranches(final Label dflt, final Label[] labels) {
-        addBranch(dflt);
-        for (int i = 0; i < labels.length; i++) {
-            addBranch(labels[i]);
+    privbte void bddBrbnches(finbl Lbbel dflt, finbl Lbbel[] lbbels) {
+        bddBrbnch(dflt);
+        for (int i = 0; i < lbbels.length; i++) {
+            bddBrbnch(lbbels[i]);
         }
     }
 
-    private void addBranch(final Label label) {
-        if (branches.containsKey(label)) {
+    privbte void bddBrbnch(finbl Lbbel lbbel) {
+        if (brbnches.contbinsKey(lbbel)) {
             return;
         }
-        branches.put(label, new ArrayList<Object>(stackFrame));
+        brbnches.put(lbbel, new ArrbyList<Object>(stbckFrbme));
     }
 
-    private Object popValue() {
-        return stackFrame.remove(stackFrame.size() - 1);
+    privbte Object popVblue() {
+        return stbckFrbme.remove(stbckFrbme.size() - 1);
     }
 
-    private Object peekValue() {
-        return stackFrame.get(stackFrame.size() - 1);
+    privbte Object peekVblue() {
+        return stbckFrbme.get(stbckFrbme.size() - 1);
     }
 
-    private void pushValue(final Object o) {
-        stackFrame.add(o);
+    privbte void pushVblue(finbl Object o) {
+        stbckFrbme.bdd(o);
     }
 
     /**
-     * Called at the beginning of the method or after super class class call in
+     * Cblled bt the beginning of the method or bfter super clbss clbss cbll in
      * the constructor. <br>
      * <br>
      *
-     * <i>Custom code can use or change all the local variables, but should not
-     * change state of the stack.</i>
+     * <i>Custom code cbn use or chbnge bll the locbl vbribbles, but should not
+     * chbnge stbte of the stbck.</i>
      */
     protected void onMethodEnter() {
     }
 
     /**
-     * Called before explicit exit from the method using either return or throw.
-     * Top element on the stack contains the return value or exception instance.
-     * For example:
+     * Cblled before explicit exit from the method using either return or throw.
+     * Top element on the stbck contbins the return vblue or exception instbnce.
+     * For exbmple:
      *
      * <pre>
      *   public void onMethodExit(int opcode) {
@@ -649,21 +649,21 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
      *         box(Type.getReturnType(this.methodDesc));
      *     }
      *     visitIntInsn(SIPUSH, opcode);
-     *     visitMethodInsn(INVOKESTATIC, owner, "onExit", "(Ljava/lang/Object;I)V");
+     *     visitMethodInsn(INVOKESTATIC, owner, "onExit", "(Ljbvb/lbng/Object;I)V");
      *   }
      *
-     *   // an actual call back method
-     *   public static void onExit(Object param, int opcode) {
+     *   // bn bctubl cbll bbck method
+     *   public stbtic void onExit(Object pbrbm, int opcode) {
      *     ...
      * </pre>
      *
      * <br>
      * <br>
      *
-     * <i>Custom code can use or change all the local variables, but should not
-     * change state of the stack.</i>
+     * <i>Custom code cbn use or chbnge bll the locbl vbribbles, but should not
+     * chbnge stbte of the stbck.</i>
      *
-     * @param opcode
+     * @pbrbm opcode
      *            one of the RETURN, IRETURN, FRETURN, ARETURN, LRETURN, DRETURN
      *            or ATHROW
      *
@@ -671,5 +671,5 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
     protected void onMethodExit(int opcode) {
     }
 
-    // TODO onException, onMethodCall
+    // TODO onException, onMethodCbll
 }

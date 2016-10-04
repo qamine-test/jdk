@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.io.*;
-import java.util.Arrays;
-import javax.crypto.SecretKey;
-import javax.security.auth.Destroyable;
-import javax.security.auth.DestroyFailedException;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+import jbvbx.crypto.SecretKey;
+import jbvbx.security.buth.Destroybble;
+import jbvbx.security.buth.DestroyFbiledException;
 import sun.misc.HexDumpEncoder;
 import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.PrincipalName;
+import sun.security.krb5.PrincipblNbme;
 import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.EncryptedData;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.KrbException;
-import sun.security.util.DerValue;
+import sun.security.util.DerVblue;
 
 /**
- * This class encapsulates a Kerberos encryption key. It is not associated
- * with a principal and may represent an ephemeral session key.
+ * This clbss encbpsulbtes b Kerberos encryption key. It is not bssocibted
+ * with b principbl bnd mby represent bn ephemerbl session key.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  *
- * @serial include
+ * @seribl include
  */
-class KeyImpl implements SecretKey, Destroyable, Serializable {
+clbss KeyImpl implements SecretKey, Destroybble, Seriblizbble {
 
-    private static final long serialVersionUID = -7889313790214321193L;
+    privbte stbtic finbl long seriblVersionUID = -7889313790214321193L;
 
-    private transient byte[] keyBytes;
-    private transient int keyType;
-    private transient volatile boolean destroyed = false;
+    privbte trbnsient byte[] keyBytes;
+    privbte trbnsient int keyType;
+    privbte trbnsient volbtile boolebn destroyed = fblse;
 
 
     /**
-     * Constructs a KeyImpl from the given bytes.
+     * Constructs b KeyImpl from the given bytes.
      *
-     * @param keyBytes the raw bytes for the secret key
-     * @param keyType the key type for the secret key as defined by the
-     * Kerberos protocol specification.
+     * @pbrbm keyBytes the rbw bytes for the secret key
+     * @pbrbm keyType the key type for the secret key bs defined by the
+     * Kerberos protocol specificbtion.
      */
     public KeyImpl(byte[] keyBytes,
                        int keyType) {
@@ -70,136 +70,136 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
     }
 
     /**
-     * Constructs a KeyImpl from a password.
+     * Constructs b KeyImpl from b pbssword.
      *
-     * @param principal the principal from which to derive the salt
-     * @param password the password that should be used to compute the
+     * @pbrbm principbl the principbl from which to derive the sblt
+     * @pbrbm pbssword the pbssword thbt should be used to compute the
      * key.
-     * @param algorithm the name for the algorithm that this key wil be
-     * used for. This parameter may be null in which case "DES" will be
-     * assumed.
+     * @pbrbm blgorithm the nbme for the blgorithm thbt this key wil be
+     * used for. This pbrbmeter mby be null in which cbse "DES" will be
+     * bssumed.
      */
-    public KeyImpl(KerberosPrincipal principal,
-                   char[] password,
-                   String algorithm) {
+    public KeyImpl(KerberosPrincipbl principbl,
+                   chbr[] pbssword,
+                   String blgorithm) {
 
         try {
-            PrincipalName princ = new PrincipalName(principal.getName());
+            PrincipblNbme princ = new PrincipblNbme(principbl.getNbme());
             EncryptionKey key;
-            if ("none".equalsIgnoreCase(algorithm)) {
+            if ("none".equblsIgnoreCbse(blgorithm)) {
                 key = EncryptionKey.NULL_KEY;
             } else {
-                key = new EncryptionKey(password, princ.getSalt(), algorithm);
+                key = new EncryptionKey(pbssword, princ.getSblt(), blgorithm);
             }
             this.keyBytes = key.getBytes();
             this.keyType = key.getEType();
-        } catch (KrbException e) {
-            throw new IllegalArgumentException(e.getMessage());
+        } cbtch (KrbException e) {
+            throw new IllegblArgumentException(e.getMessbge());
         }
     }
 
     /**
-     * Returns the keyType for this key as defined in the Kerberos Spec.
+     * Returns the keyType for this key bs defined in the Kerberos Spec.
      */
-    public final int getKeyType() {
+    public finbl int getKeyType() {
         if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
         return keyType;
     }
 
     /*
-     * Methods from java.security.Key
+     * Methods from jbvb.security.Key
      */
 
-    public final String getAlgorithm() {
-        return getAlgorithmName(keyType);
+    public finbl String getAlgorithm() {
+        return getAlgorithmNbme(keyType);
     }
 
-    private String getAlgorithmName(int eType) {
+    privbte String getAlgorithmNbme(int eType) {
         if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
 
         switch (eType) {
-        case EncryptedData.ETYPE_DES_CBC_CRC:
+        cbse EncryptedDbtb.ETYPE_DES_CBC_CRC:
             return "des-cbc-crc";
 
-        case EncryptedData.ETYPE_DES_CBC_MD5:
+        cbse EncryptedDbtb.ETYPE_DES_CBC_MD5:
             return "des-cbc-md5";
 
-        case EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD:
-            return "des3-cbc-sha1-kd";
+        cbse EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            return "des3-cbc-shb1-kd";
 
-        case EncryptedData.ETYPE_ARCFOUR_HMAC:
-            return "rc4-hmac";
+        cbse EncryptedDbtb.ETYPE_ARCFOUR_HMAC:
+            return "rc4-hmbc";
 
-        case EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96:
-            return "aes128-cts-hmac-sha1-96";
+        cbse EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            return "bes128-cts-hmbc-shb1-96";
 
-        case EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96:
-            return "aes256-cts-hmac-sha1-96";
+        cbse EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            return "bes256-cts-hmbc-shb1-96";
 
-        case EncryptedData.ETYPE_NULL:
+        cbse EncryptedDbtb.ETYPE_NULL:
             return "none";
 
-        default:
-            return eType > 0 ? "unknown" : "private";
+        defbult:
+            return eType > 0 ? "unknown" : "privbte";
         }
     }
 
-    public final String getFormat() {
+    public finbl String getFormbt() {
         if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
         return "RAW";
     }
 
-    public final byte[] getEncoded() {
+    public finbl byte[] getEncoded() {
         if (destroyed)
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
         return keyBytes.clone();
     }
 
-    public void destroy() throws DestroyFailedException {
+    public void destroy() throws DestroyFbiledException {
         if (!destroyed) {
             destroyed = true;
-            Arrays.fill(keyBytes, (byte) 0);
+            Arrbys.fill(keyBytes, (byte) 0);
         }
     }
 
-    public boolean isDestroyed() {
+    public boolebn isDestroyed() {
         return destroyed;
     }
 
     /**
-     * @serialData this {@code KeyImpl} is serialized by
+     * @seriblDbtb this {@code KeyImpl} is seriblized by
      * writing out the ASN1 Encoded bytes of the encryption key.
-     * The ASN1 encoding is defined in RFC4120 and as  follows:
+     * The ASN1 encoding is defined in RFC4120 bnd bs  follows:
      * EncryptionKey   ::= SEQUENCE {
-     *          keytype    [0] Int32 -- actually encryption type --,
-     *          keyvalue   [1] OCTET STRING
+     *          keytype    [0] Int32 -- bctublly encryption type --,
+     *          keyvblue   [1] OCTET STRING
      * }
      */
-    private void writeObject(ObjectOutputStream ois)
+    privbte void writeObject(ObjectOutputStrebm ois)
                 throws IOException {
         if (destroyed) {
-           throw new IOException("This key is no longer valid");
+           throw new IOException("This key is no longer vblid");
         }
 
         try {
-           ois.writeObject((new EncryptionKey(keyType, keyBytes)).asn1Encode());
-        } catch (Asn1Exception ae) {
-           throw new IOException(ae.getMessage());
+           ois.writeObject((new EncryptionKey(keyType, keyBytes)).bsn1Encode());
+        } cbtch (Asn1Exception be) {
+           throw new IOException(be.getMessbge());
         }
     }
 
-    private void readObject(ObjectInputStream ois)
-                throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm ois)
+                throws IOException, ClbssNotFoundException {
         try {
             EncryptionKey encKey = new EncryptionKey(new
-                                     DerValue((byte[])ois.readObject()));
+                                     DerVblue((byte[])ois.rebdObject()));
             keyType = encKey.getEType();
             keyBytes = encKey.getBytes();
-        } catch (Asn1Exception ae) {
-            throw new IOException(ae.getMessage());
+        } cbtch (Asn1Exception be) {
+            throw new IOException(be.getMessbge());
         }
     }
 
@@ -215,32 +215,32 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
 
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if(isDestroyed()) {
             return result;
         }
-        result = 37 * result + Arrays.hashCode(keyBytes);
+        result = 37 * result + Arrbys.hbshCode(keyBytes);
         return 37 * result + keyType;
     }
 
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
 
         if (other == this)
             return true;
 
-        if (! (other instanceof KeyImpl)) {
-            return false;
+        if (! (other instbnceof KeyImpl)) {
+            return fblse;
         }
 
         KeyImpl otherKey = ((KeyImpl) other);
         if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+            return fblse;
         }
 
         if(keyType != otherKey.getKeyType() ||
-                !Arrays.equals(keyBytes, otherKey.getEncoded())) {
-            return false;
+                !Arrbys.equbls(keyBytes, otherKey.getEncoded())) {
+            return fblse;
         }
 
         return true;

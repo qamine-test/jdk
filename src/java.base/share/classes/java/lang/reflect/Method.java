@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.MethodAccessor;
 import sun.reflect.Reflection;
 import sun.reflect.generics.repository.MethodRepository;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
+import sun.reflect.generics.fbctory.CoreReflectionFbctory;
+import sun.reflect.generics.fbctory.GenericsFbctory;
 import sun.reflect.generics.scope.MethodScope;
-import sun.reflect.annotation.AnnotationType;
-import sun.reflect.annotation.AnnotationParser;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
-import java.nio.ByteBuffer;
+import sun.reflect.bnnotbtion.AnnotbtionType;
+import sun.reflect.bnnotbtion.AnnotbtionPbrser;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.nio.ByteBuffer;
 
 /**
- * A {@code Method} provides information about, and access to, a single method
- * on a class or interface.  The reflected method may be a class method
- * or an instance method (including an abstract method).
+ * A {@code Method} provides informbtion bbout, bnd bccess to, b single method
+ * on b clbss or interfbce.  The reflected method mby be b clbss method
+ * or bn instbnce method (including bn bbstrbct method).
  *
- * <p>A {@code Method} permits widening conversions to occur when matching the
- * actual parameters to invoke with the underlying method's formal
- * parameters, but it throws an {@code IllegalArgumentException} if a
- * narrowing conversion would occur.
+ * <p>A {@code Method} permits widening conversions to occur when mbtching the
+ * bctubl pbrbmeters to invoke with the underlying method's formbl
+ * pbrbmeters, but it throws bn {@code IllegblArgumentException} if b
+ * nbrrowing conversion would occur.
  *
  * @see Member
- * @see java.lang.Class
- * @see java.lang.Class#getMethods()
- * @see java.lang.Class#getMethod(String, Class[])
- * @see java.lang.Class#getDeclaredMethods()
- * @see java.lang.Class#getDeclaredMethod(String, Class[])
+ * @see jbvb.lbng.Clbss
+ * @see jbvb.lbng.Clbss#getMethods()
+ * @see jbvb.lbng.Clbss#getMethod(String, Clbss[])
+ * @see jbvb.lbng.Clbss#getDeclbredMethods()
+ * @see jbvb.lbng.Clbss#getDeclbredMethod(String, Clbss[])
  *
- * @author Kenneth Russell
- * @author Nakul Saraiya
+ * @buthor Kenneth Russell
+ * @buthor Nbkul Sbrbiyb
  */
-public final class Method extends Executable {
-    private Class<?>            clazz;
-    private int                 slot;
-    // This is guaranteed to be interned by the VM in the 1.4
-    // reflection implementation
-    private String              name;
-    private Class<?>            returnType;
-    private Class<?>[]          parameterTypes;
-    private Class<?>[]          exceptionTypes;
-    private int                 modifiers;
-    // Generics and annotations support
-    private transient String              signature;
-    // generic info repository; lazily initialized
-    private transient MethodRepository genericInfo;
-    private byte[]              annotations;
-    private byte[]              parameterAnnotations;
-    private byte[]              annotationDefault;
-    private volatile MethodAccessor methodAccessor;
-    // For sharing of MethodAccessors. This branching structure is
-    // currently only two levels deep (i.e., one root Method and
-    // potentially many Method objects pointing to it.)
-    private Method              root;
+public finbl clbss Method extends Executbble {
+    privbte Clbss<?>            clbzz;
+    privbte int                 slot;
+    // This is gubrbnteed to be interned by the VM in the 1.4
+    // reflection implementbtion
+    privbte String              nbme;
+    privbte Clbss<?>            returnType;
+    privbte Clbss<?>[]          pbrbmeterTypes;
+    privbte Clbss<?>[]          exceptionTypes;
+    privbte int                 modifiers;
+    // Generics bnd bnnotbtions support
+    privbte trbnsient String              signbture;
+    // generic info repository; lbzily initiblized
+    privbte trbnsient MethodRepository genericInfo;
+    privbte byte[]              bnnotbtions;
+    privbte byte[]              pbrbmeterAnnotbtions;
+    privbte byte[]              bnnotbtionDefbult;
+    privbte volbtile MethodAccessor methodAccessor;
+    // For shbring of MethodAccessors. This brbnching structure is
+    // currently only two levels deep (i.e., one root Method bnd
+    // potentiblly mbny Method objects pointing to it.)
+    privbte Method              root;
 
-    // Generics infrastructure
-    private String getGenericSignature() {return signature;}
+    // Generics infrbstructure
+    privbte String getGenericSignbture() {return signbture;}
 
-    // Accessor for factory
-    private GenericsFactory getFactory() {
-        // create scope and factory
-        return CoreReflectionFactory.make(this, MethodScope.make(this));
+    // Accessor for fbctory
+    privbte GenericsFbctory getFbctory() {
+        // crebte scope bnd fbctory
+        return CoreReflectionFbctory.mbke(this, MethodScope.mbke(this));
     }
 
     // Accessor for generic info repository
     @Override
     MethodRepository getGenericInfo() {
-        // lazily initialize repository if necessary
+        // lbzily initiblize repository if necessbry
         if (genericInfo == null) {
-            // create and cache generic info repository
-            genericInfo = MethodRepository.make(getGenericSignature(),
-                                                getFactory());
+            // crebte bnd cbche generic info repository
+            genericInfo = MethodRepository.mbke(getGenericSignbture(),
+                                                getFbctory());
         }
-        return genericInfo; //return cached repository
+        return genericInfo; //return cbched repository
     }
 
     /**
-     * Package-private constructor used by ReflectAccess to enable
-     * instantiation of these objects in Java code from the java.lang
-     * package via sun.reflect.LangReflectAccess.
+     * Pbckbge-privbte constructor used by ReflectAccess to enbble
+     * instbntibtion of these objects in Jbvb code from the jbvb.lbng
+     * pbckbge vib sun.reflect.LbngReflectAccess.
      */
-    Method(Class<?> declaringClass,
-           String name,
-           Class<?>[] parameterTypes,
-           Class<?> returnType,
-           Class<?>[] checkedExceptions,
+    Method(Clbss<?> declbringClbss,
+           String nbme,
+           Clbss<?>[] pbrbmeterTypes,
+           Clbss<?> returnType,
+           Clbss<?>[] checkedExceptions,
            int modifiers,
            int slot,
-           String signature,
-           byte[] annotations,
-           byte[] parameterAnnotations,
-           byte[] annotationDefault) {
-        this.clazz = declaringClass;
-        this.name = name;
-        this.parameterTypes = parameterTypes;
+           String signbture,
+           byte[] bnnotbtions,
+           byte[] pbrbmeterAnnotbtions,
+           byte[] bnnotbtionDefbult) {
+        this.clbzz = declbringClbss;
+        this.nbme = nbme;
+        this.pbrbmeterTypes = pbrbmeterTypes;
         this.returnType = returnType;
         this.exceptionTypes = checkedExceptions;
         this.modifiers = modifiers;
         this.slot = slot;
-        this.signature = signature;
-        this.annotations = annotations;
-        this.parameterAnnotations = parameterAnnotations;
-        this.annotationDefault = annotationDefault;
+        this.signbture = signbture;
+        this.bnnotbtions = bnnotbtions;
+        this.pbrbmeterAnnotbtions = pbrbmeterAnnotbtions;
+        this.bnnotbtionDefbult = bnnotbtionDefbult;
     }
 
     /**
-     * Package-private routine (exposed to java.lang.Class via
-     * ReflectAccess) which returns a copy of this Method. The copy's
+     * Pbckbge-privbte routine (exposed to jbvb.lbng.Clbss vib
+     * ReflectAccess) which returns b copy of this Method. The copy's
      * "root" field points to this Method.
      */
     Method copy() {
-        // This routine enables sharing of MethodAccessor objects
-        // among Method objects which refer to the same underlying
-        // method in the VM. (All of this contortion is only necessary
-        // because of the "accessibility" bit in AccessibleObject,
-        // which implicitly requires that new java.lang.reflect
-        // objects be fabricated for each reflective call on Class
+        // This routine enbbles shbring of MethodAccessor objects
+        // bmong Method objects which refer to the sbme underlying
+        // method in the VM. (All of this contortion is only necessbry
+        // becbuse of the "bccessibility" bit in AccessibleObject,
+        // which implicitly requires thbt new jbvb.lbng.reflect
+        // objects be fbbricbted for ebch reflective cbll on Clbss
         // objects.)
-        Method res = new Method(clazz, name, parameterTypes, returnType,
-                                exceptionTypes, modifiers, slot, signature,
-                                annotations, parameterAnnotations, annotationDefault);
+        Method res = new Method(clbzz, nbme, pbrbmeterTypes, returnType,
+                                exceptionTypes, modifiers, slot, signbture,
+                                bnnotbtions, pbrbmeterAnnotbtions, bnnotbtionDefbult);
         res.root = this;
-        // Might as well eagerly propagate this if already present
+        // Might bs well ebgerly propbgbte this if blrebdy present
         res.methodAccessor = methodAccessor;
         return res;
     }
 
     @Override
-    boolean hasGenericInformation() {
-        return (getGenericSignature() != null);
+    boolebn hbsGenericInformbtion() {
+        return (getGenericSignbture() != null);
     }
 
     @Override
-    byte[] getAnnotationBytes() {
-        return annotations;
+    byte[] getAnnotbtionBytes() {
+        return bnnotbtions;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Class<?> getDeclaringClass() {
-        return clazz;
+    public Clbss<?> getDeclbringClbss() {
+        return clbzz;
     }
 
     /**
-     * Returns the name of the method represented by this {@code Method}
-     * object, as a {@code String}.
+     * Returns the nbme of the method represented by this {@code Method}
+     * object, bs b {@code String}.
      */
     @Override
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
@@ -190,54 +190,54 @@ public final class Method extends Executable {
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @since 1.5
      */
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public TypeVariable<Method>[] getTypeParameters() {
-        if (getGenericSignature() != null)
-            return (TypeVariable<Method>[])getGenericInfo().getTypeParameters();
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    public TypeVbribble<Method>[] getTypePbrbmeters() {
+        if (getGenericSignbture() != null)
+            return (TypeVbribble<Method>[])getGenericInfo().getTypePbrbmeters();
         else
-            return (TypeVariable<Method>[])new TypeVariable[0];
+            return (TypeVbribble<Method>[])new TypeVbribble[0];
     }
 
     /**
-     * Returns a {@code Class} object that represents the formal return type
+     * Returns b {@code Clbss} object thbt represents the formbl return type
      * of the method represented by this {@code Method} object.
      *
      * @return the return type for the method this object represents
      */
-    public Class<?> getReturnType() {
+    public Clbss<?> getReturnType() {
         return returnType;
     }
 
     /**
-     * Returns a {@code Type} object that represents the formal return
+     * Returns b {@code Type} object thbt represents the formbl return
      * type of the method represented by this {@code Method} object.
      *
-     * <p>If the return type is a parameterized type,
-     * the {@code Type} object returned must accurately reflect
-     * the actual type parameters used in the source code.
+     * <p>If the return type is b pbrbmeterized type,
+     * the {@code Type} object returned must bccurbtely reflect
+     * the bctubl type pbrbmeters used in the source code.
      *
-     * <p>If the return type is a type variable or a parameterized type, it
-     * is created. Otherwise, it is resolved.
+     * <p>If the return type is b type vbribble or b pbrbmeterized type, it
+     * is crebted. Otherwise, it is resolved.
      *
-     * @return  a {@code Type} object that represents the formal return
+     * @return  b {@code Type} object thbt represents the formbl return
      *     type of the underlying  method
-     * @throws GenericSignatureFormatError
-     *     if the generic method signature does not conform to the format
+     * @throws GenericSignbtureFormbtError
+     *     if the generic method signbture does not conform to the formbt
      *     specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
      * @throws TypeNotPresentException if the underlying method's
-     *     return type refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if the
-     *     underlying method's return typed refers to a parameterized
-     *     type that cannot be instantiated for any reason
+     *     return type refers to b non-existent type declbrbtion
+     * @throws MblformedPbrbmeterizedTypeException if the
+     *     underlying method's return typed refers to b pbrbmeterized
+     *     type thbt cbnnot be instbntibted for bny rebson
      * @since 1.5
      */
     public Type getGenericReturnType() {
-      if (getGenericSignature() != null) {
+      if (getGenericSignbture() != null) {
         return getGenericInfo().getReturnType();
       } else { return getReturnType();}
     }
@@ -246,42 +246,42 @@ public final class Method extends Executable {
      * {@inheritDoc}
      */
     @Override
-    public Class<?>[] getParameterTypes() {
-        return parameterTypes.clone();
+    public Clbss<?>[] getPbrbmeterTypes() {
+        return pbrbmeterTypes.clone();
     }
 
     /**
      * {@inheritDoc}
      * @since 1.8
      */
-    public int getParameterCount() { return parameterTypes.length; }
+    public int getPbrbmeterCount() { return pbrbmeterTypes.length; }
 
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
+     * @throws MblformedPbrbmeterizedTypeException {@inheritDoc}
      * @since 1.5
      */
     @Override
-    public Type[] getGenericParameterTypes() {
-        return super.getGenericParameterTypes();
+    public Type[] getGenericPbrbmeterTypes() {
+        return super.getGenericPbrbmeterTypes();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Class<?>[] getExceptionTypes() {
+    public Clbss<?>[] getExceptionTypes() {
         return exceptionTypes.clone();
     }
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
+     * @throws MblformedPbrbmeterizedTypeException {@inheritDoc}
      * @since 1.5
      */
     @Override
@@ -290,107 +290,107 @@ public final class Method extends Executable {
     }
 
     /**
-     * Compares this {@code Method} against the specified object.  Returns
-     * true if the objects are the same.  Two {@code Methods} are the same if
-     * they were declared by the same class and have the same name
-     * and formal parameter types and return type.
+     * Compbres this {@code Method} bgbinst the specified object.  Returns
+     * true if the objects bre the sbme.  Two {@code Methods} bre the sbme if
+     * they were declbred by the sbme clbss bnd hbve the sbme nbme
+     * bnd formbl pbrbmeter types bnd return type.
      */
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Method) {
+    public boolebn equbls(Object obj) {
+        if (obj != null && obj instbnceof Method) {
             Method other = (Method)obj;
-            if ((getDeclaringClass() == other.getDeclaringClass())
-                && (getName() == other.getName())) {
-                if (!returnType.equals(other.getReturnType()))
-                    return false;
-                return equalParamTypes(parameterTypes, other.parameterTypes);
+            if ((getDeclbringClbss() == other.getDeclbringClbss())
+                && (getNbme() == other.getNbme())) {
+                if (!returnType.equbls(other.getReturnType()))
+                    return fblse;
+                return equblPbrbmTypes(pbrbmeterTypes, other.pbrbmeterTypes);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hashcode for this {@code Method}.  The hashcode is computed
-     * as the exclusive-or of the hashcodes for the underlying
-     * method's declaring class name and the method's name.
+     * Returns b hbshcode for this {@code Method}.  The hbshcode is computed
+     * bs the exclusive-or of the hbshcodes for the underlying
+     * method's declbring clbss nbme bnd the method's nbme.
      */
-    public int hashCode() {
-        return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
+    public int hbshCode() {
+        return getDeclbringClbss().getNbme().hbshCode() ^ getNbme().hbshCode();
     }
 
     /**
-     * Returns a string describing this {@code Method}.  The string is
-     * formatted as the method access modifiers, if any, followed by
-     * the method return type, followed by a space, followed by the
-     * class declaring the method, followed by a period, followed by
-     * the method name, followed by a parenthesized, comma-separated
-     * list of the method's formal parameter types. If the method
-     * throws checked exceptions, the parameter list is followed by a
-     * space, followed by the word throws followed by a
-     * comma-separated list of the thrown exception types.
-     * For example:
+     * Returns b string describing this {@code Method}.  The string is
+     * formbtted bs the method bccess modifiers, if bny, followed by
+     * the method return type, followed by b spbce, followed by the
+     * clbss declbring the method, followed by b period, followed by
+     * the method nbme, followed by b pbrenthesized, commb-sepbrbted
+     * list of the method's formbl pbrbmeter types. If the method
+     * throws checked exceptions, the pbrbmeter list is followed by b
+     * spbce, followed by the word throws followed by b
+     * commb-sepbrbted list of the thrown exception types.
+     * For exbmple:
      * <pre>
-     *    public boolean java.lang.Object.equals(java.lang.Object)
+     *    public boolebn jbvb.lbng.Object.equbls(jbvb.lbng.Object)
      * </pre>
      *
-     * <p>The access modifiers are placed in canonical order as
-     * specified by "The Java Language Specification".  This is
-     * {@code public}, {@code protected} or {@code private} first,
-     * and then other modifiers in the following order:
-     * {@code abstract}, {@code default}, {@code static}, {@code final},
-     * {@code synchronized}, {@code native}, {@code strictfp}.
+     * <p>The bccess modifiers bre plbced in cbnonicbl order bs
+     * specified by "The Jbvb Lbngubge Specificbtion".  This is
+     * {@code public}, {@code protected} or {@code privbte} first,
+     * bnd then other modifiers in the following order:
+     * {@code bbstrbct}, {@code defbult}, {@code stbtic}, {@code finbl},
+     * {@code synchronized}, {@code nbtive}, {@code strictfp}.
      *
-     * @return a string describing this {@code Method}
+     * @return b string describing this {@code Method}
      *
      * @jls 8.4.3 Method Modifiers
      */
     public String toString() {
-        return sharedToString(Modifier.methodModifiers(),
-                              isDefault(),
-                              parameterTypes,
+        return shbredToString(Modifier.methodModifiers(),
+                              isDefbult(),
+                              pbrbmeterTypes,
                               exceptionTypes);
     }
 
     @Override
-    void specificToStringHeader(StringBuilder sb) {
-        sb.append(getReturnType().getTypeName()).append(' ');
-        sb.append(getDeclaringClass().getTypeName()).append('.');
-        sb.append(getName());
+    void specificToStringHebder(StringBuilder sb) {
+        sb.bppend(getReturnType().getTypeNbme()).bppend(' ');
+        sb.bppend(getDeclbringClbss().getTypeNbme()).bppend('.');
+        sb.bppend(getNbme());
     }
 
     /**
-     * Returns a string describing this {@code Method}, including
-     * type parameters.  The string is formatted as the method access
-     * modifiers, if any, followed by an angle-bracketed
-     * comma-separated list of the method's type parameters, if any,
-     * followed by the method's generic return type, followed by a
-     * space, followed by the class declaring the method, followed by
-     * a period, followed by the method name, followed by a
-     * parenthesized, comma-separated list of the method's generic
-     * formal parameter types.
+     * Returns b string describing this {@code Method}, including
+     * type pbrbmeters.  The string is formbtted bs the method bccess
+     * modifiers, if bny, followed by bn bngle-brbcketed
+     * commb-sepbrbted list of the method's type pbrbmeters, if bny,
+     * followed by the method's generic return type, followed by b
+     * spbce, followed by the clbss declbring the method, followed by
+     * b period, followed by the method nbme, followed by b
+     * pbrenthesized, commb-sepbrbted list of the method's generic
+     * formbl pbrbmeter types.
      *
-     * If this method was declared to take a variable number of
-     * arguments, instead of denoting the last parameter as
-     * "<tt><i>Type</i>[]</tt>", it is denoted as
+     * If this method wbs declbred to tbke b vbribble number of
+     * brguments, instebd of denoting the lbst pbrbmeter bs
+     * "<tt><i>Type</i>[]</tt>", it is denoted bs
      * "<tt><i>Type</i>...</tt>".
      *
-     * A space is used to separate access modifiers from one another
-     * and from the type parameters or return type.  If there are no
-     * type parameters, the type parameter list is elided; if the type
-     * parameter list is present, a space separates the list from the
-     * class name.  If the method is declared to throw exceptions, the
-     * parameter list is followed by a space, followed by the word
-     * throws followed by a comma-separated list of the generic thrown
+     * A spbce is used to sepbrbte bccess modifiers from one bnother
+     * bnd from the type pbrbmeters or return type.  If there bre no
+     * type pbrbmeters, the type pbrbmeter list is elided; if the type
+     * pbrbmeter list is present, b spbce sepbrbtes the list from the
+     * clbss nbme.  If the method is declbred to throw exceptions, the
+     * pbrbmeter list is followed by b spbce, followed by the word
+     * throws followed by b commb-sepbrbted list of the generic thrown
      * exception types.
      *
-     * <p>The access modifiers are placed in canonical order as
-     * specified by "The Java Language Specification".  This is
-     * {@code public}, {@code protected} or {@code private} first,
-     * and then other modifiers in the following order:
-     * {@code abstract}, {@code default}, {@code static}, {@code final},
-     * {@code synchronized}, {@code native}, {@code strictfp}.
+     * <p>The bccess modifiers bre plbced in cbnonicbl order bs
+     * specified by "The Jbvb Lbngubge Specificbtion".  This is
+     * {@code public}, {@code protected} or {@code privbte} first,
+     * bnd then other modifiers in the following order:
+     * {@code bbstrbct}, {@code defbult}, {@code stbtic}, {@code finbl},
+     * {@code synchronized}, {@code nbtive}, {@code strictfp}.
      *
-     * @return a string describing this {@code Method},
-     * include type parameters
+     * @return b string describing this {@code Method},
+     * include type pbrbmeters
      *
      * @since 1.5
      *
@@ -398,101 +398,101 @@ public final class Method extends Executable {
      */
     @Override
     public String toGenericString() {
-        return sharedToGenericString(Modifier.methodModifiers(), isDefault());
+        return shbredToGenericString(Modifier.methodModifiers(), isDefbult());
     }
 
     @Override
-    void specificToGenericStringHeader(StringBuilder sb) {
+    void specificToGenericStringHebder(StringBuilder sb) {
         Type genRetType = getGenericReturnType();
-        sb.append(genRetType.getTypeName()).append(' ');
-        sb.append(getDeclaringClass().getTypeName()).append('.');
-        sb.append(getName());
+        sb.bppend(genRetType.getTypeNbme()).bppend(' ');
+        sb.bppend(getDeclbringClbss().getTypeNbme()).bppend('.');
+        sb.bppend(getNbme());
     }
 
     /**
      * Invokes the underlying method represented by this {@code Method}
-     * object, on the specified object with the specified parameters.
-     * Individual parameters are automatically unwrapped to match
-     * primitive formal parameters, and both primitive and reference
-     * parameters are subject to method invocation conversions as
-     * necessary.
+     * object, on the specified object with the specified pbrbmeters.
+     * Individubl pbrbmeters bre butombticblly unwrbpped to mbtch
+     * primitive formbl pbrbmeters, bnd both primitive bnd reference
+     * pbrbmeters bre subject to method invocbtion conversions bs
+     * necessbry.
      *
-     * <p>If the underlying method is static, then the specified {@code obj}
-     * argument is ignored. It may be null.
+     * <p>If the underlying method is stbtic, then the specified {@code obj}
+     * brgument is ignored. It mby be null.
      *
-     * <p>If the number of formal parameters required by the underlying method is
-     * 0, the supplied {@code args} array may be of length 0 or null.
+     * <p>If the number of formbl pbrbmeters required by the underlying method is
+     * 0, the supplied {@code brgs} brrby mby be of length 0 or null.
      *
-     * <p>If the underlying method is an instance method, it is invoked
-     * using dynamic method lookup as documented in The Java Language
-     * Specification, Second Edition, section 15.12.4.4; in particular,
-     * overriding based on the runtime type of the target object will occur.
+     * <p>If the underlying method is bn instbnce method, it is invoked
+     * using dynbmic method lookup bs documented in The Jbvb Lbngubge
+     * Specificbtion, Second Edition, section 15.12.4.4; in pbrticulbr,
+     * overriding bbsed on the runtime type of the tbrget object will occur.
      *
-     * <p>If the underlying method is static, the class that declared
-     * the method is initialized if it has not already been initialized.
+     * <p>If the underlying method is stbtic, the clbss thbt declbred
+     * the method is initiblized if it hbs not blrebdy been initiblized.
      *
-     * <p>If the method completes normally, the value it returns is
-     * returned to the caller of invoke; if the value has a primitive
-     * type, it is first appropriately wrapped in an object. However,
-     * if the value has the type of an array of a primitive type, the
-     * elements of the array are <i>not</i> wrapped in objects; in
-     * other words, an array of primitive type is returned.  If the
-     * underlying method return type is void, the invocation returns
+     * <p>If the method completes normblly, the vblue it returns is
+     * returned to the cbller of invoke; if the vblue hbs b primitive
+     * type, it is first bppropribtely wrbpped in bn object. However,
+     * if the vblue hbs the type of bn brrby of b primitive type, the
+     * elements of the brrby bre <i>not</i> wrbpped in objects; in
+     * other words, bn brrby of primitive type is returned.  If the
+     * underlying method return type is void, the invocbtion returns
      * null.
      *
-     * @param obj  the object the underlying method is invoked from
-     * @param args the arguments used for the method call
-     * @return the result of dispatching the method represented by
-     * this object on {@code obj} with parameters
-     * {@code args}
+     * @pbrbm obj  the object the underlying method is invoked from
+     * @pbrbm brgs the brguments used for the method cbll
+     * @return the result of dispbtching the method represented by
+     * this object on {@code obj} with pbrbmeters
+     * {@code brgs}
      *
-     * @exception IllegalAccessException    if this {@code Method} object
-     *              is enforcing Java language access control and the underlying
-     *              method is inaccessible.
-     * @exception IllegalArgumentException  if the method is an
-     *              instance method and the specified object argument
-     *              is not an instance of the class or interface
-     *              declaring the underlying method (or of a subclass
-     *              or implementor thereof); if the number of actual
-     *              and formal parameters differ; if an unwrapping
-     *              conversion for primitive arguments fails; or if,
-     *              after possible unwrapping, a parameter value
-     *              cannot be converted to the corresponding formal
-     *              parameter type by a method invocation conversion.
-     * @exception InvocationTargetException if the underlying method
-     *              throws an exception.
+     * @exception IllegblAccessException    if this {@code Method} object
+     *              is enforcing Jbvb lbngubge bccess control bnd the underlying
+     *              method is inbccessible.
+     * @exception IllegblArgumentException  if the method is bn
+     *              instbnce method bnd the specified object brgument
+     *              is not bn instbnce of the clbss or interfbce
+     *              declbring the underlying method (or of b subclbss
+     *              or implementor thereof); if the number of bctubl
+     *              bnd formbl pbrbmeters differ; if bn unwrbpping
+     *              conversion for primitive brguments fbils; or if,
+     *              bfter possible unwrbpping, b pbrbmeter vblue
+     *              cbnnot be converted to the corresponding formbl
+     *              pbrbmeter type by b method invocbtion conversion.
+     * @exception InvocbtionTbrgetException if the underlying method
+     *              throws bn exception.
      * @exception NullPointerException      if the specified object is null
-     *              and the method is an instance method.
-     * @exception ExceptionInInitializerError if the initialization
-     * provoked by this method fails.
+     *              bnd the method is bn instbnce method.
+     * @exception ExceptionInInitiblizerError if the initiblizbtion
+     * provoked by this method fbils.
      */
-    @CallerSensitive
-    public Object invoke(Object obj, Object... args)
-        throws IllegalAccessException, IllegalArgumentException,
-           InvocationTargetException
+    @CbllerSensitive
+    public Object invoke(Object obj, Object... brgs)
+        throws IllegblAccessException, IllegblArgumentException,
+           InvocbtionTbrgetException
     {
         if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+            if (!Reflection.quickCheckMemberAccess(clbzz, modifiers)) {
+                Clbss<?> cbller = Reflection.getCbllerClbss();
+                checkAccess(cbller, clbzz, obj, modifiers);
             }
         }
-        MethodAccessor ma = methodAccessor;             // read volatile
-        if (ma == null) {
-            ma = acquireMethodAccessor();
+        MethodAccessor mb = methodAccessor;             // rebd volbtile
+        if (mb == null) {
+            mb = bcquireMethodAccessor();
         }
-        return ma.invoke(obj, args);
+        return mb.invoke(obj, brgs);
     }
 
     /**
-     * Returns {@code true} if this method is a bridge
-     * method; returns {@code false} otherwise.
+     * Returns {@code true} if this method is b bridge
+     * method; returns {@code fblse} otherwise.
      *
-     * @return true if and only if this method is a bridge
-     * method as defined by the Java Language Specification.
+     * @return true if bnd only if this method is b bridge
+     * method bs defined by the Jbvb Lbngubge Specificbtion.
      * @since 1.5
      */
-    public boolean isBridge() {
+    public boolebn isBridge() {
         return (getModifiers() & Modifier.BRIDGE) != 0;
     }
 
@@ -501,53 +501,53 @@ public final class Method extends Executable {
      * @since 1.5
      */
     @Override
-    public boolean isVarArgs() {
-        return super.isVarArgs();
+    public boolebn isVbrArgs() {
+        return super.isVbrArgs();
     }
 
     /**
      * {@inheritDoc}
-     * @jls 13.1 The Form of a Binary
+     * @jls 13.1 The Form of b Binbry
      * @since 1.5
      */
     @Override
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return super.isSynthetic();
     }
 
     /**
-     * Returns {@code true} if this method is a default
-     * method; returns {@code false} otherwise.
+     * Returns {@code true} if this method is b defbult
+     * method; returns {@code fblse} otherwise.
      *
-     * A default method is a public non-abstract instance method, that
-     * is, a non-static method with a body, declared in an interface
+     * A defbult method is b public non-bbstrbct instbnce method, thbt
+     * is, b non-stbtic method with b body, declbred in bn interfbce
      * type.
      *
-     * @return true if and only if this method is a default
-     * method as defined by the Java Language Specification.
+     * @return true if bnd only if this method is b defbult
+     * method bs defined by the Jbvb Lbngubge Specificbtion.
      * @since 1.8
      */
-    public boolean isDefault() {
-        // Default methods are public non-abstract instance methods
-        // declared in an interface.
+    public boolebn isDefbult() {
+        // Defbult methods bre public non-bbstrbct instbnce methods
+        // declbred in bn interfbce.
         return ((getModifiers() & (Modifier.ABSTRACT | Modifier.PUBLIC | Modifier.STATIC)) ==
-                Modifier.PUBLIC) && getDeclaringClass().isInterface();
+                Modifier.PUBLIC) && getDeclbringClbss().isInterfbce();
     }
 
-    // NOTE that there is no synchronization used here. It is correct
-    // (though not efficient) to generate more than one MethodAccessor
-    // for a given Method. However, avoiding synchronization will
-    // probably make the implementation more scalable.
-    private MethodAccessor acquireMethodAccessor() {
-        // First check to see if one has been created yet, and take it
+    // NOTE thbt there is no synchronizbtion used here. It is correct
+    // (though not efficient) to generbte more thbn one MethodAccessor
+    // for b given Method. However, bvoiding synchronizbtion will
+    // probbbly mbke the implementbtion more scblbble.
+    privbte MethodAccessor bcquireMethodAccessor() {
+        // First check to see if one hbs been crebted yet, bnd tbke it
         // if so
         MethodAccessor tmp = null;
         if (root != null) tmp = root.getMethodAccessor();
         if (tmp != null) {
             methodAccessor = tmp;
         } else {
-            // Otherwise fabricate one and propagate it up to the root
-            tmp = reflectionFactory.newMethodAccessor(this);
+            // Otherwise fbbricbte one bnd propbgbte it up to the root
+            tmp = reflectionFbctory.newMethodAccessor(this);
             setMethodAccessor(tmp);
         }
 
@@ -555,47 +555,47 @@ public final class Method extends Executable {
     }
 
     // Returns MethodAccessor for this Method object, not looking up
-    // the chain to the root
+    // the chbin to the root
     MethodAccessor getMethodAccessor() {
         return methodAccessor;
     }
 
-    // Sets the MethodAccessor for this Method object and
+    // Sets the MethodAccessor for this Method object bnd
     // (recursively) its root
-    void setMethodAccessor(MethodAccessor accessor) {
-        methodAccessor = accessor;
-        // Propagate up
+    void setMethodAccessor(MethodAccessor bccessor) {
+        methodAccessor = bccessor;
+        // Propbgbte up
         if (root != null) {
-            root.setMethodAccessor(accessor);
+            root.setMethodAccessor(bccessor);
         }
     }
 
     /**
-     * Returns the default value for the annotation member represented by
-     * this {@code Method} instance.  If the member is of a primitive type,
-     * an instance of the corresponding wrapper type is returned. Returns
-     * null if no default is associated with the member, or if the method
-     * instance does not represent a declared member of an annotation type.
+     * Returns the defbult vblue for the bnnotbtion member represented by
+     * this {@code Method} instbnce.  If the member is of b primitive type,
+     * bn instbnce of the corresponding wrbpper type is returned. Returns
+     * null if no defbult is bssocibted with the member, or if the method
+     * instbnce does not represent b declbred member of bn bnnotbtion type.
      *
-     * @return the default value for the annotation member represented
-     *     by this {@code Method} instance.
-     * @throws TypeNotPresentException if the annotation is of type
-     *     {@link Class} and no definition can be found for the
-     *     default class value.
+     * @return the defbult vblue for the bnnotbtion member represented
+     *     by this {@code Method} instbnce.
+     * @throws TypeNotPresentException if the bnnotbtion is of type
+     *     {@link Clbss} bnd no definition cbn be found for the
+     *     defbult clbss vblue.
      * @since  1.5
      */
-    public Object getDefaultValue() {
-        if  (annotationDefault == null)
+    public Object getDefbultVblue() {
+        if  (bnnotbtionDefbult == null)
             return null;
-        Class<?> memberType = AnnotationType.invocationHandlerReturnType(
+        Clbss<?> memberType = AnnotbtionType.invocbtionHbndlerReturnType(
             getReturnType());
-        Object result = AnnotationParser.parseMemberValue(
-            memberType, ByteBuffer.wrap(annotationDefault),
-            sun.misc.SharedSecrets.getJavaLangAccess().
-                getConstantPool(getDeclaringClass()),
-            getDeclaringClass());
-        if (result instanceof sun.reflect.annotation.ExceptionProxy)
-            throw new AnnotationFormatError("Invalid default: " + this);
+        Object result = AnnotbtionPbrser.pbrseMemberVblue(
+            memberType, ByteBuffer.wrbp(bnnotbtionDefbult),
+            sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                getConstbntPool(getDeclbringClbss()),
+            getDeclbringClbss());
+        if (result instbnceof sun.reflect.bnnotbtion.ExceptionProxy)
+            throw new AnnotbtionFormbtError("Invblid defbult: " + this);
         return result;
     }
 
@@ -604,16 +604,16 @@ public final class Method extends Executable {
      * @throws NullPointerException  {@inheritDoc}
      * @since 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        return super.getAnnotation(annotationClass);
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        return super.getAnnotbtion(bnnotbtionClbss);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return super.getDeclaredAnnotations();
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        return super.getDeclbredAnnotbtions();
     }
 
     /**
@@ -621,8 +621,8 @@ public final class Method extends Executable {
      * @since 1.5
      */
     @Override
-    public Annotation[][] getParameterAnnotations() {
-        return sharedGetParameterAnnotations(parameterTypes, parameterAnnotations);
+    public Annotbtion[][] getPbrbmeterAnnotbtions() {
+        return shbredGetPbrbmeterAnnotbtions(pbrbmeterTypes, pbrbmeterAnnotbtions);
     }
 
     /**
@@ -630,12 +630,12 @@ public final class Method extends Executable {
      * @since 1.8
      */
     @Override
-    public AnnotatedType getAnnotatedReturnType() {
-        return getAnnotatedReturnType0(getGenericReturnType());
+    public AnnotbtedType getAnnotbtedReturnType() {
+        return getAnnotbtedReturnType0(getGenericReturnType());
     }
 
     @Override
-    void handleParameterNumberMismatch(int resultLength, int numParameters) {
-        throw new AnnotationFormatError("Parameter annotations don't match number of parameters");
+    void hbndlePbrbmeterNumberMismbtch(int resultLength, int numPbrbmeters) {
+        throw new AnnotbtionFormbtError("Pbrbmeter bnnotbtions don't mbtch number of pbrbmeters");
     }
 }

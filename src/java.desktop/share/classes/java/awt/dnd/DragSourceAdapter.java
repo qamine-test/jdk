@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
 /**
- * An abstract adapter class for receiving drag source events. The methods in
- * this class are empty. This class exists only as a convenience for creating
+ * An bbstrbct bdbpter clbss for receiving drbg source events. The methods in
+ * this clbss bre empty. This clbss exists only bs b convenience for crebting
  * listener objects.
  * <p>
- * Extend this class to create a <code>DragSourceEvent</code> listener
- * and override the methods for the events of interest. (If you implement the
- * <code>DragSourceListener</code> interface, you have to define all of
- * the methods in it. This abstract class defines null methods for them
- * all, so you only have to define methods for events you care about.)
+ * Extend this clbss to crebte b <code>DrbgSourceEvent</code> listener
+ * bnd override the methods for the events of interest. (If you implement the
+ * <code>DrbgSourceListener</code> interfbce, you hbve to define bll of
+ * the methods in it. This bbstrbct clbss defines null methods for them
+ * bll, so you only hbve to define methods for events you cbre bbout.)
  * <p>
- * Create a listener object using the extended class and then register it with
- * a <code>DragSource</code>. When the drag enters, moves over, or exits
- * a drop site, when the drop action changes, and when the drag ends, the
- * relevant method in the listener object is invoked, and the
- * <code>DragSourceEvent</code> is passed to it.
+ * Crebte b listener object using the extended clbss bnd then register it with
+ * b <code>DrbgSource</code>. When the drbg enters, moves over, or exits
+ * b drop site, when the drop bction chbnges, bnd when the drbg ends, the
+ * relevbnt method in the listener object is invoked, bnd the
+ * <code>DrbgSourceEvent</code> is pbssed to it.
  * <p>
- * The drop site is <i>associated with the previous <code>dragEnter()</code>
- * invocation</i> if the latest invocation of <code>dragEnter()</code> on this
- * adapter corresponds to that drop site and is not followed by a
- * <code>dragExit()</code> invocation on this adapter.
+ * The drop site is <i>bssocibted with the previous <code>drbgEnter()</code>
+ * invocbtion</i> if the lbtest invocbtion of <code>drbgEnter()</code> on this
+ * bdbpter corresponds to thbt drop site bnd is not followed by b
+ * <code>drbgExit()</code> invocbtion on this bdbpter.
  *
- * @see DragSourceEvent
- * @see DragSourceListener
- * @see DragSourceMotionListener
+ * @see DrbgSourceEvent
+ * @see DrbgSourceListener
+ * @see DrbgSourceMotionListener
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  * @since 1.4
  */
-public abstract class DragSourceAdapter
-    implements DragSourceListener, DragSourceMotionListener {
+public bbstrbct clbss DrbgSourceAdbpter
+    implements DrbgSourceListener, DrbgSourceMotionListener {
 
     /**
-     * Called as the cursor's hotspot enters a platform-dependent drop site.
-     * This method is invoked when all the following conditions are true:
+     * Cblled bs the cursor's hotspot enters b plbtform-dependent drop site.
+     * This method is invoked when bll the following conditions bre true:
      * <UL>
-     * <LI>The cursor's hotspot enters the operable part of
-     * a platform-dependent drop site.
-     * <LI>The drop site is active.
-     * <LI>The drop site accepts the drag.
+     * <LI>The cursor's hotspot enters the operbble pbrt of
+     * b plbtform-dependent drop site.
+     * <LI>The drop site is bctive.
+     * <LI>The drop site bccepts the drbg.
      * </UL>
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    public void dragEnter(DragSourceDragEvent dsde) {}
+    public void drbgEnter(DrbgSourceDrbgEvent dsde) {}
 
     /**
-     * Called as the cursor's hotspot moves over a platform-dependent drop site.
-     * This method is invoked when all the following conditions are true:
+     * Cblled bs the cursor's hotspot moves over b plbtform-dependent drop site.
+     * This method is invoked when bll the following conditions bre true:
      * <UL>
-     * <LI>The cursor's hotspot has moved, but still intersects the
-     * operable part of the drop site associated with the previous
-     * dragEnter() invocation.
-     * <LI>The drop site is still active.
-     * <LI>The drop site accepts the drag.
+     * <LI>The cursor's hotspot hbs moved, but still intersects the
+     * operbble pbrt of the drop site bssocibted with the previous
+     * drbgEnter() invocbtion.
+     * <LI>The drop site is still bctive.
+     * <LI>The drop site bccepts the drbg.
      * </UL>
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    public void dragOver(DragSourceDragEvent dsde) {}
+    public void drbgOver(DrbgSourceDrbgEvent dsde) {}
 
     /**
-     * Called whenever the mouse is moved during a drag operation.
+     * Cblled whenever the mouse is moved during b drbg operbtion.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    public void dragMouseMoved(DragSourceDragEvent dsde) {}
+    public void drbgMouseMoved(DrbgSourceDrbgEvent dsde) {}
 
     /**
-     * Called when the user has modified the drop gesture.
-     * This method is invoked when the state of the input
-     * device(s) that the user is interacting with changes.
-     * Such devices are typically the mouse buttons or keyboard
-     * modifiers that the user is interacting with.
+     * Cblled when the user hbs modified the drop gesture.
+     * This method is invoked when the stbte of the input
+     * device(s) thbt the user is interbcting with chbnges.
+     * Such devices bre typicblly the mouse buttons or keybobrd
+     * modifiers thbt the user is interbcting with.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    public void dropActionChanged(DragSourceDragEvent dsde) {}
+    public void dropActionChbnged(DrbgSourceDrbgEvent dsde) {}
 
     /**
-     * Called as the cursor's hotspot exits a platform-dependent drop site.
-     * This method is invoked when any of the following conditions are true:
+     * Cblled bs the cursor's hotspot exits b plbtform-dependent drop site.
+     * This method is invoked when bny of the following conditions bre true:
      * <UL>
-     * <LI>The cursor's hotspot no longer intersects the operable part
-     * of the drop site associated with the previous dragEnter() invocation.
-     * </UL>
-     * OR
-     * <UL>
-     * <LI>The drop site associated with the previous dragEnter() invocation
-     * is no longer active.
+     * <LI>The cursor's hotspot no longer intersects the operbble pbrt
+     * of the drop site bssocibted with the previous drbgEnter() invocbtion.
      * </UL>
      * OR
      * <UL>
-     * <LI> The drop site associated with the previous dragEnter() invocation
-     * has rejected the drag.
+     * <LI>The drop site bssocibted with the previous drbgEnter() invocbtion
+     * is no longer bctive.
+     * </UL>
+     * OR
+     * <UL>
+     * <LI> The drop site bssocibted with the previous drbgEnter() invocbtion
+     * hbs rejected the drbg.
      * </UL>
      *
-     * @param dse the <code>DragSourceEvent</code>
+     * @pbrbm dse the <code>DrbgSourceEvent</code>
      */
-    public void dragExit(DragSourceEvent dse) {}
+    public void drbgExit(DrbgSourceEvent dse) {}
 
     /**
-     * This method is invoked to signify that the Drag and Drop
-     * operation is complete. The getDropSuccess() method of
-     * the <code>DragSourceDropEvent</code> can be used to
-     * determine the termination state. The getDropAction() method
-     * returns the operation that the drop site selected
-     * to apply to the Drop operation. Once this method is complete, the
-     * current <code>DragSourceContext</code> and
-     * associated resources become invalid.
+     * This method is invoked to signify thbt the Drbg bnd Drop
+     * operbtion is complete. The getDropSuccess() method of
+     * the <code>DrbgSourceDropEvent</code> cbn be used to
+     * determine the terminbtion stbte. The getDropAction() method
+     * returns the operbtion thbt the drop site selected
+     * to bpply to the Drop operbtion. Once this method is complete, the
+     * current <code>DrbgSourceContext</code> bnd
+     * bssocibted resources become invblid.
      *
-     * @param dsde the <code>DragSourceDropEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDropEvent</code>
      */
-    public void dragDropEnd(DragSourceDropEvent dsde) {}
+    public void drbgDropEnd(DrbgSourceDropEvent dsde) {}
 }

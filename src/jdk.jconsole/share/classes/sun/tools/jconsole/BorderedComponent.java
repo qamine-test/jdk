@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicGrbphicsUtils;
 
 
-import static javax.swing.SwingConstants.*;
+import stbtic jbvbx.swing.SwingConstbnts.*;
 
-import static sun.tools.jconsole.JConsole.*;
+import stbtic sun.tools.jconsole.JConsole.*;
 
-@SuppressWarnings("serial")
-public class BorderedComponent extends JPanel implements ActionListener {
+@SuppressWbrnings("seribl")
+public clbss BorderedComponent extends JPbnel implements ActionListener {
     JButton moreOrLessButton;
-    String valueLabelStr;
-    JLabel label;
+    String vblueLbbelStr;
+    JLbbel lbbel;
     JComponent comp;
-    boolean collapsed = false;
+    boolebn collbpsed = fblse;
 
-    private Icon collapseIcon;
-    private Icon expandIcon;
+    privbte Icon collbpseIcon;
+    privbte Icon expbndIcon;
 
-    private static Image getImage(String name) {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        name = "resources/" + name + ".png";
-        return tk.getImage(BorderedComponent.class.getResource(name));
+    privbte stbtic Imbge getImbge(String nbme) {
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        nbme = "resources/" + nbme + ".png";
+        return tk.getImbge(BorderedComponent.clbss.getResource(nbme));
     }
 
     public BorderedComponent(String text) {
-        this(text, null, false);
+        this(text, null, fblse);
     }
 
     public BorderedComponent(String text, JComponent comp) {
-        this(text, comp, false);
+        this(text, comp, fblse);
     }
 
-    public BorderedComponent(String text, JComponent comp, boolean collapsible) {
+    public BorderedComponent(String text, JComponent comp, boolebn collbpsible) {
         super(null);
 
         this.comp = comp;
 
-        // Only add border if text is not null
+        // Only bdd border if text is not null
         if (text != null) {
             TitledBorder border;
-            if (collapsible) {
-                final JLabel textLabel = new JLabel(text);
-                JPanel borderLabel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0)) {
-                    public int getBaseline(int w, int h) {
-                        Dimension dim = textLabel.getPreferredSize();
-                        return textLabel.getBaseline(dim.width, dim.height) + textLabel.getY();
+            if (collbpsible) {
+                finbl JLbbel textLbbel = new JLbbel(text);
+                JPbnel borderLbbel = new JPbnel(new FlowLbyout(FlowLbyout.LEFT, 2, 0)) {
+                    public int getBbseline(int w, int h) {
+                        Dimension dim = textLbbel.getPreferredSize();
+                        return textLbbel.getBbseline(dim.width, dim.height) + textLbbel.getY();
                     }
                 };
-                borderLabel.add(textLabel);
-                border = new LabeledBorder(borderLabel);
-                textLabel.setForeground(border.getTitleColor());
+                borderLbbel.bdd(textLbbel);
+                border = new LbbeledBorder(borderLbbel);
+                textLbbel.setForeground(border.getTitleColor());
 
                 if (IS_WIN) {
-                    collapseIcon = new ImageIcon(getImage("collapse-winlf"));
-                    expandIcon = new ImageIcon(getImage("expand-winlf"));
+                    collbpseIcon = new ImbgeIcon(getImbge("collbpse-winlf"));
+                    expbndIcon = new ImbgeIcon(getImbge("expbnd-winlf"));
                 } else {
-                    collapseIcon = new ArrowIcon(SOUTH, textLabel);
-                    expandIcon = new ArrowIcon(EAST, textLabel);
+                    collbpseIcon = new ArrowIcon(SOUTH, textLbbel);
+                    expbndIcon = new ArrowIcon(EAST, textLbbel);
                 }
 
-                moreOrLessButton = new JButton(collapseIcon);
-                moreOrLessButton.setContentAreaFilled(false);
-                moreOrLessButton.setBorderPainted(false);
-                moreOrLessButton.setMargin(new Insets(0, 0, 0, 0));
-                moreOrLessButton.addActionListener(this);
+                moreOrLessButton = new JButton(collbpseIcon);
+                moreOrLessButton.setContentArebFilled(fblse);
+                moreOrLessButton.setBorderPbinted(fblse);
+                moreOrLessButton.setMbrgin(new Insets(0, 0, 0, 0));
+                moreOrLessButton.bddActionListener(this);
                 String toolTip =
-                    Messages.BORDERED_COMPONENT_MORE_OR_LESS_BUTTON_TOOLTIP;
+                    Messbges.BORDERED_COMPONENT_MORE_OR_LESS_BUTTON_TOOLTIP;
                 moreOrLessButton.setToolTipText(toolTip);
-                borderLabel.add(moreOrLessButton);
-                borderLabel.setSize(borderLabel.getPreferredSize());
-                add(borderLabel);
+                borderLbbel.bdd(moreOrLessButton);
+                borderLbbel.setSize(borderLbbel.getPreferredSize());
+                bdd(borderLbbel);
             } else {
                 border = new TitledBorder(text);
             }
@@ -110,7 +110,7 @@ public class BorderedComponent extends JPanel implements ActionListener {
             setBorder(new FocusBorder(this));
         }
         if (comp != null) {
-            add(comp);
+            bdd(comp);
         }
     }
 
@@ -119,57 +119,57 @@ public class BorderedComponent extends JPanel implements ActionListener {
             remove(this.comp);
         }
         this.comp = comp;
-        if (!collapsed) {
-            LayoutManager lm = getLayout();
-            if (lm instanceof BorderLayout) {
-                add(comp, BorderLayout.CENTER);
+        if (!collbpsed) {
+            LbyoutMbnbger lm = getLbyout();
+            if (lm instbnceof BorderLbyout) {
+                bdd(comp, BorderLbyout.CENTER);
             } else {
-                add(comp);
+                bdd(comp);
             }
         }
-        revalidate();
+        revblidbte();
     }
 
-    public void setValueLabel(String str) {
-        this.valueLabelStr = str;
-        if (label != null) {
-            label.setText(Resources.format(Messages.CURRENT_VALUE,
-                                           valueLabelStr));
+    public void setVblueLbbel(String str) {
+        this.vblueLbbelStr = str;
+        if (lbbel != null) {
+            lbbel.setText(Resources.formbt(Messbges.CURRENT_VALUE,
+                                           vblueLbbelStr));
         }
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        if (collapsed) {
-            if (label != null) {
-                remove(label);
+    public void bctionPerformed(ActionEvent ev) {
+        if (collbpsed) {
+            if (lbbel != null) {
+                remove(lbbel);
             }
-            add(comp);
-            moreOrLessButton.setIcon(collapseIcon);
+            bdd(comp);
+            moreOrLessButton.setIcon(collbpseIcon);
         } else {
             remove(comp);
-            if (valueLabelStr != null) {
-                if (label == null) {
-                    label = new JLabel(Resources.format(Messages.CURRENT_VALUE,
-                                                        valueLabelStr));
+            if (vblueLbbelStr != null) {
+                if (lbbel == null) {
+                    lbbel = new JLbbel(Resources.formbt(Messbges.CURRENT_VALUE,
+                                                        vblueLbbelStr));
                 }
-                add(label);
+                bdd(lbbel);
             }
-            moreOrLessButton.setIcon(expandIcon);
+            moreOrLessButton.setIcon(expbndIcon);
         }
-        collapsed = !collapsed;
+        collbpsed = !collbpsed;
 
-        JComponent container = (JComponent)getParent();
-        if (container != null &&
-            container.getLayout() instanceof VariableGridLayout) {
+        JComponent contbiner = (JComponent)getPbrent();
+        if (contbiner != null &&
+            contbiner.getLbyout() instbnceof VbribbleGridLbyout) {
 
-            ((VariableGridLayout)container.getLayout()).setFillRow(this, !collapsed);
-            container.revalidate();
+            ((VbribbleGridLbyout)contbiner.getLbyout()).setFillRow(this, !collbpsed);
+            contbiner.revblidbte();
         }
     }
 
     public Dimension getMinimumSize() {
-        if (getLayout() != null) {
-            // A layout manager has been set, so delegate to it
+        if (getLbyout() != null) {
+            // A lbyout mbnbger hbs been set, so delegbte to it
             return super.getMinimumSize();
         }
 
@@ -184,20 +184,20 @@ public class BorderedComponent extends JPanel implements ActionListener {
         }
     }
 
-    public void doLayout() {
-        if (getLayout() != null) {
-            // A layout manager has been set, so delegate to it
-            super.doLayout();
+    public void doLbyout() {
+        if (getLbyout() != null) {
+            // A lbyout mbnbger hbs been set, so delegbte to it
+            super.doLbyout();
             return;
         }
 
         Dimension d = getSize();
         Insets i = getInsets();
 
-        if (collapsed) {
-            if (label != null) {
-                Dimension p = label.getPreferredSize();
-                label.setBounds(i.left,
+        if (collbpsed) {
+            if (lbbel != null) {
+                Dimension p = lbbel.getPreferredSize();
+                lbbel.setBounds(i.left,
                                 i.top + (d.height - i.top - i.bottom - p.height) / 2,
                                 p.width,
                                 p.height);
@@ -212,31 +212,31 @@ public class BorderedComponent extends JPanel implements ActionListener {
         }
     }
 
-    private static class ArrowIcon implements Icon {
-        private int direction;
-        private JLabel textLabel;
+    privbte stbtic clbss ArrowIcon implements Icon {
+        privbte int direction;
+        privbte JLbbel textLbbel;
 
-        public ArrowIcon(int direction, JLabel textLabel) {
+        public ArrowIcon(int direction, JLbbel textLbbel) {
             this.direction = direction;
-            this.textLabel = textLabel;
+            this.textLbbel = textLbbel;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             int w = getIconWidth();
             int h = w;
             Polygon p = new Polygon();
             switch (direction) {
-              case EAST:
-                p.addPoint(x + 2,     y);
-                p.addPoint(x + w - 2, y + h / 2);
-                p.addPoint(x + 2,     y + h - 1);
-                break;
+              cbse EAST:
+                p.bddPoint(x + 2,     y);
+                p.bddPoint(x + w - 2, y + h / 2);
+                p.bddPoint(x + 2,     y + h - 1);
+                brebk;
 
-              case SOUTH:
-                p.addPoint(x,         y + 2);
-                p.addPoint(x + w / 2, y + h - 2);
-                p.addPoint(x + w - 1, y + 2);
-                break;
+              cbse SOUTH:
+                p.bddPoint(x,         y + 2);
+                p.bddPoint(x + w / 2, y + h - 2);
+                p.bddPoint(x + w - 1, y + 2);
+                brebk;
             }
             g.fillPolygon(p);
         }
@@ -246,11 +246,11 @@ public class BorderedComponent extends JPanel implements ActionListener {
         }
 
         public int getIconHeight() {
-            Graphics g = textLabel.getGraphics();
+            Grbphics g = textLbbel.getGrbphics();
             if (g != null) {
-                int h = g.getFontMetrics(textLabel.getFont()).getAscent() * 6/10;
+                int h = g.getFontMetrics(textLbbel.getFont()).getAscent() * 6/10;
                 if (h % 2 == 0) {
-                    h += 1;     // Make it odd
+                    h += 1;     // Mbke it odd
                 }
                 return h;
             } else {
@@ -261,92 +261,92 @@ public class BorderedComponent extends JPanel implements ActionListener {
 
 
     /**
-     * A subclass of <code>TitledBorder</code> which implements an arbitrary border
-     * with the addition of a JComponent (JLabel, JPanel, etc) in the
-     * default position.
+     * A subclbss of <code>TitledBorder</code> which implements bn brbitrbry border
+     * with the bddition of b JComponent (JLbbel, JPbnel, etc) in the
+     * defbult position.
      * <p>
-     * If the border property value is not
-     * specified in the constructor or by invoking the appropriate
-     * set method, the property value will be defined by the current
-     * look and feel, using the following property name in the
-     * Defaults Table:
+     * If the border property vblue is not
+     * specified in the constructor or by invoking the bppropribte
+     * set method, the property vblue will be defined by the current
+     * look bnd feel, using the following property nbme in the
+     * Defbults Tbble:
      * <ul>
      * <li>&quot;TitledBorder.border&quot;
      * </ul>
      */
-    protected static class LabeledBorder extends TitledBorder {
-        protected JComponent label;
+    protected stbtic clbss LbbeledBorder extends TitledBorder {
+        protected JComponent lbbel;
 
-        private Point compLoc = new Point();
+        privbte Point compLoc = new Point();
 
         /**
-         * Creates a LabeledBorder instance.
+         * Crebtes b LbbeledBorder instbnce.
          *
-         * @param label  the label the border should display
+         * @pbrbm lbbel  the lbbel the border should displby
          */
-        public LabeledBorder(JComponent label)     {
-            this(null, label);
+        public LbbeledBorder(JComponent lbbel)     {
+            this(null, lbbel);
         }
 
         /**
-         * Creates a LabeledBorder instance with the specified border
-         * and an empty label.
+         * Crebtes b LbbeledBorder instbnce with the specified border
+         * bnd bn empty lbbel.
          *
-         * @param border  the border
+         * @pbrbm border  the border
          */
-        public LabeledBorder(Border border)       {
+        public LbbeledBorder(Border border)       {
             this(border, null);
         }
 
         /**
-         * Creates a LabeledBorder instance with the specified border and
-         * label.
+         * Crebtes b LbbeledBorder instbnce with the specified border bnd
+         * lbbel.
          *
-         * @param border  the border
-         * @param label  the label the border should display
+         * @pbrbm border  the border
+         * @pbrbm lbbel  the lbbel the border should displby
          */
-        public LabeledBorder(Border border, JComponent label) {
+        public LbbeledBorder(Border border, JComponent lbbel) {
             super(border);
 
-            this.label = label;
+            this.lbbel = lbbel;
 
-            if (label instanceof JLabel &&
-                label.getForeground() instanceof ColorUIResource) {
+            if (lbbel instbnceof JLbbel &&
+                lbbel.getForeground() instbnceof ColorUIResource) {
 
-                label.setForeground(getTitleColor());
+                lbbel.setForeground(getTitleColor());
             }
 
         }
 
         /**
-         * Paints the border for the specified component with the
-         * specified position and size.
-         * @param c the component for which this border is being painted
-         * @param g the paint graphics
-         * @param x the x position of the painted border
-         * @param y the y position of the painted border
-         * @param width the width of the painted border
-         * @param height the height of the painted border
+         * Pbints the border for the specified component with the
+         * specified position bnd size.
+         * @pbrbm c the component for which this border is being pbinted
+         * @pbrbm g the pbint grbphics
+         * @pbrbm x the x position of the pbinted border
+         * @pbrbm y the y position of the pbinted border
+         * @pbrbm width the width of the pbinted border
+         * @pbrbm height the height of the pbinted border
          */
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
 
             Border border = getBorder();
 
-            if (label == null) {
+            if (lbbel == null) {
                 if (border != null) {
-                    border.paintBorder(c, g, x, y, width, height);
+                    border.pbintBorder(c, g, x, y, width, height);
                 }
                 return;
             }
 
-            Rectangle grooveRect = new Rectangle(x + EDGE_SPACING, y + EDGE_SPACING,
+            Rectbngle grooveRect = new Rectbngle(x + EDGE_SPACING, y + EDGE_SPACING,
                                                  width - (EDGE_SPACING * 2),
                                                  height - (EDGE_SPACING * 2));
 
-            Dimension   labelDim = label.getPreferredSize();
-            int baseline = label.getBaseline(labelDim.width, labelDim.height);
-            int         ascent = Math.max(0, baseline);
-            int         descent = labelDim.height - ascent;
+            Dimension   lbbelDim = lbbel.getPreferredSize();
+            int bbseline = lbbel.getBbseline(lbbelDim.width, lbbelDim.height);
+            int         bscent = Mbth.mbx(0, bbseline);
+            int         descent = lbbelDim.height - bscent;
             int         diff;
             Insets      insets;
 
@@ -356,94 +356,94 @@ public class BorderedComponent extends JPanel implements ActionListener {
                 insets = new Insets(0, 0, 0, 0);
             }
 
-            diff = Math.max(0, ascent/2 + TEXT_SPACING - EDGE_SPACING);
+            diff = Mbth.mbx(0, bscent/2 + TEXT_SPACING - EDGE_SPACING);
             grooveRect.y += diff;
             grooveRect.height -= diff;
-            compLoc.y = grooveRect.y + insets.top/2 - (ascent + descent) / 2 - 1;
+            compLoc.y = grooveRect.y + insets.top/2 - (bscent + descent) / 2 - 1;
 
-            int justification;
-            if (c.getComponentOrientation().isLeftToRight()) {
-                justification = LEFT;
+            int justificbtion;
+            if (c.getComponentOrientbtion().isLeftToRight()) {
+                justificbtion = LEFT;
             } else {
-                justification = RIGHT;
+                justificbtion = RIGHT;
             }
 
-            switch (justification) {
-                case LEFT:
+            switch (justificbtion) {
+                cbse LEFT:
                     compLoc.x = grooveRect.x + TEXT_INSET_H + insets.left;
-                    break;
-                case RIGHT:
+                    brebk;
+                cbse RIGHT:
                     compLoc.x = (grooveRect.x + grooveRect.width
-                                 - (labelDim.width + TEXT_INSET_H + insets.right));
-                    break;
+                                 - (lbbelDim.width + TEXT_INSET_H + insets.right));
+                    brebk;
             }
 
             // If title is positioned in middle of border AND its fontsize
-            // is greater than the border's thickness, we'll need to paint
-            // the border in sections to leave space for the component's background
+            // is grebter thbn the border's thickness, we'll need to pbint
+            // the border in sections to lebve spbce for the component's bbckground
             // to show through the title.
             //
             if (border != null) {
-                if (grooveRect.y > compLoc.y - ascent) {
-                    Rectangle clipRect = new Rectangle();
+                if (grooveRect.y > compLoc.y - bscent) {
+                    Rectbngle clipRect = new Rectbngle();
 
-                    // save original clip
-                    Rectangle saveClip = g.getClipBounds();
+                    // sbve originbl clip
+                    Rectbngle sbveClip = g.getClipBounds();
 
-                    // paint strip left of text
-                    clipRect.setBounds(saveClip);
+                    // pbint strip left of text
+                    clipRect.setBounds(sbveClip);
                     if (computeIntersection(clipRect, x, y, compLoc.x-1-x, height)) {
                         g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
+                        border.pbintBorder(c, g, grooveRect.x, grooveRect.y,
                                       grooveRect.width, grooveRect.height);
                     }
 
-                    // paint strip right of text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect, compLoc.x+ labelDim.width +1, y,
-                                   x+width-(compLoc.x+ labelDim.width +1), height)) {
+                    // pbint strip right of text
+                    clipRect.setBounds(sbveClip);
+                    if (computeIntersection(clipRect, compLoc.x+ lbbelDim.width +1, y,
+                                   x+width-(compLoc.x+ lbbelDim.width +1), height)) {
                         g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
+                        border.pbintBorder(c, g, grooveRect.x, grooveRect.y,
                                       grooveRect.width, grooveRect.height);
                     }
 
-                    // paint strip below text
-                    clipRect.setBounds(saveClip);
+                    // pbint strip below text
+                    clipRect.setBounds(sbveClip);
                     if (computeIntersection(clipRect,
-                                            compLoc.x - 1, compLoc.y + ascent + descent,
-                                            labelDim.width + 2,
-                                            y + height - compLoc.y - ascent - descent)) {
+                                            compLoc.x - 1, compLoc.y + bscent + descent,
+                                            lbbelDim.width + 2,
+                                            y + height - compLoc.y - bscent - descent)) {
                         g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
+                        border.pbintBorder(c, g, grooveRect.x, grooveRect.y,
                                   grooveRect.width, grooveRect.height);
                     }
 
                     // restore clip
-                    g.setClip(saveClip);
+                    g.setClip(sbveClip);
 
                 } else {
-                    border.paintBorder(c, g, grooveRect.x, grooveRect.y,
+                    border.pbintBorder(c, g, grooveRect.x, grooveRect.y,
                                       grooveRect.width, grooveRect.height);
                 }
 
-                label.setLocation(compLoc);
-                label.setSize(labelDim);
+                lbbel.setLocbtion(compLoc);
+                lbbel.setSize(lbbelDim);
             }
         }
 
         /**
-         * Reinitialize the insets parameter with this Border's current Insets.
-         * @param c the component for which this border insets value applies
-         * @param insets the object to be reinitialized
+         * Reinitiblize the insets pbrbmeter with this Border's current Insets.
+         * @pbrbm c the component for which this border insets vblue bpplies
+         * @pbrbm insets the object to be reinitiblized
          */
         public Insets getBorderInsets(Component c, Insets insets) {
             Border border = getBorder();
             if (border != null) {
-                if (border instanceof AbstractBorder) {
-                    ((AbstractBorder)border).getBorderInsets(c, insets);
+                if (border instbnceof AbstrbctBorder) {
+                    ((AbstrbctBorder)border).getBorderInsets(c, insets);
                 } else {
-                    // Can't reuse border insets because the Border interface
-                    // can't be enhanced.
+                    // Cbn't reuse border insets becbuse the Border interfbce
+                    // cbn't be enhbnced.
                     Insets i = border.getBorderInsets(c);
                     insets.top = i.top;
                     insets.right = i.right;
@@ -459,86 +459,86 @@ public class BorderedComponent extends JPanel implements ActionListener {
             insets.top += EDGE_SPACING + TEXT_SPACING;
             insets.bottom += EDGE_SPACING + TEXT_SPACING;
 
-            if (c == null || label == null) {
+            if (c == null || lbbel == null) {
                 return insets;
             }
 
-            insets.top += label.getHeight();
+            insets.top += lbbel.getHeight();
 
             return insets;
         }
 
         /**
-         * Returns the label of the labeled border.
+         * Returns the lbbel of the lbbeled border.
          */
-        public JComponent getLabel() {
-            return label;
+        public JComponent getLbbel() {
+            return lbbel;
         }
 
 
         /**
          * Sets the title of the titled border.
-         * param title the title for the border
+         * pbrbm title the title for the border
          */
-        public void setLabel(JComponent label) {
-            this.label = label;
+        public void setLbbel(JComponent lbbel) {
+            this.lbbel = lbbel;
         }
 
 
 
         /**
          * Returns the minimum dimensions this border requires
-         * in order to fully display the border and title.
-         * @param c the component where this border will be drawn
+         * in order to fully displby the border bnd title.
+         * @pbrbm c the component where this border will be drbwn
          */
         public Dimension getMinimumSize(Component c) {
             Insets insets = getBorderInsets(c);
             Dimension minSize = new Dimension(insets.right + insets.left,
                                               insets.top + insets.bottom);
-            minSize.width += label.getWidth();
+            minSize.width += lbbel.getWidth();
 
             return minSize;
         }
 
 
-        private static boolean computeIntersection(Rectangle dest,
+        privbte stbtic boolebn computeIntersection(Rectbngle dest,
                                                    int rx, int ry, int rw, int rh) {
-            int x1 = Math.max(rx, dest.x);
-            int x2 = Math.min(rx + rw, dest.x + dest.width);
-            int y1 = Math.max(ry, dest.y);
-            int y2 = Math.min(ry + rh, dest.y + dest.height);
+            int x1 = Mbth.mbx(rx, dest.x);
+            int x2 = Mbth.min(rx + rw, dest.x + dest.width);
+            int y1 = Mbth.mbx(ry, dest.y);
+            int y2 = Mbth.min(ry + rh, dest.y + dest.height);
             dest.x = x1;
             dest.y = y1;
             dest.width = x2 - x1;
             dest.height = y2 - y1;
 
             if (dest.width <= 0 || dest.height <= 0) {
-                return false;
+                return fblse;
             }
             return true;
         }
     }
 
 
-    protected static class FocusBorder extends AbstractBorder implements FocusListener {
-        private Component comp;
-        private Color focusColor;
-        private boolean focusLostTemporarily = false;
+    protected stbtic clbss FocusBorder extends AbstrbctBorder implements FocusListener {
+        privbte Component comp;
+        privbte Color focusColor;
+        privbte boolebn focusLostTemporbrily = fblse;
 
         public FocusBorder(Component comp) {
             this.comp = comp;
 
-            comp.addFocusListener(this);
+            comp.bddFocusListener(this);
 
-            // This is the best guess for a L&F specific color
-            focusColor = UIManager.getColor("TabbedPane.focus");
+            // This is the best guess for b L&F specific color
+            focusColor = UIMbnbger.getColor("TbbbedPbne.focus");
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            if (comp.hasFocus() || focusLostTemporarily) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
+            if (comp.hbsFocus() || focusLostTemporbrily) {
                 Color color = g.getColor();
                 g.setColor(focusColor);
-                BasicGraphicsUtils.drawDashedRect(g, x, y, width, height);
+                BbsicGrbphicsUtils.drbwDbshedRect(g, x, y, width, height);
                 g.setColor(color);
             }
         }
@@ -549,15 +549,15 @@ public class BorderedComponent extends JPanel implements ActionListener {
         }
 
 
-        public void focusGained(FocusEvent e) {
-            comp.repaint();
+        public void focusGbined(FocusEvent e) {
+            comp.repbint();
         }
 
         public void focusLost(FocusEvent e) {
-            // We will still paint focus even if lost temporarily
-            focusLostTemporarily = e.isTemporary();
-            if (!focusLostTemporarily) {
-                comp.repaint();
+            // We will still pbint focus even if lost temporbrily
+            focusLostTemporbrily = e.isTemporbry();
+            if (!focusLostTemporbrily) {
+                comp.repbint();
             }
         }
     }

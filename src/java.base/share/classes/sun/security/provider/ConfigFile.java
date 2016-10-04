@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.Security;
-import java.security.URIParameter;
-import java.text.MessageFormat;
-import java.util.*;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
-import javax.security.auth.login.Configuration;
-import javax.security.auth.login.ConfigurationSpi;
+import jbvb.io.*;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URI;
+import jbvb.net.URL;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.Security;
+import jbvb.security.URIPbrbmeter;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
+import jbvbx.security.buth.AuthPermission;
+import jbvbx.security.buth.login.AppConfigurbtionEntry;
+import jbvbx.security.buth.login.AppConfigurbtionEntry.LoginModuleControlFlbg;
+import jbvbx.security.buth.login.Configurbtion;
+import jbvbx.security.buth.login.ConfigurbtionSpi;
 import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
+import sun.security.util.PropertyExpbnder;
 import sun.security.util.ResourcesMgr;
 
 /**
- * This class represents a default implementation for
- * {@code javax.security.auth.login.Configuration}.
+ * This clbss represents b defbult implementbtion for
+ * {@code jbvbx.security.buth.login.Configurbtion}.
  *
- * <p> This object stores the runtime login configuration representation,
- * and is the amalgamation of multiple static login configurations that
- * resides in files. The algorithm for locating the login configuration
- * file(s) and reading their information into this {@code Configuration}
+ * <p> This object stores the runtime login configurbtion representbtion,
+ * bnd is the bmblgbmbtion of multiple stbtic login configurbtions thbt
+ * resides in files. The blgorithm for locbting the login configurbtion
+ * file(s) bnd rebding their informbtion into this {@code Configurbtion}
  * object is:
  *
  * <ol>
@@ -61,50 +61,50 @@ import sun.security.util.ResourcesMgr;
  *   Loop through the security properties,
  *   <i>login.config.url.1</i>, <i>login.config.url.2</i>, ...,
  *   <i>login.config.url.X</i>.
- *   Each property value specifies a {@code URL} pointing to a
- *   login configuration file to be loaded.  Read in and load
- *   each configuration.
+ *   Ebch property vblue specifies b {@code URL} pointing to b
+ *   login configurbtion file to be lobded.  Rebd in bnd lobd
+ *   ebch configurbtion.
  *
  * <li>
- *   The {@code java.lang.System} property
- *   <i>java.security.auth.login.config</i>
- *   may also be set to a {@code URL} pointing to another
- *   login configuration file
- *   (which is the case when a user uses the -D switch at runtime).
- *   If this property is defined, and its use is allowed by the
+ *   The {@code jbvb.lbng.System} property
+ *   <i>jbvb.security.buth.login.config</i>
+ *   mby blso be set to b {@code URL} pointing to bnother
+ *   login configurbtion file
+ *   (which is the cbse when b user uses the -D switch bt runtime).
+ *   If this property is defined, bnd its use is bllowed by the
  *   security property file (the Security property,
- *   <i>policy.allowSystemProperty</i> is set to <i>true</i>),
- *   also load that login configuration.
+ *   <i>policy.bllowSystemProperty</i> is set to <i>true</i>),
+ *   blso lobd thbt login configurbtion.
  *
  * <li>
- *   If the <i>java.security.auth.login.config</i> property is defined using
- *   "==" (rather than "="), then ignore all other specified
- *   login configurations and only load this configuration.
+ *   If the <i>jbvb.security.buth.login.config</i> property is defined using
+ *   "==" (rbther thbn "="), then ignore bll other specified
+ *   login configurbtions bnd only lobd this configurbtion.
  *
  * <li>
- *   If no system or security properties were set, try to read from the file,
- *   ${user.home}/.java.login.config, where ${user.home} is the value
+ *   If no system or security properties were set, try to rebd from the file,
+ *   ${user.home}/.jbvb.login.config, where ${user.home} is the vblue
  *   represented by the "user.home" System property.
  * </ol>
  *
- * <p> The configuration syntax supported by this implementation
- * is exactly that syntax specified in the
- * {@code javax.security.auth.login.Configuration} class.
+ * <p> The configurbtion syntbx supported by this implementbtion
+ * is exbctly thbt syntbx specified in the
+ * {@code jbvbx.security.buth.login.Configurbtion} clbss.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @see jbvbx.security.buth.login.LoginContext
+ * @see jbvb.security.Security security properties
  */
-public final class ConfigFile extends Configuration {
+public finbl clbss ConfigFile extends Configurbtion {
 
-    private final Spi spi;
+    privbte finbl Spi spi;
 
     public ConfigFile() {
         spi = new Spi();
     }
 
     @Override
-    public AppConfigurationEntry[] getAppConfigurationEntry(String appName) {
-        return spi.engineGetAppConfigurationEntry(appName);
+    public AppConfigurbtionEntry[] getAppConfigurbtionEntry(String bppNbme) {
+        return spi.engineGetAppConfigurbtionEntry(bppNbme);
     }
 
     @Override
@@ -112,169 +112,169 @@ public final class ConfigFile extends Configuration {
         spi.engineRefresh();
     }
 
-    public final static class Spi extends ConfigurationSpi {
+    public finbl stbtic clbss Spi extends ConfigurbtionSpi {
 
-        private URL url;
-        private boolean expandProp = true;
-        private Map<String, List<AppConfigurationEntry>> configuration;
-        private int linenum;
-        private StreamTokenizer st;
-        private int lookahead;
+        privbte URL url;
+        privbte boolebn expbndProp = true;
+        privbte Mbp<String, List<AppConfigurbtionEntry>> configurbtion;
+        privbte int linenum;
+        privbte StrebmTokenizer st;
+        privbte int lookbhebd;
 
-        private static Debug debugConfig = Debug.getInstance("configfile");
-        private static Debug debugParser = Debug.getInstance("configparser");
+        privbte stbtic Debug debugConfig = Debug.getInstbnce("configfile");
+        privbte stbtic Debug debugPbrser = Debug.getInstbnce("configpbrser");
 
         /**
-         * Creates a new {@code ConfigurationSpi} object.
+         * Crebtes b new {@code ConfigurbtionSpi} object.
          *
-         * @throws SecurityException if the {@code ConfigurationSpi} can not be
-         *                           initialized
+         * @throws SecurityException if the {@code ConfigurbtionSpi} cbn not be
+         *                           initiblized
          */
         public Spi() {
             try {
                 init();
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 throw new SecurityException(ioe);
             }
         }
 
         /**
-         * Creates a new {@code ConfigurationSpi} object from the specified
+         * Crebtes b new {@code ConfigurbtionSpi} object from the specified
          * {@code URI}.
          *
-         * @param uri the {@code URI}
-         * @throws SecurityException if the {@code ConfigurationSpi} can not be
-         *                           initialized
+         * @pbrbm uri the {@code URI}
+         * @throws SecurityException if the {@code ConfigurbtionSpi} cbn not be
+         *                           initiblized
          * @throws NullPointerException if {@code uri} is null
          */
         public Spi(URI uri) {
-            // only load config from the specified URI
+            // only lobd config from the specified URI
             try {
                 url = uri.toURL();
                 init();
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 throw new SecurityException(ioe);
             }
         }
 
-        public Spi(final Configuration.Parameters params) throws IOException {
+        public Spi(finbl Configurbtion.Pbrbmeters pbrbms) throws IOException {
 
-            // call in a doPrivileged
+            // cbll in b doPrivileged
             //
-            // we have already passed the Configuration.getInstance
-            // security check.  also this class is not freely accessible
-            // (it is in the "sun" package).
+            // we hbve blrebdy pbssed the Configurbtion.getInstbnce
+            // security check.  blso this clbss is not freely bccessible
+            // (it is in the "sun" pbckbge).
 
             try {
                 AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                     public Void run() throws IOException {
-                        if (params == null) {
+                        if (pbrbms == null) {
                             init();
                         } else {
-                            if (!(params instanceof URIParameter)) {
-                                throw new IllegalArgumentException
-                                        ("Unrecognized parameter: " + params);
+                            if (!(pbrbms instbnceof URIPbrbmeter)) {
+                                throw new IllegblArgumentException
+                                        ("Unrecognized pbrbmeter: " + pbrbms);
                             }
-                            URIParameter uriParam = (URIParameter)params;
-                            url = uriParam.getURI().toURL();
+                            URIPbrbmeter uriPbrbm = (URIPbrbmeter)pbrbms;
+                            url = uriPbrbm.getURI().toURL();
                             init();
                         }
                         return null;
                     }
                 });
-            } catch (PrivilegedActionException pae) {
-                throw (IOException)pae.getException();
+            } cbtch (PrivilegedActionException pbe) {
+                throw (IOException)pbe.getException();
             }
 
             // if init() throws some other RuntimeException,
-            // let it percolate up naturally.
+            // let it percolbte up nbturblly.
         }
 
         /**
-         * Read and initialize the entire login Configuration from the
+         * Rebd bnd initiblize the entire login Configurbtion from the
          * configured URL.
          *
-         * @throws IOException if the Configuration can not be initialized
-         * @throws SecurityException if the caller does not have permission
-         *                           to initialize the Configuration
+         * @throws IOException if the Configurbtion cbn not be initiblized
+         * @throws SecurityException if the cbller does not hbve permission
+         *                           to initiblize the Configurbtion
          */
-        private void init() throws IOException {
+        privbte void init() throws IOException {
 
-            boolean initialized = false;
+            boolebn initiblized = fblse;
 
-            // For policy.expandProperties, check if either a security or system
-            // property is set to false (old code erroneously checked the system
-            // prop so we must check both to preserve compatibility).
-            String expand = Security.getProperty("policy.expandProperties");
-            if (expand == null) {
-                expand = System.getProperty("policy.expandProperties");
+            // For policy.expbndProperties, check if either b security or system
+            // property is set to fblse (old code erroneously checked the system
+            // prop so we must check both to preserve compbtibility).
+            String expbnd = Security.getProperty("policy.expbndProperties");
+            if (expbnd == null) {
+                expbnd = System.getProperty("policy.expbndProperties");
             }
-            if ("false".equals(expand)) {
-                expandProp = false;
+            if ("fblse".equbls(expbnd)) {
+                expbndProp = fblse;
             }
 
-            // new configuration
-            Map<String, List<AppConfigurationEntry>> newConfig = new HashMap<>();
+            // new configurbtion
+            Mbp<String, List<AppConfigurbtionEntry>> newConfig = new HbshMbp<>();
 
             if (url != null) {
                 /**
-                 * If the caller specified a URI via Configuration.getInstance,
-                 * we only read from that URI
+                 * If the cbller specified b URI vib Configurbtion.getInstbnce,
+                 * we only rebd from thbt URI
                  */
                 if (debugConfig != null) {
-                    debugConfig.println("reading " + url);
+                    debugConfig.println("rebding " + url);
                 }
                 init(url, newConfig);
-                configuration = newConfig;
+                configurbtion = newConfig;
                 return;
             }
 
             /**
-             * Caller did not specify URI via Configuration.getInstance.
-             * Read from URLs listed in the java.security properties file.
+             * Cbller did not specify URI vib Configurbtion.getInstbnce.
+             * Rebd from URLs listed in the jbvb.security properties file.
              */
-            String allowSys = Security.getProperty("policy.allowSystemProperty");
+            String bllowSys = Security.getProperty("policy.bllowSystemProperty");
 
-            if ("true".equalsIgnoreCase(allowSys)) {
-                String extra_config = System.getProperty
-                                      ("java.security.auth.login.config");
-                if (extra_config != null) {
-                    boolean overrideAll = false;
-                    if (extra_config.startsWith("=")) {
+            if ("true".equblsIgnoreCbse(bllowSys)) {
+                String extrb_config = System.getProperty
+                                      ("jbvb.security.buth.login.config");
+                if (extrb_config != null) {
+                    boolebn overrideAll = fblse;
+                    if (extrb_config.stbrtsWith("=")) {
                         overrideAll = true;
-                        extra_config = extra_config.substring(1);
+                        extrb_config = extrb_config.substring(1);
                     }
                     try {
-                        extra_config = PropertyExpander.expand(extra_config);
-                    } catch (PropertyExpander.ExpandException peee) {
-                        throw ioException("Unable.to.properly.expand.config",
-                                          extra_config);
+                        extrb_config = PropertyExpbnder.expbnd(extrb_config);
+                    } cbtch (PropertyExpbnder.ExpbndException peee) {
+                        throw ioException("Unbble.to.properly.expbnd.config",
+                                          extrb_config);
                     }
 
                     URL configURL = null;
                     try {
-                        configURL = new URL(extra_config);
-                    } catch (MalformedURLException mue) {
-                        File configFile = new File(extra_config);
+                        configURL = new URL(extrb_config);
+                    } cbtch (MblformedURLException mue) {
+                        File configFile = new File(extrb_config);
                         if (configFile.exists()) {
                             configURL = configFile.toURI().toURL();
                         } else {
                             throw ioException(
-                                "extra.config.No.such.file.or.directory.",
-                                extra_config);
+                                "extrb.config.No.such.file.or.directory.",
+                                extrb_config);
                         }
                     }
 
                     if (debugConfig != null) {
-                        debugConfig.println("reading "+configURL);
+                        debugConfig.println("rebding "+configURL);
                     }
                     init(configURL, newConfig);
-                    initialized = true;
+                    initiblized = true;
                     if (overrideAll) {
                         if (debugConfig != null) {
                             debugConfig.println("overriding other policies!");
                         }
-                        configuration = newConfig;
+                        configurbtion = newConfig;
                         return;
                     }
                 }
@@ -285,115 +285,115 @@ public final class ConfigFile extends Configuration {
             while ((config_url = Security.getProperty
                                      ("login.config.url."+n)) != null) {
                 try {
-                    config_url = PropertyExpander.expand
-                        (config_url).replace(File.separatorChar, '/');
+                    config_url = PropertyExpbnder.expbnd
+                        (config_url).replbce(File.sepbrbtorChbr, '/');
                     if (debugConfig != null) {
-                        debugConfig.println("\tReading config: " + config_url);
+                        debugConfig.println("\tRebding config: " + config_url);
                     }
                     init(new URL(config_url), newConfig);
-                    initialized = true;
-                } catch (PropertyExpander.ExpandException peee) {
-                    throw ioException("Unable.to.properly.expand.config",
+                    initiblized = true;
+                } cbtch (PropertyExpbnder.ExpbndException peee) {
+                    throw ioException("Unbble.to.properly.expbnd.config",
                                       config_url);
                 }
                 n++;
             }
 
-            if (initialized == false && n == 1 && config_url == null) {
+            if (initiblized == fblse && n == 1 && config_url == null) {
 
                 // get the config from the user's home directory
                 if (debugConfig != null) {
-                    debugConfig.println("\tReading Policy " +
-                                "from ~/.java.login.config");
+                    debugConfig.println("\tRebding Policy " +
+                                "from ~/.jbvb.login.config");
                 }
                 config_url = System.getProperty("user.home");
-                String userConfigFile = config_url + File.separatorChar +
-                                        ".java.login.config";
+                String userConfigFile = config_url + File.sepbrbtorChbr +
+                                        ".jbvb.login.config";
 
-                // No longer throws an exception when there's no config file
-                // at all. Returns an empty Configuration instead.
+                // No longer throws bn exception when there's no config file
+                // bt bll. Returns bn empty Configurbtion instebd.
                 if (new File(userConfigFile).exists()) {
                     init(new File(userConfigFile).toURI().toURL(), newConfig);
                 }
             }
 
-            configuration = newConfig;
+            configurbtion = newConfig;
         }
 
-        private void init(URL config,
-                          Map<String, List<AppConfigurationEntry>> newConfig)
+        privbte void init(URL config,
+                          Mbp<String, List<AppConfigurbtionEntry>> newConfig)
                           throws IOException {
 
-            try (InputStreamReader isr
-                    = new InputStreamReader(getInputStream(config), "UTF-8")) {
-                readConfig(isr, newConfig);
-            } catch (FileNotFoundException fnfe) {
+            try (InputStrebmRebder isr
+                    = new InputStrebmRebder(getInputStrebm(config), "UTF-8")) {
+                rebdConfig(isr, newConfig);
+            } cbtch (FileNotFoundException fnfe) {
                 if (debugConfig != null) {
                     debugConfig.println(fnfe.toString());
                 }
                 throw new IOException(ResourcesMgr.getString
-                    ("Configuration.Error.No.such.file.or.directory",
+                    ("Configurbtion.Error.No.such.file.or.directory",
                     "sun.security.util.AuthResources"));
             }
         }
 
         /**
-         * Retrieve an entry from the Configuration using an application name
-         * as an index.
+         * Retrieve bn entry from the Configurbtion using bn bpplicbtion nbme
+         * bs bn index.
          *
-         * @param applicationName the name used to index the Configuration.
-         * @return an array of AppConfigurationEntries which correspond to
-         *         the stacked configuration of LoginModules for this
-         *         application, or null if this application has no configured
+         * @pbrbm bpplicbtionNbme the nbme used to index the Configurbtion.
+         * @return bn brrby of AppConfigurbtionEntries which correspond to
+         *         the stbcked configurbtion of LoginModules for this
+         *         bpplicbtion, or null if this bpplicbtion hbs no configured
          *         LoginModules.
          */
         @Override
-        public AppConfigurationEntry[] engineGetAppConfigurationEntry
-            (String applicationName) {
+        public AppConfigurbtionEntry[] engineGetAppConfigurbtionEntry
+            (String bpplicbtionNbme) {
 
-            List<AppConfigurationEntry> list = null;
-            synchronized (configuration) {
-                list = configuration.get(applicationName);
+            List<AppConfigurbtionEntry> list = null;
+            synchronized (configurbtion) {
+                list = configurbtion.get(bpplicbtionNbme);
             }
 
             if (list == null || list.size() == 0) {
                 return null;
             }
 
-            AppConfigurationEntry[] entries =
-                                    new AppConfigurationEntry[list.size()];
-            Iterator<AppConfigurationEntry> iterator = list.iterator();
-            for (int i = 0; iterator.hasNext(); i++) {
-                AppConfigurationEntry e = iterator.next();
-                entries[i] = new AppConfigurationEntry(e.getLoginModuleName(),
-                                                       e.getControlFlag(),
+            AppConfigurbtionEntry[] entries =
+                                    new AppConfigurbtionEntry[list.size()];
+            Iterbtor<AppConfigurbtionEntry> iterbtor = list.iterbtor();
+            for (int i = 0; iterbtor.hbsNext(); i++) {
+                AppConfigurbtionEntry e = iterbtor.next();
+                entries[i] = new AppConfigurbtionEntry(e.getLoginModuleNbme(),
+                                                       e.getControlFlbg(),
                                                        e.getOptions());
             }
             return entries;
         }
 
         /**
-         * Refresh and reload the Configuration by re-reading all of the
-         * login configurations.
+         * Refresh bnd relobd the Configurbtion by re-rebding bll of the
+         * login configurbtions.
          *
-         * @throws SecurityException if the caller does not have permission
-         *                           to refresh the Configuration.
+         * @throws SecurityException if the cbller does not hbve permission
+         *                           to refresh the Configurbtion.
          */
         @Override
         public synchronized void engineRefresh() {
 
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkPermission(
-                    new AuthPermission("refreshLoginConfiguration"));
+                    new AuthPermission("refreshLoginConfigurbtion"));
             }
 
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
                     try {
                         init();
-                    } catch (IOException ioe) {
-                        throw new SecurityException(ioe.getLocalizedMessage(),
+                    } cbtch (IOException ioe) {
+                        throw new SecurityException(ioe.getLocblizedMessbge(),
                                                     ioe);
                     }
                     return null;
@@ -401,269 +401,269 @@ public final class ConfigFile extends Configuration {
             });
         }
 
-        private void readConfig(Reader reader,
-            Map<String, List<AppConfigurationEntry>> newConfig)
+        privbte void rebdConfig(Rebder rebder,
+            Mbp<String, List<AppConfigurbtionEntry>> newConfig)
             throws IOException {
 
             linenum = 1;
 
-            if (!(reader instanceof BufferedReader)) {
-                reader = new BufferedReader(reader);
+            if (!(rebder instbnceof BufferedRebder)) {
+                rebder = new BufferedRebder(rebder);
             }
 
-            st = new StreamTokenizer(reader);
-            st.quoteChar('"');
-            st.wordChars('$', '$');
-            st.wordChars('_', '_');
-            st.wordChars('-', '-');
-            st.wordChars('*', '*');
-            st.lowerCaseMode(false);
-            st.slashSlashComments(true);
-            st.slashStarComments(true);
-            st.eolIsSignificant(true);
+            st = new StrebmTokenizer(rebder);
+            st.quoteChbr('"');
+            st.wordChbrs('$', '$');
+            st.wordChbrs('_', '_');
+            st.wordChbrs('-', '-');
+            st.wordChbrs('*', '*');
+            st.lowerCbseMode(fblse);
+            st.slbshSlbshComments(true);
+            st.slbshStbrComments(true);
+            st.eolIsSignificbnt(true);
 
-            lookahead = nextToken();
-            while (lookahead != StreamTokenizer.TT_EOF) {
-                parseLoginEntry(newConfig);
+            lookbhebd = nextToken();
+            while (lookbhebd != StrebmTokenizer.TT_EOF) {
+                pbrseLoginEntry(newConfig);
             }
         }
 
-        private void parseLoginEntry(
-            Map<String, List<AppConfigurationEntry>> newConfig)
+        privbte void pbrseLoginEntry(
+            Mbp<String, List<AppConfigurbtionEntry>> newConfig)
             throws IOException {
 
-            List<AppConfigurationEntry> configEntries = new LinkedList<>();
+            List<AppConfigurbtionEntry> configEntries = new LinkedList<>();
 
-            // application name
-            String appName = st.sval;
-            lookahead = nextToken();
+            // bpplicbtion nbme
+            String bppNbme = st.svbl;
+            lookbhebd = nextToken();
 
-            if (debugParser != null) {
-                debugParser.println("\tReading next config entry: " + appName);
+            if (debugPbrser != null) {
+                debugPbrser.println("\tRebding next config entry: " + bppNbme);
             }
 
-            match("{");
+            mbtch("{");
 
             // get the modules
-            while (peek("}") == false) {
-                // get the module class name
-                String moduleClass = match("module class name");
+            while (peek("}") == fblse) {
+                // get the module clbss nbme
+                String moduleClbss = mbtch("module clbss nbme");
 
-                // controlFlag (required, optional, etc)
-                LoginModuleControlFlag controlFlag;
-                String sflag = match("controlFlag").toUpperCase(Locale.ENGLISH);
-                switch (sflag) {
-                    case "REQUIRED":
-                        controlFlag = LoginModuleControlFlag.REQUIRED;
-                        break;
-                    case "REQUISITE":
-                        controlFlag = LoginModuleControlFlag.REQUISITE;
-                        break;
-                    case "SUFFICIENT":
-                        controlFlag = LoginModuleControlFlag.SUFFICIENT;
-                        break;
-                    case "OPTIONAL":
-                        controlFlag = LoginModuleControlFlag.OPTIONAL;
-                        break;
-                    default:
+                // controlFlbg (required, optionbl, etc)
+                LoginModuleControlFlbg controlFlbg;
+                String sflbg = mbtch("controlFlbg").toUpperCbse(Locble.ENGLISH);
+                switch (sflbg) {
+                    cbse "REQUIRED":
+                        controlFlbg = LoginModuleControlFlbg.REQUIRED;
+                        brebk;
+                    cbse "REQUISITE":
+                        controlFlbg = LoginModuleControlFlbg.REQUISITE;
+                        brebk;
+                    cbse "SUFFICIENT":
+                        controlFlbg = LoginModuleControlFlbg.SUFFICIENT;
+                        brebk;
+                    cbse "OPTIONAL":
+                        controlFlbg = LoginModuleControlFlbg.OPTIONAL;
+                        brebk;
+                    defbult:
                         throw ioException(
-                            "Configuration.Error.Invalid.control.flag.flag",
-                            sflag);
+                            "Configurbtion.Error.Invblid.control.flbg.flbg",
+                            sflbg);
                 }
 
-                // get the args
-                Map<String, String> options = new HashMap<>();
-                while (peek(";") == false) {
-                    String key = match("option key");
-                    match("=");
+                // get the brgs
+                Mbp<String, String> options = new HbshMbp<>();
+                while (peek(";") == fblse) {
+                    String key = mbtch("option key");
+                    mbtch("=");
                     try {
-                        options.put(key, expand(match("option value")));
-                    } catch (PropertyExpander.ExpandException peee) {
-                        throw new IOException(peee.getLocalizedMessage());
+                        options.put(key, expbnd(mbtch("option vblue")));
+                    } cbtch (PropertyExpbnder.ExpbndException peee) {
+                        throw new IOException(peee.getLocblizedMessbge());
                     }
                 }
 
-                lookahead = nextToken();
+                lookbhebd = nextToken();
 
-                // create the new element
-                if (debugParser != null) {
-                    debugParser.println("\t\t" + moduleClass + ", " + sflag);
+                // crebte the new element
+                if (debugPbrser != null) {
+                    debugPbrser.println("\t\t" + moduleClbss + ", " + sflbg);
                     for (String key : options.keySet()) {
-                        debugParser.println("\t\t\t" + key +
+                        debugPbrser.println("\t\t\t" + key +
                                             "=" + options.get(key));
                     }
                 }
-                configEntries.add(new AppConfigurationEntry(moduleClass,
-                                                            controlFlag,
+                configEntries.bdd(new AppConfigurbtionEntry(moduleClbss,
+                                                            controlFlbg,
                                                             options));
             }
 
-            match("}");
-            match(";");
+            mbtch("}");
+            mbtch(";");
 
-            // add this configuration entry
-            if (newConfig.containsKey(appName)) {
+            // bdd this configurbtion entry
+            if (newConfig.contbinsKey(bppNbme)) {
                 throw ioException(
-                    "Configuration.Error.Can.not.specify.multiple.entries.for.appName",
-                    appName);
+                    "Configurbtion.Error.Cbn.not.specify.multiple.entries.for.bppNbme",
+                    bppNbme);
             }
-            newConfig.put(appName, configEntries);
+            newConfig.put(bppNbme, configEntries);
         }
 
-        private String match(String expect) throws IOException {
+        privbte String mbtch(String expect) throws IOException {
 
-            String value = null;
+            String vblue = null;
 
-            switch(lookahead) {
-            case StreamTokenizer.TT_EOF:
+            switch(lookbhebd) {
+            cbse StrebmTokenizer.TT_EOF:
                 throw ioException(
-                    "Configuration.Error.expected.expect.read.end.of.file.",
+                    "Configurbtion.Error.expected.expect.rebd.end.of.file.",
                     expect);
 
-            case '"':
-            case StreamTokenizer.TT_WORD:
-                if (expect.equalsIgnoreCase("module class name") ||
-                    expect.equalsIgnoreCase("controlFlag") ||
-                    expect.equalsIgnoreCase("option key") ||
-                    expect.equalsIgnoreCase("option value")) {
-                    value = st.sval;
-                    lookahead = nextToken();
+            cbse '"':
+            cbse StrebmTokenizer.TT_WORD:
+                if (expect.equblsIgnoreCbse("module clbss nbme") ||
+                    expect.equblsIgnoreCbse("controlFlbg") ||
+                    expect.equblsIgnoreCbse("option key") ||
+                    expect.equblsIgnoreCbse("option vblue")) {
+                    vblue = st.svbl;
+                    lookbhebd = nextToken();
                 } else {
                     throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.found.value.",
-                        linenum, expect, st.sval);
+                        "Configurbtion.Error.Line.line.expected.expect.found.vblue.",
+                        linenum, expect, st.svbl);
                 }
-                break;
+                brebk;
 
-            case '{':
-                if (expect.equalsIgnoreCase("{")) {
-                    lookahead = nextToken();
+            cbse '{':
+                if (expect.equblsIgnoreCbse("{")) {
+                    lookbhebd = nextToken();
                 } else {
                     throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+                        "Configurbtion.Error.Line.line.expected.expect.",
+                        linenum, expect, st.svbl);
                 }
-                break;
+                brebk;
 
-            case ';':
-                if (expect.equalsIgnoreCase(";")) {
-                    lookahead = nextToken();
+            cbse ';':
+                if (expect.equblsIgnoreCbse(";")) {
+                    lookbhebd = nextToken();
                 } else {
                     throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+                        "Configurbtion.Error.Line.line.expected.expect.",
+                        linenum, expect, st.svbl);
                 }
-                break;
+                brebk;
 
-            case '}':
-                if (expect.equalsIgnoreCase("}")) {
-                    lookahead = nextToken();
+            cbse '}':
+                if (expect.equblsIgnoreCbse("}")) {
+                    lookbhebd = nextToken();
                 } else {
                     throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+                        "Configurbtion.Error.Line.line.expected.expect.",
+                        linenum, expect, st.svbl);
                 }
-                break;
+                brebk;
 
-            case '=':
-                if (expect.equalsIgnoreCase("=")) {
-                    lookahead = nextToken();
+            cbse '=':
+                if (expect.equblsIgnoreCbse("=")) {
+                    lookbhebd = nextToken();
                 } else {
                     throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+                        "Configurbtion.Error.Line.line.expected.expect.",
+                        linenum, expect, st.svbl);
                 }
-                break;
+                brebk;
 
-            default:
+            defbult:
                 throw ioException(
-                    "Configuration.Error.Line.line.expected.expect.found.value.",
-                    linenum, expect, st.sval);
+                    "Configurbtion.Error.Line.line.expected.expect.found.vblue.",
+                    linenum, expect, st.svbl);
             }
-            return value;
+            return vblue;
         }
 
-        private boolean peek(String expect) {
-            switch (lookahead) {
-                case ',':
-                    return expect.equalsIgnoreCase(",");
-                case ';':
-                    return expect.equalsIgnoreCase(";");
-                case '{':
-                    return expect.equalsIgnoreCase("{");
-                case '}':
-                    return expect.equalsIgnoreCase("}");
-                default:
-                    return false;
+        privbte boolebn peek(String expect) {
+            switch (lookbhebd) {
+                cbse ',':
+                    return expect.equblsIgnoreCbse(",");
+                cbse ';':
+                    return expect.equblsIgnoreCbse(";");
+                cbse '{':
+                    return expect.equblsIgnoreCbse("{");
+                cbse '}':
+                    return expect.equblsIgnoreCbse("}");
+                defbult:
+                    return fblse;
             }
         }
 
-        private int nextToken() throws IOException {
+        privbte int nextToken() throws IOException {
             int tok;
-            while ((tok = st.nextToken()) == StreamTokenizer.TT_EOL) {
+            while ((tok = st.nextToken()) == StrebmTokenizer.TT_EOL) {
                 linenum++;
             }
             return tok;
         }
 
-        private InputStream getInputStream(URL url) throws IOException {
-            if ("file".equalsIgnoreCase(url.getProtocol())) {
-                // Compatibility notes:
+        privbte InputStrebm getInputStrebm(URL url) throws IOException {
+            if ("file".equblsIgnoreCbse(url.getProtocol())) {
+                // Compbtibility notes:
                 //
-                // Code changed from
-                //   String path = url.getFile().replace('/', File.separatorChar);
-                //   return new FileInputStream(path);
+                // Code chbnged from
+                //   String pbth = url.getFile().replbce('/', File.sepbrbtorChbr);
+                //   return new FileInputStrebm(pbth);
                 //
-                // The original implementation would search for "/tmp/a%20b"
-                // when url is "file:///tmp/a%20b". This is incorrect. The
-                // current codes fix this bug and searches for "/tmp/a b".
-                // For compatibility reasons, when the file "/tmp/a b" does
-                // not exist, the file named "/tmp/a%20b" will be tried.
+                // The originbl implementbtion would sebrch for "/tmp/b%20b"
+                // when url is "file:///tmp/b%20b". This is incorrect. The
+                // current codes fix this bug bnd sebrches for "/tmp/b b".
+                // For compbtibility rebsons, when the file "/tmp/b b" does
+                // not exist, the file nbmed "/tmp/b%20b" will be tried.
                 //
-                // This also means that if both file exists, the behavior of
-                // this method is changed, and the current codes choose the
+                // This blso mebns thbt if both file exists, the behbvior of
+                // this method is chbnged, bnd the current codes choose the
                 // correct one.
                 try {
-                    return url.openStream();
-                } catch (Exception e) {
-                    String file = url.getPath();
+                    return url.openStrebm();
+                } cbtch (Exception e) {
+                    String file = url.getPbth();
                     if (url.getHost().length() > 0) {  // For Windows UNC
                         file = "//" + url.getHost() + file;
                     }
                     if (debugConfig != null) {
-                        debugConfig.println("cannot read " + url +
+                        debugConfig.println("cbnnot rebd " + url +
                                             ", try " + file);
                     }
-                    return new FileInputStream(file);
+                    return new FileInputStrebm(file);
                 }
             } else {
-                return url.openStream();
+                return url.openStrebm();
             }
         }
 
-        private String expand(String value)
-            throws PropertyExpander.ExpandException, IOException {
+        privbte String expbnd(String vblue)
+            throws PropertyExpbnder.ExpbndException, IOException {
 
-            if (value.isEmpty()) {
-                return value;
+            if (vblue.isEmpty()) {
+                return vblue;
             }
 
-            if (!expandProp) {
-                return value;
+            if (!expbndProp) {
+                return vblue;
             }
-            String s = PropertyExpander.expand(value);
+            String s = PropertyExpbnder.expbnd(vblue);
             if (s == null || s.length() == 0) {
                 throw ioException(
-                    "Configuration.Error.Line.line.system.property.value.expanded.to.empty.value",
-                    linenum, value);
+                    "Configurbtion.Error.Line.line.system.property.vblue.expbnded.to.empty.vblue",
+                    linenum, vblue);
             }
             return s;
         }
 
-        private IOException ioException(String resourceKey, Object... args) {
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
+        privbte IOException ioException(String resourceKey, Object... brgs) {
+            MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
                 (resourceKey, "sun.security.util.AuthResources"));
-            return new IOException(form.format(args));
+            return new IOException(form.formbt(brgs));
         }
     }
 }

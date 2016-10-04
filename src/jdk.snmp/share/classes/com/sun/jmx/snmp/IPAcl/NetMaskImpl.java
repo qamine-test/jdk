@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_LOGGER;
 
-import java.util.logging.Level;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
-import java.net.UnknownHostException;
-import java.net.InetAddress;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.io.Seriblizbble;
+import jbvb.net.UnknownHostException;
+import jbvb.net.InetAddress;
 
-import java.security.Principal;
-import java.security.acl.Group;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.Group;
 
 
 /**
- * This class is used to represent a subnet mask (a group of hosts matching the same
- * IP mask).
+ * This clbss is used to represent b subnet mbsk (b group of hosts mbtching the sbme
+ * IP mbsk).
  *
- * @see java.security.acl.Group
+ * @see jbvb.security.bcl.Group
  */
 
-class NetMaskImpl extends PrincipalImpl implements Group, Serializable {
-    private static final long serialVersionUID = -7332541893877932896L;
+clbss NetMbskImpl extends PrincipblImpl implements Group, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -7332541893877932896L;
 
     protected byte[] subnet = null;
     protected int prefix = -1;
     /**
-     * Constructs an empty group.
+     * Constructs bn empty group.
      * @exception UnknownHostException Not implemented
      */
-    public NetMaskImpl () throws UnknownHostException {
+    public NetMbskImpl () throws UnknownHostException {
     }
 
-    private byte[] extractSubNet(byte[] b) {
-        int addrLength = b.length;
+    privbte byte[] extrbctSubNet(byte[] b) {
+        int bddrLength = b.length;
         byte[] subnet = null;
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(),
-                "extractSubNet", "BINARY ARRAY :");
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(),
+                "extrbctSubNet", "BINARY ARRAY :");
             StringBuilder sb = new StringBuilder();
-            for(int i =0; i < addrLength; i++) {
-                sb.append((b[i] & 0xFF) + ":");
+            for(int i =0; i < bddrLength; i++) {
+                sb.bppend((b[i] & 0xFF) + ":");
             }
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(),
-                "extractSubNet", sb.toString());
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(),
+                "extrbctSubNet", sb.toString());
         }
 
-        // 8 is a byte size. Common to any InetAddress (V4 or V6).
+        // 8 is b byte size. Common to bny InetAddress (V4 or V6).
         int fullyCoveredByte = prefix / 8;
-        if(fullyCoveredByte == addrLength) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-                   "The mask is the complete address, strange..." + addrLength);
+        if(fullyCoveredByte == bddrLength) {
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+                   "The mbsk is the complete bddress, strbnge..." + bddrLength);
             }
             subnet = b;
             return subnet;
         }
-        if(fullyCoveredByte > addrLength) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-                   "The number of covered byte is longer than the address. BUG");
+        if(fullyCoveredByte > bddrLength) {
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+                   "The number of covered byte is longer thbn the bddress. BUG");
             }
-            throw new IllegalArgumentException("The number of covered byte is longer than the address.");
+            throw new IllegblArgumentException("The number of covered byte is longer thbn the bddress.");
         }
-        int partialyCoveredIndex = fullyCoveredByte;
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-               "Partially covered index : " + partialyCoveredIndex);
+        int pbrtiblyCoveredIndex = fullyCoveredByte;
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+               "Pbrtiblly covered index : " + pbrtiblyCoveredIndex);
         }
-        byte toDeal = b[partialyCoveredIndex];
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-               "Partially covered byte : " + toDeal);
+        byte toDebl = b[pbrtiblyCoveredIndex];
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+               "Pbrtiblly covered byte : " + toDebl);
         }
 
-        // 8 is a byte size. Common to any InetAddress (V4 or V6).
+        // 8 is b byte size. Common to bny InetAddress (V4 or V6).
         int nbbits = prefix % 8;
         int subnetSize = 0;
 
         if(nbbits == 0)
-        subnetSize = partialyCoveredIndex;
+        subnetSize = pbrtiblyCoveredIndex;
         else
-        subnetSize = partialyCoveredIndex + 1;
+        subnetSize = pbrtiblyCoveredIndex + 1;
 
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-               "Remains : " + nbbits);
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+               "Rembins : " + nbbits);
         }
 
-        byte mask = 0;
+        byte mbsk = 0;
         for(int i = 0; i < nbbits; i++) {
-            mask |= (1 << (7 - i));
+            mbsk |= (1 << (7 - i));
         }
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-               "Mask value : " + (mask & 0xFF));
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+               "Mbsk vblue : " + (mbsk & 0xFF));
         }
 
-        byte maskedValue = (byte) ((int)toDeal & (int)mask);
+        byte mbskedVblue = (byte) ((int)toDebl & (int)mbsk);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-               "Masked byte : "  + (maskedValue &0xFF));
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+               "Mbsked byte : "  + (mbskedVblue &0xFF));
         }
         subnet = new byte[subnetSize];
-        if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
+        if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
                "Resulting subnet : ");
         }
-        for(int i = 0; i < partialyCoveredIndex; i++) {
+        for(int i = 0; i < pbrtiblyCoveredIndex; i++) {
             subnet[i] = b[i];
 
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
                    (subnet[i] & 0xFF) +":");
             }
         }
 
         if(nbbits != 0) {
-            subnet[partialyCoveredIndex] = maskedValue;
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "extractSubNet",
-                    "Last subnet byte : " + (subnet[partialyCoveredIndex] &0xFF));
+            subnet[pbrtiblyCoveredIndex] = mbskedVblue;
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "extrbctSubNet",
+                    "Lbst subnet byte : " + (subnet[pbrtiblyCoveredIndex] &0xFF));
             }
         }
         return subnet;
     }
 
   /**
-   * Constructs a group using the specified subnet mask.
-   * THIS ALGORITHM IS V4 and V6 compatible.
+   * Constructs b group using the specified subnet mbsk.
+   * THIS ALGORITHM IS V4 bnd V6 compbtible.
    *
-   * @exception UnknownHostException if the subnet mask cann't be built.
+   * @exception UnknownHostException if the subnet mbsk cbnn't be built.
    */
-  public NetMaskImpl (String a, int prefix) throws UnknownHostException {
-        super(a);
+  public NetMbskImpl (String b, int prefix) throws UnknownHostException {
+        super(b);
         this.prefix = prefix;
-        subnet = extractSubNet(getAddress().getAddress());
+        subnet = extrbctSubNet(getAddress().getAddress());
   }
 
   /**
    * Adds the specified member to the group.
    *
-   * @param p the principal to add to this group.
-   * @return true if the member was successfully added, false if the
-   *      principal was already a member.
+   * @pbrbm p the principbl to bdd to this group.
+   * @return true if the member wbs successfully bdded, fblse if the
+   *      principbl wbs blrebdy b member.
    */
-  public boolean addMember(Principal p) {
-        // we don't need to add members because the ip address is a subnet mask
+  public boolebn bddMember(Principbl p) {
+        // we don't need to bdd members becbuse the ip bddress is b subnet mbsk
         return true;
   }
 
-  public int hashCode() {
-        return super.hashCode();
+  public int hbshCode() {
+        return super.hbshCode();
   }
 
   /**
-   * Compares this group to the specified object. Returns true if the object
-   * passed in matches the group represented.
+   * Compbres this group to the specified object. Returns true if the object
+   * pbssed in mbtches the group represented.
    *
-   * @param p the object to compare with.
-   * @return true if the object passed in matches the subnet mask,
-   *    false otherwise.
+   * @pbrbm p the object to compbre with.
+   * @return true if the object pbssed in mbtches the subnet mbsk,
+   *    fblse otherwise.
    */
-    public boolean equals (Object p) {
-        if (p instanceof PrincipalImpl || p instanceof NetMaskImpl){
-            PrincipalImpl received = (PrincipalImpl) p;
-            InetAddress addr = received.getAddress();
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "equals",
-                    "Received Address : " + addr);
+    public boolebn equbls (Object p) {
+        if (p instbnceof PrincipblImpl || p instbnceof NetMbskImpl){
+            PrincipblImpl received = (PrincipblImpl) p;
+            InetAddress bddr = received.getAddress();
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "equbls",
+                    "Received Address : " + bddr);
             }
-            byte[] recAddr = addr.getAddress();
+            byte[] recAddr = bddr.getAddress();
             for(int i = 0; i < subnet.length; i++) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "equals",
+                if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "equbls",
                         "(recAddr[i]) : " + (recAddr[i] & 0xFF));
-                    SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "equals",
+                    SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "equbls",
                         "(recAddr[i] & subnet[i]) : " +
                          ((recAddr[i] & (int)subnet[i]) &0xFF) +
                          " subnet[i] : " + (subnet[i] &0xFF));
                 }
                 if((recAddr[i] & subnet[i]) != subnet[i]) {
-                    if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "equals",
+                    if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                        SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "equbls",
                             "FALSE");
                     }
-                    return false;
+                    return fblse;
                 }
             }
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, NetMaskImpl.class.getName(), "equals",
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, NetMbskImpl.clbss.getNbme(), "equbls",
                     "TRUE");
             }
             return true;
         } else
-            return false;
+            return fblse;
     }
   /**
-   * Returns true if the passed principal is a member of the group.
+   * Returns true if the pbssed principbl is b member of the group.
    *
-   * @param p the principal whose membership is to be checked.
-   * @return true if the principal is a member of this group, false otherwise.
+   * @pbrbm p the principbl whose membership is to be checked.
+   * @return true if the principbl is b member of this group, fblse otherwise.
    */
-  public boolean isMember(Principal p) {
-        if ((p.hashCode() & super.hashCode()) == p.hashCode()) return true;
-        else return false;
+  public boolebn isMember(Principbl p) {
+        if ((p.hbshCode() & super.hbshCode()) == p.hbshCode()) return true;
+        else return fblse;
   }
 
   /**
-   * Returns an enumeration which contains the subnet mask.
+   * Returns bn enumerbtion which contbins the subnet mbsk.
    *
-   * @return an enumeration which contains the subnet mask.
+   * @return bn enumerbtion which contbins the subnet mbsk.
    */
-  public Enumeration<? extends Principal> members(){
-        Vector<Principal> v = new Vector<Principal>(1);
-        v.addElement(this);
+  public Enumerbtion<? extends Principbl> members(){
+        Vector<Principbl> v = new Vector<Principbl>(1);
+        v.bddElement(this);
         return v.elements();
   }
 
   /**
    * Removes the specified member from the group. (Not implemented)
    *
-   * @param p the principal to remove from this group.
-   * @return allways return true.
+   * @pbrbm p the principbl to remove from this group.
+   * @return bllwbys return true.
    */
-  public boolean removeMember(Principal p) {
+  public boolebn removeMember(Principbl p) {
         return true;
   }
 
   /**
-   * Prints a string representation of this group.
+   * Prints b string representbtion of this group.
    *
-   * @return  a string representation of this group.
+   * @return  b string representbtion of this group.
    */
   public String toString() {
-        return ("NetMaskImpl :"+ super.getAddress().toString() + "/" + prefix);
+        return ("NetMbskImpl :"+ super.getAddress().toString() + "/" + prefix);
   }
 
 }

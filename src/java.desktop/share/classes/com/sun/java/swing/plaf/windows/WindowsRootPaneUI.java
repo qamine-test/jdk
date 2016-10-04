@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Event;
-import java.awt.KeyEventPostProcessor;
-import java.awt.Window;
-import java.awt.Toolkit;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Event;
+import jbvb.bwt.KeyEventPostProcessor;
+import jbvb.bwt.Window;
+import jbvb.bwt.Toolkit;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.KeyStroke;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.AbstractButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
+import jbvbx.swing.AbstrbctAction;
+import jbvbx.swing.ActionMbp;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.KeyStroke;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JRootPbne;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.AbstrbctButton;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JMenu;
+import jbvbx.swing.JMenuBbr;
+import jbvbx.swing.MenuElement;
+import jbvbx.swing.MenuSelectionMbnbger;
 
-import javax.swing.plaf.ActionMapUIResource;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.InputMapUIResource;
+import jbvbx.swing.plbf.ActionMbpUIResource;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.InputMbpUIResource;
 
-import javax.swing.plaf.basic.BasicRootPaneUI;
-import javax.swing.plaf.basic.ComboPopup;
+import jbvbx.swing.plbf.bbsic.BbsicRootPbneUI;
+import jbvbx.swing.plbf.bbsic.ComboPopup;
 
 /**
- * Windows implementation of RootPaneUI, there is one shared between all
- * JRootPane instances.
+ * Windows implementbtion of RootPbneUI, there is one shbred between bll
+ * JRootPbne instbnces.
  *
- * @author Mark Davidson
+ * @buthor Mbrk Dbvidson
  * @since 1.4
  */
-public class WindowsRootPaneUI extends BasicRootPaneUI {
+public clbss WindowsRootPbneUI extends BbsicRootPbneUI {
 
-    private final static WindowsRootPaneUI windowsRootPaneUI = new WindowsRootPaneUI();
-    static final AltProcessor altProcessor = new AltProcessor();
+    privbte finbl stbtic WindowsRootPbneUI windowsRootPbneUI = new WindowsRootPbneUI();
+    stbtic finbl AltProcessor bltProcessor = new AltProcessor();
 
-    public static ComponentUI createUI(JComponent c) {
-        return windowsRootPaneUI;
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return windowsRootPbneUI;
     }
 
-    static class AltProcessor implements KeyEventPostProcessor {
-        static boolean altKeyPressed = false;
-        static boolean menuCanceledOnPress = false;
-        static JRootPane root = null;
-        static Window winAncestor = null;
+    stbtic clbss AltProcessor implements KeyEventPostProcessor {
+        stbtic boolebn bltKeyPressed = fblse;
+        stbtic boolebn menuCbnceledOnPress = fblse;
+        stbtic JRootPbne root = null;
+        stbtic Window winAncestor = null;
 
-        void altPressed(KeyEvent ev) {
-            MenuSelectionManager msm =
-                MenuSelectionManager.defaultManager();
-            MenuElement[] path = msm.getSelectedPath();
-            if (path.length > 0 && ! (path[0] instanceof ComboPopup)) {
-                msm.clearSelectedPath();
-                menuCanceledOnPress = true;
+        void bltPressed(KeyEvent ev) {
+            MenuSelectionMbnbger msm =
+                MenuSelectionMbnbger.defbultMbnbger();
+            MenuElement[] pbth = msm.getSelectedPbth();
+            if (pbth.length > 0 && ! (pbth[0] instbnceof ComboPopup)) {
+                msm.clebrSelectedPbth();
+                menuCbnceledOnPress = true;
                 ev.consume();
-            } else if(path.length > 0) { // We are in ComboBox
-                menuCanceledOnPress = false;
-                WindowsLookAndFeel.setMnemonicHidden(false);
-                WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
+            } else if(pbth.length > 0) { // We bre in ComboBox
+                menuCbnceledOnPress = fblse;
+                WindowsLookAndFeel.setMnemonicHidden(fblse);
+                WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
                 ev.consume();
             } else {
-                menuCanceledOnPress = false;
-                WindowsLookAndFeel.setMnemonicHidden(false);
-                WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
-                JMenuBar mbar = root != null ? root.getJMenuBar() : null;
-                if(mbar == null && winAncestor instanceof JFrame) {
-                    mbar = ((JFrame)winAncestor).getJMenuBar();
+                menuCbnceledOnPress = fblse;
+                WindowsLookAndFeel.setMnemonicHidden(fblse);
+                WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
+                JMenuBbr mbbr = root != null ? root.getJMenuBbr() : null;
+                if(mbbr == null && winAncestor instbnceof JFrbme) {
+                    mbbr = ((JFrbme)winAncestor).getJMenuBbr();
                 }
-                JMenu menu = mbar != null ? mbar.getMenu(0) : null;
+                JMenu menu = mbbr != null ? mbbr.getMenu(0) : null;
                 if(menu != null) {
                     ev.consume();
                 }
             }
         }
 
-        void altReleased(KeyEvent ev) {
-            if (menuCanceledOnPress) {
+        void bltRelebsed(KeyEvent ev) {
+            if (menuCbnceledOnPress) {
                 WindowsLookAndFeel.setMnemonicHidden(true);
-                WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
+                WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
                 return;
             }
 
-            MenuSelectionManager msm =
-                MenuSelectionManager.defaultManager();
-            if (msm.getSelectedPath().length == 0) {
-                // if no menu is active, we try activating the menubar
+            MenuSelectionMbnbger msm =
+                MenuSelectionMbnbger.defbultMbnbger();
+            if (msm.getSelectedPbth().length == 0) {
+                // if no menu is bctive, we try bctivbting the menubbr
 
-                JMenuBar mbar = root != null ? root.getJMenuBar() : null;
-                if(mbar == null && winAncestor instanceof JFrame) {
-                    mbar = ((JFrame)winAncestor).getJMenuBar();
+                JMenuBbr mbbr = root != null ? root.getJMenuBbr() : null;
+                if(mbbr == null && winAncestor instbnceof JFrbme) {
+                    mbbr = ((JFrbme)winAncestor).getJMenuBbr();
                 }
-                JMenu menu = mbar != null ? mbar.getMenu(0) : null;
+                JMenu menu = mbbr != null ? mbbr.getMenu(0) : null;
 
-                // It might happen that the altRelease event is processed
-                // with a reasonable delay since it has been generated.
-                // Here we check the last deactivation time of the containing
-                // window. If this time appears to be greater than the altRelease
-                // event time the event is skipped to avoid unexpected menu
-                // activation. See 7121442.
-                // Also we must ensure that original source of key event belongs
-                // to the same window object as winAncestor. See 8001633.
-                boolean skip = false;
-                Toolkit tk = Toolkit.getDefaultToolkit();
-                if (tk instanceof SunToolkit) {
-                    Component originalSource = AWTAccessor.getKeyEventAccessor()
-                            .getOriginalSource(ev);
-                    skip = SunToolkit.getContainingWindow(originalSource) != winAncestor ||
-                            ev.getWhen() <= ((SunToolkit) tk).getWindowDeactivationTime(winAncestor);
+                // It might hbppen thbt the bltRelebse event is processed
+                // with b rebsonbble delby since it hbs been generbted.
+                // Here we check the lbst debctivbtion time of the contbining
+                // window. If this time bppebrs to be grebter thbn the bltRelebse
+                // event time the event is skipped to bvoid unexpected menu
+                // bctivbtion. See 7121442.
+                // Also we must ensure thbt originbl source of key event belongs
+                // to the sbme window object bs winAncestor. See 8001633.
+                boolebn skip = fblse;
+                Toolkit tk = Toolkit.getDefbultToolkit();
+                if (tk instbnceof SunToolkit) {
+                    Component originblSource = AWTAccessor.getKeyEventAccessor()
+                            .getOriginblSource(ev);
+                    skip = SunToolkit.getContbiningWindow(originblSource) != winAncestor ||
+                            ev.getWhen() <= ((SunToolkit) tk).getWindowDebctivbtionTime(winAncestor);
                 }
 
                 if (menu != null && !skip) {
-                    MenuElement[] path = new MenuElement[2];
-                    path[0] = mbar;
-                    path[1] = menu;
-                    msm.setSelectedPath(path);
+                    MenuElement[] pbth = new MenuElement[2];
+                    pbth[0] = mbbr;
+                    pbth[1] = menu;
+                    msm.setSelectedPbth(pbth);
                 } else if(!WindowsLookAndFeel.isMnemonicHidden()) {
                     WindowsLookAndFeel.setMnemonicHidden(true);
-                    WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
+                    WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
                 }
             } else {
-                if((msm.getSelectedPath())[0] instanceof ComboPopup) {
+                if((msm.getSelectedPbth())[0] instbnceof ComboPopup) {
                     WindowsLookAndFeel.setMnemonicHidden(true);
-                    WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
+                    WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
                 }
             }
 
         }
 
-        public boolean postProcessKeyEvent(KeyEvent ev) {
+        public boolebn postProcessKeyEvent(KeyEvent ev) {
             if(ev.isConsumed()) {
-                // do not manage consumed event
-                return false;
+                // do not mbnbge consumed event
+                return fblse;
             }
             if (ev.getKeyCode() == KeyEvent.VK_ALT) {
-                root = SwingUtilities.getRootPane(ev.getComponent());
+                root = SwingUtilities.getRootPbne(ev.getComponent());
                 winAncestor = (root == null ? null :
                         SwingUtilities.getWindowAncestor(root));
 
                 if (ev.getID() == KeyEvent.KEY_PRESSED) {
-                    if (!altKeyPressed) {
-                        altPressed(ev);
+                    if (!bltKeyPressed) {
+                        bltPressed(ev);
                     }
-                    altKeyPressed = true;
+                    bltKeyPressed = true;
                     return true;
                 } else if (ev.getID() == KeyEvent.KEY_RELEASED) {
-                    if (altKeyPressed) {
-                        altReleased(ev);
+                    if (bltKeyPressed) {
+                        bltRelebsed(ev);
                     } else {
-                        MenuSelectionManager msm =
-                            MenuSelectionManager.defaultManager();
-                        MenuElement[] path = msm.getSelectedPath();
-                        if (path.length <= 0) {
+                        MenuSelectionMbnbger msm =
+                            MenuSelectionMbnbger.defbultMbnbger();
+                        MenuElement[] pbth = msm.getSelectedPbth();
+                        if (pbth.length <= 0) {
                             WindowsLookAndFeel.setMnemonicHidden(true);
-                            WindowsGraphicsUtils.repaintMnemonicsInWindow(winAncestor);
+                            WindowsGrbphicsUtils.repbintMnemonicsInWindow(winAncestor);
                         }
                     }
-                    altKeyPressed = false;
+                    bltKeyPressed = fblse;
                 }
                 root = null;
                 winAncestor = null;
             } else {
-                altKeyPressed = false;
+                bltKeyPressed = fblse;
             }
-            return false;
+            return fblse;
         }
     }
 }

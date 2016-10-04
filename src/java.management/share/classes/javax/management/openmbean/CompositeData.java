@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Collection;
+import jbvb.util.Collection;
 
 // jmx import
 //
 
 
 /**
- * The <tt>CompositeData</tt> interface specifies the behavior of a specific type of complex <i>open data</i> objects
- * which represent <i>composite data</i> structures.
+ * The <tt>CompositeDbtb</tt> interfbce specifies the behbvior of b specific type of complex <i>open dbtb</i> objects
+ * which represent <i>composite dbtb</i> structures.
  *
  *
  * @since 1.5
  */
-public interface CompositeData {
+public interfbce CompositeDbtb {
 
 
     /**
-     * Returns the <i>composite type </i> of this <i>composite data</i> instance.
+     * Returns the <i>composite type </i> of this <i>composite dbtb</i> instbnce.
      *
-     * @return the type of this CompositeData.
+     * @return the type of this CompositeDbtb.
      */
     public CompositeType getCompositeType();
 
     /**
-     * Returns the value of the item whose name is <tt>key</tt>.
+     * Returns the vblue of the item whose nbme is <tt>key</tt>.
      *
-     * @param key the name of the item.
+     * @pbrbm key the nbme of the item.
      *
-     * @return the value associated with this key.
+     * @return the vblue bssocibted with this key.
      *
-     * @throws IllegalArgumentException  if <tt>key</tt> is a null or empty String.
+     * @throws IllegblArgumentException  if <tt>key</tt> is b null or empty String.
      *
-     * @throws InvalidKeyException  if <tt>key</tt> is not an existing item name for this <tt>CompositeData</tt> instance.
+     * @throws InvblidKeyException  if <tt>key</tt> is not bn existing item nbme for this <tt>CompositeDbtb</tt> instbnce.
      */
     public Object get(String key) ;
 
     /**
-     * Returns an array of the values of the items whose names are specified by <tt>keys</tt>, in the same order as <tt>keys</tt>.
+     * Returns bn brrby of the vblues of the items whose nbmes bre specified by <tt>keys</tt>, in the sbme order bs <tt>keys</tt>.
      *
-     * @param keys the names of the items.
+     * @pbrbm keys the nbmes of the items.
      *
-     * @return the values corresponding to the keys.
+     * @return the vblues corresponding to the keys.
      *
-     * @throws IllegalArgumentException  if an element in <tt>keys</tt> is a null or empty String.
+     * @throws IllegblArgumentException  if bn element in <tt>keys</tt> is b null or empty String.
      *
-     * @throws InvalidKeyException  if an element in <tt>keys</tt> is not an existing item name for this <tt>CompositeData</tt> instance.
+     * @throws InvblidKeyException  if bn element in <tt>keys</tt> is not bn existing item nbme for this <tt>CompositeDbtb</tt> instbnce.
      */
     public Object[] getAll(String[] keys) ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance contains
-     * an item whose name is <tt>key</tt>.
-     * If <tt>key</tt> is a null or empty String, this method simply returns false.
+     * Returns <tt>true</tt> if bnd only if this <tt>CompositeDbtb</tt> instbnce contbins
+     * bn item whose nbme is <tt>key</tt>.
+     * If <tt>key</tt> is b null or empty String, this method simply returns fblse.
      *
-     * @param key the key to be tested.
+     * @pbrbm key the key to be tested.
      *
-     * @return true if this <tt>CompositeData</tt> contains the key.
+     * @return true if this <tt>CompositeDbtb</tt> contbins the key.
      */
-    public boolean containsKey(String key) ;
+    public boolebn contbinsKey(String key) ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance contains an item
-     * whose value is <tt>value</tt>.
+     * Returns <tt>true</tt> if bnd only if this <tt>CompositeDbtb</tt> instbnce contbins bn item
+     * whose vblue is <tt>vblue</tt>.
      *
-     * @param value the value to be tested.
+     * @pbrbm vblue the vblue to be tested.
      *
-     * @return true if this <tt>CompositeData</tt> contains the value.
+     * @return true if this <tt>CompositeDbtb</tt> contbins the vblue.
      */
-    public boolean containsValue(Object value) ;
+    public boolebn contbinsVblue(Object vblue) ;
 
     /**
-     * Returns an unmodifiable Collection view of the item values contained in this <tt>CompositeData</tt> instance.
-     * The returned collection's iterator will return the values in the ascending lexicographic order of the corresponding
-     * item names.
+     * Returns bn unmodifibble Collection view of the item vblues contbined in this <tt>CompositeDbtb</tt> instbnce.
+     * The returned collection's iterbtor will return the vblues in the bscending lexicogrbphic order of the corresponding
+     * item nbmes.
      *
-     * @return the values.
+     * @return the vblues.
      */
-    public Collection<?> values() ;
+    public Collection<?> vblues() ;
 
     /**
-     * Compares the specified <var>obj</var> parameter with this
-     * <code>CompositeData</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this
+     * <code>CompositeDbtb</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>CompositeData</code> interface,</li>
-     * <li>their composite types are equal</li>
-     * <li>their contents, i.e. (name, value) pairs are equal. If a value contained in
-     * the content is an array, the value comparison is done as if by calling
-     * the {@link java.util.Arrays#deepEquals(Object[], Object[]) deepEquals} method
-     * for arrays of object reference types or the appropriate overloading of
-     * {@code Arrays.equals(e1,e2)} for arrays of primitive types</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>CompositeDbtb</code> interfbce,</li>
+     * <li>their composite types bre equbl</li>
+     * <li>their contents, i.e. (nbme, vblue) pbirs bre equbl. If b vblue contbined in
+     * the content is bn brrby, the vblue compbrison is done bs if by cblling
+     * the {@link jbvb.util.Arrbys#deepEqubls(Object[], Object[]) deepEqubls} method
+     * for brrbys of object reference types or the bppropribte overlobding of
+     * {@code Arrbys.equbls(e1,e2)} for brrbys of primitive types</li>
      * </ul>
      * <p>
-     * This ensures that this <tt>equals</tt> method works properly for
-     * <var>obj</var> parameters which are different implementations of the
-     * <code>CompositeData</code> interface, with the restrictions mentioned in the
-     * {@link java.util.Collection#equals(Object) equals}
-     * method of the <tt>java.util.Collection</tt> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for
+     * <vbr>obj</vbr> pbrbmeters which bre different implementbtions of the
+     * <code>CompositeDbtb</code> interfbce, with the restrictions mentioned in the
+     * {@link jbvb.util.Collection#equbls(Object) equbls}
+     * method of the <tt>jbvb.util.Collection</tt> interfbce.
      *
-     * @param  obj  the object to be compared for equality with this
-     * <code>CompositeData</code> instance.
-     * @return  <code>true</code> if the specified object is equal to this
-     * <code>CompositeData</code> instance.
+     * @pbrbm  obj  the object to be compbred for equblity with this
+     * <code>CompositeDbtb</code> instbnce.
+     * @return  <code>true</code> if the specified object is equbl to this
+     * <code>CompositeDbtb</code> instbnce.
      */
-    public boolean equals(Object obj) ;
+    public boolebn equbls(Object obj) ;
 
     /**
-     * Returns the hash code value for this <code>CompositeData</code> instance.
+     * Returns the hbsh code vblue for this <code>CompositeDbtb</code> instbnce.
      * <p>
-     * The hash code of a <code>CompositeData</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its <i>composite type</i> and all the item values).
+     * The hbsh code of b <code>CompositeDbtb</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its <i>composite type</i> bnd bll the item vblues).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>CompositeData</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>CompositeDbtb</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      * <p>
-     * Each item value's hash code is added to the returned hash code.
-     * If an item value is an array,
-     * its hash code is obtained as if by calling the
-     * {@link java.util.Arrays#deepHashCode(Object[]) deepHashCode} method
-     * for arrays of object reference types or the appropriate overloading
-     * of {@code Arrays.hashCode(e)} for arrays of primitive types.
+     * Ebch item vblue's hbsh code is bdded to the returned hbsh code.
+     * If bn item vblue is bn brrby,
+     * its hbsh code is obtbined bs if by cblling the
+     * {@link jbvb.util.Arrbys#deepHbshCode(Object[]) deepHbshCode} method
+     * for brrbys of object reference types or the bppropribte overlobding
+     * of {@code Arrbys.hbshCode(e)} for brrbys of primitive types.
      *
-     * @return the hash code value for this <code>CompositeData</code> instance
+     * @return the hbsh code vblue for this <code>CompositeDbtb</code> instbnce
      */
-    public int hashCode() ;
+    public int hbshCode() ;
 
     /**
-     * Returns a string representation of this <code>CompositeData</code> instance.
+     * Returns b string representbtion of this <code>CompositeDbtb</code> instbnce.
      * <p>
-     * The string representation consists of the name of the implementing class,
-     * the string representation of the composite type of this instance, and the string representation of the contents
-     * (ie list the itemName=itemValue mappings).
+     * The string representbtion consists of the nbme of the implementing clbss,
+     * the string representbtion of the composite type of this instbnce, bnd the string representbtion of the contents
+     * (ie list the itemNbme=itemVblue mbppings).
      *
-     * @return  a string representation of this <code>CompositeData</code> instance
+     * @return  b string representbtion of this <code>CompositeDbtb</code> instbnce
      */
     public String toString() ;
 

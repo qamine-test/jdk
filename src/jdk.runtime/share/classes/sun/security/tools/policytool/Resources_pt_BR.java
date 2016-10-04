@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.policytool;
+pbckbge sun.security.tools.policytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
+ * <p> This clbss represents the <code>ResourceBundle</code>
  * for the policytool.
  *
  */
-public class Resources_pt_BR extends java.util.ListResourceBundle {
+public clbss Resources_pt_BR extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
         {"NEWLINE", "\n"},
-        {"Warning.A.public.key.for.alias.signers.i.does.not.exist.Make.sure.a.KeyStore.is.properly.configured.",
-                "Advert\u00EAncia: N\u00E3o existe uma chave p\u00FAblica para o alias {0}. Certifique-se de que um KeyStore esteja configurado adequadamente."},
-        {"Warning.Class.not.found.class", "Advert\u00EAncia: Classe n\u00E3o encontrada: {0}"},
-        {"Warning.Invalid.argument.s.for.constructor.arg",
-                "Advert\u00EAncia: Argumento(s) inv\u00E1lido(s) para o construtor: {0}"},
-        {"Illegal.Principal.Type.type", "Tipo Principal Inv\u00E1lido: {0}"},
-        {"Illegal.option.option", "Op\u00E7\u00E3o inv\u00E1lida: {0}"},
-        {"Usage.policytool.options.", "Uso: policytool [op\u00E7\u00F5es]"},
-        {".file.file.policy.file.location",
-                "  [-file <arquivo>]    localiza\u00E7\u00E3o do arquivo de pol\u00EDtica"},
+        {"Wbrning.A.public.key.for.blibs.signers.i.does.not.exist.Mbke.sure.b.KeyStore.is.properly.configured.",
+                "Advert\u00EAncib: N\u00E3o existe umb chbve p\u00FAblicb pbrb o blibs {0}. Certifique-se de que um KeyStore estejb configurbdo bdequbdbmente."},
+        {"Wbrning.Clbss.not.found.clbss", "Advert\u00EAncib: Clbsse n\u00E3o encontrbdb: {0}"},
+        {"Wbrning.Invblid.brgument.s.for.constructor.brg",
+                "Advert\u00EAncib: Argumento(s) inv\u00E1lido(s) pbrb o construtor: {0}"},
+        {"Illegbl.Principbl.Type.type", "Tipo Principbl Inv\u00E1lido: {0}"},
+        {"Illegbl.option.option", "Op\u00E7\u00E3o inv\u00E1lidb: {0}"},
+        {"Usbge.policytool.options.", "Uso: policytool [op\u00E7\u00F5es]"},
+        {".file.file.policy.file.locbtion",
+                "  [-file <brquivo>]    locblizb\u00E7\u00E3o do brquivo de pol\u00EDticb"},
         {"New", "Novo"},
         {"Open", "Abrir"},
-        {"Save", "Salvar"},
-        {"Save.As", "Salvar Como"},
-        {"View.Warning.Log", "Exibir Log de Advert\u00EAncias"},
-        {"Exit", "Sair"},
-        {"Add.Policy.Entry", "Adicionar Entrada de Pol\u00EDtica"},
-        {"Edit.Policy.Entry", "Editar Entrada de Pol\u00EDtica"},
-        {"Remove.Policy.Entry", "Remover Entrada de Pol\u00EDtica"},
-        {"Edit", "Editar"},
-        {"Retain", "Reter"},
+        {"Sbve", "Sblvbr"},
+        {"Sbve.As", "Sblvbr Como"},
+        {"View.Wbrning.Log", "Exibir Log de Advert\u00EAncibs"},
+        {"Exit", "Sbir"},
+        {"Add.Policy.Entry", "Adicionbr Entrbdb de Pol\u00EDticb"},
+        {"Edit.Policy.Entry", "Editbr Entrbdb de Pol\u00EDticb"},
+        {"Remove.Policy.Entry", "Remover Entrbdb de Pol\u00EDticb"},
+        {"Edit", "Editbr"},
+        {"Retbin", "Reter"},
 
-        {"Warning.File.name.may.include.escaped.backslash.characters.It.is.not.necessary.to.escape.backslash.characters.the.tool.escapes",
-            "Advert\u00EAncia: O nome do arquivo pode conter caracteres de escape barra invertida. N\u00E3o \u00E9 necess\u00E1rio fazer o escape dos caracteres de barra invertida (a ferramenta faz o escape dos caracteres conforme necess\u00E1rio ao gravar o conte\u00FAdo da pol\u00EDtica no armazenamento persistente).\n\nClique em Reter para reter o nome da entrada ou clique em Editar para edit\u00E1-lo."},
+        {"Wbrning.File.nbme.mby.include.escbped.bbckslbsh.chbrbcters.It.is.not.necessbry.to.escbpe.bbckslbsh.chbrbcters.the.tool.escbpes",
+            "Advert\u00EAncib: O nome do brquivo pode conter cbrbcteres de escbpe bbrrb invertidb. N\u00E3o \u00E9 necess\u00E1rio fbzer o escbpe dos cbrbcteres de bbrrb invertidb (b ferrbmentb fbz o escbpe dos cbrbcteres conforme necess\u00E1rio bo grbvbr o conte\u00FAdo db pol\u00EDticb no brmbzenbmento persistente).\n\nClique em Reter pbrb reter o nome db entrbdb ou clique em Editbr pbrb edit\u00E1-lo."},
 
-        {"Add.Public.Key.Alias", "Adicionar Alias de Chave P\u00FAblica"},
-        {"Remove.Public.Key.Alias", "Remover Alias de Chave P\u00FAblica"},
+        {"Add.Public.Key.Alibs", "Adicionbr Alibs de Chbve P\u00FAblicb"},
+        {"Remove.Public.Key.Alibs", "Remover Alibs de Chbve P\u00FAblicb"},
         {"File", "Arquivo"},
         {"KeyStore", "KeyStore"},
-        {"Policy.File.", "Arquivo de Pol\u00EDtica:"},
+        {"Policy.File.", "Arquivo de Pol\u00EDticb:"},
         {"Could.not.open.policy.file.policyFile.e.toString.",
-                "N\u00E3o foi poss\u00EDvel abrir o arquivo de pol\u00EDtica: {0}: {1}"},
-        {"Policy.Tool", "Ferramenta de Pol\u00EDtica"},
-        {"Errors.have.occurred.while.opening.the.policy.configuration.View.the.Warning.Log.for.more.information.",
-                "Erros durante a abertura da configura\u00E7\u00E3o da pol\u00EDtica. Consulte o Log de Advert\u00EAncias para obter mais informa\u00E7\u00F5es."},
+                "N\u00E3o foi poss\u00EDvel bbrir o brquivo de pol\u00EDticb: {0}: {1}"},
+        {"Policy.Tool", "Ferrbmentb de Pol\u00EDticb"},
+        {"Errors.hbve.occurred.while.opening.the.policy.configurbtion.View.the.Wbrning.Log.for.more.informbtion.",
+                "Erros durbnte b bberturb db configurb\u00E7\u00E3o db pol\u00EDticb. Consulte o Log de Advert\u00EAncibs pbrb obter mbis informb\u00E7\u00F5es."},
         {"Error", "Erro"},
         {"OK", "OK"},
-        {"Status", "Status"},
-        {"Warning", "Advert\u00EAncia"},
+        {"Stbtus", "Stbtus"},
+        {"Wbrning", "Advert\u00EAncib"},
         {"Permission.",
                 "Permiss\u00E3o:                                                       "},
-        {"Principal.Type.", "Tipo do Principal:"},
-        {"Principal.Name.", "Nome do Principal:"},
-        {"Target.Name.",
+        {"Principbl.Type.", "Tipo do Principbl:"},
+        {"Principbl.Nbme.", "Nome do Principbl:"},
+        {"Tbrget.Nbme.",
                 "Nome do Alvo:                                                    "},
         {"Actions.",
                 "A\u00E7\u00F5es:                                                             "},
-        {"OK.to.overwrite.existing.file.filename.",
-                "Est\u00E1 correto substituir o arquivo existente {0}?"},
-        {"Cancel", "Cancelar"},
-        {"CodeBase.", "CodeBase:"},
+        {"OK.to.overwrite.existing.file.filenbme.",
+                "Est\u00E1 correto substituir o brquivo existente {0}?"},
+        {"Cbncel", "Cbncelbr"},
+        {"CodeBbse.", "CodeBbse:"},
         {"SignedBy.", "SignedBy:"},
-        {"Add.Principal", "Adicionar Principal"},
-        {"Edit.Principal", "Editar Principal"},
-        {"Remove.Principal", "Remover Principal"},
-        {"Principals.", "Principais:"},
-        {".Add.Permission", "  Adicionar Permiss\u00E3o"},
-        {".Edit.Permission", "  Editar Permiss\u00E3o"},
+        {"Add.Principbl", "Adicionbr Principbl"},
+        {"Edit.Principbl", "Editbr Principbl"},
+        {"Remove.Principbl", "Remover Principbl"},
+        {"Principbls.", "Principbis:"},
+        {".Add.Permission", "  Adicionbr Permiss\u00E3o"},
+        {".Edit.Permission", "  Editbr Permiss\u00E3o"},
         {"Remove.Permission", "Remover Permiss\u00E3o"},
         {"Done", "Conclu\u00EDdo"},
         {"KeyStore.URL.", "URL do KeyStore:"},
         {"KeyStore.Type.", "Tipo de KeyStore:"},
         {"KeyStore.Provider.", "Fornecedor de KeyStore:"},
-        {"KeyStore.Password.URL.", "URL da Senha do KeyStore:"},
-        {"Principals", "Principais"},
-        {".Edit.Principal.", "  Editar Principal:"},
-        {".Add.New.Principal.", "  Adicionar Novo Principal:"},
+        {"KeyStore.Pbssword.URL.", "URL db Senhb do KeyStore:"},
+        {"Principbls", "Principbis"},
+        {".Edit.Principbl.", "  Editbr Principbl:"},
+        {".Add.New.Principbl.", "  Adicionbr Novo Principbl:"},
         {"Permissions", "Permiss\u00F5es"},
-        {".Edit.Permission.", "  Editar Permiss\u00E3o:"},
-        {".Add.New.Permission.", "  Adicionar Nova Permiss\u00E3o:"},
-        {"Signed.By.", "Assinado por:"},
-        {"Cannot.Specify.Principal.with.a.Wildcard.Class.without.a.Wildcard.Name",
-            "N\u00E3o \u00E9 Poss\u00EDvel Especificar um Principal com uma Classe de Curinga sem um Nome de Curinga"},
-        {"Cannot.Specify.Principal.without.a.Name",
-            "N\u00E3o \u00E9 Poss\u00EDvel Especificar um Principal sem um Nome"},
-        {"Permission.and.Target.Name.must.have.a.value",
-                "O Nome de Destino e a Permiss\u00E3o devem ter um Valor"},
-        {"Remove.this.Policy.Entry.", "Remover esta Entrada de Pol\u00EDtica?"},
+        {".Edit.Permission.", "  Editbr Permiss\u00E3o:"},
+        {".Add.New.Permission.", "  Adicionbr Novb Permiss\u00E3o:"},
+        {"Signed.By.", "Assinbdo por:"},
+        {"Cbnnot.Specify.Principbl.with.b.Wildcbrd.Clbss.without.b.Wildcbrd.Nbme",
+            "N\u00E3o \u00E9 Poss\u00EDvel Especificbr um Principbl com umb Clbsse de Curingb sem um Nome de Curingb"},
+        {"Cbnnot.Specify.Principbl.without.b.Nbme",
+            "N\u00E3o \u00E9 Poss\u00EDvel Especificbr um Principbl sem um Nome"},
+        {"Permission.bnd.Tbrget.Nbme.must.hbve.b.vblue",
+                "O Nome de Destino e b Permiss\u00E3o devem ter um Vblor"},
+        {"Remove.this.Policy.Entry.", "Remover estb Entrbdb de Pol\u00EDticb?"},
         {"Overwrite.File", "Substituir Arquivo"},
-        {"Policy.successfully.written.to.filename",
-                "Pol\u00EDtica gravada com \u00EAxito em {0}"},
-        {"null.filename", "nome de arquivo nulo"},
-        {"Save.changes.", "Salvar altera\u00E7\u00F5es?"},
+        {"Policy.successfully.written.to.filenbme",
+                "Pol\u00EDticb grbvbdb com \u00EAxito em {0}"},
+        {"null.filenbme", "nome de brquivo nulo"},
+        {"Sbve.chbnges.", "Sblvbr blterb\u00E7\u00F5es?"},
         {"Yes", "Sim"},
         {"No", "N\u00E3o"},
-        {"Policy.Entry", "Entrada de Pol\u00EDtica"},
-        {"Save.Changes", "Salvar Altera\u00E7\u00F5es"},
-        {"No.Policy.Entry.selected", "Nenhuma Entrada de Pol\u00EDtica Selecionada"},
-        {"Unable.to.open.KeyStore.ex.toString.",
-                "N\u00E3o \u00E9 poss\u00EDvel abrir a KeyStore: {0}"},
-        {"No.principal.selected", "Nenhum principal selecionado"},
-        {"No.permission.selected", "Nenhuma permiss\u00E3o selecionada"},
-        {"name", "nome"},
-        {"configuration.type", "tipo de configura\u00E7\u00E3o"},
-        {"environment.variable.name", "nome da vari\u00E1vel de ambiente"},
-        {"library.name", "nome da biblioteca"},
-        {"package.name", "nome do pacote"},
-        {"policy.type", "tipo de pol\u00EDtica"},
-        {"property.name", "nome da propriedade"},
-        {"provider.name", "nome do fornecedor"},
+        {"Policy.Entry", "Entrbdb de Pol\u00EDticb"},
+        {"Sbve.Chbnges", "Sblvbr Alterb\u00E7\u00F5es"},
+        {"No.Policy.Entry.selected", "Nenhumb Entrbdb de Pol\u00EDticb Selecionbdb"},
+        {"Unbble.to.open.KeyStore.ex.toString.",
+                "N\u00E3o \u00E9 poss\u00EDvel bbrir b KeyStore: {0}"},
+        {"No.principbl.selected", "Nenhum principbl selecionbdo"},
+        {"No.permission.selected", "Nenhumb permiss\u00E3o selecionbdb"},
+        {"nbme", "nome"},
+        {"configurbtion.type", "tipo de configurb\u00E7\u00E3o"},
+        {"environment.vbribble.nbme", "nome db vbri\u00E1vel de bmbiente"},
+        {"librbry.nbme", "nome db bibliotecb"},
+        {"pbckbge.nbme", "nome do pbcote"},
+        {"policy.type", "tipo de pol\u00EDticb"},
+        {"property.nbme", "nome db propriedbde"},
+        {"provider.nbme", "nome do fornecedor"},
         {"url", "url"},
-        {"method.list", "lista de m\u00E9todos"},
-        {"request.headers.list", "solicitar lista de cabe\u00E7alhos"},
-        {"Principal.List", "Lista de Principais"},
-        {"Permission.List", "Lista de Permiss\u00F5es"},
-        {"Code.Base", "Base de C\u00F3digo"},
-        {"KeyStore.U.R.L.", "U R L da KeyStore:"},
-        {"KeyStore.Password.U.R.L.", "U R L da Senha do KeyStore:"}
+        {"method.list", "listb de m\u00E9todos"},
+        {"request.hebders.list", "solicitbr listb de cbbe\u00E7blhos"},
+        {"Principbl.List", "Listb de Principbis"},
+        {"Permission.List", "Listb de Permiss\u00F5es"},
+        {"Code.Bbse", "Bbse de C\u00F3digo"},
+        {"KeyStore.U.R.L.", "U R L db KeyStore:"},
+        {"KeyStore.Pbssword.U.R.L.", "U R L db Senhb do KeyStore:"}
     };
 
 

@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the following packages:
+ * <p> This clbss represents the <code>ResourceBundle</code>
+ * for the following pbckbges:
  *
  * <ol>
- * <li> com.sun.security.auth
- * <li> com.sun.security.auth.login
+ * <li> com.sun.security.buth
+ * <li> com.sun.security.buth.login
  * </ol>
  *
  */
-public class AuthResources_it extends java.util.ListResourceBundle {
+public clbss AuthResources_it extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
 
-        // NT principals
-        {"invalid.null.input.value", "input nullo non valido: {0}"},
-        {"NTDomainPrincipal.name", "NTDomainPrincipal: {0}"},
-        {"NTNumericCredential.name", "NTNumericCredential: {0}"},
-        {"Invalid.NTSid.value", "Valore NTSid non valido"},
-        {"NTSid.name", "NTSid: {0}"},
-        {"NTSidDomainPrincipal.name", "NTSidDomainPrincipal: {0}"},
-        {"NTSidGroupPrincipal.name", "NTSidGroupPrincipal: {0}"},
-        {"NTSidPrimaryGroupPrincipal.name", "NTSidPrimaryGroupPrincipal: {0}"},
-        {"NTSidUserPrincipal.name", "NTSidUserPrincipal: {0}"},
-        {"NTUserPrincipal.name", "NTUserPrincipal: {0}"},
+        // NT principbls
+        {"invblid.null.input.vblue", "input nullo non vblido: {0}"},
+        {"NTDombinPrincipbl.nbme", "NTDombinPrincipbl: {0}"},
+        {"NTNumericCredentibl.nbme", "NTNumericCredentibl: {0}"},
+        {"Invblid.NTSid.vblue", "Vblore NTSid non vblido"},
+        {"NTSid.nbme", "NTSid: {0}"},
+        {"NTSidDombinPrincipbl.nbme", "NTSidDombinPrincipbl: {0}"},
+        {"NTSidGroupPrincipbl.nbme", "NTSidGroupPrincipbl: {0}"},
+        {"NTSidPrimbryGroupPrincipbl.nbme", "NTSidPrimbryGroupPrincipbl: {0}"},
+        {"NTSidUserPrincipbl.nbme", "NTSidUserPrincipbl: {0}"},
+        {"NTUserPrincipbl.nbme", "NTUserPrincipbl: {0}"},
 
-        // UnixPrincipals
-        {"UnixNumericGroupPrincipal.Primary.Group.name",
-                "UnixNumericGroupPrincipal [gruppo primario]: {0}"},
-        {"UnixNumericGroupPrincipal.Supplementary.Group.name",
-                "UnixNumericGroupPrincipal [gruppo supplementare]: {0}"},
-        {"UnixNumericUserPrincipal.name", "UnixNumericUserPrincipal: {0}"},
-        {"UnixPrincipal.name", "UnixPrincipal: {0}"},
+        // UnixPrincipbls
+        {"UnixNumericGroupPrincipbl.Primbry.Group.nbme",
+                "UnixNumericGroupPrincipbl [gruppo primbrio]: {0}"},
+        {"UnixNumericGroupPrincipbl.Supplementbry.Group.nbme",
+                "UnixNumericGroupPrincipbl [gruppo supplementbre]: {0}"},
+        {"UnixNumericUserPrincipbl.nbme", "UnixNumericUserPrincipbl: {0}"},
+        {"UnixPrincipbl.nbme", "UnixPrincipbl: {0}"},
 
-        // com.sun.security.auth.login.ConfigFile
-        {"Unable.to.properly.expand.config", "Impossibile espandere correttamente {0}"},
-        {"extra.config.No.such.file.or.directory.",
+        // com.sun.security.buth.login.ConfigFile
+        {"Unbble.to.properly.expbnd.config", "Impossibile espbndere correttbmente {0}"},
+        {"extrb.config.No.such.file.or.directory.",
                 "{0} (file o directory inesistente)"},
-        {"Configuration.Error.No.such.file.or.directory",
-                "Errore di configurazione:\n\tFile o directory inesistente"},
-        {"Configuration.Error.Invalid.control.flag.flag",
-                "Errore di configurazione:\n\tflag di controllo non valido, {0}"},
-        {"Configuration.Error.Can.not.specify.multiple.entries.for.appName",
-            "Errore di configurazione:\n\timpossibile specificare pi\u00F9 valori per {0}"},
-        {"Configuration.Error.expected.expect.read.end.of.file.",
-                "Errore di configurazione:\n\tprevisto [{0}], letto [end of file]"},
-        {"Configuration.Error.Line.line.expected.expect.found.value.",
-            "Errore di configurazione:\n\triga {0}: previsto [{1}], trovato [{2}]"},
-        {"Configuration.Error.Line.line.expected.expect.",
-            "Errore di configurazione:\n\triga {0}: previsto [{1}]"},
-        {"Configuration.Error.Line.line.system.property.value.expanded.to.empty.value",
-            "Errore di configurazione:\n\triga {0}: propriet\u00E0 di sistema [{1}] espansa a valore vuoto"},
+        {"Configurbtion.Error.No.such.file.or.directory",
+                "Errore di configurbzione:\n\tFile o directory inesistente"},
+        {"Configurbtion.Error.Invblid.control.flbg.flbg",
+                "Errore di configurbzione:\n\tflbg di controllo non vblido, {0}"},
+        {"Configurbtion.Error.Cbn.not.specify.multiple.entries.for.bppNbme",
+            "Errore di configurbzione:\n\timpossibile specificbre pi\u00F9 vblori per {0}"},
+        {"Configurbtion.Error.expected.expect.rebd.end.of.file.",
+                "Errore di configurbzione:\n\tprevisto [{0}], letto [end of file]"},
+        {"Configurbtion.Error.Line.line.expected.expect.found.vblue.",
+            "Errore di configurbzione:\n\trigb {0}: previsto [{1}], trovbto [{2}]"},
+        {"Configurbtion.Error.Line.line.expected.expect.",
+            "Errore di configurbzione:\n\trigb {0}: previsto [{1}]"},
+        {"Configurbtion.Error.Line.line.system.property.vblue.expbnded.to.empty.vblue",
+            "Errore di configurbzione:\n\trigb {0}: propriet\u00E0 di sistemb [{1}] espbnsb b vblore vuoto"},
 
-        // com.sun.security.auth.module.JndiLoginModule
-        {"username.","Nome utente: "},
-        {"password.","Password: "},
+        // com.sun.security.buth.module.JndiLoginModule
+        {"usernbme.","Nome utente: "},
+        {"pbssword.","Pbssword: "},
 
-        // com.sun.security.auth.module.KeyStoreLoginModule
-        {"Please.enter.keystore.information",
-                "Immettere le informazioni per il keystore"},
-        {"Keystore.alias.","Alias keystore: "},
-        {"Keystore.password.","Password keystore: "},
-        {"Private.key.password.optional.",
-            "Password chiave privata (opzionale): "},
+        // com.sun.security.buth.module.KeyStoreLoginModule
+        {"Plebse.enter.keystore.informbtion",
+                "Immettere le informbzioni per il keystore"},
+        {"Keystore.blibs.","Alibs keystore: "},
+        {"Keystore.pbssword.","Pbssword keystore: "},
+        {"Privbte.key.pbssword.optionbl.",
+            "Pbssword chibve privbtb (opzionble): "},
 
-        // com.sun.security.auth.module.Krb5LoginModule
-        {"Kerberos.username.defUsername.",
+        // com.sun.security.buth.module.Krb5LoginModule
+        {"Kerberos.usernbme.defUsernbme.",
                 "Nome utente Kerberos [{0}]: "},
-        {"Kerberos.password.for.username.",
-                "Password Kerberos per {0}: "},
+        {"Kerberos.pbssword.for.usernbme.",
+                "Pbssword Kerberos per {0}: "},
 
         /***    EVERYTHING BELOW IS DEPRECATED  ***/
 
-        // com.sun.security.auth.PolicyFile
-        {".error.parsing.", ": errore durante l'analisi "},
+        // com.sun.security.buth.PolicyFile
+        {".error.pbrsing.", ": errore durbnte l'bnblisi "},
         {"COLON", ": "},
-        {".error.adding.Permission.", ": errore durante l'aggiunta dell'autorizzazione "},
+        {".error.bdding.Permission.", ": errore durbnte l'bggiuntb dell'butorizzbzione "},
         {"SPACE", " "},
-        {".error.adding.Entry.", ": errore durante l'aggiunta della voce "},
+        {".error.bdding.Entry.", ": errore durbnte l'bggiuntb dellb voce "},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"attempt.to.add.a.Permission.to.a.readonly.PermissionCollection",
-            "tentativo di aggiungere un'autorizzazione a una PermissionCollection di sola lettura"},
+        {"bttempt.to.bdd.b.Permission.to.b.rebdonly.PermissionCollection",
+            "tentbtivo di bggiungere un'butorizzbzione b unb PermissionCollection di solb letturb"},
 
-        // com.sun.security.auth.PolicyParser
+        // com.sun.security.buth.PolicyPbrser
         {"expected.keystore.type", "tipo keystore previsto"},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
-                "impossibile specificare un principal con una classe carattere jolly senza un nome carattere jolly"},
-        {"expected.codeBase.or.SignedBy", "previsto codeBase o SignedBy"},
-        {"only.Principal.based.grant.entries.permitted",
-                "sono consentiti solo valori garantiti basati sul principal"},
-        {"expected.permission.entry", "prevista voce di autorizzazione"},
+        {"cbn.not.specify.Principbl.with.b.wildcbrd.clbss.without.b.wildcbrd.nbme",
+                "impossibile specificbre un principbl con unb clbsse cbrbttere jolly senzb un nome cbrbttere jolly"},
+        {"expected.codeBbse.or.SignedBy", "previsto codeBbse o SignedBy"},
+        {"only.Principbl.bbsed.grbnt.entries.permitted",
+                "sono consentiti solo vblori gbrbntiti bbsbti sul principbl"},
+        {"expected.permission.entry", "previstb voce di butorizzbzione"},
         {"number.", "numero "},
-        {"expected.expect.read.end.of.file.",
+        {"expected.expect.rebd.end.of.file.",
                 "previsto {0}, letto end of file"},
-        {"expected.read.end.of.file", "previsto ';', letto end of file"},
-        {"line.", "riga "},
+        {"expected.rebd.end.of.file", "previsto ';', letto end of file"},
+        {"line.", "rigb "},
         {".expected.", ": previsto '"},
-        {".found.", "', trovato '"},
+        {".found.", "', trovbto '"},
         {"QUOTE", "'"},
 
-        // SolarisPrincipals
-        {"SolarisNumericGroupPrincipal.Primary.Group.",
-                "SolarisNumericGroupPrincipal [gruppo primario]: "},
-        {"SolarisNumericGroupPrincipal.Supplementary.Group.",
-                "SolarisNumericGroupPrincipal [gruppo supplementare]: "},
-        {"SolarisNumericUserPrincipal.",
-                "SolarisNumericUserPrincipal: "},
-        {"SolarisPrincipal.", "SolarisPrincipal: "},
-        // provided.null.name is the NullPointerException message when a
-        // developer incorrectly passes a null name to the constructor of
-        // subclasses of java.security.Principal
-        {"provided.null.name", "il nome fornito \u00E8 nullo"}
+        // SolbrisPrincipbls
+        {"SolbrisNumericGroupPrincipbl.Primbry.Group.",
+                "SolbrisNumericGroupPrincipbl [gruppo primbrio]: "},
+        {"SolbrisNumericGroupPrincipbl.Supplementbry.Group.",
+                "SolbrisNumericGroupPrincipbl [gruppo supplementbre]: "},
+        {"SolbrisNumericUserPrincipbl.",
+                "SolbrisNumericUserPrincipbl: "},
+        {"SolbrisPrincipbl.", "SolbrisPrincipbl: "},
+        // provided.null.nbme is the NullPointerException messbge when b
+        // developer incorrectly pbsses b null nbme to the constructor of
+        // subclbsses of jbvb.security.Principbl
+        {"provided.null.nbme", "il nome fornito \u00E8 nullo"}
 
     };
 

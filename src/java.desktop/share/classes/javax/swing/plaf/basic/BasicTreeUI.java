@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.beans.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.TreeUI;
-import javax.swing.tree.*;
-import javax.swing.text.Position;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
-import sun.awt.AWTAccessor;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bebns.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.plbf.TreeUI;
+import jbvbx.swing.tree.*;
+import jbvbx.swing.text.Position;
+import jbvbx.swing.plbf.bbsic.DrbgRecognitionSupport.BeforeDrbg;
+import sun.bwt.AWTAccessor;
 import sun.swing.SwingUtilities2;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * The basic L&amp;F for a hierarchical data structure.
+ * The bbsic L&bmp;F for b hierbrchicbl dbtb structure.
  *
- * @author Scott Violet
- * @author Shannon Hickey (drag and drop)
+ * @buthor Scott Violet
+ * @buthor Shbnnon Hickey (drbg bnd drop)
  */
 
-public class BasicTreeUI extends TreeUI
+public clbss BbsicTreeUI extends TreeUI
 {
-    private static final StringBuilder BASELINE_COMPONENT_KEY =
-        new StringBuilder("Tree.baselineComponent");
+    privbte stbtic finbl StringBuilder BASELINE_COMPONENT_KEY =
+        new StringBuilder("Tree.bbselineComponent");
 
-    // Old actions forward to an instance of this.
-    static private final Actions SHARED_ACTION = new Actions();
+    // Old bctions forwbrd to bn instbnce of this.
+    stbtic privbte finbl Actions SHARED_ACTION = new Actions();
 
     /**
-     * The collapsed icon.
+     * The collbpsed icon.
      */
-    transient protected Icon        collapsedIcon;
+    trbnsient protected Icon        collbpsedIcon;
     /**
-     * The expanded icon.
+     * The expbnded icon.
      */
-    transient protected Icon        expandedIcon;
+    trbnsient protected Icon        expbndedIcon;
 
     /**
-      * Color used to draw hash marks.  If <code>null</code> no hash marks
-      * will be drawn.
+      * Color used to drbw hbsh mbrks.  If <code>null</code> no hbsh mbrks
+      * will be drbwn.
       */
-    private Color hashColor;
+    privbte Color hbshColor;
 
-    /** Distance between left margin and where vertical dashes will be
-      * drawn. */
+    /** Distbnce between left mbrgin bnd where verticbl dbshes will be
+      * drbwn. */
     protected int               leftChildIndent;
-    /** Distance to add to leftChildIndent to determine where cell
-      * contents will be drawn. */
+    /** Distbnce to bdd to leftChildIndent to determine where cell
+      * contents will be drbwn. */
     protected int               rightChildIndent;
-    /** Total distance that will be indented.  The sum of leftChildIndent
-      * and rightChildIndent. */
-    protected int               totalChildIndent;
+    /** Totbl distbnce thbt will be indented.  The sum of leftChildIndent
+      * bnd rightChildIndent. */
+    protected int               totblChildIndent;
 
     /** Minimum preferred size. */
     protected Dimension         preferredMinSize;
 
-    /** Index of the row that was last selected. */
-    protected int               lastSelectedRow;
+    /** Index of the row thbt wbs lbst selected. */
+    protected int               lbstSelectedRow;
 
-    /** Component that we're going to be drawing into. */
+    /** Component thbt we're going to be drbwing into. */
     protected JTree             tree;
 
-    /** Renderer that is being used to do the actual cell drawing. */
-    transient protected TreeCellRenderer   currentCellRenderer;
+    /** Renderer thbt is being used to do the bctubl cell drbwing. */
+    trbnsient protected TreeCellRenderer   currentCellRenderer;
 
-    /** Set to true if the renderer that is currently in the tree was
-     * created by this instance. */
-    protected boolean           createdRenderer;
+    /** Set to true if the renderer thbt is currently in the tree wbs
+     * crebted by this instbnce. */
+    protected boolebn           crebtedRenderer;
 
     /** Editor for the tree. */
-    transient protected TreeCellEditor     cellEditor;
+    trbnsient protected TreeCellEditor     cellEditor;
 
-    /** Set to true if editor that is currently in the tree was
-     * created by this instance. */
-    protected boolean           createdCellEditor;
+    /** Set to true if editor thbt is currently in the tree wbs
+     * crebted by this instbnce. */
+    protected boolebn           crebtedCellEditor;
 
-    /** Set to false when editing and shouldSelectCell() returns true meaning
+    /** Set to fblse when editing bnd shouldSelectCell() returns true mebning
       * the node should be selected before editing, used in completeEditing. */
-    protected boolean           stopEditingInCompleteEditing;
+    protected boolebn           stopEditingInCompleteEditing;
 
-    /** Used to paint the TreeCellRenderer. */
-    protected CellRendererPane  rendererPane;
+    /** Used to pbint the TreeCellRenderer. */
+    protected CellRendererPbne  rendererPbne;
 
-    /** Size needed to completely display all the nodes. */
+    /** Size needed to completely displby bll the nodes. */
     protected Dimension         preferredSize;
 
-    /** Is the preferredSize valid? */
-    protected boolean           validCachedPreferredSize;
+    /** Is the preferredSize vblid? */
+    protected boolebn           vblidCbchedPreferredSize;
 
-    /** Object responsible for handling sizing and expanded issues. */
-    // WARNING: Be careful with the bounds held by treeState. They are
-    // always in terms of left-to-right. They get mapped to right-to-left
-    // by the various methods of this class.
-    protected AbstractLayoutCache  treeState;
+    /** Object responsible for hbndling sizing bnd expbnded issues. */
+    // WARNING: Be cbreful with the bounds held by treeStbte. They bre
+    // blwbys in terms of left-to-right. They get mbpped to right-to-left
+    // by the vbrious methods of this clbss.
+    protected AbstrbctLbyoutCbche  treeStbte;
 
 
-    /** Used for minimizing the drawing of vertical lines. */
-    protected Hashtable<TreePath,Boolean> drawingCache;
+    /** Used for minimizing the drbwing of verticbl lines. */
+    protected Hbshtbble<TreePbth,Boolebn> drbwingCbche;
 
-    /** True if doing optimizations for a largeModel. Subclasses that
-     * don't support this may wish to override createLayoutCache to not
-     * return a FixedHeightLayoutCache instance. */
-    protected boolean           largeModel;
+    /** True if doing optimizbtions for b lbrgeModel. Subclbsses thbt
+     * don't support this mby wish to override crebteLbyoutCbche to not
+     * return b FixedHeightLbyoutCbche instbnce. */
+    protected boolebn           lbrgeModel;
 
-    /** Reponsible for telling the TreeState the size needed for a node. */
-    protected AbstractLayoutCache.NodeDimensions     nodeDimensions;
+    /** Reponsible for telling the TreeStbte the size needed for b node. */
+    protected AbstrbctLbyoutCbche.NodeDimensions     nodeDimensions;
 
-    /** Used to determine what to display. */
+    /** Used to determine whbt to displby. */
     protected TreeModel         treeModel;
 
-    /** Model maintaining the selection. */
+    /** Model mbintbining the selection. */
     protected TreeSelectionModel treeSelectionModel;
 
-    /** How much the depth should be offset to properly calculate
-     * x locations. This is based on whether or not the root is visible,
-     * and if the root handles are visible. */
+    /** How much the depth should be offset to properly cblculbte
+     * x locbtions. This is bbsed on whether or not the root is visible,
+     * bnd if the root hbndles bre visible. */
     protected int               depthOffset;
 
-    // Following 4 ivars are only valid when editing.
+    // Following 4 ivbrs bre only vblid when editing.
 
-    /** When editing, this will be the Component that is doing the actual
+    /** When editing, this will be the Component thbt is doing the bctubl
       * editing. */
     protected Component         editingComponent;
 
-    /** Path that is being edited. */
-    protected TreePath          editingPath;
+    /** Pbth thbt is being edited. */
+    protected TreePbth          editingPbth;
 
-    /** Row that is being edited. Should only be referenced if
+    /** Row thbt is being edited. Should only be referenced if
      * editingComponent is not null. */
     protected int               editingRow;
 
-    /** Set to true if the editor has a different size than the renderer. */
-    protected boolean           editorHasDifferentSize;
+    /** Set to true if the editor hbs b different size thbn the renderer. */
+    protected boolebn           editorHbsDifferentSize;
 
-    /** Row correspondin to lead path. */
-    private int                 leadRow;
-    /** If true, the property change event for LEAD_SELECTION_PATH_PROPERTY,
-     * or ANCHOR_SELECTION_PATH_PROPERTY will not generate a repaint. */
-    private boolean             ignoreLAChange;
+    /** Row correspondin to lebd pbth. */
+    privbte int                 lebdRow;
+    /** If true, the property chbnge event for LEAD_SELECTION_PATH_PROPERTY,
+     * or ANCHOR_SELECTION_PATH_PROPERTY will not generbte b repbint. */
+    privbte boolebn             ignoreLAChbnge;
 
-    /** Indicates the orientation. */
-    private boolean             leftToRight;
+    /** Indicbtes the orientbtion. */
+    privbte boolebn             leftToRight;
 
-    // Cached listeners
-    private PropertyChangeListener propertyChangeListener;
-    private PropertyChangeListener selectionModelPropertyChangeListener;
-    private MouseListener mouseListener;
-    private FocusListener focusListener;
-    private KeyListener keyListener;
-    /** Used for large models, listens for moved/resized events and
-     * updates the validCachedPreferredSize bit accordingly. */
-    private ComponentListener   componentListener;
+    // Cbched listeners
+    privbte PropertyChbngeListener propertyChbngeListener;
+    privbte PropertyChbngeListener selectionModelPropertyChbngeListener;
+    privbte MouseListener mouseListener;
+    privbte FocusListener focusListener;
+    privbte KeyListener keyListener;
+    /** Used for lbrge models, listens for moved/resized events bnd
+     * updbtes the vblidCbchedPreferredSize bit bccordingly. */
+    privbte ComponentListener   componentListener;
     /** Listens for CellEditor events. */
-    private CellEditorListener  cellEditorListener;
-    /** Updates the display when the selection changes. */
-    private TreeSelectionListener treeSelectionListener;
-    /** Is responsible for updating the display based on model events. */
-    private TreeModelListener treeModelListener;
-    /** Updates the treestate as the nodes expand. */
-    private TreeExpansionListener treeExpansionListener;
+    privbte CellEditorListener  cellEditorListener;
+    /** Updbtes the displby when the selection chbnges. */
+    privbte TreeSelectionListener treeSelectionListener;
+    /** Is responsible for updbting the displby bbsed on model events. */
+    privbte TreeModelListener treeModelListener;
+    /** Updbtes the treestbte bs the nodes expbnd. */
+    privbte TreeExpbnsionListener treeExpbnsionListener;
 
-    /** UI property indicating whether to paint lines */
-    private boolean paintLines = true;
+    /** UI property indicbting whether to pbint lines */
+    privbte boolebn pbintLines = true;
 
-    /** UI property for painting dashed lines */
-    private boolean lineTypeDashed;
+    /** UI property for pbinting dbshed lines */
+    privbte boolebn lineTypeDbshed;
 
     /**
-     * The time factor to treate the series of typed alphanumeric key
-     * as prefix for first letter navigation.
+     * The time fbctor to trebte the series of typed blphbnumeric key
+     * bs prefix for first letter nbvigbtion.
      */
-    private long timeFactor = 1000L;
+    privbte long timeFbctor = 1000L;
 
-    private Handler handler;
+    privbte Hbndler hbndler;
 
     /**
-     * A temporary variable for communication between startEditingOnRelease
-     * and startEditing.
+     * A temporbry vbribble for communicbtion between stbrtEditingOnRelebse
+     * bnd stbrtEditing.
      */
-    private MouseEvent releaseEvent;
+    privbte MouseEvent relebseEvent;
 
     /**
-     * Constructs a new instance of {@code BasicTreeUI}.
+     * Constructs b new instbnce of {@code BbsicTreeUI}.
      *
-     * @param x a component
-     * @return a new instance of {@code BasicTreeUI}
+     * @pbrbm x b component
+     * @return b new instbnce of {@code BbsicTreeUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicTreeUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new BbsicTreeUI();
     }
 
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.SELECT_PREVIOUS));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_EXTEND_SELECTION));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.SELECT_NEXT));
-        map.put(new Actions(Actions.SELECT_NEXT_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_NEXT_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SELECT_NEXT));
+        mbp.put(new Actions(Actions.SELECT_NEXT_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_NEXT_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.SELECT_CHILD));
-        map.put(new Actions(Actions.SELECT_CHILD_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_CHILD));
+        mbp.put(new Actions(Actions.SELECT_CHILD_CHANGE_LEAD));
 
-        map.put(new Actions(Actions.SELECT_PARENT));
-        map.put(new Actions(Actions.SELECT_PARENT_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_PARENT));
+        mbp.put(new Actions(Actions.SELECT_PARENT_CHANGE_LEAD));
 
-        map.put(new Actions(Actions.SCROLL_UP_CHANGE_SELECTION));
-        map.put(new Actions(Actions.SCROLL_UP_CHANGE_LEAD));
-        map.put(new Actions(Actions.SCROLL_UP_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_UP_CHANGE_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_UP_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_UP_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.SCROLL_DOWN_CHANGE_SELECTION));
-        map.put(new Actions(Actions.SCROLL_DOWN_EXTEND_SELECTION));
-        map.put(new Actions(Actions.SCROLL_DOWN_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_CHANGE_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_CHANGE_LEAD));
 
-        map.put(new Actions(Actions.SELECT_FIRST));
-        map.put(new Actions(Actions.SELECT_FIRST_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_FIRST_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SELECT_FIRST));
+        mbp.put(new Actions(Actions.SELECT_FIRST_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_FIRST_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.SELECT_LAST));
-        map.put(new Actions(Actions.SELECT_LAST_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_LAST_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SELECT_LAST));
+        mbp.put(new Actions(Actions.SELECT_LAST_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_LAST_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.TOGGLE));
+        mbp.put(new Actions(Actions.TOGGLE));
 
-        map.put(new Actions(Actions.CANCEL_EDITING));
+        mbp.put(new Actions(Actions.CANCEL_EDITING));
 
-        map.put(new Actions(Actions.START_EDITING));
+        mbp.put(new Actions(Actions.START_EDITING));
 
-        map.put(new Actions(Actions.SELECT_ALL));
+        mbp.put(new Actions(Actions.SELECT_ALL));
 
-        map.put(new Actions(Actions.CLEAR_SELECTION));
+        mbp.put(new Actions(Actions.CLEAR_SELECTION));
 
-        map.put(new Actions(Actions.SCROLL_LEFT));
-        map.put(new Actions(Actions.SCROLL_RIGHT));
+        mbp.put(new Actions(Actions.SCROLL_LEFT));
+        mbp.put(new Actions(Actions.SCROLL_RIGHT));
 
-        map.put(new Actions(Actions.SCROLL_LEFT_EXTEND_SELECTION));
-        map.put(new Actions(Actions.SCROLL_RIGHT_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_LEFT_EXTEND_SELECTION));
+        mbp.put(new Actions(Actions.SCROLL_RIGHT_EXTEND_SELECTION));
 
-        map.put(new Actions(Actions.SCROLL_RIGHT_CHANGE_LEAD));
-        map.put(new Actions(Actions.SCROLL_LEFT_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_RIGHT_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_LEFT_CHANGE_LEAD));
 
-        map.put(new Actions(Actions.EXPAND));
-        map.put(new Actions(Actions.COLLAPSE));
-        map.put(new Actions(Actions.MOVE_SELECTION_TO_PARENT));
+        mbp.put(new Actions(Actions.EXPAND));
+        mbp.put(new Actions(Actions.COLLAPSE));
+        mbp.put(new Actions(Actions.MOVE_SELECTION_TO_PARENT));
 
-        map.put(new Actions(Actions.ADD_TO_SELECTION));
-        map.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
-        map.put(new Actions(Actions.EXTEND_TO));
-        map.put(new Actions(Actions.MOVE_SELECTION_TO));
+        mbp.put(new Actions(Actions.ADD_TO_SELECTION));
+        mbp.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
+        mbp.put(new Actions(Actions.EXTEND_TO));
+        mbp.put(new Actions(Actions.MOVE_SELECTION_TO));
 
-        map.put(TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction());
+        mbp.put(TrbnsferHbndler.getCutAction());
+        mbp.put(TrbnsferHbndler.getCopyAction());
+        mbp.put(TrbnsferHbndler.getPbsteAction());
     }
 
     /**
-     * Constructs a new instance of {@code BasicTreeUI}.
+     * Constructs b new instbnce of {@code BbsicTreeUI}.
      */
-    public BasicTreeUI() {
+    public BbsicTreeUI() {
         super();
     }
 
     /**
-     * Returns the hash color.
+     * Returns the hbsh color.
      *
-     * @return the hash color
+     * @return the hbsh color
      */
-    protected Color getHashColor() {
-        return hashColor;
+    protected Color getHbshColor() {
+        return hbshColor;
     }
 
     /**
-     * Sets the hash color.
+     * Sets the hbsh color.
      *
-     * @param color the hash color
+     * @pbrbm color the hbsh color
      */
-    protected void setHashColor(Color color) {
-        hashColor = color;
+    protected void setHbshColor(Color color) {
+        hbshColor = color;
     }
 
     /**
      * Sets the left child indent.
      *
-     * @param newAmount the left child indent
+     * @pbrbm newAmount the left child indent
      */
     public void setLeftChildIndent(int newAmount) {
         leftChildIndent = newAmount;
-        totalChildIndent = leftChildIndent + rightChildIndent;
-        if(treeState != null)
-            treeState.invalidateSizes();
-        updateSize();
+        totblChildIndent = leftChildIndent + rightChildIndent;
+        if(treeStbte != null)
+            treeStbte.invblidbteSizes();
+        updbteSize();
     }
 
     /**
@@ -341,14 +341,14 @@ public class BasicTreeUI extends TreeUI
     /**
      * Sets the right child indent.
      *
-     * @param newAmount the right child indent
+     * @pbrbm newAmount the right child indent
      */
     public void setRightChildIndent(int newAmount) {
         rightChildIndent = newAmount;
-        totalChildIndent = leftChildIndent + rightChildIndent;
-        if(treeState != null)
-            treeState.invalidateSizes();
-        updateSize();
+        totblChildIndent = leftChildIndent + rightChildIndent;
+        if(treeStbte != null)
+            treeStbte.invblidbteSizes();
+        updbteSize();
     }
 
     /**
@@ -361,85 +361,85 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-     * Sets the expanded icon.
+     * Sets the expbnded icon.
      *
-     * @param newG the expanded icon
+     * @pbrbm newG the expbnded icon
      */
-    public void setExpandedIcon(Icon newG) {
-        expandedIcon = newG;
+    public void setExpbndedIcon(Icon newG) {
+        expbndedIcon = newG;
     }
 
     /**
-     * Returns the expanded icon.
+     * Returns the expbnded icon.
      *
-     * @return the expanded icon
+     * @return the expbnded icon
      */
-    public Icon getExpandedIcon() {
-        return expandedIcon;
+    public Icon getExpbndedIcon() {
+        return expbndedIcon;
     }
 
     /**
-     * Sets the collapsed icon.
+     * Sets the collbpsed icon.
      *
-     * @param newG the collapsed icon
+     * @pbrbm newG the collbpsed icon
      */
-    public void setCollapsedIcon(Icon newG) {
-        collapsedIcon = newG;
+    public void setCollbpsedIcon(Icon newG) {
+        collbpsedIcon = newG;
     }
 
     /**
-     * Returns the collapsed icon.
+     * Returns the collbpsed icon.
      *
-     * @return the collapsed icon
+     * @return the collbpsed icon
      */
-    public Icon getCollapsedIcon() {
-        return collapsedIcon;
+    public Icon getCollbpsedIcon() {
+        return collbpsedIcon;
     }
 
     //
-    // Methods for configuring the behavior of the tree. None of them
-    // push the value to the JTree instance. You should really only
-    // call these methods on the JTree.
+    // Methods for configuring the behbvior of the tree. None of them
+    // push the vblue to the JTree instbnce. You should reblly only
+    // cbll these methods on the JTree.
     //
 
     /**
-     * Updates the componentListener, if necessary.
+     * Updbtes the componentListener, if necessbry.
      *
-     * @param largeModel the new value
+     * @pbrbm lbrgeModel the new vblue
      */
-    protected void setLargeModel(boolean largeModel) {
+    protected void setLbrgeModel(boolebn lbrgeModel) {
         if(getRowHeight() < 1)
-            largeModel = false;
-        if(this.largeModel != largeModel) {
+            lbrgeModel = fblse;
+        if(this.lbrgeModel != lbrgeModel) {
             completeEditing();
-            this.largeModel = largeModel;
-            treeState = createLayoutCache();
-            configureLayoutCache();
-            updateLayoutCacheExpandedNodesIfNecessary();
-            updateSize();
+            this.lbrgeModel = lbrgeModel;
+            treeStbte = crebteLbyoutCbche();
+            configureLbyoutCbche();
+            updbteLbyoutCbcheExpbndedNodesIfNecessbry();
+            updbteSize();
         }
     }
 
     /**
-     * Returns {@code true} if large model is set.
+     * Returns {@code true} if lbrge model is set.
      *
-     * @return {@code true} if large model is set
+     * @return {@code true} if lbrge model is set
      */
-    protected boolean isLargeModel() {
-        return largeModel;
+    protected boolebn isLbrgeModel() {
+        return lbrgeModel;
     }
 
     /**
-     * Sets the row height, this is forwarded to the treeState.
+     * Sets the row height, this is forwbrded to the treeStbte.
      *
-     * @param rowHeight the row height
+     * @pbrbm rowHeight the row height
      */
     protected void setRowHeight(int rowHeight) {
         completeEditing();
-        if(treeState != null) {
-            setLargeModel(tree.isLargeModel());
-            treeState.setRowHeight(rowHeight);
-            updateSize();
+        if(treeStbte != null) {
+            setLbrgeModel(tree.isLbrgeModel());
+            treeStbte.setRowHeight(rowHeight);
+            updbteSize();
         }
     }
 
@@ -454,24 +454,24 @@ public class BasicTreeUI extends TreeUI
 
     /**
      * Sets the {@code TreeCellRenderer} to {@code tcr}. This invokes
-     * {@code updateRenderer}.
+     * {@code updbteRenderer}.
      *
-     * @param tcr the new value
+     * @pbrbm tcr the new vblue
      */
     protected void setCellRenderer(TreeCellRenderer tcr) {
         completeEditing();
-        updateRenderer();
-        if(treeState != null) {
-            treeState.invalidateSizes();
-            updateSize();
+        updbteRenderer();
+        if(treeStbte != null) {
+            treeStbte.invblidbteSizes();
+            updbteSize();
         }
     }
 
     /**
      * Return {@code currentCellRenderer}, which will either be the trees
-     * renderer, or {@code defaultCellRenderer}, which ever wasn't null.
+     * renderer, or {@code defbultCellRenderer}, which ever wbsn't null.
      *
-     * @return an instance of {@code TreeCellRenderer}
+     * @return bn instbnce of {@code TreeCellRenderer}
      */
     protected TreeCellRenderer getCellRenderer() {
         return currentCellRenderer;
@@ -480,7 +480,7 @@ public class BasicTreeUI extends TreeUI
     /**
      * Sets the {@code TreeModel}.
      *
-     * @param model the new value
+     * @pbrbm model the new vblue
      */
     protected void setModel(TreeModel model) {
         completeEditing();
@@ -489,12 +489,12 @@ public class BasicTreeUI extends TreeUI
         treeModel = model;
         if(treeModel != null) {
             if(treeModelListener != null)
-                treeModel.addTreeModelListener(treeModelListener);
+                treeModel.bddTreeModelListener(treeModelListener);
         }
-        if(treeState != null) {
-            treeState.setModel(model);
-            updateLayoutCacheExpandedNodesIfNecessary();
-            updateSize();
+        if(treeStbte != null) {
+            treeStbte.setModel(model);
+            updbteLbyoutCbcheExpbndedNodesIfNecessbry();
+            updbteSize();
         }
     }
 
@@ -510,15 +510,15 @@ public class BasicTreeUI extends TreeUI
     /**
      * Sets the root to being visible.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    protected void setRootVisible(boolean newValue) {
+    protected void setRootVisible(boolebn newVblue) {
         completeEditing();
-        updateDepthOffset();
-        if(treeState != null) {
-            treeState.setRootVisible(newValue);
-            treeState.invalidateSizes();
-            updateSize();
+        updbteDepthOffset();
+        if(treeStbte != null) {
+            treeStbte.setRootVisible(newVblue);
+            treeStbte.invblidbteSizes();
+            updbteSize();
         }
     }
 
@@ -527,99 +527,99 @@ public class BasicTreeUI extends TreeUI
      *
      * @return {@code true} if the tree root is visible
      */
-    protected boolean isRootVisible() {
-        return (tree != null) ? tree.isRootVisible() : false;
+    protected boolebn isRootVisible() {
+        return (tree != null) ? tree.isRootVisible() : fblse;
     }
 
     /**
-     * Determines whether the node handles are to be displayed.
+     * Determines whether the node hbndles bre to be displbyed.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    protected void setShowsRootHandles(boolean newValue) {
+    protected void setShowsRootHbndles(boolebn newVblue) {
         completeEditing();
-        updateDepthOffset();
-        if(treeState != null) {
-            treeState.invalidateSizes();
-            updateSize();
+        updbteDepthOffset();
+        if(treeStbte != null) {
+            treeStbte.invblidbteSizes();
+            updbteSize();
         }
     }
 
     /**
-     * Returns {@code true} if the root handles are to be displayed.
+     * Returns {@code true} if the root hbndles bre to be displbyed.
      *
-     * @return {@code true} if the root handles are to be displayed
+     * @return {@code true} if the root hbndles bre to be displbyed
      */
-    protected boolean getShowsRootHandles() {
-        return (tree != null) ? tree.getShowsRootHandles() : false;
+    protected boolebn getShowsRootHbndles() {
+        return (tree != null) ? tree.getShowsRootHbndles() : fblse;
     }
 
     /**
      * Sets the cell editor.
      *
-     * @param editor the new cell editor
+     * @pbrbm editor the new cell editor
      */
     protected void setCellEditor(TreeCellEditor editor) {
-        updateCellEditor();
+        updbteCellEditor();
     }
 
     /**
-     * Returns an instance of {@code TreeCellEditor}.
+     * Returns bn instbnce of {@code TreeCellEditor}.
      *
-     * @return an instance of {@code TreeCellEditor}
+     * @return bn instbnce of {@code TreeCellEditor}
      */
     protected TreeCellEditor getCellEditor() {
         return (tree != null) ? tree.getCellEditor() : null;
     }
 
     /**
-     * Configures the receiver to allow, or not allow, editing.
+     * Configures the receiver to bllow, or not bllow, editing.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    protected void setEditable(boolean newValue) {
-        updateCellEditor();
+    protected void setEditbble(boolebn newVblue) {
+        updbteCellEditor();
     }
 
     /**
-     * Returns {@code true} if the tree is editable.
+     * Returns {@code true} if the tree is editbble.
      *
-     * @return {@code true} if the tree is editable
+     * @return {@code true} if the tree is editbble
      */
-    protected boolean isEditable() {
-        return (tree != null) ? tree.isEditable() : false;
+    protected boolebn isEditbble() {
+        return (tree != null) ? tree.isEditbble() : fblse;
     }
 
     /**
-     * Resets the selection model. The appropriate listener are installed
+     * Resets the selection model. The bppropribte listener bre instblled
      * on the model.
      *
-     * @param newLSM new selection model
+     * @pbrbm newLSM new selection model
      */
     protected void setSelectionModel(TreeSelectionModel newLSM) {
         completeEditing();
-        if(selectionModelPropertyChangeListener != null &&
+        if(selectionModelPropertyChbngeListener != null &&
            treeSelectionModel != null)
-            treeSelectionModel.removePropertyChangeListener
-                              (selectionModelPropertyChangeListener);
+            treeSelectionModel.removePropertyChbngeListener
+                              (selectionModelPropertyChbngeListener);
         if(treeSelectionListener != null && treeSelectionModel != null)
             treeSelectionModel.removeTreeSelectionListener
                                (treeSelectionListener);
         treeSelectionModel = newLSM;
         if(treeSelectionModel != null) {
-            if(selectionModelPropertyChangeListener != null)
-                treeSelectionModel.addPropertyChangeListener
-                              (selectionModelPropertyChangeListener);
+            if(selectionModelPropertyChbngeListener != null)
+                treeSelectionModel.bddPropertyChbngeListener
+                              (selectionModelPropertyChbngeListener);
             if(treeSelectionListener != null)
-                treeSelectionModel.addTreeSelectionListener
+                treeSelectionModel.bddTreeSelectionListener
                                    (treeSelectionListener);
-            if(treeState != null)
-                treeState.setSelectionModel(treeSelectionModel);
+            if(treeStbte != null)
+                treeStbte.setSelectionModel(treeSelectionModel);
         }
-        else if(treeState != null)
-            treeState.setSelectionModel(null);
+        else if(treeStbte != null)
+            treeStbte.setSelectionModel(null);
         if(tree != null)
-            tree.repaint();
+            tree.repbint();
     }
 
     /**
@@ -636,20 +636,20 @@ public class BasicTreeUI extends TreeUI
     //
 
     /**
-      * Returns the Rectangle enclosing the label portion that the
-      * last item in path will be drawn into.  Will return null if
-      * any component in path is currently valid.
+      * Returns the Rectbngle enclosing the lbbel portion thbt the
+      * lbst item in pbth will be drbwn into.  Will return null if
+      * bny component in pbth is currently vblid.
       */
-    public Rectangle getPathBounds(JTree tree, TreePath path) {
-        if(tree != null && treeState != null) {
-            return getPathBounds(path, tree.getInsets(), new Rectangle());
+    public Rectbngle getPbthBounds(JTree tree, TreePbth pbth) {
+        if(tree != null && treeStbte != null) {
+            return getPbthBounds(pbth, tree.getInsets(), new Rectbngle());
         }
         return null;
     }
 
-    private Rectangle getPathBounds(TreePath path, Insets insets,
-                                    Rectangle bounds) {
-        bounds = treeState.getBounds(path, bounds);
+    privbte Rectbngle getPbthBounds(TreePbth pbth, Insets insets,
+                                    Rectbngle bounds) {
+        bounds = treeStbte.getBounds(pbth, bounds);
         if (bounds != null) {
             if (leftToRight) {
                 bounds.x += insets.left;
@@ -663,550 +663,550 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-      * Returns the path for passed in row.  If row is not visible
+      * Returns the pbth for pbssed in row.  If row is not visible
       * null is returned.
       */
-    public TreePath getPathForRow(JTree tree, int row) {
-        return (treeState != null) ? treeState.getPathForRow(row) : null;
+    public TreePbth getPbthForRow(JTree tree, int row) {
+        return (treeStbte != null) ? treeStbte.getPbthForRow(row) : null;
     }
 
     /**
-      * Returns the row that the last item identified in path is visible
-      * at.  Will return -1 if any of the elements in path are not
+      * Returns the row thbt the lbst item identified in pbth is visible
+      * bt.  Will return -1 if bny of the elements in pbth bre not
       * currently visible.
       */
-    public int getRowForPath(JTree tree, TreePath path) {
-        return (treeState != null) ? treeState.getRowForPath(path) : -1;
+    public int getRowForPbth(JTree tree, TreePbth pbth) {
+        return (treeStbte != null) ? treeStbte.getRowForPbth(pbth) : -1;
     }
 
     /**
-      * Returns the number of rows that are being displayed.
+      * Returns the number of rows thbt bre being displbyed.
       */
     public int getRowCount(JTree tree) {
-        return (treeState != null) ? treeState.getRowCount() : 0;
+        return (treeStbte != null) ? treeStbte.getRowCount() : 0;
     }
 
     /**
-      * Returns the path to the node that is closest to x,y.  If
+      * Returns the pbth to the node thbt is closest to x,y.  If
       * there is nothing currently visible this will return null, otherwise
-      * it'll always return a valid path.  If you need to test if the
-      * returned object is exactly at x, y you should get the bounds for
-      * the returned path and test x, y against that.
+      * it'll blwbys return b vblid pbth.  If you need to test if the
+      * returned object is exbctly bt x, y you should get the bounds for
+      * the returned pbth bnd test x, y bgbinst thbt.
       */
-    public TreePath getClosestPathForLocation(JTree tree, int x, int y) {
-        if(tree != null && treeState != null) {
-            // TreeState doesn't care about the x location, hence it isn't
-            // adjusted
+    public TreePbth getClosestPbthForLocbtion(JTree tree, int x, int y) {
+        if(tree != null && treeStbte != null) {
+            // TreeStbte doesn't cbre bbout the x locbtion, hence it isn't
+            // bdjusted
             y -= tree.getInsets().top;
-            return treeState.getPathClosestTo(x, y);
+            return treeStbte.getPbthClosestTo(x, y);
         }
         return null;
     }
 
     /**
-      * Returns true if the tree is being edited.  The item that is being
-      * edited can be returned by getEditingPath().
+      * Returns true if the tree is being edited.  The item thbt is being
+      * edited cbn be returned by getEditingPbth().
       */
-    public boolean isEditing(JTree tree) {
+    public boolebn isEditing(JTree tree) {
         return (editingComponent != null);
     }
 
     /**
-      * Stops the current editing session.  This has no effect if the
-      * tree isn't being edited.  Returns true if the editor allows the
+      * Stops the current editing session.  This hbs no effect if the
+      * tree isn't being edited.  Returns true if the editor bllows the
       * editing session to stop.
       */
-    public boolean stopEditing(JTree tree) {
+    public boolebn stopEditing(JTree tree) {
         if(editingComponent != null && cellEditor.stopCellEditing()) {
-            completeEditing(false, false, true);
+            completeEditing(fblse, fblse, true);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-      * Cancels the current editing session.
+      * Cbncels the current editing session.
       */
-    public void cancelEditing(JTree tree) {
+    public void cbncelEditing(JTree tree) {
         if(editingComponent != null) {
-            completeEditing(false, true, false);
+            completeEditing(fblse, true, fblse);
         }
     }
 
     /**
-      * Selects the last item in path and tries to edit it.  Editing will
-      * fail if the CellEditor won't allow it for the selected item.
+      * Selects the lbst item in pbth bnd tries to edit it.  Editing will
+      * fbil if the CellEditor won't bllow it for the selected item.
       */
-    public void startEditingAtPath(JTree tree, TreePath path) {
-        tree.scrollPathToVisible(path);
-        if(path != null && tree.isVisible(path))
-            startEditing(path, null);
+    public void stbrtEditingAtPbth(JTree tree, TreePbth pbth) {
+        tree.scrollPbthToVisible(pbth);
+        if(pbth != null && tree.isVisible(pbth))
+            stbrtEditing(pbth, null);
     }
 
     /**
-     * Returns the path to the element that is being edited.
+     * Returns the pbth to the element thbt is being edited.
      */
-    public TreePath getEditingPath(JTree tree) {
-        return editingPath;
+    public TreePbth getEditingPbth(JTree tree) {
+        return editingPbth;
     }
 
     //
-    // Install methods
+    // Instbll methods
     //
 
-    public void installUI(JComponent c) {
+    public void instbllUI(JComponent c) {
         if ( c == null ) {
-            throw new NullPointerException( "null component passed to BasicTreeUI.installUI()" );
+            throw new NullPointerException( "null component pbssed to BbsicTreeUI.instbllUI()" );
         }
 
         tree = (JTree)c;
 
-        prepareForUIInstall();
+        prepbreForUIInstbll();
 
-        // Boilerplate install block
-        installDefaults();
-        installKeyboardActions();
-        installComponents();
-        installListeners();
+        // Boilerplbte instbll block
+        instbllDefbults();
+        instbllKeybobrdActions();
+        instbllComponents();
+        instbllListeners();
 
-        completeUIInstall();
+        completeUIInstbll();
     }
 
     /**
-     * Invoked after the {@code tree} instance variable has been
-     * set, but before any defaults/listeners have been installed.
+     * Invoked bfter the {@code tree} instbnce vbribble hbs been
+     * set, but before bny defbults/listeners hbve been instblled.
      */
-    protected void prepareForUIInstall() {
-        drawingCache = new Hashtable<TreePath,Boolean>(7);
+    protected void prepbreForUIInstbll() {
+        drbwingCbche = new Hbshtbble<TreePbth,Boolebn>(7);
 
-        // Data member initializations
-        leftToRight = BasicGraphicsUtils.isLeftToRight(tree);
+        // Dbtb member initiblizbtions
+        leftToRight = BbsicGrbphicsUtils.isLeftToRight(tree);
         stopEditingInCompleteEditing = true;
-        lastSelectedRow = -1;
-        leadRow = -1;
+        lbstSelectedRow = -1;
+        lebdRow = -1;
         preferredSize = new Dimension();
 
-        largeModel = tree.isLargeModel();
+        lbrgeModel = tree.isLbrgeModel();
         if(getRowHeight() <= 0)
-            largeModel = false;
+            lbrgeModel = fblse;
         setModel(tree.getModel());
     }
 
     /**
-     * Invoked from installUI after all the defaults/listeners have been
-     * installed.
+     * Invoked from instbllUI bfter bll the defbults/listeners hbve been
+     * instblled.
      */
-    protected void completeUIInstall() {
-        // Custom install code
+    protected void completeUIInstbll() {
+        // Custom instbll code
 
-        this.setShowsRootHandles(tree.getShowsRootHandles());
+        this.setShowsRootHbndles(tree.getShowsRootHbndles());
 
-        updateRenderer();
+        updbteRenderer();
 
-        updateDepthOffset();
+        updbteDepthOffset();
 
         setSelectionModel(tree.getSelectionModel());
 
-        // Create, if necessary, the TreeState instance.
-        treeState = createLayoutCache();
-        configureLayoutCache();
+        // Crebte, if necessbry, the TreeStbte instbnce.
+        treeStbte = crebteLbyoutCbche();
+        configureLbyoutCbche();
 
-        updateSize();
+        updbteSize();
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        if(tree.getBackground() == null ||
-           tree.getBackground() instanceof UIResource) {
-            tree.setBackground(UIManager.getColor("Tree.background"));
+    protected void instbllDefbults() {
+        if(tree.getBbckground() == null ||
+           tree.getBbckground() instbnceof UIResource) {
+            tree.setBbckground(UIMbnbger.getColor("Tree.bbckground"));
         }
-        if(getHashColor() == null || getHashColor() instanceof UIResource) {
-            setHashColor(UIManager.getColor("Tree.hash"));
+        if(getHbshColor() == null || getHbshColor() instbnceof UIResource) {
+            setHbshColor(UIMbnbger.getColor("Tree.hbsh"));
         }
-        if (tree.getFont() == null || tree.getFont() instanceof UIResource)
-            tree.setFont( UIManager.getFont("Tree.font") );
-        // JTree's original row height is 16.  To correctly display the
-        // contents on Linux we should have set it to 18, Windows 19 and
-        // Solaris 20.  As these values vary so much it's too hard to
-        // be backward compatable and try to update the row height, we're
-        // therefor NOT going to adjust the row height based on font.  If the
-        // developer changes the font, it's there responsibility to update
+        if (tree.getFont() == null || tree.getFont() instbnceof UIResource)
+            tree.setFont( UIMbnbger.getFont("Tree.font") );
+        // JTree's originbl row height is 16.  To correctly displby the
+        // contents on Linux we should hbve set it to 18, Windows 19 bnd
+        // Solbris 20.  As these vblues vbry so much it's too hbrd to
+        // be bbckwbrd compbtbble bnd try to updbte the row height, we're
+        // therefor NOT going to bdjust the row height bbsed on font.  If the
+        // developer chbnges the font, it's there responsibility to updbte
         // the row height.
 
-        setExpandedIcon( (Icon)UIManager.get( "Tree.expandedIcon" ) );
-        setCollapsedIcon( (Icon)UIManager.get( "Tree.collapsedIcon" ) );
+        setExpbndedIcon( (Icon)UIMbnbger.get( "Tree.expbndedIcon" ) );
+        setCollbpsedIcon( (Icon)UIMbnbger.get( "Tree.collbpsedIcon" ) );
 
-        setLeftChildIndent(((Integer)UIManager.get("Tree.leftChildIndent")).
-                           intValue());
-        setRightChildIndent(((Integer)UIManager.get("Tree.rightChildIndent")).
-                           intValue());
+        setLeftChildIndent(((Integer)UIMbnbger.get("Tree.leftChildIndent")).
+                           intVblue());
+        setRightChildIndent(((Integer)UIMbnbger.get("Tree.rightChildIndent")).
+                           intVblue());
 
-        LookAndFeel.installProperty(tree, "rowHeight",
-                                    UIManager.get("Tree.rowHeight"));
+        LookAndFeel.instbllProperty(tree, "rowHeight",
+                                    UIMbnbger.get("Tree.rowHeight"));
 
-        largeModel = (tree.isLargeModel() && tree.getRowHeight() > 0);
+        lbrgeModel = (tree.isLbrgeModel() && tree.getRowHeight() > 0);
 
-        Object scrollsOnExpand = UIManager.get("Tree.scrollsOnExpand");
-        if (scrollsOnExpand != null) {
-            LookAndFeel.installProperty(tree, "scrollsOnExpand", scrollsOnExpand);
+        Object scrollsOnExpbnd = UIMbnbger.get("Tree.scrollsOnExpbnd");
+        if (scrollsOnExpbnd != null) {
+            LookAndFeel.instbllProperty(tree, "scrollsOnExpbnd", scrollsOnExpbnd);
         }
 
-        paintLines = UIManager.getBoolean("Tree.paintLines");
-        lineTypeDashed = UIManager.getBoolean("Tree.lineTypeDashed");
+        pbintLines = UIMbnbger.getBoolebn("Tree.pbintLines");
+        lineTypeDbshed = UIMbnbger.getBoolebn("Tree.lineTypeDbshed");
 
-        Long l = (Long)UIManager.get("Tree.timeFactor");
-        timeFactor = (l!=null) ? l.longValue() : 1000L;
+        Long l = (Long)UIMbnbger.get("Tree.timeFbctor");
+        timeFbctor = (l!=null) ? l.longVblue() : 1000L;
 
-        Object showsRootHandles = UIManager.get("Tree.showsRootHandles");
-        if (showsRootHandles != null) {
-            LookAndFeel.installProperty(tree,
-                    JTree.SHOWS_ROOT_HANDLES_PROPERTY, showsRootHandles);
+        Object showsRootHbndles = UIMbnbger.get("Tree.showsRootHbndles");
+        if (showsRootHbndles != null) {
+            LookAndFeel.instbllProperty(tree,
+                    JTree.SHOWS_ROOT_HANDLES_PROPERTY, showsRootHbndles);
         }
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        if ( (propertyChangeListener = createPropertyChangeListener())
+    protected void instbllListeners() {
+        if ( (propertyChbngeListener = crebtePropertyChbngeListener())
              != null ) {
-            tree.addPropertyChangeListener(propertyChangeListener);
+            tree.bddPropertyChbngeListener(propertyChbngeListener);
         }
-        if ( (mouseListener = createMouseListener()) != null ) {
-            tree.addMouseListener(mouseListener);
-            if (mouseListener instanceof MouseMotionListener) {
-                tree.addMouseMotionListener((MouseMotionListener)mouseListener);
+        if ( (mouseListener = crebteMouseListener()) != null ) {
+            tree.bddMouseListener(mouseListener);
+            if (mouseListener instbnceof MouseMotionListener) {
+                tree.bddMouseMotionListener((MouseMotionListener)mouseListener);
             }
         }
-        if ((focusListener = createFocusListener()) != null ) {
-            tree.addFocusListener(focusListener);
+        if ((focusListener = crebteFocusListener()) != null ) {
+            tree.bddFocusListener(focusListener);
         }
-        if ((keyListener = createKeyListener()) != null) {
-            tree.addKeyListener(keyListener);
+        if ((keyListener = crebteKeyListener()) != null) {
+            tree.bddKeyListener(keyListener);
         }
-        if((treeExpansionListener = createTreeExpansionListener()) != null) {
-            tree.addTreeExpansionListener(treeExpansionListener);
+        if((treeExpbnsionListener = crebteTreeExpbnsionListener()) != null) {
+            tree.bddTreeExpbnsionListener(treeExpbnsionListener);
         }
-        if((treeModelListener = createTreeModelListener()) != null &&
+        if((treeModelListener = crebteTreeModelListener()) != null &&
            treeModel != null) {
-            treeModel.addTreeModelListener(treeModelListener);
+            treeModel.bddTreeModelListener(treeModelListener);
         }
-        if((selectionModelPropertyChangeListener =
-            createSelectionModelPropertyChangeListener()) != null &&
+        if((selectionModelPropertyChbngeListener =
+            crebteSelectionModelPropertyChbngeListener()) != null &&
            treeSelectionModel != null) {
-            treeSelectionModel.addPropertyChangeListener
-                (selectionModelPropertyChangeListener);
+            treeSelectionModel.bddPropertyChbngeListener
+                (selectionModelPropertyChbngeListener);
         }
-        if((treeSelectionListener = createTreeSelectionListener()) != null &&
+        if((treeSelectionListener = crebteTreeSelectionListener()) != null &&
            treeSelectionModel != null) {
-            treeSelectionModel.addTreeSelectionListener(treeSelectionListener);
+            treeSelectionModel.bddTreeSelectionListener(treeSelectionListener);
         }
 
-        TransferHandler th = tree.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            tree.setTransferHandler(defaultTransferHandler);
-            // default TransferHandler doesn't support drop
-            // so we don't want drop handling
-            if (tree.getDropTarget() instanceof UIResource) {
-                tree.setDropTarget(null);
+        TrbnsferHbndler th = tree.getTrbnsferHbndler();
+        if (th == null || th instbnceof UIResource) {
+            tree.setTrbnsferHbndler(defbultTrbnsferHbndler);
+            // defbult TrbnsferHbndler doesn't support drop
+            // so we don't wbnt drop hbndling
+            if (tree.getDropTbrget() instbnceof UIResource) {
+                tree.setDropTbrget(null);
             }
         }
 
-        LookAndFeel.installProperty(tree, "opaque", Boolean.TRUE);
+        LookAndFeel.instbllProperty(tree, "opbque", Boolebn.TRUE);
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions() {
-        InputMap km = getInputMap(JComponent.
+    protected void instbllKeybobrdActions() {
+        InputMbp km = getInputMbp(JComponent.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        SwingUtilities.replaceUIInputMap(tree, JComponent.
+        SwingUtilities.replbceUIInputMbp(tree, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          km);
-        km = getInputMap(JComponent.WHEN_FOCUSED);
-        SwingUtilities.replaceUIInputMap(tree, JComponent.WHEN_FOCUSED, km);
+        km = getInputMbp(JComponent.WHEN_FOCUSED);
+        SwingUtilities.replbceUIInputMbp(tree, JComponent.WHEN_FOCUSED, km);
 
-        LazyActionMap.installLazyActionMap(tree, BasicTreeUI.class,
-                                           "Tree.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(tree, BbsicTreeUI.clbss,
+                                           "Tree.bctionMbp");
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(tree, this,
-                                               "Tree.ancestorInputMap");
+            return (InputMbp)DefbultLookup.get(tree, this,
+                                               "Tree.bncestorInputMbp");
         }
         else if (condition == JComponent.WHEN_FOCUSED) {
-            InputMap keyMap = (InputMap)DefaultLookup.get(tree, this,
-                                                      "Tree.focusInputMap");
-            InputMap rtlKeyMap;
+            InputMbp keyMbp = (InputMbp)DefbultLookup.get(tree, this,
+                                                      "Tree.focusInputMbp");
+            InputMbp rtlKeyMbp;
 
-            if (tree.getComponentOrientation().isLeftToRight() ||
-                  ((rtlKeyMap = (InputMap)DefaultLookup.get(tree, this,
-                  "Tree.focusInputMap.RightToLeft")) == null)) {
-                return keyMap;
+            if (tree.getComponentOrientbtion().isLeftToRight() ||
+                  ((rtlKeyMbp = (InputMbp)DefbultLookup.get(tree, this,
+                  "Tree.focusInputMbp.RightToLeft")) == null)) {
+                return keyMbp;
             } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+                rtlKeyMbp.setPbrent(keyMbp);
+                return rtlKeyMbp;
             }
         }
         return null;
     }
 
     /**
-     * Intalls the subcomponents of the tree, which is the renderer pane.
+     * Intblls the subcomponents of the tree, which is the renderer pbne.
      */
-    protected void installComponents() {
-        if ((rendererPane = createCellRendererPane()) != null) {
-            tree.add( rendererPane );
+    protected void instbllComponents() {
+        if ((rendererPbne = crebteCellRendererPbne()) != null) {
+            tree.bdd( rendererPbne );
         }
     }
 
     //
-    // Create methods.
+    // Crebte methods.
     //
 
     /**
-     * Creates an instance of {@code NodeDimensions} that is able to determine
-     * the size of a given node in the tree.
+     * Crebtes bn instbnce of {@code NodeDimensions} thbt is bble to determine
+     * the size of b given node in the tree.
      *
-     * @return an instance of {@code NodeDimensions}
+     * @return bn instbnce of {@code NodeDimensions}
      */
-    protected AbstractLayoutCache.NodeDimensions createNodeDimensions() {
-        return new NodeDimensionsHandler();
+    protected AbstrbctLbyoutCbche.NodeDimensions crebteNodeDimensions() {
+        return new NodeDimensionsHbndler();
     }
 
     /**
-     * Creates a listener that is responsible that updates the UI based on
-     * how the tree changes.
+     * Crebtes b listener thbt is responsible thbt updbtes the UI bbsed on
+     * how the tree chbnges.
      *
-     * @return an instance of the {@code PropertyChangeListener}
+     * @return bn instbnce of the {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Creates the listener responsible for updating the selection based on
+     * Crebtes the listener responsible for updbting the selection bbsed on
      * mouse events.
      *
-     * @return an instance of the {@code MouseListener}
+     * @return bn instbnce of the {@code MouseListener}
      */
-    protected MouseListener createMouseListener() {
-        return getHandler();
+    protected MouseListener crebteMouseListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates a listener that is responsible for updating the display
-     * when focus is lost/gained.
+     * Crebtes b listener thbt is responsible for updbting the displby
+     * when focus is lost/gbined.
      *
-     * @return an instance of the {@code FocusListener}
+     * @return bn instbnce of the {@code FocusListener}
      */
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protected FocusListener crebteFocusListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the listener responsible for getting key events from
+     * Crebtes the listener responsible for getting key events from
      * the tree.
      *
-     * @return an instance of the {@code KeyListener}
+     * @return bn instbnce of the {@code KeyListener}
      */
-    protected KeyListener createKeyListener() {
-        return getHandler();
+    protected KeyListener crebteKeyListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the listener responsible for getting property change
+     * Crebtes the listener responsible for getting property chbnge
      * events from the selection model.
      *
-     * @return an instance of the {@code PropertyChangeListener}
+     * @return bn instbnce of the {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createSelectionModelPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebteSelectionModelPropertyChbngeListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the listener that updates the display based on selection change
+     * Crebtes the listener thbt updbtes the displby bbsed on selection chbnge
      * methods.
      *
-     * @return an instance of the {@code TreeSelectionListener}
+     * @return bn instbnce of the {@code TreeSelectionListener}
      */
-    protected TreeSelectionListener createTreeSelectionListener() {
-        return getHandler();
+    protected TreeSelectionListener crebteTreeSelectionListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates a listener to handle events from the current editor.
+     * Crebtes b listener to hbndle events from the current editor.
      *
-     * @return an instance of the {@code CellEditorListener}
+     * @return bn instbnce of the {@code CellEditorListener}
      */
-    protected CellEditorListener createCellEditorListener() {
-        return getHandler();
+    protected CellEditorListener crebteCellEditorListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates and returns a new ComponentHandler. This is used for
-     * the large model to mark the validCachedPreferredSize as invalid
+     * Crebtes bnd returns b new ComponentHbndler. This is used for
+     * the lbrge model to mbrk the vblidCbchedPreferredSize bs invblid
      * when the component moves.
      *
-     * @return an instance of the {@code ComponentListener}
+     * @return bn instbnce of the {@code ComponentListener}
      */
-    protected ComponentListener createComponentListener() {
-        return new ComponentHandler();
+    protected ComponentListener crebteComponentListener() {
+        return new ComponentHbndler();
     }
 
     /**
-     * Creates and returns the object responsible for updating the treestate
-     * when nodes expanded state changes.
+     * Crebtes bnd returns the object responsible for updbting the treestbte
+     * when nodes expbnded stbte chbnges.
      *
-     * @return an instance of the {@code TreeExpansionListener}
+     * @return bn instbnce of the {@code TreeExpbnsionListener}
      */
-    protected TreeExpansionListener createTreeExpansionListener() {
-        return getHandler();
+    protected TreeExpbnsionListener crebteTreeExpbnsionListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the object responsible for managing what is expanded, as
-     * well as the size of nodes.
+     * Crebtes the object responsible for mbnbging whbt is expbnded, bs
+     * well bs the size of nodes.
      *
-     * @return the object responsible for managing what is expanded
+     * @return the object responsible for mbnbging whbt is expbnded
      */
-    protected AbstractLayoutCache createLayoutCache() {
-        if(isLargeModel() && getRowHeight() > 0) {
-            return new FixedHeightLayoutCache();
+    protected AbstrbctLbyoutCbche crebteLbyoutCbche() {
+        if(isLbrgeModel() && getRowHeight() > 0) {
+            return new FixedHeightLbyoutCbche();
         }
-        return new VariableHeightLayoutCache();
+        return new VbribbleHeightLbyoutCbche();
     }
 
     /**
-     * Returns the renderer pane that renderer components are placed in.
+     * Returns the renderer pbne thbt renderer components bre plbced in.
      *
-     * @return an instance of the {@code CellRendererPane}
+     * @return bn instbnce of the {@code CellRendererPbne}
      */
-    protected CellRendererPane createCellRendererPane() {
-        return new CellRendererPane();
+    protected CellRendererPbne crebteCellRendererPbne() {
+        return new CellRendererPbne();
     }
 
     /**
-     * Creates a default cell editor.
+     * Crebtes b defbult cell editor.
      *
-     * @return a default cell editor
+     * @return b defbult cell editor
      */
-    protected TreeCellEditor createDefaultCellEditor() {
+    protected TreeCellEditor crebteDefbultCellEditor() {
         if(currentCellRenderer != null &&
-           (currentCellRenderer instanceof DefaultTreeCellRenderer)) {
-            DefaultTreeCellEditor editor = new DefaultTreeCellEditor
-                        (tree, (DefaultTreeCellRenderer)currentCellRenderer);
+           (currentCellRenderer instbnceof DefbultTreeCellRenderer)) {
+            DefbultTreeCellEditor editor = new DefbultTreeCellEditor
+                        (tree, (DefbultTreeCellRenderer)currentCellRenderer);
 
             return editor;
         }
-        return new DefaultTreeCellEditor(tree, null);
+        return new DefbultTreeCellEditor(tree, null);
     }
 
     /**
-     * Returns the default cell renderer that is used to do the
-     * stamping of each node.
+     * Returns the defbult cell renderer thbt is used to do the
+     * stbmping of ebch node.
      *
-     * @return an instance of {@code TreeCellRenderer}
+     * @return bn instbnce of {@code TreeCellRenderer}
      */
-    protected TreeCellRenderer createDefaultCellRenderer() {
-        return new DefaultTreeCellRenderer();
+    protected TreeCellRenderer crebteDefbultCellRenderer() {
+        return new DefbultTreeCellRenderer();
     }
 
     /**
-     * Returns a listener that can update the tree when the model changes.
+     * Returns b listener thbt cbn updbte the tree when the model chbnges.
      *
-     * @return an instance of the {@code TreeModelListener}.
+     * @return bn instbnce of the {@code TreeModelListener}.
      */
-    protected TreeModelListener createTreeModelListener() {
-        return getHandler();
+    protected TreeModelListener crebteTreeModelListener() {
+        return getHbndler();
     }
 
     //
-    // Uninstall methods
+    // Uninstbll methods
     //
 
-    public void uninstallUI(JComponent c) {
+    public void uninstbllUI(JComponent c) {
         completeEditing();
 
-        prepareForUIUninstall();
+        prepbreForUIUninstbll();
 
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
-        uninstallComponents();
+        uninstbllDefbults();
+        uninstbllListeners();
+        uninstbllKeybobrdActions();
+        uninstbllComponents();
 
-        completeUIUninstall();
+        completeUIUninstbll();
     }
 
     /**
-     * Invoked before unstallation of UI.
+     * Invoked before unstbllbtion of UI.
      */
-    protected void prepareForUIUninstall() {
+    protected void prepbreForUIUninstbll() {
     }
 
     /**
-     * Uninstalls UI.
+     * Uninstblls UI.
      */
-    protected void completeUIUninstall() {
-        if(createdRenderer) {
+    protected void completeUIUninstbll() {
+        if(crebtedRenderer) {
             tree.setCellRenderer(null);
         }
-        if(createdCellEditor) {
+        if(crebtedCellEditor) {
             tree.setCellEditor(null);
         }
         cellEditor = null;
         currentCellRenderer = null;
-        rendererPane = null;
+        rendererPbne = null;
         componentListener = null;
-        propertyChangeListener = null;
+        propertyChbngeListener = null;
         mouseListener = null;
         focusListener = null;
         keyListener = null;
         setSelectionModel(null);
-        treeState = null;
-        drawingCache = null;
-        selectionModelPropertyChangeListener = null;
+        treeStbte = null;
+        drbwingCbche = null;
+        selectionModelPropertyChbngeListener = null;
         tree = null;
         treeModel = null;
         treeSelectionModel = null;
         treeSelectionListener = null;
-        treeExpansionListener = null;
+        treeExpbnsionListener = null;
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        if (tree.getTransferHandler() instanceof UIResource) {
-            tree.setTransferHandler(null);
+    protected void uninstbllDefbults() {
+        if (tree.getTrbnsferHbndler() instbnceof UIResource) {
+            tree.setTrbnsferHbndler(null);
         }
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
         if(componentListener != null) {
             tree.removeComponentListener(componentListener);
         }
-        if (propertyChangeListener != null) {
-            tree.removePropertyChangeListener(propertyChangeListener);
+        if (propertyChbngeListener != null) {
+            tree.removePropertyChbngeListener(propertyChbngeListener);
         }
         if (mouseListener != null) {
             tree.removeMouseListener(mouseListener);
-            if (mouseListener instanceof MouseMotionListener) {
+            if (mouseListener instbnceof MouseMotionListener) {
                 tree.removeMouseMotionListener((MouseMotionListener)mouseListener);
             }
         }
@@ -1216,190 +1216,190 @@ public class BasicTreeUI extends TreeUI
         if (keyListener != null) {
             tree.removeKeyListener(keyListener);
         }
-        if(treeExpansionListener != null) {
-            tree.removeTreeExpansionListener(treeExpansionListener);
+        if(treeExpbnsionListener != null) {
+            tree.removeTreeExpbnsionListener(treeExpbnsionListener);
         }
         if(treeModel != null && treeModelListener != null) {
             treeModel.removeTreeModelListener(treeModelListener);
         }
-        if(selectionModelPropertyChangeListener != null &&
+        if(selectionModelPropertyChbngeListener != null &&
            treeSelectionModel != null) {
-            treeSelectionModel.removePropertyChangeListener
-                (selectionModelPropertyChangeListener);
+            treeSelectionModel.removePropertyChbngeListener
+                (selectionModelPropertyChbngeListener);
         }
         if(treeSelectionListener != null && treeSelectionModel != null) {
             treeSelectionModel.removeTreeSelectionListener
                                (treeSelectionListener);
         }
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIActionMap(tree, null);
-        SwingUtilities.replaceUIInputMap(tree, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIActionMbp(tree, null);
+        SwingUtilities.replbceUIInputMbp(tree, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          null);
-        SwingUtilities.replaceUIInputMap(tree, JComponent.WHEN_FOCUSED, null);
+        SwingUtilities.replbceUIInputMbp(tree, JComponent.WHEN_FOCUSED, null);
     }
 
     /**
-     * Uninstalls the renderer pane.
+     * Uninstblls the renderer pbne.
      */
-    protected void uninstallComponents() {
-        if(rendererPane != null) {
-            tree.remove(rendererPane);
+    protected void uninstbllComponents() {
+        if(rendererPbne != null) {
+            tree.remove(rendererPbne);
         }
     }
 
     /**
-     * Recomputes the right margin, and invalidates any tree states
+     * Recomputes the right mbrgin, bnd invblidbtes bny tree stbtes
      */
-    private void redoTheLayout() {
-        if (treeState != null) {
-            treeState.invalidateSizes();
+    privbte void redoTheLbyout() {
+        if (treeStbte != null) {
+            treeStbte.invblidbteSizes();
         }
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        UIDefaults lafDefaults = UIManager.getLookAndFeelDefaults();
-        Component renderer = (Component)lafDefaults.get(
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        UIDefbults lbfDefbults = UIMbnbger.getLookAndFeelDefbults();
+        Component renderer = (Component)lbfDefbults.get(
                 BASELINE_COMPONENT_KEY);
         if (renderer == null) {
-            TreeCellRenderer tcr = createDefaultCellRenderer();
+            TreeCellRenderer tcr = crebteDefbultCellRenderer();
             renderer = tcr.getTreeCellRendererComponent(
-                    tree, "a", false, false, false, -1, false);
-            lafDefaults.put(BASELINE_COMPONENT_KEY, renderer);
+                    tree, "b", fblse, fblse, fblse, -1, fblse);
+            lbfDefbults.put(BASELINE_COMPONENT_KEY, renderer);
         }
         int rowHeight = tree.getRowHeight();
-        int baseline;
+        int bbseline;
         if (rowHeight > 0) {
-            baseline = renderer.getBaseline(Integer.MAX_VALUE, rowHeight);
+            bbseline = renderer.getBbseline(Integer.MAX_VALUE, rowHeight);
         }
         else {
             Dimension pref = renderer.getPreferredSize();
-            baseline = renderer.getBaseline(pref.width, pref.height);
+            bbseline = renderer.getBbseline(pref.width, pref.height);
         }
-        return baseline + tree.getInsets().top;
+        return bbseline + tree.getInsets().top;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+        super.getBbselineResizeBehbvior(c);
+        return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
     }
 
     //
-    // Painting routines.
+    // Pbinting routines.
     //
 
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         if (tree != c) {
-            throw new InternalError("incorrect component");
+            throw new InternblError("incorrect component");
         }
 
-        // Should never happen if installed for a UI
-        if(treeState == null) {
+        // Should never hbppen if instblled for b UI
+        if(treeStbte == null) {
             return;
         }
 
-        Rectangle        paintBounds = g.getClipBounds();
+        Rectbngle        pbintBounds = g.getClipBounds();
         Insets           insets = tree.getInsets();
-        TreePath         initialPath = getClosestPathForLocation
-                                       (tree, 0, paintBounds.y);
-        Enumeration<?>   paintingEnumerator = treeState.getVisiblePathsFrom
-                                              (initialPath);
-        int              row = treeState.getRowForPath(initialPath);
-        int              endY = paintBounds.y + paintBounds.height;
+        TreePbth         initiblPbth = getClosestPbthForLocbtion
+                                       (tree, 0, pbintBounds.y);
+        Enumerbtion<?>   pbintingEnumerbtor = treeStbte.getVisiblePbthsFrom
+                                              (initiblPbth);
+        int              row = treeStbte.getRowForPbth(initiblPbth);
+        int              endY = pbintBounds.y + pbintBounds.height;
 
-        drawingCache.clear();
+        drbwingCbche.clebr();
 
-        if(initialPath != null && paintingEnumerator != null) {
-            TreePath   parentPath = initialPath;
+        if(initiblPbth != null && pbintingEnumerbtor != null) {
+            TreePbth   pbrentPbth = initiblPbth;
 
-            // Draw the lines, knobs, and rows
+            // Drbw the lines, knobs, bnd rows
 
-            // Find each parent and have them draw a line to their last child
-            parentPath = parentPath.getParentPath();
-            while(parentPath != null) {
-                paintVerticalPartOfLeg(g, paintBounds, insets, parentPath);
-                drawingCache.put(parentPath, Boolean.TRUE);
-                parentPath = parentPath.getParentPath();
+            // Find ebch pbrent bnd hbve them drbw b line to their lbst child
+            pbrentPbth = pbrentPbth.getPbrentPbth();
+            while(pbrentPbth != null) {
+                pbintVerticblPbrtOfLeg(g, pbintBounds, insets, pbrentPbth);
+                drbwingCbche.put(pbrentPbth, Boolebn.TRUE);
+                pbrentPbth = pbrentPbth.getPbrentPbth();
             }
 
-            boolean         done = false;
-            // Information for the node being rendered.
-            boolean         isExpanded;
-            boolean         hasBeenExpanded;
-            boolean         isLeaf;
-            Rectangle       boundsBuffer = new Rectangle();
-            Rectangle       bounds;
-            TreePath        path;
-            boolean         rootVisible = isRootVisible();
+            boolebn         done = fblse;
+            // Informbtion for the node being rendered.
+            boolebn         isExpbnded;
+            boolebn         hbsBeenExpbnded;
+            boolebn         isLebf;
+            Rectbngle       boundsBuffer = new Rectbngle();
+            Rectbngle       bounds;
+            TreePbth        pbth;
+            boolebn         rootVisible = isRootVisible();
 
-            while(!done && paintingEnumerator.hasMoreElements()) {
-                path = (TreePath)paintingEnumerator.nextElement();
-                if(path != null) {
-                    isLeaf = treeModel.isLeaf(path.getLastPathComponent());
-                    if(isLeaf)
-                        isExpanded = hasBeenExpanded = false;
+            while(!done && pbintingEnumerbtor.hbsMoreElements()) {
+                pbth = (TreePbth)pbintingEnumerbtor.nextElement();
+                if(pbth != null) {
+                    isLebf = treeModel.isLebf(pbth.getLbstPbthComponent());
+                    if(isLebf)
+                        isExpbnded = hbsBeenExpbnded = fblse;
                     else {
-                        isExpanded = treeState.getExpandedState(path);
-                        hasBeenExpanded = tree.hasBeenExpanded(path);
+                        isExpbnded = treeStbte.getExpbndedStbte(pbth);
+                        hbsBeenExpbnded = tree.hbsBeenExpbnded(pbth);
                     }
-                    bounds = getPathBounds(path, insets, boundsBuffer);
+                    bounds = getPbthBounds(pbth, insets, boundsBuffer);
                     if(bounds == null)
-                        // This will only happen if the model changes out
-                        // from under us (usually in another thread).
-                        // Swing isn't multithreaded, but I'll put this
-                        // check in anyway.
+                        // This will only hbppen if the model chbnges out
+                        // from under us (usublly in bnother threbd).
+                        // Swing isn't multithrebded, but I'll put this
+                        // check in bnywby.
                         return;
-                    // See if the vertical line to the parent has been drawn.
-                    parentPath = path.getParentPath();
-                    if(parentPath != null) {
-                        if(drawingCache.get(parentPath) == null) {
-                            paintVerticalPartOfLeg(g, paintBounds,
-                                                   insets, parentPath);
-                            drawingCache.put(parentPath, Boolean.TRUE);
+                    // See if the verticbl line to the pbrent hbs been drbwn.
+                    pbrentPbth = pbth.getPbrentPbth();
+                    if(pbrentPbth != null) {
+                        if(drbwingCbche.get(pbrentPbth) == null) {
+                            pbintVerticblPbrtOfLeg(g, pbintBounds,
+                                                   insets, pbrentPbth);
+                            drbwingCbche.put(pbrentPbth, Boolebn.TRUE);
                         }
-                        paintHorizontalPartOfLeg(g, paintBounds, insets,
-                                                 bounds, path, row,
-                                                 isExpanded,
-                                                 hasBeenExpanded, isLeaf);
+                        pbintHorizontblPbrtOfLeg(g, pbintBounds, insets,
+                                                 bounds, pbth, row,
+                                                 isExpbnded,
+                                                 hbsBeenExpbnded, isLebf);
                     }
                     else if(rootVisible && row == 0) {
-                        paintHorizontalPartOfLeg(g, paintBounds, insets,
-                                                 bounds, path, row,
-                                                 isExpanded,
-                                                 hasBeenExpanded, isLeaf);
+                        pbintHorizontblPbrtOfLeg(g, pbintBounds, insets,
+                                                 bounds, pbth, row,
+                                                 isExpbnded,
+                                                 hbsBeenExpbnded, isLebf);
                     }
-                    if(shouldPaintExpandControl(path, row, isExpanded,
-                                                hasBeenExpanded, isLeaf)) {
-                        paintExpandControl(g, paintBounds, insets, bounds,
-                                           path, row, isExpanded,
-                                           hasBeenExpanded, isLeaf);
+                    if(shouldPbintExpbndControl(pbth, row, isExpbnded,
+                                                hbsBeenExpbnded, isLebf)) {
+                        pbintExpbndControl(g, pbintBounds, insets, bounds,
+                                           pbth, row, isExpbnded,
+                                           hbsBeenExpbnded, isLebf);
                     }
-                    paintRow(g, paintBounds, insets, bounds, path,
-                                 row, isExpanded, hasBeenExpanded, isLeaf);
+                    pbintRow(g, pbintBounds, insets, bounds, pbth,
+                                 row, isExpbnded, hbsBeenExpbnded, isLebf);
                     if((bounds.y + bounds.height) >= endY)
                         done = true;
                 }
@@ -1410,64 +1410,64 @@ public class BasicTreeUI extends TreeUI
             }
         }
 
-        paintDropLine(g);
+        pbintDropLine(g);
 
-        // Empty out the renderer pane, allowing renderers to be gc'ed.
-        rendererPane.removeAll();
+        // Empty out the renderer pbne, bllowing renderers to be gc'ed.
+        rendererPbne.removeAll();
 
-        drawingCache.clear();
+        drbwingCbche.clebr();
     }
 
     /**
-     * Tells if a {@code DropLocation} should be indicated by a line between
-     * nodes. This is meant for {@code javax.swing.DropMode.INSERT} and
-     * {@code javax.swing.DropMode.ON_OR_INSERT} drop modes.
+     * Tells if b {@code DropLocbtion} should be indicbted by b line between
+     * nodes. This is mebnt for {@code jbvbx.swing.DropMode.INSERT} bnd
+     * {@code jbvbx.swing.DropMode.ON_OR_INSERT} drop modes.
      *
-     * @param loc a {@code DropLocation}
-     * @return {@code true} if the drop location should be shown as a line
+     * @pbrbm loc b {@code DropLocbtion}
+     * @return {@code true} if the drop locbtion should be shown bs b line
      * @since 1.7
      */
-    protected boolean isDropLine(JTree.DropLocation loc) {
-        return loc != null && loc.getPath() != null && loc.getChildIndex() != -1;
+    protected boolebn isDropLine(JTree.DropLocbtion loc) {
+        return loc != null && loc.getPbth() != null && loc.getChildIndex() != -1;
     }
 
     /**
-     * Paints the drop line.
+     * Pbints the drop line.
      *
-     * @param g {@code Graphics} object to draw on
+     * @pbrbm g {@code Grbphics} object to drbw on
      * @since 1.7
      */
-    protected void paintDropLine(Graphics g) {
-        JTree.DropLocation loc = tree.getDropLocation();
+    protected void pbintDropLine(Grbphics g) {
+        JTree.DropLocbtion loc = tree.getDropLocbtion();
         if (!isDropLine(loc)) {
             return;
         }
 
-        Color c = UIManager.getColor("Tree.dropLineColor");
+        Color c = UIMbnbger.getColor("Tree.dropLineColor");
         if (c != null) {
             g.setColor(c);
-            Rectangle rect = getDropLineRect(loc);
+            Rectbngle rect = getDropLineRect(loc);
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
     }
 
     /**
-     * Returns a unbounding box for the drop line.
+     * Returns b unbounding box for the drop line.
      *
-     * @param loc a {@code DropLocation}
+     * @pbrbm loc b {@code DropLocbtion}
      * @return bounding box for the drop line
      * @since 1.7
      */
-    protected Rectangle getDropLineRect(JTree.DropLocation loc) {
-        Rectangle rect;
-        TreePath path = loc.getPath();
+    protected Rectbngle getDropLineRect(JTree.DropLocbtion loc) {
+        Rectbngle rect;
+        TreePbth pbth = loc.getPbth();
         int index = loc.getChildIndex();
-        boolean ltr = leftToRight;
+        boolebn ltr = leftToRight;
 
         Insets insets = tree.getInsets();
 
         if (tree.getRowCount() == 0) {
-            rect = new Rectangle(insets.left,
+            rect = new Rectbngle(insets.left,
                                  insets.top,
                                  tree.getWidth() - insets.left - insets.right,
                                  0);
@@ -1475,30 +1475,30 @@ public class BasicTreeUI extends TreeUI
             TreeModel model = getModel();
             Object root = model.getRoot();
 
-            if (path.getLastPathComponent() == root
+            if (pbth.getLbstPbthComponent() == root
                     && index >= model.getChildCount(root)) {
 
                 rect = tree.getRowBounds(tree.getRowCount() - 1);
                 rect.y = rect.y + rect.height;
-                Rectangle xRect;
+                Rectbngle xRect;
 
                 if (!tree.isRootVisible()) {
                     xRect = tree.getRowBounds(0);
                 } else if (model.getChildCount(root) == 0){
                     xRect = tree.getRowBounds(0);
-                    xRect.x += totalChildIndent;
-                    xRect.width -= totalChildIndent + totalChildIndent;
+                    xRect.x += totblChildIndent;
+                    xRect.width -= totblChildIndent + totblChildIndent;
                 } else {
-                    TreePath lastChildPath = path.pathByAddingChild(
+                    TreePbth lbstChildPbth = pbth.pbthByAddingChild(
                         model.getChild(root, model.getChildCount(root) - 1));
-                    xRect = tree.getPathBounds(lastChildPath);
+                    xRect = tree.getPbthBounds(lbstChildPbth);
                 }
 
                 rect.x = xRect.x;
                 rect.width = xRect.width;
             } else {
-                rect = tree.getPathBounds(path.pathByAddingChild(
-                    model.getChild(path.getLastPathComponent(), index)));
+                rect = tree.getPbthBounds(pbth.pbthByAddingChild(
+                    model.getChild(pbth.getLbstPbthComponent(), index)));
             }
         }
 
@@ -1517,34 +1517,34 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-     * Paints the horizontal part of the leg. The receiver should
+     * Pbints the horizontbl pbrt of the leg. The receiver should
      * NOT modify {@code clipBounds}, or {@code insets}.<p>
-     * NOTE: {@code parentRow} can be -1 if the root is not visible.
+     * NOTE: {@code pbrentRow} cbn be -1 if the root is not visible.
      *
-     * @param g a graphics context
-     * @param clipBounds a clipped rectangle
-     * @param insets insets
-     * @param bounds a bounding rectangle
-     * @param path a tree path
-     * @param row a row
-     * @param isExpanded {@code true} if the path is expanded
-     * @param hasBeenExpanded {@code true} if the path has been expanded
-     * @param isLeaf {@code true} if the path is leaf
+     * @pbrbm g b grbphics context
+     * @pbrbm clipBounds b clipped rectbngle
+     * @pbrbm insets insets
+     * @pbrbm bounds b bounding rectbngle
+     * @pbrbm pbth b tree pbth
+     * @pbrbm row b row
+     * @pbrbm isExpbnded {@code true} if the pbth is expbnded
+     * @pbrbm hbsBeenExpbnded {@code true} if the pbth hbs been expbnded
+     * @pbrbm isLebf {@code true} if the pbth is lebf
      */
-    protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                            Insets insets, Rectangle bounds,
-                                            TreePath path, int row,
-                                            boolean isExpanded,
-                                            boolean hasBeenExpanded, boolean
-                                            isLeaf) {
-        if (!paintLines) {
+    protected void pbintHorizontblPbrtOfLeg(Grbphics g, Rectbngle clipBounds,
+                                            Insets insets, Rectbngle bounds,
+                                            TreePbth pbth, int row,
+                                            boolebn isExpbnded,
+                                            boolebn hbsBeenExpbnded, boolebn
+                                            isLebf) {
+        if (!pbintLines) {
             return;
         }
 
-        // Don't paint the legs for the root'ish node if the
-        int depth = path.getPathCount() - 1;
+        // Don't pbint the legs for the root'ish node if the
+        int depth = pbth.getPbthCount() - 1;
         if((depth == 0 || (depth == 1 && !isRootVisible())) &&
-           !getShowsRootHandles()) {
+           !getShowsRootHbndles()) {
             return;
         }
 
@@ -1556,7 +1556,7 @@ public class BasicTreeUI extends TreeUI
 
         if (leftToRight) {
             int leftX = bounds.x - getRightChildIndent();
-            int nodeX = bounds.x - getHorizontalLegBuffer();
+            int nodeX = bounds.x - getHorizontblLegBuffer();
 
             if(lineY >= clipTop
                     && lineY < clipBottom
@@ -1564,11 +1564,11 @@ public class BasicTreeUI extends TreeUI
                     && leftX < clipRight
                     && leftX < nodeX) {
 
-                g.setColor(getHashColor());
-                paintHorizontalLine(g, tree, lineY, leftX, nodeX - 1);
+                g.setColor(getHbshColor());
+                pbintHorizontblLine(g, tree, lineY, leftX, nodeX - 1);
             }
         } else {
-            int nodeX = bounds.x + bounds.width + getHorizontalLegBuffer();
+            int nodeX = bounds.x + bounds.width + getHorizontblLegBuffer();
             int rightX = bounds.x + bounds.width + getRightChildIndent();
 
             if(lineY >= clipTop
@@ -1577,29 +1577,29 @@ public class BasicTreeUI extends TreeUI
                     && nodeX < clipRight
                     && nodeX < rightX) {
 
-                g.setColor(getHashColor());
-                paintHorizontalLine(g, tree, lineY, nodeX, rightX - 1);
+                g.setColor(getHbshColor());
+                pbintHorizontblLine(g, tree, lineY, nodeX, rightX - 1);
             }
         }
     }
 
     /**
-     * Paints the vertical part of the leg. The receiver should
+     * Pbints the verticbl pbrt of the leg. The receiver should
      * NOT modify {@code clipBounds}, {@code insets}.
      *
-     * @param g a graphics context
-     * @param clipBounds a clipped rectangle
-     * @param insets insets
-     * @param path a tree path
+     * @pbrbm g b grbphics context
+     * @pbrbm clipBounds b clipped rectbngle
+     * @pbrbm insets insets
+     * @pbrbm pbth b tree pbth
      */
-    protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                          Insets insets, TreePath path) {
-        if (!paintLines) {
+    protected void pbintVerticblPbrtOfLeg(Grbphics g, Rectbngle clipBounds,
+                                          Insets insets, TreePbth pbth) {
+        if (!pbintLines) {
             return;
         }
 
-        int depth = path.getPathCount() - 1;
-        if (depth == 0 && !getShowsRootHandles() && !isRootVisible()) {
+        int depth = pbth.getPbthCount() - 1;
+        if (depth == 0 && !getShowsRootHbndles() && !isRootVisible()) {
             return;
         }
         int lineX = getRowX(-1, depth + 1);
@@ -1616,26 +1616,26 @@ public class BasicTreeUI extends TreeUI
         if (lineX >= clipLeft && lineX <= clipRight) {
             int clipTop = clipBounds.y;
             int clipBottom = clipBounds.y + clipBounds.height;
-            Rectangle parentBounds = getPathBounds(tree, path);
-            Rectangle lastChildBounds = getPathBounds(tree,
-                                                     getLastChildPath(path));
+            Rectbngle pbrentBounds = getPbthBounds(tree, pbth);
+            Rectbngle lbstChildBounds = getPbthBounds(tree,
+                                                     getLbstChildPbth(pbth));
 
-            if(lastChildBounds == null)
-                // This shouldn't happen, but if the model is modified
-                // in another thread it is possible for this to happen.
-                // Swing isn't multithreaded, but I'll add this check in
-                // anyway.
+            if(lbstChildBounds == null)
+                // This shouldn't hbppen, but if the model is modified
+                // in bnother threbd it is possible for this to hbppen.
+                // Swing isn't multithrebded, but I'll bdd this check in
+                // bnywby.
                 return;
 
             int       top;
 
-            if(parentBounds == null) {
-                top = Math.max(insets.top + getVerticalLegBuffer(),
+            if(pbrentBounds == null) {
+                top = Mbth.mbx(insets.top + getVerticblLegBuffer(),
                                clipTop);
             }
             else
-                top = Math.max(parentBounds.y + parentBounds.height +
-                               getVerticalLegBuffer(), clipTop);
+                top = Mbth.mbx(pbrentBounds.y + pbrentBounds.height +
+                               getVerticblLegBuffer(), clipTop);
             if(depth == 0 && !isRootVisible()) {
                 TreeModel      model = getModel();
 
@@ -1643,52 +1643,52 @@ public class BasicTreeUI extends TreeUI
                     Object        root = model.getRoot();
 
                     if(model.getChildCount(root) > 0) {
-                        parentBounds = getPathBounds(tree, path.
-                                  pathByAddingChild(model.getChild(root, 0)));
-                        if(parentBounds != null)
-                            top = Math.max(insets.top + getVerticalLegBuffer(),
-                                           parentBounds.y +
-                                           parentBounds.height / 2);
+                        pbrentBounds = getPbthBounds(tree, pbth.
+                                  pbthByAddingChild(model.getChild(root, 0)));
+                        if(pbrentBounds != null)
+                            top = Mbth.mbx(insets.top + getVerticblLegBuffer(),
+                                           pbrentBounds.y +
+                                           pbrentBounds.height / 2);
                     }
                 }
             }
 
-            int bottom = Math.min(lastChildBounds.y +
-                                  (lastChildBounds.height / 2), clipBottom);
+            int bottom = Mbth.min(lbstChildBounds.y +
+                                  (lbstChildBounds.height / 2), clipBottom);
 
             if (top <= bottom) {
-                g.setColor(getHashColor());
-                paintVerticalLine(g, tree, lineX, top, bottom);
+                g.setColor(getHbshColor());
+                pbintVerticblLine(g, tree, lineX, top, bottom);
             }
         }
     }
 
     /**
-     * Paints the expand (toggle) part of a row. The receiver should
+     * Pbints the expbnd (toggle) pbrt of b row. The receiver should
      * NOT modify {@code clipBounds}, or {@code insets}.
      *
-     * @param g a graphics context
-     * @param clipBounds a clipped rectangle
-     * @param insets insets
-     * @param bounds a bounding rectangle
-     * @param path a tree path
-     * @param row a row
-     * @param isExpanded {@code true} if the path is expanded
-     * @param hasBeenExpanded {@code true} if the path has been expanded
-     * @param isLeaf {@code true} if the row is leaf
+     * @pbrbm g b grbphics context
+     * @pbrbm clipBounds b clipped rectbngle
+     * @pbrbm insets insets
+     * @pbrbm bounds b bounding rectbngle
+     * @pbrbm pbth b tree pbth
+     * @pbrbm row b row
+     * @pbrbm isExpbnded {@code true} if the pbth is expbnded
+     * @pbrbm hbsBeenExpbnded {@code true} if the pbth hbs been expbnded
+     * @pbrbm isLebf {@code true} if the row is lebf
      */
-    protected void paintExpandControl(Graphics g,
-                                      Rectangle clipBounds, Insets insets,
-                                      Rectangle bounds, TreePath path,
-                                      int row, boolean isExpanded,
-                                      boolean hasBeenExpanded,
-                                      boolean isLeaf) {
-        Object       value = path.getLastPathComponent();
+    protected void pbintExpbndControl(Grbphics g,
+                                      Rectbngle clipBounds, Insets insets,
+                                      Rectbngle bounds, TreePbth pbth,
+                                      int row, boolebn isExpbnded,
+                                      boolebn hbsBeenExpbnded,
+                                      boolebn isLebf) {
+        Object       vblue = pbth.getLbstPbthComponent();
 
-        // Draw icons if not a leaf and either hasn't been loaded,
+        // Drbw icons if not b lebf bnd either hbsn't been lobded,
         // or the model child count is > 0.
-        if (!isLeaf && (!hasBeenExpanded ||
-                        treeModel.getChildCount(value) > 0)) {
+        if (!isLebf && (!hbsBeenExpbnded ||
+                        treeModel.getChildCount(vblue) > 0)) {
             int middleXOfKnob;
             if (leftToRight) {
                 middleXOfKnob = bounds.x - getRightChildIndent() + 1;
@@ -1697,341 +1697,341 @@ public class BasicTreeUI extends TreeUI
             }
             int middleYOfKnob = bounds.y + (bounds.height / 2);
 
-            if (isExpanded) {
-                Icon expandedIcon = getExpandedIcon();
-                if(expandedIcon != null)
-                  drawCentered(tree, g, expandedIcon, middleXOfKnob,
+            if (isExpbnded) {
+                Icon expbndedIcon = getExpbndedIcon();
+                if(expbndedIcon != null)
+                  drbwCentered(tree, g, expbndedIcon, middleXOfKnob,
                                middleYOfKnob );
             }
             else {
-                Icon collapsedIcon = getCollapsedIcon();
-                if(collapsedIcon != null)
-                  drawCentered(tree, g, collapsedIcon, middleXOfKnob,
+                Icon collbpsedIcon = getCollbpsedIcon();
+                if(collbpsedIcon != null)
+                  drbwCentered(tree, g, collbpsedIcon, middleXOfKnob,
                                middleYOfKnob);
             }
         }
     }
 
     /**
-     * Paints the renderer part of a row. The receiver should
+     * Pbints the renderer pbrt of b row. The receiver should
      * NOT modify {@code clipBounds}, or {@code insets}.
      *
-     * @param g a graphics context
-     * @param clipBounds a clipped rectangle
-     * @param insets insets
-     * @param bounds a bounding rectangle
-     * @param path a tree path
-     * @param row a row
-     * @param isExpanded {@code true} if the path is expanded
-     * @param hasBeenExpanded {@code true} if the path has been expanded
-     * @param isLeaf {@code true} if the path is leaf
+     * @pbrbm g b grbphics context
+     * @pbrbm clipBounds b clipped rectbngle
+     * @pbrbm insets insets
+     * @pbrbm bounds b bounding rectbngle
+     * @pbrbm pbth b tree pbth
+     * @pbrbm row b row
+     * @pbrbm isExpbnded {@code true} if the pbth is expbnded
+     * @pbrbm hbsBeenExpbnded {@code true} if the pbth hbs been expbnded
+     * @pbrbm isLebf {@code true} if the pbth is lebf
      */
-    protected void paintRow(Graphics g, Rectangle clipBounds,
-                            Insets insets, Rectangle bounds, TreePath path,
-                            int row, boolean isExpanded,
-                            boolean hasBeenExpanded, boolean isLeaf) {
-        // Don't paint the renderer if editing this row.
+    protected void pbintRow(Grbphics g, Rectbngle clipBounds,
+                            Insets insets, Rectbngle bounds, TreePbth pbth,
+                            int row, boolebn isExpbnded,
+                            boolebn hbsBeenExpbnded, boolebn isLebf) {
+        // Don't pbint the renderer if editing this row.
         if(editingComponent != null && editingRow == row)
             return;
 
-        int leadIndex;
+        int lebdIndex;
 
-        if(tree.hasFocus()) {
-            leadIndex = getLeadSelectionRow();
+        if(tree.hbsFocus()) {
+            lebdIndex = getLebdSelectionRow();
         }
         else
-            leadIndex = -1;
+            lebdIndex = -1;
 
         Component component;
 
         component = currentCellRenderer.getTreeCellRendererComponent
-                      (tree, path.getLastPathComponent(),
-                       tree.isRowSelected(row), isExpanded, isLeaf, row,
-                       (leadIndex == row));
+                      (tree, pbth.getLbstPbthComponent(),
+                       tree.isRowSelected(row), isExpbnded, isLebf, row,
+                       (lebdIndex == row));
 
-        rendererPane.paintComponent(g, component, tree, bounds.x, bounds.y,
+        rendererPbne.pbintComponent(g, component, tree, bounds.x, bounds.y,
                                     bounds.width, bounds.height, true);
     }
 
     /**
-     * Returns {@code true} if the expand (toggle) control should be drawn for
+     * Returns {@code true} if the expbnd (toggle) control should be drbwn for
      * the specified row.
      *
-     * @param path a tree path
-     * @param row a row
-     * @param isExpanded {@code true} if the path is expanded
-     * @param hasBeenExpanded {@code true} if the path has been expanded
-     * @param isLeaf {@code true} if the row is leaf
-     * @return {@code true} if the expand (toggle) control should be drawn
+     * @pbrbm pbth b tree pbth
+     * @pbrbm row b row
+     * @pbrbm isExpbnded {@code true} if the pbth is expbnded
+     * @pbrbm hbsBeenExpbnded {@code true} if the pbth hbs been expbnded
+     * @pbrbm isLebf {@code true} if the row is lebf
+     * @return {@code true} if the expbnd (toggle) control should be drbwn
      *         for the specified row
      */
-    protected boolean shouldPaintExpandControl(TreePath path, int row,
-                                               boolean isExpanded,
-                                               boolean hasBeenExpanded,
-                                               boolean isLeaf) {
-        if(isLeaf)
-            return false;
+    protected boolebn shouldPbintExpbndControl(TreePbth pbth, int row,
+                                               boolebn isExpbnded,
+                                               boolebn hbsBeenExpbnded,
+                                               boolebn isLebf) {
+        if(isLebf)
+            return fblse;
 
-        int              depth = path.getPathCount() - 1;
+        int              depth = pbth.getPbthCount() - 1;
 
         if((depth == 0 || (depth == 1 && !isRootVisible())) &&
-           !getShowsRootHandles())
-            return false;
+           !getShowsRootHbndles())
+            return fblse;
         return true;
     }
 
     /**
-     * Paints a vertical line.
+     * Pbints b verticbl line.
      *
-     * @param g a graphics context
-     * @param c a component
-     * @param x an X coordinate
-     * @param top an Y1 coordinate
-     * @param bottom an Y2 coordinate
+     * @pbrbm g b grbphics context
+     * @pbrbm c b component
+     * @pbrbm x bn X coordinbte
+     * @pbrbm top bn Y1 coordinbte
+     * @pbrbm bottom bn Y2 coordinbte
      */
-    protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,
+    protected void pbintVerticblLine(Grbphics g, JComponent c, int x, int top,
                                     int bottom) {
-        if (lineTypeDashed) {
-            drawDashedVerticalLine(g, x, top, bottom);
+        if (lineTypeDbshed) {
+            drbwDbshedVerticblLine(g, x, top, bottom);
         } else {
-            g.drawLine(x, top, x, bottom);
+            g.drbwLine(x, top, x, bottom);
         }
     }
 
     /**
-     * Paints a horizontal line.
+     * Pbints b horizontbl line.
      *
-     * @param g a graphics context
-     * @param c a component
-     * @param y an Y coordinate
-     * @param left an X1 coordinate
-     * @param right an X2 coordinate
+     * @pbrbm g b grbphics context
+     * @pbrbm c b component
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm left bn X1 coordinbte
+     * @pbrbm right bn X2 coordinbte
      */
-    protected void paintHorizontalLine(Graphics g, JComponent c, int y,
+    protected void pbintHorizontblLine(Grbphics g, JComponent c, int y,
                                       int left, int right) {
-        if (lineTypeDashed) {
-            drawDashedHorizontalLine(g, y, left, right);
+        if (lineTypeDbshed) {
+            drbwDbshedHorizontblLine(g, y, left, right);
         } else {
-            g.drawLine(left, y, right, y);
+            g.drbwLine(left, y, right, y);
         }
     }
 
     /**
-     * The vertical element of legs between nodes starts at the bottom of the
-     * parent node by default.  This method makes the leg start below that.
+     * The verticbl element of legs between nodes stbrts bt the bottom of the
+     * pbrent node by defbult.  This method mbkes the leg stbrt below thbt.
      *
-     * @return the vertical leg buffer
+     * @return the verticbl leg buffer
      */
-    protected int getVerticalLegBuffer() {
+    protected int getVerticblLegBuffer() {
         return 0;
     }
 
     /**
-     * The horizontal element of legs between nodes starts at the
-     * right of the left-hand side of the child node by default.  This
-     * method makes the leg end before that.
+     * The horizontbl element of legs between nodes stbrts bt the
+     * right of the left-hbnd side of the child node by defbult.  This
+     * method mbkes the leg end before thbt.
      *
-     * @return the horizontal leg buffer
+     * @return the horizontbl leg buffer
      */
-    protected int getHorizontalLegBuffer() {
+    protected int getHorizontblLegBuffer() {
         return 0;
     }
 
-    private int findCenteredX(int x, int iconWidth) {
+    privbte int findCenteredX(int x, int iconWidth) {
         return leftToRight
-               ? x - (int)Math.ceil(iconWidth / 2.0)
-               : x - (int)Math.floor(iconWidth / 2.0);
+               ? x - (int)Mbth.ceil(iconWidth / 2.0)
+               : x - (int)Mbth.floor(iconWidth / 2.0);
     }
 
     //
-    // Generic painting methods
+    // Generic pbinting methods
     //
 
     /**
-     * Draws the {@code icon} centered at (x,y).
+     * Drbws the {@code icon} centered bt (x,y).
      *
-     * @param c a component
-     * @param graphics a graphics context
-     * @param icon an icon
-     * @param x an X coordinate
-     * @param y an Y coordinate
+     * @pbrbm c b component
+     * @pbrbm grbphics b grbphics context
+     * @pbrbm icon bn icon
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
      */
-    protected void drawCentered(Component c, Graphics graphics, Icon icon,
+    protected void drbwCentered(Component c, Grbphics grbphics, Icon icon,
                                 int x, int y) {
-        icon.paintIcon(c, graphics,
+        icon.pbintIcon(c, grbphics,
                       findCenteredX(x, icon.getIconWidth()),
                       y - icon.getIconHeight() / 2);
     }
 
     /**
-     * Draws a horizontal dashed line. It is assumed {@code x1} &lt;= {@code x2}.
-     * If {@code x1} is greater than {@code x2}, the method draws nothing.
+     * Drbws b horizontbl dbshed line. It is bssumed {@code x1} &lt;= {@code x2}.
+     * If {@code x1} is grebter thbn {@code x2}, the method drbws nothing.
      *
-     * @param g an instance of {@code Graphics}
-     * @param y an Y coordinate
-     * @param x1 an X1 coordinate
-     * @param x2 an X2 coordinate
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm x1 bn X1 coordinbte
+     * @pbrbm x2 bn X2 coordinbte
      */
-    protected void drawDashedHorizontalLine(Graphics g, int y, int x1, int x2) {
-        // Drawing only even coordinates helps join line segments so they
-        // appear as one line.  This can be defeated by translating the
-        // Graphics by an odd amount.
-        drawDashedLine(g, y, x1, x2, false);
+    protected void drbwDbshedHorizontblLine(Grbphics g, int y, int x1, int x2) {
+        // Drbwing only even coordinbtes helps join line segments so they
+        // bppebr bs one line.  This cbn be defebted by trbnslbting the
+        // Grbphics by bn odd bmount.
+        drbwDbshedLine(g, y, x1, x2, fblse);
     }
 
     /**
-     * Draws a vertical dashed line. It is assumed {@code y1} &lt;= {@code y2}.
-     * If {@code y1} is greater than {@code y2}, the method draws nothing.
+     * Drbws b verticbl dbshed line. It is bssumed {@code y1} &lt;= {@code y2}.
+     * If {@code y1} is grebter thbn {@code y2}, the method drbws nothing.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y1 an Y1 coordinate
-     * @param y2 an Y2 coordinate
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y1 bn Y1 coordinbte
+     * @pbrbm y2 bn Y2 coordinbte
      */
-    protected void drawDashedVerticalLine(Graphics g, int x, int y1, int y2) {
-        // Drawing only even coordinates helps join line segments so they
-        // appear as one line.  This can be defeated by translating the
-        // Graphics by an odd amount.
-        drawDashedLine(g, x, y1, y2, true);
+    protected void drbwDbshedVerticblLine(Grbphics g, int x, int y1, int y2) {
+        // Drbwing only even coordinbtes helps join line segments so they
+        // bppebr bs one line.  This cbn be defebted by trbnslbting the
+        // Grbphics by bn odd bmount.
+        drbwDbshedLine(g, x, y1, y2, true);
     }
 
-    private void drawDashedLine(Graphics g, int v, int v1, int v2, boolean isVertical) {
+    privbte void drbwDbshedLine(Grbphics g, int v, int v1, int v2, boolebn isVerticbl) {
         if (v1 >= v2) {
             return;
         }
         v1 += (v1 % 2);
-        Graphics2D g2d = (Graphics2D) g;
+        Grbphics2D g2d = (Grbphics2D) g;
         Stroke oldStroke = g2d.getStroke();
 
-        BasicStroke dashedStroke = new BasicStroke(1, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_ROUND, 0, new float[]{1}, 0);
-        g2d.setStroke(dashedStroke);
-        if (isVertical) {
-            g2d.drawLine(v, v1, v, v2);
+        BbsicStroke dbshedStroke = new BbsicStroke(1, BbsicStroke.CAP_BUTT,
+                BbsicStroke.JOIN_ROUND, 0, new flobt[]{1}, 0);
+        g2d.setStroke(dbshedStroke);
+        if (isVerticbl) {
+            g2d.drbwLine(v, v1, v, v2);
         } else {
-            g2d.drawLine(v1, v, v2, v);
+            g2d.drbwLine(v1, v, v2, v);
         }
 
         g2d.setStroke(oldStroke);
     }
     //
-    // Various local methods
+    // Vbrious locbl methods
     //
 
     /**
-     * Returns the location, along the x-axis, to render a particular row
-     * at. The return value does not include any Insets specified on the JTree.
-     * This does not check for the validity of the row or depth, it is assumed
-     * to be correct and will not throw an Exception if the row or depth
-     * doesn't match that of the tree.
+     * Returns the locbtion, blong the x-bxis, to render b pbrticulbr row
+     * bt. The return vblue does not include bny Insets specified on the JTree.
+     * This does not check for the vblidity of the row or depth, it is bssumed
+     * to be correct bnd will not throw bn Exception if the row or depth
+     * doesn't mbtch thbt of the tree.
      *
-     * @param row Row to return x location for
-     * @param depth Depth of the row
-     * @return amount to indent the given row.
+     * @pbrbm row Row to return x locbtion for
+     * @pbrbm depth Depth of the row
+     * @return bmount to indent the given row.
      * @since 1.5
      */
     protected int getRowX(int row, int depth) {
-        return totalChildIndent * (depth + depthOffset);
+        return totblChildIndent * (depth + depthOffset);
     }
 
     /**
-     * Makes all the nodes that are expanded in JTree expanded in LayoutCache.
-     * This invokes updateExpandedDescendants with the root path.
+     * Mbkes bll the nodes thbt bre expbnded in JTree expbnded in LbyoutCbche.
+     * This invokes updbteExpbndedDescendbnts with the root pbth.
      */
-    protected void updateLayoutCacheExpandedNodes() {
+    protected void updbteLbyoutCbcheExpbndedNodes() {
         if(treeModel != null && treeModel.getRoot() != null)
-            updateExpandedDescendants(new TreePath(treeModel.getRoot()));
+            updbteExpbndedDescendbnts(new TreePbth(treeModel.getRoot()));
     }
 
-    private void updateLayoutCacheExpandedNodesIfNecessary() {
+    privbte void updbteLbyoutCbcheExpbndedNodesIfNecessbry() {
         if (treeModel != null && treeModel.getRoot() != null) {
-            TreePath rootPath = new TreePath(treeModel.getRoot());
-            if (tree.isExpanded(rootPath)) {
-                updateLayoutCacheExpandedNodes();
+            TreePbth rootPbth = new TreePbth(treeModel.getRoot());
+            if (tree.isExpbnded(rootPbth)) {
+                updbteLbyoutCbcheExpbndedNodes();
             } else {
-                treeState.setExpandedState(rootPath, false);
+                treeStbte.setExpbndedStbte(rootPbth, fblse);
             }
         }
     }
 
     /**
-     * Updates the expanded state of all the descendants of {@code path}
-     * by getting the expanded descendants from the tree and forwarding
-     * to the tree state.
+     * Updbtes the expbnded stbte of bll the descendbnts of {@code pbth}
+     * by getting the expbnded descendbnts from the tree bnd forwbrding
+     * to the tree stbte.
      *
-     * @param path a tree path
+     * @pbrbm pbth b tree pbth
      */
-    protected void updateExpandedDescendants(TreePath path) {
+    protected void updbteExpbndedDescendbnts(TreePbth pbth) {
         completeEditing();
-        if(treeState != null) {
-            treeState.setExpandedState(path, true);
+        if(treeStbte != null) {
+            treeStbte.setExpbndedStbte(pbth, true);
 
-            Enumeration<?> descendants = tree.getExpandedDescendants(path);
+            Enumerbtion<?> descendbnts = tree.getExpbndedDescendbnts(pbth);
 
-            if(descendants != null) {
-                while(descendants.hasMoreElements()) {
-                    path = (TreePath)descendants.nextElement();
-                    treeState.setExpandedState(path, true);
+            if(descendbnts != null) {
+                while(descendbnts.hbsMoreElements()) {
+                    pbth = (TreePbth)descendbnts.nextElement();
+                    treeStbte.setExpbndedStbte(pbth, true);
                 }
             }
-            updateLeadSelectionRow();
-            updateSize();
+            updbteLebdSelectionRow();
+            updbteSize();
         }
     }
 
     /**
-     * Returns a path to the last child of {@code parent}.
+     * Returns b pbth to the lbst child of {@code pbrent}.
      *
-     * @param parent a tree path
-     * @return a path to the last child of {@code parent}
+     * @pbrbm pbrent b tree pbth
+     * @return b pbth to the lbst child of {@code pbrent}
      */
-    protected TreePath getLastChildPath(TreePath parent) {
+    protected TreePbth getLbstChildPbth(TreePbth pbrent) {
         if(treeModel != null) {
             int         childCount = treeModel.getChildCount
-                (parent.getLastPathComponent());
+                (pbrent.getLbstPbthComponent());
 
             if(childCount > 0)
-                return parent.pathByAddingChild(treeModel.getChild
-                           (parent.getLastPathComponent(), childCount - 1));
+                return pbrent.pbthByAddingChild(treeModel.getChild
+                           (pbrent.getLbstPbthComponent(), childCount - 1));
         }
         return null;
     }
 
     /**
-     * Updates how much each depth should be offset by.
+     * Updbtes how much ebch depth should be offset by.
      */
-    protected void updateDepthOffset() {
+    protected void updbteDepthOffset() {
         if(isRootVisible()) {
-            if(getShowsRootHandles())
+            if(getShowsRootHbndles())
                 depthOffset = 1;
             else
                 depthOffset = 0;
         }
-        else if(!getShowsRootHandles())
+        else if(!getShowsRootHbndles())
             depthOffset = -1;
         else
             depthOffset = 0;
     }
 
     /**
-      * Updates the cellEditor based on the editability of the JTree that
-      * we're contained in.  If the tree is editable but doesn't have a
-      * cellEditor, a basic one will be used.
+      * Updbtes the cellEditor bbsed on the editbbility of the JTree thbt
+      * we're contbined in.  If the tree is editbble but doesn't hbve b
+      * cellEditor, b bbsic one will be used.
       */
-    protected void updateCellEditor() {
+    protected void updbteCellEditor() {
         TreeCellEditor        newEditor;
 
         completeEditing();
         if(tree == null)
             newEditor = null;
         else {
-            if(tree.isEditable()) {
+            if(tree.isEditbble()) {
                 newEditor = tree.getCellEditor();
                 if(newEditor == null) {
-                    newEditor = createDefaultCellEditor();
+                    newEditor = crebteDefbultCellEditor();
                     if(newEditor != null) {
                         tree.setCellEditor(newEditor);
-                        createdCellEditor = true;
+                        crebtedCellEditor = true;
                     }
                 }
             }
@@ -2043,64 +2043,64 @@ public class BasicTreeUI extends TreeUI
                 cellEditor.removeCellEditorListener(cellEditorListener);
             cellEditor = newEditor;
             if(cellEditorListener == null)
-                cellEditorListener = createCellEditorListener();
+                cellEditorListener = crebteCellEditorListener();
             if(newEditor != null && cellEditorListener != null)
-                newEditor.addCellEditorListener(cellEditorListener);
-            createdCellEditor = false;
+                newEditor.bddCellEditorListener(cellEditorListener);
+            crebtedCellEditor = fblse;
         }
     }
 
     /**
-      * Messaged from the tree we're in when the renderer has changed.
+      * Messbged from the tree we're in when the renderer hbs chbnged.
       */
-    protected void updateRenderer() {
+    protected void updbteRenderer() {
         if(tree != null) {
             TreeCellRenderer      newCellRenderer;
 
             newCellRenderer = tree.getCellRenderer();
             if(newCellRenderer == null) {
-                tree.setCellRenderer(createDefaultCellRenderer());
-                createdRenderer = true;
+                tree.setCellRenderer(crebteDefbultCellRenderer());
+                crebtedRenderer = true;
             }
             else {
-                createdRenderer = false;
+                crebtedRenderer = fblse;
                 currentCellRenderer = newCellRenderer;
-                if(createdCellEditor) {
+                if(crebtedCellEditor) {
                     tree.setCellEditor(null);
                 }
             }
         }
         else {
-            createdRenderer = false;
+            crebtedRenderer = fblse;
             currentCellRenderer = null;
         }
-        updateCellEditor();
+        updbteCellEditor();
     }
 
     /**
-     * Resets the TreeState instance based on the tree we're providing the
-     * look and feel for.
+     * Resets the TreeStbte instbnce bbsed on the tree we're providing the
+     * look bnd feel for.
      */
-    protected void configureLayoutCache() {
-        if(treeState != null && tree != null) {
+    protected void configureLbyoutCbche() {
+        if(treeStbte != null && tree != null) {
             if(nodeDimensions == null)
-                nodeDimensions = createNodeDimensions();
-            treeState.setNodeDimensions(nodeDimensions);
-            treeState.setRootVisible(tree.isRootVisible());
-            treeState.setRowHeight(tree.getRowHeight());
-            treeState.setSelectionModel(getSelectionModel());
-            // Only do this if necessary, may loss state if call with
-            // same model as it currently has.
-            if(treeState.getModel() != tree.getModel())
-                treeState.setModel(tree.getModel());
-            updateLayoutCacheExpandedNodesIfNecessary();
-            // Create a listener to update preferred size when bounds
-            // changes, if necessary.
-            if(isLargeModel()) {
+                nodeDimensions = crebteNodeDimensions();
+            treeStbte.setNodeDimensions(nodeDimensions);
+            treeStbte.setRootVisible(tree.isRootVisible());
+            treeStbte.setRowHeight(tree.getRowHeight());
+            treeStbte.setSelectionModel(getSelectionModel());
+            // Only do this if necessbry, mby loss stbte if cbll with
+            // sbme model bs it currently hbs.
+            if(treeStbte.getModel() != tree.getModel())
+                treeStbte.setModel(tree.getModel());
+            updbteLbyoutCbcheExpbndedNodesIfNecessbry();
+            // Crebte b listener to updbte preferred size when bounds
+            // chbnges, if necessbry.
+            if(isLbrgeModel()) {
                 if(componentListener == null) {
-                    componentListener = createComponentListener();
+                    componentListener = crebteComponentListener();
                     if(componentListener != null)
-                        tree.addComponentListener(componentListener);
+                        tree.bddComponentListener(componentListener);
                 }
             }
             else if(componentListener != null) {
@@ -2115,38 +2115,38 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-     * Marks the cached size as being invalid, and messages the
-     * tree with <code>treeDidChange</code>.
+     * Mbrks the cbched size bs being invblid, bnd messbges the
+     * tree with <code>treeDidChbnge</code>.
      */
-    protected void updateSize() {
-        validCachedPreferredSize = false;
-        tree.treeDidChange();
+    protected void updbteSize() {
+        vblidCbchedPreferredSize = fblse;
+        tree.treeDidChbnge();
     }
 
-    private void updateSize0() {
-        validCachedPreferredSize = false;
-        tree.revalidate();
+    privbte void updbteSize0() {
+        vblidCbchedPreferredSize = fblse;
+        tree.revblidbte();
     }
 
     /**
-     * Updates the <code>preferredSize</code> instance variable,
+     * Updbtes the <code>preferredSize</code> instbnce vbribble,
      * which is returned from <code>getPreferredSize()</code>.<p>
-     * For left to right orientations, the size is determined from the
-     * current AbstractLayoutCache. For RTL orientations, the preferred size
+     * For left to right orientbtions, the size is determined from the
+     * current AbstrbctLbyoutCbche. For RTL orientbtions, the preferred size
      * becomes the width minus the minimum x position.
      */
-    protected void updateCachedPreferredSize() {
-        if(treeState != null) {
+    protected void updbteCbchedPreferredSize() {
+        if(treeStbte != null) {
             Insets               i = tree.getInsets();
 
-            if(isLargeModel()) {
-                Rectangle            visRect = tree.getVisibleRect();
+            if(isLbrgeModel()) {
+                Rectbngle            visRect = tree.getVisibleRect();
 
                 if (visRect.x == 0 && visRect.y == 0 &&
                         visRect.width == 0 && visRect.height == 0 &&
                         tree.getVisibleRowCount() > 0) {
-                    // The tree doesn't have a valid bounds yet. Calculate
-                    // based on visible row count.
+                    // The tree doesn't hbve b vblid bounds yet. Cblculbte
+                    // bbsed on visible row count.
                     visRect.width = 1;
                     visRect.height = tree.getRowHeight() *
                             tree.getVisibleRowCount();
@@ -2154,67 +2154,67 @@ public class BasicTreeUI extends TreeUI
                     visRect.x -= i.left;
                     visRect.y -= i.top;
                 }
-                // we should consider a non-visible area above
-                Component component = SwingUtilities.getUnwrappedParent(tree);
-                if (component instanceof JViewport) {
-                    component = component.getParent();
-                    if (component instanceof JScrollPane) {
-                        JScrollPane pane = (JScrollPane) component;
-                        JScrollBar bar = pane.getHorizontalScrollBar();
-                        if ((bar != null) && bar.isVisible()) {
-                            int height = bar.getHeight();
+                // we should consider b non-visible breb bbove
+                Component component = SwingUtilities.getUnwrbppedPbrent(tree);
+                if (component instbnceof JViewport) {
+                    component = component.getPbrent();
+                    if (component instbnceof JScrollPbne) {
+                        JScrollPbne pbne = (JScrollPbne) component;
+                        JScrollBbr bbr = pbne.getHorizontblScrollBbr();
+                        if ((bbr != null) && bbr.isVisible()) {
+                            int height = bbr.getHeight();
                             visRect.y -= height;
                             visRect.height += height;
                         }
                     }
                 }
-                preferredSize.width = treeState.getPreferredWidth(visRect);
+                preferredSize.width = treeStbte.getPreferredWidth(visRect);
             }
             else {
-                preferredSize.width = treeState.getPreferredWidth(null);
+                preferredSize.width = treeStbte.getPreferredWidth(null);
             }
-            preferredSize.height = treeState.getPreferredHeight();
+            preferredSize.height = treeStbte.getPreferredHeight();
             preferredSize.width += i.left + i.right;
             preferredSize.height += i.top + i.bottom;
         }
-        validCachedPreferredSize = true;
+        vblidCbchedPreferredSize = true;
     }
 
     /**
-     * Messaged from the {@code VisibleTreeNode} after it has been expanded.
+     * Messbged from the {@code VisibleTreeNode} bfter it hbs been expbnded.
      *
-     * @param path a tree path
+     * @pbrbm pbth b tree pbth
      */
-    protected void pathWasExpanded(TreePath path) {
+    protected void pbthWbsExpbnded(TreePbth pbth) {
         if(tree != null) {
-            tree.fireTreeExpanded(path);
+            tree.fireTreeExpbnded(pbth);
         }
     }
 
     /**
-     * Messaged from the {@code VisibleTreeNode} after it has collapsed.
+     * Messbged from the {@code VisibleTreeNode} bfter it hbs collbpsed.
      *
-     * @param path a tree path
+     * @pbrbm pbth b tree pbth
      */
-    protected void pathWasCollapsed(TreePath path) {
+    protected void pbthWbsCollbpsed(TreePbth pbth) {
         if(tree != null) {
-            tree.fireTreeCollapsed(path);
+            tree.fireTreeCollbpsed(pbth);
         }
     }
 
     /**
-     * Ensures that the rows identified by {@code beginRow} through
-     * {@code endRow} are visible.
+     * Ensures thbt the rows identified by {@code beginRow} through
+     * {@code endRow} bre visible.
      *
-     * @param beginRow the begin row
-     * @param endRow the end row
+     * @pbrbm beginRow the begin row
+     * @pbrbm endRow the end row
      */
     protected void ensureRowsAreVisible(int beginRow, int endRow) {
         if(tree != null && beginRow >= 0 && endRow < getRowCount(tree)) {
-            boolean scrollVert = DefaultLookup.getBoolean(tree, this,
-                              "Tree.scrollsHorizontallyAndVertically", false);
+            boolebn scrollVert = DefbultLookup.getBoolebn(tree, this,
+                              "Tree.scrollsHorizontbllyAndVerticblly", fblse);
             if(beginRow == endRow) {
-                Rectangle     scrollBounds = getPathBounds(tree, getPathForRow
+                Rectbngle     scrollBounds = getPbthBounds(tree, getPbthForRow
                                                            (tree, beginRow));
 
                 if(scrollBounds != null) {
@@ -2226,24 +2226,24 @@ public class BasicTreeUI extends TreeUI
                 }
             }
             else {
-                Rectangle   beginRect = getPathBounds(tree, getPathForRow
+                Rectbngle   beginRect = getPbthBounds(tree, getPbthForRow
                                                       (tree, beginRow));
                 if (beginRect != null) {
-                    Rectangle   visRect = tree.getVisibleRect();
-                    Rectangle   testRect = beginRect;
+                    Rectbngle   visRect = tree.getVisibleRect();
+                    Rectbngle   testRect = beginRect;
                     int         beginY = beginRect.y;
-                    int         maxY = beginY + visRect.height;
+                    int         mbxY = beginY + visRect.height;
 
                     for(int counter = beginRow + 1; counter <= endRow; counter++) {
-                            testRect = getPathBounds(tree,
-                                    getPathForRow(tree, counter));
+                            testRect = getPbthBounds(tree,
+                                    getPbthForRow(tree, counter));
                         if (testRect == null) {
                             return;
                         }
-                        if((testRect.y + testRect.height) > maxY)
+                        if((testRect.y + testRect.height) > mbxY)
                                 counter = endRow;
                             }
-                        tree.scrollRectToVisible(new Rectangle(visRect.x, beginY, 1,
+                        tree.scrollRectToVisible(new Rectbngle(visRect.x, beginY, 1,
                                                       testRect.y + testRect.height-
                                                       beginY));
                 }
@@ -2254,7 +2254,7 @@ public class BasicTreeUI extends TreeUI
     /**
      * Sets the preferred minimum size.
      *
-     * @param newSize the new preferred size
+     * @pbrbm newSize the new preferred size
      */
     public void setPreferredMinSize(Dimension newSize) {
         preferredMinSize = newSize;
@@ -2272,10 +2272,10 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-     * Returns the preferred size to properly display the tree,
-     * this is a cover method for {@code getPreferredSize(c, true)}.
+     * Returns the preferred size to properly displby the tree,
+     * this is b cover method for {@code getPreferredSize(c, true)}.
      *
-     * @param c a component
+     * @pbrbm c b component
      * @return the preferred size to represent the tree in the component
      */
     public Dimension getPreferredSize(JComponent c) {
@@ -2285,23 +2285,23 @@ public class BasicTreeUI extends TreeUI
     /**
      * Returns the preferred size to represent the tree in
      * <I>c</I>.  If <I>checkConsistency</I> is {@code true}
-     * <b>checkConsistency</b> is messaged first.
+     * <b>checkConsistency</b> is messbged first.
      *
-     * @param c a component
-     * @param checkConsistency if {@code true} consistency is checked
+     * @pbrbm c b component
+     * @pbrbm checkConsistency if {@code true} consistency is checked
      * @return the preferred size to represent the tree in the component
      */
     public Dimension getPreferredSize(JComponent c,
-                                      boolean checkConsistency) {
+                                      boolebn checkConsistency) {
         Dimension       pSize = this.getPreferredMinSize();
 
-        if(!validCachedPreferredSize)
-            updateCachedPreferredSize();
+        if(!vblidCbchedPreferredSize)
+            updbteCbchedPreferredSize();
         if(tree != null) {
             if(pSize != null)
-                return new Dimension(Math.max(pSize.width,
+                return new Dimension(Mbth.mbx(pSize.width,
                                               preferredSize.width),
-                              Math.max(pSize.height, preferredSize.height));
+                              Mbth.mbx(pSize.height, preferredSize.height));
             return new Dimension(preferredSize.width, preferredSize.height);
         }
         else if(pSize != null)
@@ -2321,10 +2321,10 @@ public class BasicTreeUI extends TreeUI
     }
 
     /**
-      * Returns the maximum size for this component, which will be the
-      * preferred size if the instance is currently in a JTree, or 0, 0.
+      * Returns the mbximum size for this component, which will be the
+      * preferred size if the instbnce is currently in b JTree, or 0, 0.
       */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         if(tree != null)
             return getPreferredSize(tree);
         if(this.getPreferredMinSize() != null)
@@ -2334,183 +2334,183 @@ public class BasicTreeUI extends TreeUI
 
 
     /**
-     * Messages to stop the editing session. If the UI the receiver
-     * is providing the look and feel for returns true from
+     * Messbges to stop the editing session. If the UI the receiver
+     * is providing the look bnd feel for returns true from
      * <code>getInvokesStopCellEditing</code>, stopCellEditing will
      * invoked on the current editor. Then completeEditing will
-     * be messaged with false, true, false to cancel any lingering
+     * be messbged with fblse, true, fblse to cbncel bny lingering
      * editing.
      */
     protected void completeEditing() {
-        /* If should invoke stopCellEditing, try that */
+        /* If should invoke stopCellEditing, try thbt */
         if(tree.getInvokesStopCellEditing() &&
            stopEditingInCompleteEditing && editingComponent != null) {
             cellEditor.stopCellEditing();
         }
-        /* Invoke cancelCellEditing, this will do nothing if stopCellEditing
-           was successful. */
-        completeEditing(false, true, false);
+        /* Invoke cbncelCellEditing, this will do nothing if stopCellEditing
+           wbs successful. */
+        completeEditing(fblse, true, fblse);
     }
 
     /**
-     * Stops the editing session. If {@code messageStop} is {@code true} the editor
-     * is messaged with {@code stopEditing}, if {@code messageCancel}
-     * is {@code true} the editor is messaged with {@code cancelEditing}.
-     * If {@code messageTree} is {@code true} the {@code treeModel} is messaged
-     * with {@code valueForPathChanged}.
+     * Stops the editing session. If {@code messbgeStop} is {@code true} the editor
+     * is messbged with {@code stopEditing}, if {@code messbgeCbncel}
+     * is {@code true} the editor is messbged with {@code cbncelEditing}.
+     * If {@code messbgeTree} is {@code true} the {@code treeModel} is messbged
+     * with {@code vblueForPbthChbnged}.
      *
-     * @param messageStop message to stop editing
-     * @param messageCancel message to cancel editing
-     * @param messageTree message to tree
+     * @pbrbm messbgeStop messbge to stop editing
+     * @pbrbm messbgeCbncel messbge to cbncel editing
+     * @pbrbm messbgeTree messbge to tree
      */
-    protected void completeEditing(boolean messageStop,
-                                   boolean messageCancel,
-                                   boolean messageTree) {
+    protected void completeEditing(boolebn messbgeStop,
+                                   boolebn messbgeCbncel,
+                                   boolebn messbgeTree) {
         if(stopEditingInCompleteEditing && editingComponent != null) {
             Component             oldComponent = editingComponent;
-            TreePath              oldPath = editingPath;
+            TreePbth              oldPbth = editingPbth;
             TreeCellEditor        oldEditor = cellEditor;
-            Object                newValue = oldEditor.getCellEditorValue();
-            Rectangle             editingBounds = getPathBounds(tree,
-                                                                editingPath);
-            boolean               requestFocus = (tree != null &&
-                                   (tree.hasFocus() || SwingUtilities.
+            Object                newVblue = oldEditor.getCellEditorVblue();
+            Rectbngle             editingBounds = getPbthBounds(tree,
+                                                                editingPbth);
+            boolebn               requestFocus = (tree != null &&
+                                   (tree.hbsFocus() || SwingUtilities.
                                     findFocusOwner(editingComponent) != null));
 
             editingComponent = null;
-            editingPath = null;
-            if(messageStop)
+            editingPbth = null;
+            if(messbgeStop)
                 oldEditor.stopCellEditing();
-            else if(messageCancel)
-                oldEditor.cancelCellEditing();
+            else if(messbgeCbncel)
+                oldEditor.cbncelCellEditing();
             tree.remove(oldComponent);
-            if(editorHasDifferentSize) {
-                treeState.invalidatePathBounds(oldPath);
-                updateSize();
+            if(editorHbsDifferentSize) {
+                treeStbte.invblidbtePbthBounds(oldPbth);
+                updbteSize();
             }
             else if (editingBounds != null) {
                 editingBounds.x = 0;
                 editingBounds.width = tree.getSize().width;
-                tree.repaint(editingBounds);
+                tree.repbint(editingBounds);
             }
             if(requestFocus)
                 tree.requestFocus();
-            if(messageTree)
-                treeModel.valueForPathChanged(oldPath, newValue);
+            if(messbgeTree)
+                treeModel.vblueForPbthChbnged(oldPbth, newVblue);
         }
     }
 
-    // cover method for startEditing that allows us to pass extra
-    // information into that method via a class variable
-    private boolean startEditingOnRelease(TreePath path,
+    // cover method for stbrtEditing thbt bllows us to pbss extrb
+    // informbtion into thbt method vib b clbss vbribble
+    privbte boolebn stbrtEditingOnRelebse(TreePbth pbth,
                                           MouseEvent event,
-                                          MouseEvent releaseEvent) {
-        this.releaseEvent = releaseEvent;
+                                          MouseEvent relebseEvent) {
+        this.relebseEvent = relebseEvent;
         try {
-            return startEditing(path, event);
-        } finally {
-            this.releaseEvent = null;
+            return stbrtEditing(pbth, event);
+        } finblly {
+            this.relebseEvent = null;
         }
     }
 
     /**
-     * Will start editing for node if there is a {@code cellEditor} and
+     * Will stbrt editing for node if there is b {@code cellEditor} bnd
      * {@code shouldSelectCell} returns {@code true}.<p>
-     * This assumes that path is valid and visible.
+     * This bssumes thbt pbth is vblid bnd visible.
      *
-     * @param path a tree path
-     * @param event a mouse event
+     * @pbrbm pbth b tree pbth
+     * @pbrbm event b mouse event
      * @return {@code true} if the editing is successful
      */
-    protected boolean startEditing(TreePath path, MouseEvent event) {
+    protected boolebn stbrtEditing(TreePbth pbth, MouseEvent event) {
         if (isEditing(tree) && tree.getInvokesStopCellEditing() &&
                                !stopEditing(tree)) {
-            return false;
+            return fblse;
         }
         completeEditing();
-        if(cellEditor != null && tree.isPathEditable(path)) {
-            int           row = getRowForPath(tree, path);
+        if(cellEditor != null && tree.isPbthEditbble(pbth)) {
+            int           row = getRowForPbth(tree, pbth);
 
-            if(cellEditor.isCellEditable(event)) {
+            if(cellEditor.isCellEditbble(event)) {
                 editingComponent = cellEditor.getTreeCellEditorComponent
-                      (tree, path.getLastPathComponent(),
-                       tree.isPathSelected(path), tree.isExpanded(path),
-                       treeModel.isLeaf(path.getLastPathComponent()), row);
-                Rectangle           nodeBounds = getPathBounds(tree, path);
+                      (tree, pbth.getLbstPbthComponent(),
+                       tree.isPbthSelected(pbth), tree.isExpbnded(pbth),
+                       treeModel.isLebf(pbth.getLbstPbthComponent()), row);
+                Rectbngle           nodeBounds = getPbthBounds(tree, pbth);
                 if (nodeBounds == null) {
-                    return false;
+                    return fblse;
                 }
 
                 editingRow = row;
 
                 Dimension editorSize = editingComponent.getPreferredSize();
 
-                // Only allow odd heights if explicitly set.
+                // Only bllow odd heights if explicitly set.
                 if(editorSize.height != nodeBounds.height &&
                    getRowHeight() > 0)
                     editorSize.height = getRowHeight();
 
                 if(editorSize.width != nodeBounds.width ||
                    editorSize.height != nodeBounds.height) {
-                    // Editor wants different width or height, invalidate
-                    // treeState and relayout.
-                    editorHasDifferentSize = true;
-                    treeState.invalidatePathBounds(path);
-                    updateSize();
-                    // To make sure x/y are updated correctly, fetch
-                    // the bounds again.
-                    nodeBounds = getPathBounds(tree, path);
+                    // Editor wbnts different width or height, invblidbte
+                    // treeStbte bnd relbyout.
+                    editorHbsDifferentSize = true;
+                    treeStbte.invblidbtePbthBounds(pbth);
+                    updbteSize();
+                    // To mbke sure x/y bre updbted correctly, fetch
+                    // the bounds bgbin.
+                    nodeBounds = getPbthBounds(tree, pbth);
                     if (nodeBounds == null) {
-                        return false;
+                        return fblse;
                     }
                 }
                 else
-                    editorHasDifferentSize = false;
-                tree.add(editingComponent);
+                    editorHbsDifferentSize = fblse;
+                tree.bdd(editingComponent);
                 editingComponent.setBounds(nodeBounds.x, nodeBounds.y,
                                            nodeBounds.width,
                                            nodeBounds.height);
-                editingPath = path;
-                AWTAccessor.getComponentAccessor().revalidateSynchronously(editingComponent);
-                editingComponent.repaint();
+                editingPbth = pbth;
+                AWTAccessor.getComponentAccessor().revblidbteSynchronously(editingComponent);
+                editingComponent.repbint();
                 if(cellEditor.shouldSelectCell(event)) {
-                    stopEditingInCompleteEditing = false;
+                    stopEditingInCompleteEditing = fblse;
                     tree.setSelectionRow(row);
                     stopEditingInCompleteEditing = true;
                 }
 
                 Component focusedComponent = SwingUtilities2.
                                  compositeRequestFocus(editingComponent);
-                boolean selectAll = true;
+                boolebn selectAll = true;
 
                 if(event != null) {
-                    /* Find the component that will get forwarded all the
-                       mouse events until mouseReleased. */
+                    /* Find the component thbt will get forwbrded bll the
+                       mouse events until mouseRelebsed. */
                     Point          componentPoint = SwingUtilities.convertPoint
                         (tree, new Point(event.getX(), event.getY()),
                          editingComponent);
 
-                    /* Create an instance of BasicTreeMouseListener to handle
-                       passing the mouse/motion events to the necessary
+                    /* Crebte bn instbnce of BbsicTreeMouseListener to hbndle
+                       pbssing the mouse/motion events to the necessbry
                        component. */
-                    // We really want similar behavior to getMouseEventTarget,
-                    // but it is package private.
-                    Component activeComponent = SwingUtilities.
+                    // We reblly wbnt similbr behbvior to getMouseEventTbrget,
+                    // but it is pbckbge privbte.
+                    Component bctiveComponent = SwingUtilities.
                                     getDeepestComponentAt(editingComponent,
                                        componentPoint.x, componentPoint.y);
-                    if (activeComponent != null) {
-                        MouseInputHandler handler =
-                            new MouseInputHandler(tree, activeComponent,
+                    if (bctiveComponent != null) {
+                        MouseInputHbndler hbndler =
+                            new MouseInputHbndler(tree, bctiveComponent,
                                                   event, focusedComponent);
 
-                        if (releaseEvent != null) {
-                            handler.mouseReleased(releaseEvent);
+                        if (relebseEvent != null) {
+                            hbndler.mouseRelebsed(relebseEvent);
                         }
 
-                        selectAll = false;
+                        selectAll = fblse;
                     }
                 }
-                if (selectAll && focusedComponent instanceof JTextField) {
+                if (selectAll && focusedComponent instbnceof JTextField) {
                     ((JTextField)focusedComponent).selectAll();
                 }
                 return true;
@@ -2518,53 +2518,53 @@ public class BasicTreeUI extends TreeUI
             else
                 editingComponent = null;
         }
-        return false;
+        return fblse;
     }
 
     //
-    // Following are primarily for handling mouse events.
+    // Following bre primbrily for hbndling mouse events.
     //
 
     /**
-     * If the {@code mouseX} and {@code mouseY} are in the
-     * expand/collapse region of the {@code row}, this will toggle
+     * If the {@code mouseX} bnd {@code mouseY} bre in the
+     * expbnd/collbpse region of the {@code row}, this will toggle
      * the row.
      *
-     * @param path a tree path
-     * @param mouseX an X coordinate
-     * @param mouseY an Y coordinate
+     * @pbrbm pbth b tree pbth
+     * @pbrbm mouseX bn X coordinbte
+     * @pbrbm mouseY bn Y coordinbte
      */
-    protected void checkForClickInExpandControl(TreePath path,
+    protected void checkForClickInExpbndControl(TreePbth pbth,
                                                 int mouseX, int mouseY) {
-      if (isLocationInExpandControl(path, mouseX, mouseY)) {
-          handleExpandControlClick(path, mouseX, mouseY);
+      if (isLocbtionInExpbndControl(pbth, mouseX, mouseY)) {
+          hbndleExpbndControlClick(pbth, mouseX, mouseY);
         }
     }
 
     /**
-     * Returns {@code true} if {@code mouseX} and {@code mouseY} fall
-     * in the area of row that is used to expand/collapse the node and
-     * the node at {@code row} does not represent a leaf.
+     * Returns {@code true} if {@code mouseX} bnd {@code mouseY} fbll
+     * in the breb of row thbt is used to expbnd/collbpse the node bnd
+     * the node bt {@code row} does not represent b lebf.
      *
-     * @param path a tree path
-     * @param mouseX an X coordinate
-     * @param mouseY an Y coordinate
-     * @return {@code true} if the mouse cursor fall in the area of row that
-     *         is used to expand/collapse the node and the node is not a leaf.
+     * @pbrbm pbth b tree pbth
+     * @pbrbm mouseX bn X coordinbte
+     * @pbrbm mouseY bn Y coordinbte
+     * @return {@code true} if the mouse cursor fbll in the breb of row thbt
+     *         is used to expbnd/collbpse the node bnd the node is not b lebf.
      */
-    protected boolean isLocationInExpandControl(TreePath path,
+    protected boolebn isLocbtionInExpbndControl(TreePbth pbth,
                                                 int mouseX, int mouseY) {
-        if(path != null && !treeModel.isLeaf(path.getLastPathComponent())){
+        if(pbth != null && !treeModel.isLebf(pbth.getLbstPbthComponent())){
             int                     boxWidth;
             Insets                  i = tree.getInsets();
 
-            if(getExpandedIcon() != null)
-                boxWidth = getExpandedIcon().getIconWidth();
+            if(getExpbndedIcon() != null)
+                boxWidth = getExpbndedIcon().getIconWidth();
             else
                 boxWidth = 8;
 
-            int boxLeftX = getRowX(tree.getRowForPath(path),
-                                   path.getPathCount() - 1);
+            int boxLeftX = getRowX(tree.getRowForPbth(pbth),
+                                   pbth.getPbthCount() - 1);
 
             if (leftToRight) {
                 boxLeftX = boxLeftX + i.left - getRightChildIndent() + 1;
@@ -2576,549 +2576,549 @@ public class BasicTreeUI extends TreeUI
 
             return (mouseX >= boxLeftX && mouseX < (boxLeftX + boxWidth));
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Messaged when the user clicks the particular row, this invokes
-     * {@code toggleExpandState}.
+     * Messbged when the user clicks the pbrticulbr row, this invokes
+     * {@code toggleExpbndStbte}.
      *
-     * @param path a tree path
-     * @param mouseX an X coordinate
-     * @param mouseY an Y coordinate
+     * @pbrbm pbth b tree pbth
+     * @pbrbm mouseX bn X coordinbte
+     * @pbrbm mouseY bn Y coordinbte
      */
-    protected void handleExpandControlClick(TreePath path, int mouseX,
+    protected void hbndleExpbndControlClick(TreePbth pbth, int mouseX,
                                             int mouseY) {
-        toggleExpandState(path);
+        toggleExpbndStbte(pbth);
     }
 
     /**
-     * Expands path if it is not expanded, or collapses row if it is expanded.
-     * If expanding a path and {@code JTree} scrolls on expand,
-     * {@code ensureRowsAreVisible} is invoked to scroll as many of the children
-     * to visible as possible (tries to scroll to last visible descendant of path).
+     * Expbnds pbth if it is not expbnded, or collbpses row if it is expbnded.
+     * If expbnding b pbth bnd {@code JTree} scrolls on expbnd,
+     * {@code ensureRowsAreVisible} is invoked to scroll bs mbny of the children
+     * to visible bs possible (tries to scroll to lbst visible descendbnt of pbth).
      *
-     * @param path a tree path
+     * @pbrbm pbth b tree pbth
      */
-    protected void toggleExpandState(TreePath path) {
-        if(!tree.isExpanded(path)) {
-            int       row = getRowForPath(tree, path);
+    protected void toggleExpbndStbte(TreePbth pbth) {
+        if(!tree.isExpbnded(pbth)) {
+            int       row = getRowForPbth(tree, pbth);
 
-            tree.expandPath(path);
-            updateSize();
+            tree.expbndPbth(pbth);
+            updbteSize();
             if(row != -1) {
-                if(tree.getScrollsOnExpand())
-                    ensureRowsAreVisible(row, row + treeState.
-                                         getVisibleChildCount(path));
+                if(tree.getScrollsOnExpbnd())
+                    ensureRowsAreVisible(row, row + treeStbte.
+                                         getVisibleChildCount(pbth));
                 else
                     ensureRowsAreVisible(row, row);
             }
         }
         else {
-            tree.collapsePath(path);
-            updateSize();
+            tree.collbpsePbth(pbth);
+            updbteSize();
         }
     }
 
     /**
-     * Returning {@code true} signifies a mouse event on the node should toggle
+     * Returning {@code true} signifies b mouse event on the node should toggle
      * the selection of only the row under mouse.
      *
-     * @param event a mouse event
-     * @return {@code true} if a mouse event on the node should toggle the selection
+     * @pbrbm event b mouse event
+     * @return {@code true} if b mouse event on the node should toggle the selection
      */
-    protected boolean isToggleSelectionEvent(MouseEvent event) {
+    protected boolebn isToggleSelectionEvent(MouseEvent event) {
         return (SwingUtilities.isLeftMouseButton(event) &&
-                BasicGraphicsUtils.isMenuShortcutKeyDown(event));
+                BbsicGrbphicsUtils.isMenuShortcutKeyDown(event));
     }
 
     /**
-     * Returning {@code true} signifies a mouse event on the node should select
-     * from the anchor point.
+     * Returning {@code true} signifies b mouse event on the node should select
+     * from the bnchor point.
      *
-     * @param event a mouse event
-     * @return {@code true} if a mouse event on the node should select
-     *         from the anchor point
+     * @pbrbm event b mouse event
+     * @return {@code true} if b mouse event on the node should select
+     *         from the bnchor point
      */
-    protected boolean isMultiSelectEvent(MouseEvent event) {
+    protected boolebn isMultiSelectEvent(MouseEvent event) {
         return (SwingUtilities.isLeftMouseButton(event) &&
                 event.isShiftDown());
     }
 
     /**
-     * Returning {@code true} indicates the row under the mouse should be toggled
-     * based on the event. This is invoked after {@code checkForClickInExpandControl},
-     * implying the location is not in the expand (toggle) control.
+     * Returning {@code true} indicbtes the row under the mouse should be toggled
+     * bbsed on the event. This is invoked bfter {@code checkForClickInExpbndControl},
+     * implying the locbtion is not in the expbnd (toggle) control.
      *
-     * @param event a mouse event
+     * @pbrbm event b mouse event
      * @return {@code true} if the row under the mouse should be toggled
      */
-    protected boolean isToggleEvent(MouseEvent event) {
+    protected boolebn isToggleEvent(MouseEvent event) {
         if(!SwingUtilities.isLeftMouseButton(event)) {
-            return false;
+            return fblse;
         }
         int           clickCount = tree.getToggleClickCount();
 
         if(clickCount <= 0) {
-            return false;
+            return fblse;
         }
         return ((event.getClickCount() % clickCount) == 0);
     }
 
     /**
-     * Messaged to update the selection based on a {@code MouseEvent} over a
-     * particular row. If the event is a toggle selection event, the
+     * Messbged to updbte the selection bbsed on b {@code MouseEvent} over b
+     * pbrticulbr row. If the event is b toggle selection event, the
      * row is either selected, or deselected. If the event identifies
-     * a multi selection event, the selection is updated from the
-     * anchor point. Otherwise the row is selected, and if the event
-     * specified a toggle event the row is expanded/collapsed.
+     * b multi selection event, the selection is updbted from the
+     * bnchor point. Otherwise the row is selected, bnd if the event
+     * specified b toggle event the row is expbnded/collbpsed.
      *
-     * @param path the selected path
-     * @param event the mouse event
+     * @pbrbm pbth the selected pbth
+     * @pbrbm event the mouse event
      */
-    protected void selectPathForEvent(TreePath path, MouseEvent event) {
-        /* Adjust from the anchor point. */
+    protected void selectPbthForEvent(TreePbth pbth, MouseEvent event) {
+        /* Adjust from the bnchor point. */
         if(isMultiSelectEvent(event)) {
-            TreePath    anchor = getAnchorSelectionPath();
-            int         anchorRow = (anchor == null) ? -1 :
-                                    getRowForPath(tree, anchor);
+            TreePbth    bnchor = getAnchorSelectionPbth();
+            int         bnchorRow = (bnchor == null) ? -1 :
+                                    getRowForPbth(tree, bnchor);
 
-            if(anchorRow == -1 || tree.getSelectionModel().
+            if(bnchorRow == -1 || tree.getSelectionModel().
                       getSelectionMode() == TreeSelectionModel.
                       SINGLE_TREE_SELECTION) {
-                tree.setSelectionPath(path);
+                tree.setSelectionPbth(pbth);
             }
             else {
-                int          row = getRowForPath(tree, path);
-                TreePath     lastAnchorPath = anchor;
+                int          row = getRowForPbth(tree, pbth);
+                TreePbth     lbstAnchorPbth = bnchor;
 
                 if (isToggleSelectionEvent(event)) {
-                    if (tree.isRowSelected(anchorRow)) {
-                        tree.addSelectionInterval(anchorRow, row);
+                    if (tree.isRowSelected(bnchorRow)) {
+                        tree.bddSelectionIntervbl(bnchorRow, row);
                     } else {
-                        tree.removeSelectionInterval(anchorRow, row);
-                        tree.addSelectionInterval(row, row);
+                        tree.removeSelectionIntervbl(bnchorRow, row);
+                        tree.bddSelectionIntervbl(row, row);
                     }
-                } else if(row < anchorRow) {
-                    tree.setSelectionInterval(row, anchorRow);
+                } else if(row < bnchorRow) {
+                    tree.setSelectionIntervbl(row, bnchorRow);
                 } else {
-                    tree.setSelectionInterval(anchorRow, row);
+                    tree.setSelectionIntervbl(bnchorRow, row);
                 }
-                lastSelectedRow = row;
-                setAnchorSelectionPath(lastAnchorPath);
-                setLeadSelectionPath(path);
+                lbstSelectedRow = row;
+                setAnchorSelectionPbth(lbstAnchorPbth);
+                setLebdSelectionPbth(pbth);
             }
         }
 
         // Should this event toggle the selection of this row?
         /* Control toggles just this node. */
         else if(isToggleSelectionEvent(event)) {
-            if(tree.isPathSelected(path))
-                tree.removeSelectionPath(path);
+            if(tree.isPbthSelected(pbth))
+                tree.removeSelectionPbth(pbth);
             else
-                tree.addSelectionPath(path);
-            lastSelectedRow = getRowForPath(tree, path);
-            setAnchorSelectionPath(path);
-            setLeadSelectionPath(path);
+                tree.bddSelectionPbth(pbth);
+            lbstSelectedRow = getRowForPbth(tree, pbth);
+            setAnchorSelectionPbth(pbth);
+            setLebdSelectionPbth(pbth);
         }
 
-        /* Otherwise set the selection to just this interval. */
+        /* Otherwise set the selection to just this intervbl. */
         else if(SwingUtilities.isLeftMouseButton(event)) {
-            tree.setSelectionPath(path);
+            tree.setSelectionPbth(pbth);
             if(isToggleEvent(event)) {
-                toggleExpandState(path);
+                toggleExpbndStbte(pbth);
             }
         }
     }
 
     /**
-     * Returns {@code true} if the node at {@code row} is a leaf.
+     * Returns {@code true} if the node bt {@code row} is b lebf.
      *
-     * @param row a row
-     * @return {@code true} if the node at {@code row} is a leaf
+     * @pbrbm row b row
+     * @return {@code true} if the node bt {@code row} is b lebf
      */
-    protected boolean isLeaf(int row) {
-        TreePath          path = getPathForRow(tree, row);
+    protected boolebn isLebf(int row) {
+        TreePbth          pbth = getPbthForRow(tree, row);
 
-        if(path != null)
-            return treeModel.isLeaf(path.getLastPathComponent());
-        // Have to return something here...
+        if(pbth != null)
+            return treeModel.isLebf(pbth.getLbstPbthComponent());
+        // Hbve to return something here...
         return true;
     }
 
     //
-    // The following selection methods (lead/anchor) are covers for the
+    // The following selection methods (lebd/bnchor) bre covers for the
     // methods in JTree.
     //
-    private void setAnchorSelectionPath(TreePath newPath) {
-        ignoreLAChange = true;
+    privbte void setAnchorSelectionPbth(TreePbth newPbth) {
+        ignoreLAChbnge = true;
         try {
-            tree.setAnchorSelectionPath(newPath);
-        } finally{
-            ignoreLAChange = false;
+            tree.setAnchorSelectionPbth(newPbth);
+        } finblly{
+            ignoreLAChbnge = fblse;
         }
     }
 
-    private TreePath getAnchorSelectionPath() {
-        return tree.getAnchorSelectionPath();
+    privbte TreePbth getAnchorSelectionPbth() {
+        return tree.getAnchorSelectionPbth();
     }
 
-    private void setLeadSelectionPath(TreePath newPath) {
-        setLeadSelectionPath(newPath, false);
+    privbte void setLebdSelectionPbth(TreePbth newPbth) {
+        setLebdSelectionPbth(newPbth, fblse);
     }
 
-    private void setLeadSelectionPath(TreePath newPath, boolean repaint) {
-        Rectangle       bounds = repaint ?
-                            getPathBounds(tree, getLeadSelectionPath()) : null;
+    privbte void setLebdSelectionPbth(TreePbth newPbth, boolebn repbint) {
+        Rectbngle       bounds = repbint ?
+                            getPbthBounds(tree, getLebdSelectionPbth()) : null;
 
-        ignoreLAChange = true;
+        ignoreLAChbnge = true;
         try {
-            tree.setLeadSelectionPath(newPath);
-        } finally {
-            ignoreLAChange = false;
+            tree.setLebdSelectionPbth(newPbth);
+        } finblly {
+            ignoreLAChbnge = fblse;
         }
-        leadRow = getRowForPath(tree, newPath);
+        lebdRow = getRowForPbth(tree, newPbth);
 
-        if (repaint) {
+        if (repbint) {
             if (bounds != null) {
-                tree.repaint(getRepaintPathBounds(bounds));
+                tree.repbint(getRepbintPbthBounds(bounds));
             }
-            bounds = getPathBounds(tree, newPath);
+            bounds = getPbthBounds(tree, newPbth);
             if (bounds != null) {
-                tree.repaint(getRepaintPathBounds(bounds));
+                tree.repbint(getRepbintPbthBounds(bounds));
             }
         }
     }
 
-    private Rectangle getRepaintPathBounds(Rectangle bounds) {
-        if (UIManager.getBoolean("Tree.repaintWholeRow")) {
+    privbte Rectbngle getRepbintPbthBounds(Rectbngle bounds) {
+        if (UIMbnbger.getBoolebn("Tree.repbintWholeRow")) {
            bounds.x = 0;
            bounds.width = tree.getWidth();
         }
         return bounds;
     }
 
-    private TreePath getLeadSelectionPath() {
-        return tree.getLeadSelectionPath();
+    privbte TreePbth getLebdSelectionPbth() {
+        return tree.getLebdSelectionPbth();
     }
 
     /**
-     * Updates the lead row of the selection.
+     * Updbtes the lebd row of the selection.
      * @since 1.7
      */
-    protected void updateLeadSelectionRow() {
-        leadRow = getRowForPath(tree, getLeadSelectionPath());
+    protected void updbteLebdSelectionRow() {
+        lebdRow = getRowForPbth(tree, getLebdSelectionPbth());
     }
 
     /**
-     * Returns the lead row of the selection.
+     * Returns the lebd row of the selection.
      *
-     * @return selection lead row
+     * @return selection lebd row
      * @since 1.7
      */
-    protected int getLeadSelectionRow() {
-        return leadRow;
+    protected int getLebdSelectionRow() {
+        return lebdRow;
     }
 
     /**
-     * Extends the selection from the anchor to make <code>newLead</code>
-     * the lead of the selection. This does not scroll.
+     * Extends the selection from the bnchor to mbke <code>newLebd</code>
+     * the lebd of the selection. This does not scroll.
      */
-    private void extendSelection(TreePath newLead) {
-        TreePath           aPath = getAnchorSelectionPath();
-        int                aRow = (aPath == null) ? -1 :
-                                  getRowForPath(tree, aPath);
-        int                newIndex = getRowForPath(tree, newLead);
+    privbte void extendSelection(TreePbth newLebd) {
+        TreePbth           bPbth = getAnchorSelectionPbth();
+        int                bRow = (bPbth == null) ? -1 :
+                                  getRowForPbth(tree, bPbth);
+        int                newIndex = getRowForPbth(tree, newLebd);
 
-        if(aRow == -1) {
+        if(bRow == -1) {
             tree.setSelectionRow(newIndex);
         }
         else {
-            if(aRow < newIndex) {
-                tree.setSelectionInterval(aRow, newIndex);
+            if(bRow < newIndex) {
+                tree.setSelectionIntervbl(bRow, newIndex);
             }
             else {
-                tree.setSelectionInterval(newIndex, aRow);
+                tree.setSelectionIntervbl(newIndex, bRow);
             }
-            setAnchorSelectionPath(aPath);
-            setLeadSelectionPath(newLead);
+            setAnchorSelectionPbth(bPbth);
+            setLebdSelectionPbth(newLebd);
         }
     }
 
     /**
-     * Invokes <code>repaint</code> on the JTree for the passed in TreePath,
-     * <code>path</code>.
+     * Invokes <code>repbint</code> on the JTree for the pbssed in TreePbth,
+     * <code>pbth</code>.
      */
-    private void repaintPath(TreePath path) {
-        if (path != null) {
-            Rectangle bounds = getPathBounds(tree, path);
+    privbte void repbintPbth(TreePbth pbth) {
+        if (pbth != null) {
+            Rectbngle bounds = getPbthBounds(tree, pbth);
             if (bounds != null) {
-                tree.repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+                tree.repbint(bounds.x, bounds.y, bounds.width, bounds.height);
             }
         }
     }
 
     /**
-     * Updates the TreeState in response to nodes expanding/collapsing.
+     * Updbtes the TreeStbte in response to nodes expbnding/collbpsing.
      */
-    public class TreeExpansionHandler implements TreeExpansionListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss TreeExpbnsionHbndler implements TreeExpbnsionListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
         /**
-         * Called whenever an item in the tree has been expanded.
+         * Cblled whenever bn item in the tree hbs been expbnded.
          */
-        public void treeExpanded(TreeExpansionEvent event) {
-            getHandler().treeExpanded(event);
+        public void treeExpbnded(TreeExpbnsionEvent event) {
+            getHbndler().treeExpbnded(event);
         }
 
         /**
-         * Called whenever an item in the tree has been collapsed.
+         * Cblled whenever bn item in the tree hbs been collbpsed.
          */
-        public void treeCollapsed(TreeExpansionEvent event) {
-            getHandler().treeCollapsed(event);
+        public void treeCollbpsed(TreeExpbnsionEvent event) {
+            getHbndler().treeCollbpsed(event);
         }
-    } // BasicTreeUI.TreeExpansionHandler
+    } // BbsicTreeUI.TreeExpbnsionHbndler
 
 
     /**
-     * Updates the preferred size when scrolling (if necessary).
+     * Updbtes the preferred size when scrolling (if necessbry).
      */
-    public class ComponentHandler extends ComponentAdapter implements
+    public clbss ComponentHbndler extends ComponentAdbpter implements
                  ActionListener {
-        /** Timer used when inside a scrollpane and the scrollbar is
-         * adjusting. */
+        /** Timer used when inside b scrollpbne bnd the scrollbbr is
+         * bdjusting. */
         protected Timer                timer;
-        /** ScrollBar that is being adjusted. */
-        protected JScrollBar           scrollBar;
+        /** ScrollBbr thbt is being bdjusted. */
+        protected JScrollBbr           scrollBbr;
 
         public void componentMoved(ComponentEvent e) {
             if(timer == null) {
-                JScrollPane   scrollPane = getScrollPane();
+                JScrollPbne   scrollPbne = getScrollPbne();
 
-                if(scrollPane == null)
-                    updateSize();
+                if(scrollPbne == null)
+                    updbteSize();
                 else {
-                    scrollBar = scrollPane.getVerticalScrollBar();
-                    if(scrollBar == null ||
-                        !scrollBar.getValueIsAdjusting()) {
-                        // Try the horizontal scrollbar.
-                        if((scrollBar = scrollPane.getHorizontalScrollBar())
-                            != null && scrollBar.getValueIsAdjusting())
-                            startTimer();
+                    scrollBbr = scrollPbne.getVerticblScrollBbr();
+                    if(scrollBbr == null ||
+                        !scrollBbr.getVblueIsAdjusting()) {
+                        // Try the horizontbl scrollbbr.
+                        if((scrollBbr = scrollPbne.getHorizontblScrollBbr())
+                            != null && scrollBbr.getVblueIsAdjusting())
+                            stbrtTimer();
                         else
-                            updateSize();
+                            updbteSize();
                     }
                     else
-                        startTimer();
+                        stbrtTimer();
                 }
             }
         }
 
         /**
-         * Creates, if necessary, and starts a Timer to check if need to
+         * Crebtes, if necessbry, bnd stbrts b Timer to check if need to
          * resize the bounds.
          */
-        protected void startTimer() {
+        protected void stbrtTimer() {
             if(timer == null) {
                 timer = new Timer(200, this);
-                timer.setRepeats(true);
+                timer.setRepebts(true);
             }
-            timer.start();
+            timer.stbrt();
         }
 
         /**
-         * Returns the {@code JScrollPane} housing the {@code JTree},
+         * Returns the {@code JScrollPbne} housing the {@code JTree},
          * or null if one isn't found.
          *
-         * @return the {@code JScrollPane} housing the {@code JTree}
+         * @return the {@code JScrollPbne} housing the {@code JTree}
          */
-        protected JScrollPane getScrollPane() {
-            Component       c = tree.getParent();
+        protected JScrollPbne getScrollPbne() {
+            Component       c = tree.getPbrent();
 
-            while(c != null && !(c instanceof JScrollPane))
-                c = c.getParent();
-            if(c instanceof JScrollPane)
-                return (JScrollPane)c;
+            while(c != null && !(c instbnceof JScrollPbne))
+                c = c.getPbrent();
+            if(c instbnceof JScrollPbne)
+                return (JScrollPbne)c;
             return null;
         }
 
         /**
-         * Public as a result of Timer. If the scrollBar is null, or
-         * not adjusting, this stops the timer and updates the sizing.
+         * Public bs b result of Timer. If the scrollBbr is null, or
+         * not bdjusting, this stops the timer bnd updbtes the sizing.
          */
-        public void actionPerformed(ActionEvent ae) {
-            if(scrollBar == null || !scrollBar.getValueIsAdjusting()) {
+        public void bctionPerformed(ActionEvent be) {
+            if(scrollBbr == null || !scrollBbr.getVblueIsAdjusting()) {
                 if(timer != null)
                     timer.stop();
-                updateSize();
+                updbteSize();
                 timer = null;
-                scrollBar = null;
+                scrollBbr = null;
             }
         }
-    } // End of BasicTreeUI.ComponentHandler
+    } // End of BbsicTreeUI.ComponentHbndler
 
 
     /**
-     * Forwards all TreeModel events to the TreeState.
+     * Forwbrds bll TreeModel events to the TreeStbte.
      */
-    public class TreeModelHandler implements TreeModelListener {
+    public clbss TreeModelHbndler implements TreeModelListener {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
-        public void treeNodesChanged(TreeModelEvent e) {
-            getHandler().treeNodesChanged(e);
+        public void treeNodesChbnged(TreeModelEvent e) {
+            getHbndler().treeNodesChbnged(e);
         }
 
         public void treeNodesInserted(TreeModelEvent e) {
-            getHandler().treeNodesInserted(e);
+            getHbndler().treeNodesInserted(e);
         }
 
         public void treeNodesRemoved(TreeModelEvent e) {
-            getHandler().treeNodesRemoved(e);
+            getHbndler().treeNodesRemoved(e);
         }
 
-        public void treeStructureChanged(TreeModelEvent e) {
-            getHandler().treeStructureChanged(e);
+        public void treeStructureChbnged(TreeModelEvent e) {
+            getHbndler().treeStructureChbnged(e);
         }
-    } // End of BasicTreeUI.TreeModelHandler
+    } // End of BbsicTreeUI.TreeModelHbndler
 
 
     /**
-     * Listens for changes in the selection model and updates the display
-     * accordingly.
+     * Listens for chbnges in the selection model bnd updbtes the displby
+     * bccordingly.
      */
-    public class TreeSelectionHandler implements TreeSelectionListener {
+    public clbss TreeSelectionHbndler implements TreeSelectionListener {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
         /**
-         * Messaged when the selection changes in the tree we're displaying
-         * for.  Stops editing, messages super and displays the changed paths.
+         * Messbged when the selection chbnges in the tree we're displbying
+         * for.  Stops editing, messbges super bnd displbys the chbnged pbths.
          */
-        public void valueChanged(TreeSelectionEvent event) {
-            getHandler().valueChanged(event);
+        public void vblueChbnged(TreeSelectionEvent event) {
+            getHbndler().vblueChbnged(event);
         }
-    }// End of BasicTreeUI.TreeSelectionHandler
+    }// End of BbsicTreeUI.TreeSelectionHbndler
 
 
     /**
-     * Listener responsible for getting cell editing events and updating
-     * the tree accordingly.
+     * Listener responsible for getting cell editing events bnd updbting
+     * the tree bccordingly.
      */
-    public class CellEditorHandler implements CellEditorListener {
+    public clbss CellEditorHbndler implements CellEditorListener {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
-        /** Messaged when editing has stopped in the tree. */
-        public void editingStopped(ChangeEvent e) {
-            getHandler().editingStopped(e);
+        /** Messbged when editing hbs stopped in the tree. */
+        public void editingStopped(ChbngeEvent e) {
+            getHbndler().editingStopped(e);
         }
 
-        /** Messaged when editing has been canceled in the tree. */
-        public void editingCanceled(ChangeEvent e) {
-            getHandler().editingCanceled(e);
+        /** Messbged when editing hbs been cbnceled in the tree. */
+        public void editingCbnceled(ChbngeEvent e) {
+            getHbndler().editingCbnceled(e);
         }
-    } // BasicTreeUI.CellEditorHandler
+    } // BbsicTreeUI.CellEditorHbndler
 
 
     /**
-     * This is used to get multiple key down events to appropriately generate
+     * This is used to get multiple key down events to bppropribtely generbte
      * events.
      */
-    public class KeyHandler extends KeyAdapter {
+    public clbss KeyHbndler extends KeyAdbpter {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
-        // Also note these fields aren't use anymore, nor does Handler have
-        // the old functionality. This behavior worked around an old bug
-        // in JComponent that has long since been fixed.
+        // Also note these fields bren't use bnymore, nor does Hbndler hbve
+        // the old functionblity. This behbvior worked bround bn old bug
+        // in JComponent thbt hbs long since been fixed.
 
-        /** Key code that is being generated for. */
-        protected Action              repeatKeyAction;
+        /** Key code thbt is being generbted for. */
+        protected Action              repebtKeyAction;
 
-        /** Set to true while keyPressed is active. */
-        protected boolean            isKeyDown;
+        /** Set to true while keyPressed is bctive. */
+        protected boolebn            isKeyDown;
 
         /**
-         * Invoked when a key has been typed.
+         * Invoked when b key hbs been typed.
          *
-         * Moves the keyboard focus to the first element
-         * whose first letter matches the alphanumeric key
-         * pressed by the user. Subsequent same key presses
-         * move the keyboard focus to the next object that
-         * starts with the same letter.
+         * Moves the keybobrd focus to the first element
+         * whose first letter mbtches the blphbnumeric key
+         * pressed by the user. Subsequent sbme key presses
+         * move the keybobrd focus to the next object thbt
+         * stbrts with the sbme letter.
          */
         public void keyTyped(KeyEvent e) {
-            getHandler().keyTyped(e);
+            getHbndler().keyTyped(e);
         }
 
         public void keyPressed(KeyEvent e) {
-            getHandler().keyPressed(e);
+            getHbndler().keyPressed(e);
         }
 
-        public void keyReleased(KeyEvent e) {
-            getHandler().keyReleased(e);
+        public void keyRelebsed(KeyEvent e) {
+            getHbndler().keyRelebsed(e);
         }
-    } // End of BasicTreeUI.KeyHandler
+    } // End of BbsicTreeUI.KeyHbndler
 
 
     /**
-     * Repaints the lead selection row when focus is lost/gained.
+     * Repbints the lebd selection row when focus is lost/gbined.
      */
-    public class FocusHandler implements FocusListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss FocusHbndler implements FocusListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
         /**
-         * Invoked when focus is activated on the tree we're in, redraws the
-         * lead row.
+         * Invoked when focus is bctivbted on the tree we're in, redrbws the
+         * lebd row.
          */
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+        public void focusGbined(FocusEvent e) {
+            getHbndler().focusGbined(e);
         }
 
         /**
-         * Invoked when focus is activated on the tree we're in, redraws the
-         * lead row.
+         * Invoked when focus is bctivbted on the tree we're in, redrbws the
+         * lebd row.
          */
         public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
         }
-    } // End of class BasicTreeUI.FocusHandler
+    } // End of clbss BbsicTreeUI.FocusHbndler
 
 
     /**
-     * Class responsible for getting size of node, method is forwarded
-     * to BasicTreeUI method. X location does not include insets, that is
-     * handled in getPathBounds.
+     * Clbss responsible for getting size of node, method is forwbrded
+     * to BbsicTreeUI method. X locbtion does not include insets, thbt is
+     * hbndled in getPbthBounds.
      */
-    // This returns locations that don't include any Insets.
-    public class NodeDimensionsHandler extends
-                 AbstractLayoutCache.NodeDimensions {
+    // This returns locbtions thbt don't include bny Insets.
+    public clbss NodeDimensionsHbndler extends
+                 AbstrbctLbyoutCbche.NodeDimensions {
         /**
-         * Responsible for getting the size of a particular node.
+         * Responsible for getting the size of b pbrticulbr node.
          */
-        public Rectangle getNodeDimensions(Object value, int row,
-                                           int depth, boolean expanded,
-                                           Rectangle size) {
-            // Return size of editing component, if editing and asking
+        public Rectbngle getNodeDimensions(Object vblue, int row,
+                                           int depth, boolebn expbnded,
+                                           Rectbngle size) {
+            // Return size of editing component, if editing bnd bsking
             // for editing row.
             if(editingComponent != null && editingRow == row) {
                 Dimension        prefSize = editingComponent.
@@ -3133,25 +3133,25 @@ public class BasicTreeUI extends TreeUI
                     size.height = prefSize.height;
                 }
                 else {
-                    size = new Rectangle(getRowX(row, depth), 0,
+                    size = new Rectbngle(getRowX(row, depth), 0,
                                          prefSize.width, prefSize.height);
                 }
                 return size;
             }
             // Not editing, use renderer.
             if(currentCellRenderer != null) {
-                Component          aComponent;
+                Component          bComponent;
 
-                aComponent = currentCellRenderer.getTreeCellRendererComponent
-                    (tree, value, tree.isRowSelected(row),
-                     expanded, treeModel.isLeaf(value), row,
-                     false);
+                bComponent = currentCellRenderer.getTreeCellRendererComponent
+                    (tree, vblue, tree.isRowSelected(row),
+                     expbnded, treeModel.isLebf(vblue), row,
+                     fblse);
                 if(tree != null) {
-                    // Only ever removed when UI changes, this is OK!
-                    rendererPane.add(aComponent);
-                    aComponent.validate();
+                    // Only ever removed when UI chbnges, this is OK!
+                    rendererPbne.bdd(bComponent);
+                    bComponent.vblidbte();
                 }
-                Dimension        prefSize = aComponent.getPreferredSize();
+                Dimension        prefSize = bComponent.getPreferredSize();
 
                 if(size != null) {
                     size.x = getRowX(row, depth);
@@ -3159,7 +3159,7 @@ public class BasicTreeUI extends TreeUI
                     size.height = prefSize.height;
                 }
                 else {
-                    size = new Rectangle(getRowX(row, depth), 0,
+                    size = new Rectbngle(getRowX(row, depth), 0,
                                          prefSize.width, prefSize.height);
                 }
                 return size;
@@ -3168,372 +3168,372 @@ public class BasicTreeUI extends TreeUI
         }
 
         /**
-         * Returns amount to indent the given row.
+         * Returns bmount to indent the given row.
          *
-         * @param row a row
-         * @param depth a depth
-         * @return amount to indent the given row
+         * @pbrbm row b row
+         * @pbrbm depth b depth
+         * @return bmount to indent the given row
          */
         protected int getRowX(int row, int depth) {
-            return BasicTreeUI.this.getRowX(row, depth);
+            return BbsicTreeUI.this.getRowX(row, depth);
         }
 
-    } // End of class BasicTreeUI.NodeDimensionsHandler
+    } // End of clbss BbsicTreeUI.NodeDimensionsHbndler
 
 
     /**
-     * TreeMouseListener is responsible for updating the selection
-     * based on mouse events.
+     * TreeMouseListener is responsible for updbting the selection
+     * bbsed on mouse events.
      */
-    public class MouseHandler extends MouseAdapter implements MouseMotionListener
+    public clbss MouseHbndler extends MouseAdbpter implements MouseMotionListener
  {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
         /**
-         * Invoked when a mouse button has been pressed on a component.
+         * Invoked when b mouse button hbs been pressed on b component.
          */
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        public void mouseDrbgged(MouseEvent e) {
+            getHbndler().mouseDrbgged(e);
         }
 
         /**
-         * Invoked when the mouse button has been moved on a component
+         * Invoked when the mouse button hbs been moved on b component
          * (with no buttons no down).
          * @since 1.4
          */
         public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+            getHbndler().mouseMoved(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            getHbndler().mouseRelebsed(e);
         }
-    } // End of BasicTreeUI.MouseHandler
+    } // End of BbsicTreeUI.MouseHbndler
 
 
     /**
-     * PropertyChangeListener for the tree. Updates the appropriate
-     * variable, or TreeState, based on what changes.
+     * PropertyChbngeListener for the tree. Updbtes the bppropribte
+     * vbribble, or TreeStbte, bbsed on whbt chbnges.
      */
-    public class PropertyChangeHandler implements
-                       PropertyChangeListener {
+    public clbss PropertyChbngeHbndler implements
+                       PropertyChbngeListener {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
-        public void propertyChange(PropertyChangeEvent event) {
-            getHandler().propertyChange(event);
+        public void propertyChbnge(PropertyChbngeEvent event) {
+            getHbndler().propertyChbnge(event);
         }
-    } // End of BasicTreeUI.PropertyChangeHandler
+    } // End of BbsicTreeUI.PropertyChbngeHbndler
 
 
     /**
      * Listener on the TreeSelectionModel, resets the row selection if
-     * any of the properties of the model change.
+     * bny of the properties of the model chbnge.
      */
-    public class SelectionModelPropertyChangeHandler implements
-                      PropertyChangeListener {
+    public clbss SelectionModelPropertyChbngeHbndler implements
+                      PropertyChbngeListener {
 
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
-        public void propertyChange(PropertyChangeEvent event) {
-            getHandler().propertyChange(event);
+        public void propertyChbnge(PropertyChbngeEvent event) {
+            getHbndler().propertyChbnge(event);
         }
-    } // End of BasicTreeUI.SelectionModelPropertyChangeHandler
+    } // End of BbsicTreeUI.SelectionModelPropertyChbngeHbndler
 
 
     /**
-     * <code>TreeTraverseAction</code> is the action used for left/right keys.
-     * Will toggle the expandedness of a node, as well as potentially
+     * <code>TreeTrbverseAction</code> is the bction used for left/right keys.
+     * Will toggle the expbndedness of b node, bs well bs potentiblly
      * incrementing the selection.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreeTraverseAction extends AbstractAction {
-        /** Determines direction to traverse, 1 means expand, -1 means
-          * collapse. */
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreeTrbverseAction extends AbstrbctAction {
+        /** Determines direction to trbverse, 1 mebns expbnd, -1 mebns
+          * collbpse. */
         protected int direction;
-        /** True if the selection is reset, false means only the lead path
-         * changes. */
-        private boolean changeSelection;
+        /** True if the selection is reset, fblse mebns only the lebd pbth
+         * chbnges. */
+        privbte boolebn chbngeSelection;
 
         /**
-         * Constructs a new instance of {@code TreeTraverseAction}.
+         * Constructs b new instbnce of {@code TreeTrbverseAction}.
          *
-         * @param direction the direction
-         * @param name the name of action
+         * @pbrbm direction the direction
+         * @pbrbm nbme the nbme of bction
          */
-        public TreeTraverseAction(int direction, String name) {
-            this(direction, name, true);
+        public TreeTrbverseAction(int direction, String nbme) {
+            this(direction, nbme, true);
         }
 
-        private TreeTraverseAction(int direction, String name,
-                                   boolean changeSelection) {
+        privbte TreeTrbverseAction(int direction, String nbme,
+                                   boolebn chbngeSelection) {
             this.direction = direction;
-            this.changeSelection = changeSelection;
+            this.chbngeSelection = chbngeSelection;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (tree != null) {
-                SHARED_ACTION.traverse(tree, BasicTreeUI.this, direction,
-                                       changeSelection);
+                SHARED_ACTION.trbverse(tree, BbsicTreeUI.this, direction,
+                                       chbngeSelection);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled()); }
-    } // BasicTreeUI.TreeTraverseAction
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled()); }
+    } // BbsicTreeUI.TreeTrbverseAction
 
 
-    /** TreePageAction handles page up and page down events.
+    /** TreePbgeAction hbndles pbge up bnd pbge down events.
       */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreePageAction extends AbstractAction {
-        /** Specifies the direction to adjust the selection by. */
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreePbgeAction extends AbstrbctAction {
+        /** Specifies the direction to bdjust the selection by. */
         protected int         direction;
-        /** True indicates should set selection from anchor path. */
-        private boolean       addToSelection;
-        private boolean       changeSelection;
+        /** True indicbtes should set selection from bnchor pbth. */
+        privbte boolebn       bddToSelection;
+        privbte boolebn       chbngeSelection;
 
         /**
-         * Constructs a new instance of {@code TreePageAction}.
+         * Constructs b new instbnce of {@code TreePbgeAction}.
          *
-         * @param direction the direction
-         * @param name the name of action
+         * @pbrbm direction the direction
+         * @pbrbm nbme the nbme of bction
          */
-        public TreePageAction(int direction, String name) {
-            this(direction, name, false, true);
+        public TreePbgeAction(int direction, String nbme) {
+            this(direction, nbme, fblse, true);
         }
 
-        private TreePageAction(int direction, String name,
-                               boolean addToSelection,
-                               boolean changeSelection) {
+        privbte TreePbgeAction(int direction, String nbme,
+                               boolebn bddToSelection,
+                               boolebn chbngeSelection) {
             this.direction = direction;
-            this.addToSelection = addToSelection;
-            this.changeSelection = changeSelection;
+            this.bddToSelection = bddToSelection;
+            this.chbngeSelection = chbngeSelection;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (tree != null) {
-                SHARED_ACTION.page(tree, BasicTreeUI.this, direction,
-                                   addToSelection, changeSelection);
+                SHARED_ACTION.pbge(tree, BbsicTreeUI.this, direction,
+                                   bddToSelection, chbngeSelection);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled()); }
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled()); }
 
-    } // BasicTreeUI.TreePageAction
+    } // BbsicTreeUI.TreePbgeAction
 
 
-    /** TreeIncrementAction is used to handle up/down actions.  Selection
-      * is moved up or down based on direction.
+    /** TreeIncrementAction is used to hbndle up/down bctions.  Selection
+      * is moved up or down bbsed on direction.
       */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreeIncrementAction extends AbstractAction  {
-        /** Specifies the direction to adjust the selection by. */
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreeIncrementAction extends AbstrbctAction  {
+        /** Specifies the direction to bdjust the selection by. */
         protected int         direction;
-        /** If true the new item is added to the selection, if false the
+        /** If true the new item is bdded to the selection, if fblse the
          * selection is reset. */
-        private boolean       addToSelection;
-        private boolean       changeSelection;
+        privbte boolebn       bddToSelection;
+        privbte boolebn       chbngeSelection;
 
         /**
-         * Constructs a new instance of {@code TreeIncrementAction}.
+         * Constructs b new instbnce of {@code TreeIncrementAction}.
          *
-         * @param direction the direction
-         * @param name the name of action
+         * @pbrbm direction the direction
+         * @pbrbm nbme the nbme of bction
          */
-        public TreeIncrementAction(int direction, String name) {
-            this(direction, name, false, true);
+        public TreeIncrementAction(int direction, String nbme) {
+            this(direction, nbme, fblse, true);
         }
 
-        private TreeIncrementAction(int direction, String name,
-                                   boolean addToSelection,
-                                    boolean changeSelection) {
+        privbte TreeIncrementAction(int direction, String nbme,
+                                   boolebn bddToSelection,
+                                    boolebn chbngeSelection) {
             this.direction = direction;
-            this.addToSelection = addToSelection;
-            this.changeSelection = changeSelection;
+            this.bddToSelection = bddToSelection;
+            this.chbngeSelection = chbngeSelection;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (tree != null) {
-                SHARED_ACTION.increment(tree, BasicTreeUI.this, direction,
-                                        addToSelection, changeSelection);
+                SHARED_ACTION.increment(tree, BbsicTreeUI.this, direction,
+                                        bddToSelection, chbngeSelection);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled()); }
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled()); }
 
-    } // End of class BasicTreeUI.TreeIncrementAction
+    } // End of clbss BbsicTreeUI.TreeIncrementAction
 
     /**
-      * TreeHomeAction is used to handle end/home actions.
-      * Scrolls either the first or last cell to be visible based on
+      * TreeHomeAction is used to hbndle end/home bctions.
+      * Scrolls either the first or lbst cell to be visible bbsed on
       * direction.
       */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreeHomeAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreeHomeAction extends AbstrbctAction {
         /**
          * The direction.
          */
         protected int            direction;
-        /** Set to true if append to selection. */
-        private boolean          addToSelection;
-        private boolean          changeSelection;
+        /** Set to true if bppend to selection. */
+        privbte boolebn          bddToSelection;
+        privbte boolebn          chbngeSelection;
 
         /**
-         * Constructs a new instance of {@code TreeHomeAction}.
+         * Constructs b new instbnce of {@code TreeHomeAction}.
          *
-         * @param direction the direction
-         * @param name the name of action
+         * @pbrbm direction the direction
+         * @pbrbm nbme the nbme of bction
          */
-        public TreeHomeAction(int direction, String name) {
-            this(direction, name, false, true);
+        public TreeHomeAction(int direction, String nbme) {
+            this(direction, nbme, fblse, true);
         }
 
-        private TreeHomeAction(int direction, String name,
-                               boolean addToSelection,
-                               boolean changeSelection) {
+        privbte TreeHomeAction(int direction, String nbme,
+                               boolebn bddToSelection,
+                               boolebn chbngeSelection) {
             this.direction = direction;
-            this.changeSelection = changeSelection;
-            this.addToSelection = addToSelection;
+            this.chbngeSelection = chbngeSelection;
+            this.bddToSelection = bddToSelection;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (tree != null) {
-                SHARED_ACTION.home(tree, BasicTreeUI.this, direction,
-                                   addToSelection, changeSelection);
+                SHARED_ACTION.home(tree, BbsicTreeUI.this, direction,
+                                   bddToSelection, chbngeSelection);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled()); }
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled()); }
 
-    } // End of class BasicTreeUI.TreeHomeAction
+    } // End of clbss BbsicTreeUI.TreeHomeAction
 
 
     /**
-      * For the first selected row expandedness will be toggled.
+      * For the first selected row expbndedness will be toggled.
       */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreeToggleAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreeToggleAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of {@code TreeToggleAction}.
+         * Constructs b new instbnce of {@code TreeToggleAction}.
          *
-         * @param name the name of action
+         * @pbrbm nbme the nbme of bction
          */
-        public TreeToggleAction(String name) {
+        public TreeToggleAction(String nbme) {
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if(tree != null) {
-                SHARED_ACTION.toggle(tree, BasicTreeUI.this);
+                SHARED_ACTION.toggle(tree, BbsicTreeUI.this);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled()); }
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled()); }
 
-    } // End of class BasicTreeUI.TreeToggleAction
+    } // End of clbss BbsicTreeUI.TreeToggleAction
 
 
     /**
-     * ActionListener that invokes cancelEditing when action performed.
+     * ActionListener thbt invokes cbncelEditing when bction performed.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class TreeCancelEditingAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss TreeCbncelEditingAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of {@code TreeCancelEditingAction}.
+         * Constructs b new instbnce of {@code TreeCbncelEditingAction}.
          *
-         * @param name the name of action
+         * @pbrbm nbme the nbme of bction
          */
-        public TreeCancelEditingAction(String name) {
+        public TreeCbncelEditingAction(String nbme) {
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if(tree != null) {
-                SHARED_ACTION.cancelEditing(tree, BasicTreeUI.this);
+                SHARED_ACTION.cbncelEditing(tree, BbsicTreeUI.this);
             }
         }
 
-        public boolean isEnabled() { return (tree != null &&
-                                             tree.isEnabled() &&
+        public boolebn isEnbbled() { return (tree != null &&
+                                             tree.isEnbbled() &&
                                              isEditing(tree)); }
-    } // End of class BasicTreeUI.TreeCancelEditingAction
+    } // End of clbss BbsicTreeUI.TreeCbncelEditingAction
 
 
     /**
-      * MouseInputHandler handles passing all mouse events,
-      * including mouse motion events, until the mouse is released to
-      * the destination it is constructed with. It is assumed all the
-      * events are currently target at source.
+      * MouseInputHbndler hbndles pbssing bll mouse events,
+      * including mouse motion events, until the mouse is relebsed to
+      * the destinbtion it is constructed with. It is bssumed bll the
+      * events bre currently tbrget bt source.
       */
-    public class MouseInputHandler extends Object implements
+    public clbss MouseInputHbndler extends Object implements
                      MouseInputListener
     {
-        /** Source that events are coming from. */
+        /** Source thbt events bre coming from. */
         protected Component        source;
-        /** Destination that receives all events. */
-        protected Component        destination;
-        private Component          focusComponent;
-        private boolean            dispatchedEvent;
+        /** Destinbtion thbt receives bll events. */
+        protected Component        destinbtion;
+        privbte Component          focusComponent;
+        privbte boolebn            dispbtchedEvent;
 
         /**
-         * Constructs a new instance of {@code MouseInputHandler}.
+         * Constructs b new instbnce of {@code MouseInputHbndler}.
          *
-         * @param source a source component
-         * @param destination a destination component
-         * @param event a mouse event
+         * @pbrbm source b source component
+         * @pbrbm destinbtion b destinbtion component
+         * @pbrbm event b mouse event
          */
-        public MouseInputHandler(Component source, Component destination,
+        public MouseInputHbndler(Component source, Component destinbtion,
                                       MouseEvent event){
-            this(source, destination, event, null);
+            this(source, destinbtion, event, null);
         }
 
-        MouseInputHandler(Component source, Component destination,
+        MouseInputHbndler(Component source, Component destinbtion,
                           MouseEvent event, Component focusComponent) {
             this.source = source;
-            this.destination = destination;
-            this.source.addMouseListener(this);
-            this.source.addMouseMotionListener(this);
+            this.destinbtion = destinbtion;
+            this.source.bddMouseListener(this);
+            this.source.bddMouseMotionListener(this);
 
-            SwingUtilities2.setSkipClickCount(destination,
+            SwingUtilities2.setSkipClickCount(destinbtion,
                                               event.getClickCount() - 1);
 
-            /* Dispatch the editing event! */
-            destination.dispatchEvent(SwingUtilities.convertMouseEvent
-                                          (source, event, destination));
+            /* Dispbtch the editing event! */
+            destinbtion.dispbtchEvent(SwingUtilities.convertMouseEvent
+                                          (source, event, destinbtion));
             this.focusComponent = focusComponent;
         }
 
         public void mouseClicked(MouseEvent e) {
-            if(destination != null) {
-                dispatchedEvent = true;
-                destination.dispatchEvent(SwingUtilities.convertMouseEvent
-                                          (source, e, destination));
+            if(destinbtion != null) {
+                dispbtchedEvent = true;
+                destinbtion.dispbtchEvent(SwingUtilities.convertMouseEvent
+                                          (source, e, destinbtion));
             }
         }
 
         public void mousePressed(MouseEvent e) {
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if(destination != null)
-                destination.dispatchEvent(SwingUtilities.convertMouseEvent
-                                          (source, e, destination));
+        public void mouseRelebsed(MouseEvent e) {
+            if(destinbtion != null)
+                destinbtion.dispbtchEvent(SwingUtilities.convertMouseEvent
+                                          (source, e, destinbtion));
             removeFromSource();
         }
 
@@ -3549,11 +3549,11 @@ public class BasicTreeUI extends TreeUI
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
-            if(destination != null) {
-                dispatchedEvent = true;
-                destination.dispatchEvent(SwingUtilities.convertMouseEvent
-                                          (source, e, destination));
+        public void mouseDrbgged(MouseEvent e) {
+            if(destinbtion != null) {
+                dispbtchedEvent = true;
+                destinbtion.dispbtchEvent(SwingUtilities.convertMouseEvent
+                                          (source, e, destinbtion));
             }
         }
 
@@ -3562,110 +3562,110 @@ public class BasicTreeUI extends TreeUI
         }
 
         /**
-         * Removes an event from the source.
+         * Removes bn event from the source.
          */
         protected void removeFromSource() {
             if(source != null) {
                 source.removeMouseListener(this);
                 source.removeMouseMotionListener(this);
                 if (focusComponent != null &&
-                      focusComponent == destination && !dispatchedEvent &&
-                      (focusComponent instanceof JTextField)) {
+                      focusComponent == destinbtion && !dispbtchedEvent &&
+                      (focusComponent instbnceof JTextField)) {
                     ((JTextField)focusComponent).selectAll();
                 }
             }
-            source = destination = null;
+            source = destinbtion = null;
         }
 
-    } // End of class BasicTreeUI.MouseInputHandler
+    } // End of clbss BbsicTreeUI.MouseInputHbndler
 
-    private static final TransferHandler defaultTransferHandler = new TreeTransferHandler();
+    privbte stbtic finbl TrbnsferHbndler defbultTrbnsferHbndler = new TreeTrbnsferHbndler();
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class TreeTransferHandler extends TransferHandler implements UIResource, Comparator<TreePath> {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss TreeTrbnsferHbndler extends TrbnsferHbndler implements UIResource, Compbrbtor<TreePbth> {
 
-        private JTree tree;
+        privbte JTree tree;
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crebte b Trbnsferbble to use bs the source for b dbtb trbnsfer.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm c  The component holding the dbtb to be trbnsfered.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @return  The representbtion of the dbtb to be trbnsfered.
          *
          */
-        protected Transferable createTransferable(JComponent c) {
-            if (c instanceof JTree) {
+        protected Trbnsferbble crebteTrbnsferbble(JComponent c) {
+            if (c instbnceof JTree) {
                 tree = (JTree) c;
-                TreePath[] paths = tree.getSelectionPaths();
+                TreePbth[] pbths = tree.getSelectionPbths();
 
-                if (paths == null || paths.length == 0) {
+                if (pbths == null || pbths.length == 0) {
                     return null;
                 }
 
-                StringBuilder plainStr = new StringBuilder();
+                StringBuilder plbinStr = new StringBuilder();
                 StringBuilder htmlStr = new StringBuilder();
 
-                htmlStr.append("<html>\n<body>\n<ul>\n");
+                htmlStr.bppend("<html>\n<body>\n<ul>\n");
 
                 TreeModel model = tree.getModel();
-                TreePath lastPath = null;
-                TreePath[] displayPaths = getDisplayOrderPaths(paths);
+                TreePbth lbstPbth = null;
+                TreePbth[] displbyPbths = getDisplbyOrderPbths(pbths);
 
-                for (TreePath path : displayPaths) {
-                    Object node = path.getLastPathComponent();
-                    boolean leaf = model.isLeaf(node);
-                    String label = getDisplayString(path, true, leaf);
+                for (TreePbth pbth : displbyPbths) {
+                    Object node = pbth.getLbstPbthComponent();
+                    boolebn lebf = model.isLebf(node);
+                    String lbbel = getDisplbyString(pbth, true, lebf);
 
-                    plainStr.append(label + "\n");
-                    htmlStr.append("  <li>" + label + "\n");
+                    plbinStr.bppend(lbbel + "\n");
+                    htmlStr.bppend("  <li>" + lbbel + "\n");
                 }
 
-                // remove the last newline
-                plainStr.deleteCharAt(plainStr.length() - 1);
-                htmlStr.append("</ul>\n</body>\n</html>");
+                // remove the lbst newline
+                plbinStr.deleteChbrAt(plbinStr.length() - 1);
+                htmlStr.bppend("</ul>\n</body>\n</html>");
 
                 tree = null;
 
-                return new BasicTransferable(plainStr.toString(), htmlStr.toString());
+                return new BbsicTrbnsferbble(plbinStr.toString(), htmlStr.toString());
             }
 
             return null;
         }
 
-        public int compare(TreePath o1, TreePath o2) {
-            int row1 = tree.getRowForPath(o1);
-            int row2 = tree.getRowForPath(o2);
+        public int compbre(TreePbth o1, TreePbth o2) {
+            int row1 = tree.getRowForPbth(o1);
+            int row2 = tree.getRowForPbth(o2);
             return row1 - row2;
         }
 
-        String getDisplayString(TreePath path, boolean selected, boolean leaf) {
-            int row = tree.getRowForPath(path);
-            boolean hasFocus = tree.getLeadSelectionRow() == row;
-            Object node = path.getLastPathComponent();
-            return tree.convertValueToText(node, selected, tree.isExpanded(row),
-                                           leaf, row, hasFocus);
+        String getDisplbyString(TreePbth pbth, boolebn selected, boolebn lebf) {
+            int row = tree.getRowForPbth(pbth);
+            boolebn hbsFocus = tree.getLebdSelectionRow() == row;
+            Object node = pbth.getLbstPbthComponent();
+            return tree.convertVblueToText(node, selected, tree.isExpbnded(row),
+                                           lebf, row, hbsFocus);
         }
 
         /**
-         * Selection paths are in selection order.  The conversion to
-         * HTML requires display order.  This method resorts the paths
-         * to be in the display order.
+         * Selection pbths bre in selection order.  The conversion to
+         * HTML requires displby order.  This method resorts the pbths
+         * to be in the displby order.
          */
-        TreePath[] getDisplayOrderPaths(TreePath[] paths) {
-            // sort the paths to display order rather than selection order
-            ArrayList<TreePath> selOrder = new ArrayList<TreePath>();
-            for (TreePath path : paths) {
-                selOrder.add(path);
+        TreePbth[] getDisplbyOrderPbths(TreePbth[] pbths) {
+            // sort the pbths to displby order rbther thbn selection order
+            ArrbyList<TreePbth> selOrder = new ArrbyList<TreePbth>();
+            for (TreePbth pbth : pbths) {
+                selOrder.bdd(pbth);
             }
             Collections.sort(selOrder, this);
             int n = selOrder.size();
-            TreePath[] displayPaths = new TreePath[n];
+            TreePbth[] displbyPbths = new TreePbth[n];
             for (int i = 0; i < n; i++) {
-                displayPaths[i] = selOrder.get(i);
+                displbyPbths[i] = selOrder.get(i);
             }
-            return displayPaths;
+            return displbyPbths;
         }
 
         public int getSourceActions(JComponent c) {
@@ -3675,75 +3675,75 @@ public class BasicTreeUI extends TreeUI
     }
 
 
-    private class Handler implements CellEditorListener, FocusListener,
+    privbte clbss Hbndler implements CellEditorListener, FocusListener,
                   KeyListener, MouseListener, MouseMotionListener,
-                  PropertyChangeListener, TreeExpansionListener,
+                  PropertyChbngeListener, TreeExpbnsionListener,
                   TreeModelListener, TreeSelectionListener,
-                  BeforeDrag {
+                  BeforeDrbg {
         //
         // KeyListener
         //
-        private String prefix = "";
-        private String typedString = "";
-        private long lastTime = 0L;
+        privbte String prefix = "";
+        privbte String typedString = "";
+        privbte long lbstTime = 0L;
 
         /**
-         * Invoked when a key has been typed.
+         * Invoked when b key hbs been typed.
          *
-         * Moves the keyboard focus to the first element whose prefix matches the
-         * sequence of alphanumeric keys pressed by the user with delay less
-         * than value of <code>timeFactor</code> property (or 1000 milliseconds
-         * if it is not defined). Subsequent same key presses move the keyboard
-         * focus to the next object that starts with the same letter until another
-         * key is pressed, then it is treated as the prefix with appropriate number
-         * of the same letters followed by first typed another letter.
+         * Moves the keybobrd focus to the first element whose prefix mbtches the
+         * sequence of blphbnumeric keys pressed by the user with delby less
+         * thbn vblue of <code>timeFbctor</code> property (or 1000 milliseconds
+         * if it is not defined). Subsequent sbme key presses move the keybobrd
+         * focus to the next object thbt stbrts with the sbme letter until bnother
+         * key is pressed, then it is trebted bs the prefix with bppropribte number
+         * of the sbme letters followed by first typed bnother letter.
          */
         public void keyTyped(KeyEvent e) {
-            // handle first letter navigation
-            if(tree != null && tree.getRowCount()>0 && tree.hasFocus() &&
-               tree.isEnabled()) {
-                if (e.isAltDown() || BasicGraphicsUtils.isMenuShortcutKeyDown(e) ||
-                    isNavigationKey(e)) {
+            // hbndle first letter nbvigbtion
+            if(tree != null && tree.getRowCount()>0 && tree.hbsFocus() &&
+               tree.isEnbbled()) {
+                if (e.isAltDown() || BbsicGrbphicsUtils.isMenuShortcutKeyDown(e) ||
+                    isNbvigbtionKey(e)) {
                     return;
                 }
-                boolean startingFromSelection = true;
+                boolebn stbrtingFromSelection = true;
 
-                char c = e.getKeyChar();
+                chbr c = e.getKeyChbr();
 
                 long time = e.getWhen();
-                int startingRow = tree.getLeadSelectionRow();
-                if (time - lastTime < timeFactor) {
+                int stbrtingRow = tree.getLebdSelectionRow();
+                if (time - lbstTime < timeFbctor) {
                     typedString += c;
-                    if((prefix.length() == 1) && (c == prefix.charAt(0))) {
-                        // Subsequent same key presses move the keyboard focus to the next
-                        // object that starts with the same letter.
-                        startingRow++;
+                    if((prefix.length() == 1) && (c == prefix.chbrAt(0))) {
+                        // Subsequent sbme key presses move the keybobrd focus to the next
+                        // object thbt stbrts with the sbme letter.
+                        stbrtingRow++;
                     } else {
                         prefix = typedString;
                     }
                 } else {
-                    startingRow++;
+                    stbrtingRow++;
                     typedString = "" + c;
                     prefix = typedString;
                 }
-                lastTime = time;
+                lbstTime = time;
 
-                if (startingRow < 0 || startingRow >= tree.getRowCount()) {
-                    startingFromSelection = false;
-                    startingRow = 0;
+                if (stbrtingRow < 0 || stbrtingRow >= tree.getRowCount()) {
+                    stbrtingFromSelection = fblse;
+                    stbrtingRow = 0;
                 }
-                TreePath path = tree.getNextMatch(prefix, startingRow,
-                                                  Position.Bias.Forward);
-                if (path != null) {
-                    tree.setSelectionPath(path);
-                    int row = getRowForPath(tree, path);
+                TreePbth pbth = tree.getNextMbtch(prefix, stbrtingRow,
+                                                  Position.Bibs.Forwbrd);
+                if (pbth != null) {
+                    tree.setSelectionPbth(pbth);
+                    int row = getRowForPbth(tree, pbth);
                     ensureRowsAreVisible(row, row);
-                } else if (startingFromSelection) {
-                    path = tree.getNextMatch(prefix, 0,
-                                             Position.Bias.Forward);
-                    if (path != null) {
-                        tree.setSelectionPath(path);
-                        int row = getRowForPath(tree, path);
+                } else if (stbrtingFromSelection) {
+                    pbth = tree.getNextMbtch(prefix, 0,
+                                             Position.Bibs.Forwbrd);
+                    if (pbth != null) {
+                        tree.setSelectionPbth(pbth);
+                        int row = getRowForPbth(tree, pbth);
                         ensureRowsAreVisible(row, row);
                     }
                 }
@@ -3751,128 +3751,128 @@ public class BasicTreeUI extends TreeUI
         }
 
         /**
-         * Invoked when a key has been pressed.
+         * Invoked when b key hbs been pressed.
          *
-         * Checks to see if the key event is a navigation key to prevent
-         * dispatching these keys for the first letter navigation.
+         * Checks to see if the key event is b nbvigbtion key to prevent
+         * dispbtching these keys for the first letter nbvigbtion.
          */
         public void keyPressed(KeyEvent e) {
-            if (tree != null && isNavigationKey(e)) {
+            if (tree != null && isNbvigbtionKey(e)) {
                 prefix = "";
                 typedString = "";
-                lastTime = 0L;
+                lbstTime = 0L;
             }
         }
 
-        public void keyReleased(KeyEvent e) {
+        public void keyRelebsed(KeyEvent e) {
         }
 
         /**
-         * Returns whether or not the supplied key event maps to a key that is used for
-         * navigation.  This is used for optimizing key input by only passing non-
-         * navigation keys to the first letter navigation mechanism.
+         * Returns whether or not the supplied key event mbps to b key thbt is used for
+         * nbvigbtion.  This is used for optimizing key input by only pbssing non-
+         * nbvigbtion keys to the first letter nbvigbtion mechbnism.
          */
-        private boolean isNavigationKey(KeyEvent event) {
-            InputMap inputMap = tree.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        privbte boolebn isNbvigbtionKey(KeyEvent event) {
+            InputMbp inputMbp = tree.getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             KeyStroke key = KeyStroke.getKeyStrokeForEvent(event);
 
-            return inputMap != null && inputMap.get(key) != null;
+            return inputMbp != null && inputMbp.get(key) != null;
         }
 
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent event) {
+        public void propertyChbnge(PropertyChbngeEvent event) {
             if (event.getSource() == treeSelectionModel) {
                 treeSelectionModel.resetRowSelection();
             }
             else if(event.getSource() == tree) {
-                String              changeName = event.getPropertyName();
+                String              chbngeNbme = event.getPropertyNbme();
 
-                if (changeName == JTree.LEAD_SELECTION_PATH_PROPERTY) {
-                    if (!ignoreLAChange) {
-                        updateLeadSelectionRow();
-                        repaintPath((TreePath)event.getOldValue());
-                        repaintPath((TreePath)event.getNewValue());
+                if (chbngeNbme == JTree.LEAD_SELECTION_PATH_PROPERTY) {
+                    if (!ignoreLAChbnge) {
+                        updbteLebdSelectionRow();
+                        repbintPbth((TreePbth)event.getOldVblue());
+                        repbintPbth((TreePbth)event.getNewVblue());
                     }
                 }
-                else if (changeName == JTree.ANCHOR_SELECTION_PATH_PROPERTY) {
-                    if (!ignoreLAChange) {
-                        repaintPath((TreePath)event.getOldValue());
-                        repaintPath((TreePath)event.getNewValue());
+                else if (chbngeNbme == JTree.ANCHOR_SELECTION_PATH_PROPERTY) {
+                    if (!ignoreLAChbnge) {
+                        repbintPbth((TreePbth)event.getOldVblue());
+                        repbintPbth((TreePbth)event.getNewVblue());
                     }
                 }
-                if(changeName == JTree.CELL_RENDERER_PROPERTY) {
-                    setCellRenderer((TreeCellRenderer)event.getNewValue());
-                    redoTheLayout();
+                if(chbngeNbme == JTree.CELL_RENDERER_PROPERTY) {
+                    setCellRenderer((TreeCellRenderer)event.getNewVblue());
+                    redoTheLbyout();
                 }
-                else if(changeName == JTree.TREE_MODEL_PROPERTY) {
-                    setModel((TreeModel)event.getNewValue());
+                else if(chbngeNbme == JTree.TREE_MODEL_PROPERTY) {
+                    setModel((TreeModel)event.getNewVblue());
                 }
-                else if(changeName == JTree.ROOT_VISIBLE_PROPERTY) {
-                    setRootVisible(((Boolean)event.getNewValue()).
-                                   booleanValue());
+                else if(chbngeNbme == JTree.ROOT_VISIBLE_PROPERTY) {
+                    setRootVisible(((Boolebn)event.getNewVblue()).
+                                   boolebnVblue());
                 }
-                else if(changeName == JTree.SHOWS_ROOT_HANDLES_PROPERTY) {
-                    setShowsRootHandles(((Boolean)event.getNewValue()).
-                                        booleanValue());
+                else if(chbngeNbme == JTree.SHOWS_ROOT_HANDLES_PROPERTY) {
+                    setShowsRootHbndles(((Boolebn)event.getNewVblue()).
+                                        boolebnVblue());
                 }
-                else if(changeName == JTree.ROW_HEIGHT_PROPERTY) {
-                    setRowHeight(((Integer)event.getNewValue()).
-                                 intValue());
+                else if(chbngeNbme == JTree.ROW_HEIGHT_PROPERTY) {
+                    setRowHeight(((Integer)event.getNewVblue()).
+                                 intVblue());
                 }
-                else if(changeName == JTree.CELL_EDITOR_PROPERTY) {
-                    setCellEditor((TreeCellEditor)event.getNewValue());
+                else if(chbngeNbme == JTree.CELL_EDITOR_PROPERTY) {
+                    setCellEditor((TreeCellEditor)event.getNewVblue());
                 }
-                else if(changeName == JTree.EDITABLE_PROPERTY) {
-                    setEditable(((Boolean)event.getNewValue()).booleanValue());
+                else if(chbngeNbme == JTree.EDITABLE_PROPERTY) {
+                    setEditbble(((Boolebn)event.getNewVblue()).boolebnVblue());
                 }
-                else if(changeName == JTree.LARGE_MODEL_PROPERTY) {
-                    setLargeModel(tree.isLargeModel());
+                else if(chbngeNbme == JTree.LARGE_MODEL_PROPERTY) {
+                    setLbrgeModel(tree.isLbrgeModel());
                 }
-                else if(changeName == JTree.SELECTION_MODEL_PROPERTY) {
+                else if(chbngeNbme == JTree.SELECTION_MODEL_PROPERTY) {
                     setSelectionModel(tree.getSelectionModel());
                 }
-                else if(changeName == "font") {
+                else if(chbngeNbme == "font") {
                     completeEditing();
-                    if(treeState != null)
-                        treeState.invalidateSizes();
-                    updateSize();
+                    if(treeStbte != null)
+                        treeStbte.invblidbteSizes();
+                    updbteSize();
                 }
-                else if (changeName == "componentOrientation") {
+                else if (chbngeNbme == "componentOrientbtion") {
                     if (tree != null) {
-                        leftToRight = BasicGraphicsUtils.isLeftToRight(tree);
-                        redoTheLayout();
-                        tree.treeDidChange();
+                        leftToRight = BbsicGrbphicsUtils.isLeftToRight(tree);
+                        redoTheLbyout();
+                        tree.treeDidChbnge();
 
-                        InputMap km = getInputMap(JComponent.WHEN_FOCUSED);
-                        SwingUtilities.replaceUIInputMap(tree,
+                        InputMbp km = getInputMbp(JComponent.WHEN_FOCUSED);
+                        SwingUtilities.replbceUIInputMbp(tree,
                                                 JComponent.WHEN_FOCUSED, km);
                     }
-                } else if ("dropLocation" == changeName) {
-                    JTree.DropLocation oldValue = (JTree.DropLocation)event.getOldValue();
-                    repaintDropLocation(oldValue);
-                    repaintDropLocation(tree.getDropLocation());
+                } else if ("dropLocbtion" == chbngeNbme) {
+                    JTree.DropLocbtion oldVblue = (JTree.DropLocbtion)event.getOldVblue();
+                    repbintDropLocbtion(oldVblue);
+                    repbintDropLocbtion(tree.getDropLocbtion());
                 }
             }
         }
 
-        private void repaintDropLocation(JTree.DropLocation loc) {
+        privbte void repbintDropLocbtion(JTree.DropLocbtion loc) {
             if (loc == null) {
                 return;
             }
 
-            Rectangle r;
+            Rectbngle r;
 
             if (isDropLine(loc)) {
                 r = getDropLineRect(loc);
             } else {
-                r = tree.getPathBounds(loc.getPath());
+                r = tree.getPbthBounds(loc.getPbth());
             }
 
             if (r != null) {
-                tree.repaint(r);
+                tree.repbint(r);
             }
         }
 
@@ -3880,32 +3880,32 @@ public class BasicTreeUI extends TreeUI
         // MouseListener
         //
 
-        // Whether or not the mouse press (which is being considered as part
-        // of a drag sequence) also caused the selection change to be fully
+        // Whether or not the mouse press (which is being considered bs pbrt
+        // of b drbg sequence) blso cbused the selection chbnge to be fully
         // processed.
-        private boolean dragPressDidSelection;
+        privbte boolebn drbgPressDidSelection;
 
-        // Set to true when a drag gesture has been fully recognized and DnD
+        // Set to true when b drbg gesture hbs been fully recognized bnd DnD
         // begins. Use this to ignore further mouse events which could be
-        // delivered if DnD is cancelled (via ESCAPE for example)
-        private boolean dragStarted;
+        // delivered if DnD is cbncelled (vib ESCAPE for exbmple)
+        privbte boolebn drbgStbrted;
 
-        // The path over which the press occurred and the press event itself
-        private TreePath pressedPath;
-        private MouseEvent pressedEvent;
+        // The pbth over which the press occurred bnd the press event itself
+        privbte TreePbth pressedPbth;
+        privbte MouseEvent pressedEvent;
 
-        // Used to detect whether the press event causes a selection change.
-        // If it does, we won't try to start editing on the release.
-        private boolean valueChangedOnPress;
+        // Used to detect whether the press event cbuses b selection chbnge.
+        // If it does, we won't try to stbrt editing on the relebse.
+        privbte boolebn vblueChbngedOnPress;
 
-        private boolean isActualPath(TreePath path, int x, int y) {
-            if (path == null) {
-                return false;
+        privbte boolebn isActublPbth(TreePbth pbth, int x, int y) {
+            if (pbth == null) {
+                return fblse;
             }
 
-            Rectangle bounds = getPathBounds(tree, path);
+            Rectbngle bounds = getPbthBounds(tree, pbth);
             if (bounds == null || y > (bounds.y + bounds.height)) {
-                return false;
+                return fblse;
             }
 
             return (x >= bounds.x) && (x <= (bounds.x + bounds.width));
@@ -3921,14 +3921,14 @@ public class BasicTreeUI extends TreeUI
         }
 
         /**
-         * Invoked when a mouse button has been pressed on a component.
+         * Invoked when b mouse button hbs been pressed on b component.
          */
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, tree)) {
                 return;
             }
 
-            // if we can't stop any ongoing editing, do nothing
+            // if we cbn't stop bny ongoing editing, do nothing
             if (isEditing(tree) && tree.getInvokesStopCellEditing()
                                 && !stopEditing(tree)) {
                 return;
@@ -3936,146 +3936,146 @@ public class BasicTreeUI extends TreeUI
 
             completeEditing();
 
-            pressedPath = getClosestPathForLocation(tree, e.getX(), e.getY());
+            pressedPbth = getClosestPbthForLocbtion(tree, e.getX(), e.getY());
 
-            if (tree.getDragEnabled()) {
+            if (tree.getDrbgEnbbled()) {
                 mousePressedDND(e);
             } else {
-                SwingUtilities2.adjustFocus(tree);
-                handleSelection(e);
+                SwingUtilities2.bdjustFocus(tree);
+                hbndleSelection(e);
             }
         }
 
-        private void mousePressedDND(MouseEvent e) {
+        privbte void mousePressedDND(MouseEvent e) {
             pressedEvent = e;
-            boolean grabFocus = true;
-            dragStarted = false;
-            valueChangedOnPress = false;
+            boolebn grbbFocus = true;
+            drbgStbrted = fblse;
+            vblueChbngedOnPress = fblse;
 
-            // if we have a valid path and this is a drag initiating event
-            if (isActualPath(pressedPath, e.getX(), e.getY()) &&
-                    DragRecognitionSupport.mousePressed(e)) {
+            // if we hbve b vblid pbth bnd this is b drbg initibting event
+            if (isActublPbth(pressedPbth, e.getX(), e.getY()) &&
+                    DrbgRecognitionSupport.mousePressed(e)) {
 
-                dragPressDidSelection = false;
+                drbgPressDidSelection = fblse;
 
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e)) {
-                    // do nothing for control - will be handled on release
-                    // or when drag starts
+                if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(e)) {
+                    // do nothing for control - will be hbndled on relebse
+                    // or when drbg stbrts
                     return;
-                } else if (!e.isShiftDown() && tree.isPathSelected(pressedPath)) {
-                    // clicking on something that's already selected
-                    // and need to make it the lead now
-                    setAnchorSelectionPath(pressedPath);
-                    setLeadSelectionPath(pressedPath, true);
+                } else if (!e.isShiftDown() && tree.isPbthSelected(pressedPbth)) {
+                    // clicking on something thbt's blrebdy selected
+                    // bnd need to mbke it the lebd now
+                    setAnchorSelectionPbth(pressedPbth);
+                    setLebdSelectionPbth(pressedPbth, true);
                     return;
                 }
 
-                dragPressDidSelection = true;
+                drbgPressDidSelection = true;
 
-                // could be a drag initiating event - don't grab focus
-                grabFocus = false;
+                // could be b drbg initibting event - don't grbb focus
+                grbbFocus = fblse;
             }
 
-            if (grabFocus) {
-                SwingUtilities2.adjustFocus(tree);
+            if (grbbFocus) {
+                SwingUtilities2.bdjustFocus(tree);
             }
 
-            handleSelection(e);
+            hbndleSelection(e);
         }
 
-        void handleSelection(MouseEvent e) {
-            if(pressedPath != null) {
-                Rectangle bounds = getPathBounds(tree, pressedPath);
+        void hbndleSelection(MouseEvent e) {
+            if(pressedPbth != null) {
+                Rectbngle bounds = getPbthBounds(tree, pressedPbth);
 
                 if (bounds == null || e.getY() >= (bounds.y + bounds.height)) {
                     return;
                 }
 
-                // Preferably checkForClickInExpandControl could take
+                // Preferbbly checkForClickInExpbndControl could tbke
                 // the Event to do this it self!
                 if(SwingUtilities.isLeftMouseButton(e)) {
-                    checkForClickInExpandControl(pressedPath, e.getX(), e.getY());
+                    checkForClickInExpbndControl(pressedPbth, e.getX(), e.getY());
                 }
 
                 int x = e.getX();
 
-                // Perhaps they clicked the cell itself. If so,
+                // Perhbps they clicked the cell itself. If so,
                 // select it.
                 if (x >= bounds.x && x < (bounds.x + bounds.width)) {
-                    if (tree.getDragEnabled() || !startEditing(pressedPath, e)) {
-                        selectPathForEvent(pressedPath, e);
+                    if (tree.getDrbgEnbbled() || !stbrtEditing(pressedPbth, e)) {
+                        selectPbthForEvent(pressedPbth, e);
                     }
                 }
             }
         }
 
-        public void dragStarting(MouseEvent me) {
-            dragStarted = true;
+        public void drbgStbrting(MouseEvent me) {
+            drbgStbrted = true;
 
-            if (BasicGraphicsUtils.isMenuShortcutKeyDown(me)) {
-                tree.addSelectionPath(pressedPath);
-                setAnchorSelectionPath(pressedPath);
-                setLeadSelectionPath(pressedPath, true);
+            if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(me)) {
+                tree.bddSelectionPbth(pressedPbth);
+                setAnchorSelectionPbth(pressedPbth);
+                setLebdSelectionPbth(pressedPbth, true);
             }
 
             pressedEvent = null;
-            pressedPath = null;
+            pressedPbth = null;
         }
 
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, tree)) {
                 return;
             }
 
-            if (tree.getDragEnabled()) {
-                DragRecognitionSupport.mouseDragged(e, this);
+            if (tree.getDrbgEnbbled()) {
+                DrbgRecognitionSupport.mouseDrbgged(e, this);
             }
         }
 
         /**
-         * Invoked when the mouse button has been moved on a component
+         * Invoked when the mouse button hbs been moved on b component
          * (with no buttons no down).
          */
         public void mouseMoved(MouseEvent e) {
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, tree)) {
                 return;
             }
 
-            if (tree.getDragEnabled()) {
-                mouseReleasedDND(e);
+            if (tree.getDrbgEnbbled()) {
+                mouseRelebsedDND(e);
             }
 
             pressedEvent = null;
-            pressedPath = null;
+            pressedPbth = null;
         }
 
-        private void mouseReleasedDND(MouseEvent e) {
-            MouseEvent me = DragRecognitionSupport.mouseReleased(e);
+        privbte void mouseRelebsedDND(MouseEvent e) {
+            MouseEvent me = DrbgRecognitionSupport.mouseRelebsed(e);
             if (me != null) {
-                SwingUtilities2.adjustFocus(tree);
-                if (!dragPressDidSelection) {
-                    handleSelection(me);
+                SwingUtilities2.bdjustFocus(tree);
+                if (!drbgPressDidSelection) {
+                    hbndleSelection(me);
                 }
             }
 
-            if (!dragStarted) {
+            if (!drbgStbrted) {
 
-                // Note: We don't give the tree a chance to start editing if the
-                // mouse press caused a selection change. Otherwise the default
-                // tree cell editor will start editing on EVERY press and
-                // release. If it turns out that this affects some editors, we
-                // can always parameterize this with a client property. ex:
+                // Note: We don't give the tree b chbnce to stbrt editing if the
+                // mouse press cbused b selection chbnge. Otherwise the defbult
+                // tree cell editor will stbrt editing on EVERY press bnd
+                // relebse. If it turns out thbt this bffects some editors, we
+                // cbn blwbys pbrbmeterize this with b client property. ex:
                 //
-                // if (pressedPath != null &&
-                //         (Boolean.TRUE == tree.getClientProperty("Tree.DnD.canEditOnValueChange") ||
-                //          !valueChangedOnPress) && ...
-                if (pressedPath != null && !valueChangedOnPress &&
-                        isActualPath(pressedPath, pressedEvent.getX(), pressedEvent.getY())) {
+                // if (pressedPbth != null &&
+                //         (Boolebn.TRUE == tree.getClientProperty("Tree.DnD.cbnEditOnVblueChbnge") ||
+                //          !vblueChbngedOnPress) && ...
+                if (pressedPbth != null && !vblueChbngedOnPress &&
+                        isActublPbth(pressedPbth, pressedEvent.getX(), pressedEvent.getY())) {
 
-                    startEditingOnRelease(pressedPath, pressedEvent, e);
+                    stbrtEditingOnRelebse(pressedPbth, pressedEvent, e);
                 }
             }
         }
@@ -4083,135 +4083,135 @@ public class BasicTreeUI extends TreeUI
         //
         // FocusListener
         //
-        public void focusGained(FocusEvent e) {
+        public void focusGbined(FocusEvent e) {
             if(tree != null) {
-                Rectangle                 pBounds;
+                Rectbngle                 pBounds;
 
-                pBounds = getPathBounds(tree, tree.getLeadSelectionPath());
+                pBounds = getPbthBounds(tree, tree.getLebdSelectionPbth());
                 if(pBounds != null)
-                    tree.repaint(getRepaintPathBounds(pBounds));
-                pBounds = getPathBounds(tree, getLeadSelectionPath());
+                    tree.repbint(getRepbintPbthBounds(pBounds));
+                pBounds = getPbthBounds(tree, getLebdSelectionPbth());
                 if(pBounds != null)
-                    tree.repaint(getRepaintPathBounds(pBounds));
+                    tree.repbint(getRepbintPbthBounds(pBounds));
             }
         }
 
         public void focusLost(FocusEvent e) {
-            focusGained(e);
+            focusGbined(e);
         }
 
         //
         // CellEditorListener
         //
-        public void editingStopped(ChangeEvent e) {
-            completeEditing(false, false, true);
+        public void editingStopped(ChbngeEvent e) {
+            completeEditing(fblse, fblse, true);
         }
 
-        /** Messaged when editing has been canceled in the tree. */
-        public void editingCanceled(ChangeEvent e) {
-            completeEditing(false, false, false);
+        /** Messbged when editing hbs been cbnceled in the tree. */
+        public void editingCbnceled(ChbngeEvent e) {
+            completeEditing(fblse, fblse, fblse);
         }
 
 
         //
         // TreeSelectionListener
         //
-        public void valueChanged(TreeSelectionEvent event) {
-            valueChangedOnPress = true;
+        public void vblueChbnged(TreeSelectionEvent event) {
+            vblueChbngedOnPress = true;
 
             // Stop editing
             completeEditing();
-            // Make sure all the paths are visible, if necessary.
-            // PENDING: This should be tweaked when isAdjusting is added
-            if(tree.getExpandsSelectedPaths() && treeSelectionModel != null) {
-                TreePath[]           paths = treeSelectionModel
-                                         .getSelectionPaths();
+            // Mbke sure bll the pbths bre visible, if necessbry.
+            // PENDING: This should be twebked when isAdjusting is bdded
+            if(tree.getExpbndsSelectedPbths() && treeSelectionModel != null) {
+                TreePbth[]           pbths = treeSelectionModel
+                                         .getSelectionPbths();
 
-                if(paths != null) {
-                    for(int counter = paths.length - 1; counter >= 0;
+                if(pbths != null) {
+                    for(int counter = pbths.length - 1; counter >= 0;
                         counter--) {
-                        TreePath path = paths[counter].getParentPath();
-                        boolean expand = true;
+                        TreePbth pbth = pbths[counter].getPbrentPbth();
+                        boolebn expbnd = true;
 
-                        while (path != null) {
-                            // Indicates this path isn't valid anymore,
-                            // we shouldn't attempt to expand it then.
-                            if (treeModel.isLeaf(path.getLastPathComponent())){
-                                expand = false;
-                                path = null;
+                        while (pbth != null) {
+                            // Indicbtes this pbth isn't vblid bnymore,
+                            // we shouldn't bttempt to expbnd it then.
+                            if (treeModel.isLebf(pbth.getLbstPbthComponent())){
+                                expbnd = fblse;
+                                pbth = null;
                             }
                             else {
-                                path = path.getParentPath();
+                                pbth = pbth.getPbrentPbth();
                             }
                         }
-                        if (expand) {
-                            tree.makeVisible(paths[counter]);
+                        if (expbnd) {
+                            tree.mbkeVisible(pbths[counter]);
                         }
                     }
                 }
             }
 
-            TreePath oldLead = getLeadSelectionPath();
-            lastSelectedRow = tree.getMinSelectionRow();
-            TreePath lead = tree.getSelectionModel().getLeadSelectionPath();
-            setAnchorSelectionPath(lead);
-            setLeadSelectionPath(lead);
+            TreePbth oldLebd = getLebdSelectionPbth();
+            lbstSelectedRow = tree.getMinSelectionRow();
+            TreePbth lebd = tree.getSelectionModel().getLebdSelectionPbth();
+            setAnchorSelectionPbth(lebd);
+            setLebdSelectionPbth(lebd);
 
-            TreePath[]       changedPaths = event.getPaths();
-            Rectangle        nodeBounds;
-            Rectangle        visRect = tree.getVisibleRect();
-            boolean          paintPaths = true;
+            TreePbth[]       chbngedPbths = event.getPbths();
+            Rectbngle        nodeBounds;
+            Rectbngle        visRect = tree.getVisibleRect();
+            boolebn          pbintPbths = true;
             int              nWidth = tree.getWidth();
 
-            if(changedPaths != null) {
-                int              counter, maxCounter = changedPaths.length;
+            if(chbngedPbths != null) {
+                int              counter, mbxCounter = chbngedPbths.length;
 
-                if(maxCounter > 4) {
-                    tree.repaint();
-                    paintPaths = false;
+                if(mbxCounter > 4) {
+                    tree.repbint();
+                    pbintPbths = fblse;
                 }
                 else {
-                    for (counter = 0; counter < maxCounter; counter++) {
-                        nodeBounds = getPathBounds(tree,
-                                                   changedPaths[counter]);
+                    for (counter = 0; counter < mbxCounter; counter++) {
+                        nodeBounds = getPbthBounds(tree,
+                                                   chbngedPbths[counter]);
                         if(nodeBounds != null &&
                            visRect.intersects(nodeBounds))
-                            tree.repaint(0, nodeBounds.y, nWidth,
+                            tree.repbint(0, nodeBounds.y, nWidth,
                                          nodeBounds.height);
                     }
                 }
             }
-            if(paintPaths) {
-                nodeBounds = getPathBounds(tree, oldLead);
+            if(pbintPbths) {
+                nodeBounds = getPbthBounds(tree, oldLebd);
                 if(nodeBounds != null && visRect.intersects(nodeBounds))
-                    tree.repaint(0, nodeBounds.y, nWidth, nodeBounds.height);
-                nodeBounds = getPathBounds(tree, lead);
+                    tree.repbint(0, nodeBounds.y, nWidth, nodeBounds.height);
+                nodeBounds = getPbthBounds(tree, lebd);
                 if(nodeBounds != null && visRect.intersects(nodeBounds))
-                    tree.repaint(0, nodeBounds.y, nWidth, nodeBounds.height);
+                    tree.repbint(0, nodeBounds.y, nWidth, nodeBounds.height);
             }
         }
 
 
         //
-        // TreeExpansionListener
+        // TreeExpbnsionListener
         //
-        public void treeExpanded(TreeExpansionEvent event) {
+        public void treeExpbnded(TreeExpbnsionEvent event) {
             if(event != null && tree != null) {
-                TreePath      path = event.getPath();
+                TreePbth      pbth = event.getPbth();
 
-                updateExpandedDescendants(path);
+                updbteExpbndedDescendbnts(pbth);
             }
         }
 
-        public void treeCollapsed(TreeExpansionEvent event) {
+        public void treeCollbpsed(TreeExpbnsionEvent event) {
             if(event != null && tree != null) {
-                TreePath        path = event.getPath();
+                TreePbth        pbth = event.getPbth();
 
                 completeEditing();
-                if(path != null && tree.isVisible(path)) {
-                    treeState.setExpandedState(path, false);
-                    updateLeadSelectionRow();
-                    updateSize();
+                if(pbth != null && tree.isVisible(pbth)) {
+                    treeStbte.setExpbndedStbte(pbth, fblse);
+                    updbteLebdSelectionRow();
+                    updbteSize();
                 }
             }
         }
@@ -4219,185 +4219,185 @@ public class BasicTreeUI extends TreeUI
         //
         // TreeModelListener
         //
-        public void treeNodesChanged(TreeModelEvent e) {
-            if(treeState != null && e != null) {
-                TreePath parentPath = SwingUtilities2.getTreePath(e, getModel());
+        public void treeNodesChbnged(TreeModelEvent e) {
+            if(treeStbte != null && e != null) {
+                TreePbth pbrentPbth = SwingUtilities2.getTreePbth(e, getModel());
                 int[] indices = e.getChildIndices();
                 if (indices == null || indices.length == 0) {
-                    // The root has changed
-                    treeState.treeNodesChanged(e);
-                    updateSize();
+                    // The root hbs chbnged
+                    treeStbte.treeNodesChbnged(e);
+                    updbteSize();
                 }
-                else if (treeState.isExpanded(parentPath)) {
-                    // Changed nodes are visible
-                    // Find the minimum index, we only need paint from there
+                else if (treeStbte.isExpbnded(pbrentPbth)) {
+                    // Chbnged nodes bre visible
+                    // Find the minimum index, we only need pbint from there
                     // down.
                     int minIndex = indices[0];
                     for (int i = indices.length - 1; i > 0; i--) {
-                        minIndex = Math.min(indices[i], minIndex);
+                        minIndex = Mbth.min(indices[i], minIndex);
                     }
                     Object minChild = treeModel.getChild(
-                            parentPath.getLastPathComponent(), minIndex);
-                    TreePath minPath = parentPath.pathByAddingChild(minChild);
-                    Rectangle minBounds = getPathBounds(tree, minPath);
+                            pbrentPbth.getLbstPbthComponent(), minIndex);
+                    TreePbth minPbth = pbrentPbth.pbthByAddingChild(minChild);
+                    Rectbngle minBounds = getPbthBounds(tree, minPbth);
 
-                    // Forward to the treestate
-                    treeState.treeNodesChanged(e);
+                    // Forwbrd to the treestbte
+                    treeStbte.treeNodesChbnged(e);
 
-                    // Mark preferred size as bogus.
-                    updateSize0();
+                    // Mbrk preferred size bs bogus.
+                    updbteSize0();
 
-                    // And repaint
-                    Rectangle newMinBounds = getPathBounds(tree, minPath);
+                    // And repbint
+                    Rectbngle newMinBounds = getPbthBounds(tree, minPbth);
                     if (minBounds == null || newMinBounds == null) {
                         return;
                     }
 
                     if (indices.length == 1 &&
                             newMinBounds.height == minBounds.height) {
-                        tree.repaint(0, minBounds.y, tree.getWidth(),
+                        tree.repbint(0, minBounds.y, tree.getWidth(),
                                      minBounds.height);
                     }
                     else {
-                        tree.repaint(0, minBounds.y, tree.getWidth(),
+                        tree.repbint(0, minBounds.y, tree.getWidth(),
                                      tree.getHeight() - minBounds.y);
                     }
                 }
                 else {
-                    // Nodes that changed aren't visible.  No need to paint
-                    treeState.treeNodesChanged(e);
+                    // Nodes thbt chbnged bren't visible.  No need to pbint
+                    treeStbte.treeNodesChbnged(e);
                 }
             }
         }
 
         public void treeNodesInserted(TreeModelEvent e) {
-            if(treeState != null && e != null) {
-                treeState.treeNodesInserted(e);
+            if(treeStbte != null && e != null) {
+                treeStbte.treeNodesInserted(e);
 
-                updateLeadSelectionRow();
+                updbteLebdSelectionRow();
 
-                TreePath       path = SwingUtilities2.getTreePath(e, getModel());
+                TreePbth       pbth = SwingUtilities2.getTreePbth(e, getModel());
 
-                if(treeState.isExpanded(path)) {
-                    updateSize();
+                if(treeStbte.isExpbnded(pbth)) {
+                    updbteSize();
                 }
                 else {
-                    // PENDING(sky): Need a method in TreeModelEvent
-                    // that can return the count, getChildIndices allocs
-                    // a new array!
+                    // PENDING(sky): Need b method in TreeModelEvent
+                    // thbt cbn return the count, getChildIndices bllocs
+                    // b new brrby!
                     int[]      indices = e.getChildIndices();
                     int        childCount = treeModel.getChildCount
-                                            (path.getLastPathComponent());
+                                            (pbth.getLbstPbthComponent());
 
                     if(indices != null && (childCount - indices.length) == 0)
-                        updateSize();
+                        updbteSize();
                 }
             }
         }
 
         public void treeNodesRemoved(TreeModelEvent e) {
-            if(treeState != null && e != null) {
-                treeState.treeNodesRemoved(e);
+            if(treeStbte != null && e != null) {
+                treeStbte.treeNodesRemoved(e);
 
-                updateLeadSelectionRow();
+                updbteLebdSelectionRow();
 
-                TreePath       path = SwingUtilities2.getTreePath(e, getModel());
+                TreePbth       pbth = SwingUtilities2.getTreePbth(e, getModel());
 
-                if(treeState.isExpanded(path) ||
-                   treeModel.getChildCount(path.getLastPathComponent()) == 0)
-                    updateSize();
+                if(treeStbte.isExpbnded(pbth) ||
+                   treeModel.getChildCount(pbth.getLbstPbthComponent()) == 0)
+                    updbteSize();
             }
         }
 
-        public void treeStructureChanged(TreeModelEvent e) {
-            if(treeState != null && e != null) {
-                treeState.treeStructureChanged(e);
+        public void treeStructureChbnged(TreeModelEvent e) {
+            if(treeStbte != null && e != null) {
+                treeStbte.treeStructureChbnged(e);
 
-                updateLeadSelectionRow();
+                updbteLebdSelectionRow();
 
-                TreePath       pPath = SwingUtilities2.getTreePath(e, getModel());
+                TreePbth       pPbth = SwingUtilities2.getTreePbth(e, getModel());
 
-                if (pPath != null) {
-                    pPath = pPath.getParentPath();
+                if (pPbth != null) {
+                    pPbth = pPbth.getPbrentPbth();
                 }
-                if(pPath == null || treeState.isExpanded(pPath))
-                    updateSize();
+                if(pPbth == null || treeStbte.isExpbnded(pPbth))
+                    updbteSize();
             }
         }
     }
 
 
 
-    private static class Actions extends UIAction {
-        private static final String SELECT_PREVIOUS = "selectPrevious";
-        private static final String SELECT_PREVIOUS_CHANGE_LEAD =
-                             "selectPreviousChangeLead";
-        private static final String SELECT_PREVIOUS_EXTEND_SELECTION =
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String SELECT_PREVIOUS = "selectPrevious";
+        privbte stbtic finbl String SELECT_PREVIOUS_CHANGE_LEAD =
+                             "selectPreviousChbngeLebd";
+        privbte stbtic finbl String SELECT_PREVIOUS_EXTEND_SELECTION =
                              "selectPreviousExtendSelection";
-        private static final String SELECT_NEXT = "selectNext";
-        private static final String SELECT_NEXT_CHANGE_LEAD =
-                                    "selectNextChangeLead";
-        private static final String SELECT_NEXT_EXTEND_SELECTION =
+        privbte stbtic finbl String SELECT_NEXT = "selectNext";
+        privbte stbtic finbl String SELECT_NEXT_CHANGE_LEAD =
+                                    "selectNextChbngeLebd";
+        privbte stbtic finbl String SELECT_NEXT_EXTEND_SELECTION =
                                     "selectNextExtendSelection";
-        private static final String SELECT_CHILD = "selectChild";
-        private static final String SELECT_CHILD_CHANGE_LEAD =
-                                    "selectChildChangeLead";
-        private static final String SELECT_PARENT = "selectParent";
-        private static final String SELECT_PARENT_CHANGE_LEAD =
-                                    "selectParentChangeLead";
-        private static final String SCROLL_UP_CHANGE_SELECTION =
-                                    "scrollUpChangeSelection";
-        private static final String SCROLL_UP_CHANGE_LEAD =
-                                    "scrollUpChangeLead";
-        private static final String SCROLL_UP_EXTEND_SELECTION =
+        privbte stbtic finbl String SELECT_CHILD = "selectChild";
+        privbte stbtic finbl String SELECT_CHILD_CHANGE_LEAD =
+                                    "selectChildChbngeLebd";
+        privbte stbtic finbl String SELECT_PARENT = "selectPbrent";
+        privbte stbtic finbl String SELECT_PARENT_CHANGE_LEAD =
+                                    "selectPbrentChbngeLebd";
+        privbte stbtic finbl String SCROLL_UP_CHANGE_SELECTION =
+                                    "scrollUpChbngeSelection";
+        privbte stbtic finbl String SCROLL_UP_CHANGE_LEAD =
+                                    "scrollUpChbngeLebd";
+        privbte stbtic finbl String SCROLL_UP_EXTEND_SELECTION =
                                     "scrollUpExtendSelection";
-        private static final String SCROLL_DOWN_CHANGE_SELECTION =
-                                    "scrollDownChangeSelection";
-        private static final String SCROLL_DOWN_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_DOWN_CHANGE_SELECTION =
+                                    "scrollDownChbngeSelection";
+        privbte stbtic finbl String SCROLL_DOWN_EXTEND_SELECTION =
                                     "scrollDownExtendSelection";
-        private static final String SCROLL_DOWN_CHANGE_LEAD =
-                                    "scrollDownChangeLead";
-        private static final String SELECT_FIRST = "selectFirst";
-        private static final String SELECT_FIRST_CHANGE_LEAD =
-                                    "selectFirstChangeLead";
-        private static final String SELECT_FIRST_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_DOWN_CHANGE_LEAD =
+                                    "scrollDownChbngeLebd";
+        privbte stbtic finbl String SELECT_FIRST = "selectFirst";
+        privbte stbtic finbl String SELECT_FIRST_CHANGE_LEAD =
+                                    "selectFirstChbngeLebd";
+        privbte stbtic finbl String SELECT_FIRST_EXTEND_SELECTION =
                                     "selectFirstExtendSelection";
-        private static final String SELECT_LAST = "selectLast";
-        private static final String SELECT_LAST_CHANGE_LEAD =
-                                    "selectLastChangeLead";
-        private static final String SELECT_LAST_EXTEND_SELECTION =
-                                    "selectLastExtendSelection";
-        private static final String TOGGLE = "toggle";
-        private static final String CANCEL_EDITING = "cancel";
-        private static final String START_EDITING = "startEditing";
-        private static final String SELECT_ALL = "selectAll";
-        private static final String CLEAR_SELECTION = "clearSelection";
-        private static final String SCROLL_LEFT = "scrollLeft";
-        private static final String SCROLL_RIGHT = "scrollRight";
-        private static final String SCROLL_LEFT_EXTEND_SELECTION =
+        privbte stbtic finbl String SELECT_LAST = "selectLbst";
+        privbte stbtic finbl String SELECT_LAST_CHANGE_LEAD =
+                                    "selectLbstChbngeLebd";
+        privbte stbtic finbl String SELECT_LAST_EXTEND_SELECTION =
+                                    "selectLbstExtendSelection";
+        privbte stbtic finbl String TOGGLE = "toggle";
+        privbte stbtic finbl String CANCEL_EDITING = "cbncel";
+        privbte stbtic finbl String START_EDITING = "stbrtEditing";
+        privbte stbtic finbl String SELECT_ALL = "selectAll";
+        privbte stbtic finbl String CLEAR_SELECTION = "clebrSelection";
+        privbte stbtic finbl String SCROLL_LEFT = "scrollLeft";
+        privbte stbtic finbl String SCROLL_RIGHT = "scrollRight";
+        privbte stbtic finbl String SCROLL_LEFT_EXTEND_SELECTION =
                                     "scrollLeftExtendSelection";
-        private static final String SCROLL_RIGHT_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_RIGHT_EXTEND_SELECTION =
                                     "scrollRightExtendSelection";
-        private static final String SCROLL_RIGHT_CHANGE_LEAD =
-                                    "scrollRightChangeLead";
-        private static final String SCROLL_LEFT_CHANGE_LEAD =
-                                    "scrollLeftChangeLead";
-        private static final String EXPAND = "expand";
-        private static final String COLLAPSE = "collapse";
-        private static final String MOVE_SELECTION_TO_PARENT =
-                                    "moveSelectionToParent";
+        privbte stbtic finbl String SCROLL_RIGHT_CHANGE_LEAD =
+                                    "scrollRightChbngeLebd";
+        privbte stbtic finbl String SCROLL_LEFT_CHANGE_LEAD =
+                                    "scrollLeftChbngeLebd";
+        privbte stbtic finbl String EXPAND = "expbnd";
+        privbte stbtic finbl String COLLAPSE = "collbpse";
+        privbte stbtic finbl String MOVE_SELECTION_TO_PARENT =
+                                    "moveSelectionToPbrent";
 
-        // add the lead item to the selection without changing lead or anchor
-        private static final String ADD_TO_SELECTION = "addToSelection";
+        // bdd the lebd item to the selection without chbnging lebd or bnchor
+        privbte stbtic finbl String ADD_TO_SELECTION = "bddToSelection";
 
-        // toggle the selected state of the lead item and move the anchor to it
-        private static final String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
+        // toggle the selected stbte of the lebd item bnd move the bnchor to it
+        privbte stbtic finbl String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
 
-        // extend the selection to the lead item
-        private static final String EXTEND_TO = "extendTo";
+        // extend the selection to the lebd item
+        privbte stbtic finbl String EXTEND_TO = "extendTo";
 
-        // move the anchor to the lead and ensure only that item is selected
-        private static final String MOVE_SELECTION_TO = "moveSelectionTo";
+        // move the bnchor to the lebd bnd ensure only thbt item is selected
+        privbte stbtic finbl String MOVE_SELECTION_TO = "moveSelectionTo";
 
         Actions() {
             super(null);
@@ -4407,85 +4407,85 @@ public class BasicTreeUI extends TreeUI
             super(key);
         }
 
-        public boolean isEnabled(Object o) {
-            if (o instanceof JTree) {
-                if (getName() == CANCEL_EDITING) {
+        public boolebn isEnbbled(Object o) {
+            if (o instbnceof JTree) {
+                if (getNbme() == CANCEL_EDITING) {
                     return ((JTree)o).isEditing();
                 }
             }
             return true;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             JTree tree = (JTree)e.getSource();
-            BasicTreeUI ui = (BasicTreeUI)BasicLookAndFeel.getUIOfType(
-                             tree.getUI(), BasicTreeUI.class);
+            BbsicTreeUI ui = (BbsicTreeUI)BbsicLookAndFeel.getUIOfType(
+                             tree.getUI(), BbsicTreeUI.clbss);
             if (ui == null) {
                 return;
             }
-            String key = getName();
+            String key = getNbme();
             if (key == SELECT_PREVIOUS) {
-                increment(tree, ui, -1, false, true);
+                increment(tree, ui, -1, fblse, true);
             }
             else if (key == SELECT_PREVIOUS_CHANGE_LEAD) {
-                increment(tree, ui, -1, false, false);
+                increment(tree, ui, -1, fblse, fblse);
             }
             else if (key == SELECT_PREVIOUS_EXTEND_SELECTION) {
                 increment(tree, ui, -1, true, true);
             }
             else if (key == SELECT_NEXT) {
-                increment(tree, ui, 1, false, true);
+                increment(tree, ui, 1, fblse, true);
             }
             else if (key == SELECT_NEXT_CHANGE_LEAD) {
-                increment(tree, ui, 1, false, false);
+                increment(tree, ui, 1, fblse, fblse);
             }
             else if (key == SELECT_NEXT_EXTEND_SELECTION) {
                 increment(tree, ui, 1, true, true);
             }
             else if (key == SELECT_CHILD) {
-                traverse(tree, ui, 1, true);
+                trbverse(tree, ui, 1, true);
             }
             else if (key == SELECT_CHILD_CHANGE_LEAD) {
-                traverse(tree, ui, 1, false);
+                trbverse(tree, ui, 1, fblse);
             }
             else if (key == SELECT_PARENT) {
-                traverse(tree, ui, -1, true);
+                trbverse(tree, ui, -1, true);
             }
             else if (key == SELECT_PARENT_CHANGE_LEAD) {
-                traverse(tree, ui, -1, false);
+                trbverse(tree, ui, -1, fblse);
             }
             else if (key == SCROLL_UP_CHANGE_SELECTION) {
-                page(tree, ui, -1, false, true);
+                pbge(tree, ui, -1, fblse, true);
             }
             else if (key == SCROLL_UP_CHANGE_LEAD) {
-                page(tree, ui, -1, false, false);
+                pbge(tree, ui, -1, fblse, fblse);
             }
             else if (key == SCROLL_UP_EXTEND_SELECTION) {
-                page(tree, ui, -1, true, true);
+                pbge(tree, ui, -1, true, true);
             }
             else if (key == SCROLL_DOWN_CHANGE_SELECTION) {
-                page(tree, ui, 1, false, true);
+                pbge(tree, ui, 1, fblse, true);
             }
             else if (key == SCROLL_DOWN_EXTEND_SELECTION) {
-                page(tree, ui, 1, true, true);
+                pbge(tree, ui, 1, true, true);
             }
             else if (key == SCROLL_DOWN_CHANGE_LEAD) {
-                page(tree, ui, 1, false, false);
+                pbge(tree, ui, 1, fblse, fblse);
             }
             else if (key == SELECT_FIRST) {
-                home(tree, ui, -1, false, true);
+                home(tree, ui, -1, fblse, true);
             }
             else if (key == SELECT_FIRST_CHANGE_LEAD) {
-                home(tree, ui, -1, false, false);
+                home(tree, ui, -1, fblse, fblse);
             }
             else if (key == SELECT_FIRST_EXTEND_SELECTION) {
                 home(tree, ui, -1, true, true);
             }
             else if (key == SELECT_LAST) {
-                home(tree, ui, 1, false, true);
+                home(tree, ui, 1, fblse, true);
             }
             else if (key == SELECT_LAST_CHANGE_LEAD) {
-                home(tree, ui, 1, false, false);
+                home(tree, ui, 1, fblse, fblse);
             }
             else if (key == SELECT_LAST_EXTEND_SELECTION) {
                 home(tree, ui, 1, true, true);
@@ -4494,38 +4494,38 @@ public class BasicTreeUI extends TreeUI
                 toggle(tree, ui);
             }
             else if (key == CANCEL_EDITING) {
-                cancelEditing(tree, ui);
+                cbncelEditing(tree, ui);
             }
             else if (key == START_EDITING) {
-                startEditing(tree, ui);
+                stbrtEditing(tree, ui);
             }
             else if (key == SELECT_ALL) {
                 selectAll(tree, ui, true);
             }
             else if (key == CLEAR_SELECTION) {
-                selectAll(tree, ui, false);
+                selectAll(tree, ui, fblse);
             }
             else if (key == ADD_TO_SELECTION) {
                 if (ui.getRowCount(tree) > 0) {
-                    int lead = ui.getLeadSelectionRow();
-                    if (!tree.isRowSelected(lead)) {
-                        TreePath aPath = ui.getAnchorSelectionPath();
-                        tree.addSelectionRow(lead);
-                        ui.setAnchorSelectionPath(aPath);
+                    int lebd = ui.getLebdSelectionRow();
+                    if (!tree.isRowSelected(lebd)) {
+                        TreePbth bPbth = ui.getAnchorSelectionPbth();
+                        tree.bddSelectionRow(lebd);
+                        ui.setAnchorSelectionPbth(bPbth);
                     }
                 }
             }
             else if (key == TOGGLE_AND_ANCHOR) {
                 if (ui.getRowCount(tree) > 0) {
-                    int lead = ui.getLeadSelectionRow();
-                    TreePath lPath = ui.getLeadSelectionPath();
-                    if (!tree.isRowSelected(lead)) {
-                        tree.addSelectionRow(lead);
+                    int lebd = ui.getLebdSelectionRow();
+                    TreePbth lPbth = ui.getLebdSelectionPbth();
+                    if (!tree.isRowSelected(lebd)) {
+                        tree.bddSelectionRow(lebd);
                     } else {
-                        tree.removeSelectionRow(lead);
-                        ui.setLeadSelectionPath(lPath);
+                        tree.removeSelectionRow(lebd);
+                        ui.setLebdSelectionPbth(lPbth);
                     }
-                    ui.setAnchorSelectionPath(lPath);
+                    ui.setAnchorSelectionPbth(lPbth);
                 }
             }
             else if (key == EXTEND_TO) {
@@ -4533,113 +4533,113 @@ public class BasicTreeUI extends TreeUI
             }
             else if (key == MOVE_SELECTION_TO) {
                 if (ui.getRowCount(tree) > 0) {
-                    int lead = ui.getLeadSelectionRow();
-                    tree.setSelectionInterval(lead, lead);
+                    int lebd = ui.getLebdSelectionRow();
+                    tree.setSelectionIntervbl(lebd, lebd);
                 }
             }
             else if (key == SCROLL_LEFT) {
-                scroll(tree, ui, SwingConstants.HORIZONTAL, -10);
+                scroll(tree, ui, SwingConstbnts.HORIZONTAL, -10);
             }
             else if (key == SCROLL_RIGHT) {
-                scroll(tree, ui, SwingConstants.HORIZONTAL, 10);
+                scroll(tree, ui, SwingConstbnts.HORIZONTAL, 10);
             }
             else if (key == SCROLL_LEFT_EXTEND_SELECTION) {
-                scrollChangeSelection(tree, ui, -1, true, true);
+                scrollChbngeSelection(tree, ui, -1, true, true);
             }
             else if (key == SCROLL_RIGHT_EXTEND_SELECTION) {
-                scrollChangeSelection(tree, ui, 1, true, true);
+                scrollChbngeSelection(tree, ui, 1, true, true);
             }
             else if (key == SCROLL_RIGHT_CHANGE_LEAD) {
-                scrollChangeSelection(tree, ui, 1, false, false);
+                scrollChbngeSelection(tree, ui, 1, fblse, fblse);
             }
             else if (key == SCROLL_LEFT_CHANGE_LEAD) {
-                scrollChangeSelection(tree, ui, -1, false, false);
+                scrollChbngeSelection(tree, ui, -1, fblse, fblse);
             }
             else if (key == EXPAND) {
-                expand(tree, ui);
+                expbnd(tree, ui);
             }
             else if (key == COLLAPSE) {
-                collapse(tree, ui);
+                collbpse(tree, ui);
             }
             else if (key == MOVE_SELECTION_TO_PARENT) {
-                moveSelectionToParent(tree, ui);
+                moveSelectionToPbrent(tree, ui);
             }
         }
 
-        private void scrollChangeSelection(JTree tree, BasicTreeUI ui,
-                           int direction, boolean addToSelection,
-                           boolean changeSelection) {
+        privbte void scrollChbngeSelection(JTree tree, BbsicTreeUI ui,
+                           int direction, boolebn bddToSelection,
+                           boolebn chbngeSelection) {
             int           rowCount;
 
             if((rowCount = ui.getRowCount(tree)) > 0 &&
                 ui.treeSelectionModel != null) {
-                TreePath          newPath;
-                Rectangle         visRect = tree.getVisibleRect();
+                TreePbth          newPbth;
+                Rectbngle         visRect = tree.getVisibleRect();
 
                 if (direction == -1) {
-                    newPath = ui.getClosestPathForLocation(tree, visRect.x,
+                    newPbth = ui.getClosestPbthForLocbtion(tree, visRect.x,
                                                         visRect.y);
-                    visRect.x = Math.max(0, visRect.x - visRect.width);
+                    visRect.x = Mbth.mbx(0, visRect.x - visRect.width);
                 }
                 else {
-                    visRect.x = Math.min(Math.max(0, tree.getWidth() -
+                    visRect.x = Mbth.min(Mbth.mbx(0, tree.getWidth() -
                                    visRect.width), visRect.x + visRect.width);
-                    newPath = ui.getClosestPathForLocation(tree, visRect.x,
+                    newPbth = ui.getClosestPbthForLocbtion(tree, visRect.x,
                                                  visRect.y + visRect.height);
                 }
                 // Scroll
                 tree.scrollRectToVisible(visRect);
                 // select
-                if (addToSelection) {
-                    ui.extendSelection(newPath);
+                if (bddToSelection) {
+                    ui.extendSelection(newPbth);
                 }
-                else if(changeSelection) {
-                    tree.setSelectionPath(newPath);
+                else if(chbngeSelection) {
+                    tree.setSelectionPbth(newPbth);
                 }
                 else {
-                    ui.setLeadSelectionPath(newPath, true);
+                    ui.setLebdSelectionPbth(newPbth, true);
                 }
             }
         }
 
-        private void scroll(JTree component, BasicTreeUI ui, int direction,
-                            int amount) {
-            Rectangle visRect = component.getVisibleRect();
+        privbte void scroll(JTree component, BbsicTreeUI ui, int direction,
+                            int bmount) {
+            Rectbngle visRect = component.getVisibleRect();
             Dimension size = component.getSize();
-            if (direction == SwingConstants.HORIZONTAL) {
-                visRect.x += amount;
-                visRect.x = Math.max(0, visRect.x);
-                visRect.x = Math.min(Math.max(0, size.width - visRect.width),
+            if (direction == SwingConstbnts.HORIZONTAL) {
+                visRect.x += bmount;
+                visRect.x = Mbth.mbx(0, visRect.x);
+                visRect.x = Mbth.min(Mbth.mbx(0, size.width - visRect.width),
                                      visRect.x);
             }
             else {
-                visRect.y += amount;
-                visRect.y = Math.max(0, visRect.y);
-                visRect.y = Math.min(Math.max(0, size.width - visRect.height),
+                visRect.y += bmount;
+                visRect.y = Mbth.mbx(0, visRect.y);
+                visRect.y = Mbth.min(Mbth.mbx(0, size.width - visRect.height),
                                      visRect.y);
             }
             component.scrollRectToVisible(visRect);
         }
 
-        private void extendSelection(JTree tree, BasicTreeUI ui) {
+        privbte void extendSelection(JTree tree, BbsicTreeUI ui) {
             if (ui.getRowCount(tree) > 0) {
-                int       lead = ui.getLeadSelectionRow();
+                int       lebd = ui.getLebdSelectionRow();
 
-                if (lead != -1) {
-                    TreePath      leadP = ui.getLeadSelectionPath();
-                    TreePath      aPath = ui.getAnchorSelectionPath();
-                    int           aRow = ui.getRowForPath(tree, aPath);
+                if (lebd != -1) {
+                    TreePbth      lebdP = ui.getLebdSelectionPbth();
+                    TreePbth      bPbth = ui.getAnchorSelectionPbth();
+                    int           bRow = ui.getRowForPbth(tree, bPbth);
 
-                    if(aRow == -1)
-                        aRow = 0;
-                    tree.setSelectionInterval(aRow, lead);
-                    ui.setLeadSelectionPath(leadP);
-                    ui.setAnchorSelectionPath(aPath);
+                    if(bRow == -1)
+                        bRow = 0;
+                    tree.setSelectionIntervbl(bRow, lebd);
+                    ui.setLebdSelectionPbth(lebdP);
+                    ui.setAnchorSelectionPbth(bPbth);
                 }
             }
         }
 
-        private void selectAll(JTree tree, BasicTreeUI ui, boolean selectAll) {
+        privbte void selectAll(JTree tree, BbsicTreeUI ui, boolebn selectAll) {
             int                   rowCount = ui.getRowCount(tree);
 
             if(rowCount > 0) {
@@ -4647,9 +4647,9 @@ public class BasicTreeUI extends TreeUI
                     if (tree.getSelectionModel().getSelectionMode() ==
                             TreeSelectionModel.SINGLE_TREE_SELECTION) {
 
-                        int lead = ui.getLeadSelectionRow();
-                        if (lead != -1) {
-                            tree.setSelectionRow(lead);
+                        int lebd = ui.getLebdSelectionRow();
+                        if (lebd != -1) {
+                            tree.setSelectionRow(lebd);
                         } else if (tree.getMinSelectionRow() == -1) {
                             tree.setSelectionRow(0);
                             ui.ensureRowsAreVisible(0, 0);
@@ -4657,84 +4657,84 @@ public class BasicTreeUI extends TreeUI
                         return;
                     }
 
-                    TreePath      lastPath = ui.getLeadSelectionPath();
-                    TreePath      aPath = ui.getAnchorSelectionPath();
+                    TreePbth      lbstPbth = ui.getLebdSelectionPbth();
+                    TreePbth      bPbth = ui.getAnchorSelectionPbth();
 
-                    if(lastPath != null && !tree.isVisible(lastPath)) {
-                        lastPath = null;
+                    if(lbstPbth != null && !tree.isVisible(lbstPbth)) {
+                        lbstPbth = null;
                     }
-                    tree.setSelectionInterval(0, rowCount - 1);
-                    if(lastPath != null) {
-                        ui.setLeadSelectionPath(lastPath);
+                    tree.setSelectionIntervbl(0, rowCount - 1);
+                    if(lbstPbth != null) {
+                        ui.setLebdSelectionPbth(lbstPbth);
                     }
-                    if(aPath != null && tree.isVisible(aPath)) {
-                        ui.setAnchorSelectionPath(aPath);
+                    if(bPbth != null && tree.isVisible(bPbth)) {
+                        ui.setAnchorSelectionPbth(bPbth);
                     }
                 }
                 else {
-                    TreePath      lastPath = ui.getLeadSelectionPath();
-                    TreePath      aPath = ui.getAnchorSelectionPath();
+                    TreePbth      lbstPbth = ui.getLebdSelectionPbth();
+                    TreePbth      bPbth = ui.getAnchorSelectionPbth();
 
-                    tree.clearSelection();
-                    ui.setAnchorSelectionPath(aPath);
-                    ui.setLeadSelectionPath(lastPath);
+                    tree.clebrSelection();
+                    ui.setAnchorSelectionPbth(bPbth);
+                    ui.setLebdSelectionPbth(lbstPbth);
                 }
             }
         }
 
-        private void startEditing(JTree tree, BasicTreeUI ui) {
-            TreePath   lead = ui.getLeadSelectionPath();
-            int        editRow = (lead != null) ?
-                                     ui.getRowForPath(tree, lead) : -1;
+        privbte void stbrtEditing(JTree tree, BbsicTreeUI ui) {
+            TreePbth   lebd = ui.getLebdSelectionPbth();
+            int        editRow = (lebd != null) ?
+                                     ui.getRowForPbth(tree, lebd) : -1;
 
             if(editRow != -1) {
-                tree.startEditingAtPath(lead);
+                tree.stbrtEditingAtPbth(lebd);
             }
         }
 
-        private void cancelEditing(JTree tree, BasicTreeUI ui) {
-            tree.cancelEditing();
+        privbte void cbncelEditing(JTree tree, BbsicTreeUI ui) {
+            tree.cbncelEditing();
         }
 
-        private void toggle(JTree tree, BasicTreeUI ui) {
-            int            selRow = ui.getLeadSelectionRow();
+        privbte void toggle(JTree tree, BbsicTreeUI ui) {
+            int            selRow = ui.getLebdSelectionRow();
 
-            if(selRow != -1 && !ui.isLeaf(selRow)) {
-                TreePath aPath = ui.getAnchorSelectionPath();
-                TreePath lPath = ui.getLeadSelectionPath();
+            if(selRow != -1 && !ui.isLebf(selRow)) {
+                TreePbth bPbth = ui.getAnchorSelectionPbth();
+                TreePbth lPbth = ui.getLebdSelectionPbth();
 
-                ui.toggleExpandState(ui.getPathForRow(tree, selRow));
-                ui.setAnchorSelectionPath(aPath);
-                ui.setLeadSelectionPath(lPath);
+                ui.toggleExpbndStbte(ui.getPbthForRow(tree, selRow));
+                ui.setAnchorSelectionPbth(bPbth);
+                ui.setLebdSelectionPbth(lPbth);
             }
         }
 
-        private void expand(JTree tree, BasicTreeUI ui) {
-            int selRow = ui.getLeadSelectionRow();
-            tree.expandRow(selRow);
+        privbte void expbnd(JTree tree, BbsicTreeUI ui) {
+            int selRow = ui.getLebdSelectionRow();
+            tree.expbndRow(selRow);
         }
 
-        private void collapse(JTree tree, BasicTreeUI ui) {
-            int selRow = ui.getLeadSelectionRow();
-            tree.collapseRow(selRow);
+        privbte void collbpse(JTree tree, BbsicTreeUI ui) {
+            int selRow = ui.getLebdSelectionRow();
+            tree.collbpseRow(selRow);
         }
 
-        private void increment(JTree tree, BasicTreeUI ui, int direction,
-                               boolean addToSelection,
-                               boolean changeSelection) {
+        privbte void increment(JTree tree, BbsicTreeUI ui, int direction,
+                               boolebn bddToSelection,
+                               boolebn chbngeSelection) {
 
-            // disable moving of lead unless in discontiguous mode
-            if (!addToSelection && !changeSelection &&
+            // disbble moving of lebd unless in discontiguous mode
+            if (!bddToSelection && !chbngeSelection &&
                     tree.getSelectionModel().getSelectionMode() !=
                         TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION) {
-                changeSelection = true;
+                chbngeSelection = true;
             }
 
             int              rowCount;
 
             if(ui.treeSelectionModel != null &&
                   (rowCount = tree.getRowCount()) > 0) {
-                int                  selIndex = ui.getLeadSelectionRow();
+                int                  selIndex = ui.getLebdSelectionRow();
                 int                  newIndex;
 
                 if(selIndex == -1) {
@@ -4744,75 +4744,75 @@ public class BasicTreeUI extends TreeUI
                         newIndex = rowCount - 1;
                 }
                 else
-                    /* Aparently people don't like wrapping;( */
-                    newIndex = Math.min(rowCount - 1, Math.max
+                    /* Apbrently people don't like wrbpping;( */
+                    newIndex = Mbth.min(rowCount - 1, Mbth.mbx
                                         (0, (selIndex + direction)));
-                if(addToSelection && ui.treeSelectionModel.
+                if(bddToSelection && ui.treeSelectionModel.
                         getSelectionMode() != TreeSelectionModel.
                         SINGLE_TREE_SELECTION) {
-                    ui.extendSelection(tree.getPathForRow(newIndex));
+                    ui.extendSelection(tree.getPbthForRow(newIndex));
                 }
-                else if(changeSelection) {
-                    tree.setSelectionInterval(newIndex, newIndex);
+                else if(chbngeSelection) {
+                    tree.setSelectionIntervbl(newIndex, newIndex);
                 }
                 else {
-                    ui.setLeadSelectionPath(tree.getPathForRow(newIndex),true);
+                    ui.setLebdSelectionPbth(tree.getPbthForRow(newIndex),true);
                 }
                 ui.ensureRowsAreVisible(newIndex, newIndex);
-                ui.lastSelectedRow = newIndex;
+                ui.lbstSelectedRow = newIndex;
             }
         }
 
-        private void traverse(JTree tree, BasicTreeUI ui, int direction,
-                              boolean changeSelection) {
+        privbte void trbverse(JTree tree, BbsicTreeUI ui, int direction,
+                              boolebn chbngeSelection) {
 
-            // disable moving of lead unless in discontiguous mode
-            if (!changeSelection &&
+            // disbble moving of lebd unless in discontiguous mode
+            if (!chbngeSelection &&
                     tree.getSelectionModel().getSelectionMode() !=
                         TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION) {
-                changeSelection = true;
+                chbngeSelection = true;
             }
 
             int                rowCount;
 
             if((rowCount = tree.getRowCount()) > 0) {
-                int               minSelIndex = ui.getLeadSelectionRow();
+                int               minSelIndex = ui.getLebdSelectionRow();
                 int               newIndex;
 
                 if(minSelIndex == -1)
                     newIndex = 0;
                 else {
-                    /* Try and expand the node, otherwise go to next
+                    /* Try bnd expbnd the node, otherwise go to next
                        node. */
                     if(direction == 1) {
-                        TreePath minSelPath = ui.getPathForRow(tree, minSelIndex);
+                        TreePbth minSelPbth = ui.getPbthForRow(tree, minSelIndex);
                         int childCount = tree.getModel().
-                            getChildCount(minSelPath.getLastPathComponent());
+                            getChildCount(minSelPbth.getLbstPbthComponent());
                         newIndex = -1;
-                        if (!ui.isLeaf(minSelIndex)) {
-                            if (!tree.isExpanded(minSelIndex)) {
-                                ui.toggleExpandState(minSelPath);
+                        if (!ui.isLebf(minSelIndex)) {
+                            if (!tree.isExpbnded(minSelIndex)) {
+                                ui.toggleExpbndStbte(minSelPbth);
                             }
                             else if (childCount > 0) {
-                                newIndex = Math.min(minSelIndex + 1, rowCount - 1);
+                                newIndex = Mbth.min(minSelIndex + 1, rowCount - 1);
                             }
                         }
                     }
-                    /* Try to collapse node. */
+                    /* Try to collbpse node. */
                     else {
-                        if(!ui.isLeaf(minSelIndex) &&
-                           tree.isExpanded(minSelIndex)) {
-                            ui.toggleExpandState(ui.getPathForRow
+                        if(!ui.isLebf(minSelIndex) &&
+                           tree.isExpbnded(minSelIndex)) {
+                            ui.toggleExpbndStbte(ui.getPbthForRow
                                               (tree, minSelIndex));
                             newIndex = -1;
                         }
                         else {
-                            TreePath         path = ui.getPathForRow(tree,
+                            TreePbth         pbth = ui.getPbthForRow(tree,
                                                                   minSelIndex);
 
-                            if(path != null && path.getPathCount() > 1) {
-                                newIndex = ui.getRowForPath(tree, path.
-                                                         getParentPath());
+                            if(pbth != null && pbth.getPbthCount() > 1) {
+                                newIndex = ui.getRowForPbth(tree, pbth.
+                                                         getPbrentPbth());
                             }
                             else
                                 newIndex = -1;
@@ -4820,11 +4820,11 @@ public class BasicTreeUI extends TreeUI
                     }
                 }
                 if(newIndex != -1) {
-                    if(changeSelection) {
-                        tree.setSelectionInterval(newIndex, newIndex);
+                    if(chbngeSelection) {
+                        tree.setSelectionIntervbl(newIndex, newIndex);
                     }
                     else {
-                        ui.setLeadSelectionPath(ui.getPathForRow(
+                        ui.setLebdSelectionPbth(ui.getPbthForRow(
                                                     tree, newIndex), true);
                     }
                     ui.ensureRowsAreVisible(newIndex, newIndex);
@@ -4832,61 +4832,61 @@ public class BasicTreeUI extends TreeUI
             }
         }
 
-        private void moveSelectionToParent(JTree tree, BasicTreeUI ui) {
-            int selRow = ui.getLeadSelectionRow();
-            TreePath path = ui.getPathForRow(tree, selRow);
-            if (path != null && path.getPathCount() > 1) {
-                int  newIndex = ui.getRowForPath(tree, path.getParentPath());
+        privbte void moveSelectionToPbrent(JTree tree, BbsicTreeUI ui) {
+            int selRow = ui.getLebdSelectionRow();
+            TreePbth pbth = ui.getPbthForRow(tree, selRow);
+            if (pbth != null && pbth.getPbthCount() > 1) {
+                int  newIndex = ui.getRowForPbth(tree, pbth.getPbrentPbth());
                 if (newIndex != -1) {
-                    tree.setSelectionInterval(newIndex, newIndex);
+                    tree.setSelectionIntervbl(newIndex, newIndex);
                     ui.ensureRowsAreVisible(newIndex, newIndex);
                 }
             }
         }
 
-        private void page(JTree tree, BasicTreeUI ui, int direction,
-                          boolean addToSelection, boolean changeSelection) {
+        privbte void pbge(JTree tree, BbsicTreeUI ui, int direction,
+                          boolebn bddToSelection, boolebn chbngeSelection) {
 
-            // disable moving of lead unless in discontiguous mode
-            if (!addToSelection && !changeSelection &&
+            // disbble moving of lebd unless in discontiguous mode
+            if (!bddToSelection && !chbngeSelection &&
                     tree.getSelectionModel().getSelectionMode() !=
                         TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION) {
-                changeSelection = true;
+                chbngeSelection = true;
             }
 
             int           rowCount;
 
             if((rowCount = ui.getRowCount(tree)) > 0 &&
                            ui.treeSelectionModel != null) {
-                Dimension         maxSize = tree.getSize();
-                TreePath          lead = ui.getLeadSelectionPath();
-                TreePath          newPath;
-                Rectangle         visRect = tree.getVisibleRect();
+                Dimension         mbxSize = tree.getSize();
+                TreePbth          lebd = ui.getLebdSelectionPbth();
+                TreePbth          newPbth;
+                Rectbngle         visRect = tree.getVisibleRect();
 
                 if(direction == -1) {
                     // up.
-                    newPath = ui.getClosestPathForLocation(tree, visRect.x,
+                    newPbth = ui.getClosestPbthForLocbtion(tree, visRect.x,
                                                          visRect.y);
-                    if(newPath.equals(lead)) {
-                        visRect.y = Math.max(0, visRect.y - visRect.height);
-                        newPath = tree.getClosestPathForLocation(visRect.x,
+                    if(newPbth.equbls(lebd)) {
+                        visRect.y = Mbth.mbx(0, visRect.y - visRect.height);
+                        newPbth = tree.getClosestPbthForLocbtion(visRect.x,
                                                                  visRect.y);
                     }
                 }
                 else {
                     // down
-                    visRect.y = Math.min(maxSize.height, visRect.y +
+                    visRect.y = Mbth.min(mbxSize.height, visRect.y +
                                          visRect.height - 1);
-                    newPath = tree.getClosestPathForLocation(visRect.x,
+                    newPbth = tree.getClosestPbthForLocbtion(visRect.x,
                                                              visRect.y);
-                    if(newPath.equals(lead)) {
-                        visRect.y = Math.min(maxSize.height, visRect.y +
+                    if(newPbth.equbls(lebd)) {
+                        visRect.y = Mbth.min(mbxSize.height, visRect.y +
                                              visRect.height - 1);
-                        newPath = tree.getClosestPathForLocation(visRect.x,
+                        newPbth = tree.getClosestPbthForLocbtion(visRect.x,
                                                                  visRect.y);
                     }
                 }
-                Rectangle            newRect = ui.getPathBounds(tree, newPath);
+                Rectbngle            newRect = ui.getPbthBounds(tree, newPbth);
                 if (newRect != null) {
                     newRect.x = visRect.x;
                     newRect.width = visRect.width;
@@ -4898,84 +4898,84 @@ public class BasicTreeUI extends TreeUI
                         newRect.height = visRect.height;
                     }
 
-                    if(addToSelection) {
-                        ui.extendSelection(newPath);
+                    if(bddToSelection) {
+                        ui.extendSelection(newPbth);
                     }
-                    else if(changeSelection) {
-                        tree.setSelectionPath(newPath);
+                    else if(chbngeSelection) {
+                        tree.setSelectionPbth(newPbth);
                     }
                     else {
-                        ui.setLeadSelectionPath(newPath, true);
+                        ui.setLebdSelectionPbth(newPbth, true);
                     }
                     tree.scrollRectToVisible(newRect);
                 }
             }
         }
 
-        private void home(JTree tree, final BasicTreeUI ui, int direction,
-                          boolean addToSelection, boolean changeSelection) {
+        privbte void home(JTree tree, finbl BbsicTreeUI ui, int direction,
+                          boolebn bddToSelection, boolebn chbngeSelection) {
 
-            // disable moving of lead unless in discontiguous mode
-            if (!addToSelection && !changeSelection &&
+            // disbble moving of lebd unless in discontiguous mode
+            if (!bddToSelection && !chbngeSelection &&
                     tree.getSelectionModel().getSelectionMode() !=
                         TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION) {
-                changeSelection = true;
+                chbngeSelection = true;
             }
 
-            final int rowCount = ui.getRowCount(tree);
+            finbl int rowCount = ui.getRowCount(tree);
 
             if (rowCount > 0) {
                 if(direction == -1) {
                     ui.ensureRowsAreVisible(0, 0);
-                    if (addToSelection) {
-                        TreePath        aPath = ui.getAnchorSelectionPath();
-                        int             aRow = (aPath == null) ? -1 :
-                                        ui.getRowForPath(tree, aPath);
+                    if (bddToSelection) {
+                        TreePbth        bPbth = ui.getAnchorSelectionPbth();
+                        int             bRow = (bPbth == null) ? -1 :
+                                        ui.getRowForPbth(tree, bPbth);
 
-                        if (aRow == -1) {
-                            tree.setSelectionInterval(0, 0);
+                        if (bRow == -1) {
+                            tree.setSelectionIntervbl(0, 0);
                         }
                         else {
-                            tree.setSelectionInterval(0, aRow);
-                            ui.setAnchorSelectionPath(aPath);
-                            ui.setLeadSelectionPath(ui.getPathForRow(tree, 0));
+                            tree.setSelectionIntervbl(0, bRow);
+                            ui.setAnchorSelectionPbth(bPbth);
+                            ui.setLebdSelectionPbth(ui.getPbthForRow(tree, 0));
                         }
                     }
-                    else if(changeSelection) {
-                        tree.setSelectionInterval(0, 0);
+                    else if(chbngeSelection) {
+                        tree.setSelectionIntervbl(0, 0);
                     }
                     else {
-                        ui.setLeadSelectionPath(ui.getPathForRow(tree, 0),
+                        ui.setLebdSelectionPbth(ui.getPbthForRow(tree, 0),
                                                 true);
                     }
                 }
                 else {
                     ui.ensureRowsAreVisible(rowCount - 1, rowCount - 1);
-                    if (addToSelection) {
-                        TreePath        aPath = ui.getAnchorSelectionPath();
-                        int             aRow = (aPath == null) ? -1 :
-                                        ui.getRowForPath(tree, aPath);
+                    if (bddToSelection) {
+                        TreePbth        bPbth = ui.getAnchorSelectionPbth();
+                        int             bRow = (bPbth == null) ? -1 :
+                                        ui.getRowForPbth(tree, bPbth);
 
-                        if (aRow == -1) {
-                            tree.setSelectionInterval(rowCount - 1,
+                        if (bRow == -1) {
+                            tree.setSelectionIntervbl(rowCount - 1,
                                                       rowCount -1);
                         }
                         else {
-                            tree.setSelectionInterval(aRow, rowCount - 1);
-                            ui.setAnchorSelectionPath(aPath);
-                            ui.setLeadSelectionPath(ui.getPathForRow(tree,
+                            tree.setSelectionIntervbl(bRow, rowCount - 1);
+                            ui.setAnchorSelectionPbth(bPbth);
+                            ui.setLebdSelectionPbth(ui.getPbthForRow(tree,
                                                                rowCount -1));
                         }
                     }
-                    else if(changeSelection) {
-                        tree.setSelectionInterval(rowCount - 1, rowCount - 1);
+                    else if(chbngeSelection) {
+                        tree.setSelectionIntervbl(rowCount - 1, rowCount - 1);
                     }
                     else {
-                        ui.setLeadSelectionPath(ui.getPathForRow(tree,
+                        ui.setLebdSelectionPbth(ui.getPbthForRow(tree,
                                                           rowCount - 1), true);
                     }
-                    if (ui.isLargeModel()){
-                        SwingUtilities.invokeLater(new Runnable() {
+                    if (ui.isLbrgeModel()){
+                        SwingUtilities.invokeLbter(new Runnbble() {
                             public void run() {
                                 ui.ensureRowsAreVisible(rowCount - 1, rowCount - 1);
                             }
@@ -4985,4 +4985,4 @@ public class BasicTreeUI extends TreeUI
             }
         }
     }
-} // End of class BasicTreeUI
+} // End of clbss BbsicTreeUI

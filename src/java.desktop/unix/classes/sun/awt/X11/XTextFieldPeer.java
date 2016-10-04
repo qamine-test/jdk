@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import javax.swing.text.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.InputMap;
-import javax.swing.JPasswordField;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.TextEvent;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.JPbsswordField;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.TrbnsferHbndler;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.KeyEvent;
 
-import javax.swing.plaf.UIResource;
-import javax.swing.UIDefaults;
-import javax.swing.JTextField;
-import javax.swing.JComponent;
-import javax.swing.border.Border;
-import com.sun.java.swing.plaf.motif.*;
-import java.awt.im.InputMethodRequests;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.border.Border;
+import com.sun.jbvb.swing.plbf.motif.*;
+import jbvb.bwt.im.InputMethodRequests;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.AWTAccessor;
 
-final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XTextField");
+finbl clbss XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XTextField");
 
-    private String text;
-    private final XAWTTextField xtext;
-    private final boolean firstChangeSkipped;
+    privbte String text;
+    privbte finbl XAWTTextField xtext;
+    privbte finbl boolebn firstChbngeSkipped;
 
-    XTextFieldPeer(TextField target) {
-        super(target);
-        text = target.getText();
-        xtext = new XAWTTextField(text,this, target.getParent());
-        xtext.getDocument().addDocumentListener(xtext);
-        xtext.setCursor(target.getCursor());
-        XToolkit.specialPeerMap.put(xtext,this);
+    XTextFieldPeer(TextField tbrget) {
+        super(tbrget);
+        text = tbrget.getText();
+        xtext = new XAWTTextField(text,this, tbrget.getPbrent());
+        xtext.getDocument().bddDocumentListener(xtext);
+        xtext.setCursor(tbrget.getCursor());
+        XToolkit.speciblPeerMbp.put(xtext,this);
 
         initTextField();
-        setText(target.getText());
-        if (target.echoCharIsSet()) {
-            setEchoChar(target.getEchoChar());
+        setText(tbrget.getText());
+        if (tbrget.echoChbrIsSet()) {
+            setEchoChbr(tbrget.getEchoChbr());
         }
-        else setEchoChar((char)0);
+        else setEchoChbr((chbr)0);
 
-        int start = target.getSelectionStart();
-        int end = target.getSelectionEnd();
+        int stbrt = tbrget.getSelectionStbrt();
+        int end = tbrget.getSelectionEnd();
         // Fix for 5100200
-        // Restoring Motif behaviour
-        // Since the end position of the selected text can be greater then the length of the text,
-        // so we should set caret to max position of the text
-        setCaretPosition(Math.min(end, text.length()));
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        // Restoring Motif behbviour
+        // Since the end position of the selected text cbn be grebter then the length of the text,
+        // so we should set cbret to mbx position of the text
+        setCbretPosition(Mbth.min(end, text.length()));
+        if (end > stbrt) {
+            // Should be cblled bfter setText() bnd setCbretPosition()
+            select(stbrt, end);
         }
 
-        setEditable(target.isEditable());
+        setEditbble(tbrget.isEditbble());
 
-        // After this line we should not change the component's text
-        firstChangeSkipped = true;
+        // After this line we should not chbnge the component's text
+        firstChbngeSkipped = true;
     }
 
     @Override
     public void dispose() {
-        XToolkit.specialPeerMap.remove(xtext);
-        // visible caret has a timer thread which must be stopped
-        xtext.getCaret().setVisible(false);
+        XToolkit.speciblPeerMbp.remove(xtext);
+        // visible cbret hbs b timer threbd which must be stopped
+        xtext.getCbret().setVisible(fblse);
         xtext.removeNotify();
         super.dispose();
     }
 
     void initTextField() {
-        setVisible(target.isVisible());
+        setVisible(tbrget.isVisible());
 
         setBounds(x, y, width, height, SET_BOUNDS);
 
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        foreground = compAccessor.getForeground(target);
+        foreground = compAccessor.getForeground(tbrget);
         if (foreground == null)
             foreground = SystemColor.textText;
 
         setForeground(foreground);
 
-        background = compAccessor.getBackground(target);
-        if (background == null) {
-            if (((TextField)target).isEditable()) background = SystemColor.text;
-            else background = SystemColor.control;
+        bbckground = compAccessor.getBbckground(tbrget);
+        if (bbckground == null) {
+            if (((TextField)tbrget).isEditbble()) bbckground = SystemColor.text;
+            else bbckground = SystemColor.control;
         }
-        setBackground(background);
+        setBbckground(bbckground);
 
-        if (!target.isBackgroundSet()) {
-            // This is a way to set the background color of the TextArea
-            // without calling setBackground - go through accessor
-            compAccessor.setBackground(target, background);
+        if (!tbrget.isBbckgroundSet()) {
+            // This is b wby to set the bbckground color of the TextAreb
+            // without cblling setBbckground - go through bccessor
+            compAccessor.setBbckground(tbrget, bbckground);
         }
-        if (!target.isForegroundSet()) {
-            target.setForeground(SystemColor.textText);
+        if (!tbrget.isForegroundSet()) {
+            tbrget.setForeground(SystemColor.textText);
         }
 
         setFont(font);
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditbble(boolebn editbble) {
         if (xtext != null) {
-            xtext.setEditable(editable);
-            xtext.repaint();
+            xtext.setEditbble(editbble);
+            xtext.repbint();
         }
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer
+     * @see jbvb.bwt.peer.ComponentPeer
      */
     @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    public void setEnbbled(boolebn enbbled) {
+        super.setEnbbled(enbbled);
         if (xtext != null) {
-            xtext.setEnabled(enabled);
-            xtext.repaint();
+            xtext.setEnbbled(enbbled);
+            xtext.repbint();
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public InputMethodRequests getInputMethodRequests() {
@@ -171,33 +171,33 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     }
 
     @Override
-    void handleJavaInputMethodEvent(InputMethodEvent e) {
+    void hbndleJbvbInputMethodEvent(InputMethodEvent e) {
         if (xtext != null)
             xtext.processInputMethodEventImpl(e);
     }
 
     /**
-     * @see java.awt.peer.TextFieldPeer
+     * @see jbvb.bwt.peer.TextFieldPeer
      */
     @Override
-    public void setEchoChar(char c) {
+    public void setEchoChbr(chbr c) {
         if (xtext != null) {
-            xtext.setEchoChar(c);
-            xtext.putClientProperty("JPasswordField.cutCopyAllowed",
-                    xtext.echoCharIsSet() ? Boolean.FALSE : Boolean.TRUE);
+            xtext.setEchoChbr(c);
+            xtext.putClientProperty("JPbsswordField.cutCopyAllowed",
+                    xtext.echoChbrIsSet() ? Boolebn.FALSE : Boolebn.TRUE);
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public int getSelectionStart() {
-        return xtext.getSelectionStart();
+    public int getSelectionStbrt() {
+        return xtext.getSelectionStbrt();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public int getSelectionEnd() {
@@ -205,7 +205,7 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public String getText() {
@@ -213,55 +213,55 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public void setText(String text) {
         setXAWTTextField(text);
-        repaint();
+        repbint();
     }
 
-    private void setXAWTTextField(String txt) {
+    privbte void setXAWTTextField(String txt) {
         text = txt;
         if (xtext != null)  {
             // JTextField.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextField.setText() is called.
+            // Since we mbke no differences between text events,
+            // the document listener hbs to be disbbled while
+            // JTextField.setText() is cblled.
             xtext.getDocument().removeDocumentListener(xtext);
             xtext.setText(txt);
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
+            if (firstChbngeSkipped) {
+                postEvent(new TextEvent(tbrget, TextEvent.TEXT_VALUE_CHANGED));
             }
-            xtext.getDocument().addDocumentListener(xtext);
-            xtext.setCaretPosition(0);
+            xtext.getDocument().bddDocumentListener(xtext);
+            xtext.setCbretPosition(0);
         }
     }
 
     /**
      * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public void setCaretPosition(int position) {
-        if (xtext != null) xtext.setCaretPosition(position);
+    public void setCbretPosition(int position) {
+        if (xtext != null) xtext.setCbretPosition(position);
     }
 
-    void repaintText() {
-        xtext.repaintNow();
+    void repbintText() {
+        xtext.repbintNow();
     }
 
     @Override
-    public void setBackground(Color c) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("target="+ target + ", old=" + background + ", new=" + c);
+    public void setBbckground(Color c) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("tbrget="+ tbrget + ", old=" + bbckground + ", new=" + c);
         }
-        background = c;
+        bbckground = c;
         if (xtext != null) {
-            xtext.setBackground(c);
+            xtext.setBbckground(c);
             xtext.setSelectedTextColor(c);
         }
-        repaintText();
+        repbintText();
     }
 
     @Override
@@ -270,51 +270,51 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
         if (xtext != null) {
             xtext.setForeground(foreground);
             xtext.setSelectionColor(foreground);
-            xtext.setCaretColor(foreground);
+            xtext.setCbretColor(foreground);
         }
-        repaintText();
+        repbintText();
     }
 
     @Override
     public void setFont(Font f) {
-        synchronized (getStateLock()) {
+        synchronized (getStbteLock()) {
             font = f;
             if (xtext != null) {
                 xtext.setFont(font);
             }
         }
-        xtext.validate();
+        xtext.vblidbte();
     }
 
     /**
      * Deselects the the highlighted text.
      */
     public void deselect() {
-        int selStart=xtext.getSelectionStart();
+        int selStbrt=xtext.getSelectionStbrt();
         int selEnd=xtext.getSelectionEnd();
-        if (selStart != selEnd) {
-            xtext.select(selStart,selStart);
+        if (selStbrt != selEnd) {
+            xtext.select(selStbrt,selStbrt);
         }
     }
 
     /**
      * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public int getCaretPosition() {
-        return xtext.getCaretPosition();
+    public int getCbretPosition() {
+        return xtext.getCbretPosition();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public void select(int s, int e) {
         xtext.select(s,e);
         // Fixed 5100806
-        // We must take care that Swing components repainted correctly
-        xtext.repaint();
+        // We must tbke cbre thbt Swing components repbinted correctly
+        xtext.repbint();
     }
 
     @Override
@@ -332,25 +332,25 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
         return getMinimumSize(cols);
     }
 
-    private static final int PADDING = 16;
+    privbte stbtic finbl int PADDING = 16;
 
     @Override
     public Dimension getMinimumSize(int cols) {
         Font f = xtext.getFont();
         FontMetrics fm = xtext.getFontMetrics(f);
-        return new Dimension(fm.charWidth('0') * cols + 10,
-                             fm.getMaxDescent() + fm.getMaxAscent() + PADDING);
+        return new Dimension(fm.chbrWidth('0') * cols + 10,
+                             fm.getMbxDescent() + fm.getMbxAscent() + PADDING);
     }
 
     @Override
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: This method is cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void action(final long when, final int modifiers) {
-        postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
+    public void bction(finbl long when, finbl int modifiers) {
+        postEvent(new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
                                   text, when,
                                   modifiers));
     }
@@ -359,16 +359,16 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     }
 
     @Override
-    public void repaint() {
-        if (xtext  != null) xtext.repaint();
+    public void repbint() {
+        if (xtext  != null) xtext.repbint();
     }
     @Override
-    void paintPeer(final Graphics g) {
-        if (xtext  != null) xtext.paint(g);
+    void pbintPeer(finbl Grbphics g) {
+        if (xtext  != null) xtext.pbint(g);
     }
 
     @Override
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
         if (xtext != null) {
             xtext.print(g);
         }
@@ -377,24 +377,24 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     @Override
     public void focusLost(FocusEvent e) {
         super.focusLost(e);
-        xtext.forwardFocusLost(e);
+        xtext.forwbrdFocusLost(e);
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        xtext.forwardFocusGained(e);
+    public void focusGbined(FocusEvent e) {
+        super.focusGbined(e);
+        xtext.forwbrdFocusGbined(e);
     }
 
     @Override
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         AWTAccessor.getComponentAccessor().processEvent(xtext,e);
     }
 
 
     @Override
-    public void handleJavaMouseEvent( MouseEvent mouseEvent ) {
-        super.handleJavaMouseEvent(mouseEvent);
+    public void hbndleJbvbMouseEvent( MouseEvent mouseEvent ) {
+        super.hbndleJbvbMouseEvent(mouseEvent);
         if (xtext != null)  {
             mouseEvent.setSource(xtext);
             int id = mouseEvent.getID();
@@ -414,7 +414,7 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
     }
 
     @Override
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
         super.setVisible(b);
         if (xtext != null) xtext.setVisible(b);
     }
@@ -425,174 +425,174 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
         if (xtext != null) {
             /*
              * Fixed 6277332, 6198290:
-             * the coordinates is coming (to peer): relatively to closest HW parent
-             * the coordinates is setting (to textField): relatively to closest ANY parent
-             * the parent of peer is target.getParent()
-             * the parent of textField is the same
-             * see 6277332, 6198290 for more information
+             * the coordinbtes is coming (to peer): relbtively to closest HW pbrent
+             * the coordinbtes is setting (to textField): relbtively to closest ANY pbrent
+             * the pbrent of peer is tbrget.getPbrent()
+             * the pbrent of textField is the sbme
+             * see 6277332, 6198290 for more informbtion
              */
             int childX = x;
             int childY = y;
-            Component parent = target.getParent();
-            // we up to heavyweight parent in order to be sure
-            // that the coordinates of the text pane is relatively to closest parent
-            while (parent.isLightweight()){
-                childX -= parent.getX();
-                childY -= parent.getY();
-                parent = parent.getParent();
+            Component pbrent = tbrget.getPbrent();
+            // we up to hebvyweight pbrent in order to be sure
+            // thbt the coordinbtes of the text pbne is relbtively to closest pbrent
+            while (pbrent.isLightweight()){
+                childX -= pbrent.getX();
+                childY -= pbrent.getY();
+                pbrent = pbrent.getPbrent();
             }
             xtext.setBounds(childX,childY,width,height);
-            xtext.validate();
+            xtext.vblidbte();
         }
     }
 
-    final class AWTTextFieldUI extends MotifPasswordFieldUI {
+    finbl clbss AWTTextFieldUI extends MotifPbsswordFieldUI {
 
-        private JTextField jtf;
+        privbte JTextField jtf;
 
         @Override
         protected String getPropertyPrefix() {
             JTextComponent comp = getComponent();
-            if (comp instanceof JPasswordField && ((JPasswordField)comp).echoCharIsSet()) {
-                return "PasswordField";
+            if (comp instbnceof JPbsswordField && ((JPbsswordField)comp).echoChbrIsSet()) {
+                return "PbsswordField";
             } else {
                 return "TextField";
             }
         }
 
         @Override
-        public void installUI(JComponent c) {
-            super.installUI(c);
+        public void instbllUI(JComponent c) {
+            super.instbllUI(c);
 
             jtf = (JTextField) c;
 
             JTextField editor = jtf;
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
 
             String prefix = getPropertyPrefix();
             Font f = editor.getFont();
-            if ((f == null) || (f instanceof UIResource)) {
-                editor.setFont(uidefaults.getFont(prefix + ".font"));
+            if ((f == null) || (f instbnceof UIResource)) {
+                editor.setFont(uidefbults.getFont(prefix + ".font"));
             }
 
-            Color bg = editor.getBackground();
-            if ((bg == null) || (bg instanceof UIResource)) {
-                editor.setBackground(uidefaults.getColor(prefix + ".background"));
+            Color bg = editor.getBbckground();
+            if ((bg == null) || (bg instbnceof UIResource)) {
+                editor.setBbckground(uidefbults.getColor(prefix + ".bbckground"));
             }
 
             Color fg = editor.getForeground();
-            if ((fg == null) || (fg instanceof UIResource)) {
-                editor.setForeground(uidefaults.getColor(prefix + ".foreground"));
+            if ((fg == null) || (fg instbnceof UIResource)) {
+                editor.setForeground(uidefbults.getColor(prefix + ".foreground"));
             }
 
-            Color color = editor.getCaretColor();
-            if ((color == null) || (color instanceof UIResource)) {
-                editor.setCaretColor(uidefaults.getColor(prefix + ".caretForeground"));
+            Color color = editor.getCbretColor();
+            if ((color == null) || (color instbnceof UIResource)) {
+                editor.setCbretColor(uidefbults.getColor(prefix + ".cbretForeground"));
             }
 
             Color s = editor.getSelectionColor();
-            if ((s == null) || (s instanceof UIResource)) {
-                editor.setSelectionColor(uidefaults.getColor(prefix + ".selectionBackground"));
+            if ((s == null) || (s instbnceof UIResource)) {
+                editor.setSelectionColor(uidefbults.getColor(prefix + ".selectionBbckground"));
             }
 
             Color sfg = editor.getSelectedTextColor();
-            if ((sfg == null) || (sfg instanceof UIResource)) {
-                editor.setSelectedTextColor(uidefaults.getColor(prefix + ".selectionForeground"));
+            if ((sfg == null) || (sfg instbnceof UIResource)) {
+                editor.setSelectedTextColor(uidefbults.getColor(prefix + ".selectionForeground"));
             }
 
-            Color dfg = editor.getDisabledTextColor();
-            if ((dfg == null) || (dfg instanceof UIResource)) {
-                editor.setDisabledTextColor(uidefaults.getColor(prefix + ".inactiveForeground"));
+            Color dfg = editor.getDisbbledTextColor();
+            if ((dfg == null) || (dfg instbnceof UIResource)) {
+                editor.setDisbbledTextColor(uidefbults.getColor(prefix + ".inbctiveForeground"));
             }
 
             Border b = editor.getBorder();
-            if ((b == null) || (b instanceof UIResource)) {
-                editor.setBorder(uidefaults.getBorder(prefix + ".border"));
+            if ((b == null) || (b instbnceof UIResource)) {
+                editor.setBorder(uidefbults.getBorder(prefix + ".border"));
             }
 
-            Insets margin = editor.getMargin();
-            if (margin == null || margin instanceof UIResource) {
-                editor.setMargin(uidefaults.getInsets(prefix + ".margin"));
+            Insets mbrgin = editor.getMbrgin();
+            if (mbrgin == null || mbrgin instbnceof UIResource) {
+                editor.setMbrgin(uidefbults.getInsets(prefix + ".mbrgin"));
             }
         }
 
         @Override
-        protected void installKeyboardActions() {
-            super.installKeyboardActions();
+        protected void instbllKeybobrdActions() {
+            super.instbllKeybobrdActions();
 
             JTextComponent comp = getComponent();
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
 
             String prefix = getPropertyPrefix();
 
-            InputMap map = (InputMap)uidefaults.get(prefix + ".focusInputMap");
+            InputMbp mbp = (InputMbp)uidefbults.get(prefix + ".focusInputMbp");
 
-            if (map != null) {
-                SwingUtilities.replaceUIInputMap(comp, JComponent.WHEN_FOCUSED,
-                                                 map);
+            if (mbp != null) {
+                SwingUtilities.replbceUIInputMbp(comp, JComponent.WHEN_FOCUSED,
+                                                 mbp);
             }
         }
 
         @Override
-        protected Caret createCaret() {
-            return new XTextAreaPeer.XAWTCaret();
+        protected Cbret crebteCbret() {
+            return new XTextArebPeer.XAWTCbret();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class XAWTTextField extends JPasswordField
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    finbl clbss XAWTTextField extends JPbsswordField
             implements ActionListener, DocumentListener {
 
-        private boolean isFocused = false;
-        private final XComponentPeer peer;
+        privbte boolebn isFocused = fblse;
+        privbte finbl XComponentPeer peer;
 
-        XAWTTextField(String text, XComponentPeer peer, Container parent) {
+        XAWTTextField(String text, XComponentPeer peer, Contbiner pbrent) {
             super(text);
             this.peer = peer;
             setDoubleBuffered(true);
-            setFocusable(false);
-            AWTAccessor.getComponentAccessor().setParent(this,parent);
-            setBackground(peer.getPeerBackground());
+            setFocusbble(fblse);
+            AWTAccessor.getComponentAccessor().setPbrent(this,pbrent);
+            setBbckground(peer.getPeerBbckground());
             setForeground(peer.getPeerForeground());
             setFont(peer.getPeerFont());
-            setCaretPosition(0);
-            addActionListener(this);
-            addNotify();
+            setCbretPosition(0);
+            bddActionListener(this);
+            bddNotify();
 
         }
 
         @Override
-        public void actionPerformed( ActionEvent actionEvent ) {
-            peer.postEvent(new ActionEvent(peer.target,
+        public void bctionPerformed( ActionEvent bctionEvent ) {
+            peer.postEvent(new ActionEvent(peer.tbrget,
                                            ActionEvent.ACTION_PERFORMED,
                                            getText(),
-                                           actionEvent.getWhen(),
-                                           actionEvent.getModifiers()));
+                                           bctionEvent.getWhen(),
+                                           bctionEvent.getModifiers()));
 
         }
 
         @Override
-        public void insertUpdate(DocumentEvent e) {
+        public void insertUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
 
         @Override
-        public void removeUpdate(DocumentEvent e) {
+        public void removeUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
 
         @Override
-        public void changedUpdate(DocumentEvent e) {
+        public void chbngedUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
@@ -602,36 +602,36 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
             return (ComponentPeer) peer;
         }
 
-        public void repaintNow() {
-            paintImmediately(getBounds());
+        public void repbintNow() {
+            pbintImmedibtely(getBounds());
         }
 
         @Override
-        public Graphics getGraphics() {
-            return peer.getGraphics();
+        public Grbphics getGrbphics() {
+            return peer.getGrbphics();
         }
 
         @Override
-        public void updateUI() {
+        public void updbteUI() {
             ComponentUI ui = new AWTTextFieldUI();
             setUI(ui);
         }
 
-        void forwardFocusGained( FocusEvent e) {
+        void forwbrdFocusGbined( FocusEvent e) {
             isFocused = true;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
+            FocusEvent fe = CbusedFocusEvent.retbrget(e, this);
             super.processFocusEvent(fe);
         }
 
-        void forwardFocusLost( FocusEvent e) {
-            isFocused = false;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
+        void forwbrdFocusLost( FocusEvent e) {
+            isFocused = fblse;
+            FocusEvent fe = CbusedFocusEvent.retbrget(e, this);
             super.processFocusEvent(fe);
 
         }
 
         @Override
-        public boolean hasFocus() {
+        public boolebn hbsFocus() {
             return isFocused;
         }
 
@@ -647,24 +647,24 @@ final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
             processMouseMotionEvent(e);
         }
 
-        // Fix for 4915454 - override the default implementation to avoid
-        // loading SystemFlavorMap and associated classes.
+        // Fix for 4915454 - override the defbult implementbtion to bvoid
+        // lobding SystemFlbvorMbp bnd bssocibted clbsses.
         @Override
-        public void setTransferHandler(TransferHandler newHandler) {
-            TransferHandler oldHandler = (TransferHandler)
+        public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+            TrbnsferHbndler oldHbndler = (TrbnsferHbndler)
                 getClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
                                       .getJComponent_TRANSFER_HANDLER());
             putClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
                                   .getJComponent_TRANSFER_HANDLER(),
-                              newHandler);
+                              newHbndler);
 
-            firePropertyChange("transferHandler", oldHandler, newHandler);
+            firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
         }
 
         @Override
-        public void setEchoChar(char c) {
-            super.setEchoChar(c);
-            ((AWTTextFieldUI)ui).installKeyboardActions();
+        public void setEchoChbr(chbr c) {
+            super.setEchoChbr(c);
+            ((AWTTextFieldUI)ui).instbllKeybobrdActions();
         }
     }
 }

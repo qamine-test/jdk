@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,73 +30,73 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package j2dbench.tests.text;
+pbckbge j2dbench.tests.text;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.text.Bidi;
-import java.util.ArrayList;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.GlyphMetrics;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextHitInfo;
+import jbvb.bwt.font.TextLbyout;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.text.Bidi;
+import jbvb.util.ArrbyList;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 
-public abstract class TextMeasureTests extends TextTests {
-    static Group measureroot;
-    static Group measuretestroot;
+public bbstrbct clbss TextMebsureTests extends TextTests {
+    stbtic Group mebsureroot;
+    stbtic Group mebsuretestroot;
 
-    public static void init() {
-        measureroot = new Group(textroot, "Measuring", "Measuring Benchmarks");
-        measuretestroot = new Group(measureroot, "tests", "Measuring Tests");
+    public stbtic void init() {
+        mebsureroot = new Group(textroot, "Mebsuring", "Mebsuring Benchmbrks");
+        mebsuretestroot = new Group(mebsureroot, "tests", "Mebsuring Tests");
 
         new StringWidth();
         new StringBounds();
-        new CharsWidth();
-        new CharsBounds();
-        new FontCanDisplay();
+        new ChbrsWidth();
+        new ChbrsBounds();
+        new FontCbnDisplby();
 
-        if (hasGraphics2D) {
+        if (hbsGrbphics2D) {
             new GVWidth();
-            new GVLogicalBounds();
-            new GVVisualBounds();
+            new GVLogicblBounds();
+            new GVVisublBounds();
             new GVPixelBounds();
             new GVOutline();
-            new GVGlyphLogicalBounds();
-            new GVGlyphVisualBounds();
+            new GVGlyphLogicblBounds();
+            new GVGlyphVisublBounds();
             new GVGlyphPixelBounds();
             new GVGlyphOutline();
-            new GVGlyphTransform();
+            new GVGlyphTrbnsform();
             new GVGlyphMetrics();
 
-            new TLAdvance();
+            new TLAdvbnce();
             new TLAscent();
             new TLBounds();
-            new TLGetCaretInfo();
+            new TLGetCbretInfo();
             new TLGetNextHit();
-            new TLGetCaretShape();
-            new TLGetLogicalHighlightShape();
+            new TLGetCbretShbpe();
+            new TLGetLogicblHighlightShbpe();
             new TLHitTest();
             new TLOutline();
 
@@ -107,26 +107,26 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public TextMeasureTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public TextMebsureTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    static class SWContext extends TextContext {
+    stbtic clbss SWContext extends TextContext {
         FontMetrics fm;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
-            fm = graphics.getFontMetrics(font);
+            fm = grbphics.getFontMetrics(font);
         }
     }
 
-    public Context createContext() {
+    public Context crebteContext() {
         return new SWContext();
     }
 
-    public static class StringWidth extends TextMeasureTests {
+    public stbtic clbss StringWidth extends TextMebsureTests {
         public StringWidth() {
-            super(measuretestroot, "stringWidth", "Measuring String Width");
+            super(mebsuretestroot, "stringWidth", "Mebsuring String Width");
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -140,9 +140,9 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public static class StringBounds extends TextMeasureTests {
+    public stbtic clbss StringBounds extends TextMebsureTests {
         public StringBounds() {
-            super(measuretestroot, "stringBounds", "Measuring String Bounds");
+            super(mebsuretestroot, "stringBounds", "Mebsuring String Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -150,101 +150,101 @@ public abstract class TextMeasureTests extends TextTests {
             String text = swctx.text;
             FontMetrics fm = swctx.fm;
             int wid = 0;
-            Rectangle r = null;
+            Rectbngle r = null;
             do {
                 r = null;
                 int dx = fm.stringWidth(text);
-                int dy = fm.getAscent() + fm.getDescent() + fm.getLeading();
+                int dy = fm.getAscent() + fm.getDescent() + fm.getLebding();
                 int x = 0;
                 int y = -fm.getAscent();
-                r = new Rectangle(x, y, dx, dy);
+                r = new Rectbngle(x, y, dx, dy);
             } while (--numReps >= 0);
         }
     }
 
-    public static class CharsWidth extends TextMeasureTests {
-        public CharsWidth() {
-            super(measuretestroot, "charsWidth", "Measuring Chars Width");
+    public stbtic clbss ChbrsWidth extends TextMebsureTests {
+        public ChbrsWidth() {
+            super(mebsuretestroot, "chbrsWidth", "Mebsuring Chbrs Width");
         }
 
         public void runTest(Object ctx, int numReps) {
             SWContext swctx = (SWContext)ctx;
             FontMetrics fm = swctx.fm;
-            char[] chars = swctx.chars;
+            chbr[] chbrs = swctx.chbrs;
             int wid = 0;
             do {
-                wid += fm.charsWidth(chars, 0, chars.length);
+                wid += fm.chbrsWidth(chbrs, 0, chbrs.length);
             } while (--numReps >= 0);
         }
     }
 
-    public static class CharsBounds extends TextMeasureTests {
-        public CharsBounds() {
-            super(measuretestroot, "charsBounds", "Measuring Chars Bounds");
+    public stbtic clbss ChbrsBounds extends TextMebsureTests {
+        public ChbrsBounds() {
+            super(mebsuretestroot, "chbrsBounds", "Mebsuring Chbrs Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             SWContext swctx = (SWContext)ctx;
             FontMetrics fm = swctx.fm;
-            char[] chars = swctx.chars;
+            chbr[] chbrs = swctx.chbrs;
             int wid = 0;
-            Rectangle r = null;
+            Rectbngle r = null;
             do {
                 r = null;
-                int dx = fm.charsWidth(chars, 0, chars.length);
-                int dy = fm.getAscent() + fm.getDescent() + fm.getLeading();
+                int dx = fm.chbrsWidth(chbrs, 0, chbrs.length);
+                int dy = fm.getAscent() + fm.getDescent() + fm.getLebding();
                 int x = 0;
                 int y = -fm.getAscent();
-                r = new Rectangle(x, y, dx, dy);
+                r = new Rectbngle(x, y, dx, dy);
             } while (--numReps >= 0);
         }
     }
 
-    public static class FontCanDisplay extends TextMeasureTests {
-        public FontCanDisplay() {
-            super(measuretestroot, "fontcandisplay", "Font canDisplay(char)");
+    public stbtic clbss FontCbnDisplby extends TextMebsureTests {
+        public FontCbnDisplby() {
+            super(mebsuretestroot, "fontcbndisplby", "Font cbnDisplby(chbr)");
         }
 
         public void runTest(Object ctx, int numReps) {
             Font font = ((TextContext)ctx).font;
-            boolean b = false;
+            boolebn b = fblse;
             do {
                 for (int i = 0; i < 0x10000; i += 0x64) {
-                    b ^= font.canDisplay((char)i);
+                    b ^= font.cbnDisplby((chbr)i);
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVContext extends G2DContext {
+    public stbtic clbss GVContext extends G2DContext {
         GlyphVector gv;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
-            int flags = Font.LAYOUT_LEFT_TO_RIGHT;
-            if (Bidi.requiresBidi(chars, 0, chars.length)) { // assume rtl
-                flags = Font.LAYOUT_RIGHT_TO_LEFT;
+            int flbgs = Font.LAYOUT_LEFT_TO_RIGHT;
+            if (Bidi.requiresBidi(chbrs, 0, chbrs.length)) { // bssume rtl
+                flbgs = Font.LAYOUT_RIGHT_TO_LEFT;
             }
-            gv = font.layoutGlyphVector(frc, chars, 0, chars.length, flags);
+            gv = font.lbyoutGlyphVector(frc, chbrs, 0, chbrs.length, flbgs);
 
             // gv options
         }
     }
 
-    public static abstract class GVMeasureTest extends TextMeasureTests {
-        protected GVMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    public stbtic bbstrbct clbss GVMebsureTest extends TextMebsureTests {
+        protected GVMebsureTest(Group pbrent, String nodeNbme, String description) {
+            super(pbrent, nodeNbme, description);
         }
 
-        public Context createContext() {
+        public Context crebteContext() {
             return new GVContext();
         }
     }
 
-    public static class GVWidth extends GVMeasureTest {
+    public stbtic clbss GVWidth extends GVMebsureTest {
         public GVWidth() {
-            super(measuretestroot, "gvWidth", "Measuring GV Width");
+            super(mebsuretestroot, "gvWidth", "Mebsuring GV Width");
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -257,127 +257,127 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public static class GVLogicalBounds extends GVMeasureTest {
-        public GVLogicalBounds() {
-            super(measuretestroot, "gvLogicalBounds", "Measuring GV Logical Bounds");
+    public stbtic clbss GVLogicblBounds extends GVMebsureTest {
+        public GVLogicblBounds() {
+            super(mebsuretestroot, "gvLogicblBounds", "Mebsuring GV Logicbl Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+            Rectbngle2D r;
             do {
-                r = gv.getLogicalBounds();
+                r = gv.getLogicblBounds();
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVVisualBounds extends GVMeasureTest {
-        public GVVisualBounds() {
-            super(measuretestroot, "gvVisualBounds", "Measuring GV Visual Bounds");
+    public stbtic clbss GVVisublBounds extends GVMebsureTest {
+        public GVVisublBounds() {
+            super(mebsuretestroot, "gvVisublBounds", "Mebsuring GV Visubl Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+            Rectbngle2D r;
             do {
-                r = gv.getVisualBounds();
+                r = gv.getVisublBounds();
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVPixelBounds extends GVMeasureTest {
+    public stbtic clbss GVPixelBounds extends GVMebsureTest {
         public GVPixelBounds() {
-            super(measuretestroot, "gvPixelBounds", "Measuring GV Pixel Bounds");
+            super(mebsuretestroot, "gvPixelBounds", "Mebsuring GV Pixel Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+            Rectbngle2D r;
             do {
-                r = gv.getPixelBounds(null, 0, 0); // !!! add opt to provide different frc?
+                r = gv.getPixelBounds(null, 0, 0); // !!! bdd opt to provide different frc?
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVOutline extends GVMeasureTest {
+    public stbtic clbss GVOutline extends GVMebsureTest {
         public GVOutline() {
-            super(measuretestroot, "gvOutline", "Getting GV Outline");
+            super(mebsuretestroot, "gvOutline", "Getting GV Outline");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Shape s;
+            Shbpe s;
             do {
                 s = gv.getOutline();
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVGlyphLogicalBounds extends GVMeasureTest {
-        public GVGlyphLogicalBounds() {
-            super(measuretestroot, "gvGlyphLogicalBounds", "Measuring GV Glyph Logical Bounds");
+    public stbtic clbss GVGlyphLogicblBounds extends GVMebsureTest {
+        public GVGlyphLogicblBounds() {
+            super(mebsuretestroot, "gvGlyphLogicblBounds", "Mebsuring GV Glyph Logicbl Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Shape s;
+            Shbpe s;
             do {
                 for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    s = gv.getGlyphLogicalBounds(i);
+                    s = gv.getGlyphLogicblBounds(i);
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVGlyphVisualBounds extends GVMeasureTest {
-        public GVGlyphVisualBounds() {
-            super(measuretestroot, "gvGlyphVisualBounds", "Measuring GV Glyph Visual Bounds");
+    public stbtic clbss GVGlyphVisublBounds extends GVMebsureTest {
+        public GVGlyphVisublBounds() {
+            super(mebsuretestroot, "gvGlyphVisublBounds", "Mebsuring GV Glyph Visubl Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Shape s;
+            Shbpe s;
             do {
                 for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    s = gv.getGlyphVisualBounds(i);
+                    s = gv.getGlyphVisublBounds(i);
                 }
             } while (--numReps >= 0);
         }
     }
 
 
-    public static class GVGlyphPixelBounds extends GVMeasureTest {
+    public stbtic clbss GVGlyphPixelBounds extends GVMebsureTest {
         public GVGlyphPixelBounds() {
-            super(measuretestroot, "gvGlyphPixelBounds", "Measuring GV Glyph Pixel Bounds");
+            super(mebsuretestroot, "gvGlyphPixelBounds", "Mebsuring GV Glyph Pixel Bounds");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+            Rectbngle2D r;
             do {
                 for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    r = gv.getGlyphPixelBounds(i, null, 0, 0); // !!! add opt to provide different frc?
+                    r = gv.getGlyphPixelBounds(i, null, 0, 0); // !!! bdd opt to provide different frc?
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVGlyphOutline extends GVMeasureTest {
+    public stbtic clbss GVGlyphOutline extends GVMebsureTest {
         public GVGlyphOutline() {
-            super(measuretestroot, "gvGlyphOutline", "Getting GV Glyph Outline");
+            super(mebsuretestroot, "gvGlyphOutline", "Getting GV Glyph Outline");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            Shape s;
+            Shbpe s;
             do {
                 for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
                     s = gv.getGlyphOutline(i);
@@ -386,26 +386,26 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public static class GVGlyphTransform extends GVMeasureTest {
-        public GVGlyphTransform() {
-            super(measuretestroot, "gvGlyphTransform", "Getting GV Glyph Transform");
+    public stbtic clbss GVGlyphTrbnsform extends GVMebsureTest {
+        public GVGlyphTrbnsform() {
+            super(mebsuretestroot, "gvGlyphTrbnsform", "Getting GV Glyph Trbnsform");
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
             GlyphVector gv = gvctx.gv;
-            AffineTransform tx;
+            AffineTrbnsform tx;
             do {
                 for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    tx = gv.getGlyphTransform(i);
+                    tx = gv.getGlyphTrbnsform(i);
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVGlyphMetrics extends GVMeasureTest {
+    public stbtic clbss GVGlyphMetrics extends GVMebsureTest {
         public GVGlyphMetrics() {
-            super(measuretestroot, "gvGlyphMetrics", "Getting GV Glyph Metrics");
+            super(mebsuretestroot, "gvGlyphMetrics", "Getting GV Glyph Metrics");
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -420,127 +420,127 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public static class TLContext extends G2DContext {
-        TextLayout tl;
+    public stbtic clbss TLContext extends G2DContext {
+        TextLbyout tl;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
             // need more tl options here
-            tl = new TextLayout(text, font, frc);
+            tl = new TextLbyout(text, font, frc);
         }
     }
 
-    public static abstract class TLMeasureTest extends TextMeasureTests {
-        protected TLMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    public stbtic bbstrbct clbss TLMebsureTest extends TextMebsureTests {
+        protected TLMebsureTest(Group pbrent, String nodeNbme, String description) {
+            super(pbrent, nodeNbme, description);
         }
 
-        public Context createContext() {
+        public Context crebteContext() {
             return new TLContext();
         }
     }
 
-    public static class TLAdvance extends TLMeasureTest {
-        public TLAdvance() {
-            super(measuretestroot, "tlAdvance", "Measuring TL advance");
+    public stbtic clbss TLAdvbnce extends TLMebsureTest {
+        public TLAdvbnce() {
+            super(mebsuretestroot, "tlAdvbnce", "Mebsuring TL bdvbnce");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             double wid = 0;
             do {
-                wid += tl.getAdvance();
+                wid += tl.getAdvbnce();
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLAscent extends TLMeasureTest {
+    public stbtic clbss TLAscent extends TLMebsureTest {
         public TLAscent() {
-            super(measuretestroot, "tlAscent", "Measuring TL ascent");
+            super(mebsuretestroot, "tlAscent", "Mebsuring TL bscent");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            float ht = 0;
+            TextLbyout tl = tlctx.tl;
+            flobt ht = 0;
             do {
                 ht += tl.getAscent();
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLBounds extends TLMeasureTest {
+    public stbtic clbss TLBounds extends TLMebsureTest {
         public TLBounds() {
-            super(measuretestroot, "tlBounds", "Measuring TL advance");
+            super(mebsuretestroot, "tlBounds", "Mebsuring TL bdvbnce");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            Rectangle2D r;
+            TextLbyout tl = tlctx.tl;
+            Rectbngle2D r;
             do {
                 r = tl.getBounds();
             } while (--numReps >= 0);
         }
     }
 
-    static class TLExContext extends TLContext {
+    stbtic clbss TLExContext extends TLContext {
         TextHitInfo[] hits;
-        Rectangle2D lb;
+        Rectbngle2D lb;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
-            ArrayList list = new ArrayList(text.length() * 2 + 2);
-            TextHitInfo hit = TextHitInfo.trailing(-1);
+            ArrbyList list = new ArrbyList(text.length() * 2 + 2);
+            TextHitInfo hit = TextHitInfo.trbiling(-1);
             do {
-                list.add(hit);
+                list.bdd(hit);
                 hit = tl.getNextRightHit(hit);
             } while (hit != null);
-            hits = (TextHitInfo[])list.toArray(new TextHitInfo[list.size()]);
+            hits = (TextHitInfo[])list.toArrby(new TextHitInfo[list.size()]);
 
             lb = tl.getBounds();
             lb.setRect(lb.getMinX() - 10, lb.getMinY(), lb.getWidth() + 20, lb.getHeight());
         }
     }
 
-    public static abstract class TLExtendedMeasureTest extends TLMeasureTest {
-        protected TLExtendedMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    public stbtic bbstrbct clbss TLExtendedMebsureTest extends TLMebsureTest {
+        protected TLExtendedMebsureTest(Group pbrent, String nodeNbme, String description) {
+            super(pbrent, nodeNbme, description);
         }
 
-        public Context createContext() {
+        public Context crebteContext() {
             return new TLExContext();
         }
     }
 
-    public static class TLGetCaretInfo extends TLExtendedMeasureTest {
-        public TLGetCaretInfo() {
-            super(measuretestroot, "tlGetCaretInfo", "Measuring TL caret info");
+    public stbtic clbss TLGetCbretInfo extends TLExtendedMebsureTest {
+        public TLGetCbretInfo() {
+            super(mebsuretestroot, "tlGetCbretInfo", "Mebsuring TL cbret info");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             TextHitInfo[] hits = tlctx.hits;
             do {
                 for (int i = 0; i < hits.length; ++i) {
-                    tl.getCaretInfo(hits[i]);
+                    tl.getCbretInfo(hits[i]);
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLGetNextHit extends TLExtendedMeasureTest {
+    public stbtic clbss TLGetNextHit extends TLExtendedMebsureTest {
         public TLGetNextHit() {
-            super(measuretestroot, "tlGetNextHit", "Measuring TL getNextRight/LeftHit");
+            super(mebsuretestroot, "tlGetNextHit", "Mebsuring TL getNextRight/LeftHit");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             TextHitInfo[] hits = tlctx.hits;
             TextHitInfo hit;
             do {
@@ -551,102 +551,102 @@ public abstract class TextMeasureTests extends TextTests {
         }
     }
 
-    public static class TLGetCaretShape extends TLExtendedMeasureTest {
-        public TLGetCaretShape() {
-            super(measuretestroot, "tlGetCaretShape", "Measuring TL getCaretShape");
+    public stbtic clbss TLGetCbretShbpe extends TLExtendedMebsureTest {
+        public TLGetCbretShbpe() {
+            super(mebsuretestroot, "tlGetCbretShbpe", "Mebsuring TL getCbretShbpe");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             TextHitInfo[] hits = tlctx.hits;
-            Shape s;
+            Shbpe s;
             do {
                 for (int i = 0; i < hits.length; ++i) {
-                    s = tl.getCaretShape(hits[i]);
+                    s = tl.getCbretShbpe(hits[i]);
                 }
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLGetLogicalHighlightShape extends TLExtendedMeasureTest {
-        public TLGetLogicalHighlightShape() {
-            super(measuretestroot, "tlGetLogicalHighlightShape", "Measuring TL getLogicalHighlightShape");
+    public stbtic clbss TLGetLogicblHighlightShbpe extends TLExtendedMebsureTest {
+        public TLGetLogicblHighlightShbpe() {
+            super(mebsuretestroot, "tlGetLogicblHighlightShbpe", "Mebsuring TL getLogicblHighlightShbpe");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             int len = tlctx.text.length();
-            Rectangle2D lb = tlctx.lb;
-            Shape s;
+            Rectbngle2D lb = tlctx.lb;
+            Shbpe s;
             if (len < 3) {
                 do {
-                    s = tl.getLogicalHighlightShape(0, len, lb);
+                    s = tl.getLogicblHighlightShbpe(0, len, lb);
                 } while (--numReps >= 0);
             } else {
                 do {
                     for (int i = 3; i < len; ++i) {
-                        s = tl.getLogicalHighlightShape(i-3, i, lb);
+                        s = tl.getLogicblHighlightShbpe(i-3, i, lb);
                     }
                 } while (--numReps >= 0);
             }
         }
     }
 
-    public static class TLGetVisualHighlightShape extends TLExtendedMeasureTest {
-        public TLGetVisualHighlightShape() {
-            super(measuretestroot, "tlGetVisualHighlightShape", "Measuring TL getVisualHighlightShape");
+    public stbtic clbss TLGetVisublHighlightShbpe extends TLExtendedMebsureTest {
+        public TLGetVisublHighlightShbpe() {
+            super(mebsuretestroot, "tlGetVisublHighlightShbpe", "Mebsuring TL getVisublHighlightShbpe");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             TextHitInfo[] hits = tlctx.hits;
-            Rectangle2D lb = tlctx.lb;
-            Shape s;
+            Rectbngle2D lb = tlctx.lb;
+            Shbpe s;
             if (hits.length < 3) {
                 do {
-                    s = tl.getVisualHighlightShape(hits[0], hits[hits.length - 1], lb);
+                    s = tl.getVisublHighlightShbpe(hits[0], hits[hits.length - 1], lb);
                 } while (--numReps >= 0);
             } else {
                 do {
                     for (int i = 3; i < hits.length; ++i) {
-                        s = tl.getVisualHighlightShape(hits[i-3], hits[i], lb);
+                        s = tl.getVisublHighlightShbpe(hits[i-3], hits[i], lb);
                     }
                 } while (--numReps >= 0);
             }
         }
     }
 
-    public static class TLHitTest extends TLExtendedMeasureTest {
+    public stbtic clbss TLHitTest extends TLExtendedMebsureTest {
         public TLHitTest() {
-            super(measuretestroot, "tlHitTest", "Measuring TL hitTest");
+            super(mebsuretestroot, "tlHitTest", "Mebsuring TL hitTest");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
+            TextLbyout tl = tlctx.tl;
             int numhits = tlctx.hits.length;
-            Rectangle2D lb = tlctx.lb;
+            Rectbngle2D lb = tlctx.lb;
             TextHitInfo hit;
             for (int i = 0; i <= numhits; ++i) {
-                float x = (float)(lb.getMinX() + lb.getWidth() * i / numhits);
-                float y = (float)(lb.getMinY() + lb.getHeight() * i / numhits);
-                hit = tl.hitTestChar(x, y, lb);
+                flobt x = (flobt)(lb.getMinX() + lb.getWidth() * i / numhits);
+                flobt y = (flobt)(lb.getMinY() + lb.getHeight() * i / numhits);
+                hit = tl.hitTestChbr(x, y, lb);
             }
         }
     }
 
-    public static class TLOutline extends TLMeasureTest {
+    public stbtic clbss TLOutline extends TLMebsureTest {
         public TLOutline() {
-            super(measuretestroot, "tlOutline", "Measuring TL outline");
+            super(mebsuretestroot, "tlOutline", "Mebsuring TL outline");
         }
 
         public void runTest(Object ctx, int numReps) {
             TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            Shape s;
+            TextLbyout tl = tlctx.tl;
+            Shbpe s;
             do {
                 s = tl.getOutline(null);
             } while (--numReps >= 0);

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Spliterator;
+import jbvb.util.EnumMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Spliterbtor;
 
 /**
- * Flags corresponding to characteristics of streams and operations. Flags are
- * utilized by the stream framework to control, specialize or optimize
- * computation.
+ * Flbgs corresponding to chbrbcteristics of strebms bnd operbtions. Flbgs bre
+ * utilized by the strebm frbmework to control, speciblize or optimize
+ * computbtion.
  *
  * <p>
- * Stream flags may be used to describe characteristics of several different
- * entities associated with streams: stream sources, intermediate operations,
- * and terminal operations.  Not all stream flags are meaningful for all
- * entities; the following table summarizes which flags are meaningful in what
+ * Strebm flbgs mby be used to describe chbrbcteristics of severbl different
+ * entities bssocibted with strebms: strebm sources, intermedibte operbtions,
+ * bnd terminbl operbtions.  Not bll strebm flbgs bre mebningful for bll
+ * entities; the following tbble summbrizes which flbgs bre mebningful in whbt
  * contexts:
  *
  * <div>
- * <table>
- *   <caption>Type Characteristics</caption>
- *   <thead class="tableSubHeadingColor">
+ * <tbble>
+ *   <cbption>Type Chbrbcteristics</cbption>
+ *   <thebd clbss="tbbleSubHebdingColor">
  *     <tr>
- *       <th colspan="2">&nbsp;</th>
+ *       <th colspbn="2">&nbsp;</th>
  *       <th>{@code DISTINCT}</th>
  *       <th>{@code SORTED}</th>
  *       <th>{@code ORDERED}</th>
  *       <th>{@code SIZED}</th>
  *       <th>{@code SHORT_CIRCUIT}</th>
  *     </tr>
- *   </thead>
+ *   </thebd>
  *   <tbody>
  *      <tr>
- *        <th colspan="2" class="tableSubHeadingColor">Stream source</th>
+ *        <th colspbn="2" clbss="tbbleSubHebdingColor">Strebm source</th>
  *        <td>Y</td>
  *        <td>Y</td>
  *        <td>Y</td>
@@ -63,7 +63,7 @@ import java.util.Spliterator;
  *        <td>N</td>
  *      </tr>
  *      <tr>
- *        <th colspan="2" class="tableSubHeadingColor">Intermediate operation</th>
+ *        <th colspbn="2" clbss="tbbleSubHebdingColor">Intermedibte operbtion</th>
  *        <td>PCI</td>
  *        <td>PCI</td>
  *        <td>PCI</td>
@@ -71,7 +71,7 @@ import java.util.Spliterator;
  *        <td>PI</td>
  *      </tr>
  *      <tr>
- *        <th colspan="2" class="tableSubHeadingColor">Terminal operation</th>
+ *        <th colspbn="2" clbss="tbbleSubHebdingColor">Terminbl operbtion</th>
  *        <td>N</td>
  *        <td>N</td>
  *        <td>PC</td>
@@ -81,139 +81,139 @@ import java.util.Spliterator;
  *   </tbody>
  *   <tfoot>
  *       <tr>
- *         <th class="tableSubHeadingColor" colspan="2">Legend</th>
- *         <th colspan="6" rowspan="7">&nbsp;</th>
+ *         <th clbss="tbbleSubHebdingColor" colspbn="2">Legend</th>
+ *         <th colspbn="6" rowspbn="7">&nbsp;</th>
  *       </tr>
  *       <tr>
- *         <th class="tableSubHeadingColor">Flag</th>
- *         <th class="tableSubHeadingColor">Meaning</th>
- *         <th colspan="6"></th>
+ *         <th clbss="tbbleSubHebdingColor">Flbg</th>
+ *         <th clbss="tbbleSubHebdingColor">Mebning</th>
+ *         <th colspbn="6"></th>
  *       </tr>
  *       <tr><td>Y</td><td>Allowed</td></tr>
- *       <tr><td>N</td><td>Invalid</td></tr>
+ *       <tr><td>N</td><td>Invblid</td></tr>
  *       <tr><td>P</td><td>Preserves</td></tr>
- *       <tr><td>C</td><td>Clears</td></tr>
+ *       <tr><td>C</td><td>Clebrs</td></tr>
  *       <tr><td>I</td><td>Injects</td></tr>
  *   </tfoot>
- * </table>
+ * </tbble>
  * </div>
  *
- * <p>In the above table, "PCI" means "may preserve, clear, or inject"; "PC"
- * means "may preserve or clear", "PI" means "may preserve or inject", and "N"
- * means "not valid".
+ * <p>In the bbove tbble, "PCI" mebns "mby preserve, clebr, or inject"; "PC"
+ * mebns "mby preserve or clebr", "PI" mebns "mby preserve or inject", bnd "N"
+ * mebns "not vblid".
  *
- * <p>Stream flags are represented by unioned bit sets, so that a single word
- * may describe all the characteristics of a given stream entity, and that, for
- * example, the flags for a stream source can be efficiently combined with the
- * flags for later operations on that stream.
+ * <p>Strebm flbgs bre represented by unioned bit sets, so thbt b single word
+ * mby describe bll the chbrbcteristics of b given strebm entity, bnd thbt, for
+ * exbmple, the flbgs for b strebm source cbn be efficiently combined with the
+ * flbgs for lbter operbtions on thbt strebm.
  *
- * <p>The bit masks {@link #STREAM_MASK}, {@link #OP_MASK}, and
- * {@link #TERMINAL_OP_MASK} can be ANDed with a bit set of stream flags to
- * produce a mask containing only the valid flags for that entity type.
+ * <p>The bit mbsks {@link #STREAM_MASK}, {@link #OP_MASK}, bnd
+ * {@link #TERMINAL_OP_MASK} cbn be ANDed with b bit set of strebm flbgs to
+ * produce b mbsk contbining only the vblid flbgs for thbt entity type.
  *
- * <p>When describing a stream source, one only need describe what
- * characteristics that stream has; when describing a stream operation, one need
- * describe whether the operation preserves, injects, or clears that
- * characteristic.  Accordingly, two bits are used for each flag, so as to allow
- * representing not only the presence of a characteristic, but how an
- * operation modifies that characteristic.  There are two common forms in which
- * flag bits are combined into an {@code int} bit set.  <em>Stream flags</em>
- * are a unioned bit set constructed by ORing the enum characteristic values of
- * {@link #set()} (or, more commonly, ORing the corresponding static named
- * constants prefixed with {@code IS_}).  <em>Operation flags</em> are a unioned
- * bit set constructed by ORing the enum characteristic values of {@link #set()}
- * or {@link #clear()} (to inject, or clear, respectively, the corresponding
- * flag), or more commonly ORing the corresponding named constants prefixed with
- * {@code IS_} or {@code NOT_}.  Flags that are not marked with {@code IS_} or
- * {@code NOT_} are implicitly treated as preserved.  Care must be taken when
- * combining bitsets that the correct combining operations are applied in the
+ * <p>When describing b strebm source, one only need describe whbt
+ * chbrbcteristics thbt strebm hbs; when describing b strebm operbtion, one need
+ * describe whether the operbtion preserves, injects, or clebrs thbt
+ * chbrbcteristic.  Accordingly, two bits bre used for ebch flbg, so bs to bllow
+ * representing not only the presence of b chbrbcteristic, but how bn
+ * operbtion modifies thbt chbrbcteristic.  There bre two common forms in which
+ * flbg bits bre combined into bn {@code int} bit set.  <em>Strebm flbgs</em>
+ * bre b unioned bit set constructed by ORing the enum chbrbcteristic vblues of
+ * {@link #set()} (or, more commonly, ORing the corresponding stbtic nbmed
+ * constbnts prefixed with {@code IS_}).  <em>Operbtion flbgs</em> bre b unioned
+ * bit set constructed by ORing the enum chbrbcteristic vblues of {@link #set()}
+ * or {@link #clebr()} (to inject, or clebr, respectively, the corresponding
+ * flbg), or more commonly ORing the corresponding nbmed constbnts prefixed with
+ * {@code IS_} or {@code NOT_}.  Flbgs thbt bre not mbrked with {@code IS_} or
+ * {@code NOT_} bre implicitly trebted bs preserved.  Cbre must be tbken when
+ * combining bitsets thbt the correct combining operbtions bre bpplied in the
  * correct order.
  *
  * <p>
- * With the exception of {@link #SHORT_CIRCUIT}, stream characteristics can be
- * derived from the equivalent {@link java.util.Spliterator} characteristics:
- * {@link java.util.Spliterator#DISTINCT}, {@link java.util.Spliterator#SORTED},
- * {@link java.util.Spliterator#ORDERED}, and
- * {@link java.util.Spliterator#SIZED}.  A spliterator characteristics bit set
- * can be converted to stream flags using the method
- * {@link #fromCharacteristics(java.util.Spliterator)} and converted back using
- * {@link #toCharacteristics(int)}.  (The bit set
- * {@link #SPLITERATOR_CHARACTERISTICS_MASK} is used to AND with a bit set to
- * produce a valid spliterator characteristics bit set that can be converted to
- * stream flags.)
+ * With the exception of {@link #SHORT_CIRCUIT}, strebm chbrbcteristics cbn be
+ * derived from the equivblent {@link jbvb.util.Spliterbtor} chbrbcteristics:
+ * {@link jbvb.util.Spliterbtor#DISTINCT}, {@link jbvb.util.Spliterbtor#SORTED},
+ * {@link jbvb.util.Spliterbtor#ORDERED}, bnd
+ * {@link jbvb.util.Spliterbtor#SIZED}.  A spliterbtor chbrbcteristics bit set
+ * cbn be converted to strebm flbgs using the method
+ * {@link #fromChbrbcteristics(jbvb.util.Spliterbtor)} bnd converted bbck using
+ * {@link #toChbrbcteristics(int)}.  (The bit set
+ * {@link #SPLITERATOR_CHARACTERISTICS_MASK} is used to AND with b bit set to
+ * produce b vblid spliterbtor chbrbcteristics bit set thbt cbn be converted to
+ * strebm flbgs.)
  *
  * <p>
- * The source of a stream encapsulates a spliterator. The characteristics of
- * that source spliterator when transformed to stream flags will be a proper
- * subset of stream flags of that stream.
- * For example:
+ * The source of b strebm encbpsulbtes b spliterbtor. The chbrbcteristics of
+ * thbt source spliterbtor when trbnsformed to strebm flbgs will be b proper
+ * subset of strebm flbgs of thbt strebm.
+ * For exbmple:
  * <pre> {@code
- *     Spliterator s = ...;
- *     Stream stream = Streams.stream(s);
- *     flagsFromSplitr = fromCharacteristics(s.characteristics());
- *     assert(flagsFromSplitr & stream.getStreamFlags() == flagsFromSplitr);
+ *     Spliterbtor s = ...;
+ *     Strebm strebm = Strebms.strebm(s);
+ *     flbgsFromSplitr = fromChbrbcteristics(s.chbrbcteristics());
+ *     bssert(flbgsFromSplitr & strebm.getStrebmFlbgs() == flbgsFromSplitr);
  * }</pre>
  *
  * <p>
- * An intermediate operation, performed on an input stream to create a new
- * output stream, may preserve, clear or inject stream or operation
- * characteristics.  Similarly, a terminal operation, performed on an input
- * stream to produce an output result may preserve, clear or inject stream or
- * operation characteristics.  Preservation means that if that characteristic
- * is present on the input, then it is also present on the output.  Clearing
- * means that the characteristic is not present on the output regardless of the
- * input.  Injection means that the characteristic is present on the output
- * regardless of the input.  If a characteristic is not cleared or injected then
+ * An intermedibte operbtion, performed on bn input strebm to crebte b new
+ * output strebm, mby preserve, clebr or inject strebm or operbtion
+ * chbrbcteristics.  Similbrly, b terminbl operbtion, performed on bn input
+ * strebm to produce bn output result mby preserve, clebr or inject strebm or
+ * operbtion chbrbcteristics.  Preservbtion mebns thbt if thbt chbrbcteristic
+ * is present on the input, then it is blso present on the output.  Clebring
+ * mebns thbt the chbrbcteristic is not present on the output regbrdless of the
+ * input.  Injection mebns thbt the chbrbcteristic is present on the output
+ * regbrdless of the input.  If b chbrbcteristic is not clebred or injected then
  * it is implicitly preserved.
  *
  * <p>
- * A pipeline consists of a stream source encapsulating a spliterator, one or
- * more intermediate operations, and finally a terminal operation that produces
- * a result.  At each stage of the pipeline, a combined stream and operation
- * flags can be calculated, using {@link #combineOpFlags(int, int)}.  Such flags
- * ensure that preservation, clearing and injecting information is retained at
- * each stage.
+ * A pipeline consists of b strebm source encbpsulbting b spliterbtor, one or
+ * more intermedibte operbtions, bnd finblly b terminbl operbtion thbt produces
+ * b result.  At ebch stbge of the pipeline, b combined strebm bnd operbtion
+ * flbgs cbn be cblculbted, using {@link #combineOpFlbgs(int, int)}.  Such flbgs
+ * ensure thbt preservbtion, clebring bnd injecting informbtion is retbined bt
+ * ebch stbge.
  *
- * The combined stream and operation flags for the source stage of the pipeline
- * is calculated as follows:
+ * The combined strebm bnd operbtion flbgs for the source stbge of the pipeline
+ * is cblculbted bs follows:
  * <pre> {@code
- *     int flagsForSourceStage = combineOpFlags(sourceFlags, INITIAL_OPS_VALUE);
+ *     int flbgsForSourceStbge = combineOpFlbgs(sourceFlbgs, INITIAL_OPS_VALUE);
  * }</pre>
  *
- * The combined stream and operation flags of each subsequent intermediate
- * operation stage in the pipeline is calculated as follows:
+ * The combined strebm bnd operbtion flbgs of ebch subsequent intermedibte
+ * operbtion stbge in the pipeline is cblculbted bs follows:
  * <pre> {@code
- *     int flagsForThisStage = combineOpFlags(flagsForPreviousStage, thisOpFlags);
+ *     int flbgsForThisStbge = combineOpFlbgs(flbgsForPreviousStbge, thisOpFlbgs);
  * }</pre>
  *
- * Finally the flags output from the last intermediate operation of the pipeline
- * are combined with the operation flags of the terminal operation to produce
- * the flags output from the pipeline.
+ * Finblly the flbgs output from the lbst intermedibte operbtion of the pipeline
+ * bre combined with the operbtion flbgs of the terminbl operbtion to produce
+ * the flbgs output from the pipeline.
  *
- * <p>Those flags can then be used to apply optimizations. For example, if
- * {@code SIZED.isKnown(flags)} returns true then the stream size remains
- * constant throughout the pipeline, this information can be utilized to
- * pre-allocate data structures and combined with
- * {@link java.util.Spliterator#SUBSIZED} that information can be utilized to
- * perform concurrent in-place updates into a shared array.
+ * <p>Those flbgs cbn then be used to bpply optimizbtions. For exbmple, if
+ * {@code SIZED.isKnown(flbgs)} returns true then the strebm size rembins
+ * constbnt throughout the pipeline, this informbtion cbn be utilized to
+ * pre-bllocbte dbtb structures bnd combined with
+ * {@link jbvb.util.Spliterbtor#SUBSIZED} thbt informbtion cbn be utilized to
+ * perform concurrent in-plbce updbtes into b shbred brrby.
  *
- * For specific details see the {@link AbstractPipeline} constructors.
+ * For specific detbils see the {@link AbstrbctPipeline} constructors.
  *
  * @since 1.8
  */
-enum StreamOpFlag {
+enum StrebmOpFlbg {
 
     /*
-     * Each characteristic takes up 2 bits in a bit set to accommodate
-     * preserving, clearing and setting/injecting information.
+     * Ebch chbrbcteristic tbkes up 2 bits in b bit set to bccommodbte
+     * preserving, clebring bnd setting/injecting informbtion.
      *
-     * This applies to stream flags, intermediate/terminal operation flags, and
-     * combined stream and operation flags. Even though the former only requires
-     * 1 bit of information per characteristic, is it more efficient when
-     * combining flags to align set and inject bits.
+     * This bpplies to strebm flbgs, intermedibte/terminbl operbtion flbgs, bnd
+     * combined strebm bnd operbtion flbgs. Even though the former only requires
+     * 1 bit of informbtion per chbrbcteristic, is it more efficient when
+     * combining flbgs to blign set bnd inject bits.
      *
-     * Characteristics belong to certain types, see the Type enum. Bit masks for
-     * the types are constructed as per the following table:
+     * Chbrbcteristics belong to certbin types, see the Type enum. Bit mbsks for
+     * the types bre constructed bs per the following tbble:
      *
      *                        DISTINCT  SORTED  ORDERED  SIZED  SHORT_CIRCUIT
      *          SPLITERATOR      01       01       01      01        00
@@ -223,531 +223,531 @@ enum StreamOpFlag {
      * UPSTREAM_TERMINAL_OP      00       00       10      00        00
      *
      * 01 = set/inject
-     * 10 = clear
+     * 10 = clebr
      * 11 = preserve
      *
-     * Construction of the columns is performed using a simple builder for
-     * non-zero values.
+     * Construction of the columns is performed using b simple builder for
+     * non-zero vblues.
      */
 
 
-    // The following flags correspond to characteristics on Spliterator
-    // and the values MUST be equal.
+    // The following flbgs correspond to chbrbcteristics on Spliterbtor
+    // bnd the vblues MUST be equbl.
     //
 
     /**
-     * Characteristic value signifying that, for each pair of
-     * encountered elements in a stream {@code x, y}, {@code !x.equals(y)}.
+     * Chbrbcteristic vblue signifying thbt, for ebch pbir of
+     * encountered elements in b strebm {@code x, y}, {@code !x.equbls(y)}.
      * <p>
-     * A stream may have this value or an intermediate operation can preserve,
-     * clear or inject this value.
+     * A strebm mby hbve this vblue or bn intermedibte operbtion cbn preserve,
+     * clebr or inject this vblue.
      */
     // 0, 0x00000001
-    // Matches Spliterator.DISTINCT
+    // Mbtches Spliterbtor.DISTINCT
     DISTINCT(0,
-             set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
+             set(Type.SPLITERATOR).set(Type.STREAM).setAndClebr(Type.OP)),
 
     /**
-     * Characteristic value signifying that encounter order follows a natural
-     * sort order of comparable elements.
+     * Chbrbcteristic vblue signifying thbt encounter order follows b nbturbl
+     * sort order of compbrbble elements.
      * <p>
-     * A stream can have this value or an intermediate operation can preserve,
-     * clear or inject this value.
+     * A strebm cbn hbve this vblue or bn intermedibte operbtion cbn preserve,
+     * clebr or inject this vblue.
      * <p>
-     * Note: The {@link java.util.Spliterator#SORTED} characteristic can define
-     * a sort order with an associated non-null comparator.  Augmenting flag
-     * state with addition properties such that those properties can be passed
-     * to operations requires some disruptive changes for a singular use-case.
-     * Furthermore, comparing comparators for equality beyond that of identity
-     * is likely to be unreliable.  Therefore the {@code SORTED} characteristic
-     * for a defined non-natural sort order is not mapped internally to the
-     * {@code SORTED} flag.
+     * Note: The {@link jbvb.util.Spliterbtor#SORTED} chbrbcteristic cbn define
+     * b sort order with bn bssocibted non-null compbrbtor.  Augmenting flbg
+     * stbte with bddition properties such thbt those properties cbn be pbssed
+     * to operbtions requires some disruptive chbnges for b singulbr use-cbse.
+     * Furthermore, compbring compbrbtors for equblity beyond thbt of identity
+     * is likely to be unrelibble.  Therefore the {@code SORTED} chbrbcteristic
+     * for b defined non-nbturbl sort order is not mbpped internblly to the
+     * {@code SORTED} flbg.
      */
     // 1, 0x00000004
-    // Matches Spliterator.SORTED
+    // Mbtches Spliterbtor.SORTED
     SORTED(1,
-           set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
+           set(Type.SPLITERATOR).set(Type.STREAM).setAndClebr(Type.OP)),
 
     /**
-     * Characteristic value signifying that an encounter order is
-     * defined for stream elements.
+     * Chbrbcteristic vblue signifying thbt bn encounter order is
+     * defined for strebm elements.
      * <p>
-     * A stream can have this value, an intermediate operation can preserve,
-     * clear or inject this value, or a terminal operation can preserve or clear
-     * this value.
+     * A strebm cbn hbve this vblue, bn intermedibte operbtion cbn preserve,
+     * clebr or inject this vblue, or b terminbl operbtion cbn preserve or clebr
+     * this vblue.
      */
     // 2, 0x00000010
-    // Matches Spliterator.ORDERED
+    // Mbtches Spliterbtor.ORDERED
     ORDERED(2,
-            set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP).clear(Type.TERMINAL_OP)
-                    .clear(Type.UPSTREAM_TERMINAL_OP)),
+            set(Type.SPLITERATOR).set(Type.STREAM).setAndClebr(Type.OP).clebr(Type.TERMINAL_OP)
+                    .clebr(Type.UPSTREAM_TERMINAL_OP)),
 
     /**
-     * Characteristic value signifying that size of the stream
-     * is of a known finite size that is equal to the known finite
-     * size of the source spliterator input to the first stream
+     * Chbrbcteristic vblue signifying thbt size of the strebm
+     * is of b known finite size thbt is equbl to the known finite
+     * size of the source spliterbtor input to the first strebm
      * in the pipeline.
      * <p>
-     * A stream can have this value or an intermediate operation can preserve or
-     * clear this value.
+     * A strebm cbn hbve this vblue or bn intermedibte operbtion cbn preserve or
+     * clebr this vblue.
      */
     // 3, 0x00000040
-    // Matches Spliterator.SIZED
+    // Mbtches Spliterbtor.SIZED
     SIZED(3,
-          set(Type.SPLITERATOR).set(Type.STREAM).clear(Type.OP)),
+          set(Type.SPLITERATOR).set(Type.STREAM).clebr(Type.OP)),
 
-    // The following Spliterator characteristics are not currently used but a
-    // gap in the bit set is deliberately retained to enable corresponding
-    // stream flags if//when required without modification to other flag values.
+    // The following Spliterbtor chbrbcteristics bre not currently used but b
+    // gbp in the bit set is deliberbtely retbined to enbble corresponding
+    // strebm flbgs if//when required without modificbtion to other flbg vblues.
     //
     // 4, 0x00000100 NONNULL(4, ...
     // 5, 0x00000400 IMMUTABLE(5, ...
     // 6, 0x00001000 CONCURRENT(6, ...
     // 7, 0x00004000 SUBSIZED(7, ...
 
-    // The following 4 flags are currently undefined and a free for any further
-    // spliterator characteristics.
+    // The following 4 flbgs bre currently undefined bnd b free for bny further
+    // spliterbtor chbrbcteristics.
     //
     //  8, 0x00010000
     //  9, 0x00040000
     // 10, 0x00100000
     // 11, 0x00400000
 
-    // The following flags are specific to streams and operations
+    // The following flbgs bre specific to strebms bnd operbtions
     //
 
     /**
-     * Characteristic value signifying that an operation may short-circuit the
-     * stream.
+     * Chbrbcteristic vblue signifying thbt bn operbtion mby short-circuit the
+     * strebm.
      * <p>
-     * An intermediate operation can preserve or inject this value,
-     * or a terminal operation can preserve or inject this value.
+     * An intermedibte operbtion cbn preserve or inject this vblue,
+     * or b terminbl operbtion cbn preserve or inject this vblue.
      */
     // 12, 0x01000000
     SHORT_CIRCUIT(12,
                   set(Type.OP).set(Type.TERMINAL_OP));
 
-    // The following 2 flags are currently undefined and a free for any further
-    // stream flags if/when required
+    // The following 2 flbgs bre currently undefined bnd b free for bny further
+    // strebm flbgs if/when required
     //
     // 13, 0x04000000
     // 14, 0x10000000
     // 15, 0x40000000
 
     /**
-     * Type of a flag
+     * Type of b flbg
      */
     enum Type {
         /**
-         * The flag is associated with spliterator characteristics.
+         * The flbg is bssocibted with spliterbtor chbrbcteristics.
          */
         SPLITERATOR,
 
         /**
-         * The flag is associated with stream flags.
+         * The flbg is bssocibted with strebm flbgs.
          */
         STREAM,
 
         /**
-         * The flag is associated with intermediate operation flags.
+         * The flbg is bssocibted with intermedibte operbtion flbgs.
          */
         OP,
 
         /**
-         * The flag is associated with terminal operation flags.
+         * The flbg is bssocibted with terminbl operbtion flbgs.
          */
         TERMINAL_OP,
 
         /**
-         * The flag is associated with terminal operation flags that are
-         * propagated upstream across the last stateful operation boundary
+         * The flbg is bssocibted with terminbl operbtion flbgs thbt bre
+         * propbgbted upstrebm bcross the lbst stbteful operbtion boundbry
          */
         UPSTREAM_TERMINAL_OP
     }
 
     /**
-     * The bit pattern for setting/injecting a flag.
+     * The bit pbttern for setting/injecting b flbg.
      */
-    private static final int SET_BITS = 0b01;
+    privbte stbtic finbl int SET_BITS = 0b01;
 
     /**
-     * The bit pattern for clearing a flag.
+     * The bit pbttern for clebring b flbg.
      */
-    private static final int CLEAR_BITS = 0b10;
+    privbte stbtic finbl int CLEAR_BITS = 0b10;
 
     /**
-     * The bit pattern for preserving a flag.
+     * The bit pbttern for preserving b flbg.
      */
-    private static final int PRESERVE_BITS = 0b11;
+    privbte stbtic finbl int PRESERVE_BITS = 0b11;
 
-    private static MaskBuilder set(Type t) {
-        return new MaskBuilder(new EnumMap<>(Type.class)).set(t);
+    privbte stbtic MbskBuilder set(Type t) {
+        return new MbskBuilder(new EnumMbp<>(Type.clbss)).set(t);
     }
 
-    private static class MaskBuilder {
-        final Map<Type, Integer> map;
+    privbte stbtic clbss MbskBuilder {
+        finbl Mbp<Type, Integer> mbp;
 
-        MaskBuilder(Map<Type, Integer> map) {
-            this.map = map;
+        MbskBuilder(Mbp<Type, Integer> mbp) {
+            this.mbp = mbp;
         }
 
-        MaskBuilder mask(Type t, Integer i) {
-            map.put(t, i);
+        MbskBuilder mbsk(Type t, Integer i) {
+            mbp.put(t, i);
             return this;
         }
 
-        MaskBuilder set(Type t) {
-            return mask(t, SET_BITS);
+        MbskBuilder set(Type t) {
+            return mbsk(t, SET_BITS);
         }
 
-        MaskBuilder clear(Type t) {
-            return mask(t, CLEAR_BITS);
+        MbskBuilder clebr(Type t) {
+            return mbsk(t, CLEAR_BITS);
         }
 
-        MaskBuilder setAndClear(Type t) {
-            return mask(t, PRESERVE_BITS);
+        MbskBuilder setAndClebr(Type t) {
+            return mbsk(t, PRESERVE_BITS);
         }
 
-        Map<Type, Integer> build() {
-            for (Type t : Type.values()) {
-                map.putIfAbsent(t, 0b00);
+        Mbp<Type, Integer> build() {
+            for (Type t : Type.vblues()) {
+                mbp.putIfAbsent(t, 0b00);
             }
-            return map;
+            return mbp;
         }
     }
 
     /**
-     * The mask table for a flag, this is used to determine if a flag
-     * corresponds to a certain flag type and for creating mask constants.
+     * The mbsk tbble for b flbg, this is used to determine if b flbg
+     * corresponds to b certbin flbg type bnd for crebting mbsk constbnts.
      */
-    private final Map<Type, Integer> maskTable;
+    privbte finbl Mbp<Type, Integer> mbskTbble;
 
     /**
-     * The bit position in the bit mask.
+     * The bit position in the bit mbsk.
      */
-    private final int bitPosition;
+    privbte finbl int bitPosition;
 
     /**
-     * The set 2 bit set offset at the bit position.
+     * The set 2 bit set offset bt the bit position.
      */
-    private final int set;
+    privbte finbl int set;
 
     /**
-     * The clear 2 bit set offset at the bit position.
+     * The clebr 2 bit set offset bt the bit position.
      */
-    private final int clear;
+    privbte finbl int clebr;
 
     /**
-     * The preserve 2 bit set offset at the bit position.
+     * The preserve 2 bit set offset bt the bit position.
      */
-    private final int preserve;
+    privbte finbl int preserve;
 
-    private StreamOpFlag(int position, MaskBuilder maskBuilder) {
-        this.maskTable = maskBuilder.build();
-        // Two bits per flag
+    privbte StrebmOpFlbg(int position, MbskBuilder mbskBuilder) {
+        this.mbskTbble = mbskBuilder.build();
+        // Two bits per flbg
         position *= 2;
         this.bitPosition = position;
         this.set = SET_BITS << position;
-        this.clear = CLEAR_BITS << position;
+        this.clebr = CLEAR_BITS << position;
         this.preserve = PRESERVE_BITS << position;
     }
 
     /**
-     * Gets the bitmap associated with setting this characteristic.
+     * Gets the bitmbp bssocibted with setting this chbrbcteristic.
      *
-     * @return the bitmap for setting this characteristic
+     * @return the bitmbp for setting this chbrbcteristic
      */
     int set() {
         return set;
     }
 
     /**
-     * Gets the bitmap associated with clearing this characteristic.
+     * Gets the bitmbp bssocibted with clebring this chbrbcteristic.
      *
-     * @return the bitmap for clearing this characteristic
+     * @return the bitmbp for clebring this chbrbcteristic
      */
-    int clear() {
-        return clear;
+    int clebr() {
+        return clebr;
     }
 
     /**
-     * Determines if this flag is a stream-based flag.
+     * Determines if this flbg is b strebm-bbsed flbg.
      *
-     * @return true if a stream-based flag, otherwise false.
+     * @return true if b strebm-bbsed flbg, otherwise fblse.
      */
-    boolean isStreamFlag() {
-        return maskTable.get(Type.STREAM) > 0;
+    boolebn isStrebmFlbg() {
+        return mbskTbble.get(Type.STREAM) > 0;
     }
 
     /**
-     * Checks if this flag is set on stream flags, injected on operation flags,
-     * and injected on combined stream and operation flags.
+     * Checks if this flbg is set on strebm flbgs, injected on operbtion flbgs,
+     * bnd injected on combined strebm bnd operbtion flbgs.
      *
-     * @param flags the stream flags, operation flags, or combined stream and
-     *        operation flags
-     * @return true if this flag is known, otherwise false.
+     * @pbrbm flbgs the strebm flbgs, operbtion flbgs, or combined strebm bnd
+     *        operbtion flbgs
+     * @return true if this flbg is known, otherwise fblse.
      */
-    boolean isKnown(int flags) {
-        return (flags & preserve) == set;
+    boolebn isKnown(int flbgs) {
+        return (flbgs & preserve) == set;
     }
 
     /**
-     * Checks if this flag is cleared on operation flags or combined stream and
-     * operation flags.
+     * Checks if this flbg is clebred on operbtion flbgs or combined strebm bnd
+     * operbtion flbgs.
      *
-     * @param flags the operation flags or combined stream and operations flags.
-     * @return true if this flag is preserved, otherwise false.
+     * @pbrbm flbgs the operbtion flbgs or combined strebm bnd operbtions flbgs.
+     * @return true if this flbg is preserved, otherwise fblse.
      */
-    boolean isCleared(int flags) {
-        return (flags & preserve) == clear;
+    boolebn isClebred(int flbgs) {
+        return (flbgs & preserve) == clebr;
     }
 
     /**
-     * Checks if this flag is preserved on combined stream and operation flags.
+     * Checks if this flbg is preserved on combined strebm bnd operbtion flbgs.
      *
-     * @param flags the combined stream and operations flags.
-     * @return true if this flag is preserved, otherwise false.
+     * @pbrbm flbgs the combined strebm bnd operbtions flbgs.
+     * @return true if this flbg is preserved, otherwise fblse.
      */
-    boolean isPreserved(int flags) {
-        return (flags & preserve) == preserve;
+    boolebn isPreserved(int flbgs) {
+        return (flbgs & preserve) == preserve;
     }
 
     /**
-     * Determines if this flag can be set for a flag type.
+     * Determines if this flbg cbn be set for b flbg type.
      *
-     * @param t the flag type.
-     * @return true if this flag can be set for the flag type, otherwise false.
+     * @pbrbm t the flbg type.
+     * @return true if this flbg cbn be set for the flbg type, otherwise fblse.
      */
-    boolean canSet(Type t) {
-        return (maskTable.get(t) & SET_BITS) > 0;
+    boolebn cbnSet(Type t) {
+        return (mbskTbble.get(t) & SET_BITS) > 0;
     }
 
     /**
-     * The bit mask for spliterator characteristics
+     * The bit mbsk for spliterbtor chbrbcteristics
      */
-    static final int SPLITERATOR_CHARACTERISTICS_MASK = createMask(Type.SPLITERATOR);
+    stbtic finbl int SPLITERATOR_CHARACTERISTICS_MASK = crebteMbsk(Type.SPLITERATOR);
 
     /**
-     * The bit mask for source stream flags.
+     * The bit mbsk for source strebm flbgs.
      */
-    static final int STREAM_MASK = createMask(Type.STREAM);
+    stbtic finbl int STREAM_MASK = crebteMbsk(Type.STREAM);
 
     /**
-     * The bit mask for intermediate operation flags.
+     * The bit mbsk for intermedibte operbtion flbgs.
      */
-    static final int OP_MASK = createMask(Type.OP);
+    stbtic finbl int OP_MASK = crebteMbsk(Type.OP);
 
     /**
-     * The bit mask for terminal operation flags.
+     * The bit mbsk for terminbl operbtion flbgs.
      */
-    static final int TERMINAL_OP_MASK = createMask(Type.TERMINAL_OP);
+    stbtic finbl int TERMINAL_OP_MASK = crebteMbsk(Type.TERMINAL_OP);
 
     /**
-     * The bit mask for upstream terminal operation flags.
+     * The bit mbsk for upstrebm terminbl operbtion flbgs.
      */
-    static final int UPSTREAM_TERMINAL_OP_MASK = createMask(Type.UPSTREAM_TERMINAL_OP);
+    stbtic finbl int UPSTREAM_TERMINAL_OP_MASK = crebteMbsk(Type.UPSTREAM_TERMINAL_OP);
 
-    private static int createMask(Type t) {
-        int mask = 0;
-        for (StreamOpFlag flag : StreamOpFlag.values()) {
-            mask |= flag.maskTable.get(t) << flag.bitPosition;
+    privbte stbtic int crebteMbsk(Type t) {
+        int mbsk = 0;
+        for (StrebmOpFlbg flbg : StrebmOpFlbg.vblues()) {
+            mbsk |= flbg.mbskTbble.get(t) << flbg.bitPosition;
         }
-        return mask;
+        return mbsk;
     }
 
     /**
-     * Complete flag mask.
+     * Complete flbg mbsk.
      */
-    private static final int FLAG_MASK = createFlagMask();
+    privbte stbtic finbl int FLAG_MASK = crebteFlbgMbsk();
 
-    private static int createFlagMask() {
-        int mask = 0;
-        for (StreamOpFlag flag : StreamOpFlag.values()) {
-            mask |= flag.preserve;
+    privbte stbtic int crebteFlbgMbsk() {
+        int mbsk = 0;
+        for (StrebmOpFlbg flbg : StrebmOpFlbg.vblues()) {
+            mbsk |= flbg.preserve;
         }
-        return mask;
+        return mbsk;
     }
 
     /**
-     * Flag mask for stream flags that are set.
+     * Flbg mbsk for strebm flbgs thbt bre set.
      */
-    private static final int FLAG_MASK_IS = STREAM_MASK;
+    privbte stbtic finbl int FLAG_MASK_IS = STREAM_MASK;
 
     /**
-     * Flag mask for stream flags that are cleared.
+     * Flbg mbsk for strebm flbgs thbt bre clebred.
      */
-    private static final int FLAG_MASK_NOT = STREAM_MASK << 1;
+    privbte stbtic finbl int FLAG_MASK_NOT = STREAM_MASK << 1;
 
     /**
-     * The initial value to be combined with the stream flags of the first
-     * stream in the pipeline.
+     * The initibl vblue to be combined with the strebm flbgs of the first
+     * strebm in the pipeline.
      */
-    static final int INITIAL_OPS_VALUE = FLAG_MASK_IS | FLAG_MASK_NOT;
+    stbtic finbl int INITIAL_OPS_VALUE = FLAG_MASK_IS | FLAG_MASK_NOT;
 
     /**
-     * The bit value to set or inject {@link #DISTINCT}.
+     * The bit vblue to set or inject {@link #DISTINCT}.
      */
-    static final int IS_DISTINCT = DISTINCT.set;
+    stbtic finbl int IS_DISTINCT = DISTINCT.set;
 
     /**
-     * The bit value to clear {@link #DISTINCT}.
+     * The bit vblue to clebr {@link #DISTINCT}.
      */
-    static final int NOT_DISTINCT = DISTINCT.clear;
+    stbtic finbl int NOT_DISTINCT = DISTINCT.clebr;
 
     /**
-     * The bit value to set or inject {@link #SORTED}.
+     * The bit vblue to set or inject {@link #SORTED}.
      */
-    static final int IS_SORTED = SORTED.set;
+    stbtic finbl int IS_SORTED = SORTED.set;
 
     /**
-     * The bit value to clear {@link #SORTED}.
+     * The bit vblue to clebr {@link #SORTED}.
      */
-    static final int NOT_SORTED = SORTED.clear;
+    stbtic finbl int NOT_SORTED = SORTED.clebr;
 
     /**
-     * The bit value to set or inject {@link #ORDERED}.
+     * The bit vblue to set or inject {@link #ORDERED}.
      */
-    static final int IS_ORDERED = ORDERED.set;
+    stbtic finbl int IS_ORDERED = ORDERED.set;
 
     /**
-     * The bit value to clear {@link #ORDERED}.
+     * The bit vblue to clebr {@link #ORDERED}.
      */
-    static final int NOT_ORDERED = ORDERED.clear;
+    stbtic finbl int NOT_ORDERED = ORDERED.clebr;
 
     /**
-     * The bit value to set {@link #SIZED}.
+     * The bit vblue to set {@link #SIZED}.
      */
-    static final int IS_SIZED = SIZED.set;
+    stbtic finbl int IS_SIZED = SIZED.set;
 
     /**
-     * The bit value to clear {@link #SIZED}.
+     * The bit vblue to clebr {@link #SIZED}.
      */
-    static final int NOT_SIZED = SIZED.clear;
+    stbtic finbl int NOT_SIZED = SIZED.clebr;
 
     /**
-     * The bit value to inject {@link #SHORT_CIRCUIT}.
+     * The bit vblue to inject {@link #SHORT_CIRCUIT}.
      */
-    static final int IS_SHORT_CIRCUIT = SHORT_CIRCUIT.set;
+    stbtic finbl int IS_SHORT_CIRCUIT = SHORT_CIRCUIT.set;
 
-    private static int getMask(int flags) {
-        return (flags == 0)
+    privbte stbtic int getMbsk(int flbgs) {
+        return (flbgs == 0)
                ? FLAG_MASK
-               : ~(flags | ((FLAG_MASK_IS & flags) << 1) | ((FLAG_MASK_NOT & flags) >> 1));
+               : ~(flbgs | ((FLAG_MASK_IS & flbgs) << 1) | ((FLAG_MASK_NOT & flbgs) >> 1));
     }
 
     /**
-     * Combines stream or operation flags with previously combined stream and
-     * operation flags to produce updated combined stream and operation flags.
+     * Combines strebm or operbtion flbgs with previously combined strebm bnd
+     * operbtion flbgs to produce updbted combined strebm bnd operbtion flbgs.
      * <p>
-     * A flag set on stream flags or injected on operation flags,
-     * and injected combined stream and operation flags,
-     * will be injected on the updated combined stream and operation flags.
+     * A flbg set on strebm flbgs or injected on operbtion flbgs,
+     * bnd injected combined strebm bnd operbtion flbgs,
+     * will be injected on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag set on stream flags or injected on operation flags,
-     * and cleared on the combined stream and operation flags,
-     * will be cleared on the updated combined stream and operation flags.
+     * A flbg set on strebm flbgs or injected on operbtion flbgs,
+     * bnd clebred on the combined strebm bnd operbtion flbgs,
+     * will be clebred on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag set on the stream flags or injected on operation flags,
-     * and preserved on the combined stream and operation flags,
-     * will be injected on the updated combined stream and operation flags.
+     * A flbg set on the strebm flbgs or injected on operbtion flbgs,
+     * bnd preserved on the combined strebm bnd operbtion flbgs,
+     * will be injected on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag not set on the stream flags or cleared/preserved on operation
-     * flags, and injected on the combined stream and operation flags,
-     * will be injected on the updated combined stream and operation flags.
+     * A flbg not set on the strebm flbgs or clebred/preserved on operbtion
+     * flbgs, bnd injected on the combined strebm bnd operbtion flbgs,
+     * will be injected on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag not set on the stream flags or cleared/preserved on operation
-     * flags, and cleared on the combined stream and operation flags,
-     * will be cleared on the updated combined stream and operation flags.
+     * A flbg not set on the strebm flbgs or clebred/preserved on operbtion
+     * flbgs, bnd clebred on the combined strebm bnd operbtion flbgs,
+     * will be clebred on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag not set on the stream flags,
-     * and preserved on the combined stream and operation flags
-     * will be preserved on the updated combined stream and operation flags.
+     * A flbg not set on the strebm flbgs,
+     * bnd preserved on the combined strebm bnd operbtion flbgs
+     * will be preserved on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag cleared on operation flags,
-     * and preserved on the combined stream and operation flags
-     * will be cleared on the updated combined stream and operation flags.
+     * A flbg clebred on operbtion flbgs,
+     * bnd preserved on the combined strebm bnd operbtion flbgs
+     * will be clebred on the updbted combined strebm bnd operbtion flbgs.
      *
      * <p>
-     * A flag preserved on operation flags,
-     * and preserved on the combined stream and operation flags
-     * will be preserved on the updated combined stream and operation flags.
+     * A flbg preserved on operbtion flbgs,
+     * bnd preserved on the combined strebm bnd operbtion flbgs
+     * will be preserved on the updbted combined strebm bnd operbtion flbgs.
      *
-     * @param newStreamOrOpFlags the stream or operation flags.
-     * @param prevCombOpFlags previously combined stream and operation flags.
-     *        The value {#link INITIAL_OPS_VALUE} must be used as the seed value.
-     * @return the updated combined stream and operation flags.
+     * @pbrbm newStrebmOrOpFlbgs the strebm or operbtion flbgs.
+     * @pbrbm prevCombOpFlbgs previously combined strebm bnd operbtion flbgs.
+     *        The vblue {#link INITIAL_OPS_VALUE} must be used bs the seed vblue.
+     * @return the updbted combined strebm bnd operbtion flbgs.
      */
-    static int combineOpFlags(int newStreamOrOpFlags, int prevCombOpFlags) {
-        // 0x01 or 0x10 nibbles are transformed to 0x11
-        // 0x00 nibbles remain unchanged
-        // Then all the bits are flipped
-        // Then the result is logically or'ed with the operation flags.
-        return (prevCombOpFlags & StreamOpFlag.getMask(newStreamOrOpFlags)) | newStreamOrOpFlags;
+    stbtic int combineOpFlbgs(int newStrebmOrOpFlbgs, int prevCombOpFlbgs) {
+        // 0x01 or 0x10 nibbles bre trbnsformed to 0x11
+        // 0x00 nibbles rembin unchbnged
+        // Then bll the bits bre flipped
+        // Then the result is logicblly or'ed with the operbtion flbgs.
+        return (prevCombOpFlbgs & StrebmOpFlbg.getMbsk(newStrebmOrOpFlbgs)) | newStrebmOrOpFlbgs;
     }
 
     /**
-     * Converts combined stream and operation flags to stream flags.
+     * Converts combined strebm bnd operbtion flbgs to strebm flbgs.
      *
-     * <p>Each flag injected on the combined stream and operation flags will be
-     * set on the stream flags.
+     * <p>Ebch flbg injected on the combined strebm bnd operbtion flbgs will be
+     * set on the strebm flbgs.
      *
-     * @param combOpFlags the combined stream and operation flags.
-     * @return the stream flags.
+     * @pbrbm combOpFlbgs the combined strebm bnd operbtion flbgs.
+     * @return the strebm flbgs.
      */
-    static int toStreamFlags(int combOpFlags) {
-        // By flipping the nibbles 0x11 become 0x00 and 0x01 become 0x10
-        // Shift left 1 to restore set flags and mask off anything other than the set flags
-        return ((~combOpFlags) >> 1) & FLAG_MASK_IS & combOpFlags;
+    stbtic int toStrebmFlbgs(int combOpFlbgs) {
+        // By flipping the nibbles 0x11 become 0x00 bnd 0x01 become 0x10
+        // Shift left 1 to restore set flbgs bnd mbsk off bnything other thbn the set flbgs
+        return ((~combOpFlbgs) >> 1) & FLAG_MASK_IS & combOpFlbgs;
     }
 
     /**
-     * Converts stream flags to a spliterator characteristic bit set.
+     * Converts strebm flbgs to b spliterbtor chbrbcteristic bit set.
      *
-     * @param streamFlags the stream flags.
-     * @return the spliterator characteristic bit set.
+     * @pbrbm strebmFlbgs the strebm flbgs.
+     * @return the spliterbtor chbrbcteristic bit set.
      */
-    static int toCharacteristics(int streamFlags) {
-        return streamFlags & SPLITERATOR_CHARACTERISTICS_MASK;
+    stbtic int toChbrbcteristics(int strebmFlbgs) {
+        return strebmFlbgs & SPLITERATOR_CHARACTERISTICS_MASK;
     }
 
     /**
-     * Converts a spliterator characteristic bit set to stream flags.
+     * Converts b spliterbtor chbrbcteristic bit set to strebm flbgs.
      *
      * @implSpec
-     * If the spliterator is naturally {@code SORTED} (the associated
-     * {@code Comparator} is {@code null}) then the characteristic is converted
-     * to the {@link #SORTED} flag, otherwise the characteristic is not
+     * If the spliterbtor is nbturblly {@code SORTED} (the bssocibted
+     * {@code Compbrbtor} is {@code null}) then the chbrbcteristic is converted
+     * to the {@link #SORTED} flbg, otherwise the chbrbcteristic is not
      * converted.
      *
-     * @param spliterator the spliterator from which to obtain characteristic
+     * @pbrbm spliterbtor the spliterbtor from which to obtbin chbrbcteristic
      *        bit set.
-     * @return the stream flags.
+     * @return the strebm flbgs.
      */
-    static int fromCharacteristics(Spliterator<?> spliterator) {
-        int characteristics = spliterator.characteristics();
-        if ((characteristics & Spliterator.SORTED) != 0 && spliterator.getComparator() != null) {
-            // Do not propagate the SORTED characteristic if it does not correspond
-            // to a natural sort order
-            return characteristics & SPLITERATOR_CHARACTERISTICS_MASK & ~Spliterator.SORTED;
+    stbtic int fromChbrbcteristics(Spliterbtor<?> spliterbtor) {
+        int chbrbcteristics = spliterbtor.chbrbcteristics();
+        if ((chbrbcteristics & Spliterbtor.SORTED) != 0 && spliterbtor.getCompbrbtor() != null) {
+            // Do not propbgbte the SORTED chbrbcteristic if it does not correspond
+            // to b nbturbl sort order
+            return chbrbcteristics & SPLITERATOR_CHARACTERISTICS_MASK & ~Spliterbtor.SORTED;
         }
         else {
-            return characteristics & SPLITERATOR_CHARACTERISTICS_MASK;
+            return chbrbcteristics & SPLITERATOR_CHARACTERISTICS_MASK;
         }
     }
 
     /**
-     * Converts a spliterator characteristic bit set to stream flags.
+     * Converts b spliterbtor chbrbcteristic bit set to strebm flbgs.
      *
-     * @param characteristics the spliterator characteristic bit set.
-     * @return the stream flags.
+     * @pbrbm chbrbcteristics the spliterbtor chbrbcteristic bit set.
+     * @return the strebm flbgs.
      */
-    static int fromCharacteristics(int characteristics) {
-        return characteristics & SPLITERATOR_CHARACTERISTICS_MASK;
+    stbtic int fromChbrbcteristics(int chbrbcteristics) {
+        return chbrbcteristics & SPLITERATOR_CHARACTERISTICS_MASK;
     }
 }

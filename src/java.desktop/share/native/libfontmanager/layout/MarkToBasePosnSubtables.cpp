@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,119 +30,119 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "AnchorTables.h"
-#include "MarkArrays.h"
-#include "GlyphPositioningTables.h"
-#include "AttachmentPosnSubtables.h"
-#include "MarkToBasePosnSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "AnchorTbbles.h"
+#include "MbrkArrbys.h"
+#include "GlyphPositioningTbbles.h"
+#include "AttbchmentPosnSubtbbles.h"
+#include "MbrkToBbsePosnSubtbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-LEGlyphID MarkToBasePositioningSubtable::findBaseGlyph(GlyphIterator *glyphIterator) const
+LEGlyphID MbrkToBbsePositioningSubtbble::findBbseGlyph(GlyphIterbtor *glyphIterbtor) const
 {
-    if (glyphIterator->prev()) {
-        return glyphIterator->getCurrGlyphID();
+    if (glyphIterbtor->prev()) {
+        return glyphIterbtor->getCurrGlyphID();
     }
 
     return 0xFFFF;
 }
 
-le_int32 MarkToBasePositioningSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_int32 MbrkToBbsePositioningSubtbble::process(const LETbbleReference &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    LEGlyphID markGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 markCoverage = getGlyphCoverage(base, (LEGlyphID) markGlyph, success);
+    LEGlyphID mbrkGlyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 mbrkCoverbge = getGlyphCoverbge(bbse, (LEGlyphID) mbrkGlyph, success);
 
     if (LE_FAILURE(success)) {
       return 0;
     }
 
-    if (markCoverage < 0) {
-        // markGlyph isn't a covered mark glyph
+    if (mbrkCoverbge < 0) {
+        // mbrkGlyph isn't b covered mbrk glyph
         return 0;
     }
 
-    LEPoint markAnchor;
-    LEReferenceTo<MarkArray> markArray(base, success,  (const MarkArray *) ((char *) this + SWAPW(markArrayOffset)));
+    LEPoint mbrkAnchor;
+    LEReferenceTo<MbrkArrby> mbrkArrby(bbse, success,  (const MbrkArrby *) ((chbr *) this + SWAPW(mbrkArrbyOffset)));
     if(LE_FAILURE(success)) return 0;
-    le_int32 markClass = markArray->getMarkClass(markArray, markGlyph, markCoverage, fontInstance, markAnchor, success);
-    le_uint16 mcCount = SWAPW(classCount);
+    le_int32 mbrkClbss = mbrkArrby->getMbrkClbss(mbrkArrby, mbrkGlyph, mbrkCoverbge, fontInstbnce, mbrkAnchor, success);
+    le_uint16 mcCount = SWAPW(clbssCount);
 
-    if (markClass < 0 || markClass >= mcCount || LE_FAILURE(success)) {
-        // markGlyph isn't in the mark array or its
-        // mark class is too big. The table is mal-formed!
+    if (mbrkClbss < 0 || mbrkClbss >= mcCount || LE_FAILURE(success)) {
+        // mbrkGlyph isn't in the mbrk brrby or its
+        // mbrk clbss is too big. The tbble is mbl-formed!
         return 0;
     }
 
-    // FIXME: We probably don't want to find a base glyph before a previous ligature...
-    GlyphIterator baseIterator(*glyphIterator, (le_uint16) (lfIgnoreMarks /*| lfIgnoreLigatures*/));
-    LEGlyphID baseGlyph = findBaseGlyph(&baseIterator);
-    le_int32 baseCoverage = getBaseCoverage(base, (LEGlyphID) baseGlyph, success);
-    LEReferenceTo<BaseArray> baseArray(base, success, (const BaseArray *) ((char *) this + SWAPW(baseArrayOffset)));
+    // FIXME: We probbbly don't wbnt to find b bbse glyph before b previous ligbture...
+    GlyphIterbtor bbseIterbtor(*glyphIterbtor, (le_uint16) (lfIgnoreMbrks /*| lfIgnoreLigbtures*/));
+    LEGlyphID bbseGlyph = findBbseGlyph(&bbseIterbtor);
+    le_int32 bbseCoverbge = getBbseCoverbge(bbse, (LEGlyphID) bbseGlyph, success);
+    LEReferenceTo<BbseArrby> bbseArrby(bbse, success, (const BbseArrby *) ((chbr *) this + SWAPW(bbseArrbyOffset)));
     if(LE_FAILURE(success)) return 0;
-    le_uint16 baseCount = SWAPW(baseArray->baseRecordCount);
+    le_uint16 bbseCount = SWAPW(bbseArrby->bbseRecordCount);
 
-    if (baseCoverage < 0 || baseCoverage >= baseCount) {
-        // The base glyph isn't covered, or the coverage
-        // index is too big. The latter means that the
-        // table is mal-formed...
+    if (bbseCoverbge < 0 || bbseCoverbge >= bbseCount) {
+        // The bbse glyph isn't covered, or the coverbge
+        // index is too big. The lbtter mebns thbt the
+        // tbble is mbl-formed...
         return 0;
     }
-    LEReferenceTo<BaseRecord> baseRecord(base, success, &baseArray->baseRecordArray[baseCoverage * mcCount]);
+    LEReferenceTo<BbseRecord> bbseRecord(bbse, success, &bbseArrby->bbseRecordArrby[bbseCoverbge * mcCount]);
     if( LE_FAILURE(success) ) { return 0; }
-    LEReferenceToArrayOf<Offset> baseAnchorTableOffsetArray(base, success, &(baseRecord->baseAnchorTableOffsetArray[0]), markClass+1);
+    LEReferenceToArrbyOf<Offset> bbseAnchorTbbleOffsetArrby(bbse, success, &(bbseRecord->bbseAnchorTbbleOffsetArrby[0]), mbrkClbss+1);
 
     if( LE_FAILURE(success) ) { return 0; }
-    Offset anchorTableOffset = SWAPW(baseRecord->baseAnchorTableOffsetArray[markClass]);
-    if (anchorTableOffset <= 0) {
-        // this means the table is mal-formed...
-        glyphIterator->setCurrGlyphBaseOffset(baseIterator.getCurrStreamPosition());
+    Offset bnchorTbbleOffset = SWAPW(bbseRecord->bbseAnchorTbbleOffsetArrby[mbrkClbss]);
+    if (bnchorTbbleOffset <= 0) {
+        // this mebns the tbble is mbl-formed...
+        glyphIterbtor->setCurrGlyphBbseOffset(bbseIterbtor.getCurrStrebmPosition());
         return 0;
     }
 
-    LEReferenceTo<AnchorTable> anchorTable(baseArray, success, anchorTableOffset);
-    LEPoint baseAnchor, markAdvance, pixels;
+    LEReferenceTo<AnchorTbble> bnchorTbble(bbseArrby, success, bnchorTbbleOffset);
+    LEPoint bbseAnchor, mbrkAdvbnce, pixels;
 
 
-    anchorTable->getAnchor(anchorTable, baseGlyph, fontInstance, baseAnchor, success);
+    bnchorTbble->getAnchor(bnchorTbble, bbseGlyph, fontInstbnce, bbseAnchor, success);
 
-    fontInstance->getGlyphAdvance(markGlyph, pixels);
-    fontInstance->pixelsToUnits(pixels, markAdvance);
+    fontInstbnce->getGlyphAdvbnce(mbrkGlyph, pixels);
+    fontInstbnce->pixelsToUnits(pixels, mbrkAdvbnce);
 
-    float anchorDiffX = baseAnchor.fX - markAnchor.fX;
-    float anchorDiffY = baseAnchor.fY - markAnchor.fY;
+    flobt bnchorDiffX = bbseAnchor.fX - mbrkAnchor.fX;
+    flobt bnchorDiffY = bbseAnchor.fY - mbrkAnchor.fY;
 
-    _LETRACE("Offset: (%.2f, %.2f) glyph 0x%X", anchorDiffX, anchorDiffY, markGlyph);
+    _LETRACE("Offset: (%.2f, %.2f) glyph 0x%X", bnchorDiffX, bnchorDiffY, mbrkGlyph);
 
-    glyphIterator->setCurrGlyphBaseOffset(baseIterator.getCurrStreamPosition());
+    glyphIterbtor->setCurrGlyphBbseOffset(bbseIterbtor.getCurrStrebmPosition());
 
-    if (glyphIterator->isRightToLeft()) {
-        // FIXME: need similar patch to below; also in MarkToLigature and MarkToMark
-        // (is there a better way to approach this for all the cases?)
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX, anchorDiffY, -markAdvance.fX, -markAdvance.fY);
+    if (glyphIterbtor->isRightToLeft()) {
+        // FIXME: need similbr pbtch to below; blso in MbrkToLigbture bnd MbrkToMbrk
+        // (is there b better wby to bpprobch this for bll the cbses?)
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX, bnchorDiffY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     } else {
-        LEPoint baseAdvance;
+        LEPoint bbseAdvbnce;
 
-        fontInstance->getGlyphAdvance(baseGlyph, pixels);
+        fontInstbnce->getGlyphAdvbnce(bbseGlyph, pixels);
 
-        //JK: adjustment needs to account for non-zero advance of any marks between base glyph and current mark
-        GlyphIterator gi(baseIterator, (le_uint16)0); // copy of baseIterator that won't ignore marks
-        gi.next(); // point beyond the base glyph
-        while (gi.getCurrStreamPosition() < glyphIterator->getCurrStreamPosition()) { // for all intervening glyphs (marks)...
-            LEGlyphID otherMark = gi.getCurrGlyphID();
+        //JK: bdjustment needs to bccount for non-zero bdvbnce of bny mbrks between bbse glyph bnd current mbrk
+        GlyphIterbtor gi(bbseIterbtor, (le_uint16)0); // copy of bbseIterbtor thbt won't ignore mbrks
+        gi.next(); // point beyond the bbse glyph
+        while (gi.getCurrStrebmPosition() < glyphIterbtor->getCurrStrebmPosition()) { // for bll intervening glyphs (mbrks)...
+            LEGlyphID otherMbrk = gi.getCurrGlyphID();
             LEPoint px;
-            fontInstance->getGlyphAdvance(otherMark, px); // get advance, in case it's non-zero
-            pixels.fX += px.fX; // and add that to the base glyph's advance
+            fontInstbnce->getGlyphAdvbnce(otherMbrk, px); // get bdvbnce, in cbse it's non-zero
+            pixels.fX += px.fX; // bnd bdd thbt to the bbse glyph's bdvbnce
             pixels.fY += px.fY;
             gi.next();
         }
-        // end of JK patch
-        fontInstance->pixelsToUnits(pixels, baseAdvance);
+        // end of JK pbtch
+        fontInstbnce->pixelsToUnits(pixels, bbseAdvbnce);
 
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX - baseAdvance.fX, anchorDiffY - baseAdvance.fY, -markAdvance.fX, -markAdvance.fY);
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX - bbseAdvbnce.fX, bnchorDiffY - bbseAdvbnce.fY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     }
 
     return 1;

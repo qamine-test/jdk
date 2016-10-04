@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
-import java.io.IOException;
+pbckbge jbvb.net;
+import jbvb.io.IOException;
 
 /*
- * Package private implementation of InetAddressImpl for IPv4.
+ * Pbckbge privbte implementbtion of InetAddressImpl for IPv4.
  *
  * @since 1.4
  */
-class Inet4AddressImpl implements InetAddressImpl {
-    public native String getLocalHostName() throws UnknownHostException;
-    public native InetAddress[]
-        lookupAllHostAddr(String hostname) throws UnknownHostException;
-    public native String getHostByAddr(byte[] addr) throws UnknownHostException;
-    private native boolean isReachable0(byte[] addr, int timeout, byte[] ifaddr, int ttl) throws IOException;
+clbss Inet4AddressImpl implements InetAddressImpl {
+    public nbtive String getLocblHostNbme() throws UnknownHostException;
+    public nbtive InetAddress[]
+        lookupAllHostAddr(String hostnbme) throws UnknownHostException;
+    public nbtive String getHostByAddr(byte[] bddr) throws UnknownHostException;
+    privbte nbtive boolebn isRebchbble0(byte[] bddr, int timeout, byte[] ifbddr, int ttl) throws IOException;
 
-    public synchronized InetAddress anyLocalAddress() {
-        if (anyLocalAddress == null) {
-            anyLocalAddress = new Inet4Address(); // {0x00,0x00,0x00,0x00}
-            anyLocalAddress.holder().hostName = "0.0.0.0";
+    public synchronized InetAddress bnyLocblAddress() {
+        if (bnyLocblAddress == null) {
+            bnyLocblAddress = new Inet4Address(); // {0x00,0x00,0x00,0x00}
+            bnyLocblAddress.holder().hostNbme = "0.0.0.0";
         }
-        return anyLocalAddress;
+        return bnyLocblAddress;
     }
 
-    public synchronized InetAddress loopbackAddress() {
-        if (loopbackAddress == null) {
-            byte[] loopback = {0x7f,0x00,0x00,0x01};
-            loopbackAddress = new Inet4Address("localhost", loopback);
+    public synchronized InetAddress loopbbckAddress() {
+        if (loopbbckAddress == null) {
+            byte[] loopbbck = {0x7f,0x00,0x00,0x01};
+            loopbbckAddress = new Inet4Address("locblhost", loopbbck);
         }
-        return loopbackAddress;
+        return loopbbckAddress;
     }
 
-  public boolean isReachable(InetAddress addr, int timeout, NetworkInterface netif, int ttl) throws IOException {
-      byte[] ifaddr = null;
+  public boolebn isRebchbble(InetAddress bddr, int timeout, NetworkInterfbce netif, int ttl) throws IOException {
+      byte[] ifbddr = null;
       if (netif != null) {
           /*
-           * Let's make sure we use an address of the proper family
+           * Let's mbke sure we use bn bddress of the proper fbmily
            */
-          java.util.Enumeration<InetAddress> it = netif.getInetAddresses();
-          InetAddress inetaddr = null;
-          while (!(inetaddr instanceof Inet4Address) &&
-                 it.hasMoreElements())
-              inetaddr = it.nextElement();
-          if (inetaddr instanceof Inet4Address)
-              ifaddr = inetaddr.getAddress();
+          jbvb.util.Enumerbtion<InetAddress> it = netif.getInetAddresses();
+          InetAddress inetbddr = null;
+          while (!(inetbddr instbnceof Inet4Address) &&
+                 it.hbsMoreElements())
+              inetbddr = it.nextElement();
+          if (inetbddr instbnceof Inet4Address)
+              ifbddr = inetbddr.getAddress();
       }
-      return isReachable0(addr.getAddress(), timeout, ifaddr, ttl);
+      return isRebchbble0(bddr.getAddress(), timeout, ifbddr, ttl);
   }
-    private InetAddress      anyLocalAddress;
-    private InetAddress      loopbackAddress;
+    privbte InetAddress      bnyLocblAddress;
+    privbte InetAddress      loopbbckAddress;
 }

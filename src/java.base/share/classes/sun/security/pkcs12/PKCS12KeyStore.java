@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs12;
+pbckbge sun.security.pkcs12;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyStore;
-import java.security.KeyStoreSpi;
-import java.security.KeyStoreException;
-import java.security.PKCS12Attribute;
-import java.security.PrivateKey;
-import java.security.PrivilegedAction;
-import java.security.UnrecoverableEntryException;
-import java.security.UnrecoverableKeyException;
-import java.security.SecureRandom;
-import java.security.Security;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.KeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.Key;
+import jbvb.security.KeyFbctory;
+import jbvb.security.KeyStore;
+import jbvb.security.KeyStoreSpi;
+import jbvb.security.KeyStoreException;
+import jbvb.security.PKCS12Attribute;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.UnrecoverbbleEntryException;
+import jbvb.security.UnrecoverbbleKeyException;
+import jbvb.security.SecureRbndom;
+import jbvb.security.Security;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
+import jbvb.util.*;
 
-import java.security.AlgorithmParameters;
-import javax.crypto.spec.PBEParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.SecretKey;
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.security.auth.DestroyFailedException;
-import javax.security.auth.x500.X500Principal;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvbx.crypto.spec.PBEPbrbmeterSpec;
+import jbvbx.crypto.spec.PBEKeySpec;
+import jbvbx.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.SecretKeyFbctory;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.Mbc;
+import jbvbx.security.buth.DestroyFbiledException;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.Debug;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 import sun.security.util.ObjectIdentifier;
 import sun.security.pkcs.ContentInfo;
 import sun.security.x509.AlgorithmId;
-import sun.security.pkcs.EncryptedPrivateKeyInfo;
+import sun.security.pkcs.EncryptedPrivbteKeyInfo;
 
 
 /**
- * This class provides the keystore implementation referred to as "PKCS12".
- * Implements the PKCS#12 PFX protected using the Password privacy mode.
- * The contents are protected using Password integrity mode.
+ * This clbss provides the keystore implementbtion referred to bs "PKCS12".
+ * Implements the PKCS#12 PFX protected using the Pbssword privbcy mode.
+ * The contents bre protected using Pbssword integrity mode.
  *
- * Currently we support following PBE algorithms:
- *  - pbeWithSHAAnd3KeyTripleDESCBC to encrypt private keys
- *  - pbeWithSHAAnd40BitRC2CBC to encrypt certificates
+ * Currently we support following PBE blgorithms:
+ *  - pbeWithSHAAnd3KeyTripleDESCBC to encrypt privbte keys
+ *  - pbeWithSHAAnd40BitRC2CBC to encrypt certificbtes
  *
- * Supported encryption of various implementations :
+ * Supported encryption of vbrious implementbtions :
  *
- * Software and mode.     Certificate encryption  Private key encryption
+ * Softwbre bnd mode.     Certificbte encryption  Privbte key encryption
  * ---------------------------------------------------------------------
  * MSIE4 (domestic            40 bit RC2.            40 bit RC2
- * and xport versions)
+ * bnd xport versions)
  * PKCS#12 export.
  *
  * MSIE4, 5 (domestic         40 bit RC2,            40 bit RC2,
- * and export versions)       3 key triple DES       3 key triple DES
+ * bnd export versions)       3 key triple DES       3 key triple DES
  * PKCS#12 import.
  *
  * MSIE5                      40 bit RC2             3 key triple DES,
  * PKCS#12 export.                                   with SHA1 (168 bits)
  *
- * Netscape Communicator      40 bit RC2             3 key triple DES,
- * (domestic and export                              with SHA1 (168 bits)
+ * Netscbpe Communicbtor      40 bit RC2             3 key triple DES,
+ * (domestic bnd export                              with SHA1 (168 bits)
  * versions) PKCS#12 export
  *
- * Netscape Communicator      40 bit ciphers only    All.
+ * Netscbpe Communicbtor      40 bit ciphers only    All.
  * (export version)
  * PKCS#12 import.
  *
- * Netscape Communicator      All.                   All.
+ * Netscbpe Communicbtor      All.                   All.
  * (domestic or fortified
  * version) PKCS#12 import.
  *
  * OpenSSL PKCS#12 code.      All.                   All.
  * ---------------------------------------------------------------------
  *
- * NOTE: PKCS12 KeyStore supports PrivateKeyEntry and TrustedCertficateEntry.
- * PKCS#12 is mainly used to deliver private keys with their associated
- * certificate chain and aliases. In a PKCS12 keystore, entries are
- * identified by the alias, and a localKeyId is required to match the
- * private key with the certificate. Trusted certificate entries are identified
- * by the presence of an trustedKeyUsage attribute.
+ * NOTE: PKCS12 KeyStore supports PrivbteKeyEntry bnd TrustedCertficbteEntry.
+ * PKCS#12 is mbinly used to deliver privbte keys with their bssocibted
+ * certificbte chbin bnd blibses. In b PKCS12 keystore, entries bre
+ * identified by the blibs, bnd b locblKeyId is required to mbtch the
+ * privbte key with the certificbte. Trusted certificbte entries bre identified
+ * by the presence of bn trustedKeyUsbge bttribute.
  *
- * @author Seema Malkani
- * @author Jeff Nisewanger
- * @author Jan Luehe
+ * @buthor Seemb Mblkbni
+ * @buthor Jeff Nisewbnger
+ * @buthor Jbn Luehe
  *
  * @see KeyProtector
- * @see java.security.KeyStoreSpi
+ * @see jbvb.security.KeyStoreSpi
  * @see KeyTool
  *
  *
  */
-public final class PKCS12KeyStore extends KeyStoreSpi {
+public finbl clbss PKCS12KeyStore extends KeyStoreSpi {
 
-    public static final int VERSION_3 = 3;
+    public stbtic finbl int VERSION_3 = 3;
 
-    private static final String[] KEY_PROTECTION_ALGORITHM = {
+    privbte stbtic finbl String[] KEY_PROTECTION_ALGORITHM = {
         "keystore.pkcs12.keyProtectionAlgorithm",
         "keystore.PKCS12.keyProtectionAlgorithm"
     };
 
-    // friendlyName, localKeyId, trustedKeyUsage
-    private static final String[] CORE_ATTRIBUTES = {
+    // friendlyNbme, locblKeyId, trustedKeyUsbge
+    privbte stbtic finbl String[] CORE_ATTRIBUTES = {
         "1.2.840.113549.1.9.20",
         "1.2.840.113549.1.9.21",
         "2.16.840.1.113894.746875.1.1"
     };
 
-    private static final Debug debug = Debug.getInstance("pkcs12");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("pkcs12");
 
-    private static final int keyBag[]  = {1, 2, 840, 113549, 1, 12, 10, 1, 2};
-    private static final int certBag[] = {1, 2, 840, 113549, 1, 12, 10, 1, 3};
-    private static final int secretBag[] = {1, 2, 840, 113549, 1, 12, 10, 1, 5};
+    privbte stbtic finbl int keyBbg[]  = {1, 2, 840, 113549, 1, 12, 10, 1, 2};
+    privbte stbtic finbl int certBbg[] = {1, 2, 840, 113549, 1, 12, 10, 1, 3};
+    privbte stbtic finbl int secretBbg[] = {1, 2, 840, 113549, 1, 12, 10, 1, 5};
 
-    private static final int pkcs9Name[]  = {1, 2, 840, 113549, 1, 9, 20};
-    private static final int pkcs9KeyId[] = {1, 2, 840, 113549, 1, 9, 21};
+    privbte stbtic finbl int pkcs9Nbme[]  = {1, 2, 840, 113549, 1, 9, 20};
+    privbte stbtic finbl int pkcs9KeyId[] = {1, 2, 840, 113549, 1, 9, 21};
 
-    private static final int pkcs9certType[] = {1, 2, 840, 113549, 1, 9, 22, 1};
+    privbte stbtic finbl int pkcs9certType[] = {1, 2, 840, 113549, 1, 9, 22, 1};
 
-    private static final int pbeWithSHAAnd40BitRC2CBC[] =
+    privbte stbtic finbl int pbeWithSHAAnd40BitRC2CBC[] =
                                         {1, 2, 840, 113549, 1, 12, 1, 6};
-    private static final int pbeWithSHAAnd3KeyTripleDESCBC[] =
+    privbte stbtic finbl int pbeWithSHAAnd3KeyTripleDESCBC[] =
                                         {1, 2, 840, 113549, 1, 12, 1, 3};
-    private static final int pbes2[] = {1, 2, 840, 113549, 1, 5, 13};
-    // TODO: temporary Oracle OID
+    privbte stbtic finbl int pbes2[] = {1, 2, 840, 113549, 1, 5, 13};
+    // TODO: temporbry Orbcle OID
     /*
-     * { joint-iso-itu-t(2) country(16) us(840) organization(1) oracle(113894)
-     *   jdk(746875) crypto(1) id-at-trustedKeyUsage(1) }
+     * { joint-iso-itu-t(2) country(16) us(840) orgbnizbtion(1) orbcle(113894)
+     *   jdk(746875) crypto(1) id-bt-trustedKeyUsbge(1) }
      */
-    private static final int TrustedKeyUsage[] =
+    privbte stbtic finbl int TrustedKeyUsbge[] =
                                         {2, 16, 840, 1, 113894, 746875, 1, 1};
-    private static final int AnyExtendedKeyUsage[] = {2, 5, 29, 37, 0};
+    privbte stbtic finbl int AnyExtendedKeyUsbge[] = {2, 5, 29, 37, 0};
 
-    private static ObjectIdentifier PKCS8ShroudedKeyBag_OID;
-    private static ObjectIdentifier CertBag_OID;
-    private static ObjectIdentifier SecretBag_OID;
-    private static ObjectIdentifier PKCS9FriendlyName_OID;
-    private static ObjectIdentifier PKCS9LocalKeyId_OID;
-    private static ObjectIdentifier PKCS9CertType_OID;
-    private static ObjectIdentifier pbeWithSHAAnd40BitRC2CBC_OID;
-    private static ObjectIdentifier pbeWithSHAAnd3KeyTripleDESCBC_OID;
-    private static ObjectIdentifier pbes2_OID;
-    private static ObjectIdentifier TrustedKeyUsage_OID;
-    private static ObjectIdentifier[] AnyUsage;
+    privbte stbtic ObjectIdentifier PKCS8ShroudedKeyBbg_OID;
+    privbte stbtic ObjectIdentifier CertBbg_OID;
+    privbte stbtic ObjectIdentifier SecretBbg_OID;
+    privbte stbtic ObjectIdentifier PKCS9FriendlyNbme_OID;
+    privbte stbtic ObjectIdentifier PKCS9LocblKeyId_OID;
+    privbte stbtic ObjectIdentifier PKCS9CertType_OID;
+    privbte stbtic ObjectIdentifier pbeWithSHAAnd40BitRC2CBC_OID;
+    privbte stbtic ObjectIdentifier pbeWithSHAAnd3KeyTripleDESCBC_OID;
+    privbte stbtic ObjectIdentifier pbes2_OID;
+    privbte stbtic ObjectIdentifier TrustedKeyUsbge_OID;
+    privbte stbtic ObjectIdentifier[] AnyUsbge;
 
-    private int counter = 0;
-    private static final int iterationCount = 1024;
-    private static final int SALT_LEN = 20;
+    privbte int counter = 0;
+    privbte stbtic finbl int iterbtionCount = 1024;
+    privbte stbtic finbl int SALT_LEN = 20;
 
-    // private key count
-    // Note: This is a workaround to allow null localKeyID attribute
-    // in pkcs12 with one private key entry and associated cert-chain
-    private int privateKeyCount = 0;
+    // privbte key count
+    // Note: This is b workbround to bllow null locblKeyID bttribute
+    // in pkcs12 with one privbte key entry bnd bssocibted cert-chbin
+    privbte int privbteKeyCount = 0;
 
     // secret key count
-    private int secretKeyCount = 0;
+    privbte int secretKeyCount = 0;
 
-    // certificate count
-    private int certificateCount = 0;
+    // certificbte count
+    privbte int certificbteCount = 0;
 
-    // the source of randomness
-    private SecureRandom random;
+    // the source of rbndomness
+    privbte SecureRbndom rbndom;
 
-    static {
+    stbtic {
         try {
-            PKCS8ShroudedKeyBag_OID = new ObjectIdentifier(keyBag);
-            CertBag_OID = new ObjectIdentifier(certBag);
-            SecretBag_OID = new ObjectIdentifier(secretBag);
-            PKCS9FriendlyName_OID = new ObjectIdentifier(pkcs9Name);
-            PKCS9LocalKeyId_OID = new ObjectIdentifier(pkcs9KeyId);
+            PKCS8ShroudedKeyBbg_OID = new ObjectIdentifier(keyBbg);
+            CertBbg_OID = new ObjectIdentifier(certBbg);
+            SecretBbg_OID = new ObjectIdentifier(secretBbg);
+            PKCS9FriendlyNbme_OID = new ObjectIdentifier(pkcs9Nbme);
+            PKCS9LocblKeyId_OID = new ObjectIdentifier(pkcs9KeyId);
             PKCS9CertType_OID = new ObjectIdentifier(pkcs9certType);
             pbeWithSHAAnd40BitRC2CBC_OID =
                         new ObjectIdentifier(pbeWithSHAAnd40BitRC2CBC);
             pbeWithSHAAnd3KeyTripleDESCBC_OID =
                         new ObjectIdentifier(pbeWithSHAAnd3KeyTripleDESCBC);
             pbes2_OID = new ObjectIdentifier(pbes2);
-            TrustedKeyUsage_OID = new ObjectIdentifier(TrustedKeyUsage);
-            AnyUsage = new ObjectIdentifier[]{
-                new ObjectIdentifier(AnyExtendedKeyUsage)};
-        } catch (IOException ioe) {
-            // should not happen
+            TrustedKeyUsbge_OID = new ObjectIdentifier(TrustedKeyUsbge);
+            AnyUsbge = new ObjectIdentifier[]{
+                new ObjectIdentifier(AnyExtendedKeyUsbge)};
+        } cbtch (IOException ioe) {
+            // should not hbppen
         }
     }
 
-    // A keystore entry and associated attributes
-    private static class Entry {
-        Date date; // the creation date of this entry
-        String alias;
+    // A keystore entry bnd bssocibted bttributes
+    privbte stbtic clbss Entry {
+        Dbte dbte; // the crebtion dbte of this entry
+        String blibs;
         byte[] keyId;
-        Set<KeyStore.Entry.Attribute> attributes;
+        Set<KeyStore.Entry.Attribute> bttributes;
     }
 
     // A key entry
-    private static class KeyEntry extends Entry {
+    privbte stbtic clbss KeyEntry extends Entry {
     }
 
-    // A private key entry and its supporting certificate chain
-    private static class PrivateKeyEntry extends KeyEntry {
+    // A privbte key entry bnd its supporting certificbte chbin
+    privbte stbtic clbss PrivbteKeyEntry extends KeyEntry {
         byte[] protectedPrivKey;
-        Certificate chain[];
+        Certificbte chbin[];
     };
 
     // A secret key
-    private static class SecretKeyEntry extends KeyEntry {
+    privbte stbtic clbss SecretKeyEntry extends KeyEntry {
         byte[] protectedSecretKey;
     };
 
-    // A certificate entry
-    private static class CertEntry extends Entry {
-        final X509Certificate cert;
-        ObjectIdentifier[] trustedKeyUsage;
+    // A certificbte entry
+    privbte stbtic clbss CertEntry extends Entry {
+        finbl X509Certificbte cert;
+        ObjectIdentifier[] trustedKeyUsbge;
 
-        CertEntry(X509Certificate cert, byte[] keyId, String alias) {
-            this(cert, keyId, alias, null, null);
+        CertEntry(X509Certificbte cert, byte[] keyId, String blibs) {
+            this(cert, keyId, blibs, null, null);
         }
 
-        CertEntry(X509Certificate cert, byte[] keyId, String alias,
-                ObjectIdentifier[] trustedKeyUsage,
-                Set<? extends KeyStore.Entry.Attribute> attributes) {
-            this.date = new Date();
+        CertEntry(X509Certificbte cert, byte[] keyId, String blibs,
+                ObjectIdentifier[] trustedKeyUsbge,
+                Set<? extends KeyStore.Entry.Attribute> bttributes) {
+            this.dbte = new Dbte();
             this.cert = cert;
             this.keyId = keyId;
-            this.alias = alias;
-            this.trustedKeyUsage = trustedKeyUsage;
-            this.attributes = new HashSet<>();
-            if (attributes != null) {
-                this.attributes.addAll(attributes);
+            this.blibs = blibs;
+            this.trustedKeyUsbge = trustedKeyUsbge;
+            this.bttributes = new HbshSet<>();
+            if (bttributes != null) {
+                this.bttributes.bddAll(bttributes);
             }
         }
     }
 
     /**
-     * Private keys and certificates are stored in a map.
-     * Map entries are keyed by alias names.
+     * Privbte keys bnd certificbtes bre stored in b mbp.
+     * Mbp entries bre keyed by blibs nbmes.
      */
-    private Map<String, Entry> entries =
-        Collections.synchronizedMap(new LinkedHashMap<String, Entry>());
+    privbte Mbp<String, Entry> entries =
+        Collections.synchronizedMbp(new LinkedHbshMbp<String, Entry>());
 
-    private ArrayList<KeyEntry> keyList = new ArrayList<KeyEntry>();
-    private LinkedHashMap<X500Principal, X509Certificate> certsMap =
-            new LinkedHashMap<X500Principal, X509Certificate>();
-    private ArrayList<CertEntry> certEntries = new ArrayList<CertEntry>();
+    privbte ArrbyList<KeyEntry> keyList = new ArrbyList<KeyEntry>();
+    privbte LinkedHbshMbp<X500Principbl, X509Certificbte> certsMbp =
+            new LinkedHbshMbp<X500Principbl, X509Certificbte>();
+    privbte ArrbyList<CertEntry> certEntries = new ArrbyList<CertEntry>();
 
     /**
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.
+     * Returns the key bssocibted with the given blibs, using the given
+     * pbssword to recover it.
      *
-     * @param alias the alias name
-     * @param password the password for recovering the key
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm pbssword the pbssword for recovering the key
      *
-     * @return the requested key, or null if the given alias does not exist
-     * or does not identify a <i>key entry</i>.
+     * @return the requested key, or null if the given blibs does not exist
+     * or does not identify b <i>key entry</i>.
      *
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     * key cannot be found
-     * @exception UnrecoverableKeyException if the key cannot be recovered
-     * (e.g., the given password is wrong).
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     * key cbnnot be found
+     * @exception UnrecoverbbleKeyException if the key cbnnot be recovered
+     * (e.g., the given pbssword is wrong).
      */
-    public Key engineGetKey(String alias, char[] password)
-        throws NoSuchAlgorithmException, UnrecoverableKeyException
+    public Key engineGetKey(String blibs, chbr[] pbssword)
+        throws NoSuchAlgorithmException, UnrecoverbbleKeyException
     {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
         Key key = null;
 
-        if (entry == null || (!(entry instanceof KeyEntry))) {
+        if (entry == null || (!(entry instbnceof KeyEntry))) {
             return null;
         }
 
-        // get the encoded private key or secret key
+        // get the encoded privbte key or secret key
         byte[] encrBytes = null;
-        if (entry instanceof PrivateKeyEntry) {
-            encrBytes = ((PrivateKeyEntry) entry).protectedPrivKey;
-        } else if (entry instanceof SecretKeyEntry) {
+        if (entry instbnceof PrivbteKeyEntry) {
+            encrBytes = ((PrivbteKeyEntry) entry).protectedPrivKey;
+        } else if (entry instbnceof SecretKeyEntry) {
             encrBytes = ((SecretKeyEntry) entry).protectedSecretKey;
         } else {
-            throw new UnrecoverableKeyException("Error locating key");
+            throw new UnrecoverbbleKeyException("Error locbting key");
         }
 
         byte[] encryptedKey;
-        AlgorithmParameters algParams;
-        ObjectIdentifier algOid;
+        AlgorithmPbrbmeters blgPbrbms;
+        ObjectIdentifier blgOid;
         try {
-            // get the encrypted private key
-            EncryptedPrivateKeyInfo encrInfo =
-                        new EncryptedPrivateKeyInfo(encrBytes);
-            encryptedKey = encrInfo.getEncryptedData();
+            // get the encrypted privbte key
+            EncryptedPrivbteKeyInfo encrInfo =
+                        new EncryptedPrivbteKeyInfo(encrBytes);
+            encryptedKey = encrInfo.getEncryptedDbtb();
 
-            // parse Algorithm parameters
-            DerValue val = new DerValue(encrInfo.getAlgorithm().encode());
-            DerInputStream in = val.toDerInputStream();
-            algOid = in.getOID();
-            algParams = parseAlgParameters(algOid, in);
+            // pbrse Algorithm pbrbmeters
+            DerVblue vbl = new DerVblue(encrInfo.getAlgorithm().encode());
+            DerInputStrebm in = vbl.toDerInputStrebm();
+            blgOid = in.getOID();
+            blgPbrbms = pbrseAlgPbrbmeters(blgOid, in);
 
-        } catch (IOException ioe) {
-            UnrecoverableKeyException uke =
-                new UnrecoverableKeyException("Private key not stored as "
-                                 + "PKCS#8 EncryptedPrivateKeyInfo: " + ioe);
-            uke.initCause(ioe);
+        } cbtch (IOException ioe) {
+            UnrecoverbbleKeyException uke =
+                new UnrecoverbbleKeyException("Privbte key not stored bs "
+                                 + "PKCS#8 EncryptedPrivbteKeyInfo: " + ioe);
+            uke.initCbuse(ioe);
             throw uke;
         }
 
@@ -341,17 +341,17 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
             while (true) {
                 try {
                     // Use JCE
-                    SecretKey skey = getPBEKey(password);
-                    Cipher cipher = Cipher.getInstance(
-                        mapPBEParamsToAlgorithm(algOid, algParams));
-                    cipher.init(Cipher.DECRYPT_MODE, skey, algParams);
-                    keyInfo = cipher.doFinal(encryptedKey);
-                    break;
-                } catch (Exception e) {
-                    if (password.length == 0) {
-                        // Retry using an empty password
-                        // without a NULL terminator.
-                        password = new char[1];
+                    SecretKey skey = getPBEKey(pbssword);
+                    Cipher cipher = Cipher.getInstbnce(
+                        mbpPBEPbrbmsToAlgorithm(blgOid, blgPbrbms));
+                    cipher.init(Cipher.DECRYPT_MODE, skey, blgPbrbms);
+                    keyInfo = cipher.doFinbl(encryptedKey);
+                    brebk;
+                } cbtch (Exception e) {
+                    if (pbssword.length == 0) {
+                        // Retry using bn empty pbssword
+                        // without b NULL terminbtor.
+                        pbssword = new chbr[1];
                         continue;
                     }
                     throw e;
@@ -359,86 +359,86 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
             }
 
             /*
-             * Parse the key algorithm and then use a JCA key factory
-             * to re-create the key.
+             * Pbrse the key blgorithm bnd then use b JCA key fbctory
+             * to re-crebte the key.
              */
-            DerValue val = new DerValue(keyInfo);
-            DerInputStream in = val.toDerInputStream();
+            DerVblue vbl = new DerVblue(keyInfo);
+            DerInputStrebm in = vbl.toDerInputStrebm();
             int i = in.getInteger();
-            DerValue[] value = in.getSequence(2);
-            AlgorithmId algId = new AlgorithmId(value[0].getOID());
-            String keyAlgo = algId.getName();
+            DerVblue[] vblue = in.getSequence(2);
+            AlgorithmId blgId = new AlgorithmId(vblue[0].getOID());
+            String keyAlgo = blgId.getNbme();
 
-            // decode private key
-            if (entry instanceof PrivateKeyEntry) {
-                KeyFactory kfac = KeyFactory.getInstance(keyAlgo);
+            // decode privbte key
+            if (entry instbnceof PrivbteKeyEntry) {
+                KeyFbctory kfbc = KeyFbctory.getInstbnce(keyAlgo);
                 PKCS8EncodedKeySpec kspec = new PKCS8EncodedKeySpec(keyInfo);
-                key = kfac.generatePrivate(kspec);
+                key = kfbc.generbtePrivbte(kspec);
 
                 if (debug != null) {
-                    debug.println("Retrieved a protected private key (" +
-                        key.getClass().getName() + ") at alias '" + alias +
+                    debug.println("Retrieved b protected privbte key (" +
+                        key.getClbss().getNbme() + ") bt blibs '" + blibs +
                         "'");
                 }
 
             // decode secret key
             } else {
-                SecretKeyFactory sKeyFactory =
-                    SecretKeyFactory.getInstance(keyAlgo);
+                SecretKeyFbctory sKeyFbctory =
+                    SecretKeyFbctory.getInstbnce(keyAlgo);
                 byte[] keyBytes = in.getOctetString();
                 SecretKeySpec secretKeySpec =
                     new SecretKeySpec(keyBytes, keyAlgo);
 
-                // Special handling required for PBE: needs a PBEKeySpec
-                if (keyAlgo.startsWith("PBE")) {
+                // Specibl hbndling required for PBE: needs b PBEKeySpec
+                if (keyAlgo.stbrtsWith("PBE")) {
                     KeySpec pbeKeySpec =
-                        sKeyFactory.getKeySpec(secretKeySpec, PBEKeySpec.class);
-                    key = sKeyFactory.generateSecret(pbeKeySpec);
+                        sKeyFbctory.getKeySpec(secretKeySpec, PBEKeySpec.clbss);
+                    key = sKeyFbctory.generbteSecret(pbeKeySpec);
                 } else {
-                    key = sKeyFactory.generateSecret(secretKeySpec);
+                    key = sKeyFbctory.generbteSecret(secretKeySpec);
                 }
 
                 if (debug != null) {
-                    debug.println("Retrieved a protected secret key (" +
-                        key.getClass().getName() + ") at alias '" + alias +
+                    debug.println("Retrieved b protected secret key (" +
+                        key.getClbss().getNbme() + ") bt blibs '" + blibs +
                         "'");
                 }
             }
-        } catch (Exception e) {
-            UnrecoverableKeyException uke =
-                new UnrecoverableKeyException("Get Key failed: " +
-                                        e.getMessage());
-            uke.initCause(e);
+        } cbtch (Exception e) {
+            UnrecoverbbleKeyException uke =
+                new UnrecoverbbleKeyException("Get Key fbiled: " +
+                                        e.getMessbge());
+            uke.initCbuse(e);
             throw uke;
         }
         return key;
     }
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last), or null if the given alias
-     * does not exist or does not contain a certificate chain (i.e., the given
-     * alias identifies either a <i>trusted certificate entry</i> or a
-     * <i>key entry</i> without a certificate chain).
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst), or null if the given blibs
+     * does not exist or does not contbin b certificbte chbin (i.e., the given
+     * blibs identifies either b <i>trusted certificbte entry</i> or b
+     * <i>key entry</i> without b certificbte chbin).
      */
-    public Certificate[] engineGetCertificateChain(String alias) {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry != null && entry instanceof PrivateKeyEntry) {
-            if (((PrivateKeyEntry) entry).chain == null) {
+    public Certificbte[] engineGetCertificbteChbin(String blibs) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry != null && entry instbnceof PrivbteKeyEntry) {
+            if (((PrivbteKeyEntry) entry).chbin == null) {
                 return null;
             } else {
 
                 if (debug != null) {
-                    debug.println("Retrieved a " +
-                        ((PrivateKeyEntry) entry).chain.length +
-                        "-certificate chain at alias '" + alias + "'");
+                    debug.println("Retrieved b " +
+                        ((PrivbteKeyEntry) entry).chbin.length +
+                        "-certificbte chbin bt blibs '" + blibs + "'");
                 }
 
-                return ((PrivateKeyEntry) entry).chain.clone();
+                return ((PrivbteKeyEntry) entry).chbin.clone();
             }
         } else {
             return null;
@@ -446,52 +446,52 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns the certificate associated with the given alias.
+     * Returns the certificbte bssocibted with the given blibs.
      *
-     * <p>If the given alias name identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with that
-     * entry is returned. If the given alias name identifies a
-     * <i>key entry</i>, the first element of the certificate chain of that
-     * entry is returned, or null if that entry does not have a certificate
-     * chain.
+     * <p>If the given blibs nbme identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with thbt
+     * entry is returned. If the given blibs nbme identifies b
+     * <i>key entry</i>, the first element of the certificbte chbin of thbt
+     * entry is returned, or null if thbt entry does not hbve b certificbte
+     * chbin.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate, or null if the given alias does not exist or
-     * does not contain a certificate.
+     * @return the certificbte, or null if the given blibs does not exist or
+     * does not contbin b certificbte.
      */
-    public Certificate engineGetCertificate(String alias) {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+    public Certificbte engineGetCertificbte(String blibs) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
         if (entry == null) {
             return null;
         }
-        if (entry instanceof CertEntry &&
-            ((CertEntry) entry).trustedKeyUsage != null) {
+        if (entry instbnceof CertEntry &&
+            ((CertEntry) entry).trustedKeyUsbge != null) {
 
             if (debug != null) {
-                if (Arrays.equals(AnyUsage,
-                    ((CertEntry) entry).trustedKeyUsage)) {
-                    debug.println("Retrieved a certificate at alias '" + alias +
-                        "' (trusted for any purpose)");
+                if (Arrbys.equbls(AnyUsbge,
+                    ((CertEntry) entry).trustedKeyUsbge)) {
+                    debug.println("Retrieved b certificbte bt blibs '" + blibs +
+                        "' (trusted for bny purpose)");
                 } else {
-                    debug.println("Retrieved a certificate at alias '" + alias +
+                    debug.println("Retrieved b certificbte bt blibs '" + blibs +
                         "' (trusted for limited purposes)");
                 }
             }
 
             return ((CertEntry) entry).cert;
 
-        } else if (entry instanceof PrivateKeyEntry) {
-            if (((PrivateKeyEntry) entry).chain == null) {
+        } else if (entry instbnceof PrivbteKeyEntry) {
+            if (((PrivbteKeyEntry) entry).chbin == null) {
                 return null;
             } else {
 
                 if (debug != null) {
-                    debug.println("Retrieved a certificate at alias '" + alias +
+                    debug.println("Retrieved b certificbte bt blibs '" + blibs +
                         "'");
                 }
 
-                return ((PrivateKeyEntry) entry).chain[0];
+                return ((PrivbteKeyEntry) entry).chbin[0];
             }
 
         } else {
@@ -500,132 +500,132 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns the creation date of the entry identified by the given alias.
+     * Returns the crebtion dbte of the entry identified by the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the creation date of this entry, or null if the given alias does
+     * @return the crebtion dbte of this entry, or null if the given blibs does
      * not exist
      */
-    public Date engineGetCreationDate(String alias) {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+    public Dbte engineGetCrebtionDbte(String blibs) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
         if (entry != null) {
-            return new Date(entry.date.getTime());
+            return new Dbte(entry.dbte.getTime());
         } else {
             return null;
         }
     }
 
     /**
-     * Assigns the given key to the given alias, protecting it with the given
-     * password.
+     * Assigns the given key to the given blibs, protecting it with the given
+     * pbssword.
      *
-     * <p>If the given key is of type <code>java.security.PrivateKey</code>,
-     * it must be accompanied by a certificate chain certifying the
+     * <p>If the given key is of type <code>jbvb.security.PrivbteKey</code>,
+     * it must be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key to be associated with the alias
-     * @param password the password to protect the key
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key to be bssocibted with the blibs
+     * @pbrbm pbssword the pbssword to protect the key
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only required if the given key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if the given key cannot be protected, or
-     * this operation fails for some other reason
+     * @exception KeyStoreException if the given key cbnnot be protected, or
+     * this operbtion fbils for some other rebson
      */
-    public synchronized void engineSetKeyEntry(String alias, Key key,
-                        char[] password, Certificate[] chain)
+    public synchronized void engineSetKeyEntry(String blibs, Key key,
+                        chbr[] pbssword, Certificbte[] chbin)
         throws KeyStoreException
     {
-        KeyStore.PasswordProtection passwordProtection =
-            new KeyStore.PasswordProtection(password);
+        KeyStore.PbsswordProtection pbsswordProtection =
+            new KeyStore.PbsswordProtection(pbssword);
 
         try {
-            setKeyEntry(alias, key, passwordProtection, chain, null);
+            setKeyEntry(blibs, key, pbsswordProtection, chbin, null);
 
-        } finally {
+        } finblly {
             try {
-                passwordProtection.destroy();
-            } catch (DestroyFailedException dfe) {
+                pbsswordProtection.destroy();
+            } cbtch (DestroyFbiledException dfe) {
                 // ignore
             }
         }
     }
 
     /*
-     * Sets a key entry (with attributes, when present)
+     * Sets b key entry (with bttributes, when present)
      */
-    private void setKeyEntry(String alias, Key key,
-        KeyStore.PasswordProtection passwordProtection, Certificate[] chain,
-        Set<KeyStore.Entry.Attribute> attributes)
+    privbte void setKeyEntry(String blibs, Key key,
+        KeyStore.PbsswordProtection pbsswordProtection, Certificbte[] chbin,
+        Set<KeyStore.Entry.Attribute> bttributes)
             throws KeyStoreException
     {
         try {
             Entry entry;
 
-            if (key instanceof PrivateKey) {
-                PrivateKeyEntry keyEntry = new PrivateKeyEntry();
-                keyEntry.date = new Date();
+            if (key instbnceof PrivbteKey) {
+                PrivbteKeyEntry keyEntry = new PrivbteKeyEntry();
+                keyEntry.dbte = new Dbte();
 
-                if ((key.getFormat().equals("PKCS#8")) ||
-                    (key.getFormat().equals("PKCS8"))) {
+                if ((key.getFormbt().equbls("PKCS#8")) ||
+                    (key.getFormbt().equbls("PKCS8"))) {
 
                     if (debug != null) {
-                        debug.println("Setting a protected private key (" +
-                            key.getClass().getName() + ") at alias '" + alias +
+                        debug.println("Setting b protected privbte key (" +
+                            key.getClbss().getNbme() + ") bt blibs '" + blibs +
                             "'");
                         }
 
-                    // Encrypt the private key
+                    // Encrypt the privbte key
                     keyEntry.protectedPrivKey =
-                        encryptPrivateKey(key.getEncoded(), passwordProtection);
+                        encryptPrivbteKey(key.getEncoded(), pbsswordProtection);
                 } else {
-                    throw new KeyStoreException("Private key is not encoded" +
-                                "as PKCS#8");
+                    throw new KeyStoreException("Privbte key is not encoded" +
+                                "bs PKCS#8");
                 }
 
-                // clone the chain
-                if (chain != null) {
-                    // validate cert-chain
-                    if ((chain.length > 1) && (!validateChain(chain)))
-                       throw new KeyStoreException("Certificate chain is " +
-                                                "not valid");
-                    keyEntry.chain = chain.clone();
-                    certificateCount += chain.length;
+                // clone the chbin
+                if (chbin != null) {
+                    // vblidbte cert-chbin
+                    if ((chbin.length > 1) && (!vblidbteChbin(chbin)))
+                       throw new KeyStoreException("Certificbte chbin is " +
+                                                "not vblid");
+                    keyEntry.chbin = chbin.clone();
+                    certificbteCount += chbin.length;
 
                     if (debug != null) {
-                        debug.println("Setting a " + chain.length +
-                            "-certificate chain at alias '" + alias + "'");
+                        debug.println("Setting b " + chbin.length +
+                            "-certificbte chbin bt blibs '" + blibs + "'");
                     }
                 }
-                privateKeyCount++;
+                privbteKeyCount++;
                 entry = keyEntry;
 
-            } else if (key instanceof SecretKey) {
+            } else if (key instbnceof SecretKey) {
                 SecretKeyEntry keyEntry = new SecretKeyEntry();
-                keyEntry.date = new Date();
+                keyEntry.dbte = new Dbte();
 
-                // Encode secret key in a PKCS#8
-                DerOutputStream pkcs8 = new DerOutputStream();
-                DerOutputStream secretKeyInfo = new DerOutputStream();
+                // Encode secret key in b PKCS#8
+                DerOutputStrebm pkcs8 = new DerOutputStrebm();
+                DerOutputStrebm secretKeyInfo = new DerOutputStrebm();
                 secretKeyInfo.putInteger(0);
-                AlgorithmId algId = AlgorithmId.get(key.getAlgorithm());
-                algId.encode(secretKeyInfo);
+                AlgorithmId blgId = AlgorithmId.get(key.getAlgorithm());
+                blgId.encode(secretKeyInfo);
                 secretKeyInfo.putOctetString(key.getEncoded());
-                pkcs8.write(DerValue.tag_Sequence, secretKeyInfo);
+                pkcs8.write(DerVblue.tbg_Sequence, secretKeyInfo);
 
-                // Encrypt the secret key (using same PBE as for private keys)
+                // Encrypt the secret key (using sbme PBE bs for privbte keys)
                 keyEntry.protectedSecretKey =
-                    encryptPrivateKey(pkcs8.toByteArray(), passwordProtection);
+                    encryptPrivbteKey(pkcs8.toByteArrby(), pbsswordProtection);
 
                 if (debug != null) {
-                    debug.println("Setting a protected secret key (" +
-                        key.getClass().getName() + ") at alias '" + alias +
+                    debug.println("Setting b protected secret key (" +
+                        key.getClbss().getNbme() + ") bt blibs '" + blibs +
                         "'");
                 }
                 secretKeyCount++;
@@ -635,213 +635,213 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
                 throw new KeyStoreException("Unsupported Key type");
             }
 
-            entry.attributes = new HashSet<>();
-            if (attributes != null) {
-                entry.attributes.addAll(attributes);
+            entry.bttributes = new HbshSet<>();
+            if (bttributes != null) {
+                entry.bttributes.bddAll(bttributes);
             }
-            // set the keyId to current date
-            entry.keyId = ("Time " + (entry.date).getTime()).getBytes("UTF8");
-            // set the alias
-            entry.alias = alias.toLowerCase(Locale.ENGLISH);
-            // add the entry
-            entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+            // set the keyId to current dbte
+            entry.keyId = ("Time " + (entry.dbte).getTime()).getBytes("UTF8");
+            // set the blibs
+            entry.blibs = blibs.toLowerCbse(Locble.ENGLISH);
+            // bdd the entry
+            entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
 
-        } catch (Exception nsae) {
+        } cbtch (Exception nsbe) {
             throw new KeyStoreException("Key protection " +
-                       " algorithm not found: " + nsae, nsae);
+                       " blgorithm not found: " + nsbe, nsbe);
         }
     }
 
     /**
-     * Assigns the given key (that has already been protected) to the given
-     * alias.
+     * Assigns the given key (thbt hbs blrebdy been protected) to the given
+     * blibs.
      *
      * <p>If the protected key is of type
-     * <code>java.security.PrivateKey</code>, it must be accompanied by a
-     * certificate chain certifying the corresponding public key. If the
-     * underlying keystore implementation is of type <code>jks</code>,
-     * <code>key</code> must be encoded as an
-     * <code>EncryptedPrivateKeyInfo</code> as defined in the PKCS #8 standard.
+     * <code>jbvb.security.PrivbteKey</code>, it must be bccompbnied by b
+     * certificbte chbin certifying the corresponding public key. If the
+     * underlying keystore implementbtion is of type <code>jks</code>,
+     * <code>key</code> must be encoded bs bn
+     * <code>EncryptedPrivbteKeyInfo</code> bs defined in the PKCS #8 stbndbrd.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key (in protected format) to be associated with the alias
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key (in protected formbt) to be bssocibted with the blibs
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only useful if the protected key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if this operation fails.
+     * @exception KeyStoreException if this operbtion fbils.
      */
-    public synchronized void engineSetKeyEntry(String alias, byte[] key,
-                                  Certificate[] chain)
+    public synchronized void engineSetKeyEntry(String blibs, byte[] key,
+                                  Certificbte[] chbin)
         throws KeyStoreException
     {
-        // Private key must be encoded as EncryptedPrivateKeyInfo
-        // as defined in PKCS#8
+        // Privbte key must be encoded bs EncryptedPrivbteKeyInfo
+        // bs defined in PKCS#8
         try {
-            new EncryptedPrivateKeyInfo(key);
-        } catch (IOException ioe) {
-            throw new KeyStoreException("Private key is not stored"
-                    + " as PKCS#8 EncryptedPrivateKeyInfo: " + ioe, ioe);
+            new EncryptedPrivbteKeyInfo(key);
+        } cbtch (IOException ioe) {
+            throw new KeyStoreException("Privbte key is not stored"
+                    + " bs PKCS#8 EncryptedPrivbteKeyInfo: " + ioe, ioe);
         }
 
-        PrivateKeyEntry entry = new PrivateKeyEntry();
-        entry.date = new Date();
+        PrivbteKeyEntry entry = new PrivbteKeyEntry();
+        entry.dbte = new Dbte();
 
         if (debug != null) {
-            debug.println("Setting a protected private key at alias '" +
-                alias + "'");
+            debug.println("Setting b protected privbte key bt blibs '" +
+                blibs + "'");
         }
 
         try {
-            // set the keyId to current date
-            entry.keyId = ("Time " + (entry.date).getTime()).getBytes("UTF8");
-        } catch (UnsupportedEncodingException ex) {
-            // Won't happen
+            // set the keyId to current dbte
+            entry.keyId = ("Time " + (entry.dbte).getTime()).getBytes("UTF8");
+        } cbtch (UnsupportedEncodingException ex) {
+            // Won't hbppen
         }
-        // set the alias
-        entry.alias = alias.toLowerCase(Locale.ENGLISH);
+        // set the blibs
+        entry.blibs = blibs.toLowerCbse(Locble.ENGLISH);
 
         entry.protectedPrivKey = key.clone();
-        if (chain != null) {
-            entry.chain = chain.clone();
-            certificateCount += chain.length;
+        if (chbin != null) {
+            entry.chbin = chbin.clone();
+            certificbteCount += chbin.length;
 
             if (debug != null) {
-                debug.println("Setting a " + entry.chain.length +
-                    "-certificate chain at alias '" + alias + "'");
+                debug.println("Setting b " + entry.chbin.length +
+                    "-certificbte chbin bt blibs '" + blibs + "'");
             }
         }
 
-        // add the entry
-        privateKeyCount++;
-        entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+        // bdd the entry
+        privbteKeyCount++;
+        entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
     }
 
 
     /*
-     * Generate random salt
+     * Generbte rbndom sblt
      */
-    private byte[] getSalt()
+    privbte byte[] getSblt()
     {
-        // Generate a random salt.
-        byte[] salt = new byte[SALT_LEN];
-        if (random == null) {
-           random = new SecureRandom();
+        // Generbte b rbndom sblt.
+        byte[] sblt = new byte[SALT_LEN];
+        if (rbndom == null) {
+           rbndom = new SecureRbndom();
         }
-        random.nextBytes(salt);
-        return salt;
+        rbndom.nextBytes(sblt);
+        return sblt;
     }
 
     /*
-     * Generate PBE Algorithm Parameters
+     * Generbte PBE Algorithm Pbrbmeters
      */
-    private AlgorithmParameters getAlgorithmParameters(String algorithm)
+    privbte AlgorithmPbrbmeters getAlgorithmPbrbmeters(String blgorithm)
         throws IOException
     {
-        AlgorithmParameters algParams = null;
+        AlgorithmPbrbmeters blgPbrbms = null;
 
-        // create PBE parameters from salt and iteration count
-        PBEParameterSpec paramSpec =
-                new PBEParameterSpec(getSalt(), iterationCount);
+        // crebte PBE pbrbmeters from sblt bnd iterbtion count
+        PBEPbrbmeterSpec pbrbmSpec =
+                new PBEPbrbmeterSpec(getSblt(), iterbtionCount);
         try {
-           algParams = AlgorithmParameters.getInstance(algorithm);
-           algParams.init(paramSpec);
-        } catch (Exception e) {
-           throw new IOException("getAlgorithmParameters failed: " +
-                                 e.getMessage(), e);
+           blgPbrbms = AlgorithmPbrbmeters.getInstbnce(blgorithm);
+           blgPbrbms.init(pbrbmSpec);
+        } cbtch (Exception e) {
+           throw new IOException("getAlgorithmPbrbmeters fbiled: " +
+                                 e.getMessbge(), e);
         }
-        return algParams;
+        return blgPbrbms;
     }
 
     /*
-     * parse Algorithm Parameters
+     * pbrse Algorithm Pbrbmeters
      */
-    private AlgorithmParameters parseAlgParameters(ObjectIdentifier algorithm,
-        DerInputStream in) throws IOException
+    privbte AlgorithmPbrbmeters pbrseAlgPbrbmeters(ObjectIdentifier blgorithm,
+        DerInputStrebm in) throws IOException
     {
-        AlgorithmParameters algParams = null;
+        AlgorithmPbrbmeters blgPbrbms = null;
         try {
-            DerValue params;
-            if (in.available() == 0) {
-                params = null;
+            DerVblue pbrbms;
+            if (in.bvbilbble() == 0) {
+                pbrbms = null;
             } else {
-                params = in.getDerValue();
-                if (params.tag == DerValue.tag_Null) {
-                   params = null;
+                pbrbms = in.getDerVblue();
+                if (pbrbms.tbg == DerVblue.tbg_Null) {
+                   pbrbms = null;
                 }
             }
-            if (params != null) {
-                if (algorithm.equals((Object)pbes2_OID)) {
-                    algParams = AlgorithmParameters.getInstance("PBES2");
+            if (pbrbms != null) {
+                if (blgorithm.equbls((Object)pbes2_OID)) {
+                    blgPbrbms = AlgorithmPbrbmeters.getInstbnce("PBES2");
                 } else {
-                    algParams = AlgorithmParameters.getInstance("PBE");
+                    blgPbrbms = AlgorithmPbrbmeters.getInstbnce("PBE");
                 }
-                algParams.init(params.toByteArray());
+                blgPbrbms.init(pbrbms.toByteArrby());
             }
-        } catch (Exception e) {
-           throw new IOException("parseAlgParameters failed: " +
-                                 e.getMessage(), e);
+        } cbtch (Exception e) {
+           throw new IOException("pbrseAlgPbrbmeters fbiled: " +
+                                 e.getMessbge(), e);
         }
-        return algParams;
+        return blgPbrbms;
     }
 
     /*
-     * Generate PBE key
+     * Generbte PBE key
      */
-    private SecretKey getPBEKey(char[] password) throws IOException
+    privbte SecretKey getPBEKey(chbr[] pbssword) throws IOException
     {
         SecretKey skey = null;
 
         try {
-            PBEKeySpec keySpec = new PBEKeySpec(password);
-            SecretKeyFactory skFac = SecretKeyFactory.getInstance("PBE");
-            skey = skFac.generateSecret(keySpec);
-            keySpec.clearPassword();
-        } catch (Exception e) {
-           throw new IOException("getSecretKey failed: " +
-                                 e.getMessage(), e);
+            PBEKeySpec keySpec = new PBEKeySpec(pbssword);
+            SecretKeyFbctory skFbc = SecretKeyFbctory.getInstbnce("PBE");
+            skey = skFbc.generbteSecret(keySpec);
+            keySpec.clebrPbssword();
+        } cbtch (Exception e) {
+           throw new IOException("getSecretKey fbiled: " +
+                                 e.getMessbge(), e);
         }
         return skey;
     }
 
     /*
-     * Encrypt private key using Password-based encryption (PBE)
-     * as defined in PKCS#5.
+     * Encrypt privbte key using Pbssword-bbsed encryption (PBE)
+     * bs defined in PKCS#5.
      *
-     * NOTE: By default, pbeWithSHAAnd3-KeyTripleDES-CBC algorithmID is
-     *       used to derive the key and IV.
+     * NOTE: By defbult, pbeWithSHAAnd3-KeyTripleDES-CBC blgorithmID is
+     *       used to derive the key bnd IV.
      *
-     * @return encrypted private key encoded as EncryptedPrivateKeyInfo
+     * @return encrypted privbte key encoded bs EncryptedPrivbteKeyInfo
      */
-    private byte[] encryptPrivateKey(byte[] data,
-        KeyStore.PasswordProtection passwordProtection)
-        throws IOException, NoSuchAlgorithmException, UnrecoverableKeyException
+    privbte byte[] encryptPrivbteKey(byte[] dbtb,
+        KeyStore.PbsswordProtection pbsswordProtection)
+        throws IOException, NoSuchAlgorithmException, UnrecoverbbleKeyException
     {
         byte[] key = null;
 
         try {
-            String algorithm;
-            AlgorithmParameters algParams;
-            AlgorithmId algid;
+            String blgorithm;
+            AlgorithmPbrbmeters blgPbrbms;
+            AlgorithmId blgid;
 
-            // Initialize PBE algorithm and parameters
-            algorithm = passwordProtection.getProtectionAlgorithm();
-            if (algorithm != null) {
-                AlgorithmParameterSpec algParamSpec =
-                    passwordProtection.getProtectionParameters();
-                if (algParamSpec != null) {
-                    algParams = AlgorithmParameters.getInstance(algorithm);
-                    algParams.init(algParamSpec);
+            // Initiblize PBE blgorithm bnd pbrbmeters
+            blgorithm = pbsswordProtection.getProtectionAlgorithm();
+            if (blgorithm != null) {
+                AlgorithmPbrbmeterSpec blgPbrbmSpec =
+                    pbsswordProtection.getProtectionPbrbmeters();
+                if (blgPbrbmSpec != null) {
+                    blgPbrbms = AlgorithmPbrbmeters.getInstbnce(blgorithm);
+                    blgPbrbms.init(blgPbrbmSpec);
                 } else {
-                    algParams = getAlgorithmParameters(algorithm);
+                    blgPbrbms = getAlgorithmPbrbmeters(blgorithm);
                 }
             } else {
-                // Check default key protection algorithm for PKCS12 keystores
-                algorithm = AccessController.doPrivileged(
+                // Check defbult key protection blgorithm for PKCS12 keystores
+                blgorithm = AccessController.doPrivileged(
                     new PrivilegedAction<String>() {
                         public String run() {
                             String prop =
@@ -854,40 +854,40 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
                             return prop;
                         }
                     });
-                if (algorithm == null || algorithm.isEmpty()) {
-                    algorithm = "PBEWithSHA1AndDESede";
+                if (blgorithm == null || blgorithm.isEmpty()) {
+                    blgorithm = "PBEWithSHA1AndDESede";
                 }
-                algParams = getAlgorithmParameters(algorithm);
+                blgPbrbms = getAlgorithmPbrbmeters(blgorithm);
             }
 
-            ObjectIdentifier pbeOID = mapPBEAlgorithmToOID(algorithm);
+            ObjectIdentifier pbeOID = mbpPBEAlgorithmToOID(blgorithm);
             if (pbeOID == null) {
-                    throw new IOException("PBE algorithm '" + algorithm +
+                    throw new IOException("PBE blgorithm '" + blgorithm +
                         " 'is not supported for key entry protection");
             }
 
             // Use JCE
-            SecretKey skey = getPBEKey(passwordProtection.getPassword());
-            Cipher cipher = Cipher.getInstance(algorithm);
-            cipher.init(Cipher.ENCRYPT_MODE, skey, algParams);
-            byte[] encryptedKey = cipher.doFinal(data);
-            algid = new AlgorithmId(pbeOID, cipher.getParameters());
+            SecretKey skey = getPBEKey(pbsswordProtection.getPbssword());
+            Cipher cipher = Cipher.getInstbnce(blgorithm);
+            cipher.init(Cipher.ENCRYPT_MODE, skey, blgPbrbms);
+            byte[] encryptedKey = cipher.doFinbl(dbtb);
+            blgid = new AlgorithmId(pbeOID, cipher.getPbrbmeters());
 
             if (debug != null) {
-                debug.println("  (Cipher algorithm: " + cipher.getAlgorithm() +
+                debug.println("  (Cipher blgorithm: " + cipher.getAlgorithm() +
                     ")");
             }
 
-            // wrap encrypted private key in EncryptedPrivateKeyInfo
-            // as defined in PKCS#8
-            EncryptedPrivateKeyInfo encrInfo =
-                new EncryptedPrivateKeyInfo(algid, encryptedKey);
+            // wrbp encrypted privbte key in EncryptedPrivbteKeyInfo
+            // bs defined in PKCS#8
+            EncryptedPrivbteKeyInfo encrInfo =
+                new EncryptedPrivbteKeyInfo(blgid, encryptedKey);
             key = encrInfo.getEncoded();
-        } catch (Exception e) {
-            UnrecoverableKeyException uke =
-                new UnrecoverableKeyException("Encrypt Private Key failed: "
-                                                + e.getMessage());
-            uke.initCause(e);
+        } cbtch (Exception e) {
+            UnrecoverbbleKeyException uke =
+                new UnrecoverbbleKeyException("Encrypt Privbte Key fbiled: "
+                                                + e.getMessbge());
+            uke.initCbuse(e);
             throw uke;
         }
 
@@ -895,119 +895,119 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
     }
 
     /*
-     * Map a PBE algorithm name onto its object identifier
+     * Mbp b PBE blgorithm nbme onto its object identifier
      */
-    private static ObjectIdentifier mapPBEAlgorithmToOID(String algorithm)
+    privbte stbtic ObjectIdentifier mbpPBEAlgorithmToOID(String blgorithm)
         throws NoSuchAlgorithmException {
-        // Check for PBES2 algorithms
-        if (algorithm.toLowerCase(Locale.ENGLISH).startsWith("pbewithhmacsha")) {
+        // Check for PBES2 blgorithms
+        if (blgorithm.toLowerCbse(Locble.ENGLISH).stbrtsWith("pbewithhmbcshb")) {
             return pbes2_OID;
         }
-        return AlgorithmId.get(algorithm).getOID();
+        return AlgorithmId.get(blgorithm).getOID();
     }
 
     /*
-     * Map a PBE algorithm parameters onto its algorithm name
+     * Mbp b PBE blgorithm pbrbmeters onto its blgorithm nbme
      */
-    private static String mapPBEParamsToAlgorithm(ObjectIdentifier algorithm,
-        AlgorithmParameters algParams) throws NoSuchAlgorithmException {
-        // Check for PBES2 algorithms
-        if (algorithm.equals((Object)pbes2_OID) && algParams != null) {
-            return algParams.toString();
+    privbte stbtic String mbpPBEPbrbmsToAlgorithm(ObjectIdentifier blgorithm,
+        AlgorithmPbrbmeters blgPbrbms) throws NoSuchAlgorithmException {
+        // Check for PBES2 blgorithms
+        if (blgorithm.equbls((Object)pbes2_OID) && blgPbrbms != null) {
+            return blgPbrbms.toString();
         }
-        return algorithm.toString();
+        return blgorithm.toString();
     }
 
     /**
-     * Assigns the given certificate to the given alias.
+     * Assigns the given certificbte to the given blibs.
      *
-     * <p>If the given alias already exists in this keystore and identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with it is
-     * overridden by the given certificate.
+     * <p>If the given blibs blrebdy exists in this keystore bnd identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with it is
+     * overridden by the given certificbte.
      *
-     * @param alias the alias name
-     * @param cert the certificate
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm cert the certificbte
      *
-     * @exception KeyStoreException if the given alias already exists and does
-     * not identify a <i>trusted certificate entry</i>, or this operation fails
-     * for some other reason.
+     * @exception KeyStoreException if the given blibs blrebdy exists bnd does
+     * not identify b <i>trusted certificbte entry</i>, or this operbtion fbils
+     * for some other rebson.
      */
-    public synchronized void engineSetCertificateEntry(String alias,
-        Certificate cert) throws KeyStoreException
+    public synchronized void engineSetCertificbteEntry(String blibs,
+        Certificbte cert) throws KeyStoreException
     {
-        setCertEntry(alias, cert, null);
+        setCertEntry(blibs, cert, null);
     }
 
     /*
-     * Sets a trusted cert entry (with attributes, when present)
+     * Sets b trusted cert entry (with bttributes, when present)
      */
-    private void setCertEntry(String alias, Certificate cert,
-        Set<KeyStore.Entry.Attribute> attributes) throws KeyStoreException {
+    privbte void setCertEntry(String blibs, Certificbte cert,
+        Set<KeyStore.Entry.Attribute> bttributes) throws KeyStoreException {
 
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry != null && entry instanceof KeyEntry) {
-            throw new KeyStoreException("Cannot overwrite own certificate");
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry != null && entry instbnceof KeyEntry) {
+            throw new KeyStoreException("Cbnnot overwrite own certificbte");
         }
 
         CertEntry certEntry =
-            new CertEntry((X509Certificate) cert, null, alias, AnyUsage,
-                attributes);
-        certificateCount++;
-        entries.put(alias, certEntry);
+            new CertEntry((X509Certificbte) cert, null, blibs, AnyUsbge,
+                bttributes);
+        certificbteCount++;
+        entries.put(blibs, certEntry);
 
         if (debug != null) {
-            debug.println("Setting a trusted certificate at alias '" + alias +
+            debug.println("Setting b trusted certificbte bt blibs '" + blibs +
                 "'");
         }
     }
 
     /**
-     * Deletes the entry identified by the given alias from this keystore.
+     * Deletes the entry identified by the given blibs from this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @exception KeyStoreException if the entry cannot be removed.
+     * @exception KeyStoreException if the entry cbnnot be removed.
      */
-    public synchronized void engineDeleteEntry(String alias)
+    public synchronized void engineDeleteEntry(String blibs)
         throws KeyStoreException
     {
         if (debug != null) {
-            debug.println("Removing entry at alias '" + alias + "'");
+            debug.println("Removing entry bt blibs '" + blibs + "'");
         }
 
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry instanceof PrivateKeyEntry) {
-            PrivateKeyEntry keyEntry = (PrivateKeyEntry) entry;
-            if (keyEntry.chain != null) {
-                certificateCount -= keyEntry.chain.length;
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry instbnceof PrivbteKeyEntry) {
+            PrivbteKeyEntry keyEntry = (PrivbteKeyEntry) entry;
+            if (keyEntry.chbin != null) {
+                certificbteCount -= keyEntry.chbin.length;
             }
-            privateKeyCount--;
-        } else if (entry instanceof CertEntry) {
-            certificateCount--;
-        } else if (entry instanceof SecretKeyEntry) {
+            privbteKeyCount--;
+        } else if (entry instbnceof CertEntry) {
+            certificbteCount--;
+        } else if (entry instbnceof SecretKeyEntry) {
             secretKeyCount--;
         }
-        entries.remove(alias.toLowerCase(Locale.ENGLISH));
+        entries.remove(blibs.toLowerCbse(Locble.ENGLISH));
     }
 
     /**
-     * Lists all the alias names of this keystore.
+     * Lists bll the blibs nbmes of this keystore.
      *
-     * @return enumeration of the alias names
+     * @return enumerbtion of the blibs nbmes
      */
-    public Enumeration<String> engineAliases() {
-        return Collections.enumeration(entries.keySet());
+    public Enumerbtion<String> engineAlibses() {
+        return Collections.enumerbtion(entries.keySet());
     }
 
     /**
-     * Checks if the given alias exists in this keystore.
+     * Checks if the given blibs exists in this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return true if the alias exists, false otherwise
+     * @return true if the blibs exists, fblse otherwise
      */
-    public boolean engineContainsAlias(String alias) {
-        return entries.containsKey(alias.toLowerCase(Locale.ENGLISH));
+    public boolebn engineContbinsAlibs(String blibs) {
+        return entries.contbinsKey(blibs.toLowerCbse(Locble.ENGLISH));
     }
 
     /**
@@ -1020,1196 +1020,1196 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>key entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>key entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>key entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>key entry</i>, fblse otherwise.
      */
-    public boolean engineIsKeyEntry(String alias) {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry != null && entry instanceof KeyEntry) {
+    public boolebn engineIsKeyEntry(String blibs) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry != null && entry instbnceof KeyEntry) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, fblse otherwise.
      */
-    public boolean engineIsCertificateEntry(String alias) {
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry != null && entry instanceof CertEntry &&
-            ((CertEntry) entry).trustedKeyUsage != null) {
+    public boolebn engineIsCertificbteEntry(String blibs) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry != null && entry instbnceof CertEntry &&
+            ((CertEntry) entry).trustedKeyUsbge != null) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns the (alias) name of the first keystore entry whose certificate
-     * matches the given certificate.
+     * Returns the (blibs) nbme of the first keystore entry whose certificbte
+     * mbtches the given certificbte.
      *
-     * <p>This method attempts to match the given certificate with each
+     * <p>This method bttempts to mbtch the given certificbte with ebch
      * keystore entry. If the entry being considered
-     * is a <i>trusted certificate entry</i>, the given certificate is
-     * compared to that entry's certificate. If the entry being considered is
-     * a <i>key entry</i>, the given certificate is compared to the first
-     * element of that entry's certificate chain (if a chain exists).
+     * is b <i>trusted certificbte entry</i>, the given certificbte is
+     * compbred to thbt entry's certificbte. If the entry being considered is
+     * b <i>key entry</i>, the given certificbte is compbred to the first
+     * element of thbt entry's certificbte chbin (if b chbin exists).
      *
-     * @param cert the certificate to match with.
+     * @pbrbm cert the certificbte to mbtch with.
      *
-     * @return the (alias) name of the first entry with matching certificate,
+     * @return the (blibs) nbme of the first entry with mbtching certificbte,
      * or null if no such entry exists in this keystore.
      */
-    public String engineGetCertificateAlias(Certificate cert) {
-        Certificate certElem = null;
+    public String engineGetCertificbteAlibs(Certificbte cert) {
+        Certificbte certElem = null;
 
-        for (Enumeration<String> e = engineAliases(); e.hasMoreElements(); ) {
-            String alias = e.nextElement();
-            Entry entry = entries.get(alias);
-            if (entry instanceof PrivateKeyEntry) {
-                if (((PrivateKeyEntry) entry).chain != null) {
-                    certElem = ((PrivateKeyEntry) entry).chain[0];
+        for (Enumerbtion<String> e = engineAlibses(); e.hbsMoreElements(); ) {
+            String blibs = e.nextElement();
+            Entry entry = entries.get(blibs);
+            if (entry instbnceof PrivbteKeyEntry) {
+                if (((PrivbteKeyEntry) entry).chbin != null) {
+                    certElem = ((PrivbteKeyEntry) entry).chbin[0];
                 }
-            } else if (entry instanceof CertEntry &&
-                    ((CertEntry) entry).trustedKeyUsage != null) {
+            } else if (entry instbnceof CertEntry &&
+                    ((CertEntry) entry).trustedKeyUsbge != null) {
                 certElem = ((CertEntry) entry).cert;
             } else {
                 continue;
             }
-            if (certElem.equals(cert)) {
-                return alias;
+            if (certElem.equbls(cert)) {
+                return blibs;
             }
         }
         return null;
     }
 
     /**
-     * Stores this keystore to the given output stream, and protects its
-     * integrity with the given password.
+     * Stores this keystore to the given output strebm, bnd protects its
+     * integrity with the given pbssword.
      *
-     * @param stream the output stream to which this keystore is written.
-     * @param password the password to generate the keystore integrity check
+     * @pbrbm strebm the output strebm to which this keystore is written.
+     * @pbrbm pbssword the pbssword to generbte the keystore integrity check
      *
-     * @exception IOException if there was an I/O problem with data
-     * @exception NoSuchAlgorithmException if the appropriate data integrity
-     * algorithm could not be found
-     * @exception CertificateException if any of the certificates included in
-     * the keystore data could not be stored
+     * @exception IOException if there wbs bn I/O problem with dbtb
+     * @exception NoSuchAlgorithmException if the bppropribte dbtb integrity
+     * blgorithm could not be found
+     * @exception CertificbteException if bny of the certificbtes included in
+     * the keystore dbtb could not be stored
      */
-    public synchronized void engineStore(OutputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public synchronized void engineStore(OutputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        // password is mandatory when storing
-        if (password == null) {
-           throw new IllegalArgumentException("password can't be null");
+        // pbssword is mbndbtory when storing
+        if (pbssword == null) {
+           throw new IllegblArgumentException("pbssword cbn't be null");
         }
 
-        // -- Create PFX
-        DerOutputStream pfx = new DerOutputStream();
+        // -- Crebte PFX
+        DerOutputStrebm pfx = new DerOutputStrebm();
 
-        // PFX version (always write the latest version)
-        DerOutputStream version = new DerOutputStream();
+        // PFX version (blwbys write the lbtest version)
+        DerOutputStrebm version = new DerOutputStrebm();
         version.putInteger(VERSION_3);
-        byte[] pfxVersion = version.toByteArray();
+        byte[] pfxVersion = version.toByteArrby();
         pfx.write(pfxVersion);
 
-        // -- Create AuthSafe
-        DerOutputStream authSafe = new DerOutputStream();
+        // -- Crebte AuthSbfe
+        DerOutputStrebm buthSbfe = new DerOutputStrebm();
 
-        // -- Create ContentInfos
-        DerOutputStream authSafeContentInfo = new DerOutputStream();
+        // -- Crebte ContentInfos
+        DerOutputStrebm buthSbfeContentInfo = new DerOutputStrebm();
 
-        // -- create safeContent Data ContentInfo
-        if (privateKeyCount > 0 || secretKeyCount > 0) {
+        // -- crebte sbfeContent Dbtb ContentInfo
+        if (privbteKeyCount > 0 || secretKeyCount > 0) {
 
             if (debug != null) {
-                debug.println("Storing " + (privateKeyCount + secretKeyCount) +
-                    " protected key(s) in a PKCS#7 data content-type");
+                debug.println("Storing " + (privbteKeyCount + secretKeyCount) +
+                    " protected key(s) in b PKCS#7 dbtb content-type");
             }
 
-            byte[] safeContentData = createSafeContent();
-            ContentInfo dataContentInfo = new ContentInfo(safeContentData);
-            dataContentInfo.encode(authSafeContentInfo);
+            byte[] sbfeContentDbtb = crebteSbfeContent();
+            ContentInfo dbtbContentInfo = new ContentInfo(sbfeContentDbtb);
+            dbtbContentInfo.encode(buthSbfeContentInfo);
         }
 
-        // -- create EncryptedContentInfo
-        if (certificateCount > 0) {
+        // -- crebte EncryptedContentInfo
+        if (certificbteCount > 0) {
 
             if (debug != null) {
-                debug.println("Storing " + certificateCount +
-                    " certificate(s) in a PKCS#7 encryptedData content-type");
+                debug.println("Storing " + certificbteCount +
+                    " certificbte(s) in b PKCS#7 encryptedDbtb content-type");
             }
 
-            byte[] encrData = createEncryptedData(password);
+            byte[] encrDbtb = crebteEncryptedDbtb(pbssword);
             ContentInfo encrContentInfo =
                 new ContentInfo(ContentInfo.ENCRYPTED_DATA_OID,
-                                new DerValue(encrData));
-            encrContentInfo.encode(authSafeContentInfo);
+                                new DerVblue(encrDbtb));
+            encrContentInfo.encode(buthSbfeContentInfo);
         }
 
-        // wrap as SequenceOf ContentInfos
-        DerOutputStream cInfo = new DerOutputStream();
-        cInfo.write(DerValue.tag_SequenceOf, authSafeContentInfo);
-        byte[] authenticatedSafe = cInfo.toByteArray();
+        // wrbp bs SequenceOf ContentInfos
+        DerOutputStrebm cInfo = new DerOutputStrebm();
+        cInfo.write(DerVblue.tbg_SequenceOf, buthSbfeContentInfo);
+        byte[] buthenticbtedSbfe = cInfo.toByteArrby();
 
-        // Create Encapsulated ContentInfo
-        ContentInfo contentInfo = new ContentInfo(authenticatedSafe);
-        contentInfo.encode(authSafe);
-        byte[] authSafeData = authSafe.toByteArray();
-        pfx.write(authSafeData);
+        // Crebte Encbpsulbted ContentInfo
+        ContentInfo contentInfo = new ContentInfo(buthenticbtedSbfe);
+        contentInfo.encode(buthSbfe);
+        byte[] buthSbfeDbtb = buthSbfe.toByteArrby();
+        pfx.write(buthSbfeDbtb);
 
         // -- MAC
-        byte[] macData = calculateMac(password, authenticatedSafe);
-        pfx.write(macData);
+        byte[] mbcDbtb = cblculbteMbc(pbssword, buthenticbtedSbfe);
+        pfx.write(mbcDbtb);
 
-        // write PFX to output stream
-        DerOutputStream pfxout = new DerOutputStream();
-        pfxout.write(DerValue.tag_Sequence, pfx);
-        byte[] pfxData = pfxout.toByteArray();
-        stream.write(pfxData);
-        stream.flush();
+        // write PFX to output strebm
+        DerOutputStrebm pfxout = new DerOutputStrebm();
+        pfxout.write(DerVblue.tbg_Sequence, pfx);
+        byte[] pfxDbtb = pfxout.toByteArrby();
+        strebm.write(pfxDbtb);
+        strebm.flush();
     }
 
     /**
-     * Gets a <code>KeyStore.Entry</code> for the specified alias
-     * with the specified protection parameter.
+     * Gets b <code>KeyStore.Entry</code> for the specified blibs
+     * with the specified protection pbrbmeter.
      *
-     * @param alias get the <code>KeyStore.Entry</code> for this alias
-     * @param protParam the <code>ProtectionParameter</code>
+     * @pbrbm blibs get the <code>KeyStore.Entry</code> for this blibs
+     * @pbrbm protPbrbm the <code>ProtectionPbrbmeter</code>
      *          used to protect the <code>Entry</code>,
-     *          which may be <code>null</code>
+     *          which mby be <code>null</code>
      *
-     * @return the <code>KeyStore.Entry</code> for the specified alias,
+     * @return the <code>KeyStore.Entry</code> for the specified blibs,
      *          or <code>null</code> if there is no such entry
      *
-     * @exception KeyStoreException if the operation failed
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     *          entry cannot be found
-     * @exception UnrecoverableEntryException if the specified
-     *          <code>protParam</code> were insufficient or invalid
-     * @exception UnrecoverableKeyException if the entry is a
-     *          <code>PrivateKeyEntry</code> or <code>SecretKeyEntry</code>
-     *          and the specified <code>protParam</code> does not contain
-     *          the information needed to recover the key (e.g. wrong password)
+     * @exception KeyStoreException if the operbtion fbiled
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     *          entry cbnnot be found
+     * @exception UnrecoverbbleEntryException if the specified
+     *          <code>protPbrbm</code> were insufficient or invblid
+     * @exception UnrecoverbbleKeyException if the entry is b
+     *          <code>PrivbteKeyEntry</code> or <code>SecretKeyEntry</code>
+     *          bnd the specified <code>protPbrbm</code> does not contbin
+     *          the informbtion needed to recover the key (e.g. wrong pbssword)
      *
      * @since 1.5
      */
     @Override
-    public KeyStore.Entry engineGetEntry(String alias,
-                        KeyStore.ProtectionParameter protParam)
+    public KeyStore.Entry engineGetEntry(String blibs,
+                        KeyStore.ProtectionPbrbmeter protPbrbm)
                 throws KeyStoreException, NoSuchAlgorithmException,
-                UnrecoverableEntryException {
+                UnrecoverbbleEntryException {
 
-        if (!engineContainsAlias(alias)) {
+        if (!engineContbinsAlibs(blibs)) {
             return null;
         }
 
-        Entry entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (protParam == null) {
-            if (engineIsCertificateEntry(alias)) {
-                if (entry instanceof CertEntry &&
-                    ((CertEntry) entry).trustedKeyUsage != null) {
+        Entry entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (protPbrbm == null) {
+            if (engineIsCertificbteEntry(blibs)) {
+                if (entry instbnceof CertEntry &&
+                    ((CertEntry) entry).trustedKeyUsbge != null) {
 
                     if (debug != null) {
-                        debug.println("Retrieved a trusted certificate at " +
-                            "alias '" + alias + "'");
+                        debug.println("Retrieved b trusted certificbte bt " +
+                            "blibs '" + blibs + "'");
                     }
 
-                    return new KeyStore.TrustedCertificateEntry(
+                    return new KeyStore.TrustedCertificbteEntry(
                         ((CertEntry)entry).cert, getAttributes(entry));
                 }
             } else {
-                throw new UnrecoverableKeyException
-                        ("requested entry requires a password");
+                throw new UnrecoverbbleKeyException
+                        ("requested entry requires b pbssword");
             }
         }
 
-        if (protParam instanceof KeyStore.PasswordProtection) {
-            if (engineIsCertificateEntry(alias)) {
-                throw new UnsupportedOperationException
-                    ("trusted certificate entries are not password-protected");
-            } else if (engineIsKeyEntry(alias)) {
-                KeyStore.PasswordProtection pp =
-                        (KeyStore.PasswordProtection)protParam;
-                char[] password = pp.getPassword();
+        if (protPbrbm instbnceof KeyStore.PbsswordProtection) {
+            if (engineIsCertificbteEntry(blibs)) {
+                throw new UnsupportedOperbtionException
+                    ("trusted certificbte entries bre not pbssword-protected");
+            } else if (engineIsKeyEntry(blibs)) {
+                KeyStore.PbsswordProtection pp =
+                        (KeyStore.PbsswordProtection)protPbrbm;
+                chbr[] pbssword = pp.getPbssword();
 
-                Key key = engineGetKey(alias, password);
-                if (key instanceof PrivateKey) {
-                    Certificate[] chain = engineGetCertificateChain(alias);
+                Key key = engineGetKey(blibs, pbssword);
+                if (key instbnceof PrivbteKey) {
+                    Certificbte[] chbin = engineGetCertificbteChbin(blibs);
 
-                    return new KeyStore.PrivateKeyEntry((PrivateKey)key, chain,
+                    return new KeyStore.PrivbteKeyEntry((PrivbteKey)key, chbin,
                         getAttributes(entry));
 
-                } else if (key instanceof SecretKey) {
+                } else if (key instbnceof SecretKey) {
 
                     return new KeyStore.SecretKeyEntry((SecretKey)key,
                         getAttributes(entry));
                 }
-            } else if (!engineIsKeyEntry(alias)) {
-                throw new UnsupportedOperationException
-                    ("untrusted certificate entries are not " +
-                        "password-protected");
+            } else if (!engineIsKeyEntry(blibs)) {
+                throw new UnsupportedOperbtionException
+                    ("untrusted certificbte entries bre not " +
+                        "pbssword-protected");
             }
         }
 
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Saves a <code>KeyStore.Entry</code> under the specified alias.
-     * The specified protection parameter is used to protect the
+     * Sbves b <code>KeyStore.Entry</code> under the specified blibs.
+     * The specified protection pbrbmeter is used to protect the
      * <code>Entry</code>.
      *
-     * <p> If an entry already exists for the specified alias,
+     * <p> If bn entry blrebdy exists for the specified blibs,
      * it is overridden.
      *
-     * @param alias save the <code>KeyStore.Entry</code> under this alias
-     * @param entry the <code>Entry</code> to save
-     * @param protParam the <code>ProtectionParameter</code>
+     * @pbrbm blibs sbve the <code>KeyStore.Entry</code> under this blibs
+     * @pbrbm entry the <code>Entry</code> to sbve
+     * @pbrbm protPbrbm the <code>ProtectionPbrbmeter</code>
      *          used to protect the <code>Entry</code>,
-     *          which may be <code>null</code>
+     *          which mby be <code>null</code>
      *
-     * @exception KeyStoreException if this operation fails
+     * @exception KeyStoreException if this operbtion fbils
      *
      * @since 1.5
      */
     @Override
-    public synchronized void engineSetEntry(String alias, KeyStore.Entry entry,
-        KeyStore.ProtectionParameter protParam) throws KeyStoreException {
+    public synchronized void engineSetEntry(String blibs, KeyStore.Entry entry,
+        KeyStore.ProtectionPbrbmeter protPbrbm) throws KeyStoreException {
 
-        // get password
-        if (protParam != null &&
-            !(protParam instanceof KeyStore.PasswordProtection)) {
-            throw new KeyStoreException("unsupported protection parameter");
+        // get pbssword
+        if (protPbrbm != null &&
+            !(protPbrbm instbnceof KeyStore.PbsswordProtection)) {
+            throw new KeyStoreException("unsupported protection pbrbmeter");
         }
-        KeyStore.PasswordProtection pProtect = null;
-        if (protParam != null) {
-            pProtect = (KeyStore.PasswordProtection)protParam;
+        KeyStore.PbsswordProtection pProtect = null;
+        if (protPbrbm != null) {
+            pProtect = (KeyStore.PbsswordProtection)protPbrbm;
         }
 
         // set entry
-        if (entry instanceof KeyStore.TrustedCertificateEntry) {
-            if (protParam != null && pProtect.getPassword() != null) {
-                // pre-1.5 style setCertificateEntry did not allow password
+        if (entry instbnceof KeyStore.TrustedCertificbteEntry) {
+            if (protPbrbm != null && pProtect.getPbssword() != null) {
+                // pre-1.5 style setCertificbteEntry did not bllow pbssword
                 throw new KeyStoreException
-                    ("trusted certificate entries are not password-protected");
+                    ("trusted certificbte entries bre not pbssword-protected");
             } else {
-                KeyStore.TrustedCertificateEntry tce =
-                        (KeyStore.TrustedCertificateEntry)entry;
-                setCertEntry(alias, tce.getTrustedCertificate(),
+                KeyStore.TrustedCertificbteEntry tce =
+                        (KeyStore.TrustedCertificbteEntry)entry;
+                setCertEntry(blibs, tce.getTrustedCertificbte(),
                     tce.getAttributes());
 
                 return;
             }
-        } else if (entry instanceof KeyStore.PrivateKeyEntry) {
-            if (pProtect == null || pProtect.getPassword() == null) {
-                // pre-1.5 style setKeyEntry required password
+        } else if (entry instbnceof KeyStore.PrivbteKeyEntry) {
+            if (pProtect == null || pProtect.getPbssword() == null) {
+                // pre-1.5 style setKeyEntry required pbssword
                 throw new KeyStoreException
-                    ("non-null password required to create PrivateKeyEntry");
+                    ("non-null pbssword required to crebte PrivbteKeyEntry");
             } else {
-                KeyStore.PrivateKeyEntry pke = (KeyStore.PrivateKeyEntry)entry;
-                setKeyEntry(alias, pke.getPrivateKey(), pProtect,
-                    pke.getCertificateChain(), pke.getAttributes());
+                KeyStore.PrivbteKeyEntry pke = (KeyStore.PrivbteKeyEntry)entry;
+                setKeyEntry(blibs, pke.getPrivbteKey(), pProtect,
+                    pke.getCertificbteChbin(), pke.getAttributes());
 
                 return;
             }
-        } else if (entry instanceof KeyStore.SecretKeyEntry) {
-            if (pProtect == null || pProtect.getPassword() == null) {
-                // pre-1.5 style setKeyEntry required password
+        } else if (entry instbnceof KeyStore.SecretKeyEntry) {
+            if (pProtect == null || pProtect.getPbssword() == null) {
+                // pre-1.5 style setKeyEntry required pbssword
                 throw new KeyStoreException
-                    ("non-null password required to create SecretKeyEntry");
+                    ("non-null pbssword required to crebte SecretKeyEntry");
             } else {
                 KeyStore.SecretKeyEntry ske = (KeyStore.SecretKeyEntry)entry;
-                setKeyEntry(alias, ske.getSecretKey(), pProtect,
-                    (Certificate[])null, ske.getAttributes());
+                setKeyEntry(blibs, ske.getSecretKey(), pProtect,
+                    (Certificbte[])null, ske.getAttributes());
 
                 return;
             }
         }
 
         throw new KeyStoreException
-                ("unsupported entry type: " + entry.getClass().getName());
+                ("unsupported entry type: " + entry.getClbss().getNbme());
     }
 
     /*
-     * Assemble the entry attributes
+     * Assemble the entry bttributes
      */
-    private Set<KeyStore.Entry.Attribute> getAttributes(Entry entry) {
+    privbte Set<KeyStore.Entry.Attribute> getAttributes(Entry entry) {
 
-        if (entry.attributes == null) {
-            entry.attributes = new HashSet<>();
+        if (entry.bttributes == null) {
+            entry.bttributes = new HbshSet<>();
         }
 
-        // friendlyName
-        entry.attributes.add(new PKCS12Attribute(
-            PKCS9FriendlyName_OID.toString(), entry.alias));
+        // friendlyNbme
+        entry.bttributes.bdd(new PKCS12Attribute(
+            PKCS9FriendlyNbme_OID.toString(), entry.blibs));
 
-        // localKeyID
-        byte[] keyIdValue = entry.keyId;
-        if (keyIdValue != null) {
-            entry.attributes.add(new PKCS12Attribute(
-                PKCS9LocalKeyId_OID.toString(), Debug.toString(keyIdValue)));
+        // locblKeyID
+        byte[] keyIdVblue = entry.keyId;
+        if (keyIdVblue != null) {
+            entry.bttributes.bdd(new PKCS12Attribute(
+                PKCS9LocblKeyId_OID.toString(), Debug.toString(keyIdVblue)));
         }
 
-        // trustedKeyUsage
-        if (entry instanceof CertEntry) {
-            ObjectIdentifier[] trustedKeyUsageValue =
-                ((CertEntry) entry).trustedKeyUsage;
-            if (trustedKeyUsageValue != null) {
-                if (trustedKeyUsageValue.length == 1) { // omit brackets
-                    entry.attributes.add(new PKCS12Attribute(
-                        TrustedKeyUsage_OID.toString(),
-                        trustedKeyUsageValue[0].toString()));
-                } else { // multi-valued
-                    entry.attributes.add(new PKCS12Attribute(
-                        TrustedKeyUsage_OID.toString(),
-                        Arrays.toString(trustedKeyUsageValue)));
+        // trustedKeyUsbge
+        if (entry instbnceof CertEntry) {
+            ObjectIdentifier[] trustedKeyUsbgeVblue =
+                ((CertEntry) entry).trustedKeyUsbge;
+            if (trustedKeyUsbgeVblue != null) {
+                if (trustedKeyUsbgeVblue.length == 1) { // omit brbckets
+                    entry.bttributes.bdd(new PKCS12Attribute(
+                        TrustedKeyUsbge_OID.toString(),
+                        trustedKeyUsbgeVblue[0].toString()));
+                } else { // multi-vblued
+                    entry.bttributes.bdd(new PKCS12Attribute(
+                        TrustedKeyUsbge_OID.toString(),
+                        Arrbys.toString(trustedKeyUsbgeVblue)));
                 }
             }
         }
 
-        return entry.attributes;
+        return entry.bttributes;
     }
 
     /*
-     * Generate Hash.
+     * Generbte Hbsh.
      */
-    private byte[] generateHash(byte[] data) throws IOException
+    privbte byte[] generbteHbsh(byte[] dbtb) throws IOException
     {
         byte[] digest = null;
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            md.update(data);
+            MessbgeDigest md = MessbgeDigest.getInstbnce("SHA1");
+            md.updbte(dbtb);
             digest = md.digest();
-        } catch (Exception e) {
-            throw new IOException("generateHash failed: " + e, e);
+        } cbtch (Exception e) {
+            throw new IOException("generbteHbsh fbiled: " + e, e);
         }
         return digest;
     }
 
 
     /*
-     * Calculate MAC using HMAC algorithm (required for password integrity)
+     * Cblculbte MAC using HMAC blgorithm (required for pbssword integrity)
      *
-     * Hash-based MAC algorithm combines secret key with message digest to
-     * create a message authentication code (MAC)
+     * Hbsh-bbsed MAC blgorithm combines secret key with messbge digest to
+     * crebte b messbge buthenticbtion code (MAC)
      */
-    private byte[] calculateMac(char[] passwd, byte[] data)
+    privbte byte[] cblculbteMbc(chbr[] pbsswd, byte[] dbtb)
         throws IOException
     {
-        byte[] mData = null;
-        String algName = "SHA1";
+        byte[] mDbtb = null;
+        String blgNbme = "SHA1";
 
         try {
-            // Generate a random salt.
-            byte[] salt = getSalt();
+            // Generbte b rbndom sblt.
+            byte[] sblt = getSblt();
 
-            // generate MAC (MAC key is generated within JCE)
-            Mac m = Mac.getInstance("HmacPBESHA1");
-            PBEParameterSpec params =
-                        new PBEParameterSpec(salt, iterationCount);
-            SecretKey key = getPBEKey(passwd);
-            m.init(key, params);
-            m.update(data);
-            byte[] macResult = m.doFinal();
+            // generbte MAC (MAC key is generbted within JCE)
+            Mbc m = Mbc.getInstbnce("HmbcPBESHA1");
+            PBEPbrbmeterSpec pbrbms =
+                        new PBEPbrbmeterSpec(sblt, iterbtionCount);
+            SecretKey key = getPBEKey(pbsswd);
+            m.init(key, pbrbms);
+            m.updbte(dbtb);
+            byte[] mbcResult = m.doFinbl();
 
-            // encode as MacData
-            MacData macData = new MacData(algName, macResult, salt,
-                                                iterationCount);
-            DerOutputStream bytes = new DerOutputStream();
-            bytes.write(macData.getEncoded());
-            mData = bytes.toByteArray();
-        } catch (Exception e) {
-            throw new IOException("calculateMac failed: " + e, e);
+            // encode bs MbcDbtb
+            MbcDbtb mbcDbtb = new MbcDbtb(blgNbme, mbcResult, sblt,
+                                                iterbtionCount);
+            DerOutputStrebm bytes = new DerOutputStrebm();
+            bytes.write(mbcDbtb.getEncoded());
+            mDbtb = bytes.toByteArrby();
+        } cbtch (Exception e) {
+            throw new IOException("cblculbteMbc fbiled: " + e, e);
         }
-        return mData;
+        return mDbtb;
     }
 
 
     /*
-     * Validate Certificate Chain
+     * Vblidbte Certificbte Chbin
      */
-    private boolean validateChain(Certificate[] certChain)
+    privbte boolebn vblidbteChbin(Certificbte[] certChbin)
     {
-        for (int i = 0; i < certChain.length-1; i++) {
-            X500Principal issuerDN =
-                ((X509Certificate)certChain[i]).getIssuerX500Principal();
-            X500Principal subjectDN =
-                ((X509Certificate)certChain[i+1]).getSubjectX500Principal();
-            if (!(issuerDN.equals(subjectDN)))
-                return false;
+        for (int i = 0; i < certChbin.length-1; i++) {
+            X500Principbl issuerDN =
+                ((X509Certificbte)certChbin[i]).getIssuerX500Principbl();
+            X500Principbl subjectDN =
+                ((X509Certificbte)certChbin[i+1]).getSubjectX500Principbl();
+            if (!(issuerDN.equbls(subjectDN)))
+                return fblse;
         }
         return true;
     }
 
 
     /*
-     * Create PKCS#12 Attributes, friendlyName, localKeyId and trustedKeyUsage.
+     * Crebte PKCS#12 Attributes, friendlyNbme, locblKeyId bnd trustedKeyUsbge.
      *
-     * Although attributes are optional, they could be required.
-     * For e.g. localKeyId attribute is required to match the
-     * private key with the associated end-entity certificate.
-     * The trustedKeyUsage attribute is used to denote a trusted certificate.
+     * Although bttributes bre optionbl, they could be required.
+     * For e.g. locblKeyId bttribute is required to mbtch the
+     * privbte key with the bssocibted end-entity certificbte.
+     * The trustedKeyUsbge bttribute is used to denote b trusted certificbte.
      *
-     * PKCS8ShroudedKeyBags include unique localKeyID and friendlyName.
-     * CertBags may or may not include attributes depending on the type
-     * of Certificate. In end-entity certificates, localKeyID should be
-     * unique, and the corresponding private key should have the same
-     * localKeyID. For trusted CA certs in the cert-chain, localKeyID
-     * attribute is not required, hence most vendors don't include it.
-     * NSS/Netscape require it to be unique or null, where as IE/OpenSSL
+     * PKCS8ShroudedKeyBbgs include unique locblKeyID bnd friendlyNbme.
+     * CertBbgs mby or mby not include bttributes depending on the type
+     * of Certificbte. In end-entity certificbtes, locblKeyID should be
+     * unique, bnd the corresponding privbte key should hbve the sbme
+     * locblKeyID. For trusted CA certs in the cert-chbin, locblKeyID
+     * bttribute is not required, hence most vendors don't include it.
+     * NSS/Netscbpe require it to be unique or null, where bs IE/OpenSSL
      * ignore it.
      *
-     * Here is a list of pkcs12 attribute values in CertBags.
+     * Here is b list of pkcs12 bttribute vblues in CertBbgs.
      *
-     * PKCS12 Attribute       NSS/Netscape    IE     OpenSSL    J2SE
+     * PKCS12 Attribute       NSS/Netscbpe    IE     OpenSSL    J2SE
      * --------------------------------------------------------------
-     * LocalKeyId
+     * LocblKeyId
      * (In EE cert only,
      *  NULL in CA certs)      true          true     true      true
      *
-     * friendlyName            unique        same/    same/     unique
+     * friendlyNbme            unique        sbme/    sbme/     unique
      *                                       unique   unique/
      *                                                null
-     * trustedKeyUsage         -             -        -         true
+     * trustedKeyUsbge         -             -        -         true
      *
-     * Note: OpenSSL adds friendlyName for end-entity cert only, and
-     * removes the localKeyID and friendlyName for CA certs.
-     * If the CertBag did not have a friendlyName, most vendors will
-     * add it, and assign it to the DN of the cert.
+     * Note: OpenSSL bdds friendlyNbme for end-entity cert only, bnd
+     * removes the locblKeyID bnd friendlyNbme for CA certs.
+     * If the CertBbg did not hbve b friendlyNbme, most vendors will
+     * bdd it, bnd bssign it to the DN of the cert.
      */
-    private byte[] getBagAttributes(String alias, byte[] keyId,
-        Set<KeyStore.Entry.Attribute> attributes) throws IOException {
-        return getBagAttributes(alias, keyId, null, attributes);
+    privbte byte[] getBbgAttributes(String blibs, byte[] keyId,
+        Set<KeyStore.Entry.Attribute> bttributes) throws IOException {
+        return getBbgAttributes(blibs, keyId, null, bttributes);
     }
 
-    private byte[] getBagAttributes(String alias, byte[] keyId,
-        ObjectIdentifier[] trustedUsage,
-        Set<KeyStore.Entry.Attribute> attributes) throws IOException {
+    privbte byte[] getBbgAttributes(String blibs, byte[] keyId,
+        ObjectIdentifier[] trustedUsbge,
+        Set<KeyStore.Entry.Attribute> bttributes) throws IOException {
 
-        byte[] localKeyID = null;
-        byte[] friendlyName = null;
-        byte[] trustedKeyUsage = null;
+        byte[] locblKeyID = null;
+        byte[] friendlyNbme = null;
+        byte[] trustedKeyUsbge = null;
 
-        // return null if all three attributes are null
-        if ((alias == null) && (keyId == null) && (trustedKeyUsage == null)) {
+        // return null if bll three bttributes bre null
+        if ((blibs == null) && (keyId == null) && (trustedKeyUsbge == null)) {
             return null;
         }
 
-        // SafeBag Attributes
-        DerOutputStream bagAttrs = new DerOutputStream();
+        // SbfeBbg Attributes
+        DerOutputStrebm bbgAttrs = new DerOutputStrebm();
 
-        // Encode the friendlyname oid.
-        if (alias != null) {
-            DerOutputStream bagAttr1 = new DerOutputStream();
-            bagAttr1.putOID(PKCS9FriendlyName_OID);
-            DerOutputStream bagAttrContent1 = new DerOutputStream();
-            DerOutputStream bagAttrValue1 = new DerOutputStream();
-            bagAttrContent1.putBMPString(alias);
-            bagAttr1.write(DerValue.tag_Set, bagAttrContent1);
-            bagAttrValue1.write(DerValue.tag_Sequence, bagAttr1);
-            friendlyName = bagAttrValue1.toByteArray();
+        // Encode the friendlynbme oid.
+        if (blibs != null) {
+            DerOutputStrebm bbgAttr1 = new DerOutputStrebm();
+            bbgAttr1.putOID(PKCS9FriendlyNbme_OID);
+            DerOutputStrebm bbgAttrContent1 = new DerOutputStrebm();
+            DerOutputStrebm bbgAttrVblue1 = new DerOutputStrebm();
+            bbgAttrContent1.putBMPString(blibs);
+            bbgAttr1.write(DerVblue.tbg_Set, bbgAttrContent1);
+            bbgAttrVblue1.write(DerVblue.tbg_Sequence, bbgAttr1);
+            friendlyNbme = bbgAttrVblue1.toByteArrby();
         }
 
-        // Encode the localkeyId oid.
+        // Encode the locblkeyId oid.
         if (keyId != null) {
-            DerOutputStream bagAttr2 = new DerOutputStream();
-            bagAttr2.putOID(PKCS9LocalKeyId_OID);
-            DerOutputStream bagAttrContent2 = new DerOutputStream();
-            DerOutputStream bagAttrValue2 = new DerOutputStream();
-            bagAttrContent2.putOctetString(keyId);
-            bagAttr2.write(DerValue.tag_Set, bagAttrContent2);
-            bagAttrValue2.write(DerValue.tag_Sequence, bagAttr2);
-            localKeyID = bagAttrValue2.toByteArray();
+            DerOutputStrebm bbgAttr2 = new DerOutputStrebm();
+            bbgAttr2.putOID(PKCS9LocblKeyId_OID);
+            DerOutputStrebm bbgAttrContent2 = new DerOutputStrebm();
+            DerOutputStrebm bbgAttrVblue2 = new DerOutputStrebm();
+            bbgAttrContent2.putOctetString(keyId);
+            bbgAttr2.write(DerVblue.tbg_Set, bbgAttrContent2);
+            bbgAttrVblue2.write(DerVblue.tbg_Sequence, bbgAttr2);
+            locblKeyID = bbgAttrVblue2.toByteArrby();
         }
 
-        // Encode the trustedKeyUsage oid.
-        if (trustedUsage != null) {
-            DerOutputStream bagAttr3 = new DerOutputStream();
-            bagAttr3.putOID(TrustedKeyUsage_OID);
-            DerOutputStream bagAttrContent3 = new DerOutputStream();
-            DerOutputStream bagAttrValue3 = new DerOutputStream();
-            for (ObjectIdentifier usage : trustedUsage) {
-                bagAttrContent3.putOID(usage);
+        // Encode the trustedKeyUsbge oid.
+        if (trustedUsbge != null) {
+            DerOutputStrebm bbgAttr3 = new DerOutputStrebm();
+            bbgAttr3.putOID(TrustedKeyUsbge_OID);
+            DerOutputStrebm bbgAttrContent3 = new DerOutputStrebm();
+            DerOutputStrebm bbgAttrVblue3 = new DerOutputStrebm();
+            for (ObjectIdentifier usbge : trustedUsbge) {
+                bbgAttrContent3.putOID(usbge);
             }
-            bagAttr3.write(DerValue.tag_Set, bagAttrContent3);
-            bagAttrValue3.write(DerValue.tag_Sequence, bagAttr3);
-            trustedKeyUsage = bagAttrValue3.toByteArray();
+            bbgAttr3.write(DerVblue.tbg_Set, bbgAttrContent3);
+            bbgAttrVblue3.write(DerVblue.tbg_Sequence, bbgAttr3);
+            trustedKeyUsbge = bbgAttrVblue3.toByteArrby();
         }
 
-        DerOutputStream attrs = new DerOutputStream();
-        if (friendlyName != null) {
-            attrs.write(friendlyName);
+        DerOutputStrebm bttrs = new DerOutputStrebm();
+        if (friendlyNbme != null) {
+            bttrs.write(friendlyNbme);
         }
-        if (localKeyID != null) {
-            attrs.write(localKeyID);
+        if (locblKeyID != null) {
+            bttrs.write(locblKeyID);
         }
-        if (trustedKeyUsage != null) {
-            attrs.write(trustedKeyUsage);
+        if (trustedKeyUsbge != null) {
+            bttrs.write(trustedKeyUsbge);
         }
 
-        if (attributes != null) {
-            for (KeyStore.Entry.Attribute attribute : attributes) {
-                String attributeName = attribute.getName();
-                // skip friendlyName, localKeyId and trustedKeyUsage
-                if (CORE_ATTRIBUTES[0].equals(attributeName) ||
-                    CORE_ATTRIBUTES[1].equals(attributeName) ||
-                    CORE_ATTRIBUTES[2].equals(attributeName)) {
+        if (bttributes != null) {
+            for (KeyStore.Entry.Attribute bttribute : bttributes) {
+                String bttributeNbme = bttribute.getNbme();
+                // skip friendlyNbme, locblKeyId bnd trustedKeyUsbge
+                if (CORE_ATTRIBUTES[0].equbls(bttributeNbme) ||
+                    CORE_ATTRIBUTES[1].equbls(bttributeNbme) ||
+                    CORE_ATTRIBUTES[2].equbls(bttributeNbme)) {
                     continue;
                 }
-                attrs.write(((PKCS12Attribute) attribute).getEncoded());
+                bttrs.write(((PKCS12Attribute) bttribute).getEncoded());
             }
         }
 
-        bagAttrs.write(DerValue.tag_Set, attrs);
-        return bagAttrs.toByteArray();
+        bbgAttrs.write(DerVblue.tbg_Set, bttrs);
+        return bbgAttrs.toByteArrby();
     }
 
     /*
-     * Create EncryptedData content type, that contains EncryptedContentInfo.
-     * Includes certificates in individual SafeBags of type CertBag.
-     * Each CertBag may include pkcs12 attributes
-     * (see comments in getBagAttributes)
+     * Crebte EncryptedDbtb content type, thbt contbins EncryptedContentInfo.
+     * Includes certificbtes in individubl SbfeBbgs of type CertBbg.
+     * Ebch CertBbg mby include pkcs12 bttributes
+     * (see comments in getBbgAttributes)
      */
-    private byte[] createEncryptedData(char[] password)
-        throws CertificateException, IOException
+    privbte byte[] crebteEncryptedDbtb(chbr[] pbssword)
+        throws CertificbteException, IOException
     {
-        DerOutputStream out = new DerOutputStream();
-        for (Enumeration<String> e = engineAliases(); e.hasMoreElements(); ) {
+        DerOutputStrebm out = new DerOutputStrebm();
+        for (Enumerbtion<String> e = engineAlibses(); e.hbsMoreElements(); ) {
 
-            String alias = e.nextElement();
-            Entry entry = entries.get(alias);
+            String blibs = e.nextElement();
+            Entry entry = entries.get(blibs);
 
-            // certificate chain
-            int chainLen = 1;
-            Certificate[] certs = null;
+            // certificbte chbin
+            int chbinLen = 1;
+            Certificbte[] certs = null;
 
-            if (entry instanceof PrivateKeyEntry) {
-                PrivateKeyEntry keyEntry = (PrivateKeyEntry) entry;
-                    if (keyEntry.chain == null) {
-                        chainLen = 0;
+            if (entry instbnceof PrivbteKeyEntry) {
+                PrivbteKeyEntry keyEntry = (PrivbteKeyEntry) entry;
+                    if (keyEntry.chbin == null) {
+                        chbinLen = 0;
                     } else {
-                        chainLen = keyEntry.chain.length;
+                        chbinLen = keyEntry.chbin.length;
                     }
-                certs = keyEntry.chain;
+                certs = keyEntry.chbin;
 
-            } else if (entry instanceof CertEntry) {
-               certs = new Certificate[]{((CertEntry) entry).cert};
+            } else if (entry instbnceof CertEntry) {
+               certs = new Certificbte[]{((CertEntry) entry).cert};
             }
 
-            for (int i = 0; i < chainLen; i++) {
-                // create SafeBag of Type CertBag
-                DerOutputStream safeBag = new DerOutputStream();
-                safeBag.putOID(CertBag_OID);
+            for (int i = 0; i < chbinLen; i++) {
+                // crebte SbfeBbg of Type CertBbg
+                DerOutputStrebm sbfeBbg = new DerOutputStrebm();
+                sbfeBbg.putOID(CertBbg_OID);
 
-                // create a CertBag
-                DerOutputStream certBag = new DerOutputStream();
-                certBag.putOID(PKCS9CertType_OID);
+                // crebte b CertBbg
+                DerOutputStrebm certBbg = new DerOutputStrebm();
+                certBbg.putOID(PKCS9CertType_OID);
 
-                // write encoded certs in a context-specific tag
-                DerOutputStream certValue = new DerOutputStream();
-                X509Certificate cert = (X509Certificate) certs[i];
-                certValue.putOctetString(cert.getEncoded());
-                certBag.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                        true, (byte) 0), certValue);
+                // write encoded certs in b context-specific tbg
+                DerOutputStrebm certVblue = new DerOutputStrebm();
+                X509Certificbte cert = (X509Certificbte) certs[i];
+                certVblue.putOctetString(cert.getEncoded());
+                certBbg.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                        true, (byte) 0), certVblue);
 
-                // wrap CertBag in a Sequence
-                DerOutputStream certout = new DerOutputStream();
-                certout.write(DerValue.tag_Sequence, certBag);
-                byte[] certBagValue = certout.toByteArray();
+                // wrbp CertBbg in b Sequence
+                DerOutputStrebm certout = new DerOutputStrebm();
+                certout.write(DerVblue.tbg_Sequence, certBbg);
+                byte[] certBbgVblue = certout.toByteArrby();
 
-                // Wrap the CertBag encoding in a context-specific tag.
-                DerOutputStream bagValue = new DerOutputStream();
-                bagValue.write(certBagValue);
-                // write SafeBag Value
-                safeBag.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                true, (byte) 0), bagValue);
+                // Wrbp the CertBbg encoding in b context-specific tbg.
+                DerOutputStrebm bbgVblue = new DerOutputStrebm();
+                bbgVblue.write(certBbgVblue);
+                // write SbfeBbg Vblue
+                sbfeBbg.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                true, (byte) 0), bbgVblue);
 
-                // write SafeBag Attributes
-                // All Certs should have a unique friendlyName.
-                // This change is made to meet NSS requirements.
-                byte[] bagAttrs = null;
+                // write SbfeBbg Attributes
+                // All Certs should hbve b unique friendlyNbme.
+                // This chbnge is mbde to meet NSS requirements.
+                byte[] bbgAttrs = null;
                 if (i == 0) {
-                    // Only End-Entity Cert should have a localKeyId.
-                    if (entry instanceof KeyEntry) {
+                    // Only End-Entity Cert should hbve b locblKeyId.
+                    if (entry instbnceof KeyEntry) {
                         KeyEntry keyEntry = (KeyEntry) entry;
-                        bagAttrs =
-                            getBagAttributes(keyEntry.alias, keyEntry.keyId,
-                                keyEntry.attributes);
+                        bbgAttrs =
+                            getBbgAttributes(keyEntry.blibs, keyEntry.keyId,
+                                keyEntry.bttributes);
                     } else {
                         CertEntry certEntry = (CertEntry) entry;
-                        bagAttrs =
-                            getBagAttributes(certEntry.alias, certEntry.keyId,
-                                certEntry.trustedKeyUsage,
-                                certEntry.attributes);
+                        bbgAttrs =
+                            getBbgAttributes(certEntry.blibs, certEntry.keyId,
+                                certEntry.trustedKeyUsbge,
+                                certEntry.bttributes);
                     }
                 } else {
-                    // Trusted root CA certs and Intermediate CA certs do not
-                    // need to have a localKeyId, and hence localKeyId is null
-                    // This change is made to meet NSS/Netscape requirements.
-                    // NSS pkcs12 library requires trusted CA certs in the
-                    // certificate chain to have unique or null localKeyID.
+                    // Trusted root CA certs bnd Intermedibte CA certs do not
+                    // need to hbve b locblKeyId, bnd hence locblKeyId is null
+                    // This chbnge is mbde to meet NSS/Netscbpe requirements.
+                    // NSS pkcs12 librbry requires trusted CA certs in the
+                    // certificbte chbin to hbve unique or null locblKeyID.
                     // However, IE/OpenSSL do not impose this restriction.
-                    bagAttrs = getBagAttributes(
-                            cert.getSubjectX500Principal().getName(), null,
-                            entry.attributes);
+                    bbgAttrs = getBbgAttributes(
+                            cert.getSubjectX500Principbl().getNbme(), null,
+                            entry.bttributes);
                 }
-                if (bagAttrs != null) {
-                    safeBag.write(bagAttrs);
+                if (bbgAttrs != null) {
+                    sbfeBbg.write(bbgAttrs);
                 }
 
-                // wrap as Sequence
-                out.write(DerValue.tag_Sequence, safeBag);
-            } // for cert-chain
+                // wrbp bs Sequence
+                out.write(DerVblue.tbg_Sequence, sbfeBbg);
+            } // for cert-chbin
         }
 
-        // wrap as SequenceOf SafeBag
-        DerOutputStream safeBagValue = new DerOutputStream();
-        safeBagValue.write(DerValue.tag_SequenceOf, out);
-        byte[] safeBagData = safeBagValue.toByteArray();
+        // wrbp bs SequenceOf SbfeBbg
+        DerOutputStrebm sbfeBbgVblue = new DerOutputStrebm();
+        sbfeBbgVblue.write(DerVblue.tbg_SequenceOf, out);
+        byte[] sbfeBbgDbtb = sbfeBbgVblue.toByteArrby();
 
         // encrypt the content (EncryptedContentInfo)
-        byte[] encrContentInfo = encryptContent(safeBagData, password);
+        byte[] encrContentInfo = encryptContent(sbfeBbgDbtb, pbssword);
 
-        // -- SEQUENCE of EncryptedData
-        DerOutputStream encrData = new DerOutputStream();
-        DerOutputStream encrDataContent = new DerOutputStream();
-        encrData.putInteger(0);
-        encrData.write(encrContentInfo);
-        encrDataContent.write(DerValue.tag_Sequence, encrData);
-        return encrDataContent.toByteArray();
+        // -- SEQUENCE of EncryptedDbtb
+        DerOutputStrebm encrDbtb = new DerOutputStrebm();
+        DerOutputStrebm encrDbtbContent = new DerOutputStrebm();
+        encrDbtb.putInteger(0);
+        encrDbtb.write(encrContentInfo);
+        encrDbtbContent.write(DerVblue.tbg_Sequence, encrDbtb);
+        return encrDbtbContent.toByteArrby();
     }
 
     /*
-     * Create SafeContent Data content type.
-     * Includes encrypted secret key in a SafeBag of type SecretBag.
-     * Includes encrypted private key in a SafeBag of type PKCS8ShroudedKeyBag.
-     * Each PKCS8ShroudedKeyBag includes pkcs12 attributes
-     * (see comments in getBagAttributes)
+     * Crebte SbfeContent Dbtb content type.
+     * Includes encrypted secret key in b SbfeBbg of type SecretBbg.
+     * Includes encrypted privbte key in b SbfeBbg of type PKCS8ShroudedKeyBbg.
+     * Ebch PKCS8ShroudedKeyBbg includes pkcs12 bttributes
+     * (see comments in getBbgAttributes)
      */
-    private byte[] createSafeContent()
-        throws CertificateException, IOException {
+    privbte byte[] crebteSbfeContent()
+        throws CertificbteException, IOException {
 
-        DerOutputStream out = new DerOutputStream();
-        for (Enumeration<String> e = engineAliases(); e.hasMoreElements(); ) {
+        DerOutputStrebm out = new DerOutputStrebm();
+        for (Enumerbtion<String> e = engineAlibses(); e.hbsMoreElements(); ) {
 
-            String alias = e.nextElement();
-            Entry entry = entries.get(alias);
-            if (entry == null || (!(entry instanceof KeyEntry))) {
+            String blibs = e.nextElement();
+            Entry entry = entries.get(blibs);
+            if (entry == null || (!(entry instbnceof KeyEntry))) {
                 continue;
             }
-            DerOutputStream safeBag = new DerOutputStream();
+            DerOutputStrebm sbfeBbg = new DerOutputStrebm();
             KeyEntry keyEntry = (KeyEntry) entry;
 
-            // DER encode the private key
-            if (keyEntry instanceof PrivateKeyEntry) {
-                // Create SafeBag of type pkcs8ShroudedKeyBag
-                safeBag.putOID(PKCS8ShroudedKeyBag_OID);
+            // DER encode the privbte key
+            if (keyEntry instbnceof PrivbteKeyEntry) {
+                // Crebte SbfeBbg of type pkcs8ShroudedKeyBbg
+                sbfeBbg.putOID(PKCS8ShroudedKeyBbg_OID);
 
-                // get the encrypted private key
-                byte[] encrBytes = ((PrivateKeyEntry)keyEntry).protectedPrivKey;
-                EncryptedPrivateKeyInfo encrInfo = null;
+                // get the encrypted privbte key
+                byte[] encrBytes = ((PrivbteKeyEntry)keyEntry).protectedPrivKey;
+                EncryptedPrivbteKeyInfo encrInfo = null;
                 try {
-                    encrInfo = new EncryptedPrivateKeyInfo(encrBytes);
+                    encrInfo = new EncryptedPrivbteKeyInfo(encrBytes);
 
-                } catch (IOException ioe) {
-                    throw new IOException("Private key not stored as "
-                            + "PKCS#8 EncryptedPrivateKeyInfo"
-                            + ioe.getMessage());
+                } cbtch (IOException ioe) {
+                    throw new IOException("Privbte key not stored bs "
+                            + "PKCS#8 EncryptedPrivbteKeyInfo"
+                            + ioe.getMessbge());
                 }
 
-                // Wrap the EncryptedPrivateKeyInfo in a context-specific tag.
-                DerOutputStream bagValue = new DerOutputStream();
-                bagValue.write(encrInfo.getEncoded());
-                safeBag.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                true, (byte) 0), bagValue);
+                // Wrbp the EncryptedPrivbteKeyInfo in b context-specific tbg.
+                DerOutputStrebm bbgVblue = new DerOutputStrebm();
+                bbgVblue.write(encrInfo.getEncoded());
+                sbfeBbg.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                true, (byte) 0), bbgVblue);
 
             // DER encode the secret key
-            } else if (keyEntry instanceof SecretKeyEntry) {
-                // Create SafeBag of type SecretBag
-                safeBag.putOID(SecretBag_OID);
+            } else if (keyEntry instbnceof SecretKeyEntry) {
+                // Crebte SbfeBbg of type SecretBbg
+                sbfeBbg.putOID(SecretBbg_OID);
 
-                // Create a SecretBag
-                DerOutputStream secretBag = new DerOutputStream();
-                secretBag.putOID(PKCS8ShroudedKeyBag_OID);
+                // Crebte b SecretBbg
+                DerOutputStrebm secretBbg = new DerOutputStrebm();
+                secretBbg.putOID(PKCS8ShroudedKeyBbg_OID);
 
-                // Write secret key in a context-specific tag
-                DerOutputStream secretKeyValue = new DerOutputStream();
-                secretKeyValue.putOctetString(
+                // Write secret key in b context-specific tbg
+                DerOutputStrebm secretKeyVblue = new DerOutputStrebm();
+                secretKeyVblue.putOctetString(
                     ((SecretKeyEntry) keyEntry).protectedSecretKey);
-                secretBag.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                        true, (byte) 0), secretKeyValue);
+                secretBbg.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                        true, (byte) 0), secretKeyVblue);
 
-                // Wrap SecretBag in a Sequence
-                DerOutputStream secretBagSeq = new DerOutputStream();
-                secretBagSeq.write(DerValue.tag_Sequence, secretBag);
-                byte[] secretBagValue = secretBagSeq.toByteArray();
+                // Wrbp SecretBbg in b Sequence
+                DerOutputStrebm secretBbgSeq = new DerOutputStrebm();
+                secretBbgSeq.write(DerVblue.tbg_Sequence, secretBbg);
+                byte[] secretBbgVblue = secretBbgSeq.toByteArrby();
 
-                // Wrap the secret bag in a context-specific tag.
-                DerOutputStream bagValue = new DerOutputStream();
-                bagValue.write(secretBagValue);
+                // Wrbp the secret bbg in b context-specific tbg.
+                DerOutputStrebm bbgVblue = new DerOutputStrebm();
+                bbgVblue.write(secretBbgVblue);
 
-                // Write SafeBag value
-                safeBag.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                    true, (byte) 0), bagValue);
+                // Write SbfeBbg vblue
+                sbfeBbg.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                    true, (byte) 0), bbgVblue);
             } else {
                 continue; // skip this entry
             }
 
-            // write SafeBag Attributes
-            byte[] bagAttrs =
-                getBagAttributes(alias, entry.keyId, entry.attributes);
-            safeBag.write(bagAttrs);
+            // write SbfeBbg Attributes
+            byte[] bbgAttrs =
+                getBbgAttributes(blibs, entry.keyId, entry.bttributes);
+            sbfeBbg.write(bbgAttrs);
 
-            // wrap as Sequence
-            out.write(DerValue.tag_Sequence, safeBag);
+            // wrbp bs Sequence
+            out.write(DerVblue.tbg_Sequence, sbfeBbg);
         }
 
-        // wrap as Sequence
-        DerOutputStream safeBagValue = new DerOutputStream();
-        safeBagValue.write(DerValue.tag_Sequence, out);
-        return safeBagValue.toByteArray();
+        // wrbp bs Sequence
+        DerOutputStrebm sbfeBbgVblue = new DerOutputStrebm();
+        sbfeBbgVblue.write(DerVblue.tbg_Sequence, out);
+        return sbfeBbgVblue.toByteArrby();
     }
 
 
     /*
-     * Encrypt the contents using Password-based (PBE) encryption
-     * as defined in PKCS #5.
+     * Encrypt the contents using Pbssword-bbsed (PBE) encryption
+     * bs defined in PKCS #5.
      *
-     * NOTE: Currently pbeWithSHAAnd40BiteRC2-CBC algorithmID is used
-     *       to derive the key and IV.
+     * NOTE: Currently pbeWithSHAAnd40BiteRC2-CBC blgorithmID is used
+     *       to derive the key bnd IV.
      *
-     * @return encrypted contents encoded as EncryptedContentInfo
+     * @return encrypted contents encoded bs EncryptedContentInfo
      */
-    private byte[] encryptContent(byte[] data, char[] password)
+    privbte byte[] encryptContent(byte[] dbtb, chbr[] pbssword)
         throws IOException {
 
-        byte[] encryptedData = null;
+        byte[] encryptedDbtb = null;
 
-        // create AlgorithmParameters
-        AlgorithmParameters algParams =
-                getAlgorithmParameters("PBEWithSHA1AndRC2_40");
-        DerOutputStream bytes = new DerOutputStream();
-        AlgorithmId algId =
-                new AlgorithmId(pbeWithSHAAnd40BitRC2CBC_OID, algParams);
-        algId.encode(bytes);
-        byte[] encodedAlgId = bytes.toByteArray();
+        // crebte AlgorithmPbrbmeters
+        AlgorithmPbrbmeters blgPbrbms =
+                getAlgorithmPbrbmeters("PBEWithSHA1AndRC2_40");
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        AlgorithmId blgId =
+                new AlgorithmId(pbeWithSHAAnd40BitRC2CBC_OID, blgPbrbms);
+        blgId.encode(bytes);
+        byte[] encodedAlgId = bytes.toByteArrby();
 
         try {
             // Use JCE
-            SecretKey skey = getPBEKey(password);
-            Cipher cipher = Cipher.getInstance("PBEWithSHA1AndRC2_40");
-            cipher.init(Cipher.ENCRYPT_MODE, skey, algParams);
-            encryptedData = cipher.doFinal(data);
+            SecretKey skey = getPBEKey(pbssword);
+            Cipher cipher = Cipher.getInstbnce("PBEWithSHA1AndRC2_40");
+            cipher.init(Cipher.ENCRYPT_MODE, skey, blgPbrbms);
+            encryptedDbtb = cipher.doFinbl(dbtb);
 
             if (debug != null) {
-                debug.println("  (Cipher algorithm: " + cipher.getAlgorithm() +
+                debug.println("  (Cipher blgorithm: " + cipher.getAlgorithm() +
                     ")");
             }
 
-        } catch (Exception e) {
-            throw new IOException("Failed to encrypt" +
-                    " safe contents entry: " + e, e);
+        } cbtch (Exception e) {
+            throw new IOException("Fbiled to encrypt" +
+                    " sbfe contents entry: " + e, e);
         }
 
-        // create EncryptedContentInfo
-        DerOutputStream bytes2 = new DerOutputStream();
+        // crebte EncryptedContentInfo
+        DerOutputStrebm bytes2 = new DerOutputStrebm();
         bytes2.putOID(ContentInfo.DATA_OID);
         bytes2.write(encodedAlgId);
 
-        // Wrap encrypted data in a context-specific tag.
-        DerOutputStream tmpout2 = new DerOutputStream();
-        tmpout2.putOctetString(encryptedData);
-        bytes2.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                        false, (byte)0), tmpout2);
+        // Wrbp encrypted dbtb in b context-specific tbg.
+        DerOutputStrebm tmpout2 = new DerOutputStrebm();
+        tmpout2.putOctetString(encryptedDbtb);
+        bytes2.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                        fblse, (byte)0), tmpout2);
 
-        // wrap EncryptedContentInfo in a Sequence
-        DerOutputStream out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, bytes2);
-        return out.toByteArray();
+        // wrbp EncryptedContentInfo in b Sequence
+        DerOutputStrebm out = new DerOutputStrebm();
+        out.write(DerVblue.tbg_Sequence, bytes2);
+        return out.toByteArrby();
     }
 
     /**
-     * Loads the keystore from the given input stream.
+     * Lobds the keystore from the given input strebm.
      *
-     * <p>If a password is given, it is used to check the integrity of the
-     * keystore data. Otherwise, the integrity of the keystore is not checked.
+     * <p>If b pbssword is given, it is used to check the integrity of the
+     * keystore dbtb. Otherwise, the integrity of the keystore is not checked.
      *
-     * @param stream the input stream from which the keystore is loaded
-     * @param password the (optional) password used to check the integrity of
+     * @pbrbm strebm the input strebm from which the keystore is lobded
+     * @pbrbm pbssword the (optionbl) pbssword used to check the integrity of
      * the keystore.
      *
-     * @exception IOException if there is an I/O or format problem with the
-     * keystore data
-     * @exception NoSuchAlgorithmException if the algorithm used to check
-     * the integrity of the keystore cannot be found
-     * @exception CertificateException if any of the certificates in the
-     * keystore could not be loaded
+     * @exception IOException if there is bn I/O or formbt problem with the
+     * keystore dbtb
+     * @exception NoSuchAlgorithmException if the blgorithm used to check
+     * the integrity of the keystore cbnnot be found
+     * @exception CertificbteException if bny of the certificbtes in the
+     * keystore could not be lobded
      */
-    public synchronized void engineLoad(InputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public synchronized void engineLobd(InputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        DataInputStream dis;
-        CertificateFactory cf = null;
-        ByteArrayInputStream bais = null;
+        DbtbInputStrebm dis;
+        CertificbteFbctory cf = null;
+        ByteArrbyInputStrebm bbis = null;
         byte[] encoded = null;
 
-        if (stream == null)
+        if (strebm == null)
            return;
 
         // reset the counter
         counter = 0;
 
-        DerValue val = new DerValue(stream);
-        DerInputStream s = val.toDerInputStream();
+        DerVblue vbl = new DerVblue(strebm);
+        DerInputStrebm s = vbl.toDerInputStrebm();
         int version = s.getInteger();
 
         if (version != VERSION_3) {
-           throw new IOException("PKCS12 keystore not in version 3 format");
+           throw new IOException("PKCS12 keystore not in version 3 formbt");
         }
 
-        entries.clear();
+        entries.clebr();
 
         /*
-         * Read the authSafe.
+         * Rebd the buthSbfe.
          */
-        byte[] authSafeData;
-        ContentInfo authSafe = new ContentInfo(s);
-        ObjectIdentifier contentType = authSafe.getContentType();
+        byte[] buthSbfeDbtb;
+        ContentInfo buthSbfe = new ContentInfo(s);
+        ObjectIdentifier contentType = buthSbfe.getContentType();
 
-        if (contentType.equals((Object)ContentInfo.DATA_OID)) {
-           authSafeData = authSafe.getData();
-        } else /* signed data */ {
+        if (contentType.equbls((Object)ContentInfo.DATA_OID)) {
+           buthSbfeDbtb = buthSbfe.getDbtb();
+        } else /* signed dbtb */ {
            throw new IOException("public key protected PKCS12 not supported");
         }
 
-        DerInputStream as = new DerInputStream(authSafeData);
-        DerValue[] safeContentsArray = as.getSequence(2);
-        int count = safeContentsArray.length;
+        DerInputStrebm bs = new DerInputStrebm(buthSbfeDbtb);
+        DerVblue[] sbfeContentsArrby = bs.getSequence(2);
+        int count = sbfeContentsArrby.length;
 
-        // reset the counters at the start
-        privateKeyCount = 0;
+        // reset the counters bt the stbrt
+        privbteKeyCount = 0;
         secretKeyCount = 0;
-        certificateCount = 0;
+        certificbteCount = 0;
 
         /*
          * Spin over the ContentInfos.
          */
         for (int i = 0; i < count; i++) {
-            byte[] safeContentsData;
-            ContentInfo safeContents;
-            DerInputStream sci;
+            byte[] sbfeContentsDbtb;
+            ContentInfo sbfeContents;
+            DerInputStrebm sci;
             byte[] eAlgId = null;
 
-            sci = new DerInputStream(safeContentsArray[i].toByteArray());
-            safeContents = new ContentInfo(sci);
-            contentType = safeContents.getContentType();
-            safeContentsData = null;
-            if (contentType.equals((Object)ContentInfo.DATA_OID)) {
+            sci = new DerInputStrebm(sbfeContentsArrby[i].toByteArrby());
+            sbfeContents = new ContentInfo(sci);
+            contentType = sbfeContents.getContentType();
+            sbfeContentsDbtb = null;
+            if (contentType.equbls((Object)ContentInfo.DATA_OID)) {
 
                 if (debug != null) {
-                    debug.println("Loading PKCS#7 data content-type");
+                    debug.println("Lobding PKCS#7 dbtb content-type");
                 }
 
-                safeContentsData = safeContents.getData();
-            } else if (contentType.equals((Object)ContentInfo.ENCRYPTED_DATA_OID)) {
-                if (password == null) {
+                sbfeContentsDbtb = sbfeContents.getDbtb();
+            } else if (contentType.equbls((Object)ContentInfo.ENCRYPTED_DATA_OID)) {
+                if (pbssword == null) {
                    continue;
                 }
 
                 if (debug != null) {
-                    debug.println("Loading PKCS#7 encryptedData content-type");
+                    debug.println("Lobding PKCS#7 encryptedDbtb content-type");
                 }
 
-                DerInputStream edi =
-                                safeContents.getContent().toDerInputStream();
+                DerInputStrebm edi =
+                                sbfeContents.getContent().toDerInputStrebm();
                 int edVersion = edi.getInteger();
-                DerValue[] seq = edi.getSequence(2);
+                DerVblue[] seq = edi.getSequence(2);
                 ObjectIdentifier edContentType = seq[0].getOID();
-                eAlgId = seq[1].toByteArray();
+                eAlgId = seq[1].toByteArrby();
                 if (!seq[2].isContextSpecific((byte)0)) {
                    throw new IOException("encrypted content not present!");
                 }
-                byte newTag = DerValue.tag_OctetString;
+                byte newTbg = DerVblue.tbg_OctetString;
                 if (seq[2].isConstructed())
-                   newTag |= 0x20;
-                seq[2].resetTag(newTag);
-                safeContentsData = seq[2].getOctetString();
+                   newTbg |= 0x20;
+                seq[2].resetTbg(newTbg);
+                sbfeContentsDbtb = seq[2].getOctetString();
 
-                // parse Algorithm parameters
-                DerInputStream in = seq[1].toDerInputStream();
-                ObjectIdentifier algOid = in.getOID();
-                AlgorithmParameters algParams = parseAlgParameters(algOid, in);
+                // pbrse Algorithm pbrbmeters
+                DerInputStrebm in = seq[1].toDerInputStrebm();
+                ObjectIdentifier blgOid = in.getOID();
+                AlgorithmPbrbmeters blgPbrbms = pbrseAlgPbrbmeters(blgOid, in);
 
                 while (true) {
                     try {
                         // Use JCE
-                        SecretKey skey = getPBEKey(password);
-                        Cipher cipher = Cipher.getInstance(algOid.toString());
-                        cipher.init(Cipher.DECRYPT_MODE, skey, algParams);
-                        safeContentsData = cipher.doFinal(safeContentsData);
-                        break;
-                    } catch (Exception e) {
-                        if (password.length == 0) {
-                            // Retry using an empty password
-                            // without a NULL terminator.
-                            password = new char[1];
+                        SecretKey skey = getPBEKey(pbssword);
+                        Cipher cipher = Cipher.getInstbnce(blgOid.toString());
+                        cipher.init(Cipher.DECRYPT_MODE, skey, blgPbrbms);
+                        sbfeContentsDbtb = cipher.doFinbl(sbfeContentsDbtb);
+                        brebk;
+                    } cbtch (Exception e) {
+                        if (pbssword.length == 0) {
+                            // Retry using bn empty pbssword
+                            // without b NULL terminbtor.
+                            pbssword = new chbr[1];
                             continue;
                         }
                         throw new IOException(
-                            "failed to decrypt safe contents entry: " + e, e);
+                            "fbiled to decrypt sbfe contents entry: " + e, e);
                     }
                 }
             } else {
                 throw new IOException("public key protected PKCS12" +
                                         " not supported");
             }
-            DerInputStream sc = new DerInputStream(safeContentsData);
-            loadSafeContents(sc, password);
+            DerInputStrebm sc = new DerInputStrebm(sbfeContentsDbtb);
+            lobdSbfeContents(sc, pbssword);
         }
 
-        // The MacData is optional.
-        if (password != null && s.available() > 0) {
-           MacData macData = new MacData(s);
+        // The MbcDbtb is optionbl.
+        if (pbssword != null && s.bvbilbble() > 0) {
+           MbcDbtb mbcDbtb = new MbcDbtb(s);
            try {
-                String algName =
-                        macData.getDigestAlgName().toUpperCase(Locale.ENGLISH);
+                String blgNbme =
+                        mbcDbtb.getDigestAlgNbme().toUpperCbse(Locble.ENGLISH);
 
-                // Change SHA-1 to SHA1
-                algName = algName.replace("-", "");
+                // Chbnge SHA-1 to SHA1
+                blgNbme = blgNbme.replbce("-", "");
 
-                // generate MAC (MAC key is created within JCE)
-                Mac m = Mac.getInstance("HmacPBE" + algName);
-                PBEParameterSpec params =
-                        new PBEParameterSpec(macData.getSalt(),
-                                        macData.getIterations());
-                SecretKey key = getPBEKey(password);
-                m.init(key, params);
-                m.update(authSafeData);
-                byte[] macResult = m.doFinal();
+                // generbte MAC (MAC key is crebted within JCE)
+                Mbc m = Mbc.getInstbnce("HmbcPBE" + blgNbme);
+                PBEPbrbmeterSpec pbrbms =
+                        new PBEPbrbmeterSpec(mbcDbtb.getSblt(),
+                                        mbcDbtb.getIterbtions());
+                SecretKey key = getPBEKey(pbssword);
+                m.init(key, pbrbms);
+                m.updbte(buthSbfeDbtb);
+                byte[] mbcResult = m.doFinbl();
 
                 if (debug != null) {
                     debug.println("Checking keystore integrity " +
-                        "(MAC algorithm: " + m.getAlgorithm() + ")");
+                        "(MAC blgorithm: " + m.getAlgorithm() + ")");
                 }
 
-                if (!Arrays.equals(macData.getDigest(), macResult)) {
-                   throw new SecurityException("Failed PKCS12" +
+                if (!Arrbys.equbls(mbcDbtb.getDigest(), mbcResult)) {
+                   throw new SecurityException("Fbiled PKCS12" +
                                         " integrity checking");
                 }
-           } catch (Exception e) {
-                throw new IOException("Integrity check failed: " + e, e);
+           } cbtch (Exception e) {
+                throw new IOException("Integrity check fbiled: " + e, e);
            }
         }
 
         /*
-         * Match up private keys with certificate chains.
+         * Mbtch up privbte keys with certificbte chbins.
          */
-        PrivateKeyEntry[] list =
-            keyList.toArray(new PrivateKeyEntry[keyList.size()]);
+        PrivbteKeyEntry[] list =
+            keyList.toArrby(new PrivbteKeyEntry[keyList.size()]);
         for (int m = 0; m < list.length; m++) {
-            PrivateKeyEntry entry = list[m];
+            PrivbteKeyEntry entry = list[m];
             if (entry.keyId != null) {
-                ArrayList<X509Certificate> chain =
-                                new ArrayList<X509Certificate>();
-                X509Certificate cert = findMatchedCertificate(entry);
+                ArrbyList<X509Certificbte> chbin =
+                                new ArrbyList<X509Certificbte>();
+                X509Certificbte cert = findMbtchedCertificbte(entry);
                 while (cert != null) {
-                    chain.add(cert);
-                    X500Principal issuerDN = cert.getIssuerX500Principal();
-                    if (issuerDN.equals(cert.getSubjectX500Principal())) {
-                        break;
+                    chbin.bdd(cert);
+                    X500Principbl issuerDN = cert.getIssuerX500Principbl();
+                    if (issuerDN.equbls(cert.getSubjectX500Principbl())) {
+                        brebk;
                     }
-                    cert = certsMap.get(issuerDN);
+                    cert = certsMbp.get(issuerDN);
                 }
-                /* Update existing KeyEntry in entries table */
-                if (chain.size() > 0)
-                    entry.chain = chain.toArray(new Certificate[chain.size()]);
+                /* Updbte existing KeyEntry in entries tbble */
+                if (chbin.size() > 0)
+                    entry.chbin = chbin.toArrby(new Certificbte[chbin.size()]);
             }
         }
 
         if (debug != null) {
-            if (privateKeyCount > 0) {
-                debug.println("Loaded " + privateKeyCount +
-                    " protected private key(s)");
+            if (privbteKeyCount > 0) {
+                debug.println("Lobded " + privbteKeyCount +
+                    " protected privbte key(s)");
             }
             if (secretKeyCount > 0) {
-                debug.println("Loaded " + secretKeyCount +
+                debug.println("Lobded " + secretKeyCount +
                     " protected secret key(s)");
             }
-            if (certificateCount > 0) {
-                debug.println("Loaded " + certificateCount +
-                    " certificate(s)");
+            if (certificbteCount > 0) {
+                debug.println("Lobded " + certificbteCount +
+                    " certificbte(s)");
             }
         }
 
-        certEntries.clear();
-        certsMap.clear();
-        keyList.clear();
+        certEntries.clebr();
+        certsMbp.clebr();
+        keyList.clebr();
     }
 
     /**
-     * Locates a matched CertEntry from certEntries, and returns its cert.
-     * @param entry the KeyEntry to match
-     * @return a certificate, null if not found
+     * Locbtes b mbtched CertEntry from certEntries, bnd returns its cert.
+     * @pbrbm entry the KeyEntry to mbtch
+     * @return b certificbte, null if not found
      */
-    private X509Certificate findMatchedCertificate(PrivateKeyEntry entry) {
-        CertEntry keyIdMatch = null;
-        CertEntry aliasMatch = null;
+    privbte X509Certificbte findMbtchedCertificbte(PrivbteKeyEntry entry) {
+        CertEntry keyIdMbtch = null;
+        CertEntry blibsMbtch = null;
         for (CertEntry ce: certEntries) {
-            if (Arrays.equals(entry.keyId, ce.keyId)) {
-                keyIdMatch = ce;
-                if (entry.alias.equalsIgnoreCase(ce.alias)) {
-                    // Full match!
+            if (Arrbys.equbls(entry.keyId, ce.keyId)) {
+                keyIdMbtch = ce;
+                if (entry.blibs.equblsIgnoreCbse(ce.blibs)) {
+                    // Full mbtch!
                     return ce.cert;
                 }
-            } else if (entry.alias.equalsIgnoreCase(ce.alias)) {
-                aliasMatch = ce;
+            } else if (entry.blibs.equblsIgnoreCbse(ce.blibs)) {
+                blibsMbtch = ce;
             }
         }
-        // keyId match first, for compatibility
-        if (keyIdMatch != null) return keyIdMatch.cert;
-        else if (aliasMatch != null) return aliasMatch.cert;
+        // keyId mbtch first, for compbtibility
+        if (keyIdMbtch != null) return keyIdMbtch.cert;
+        else if (blibsMbtch != null) return blibsMbtch.cert;
         else return null;
     }
 
-    private void loadSafeContents(DerInputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    privbte void lobdSbfeContents(DerInputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        DerValue[] safeBags = stream.getSequence(2);
-        int count = safeBags.length;
+        DerVblue[] sbfeBbgs = strebm.getSequence(2);
+        int count = sbfeBbgs.length;
 
         /*
-         * Spin over the SafeBags.
+         * Spin over the SbfeBbgs.
          */
         for (int i = 0; i < count; i++) {
-            ObjectIdentifier bagId;
-            DerInputStream sbi;
-            DerValue bagValue;
-            Object bagItem = null;
+            ObjectIdentifier bbgId;
+            DerInputStrebm sbi;
+            DerVblue bbgVblue;
+            Object bbgItem = null;
 
-            sbi = safeBags[i].toDerInputStream();
-            bagId = sbi.getOID();
-            bagValue = sbi.getDerValue();
-            if (!bagValue.isContextSpecific((byte)0)) {
-                throw new IOException("unsupported PKCS12 bag value type "
-                                        + bagValue.tag);
+            sbi = sbfeBbgs[i].toDerInputStrebm();
+            bbgId = sbi.getOID();
+            bbgVblue = sbi.getDerVblue();
+            if (!bbgVblue.isContextSpecific((byte)0)) {
+                throw new IOException("unsupported PKCS12 bbg vblue type "
+                                        + bbgVblue.tbg);
             }
-            bagValue = bagValue.data.getDerValue();
-            if (bagId.equals((Object)PKCS8ShroudedKeyBag_OID)) {
-                PrivateKeyEntry kEntry = new PrivateKeyEntry();
-                kEntry.protectedPrivKey = bagValue.toByteArray();
-                bagItem = kEntry;
-                privateKeyCount++;
-            } else if (bagId.equals((Object)CertBag_OID)) {
-                DerInputStream cs = new DerInputStream(bagValue.toByteArray());
-                DerValue[] certValues = cs.getSequence(2);
-                ObjectIdentifier certId = certValues[0].getOID();
-                if (!certValues[1].isContextSpecific((byte)0)) {
-                    throw new IOException("unsupported PKCS12 cert value type "
-                                        + certValues[1].tag);
+            bbgVblue = bbgVblue.dbtb.getDerVblue();
+            if (bbgId.equbls((Object)PKCS8ShroudedKeyBbg_OID)) {
+                PrivbteKeyEntry kEntry = new PrivbteKeyEntry();
+                kEntry.protectedPrivKey = bbgVblue.toByteArrby();
+                bbgItem = kEntry;
+                privbteKeyCount++;
+            } else if (bbgId.equbls((Object)CertBbg_OID)) {
+                DerInputStrebm cs = new DerInputStrebm(bbgVblue.toByteArrby());
+                DerVblue[] certVblues = cs.getSequence(2);
+                ObjectIdentifier certId = certVblues[0].getOID();
+                if (!certVblues[1].isContextSpecific((byte)0)) {
+                    throw new IOException("unsupported PKCS12 cert vblue type "
+                                        + certVblues[1].tbg);
                 }
-                DerValue certValue = certValues[1].data.getDerValue();
-                CertificateFactory cf = CertificateFactory.getInstance("X509");
-                X509Certificate cert;
-                cert = (X509Certificate)cf.generateCertificate
-                        (new ByteArrayInputStream(certValue.getOctetString()));
-                bagItem = cert;
-                certificateCount++;
-            } else if (bagId.equals((Object)SecretBag_OID)) {
-                DerInputStream ss = new DerInputStream(bagValue.toByteArray());
-                DerValue[] secretValues = ss.getSequence(2);
-                ObjectIdentifier secretId = secretValues[0].getOID();
-                if (!secretValues[1].isContextSpecific((byte)0)) {
+                DerVblue certVblue = certVblues[1].dbtb.getDerVblue();
+                CertificbteFbctory cf = CertificbteFbctory.getInstbnce("X509");
+                X509Certificbte cert;
+                cert = (X509Certificbte)cf.generbteCertificbte
+                        (new ByteArrbyInputStrebm(certVblue.getOctetString()));
+                bbgItem = cert;
+                certificbteCount++;
+            } else if (bbgId.equbls((Object)SecretBbg_OID)) {
+                DerInputStrebm ss = new DerInputStrebm(bbgVblue.toByteArrby());
+                DerVblue[] secretVblues = ss.getSequence(2);
+                ObjectIdentifier secretId = secretVblues[0].getOID();
+                if (!secretVblues[1].isContextSpecific((byte)0)) {
                     throw new IOException(
-                        "unsupported PKCS12 secret value type "
-                                        + secretValues[1].tag);
+                        "unsupported PKCS12 secret vblue type "
+                                        + secretVblues[1].tbg);
                 }
-                DerValue secretValue = secretValues[1].data.getDerValue();
+                DerVblue secretVblue = secretVblues[1].dbtb.getDerVblue();
                 SecretKeyEntry kEntry = new SecretKeyEntry();
-                kEntry.protectedSecretKey = secretValue.getOctetString();
-                bagItem = kEntry;
+                kEntry.protectedSecretKey = secretVblue.getOctetString();
+                bbgItem = kEntry;
                 secretKeyCount++;
             } else {
 
                 if (debug != null) {
-                    debug.println("Unsupported PKCS12 bag type: " + bagId);
+                    debug.println("Unsupported PKCS12 bbg type: " + bbgId);
                 }
             }
 
-            DerValue[] attrSet;
+            DerVblue[] bttrSet;
             try {
-                attrSet = sbi.getSet(3);
-            } catch (IOException e) {
-                // entry does not have attributes
-                // Note: CA certs can have no attributes
-                // OpenSSL generates pkcs12 with no attr for CA certs.
-                attrSet = null;
+                bttrSet = sbi.getSet(3);
+            } cbtch (IOException e) {
+                // entry does not hbve bttributes
+                // Note: CA certs cbn hbve no bttributes
+                // OpenSSL generbtes pkcs12 with no bttr for CA certs.
+                bttrSet = null;
             }
 
-            String alias = null;
+            String blibs = null;
             byte[] keyId = null;
-            ObjectIdentifier[] trustedKeyUsage = null;
-            Set<PKCS12Attribute> attributes = new HashSet<>();
+            ObjectIdentifier[] trustedKeyUsbge = null;
+            Set<PKCS12Attribute> bttributes = new HbshSet<>();
 
-            if (attrSet != null) {
-                for (int j = 0; j < attrSet.length; j++) {
-                    byte[] encoded = attrSet[j].toByteArray();
-                    DerInputStream as = new DerInputStream(encoded);
-                    DerValue[] attrSeq = as.getSequence(2);
-                    ObjectIdentifier attrId = attrSeq[0].getOID();
-                    DerInputStream vs =
-                        new DerInputStream(attrSeq[1].toByteArray());
-                    DerValue[] valSet;
+            if (bttrSet != null) {
+                for (int j = 0; j < bttrSet.length; j++) {
+                    byte[] encoded = bttrSet[j].toByteArrby();
+                    DerInputStrebm bs = new DerInputStrebm(encoded);
+                    DerVblue[] bttrSeq = bs.getSequence(2);
+                    ObjectIdentifier bttrId = bttrSeq[0].getOID();
+                    DerInputStrebm vs =
+                        new DerInputStrebm(bttrSeq[1].toByteArrby());
+                    DerVblue[] vblSet;
                     try {
-                        valSet = vs.getSet(1);
-                    } catch (IOException e) {
-                        throw new IOException("Attribute " + attrId +
-                                " should have a value " + e.getMessage());
+                        vblSet = vs.getSet(1);
+                    } cbtch (IOException e) {
+                        throw new IOException("Attribute " + bttrId +
+                                " should hbve b vblue " + e.getMessbge());
                     }
-                    if (attrId.equals((Object)PKCS9FriendlyName_OID)) {
-                        alias = valSet[0].getBMPString();
-                    } else if (attrId.equals((Object)PKCS9LocalKeyId_OID)) {
-                        keyId = valSet[0].getOctetString();
+                    if (bttrId.equbls((Object)PKCS9FriendlyNbme_OID)) {
+                        blibs = vblSet[0].getBMPString();
+                    } else if (bttrId.equbls((Object)PKCS9LocblKeyId_OID)) {
+                        keyId = vblSet[0].getOctetString();
                     } else if
-                        (attrId.equals((Object)TrustedKeyUsage_OID)) {
-                        trustedKeyUsage = new ObjectIdentifier[valSet.length];
-                        for (int k = 0; k < valSet.length; k++) {
-                            trustedKeyUsage[k] = valSet[k].getOID();
+                        (bttrId.equbls((Object)TrustedKeyUsbge_OID)) {
+                        trustedKeyUsbge = new ObjectIdentifier[vblSet.length];
+                        for (int k = 0; k < vblSet.length; k++) {
+                            trustedKeyUsbge[k] = vblSet[k].getOID();
                         }
                     } else {
-                        attributes.add(new PKCS12Attribute(encoded));
+                        bttributes.bdd(new PKCS12Attribute(encoded));
                     }
                 }
             }
 
             /*
-             * As per PKCS12 v1.0 friendlyname (alias) and localKeyId (keyId)
-             * are optional PKCS12 bagAttributes. But entries in the keyStore
-             * are identified by their alias. Hence we need to have an
-             * Unfriendlyname in the alias, if alias is null. The keyId
-             * attribute is required to match the private key with the
-             * certificate. If we get a bagItem of type KeyEntry with a
+             * As per PKCS12 v1.0 friendlynbme (blibs) bnd locblKeyId (keyId)
+             * bre optionbl PKCS12 bbgAttributes. But entries in the keyStore
+             * bre identified by their blibs. Hence we need to hbve bn
+             * Unfriendlynbme in the blibs, if blibs is null. The keyId
+             * bttribute is required to mbtch the privbte key with the
+             * certificbte. If we get b bbgItem of type KeyEntry with b
              * null keyId, we should skip it entirely.
              */
-            if (bagItem instanceof KeyEntry) {
-                KeyEntry entry = (KeyEntry)bagItem;
+            if (bbgItem instbnceof KeyEntry) {
+                KeyEntry entry = (KeyEntry)bbgItem;
 
-                if (bagItem instanceof PrivateKeyEntry) {
+                if (bbgItem instbnceof PrivbteKeyEntry) {
                     if (keyId == null) {
-                       // Insert a localKeyID for the privateKey
-                       // Note: This is a workaround to allow null localKeyID
-                       // attribute in pkcs12 with one private key entry and
-                       // associated cert-chain
-                       if (privateKeyCount == 1) {
+                       // Insert b locblKeyID for the privbteKey
+                       // Note: This is b workbround to bllow null locblKeyID
+                       // bttribute in pkcs12 with one privbte key entry bnd
+                       // bssocibted cert-chbin
+                       if (privbteKeyCount == 1) {
                             keyId = "01".getBytes("UTF8");
                        } else {
                             continue;
@@ -2217,71 +2217,71 @@ public final class PKCS12KeyStore extends KeyStoreSpi {
                     }
                 }
                 entry.keyId = keyId;
-                // restore date if it exists
+                // restore dbte if it exists
                 String keyIdStr = new String(keyId, "UTF8");
-                Date date = null;
-                if (keyIdStr.startsWith("Time ")) {
+                Dbte dbte = null;
+                if (keyIdStr.stbrtsWith("Time ")) {
                     try {
-                        date = new Date(
-                                Long.parseLong(keyIdStr.substring(5)));
-                    } catch (Exception e) {
-                        date = null;
+                        dbte = new Dbte(
+                                Long.pbrseLong(keyIdStr.substring(5)));
+                    } cbtch (Exception e) {
+                        dbte = null;
                     }
                 }
-                if (date == null) {
-                    date = new Date();
+                if (dbte == null) {
+                    dbte = new Dbte();
                 }
-                entry.date = date;
+                entry.dbte = dbte;
 
-                if (bagItem instanceof PrivateKeyEntry) {
-                    keyList.add((PrivateKeyEntry) entry);
+                if (bbgItem instbnceof PrivbteKeyEntry) {
+                    keyList.bdd((PrivbteKeyEntry) entry);
                 }
-                if (entry.attributes == null) {
-                    entry.attributes = new HashSet<>();
+                if (entry.bttributes == null) {
+                    entry.bttributes = new HbshSet<>();
                 }
-                entry.attributes.addAll(attributes);
-                if (alias == null) {
-                   alias = getUnfriendlyName();
+                entry.bttributes.bddAll(bttributes);
+                if (blibs == null) {
+                   blibs = getUnfriendlyNbme();
                 }
-                entry.alias = alias;
-                entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+                entry.blibs = blibs;
+                entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
 
-            } else if (bagItem instanceof X509Certificate) {
-                X509Certificate cert = (X509Certificate)bagItem;
-                // Insert a localKeyID for the corresponding cert
-                // Note: This is a workaround to allow null localKeyID
-                // attribute in pkcs12 with one private key entry and
-                // associated cert-chain
-                if ((keyId == null) && (privateKeyCount == 1)) {
-                    // insert localKeyID only for EE cert or self-signed cert
+            } else if (bbgItem instbnceof X509Certificbte) {
+                X509Certificbte cert = (X509Certificbte)bbgItem;
+                // Insert b locblKeyID for the corresponding cert
+                // Note: This is b workbround to bllow null locblKeyID
+                // bttribute in pkcs12 with one privbte key entry bnd
+                // bssocibted cert-chbin
+                if ((keyId == null) && (privbteKeyCount == 1)) {
+                    // insert locblKeyID only for EE cert or self-signed cert
                     if (i == 0) {
                         keyId = "01".getBytes("UTF8");
                     }
                 }
-                // Trusted certificate
-                if (trustedKeyUsage != null) {
-                    if (alias == null) {
-                        alias = getUnfriendlyName();
+                // Trusted certificbte
+                if (trustedKeyUsbge != null) {
+                    if (blibs == null) {
+                        blibs = getUnfriendlyNbme();
                     }
                     CertEntry certEntry =
-                        new CertEntry(cert, keyId, alias, trustedKeyUsage,
-                            attributes);
-                    entries.put(alias.toLowerCase(Locale.ENGLISH), certEntry);
+                        new CertEntry(cert, keyId, blibs, trustedKeyUsbge,
+                            bttributes);
+                    entries.put(blibs.toLowerCbse(Locble.ENGLISH), certEntry);
                 } else {
-                    certEntries.add(new CertEntry(cert, keyId, alias));
+                    certEntries.bdd(new CertEntry(cert, keyId, blibs));
                 }
-                X500Principal subjectDN = cert.getSubjectX500Principal();
+                X500Principbl subjectDN = cert.getSubjectX500Principbl();
                 if (subjectDN != null) {
-                    if (!certsMap.containsKey(subjectDN)) {
-                        certsMap.put(subjectDN, cert);
+                    if (!certsMbp.contbinsKey(subjectDN)) {
+                        certsMbp.put(subjectDN, cert);
                     }
                 }
             }
         }
     }
 
-    private String getUnfriendlyName() {
+    privbte String getUnfriendlyNbme() {
         counter++;
-        return (String.valueOf(counter));
+        return (String.vblueOf(counter));
     }
 }

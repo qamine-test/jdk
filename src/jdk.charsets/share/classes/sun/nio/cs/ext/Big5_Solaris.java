@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import sun.nio.cs.HistoricallyNamedCharset;
-import java.util.Arrays;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
+import jbvb.util.Arrbys;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
-public class Big5_Solaris extends Charset implements HistoricallyNamedCharset
+public clbss Big5_Solbris extends Chbrset implements HistoricbllyNbmedChbrset
 {
-    public Big5_Solaris() {
-        super("x-Big5-Solaris", ExtendedCharsets.aliasesFor("x-Big5-Solaris"));
+    public Big5_Solbris() {
+        super("x-Big5-Solbris", ExtendedChbrsets.blibsesFor("x-Big5-Solbris"));
     }
 
-    public String historicalName() {
-        return "Big5_Solaris";
+    public String historicblNbme() {
+        return "Big5_Solbris";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof Big5)
-                || (cs instanceof Big5_Solaris));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs.nbme().equbls("US-ASCII"))
+                || (cs instbnceof Big5)
+                || (cs instbnceof Big5_Solbris));
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         initb2c();
         return new  DoubleByte.Decoder(this, b2c, b2cSB, 0x40, 0xfe);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         initc2b();
         return new DoubleByte.Encoder(this, c2b, c2bIndex);
     }
 
-    static char[][] b2c;
-    static char[] b2cSB;
-    private static volatile boolean b2cInitialized = false;
+    stbtic chbr[][] b2c;
+    stbtic chbr[] b2cSB;
+    privbte stbtic volbtile boolebn b2cInitiblized = fblse;
 
-    static void initb2c() {
-        if (b2cInitialized)
+    stbtic void initb2c() {
+        if (b2cInitiblized)
             return;
-        synchronized (Big5_Solaris.class) {
-            if (b2cInitialized)
+        synchronized (Big5_Solbris.clbss) {
+            if (b2cInitiblized)
                 return;
             Big5.initb2c();
             b2c = Big5.b2c.clone();
-            // Big5 Solaris implementation has 7 additional mappings
+            // Big5 Solbris implementbtion hbs 7 bdditionbl mbppings
             int[] sol = new int[] {
                 0xF9D6, 0x7881,
                 0xF9D7, 0x92B9,
@@ -80,27 +80,27 @@ public class Big5_Solaris extends Charset implements HistoricallyNamedCharset
                 0xF9DB, 0x7CA7,
                 0xF9DC, 0x5AFA };
             if (b2c[0xf9] == DoubleByte.B2C_UNMAPPABLE) {
-                b2c[0xf9] = new char[0xfe - 0x40 + 1];
-                Arrays.fill(b2c[0xf9], UNMAPPABLE_DECODING);
+                b2c[0xf9] = new chbr[0xfe - 0x40 + 1];
+                Arrbys.fill(b2c[0xf9], UNMAPPABLE_DECODING);
             }
 
             for (int i = 0; i < sol.length;) {
-                b2c[0xf9][sol[i++] & 0xff - 0x40] = (char)sol[i++];
+                b2c[0xf9][sol[i++] & 0xff - 0x40] = (chbr)sol[i++];
             }
             b2cSB = Big5.b2cSB;
-            b2cInitialized = true;
+            b2cInitiblized = true;
         }
     }
 
-    static char[] c2b;
-    static char[] c2bIndex;
-    private static volatile boolean c2bInitialized = false;
+    stbtic chbr[] c2b;
+    stbtic chbr[] c2bIndex;
+    privbte stbtic volbtile boolebn c2bInitiblized = fblse;
 
-    static void initc2b() {
-        if (c2bInitialized)
+    stbtic void initc2b() {
+        if (c2bInitiblized)
             return;
-        synchronized (Big5_Solaris.class) {
-            if (c2bInitialized)
+        synchronized (Big5_Solbris.clbss) {
+            if (c2bInitiblized)
                 return;
             Big5.initc2b();
             c2b = Big5.c2b.clone();
@@ -117,10 +117,10 @@ public class Big5_Solaris extends Charset implements HistoricallyNamedCharset
             for (int i = 0; i < sol.length;) {
                 int c = sol[i++];
                 // no need to check c2bIndex[c >>8], we know it points
-                // to the appropriate place.
-                c2b[c2bIndex[c >> 8] + (c & 0xff)] = (char)sol[i++];
+                // to the bppropribte plbce.
+                c2b[c2bIndex[c >> 8] + (c & 0xff)] = (chbr)sol[i++];
             }
-            c2bInitialized = true;
+            c2bInitiblized = true;
         }
     }
 }

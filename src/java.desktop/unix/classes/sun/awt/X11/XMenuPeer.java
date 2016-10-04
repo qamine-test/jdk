@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.util.Vector;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.AWTAccessor;
 
-public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
+public clbss XMenuPeer extends XMenuItemPeer implements MenuPeer {
 
     /************************************************
      *
-     * Data members
+     * Dbtb members
      *
      ************************************************/
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuPeer");
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XMenuPeer");
 
     /**
-     * Window that correspond to this menu
+     * Window thbt correspond to this menu
      */
     XMenuWindow menuWindow;
 
@@ -50,24 +50,24 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
      * Construction
      *
      ************************************************/
-    XMenuPeer(Menu target) {
-        super(target);
+    XMenuPeer(Menu tbrget) {
+        super(tbrget);
     }
 
     /**
-     * This function is called when menu is bound
-     * to its container window. Creates submenu window
-     * that fills its items vector while construction
+     * This function is cblled when menu is bound
+     * to its contbiner window. Crebtes submenu window
+     * thbt fills its items vector while construction
      */
-    void setContainer(XBaseMenuWindow container) {
-        super.setContainer(container);
+    void setContbiner(XBbseMenuWindow contbiner) {
+        super.setContbiner(contbiner);
         menuWindow = new XMenuWindow(this);
     }
 
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implementbion of interfbce methods
      *
      ************************************************/
 
@@ -87,11 +87,11 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
 
     /**
      * Resets text metrics for this item, for its menu window
-     * and for all descendant menu windows
+     * bnd for bll descendbnt menu windows
      */
     public void setFont(Font font) {
-        //TODO:We can decrease count of repaints here
-        //and get rid of recursion
+        //TODO:We cbn decrebse count of repbints here
+        //bnd get rid of recursion
         resetTextMetrics();
 
         XMenuWindow menuWindow = getMenuWindow();
@@ -99,29 +99,29 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
             menuWindow.setItemsFont(font);
         }
 
-        repaintIfShowing();
+        repbintIfShowing();
     }
 
     /*
      * From MenuPeer
      */
     /**
-     * addSeparator routines are not used
-     * in peers. Shared code invokes addItem("-")
-     * for adding separators
+     * bddSepbrbtor routines bre not used
+     * in peers. Shbred code invokes bddItem("-")
+     * for bdding sepbrbtors
      */
-    public void addSeparator() {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("addSeparator is not implemented");
+    public void bddSepbrbtor() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("bddSepbrbtor is not implemented");
         }
     }
 
-    public void addItem(MenuItem item) {
+    public void bddItem(MenuItem item) {
         XMenuWindow menuWindow = getMenuWindow();
         if (menuWindow != null) {
-            menuWindow.addItem(item);
+            menuWindow.bddItem(item);
         } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("Attempt to use XMenuWindowPeer without window");
             }
         }
@@ -132,7 +132,7 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
         if (menuWindow != null) {
             menuWindow.delItem(index);
         } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("Attempt to use XMenuWindowPeer without window");
             }
         }
@@ -140,24 +140,24 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
 
     /************************************************
      *
-     * Access to target's fields
+     * Access to tbrget's fields
      *
      ************************************************/
-    Vector<MenuItem> getTargetItems() {
-        return AWTAccessor.getMenuAccessor().getItems((Menu)getTarget());
+    Vector<MenuItem> getTbrgetItems() {
+        return AWTAccessor.getMenuAccessor().getItems((Menu)getTbrget());
     }
 
     /************************************************
      *
-     * Overriden behaviour
+     * Overriden behbviour
      *
      ************************************************/
-    boolean isSeparator() {
-        return false;
+    boolebn isSepbrbtor() {
+        return fblse;
     }
 
-    //Fix for 6180416: Shortcut keys are displayed against Menus on XToolkit
-    //Menu should always return null as shortcutText
+    //Fix for 6180416: Shortcut keys bre displbyed bgbinst Menus on XToolkit
+    //Menu should blwbys return null bs shortcutText
     String getShortcutText() {
         return null;
     }
@@ -170,8 +170,8 @@ public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
 
     /**
      * Returns menu window of this menu or null
-     * it this menu has no container and so its
-     * window can't be created.
+     * it this menu hbs no contbiner bnd so its
+     * window cbn't be crebted.
      */
     XMenuWindow getMenuWindow() {
         return menuWindow;

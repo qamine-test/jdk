@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -35,127 +35,127 @@
 #include "jni_util.h"
 #include "net_util.h"
 
-#include "sun_nio_ch_InheritedChannel.h"
+#include "sun_nio_ch_InheritedChbnnel.h"
 
-static int matchFamily(struct sockaddr *sa) {
-    int family = sa->sa_family;
+stbtic int mbtchFbmily(struct sockbddr *sb) {
+    int fbmily = sb->sb_fbmily;
 #ifdef AF_INET6
-    if (ipv6_available()) {
-        return (family == AF_INET6);
+    if (ipv6_bvbilbble()) {
+        return (fbmily == AF_INET6);
     }
 #endif
-    return (family == AF_INET);
+    return (fbmily == AF_INET);
 }
 
 JNIEXPORT jobject JNICALL
-Java_sun_nio_ch_InheritedChannel_peerAddress0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_ch_InheritedChbnnel_peerAddress0(JNIEnv *env, jclbss clb, jint fd)
 {
-    struct sockaddr *sa;
-    socklen_t sa_len;
-    jobject remote_ia = NULL;
+    struct sockbddr *sb;
+    socklen_t sb_len;
+    jobject remote_ib = NULL;
     jint remote_port;
 
-    NET_AllocSockaddr(&sa, (int *)&sa_len);
-    if (getpeername(fd, sa, &sa_len) == 0) {
-        if (matchFamily(sa)) {
-            remote_ia = NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
+    NET_AllocSockbddr(&sb, (int *)&sb_len);
+    if (getpeernbme(fd, sb, &sb_len) == 0) {
+        if (mbtchFbmily(sb)) {
+            remote_ib = NET_SockbddrToInetAddress(env, sb, (int *)&remote_port);
         }
     }
-    free((void *)sa);
+    free((void *)sb);
 
-    return remote_ia;
+    return remote_ib;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_peerPort0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_ch_InheritedChbnnel_peerPort0(JNIEnv *env, jclbss clb, jint fd)
 {
-    struct sockaddr *sa;
-    socklen_t sa_len;
+    struct sockbddr *sb;
+    socklen_t sb_len;
     jint remote_port = -1;
 
-    NET_AllocSockaddr(&sa, (int *)&sa_len);
-    if (getpeername(fd, sa, &sa_len) == 0) {
-        if (matchFamily(sa)) {
-            NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
+    NET_AllocSockbddr(&sb, (int *)&sb_len);
+    if (getpeernbme(fd, sb, &sb_len) == 0) {
+        if (mbtchFbmily(sb)) {
+            NET_SockbddrToInetAddress(env, sb, (int *)&remote_port);
         }
     }
-    free((void *)sa);
+    free((void *)sb);
 
     return remote_port;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_soType0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_ch_InheritedChbnnel_soType0(JNIEnv *env, jclbss clb, jint fd)
 {
     int sotype;
-    socklen_t arglen=sizeof(sotype);
-    if (getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &arglen) == 0) {
+    socklen_t brglen=sizeof(sotype);
+    if (getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &brglen) == 0) {
         if (sotype == SOCK_STREAM)
-            return sun_nio_ch_InheritedChannel_SOCK_STREAM;
+            return sun_nio_ch_InheritedChbnnel_SOCK_STREAM;
         if (sotype == SOCK_DGRAM)
-            return sun_nio_ch_InheritedChannel_SOCK_DGRAM;
+            return sun_nio_ch_InheritedChbnnel_SOCK_DGRAM;
     }
-    return sun_nio_ch_InheritedChannel_UNKNOWN;
+    return sun_nio_ch_InheritedChbnnel_UNKNOWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_dup(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_ch_InheritedChbnnel_dup(JNIEnv *env, jclbss clb, jint fd)
 {
    int newfd = dup(fd);
    if (newfd < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "dup failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "dup fbiled");
    }
    return (jint)newfd;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_InheritedChannel_dup2(JNIEnv *env, jclass cla, jint fd, jint fd2)
+Jbvb_sun_nio_ch_InheritedChbnnel_dup2(JNIEnv *env, jclbss clb, jint fd, jint fd2)
 {
    if (dup2(fd, fd2) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "dup2 failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "dup2 fbiled");
    }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_open0(JNIEnv *env, jclass cla, jstring path, jint oflag)
+Jbvb_sun_nio_ch_InheritedChbnnel_open0(JNIEnv *env, jclbss clb, jstring pbth, jint oflbg)
 {
-    const char* str;
-    int oflag_actual;
+    const chbr* str;
+    int oflbg_bctubl;
 
-    /* convert to OS specific value */
-    switch (oflag) {
-        case sun_nio_ch_InheritedChannel_O_RDWR :
-            oflag_actual = O_RDWR;
-            break;
-        case sun_nio_ch_InheritedChannel_O_RDONLY :
-            oflag_actual = O_RDONLY;
-            break;
-        case sun_nio_ch_InheritedChannel_O_WRONLY :
-            oflag_actual = O_WRONLY;
-            break;
-        default :
-            JNU_ThrowInternalError(env, "Unrecognized file mode");
+    /* convert to OS specific vblue */
+    switch (oflbg) {
+        cbse sun_nio_ch_InheritedChbnnel_O_RDWR :
+            oflbg_bctubl = O_RDWR;
+            brebk;
+        cbse sun_nio_ch_InheritedChbnnel_O_RDONLY :
+            oflbg_bctubl = O_RDONLY;
+            brebk;
+        cbse sun_nio_ch_InheritedChbnnel_O_WRONLY :
+            oflbg_bctubl = O_WRONLY;
+            brebk;
+        defbult :
+            JNU_ThrowInternblError(env, "Unrecognized file mode");
             return -1;
     }
 
-    str = JNU_GetStringPlatformChars(env, path, NULL);
+    str = JNU_GetStringPlbtformChbrs(env, pbth, NULL);
     if (str == NULL) {
         return (jint)-1;
     } else {
-        int fd = open(str, oflag_actual);
+        int fd = open(str, oflbg_bctubl);
         if (fd < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, str);
+            JNU_ThrowIOExceptionWithLbstError(env, str);
         }
-        JNU_ReleaseStringPlatformChars(env, path, str);
+        JNU_RelebseStringPlbtformChbrs(env, pbth, str);
         return (jint)fd;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_InheritedChannel_close0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_ch_InheritedChbnnel_close0(JNIEnv *env, jclbss clb, jint fd)
 {
     if (close(fd) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "close failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "close fbiled");
     }
 }

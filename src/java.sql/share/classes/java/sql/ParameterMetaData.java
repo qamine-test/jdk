@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * An object that can be used to get information about the types
- * and properties for each parameter marker in a
- * <code>PreparedStatement</code> object. For some queries and driver
- * implementations, the data that would be returned by a <code>ParameterMetaData</code>
- * object may not be available until the <code>PreparedStatement</code> has
+ * An object thbt cbn be used to get informbtion bbout the types
+ * bnd properties for ebch pbrbmeter mbrker in b
+ * <code>PrepbredStbtement</code> object. For some queries bnd driver
+ * implementbtions, the dbtb thbt would be returned by b <code>PbrbmeterMetbDbtb</code>
+ * object mby not be bvbilbble until the <code>PrepbredStbtement</code> hbs
  * been executed.
  *<p>
- *Some driver implementations may not be able to provide information about the
- *types and properties for each parameter marker in a <code>CallableStatement</code>
+ *Some driver implementbtions mby not be bble to provide informbtion bbout the
+ *types bnd properties for ebch pbrbmeter mbrker in b <code>CbllbbleStbtement</code>
  *object.
  *
  * @since 1.4
  */
 
-public interface ParameterMetaData extends Wrapper {
+public interfbce PbrbmeterMetbDbtb extends Wrbpper {
 
     /**
-     * Retrieves the number of parameters in the <code>PreparedStatement</code>
-     * object for which this <code>ParameterMetaData</code> object contains
-     * information.
+     * Retrieves the number of pbrbmeters in the <code>PrepbredStbtement</code>
+     * object for which this <code>PbrbmeterMetbDbtb</code> object contbins
+     * informbtion.
      *
-     * @return the number of parameters
-     * @exception SQLException if a database access error occurs
+     * @return the number of pbrbmeters
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    int getParameterCount() throws SQLException;
+    int getPbrbmeterCount() throws SQLException;
 
     /**
-     * Retrieves whether null values are allowed in the designated parameter.
+     * Retrieves whether null vblues bre bllowed in the designbted pbrbmeter.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return the nullability status of the given parameter; one of
-     *        <code>ParameterMetaData.parameterNoNulls</code>,
-     *        <code>ParameterMetaData.parameterNullable</code>, or
-     *        <code>ParameterMetaData.parameterNullableUnknown</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return the nullbbility stbtus of the given pbrbmeter; one of
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterNoNulls</code>,
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterNullbble</code>, or
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterNullbbleUnknown</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    int isNullable(int param) throws SQLException;
+    int isNullbble(int pbrbm) throws SQLException;
 
     /**
-     * The constant indicating that a
-     * parameter will not allow <code>NULL</code> values.
+     * The constbnt indicbting thbt b
+     * pbrbmeter will not bllow <code>NULL</code> vblues.
      */
-    int parameterNoNulls = 0;
+    int pbrbmeterNoNulls = 0;
 
     /**
-     * The constant indicating that a
-     * parameter will allow <code>NULL</code> values.
+     * The constbnt indicbting thbt b
+     * pbrbmeter will bllow <code>NULL</code> vblues.
      */
-    int parameterNullable = 1;
+    int pbrbmeterNullbble = 1;
 
     /**
-     * The constant indicating that the
-     * nullability of a parameter is unknown.
+     * The constbnt indicbting thbt the
+     * nullbbility of b pbrbmeter is unknown.
      */
-    int parameterNullableUnknown = 2;
+    int pbrbmeterNullbbleUnknown = 2;
 
     /**
-     * Retrieves whether values for the designated parameter can be signed numbers.
+     * Retrieves whether vblues for the designbted pbrbmeter cbn be signed numbers.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    boolean isSigned(int param) throws SQLException;
+    boolebn isSigned(int pbrbm) throws SQLException;
 
     /**
-     * Retrieves the designated parameter's specified column size.
+     * Retrieves the designbted pbrbmeter's specified column size.
      *
-     * <P>The returned value represents the maximum column size for the given parameter.
-     * For numeric data, this is the maximum precision.  For character data, this is the length in characters.
-     * For datetime datatypes, this is the length in characters of the String representation (assuming the
-     * maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype,
-     * this is the length in bytes. 0 is returned for data types where the
-     * column size is not applicable.
+     * <P>The returned vblue represents the mbximum column size for the given pbrbmeter.
+     * For numeric dbtb, this is the mbximum precision.  For chbrbcter dbtb, this is the length in chbrbcters.
+     * For dbtetime dbtbtypes, this is the length in chbrbcters of the String representbtion (bssuming the
+     * mbximum bllowed precision of the frbctionbl seconds component). For binbry dbtb, this is the length in bytes.  For the ROWID dbtbtype,
+     * this is the length in bytes. 0 is returned for dbtb types where the
+     * column size is not bpplicbble.
      *
-     * @param param the first parameter is 1, the second is 2, ...
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
      * @return precision
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    int getPrecision(int param) throws SQLException;
+    int getPrecision(int pbrbm) throws SQLException;
 
     /**
-     * Retrieves the designated parameter's number of digits to right of the decimal point.
-     * 0 is returned for data types where the scale is not applicable.
+     * Retrieves the designbted pbrbmeter's number of digits to right of the decimbl point.
+     * 0 is returned for dbtb types where the scble is not bpplicbble.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return scale
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return scble
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    int getScale(int param) throws SQLException;
+    int getScble(int pbrbm) throws SQLException;
 
     /**
-     * Retrieves the designated parameter's SQL type.
+     * Retrieves the designbted pbrbmeter's SQL type.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return SQL type from <code>java.sql.Types</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return SQL type from <code>jbvb.sql.Types</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      * @see Types
      */
-    int getParameterType(int param) throws SQLException;
+    int getPbrbmeterType(int pbrbm) throws SQLException;
 
     /**
-     * Retrieves the designated parameter's database-specific type name.
+     * Retrieves the designbted pbrbmeter's dbtbbbse-specific type nbme.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return type the name used by the database. If the parameter type is
-     * a user-defined type, then a fully-qualified type name is returned.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return type the nbme used by the dbtbbbse. If the pbrbmeter type is
+     * b user-defined type, then b fully-qublified type nbme is returned.
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    String getParameterTypeName(int param) throws SQLException;
+    String getPbrbmeterTypeNbme(int pbrbm) throws SQLException;
 
 
     /**
-     * Retrieves the fully-qualified name of the Java class whose instances
-     * should be passed to the method <code>PreparedStatement.setObject</code>.
+     * Retrieves the fully-qublified nbme of the Jbvb clbss whose instbnces
+     * should be pbssed to the method <code>PrepbredStbtement.setObject</code>.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return the fully-qualified name of the class in the Java programming
-     *         language that would be used by the method
-     *         <code>PreparedStatement.setObject</code> to set the value
-     *         in the specified parameter. This is the class name used
-     *         for custom mapping.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return the fully-qublified nbme of the clbss in the Jbvb progrbmming
+     *         lbngubge thbt would be used by the method
+     *         <code>PrepbredStbtement.setObject</code> to set the vblue
+     *         in the specified pbrbmeter. This is the clbss nbme used
+     *         for custom mbpping.
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    String getParameterClassName(int param) throws SQLException;
+    String getPbrbmeterClbssNbme(int pbrbm) throws SQLException;
 
     /**
-     * The constant indicating that the mode of the parameter is unknown.
+     * The constbnt indicbting thbt the mode of the pbrbmeter is unknown.
      */
-    int parameterModeUnknown = 0;
+    int pbrbmeterModeUnknown = 0;
 
     /**
-     * The constant indicating that the parameter's mode is IN.
+     * The constbnt indicbting thbt the pbrbmeter's mode is IN.
      */
-    int parameterModeIn = 1;
+    int pbrbmeterModeIn = 1;
 
     /**
-     * The constant indicating that the parameter's mode is INOUT.
+     * The constbnt indicbting thbt the pbrbmeter's mode is INOUT.
      */
-    int parameterModeInOut = 2;
+    int pbrbmeterModeInOut = 2;
 
     /**
-     * The constant indicating that the parameter's mode is  OUT.
+     * The constbnt indicbting thbt the pbrbmeter's mode is  OUT.
      */
-    int parameterModeOut = 4;
+    int pbrbmeterModeOut = 4;
 
     /**
-     * Retrieves the designated parameter's mode.
+     * Retrieves the designbted pbrbmeter's mode.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return mode of the parameter; one of
-     *        <code>ParameterMetaData.parameterModeIn</code>,
-     *        <code>ParameterMetaData.parameterModeOut</code>, or
-     *        <code>ParameterMetaData.parameterModeInOut</code>
-     *        <code>ParameterMetaData.parameterModeUnknown</code>.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm pbrbm the first pbrbmeter is 1, the second is 2, ...
+     * @return mode of the pbrbmeter; one of
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterModeIn</code>,
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterModeOut</code>, or
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterModeInOut</code>
+     *        <code>PbrbmeterMetbDbtb.pbrbmeterModeUnknown</code>.
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.4
      */
-    int getParameterMode(int param) throws SQLException;
+    int getPbrbmeterMode(int pbrbm) throws SQLException;
 }

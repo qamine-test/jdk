@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.Set;
-import sun.misc.SharedSecrets;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.EnumSet;
+import jbvb.util.Set;
+import sun.misc.ShbredSecrets;
 
 /**
- * The <code>NumericShaper</code> class is used to convert Latin-1 (European)
- * digits to other Unicode decimal digits.  Users of this class will
- * primarily be people who wish to present data using
- * national digit shapes, but find it more convenient to represent the
- * data internally using Latin-1 (European) digits.  This does not
- * interpret the deprecated numeric shape selector character (U+206E).
+ * The <code>NumericShbper</code> clbss is used to convert Lbtin-1 (Europebn)
+ * digits to other Unicode decimbl digits.  Users of this clbss will
+ * primbrily be people who wish to present dbtb using
+ * nbtionbl digit shbpes, but find it more convenient to represent the
+ * dbtb internblly using Lbtin-1 (Europebn) digits.  This does not
+ * interpret the deprecbted numeric shbpe selector chbrbcter (U+206E).
  * <p>
- * Instances of <code>NumericShaper</code> are typically applied
- * as attributes to text with the
- * {@link TextAttribute#NUMERIC_SHAPING NUMERIC_SHAPING} attribute
- * of the <code>TextAttribute</code> class.
- * For example, this code snippet causes a <code>TextLayout</code> to
- * shape European digits to Arabic in an Arabic context:<br>
+ * Instbnces of <code>NumericShbper</code> bre typicblly bpplied
+ * bs bttributes to text with the
+ * {@link TextAttribute#NUMERIC_SHAPING NUMERIC_SHAPING} bttribute
+ * of the <code>TextAttribute</code> clbss.
+ * For exbmple, this code snippet cbuses b <code>TextLbyout</code> to
+ * shbpe Europebn digits to Arbbic in bn Arbbic context:<br>
  * <blockquote><pre>
- * Map map = new HashMap();
- * map.put(TextAttribute.NUMERIC_SHAPING,
- *     NumericShaper.getContextualShaper(NumericShaper.ARABIC));
+ * Mbp mbp = new HbshMbp();
+ * mbp.put(TextAttribute.NUMERIC_SHAPING,
+ *     NumericShbper.getContextublShbper(NumericShbper.ARABIC));
  * FontRenderContext frc = ...;
- * TextLayout layout = new TextLayout(text, map, frc);
- * layout.draw(g2d, x, y);
+ * TextLbyout lbyout = new TextLbyout(text, mbp, frc);
+ * lbyout.drbw(g2d, x, y);
  * </pre></blockquote>
  * <br>
- * It is also possible to perform numeric shaping explicitly using instances
- * of <code>NumericShaper</code>, as this code snippet demonstrates:<br>
+ * It is blso possible to perform numeric shbping explicitly using instbnces
+ * of <code>NumericShbper</code>, bs this code snippet demonstrbtes:<br>
  * <blockquote><pre>
- * char[] text = ...;
- * // shape all EUROPEAN digits (except zero) to ARABIC digits
- * NumericShaper shaper = NumericShaper.getShaper(NumericShaper.ARABIC);
- * shaper.shape(text, start, count);
+ * chbr[] text = ...;
+ * // shbpe bll EUROPEAN digits (except zero) to ARABIC digits
+ * NumericShbper shbper = NumericShbper.getShbper(NumericShbper.ARABIC);
+ * shbper.shbpe(text, stbrt, count);
  *
- * // shape European digits to ARABIC digits if preceding text is Arabic, or
- * // shape European digits to TAMIL digits if preceding text is Tamil, or
- * // leave European digits alone if there is no preceding text, or
- * // preceding text is neither Arabic nor Tamil
- * NumericShaper shaper =
- *     NumericShaper.getContextualShaper(NumericShaper.ARABIC |
- *                                         NumericShaper.TAMIL,
- *                                       NumericShaper.EUROPEAN);
- * shaper.shape(text, start, count);
+ * // shbpe Europebn digits to ARABIC digits if preceding text is Arbbic, or
+ * // shbpe Europebn digits to TAMIL digits if preceding text is Tbmil, or
+ * // lebve Europebn digits blone if there is no preceding text, or
+ * // preceding text is neither Arbbic nor Tbmil
+ * NumericShbper shbper =
+ *     NumericShbper.getContextublShbper(NumericShbper.ARABIC |
+ *                                         NumericShbper.TAMIL,
+ *                                       NumericShbper.EUROPEAN);
+ * shbper.shbpe(text, stbrt, count);
  * </pre></blockquote>
  *
- * <p><b>Bit mask- and enum-based Unicode ranges</b></p>
+ * <p><b>Bit mbsk- bnd enum-bbsed Unicode rbnges</b></p>
  *
- * <p>This class supports two different programming interfaces to
- * represent Unicode ranges for script-specific digits: bit
- * mask-based ones, such as {@link #ARABIC NumericShaper.ARABIC}, and
- * enum-based ones, such as {@link NumericShaper.Range#ARABIC}.
- * Multiple ranges can be specified by ORing bit mask-based constants,
- * such as:
+ * <p>This clbss supports two different progrbmming interfbces to
+ * represent Unicode rbnges for script-specific digits: bit
+ * mbsk-bbsed ones, such bs {@link #ARABIC NumericShbper.ARABIC}, bnd
+ * enum-bbsed ones, such bs {@link NumericShbper.Rbnge#ARABIC}.
+ * Multiple rbnges cbn be specified by ORing bit mbsk-bbsed constbnts,
+ * such bs:
  * <blockquote><pre>
- * NumericShaper.ARABIC | NumericShaper.TAMIL
+ * NumericShbper.ARABIC | NumericShbper.TAMIL
  * </pre></blockquote>
- * or creating a {@code Set} with the {@link NumericShaper.Range}
- * constants, such as:
+ * or crebting b {@code Set} with the {@link NumericShbper.Rbnge}
+ * constbnts, such bs:
  * <blockquote><pre>
- * EnumSet.of(NumericShaper.Scirpt.ARABIC, NumericShaper.Range.TAMIL)
+ * EnumSet.of(NumericShbper.Scirpt.ARABIC, NumericShbper.Rbnge.TAMIL)
  * </pre></blockquote>
- * The enum-based ranges are a super set of the bit mask-based ones.
+ * The enum-bbsed rbnges bre b super set of the bit mbsk-bbsed ones.
  *
- * <p>If the two interfaces are mixed (including serialization),
- * Unicode range values are mapped to their counterparts where such
- * mapping is possible, such as {@code NumericShaper.Range.ARABIC}
- * from/to {@code NumericShaper.ARABIC}.  If any unmappable range
- * values are specified, such as {@code NumericShaper.Range.BALINESE},
- * those ranges are ignored.
+ * <p>If the two interfbces bre mixed (including seriblizbtion),
+ * Unicode rbnge vblues bre mbpped to their counterpbrts where such
+ * mbpping is possible, such bs {@code NumericShbper.Rbnge.ARABIC}
+ * from/to {@code NumericShbper.ARABIC}.  If bny unmbppbble rbnge
+ * vblues bre specified, such bs {@code NumericShbper.Rbnge.BALINESE},
+ * those rbnges bre ignored.
  *
- * <p><b>Decimal Digits Precedence</b></p>
+ * <p><b>Decimbl Digits Precedence</b></p>
  *
- * <p>A Unicode range may have more than one set of decimal digits. If
- * multiple decimal digits sets are specified for the same Unicode
- * range, one of the sets will take precedence as follows.
+ * <p>A Unicode rbnge mby hbve more thbn one set of decimbl digits. If
+ * multiple decimbl digits sets bre specified for the sbme Unicode
+ * rbnge, one of the sets will tbke precedence bs follows.
  *
- * <table border=1 cellspacing=3 cellpadding=0 summary="NumericShaper constants precedence.">
+ * <tbble border=1 cellspbcing=3 cellpbdding=0 summbry="NumericShbper constbnts precedence.">
  *    <tr>
- *       <th class="TableHeadingColor">Unicode Range</th>
- *       <th class="TableHeadingColor"><code>NumericShaper</code> Constants</th>
- *       <th class="TableHeadingColor">Precedence</th>
+ *       <th clbss="TbbleHebdingColor">Unicode Rbnge</th>
+ *       <th clbss="TbbleHebdingColor"><code>NumericShbper</code> Constbnts</th>
+ *       <th clbss="TbbleHebdingColor">Precedence</th>
  *    </tr>
  *    <tr>
- *       <td rowspan="2">Arabic</td>
- *       <td>{@link NumericShaper#ARABIC NumericShaper.ARABIC}<br>
- *           {@link NumericShaper#EASTERN_ARABIC NumericShaper.EASTERN_ARABIC}</td>
- *       <td>{@link NumericShaper#EASTERN_ARABIC NumericShaper.EASTERN_ARABIC}</td>
+ *       <td rowspbn="2">Arbbic</td>
+ *       <td>{@link NumericShbper#ARABIC NumericShbper.ARABIC}<br>
+ *           {@link NumericShbper#EASTERN_ARABIC NumericShbper.EASTERN_ARABIC}</td>
+ *       <td>{@link NumericShbper#EASTERN_ARABIC NumericShbper.EASTERN_ARABIC}</td>
  *    </tr>
  *    <tr>
- *       <td>{@link NumericShaper.Range#ARABIC}<br>
- *           {@link NumericShaper.Range#EASTERN_ARABIC}</td>
- *       <td>{@link NumericShaper.Range#EASTERN_ARABIC}</td>
+ *       <td>{@link NumericShbper.Rbnge#ARABIC}<br>
+ *           {@link NumericShbper.Rbnge#EASTERN_ARABIC}</td>
+ *       <td>{@link NumericShbper.Rbnge#EASTERN_ARABIC}</td>
  *    </tr>
  *    <tr>
- *       <td>Tai Tham</td>
- *       <td>{@link NumericShaper.Range#TAI_THAM_HORA}<br>
- *           {@link NumericShaper.Range#TAI_THAM_THAM}</td>
- *       <td>{@link NumericShaper.Range#TAI_THAM_THAM}</td>
+ *       <td>Tbi Thbm</td>
+ *       <td>{@link NumericShbper.Rbnge#TAI_THAM_HORA}<br>
+ *           {@link NumericShbper.Rbnge#TAI_THAM_THAM}</td>
+ *       <td>{@link NumericShbper.Rbnge#TAI_THAM_THAM}</td>
  *    </tr>
- * </table>
+ * </tbble>
  *
  * @since 1.4
  */
 
-public final class NumericShaper implements java.io.Serializable {
+public finbl clbss NumericShbper implements jbvb.io.Seriblizbble {
 
-    // For access from java.text.Bidi
-    static {
-        if (SharedSecrets.getJavaAWTFontAccess() == null) {
-            SharedSecrets.setJavaAWTFontAccess(new JavaAWTFontAccessImpl());
+    // For bccess from jbvb.text.Bidi
+    stbtic {
+        if (ShbredSecrets.getJbvbAWTFontAccess() == null) {
+            ShbredSecrets.setJbvbAWTFontAccess(new JbvbAWTFontAccessImpl());
         }
     }
 
     /**
-     * A {@code NumericShaper.Range} represents a Unicode range of a
-     * script having its own decimal digits. For example, the {@link
-     * NumericShaper.Range#THAI} range has the Thai digits, THAI DIGIT
+     * A {@code NumericShbper.Rbnge} represents b Unicode rbnge of b
+     * script hbving its own decimbl digits. For exbmple, the {@link
+     * NumericShbper.Rbnge#THAI} rbnge hbs the Thbi digits, THAI DIGIT
      * ZERO (U+0E50) to THAI DIGIT NINE (U+0E59).
      *
-     * <p>The <code>Range</code> enum replaces the traditional bit
-     * mask-based values (e.g., {@link NumericShaper#ARABIC}), and
-     * supports more Unicode ranges than the bit mask-based ones. For
-     * example, the following code using the bit mask:
+     * <p>The <code>Rbnge</code> enum replbces the trbditionbl bit
+     * mbsk-bbsed vblues (e.g., {@link NumericShbper#ARABIC}), bnd
+     * supports more Unicode rbnges thbn the bit mbsk-bbsed ones. For
+     * exbmple, the following code using the bit mbsk:
      * <blockquote><pre>
-     * NumericShaper.getContextualShaper(NumericShaper.ARABIC |
-     *                                     NumericShaper.TAMIL,
-     *                                   NumericShaper.EUROPEAN);
+     * NumericShbper.getContextublShbper(NumericShbper.ARABIC |
+     *                                     NumericShbper.TAMIL,
+     *                                   NumericShbper.EUROPEAN);
      * </pre></blockquote>
-     * can be written using this enum as:
+     * cbn be written using this enum bs:
      * <blockquote><pre>
-     * NumericShaper.getContextualShaper(EnumSet.of(
-     *                                     NumericShaper.Range.ARABIC,
-     *                                     NumericShaper.Range.TAMIL),
-     *                                   NumericShaper.Range.EUROPEAN);
+     * NumericShbper.getContextublShbper(EnumSet.of(
+     *                                     NumericShbper.Rbnge.ARABIC,
+     *                                     NumericShbper.Rbnge.TAMIL),
+     *                                   NumericShbper.Rbnge.EUROPEAN);
      * </pre></blockquote>
      *
      * @since 1.7
      */
-    public static enum Range {
+    public stbtic enum Rbnge {
         // The order of EUROPEAN to MOGOLIAN must be consistent
-        // with the bitmask-based constants.
+        // with the bitmbsk-bbsed constbnts.
         /**
-         * The Latin (European) range with the Latin (ASCII) digits.
+         * The Lbtin (Europebn) rbnge with the Lbtin (ASCII) digits.
          */
         EUROPEAN        ('\u0030', '\u0000', '\u0300'),
         /**
-         * The Arabic range with the Arabic-Indic digits.
+         * The Arbbic rbnge with the Arbbic-Indic digits.
          */
         ARABIC          ('\u0660', '\u0600', '\u0780'),
         /**
-         * The Arabic range with the Eastern Arabic-Indic digits.
+         * The Arbbic rbnge with the Ebstern Arbbic-Indic digits.
          */
         EASTERN_ARABIC  ('\u06f0', '\u0600', '\u0780'),
         /**
-         * The Devanagari range with the Devanagari digits.
+         * The Devbnbgbri rbnge with the Devbnbgbri digits.
          */
         DEVANAGARI      ('\u0966', '\u0900', '\u0980'),
         /**
-         * The Bengali range with the Bengali digits.
+         * The Bengbli rbnge with the Bengbli digits.
          */
-        BENGALI         ('\u09e6', '\u0980', '\u0a00'),
+        BENGALI         ('\u09e6', '\u0980', '\u0b00'),
         /**
-         * The Gurmukhi range with the Gurmukhi digits.
+         * The Gurmukhi rbnge with the Gurmukhi digits.
          */
-        GURMUKHI        ('\u0a66', '\u0a00', '\u0a80'),
+        GURMUKHI        ('\u0b66', '\u0b00', '\u0b80'),
         /**
-         * The Gujarati range with the Gujarati digits.
+         * The Gujbrbti rbnge with the Gujbrbti digits.
          */
-        GUJARATI        ('\u0ae6', '\u0b00', '\u0b80'),
+        GUJARATI        ('\u0be6', '\u0b00', '\u0b80'),
         /**
-         * The Oriya range with the Oriya digits.
+         * The Oriyb rbnge with the Oriyb digits.
          */
         ORIYA           ('\u0b66', '\u0b00', '\u0b80'),
         /**
-         * The Tamil range with the Tamil digits.
+         * The Tbmil rbnge with the Tbmil digits.
          */
         TAMIL           ('\u0be6', '\u0b80', '\u0c00'),
         /**
-         * The Telugu range with the Telugu digits.
+         * The Telugu rbnge with the Telugu digits.
          */
         TELUGU          ('\u0c66', '\u0c00', '\u0c80'),
         /**
-         * The Kannada range with the Kannada digits.
+         * The Kbnnbdb rbnge with the Kbnnbdb digits.
          */
         KANNADA         ('\u0ce6', '\u0c80', '\u0d00'),
         /**
-         * The Malayalam range with the Malayalam digits.
+         * The Mblbyblbm rbnge with the Mblbyblbm digits.
          */
         MALAYALAM       ('\u0d66', '\u0d00', '\u0d80'),
         /**
-         * The Thai range with the Thai digits.
+         * The Thbi rbnge with the Thbi digits.
          */
         THAI            ('\u0e50', '\u0e00', '\u0e80'),
         /**
-         * The Lao range with the Lao digits.
+         * The Lbo rbnge with the Lbo digits.
          */
         LAO             ('\u0ed0', '\u0e80', '\u0f00'),
         /**
-         * The Tibetan range with the Tibetan digits.
+         * The Tibetbn rbnge with the Tibetbn digits.
          */
         TIBETAN         ('\u0f20', '\u0f00', '\u1000'),
         /**
-         * The Myanmar range with the Myanmar digits.
+         * The Mybnmbr rbnge with the Mybnmbr digits.
          */
         MYANMAR         ('\u1040', '\u1000', '\u1080'),
         /**
-         * The Ethiopic range with the Ethiopic digits. Ethiopic
-         * does not have a decimal digit 0 so Latin (European) 0 is
+         * The Ethiopic rbnge with the Ethiopic digits. Ethiopic
+         * does not hbve b decimbl digit 0 so Lbtin (Europebn) 0 is
          * used.
          */
         ETHIOPIC        ('\u1369', '\u1200', '\u1380') {
             @Override
-            char getNumericBase() { return 1; }
+            chbr getNumericBbse() { return 1; }
         },
         /**
-         * The Khmer range with the Khmer digits.
+         * The Khmer rbnge with the Khmer digits.
          */
         KHMER           ('\u17e0', '\u1780', '\u1800'),
         /**
-         * The Mongolian range with the Mongolian digits.
+         * The Mongolibn rbnge with the Mongolibn digits.
          */
         MONGOLIAN       ('\u1810', '\u1800', '\u1900'),
         // The order of EUROPEAN to MOGOLIAN must be consistent
-        // with the bitmask-based constants.
+        // with the bitmbsk-bbsed constbnts.
 
         /**
-         * The N'Ko range with the N'Ko digits.
+         * The N'Ko rbnge with the N'Ko digits.
          */
         NKO             ('\u07c0', '\u07c0', '\u0800'),
         /**
-         * The Myanmar range with the Myanmar Shan digits.
+         * The Mybnmbr rbnge with the Mybnmbr Shbn digits.
          */
-        MYANMAR_SHAN    ('\u1090', '\u1000', '\u10a0'),
+        MYANMAR_SHAN    ('\u1090', '\u1000', '\u10b0'),
         /**
-         * The Limbu range with the Limbu digits.
+         * The Limbu rbnge with the Limbu digits.
          */
         LIMBU           ('\u1946', '\u1900', '\u1950'),
         /**
-         * The New Tai Lue range with the New Tai Lue digits.
+         * The New Tbi Lue rbnge with the New Tbi Lue digits.
          */
         NEW_TAI_LUE     ('\u19d0', '\u1980', '\u19e0'),
         /**
-         * The Balinese range with the Balinese digits.
+         * The Bblinese rbnge with the Bblinese digits.
          */
         BALINESE        ('\u1b50', '\u1b00', '\u1b80'),
         /**
-         * The Sundanese range with the Sundanese digits.
+         * The Sundbnese rbnge with the Sundbnese digits.
          */
         SUNDANESE       ('\u1bb0', '\u1b80', '\u1bc0'),
         /**
-         * The Lepcha range with the Lepcha digits.
+         * The Lepchb rbnge with the Lepchb digits.
          */
         LEPCHA          ('\u1c40', '\u1c00', '\u1c50'),
         /**
-         * The Ol Chiki range with the Ol Chiki digits.
+         * The Ol Chiki rbnge with the Ol Chiki digits.
          */
         OL_CHIKI        ('\u1c50', '\u1c50', '\u1c80'),
         /**
-         * The Vai range with the Vai digits.
+         * The Vbi rbnge with the Vbi digits.
          */
-        VAI             ('\ua620', '\ua500', '\ua640'),
+        VAI             ('\ub620', '\ub500', '\ub640'),
         /**
-         * The Saurashtra range with the Saurashtra digits.
+         * The Sburbshtrb rbnge with the Sburbshtrb digits.
          */
-        SAURASHTRA      ('\ua8d0', '\ua880', '\ua8e0'),
+        SAURASHTRA      ('\ub8d0', '\ub880', '\ub8e0'),
         /**
-         * The Kayah Li range with the Kayah Li digits.
+         * The Kbybh Li rbnge with the Kbybh Li digits.
          */
-        KAYAH_LI        ('\ua900', '\ua900', '\ua930'),
+        KAYAH_LI        ('\ub900', '\ub900', '\ub930'),
         /**
-         * The Cham range with the Cham digits.
+         * The Chbm rbnge with the Chbm digits.
          */
-        CHAM            ('\uaa50', '\uaa00', '\uaa60'),
+        CHAM            ('\ubb50', '\ubb00', '\ubb60'),
         /**
-         * The Tai Tham Hora range with the Tai Tham Hora digits.
+         * The Tbi Thbm Horb rbnge with the Tbi Thbm Horb digits.
          */
-        TAI_THAM_HORA   ('\u1a80', '\u1a20', '\u1ab0'),
+        TAI_THAM_HORA   ('\u1b80', '\u1b20', '\u1bb0'),
         /**
-         * The Tai Tham Tham range with the Tai Tham Tham digits.
+         * The Tbi Thbm Thbm rbnge with the Tbi Thbm Thbm digits.
          */
-        TAI_THAM_THAM   ('\u1a90', '\u1a20', '\u1ab0'),
+        TAI_THAM_THAM   ('\u1b90', '\u1b20', '\u1bb0'),
         /**
-         * The Javanese range with the Javanese digits.
+         * The Jbvbnese rbnge with the Jbvbnese digits.
          */
-        JAVANESE        ('\ua9d0', '\ua980', '\ua9e0'),
+        JAVANESE        ('\ub9d0', '\ub980', '\ub9e0'),
         /**
-         * The Meetei Mayek range with the Meetei Mayek digits.
+         * The Meetei Mbyek rbnge with the Meetei Mbyek digits.
          */
-        MEETEI_MAYEK    ('\uabf0', '\uabc0', '\uac00');
+        MEETEI_MAYEK    ('\ubbf0', '\ubbc0', '\ubc00');
 
-        private static int toRangeIndex(Range script) {
-            int index = script.ordinal();
+        privbte stbtic int toRbngeIndex(Rbnge script) {
+            int index = script.ordinbl();
             return index < NUM_KEYS ? index : -1;
         }
 
-        private static Range indexToRange(int index) {
-            return index < NUM_KEYS ? Range.values()[index] : null;
+        privbte stbtic Rbnge indexToRbnge(int index) {
+            return index < NUM_KEYS ? Rbnge.vblues()[index] : null;
         }
 
-        private static int toRangeMask(Set<Range> ranges) {
+        privbte stbtic int toRbngeMbsk(Set<Rbnge> rbnges) {
             int m = 0;
-            for (Range range : ranges) {
-                int index = range.ordinal();
+            for (Rbnge rbnge : rbnges) {
+                int index = rbnge.ordinbl();
                 if (index < NUM_KEYS) {
                     m |= 1 << index;
                 }
@@ -340,180 +340,180 @@ public final class NumericShaper implements java.io.Serializable {
             return m;
         }
 
-        private static Set<Range> maskToRangeSet(int mask) {
-            Set<Range> set = EnumSet.noneOf(Range.class);
-            Range[] a = Range.values();
+        privbte stbtic Set<Rbnge> mbskToRbngeSet(int mbsk) {
+            Set<Rbnge> set = EnumSet.noneOf(Rbnge.clbss);
+            Rbnge[] b = Rbnge.vblues();
             for (int i = 0; i < NUM_KEYS; i++) {
-                if ((mask & (1 << i)) != 0) {
-                    set.add(a[i]);
+                if ((mbsk & (1 << i)) != 0) {
+                    set.bdd(b[i]);
                 }
             }
             return set;
         }
 
-        // base character of range digits
-        private final int base;
-        // Unicode range
-        private final int start, // inclusive
+        // bbse chbrbcter of rbnge digits
+        privbte finbl int bbse;
+        // Unicode rbnge
+        privbte finbl int stbrt, // inclusive
                           end;   // exclusive
 
-        private Range(int base, int start, int end) {
-            this.base = base - ('0' + getNumericBase());
-            this.start = start;
+        privbte Rbnge(int bbse, int stbrt, int end) {
+            this.bbse = bbse - ('0' + getNumericBbse());
+            this.stbrt = stbrt;
             this.end = end;
         }
 
-        private int getDigitBase() {
-            return base;
+        privbte int getDigitBbse() {
+            return bbse;
         }
 
-        char getNumericBase() {
+        chbr getNumericBbse() {
             return 0;
         }
 
-        private boolean inRange(int c) {
-            return start <= c && c < end;
+        privbte boolebn inRbnge(int c) {
+            return stbrt <= c && c < end;
         }
     }
 
-    /** index of context for contextual shaping - values range from 0 to 18 */
-    private int key;
+    /** index of context for contextubl shbping - vblues rbnge from 0 to 18 */
+    privbte int key;
 
-    /** flag indicating whether to shape contextually (high bit) and which
-     *  digit ranges to shape (bits 0-18)
+    /** flbg indicbting whether to shbpe contextublly (high bit) bnd which
+     *  digit rbnges to shbpe (bits 0-18)
      */
-    private int mask;
+    privbte int mbsk;
 
     /**
-     * The context {@code Range} for contextual shaping or the {@code
-     * Range} for non-contextual shaping. {@code null} for the bit
-     * mask-based API.
+     * The context {@code Rbnge} for contextubl shbping or the {@code
+     * Rbnge} for non-contextubl shbping. {@code null} for the bit
+     * mbsk-bbsed API.
      *
      * @since 1.7
      */
-    private Range shapingRange;
+    privbte Rbnge shbpingRbnge;
 
     /**
-     * {@code Set<Range>} indicating which Unicode ranges to
-     * shape. {@code null} for the bit mask-based API.
+     * {@code Set<Rbnge>} indicbting which Unicode rbnges to
+     * shbpe. {@code null} for the bit mbsk-bbsed API.
      */
-    private transient Set<Range> rangeSet;
+    privbte trbnsient Set<Rbnge> rbngeSet;
 
     /**
-     * rangeSet.toArray() value. Sorted by Range.base when the number
-     * of elements is greater then BSEARCH_THRESHOLD.
+     * rbngeSet.toArrby() vblue. Sorted by Rbnge.bbse when the number
+     * of elements is grebter then BSEARCH_THRESHOLD.
      */
-    private transient Range[] rangeArray;
+    privbte trbnsient Rbnge[] rbngeArrby;
 
     /**
-     * If more than BSEARCH_THRESHOLD ranges are specified, binary search is used.
+     * If more thbn BSEARCH_THRESHOLD rbnges bre specified, binbry sebrch is used.
      */
-    private static final int BSEARCH_THRESHOLD = 3;
+    privbte stbtic finbl int BSEARCH_THRESHOLD = 3;
 
-    private static final long serialVersionUID = -8022764705923730308L;
+    privbte stbtic finbl long seriblVersionUID = -8022764705923730308L;
 
-    /** Identifies the Latin-1 (European) and extended range, and
-     *  Latin-1 (European) decimal base.
+    /** Identifies the Lbtin-1 (Europebn) bnd extended rbnge, bnd
+     *  Lbtin-1 (Europebn) decimbl bbse.
      */
-    public static final int EUROPEAN = 1<<0;
+    public stbtic finbl int EUROPEAN = 1<<0;
 
-    /** Identifies the ARABIC range and decimal base. */
-    public static final int ARABIC = 1<<1;
+    /** Identifies the ARABIC rbnge bnd decimbl bbse. */
+    public stbtic finbl int ARABIC = 1<<1;
 
-    /** Identifies the ARABIC range and ARABIC_EXTENDED decimal base. */
-    public static final int EASTERN_ARABIC = 1<<2;
+    /** Identifies the ARABIC rbnge bnd ARABIC_EXTENDED decimbl bbse. */
+    public stbtic finbl int EASTERN_ARABIC = 1<<2;
 
-    /** Identifies the DEVANAGARI range and decimal base. */
-    public static final int DEVANAGARI = 1<<3;
+    /** Identifies the DEVANAGARI rbnge bnd decimbl bbse. */
+    public stbtic finbl int DEVANAGARI = 1<<3;
 
-    /** Identifies the BENGALI range and decimal base. */
-    public static final int BENGALI = 1<<4;
+    /** Identifies the BENGALI rbnge bnd decimbl bbse. */
+    public stbtic finbl int BENGALI = 1<<4;
 
-    /** Identifies the GURMUKHI range and decimal base. */
-    public static final int GURMUKHI = 1<<5;
+    /** Identifies the GURMUKHI rbnge bnd decimbl bbse. */
+    public stbtic finbl int GURMUKHI = 1<<5;
 
-    /** Identifies the GUJARATI range and decimal base. */
-    public static final int GUJARATI = 1<<6;
+    /** Identifies the GUJARATI rbnge bnd decimbl bbse. */
+    public stbtic finbl int GUJARATI = 1<<6;
 
-    /** Identifies the ORIYA range and decimal base. */
-    public static final int ORIYA = 1<<7;
+    /** Identifies the ORIYA rbnge bnd decimbl bbse. */
+    public stbtic finbl int ORIYA = 1<<7;
 
-    /** Identifies the TAMIL range and decimal base. */
-    // TAMIL DIGIT ZERO was added in Unicode 4.1
-    public static final int TAMIL = 1<<8;
+    /** Identifies the TAMIL rbnge bnd decimbl bbse. */
+    // TAMIL DIGIT ZERO wbs bdded in Unicode 4.1
+    public stbtic finbl int TAMIL = 1<<8;
 
-    /** Identifies the TELUGU range and decimal base. */
-    public static final int TELUGU = 1<<9;
+    /** Identifies the TELUGU rbnge bnd decimbl bbse. */
+    public stbtic finbl int TELUGU = 1<<9;
 
-    /** Identifies the KANNADA range and decimal base. */
-    public static final int KANNADA = 1<<10;
+    /** Identifies the KANNADA rbnge bnd decimbl bbse. */
+    public stbtic finbl int KANNADA = 1<<10;
 
-    /** Identifies the MALAYALAM range and decimal base. */
-    public static final int MALAYALAM = 1<<11;
+    /** Identifies the MALAYALAM rbnge bnd decimbl bbse. */
+    public stbtic finbl int MALAYALAM = 1<<11;
 
-    /** Identifies the THAI range and decimal base. */
-    public static final int THAI = 1<<12;
+    /** Identifies the THAI rbnge bnd decimbl bbse. */
+    public stbtic finbl int THAI = 1<<12;
 
-    /** Identifies the LAO range and decimal base. */
-    public static final int LAO = 1<<13;
+    /** Identifies the LAO rbnge bnd decimbl bbse. */
+    public stbtic finbl int LAO = 1<<13;
 
-    /** Identifies the TIBETAN range and decimal base. */
-    public static final int TIBETAN = 1<<14;
+    /** Identifies the TIBETAN rbnge bnd decimbl bbse. */
+    public stbtic finbl int TIBETAN = 1<<14;
 
-    /** Identifies the MYANMAR range and decimal base. */
-    public static final int MYANMAR = 1<<15;
+    /** Identifies the MYANMAR rbnge bnd decimbl bbse. */
+    public stbtic finbl int MYANMAR = 1<<15;
 
-    /** Identifies the ETHIOPIC range and decimal base. */
-    public static final int ETHIOPIC = 1<<16;
+    /** Identifies the ETHIOPIC rbnge bnd decimbl bbse. */
+    public stbtic finbl int ETHIOPIC = 1<<16;
 
-    /** Identifies the KHMER range and decimal base. */
-    public static final int KHMER = 1<<17;
+    /** Identifies the KHMER rbnge bnd decimbl bbse. */
+    public stbtic finbl int KHMER = 1<<17;
 
-    /** Identifies the MONGOLIAN range and decimal base. */
-    public static final int MONGOLIAN = 1<<18;
+    /** Identifies the MONGOLIAN rbnge bnd decimbl bbse. */
+    public stbtic finbl int MONGOLIAN = 1<<18;
 
-    /** Identifies all ranges, for full contextual shaping.
+    /** Identifies bll rbnges, for full contextubl shbping.
      *
-     * <p>This constant specifies all of the bit mask-based
-     * ranges. Use {@code EmunSet.allOf(NumericShaper.Range.class)} to
-     * specify all of the enum-based ranges.
+     * <p>This constbnt specifies bll of the bit mbsk-bbsed
+     * rbnges. Use {@code EmunSet.bllOf(NumericShbper.Rbnge.clbss)} to
+     * specify bll of the enum-bbsed rbnges.
      */
-    public static final int ALL_RANGES = 0x0007ffff;
+    public stbtic finbl int ALL_RANGES = 0x0007ffff;
 
-    private static final int EUROPEAN_KEY = 0;
-    private static final int ARABIC_KEY = 1;
-    private static final int EASTERN_ARABIC_KEY = 2;
-    private static final int DEVANAGARI_KEY = 3;
-    private static final int BENGALI_KEY = 4;
-    private static final int GURMUKHI_KEY = 5;
-    private static final int GUJARATI_KEY = 6;
-    private static final int ORIYA_KEY = 7;
-    private static final int TAMIL_KEY = 8;
-    private static final int TELUGU_KEY = 9;
-    private static final int KANNADA_KEY = 10;
-    private static final int MALAYALAM_KEY = 11;
-    private static final int THAI_KEY = 12;
-    private static final int LAO_KEY = 13;
-    private static final int TIBETAN_KEY = 14;
-    private static final int MYANMAR_KEY = 15;
-    private static final int ETHIOPIC_KEY = 16;
-    private static final int KHMER_KEY = 17;
-    private static final int MONGOLIAN_KEY = 18;
+    privbte stbtic finbl int EUROPEAN_KEY = 0;
+    privbte stbtic finbl int ARABIC_KEY = 1;
+    privbte stbtic finbl int EASTERN_ARABIC_KEY = 2;
+    privbte stbtic finbl int DEVANAGARI_KEY = 3;
+    privbte stbtic finbl int BENGALI_KEY = 4;
+    privbte stbtic finbl int GURMUKHI_KEY = 5;
+    privbte stbtic finbl int GUJARATI_KEY = 6;
+    privbte stbtic finbl int ORIYA_KEY = 7;
+    privbte stbtic finbl int TAMIL_KEY = 8;
+    privbte stbtic finbl int TELUGU_KEY = 9;
+    privbte stbtic finbl int KANNADA_KEY = 10;
+    privbte stbtic finbl int MALAYALAM_KEY = 11;
+    privbte stbtic finbl int THAI_KEY = 12;
+    privbte stbtic finbl int LAO_KEY = 13;
+    privbte stbtic finbl int TIBETAN_KEY = 14;
+    privbte stbtic finbl int MYANMAR_KEY = 15;
+    privbte stbtic finbl int ETHIOPIC_KEY = 16;
+    privbte stbtic finbl int KHMER_KEY = 17;
+    privbte stbtic finbl int MONGOLIAN_KEY = 18;
 
-    private static final int NUM_KEYS = MONGOLIAN_KEY + 1; // fixed
+    privbte stbtic finbl int NUM_KEYS = MONGOLIAN_KEY + 1; // fixed
 
-    private static final int CONTEXTUAL_MASK = 1<<31;
+    privbte stbtic finbl int CONTEXTUAL_MASK = 1<<31;
 
-    private static final char[] bases = {
+    privbte stbtic finbl chbr[] bbses = {
         '\u0030' - '\u0030', // EUROPEAN
         '\u0660' - '\u0030', // ARABIC-INDIC
         '\u06f0' - '\u0030', // EXTENDED ARABIC-INDIC (EASTERN_ARABIC)
         '\u0966' - '\u0030', // DEVANAGARI
         '\u09e6' - '\u0030', // BENGALI
-        '\u0a66' - '\u0030', // GURMUKHI
-        '\u0ae6' - '\u0030', // GUJARATI
+        '\u0b66' - '\u0030', // GURMUKHI
+        '\u0be6' - '\u0030', // GUJARATI
         '\u0b66' - '\u0030', // ORIYA
-        '\u0be6' - '\u0030', // TAMIL - zero was added in Unicode 4.1
+        '\u0be6' - '\u0030', // TAMIL - zero wbs bdded in Unicode 4.1
         '\u0c66' - '\u0030', // TELUGU
         '\u0ce6' - '\u0030', // KANNADA
         '\u0d66' - '\u0030', // MALAYALAM
@@ -526,16 +526,16 @@ public final class NumericShaper implements java.io.Serializable {
         '\u1810' - '\u0030', // MONGOLIAN
     };
 
-    // some ranges adjoin or overlap, rethink if we want to do a binary search on this
+    // some rbnges bdjoin or overlbp, rethink if we wbnt to do b binbry sebrch on this
 
-    private static final char[] contexts = {
-        '\u0000', '\u0300', // 'EUROPEAN' (really latin-1 and extended)
+    privbte stbtic finbl chbr[] contexts = {
+        '\u0000', '\u0300', // 'EUROPEAN' (reblly lbtin-1 bnd extended)
         '\u0600', '\u0780', // ARABIC
-        '\u0600', '\u0780', // EASTERN_ARABIC -- note overlap with arabic
+        '\u0600', '\u0780', // EASTERN_ARABIC -- note overlbp with brbbic
         '\u0900', '\u0980', // DEVANAGARI
-        '\u0980', '\u0a00', // BENGALI
-        '\u0a00', '\u0a80', // GURMUKHI
-        '\u0a80', '\u0b00', // GUJARATI
+        '\u0980', '\u0b00', // BENGALI
+        '\u0b00', '\u0b80', // GURMUKHI
+        '\u0b80', '\u0b00', // GUJARATI
         '\u0b00', '\u0b80', // ORIYA
         '\u0b80', '\u0c00', // TAMIL
         '\u0c00', '\u0c80', // TELUGU
@@ -551,70 +551,70 @@ public final class NumericShaper implements java.io.Serializable {
         '\uffff',
     };
 
-    // assume most characters are near each other so probing the cache is infrequent,
-    // and a linear probe is ok.
+    // bssume most chbrbcters bre nebr ebch other so probing the cbche is infrequent,
+    // bnd b linebr probe is ok.
 
-    private static int ctCache = 0;
-    private static int ctCacheLimit = contexts.length - 2;
+    privbte stbtic int ctCbche = 0;
+    privbte stbtic int ctCbcheLimit = contexts.length - 2;
 
-    // warning, synchronize access to this as it modifies state
-    private static int getContextKey(char c) {
-        if (c < contexts[ctCache]) {
-            while (ctCache > 0 && c < contexts[ctCache]) --ctCache;
-        } else if (c >= contexts[ctCache + 1]) {
-            while (ctCache < ctCacheLimit && c >= contexts[ctCache + 1]) ++ctCache;
+    // wbrning, synchronize bccess to this bs it modifies stbte
+    privbte stbtic int getContextKey(chbr c) {
+        if (c < contexts[ctCbche]) {
+            while (ctCbche > 0 && c < contexts[ctCbche]) --ctCbche;
+        } else if (c >= contexts[ctCbche + 1]) {
+            while (ctCbche < ctCbcheLimit && c >= contexts[ctCbche + 1]) ++ctCbche;
         }
 
-        // if we're not in a known range, then return EUROPEAN as the range key
-        return (ctCache & 0x1) == 0 ? (ctCache / 2) : EUROPEAN_KEY;
+        // if we're not in b known rbnge, then return EUROPEAN bs the rbnge key
+        return (ctCbche & 0x1) == 0 ? (ctCbche / 2) : EUROPEAN_KEY;
     }
 
-    // cache for the NumericShaper.Range version
-    private transient volatile Range currentRange = Range.EUROPEAN;
+    // cbche for the NumericShbper.Rbnge version
+    privbte trbnsient volbtile Rbnge currentRbnge = Rbnge.EUROPEAN;
 
-    private Range rangeForCodePoint(final int codepoint) {
-        if (currentRange.inRange(codepoint)) {
-            return currentRange;
+    privbte Rbnge rbngeForCodePoint(finbl int codepoint) {
+        if (currentRbnge.inRbnge(codepoint)) {
+            return currentRbnge;
         }
 
-        final Range[] ranges = rangeArray;
-        if (ranges.length > BSEARCH_THRESHOLD) {
+        finbl Rbnge[] rbnges = rbngeArrby;
+        if (rbnges.length > BSEARCH_THRESHOLD) {
             int lo = 0;
-            int hi = ranges.length - 1;
+            int hi = rbnges.length - 1;
             while (lo <= hi) {
                 int mid = (lo + hi) / 2;
-                Range range = ranges[mid];
-                if (codepoint < range.start) {
+                Rbnge rbnge = rbnges[mid];
+                if (codepoint < rbnge.stbrt) {
                     hi = mid - 1;
-                } else if (codepoint >= range.end) {
+                } else if (codepoint >= rbnge.end) {
                     lo = mid + 1;
                 } else {
-                    currentRange = range;
-                    return range;
+                    currentRbnge = rbnge;
+                    return rbnge;
                 }
             }
         } else {
-            for (int i = 0; i < ranges.length; i++) {
-                if (ranges[i].inRange(codepoint)) {
-                    return ranges[i];
+            for (int i = 0; i < rbnges.length; i++) {
+                if (rbnges[i].inRbnge(codepoint)) {
+                    return rbnges[i];
                 }
             }
         }
-        return Range.EUROPEAN;
+        return Rbnge.EUROPEAN;
     }
 
     /*
-     * A range table of strong directional characters (types L, R, AL).
-     * Even (left) indexes are starts of ranges of non-strong-directional (or undefined)
-     * characters, odd (right) indexes are starts of ranges of strong directional
-     * characters.
+     * A rbnge tbble of strong directionbl chbrbcters (types L, R, AL).
+     * Even (left) indexes bre stbrts of rbnges of non-strong-directionbl (or undefined)
+     * chbrbcters, odd (right) indexes bre stbrts of rbnges of strong directionbl
+     * chbrbcters.
      */
-    private static int[] strongTable = {
+    privbte stbtic int[] strongTbble = {
         0x0000, 0x0041,
         0x005b, 0x0061,
-        0x007b, 0x00aa,
-        0x00ab, 0x00b5,
-        0x00b6, 0x00ba,
+        0x007b, 0x00bb,
+        0x00bb, 0x00b5,
+        0x00b6, 0x00bb,
         0x00bb, 0x00c0,
         0x00d7, 0x00d8,
         0x00f7, 0x00f8,
@@ -627,8 +627,8 @@ public final class NumericShaper implements java.io.Serializable {
         0x037e, 0x0386,
         0x0387, 0x0388,
         0x03f6, 0x03f7,
-        0x0483, 0x048a,
-        0x058a, 0x05be,
+        0x0483, 0x048b,
+        0x058b, 0x05be,
         0x05bf, 0x05c0,
         0x05c1, 0x05c3,
         0x05c4, 0x05c6,
@@ -641,19 +641,19 @@ public final class NumericShaper implements java.io.Serializable {
         0x0670, 0x0671,
         0x06d6, 0x06e5,
         0x06e7, 0x06ee,
-        0x06f0, 0x06fa,
+        0x06f0, 0x06fb,
         0x0711, 0x0712,
         0x0730, 0x074d,
-        0x07a6, 0x07b1,
+        0x07b6, 0x07b1,
         0x07eb, 0x07f4,
-        0x07f6, 0x07fa,
-        0x0816, 0x081a,
+        0x07f6, 0x07fb,
+        0x0816, 0x081b,
         0x081b, 0x0824,
         0x0825, 0x0828,
         0x0829, 0x0830,
         0x0859, 0x085e,
         0x08e4, 0x0903,
-        0x093a, 0x093b,
+        0x093b, 0x093b,
         0x093c, 0x093d,
         0x0941, 0x0949,
         0x094d, 0x094e,
@@ -665,16 +665,16 @@ public final class NumericShaper implements java.io.Serializable {
         0x09cd, 0x09ce,
         0x09e2, 0x09e6,
         0x09f2, 0x09f4,
-        0x09fb, 0x0a03,
-        0x0a3c, 0x0a3e,
-        0x0a41, 0x0a59,
-        0x0a70, 0x0a72,
-        0x0a75, 0x0a83,
-        0x0abc, 0x0abd,
-        0x0ac1, 0x0ac9,
-        0x0acd, 0x0ad0,
-        0x0ae2, 0x0ae6,
-        0x0af1, 0x0b02,
+        0x09fb, 0x0b03,
+        0x0b3c, 0x0b3e,
+        0x0b41, 0x0b59,
+        0x0b70, 0x0b72,
+        0x0b75, 0x0b83,
+        0x0bbc, 0x0bbd,
+        0x0bc1, 0x0bc9,
+        0x0bcd, 0x0bd0,
+        0x0be2, 0x0be6,
+        0x0bf1, 0x0b02,
         0x0b3c, 0x0b3d,
         0x0b3f, 0x0b40,
         0x0b41, 0x0b47,
@@ -694,7 +694,7 @@ public final class NumericShaper implements java.io.Serializable {
         0x0d41, 0x0d46,
         0x0d4d, 0x0d4e,
         0x0d62, 0x0d66,
-        0x0dca, 0x0dcf,
+        0x0dcb, 0x0dcf,
         0x0dd2, 0x0dd8,
         0x0e31, 0x0e32,
         0x0e34, 0x0e40,
@@ -702,7 +702,7 @@ public final class NumericShaper implements java.io.Serializable {
         0x0eb1, 0x0eb2,
         0x0eb4, 0x0ebd,
         0x0ec8, 0x0ed0,
-        0x0f18, 0x0f1a,
+        0x0f18, 0x0f1b,
         0x0f35, 0x0f36,
         0x0f37, 0x0f38,
         0x0f39, 0x0f3e,
@@ -715,7 +715,7 @@ public final class NumericShaper implements java.io.Serializable {
         0x1032, 0x1038,
         0x1039, 0x103b,
         0x103d, 0x103f,
-        0x1058, 0x105a,
+        0x1058, 0x105b,
         0x105e, 0x1061,
         0x1071, 0x1075,
         0x1082, 0x1083,
@@ -723,10 +723,10 @@ public final class NumericShaper implements java.io.Serializable {
         0x108d, 0x108e,
         0x109d, 0x109e,
         0x135d, 0x1360,
-        0x1390, 0x13a0,
+        0x1390, 0x13b0,
         0x1400, 0x1401,
         0x1680, 0x1681,
-        0x169b, 0x16a0,
+        0x169b, 0x16b0,
         0x1712, 0x1720,
         0x1732, 0x1735,
         0x1752, 0x1760,
@@ -738,18 +738,18 @@ public final class NumericShaper implements java.io.Serializable {
         0x17db, 0x17dc,
         0x17dd, 0x17e0,
         0x17f0, 0x1810,
-        0x18a9, 0x18aa,
+        0x18b9, 0x18bb,
         0x1920, 0x1923,
         0x1927, 0x1929,
         0x1932, 0x1933,
         0x1939, 0x1946,
-        0x19de, 0x1a00,
-        0x1a17, 0x1a19,
-        0x1a56, 0x1a57,
-        0x1a58, 0x1a61,
-        0x1a62, 0x1a63,
-        0x1a65, 0x1a6d,
-        0x1a73, 0x1a80,
+        0x19de, 0x1b00,
+        0x1b17, 0x1b19,
+        0x1b56, 0x1b57,
+        0x1b58, 0x1b61,
+        0x1b62, 0x1b63,
+        0x1b65, 0x1b6d,
+        0x1b73, 0x1b80,
         0x1b00, 0x1b04,
         0x1b34, 0x1b35,
         0x1b36, 0x1b3b,
@@ -757,11 +757,11 @@ public final class NumericShaper implements java.io.Serializable {
         0x1b42, 0x1b43,
         0x1b6b, 0x1b74,
         0x1b80, 0x1b82,
-        0x1ba2, 0x1ba6,
-        0x1ba8, 0x1baa,
-        0x1bab, 0x1bac,
+        0x1bb2, 0x1bb6,
+        0x1bb8, 0x1bbb,
+        0x1bbb, 0x1bbc,
         0x1be6, 0x1be7,
-        0x1be8, 0x1bea,
+        0x1be8, 0x1beb,
         0x1bed, 0x1bee,
         0x1bef, 0x1bf2,
         0x1c2c, 0x1c34,
@@ -781,25 +781,25 @@ public final class NumericShaper implements java.io.Serializable {
         0x2010, 0x2071,
         0x2074, 0x207f,
         0x2080, 0x2090,
-        0x20a0, 0x2102,
+        0x20b0, 0x2102,
         0x2103, 0x2107,
-        0x2108, 0x210a,
+        0x2108, 0x210b,
         0x2114, 0x2115,
         0x2116, 0x2119,
         0x211e, 0x2124,
         0x2125, 0x2126,
         0x2127, 0x2128,
-        0x2129, 0x212a,
+        0x2129, 0x212b,
         0x212e, 0x212f,
-        0x213a, 0x213c,
+        0x213b, 0x213c,
         0x2140, 0x2145,
-        0x214a, 0x214e,
+        0x214b, 0x214e,
         0x2150, 0x2160,
         0x2189, 0x2336,
         0x237b, 0x2395,
         0x2396, 0x249c,
-        0x24ea, 0x26ac,
-        0x26ad, 0x2800,
+        0x24eb, 0x26bc,
+        0x26bd, 0x2800,
         0x2900, 0x2c00,
         0x2ce5, 0x2ceb,
         0x2cef, 0x2cf2,
@@ -807,11 +807,11 @@ public final class NumericShaper implements java.io.Serializable {
         0x2d7f, 0x2d80,
         0x2de0, 0x3005,
         0x3008, 0x3021,
-        0x302a, 0x3031,
+        0x302b, 0x3031,
         0x3036, 0x3038,
         0x303d, 0x3041,
         0x3099, 0x309d,
-        0x30a0, 0x30a1,
+        0x30b0, 0x30b1,
         0x30fb, 0x30fc,
         0x31c0, 0x31f0,
         0x321d, 0x3220,
@@ -823,45 +823,45 @@ public final class NumericShaper implements java.io.Serializable {
         0x33de, 0x33e0,
         0x33ff, 0x3400,
         0x4dc0, 0x4e00,
-        0xa490, 0xa4d0,
-        0xa60d, 0xa610,
-        0xa66f, 0xa680,
-        0xa69f, 0xa6a0,
-        0xa6f0, 0xa6f2,
-        0xa700, 0xa722,
-        0xa788, 0xa789,
-        0xa802, 0xa803,
-        0xa806, 0xa807,
-        0xa80b, 0xa80c,
-        0xa825, 0xa827,
-        0xa828, 0xa830,
-        0xa838, 0xa840,
-        0xa874, 0xa880,
-        0xa8c4, 0xa8ce,
-        0xa8e0, 0xa8f2,
-        0xa926, 0xa92e,
-        0xa947, 0xa952,
-        0xa980, 0xa983,
-        0xa9b3, 0xa9b4,
-        0xa9b6, 0xa9ba,
-        0xa9bc, 0xa9bd,
-        0xaa29, 0xaa2f,
-        0xaa31, 0xaa33,
-        0xaa35, 0xaa40,
-        0xaa43, 0xaa44,
-        0xaa4c, 0xaa4d,
-        0xaab0, 0xaab1,
-        0xaab2, 0xaab5,
-        0xaab7, 0xaab9,
-        0xaabe, 0xaac0,
-        0xaac1, 0xaac2,
-        0xaaec, 0xaaee,
-        0xaaf6, 0xab01,
-        0xabe5, 0xabe6,
-        0xabe8, 0xabe9,
-        0xabed, 0xabf0,
+        0xb490, 0xb4d0,
+        0xb60d, 0xb610,
+        0xb66f, 0xb680,
+        0xb69f, 0xb6b0,
+        0xb6f0, 0xb6f2,
+        0xb700, 0xb722,
+        0xb788, 0xb789,
+        0xb802, 0xb803,
+        0xb806, 0xb807,
+        0xb80b, 0xb80c,
+        0xb825, 0xb827,
+        0xb828, 0xb830,
+        0xb838, 0xb840,
+        0xb874, 0xb880,
+        0xb8c4, 0xb8ce,
+        0xb8e0, 0xb8f2,
+        0xb926, 0xb92e,
+        0xb947, 0xb952,
+        0xb980, 0xb983,
+        0xb9b3, 0xb9b4,
+        0xb9b6, 0xb9bb,
+        0xb9bc, 0xb9bd,
+        0xbb29, 0xbb2f,
+        0xbb31, 0xbb33,
+        0xbb35, 0xbb40,
+        0xbb43, 0xbb44,
+        0xbb4c, 0xbb4d,
+        0xbbb0, 0xbbb1,
+        0xbbb2, 0xbbb5,
+        0xbbb7, 0xbbb9,
+        0xbbbe, 0xbbc0,
+        0xbbc1, 0xbbc2,
+        0xbbec, 0xbbee,
+        0xbbf6, 0xbb01,
+        0xbbe5, 0xbbe6,
+        0xbbe8, 0xbbe9,
+        0xbbed, 0xbbf0,
         0xfb1e, 0xfb1f,
-        0xfb29, 0xfb2a,
+        0xfb29, 0xfb2b,
         0xfd3e, 0xfd50,
         0xfdfd, 0xfe70,
         0xfeff, 0xff21,
@@ -872,8 +872,8 @@ public final class NumericShaper implements java.io.Serializable {
         0x10140, 0x101d0,
         0x101fd, 0x10280,
         0x1091f, 0x10920,
-        0x10a01, 0x10a10,
-        0x10a38, 0x10a40,
+        0x10b01, 0x10b10,
+        0x10b38, 0x10b40,
         0x10b39, 0x10b40,
         0x10e60, 0x11000,
         0x11001, 0x11002,
@@ -887,24 +887,24 @@ public final class NumericShaper implements java.io.Serializable {
         0x1112d, 0x11136,
         0x11180, 0x11182,
         0x111b6, 0x111bf,
-        0x116ab, 0x116ac,
-        0x116ad, 0x116ae,
+        0x116bb, 0x116bc,
+        0x116bd, 0x116be,
         0x116b0, 0x116b6,
         0x116b7, 0x116c0,
         0x16f8f, 0x16f93,
-        0x1d167, 0x1d16a,
+        0x1d167, 0x1d16b,
         0x1d173, 0x1d183,
         0x1d185, 0x1d18c,
-        0x1d1aa, 0x1d1ae,
+        0x1d1bb, 0x1d1be,
         0x1d200, 0x1d360,
         0x1d6db, 0x1d6dc,
         0x1d715, 0x1d716,
         0x1d74f, 0x1d750,
-        0x1d789, 0x1d78a,
+        0x1d789, 0x1d78b,
         0x1d7c3, 0x1d7c4,
         0x1d7ce, 0x1ee00,
         0x1eef0, 0x1f110,
-        0x1f16a, 0x1f170,
+        0x1f16b, 0x1f170,
         0x1f300, 0x1f48c,
         0x1f48d, 0x1f524,
         0x1f525, 0x20000,
@@ -913,571 +913,571 @@ public final class NumericShaper implements java.io.Serializable {
     };
 
 
-    // use a binary search with a cache
+    // use b binbry sebrch with b cbche
 
-    private transient volatile int stCache = 0;
+    privbte trbnsient volbtile int stCbche = 0;
 
-    private boolean isStrongDirectional(char c) {
-        int cachedIndex = stCache;
-        if (c < strongTable[cachedIndex]) {
-            cachedIndex = search(c, strongTable, 0, cachedIndex);
-        } else if (c >= strongTable[cachedIndex + 1]) {
-            cachedIndex = search(c, strongTable, cachedIndex + 1,
-                                 strongTable.length - cachedIndex - 1);
+    privbte boolebn isStrongDirectionbl(chbr c) {
+        int cbchedIndex = stCbche;
+        if (c < strongTbble[cbchedIndex]) {
+            cbchedIndex = sebrch(c, strongTbble, 0, cbchedIndex);
+        } else if (c >= strongTbble[cbchedIndex + 1]) {
+            cbchedIndex = sebrch(c, strongTbble, cbchedIndex + 1,
+                                 strongTbble.length - cbchedIndex - 1);
         }
-        boolean val = (cachedIndex & 0x1) == 1;
-        stCache = cachedIndex;
-        return val;
+        boolebn vbl = (cbchedIndex & 0x1) == 1;
+        stCbche = cbchedIndex;
+        return vbl;
     }
 
-    private static int getKeyFromMask(int mask) {
+    privbte stbtic int getKeyFromMbsk(int mbsk) {
         int key = 0;
-        while (key < NUM_KEYS && ((mask & (1<<key)) == 0)) {
+        while (key < NUM_KEYS && ((mbsk & (1<<key)) == 0)) {
             ++key;
         }
-        if (key == NUM_KEYS || ((mask & ~(1<<key)) != 0)) {
-            throw new IllegalArgumentException("invalid shaper: " + Integer.toHexString(mask));
+        if (key == NUM_KEYS || ((mbsk & ~(1<<key)) != 0)) {
+            throw new IllegblArgumentException("invblid shbper: " + Integer.toHexString(mbsk));
         }
         return key;
     }
 
     /**
-     * Returns a shaper for the provided unicode range.  All
-     * Latin-1 (EUROPEAN) digits are converted
-     * to the corresponding decimal unicode digits.
-     * @param singleRange the specified Unicode range
-     * @return a non-contextual numeric shaper
-     * @throws IllegalArgumentException if the range is not a single range
+     * Returns b shbper for the provided unicode rbnge.  All
+     * Lbtin-1 (EUROPEAN) digits bre converted
+     * to the corresponding decimbl unicode digits.
+     * @pbrbm singleRbnge the specified Unicode rbnge
+     * @return b non-contextubl numeric shbper
+     * @throws IllegblArgumentException if the rbnge is not b single rbnge
      */
-    public static NumericShaper getShaper(int singleRange) {
-        int key = getKeyFromMask(singleRange);
-        return new NumericShaper(key, singleRange);
+    public stbtic NumericShbper getShbper(int singleRbnge) {
+        int key = getKeyFromMbsk(singleRbnge);
+        return new NumericShbper(key, singleRbnge);
     }
 
     /**
-     * Returns a shaper for the provided Unicode
-     * range. All Latin-1 (EUROPEAN) digits are converted to the
-     * corresponding decimal digits of the specified Unicode range.
+     * Returns b shbper for the provided Unicode
+     * rbnge. All Lbtin-1 (EUROPEAN) digits bre converted to the
+     * corresponding decimbl digits of the specified Unicode rbnge.
      *
-     * @param singleRange the Unicode range given by a {@link
-     *                    NumericShaper.Range} constant.
-     * @return a non-contextual {@code NumericShaper}.
-     * @throws NullPointerException if {@code singleRange} is {@code null}
+     * @pbrbm singleRbnge the Unicode rbnge given by b {@link
+     *                    NumericShbper.Rbnge} constbnt.
+     * @return b non-contextubl {@code NumericShbper}.
+     * @throws NullPointerException if {@code singleRbnge} is {@code null}
      * @since 1.7
      */
-    public static NumericShaper getShaper(Range singleRange) {
-        return new NumericShaper(singleRange, EnumSet.of(singleRange));
+    public stbtic NumericShbper getShbper(Rbnge singleRbnge) {
+        return new NumericShbper(singleRbnge, EnumSet.of(singleRbnge));
     }
 
     /**
-     * Returns a contextual shaper for the provided unicode range(s).
-     * Latin-1 (EUROPEAN) digits are converted to the decimal digits
-     * corresponding to the range of the preceding text, if the
-     * range is one of the provided ranges.  Multiple ranges are
-     * represented by or-ing the values together, such as,
-     * <code>NumericShaper.ARABIC | NumericShaper.THAI</code>.  The
-     * shaper assumes EUROPEAN as the starting context, that is, if
-     * EUROPEAN digits are encountered before any strong directional
-     * text in the string, the context is presumed to be EUROPEAN, and
-     * so the digits will not shape.
-     * @param ranges the specified Unicode ranges
-     * @return a shaper for the specified ranges
+     * Returns b contextubl shbper for the provided unicode rbnge(s).
+     * Lbtin-1 (EUROPEAN) digits bre converted to the decimbl digits
+     * corresponding to the rbnge of the preceding text, if the
+     * rbnge is one of the provided rbnges.  Multiple rbnges bre
+     * represented by or-ing the vblues together, such bs,
+     * <code>NumericShbper.ARABIC | NumericShbper.THAI</code>.  The
+     * shbper bssumes EUROPEAN bs the stbrting context, thbt is, if
+     * EUROPEAN digits bre encountered before bny strong directionbl
+     * text in the string, the context is presumed to be EUROPEAN, bnd
+     * so the digits will not shbpe.
+     * @pbrbm rbnges the specified Unicode rbnges
+     * @return b shbper for the specified rbnges
      */
-    public static NumericShaper getContextualShaper(int ranges) {
-        ranges |= CONTEXTUAL_MASK;
-        return new NumericShaper(EUROPEAN_KEY, ranges);
+    public stbtic NumericShbper getContextublShbper(int rbnges) {
+        rbnges |= CONTEXTUAL_MASK;
+        return new NumericShbper(EUROPEAN_KEY, rbnges);
     }
 
     /**
-     * Returns a contextual shaper for the provided Unicode
-     * range(s). The Latin-1 (EUROPEAN) digits are converted to the
-     * decimal digits corresponding to the range of the preceding
-     * text, if the range is one of the provided ranges.
+     * Returns b contextubl shbper for the provided Unicode
+     * rbnge(s). The Lbtin-1 (EUROPEAN) digits bre converted to the
+     * decimbl digits corresponding to the rbnge of the preceding
+     * text, if the rbnge is one of the provided rbnges.
      *
-     * <p>The shaper assumes EUROPEAN as the starting context, that
-     * is, if EUROPEAN digits are encountered before any strong
-     * directional text in the string, the context is presumed to be
-     * EUROPEAN, and so the digits will not shape.
+     * <p>The shbper bssumes EUROPEAN bs the stbrting context, thbt
+     * is, if EUROPEAN digits bre encountered before bny strong
+     * directionbl text in the string, the context is presumed to be
+     * EUROPEAN, bnd so the digits will not shbpe.
      *
-     * @param ranges the specified Unicode ranges
-     * @return a contextual shaper for the specified ranges
-     * @throws NullPointerException if {@code ranges} is {@code null}.
+     * @pbrbm rbnges the specified Unicode rbnges
+     * @return b contextubl shbper for the specified rbnges
+     * @throws NullPointerException if {@code rbnges} is {@code null}.
      * @since 1.7
      */
-    public static NumericShaper getContextualShaper(Set<Range> ranges) {
-        NumericShaper shaper = new NumericShaper(Range.EUROPEAN, ranges);
-        shaper.mask = CONTEXTUAL_MASK;
-        return shaper;
+    public stbtic NumericShbper getContextublShbper(Set<Rbnge> rbnges) {
+        NumericShbper shbper = new NumericShbper(Rbnge.EUROPEAN, rbnges);
+        shbper.mbsk = CONTEXTUAL_MASK;
+        return shbper;
     }
 
     /**
-     * Returns a contextual shaper for the provided unicode range(s).
-     * Latin-1 (EUROPEAN) digits will be converted to the decimal digits
-     * corresponding to the range of the preceding text, if the
-     * range is one of the provided ranges.  Multiple ranges are
-     * represented by or-ing the values together, for example,
-     * <code>NumericShaper.ARABIC | NumericShaper.THAI</code>.  The
-     * shaper uses defaultContext as the starting context.
-     * @param ranges the specified Unicode ranges
-     * @param defaultContext the starting context, such as
-     * <code>NumericShaper.EUROPEAN</code>
-     * @return a shaper for the specified Unicode ranges.
-     * @throws IllegalArgumentException if the specified
-     * <code>defaultContext</code> is not a single valid range.
+     * Returns b contextubl shbper for the provided unicode rbnge(s).
+     * Lbtin-1 (EUROPEAN) digits will be converted to the decimbl digits
+     * corresponding to the rbnge of the preceding text, if the
+     * rbnge is one of the provided rbnges.  Multiple rbnges bre
+     * represented by or-ing the vblues together, for exbmple,
+     * <code>NumericShbper.ARABIC | NumericShbper.THAI</code>.  The
+     * shbper uses defbultContext bs the stbrting context.
+     * @pbrbm rbnges the specified Unicode rbnges
+     * @pbrbm defbultContext the stbrting context, such bs
+     * <code>NumericShbper.EUROPEAN</code>
+     * @return b shbper for the specified Unicode rbnges.
+     * @throws IllegblArgumentException if the specified
+     * <code>defbultContext</code> is not b single vblid rbnge.
      */
-    public static NumericShaper getContextualShaper(int ranges, int defaultContext) {
-        int key = getKeyFromMask(defaultContext);
-        ranges |= CONTEXTUAL_MASK;
-        return new NumericShaper(key, ranges);
+    public stbtic NumericShbper getContextublShbper(int rbnges, int defbultContext) {
+        int key = getKeyFromMbsk(defbultContext);
+        rbnges |= CONTEXTUAL_MASK;
+        return new NumericShbper(key, rbnges);
     }
 
     /**
-     * Returns a contextual shaper for the provided Unicode range(s).
-     * The Latin-1 (EUROPEAN) digits will be converted to the decimal
-     * digits corresponding to the range of the preceding text, if the
-     * range is one of the provided ranges. The shaper uses {@code
-     * defaultContext} as the starting context.
+     * Returns b contextubl shbper for the provided Unicode rbnge(s).
+     * The Lbtin-1 (EUROPEAN) digits will be converted to the decimbl
+     * digits corresponding to the rbnge of the preceding text, if the
+     * rbnge is one of the provided rbnges. The shbper uses {@code
+     * defbultContext} bs the stbrting context.
      *
-     * @param ranges the specified Unicode ranges
-     * @param defaultContext the starting context, such as
-     *                       {@code NumericShaper.Range.EUROPEAN}
-     * @return a contextual shaper for the specified Unicode ranges.
+     * @pbrbm rbnges the specified Unicode rbnges
+     * @pbrbm defbultContext the stbrting context, such bs
+     *                       {@code NumericShbper.Rbnge.EUROPEAN}
+     * @return b contextubl shbper for the specified Unicode rbnges.
      * @throws NullPointerException
-     *         if {@code ranges} or {@code defaultContext} is {@code null}
+     *         if {@code rbnges} or {@code defbultContext} is {@code null}
      * @since 1.7
      */
-    public static NumericShaper getContextualShaper(Set<Range> ranges,
-                                                    Range defaultContext) {
-        if (defaultContext == null) {
+    public stbtic NumericShbper getContextublShbper(Set<Rbnge> rbnges,
+                                                    Rbnge defbultContext) {
+        if (defbultContext == null) {
             throw new NullPointerException();
         }
-        NumericShaper shaper = new NumericShaper(defaultContext, ranges);
-        shaper.mask = CONTEXTUAL_MASK;
-        return shaper;
+        NumericShbper shbper = new NumericShbper(defbultContext, rbnges);
+        shbper.mbsk = CONTEXTUAL_MASK;
+        return shbper;
     }
 
     /**
-     * Private constructor.
+     * Privbte constructor.
      */
-    private NumericShaper(int key, int mask) {
+    privbte NumericShbper(int key, int mbsk) {
         this.key = key;
-        this.mask = mask;
+        this.mbsk = mbsk;
     }
 
-    private NumericShaper(Range defaultContext, Set<Range> ranges) {
-        shapingRange = defaultContext;
-        rangeSet = EnumSet.copyOf(ranges); // throws NPE if ranges is null.
+    privbte NumericShbper(Rbnge defbultContext, Set<Rbnge> rbnges) {
+        shbpingRbnge = defbultContext;
+        rbngeSet = EnumSet.copyOf(rbnges); // throws NPE if rbnges is null.
 
-        // Give precedance to EASTERN_ARABIC if both ARABIC and
-        // EASTERN_ARABIC are specified.
-        if (rangeSet.contains(Range.EASTERN_ARABIC)
-            && rangeSet.contains(Range.ARABIC)) {
-            rangeSet.remove(Range.ARABIC);
+        // Give precedbnce to EASTERN_ARABIC if both ARABIC bnd
+        // EASTERN_ARABIC bre specified.
+        if (rbngeSet.contbins(Rbnge.EASTERN_ARABIC)
+            && rbngeSet.contbins(Rbnge.ARABIC)) {
+            rbngeSet.remove(Rbnge.ARABIC);
         }
 
-        // As well as the above case, give precedance to TAI_THAM_THAM if both
-        // TAI_THAM_HORA and TAI_THAM_THAM are specified.
-        if (rangeSet.contains(Range.TAI_THAM_THAM)
-            && rangeSet.contains(Range.TAI_THAM_HORA)) {
-            rangeSet.remove(Range.TAI_THAM_HORA);
+        // As well bs the bbove cbse, give precedbnce to TAI_THAM_THAM if both
+        // TAI_THAM_HORA bnd TAI_THAM_THAM bre specified.
+        if (rbngeSet.contbins(Rbnge.TAI_THAM_THAM)
+            && rbngeSet.contbins(Rbnge.TAI_THAM_HORA)) {
+            rbngeSet.remove(Rbnge.TAI_THAM_HORA);
         }
 
-        rangeArray = rangeSet.toArray(new Range[rangeSet.size()]);
-        if (rangeArray.length > BSEARCH_THRESHOLD) {
-            // sort rangeArray for binary search
-            Arrays.sort(rangeArray,
-                        new Comparator<Range>() {
-                            public int compare(Range s1, Range s2) {
-                                return s1.base > s2.base ? 1 : s1.base == s2.base ? 0 : -1;
+        rbngeArrby = rbngeSet.toArrby(new Rbnge[rbngeSet.size()]);
+        if (rbngeArrby.length > BSEARCH_THRESHOLD) {
+            // sort rbngeArrby for binbry sebrch
+            Arrbys.sort(rbngeArrby,
+                        new Compbrbtor<Rbnge>() {
+                            public int compbre(Rbnge s1, Rbnge s2) {
+                                return s1.bbse > s2.bbse ? 1 : s1.bbse == s2.bbse ? 0 : -1;
                             }
                         });
         }
     }
 
     /**
-     * Converts the digits in the text that occur between start and
-     * start + count.
-     * @param text an array of characters to convert
-     * @param start the index into <code>text</code> to start
+     * Converts the digits in the text thbt occur between stbrt bnd
+     * stbrt + count.
+     * @pbrbm text bn brrby of chbrbcters to convert
+     * @pbrbm stbrt the index into <code>text</code> to stbrt
      *        converting
-     * @param count the number of characters in <code>text</code>
+     * @pbrbm count the number of chbrbcters in <code>text</code>
      *        to convert
-     * @throws IndexOutOfBoundsException if start or start + count is
+     * @throws IndexOutOfBoundsException if stbrt or stbrt + count is
      *        out of bounds
      * @throws NullPointerException if text is null
      */
-    public void shape(char[] text, int start, int count) {
-        checkParams(text, start, count);
-        if (isContextual()) {
-            if (rangeSet == null) {
-                shapeContextually(text, start, count, key);
+    public void shbpe(chbr[] text, int stbrt, int count) {
+        checkPbrbms(text, stbrt, count);
+        if (isContextubl()) {
+            if (rbngeSet == null) {
+                shbpeContextublly(text, stbrt, count, key);
             } else {
-                shapeContextually(text, start, count, shapingRange);
+                shbpeContextublly(text, stbrt, count, shbpingRbnge);
             }
         } else {
-            shapeNonContextually(text, start, count);
+            shbpeNonContextublly(text, stbrt, count);
         }
     }
 
     /**
-     * Converts the digits in the text that occur between start and
-     * start + count, using the provided context.
-     * Context is ignored if the shaper is not a contextual shaper.
-     * @param text an array of characters
-     * @param start the index into <code>text</code> to start
+     * Converts the digits in the text thbt occur between stbrt bnd
+     * stbrt + count, using the provided context.
+     * Context is ignored if the shbper is not b contextubl shbper.
+     * @pbrbm text bn brrby of chbrbcters
+     * @pbrbm stbrt the index into <code>text</code> to stbrt
      *        converting
-     * @param count the number of characters in <code>text</code>
+     * @pbrbm count the number of chbrbcters in <code>text</code>
      *        to convert
-     * @param context the context to which to convert the
-     *        characters, such as <code>NumericShaper.EUROPEAN</code>
-     * @throws IndexOutOfBoundsException if start or start + count is
+     * @pbrbm context the context to which to convert the
+     *        chbrbcters, such bs <code>NumericShbper.EUROPEAN</code>
+     * @throws IndexOutOfBoundsException if stbrt or stbrt + count is
      *        out of bounds
      * @throws NullPointerException if text is null
-     * @throws IllegalArgumentException if this is a contextual shaper
-     * and the specified <code>context</code> is not a single valid
-     * range.
+     * @throws IllegblArgumentException if this is b contextubl shbper
+     * bnd the specified <code>context</code> is not b single vblid
+     * rbnge.
      */
-    public void shape(char[] text, int start, int count, int context) {
-        checkParams(text, start, count);
-        if (isContextual()) {
-            int ctxKey = getKeyFromMask(context);
-            if (rangeSet == null) {
-                shapeContextually(text, start, count, ctxKey);
+    public void shbpe(chbr[] text, int stbrt, int count, int context) {
+        checkPbrbms(text, stbrt, count);
+        if (isContextubl()) {
+            int ctxKey = getKeyFromMbsk(context);
+            if (rbngeSet == null) {
+                shbpeContextublly(text, stbrt, count, ctxKey);
             } else {
-                shapeContextually(text, start, count, Range.values()[ctxKey]);
+                shbpeContextublly(text, stbrt, count, Rbnge.vblues()[ctxKey]);
             }
         } else {
-            shapeNonContextually(text, start, count);
+            shbpeNonContextublly(text, stbrt, count);
         }
     }
 
     /**
-     * Converts the digits in the text that occur between {@code
-     * start} and {@code start + count}, using the provided {@code
-     * context}. {@code Context} is ignored if the shaper is not a
-     * contextual shaper.
+     * Converts the digits in the text thbt occur between {@code
+     * stbrt} bnd {@code stbrt + count}, using the provided {@code
+     * context}. {@code Context} is ignored if the shbper is not b
+     * contextubl shbper.
      *
-     * @param text  a {@code char} array
-     * @param start the index into {@code text} to start converting
-     * @param count the number of {@code char}s in {@code text}
+     * @pbrbm text  b {@code chbr} brrby
+     * @pbrbm stbrt the index into {@code text} to stbrt converting
+     * @pbrbm count the number of {@code chbr}s in {@code text}
      *              to convert
-     * @param context the context to which to convert the characters,
-     *                such as {@code NumericShaper.Range.EUROPEAN}
+     * @pbrbm context the context to which to convert the chbrbcters,
+     *                such bs {@code NumericShbper.Rbnge.EUROPEAN}
      * @throws IndexOutOfBoundsException
-     *         if {@code start} or {@code start + count} is out of bounds
+     *         if {@code stbrt} or {@code stbrt + count} is out of bounds
      * @throws NullPointerException
      *         if {@code text} or {@code context} is null
      * @since 1.7
      */
-    public void shape(char[] text, int start, int count, Range context) {
-        checkParams(text, start, count);
+    public void shbpe(chbr[] text, int stbrt, int count, Rbnge context) {
+        checkPbrbms(text, stbrt, count);
         if (context == null) {
             throw new NullPointerException("context is null");
         }
 
-        if (isContextual()) {
-            if (rangeSet != null) {
-                shapeContextually(text, start, count, context);
+        if (isContextubl()) {
+            if (rbngeSet != null) {
+                shbpeContextublly(text, stbrt, count, context);
             } else {
-                int key = Range.toRangeIndex(context);
+                int key = Rbnge.toRbngeIndex(context);
                 if (key >= 0) {
-                    shapeContextually(text, start, count, key);
+                    shbpeContextublly(text, stbrt, count, key);
                 } else {
-                    shapeContextually(text, start, count, shapingRange);
+                    shbpeContextublly(text, stbrt, count, shbpingRbnge);
                 }
             }
         } else {
-            shapeNonContextually(text, start, count);
+            shbpeNonContextublly(text, stbrt, count);
         }
     }
 
-    private void checkParams(char[] text, int start, int count) {
+    privbte void checkPbrbms(chbr[] text, int stbrt, int count) {
         if (text == null) {
             throw new NullPointerException("text is null");
         }
-        if ((start < 0)
-            || (start > text.length)
-            || ((start + count) < 0)
-            || ((start + count) > text.length)) {
+        if ((stbrt < 0)
+            || (stbrt > text.length)
+            || ((stbrt + count) < 0)
+            || ((stbrt + count) > text.length)) {
             throw new IndexOutOfBoundsException(
-                "bad start or count for text of length " + text.length);
+                "bbd stbrt or count for text of length " + text.length);
         }
     }
 
     /**
-     * Returns a <code>boolean</code> indicating whether or not
-     * this shaper shapes contextually.
-     * @return <code>true</code> if this shaper is contextual;
-     *         <code>false</code> otherwise.
+     * Returns b <code>boolebn</code> indicbting whether or not
+     * this shbper shbpes contextublly.
+     * @return <code>true</code> if this shbper is contextubl;
+     *         <code>fblse</code> otherwise.
      */
-    public boolean isContextual() {
-        return (mask & CONTEXTUAL_MASK) != 0;
+    public boolebn isContextubl() {
+        return (mbsk & CONTEXTUAL_MASK) != 0;
     }
 
     /**
-     * Returns an <code>int</code> that ORs together the values for
-     * all the ranges that will be shaped.
+     * Returns bn <code>int</code> thbt ORs together the vblues for
+     * bll the rbnges thbt will be shbped.
      * <p>
-     * For example, to check if a shaper shapes to Arabic, you would use the
+     * For exbmple, to check if b shbper shbpes to Arbbic, you would use the
      * following:
      * <blockquote>
-     *   {@code if ((shaper.getRanges() & shaper.ARABIC) != 0) &#123; ... }
+     *   {@code if ((shbper.getRbnges() & shbper.ARABIC) != 0) &#123; ... }
      * </blockquote>
      *
-     * <p>Note that this method supports only the bit mask-based
-     * ranges. Call {@link #getRangeSet()} for the enum-based ranges.
+     * <p>Note thbt this method supports only the bit mbsk-bbsed
+     * rbnges. Cbll {@link #getRbngeSet()} for the enum-bbsed rbnges.
      *
-     * @return the values for all the ranges to be shaped.
+     * @return the vblues for bll the rbnges to be shbped.
      */
-    public int getRanges() {
-        return mask & ~CONTEXTUAL_MASK;
+    public int getRbnges() {
+        return mbsk & ~CONTEXTUAL_MASK;
     }
 
     /**
-     * Returns a {@code Set} representing all the Unicode ranges in
-     * this {@code NumericShaper} that will be shaped.
+     * Returns b {@code Set} representing bll the Unicode rbnges in
+     * this {@code NumericShbper} thbt will be shbped.
      *
-     * @return all the Unicode ranges to be shaped.
+     * @return bll the Unicode rbnges to be shbped.
      * @since 1.7
      */
-    public Set<Range> getRangeSet() {
-        if (rangeSet != null) {
-            return EnumSet.copyOf(rangeSet);
+    public Set<Rbnge> getRbngeSet() {
+        if (rbngeSet != null) {
+            return EnumSet.copyOf(rbngeSet);
         }
-        return Range.maskToRangeSet(mask);
+        return Rbnge.mbskToRbngeSet(mbsk);
     }
 
     /**
-     * Perform non-contextual shaping.
+     * Perform non-contextubl shbping.
      */
-    private void shapeNonContextually(char[] text, int start, int count) {
-        int base;
-        char minDigit = '0';
-        if (shapingRange != null) {
-            base = shapingRange.getDigitBase();
-            minDigit += shapingRange.getNumericBase();
+    privbte void shbpeNonContextublly(chbr[] text, int stbrt, int count) {
+        int bbse;
+        chbr minDigit = '0';
+        if (shbpingRbnge != null) {
+            bbse = shbpingRbnge.getDigitBbse();
+            minDigit += shbpingRbnge.getNumericBbse();
         } else {
-            base = bases[key];
+            bbse = bbses[key];
             if (key == ETHIOPIC_KEY) {
-                minDigit++; // Ethiopic doesn't use decimal zero
+                minDigit++; // Ethiopic doesn't use decimbl zero
             }
         }
-        for (int i = start, e = start + count; i < e; ++i) {
-            char c = text[i];
+        for (int i = stbrt, e = stbrt + count; i < e; ++i) {
+            chbr c = text[i];
             if (c >= minDigit && c <= '\u0039') {
-                text[i] = (char)(c + base);
+                text[i] = (chbr)(c + bbse);
             }
         }
     }
 
     /**
-     * Perform contextual shaping.
-     * Synchronized to protect caches used in getContextKey.
+     * Perform contextubl shbping.
+     * Synchronized to protect cbches used in getContextKey.
      */
-    private synchronized void shapeContextually(char[] text, int start, int count, int ctxKey) {
+    privbte synchronized void shbpeContextublly(chbr[] text, int stbrt, int count, int ctxKey) {
 
-        // if we don't support this context, then don't shape
-        if ((mask & (1<<ctxKey)) == 0) {
+        // if we don't support this context, then don't shbpe
+        if ((mbsk & (1<<ctxKey)) == 0) {
             ctxKey = EUROPEAN_KEY;
         }
-        int lastkey = ctxKey;
+        int lbstkey = ctxKey;
 
-        int base = bases[ctxKey];
-        char minDigit = ctxKey == ETHIOPIC_KEY ? '1' : '0'; // Ethiopic doesn't use decimal zero
+        int bbse = bbses[ctxKey];
+        chbr minDigit = ctxKey == ETHIOPIC_KEY ? '1' : '0'; // Ethiopic doesn't use decimbl zero
 
-        synchronized (NumericShaper.class) {
-            for (int i = start, e = start + count; i < e; ++i) {
-                char c = text[i];
+        synchronized (NumericShbper.clbss) {
+            for (int i = stbrt, e = stbrt + count; i < e; ++i) {
+                chbr c = text[i];
                 if (c >= minDigit && c <= '\u0039') {
-                    text[i] = (char)(c + base);
+                    text[i] = (chbr)(c + bbse);
                 }
 
-                if (isStrongDirectional(c)) {
+                if (isStrongDirectionbl(c)) {
                     int newkey = getContextKey(c);
-                    if (newkey != lastkey) {
-                        lastkey = newkey;
+                    if (newkey != lbstkey) {
+                        lbstkey = newkey;
 
                         ctxKey = newkey;
-                        if (((mask & EASTERN_ARABIC) != 0) &&
+                        if (((mbsk & EASTERN_ARABIC) != 0) &&
                              (ctxKey == ARABIC_KEY ||
                               ctxKey == EASTERN_ARABIC_KEY)) {
                             ctxKey = EASTERN_ARABIC_KEY;
-                        } else if (((mask & ARABIC) != 0) &&
+                        } else if (((mbsk & ARABIC) != 0) &&
                              (ctxKey == ARABIC_KEY ||
                               ctxKey == EASTERN_ARABIC_KEY)) {
                             ctxKey = ARABIC_KEY;
-                        } else if ((mask & (1<<ctxKey)) == 0) {
+                        } else if ((mbsk & (1<<ctxKey)) == 0) {
                             ctxKey = EUROPEAN_KEY;
                         }
 
-                        base = bases[ctxKey];
+                        bbse = bbses[ctxKey];
 
-                        minDigit = ctxKey == ETHIOPIC_KEY ? '1' : '0'; // Ethiopic doesn't use decimal zero
+                        minDigit = ctxKey == ETHIOPIC_KEY ? '1' : '0'; // Ethiopic doesn't use decimbl zero
                     }
                 }
             }
         }
     }
 
-    private void shapeContextually(char[] text, int start, int count, Range ctxKey) {
-        // if we don't support the specified context, then don't shape.
-        if (ctxKey == null || !rangeSet.contains(ctxKey)) {
-            ctxKey = Range.EUROPEAN;
+    privbte void shbpeContextublly(chbr[] text, int stbrt, int count, Rbnge ctxKey) {
+        // if we don't support the specified context, then don't shbpe.
+        if (ctxKey == null || !rbngeSet.contbins(ctxKey)) {
+            ctxKey = Rbnge.EUROPEAN;
         }
 
-        Range lastKey = ctxKey;
-        int base = ctxKey.getDigitBase();
-        char minDigit = (char)('0' + ctxKey.getNumericBase());
-        final int end = start + count;
-        for (int i = start; i < end; ++i) {
-            char c = text[i];
+        Rbnge lbstKey = ctxKey;
+        int bbse = ctxKey.getDigitBbse();
+        chbr minDigit = (chbr)('0' + ctxKey.getNumericBbse());
+        finbl int end = stbrt + count;
+        for (int i = stbrt; i < end; ++i) {
+            chbr c = text[i];
             if (c >= minDigit && c <= '9') {
-                text[i] = (char)(c + base);
+                text[i] = (chbr)(c + bbse);
                 continue;
             }
-            if (isStrongDirectional(c)) {
-                ctxKey = rangeForCodePoint(c);
-                if (ctxKey != lastKey) {
-                    lastKey = ctxKey;
-                    base = ctxKey.getDigitBase();
-                    minDigit = (char)('0' + ctxKey.getNumericBase());
+            if (isStrongDirectionbl(c)) {
+                ctxKey = rbngeForCodePoint(c);
+                if (ctxKey != lbstKey) {
+                    lbstKey = ctxKey;
+                    bbse = ctxKey.getDigitBbse();
+                    minDigit = (chbr)('0' + ctxKey.getNumericBbse());
                 }
             }
         }
     }
 
     /**
-     * Returns a hash code for this shaper.
-     * @return this shaper's hash code.
-     * @see java.lang.Object#hashCode
+     * Returns b hbsh code for this shbper.
+     * @return this shbper's hbsh code.
+     * @see jbvb.lbng.Object#hbshCode
      */
-    public int hashCode() {
-        int hash = mask;
-        if (rangeSet != null) {
-            // Use the CONTEXTUAL_MASK bit only for the enum-based
-            // NumericShaper. A deserialized NumericShaper might have
-            // bit masks.
-            hash &= CONTEXTUAL_MASK;
-            hash ^= rangeSet.hashCode();
+    public int hbshCode() {
+        int hbsh = mbsk;
+        if (rbngeSet != null) {
+            // Use the CONTEXTUAL_MASK bit only for the enum-bbsed
+            // NumericShbper. A deseriblized NumericShbper might hbve
+            // bit mbsks.
+            hbsh &= CONTEXTUAL_MASK;
+            hbsh ^= rbngeSet.hbshCode();
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Returns {@code true} if the specified object is an instance of
-     * <code>NumericShaper</code> and shapes identically to this one,
-     * regardless of the range representations, the bit mask or the
-     * enum. For example, the following code produces {@code "true"}.
+     * Returns {@code true} if the specified object is bn instbnce of
+     * <code>NumericShbper</code> bnd shbpes identicblly to this one,
+     * regbrdless of the rbnge representbtions, the bit mbsk or the
+     * enum. For exbmple, the following code produces {@code "true"}.
      * <blockquote><pre>
-     * NumericShaper ns1 = NumericShaper.getShaper(NumericShaper.ARABIC);
-     * NumericShaper ns2 = NumericShaper.getShaper(NumericShaper.Range.ARABIC);
-     * System.out.println(ns1.equals(ns2));
+     * NumericShbper ns1 = NumericShbper.getShbper(NumericShbper.ARABIC);
+     * NumericShbper ns2 = NumericShbper.getShbper(NumericShbper.Rbnge.ARABIC);
+     * System.out.println(ns1.equbls(ns2));
      * </pre></blockquote>
      *
-     * @param o the specified object to compare to this
-     *          <code>NumericShaper</code>
-     * @return <code>true</code> if <code>o</code> is an instance
-     *         of <code>NumericShaper</code> and shapes in the same way;
-     *         <code>false</code> otherwise.
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @pbrbm o the specified object to compbre to this
+     *          <code>NumericShbper</code>
+     * @return <code>true</code> if <code>o</code> is bn instbnce
+     *         of <code>NumericShbper</code> bnd shbpes in the sbme wby;
+     *         <code>fblse</code> otherwise.
+     * @see jbvb.lbng.Object#equbls(jbvb.lbng.Object)
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o != null) {
             try {
-                NumericShaper rhs = (NumericShaper)o;
-                if (rangeSet != null) {
-                    if (rhs.rangeSet != null) {
-                        return isContextual() == rhs.isContextual()
-                            && rangeSet.equals(rhs.rangeSet)
-                            && shapingRange == rhs.shapingRange;
+                NumericShbper rhs = (NumericShbper)o;
+                if (rbngeSet != null) {
+                    if (rhs.rbngeSet != null) {
+                        return isContextubl() == rhs.isContextubl()
+                            && rbngeSet.equbls(rhs.rbngeSet)
+                            && shbpingRbnge == rhs.shbpingRbnge;
                     }
-                    return isContextual() == rhs.isContextual()
-                        && rangeSet.equals(Range.maskToRangeSet(rhs.mask))
-                        && shapingRange == Range.indexToRange(rhs.key);
-                } else if (rhs.rangeSet != null) {
-                    Set<Range> rset = Range.maskToRangeSet(mask);
-                    Range srange = Range.indexToRange(key);
-                    return isContextual() == rhs.isContextual()
-                        && rset.equals(rhs.rangeSet)
-                        && srange == rhs.shapingRange;
+                    return isContextubl() == rhs.isContextubl()
+                        && rbngeSet.equbls(Rbnge.mbskToRbngeSet(rhs.mbsk))
+                        && shbpingRbnge == Rbnge.indexToRbnge(rhs.key);
+                } else if (rhs.rbngeSet != null) {
+                    Set<Rbnge> rset = Rbnge.mbskToRbngeSet(mbsk);
+                    Rbnge srbnge = Rbnge.indexToRbnge(key);
+                    return isContextubl() == rhs.isContextubl()
+                        && rset.equbls(rhs.rbngeSet)
+                        && srbnge == rhs.shbpingRbnge;
                 }
-                return rhs.mask == mask && rhs.key == key;
+                return rhs.mbsk == mbsk && rhs.key == key;
             }
-            catch (ClassCastException e) {
+            cbtch (ClbssCbstException e) {
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a <code>String</code> that describes this shaper. This method
+     * Returns b <code>String</code> thbt describes this shbper. This method
      * is used for debugging purposes only.
-     * @return a <code>String</code> describing this shaper.
+     * @return b <code>String</code> describing this shbper.
      */
     public String toString() {
         StringBuilder buf = new StringBuilder(super.toString());
 
-        buf.append("[contextual:").append(isContextual());
+        buf.bppend("[contextubl:").bppend(isContextubl());
 
-        String[] keyNames = null;
-        if (isContextual()) {
-            buf.append(", context:");
-            buf.append(shapingRange == null ? Range.values()[key] : shapingRange);
+        String[] keyNbmes = null;
+        if (isContextubl()) {
+            buf.bppend(", context:");
+            buf.bppend(shbpingRbnge == null ? Rbnge.vblues()[key] : shbpingRbnge);
         }
 
-        if (rangeSet == null) {
-            buf.append(", range(s): ");
-            boolean first = true;
+        if (rbngeSet == null) {
+            buf.bppend(", rbnge(s): ");
+            boolebn first = true;
             for (int i = 0; i < NUM_KEYS; ++i) {
-                if ((mask & (1 << i)) != 0) {
+                if ((mbsk & (1 << i)) != 0) {
                     if (first) {
-                        first = false;
+                        first = fblse;
                     } else {
-                        buf.append(", ");
+                        buf.bppend(", ");
                     }
-                    buf.append(Range.values()[i]);
+                    buf.bppend(Rbnge.vblues()[i]);
                 }
             }
         } else {
-            buf.append(", range set: ").append(rangeSet);
+            buf.bppend(", rbnge set: ").bppend(rbngeSet);
         }
-        buf.append(']');
+        buf.bppend(']');
 
         return buf.toString();
     }
 
     /**
-     * Returns the index of the high bit in value (assuming le, actually
-     * power of 2 >= value). value must be positive.
+     * Returns the index of the high bit in vblue (bssuming le, bctublly
+     * power of 2 >= vblue). vblue must be positive.
      */
-    private static int getHighBit(int value) {
-        if (value <= 0) {
+    privbte stbtic int getHighBit(int vblue) {
+        if (vblue <= 0) {
             return -32;
         }
 
         int bit = 0;
 
-        if (value >= 1 << 16) {
-            value >>= 16;
+        if (vblue >= 1 << 16) {
+            vblue >>= 16;
             bit += 16;
         }
 
-        if (value >= 1 << 8) {
-            value >>= 8;
+        if (vblue >= 1 << 8) {
+            vblue >>= 8;
             bit += 8;
         }
 
-        if (value >= 1 << 4) {
-            value >>= 4;
+        if (vblue >= 1 << 4) {
+            vblue >>= 4;
             bit += 4;
         }
 
-        if (value >= 1 << 2) {
-            value >>= 2;
+        if (vblue >= 1 << 2) {
+            vblue >>= 2;
             bit += 2;
         }
 
-        if (value >= 1 << 1) {
+        if (vblue >= 1 << 1) {
             bit += 1;
         }
 
@@ -1485,23 +1485,23 @@ public final class NumericShaper implements java.io.Serializable {
     }
 
     /**
-     * fast binary search over subrange of array.
+     * fbst binbry sebrch over subrbnge of brrby.
      */
-    private static int search(int value, int[] array, int start, int length)
+    privbte stbtic int sebrch(int vblue, int[] brrby, int stbrt, int length)
     {
         int power = 1 << getHighBit(length);
-        int extra = length - power;
+        int extrb = length - power;
         int probe = power;
-        int index = start;
+        int index = stbrt;
 
-        if (value >= array[index + extra]) {
-            index += extra;
+        if (vblue >= brrby[index + extrb]) {
+            index += extrb;
         }
 
         while (probe > 1) {
             probe >>= 1;
 
-            if (value >= array[index + probe]) {
+            if (vblue >= brrby[index + probe]) {
                 index += probe;
             }
         }
@@ -1510,25 +1510,25 @@ public final class NumericShaper implements java.io.Serializable {
     }
 
     /**
-     * Converts the {@code NumericShaper.Range} enum-based parameters,
-     * if any, to the bit mask-based counterparts and writes this
-     * object to the {@code stream}. Any enum constants that have no
-     * bit mask-based counterparts are ignored in the conversion.
+     * Converts the {@code NumericShbper.Rbnge} enum-bbsed pbrbmeters,
+     * if bny, to the bit mbsk-bbsed counterpbrts bnd writes this
+     * object to the {@code strebm}. Any enum constbnts thbt hbve no
+     * bit mbsk-bbsed counterpbrts bre ignored in the conversion.
      *
-     * @param stream the output stream to write to
-     * @throws IOException if an I/O error occurs while writing to {@code stream}
+     * @pbrbm strebm the output strebm to write to
+     * @throws IOException if bn I/O error occurs while writing to {@code strebm}
      * @since 1.7
      */
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        if (shapingRange != null) {
-            int index = Range.toRangeIndex(shapingRange);
+    privbte void writeObject(ObjectOutputStrebm strebm) throws IOException {
+        if (shbpingRbnge != null) {
+            int index = Rbnge.toRbngeIndex(shbpingRbnge);
             if (index >= 0) {
                 key = index;
             }
         }
-        if (rangeSet != null) {
-            mask |= Range.toRangeMask(rangeSet);
+        if (rbngeSet != null) {
+            mbsk |= Rbnge.toRbngeMbsk(rbngeSet);
         }
-        stream.defaultWriteObject();
+        strebm.defbultWriteObject();
     }
 }

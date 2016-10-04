@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * Represents "user defined" exceptions thrown by MBean methods
- * in the agent. It "wraps" the actual "user defined" exception thrown.
- * This exception will be built by the MBeanServer when a call to an
- * MBean method results in an unknown exception.
+ * Represents "user defined" exceptions thrown by MBebn methods
+ * in the bgent. It "wrbps" the bctubl "user defined" exception thrown.
+ * This exception will be built by the MBebnServer when b cbll to bn
+ * MBebn method results in bn unknown exception.
  *
  * @since 1.5
  */
-public class MBeanException extends JMException   {
+public clbss MBebnException extends JMException   {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = 4066342430588744142L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = 4066342430588744142L;
 
     /**
-     * @serial Encapsulated {@link Exception}
+     * @seribl Encbpsulbted {@link Exception}
      */
-    private java.lang.Exception exception ;
+    privbte jbvb.lbng.Exception exception ;
 
 
     /**
-     * Creates an <CODE>MBeanException</CODE> that wraps the actual <CODE>java.lang.Exception</CODE>.
+     * Crebtes bn <CODE>MBebnException</CODE> thbt wrbps the bctubl <CODE>jbvb.lbng.Exception</CODE>.
      *
-     * @param e the wrapped exception.
+     * @pbrbm e the wrbpped exception.
      */
-    public MBeanException(java.lang.Exception e) {
+    public MBebnException(jbvb.lbng.Exception e) {
         super() ;
         exception = e ;
     }
 
     /**
-     * Creates an <CODE>MBeanException</CODE> that wraps the actual <CODE>java.lang.Exception</CODE> with
-     * a detail message.
+     * Crebtes bn <CODE>MBebnException</CODE> thbt wrbps the bctubl <CODE>jbvb.lbng.Exception</CODE> with
+     * b detbil messbge.
      *
-     * @param e the wrapped exception.
-     * @param message the detail message.
+     * @pbrbm e the wrbpped exception.
+     * @pbrbm messbge the detbil messbge.
      */
-    public MBeanException(java.lang.Exception e, String message) {
-        super(message) ;
+    public MBebnException(jbvb.lbng.Exception e, String messbge) {
+        super(messbge) ;
         exception = e ;
     }
 
 
     /**
-     * Return the actual {@link Exception} thrown.
+     * Return the bctubl {@link Exception} thrown.
      *
-     * @return the wrapped exception.
+     * @return the wrbpped exception.
      */
-    public Exception getTargetException()  {
+    public Exception getTbrgetException()  {
         return exception;
     }
 
     /**
-     * Return the actual {@link Exception} thrown.
+     * Return the bctubl {@link Exception} thrown.
      *
-     * @return the wrapped exception.
+     * @return the wrbpped exception.
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return exception;
     }
 }

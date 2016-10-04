@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PrinterIsAcceptingJobs is a printing attribute class, an enumeration,
- * that indicates whether the printer is currently able to accept jobs. This
- * value is independent of the {@link PrinterState PrinterState} and {@link
- * PrinterStateReasons PrinterStateReasons} attributes because its value does
- * not affect the current job; rather it affects future jobs. If the value is
+ * Clbss PrinterIsAcceptingJobs is b printing bttribute clbss, bn enumerbtion,
+ * thbt indicbtes whether the printer is currently bble to bccept jobs. This
+ * vblue is independent of the {@link PrinterStbte PrinterStbte} bnd {@link
+ * PrinterStbteRebsons PrinterStbteRebsons} bttributes becbuse its vblue does
+ * not bffect the current job; rbther it bffects future jobs. If the vblue is
  * NOT_ACCEPTING_JOBS, the printer will reject jobs even when the {@link
- * PrinterState PrinterState} is IDLE. If value is ACCEPTING_JOBS, the Printer
- * will accept jobs even when the {@link PrinterState PrinterState} is STOPPED.
+ * PrinterStbte PrinterStbte} is IDLE. If vblue is ACCEPTING_JOBS, the Printer
+ * will bccept jobs even when the {@link PrinterStbte PrinterStbte} is STOPPED.
  * <P>
- * <B>IPP Compatibility:</B> The IPP boolean value is "true" for ACCEPTING_JOBS
- * and "false" for NOT_ACCEPTING_JOBS. The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The IPP boolebn vblue is "true" for ACCEPTING_JOBS
+ * bnd "fblse" for NOT_ACCEPTING_JOBS. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterIsAcceptingJobs extends EnumSyntax
+public finbl clbss PrinterIsAcceptingJobs extends EnumSyntbx
         implements PrintServiceAttribute {
 
-    private static final long serialVersionUID = -5052010680537678061L;
+    privbte stbtic finbl long seriblVersionUID = -5052010680537678061L;
 
     /**
-     * The printer is currently rejecting any jobs sent to it.
+     * The printer is currently rejecting bny jobs sent to it.
      */
-    public static final PrinterIsAcceptingJobs
+    public stbtic finbl PrinterIsAcceptingJobs
         NOT_ACCEPTING_JOBS = new PrinterIsAcceptingJobs(0);
 
     /**
-     * The printer is currently accepting jobs.
+     * The printer is currently bccepting jobs.
      */
-    public static final PrinterIsAcceptingJobs
+    public stbtic finbl PrinterIsAcceptingJobs
         ACCEPTING_JOBS = new PrinterIsAcceptingJobs(1);
 
     /**
-     * Construct a new printer is accepting jobs enumeration value with the
-     * given integer value.
+     * Construct b new printer is bccepting jobs enumerbtion vblue with the
+     * given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected PrinterIsAcceptingJobs(int value) {
-        super (value);
+    protected PrinterIsAcceptingJobs(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-        "not-accepting-jobs",
-        "accepting-jobs"
+    privbte stbtic finbl String[] myStringTbble = {
+        "not-bccepting-jobs",
+        "bccepting-jobs"
     };
 
-    private static final PrinterIsAcceptingJobs[] myEnumValueTable = {
+    privbte stbtic finbl PrinterIsAcceptingJobs[] myEnumVblueTbble = {
         NOT_ACCEPTING_JOBS,
         ACCEPTING_JOBS
     };
 
     /**
-     * Returns the string table for class PrinterIsAcceptingJobs.
+     * Returns the string tbble for clbss PrinterIsAcceptingJobs.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class PrinterIsAcceptingJobs.
+     * Returns the enumerbtion vblue tbble for clbss PrinterIsAcceptingJobs.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterIsAcceptingJobs, the
-     * category is class PrinterIsAcceptingJobs itself.
+     * For clbss PrinterIsAcceptingJobs, the
+     * cbtegory is clbss PrinterIsAcceptingJobs itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterIsAcceptingJobs.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterIsAcceptingJobs.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterIsAcceptingJobs, the
-     * category name is <CODE>"printer-is-accepting-jobs"</CODE>.
+     * For clbss PrinterIsAcceptingJobs, the
+     * cbtegory nbme is <CODE>"printer-is-bccepting-jobs"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "printer-is-accepting-jobs";
+    public finbl String getNbme() {
+        return "printer-is-bccepting-jobs";
     }
 
 }

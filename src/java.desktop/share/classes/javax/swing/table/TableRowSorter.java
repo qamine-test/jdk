@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import java.text.Collator;
-import java.util.*;
-import javax.swing.DefaultRowSorter;
-import javax.swing.RowFilter;
-import javax.swing.SortOrder;
+import jbvb.text.Collbtor;
+import jbvb.util.*;
+import jbvbx.swing.DefbultRowSorter;
+import jbvbx.swing.RowFilter;
+import jbvbx.swing.SortOrder;
 
 /**
- * An implementation of <code>RowSorter</code> that provides sorting
- * and filtering using a <code>TableModel</code>.
- * The following example shows adding sorting to a <code>JTable</code>:
+ * An implementbtion of <code>RowSorter</code> thbt provides sorting
+ * bnd filtering using b <code>TbbleModel</code>.
+ * The following exbmple shows bdding sorting to b <code>JTbble</code>:
  * <pre>
- *   TableModel myModel = createMyTableModel();
- *   JTable table = new JTable(myModel);
- *   table.setRowSorter(new TableRowSorter(myModel));
+ *   TbbleModel myModel = crebteMyTbbleModel();
+ *   JTbble tbble = new JTbble(myModel);
+ *   tbble.setRowSorter(new TbbleRowSorter(myModel));
  * </pre>
- * This will do all the wiring such that when the user does the appropriate
- * gesture, such as clicking on the column header, the table will
- * visually sort.
+ * This will do bll the wiring such thbt when the user does the bppropribte
+ * gesture, such bs clicking on the column hebder, the tbble will
+ * visublly sort.
  * <p>
- * <code>JTable</code>'s row-based methods and <code>JTable</code>'s
- * selection model refer to the view and not the underlying
- * model. Therefore, it is necessary to convert between the two.  For
- * example, to get the selection in terms of <code>myModel</code>
+ * <code>JTbble</code>'s row-bbsed methods bnd <code>JTbble</code>'s
+ * selection model refer to the view bnd not the underlying
+ * model. Therefore, it is necessbry to convert between the two.  For
+ * exbmple, to get the selection in terms of <code>myModel</code>
  * you need to convert the indices:
  * <pre>
- *   int[] selection = table.getSelectedRows();
+ *   int[] selection = tbble.getSelectedRows();
  *   for (int i = 0; i &lt; selection.length; i++) {
- *     selection[i] = table.convertRowIndexToModel(selection[i]);
+ *     selection[i] = tbble.convertRowIndexToModel(selection[i]);
  *   }
  * </pre>
- * Similarly to select a row in <code>JTable</code> based on
- * a coordinate from the underlying model do the inverse:
+ * Similbrly to select b row in <code>JTbble</code> bbsed on
+ * b coordinbte from the underlying model do the inverse:
  * <pre>
- *   table.setRowSelectionInterval(table.convertRowIndexToView(row),
- *                                 table.convertRowIndexToView(row));
+ *   tbble.setRowSelectionIntervbl(tbble.convertRowIndexToView(row),
+ *                                 tbble.convertRowIndexToView(row));
  * </pre>
  * <p>
- * The previous example assumes you have not enabled filtering.  If you
- * have enabled filtering <code>convertRowIndexToView</code> will return
- * -1 for locations that are not visible in the view.
+ * The previous exbmple bssumes you hbve not enbbled filtering.  If you
+ * hbve enbbled filtering <code>convertRowIndexToView</code> will return
+ * -1 for locbtions thbt bre not visible in the view.
  * <p>
- * <code>TableRowSorter</code> uses <code>Comparator</code>s for doing
- * comparisons. The following defines how a <code>Comparator</code> is
- * chosen for a column:
+ * <code>TbbleRowSorter</code> uses <code>Compbrbtor</code>s for doing
+ * compbrisons. The following defines how b <code>Compbrbtor</code> is
+ * chosen for b column:
  * <ol>
- * <li>If a <code>Comparator</code> has been specified for the column by the
- *     <code>setComparator</code> method, use it.
- * <li>If the column class as returned by <code>getColumnClass</code> is
- *     <code>String</code>, use the <code>Comparator</code> returned by
- *     <code>Collator.getInstance()</code>.
- * <li>If the column class implements <code>Comparable</code>, use a
- *     <code>Comparator</code> that invokes the <code>compareTo</code>
+ * <li>If b <code>Compbrbtor</code> hbs been specified for the column by the
+ *     <code>setCompbrbtor</code> method, use it.
+ * <li>If the column clbss bs returned by <code>getColumnClbss</code> is
+ *     <code>String</code>, use the <code>Compbrbtor</code> returned by
+ *     <code>Collbtor.getInstbnce()</code>.
+ * <li>If the column clbss implements <code>Compbrbble</code>, use b
+ *     <code>Compbrbtor</code> thbt invokes the <code>compbreTo</code>
  *     method.
- * <li>If a <code>TableStringConverter</code> has been specified, use it
- *     to convert the values to <code>String</code>s and then use the
- *     <code>Comparator</code> returned by <code>Collator.getInstance()</code>.
- * <li>Otherwise use the <code>Comparator</code> returned by
- *     <code>Collator.getInstance()</code> on the results from
- *     calling <code>toString</code> on the objects.
+ * <li>If b <code>TbbleStringConverter</code> hbs been specified, use it
+ *     to convert the vblues to <code>String</code>s bnd then use the
+ *     <code>Compbrbtor</code> returned by <code>Collbtor.getInstbnce()</code>.
+ * <li>Otherwise use the <code>Compbrbtor</code> returned by
+ *     <code>Collbtor.getInstbnce()</code> on the results from
+ *     cblling <code>toString</code> on the objects.
  * </ol>
  * <p>
- * In addition to sorting <code>TableRowSorter</code> provides the ability
+ * In bddition to sorting <code>TbbleRowSorter</code> provides the bbility
  * to filter.  A filter is specified using the <code>setFilter</code>
- * method. The following example will only show rows containing the string
+ * method. The following exbmple will only show rows contbining the string
  * "foo":
  * <pre>
- *   TableModel myModel = createMyTableModel();
- *   TableRowSorter sorter = new TableRowSorter(myModel);
+ *   TbbleModel myModel = crebteMyTbbleModel();
+ *   TbbleRowSorter sorter = new TbbleRowSorter(myModel);
  *   sorter.setRowFilter(RowFilter.regexFilter(".*foo.*"));
- *   JTable table = new JTable(myModel);
- *   table.setRowSorter(sorter);
+ *   JTbble tbble = new JTbble(myModel);
+ *   tbble.setRowSorter(sorter);
  * </pre>
  * <p>
- * If the underlying model structure changes (the
- * <code>modelStructureChanged</code> method is invoked) the following
- * are reset to their default values: <code>Comparator</code>s by
- * column, current sort order, and whether each column is sortable. The default
- * sort order is natural (the same as the model), and columns are
- * sortable by default.
+ * If the underlying model structure chbnges (the
+ * <code>modelStructureChbnged</code> method is invoked) the following
+ * bre reset to their defbult vblues: <code>Compbrbtor</code>s by
+ * column, current sort order, bnd whether ebch column is sortbble. The defbult
+ * sort order is nbturbl (the sbme bs the model), bnd columns bre
+ * sortbble by defbult.
  * <p>
- * <code>TableRowSorter</code> has one formal type parameter: the type
- * of the model.  Passing in a type that corresponds exactly to your
- * model allows you to filter based on your model without casting.
- * Refer to the documentation of <code>RowFilter</code> for an example
+ * <code>TbbleRowSorter</code> hbs one formbl type pbrbmeter: the type
+ * of the model.  Pbssing in b type thbt corresponds exbctly to your
+ * model bllows you to filter bbsed on your model without cbsting.
+ * Refer to the documentbtion of <code>RowFilter</code> for bn exbmple
  * of this.
  * <p>
- * <b>WARNING:</b> <code>DefaultTableModel</code> returns a column
- * class of <code>Object</code>.  As such all comparisons will
- * be done using <code>toString</code>.  This may be unnecessarily
- * expensive.  If the column only contains one type of value, such as
- * an <code>Integer</code>, you should override <code>getColumnClass</code> and
- * return the appropriate <code>Class</code>.  This will dramatically
- * increase the performance of this class.
+ * <b>WARNING:</b> <code>DefbultTbbleModel</code> returns b column
+ * clbss of <code>Object</code>.  As such bll compbrisons will
+ * be done using <code>toString</code>.  This mby be unnecessbrily
+ * expensive.  If the column only contbins one type of vblue, such bs
+ * bn <code>Integer</code>, you should override <code>getColumnClbss</code> bnd
+ * return the bppropribte <code>Clbss</code>.  This will drbmbticblly
+ * increbse the performbnce of this clbss.
  *
- * @param <M> the type of the model, which must be an implementation of
- *            <code>TableModel</code>
- * @see javax.swing.JTable
- * @see javax.swing.RowFilter
- * @see javax.swing.table.DefaultTableModel
- * @see java.text.Collator
- * @see java.util.Comparator
+ * @pbrbm <M> the type of the model, which must be bn implementbtion of
+ *            <code>TbbleModel</code>
+ * @see jbvbx.swing.JTbble
+ * @see jbvbx.swing.RowFilter
+ * @see jbvbx.swing.tbble.DefbultTbbleModel
+ * @see jbvb.text.Collbtor
+ * @see jbvb.util.Compbrbtor
  * @since 1.6
  */
-public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, Integer> {
+public clbss TbbleRowSorter<M extends TbbleModel> extends DefbultRowSorter<M, Integer> {
     /**
-     * Comparator that uses compareTo on the contents.
+     * Compbrbtor thbt uses compbreTo on the contents.
      */
-    private static final Comparator<?> COMPARABLE_COMPARATOR =
-            new ComparableComparator();
+    privbte stbtic finbl Compbrbtor<?> COMPARABLE_COMPARATOR =
+            new CompbrbbleCompbrbtor();
 
     /**
      * Underlying model.
      */
-    private M tableModel;
+    privbte M tbbleModel;
 
     /**
      * For toString conversions.
      */
-    private TableStringConverter stringConverter;
+    privbte TbbleStringConverter stringConverter;
 
 
     /**
-     * Creates a <code>TableRowSorter</code> with an empty model.
+     * Crebtes b <code>TbbleRowSorter</code> with bn empty model.
      */
-    public TableRowSorter() {
+    public TbbleRowSorter() {
         this(null);
     }
 
     /**
-     * Creates a <code>TableRowSorter</code> using <code>model</code>
-     * as the underlying <code>TableModel</code>.
+     * Crebtes b <code>TbbleRowSorter</code> using <code>model</code>
+     * bs the underlying <code>TbbleModel</code>.
      *
-     * @param model the underlying <code>TableModel</code> to use,
-     *        <code>null</code> is treated as an empty model
+     * @pbrbm model the underlying <code>TbbleModel</code> to use,
+     *        <code>null</code> is trebted bs bn empty model
      */
-    public TableRowSorter(M model) {
+    public TbbleRowSorter(M model) {
         setModel(model);
     }
 
     /**
-     * Sets the <code>TableModel</code> to use as the underlying model
-     * for this <code>TableRowSorter</code>.  A value of <code>null</code>
-     * can be used to set an empty model.
+     * Sets the <code>TbbleModel</code> to use bs the underlying model
+     * for this <code>TbbleRowSorter</code>.  A vblue of <code>null</code>
+     * cbn be used to set bn empty model.
      *
-     * @param model the underlying model to use, or <code>null</code>
+     * @pbrbm model the underlying model to use, or <code>null</code>
      */
     public void setModel(M model) {
-        tableModel = model;
-        setModelWrapper(new TableRowSorterModelWrapper());
+        tbbleModel = model;
+        setModelWrbpper(new TbbleRowSorterModelWrbpper());
     }
 
     /**
-     * Sets the object responsible for converting values from the
+     * Sets the object responsible for converting vblues from the
      * model to strings.  If non-<code>null</code> this
-     * is used to convert any object values, that do not have a
-     * registered <code>Comparator</code>, to strings.
+     * is used to convert bny object vblues, thbt do not hbve b
+     * registered <code>Compbrbtor</code>, to strings.
      *
-     * @param stringConverter the object responsible for converting values
+     * @pbrbm stringConverter the object responsible for converting vblues
      *        from the model to strings
      */
-    public void setStringConverter(TableStringConverter stringConverter) {
+    public void setStringConverter(TbbleStringConverter stringConverter) {
         this.stringConverter = stringConverter;
     }
 
     /**
-     * Returns the object responsible for converting values from the
+     * Returns the object responsible for converting vblues from the
      * model to strings.
      *
-     * @return object responsible for converting values to strings.
+     * @return object responsible for converting vblues to strings.
      */
-    public TableStringConverter getStringConverter() {
+    public TbbleStringConverter getStringConverter() {
         return stringConverter;
     }
 
     /**
-     * Returns the <code>Comparator</code> for the specified
-     * column.  If a <code>Comparator</code> has not been specified using
-     * the <code>setComparator</code> method a <code>Comparator</code>
-     * will be returned based on the column class
-     * (<code>TableModel.getColumnClass</code>) of the specified column.
-     * If the column class is <code>String</code>,
-     * <code>Collator.getInstance</code> is returned.  If the
-     * column class implements <code>Comparable</code> a private
-     * <code>Comparator</code> is returned that invokes the
-     * <code>compareTo</code> method.  Otherwise
-     * <code>Collator.getInstance</code> is returned.
+     * Returns the <code>Compbrbtor</code> for the specified
+     * column.  If b <code>Compbrbtor</code> hbs not been specified using
+     * the <code>setCompbrbtor</code> method b <code>Compbrbtor</code>
+     * will be returned bbsed on the column clbss
+     * (<code>TbbleModel.getColumnClbss</code>) of the specified column.
+     * If the column clbss is <code>String</code>,
+     * <code>Collbtor.getInstbnce</code> is returned.  If the
+     * column clbss implements <code>Compbrbble</code> b privbte
+     * <code>Compbrbtor</code> is returned thbt invokes the
+     * <code>compbreTo</code> method.  Otherwise
+     * <code>Collbtor.getInstbnce</code> is returned.
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public Comparator<?> getComparator(int column) {
-        Comparator<?> comparator = super.getComparator(column);
-        if (comparator != null) {
-            return comparator;
+    public Compbrbtor<?> getCompbrbtor(int column) {
+        Compbrbtor<?> compbrbtor = super.getCompbrbtor(column);
+        if (compbrbtor != null) {
+            return compbrbtor;
         }
-        Class<?> columnClass = getModel().getColumnClass(column);
-        if (columnClass == String.class) {
-            return Collator.getInstance();
+        Clbss<?> columnClbss = getModel().getColumnClbss(column);
+        if (columnClbss == String.clbss) {
+            return Collbtor.getInstbnce();
         }
-        if (Comparable.class.isAssignableFrom(columnClass)) {
+        if (Compbrbble.clbss.isAssignbbleFrom(columnClbss)) {
             return COMPARABLE_COMPARATOR;
         }
-        return Collator.getInstance();
+        return Collbtor.getInstbnce();
     }
 
     /**
@@ -233,56 +233,56 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    protected boolean useToString(int column) {
-        Comparator<?> comparator = super.getComparator(column);
-        if (comparator != null) {
-            return false;
+    protected boolebn useToString(int column) {
+        Compbrbtor<?> compbrbtor = super.getCompbrbtor(column);
+        if (compbrbtor != null) {
+            return fblse;
         }
-        Class<?> columnClass = getModel().getColumnClass(column);
-        if (columnClass == String.class) {
-            return false;
+        Clbss<?> columnClbss = getModel().getColumnClbss(column);
+        if (columnClbss == String.clbss) {
+            return fblse;
         }
-        if (Comparable.class.isAssignableFrom(columnClass)) {
-            return false;
+        if (Compbrbble.clbss.isAssignbbleFrom(columnClbss)) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Implementation of DefaultRowSorter.ModelWrapper that delegates to a
-     * TableModel.
+     * Implementbtion of DefbultRowSorter.ModelWrbpper thbt delegbtes to b
+     * TbbleModel.
      */
-    private class TableRowSorterModelWrapper extends ModelWrapper<M,Integer> {
+    privbte clbss TbbleRowSorterModelWrbpper extends ModelWrbpper<M,Integer> {
         public M getModel() {
-            return tableModel;
+            return tbbleModel;
         }
 
         public int getColumnCount() {
-            return (tableModel == null) ? 0 : tableModel.getColumnCount();
+            return (tbbleModel == null) ? 0 : tbbleModel.getColumnCount();
         }
 
         public int getRowCount() {
-            return (tableModel == null) ? 0 : tableModel.getRowCount();
+            return (tbbleModel == null) ? 0 : tbbleModel.getRowCount();
         }
 
-        public Object getValueAt(int row, int column) {
-            return tableModel.getValueAt(row, column);
+        public Object getVblueAt(int row, int column) {
+            return tbbleModel.getVblueAt(row, column);
         }
 
-        public String getStringValueAt(int row, int column) {
-            TableStringConverter converter = getStringConverter();
+        public String getStringVblueAt(int row, int column) {
+            TbbleStringConverter converter = getStringConverter();
             if (converter != null) {
                 // Use the converter
-                String value = converter.toString(
-                        tableModel, row, column);
-                if (value != null) {
-                    return value;
+                String vblue = converter.toString(
+                        tbbleModel, row, column);
+                if (vblue != null) {
+                    return vblue;
                 }
                 return "";
             }
 
-            // No converter, use getValueAt followed by toString
-            Object o = getValueAt(row, column);
+            // No converter, use getVblueAt followed by toString
+            Object o = getVblueAt(row, column);
             if (o == null) {
                 return "";
             }
@@ -299,10 +299,10 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
     }
 
 
-    private static class ComparableComparator implements Comparator<Object> {
-        @SuppressWarnings("unchecked")
-        public int compare(Object o1, Object o2) {
-            return ((Comparable)o1).compareTo(o2);
+    privbte stbtic clbss CompbrbbleCompbrbtor implements Compbrbtor<Object> {
+        @SuppressWbrnings("unchecked")
+        public int compbre(Object o1, Object o2) {
+            return ((Compbrbble)o1).compbreTo(o2);
         }
     }
 }

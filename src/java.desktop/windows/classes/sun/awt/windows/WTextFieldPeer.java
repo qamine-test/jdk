@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.im.InputMethodRequests;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.im.InputMethodRequests;
 
-final class WTextFieldPeer extends WTextComponentPeer implements TextFieldPeer {
+finbl clbss WTextFieldPeer extends WTextComponentPeer implements TextFieldPeer {
 
     // WComponentPeer overrides
 
     @Override
     public Dimension getMinimumSize() {
-        FontMetrics fm = getFontMetrics(((TextField)target).getFont());
+        FontMetrics fm = getFontMetrics(((TextField)tbrget).getFont());
         return new Dimension(fm.stringWidth(getText()) + 24,
                              fm.getHeight() + 8);
     }
 
     @Override
-    public boolean handleJavaKeyEvent(KeyEvent e) {
+    public boolebn hbndleJbvbKeyEvent(KeyEvent e) {
         switch (e.getID()) {
-           case KeyEvent.KEY_TYPED:
-               if ((e.getKeyChar() == '\n') && !e.isAltDown() && !e.isControlDown()) {
-                    postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
+           cbse KeyEvent.KEY_TYPED:
+               if ((e.getKeyChbr() == '\n') && !e.isAltDown() && !e.isControlDown()) {
+                    postEvent(new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
                                               getText(), e.getWhen(), e.getModifiers()));
                     return true;
                }
-           break;
+           brebk;
         }
-        return false;
+        return fblse;
     }
 
-    // TextFieldPeer implementation
+    // TextFieldPeer implementbtion
 
     @Override
-    public native void setEchoChar(char echoChar);
+    public nbtive void setEchoChbr(chbr echoChbr);
 
     @Override
     public Dimension getPreferredSize(int cols) {
@@ -68,8 +68,8 @@ final class WTextFieldPeer extends WTextComponentPeer implements TextFieldPeer {
 
     @Override
     public Dimension getMinimumSize(int cols) {
-        FontMetrics fm = getFontMetrics(((TextField)target).getFont());
-        return new Dimension(fm.charWidth('0') * cols + 24, fm.getHeight() + 8);
+        FontMetrics fm = getFontMetrics(((TextField)tbrget).getFont());
+        return new Dimension(fm.chbrWidth('0') * cols + 24, fm.getHeight() + 8);
     }
 
     @Override
@@ -77,21 +77,21 @@ final class WTextFieldPeer extends WTextComponentPeer implements TextFieldPeer {
         return null;
     }
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WTextFieldPeer(TextField target) {
-        super(target);
+    WTextFieldPeer(TextField tbrget) {
+        super(tbrget);
     }
 
     @Override
-    native void create(WComponentPeer parent);
+    nbtive void crebte(WComponentPeer pbrent);
 
     @Override
-    void initialize() {
-        TextField tf = (TextField)target;
-        if (tf.echoCharIsSet()) {
-            setEchoChar(tf.getEchoChar());
+    void initiblize() {
+        TextField tf = (TextField)tbrget;
+        if (tf.echoChbrIsSet()) {
+            setEchoChbr(tf.getEchoChbr());
         }
-        super.initialize();
+        super.initiblize();
     }
 }

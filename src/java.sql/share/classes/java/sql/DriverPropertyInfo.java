@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * <p>Driver properties for making a connection. The
- * <code>DriverPropertyInfo</code> class is of interest only to advanced programmers
- * who need to interact with a Driver via the method
+ * <p>Driver properties for mbking b connection. The
+ * <code>DriverPropertyInfo</code> clbss is of interest only to bdvbnced progrbmmers
+ * who need to interbct with b Driver vib the method
  * <code>getDriverProperties</code> to discover
- * and supply properties for connections.
+ * bnd supply properties for connections.
  */
 
-public class DriverPropertyInfo {
+public clbss DriverPropertyInfo {
 
     /**
-     * Constructs a <code>DriverPropertyInfo</code> object with a  given
-     * name and value.  The <code>description</code> and <code>choices</code>
-     * are initialized to <code>null</code> and <code>required</code> is initialized
-     * to <code>false</code>.
+     * Constructs b <code>DriverPropertyInfo</code> object with b  given
+     * nbme bnd vblue.  The <code>description</code> bnd <code>choices</code>
+     * bre initiblized to <code>null</code> bnd <code>required</code> is initiblized
+     * to <code>fblse</code>.
      *
-     * @param name the name of the property
-     * @param value the current value, which may be null
+     * @pbrbm nbme the nbme of the property
+     * @pbrbm vblue the current vblue, which mby be null
      */
-    public DriverPropertyInfo(String name, String value) {
-        this.name = name;
-        this.value = value;
+    public DriverPropertyInfo(String nbme, String vblue) {
+        this.nbme = nbme;
+        this.vblue = vblue;
     }
 
     /**
-     * The name of the property.
+     * The nbme of the property.
      */
-    public String name;
+    public String nbme;
 
     /**
-     * A brief description of the property, which may be null.
+     * A brief description of the property, which mby be null.
      */
     public String description = null;
 
     /**
-     * The <code>required</code> field is <code>true</code> if a value must be
+     * The <code>required</code> field is <code>true</code> if b vblue must be
          * supplied for this property
-     * during <code>Driver.connect</code> and <code>false</code> otherwise.
+     * during <code>Driver.connect</code> bnd <code>fblse</code> otherwise.
      */
-    public boolean required = false;
+    public boolebn required = fblse;
 
     /**
-     * The <code>value</code> field specifies the current value of
-         * the property, based on a combination of the information
+     * The <code>vblue</code> field specifies the current vblue of
+         * the property, bbsed on b combinbtion of the informbtion
          * supplied to the method <code>getPropertyInfo</code>, the
-     * Java environment, and the driver-supplied default values.  This field
-     * may be null if no value is known.
+     * Jbvb environment, bnd the driver-supplied defbult vblues.  This field
+     * mby be null if no vblue is known.
      */
-    public String value = null;
+    public String vblue = null;
 
     /**
-     * An array of possible values if the value for the field
-         * <code>DriverPropertyInfo.value</code> may be selected
-         * from a particular set of values; otherwise null.
+     * An brrby of possible vblues if the vblue for the field
+         * <code>DriverPropertyInfo.vblue</code> mby be selected
+         * from b pbrticulbr set of vblues; otherwise null.
      */
     public String[] choices = null;
 }

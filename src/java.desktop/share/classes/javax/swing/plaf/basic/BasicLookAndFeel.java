@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.SystemColor;
-import java.awt.event.*;
-import java.awt.Insets;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
-import java.awt.AWTEvent;
-import java.awt.Toolkit;
-import java.awt.Point;
-import java.net.URL;
-import java.io.*;
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.lang.reflect.*;
-import javax.sound.sampled.*;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.SystemColor;
+import jbvb.bwt.event.*;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.FocusTrbversblPolicy;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Point;
+import jbvb.net.URL;
+import jbvb.io.*;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.lbng.reflect.*;
+import jbvbx.sound.sbmpled.*;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.icon.SortArrowIcon;
 
-import javax.swing.LookAndFeel;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.ImageIcon;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.KeyStroke;
-import javax.swing.JTextField;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.FocusManager;
-import javax.swing.LayoutFocusTraversalPolicy;
-import javax.swing.SwingUtilities;
-import javax.swing.MenuSelectionManager;
-import javax.swing.MenuElement;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.JInternalFrame;
-import static javax.swing.UIDefaults.LazyValue;
-import java.beans.PropertyVetoException;
-import java.awt.Window;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.LookAndFeel;
+import jbvbx.swing.AbstrbctAction;
+import jbvbx.swing.Action;
+import jbvbx.swing.ActionMbp;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.KeyStroke;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.DefbultListCellRenderer;
+import jbvbx.swing.FocusMbnbger;
+import jbvbx.swing.LbyoutFocusTrbversblPolicy;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.MenuSelectionMbnbger;
+import jbvbx.swing.MenuElement;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.text.DefbultEditorKit;
+import jbvbx.swing.JInternblFrbme;
+import stbtic jbvbx.swing.UIDefbults.LbzyVblue;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.bwt.Window;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 
 
 /**
- * A base class to use in creating a look and feel for Swing.
+ * A bbse clbss to use in crebting b look bnd feel for Swing.
  * <p>
- * Each of the {@code ComponentUI}s provided by {@code
- * BasicLookAndFeel} derives its behavior from the defaults
- * table. Unless otherwise noted each of the {@code ComponentUI}
- * implementations in this package document the set of defaults they
- * use. Unless otherwise noted the defaults are installed at the time
- * {@code installUI} is invoked, and follow the recommendations
- * outlined in {@code LookAndFeel} for installing defaults.
+ * Ebch of the {@code ComponentUI}s provided by {@code
+ * BbsicLookAndFeel} derives its behbvior from the defbults
+ * tbble. Unless otherwise noted ebch of the {@code ComponentUI}
+ * implementbtions in this pbckbge document the set of defbults they
+ * use. Unless otherwise noted the defbults bre instblled bt the time
+ * {@code instbllUI} is invoked, bnd follow the recommendbtions
+ * outlined in {@code LookAndFeel} for instblling defbults.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author unattributed
+ * @buthor unbttributed
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class BasicLookAndFeel extends LookAndFeel implements Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss BbsicLookAndFeel extends LookAndFeel implements Seriblizbble
 {
     /**
-     * Whether or not the developer has created a JPopupMenu.
+     * Whether or not the developer hbs crebted b JPopupMenu.
      */
-    static boolean needsEventHelper;
+    stbtic boolebn needsEventHelper;
 
     /**
-     * Lock used when manipulating clipPlaying.
+     * Lock used when mbnipulbting clipPlbying.
      */
-    private transient Object audioLock = new Object();
+    privbte trbnsient Object budioLock = new Object();
     /**
-     * The Clip that is currently playing (set in AudioAction).
+     * The Clip thbt is currently plbying (set in AudioAction).
      */
-    private Clip clipPlaying;
+    privbte Clip clipPlbying;
 
-    AWTEventHelper invocator = null;
+    AWTEventHelper invocbtor = null;
 
     /*
      * Listen for our AppContext being disposed
      */
-    private PropertyChangeListener disposer = null;
+    privbte PropertyChbngeListener disposer = null;
 
     /**
-     * Returns the look and feel defaults. The returned {@code UIDefaults}
-     * is populated by invoking, in order, {@code initClassDefaults},
-     * {@code initSystemColorDefaults} and {@code initComponentDefaults}.
+     * Returns the look bnd feel defbults. The returned {@code UIDefbults}
+     * is populbted by invoking, in order, {@code initClbssDefbults},
+     * {@code initSystemColorDefbults} bnd {@code initComponentDefbults}.
      * <p>
      * While this method is public, it should only be invoked by the
-     * {@code UIManager} when the look and feel is set as the current
-     * look and feel and after {@code initialize} has been invoked.
+     * {@code UIMbnbger} when the look bnd feel is set bs the current
+     * look bnd feel bnd bfter {@code initiblize} hbs been invoked.
      *
-     * @return the look and feel defaults
+     * @return the look bnd feel defbults
      *
-     * @see #initClassDefaults
-     * @see #initSystemColorDefaults
-     * @see #initComponentDefaults
+     * @see #initClbssDefbults
+     * @see #initSystemColorDefbults
+     * @see #initComponentDefbults
      */
-    public UIDefaults getDefaults() {
-        UIDefaults table = new UIDefaults(610, 0.75f);
+    public UIDefbults getDefbults() {
+        UIDefbults tbble = new UIDefbults(610, 0.75f);
 
-        initClassDefaults(table);
-        initSystemColorDefaults(table);
-        initComponentDefaults(table);
+        initClbssDefbults(tbble);
+        initSystemColorDefbults(tbble);
+        initComponentDefbults(tbble);
 
-        return table;
+        return tbble;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void initialize() {
+    public void initiblize() {
         if (needsEventHelper) {
-            installAWTEventListener();
+            instbllAWTEventListener();
         }
     }
 
-    void installAWTEventListener() {
-        if (invocator == null) {
-            invocator = new AWTEventHelper();
+    void instbllAWTEventListener() {
+        if (invocbtor == null) {
+            invocbtor = new AWTEventHelper();
             needsEventHelper = true;
 
-            // Add a PropertyChangeListener to our AppContext so we're alerted
-            // when the AppContext is disposed(), at which time this laf should
-            // be uninitialize()d.
-            disposer = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent prpChg) {
-                    uninitialize();
+            // Add b PropertyChbngeListener to our AppContext so we're blerted
+            // when the AppContext is disposed(), bt which time this lbf should
+            // be uninitiblize()d.
+            disposer = new PropertyChbngeListener() {
+                public void propertyChbnge(PropertyChbngeEvent prpChg) {
+                    uninitiblize();
                 }
             };
-            AppContext.getAppContext().addPropertyChangeListener(
+            AppContext.getAppContext().bddPropertyChbngeListener(
                                                         AppContext.GUI_DISPOSED,
                                                         disposer);
         }
@@ -183,698 +183,698 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
     /**
      * {@inheritDoc}
      */
-    public void uninitialize() {
+    public void uninitiblize() {
         AppContext context = AppContext.getAppContext();
-        synchronized (BasicPopupMenuUI.MOUSE_GRABBER_KEY) {
-            Object grabber = context.get(BasicPopupMenuUI.MOUSE_GRABBER_KEY);
-            if (grabber != null) {
-                ((BasicPopupMenuUI.MouseGrabber)grabber).uninstall();
+        synchronized (BbsicPopupMenuUI.MOUSE_GRABBER_KEY) {
+            Object grbbber = context.get(BbsicPopupMenuUI.MOUSE_GRABBER_KEY);
+            if (grbbber != null) {
+                ((BbsicPopupMenuUI.MouseGrbbber)grbbber).uninstbll();
             }
         }
-        synchronized (BasicPopupMenuUI.MENU_KEYBOARD_HELPER_KEY) {
+        synchronized (BbsicPopupMenuUI.MENU_KEYBOARD_HELPER_KEY) {
             Object helper =
-                    context.get(BasicPopupMenuUI.MENU_KEYBOARD_HELPER_KEY);
+                    context.get(BbsicPopupMenuUI.MENU_KEYBOARD_HELPER_KEY);
             if (helper != null) {
-                ((BasicPopupMenuUI.MenuKeyboardHelper)helper).uninstall();
+                ((BbsicPopupMenuUI.MenuKeybobrdHelper)helper).uninstbll();
             }
         }
 
-        if(invocator != null) {
-            AccessController.doPrivileged(invocator);
-            invocator = null;
+        if(invocbtor != null) {
+            AccessController.doPrivileged(invocbtor);
+            invocbtor = null;
         }
 
         if (disposer != null) {
-            // Note that we're likely calling removePropertyChangeListener()
-            // during the course of AppContext.firePropertyChange().
-            // However, EventListenerAggreggate has code to safely modify
-            // the list under such circumstances.
-            context.removePropertyChangeListener(AppContext.GUI_DISPOSED,
+            // Note thbt we're likely cblling removePropertyChbngeListener()
+            // during the course of AppContext.firePropertyChbnge().
+            // However, EventListenerAggreggbte hbs code to sbfely modify
+            // the list under such circumstbnces.
+            context.removePropertyChbngeListener(AppContext.GUI_DISPOSED,
                                                  disposer);
             disposer = null;
         }
     }
 
     /**
-     * Populates {@code table} with mappings from {@code uiClassID} to the
-     * fully qualified name of the ui class. The value for a
-     * particular {@code uiClassID} is {@code
-     * "javax.swing.plaf.basic.Basic + uiClassID"}. For example, the
-     * value for the {@code uiClassID} {@code TreeUI} is {@code
-     * "javax.swing.plaf.basic.BasicTreeUI"}.
+     * Populbtes {@code tbble} with mbppings from {@code uiClbssID} to the
+     * fully qublified nbme of the ui clbss. The vblue for b
+     * pbrticulbr {@code uiClbssID} is {@code
+     * "jbvbx.swing.plbf.bbsic.Bbsic + uiClbssID"}. For exbmple, the
+     * vblue for the {@code uiClbssID} {@code TreeUI} is {@code
+     * "jbvbx.swing.plbf.bbsic.BbsicTreeUI"}.
      *
-     * @param table the {@code UIDefaults} instance the entries are
-     *        added to
-     * @throws NullPointerException if {@code table} is {@code null}
+     * @pbrbm tbble the {@code UIDefbults} instbnce the entries bre
+     *        bdded to
+     * @throws NullPointerException if {@code tbble} is {@code null}
      *
-     * @see javax.swing.LookAndFeel
-     * @see #getDefaults
+     * @see jbvbx.swing.LookAndFeel
+     * @see #getDefbults
      */
-    protected void initClassDefaults(UIDefaults table)
+    protected void initClbssDefbults(UIDefbults tbble)
     {
-        final String basicPackageName = "javax.swing.plaf.basic.";
-        Object[] uiDefaults = {
-                   "ButtonUI", basicPackageName + "BasicButtonUI",
-                 "CheckBoxUI", basicPackageName + "BasicCheckBoxUI",
-             "ColorChooserUI", basicPackageName + "BasicColorChooserUI",
-       "FormattedTextFieldUI", basicPackageName + "BasicFormattedTextFieldUI",
-                  "MenuBarUI", basicPackageName + "BasicMenuBarUI",
-                     "MenuUI", basicPackageName + "BasicMenuUI",
-                 "MenuItemUI", basicPackageName + "BasicMenuItemUI",
-         "CheckBoxMenuItemUI", basicPackageName + "BasicCheckBoxMenuItemUI",
-      "RadioButtonMenuItemUI", basicPackageName + "BasicRadioButtonMenuItemUI",
-              "RadioButtonUI", basicPackageName + "BasicRadioButtonUI",
-             "ToggleButtonUI", basicPackageName + "BasicToggleButtonUI",
-                "PopupMenuUI", basicPackageName + "BasicPopupMenuUI",
-              "ProgressBarUI", basicPackageName + "BasicProgressBarUI",
-                "ScrollBarUI", basicPackageName + "BasicScrollBarUI",
-               "ScrollPaneUI", basicPackageName + "BasicScrollPaneUI",
-                "SplitPaneUI", basicPackageName + "BasicSplitPaneUI",
-                   "SliderUI", basicPackageName + "BasicSliderUI",
-                "SeparatorUI", basicPackageName + "BasicSeparatorUI",
-                  "SpinnerUI", basicPackageName + "BasicSpinnerUI",
-         "ToolBarSeparatorUI", basicPackageName + "BasicToolBarSeparatorUI",
-       "PopupMenuSeparatorUI", basicPackageName + "BasicPopupMenuSeparatorUI",
-               "TabbedPaneUI", basicPackageName + "BasicTabbedPaneUI",
-                 "TextAreaUI", basicPackageName + "BasicTextAreaUI",
-                "TextFieldUI", basicPackageName + "BasicTextFieldUI",
-            "PasswordFieldUI", basicPackageName + "BasicPasswordFieldUI",
-                 "TextPaneUI", basicPackageName + "BasicTextPaneUI",
-               "EditorPaneUI", basicPackageName + "BasicEditorPaneUI",
-                     "TreeUI", basicPackageName + "BasicTreeUI",
-                    "LabelUI", basicPackageName + "BasicLabelUI",
-                     "ListUI", basicPackageName + "BasicListUI",
-                  "ToolBarUI", basicPackageName + "BasicToolBarUI",
-                  "ToolTipUI", basicPackageName + "BasicToolTipUI",
-                 "ComboBoxUI", basicPackageName + "BasicComboBoxUI",
-                    "TableUI", basicPackageName + "BasicTableUI",
-              "TableHeaderUI", basicPackageName + "BasicTableHeaderUI",
-            "InternalFrameUI", basicPackageName + "BasicInternalFrameUI",
-              "DesktopPaneUI", basicPackageName + "BasicDesktopPaneUI",
-              "DesktopIconUI", basicPackageName + "BasicDesktopIconUI",
-              "FileChooserUI", basicPackageName + "BasicFileChooserUI",
-               "OptionPaneUI", basicPackageName + "BasicOptionPaneUI",
-                    "PanelUI", basicPackageName + "BasicPanelUI",
-                 "ViewportUI", basicPackageName + "BasicViewportUI",
-                 "RootPaneUI", basicPackageName + "BasicRootPaneUI",
+        finbl String bbsicPbckbgeNbme = "jbvbx.swing.plbf.bbsic.";
+        Object[] uiDefbults = {
+                   "ButtonUI", bbsicPbckbgeNbme + "BbsicButtonUI",
+                 "CheckBoxUI", bbsicPbckbgeNbme + "BbsicCheckBoxUI",
+             "ColorChooserUI", bbsicPbckbgeNbme + "BbsicColorChooserUI",
+       "FormbttedTextFieldUI", bbsicPbckbgeNbme + "BbsicFormbttedTextFieldUI",
+                  "MenuBbrUI", bbsicPbckbgeNbme + "BbsicMenuBbrUI",
+                     "MenuUI", bbsicPbckbgeNbme + "BbsicMenuUI",
+                 "MenuItemUI", bbsicPbckbgeNbme + "BbsicMenuItemUI",
+         "CheckBoxMenuItemUI", bbsicPbckbgeNbme + "BbsicCheckBoxMenuItemUI",
+      "RbdioButtonMenuItemUI", bbsicPbckbgeNbme + "BbsicRbdioButtonMenuItemUI",
+              "RbdioButtonUI", bbsicPbckbgeNbme + "BbsicRbdioButtonUI",
+             "ToggleButtonUI", bbsicPbckbgeNbme + "BbsicToggleButtonUI",
+                "PopupMenuUI", bbsicPbckbgeNbme + "BbsicPopupMenuUI",
+              "ProgressBbrUI", bbsicPbckbgeNbme + "BbsicProgressBbrUI",
+                "ScrollBbrUI", bbsicPbckbgeNbme + "BbsicScrollBbrUI",
+               "ScrollPbneUI", bbsicPbckbgeNbme + "BbsicScrollPbneUI",
+                "SplitPbneUI", bbsicPbckbgeNbme + "BbsicSplitPbneUI",
+                   "SliderUI", bbsicPbckbgeNbme + "BbsicSliderUI",
+                "SepbrbtorUI", bbsicPbckbgeNbme + "BbsicSepbrbtorUI",
+                  "SpinnerUI", bbsicPbckbgeNbme + "BbsicSpinnerUI",
+         "ToolBbrSepbrbtorUI", bbsicPbckbgeNbme + "BbsicToolBbrSepbrbtorUI",
+       "PopupMenuSepbrbtorUI", bbsicPbckbgeNbme + "BbsicPopupMenuSepbrbtorUI",
+               "TbbbedPbneUI", bbsicPbckbgeNbme + "BbsicTbbbedPbneUI",
+                 "TextArebUI", bbsicPbckbgeNbme + "BbsicTextArebUI",
+                "TextFieldUI", bbsicPbckbgeNbme + "BbsicTextFieldUI",
+            "PbsswordFieldUI", bbsicPbckbgeNbme + "BbsicPbsswordFieldUI",
+                 "TextPbneUI", bbsicPbckbgeNbme + "BbsicTextPbneUI",
+               "EditorPbneUI", bbsicPbckbgeNbme + "BbsicEditorPbneUI",
+                     "TreeUI", bbsicPbckbgeNbme + "BbsicTreeUI",
+                    "LbbelUI", bbsicPbckbgeNbme + "BbsicLbbelUI",
+                     "ListUI", bbsicPbckbgeNbme + "BbsicListUI",
+                  "ToolBbrUI", bbsicPbckbgeNbme + "BbsicToolBbrUI",
+                  "ToolTipUI", bbsicPbckbgeNbme + "BbsicToolTipUI",
+                 "ComboBoxUI", bbsicPbckbgeNbme + "BbsicComboBoxUI",
+                    "TbbleUI", bbsicPbckbgeNbme + "BbsicTbbleUI",
+              "TbbleHebderUI", bbsicPbckbgeNbme + "BbsicTbbleHebderUI",
+            "InternblFrbmeUI", bbsicPbckbgeNbme + "BbsicInternblFrbmeUI",
+              "DesktopPbneUI", bbsicPbckbgeNbme + "BbsicDesktopPbneUI",
+              "DesktopIconUI", bbsicPbckbgeNbme + "BbsicDesktopIconUI",
+              "FileChooserUI", bbsicPbckbgeNbme + "BbsicFileChooserUI",
+               "OptionPbneUI", bbsicPbckbgeNbme + "BbsicOptionPbneUI",
+                    "PbnelUI", bbsicPbckbgeNbme + "BbsicPbnelUI",
+                 "ViewportUI", bbsicPbckbgeNbme + "BbsicViewportUI",
+                 "RootPbneUI", bbsicPbckbgeNbme + "BbsicRootPbneUI",
         };
 
-        table.putDefaults(uiDefaults);
+        tbble.putDefbults(uiDefbults);
     }
 
     /**
-     * Populates {@code table} with system colors. This creates an
-     * array of {@code name-color} pairs and invokes {@code
-     * loadSystemColors}.
+     * Populbtes {@code tbble} with system colors. This crebtes bn
+     * brrby of {@code nbme-color} pbirs bnd invokes {@code
+     * lobdSystemColors}.
      * <p>
-     * The name is a {@code String} that corresponds to the name of
-     * one of the static {@code SystemColor} fields in the {@code
-     * SystemColor} class.  A name-color pair is created for every
+     * The nbme is b {@code String} thbt corresponds to the nbme of
+     * one of the stbtic {@code SystemColor} fields in the {@code
+     * SystemColor} clbss.  A nbme-color pbir is crebted for every
      * such {@code SystemColor} field.
      * <p>
-     * The {@code color} corresponds to a hex {@code String} as
-     * understood by {@code Color.decode}. For example, one of the
-     * {@code name-color} pairs is {@code
+     * The {@code color} corresponds to b hex {@code String} bs
+     * understood by {@code Color.decode}. For exbmple, one of the
+     * {@code nbme-color} pbirs is {@code
      * "desktop"-"#005C5C"}. This corresponds to the {@code
-     * SystemColor} field {@code desktop}, with a color value of
+     * SystemColor} field {@code desktop}, with b color vblue of
      * {@code new Color(0x005C5C)}.
      * <p>
-     * The following shows two of the {@code name-color} pairs:
+     * The following shows two of the {@code nbme-color} pbirs:
      * <pre>
-     *   String[] nameColorPairs = new String[] {
+     *   String[] nbmeColorPbirs = new String[] {
      *          "desktop", "#005C5C",
-     *    "activeCaption", "#000080" };
-     *   loadSystemColors(table, nameColorPairs, isNativeLookAndFeel());
+     *    "bctiveCbption", "#000080" };
+     *   lobdSystemColors(tbble, nbmeColorPbirs, isNbtiveLookAndFeel());
      * </pre>
      *
-     * As previously stated, this invokes {@code loadSystemColors}
-     * with the supplied {@code table} and {@code name-color} pair
-     * array. The last argument to {@code loadSystemColors} indicates
-     * whether the value of the field in {@code SystemColor} should be
-     * used. This method passes the value of {@code
-     * isNativeLookAndFeel()} as the last argument to {@code loadSystemColors}.
+     * As previously stbted, this invokes {@code lobdSystemColors}
+     * with the supplied {@code tbble} bnd {@code nbme-color} pbir
+     * brrby. The lbst brgument to {@code lobdSystemColors} indicbtes
+     * whether the vblue of the field in {@code SystemColor} should be
+     * used. This method pbsses the vblue of {@code
+     * isNbtiveLookAndFeel()} bs the lbst brgument to {@code lobdSystemColors}.
      *
-     * @param table the {@code UIDefaults} object the values are added to
-     * @throws NullPointerException if {@code table} is {@code null}
+     * @pbrbm tbble the {@code UIDefbults} object the vblues bre bdded to
+     * @throws NullPointerException if {@code tbble} is {@code null}
      *
-     * @see java.awt.SystemColor
-     * @see #getDefaults
-     * @see #loadSystemColors
+     * @see jbvb.bwt.SystemColor
+     * @see #getDefbults
+     * @see #lobdSystemColors
      */
-    protected void initSystemColorDefaults(UIDefaults table)
+    protected void initSystemColorDefbults(UIDefbults tbble)
     {
-        String[] defaultSystemColors = {
-                "desktop", "#005C5C", /* Color of the desktop background */
-          "activeCaption", "#000080", /* Color for captions (title bars) when they are active. */
-      "activeCaptionText", "#FFFFFF", /* Text color for text in captions (title bars). */
-    "activeCaptionBorder", "#C0C0C0", /* Border color for caption (title bar) window borders. */
-        "inactiveCaption", "#808080", /* Color for captions (title bars) when not active. */
-    "inactiveCaptionText", "#C0C0C0", /* Text color for text in inactive captions (title bars). */
-  "inactiveCaptionBorder", "#C0C0C0", /* Border color for inactive caption (title bar) window borders. */
-                 "window", "#FFFFFF", /* Default color for the interior of windows */
+        String[] defbultSystemColors = {
+                "desktop", "#005C5C", /* Color of the desktop bbckground */
+          "bctiveCbption", "#000080", /* Color for cbptions (title bbrs) when they bre bctive. */
+      "bctiveCbptionText", "#FFFFFF", /* Text color for text in cbptions (title bbrs). */
+    "bctiveCbptionBorder", "#C0C0C0", /* Border color for cbption (title bbr) window borders. */
+        "inbctiveCbption", "#808080", /* Color for cbptions (title bbrs) when not bctive. */
+    "inbctiveCbptionText", "#C0C0C0", /* Text color for text in inbctive cbptions (title bbrs). */
+  "inbctiveCbptionBorder", "#C0C0C0", /* Border color for inbctive cbption (title bbr) window borders. */
+                 "window", "#FFFFFF", /* Defbult color for the interior of windows */
            "windowBorder", "#000000", /* ??? */
              "windowText", "#000000", /* ??? */
-                   "menu", "#C0C0C0", /* Background color for menus */
+                   "menu", "#C0C0C0", /* Bbckground color for menus */
                "menuText", "#000000", /* Text color for menus  */
-                   "text", "#C0C0C0", /* Text background color */
+                   "text", "#C0C0C0", /* Text bbckground color */
                "textText", "#000000", /* Text foreground color */
-          "textHighlight", "#000080", /* Text background color when selected */
+          "textHighlight", "#000080", /* Text bbckground color when selected */
       "textHighlightText", "#FFFFFF", /* Text color when selected */
-       "textInactiveText", "#808080", /* Text color when disabled */
-                "control", "#C0C0C0", /* Default color for controls (buttons, sliders, etc) */
-            "controlText", "#000000", /* Default color for text in controls */
-       "controlHighlight", "#C0C0C0", /* Specular highlight (opposite of the shadow) */
+       "textInbctiveText", "#808080", /* Text color when disbbled */
+                "control", "#C0C0C0", /* Defbult color for controls (buttons, sliders, etc) */
+            "controlText", "#000000", /* Defbult color for text in controls */
+       "controlHighlight", "#C0C0C0", /* Speculbr highlight (opposite of the shbdow) */
      "controlLtHighlight", "#FFFFFF", /* Highlight color for controls */
-          "controlShadow", "#808080", /* Shadow color for controls */
-        "controlDkShadow", "#000000", /* Dark shadow color for controls */
-              "scrollbar", "#E0E0E0", /* Scrollbar background (usually the "track") */
+          "controlShbdow", "#808080", /* Shbdow color for controls */
+        "controlDkShbdow", "#000000", /* Dbrk shbdow color for controls */
+              "scrollbbr", "#E0E0E0", /* Scrollbbr bbckground (usublly the "trbck") */
                    "info", "#FFFFE1", /* ??? */
                "infoText", "#000000"  /* ??? */
         };
 
-        loadSystemColors(table, defaultSystemColors, isNativeLookAndFeel());
+        lobdSystemColors(tbble, defbultSystemColors, isNbtiveLookAndFeel());
     }
 
 
     /**
-     * Populates {@code table} with the {@code name-color} pairs in
+     * Populbtes {@code tbble} with the {@code nbme-color} pbirs in
      * {@code systemColors}. Refer to
-     * {@link #initSystemColorDefaults(UIDefaults)} for details on
-     * the format of {@code systemColors}.
+     * {@link #initSystemColorDefbults(UIDefbults)} for detbils on
+     * the formbt of {@code systemColors}.
      * <p>
-     * An entry is added to {@code table} for each of the {@code name-color}
-     * pairs in {@code systemColors}. The entry key is
-     * the {@code name} of the {@code name-color} pair.
+     * An entry is bdded to {@code tbble} for ebch of the {@code nbme-color}
+     * pbirs in {@code systemColors}. The entry key is
+     * the {@code nbme} of the {@code nbme-color} pbir.
      * <p>
-     * The value of the entry corresponds to the {@code color} of the
-     * {@code name-color} pair.  The value of the entry is calculated
-     * in one of two ways. With either approach the value is always a
+     * The vblue of the entry corresponds to the {@code color} of the
+     * {@code nbme-color} pbir.  The vblue of the entry is cblculbted
+     * in one of two wbys. With either bpprobch the vblue is blwbys b
      * {@code ColorUIResource}.
      * <p>
-     * If {@code useNative} is {@code false}, the {@code color} is
-     * created by using {@code Color.decode} to convert the {@code
-     * String} into a {@code Color}. If {@code decode} can not convert
-     * the {@code String} into a {@code Color} ({@code
-     * NumberFormatException} is thrown) then a {@code
-     * ColorUIResource} of black is used.
+     * If {@code useNbtive} is {@code fblse}, the {@code color} is
+     * crebted by using {@code Color.decode} to convert the {@code
+     * String} into b {@code Color}. If {@code decode} cbn not convert
+     * the {@code String} into b {@code Color} ({@code
+     * NumberFormbtException} is thrown) then b {@code
+     * ColorUIResource} of blbck is used.
      * <p>
-     * If {@code useNative} is {@code true}, the {@code color} is the
-     * value of the field in {@code SystemColor} with the same name as
-     * the {@code name} of the {@code name-color} pair. If the field
-     * is not valid, a {@code ColorUIResource} of black is used.
+     * If {@code useNbtive} is {@code true}, the {@code color} is the
+     * vblue of the field in {@code SystemColor} with the sbme nbme bs
+     * the {@code nbme} of the {@code nbme-color} pbir. If the field
+     * is not vblid, b {@code ColorUIResource} of blbck is used.
      *
-     * @param table the {@code UIDefaults} object the values are added to
-     * @param systemColors array of {@code name-color} pairs as described
-     *        in {@link #initSystemColorDefaults(UIDefaults)}
-     * @param useNative whether the color is obtained from {@code SystemColor}
+     * @pbrbm tbble the {@code UIDefbults} object the vblues bre bdded to
+     * @pbrbm systemColors brrby of {@code nbme-color} pbirs bs described
+     *        in {@link #initSystemColorDefbults(UIDefbults)}
+     * @pbrbm useNbtive whether the color is obtbined from {@code SystemColor}
      *        or {@code Color.decode}
      * @throws NullPointerException if {@code systemColors} is {@code null}; or
-     *         {@code systemColors} is not empty, and {@code table} is
+     *         {@code systemColors} is not empty, bnd {@code tbble} is
      *         {@code null}; or one of the
-     *         names of the {@code name-color} pairs is {@code null}; or
-     *         {@code useNative} is {@code false} and one of the
-     *         {@code colors} of the {@code name-color} pairs is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code useNative} is
-     *         {@code false} and {@code systemColors.length} is odd
+     *         nbmes of the {@code nbme-color} pbirs is {@code null}; or
+     *         {@code useNbtive} is {@code fblse} bnd one of the
+     *         {@code colors} of the {@code nbme-color} pbirs is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code useNbtive} is
+     *         {@code fblse} bnd {@code systemColors.length} is odd
      *
-     * @see #initSystemColorDefaults(javax.swing.UIDefaults)
-     * @see java.awt.SystemColor
-     * @see java.awt.Color#decode(String)
+     * @see #initSystemColorDefbults(jbvbx.swing.UIDefbults)
+     * @see jbvb.bwt.SystemColor
+     * @see jbvb.bwt.Color#decode(String)
      */
-    protected void loadSystemColors(UIDefaults table, String[] systemColors, boolean useNative)
+    protected void lobdSystemColors(UIDefbults tbble, String[] systemColors, boolebn useNbtive)
     {
-        /* PENDING(hmuller) We don't load the system colors below because
-         * they're not reliable.  Hopefully we'll be able to do better in
-         * a future version of AWT.
+        /* PENDING(hmuller) We don't lobd the system colors below becbuse
+         * they're not relibble.  Hopefully we'll be bble to do better in
+         * b future version of AWT.
          */
-        if (useNative) {
+        if (useNbtive) {
             for(int i = 0; i < systemColors.length; i += 2) {
-                Color color = Color.black;
+                Color color = Color.blbck;
                 try {
-                    String name = systemColors[i];
-                    color = (Color)(SystemColor.class.getField(name).get(null));
-                } catch (Exception e) {
+                    String nbme = systemColors[i];
+                    color = (Color)(SystemColor.clbss.getField(nbme).get(null));
+                } cbtch (Exception e) {
                 }
-                table.put(systemColors[i], new ColorUIResource(color));
+                tbble.put(systemColors[i], new ColorUIResource(color));
             }
         } else {
             for(int i = 0; i < systemColors.length; i += 2) {
-                Color color = Color.black;
+                Color color = Color.blbck;
                 try {
                     color = Color.decode(systemColors[i + 1]);
                 }
-                catch(NumberFormatException e) {
-                    e.printStackTrace();
+                cbtch(NumberFormbtException e) {
+                    e.printStbckTrbce();
                 }
-                table.put(systemColors[i], new ColorUIResource(color));
+                tbble.put(systemColors[i], new ColorUIResource(color));
             }
         }
     }
     /**
-     * Initialize the defaults table with the name of the ResourceBundle
-     * used for getting localized defaults.  Also initialize the default
-     * locale used when no locale is passed into UIDefaults.get().  The
-     * default locale should generally not be relied upon. It is here for
-     * compatibility with releases prior to 1.4.
+     * Initiblize the defbults tbble with the nbme of the ResourceBundle
+     * used for getting locblized defbults.  Also initiblize the defbult
+     * locble used when no locble is pbssed into UIDefbults.get().  The
+     * defbult locble should generblly not be relied upon. It is here for
+     * compbtibility with relebses prior to 1.4.
      */
-    private void initResourceBundle(UIDefaults table) {
-        table.setDefaultLocale( Locale.getDefault() );
-        table.addResourceBundle( "com.sun.swing.internal.plaf.basic.resources.basic" );
+    privbte void initResourceBundle(UIDefbults tbble) {
+        tbble.setDefbultLocble( Locble.getDefbult() );
+        tbble.bddResourceBundle( "com.sun.swing.internbl.plbf.bbsic.resources.bbsic" );
     }
 
     /**
-     * Populates {@code table} with the defaults for the basic look and
+     * Populbtes {@code tbble} with the defbults for the bbsic look bnd
      * feel.
      *
-     * @param table the {@code UIDefaults} to add the values to
-     * @throws NullPointerException if {@code table} is {@code null}
+     * @pbrbm tbble the {@code UIDefbults} to bdd the vblues to
+     * @throws NullPointerException if {@code tbble} is {@code null}
      */
-    protected void initComponentDefaults(UIDefaults table)
+    protected void initComponentDefbults(UIDefbults tbble)
     {
 
-        initResourceBundle(table);
+        initResourceBundle(tbble);
 
-        // *** Shared Integers
+        // *** Shbred Integers
         Integer fiveHundred = 500;
 
-        // *** Shared Longs
-        Long oneThousand = 1000L;
+        // *** Shbred Longs
+        Long oneThousbnd = 1000L;
 
-        LazyValue dialogPlain12 = t ->
+        LbzyVblue diblogPlbin12 = t ->
             new FontUIResource(Font.DIALOG, Font.PLAIN, 12);
-        LazyValue serifPlain12 = t ->
+        LbzyVblue serifPlbin12 = t ->
             new FontUIResource(Font.SERIF, Font.PLAIN, 12);
-        LazyValue sansSerifPlain12 =  t ->
+        LbzyVblue sbnsSerifPlbin12 =  t ->
             new FontUIResource(Font.SANS_SERIF, Font.PLAIN, 12);
-        LazyValue monospacedPlain12 = t ->
+        LbzyVblue monospbcedPlbin12 = t ->
             new FontUIResource(Font.MONOSPACED, Font.PLAIN, 12);
-        LazyValue dialogBold12 = t ->
+        LbzyVblue diblogBold12 = t ->
             new FontUIResource(Font.DIALOG, Font.BOLD, 12);
 
 
-        // *** Shared Colors
+        // *** Shbred Colors
         ColorUIResource red = new ColorUIResource(Color.red);
-        ColorUIResource black = new ColorUIResource(Color.black);
+        ColorUIResource blbck = new ColorUIResource(Color.blbck);
         ColorUIResource white = new ColorUIResource(Color.white);
         ColorUIResource yellow = new ColorUIResource(Color.yellow);
-        ColorUIResource gray = new ColorUIResource(Color.gray);
-        ColorUIResource lightGray = new ColorUIResource(Color.lightGray);
-        ColorUIResource darkGray = new ColorUIResource(Color.darkGray);
-        ColorUIResource scrollBarTrack = new ColorUIResource(224, 224, 224);
+        ColorUIResource grby = new ColorUIResource(Color.grby);
+        ColorUIResource lightGrby = new ColorUIResource(Color.lightGrby);
+        ColorUIResource dbrkGrby = new ColorUIResource(Color.dbrkGrby);
+        ColorUIResource scrollBbrTrbck = new ColorUIResource(224, 224, 224);
 
-        Color control = table.getColor("control");
-        Color controlDkShadow = table.getColor("controlDkShadow");
-        Color controlHighlight = table.getColor("controlHighlight");
-        Color controlLtHighlight = table.getColor("controlLtHighlight");
-        Color controlShadow = table.getColor("controlShadow");
-        Color controlText = table.getColor("controlText");
-        Color menu = table.getColor("menu");
-        Color menuText = table.getColor("menuText");
-        Color textHighlight = table.getColor("textHighlight");
-        Color textHighlightText = table.getColor("textHighlightText");
-        Color textInactiveText = table.getColor("textInactiveText");
-        Color textText = table.getColor("textText");
-        Color window = table.getColor("window");
+        Color control = tbble.getColor("control");
+        Color controlDkShbdow = tbble.getColor("controlDkShbdow");
+        Color controlHighlight = tbble.getColor("controlHighlight");
+        Color controlLtHighlight = tbble.getColor("controlLtHighlight");
+        Color controlShbdow = tbble.getColor("controlShbdow");
+        Color controlText = tbble.getColor("controlText");
+        Color menu = tbble.getColor("menu");
+        Color menuText = tbble.getColor("menuText");
+        Color textHighlight = tbble.getColor("textHighlight");
+        Color textHighlightText = tbble.getColor("textHighlightText");
+        Color textInbctiveText = tbble.getColor("textInbctiveText");
+        Color textText = tbble.getColor("textText");
+        Color window = tbble.getColor("window");
 
-        // *** Shared Insets
+        // *** Shbred Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0,0,0,0);
         InsetsUIResource twoInsets = new InsetsUIResource(2,2,2,2);
         InsetsUIResource threeInsets = new InsetsUIResource(3,3,3,3);
 
-        // *** Shared Borders
-        LazyValue marginBorder = t -> new BasicBorders.MarginBorder();
-        LazyValue etchedBorder = t ->
+        // *** Shbred Borders
+        LbzyVblue mbrginBorder = t -> new BbsicBorders.MbrginBorder();
+        LbzyVblue etchedBorder = t ->
             BorderUIResource.getEtchedBorderUIResource();
-        LazyValue loweredBevelBorder = t ->
+        LbzyVblue loweredBevelBorder = t ->
             BorderUIResource.getLoweredBevelBorderUIResource();
 
-        LazyValue popupMenuBorder = t -> BasicBorders.getInternalFrameBorder();
+        LbzyVblue popupMenuBorder = t -> BbsicBorders.getInternblFrbmeBorder();
 
-        LazyValue blackLineBorder = t ->
-            BorderUIResource.getBlackLineBorderUIResource();
-        LazyValue focusCellHighlightBorder = t ->
+        LbzyVblue blbckLineBorder = t ->
+            BorderUIResource.getBlbckLineBorderUIResource();
+        LbzyVblue focusCellHighlightBorder = t ->
             new BorderUIResource.LineBorderUIResource(yellow);
 
         Object noFocusBorder = new BorderUIResource.EmptyBorderUIResource(1,1,1,1);
 
-        LazyValue tableHeaderBorder = t ->
+        LbzyVblue tbbleHebderBorder = t ->
             new BorderUIResource.BevelBorderUIResource(
                     BevelBorder.RAISED,
                                          controlLtHighlight,
                                          control,
-                                         controlDkShadow,
-                    controlShadow);
+                                         controlDkShbdow,
+                    controlShbdow);
 
 
-        // *** Button value objects
+        // *** Button vblue objects
 
-        LazyValue buttonBorder =
-            t -> BasicBorders.getButtonBorder();
+        LbzyVblue buttonBorder =
+            t -> BbsicBorders.getButtonBorder();
 
-        LazyValue buttonToggleBorder =
-            t -> BasicBorders.getToggleButtonBorder();
+        LbzyVblue buttonToggleBorder =
+            t -> BbsicBorders.getToggleButtonBorder();
 
-        LazyValue radioButtonBorder =
-            t -> BasicBorders.getRadioButtonBorder();
+        LbzyVblue rbdioButtonBorder =
+            t -> BbsicBorders.getRbdioButtonBorder();
 
-        // *** FileChooser / FileView value objects
+        // *** FileChooser / FileView vblue objects
 
-        Object newFolderIcon = SwingUtilities2.makeIcon(getClass(),
-                                                        BasicLookAndFeel.class,
+        Object newFolderIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                        BbsicLookAndFeel.clbss,
                                                         "icons/NewFolder.gif");
-        Object upFolderIcon = SwingUtilities2.makeIcon(getClass(),
-                                                       BasicLookAndFeel.class,
+        Object upFolderIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                       BbsicLookAndFeel.clbss,
                                                        "icons/UpFolder.gif");
-        Object homeFolderIcon = SwingUtilities2.makeIcon(getClass(),
-                                                         BasicLookAndFeel.class,
+        Object homeFolderIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                         BbsicLookAndFeel.clbss,
                                                          "icons/HomeFolder.gif");
-        Object detailsViewIcon = SwingUtilities2.makeIcon(getClass(),
-                                                          BasicLookAndFeel.class,
-                                                          "icons/DetailsView.gif");
-        Object listViewIcon = SwingUtilities2.makeIcon(getClass(),
-                                                       BasicLookAndFeel.class,
+        Object detbilsViewIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                          BbsicLookAndFeel.clbss,
+                                                          "icons/DetbilsView.gif");
+        Object listViewIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                       BbsicLookAndFeel.clbss,
                                                        "icons/ListView.gif");
-        Object directoryIcon = SwingUtilities2.makeIcon(getClass(),
-                                                        BasicLookAndFeel.class,
+        Object directoryIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                        BbsicLookAndFeel.clbss,
                                                         "icons/Directory.gif");
-        Object fileIcon = SwingUtilities2.makeIcon(getClass(),
-                                                   BasicLookAndFeel.class,
+        Object fileIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                   BbsicLookAndFeel.clbss,
                                                    "icons/File.gif");
-        Object computerIcon = SwingUtilities2.makeIcon(getClass(),
-                                                       BasicLookAndFeel.class,
+        Object computerIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                       BbsicLookAndFeel.clbss,
                                                        "icons/Computer.gif");
-        Object hardDriveIcon = SwingUtilities2.makeIcon(getClass(),
-                                                        BasicLookAndFeel.class,
-                                                        "icons/HardDrive.gif");
-        Object floppyDriveIcon = SwingUtilities2.makeIcon(getClass(),
-                                                          BasicLookAndFeel.class,
+        Object hbrdDriveIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                        BbsicLookAndFeel.clbss,
+                                                        "icons/HbrdDrive.gif");
+        Object floppyDriveIcon = SwingUtilities2.mbkeIcon(getClbss(),
+                                                          BbsicLookAndFeel.clbss,
                                                           "icons/FloppyDrive.gif");
 
 
-        // *** InternalFrame value objects
+        // *** InternblFrbme vblue objects
 
-        LazyValue internalFrameBorder = t ->
-            BasicBorders.getInternalFrameBorder();
+        LbzyVblue internblFrbmeBorder = t ->
+            BbsicBorders.getInternblFrbmeBorder();
 
-        // *** List value objects
+        // *** List vblue objects
 
-        Object listCellRendererActiveValue = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return new DefaultListCellRenderer.UIResource();
+        Object listCellRendererActiveVblue = new UIDefbults.ActiveVblue() {
+            public Object crebteVblue(UIDefbults tbble) {
+                return new DefbultListCellRenderer.UIResource();
             }
         };
 
 
-        // *** Menus value objects
+        // *** Menus vblue objects
 
-        LazyValue menuBarBorder =
-            t -> BasicBorders.getMenuBarBorder();
+        LbzyVblue menuBbrBorder =
+            t -> BbsicBorders.getMenuBbrBorder();
 
-        LazyValue menuItemCheckIcon =
-            t -> BasicIconFactory.getMenuItemCheckIcon();
+        LbzyVblue menuItemCheckIcon =
+            t -> BbsicIconFbctory.getMenuItemCheckIcon();
 
-        LazyValue menuItemArrowIcon =
-            t -> BasicIconFactory.getMenuItemArrowIcon();
+        LbzyVblue menuItemArrowIcon =
+            t -> BbsicIconFbctory.getMenuItemArrowIcon();
 
 
-        LazyValue menuArrowIcon =
-            t -> BasicIconFactory.getMenuArrowIcon();
+        LbzyVblue menuArrowIcon =
+            t -> BbsicIconFbctory.getMenuArrowIcon();
 
-        LazyValue checkBoxIcon =
-            t -> BasicIconFactory.getCheckBoxIcon();
+        LbzyVblue checkBoxIcon =
+            t -> BbsicIconFbctory.getCheckBoxIcon();
 
-        LazyValue radioButtonIcon =
-            t -> BasicIconFactory.getRadioButtonIcon();
+        LbzyVblue rbdioButtonIcon =
+            t -> BbsicIconFbctory.getRbdioButtonIcon();
 
-        LazyValue checkBoxMenuItemIcon =
-            t -> BasicIconFactory.getCheckBoxMenuItemIcon();
+        LbzyVblue checkBoxMenuItemIcon =
+            t -> BbsicIconFbctory.getCheckBoxMenuItemIcon();
 
-        LazyValue radioButtonMenuItemIcon =
-            t -> BasicIconFactory.getRadioButtonMenuItemIcon();
+        LbzyVblue rbdioButtonMenuItemIcon =
+            t -> BbsicIconFbctory.getRbdioButtonMenuItemIcon();
 
-        Object menuItemAcceleratorDelimiter = "+";
+        Object menuItemAccelerbtorDelimiter = "+";
 
-        // *** OptionPane value objects
+        // *** OptionPbne vblue objects
 
-        Object optionPaneMinimumSize = new DimensionUIResource(262, 90);
+        Object optionPbneMinimumSize = new DimensionUIResource(262, 90);
 
         int zero =  0;
-        LazyValue zeroBorder = t ->
+        LbzyVblue zeroBorder = t ->
             new BorderUIResource.EmptyBorderUIResource(zero, zero, zero, zero);
 
         int ten = 10;
-        LazyValue optionPaneBorder = t ->
+        LbzyVblue optionPbneBorder = t ->
             new BorderUIResource.EmptyBorderUIResource(ten, ten, 12, ten);
 
-        LazyValue optionPaneButtonAreaBorder = t ->
+        LbzyVblue optionPbneButtonArebBorder = t ->
             new BorderUIResource.EmptyBorderUIResource(6, zero, zero, zero);
 
 
-        // *** ProgessBar value objects
+        // *** ProgessBbr vblue objects
 
-        LazyValue progressBarBorder =
-            t -> BasicBorders.getProgressBarBorder();
+        LbzyVblue progressBbrBorder =
+            t -> BbsicBorders.getProgressBbrBorder();
 
-        // ** ScrollBar value objects
+        // ** ScrollBbr vblue objects
 
         Object minimumThumbSize = new DimensionUIResource(8,8);
-        Object maximumThumbSize = new DimensionUIResource(4096,4096);
+        Object mbximumThumbSize = new DimensionUIResource(4096,4096);
 
-        // ** Slider value objects
+        // ** Slider vblue objects
 
         Object sliderFocusInsets = twoInsets;
 
-        Object toolBarSeparatorSize = new DimensionUIResource( 10, 10 );
+        Object toolBbrSepbrbtorSize = new DimensionUIResource( 10, 10 );
 
 
-        // *** SplitPane value objects
+        // *** SplitPbne vblue objects
 
-        LazyValue splitPaneBorder =
-            t -> BasicBorders.getSplitPaneBorder();
-        LazyValue splitPaneDividerBorder =
-            t -> BasicBorders.getSplitPaneDividerBorder();
+        LbzyVblue splitPbneBorder =
+            t -> BbsicBorders.getSplitPbneBorder();
+        LbzyVblue splitPbneDividerBorder =
+            t -> BbsicBorders.getSplitPbneDividerBorder();
 
-        // ** TabbedBane value objects
+        // ** TbbbedBbne vblue objects
 
-        Object tabbedPaneTabInsets = new InsetsUIResource(0, 4, 1, 4);
+        Object tbbbedPbneTbbInsets = new InsetsUIResource(0, 4, 1, 4);
 
-        Object tabbedPaneTabPadInsets = new InsetsUIResource(2, 2, 2, 1);
+        Object tbbbedPbneTbbPbdInsets = new InsetsUIResource(2, 2, 2, 1);
 
-        Object tabbedPaneTabAreaInsets = new InsetsUIResource(3, 2, 0, 2);
+        Object tbbbedPbneTbbArebInsets = new InsetsUIResource(3, 2, 0, 2);
 
-        Object tabbedPaneContentBorderInsets = new InsetsUIResource(2, 2, 3, 3);
+        Object tbbbedPbneContentBorderInsets = new InsetsUIResource(2, 2, 3, 3);
 
 
-        // *** Text value objects
+        // *** Text vblue objects
 
-        LazyValue textFieldBorder =
-            t -> BasicBorders.getTextFieldBorder();
+        LbzyVblue textFieldBorder =
+            t -> BbsicBorders.getTextFieldBorder();
 
-        Object editorMargin = threeInsets;
+        Object editorMbrgin = threeInsets;
 
-        Object caretBlinkRate = fiveHundred;
+        Object cbretBlinkRbte = fiveHundred;
 
-        Object[] allAuditoryCues = new Object[] {
-                "CheckBoxMenuItem.commandSound",
-                "InternalFrame.closeSound",
-                "InternalFrame.maximizeSound",
-                "InternalFrame.minimizeSound",
-                "InternalFrame.restoreDownSound",
-                "InternalFrame.restoreUpSound",
-                "MenuItem.commandSound",
-                "OptionPane.errorSound",
-                "OptionPane.informationSound",
-                "OptionPane.questionSound",
-                "OptionPane.warningSound",
+        Object[] bllAuditoryCues = new Object[] {
+                "CheckBoxMenuItem.commbndSound",
+                "InternblFrbme.closeSound",
+                "InternblFrbme.mbximizeSound",
+                "InternblFrbme.minimizeSound",
+                "InternblFrbme.restoreDownSound",
+                "InternblFrbme.restoreUpSound",
+                "MenuItem.commbndSound",
+                "OptionPbne.errorSound",
+                "OptionPbne.informbtionSound",
+                "OptionPbne.questionSound",
+                "OptionPbne.wbrningSound",
                 "PopupMenu.popupSound",
-                "RadioButtonMenuItem.commandSound"};
+                "RbdioButtonMenuItem.commbndSound"};
 
         Object[] noAuditoryCues = new Object[] {"mute"};
 
-        // *** Component Defaults
+        // *** Component Defbults
 
-        Object[] defaults = {
-            // *** Auditory Feedback
-            "AuditoryCues.cueList", allAuditoryCues,
-            "AuditoryCues.allAuditoryCues", allAuditoryCues,
+        Object[] defbults = {
+            // *** Auditory Feedbbck
+            "AuditoryCues.cueList", bllAuditoryCues,
+            "AuditoryCues.bllAuditoryCues", bllAuditoryCues,
             "AuditoryCues.noAuditoryCues", noAuditoryCues,
-            // this key defines which of the various cues to render.
-            // L&Fs that want auditory feedback NEED to override playList.
-            "AuditoryCues.playList", null,
+            // this key defines which of the vbrious cues to render.
+            // L&Fs thbt wbnt buditory feedbbck NEED to override plbyList.
+            "AuditoryCues.plbyList", null,
 
             // *** Buttons
-            "Button.defaultButtonFollowsFocus", Boolean.TRUE,
-            "Button.font", dialogPlain12,
-            "Button.background", control,
+            "Button.defbultButtonFollowsFocus", Boolebn.TRUE,
+            "Button.font", diblogPlbin12,
+            "Button.bbckground", control,
             "Button.foreground", controlText,
-            "Button.shadow", controlShadow,
-            "Button.darkShadow", controlDkShadow,
+            "Button.shbdow", controlShbdow,
+            "Button.dbrkShbdow", controlDkShbdow,
             "Button.light", controlHighlight,
             "Button.highlight", controlLtHighlight,
             "Button.border", buttonBorder,
-            "Button.margin", new InsetsUIResource(2, 14, 2, 14),
-            "Button.textIconGap", 4,
+            "Button.mbrgin", new InsetsUIResource(2, 14, 2, 14),
+            "Button.textIconGbp", 4,
             "Button.textShiftOffset", zero,
-            "Button.focusInputMap", new UIDefaults.LazyInputMap(new Object[] {
+            "Button.focusInputMbp", new UIDefbults.LbzyInputMbp(new Object[] {
                          "SPACE", "pressed",
-                "released SPACE", "released",
+                "relebsed SPACE", "relebsed",
                          "ENTER", "pressed",
-                "released ENTER", "released"
+                "relebsed ENTER", "relebsed"
               }),
 
-            "ToggleButton.font", dialogPlain12,
-            "ToggleButton.background", control,
+            "ToggleButton.font", diblogPlbin12,
+            "ToggleButton.bbckground", control,
             "ToggleButton.foreground", controlText,
-            "ToggleButton.shadow", controlShadow,
-            "ToggleButton.darkShadow", controlDkShadow,
+            "ToggleButton.shbdow", controlShbdow,
+            "ToggleButton.dbrkShbdow", controlDkShbdow,
             "ToggleButton.light", controlHighlight,
             "ToggleButton.highlight", controlLtHighlight,
             "ToggleButton.border", buttonToggleBorder,
-            "ToggleButton.margin", new InsetsUIResource(2, 14, 2, 14),
-            "ToggleButton.textIconGap", 4,
+            "ToggleButton.mbrgin", new InsetsUIResource(2, 14, 2, 14),
+            "ToggleButton.textIconGbp", 4,
             "ToggleButton.textShiftOffset", zero,
-            "ToggleButton.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
+            "ToggleButton.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
                             "SPACE", "pressed",
-                   "released SPACE", "released"
+                   "relebsed SPACE", "relebsed"
                 }),
 
-            "RadioButton.font", dialogPlain12,
-            "RadioButton.background", control,
-            "RadioButton.foreground", controlText,
-            "RadioButton.shadow", controlShadow,
-            "RadioButton.darkShadow", controlDkShadow,
-            "RadioButton.light", controlHighlight,
-            "RadioButton.highlight", controlLtHighlight,
-            "RadioButton.border", radioButtonBorder,
-            "RadioButton.margin", twoInsets,
-            "RadioButton.textIconGap", 4,
-            "RadioButton.textShiftOffset", zero,
-            "RadioButton.icon", radioButtonIcon,
-            "RadioButton.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "RbdioButton.font", diblogPlbin12,
+            "RbdioButton.bbckground", control,
+            "RbdioButton.foreground", controlText,
+            "RbdioButton.shbdow", controlShbdow,
+            "RbdioButton.dbrkShbdow", controlDkShbdow,
+            "RbdioButton.light", controlHighlight,
+            "RbdioButton.highlight", controlLtHighlight,
+            "RbdioButton.border", rbdioButtonBorder,
+            "RbdioButton.mbrgin", twoInsets,
+            "RbdioButton.textIconGbp", 4,
+            "RbdioButton.textShiftOffset", zero,
+            "RbdioButton.icon", rbdioButtonIcon,
+            "RbdioButton.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                           "SPACE", "pressed",
-                 "released SPACE", "released",
+                 "relebsed SPACE", "relebsed",
                          "RETURN", "pressed"
               }),
 
-            "CheckBox.font", dialogPlain12,
-            "CheckBox.background", control,
+            "CheckBox.font", diblogPlbin12,
+            "CheckBox.bbckground", control,
             "CheckBox.foreground", controlText,
-            "CheckBox.border", radioButtonBorder,
-            "CheckBox.margin", twoInsets,
-            "CheckBox.textIconGap", 4,
+            "CheckBox.border", rbdioButtonBorder,
+            "CheckBox.mbrgin", twoInsets,
+            "CheckBox.textIconGbp", 4,
             "CheckBox.textShiftOffset", zero,
             "CheckBox.icon", checkBoxIcon,
-            "CheckBox.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "CheckBox.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                             "SPACE", "pressed",
-                   "released SPACE", "released"
+                   "relebsed SPACE", "relebsed"
                  }),
-            "FileChooser.useSystemExtensionHiding", Boolean.FALSE,
+            "FileChooser.useSystemExtensionHiding", Boolebn.FALSE,
 
             // *** ColorChooser
-            "ColorChooser.font", dialogPlain12,
-            "ColorChooser.background", control,
+            "ColorChooser.font", diblogPlbin12,
+            "ColorChooser.bbckground", control,
             "ColorChooser.foreground", controlText,
 
-            "ColorChooser.swatchesSwatchSize", new Dimension(10, 10),
-            "ColorChooser.swatchesRecentSwatchSize", new Dimension(10, 10),
-            "ColorChooser.swatchesDefaultRecentColor", control,
+            "ColorChooser.swbtchesSwbtchSize", new Dimension(10, 10),
+            "ColorChooser.swbtchesRecentSwbtchSize", new Dimension(10, 10),
+            "ColorChooser.swbtchesDefbultRecentColor", control,
 
             // *** ComboBox
-            "ComboBox.font", sansSerifPlain12,
-            "ComboBox.background", window,
+            "ComboBox.font", sbnsSerifPlbin12,
+            "ComboBox.bbckground", window,
             "ComboBox.foreground", textText,
-            "ComboBox.buttonBackground", control,
-            "ComboBox.buttonShadow", controlShadow,
-            "ComboBox.buttonDarkShadow", controlDkShadow,
+            "ComboBox.buttonBbckground", control,
+            "ComboBox.buttonShbdow", controlShbdow,
+            "ComboBox.buttonDbrkShbdow", controlDkShbdow,
             "ComboBox.buttonHighlight", controlLtHighlight,
-            "ComboBox.selectionBackground", textHighlight,
+            "ComboBox.selectionBbckground", textHighlight,
             "ComboBox.selectionForeground", textHighlightText,
-            "ComboBox.disabledBackground", control,
-            "ComboBox.disabledForeground", textInactiveText,
-            "ComboBox.timeFactor", oneThousand,
-            "ComboBox.isEnterSelectablePopup", Boolean.FALSE,
-            "ComboBox.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "ComboBox.disbbledBbckground", control,
+            "ComboBox.disbbledForeground", textInbctiveText,
+            "ComboBox.timeFbctor", oneThousbnd,
+            "ComboBox.isEnterSelectbblePopup", Boolebn.FALSE,
+            "ComboBox.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                       "ESCAPE", "hidePopup",
-                     "PAGE_UP", "pageUpPassThrough",
-                   "PAGE_DOWN", "pageDownPassThrough",
-                        "HOME", "homePassThrough",
-                         "END", "endPassThrough",
+                     "PAGE_UP", "pbgeUpPbssThrough",
+                   "PAGE_DOWN", "pbgeDownPbssThrough",
+                        "HOME", "homePbssThrough",
+                         "END", "endPbssThrough",
                        "ENTER", "enterPressed"
                  }),
-            "ComboBox.noActionOnKeyNavigation", Boolean.FALSE,
+            "ComboBox.noActionOnKeyNbvigbtion", Boolebn.FALSE,
 
             // *** FileChooser
 
             "FileChooser.newFolderIcon", newFolderIcon,
             "FileChooser.upFolderIcon", upFolderIcon,
             "FileChooser.homeFolderIcon", homeFolderIcon,
-            "FileChooser.detailsViewIcon", detailsViewIcon,
+            "FileChooser.detbilsViewIcon", detbilsViewIcon,
             "FileChooser.listViewIcon", listViewIcon,
-            "FileChooser.readOnly", Boolean.FALSE,
-            "FileChooser.usesSingleFilePane", Boolean.FALSE,
-            "FileChooser.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancelSelection",
+            "FileChooser.rebdOnly", Boolebn.FALSE,
+            "FileChooser.usesSingleFilePbne", Boolebn.FALSE,
+            "FileChooser.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                     "ESCAPE", "cbncelSelection",
                      "F5", "refresh",
                  }),
 
             "FileView.directoryIcon", directoryIcon,
             "FileView.fileIcon", fileIcon,
             "FileView.computerIcon", computerIcon,
-            "FileView.hardDriveIcon", hardDriveIcon,
+            "FileView.hbrdDriveIcon", hbrdDriveIcon,
             "FileView.floppyDriveIcon", floppyDriveIcon,
 
-            // *** InternalFrame
-            "InternalFrame.titleFont", dialogBold12,
-            "InternalFrame.borderColor", control,
-            "InternalFrame.borderShadow", controlShadow,
-            "InternalFrame.borderDarkShadow", controlDkShadow,
-            "InternalFrame.borderHighlight", controlLtHighlight,
-            "InternalFrame.borderLight", controlHighlight,
-            "InternalFrame.border", internalFrameBorder,
-            "InternalFrame.icon",   SwingUtilities2.makeIcon(getClass(),
-                                                             BasicLookAndFeel.class,
-                                                             "icons/JavaCup16.png"),
+            // *** InternblFrbme
+            "InternblFrbme.titleFont", diblogBold12,
+            "InternblFrbme.borderColor", control,
+            "InternblFrbme.borderShbdow", controlShbdow,
+            "InternblFrbme.borderDbrkShbdow", controlDkShbdow,
+            "InternblFrbme.borderHighlight", controlLtHighlight,
+            "InternblFrbme.borderLight", controlHighlight,
+            "InternblFrbme.border", internblFrbmeBorder,
+            "InternblFrbme.icon",   SwingUtilities2.mbkeIcon(getClbss(),
+                                                             BbsicLookAndFeel.clbss,
+                                                             "icons/JbvbCup16.png"),
 
-            /* Default frame icons are undefined for Basic. */
-            "InternalFrame.maximizeIcon",
-               (LazyValue) t -> BasicIconFactory.createEmptyFrameIcon(),
-            "InternalFrame.minimizeIcon",
-               (LazyValue) t -> BasicIconFactory.createEmptyFrameIcon(),
-            "InternalFrame.iconifyIcon",
-               (LazyValue) t -> BasicIconFactory.createEmptyFrameIcon(),
-            "InternalFrame.closeIcon",
-               (LazyValue) t -> BasicIconFactory.createEmptyFrameIcon(),
-            // InternalFrame Auditory Cue Mappings
-            "InternalFrame.closeSound", null,
-            "InternalFrame.maximizeSound", null,
-            "InternalFrame.minimizeSound", null,
-            "InternalFrame.restoreDownSound", null,
-            "InternalFrame.restoreUpSound", null,
+            /* Defbult frbme icons bre undefined for Bbsic. */
+            "InternblFrbme.mbximizeIcon",
+               (LbzyVblue) t -> BbsicIconFbctory.crebteEmptyFrbmeIcon(),
+            "InternblFrbme.minimizeIcon",
+               (LbzyVblue) t -> BbsicIconFbctory.crebteEmptyFrbmeIcon(),
+            "InternblFrbme.iconifyIcon",
+               (LbzyVblue) t -> BbsicIconFbctory.crebteEmptyFrbmeIcon(),
+            "InternblFrbme.closeIcon",
+               (LbzyVblue) t -> BbsicIconFbctory.crebteEmptyFrbmeIcon(),
+            // InternblFrbme Auditory Cue Mbppings
+            "InternblFrbme.closeSound", null,
+            "InternblFrbme.mbximizeSound", null,
+            "InternblFrbme.minimizeSound", null,
+            "InternblFrbme.restoreDownSound", null,
+            "InternblFrbme.restoreUpSound", null,
 
-            "InternalFrame.activeTitleBackground", table.get("activeCaption"),
-            "InternalFrame.activeTitleForeground", table.get("activeCaptionText"),
-            "InternalFrame.inactiveTitleBackground", table.get("inactiveCaption"),
-            "InternalFrame.inactiveTitleForeground", table.get("inactiveCaptionText"),
-            "InternalFrame.windowBindings", new Object[] {
+            "InternblFrbme.bctiveTitleBbckground", tbble.get("bctiveCbption"),
+            "InternblFrbme.bctiveTitleForeground", tbble.get("bctiveCbptionText"),
+            "InternblFrbme.inbctiveTitleBbckground", tbble.get("inbctiveCbption"),
+            "InternblFrbme.inbctiveTitleForeground", tbble.get("inbctiveCbptionText"),
+            "InternblFrbme.windowBindings", new Object[] {
               "shift ESCAPE", "showSystemMenu",
                 "ctrl SPACE", "showSystemMenu",
                     "ESCAPE", "hideSystemMenu"},
 
-            "InternalFrameTitlePane.iconifyButtonOpacity", Boolean.TRUE,
-            "InternalFrameTitlePane.maximizeButtonOpacity", Boolean.TRUE,
-            "InternalFrameTitlePane.closeButtonOpacity", Boolean.TRUE,
+            "InternblFrbmeTitlePbne.iconifyButtonOpbcity", Boolebn.TRUE,
+            "InternblFrbmeTitlePbne.mbximizeButtonOpbcity", Boolebn.TRUE,
+            "InternblFrbmeTitlePbne.closeButtonOpbcity", Boolebn.TRUE,
 
-        "DesktopIcon.border", internalFrameBorder,
+        "DesktopIcon.border", internblFrbmeBorder,
 
             "Desktop.minOnScreenInsets", threeInsets,
-            "Desktop.background", table.get("desktop"),
-            "Desktop.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Desktop.bbckground", tbble.get("desktop"),
+            "Desktop.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                  "ctrl F5", "restore",
                  "ctrl F4", "close",
                  "ctrl F7", "move",
@@ -895,47 +895,47 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                  "KP_DOWN", "down",
               "shift DOWN", "shrinkDown",
            "shift KP_DOWN", "shrinkDown",
-                  "ESCAPE", "escape",
+                  "ESCAPE", "escbpe",
                  "ctrl F9", "minimize",
-                "ctrl F10", "maximize",
-                 "ctrl F6", "selectNextFrame",
-                "ctrl TAB", "selectNextFrame",
-             "ctrl alt F6", "selectNextFrame",
-       "shift ctrl alt F6", "selectPreviousFrame",
-                "ctrl F12", "navigateNext",
-          "shift ctrl F12", "navigatePrevious"
+                "ctrl F10", "mbximize",
+                 "ctrl F6", "selectNextFrbme",
+                "ctrl TAB", "selectNextFrbme",
+             "ctrl blt F6", "selectNextFrbme",
+       "shift ctrl blt F6", "selectPreviousFrbme",
+                "ctrl F12", "nbvigbteNext",
+          "shift ctrl F12", "nbvigbtePrevious"
               }),
 
-            // *** Label
-            "Label.font", dialogPlain12,
-            "Label.background", control,
-            "Label.foreground", controlText,
-            "Label.disabledForeground", white,
-            "Label.disabledShadow", controlShadow,
-            "Label.border", null,
+            // *** Lbbel
+            "Lbbel.font", diblogPlbin12,
+            "Lbbel.bbckground", control,
+            "Lbbel.foreground", controlText,
+            "Lbbel.disbbledForeground", white,
+            "Lbbel.disbbledShbdow", controlShbdow,
+            "Lbbel.border", null,
 
             // *** List
-            "List.font", dialogPlain12,
-            "List.background", window,
+            "List.font", diblogPlbin12,
+            "List.bbckground", window,
             "List.foreground", textText,
-            "List.selectionBackground", textHighlight,
+            "List.selectionBbckground", textHighlight,
             "List.selectionForeground", textHighlightText,
             "List.noFocusBorder", noFocusBorder,
             "List.focusCellHighlightBorder", focusCellHighlightBorder,
-            "List.dropLineColor", controlShadow,
+            "List.dropLineColor", controlShbdow,
             "List.border", null,
-            "List.cellRenderer", listCellRendererActiveValue,
-            "List.timeFactor", oneThousand,
-            "List.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "List.cellRenderer", listCellRendererActiveVblue,
+            "List.timeFbctor", oneThousbnd,
+            "List.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                            "ctrl C", "copy",
-                           "ctrl V", "paste",
+                           "ctrl V", "pbste",
                            "ctrl X", "cut",
                              "COPY", "copy",
-                            "PASTE", "paste",
+                            "PASTE", "pbste",
                               "CUT", "cut",
                    "control INSERT", "copy",
-                     "shift INSERT", "paste",
+                     "shift INSERT", "pbste",
                      "shift DELETE", "cut",
                                "UP", "selectPreviousRow",
                             "KP_UP", "selectPreviousRow",
@@ -943,307 +943,307 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                       "shift KP_UP", "selectPreviousRowExtendSelection",
                     "ctrl shift UP", "selectPreviousRowExtendSelection",
                  "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                          "ctrl UP", "selectPreviousRowChangeLead",
-                       "ctrl KP_UP", "selectPreviousRowChangeLead",
+                          "ctrl UP", "selectPreviousRowChbngeLebd",
+                       "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                              "DOWN", "selectNextRow",
                           "KP_DOWN", "selectNextRow",
                        "shift DOWN", "selectNextRowExtendSelection",
                     "shift KP_DOWN", "selectNextRowExtendSelection",
                   "ctrl shift DOWN", "selectNextRowExtendSelection",
                "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                        "ctrl DOWN", "selectNextRowChangeLead",
-                     "ctrl KP_DOWN", "selectNextRowChangeLead",
+                        "ctrl DOWN", "selectNextRowChbngeLebd",
+                     "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                              "LEFT", "selectPreviousColumn",
                           "KP_LEFT", "selectPreviousColumn",
                        "shift LEFT", "selectPreviousColumnExtendSelection",
                     "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                   "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                        "ctrl LEFT", "selectPreviousColumnChangeLead",
-                     "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                        "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                             "RIGHT", "selectNextColumn",
                          "KP_RIGHT", "selectNextColumn",
                       "shift RIGHT", "selectNextColumnExtendSelection",
                    "shift KP_RIGHT", "selectNextColumnExtendSelection",
                  "ctrl shift RIGHT", "selectNextColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                       "ctrl RIGHT", "selectNextColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                       "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                              "HOME", "selectFirstRow",
                        "shift HOME", "selectFirstRowExtendSelection",
                   "ctrl shift HOME", "selectFirstRowExtendSelection",
-                        "ctrl HOME", "selectFirstRowChangeLead",
-                              "END", "selectLastRow",
-                        "shift END", "selectLastRowExtendSelection",
-                   "ctrl shift END", "selectLastRowExtendSelection",
-                         "ctrl END", "selectLastRowChangeLead",
+                        "ctrl HOME", "selectFirstRowChbngeLebd",
+                              "END", "selectLbstRow",
+                        "shift END", "selectLbstRowExtendSelection",
+                   "ctrl shift END", "selectLbstRowExtendSelection",
+                         "ctrl END", "selectLbstRowChbngeLebd",
                           "PAGE_UP", "scrollUp",
                     "shift PAGE_UP", "scrollUpExtendSelection",
                "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                     "ctrl PAGE_UP", "scrollUpChangeLead",
+                     "ctrl PAGE_UP", "scrollUpChbngeLebd",
                         "PAGE_DOWN", "scrollDown",
                   "shift PAGE_DOWN", "scrollDownExtendSelection",
              "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                   "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                   "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                            "ctrl A", "selectAll",
                        "ctrl SLASH", "selectAll",
-                  "ctrl BACK_SLASH", "clearSelection",
-                            "SPACE", "addToSelection",
+                  "ctrl BACK_SLASH", "clebrSelection",
+                            "SPACE", "bddToSelection",
                        "ctrl SPACE", "toggleAndAnchor",
                       "shift SPACE", "extendTo",
                  "ctrl shift SPACE", "moveSelectionTo"
                  }),
-            "List.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "List.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                              "LEFT", "selectNextColumn",
                           "KP_LEFT", "selectNextColumn",
                        "shift LEFT", "selectNextColumnExtendSelection",
                     "shift KP_LEFT", "selectNextColumnExtendSelection",
                   "ctrl shift LEFT", "selectNextColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                        "ctrl LEFT", "selectNextColumnChangeLead",
-                     "ctrl KP_LEFT", "selectNextColumnChangeLead",
+                        "ctrl LEFT", "selectNextColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectNextColumnChbngeLebd",
                             "RIGHT", "selectPreviousColumn",
                          "KP_RIGHT", "selectPreviousColumn",
                       "shift RIGHT", "selectPreviousColumnExtendSelection",
                    "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
                  "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                       "ctrl RIGHT", "selectPreviousColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectPreviousColumnChangeLead",
+                       "ctrl RIGHT", "selectPreviousColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectPreviousColumnChbngeLebd",
                  }),
 
             // *** Menus
-            "MenuBar.font", dialogPlain12,
-            "MenuBar.background", menu,
-            "MenuBar.foreground", menuText,
-            "MenuBar.shadow", controlShadow,
-            "MenuBar.highlight", controlLtHighlight,
-            "MenuBar.border", menuBarBorder,
-            "MenuBar.windowBindings", new Object[] {
-                "F10", "takeFocus" },
+            "MenuBbr.font", diblogPlbin12,
+            "MenuBbr.bbckground", menu,
+            "MenuBbr.foreground", menuText,
+            "MenuBbr.shbdow", controlShbdow,
+            "MenuBbr.highlight", controlLtHighlight,
+            "MenuBbr.border", menuBbrBorder,
+            "MenuBbr.windowBindings", new Object[] {
+                "F10", "tbkeFocus" },
 
-            "MenuItem.font", dialogPlain12,
-            "MenuItem.acceleratorFont", dialogPlain12,
-            "MenuItem.background", menu,
+            "MenuItem.font", diblogPlbin12,
+            "MenuItem.bccelerbtorFont", diblogPlbin12,
+            "MenuItem.bbckground", menu,
             "MenuItem.foreground", menuText,
             "MenuItem.selectionForeground", textHighlightText,
-            "MenuItem.selectionBackground", textHighlight,
-            "MenuItem.disabledForeground", null,
-            "MenuItem.acceleratorForeground", menuText,
-            "MenuItem.acceleratorSelectionForeground", textHighlightText,
-            "MenuItem.acceleratorDelimiter", menuItemAcceleratorDelimiter,
-            "MenuItem.border", marginBorder,
-            "MenuItem.borderPainted", Boolean.FALSE,
-            "MenuItem.margin", twoInsets,
+            "MenuItem.selectionBbckground", textHighlight,
+            "MenuItem.disbbledForeground", null,
+            "MenuItem.bccelerbtorForeground", menuText,
+            "MenuItem.bccelerbtorSelectionForeground", textHighlightText,
+            "MenuItem.bccelerbtorDelimiter", menuItemAccelerbtorDelimiter,
+            "MenuItem.border", mbrginBorder,
+            "MenuItem.borderPbinted", Boolebn.FALSE,
+            "MenuItem.mbrgin", twoInsets,
             "MenuItem.checkIcon", menuItemCheckIcon,
-            "MenuItem.arrowIcon", menuItemArrowIcon,
-            "MenuItem.commandSound", null,
+            "MenuItem.brrowIcon", menuItemArrowIcon,
+            "MenuItem.commbndSound", null,
 
-            "RadioButtonMenuItem.font", dialogPlain12,
-            "RadioButtonMenuItem.acceleratorFont", dialogPlain12,
-            "RadioButtonMenuItem.background", menu,
-            "RadioButtonMenuItem.foreground", menuText,
-            "RadioButtonMenuItem.selectionForeground", textHighlightText,
-            "RadioButtonMenuItem.selectionBackground", textHighlight,
-            "RadioButtonMenuItem.disabledForeground", null,
-            "RadioButtonMenuItem.acceleratorForeground", menuText,
-            "RadioButtonMenuItem.acceleratorSelectionForeground", textHighlightText,
-            "RadioButtonMenuItem.border", marginBorder,
-            "RadioButtonMenuItem.borderPainted", Boolean.FALSE,
-            "RadioButtonMenuItem.margin", twoInsets,
-            "RadioButtonMenuItem.checkIcon", radioButtonMenuItemIcon,
-            "RadioButtonMenuItem.arrowIcon", menuItemArrowIcon,
-            "RadioButtonMenuItem.commandSound", null,
+            "RbdioButtonMenuItem.font", diblogPlbin12,
+            "RbdioButtonMenuItem.bccelerbtorFont", diblogPlbin12,
+            "RbdioButtonMenuItem.bbckground", menu,
+            "RbdioButtonMenuItem.foreground", menuText,
+            "RbdioButtonMenuItem.selectionForeground", textHighlightText,
+            "RbdioButtonMenuItem.selectionBbckground", textHighlight,
+            "RbdioButtonMenuItem.disbbledForeground", null,
+            "RbdioButtonMenuItem.bccelerbtorForeground", menuText,
+            "RbdioButtonMenuItem.bccelerbtorSelectionForeground", textHighlightText,
+            "RbdioButtonMenuItem.border", mbrginBorder,
+            "RbdioButtonMenuItem.borderPbinted", Boolebn.FALSE,
+            "RbdioButtonMenuItem.mbrgin", twoInsets,
+            "RbdioButtonMenuItem.checkIcon", rbdioButtonMenuItemIcon,
+            "RbdioButtonMenuItem.brrowIcon", menuItemArrowIcon,
+            "RbdioButtonMenuItem.commbndSound", null,
 
-            "CheckBoxMenuItem.font", dialogPlain12,
-            "CheckBoxMenuItem.acceleratorFont", dialogPlain12,
-            "CheckBoxMenuItem.background", menu,
+            "CheckBoxMenuItem.font", diblogPlbin12,
+            "CheckBoxMenuItem.bccelerbtorFont", diblogPlbin12,
+            "CheckBoxMenuItem.bbckground", menu,
             "CheckBoxMenuItem.foreground", menuText,
             "CheckBoxMenuItem.selectionForeground", textHighlightText,
-            "CheckBoxMenuItem.selectionBackground", textHighlight,
-            "CheckBoxMenuItem.disabledForeground", null,
-            "CheckBoxMenuItem.acceleratorForeground", menuText,
-            "CheckBoxMenuItem.acceleratorSelectionForeground", textHighlightText,
-            "CheckBoxMenuItem.border", marginBorder,
-            "CheckBoxMenuItem.borderPainted", Boolean.FALSE,
-            "CheckBoxMenuItem.margin", twoInsets,
+            "CheckBoxMenuItem.selectionBbckground", textHighlight,
+            "CheckBoxMenuItem.disbbledForeground", null,
+            "CheckBoxMenuItem.bccelerbtorForeground", menuText,
+            "CheckBoxMenuItem.bccelerbtorSelectionForeground", textHighlightText,
+            "CheckBoxMenuItem.border", mbrginBorder,
+            "CheckBoxMenuItem.borderPbinted", Boolebn.FALSE,
+            "CheckBoxMenuItem.mbrgin", twoInsets,
             "CheckBoxMenuItem.checkIcon", checkBoxMenuItemIcon,
-            "CheckBoxMenuItem.arrowIcon", menuItemArrowIcon,
-            "CheckBoxMenuItem.commandSound", null,
+            "CheckBoxMenuItem.brrowIcon", menuItemArrowIcon,
+            "CheckBoxMenuItem.commbndSound", null,
 
-            "Menu.font", dialogPlain12,
-            "Menu.acceleratorFont", dialogPlain12,
-            "Menu.background", menu,
+            "Menu.font", diblogPlbin12,
+            "Menu.bccelerbtorFont", diblogPlbin12,
+            "Menu.bbckground", menu,
             "Menu.foreground", menuText,
             "Menu.selectionForeground", textHighlightText,
-            "Menu.selectionBackground", textHighlight,
-            "Menu.disabledForeground", null,
-            "Menu.acceleratorForeground", menuText,
-            "Menu.acceleratorSelectionForeground", textHighlightText,
-            "Menu.border", marginBorder,
-            "Menu.borderPainted", Boolean.FALSE,
-            "Menu.margin", twoInsets,
+            "Menu.selectionBbckground", textHighlight,
+            "Menu.disbbledForeground", null,
+            "Menu.bccelerbtorForeground", menuText,
+            "Menu.bccelerbtorSelectionForeground", textHighlightText,
+            "Menu.border", mbrginBorder,
+            "Menu.borderPbinted", Boolebn.FALSE,
+            "Menu.mbrgin", twoInsets,
             "Menu.checkIcon", menuItemCheckIcon,
-            "Menu.arrowIcon", menuArrowIcon,
+            "Menu.brrowIcon", menuArrowIcon,
             "Menu.menuPopupOffsetX", 0,
             "Menu.menuPopupOffsetY", 0,
             "Menu.submenuPopupOffsetX", 0,
             "Menu.submenuPopupOffsetY", 0,
             "Menu.shortcutKeys", new int[]{
-                SwingUtilities2.getSystemMnemonicKeyMask()
+                SwingUtilities2.getSystemMnemonicKeyMbsk()
             },
-            "Menu.crossMenuMnemonic", Boolean.TRUE,
-            // Menu.cancelMode affects the cancel menu action behaviour;
+            "Menu.crossMenuMnemonic", Boolebn.TRUE,
+            // Menu.cbncelMode bffects the cbncel menu bction behbviour;
             // currently supports:
-            // "hideLastSubmenu" (default)
-            //     hides the last open submenu,
-            //     and move selection one step back
+            // "hideLbstSubmenu" (defbult)
+            //     hides the lbst open submenu,
+            //     bnd move selection one step bbck
             // "hideMenuTree"
-            //     resets selection and
-            //     hide the entire structure of open menu and its submenus
-            "Menu.cancelMode", "hideLastSubmenu",
+            //     resets selection bnd
+            //     hide the entire structure of open menu bnd its submenus
+            "Menu.cbncelMode", "hideLbstSubmenu",
 
-             // Menu.preserveTopLevelSelection affects
-             // the cancel menu action behaviour
+             // Menu.preserveTopLevelSelection bffects
+             // the cbncel menu bction behbviour
              // if set to true then top level menu selection
-             // will be preserved when the last popup was cancelled;
-             // the menu itself will be unselect with the next cancel action
-             "Menu.preserveTopLevelSelection", Boolean.FALSE,
+             // will be preserved when the lbst popup wbs cbncelled;
+             // the menu itself will be unselect with the next cbncel bction
+             "Menu.preserveTopLevelSelection", Boolebn.FALSE,
 
             // PopupMenu
-            "PopupMenu.font", dialogPlain12,
-            "PopupMenu.background", menu,
+            "PopupMenu.font", diblogPlbin12,
+            "PopupMenu.bbckground", menu,
             "PopupMenu.foreground", menuText,
             "PopupMenu.border", popupMenuBorder,
-                 // Internal Frame Auditory Cue Mappings
+                 // Internbl Frbme Auditory Cue Mbppings
             "PopupMenu.popupSound", null,
-            // These window InputMap bindings are used when the Menu is
+            // These window InputMbp bindings bre used when the Menu is
             // selected.
-            "PopupMenu.selectedWindowInputMapBindings", new Object[] {
-                  "ESCAPE", "cancel",
+            "PopupMenu.selectedWindowInputMbpBindings", new Object[] {
+                  "ESCAPE", "cbncel",
                     "DOWN", "selectNext",
                  "KP_DOWN", "selectNext",
                       "UP", "selectPrevious",
                    "KP_UP", "selectPrevious",
-                    "LEFT", "selectParent",
-                 "KP_LEFT", "selectParent",
+                    "LEFT", "selectPbrent",
+                 "KP_LEFT", "selectPbrent",
                    "RIGHT", "selectChild",
                 "KP_RIGHT", "selectChild",
                    "ENTER", "return",
               "ctrl ENTER", "return",
                    "SPACE", "return"
             },
-            "PopupMenu.selectedWindowInputMapBindings.RightToLeft", new Object[] {
+            "PopupMenu.selectedWindowInputMbpBindings.RightToLeft", new Object[] {
                     "LEFT", "selectChild",
                  "KP_LEFT", "selectChild",
-                   "RIGHT", "selectParent",
-                "KP_RIGHT", "selectParent",
+                   "RIGHT", "selectPbrent",
+                "KP_RIGHT", "selectPbrent",
             },
-            "PopupMenu.consumeEventOnClose", Boolean.FALSE,
+            "PopupMenu.consumeEventOnClose", Boolebn.FALSE,
 
-            // *** OptionPane
-            // You can additionaly define OptionPane.messageFont which will
-            // dictate the fonts used for the message, and
-            // OptionPane.buttonFont, which defines the font for the buttons.
-            "OptionPane.font", dialogPlain12,
-            "OptionPane.background", control,
-            "OptionPane.foreground", controlText,
-            "OptionPane.messageForeground", controlText,
-            "OptionPane.border", optionPaneBorder,
-            "OptionPane.messageAreaBorder", zeroBorder,
-            "OptionPane.buttonAreaBorder", optionPaneButtonAreaBorder,
-            "OptionPane.minimumSize", optionPaneMinimumSize,
-            "OptionPane.errorIcon", SwingUtilities2.makeIcon(getClass(),
-                                                             BasicLookAndFeel.class,
+            // *** OptionPbne
+            // You cbn bdditionbly define OptionPbne.messbgeFont which will
+            // dictbte the fonts used for the messbge, bnd
+            // OptionPbne.buttonFont, which defines the font for the buttons.
+            "OptionPbne.font", diblogPlbin12,
+            "OptionPbne.bbckground", control,
+            "OptionPbne.foreground", controlText,
+            "OptionPbne.messbgeForeground", controlText,
+            "OptionPbne.border", optionPbneBorder,
+            "OptionPbne.messbgeArebBorder", zeroBorder,
+            "OptionPbne.buttonArebBorder", optionPbneButtonArebBorder,
+            "OptionPbne.minimumSize", optionPbneMinimumSize,
+            "OptionPbne.errorIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                             BbsicLookAndFeel.clbss,
                                                              "icons/Error.gif"),
-            "OptionPane.informationIcon", SwingUtilities2.makeIcon(getClass(),
-                                                                   BasicLookAndFeel.class,
+            "OptionPbne.informbtionIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                                   BbsicLookAndFeel.clbss,
                                                                    "icons/Inform.gif"),
-            "OptionPane.warningIcon", SwingUtilities2.makeIcon(getClass(),
-                                                               BasicLookAndFeel.class,
-                                                               "icons/Warn.gif"),
-            "OptionPane.questionIcon", SwingUtilities2.makeIcon(getClass(),
-                                                                BasicLookAndFeel.class,
+            "OptionPbne.wbrningIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                               BbsicLookAndFeel.clbss,
+                                                               "icons/Wbrn.gif"),
+            "OptionPbne.questionIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                                BbsicLookAndFeel.clbss,
                                                                 "icons/Question.gif"),
-            "OptionPane.windowBindings", new Object[] {
+            "OptionPbne.windowBindings", new Object[] {
                 "ESCAPE", "close" },
-                 // OptionPane Auditory Cue Mappings
-            "OptionPane.errorSound", null,
-            "OptionPane.informationSound", null, // Info and Plain
-            "OptionPane.questionSound", null,
-            "OptionPane.warningSound", null,
-            "OptionPane.buttonClickThreshhold", fiveHundred,
+                 // OptionPbne Auditory Cue Mbppings
+            "OptionPbne.errorSound", null,
+            "OptionPbne.informbtionSound", null, // Info bnd Plbin
+            "OptionPbne.questionSound", null,
+            "OptionPbne.wbrningSound", null,
+            "OptionPbne.buttonClickThreshhold", fiveHundred,
 
-            // *** Panel
-            "Panel.font", dialogPlain12,
-            "Panel.background", control,
-            "Panel.foreground", textText,
+            // *** Pbnel
+            "Pbnel.font", diblogPlbin12,
+            "Pbnel.bbckground", control,
+            "Pbnel.foreground", textText,
 
-            // *** ProgressBar
-            "ProgressBar.font", dialogPlain12,
-            "ProgressBar.foreground",  textHighlight,
-            "ProgressBar.background", control,
-            "ProgressBar.selectionForeground", control,
-            "ProgressBar.selectionBackground", textHighlight,
-            "ProgressBar.border", progressBarBorder,
-            "ProgressBar.cellLength", 1,
-            "ProgressBar.cellSpacing", zero,
-            "ProgressBar.repaintInterval", 50,
-            "ProgressBar.cycleTime", 3000,
-            "ProgressBar.horizontalSize", new DimensionUIResource(146, 12),
-            "ProgressBar.verticalSize", new DimensionUIResource(12, 146),
+            // *** ProgressBbr
+            "ProgressBbr.font", diblogPlbin12,
+            "ProgressBbr.foreground",  textHighlight,
+            "ProgressBbr.bbckground", control,
+            "ProgressBbr.selectionForeground", control,
+            "ProgressBbr.selectionBbckground", textHighlight,
+            "ProgressBbr.border", progressBbrBorder,
+            "ProgressBbr.cellLength", 1,
+            "ProgressBbr.cellSpbcing", zero,
+            "ProgressBbr.repbintIntervbl", 50,
+            "ProgressBbr.cycleTime", 3000,
+            "ProgressBbr.horizontblSize", new DimensionUIResource(146, 12),
+            "ProgressBbr.verticblSize", new DimensionUIResource(12, 146),
 
-           // *** Separator
-            "Separator.shadow", controlShadow,          // DEPRECATED - DO NOT USE!
-            "Separator.highlight", controlLtHighlight,  // DEPRECATED - DO NOT USE!
+           // *** Sepbrbtor
+            "Sepbrbtor.shbdow", controlShbdow,          // DEPRECATED - DO NOT USE!
+            "Sepbrbtor.highlight", controlLtHighlight,  // DEPRECATED - DO NOT USE!
 
-            "Separator.background", controlLtHighlight,
-            "Separator.foreground", controlShadow,
+            "Sepbrbtor.bbckground", controlLtHighlight,
+            "Sepbrbtor.foreground", controlShbdow,
 
-            // *** ScrollBar/ScrollPane/Viewport
-            "ScrollBar.background", scrollBarTrack,
-            "ScrollBar.foreground", control,
-            "ScrollBar.track", table.get("scrollbar"),
-            "ScrollBar.trackHighlight", controlDkShadow,
-            "ScrollBar.thumb", control,
-            "ScrollBar.thumbHighlight", controlLtHighlight,
-            "ScrollBar.thumbDarkShadow", controlDkShadow,
-            "ScrollBar.thumbShadow", controlShadow,
-            "ScrollBar.border", null,
-            "ScrollBar.minimumThumbSize", minimumThumbSize,
-            "ScrollBar.maximumThumbSize", maximumThumbSize,
-            "ScrollBar.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            // *** ScrollBbr/ScrollPbne/Viewport
+            "ScrollBbr.bbckground", scrollBbrTrbck,
+            "ScrollBbr.foreground", control,
+            "ScrollBbr.trbck", tbble.get("scrollbbr"),
+            "ScrollBbr.trbckHighlight", controlDkShbdow,
+            "ScrollBbr.thumb", control,
+            "ScrollBbr.thumbHighlight", controlLtHighlight,
+            "ScrollBbr.thumbDbrkShbdow", controlDkShbdow,
+            "ScrollBbr.thumbShbdow", controlShbdow,
+            "ScrollBbr.border", null,
+            "ScrollBbr.minimumThumbSize", minimumThumbSize,
+            "ScrollBbr.mbximumThumbSize", mbximumThumbSize,
+            "ScrollBbr.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                        "RIGHT", "positiveUnitIncrement",
                     "KP_RIGHT", "positiveUnitIncrement",
                         "DOWN", "positiveUnitIncrement",
                      "KP_DOWN", "positiveUnitIncrement",
                    "PAGE_DOWN", "positiveBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
-                          "UP", "negativeUnitIncrement",
-                       "KP_UP", "negativeUnitIncrement",
-                     "PAGE_UP", "negativeBlockIncrement",
+                        "LEFT", "negbtiveUnitIncrement",
+                     "KP_LEFT", "negbtiveUnitIncrement",
+                          "UP", "negbtiveUnitIncrement",
+                       "KP_UP", "negbtiveUnitIncrement",
+                     "PAGE_UP", "negbtiveBlockIncrement",
                         "HOME", "minScroll",
-                         "END", "maxScroll"
+                         "END", "mbxScroll"
                  }),
-            "ScrollBar.ancestorInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "negativeUnitIncrement",
-                    "KP_RIGHT", "negativeUnitIncrement",
+            "ScrollBbr.bncestorInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                       "RIGHT", "negbtiveUnitIncrement",
+                    "KP_RIGHT", "negbtiveUnitIncrement",
                         "LEFT", "positiveUnitIncrement",
                      "KP_LEFT", "positiveUnitIncrement",
                  }),
-            "ScrollBar.width", 16,
+            "ScrollBbr.width", 16,
 
-            "ScrollPane.font", dialogPlain12,
-            "ScrollPane.background", control,
-            "ScrollPane.foreground", controlText,
-            "ScrollPane.border", textFieldBorder,
-            "ScrollPane.viewportBorder", null,
-            "ScrollPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollPbne.font", diblogPlbin12,
+            "ScrollPbne.bbckground", control,
+            "ScrollPbne.foreground", controlText,
+            "ScrollPbne.border", textFieldBorder,
+            "ScrollPbne.viewportBorder", null,
+            "ScrollPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                            "RIGHT", "unitScrollRight",
                         "KP_RIGHT", "unitScrollRight",
                             "DOWN", "unitScrollDown",
@@ -1259,171 +1259,171 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                        "ctrl HOME", "scrollHome",
                         "ctrl END", "scrollEnd"
                  }),
-            "ScrollPane.ancestorInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollPbne.bncestorInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                     "ctrl PAGE_UP", "scrollRight",
                   "ctrl PAGE_DOWN", "scrollLeft",
                  }),
 
-            "Viewport.font", dialogPlain12,
-            "Viewport.background", control,
+            "Viewport.font", diblogPlbin12,
+            "Viewport.bbckground", control,
             "Viewport.foreground", textText,
 
             // *** Slider
-            "Slider.font", dialogPlain12,
+            "Slider.font", diblogPlbin12,
             "Slider.foreground", control,
-            "Slider.background", control,
+            "Slider.bbckground", control,
             "Slider.highlight", controlLtHighlight,
-            "Slider.tickColor", Color.black,
-            "Slider.shadow", controlShadow,
-            "Slider.focus", controlDkShadow,
+            "Slider.tickColor", Color.blbck,
+            "Slider.shbdow", controlShbdow,
+            "Slider.focus", controlDkShbdow,
             "Slider.border", null,
-            "Slider.horizontalSize", new Dimension(200, 21),
-            "Slider.verticalSize", new Dimension(21, 200),
-            "Slider.minimumHorizontalSize", new Dimension(36, 21),
-            "Slider.minimumVerticalSize", new Dimension(21, 36),
+            "Slider.horizontblSize", new Dimension(200, 21),
+            "Slider.verticblSize", new Dimension(21, 200),
+            "Slider.minimumHorizontblSize", new Dimension(36, 21),
+            "Slider.minimumVerticblSize", new Dimension(21, 36),
             "Slider.focusInsets", sliderFocusInsets,
-            "Slider.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Slider.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                        "RIGHT", "positiveUnitIncrement",
                     "KP_RIGHT", "positiveUnitIncrement",
-                        "DOWN", "negativeUnitIncrement",
-                     "KP_DOWN", "negativeUnitIncrement",
-                   "PAGE_DOWN", "negativeBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
+                        "DOWN", "negbtiveUnitIncrement",
+                     "KP_DOWN", "negbtiveUnitIncrement",
+                   "PAGE_DOWN", "negbtiveBlockIncrement",
+                        "LEFT", "negbtiveUnitIncrement",
+                     "KP_LEFT", "negbtiveUnitIncrement",
                           "UP", "positiveUnitIncrement",
                        "KP_UP", "positiveUnitIncrement",
                      "PAGE_UP", "positiveBlockIncrement",
                         "HOME", "minScroll",
-                         "END", "maxScroll"
+                         "END", "mbxScroll"
                  }),
-            "Slider.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "negativeUnitIncrement",
-                    "KP_RIGHT", "negativeUnitIncrement",
+            "Slider.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                       "RIGHT", "negbtiveUnitIncrement",
+                    "KP_RIGHT", "negbtiveUnitIncrement",
                         "LEFT", "positiveUnitIncrement",
                      "KP_LEFT", "positiveUnitIncrement",
                  }),
-            "Slider.onlyLeftMouseButtonDrag", Boolean.TRUE,
+            "Slider.onlyLeftMouseButtonDrbg", Boolebn.TRUE,
 
             // *** Spinner
-            "Spinner.font", monospacedPlain12,
-            "Spinner.background", control,
+            "Spinner.font", monospbcedPlbin12,
+            "Spinner.bbckground", control,
             "Spinner.foreground", control,
             "Spinner.border", textFieldBorder,
-            "Spinner.arrowButtonBorder", null,
-            "Spinner.arrowButtonInsets", null,
-            "Spinner.arrowButtonSize", new Dimension(16, 5),
-            "Spinner.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Spinner.brrowButtonBorder", null,
+            "Spinner.brrowButtonInsets", null,
+            "Spinner.brrowButtonSize", new Dimension(16, 5),
+            "Spinner.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                "UP", "increment",
                             "KP_UP", "increment",
                              "DOWN", "decrement",
                           "KP_DOWN", "decrement",
                }),
-            "Spinner.editorBorderPainted", Boolean.FALSE,
+            "Spinner.editorBorderPbinted", Boolebn.FALSE,
             "Spinner.editorAlignment", JTextField.TRAILING,
 
-            // *** SplitPane
-            "SplitPane.background", control,
-            "SplitPane.highlight", controlLtHighlight,
-            "SplitPane.shadow", controlShadow,
-            "SplitPane.darkShadow", controlDkShadow,
-            "SplitPane.border", splitPaneBorder,
-            "SplitPane.dividerSize", 7,
-            "SplitPaneDivider.border", splitPaneDividerBorder,
-            "SplitPaneDivider.draggingColor", darkGray,
-            "SplitPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "negativeIncrement",
+            // *** SplitPbne
+            "SplitPbne.bbckground", control,
+            "SplitPbne.highlight", controlLtHighlight,
+            "SplitPbne.shbdow", controlShbdow,
+            "SplitPbne.dbrkShbdow", controlDkShbdow,
+            "SplitPbne.border", splitPbneBorder,
+            "SplitPbne.dividerSize", 7,
+            "SplitPbneDivider.border", splitPbneDividerBorder,
+            "SplitPbneDivider.drbggingColor", dbrkGrby,
+            "SplitPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                        "UP", "negbtiveIncrement",
                       "DOWN", "positiveIncrement",
-                      "LEFT", "negativeIncrement",
+                      "LEFT", "negbtiveIncrement",
                      "RIGHT", "positiveIncrement",
-                     "KP_UP", "negativeIncrement",
+                     "KP_UP", "negbtiveIncrement",
                    "KP_DOWN", "positiveIncrement",
-                   "KP_LEFT", "negativeIncrement",
+                   "KP_LEFT", "negbtiveIncrement",
                   "KP_RIGHT", "positiveIncrement",
                       "HOME", "selectMin",
-                       "END", "selectMax",
-                        "F8", "startResize",
+                       "END", "selectMbx",
+                        "F8", "stbrtResize",
                         "F6", "toggleFocus",
-                  "ctrl TAB", "focusOutForward",
-            "ctrl shift TAB", "focusOutBackward"
+                  "ctrl TAB", "focusOutForwbrd",
+            "ctrl shift TAB", "focusOutBbckwbrd"
                  }),
 
-            // *** TabbedPane
-            "TabbedPane.font", dialogPlain12,
-            "TabbedPane.background", control,
-            "TabbedPane.foreground", controlText,
-            "TabbedPane.highlight", controlLtHighlight,
-            "TabbedPane.light", controlHighlight,
-            "TabbedPane.shadow", controlShadow,
-            "TabbedPane.darkShadow", controlDkShadow,
-            "TabbedPane.selected", null,
-            "TabbedPane.focus", controlText,
-            "TabbedPane.textIconGap", 4,
+            // *** TbbbedPbne
+            "TbbbedPbne.font", diblogPlbin12,
+            "TbbbedPbne.bbckground", control,
+            "TbbbedPbne.foreground", controlText,
+            "TbbbedPbne.highlight", controlLtHighlight,
+            "TbbbedPbne.light", controlHighlight,
+            "TbbbedPbne.shbdow", controlShbdow,
+            "TbbbedPbne.dbrkShbdow", controlDkShbdow,
+            "TbbbedPbne.selected", null,
+            "TbbbedPbne.focus", controlText,
+            "TbbbedPbne.textIconGbp", 4,
 
-            // Causes tabs to be painted on top of the content area border.
-            // The amount of overlap is then controlled by tabAreaInsets.bottom,
-            // which is zero by default
-            "TabbedPane.tabsOverlapBorder", Boolean.FALSE,
-            "TabbedPane.selectionFollowsFocus", Boolean.TRUE,
+            // Cbuses tbbs to be pbinted on top of the content breb border.
+            // The bmount of overlbp is then controlled by tbbArebInsets.bottom,
+            // which is zero by defbult
+            "TbbbedPbne.tbbsOverlbpBorder", Boolebn.FALSE,
+            "TbbbedPbne.selectionFollowsFocus", Boolebn.TRUE,
 
-            "TabbedPane.labelShift", 1,
-            "TabbedPane.selectedLabelShift", -1,
-            "TabbedPane.tabInsets", tabbedPaneTabInsets,
-            "TabbedPane.selectedTabPadInsets", tabbedPaneTabPadInsets,
-            "TabbedPane.tabAreaInsets", tabbedPaneTabAreaInsets,
-            "TabbedPane.contentBorderInsets", tabbedPaneContentBorderInsets,
-            "TabbedPane.tabRunOverlay", 2,
-            "TabbedPane.tabsOpaque", Boolean.TRUE,
-            "TabbedPane.contentOpaque", Boolean.TRUE,
-            "TabbedPane.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                         "RIGHT", "navigateRight",
-                      "KP_RIGHT", "navigateRight",
-                          "LEFT", "navigateLeft",
-                       "KP_LEFT", "navigateLeft",
-                            "UP", "navigateUp",
-                         "KP_UP", "navigateUp",
-                          "DOWN", "navigateDown",
-                       "KP_DOWN", "navigateDown",
+            "TbbbedPbne.lbbelShift", 1,
+            "TbbbedPbne.selectedLbbelShift", -1,
+            "TbbbedPbne.tbbInsets", tbbbedPbneTbbInsets,
+            "TbbbedPbne.selectedTbbPbdInsets", tbbbedPbneTbbPbdInsets,
+            "TbbbedPbne.tbbArebInsets", tbbbedPbneTbbArebInsets,
+            "TbbbedPbne.contentBorderInsets", tbbbedPbneContentBorderInsets,
+            "TbbbedPbne.tbbRunOverlby", 2,
+            "TbbbedPbne.tbbsOpbque", Boolebn.TRUE,
+            "TbbbedPbne.contentOpbque", Boolebn.TRUE,
+            "TbbbedPbne.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                         "RIGHT", "nbvigbteRight",
+                      "KP_RIGHT", "nbvigbteRight",
+                          "LEFT", "nbvigbteLeft",
+                       "KP_LEFT", "nbvigbteLeft",
+                            "UP", "nbvigbteUp",
+                         "KP_UP", "nbvigbteUp",
+                          "DOWN", "nbvigbteDown",
+                       "KP_DOWN", "nbvigbteDown",
                      "ctrl DOWN", "requestFocusForVisibleComponent",
                   "ctrl KP_DOWN", "requestFocusForVisibleComponent",
                 }),
-            "TabbedPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                   "ctrl PAGE_DOWN", "navigatePageDown",
-                     "ctrl PAGE_UP", "navigatePageUp",
+            "TbbbedPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                   "ctrl PAGE_DOWN", "nbvigbtePbgeDown",
+                     "ctrl PAGE_UP", "nbvigbtePbgeUp",
                           "ctrl UP", "requestFocus",
                        "ctrl KP_UP", "requestFocus",
                  }),
 
 
-            // *** Table
-            "Table.font", dialogPlain12,
-            "Table.foreground", controlText,  // cell text color
-            "Table.background", window,  // cell background color
-            "Table.selectionForeground", textHighlightText,
-            "Table.selectionBackground", textHighlight,
-            "Table.dropLineColor", controlShadow,
-            "Table.dropLineShortColor", black,
-            "Table.gridColor", gray,  // grid line color
-            "Table.focusCellBackground", window,
-            "Table.focusCellForeground", controlText,
-            "Table.focusCellHighlightBorder", focusCellHighlightBorder,
-            "Table.scrollPaneBorder", loweredBevelBorder,
-            "Table.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            // *** Tbble
+            "Tbble.font", diblogPlbin12,
+            "Tbble.foreground", controlText,  // cell text color
+            "Tbble.bbckground", window,  // cell bbckground color
+            "Tbble.selectionForeground", textHighlightText,
+            "Tbble.selectionBbckground", textHighlight,
+            "Tbble.dropLineColor", controlShbdow,
+            "Tbble.dropLineShortColor", blbck,
+            "Tbble.gridColor", grby,  // grid line color
+            "Tbble.focusCellBbckground", window,
+            "Tbble.focusCellForeground", controlText,
+            "Tbble.focusCellHighlightBorder", focusCellHighlightBorder,
+            "Tbble.scrollPbneBorder", loweredBevelBorder,
+            "Tbble.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                "ctrl C", "copy",
-                               "ctrl V", "paste",
+                               "ctrl V", "pbste",
                                "ctrl X", "cut",
                                  "COPY", "copy",
-                                "PASTE", "paste",
+                                "PASTE", "pbste",
                                   "CUT", "cut",
                        "control INSERT", "copy",
-                         "shift INSERT", "paste",
+                         "shift INSERT", "pbste",
                          "shift DELETE", "cut",
                                 "RIGHT", "selectNextColumn",
                              "KP_RIGHT", "selectNextColumn",
@@ -1431,189 +1431,189 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                        "shift KP_RIGHT", "selectNextColumnExtendSelection",
                      "ctrl shift RIGHT", "selectNextColumnExtendSelection",
                   "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                           "ctrl RIGHT", "selectNextColumnChangeLead",
-                        "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                           "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                        "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                                  "LEFT", "selectPreviousColumn",
                               "KP_LEFT", "selectPreviousColumn",
                            "shift LEFT", "selectPreviousColumnExtendSelection",
                         "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                       "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                    "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                            "ctrl LEFT", "selectPreviousColumnChangeLead",
-                         "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                            "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                         "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                                  "DOWN", "selectNextRow",
                               "KP_DOWN", "selectNextRow",
                            "shift DOWN", "selectNextRowExtendSelection",
                         "shift KP_DOWN", "selectNextRowExtendSelection",
                       "ctrl shift DOWN", "selectNextRowExtendSelection",
                    "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                            "ctrl DOWN", "selectNextRowChangeLead",
-                         "ctrl KP_DOWN", "selectNextRowChangeLead",
+                            "ctrl DOWN", "selectNextRowChbngeLebd",
+                         "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                                    "UP", "selectPreviousRow",
                                 "KP_UP", "selectPreviousRow",
                              "shift UP", "selectPreviousRowExtendSelection",
                           "shift KP_UP", "selectPreviousRowExtendSelection",
                         "ctrl shift UP", "selectPreviousRowExtendSelection",
                      "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                              "ctrl UP", "selectPreviousRowChangeLead",
-                           "ctrl KP_UP", "selectPreviousRowChangeLead",
+                              "ctrl UP", "selectPreviousRowChbngeLebd",
+                           "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                                  "HOME", "selectFirstColumn",
                            "shift HOME", "selectFirstColumnExtendSelection",
                       "ctrl shift HOME", "selectFirstRowExtendSelection",
                             "ctrl HOME", "selectFirstRow",
-                                  "END", "selectLastColumn",
-                            "shift END", "selectLastColumnExtendSelection",
-                       "ctrl shift END", "selectLastRowExtendSelection",
-                             "ctrl END", "selectLastRow",
-                              "PAGE_UP", "scrollUpChangeSelection",
+                                  "END", "selectLbstColumn",
+                            "shift END", "selectLbstColumnExtendSelection",
+                       "ctrl shift END", "selectLbstRowExtendSelection",
+                             "ctrl END", "selectLbstRow",
+                              "PAGE_UP", "scrollUpChbngeSelection",
                         "shift PAGE_UP", "scrollUpExtendSelection",
                    "ctrl shift PAGE_UP", "scrollLeftExtendSelection",
-                         "ctrl PAGE_UP", "scrollLeftChangeSelection",
-                            "PAGE_DOWN", "scrollDownChangeSelection",
+                         "ctrl PAGE_UP", "scrollLeftChbngeSelection",
+                            "PAGE_DOWN", "scrollDownChbngeSelection",
                       "shift PAGE_DOWN", "scrollDownExtendSelection",
                  "ctrl shift PAGE_DOWN", "scrollRightExtendSelection",
-                       "ctrl PAGE_DOWN", "scrollRightChangeSelection",
+                       "ctrl PAGE_DOWN", "scrollRightChbngeSelection",
                                   "TAB", "selectNextColumnCell",
                             "shift TAB", "selectPreviousColumnCell",
                                 "ENTER", "selectNextRowCell",
                           "shift ENTER", "selectPreviousRowCell",
                                "ctrl A", "selectAll",
                            "ctrl SLASH", "selectAll",
-                      "ctrl BACK_SLASH", "clearSelection",
-                               "ESCAPE", "cancel",
-                                   "F2", "startEditing",
-                                "SPACE", "addToSelection",
+                      "ctrl BACK_SLASH", "clebrSelection",
+                               "ESCAPE", "cbncel",
+                                   "F2", "stbrtEditing",
+                                "SPACE", "bddToSelection",
                            "ctrl SPACE", "toggleAndAnchor",
                           "shift SPACE", "extendTo",
                      "ctrl shift SPACE", "moveSelectionTo",
-                                   "F8", "focusHeader"
+                                   "F8", "focusHebder"
                  }),
-            "Table.ancestorInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Tbble.bncestorInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                 "RIGHT", "selectPreviousColumn",
                              "KP_RIGHT", "selectPreviousColumn",
                           "shift RIGHT", "selectPreviousColumnExtendSelection",
                        "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
                      "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
                   "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                           "ctrl RIGHT", "selectPreviousColumnChangeLead",
-                        "ctrl KP_RIGHT", "selectPreviousColumnChangeLead",
+                           "ctrl RIGHT", "selectPreviousColumnChbngeLebd",
+                        "ctrl KP_RIGHT", "selectPreviousColumnChbngeLebd",
                                  "LEFT", "selectNextColumn",
                               "KP_LEFT", "selectNextColumn",
                            "shift LEFT", "selectNextColumnExtendSelection",
                         "shift KP_LEFT", "selectNextColumnExtendSelection",
                       "ctrl shift LEFT", "selectNextColumnExtendSelection",
                    "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                            "ctrl LEFT", "selectNextColumnChangeLead",
-                         "ctrl KP_LEFT", "selectNextColumnChangeLead",
-                         "ctrl PAGE_UP", "scrollRightChangeSelection",
-                       "ctrl PAGE_DOWN", "scrollLeftChangeSelection",
+                            "ctrl LEFT", "selectNextColumnChbngeLebd",
+                         "ctrl KP_LEFT", "selectNextColumnChbngeLebd",
+                         "ctrl PAGE_UP", "scrollRightChbngeSelection",
+                       "ctrl PAGE_DOWN", "scrollLeftChbngeSelection",
                    "ctrl shift PAGE_UP", "scrollRightExtendSelection",
                  "ctrl shift PAGE_DOWN", "scrollLeftExtendSelection",
                  }),
-            "Table.ascendingSortIcon", (LazyValue) t ->
-                    new SortArrowIcon(true, "Table.sortIconColor"),
-            "Table.descendingSortIcon", (LazyValue) t ->
-                    new SortArrowIcon(false, "Table.sortIconColor"),
-            "Table.sortIconColor", controlShadow,
+            "Tbble.bscendingSortIcon", (LbzyVblue) t ->
+                    new SortArrowIcon(true, "Tbble.sortIconColor"),
+            "Tbble.descendingSortIcon", (LbzyVblue) t ->
+                    new SortArrowIcon(fblse, "Tbble.sortIconColor"),
+            "Tbble.sortIconColor", controlShbdow,
 
-            "TableHeader.font", dialogPlain12,
-            "TableHeader.foreground", controlText, // header text color
-            "TableHeader.background", control, // header background
-            "TableHeader.cellBorder", tableHeaderBorder,
+            "TbbleHebder.font", diblogPlbin12,
+            "TbbleHebder.foreground", controlText, // hebder text color
+            "TbbleHebder.bbckground", control, // hebder bbckground
+            "TbbleHebder.cellBorder", tbbleHebderBorder,
 
-            // Support for changing the background/border of the currently
-            // selected header column when the header has the keyboard focus.
-            "TableHeader.focusCellBackground", table.getColor("text"), // like text component bg
-            "TableHeader.focusCellForeground", null,
-            "TableHeader.focusCellBorder", null,
-            "TableHeader.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            // Support for chbnging the bbckground/border of the currently
+            // selected hebder column when the hebder hbs the keybobrd focus.
+            "TbbleHebder.focusCellBbckground", tbble.getColor("text"), // like text component bg
+            "TbbleHebder.focusCellForeground", null,
+            "TbbleHebder.focusCellBorder", null,
+            "TbbleHebder.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                 "SPACE", "toggleSortOrder",
                                  "LEFT", "selectColumnToLeft",
                               "KP_LEFT", "selectColumnToLeft",
                                 "RIGHT", "selectColumnToRight",
                              "KP_RIGHT", "selectColumnToRight",
-                             "alt LEFT", "moveColumnLeft",
-                          "alt KP_LEFT", "moveColumnLeft",
-                            "alt RIGHT", "moveColumnRight",
-                         "alt KP_RIGHT", "moveColumnRight",
-                       "alt shift LEFT", "resizeLeft",
-                    "alt shift KP_LEFT", "resizeLeft",
-                      "alt shift RIGHT", "resizeRight",
-                   "alt shift KP_RIGHT", "resizeRight",
-                               "ESCAPE", "focusTable",
+                             "blt LEFT", "moveColumnLeft",
+                          "blt KP_LEFT", "moveColumnLeft",
+                            "blt RIGHT", "moveColumnRight",
+                         "blt KP_RIGHT", "moveColumnRight",
+                       "blt shift LEFT", "resizeLeft",
+                    "blt shift KP_LEFT", "resizeLeft",
+                      "blt shift RIGHT", "resizeRight",
+                   "blt shift KP_RIGHT", "resizeRight",
+                               "ESCAPE", "focusTbble",
                }),
 
             // *** Text
-            "TextField.font", sansSerifPlain12,
-            "TextField.background", window,
+            "TextField.font", sbnsSerifPlbin12,
+            "TextField.bbckground", window,
             "TextField.foreground", textText,
-            "TextField.shadow", controlShadow,
-            "TextField.darkShadow", controlDkShadow,
+            "TextField.shbdow", controlShbdow,
+            "TextField.dbrkShbdow", controlDkShbdow,
             "TextField.light", controlHighlight,
             "TextField.highlight", controlLtHighlight,
-            "TextField.inactiveForeground", textInactiveText,
-            "TextField.inactiveBackground", control,
-            "TextField.selectionBackground", textHighlight,
+            "TextField.inbctiveForeground", textInbctiveText,
+            "TextField.inbctiveBbckground", control,
+            "TextField.selectionBbckground", textHighlight,
             "TextField.selectionForeground", textHighlightText,
-            "TextField.caretForeground", textText,
-            "TextField.caretBlinkRate", caretBlinkRate,
+            "TextField.cbretForeground", textText,
+            "TextField.cbretBlinkRbte", cbretBlinkRbte,
             "TextField.border", textFieldBorder,
-            "TextField.margin", zeroInsets,
+            "TextField.mbrgin", zeroInsets,
 
-            "FormattedTextField.font", sansSerifPlain12,
-            "FormattedTextField.background", window,
-            "FormattedTextField.foreground", textText,
-            "FormattedTextField.inactiveForeground", textInactiveText,
-            "FormattedTextField.inactiveBackground", control,
-            "FormattedTextField.selectionBackground", textHighlight,
-            "FormattedTextField.selectionForeground", textHighlightText,
-            "FormattedTextField.caretForeground", textText,
-            "FormattedTextField.caretBlinkRate", caretBlinkRate,
-            "FormattedTextField.border", textFieldBorder,
-            "FormattedTextField.margin", zeroInsets,
-            "FormattedTextField.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
+            "FormbttedTextField.font", sbnsSerifPlbin12,
+            "FormbttedTextField.bbckground", window,
+            "FormbttedTextField.foreground", textText,
+            "FormbttedTextField.inbctiveForeground", textInbctiveText,
+            "FormbttedTextField.inbctiveBbckground", control,
+            "FormbttedTextField.selectionBbckground", textHighlight,
+            "FormbttedTextField.selectionForeground", textHighlightText,
+            "FormbttedTextField.cbretForeground", textText,
+            "FormbttedTextField.cbretBlinkRbte", cbretBlinkRbte,
+            "FormbttedTextField.border", textFieldBorder,
+            "FormbttedTextField.mbrgin", zeroInsets,
+            "FormbttedTextField.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                             "ENTER", JTextField.notifyAction,
                   "ctrl BACK_SLASH", "unselect",
-                  "control shift O", "toggle-componentOrientation",
+                  "control shift O", "toggle-componentOrientbtion",
                            "ESCAPE", "reset-field-edit",
                                "UP", "increment",
                             "KP_UP", "increment",
@@ -1621,149 +1621,149 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                           "KP_DOWN", "decrement",
               }),
 
-            "PasswordField.font", monospacedPlain12,
-            "PasswordField.background", window,
-            "PasswordField.foreground", textText,
-            "PasswordField.inactiveForeground", textInactiveText,
-            "PasswordField.inactiveBackground", control,
-            "PasswordField.selectionBackground", textHighlight,
-            "PasswordField.selectionForeground", textHighlightText,
-            "PasswordField.caretForeground", textText,
-            "PasswordField.caretBlinkRate", caretBlinkRate,
-            "PasswordField.border", textFieldBorder,
-            "PasswordField.margin", zeroInsets,
-            "PasswordField.echoChar", '*',
+            "PbsswordField.font", monospbcedPlbin12,
+            "PbsswordField.bbckground", window,
+            "PbsswordField.foreground", textText,
+            "PbsswordField.inbctiveForeground", textInbctiveText,
+            "PbsswordField.inbctiveBbckground", control,
+            "PbsswordField.selectionBbckground", textHighlight,
+            "PbsswordField.selectionForeground", textHighlightText,
+            "PbsswordField.cbretForeground", textText,
+            "PbsswordField.cbretBlinkRbte", cbretBlinkRbte,
+            "PbsswordField.border", textFieldBorder,
+            "PbsswordField.mbrgin", zeroInsets,
+            "PbsswordField.echoChbr", '*',
 
-            "TextArea.font", monospacedPlain12,
-            "TextArea.background", window,
-            "TextArea.foreground", textText,
-            "TextArea.inactiveForeground", textInactiveText,
-            "TextArea.selectionBackground", textHighlight,
-            "TextArea.selectionForeground", textHighlightText,
-            "TextArea.caretForeground", textText,
-            "TextArea.caretBlinkRate", caretBlinkRate,
-            "TextArea.border", marginBorder,
-            "TextArea.margin", zeroInsets,
+            "TextAreb.font", monospbcedPlbin12,
+            "TextAreb.bbckground", window,
+            "TextAreb.foreground", textText,
+            "TextAreb.inbctiveForeground", textInbctiveText,
+            "TextAreb.selectionBbckground", textHighlight,
+            "TextAreb.selectionForeground", textHighlightText,
+            "TextAreb.cbretForeground", textText,
+            "TextAreb.cbretBlinkRbte", cbretBlinkRbte,
+            "TextAreb.border", mbrginBorder,
+            "TextAreb.mbrgin", zeroInsets,
 
-            "TextPane.font", serifPlain12,
-            "TextPane.background", white,
-            "TextPane.foreground", textText,
-            "TextPane.selectionBackground", textHighlight,
-            "TextPane.selectionForeground", textHighlightText,
-            "TextPane.caretForeground", textText,
-            "TextPane.caretBlinkRate", caretBlinkRate,
-            "TextPane.inactiveForeground", textInactiveText,
-            "TextPane.border", marginBorder,
-            "TextPane.margin", editorMargin,
+            "TextPbne.font", serifPlbin12,
+            "TextPbne.bbckground", white,
+            "TextPbne.foreground", textText,
+            "TextPbne.selectionBbckground", textHighlight,
+            "TextPbne.selectionForeground", textHighlightText,
+            "TextPbne.cbretForeground", textText,
+            "TextPbne.cbretBlinkRbte", cbretBlinkRbte,
+            "TextPbne.inbctiveForeground", textInbctiveText,
+            "TextPbne.border", mbrginBorder,
+            "TextPbne.mbrgin", editorMbrgin,
 
-            "EditorPane.font", serifPlain12,
-            "EditorPane.background", white,
-            "EditorPane.foreground", textText,
-            "EditorPane.selectionBackground", textHighlight,
-            "EditorPane.selectionForeground", textHighlightText,
-            "EditorPane.caretForeground", textText,
-            "EditorPane.caretBlinkRate", caretBlinkRate,
-            "EditorPane.inactiveForeground", textInactiveText,
-            "EditorPane.border", marginBorder,
-            "EditorPane.margin", editorMargin,
+            "EditorPbne.font", serifPlbin12,
+            "EditorPbne.bbckground", white,
+            "EditorPbne.foreground", textText,
+            "EditorPbne.selectionBbckground", textHighlight,
+            "EditorPbne.selectionForeground", textHighlightText,
+            "EditorPbne.cbretForeground", textText,
+            "EditorPbne.cbretBlinkRbte", cbretBlinkRbte,
+            "EditorPbne.inbctiveForeground", textInbctiveText,
+            "EditorPbne.border", mbrginBorder,
+            "EditorPbne.mbrgin", editorMbrgin,
 
-            "html.pendingImage", SwingUtilities2.makeIcon(getClass(),
-                                    BasicLookAndFeel.class,
-                                    "icons/image-delayed.png"),
-            "html.missingImage", SwingUtilities2.makeIcon(getClass(),
-                                    BasicLookAndFeel.class,
-                                    "icons/image-failed.png"),
+            "html.pendingImbge", SwingUtilities2.mbkeIcon(getClbss(),
+                                    BbsicLookAndFeel.clbss,
+                                    "icons/imbge-delbyed.png"),
+            "html.missingImbge", SwingUtilities2.mbkeIcon(getClbss(),
+                                    BbsicLookAndFeel.clbss,
+                                    "icons/imbge-fbiled.png"),
             // *** TitledBorder
-            "TitledBorder.font", dialogPlain12,
+            "TitledBorder.font", diblogPlbin12,
             "TitledBorder.titleColor", controlText,
             "TitledBorder.border", etchedBorder,
 
-            // *** ToolBar
-            "ToolBar.font", dialogPlain12,
-            "ToolBar.background", control,
-            "ToolBar.foreground", controlText,
-            "ToolBar.shadow", controlShadow,
-            "ToolBar.darkShadow", controlDkShadow,
-            "ToolBar.light", controlHighlight,
-            "ToolBar.highlight", controlLtHighlight,
-            "ToolBar.dockingBackground", control,
-            "ToolBar.dockingForeground", red,
-            "ToolBar.floatingBackground", control,
-            "ToolBar.floatingForeground", darkGray,
-            "ToolBar.border", etchedBorder,
-            "ToolBar.separatorSize", toolBarSeparatorSize,
-            "ToolBar.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "navigateUp",
-                     "KP_UP", "navigateUp",
-                      "DOWN", "navigateDown",
-                   "KP_DOWN", "navigateDown",
-                      "LEFT", "navigateLeft",
-                   "KP_LEFT", "navigateLeft",
-                     "RIGHT", "navigateRight",
-                  "KP_RIGHT", "navigateRight"
+            // *** ToolBbr
+            "ToolBbr.font", diblogPlbin12,
+            "ToolBbr.bbckground", control,
+            "ToolBbr.foreground", controlText,
+            "ToolBbr.shbdow", controlShbdow,
+            "ToolBbr.dbrkShbdow", controlDkShbdow,
+            "ToolBbr.light", controlHighlight,
+            "ToolBbr.highlight", controlLtHighlight,
+            "ToolBbr.dockingBbckground", control,
+            "ToolBbr.dockingForeground", red,
+            "ToolBbr.flobtingBbckground", control,
+            "ToolBbr.flobtingForeground", dbrkGrby,
+            "ToolBbr.border", etchedBorder,
+            "ToolBbr.sepbrbtorSize", toolBbrSepbrbtorSize,
+            "ToolBbr.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                        "UP", "nbvigbteUp",
+                     "KP_UP", "nbvigbteUp",
+                      "DOWN", "nbvigbteDown",
+                   "KP_DOWN", "nbvigbteDown",
+                      "LEFT", "nbvigbteLeft",
+                   "KP_LEFT", "nbvigbteLeft",
+                     "RIGHT", "nbvigbteRight",
+                  "KP_RIGHT", "nbvigbteRight"
                  }),
 
             // *** ToolTips
-            "ToolTip.font", sansSerifPlain12,
-            "ToolTip.background", table.get("info"),
-            "ToolTip.foreground", table.get("infoText"),
-            "ToolTip.border", blackLineBorder,
-            // ToolTips also support backgroundInactive, borderInactive,
-            // and foregroundInactive
+            "ToolTip.font", sbnsSerifPlbin12,
+            "ToolTip.bbckground", tbble.get("info"),
+            "ToolTip.foreground", tbble.get("infoText"),
+            "ToolTip.border", blbckLineBorder,
+            // ToolTips blso support bbckgroundInbctive, borderInbctive,
+            // bnd foregroundInbctive
 
-        // *** ToolTipManager
-            // ToolTipManager.enableToolTipMode currently supports:
-            // "allWindows" (default):
-            //     enables tool tips for all windows of all java applications,
-            //     whether the windows are active or inactive
-            // "activeApplication"
-            //     enables tool tips for windows of an application only when
-            //     the application has an active window
-            "ToolTipManager.enableToolTipMode", "allWindows",
+        // *** ToolTipMbnbger
+            // ToolTipMbnbger.enbbleToolTipMode currently supports:
+            // "bllWindows" (defbult):
+            //     enbbles tool tips for bll windows of bll jbvb bpplicbtions,
+            //     whether the windows bre bctive or inbctive
+            // "bctiveApplicbtion"
+            //     enbbles tool tips for windows of bn bpplicbtion only when
+            //     the bpplicbtion hbs bn bctive window
+            "ToolTipMbnbger.enbbleToolTipMode", "bllWindows",
 
         // *** Tree
-            "Tree.paintLines", Boolean.TRUE,
-            "Tree.lineTypeDashed", Boolean.FALSE,
-            "Tree.font", dialogPlain12,
-            "Tree.background", window,
+            "Tree.pbintLines", Boolebn.TRUE,
+            "Tree.lineTypeDbshed", Boolebn.FALSE,
+            "Tree.font", diblogPlbin12,
+            "Tree.bbckground", window,
             "Tree.foreground", textText,
-            "Tree.hash", gray,
+            "Tree.hbsh", grby,
             "Tree.textForeground", textText,
-            "Tree.textBackground", table.get("text"),
+            "Tree.textBbckground", tbble.get("text"),
             "Tree.selectionForeground", textHighlightText,
-            "Tree.selectionBackground", textHighlight,
-            "Tree.selectionBorderColor", black,
-            "Tree.dropLineColor", controlShadow,
-            "Tree.editorBorder", blackLineBorder,
+            "Tree.selectionBbckground", textHighlight,
+            "Tree.selectionBorderColor", blbck,
+            "Tree.dropLineColor", controlShbdow,
+            "Tree.editorBorder", blbckLineBorder,
             "Tree.leftChildIndent", 7,
             "Tree.rightChildIndent", 13,
             "Tree.rowHeight", 16,
-            "Tree.scrollsOnExpand", Boolean.TRUE,
-            "Tree.openIcon", SwingUtilities2.makeIcon(getClass(),
-                                                      BasicLookAndFeel.class,
+            "Tree.scrollsOnExpbnd", Boolebn.TRUE,
+            "Tree.openIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                      BbsicLookAndFeel.clbss,
                                                       "icons/TreeOpen.gif"),
-            "Tree.closedIcon", SwingUtilities2.makeIcon(getClass(),
-                                                        BasicLookAndFeel.class,
+            "Tree.closedIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                        BbsicLookAndFeel.clbss,
                                                         "icons/TreeClosed.gif"),
-            "Tree.leafIcon", SwingUtilities2.makeIcon(getClass(),
-                                                      BasicLookAndFeel.class,
-                                                      "icons/TreeLeaf.gif"),
-            "Tree.expandedIcon", null,
-            "Tree.collapsedIcon", null,
-            "Tree.changeSelectionWithFocus", Boolean.TRUE,
-            "Tree.drawsFocusBorderAroundIcon", Boolean.FALSE,
-            "Tree.timeFactor", oneThousand,
-            "Tree.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Tree.lebfIcon", SwingUtilities2.mbkeIcon(getClbss(),
+                                                      BbsicLookAndFeel.clbss,
+                                                      "icons/TreeLebf.gif"),
+            "Tree.expbndedIcon", null,
+            "Tree.collbpsedIcon", null,
+            "Tree.chbngeSelectionWithFocus", Boolebn.TRUE,
+            "Tree.drbwsFocusBorderAroundIcon", Boolebn.FALSE,
+            "Tree.timeFbctor", oneThousbnd,
+            "Tree.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                  "ctrl C", "copy",
-                                 "ctrl V", "paste",
+                                 "ctrl V", "pbste",
                                  "ctrl X", "cut",
                                    "COPY", "copy",
-                                  "PASTE", "paste",
+                                  "PASTE", "pbste",
                                     "CUT", "cut",
                          "control INSERT", "copy",
-                           "shift INSERT", "paste",
+                           "shift INSERT", "pbste",
                            "shift DELETE", "cut",
                                      "UP", "selectPrevious",
                                   "KP_UP", "selectPrevious",
@@ -1771,85 +1771,85 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                             "shift KP_UP", "selectPreviousExtendSelection",
                           "ctrl shift UP", "selectPreviousExtendSelection",
                        "ctrl shift KP_UP", "selectPreviousExtendSelection",
-                                "ctrl UP", "selectPreviousChangeLead",
-                             "ctrl KP_UP", "selectPreviousChangeLead",
+                                "ctrl UP", "selectPreviousChbngeLebd",
+                             "ctrl KP_UP", "selectPreviousChbngeLebd",
                                    "DOWN", "selectNext",
                                 "KP_DOWN", "selectNext",
                              "shift DOWN", "selectNextExtendSelection",
                           "shift KP_DOWN", "selectNextExtendSelection",
                         "ctrl shift DOWN", "selectNextExtendSelection",
                      "ctrl shift KP_DOWN", "selectNextExtendSelection",
-                              "ctrl DOWN", "selectNextChangeLead",
-                           "ctrl KP_DOWN", "selectNextChangeLead",
+                              "ctrl DOWN", "selectNextChbngeLebd",
+                           "ctrl KP_DOWN", "selectNextChbngeLebd",
                                   "RIGHT", "selectChild",
                                "KP_RIGHT", "selectChild",
-                                   "LEFT", "selectParent",
-                                "KP_LEFT", "selectParent",
-                                "PAGE_UP", "scrollUpChangeSelection",
+                                   "LEFT", "selectPbrent",
+                                "KP_LEFT", "selectPbrent",
+                                "PAGE_UP", "scrollUpChbngeSelection",
                           "shift PAGE_UP", "scrollUpExtendSelection",
                      "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                           "ctrl PAGE_UP", "scrollUpChangeLead",
-                              "PAGE_DOWN", "scrollDownChangeSelection",
+                           "ctrl PAGE_UP", "scrollUpChbngeLebd",
+                              "PAGE_DOWN", "scrollDownChbngeSelection",
                         "shift PAGE_DOWN", "scrollDownExtendSelection",
                    "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                         "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                         "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                                    "HOME", "selectFirst",
                              "shift HOME", "selectFirstExtendSelection",
                         "ctrl shift HOME", "selectFirstExtendSelection",
-                              "ctrl HOME", "selectFirstChangeLead",
-                                    "END", "selectLast",
-                              "shift END", "selectLastExtendSelection",
-                         "ctrl shift END", "selectLastExtendSelection",
-                               "ctrl END", "selectLastChangeLead",
-                                     "F2", "startEditing",
+                              "ctrl HOME", "selectFirstChbngeLebd",
+                                    "END", "selectLbst",
+                              "shift END", "selectLbstExtendSelection",
+                         "ctrl shift END", "selectLbstExtendSelection",
+                               "ctrl END", "selectLbstChbngeLebd",
+                                     "F2", "stbrtEditing",
                                  "ctrl A", "selectAll",
                              "ctrl SLASH", "selectAll",
-                        "ctrl BACK_SLASH", "clearSelection",
+                        "ctrl BACK_SLASH", "clebrSelection",
                               "ctrl LEFT", "scrollLeft",
                            "ctrl KP_LEFT", "scrollLeft",
                              "ctrl RIGHT", "scrollRight",
                           "ctrl KP_RIGHT", "scrollRight",
-                                  "SPACE", "addToSelection",
+                                  "SPACE", "bddToSelection",
                              "ctrl SPACE", "toggleAndAnchor",
                             "shift SPACE", "extendTo",
                        "ctrl shift SPACE", "moveSelectionTo"
                  }),
-            "Tree.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                                  "RIGHT", "selectParent",
-                               "KP_RIGHT", "selectParent",
+            "Tree.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                                  "RIGHT", "selectPbrent",
+                               "KP_RIGHT", "selectPbrent",
                                    "LEFT", "selectChild",
                                 "KP_LEFT", "selectChild",
                  }),
-            "Tree.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancel"
+            "Tree.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                     "ESCAPE", "cbncel"
                  }),
-            // Bind specific keys that can invoke popup on currently
+            // Bind specific keys thbt cbn invoke popup on currently
             // focused JComponent
-            "RootPane.ancestorInputMap",
-                new UIDefaults.LazyInputMap(new Object[] {
+            "RootPbne.bncestorInputMbp",
+                new UIDefbults.LbzyInputMbp(new Object[] {
                      "shift F10", "postPopup",
                   "CONTEXT_MENU", "postPopup"
                   }),
 
-            // These bindings are only enabled when there is a default
-            // button set on the rootpane.
-            "RootPane.defaultButtonWindowKeyBindings", new Object[] {
+            // These bindings bre only enbbled when there is b defbult
+            // button set on the rootpbne.
+            "RootPbne.defbultButtonWindowKeyBindings", new Object[] {
                              "ENTER", "press",
-                    "released ENTER", "release",
+                    "relebsed ENTER", "relebse",
                         "ctrl ENTER", "press",
-               "ctrl released ENTER", "release"
+               "ctrl relebsed ENTER", "relebse"
               },
         };
 
-        table.putDefaults(defaults);
+        tbble.putDefbults(defbults);
     }
 
-    static int getFocusAcceleratorKeyMask() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
-            return ((SunToolkit)tk).getFocusAcceleratorKeyMask();
+    stbtic int getFocusAccelerbtorKeyMbsk() {
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof SunToolkit) {
+            return ((SunToolkit)tk).getFocusAccelerbtorKeyMbsk();
         }
         return ActionEvent.ALT_MASK;
     }
@@ -1857,248 +1857,248 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
 
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Returns the ui thbt is of type <code>klbss</code>, or null if
+     * one cbn not be found.
      */
-    static Object getUIOfType(ComponentUI ui, Class<?> klass) {
-        if (klass.isInstance(ui)) {
+    stbtic Object getUIOfType(ComponentUI ui, Clbss<?> klbss) {
+        if (klbss.isInstbnce(ui)) {
             return ui;
         }
         return null;
     }
 
-    // ********* Auditory Cue support methods and objects *********
-    // also see the "AuditoryCues" section of the defaults table
+    // ********* Auditory Cue support methods bnd objects *********
+    // blso see the "AuditoryCues" section of the defbults tbble
 
     /**
-     * Returns an <code>ActionMap</code> containing the audio actions
-     * for this look and feel.
+     * Returns bn <code>ActionMbp</code> contbining the budio bctions
+     * for this look bnd feel.
      * <P>
-     * The returned <code>ActionMap</code> contains <code>Actions</code> that
-     * embody the ability to render an auditory cue. These auditory
-     * cues map onto user and system activities that may be useful
-     * for an end user to know about (such as a dialog box appearing).
+     * The returned <code>ActionMbp</code> contbins <code>Actions</code> thbt
+     * embody the bbility to render bn buditory cue. These buditory
+     * cues mbp onto user bnd system bctivities thbt mby be useful
+     * for bn end user to know bbout (such bs b diblog box bppebring).
      * <P>
-     * At the appropriate time,
-     * the {@code ComponentUI} is responsible for obtaining an
-     * <code>Action</code> out of the <code>ActionMap</code> and passing
-     * it to <code>playSound</code>.
+     * At the bppropribte time,
+     * the {@code ComponentUI} is responsible for obtbining bn
+     * <code>Action</code> out of the <code>ActionMbp</code> bnd pbssing
+     * it to <code>plbySound</code>.
      * <P>
-     * This method first looks up the {@code ActionMap} from the
-     * defaults using the key {@code "AuditoryCues.actionMap"}.
+     * This method first looks up the {@code ActionMbp} from the
+     * defbults using the key {@code "AuditoryCues.bctionMbp"}.
      * <p>
-     * If the value is {@code non-null}, it is returned. If the value
-     * of the default {@code "AuditoryCues.actionMap"} is {@code null}
-     * and the value of the default {@code "AuditoryCues.cueList"} is
-     * {@code non-null}, an {@code ActionMapUIResource} is created and
-     * populated. Population is done by iterating over each of the
-     * elements of the {@code "AuditoryCues.cueList"} array, and
-     * invoking {@code createAudioAction()} to create an {@code
-     * Action} for each element.  The resulting {@code Action} is
-     * placed in the {@code ActionMapUIResource}, using the array
-     * element as the key.  For example, if the {@code
-     * "AuditoryCues.cueList"} array contains a single-element, {@code
-     * "audioKey"}, the {@code ActionMapUIResource} is created, then
-     * populated by way of {@code actionMap.put(cueList[0],
-     * createAudioAction(cueList[0]))}.
+     * If the vblue is {@code non-null}, it is returned. If the vblue
+     * of the defbult {@code "AuditoryCues.bctionMbp"} is {@code null}
+     * bnd the vblue of the defbult {@code "AuditoryCues.cueList"} is
+     * {@code non-null}, bn {@code ActionMbpUIResource} is crebted bnd
+     * populbted. Populbtion is done by iterbting over ebch of the
+     * elements of the {@code "AuditoryCues.cueList"} brrby, bnd
+     * invoking {@code crebteAudioAction()} to crebte bn {@code
+     * Action} for ebch element.  The resulting {@code Action} is
+     * plbced in the {@code ActionMbpUIResource}, using the brrby
+     * element bs the key.  For exbmple, if the {@code
+     * "AuditoryCues.cueList"} brrby contbins b single-element, {@code
+     * "budioKey"}, the {@code ActionMbpUIResource} is crebted, then
+     * populbted by wby of {@code bctionMbp.put(cueList[0],
+     * crebteAudioAction(cueList[0]))}.
      * <p>
-     * If the value of the default {@code "AuditoryCues.actionMap"} is
-     * {@code null} and the value of the default
-     * {@code "AuditoryCues.cueList"} is {@code null}, an empty
-     * {@code ActionMapUIResource} is created.
+     * If the vblue of the defbult {@code "AuditoryCues.bctionMbp"} is
+     * {@code null} bnd the vblue of the defbult
+     * {@code "AuditoryCues.cueList"} is {@code null}, bn empty
+     * {@code ActionMbpUIResource} is crebted.
      *
      *
-     * @return      an ActionMap containing {@code Actions}
-     *              responsible for playing auditory cues
-     * @throws ClassCastException if the value of the
-     *         default {@code "AuditoryCues.actionMap"} is not an
-     *         {@code ActionMap}, or the value of the default
-     *         {@code "AuditoryCues.cueList"} is not an {@code Object[]}
-     * @see #createAudioAction
-     * @see #playSound(Action)
+     * @return      bn ActionMbp contbining {@code Actions}
+     *              responsible for plbying buditory cues
+     * @throws ClbssCbstException if the vblue of the
+     *         defbult {@code "AuditoryCues.bctionMbp"} is not bn
+     *         {@code ActionMbp}, or the vblue of the defbult
+     *         {@code "AuditoryCues.cueList"} is not bn {@code Object[]}
+     * @see #crebteAudioAction
+     * @see #plbySound(Action)
      * @since 1.4
      */
-    protected ActionMap getAudioActionMap() {
-        ActionMap audioActionMap = (ActionMap)UIManager.get(
-                                              "AuditoryCues.actionMap");
-        if (audioActionMap == null) {
-            Object[] acList = (Object[])UIManager.get("AuditoryCues.cueList");
-            if (acList != null) {
-                audioActionMap = new ActionMapUIResource();
-                for(int counter = acList.length-1; counter >= 0; counter--) {
-                    audioActionMap.put(acList[counter],
-                                       createAudioAction(acList[counter]));
+    protected ActionMbp getAudioActionMbp() {
+        ActionMbp budioActionMbp = (ActionMbp)UIMbnbger.get(
+                                              "AuditoryCues.bctionMbp");
+        if (budioActionMbp == null) {
+            Object[] bcList = (Object[])UIMbnbger.get("AuditoryCues.cueList");
+            if (bcList != null) {
+                budioActionMbp = new ActionMbpUIResource();
+                for(int counter = bcList.length-1; counter >= 0; counter--) {
+                    budioActionMbp.put(bcList[counter],
+                                       crebteAudioAction(bcList[counter]));
                 }
             }
-            UIManager.getLookAndFeelDefaults().put("AuditoryCues.actionMap",
-                                                   audioActionMap);
+            UIMbnbger.getLookAndFeelDefbults().put("AuditoryCues.bctionMbp",
+                                                   budioActionMbp);
         }
-        return audioActionMap;
+        return budioActionMbp;
     }
 
     /**
-     * Creates and returns an {@code Action} used to play a sound.
+     * Crebtes bnd returns bn {@code Action} used to plby b sound.
      * <p>
-     * If {@code key} is {@code non-null}, an {@code Action} is created
-     * using the value from the defaults with key {@code key}. The value
-     * identifies the sound resource to load when
-     * {@code actionPerformed} is invoked on the {@code Action}. The
-     * sound resource is loaded into a {@code byte[]} by way of
-     * {@code getClass().getResourceAsStream()}.
+     * If {@code key} is {@code non-null}, bn {@code Action} is crebted
+     * using the vblue from the defbults with key {@code key}. The vblue
+     * identifies the sound resource to lobd when
+     * {@code bctionPerformed} is invoked on the {@code Action}. The
+     * sound resource is lobded into b {@code byte[]} by wby of
+     * {@code getClbss().getResourceAsStrebm()}.
      *
-     * @param key the key identifying the audio action
-     * @return      an {@code Action} used to play the source, or {@code null}
+     * @pbrbm key the key identifying the budio bction
+     * @return      bn {@code Action} used to plby the source, or {@code null}
      *              if {@code key} is {@code null}
-     * @see #playSound(Action)
+     * @see #plbySound(Action)
      * @since 1.4
      */
-    protected Action createAudioAction(Object key) {
+    protected Action crebteAudioAction(Object key) {
         if (key != null) {
-            String audioKey = (String)key;
-            String audioValue = (String)UIManager.get(key);
-            return new AudioAction(audioKey, audioValue);
+            String budioKey = (String)key;
+            String budioVblue = (String)UIMbnbger.get(key);
+            return new AudioAction(budioKey, budioVblue);
         } else {
             return null;
         }
     }
 
     /**
-     * Pass the name String to the super constructor. This is used
-     * later to identify the Action and decide whether to play it or
-     * not. Store the resource String. I is used to get the audio
-     * resource. In this case, the resource is an audio file.
+     * Pbss the nbme String to the super constructor. This is used
+     * lbter to identify the Action bnd decide whether to plby it or
+     * not. Store the resource String. I is used to get the budio
+     * resource. In this cbse, the resource is bn budio file.
      *
      * @since 1.4
      */
-    private class AudioAction extends AbstractAction implements LineListener {
-        // We strive to only play one sound at a time (other platforms
-        // appear to do this). This is done by maintaining the field
-        // clipPlaying. Every time a sound is to be played,
-        // cancelCurrentSound is invoked to cancel any sound that may be
-        // playing.
-        private String audioResource;
-        private byte[] audioBuffer;
+    privbte clbss AudioAction extends AbstrbctAction implements LineListener {
+        // We strive to only plby one sound bt b time (other plbtforms
+        // bppebr to do this). This is done by mbintbining the field
+        // clipPlbying. Every time b sound is to be plbyed,
+        // cbncelCurrentSound is invoked to cbncel bny sound thbt mby be
+        // plbying.
+        privbte String budioResource;
+        privbte byte[] budioBuffer;
 
         /**
-         * The String is the name of the Action and
-         * points to the audio resource.
-         * The byte[] is a buffer of the audio bits.
+         * The String is the nbme of the Action bnd
+         * points to the budio resource.
+         * The byte[] is b buffer of the budio bits.
          */
-        public AudioAction(String name, String resource) {
-            super(name);
-            audioResource = resource;
+        public AudioAction(String nbme, String resource) {
+            super(nbme);
+            budioResource = resource;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (audioBuffer == null) {
-                audioBuffer = loadAudioData(audioResource);
+        public void bctionPerformed(ActionEvent e) {
+            if (budioBuffer == null) {
+                budioBuffer = lobdAudioDbtb(budioResource);
             }
-            if (audioBuffer != null) {
-                cancelCurrentSound(null);
+            if (budioBuffer != null) {
+                cbncelCurrentSound(null);
                 try {
-                    AudioInputStream soundStream =
-                        AudioSystem.getAudioInputStream(
-                            new ByteArrayInputStream(audioBuffer));
-                    DataLine.Info info =
-                        new DataLine.Info(Clip.class, soundStream.getFormat());
+                    AudioInputStrebm soundStrebm =
+                        AudioSystem.getAudioInputStrebm(
+                            new ByteArrbyInputStrebm(budioBuffer));
+                    DbtbLine.Info info =
+                        new DbtbLine.Info(Clip.clbss, soundStrebm.getFormbt());
                     Clip clip = (Clip) AudioSystem.getLine(info);
-                    clip.open(soundStream);
-                    clip.addLineListener(this);
+                    clip.open(soundStrebm);
+                    clip.bddLineListener(this);
 
-                    synchronized(audioLock) {
-                        clipPlaying = clip;
+                    synchronized(budioLock) {
+                        clipPlbying = clip;
                     }
 
-                    clip.start();
-                } catch (Exception ex) {}
+                    clip.stbrt();
+                } cbtch (Exception ex) {}
             }
         }
 
-        public void update(LineEvent event) {
+        public void updbte(LineEvent event) {
             if (event.getType() == LineEvent.Type.STOP) {
-                cancelCurrentSound((Clip)event.getLine());
+                cbncelCurrentSound((Clip)event.getLine());
             }
         }
 
         /**
-         * If the parameter is null, or equal to the currently
-         * playing sound, then cancel the currently playing sound.
+         * If the pbrbmeter is null, or equbl to the currently
+         * plbying sound, then cbncel the currently plbying sound.
          */
-        private void cancelCurrentSound(Clip clip) {
-            Clip lastClip = null;
+        privbte void cbncelCurrentSound(Clip clip) {
+            Clip lbstClip = null;
 
-            synchronized(audioLock) {
-                if (clip == null || clip == clipPlaying) {
-                    lastClip = clipPlaying;
-                    clipPlaying = null;
+            synchronized(budioLock) {
+                if (clip == null || clip == clipPlbying) {
+                    lbstClip = clipPlbying;
+                    clipPlbying = null;
                 }
             }
 
-            if (lastClip != null) {
-                lastClip.removeLineListener(this);
-                lastClip.close();
+            if (lbstClip != null) {
+                lbstClip.removeLineListener(this);
+                lbstClip.close();
             }
         }
     }
 
     /**
-     * Utility method that loads audio bits for the specified
-     * <code>soundFile</code> filename. If this method is unable to
-     * build a viable path name from the <code>baseClass</code> and
-     * <code>soundFile</code> passed into this method, it will
+     * Utility method thbt lobds budio bits for the specified
+     * <code>soundFile</code> filenbme. If this method is unbble to
+     * build b vibble pbth nbme from the <code>bbseClbss</code> bnd
+     * <code>soundFile</code> pbssed into this method, it will
      * return <code>null</code>.
      *
-     * @param soundFile    the name of the audio file to be retrieved
+     * @pbrbm soundFile    the nbme of the budio file to be retrieved
      *                     from disk
-     * @return             A byte[] with audio data or null
+     * @return             A byte[] with budio dbtb or null
      * @since 1.4
      */
-    private byte[] loadAudioData(final String soundFile){
+    privbte byte[] lobdAudioDbtb(finbl String soundFile){
         if (soundFile == null) {
             return null;
         }
-        /* Copy resource into a byte array.  This is
-         * necessary because several browsers consider
-         * Class.getResource a security risk since it
-         * can be used to load additional classes.
-         * Class.getResourceAsStream just returns raw
-         * bytes, which we can convert to a sound.
+        /* Copy resource into b byte brrby.  This is
+         * necessbry becbuse severbl browsers consider
+         * Clbss.getResource b security risk since it
+         * cbn be used to lobd bdditionbl clbsses.
+         * Clbss.getResourceAsStrebm just returns rbw
+         * bytes, which we cbn convert to b sound.
          */
         byte[] buffer = AccessController.doPrivileged(
                                                  new PrivilegedAction<byte[]>() {
                 public byte[] run() {
                     try {
-                        InputStream resource = BasicLookAndFeel.this.
-                            getClass().getResourceAsStream(soundFile);
+                        InputStrebm resource = BbsicLookAndFeel.this.
+                            getClbss().getResourceAsStrebm(soundFile);
                         if (resource == null) {
                             return null;
                         }
-                        BufferedInputStream in =
-                            new BufferedInputStream(resource);
-                        ByteArrayOutputStream out =
-                            new ByteArrayOutputStream(1024);
+                        BufferedInputStrebm in =
+                            new BufferedInputStrebm(resource);
+                        ByteArrbyOutputStrebm out =
+                            new ByteArrbyOutputStrebm(1024);
                         byte[] buffer = new byte[1024];
                         int n;
-                        while ((n = in.read(buffer)) > 0) {
+                        while ((n = in.rebd(buffer)) > 0) {
                             out.write(buffer, 0, n);
                         }
                         in.close();
                         out.flush();
-                        buffer = out.toByteArray();
+                        buffer = out.toByteArrby();
                         return buffer;
-                    } catch (IOException ioe) {
+                    } cbtch (IOException ioe) {
                         System.err.println(ioe.toString());
                         return null;
                     }
                 }
             });
         if (buffer == null) {
-            System.err.println(getClass().getName() + "/" +
+            System.err.println(getClbss().getNbme() + "/" +
                                soundFile + " not found.");
             return null;
         }
         if (buffer.length == 0) {
-            System.err.println("warning: " + soundFile +
+            System.err.println("wbrning: " + soundFile +
                                " is zero-length");
             return null;
         }
@@ -2106,39 +2106,39 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
     }
 
     /**
-     * If necessary, invokes {@code actionPerformed} on
-     * {@code audioAction} to play a sound.
-     * The {@code actionPerformed} method is invoked if the value of
-     * the {@code "AuditoryCues.playList"} default is a {@code
-     * non-null} {@code Object[]} containing a {@code String} entry
-     * equal to the name of the {@code audioAction}.
+     * If necessbry, invokes {@code bctionPerformed} on
+     * {@code budioAction} to plby b sound.
+     * The {@code bctionPerformed} method is invoked if the vblue of
+     * the {@code "AuditoryCues.plbyList"} defbult is b {@code
+     * non-null} {@code Object[]} contbining b {@code String} entry
+     * equbl to the nbme of the {@code budioAction}.
      *
-     * @param audioAction an Action that knows how to render the audio
-     *                    associated with the system or user activity
-     *                    that is occurring; a value of {@code null}, is
+     * @pbrbm budioAction bn Action thbt knows how to render the budio
+     *                    bssocibted with the system or user bctivity
+     *                    thbt is occurring; b vblue of {@code null}, is
      *                    ignored
-     * @throws ClassCastException if {@code audioAction} is {@code non-null}
-     *         and the value of the default {@code "AuditoryCues.playList"}
-     *         is not an {@code Object[]}
+     * @throws ClbssCbstException if {@code budioAction} is {@code non-null}
+     *         bnd the vblue of the defbult {@code "AuditoryCues.plbyList"}
+     *         is not bn {@code Object[]}
      * @since 1.4
      */
-    protected void playSound(Action audioAction) {
-        if (audioAction != null) {
-            Object[] audioStrings = (Object[])
-                                    UIManager.get("AuditoryCues.playList");
-            if (audioStrings != null) {
-                // create a HashSet to help us decide to play or not
-                HashSet<Object> audioCues = new HashSet<Object>();
-                for (Object audioString : audioStrings) {
-                    audioCues.add(audioString);
+    protected void plbySound(Action budioAction) {
+        if (budioAction != null) {
+            Object[] budioStrings = (Object[])
+                                    UIMbnbger.get("AuditoryCues.plbyList");
+            if (budioStrings != null) {
+                // crebte b HbshSet to help us decide to plby or not
+                HbshSet<Object> budioCues = new HbshSet<Object>();
+                for (Object budioString : budioStrings) {
+                    budioCues.bdd(budioString);
                 }
-                // get the name of the Action
-                String actionName = (String)audioAction.getValue(Action.NAME);
-                // if the actionName is in the audioCues HashSet, play it.
-                if (audioCues.contains(actionName)) {
-                    audioAction.actionPerformed(new
+                // get the nbme of the Action
+                String bctionNbme = (String)budioAction.getVblue(Action.NAME);
+                // if the bctionNbme is in the budioCues HbshSet, plby it.
+                if (budioCues.contbins(bctionNbme)) {
+                    budioAction.bctionPerformed(new
                         ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                    actionName));
+                                    bctionNbme));
                 }
             }
         }
@@ -2146,83 +2146,83 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
 
 
     /**
-     * Sets the parent of the passed in ActionMap to be the audio action
-     * map.
+     * Sets the pbrent of the pbssed in ActionMbp to be the budio bction
+     * mbp.
      */
-    static void installAudioActionMap(ActionMap map) {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        if (laf instanceof BasicLookAndFeel) {
-            map.setParent(((BasicLookAndFeel)laf).getAudioActionMap());
+    stbtic void instbllAudioActionMbp(ActionMbp mbp) {
+        LookAndFeel lbf = UIMbnbger.getLookAndFeel();
+        if (lbf instbnceof BbsicLookAndFeel) {
+            mbp.setPbrent(((BbsicLookAndFeel)lbf).getAudioActionMbp());
         }
     }
 
 
     /**
-     * Helper method to play a named sound.
+     * Helper method to plby b nbmed sound.
      *
-     * @param c JComponent to play the sound for.
-     * @param actionKey Key for the sound.
+     * @pbrbm c JComponent to plby the sound for.
+     * @pbrbm bctionKey Key for the sound.
      */
-    static void playSound(JComponent c, Object actionKey) {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        if (laf instanceof BasicLookAndFeel) {
-            ActionMap map = c.getActionMap();
-            if (map != null) {
-                Action audioAction = map.get(actionKey);
-                if (audioAction != null) {
-                    // pass off firing the Action to a utility method
-                    ((BasicLookAndFeel)laf).playSound(audioAction);
+    stbtic void plbySound(JComponent c, Object bctionKey) {
+        LookAndFeel lbf = UIMbnbger.getLookAndFeel();
+        if (lbf instbnceof BbsicLookAndFeel) {
+            ActionMbp mbp = c.getActionMbp();
+            if (mbp != null) {
+                Action budioAction = mbp.get(bctionKey);
+                if (budioAction != null) {
+                    // pbss off firing the Action to b utility method
+                    ((BbsicLookAndFeel)lbf).plbySound(budioAction);
                 }
             }
         }
     }
 
     /**
-     * This class contains listener that watches for all the mouse
-     * events that can possibly invoke popup on the component
+     * This clbss contbins listener thbt wbtches for bll the mouse
+     * events thbt cbn possibly invoke popup on the component
      */
-    class AWTEventHelper implements AWTEventListener,PrivilegedAction<Object> {
+    clbss AWTEventHelper implements AWTEventListener,PrivilegedAction<Object> {
         AWTEventHelper() {
             super();
             AccessController.doPrivileged(this);
         }
 
         public Object run() {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            if(invocator == null) {
-                tk.addAWTEventListener(this, AWTEvent.MOUSE_EVENT_MASK);
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            if(invocbtor == null) {
+                tk.bddAWTEventListener(this, AWTEvent.MOUSE_EVENT_MASK);
             } else {
-                tk.removeAWTEventListener(invocator);
+                tk.removeAWTEventListener(invocbtor);
             }
-            // Return value not used.
+            // Return vblue not used.
             return null;
         }
 
-        public void eventDispatched(AWTEvent ev) {
+        public void eventDispbtched(AWTEvent ev) {
             int eventID = ev.getID();
             if((eventID & AWTEvent.MOUSE_EVENT_MASK) != 0) {
                 MouseEvent me = (MouseEvent) ev;
                 if(me.isPopupTrigger()) {
-                    MenuElement[] elems = MenuSelectionManager
-                            .defaultManager()
-                            .getSelectedPath();
+                    MenuElement[] elems = MenuSelectionMbnbger
+                            .defbultMbnbger()
+                            .getSelectedPbth();
                     if(elems != null && elems.length != 0) {
                         return;
-                        // We shall not interfere with already opened menu
+                        // We shbll not interfere with blrebdy opened menu
                     }
                     Object c = me.getSource();
                     JComponent src = null;
-                    if(c instanceof JComponent) {
+                    if(c instbnceof JComponent) {
                         src = (JComponent) c;
-                    } else if(c instanceof BasicSplitPaneDivider) {
-                        // Special case - if user clicks on divider we must
-                        // invoke popup from the SplitPane
+                    } else if(c instbnceof BbsicSplitPbneDivider) {
+                        // Specibl cbse - if user clicks on divider we must
+                        // invoke popup from the SplitPbne
                         src = (JComponent)
-                            ((BasicSplitPaneDivider)c).getParent();
+                            ((BbsicSplitPbneDivider)c).getPbrent();
                     }
                     if(src != null) {
                         if(src.getComponentPopupMenu() != null) {
-                            Point pt = src.getPopupLocation(me);
+                            Point pt = src.getPopupLocbtion(me);
                             if(pt == null) {
                                 pt = me.getPoint();
                                 pt = SwingUtilities.convertPoint((Component)c,
@@ -2234,22 +2234,22 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
                     }
                 }
             }
-            /* Activate a JInternalFrame if necessary. */
+            /* Activbte b JInternblFrbme if necessbry. */
             if (eventID == MouseEvent.MOUSE_PRESSED) {
                 Object object = ev.getSource();
-                if (!(object instanceof Component)) {
+                if (!(object instbnceof Component)) {
                     return;
                 }
                 Component component = (Component)object;
                 if (component != null) {
-                    Component parent = component;
-                    while (parent != null && !(parent instanceof Window)) {
-                        if (parent instanceof JInternalFrame) {
-                            // Activate the frame.
-                            try { ((JInternalFrame)parent).setSelected(true); }
-                            catch (PropertyVetoException e1) { }
+                    Component pbrent = component;
+                    while (pbrent != null && !(pbrent instbnceof Window)) {
+                        if (pbrent instbnceof JInternblFrbme) {
+                            // Activbte the frbme.
+                            try { ((JInternblFrbme)pbrent).setSelected(true); }
+                            cbtch (PropertyVetoException e1) { }
                         }
-                        parent = parent.getParent();
+                        pbrent = pbrent.getPbrent();
                     }
                 }
             }

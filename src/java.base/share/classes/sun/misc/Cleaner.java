@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.lang.ref.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.ref.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 
 /**
- * General-purpose phantom-reference-based cleaners.
+ * Generbl-purpose phbntom-reference-bbsed clebners.
  *
- * <p> Cleaners are a lightweight and more robust alternative to finalization.
- * They are lightweight because they are not created by the VM and thus do not
- * require a JNI upcall to be created, and because their cleanup code is
- * invoked directly by the reference-handler thread rather than by the
- * finalizer thread.  They are more robust because they use phantom references,
- * the weakest type of reference object, thereby avoiding the nasty ordering
- * problems inherent to finalization.
+ * <p> Clebners bre b lightweight bnd more robust blternbtive to finblizbtion.
+ * They bre lightweight becbuse they bre not crebted by the VM bnd thus do not
+ * require b JNI upcbll to be crebted, bnd becbuse their clebnup code is
+ * invoked directly by the reference-hbndler threbd rbther thbn by the
+ * finblizer threbd.  They bre more robust becbuse they use phbntom references,
+ * the webkest type of reference object, thereby bvoiding the nbsty ordering
+ * problems inherent to finblizbtion.
  *
- * <p> A cleaner tracks a referent object and encapsulates a thunk of arbitrary
- * cleanup code.  Some time after the GC detects that a cleaner's referent has
- * become phantom-reachable, the reference-handler thread will run the cleaner.
- * Cleaners may also be invoked directly; they are thread safe and ensure that
- * they run their thunks at most once.
+ * <p> A clebner trbcks b referent object bnd encbpsulbtes b thunk of brbitrbry
+ * clebnup code.  Some time bfter the GC detects thbt b clebner's referent hbs
+ * become phbntom-rebchbble, the reference-hbndler threbd will run the clebner.
+ * Clebners mby blso be invoked directly; they bre threbd sbfe bnd ensure thbt
+ * they run their thunks bt most once.
  *
- * <p> Cleaners are not a replacement for finalization.  They should be used
- * only when the cleanup code is extremely simple and straightforward.
- * Nontrivial cleaners are inadvisable since they risk blocking the
- * reference-handler thread and delaying further cleanup and finalization.
+ * <p> Clebners bre not b replbcement for finblizbtion.  They should be used
+ * only when the clebnup code is extremely simple bnd strbightforwbrd.
+ * Nontrivibl clebners bre inbdvisbble since they risk blocking the
+ * reference-hbndler threbd bnd delbying further clebnup bnd finblizbtion.
  *
  *
- * @author Mark Reinhold
+ * @buthor Mbrk Reinhold
  */
 
-public class Cleaner
-    extends PhantomReference<Object>
+public clbss Clebner
+    extends PhbntomReference<Object>
 {
 
-    // Dummy reference queue, needed because the PhantomReference constructor
-    // insists that we pass a queue.  Nothing will ever be placed on this queue
-    // since the reference handler invokes cleaners explicitly.
+    // Dummy reference queue, needed becbuse the PhbntomReference constructor
+    // insists thbt we pbss b queue.  Nothing will ever be plbced on this queue
+    // since the reference hbndler invokes clebners explicitly.
     //
-    private static final ReferenceQueue<Object> dummyQueue = new ReferenceQueue<>();
+    privbte stbtic finbl ReferenceQueue<Object> dummyQueue = new ReferenceQueue<>();
 
-    // Doubly-linked list of live cleaners, which prevents the cleaners
+    // Doubly-linked list of live clebners, which prevents the clebners
     // themselves from being GC'd before their referents
     //
-    static private Cleaner first = null;
+    stbtic privbte Clebner first = null;
 
-    private Cleaner
+    privbte Clebner
         next = null,
         prev = null;
 
-    private static synchronized Cleaner add(Cleaner cl) {
+    privbte stbtic synchronized Clebner bdd(Clebner cl) {
         if (first != null) {
             cl.next = first;
             first.prev = cl;
@@ -84,13 +84,13 @@ public class Cleaner
         return cl;
     }
 
-    private static synchronized boolean remove(Cleaner cl) {
+    privbte stbtic synchronized boolebn remove(Clebner cl) {
 
-        // If already removed, do nothing
+        // If blrebdy removed, do nothing
         if (cl.next == cl)
-            return false;
+            return fblse;
 
-        // Update list
+        // Updbte list
         if (first == cl) {
             if (cl.next != null)
                 first = cl.next;
@@ -102,51 +102,51 @@ public class Cleaner
         if (cl.prev != null)
             cl.prev.next = cl.next;
 
-        // Indicate removal by pointing the cleaner to itself
+        // Indicbte removbl by pointing the clebner to itself
         cl.next = cl;
         cl.prev = cl;
         return true;
 
     }
 
-    private final Runnable thunk;
+    privbte finbl Runnbble thunk;
 
-    private Cleaner(Object referent, Runnable thunk) {
+    privbte Clebner(Object referent, Runnbble thunk) {
         super(referent, dummyQueue);
         this.thunk = thunk;
     }
 
     /**
-     * Creates a new cleaner.
+     * Crebtes b new clebner.
      *
-     * @param  ob the referent object to be cleaned
-     * @param  thunk
-     *         The cleanup code to be run when the cleaner is invoked.  The
-     *         cleanup code is run directly from the reference-handler thread,
-     *         so it should be as simple and straightforward as possible.
+     * @pbrbm  ob the referent object to be clebned
+     * @pbrbm  thunk
+     *         The clebnup code to be run when the clebner is invoked.  The
+     *         clebnup code is run directly from the reference-hbndler threbd,
+     *         so it should be bs simple bnd strbightforwbrd bs possible.
      *
-     * @return  The new cleaner
+     * @return  The new clebner
      */
-    public static Cleaner create(Object ob, Runnable thunk) {
+    public stbtic Clebner crebte(Object ob, Runnbble thunk) {
         if (thunk == null)
             return null;
-        return add(new Cleaner(ob, thunk));
+        return bdd(new Clebner(ob, thunk));
     }
 
     /**
-     * Runs this cleaner, if it has not been run before.
+     * Runs this clebner, if it hbs not been run before.
      */
-    public void clean() {
+    public void clebn() {
         if (!remove(this))
             return;
         try {
             thunk.run();
-        } catch (final Throwable x) {
+        } cbtch (finbl Throwbble x) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
                         if (System.err != null)
-                            new Error("Cleaner terminated abnormally", x)
-                                .printStackTrace();
+                            new Error("Clebner terminbted bbnormblly", x)
+                                .printStbckTrbce();
                         System.exit(1);
                         return null;
                     }});

@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 #include "jni_util.h"
-#include "math.h"
+#include "mbth.h"
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "Region.h"
 
-#include "sun_java2d_loops_TransformHelper.h"
-#include "java_awt_image_AffineTransformOp.h"
+#include "sun_jbvb2d_loops_TrbnsformHelper.h"
+#include "jbvb_bwt_imbge_AffineTrbnsformOp.h"
 
 /*
- * The stub functions replace the bilinear and bicubic interpolation
- * functions with NOP versions so that the performance of the helper
- * functions that fetch the data can be more directly tested.  They
- * are not compiled or enabled by default.  Change the following
- * #undef to a #define to build the stub functions.
+ * The stub functions replbce the bilinebr bnd bicubic interpolbtion
+ * functions with NOP versions so thbt the performbnce of the helper
+ * functions thbt fetch the dbtb cbn be more directly tested.  They
+ * bre not compiled or enbbled by defbult.  Chbnge the following
+ * #undef to b #define to build the stub functions.
  *
- * When compiled, they are enabled by the environment variable TXSTUB.
- * When compiled, there is also code to disable the VIS versions and
- * use the C versions in this file in their place by defining the TXNOVIS
- * environment variable.
+ * When compiled, they bre enbbled by the environment vbribble TXSTUB.
+ * When compiled, there is blso code to disbble the VIS versions bnd
+ * use the C versions in this file in their plbce by defining the TXNOVIS
+ * environment vbribble.
  */
 #undef MAKE_STUBS
 
-/* The number of IntArgbPre samples to store in the temporary buffer. */
+/* The number of IntArgbPre sbmples to store in the temporbry buffer. */
 #define LINE_SIZE       2048
 
-/* The size of a stack allocated buffer to hold edge coordinates (see below). */
+/* The size of b stbck bllocbted buffer to hold edge coordinbtes (see below). */
 #define MAXEDGES 1024
 
-/* Declare the software interpolation functions. */
-static TransformInterpFunc BilinearInterp;
-static TransformInterpFunc BicubicInterp;
+/* Declbre the softwbre interpolbtion functions. */
+stbtic TrbnsformInterpFunc BilinebrInterp;
+stbtic TrbnsformInterpFunc BicubicInterp;
 
 #ifdef MAKE_STUBS
-/* Optionally Declare the stub interpolation functions. */
-static TransformInterpFunc BilinearInterpStub;
-static TransformInterpFunc BicubicInterpStub;
+/* Optionblly Declbre the stub interpolbtion functions. */
+stbtic TrbnsformInterpFunc BilinebrInterpStub;
+stbtic TrbnsformInterpFunc BicubicInterpStub;
 #endif /* MAKE_STUBS */
 
 /*
- * Initially choose the software interpolation functions.
- * These choices can be overridden by platform code that runs during the
- * primitive registration phase of initialization by storing pointers to
+ * Initiblly choose the softwbre interpolbtion functions.
+ * These choices cbn be overridden by plbtform code thbt runs during the
+ * primitive registrbtion phbse of initiblizbtion by storing pointers to
  * better functions in these pointers.
- * Compiling the stubs also turns on code below that can re-install the
- * software functions or stub functions on the first call to this primitive.
+ * Compiling the stubs blso turns on code below thbt cbn re-instbll the
+ * softwbre functions or stub functions on the first cbll to this primitive.
  */
-TransformInterpFunc *pBilinearFunc = BilinearInterp;
-TransformInterpFunc *pBicubicFunc = BicubicInterp;
+TrbnsformInterpFunc *pBilinebrFunc = BilinebrInterp;
+TrbnsformInterpFunc *pBicubicFunc = BicubicInterp;
 
 /*
- * The dxydxy parameters of the inverse transform determine how
- * quickly we step through the source image.  For tiny scale
- * factors (on the order of 1E-16 or so) the stepping distances
- * are huge.  The image has been scaled so small that stepping
- * a single pixel in device space moves the sampling point by
- * billions (or more) pixels in the source image space.  These
- * huge stepping values can overflow the whole part of the longs
- * we use for the fixed point stepping equations and so we need
- * a more robust solution.  We could simply iterate over every
- * device pixel, use the inverse transform to transform it back
- * into the source image coordinate system and then test it for
- * being in range and sample pixel-by-pixel, but that is quite
- * a bit more expensive.  Fortunately, if the scale factors are
- * so tiny that we overflow our long values then the number of
- * pixels we are planning to visit should be very tiny.  The only
- * exception to that rule is if the scale factor along one
- * dimension is tiny (creating the huge stepping values), and
- * the scale factor along the other dimension is fairly regular
- * or an up-scale.  In that case we have a lot of pixels along
- * the direction of the larger axis to sample, but few along the
- * smaller axis.  Though, pessimally, with an added shear factor
- * such a linearly tiny image could have bounds that cover a large
- * number of pixels.  Such odd transformations should be very
- * rare and the absolute limit on calculations would involve a
- * single reverse transform of every pixel in the output image
- * which is not fast, but it should not cause an undue stall
- * of the rendering software.
+ * The dxydxy pbrbmeters of the inverse trbnsform determine how
+ * quickly we step through the source imbge.  For tiny scble
+ * fbctors (on the order of 1E-16 or so) the stepping distbnces
+ * bre huge.  The imbge hbs been scbled so smbll thbt stepping
+ * b single pixel in device spbce moves the sbmpling point by
+ * billions (or more) pixels in the source imbge spbce.  These
+ * huge stepping vblues cbn overflow the whole pbrt of the longs
+ * we use for the fixed point stepping equbtions bnd so we need
+ * b more robust solution.  We could simply iterbte over every
+ * device pixel, use the inverse trbnsform to trbnsform it bbck
+ * into the source imbge coordinbte system bnd then test it for
+ * being in rbnge bnd sbmple pixel-by-pixel, but thbt is quite
+ * b bit more expensive.  Fortunbtely, if the scble fbctors bre
+ * so tiny thbt we overflow our long vblues then the number of
+ * pixels we bre plbnning to visit should be very tiny.  The only
+ * exception to thbt rule is if the scble fbctor blong one
+ * dimension is tiny (crebting the huge stepping vblues), bnd
+ * the scble fbctor blong the other dimension is fbirly regulbr
+ * or bn up-scble.  In thbt cbse we hbve b lot of pixels blong
+ * the direction of the lbrger bxis to sbmple, but few blong the
+ * smbller bxis.  Though, pessimblly, with bn bdded shebr fbctor
+ * such b linebrly tiny imbge could hbve bounds thbt cover b lbrge
+ * number of pixels.  Such odd trbnsformbtions should be very
+ * rbre bnd the bbsolute limit on cblculbtions would involve b
+ * single reverse trbnsform of every pixel in the output imbge
+ * which is not fbst, but it should not cbuse bn undue stbll
+ * of the rendering softwbre.
  *
- * The specific test we will use is to calculate the inverse
- * transformed values of every corner of the destination bounds
- * (in order to be user-clip independent) and if we can
- * perform a fixed-point-long inverse transform of all of
- * those points without overflowing we will use the fast
- * fixed point algorithm.  Otherwise we will use the safe
- * per-pixel transform algorithm.
- * The 4 corners are 0,0, 0,dsth, dstw,0, dstw,dsth
- * Transformed they are:
+ * The specific test we will use is to cblculbte the inverse
+ * trbnsformed vblues of every corner of the destinbtion bounds
+ * (in order to be user-clip independent) bnd if we cbn
+ * perform b fixed-point-long inverse trbnsform of bll of
+ * those points without overflowing we will use the fbst
+ * fixed point blgorithm.  Otherwise we will use the sbfe
+ * per-pixel trbnsform blgorithm.
+ * The 4 corners bre 0,0, 0,dsth, dstw,0, dstw,dsth
+ * Trbnsformed they bre:
  *     tx,               ty
  *     tx       +dxdy*H, ty       +dydy*H
  *     tx+dxdx*W,        ty+dydx*W
  *     tx+dxdx*W+dxdy*H, ty+dydx*W+dydy*H
  */
-/* We reject coordinates not less than 1<<30 so that the distance between */
-/* any 2 of them is less than 1<<31 which would overflow into the sign */
-/* bit of a signed long value used to represent fixed point coordinates. */
-#define TX_FIXED_UNSAFE(v)  (fabs(v) >= (1<<30))
-static jboolean
+/* We reject coordinbtes not less thbn 1<<30 so thbt the distbnce between */
+/* bny 2 of them is less thbn 1<<31 which would overflow into the sign */
+/* bit of b signed long vblue used to represent fixed point coordinbtes. */
+#define TX_FIXED_UNSAFE(v)  (fbbs(v) >= (1<<30))
+stbtic jboolebn
 checkOverflow(jint dxoff, jint dyoff,
-              SurfaceDataBounds *pBounds,
-              TransformInfo *pItxInfo,
+              SurfbceDbtbBounds *pBounds,
+              TrbnsformInfo *pItxInfo,
               jdouble *retx, jdouble *rety)
 {
     jdouble x, y;
 
     x = dxoff+pBounds->x1+0.5; /* Center of pixel x1 */
     y = dyoff+pBounds->y1+0.5; /* Center of pixel y1 */
-    Transform_transform(pItxInfo, &x, &y);
+    Trbnsform_trbnsform(pItxInfo, &x, &y);
     *retx = x;
     *rety = y;
     if (TX_FIXED_UNSAFE(x) || TX_FIXED_UNSAFE(y)) {
@@ -140,21 +140,21 @@ checkOverflow(jint dxoff, jint dyoff,
 
     x = dxoff+pBounds->x2-0.5; /* Center of pixel x2-1 */
     y = dyoff+pBounds->y1+0.5; /* Center of pixel y1 */
-    Transform_transform(pItxInfo, &x, &y);
+    Trbnsform_trbnsform(pItxInfo, &x, &y);
     if (TX_FIXED_UNSAFE(x) || TX_FIXED_UNSAFE(y)) {
         return JNI_TRUE;
     }
 
     x = dxoff+pBounds->x1+0.5; /* Center of pixel x1 */
     y = dyoff+pBounds->y2-0.5; /* Center of pixel y2-1 */
-    Transform_transform(pItxInfo, &x, &y);
+    Trbnsform_trbnsform(pItxInfo, &x, &y);
     if (TX_FIXED_UNSAFE(x) || TX_FIXED_UNSAFE(y)) {
         return JNI_TRUE;
     }
 
     x = dxoff+pBounds->x2-0.5; /* Center of pixel x2-1 */
     y = dyoff+pBounds->y2-0.5; /* Center of pixel y2-1 */
-    Transform_transform(pItxInfo, &x, &y);
+    Trbnsform_trbnsform(pItxInfo, &x, &y);
     if (TX_FIXED_UNSAFE(x) || TX_FIXED_UNSAFE(y)) {
         return JNI_TRUE;
     }
@@ -163,24 +163,24 @@ checkOverflow(jint dxoff, jint dyoff,
 }
 
 /*
- * Fill the edge buffer with pairs of coordinates representing the maximum
- * left and right pixels of the destination surface that should be processed
- * on each scanline, clipped to the bounds parameter.
- * The number of scanlines to calculate is implied by the bounds parameter.
- * Only pixels that map back through the specified (inverse) transform to a
- * source coordinate that falls within the (0, 0, sw, sh) bounds of the
- * source image should be processed.
- * pEdges points to an array of jints that holds 2 + numedges*2 values where
- * numedges should match (pBounds->y2 - pBounds->y1).
- * The first two jints in pEdges should be set to y1 and y2 and every pair
- * of jints after that represent the xmin,xmax of all pixels in range of
- * the transformed blit for the corresponding scanline.
+ * Fill the edge buffer with pbirs of coordinbtes representing the mbximum
+ * left bnd right pixels of the destinbtion surfbce thbt should be processed
+ * on ebch scbnline, clipped to the bounds pbrbmeter.
+ * The number of scbnlines to cblculbte is implied by the bounds pbrbmeter.
+ * Only pixels thbt mbp bbck through the specified (inverse) trbnsform to b
+ * source coordinbte thbt fblls within the (0, 0, sw, sh) bounds of the
+ * source imbge should be processed.
+ * pEdges points to bn brrby of jints thbt holds 2 + numedges*2 vblues where
+ * numedges should mbtch (pBounds->y2 - pBounds->y1).
+ * The first two jints in pEdges should be set to y1 bnd y2 bnd every pbir
+ * of jints bfter thbt represent the xmin,xmbx of bll pixels in rbnge of
+ * the trbnsformed blit for the corresponding scbnline.
  */
-static void
-calculateEdges(jint *pEdges,
-               SurfaceDataBounds *pBounds,
-               TransformInfo *pItxInfo,
-               jlong xbase, jlong ybase,
+stbtic void
+cblculbteEdges(jint *pEdges,
+               SurfbceDbtbBounds *pBounds,
+               TrbnsformInfo *pItxInfo,
+               jlong xbbse, jlong ybbse,
                juint sw, juint sh)
 {
     jlong dxdxlong, dydxlong;
@@ -209,8 +209,8 @@ calculateEdges(jint *pEdges,
         dx1 = pBounds->x1;
         dx2 = pBounds->x2;
 
-        xlong = xbase;
-        ylong = ybase;
+        xlong = xbbse;
+        ylong = ybbse;
         while (dx1 < dx2 &&
                (((juint) WholeOfLong(ylong)) >= sh ||
                 ((juint) WholeOfLong(xlong)) >= sw))
@@ -220,8 +220,8 @@ calculateEdges(jint *pEdges,
             ylong += dydxlong;
         }
 
-        xlong = xbase + drowxlong;
-        ylong = ybase + drowylong;
+        xlong = xbbse + drowxlong;
+        ylong = ybbse + drowylong;
         while (dx2 > dx1 &&
                (((juint) WholeOfLong(ylong)) >= sh ||
                 ((juint) WholeOfLong(xlong)) >= sw))
@@ -234,130 +234,130 @@ calculateEdges(jint *pEdges,
         *pEdges++ = dx1;
         *pEdges++ = dx2;
 
-        /* Increment to next scanline */
-        xbase += dxdylong;
-        ybase += dydylong;
+        /* Increment to next scbnline */
+        xbbse += dxdylong;
+        ybbse += dydylong;
         dy1++;
     }
 }
 
-static void
-Transform_SafeHelper(JNIEnv *env,
-                     SurfaceDataOps *srcOps,
-                     SurfaceDataOps *dstOps,
-                     SurfaceDataRasInfo *pSrcInfo,
-                     SurfaceDataRasInfo *pDstInfo,
-                     NativePrimitive *pMaskBlitPrim,
+stbtic void
+Trbnsform_SbfeHelper(JNIEnv *env,
+                     SurfbceDbtbOps *srcOps,
+                     SurfbceDbtbOps *dstOps,
+                     SurfbceDbtbRbsInfo *pSrcInfo,
+                     SurfbceDbtbRbsInfo *pDstInfo,
+                     NbtivePrimitive *pMbskBlitPrim,
                      CompositeInfo *pCompInfo,
-                     TransformHelperFunc *pHelperFunc,
-                     TransformInterpFunc *pInterpFunc,
-                     RegionData *pClipInfo, TransformInfo *pItxInfo,
-                     jint *pData, jint *pEdges,
+                     TrbnsformHelperFunc *pHelperFunc,
+                     TrbnsformInterpFunc *pInterpFunc,
+                     RegionDbtb *pClipInfo, TrbnsformInfo *pItxInfo,
+                     jint *pDbtb, jint *pEdges,
                      jint dxoff, jint dyoff, jint sw, jint sh);
 
 /*
- * Class:     sun_java2d_loops_TransformHelper
- * Method:    Transform
- * Signature: (Lsun/java2d/loops/MaskBlit;Lsun/java2d/SurfaceData;Lsun/java2d/SurfaceData;Ljava/awt/Composite;Lsun/java2d/pipe/Region;Ljava/awt/geom/AffineTransform;IIIIIIIII[I)V
+ * Clbss:     sun_jbvb2d_loops_TrbnsformHelper
+ * Method:    Trbnsform
+ * Signbture: (Lsun/jbvb2d/loops/MbskBlit;Lsun/jbvb2d/SurfbceDbtb;Lsun/jbvb2d/SurfbceDbtb;Ljbvb/bwt/Composite;Lsun/jbvb2d/pipe/Region;Ljbvb/bwt/geom/AffineTrbnsform;IIIIIIIII[I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_TransformHelper_Transform
+Jbvb_sun_jbvb2d_loops_TrbnsformHelper_Trbnsform
     (JNIEnv *env, jobject self,
-     jobject maskblit,
-     jobject srcData, jobject dstData,
+     jobject mbskblit,
+     jobject srcDbtb, jobject dstDbtb,
      jobject comp, jobject clip,
      jobject itxform, jint txtype,
      jint sx1, jint sy1, jint sx2, jint sy2,
      jint dx1, jint dy1, jint dx2, jint dy2,
-     jintArray edgeArray, jint dxoff, jint dyoff)
+     jintArrby edgeArrby, jint dxoff, jint dyoff)
 {
-    SurfaceDataOps *srcOps;
-    SurfaceDataOps *dstOps;
-    SurfaceDataRasInfo srcInfo;
-    SurfaceDataRasInfo dstInfo;
-    NativePrimitive *pHelperPrim;
-    NativePrimitive *pMaskBlitPrim;
+    SurfbceDbtbOps *srcOps;
+    SurfbceDbtbOps *dstOps;
+    SurfbceDbtbRbsInfo srcInfo;
+    SurfbceDbtbRbsInfo dstInfo;
+    NbtivePrimitive *pHelperPrim;
+    NbtivePrimitive *pMbskBlitPrim;
     CompositeInfo compInfo;
-    RegionData clipInfo;
-    TransformInfo itxInfo;
-    jint maxlinepix;
-    TransformHelperFunc *pHelperFunc;
-    TransformInterpFunc *pInterpFunc;
+    RegionDbtb clipInfo;
+    TrbnsformInfo itxInfo;
+    jint mbxlinepix;
+    TrbnsformHelperFunc *pHelperFunc;
+    TrbnsformInterpFunc *pInterpFunc;
     jdouble xorig, yorig;
     jlong numedges;
     jint *pEdges;
     jint edgebuf[2 + MAXEDGES * 2];
     union {
-        jlong align;
-        jint data[LINE_SIZE];
+        jlong blign;
+        jint dbtb[LINE_SIZE];
     } rgb;
 
 #ifdef MAKE_STUBS
-    static int th_initialized;
+    stbtic int th_initiblized;
 
-    /* For debugging only - used to swap in alternate funcs for perf testing */
-    if (!th_initialized) {
+    /* For debugging only - used to swbp in blternbte funcs for perf testing */
+    if (!th_initiblized) {
         if (getenv("TXSTUB") != 0) {
-            pBilinearFunc = BilinearInterpStub;
+            pBilinebrFunc = BilinebrInterpStub;
             pBicubicFunc = BicubicInterpStub;
         } else if (getenv("TXNOVIS") != 0) {
-            pBilinearFunc = BilinearInterp;
+            pBilinebrFunc = BilinebrInterp;
             pBicubicFunc = BicubicInterp;
         }
-        th_initialized = 1;
+        th_initiblized = 1;
     }
 #endif /* MAKE_STUBS */
 
-    pHelperPrim = GetNativePrim(env, self);
+    pHelperPrim = GetNbtivePrim(env, self);
     if (pHelperPrim == NULL) {
-        /* Should never happen... */
+        /* Should never hbppen... */
         return;
     }
-    pMaskBlitPrim = GetNativePrim(env, maskblit);
-    if (pMaskBlitPrim == NULL) {
-        /* Exception was thrown by GetNativePrim */
+    pMbskBlitPrim = GetNbtivePrim(env, mbskblit);
+    if (pMbskBlitPrim == NULL) {
+        /* Exception wbs thrown by GetNbtivePrim */
         return;
     }
-    if (pMaskBlitPrim->pCompType->getCompInfo != NULL) {
-        (*pMaskBlitPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pMbskBlitPrim->pCompType->getCompInfo != NULL) {
+        (*pMbskBlitPrim->pCompType->getCompInfo)(env, &compInfo, comp);
     }
     if (Region_GetInfo(env, clip, &clipInfo)) {
         return;
     }
 
-    srcOps = SurfaceData_GetOps(env, srcData);
+    srcOps = SurfbceDbtb_GetOps(env, srcDbtb);
     if (srcOps == 0) {
         return;
     }
-    dstOps = SurfaceData_GetOps(env, dstData);
+    dstOps = SurfbceDbtb_GetOps(env, dstDbtb);
     if (dstOps == 0) {
         return;
     }
 
     /*
-     * Grab the appropriate pointer to the helper and interpolation
-     * routines and calculate the maximum number of destination pixels
-     * that can be processed in one intermediate buffer based on the
-     * size of the buffer and the number of samples needed per pixel.
+     * Grbb the bppropribte pointer to the helper bnd interpolbtion
+     * routines bnd cblculbte the mbximum number of destinbtion pixels
+     * thbt cbn be processed in one intermedibte buffer bbsed on the
+     * size of the buffer bnd the number of sbmples needed per pixel.
      */
     switch (txtype) {
-    case java_awt_image_AffineTransformOp_TYPE_NEAREST_NEIGHBOR:
-        pHelperFunc = pHelperPrim->funcs.transformhelpers->nnHelper;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_NEAREST_NEIGHBOR:
+        pHelperFunc = pHelperPrim->funcs.trbnsformhelpers->nnHelper;
         pInterpFunc = NULL;
-        maxlinepix = LINE_SIZE;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_BILINEAR:
-        pHelperFunc = pHelperPrim->funcs.transformhelpers->blHelper;
-        pInterpFunc = pBilinearFunc;
-        maxlinepix = LINE_SIZE / 4;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_BICUBIC:
-        pHelperFunc = pHelperPrim->funcs.transformhelpers->bcHelper;
+        mbxlinepix = LINE_SIZE;
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BILINEAR:
+        pHelperFunc = pHelperPrim->funcs.trbnsformhelpers->blHelper;
+        pInterpFunc = pBilinebrFunc;
+        mbxlinepix = LINE_SIZE / 4;
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BICUBIC:
+        pHelperFunc = pHelperPrim->funcs.trbnsformhelpers->bcHelper;
         pInterpFunc = pBicubicFunc;
-        maxlinepix = LINE_SIZE / 16;
-        break;
-    default:
-        // Should not happen, but just in case.
+        mbxlinepix = LINE_SIZE / 16;
+        brebk;
+    defbult:
+        // Should not hbppen, but just in cbse.
         return;
     }
 
@@ -369,46 +369,46 @@ Java_sun_java2d_loops_TransformHelper_Transform
     dstInfo.bounds.y1 = dy1;
     dstInfo.bounds.x2 = dx2;
     dstInfo.bounds.y2 = dy2;
-    SurfaceData_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
-    if (srcOps->Lock(env, srcOps, &srcInfo, pHelperPrim->srcflags)
+    SurfbceDbtb_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
+    if (srcOps->Lock(env, srcOps, &srcInfo, pHelperPrim->srcflbgs)
         != SD_SUCCESS)
     {
-        /* edgeArray should already contain zeros for min/maxy */
+        /* edgeArrby should blrebdy contbin zeros for min/mbxy */
         return;
     }
-    if (dstOps->Lock(env, dstOps, &dstInfo, pMaskBlitPrim->dstflags)
+    if (dstOps->Lock(env, dstOps, &dstInfo, pMbskBlitPrim->dstflbgs)
         != SD_SUCCESS)
     {
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-        /* edgeArray should already contain zeros for min/maxy */
+        SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
+        /* edgeArrby should blrebdy contbin zeros for min/mbxy */
         return;
     }
     Region_IntersectBounds(&clipInfo, &dstInfo.bounds);
-    Transform_GetInfo(env, itxform, &itxInfo);
+    Trbnsform_GetInfo(env, itxform, &itxInfo);
 
     numedges = (((jlong) dstInfo.bounds.y2) - ((jlong) dstInfo.bounds.y1));
     if (numedges <= 0) {
         pEdges = NULL;
-    } else if (!JNU_IsNull(env, edgeArray)) {
+    } else if (!JNU_IsNull(env, edgeArrby)) {
         /*
-         * Ideally Java should allocate an array large enough, but if
-         * we ever have a miscommunication about the number of edge
-         * lines, or if the Java array calculation should overflow to
-         * a positive number and succeed in allocating an array that
-         * is too small, we need to verify that it can still hold the
-         * number of integers that we plan to store to be safe.
+         * Ideblly Jbvb should bllocbte bn brrby lbrge enough, but if
+         * we ever hbve b miscommunicbtion bbout the number of edge
+         * lines, or if the Jbvb brrby cblculbtion should overflow to
+         * b positive number bnd succeed in bllocbting bn brrby thbt
+         * is too smbll, we need to verify thbt it cbn still hold the
+         * number of integers thbt we plbn to store to be sbfe.
          */
-        jsize edgesize = (*env)->GetArrayLength(env, edgeArray);
-        /* (edgesize/2 - 1) should avoid any overflow or underflow. */
+        jsize edgesize = (*env)->GetArrbyLength(env, edgeArrby);
+        /* (edgesize/2 - 1) should bvoid bny overflow or underflow. */
         pEdges = (((edgesize / 2) - 1) >= numedges)
-            ? (*env)->GetPrimitiveArrayCritical(env, edgeArray, NULL)
+            ? (*env)->GetPrimitiveArrbyCriticbl(env, edgeArrby, NULL)
             : NULL;
     } else if (numedges > MAXEDGES) {
-        /* numedges variable (jlong) can be at most ((1<<32)-1) */
-        /* memsize can overflow a jint, but not a jlong */
+        /* numedges vbribble (jlong) cbn be bt most ((1<<32)-1) */
+        /* memsize cbn overflow b jint, but not b jlong */
         jlong memsize = ((numedges * 2) + 2) * sizeof(*pEdges);
         pEdges = (memsize == ((size_t) memsize))
-            ? malloc((size_t) memsize)
+            ? mblloc((size_t) memsize)
             : NULL;
     } else {
         pEdges = edgebuf;
@@ -416,71 +416,71 @@ Java_sun_java2d_loops_TransformHelper_Transform
 
     if (pEdges == NULL) {
         if (!(*env)->ExceptionCheck(env) && numedges > 0) {
-            JNU_ThrowInternalError(env, "Unable to allocate edge list");
+            JNU_ThrowInternblError(env, "Unbble to bllocbte edge list");
         }
-        SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-        /* edgeArray should already contain zeros for min/maxy */
+        SurfbceDbtb_InvokeUnlock(env, dstOps, &dstInfo);
+        SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
+        /* edgeArrby should blrebdy contbin zeros for min/mbxy */
         return;
     }
 
 
     if (!Region_IsEmpty(&clipInfo)) {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (srcInfo.rasBase == NULL || dstInfo.rasBase == NULL) {
+        srcOps->GetRbsInfo(env, srcOps, &srcInfo);
+        dstOps->GetRbsInfo(env, dstOps, &dstInfo);
+        if (srcInfo.rbsBbse == NULL || dstInfo.rbsBbse == NULL) {
             pEdges[0] = pEdges[1] = 0;
         } else if (checkOverflow(dxoff, dyoff, &dstInfo.bounds,
                                  &itxInfo, &xorig, &yorig))
         {
-            Transform_SafeHelper(env, srcOps, dstOps,
+            Trbnsform_SbfeHelper(env, srcOps, dstOps,
                                  &srcInfo, &dstInfo,
-                                 pMaskBlitPrim, &compInfo,
+                                 pMbskBlitPrim, &compInfo,
                                  pHelperFunc, pInterpFunc,
-                                 &clipInfo, &itxInfo, rgb.data, pEdges,
+                                 &clipInfo, &itxInfo, rgb.dbtb, pEdges,
                                  dxoff, dyoff, sx2-sx1, sy2-sy1);
         } else {
-            SurfaceDataBounds span;
+            SurfbceDbtbBounds spbn;
             jlong dxdxlong, dydxlong;
             jlong dxdylong, dydylong;
-            jlong xbase, ybase;
+            jlong xbbse, ybbse;
 
             dxdxlong = DblToLong(itxInfo.dxdx);
             dydxlong = DblToLong(itxInfo.dydx);
             dxdylong = DblToLong(itxInfo.dxdy);
             dydylong = DblToLong(itxInfo.dydy);
-            xbase = DblToLong(xorig);
-            ybase = DblToLong(yorig);
+            xbbse = DblToLong(xorig);
+            ybbse = DblToLong(yorig);
 
-            calculateEdges(pEdges, &dstInfo.bounds, &itxInfo,
-                           xbase, ybase, sx2-sx1, sy2-sy1);
+            cblculbteEdges(pEdges, &dstInfo.bounds, &itxInfo,
+                           xbbse, ybbse, sx2-sx1, sy2-sy1);
 
-            Region_StartIteration(env, &clipInfo);
-            while (Region_NextIteration(&clipInfo, &span)) {
+            Region_StbrtIterbtion(env, &clipInfo);
+            while (Region_NextIterbtion(&clipInfo, &spbn)) {
                 jlong rowxlong, rowylong;
                 void *pDst;
 
-                dy1 = span.y1;
-                dy2 = span.y2;
-                rowxlong = xbase + (dy1 - dstInfo.bounds.y1) * dxdylong;
-                rowylong = ybase + (dy1 - dstInfo.bounds.y1) * dydylong;
+                dy1 = spbn.y1;
+                dy2 = spbn.y2;
+                rowxlong = xbbse + (dy1 - dstInfo.bounds.y1) * dxdylong;
+                rowylong = ybbse + (dy1 - dstInfo.bounds.y1) * dydylong;
 
                 while (dy1 < dy2) {
                     jlong xlong, ylong;
 
-                    /* Note - process at most one scanline at a time. */
+                    /* Note - process bt most one scbnline bt b time. */
 
                     dx1 = pEdges[(dy1 - dstInfo.bounds.y1) * 2 + 2];
                     dx2 = pEdges[(dy1 - dstInfo.bounds.y1) * 2 + 3];
-                    if (dx1 < span.x1) dx1 = span.x1;
-                    if (dx2 > span.x2) dx2 = span.x2;
+                    if (dx1 < spbn.x1) dx1 = spbn.x1;
+                    if (dx2 > spbn.x2) dx2 = spbn.x2;
 
-                    /* All pixels from dx1 to dx2 have centers in bounds */
+                    /* All pixels from dx1 to dx2 hbve centers in bounds */
                     while (dx1 < dx2) {
-                        /* Can process at most one buffer full at a time */
+                        /* Cbn process bt most one buffer full bt b time */
                         jint numpix = dx2 - dx1;
-                        if (numpix > maxlinepix) {
-                            numpix = maxlinepix;
+                        if (numpix > mbxlinepix) {
+                            numpix = mbxlinepix;
                         }
 
                         xlong =
@@ -488,74 +488,74 @@ Java_sun_java2d_loops_TransformHelper_Transform
                         ylong =
                             rowylong + ((dx1 - dstInfo.bounds.x1) * dydxlong);
 
-                        /* Get IntArgbPre pixel data from source */
+                        /* Get IntArgbPre pixel dbtb from source */
                         (*pHelperFunc)(&srcInfo,
-                                       rgb.data, numpix,
+                                       rgb.dbtb, numpix,
                                        xlong, dxdxlong,
                                        ylong, dydxlong);
 
-                        /* Interpolate result pixels if needed */
+                        /* Interpolbte result pixels if needed */
                         if (pInterpFunc) {
-                            (*pInterpFunc)(rgb.data, numpix,
-                                           FractOfLong(xlong-LongOneHalf),
-                                           FractOfLong(dxdxlong),
-                                           FractOfLong(ylong-LongOneHalf),
-                                           FractOfLong(dydxlong));
+                            (*pInterpFunc)(rgb.dbtb, numpix,
+                                           FrbctOfLong(xlong-LongOneHblf),
+                                           FrbctOfLong(dxdxlong),
+                                           FrbctOfLong(ylong-LongOneHblf),
+                                           FrbctOfLong(dydxlong));
                         }
 
-                        /* Store/Composite interpolated pixels into dest */
-                        pDst = PtrCoord(dstInfo.rasBase,
+                        /* Store/Composite interpolbted pixels into dest */
+                        pDst = PtrCoord(dstInfo.rbsBbse,
                                         dx1, dstInfo.pixelStride,
-                                        dy1, dstInfo.scanStride);
-                        (*pMaskBlitPrim->funcs.maskblit)(pDst, rgb.data,
+                                        dy1, dstInfo.scbnStride);
+                        (*pMbskBlitPrim->funcs.mbskblit)(pDst, rgb.dbtb,
                                                          0, 0, 0,
                                                          numpix, 1,
                                                          &dstInfo, &srcInfo,
-                                                         pMaskBlitPrim,
+                                                         pMbskBlitPrim,
                                                          &compInfo);
 
                         /* Increment to next buffer worth of input pixels */
-                        dx1 += maxlinepix;
+                        dx1 += mbxlinepix;
                     }
 
-                    /* Increment to next scanline */
+                    /* Increment to next scbnline */
                     rowxlong += dxdylong;
                     rowylong += dydylong;
                     dy1++;
                 }
             }
-            Region_EndIteration(env, &clipInfo);
+            Region_EndIterbtion(env, &clipInfo);
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbceDbtb_InvokeRelebse(env, dstOps, &dstInfo);
+        SurfbceDbtb_InvokeRelebse(env, srcOps, &srcInfo);
     } else {
         pEdges[0] = pEdges[1] = 0;
     }
 
-    if (!JNU_IsNull(env, edgeArray)) {
-        (*env)->ReleasePrimitiveArrayCritical(env, edgeArray, pEdges, 0);
+    if (!JNU_IsNull(env, edgeArrby)) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, edgeArrby, pEdges, 0);
     } else if (pEdges != edgebuf) {
         free(pEdges);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbceDbtb_InvokeUnlock(env, dstOps, &dstInfo);
+    SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
 }
 
-static void
-Transform_SafeHelper(JNIEnv *env,
-                     SurfaceDataOps *srcOps,
-                     SurfaceDataOps *dstOps,
-                     SurfaceDataRasInfo *pSrcInfo,
-                     SurfaceDataRasInfo *pDstInfo,
-                     NativePrimitive *pMaskBlitPrim,
+stbtic void
+Trbnsform_SbfeHelper(JNIEnv *env,
+                     SurfbceDbtbOps *srcOps,
+                     SurfbceDbtbOps *dstOps,
+                     SurfbceDbtbRbsInfo *pSrcInfo,
+                     SurfbceDbtbRbsInfo *pDstInfo,
+                     NbtivePrimitive *pMbskBlitPrim,
                      CompositeInfo *pCompInfo,
-                     TransformHelperFunc *pHelperFunc,
-                     TransformInterpFunc *pInterpFunc,
-                     RegionData *pClipInfo, TransformInfo *pItxInfo,
-                     jint *pData, jint *pEdges,
+                     TrbnsformHelperFunc *pHelperFunc,
+                     TrbnsformInterpFunc *pInterpFunc,
+                     RegionDbtb *pClipInfo, TrbnsformInfo *pItxInfo,
+                     jint *pDbtb, jint *pEdges,
                      jint dxoff, jint dyoff, jint sw, jint sh)
 {
-    SurfaceDataBounds span;
+    SurfbceDbtbBounds spbn;
     jint dx1, dx2;
     jint dy1, dy2;
     jint i, iy;
@@ -568,18 +568,18 @@ Transform_SafeHelper(JNIEnv *env,
     pEdges[1] = dy2;
     for (iy = dy1; iy < dy2; iy++) {
         jint i = (iy - dy1) * 2;
-        /* row spans are set to max,min until we find a pixel in range below */
+        /* row spbns bre set to mbx,min until we find b pixel in rbnge below */
         pEdges[i + 2] = dx2;
         pEdges[i + 3] = dx1;
     }
 
-    Region_StartIteration(env, pClipInfo);
-    while (Region_NextIteration(pClipInfo, &span)) {
-        dy1 = span.y1;
-        dy2 = span.y2;
+    Region_StbrtIterbtion(env, pClipInfo);
+    while (Region_NextIterbtion(pClipInfo, &spbn)) {
+        dy1 = spbn.y1;
+        dy2 = spbn.y2;
         while (dy1 < dy2) {
-            dx1 = span.x1;
-            dx2 = span.x2;
+            dx1 = spbn.x1;
+            dx2 = spbn.x2;
             i = (dy1 - pDstInfo->bounds.y1) * 2;
             while (dx1 < dx2) {
                 jdouble x, y;
@@ -587,14 +587,14 @@ Transform_SafeHelper(JNIEnv *env,
 
                 x = dxoff + dx1 + 0.5;
                 y = dyoff + dy1 + 0.5;
-                Transform_transform(pItxInfo, &x, &y);
+                Trbnsform_trbnsform(pItxInfo, &x, &y);
                 xlong = DblToLong(x);
                 ylong = DblToLong(y);
 
                 /* Process only pixels with centers in bounds
-                 * Test double values to avoid overflow in conversion
-                 * to long values and then also test the long values
-                 * in case they rounded up and out of bounds during
+                 * Test double vblues to bvoid overflow in conversion
+                 * to long vblues bnd then blso test the long vblues
+                 * in cbse they rounded up bnd out of bounds during
                  * the conversion.
                  */
                 if (x >= 0 && y >= 0 && x < sw && y < sh &&
@@ -610,28 +610,28 @@ Transform_SafeHelper(JNIEnv *env,
                         pEdges[i + 3] = dx1 + 1;
                     }
 
-                    /* Get IntArgbPre pixel data from source */
+                    /* Get IntArgbPre pixel dbtb from source */
                     (*pHelperFunc)(pSrcInfo,
-                                   pData, 1,
+                                   pDbtb, 1,
                                    xlong, 0,
                                    ylong, 0);
 
-                    /* Interpolate result pixels if needed */
+                    /* Interpolbte result pixels if needed */
                     if (pInterpFunc) {
-                        (*pInterpFunc)(pData, 1,
-                                       FractOfLong(xlong-LongOneHalf), 0,
-                                       FractOfLong(ylong-LongOneHalf), 0);
+                        (*pInterpFunc)(pDbtb, 1,
+                                       FrbctOfLong(xlong-LongOneHblf), 0,
+                                       FrbctOfLong(ylong-LongOneHblf), 0);
                     }
 
-                    /* Store/Composite interpolated pixels into dest */
-                    pDst = PtrCoord(pDstInfo->rasBase,
+                    /* Store/Composite interpolbted pixels into dest */
+                    pDst = PtrCoord(pDstInfo->rbsBbse,
                                     dx1, pDstInfo->pixelStride,
-                                    dy1, pDstInfo->scanStride);
-                    (*pMaskBlitPrim->funcs.maskblit)(pDst, pData,
+                                    dy1, pDstInfo->scbnStride);
+                    (*pMbskBlitPrim->funcs.mbskblit)(pDst, pDbtb,
                                                      0, 0, 0,
                                                      1, 1,
                                                      pDstInfo, pSrcInfo,
-                                                     pMaskBlitPrim,
+                                                     pMbskBlitPrim,
                                                      pCompInfo);
                 }
 
@@ -639,11 +639,11 @@ Transform_SafeHelper(JNIEnv *env,
                 dx1++;
             }
 
-            /* Increment to next scanline */
+            /* Increment to next scbnline */
             dy1++;
         }
     }
-    Region_EndIteration(env, pClipInfo);
+    Region_EndIterbtion(env, pClipInfo);
 }
 
 #define BL_INTERP_V1_to_V2_by_F(v1, v2, f) \
@@ -653,57 +653,57 @@ Transform_SafeHelper(JNIEnv *env,
     do { \
         jint c1 = ((jubyte *) pRGB)[comp]; \
         jint c2 = ((jubyte *) pRGB)[comp+4]; \
-        jint cR = BL_INTERP_V1_to_V2_by_F(c1, c2, xfactor); \
+        jint cR = BL_INTERP_V1_to_V2_by_F(c1, c2, xfbctor); \
         c1 = ((jubyte *) pRGB)[comp+8]; \
         c2 = ((jubyte *) pRGB)[comp+12]; \
-        c2 = BL_INTERP_V1_to_V2_by_F(c1, c2, xfactor); \
-        cR = BL_INTERP_V1_to_V2_by_F(cR, c2, yfactor); \
+        c2 = BL_INTERP_V1_to_V2_by_F(c1, c2, xfbctor); \
+        cR = BL_INTERP_V1_to_V2_by_F(cR, c2, yfbctor); \
         ((jubyte *)pRes)[comp] = (jubyte) ((cR + (1<<15)) >> 16); \
     } while (0)
 
-static void
-BilinearInterp(jint *pRGB, jint numpix,
-               jint xfract, jint dxfract,
-               jint yfract, jint dyfract)
+stbtic void
+BilinebrInterp(jint *pRGB, jint numpix,
+               jint xfrbct, jint dxfrbct,
+               jint yfrbct, jint dyfrbct)
 {
     jint j;
     jint *pRes = pRGB;
 
     for (j = 0; j < numpix; j++) {
-        jint xfactor;
-        jint yfactor;
-        xfactor = URShift(xfract, 32-8);
-        yfactor = URShift(yfract, 32-8);
+        jint xfbctor;
+        jint yfbctor;
+        xfbctor = URShift(xfrbct, 32-8);
+        yfbctor = URShift(yfrbct, 32-8);
         BL_ACCUM(0);
         BL_ACCUM(1);
         BL_ACCUM(2);
         BL_ACCUM(3);
         pRes++;
         pRGB += 4;
-        xfract += dxfract;
-        yfract += dyfract;
+        xfrbct += dxfrbct;
+        yfrbct += dyfrbct;
     }
 }
 
-#define SAT(val, max) \
+#define SAT(vbl, mbx) \
     do { \
-        val &= ~(val >> 31);  /* negatives become 0 */ \
-        val -= max;           /* only overflows are now positive */ \
-        val &= (val >> 31);   /* positives become 0 */ \
-        val += max;           /* range is now [0 -> max] */ \
+        vbl &= ~(vbl >> 31);  /* negbtives become 0 */ \
+        vbl -= mbx;           /* only overflows bre now positive */ \
+        vbl &= (vbl >> 31);   /* positives become 0 */ \
+        vbl += mbx;           /* rbnge is now [0 -> mbx] */ \
     } while (0)
 
-#ifdef __sparc
-/* For sparc, floating point multiplies are faster than integer */
+#ifdef __spbrc
+/* For spbrc, flobting point multiplies bre fbster thbn integer */
 #define BICUBIC_USE_DBL_LUT
 #else
-/* For x86, integer multiplies are faster than floating point */
-/* Note that on x86 Linux the choice of best algorithm varies
- * depending on the compiler optimization and the processor type.
- * Currently, the sun/awt x86 Linux builds are not optimized so
- * all the variations produce mediocre performance.
- * For now we will use the choice that works best for the Windows
- * build until the (lack of) optimization issues on Linux are resolved.
+/* For x86, integer multiplies bre fbster thbn flobting point */
+/* Note thbt on x86 Linux the choice of best blgorithm vbries
+ * depending on the compiler optimizbtion bnd the processor type.
+ * Currently, the sun/bwt x86 Linux builds bre not optimized so
+ * bll the vbribtions produce mediocre performbnce.
+ * For now we will use the choice thbt works best for the Windows
+ * build until the (lbck of) optimizbtion issues on Linux bre resolved.
  */
 #define BICUBIC_USE_INT_MATH
 #endif
@@ -717,15 +717,15 @@ BilinearInterp(jint *pRGB, jint numpix,
 #define BC_CompToV(v)           ((jdouble) (v))
 #define BC_STORE_COMPS(pRes) \
     do { \
-        jint a = (jint) accumA; \
-        jint r = (jint) accumR; \
-        jint g = (jint) accumG; \
-        jint b = (jint) accumB; \
-        SAT(a, 255); \
-        SAT(r, a); \
-        SAT(g, a); \
-        SAT(b, a); \
-        *pRes = ((a << 24) | (r << 16) | (g <<  8) | (b)); \
+        jint b = (jint) bccumA; \
+        jint r = (jint) bccumR; \
+        jint g = (jint) bccumG; \
+        jint b = (jint) bccumB; \
+        SAT(b, 255); \
+        SAT(r, b); \
+        SAT(g, b); \
+        SAT(b, b); \
+        *pRes = ((b << 24) | (r << 16) | (g <<  8) | (b)); \
     } while (0)
 
 #endif /* BICUBIC_USE_DBL_CAST */
@@ -737,7 +737,7 @@ BilinearInterp(jint *pRGB, jint numpix,
 #define ItoD16(v)   ItoD4(v),  ItoD4(v+4),   ItoD4(v+8),   ItoD4(v+12)
 #define ItoD64(v)   ItoD16(v), ItoD16(v+16), ItoD16(v+32), ItoD16(v+48)
 
-static jdouble ItoD_table[] = {
+stbtic jdouble ItoD_tbble[] = {
     ItoD64(0), ItoD64(64), ItoD64(128), ItoD64(192)
 };
 
@@ -745,18 +745,18 @@ static jdouble ItoD_table[] = {
 #define BC_COEFF_ONE            1.0
 #define BC_TYPE                 jdouble
 #define BC_V_HALF               0.5
-#define BC_CompToV(v)           ItoD_table[v]
+#define BC_CompToV(v)           ItoD_tbble[v]
 #define BC_STORE_COMPS(pRes) \
     do { \
-        jint a = (jint) accumA; \
-        jint r = (jint) accumR; \
-        jint g = (jint) accumG; \
-        jint b = (jint) accumB; \
-        SAT(a, 255); \
-        SAT(r, a); \
-        SAT(g, a); \
-        SAT(b, a); \
-        *pRes = ((a << 24) | (r << 16) | (g <<  8) | (b)); \
+        jint b = (jint) bccumA; \
+        jint r = (jint) bccumR; \
+        jint g = (jint) bccumG; \
+        jint b = (jint) bccumB; \
+        SAT(b, 255); \
+        SAT(r, b); \
+        SAT(g, b); \
+        SAT(b, b); \
+        *pRes = ((b << 24) | (r << 16) | (g <<  8) | (b)); \
     } while (0)
 
 #endif /* BICUBIC_USE_DBL_LUT */
@@ -770,38 +770,38 @@ static jdouble ItoD_table[] = {
 #define BC_CompToV(v)           ((jint) v)
 #define BC_STORE_COMPS(pRes) \
     do { \
-        accumA >>= 16; \
-        accumR >>= 16; \
-        accumG >>= 16; \
-        accumB >>= 16; \
-        SAT(accumA, 255); \
-        SAT(accumR, accumA); \
-        SAT(accumG, accumA); \
-        SAT(accumB, accumA); \
-        *pRes = ((accumA << 24) | (accumR << 16) | (accumG << 8) | (accumB)); \
+        bccumA >>= 16; \
+        bccumR >>= 16; \
+        bccumG >>= 16; \
+        bccumB >>= 16; \
+        SAT(bccumA, 255); \
+        SAT(bccumR, bccumA); \
+        SAT(bccumG, bccumA); \
+        SAT(bccumB, bccumA); \
+        *pRes = ((bccumA << 24) | (bccumR << 16) | (bccumG << 8) | (bccumB)); \
     } while (0)
 
 #endif /* BICUBIC_USE_INT_MATH */
 
 #define BC_ACCUM(index, ycindex, xcindex) \
     do { \
-        BC_TYPE factor = bicubic_coeff[xcindex] * bicubic_coeff[ycindex]; \
+        BC_TYPE fbctor = bicubic_coeff[xcindex] * bicubic_coeff[ycindex]; \
         int rgb; \
         rgb = pRGB[index]; \
-        accumB += BC_CompToV((rgb >>  0) & 0xff) * factor; \
-        accumG += BC_CompToV((rgb >>  8) & 0xff) * factor; \
-        accumR += BC_CompToV((rgb >> 16) & 0xff) * factor; \
-        accumA += BC_CompToV((rgb >> 24) & 0xff) * factor; \
+        bccumB += BC_CompToV((rgb >>  0) & 0xff) * fbctor; \
+        bccumG += BC_CompToV((rgb >>  8) & 0xff) * fbctor; \
+        bccumR += BC_CompToV((rgb >> 16) & 0xff) * fbctor; \
+        bccumA += BC_CompToV((rgb >> 24) & 0xff) * fbctor; \
     } while (0)
 
-static BC_TYPE bicubic_coeff[513];
-static jboolean bicubictableinited;
+stbtic BC_TYPE bicubic_coeff[513];
+stbtic jboolebn bicubictbbleinited;
 
-static void
-init_bicubic_table(jdouble A)
+stbtic void
+init_bicubic_tbble(jdouble A)
 {
     /*
-     * The following formulas are designed to give smooth
+     * The following formulbs bre designed to give smooth
      * results when 'A' is -0.5 or -1.0.
      */
     int i;
@@ -827,76 +827,76 @@ init_bicubic_table(jdouble A)
                                            bicubic_coeff[768-i]);
     }
 
-    bicubictableinited = JNI_TRUE;
+    bicubictbbleinited = JNI_TRUE;
 }
 
-static void
+stbtic void
 BicubicInterp(jint *pRGB, jint numpix,
-              jint xfract, jint dxfract,
-              jint yfract, jint dyfract)
+              jint xfrbct, jint dxfrbct,
+              jint yfrbct, jint dyfrbct)
 {
     jint i;
     jint *pRes = pRGB;
 
-    if (!bicubictableinited) {
-        init_bicubic_table(-0.5);
+    if (!bicubictbbleinited) {
+        init_bicubic_tbble(-0.5);
     }
 
     for (i = 0; i < numpix; i++) {
-        BC_TYPE accumA, accumR, accumG, accumB;
-        jint xfactor, yfactor;
+        BC_TYPE bccumA, bccumR, bccumG, bccumB;
+        jint xfbctor, yfbctor;
 
-        xfactor = URShift(xfract, 32-8);
-        yfactor = URShift(yfract, 32-8);
-        accumA = accumR = accumG = accumB = BC_V_HALF;
-        BC_ACCUM(0, yfactor+256, xfactor+256);
-        BC_ACCUM(1, yfactor+256, xfactor+  0);
-        BC_ACCUM(2, yfactor+256, 256-xfactor);
-        BC_ACCUM(3, yfactor+256, 512-xfactor);
-        BC_ACCUM(4, yfactor+  0, xfactor+256);
-        BC_ACCUM(5, yfactor+  0, xfactor+  0);
-        BC_ACCUM(6, yfactor+  0, 256-xfactor);
-        BC_ACCUM(7, yfactor+  0, 512-xfactor);
-        BC_ACCUM(8, 256-yfactor, xfactor+256);
-        BC_ACCUM(9, 256-yfactor, xfactor+  0);
-        BC_ACCUM(10, 256-yfactor, 256-xfactor);
-        BC_ACCUM(11, 256-yfactor, 512-xfactor);
-        BC_ACCUM(12, 512-yfactor, xfactor+256);
-        BC_ACCUM(13, 512-yfactor, xfactor+  0);
-        BC_ACCUM(14, 512-yfactor, 256-xfactor);
-        BC_ACCUM(15, 512-yfactor, 512-xfactor);
+        xfbctor = URShift(xfrbct, 32-8);
+        yfbctor = URShift(yfrbct, 32-8);
+        bccumA = bccumR = bccumG = bccumB = BC_V_HALF;
+        BC_ACCUM(0, yfbctor+256, xfbctor+256);
+        BC_ACCUM(1, yfbctor+256, xfbctor+  0);
+        BC_ACCUM(2, yfbctor+256, 256-xfbctor);
+        BC_ACCUM(3, yfbctor+256, 512-xfbctor);
+        BC_ACCUM(4, yfbctor+  0, xfbctor+256);
+        BC_ACCUM(5, yfbctor+  0, xfbctor+  0);
+        BC_ACCUM(6, yfbctor+  0, 256-xfbctor);
+        BC_ACCUM(7, yfbctor+  0, 512-xfbctor);
+        BC_ACCUM(8, 256-yfbctor, xfbctor+256);
+        BC_ACCUM(9, 256-yfbctor, xfbctor+  0);
+        BC_ACCUM(10, 256-yfbctor, 256-xfbctor);
+        BC_ACCUM(11, 256-yfbctor, 512-xfbctor);
+        BC_ACCUM(12, 512-yfbctor, xfbctor+256);
+        BC_ACCUM(13, 512-yfbctor, xfbctor+  0);
+        BC_ACCUM(14, 512-yfbctor, 256-xfbctor);
+        BC_ACCUM(15, 512-yfbctor, 512-xfbctor);
         BC_STORE_COMPS(pRes);
         pRes++;
         pRGB += 16;
-        xfract += dxfract;
-        yfract += dyfract;
+        xfrbct += dxfrbct;
+        yfrbct += dyfrbct;
     }
 }
 
 #ifdef MAKE_STUBS
 
-static void
-BilinearInterpStub(jint *pRGBbase, jint numpix,
-                   jint xfract, jint dxfract,
-                   jint yfract, jint dyfract)
+stbtic void
+BilinebrInterpStub(jint *pRGBbbse, jint numpix,
+                   jint xfrbct, jint dxfrbct,
+                   jint yfrbct, jint dyfrbct)
 {
-    jint *pRGB = pRGBbase;
+    jint *pRGB = pRGBbbse;
     while (--numpix >= 0) {
-        *pRGBbase = *pRGB;
-        pRGBbase += 1;
+        *pRGBbbse = *pRGB;
+        pRGBbbse += 1;
         pRGB += 4;
     }
 }
 
-static void
-BicubicInterpStub(jint *pRGBbase, jint numpix,
-                  jint xfract, jint dxfract,
-                  jint yfract, jint dyfract)
+stbtic void
+BicubicInterpStub(jint *pRGBbbse, jint numpix,
+                  jint xfrbct, jint dxfrbct,
+                  jint yfrbct, jint dyfrbct)
 {
-    jint *pRGB = pRGBbase+5;
+    jint *pRGB = pRGBbbse+5;
     while (--numpix >= 0) {
-        *pRGBbase = *pRGB;
-        pRGBbase += 1;
+        *pRGBbbse = *pRGB;
+        pRGBbbse += 1;
         pRGB += 16;
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,23 +27,23 @@
 #include "jni_util.h"
 #include "jvm.h"
 #include "jlong.h"
-#include "java_nio_MappedByteBuffer.h"
-#include <sys/mman.h>
+#include "jbvb_nio_MbppedByteBuffer.h"
+#include <sys/mmbn.h>
 #include <stddef.h>
 #include <stdlib.h>
 
-JNIEXPORT jboolean JNICALL
-Java_java_nio_MappedByteBuffer_isLoaded0(JNIEnv *env, jobject obj, jlong address,
-                                         jlong len, jint numPages)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_nio_MbppedByteBuffer_isLobded0(JNIEnv *env, jobject obj, jlong bddress,
+                                         jlong len, jint numPbges)
 {
-    jboolean loaded = JNI_TRUE;
+    jboolebn lobded = JNI_TRUE;
     int result = 0;
     int i = 0;
-    void *a = (void *) jlong_to_ptr(address);
+    void *b = (void *) jlong_to_ptr(bddress);
 #ifdef __linux__
-    unsigned char *vec = (unsigned char *)malloc(numPages * sizeof(char));
+    unsigned chbr *vec = (unsigned chbr *)mblloc(numPbges * sizeof(chbr));
 #else
-    char *vec = (char *)malloc(numPages * sizeof(char));
+    chbr *vec = (chbr *)mblloc(numPbges * sizeof(chbr));
 #endif
 
     if (vec == NULL) {
@@ -51,43 +51,43 @@ Java_java_nio_MappedByteBuffer_isLoaded0(JNIEnv *env, jobject obj, jlong address
         return JNI_FALSE;
     }
 
-    result = mincore(a, (size_t)len, vec);
+    result = mincore(b, (size_t)len, vec);
     if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "mincore failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "mincore fbiled");
         free(vec);
         return JNI_FALSE;
     }
 
-    for (i=0; i<numPages; i++) {
+    for (i=0; i<numPbges; i++) {
         if (vec[i] == 0) {
-            loaded = JNI_FALSE;
-            break;
+            lobded = JNI_FALSE;
+            brebk;
         }
     }
     free(vec);
-    return loaded;
+    return lobded;
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_nio_MappedByteBuffer_load0(JNIEnv *env, jobject obj, jlong address,
+Jbvb_jbvb_nio_MbppedByteBuffer_lobd0(JNIEnv *env, jobject obj, jlong bddress,
                                      jlong len)
 {
-    char *a = (char *)jlong_to_ptr(address);
-    int result = madvise((caddr_t)a, (size_t)len, MADV_WILLNEED);
+    chbr *b = (chbr *)jlong_to_ptr(bddress);
+    int result = mbdvise((cbddr_t)b, (size_t)len, MADV_WILLNEED);
     if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "madvise failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "mbdvise fbiled");
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_nio_MappedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
-                                      jlong address, jlong len)
+Jbvb_jbvb_nio_MbppedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
+                                      jlong bddress, jlong len)
 {
-    void* a = (void *)jlong_to_ptr(address);
-    int result = msync(a, (size_t)len, MS_SYNC);
+    void* b = (void *)jlong_to_ptr(bddress);
+    int result = msync(b, (size_t)len, MS_SYNC);
     if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "msync failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "msync fbiled");
     }
 }

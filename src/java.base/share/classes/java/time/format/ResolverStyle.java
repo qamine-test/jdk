@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2013, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,57 +59,57 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
 /**
- * Enumeration of different ways to resolve dates and times.
+ * Enumerbtion of different wbys to resolve dbtes bnd times.
  * <p>
- * Parsing a text string occurs in two phases.
- * Phase 1 is a basic text parse according to the fields added to the builder.
- * Phase 2 resolves the parsed field-value pairs into date and/or time objects.
- * This style is used to control how phase 2, resolving, happens.
+ * Pbrsing b text string occurs in two phbses.
+ * Phbse 1 is b bbsic text pbrse bccording to the fields bdded to the builder.
+ * Phbse 2 resolves the pbrsed field-vblue pbirs into dbte bnd/or time objects.
+ * This style is used to control how phbse 2, resolving, hbppens.
  *
  * @implSpec
- * This is an immutable and thread-safe enum.
+ * This is bn immutbble bnd threbd-sbfe enum.
  *
  * @since 1.8
  */
 public enum ResolverStyle {
 
     /**
-     * Style to resolve dates and times strictly.
+     * Style to resolve dbtes bnd times strictly.
      * <p>
-     * Using strict resolution will ensure that all parsed values are within
-     * the outer range of valid values for the field. Individual fields may
+     * Using strict resolution will ensure thbt bll pbrsed vblues bre within
+     * the outer rbnge of vblid vblues for the field. Individubl fields mby
      * be further processed for strictness.
      * <p>
-     * For example, resolving year-month and day-of-month in the ISO calendar
-     * system using strict mode will ensure that the day-of-month is valid
-     * for the year-month, rejecting invalid values.
+     * For exbmple, resolving yebr-month bnd dby-of-month in the ISO cblendbr
+     * system using strict mode will ensure thbt the dby-of-month is vblid
+     * for the yebr-month, rejecting invblid vblues.
      */
     STRICT,
     /**
-     * Style to resolve dates and times in a smart, or intelligent, manner.
+     * Style to resolve dbtes bnd times in b smbrt, or intelligent, mbnner.
      * <p>
-     * Using smart resolution will perform the sensible default for each
-     * field, which may be the same as strict, the same as lenient, or a third
-     * behavior. Individual fields will interpret this differently.
+     * Using smbrt resolution will perform the sensible defbult for ebch
+     * field, which mby be the sbme bs strict, the sbme bs lenient, or b third
+     * behbvior. Individubl fields will interpret this differently.
      * <p>
-     * For example, resolving year-month and day-of-month in the ISO calendar
-     * system using smart mode will ensure that the day-of-month is from
-     * 1 to 31, converting any value beyond the last valid day-of-month to be
-     * the last valid day-of-month.
+     * For exbmple, resolving yebr-month bnd dby-of-month in the ISO cblendbr
+     * system using smbrt mode will ensure thbt the dby-of-month is from
+     * 1 to 31, converting bny vblue beyond the lbst vblid dby-of-month to be
+     * the lbst vblid dby-of-month.
      */
     SMART,
     /**
-     * Style to resolve dates and times leniently.
+     * Style to resolve dbtes bnd times leniently.
      * <p>
-     * Using lenient resolution will resolve the values in an appropriate
-     * lenient manner. Individual fields will interpret this differently.
+     * Using lenient resolution will resolve the vblues in bn bppropribte
+     * lenient mbnner. Individubl fields will interpret this differently.
      * <p>
-     * For example, lenient mode allows the month in the ISO calendar system
-     * to be outside the range 1 to 12.
-     * For example, month 15 is treated as being 3 months after month 12.
+     * For exbmple, lenient mode bllows the month in the ISO cblendbr system
+     * to be outside the rbnge 1 to 12.
+     * For exbmple, month 15 is trebted bs being 3 months bfter month 12.
      */
     LENIENT;
 

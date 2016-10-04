@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 /**
- * Is the base for all SNMP syntaxes based on unsigned integers.
+ * Is the bbse for bll SNMP syntbxes bbsed on unsigned integers.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpUnsignedInt extends SnmpInt {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpUnsignedInt extends SnmpInt {
 
     /**
-     * The largest value of the type <code>unsigned int</code> (2^32 - 1).
+     * The lbrgest vblue of the type <code>unsigned int</code> (2^32 - 1).
      */
-    public static final long   MAX_VALUE = 0x0ffffffffL;
+    public stbtic finbl long   MAX_VALUE = 0x0ffffffffL;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpUnsignedInt</CODE> from the specified integer value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpUnsignedInt</CODE> from the specified integer vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpUnsignedInt(int v) throws IllegalArgumentException {
+    public SnmpUnsignedInt(int v) throws IllegblArgumentException {
         super(v);
     }
 
     /**
-     * Constructs a new <CODE>SnmpUnsignedInt</CODE> from the specified <CODE>Integer</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpUnsignedInt</CODE> from the specified <CODE>Integer</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpUnsignedInt(Integer v) throws IllegalArgumentException {
+    public SnmpUnsignedInt(Integer v) throws IllegblArgumentException {
         super(v);
     }
 
     /**
-     * Constructs a new <CODE>SnmpUnsignedInt</CODE> from the specified long value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpUnsignedInt</CODE> from the specified long vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpUnsignedInt(long v) throws IllegalArgumentException {
+    public SnmpUnsignedInt(long v) throws IllegblArgumentException {
         super(v);
     }
 
     /**
-     * Constructs a new <CODE>SnmpUnsignedInt</CODE> from the specified <CODE>Long</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpUnsignedInt</CODE> from the specified <CODE>Long</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link #MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpUnsignedInt(Long v) throws IllegalArgumentException {
+    public SnmpUnsignedInt(Long v) throws IllegblArgumentException {
         super(v);
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    public String getTypeName() {
-        return name ;
+    public String getTypeNbme() {
+        return nbme ;
     }
 
     /**
-     * This method has been defined to allow the sub-classes
-     * of SnmpInt to perform their own control at intialization time.
+     * This method hbs been defined to bllow the sub-clbsses
+     * of SnmpInt to perform their own control bt intiblizbtion time.
      */
-    boolean isInitValueValid(int v) {
+    boolebn isInitVblueVblid(int v) {
         if ((v < 0) || (v > SnmpUnsignedInt.MAX_VALUE)) {
-            return false;
+            return fblse;
         }
         return true;
     }
 
     /**
-     * This method has been defined to allow the sub-classes
-     * of SnmpInt to perform their own control at intialization time.
+     * This method hbs been defined to bllow the sub-clbsses
+     * of SnmpInt to perform their own control bt intiblizbtion time.
      */
-    boolean isInitValueValid(long v) {
+    boolebn isInitVblueVblid(long v) {
         if ((v < 0) || (v > SnmpUnsignedInt.MAX_VALUE)) {
-            return false;
+            return fblse;
         }
         return true;
     }
@@ -119,7 +119,7 @@ public abstract class SnmpUnsignedInt extends SnmpInt {
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "Unsigned32" ;
+    finbl stbtic String nbme = "Unsigned32" ;
 }

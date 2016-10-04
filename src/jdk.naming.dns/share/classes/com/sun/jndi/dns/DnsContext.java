@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.DirectoryMbnbger;
 
 import com.sun.jndi.toolkit.ctx.*;
 
 
 /**
- * A DnsContext is a directory context representing a DNS node.
+ * A DnsContext is b directory context representing b DNS node.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public class DnsContext extends ComponentDirContext {
+public clbss DnsContext extends ComponentDirContext {
 
-    DnsName domain;             // fully-qualified domain name of this context,
-                                // with a root (empty) label at position 0
-    Hashtable<Object,Object> environment;
-    private boolean envShared;  // true if environment is possibly shared
-                                // and so must be copied on write
-    private boolean parentIsDns;        // was this DnsContext created by
-                                        // another?  see composeName()
-    private String[] servers;
-    private Resolver resolver;
+    DnsNbme dombin;             // fully-qublified dombin nbme of this context,
+                                // with b root (empty) lbbel bt position 0
+    Hbshtbble<Object,Object> environment;
+    privbte boolebn envShbred;  // true if environment is possibly shbred
+                                // bnd so must be copied on write
+    privbte boolebn pbrentIsDns;        // wbs this DnsContext crebted by
+                                        // bnother?  see composeNbme()
+    privbte String[] servers;
+    privbte Resolver resolver;
 
-    private boolean authoritative;      // must all responses be authoritative?
-    private boolean recursion;          // request recursion on queries?
-    private int timeout;                // initial timeout on UDP queries in ms
-    private int retries;                // number of UDP retries
+    privbte boolebn buthoritbtive;      // must bll responses be buthoritbtive?
+    privbte boolebn recursion;          // request recursion on queries?
+    privbte int timeout;                // initibl timeout on UDP queries in ms
+    privbte int retries;                // number of UDP retries
 
-    static final NameParser nameParser = new DnsNameParser();
+    stbtic finbl NbmePbrser nbmePbrser = new DnsNbmePbrser();
 
-    // Timeouts for UDP queries use exponential backoff:  each retry
-    // is for twice as long as the last.  The following constants set
-    // the defaults for the initial timeout (in ms) and the number of
-    // retries, and name the environment properties used to override
-    // these defaults.
-    private static final int DEFAULT_INIT_TIMEOUT = 1000;
-    private static final int DEFAULT_RETRIES = 4;
-    private static final String INIT_TIMEOUT =
-                                          "com.sun.jndi.dns.timeout.initial";
-    private static final String RETRIES = "com.sun.jndi.dns.timeout.retries";
+    // Timeouts for UDP queries use exponentibl bbckoff:  ebch retry
+    // is for twice bs long bs the lbst.  The following constbnts set
+    // the defbults for the initibl timeout (in ms) bnd the number of
+    // retries, bnd nbme the environment properties used to override
+    // these defbults.
+    privbte stbtic finbl int DEFAULT_INIT_TIMEOUT = 1000;
+    privbte stbtic finbl int DEFAULT_RETRIES = 4;
+    privbte stbtic finbl String INIT_TIMEOUT =
+                                          "com.sun.jndi.dns.timeout.initibl";
+    privbte stbtic finbl String RETRIES = "com.sun.jndi.dns.timeout.retries";
 
-    // The resource record type and class to use for lookups, and the
+    // The resource record type bnd clbss to use for lookups, bnd the
     // property used to modify them
-    private CT lookupCT;
-    private static final String LOOKUP_ATTR = "com.sun.jndi.dns.lookup.attr";
+    privbte CT lookupCT;
+    privbte stbtic finbl String LOOKUP_ATTR = "com.sun.jndi.dns.lookup.bttr";
 
-    // Property used to disallow recursion on queries
-    private static final String RECURSION = "com.sun.jndi.dns.recursion";
+    // Property used to disbllow recursion on queries
+    privbte stbtic finbl String RECURSION = "com.sun.jndi.dns.recursion";
 
     // ANY == ResourceRecord.QCLASS_STAR == ResourceRecord.QTYPE_STAR
-    private static final int ANY = ResourceRecord.QTYPE_STAR;
+    privbte stbtic finbl int ANY = ResourceRecord.QTYPE_STAR;
 
-    // The zone tree used for list operations
-    private static final ZoneNode zoneTree = new ZoneNode(null);
+    // The zone tree used for list operbtions
+    privbte stbtic finbl ZoneNode zoneTree = new ZoneNode(null);
 
 
     /**
-     * Returns a DNS context for a given domain and servers.
-     * Each server is of the form "server[:port]".
-     * IPv6 literal host names include delimiting brackets.
-     * There must be at least one server.
+     * Returns b DNS context for b given dombin bnd servers.
+     * Ebch server is of the form "server[:port]".
+     * IPv6 literbl host nbmes include delimiting brbckets.
+     * There must be bt lebst one server.
      * The environment must not be null; it is cloned before being stored.
      */
-    @SuppressWarnings("unchecked")
-    public DnsContext(String domain, String[] servers, Hashtable<?,?> environment)
-            throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public DnsContext(String dombin, String[] servers, Hbshtbble<?,?> environment)
+            throws NbmingException {
 
-        this.domain = new DnsName(domain.endsWith(".")
-                                  ? domain
-                                  : domain + ".");
+        this.dombin = new DnsNbme(dombin.endsWith(".")
+                                  ? dombin
+                                  : dombin + ".");
         this.servers = (servers == null) ? null : servers.clone();
-        this.environment = (Hashtable<Object,Object>) environment.clone();
-        envShared = false;
-        parentIsDns = false;
+        this.environment = (Hbshtbble<Object,Object>) environment.clone();
+        envShbred = fblse;
+        pbrentIsDns = fblse;
         resolver = null;
 
         initFromEnvironment();
     }
 
     /*
-     * Returns a clone of a DNS context, just like DnsContext(DnsContext)
-     * but with a different domain name and with parentIsDns set to true.
+     * Returns b clone of b DNS context, just like DnsContext(DnsContext)
+     * but with b different dombin nbme bnd with pbrentIsDns set to true.
      */
-    DnsContext(DnsContext ctx, DnsName domain) {
+    DnsContext(DnsContext ctx, DnsNbme dombin) {
         this(ctx);
-        this.domain = domain;
-        parentIsDns = true;
+        this.dombin = dombin;
+        pbrentIsDns = true;
     }
 
     /*
-     * Returns a clone of a DNS context.  The context's modifiable
-     * private state is independent of the original's (so closing one
-     * context, for example, won't close the other).  The two contexts
-     * share <tt>environment</tt>, but it's copy-on-write so there's
+     * Returns b clone of b DNS context.  The context's modifibble
+     * privbte stbte is independent of the originbl's (so closing one
+     * context, for exbmple, won't close the other).  The two contexts
+     * shbre <tt>environment</tt>, but it's copy-on-write so there's
      * no conflict.
      */
-    private DnsContext(DnsContext ctx) {
-        environment = ctx.environment;  // shared environment, copy-on-write
-        envShared = ctx.envShared = true;
-        parentIsDns = ctx.parentIsDns;
-        domain = ctx.domain;
-        servers = ctx.servers;          // shared servers, no write operation
+    privbte DnsContext(DnsContext ctx) {
+        environment = ctx.environment;  // shbred environment, copy-on-write
+        envShbred = ctx.envShbred = true;
+        pbrentIsDns = ctx.pbrentIsDns;
+        dombin = ctx.dombin;
+        servers = ctx.servers;          // shbred servers, no write operbtion
         resolver = ctx.resolver;
-        authoritative = ctx.authoritative;
+        buthoritbtive = ctx.buthoritbtive;
         recursion = ctx.recursion;
         timeout = ctx.timeout;
         retries = ctx.retries;
@@ -150,413 +150,413 @@ public class DnsContext extends ComponentDirContext {
     }
 
 
-    //---------- Environment operations
+    //---------- Environment operbtions
 
     /*
-     * Override default with a noncloning version.
+     * Override defbult with b noncloning version.
      */
-    protected Hashtable<?,?> p_getEnvironment() {
+    protected Hbshtbble<?,?> p_getEnvironment() {
         return environment;
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        return (Hashtable<?,?>) environment.clone();
+    public Hbshtbble<?,?> getEnvironment() throws NbmingException {
+        return (Hbshtbble<?,?>) environment.clone();
     }
 
-    @SuppressWarnings("unchecked")
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+            throws NbmingException {
 
-        if (propName.equals(LOOKUP_ATTR)) {
-            lookupCT = getLookupCT((String) propVal);
-        } else if (propName.equals(Context.AUTHORITATIVE)) {
-            authoritative = "true".equalsIgnoreCase((String) propVal);
-        } else if (propName.equals(RECURSION)) {
-            recursion = "true".equalsIgnoreCase((String) propVal);
-        } else if (propName.equals(INIT_TIMEOUT)) {
-            int val = Integer.parseInt((String) propVal);
-            if (timeout != val) {
-                timeout = val;
+        if (propNbme.equbls(LOOKUP_ATTR)) {
+            lookupCT = getLookupCT((String) propVbl);
+        } else if (propNbme.equbls(Context.AUTHORITATIVE)) {
+            buthoritbtive = "true".equblsIgnoreCbse((String) propVbl);
+        } else if (propNbme.equbls(RECURSION)) {
+            recursion = "true".equblsIgnoreCbse((String) propVbl);
+        } else if (propNbme.equbls(INIT_TIMEOUT)) {
+            int vbl = Integer.pbrseInt((String) propVbl);
+            if (timeout != vbl) {
+                timeout = vbl;
                 resolver = null;
             }
-        } else if (propName.equals(RETRIES)) {
-            int val = Integer.parseInt((String) propVal);
-            if (retries != val) {
-                retries = val;
+        } else if (propNbme.equbls(RETRIES)) {
+            int vbl = Integer.pbrseInt((String) propVbl);
+            if (retries != vbl) {
+                retries = vbl;
                 resolver = null;
             }
         }
 
-        if (!envShared) {
-            return environment.put(propName, propVal);
-        } else if (environment.get(propName) != propVal) {
+        if (!envShbred) {
+            return environment.put(propNbme, propVbl);
+        } else if (environment.get(propNbme) != propVbl) {
             // copy on write
-            environment = (Hashtable<Object,Object>) environment.clone();
-            envShared = false;
-            return environment.put(propName, propVal);
+            environment = (Hbshtbble<Object,Object>) environment.clone();
+            envShbred = fblse;
+            return environment.put(propNbme, propVbl);
         } else {
-            return propVal;
+            return propVbl;
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public Object removeFromEnvironment(String propName)
-            throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public Object removeFromEnvironment(String propNbme)
+            throws NbmingException {
 
-        if (propName.equals(LOOKUP_ATTR)) {
+        if (propNbme.equbls(LOOKUP_ATTR)) {
             lookupCT = getLookupCT(null);
-        } else if (propName.equals(Context.AUTHORITATIVE)) {
-            authoritative = false;
-        } else if (propName.equals(RECURSION)) {
+        } else if (propNbme.equbls(Context.AUTHORITATIVE)) {
+            buthoritbtive = fblse;
+        } else if (propNbme.equbls(RECURSION)) {
             recursion = true;
-        } else if (propName.equals(INIT_TIMEOUT)) {
+        } else if (propNbme.equbls(INIT_TIMEOUT)) {
             if (timeout != DEFAULT_INIT_TIMEOUT) {
                 timeout = DEFAULT_INIT_TIMEOUT;
                 resolver = null;
             }
-        } else if (propName.equals(RETRIES)) {
+        } else if (propNbme.equbls(RETRIES)) {
             if (retries != DEFAULT_RETRIES) {
                 retries = DEFAULT_RETRIES;
                 resolver = null;
             }
         }
 
-        if (!envShared) {
-            return environment.remove(propName);
-        } else if (environment.get(propName) != null) {
+        if (!envShbred) {
+            return environment.remove(propNbme);
+        } else if (environment.get(propNbme) != null) {
             // copy-on-write
-            environment = (Hashtable<Object,Object>) environment.clone();
-            envShared = false;
-            return environment.remove(propName);
+            environment = (Hbshtbble<Object,Object>) environment.clone();
+            envShbred = fblse;
+            return environment.remove(propNbme);
         } else {
             return null;
         }
     }
 
     /*
-     * Update PROVIDER_URL property.  Call this only when environment
-     * is not being shared.
+     * Updbte PROVIDER_URL property.  Cbll this only when environment
+     * is not being shbred.
      */
     void setProviderUrl(String url) {
-        // assert !envShared;
+        // bssert !envShbred;
         environment.put(Context.PROVIDER_URL, url);
     }
 
     /*
-     * Read environment properties and set parameters.
+     * Rebd environment properties bnd set pbrbmeters.
      */
-    private void initFromEnvironment()
-            throws InvalidAttributeIdentifierException {
+    privbte void initFromEnvironment()
+            throws InvblidAttributeIdentifierException {
 
         lookupCT = getLookupCT((String) environment.get(LOOKUP_ATTR));
-        authoritative = "true".equalsIgnoreCase((String)
+        buthoritbtive = "true".equblsIgnoreCbse((String)
                                        environment.get(Context.AUTHORITATIVE));
-        String val = (String) environment.get(RECURSION);
-        recursion = ((val == null) ||
-                     "true".equalsIgnoreCase(val));
-        val = (String) environment.get(INIT_TIMEOUT);
-        timeout = (val == null)
+        String vbl = (String) environment.get(RECURSION);
+        recursion = ((vbl == null) ||
+                     "true".equblsIgnoreCbse(vbl));
+        vbl = (String) environment.get(INIT_TIMEOUT);
+        timeout = (vbl == null)
             ? DEFAULT_INIT_TIMEOUT
-            : Integer.parseInt(val);
-        val = (String) environment.get(RETRIES);
-        retries = (val == null)
+            : Integer.pbrseInt(vbl);
+        vbl = (String) environment.get(RETRIES);
+        retries = (vbl == null)
             ? DEFAULT_RETRIES
-            : Integer.parseInt(val);
+            : Integer.pbrseInt(vbl);
     }
 
-    private CT getLookupCT(String attrId)
-            throws InvalidAttributeIdentifierException {
-        return (attrId == null)
+    privbte CT getLookupCT(String bttrId)
+            throws InvblidAttributeIdentifierException {
+        return (bttrId == null)
             ? new CT(ResourceRecord.CLASS_INTERNET, ResourceRecord.TYPE_TXT)
-            : fromAttrId(attrId);
+            : fromAttrId(bttrId);
     }
 
 
-    //---------- Naming operations
+    //---------- Nbming operbtions
 
-    public Object c_lookup(Name name, Continuation cont)
-            throws NamingException {
+    public Object c_lookup(Nbme nbme, Continubtion cont)
+            throws NbmingException {
 
         cont.setSuccess();
-        if (name.isEmpty()) {
+        if (nbme.isEmpty()) {
             DnsContext ctx = new DnsContext(this);
             ctx.resolver = new Resolver(servers, timeout, retries);
-                                                // clone for parallelism
+                                                // clone for pbrbllelism
             return ctx;
         }
         try {
-            DnsName fqdn = fullyQualify(name);
+            DnsNbme fqdn = fullyQublify(nbme);
             ResourceRecords rrs =
-                getResolver().query(fqdn, lookupCT.rrclass, lookupCT.rrtype,
-                                    recursion, authoritative);
-            Attributes attrs = rrsToAttrs(rrs, null);
+                getResolver().query(fqdn, lookupCT.rrclbss, lookupCT.rrtype,
+                                    recursion, buthoritbtive);
+            Attributes bttrs = rrsToAttrs(rrs, null);
             DnsContext ctx = new DnsContext(this, fqdn);
-            return DirectoryManager.getObjectInstance(ctx, name, this,
-                                                      environment, attrs);
-        } catch (NamingException e) {
-            cont.setError(this, name);
+            return DirectoryMbnbger.getObjectInstbnce(ctx, nbme, this,
+                                                      environment, bttrs);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
-        } catch (Exception e) {
-            cont.setError(this, name);
-            NamingException ne = new NamingException(
-                    "Problem generating object using object factory");
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            cont.setError(this, nbme);
+            NbmingException ne = new NbmingException(
+                    "Problem generbting object using object fbctory");
+            ne.setRootCbuse(e);
             throw cont.fillInException(ne);
         }
     }
 
-    public Object c_lookupLink(Name name, Continuation cont)
-            throws NamingException {
-        return c_lookup(name, cont);
+    public Object c_lookupLink(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        return c_lookup(nbme, cont);
     }
 
-    public NamingEnumeration<NameClassPair> c_list(Name name, Continuation cont)
-            throws NamingException {
+    public NbmingEnumerbtion<NbmeClbssPbir> c_list(Nbme nbme, Continubtion cont)
+            throws NbmingException {
         cont.setSuccess();
         try {
-            DnsName fqdn = fullyQualify(name);
-            NameNode nnode = getNameNode(fqdn);
+            DnsNbme fqdn = fullyQublify(nbme);
+            NbmeNode nnode = getNbmeNode(fqdn);
             DnsContext ctx = new DnsContext(this, fqdn);
-            return new NameClassPairEnumeration(ctx, nnode.getChildren());
+            return new NbmeClbssPbirEnumerbtion(ctx, nnode.getChildren());
 
-        } catch (NamingException e) {
-            cont.setError(this, name);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
         }
     }
 
-    public NamingEnumeration<Binding> c_listBindings(Name name, Continuation cont)
-            throws NamingException {
+    public NbmingEnumerbtion<Binding> c_listBindings(Nbme nbme, Continubtion cont)
+            throws NbmingException {
         cont.setSuccess();
         try {
-            DnsName fqdn = fullyQualify(name);
-            NameNode nnode = getNameNode(fqdn);
+            DnsNbme fqdn = fullyQublify(nbme);
+            NbmeNode nnode = getNbmeNode(fqdn);
             DnsContext ctx = new DnsContext(this, fqdn);
-            return new BindingEnumeration(ctx, nnode.getChildren());
+            return new BindingEnumerbtion(ctx, nnode.getChildren());
 
-        } catch (NamingException e) {
-            cont.setError(this, name);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
         }
     }
 
-    public void c_bind(Name name, Object obj, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public void c_bind(Nbme nbme, Object obj, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_rebind(Name name, Object obj, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public void c_rebind(Nbme nbme, Object obj, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_unbind(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public void c_unbind(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_rename(Name oldname, Name newname, Continuation cont)
-            throws NamingException {
-        cont.setError(this, oldname);
+    public void c_renbme(Nbme oldnbme, Nbme newnbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, oldnbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public Context c_createSubcontext(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public Context c_crebteSubcontext(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_destroySubcontext(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public void c_destroySubcontext(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public NameParser c_getNameParser(Name name, Continuation cont)
-            throws NamingException {
+    public NbmePbrser c_getNbmePbrser(Nbme nbme, Continubtion cont)
+            throws NbmingException {
         cont.setSuccess();
-        return nameParser;
+        return nbmePbrser;
     }
 
 
-    //---------- Directory operations
+    //---------- Directory operbtions
 
-    public void c_bind(Name name,
+    public void c_bind(Nbme nbme,
                        Object obj,
-                       Attributes attrs,
-                       Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+                       Attributes bttrs,
+                       Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_rebind(Name name,
+    public void c_rebind(Nbme nbme,
                          Object obj,
-                         Attributes attrs,
-                         Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+                         Attributes bttrs,
+                         Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public DirContext c_createSubcontext(Name name,
-                                         Attributes attrs,
-                                         Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public DirContext c_crebteSubcontext(Nbme nbme,
+                                         Attributes bttrs,
+                                         Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public Attributes c_getAttributes(Name name,
-                                      String[] attrIds,
-                                      Continuation cont)
-            throws NamingException {
+    public Attributes c_getAttributes(Nbme nbme,
+                                      String[] bttrIds,
+                                      Continubtion cont)
+            throws NbmingException {
 
         cont.setSuccess();
         try {
-            DnsName fqdn = fullyQualify(name);
-            CT[] cts = attrIdsToClassesAndTypes(attrIds);
-            CT ct = getClassAndTypeToQuery(cts);
+            DnsNbme fqdn = fullyQublify(nbme);
+            CT[] cts = bttrIdsToClbssesAndTypes(bttrIds);
+            CT ct = getClbssAndTypeToQuery(cts);
             ResourceRecords rrs =
-                getResolver().query(fqdn, ct.rrclass, ct.rrtype,
-                                    recursion, authoritative);
+                getResolver().query(fqdn, ct.rrclbss, ct.rrtype,
+                                    recursion, buthoritbtive);
             return rrsToAttrs(rrs, cts);
 
-        } catch (NamingException e) {
-            cont.setError(this, name);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
         }
     }
 
-    public void c_modifyAttributes(Name name,
+    public void c_modifyAttributes(Nbme nbme,
                                    int mod_op,
-                                   Attributes attrs,
-                                   Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+                                   Attributes bttrs,
+                                   Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public void c_modifyAttributes(Name name,
-                                   ModificationItem[] mods,
-                                   Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public void c_modifyAttributes(Nbme nbme,
+                                   ModificbtionItem[] mods,
+                                   Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public NamingEnumeration<SearchResult> c_search(Name name,
-                                      Attributes matchingAttributes,
-                                      String[] attributesToReturn,
-                                      Continuation cont)
-            throws NamingException {
-        throw new OperationNotSupportedException();
+    public NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
+                                      Attributes mbtchingAttributes,
+                                      String[] bttributesToReturn,
+                                      Continubtion cont)
+            throws NbmingException {
+        throw new OperbtionNotSupportedException();
     }
 
-    public NamingEnumeration<SearchResult> c_search(Name name,
+    public NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
                                       String filter,
-                                      SearchControls cons,
-                                      Continuation cont)
-            throws NamingException {
-        throw new OperationNotSupportedException();
+                                      SebrchControls cons,
+                                      Continubtion cont)
+            throws NbmingException {
+        throw new OperbtionNotSupportedException();
     }
 
-    public NamingEnumeration<SearchResult> c_search(Name name,
+    public NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
                                       String filterExpr,
                                       Object[] filterArgs,
-                                      SearchControls cons,
-                                      Continuation cont)
-            throws NamingException {
-        throw new OperationNotSupportedException();
+                                      SebrchControls cons,
+                                      Continubtion cont)
+            throws NbmingException {
+        throw new OperbtionNotSupportedException();
     }
 
-    public DirContext c_getSchema(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public DirContext c_getSchemb(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
-    public DirContext c_getSchemaClassDefinition(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    public DirContext c_getSchembClbssDefinition(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         throw cont.fillInException(
-                new OperationNotSupportedException());
+                new OperbtionNotSupportedException());
     }
 
 
-    //---------- Name-related operations
+    //---------- Nbme-relbted operbtions
 
-    public String getNameInNamespace() {
-        return domain.toString();
+    public String getNbmeInNbmespbce() {
+        return dombin.toString();
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result;
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        Nbme result;
 
-        // Any name that's not a CompositeName is assumed to be a DNS
-        // compound name.  Convert each to a DnsName for syntax checking.
-        if (!(prefix instanceof DnsName || prefix instanceof CompositeName)) {
-            prefix = (new DnsName()).addAll(prefix);
+        // Any nbme thbt's not b CompositeNbme is bssumed to be b DNS
+        // compound nbme.  Convert ebch to b DnsNbme for syntbx checking.
+        if (!(prefix instbnceof DnsNbme || prefix instbnceof CompositeNbme)) {
+            prefix = (new DnsNbme()).bddAll(prefix);
         }
-        if (!(name instanceof DnsName || name instanceof CompositeName)) {
-            name = (new DnsName()).addAll(name);
-        }
-
-        // Each of prefix and name is now either a DnsName or a CompositeName.
-
-        // If we have two DnsNames, simply join them together.
-        if ((prefix instanceof DnsName) && (name instanceof DnsName)) {
-            result = (DnsName) (prefix.clone());
-            result.addAll(name);
-            return new CompositeName().add(result.toString());
+        if (!(nbme instbnceof DnsNbme || nbme instbnceof CompositeNbme)) {
+            nbme = (new DnsNbme()).bddAll(nbme);
         }
 
-        // Wrap compound names in composite names.
-        Name prefixC = (prefix instanceof CompositeName)
+        // Ebch of prefix bnd nbme is now either b DnsNbme or b CompositeNbme.
+
+        // If we hbve two DnsNbmes, simply join them together.
+        if ((prefix instbnceof DnsNbme) && (nbme instbnceof DnsNbme)) {
+            result = (DnsNbme) (prefix.clone());
+            result.bddAll(nbme);
+            return new CompositeNbme().bdd(result.toString());
+        }
+
+        // Wrbp compound nbmes in composite nbmes.
+        Nbme prefixC = (prefix instbnceof CompositeNbme)
             ? prefix
-            : new CompositeName().add(prefix.toString());
-        Name nameC = (name instanceof CompositeName)
-            ? name
-            : new CompositeName().add(name.toString());
-        int prefixLast = prefixC.size() - 1;
+            : new CompositeNbme().bdd(prefix.toString());
+        Nbme nbmeC = (nbme instbnceof CompositeNbme)
+            ? nbme
+            : new CompositeNbme().bdd(nbme.toString());
+        int prefixLbst = prefixC.size() - 1;
 
-        // Let toolkit do the work at namespace boundaries.
-        if (nameC.isEmpty() || nameC.get(0).equals("") ||
-                prefixC.isEmpty() || prefixC.get(prefixLast).equals("")) {
-            return super.composeName(nameC, prefixC);
+        // Let toolkit do the work bt nbmespbce boundbries.
+        if (nbmeC.isEmpty() || nbmeC.get(0).equbls("") ||
+                prefixC.isEmpty() || prefixC.get(prefixLbst).equbls("")) {
+            return super.composeNbme(nbmeC, prefixC);
         }
 
         result = (prefix == prefixC)
-            ? (CompositeName) prefixC.clone()
-            : prefixC;                  // prefixC is already a clone
-        result.addAll(nameC);
+            ? (CompositeNbme) prefixC.clone()
+            : prefixC;                  // prefixC is blrebdy b clone
+        result.bddAll(nbmeC);
 
-        if (parentIsDns) {
-            DnsName dnsComp = (prefix instanceof DnsName)
-                           ? (DnsName) prefix.clone()
-                           : new DnsName(prefixC.get(prefixLast));
-            dnsComp.addAll((name instanceof DnsName)
-                           ? name
-                           : new DnsName(nameC.get(0)));
-            result.remove(prefixLast + 1);
-            result.remove(prefixLast);
-            result.add(prefixLast, dnsComp.toString());
+        if (pbrentIsDns) {
+            DnsNbme dnsComp = (prefix instbnceof DnsNbme)
+                           ? (DnsNbme) prefix.clone()
+                           : new DnsNbme(prefixC.get(prefixLbst));
+            dnsComp.bddAll((nbme instbnceof DnsNbme)
+                           ? nbme
+                           : new DnsNbme(nbmeC.get(0)));
+            result.remove(prefixLbst + 1);
+            result.remove(prefixLbst);
+            result.bdd(prefixLbst, dnsComp.toString());
         }
         return result;
     }
@@ -565,10 +565,10 @@ public class DnsContext extends ComponentDirContext {
     //---------- Helper methods
 
     /*
-     * Resolver is not created until needed, to allow time for updates
+     * Resolver is not crebted until needed, to bllow time for updbtes
      * to the environment.
      */
-    private synchronized Resolver getResolver() throws NamingException {
+    privbte synchronized Resolver getResolver() throws NbmingException {
         if (resolver == null) {
             resolver = new Resolver(servers, timeout, retries);
         }
@@ -576,358 +576,358 @@ public class DnsContext extends ComponentDirContext {
     }
 
     /*
-     * Returns the fully-qualified domain name of a name given
-     * relative to this context.  Result includes a root label (an
-     * empty component at position 0).
+     * Returns the fully-qublified dombin nbme of b nbme given
+     * relbtive to this context.  Result includes b root lbbel (bn
+     * empty component bt position 0).
      */
-    DnsName fullyQualify(Name name) throws NamingException {
-        if (name.isEmpty()) {
-            return domain;
+    DnsNbme fullyQublify(Nbme nbme) throws NbmingException {
+        if (nbme.isEmpty()) {
+            return dombin;
         }
-        DnsName dnsName = (name instanceof CompositeName)
-            ? new DnsName(name.get(0))                  // parse name
-            : (DnsName) (new DnsName()).addAll(name);   // clone & check syntax
+        DnsNbme dnsNbme = (nbme instbnceof CompositeNbme)
+            ? new DnsNbme(nbme.get(0))                  // pbrse nbme
+            : (DnsNbme) (new DnsNbme()).bddAll(nbme);   // clone & check syntbx
 
-        if (dnsName.hasRootLabel()) {
-            // Be overly generous and allow root label if we're in root domain.
-            if (domain.size() == 1) {
-                return dnsName;
+        if (dnsNbme.hbsRootLbbel()) {
+            // Be overly generous bnd bllow root lbbel if we're in root dombin.
+            if (dombin.size() == 1) {
+                return dnsNbme;
             } else {
-                throw new InvalidNameException(
-                       "DNS name " + dnsName + " not relative to " + domain);
+                throw new InvblidNbmeException(
+                       "DNS nbme " + dnsNbme + " not relbtive to " + dombin);
             }
         }
-        return (DnsName) dnsName.addAll(0, domain);
+        return (DnsNbme) dnsNbme.bddAll(0, dombin);
     }
 
     /*
-     * Converts resource records to an attribute set.  Only resource
-     * records in the answer section are used, and only those that
-     * match the classes and types in cts (see classAndTypeMatch()
-     * for matching rules).
+     * Converts resource records to bn bttribute set.  Only resource
+     * records in the bnswer section bre used, bnd only those thbt
+     * mbtch the clbsses bnd types in cts (see clbssAndTypeMbtch()
+     * for mbtching rules).
      */
-    private static Attributes rrsToAttrs(ResourceRecords rrs, CT[] cts) {
+    privbte stbtic Attributes rrsToAttrs(ResourceRecords rrs, CT[] cts) {
 
-        BasicAttributes attrs = new BasicAttributes(true);
+        BbsicAttributes bttrs = new BbsicAttributes(true);
 
-        for (int i = 0; i < rrs.answer.size(); i++) {
-            ResourceRecord rr = rrs.answer.elementAt(i);
+        for (int i = 0; i < rrs.bnswer.size(); i++) {
+            ResourceRecord rr = rrs.bnswer.elementAt(i);
             int rrtype  = rr.getType();
-            int rrclass = rr.getRrclass();
+            int rrclbss = rr.getRrclbss();
 
-            if (!classAndTypeMatch(rrclass, rrtype, cts)) {
+            if (!clbssAndTypeMbtch(rrclbss, rrtype, cts)) {
                 continue;
             }
 
-            String attrId = toAttrId(rrclass, rrtype);
-            Attribute attr = attrs.get(attrId);
-            if (attr == null) {
-                attr = new BasicAttribute(attrId);
-                attrs.put(attr);
+            String bttrId = toAttrId(rrclbss, rrtype);
+            Attribute bttr = bttrs.get(bttrId);
+            if (bttr == null) {
+                bttr = new BbsicAttribute(bttrId);
+                bttrs.put(bttr);
             }
-            attr.add(rr.getRdata());
+            bttr.bdd(rr.getRdbtb());
         }
-        return attrs;
+        return bttrs;
     }
 
     /*
-     * Returns true if rrclass and rrtype match some element of cts.
-     * A match occurs if corresponding classes and types are equal,
-     * or if the array value is ANY.  If cts is null, then any class
-     * and type match.
+     * Returns true if rrclbss bnd rrtype mbtch some element of cts.
+     * A mbtch occurs if corresponding clbsses bnd types bre equbl,
+     * or if the brrby vblue is ANY.  If cts is null, then bny clbss
+     * bnd type mbtch.
      */
-    private static boolean classAndTypeMatch(int rrclass, int rrtype,
+    privbte stbtic boolebn clbssAndTypeMbtch(int rrclbss, int rrtype,
                                              CT[] cts) {
         if (cts == null) {
             return true;
         }
         for (int i = 0; i < cts.length; i++) {
             CT ct = cts[i];
-            boolean classMatch = (ct.rrclass == ANY) ||
-                                 (ct.rrclass == rrclass);
-            boolean typeMatch  = (ct.rrtype == ANY) ||
+            boolebn clbssMbtch = (ct.rrclbss == ANY) ||
+                                 (ct.rrclbss == rrclbss);
+            boolebn typeMbtch  = (ct.rrtype == ANY) ||
                                  (ct.rrtype == rrtype);
-            if (classMatch && typeMatch) {
+            if (clbssMbtch && typeMbtch) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Returns the attribute ID for a resource record given its class
-     * and type.  If the record is in the internet class, the
-     * corresponding attribute ID is the record's type name (or the
-     * integer type value if the name is not known).  If the record is
-     * not in the internet class, the class name (or integer class
-     * value) is prepended to the attribute ID, separated by a space.
+     * Returns the bttribute ID for b resource record given its clbss
+     * bnd type.  If the record is in the internet clbss, the
+     * corresponding bttribute ID is the record's type nbme (or the
+     * integer type vblue if the nbme is not known).  If the record is
+     * not in the internet clbss, the clbss nbme (or integer clbss
+     * vblue) is prepended to the bttribute ID, sepbrbted by b spbce.
      *
-     * A class or type value of ANY represents an indeterminate class
-     * or type, and is represented within the attribute ID by "*".
-     * For example, the attribute ID "IN *" represents
-     * any type in the internet class, and "* NS" represents an NS
-     * record of any class.
+     * A clbss or type vblue of ANY represents bn indeterminbte clbss
+     * or type, bnd is represented within the bttribute ID by "*".
+     * For exbmple, the bttribute ID "IN *" represents
+     * bny type in the internet clbss, bnd "* NS" represents bn NS
+     * record of bny clbss.
      */
-    private static String toAttrId(int rrclass, int rrtype) {
-        String attrId = ResourceRecord.getTypeName(rrtype);
-        if (rrclass != ResourceRecord.CLASS_INTERNET) {
-            attrId = ResourceRecord.getRrclassName(rrclass) + " " + attrId;
+    privbte stbtic String toAttrId(int rrclbss, int rrtype) {
+        String bttrId = ResourceRecord.getTypeNbme(rrtype);
+        if (rrclbss != ResourceRecord.CLASS_INTERNET) {
+            bttrId = ResourceRecord.getRrclbssNbme(rrclbss) + " " + bttrId;
         }
-        return attrId;
+        return bttrId;
     }
 
     /*
-     * Returns the class and type values corresponding to an attribute
-     * ID.  An indeterminate class or type is represented by ANY.  See
-     * toAttrId() for the format of attribute IDs.
+     * Returns the clbss bnd type vblues corresponding to bn bttribute
+     * ID.  An indeterminbte clbss or type is represented by ANY.  See
+     * toAttrId() for the formbt of bttribute IDs.
      *
-     * @throws InvalidAttributeIdentifierException
-     *          if class or type is unknown
+     * @throws InvblidAttributeIdentifierException
+     *          if clbss or type is unknown
      */
-    private static CT fromAttrId(String attrId)
-            throws InvalidAttributeIdentifierException {
+    privbte stbtic CT fromAttrId(String bttrId)
+            throws InvblidAttributeIdentifierException {
 
-        if (attrId.equals("")) {
-            throw new InvalidAttributeIdentifierException(
-                    "Attribute ID cannot be empty");
+        if (bttrId.equbls("")) {
+            throw new InvblidAttributeIdentifierException(
+                    "Attribute ID cbnnot be empty");
         }
-        int rrclass;
+        int rrclbss;
         int rrtype;
-        int space = attrId.indexOf(' ');
+        int spbce = bttrId.indexOf(' ');
 
-        // class
-        if (space < 0) {
-            rrclass = ResourceRecord.CLASS_INTERNET;
+        // clbss
+        if (spbce < 0) {
+            rrclbss = ResourceRecord.CLASS_INTERNET;
         } else {
-            String className = attrId.substring(0, space);
-            rrclass = ResourceRecord.getRrclass(className);
-            if (rrclass < 0) {
-                throw new InvalidAttributeIdentifierException(
-                        "Unknown resource record class '" + className + '\'');
+            String clbssNbme = bttrId.substring(0, spbce);
+            rrclbss = ResourceRecord.getRrclbss(clbssNbme);
+            if (rrclbss < 0) {
+                throw new InvblidAttributeIdentifierException(
+                        "Unknown resource record clbss '" + clbssNbme + '\'');
             }
         }
 
         // type
-        String typeName = attrId.substring(space + 1);
-        rrtype = ResourceRecord.getType(typeName);
+        String typeNbme = bttrId.substring(spbce + 1);
+        rrtype = ResourceRecord.getType(typeNbme);
         if (rrtype < 0) {
-            throw new InvalidAttributeIdentifierException(
-                    "Unknown resource record type '" + typeName + '\'');
+            throw new InvblidAttributeIdentifierException(
+                    "Unknown resource record type '" + typeNbme + '\'');
         }
 
-        return new CT(rrclass, rrtype);
+        return new CT(rrclbss, rrtype);
     }
 
     /*
-     * Returns an array of the classes and types corresponding to a
-     * set of attribute IDs.  See toAttrId() for the format of
-     * attribute IDs, and classAndTypeMatch() for the format of the
-     * array returned.
+     * Returns bn brrby of the clbsses bnd types corresponding to b
+     * set of bttribute IDs.  See toAttrId() for the formbt of
+     * bttribute IDs, bnd clbssAndTypeMbtch() for the formbt of the
+     * brrby returned.
      */
-    private static CT[] attrIdsToClassesAndTypes(String[] attrIds)
-            throws InvalidAttributeIdentifierException {
-        if (attrIds == null) {
+    privbte stbtic CT[] bttrIdsToClbssesAndTypes(String[] bttrIds)
+            throws InvblidAttributeIdentifierException {
+        if (bttrIds == null) {
             return null;
         }
-        CT[] cts = new CT[attrIds.length];
+        CT[] cts = new CT[bttrIds.length];
 
-        for (int i = 0; i < attrIds.length; i++) {
-            cts[i] = fromAttrId(attrIds[i]);
+        for (int i = 0; i < bttrIds.length; i++) {
+            cts[i] = fromAttrId(bttrIds[i]);
         }
         return cts;
     }
 
     /*
-     * Returns the most restrictive resource record class and type
-     * that may be used to query for records matching cts.
-     * See classAndTypeMatch() for matching rules.
+     * Returns the most restrictive resource record clbss bnd type
+     * thbt mby be used to query for records mbtching cts.
+     * See clbssAndTypeMbtch() for mbtching rules.
      */
-    private static CT getClassAndTypeToQuery(CT[] cts) {
-        int rrclass;
+    privbte stbtic CT getClbssAndTypeToQuery(CT[] cts) {
+        int rrclbss;
         int rrtype;
 
         if (cts == null) {
-            // Query all records.
-            rrclass = ANY;
+            // Query bll records.
+            rrclbss = ANY;
             rrtype  = ANY;
         } else if (cts.length == 0) {
-            // No records are requested, but we need to ask for something.
-            rrclass = ResourceRecord.CLASS_INTERNET;
+            // No records bre requested, but we need to bsk for something.
+            rrclbss = ResourceRecord.CLASS_INTERNET;
             rrtype  = ANY;
         } else {
-            rrclass = cts[0].rrclass;
+            rrclbss = cts[0].rrclbss;
             rrtype  = cts[0].rrtype;
             for (int i = 1; i < cts.length; i++) {
-                if (rrclass != cts[i].rrclass) {
-                    rrclass = ANY;
+                if (rrclbss != cts[i].rrclbss) {
+                    rrclbss = ANY;
                 }
                 if (rrtype != cts[i].rrtype) {
                     rrtype = ANY;
                 }
             }
         }
-        return new CT(rrclass, rrtype);
+        return new CT(rrclbss, rrtype);
     }
 
 
-    //---------- Support for list operations
+    //---------- Support for list operbtions
 
     /*
-     * Synchronization notes:
+     * Synchronizbtion notes:
      *
-     * Any access to zoneTree that walks the tree, whether it modifies
+     * Any bccess to zoneTree thbt wblks the tree, whether it modifies
      * the tree or not, is synchronized on zoneTree.
-     * [%%% Note:  a read/write lock would allow increased concurrency.]
-     * The depth of a ZoneNode can thereafter be accessed without
-     * further synchronization.  Access to other fields and methods
+     * [%%% Note:  b rebd/write lock would bllow increbsed concurrency.]
+     * The depth of b ZoneNode cbn therebfter be bccessed without
+     * further synchronizbtion.  Access to other fields bnd methods
      * should be synchronized on the node itself.
      *
-     * A zone's contents is a NameNode tree that, once created, is never
-     * modified.  The only synchronization needed is to ensure that it
-     * gets flushed into shared memory after being created, which is
-     * accomplished by ZoneNode.populate().  The contents are accessed
-     * via a soft reference, so a ZoneNode may be seen to be populated
-     * one moment and unpopulated the next.
+     * A zone's contents is b NbmeNode tree thbt, once crebted, is never
+     * modified.  The only synchronizbtion needed is to ensure thbt it
+     * gets flushed into shbred memory bfter being crebted, which is
+     * bccomplished by ZoneNode.populbte().  The contents bre bccessed
+     * vib b soft reference, so b ZoneNode mby be seen to be populbted
+     * one moment bnd unpopulbted the next.
      */
 
     /*
-     * Returns the node in the zone tree corresponding to a
-     * fully-qualified domain name.  If the desired portion of the
-     * tree has not yet been populated or has been outdated, a zone
-     * transfer is done to populate the tree.
+     * Returns the node in the zone tree corresponding to b
+     * fully-qublified dombin nbme.  If the desired portion of the
+     * tree hbs not yet been populbted or hbs been outdbted, b zone
+     * trbnsfer is done to populbte the tree.
      */
-    private NameNode getNameNode(DnsName fqdn) throws NamingException {
-        dprint("getNameNode(" + fqdn + ")");
+    privbte NbmeNode getNbmeNode(DnsNbme fqdn) throws NbmingException {
+        dprint("getNbmeNode(" + fqdn + ")");
 
-        // Find deepest related zone in zone tree.
+        // Find deepest relbted zone in zone tree.
         ZoneNode znode;
-        DnsName zone;
+        DnsNbme zone;
         synchronized (zoneTree) {
-            znode = zoneTree.getDeepestPopulated(fqdn);
+            znode = zoneTree.getDeepestPopulbted(fqdn);
         }
-        dprint("Deepest related zone in zone tree: " +
-               ((znode != null) ? znode.getLabel() : "[none]"));
+        dprint("Deepest relbted zone in zone tree: " +
+               ((znode != null) ? znode.getLbbel() : "[none]"));
 
-        NameNode topOfZone;
-        NameNode nnode;
+        NbmeNode topOfZone;
+        NbmeNode nnode;
 
         if (znode != null) {
             synchronized (znode) {
                 topOfZone = znode.getContents();
             }
-            // If fqdn is in znode's zone, is not at a zone cut, and
+            // If fqdn is in znode's zone, is not bt b zone cut, bnd
             // is current, we're done.
             if (topOfZone != null) {
                 nnode = topOfZone.get(fqdn, znode.depth() + 1); // +1 for root
 
                 if ((nnode != null) && !nnode.isZoneCut()) {
                     dprint("Found node " + fqdn + " in zone tree");
-                    zone = (DnsName)
+                    zone = (DnsNbme)
                         fqdn.getPrefix(znode.depth() + 1);      // +1 for root
-                    boolean current = isZoneCurrent(znode, zone);
-                    boolean restart = false;
+                    boolebn current = isZoneCurrent(znode, zone);
+                    boolebn restbrt = fblse;
 
                     synchronized (znode) {
                         if (topOfZone != znode.getContents()) {
-                            // Zone was modified while we were examining it.
-                            // All bets are off.
-                            restart = true;
+                            // Zone wbs modified while we were exbmining it.
+                            // All bets bre off.
+                            restbrt = true;
                         } else if (!current) {
-                            znode.depopulate();
+                            znode.depopulbte();
                         } else {
-                            return nnode;                       // cache hit!
+                            return nnode;                       // cbche hit!
                         }
                     }
-                    dprint("Zone not current; discarding node");
-                    if (restart) {
-                        return getNameNode(fqdn);
+                    dprint("Zone not current; discbrding node");
+                    if (restbrt) {
+                        return getNbmeNode(fqdn);
                     }
                 }
             }
         }
 
-        // Cache miss...  do it the expensive way.
+        // Cbche miss...  do it the expensive wby.
         dprint("Adding node " + fqdn + " to zone tree");
 
-        // Find fqdn's zone and add it to the tree.
-        zone = getResolver().findZoneName(fqdn, ResourceRecord.CLASS_INTERNET,
+        // Find fqdn's zone bnd bdd it to the tree.
+        zone = getResolver().findZoneNbme(fqdn, ResourceRecord.CLASS_INTERNET,
                                           recursion);
         dprint("Node's zone is " + zone);
         synchronized (zoneTree) {
-            znode = (ZoneNode) zoneTree.add(zone, 1);   // "1" to skip root
+            znode = (ZoneNode) zoneTree.bdd(zone, 1);   // "1" to skip root
         }
 
-        // If znode is now populated we know -- because the first half of
-        // getNodeName() didn't find it -- that it was populated by another
-        // thread during this method call.  Assume then that it's current.
+        // If znode is now populbted we know -- becbuse the first hblf of
+        // getNodeNbme() didn't find it -- thbt it wbs populbted by bnother
+        // threbd during this method cbll.  Assume then thbt it's current.
 
         synchronized (znode) {
-            topOfZone = znode.isPopulated()
+            topOfZone = znode.isPopulbted()
                 ? znode.getContents()
-                : populateZone(znode, zone);
+                : populbteZone(znode, zone);
         }
-        // Desired node should now be in znode's populated zone.  Find it.
+        // Desired node should now be in znode's populbted zone.  Find it.
         nnode = topOfZone.get(fqdn, zone.size());
         if (nnode == null) {
-            throw new ConfigurationException(
+            throw new ConfigurbtionException(
                     "DNS error: node not found in its own zone");
         }
-        dprint("Found node in newly-populated zone");
+        dprint("Found node in newly-populbted zone");
         return nnode;
     }
 
     /*
-     * Does a zone transfer to [re]populate a zone in the zone tree.
+     * Does b zone trbnsfer to [re]populbte b zone in the zone tree.
      * Returns the zone's new contents.
      */
-    private NameNode populateZone(ZoneNode znode, DnsName zone)
-            throws NamingException {
-        dprint("Populating zone " + zone);
-        // assert Thread.holdsLock(znode);
+    privbte NbmeNode populbteZone(ZoneNode znode, DnsNbme zone)
+            throws NbmingException {
+        dprint("Populbting zone " + zone);
+        // bssert Threbd.holdsLock(znode);
         ResourceRecords rrs =
             getResolver().queryZone(zone,
                                     ResourceRecord.CLASS_INTERNET, recursion);
-        dprint("zone xfer complete: " + rrs.answer.size() + " records");
-        return znode.populate(zone, rrs);
+        dprint("zone xfer complete: " + rrs.bnswer.size() + " records");
+        return znode.populbte(zone, rrs);
     }
 
     /*
-     * Determine if a ZoneNode's data is current.
-     * We base this on a comparison between the cached serial
-     * number and the latest SOA record.
+     * Determine if b ZoneNode's dbtb is current.
+     * We bbse this on b compbrison between the cbched seribl
+     * number bnd the lbtest SOA record.
      *
-     * If there is no SOA record, znode is not (or is no longer) a zone:
-     * depopulate znode and return false.
+     * If there is no SOA record, znode is not (or is no longer) b zone:
+     * depopulbte znode bnd return fblse.
      *
-     * Since this method may perform a network operation, it is best
-     * to call it with znode unlocked.  Caller must then note that the
-     * result may be outdated by the time this method returns.
+     * Since this method mby perform b network operbtion, it is best
+     * to cbll it with znode unlocked.  Cbller must then note thbt the
+     * result mby be outdbted by the time this method returns.
      */
-    private boolean isZoneCurrent(ZoneNode znode, DnsName zone)
-            throws NamingException {
+    privbte boolebn isZoneCurrent(ZoneNode znode, DnsNbme zone)
+            throws NbmingException {
         // former version:  return !znode.isExpired();
 
-        if (!znode.isPopulated()) {
-            return false;
+        if (!znode.isPopulbted()) {
+            return fblse;
         }
-        ResourceRecord soa =
-            getResolver().findSoa(zone, ResourceRecord.CLASS_INTERNET,
+        ResourceRecord sob =
+            getResolver().findSob(zone, ResourceRecord.CLASS_INTERNET,
                                   recursion);
         synchronized (znode) {
-            if (soa == null) {
-                znode.depopulate();
+            if (sob == null) {
+                znode.depopulbte();
             }
-            return (znode.isPopulated() &&
-                    znode.compareSerialNumberTo(soa) >= 0);
+            return (znode.isPopulbted() &&
+                    znode.compbreSeriblNumberTo(sob) >= 0);
         }
     }
 
 
     //---------- Debugging
 
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private static final void dprint(String msg) {
+    privbte stbtic finbl void dprint(String msg) {
         if (debug) {
             System.err.println("** " + msg);
         }
@@ -938,15 +938,15 @@ public class DnsContext extends ComponentDirContext {
 //----------
 
 /*
- * A pairing of a resource record class and a resource record type.
- * A value of ANY in either field represents an indeterminate value.
+ * A pbiring of b resource record clbss bnd b resource record type.
+ * A vblue of ANY in either field represents bn indeterminbte vblue.
  */
-class CT {
-    int rrclass;
+clbss CT {
+    int rrclbss;
     int rrtype;
 
-    CT(int rrclass, int rrtype) {
-        this.rrclass = rrclass;
+    CT(int rrclbss, int rrtype) {
+        this.rrclbss = rrclbss;
         this.rrtype = rrtype;
     }
 }
@@ -955,14 +955,14 @@ class CT {
 //----------
 
 /*
- * Common base class for NameClassPairEnumeration and BindingEnumeration.
+ * Common bbse clbss for NbmeClbssPbirEnumerbtion bnd BindingEnumerbtion.
  */
-abstract class BaseNameClassPairEnumeration<T> implements NamingEnumeration<T> {
+bbstrbct clbss BbseNbmeClbssPbirEnumerbtion<T> implements NbmingEnumerbtion<T> {
 
-    protected Enumeration<NameNode> nodes;    // nodes to be enumerated, or null if none
-    protected DnsContext ctx;       // context being enumerated
+    protected Enumerbtion<NbmeNode> nodes;    // nodes to be enumerbted, or null if none
+    protected DnsContext ctx;       // context being enumerbted
 
-    BaseNameClassPairEnumeration(DnsContext ctx, Hashtable<String,NameNode> nodes) {
+    BbseNbmeClbssPbirEnumerbtion(DnsContext ctx, Hbshtbble<String,NbmeNode> nodes) {
         this.ctx = ctx;
         this.nodes = (nodes != null)
             ? nodes.elements()
@@ -970,119 +970,119 @@ abstract class BaseNameClassPairEnumeration<T> implements NamingEnumeration<T> {
     }
 
     /*
-     * ctx will be set to null when no longer needed by the enumeration.
+     * ctx will be set to null when no longer needed by the enumerbtion.
      */
-    public final void close() {
+    public finbl void close() {
         nodes = null;
         ctx = null;
     }
 
-    public final boolean hasMore() {
-        boolean more = ((nodes != null) && nodes.hasMoreElements());
+    public finbl boolebn hbsMore() {
+        boolebn more = ((nodes != null) && nodes.hbsMoreElements());
         if (!more) {
             close();
         }
         return more;
     }
 
-    public final boolean hasMoreElements() {
-        return hasMore();
+    public finbl boolebn hbsMoreElements() {
+        return hbsMore();
     }
 
-    abstract public T next() throws NamingException;
+    bbstrbct public T next() throws NbmingException;
 
-    public final T nextElement() {
+    public finbl T nextElement() {
         try {
             return next();
-        } catch (NamingException e) {
-            java.util.NoSuchElementException nsee =
-                    new java.util.NoSuchElementException();
-            nsee.initCause(e);
+        } cbtch (NbmingException e) {
+            jbvb.util.NoSuchElementException nsee =
+                    new jbvb.util.NoSuchElementException();
+            nsee.initCbuse(e);
             throw nsee;
         }
     }
 }
 
 /*
- * An enumeration of name/classname pairs.
+ * An enumerbtion of nbme/clbssnbme pbirs.
  *
- * Nodes that have children or that are zone cuts are returned with
- * classname DirContext.  Other nodes are returned with classname
- * Object even though they are DirContexts as well, since this might
- * make the namespace easier to browse.
+ * Nodes thbt hbve children or thbt bre zone cuts bre returned with
+ * clbssnbme DirContext.  Other nodes bre returned with clbssnbme
+ * Object even though they bre DirContexts bs well, since this might
+ * mbke the nbmespbce ebsier to browse.
  */
-final class NameClassPairEnumeration
-        extends BaseNameClassPairEnumeration<NameClassPair>
-        implements NamingEnumeration<NameClassPair> {
+finbl clbss NbmeClbssPbirEnumerbtion
+        extends BbseNbmeClbssPbirEnumerbtion<NbmeClbssPbir>
+        implements NbmingEnumerbtion<NbmeClbssPbir> {
 
-    NameClassPairEnumeration(DnsContext ctx, Hashtable<String,NameNode> nodes) {
+    NbmeClbssPbirEnumerbtion(DnsContext ctx, Hbshtbble<String,NbmeNode> nodes) {
         super(ctx, nodes);
     }
 
     @Override
-    public NameClassPair next() throws NamingException {
-        if (!hasMore()) {
-            throw new java.util.NoSuchElementException();
+    public NbmeClbssPbir next() throws NbmingException {
+        if (!hbsMore()) {
+            throw new jbvb.util.NoSuchElementException();
         }
-        NameNode nnode = nodes.nextElement();
-        String className = (nnode.isZoneCut() ||
+        NbmeNode nnode = nodes.nextElement();
+        String clbssNbme = (nnode.isZoneCut() ||
                             (nnode.getChildren() != null))
-            ? "javax.naming.directory.DirContext"
-            : "java.lang.Object";
+            ? "jbvbx.nbming.directory.DirContext"
+            : "jbvb.lbng.Object";
 
-        String label = nnode.getLabel();
-        Name compName = (new DnsName()).add(label);
-        Name cname = (new CompositeName()).add(compName.toString());
+        String lbbel = nnode.getLbbel();
+        Nbme compNbme = (new DnsNbme()).bdd(lbbel);
+        Nbme cnbme = (new CompositeNbme()).bdd(compNbme.toString());
 
-        NameClassPair ncp = new NameClassPair(cname.toString(), className);
-        ncp.setNameInNamespace(ctx.fullyQualify(cname).toString());
+        NbmeClbssPbir ncp = new NbmeClbssPbir(cnbme.toString(), clbssNbme);
+        ncp.setNbmeInNbmespbce(ctx.fullyQublify(cnbme).toString());
         return ncp;
     }
 }
 
 /*
- * An enumeration of Bindings.
+ * An enumerbtion of Bindings.
  */
-final class BindingEnumeration extends BaseNameClassPairEnumeration<Binding>
-                         implements NamingEnumeration<Binding> {
+finbl clbss BindingEnumerbtion extends BbseNbmeClbssPbirEnumerbtion<Binding>
+                         implements NbmingEnumerbtion<Binding> {
 
-    BindingEnumeration(DnsContext ctx, Hashtable<String,NameNode> nodes) {
+    BindingEnumerbtion(DnsContext ctx, Hbshtbble<String,NbmeNode> nodes) {
         super(ctx, nodes);
     }
 
-    // Finalizer not needed since it's safe to leave ctx unclosed.
-//  protected void finalize() {
+    // Finblizer not needed since it's sbfe to lebve ctx unclosed.
+//  protected void finblize() {
 //      close();
 //  }
 
     @Override
-    public Binding next() throws NamingException {
-        if (!hasMore()) {
-            throw (new java.util.NoSuchElementException());
+    public Binding next() throws NbmingException {
+        if (!hbsMore()) {
+            throw (new jbvb.util.NoSuchElementException());
         }
-        NameNode nnode = nodes.nextElement();
+        NbmeNode nnode = nodes.nextElement();
 
-        String label = nnode.getLabel();
-        Name compName = (new DnsName()).add(label);
-        String compNameStr = compName.toString();
-        Name cname = (new CompositeName()).add(compNameStr);
-        String cnameStr = cname.toString();
+        String lbbel = nnode.getLbbel();
+        Nbme compNbme = (new DnsNbme()).bdd(lbbel);
+        String compNbmeStr = compNbme.toString();
+        Nbme cnbme = (new CompositeNbme()).bdd(compNbmeStr);
+        String cnbmeStr = cnbme.toString();
 
-        DnsName fqdn = ctx.fullyQualify(compName);
+        DnsNbme fqdn = ctx.fullyQublify(compNbme);
 
-        // Clone ctx to create the child context.
+        // Clone ctx to crebte the child context.
         DnsContext child = new DnsContext(ctx, fqdn);
 
         try {
-            Object obj = DirectoryManager.getObjectInstance(
-                    child, cname, ctx, child.environment, null);
-            Binding binding = new Binding(cnameStr, obj);
-            binding.setNameInNamespace(ctx.fullyQualify(cname).toString());
+            Object obj = DirectoryMbnbger.getObjectInstbnce(
+                    child, cnbme, ctx, child.environment, null);
+            Binding binding = new Binding(cnbmeStr, obj);
+            binding.setNbmeInNbmespbce(ctx.fullyQublify(cnbme).toString());
             return binding;
-        } catch (Exception e) {
-            NamingException ne = new NamingException(
-                    "Problem generating object using object factory");
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException(
+                    "Problem generbting object using object fbctory");
+            ne.setRootCbuse(e);
             throw ne;
         }
     }

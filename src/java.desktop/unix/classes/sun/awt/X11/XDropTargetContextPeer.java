@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.Component;
+import jbvb.bwt.peer.ComponentPeer;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.dnd.SunDropTargetEvent;
+import sun.bwt.dnd.SunDropTbrgetContextPeer;
+import sun.bwt.dnd.SunDropTbrgetEvent;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 /**
- * The XDropTargetContextPeer is the class responsible for handling
- * the interaction between the XDnD/Motif DnD subsystem and Java drop targets.
+ * The XDropTbrgetContextPeer is the clbss responsible for hbndling
+ * the interbction between the XDnD/Motif DnD subsystem bnd Jbvb drop tbrgets.
  *
  * @since 1.5
  */
-final class XDropTargetContextPeer extends SunDropTargetContextPeer {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetContextPeer");
+finbl clbss XDropTbrgetContextPeer extends SunDropTbrgetContextPeer {
+    privbte stbtic finbl PlbtformLogger logger =
+        PlbtformLogger.getLogger("sun.bwt.X11.xembed.xdnd.XDropTbrgetContextPeer");
 
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
+    privbte stbtic finbl Unsbfe unsbfe = XlibWrbpper.unsbfe;
 
     /*
-     * A key to store a peer instance for an AppContext.
+     * A key to store b peer instbnce for bn AppContext.
      */
-    private static final Object DTCP_KEY = "DropTargetContextPeer";
+    privbte stbtic finbl Object DTCP_KEY = "DropTbrgetContextPeer";
 
-    private XDropTargetContextPeer() {}
+    privbte XDropTbrgetContextPeer() {}
 
-    static XDropTargetContextPeer getPeer(AppContext appContext) {
-        synchronized (_globalLock) {
-            XDropTargetContextPeer peer =
-                (XDropTargetContextPeer)appContext.get(DTCP_KEY);
+    stbtic XDropTbrgetContextPeer getPeer(AppContext bppContext) {
+        synchronized (_globblLock) {
+            XDropTbrgetContextPeer peer =
+                (XDropTbrgetContextPeer)bppContext.get(DTCP_KEY);
             if (peer == null) {
-                peer = new XDropTargetContextPeer();
-                appContext.put(DTCP_KEY, peer);
+                peer = new XDropTbrgetContextPeer();
+                bppContext.put(DTCP_KEY, peer);
             }
 
             return peer;
         }
     }
 
-    static XDropTargetProtocolListener getXDropTargetProtocolListener() {
-        return XDropTargetProtocolListenerImpl.getInstance();
+    stbtic XDropTbrgetProtocolListener getXDropTbrgetProtocolListener() {
+        return XDropTbrgetProtocolListenerImpl.getInstbnce();
     }
 
     /*
-     * @param returnValue the drop action selected by the Java drop target.
+     * @pbrbm returnVblue the drop bction selected by the Jbvb drop tbrget.
      */
-    protected void eventProcessed(SunDropTargetEvent e, int returnValue,
-                                  boolean dispatcherDone) {
-        /* The native context is the pointer to the XClientMessageEvent
+    protected void eventProcessed(SunDropTbrgetEvent e, int returnVblue,
+                                  boolebn dispbtcherDone) {
+        /* The nbtive context is the pointer to the XClientMessbgeEvent
            structure. */
-        long ctxt = getNativeDragContext();
-        /* If the event was not consumed, send a response to the source. */
+        long ctxt = getNbtiveDrbgContext();
+        /* If the event wbs not consumed, send b response to the source. */
         try {
             if (ctxt != 0 && !e.isConsumed()) {
-                Iterator<XDropTargetProtocol> dropTargetProtocols =
-                    XDragAndDropProtocols.getDropTargetProtocols();
+                Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                    XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-                while (dropTargetProtocols.hasNext()) {
-                    XDropTargetProtocol dropTargetProtocol =
-                        dropTargetProtocols.next();
-                    if (dropTargetProtocol.sendResponse(ctxt, e.getID(),
-                                                        returnValue)) {
-                        break;
+                while (dropTbrgetProtocols.hbsNext()) {
+                    XDropTbrgetProtocol dropTbrgetProtocol =
+                        dropTbrgetProtocols.next();
+                    if (dropTbrgetProtocol.sendResponse(ctxt, e.getID(),
+                                                        returnVblue)) {
+                        brebk;
                     }
                 }
             }
-        } finally {
-            if (dispatcherDone && ctxt != 0) {
-                unsafe.freeMemory(ctxt);
+        } finblly {
+            if (dispbtcherDone && ctxt != 0) {
+                unsbfe.freeMemory(ctxt);
             }
         }
     }
 
-    protected void doDropDone(boolean success, int dropAction,
-                              boolean isLocal) {
-        /* The native context is the pointer to the XClientMessageEvent
+    protected void doDropDone(boolebn success, int dropAction,
+                              boolebn isLocbl) {
+        /* The nbtive context is the pointer to the XClientMessbgeEvent
            structure. */
-        long ctxt = getNativeDragContext();
+        long ctxt = getNbtiveDrbgContext();
 
         if (ctxt != 0) {
             try {
-                Iterator<XDropTargetProtocol> dropTargetProtocols =
-                    XDragAndDropProtocols.getDropTargetProtocols();
+                Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                    XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-                while (dropTargetProtocols.hasNext()) {
-                    XDropTargetProtocol dropTargetProtocol =
-                        dropTargetProtocols.next();
-                    if (dropTargetProtocol.sendDropDone(ctxt, success,
+                while (dropTbrgetProtocols.hbsNext()) {
+                    XDropTbrgetProtocol dropTbrgetProtocol =
+                        dropTbrgetProtocols.next();
+                    if (dropTbrgetProtocol.sendDropDone(ctxt, success,
                                                         dropAction)) {
-                        break;
+                        brebk;
                     }
                 }
-            } finally {
-                unsafe.freeMemory(ctxt);
+            } finblly {
+                unsbfe.freeMemory(ctxt);
             }
         }
     }
 
-    protected Object getNativeData(long format)
+    protected Object getNbtiveDbtb(long formbt)
       throws IOException {
-        /* The native context is the pointer to the XClientMessageEvent
+        /* The nbtive context is the pointer to the XClientMessbgeEvent
            structure. */
-        long ctxt = getNativeDragContext();
+        long ctxt = getNbtiveDrbgContext();
 
         if (ctxt != 0) {
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol =
-                    dropTargetProtocols.next();
-                // getData throws IAE if ctxt is not for this protocol.
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol =
+                    dropTbrgetProtocols.next();
+                // getDbtb throws IAE if ctxt is not for this protocol.
                 try {
-                    return dropTargetProtocol.getData(ctxt, format);
-                } catch (IllegalArgumentException iae) {
+                    return dropTbrgetProtocol.getDbtb(ctxt, formbt);
+                } cbtch (IllegblArgumentException ibe) {
                 }
             }
         }
@@ -157,57 +157,57 @@ final class XDropTargetContextPeer extends SunDropTargetContextPeer {
         return null;
     }
 
-    private void cleanup() {
+    privbte void clebnup() {
     }
 
-    protected void processEnterMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processEnterMessage(event);
+    protected void processEnterMessbge(SunDropTbrgetEvent event) {
+        if (!processSunDropTbrgetEvent(event)) {
+            super.processEnterMessbge(event);
         }
     }
 
-    protected void processExitMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processExitMessage(event);
+    protected void processExitMessbge(SunDropTbrgetEvent event) {
+        if (!processSunDropTbrgetEvent(event)) {
+            super.processExitMessbge(event);
         }
     }
 
-    protected void processMotionMessage(SunDropTargetEvent event,
-                                        boolean operationChanged) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processMotionMessage(event, operationChanged);
+    protected void processMotionMessbge(SunDropTbrgetEvent event,
+                                        boolebn operbtionChbnged) {
+        if (!processSunDropTbrgetEvent(event)) {
+            super.processMotionMessbge(event, operbtionChbnged);
         }
     }
 
-    protected void processDropMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processDropMessage(event);
+    protected void processDropMessbge(SunDropTbrgetEvent event) {
+        if (!processSunDropTbrgetEvent(event)) {
+            super.processDropMessbge(event);
         }
     }
 
-    // If source is an XEmbedCanvasPeer, passes the event to it for processing and
-    // return true if the event is forwarded to the XEmbed child.
-    // Otherwise, does nothing and return false.
-    private boolean processSunDropTargetEvent(SunDropTargetEvent event) {
+    // If source is bn XEmbedCbnvbsPeer, pbsses the event to it for processing bnd
+    // return true if the event is forwbrded to the XEmbed child.
+    // Otherwise, does nothing bnd return fblse.
+    privbte boolebn processSunDropTbrgetEvent(SunDropTbrgetEvent event) {
         Object source = event.getSource();
 
-        if (source instanceof Component) {
+        if (source instbnceof Component) {
             ComponentPeer peer = ((Component)source).getPeer();
-            if (peer instanceof XEmbedCanvasPeer) {
-                XEmbedCanvasPeer xEmbedCanvasPeer = (XEmbedCanvasPeer)peer;
-                /* The native context is the pointer to the XClientMessageEvent
+            if (peer instbnceof XEmbedCbnvbsPeer) {
+                XEmbedCbnvbsPeer xEmbedCbnvbsPeer = (XEmbedCbnvbsPeer)peer;
+                /* The nbtive context is the pointer to the XClientMessbgeEvent
                    structure. */
-                long ctxt = getNativeDragContext();
+                long ctxt = getNbtiveDrbgContext();
 
-                if (logger.isLoggable(PlatformLogger.Level.FINER)) {
+                if (logger.isLoggbble(PlbtformLogger.Level.FINER)) {
                     logger.finer("        processing " + event + " ctxt=" + ctxt +
                                  " consumed=" + event.isConsumed());
                 }
-                /* If the event is not consumed, pass it to the
-                   XEmbedCanvasPeer for processing. */
+                /* If the event is not consumed, pbss it to the
+                   XEmbedCbnvbsPeer for processing. */
                 if (!event.isConsumed()) {
-                    // NOTE: ctxt can be zero at this point.
-                    if (xEmbedCanvasPeer.processXEmbedDnDEvent(ctxt,
+                    // NOTE: ctxt cbn be zero bt this point.
+                    if (xEmbedCbnvbsPeer.processXEmbedDnDEvent(ctxt,
                                                                event.getID())) {
                         event.consume();
                         return true;
@@ -216,56 +216,56 @@ final class XDropTargetContextPeer extends SunDropTargetContextPeer {
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    public void forwardEventToEmbedded(long embedded, long ctxt,
+    public void forwbrdEventToEmbedded(long embedded, long ctxt,
                                        int eventID) {
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.forwardEventToEmbedded(embedded, ctxt,
+        while (dropTbrgetProtocols.hbsNext()) {
+            XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+            if (dropTbrgetProtocol.forwbrdEventToEmbedded(embedded, ctxt,
                                                           eventID)) {
-                break;
+                brebk;
             }
         }
     }
 
-    static final class XDropTargetProtocolListenerImpl
-        implements XDropTargetProtocolListener {
+    stbtic finbl clbss XDropTbrgetProtocolListenerImpl
+        implements XDropTbrgetProtocolListener {
 
-        private final static XDropTargetProtocolListener theInstance =
-            new XDropTargetProtocolListenerImpl();
+        privbte finbl stbtic XDropTbrgetProtocolListener theInstbnce =
+            new XDropTbrgetProtocolListenerImpl();
 
-        private XDropTargetProtocolListenerImpl() {}
+        privbte XDropTbrgetProtocolListenerImpl() {}
 
-        static XDropTargetProtocolListener getInstance() {
-            return theInstance;
+        stbtic XDropTbrgetProtocolListener getInstbnce() {
+            return theInstbnce;
         }
 
-        public void handleDropTargetNotification(XWindow xwindow, int x, int y,
-                                                 int dropAction, int actions,
-                                                 long[] formats, long nativeCtxt,
+        public void hbndleDropTbrgetNotificbtion(XWindow xwindow, int x, int y,
+                                                 int dropAction, int bctions,
+                                                 long[] formbts, long nbtiveCtxt,
                                                  int eventID) {
-            Object target = xwindow.getTarget();
+            Object tbrget = xwindow.getTbrget();
 
-            // The Every component is associated with some AppContext.
-            assert target instanceof Component;
+            // The Every component is bssocibted with some AppContext.
+            bssert tbrget instbnceof Component;
 
-            Component component = (Component)target;
+            Component component = (Component)tbrget;
 
-            AppContext appContext = SunToolkit.targetToAppContext(target);
+            AppContext bppContext = SunToolkit.tbrgetToAppContext(tbrget);
 
-            // Every component is associated with some AppContext.
-            assert appContext != null;
+            // Every component is bssocibted with some AppContext.
+            bssert bppContext != null;
 
-            XDropTargetContextPeer peer = XDropTargetContextPeer.getPeer(appContext);
+            XDropTbrgetContextPeer peer = XDropTbrgetContextPeer.getPeer(bppContext);
 
-            peer.postDropTargetEvent(component, x, y, dropAction, actions, formats,
-                                     nativeCtxt, eventID,
-                                     !SunDropTargetContextPeer.DISPATCH_SYNC);
+            peer.postDropTbrgetEvent(component, x, y, dropAction, bctions, formbts,
+                                     nbtiveCtxt, eventID,
+                                     !SunDropTbrgetContextPeer.DISPATCH_SYNC);
         }
     }
 }

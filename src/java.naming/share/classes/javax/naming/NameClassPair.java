@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
- * This class represents the object name and class name pair of a binding
- * found in a context.
+ * This clbss represents the object nbme bnd clbss nbme pbir of b binding
+ * found in b context.
  *<p>
- * A context consists of name-to-object bindings.
- * The NameClassPair class represents the name and the
- * class of the bound object. It consists
- * of a name and a string representing the
- * package-qualified class name.
+ * A context consists of nbme-to-object bindings.
+ * The NbmeClbssPbir clbss represents the nbme bnd the
+ * clbss of the bound object. It consists
+ * of b nbme bnd b string representing the
+ * pbckbge-qublified clbss nbme.
  *<p>
- * Use subclassing for naming systems that generate contents of
- * a name/class pair dynamically.
+ * Use subclbssing for nbming systems thbt generbte contents of
+ * b nbme/clbss pbir dynbmicblly.
  *<p>
- * A NameClassPair instance is not synchronized against concurrent
- * access by multiple threads. Threads that need to access a NameClassPair
- * concurrently should synchronize amongst themselves and provide
- * the necessary locking.
+ * A NbmeClbssPbir instbnce is not synchronized bgbinst concurrent
+ * bccess by multiple threbds. Threbds thbt need to bccess b NbmeClbssPbir
+ * concurrently should synchronize bmongst themselves bnd provide
+ * the necessbry locking.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  *
  * @see Context#list
  * @since 1.3
@@ -52,247 +52,247 @@ package javax.naming;
 
  /*
   * <p>
-  * The serialized form of a NameClassPair object consists of the name (a
-  * String), class name (a String), and isRelative flag (a boolean).
+  * The seriblized form of b NbmeClbssPbir object consists of the nbme (b
+  * String), clbss nbme (b String), bnd isRelbtive flbg (b boolebn).
   */
 
-public class NameClassPair implements java.io.Serializable {
+public clbss NbmeClbssPbir implements jbvb.io.Seriblizbble {
     /**
-     * Contains the name of this NameClassPair.
-     * It is initialized by the constructor and can be updated using
-     * <tt>setName()</tt>.
-     * @serial
-     * @see #getName
-     * @see #setName
+     * Contbins the nbme of this NbmeClbssPbir.
+     * It is initiblized by the constructor bnd cbn be updbted using
+     * <tt>setNbme()</tt>.
+     * @seribl
+     * @see #getNbme
+     * @see #setNbme
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     *Contains the class name contained in this NameClassPair.
-     * It is initialized by the constructor and can be updated using
-     * <tt>setClassName()</tt>.
-     * @serial
-     * @see #getClassName
-     * @see #setClassName
+     *Contbins the clbss nbme contbined in this NbmeClbssPbir.
+     * It is initiblized by the constructor bnd cbn be updbted using
+     * <tt>setClbssNbme()</tt>.
+     * @seribl
+     * @see #getClbssNbme
+     * @see #setClbssNbme
      */
-    private String className;
+    privbte String clbssNbme;
 
     /**
-     * Contains the full name of this NameClassPair within its
-     * own namespace.
-     * It is initialized using <tt>setNameInNamespace()</tt>
-     * @serial
-     * @see #getNameInNamespace
-     * @see #setNameInNamespace
+     * Contbins the full nbme of this NbmeClbssPbir within its
+     * own nbmespbce.
+     * It is initiblized using <tt>setNbmeInNbmespbce()</tt>
+     * @seribl
+     * @see #getNbmeInNbmespbce
+     * @see #setNbmeInNbmespbce
      */
-    private String fullName = null;
+    privbte String fullNbme = null;
 
 
     /**
-     * Records whether the name of this <tt>NameClassPair</tt>
-     * is relative to the target context.
-     * It is initialized by the constructor and can be updated using
-     * <tt>setRelative()</tt>.
-     * @serial
-     * @see #isRelative
-     * @see #setRelative
-     * @see #getName
-     * @see #setName
+     * Records whether the nbme of this <tt>NbmeClbssPbir</tt>
+     * is relbtive to the tbrget context.
+     * It is initiblized by the constructor bnd cbn be updbted using
+     * <tt>setRelbtive()</tt>.
+     * @seribl
+     * @see #isRelbtive
+     * @see #setRelbtive
+     * @see #getNbme
+     * @see #setNbme
      */
-    private boolean isRel = true;
+    privbte boolebn isRel = true;
 
     /**
-     * Constructs an instance of a NameClassPair given its
-     * name and class name.
+     * Constructs bn instbnce of b NbmeClbssPbir given its
+     * nbme bnd clbss nbme.
      *
-     * @param   name    The non-null name of the object. It is relative
-     *                  to the <em>target context</em> (which is
-     * named by the first parameter of the <code>list()</code> method)
-     * @param   className       The possibly null class name of the object
-     *          bound to name. It is null if the object bound is null.
-     * @see #getClassName
-     * @see #setClassName
-     * @see #getName
-     * @see #setName
+     * @pbrbm   nbme    The non-null nbme of the object. It is relbtive
+     *                  to the <em>tbrget context</em> (which is
+     * nbmed by the first pbrbmeter of the <code>list()</code> method)
+     * @pbrbm   clbssNbme       The possibly null clbss nbme of the object
+     *          bound to nbme. It is null if the object bound is null.
+     * @see #getClbssNbme
+     * @see #setClbssNbme
+     * @see #getNbme
+     * @see #setNbme
      */
-    public NameClassPair(String name, String className) {
-        this.name = name;
-        this.className = className;
+    public NbmeClbssPbir(String nbme, String clbssNbme) {
+        this.nbme = nbme;
+        this.clbssNbme = clbssNbme;
     }
 
     /**
-     * Constructs an instance of a NameClassPair given its
-     * name, class name, and whether it is relative to the listing context.
+     * Constructs bn instbnce of b NbmeClbssPbir given its
+     * nbme, clbss nbme, bnd whether it is relbtive to the listing context.
      *
-     * @param   name    The non-null name of the object.
-     * @param   className       The possibly null class name of the object
-     *  bound to name.  It is null if the object bound is null.
-     * @param isRelative true if <code>name</code> is a name relative
-     *          to the target context (which is named by the first parameter
-     *          of the <code>list()</code> method); false if <code>name</code>
-     *          is a URL string.
-     * @see #getClassName
-     * @see #setClassName
-     * @see #getName
-     * @see #setName
-     * @see #isRelative
-     * @see #setRelative
+     * @pbrbm   nbme    The non-null nbme of the object.
+     * @pbrbm   clbssNbme       The possibly null clbss nbme of the object
+     *  bound to nbme.  It is null if the object bound is null.
+     * @pbrbm isRelbtive true if <code>nbme</code> is b nbme relbtive
+     *          to the tbrget context (which is nbmed by the first pbrbmeter
+     *          of the <code>list()</code> method); fblse if <code>nbme</code>
+     *          is b URL string.
+     * @see #getClbssNbme
+     * @see #setClbssNbme
+     * @see #getNbme
+     * @see #setNbme
+     * @see #isRelbtive
+     * @see #setRelbtive
      */
-    public NameClassPair(String name, String className, boolean isRelative) {
-        this.name = name;
-        this.className = className;
-        this.isRel = isRelative;
+    public NbmeClbssPbir(String nbme, String clbssNbme, boolebn isRelbtive) {
+        this.nbme = nbme;
+        this.clbssNbme = clbssNbme;
+        this.isRel = isRelbtive;
     }
 
     /**
-     * Retrieves the class name of the object bound to the name of this binding.
-     * If a reference or some other indirect information is bound,
-     * retrieves the class name of the eventual object that
+     * Retrieves the clbss nbme of the object bound to the nbme of this binding.
+     * If b reference or some other indirect informbtion is bound,
+     * retrieves the clbss nbme of the eventubl object thbt
      * will be returned by <tt>Binding.getObject()</tt>.
      *
-     * @return  The possibly null class name of object bound.
+     * @return  The possibly null clbss nbme of object bound.
      *          It is null if the object bound is null.
      * @see Binding#getObject
-     * @see Binding#getClassName
-     * @see #setClassName
+     * @see Binding#getClbssNbme
+     * @see #setClbssNbme
      */
-    public String getClassName() {
-        return className;
+    public String getClbssNbme() {
+        return clbssNbme;
     }
 
     /**
-     * Retrieves the name of this binding.
-     * If <tt>isRelative()</tt> is true, this name is relative to the
-     * target context (which is named by the first parameter of the
+     * Retrieves the nbme of this binding.
+     * If <tt>isRelbtive()</tt> is true, this nbme is relbtive to the
+     * tbrget context (which is nbmed by the first pbrbmeter of the
      * <tt>list()</tt>).
-     * If <tt>isRelative()</tt> is false, this name is a URL string.
+     * If <tt>isRelbtive()</tt> is fblse, this nbme is b URL string.
      *
-     * @return  The non-null name of this binding.
-     * @see #isRelative
-     * @see #setName
+     * @return  The non-null nbme of this binding.
+     * @see #isRelbtive
+     * @see #setNbme
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Sets the name of this binding.
+     * Sets the nbme of this binding.
      *
-     * @param   name the non-null string to use as the name.
-     * @see #getName
-     * @see #setRelative
+     * @pbrbm   nbme the non-null string to use bs the nbme.
+     * @see #getNbme
+     * @see #setRelbtive
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setNbme(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Sets the class name of this binding.
+     * Sets the clbss nbme of this binding.
      *
-     * @param   name the possibly null string to use as the class name.
-     * If null, <tt>Binding.getClassName()</tt> will return
-     * the actual class name of the object in the binding.
-     * The class name will be null if the object bound is null.
-     * @see #getClassName
-     * @see Binding#getClassName
+     * @pbrbm   nbme the possibly null string to use bs the clbss nbme.
+     * If null, <tt>Binding.getClbssNbme()</tt> will return
+     * the bctubl clbss nbme of the object in the binding.
+     * The clbss nbme will be null if the object bound is null.
+     * @see #getClbssNbme
+     * @see Binding#getClbssNbme
      */
-    public void setClassName(String name) {
-        this.className = name;
+    public void setClbssNbme(String nbme) {
+        this.clbssNbme = nbme;
     }
 
     /**
-     * Determines whether the name of this binding is
-     * relative to the target context (which is named by
-     * the first parameter of the <code>list()</code> method).
+     * Determines whether the nbme of this binding is
+     * relbtive to the tbrget context (which is nbmed by
+     * the first pbrbmeter of the <code>list()</code> method).
      *
-     * @return true if the name of this binding is relative to the
-     *          target context;
-     *          false if the name of this binding is a URL string.
-     * @see #setRelative
-     * @see #getName
+     * @return true if the nbme of this binding is relbtive to the
+     *          tbrget context;
+     *          fblse if the nbme of this binding is b URL string.
+     * @see #setRelbtive
+     * @see #getNbme
      */
-    public boolean isRelative() {
+    public boolebn isRelbtive() {
         return isRel;
     }
 
     /**
-     * Sets whether the name of this binding is relative to the target
-     * context (which is named by the first parameter of the <code>list()</code>
+     * Sets whether the nbme of this binding is relbtive to the tbrget
+     * context (which is nbmed by the first pbrbmeter of the <code>list()</code>
      * method).
      *
-     * @param r If true, the name of binding is relative to the target context;
-     *          if false, the name of binding is a URL string.
-     * @see #isRelative
-     * @see #setName
+     * @pbrbm r If true, the nbme of binding is relbtive to the tbrget context;
+     *          if fblse, the nbme of binding is b URL string.
+     * @see #isRelbtive
+     * @see #setNbme
      */
-    public void setRelative(boolean r) {
+    public void setRelbtive(boolebn r) {
         isRel = r;
     }
 
     /**
-     * Retrieves the full name of this binding.
-     * The full name is the absolute name of this binding within
-     * its own namespace. See {@link Context#getNameInNamespace()}.
+     * Retrieves the full nbme of this binding.
+     * The full nbme is the bbsolute nbme of this binding within
+     * its own nbmespbce. See {@link Context#getNbmeInNbmespbce()}.
      * <p>
      *
-     * In naming systems for which the notion of full name does not
-     * apply to this binding an <tt>UnsupportedOperationException</tt>
+     * In nbming systems for which the notion of full nbme does not
+     * bpply to this binding bn <tt>UnsupportedOperbtionException</tt>
      * is thrown.
-     * This exception is also thrown when a service provider written before
+     * This exception is blso thrown when b service provider written before
      * the introduction of the method is in use.
      * <p>
-     * The string returned by this method is not a JNDI composite name and
-     * should not be passed directly to context methods.
+     * The string returned by this method is not b JNDI composite nbme bnd
+     * should not be pbssed directly to context methods.
      *
-     * @return The full name of this binding.
-     * @throws UnsupportedOperationException if the notion of full name
-     *         does not apply to this binding in the naming system.
+     * @return The full nbme of this binding.
+     * @throws UnsupportedOperbtionException if the notion of full nbme
+     *         does not bpply to this binding in the nbming system.
      * @since 1.5
-     * @see #setNameInNamespace
-     * @see #getName
+     * @see #setNbmeInNbmespbce
+     * @see #getNbme
      */
-    public String getNameInNamespace() {
-        if (fullName == null) {
-            throw new UnsupportedOperationException();
+    public String getNbmeInNbmespbce() {
+        if (fullNbme == null) {
+            throw new UnsupportedOperbtionException();
         }
-        return fullName;
+        return fullNbme;
     }
 
     /**
-     * Sets the full name of this binding.
-     * This method must be called to set the full name whenever a
-     * <tt>NameClassPair</tt> is created and a full name is
-     * applicable to this binding.
+     * Sets the full nbme of this binding.
+     * This method must be cblled to set the full nbme whenever b
+     * <tt>NbmeClbssPbir</tt> is crebted bnd b full nbme is
+     * bpplicbble to this binding.
      * <p>
-     * Setting the full name to null, or not setting it at all, will
-     * cause <tt>getNameInNamespace()</tt> to throw an exception.
+     * Setting the full nbme to null, or not setting it bt bll, will
+     * cbuse <tt>getNbmeInNbmespbce()</tt> to throw bn exception.
      *
-     * @param fullName The full name to use.
+     * @pbrbm fullNbme The full nbme to use.
      * @since 1.5
-     * @see #getNameInNamespace
-     * @see #setName
+     * @see #getNbmeInNbmespbce
+     * @see #setNbme
      */
-    public void setNameInNamespace(String fullName) {
-        this.fullName = fullName;
+    public void setNbmeInNbmespbce(String fullNbme) {
+        this.fullNbme = fullNbme;
     }
 
     /**
-     * Generates the string representation of this name/class pair.
-     * The string representation consists of the name and class name separated
-     * by a colon (':').
+     * Generbtes the string representbtion of this nbme/clbss pbir.
+     * The string representbtion consists of the nbme bnd clbss nbme sepbrbted
+     * by b colon (':').
      * The contents of this string is useful
-     * for debugging and is not meant to be interpreted programmatically.
+     * for debugging bnd is not mebnt to be interpreted progrbmmbticblly.
      *
-     * @return The string representation of this name/class pair.
+     * @return The string representbtion of this nbme/clbss pbir.
      */
     public String toString() {
-        return (isRelative() ? "" : "(not relative)") + getName() + ": " +
-                getClassName();
+        return (isRelbtive() ? "" : "(not relbtive)") + getNbme() + ": " +
+                getClbssNbme();
     }
 
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 5620776610160863339L;
+    privbte stbtic finbl long seriblVersionUID = 5620776610160863339L;
 }

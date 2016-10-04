@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.AlgorithmParameters;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.CryptoPrimitive;
+import jbvb.security.AlgorithmPbrbmeters;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
-import java.security.Key;
+import jbvb.security.Key;
 
-import java.util.Set;
-import java.util.HashSet;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
 
-import sun.security.util.DisabledAlgorithmConstraints;
+import sun.security.util.DisbbledAlgorithmConstrbints;
 import sun.security.ssl.CipherSuite.*;
 
 /**
- * Algorithm constraints for disabled algorithms property
+ * Algorithm constrbints for disbbled blgorithms property
  *
- * See the "jdk.certpath.disabledAlgorithms" specification in java.security
- * for the syntax of the disabled algorithm string.
+ * See the "jdk.certpbth.disbbledAlgorithms" specificbtion in jbvb.security
+ * for the syntbx of the disbbled blgorithm string.
  */
-final class SSLAlgorithmConstraints implements AlgorithmConstraints {
-    private final static AlgorithmConstraints tlsDisabledAlgConstraints =
-            new TLSDisabledAlgConstraints();
-    private final static AlgorithmConstraints x509DisabledAlgConstraints =
-            new X509DisabledAlgConstraints();
-    private AlgorithmConstraints userAlgConstraints = null;
-    private AlgorithmConstraints peerAlgConstraints = null;
+finbl clbss SSLAlgorithmConstrbints implements AlgorithmConstrbints {
+    privbte finbl stbtic AlgorithmConstrbints tlsDisbbledAlgConstrbints =
+            new TLSDisbbledAlgConstrbints();
+    privbte finbl stbtic AlgorithmConstrbints x509DisbbledAlgConstrbints =
+            new X509DisbbledAlgConstrbints();
+    privbte AlgorithmConstrbints userAlgConstrbints = null;
+    privbte AlgorithmConstrbints peerAlgConstrbints = null;
 
-    private boolean enabledX509DisabledAlgConstraints = true;
+    privbte boolebn enbbledX509DisbbledAlgConstrbints = true;
 
-    SSLAlgorithmConstraints(AlgorithmConstraints algorithmConstraints) {
-        userAlgConstraints = algorithmConstraints;
+    SSLAlgorithmConstrbints(AlgorithmConstrbints blgorithmConstrbints) {
+        userAlgConstrbints = blgorithmConstrbints;
     }
 
-    SSLAlgorithmConstraints(SSLSocket socket,
-            boolean withDefaultCertPathConstraints) {
+    SSLAlgorithmConstrbints(SSLSocket socket,
+            boolebn withDefbultCertPbthConstrbints) {
         if (socket != null) {
-            userAlgConstraints =
-                socket.getSSLParameters().getAlgorithmConstraints();
+            userAlgConstrbints =
+                socket.getSSLPbrbmeters().getAlgorithmConstrbints();
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!withDefbultCertPbthConstrbints) {
+            enbbledX509DisbbledAlgConstrbints = fblse;
         }
     }
 
-    SSLAlgorithmConstraints(SSLEngine engine,
-            boolean withDefaultCertPathConstraints) {
+    SSLAlgorithmConstrbints(SSLEngine engine,
+            boolebn withDefbultCertPbthConstrbints) {
         if (engine != null) {
-            userAlgConstraints =
-                engine.getSSLParameters().getAlgorithmConstraints();
+            userAlgConstrbints =
+                engine.getSSLPbrbmeters().getAlgorithmConstrbints();
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!withDefbultCertPbthConstrbints) {
+            enbbledX509DisbbledAlgConstrbints = fblse;
         }
     }
 
-    SSLAlgorithmConstraints(SSLSocket socket, String[] supportedAlgorithms,
-            boolean withDefaultCertPathConstraints) {
+    SSLAlgorithmConstrbints(SSLSocket socket, String[] supportedAlgorithms,
+            boolebn withDefbultCertPbthConstrbints) {
         if (socket != null) {
-            userAlgConstraints =
-                socket.getSSLParameters().getAlgorithmConstraints();
-            peerAlgConstraints =
-                new SupportedSignatureAlgorithmConstraints(supportedAlgorithms);
+            userAlgConstrbints =
+                socket.getSSLPbrbmeters().getAlgorithmConstrbints();
+            peerAlgConstrbints =
+                new SupportedSignbtureAlgorithmConstrbints(supportedAlgorithms);
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!withDefbultCertPbthConstrbints) {
+            enbbledX509DisbbledAlgConstrbints = fblse;
         }
     }
 
-    SSLAlgorithmConstraints(SSLEngine engine, String[] supportedAlgorithms,
-            boolean withDefaultCertPathConstraints) {
+    SSLAlgorithmConstrbints(SSLEngine engine, String[] supportedAlgorithms,
+            boolebn withDefbultCertPbthConstrbints) {
         if (engine != null) {
-            userAlgConstraints =
-                engine.getSSLParameters().getAlgorithmConstraints();
-            peerAlgConstraints =
-                new SupportedSignatureAlgorithmConstraints(supportedAlgorithms);
+            userAlgConstrbints =
+                engine.getSSLPbrbmeters().getAlgorithmConstrbints();
+            peerAlgConstrbints =
+                new SupportedSignbtureAlgorithmConstrbints(supportedAlgorithms);
         }
 
-        if (!withDefaultCertPathConstraints) {
-            enabledX509DisabledAlgConstraints = false;
+        if (!withDefbultCertPbthConstrbints) {
+            enbbledX509DisbbledAlgConstrbints = fblse;
         }
     }
 
     @Override
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters) {
+    public boolebn permits(Set<CryptoPrimitive> primitives,
+            String blgorithm, AlgorithmPbrbmeters pbrbmeters) {
 
-        boolean permitted = true;
+        boolebn permitted = true;
 
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+        if (peerAlgConstrbints != null) {
+            permitted = peerAlgConstrbints.permits(
+                                    primitives, blgorithm, pbrbmeters);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+        if (permitted && userAlgConstrbints != null) {
+            permitted = userAlgConstrbints.permits(
+                                    primitives, blgorithm, pbrbmeters);
         }
 
         if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+            permitted = tlsDisbbledAlgConstrbints.permits(
+                                    primitives, blgorithm, pbrbmeters);
         }
 
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(
-                                    primitives, algorithm, parameters);
+        if (permitted && enbbledX509DisbbledAlgConstrbints) {
+            permitted = x509DisbbledAlgConstrbints.permits(
+                                    primitives, blgorithm, pbrbmeters);
         }
 
         return permitted;
     }
 
     @Override
-    public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
+    public boolebn permits(Set<CryptoPrimitive> primitives, Key key) {
 
-        boolean permitted = true;
+        boolebn permitted = true;
 
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(primitives, key);
+        if (peerAlgConstrbints != null) {
+            permitted = peerAlgConstrbints.permits(primitives, key);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(primitives, key);
+        if (permitted && userAlgConstrbints != null) {
+            permitted = userAlgConstrbints.permits(primitives, key);
         }
 
         if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(primitives, key);
+            permitted = tlsDisbbledAlgConstrbints.permits(primitives, key);
         }
 
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(primitives, key);
+        if (permitted && enbbledX509DisbbledAlgConstrbints) {
+            permitted = x509DisbbledAlgConstrbints.permits(primitives, key);
         }
 
         return permitted;
     }
 
     @Override
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    public boolebn permits(Set<CryptoPrimitive> primitives,
+            String blgorithm, Key key, AlgorithmPbrbmeters pbrbmeters) {
 
-        boolean permitted = true;
+        boolebn permitted = true;
 
-        if (peerAlgConstraints != null) {
-            permitted = peerAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (peerAlgConstrbints != null) {
+            permitted = peerAlgConstrbints.permits(
+                                    primitives, blgorithm, key, pbrbmeters);
         }
 
-        if (permitted && userAlgConstraints != null) {
-            permitted = userAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (permitted && userAlgConstrbints != null) {
+            permitted = userAlgConstrbints.permits(
+                                    primitives, blgorithm, key, pbrbmeters);
         }
 
         if (permitted) {
-            permitted = tlsDisabledAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+            permitted = tlsDisbbledAlgConstrbints.permits(
+                                    primitives, blgorithm, key, pbrbmeters);
         }
 
-        if (permitted && enabledX509DisabledAlgConstraints) {
-            permitted = x509DisabledAlgConstraints.permits(
-                                    primitives, algorithm, key, parameters);
+        if (permitted && enbbledX509DisbbledAlgConstrbints) {
+            permitted = x509DisbbledAlgConstrbints.permits(
+                                    primitives, blgorithm, key, pbrbmeters);
         }
 
         return permitted;
     }
 
 
-    static private class SupportedSignatureAlgorithmConstraints
-                                    implements AlgorithmConstraints {
-        // supported signature algorithms
-        private String[] supportedAlgorithms;
+    stbtic privbte clbss SupportedSignbtureAlgorithmConstrbints
+                                    implements AlgorithmConstrbints {
+        // supported signbture blgorithms
+        privbte String[] supportedAlgorithms;
 
-        SupportedSignatureAlgorithmConstraints(String[] supportedAlgorithms) {
+        SupportedSignbtureAlgorithmConstrbints(String[] supportedAlgorithms) {
             if (supportedAlgorithms != null) {
                 this.supportedAlgorithms = supportedAlgorithms.clone();
             } else {
@@ -208,153 +208,153 @@ final class SSLAlgorithmConstraints implements AlgorithmConstraints {
         }
 
         @Override
-        public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, AlgorithmParameters parameters) {
+        public boolebn permits(Set<CryptoPrimitive> primitives,
+                String blgorithm, AlgorithmPbrbmeters pbrbmeters) {
 
-            if (algorithm == null || algorithm.length() == 0) {
-                throw new IllegalArgumentException(
-                        "No algorithm name specified");
+            if (blgorithm == null || blgorithm.length() == 0) {
+                throw new IllegblArgumentException(
+                        "No blgorithm nbme specified");
             }
 
             if (primitives == null || primitives.isEmpty()) {
-                throw new IllegalArgumentException(
-                        "No cryptographic primitive specified");
+                throw new IllegblArgumentException(
+                        "No cryptogrbphic primitive specified");
             }
 
             if (supportedAlgorithms == null ||
                         supportedAlgorithms.length == 0) {
-                return false;
+                return fblse;
             }
 
-            // trim the MGF part: <digest>with<encryption>and<mgf>
-            int position = algorithm.indexOf("and");
+            // trim the MGF pbrt: <digest>with<encryption>bnd<mgf>
+            int position = blgorithm.indexOf("bnd");
             if (position > 0) {
-                algorithm = algorithm.substring(0, position);
+                blgorithm = blgorithm.substring(0, position);
             }
 
             for (String supportedAlgorithm : supportedAlgorithms) {
-                if (algorithm.equalsIgnoreCase(supportedAlgorithm)) {
+                if (blgorithm.equblsIgnoreCbse(supportedAlgorithm)) {
                     return true;
                 }
             }
 
-            return false;
+            return fblse;
         }
 
         @Override
-        final public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
+        finbl public boolebn permits(Set<CryptoPrimitive> primitives, Key key) {
             return true;
         }
 
         @Override
-        final public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, Key key, AlgorithmParameters parameters) {
+        finbl public boolebn permits(Set<CryptoPrimitive> primitives,
+                String blgorithm, Key key, AlgorithmPbrbmeters pbrbmeters) {
 
-            if (algorithm == null || algorithm.length() == 0) {
-                throw new IllegalArgumentException(
-                        "No algorithm name specified");
+            if (blgorithm == null || blgorithm.length() == 0) {
+                throw new IllegblArgumentException(
+                        "No blgorithm nbme specified");
             }
 
-            return permits(primitives, algorithm, parameters);
+            return permits(primitives, blgorithm, pbrbmeters);
         }
     }
 
-    static private class BasicDisabledAlgConstraints
-            extends DisabledAlgorithmConstraints {
-        BasicDisabledAlgConstraints(String propertyName) {
-            super(propertyName);
+    stbtic privbte clbss BbsicDisbbledAlgConstrbints
+            extends DisbbledAlgorithmConstrbints {
+        BbsicDisbbledAlgConstrbints(String propertyNbme) {
+            super(propertyNbme);
         }
 
-        protected Set<String> decomposes(KeyExchange keyExchange,
-                        boolean forCertPathOnly) {
-            Set<String> components = new HashSet<>();
-            switch (keyExchange) {
-                case K_NULL:
-                    if (!forCertPathOnly) {
-                        components.add("NULL");
+        protected Set<String> decomposes(KeyExchbnge keyExchbnge,
+                        boolebn forCertPbthOnly) {
+            Set<String> components = new HbshSet<>();
+            switch (keyExchbnge) {
+                cbse K_NULL:
+                    if (!forCertPbthOnly) {
+                        components.bdd("NULL");
                     }
-                    break;
-                case K_RSA:
-                    components.add("RSA");
-                    break;
-                case K_RSA_EXPORT:
-                    components.add("RSA");
-                    components.add("RSA_EXPORT");
-                    break;
-                case K_DH_RSA:
-                    components.add("RSA");
-                    components.add("DH");
-                    components.add("DiffieHellman");
-                    components.add("DH_RSA");
-                    break;
-                case K_DH_DSS:
-                    components.add("DSA");
-                    components.add("DSS");
-                    components.add("DH");
-                    components.add("DiffieHellman");
-                    components.add("DH_DSS");
-                    break;
-                case K_DHE_DSS:
-                    components.add("DSA");
-                    components.add("DSS");
-                    components.add("DH");
-                    components.add("DHE");
-                    components.add("DiffieHellman");
-                    components.add("DHE_DSS");
-                    break;
-                case K_DHE_RSA:
-                    components.add("RSA");
-                    components.add("DH");
-                    components.add("DHE");
-                    components.add("DiffieHellman");
-                    components.add("DHE_RSA");
-                    break;
-                case K_DH_ANON:
-                    if (!forCertPathOnly) {
-                        components.add("ANON");
-                        components.add("DH");
-                        components.add("DiffieHellman");
-                        components.add("DH_ANON");
+                    brebk;
+                cbse K_RSA:
+                    components.bdd("RSA");
+                    brebk;
+                cbse K_RSA_EXPORT:
+                    components.bdd("RSA");
+                    components.bdd("RSA_EXPORT");
+                    brebk;
+                cbse K_DH_RSA:
+                    components.bdd("RSA");
+                    components.bdd("DH");
+                    components.bdd("DiffieHellmbn");
+                    components.bdd("DH_RSA");
+                    brebk;
+                cbse K_DH_DSS:
+                    components.bdd("DSA");
+                    components.bdd("DSS");
+                    components.bdd("DH");
+                    components.bdd("DiffieHellmbn");
+                    components.bdd("DH_DSS");
+                    brebk;
+                cbse K_DHE_DSS:
+                    components.bdd("DSA");
+                    components.bdd("DSS");
+                    components.bdd("DH");
+                    components.bdd("DHE");
+                    components.bdd("DiffieHellmbn");
+                    components.bdd("DHE_DSS");
+                    brebk;
+                cbse K_DHE_RSA:
+                    components.bdd("RSA");
+                    components.bdd("DH");
+                    components.bdd("DHE");
+                    components.bdd("DiffieHellmbn");
+                    components.bdd("DHE_RSA");
+                    brebk;
+                cbse K_DH_ANON:
+                    if (!forCertPbthOnly) {
+                        components.bdd("ANON");
+                        components.bdd("DH");
+                        components.bdd("DiffieHellmbn");
+                        components.bdd("DH_ANON");
                     }
-                    break;
-                case K_ECDH_ECDSA:
-                    components.add("ECDH");
-                    components.add("ECDSA");
-                    components.add("ECDH_ECDSA");
-                    break;
-                case K_ECDH_RSA:
-                    components.add("ECDH");
-                    components.add("RSA");
-                    components.add("ECDH_RSA");
-                    break;
-                case K_ECDHE_ECDSA:
-                    components.add("ECDHE");
-                    components.add("ECDSA");
-                    components.add("ECDHE_ECDSA");
-                    break;
-                case K_ECDHE_RSA:
-                    components.add("ECDHE");
-                    components.add("RSA");
-                    components.add("ECDHE_RSA");
-                    break;
-                case K_ECDH_ANON:
-                    if (!forCertPathOnly) {
-                        components.add("ECDH");
-                        components.add("ANON");
-                        components.add("ECDH_ANON");
+                    brebk;
+                cbse K_ECDH_ECDSA:
+                    components.bdd("ECDH");
+                    components.bdd("ECDSA");
+                    components.bdd("ECDH_ECDSA");
+                    brebk;
+                cbse K_ECDH_RSA:
+                    components.bdd("ECDH");
+                    components.bdd("RSA");
+                    components.bdd("ECDH_RSA");
+                    brebk;
+                cbse K_ECDHE_ECDSA:
+                    components.bdd("ECDHE");
+                    components.bdd("ECDSA");
+                    components.bdd("ECDHE_ECDSA");
+                    brebk;
+                cbse K_ECDHE_RSA:
+                    components.bdd("ECDHE");
+                    components.bdd("RSA");
+                    components.bdd("ECDHE_RSA");
+                    brebk;
+                cbse K_ECDH_ANON:
+                    if (!forCertPbthOnly) {
+                        components.bdd("ECDH");
+                        components.bdd("ANON");
+                        components.bdd("ECDH_ANON");
                     }
-                    break;
-                case K_KRB5:
-                    if (!forCertPathOnly) {
-                        components.add("KRB5");
+                    brebk;
+                cbse K_KRB5:
+                    if (!forCertPbthOnly) {
+                        components.bdd("KRB5");
                     }
-                    break;
-                case K_KRB5_EXPORT:
-                    if (!forCertPathOnly) {
-                        components.add("KRB5_EXPORT");
+                    brebk;
+                cbse K_KRB5_EXPORT:
+                    if (!forCertPbthOnly) {
+                        components.bdd("KRB5_EXPORT");
                     }
-                    break;
-                default:
+                    brebk;
+                defbult:
                     // ignore
             }
 
@@ -362,113 +362,113 @@ final class SSLAlgorithmConstraints implements AlgorithmConstraints {
         }
 
         protected Set<String> decomposes(BulkCipher bulkCipher) {
-            Set<String> components = new HashSet<>();
+            Set<String> components = new HbshSet<>();
 
-            if (bulkCipher.transformation != null) {
-                components.addAll(super.decomposes(bulkCipher.transformation));
+            if (bulkCipher.trbnsformbtion != null) {
+                components.bddAll(super.decomposes(bulkCipher.trbnsformbtion));
             }
 
             return components;
         }
 
-        protected Set<String> decomposes(MacAlg macAlg) {
-            Set<String> components = new HashSet<>();
+        protected Set<String> decomposes(MbcAlg mbcAlg) {
+            Set<String> components = new HbshSet<>();
 
-            if (macAlg == CipherSuite.M_MD5) {
-                components.add("MD5");
-                components.add("HmacMD5");
-            } else if (macAlg == CipherSuite.M_SHA) {
-                components.add("SHA1");
-                components.add("SHA-1");
-                components.add("HmacSHA1");
-            } else if (macAlg == CipherSuite.M_SHA256) {
-                components.add("SHA256");
-                components.add("SHA-256");
-                components.add("HmacSHA256");
-            } else if (macAlg == CipherSuite.M_SHA384) {
-                components.add("SHA384");
-                components.add("SHA-384");
-                components.add("HmacSHA384");
+            if (mbcAlg == CipherSuite.M_MD5) {
+                components.bdd("MD5");
+                components.bdd("HmbcMD5");
+            } else if (mbcAlg == CipherSuite.M_SHA) {
+                components.bdd("SHA1");
+                components.bdd("SHA-1");
+                components.bdd("HmbcSHA1");
+            } else if (mbcAlg == CipherSuite.M_SHA256) {
+                components.bdd("SHA256");
+                components.bdd("SHA-256");
+                components.bdd("HmbcSHA256");
+            } else if (mbcAlg == CipherSuite.M_SHA384) {
+                components.bdd("SHA384");
+                components.bdd("SHA-384");
+                components.bdd("HmbcSHA384");
             }
 
             return components;
         }
     }
 
-    static private class TLSDisabledAlgConstraints
-            extends BasicDisabledAlgConstraints {
+    stbtic privbte clbss TLSDisbbledAlgConstrbints
+            extends BbsicDisbbledAlgConstrbints {
 
-        TLSDisabledAlgConstraints() {
-            super(DisabledAlgorithmConstraints.PROPERTY_TLS_DISABLED_ALGS);
+        TLSDisbbledAlgConstrbints() {
+            super(DisbbledAlgorithmConstrbints.PROPERTY_TLS_DISABLED_ALGS);
         }
 
         @Override
-        protected Set<String> decomposes(String algorithm) {
-            if (algorithm.startsWith("SSL_") || algorithm.startsWith("TLS_")) {
+        protected Set<String> decomposes(String blgorithm) {
+            if (blgorithm.stbrtsWith("SSL_") || blgorithm.stbrtsWith("TLS_")) {
                 CipherSuite cipherSuite = null;
                 try {
-                    cipherSuite = CipherSuite.valueOf(algorithm);
-                } catch (IllegalArgumentException iae) {
+                    cipherSuite = CipherSuite.vblueOf(blgorithm);
+                } cbtch (IllegblArgumentException ibe) {
                     // ignore: unknown or unsupported ciphersuite
                 }
 
                 if (cipherSuite != null) {
-                    Set<String> components = new HashSet<>();
+                    Set<String> components = new HbshSet<>();
 
-                    if(cipherSuite.keyExchange != null) {
-                        components.addAll(
-                            decomposes(cipherSuite.keyExchange, false));
+                    if(cipherSuite.keyExchbnge != null) {
+                        components.bddAll(
+                            decomposes(cipherSuite.keyExchbnge, fblse));
                     }
 
                     if (cipherSuite.cipher != null) {
-                        components.addAll(decomposes(cipherSuite.cipher));
+                        components.bddAll(decomposes(cipherSuite.cipher));
                     }
 
-                    if (cipherSuite.macAlg != null) {
-                        components.addAll(decomposes(cipherSuite.macAlg));
+                    if (cipherSuite.mbcAlg != null) {
+                        components.bddAll(decomposes(cipherSuite.mbcAlg));
                     }
 
                     return components;
                 }
             }
 
-            return super.decomposes(algorithm);
+            return super.decomposes(blgorithm);
         }
     }
 
-    static private class X509DisabledAlgConstraints
-            extends BasicDisabledAlgConstraints {
+    stbtic privbte clbss X509DisbbledAlgConstrbints
+            extends BbsicDisbbledAlgConstrbints {
 
-        X509DisabledAlgConstraints() {
-            super(DisabledAlgorithmConstraints.PROPERTY_CERTPATH_DISABLED_ALGS);
+        X509DisbbledAlgConstrbints() {
+            super(DisbbledAlgorithmConstrbints.PROPERTY_CERTPATH_DISABLED_ALGS);
         }
 
         @Override
-        protected Set<String> decomposes(String algorithm) {
-            if (algorithm.startsWith("SSL_") || algorithm.startsWith("TLS_")) {
+        protected Set<String> decomposes(String blgorithm) {
+            if (blgorithm.stbrtsWith("SSL_") || blgorithm.stbrtsWith("TLS_")) {
                 CipherSuite cipherSuite = null;
                 try {
-                    cipherSuite = CipherSuite.valueOf(algorithm);
-                } catch (IllegalArgumentException iae) {
+                    cipherSuite = CipherSuite.vblueOf(blgorithm);
+                } cbtch (IllegblArgumentException ibe) {
                     // ignore: unknown or unsupported ciphersuite
                 }
 
                 if (cipherSuite != null) {
-                    Set<String> components = new HashSet<>();
+                    Set<String> components = new HbshSet<>();
 
-                    if(cipherSuite.keyExchange != null) {
-                        components.addAll(
-                            decomposes(cipherSuite.keyExchange, true));
+                    if(cipherSuite.keyExchbnge != null) {
+                        components.bddAll(
+                            decomposes(cipherSuite.keyExchbnge, true));
                     }
 
-                    // Certification path algorithm constraints do not apply
-                    // to cipherSuite.cipher and cipherSuite.macAlg.
+                    // Certificbtion pbth blgorithm constrbints do not bpply
+                    // to cipherSuite.cipher bnd cipherSuite.mbcAlg.
 
                     return components;
                 }
             }
 
-            return super.decomposes(algorithm);
+            return super.decomposes(blgorithm);
         }
     }
 }

@@ -1,161 +1,161 @@
 <!--
- Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
 <body bgcolor="white">
 
-Provides the management interfaces for monitoring and management of the
-Java virtual machine and other components in the Java runtime.
-It allows both local and remote
-monitoring and management of the running Java virtual machine.
+Provides the mbnbgement interfbces for monitoring bnd mbnbgement of the
+Jbvb virtubl mbchine bnd other components in the Jbvb runtime.
+It bllows both locbl bnd remote
+monitoring bnd mbnbgement of the running Jbvb virtubl mbchine.
 
-<h4><a name="MXBean">Platform MXBean</a></h4>
+<h4><b nbme="MXBebn">Plbtform MXBebn</b></h4>
 <p>
-A platform MXBean is a <i>managed bean</i> that
-conforms to the <a href="../../../javax/management/package-summary.html">JMX</a>
-Instrumentation Specification and only uses a set of basic data types.
-Each platform MXBean is a {@link java.lang.management.PlatformManagedObject}
-with a unique
-{@linkplain java.lang.management.PlatformManagedObject#getObjectName name}.
-<h4>ManagementFactory</h4>
+A plbtform MXBebn is b <i>mbnbged bebn</i> thbt
+conforms to the <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">JMX</b>
+Instrumentbtion Specificbtion bnd only uses b set of bbsic dbtb types.
+Ebch plbtform MXBebn is b {@link jbvb.lbng.mbnbgement.PlbtformMbnbgedObject}
+with b unique
+{@linkplbin jbvb.lbng.mbnbgement.PlbtformMbnbgedObject#getObjectNbme nbme}.
+<h4>MbnbgementFbctory</h4>
 
-<p>The {@link java.lang.management.ManagementFactory} class is the management
-factory class for the Java platform.  This class provides a set of
-static factory methods to obtain the MXBeans for the Java platform
-to allow an application to access the MXBeans directly.
+<p>The {@link jbvb.lbng.mbnbgement.MbnbgementFbctory} clbss is the mbnbgement
+fbctory clbss for the Jbvb plbtform.  This clbss provides b set of
+stbtic fbctory methods to obtbin the MXBebns for the Jbvb plbtform
+to bllow bn bpplicbtion to bccess the MXBebns directly.
 
-<p>A <em>platform MBeanServer</em> can be accessed with the
-{@link java.lang.management.ManagementFactory#getPlatformMBeanServer
- getPlatformMBeanServer} method.  On the first call to this method,
-it creates the platform MBeanServer and registers all platform MXBeans
-including {@linkplain java.lang.management.PlatformManagedObject
-platform MXBeans}.
-Each platform MXBean is registered with a unique name defined in
-the specification of the management interface.
-This is a single MBeanServer that can be shared by different managed
-components running within the same Java virtual machine.
+<p>A <em>plbtform MBebnServer</em> cbn be bccessed with the
+{@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMBebnServer
+ getPlbtformMBebnServer} method.  On the first cbll to this method,
+it crebtes the plbtform MBebnServer bnd registers bll plbtform MXBebns
+including {@linkplbin jbvb.lbng.mbnbgement.PlbtformMbnbgedObject
+plbtform MXBebns}.
+Ebch plbtform MXBebn is registered with b unique nbme defined in
+the specificbtion of the mbnbgement interfbce.
+This is b single MBebnServer thbt cbn be shbred by different mbnbged
+components running within the sbme Jbvb virtubl mbchine.
 
-<h4>Interoperability</h4>
+<h4>Interoperbbility</h4>
 
-<p>A management application and a platform MBeanServer of a running
-virtual machine can interoperate
-without requiring classes used by the platform MXBean interfaces.
-The data types being transmitted between the JMX connector
-server and the connector client are JMX
-{@linkplain javax.management.openmbean.OpenType open types} and
-this allows interoperation across versions.
-A data type used by the MXBean interfaces are mapped to an
-open type when being accessed via MBeanServer interface.
-See the <a href="../../../javax/management/MXBean.html#MXBean-spec">
-MXBean</a> specification for details.
+<p>A mbnbgement bpplicbtion bnd b plbtform MBebnServer of b running
+virtubl mbchine cbn interoperbte
+without requiring clbsses used by the plbtform MXBebn interfbces.
+The dbtb types being trbnsmitted between the JMX connector
+server bnd the connector client bre JMX
+{@linkplbin jbvbx.mbnbgement.openmbebn.OpenType open types} bnd
+this bllows interoperbtion bcross versions.
+A dbtb type used by the MXBebn interfbces bre mbpped to bn
+open type when being bccessed vib MBebnServer interfbce.
+See the <b href="../../../jbvbx/mbnbgement/MXBebn.html#MXBebn-spec">
+MXBebn</b> specificbtion for detbils.
 
-<h4><a name="examples">Ways to Access MXBeans</a></h4>
+<h4><b nbme="exbmples">Wbys to Access MXBebns</b></h4>
 
-<p>An application can monitor the instrumentation of the
-Java virtual machine and the runtime in the following ways:
+<p>An bpplicbtion cbn monitor the instrumentbtion of the
+Jbvb virtubl mbchine bnd the runtime in the following wbys:
 <p>
-<b>1. Direct access to an MXBean interface</b>
+<b>1. Direct bccess to bn MXBebn interfbce</b>
 <ul>
-<li>Get an MXBean instance locally in the running Java virtual machine:
+<li>Get bn MXBebn instbnce locblly in the running Jbvb virtubl mbchine:
 <pre>
-   RuntimeMXBean mxbean = ManagementFactory.getRuntimeMXBean();
+   RuntimeMXBebn mxbebn = MbnbgementFbctory.getRuntimeMXBebn();
 
-   // Get the standard attribute "VmVendor"
-   String vendor = mxbean.getVmVendor();
+   // Get the stbndbrd bttribute "VmVendor"
+   String vendor = mxbebn.getVmVendor();
 </pre>
-<p>Or by calling the
-        {@link java.lang.management.ManagementFactory#getPlatformMXBean(Class)
-               getPlatformMXBean} or
-        {@link java.lang.management.ManagementFactory#getPlatformMXBeans(Class)
-               getPlatformMXBeans} method:
+<p>Or by cblling the
+        {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMXBebn(Clbss)
+               getPlbtformMXBebn} or
+        {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+               getPlbtformMXBebns} method:
 <pre>
-   RuntimeMXBean mxbean = ManagementFactory.getPlatformMXBean(RuntimeMXBean.class);
+   RuntimeMXBebn mxbebn = MbnbgementFbctory.getPlbtformMXBebn(RuntimeMXBebn.clbss);
 
-   // Get the standard attribute "VmVendor"
-   String vendor = mxbean.getVmVendor();
+   // Get the stbndbrd bttribute "VmVendor"
+   String vendor = mxbebn.getVmVendor();
 </pre>
 </li>
-<li>Construct an MXBean proxy instance that forwards the
-    method calls to a given MBeanServer:
+<li>Construct bn MXBebn proxy instbnce thbt forwbrds the
+    method cblls to b given MBebnServer:
 <pre>
-   MBeanServerConnection mbs;
+   MBebnServerConnection mbs;
 
-   // Connect to a running JVM (or itself) and get MBeanServerConnection
-   // that has the JVM MBeans registered in it
+   // Connect to b running JVM (or itself) bnd get MBebnServerConnection
+   // thbt hbs the JVM MBebns registered in it
    ...
 
-   // Get a MBean proxy for RuntimeMXBean interface
-   RuntimeMXBean proxy =
-       {@link java.lang.management.ManagementFactory#getPlatformMXBean(MBeanServerConnection, Class)
-       ManagementFactory.getPlatformMXBean}(mbs,
-                                           RuntimeMXBean.class);
-   // Get standard attribute "VmVendor"
+   // Get b MBebn proxy for RuntimeMXBebn interfbce
+   RuntimeMXBebn proxy =
+       {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMXBebn(MBebnServerConnection, Clbss)
+       MbnbgementFbctory.getPlbtformMXBebn}(mbs,
+                                           RuntimeMXBebn.clbss);
+   // Get stbndbrd bttribute "VmVendor"
    String vendor = proxy.getVmVendor();
 </pre>
-<p>A proxy is typically used to access an MXBean
-   in a remote Java virtual machine.
-   An alternative way to create an MXBean proxy is:
+<p>A proxy is typicblly used to bccess bn MXBebn
+   in b remote Jbvb virtubl mbchine.
+   An blternbtive wby to crebte bn MXBebn proxy is:
 <pre>
-   RuntimeMXBean proxy =
-       {@link java.lang.management.ManagementFactory#newPlatformMXBeanProxy
-              ManagementFactory.newPlatformMXBeanProxy}(mbs,
-                                                ManagementFactory.RUNTIME_MXBEAN_NAME,
-                                                RuntimeMXBean.class);
+   RuntimeMXBebn proxy =
+       {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#newPlbtformMXBebnProxy
+              MbnbgementFbctory.newPlbtformMXBebnProxy}(mbs,
+                                                MbnbgementFbctory.RUNTIME_MXBEAN_NAME,
+                                                RuntimeMXBebn.clbss);
 </pre>
 </li>
 </ul>
 <p>
-<b>2. Indirect access to an MXBean interface via MBeanServer</b>
+<b>2. Indirect bccess to bn MXBebn interfbce vib MBebnServer</b>
 <ul>
 <li>Go through the
-    {@link java.lang.management.ManagementFactory#getPlatformMBeanServer
-    platform MBeanServer} to access MXBeans locally or
-    a specific {@code MBeanServerConnection} to access
-    MXBeans remotely.
-    The attributes and operations of an MXBean use only
-    <em>JMX open types</em> which include basic data types,
-    {@link javax.management.openmbean.CompositeData CompositeData},
-    and {@link javax.management.openmbean.TabularData TabularData}
-    defined in {@link javax.management.openmbean.OpenType OpenType}.
+    {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMBebnServer
+    plbtform MBebnServer} to bccess MXBebns locblly or
+    b specific {@code MBebnServerConnection} to bccess
+    MXBebns remotely.
+    The bttributes bnd operbtions of bn MXBebn use only
+    <em>JMX open types</em> which include bbsic dbtb types,
+    {@link jbvbx.mbnbgement.openmbebn.CompositeDbtb CompositeDbtb},
+    bnd {@link jbvbx.mbnbgement.openmbebn.TbbulbrDbtb TbbulbrDbtb}
+    defined in {@link jbvbx.mbnbgement.openmbebn.OpenType OpenType}.
 <pre>
-   MBeanServerConnection mbs;
+   MBebnServerConnection mbs;
 
-   // Connect to a running JVM (or itself) and get MBeanServerConnection
-   // that has the JVM MXBeans registered in it
+   // Connect to b running JVM (or itself) bnd get MBebnServerConnection
+   // thbt hbs the JVM MXBebns registered in it
    ...
 
    try {
-       // Assuming the RuntimeMXBean has been registered in mbs
-       ObjectName oname = new ObjectName(ManagementFactory.RUNTIME_MXBEAN_NAME);
+       // Assuming the RuntimeMXBebn hbs been registered in mbs
+       ObjectNbme onbme = new ObjectNbme(MbnbgementFbctory.RUNTIME_MXBEAN_NAME);
 
-       // Get standard attribute "VmVendor"
-       String vendor = (String) mbs.getAttribute(oname, "VmVendor");
-   } catch (....) {
-       // Catch the exceptions thrown by ObjectName constructor
-       // and MBeanServer.getAttribute method
+       // Get stbndbrd bttribute "VmVendor"
+       String vendor = (String) mbs.getAttribute(onbme, "VmVendor");
+   } cbtch (....) {
+       // Cbtch the exceptions thrown by ObjectNbme constructor
+       // bnd MBebnServer.getAttribute method
        ...
    }
 </pre>
@@ -163,81 +163,81 @@ Java virtual machine and the runtime in the following ways:
 </ul>
 
 
-<h4><a name="extension">Platform Extension</a></h4>
+<h4><b nbme="extension">Plbtform Extension</b></h4>
 
-<p>A Java virtual machine implementation may add its platform extension to
-the management interface by defining platform-dependent
-interfaces that extend the standard management interfaces to include
-platform-specific metrics and management operations.
-The static factory methods in the <tt>ManagementFactory</tt> class will
-return the MXBeans with the platform extension.
-
-<p>
-It is recommended to name the platform-specific attributes with
-a vendor-specific prefix such as the vendor's name to
-avoid collisions of the attribute name between the future extension
-to the standard management interface and the platform extension.
-If the future extension to the standard management interface defines
-a new attribute for a management interface and the attribute name
-is happened to be same as some vendor-specific attribute's name,
-the applications accessing that vendor-specific attribute would have
-to be modified to cope with versioning and compatibility issues.
-
-<p>Below is an example showing how to access an attribute
-from the platform extension:
+<p>A Jbvb virtubl mbchine implementbtion mby bdd its plbtform extension to
+the mbnbgement interfbce by defining plbtform-dependent
+interfbces thbt extend the stbndbrd mbnbgement interfbces to include
+plbtform-specific metrics bnd mbnbgement operbtions.
+The stbtic fbctory methods in the <tt>MbnbgementFbctory</tt> clbss will
+return the MXBebns with the plbtform extension.
 
 <p>
-1) Direct access to the Oracle-specific MXBean interface
+It is recommended to nbme the plbtform-specific bttributes with
+b vendor-specific prefix such bs the vendor's nbme to
+bvoid collisions of the bttribute nbme between the future extension
+to the stbndbrd mbnbgement interfbce bnd the plbtform extension.
+If the future extension to the stbndbrd mbnbgement interfbce defines
+b new bttribute for b mbnbgement interfbce bnd the bttribute nbme
+is hbppened to be sbme bs some vendor-specific bttribute's nbme,
+the bpplicbtions bccessing thbt vendor-specific bttribute would hbve
+to be modified to cope with versioning bnd compbtibility issues.
+
+<p>Below is bn exbmple showing how to bccess bn bttribute
+from the plbtform extension:
+
+<p>
+1) Direct bccess to the Orbcle-specific MXBebn interfbce
 <blockquote>
 <pre>
-   List&lt;com.sun.management.GarbageCollectorMXBean&gt; mxbeans =
-       ManagementFactory.getPlatformMXBeans(com.sun.management.GarbageCollectorMXBean.class);
+   List&lt;com.sun.mbnbgement.GbrbbgeCollectorMXBebn&gt; mxbebns =
+       MbnbgementFbctory.getPlbtformMXBebns(com.sun.mbnbgement.GbrbbgeCollectorMXBebn.clbss);
 
-   for (com.sun.management.GarbageCollectorMXBean gc : mxbeans) {
-       // Get the standard attribute "CollectionCount"
-       String count = mxbean.getCollectionCount();
+   for (com.sun.mbnbgement.GbrbbgeCollectorMXBebn gc : mxbebns) {
+       // Get the stbndbrd bttribute "CollectionCount"
+       String count = mxbebn.getCollectionCount();
 
-       // Get the platform-specific attribute "LastGcInfo"
-       GcInfo gcinfo = gc.getLastGcInfo();
+       // Get the plbtform-specific bttribute "LbstGcInfo"
+       GcInfo gcinfo = gc.getLbstGcInfo();
        ...
    }
 </pre>
 </blockquote>
 
 <p>
-2) Access the Oracle-specific MXBean interface via <tt>MBeanServer</tt>
+2) Access the Orbcle-specific MXBebn interfbce vib <tt>MBebnServer</tt>
    through proxy
 
 <blockquote><pre>
-   MBeanServerConnection mbs;
+   MBebnServerConnection mbs;
 
-   // Connect to a running JVM (or itself) and get MBeanServerConnection
-   // that has the JVM MXBeans registered in it
+   // Connect to b running JVM (or itself) bnd get MBebnServerConnection
+   // thbt hbs the JVM MXBebns registered in it
    ...
 
-   List&lt;com.sun.management.GarbageCollectorMXBean&gt; mxbeans =
-       ManagementFactory.getPlatformMXBeans(mbs, com.sun.management.GarbageCollectorMXBean.class);
+   List&lt;com.sun.mbnbgement.GbrbbgeCollectorMXBebn&gt; mxbebns =
+       MbnbgementFbctory.getPlbtformMXBebns(mbs, com.sun.mbnbgement.GbrbbgeCollectorMXBebn.clbss);
 
-   for (com.sun.management.GarbageCollectorMXBean gc : mxbeans) {
-       // Get the standard attribute "CollectionCount"
-       String count = mxbean.getCollectionCount();
+   for (com.sun.mbnbgement.GbrbbgeCollectorMXBebn gc : mxbebns) {
+       // Get the stbndbrd bttribute "CollectionCount"
+       String count = mxbebn.getCollectionCount();
 
-       // Get the platform-specific attribute "LastGcInfo"
-       GcInfo gcinfo = gc.getLastGcInfo();
+       // Get the plbtform-specific bttribute "LbstGcInfo"
+       GcInfo gcinfo = gc.getLbstGcInfo();
        ...
    }
 </pre></blockquote>
 
-<p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
-or method in any class or interface in this package will cause a {@link
-java.lang.NullPointerException NullPointerException} to be thrown.
+<p> Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor
+or method in bny clbss or interfbce in this pbckbge will cbuse b {@link
+jbvb.lbng.NullPointerException NullPointerException} to be thrown.
 
-<p> The java.lang.management API is thread-safe.
+<p> The jbvb.lbng.mbnbgement API is threbd-sbfe.
 
-@see <a href="../../../javax/management/package-summary.html">
-     JMX Specification.</a>
+@see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+     JMX Specificbtion.</b>
 
-@author  Mandy Chung
+@buthor  Mbndy Chung
 @since   1.5
 
 </body>

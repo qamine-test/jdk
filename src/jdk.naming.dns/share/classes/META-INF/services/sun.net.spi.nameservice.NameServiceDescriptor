@@ -1,2 +1,2 @@
 # dns service provider descriptor
-sun.net.spi.nameservice.dns.DNSNameServiceDescriptor
+sun.net.spi.nbmeservice.dns.DNSNbmeServiceDescriptor

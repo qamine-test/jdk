@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.zip.*;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.zip.*;
 
 /**
- * This class is used to represent a file loaded from the class path, and
- * can either be a regular file or a zip file entry.
+ * This clbss is used to represent b file lobded from the clbss pbth, bnd
+ * cbn either be b regulbr file or b zip file entry.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ClassFile {
+clbss ClbssFile {
     /*
-     * Non-null if this represents a regular file
+     * Non-null if this represents b regulbr file
      */
-    private File file;
+    privbte File file;
 
     /*
-     * Non-null if this represents a zip file entry
+     * Non-null if this represents b zip file entry
      */
-    private ZipFile zipFile;
-    private ZipEntry zipEntry;
+    privbte ZipFile zipFile;
+    privbte ZipEntry zipEntry;
 
     /**
-     * Constructor for instance representing a regular file
+     * Constructor for instbnce representing b regulbr file
      */
-    public ClassFile(File file) {
+    public ClbssFile(File file) {
         this.file = file;
     }
 
     /**
-     * Constructor for instance representing a zip file entry
+     * Constructor for instbnce representing b zip file entry
      */
-    public ClassFile(ZipFile zf, ZipEntry ze) {
+    public ClbssFile(ZipFile zf, ZipEntry ze) {
         this.zipFile = zf;
         this.zipEntry = ze;
     }
@@ -70,21 +70,21 @@ class ClassFile {
     /**
      * Returns true if this is zip file entry
      */
-    public boolean isZipped() {
+    public boolebn isZipped() {
         return zipFile != null;
     }
 
     /**
-     * Returns input stream to either regular file or zip file entry
+     * Returns input strebm to either regulbr file or zip file entry
      */
-    public InputStream getInputStream() throws IOException {
+    public InputStrebm getInputStrebm() throws IOException {
         if (file != null) {
-            return new FileInputStream(file);
+            return new FileInputStrebm(file);
         } else {
             try {
-                return zipFile.getInputStream(zipEntry);
-            } catch (ZipException e) {
-                throw new IOException(e.getMessage());
+                return zipFile.getInputStrebm(zipEntry);
+            } cbtch (ZipException e) {
+                throw new IOException(e.getMessbge());
             }
         }
     }
@@ -92,60 +92,60 @@ class ClassFile {
     /**
      * Returns true if file exists.
      */
-    public boolean exists() {
+    public boolebn exists() {
         return file != null ? file.exists() : true;
     }
 
     /**
-     * Returns true if this is a directory.
+     * Returns true if this is b directory.
      */
-    public boolean isDirectory() {
+    public boolebn isDirectory() {
         return file != null ? file.isDirectory() :
-                              zipEntry.getName().endsWith("/");
+                              zipEntry.getNbme().endsWith("/");
     }
 
     /**
-     * Return last modification time
+     * Return lbst modificbtion time
      */
-    public long lastModified() {
-        return file != null ? file.lastModified() : zipEntry.getTime();
+    public long lbstModified() {
+        return file != null ? file.lbstModified() : zipEntry.getTime();
     }
 
     /**
-     * Get file path. The path for a zip file entry will also include
-     * the zip file name.
+     * Get file pbth. The pbth for b zip file entry will blso include
+     * the zip file nbme.
      */
-    public String getPath() {
+    public String getPbth() {
         if (file != null) {
-            return file.getPath();
+            return file.getPbth();
         } else {
-            return zipFile.getName() + "(" + zipEntry.getName() + ")";
+            return zipFile.getNbme() + "(" + zipEntry.getNbme() + ")";
         }
     }
 
     /**
-     * Get name of file entry excluding directory name
+     * Get nbme of file entry excluding directory nbme
      */
-    public String getName() {
-        return file != null ? file.getName() : zipEntry.getName();
+    public String getNbme() {
+        return file != null ? file.getNbme() : zipEntry.getNbme();
     }
 
 //JCOV
     /**
-     * Get absolute name of file entry
+     * Get bbsolute nbme of file entry
      */
-    public String getAbsoluteName() {
-        String absoluteName;
+    public String getAbsoluteNbme() {
+        String bbsoluteNbme;
         if (file != null) {
             try {
-                absoluteName = file.getCanonicalPath();
-            } catch (IOException e) {
-                absoluteName = file.getAbsolutePath();
+                bbsoluteNbme = file.getCbnonicblPbth();
+            } cbtch (IOException e) {
+                bbsoluteNbme = file.getAbsolutePbth();
             }
         } else {
-            absoluteName = zipFile.getName() + "(" + zipEntry.getName() + ")";
+            bbsoluteNbme = zipFile.getNbme() + "(" + zipEntry.getNbme() + ")";
         }
-        return absoluteName;
+        return bbsoluteNbme;
     }
 // end JCOV
 

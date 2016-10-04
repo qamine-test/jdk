@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1994, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * The Lock class provides a simple, useful interface to a lock.
- * Unlike monitors which synchronize access to an object, locks
- * synchronize access to an arbitrary set of resources (objects,
- * methods, variables, etc.). <p>
+ * The Lock clbss provides b simple, useful interfbce to b lock.
+ * Unlike monitors which synchronize bccess to bn object, locks
+ * synchronize bccess to bn brbitrbry set of resources (objects,
+ * methods, vbribbles, etc.). <p>
  *
- * The programmer using locks must be responsible for clearly defining
- * the semantics of their use and should handle deadlock avoidance in
- * the face of exceptions. <p>
+ * The progrbmmer using locks must be responsible for clebrly defining
+ * the sembntics of their use bnd should hbndle debdlock bvoidbnce in
+ * the fbce of exceptions. <p>
  *
- * For example, if you want to protect a set of method invocations with
- * a lock, and one of the methods may throw an exception, you must be
- * prepared to release the lock similarly to the following example:
+ * For exbmple, if you wbnt to protect b set of method invocbtions with
+ * b lock, bnd one of the methods mby throw bn exception, you must be
+ * prepbred to relebse the lock similbrly to the following exbmple:
  * <pre>
- *      class SomeClass {
+ *      clbss SomeClbss {
  *          Lock myLock = new Lock();
 
  *          void someMethod() {
  *              myLock.lock();
  *              try {
- *                  StartOperation();
- *                  ContinueOperation();
- *                  EndOperation();
- *              } finally {
+ *                  StbrtOperbtion();
+ *                  ContinueOperbtion();
+ *                  EndOperbtion();
+ *              } finblly {
  *                  myLock.unlock();
  *              }
  *          }
  *      }
  * </pre>
  *
- * @author      Peter King
+ * @buthor      Peter King
  */
 public
-class Lock {
-    private boolean locked = false;
+clbss Lock {
+    privbte boolebn locked = fblse;
 
     /**
-     * Create a lock, which is initially not locked.
+     * Crebte b lock, which is initiblly not locked.
      */
     public Lock () {
     }
 
     /**
-     * Acquire the lock.  If someone else has the lock, wait until it
-     * has been freed, and then try to acquire it again.  This method
-     * will not return until the lock has been acquired.
+     * Acquire the lock.  If someone else hbs the lock, wbit until it
+     * hbs been freed, bnd then try to bcquire it bgbin.  This method
+     * will not return until the lock hbs been bcquired.
      *
-     * @exception  java.lang.InterruptedException if any thread has
-     *               interrupted this thread.
+     * @exception  jbvb.lbng.InterruptedException if bny threbd hbs
+     *               interrupted this threbd.
      */
-    public final synchronized void lock() throws InterruptedException {
+    public finbl synchronized void lock() throws InterruptedException {
         while (locked) {
-            wait();
+            wbit();
         }
         locked = true;
     }
 
     /**
-     * Release the lock.  If someone else is waiting for the lock, the
-     * will be notitified so they can try to acquire the lock again.
+     * Relebse the lock.  If someone else is wbiting for the lock, the
+     * will be notitified so they cbn try to bcquire the lock bgbin.
      */
-    public final synchronized void unlock() {
-        locked = false;
+    public finbl synchronized void unlock() {
+        locked = fblse;
         notifyAll();
     }
 }

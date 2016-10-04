@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import java.util.BitSet;
-import java.util.Vector;
-import java.io.*;
+import jbvb.util.BitSet;
+import jbvb.util.Vector;
+import jbvb.io.*;
 
 
 /**
- * A stack of tags. Used while parsing an HTML document.
- * It, together with the ContentModelStates, defines the
- * complete state of the parser while reading a document.
- * When a start tag is encountered an element is pushed onto
- * the stack, when an end tag is enountered an element is popped
- * of the stack.
+ * A stbck of tbgs. Used while pbrsing bn HTML document.
+ * It, together with the ContentModelStbtes, defines the
+ * complete stbte of the pbrser while rebding b document.
+ * When b stbrt tbg is encountered bn element is pushed onto
+ * the stbck, when bn end tbg is enountered bn element is popped
+ * of the stbck.
  *
- * @see Parser
+ * @see Pbrser
  * @see DTD
- * @see ContentModelState
- * @author      Arthur van Hoff
+ * @see ContentModelStbte
+ * @buthor      Arthur vbn Hoff
  */
-final
-class TagStack implements DTDConstants {
-    TagElement tag;
+finbl
+clbss TbgStbck implements DTDConstbnts {
+    TbgElement tbg;
     Element elem;
-    ContentModelState state;
-    TagStack next;
+    ContentModelStbte stbte;
+    TbgStbck next;
     BitSet inclusions;
     BitSet exclusions;
-    boolean net;
-    boolean pre;
+    boolebn net;
+    boolebn pre;
 
     /**
-     * Construct a stack element.
+     * Construct b stbck element.
      */
-    TagStack(TagElement tag, TagStack next) {
-        this.tag = tag;
-        this.elem = tag.getElement();
+    TbgStbck(TbgElement tbg, TbgStbck next) {
+        this.tbg = tbg;
+        this.elem = tbg.getElement();
         this.next = next;
 
-        Element elem = tag.getElement();
+        Element elem = tbg.getElement();
         if (elem.getContent() != null) {
-            this.state = new ContentModelState(elem.getContent());
+            this.stbte = new ContentModelStbte(elem.getContent());
         }
 
         if (next != null) {
@@ -72,7 +72,7 @@ class TagStack implements DTDConstants {
             exclusions = next.exclusions;
             pre = next.pre;
         }
-        if (tag.isPreformatted()) {
+        if (tbg.isPreformbtted()) {
             pre = true;
         }
 
@@ -95,49 +95,49 @@ class TagStack implements DTDConstants {
     }
 
     /**
-     * Return the element that must come next in the
-     * input stream.
+     * Return the element thbt must come next in the
+     * input strebm.
      */
     public Element first() {
-        return (state != null) ? state.first() : null;
+        return (stbte != null) ? stbte.first() : null;
     }
 
     /**
-     * Return the ContentModel that must be satisfied by
-     * what comes next in the input stream.
+     * Return the ContentModel thbt must be sbtisfied by
+     * whbt comes next in the input strebm.
      */
     public ContentModel contentModel() {
-        if (state == null) {
+        if (stbte == null) {
             return null;
         } else {
-            return state.getModel();
+            return stbte.getModel();
         }
     }
 
     /**
-     * Return true if the element that is contained at
-     * the index specified by the parameter is part of
+     * Return true if the element thbt is contbined bt
+     * the index specified by the pbrbmeter is pbrt of
      * the exclusions specified in the DTD for the element
-     * currently on the TagStack.
+     * currently on the TbgStbck.
      */
-    boolean excluded(int elemIndex) {
+    boolebn excluded(int elemIndex) {
         return (exclusions != null) && exclusions.get(elem.getIndex());
     }
 
 
     /**
-     * Advance the state by reducing the given element.
-     * Returns false if the element is not legal and the
-     * state is not advanced.
+     * Advbnce the stbte by reducing the given element.
+     * Returns fblse if the element is not legbl bnd the
+     * stbte is not bdvbnced.
      */
-    boolean advance(Element elem) {
+    boolebn bdvbnce(Element elem) {
         if ((exclusions != null) && exclusions.get(elem.getIndex())) {
-            return false;
+            return fblse;
         }
-        if (state != null) {
-            ContentModelState newState = state.advance(elem);
-            if (newState != null) {
-                state = newState;
+        if (stbte != null) {
+            ContentModelStbte newStbte = stbte.bdvbnce(elem);
+            if (newStbte != null) {
+                stbte = newStbte;
                 return true;
             }
         } else if (this.elem.getType() == ANY) {
@@ -147,58 +147,58 @@ class TagStack implements DTDConstants {
     }
 
     /**
-     * Return true if the current state can be terminated.
+     * Return true if the current stbte cbn be terminbted.
      */
-    boolean terminate() {
-        return (state == null) || state.terminate();
+    boolebn terminbte() {
+        return (stbte == null) || stbte.terminbte();
     }
 
     /**
-     * Convert to a string.
+     * Convert to b string.
      */
     public String toString() {
         return (next == null) ?
-            "<" + tag.getElement().getName() + ">" :
-            next + " <" + tag.getElement().getName() + ">";
+            "<" + tbg.getElement().getNbme() + ">" :
+            next + " <" + tbg.getElement().getNbme() + ">";
     }
 }
 
-class NPrintWriter extends PrintWriter {
+clbss NPrintWriter extends PrintWriter {
 
-    private int numLines = 5;
-    private int numPrinted = 0;
+    privbte int numLines = 5;
+    privbte int numPrinted = 0;
 
     public NPrintWriter (int numberOfLines) {
         super(System.out);
         numLines = numberOfLines;
     }
 
-    public void println(char[] array) {
+    public void println(chbr[] brrby) {
         if (numPrinted >= numLines) {
             return;
         }
 
-        char[] partialArray = null;
+        chbr[] pbrtiblArrby = null;
 
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == '\n') {
+        for (int i = 0; i < brrby.length; i++) {
+            if (brrby[i] == '\n') {
                 numPrinted++;
             }
 
             if (numPrinted == numLines) {
-                System.arraycopy(array, 0, partialArray, 0, i);
+                System.brrbycopy(brrby, 0, pbrtiblArrby, 0, i);
             }
         }
 
-        if (partialArray != null) {
-            super.print(partialArray);
+        if (pbrtiblArrby != null) {
+            super.print(pbrtiblArrby);
         }
 
         if (numPrinted == numLines) {
             return;
         }
 
-        super.println(array);
+        super.println(brrby);
         numPrinted++;
     }
 }

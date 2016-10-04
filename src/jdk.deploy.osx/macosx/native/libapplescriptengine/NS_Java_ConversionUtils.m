@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "NS_Java_ConversionUtils.h"
+#import "NS_Jbvb_ConversionUtils.h"
 
-#import <Cocoa/Cocoa.h>
+#import <Cocob/Cocob.h>
 
 
-@interface JavaAppleScriptBaseConverter : NSObject <JNFTypeCoercion>
+@interfbce JbvbAppleScriptBbseConverter : NSObject <JNFTypeCoercion>
 @end
 
-@interface JavaAppleScriptImageConverter : NSObject <JNFTypeCoercion>
+@interfbce JbvbAppleScriptImbgeConverter : NSObject <JNFTypeCoercion>
 @end
 
-@interface JavaAppleScriptVersionConverter : NSObject <JNFTypeCoercion>
+@interfbce JbvbAppleScriptVersionConverter : NSObject <JNFTypeCoercion>
 @end
 
-@interface JavaAppleScriptNullConverter : NSObject <JNFTypeCoercion>
+@interfbce JbvbAppleScriptNullConverter : NSObject <JNFTypeCoercion>
 @end
 
 
-@implementation JavaAppleScriptEngineCoercion
+@implementbtion JbvbAppleScriptEngineCoercion
 
-static JNFTypeCoercer *appleScriptCoercer = nil;
+stbtic JNFTypeCoercer *bppleScriptCoercer = nil;
 
 + (JNFTypeCoercer *) coercer {
-    if (appleScriptCoercer) return appleScriptCoercer;
+    if (bppleScriptCoercer) return bppleScriptCoercer;
 
-    id asSpecificCoercions = [[JNFDefaultCoercions defaultCoercer] deriveCoercer];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptImageConverter alloc] init] autorelease] forNSClass:[NSImage class] javaClass:@"java/awt/Image"];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptVersionConverter alloc] init] autorelease] forNSClass:[NSAppleEventDescriptor class] javaClass:nil];
-    [asSpecificCoercions addCoercion:[[[JavaAppleScriptNullConverter alloc] init] autorelease] forNSClass:[NSNull class] javaClass:nil];
+    id bsSpecificCoercions = [[JNFDefbultCoercions defbultCoercer] deriveCoercer];
+    [bsSpecificCoercions bddCoercion:[[[JbvbAppleScriptImbgeConverter blloc] init] butorelebse] forNSClbss:[NSImbge clbss] jbvbClbss:@"jbvb/bwt/Imbge"];
+    [bsSpecificCoercions bddCoercion:[[[JbvbAppleScriptVersionConverter blloc] init] butorelebse] forNSClbss:[NSAppleEventDescriptor clbss] jbvbClbss:nil];
+    [bsSpecificCoercions bddCoercion:[[[JbvbAppleScriptNullConverter blloc] init] butorelebse] forNSClbss:[NSNull clbss] jbvbClbss:nil];
 
-    return appleScriptCoercer = [asSpecificCoercions retain];
+    return bppleScriptCoercer = [bsSpecificCoercions retbin];
 }
 
 @end
 
 
-// [NSObject description] <-> java.lang.Object.toString()
-@implementation JavaAppleScriptBaseConverter
+// [NSObject description] <-> jbvb.lbng.Object.toString()
+@implementbtion JbvbAppleScriptBbseConverter
 
-// by default, bizzare NSObjects will have -description called on them, and passed back to Java like that
+// by defbult, bizzbre NSObjects will hbve -description cblled on them, bnd pbssed bbck to Jbvb like thbt
 - (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return JNFNSToJavaString(env, [obj description]);
+    return JNFNSToJbvbString(env, [obj description]);
 }
 
-// by default, bizzare Java objects will be toString()'d and passed to AppleScript like that
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
+// by defbult, bizzbre Jbvb objects will be toString()'d bnd pbssed to AppleScript like thbt
+- (id) coerceJbvbObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
     return JNFObjectToString(env, obj);
 }
 
 @end
 
 
-// NSImage <-> apple.awt.CImage
-@implementation JavaAppleScriptImageConverter
+// NSImbge <-> bpple.bwt.CImbge
+@implementbtion JbvbAppleScriptImbgeConverter
 
-static JNF_CLASS_CACHE(jc_CImage, "apple/awt/CImage");
-static JNF_STATIC_MEMBER_CACHE(jm_CImage_getCreator, jc_CImage, "getCreator", "()Lapple/awt/CImage$Creator;");
-static JNF_MEMBER_CACHE(jm_CImage_getNSImage, jc_CImage, "getNSImage", "()J");
+stbtic JNF_CLASS_CACHE(jc_CImbge, "bpple/bwt/CImbge");
+stbtic JNF_STATIC_MEMBER_CACHE(jm_CImbge_getCrebtor, jc_CImbge, "getCrebtor", "()Lbpple/bwt/CImbge$Crebtor;");
+stbtic JNF_MEMBER_CACHE(jm_CImbge_getNSImbge, jc_CImbge, "getNSImbge", "()J");
 
-static JNF_CLASS_CACHE(jc_CImage_Generator, "apple/awt/CImage$Creator");
-static JNF_MEMBER_CACHE(jm_CImage_Generator_createImageFromPtr, jc_CImage_Generator, "createImage", "(J)Ljava/awt/image/BufferedImage;");
-static JNF_MEMBER_CACHE(jm_CImage_Generator_createImageFromImg, jc_CImage_Generator, "createImage", "(Ljava/awt/Image;)Lapple/awt/CImage;");
+stbtic JNF_CLASS_CACHE(jc_CImbge_Generbtor, "bpple/bwt/CImbge$Crebtor");
+stbtic JNF_MEMBER_CACHE(jm_CImbge_Generbtor_crebteImbgeFromPtr, jc_CImbge_Generbtor, "crebteImbge", "(J)Ljbvb/bwt/imbge/BufferedImbge;");
+stbtic JNF_MEMBER_CACHE(jm_CImbge_Generbtor_crebteImbgeFromImg, jc_CImbge_Generbtor, "crebteImbge", "(Ljbvb/bwt/Imbge;)Lbpple/bwt/CImbge;");
 
 - (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    NSImage *img = (NSImage *)obj;
-    CFRetain(img);
-    jobject creator = JNFCallStaticObjectMethod(env, jm_CImage_getCreator);
-    jobject jobj = JNFCallObjectMethod(env, creator, jm_CImage_Generator_createImageFromPtr, ptr_to_jlong(img));
+    NSImbge *img = (NSImbge *)obj;
+    CFRetbin(img);
+    jobject crebtor = JNFCbllStbticObjectMethod(env, jm_CImbge_getCrebtor);
+    jobject jobj = JNFCbllObjectMethod(env, crebtor, jm_CImbge_Generbtor_crebteImbgeFromPtr, ptr_to_jlong(img));
     return jobj;
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    jobject cimage = obj;
-    if (!JNFIsInstanceOf(env, obj, &jc_CImage)) {
-        jobject creator = JNFCallStaticObjectMethod(env, jm_CImage_getCreator);
-        cimage = JNFCallObjectMethod(env, creator, jm_CImage_Generator_createImageFromImg, obj);
+- (id) coerceJbvbObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
+    jobject cimbge = obj;
+    if (!JNFIsInstbnceOf(env, obj, &jc_CImbge)) {
+        jobject crebtor = JNFCbllStbticObjectMethod(env, jm_CImbge_getCrebtor);
+        cimbge = JNFCbllObjectMethod(env, crebtor, jm_CImbge_Generbtor_crebteImbgeFromImg, obj);
     }
 
-    jlong nsImagePtr = JNFCallLongMethod(env, cimage, jm_CImage_getNSImage);
+    jlong nsImbgePtr = JNFCbllLongMethod(env, cimbge, jm_CImbge_getNSImbge);
 
-    NSImage *img = (NSImage *)jlong_to_ptr(nsImagePtr);
-    return [[img retain] autorelease];
+    NSImbge *img = (NSImbge *)jlong_to_ptr(nsImbgePtr);
+    return [[img retbin] butorelebse];
 }
 
 @end
 
 
-// NSAppleEventDescriptor('vers') -> java.lang.String
-@implementation JavaAppleScriptVersionConverter
+// NSAppleEventDescriptor('vers') -> jbvb.lbng.String
+@implementbtion JbvbAppleScriptVersionConverter
 
 - (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
     NSAppleEventDescriptor *desc = (NSAppleEventDescriptor *)obj;
 
-    const AEDesc *aeDesc = [desc aeDesc];
-    if (aeDesc->descriptorType == typeNull) {
+    const AEDesc *beDesc = [desc beDesc];
+    if (beDesc->descriptorType == typeNull) {
         return NULL;
     }
 
-    return JNFNSToJavaString(env, [obj description]);
+    return JNFNSToJbvbString(env, [obj description]);
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
-    return nil; // there is no Java object that represents a "version"
+- (id) coerceJbvbObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
+    return nil; // there is no Jbvb object thbt represents b "version"
 }
 
 @end
 
 
 // NSNull <-> null
-@implementation JavaAppleScriptNullConverter
+@implementbtion JbvbAppleScriptNullConverter
 
 - (jobject) coerceNSObject:(id)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
     return NULL;
 }
 
-- (id) coerceJavaObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
+- (id) coerceJbvbObject:(jobject)obj withEnv:(JNIEnv *)env usingCoercer:(JNFTypeCoercion *)coercer {
     return nil;
 }
 

@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.acl;
+pbckbge sun.security.bcl;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * This class implements the principal interface.
+ * This clbss implements the principbl interfbce.
  *
- * @author      Satish Dharmaraj
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public class PrincipalImpl implements Principal {
+public clbss PrincipblImpl implements Principbl {
 
-    private String user;
+    privbte String user;
 
     /**
-     * Construct a principal from a string user name.
-     * @param user The string form of the principal name.
+     * Construct b principbl from b string user nbme.
+     * @pbrbm user The string form of the principbl nbme.
      */
-    public PrincipalImpl(String user) {
+    public PrincipblImpl(String user) {
         this.user = user;
     }
 
     /**
-     * This function returns true if the object passed matches
-     * the principal represented in this implementation
-     * @param another the Principal to compare with.
-     * @return true if the Principal passed is the same as that
-     * encapsulated in this object, false otherwise
+     * This function returns true if the object pbssed mbtches
+     * the principbl represented in this implementbtion
+     * @pbrbm bnother the Principbl to compbre with.
+     * @return true if the Principbl pbssed is the sbme bs thbt
+     * encbpsulbted in this object, fblse otherwise
      */
-    public boolean equals(Object another) {
-        if (another instanceof PrincipalImpl) {
-            PrincipalImpl p = (PrincipalImpl) another;
-            return user.equals(p.toString());
+    public boolebn equbls(Object bnother) {
+        if (bnother instbnceof PrincipblImpl) {
+            PrincipblImpl p = (PrincipblImpl) bnother;
+            return user.equbls(p.toString());
         } else
-          return false;
+          return fblse;
     }
 
     /**
-     * Prints a stringified version of the principal.
+     * Prints b stringified version of the principbl.
      */
     public String toString() {
         return user;
     }
 
     /**
-     * return a hashcode for the principal.
+     * return b hbshcode for the principbl.
      */
-    public int hashCode() {
-        return user.hashCode();
+    public int hbshCode() {
+        return user.hbshCode();
     }
 
     /**
-     * return the name of the principal.
+     * return the nbme of the principbl.
      */
-    public String getName() {
+    public String getNbme() {
         return user;
     }
 

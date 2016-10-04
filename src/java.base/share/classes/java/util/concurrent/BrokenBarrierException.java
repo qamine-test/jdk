@@ -1,66 +1,66 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * Exception thrown when a thread tries to wait upon a barrier that is
- * in a broken state, or which enters the broken state while the thread
- * is waiting.
+ * Exception thrown when b threbd tries to wbit upon b bbrrier thbt is
+ * in b broken stbte, or which enters the broken stbte while the threbd
+ * is wbiting.
  *
- * @see CyclicBarrier
+ * @see CyclicBbrrier
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class BrokenBarrierException extends Exception {
-    private static final long serialVersionUID = 7117394618823254244L;
+public clbss BrokenBbrrierException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 7117394618823254244L;
 
     /**
-     * Constructs a {@code BrokenBarrierException} with no specified detail
-     * message.
+     * Constructs b {@code BrokenBbrrierException} with no specified detbil
+     * messbge.
      */
-    public BrokenBarrierException() {}
+    public BrokenBbrrierException() {}
 
     /**
-     * Constructs a {@code BrokenBarrierException} with the specified
-     * detail message.
+     * Constructs b {@code BrokenBbrrierException} with the specified
+     * detbil messbge.
      *
-     * @param message the detail message
+     * @pbrbm messbge the detbil messbge
      */
-    public BrokenBarrierException(String message) {
-        super(message);
+    public BrokenBbrrierException(String messbge) {
+        super(messbge);
     }
 }

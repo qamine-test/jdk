@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,264 +59,264 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.FOREVER;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.WEEKS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.DayOfWeek;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.locale.provider.CalendarDataUtility;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbteTimeException;
+import jbvb.time.DbyOfWeek;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.locble.provider.CblendbrDbtbUtility;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleResources;
 
 /**
- * Localized definitions of the day-of-week, week-of-month and week-of-year fields.
+ * Locblized definitions of the dby-of-week, week-of-month bnd week-of-yebr fields.
  * <p>
- * A standard week is seven days long, but cultures have different definitions for some
- * other aspects of a week. This class represents the definition of the week, for the
- * purpose of providing {@link TemporalField} instances.
+ * A stbndbrd week is seven dbys long, but cultures hbve different definitions for some
+ * other bspects of b week. This clbss represents the definition of the week, for the
+ * purpose of providing {@link TemporblField} instbnces.
  * <p>
  * WeekFields provides five fields,
- * {@link #dayOfWeek()}, {@link #weekOfMonth()}, {@link #weekOfYear()},
- * {@link #weekOfWeekBasedYear()}, and {@link #weekBasedYear()}
- * that provide access to the values from any {@linkplain Temporal temporal object}.
+ * {@link #dbyOfWeek()}, {@link #weekOfMonth()}, {@link #weekOfYebr()},
+ * {@link #weekOfWeekBbsedYebr()}, bnd {@link #weekBbsedYebr()}
+ * thbt provide bccess to the vblues from bny {@linkplbin Temporbl temporbl object}.
  * <p>
- * The computations for day-of-week, week-of-month, and week-of-year are based
- * on the  {@linkplain ChronoField#YEAR proleptic-year},
- * {@linkplain ChronoField#MONTH_OF_YEAR month-of-year},
- * {@linkplain ChronoField#DAY_OF_MONTH day-of-month}, and
- * {@linkplain ChronoField#DAY_OF_WEEK ISO day-of-week} which are based on the
- * {@linkplain ChronoField#EPOCH_DAY epoch-day} and the chronology.
- * The values may not be aligned with the {@linkplain ChronoField#YEAR_OF_ERA year-of-Era}
+ * The computbtions for dby-of-week, week-of-month, bnd week-of-yebr bre bbsed
+ * on the  {@linkplbin ChronoField#YEAR proleptic-yebr},
+ * {@linkplbin ChronoField#MONTH_OF_YEAR month-of-yebr},
+ * {@linkplbin ChronoField#DAY_OF_MONTH dby-of-month}, bnd
+ * {@linkplbin ChronoField#DAY_OF_WEEK ISO dby-of-week} which bre bbsed on the
+ * {@linkplbin ChronoField#EPOCH_DAY epoch-dby} bnd the chronology.
+ * The vblues mby not be bligned with the {@linkplbin ChronoField#YEAR_OF_ERA yebr-of-Erb}
  * depending on the Chronology.
  * <p>A week is defined by:
  * <ul>
- * <li>The first day-of-week.
- * For example, the ISO-8601 standard considers Monday to be the first day-of-week.
- * <li>The minimal number of days in the first week.
- * For example, the ISO-8601 standard counts the first week as needing at least 4 days.
+ * <li>The first dby-of-week.
+ * For exbmple, the ISO-8601 stbndbrd considers Mondby to be the first dby-of-week.
+ * <li>The minimbl number of dbys in the first week.
+ * For exbmple, the ISO-8601 stbndbrd counts the first week bs needing bt lebst 4 dbys.
  * </ul>
- * Together these two values allow a year or month to be divided into weeks.
+ * Together these two vblues bllow b yebr or month to be divided into weeks.
  *
  * <h3>Week of Month</h3>
  * One field is used: week-of-month.
- * The calculation ensures that weeks never overlap a month boundary.
- * The month is divided into periods where each period starts on the defined first day-of-week.
- * The earliest period is referred to as week 0 if it has less than the minimal number of days
- * and week 1 if it has at least the minimal number of days.
+ * The cblculbtion ensures thbt weeks never overlbp b month boundbry.
+ * The month is divided into periods where ebch period stbrts on the defined first dby-of-week.
+ * The ebrliest period is referred to bs week 0 if it hbs less thbn the minimbl number of dbys
+ * bnd week 1 if it hbs bt lebst the minimbl number of dbys.
  *
- * <table cellpadding="0" cellspacing="3" border="0" style="text-align: left; width: 50%;">
- * <caption>Examples of WeekFields</caption>
- * <tr><th>Date</th><td>Day-of-week</td>
- *  <td>First day: Monday<br>Minimal days: 4</td><td>First day: Monday<br>Minimal days: 5</td></tr>
- * <tr><th>2008-12-31</th><td>Wednesday</td>
+ * <tbble cellpbdding="0" cellspbcing="3" border="0" style="text-blign: left; width: 50%;">
+ * <cbption>Exbmples of WeekFields</cbption>
+ * <tr><th>Dbte</th><td>Dby-of-week</td>
+ *  <td>First dby: Mondby<br>Minimbl dbys: 4</td><td>First dby: Mondby<br>Minimbl dbys: 5</td></tr>
+ * <tr><th>2008-12-31</th><td>Wednesdby</td>
  *  <td>Week 5 of December 2008</td><td>Week 5 of December 2008</td></tr>
- * <tr><th>2009-01-01</th><td>Thursday</td>
- *  <td>Week 1 of January 2009</td><td>Week 0 of January 2009</td></tr>
- * <tr><th>2009-01-04</th><td>Sunday</td>
- *  <td>Week 1 of January 2009</td><td>Week 0 of January 2009</td></tr>
- * <tr><th>2009-01-05</th><td>Monday</td>
- *  <td>Week 2 of January 2009</td><td>Week 1 of January 2009</td></tr>
- * </table>
+ * <tr><th>2009-01-01</th><td>Thursdby</td>
+ *  <td>Week 1 of Jbnubry 2009</td><td>Week 0 of Jbnubry 2009</td></tr>
+ * <tr><th>2009-01-04</th><td>Sundby</td>
+ *  <td>Week 1 of Jbnubry 2009</td><td>Week 0 of Jbnubry 2009</td></tr>
+ * <tr><th>2009-01-05</th><td>Mondby</td>
+ *  <td>Week 2 of Jbnubry 2009</td><td>Week 1 of Jbnubry 2009</td></tr>
+ * </tbble>
  *
- * <h3>Week of Year</h3>
- * One field is used: week-of-year.
- * The calculation ensures that weeks never overlap a year boundary.
- * The year is divided into periods where each period starts on the defined first day-of-week.
- * The earliest period is referred to as week 0 if it has less than the minimal number of days
- * and week 1 if it has at least the minimal number of days.
+ * <h3>Week of Yebr</h3>
+ * One field is used: week-of-yebr.
+ * The cblculbtion ensures thbt weeks never overlbp b yebr boundbry.
+ * The yebr is divided into periods where ebch period stbrts on the defined first dby-of-week.
+ * The ebrliest period is referred to bs week 0 if it hbs less thbn the minimbl number of dbys
+ * bnd week 1 if it hbs bt lebst the minimbl number of dbys.
  *
- * <h3>Week Based Year</h3>
- * Two fields are used for week-based-year, one for the
- * {@link #weekOfWeekBasedYear() week-of-week-based-year} and one for
- * {@link #weekBasedYear() week-based-year}.  In a week-based-year, each week
- * belongs to only a single year.  Week 1 of a year is the first week that
- * starts on the first day-of-week and has at least the minimum number of days.
- * The first and last weeks of a year may contain days from the
- * previous calendar year or next calendar year respectively.
+ * <h3>Week Bbsed Yebr</h3>
+ * Two fields bre used for week-bbsed-yebr, one for the
+ * {@link #weekOfWeekBbsedYebr() week-of-week-bbsed-yebr} bnd one for
+ * {@link #weekBbsedYebr() week-bbsed-yebr}.  In b week-bbsed-yebr, ebch week
+ * belongs to only b single yebr.  Week 1 of b yebr is the first week thbt
+ * stbrts on the first dby-of-week bnd hbs bt lebst the minimum number of dbys.
+ * The first bnd lbst weeks of b yebr mby contbin dbys from the
+ * previous cblendbr yebr or next cblendbr yebr respectively.
  *
- * <table cellpadding="0" cellspacing="3" border="0" style="text-align: left; width: 50%;">
- * <caption>Examples of WeekFields for week-based-year</caption>
- * <tr><th>Date</th><td>Day-of-week</td>
- *  <td>First day: Monday<br>Minimal days: 4</td><td>First day: Monday<br>Minimal days: 5</td></tr>
- * <tr><th>2008-12-31</th><td>Wednesday</td>
+ * <tbble cellpbdding="0" cellspbcing="3" border="0" style="text-blign: left; width: 50%;">
+ * <cbption>Exbmples of WeekFields for week-bbsed-yebr</cbption>
+ * <tr><th>Dbte</th><td>Dby-of-week</td>
+ *  <td>First dby: Mondby<br>Minimbl dbys: 4</td><td>First dby: Mondby<br>Minimbl dbys: 5</td></tr>
+ * <tr><th>2008-12-31</th><td>Wednesdby</td>
  *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-01</th><td>Thursday</td>
+ * <tr><th>2009-01-01</th><td>Thursdby</td>
  *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-04</th><td>Sunday</td>
+ * <tr><th>2009-01-04</th><td>Sundby</td>
  *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-05</th><td>Monday</td>
+ * <tr><th>2009-01-05</th><td>Mondby</td>
  *  <td>Week 2 of 2009</td><td>Week 1 of 2009</td></tr>
- * </table>
+ * </tbble>
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class WeekFields implements Serializable {
-    // implementation notes
-    // querying week-of-month or week-of-year should return the week value bound within the month/year
-    // however, setting the week value should be lenient (use plus/minus weeks)
-    // allow week-of-month outer range [0 to 6]
-    // allow week-of-year outer range [0 to 54]
-    // this is because callers shouldn't be expected to know the details of validity
+public finbl clbss WeekFields implements Seriblizbble {
+    // implementbtion notes
+    // querying week-of-month or week-of-yebr should return the week vblue bound within the month/yebr
+    // however, setting the week vblue should be lenient (use plus/minus weeks)
+    // bllow week-of-month outer rbnge [0 to 6]
+    // bllow week-of-yebr outer rbnge [0 to 54]
+    // this is becbuse cbllers shouldn't be expected to know the detbils of vblidity
 
     /**
-     * The cache of rules by firstDayOfWeek plus minimalDays.
-     * Initialized first to be available for definition of ISO, etc.
+     * The cbche of rules by firstDbyOfWeek plus minimblDbys.
+     * Initiblized first to be bvbilbble for definition of ISO, etc.
      */
-    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<>(4, 0.75f, 2);
+    privbte stbtic finbl ConcurrentMbp<String, WeekFields> CACHE = new ConcurrentHbshMbp<>(4, 0.75f, 2);
 
     /**
-     * The ISO-8601 definition, where a week starts on Monday and the first week
-     * has a minimum of 4 days.
+     * The ISO-8601 definition, where b week stbrts on Mondby bnd the first week
+     * hbs b minimum of 4 dbys.
      * <p>
-     * The ISO-8601 standard defines a calendar system based on weeks.
-     * It uses the week-based-year and week-of-week-based-year concepts to split
-     * up the passage of days instead of the standard year/month/day.
+     * The ISO-8601 stbndbrd defines b cblendbr system bbsed on weeks.
+     * It uses the week-bbsed-yebr bnd week-of-week-bbsed-yebr concepts to split
+     * up the pbssbge of dbys instebd of the stbndbrd yebr/month/dby.
      * <p>
-     * Note that the first week may start in the previous calendar year.
-     * Note also that the first few days of a calendar year may be in the
-     * week-based-year corresponding to the previous calendar year.
+     * Note thbt the first week mby stbrt in the previous cblendbr yebr.
+     * Note blso thbt the first few dbys of b cblendbr yebr mby be in the
+     * week-bbsed-yebr corresponding to the previous cblendbr yebr.
      */
-    public static final WeekFields ISO = new WeekFields(DayOfWeek.MONDAY, 4);
+    public stbtic finbl WeekFields ISO = new WeekFields(DbyOfWeek.MONDAY, 4);
 
     /**
-     * The common definition of a week that starts on Sunday and the first week
-     * has a minimum of 1 day.
+     * The common definition of b week thbt stbrts on Sundby bnd the first week
+     * hbs b minimum of 1 dby.
      * <p>
-     * Defined as starting on Sunday and with a minimum of 1 day in the month.
-     * This week definition is in use in the US and other European countries.
+     * Defined bs stbrting on Sundby bnd with b minimum of 1 dby in the month.
+     * This week definition is in use in the US bnd other Europebn countries.
      */
-    public static final WeekFields SUNDAY_START = WeekFields.of(DayOfWeek.SUNDAY, 1);
+    public stbtic finbl WeekFields SUNDAY_START = WeekFields.of(DbyOfWeek.SUNDAY, 1);
 
     /**
-     * The unit that represents week-based-years for the purpose of addition and subtraction.
+     * The unit thbt represents week-bbsed-yebrs for the purpose of bddition bnd subtrbction.
      * <p>
-     * This allows a number of week-based-years to be added to, or subtracted from, a date.
-     * The unit is equal to either 52 or 53 weeks.
-     * The estimated duration of a week-based-year is the same as that of a standard ISO
-     * year at {@code 365.2425 Days}.
+     * This bllows b number of week-bbsed-yebrs to be bdded to, or subtrbcted from, b dbte.
+     * The unit is equbl to either 52 or 53 weeks.
+     * The estimbted durbtion of b week-bbsed-yebr is the sbme bs thbt of b stbndbrd ISO
+     * yebr bt {@code 365.2425 Dbys}.
      * <p>
-     * The rules for addition add the number of week-based-years to the existing value
-     * for the week-based-year field retaining the week-of-week-based-year
-     * and day-of-week, unless the week number it too large for the target year.
-     * In that case, the week is set to the last week of the year
-     * with the same day-of-week.
+     * The rules for bddition bdd the number of week-bbsed-yebrs to the existing vblue
+     * for the week-bbsed-yebr field retbining the week-of-week-bbsed-yebr
+     * bnd dby-of-week, unless the week number it too lbrge for the tbrget yebr.
+     * In thbt cbse, the week is set to the lbst week of the yebr
+     * with the sbme dby-of-week.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalUnit WEEK_BASED_YEARS = IsoFields.WEEK_BASED_YEARS;
+    public stbtic finbl TemporblUnit WEEK_BASED_YEARS = IsoFields.WEEK_BASED_YEARS;
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -1177360819670808121L;
+    privbte stbtic finbl long seriblVersionUID = -1177360819670808121L;
 
     /**
-     * The first day-of-week.
+     * The first dby-of-week.
      */
-    private final DayOfWeek firstDayOfWeek;
+    privbte finbl DbyOfWeek firstDbyOfWeek;
     /**
-     * The minimal number of days in the first week.
+     * The minimbl number of dbys in the first week.
      */
-    private final int minimalDays;
+    privbte finbl int minimblDbys;
     /**
-     * The field used to access the computed DayOfWeek.
+     * The field used to bccess the computed DbyOfWeek.
      */
-    private final transient TemporalField dayOfWeek = ComputedDayOfField.ofDayOfWeekField(this);
+    privbte finbl trbnsient TemporblField dbyOfWeek = ComputedDbyOfField.ofDbyOfWeekField(this);
     /**
-     * The field used to access the computed WeekOfMonth.
+     * The field used to bccess the computed WeekOfMonth.
      */
-    private final transient TemporalField weekOfMonth = ComputedDayOfField.ofWeekOfMonthField(this);
+    privbte finbl trbnsient TemporblField weekOfMonth = ComputedDbyOfField.ofWeekOfMonthField(this);
     /**
-     * The field used to access the computed WeekOfYear.
+     * The field used to bccess the computed WeekOfYebr.
      */
-    private final transient TemporalField weekOfYear = ComputedDayOfField.ofWeekOfYearField(this);
+    privbte finbl trbnsient TemporblField weekOfYebr = ComputedDbyOfField.ofWeekOfYebrField(this);
     /**
-     * The field that represents the week-of-week-based-year.
+     * The field thbt represents the week-of-week-bbsed-yebr.
      * <p>
-     * This field allows the week of the week-based-year value to be queried and set.
+     * This field bllows the week of the week-bbsed-yebr vblue to be queried bnd set.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    private final transient TemporalField weekOfWeekBasedYear = ComputedDayOfField.ofWeekOfWeekBasedYearField(this);
+    privbte finbl trbnsient TemporblField weekOfWeekBbsedYebr = ComputedDbyOfField.ofWeekOfWeekBbsedYebrField(this);
     /**
-     * The field that represents the week-based-year.
+     * The field thbt represents the week-bbsed-yebr.
      * <p>
-     * This field allows the week-based-year value to be queried and set.
+     * This field bllows the week-bbsed-yebr vblue to be queried bnd set.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    private final transient TemporalField weekBasedYear = ComputedDayOfField.ofWeekBasedYearField(this);
+    privbte finbl trbnsient TemporblField weekBbsedYebr = ComputedDbyOfField.ofWeekBbsedYebrField(this);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code WeekFields} appropriate for a locale.
+     * Obtbins bn instbnce of {@code WeekFields} bppropribte for b locble.
      * <p>
-     * This will look up appropriate values from the provider of localization data.
+     * This will look up bppropribte vblues from the provider of locblizbtion dbtb.
      *
-     * @param locale  the locale to use, not null
+     * @pbrbm locble  the locble to use, not null
      * @return the week-definition, not null
      */
-    public static WeekFields of(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
+    public stbtic WeekFields of(Locble locble) {
+        Objects.requireNonNull(locble, "locble");
+        locble = new Locble(locble.getLbngubge(), locble.getCountry());  // elminbte vbribnts
 
-        int calDow = CalendarDataUtility.retrieveFirstDayOfWeek(locale);
-        DayOfWeek dow = DayOfWeek.SUNDAY.plus(calDow - 1);
-        int minDays = CalendarDataUtility.retrieveMinimalDaysInFirstWeek(locale);
-        return WeekFields.of(dow, minDays);
+        int cblDow = CblendbrDbtbUtility.retrieveFirstDbyOfWeek(locble);
+        DbyOfWeek dow = DbyOfWeek.SUNDAY.plus(cblDow - 1);
+        int minDbys = CblendbrDbtbUtility.retrieveMinimblDbysInFirstWeek(locble);
+        return WeekFields.of(dow, minDbys);
     }
 
     /**
-     * Obtains an instance of {@code WeekFields} from the first day-of-week and minimal days.
+     * Obtbins bn instbnce of {@code WeekFields} from the first dby-of-week bnd minimbl dbys.
      * <p>
-     * The first day-of-week defines the ISO {@code DayOfWeek} that is day 1 of the week.
-     * The minimal number of days in the first week defines how many days must be present
-     * in a month or year, starting from the first day-of-week, before the week is counted
-     * as the first week. A value of 1 will count the first day of the month or year as part
-     * of the first week, whereas a value of 7 will require the whole seven days to be in
-     * the new month or year.
+     * The first dby-of-week defines the ISO {@code DbyOfWeek} thbt is dby 1 of the week.
+     * The minimbl number of dbys in the first week defines how mbny dbys must be present
+     * in b month or yebr, stbrting from the first dby-of-week, before the week is counted
+     * bs the first week. A vblue of 1 will count the first dby of the month or yebr bs pbrt
+     * of the first week, wherebs b vblue of 7 will require the whole seven dbys to be in
+     * the new month or yebr.
      * <p>
-     * WeekFields instances are singletons; for each unique combination
-     * of {@code firstDayOfWeek} and {@code minimalDaysInFirstWeek} the
-     * the same instance will be returned.
+     * WeekFields instbnces bre singletons; for ebch unique combinbtion
+     * of {@code firstDbyOfWeek} bnd {@code minimblDbysInFirstWeek} the
+     * the sbme instbnce will be returned.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
+     * @pbrbm firstDbyOfWeek  the first dby of the week, not null
+     * @pbrbm minimblDbysInFirstWeek  the minimbl number of dbys in the first week, from 1 to 7
      * @return the week-definition, not null
-     * @throws IllegalArgumentException if the minimal days value is less than one
-     *      or greater than 7
+     * @throws IllegblArgumentException if the minimbl dbys vblue is less thbn one
+     *      or grebter thbn 7
      */
-    public static WeekFields of(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
-        String key = firstDayOfWeek.toString() + minimalDaysInFirstWeek;
+    public stbtic WeekFields of(DbyOfWeek firstDbyOfWeek, int minimblDbysInFirstWeek) {
+        String key = firstDbyOfWeek.toString() + minimblDbysInFirstWeek;
         WeekFields rules = CACHE.get(key);
         if (rules == null) {
-            rules = new WeekFields(firstDayOfWeek, minimalDaysInFirstWeek);
+            rules = new WeekFields(firstDbyOfWeek, minimblDbysInFirstWeek);
             CACHE.putIfAbsent(key, rules);
             rules = CACHE.get(key);
         }
@@ -325,834 +325,834 @@ public final class WeekFields implements Serializable {
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance of the definition.
+     * Crebtes bn instbnce of the definition.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
-     * @throws IllegalArgumentException if the minimal days value is invalid
+     * @pbrbm firstDbyOfWeek  the first dby of the week, not null
+     * @pbrbm minimblDbysInFirstWeek  the minimbl number of dbys in the first week, from 1 to 7
+     * @throws IllegblArgumentException if the minimbl dbys vblue is invblid
      */
-    private WeekFields(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
-        Objects.requireNonNull(firstDayOfWeek, "firstDayOfWeek");
-        if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7) {
-            throw new IllegalArgumentException("Minimal number of days is invalid");
+    privbte WeekFields(DbyOfWeek firstDbyOfWeek, int minimblDbysInFirstWeek) {
+        Objects.requireNonNull(firstDbyOfWeek, "firstDbyOfWeek");
+        if (minimblDbysInFirstWeek < 1 || minimblDbysInFirstWeek > 7) {
+            throw new IllegblArgumentException("Minimbl number of dbys is invblid");
         }
-        this.firstDayOfWeek = firstDayOfWeek;
-        this.minimalDays = minimalDaysInFirstWeek;
+        this.firstDbyOfWeek = firstDbyOfWeek;
+        this.minimblDbys = minimblDbysInFirstWeek;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Restore the state of a WeekFields from the stream.
-     * Check that the values are valid.
+     * Restore the stbte of b WeekFields from the strebm.
+     * Check thbt the vblues bre vblid.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException if the serialized object has an invalid
-     *     value for firstDayOfWeek or minimalDays.
-     * @throws ClassNotFoundException if a class cannot be resolved
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException if the seriblized object hbs bn invblid
+     *     vblue for firstDbyOfWeek or minimblDbys.
+     * @throws ClbssNotFoundException if b clbss cbnnot be resolved
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException, InvalidObjectException
+    privbte void rebdObject(ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException, InvblidObjectException
     {
-        s.defaultReadObject();
-        if (firstDayOfWeek == null) {
-            throw new InvalidObjectException("firstDayOfWeek is null");
+        s.defbultRebdObject();
+        if (firstDbyOfWeek == null) {
+            throw new InvblidObjectException("firstDbyOfWeek is null");
         }
 
-        if (minimalDays < 1 || minimalDays > 7) {
-            throw new InvalidObjectException("Minimal number of days is invalid");
+        if (minimblDbys < 1 || minimblDbys > 7) {
+            throw new InvblidObjectException("Minimbl number of dbys is invblid");
         }
     }
 
     /**
-     * Return the singleton WeekFields associated with the
-     * {@code firstDayOfWeek} and {@code minimalDays}.
-     * @return the singleton WeekFields for the firstDayOfWeek and minimalDays.
-     * @throws InvalidObjectException if the serialized object has invalid
-     *     values for firstDayOfWeek or minimalDays.
+     * Return the singleton WeekFields bssocibted with the
+     * {@code firstDbyOfWeek} bnd {@code minimblDbys}.
+     * @return the singleton WeekFields for the firstDbyOfWeek bnd minimblDbys.
+     * @throws InvblidObjectException if the seriblized object hbs invblid
+     *     vblues for firstDbyOfWeek or minimblDbys.
      */
-    private Object readResolve() throws InvalidObjectException {
+    privbte Object rebdResolve() throws InvblidObjectException {
         try {
-            return WeekFields.of(firstDayOfWeek, minimalDays);
-        } catch (IllegalArgumentException iae) {
-            throw new InvalidObjectException("Invalid serialized WeekFields: " + iae.getMessage());
+            return WeekFields.of(firstDbyOfWeek, minimblDbys);
+        } cbtch (IllegblArgumentException ibe) {
+            throw new InvblidObjectException("Invblid seriblized WeekFields: " + ibe.getMessbge());
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the first day-of-week.
+     * Gets the first dby-of-week.
      * <p>
-     * The first day-of-week varies by culture.
-     * For example, the US uses Sunday, while France and the ISO-8601 standard use Monday.
-     * This method returns the first day using the standard {@code DayOfWeek} enum.
+     * The first dby-of-week vbries by culture.
+     * For exbmple, the US uses Sundby, while Frbnce bnd the ISO-8601 stbndbrd use Mondby.
+     * This method returns the first dby using the stbndbrd {@code DbyOfWeek} enum.
      *
-     * @return the first day-of-week, not null
+     * @return the first dby-of-week, not null
      */
-    public DayOfWeek getFirstDayOfWeek() {
-        return firstDayOfWeek;
+    public DbyOfWeek getFirstDbyOfWeek() {
+        return firstDbyOfWeek;
     }
 
     /**
-     * Gets the minimal number of days in the first week.
+     * Gets the minimbl number of dbys in the first week.
      * <p>
-     * The number of days considered to define the first week of a month or year
-     * varies by culture.
-     * For example, the ISO-8601 requires 4 days (more than half a week) to
+     * The number of dbys considered to define the first week of b month or yebr
+     * vbries by culture.
+     * For exbmple, the ISO-8601 requires 4 dbys (more thbn hblf b week) to
      * be present before counting the first week.
      *
-     * @return the minimal number of days in the first week of a month or year, from 1 to 7
+     * @return the minimbl number of dbys in the first week of b month or yebr, from 1 to 7
      */
-    public int getMinimalDaysInFirstWeek() {
-        return minimalDays;
+    public int getMinimblDbysInFirstWeek() {
+        return minimblDbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a field to access the day of week based on this {@code WeekFields}.
+     * Returns b field to bccess the dby of week bbsed on this {@code WeekFields}.
      * <p>
-     * This is similar to {@link ChronoField#DAY_OF_WEEK} but uses values for
-     * the day-of-week based on this {@code WeekFields}.
-     * The days are numbered from 1 to 7 where the
-     * {@link #getFirstDayOfWeek() first day-of-week} is assigned the value 1.
+     * This is similbr to {@link ChronoField#DAY_OF_WEEK} but uses vblues for
+     * the dby-of-week bbsed on this {@code WeekFields}.
+     * The dbys bre numbered from 1 to 7 where the
+     * {@link #getFirstDbyOfWeek() first dby-of-week} is bssigned the vblue 1.
      * <p>
-     * For example, if the first day-of-week is Sunday, then that will have the
-     * value 1, with other days ranging from Monday as 2 to Saturday as 7.
+     * For exbmple, if the first dby-of-week is Sundby, then thbt will hbve the
+     * vblue 1, with other dbys rbnging from Mondby bs 2 to Sbturdby bs 7.
      * <p>
-     * In the resolving phase of parsing, a localized day-of-week will be converted
-     * to a standardized {@code ChronoField} day-of-week.
-     * The day-of-week must be in the valid range 1 to 7.
-     * Other fields in this class build dates using the standardized day-of-week.
+     * In the resolving phbse of pbrsing, b locblized dby-of-week will be converted
+     * to b stbndbrdized {@code ChronoField} dby-of-week.
+     * The dby-of-week must be in the vblid rbnge 1 to 7.
+     * Other fields in this clbss build dbtes using the stbndbrdized dby-of-week.
      *
-     * @return a field providing access to the day-of-week with localized numbering, not null
+     * @return b field providing bccess to the dby-of-week with locblized numbering, not null
      */
-    public TemporalField dayOfWeek() {
-        return dayOfWeek;
+    public TemporblField dbyOfWeek() {
+        return dbyOfWeek;
     }
 
     /**
-     * Returns a field to access the week of month based on this {@code WeekFields}.
+     * Returns b field to bccess the week of month bbsed on this {@code WeekFields}.
      * <p>
      * This represents the concept of the count of weeks within the month where weeks
-     * start on a fixed day-of-week, such as Monday.
-     * This field is typically used with {@link WeekFields#dayOfWeek()}.
+     * stbrt on b fixed dby-of-week, such bs Mondby.
+     * This field is typicblly used with {@link WeekFields#dbyOfWeek()}.
      * <p>
-     * Week one (1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the month.
-     * Thus, week one may start up to {@code minDays} days before the start of the month.
-     * If the first week starts after the start of the month then the period before is week zero (0).
+     * Week one (1) is the week stbrting on the {@link WeekFields#getFirstDbyOfWeek}
+     * where there bre bt lebst {@link WeekFields#getMinimblDbysInFirstWeek()} dbys in the month.
+     * Thus, week one mby stbrt up to {@code minDbys} dbys before the stbrt of the month.
+     * If the first week stbrts bfter the stbrt of the month then the period before is week zero (0).
      * <p>
-     * For example:<br>
-     * - if the 1st day of the month is a Monday, week one starts on the 1st and there is no week zero<br>
-     * - if the 2nd day of the month is a Monday, week one starts on the 2nd and the 1st is in week zero<br>
-     * - if the 4th day of the month is a Monday, week one starts on the 4th and the 1st to 3rd is in week zero<br>
-     * - if the 5th day of the month is a Monday, week two starts on the 5th and the 1st to 4th is in week one<br>
+     * For exbmple:<br>
+     * - if the 1st dby of the month is b Mondby, week one stbrts on the 1st bnd there is no week zero<br>
+     * - if the 2nd dby of the month is b Mondby, week one stbrts on the 2nd bnd the 1st is in week zero<br>
+     * - if the 4th dby of the month is b Mondby, week one stbrts on the 4th bnd the 1st to 3rd is in week zero<br>
+     * - if the 5th dby of the month is b Mondby, week two stbrts on the 5th bnd the 1st to 4th is in week one<br>
      * <p>
-     * This field can be used with any calendar system.
+     * This field cbn be used with bny cblendbr system.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * week-of-month, month-of-year and day-of-week.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b yebr,
+     * week-of-month, month-of-yebr bnd dby-of-week.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all four fields are
-     * validated against their range of valid values. The week-of-month field
-     * is validated to ensure that the resulting month is the month requested.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll four fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-month field
+     * is vblidbted to ensure thbt the resulting month is the month requested.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all four fields are
-     * validated against their range of valid values. The week-of-month field
-     * is validated from 0 to 6, meaning that the resulting date can be in a
-     * different month to that specified.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll four fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-month field
+     * is vblidbted from 0 to 6, mebning thbt the resulting dbte cbn be in b
+     * different month to thbt specified.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following four stage approach.
-     * First, create a date on the first day of the first week of January in the requested year.
-     * Then take the month-of-year, subtract one, and add the amount in months to the date.
-     * Then take the week-of-month, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, the yebr bnd dby-of-week
+     * bre vblidbted bgbinst the rbnge of vblid vblues. The resulting dbte is cblculbted
+     * equivblent to the following four stbge bpprobch.
+     * First, crebte b dbte on the first dby of the first week of Jbnubry in the requested yebr.
+     * Then tbke the month-of-yebr, subtrbct one, bnd bdd the bmount in months to the dbte.
+     * Then tbke the week-of-month, subtrbct one, bnd bdd the bmount in weeks to the dbte.
+     * Finblly, bdjust to the correct dby-of-week within the locblized week.
      *
-     * @return a field providing access to the week-of-month, not null
+     * @return b field providing bccess to the week-of-month, not null
      */
-    public TemporalField weekOfMonth() {
+    public TemporblField weekOfMonth() {
         return weekOfMonth;
     }
 
     /**
-     * Returns a field to access the week of year based on this {@code WeekFields}.
+     * Returns b field to bccess the week of yebr bbsed on this {@code WeekFields}.
      * <p>
-     * This represents the concept of the count of weeks within the year where weeks
-     * start on a fixed day-of-week, such as Monday.
-     * This field is typically used with {@link WeekFields#dayOfWeek()}.
+     * This represents the concept of the count of weeks within the yebr where weeks
+     * stbrt on b fixed dby-of-week, such bs Mondby.
+     * This field is typicblly used with {@link WeekFields#dbyOfWeek()}.
      * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * Thus, week one may start up to {@code minDays} days before the start of the year.
-     * If the first week starts after the start of the year then the period before is week zero (0).
+     * Week one(1) is the week stbrting on the {@link WeekFields#getFirstDbyOfWeek}
+     * where there bre bt lebst {@link WeekFields#getMinimblDbysInFirstWeek()} dbys in the yebr.
+     * Thus, week one mby stbrt up to {@code minDbys} dbys before the stbrt of the yebr.
+     * If the first week stbrts bfter the stbrt of the yebr then the period before is week zero (0).
      * <p>
-     * For example:<br>
-     * - if the 1st day of the year is a Monday, week one starts on the 1st and there is no week zero<br>
-     * - if the 2nd day of the year is a Monday, week one starts on the 2nd and the 1st is in week zero<br>
-     * - if the 4th day of the year is a Monday, week one starts on the 4th and the 1st to 3rd is in week zero<br>
-     * - if the 5th day of the year is a Monday, week two starts on the 5th and the 1st to 4th is in week one<br>
+     * For exbmple:<br>
+     * - if the 1st dby of the yebr is b Mondby, week one stbrts on the 1st bnd there is no week zero<br>
+     * - if the 2nd dby of the yebr is b Mondby, week one stbrts on the 2nd bnd the 1st is in week zero<br>
+     * - if the 4th dby of the yebr is b Mondby, week one stbrts on the 4th bnd the 1st to 3rd is in week zero<br>
+     * - if the 5th dby of the yebr is b Mondby, week two stbrts on the 5th bnd the 1st to 4th is in week one<br>
      * <p>
-     * This field can be used with any calendar system.
+     * This field cbn be used with bny cblendbr system.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * week-of-year and day-of-week.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b yebr,
+     * week-of-yebr bnd dby-of-week.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting year is the year requested.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-yebr field
+     * is vblidbted to ensure thbt the resulting yebr is the yebr requested.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated from 0 to 54, meaning that the resulting date can be in a
-     * different year to that specified.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-yebr field
+     * is vblidbted from 0 to 54, mebning thbt the resulting dbte cbn be in b
+     * different yebr to thbt specified.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested year.
-     * Then take the week-of-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, the yebr bnd dby-of-week
+     * bre vblidbted bgbinst the rbnge of vblid vblues. The resulting dbte is cblculbted
+     * equivblent to the following three stbge bpprobch.
+     * First, crebte b dbte on the first dby of the first week in the requested yebr.
+     * Then tbke the week-of-yebr, subtrbct one, bnd bdd the bmount in weeks to the dbte.
+     * Finblly, bdjust to the correct dby-of-week within the locblized week.
      *
-     * @return a field providing access to the week-of-year, not null
+     * @return b field providing bccess to the week-of-yebr, not null
      */
-    public TemporalField weekOfYear() {
-        return weekOfYear;
+    public TemporblField weekOfYebr() {
+        return weekOfYebr;
     }
 
     /**
-     * Returns a field to access the week of a week-based-year based on this {@code WeekFields}.
+     * Returns b field to bccess the week of b week-bbsed-yebr bbsed on this {@code WeekFields}.
      * <p>
-     * This represents the concept of the count of weeks within the year where weeks
-     * start on a fixed day-of-week, such as Monday and each week belongs to exactly one year.
-     * This field is typically used with {@link WeekFields#dayOfWeek()} and
-     * {@link WeekFields#weekBasedYear()}.
+     * This represents the concept of the count of weeks within the yebr where weeks
+     * stbrt on b fixed dby-of-week, such bs Mondby bnd ebch week belongs to exbctly one yebr.
+     * This field is typicblly used with {@link WeekFields#dbyOfWeek()} bnd
+     * {@link WeekFields#weekBbsedYebr()}.
      * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * If the first week starts after the start of the year then the period before
-     * is in the last week of the previous year.
+     * Week one(1) is the week stbrting on the {@link WeekFields#getFirstDbyOfWeek}
+     * where there bre bt lebst {@link WeekFields#getMinimblDbysInFirstWeek()} dbys in the yebr.
+     * If the first week stbrts bfter the stbrt of the yebr then the period before
+     * is in the lbst week of the previous yebr.
      * <p>
-     * For example:<br>
-     * - if the 1st day of the year is a Monday, week one starts on the 1st<br>
-     * - if the 2nd day of the year is a Monday, week one starts on the 2nd and
-     *   the 1st is in the last week of the previous year<br>
-     * - if the 4th day of the year is a Monday, week one starts on the 4th and
-     *   the 1st to 3rd is in the last week of the previous year<br>
-     * - if the 5th day of the year is a Monday, week two starts on the 5th and
+     * For exbmple:<br>
+     * - if the 1st dby of the yebr is b Mondby, week one stbrts on the 1st<br>
+     * - if the 2nd dby of the yebr is b Mondby, week one stbrts on the 2nd bnd
+     *   the 1st is in the lbst week of the previous yebr<br>
+     * - if the 4th dby of the yebr is b Mondby, week one stbrts on the 4th bnd
+     *   the 1st to 3rd is in the lbst week of the previous yebr<br>
+     * - if the 5th dby of the yebr is b Mondby, week two stbrts on the 5th bnd
      *   the 1st to 4th is in week one<br>
      * <p>
-     * This field can be used with any calendar system.
+     * This field cbn be used with bny cblendbr system.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a week-based-year,
-     * week-of-year and day-of-week.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b week-bbsed-yebr,
+     * week-of-yebr bnd dby-of-week.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting week-based-year is the
-     * week-based-year requested.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-yebr field
+     * is vblidbted to ensure thbt the resulting week-bbsed-yebr is the
+     * week-bbsed-yebr requested.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year field
-     * is validated from 1 to 53, meaning that the resulting date can be in the
-     * following week-based-year to that specified.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-week-bbsed-yebr field
+     * is vblidbted from 1 to 53, mebning thbt the resulting dbte cbn be in the
+     * following week-bbsed-yebr to thbt specified.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested week-based-year.
-     * Then take the week-of-week-based-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, the yebr bnd dby-of-week
+     * bre vblidbted bgbinst the rbnge of vblid vblues. The resulting dbte is cblculbted
+     * equivblent to the following three stbge bpprobch.
+     * First, crebte b dbte on the first dby of the first week in the requested week-bbsed-yebr.
+     * Then tbke the week-of-week-bbsed-yebr, subtrbct one, bnd bdd the bmount in weeks to the dbte.
+     * Finblly, bdjust to the correct dby-of-week within the locblized week.
      *
-     * @return a field providing access to the week-of-week-based-year, not null
+     * @return b field providing bccess to the week-of-week-bbsed-yebr, not null
      */
-    public TemporalField weekOfWeekBasedYear() {
-        return weekOfWeekBasedYear;
+    public TemporblField weekOfWeekBbsedYebr() {
+        return weekOfWeekBbsedYebr;
     }
 
     /**
-     * Returns a field to access the year of a week-based-year based on this {@code WeekFields}.
+     * Returns b field to bccess the yebr of b week-bbsed-yebr bbsed on this {@code WeekFields}.
      * <p>
-     * This represents the concept of the year where weeks start on a fixed day-of-week,
-     * such as Monday and each week belongs to exactly one year.
-     * This field is typically used with {@link WeekFields#dayOfWeek()} and
-     * {@link WeekFields#weekOfWeekBasedYear()}.
+     * This represents the concept of the yebr where weeks stbrt on b fixed dby-of-week,
+     * such bs Mondby bnd ebch week belongs to exbctly one yebr.
+     * This field is typicblly used with {@link WeekFields#dbyOfWeek()} bnd
+     * {@link WeekFields#weekOfWeekBbsedYebr()}.
      * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * Thus, week one may start before the start of the year.
-     * If the first week starts after the start of the year then the period before
-     * is in the last week of the previous year.
+     * Week one(1) is the week stbrting on the {@link WeekFields#getFirstDbyOfWeek}
+     * where there bre bt lebst {@link WeekFields#getMinimblDbysInFirstWeek()} dbys in the yebr.
+     * Thus, week one mby stbrt before the stbrt of the yebr.
+     * If the first week stbrts bfter the stbrt of the yebr then the period before
+     * is in the lbst week of the previous yebr.
      * <p>
-     * This field can be used with any calendar system.
+     * This field cbn be used with bny cblendbr system.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a week-based-year,
-     * week-of-year and day-of-week.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b week-bbsed-yebr,
+     * week-of-yebr bnd dby-of-week.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting week-based-year is the
-     * week-based-year requested.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-yebr field
+     * is vblidbted to ensure thbt the resulting week-bbsed-yebr is the
+     * week-bbsed-yebr requested.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year field
-     * is validated from 1 to 53, meaning that the resulting date can be in the
-     * following week-based-year to that specified.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-week-bbsed-yebr field
+     * is vblidbted from 1 to 53, mebning thbt the resulting dbte cbn be in the
+     * following week-bbsed-yebr to thbt specified.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested week-based-year.
-     * Then take the week-of-week-based-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, the yebr bnd dby-of-week
+     * bre vblidbted bgbinst the rbnge of vblid vblues. The resulting dbte is cblculbted
+     * equivblent to the following three stbge bpprobch.
+     * First, crebte b dbte on the first dby of the first week in the requested week-bbsed-yebr.
+     * Then tbke the week-of-week-bbsed-yebr, subtrbct one, bnd bdd the bmount in weeks to the dbte.
+     * Finblly, bdjust to the correct dby-of-week within the locblized week.
      *
-     * @return a field providing access to the week-based-year, not null
+     * @return b field providing bccess to the week-bbsed-yebr, not null
      */
-    public TemporalField weekBasedYear() {
-        return weekBasedYear;
+    public TemporblField weekBbsedYebr() {
+        return weekBbsedYebr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this {@code WeekFields} is equal to the specified object.
+     * Checks if this {@code WeekFields} is equbl to the specified object.
      * <p>
-     * The comparison is based on the entire state of the rules, which is
-     * the first day-of-week and minimal days.
+     * The compbrison is bbsed on the entire stbte of the rules, which is
+     * the first dby-of-week bnd minimbl dbys.
      *
-     * @param object  the other rules to compare to, null returns false
-     * @return true if this is equal to the specified rules
+     * @pbrbm object  the other rules to compbre to, null returns fblse
+     * @return true if this is equbl to the specified rules
      */
     @Override
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         if (this == object) {
             return true;
         }
-        if (object instanceof WeekFields) {
-            return hashCode() == object.hashCode();
+        if (object instbnceof WeekFields) {
+            return hbshCode() == object.hbshCode();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this {@code WeekFields}.
+     * A hbsh code for this {@code WeekFields}.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return firstDayOfWeek.ordinal() * 7 + minimalDays;
+    public int hbshCode() {
+        return firstDbyOfWeek.ordinbl() * 7 + minimblDbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A string representation of this {@code WeekFields} instance.
+     * A string representbtion of this {@code WeekFields} instbnce.
      *
-     * @return the string representation, not null
+     * @return the string representbtion, not null
      */
     @Override
     public String toString() {
-        return "WeekFields[" + firstDayOfWeek + ',' + minimalDays + ']';
+        return "WeekFields[" + firstDbyOfWeek + ',' + minimblDbys + ']';
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Field type that computes DayOfWeek, WeekOfMonth, and WeekOfYear
-     * based on a WeekFields.
-     * A separate Field instance is required for each different WeekFields;
-     * combination of start of week and minimum number of days.
-     * Constructors are provided to create fields for DayOfWeek, WeekOfMonth,
-     * and WeekOfYear.
+     * Field type thbt computes DbyOfWeek, WeekOfMonth, bnd WeekOfYebr
+     * bbsed on b WeekFields.
+     * A sepbrbte Field instbnce is required for ebch different WeekFields;
+     * combinbtion of stbrt of week bnd minimum number of dbys.
+     * Constructors bre provided to crebte fields for DbyOfWeek, WeekOfMonth,
+     * bnd WeekOfYebr.
      */
-    static class ComputedDayOfField implements TemporalField {
+    stbtic clbss ComputedDbyOfField implements TemporblField {
 
         /**
-         * Returns a field to access the day of week,
-         * computed based on a WeekFields.
+         * Returns b field to bccess the dby of week,
+         * computed bbsed on b WeekFields.
          * <p>
-         * The WeekDefintion of the first day of the week is used with
-         * the ISO DAY_OF_WEEK field to compute week boundaries.
+         * The WeekDefintion of the first dby of the week is used with
+         * the ISO DAY_OF_WEEK field to compute week boundbries.
          */
-        static ComputedDayOfField ofDayOfWeekField(WeekFields weekDef) {
-            return new ComputedDayOfField("DayOfWeek", weekDef, DAYS, WEEKS, DAY_OF_WEEK_RANGE);
+        stbtic ComputedDbyOfField ofDbyOfWeekField(WeekFields weekDef) {
+            return new ComputedDbyOfField("DbyOfWeek", weekDef, DAYS, WEEKS, DAY_OF_WEEK_RANGE);
         }
 
         /**
-         * Returns a field to access the week of month,
-         * computed based on a WeekFields.
+         * Returns b field to bccess the week of month,
+         * computed bbsed on b WeekFields.
          * @see WeekFields#weekOfMonth()
          */
-        static ComputedDayOfField ofWeekOfMonthField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfMonth", weekDef, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE);
+        stbtic ComputedDbyOfField ofWeekOfMonthField(WeekFields weekDef) {
+            return new ComputedDbyOfField("WeekOfMonth", weekDef, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE);
         }
 
         /**
-         * Returns a field to access the week of year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekOfYear()
+         * Returns b field to bccess the week of yebr,
+         * computed bbsed on b WeekFields.
+         * @see WeekFields#weekOfYebr()
          */
-        static ComputedDayOfField ofWeekOfYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfYear", weekDef, WEEKS, YEARS, WEEK_OF_YEAR_RANGE);
+        stbtic ComputedDbyOfField ofWeekOfYebrField(WeekFields weekDef) {
+            return new ComputedDbyOfField("WeekOfYebr", weekDef, WEEKS, YEARS, WEEK_OF_YEAR_RANGE);
         }
 
         /**
-         * Returns a field to access the week of week-based-year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekOfWeekBasedYear()
+         * Returns b field to bccess the week of week-bbsed-yebr,
+         * computed bbsed on b WeekFields.
+         * @see WeekFields#weekOfWeekBbsedYebr()
          */
-        static ComputedDayOfField ofWeekOfWeekBasedYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfWeekBasedYear", weekDef, WEEKS, IsoFields.WEEK_BASED_YEARS, WEEK_OF_WEEK_BASED_YEAR_RANGE);
+        stbtic ComputedDbyOfField ofWeekOfWeekBbsedYebrField(WeekFields weekDef) {
+            return new ComputedDbyOfField("WeekOfWeekBbsedYebr", weekDef, WEEKS, IsoFields.WEEK_BASED_YEARS, WEEK_OF_WEEK_BASED_YEAR_RANGE);
         }
 
         /**
-         * Returns a field to access the week of week-based-year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekBasedYear()
+         * Returns b field to bccess the week of week-bbsed-yebr,
+         * computed bbsed on b WeekFields.
+         * @see WeekFields#weekBbsedYebr()
          */
-        static ComputedDayOfField ofWeekBasedYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekBasedYear", weekDef, IsoFields.WEEK_BASED_YEARS, FOREVER, ChronoField.YEAR.range());
+        stbtic ComputedDbyOfField ofWeekBbsedYebrField(WeekFields weekDef) {
+            return new ComputedDbyOfField("WeekBbsedYebr", weekDef, IsoFields.WEEK_BASED_YEARS, FOREVER, ChronoField.YEAR.rbnge());
         }
 
         /**
-         * Return a new week-based-year date of the Chronology, year, week-of-year,
-         * and dow of week.
-         * @param chrono The chronology of the new date
-         * @param yowby the year of the week-based-year
-         * @param wowby the week of the week-based-year
-         * @param dow the day of the week
-         * @return a ChronoLocalDate for the requested year, week of year, and day of week
+         * Return b new week-bbsed-yebr dbte of the Chronology, yebr, week-of-yebr,
+         * bnd dow of week.
+         * @pbrbm chrono The chronology of the new dbte
+         * @pbrbm yowby the yebr of the week-bbsed-yebr
+         * @pbrbm wowby the week of the week-bbsed-yebr
+         * @pbrbm dow the dby of the week
+         * @return b ChronoLocblDbte for the requested yebr, week of yebr, bnd dby of week
          */
-        private ChronoLocalDate ofWeekBasedYear(Chronology chrono,
+        privbte ChronoLocblDbte ofWeekBbsedYebr(Chronology chrono,
                 int yowby, int wowby, int dow) {
-            ChronoLocalDate date = chrono.date(yowby, 1, 1);
-            int ldow = localizedDayOfWeek(date);
-            int offset = startOfWeekOffset(1, ldow);
+            ChronoLocblDbte dbte = chrono.dbte(yowby, 1, 1);
+            int ldow = locblizedDbyOfWeek(dbte);
+            int offset = stbrtOfWeekOffset(1, ldow);
 
-            // Clamp the week of year to keep it in the same year
-            int yearLen = date.lengthOfYear();
-            int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-            wowby = Math.min(wowby, newYearWeek - 1);
+            // Clbmp the week of yebr to keep it in the sbme yebr
+            int yebrLen = dbte.lengthOfYebr();
+            int newYebrWeek = computeWeek(offset, yebrLen + weekDef.getMinimblDbysInFirstWeek());
+            wowby = Mbth.min(wowby, newYebrWeek - 1);
 
-            int days = -offset + (dow - 1) + (wowby - 1) * 7;
-            return date.plus(days, DAYS);
+            int dbys = -offset + (dow - 1) + (wowby - 1) * 7;
+            return dbte.plus(dbys, DAYS);
         }
 
-        private final String name;
-        private final WeekFields weekDef;
-        private final TemporalUnit baseUnit;
-        private final TemporalUnit rangeUnit;
-        private final ValueRange range;
+        privbte finbl String nbme;
+        privbte finbl WeekFields weekDef;
+        privbte finbl TemporblUnit bbseUnit;
+        privbte finbl TemporblUnit rbngeUnit;
+        privbte finbl VblueRbnge rbnge;
 
-        private ComputedDayOfField(String name, WeekFields weekDef, TemporalUnit baseUnit, TemporalUnit rangeUnit, ValueRange range) {
-            this.name = name;
+        privbte ComputedDbyOfField(String nbme, WeekFields weekDef, TemporblUnit bbseUnit, TemporblUnit rbngeUnit, VblueRbnge rbnge) {
+            this.nbme = nbme;
             this.weekDef = weekDef;
-            this.baseUnit = baseUnit;
-            this.rangeUnit = rangeUnit;
-            this.range = range;
+            this.bbseUnit = bbseUnit;
+            this.rbngeUnit = rbngeUnit;
+            this.rbnge = rbnge;
         }
 
-        private static final ValueRange DAY_OF_WEEK_RANGE = ValueRange.of(1, 7);
-        private static final ValueRange WEEK_OF_MONTH_RANGE = ValueRange.of(0, 1, 4, 6);
-        private static final ValueRange WEEK_OF_YEAR_RANGE = ValueRange.of(0, 1, 52, 54);
-        private static final ValueRange WEEK_OF_WEEK_BASED_YEAR_RANGE = ValueRange.of(1, 52, 53);
+        privbte stbtic finbl VblueRbnge DAY_OF_WEEK_RANGE = VblueRbnge.of(1, 7);
+        privbte stbtic finbl VblueRbnge WEEK_OF_MONTH_RANGE = VblueRbnge.of(0, 1, 4, 6);
+        privbte stbtic finbl VblueRbnge WEEK_OF_YEAR_RANGE = VblueRbnge.of(0, 1, 52, 54);
+        privbte stbtic finbl VblueRbnge WEEK_OF_WEEK_BASED_YEAR_RANGE = VblueRbnge.of(1, 52, 53);
 
         @Override
-        public long getFrom(TemporalAccessor temporal) {
-            if (rangeUnit == WEEKS) {  // day-of-week
-                return localizedDayOfWeek(temporal);
-            } else if (rangeUnit == MONTHS) {  // week-of-month
-                return localizedWeekOfMonth(temporal);
-            } else if (rangeUnit == YEARS) {  // week-of-year
-                return localizedWeekOfYear(temporal);
-            } else if (rangeUnit == WEEK_BASED_YEARS) {
-                return localizedWeekOfWeekBasedYear(temporal);
-            } else if (rangeUnit == FOREVER) {
-                return localizedWeekBasedYear(temporal);
+        public long getFrom(TemporblAccessor temporbl) {
+            if (rbngeUnit == WEEKS) {  // dby-of-week
+                return locblizedDbyOfWeek(temporbl);
+            } else if (rbngeUnit == MONTHS) {  // week-of-month
+                return locblizedWeekOfMonth(temporbl);
+            } else if (rbngeUnit == YEARS) {  // week-of-yebr
+                return locblizedWeekOfYebr(temporbl);
+            } else if (rbngeUnit == WEEK_BASED_YEARS) {
+                return locblizedWeekOfWeekBbsedYebr(temporbl);
+            } else if (rbngeUnit == FOREVER) {
+                return locblizedWeekBbsedYebr(temporbl);
             } else {
-                throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this);
+                throw new IllegblStbteException("unrebchbble, rbngeUnit: " + rbngeUnit + ", this: " + this);
             }
         }
 
-        private int localizedDayOfWeek(TemporalAccessor temporal) {
-            int sow = weekDef.getFirstDayOfWeek().getValue();
-            int isoDow = temporal.get(DAY_OF_WEEK);
-            return Math.floorMod(isoDow - sow, 7) + 1;
+        privbte int locblizedDbyOfWeek(TemporblAccessor temporbl) {
+            int sow = weekDef.getFirstDbyOfWeek().getVblue();
+            int isoDow = temporbl.get(DAY_OF_WEEK);
+            return Mbth.floorMod(isoDow - sow, 7) + 1;
         }
 
-        private int localizedDayOfWeek(int isoDow) {
-            int sow = weekDef.getFirstDayOfWeek().getValue();
-            return Math.floorMod(isoDow - sow, 7) + 1;
+        privbte int locblizedDbyOfWeek(int isoDow) {
+            int sow = weekDef.getFirstDbyOfWeek().getVblue();
+            return Mbth.floorMod(isoDow - sow, 7) + 1;
         }
 
-        private long localizedWeekOfMonth(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int dom = temporal.get(DAY_OF_MONTH);
-            int offset = startOfWeekOffset(dom, dow);
+        privbte long locblizedWeekOfMonth(TemporblAccessor temporbl) {
+            int dow = locblizedDbyOfWeek(temporbl);
+            int dom = temporbl.get(DAY_OF_MONTH);
+            int offset = stbrtOfWeekOffset(dom, dow);
             return computeWeek(offset, dom);
         }
 
-        private long localizedWeekOfYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
+        privbte long locblizedWeekOfYebr(TemporblAccessor temporbl) {
+            int dow = locblizedDbyOfWeek(temporbl);
+            int doy = temporbl.get(DAY_OF_YEAR);
+            int offset = stbrtOfWeekOffset(doy, dow);
             return computeWeek(offset, doy);
         }
 
         /**
-         * Returns the year of week-based-year for the temporal.
-         * The year can be the previous year, the current year, or the next year.
-         * @param temporal a date of any chronology, not null
-         * @return the year of week-based-year for the date
+         * Returns the yebr of week-bbsed-yebr for the temporbl.
+         * The yebr cbn be the previous yebr, the current yebr, or the next yebr.
+         * @pbrbm temporbl b dbte of bny chronology, not null
+         * @return the yebr of week-bbsed-yebr for the dbte
          */
-        private int localizedWeekBasedYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int year = temporal.get(YEAR);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
+        privbte int locblizedWeekBbsedYebr(TemporblAccessor temporbl) {
+            int dow = locblizedDbyOfWeek(temporbl);
+            int yebr = temporbl.get(YEAR);
+            int doy = temporbl.get(DAY_OF_YEAR);
+            int offset = stbrtOfWeekOffset(doy, dow);
             int week = computeWeek(offset, doy);
             if (week == 0) {
-                // Day is in end of week of previous year; return the previous year
-                return year - 1;
+                // Dby is in end of week of previous yebr; return the previous yebr
+                return yebr - 1;
             } else {
-                // If getting close to end of year, use higher precision logic
-                // Check if date of year is in partial week associated with next year
-                ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
-                int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-                if (week >= newYearWeek) {
-                    return year + 1;
+                // If getting close to end of yebr, use higher precision logic
+                // Check if dbte of yebr is in pbrtibl week bssocibted with next yebr
+                VblueRbnge dbyRbnge = temporbl.rbnge(DAY_OF_YEAR);
+                int yebrLen = (int)dbyRbnge.getMbximum();
+                int newYebrWeek = computeWeek(offset, yebrLen + weekDef.getMinimblDbysInFirstWeek());
+                if (week >= newYebrWeek) {
+                    return yebr + 1;
                 }
             }
-            return year;
+            return yebr;
         }
 
         /**
-         * Returns the week of week-based-year for the temporal.
-         * The week can be part of the previous year, the current year,
-         * or the next year depending on the week start and minimum number
-         * of days.
-         * @param temporal  a date of any chronology
-         * @return the week of the year
-         * @see #localizedWeekBasedYear(java.time.temporal.TemporalAccessor)
+         * Returns the week of week-bbsed-yebr for the temporbl.
+         * The week cbn be pbrt of the previous yebr, the current yebr,
+         * or the next yebr depending on the week stbrt bnd minimum number
+         * of dbys.
+         * @pbrbm temporbl  b dbte of bny chronology
+         * @return the week of the yebr
+         * @see #locblizedWeekBbsedYebr(jbvb.time.temporbl.TemporblAccessor)
          */
-        private int localizedWeekOfWeekBasedYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
+        privbte int locblizedWeekOfWeekBbsedYebr(TemporblAccessor temporbl) {
+            int dow = locblizedDbyOfWeek(temporbl);
+            int doy = temporbl.get(DAY_OF_YEAR);
+            int offset = stbrtOfWeekOffset(doy, dow);
             int week = computeWeek(offset, doy);
             if (week == 0) {
-                // Day is in end of week of previous year
-                // Recompute from the last day of the previous year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.minus(doy, DAYS);   // Back down into previous year
-                return localizedWeekOfWeekBasedYear(date);
+                // Dby is in end of week of previous yebr
+                // Recompute from the lbst dby of the previous yebr
+                ChronoLocblDbte dbte = Chronology.from(temporbl).dbte(temporbl);
+                dbte = dbte.minus(doy, DAYS);   // Bbck down into previous yebr
+                return locblizedWeekOfWeekBbsedYebr(dbte);
             } else if (week > 50) {
-                // If getting close to end of year, use higher precision logic
-                // Check if date of year is in partial week associated with next year
-                ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
-                int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-                if (week >= newYearWeek) {
-                    // Overlaps with week of following year; reduce to week in following year
-                    week = week - newYearWeek + 1;
+                // If getting close to end of yebr, use higher precision logic
+                // Check if dbte of yebr is in pbrtibl week bssocibted with next yebr
+                VblueRbnge dbyRbnge = temporbl.rbnge(DAY_OF_YEAR);
+                int yebrLen = (int)dbyRbnge.getMbximum();
+                int newYebrWeek = computeWeek(offset, yebrLen + weekDef.getMinimblDbysInFirstWeek());
+                if (week >= newYebrWeek) {
+                    // Overlbps with week of following yebr; reduce to week in following yebr
+                    week = week - newYebrWeek + 1;
                 }
             }
             return week;
         }
 
         /**
-         * Returns an offset to align week start with a day of month or day of year.
+         * Returns bn offset to blign week stbrt with b dby of month or dby of yebr.
          *
-         * @param day  the day; 1 through infinity
-         * @param dow  the day of the week of that day; 1 through 7
-         * @return  an offset in days to align a day with the start of the first 'full' week
+         * @pbrbm dby  the dby; 1 through infinity
+         * @pbrbm dow  the dby of the week of thbt dby; 1 through 7
+         * @return  bn offset in dbys to blign b dby with the stbrt of the first 'full' week
          */
-        private int startOfWeekOffset(int day, int dow) {
-            // offset of first day corresponding to the day of week in first 7 days (zero origin)
-            int weekStart = Math.floorMod(day - dow, 7);
-            int offset = -weekStart;
-            if (weekStart + 1 > weekDef.getMinimalDaysInFirstWeek()) {
-                // The previous week has the minimum days in the current month to be a 'week'
-                offset = 7 - weekStart;
+        privbte int stbrtOfWeekOffset(int dby, int dow) {
+            // offset of first dby corresponding to the dby of week in first 7 dbys (zero origin)
+            int weekStbrt = Mbth.floorMod(dby - dow, 7);
+            int offset = -weekStbrt;
+            if (weekStbrt + 1 > weekDef.getMinimblDbysInFirstWeek()) {
+                // The previous week hbs the minimum dbys in the current month to be b 'week'
+                offset = 7 - weekStbrt;
             }
             return offset;
         }
 
         /**
-         * Returns the week number computed from the reference day and reference dayOfWeek.
+         * Returns the week number computed from the reference dby bnd reference dbyOfWeek.
          *
-         * @param offset the offset to align a date with the start of week
-         *     from {@link #startOfWeekOffset}.
-         * @param day  the day for which to compute the week number
-         * @return the week number where zero is used for a partial week and 1 for the first full week
+         * @pbrbm offset the offset to blign b dbte with the stbrt of week
+         *     from {@link #stbrtOfWeekOffset}.
+         * @pbrbm dby  the dby for which to compute the week number
+         * @return the week number where zero is used for b pbrtibl week bnd 1 for the first full week
          */
-        private int computeWeek(int offset, int day) {
-            return ((7 + offset + (day - 1)) / 7);
+        privbte int computeWeek(int offset, int dby) {
+            return ((7 + offset + (dby - 1)) / 7);
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            // Check the new value and get the old value of the field
-            int newVal = range.checkValidIntValue(newValue, this);  // lenient check range
-            int currentVal = temporal.get(this);
-            if (newVal == currentVal) {
-                return temporal;
+        public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+            // Check the new vblue bnd get the old vblue of the field
+            int newVbl = rbnge.checkVblidIntVblue(newVblue, this);  // lenient check rbnge
+            int currentVbl = temporbl.get(this);
+            if (newVbl == currentVbl) {
+                return temporbl;
             }
 
-            if (rangeUnit == FOREVER) {     // replace year of WeekBasedYear
-                // Create a new date object with the same chronology,
-                // the desired year and the same week and dow.
-                int idow = temporal.get(weekDef.dayOfWeek);
-                int wowby = temporal.get(weekDef.weekOfWeekBasedYear);
-                return (R) ofWeekBasedYear(Chronology.from(temporal), (int)newValue, wowby, idow);
+            if (rbngeUnit == FOREVER) {     // replbce yebr of WeekBbsedYebr
+                // Crebte b new dbte object with the sbme chronology,
+                // the desired yebr bnd the sbme week bnd dow.
+                int idow = temporbl.get(weekDef.dbyOfWeek);
+                int wowby = temporbl.get(weekDef.weekOfWeekBbsedYebr);
+                return (R) ofWeekBbsedYebr(Chronology.from(temporbl), (int)newVblue, wowby, idow);
             } else {
-                // Compute the difference and add that using the base unit of the field
-                return (R) temporal.plus(newVal - currentVal, baseUnit);
+                // Compute the difference bnd bdd thbt using the bbse unit of the field
+                return (R) temporbl.plus(newVbl - currentVbl, bbseUnit);
             }
         }
 
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            final long value = fieldValues.get(this);
-            final int newValue = Math.toIntExact(value);  // broad limit makes overflow checking lighter
-            // first convert localized day-of-week to ISO day-of-week
-            // doing this first handles case where both ISO and localized were parsed and might mismatch
-            // day-of-week is always strict as two different day-of-week values makes lenient complex
-            if (rangeUnit == WEEKS) {  // day-of-week
-                final int checkedValue = range.checkValidIntValue(value, this);  // no leniency as too complex
-                final int startDow = weekDef.getFirstDayOfWeek().getValue();
-                long isoDow = Math.floorMod((startDow - 1) + (checkedValue - 1), 7) + 1;
-                fieldValues.remove(this);
-                fieldValues.put(DAY_OF_WEEK, isoDow);
+        public ChronoLocblDbte resolve(
+                Mbp<TemporblField, Long> fieldVblues, TemporblAccessor pbrtiblTemporbl, ResolverStyle resolverStyle) {
+            finbl long vblue = fieldVblues.get(this);
+            finbl int newVblue = Mbth.toIntExbct(vblue);  // brobd limit mbkes overflow checking lighter
+            // first convert locblized dby-of-week to ISO dby-of-week
+            // doing this first hbndles cbse where both ISO bnd locblized were pbrsed bnd might mismbtch
+            // dby-of-week is blwbys strict bs two different dby-of-week vblues mbkes lenient complex
+            if (rbngeUnit == WEEKS) {  // dby-of-week
+                finbl int checkedVblue = rbnge.checkVblidIntVblue(vblue, this);  // no leniency bs too complex
+                finbl int stbrtDow = weekDef.getFirstDbyOfWeek().getVblue();
+                long isoDow = Mbth.floorMod((stbrtDow - 1) + (checkedVblue - 1), 7) + 1;
+                fieldVblues.remove(this);
+                fieldVblues.put(DAY_OF_WEEK, isoDow);
                 return null;
             }
 
-            // can only build date if ISO day-of-week is present
-            if (fieldValues.containsKey(DAY_OF_WEEK) == false) {
+            // cbn only build dbte if ISO dby-of-week is present
+            if (fieldVblues.contbinsKey(DAY_OF_WEEK) == fblse) {
                 return null;
             }
-            int isoDow = DAY_OF_WEEK.checkValidIntValue(fieldValues.get(DAY_OF_WEEK));
-            int dow = localizedDayOfWeek(isoDow);
+            int isoDow = DAY_OF_WEEK.checkVblidIntVblue(fieldVblues.get(DAY_OF_WEEK));
+            int dow = locblizedDbyOfWeek(isoDow);
 
-            // build date
-            Chronology chrono = Chronology.from(partialTemporal);
-            if (fieldValues.containsKey(YEAR)) {
-                int year = YEAR.checkValidIntValue(fieldValues.get(YEAR));  // validate
-                if (rangeUnit == MONTHS && fieldValues.containsKey(MONTH_OF_YEAR)) {  // week-of-month
-                    long month = fieldValues.get(MONTH_OF_YEAR);  // not validated yet
-                    return resolveWoM(fieldValues, chrono, year, month, newValue, dow, resolverStyle);
+            // build dbte
+            Chronology chrono = Chronology.from(pbrtiblTemporbl);
+            if (fieldVblues.contbinsKey(YEAR)) {
+                int yebr = YEAR.checkVblidIntVblue(fieldVblues.get(YEAR));  // vblidbte
+                if (rbngeUnit == MONTHS && fieldVblues.contbinsKey(MONTH_OF_YEAR)) {  // week-of-month
+                    long month = fieldVblues.get(MONTH_OF_YEAR);  // not vblidbted yet
+                    return resolveWoM(fieldVblues, chrono, yebr, month, newVblue, dow, resolverStyle);
                 }
-                if (rangeUnit == YEARS) {  // week-of-year
-                    return resolveWoY(fieldValues, chrono, year, newValue, dow, resolverStyle);
+                if (rbngeUnit == YEARS) {  // week-of-yebr
+                    return resolveWoY(fieldVblues, chrono, yebr, newVblue, dow, resolverStyle);
                 }
-            } else if ((rangeUnit == WEEK_BASED_YEARS || rangeUnit == FOREVER) &&
-                    fieldValues.containsKey(weekDef.weekBasedYear) &&
-                    fieldValues.containsKey(weekDef.weekOfWeekBasedYear)) { // week-of-week-based-year and year-of-week-based-year
-                return resolveWBY(fieldValues, chrono, dow, resolverStyle);
+            } else if ((rbngeUnit == WEEK_BASED_YEARS || rbngeUnit == FOREVER) &&
+                    fieldVblues.contbinsKey(weekDef.weekBbsedYebr) &&
+                    fieldVblues.contbinsKey(weekDef.weekOfWeekBbsedYebr)) { // week-of-week-bbsed-yebr bnd yebr-of-week-bbsed-yebr
+                return resolveWBY(fieldVblues, chrono, dow, resolverStyle);
             }
             return null;
         }
 
-        private ChronoLocalDate resolveWoM(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int year, long month, long wom, int localDow, ResolverStyle resolverStyle) {
-            ChronoLocalDate date;
+        privbte ChronoLocblDbte resolveWoM(
+                Mbp<TemporblField, Long> fieldVblues, Chronology chrono, int yebr, long month, long wom, int locblDow, ResolverStyle resolverStyle) {
+            ChronoLocblDbte dbte;
             if (resolverStyle == ResolverStyle.LENIENT) {
-                date = chrono.date(year, 1, 1).plus(Math.subtractExact(month, 1), MONTHS);
-                long weeks = Math.subtractExact(wom, localizedWeekOfMonth(date));
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(Math.addExact(Math.multiplyExact(weeks, 7), days), DAYS);
+                dbte = chrono.dbte(yebr, 1, 1).plus(Mbth.subtrbctExbct(month, 1), MONTHS);
+                long weeks = Mbth.subtrbctExbct(wom, locblizedWeekOfMonth(dbte));
+                int dbys = locblDow - locblizedDbyOfWeek(dbte);  // sbfe from overflow
+                dbte = dbte.plus(Mbth.bddExbct(Mbth.multiplyExbct(weeks, 7), dbys), DAYS);
             } else {
-                int monthValid = MONTH_OF_YEAR.checkValidIntValue(month);  // validate
-                date = chrono.date(year, monthValid, 1);
-                int womInt = range.checkValidIntValue(wom, this);  // validate
-                int weeks = (int) (womInt - localizedWeekOfMonth(date));  // safe from overflow
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(weeks * 7 + days, DAYS);
-                if (resolverStyle == ResolverStyle.STRICT && date.getLong(MONTH_OF_YEAR) != month) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+                int monthVblid = MONTH_OF_YEAR.checkVblidIntVblue(month);  // vblidbte
+                dbte = chrono.dbte(yebr, monthVblid, 1);
+                int womInt = rbnge.checkVblidIntVblue(wom, this);  // vblidbte
+                int weeks = (int) (womInt - locblizedWeekOfMonth(dbte));  // sbfe from overflow
+                int dbys = locblDow - locblizedDbyOfWeek(dbte);  // sbfe from overflow
+                dbte = dbte.plus(weeks * 7 + dbys, DAYS);
+                if (resolverStyle == ResolverStyle.STRICT && dbte.getLong(MONTH_OF_YEAR) != month) {
+                    throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different month");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(YEAR);
-            fieldValues.remove(MONTH_OF_YEAR);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fieldVblues.remove(this);
+            fieldVblues.remove(YEAR);
+            fieldVblues.remove(MONTH_OF_YEAR);
+            fieldVblues.remove(DAY_OF_WEEK);
+            return dbte;
         }
 
-        private ChronoLocalDate resolveWoY(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int year, long woy, int localDow, ResolverStyle resolverStyle) {
-            ChronoLocalDate date = chrono.date(year, 1, 1);
+        privbte ChronoLocblDbte resolveWoY(
+                Mbp<TemporblField, Long> fieldVblues, Chronology chrono, int yebr, long woy, int locblDow, ResolverStyle resolverStyle) {
+            ChronoLocblDbte dbte = chrono.dbte(yebr, 1, 1);
             if (resolverStyle == ResolverStyle.LENIENT) {
-                long weeks = Math.subtractExact(woy, localizedWeekOfYear(date));
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(Math.addExact(Math.multiplyExact(weeks, 7), days), DAYS);
+                long weeks = Mbth.subtrbctExbct(woy, locblizedWeekOfYebr(dbte));
+                int dbys = locblDow - locblizedDbyOfWeek(dbte);  // sbfe from overflow
+                dbte = dbte.plus(Mbth.bddExbct(Mbth.multiplyExbct(weeks, 7), dbys), DAYS);
             } else {
-                int womInt = range.checkValidIntValue(woy, this);  // validate
-                int weeks = (int) (womInt - localizedWeekOfYear(date));  // safe from overflow
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(weeks * 7 + days, DAYS);
-                if (resolverStyle == ResolverStyle.STRICT && date.getLong(YEAR) != year) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+                int womInt = rbnge.checkVblidIntVblue(woy, this);  // vblidbte
+                int weeks = (int) (womInt - locblizedWeekOfYebr(dbte));  // sbfe from overflow
+                int dbys = locblDow - locblizedDbyOfWeek(dbte);  // sbfe from overflow
+                dbte = dbte.plus(weeks * 7 + dbys, DAYS);
+                if (resolverStyle == ResolverStyle.STRICT && dbte.getLong(YEAR) != yebr) {
+                    throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different yebr");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(YEAR);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fieldVblues.remove(this);
+            fieldVblues.remove(YEAR);
+            fieldVblues.remove(DAY_OF_WEEK);
+            return dbte;
         }
 
-        private ChronoLocalDate resolveWBY(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int localDow, ResolverStyle resolverStyle) {
-            int yowby = weekDef.weekBasedYear.range().checkValidIntValue(
-                    fieldValues.get(weekDef.weekBasedYear), weekDef.weekBasedYear);
-            ChronoLocalDate date;
+        privbte ChronoLocblDbte resolveWBY(
+                Mbp<TemporblField, Long> fieldVblues, Chronology chrono, int locblDow, ResolverStyle resolverStyle) {
+            int yowby = weekDef.weekBbsedYebr.rbnge().checkVblidIntVblue(
+                    fieldVblues.get(weekDef.weekBbsedYebr), weekDef.weekBbsedYebr);
+            ChronoLocblDbte dbte;
             if (resolverStyle == ResolverStyle.LENIENT) {
-                date = ofWeekBasedYear(chrono, yowby, 1, localDow);
-                long wowby = fieldValues.get(weekDef.weekOfWeekBasedYear);
-                long weeks = Math.subtractExact(wowby, 1);
-                date = date.plus(weeks, WEEKS);
+                dbte = ofWeekBbsedYebr(chrono, yowby, 1, locblDow);
+                long wowby = fieldVblues.get(weekDef.weekOfWeekBbsedYebr);
+                long weeks = Mbth.subtrbctExbct(wowby, 1);
+                dbte = dbte.plus(weeks, WEEKS);
             } else {
-                int wowby = weekDef.weekOfWeekBasedYear.range().checkValidIntValue(
-                        fieldValues.get(weekDef.weekOfWeekBasedYear), weekDef.weekOfWeekBasedYear);  // validate
-                date = ofWeekBasedYear(chrono, yowby, wowby, localDow);
-                if (resolverStyle == ResolverStyle.STRICT && localizedWeekBasedYear(date) != yowby) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different week-based-year");
+                int wowby = weekDef.weekOfWeekBbsedYebr.rbnge().checkVblidIntVblue(
+                        fieldVblues.get(weekDef.weekOfWeekBbsedYebr), weekDef.weekOfWeekBbsedYebr);  // vblidbte
+                dbte = ofWeekBbsedYebr(chrono, yowby, wowby, locblDow);
+                if (resolverStyle == ResolverStyle.STRICT && locblizedWeekBbsedYebr(dbte) != yowby) {
+                    throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different week-bbsed-yebr");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(weekDef.weekBasedYear);
-            fieldValues.remove(weekDef.weekOfWeekBasedYear);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fieldVblues.remove(this);
+            fieldVblues.remove(weekDef.weekBbsedYebr);
+            fieldVblues.remove(weekDef.weekOfWeekBbsedYebr);
+            fieldVblues.remove(DAY_OF_WEEK);
+            return dbte;
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public String getDisplayName(Locale locale) {
-            Objects.requireNonNull(locale, "locale");
-            if (rangeUnit == YEARS) {  // only have values for week-of-year
-                LocaleResources lr = LocaleProviderAdapter.getResourceBundleBased()
-                        .getLocaleResources(locale);
-                ResourceBundle rb = lr.getJavaTimeFormatData();
-                return rb.containsKey("field.week") ? rb.getString("field.week") : name;
+        public String getDisplbyNbme(Locble locble) {
+            Objects.requireNonNull(locble, "locble");
+            if (rbngeUnit == YEARS) {  // only hbve vblues for week-of-yebr
+                LocbleResources lr = LocbleProviderAdbpter.getResourceBundleBbsed()
+                        .getLocbleResources(locble);
+                ResourceBundle rb = lr.getJbvbTimeFormbtDbtb();
+                return rb.contbinsKey("field.week") ? rb.getString("field.week") : nbme;
             }
-            return name;
+            return nbme;
         }
 
         @Override
-        public TemporalUnit getBaseUnit() {
-            return baseUnit;
+        public TemporblUnit getBbseUnit() {
+            return bbseUnit;
         }
 
         @Override
-        public TemporalUnit getRangeUnit() {
-            return rangeUnit;
+        public TemporblUnit getRbngeUnit() {
+            return rbngeUnit;
         }
 
         @Override
-        public boolean isDateBased() {
+        public boolebn isDbteBbsed() {
             return true;
         }
 
         @Override
-        public boolean isTimeBased() {
-            return false;
+        public boolebn isTimeBbsed() {
+            return fblse;
         }
 
         @Override
-        public ValueRange range() {
-            return range;
+        public VblueRbnge rbnge() {
+            return rbnge;
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public boolean isSupportedBy(TemporalAccessor temporal) {
-            if (temporal.isSupported(DAY_OF_WEEK)) {
-                if (rangeUnit == WEEKS) {  // day-of-week
+        public boolebn isSupportedBy(TemporblAccessor temporbl) {
+            if (temporbl.isSupported(DAY_OF_WEEK)) {
+                if (rbngeUnit == WEEKS) {  // dby-of-week
                     return true;
-                } else if (rangeUnit == MONTHS) {  // week-of-month
-                    return temporal.isSupported(DAY_OF_MONTH);
-                } else if (rangeUnit == YEARS) {  // week-of-year
-                    return temporal.isSupported(DAY_OF_YEAR);
-                } else if (rangeUnit == WEEK_BASED_YEARS) {
-                    return temporal.isSupported(DAY_OF_YEAR);
-                } else if (rangeUnit == FOREVER) {
-                    return temporal.isSupported(YEAR);
+                } else if (rbngeUnit == MONTHS) {  // week-of-month
+                    return temporbl.isSupported(DAY_OF_MONTH);
+                } else if (rbngeUnit == YEARS) {  // week-of-yebr
+                    return temporbl.isSupported(DAY_OF_YEAR);
+                } else if (rbngeUnit == WEEK_BASED_YEARS) {
+                    return temporbl.isSupported(DAY_OF_YEAR);
+                } else if (rbngeUnit == FOREVER) {
+                    return temporbl.isSupported(YEAR);
                 }
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (rangeUnit == ChronoUnit.WEEKS) {  // day-of-week
-                return range;
-            } else if (rangeUnit == MONTHS) {  // week-of-month
-                return rangeByWeek(temporal, DAY_OF_MONTH);
-            } else if (rangeUnit == YEARS) {  // week-of-year
-                return rangeByWeek(temporal, DAY_OF_YEAR);
-            } else if (rangeUnit == WEEK_BASED_YEARS) {
-                return rangeWeekOfWeekBasedYear(temporal);
-            } else if (rangeUnit == FOREVER) {
-                return YEAR.range();
+        public VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl) {
+            if (rbngeUnit == ChronoUnit.WEEKS) {  // dby-of-week
+                return rbnge;
+            } else if (rbngeUnit == MONTHS) {  // week-of-month
+                return rbngeByWeek(temporbl, DAY_OF_MONTH);
+            } else if (rbngeUnit == YEARS) {  // week-of-yebr
+                return rbngeByWeek(temporbl, DAY_OF_YEAR);
+            } else if (rbngeUnit == WEEK_BASED_YEARS) {
+                return rbngeWeekOfWeekBbsedYebr(temporbl);
+            } else if (rbngeUnit == FOREVER) {
+                return YEAR.rbnge();
             } else {
-                throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this);
+                throw new IllegblStbteException("unrebchbble, rbngeUnit: " + rbngeUnit + ", this: " + this);
             }
         }
 
         /**
-         * Map the field range to a week range
-         * @param temporal the temporal
-         * @param field the field to get the range of
-         * @return the ValueRange with the range adjusted to weeks.
+         * Mbp the field rbnge to b week rbnge
+         * @pbrbm temporbl the temporbl
+         * @pbrbm field the field to get the rbnge of
+         * @return the VblueRbnge with the rbnge bdjusted to weeks.
          */
-        private ValueRange rangeByWeek(TemporalAccessor temporal, TemporalField field) {
-            int dow = localizedDayOfWeek(temporal);
-            int offset = startOfWeekOffset(temporal.get(field), dow);
-            ValueRange fieldRange = temporal.range(field);
-            return ValueRange.of(computeWeek(offset, (int) fieldRange.getMinimum()),
-                    computeWeek(offset, (int) fieldRange.getMaximum()));
+        privbte VblueRbnge rbngeByWeek(TemporblAccessor temporbl, TemporblField field) {
+            int dow = locblizedDbyOfWeek(temporbl);
+            int offset = stbrtOfWeekOffset(temporbl.get(field), dow);
+            VblueRbnge fieldRbnge = temporbl.rbnge(field);
+            return VblueRbnge.of(computeWeek(offset, (int) fieldRbnge.getMinimum()),
+                    computeWeek(offset, (int) fieldRbnge.getMbximum()));
         }
 
         /**
-         * Map the field range to a week range of a week year.
-         * @param temporal  the temporal
-         * @return the ValueRange with the range adjusted to weeks.
+         * Mbp the field rbnge to b week rbnge of b week yebr.
+         * @pbrbm temporbl  the temporbl
+         * @return the VblueRbnge with the rbnge bdjusted to weeks.
          */
-        private ValueRange rangeWeekOfWeekBasedYear(TemporalAccessor temporal) {
-            if (!temporal.isSupported(DAY_OF_YEAR)) {
+        privbte VblueRbnge rbngeWeekOfWeekBbsedYebr(TemporblAccessor temporbl) {
+            if (!temporbl.isSupported(DAY_OF_YEAR)) {
                 return WEEK_OF_YEAR_RANGE;
             }
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
+            int dow = locblizedDbyOfWeek(temporbl);
+            int doy = temporbl.get(DAY_OF_YEAR);
+            int offset = stbrtOfWeekOffset(doy, dow);
             int week = computeWeek(offset, doy);
             if (week == 0) {
-                // Day is in end of week of previous year
-                // Recompute from the last day of the previous year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.minus(doy + 7, DAYS);   // Back down into previous year
-                return rangeWeekOfWeekBasedYear(date);
+                // Dby is in end of week of previous yebr
+                // Recompute from the lbst dby of the previous yebr
+                ChronoLocblDbte dbte = Chronology.from(temporbl).dbte(temporbl);
+                dbte = dbte.minus(doy + 7, DAYS);   // Bbck down into previous yebr
+                return rbngeWeekOfWeekBbsedYebr(dbte);
             }
-            // Check if day of year is in partial week associated with next year
-            ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-            int yearLen = (int)dayRange.getMaximum();
-            int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
+            // Check if dby of yebr is in pbrtibl week bssocibted with next yebr
+            VblueRbnge dbyRbnge = temporbl.rbnge(DAY_OF_YEAR);
+            int yebrLen = (int)dbyRbnge.getMbximum();
+            int newYebrWeek = computeWeek(offset, yebrLen + weekDef.getMinimblDbysInFirstWeek());
 
-            if (week >= newYearWeek) {
-                // Overlaps with weeks of following year; recompute from a week in following year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.plus(yearLen - doy + 1 + 7, ChronoUnit.DAYS);
-                return rangeWeekOfWeekBasedYear(date);
+            if (week >= newYebrWeek) {
+                // Overlbps with weeks of following yebr; recompute from b week in following yebr
+                ChronoLocblDbte dbte = Chronology.from(temporbl).dbte(temporbl);
+                dbte = dbte.plus(yebrLen - doy + 1 + 7, ChronoUnit.DAYS);
+                return rbngeWeekOfWeekBbsedYebr(dbte);
             }
-            return ValueRange.of(1, newYearWeek-1);
+            return VblueRbnge.of(1, newYebrWeek-1);
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return name + "[" + weekDef.toString() + "]";
+            return nbme + "[" + weekDef.toString() + "]";
         }
     }
 }

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.*;
+import jbvb.sql.*;
 
 /**
- * A factory for {@code XAConnection} objects that is used internally.
- * An object that implements the {@code XADataSource} interface is
- * typically registered with a naming service that uses the
- * Java Naming and Directory Interface&trade;
+ * A fbctory for {@code XAConnection} objects thbt is used internblly.
+ * An object thbt implements the {@code XADbtbSource} interfbce is
+ * typicblly registered with b nbming service thbt uses the
+ * Jbvb Nbming bnd Directory Interfbce&trbde;
  * (JNDI).
  *  <p>
- * An implementation of {@code XADataSource} must include a public no-arg
+ * An implementbtion of {@code XADbtbSource} must include b public no-brg
  * constructor.
  * @since 1.4
  */
 
-public interface XADataSource extends CommonDataSource {
+public interfbce XADbtbSource extends CommonDbtbSource {
 
   /**
-   * Attempts to establish a physical database connection that can be
-   * used in a distributed transaction.
+   * Attempts to estbblish b physicbl dbtbbbse connection thbt cbn be
+   * used in b distributed trbnsbction.
    *
-   * @return  an {@code XAConnection} object, which represents a
-   *          physical connection to a data source, that can be used in
-   *          a distributed transaction
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return  bn {@code XAConnection} object, which represents b
+   *          physicbl connection to b dbtb source, thbt cbn be used in
+   *          b distributed trbnsbction
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
-   * @throws SQLTimeoutException when the driver has determined that the
-   * timeout value specified by the {@code setLoginTimeout} method
-   * has been exceeded and has at least tried to cancel the
-   * current database connection attempt
+   * @throws SQLTimeoutException when the driver hbs determined thbt the
+   * timeout vblue specified by the {@code setLoginTimeout} method
+   * hbs been exceeded bnd hbs bt lebst tried to cbncel the
+   * current dbtbbbse connection bttempt
    * @since 1.4
    */
   XAConnection getXAConnection() throws SQLException;
 
   /**
-   * Attempts to establish a physical database connection, using the given
-   * user name and password. The connection that is returned is one that
-   * can be used in a distributed transaction.
+   * Attempts to estbblish b physicbl dbtbbbse connection, using the given
+   * user nbme bnd pbssword. The connection thbt is returned is one thbt
+   * cbn be used in b distributed trbnsbction.
    *
-   * @param user the database user on whose behalf the connection is being made
-   * @param password the user's password
-   * @return  an {@code XAConnection} object, which represents a
-   *          physical connection to a data source, that can be used in
-   *          a distributed transaction
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm user the dbtbbbse user on whose behblf the connection is being mbde
+   * @pbrbm pbssword the user's pbssword
+   * @return  bn {@code XAConnection} object, which represents b
+   *          physicbl connection to b dbtb source, thbt cbn be used in
+   *          b distributed trbnsbction
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
-   * @throws SQLTimeoutException when the driver has determined that the
-   * timeout value specified by the {@code setLoginTimeout} method
-   * has been exceeded and has at least tried to cancel the
-   * current database connection attempt
+   * @throws SQLTimeoutException when the driver hbs determined thbt the
+   * timeout vblue specified by the {@code setLoginTimeout} method
+   * hbs been exceeded bnd hbs bt lebst tried to cbncel the
+   * current dbtbbbse connection bttempt
    * @since 1.4
    */
-  XAConnection getXAConnection(String user, String password)
+  XAConnection getXAConnection(String user, String pbssword)
     throws SQLException;
  }

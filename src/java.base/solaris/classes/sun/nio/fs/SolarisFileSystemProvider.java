@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.FileTypeDetector;
-import java.io.IOException;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.FileTypeDetector;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Solaris implementation of FileSystemProvider
+ * Solbris implementbtion of FileSystemProvider
  */
 
-public class SolarisFileSystemProvider extends UnixFileSystemProvider {
-    public SolarisFileSystemProvider() {
+public clbss SolbrisFileSystemProvider extends UnixFileSystemProvider {
+    public SolbrisFileSystemProvider() {
         super();
     }
 
     @Override
-    SolarisFileSystem newFileSystem(String dir) {
-        return new SolarisFileSystem(this, dir);
+    SolbrisFileSystem newFileSystem(String dir) {
+        return new SolbrisFileSystem(this, dir);
     }
 
     @Override
-    SolarisFileStore getFileStore(UnixPath path) throws IOException {
-        return new SolarisFileStore(path);
+    SolbrisFileStore getFileStore(UnixPbth pbth) throws IOException {
+        return new SolbrisFileStore(pbth);
     }
 
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileAttributeView> V getFileAttributeView(Path obj,
-                                                                Class<V> type,
+    @SuppressWbrnings("unchecked")
+    public <V extends FileAttributeView> V getFileAttributeView(Pbth obj,
+                                                                Clbss<V> type,
                                                                 LinkOption... options)
     {
-        if (type == AclFileAttributeView.class) {
-            return (V) new SolarisAclFileAttributeView(UnixPath.toUnixPath(obj),
+        if (type == AclFileAttributeView.clbss) {
+            return (V) new SolbrisAclFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                        Util.followLinks(options));
         }
-        if (type == UserDefinedFileAttributeView.class) {
-            return(V) new SolarisUserDefinedFileAttributeView(UnixPath.toUnixPath(obj),
+        if (type == UserDefinedFileAttributeView.clbss) {
+            return(V) new SolbrisUserDefinedFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                               Util.followLinks(options));
         }
         return super.getFileAttributeView(obj, type, options);
     }
 
     @Override
-    public DynamicFileAttributeView getFileAttributeView(Path obj,
-                                                         String name,
+    public DynbmicFileAttributeView getFileAttributeView(Pbth obj,
+                                                         String nbme,
                                                          LinkOption... options)
     {
-        if (name.equals("acl"))
-            return new SolarisAclFileAttributeView(UnixPath.toUnixPath(obj),
+        if (nbme.equbls("bcl"))
+            return new SolbrisAclFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                    Util.followLinks(options));
-        if (name.equals("user"))
-            return new SolarisUserDefinedFileAttributeView(UnixPath.toUnixPath(obj),
+        if (nbme.equbls("user"))
+            return new SolbrisUserDefinedFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                            Util.followLinks(options));
-        return super.getFileAttributeView(obj, name, options);
+        return super.getFileAttributeView(obj, nbme, options);
     }
 
     @Override
     FileTypeDetector getFileTypeDetector() {
-        Path userMimeTypes = Paths.get(AccessController.doPrivileged(
+        Pbth userMimeTypes = Pbths.get(AccessController.doPrivileged(
             new GetPropertyAction("user.home")), ".mime.types");
-        Path etcMimeTypes = Paths.get("/etc/mime.types");
+        Pbth etcMimeTypes = Pbths.get("/etc/mime.types");
 
-        return chain(new GnomeFileTypeDetector(),
+        return chbin(new GnomeFileTypeDetector(),
                      new MimeTypesFileTypeDetector(userMimeTypes),
                      new MimeTypesFileTypeDetector(etcMimeTypes));
     }

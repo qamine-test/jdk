@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "CMenuComponent.h"
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-@class CMenuItem;
+@clbss CMenuItem;
 
-@implementation CMenuComponent
+@implementbtion CMenuComponent
 
 -(id) initWithPeer:(jobject)peer {
     self = [super init];
     if (self) {
-        // the peer has been made clobal ref before
+        // the peer hbs been mbde clobbl ref before
         fPeer = peer;
     }
     return self;
 }
 
--(void) cleanup {
-    // Used by subclasses
+-(void) clebnup {
+    // Used by subclbsses
 }
 
 -(void) disposer {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    JNFDeleteGlobalRef(env, fPeer);
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
+    JNFDeleteGlobblRef(env, fPeer);
     fPeer = NULL;
 
-    [self cleanup];
-    [self release];
+    [self clebnup];
+    [self relebse];
 }
 
-// The method is used by all subclasses, since the process of the creation
-// is the same. The only exception is the CMenuItem class.
-- (void) _create_OnAppKitThread: (NSMutableArray *)argValue {
-    jobject cPeerObjGlobal = (jobject)[[argValue objectAtIndex: 0] pointerValue];
-    CMenuItem *aCMenuItem = [self initWithPeer:cPeerObjGlobal];
-    [argValue removeAllObjects];
-    [argValue addObject: aCMenuItem];
+// The method is used by bll subclbsses, since the process of the crebtion
+// is the sbme. The only exception is the CMenuItem clbss.
+- (void) _crebte_OnAppKitThrebd: (NSMutbbleArrby *)brgVblue {
+    jobject cPeerObjGlobbl = (jobject)[[brgVblue objectAtIndex: 0] pointerVblue];
+    CMenuItem *bCMenuItem = [self initWithPeer:cPeerObjGlobbl];
+    [brgVblue removeAllObjects];
+    [brgVblue bddObject: bCMenuItem];
 }
 
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CMenuComponent
- * Method:    nativeDispose
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbcosx_CMenuComponent
+ * Method:    nbtiveDispose
+ * Signbture: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuComponent_nativeDispose
+Jbvb_sun_lwbwt_mbcosx_CMenuComponent_nbtiveDispose
 (JNIEnv *env, jobject peer, jlong menuItemObj)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThread:@selector(disposer)
+    [ThrebdUtilities performOnMbinThrebd:@selector(disposer)
                                       on:((id)jlong_to_ptr(menuItemObj))
                               withObject:nil
-                           waitUntilDone:NO];
+                           wbitUntilDone:NO];
 
 JNF_COCOA_EXIT(env);
 }

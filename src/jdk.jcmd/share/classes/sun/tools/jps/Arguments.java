@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jps;
+pbckbge sun.tools.jps;
 
-import java.io.*;
-import java.net.*;
-import sun.jvmstat.monitor.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * Class for processing command line arguments and providing method
- * level access to the command line arguments.
+ * Clbss for processing commbnd line brguments bnd providing method
+ * level bccess to the commbnd line brguments.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Arguments {
+public clbss Arguments {
 
-    private static final boolean debug = Boolean.getBoolean("jps.debug");
-    private static final boolean printStackTrace = Boolean.getBoolean(
-            "jps.printStackTrace");
+    privbte stbtic finbl boolebn debug = Boolebn.getBoolebn("jps.debug");
+    privbte stbtic finbl boolebn printStbckTrbce = Boolebn.getBoolebn(
+            "jps.printStbckTrbce");
 
-    private boolean help;
-    private boolean quiet;
-    private boolean longPaths;
-    private boolean vmArgs;
-    private boolean vmFlags;
-    private boolean mainArgs;
-    private String hostname;
-    private HostIdentifier hostId;
+    privbte boolebn help;
+    privbte boolebn quiet;
+    privbte boolebn longPbths;
+    privbte boolebn vmArgs;
+    privbte boolebn vmFlbgs;
+    privbte boolebn mbinArgs;
+    privbte String hostnbme;
+    privbte HostIdentifier hostId;
 
-    public static void printUsage(PrintStream ps) {
-      ps.println("usage: jps [-help]");
+    public stbtic void printUsbge(PrintStrebm ps) {
+      ps.println("usbge: jps [-help]");
       ps.println("       jps [-q] [-mlvV] [<hostid>]");
       ps.println();
       ps.println("Definitions:");
-      ps.println("    <hostid>:      <hostname>[:<port>]");
+      ps.println("    <hostid>:      <hostnbme>[:<port>]");
     }
 
-    public Arguments(String[] args) throws IllegalArgumentException {
-        int argc = 0;
+    public Arguments(String[] brgs) throws IllegblArgumentException {
+        int brgc = 0;
 
-        if (args.length == 1) {
-            if ((args[0].compareTo("-?") == 0)
-                    || (args[0].compareTo("-help")== 0)) {
+        if (brgs.length == 1) {
+            if ((brgs[0].compbreTo("-?") == 0)
+                    || (brgs[0].compbreTo("-help")== 0)) {
               help = true;
               return;
             }
         }
 
-        for (argc = 0; (argc < args.length) && (args[argc].startsWith("-"));
-                argc++) {
-            String arg = args[argc];
+        for (brgc = 0; (brgc < brgs.length) && (brgs[brgc].stbrtsWith("-"));
+                brgc++) {
+            String brg = brgs[brgc];
 
-            if (arg.compareTo("-q") == 0) {
+            if (brg.compbreTo("-q") == 0) {
               quiet = true;
-            } else if (arg.startsWith("-")) {
-                for (int j = 1; j < arg.length(); j++) {
-                    switch (arg.charAt(j)) {
-                    case 'm':
-                        mainArgs = true;
-                        break;
-                    case 'l':
-                        longPaths = true;
-                        break;
-                    case 'v':
+            } else if (brg.stbrtsWith("-")) {
+                for (int j = 1; j < brg.length(); j++) {
+                    switch (brg.chbrAt(j)) {
+                    cbse 'm':
+                        mbinArgs = true;
+                        brebk;
+                    cbse 'l':
+                        longPbths = true;
+                        brebk;
+                    cbse 'v':
                         vmArgs = true;
-                        break;
-                    case 'V':
-                        vmFlags = true;
-                        break;
-                    default:
-                        throw new IllegalArgumentException("illegal argument: "
-                                                           + args[argc]);
+                        brebk;
+                    cbse 'V':
+                        vmFlbgs = true;
+                        brebk;
+                    defbult:
+                        throw new IllegblArgumentException("illegbl brgument: "
+                                                           + brgs[brgc]);
                     }
                 }
             } else {
-                throw new IllegalArgumentException("illegal argument: "
-                                                   + args[argc]);
+                throw new IllegblArgumentException("illegbl brgument: "
+                                                   + brgs[brgc]);
             }
         }
 
-        switch (args.length - argc) {
-        case 0:
-            hostname = null;
-            break;
-        case 1:
-            hostname = args[args.length - 1];
-            break;
-        default:
-            throw new IllegalArgumentException("invalid argument count");
+        switch (brgs.length - brgc) {
+        cbse 0:
+            hostnbme = null;
+            brebk;
+        cbse 1:
+            hostnbme = brgs[brgs.length - 1];
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid brgument count");
         }
 
         try {
-            hostId = new HostIdentifier(hostname);
-        } catch (URISyntaxException e) {
-            IllegalArgumentException iae =
-                    new IllegalArgumentException("Malformed Host Identifier: "
-                                                 + hostname);
-            iae.initCause(e);
-            throw iae;
+            hostId = new HostIdentifier(hostnbme);
+        } cbtch (URISyntbxException e) {
+            IllegblArgumentException ibe =
+                    new IllegblArgumentException("Mblformed Host Identifier: "
+                                                 + hostnbme);
+            ibe.initCbuse(e);
+            throw ibe;
         }
     }
 
-    public boolean isDebug() {
+    public boolebn isDebug() {
         return debug;
     }
 
-    public boolean printStackTrace() {
-        return printStackTrace;
+    public boolebn printStbckTrbce() {
+        return printStbckTrbce;
     }
 
-    public boolean isHelp() {
+    public boolebn isHelp() {
         return help;
     }
 
-    public boolean isQuiet() {
+    public boolebn isQuiet() {
         return quiet;
     }
 
-    public boolean showLongPaths() {
-        return longPaths;
+    public boolebn showLongPbths() {
+        return longPbths;
     }
 
-    public boolean showVmArgs() {
+    public boolebn showVmArgs() {
         return vmArgs;
     }
 
-    public boolean showVmFlags() {
-        return vmFlags;
+    public boolebn showVmFlbgs() {
+        return vmFlbgs;
     }
 
-    public boolean showMainArgs() {
-        return mainArgs;
+    public boolebn showMbinArgs() {
+        return mbinArgs;
     }
 
-    public String hostname() {
-        return hostname;
+    public String hostnbme() {
+        return hostnbme;
     }
 
     public HostIdentifier hostId() {

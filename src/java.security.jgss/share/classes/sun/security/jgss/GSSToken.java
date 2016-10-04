@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.EOFException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
 import sun.security.util.*;
 
 /**
@@ -36,166 +36,166 @@ import sun.security.util.*;
  *
  */
 
-public abstract class GSSToken {
+public bbstrbct clbss GSSToken {
 
     /**
-     * Copies an integer value to a byte array in little endian form.
-     * @param value the integer value to write
-     * @param array the byte array into which the integer must be copied. It
-     * is assumed that the array will be large enough to hold the 4 bytes of
+     * Copies bn integer vblue to b byte brrby in little endibn form.
+     * @pbrbm vblue the integer vblue to write
+     * @pbrbm brrby the byte brrby into which the integer must be copied. It
+     * is bssumed thbt the brrby will be lbrge enough to hold the 4 bytes of
      * the integer.
      */
-    public static final void writeLittleEndian(int value, byte[] array) {
-        writeLittleEndian(value, array, 0);
+    public stbtic finbl void writeLittleEndibn(int vblue, byte[] brrby) {
+        writeLittleEndibn(vblue, brrby, 0);
     }
 
     /**
-     * Copies an integer value to a byte array in little endian form.
-     * @param value the integer value to write
-     * @param array the byte array into which the integer must be copied. It
-     * is assumed that the array will be large enough to hold the 4 bytes of
+     * Copies bn integer vblue to b byte brrby in little endibn form.
+     * @pbrbm vblue the integer vblue to write
+     * @pbrbm brrby the byte brrby into which the integer must be copied. It
+     * is bssumed thbt the brrby will be lbrge enough to hold the 4 bytes of
      * the integer.
-     * @param pos the position at which to start writing
+     * @pbrbm pos the position bt which to stbrt writing
      */
-    public static final void writeLittleEndian(int value, byte[] array,
+    public stbtic finbl void writeLittleEndibn(int vblue, byte[] brrby,
                                                int pos) {
-        array[pos++] = (byte)(value);
-        array[pos++] = (byte)((value>>>8));
-        array[pos++] = (byte)((value>>>16));
-        array[pos++] = (byte)((value>>>24));
+        brrby[pos++] = (byte)(vblue);
+        brrby[pos++] = (byte)((vblue>>>8));
+        brrby[pos++] = (byte)((vblue>>>16));
+        brrby[pos++] = (byte)((vblue>>>24));
     }
 
-    public static final void writeBigEndian(int value, byte[] array) {
-        writeBigEndian(value, array, 0);
+    public stbtic finbl void writeBigEndibn(int vblue, byte[] brrby) {
+        writeBigEndibn(vblue, brrby, 0);
     }
 
-    public static final void writeBigEndian(int value, byte[] array,
+    public stbtic finbl void writeBigEndibn(int vblue, byte[] brrby,
                                                int pos) {
-        array[pos++] = (byte)((value>>>24));
-        array[pos++] = (byte)((value>>>16));
-        array[pos++] = (byte)((value>>>8));
-        array[pos++] = (byte)(value);
+        brrby[pos++] = (byte)((vblue>>>24));
+        brrby[pos++] = (byte)((vblue>>>16));
+        brrby[pos++] = (byte)((vblue>>>8));
+        brrby[pos++] = (byte)(vblue);
     }
 
     /**
-     * Reads an integer value from a byte array in little endian form. This
-     * method allows the reading of two byte values as well as four bytes
-     * values both of which are needed in the Kerberos v5 GSS-API mechanism.
+     * Rebds bn integer vblue from b byte brrby in little endibn form. This
+     * method bllows the rebding of two byte vblues bs well bs four bytes
+     * vblues both of which bre needed in the Kerberos v5 GSS-API mechbnism.
      *
-     * @param data the array containing the bytes of the integer value
-     * @param pos the offset in the array
-     * @size the number of bytes to read from the array.
-     * @return the integer value
+     * @pbrbm dbtb the brrby contbining the bytes of the integer vblue
+     * @pbrbm pos the offset in the brrby
+     * @size the number of bytes to rebd from the brrby.
+     * @return the integer vblue
      */
-    public static final int readLittleEndian(byte[] data, int pos, int size) {
-        int retVal = 0;
+    public stbtic finbl int rebdLittleEndibn(byte[] dbtb, int pos, int size) {
+        int retVbl = 0;
         int shifter = 0;
         while (size > 0) {
-            retVal += (data[pos] & 0xff) << shifter;
+            retVbl += (dbtb[pos] & 0xff) << shifter;
             shifter += 8;
             pos++;
             size--;
         }
-        return retVal;
+        return retVbl;
     }
 
-    public static final int readBigEndian(byte[] data, int pos, int size) {
-        int retVal = 0;
+    public stbtic finbl int rebdBigEndibn(byte[] dbtb, int pos, int size) {
+        int retVbl = 0;
         int shifter = (size-1)*8;
         while (size > 0) {
-            retVal += (data[pos] & 0xff) << shifter;
+            retVbl += (dbtb[pos] & 0xff) << shifter;
             shifter -= 8;
             pos++;
             size--;
         }
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Writes a two byte integer value to a OutputStream.
+     * Writes b two byte integer vblue to b OutputStrebm.
      *
-     * @param val the integer value. It will lose the high-order two bytes.
-     * @param os the OutputStream to write to
-     * @throws IOException if an error occurs while writing to the OutputStream
+     * @pbrbm vbl the integer vblue. It will lose the high-order two bytes.
+     * @pbrbm os the OutputStrebm to write to
+     * @throws IOException if bn error occurs while writing to the OutputStrebm
      */
-    public static final void writeInt(int val, OutputStream os)
+    public stbtic finbl void writeInt(int vbl, OutputStrebm os)
         throws IOException {
-        os.write(val>>>8);
-        os.write(val);
+        os.write(vbl>>>8);
+        os.write(vbl);
     }
 
     /**
-     * Writes a two byte integer value to a byte array.
+     * Writes b two byte integer vblue to b byte brrby.
      *
-     * @param val the integer value. It will lose the high-order two bytes.
-     * @param dest the byte array to write to
-     * @param pos the offset to start writing to
+     * @pbrbm vbl the integer vblue. It will lose the high-order two bytes.
+     * @pbrbm dest the byte brrby to write to
+     * @pbrbm pos the offset to stbrt writing to
      */
-    public static final int writeInt(int val, byte[] dest, int pos) {
-        dest[pos++] = (byte)(val>>>8);
-        dest[pos++] = (byte)val;
+    public stbtic finbl int writeInt(int vbl, byte[] dest, int pos) {
+        dest[pos++] = (byte)(vbl>>>8);
+        dest[pos++] = (byte)vbl;
         return pos;
     }
 
     /**
-     * Reads a two byte integer value from an InputStream.
+     * Rebds b two byte integer vblue from bn InputStrebm.
      *
-     * @param is the InputStream to read from
-     * @returns the integer value
-     * @throws IOException if some errors occurs while reading the integer
+     * @pbrbm is the InputStrebm to rebd from
+     * @returns the integer vblue
+     * @throws IOException if some errors occurs while rebding the integer
      * bytes.
      */
-    public static final int readInt(InputStream is) throws IOException {
-        return (((0xFF & is.read()) << 8)
-                 | (0xFF & is.read()));
+    public stbtic finbl int rebdInt(InputStrebm is) throws IOException {
+        return (((0xFF & is.rebd()) << 8)
+                 | (0xFF & is.rebd()));
     }
 
     /**
-     * Reads a two byte integer value from a byte array.
+     * Rebds b two byte integer vblue from b byte brrby.
      *
-     * @param src the byte arra to read from
-     * @param pos the offset to start reading from
-     * @returns the integer value
+     * @pbrbm src the byte brrb to rebd from
+     * @pbrbm pos the offset to stbrt rebding from
+     * @returns the integer vblue
      */
-    public static final int readInt(byte[] src, int pos) {
+    public stbtic finbl int rebdInt(byte[] src, int pos) {
         return ((0xFF & src[pos])<<8 | (0xFF & src[pos+1]));
     }
 
     /**
-     * Blocks till the required number of bytes have been read from the
-     * input stream.
+     * Blocks till the required number of bytes hbve been rebd from the
+     * input strebm.
      *
-     * @param is the InputStream to read from
-     * @param buffer the buffer to store the bytes into
-     * @param throws EOFException if EOF is reached before all bytes are
-     * read.
-     * @throws IOException is an error occurs while reading
+     * @pbrbm is the InputStrebm to rebd from
+     * @pbrbm buffer the buffer to store the bytes into
+     * @pbrbm throws EOFException if EOF is rebched before bll bytes bre
+     * rebd.
+     * @throws IOException is bn error occurs while rebding
      */
-    public static final void readFully(InputStream is, byte[] buffer)
+    public stbtic finbl void rebdFully(InputStrebm is, byte[] buffer)
         throws IOException {
-        readFully(is, buffer, 0, buffer.length);
+        rebdFully(is, buffer, 0, buffer.length);
     }
 
     /**
-     * Blocks till the required number of bytes have been read from the
-     * input stream.
+     * Blocks till the required number of bytes hbve been rebd from the
+     * input strebm.
      *
-     * @param is the InputStream to read from
-     * @param buffer the buffer to store the bytes into
-     * @param offset the offset to start storing at
-     * @param len the number of bytes to read
-     * @param throws EOFException if EOF is reached before all bytes are
-     * read.
-     * @throws IOException is an error occurs while reading
+     * @pbrbm is the InputStrebm to rebd from
+     * @pbrbm buffer the buffer to store the bytes into
+     * @pbrbm offset the offset to stbrt storing bt
+     * @pbrbm len the number of bytes to rebd
+     * @pbrbm throws EOFException if EOF is rebched before bll bytes bre
+     * rebd.
+     * @throws IOException is bn error occurs while rebding
      */
-    public static final void readFully(InputStream is,
+    public stbtic finbl void rebdFully(InputStrebm is,
                                        byte[] buffer, int offset, int len)
         throws IOException {
         int temp;
         while (len > 0) {
-            temp = is.read(buffer, offset, len);
+            temp = is.rebd(buffer, offset, len);
             if (temp == -1)
-                throw new EOFException("Cannot read all "
+                throw new EOFException("Cbnnot rebd bll "
                                        + len
                                        + " bytes needed to form this token!");
             offset += temp;
@@ -203,27 +203,27 @@ public abstract class GSSToken {
         }
     }
 
-    public static final void debug(String str) {
+    public stbtic finbl void debug(String str) {
         System.err.print(str);
     }
 
-    public static final  String getHexBytes(byte[] bytes) {
+    public stbtic finbl  String getHexBytes(byte[] bytes) {
         return getHexBytes(bytes, 0, bytes.length);
     }
 
-    public static final  String getHexBytes(byte[] bytes, int len) {
+    public stbtic finbl  String getHexBytes(byte[] bytes, int len) {
         return getHexBytes(bytes, 0, len);
     }
 
-    public static final String getHexBytes(byte[] bytes, int pos, int len) {
+    public stbtic finbl String getHexBytes(byte[] bytes, int pos, int len) {
         StringBuilder sb = new StringBuilder();
         for (int i = pos; i < (pos+len); i++) {
             int b1 = (bytes[i]>>4) & 0x0f;
             int b2 = bytes[i] & 0x0f;
 
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
+            sb.bppend(Integer.toHexString(b1));
+            sb.bppend(Integer.toHexString(b2));
+            sb.bppend(' ');
         }
         return sb.toString();
     }

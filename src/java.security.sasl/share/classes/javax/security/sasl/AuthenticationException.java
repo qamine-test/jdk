@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
 /**
- * This exception is thrown by a SASL mechanism implementation
- * to indicate that the SASL
- * exchange has failed due to reasons related to authentication, such as
- * an invalid identity, passphrase, or key.
+ * This exception is thrown by b SASL mechbnism implementbtion
+ * to indicbte thbt the SASL
+ * exchbnge hbs fbiled due to rebsons relbted to buthenticbtion, such bs
+ * bn invblid identity, pbssphrbse, or key.
  * <p>
- * Note that the lack of an AuthenticationException does not mean that
- * the failure was not due to an authentication error.  A SASL mechanism
- * implementation might throw the more general SaslException instead of
- * AuthenticationException if it is unable to determine the nature
- * of the failure, or if does not want to disclose the nature of
- * the failure, for example, due to security reasons.
+ * Note thbt the lbck of bn AuthenticbtionException does not mebn thbt
+ * the fbilure wbs not due to bn buthenticbtion error.  A SASL mechbnism
+ * implementbtion might throw the more generbl SbslException instebd of
+ * AuthenticbtionException if it is unbble to determine the nbture
+ * of the fbilure, or if does not wbnt to disclose the nbture of
+ * the fbilure, for exbmple, due to security rebsons.
  *
  * @since 1.5
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @buthor Rosbnnb Lee
+ * @buthor Rob Weltmbn
  */
-public class AuthenticationException extends SaslException {
+public clbss AuthenticbtionException extends SbslException {
     /**
-     * Constructs a new instance of {@code AuthenticationException}.
-     * The root exception and the detailed message are null.
+     * Constructs b new instbnce of {@code AuthenticbtionException}.
+     * The root exception bnd the detbiled messbge bre null.
      */
-    public AuthenticationException () {
+    public AuthenticbtionException () {
         super();
     }
 
     /**
-     * Constructs a new instance of {@code AuthenticationException}
-     * with a detailed message.
+     * Constructs b new instbnce of {@code AuthenticbtionException}
+     * with b detbiled messbge.
      * The root exception is null.
-     * @param detail A possibly null string containing details of the exception.
+     * @pbrbm detbil A possibly null string contbining detbils of the exception.
      *
-     * @see java.lang.Throwable#getMessage
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public AuthenticationException (String detail) {
-        super(detail);
+    public AuthenticbtionException (String detbil) {
+        super(detbil);
     }
 
     /**
-     * Constructs a new instance of {@code AuthenticationException} with a detailed message
-     * and a root exception.
+     * Constructs b new instbnce of {@code AuthenticbtionException} with b detbiled messbge
+     * bnd b root exception.
      *
-     * @param detail A possibly null string containing details of the exception.
-     * @param ex A possibly null root exception that caused this exception.
+     * @pbrbm detbil A possibly null string contbining detbils of the exception.
+     * @pbrbm ex A possibly null root exception thbt cbused this exception.
      *
-     * @see java.lang.Throwable#getMessage
-     * @see #getCause
+     * @see jbvb.lbng.Throwbble#getMessbge
+     * @see #getCbuse
      */
-    public AuthenticationException (String detail, Throwable ex) {
-        super(detail, ex);
+    public AuthenticbtionException (String detbil, Throwbble ex) {
+        super(detbil, ex);
     }
 
-    /** Use serialVersionUID from JSR 28 RI for interoperability */
-    private static final long serialVersionUID = -3579708765071815007L;
+    /** Use seriblVersionUID from JSR 28 RI for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -3579708765071815007L;
 }

@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tree.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * Motif rendered to display a tree cell.
+ * Motif rendered to displby b tree cell.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class MotifTreeCellRenderer extends DefaultTreeCellRenderer
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss MotifTreeCellRenderer extends DefbultTreeCellRenderer
 {
-    static final int LEAF_SIZE = 13;
-    static final Icon LEAF_ICON = new IconUIResource(new TreeLeafIcon());
+    stbtic finbl int LEAF_SIZE = 13;
+    stbtic finbl Icon LEAF_ICON = new IconUIResource(new TreeLebfIcon());
 
     public MotifTreeCellRenderer() {
         super();
     }
 
-    public static Icon loadLeafIcon() {
+    public stbtic Icon lobdLebfIcon() {
         return LEAF_ICON;
     }
 
     /**
-     * Icon for a node with no children.
+     * Icon for b node with no children.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class TreeLeafIcon implements Icon, Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss TreeLebfIcon implements Icon, Seriblizbble {
 
         Color bg;
-        Color shadow;
+        Color shbdow;
         Color highlight;
 
-        public TreeLeafIcon() {
-            bg = UIManager.getColor("Tree.iconBackground");
-            shadow = UIManager.getColor("Tree.iconShadow");
-            highlight = UIManager.getColor("Tree.iconHighlight");
+        public TreeLebfIcon() {
+            bg = UIMbnbger.getColor("Tree.iconBbckground");
+            shbdow = UIMbnbger.getColor("Tree.iconShbdow");
+            highlight = UIMbnbger.getColor("Tree.iconHighlight");
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             g.setColor(bg);
 
             y -= 3;
             g.fillRect(x + 4, y + 7, 5, 5);
 
-            g.drawLine(x + 6, y + 6, x + 6, y + 6);
-            g.drawLine(x + 3, y + 9, x + 3, y + 9);
-            g.drawLine(x + 6, y + 12, x + 6, y + 12);
-            g.drawLine(x + 9, y + 9, x + 9, y + 9);
+            g.drbwLine(x + 6, y + 6, x + 6, y + 6);
+            g.drbwLine(x + 3, y + 9, x + 3, y + 9);
+            g.drbwLine(x + 6, y + 12, x + 6, y + 12);
+            g.drbwLine(x + 9, y + 9, x + 9, y + 9);
 
             g.setColor(highlight);
-            g.drawLine(x + 2, y + 9, x + 5, y + 6);
-            g.drawLine(x + 3, y + 10, x + 5, y + 12);
+            g.drbwLine(x + 2, y + 9, x + 5, y + 6);
+            g.drbwLine(x + 3, y + 10, x + 5, y + 12);
 
-            g.setColor(shadow);
-            g.drawLine(x + 6, y + 13, x + 10, y + 9);
-            g.drawLine(x + 9, y + 8, x + 7, y + 6);
+            g.setColor(shbdow);
+            g.drbwLine(x + 6, y + 13, x + 10, y + 9);
+            g.drbwLine(x + 9, y + 8, x + 7, y + 6);
         }
 
         public int getIconWidth() {

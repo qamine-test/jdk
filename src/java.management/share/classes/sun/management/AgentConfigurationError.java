@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
 /**
- * Configuration Error thrown by a management agent.
+ * Configurbtion Error thrown by b mbnbgement bgent.
  */
-public class AgentConfigurationError extends Error {
-    public static final String AGENT_EXCEPTION =
-        "agent.err.exception";
-    public static final String CONFIG_FILE_NOT_FOUND    =
-        "agent.err.configfile.notfound";
-    public static final String CONFIG_FILE_OPEN_FAILED  =
-        "agent.err.configfile.failed";
-    public static final String CONFIG_FILE_CLOSE_FAILED =
-        "agent.err.configfile.closed.failed";
-    public static final String CONFIG_FILE_ACCESS_DENIED =
-        "agent.err.configfile.access.denied";
-    public static final String EXPORT_ADDRESS_FAILED =
-        "agent.err.exportaddress.failed";
-    public static final String AGENT_CLASS_NOT_FOUND =
-        "agent.err.agentclass.notfound";
-    public static final String AGENT_CLASS_FAILED =
-        "agent.err.agentclass.failed";
-    public static final String AGENT_CLASS_PREMAIN_NOT_FOUND =
-        "agent.err.premain.notfound";
-    public static final String AGENT_CLASS_ACCESS_DENIED =
-        "agent.err.agentclass.access.denied";
-    public static final String AGENT_CLASS_INVALID =
-        "agent.err.invalid.agentclass";
-    public static final String INVALID_JMXREMOTE_PORT =
-        "agent.err.invalid.jmxremote.port";
-    public static final String INVALID_JMXREMOTE_RMI_PORT =
-        "agent.err.invalid.jmxremote.rmi.port";
-    public static final String PASSWORD_FILE_NOT_SET =
-        "agent.err.password.file.notset";
-    public static final String PASSWORD_FILE_NOT_READABLE =
-        "agent.err.password.file.not.readable";
-    public static final String PASSWORD_FILE_READ_FAILED =
-        "agent.err.password.file.read.failed";
-    public static final String PASSWORD_FILE_NOT_FOUND =
-        "agent.err.password.file.notfound";
-    public static final String ACCESS_FILE_NOT_SET =
-        "agent.err.access.file.notset";
-    public static final String ACCESS_FILE_NOT_READABLE =
-        "agent.err.access.file.not.readable";
-    public static final String ACCESS_FILE_READ_FAILED =
-        "agent.err.access.file.read.failed";
-    public static final String ACCESS_FILE_NOT_FOUND =
-        "agent.err.access.file.notfound";
-    public static final String PASSWORD_FILE_ACCESS_NOT_RESTRICTED =
-        "agent.err.password.file.access.notrestricted";
-    public static final String FILE_ACCESS_NOT_RESTRICTED =
-        "agent.err.file.access.not.restricted";
-    public static final String FILE_NOT_FOUND =
-        "agent.err.file.not.found";
-    public static final String FILE_NOT_READABLE =
-        "agent.err.file.not.readable";
-    public static final String FILE_NOT_SET =
-        "agent.err.file.not.set";
-    public static final String FILE_READ_FAILED =
-        "agent.err.file.read.failed";
-    public static final String CONNECTOR_SERVER_IO_ERROR =
-        "agent.err.connector.server.io.error";
-    public static final String INVALID_OPTION =
-        "agent.err.invalid.option";
-    public static final String INVALID_SNMP_PORT =
-        "agent.err.invalid.snmp.port";
-    public static final String INVALID_SNMP_TRAP_PORT =
-        "agent.err.invalid.snmp.trap.port";
-    public static final String UNKNOWN_SNMP_INTERFACE =
-        "agent.err.unknown.snmp.interface";
-    public static final String SNMP_ACL_FILE_NOT_SET =
-        "agent.err.acl.file.notset";
-    public static final String SNMP_ACL_FILE_NOT_FOUND =
-        "agent.err.acl.file.notfound";
-    public static final String SNMP_ACL_FILE_NOT_READABLE =
-        "agent.err.acl.file.not.readable";
-    public static final String SNMP_ACL_FILE_READ_FAILED =
-        "agent.err.acl.file.read.failed";
-    public static final String SNMP_ACL_FILE_ACCESS_NOT_RESTRICTED =
-        "agent.err.acl.file.access.notrestricted";
-    public static final String SNMP_ADAPTOR_START_FAILED =
-        "agent.err.snmp.adaptor.start.failed";
-    public static final String SNMP_MIB_INIT_FAILED =
-        "agent.err.snmp.mib.init.failed";
-    public static final String INVALID_STATE =
-        "agent.err.invalid.state";
+public clbss AgentConfigurbtionError extends Error {
+    public stbtic finbl String AGENT_EXCEPTION =
+        "bgent.err.exception";
+    public stbtic finbl String CONFIG_FILE_NOT_FOUND    =
+        "bgent.err.configfile.notfound";
+    public stbtic finbl String CONFIG_FILE_OPEN_FAILED  =
+        "bgent.err.configfile.fbiled";
+    public stbtic finbl String CONFIG_FILE_CLOSE_FAILED =
+        "bgent.err.configfile.closed.fbiled";
+    public stbtic finbl String CONFIG_FILE_ACCESS_DENIED =
+        "bgent.err.configfile.bccess.denied";
+    public stbtic finbl String EXPORT_ADDRESS_FAILED =
+        "bgent.err.exportbddress.fbiled";
+    public stbtic finbl String AGENT_CLASS_NOT_FOUND =
+        "bgent.err.bgentclbss.notfound";
+    public stbtic finbl String AGENT_CLASS_FAILED =
+        "bgent.err.bgentclbss.fbiled";
+    public stbtic finbl String AGENT_CLASS_PREMAIN_NOT_FOUND =
+        "bgent.err.prembin.notfound";
+    public stbtic finbl String AGENT_CLASS_ACCESS_DENIED =
+        "bgent.err.bgentclbss.bccess.denied";
+    public stbtic finbl String AGENT_CLASS_INVALID =
+        "bgent.err.invblid.bgentclbss";
+    public stbtic finbl String INVALID_JMXREMOTE_PORT =
+        "bgent.err.invblid.jmxremote.port";
+    public stbtic finbl String INVALID_JMXREMOTE_RMI_PORT =
+        "bgent.err.invblid.jmxremote.rmi.port";
+    public stbtic finbl String PASSWORD_FILE_NOT_SET =
+        "bgent.err.pbssword.file.notset";
+    public stbtic finbl String PASSWORD_FILE_NOT_READABLE =
+        "bgent.err.pbssword.file.not.rebdbble";
+    public stbtic finbl String PASSWORD_FILE_READ_FAILED =
+        "bgent.err.pbssword.file.rebd.fbiled";
+    public stbtic finbl String PASSWORD_FILE_NOT_FOUND =
+        "bgent.err.pbssword.file.notfound";
+    public stbtic finbl String ACCESS_FILE_NOT_SET =
+        "bgent.err.bccess.file.notset";
+    public stbtic finbl String ACCESS_FILE_NOT_READABLE =
+        "bgent.err.bccess.file.not.rebdbble";
+    public stbtic finbl String ACCESS_FILE_READ_FAILED =
+        "bgent.err.bccess.file.rebd.fbiled";
+    public stbtic finbl String ACCESS_FILE_NOT_FOUND =
+        "bgent.err.bccess.file.notfound";
+    public stbtic finbl String PASSWORD_FILE_ACCESS_NOT_RESTRICTED =
+        "bgent.err.pbssword.file.bccess.notrestricted";
+    public stbtic finbl String FILE_ACCESS_NOT_RESTRICTED =
+        "bgent.err.file.bccess.not.restricted";
+    public stbtic finbl String FILE_NOT_FOUND =
+        "bgent.err.file.not.found";
+    public stbtic finbl String FILE_NOT_READABLE =
+        "bgent.err.file.not.rebdbble";
+    public stbtic finbl String FILE_NOT_SET =
+        "bgent.err.file.not.set";
+    public stbtic finbl String FILE_READ_FAILED =
+        "bgent.err.file.rebd.fbiled";
+    public stbtic finbl String CONNECTOR_SERVER_IO_ERROR =
+        "bgent.err.connector.server.io.error";
+    public stbtic finbl String INVALID_OPTION =
+        "bgent.err.invblid.option";
+    public stbtic finbl String INVALID_SNMP_PORT =
+        "bgent.err.invblid.snmp.port";
+    public stbtic finbl String INVALID_SNMP_TRAP_PORT =
+        "bgent.err.invblid.snmp.trbp.port";
+    public stbtic finbl String UNKNOWN_SNMP_INTERFACE =
+        "bgent.err.unknown.snmp.interfbce";
+    public stbtic finbl String SNMP_ACL_FILE_NOT_SET =
+        "bgent.err.bcl.file.notset";
+    public stbtic finbl String SNMP_ACL_FILE_NOT_FOUND =
+        "bgent.err.bcl.file.notfound";
+    public stbtic finbl String SNMP_ACL_FILE_NOT_READABLE =
+        "bgent.err.bcl.file.not.rebdbble";
+    public stbtic finbl String SNMP_ACL_FILE_READ_FAILED =
+        "bgent.err.bcl.file.rebd.fbiled";
+    public stbtic finbl String SNMP_ACL_FILE_ACCESS_NOT_RESTRICTED =
+        "bgent.err.bcl.file.bccess.notrestricted";
+    public stbtic finbl String SNMP_ADAPTOR_START_FAILED =
+        "bgent.err.snmp.bdbptor.stbrt.fbiled";
+    public stbtic finbl String SNMP_MIB_INIT_FAILED =
+        "bgent.err.snmp.mib.init.fbiled";
+    public stbtic finbl String INVALID_STATE =
+        "bgent.err.invblid.stbte";
 
-    private final String error;
-    private final String[] params;
+    privbte finbl String error;
+    privbte finbl String[] pbrbms;
 
-    public AgentConfigurationError(String error) {
+    public AgentConfigurbtionError(String error) {
         super();
         this.error = error;
-        this.params = null;
+        this.pbrbms = null;
     }
 
-    public AgentConfigurationError(String error, Throwable cause) {
-        super(cause);
+    public AgentConfigurbtionError(String error, Throwbble cbuse) {
+        super(cbuse);
         this.error = error;
-        this.params = null;
+        this.pbrbms = null;
     }
 
-    public AgentConfigurationError(String error, String... params) {
+    public AgentConfigurbtionError(String error, String... pbrbms) {
         super();
         this.error = error;
-        this.params = params.clone();
+        this.pbrbms = pbrbms.clone();
     }
 
-    public AgentConfigurationError(String error, Throwable cause, String... params) {
-        super(cause);
+    public AgentConfigurbtionError(String error, Throwbble cbuse, String... pbrbms) {
+        super(cbuse);
         this.error = error;
-        this.params = params.clone();
+        this.pbrbms = pbrbms.clone();
     }
 
     public String getError() {
         return error;
     }
 
-    public String[] getParams() {
-        return params.clone();
+    public String[] getPbrbms() {
+        return pbrbms.clone();
     }
 
-    private static final long serialVersionUID = 1211605593516195475L;
+    privbte stbtic finbl long seriblVersionUID = 1211605593516195475L;
 }

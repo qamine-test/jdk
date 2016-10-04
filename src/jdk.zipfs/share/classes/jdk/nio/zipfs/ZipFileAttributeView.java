@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
 
 /*
- * @author  Xueming Shen, Rajendra Gutupalli, Jaya Hangal
+ * @buthor  Xueming Shen, Rbjendrb Gutupblli, Jbyb Hbngbl
  */
 
-class ZipFileAttributeView implements BasicFileAttributeView
+clbss ZipFileAttributeView implements BbsicFileAttributeView
 {
-    private static enum AttrID {
+    privbte stbtic enum AttrID {
         size,
-        creationTime,
-        lastAccessTime,
-        lastModifiedTime,
+        crebtionTime,
+        lbstAccessTime,
+        lbstModifiedTime,
         isDirectory,
-        isRegularFile,
+        isRegulbrFile,
         isSymbolicLink,
         isOther,
         fileKey,
@@ -51,124 +51,124 @@ class ZipFileAttributeView implements BasicFileAttributeView
         method
     };
 
-    private final ZipPath path;
-    private final boolean isZipView;
+    privbte finbl ZipPbth pbth;
+    privbte finbl boolebn isZipView;
 
-    private ZipFileAttributeView(ZipPath path, boolean isZipView) {
-        this.path = path;
+    privbte ZipFileAttributeView(ZipPbth pbth, boolebn isZipView) {
+        this.pbth = pbth;
         this.isZipView = isZipView;
     }
 
-    @SuppressWarnings("unchecked") // Cast to V
-    static <V extends FileAttributeView> V get(ZipPath path, Class<V> type) {
+    @SuppressWbrnings("unchecked") // Cbst to V
+    stbtic <V extends FileAttributeView> V get(ZipPbth pbth, Clbss<V> type) {
         if (type == null)
             throw new NullPointerException();
-        if (type == BasicFileAttributeView.class)
-            return (V)new ZipFileAttributeView(path, false);
-        if (type == ZipFileAttributeView.class)
-            return (V)new ZipFileAttributeView(path, true);
+        if (type == BbsicFileAttributeView.clbss)
+            return (V)new ZipFileAttributeView(pbth, fblse);
+        if (type == ZipFileAttributeView.clbss)
+            return (V)new ZipFileAttributeView(pbth, true);
         return null;
     }
 
-    static ZipFileAttributeView get(ZipPath path, String type) {
+    stbtic ZipFileAttributeView get(ZipPbth pbth, String type) {
         if (type == null)
             throw new NullPointerException();
-        if (type.equals("basic"))
-            return new ZipFileAttributeView(path, false);
-        if (type.equals("zip"))
-            return new ZipFileAttributeView(path, true);
+        if (type.equbls("bbsic"))
+            return new ZipFileAttributeView(pbth, fblse);
+        if (type.equbls("zip"))
+            return new ZipFileAttributeView(pbth, true);
         return null;
     }
 
     @Override
-    public String name() {
-        return isZipView ? "zip" : "basic";
+    public String nbme() {
+        return isZipView ? "zip" : "bbsic";
     }
 
-    public ZipFileAttributes readAttributes() throws IOException
+    public ZipFileAttributes rebdAttributes() throws IOException
     {
-        return path.getAttributes();
+        return pbth.getAttributes();
     }
 
     @Override
-    public void setTimes(FileTime lastModifiedTime,
-                         FileTime lastAccessTime,
-                         FileTime createTime)
+    public void setTimes(FileTime lbstModifiedTime,
+                         FileTime lbstAccessTime,
+                         FileTime crebteTime)
         throws IOException
     {
-        path.setTimes(lastModifiedTime, lastAccessTime, createTime);
+        pbth.setTimes(lbstModifiedTime, lbstAccessTime, crebteTime);
     }
 
-    void setAttribute(String attribute, Object value)
+    void setAttribute(String bttribute, Object vblue)
         throws IOException
     {
         try {
-            if (AttrID.valueOf(attribute) == AttrID.lastModifiedTime)
-                setTimes ((FileTime)value, null, null);
-            if (AttrID.valueOf(attribute) == AttrID.lastAccessTime)
-                setTimes (null, (FileTime)value, null);
-            if (AttrID.valueOf(attribute) == AttrID.creationTime)
-                setTimes (null, null, (FileTime)value);
+            if (AttrID.vblueOf(bttribute) == AttrID.lbstModifiedTime)
+                setTimes ((FileTime)vblue, null, null);
+            if (AttrID.vblueOf(bttribute) == AttrID.lbstAccessTime)
+                setTimes (null, (FileTime)vblue, null);
+            if (AttrID.vblueOf(bttribute) == AttrID.crebtionTime)
+                setTimes (null, null, (FileTime)vblue);
             return;
-        } catch (IllegalArgumentException x) {}
-        throw new UnsupportedOperationException("'" + attribute +
-            "' is unknown or read-only attribute");
+        } cbtch (IllegblArgumentException x) {}
+        throw new UnsupportedOperbtionException("'" + bttribute +
+            "' is unknown or rebd-only bttribute");
     }
 
-    Map<String, Object> readAttributes(String attributes)
+    Mbp<String, Object> rebdAttributes(String bttributes)
         throws IOException
     {
-        ZipFileAttributes zfas = readAttributes();
-        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        if ("*".equals(attributes)) {
-            for (AttrID id : AttrID.values()) {
+        ZipFileAttributes zfbs = rebdAttributes();
+        LinkedHbshMbp<String, Object> mbp = new LinkedHbshMbp<>();
+        if ("*".equbls(bttributes)) {
+            for (AttrID id : AttrID.vblues()) {
                 try {
-                    map.put(id.name(), attribute(id, zfas));
-                } catch (IllegalArgumentException x) {}
+                    mbp.put(id.nbme(), bttribute(id, zfbs));
+                } cbtch (IllegblArgumentException x) {}
             }
         } else {
-            String[] as = attributes.split(",");
-            for (String a : as) {
+            String[] bs = bttributes.split(",");
+            for (String b : bs) {
                 try {
-                    map.put(a, attribute(AttrID.valueOf(a), zfas));
-                } catch (IllegalArgumentException x) {}
+                    mbp.put(b, bttribute(AttrID.vblueOf(b), zfbs));
+                } cbtch (IllegblArgumentException x) {}
             }
         }
-        return map;
+        return mbp;
     }
 
-    Object attribute(AttrID id, ZipFileAttributes zfas) {
+    Object bttribute(AttrID id, ZipFileAttributes zfbs) {
         switch (id) {
-        case size:
-            return zfas.size();
-        case creationTime:
-            return zfas.creationTime();
-        case lastAccessTime:
-            return zfas.lastAccessTime();
-        case lastModifiedTime:
-            return zfas.lastModifiedTime();
-        case isDirectory:
-            return zfas.isDirectory();
-        case isRegularFile:
-            return zfas.isRegularFile();
-        case isSymbolicLink:
-            return zfas.isSymbolicLink();
-        case isOther:
-            return zfas.isOther();
-        case fileKey:
-            return zfas.fileKey();
-        case compressedSize:
+        cbse size:
+            return zfbs.size();
+        cbse crebtionTime:
+            return zfbs.crebtionTime();
+        cbse lbstAccessTime:
+            return zfbs.lbstAccessTime();
+        cbse lbstModifiedTime:
+            return zfbs.lbstModifiedTime();
+        cbse isDirectory:
+            return zfbs.isDirectory();
+        cbse isRegulbrFile:
+            return zfbs.isRegulbrFile();
+        cbse isSymbolicLink:
+            return zfbs.isSymbolicLink();
+        cbse isOther:
+            return zfbs.isOther();
+        cbse fileKey:
+            return zfbs.fileKey();
+        cbse compressedSize:
             if (isZipView)
-                return zfas.compressedSize();
-            break;
-        case crc:
+                return zfbs.compressedSize();
+            brebk;
+        cbse crc:
             if (isZipView)
-                return zfas.crc();
-            break;
-        case method:
+                return zfbs.crc();
+            brebk;
+        cbse method:
             if (isZipView)
-                return zfas.method();
-            break;
+                return zfbs.method();
+            brebk;
         }
         return null;
     }

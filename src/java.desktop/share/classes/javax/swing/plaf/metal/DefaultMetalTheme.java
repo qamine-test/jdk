@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.plaf.*;
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-import sun.awt.AppContext;
-import sun.security.action.GetPropertyAction;
+import sun.bwt.AppContext;
+import sun.security.bction.GetPropertyAction;
 import sun.swing.SwingUtilities2;
 
 /**
- * A concrete implementation of {@code MetalTheme} providing
- * the original look of the Java Look and Feel, code-named "Steel". Refer
- * to {@link MetalLookAndFeel#setCurrentTheme} for details on changing
- * the default theme.
+ * A concrete implementbtion of {@code MetblTheme} providing
+ * the originbl look of the Jbvb Look bnd Feel, code-nbmed "Steel". Refer
+ * to {@link MetblLookAndFeel#setCurrentTheme} for detbils on chbnging
+ * the defbult theme.
  * <p>
- * All colors returned by {@code DefaultMetalTheme} are completely
- * opaque.
+ * All colors returned by {@code DefbultMetblTheme} bre completely
+ * opbque.
  *
- * <h3><a name="fontStyle"></a>Font Style</h3>
+ * <h3><b nbme="fontStyle"></b>Font Style</h3>
  *
- * {@code DefaultMetalTheme} uses bold fonts for many controls.  To make all
- * controls (with the exception of the internal frame title bars and
- * client decorated frame title bars) use plain fonts you can do either of
+ * {@code DefbultMetblTheme} uses bold fonts for mbny controls.  To mbke bll
+ * controls (with the exception of the internbl frbme title bbrs bnd
+ * client decorbted frbme title bbrs) use plbin fonts you cbn do either of
  * the following:
  * <ul>
- * <li>Set the system property <code>swing.boldMetal</code> to
- *     <code>false</code>.  For example,
- *     <code>java&nbsp;-Dswing.boldMetal=false&nbsp;MyApp</code>.
- * <li>Set the defaults property <code>swing.boldMetal</code> to
- *     <code>Boolean.FALSE</code>.  For example:
- *     <code>UIManager.put("swing.boldMetal",&nbsp;Boolean.FALSE);</code>
+ * <li>Set the system property <code>swing.boldMetbl</code> to
+ *     <code>fblse</code>.  For exbmple,
+ *     <code>jbvb&nbsp;-Dswing.boldMetbl=fblse&nbsp;MyApp</code>.
+ * <li>Set the defbults property <code>swing.boldMetbl</code> to
+ *     <code>Boolebn.FALSE</code>.  For exbmple:
+ *     <code>UIMbnbger.put("swing.boldMetbl",&nbsp;Boolebn.FALSE);</code>
  * </ul>
- * The defaults property <code>swing.boldMetal</code>, if set,
- * takes precedence over the system property of the same name. After
- * setting this defaults property you need to re-install
- * <code>MetalLookAndFeel</code>, as well as update the UI
- * of any previously created widgets. Otherwise the results are undefined.
- * The following illustrates how to do this:
+ * The defbults property <code>swing.boldMetbl</code>, if set,
+ * tbkes precedence over the system property of the sbme nbme. After
+ * setting this defbults property you need to re-instbll
+ * <code>MetblLookAndFeel</code>, bs well bs updbte the UI
+ * of bny previously crebted widgets. Otherwise the results bre undefined.
+ * The following illustrbtes how to do this:
  * <pre>
  *   // turn off bold fonts
- *   UIManager.put("swing.boldMetal", Boolean.FALSE);
+ *   UIMbnbger.put("swing.boldMetbl", Boolebn.FALSE);
  *
- *   // re-install the Metal Look and Feel
- *   UIManager.setLookAndFeel(new MetalLookAndFeel());
+ *   // re-instbll the Metbl Look bnd Feel
+ *   UIMbnbger.setLookAndFeel(new MetblLookAndFeel());
  *
- *   // Update the ComponentUIs for all Components. This
- *   // needs to be invoked for all windows.
- *   SwingUtilities.updateComponentTreeUI(rootComponent);
+ *   // Updbte the ComponentUIs for bll Components. This
+ *   // needs to be invoked for bll windows.
+ *   SwingUtilities.updbteComponentTreeUI(rootComponent);
  * </pre>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see MetalLookAndFeel
- * @see MetalLookAndFeel#setCurrentTheme
+ * @see MetblLookAndFeel
+ * @see MetblLookAndFeel#setCurrentTheme
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultMetalTheme extends MetalTheme {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultMetblTheme extends MetblTheme {
     /**
-     * Whether or not fonts should be plain.  This is only used if
-     * the defaults property 'swing.boldMetal' == "false".
+     * Whether or not fonts should be plbin.  This is only used if
+     * the defbults property 'swing.boldMetbl' == "fblse".
      */
-    private static final boolean PLAIN_FONTS;
+    privbte stbtic finbl boolebn PLAIN_FONTS;
 
     /**
-     * Names of the fonts to use.
+     * Nbmes of the fonts to use.
      */
-    private static final String[] fontNames = {
+    privbte stbtic finbl String[] fontNbmes = {
         Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG
     };
     /**
-     * Styles for the fonts.  This is ignored if the defaults property
-     * <code>swing.boldMetal</code> is false, or PLAIN_FONTS is true.
+     * Styles for the fonts.  This is ignored if the defbults property
+     * <code>swing.boldMetbl</code> is fblse, or PLAIN_FONTS is true.
      */
-    private static final int[] fontStyles = {
+    privbte stbtic finbl int[] fontStyles = {
         Font.BOLD, Font.PLAIN, Font.PLAIN, Font.BOLD, Font.BOLD, Font.PLAIN
     };
     /**
      * Sizes for the fonts.
      */
-    private static final int[] fontSizes = {
+    privbte stbtic finbl int[] fontSizes = {
         12, 12, 12, 12, 12, 10
     };
 
-    // note the properties listed here can currently be used by people
-    // providing runtimes to hint what fonts are good.  For example the bold
-    // dialog font looks bad on a Mac, so Apple could use this property to
-    // hint at a good font.
+    // note the properties listed here cbn currently be used by people
+    // providing runtimes to hint whbt fonts bre good.  For exbmple the bold
+    // diblog font looks bbd on b Mbc, so Apple could use this property to
+    // hint bt b good font.
     //
-    // However, we don't promise to support these forever.  We may move
+    // However, we don't promise to support these forever.  We mby move
     // to getting these from the swing.properties file, or elsewhere.
     /**
-     * System property names used to look up fonts.
+     * System property nbmes used to look up fonts.
      */
-    private static final String[] defaultNames = {
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.systemFont",
-        "swing.plaf.metal.userFont",
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.smallFont"
+    privbte stbtic finbl String[] defbultNbmes = {
+        "swing.plbf.metbl.controlFont",
+        "swing.plbf.metbl.systemFont",
+        "swing.plbf.metbl.userFont",
+        "swing.plbf.metbl.controlFont",
+        "swing.plbf.metbl.controlFont",
+        "swing.plbf.metbl.smbllFont"
     };
 
     /**
-     * Returns the ideal font name for the font identified by key.
+     * Returns the idebl font nbme for the font identified by key.
      */
-    static String getDefaultFontName(int key) {
-        return fontNames[key];
+    stbtic String getDefbultFontNbme(int key) {
+        return fontNbmes[key];
     }
 
     /**
-     * Returns the ideal font size for the font identified by key.
+     * Returns the idebl font size for the font identified by key.
      */
-    static int getDefaultFontSize(int key) {
+    stbtic int getDefbultFontSize(int key) {
         return fontSizes[key];
     }
 
     /**
-     * Returns the ideal font style for the font identified by key.
+     * Returns the idebl font style for the font identified by key.
      */
-    static int getDefaultFontStyle(int key) {
+    stbtic int getDefbultFontStyle(int key) {
         if (key != WINDOW_TITLE_FONT) {
-            Object boldMetal = null;
+            Object boldMetbl = null;
             if (AppContext.getAppContext().get(
                     SwingUtilities2.LAF_STATE_KEY) != null) {
-                // Only access the boldMetal key if a look and feel has
-                // been loaded, otherwise we'll trigger loading the look
-                // and feel.
-                boldMetal = UIManager.get("swing.boldMetal");
+                // Only bccess the boldMetbl key if b look bnd feel hbs
+                // been lobded, otherwise we'll trigger lobding the look
+                // bnd feel.
+                boldMetbl = UIMbnbger.get("swing.boldMetbl");
             }
-            if (boldMetal != null) {
-                if (Boolean.FALSE.equals(boldMetal)) {
+            if (boldMetbl != null) {
+                if (Boolebn.FALSE.equbls(boldMetbl)) {
                     return Font.PLAIN;
                 }
             }
@@ -175,105 +175,105 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the default used to look up the specified font.
+     * Returns the defbult used to look up the specified font.
      */
-    static String getDefaultPropertyName(int key) {
-        return defaultNames[key];
+    stbtic String getDefbultPropertyNbme(int key) {
+        return defbultNbmes[key];
     }
 
-    static {
-        Object boldProperty = java.security.AccessController.doPrivileged(
-            new GetPropertyAction("swing.boldMetal"));
-        if (boldProperty == null || !"false".equals(boldProperty)) {
-            PLAIN_FONTS = false;
+    stbtic {
+        Object boldProperty = jbvb.security.AccessController.doPrivileged(
+            new GetPropertyAction("swing.boldMetbl"));
+        if (boldProperty == null || !"fblse".equbls(boldProperty)) {
+            PLAIN_FONTS = fblse;
         }
         else {
             PLAIN_FONTS = true;
         }
     }
 
-    private static final ColorUIResource primary1 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource primbry1 = new ColorUIResource(
                               102, 102, 153);
-    private static final ColorUIResource primary2 = new ColorUIResource(153,
+    privbte stbtic finbl ColorUIResource primbry2 = new ColorUIResource(153,
                               153, 204);
-    private static final ColorUIResource primary3 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource primbry3 = new ColorUIResource(
                               204, 204, 255);
-    private static final ColorUIResource secondary1 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource secondbry1 = new ColorUIResource(
                               102, 102, 102);
-    private static final ColorUIResource secondary2 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource secondbry2 = new ColorUIResource(
                               153, 153, 153);
-    private static final ColorUIResource secondary3 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource secondbry3 = new ColorUIResource(
                               204, 204, 204);
 
-    private FontDelegate fontDelegate;
+    privbte FontDelegbte fontDelegbte;
 
     /**
-     * Returns the name of this theme. This returns {@code "Steel"}.
+     * Returns the nbme of this theme. This returns {@code "Steel"}.
      *
-     * @return the name of this theme.
+     * @return the nbme of this theme.
      */
-    public String getName() { return "Steel"; }
+    public String getNbme() { return "Steel"; }
 
     /**
-     * Creates and returns an instance of {@code DefaultMetalTheme}.
+     * Crebtes bnd returns bn instbnce of {@code DefbultMetblTheme}.
      */
-    public DefaultMetalTheme() {
-        install();
+    public DefbultMetblTheme() {
+        instbll();
     }
 
     /**
-     * Returns the primary 1 color. This returns a color with rgb values
-     * of 102, 102, and 153, respectively.
+     * Returns the primbry 1 color. This returns b color with rgb vblues
+     * of 102, 102, bnd 153, respectively.
      *
-     * @return the primary 1 color
+     * @return the primbry 1 color
      */
-    protected ColorUIResource getPrimary1() { return primary1; }
+    protected ColorUIResource getPrimbry1() { return primbry1; }
 
     /**
-     * Returns the primary 2 color. This returns a color with rgb values
+     * Returns the primbry 2 color. This returns b color with rgb vblues
      * of 153, 153, 204, respectively.
      *
-     * @return the primary 2 color
+     * @return the primbry 2 color
      */
-    protected ColorUIResource getPrimary2() { return primary2; }
+    protected ColorUIResource getPrimbry2() { return primbry2; }
 
     /**
-     * Returns the primary 3 color. This returns a color with rgb values
+     * Returns the primbry 3 color. This returns b color with rgb vblues
      * 204, 204, 255, respectively.
      *
-     * @return the primary 3 color
+     * @return the primbry 3 color
      */
-    protected ColorUIResource getPrimary3() { return primary3; }
+    protected ColorUIResource getPrimbry3() { return primbry3; }
 
     /**
-     * Returns the secondary 1 color. This returns a color with rgb values
-     * 102, 102, and 102, respectively.
+     * Returns the secondbry 1 color. This returns b color with rgb vblues
+     * 102, 102, bnd 102, respectively.
      *
-     * @return the secondary 1 color
+     * @return the secondbry 1 color
      */
-    protected ColorUIResource getSecondary1() { return secondary1; }
+    protected ColorUIResource getSecondbry1() { return secondbry1; }
 
     /**
-     * Returns the secondary 2 color. This returns a color with rgb values
-     * 153, 153, and 153, respectively.
+     * Returns the secondbry 2 color. This returns b color with rgb vblues
+     * 153, 153, bnd 153, respectively.
      *
-     * @return the secondary 2 color
+     * @return the secondbry 2 color
      */
-    protected ColorUIResource getSecondary2() { return secondary2; }
+    protected ColorUIResource getSecondbry2() { return secondbry2; }
 
     /**
-     * Returns the secondary 3 color. This returns a color with rgb values
-     * 204, 204, and 204, respectively.
+     * Returns the secondbry 3 color. This returns b color with rgb vblues
+     * 204, 204, bnd 204, respectively.
      *
-     * @return the secondary 3 color
+     * @return the secondbry 3 color
      */
-    protected ColorUIResource getSecondary3() { return secondary3; }
+    protected ColorUIResource getSecondbry3() { return secondbry3; }
 
 
     /**
-     * Returns the control text font. This returns Dialog, 12pt. If
-     * plain fonts have been enabled as described in <a href="#fontStyle">
-     * font style</a>, the font style is plain. Otherwise the font style is
+     * Returns the control text font. This returns Diblog, 12pt. If
+     * plbin fonts hbve been enbbled bs described in <b href="#fontStyle">
+     * font style</b>, the font style is plbin. Otherwise the font style is
      * bold.
      *
      * @return the control text font
@@ -283,7 +283,7 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the system text font. This returns Dialog, 12pt, plain.
+     * Returns the system text font. This returns Diblog, 12pt, plbin.
      *
      * @return the system text font
      */
@@ -292,7 +292,7 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the user text font. This returns Dialog, 12pt, plain.
+     * Returns the user text font. This returns Diblog, 12pt, plbin.
      *
      * @return the user text font
      */
@@ -301,9 +301,9 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the menu text font. This returns Dialog, 12pt. If
-     * plain fonts have been enabled as described in <a href="#fontStyle">
-     * font style</a>, the font style is plain. Otherwise the font style is
+     * Returns the menu text font. This returns Diblog, 12pt. If
+     * plbin fonts hbve been enbbled bs described in <b href="#fontStyle">
+     * font style</b>, the font style is plbin. Otherwise the font style is
      * bold.
      *
      * @return the menu text font
@@ -313,7 +313,7 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the window title font. This returns Dialog, 12pt, bold.
+     * Returns the window title font. This returns Diblog, 12pt, bold.
      *
      * @return the window title font
      */
@@ -322,7 +322,7 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * Returns the sub-text font. This returns Dialog, 10pt, plain.
+     * Returns the sub-text font. This returns Diblog, 10pt, plbin.
      *
      * @return the sub-text font
      */
@@ -330,52 +330,52 @@ public class DefaultMetalTheme extends MetalTheme {
         return getFont(SUB_TEXT_FONT);
     }
 
-    private FontUIResource getFont(int key) {
-        return fontDelegate.getFont(key);
+    privbte FontUIResource getFont(int key) {
+        return fontDelegbte.getFont(key);
     }
 
-    void install() {
-        if (MetalLookAndFeel.isWindows() &&
-                             MetalLookAndFeel.useSystemFonts()) {
-            fontDelegate = new WindowsFontDelegate();
+    void instbll() {
+        if (MetblLookAndFeel.isWindows() &&
+                             MetblLookAndFeel.useSystemFonts()) {
+            fontDelegbte = new WindowsFontDelegbte();
         }
         else {
-            fontDelegate = new FontDelegate();
+            fontDelegbte = new FontDelegbte();
         }
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Returns true if this is b theme provided by the core plbtform.
      */
-    boolean isSystemTheme() {
-        return (getClass() == DefaultMetalTheme.class);
+    boolebn isSystemTheme() {
+        return (getClbss() == DefbultMetblTheme.clbss);
     }
 
     /**
-     * FontDelegates add an extra level of indirection to obtaining fonts.
+     * FontDelegbtes bdd bn extrb level of indirection to obtbining fonts.
      */
-    private static class FontDelegate {
-        private static int[] defaultMapping = {
+    privbte stbtic clbss FontDelegbte {
+        privbte stbtic int[] defbultMbpping = {
             CONTROL_TEXT_FONT, SYSTEM_TEXT_FONT,
             USER_TEXT_FONT, CONTROL_TEXT_FONT,
             CONTROL_TEXT_FONT, SUB_TEXT_FONT
         };
         FontUIResource fonts[];
 
-        // menu and window are mapped to controlFont
-        public FontDelegate() {
+        // menu bnd window bre mbpped to controlFont
+        public FontDelegbte() {
             fonts = new FontUIResource[6];
         }
 
         public FontUIResource getFont(int type) {
-            int mappedType = defaultMapping[type];
+            int mbppedType = defbultMbpping[type];
             if (fonts[type] == null) {
-                Font f = getPrivilegedFont(mappedType);
+                Font f = getPrivilegedFont(mbppedType);
 
                 if (f == null) {
-                    f = new Font(getDefaultFontName(type),
-                             getDefaultFontStyle(type),
-                             getDefaultFontSize(type));
+                    f = new Font(getDefbultFontNbme(type),
+                             getDefbultFontStyle(type),
+                             getDefbultFontSize(type));
                 }
                 fonts[type] = new FontUIResource(f);
             }
@@ -383,15 +383,15 @@ public class DefaultMetalTheme extends MetalTheme {
         }
 
         /**
-         * This is the same as invoking
+         * This is the sbme bs invoking
          * <code>Font.getFont(key)</code>, with the exception
-         * that it is wrapped inside a <code>doPrivileged</code> call.
+         * thbt it is wrbpped inside b <code>doPrivileged</code> cbll.
          */
-        protected Font getPrivilegedFont(final int key) {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Font>() {
+        protected Font getPrivilegedFont(finbl int key) {
+            return jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Font>() {
                     public Font run() {
-                        return Font.getFont(getDefaultPropertyName(key));
+                        return Font.getFont(getDefbultPropertyNbme(key));
                     }
                 }
                 );
@@ -399,15 +399,15 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * The WindowsFontDelegate uses DesktopProperties to obtain fonts.
+     * The WindowsFontDelegbte uses DesktopProperties to obtbin fonts.
      */
-    private static class WindowsFontDelegate extends FontDelegate {
-        private MetalFontDesktopProperty[] props;
-        private boolean[] checkedPriviledged;
+    privbte stbtic clbss WindowsFontDelegbte extends FontDelegbte {
+        privbte MetblFontDesktopProperty[] props;
+        privbte boolebn[] checkedPriviledged;
 
-        public WindowsFontDelegate() {
-            props = new MetalFontDesktopProperty[6];
-            checkedPriviledged = new boolean[6];
+        public WindowsFontDelegbte() {
+            props = new MetblFontDesktopProperty[6];
+            checkedPriviledged = new boolebn[6];
         }
 
         public FontUIResource getFont(int type) {
@@ -424,11 +424,11 @@ public class DefaultMetalTheme extends MetalTheme {
                 }
             }
             if (props[type] == null) {
-                props[type] = new MetalFontDesktopProperty(type);
+                props[type] = new MetblFontDesktopProperty(type);
             }
-            // While passing null may seem bad, we don't actually use
-            // the table and looking it up is rather expensive.
-            return (FontUIResource)props[type].createValue(null);
+            // While pbssing null mby seem bbd, we don't bctublly use
+            // the tbble bnd looking it up is rbther expensive.
+            return (FontUIResource)props[type].crebteVblue(null);
         }
     }
 }

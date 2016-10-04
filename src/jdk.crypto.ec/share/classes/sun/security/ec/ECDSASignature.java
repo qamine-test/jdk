@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ec;
+pbckbge sun.security.ec;
 
-import java.nio.ByteBuffer;
-import java.math.BigInteger;
+import jbvb.nio.ByteBuffer;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 import sun.security.util.*;
 
 /**
- * ECDSA signature implementation. This class currently supports the
- * following algorithm names:
+ * ECDSA signbture implementbtion. This clbss currently supports the
+ * following blgorithm nbmes:
  *
  *   . "NONEwithECDSA"
  *   . "SHA1withECDSA"
@@ -48,60 +48,60 @@ import sun.security.util.*;
  *
  * @since   1.7
  */
-abstract class ECDSASignature extends SignatureSpi {
+bbstrbct clbss ECDSASignbture extends SignbtureSpi {
 
-    // message digest implementation we use
-    private final MessageDigest messageDigest;
+    // messbge digest implementbtion we use
+    privbte finbl MessbgeDigest messbgeDigest;
 
     // supplied entropy
-    private SecureRandom random;
+    privbte SecureRbndom rbndom;
 
-    // flag indicating whether the digest has been reset
-    private boolean needsReset;
+    // flbg indicbting whether the digest hbs been reset
+    privbte boolebn needsReset;
 
-    // private key, if initialized for signing
-    private ECPrivateKey privateKey;
+    // privbte key, if initiblized for signing
+    privbte ECPrivbteKey privbteKey;
 
-    // public key, if initialized for verifying
-    private ECPublicKey publicKey;
+    // public key, if initiblized for verifying
+    privbte ECPublicKey publicKey;
 
     /**
-     * Constructs a new ECDSASignature. Used by Raw subclass.
+     * Constructs b new ECDSASignbture. Used by Rbw subclbss.
      *
-     * @exception ProviderException if the native ECC library is unavailable.
+     * @exception ProviderException if the nbtive ECC librbry is unbvbilbble.
      */
-    ECDSASignature() {
-        messageDigest = null;
+    ECDSASignbture() {
+        messbgeDigest = null;
     }
 
     /**
-     * Constructs a new ECDSASignature. Used by subclasses.
+     * Constructs b new ECDSASignbture. Used by subclbsses.
      */
-    ECDSASignature(String digestName) {
+    ECDSASignbture(String digestNbme) {
         try {
-            messageDigest = MessageDigest.getInstance(digestName);
-        } catch (NoSuchAlgorithmException e) {
+            messbgeDigest = MessbgeDigest.getInstbnce(digestNbme);
+        } cbtch (NoSuchAlgorithmException e) {
             throw new ProviderException(e);
         }
-        needsReset = false;
+        needsReset = fblse;
     }
 
-    // Nested class for NONEwithECDSA signatures
-    public static final class Raw extends ECDSASignature {
+    // Nested clbss for NONEwithECDSA signbtures
+    public stbtic finbl clbss Rbw extends ECDSASignbture {
 
         // the longest supported digest is 512 bits (SHA-512)
-        private static final int RAW_ECDSA_MAX = 64;
+        privbte stbtic finbl int RAW_ECDSA_MAX = 64;
 
-        private final byte[] precomputedDigest;
-        private int offset = 0;
+        privbte finbl byte[] precomputedDigest;
+        privbte int offset = 0;
 
-        public Raw() {
+        public Rbw() {
             precomputedDigest = new byte[RAW_ECDSA_MAX];
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(byte b) throws SignatureException {
+        protected void engineUpdbte(byte b) throws SignbtureException {
             if (offset >= precomputedDigest.length) {
                 offset = RAW_ECDSA_MAX + 1;
                 return;
@@ -109,22 +109,22 @@ abstract class ECDSASignature extends SignatureSpi {
             precomputedDigest[offset++] = b;
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
+        protected void engineUpdbte(byte[] b, int off, int len)
+                throws SignbtureException {
             if (offset >= precomputedDigest.length) {
                 offset = RAW_ECDSA_MAX + 1;
                 return;
             }
-            System.arraycopy(b, off, precomputedDigest, offset, len);
+            System.brrbycopy(b, off, precomputedDigest, offset, len);
             offset += len;
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(ByteBuffer byteBuffer) {
-            int len = byteBuffer.remaining();
+        protected void engineUpdbte(ByteBuffer byteBuffer) {
+            int len = byteBuffer.rembining();
             if (len <= 0) {
                 return;
             }
@@ -141,254 +141,254 @@ abstract class ECDSASignature extends SignatureSpi {
             offset = 0;
         }
 
-        // Returns the precomputed message digest value.
+        // Returns the precomputed messbge digest vblue.
         @Override
-        protected byte[] getDigestValue() throws SignatureException {
+        protected byte[] getDigestVblue() throws SignbtureException {
             if (offset > RAW_ECDSA_MAX) {
-                throw new SignatureException("Message digest is too long");
+                throw new SignbtureException("Messbge digest is too long");
 
             }
             byte[] result = new byte[offset];
-            System.arraycopy(precomputedDigest, 0, result, 0, offset);
+            System.brrbycopy(precomputedDigest, 0, result, 0, offset);
             offset = 0;
 
             return result;
         }
     }
 
-    // Nested class for SHA1withECDSA signatures
-    public static final class SHA1 extends ECDSASignature {
+    // Nested clbss for SHA1withECDSA signbtures
+    public stbtic finbl clbss SHA1 extends ECDSASignbture {
         public SHA1() {
             super("SHA1");
         }
     }
 
-    // Nested class for SHA224withECDSA signatures
-    public static final class SHA224 extends ECDSASignature {
+    // Nested clbss for SHA224withECDSA signbtures
+    public stbtic finbl clbss SHA224 extends ECDSASignbture {
         public SHA224() {
            super("SHA-224");
         }
     }
 
-    // Nested class for SHA256withECDSA signatures
-    public static final class SHA256 extends ECDSASignature {
+    // Nested clbss for SHA256withECDSA signbtures
+    public stbtic finbl clbss SHA256 extends ECDSASignbture {
         public SHA256() {
             super("SHA-256");
         }
     }
 
-    // Nested class for SHA384withECDSA signatures
-    public static final class SHA384 extends ECDSASignature {
+    // Nested clbss for SHA384withECDSA signbtures
+    public stbtic finbl clbss SHA384 extends ECDSASignbture {
         public SHA384() {
             super("SHA-384");
         }
     }
 
-    // Nested class for SHA512withECDSA signatures
-    public static final class SHA512 extends ECDSASignature {
+    // Nested clbss for SHA512withECDSA signbtures
+    public stbtic finbl clbss SHA512 extends ECDSASignbture {
         public SHA512() {
             super("SHA-512");
         }
     }
 
-    // initialize for verification. See JCA doc
+    // initiblize for verificbtion. See JCA doc
     @Override
     protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        this.publicKey = (ECPublicKey) ECKeyFactory.toECKey(publicKey);
+            throws InvblidKeyException {
+        this.publicKey = (ECPublicKey) ECKeyFbctory.toECKey(publicKey);
 
-        // Should check that the supplied key is appropriate for signature
-        // algorithm (e.g. P-256 for SHA256withECDSA)
-        this.privateKey = null;
+        // Should check thbt the supplied key is bppropribte for signbture
+        // blgorithm (e.g. P-256 for SHA256withECDSA)
+        this.privbteKey = null;
         resetDigest();
     }
 
-    // initialize for signing. See JCA doc
+    // initiblize for signing. See JCA doc
     @Override
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, null);
+    protected void engineInitSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        engineInitSign(privbteKey, null);
     }
 
-    // initialize for signing. See JCA doc
+    // initiblize for signing. See JCA doc
     @Override
-    protected void engineInitSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        this.privateKey = (ECPrivateKey) ECKeyFactory.toECKey(privateKey);
+    protected void engineInitSign(PrivbteKey privbteKey, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        this.privbteKey = (ECPrivbteKey) ECKeyFbctory.toECKey(privbteKey);
 
-        // Should check that the supplied key is appropriate for signature
-        // algorithm (e.g. P-256 for SHA256withECDSA)
+        // Should check thbt the supplied key is bppropribte for signbture
+        // blgorithm (e.g. P-256 for SHA256withECDSA)
         this.publicKey = null;
-        this.random = random;
+        this.rbndom = rbndom;
         resetDigest();
     }
 
     /**
-     * Resets the message digest if needed.
+     * Resets the messbge digest if needed.
      */
     protected void resetDigest() {
         if (needsReset) {
-            if (messageDigest != null) {
-                messageDigest.reset();
+            if (messbgeDigest != null) {
+                messbgeDigest.reset();
             }
-            needsReset = false;
+            needsReset = fblse;
         }
     }
 
     /**
-     * Returns the message digest value.
+     * Returns the messbge digest vblue.
      */
-    protected byte[] getDigestValue() throws SignatureException {
-        needsReset = false;
-        return messageDigest.digest();
+    protected byte[] getDigestVblue() throws SignbtureException {
+        needsReset = fblse;
+        return messbgeDigest.digest();
     }
 
-    // update the signature with the plaintext data. See JCA doc
+    // updbte the signbture with the plbintext dbtb. See JCA doc
     @Override
-    protected void engineUpdate(byte b) throws SignatureException {
-        messageDigest.update(b);
+    protected void engineUpdbte(byte b) throws SignbtureException {
+        messbgeDigest.updbte(b);
         needsReset = true;
     }
 
-    // update the signature with the plaintext data. See JCA doc
+    // updbte the signbture with the plbintext dbtb. See JCA doc
     @Override
-    protected void engineUpdate(byte[] b, int off, int len)
-            throws SignatureException {
-        messageDigest.update(b, off, len);
+    protected void engineUpdbte(byte[] b, int off, int len)
+            throws SignbtureException {
+        messbgeDigest.updbte(b, off, len);
         needsReset = true;
     }
 
-    // update the signature with the plaintext data. See JCA doc
+    // updbte the signbture with the plbintext dbtb. See JCA doc
     @Override
-    protected void engineUpdate(ByteBuffer byteBuffer) {
-        int len = byteBuffer.remaining();
+    protected void engineUpdbte(ByteBuffer byteBuffer) {
+        int len = byteBuffer.rembining();
         if (len <= 0) {
             return;
         }
 
-        messageDigest.update(byteBuffer);
+        messbgeDigest.updbte(byteBuffer);
         needsReset = true;
     }
 
-    // sign the data and return the signature. See JCA doc
+    // sign the dbtb bnd return the signbture. See JCA doc
     @Override
-    protected byte[] engineSign() throws SignatureException {
-        byte[] s = privateKey.getS().toByteArray();
-        ECParameterSpec params = privateKey.getParams();
+    protected byte[] engineSign() throws SignbtureException {
+        byte[] s = privbteKey.getS().toByteArrby();
+        ECPbrbmeterSpec pbrbms = privbteKey.getPbrbms();
         // DER OID
-        byte[] encodedParams = ECUtil.encodeECParameterSpec(null, params);
-        int keySize = params.getCurve().getField().getFieldSize();
+        byte[] encodedPbrbms = ECUtil.encodeECPbrbmeterSpec(null, pbrbms);
+        int keySize = pbrbms.getCurve().getField().getFieldSize();
 
         // seed is twice the key size (in bytes) plus 1
         byte[] seed = new byte[(((keySize + 7) >> 3) + 1) * 2];
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+        if (rbndom == null) {
+            rbndom = JCAUtil.getSecureRbndom();
         }
-        random.nextBytes(seed);
+        rbndom.nextBytes(seed);
 
         try {
 
-            return encodeSignature(
-                signDigest(getDigestValue(), s, encodedParams, seed));
+            return encodeSignbture(
+                signDigest(getDigestVblue(), s, encodedPbrbms, seed));
 
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not sign data", e);
+        } cbtch (GenerblSecurityException e) {
+            throw new SignbtureException("Could not sign dbtb", e);
         }
     }
 
-    // verify the data and return the result. See JCA doc
+    // verify the dbtb bnd return the result. See JCA doc
     @Override
-    protected boolean engineVerify(byte[] signature) throws SignatureException {
+    protected boolebn engineVerify(byte[] signbture) throws SignbtureException {
 
         byte[] w;
-        ECParameterSpec params = publicKey.getParams();
+        ECPbrbmeterSpec pbrbms = publicKey.getPbrbms();
         // DER OID
-        byte[] encodedParams = ECUtil.encodeECParameterSpec(null, params);
+        byte[] encodedPbrbms = ECUtil.encodeECPbrbmeterSpec(null, pbrbms);
 
-        if (publicKey instanceof ECPublicKeyImpl) {
-            w = ((ECPublicKeyImpl)publicKey).getEncodedPublicValue();
-        } else { // instanceof ECPublicKey
-            w = ECUtil.encodePoint(publicKey.getW(), params.getCurve());
+        if (publicKey instbnceof ECPublicKeyImpl) {
+            w = ((ECPublicKeyImpl)publicKey).getEncodedPublicVblue();
+        } else { // instbnceof ECPublicKey
+            w = ECUtil.encodePoint(publicKey.getW(), pbrbms.getCurve());
         }
 
         try {
 
             return verifySignedDigest(
-                decodeSignature(signature), getDigestValue(), w, encodedParams);
+                decodeSignbture(signbture), getDigestVblue(), w, encodedPbrbms);
 
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not verify signature", e);
+        } cbtch (GenerblSecurityException e) {
+            throw new SignbtureException("Could not verify signbture", e);
         }
     }
 
-    // set parameter, not supported. See JCA doc
+    // set pbrbmeter, not supported. See JCA doc
     @Override
-    @Deprecated
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("setParameter() not supported");
+    @Deprecbted
+    protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("setPbrbmeter() not supported");
     }
 
-    // get parameter, not supported. See JCA doc
+    // get pbrbmeter, not supported. See JCA doc
     @Override
-    @Deprecated
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("getParameter() not supported");
+    @Deprecbted
+    protected Object engineGetPbrbmeter(String pbrbm)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("getPbrbmeter() not supported");
     }
 
-    // Convert the concatenation of R and S into their DER encoding
-    private byte[] encodeSignature(byte[] signature) throws SignatureException {
+    // Convert the concbtenbtion of R bnd S into their DER encoding
+    privbte byte[] encodeSignbture(byte[] signbture) throws SignbtureException {
 
         try {
 
-            int n = signature.length >> 1;
+            int n = signbture.length >> 1;
             byte[] bytes = new byte[n];
-            System.arraycopy(signature, 0, bytes, 0, n);
+            System.brrbycopy(signbture, 0, bytes, 0, n);
             BigInteger r = new BigInteger(1, bytes);
-            System.arraycopy(signature, n, bytes, 0, n);
+            System.brrbycopy(signbture, n, bytes, 0, n);
             BigInteger s = new BigInteger(1, bytes);
 
-            DerOutputStream out = new DerOutputStream(signature.length + 10);
+            DerOutputStrebm out = new DerOutputStrebm(signbture.length + 10);
             out.putInteger(r);
             out.putInteger(s);
-            DerValue result =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
+            DerVblue result =
+                new DerVblue(DerVblue.tbg_Sequence, out.toByteArrby());
 
-            return result.toByteArray();
+            return result.toByteArrby();
 
-        } catch (Exception e) {
-            throw new SignatureException("Could not encode signature", e);
+        } cbtch (Exception e) {
+            throw new SignbtureException("Could not encode signbture", e);
         }
     }
 
-    // Convert the DER encoding of R and S into a concatenation of R and S
-    private byte[] decodeSignature(byte[] signature) throws SignatureException {
+    // Convert the DER encoding of R bnd S into b concbtenbtion of R bnd S
+    privbte byte[] decodeSignbture(byte[] signbture) throws SignbtureException {
 
         try {
-            DerInputStream in = new DerInputStream(signature);
-            DerValue[] values = in.getSequence(2);
-            BigInteger r = values[0].getPositiveBigInteger();
-            BigInteger s = values[1].getPositiveBigInteger();
-            // trim leading zeroes
-            byte[] rBytes = trimZeroes(r.toByteArray());
-            byte[] sBytes = trimZeroes(s.toByteArray());
-            int k = Math.max(rBytes.length, sBytes.length);
-            // r and s each occupy half the array
+            DerInputStrebm in = new DerInputStrebm(signbture);
+            DerVblue[] vblues = in.getSequence(2);
+            BigInteger r = vblues[0].getPositiveBigInteger();
+            BigInteger s = vblues[1].getPositiveBigInteger();
+            // trim lebding zeroes
+            byte[] rBytes = trimZeroes(r.toByteArrby());
+            byte[] sBytes = trimZeroes(s.toByteArrby());
+            int k = Mbth.mbx(rBytes.length, sBytes.length);
+            // r bnd s ebch occupy hblf the brrby
             byte[] result = new byte[k << 1];
-            System.arraycopy(rBytes, 0, result, k - rBytes.length,
+            System.brrbycopy(rBytes, 0, result, k - rBytes.length,
                 rBytes.length);
-            System.arraycopy(sBytes, 0, result, result.length - sBytes.length,
+            System.brrbycopy(sBytes, 0, result, result.length - sBytes.length,
                 sBytes.length);
             return result;
 
-        } catch (Exception e) {
-            throw new SignatureException("Could not decode signature", e);
+        } cbtch (Exception e) {
+            throw new SignbtureException("Could not decode signbture", e);
         }
     }
 
-    // trim leading (most significant) zeroes from the result
-    private static byte[] trimZeroes(byte[] b) {
+    // trim lebding (most significbnt) zeroes from the result
+    privbte stbtic byte[] trimZeroes(byte[] b) {
         int i = 0;
         while ((i < b.length - 1) && (b[i] == 0)) {
             i++;
@@ -397,35 +397,35 @@ abstract class ECDSASignature extends SignatureSpi {
             return b;
         }
         byte[] t = new byte[b.length - i];
-        System.arraycopy(b, i, t, 0, t.length);
+        System.brrbycopy(b, i, t, 0, t.length);
         return t;
     }
 
     /**
-     * Signs the digest using the private key.
+     * Signs the digest using the privbte key.
      *
-     * @param digest the digest to be signed.
-     * @param s the private key's S value.
-     * @param encodedParams the curve's DER encoded object identifier.
-     * @param seed the random seed.
+     * @pbrbm digest the digest to be signed.
+     * @pbrbm s the privbte key's S vblue.
+     * @pbrbm encodedPbrbms the curve's DER encoded object identifier.
+     * @pbrbm seed the rbndom seed.
      *
-     * @return byte[] the signature.
+     * @return byte[] the signbture.
      */
-    private static native byte[] signDigest(byte[] digest, byte[] s,
-        byte[] encodedParams, byte[] seed) throws GeneralSecurityException;
+    privbte stbtic nbtive byte[] signDigest(byte[] digest, byte[] s,
+        byte[] encodedPbrbms, byte[] seed) throws GenerblSecurityException;
 
     /**
      * Verifies the signed digest using the public key.
      *
-     * @param signedDigest the signature to be verified. It is encoded
-     *        as a concatenation of the key's R and S values.
-     * @param digest the digest to be used.
-     * @param w the public key's W point (in uncompressed form).
-     * @param encodedParams the curve's DER encoded object identifier.
+     * @pbrbm signedDigest the signbture to be verified. It is encoded
+     *        bs b concbtenbtion of the key's R bnd S vblues.
+     * @pbrbm digest the digest to be used.
+     * @pbrbm w the public key's W point (in uncompressed form).
+     * @pbrbm encodedPbrbms the curve's DER encoded object identifier.
      *
-     * @return boolean true if the signature is successfully verified.
+     * @return boolebn true if the signbture is successfully verified.
      */
-    private static native boolean verifySignedDigest(byte[] signature,
-        byte[] digest, byte[] w, byte[] encodedParams)
-            throws GeneralSecurityException;
+    privbte stbtic nbtive boolebn verifySignedDigest(byte[] signbture,
+        byte[] digest, byte[] w, byte[] encodedPbrbms)
+            throws GenerblSecurityException;
 }

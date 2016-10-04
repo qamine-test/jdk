@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,28 +53,28 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
 // ------------------------------------------------------------------------
 
-// Gamut boundary description by using Jan Morovic's Segment maxima method
-// Many thanks to Jan for allowing me to use his algorithm.
+// Gbmut boundbry description by using Jbn Morovic's Segment mbximb method
+// Mbny thbnks to Jbn for bllowing me to use his blgorithm.
 
 // r = C*
-// alpha = Hab
-// theta = L*
+// blphb = Hbb
+// thetb = L*
 
-#define SECTORS 16      // number of divisions in alpha and theta
+#define SECTORS 16      // number of divisions in blphb bnd thetb
 
-// Spherical coordinates
+// Sphericbl coordinbtes
 typedef struct {
 
-    cmsFloat64Number r;
-    cmsFloat64Number alpha;
-    cmsFloat64Number theta;
+    cmsFlobt64Number r;
+    cmsFlobt64Number blphb;
+    cmsFlobt64Number thetb;
 
-} cmsSpherical;
+} cmsSphericbl;
 
 typedef  enum {
         GP_EMPTY,
@@ -87,7 +87,7 @@ typedef  enum {
 typedef struct {
 
     GDBPointType Type;
-    cmsSpherical p;         // Keep also alpha & theta of maximum
+    cmsSphericbl p;         // Keep blso blphb & thetb of mbximum
 
 } cmsGDBPoint;
 
@@ -95,22 +95,22 @@ typedef struct {
 typedef struct {
 
     cmsContext ContextID;
-    cmsGDBPoint Gamut[SECTORS][SECTORS];
+    cmsGDBPoint Gbmut[SECTORS][SECTORS];
 
 } cmsGDB;
 
 
-// A line using the parametric form
-// P = a + t*u
+// A line using the pbrbmetric form
+// P = b + t*u
 typedef struct {
 
-    cmsVEC3 a;
+    cmsVEC3 b;
     cmsVEC3 u;
 
 } cmsLine;
 
 
-// A plane using the parametric form
+// A plbne using the pbrbmetric form
 // Q = b + r*v + s*w
 typedef struct {
 
@@ -118,160 +118,160 @@ typedef struct {
     cmsVEC3 v;
     cmsVEC3 w;
 
-} cmsPlane;
+} cmsPlbne;
 
 
 
 // --------------------------------------------------------------------------------------------
 
-// ATAN2() which always returns degree positive numbers
+// ATAN2() which blwbys returns degree positive numbers
 
-static
-cmsFloat64Number _cmsAtan2(cmsFloat64Number y, cmsFloat64Number x)
+stbtic
+cmsFlobt64Number _cmsAtbn2(cmsFlobt64Number y, cmsFlobt64Number x)
 {
-    cmsFloat64Number a;
+    cmsFlobt64Number b;
 
-    // Deal with undefined case
+    // Debl with undefined cbse
     if (x == 0.0 && y == 0.0) return 0;
 
-    a = (atan2(y, x) * 180.0) / M_PI;
+    b = (btbn2(y, x) * 180.0) / M_PI;
 
-    while (a < 0) {
-        a += 360;
+    while (b < 0) {
+        b += 360;
     }
 
-    return a;
+    return b;
 }
 
-// Convert to spherical coordinates
-static
-void ToSpherical(cmsSpherical* sp, const cmsVEC3* v)
+// Convert to sphericbl coordinbtes
+stbtic
+void ToSphericbl(cmsSphericbl* sp, const cmsVEC3* v)
 {
 
-    cmsFloat64Number L, a, b;
+    cmsFlobt64Number L, b, b;
 
     L = v ->n[VX];
-    a = v ->n[VY];
+    b = v ->n[VY];
     b = v ->n[VZ];
 
-    sp ->r = sqrt( L*L + a*a + b*b );
+    sp ->r = sqrt( L*L + b*b + b*b );
 
    if (sp ->r == 0) {
-        sp ->alpha = sp ->theta = 0;
+        sp ->blphb = sp ->thetb = 0;
         return;
     }
 
-    sp ->alpha = _cmsAtan2(a, b);
-    sp ->theta = _cmsAtan2(sqrt(a*a + b*b), L);
+    sp ->blphb = _cmsAtbn2(b, b);
+    sp ->thetb = _cmsAtbn2(sqrt(b*b + b*b), L);
 }
 
 
-// Convert to cartesian from spherical
-static
-void ToCartesian(cmsVEC3* v, const cmsSpherical* sp)
+// Convert to cbrtesibn from sphericbl
+stbtic
+void ToCbrtesibn(cmsVEC3* v, const cmsSphericbl* sp)
 {
-    cmsFloat64Number sin_alpha;
-    cmsFloat64Number cos_alpha;
-    cmsFloat64Number sin_theta;
-    cmsFloat64Number cos_theta;
-    cmsFloat64Number L, a, b;
+    cmsFlobt64Number sin_blphb;
+    cmsFlobt64Number cos_blphb;
+    cmsFlobt64Number sin_thetb;
+    cmsFlobt64Number cos_thetb;
+    cmsFlobt64Number L, b, b;
 
-    sin_alpha = sin((M_PI * sp ->alpha) / 180.0);
-    cos_alpha = cos((M_PI * sp ->alpha) / 180.0);
-    sin_theta = sin((M_PI * sp ->theta) / 180.0);
-    cos_theta = cos((M_PI * sp ->theta) / 180.0);
+    sin_blphb = sin((M_PI * sp ->blphb) / 180.0);
+    cos_blphb = cos((M_PI * sp ->blphb) / 180.0);
+    sin_thetb = sin((M_PI * sp ->thetb) / 180.0);
+    cos_thetb = cos((M_PI * sp ->thetb) / 180.0);
 
-    a = sp ->r * sin_theta * sin_alpha;
-    b = sp ->r * sin_theta * cos_alpha;
-    L = sp ->r * cos_theta;
+    b = sp ->r * sin_thetb * sin_blphb;
+    b = sp ->r * sin_thetb * cos_blphb;
+    L = sp ->r * cos_thetb;
 
     v ->n[VX] = L;
-    v ->n[VY] = a;
+    v ->n[VY] = b;
     v ->n[VZ] = b;
 }
 
 
-// Quantize sector of a spherical coordinate. Saturate 360, 180 to last sector
-// The limits are the centers of each sector, so
-static
-void QuantizeToSector(const cmsSpherical* sp, int* alpha, int* theta)
+// Qubntize sector of b sphericbl coordinbte. Sbturbte 360, 180 to lbst sector
+// The limits bre the centers of ebch sector, so
+stbtic
+void QubntizeToSector(const cmsSphericbl* sp, int* blphb, int* thetb)
 {
-    *alpha = (int) floor(((sp->alpha * (SECTORS)) / 360.0) );
-    *theta = (int) floor(((sp->theta * (SECTORS)) / 180.0) );
+    *blphb = (int) floor(((sp->blphb * (SECTORS)) / 360.0) );
+    *thetb = (int) floor(((sp->thetb * (SECTORS)) / 180.0) );
 
-    if (*alpha >= SECTORS)
-        *alpha = SECTORS-1;
-    if (*theta >= SECTORS)
-        *theta = SECTORS-1;
+    if (*blphb >= SECTORS)
+        *blphb = SECTORS-1;
+    if (*thetb >= SECTORS)
+        *thetb = SECTORS-1;
 }
 
 
 // Line determined by 2 points
-static
-void LineOf2Points(cmsLine* line, cmsVEC3* a, cmsVEC3* b)
+stbtic
+void LineOf2Points(cmsLine* line, cmsVEC3* b, cmsVEC3* b)
 {
 
-    _cmsVEC3init(&line ->a, a ->n[VX], a ->n[VY], a ->n[VZ]);
-    _cmsVEC3init(&line ->u, b ->n[VX] - a ->n[VX],
-                            b ->n[VY] - a ->n[VY],
-                            b ->n[VZ] - a ->n[VZ]);
+    _cmsVEC3init(&line ->b, b ->n[VX], b ->n[VY], b ->n[VZ]);
+    _cmsVEC3init(&line ->u, b ->n[VX] - b ->n[VX],
+                            b ->n[VY] - b ->n[VY],
+                            b ->n[VZ] - b ->n[VZ]);
 }
 
 
-// Evaluate parametric line
-static
-void GetPointOfLine(cmsVEC3* p, const cmsLine* line, cmsFloat64Number t)
+// Evblubte pbrbmetric line
+stbtic
+void GetPointOfLine(cmsVEC3* p, const cmsLine* line, cmsFlobt64Number t)
 {
-    p ->n[VX] = line ->a.n[VX] + t * line->u.n[VX];
-    p ->n[VY] = line ->a.n[VY] + t * line->u.n[VY];
-    p ->n[VZ] = line ->a.n[VZ] + t * line->u.n[VZ];
+    p ->n[VX] = line ->b.n[VX] + t * line->u.n[VX];
+    p ->n[VY] = line ->b.n[VY] + t * line->u.n[VY];
+    p ->n[VZ] = line ->b.n[VZ] + t * line->u.n[VZ];
 }
 
 
 
 /*
-    Closest point in sector line1 to sector line2 (both are defined as 0 <=t <= 1)
-    http://softsurfer.com/Archive/algorithm_0106/algorithm_0106.htm
+    Closest point in sector line1 to sector line2 (both bre defined bs 0 <=t <= 1)
+    http://softsurfer.com/Archive/blgorithm_0106/blgorithm_0106.htm
 
     Copyright 2001, softSurfer (www.softsurfer.com)
-    This code may be freely used and modified for any purpose
-    providing that this copyright notice is included with it.
-    SoftSurfer makes no warranty for this code, and cannot be held
-    liable for any real or imagined damage resulting from its use.
-    Users of this code must verify correctness for their application.
+    This code mby be freely used bnd modified for bny purpose
+    providing thbt this copyright notice is included with it.
+    SoftSurfer mbkes no wbrrbnty for this code, bnd cbnnot be held
+    libble for bny rebl or imbgined dbmbge resulting from its use.
+    Users of this code must verify correctness for their bpplicbtion.
 
 */
 
-static
+stbtic
 cmsBool ClosestLineToLine(cmsVEC3* r, const cmsLine* line1, const cmsLine* line2)
 {
-    cmsFloat64Number a, b, c, d, e, D;
-    cmsFloat64Number sc, sN, sD;
-    cmsFloat64Number tc, tN, tD;
+    cmsFlobt64Number b, b, c, d, e, D;
+    cmsFlobt64Number sc, sN, sD;
+    cmsFlobt64Number tc, tN, tD;
     cmsVEC3 w0;
 
-    _cmsVEC3minus(&w0, &line1 ->a, &line2 ->a);
+    _cmsVEC3minus(&w0, &line1 ->b, &line2 ->b);
 
-    a  = _cmsVEC3dot(&line1 ->u, &line1 ->u);
+    b  = _cmsVEC3dot(&line1 ->u, &line1 ->u);
     b  = _cmsVEC3dot(&line1 ->u, &line2 ->u);
     c  = _cmsVEC3dot(&line2 ->u, &line2 ->u);
     d  = _cmsVEC3dot(&line1 ->u, &w0);
     e  = _cmsVEC3dot(&line2 ->u, &w0);
 
-    D  = a*c - b * b;      // Denominator
-    sD = tD = D;           // default sD = D >= 0
+    D  = b*c - b * b;      // Denominbtor
+    sD = tD = D;           // defbult sD = D >= 0
 
-    if (D <  MATRIX_DET_TOLERANCE) {   // the lines are almost parallel
+    if (D <  MATRIX_DET_TOLERANCE) {   // the lines bre blmost pbrbllel
 
         sN = 0.0;        // force using point P0 on segment S1
-        sD = 1.0;        // to prevent possible division by 0.0 later
+        sD = 1.0;        // to prevent possible division by 0.0 lbter
         tN = e;
         tD = c;
     }
     else {                // get the closest points on the infinite lines
 
         sN = (b*e - c*d);
-        tN = (a*e - b*d);
+        tN = (b*e - b*d);
 
         if (sN < 0.0) {       // sc < 0 => the s=0 edge is visible
 
@@ -292,11 +292,11 @@ cmsBool ClosestLineToLine(cmsVEC3* r, const cmsLine* line1, const cmsLine* line2
         // recompute sc for this edge
         if (-d < 0.0)
             sN = 0.0;
-        else if (-d > a)
+        else if (-d > b)
             sN = sD;
         else {
             sN = -d;
-            sD = a;
+            sD = b;
         }
     }
     else if (tN > tD) {      // tc > 1 => the t=1 edge is visible
@@ -306,16 +306,16 @@ cmsBool ClosestLineToLine(cmsVEC3* r, const cmsLine* line1, const cmsLine* line2
         // recompute sc for this edge
         if ((-d + b) < 0.0)
             sN = 0;
-        else if ((-d + b) > a)
+        else if ((-d + b) > b)
             sN = sD;
         else {
             sN = (-d + b);
-            sD = a;
+            sD = b;
         }
     }
-    // finally do the division to get sc and tc
-    sc = (fabs(sN) < MATRIX_DET_TOLERANCE ? 0.0 : sN / sD);
-    tc = (fabs(tN) < MATRIX_DET_TOLERANCE ? 0.0 : tN / tD);
+    // finblly do the division to get sc bnd tc
+    sc = (fbbs(sN) < MATRIX_DET_TOLERANCE ? 0.0 : sN / sD);
+    tc = (fbbs(tN) < MATRIX_DET_TOLERANCE ? 0.0 : tN / tD);
 
     GetPointOfLine(r, line1, sc);
     return TRUE;
@@ -323,13 +323,13 @@ cmsBool ClosestLineToLine(cmsVEC3* r, const cmsLine* line1, const cmsLine* line2
 
 
 
-// ------------------------------------------------------------------ Wrapper
+// ------------------------------------------------------------------ Wrbpper
 
 
-// Allocate & free structure
+// Allocbte & free structure
 cmsHANDLE  CMSEXPORT cmsGBDAlloc(cmsContext ContextID)
 {
-    cmsGDB* gbd = (cmsGDB*) _cmsMallocZero(ContextID, sizeof(cmsGDB));
+    cmsGDB* gbd = (cmsGDB*) _cmsMbllocZero(ContextID, sizeof(cmsGDB));
     if (gbd == NULL) return NULL;
 
     gbd -> ContextID = ContextID;
@@ -346,55 +346,55 @@ void CMSEXPORT cmsGBDFree(cmsHANDLE hGBD)
 }
 
 
-// Auxiliar to retrieve a pointer to the segmentr containing the Lab value
-static
-cmsGDBPoint* GetPoint(cmsGDB* gbd, const cmsCIELab* Lab, cmsSpherical* sp)
+// Auxilibr to retrieve b pointer to the segmentr contbining the Lbb vblue
+stbtic
+cmsGDBPoint* GetPoint(cmsGDB* gbd, const cmsCIELbb* Lbb, cmsSphericbl* sp)
 {
     cmsVEC3 v;
-    int alpha, theta;
+    int blphb, thetb;
 
     // Housekeeping
     _cmsAssert(gbd != NULL);
-    _cmsAssert(Lab != NULL);
+    _cmsAssert(Lbb != NULL);
     _cmsAssert(sp != NULL);
 
-    // Center L* by substracting half of its domain, that's 50
-    _cmsVEC3init(&v, Lab ->L - 50.0, Lab ->a, Lab ->b);
+    // Center L* by substrbcting hblf of its dombin, thbt's 50
+    _cmsVEC3init(&v, Lbb ->L - 50.0, Lbb ->b, Lbb ->b);
 
-    // Convert to spherical coordinates
-    ToSpherical(sp, &v);
+    // Convert to sphericbl coordinbtes
+    ToSphericbl(sp, &v);
 
-    if (sp ->r < 0 || sp ->alpha < 0 || sp->theta < 0) {
-         cmsSignalError(gbd ->ContextID, cmsERROR_RANGE, "spherical value out of range");
+    if (sp ->r < 0 || sp ->blphb < 0 || sp->thetb < 0) {
+         cmsSignblError(gbd ->ContextID, cmsERROR_RANGE, "sphericbl vblue out of rbnge");
          return NULL;
     }
 
-    // On which sector it falls?
-    QuantizeToSector(sp, &alpha, &theta);
+    // On which sector it fblls?
+    QubntizeToSector(sp, &blphb, &thetb);
 
-    if (alpha < 0 || theta < 0 || alpha >= SECTORS || theta >= SECTORS) {
-         cmsSignalError(gbd ->ContextID, cmsERROR_RANGE, " quadrant out of range");
+    if (blphb < 0 || thetb < 0 || blphb >= SECTORS || thetb >= SECTORS) {
+         cmsSignblError(gbd ->ContextID, cmsERROR_RANGE, " qubdrbnt out of rbnge");
          return NULL;
     }
 
     // Get pointer to the sector
-    return &gbd ->Gamut[theta][alpha];
+    return &gbd ->Gbmut[thetb][blphb];
 }
 
-// Add a point to gamut descriptor. Point to add is in Lab color space.
-// GBD is centered on a=b=0 and L*=50
-cmsBool CMSEXPORT cmsGDBAddPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
+// Add b point to gbmut descriptor. Point to bdd is in Lbb color spbce.
+// GBD is centered on b=b=0 bnd L*=50
+cmsBool CMSEXPORT cmsGDBAddPoint(cmsHANDLE hGBD, const cmsCIELbb* Lbb)
 {
     cmsGDB* gbd = (cmsGDB*) hGBD;
     cmsGDBPoint* ptr;
-    cmsSpherical sp;
+    cmsSphericbl sp;
 
 
     // Get pointer to the sector
-    ptr = GetPoint(gbd, Lab, &sp);
+    ptr = GetPoint(gbd, Lbb, &sp);
     if (ptr == NULL) return FALSE;
 
-    // If no samples at this sector, add it
+    // If no sbmples bt this sector, bdd it
     if (ptr ->Type == GP_EMPTY) {
 
         ptr -> Type = GP_SPECIFIED;
@@ -403,7 +403,7 @@ cmsBool CMSEXPORT cmsGDBAddPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
     else {
 
 
-        // Substitute only if radius is greater
+        // Substitute only if rbdius is grebter
         if (sp.r > ptr -> p.r) {
 
                 ptr -> Type = GP_SPECIFIED;
@@ -414,29 +414,29 @@ cmsBool CMSEXPORT cmsGDBAddPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
     return TRUE;
 }
 
-// Check if a given point falls inside gamut
-cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
+// Check if b given point fblls inside gbmut
+cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELbb* Lbb)
 {
     cmsGDB* gbd = (cmsGDB*) hGBD;
     cmsGDBPoint* ptr;
-    cmsSpherical sp;
+    cmsSphericbl sp;
 
     // Get pointer to the sector
-    ptr = GetPoint(gbd, Lab, &sp);
+    ptr = GetPoint(gbd, Lbb, &sp);
     if (ptr == NULL) return FALSE;
 
-    // If no samples at this sector, return no data
+    // If no sbmples bt this sector, return no dbtb
     if (ptr ->Type == GP_EMPTY) return FALSE;
 
-    // In gamut only if radius is greater
+    // In gbmut only if rbdius is grebter
 
     return (sp.r <= ptr -> p.r);
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-// Find near sectors. The list of sectors found is returned on Close[].
-// The function returns the number of sectors as well.
+// Find nebr sectors. The list of sectors found is returned on Close[].
+// The function returns the number of sectors bs well.
 
 // 24   9  10  11  12
 // 23   8   1   2  13
@@ -444,7 +444,7 @@ cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
 // 21   6   5   4  15
 // 20  19  18  17  16
 //
-// Those are the relative movements
+// Those bre the relbtive movements
 // {-2,-2}, {-1, -2}, {0, -2}, {+1, -2}, {+2,  -2},
 // {-2,-1}, {-1, -1}, {0, -1}, {+1, -1}, {+2,  -1},
 // {-2, 0}, {-1,  0}, {0,  0}, {+1,  0}, {+2,   0},
@@ -452,40 +452,40 @@ cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
 // {-2,+2}, {-1, +2}, {0, +2}, {+1,  +2}, {+2,  +2}};
 
 
-static
-const struct _spiral {
+stbtic
+const struct _spirbl {
 
     int AdvX, AdvY;
 
-    } Spiral[] = { {0,  -1}, {+1, -1}, {+1,  0}, {+1, +1}, {0,  +1}, {-1, +1},
+    } Spirbl[] = { {0,  -1}, {+1, -1}, {+1,  0}, {+1, +1}, {0,  +1}, {-1, +1},
                    {-1,  0}, {-1, -1}, {-1, -2}, {0,  -2}, {+1, -2}, {+2, -2},
                    {+2, -1}, {+2,  0}, {+2, +1}, {+2, +2}, {+1, +2}, {0,  +2},
                    {-1, +2}, {-2, +2}, {-2, +1}, {-2, 0},  {-2, -1}, {-2, -2} };
 
-#define NSTEPS (sizeof(Spiral) / sizeof(struct _spiral))
+#define NSTEPS (sizeof(Spirbl) / sizeof(struct _spirbl))
 
-static
-int FindNearSectors(cmsGDB* gbd, int alpha, int theta, cmsGDBPoint* Close[])
+stbtic
+int FindNebrSectors(cmsGDB* gbd, int blphb, int thetb, cmsGDBPoint* Close[])
 {
     int nSectors = 0;
-    int a, t;
+    int b, t;
     cmsUInt32Number i;
     cmsGDBPoint* pt;
 
     for (i=0; i < NSTEPS; i++) {
 
-        a = alpha + Spiral[i].AdvX;
-        t = theta + Spiral[i].AdvY;
+        b = blphb + Spirbl[i].AdvX;
+        t = thetb + Spirbl[i].AdvY;
 
-        // Cycle at the end
-        a %= SECTORS;
+        // Cycle bt the end
+        b %= SECTORS;
         t %= SECTORS;
 
-        // Cycle at the begin
-        if (a < 0) a = SECTORS + a;
+        // Cycle bt the begin
+        if (b < 0) b = SECTORS + b;
         if (t < 0) t = SECTORS + t;
 
-        pt = &gbd ->Gamut[t][a];
+        pt = &gbd ->Gbmut[t][b];
 
         if (pt -> Type != GP_EMPTY) {
 
@@ -497,116 +497,116 @@ int FindNearSectors(cmsGDB* gbd, int alpha, int theta, cmsGDBPoint* Close[])
 }
 
 
-// Interpolate a missing sector. Method identifies whatever this is top, bottom or mid
-static
-cmsBool InterpolateMissingSector(cmsGDB* gbd, int alpha, int theta)
+// Interpolbte b missing sector. Method identifies whbtever this is top, bottom or mid
+stbtic
+cmsBool InterpolbteMissingSector(cmsGDB* gbd, int blphb, int thetb)
 {
-    cmsSpherical sp;
-    cmsVEC3 Lab;
+    cmsSphericbl sp;
+    cmsVEC3 Lbb;
     cmsVEC3 Centre;
-    cmsLine ray;
+    cmsLine rby;
     int nCloseSectors;
     cmsGDBPoint* Close[NSTEPS + 1];
-    cmsSpherical closel, templ;
+    cmsSphericbl closel, templ;
     cmsLine edge;
     int k, m;
 
-    // Is that point already specified?
-    if (gbd ->Gamut[theta][alpha].Type != GP_EMPTY) return TRUE;
+    // Is thbt point blrebdy specified?
+    if (gbd ->Gbmut[thetb][blphb].Type != GP_EMPTY) return TRUE;
 
     // Fill close points
-    nCloseSectors = FindNearSectors(gbd, alpha, theta, Close);
+    nCloseSectors = FindNebrSectors(gbd, blphb, thetb, Close);
 
 
-    // Find a central point on the sector
-    sp.alpha = (cmsFloat64Number) ((alpha + 0.5) * 360.0) / (SECTORS);
-    sp.theta = (cmsFloat64Number) ((theta + 0.5) * 180.0) / (SECTORS);
+    // Find b centrbl point on the sector
+    sp.blphb = (cmsFlobt64Number) ((blphb + 0.5) * 360.0) / (SECTORS);
+    sp.thetb = (cmsFlobt64Number) ((thetb + 0.5) * 180.0) / (SECTORS);
     sp.r     = 50.0;
 
-    // Convert to Cartesian
-    ToCartesian(&Lab, &sp);
+    // Convert to Cbrtesibn
+    ToCbrtesibn(&Lbb, &sp);
 
-    // Create a ray line from centre to this point
+    // Crebte b rby line from centre to this point
     _cmsVEC3init(&Centre, 50.0, 0, 0);
-    LineOf2Points(&ray, &Lab, &Centre);
+    LineOf2Points(&rby, &Lbb, &Centre);
 
-    // For all close sectors
+    // For bll close sectors
     closel.r = 0.0;
-    closel.alpha = 0;
-    closel.theta = 0;
+    closel.blphb = 0;
+    closel.thetb = 0;
 
     for (k=0; k < nCloseSectors; k++) {
 
         for(m = k+1; m < nCloseSectors; m++) {
 
-            cmsVEC3 temp, a1, a2;
+            cmsVEC3 temp, b1, b2;
 
             // A line from sector to sector
-            ToCartesian(&a1, &Close[k]->p);
-            ToCartesian(&a2, &Close[m]->p);
+            ToCbrtesibn(&b1, &Close[k]->p);
+            ToCbrtesibn(&b2, &Close[m]->p);
 
-            LineOf2Points(&edge, &a1, &a2);
+            LineOf2Points(&edge, &b1, &b2);
 
-            // Find a line
-            ClosestLineToLine(&temp, &ray, &edge);
+            // Find b line
+            ClosestLineToLine(&temp, &rby, &edge);
 
-            // Convert to spherical
-            ToSpherical(&templ, &temp);
+            // Convert to sphericbl
+            ToSphericbl(&templ, &temp);
 
 
             if ( templ.r > closel.r &&
-                 templ.theta >= (theta*180.0/SECTORS) &&
-                 templ.theta <= ((theta+1)*180.0/SECTORS) &&
-                 templ.alpha >= (alpha*360.0/SECTORS) &&
-                 templ.alpha <= ((alpha+1)*360.0/SECTORS)) {
+                 templ.thetb >= (thetb*180.0/SECTORS) &&
+                 templ.thetb <= ((thetb+1)*180.0/SECTORS) &&
+                 templ.blphb >= (blphb*360.0/SECTORS) &&
+                 templ.blphb <= ((blphb+1)*360.0/SECTORS)) {
 
                 closel = templ;
             }
         }
     }
 
-    gbd ->Gamut[theta][alpha].p = closel;
-    gbd ->Gamut[theta][alpha].Type = GP_MODELED;
+    gbd ->Gbmut[thetb][blphb].p = closel;
+    gbd ->Gbmut[thetb][blphb].Type = GP_MODELED;
 
     return TRUE;
 
 }
 
 
-// Interpolate missing parts. The algorithm fist computes slices at
-// theta=0 and theta=Max.
-cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
+// Interpolbte missing pbrts. The blgorithm fist computes slices bt
+// thetb=0 bnd thetb=Mbx.
+cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlbgs)
 {
-    int alpha, theta;
+    int blphb, thetb;
     cmsGDB* gbd = (cmsGDB*) hGBD;
 
     _cmsAssert(hGBD != NULL);
 
-    // Interpolate black
-    for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Interpolbte blbck
+    for (blphb = 0; blphb < SECTORS; blphb++) {
 
-        if (!InterpolateMissingSector(gbd, alpha, 0)) return FALSE;
+        if (!InterpolbteMissingSector(gbd, blphb, 0)) return FALSE;
     }
 
-    // Interpolate white
-    for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Interpolbte white
+    for (blphb = 0; blphb < SECTORS; blphb++) {
 
-        if (!InterpolateMissingSector(gbd, alpha, SECTORS-1)) return FALSE;
+        if (!InterpolbteMissingSector(gbd, blphb, SECTORS-1)) return FALSE;
     }
 
 
-    // Interpolate Mid
-    for (theta = 1; theta < SECTORS; theta++) {
-        for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Interpolbte Mid
+    for (thetb = 1; thetb < SECTORS; thetb++) {
+        for (blphb = 0; blphb < SECTORS; blphb++) {
 
-            if (!InterpolateMissingSector(gbd, alpha, theta)) return FALSE;
+            if (!InterpolbteMissingSector(gbd, blphb, thetb)) return FALSE;
         }
     }
 
     // Done
     return TRUE;
 
-    cmsUNUSED_PARAMETER(dwFlags);
+    cmsUNUSED_PARAMETER(dwFlbgs);
 }
 
 
@@ -614,60 +614,60 @@ cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
 
 // --------------------------------------------------------------------------------------------------------
 
-// Great for debug, but not suitable for real use
+// Grebt for debug, but not suitbble for rebl use
 
 #if 0
-cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
+cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const chbr* fnbme)
 {
     FILE* fp;
     int   i, j;
     cmsGDB* gbd = (cmsGDB*) hGBD;
     cmsGDBPoint* pt;
 
-    fp = fopen (fname, "wt");
+    fp = fopen (fnbme, "wt");
     if (fp == NULL)
         return FALSE;
 
     fprintf (fp, "#VRML V2.0 utf8\n");
 
-    // set the viewing orientation and distance
-    fprintf (fp, "DEF CamTest Group {\n");
+    // set the viewing orientbtion bnd distbnce
+    fprintf (fp, "DEF CbmTest Group {\n");
     fprintf (fp, "\tchildren [\n");
-    fprintf (fp, "\t\tDEF Cameras Group {\n");
+    fprintf (fp, "\t\tDEF Cbmerbs Group {\n");
     fprintf (fp, "\t\t\tchildren [\n");
-    fprintf (fp, "\t\t\t\tDEF DefaultView Viewpoint {\n");
+    fprintf (fp, "\t\t\t\tDEF DefbultView Viewpoint {\n");
     fprintf (fp, "\t\t\t\t\tposition 0 0 340\n");
-    fprintf (fp, "\t\t\t\t\torientation 0 0 1 0\n");
-    fprintf (fp, "\t\t\t\t\tdescription \"default view\"\n");
+    fprintf (fp, "\t\t\t\t\torientbtion 0 0 1 0\n");
+    fprintf (fp, "\t\t\t\t\tdescription \"defbult view\"\n");
     fprintf (fp, "\t\t\t\t}\n");
     fprintf (fp, "\t\t\t]\n");
     fprintf (fp, "\t\t},\n");
     fprintf (fp, "\t]\n");
     fprintf (fp, "}\n");
 
-    // Output the background stuff
-    fprintf (fp, "Background {\n");
+    // Output the bbckground stuff
+    fprintf (fp, "Bbckground {\n");
     fprintf (fp, "\tskyColor [\n");
     fprintf (fp, "\t\t.5 .5 .5\n");
     fprintf (fp, "\t]\n");
     fprintf (fp, "}\n");
 
-    // Output the shape stuff
-    fprintf (fp, "Transform {\n");
-    fprintf (fp, "\tscale .3 .3 .3\n");
+    // Output the shbpe stuff
+    fprintf (fp, "Trbnsform {\n");
+    fprintf (fp, "\tscble .3 .3 .3\n");
     fprintf (fp, "\tchildren [\n");
 
-    // Draw the axes as a shape:
-    fprintf (fp, "\t\tShape {\n");
-    fprintf (fp, "\t\t\tappearance Appearance {\n");
-    fprintf (fp, "\t\t\t\tmaterial Material {\n");
+    // Drbw the bxes bs b shbpe:
+    fprintf (fp, "\t\tShbpe {\n");
+    fprintf (fp, "\t\t\tbppebrbnce Appebrbnce {\n");
+    fprintf (fp, "\t\t\t\tmbteribl Mbteribl {\n");
     fprintf (fp, "\t\t\t\t\tdiffuseColor 0 0.8 0\n");
     fprintf (fp, "\t\t\t\t\temissiveColor 1.0 1.0 1.0\n");
     fprintf (fp, "\t\t\t\t\tshininess 0.8\n");
     fprintf (fp, "\t\t\t\t}\n");
     fprintf (fp, "\t\t\t}\n");
     fprintf (fp, "\t\t\tgeometry IndexedLineSet {\n");
-    fprintf (fp, "\t\t\t\tcoord Coordinate {\n");
+    fprintf (fp, "\t\t\t\tcoord Coordinbte {\n");
     fprintf (fp, "\t\t\t\t\tpoint [\n");
     fprintf (fp, "\t\t\t\t\t0.0 0.0 0.0,\n");
     fprintf (fp, "\t\t\t\t\t%f 0.0 0.0,\n",  255.0);
@@ -682,9 +682,9 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
     fprintf (fp, "\t\t}\n");
 
 
-    fprintf (fp, "\t\tShape {\n");
-    fprintf (fp, "\t\t\tappearance Appearance {\n");
-    fprintf (fp, "\t\t\t\tmaterial Material {\n");
+    fprintf (fp, "\t\tShbpe {\n");
+    fprintf (fp, "\t\t\tbppebrbnce Appebrbnce {\n");
+    fprintf (fp, "\t\t\t\tmbteribl Mbteribl {\n");
     fprintf (fp, "\t\t\t\t\tdiffuseColor 0 0.8 0\n");
     fprintf (fp, "\t\t\t\t\temissiveColor 1 1 1\n");
     fprintf (fp, "\t\t\t\t\tshininess 0.8\n");
@@ -693,17 +693,17 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
     fprintf (fp, "\t\t\tgeometry PointSet {\n");
 
     // fill in the points here
-    fprintf (fp, "\t\t\t\tcoord Coordinate {\n");
+    fprintf (fp, "\t\t\t\tcoord Coordinbte {\n");
     fprintf (fp, "\t\t\t\t\tpoint [\n");
 
-    // We need to transverse all gamut hull.
+    // We need to trbnsverse bll gbmut hull.
     for (i=0; i < SECTORS; i++)
         for (j=0; j < SECTORS; j++) {
 
             cmsVEC3 v;
 
-            pt = &gbd ->Gamut[i][j];
-            ToCartesian(&v, &pt ->p);
+            pt = &gbd ->Gbmut[i][j];
+            ToCbrtesibn(&v, &pt ->p);
 
             fprintf (fp, "\t\t\t\t\t%g %g %g", v.n[0]+50, v.n[1], v.n[2]);
 
@@ -718,7 +718,7 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
 
 
 
-    // fill in the face colors
+    // fill in the fbce colors
     fprintf (fp, "\t\t\t\tcolor Color {\n");
     fprintf (fp, "\t\t\t\t\tcolor [\n");
 
@@ -727,10 +727,10 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
 
            cmsVEC3 v;
 
-            pt = &gbd ->Gamut[i][j];
+            pt = &gbd ->Gbmut[i][j];
 
 
-            ToCartesian(&v, &pt ->p);
+            ToCbrtesibn(&v, &pt ->p);
 
 
         if (pt ->Type == GP_EMPTY)

@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package org.ietf.jgss;
+pbckbge org.ietf.jgss;
 
-import java.io.InputStream;
-import java.io.IOException;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 import sun.security.util.ObjectIdentifier;
 
 /**
- * This class represents Universal Object Identifiers (Oids) and their
- * associated operations.<p>
+ * This clbss represents Universbl Object Identifiers (Oids) bnd their
+ * bssocibted operbtions.<p>
  *
- * Oids are hierarchically globally-interpretable identifiers used
- * within the GSS-API framework to identify mechanisms and name formats.<p>
+ * Oids bre hierbrchicblly globblly-interpretbble identifiers used
+ * within the GSS-API frbmework to identify mechbnisms bnd nbme formbts.<p>
  *
- * The structure and encoding of Oids is defined in ISOIEC-8824 and
- * ISOIEC-8825.  For example the Oid representation of Kerberos V5
- * mechanism is "1.2.840.113554.1.2.2"<p>
+ * The structure bnd encoding of Oids is defined in ISOIEC-8824 bnd
+ * ISOIEC-8825.  For exbmple the Oid representbtion of Kerberos V5
+ * mechbnism is "1.2.840.113554.1.2.2"<p>
  *
- * The GSSName name class contains public static Oid objects
- * representing the standard name types defined in GSS-API.
+ * The GSSNbme nbme clbss contbins public stbtic Oid objects
+ * representing the stbndbrd nbme types defined in GSS-API.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class Oid {
+public clbss Oid {
 
-    private ObjectIdentifier oid;
-    private byte[] derEncoding;
+    privbte ObjectIdentifier oid;
+    privbte byte[] derEncoding;
 
     /**
-     * Constructs an Oid object from a string representation of its
+     * Constructs bn Oid object from b string representbtion of its
      * integer components.
      *
-     * @param strOid the dot separated string representation of the oid.
-     * For instance, "1.2.840.113554.1.2.2".
-     * @exception GSSException may be thrown when the string is incorrectly
-     *     formatted
+     * @pbrbm strOid the dot sepbrbted string representbtion of the oid.
+     * For instbnce, "1.2.840.113554.1.2.2".
+     * @exception GSSException mby be thrown when the string is incorrectly
+     *     formbtted
      */
     public Oid(String strOid) throws GSSException {
 
         try {
             oid = new ObjectIdentifier(strOid);
             derEncoding = null;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted Object Identifier String - "
+                          "Improperly formbtted Object Identifier String - "
                           + strOid);
         }
     }
 
     /**
-     * Creates an Oid object from its ASN.1 DER encoding.  This refers to
-     * the full encoding including tag and length.  The structure and
-     * encoding of Oids is defined in ISOIEC-8824 and ISOIEC-8825.  This
-     * method is identical in functionality to its byte array counterpart.
+     * Crebtes bn Oid object from its ASN.1 DER encoding.  This refers to
+     * the full encoding including tbg bnd length.  The structure bnd
+     * encoding of Oids is defined in ISOIEC-8824 bnd ISOIEC-8825.  This
+     * method is identicbl in functionblity to its byte brrby counterpbrt.
      *
-     * @param derOid stream containing the DER encoded oid
-     * @exception GSSException may be thrown when the DER encoding does not
-     *  follow the prescribed format.
+     * @pbrbm derOid strebm contbining the DER encoded oid
+     * @exception GSSException mby be thrown when the DER encoding does not
+     *  follow the prescribed formbt.
      */
-    public Oid(InputStream derOid) throws GSSException {
+    public Oid(InputStrebm derOid) throws GSSException {
         try {
-            DerValue derVal = new DerValue(derOid);
-            derEncoding = derVal.toByteArray();
-            oid = derVal.getOID();
-        } catch (IOException e) {
+            DerVblue derVbl = new DerVblue(derOid);
+            derEncoding = derVbl.toByteArrby();
+            oid = derVbl.getOID();
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted ASN.1 DER encoding for Oid");
+                          "Improperly formbtted ASN.1 DER encoding for Oid");
         }
     }
 
 
     /**
-     * Creates an Oid object from its ASN.1 DER encoding.  This refers to
-     * the full encoding including tag and length.  The structure and
-     * encoding of Oids is defined in ISOIEC-8824 and ISOIEC-8825.  This
-     * method is identical in functionality to its InputStream conterpart.
+     * Crebtes bn Oid object from its ASN.1 DER encoding.  This refers to
+     * the full encoding including tbg bnd length.  The structure bnd
+     * encoding of Oids is defined in ISOIEC-8824 bnd ISOIEC-8825.  This
+     * method is identicbl in functionblity to its InputStrebm conterpbrt.
      *
-     * @param data byte array containing the DER encoded oid
-     * @exception GSSException may be thrown when the DER encoding does not
-     *     follow the prescribed format.
+     * @pbrbm dbtb byte brrby contbining the DER encoded oid
+     * @exception GSSException mby be thrown when the DER encoding does not
+     *     follow the prescribed formbt.
      */
-    public Oid(byte [] data) throws GSSException {
+    public Oid(byte [] dbtb) throws GSSException {
         try {
-            DerValue derVal = new DerValue(data);
-            derEncoding = derVal.toByteArray();
-            oid = derVal.getOID();
-        } catch (IOException e) {
+            DerVblue derVbl = new DerVblue(dbtb);
+            derEncoding = derVbl.toByteArrby();
+            oid = derVbl.getOID();
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted ASN.1 DER encoding for Oid");
+                          "Improperly formbtted ASN.1 DER encoding for Oid");
         }
     }
 
     /**
-     * Only for calling by initializators used with declarations.
+     * Only for cblling by initiblizbtors used with declbrbtions.
      *
-     * @param strOid
+     * @pbrbm strOid
      */
-    static Oid getInstance(String strOid) {
-        Oid retVal = null;
+    stbtic Oid getInstbnce(String strOid) {
+        Oid retVbl = null;
         try {
-            retVal =  new Oid(strOid);
-        } catch (GSSException e) {
+            retVbl =  new Oid(strOid);
+        } cbtch (GSSException e) {
             // squelch it!
         }
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Returns a string representation of the oid's integer components
-     * in dot separated notation.
+     * Returns b string representbtion of the oid's integer components
+     * in dot sepbrbted notbtion.
      *
-     * @return string representation in the following format: "1.2.3.4.5"
+     * @return string representbtion in the following formbt: "1.2.3.4.5"
      */
     public String toString() {
         return oid.toString();
     }
 
     /**
-     * Tests if two Oid objects represent the same Object identifier
-     * value.
+     * Tests if two Oid objects represent the sbme Object identifier
+     * vblue.
      *
-     * @return <code>true</code> if the two Oid objects represent the same
-     * value, <code>false</code> otherwise.
-     * @param other the Oid object that has to be compared to this one
+     * @return <code>true</code> if the two Oid objects represent the sbme
+     * vblue, <code>fblse</code> otherwise.
+     * @pbrbm other the Oid object thbt hbs to be compbred to this one
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
 
-        //check if both reference the same object
+        //check if both reference the sbme object
         if (this == other)
             return (true);
 
-        if (other instanceof Oid)
-            return this.oid.equals((Object)((Oid) other).oid);
-        else if (other instanceof ObjectIdentifier)
-            return this.oid.equals(other);
+        if (other instbnceof Oid)
+            return this.oid.equbls((Object)((Oid) other).oid);
+        else if (other instbnceof ObjectIdentifier)
+            return this.oid.equbls(other);
         else
-            return false;
+            return fblse;
     }
 
 
     /**
      * Returns the full ASN.1 DER encoding for this oid object, which
-     * includes the tag and length.
+     * includes the tbg bnd length.
      *
-     * @return byte array containing the DER encoding of this oid object.
-     * @exception GSSException may be thrown when the oid can't be encoded
+     * @return byte brrby contbining the DER encoding of this oid object.
+     * @exception GSSException mby be thrown when the oid cbn't be encoded
      */
     public byte[] getDER() throws GSSException {
 
         if (derEncoding == null) {
-            DerOutputStream dout = new DerOutputStream();
+            DerOutputStrebm dout = new DerOutputStrebm();
             try {
                 dout.putOID(oid);
-            } catch (IOException e) {
-                throw new GSSException(GSSException.FAILURE, e.getMessage());
+            } cbtch (IOException e) {
+                throw new GSSException(GSSException.FAILURE, e.getMessbge());
             }
-            derEncoding = dout.toByteArray();
+            derEncoding = dout.toByteArrby();
         }
 
         return derEncoding.clone();
     }
 
     /**
-     * A utility method to test if this Oid value is contained within the
-     * supplied Oid array.
+     * A utility method to test if this Oid vblue is contbined within the
+     * supplied Oid brrby.
      *
-     * @param oids the array of Oid's to search
-     * @return true if the array contains this Oid value, false otherwise
+     * @pbrbm oids the brrby of Oid's to sebrch
+     * @return true if the brrby contbins this Oid vblue, fblse otherwise
      */
-    public boolean containedIn(Oid[] oids) {
+    public boolebn contbinedIn(Oid[] oids) {
 
         for (int i = 0; i < oids.length; i++) {
-            if (oids[i].equals(this))
+            if (oids[i].equbls(this))
                 return (true);
         }
 
-        return (false);
+        return (fblse);
     }
 
 
     /**
-     * Returns a hashcode value for this Oid.
+     * Returns b hbshcode vblue for this Oid.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode() {
-        return oid.hashCode();
+    public int hbshCode() {
+        return oid.hbshCode();
     }
 }

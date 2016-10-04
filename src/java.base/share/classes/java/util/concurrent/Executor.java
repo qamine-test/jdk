@@ -1,141 +1,141 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * An object that executes submitted {@link Runnable} tasks. This
- * interface provides a way of decoupling task submission from the
- * mechanics of how each task will be run, including details of thread
- * use, scheduling, etc.  An {@code Executor} is normally used
- * instead of explicitly creating threads. For example, rather than
- * invoking {@code new Thread(new(RunnableTask())).start()} for each
- * of a set of tasks, you might use:
+ * An object thbt executes submitted {@link Runnbble} tbsks. This
+ * interfbce provides b wby of decoupling tbsk submission from the
+ * mechbnics of how ebch tbsk will be run, including detbils of threbd
+ * use, scheduling, etc.  An {@code Executor} is normblly used
+ * instebd of explicitly crebting threbds. For exbmple, rbther thbn
+ * invoking {@code new Threbd(new(RunnbbleTbsk())).stbrt()} for ebch
+ * of b set of tbsks, you might use:
  *
  * <pre>
- * Executor executor = <em>anExecutor</em>;
- * executor.execute(new RunnableTask1());
- * executor.execute(new RunnableTask2());
+ * Executor executor = <em>bnExecutor</em>;
+ * executor.execute(new RunnbbleTbsk1());
+ * executor.execute(new RunnbbleTbsk2());
  * ...
  * </pre>
  *
- * However, the {@code Executor} interface does not strictly
- * require that execution be asynchronous. In the simplest case, an
- * executor can run the submitted task immediately in the caller's
- * thread:
+ * However, the {@code Executor} interfbce does not strictly
+ * require thbt execution be bsynchronous. In the simplest cbse, bn
+ * executor cbn run the submitted tbsk immedibtely in the cbller's
+ * threbd:
  *
  *  <pre> {@code
- * class DirectExecutor implements Executor {
- *   public void execute(Runnable r) {
+ * clbss DirectExecutor implements Executor {
+ *   public void execute(Runnbble r) {
  *     r.run();
  *   }
  * }}</pre>
  *
- * More typically, tasks are executed in some thread other
- * than the caller's thread.  The executor below spawns a new thread
- * for each task.
+ * More typicblly, tbsks bre executed in some threbd other
+ * thbn the cbller's threbd.  The executor below spbwns b new threbd
+ * for ebch tbsk.
  *
  *  <pre> {@code
- * class ThreadPerTaskExecutor implements Executor {
- *   public void execute(Runnable r) {
- *     new Thread(r).start();
+ * clbss ThrebdPerTbskExecutor implements Executor {
+ *   public void execute(Runnbble r) {
+ *     new Threbd(r).stbrt();
  *   }
  * }}</pre>
  *
- * Many {@code Executor} implementations impose some sort of
- * limitation on how and when tasks are scheduled.  The executor below
- * serializes the submission of tasks to a second executor,
- * illustrating a composite executor.
+ * Mbny {@code Executor} implementbtions impose some sort of
+ * limitbtion on how bnd when tbsks bre scheduled.  The executor below
+ * seriblizes the submission of tbsks to b second executor,
+ * illustrbting b composite executor.
  *
  *  <pre> {@code
- * class SerialExecutor implements Executor {
- *   final Queue<Runnable> tasks = new ArrayDeque<Runnable>();
- *   final Executor executor;
- *   Runnable active;
+ * clbss SeriblExecutor implements Executor {
+ *   finbl Queue<Runnbble> tbsks = new ArrbyDeque<Runnbble>();
+ *   finbl Executor executor;
+ *   Runnbble bctive;
  *
- *   SerialExecutor(Executor executor) {
+ *   SeriblExecutor(Executor executor) {
  *     this.executor = executor;
  *   }
  *
- *   public synchronized void execute(final Runnable r) {
- *     tasks.offer(new Runnable() {
+ *   public synchronized void execute(finbl Runnbble r) {
+ *     tbsks.offer(new Runnbble() {
  *       public void run() {
  *         try {
  *           r.run();
- *         } finally {
+ *         } finblly {
  *           scheduleNext();
  *         }
  *       }
  *     });
- *     if (active == null) {
+ *     if (bctive == null) {
  *       scheduleNext();
  *     }
  *   }
  *
  *   protected synchronized void scheduleNext() {
- *     if ((active = tasks.poll()) != null) {
- *       executor.execute(active);
+ *     if ((bctive = tbsks.poll()) != null) {
+ *       executor.execute(bctive);
  *     }
  *   }
  * }}</pre>
  *
- * The {@code Executor} implementations provided in this package
- * implement {@link ExecutorService}, which is a more extensive
- * interface.  The {@link ThreadPoolExecutor} class provides an
- * extensible thread pool implementation. The {@link Executors} class
- * provides convenient factory methods for these Executors.
+ * The {@code Executor} implementbtions provided in this pbckbge
+ * implement {@link ExecutorService}, which is b more extensive
+ * interfbce.  The {@link ThrebdPoolExecutor} clbss provides bn
+ * extensible threbd pool implementbtion. The {@link Executors} clbss
+ * provides convenient fbctory methods for these Executors.
  *
- * <p>Memory consistency effects: Actions in a thread prior to
- * submitting a {@code Runnable} object to an {@code Executor}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * its execution begins, perhaps in another thread.
+ * <p>Memory consistency effects: Actions in b threbd prior to
+ * submitting b {@code Runnbble} object to bn {@code Executor}
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * its execution begins, perhbps in bnother threbd.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public interface Executor {
+public interfbce Executor {
 
     /**
-     * Executes the given command at some time in the future.  The command
-     * may execute in a new thread, in a pooled thread, or in the calling
-     * thread, at the discretion of the {@code Executor} implementation.
+     * Executes the given commbnd bt some time in the future.  The commbnd
+     * mby execute in b new threbd, in b pooled threbd, or in the cblling
+     * threbd, bt the discretion of the {@code Executor} implementbtion.
      *
-     * @param command the runnable task
-     * @throws RejectedExecutionException if this task cannot be
-     * accepted for execution
-     * @throws NullPointerException if command is null
+     * @pbrbm commbnd the runnbble tbsk
+     * @throws RejectedExecutionException if this tbsk cbnnot be
+     * bccepted for execution
+     * @throws NullPointerException if commbnd is null
      */
-    void execute(Runnable command);
+    void execute(Runnbble commbnd);
 }

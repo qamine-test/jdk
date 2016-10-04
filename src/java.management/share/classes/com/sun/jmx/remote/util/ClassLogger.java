@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.util;
+pbckbge com.sun.jmx.remote.util;
 
-import java.util.logging.Logger;
+import jbvb.util.logging.Logger;
 
-public class ClassLogger {
+public clbss ClbssLogger {
 
-    private static final boolean ok;
-    private final String className;
-    private final Logger logger;
+    privbte stbtic finbl boolebn ok;
+    privbte finbl String clbssNbme;
+    privbte finbl Logger logger;
 
-    static {
-        /* We attempt to work even if we are running in J2SE 1.3, where
-           there is no java.util.logging.  The technique we use here is
-           not strictly portable, but it does work with Sun's J2SE 1.3
-           at least.  This is just a best effort: the Right Thing is for
-           people to use at least J2SE 1.4.  */
-        boolean loaded = false;
+    stbtic {
+        /* We bttempt to work even if we bre running in J2SE 1.3, where
+           there is no jbvb.util.logging.  The technique we use here is
+           not strictly portbble, but it does work with Sun's J2SE 1.3
+           bt lebst.  This is just b best effort: the Right Thing is for
+           people to use bt lebst J2SE 1.4.  */
+        boolebn lobded = fblse;
         try {
-            Class<?> c = java.util.logging.Logger.class;
-            loaded = true;
-        } catch (Error e) {
+            Clbss<?> c = jbvb.util.logging.Logger.clbss;
+            lobded = true;
+        } cbtch (Error e) {
             // OK.
-            // java.util.logger package is not available in this jvm.
+            // jbvb.util.logger pbckbge is not bvbilbble in this jvm.
         }
-        ok = loaded;
+        ok = lobded;
     }
 
-    public ClassLogger(String subsystem, String className) {
+    public ClbssLogger(String subsystem, String clbssNbme) {
         if (ok)
             logger = Logger.getLogger(subsystem);
         else
             logger = null;
-        this.className = className;
+        this.clbssNbme = clbssNbme;
     }
 
-    public final boolean traceOn() {
+    public finbl boolebn trbceOn() {
         return finerOn();
     }
 
-    public final boolean debugOn() {
+    public finbl boolebn debugOn() {
         return finestOn();
     }
 
-    public final boolean warningOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.WARNING);
+    public finbl boolebn wbrningOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.WARNING);
     }
 
-    public final boolean infoOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.INFO);
+    public finbl boolebn infoOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.INFO);
     }
 
-    public final boolean configOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.CONFIG);
+    public finbl boolebn configOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.CONFIG);
     }
 
-    public final boolean fineOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.FINE);
+    public finbl boolebn fineOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.FINE);
     }
 
-    public final boolean finerOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.FINER);
+    public finbl boolebn finerOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.FINER);
     }
 
-    public final boolean finestOn() {
-        return ok && logger.isLoggable(java.util.logging.Level.FINEST);
+    public finbl boolebn finestOn() {
+        return ok && logger.isLoggbble(jbvb.util.logging.Level.FINEST);
     }
 
-    public final void debug(String func, String msg) {
+    public finbl void debug(String func, String msg) {
         finest(func,msg);
     }
 
-    public final void debug(String func, Throwable t) {
+    public finbl void debug(String func, Throwbble t) {
         finest(func,t);
     }
 
-    public final void debug(String func, String msg, Throwable t) {
+    public finbl void debug(String func, String msg, Throwbble t) {
         finest(func,msg,t);
     }
 
-    public final void trace(String func, String msg) {
+    public finbl void trbce(String func, String msg) {
         finer(func,msg);
     }
 
-    public final void trace(String func, Throwable t) {
+    public finbl void trbce(String func, Throwbble t) {
         finer(func,t);
     }
 
-    public final void trace(String func, String msg, Throwable t) {
+    public finbl void trbce(String func, String msg, Throwbble t) {
         finer(func,msg,t);
     }
 
-    public final void error(String func, String msg) {
+    public finbl void error(String func, String msg) {
         severe(func,msg);
     }
 
-    public final void error(String func, Throwable t) {
+    public finbl void error(String func, Throwbble t) {
         severe(func,t);
     }
 
-    public final void error(String func, String msg, Throwable t) {
+    public finbl void error(String func, String msg, Throwbble t) {
         severe(func,msg,t);
     }
 
-    public final void finest(String func, String msg) {
+    public finbl void finest(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINEST, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.FINEST, clbssNbme, func, msg);
     }
 
-    public final void finest(String func, Throwable t) {
+    public finbl void finest(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINEST, className, func,
+            logger.logp(jbvb.util.logging.Level.FINEST, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void finest(String func, String msg, Throwable t) {
+    public finbl void finest(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINEST, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.FINEST, clbssNbme, func, msg,
                         t);
     }
 
-    public final void finer(String func, String msg) {
+    public finbl void finer(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINER, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.FINER, clbssNbme, func, msg);
     }
 
-    public final void finer(String func, Throwable t) {
+    public finbl void finer(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINER, className, func,
+            logger.logp(jbvb.util.logging.Level.FINER, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void finer(String func, String msg, Throwable t) {
+    public finbl void finer(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINER, className, func, msg,t);
+            logger.logp(jbvb.util.logging.Level.FINER, clbssNbme, func, msg,t);
     }
 
-    public final void fine(String func, String msg) {
+    public finbl void fine(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINE, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.FINE, clbssNbme, func, msg);
     }
 
-    public final void fine(String func, Throwable t) {
+    public finbl void fine(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINE, className, func,
+            logger.logp(jbvb.util.logging.Level.FINE, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void fine(String func, String msg, Throwable t) {
+    public finbl void fine(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.FINE, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.FINE, clbssNbme, func, msg,
                         t);
     }
 
-    public final void config(String func, String msg) {
+    public finbl void config(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.CONFIG, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.CONFIG, clbssNbme, func, msg);
     }
 
-    public final void config(String func, Throwable t) {
+    public finbl void config(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.CONFIG, className, func,
+            logger.logp(jbvb.util.logging.Level.CONFIG, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void config(String func, String msg, Throwable t) {
+    public finbl void config(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.CONFIG, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.CONFIG, clbssNbme, func, msg,
                         t);
     }
 
-    public final void info(String func, String msg) {
+    public finbl void info(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.INFO, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.INFO, clbssNbme, func, msg);
     }
 
-    public final void info(String func, Throwable t) {
+    public finbl void info(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.INFO, className, func,
+            logger.logp(jbvb.util.logging.Level.INFO, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void info(String func, String msg, Throwable t) {
+    public finbl void info(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.INFO, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.INFO, clbssNbme, func, msg,
                         t);
     }
 
-    public final void warning(String func, String msg) {
+    public finbl void wbrning(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.WARNING, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.WARNING, clbssNbme, func, msg);
     }
 
-    public final void warning(String func, Throwable t) {
+    public finbl void wbrning(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.WARNING, className, func,
+            logger.logp(jbvb.util.logging.Level.WARNING, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void warning(String func, String msg, Throwable t) {
+    public finbl void wbrning(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.WARNING, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.WARNING, clbssNbme, func, msg,
                         t);
     }
 
-    public final void severe(String func, String msg) {
+    public finbl void severe(String func, String msg) {
         if (ok)
-            logger.logp(java.util.logging.Level.SEVERE, className, func, msg);
+            logger.logp(jbvb.util.logging.Level.SEVERE, clbssNbme, func, msg);
     }
 
-    public final void severe(String func, Throwable t) {
+    public finbl void severe(String func, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.SEVERE, className, func,
+            logger.logp(jbvb.util.logging.Level.SEVERE, clbssNbme, func,
                         t.toString(), t);
     }
 
-    public final void severe(String func, String msg, Throwable t) {
+    public finbl void severe(String func, String msg, Throwbble t) {
         if (ok)
-            logger.logp(java.util.logging.Level.SEVERE, className, func, msg,
+            logger.logp(jbvb.util.logging.Level.SEVERE, clbssNbme, func, msg,
                         t);
     }
 }

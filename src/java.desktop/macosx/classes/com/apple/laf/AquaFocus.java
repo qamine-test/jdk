@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 //
-//  AquaFocus.java
+//  AqubFocus.jbvb
 //  Copyright (c) 2009 Apple Inc. All rights reserved.
 //
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.java2d.*;
-import apple.laf.JRSUIFocus;
+import sun.jbvb2d.*;
+import bpple.lbf.JRSUIFocus;
 
-import com.apple.laf.AquaUtils.Painter;
+import com.bpple.lbf.AqubUtils.Pbinter;
 
-public class AquaFocus {
-    interface Drawable {
-        public void draw(final Graphics2D sg2d);
+public clbss AqubFocus {
+    interfbce Drbwbble {
+        public void drbw(finbl Grbphics2D sg2d);
     }
 
-    static boolean paintFocus(final Graphics g, final Drawable drawable) {
-        // TODO: requires OSXSurfaceData
-        return false;
-        /*if (!(g instanceof SunGraphics2D)) return false;
-        final SunGraphics2D sg2d = (SunGraphics2D)g;
+    stbtic boolebn pbintFocus(finbl Grbphics g, finbl Drbwbble drbwbble) {
+        // TODO: requires OSXSurfbceDbtb
+        return fblse;
+        /*if (!(g instbnceof SunGrbphics2D)) return fblse;
+        finbl SunGrbphics2D sg2d = (SunGrbphics2D)g;
 
-        final SurfaceData surfaceData = sg2d.getSurfaceData();
-        if (!(surfaceData instanceof OSXSurfaceData)) return false;
+        finbl SurfbceDbtb surfbceDbtb = sg2d.getSurfbceDbtb();
+        if (!(surfbceDbtb instbnceof OSXSurfbceDbtb)) return fblse;
 
         try {
-            ((OSXSurfaceData)surfaceData).performCocoaDrawing(sg2d, new OSXSurfaceData.CGContextDrawable() {
+            ((OSXSurfbceDbtb)surfbceDbtb).performCocobDrbwing(sg2d, new OSXSurfbceDbtb.CGContextDrbwbble() {
                 @Override
-                public void drawIntoCGContext(final long cgContext) {
-                    final JRSUIFocus focus = new JRSUIFocus(cgContext);
+                public void drbwIntoCGContext(finbl long cgContext) {
+                    finbl JRSUIFocus focus = new JRSUIFocus(cgContext);
                     focus.beginFocus(JRSUIFocus.RING_BELOW);
-                    drawable.draw(sg2d);
+                    drbwbble.drbw(sg2d);
                     focus.endFocus();
                 }
             });
-        } finally {
+        } finblly {
             sg2d.dispose();
         }
         return true;*/
     }
 
-    public static Icon createFocusedIcon(final Icon tmpIcon, final Component c, final int slack) {
-        return new FocusedIcon(tmpIcon, slack);
+    public stbtic Icon crebteFocusedIcon(finbl Icon tmpIcon, finbl Component c, finbl int slbck) {
+        return new FocusedIcon(tmpIcon, slbck);
     }
 
-/* -- disabled until we can get the real JRSUI focus painter working
+/* -- disbbled until we cbn get the rebl JRSUI focus pbinter working
 
-    static class FocusedIcon implements Icon {
-        final Icon icon;
-        final int slack;
+    stbtic clbss FocusedIcon implements Icon {
+        finbl Icon icon;
+        finbl int slbck;
 
-        public FocusedIcon(final Icon icon, final int slack) {
+        public FocusedIcon(finbl Icon icon, finbl int slbck) {
             this.icon = icon;
-            this.slack = slack;
+            this.slbck = slbck;
         }
 
         @Override
         public int getIconHeight() {
-            return icon.getIconHeight() + slack + slack;
+            return icon.getIconHeight() + slbck + slbck;
         }
 
         @Override
         public int getIconWidth() {
-            return icon.getIconWidth() + slack + slack;
+            return icon.getIconWidth() + slbck + slbck;
         }
 
         @Override
-        public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            final boolean painted = paintFocus(g, new Drawable() {
+        public void pbintIcon(finbl Component c, finbl Grbphics g, finbl int x, finbl int y) {
+            finbl boolebn pbinted = pbintFocus(g, new Drbwbble() {
                 @Override
-                public void draw(SunGraphics2D sg2d) {
-                    icon.paintIcon(c, sg2d, x + slack, y + slack);
+                public void drbw(SunGrbphics2D sg2d) {
+                    icon.pbintIcon(c, sg2d, x + slbck, y + slbck);
                 }
             });
-            if (!painted) {
-                icon.paintIcon(c, g, x + slack, y + slack);
+            if (!pbinted) {
+                icon.pbintIcon(c, g, x + slbck, y + slbck);
             }
         }
     }
  */
 
-    static class FocusedIcon extends AquaUtils.ShadowBorder implements Icon {
-        final Icon icon;
-        final int slack;
+    stbtic clbss FocusedIcon extends AqubUtils.ShbdowBorder implements Icon {
+        finbl Icon icon;
+        finbl int slbck;
 
-        public FocusedIcon(final Icon icon, final int slack) {
+        public FocusedIcon(finbl Icon icon, finbl int slbck) {
             super(
-                new Painter() {
-                    public void paint(Graphics g, int x, int y, int w, int h) {
-                        Graphics2D imgG = (Graphics2D)g;
-                        imgG.setComposite(AlphaComposite.Src);
-                        imgG.setColor(UIManager.getColor("Focus.color"));
-                        imgG.fillRect(x, y, w - (slack * 2), h - (slack * 2));
-                        imgG.setComposite(AlphaComposite.DstAtop);
-                        icon.paintIcon(null, imgG, x, y);
+                new Pbinter() {
+                    public void pbint(Grbphics g, int x, int y, int w, int h) {
+                        Grbphics2D imgG = (Grbphics2D)g;
+                        imgG.setComposite(AlphbComposite.Src);
+                        imgG.setColor(UIMbnbger.getColor("Focus.color"));
+                        imgG.fillRect(x, y, w - (slbck * 2), h - (slbck * 2));
+                        imgG.setComposite(AlphbComposite.DstAtop);
+                        icon.pbintIcon(null, imgG, x, y);
                     }
                 },
-                new Painter() {
-                    public void paint(Graphics g, int x, int y, int w, int h) {
-                        ((Graphics2D)g).setComposite(AlphaComposite.SrcAtop);
-                        icon.paintIcon(null, g, x, y);
+                new Pbinter() {
+                    public void pbint(Grbphics g, int x, int y, int w, int h) {
+                        ((Grbphics2D)g).setComposite(AlphbComposite.SrcAtop);
+                        icon.pbintIcon(null, g, x, y);
                     }
                 },
-                slack, slack, 0.0f, 1.8f, 7
+                slbck, slbck, 0.0f, 1.8f, 7
             );
             this.icon = icon;
-            this.slack = slack;
+            this.slbck = slbck;
         }
 
         @Override
         public int getIconHeight() {
-            return icon.getIconHeight() + slack + slack;
+            return icon.getIconHeight() + slbck + slbck;
         }
 
         @Override
         public int getIconWidth() {
-            return icon.getIconWidth() + slack + slack;
+            return icon.getIconWidth() + slbck + slbck;
         }
 
         @Override
-        public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            paintBorder(c, g, x, y, getIconWidth(), getIconHeight());
-            icon.paintIcon(c, g, x + slack, y + slack);
+        public void pbintIcon(finbl Component c, finbl Grbphics g, finbl int x, finbl int y) {
+            pbintBorder(c, g, x, y, getIconWidth(), getIconHeight());
+            icon.pbintIcon(c, g, x + slbck, y + slbck);
         }
     }
 }

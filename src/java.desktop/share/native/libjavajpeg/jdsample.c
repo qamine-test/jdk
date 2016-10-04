@@ -3,23 +3,23 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdsample.c
+ * jdsbmple.c
  *
- * Copyright (C) 1991-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains upsampling routines.
+ * This file contbins upsbmpling routines.
  *
- * Upsampling input data is counted in "row groups".  A row group
- * is defined to be (v_samp_factor * DCT_scaled_size / min_DCT_scaled_size)
- * sample rows of each component.  Upsampling will normally produce
- * max_v_samp_factor pixel rows from each row group (but this could vary
- * if the upsampler is applying a scale factor of its own).
+ * Upsbmpling input dbtb is counted in "row groups".  A row group
+ * is defined to be (v_sbmp_fbctor * DCT_scbled_size / min_DCT_scbled_size)
+ * sbmple rows of ebch component.  Upsbmpling will normblly produce
+ * mbx_v_sbmp_fbctor pixel rows from ebch row group (but this could vbry
+ * if the upsbmpler is bpplying b scble fbctor of its own).
  *
- * An excellent reference for image resampling is
- *   Digital Image Warping, George Wolberg, 1990.
- *   Pub. by IEEE Computer Society Press, Los Alamitos, CA. ISBN 0-8186-8944-7.
+ * An excellent reference for imbge resbmpling is
+ *   Digitbl Imbge Wbrping, George Wolberg, 1990.
+ *   Pub. by IEEE Computer Society Press, Los Albmitos, CA. ISBN 0-8186-8944-7.
  */
 
 #define JPEG_INTERNALS
@@ -27,261 +27,261 @@
 #include "jpeglib.h"
 
 
-/* Pointer to routine to upsample a single component */
-typedef JMETHOD(void, upsample1_ptr,
+/* Pointer to routine to upsbmple b single component */
+typedef JMETHOD(void, upsbmple1_ptr,
                 (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-                 JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr));
+                 JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr));
 
-/* Private subobject */
+/* Privbte subobject */
 
 typedef struct {
-  struct jpeg_upsampler pub;    /* public fields */
+  struct jpeg_upsbmpler pub;    /* public fields */
 
-  /* Color conversion buffer.  When using separate upsampling and color
-   * conversion steps, this buffer holds one upsampled row group until it
-   * has been color converted and output.
-   * Note: we do not allocate any storage for component(s) which are full-size,
-   * ie do not need rescaling.  The corresponding entry of color_buf[] is
-   * simply set to point to the input data array, thereby avoiding copying.
+  /* Color conversion buffer.  When using sepbrbte upsbmpling bnd color
+   * conversion steps, this buffer holds one upsbmpled row group until it
+   * hbs been color converted bnd output.
+   * Note: we do not bllocbte bny storbge for component(s) which bre full-size,
+   * ie do not need rescbling.  The corresponding entry of color_buf[] is
+   * simply set to point to the input dbtb brrby, thereby bvoiding copying.
    */
   JSAMPARRAY color_buf[MAX_COMPONENTS];
 
-  /* Per-component upsampling method pointers */
-  upsample1_ptr methods[MAX_COMPONENTS];
+  /* Per-component upsbmpling method pointers */
+  upsbmple1_ptr methods[MAX_COMPONENTS];
 
   int next_row_out;             /* counts rows emitted from color_buf */
-  JDIMENSION rows_to_go;        /* counts rows remaining in image */
+  JDIMENSION rows_to_go;        /* counts rows rembining in imbge */
 
-  /* Height of an input row group for each component. */
+  /* Height of bn input row group for ebch component. */
   int rowgroup_height[MAX_COMPONENTS];
 
-  /* These arrays save pixel expansion factors so that int_expand need not
-   * recompute them each time.  They are unused for other upsampling methods.
+  /* These brrbys sbve pixel expbnsion fbctors so thbt int_expbnd need not
+   * recompute them ebch time.  They bre unused for other upsbmpling methods.
    */
-  UINT8 h_expand[MAX_COMPONENTS];
-  UINT8 v_expand[MAX_COMPONENTS];
-} my_upsampler;
+  UINT8 h_expbnd[MAX_COMPONENTS];
+  UINT8 v_expbnd[MAX_COMPONENTS];
+} my_upsbmpler;
 
-typedef my_upsampler * my_upsample_ptr;
+typedef my_upsbmpler * my_upsbmple_ptr;
 
 
 /*
- * Initialize for an upsampling pass.
+ * Initiblize for bn upsbmpling pbss.
  */
 
 METHODDEF(void)
-start_pass_upsample (j_decompress_ptr cinfo)
+stbrt_pbss_upsbmple (j_decompress_ptr cinfo)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
 
-  /* Mark the conversion buffer empty */
-  upsample->next_row_out = cinfo->max_v_samp_factor;
-  /* Initialize total-height counter for detecting bottom of image */
-  upsample->rows_to_go = cinfo->output_height;
+  /* Mbrk the conversion buffer empty */
+  upsbmple->next_row_out = cinfo->mbx_v_sbmp_fbctor;
+  /* Initiblize totbl-height counter for detecting bottom of imbge */
+  upsbmple->rows_to_go = cinfo->output_height;
 }
 
 
 /*
- * Control routine to do upsampling (and color conversion).
+ * Control routine to do upsbmpling (bnd color conversion).
  *
- * In this version we upsample each component independently.
- * We upsample one row group into the conversion buffer, then apply
- * color conversion a row at a time.
+ * In this version we upsbmple ebch component independently.
+ * We upsbmple one row group into the conversion buffer, then bpply
+ * color conversion b row bt b time.
  */
 
 METHODDEF(void)
-sep_upsample (j_decompress_ptr cinfo,
+sep_upsbmple (j_decompress_ptr cinfo,
               JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
-              JDIMENSION in_row_groups_avail,
+              JDIMENSION in_row_groups_bvbil,
               JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-              JDIMENSION out_rows_avail)
+              JDIMENSION out_rows_bvbil)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
   int ci;
   jpeg_component_info * compptr;
   JDIMENSION num_rows;
 
   /* Fill the conversion buffer, if it's empty */
-  if (upsample->next_row_out >= cinfo->max_v_samp_factor) {
+  if (upsbmple->next_row_out >= cinfo->mbx_v_sbmp_fbctor) {
     for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
          ci++, compptr++) {
-      /* Invoke per-component upsample method.  Notice we pass a POINTER
-       * to color_buf[ci], so that fullsize_upsample can change it.
+      /* Invoke per-component upsbmple method.  Notice we pbss b POINTER
+       * to color_buf[ci], so thbt fullsize_upsbmple cbn chbnge it.
        */
-      (*upsample->methods[ci]) (cinfo, compptr,
-        input_buf[ci] + (*in_row_group_ctr * upsample->rowgroup_height[ci]),
-        upsample->color_buf + ci);
+      (*upsbmple->methods[ci]) (cinfo, compptr,
+        input_buf[ci] + (*in_row_group_ctr * upsbmple->rowgroup_height[ci]),
+        upsbmple->color_buf + ci);
     }
-    upsample->next_row_out = 0;
+    upsbmple->next_row_out = 0;
   }
 
-  /* Color-convert and emit rows */
+  /* Color-convert bnd emit rows */
 
-  /* How many we have in the buffer: */
-  num_rows = (JDIMENSION) (cinfo->max_v_samp_factor - upsample->next_row_out);
-  /* Not more than the distance to the end of the image.  Need this test
-   * in case the image height is not a multiple of max_v_samp_factor:
+  /* How mbny we hbve in the buffer: */
+  num_rows = (JDIMENSION) (cinfo->mbx_v_sbmp_fbctor - upsbmple->next_row_out);
+  /* Not more thbn the distbnce to the end of the imbge.  Need this test
+   * in cbse the imbge height is not b multiple of mbx_v_sbmp_fbctor:
    */
-  if (num_rows > upsample->rows_to_go)
-    num_rows = upsample->rows_to_go;
-  /* And not more than what the client can accept: */
-  out_rows_avail -= *out_row_ctr;
-  if (num_rows > out_rows_avail)
-    num_rows = out_rows_avail;
+  if (num_rows > upsbmple->rows_to_go)
+    num_rows = upsbmple->rows_to_go;
+  /* And not more thbn whbt the client cbn bccept: */
+  out_rows_bvbil -= *out_row_ctr;
+  if (num_rows > out_rows_bvbil)
+    num_rows = out_rows_bvbil;
 
-  (*cinfo->cconvert->color_convert) (cinfo, upsample->color_buf,
-                                     (JDIMENSION) upsample->next_row_out,
+  (*cinfo->cconvert->color_convert) (cinfo, upsbmple->color_buf,
+                                     (JDIMENSION) upsbmple->next_row_out,
                                      output_buf + *out_row_ctr,
                                      (int) num_rows);
 
   /* Adjust counts */
   *out_row_ctr += num_rows;
-  upsample->rows_to_go -= num_rows;
-  upsample->next_row_out += num_rows;
-  /* When the buffer is emptied, declare this input row group consumed */
-  if (upsample->next_row_out >= cinfo->max_v_samp_factor)
+  upsbmple->rows_to_go -= num_rows;
+  upsbmple->next_row_out += num_rows;
+  /* When the buffer is emptied, declbre this input row group consumed */
+  if (upsbmple->next_row_out >= cinfo->mbx_v_sbmp_fbctor)
     (*in_row_group_ctr)++;
 }
 
 
 /*
- * These are the routines invoked by sep_upsample to upsample pixel values
- * of a single component.  One row group is processed per call.
+ * These bre the routines invoked by sep_upsbmple to upsbmple pixel vblues
+ * of b single component.  One row group is processed per cbll.
  */
 
 
 /*
- * For full-size components, we just make color_buf[ci] point at the
- * input buffer, and thus avoid copying any data.  Note that this is
- * safe only because sep_upsample doesn't declare the input row group
- * "consumed" until we are done color converting and emitting it.
+ * For full-size components, we just mbke color_buf[ci] point bt the
+ * input buffer, bnd thus bvoid copying bny dbtb.  Note thbt this is
+ * sbfe only becbuse sep_upsbmple doesn't declbre the input row group
+ * "consumed" until we bre done color converting bnd emitting it.
  */
 
 METHODDEF(void)
-fullsize_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-                   JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+fullsize_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+                   JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  *output_data_ptr = input_data;
+  *output_dbtb_ptr = input_dbtb;
 }
 
 
 /*
- * This is a no-op version used for "uninteresting" components.
+ * This is b no-op version used for "uninteresting" components.
  * These components will not be referenced by color conversion.
  */
 
 METHODDEF(void)
-noop_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-               JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+noop_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+               JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  *output_data_ptr = NULL;      /* safety check */
+  *output_dbtb_ptr = NULL;      /* sbfety check */
 }
 
 
 /*
- * This version handles any integral sampling ratios.
- * This is not used for typical JPEG files, so it need not be fast.
- * Nor, for that matter, is it particularly accurate: the algorithm is
- * simple replication of the input pixel onto the corresponding output
- * pixels.  The hi-falutin sampling literature refers to this as a
- * "box filter".  A box filter tends to introduce visible artifacts,
- * so if you are actually going to use 3:1 or 4:1 sampling ratios
- * you would be well advised to improve this code.
+ * This version hbndles bny integrbl sbmpling rbtios.
+ * This is not used for typicbl JPEG files, so it need not be fbst.
+ * Nor, for thbt mbtter, is it pbrticulbrly bccurbte: the blgorithm is
+ * simple replicbtion of the input pixel onto the corresponding output
+ * pixels.  The hi-fblutin sbmpling literbture refers to this bs b
+ * "box filter".  A box filter tends to introduce visible brtifbcts,
+ * so if you bre bctublly going to use 3:1 or 4:1 sbmpling rbtios
+ * you would be well bdvised to improve this code.
  */
 
 METHODDEF(void)
-int_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-              JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+int_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+              JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
-  JSAMPARRAY output_data = *output_data_ptr;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
+  JSAMPARRAY output_dbtb = *output_dbtb_ptr;
   register JSAMPROW inptr, outptr;
-  register JSAMPLE invalue;
+  register JSAMPLE invblue;
   register int h;
   JSAMPROW outend;
-  int h_expand, v_expand;
+  int h_expbnd, v_expbnd;
   int inrow, outrow;
 
-  h_expand = upsample->h_expand[compptr->component_index];
-  v_expand = upsample->v_expand[compptr->component_index];
+  h_expbnd = upsbmple->h_expbnd[compptr->component_index];
+  v_expbnd = upsbmple->v_expbnd[compptr->component_index];
 
   inrow = outrow = 0;
-  while (outrow < cinfo->max_v_samp_factor) {
-    /* Generate one output row with proper horizontal expansion */
-    inptr = input_data[inrow];
-    outptr = output_data[outrow];
+  while (outrow < cinfo->mbx_v_sbmp_fbctor) {
+    /* Generbte one output row with proper horizontbl expbnsion */
+    inptr = input_dbtb[inrow];
+    outptr = output_dbtb[outrow];
     outend = outptr + cinfo->output_width;
     while (outptr < outend) {
-      invalue = *inptr++;       /* don't need GETJSAMPLE() here */
-      for (h = h_expand; h > 0; h--) {
-        *outptr++ = invalue;
+      invblue = *inptr++;       /* don't need GETJSAMPLE() here */
+      for (h = h_expbnd; h > 0; h--) {
+        *outptr++ = invblue;
       }
     }
-    /* Generate any additional output rows by duplicating the first one */
-    if (v_expand > 1) {
-      jcopy_sample_rows(output_data, outrow, output_data, outrow+1,
-                        v_expand-1, cinfo->output_width);
+    /* Generbte bny bdditionbl output rows by duplicbting the first one */
+    if (v_expbnd > 1) {
+      jcopy_sbmple_rows(output_dbtb, outrow, output_dbtb, outrow+1,
+                        v_expbnd-1, cinfo->output_width);
     }
     inrow++;
-    outrow += v_expand;
+    outrow += v_expbnd;
   }
 }
 
 
 /*
- * Fast processing for the common case of 2:1 horizontal and 1:1 vertical.
- * It's still a box filter.
+ * Fbst processing for the common cbse of 2:1 horizontbl bnd 1:1 verticbl.
+ * It's still b box filter.
  */
 
 METHODDEF(void)
-h2v1_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-               JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+h2v1_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+               JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  JSAMPARRAY output_data = *output_data_ptr;
+  JSAMPARRAY output_dbtb = *output_dbtb_ptr;
   register JSAMPROW inptr, outptr;
-  register JSAMPLE invalue;
+  register JSAMPLE invblue;
   JSAMPROW outend;
   int inrow;
 
-  for (inrow = 0; inrow < cinfo->max_v_samp_factor; inrow++) {
-    inptr = input_data[inrow];
-    outptr = output_data[inrow];
+  for (inrow = 0; inrow < cinfo->mbx_v_sbmp_fbctor; inrow++) {
+    inptr = input_dbtb[inrow];
+    outptr = output_dbtb[inrow];
     outend = outptr + cinfo->output_width;
     while (outptr < outend) {
-      invalue = *inptr++;       /* don't need GETJSAMPLE() here */
-      *outptr++ = invalue;
-      *outptr++ = invalue;
+      invblue = *inptr++;       /* don't need GETJSAMPLE() here */
+      *outptr++ = invblue;
+      *outptr++ = invblue;
     }
   }
 }
 
 
 /*
- * Fast processing for the common case of 2:1 horizontal and 2:1 vertical.
- * It's still a box filter.
+ * Fbst processing for the common cbse of 2:1 horizontbl bnd 2:1 verticbl.
+ * It's still b box filter.
  */
 
 METHODDEF(void)
-h2v2_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-               JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+h2v2_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+               JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  JSAMPARRAY output_data = *output_data_ptr;
+  JSAMPARRAY output_dbtb = *output_dbtb_ptr;
   register JSAMPROW inptr, outptr;
-  register JSAMPLE invalue;
+  register JSAMPLE invblue;
   JSAMPROW outend;
   int inrow, outrow;
 
   inrow = outrow = 0;
-  while (outrow < cinfo->max_v_samp_factor) {
-    inptr = input_data[inrow];
-    outptr = output_data[outrow];
+  while (outrow < cinfo->mbx_v_sbmp_fbctor) {
+    inptr = input_dbtb[inrow];
+    outptr = output_dbtb[outrow];
     outend = outptr + cinfo->output_width;
     while (outptr < outend) {
-      invalue = *inptr++;       /* don't need GETJSAMPLE() here */
-      *outptr++ = invalue;
-      *outptr++ = invalue;
+      invblue = *inptr++;       /* don't need GETJSAMPLE() here */
+      *outptr++ = invblue;
+      *outptr++ = invblue;
     }
-    jcopy_sample_rows(output_data, outrow, output_data, outrow+1,
+    jcopy_sbmple_rows(output_dbtb, outrow, output_dbtb, outrow+1,
                       1, cinfo->output_width);
     inrow++;
     outrow += 2;
@@ -290,104 +290,104 @@ h2v2_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
 
 
 /*
- * Fancy processing for the common case of 2:1 horizontal and 1:1 vertical.
+ * Fbncy processing for the common cbse of 2:1 horizontbl bnd 1:1 verticbl.
  *
- * The upsampling algorithm is linear interpolation between pixel centers,
- * also known as a "triangle filter".  This is a good compromise between
- * speed and visual quality.  The centers of the output pixels are 1/4 and 3/4
- * of the way between input pixel centers.
+ * The upsbmpling blgorithm is linebr interpolbtion between pixel centers,
+ * blso known bs b "tribngle filter".  This is b good compromise between
+ * speed bnd visubl qublity.  The centers of the output pixels bre 1/4 bnd 3/4
+ * of the wby between input pixel centers.
  *
- * A note about the "bias" calculations: when rounding fractional values to
- * integer, we do not want to always round 0.5 up to the next integer.
- * If we did that, we'd introduce a noticeable bias towards larger values.
- * Instead, this code is arranged so that 0.5 will be rounded up or down at
- * alternate pixel locations (a simple ordered dither pattern).
+ * A note bbout the "bibs" cblculbtions: when rounding frbctionbl vblues to
+ * integer, we do not wbnt to blwbys round 0.5 up to the next integer.
+ * If we did thbt, we'd introduce b noticebble bibs towbrds lbrger vblues.
+ * Instebd, this code is brrbnged so thbt 0.5 will be rounded up or down bt
+ * blternbte pixel locbtions (b simple ordered dither pbttern).
  */
 
 METHODDEF(void)
-h2v1_fancy_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-                     JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+h2v1_fbncy_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+                     JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  JSAMPARRAY output_data = *output_data_ptr;
+  JSAMPARRAY output_dbtb = *output_dbtb_ptr;
   register JSAMPROW inptr, outptr;
-  register int invalue;
+  register int invblue;
   register JDIMENSION colctr;
   int inrow;
 
-  for (inrow = 0; inrow < cinfo->max_v_samp_factor; inrow++) {
-    inptr = input_data[inrow];
-    outptr = output_data[inrow];
-    /* Special case for first column */
-    invalue = GETJSAMPLE(*inptr++);
-    *outptr++ = (JSAMPLE) invalue;
-    *outptr++ = (JSAMPLE) ((invalue * 3 + GETJSAMPLE(*inptr) + 2) >> 2);
+  for (inrow = 0; inrow < cinfo->mbx_v_sbmp_fbctor; inrow++) {
+    inptr = input_dbtb[inrow];
+    outptr = output_dbtb[inrow];
+    /* Specibl cbse for first column */
+    invblue = GETJSAMPLE(*inptr++);
+    *outptr++ = (JSAMPLE) invblue;
+    *outptr++ = (JSAMPLE) ((invblue * 3 + GETJSAMPLE(*inptr) + 2) >> 2);
 
-    for (colctr = compptr->downsampled_width - 2; colctr > 0; colctr--) {
-      /* General case: 3/4 * nearer pixel + 1/4 * further pixel */
-      invalue = GETJSAMPLE(*inptr++) * 3;
-      *outptr++ = (JSAMPLE) ((invalue + GETJSAMPLE(inptr[-2]) + 1) >> 2);
-      *outptr++ = (JSAMPLE) ((invalue + GETJSAMPLE(*inptr) + 2) >> 2);
+    for (colctr = compptr->downsbmpled_width - 2; colctr > 0; colctr--) {
+      /* Generbl cbse: 3/4 * nebrer pixel + 1/4 * further pixel */
+      invblue = GETJSAMPLE(*inptr++) * 3;
+      *outptr++ = (JSAMPLE) ((invblue + GETJSAMPLE(inptr[-2]) + 1) >> 2);
+      *outptr++ = (JSAMPLE) ((invblue + GETJSAMPLE(*inptr) + 2) >> 2);
     }
 
-    /* Special case for last column */
-    invalue = GETJSAMPLE(*inptr);
-    *outptr++ = (JSAMPLE) ((invalue * 3 + GETJSAMPLE(inptr[-1]) + 1) >> 2);
-    *outptr++ = (JSAMPLE) invalue;
+    /* Specibl cbse for lbst column */
+    invblue = GETJSAMPLE(*inptr);
+    *outptr++ = (JSAMPLE) ((invblue * 3 + GETJSAMPLE(inptr[-1]) + 1) >> 2);
+    *outptr++ = (JSAMPLE) invblue;
   }
 }
 
 
 /*
- * Fancy processing for the common case of 2:1 horizontal and 2:1 vertical.
- * Again a triangle filter; see comments for h2v1 case, above.
+ * Fbncy processing for the common cbse of 2:1 horizontbl bnd 2:1 verticbl.
+ * Agbin b tribngle filter; see comments for h2v1 cbse, bbove.
  *
- * It is OK for us to reference the adjacent input rows because we demanded
- * context from the main buffer controller (see initialization code).
+ * It is OK for us to reference the bdjbcent input rows becbuse we dembnded
+ * context from the mbin buffer controller (see initiblizbtion code).
  */
 
 METHODDEF(void)
-h2v2_fancy_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
-                     JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
+h2v2_fbncy_upsbmple (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+                     JSAMPARRAY input_dbtb, JSAMPARRAY * output_dbtb_ptr)
 {
-  JSAMPARRAY output_data = *output_data_ptr;
+  JSAMPARRAY output_dbtb = *output_dbtb_ptr;
   register JSAMPROW inptr0, inptr1, outptr;
 #if BITS_IN_JSAMPLE == 8
-  register int thiscolsum, lastcolsum, nextcolsum;
+  register int thiscolsum, lbstcolsum, nextcolsum;
 #else
-  register INT32 thiscolsum, lastcolsum, nextcolsum;
+  register INT32 thiscolsum, lbstcolsum, nextcolsum;
 #endif
   register JDIMENSION colctr;
   int inrow, outrow, v;
 
   inrow = outrow = 0;
-  while (outrow < cinfo->max_v_samp_factor) {
+  while (outrow < cinfo->mbx_v_sbmp_fbctor) {
     for (v = 0; v < 2; v++) {
-      /* inptr0 points to nearest input row, inptr1 points to next nearest */
-      inptr0 = input_data[inrow];
-      if (v == 0)               /* next nearest is row above */
-        inptr1 = input_data[inrow-1];
-      else                      /* next nearest is row below */
-        inptr1 = input_data[inrow+1];
-      outptr = output_data[outrow++];
+      /* inptr0 points to nebrest input row, inptr1 points to next nebrest */
+      inptr0 = input_dbtb[inrow];
+      if (v == 0)               /* next nebrest is row bbove */
+        inptr1 = input_dbtb[inrow-1];
+      else                      /* next nebrest is row below */
+        inptr1 = input_dbtb[inrow+1];
+      outptr = output_dbtb[outrow++];
 
-      /* Special case for first column */
+      /* Specibl cbse for first column */
       thiscolsum = GETJSAMPLE(*inptr0++) * 3 + GETJSAMPLE(*inptr1++);
       nextcolsum = GETJSAMPLE(*inptr0++) * 3 + GETJSAMPLE(*inptr1++);
       *outptr++ = (JSAMPLE) ((thiscolsum * 4 + 8) >> 4);
       *outptr++ = (JSAMPLE) ((thiscolsum * 3 + nextcolsum + 7) >> 4);
-      lastcolsum = thiscolsum; thiscolsum = nextcolsum;
+      lbstcolsum = thiscolsum; thiscolsum = nextcolsum;
 
-      for (colctr = compptr->downsampled_width - 2; colctr > 0; colctr--) {
-        /* General case: 3/4 * nearer pixel + 1/4 * further pixel in each */
-        /* dimension, thus 9/16, 3/16, 3/16, 1/16 overall */
+      for (colctr = compptr->downsbmpled_width - 2; colctr > 0; colctr--) {
+        /* Generbl cbse: 3/4 * nebrer pixel + 1/4 * further pixel in ebch */
+        /* dimension, thus 9/16, 3/16, 3/16, 1/16 overbll */
         nextcolsum = GETJSAMPLE(*inptr0++) * 3 + GETJSAMPLE(*inptr1++);
-        *outptr++ = (JSAMPLE) ((thiscolsum * 3 + lastcolsum + 8) >> 4);
+        *outptr++ = (JSAMPLE) ((thiscolsum * 3 + lbstcolsum + 8) >> 4);
         *outptr++ = (JSAMPLE) ((thiscolsum * 3 + nextcolsum + 7) >> 4);
-        lastcolsum = thiscolsum; thiscolsum = nextcolsum;
+        lbstcolsum = thiscolsum; thiscolsum = nextcolsum;
       }
 
-      /* Special case for last column */
-      *outptr++ = (JSAMPLE) ((thiscolsum * 3 + lastcolsum + 8) >> 4);
+      /* Specibl cbse for lbst column */
+      *outptr++ = (JSAMPLE) ((thiscolsum * 3 + lbstcolsum + 8) >> 4);
       *outptr++ = (JSAMPLE) ((thiscolsum * 4 + 7) >> 4);
     }
     inrow++;
@@ -396,87 +396,87 @@ h2v2_fancy_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
 
 
 /*
- * Module initialization routine for upsampling.
+ * Module initiblizbtion routine for upsbmpling.
  */
 
 GLOBAL(void)
-jinit_upsampler (j_decompress_ptr cinfo)
+jinit_upsbmpler (j_decompress_ptr cinfo)
 {
-  my_upsample_ptr upsample;
+  my_upsbmple_ptr upsbmple;
   int ci;
   jpeg_component_info * compptr;
-  boolean need_buffer, do_fancy;
+  boolebn need_buffer, do_fbncy;
   int h_in_group, v_in_group, h_out_group, v_out_group;
 
-  upsample = (my_upsample_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_upsampler));
-  cinfo->upsample = (struct jpeg_upsampler *) upsample;
-  upsample->pub.start_pass = start_pass_upsample;
-  upsample->pub.upsample = sep_upsample;
-  upsample->pub.need_context_rows = FALSE; /* until we find out differently */
+  upsbmple = (my_upsbmple_ptr)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                SIZEOF(my_upsbmpler));
+  cinfo->upsbmple = (struct jpeg_upsbmpler *) upsbmple;
+  upsbmple->pub.stbrt_pbss = stbrt_pbss_upsbmple;
+  upsbmple->pub.upsbmple = sep_upsbmple;
+  upsbmple->pub.need_context_rows = FALSE; /* until we find out differently */
 
-  if (cinfo->CCIR601_sampling)  /* this isn't supported */
+  if (cinfo->CCIR601_sbmpling)  /* this isn't supported */
     ERREXIT(cinfo, JERR_CCIR601_NOTIMPL);
 
-  /* jdmainct.c doesn't support context rows when min_DCT_scaled_size = 1,
-   * so don't ask for it.
+  /* jdmbinct.c doesn't support context rows when min_DCT_scbled_size = 1,
+   * so don't bsk for it.
    */
-  do_fancy = cinfo->do_fancy_upsampling && cinfo->min_DCT_scaled_size > 1;
+  do_fbncy = cinfo->do_fbncy_upsbmpling && cinfo->min_DCT_scbled_size > 1;
 
-  /* Verify we can handle the sampling factors, select per-component methods,
-   * and create storage as needed.
+  /* Verify we cbn hbndle the sbmpling fbctors, select per-component methods,
+   * bnd crebte storbge bs needed.
    */
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    /* Compute size of an "input group" after IDCT scaling.  This many samples
-     * are to be converted to max_h_samp_factor * max_v_samp_factor pixels.
+    /* Compute size of bn "input group" bfter IDCT scbling.  This mbny sbmples
+     * bre to be converted to mbx_h_sbmp_fbctor * mbx_v_sbmp_fbctor pixels.
      */
-    h_in_group = (compptr->h_samp_factor * compptr->DCT_scaled_size) /
-                 cinfo->min_DCT_scaled_size;
-    v_in_group = (compptr->v_samp_factor * compptr->DCT_scaled_size) /
-                 cinfo->min_DCT_scaled_size;
-    h_out_group = cinfo->max_h_samp_factor;
-    v_out_group = cinfo->max_v_samp_factor;
-    upsample->rowgroup_height[ci] = v_in_group; /* save for use later */
+    h_in_group = (compptr->h_sbmp_fbctor * compptr->DCT_scbled_size) /
+                 cinfo->min_DCT_scbled_size;
+    v_in_group = (compptr->v_sbmp_fbctor * compptr->DCT_scbled_size) /
+                 cinfo->min_DCT_scbled_size;
+    h_out_group = cinfo->mbx_h_sbmp_fbctor;
+    v_out_group = cinfo->mbx_v_sbmp_fbctor;
+    upsbmple->rowgroup_height[ci] = v_in_group; /* sbve for use lbter */
     need_buffer = TRUE;
     if (! compptr->component_needed) {
-      /* Don't bother to upsample an uninteresting component. */
-      upsample->methods[ci] = noop_upsample;
+      /* Don't bother to upsbmple bn uninteresting component. */
+      upsbmple->methods[ci] = noop_upsbmple;
       need_buffer = FALSE;
     } else if (h_in_group == h_out_group && v_in_group == v_out_group) {
-      /* Fullsize components can be processed without any work. */
-      upsample->methods[ci] = fullsize_upsample;
+      /* Fullsize components cbn be processed without bny work. */
+      upsbmple->methods[ci] = fullsize_upsbmple;
       need_buffer = FALSE;
     } else if (h_in_group * 2 == h_out_group &&
                v_in_group == v_out_group) {
-      /* Special cases for 2h1v upsampling */
-      if (do_fancy && compptr->downsampled_width > 2)
-        upsample->methods[ci] = h2v1_fancy_upsample;
+      /* Specibl cbses for 2h1v upsbmpling */
+      if (do_fbncy && compptr->downsbmpled_width > 2)
+        upsbmple->methods[ci] = h2v1_fbncy_upsbmple;
       else
-        upsample->methods[ci] = h2v1_upsample;
+        upsbmple->methods[ci] = h2v1_upsbmple;
     } else if (h_in_group * 2 == h_out_group &&
                v_in_group * 2 == v_out_group) {
-      /* Special cases for 2h2v upsampling */
-      if (do_fancy && compptr->downsampled_width > 2) {
-        upsample->methods[ci] = h2v2_fancy_upsample;
-        upsample->pub.need_context_rows = TRUE;
+      /* Specibl cbses for 2h2v upsbmpling */
+      if (do_fbncy && compptr->downsbmpled_width > 2) {
+        upsbmple->methods[ci] = h2v2_fbncy_upsbmple;
+        upsbmple->pub.need_context_rows = TRUE;
       } else
-        upsample->methods[ci] = h2v2_upsample;
+        upsbmple->methods[ci] = h2v2_upsbmple;
     } else if ((h_out_group % h_in_group) == 0 &&
                (v_out_group % v_in_group) == 0) {
-      /* Generic integral-factors upsampling method */
-      upsample->methods[ci] = int_upsample;
-      upsample->h_expand[ci] = (UINT8) (h_out_group / h_in_group);
-      upsample->v_expand[ci] = (UINT8) (v_out_group / v_in_group);
+      /* Generic integrbl-fbctors upsbmpling method */
+      upsbmple->methods[ci] = int_upsbmple;
+      upsbmple->h_expbnd[ci] = (UINT8) (h_out_group / h_in_group);
+      upsbmple->v_expbnd[ci] = (UINT8) (v_out_group / v_in_group);
     } else
       ERREXIT(cinfo, JERR_FRACT_SAMPLE_NOTIMPL);
     if (need_buffer) {
-      upsample->color_buf[ci] = (*cinfo->mem->alloc_sarray)
+      upsbmple->color_buf[ci] = (*cinfo->mem->blloc_sbrrby)
         ((j_common_ptr) cinfo, JPOOL_IMAGE,
          (JDIMENSION) jround_up((long) cinfo->output_width,
-                                (long) cinfo->max_h_samp_factor),
-         (JDIMENSION) cinfo->max_v_samp_factor);
+                                (long) cinfo->mbx_h_sbmp_fbctor),
+         (JDIMENSION) cinfo->mbx_v_sbmp_fbctor);
     }
   }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,96 +35,96 @@
 using System;
 using System.Runtime.InteropServices;
 
-class jinvoker{
+clbss jinvoker{
 
-    public static int Main(string[] aArgs){
+    public stbtic int Mbin(string[] bArgs){
         
-        // Print Hello to show we are in CLR
+        // Print Hello to show we bre in CLR
         Console.WriteLine("Hello from C#");
-        if(aArgs.Length > 0)
+        if(bArgs.Length > 0)
             // invoke JVM
-            return InvokeMain(aArgs[0]);
+            return InvokeMbin(bArgs[0]);
         else
             return -1;
     }
 
-    // Link the JVM API functions and the wrappers
+    // Link the JVM API functions bnd the wrbppers
 
-    [DllImport("jvm.dll")]      public unsafe static extern int  JNI_CreateJavaVM(void** ppVm, void** ppEnv, void* pArgs);
-    [DllImport("jinvoker.dll")] public unsafe static extern int  MakeJavaVMInitArgs( void** ppArgs );
-    [DllImport("jinvoker.dll")] public unsafe static extern void FreeJavaVMInitArgs( void* pArgs );
-    [DllImport("jinvoker.dll")] public unsafe static extern int  FindClass( void* pEnv, String sClass, void** ppClass );
-    [DllImport("jinvoker.dll")] public unsafe static extern int  GetStaticMethodID( void*  pEnv,
-                                                                                    void*  pClass, 
-                                                                                    String szName, 
+    [DllImport("jvm.dll")]      public unsbfe stbtic extern int  JNI_CrebteJbvbVM(void** ppVm, void** ppEnv, void* pArgs);
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int  MbkeJbvbVMInitArgs( void** ppArgs );
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern void FreeJbvbVMInitArgs( void* pArgs );
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int  FindClbss( void* pEnv, String sClbss, void** ppClbss );
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int  GetStbticMethodID( void*  pEnv,
+                                                                                    void*  pClbss, 
+                                                                                    String szNbme, 
                                                                                     String szArgs, 
                                                                                     void** ppMid);
 	
-    [DllImport("jinvoker.dll")] public unsafe static extern int NewObjectArray( void*  pEnv,
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int NewObjectArrby( void*  pEnv,
                                                                                 int    nDimension,
                                                                                 String sType,
-                                                                                void** ppArray );
+                                                                                void** ppArrby );
 
-    [DllImport("jinvoker.dll")] public unsafe static extern int CallStaticVoidMethod( void* pEnv,
-                                                                                      void* pClass,
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int CbllStbticVoidMethod( void* pEnv,
+                                                                                      void* pClbss,
                                                                                       void* pMid,
                                                                                       void* pArgs);
 
-    [DllImport("jinvoker.dll")] public unsafe static extern int DestroyJavaVM( void* pJVM );
+    [DllImport("jinvoker.dll")] public unsbfe stbtic extern int DestroyJbvbVM( void* pJVM );
 
-	public unsafe static int InvokeMain( String sClass ){
+	public unsbfe stbtic int InvokeMbin( String sClbss ){
 	    
         void*  pJVM;    // JVM struct
         void*  pEnv;    // JVM environment
-        void*  pVMArgs; // VM args
-        void*  pClass;  // Class struct of the executed method
+        void*  pVMArgs; // VM brgs
+        void*  pClbss;  // Clbss struct of the executed method
         void*  pMethod; // The executed method struct
-        void*  pArgs;   // The executed method arguments struct
+        void*  pArgs;   // The executed method brguments struct
 
         // Fill the pVMArgs structs
-        MakeJavaVMInitArgs( &pVMArgs );
+        MbkeJbvbVMInitArgs( &pVMArgs );
 
-        // Create JVM
-        int nRes = JNI_CreateJavaVM( &pJVM, &pEnv, pVMArgs );
+        // Crebte JVM
+        int nRes = JNI_CrebteJbvbVM( &pJVM, &pEnv, pVMArgs );
         if( nRes == 0 ){
 			
-            // Find the executed method class 
-            if(FindClass( pEnv, sClass, &pClass) == 0 )
+            // Find the executed method clbss 
+            if(FindClbss( pEnv, sClbss, &pClbss) == 0 )
 				
                 // Find the executed method
-                if( GetStaticMethodID( pEnv, pClass, "main", "([Ljava/lang/String;)V", &pMethod ) == 0 )
+                if( GetStbticMethodID( pEnv, pClbss, "mbin", "([Ljbvb/lbng/String;)V", &pMethod ) == 0 )
 					
-                    // Create empty String[] array to pass to the main()
-                    if( NewObjectArray( pEnv, 0, "java/lang/String", &pArgs ) == 0 ){
+                    // Crebte empty String[] brrby to pbss to the mbin()
+                    if( NewObjectArrby( pEnv, 0, "jbvb/lbng/String", &pArgs ) == 0 ){
 
-                        // Call main()
-                        nRes = CallStaticVoidMethod( pEnv, pClass, pMethod, pArgs );
+                        // Cbll mbin()
+                        nRes = CbllStbticVoidMethod( pEnv, pClbss, pMethod, pArgs );
                         if( nRes != -1 )
                             Console.WriteLine("Result:"+nRes);
                         else
                             Console.WriteLine("Exception");
                         
                     }else{
-                        Console.WriteLine("Error while making args array");
+                        Console.WriteLine("Error while mbking brgs brrby");
                         nRes = -100;
                     }
                 else{
-                    Console.WriteLine("can not find method main(String[])");
+                    Console.WriteLine("cbn not find method mbin(String[])");
                     nRes = -101;
                 }
             else{
-                Console.WriteLine("can not find class:"+sClass);
+                Console.WriteLine("cbn not find clbss:"+sClbss);
                 nRes = -102;
             }
 			
             // Destroy the JVM
-            DestroyJavaVM( pJVM );
+            DestroyJbvbVM( pJVM );
 
         }else
-            Console.WriteLine("Can not create Java VM");
+            Console.WriteLine("Cbn not crebte Jbvb VM");
 
-        // Free the JVM args structs
-        FreeJavaVMInitArgs(pVMArgs);
+        // Free the JVM brgs structs
+        FreeJbvbVMInitArgs(pVMArgs);
 		
         return nRes;
     }

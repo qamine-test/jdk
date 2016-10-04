@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author    Sun Microsystems, Inc.
+ * @buthor    Sun Microsystems, Inc.
  * @build        @BUILD_TAG_PLACEHOLDER@
  *
  * @COPYRIGHT_MINI_LEGAL_NOTICE_PLACEHOLDER@
  */
 
-package sun.management.jmxremote;
+pbckbge sun.mbnbgement.jmxremote;
 
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
+import jbvb.rmi.AccessException;
+import jbvb.rmi.NotBoundException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
 
 import sun.rmi.registry.RegistryImpl;
 
-/** A Registry that consists of a single entry that never changes. */
-public class SingleEntryRegistry extends RegistryImpl {
-    SingleEntryRegistry(int port, String name, Remote object)
+/** A Registry thbt consists of b single entry thbt never chbnges. */
+public clbss SingleEntryRegistry extends RegistryImpl {
+    SingleEntryRegistry(int port, String nbme, Remote object)
             throws RemoteException {
         super(port);
-        this.name = name;
+        this.nbme = nbme;
         this.object = object;
     }
 
     SingleEntryRegistry(int port,
-                        RMIClientSocketFactory csf,
-                        RMIServerSocketFactory ssf,
-                        String name,
+                        RMIClientSocketFbctory csf,
+                        RMIServerSocketFbctory ssf,
+                        String nbme,
                         Remote object)
             throws RemoteException {
         super(port, csf, ssf);
-        this.name = name;
+        this.nbme = nbme;
         this.object = object;
     }
 
     public String[] list() {
-        return new String[] {name};
+        return new String[] {nbme};
     }
 
-    public Remote lookup(String name) throws NotBoundException {
-        if (name.equals(this.name))
+    public Remote lookup(String nbme) throws NotBoundException {
+        if (nbme.equbls(this.nbme))
             return object;
-        throw new NotBoundException("Not bound: \"" + name + "\" (only " +
-                                    "bound name is \"" + this.name + "\")");
+        throw new NotBoundException("Not bound: \"" + nbme + "\" (only " +
+                                    "bound nbme is \"" + this.nbme + "\")");
     }
 
-    public void bind(String name, Remote obj) throws AccessException {
-        throw new AccessException("Cannot modify this registry");
+    public void bind(String nbme, Remote obj) throws AccessException {
+        throw new AccessException("Cbnnot modify this registry");
     }
 
-    public void rebind(String name, Remote obj) throws AccessException {
-        throw new AccessException("Cannot modify this registry");
+    public void rebind(String nbme, Remote obj) throws AccessException {
+        throw new AccessException("Cbnnot modify this registry");
     }
 
-    public void unbind(String name) throws AccessException {
-        throw new AccessException("Cannot modify this registry");
+    public void unbind(String nbme) throws AccessException {
+        throw new AccessException("Cbnnot modify this registry");
     }
 
-    private final String name;
-    private final Remote object;
+    privbte finbl String nbme;
+    privbte finbl Remote object;
 
-    private static final long serialVersionUID = -4897238949499730950L;
+    privbte stbtic finbl long seriblVersionUID = -4897238949499730950L;
 }

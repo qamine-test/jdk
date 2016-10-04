@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset;
+pbckbge com.sun.rowset;
 
-import java.io.*;
-import java.util.*;
-import java.sql.*;
-import javax.sql.*;
-import java.math.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.mbth.*;
 
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
-import javax.sql.rowset.serial.*;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.spi.*;
+import jbvbx.sql.rowset.seribl.*;
 import com.sun.rowset.providers.*;
-import com.sun.rowset.internal.*;
+import com.sun.rowset.internbl.*;
 
 /**
- * The standard implementation of the <code>FilteredRowSet</code> interface. See the interface
- * definition for full behavior and implementation requirements.
+ * The stbndbrd implementbtion of the <code>FilteredRowSet</code> interfbce. See the interfbce
+ * definition for full behbvior bnd implementbtion requirements.
  *
- * @see javax.sql.rowset.Predicate
- * @author Jonathan Bruce, Amit Handa
+ * @see jbvbx.sql.rowset.Predicbte
+ * @buthor Jonbthbn Bruce, Amit Hbndb
  */
 
-public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, Cloneable, FilteredRowSet {
+public clbss FilteredRowSetImpl extends WebRowSetImpl implements Seriblizbble, Clonebble, FilteredRowSet {
 
-    private Predicate p;
+    privbte Predicbte p;
 
-    private boolean onInsertRow = false;
+    privbte boolebn onInsertRow = fblse;
 
 
     /**
-     * Construct a <code>FilteredRowSet</code>
+     * Construct b <code>FilteredRowSet</code>
      */
     public FilteredRowSetImpl() throws SQLException {
         super();
     }
 
     /**
-     * Construct a <code>FilteredRowSet</code> with a specified synchronization
+     * Construct b <code>FilteredRowSet</code> with b specified synchronizbtion
      * provider.
      *
-     * @param env a Hashtable containing a desired synchconizatation provider
-     * name-value pair.
+     * @pbrbm env b Hbshtbble contbining b desired synchconizbtbtion provider
+     * nbme-vblue pbir.
      */
-    @SuppressWarnings("rawtypes")
-    public FilteredRowSetImpl(Hashtable env) throws SQLException {
+    @SuppressWbrnings("rbwtypes")
+    public FilteredRowSetImpl(Hbshtbble env) throws SQLException {
         super(env);
     }
 
     /**
-     * Apply the predicate for this filter
+     * Apply the predicbte for this filter
      *
-     * @param p an implementation of the predicate interface
+     * @pbrbm p bn implementbtion of the predicbte interfbce
      */
-    public void setFilter(Predicate p) throws SQLException {
+    public void setFilter(Predicbte p) throws SQLException {
         this.p = p;
     }
 
     /**
-     * Retrieve the filter active for this <code>FilteredRowSet</code>
+     * Retrieve the filter bctive for this <code>FilteredRowSet</code>
      *
-     * @return a <code>Predicate</code> object instance
+     * @return b <code>Predicbte</code> object instbnce
      */
-    public Predicate getFilter() {
+    public Predicbte getFilter() {
         return this.p;
     }
 
     /**
-     * Over-riding <code>internalNext()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is advanced or
-     * manipulated. It moves the cursor to the next row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Over-riding <code>internblNext()</code> implementbtion. This method
+     * bpplies the filter on the <code>RowSet</code> ebch time the cursor is bdvbnced or
+     * mbnipulbted. It moves the cursor to the next row bccording to the set
+     * predicbte bnd returns <code>true</code> if the cursor is still within the rowset or
+     * <code>fblse</code> if the cursor position is over the lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @return true if over the vblid row in the rowset; fblse if over the lbst
      * row
      */
-    protected boolean internalNext() throws SQLException {
-        // CachedRowSetImpl.next() internally calls
-        // this(crs).internalNext() NOTE: this holds crs object
-        // So when frs.next() is called,
-        // internally this(frs).internalNext() will be called
+    protected boolebn internblNext() throws SQLException {
+        // CbchedRowSetImpl.next() internblly cblls
+        // this(crs).internblNext() NOTE: this holds crs object
+        // So when frs.next() is cblled,
+        // internblly this(frs).internblNext() will be cblled
         // which will be nothing but this method.
-        // because this holds frs object
+        // becbuse this holds frs object
 
-        // keep on doing super.internalNext()
-        // rather than doing it once.
+        // keep on doing super.internblNext()
+        // rbther thbn doing it once.
 
 
-         // p.evaluate will help us in changing the cursor
-         // and checking the next value by returning true or false.
+         // p.evblubte will help us in chbnging the cursor
+         // bnd checking the next vblue by returning true or fblse.
          // to fit the filter
 
-         // So while() loop will have a "random combination" of
-         // true and false returned depending upon the records
-         // are in or out of filter.
-         // We need to traverse from present cursorPos till end,
-         // whether true or false and check each row for "filter"
-         // "till we get a "true"
+         // So while() loop will hbve b "rbndom combinbtion" of
+         // true bnd fblse returned depending upon the records
+         // bre in or out of filter.
+         // We need to trbverse from present cursorPos till end,
+         // whether true or fblse bnd check ebch row for "filter"
+         // "till we get b "true"
 
 
-         boolean bool = false;
+         boolebn bool = fblse;
 
          for(int rows=this.getRow(); rows<=this.size();rows++) {
-             bool = super.internalNext();
+             bool = super.internblNext();
 
              if( !bool || p == null) {
                return bool;
              }
-             if(p.evaluate(this)){
-                   break;
+             if(p.evblubte(this)){
+                   brebk;
              }
 
          }
@@ -142,30 +142,30 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
 
 
     /**
-     * Over-riding <code>internalPrevious()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved backward or
-     * manipulated. It moves the cursor to the previous row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Over-riding <code>internblPrevious()</code> implementbtion. This method
+     * bpplies the filter on the <code>RowSet</code> ebch time the cursor is moved bbckwbrd or
+     * mbnipulbted. It moves the cursor to the previous row bccording to the set
+     * predicbte bnd returns <code>true</code> if the cursor is still within the rowset or
+     * <code>fblse</code> if the cursor position is over the lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @return true if over the vblid row in the rowset; fblse if over the lbst
      * row
      */
-    protected boolean internalPrevious() throws SQLException {
-         boolean bool = false;
-         // with previous move backwards,
-         // i.e. from any record towards first record
+    protected boolebn internblPrevious() throws SQLException {
+         boolebn bool = fblse;
+         // with previous move bbckwbrds,
+         // i.e. from bny record towbrds first record
 
          for(int rows=this.getRow(); rows>0;rows--) {
 
-             bool = super.internalPrevious();
+             bool = super.internblPrevious();
 
              if( p == null) {
                return bool;
              }
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.evblubte(this)){
+                   brebk;
              }
 
          }
@@ -175,21 +175,21 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
 
 
     /**
-     * Over-riding <code>internalFirst()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved to first
-     * row. It moves the cursor to the first row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Over-riding <code>internblFirst()</code> implementbtion. This method
+     * bpplies the filter on the <code>RowSet</code> ebch time the cursor is moved to first
+     * row. It moves the cursor to the first row bccording to the set
+     * predicbte bnd returns <code>true</code> if the cursor is still within the rowset or
+     * <code>fblse</code> if the cursor position is over the lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @return true if over the vblid row in the rowset; fblse if over the lbst
      * row
      */
-    protected boolean internalFirst() throws SQLException {
+    protected boolebn internblFirst() throws SQLException {
 
-        // from first till present cursor position(go forward),
-        // find the actual first which matches the filter.
+        // from first till present cursor position(go forwbrd),
+        // find the bctubl first which mbtches the filter.
 
-         boolean bool = super.internalFirst();
+         boolebn bool = super.internblFirst();
 
          if( p == null) {
                return bool;
@@ -197,30 +197,30 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
 
          while(bool) {
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.evblubte(this)){
+                   brebk;
              }
-        bool = super.internalNext();
+        bool = super.internblNext();
         }
      return bool;
     }
 
 
     /**
-     * Over-riding <code>internalLast()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved to
-     * last row. It moves the cursor to the last row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Over-riding <code>internblLbst()</code> implementbtion. This method
+     * bpplies the filter on the <code>RowSet</code> ebch time the cursor is moved to
+     * lbst row. It moves the cursor to the lbst row bccording to the set
+     * predicbte bnd returns <code>true</code> if the cursor is still within the rowset or
+     * <code>fblse</code> if the cursor position is over the lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @return true if over the vblid row in the rowset; fblse if over the lbst
      * row
      */
-    protected boolean internalLast() throws SQLException {
-        // from last to the present cursor position(go backward),
-        // find the actual last which matches the filter.
+    protected boolebn internblLbst() throws SQLException {
+        // from lbst to the present cursor position(go bbckwbrd),
+        // find the bctubl lbst which mbtches the filter.
 
-         boolean bool = super.internalLast();
+         boolebn bool = super.internblLbst();
 
          if( p == null) {
                return bool;
@@ -228,77 +228,77 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
 
          while(bool) {
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.evblubte(this)){
+                   brebk;
              }
 
-        bool = super.internalPrevious();
+        bool = super.internblPrevious();
 
         }
      return bool;
 
-   } // end internalLast()
+   } // end internblLbst()
    /**
      * Moves the cursor the specified number of rows from the current
-     * position, with a positive number moving it forward and a
-     * negative number moving it backward.
+     * position, with b positive number moving it forwbrd bnd b
+     * negbtive number moving it bbckwbrd.
      * <P>
      * If the number is positive, the cursor moves the specified number of
-     * rows toward the end of the rowset, starting at the current row.
-     * For example, the following command, in which
-     * <code>crs</code> is a <code>CachedRowSetImpl</code> object with 100 rows,
-     * moves the cursor forward four rows from the current row.  If the
+     * rows towbrd the end of the rowset, stbrting bt the current row.
+     * For exbmple, the following commbnd, in which
+     * <code>crs</code> is b <code>CbchedRowSetImpl</code> object with 100 rows,
+     * moves the cursor forwbrd four rows from the current row.  If the
      * current row is 50, the cursor would move to row 54.
      * <PRE><code>
      *
-     *    crs.relative(4);
+     *    crs.relbtive(4);
      *
      * </code> </PRE>
      * <P>
-     * If the number is negative, the cursor moves back toward the beginning
-     * the specified number of rows, starting at the current row.
-     * For example, calling the method
-     * <code>absolute(-1)</code> positions the cursor on the last row,
-     * <code>absolute(-2)</code> moves it on the next-to-last row, and so on.
-     * If the <code>CachedRowSetImpl</code> object <code>crs</code> has five rows,
-     * the following command moves the cursor to the fourth-to-last row, which
-     * in the case of a  rowset with five rows, is also the second row
+     * If the number is negbtive, the cursor moves bbck towbrd the beginning
+     * the specified number of rows, stbrting bt the current row.
+     * For exbmple, cblling the method
+     * <code>bbsolute(-1)</code> positions the cursor on the lbst row,
+     * <code>bbsolute(-2)</code> moves it on the next-to-lbst row, bnd so on.
+     * If the <code>CbchedRowSetImpl</code> object <code>crs</code> hbs five rows,
+     * the following commbnd moves the cursor to the fourth-to-lbst row, which
+     * in the cbse of b  rowset with five rows, is blso the second row
      * from the beginning.
      * <PRE><code>
      *
-     *    crs.absolute(-4);
+     *    crs.bbsolute(-4);
      *
      * </code> </PRE>
      *
-     * If the number specified is larger than the number of rows, the cursor
-     * will move to the position after the last row. If the number specified
+     * If the number specified is lbrger thbn the number of rows, the cursor
+     * will move to the position bfter the lbst row. If the number specified
      * would move the cursor one or more rows before the first row, the cursor
-     * moves to the position before the first row. In both cases, this method
-     * throws an <code>SQLException</code>.
+     * moves to the position before the first row. In both cbses, this method
+     * throws bn <code>SQLException</code>.
      * <P>
-     * Note: Calling <code>absolute(1)</code> is the same as calling the
-     * method <code>first()</code>.  Calling <code>absolute(-1)</code> is the
-     * same as calling <code>last()</code>.  Calling <code>relative(0)</code>
-     * is valid, but it does not change the cursor position.
+     * Note: Cblling <code>bbsolute(1)</code> is the sbme bs cblling the
+     * method <code>first()</code>.  Cblling <code>bbsolute(-1)</code> is the
+     * sbme bs cblling <code>lbst()</code>.  Cblling <code>relbtive(0)</code>
+     * is vblid, but it does not chbnge the cursor position.
      *
-     * @param rows an <code>int</code> indicating the number of rows to move
-     *             the cursor, starting at the current row; a positive number
-     *             moves the cursor forward; a negative number moves the cursor
-     *             backward; must not move the cursor past the valid
+     * @pbrbm rows bn <code>int</code> indicbting the number of rows to move
+     *             the cursor, stbrting bt the current row; b positive number
+     *             moves the cursor forwbrd; b negbtive number moves the cursor
+     *             bbckwbrd; must not move the cursor pbst the vblid
      *             rows
-     * @return <code>true</code> if the cursor is on a row in this
-     *         <code>CachedRowSetImpl</code> object; <code>false</code>
+     * @return <code>true</code> if the cursor is on b row in this
+     *         <code>CbchedRowSetImpl</code> object; <code>fblse</code>
      *         otherwise
      * @throws SQLException if the rowset is type <code>ResultSet.TYPE_FORWARD_ONLY</code>
      */
-   public boolean relative(int rows) throws SQLException {
+   public boolebn relbtive(int rows) throws SQLException {
 
-      boolean retval;
-      boolean bool = false;
-      boolean boolval = false;
+      boolebn retvbl;
+      boolebn bool = fblse;
+      boolebn boolvbl = fblse;
 
       if(getType() == ResultSet.TYPE_FORWARD_ONLY) {
-         throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.relative").toString());
+         throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.relbtive").toString());
       }
 
       if( rows > 0 ) {
@@ -306,140 +306,140 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
          int i = 0;
          while( i < (rows)) {
 
-            if( isAfterLast() ) {
-               return false;
+            if( isAfterLbst() ) {
+               return fblse;
             }
-            bool = internalNext();
+            bool = internblNext();
             i++;
          }
 
-         retval = bool;
+         retvbl = bool;
       } else {
          int j = rows;
          while( (j) < 0 ) {
 
            if( isBeforeFirst() ) {
-              return false;
+              return fblse;
            }
-           boolval = internalPrevious();
+           boolvbl = internblPrevious();
            j++;
          }
-         retval = boolval;
+         retvbl = boolvbl;
       }
       if(rows != 0)
           notifyCursorMoved();
-      return retval;
+      return retvbl;
    }
 
    /**
-     * Moves this <code>CachedRowSetImpl</code> object's cursor to the row number
+     * Moves this <code>CbchedRowSetImpl</code> object's cursor to the row number
      * specified.
      *
-     * <p>If the number is positive, the cursor moves to an absolute row with
+     * <p>If the number is positive, the cursor moves to bn bbsolute row with
      * respect to the beginning of the rowset.  The first row is row 1, the second
-     * is row 2, and so on.  For example, the following command, in which
-     * <code>crs</code> is a <code>CachedRowSetImpl</code> object, moves the cursor
-     * to the fourth row, starting from the beginning of the rowset.
+     * is row 2, bnd so on.  For exbmple, the following commbnd, in which
+     * <code>crs</code> is b <code>CbchedRowSetImpl</code> object, moves the cursor
+     * to the fourth row, stbrting from the beginning of the rowset.
      * <PRE><code>
      *
-     *    crs.absolute(4);
+     *    crs.bbsolute(4);
      *
      * </code> </PRE>
      * <P>
-     * If the number is negative, the cursor moves to an absolute row position
-     * with respect to the end of the rowset.  For example, calling
-     * <code>absolute(-1)</code> positions the cursor on the last row,
-     * <code>absolute(-2)</code> moves it on the next-to-last row, and so on.
-     * If the <code>CachedRowSetImpl</code> object <code>crs</code> has five rows,
-     * the following command moves the cursor to the fourth-to-last row, which
-     * in the case of a  rowset with five rows, is also the second row, counting
+     * If the number is negbtive, the cursor moves to bn bbsolute row position
+     * with respect to the end of the rowset.  For exbmple, cblling
+     * <code>bbsolute(-1)</code> positions the cursor on the lbst row,
+     * <code>bbsolute(-2)</code> moves it on the next-to-lbst row, bnd so on.
+     * If the <code>CbchedRowSetImpl</code> object <code>crs</code> hbs five rows,
+     * the following commbnd moves the cursor to the fourth-to-lbst row, which
+     * in the cbse of b  rowset with five rows, is blso the second row, counting
      * from the beginning.
      * <PRE><code>
      *
-     *    crs.absolute(-4);
+     *    crs.bbsolute(-4);
      *
      * </code> </PRE>
      *
-     * If the number specified is larger than the number of rows, the cursor
-     * will move to the position after the last row. If the number specified
+     * If the number specified is lbrger thbn the number of rows, the cursor
+     * will move to the position bfter the lbst row. If the number specified
      * would move the cursor one or more rows before the first row, the cursor
      * moves to the position before the first row.
      * <P>
-     * Note: Calling <code>absolute(1)</code> is the same as calling the
-     * method <code>first()</code>.  Calling <code>absolute(-1)</code> is the
-     * same as calling <code>last()</code>.
+     * Note: Cblling <code>bbsolute(1)</code> is the sbme bs cblling the
+     * method <code>first()</code>.  Cblling <code>bbsolute(-1)</code> is the
+     * sbme bs cblling <code>lbst()</code>.
      *
-     * @param rows a positive number to indicate the row, starting row numbering from
-     *        the first row, which is <code>1</code>; a negative number to indicate
-     *        the row, starting row numbering from the last row, which is
+     * @pbrbm rows b positive number to indicbte the row, stbrting row numbering from
+     *        the first row, which is <code>1</code>; b negbtive number to indicbte
+     *        the row, stbrting row numbering from the lbst row, which is
      *        <code>-1</code>; it must not be <code>0</code>
-     * @return <code>true</code> if the cursor is on the rowset; <code>false</code>
+     * @return <code>true</code> if the cursor is on the rowset; <code>fblse</code>
      *         otherwise
      * @throws SQLException if the given cursor position is <code>0</code> or the
      *            type of this rowset is <code>ResultSet.TYPE_FORWARD_ONLY</code>
      */
-    public boolean absolute(int rows) throws SQLException {
+    public boolebn bbsolute(int rows) throws SQLException {
 
-      boolean retval;
-      boolean bool = false;
+      boolebn retvbl;
+      boolebn bool = fblse;
 
       if(rows == 0 || getType() == ResultSet.TYPE_FORWARD_ONLY) {
-         throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.absolute").toString());
+         throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.bbsolute").toString());
       }
 
       if (rows > 0) {
-         bool = internalFirst();
+         bool = internblFirst();
 
          int i = 0;
          while(i < (rows-1)) {
-            if( isAfterLast() ) {
-               return false;
+            if( isAfterLbst() ) {
+               return fblse;
             }
-            bool = internalNext();
+            bool = internblNext();
             i++;
          }
-         retval = bool;
+         retvbl = bool;
       } else {
-         bool = internalLast();
+         bool = internblLbst();
 
          int j = rows;
          while((j+1) < 0 ) {
             if( isBeforeFirst() ) {
-               return false;
+               return fblse;
             }
-            bool = internalPrevious();
+            bool = internblPrevious();
             j++;
          }
-         retval = bool;
+         retvbl = bool;
       }
       notifyCursorMoved();
-      return retval;
+      return retvbl;
    }
 
    /**
-     * Moves the cursor for this <code>CachedRowSetImpl</code> object
+     * Moves the cursor for this <code>CbchedRowSetImpl</code> object
      * to the insert row.  The current row in the rowset is remembered
      * while the cursor is on the insert row.
      * <P>
-     * The insert row is a special row associated with an updatable
-     * rowset.  It is essentially a buffer where a new row may
-     * be constructed by calling the appropriate <code>updateXXX</code>
-     * methods to assign a value to each column in the row.  A complete
-     * row must be constructed; that is, every column that is not nullable
-     * must be assigned a value.  In order for the new row to become part
-     * of this rowset, the method <code>insertRow</code> must be called
-     * before the cursor is moved back to the rowset.
+     * The insert row is b specibl row bssocibted with bn updbtbble
+     * rowset.  It is essentiblly b buffer where b new row mby
+     * be constructed by cblling the bppropribte <code>updbteXXX</code>
+     * methods to bssign b vblue to ebch column in the row.  A complete
+     * row must be constructed; thbt is, every column thbt is not nullbble
+     * must be bssigned b vblue.  In order for the new row to become pbrt
+     * of this rowset, the method <code>insertRow</code> must be cblled
+     * before the cursor is moved bbck to the rowset.
      * <P>
-     * Only certain methods may be invoked while the cursor is on the insert
-     * row; many methods throw an exception if they are called while the
-     * cursor is there.  In addition to the <code>updateXXX</code>
-     * and <code>insertRow</code> methods, only the <code>getXXX</code> methods
-     * may be called when the cursor is on the insert row.  A <code>getXXX</code>
-     * method should be called on a column only after an <code>updateXXX</code>
-     * method has been called on that column; otherwise, the value returned is
+     * Only certbin methods mby be invoked while the cursor is on the insert
+     * row; mbny methods throw bn exception if they bre cblled while the
+     * cursor is there.  In bddition to the <code>updbteXXX</code>
+     * bnd <code>insertRow</code> methods, only the <code>getXXX</code> methods
+     * mby be cblled when the cursor is on the insert row.  A <code>getXXX</code>
+     * method should be cblled on b column only bfter bn <code>updbteXXX</code>
+     * method hbs been cblled on thbt column; otherwise, the vblue returned is
      * undetermined.
      *
-     * @throws SQLException if this <code>CachedRowSetImpl</code> object is
+     * @throws SQLException if this <code>CbchedRowSetImpl</code> object is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
    public void moveToInsertRow() throws SQLException {
@@ -449,1321 +449,1321 @@ public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, C
    }
 
    /**
-     * This is explanation for the overriding of the updateXXX functions.
-     * These functions have been overriden to ensure that only correct
-     * values that pass the criteria for the filter are actaully inserted.
-     * The evaluation of whether a particular value passes the criteria
-     * of the filter is done using the evaluate function in the Predicate
-     * interface.
+     * This is explbnbtion for the overriding of the updbteXXX functions.
+     * These functions hbve been overriden to ensure thbt only correct
+     * vblues thbt pbss the criterib for the filter bre bctbully inserted.
+     * The evblubtion of whether b pbrticulbr vblue pbsses the criterib
+     * of the filter is done using the evblubte function in the Predicbte
+     * interfbce.
      *
-     * The checking can will done in the evaluate function which is implemented
-     * in the class that implements the Predicate interface. So the checking
-     * can vary from one implementation to another.
+     * The checking cbn will done in the evblubte function which is implemented
+     * in the clbss thbt implements the Predicbte interfbce. So the checking
+     * cbn vbry from one implementbtion to bnother.
      *
-     * Some additional points here on the following:
-     * 1. updateBytes()     - since the evaluate function takes Object as parameter
-     *                        a String is constructed from the byte array and would
-     *                        passed to the evaluate function.
-     * 2. updateXXXstream() - here it would suffice to pass the stream handle
-     *                        to the evaluate function and the implementation
-     *                        of the evaluate function can do the comparision
-     *                        based on the stream and also type of data.
+     * Some bdditionbl points here on the following:
+     * 1. updbteBytes()     - since the evblubte function tbkes Object bs pbrbmeter
+     *                        b String is constructed from the byte brrby bnd would
+     *                        pbssed to the evblubte function.
+     * 2. updbteXXXstrebm() - here it would suffice to pbss the strebm hbndle
+     *                        to the evblubte function bnd the implementbtion
+     *                        of the evblubte function cbn do the compbrision
+     *                        bbsed on the strebm bnd blso type of dbtb.
      */
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>int</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>int</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateInt(int columnIndex , int x) throws SQLException {
+   public void updbteInt(int columnIndex , int x) throws SQLException {
 
-     boolean bool;
+     boolebn bool;
 
      if(onInsertRow) {
         if(p != null) {
-           bool = p.evaluate(Integer.valueOf(x),columnIndex);
+           bool = p.evblubte(Integer.vblueOf(x),columnIndex);
 
            if(!bool) {
-              throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+              throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
            }
         }
      }
 
-     super.updateInt(columnIndex,x);
+     super.updbteInt(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>int</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>int</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateInt(String columnName , int x) throws SQLException {
+   public void updbteInt(String columnNbme , int x) throws SQLException {
 
-       this.updateInt(findColumn(columnName), x);
+       this.updbteInt(findColumn(columnNbme), x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>boolean</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>boolebn</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBoolean(int columnIndex, boolean x) throws SQLException {
+   public void updbteBoolebn(int columnIndex, boolebn x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Boolean.valueOf(x) , columnIndex);
+            bool = p.evblubte(Boolebn.vblueOf(x) , columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
          }
       }
 
-      super.updateBoolean(columnIndex,x);
+      super.updbteBoolebn(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>boolean</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>boolebn</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBoolean(String columnName , boolean x) throws SQLException {
+   public void updbteBoolebn(String columnNbme , boolebn x) throws SQLException {
 
-      this.updateBoolean(findColumn(columnName),x);
+      this.updbteBoolebn(findColumn(columnNbme),x);
    }
 
 
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>byte</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateByte(int columnIndex , byte x) throws SQLException {
-      boolean bool;
+   public void updbteByte(int columnIndex , byte x) throws SQLException {
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Byte.valueOf(x),columnIndex);
+            bool = p.evblubte(Byte.vblueOf(x),columnIndex);
 
             if(!bool) {
-                throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateByte(columnIndex,x);
+      super.updbteByte(columnIndex,x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>byte</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateByte(String columnName , byte x) throws SQLException {
+   public void updbteByte(String columnNbme , byte x) throws SQLException {
 
-      this.updateByte(findColumn(columnName),x);
+      this.updbteByte(findColumn(columnNbme),x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>short</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>short</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateShort( int columnIndex , short x) throws SQLException {
+   public void updbteShort( int columnIndex , short x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Short.valueOf(x), columnIndex);
+            bool = p.evblubte(Short.vblueOf(x), columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateShort(columnIndex,x);
+      super.updbteShort(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>short</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>short</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateShort( String columnName , short x) throws SQLException {
+   public void updbteShort( String columnNbme , short x) throws SQLException {
 
-      this.updateShort(findColumn(columnName),x);
+      this.updbteShort(findColumn(columnNbme),x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>long</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>long</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateLong(int columnIndex , long x) throws SQLException {
+   public void updbteLong(int columnIndex , long x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Long.valueOf(x), columnIndex);
+            bool = p.evblubte(Long.vblueOf(x), columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateLong(columnIndex,x);
+      super.updbteLong(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>long</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>long</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateLong( String columnName , long x) throws SQLException {
+   public void updbteLong( String columnNbme , long x) throws SQLException {
 
-      this.updateLong(findColumn(columnName) , x);
+      this.updbteLong(findColumn(columnNbme) , x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>float</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>flobt</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateFloat(int columnIndex , float x) throws SQLException {
+   public void updbteFlobt(int columnIndex , flobt x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Float.valueOf(x), columnIndex);
+            bool = p.evblubte(Flobt.vblueOf(x), columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateFloat(columnIndex,x);
+      super.updbteFlobt(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>float</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>flobt</code> vblue.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateFloat(String columnName , float x) throws SQLException {
+   public void updbteFlobt(String columnNbme , flobt x) throws SQLException {
 
-      this.updateFloat(findColumn(columnName),x);
+      this.updbteFlobt(findColumn(columnNbme),x);
    }
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateDouble(int columnIndex , double x) throws SQLException {
+   public void updbteDouble(int columnIndex , double x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(Double.valueOf(x) , columnIndex);
+            bool = p.evblubte(Double.vblueOf(x) , columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateDouble(columnIndex,x);
+      super.updbteDouble(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateDouble(String columnName , double x) throws SQLException {
+   public void updbteDouble(String columnNbme , double x) throws SQLException {
 
-      this.updateDouble(findColumn(columnName),x);
+      this.updbteDouble(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.math.BigDecimal</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.mbth.BigDecimbl</code> object.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBigDecimal(int columnIndex , BigDecimal x) throws SQLException {
+   public void updbteBigDecimbl(int columnIndex , BigDecimbl x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-            bool = p.evaluate(x,columnIndex);
+            bool = p.evblubte(x,columnIndex);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
             }
           }
       }
 
-      super.updateBigDecimal(columnIndex,x);
+      super.updbteBigDecimbl(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.math.BigDecimal</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.mbth.BigDecimbl</code> object.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in the current row or the insert
+     * row of this rowset, but it does not updbte the dbtbbbse.
+     * If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBigDecimal(String columnName , BigDecimal x) throws SQLException {
+   public void updbteBigDecimbl(String columnNbme , BigDecimbl x) throws SQLException {
 
-      this.updateBigDecimal(findColumn(columnName),x);
+      this.updbteBigDecimbl(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
      * <code>String</code> object.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to mark the row as updated.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to mbrk the row bs updbted.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called to insert the new row into this rowset and mark it
-     * as inserted. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled to insert the new row into this rowset bnd mbrk it
+     * bs inserted. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      * <P>
-     * The method <code>acceptChanges</code> must be called if the
-     * updated values are to be written back to the underlying database.
+     * The method <code>bcceptChbnges</code> must be cblled if the
+     * updbted vblues bre to be written bbck to the underlying dbtbbbse.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateString(int columnIndex , String x) throws SQLException {
+   public void updbteString(int columnIndex , String x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-           bool = p.evaluate(x,columnIndex);
+           bool = p.evblubte(x,columnIndex);
 
            if(!bool) {
-              throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+              throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
            }
          }
       }
 
-      super.updateString(columnIndex,x);
+      super.updbteString(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
      * <code>String</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateString(String columnName , String x) throws SQLException {
+   public void updbteString(String columnNbme , String x) throws SQLException {
 
-      this.updateString(findColumn(columnName),x);
+      this.updbteString(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> array.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>byte</code> brrby.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBytes(int columnIndex , byte []x) throws SQLException {
+   public void updbteBytes(int columnIndex , byte []x) throws SQLException {
 
-      boolean bool;
-      String val = "";
+      boolebn bool;
+      String vbl = "";
 
-      Byte [] obj_arr = new Byte[x.length];
+      Byte [] obj_brr = new Byte[x.length];
 
       for(int i = 0; i < x.length; i++) {
-         obj_arr[i] = Byte.valueOf(x[i]);
-         val = val.concat(obj_arr[i].toString());
+         obj_brr[i] = Byte.vblueOf(x[i]);
+         vbl = vbl.concbt(obj_brr[i].toString());
      }
 
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(val,columnIndex);
+             bool = p.evblubte(vbl,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateBytes(columnIndex,x);
+      super.updbteBytes(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> array.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>byte</code> brrby.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBytes(String columnName , byte []x) throws SQLException {
+   public void updbteBytes(String columnNbme , byte []x) throws SQLException {
 
-      this.updateBytes(findColumn(columnName),x);
+      this.updbteBytes(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Date</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Dbte</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>DATE</code> or <code>TIMESTAMP</code>, or
+     *            insert row, (3) the type of the designbted column is not
+     *            bn SQL <code>DATE</code> or <code>TIMESTAMP</code>, or
      *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateDate(int columnIndex , java.sql.Date x) throws SQLException {
+   public void updbteDbte(int columnIndex , jbvb.sql.Dbte x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateDate(columnIndex,x);
+      super.updbteDbte(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Date</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Dbte</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>DATE</code> or
+     *            of the designbted column is not bn SQL <code>DATE</code> or
      *            <code>TIMESTAMP</code>, or (4) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateDate(String columnName , java.sql.Date x) throws SQLException {
+   public void updbteDbte(String columnNbme , jbvb.sql.Dbte x) throws SQLException {
 
-      this.updateDate(findColumn(columnName),x);
+      this.updbteDbte(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
      * <code>Time</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>TIME</code> or <code>TIMESTAMP</code>, or
+     *            insert row, (3) the type of the designbted column is not
+     *            bn SQL <code>TIME</code> or <code>TIMESTAMP</code>, or
      *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateTime(int columnIndex , Time x) throws SQLException {
+   public void updbteTime(int columnIndex , Time x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x, columnIndex);
+             bool = p.evblubte(x, columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateTime(columnIndex,x);
+      super.updbteTime(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
      * <code>Time</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>TIME</code> or
+     *            of the designbted column is not bn SQL <code>TIME</code> or
      *            <code>TIMESTAMP</code>, or (4) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateTime(String columnName , Time x) throws SQLException {
+   public void updbteTime(String columnNbme , Time x) throws SQLException {
 
-      this.updateTime(findColumn(columnName),x);
+      this.updbteTime(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Timestamp</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Timestbmp</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>DATE</code>, <code>TIME</code>, or
+     *            insert row, (3) the type of the designbted column is not
+     *            bn SQL <code>DATE</code>, <code>TIME</code>, or
      *            <code>TIMESTAMP</code>, or (4) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateTimestamp(int columnIndex , Timestamp x) throws SQLException {
+   public void updbteTimestbmp(int columnIndex , Timestbmp x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateTimestamp(columnIndex,x);
+      super.updbteTimestbmp(columnIndex,x);
    }
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Timestamp</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Timestbmp</code> object.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
      * @throws SQLException if the given column index is out of bounds or
      *            the cursor is not on one of this rowset's rows or its
      *            insert row
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>DATE</code>,
+     *            of the designbted column is not bn SQL <code>DATE</code>,
      *            <code>TIME</code>, or <code>TIMESTAMP</code>, or (4) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateTimestamp(String columnName , Timestamp x) throws SQLException {
+   public void updbteTimestbmp(String columnNbme , Timestbmp x) throws SQLException {
 
-      this.updateTimestamp(findColumn(columnName),x);
+      this.updbteTimestbmp(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * ASCII stream value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * ASCII strebm vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @param length the number of one-byte ASCII characters in the stream
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
+     * @pbrbm length the number of one-byte ASCII chbrbcters in the strebm
      * @throws SQLException if this method is invoked
      */
-   public void updateAsciiStream(int columnIndex , java.io.InputStream x ,int length) throws SQLException {
+   public void updbteAsciiStrebm(int columnIndex , jbvb.io.InputStrebm x ,int length) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateAsciiStream(columnIndex,x,length);
+      super.updbteAsciiStrebm(columnIndex,x,length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * ASCII stream value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * ASCII strebm vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @param length the number of one-byte ASCII characters in the stream
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @pbrbm length the number of one-byte ASCII chbrbcters in the strebm
      */
-   public void updateAsciiStream(String columnName , java.io.InputStream x , int length) throws SQLException {
+   public void updbteAsciiStrebm(String columnNbme , jbvb.io.InputStrebm x , int length) throws SQLException {
 
-      this.updateAsciiStream(findColumn(columnName),x,length);
+      this.updbteAsciiStrebm(findColumn(columnNbme),x,length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.Reader</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.io.Rebder</code> object.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value; must be a <code>java.io.Reader</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>,
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue; must be b <code>jbvb.io.Rebder</code>
+     *          contbining <code>BINARY</code>, <code>VARBINARY</code>,
      *          <code>LONGVARBINARY</code>, <code>CHAR</code>, <code>VARCHAR</code>,
-     *          or <code>LONGVARCHAR</code> data
-     * @param length the length of the stream in characters
+     *          or <code>LONGVARCHAR</code> dbtb
+     * @pbrbm length the length of the strebm in chbrbcters
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the data in the stream is not a binary or
-     *            character type, or (4) this rowset is
+     *            insert row, (3) the dbtb in the strebm is not b binbry or
+     *            chbrbcter type, or (4) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateCharacterStream(int columnIndex , java.io.Reader x , int length) throws SQLException {
+   public void updbteChbrbcterStrebm(int columnIndex , jbvb.io.Rebder x , int length) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateCharacterStream(columnIndex,x,length);
+      super.updbteChbrbcterStrebm(columnIndex,x,length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.Reader</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.io.Rebder</code> object.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param reader the new column value; must be a
-     * <code>java.io.Reader</code> containing <code>BINARY</code>,
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm rebder the new column vblue; must be b
+     * <code>jbvb.io.Rebder</code> contbining <code>BINARY</code>,
      * <code>VARBINARY</code>, <code>LONGVARBINARY</code>, <code>CHAR</code>,
-     * <code>VARCHAR</code>, or <code>LONGVARCHAR</code> data
-     * @param length the length of the stream in characters
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the data
-     *            in the stream is not a binary or character type, or (4) this
+     * <code>VARCHAR</code>, or <code>LONGVARCHAR</code> dbtb
+     * @pbrbm length the length of the strebm in chbrbcters
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
+     *            one of this rowset's rows or its insert row, (3) the dbtb
+     *            in the strebm is not b binbry or chbrbcter type, or (4) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateCharacterStream(String columnName , java.io.Reader reader, int length) throws SQLException {
-      this.updateCharacterStream(findColumn(columnName), reader, length);
+   public void updbteChbrbcterStrebm(String columnNbme , jbvb.io.Rebder rebder, int length) throws SQLException {
+      this.updbteChbrbcterStrebm(findColumn(columnNbme), rebder, length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.InputStream</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.io.InputStrebm</code> object.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value; must be a <code>java.io.InputStream</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>, or
-     *          <code>LONGVARBINARY</code> data
-     * @param length the length of the stream in bytes
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue; must be b <code>jbvb.io.InputStrebm</code>
+     *          contbining <code>BINARY</code>, <code>VARBINARY</code>, or
+     *          <code>LONGVARBINARY</code> dbtb
+     * @pbrbm length the length of the strebm in bytes
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the data in the stream is not binary, or
+     *            insert row, (3) the dbtb in the strebm is not binbry, or
      *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBinaryStream(int columnIndex , java.io.InputStream x , int length) throws SQLException {
+   public void updbteBinbryStrebm(int columnIndex , jbvb.io.InputStrebm x , int length) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateBinaryStream(columnIndex,x,length);
+      super.updbteBinbryStrebm(columnIndex,x,length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.InputStream</code> object.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>jbvb.io.InputStrebm</code> object.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value; must be a <code>java.io.InputStream</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>, or
-     *          <code>LONGVARBINARY</code> data
-     * @param length the length of the stream in bytes
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the data
-     *            in the stream is not binary, or (4) this rowset is
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue; must be b <code>jbvb.io.InputStrebm</code>
+     *          contbining <code>BINARY</code>, <code>VARBINARY</code>, or
+     *          <code>LONGVARBINARY</code> dbtb
+     * @pbrbm length the length of the strebm in bytes
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
+     *            one of this rowset's rows or its insert row, (3) the dbtb
+     *            in the strebm is not binbry, or (4) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateBinaryStream(String columnName , java.io.InputStream x, int length) throws SQLException {
+   public void updbteBinbryStrebm(String columnNbme , jbvb.io.InputStrebm x, int length) throws SQLException {
 
-      this.updateBinaryStream(findColumn(columnName),x,length);
+      this.updbteBinbryStrebm(findColumn(columnNbme),x,length);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Object</code> vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateObject(int columnIndex , Object x) throws SQLException {
+   public void updbteObject(int columnIndex , Object x) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateObject(columnIndex,x);
+      super.updbteObject(columnIndex,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Object</code> vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateObject(String columnName , Object x) throws SQLException {
+   public void updbteObject(String columnNbme , Object x) throws SQLException {
 
-      this.updateObject(findColumn(columnName),x);
+      this.updbteObject(findColumn(columnNbme),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.  The <code>scale</code> parameter indicates
-     * the number of digits to the right of the decimal point and is ignored
-     * if the new column value is not a type that will be mapped to an SQL
-     * <code>DECIMAL</code> or <code>NUMERIC</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Object</code> vblue.  The <code>scble</code> pbrbmeter indicbtes
+     * the number of digits to the right of the decimbl point bnd is ignored
+     * if the new column vblue is not b type thbt will be mbpped to bn SQL
+     * <code>DECIMAL</code> or <code>NUMERIC</code> vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @param scale the number of digits to the right of the decimal point (for
-     *              <code>DECIMAL</code> and <code>NUMERIC</code> types only)
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm x the new column vblue
+     * @pbrbm scble the number of digits to the right of the decimbl point (for
+     *              <code>DECIMAL</code> bnd <code>NUMERIC</code> types only)
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateObject(int columnIndex , Object x , int scale) throws SQLException {
+   public void updbteObject(int columnIndex , Object x , int scble) throws SQLException {
 
-      boolean bool;
+      boolebn bool;
 
       if(onInsertRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.evblubte(x,columnIndex);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 throw new SQLException(resBundle.hbndleGetObject("filteredrowsetimpl.notbllowed").toString());
              }
          }
       }
 
-      super.updateObject(columnIndex,x,scale);
+      super.updbteObject(columnIndex,x,scble);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.  The <code>scale</code> parameter
-     * indicates the number of digits to the right of the decimal point
-     * and is ignored if the new column value is not a type that will be
-     *  mapped to an SQL <code>DECIMAL</code> or <code>NUMERIC</code> value.
+     * Sets the designbted column in either the current row or the insert
+     * row of this <code>CbchedRowSetImpl</code> object with the given
+     * <code>Object</code> vblue.  The <code>scble</code> pbrbmeter
+     * indicbtes the number of digits to the right of the decimbl point
+     * bnd is ignored if the new column vblue is not b type thbt will be
+     *  mbpped to bn SQL <code>DECIMAL</code> or <code>NUMERIC</code> vblue.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @param scale the number of digits to the right of the decimal point (for
-     *              <code>DECIMAL</code> and <code>NUMERIC</code> types only)
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm x the new column vblue
+     * @pbrbm scble the number of digits to the right of the decimbl point (for
+     *              <code>DECIMAL</code> bnd <code>NUMERIC</code> types only)
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-   public void updateObject(String columnName , Object x, int scale) throws SQLException {
+   public void updbteObject(String columnNbme , Object x, int scble) throws SQLException {
 
-      this.updateObject(findColumn(columnName),x,scale);
+      this.updbteObject(findColumn(columnNbme),x,scble);
    }
 
    /**
-     * Inserts the contents of this <code>CachedRowSetImpl</code> object's insert
-     * row into this rowset immediately following the current row.
+     * Inserts the contents of this <code>CbchedRowSetImpl</code> object's insert
+     * row into this rowset immedibtely following the current row.
      * If the current row is the
-     * position after the last row or before the first row, the new row will
-     * be inserted at the end of the rowset.  This method also notifies
-     * listeners registered with this rowset that the row has changed.
+     * position bfter the lbst row or before the first row, the new row will
+     * be inserted bt the end of the rowset.  This method blso notifies
+     * listeners registered with this rowset thbt the row hbs chbnged.
      * <P>
-     * The cursor must be on the insert row when this method is called.
+     * The cursor must be on the insert row when this method is cblled.
      *
      * @throws SQLException if (1) the cursor is not on the insert row,
-     *            (2) one or more of the non-nullable columns in the insert
-     *            row has not been given a value, or (3) this rowset is
+     *            (2) one or more of the non-nullbble columns in the insert
+     *            row hbs not been given b vblue, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
    public void insertRow() throws SQLException {
 
-      onInsertRow = false;
+      onInsertRow = fblse;
       super.insertRow();
    }
 
    /**
-    * This method re populates the resBundle
-    * during the deserialization process
+    * This method re populbtes the resBundle
+    * during the deseriblizbtion process
     *
     */
-   private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-       // Default state initialization happens here
-       ois.defaultReadObject();
-       // Initialization of transient Res Bundle happens here .
+   privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+       // Defbult stbte initiblizbtion hbppens here
+       ois.defbultRebdObject();
+       // Initiblizbtion of trbnsient Res Bundle hbppens here .
        try {
           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-       } catch(IOException ioe) {
+       } cbtch(IOException ioe) {
            throw new RuntimeException(ioe);
        }
 
    }
 
-   static final long serialVersionUID = 6178454588413509360L;
-} // end FilteredRowSetImpl class
+   stbtic finbl long seriblVersionUID = 6178454588413509360L;
+} // end FilteredRowSetImpl clbss

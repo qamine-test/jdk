@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: rmic
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Remote Method Invocation (RMI)ツール
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Remote Method Invocbtion (RMI)ツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "rmic" "1" "2013年11月21日" "JDK 8" "Remote Method Invocation (RMI)"
+.TH "rmic" "1" "2013年11月21日" "JDK 8" "Remote Method Invocbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-rmic \- Java Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTieクラスを生成します。Object Management Group (OMG)インタフェース定義言語(IDL)も生成します
+rmic \- Jbvb Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTieクラスを生成します。Object Mbnbgement Group (OMG)インタフェース定義言語(IDL)も生成します
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIrmic\fR [ \fIoptions\fR ] \fIpackage\-qualified\-class\-names\fR
+\fIrmic\fR [ \fIoptions\fR ] \fIpbckbge\-qublified\-clbss\-nbmes\fR
 .fi
 .if n \{\
 .RE
@@ -67,17 +67,17 @@ rmic \- Java Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (II
 コマンドライン・\fIオプション\fR。オプションを参照してください。
 .RE
 .PP
-\fIpackage\-qualified\-class\-names\fR
+\fIpbckbge\-qublified\-clbss\-nbmes\fR
 .RS 4
 パッケージを含むクラス名。例:
-\fIjava\&.awt\&.Color\fR。
+\fIjbvb\&.bwt\&.Color\fR。
 .RE
 .SH "説明"
 .PP
 \fB非推奨に関する注意:\fR
-Java Remote Method Protocol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjava\&.rmi\&.server\&.UnicastRemoteObject\fR仕様(http://docs\&.oracle\&.com/javase/8/docs/api/java/rmi/server/UnicastRemoteObject\&.html)を参照してください。
+Jbvb Remote Method Protocol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.server\&.UnicbstRemoteObject\fR仕様(http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/rmi/server/UnicbstRemoteObject\&.html)を参照してください。
 .PP
-\fIrmic\fRコンパイラは、Java Remote Method Protocol (JRMP)とスタブおよびTieクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Javaプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjava\&.rmi\&.Remote\fRインタフェースを実装するクラスです。\fIrmic\fRコマンドでのクラス名は、そのクラスが\fIjavac\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHelloImpl\fRで\fIrmic\fRコマンドを実行すると、helloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHelloImpl_Stub\&.class \fRファイルが作成されます。
+\fIrmic\fRコンパイラは、Jbvb Remote Method Protocol (JRMP)とスタブおよびTieクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Remote\fRインタフェースを実装するクラスです。\fIrmic\fRコマンドでのクラス名は、そのクラスが\fIjbvbc\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHelloImpl\fRで\fIrmic\fRコマンドを実行すると、helloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHelloImpl_Stub\&.clbss \fRファイルが作成されます。
 .sp
 .if n \{\
 .RS 4
@@ -95,31 +95,31 @@ rmic hello\&.HelloImpl
 .PP
 スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
 .PP
-デフォルトで\fIrmic\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vcompat\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTieクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmic\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vcompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTieクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
 .PP
-スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJavaプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortableRemoteObject\&.narrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbbleRemoteObject\&.nbrrow\fRメソッドを使用する必要があります。
 .SH "オプション"
 .PP
-\-bootclasspath \fIpath\fR
+\-bootclbsspbth \fIpbth\fR
 .RS 4
 ブートストラップ・クラス・ファイルの位置をオーバーライドします。
 .RE
 .PP
-\-classpath path
+\-clbsspbth pbth
 .RS 4
-\fIrmic\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_path>\fRです。例:
-\fI\&.;/usr/local/java/classes\fR
+\fIrmic\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbth>\fRです。例:
+\fI\&.;/usr/locbl/jbvb/clbsses\fR
 .RE
 .PP
 \-d \fIdirectory\fR
 .RS 4
-生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTieファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClassから導出されたスタブおよびスケルトン・クラスをディレクトリ/java/classes/exampleclassに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTieファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/clbsses/exbmpleclbssに格納します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmic \-d /java/classes exampleclass\&.MyClass
+rmic \-d /jbvb/clbsses exbmpleclbss\&.MyClbss
 .fi
 .if n \{\
 .RE
@@ -127,7 +127,7 @@ rmic \-d /java/classes exampleclass\&.MyClass
 \fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tie/skeletonファイルが格納されます。以前のリリースの\fIrmic\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
 .RE
 .PP
-\-extdirs \fIpath\fR
+\-extdirs \fIpbth\fR
 .RS 4
 インストール済拡張機能の位置をオーバーライドします。
 .RE
@@ -139,8 +139,8 @@ rmic \-d /java/classes exampleclass\&.MyClass
 .PP
 \-idl
 .RS 4
-\fIrmic\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JavaおよびC++が含まれています。http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/mapping/jidlMapping\&.htmlの
-「Java IDL: IDL to Java Language Mapping」を参照してください
+\fIrmic\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/mbpping/jidlMbpping\&.htmlの
+「Jbvb IDL: IDL to Jbvb Lbngubge Mbpping」を参照してください
 .sp
 \fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
 .sp
@@ -152,7 +152,7 @@ rmic \-d /java/classes exampleclass\&.MyClass
 .sp -1
 .IP \(bu 2.3
 .\}
-既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-always\fRまたは\fI\-alwaysgenerate\fRオプションは再生成を強制します。
+既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgenerbte\fRオプションは再生成を強制します。
 .RE
 .sp
 .RS 4
@@ -163,7 +163,7 @@ rmic \-d /java/classes exampleclass\&.MyClass
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-factory\fRオプションは、生成されたIDLで\fIfactory\fRキーワードを使用します。
+\fI\-fbctory\fRオプションは、生成されたIDLで\fIfbctory\fRキーワードを使用します。
 .RE
 .sp
 .RS 4
@@ -176,13 +176,13 @@ rmic \-d /java/classes exampleclass\&.MyClass
 .\}
 The
 \fI\-idlModule\fR
-from J\fIavaPackage[\&.class]\fR
+from J\fIbvbPbckbge[\&.clbss]\fR
 \fItoIDLModule\fR
 specifies
 \fIIDLEntity\fR
-package mapping, for example:
+pbckbge mbpping, for exbmple:
 \fI\-idlModule\fR
-\fImy\&.module my::real::idlmod\fR\&.
+\fImy\&.module my::rebl::idlmod\fR\&.
 .RE
 .sp
 .RS 4
@@ -194,10 +194,10 @@ package mapping, for example:
 .IP \(bu 2.3
 .\}
 \fI\-idlFile\fR
-\fIfromJavaPackage[\&.class] toIDLFile\fR
+\fIfromJbvbPbckbge[\&.clbss] toIDLFile\fR
 specifies
 \fIIDLEntity\fR
-file mapping, for example:
+file mbpping, for exbmple:
 \fI\-idlFile test\&.pkg\&.X TEST16\&.idl\fR\&.
 .RE
 .RE
@@ -212,8 +212,8 @@ file mapping, for example:
 .RS 4
 .\}
 .nf
-_<implementationName>_stub\&.class
-_<interfaceName>_tie\&.class
+_<implementbtionNbme>_stub\&.clbss
+_<interfbceNbme>_tie\&.clbss
 .fi
 .if n \{\
 .RE
@@ -238,7 +238,7 @@ _<interfaceName>_tie\&.class
 .sp -1
 .IP \(bu 2.3
 .\}
-既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-always\fRまたは\fI\-alwaysgenerate\fRオプションは再生成を強制します。
+既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgenerbte\fRオプションは再生成を強制します。
 .RE
 .sp
 .RS 4
@@ -249,7 +249,7 @@ _<interfaceName>_tie\&.class
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-nolocalstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolocblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
 .RE
 .sp
 .RS 4
@@ -260,7 +260,7 @@ _<interfaceName>_tie\&.class
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-noValueMethods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noValueMethods\fRオプションは、送信されるIDLに\fIvaluetype\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、valuetypeの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noValueMethods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblueMethods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblueMethods\fRオプションは、送信されるIDLに\fIvbluetype\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluetypeの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblueMethods\fRオプションを指定しないかぎり生成されます。
 .RE
 .sp
 .RS 4
@@ -271,23 +271,23 @@ _<interfaceName>_tie\&.class
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-poa\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portable\&.ObjectImpl\fRから\fIorg\&.omg\&.PortableServer\&.Servant\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortableServer\fRモジュールは、ネイティブの\fIServant\fR型を定義します。Javaプログラミング言語では、\fIServant\fR型はJavaの\fIorg\&.omg\&.PortableServer\&.Servant\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Java Language Mapping Specification、CORBA V 2\&.3\&.1 ptc/00\-01\-08\&.pdfに準拠しています。
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbble\&.ObjectImpl\fRから\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbbleServer\fRモジュールは、ネイティブの\fIServbnt\fR型を定義します。Jbvbプログラミング言語では、\fIServbnt\fR型はJbvbの\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubge Mbpping Specificbtion、CORBA V 2\&.3\&.1 ptc/00\-01\-08\&.pdfに準拠しています。
 .RE
 .RE
 .PP
 \-J
 .RS 4
-Javaコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJavaインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
+Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
 .RE
 .PP
-\-keep or \-keepgenerated
+\-keep or \-keepgenerbted
 .RS 4
-スタブ、スケルトン、またはTieクラスのために生成された\fI\&.java\fRソース・ファイルを保持し、\fI\&.class\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTieクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.clbss\fRファイルと同じディレクトリに書き込みます。
 .RE
 .PP
-\-nowarn
+\-nowbrn
 .RS 4
-警告をオフにします。\fI\-nowarn\fRオプションが使用される場合。コンパイラは警告を表示しません。
+警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
 .RE
 .PP
 \-nowrite
@@ -295,7 +295,7 @@ Javaコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJa
 コンパイルしたクラスをファイル・システムに書き込みません。
 .RE
 .PP
-\-vcompat (非推奨)
+\-vcompbt (非推奨)
 .RS 4
 1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
 .RE
@@ -319,7 +319,7 @@ Javaコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJa
 CLASSPATH
 .RS 4
 ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
-\fI\&.:/usr/local/java/classes\fR
+\fI\&.:/usr/locbl/jbvb/clbsses\fR
 .RE
 .SH "関連項目"
 .sp
@@ -331,7 +331,7 @@ CLASSPATH
 .sp -1
 .IP \(bu 2.3
 .\}
-javac(1)
+jbvbc(1)
 .RE
 .sp
 .RS 4
@@ -342,7 +342,7 @@ javac(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-java(1)
+jbvb(1)
 .RE
 .sp
 .RS 4
@@ -353,7 +353,7 @@ java(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-Setting the Class Path
+Setting the Clbss Pbth
 .RE
 .br
 'pl 8.5i

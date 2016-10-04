@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.Serializable;
-import java.io.IOException;
-import java.security.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Collections;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import sun.security.util.SecurityConstants;
+import jbvb.io.Seriblizbble;
+import jbvb.io.IOException;
+import jbvb.security.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Collections;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * This class is for property permissions.
+ * This clbss is for property permissions.
  *
  * <P>
- * The name is the name of the property ("java.home",
- * "os.name", etc). The naming
- * convention follows the  hierarchical property naming convention.
- * Also, an asterisk
- * may appear at the end of the name, following a ".", or by itself, to
- * signify a wildcard match. For example: "java.*" and "*" signify a wildcard
- * match, while "*java" and "a*b" do not.
+ * The nbme is the nbme of the property ("jbvb.home",
+ * "os.nbme", etc). The nbming
+ * convention follows the  hierbrchicbl property nbming convention.
+ * Also, bn bsterisk
+ * mby bppebr bt the end of the nbme, following b ".", or by itself, to
+ * signify b wildcbrd mbtch. For exbmple: "jbvb.*" bnd "*" signify b wildcbrd
+ * mbtch, while "*jbvb" bnd "b*b" do not.
  * <P>
- * The actions to be granted are passed to the constructor in a string containing
- * a list of one or more comma-separated keywords. The possible keywords are
- * "read" and "write". Their meaning is defined as follows:
+ * The bctions to be grbnted bre pbssed to the constructor in b string contbining
+ * b list of one or more commb-sepbrbted keywords. The possible keywords bre
+ * "rebd" bnd "write". Their mebning is defined bs follows:
  *
  * <DL>
- *    <DT> read
- *    <DD> read permission. Allows <code>System.getProperty</code> to
- *         be called.
+ *    <DT> rebd
+ *    <DD> rebd permission. Allows <code>System.getProperty</code> to
+ *         be cblled.
  *    <DT> write
  *    <DD> write permission. Allows <code>System.setProperty</code> to
- *         be called.
+ *         be cblled.
  * </DL>
  * <P>
- * The actions string is converted to lowercase before processing.
+ * The bctions string is converted to lowercbse before processing.
  * <P>
- * Care should be taken before granting code permission to access
- * certain system properties.  For example, granting permission to
- * access the "java.home" system property gives potentially malevolent
- * code sensitive information about the system environment (the Java
- * installation directory).  Also, granting permission to access
- * the "user.name" and "user.home" system properties gives potentially
- * malevolent code sensitive information about the user environment
- * (the user's account name and home directory).
+ * Cbre should be tbken before grbnting code permission to bccess
+ * certbin system properties.  For exbmple, grbnting permission to
+ * bccess the "jbvb.home" system property gives potentiblly mblevolent
+ * code sensitive informbtion bbout the system environment (the Jbvb
+ * instbllbtion directory).  Also, grbnting permission to bccess
+ * the "user.nbme" bnd "user.home" system properties gives potentiblly
+ * mblevolent code sensitive informbtion bbout the user environment
+ * (the user's bccount nbme bnd home directory).
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  * @since 1.2
  *
- * @serial exclude
+ * @seribl exclude
  */
 
-public final class PropertyPermission extends BasicPermission {
+public finbl clbss PropertyPermission extends BbsicPermission {
 
     /**
-     * Read action.
+     * Rebd bction.
      */
-    private final static int READ    = 0x1;
+    privbte finbl stbtic int READ    = 0x1;
 
     /**
-     * Write action.
+     * Write bction.
      */
-    private final static int WRITE   = 0x2;
+    privbte finbl stbtic int WRITE   = 0x2;
     /**
-     * All actions (read,write);
+     * All bctions (rebd,write);
      */
-    private final static int ALL     = READ|WRITE;
+    privbte finbl stbtic int ALL     = READ|WRITE;
     /**
-     * No actions.
+     * No bctions.
      */
-    private final static int NONE    = 0x0;
+    privbte finbl stbtic int NONE    = 0x0;
 
     /**
-     * The actions mask.
+     * The bctions mbsk.
      *
      */
-    private transient int mask;
+    privbte trbnsient int mbsk;
 
     /**
-     * The actions string.
+     * The bctions string.
      *
-     * @serial
+     * @seribl
      */
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbte String bctions; // Left null bs long bs possible, then
+                            // crebted bnd re-used in the getAction function.
 
     /**
-     * initialize a PropertyPermission object. Common to all constructors.
-     * Also called during de-serialization.
+     * initiblize b PropertyPermission object. Common to bll constructors.
+     * Also cblled during de-seriblizbtion.
      *
-     * @param mask the actions mask to use.
+     * @pbrbm mbsk the bctions mbsk to use.
      *
      */
-    private void init(int mask) {
-        if ((mask & ALL) != mask)
-            throw new IllegalArgumentException("invalid actions mask");
+    privbte void init(int mbsk) {
+        if ((mbsk & ALL) != mbsk)
+            throw new IllegblArgumentException("invblid bctions mbsk");
 
-        if (mask == NONE)
-            throw new IllegalArgumentException("invalid actions mask");
+        if (mbsk == NONE)
+            throw new IllegblArgumentException("invblid bctions mbsk");
 
-        if (getName() == null)
-            throw new NullPointerException("name can't be null");
+        if (getNbme() == null)
+            throw new NullPointerException("nbme cbn't be null");
 
-        this.mask = mask;
+        this.mbsk = mbsk;
     }
 
     /**
-     * Creates a new PropertyPermission object with the specified name.
-     * The name is the name of the system property, and
-     * <i>actions</i> contains a comma-separated list of the
-     * desired actions granted on the property. Possible actions are
-     * "read" and "write".
+     * Crebtes b new PropertyPermission object with the specified nbme.
+     * The nbme is the nbme of the system property, bnd
+     * <i>bctions</i> contbins b commb-sepbrbted list of the
+     * desired bctions grbnted on the property. Possible bctions bre
+     * "rebd" bnd "write".
      *
-     * @param name the name of the PropertyPermission.
-     * @param actions the actions string.
+     * @pbrbm nbme the nbme of the PropertyPermission.
+     * @pbrbm bctions the bctions string.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty or if
-     * <code>actions</code> is invalid.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty or if
+     * <code>bctions</code> is invblid.
      */
-    public PropertyPermission(String name, String actions) {
-        super(name,actions);
-        init(getMask(actions));
+    public PropertyPermission(String nbme, String bctions) {
+        super(nbme,bctions);
+        init(getMbsk(bctions));
     }
 
     /**
      * Checks if this PropertyPermission object "implies" the specified
      * permission.
      * <P>
-     * More specifically, this method returns true if:
+     * More specificblly, this method returns true if:
      * <ul>
-     * <li> <i>p</i> is an instanceof PropertyPermission,
-     * <li> <i>p</i>'s actions are a subset of this
-     * object's actions, and
-     * <li> <i>p</i>'s name is implied by this object's
-     *      name. For example, "java.*" implies "java.home".
+     * <li> <i>p</i> is bn instbnceof PropertyPermission,
+     * <li> <i>p</i>'s bctions bre b subset of this
+     * object's bctions, bnd
+     * <li> <i>p</i>'s nbme is implied by this object's
+     *      nbme. For exbmple, "jbvb.*" implies "jbvb.home".
      * </ul>
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof PropertyPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof PropertyPermission))
+            return fblse;
 
-        PropertyPermission that = (PropertyPermission) p;
+        PropertyPermission thbt = (PropertyPermission) p;
 
-        // we get the effective mask. i.e., the "and" of this and that.
-        // They must be equal to that.mask for implies to return true.
+        // we get the effective mbsk. i.e., the "bnd" of this bnd thbt.
+        // They must be equbl to thbt.mbsk for implies to return true.
 
-        return ((this.mask & that.mask) == that.mask) && super.implies(that);
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk) && super.implies(thbt);
     }
 
     /**
-     * Checks two PropertyPermission objects for equality. Checks that <i>obj</i> is
-     * a PropertyPermission, and has the same name and actions as this object.
+     * Checks two PropertyPermission objects for equblity. Checks thbt <i>obj</i> is
+     * b PropertyPermission, bnd hbs the sbme nbme bnd bctions bs this object.
      *
-     * @param obj the object we are testing for equality with this object.
-     * @return true if obj is a PropertyPermission, and has the same name and
-     * actions as this PropertyPermission object.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if obj is b PropertyPermission, bnd hbs the sbme nbme bnd
+     * bctions bs this PropertyPermission object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof PropertyPermission))
-            return false;
+        if (! (obj instbnceof PropertyPermission))
+            return fblse;
 
-        PropertyPermission that = (PropertyPermission) obj;
+        PropertyPermission thbt = (PropertyPermission) obj;
 
-        return (this.mask == that.mask) &&
-            (this.getName().equals(that.getName()));
+        return (this.mbsk == thbt.mbsk) &&
+            (this.getNbme().equbls(thbt.getNbme()));
     }
 
     /**
-     * Returns the hash code value for this object.
-     * The hash code used is the hash code of this permissions name, that is,
-     * <code>getName().hashCode()</code>, where <code>getName</code> is
-     * from the Permission superclass.
+     * Returns the hbsh code vblue for this object.
+     * The hbsh code used is the hbsh code of this permissions nbme, thbt is,
+     * <code>getNbme().hbshCode()</code>, where <code>getNbme</code> is
+     * from the Permission superclbss.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return this.getName().hashCode();
+    public int hbshCode() {
+        return this.getNbme().hbshCode();
     }
 
     /**
-     * Converts an actions String to an actions mask.
+     * Converts bn bctions String to bn bctions mbsk.
      *
-     * @param actions the action string.
-     * @return the actions mask.
+     * @pbrbm bctions the bction string.
+     * @return the bctions mbsk.
      */
-    private static int getMask(String actions) {
+    privbte stbtic int getMbsk(String bctions) {
 
-        int mask = NONE;
+        int mbsk = NONE;
 
-        if (actions == null) {
-            return mask;
+        if (bctions == null) {
+            return mbsk;
         }
 
-        // Use object identity comparison against known-interned strings for
-        // performance benefit (these values are used heavily within the JDK).
-        if (actions == SecurityConstants.PROPERTY_READ_ACTION) {
+        // Use object identity compbrison bgbinst known-interned strings for
+        // performbnce benefit (these vblues bre used hebvily within the JDK).
+        if (bctions == SecurityConstbnts.PROPERTY_READ_ACTION) {
             return READ;
-        } if (actions == SecurityConstants.PROPERTY_WRITE_ACTION) {
+        } if (bctions == SecurityConstbnts.PROPERTY_WRITE_ACTION) {
             return WRITE;
-        } else if (actions == SecurityConstants.PROPERTY_RW_ACTION) {
+        } else if (bctions == SecurityConstbnts.PROPERTY_RW_ACTION) {
             return READ|WRITE;
         }
 
-        char[] a = actions.toCharArray();
+        chbr[] b = bctions.toChbrArrby();
 
-        int i = a.length - 1;
+        int i = b.length - 1;
         if (i < 0)
-            return mask;
+            return mbsk;
 
         while (i != -1) {
-            char c;
+            chbr c;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
+            // skip whitespbce
+            while ((i!=-1) && ((c = b[i]) == ' ' ||
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
@@ -265,112 +265,112 @@ public final class PropertyPermission extends BasicPermission {
                 i--;
 
             // check for the known strings
-            int matchlen;
+            int mbtchlen;
 
-            if (i >= 3 && (a[i-3] == 'r' || a[i-3] == 'R') &&
-                          (a[i-2] == 'e' || a[i-2] == 'E') &&
-                          (a[i-1] == 'a' || a[i-1] == 'A') &&
-                          (a[i] == 'd' || a[i] == 'D'))
+            if (i >= 3 && (b[i-3] == 'r' || b[i-3] == 'R') &&
+                          (b[i-2] == 'e' || b[i-2] == 'E') &&
+                          (b[i-1] == 'b' || b[i-1] == 'A') &&
+                          (b[i] == 'd' || b[i] == 'D'))
             {
-                matchlen = 4;
-                mask |= READ;
+                mbtchlen = 4;
+                mbsk |= READ;
 
-            } else if (i >= 4 && (a[i-4] == 'w' || a[i-4] == 'W') &&
-                                 (a[i-3] == 'r' || a[i-3] == 'R') &&
-                                 (a[i-2] == 'i' || a[i-2] == 'I') &&
-                                 (a[i-1] == 't' || a[i-1] == 'T') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } else if (i >= 4 && (b[i-4] == 'w' || b[i-4] == 'W') &&
+                                 (b[i-3] == 'r' || b[i-3] == 'R') &&
+                                 (b[i-2] == 'i' || b[i-2] == 'I') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 5;
-                mask |= WRITE;
+                mbtchlen = 5;
+                mbsk |= WRITE;
 
             } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + actions);
+                // pbrse error
+                throw new IllegblArgumentException(
+                        "invblid permission: " + bctions);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + actions);
+            // mbke sure we didn't just mbtch the tbil of b word
+            // like "bckbbrfbccept".  Also, skip to the commb.
+            boolebn seencommb = fblse;
+            while (i >= mbtchlen && !seencommb) {
+                switch(b[i-mbtchlen]) {
+                cbse ',':
+                    seencommb = true;
+                    brebk;
+                cbse ' ': cbse '\r': cbse '\n':
+                cbse '\f': cbse '\t':
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException(
+                            "invblid permission: " + bctions);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt the locbtion of the commb minus one (or -1).
+            i -= mbtchlen;
         }
 
-        return mask;
+        return mbsk;
     }
 
 
     /**
-     * Return the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * read, write.
+     * Return the cbnonicbl string representbtion of the bctions.
+     * Alwbys returns present bctions in the following order:
+     * rebd, write.
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
-    static String getActions(int mask) {
+    stbtic String getActions(int mbsk) {
         StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        boolebn commb = fblse;
 
-        if ((mask & READ) == READ) {
-            comma = true;
-            sb.append("read");
+        if ((mbsk & READ) == READ) {
+            commb = true;
+            sb.bppend("rebd");
         }
 
-        if ((mask & WRITE) == WRITE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("write");
+        if ((mbsk & WRITE) == WRITE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("write");
         }
         return sb.toString();
     }
 
     /**
-     * Returns the "canonical string representation" of the actions.
-     * That is, this method always returns present actions in the following order:
-     * read, write. For example, if this PropertyPermission object
-     * allows both write and read actions, a call to <code>getActions</code>
-     * will return the string "read,write".
+     * Returns the "cbnonicbl string representbtion" of the bctions.
+     * Thbt is, this method blwbys returns present bctions in the following order:
+     * rebd, write. For exbmple, if this PropertyPermission object
+     * bllows both write bnd rebd bctions, b cbll to <code>getActions</code>
+     * will return the string "rebd,write".
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
     public String getActions() {
-        if (actions == null)
-            actions = getActions(this.mask);
+        if (bctions == null)
+            bctions = getActions(this.mbsk);
 
-        return actions;
+        return bctions;
     }
 
     /**
-     * Return the current action mask.
+     * Return the current bction mbsk.
      * Used by the PropertyPermissionCollection
      *
-     * @return the actions mask.
+     * @return the bctions mbsk.
      */
-    int getMask() {
-        return mask;
+    int getMbsk() {
+        return mbsk;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
+     * Returns b new PermissionCollection object for storing
      * PropertyPermission objects.
      *
-     * @return a new PermissionCollection object suitable for storing
+     * @return b new PermissionCollection object suitbble for storing
      * PropertyPermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -378,279 +378,279 @@ public final class PropertyPermission extends BasicPermission {
     }
 
 
-    private static final long serialVersionUID = 885438825399942851L;
+    privbte stbtic finbl long seriblVersionUID = 885438825399942851L;
 
     /**
-     * WriteObject is called to save the state of the PropertyPermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WriteObject is cblled to sbve the stbte of the PropertyPermission
+     * to b strebm. The bctions bre seriblized, bnd the superclbss
+     * tbkes cbre of the nbme.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    privbte synchronized void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
+        // Write out the bctions. The superclbss tbkes cbre of the nbme
+        // cbll getActions to mbke sure bctions field is initiblized
+        if (bctions == null)
             getActions();
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /**
-     * readObject is called to restore the state of the PropertyPermission from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the PropertyPermission from
+     * b strebm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getMask(actions));
+        // Rebd in the bction, then initiblize the rest
+        s.defbultRebdObject();
+        init(getMbsk(bctions));
     }
 }
 
 /**
- * A PropertyPermissionCollection stores a set of PropertyPermission
+ * A PropertyPermissionCollection stores b set of PropertyPermission
  * permissions.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
-final class PropertyPermissionCollection extends PermissionCollection
-    implements Serializable
+finbl clbss PropertyPermissionCollection extends PermissionCollection
+    implements Seriblizbble
 {
 
     /**
-     * Key is property name; value is PropertyPermission.
-     * Not serialized; see serialization section at end of class.
+     * Key is property nbme; vblue is PropertyPermission.
+     * Not seriblized; see seriblizbtion section bt end of clbss.
      */
-    private transient Map<String, PropertyPermission> perms;
+    privbte trbnsient Mbp<String, PropertyPermission> perms;
 
     /**
-     * Boolean saying if "*" is in the collection.
+     * Boolebn sbying if "*" is in the collection.
      *
-     * @see #serialPersistentFields
+     * @see #seriblPersistentFields
      */
-    // No sync access; OK for this to be stale.
-    private boolean all_allowed;
+    // No sync bccess; OK for this to be stble.
+    privbte boolebn bll_bllowed;
 
     /**
-     * Create an empty PropertyPermissionCollection object.
+     * Crebte bn empty PropertyPermissionCollection object.
      */
     public PropertyPermissionCollection() {
-        perms = new HashMap<>(32);     // Capacity for default policy
-        all_allowed = false;
+        perms = new HbshMbp<>(32);     // Cbpbcity for defbult policy
+        bll_bllowed = fblse;
     }
 
     /**
-     * Adds a permission to the PropertyPermissions. The key for the hash is
-     * the name.
+     * Adds b permission to the PropertyPermissions. The key for the hbsh is
+     * the nbme.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
+     * @exception IllegblArgumentException - if the permission is not b
      *                                       PropertyPermission
      *
      * @exception SecurityException - if this PropertyPermissionCollection
-     *                                object has been marked readonly
+     *                                object hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof PropertyPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof PropertyPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
+        if (isRebdOnly())
             throw new SecurityException(
-                "attempt to add a Permission to a readonly PermissionCollection");
+                "bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
         PropertyPermission pp = (PropertyPermission) permission;
-        String propName = pp.getName();
+        String propNbme = pp.getNbme();
 
         synchronized (this) {
-            PropertyPermission existing = perms.get(propName);
+            PropertyPermission existing = perms.get(propNbme);
 
             if (existing != null) {
-                int oldMask = existing.getMask();
-                int newMask = pp.getMask();
-                if (oldMask != newMask) {
-                    int effective = oldMask | newMask;
-                    String actions = PropertyPermission.getActions(effective);
-                    perms.put(propName, new PropertyPermission(propName, actions));
+                int oldMbsk = existing.getMbsk();
+                int newMbsk = pp.getMbsk();
+                if (oldMbsk != newMbsk) {
+                    int effective = oldMbsk | newMbsk;
+                    String bctions = PropertyPermission.getActions(effective);
+                    perms.put(propNbme, new PropertyPermission(propNbme, bctions));
                 }
             } else {
-                perms.put(propName, pp);
+                perms.put(propNbme, pp);
             }
         }
 
-        if (!all_allowed) {
-            if (propName.equals("*"))
-                all_allowed = true;
+        if (!bll_bllowed) {
+            if (propNbme.equbls("*"))
+                bll_bllowed = true;
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
+     * Check bnd see if this set of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the set, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof PropertyPermission))
-                return false;
+    public boolebn implies(Permission permission) {
+        if (! (permission instbnceof PropertyPermission))
+                return fblse;
 
         PropertyPermission pp = (PropertyPermission) permission;
         PropertyPermission x;
 
-        int desired = pp.getMask();
+        int desired = pp.getMbsk();
         int effective = 0;
 
-        // short circuit if the "*" Permission was added
-        if (all_allowed) {
+        // short circuit if the "*" Permission wbs bdded
+        if (bll_bllowed) {
             synchronized (this) {
                 x = perms.get("*");
             }
             if (x != null) {
-                effective |= x.getMask();
+                effective |= x.getMbsk();
                 if ((effective & desired) == desired)
                     return true;
             }
         }
 
-        // strategy:
-        // Check for full match first. Then work our way up the
-        // name looking for matches on a.b.*
+        // strbtegy:
+        // Check for full mbtch first. Then work our wby up the
+        // nbme looking for mbtches on b.b.*
 
-        String name = pp.getName();
-        //System.out.println("check "+name);
+        String nbme = pp.getNbme();
+        //System.out.println("check "+nbme);
 
         synchronized (this) {
-            x = perms.get(name);
+            x = perms.get(nbme);
         }
 
         if (x != null) {
-            // we have a direct hit!
-            effective |= x.getMask();
+            // we hbve b direct hit!
+            effective |= x.getMbsk();
             if ((effective & desired) == desired)
                 return true;
         }
 
-        // work our way up the tree...
-        int last, offset;
+        // work our wby up the tree...
+        int lbst, offset;
 
-        offset = name.length()-1;
+        offset = nbme.length()-1;
 
-        while ((last = name.lastIndexOf('.', offset)) != -1) {
+        while ((lbst = nbme.lbstIndexOf('.', offset)) != -1) {
 
-            name = name.substring(0, last+1) + "*";
-            //System.out.println("check "+name);
+            nbme = nbme.substring(0, lbst+1) + "*";
+            //System.out.println("check "+nbme);
             synchronized (this) {
-                x = perms.get(name);
+                x = perms.get(nbme);
             }
 
             if (x != null) {
-                effective |= x.getMask();
+                effective |= x.getMbsk();
                 if ((effective & desired) == desired)
                     return true;
             }
-            offset = last -1;
+            offset = lbst -1;
         }
 
-        // we don't have to check for "*" as it was already checked
-        // at the top (all_allowed), so we just return false
-        return false;
+        // we don't hbve to check for "*" bs it wbs blrebdy checked
+        // bt the top (bll_bllowed), so we just return fblse
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the PropertyPermission objects in the
-     * container.
+     * Returns bn enumerbtion of bll the PropertyPermission objects in the
+     * contbiner.
      *
-     * @return an enumeration of all the PropertyPermission objects.
+     * @return bn enumerbtion of bll the PropertyPermission objects.
      */
-    @SuppressWarnings("unchecked")
-    public Enumeration<Permission> elements() {
-        // Convert Iterator of Map values into an Enumeration
+    @SuppressWbrnings("unchecked")
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor of Mbp vblues into bn Enumerbtion
         synchronized (this) {
             /**
-             * Casting to rawtype since Enumeration<PropertyPermission>
-             * cannot be directly cast to Enumeration<Permission>
+             * Cbsting to rbwtype since Enumerbtion<PropertyPermission>
+             * cbnnot be directly cbst to Enumerbtion<Permission>
              */
-            return (Enumeration)Collections.enumeration(perms.values());
+            return (Enumerbtion)Collections.enumerbtion(perms.vblues());
         }
     }
 
-    private static final long serialVersionUID = 7015263904581634791L;
+    privbte stbtic finbl long seriblVersionUID = 7015263904581634791L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
     //
-    // Table of permissions.
+    // Tbble of permissions.
     //
-    // @serial
+    // @seribl
     //
-    // private Hashtable permissions;
+    // privbte Hbshtbble permissions;
     /**
-     * @serialField permissions java.util.Hashtable
-     *     A table of the PropertyPermissions.
-     * @serialField all_allowed boolean
-     *     boolean saying if "*" is in the collection.
+     * @seriblField permissions jbvb.util.Hbshtbble
+     *     A tbble of the PropertyPermissions.
+     * @seriblField bll_bllowed boolebn
+     *     boolebn sbying if "*" is in the collection.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Hashtable.class),
-        new ObjectStreamField("all_allowed", Boolean.TYPE),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Hbshtbble.clbss),
+        new ObjectStrebmField("bll_bllowed", Boolebn.TYPE),
     };
 
     /**
-     * @serialData Default fields.
+     * @seriblDbtb Defbult fields.
      */
     /*
-     * Writes the contents of the perms field out as a Hashtable for
-     * serialization compatibility with earlier releases. all_allowed
-     * unchanged.
+     * Writes the contents of the perms field out bs b Hbshtbble for
+     * seriblizbtion compbtibility with ebrlier relebses. bll_bllowed
+     * unchbnged.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
-        // Copy perms into a Hashtable
-        Hashtable<String, Permission> permissions =
-            new Hashtable<>(perms.size()*2);
+        // Copy perms into b Hbshtbble
+        Hbshtbble<String, Permission> permissions =
+            new Hbshtbble<>(perms.size()*2);
         synchronized (this) {
             permissions.putAll(perms);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("all_allowed", all_allowed);
+        // Write out seriblizbble fields
+        ObjectOutputStrebm.PutField pfields = out.putFields();
+        pfields.put("bll_bllowed", bll_bllowed);
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Hashtable of PropertyPermissions and saves them in the
-     * perms field. Reads in all_allowed.
+     * Rebds in b Hbshtbble of PropertyPermissions bnd sbves them in the
+     * perms field. Rebds in bll_bllowed.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get all_allowed
-        all_allowed = gfields.get("all_allowed", false);
+        // Get bll_bllowed
+        bll_bllowed = gfields.get("bll_bllowed", fblse);
 
         // Get permissions
-        @SuppressWarnings("unchecked")
-        Hashtable<String, PropertyPermission> permissions =
-            (Hashtable<String, PropertyPermission>)gfields.get("permissions", null);
-        perms = new HashMap<>(permissions.size()*2);
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, PropertyPermission> permissions =
+            (Hbshtbble<String, PropertyPermission>)gfields.get("permissions", null);
+        perms = new HbshMbp<>(permissions.size()*2);
         perms.putAll(permissions);
     }
 }

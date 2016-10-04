@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import sun.security.util.BitArray;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.BitArrby;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 
 /**
- * Represents the DistributionPointName ASN.1 type.
+ * Represents the DistributionPointNbme ASN.1 type.
  *
  * It is used in the CRL Distribution Points Extension (OID = 2.5.29.31)
- * and the Issuing Distribution Point Extension (OID = 2.5.29.28).
+ * bnd the Issuing Distribution Point Extension (OID = 2.5.29.28).
  * <p>
  * Its ASN.1 definition is:
  * <pre>
  *
- *     DistributionPointName ::= CHOICE {
- *         fullName                  [0] GeneralNames,
- *         nameRelativeToCRLIssuer   [1] RelativeDistinguishedName }
+ *     DistributionPointNbme ::= CHOICE {
+ *         fullNbme                  [0] GenerblNbmes,
+ *         nbmeRelbtiveToCRLIssuer   [1] RelbtiveDistinguishedNbme }
  *
- *     GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
+ *     GenerblNbmes ::= SEQUENCE SIZE (1..MAX) OF GenerblNbme
  *
- *     GeneralName ::= CHOICE {
- *         otherName                 [0] INSTANCE OF OTHER-NAME,
- *         rfc822Name                [1] IA5String,
- *         dNSName                   [2] IA5String,
+ *     GenerblNbme ::= CHOICE {
+ *         otherNbme                 [0] INSTANCE OF OTHER-NAME,
+ *         rfc822Nbme                [1] IA5String,
+ *         dNSNbme                   [2] IA5String,
  *         x400Address               [3] ORAddress,
- *         directoryName             [4] Name,
- *         ediPartyName              [5] EDIPartyName,
+ *         directoryNbme             [4] Nbme,
+ *         ediPbrtyNbme              [5] EDIPbrtyNbme,
  *         uniformResourceIdentifier [6] IA5String,
  *         iPAddress                 [7] OCTET STRING,
  *         registeredID              [8] OBJECT IDENTIFIER }
  *
- *     RelativeDistinguishedName ::= SET OF AttributeTypeAndValue
+ *     RelbtiveDistinguishedNbme ::= SET OF AttributeTypeAndVblue
  *
- *     AttributeTypeAndValue ::= SEQUENCE {
+ *     AttributeTypeAndVblue ::= SEQUENCE {
  *         type    AttributeType,
- *         value   AttributeValue }
+ *         vblue   AttributeVblue }
  *
  *     AttributeType ::= OBJECT IDENTIFIER
  *
- *     AttributeValue ::= ANY DEFINED BY AttributeType
+ *     AttributeVblue ::= ANY DEFINED BY AttributeType
  *
  * </pre>
  * <p>
- * Instances of this class are designed to be immutable. However, since this
- * is an internal API we do not use defensive cloning for values for
- * performance reasons. It is the responsibility of the consumer to ensure
- * that no mutable elements are modified.
+ * Instbnces of this clbss bre designed to be immutbble. However, since this
+ * is bn internbl API we do not use defensive cloning for vblues for
+ * performbnce rebsons. It is the responsibility of the consumer to ensure
+ * thbt no mutbble elements bre modified.
  *
  * @see CRLDistributionPointsExtension
  * @see IssuingDistributionPointExtension
  * @since 1.6
  */
-public class DistributionPointName {
+public clbss DistributionPointNbme {
 
-    // ASN.1 context specific tag values
-    private static final byte TAG_FULL_NAME = 0;
-    private static final byte TAG_RELATIVE_NAME = 1;
+    // ASN.1 context specific tbg vblues
+    privbte stbtic finbl byte TAG_FULL_NAME = 0;
+    privbte stbtic finbl byte TAG_RELATIVE_NAME = 1;
 
-    // Only one of fullName and relativeName can be set
-    private GeneralNames fullName = null;
-    private RDN relativeName = null;
+    // Only one of fullNbme bnd relbtiveNbme cbn be set
+    privbte GenerblNbmes fullNbme = null;
+    privbte RDN relbtiveNbme = null;
 
-    // Cached hashCode value
-    private volatile int hashCode;
+    // Cbched hbshCode vblue
+    privbte volbtile int hbshCode;
 
     /**
-     * Creates a distribution point name using a full name.
+     * Crebtes b distribution point nbme using b full nbme.
      *
-     * @param fullName the name for the distribution point.
-     * @exception IllegalArgumentException if <code>fullName</code> is null.
+     * @pbrbm fullNbme the nbme for the distribution point.
+     * @exception IllegblArgumentException if <code>fullNbme</code> is null.
      */
-    public DistributionPointName(GeneralNames fullName) {
+    public DistributionPointNbme(GenerblNbmes fullNbme) {
 
-        if (fullName == null) {
-            throw new IllegalArgumentException("fullName must not be null");
+        if (fullNbme == null) {
+            throw new IllegblArgumentException("fullNbme must not be null");
         }
-        this.fullName = fullName;
+        this.fullNbme = fullNbme;
     }
 
     /**
-     * Creates a distribution point name using a relative name.
+     * Crebtes b distribution point nbme using b relbtive nbme.
      *
-     * @param relativeName the name of the distribution point relative to
-     *        the name of the issuer of the CRL.
-     * @exception IllegalArgumentException if <code>relativeName</code> is null.
+     * @pbrbm relbtiveNbme the nbme of the distribution point relbtive to
+     *        the nbme of the issuer of the CRL.
+     * @exception IllegblArgumentException if <code>relbtiveNbme</code> is null.
      */
-    public DistributionPointName(RDN relativeName) {
+    public DistributionPointNbme(RDN relbtiveNbme) {
 
-        if (relativeName == null) {
-            throw new IllegalArgumentException("relativeName must not be null");
+        if (relbtiveNbme == null) {
+            throw new IllegblArgumentException("relbtiveNbme must not be null");
         }
-        this.relativeName = relativeName;
+        this.relbtiveNbme = relbtiveNbme;
     }
 
     /**
-     * Creates a distribution point name from its DER-encoded form.
+     * Crebtes b distribution point nbme from its DER-encoded form.
      *
-     * @param encoding the DER-encoded value.
+     * @pbrbm encoding the DER-encoded vblue.
      * @throws IOException on decoding error.
      */
-    public DistributionPointName(DerValue encoding) throws IOException {
+    public DistributionPointNbme(DerVblue encoding) throws IOException {
 
         if (encoding.isContextSpecific(TAG_FULL_NAME) &&
             encoding.isConstructed()) {
 
-            encoding.resetTag(DerValue.tag_Sequence);
-            fullName = new GeneralNames(encoding);
+            encoding.resetTbg(DerVblue.tbg_Sequence);
+            fullNbme = new GenerblNbmes(encoding);
 
         } else if (encoding.isContextSpecific(TAG_RELATIVE_NAME) &&
             encoding.isConstructed()) {
 
-            encoding.resetTag(DerValue.tag_Set);
-            relativeName = new RDN(encoding);
+            encoding.resetTbg(DerVblue.tbg_Set);
+            relbtiveNbme = new RDN(encoding);
 
         } else {
-            throw new IOException("Invalid encoding for DistributionPointName");
+            throw new IOException("Invblid encoding for DistributionPointNbme");
         }
 
     }
 
     /**
-     * Returns the full name for the distribution point or null if not set.
+     * Returns the full nbme for the distribution point or null if not set.
      */
-    public GeneralNames getFullName() {
-        return fullName;
+    public GenerblNbmes getFullNbme() {
+        return fullNbme;
     }
 
     /**
-     * Returns the relative name for the distribution point or null if not set.
+     * Returns the relbtive nbme for the distribution point or null if not set.
      */
-    public RDN getRelativeName() {
-        return relativeName;
+    public RDN getRelbtiveNbme() {
+        return relbtiveNbme;
     }
 
     /**
-     * Encodes the distribution point name and writes it to the DerOutputStream.
+     * Encodes the distribution point nbme bnd writes it to the DerOutputStrebm.
      *
-     * @param out the output stream.
+     * @pbrbm out the output strebm.
      * @exception IOException on encoding error.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
 
-        DerOutputStream theChoice = new DerOutputStream();
+        DerOutputStrebm theChoice = new DerOutputStrebm();
 
-        if (fullName != null) {
-            fullName.encode(theChoice);
+        if (fullNbme != null) {
+            fullNbme.encode(theChoice);
             out.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_FULL_NAME),
+                DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, TAG_FULL_NAME),
                 theChoice);
 
         } else {
-            relativeName.encode(theChoice);
+            relbtiveNbme.encode(theChoice);
             out.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true,
+                DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true,
                     TAG_RELATIVE_NAME),
                 theChoice);
         }
     }
 
     /**
-     * Compare an object to this distribution point name for equality.
+     * Compbre bn object to this distribution point nbme for equblity.
      *
-     * @param obj Object to be compared to this
-     * @return true if objects match; false otherwise
+     * @pbrbm obj Object to be compbred to this
+     * @return true if objects mbtch; fblse otherwise
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof DistributionPointName == false) {
-            return false;
+        if (obj instbnceof DistributionPointNbme == fblse) {
+            return fblse;
         }
-        DistributionPointName other = (DistributionPointName)obj;
+        DistributionPointNbme other = (DistributionPointNbme)obj;
 
-        return Objects.equals(this.fullName, other.fullName) &&
-               Objects.equals(this.relativeName, other.relativeName);
+        return Objects.equbls(this.fullNbme, other.fullNbme) &&
+               Objects.equbls(this.relbtiveNbme, other.relbtiveNbme);
     }
 
     /**
-     * Returns the hash code for this distribution point name.
+     * Returns the hbsh code for this distribution point nbme.
      *
-     * @return the hash code.
+     * @return the hbsh code.
      */
-    public int hashCode() {
-        int hash = hashCode;
-        if (hash == 0) {
-            hash = 1;
-            if (fullName != null) {
-                hash += fullName.hashCode();
+    public int hbshCode() {
+        int hbsh = hbshCode;
+        if (hbsh == 0) {
+            hbsh = 1;
+            if (fullNbme != null) {
+                hbsh += fullNbme.hbshCode();
 
             } else {
-                hash += relativeName.hashCode();
+                hbsh += relbtiveNbme.hbshCode();
             }
-            hashCode = hash;
+            hbshCode = hbsh;
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Returns a printable string of the distribution point name.
+     * Returns b printbble string of the distribution point nbme.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (fullName != null) {
-            sb.append("DistributionPointName:\n     " + fullName + "\n");
+        if (fullNbme != null) {
+            sb.bppend("DistributionPointNbme:\n     " + fullNbme + "\n");
 
         } else {
-            sb.append("DistributionPointName:\n     " + relativeName + "\n");
+            sb.bppend("DistributionPointNbme:\n     " + relbtiveNbme + "\n");
         }
 
         return sb.toString();

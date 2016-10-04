@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.MenuComponentPeer;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.MenuComponentPeer;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
 
-import sun.lwawt.macosx.CMenuItem;
+import sun.lwbwt.mbcosx.CMenuItem;
 
-@SuppressWarnings("serial") // JDK implementation class
-final class ScreenMenuItem extends MenuItem implements ActionListener, ComponentListener, ScreenMenuPropertyHandler {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+finbl clbss ScreenMenuItem extends MenuItem implements ActionListener, ComponentListener, ScreenMenuPropertyHbndler {
     ScreenMenuPropertyListener fListener;
     JMenuItem fMenuItem;
 
-    ScreenMenuItem(final JMenuItem mi) {
+    ScreenMenuItem(finbl JMenuItem mi) {
         super(mi.getText());
         fMenuItem = mi;
-        setEnabled(fMenuItem.isEnabled());
-        final ComponentUI ui = fMenuItem.getUI();
+        setEnbbled(fMenuItem.isEnbbled());
+        finbl ComponentUI ui = fMenuItem.getUI();
 
-        if (ui instanceof ScreenMenuItemUI) {
-            ((ScreenMenuItemUI)ui).updateListenersForScreenMenuItem();
-            // SAK:  Not calling this means that mouse and mouse motion listeners don't get
-            // installed.  Not a problem because the menu manager handles tracking for us.
+        if (ui instbnceof ScreenMenuItemUI) {
+            ((ScreenMenuItemUI)ui).updbteListenersForScreenMenuItem();
+            // SAK:  Not cblling this mebns thbt mouse bnd mouse motion listeners don't get
+            // instblled.  Not b problem becbuse the menu mbnbger hbndles trbcking for us.
     }
     }
 
-    public void addNotify() {
-        super.addNotify();
+    public void bddNotify() {
+        super.bddNotify();
 
-        fMenuItem.addComponentListener(this);
+        fMenuItem.bddComponentListener(this);
         fListener = new ScreenMenuPropertyListener(this);
-        fMenuItem.addPropertyChangeListener(fListener);
-        addActionListener(this);
+        fMenuItem.bddPropertyChbngeListener(fListener);
+        bddActionListener(this);
 
-        setEnabled(fMenuItem.isEnabled());
+        setEnbbled(fMenuItem.isEnbbled());
 
-        // can't setState or setAccelerator or setIcon till we have a peer
-        setAccelerator(fMenuItem.getAccelerator());
+        // cbn't setStbte or setAccelerbtor or setIcon till we hbve b peer
+        setAccelerbtor(fMenuItem.getAccelerbtor());
 
-        final String label = fMenuItem.getText();
-        if (label != null) {
-            setLabel(label);
+        finbl String lbbel = fMenuItem.getText();
+        if (lbbel != null) {
+            setLbbel(lbbel);
         }
 
-        final Icon icon = fMenuItem.getIcon();
+        finbl Icon icon = fMenuItem.getIcon();
         if (icon != null) {
             this.setIcon(icon);
         }
 
-        final String tooltipText = fMenuItem.getToolTipText();
+        finbl String tooltipText = fMenuItem.getToolTipText();
         if (tooltipText != null) {
             this.setToolTipText(tooltipText);
         }
 
-        if (fMenuItem instanceof JRadioButtonMenuItem) {
-            final ComponentUI ui = fMenuItem.getUI();
+        if (fMenuItem instbnceof JRbdioButtonMenuItem) {
+            finbl ComponentUI ui = fMenuItem.getUI();
 
-            if (ui instanceof ScreenMenuItemUI) {
-                ((ScreenMenuItemUI)ui).updateListenersForScreenMenuItem();
+            if (ui instbnceof ScreenMenuItemUI) {
+                ((ScreenMenuItemUI)ui).updbteListenersForScreenMenuItem();
             }
         }
     }
@@ -92,105 +92,105 @@ final class ScreenMenuItem extends MenuItem implements ActionListener, Component
     public void removeNotify() {
         super.removeNotify();
         removeActionListener(this);
-        fMenuItem.removePropertyChangeListener(fListener);
+        fMenuItem.removePropertyChbngeListener(fListener);
         fListener = null;
         fMenuItem.removeComponentListener(this);
     }
 
-    static void syncLabelAndKS(MenuItem menuItem, String label, KeyStroke ks) {
-        final MenuComponentPeer peer = menuItem.getPeer();
-        if (!(peer instanceof CMenuItem)) {
+    stbtic void syncLbbelAndKS(MenuItem menuItem, String lbbel, KeyStroke ks) {
+        finbl MenuComponentPeer peer = menuItem.getPeer();
+        if (!(peer instbnceof CMenuItem)) {
             //Is it possible?
             return;
         }
-        final CMenuItem cmi = (CMenuItem) peer;
+        finbl CMenuItem cmi = (CMenuItem) peer;
         if (ks == null) {
-            cmi.setLabel(label);
+            cmi.setLbbel(lbbel);
         } else {
-            cmi.setLabel(label, ks.getKeyChar(), ks.getKeyCode(),
+            cmi.setLbbel(lbbel, ks.getKeyChbr(), ks.getKeyCode(),
                          ks.getModifiers());
         }
     }
 
     @Override
-    public synchronized void setLabel(final String label) {
-        syncLabelAndKS(this, label, fMenuItem.getAccelerator());
+    public synchronized void setLbbel(finbl String lbbel) {
+        syncLbbelAndKS(this, lbbel, fMenuItem.getAccelerbtor());
     }
 
     @Override
-    public void setAccelerator(final KeyStroke ks) {
-        syncLabelAndKS(this, fMenuItem.getText(), ks);
+    public void setAccelerbtor(finbl KeyStroke ks) {
+        syncLbbelAndKS(this, fMenuItem.getText(), ks);
     }
 
-    public void actionPerformed(final ActionEvent e) {
-        fMenuItem.doClick(0); // This takes care of all the different events
+    public void bctionPerformed(finbl ActionEvent e) {
+        fMenuItem.doClick(0); // This tbkes cbre of bll the different events
     }
 
     /**
-     * Invoked when the component's size changes.
+     * Invoked when the component's size chbnges.
      */
-    public void componentResized(final ComponentEvent e) {}
+    public void componentResized(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component's position changes.
+     * Invoked when the component's position chbnges.
      */
-    public void componentMoved(final ComponentEvent e) {}
+    public void componentMoved(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
+     * Invoked when the component hbs been mbde visible.
+     * See componentHidden - we should still hbve b MenuItem
      * it just isn't inserted
      */
-    public void componentShown(final ComponentEvent e) {
+    public void componentShown(finbl ComponentEvent e) {
         setVisible(true);
     }
 
     /**
-     * Invoked when the component has been made invisible.
+     * Invoked when the component hbs been mbde invisible.
      * MenuComponent.setVisible does nothing,
      * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+     * but lebve it in fItems
      */
-    public void componentHidden(final ComponentEvent e) {
-        setVisible(false);
+    public void componentHidden(finbl ComponentEvent e) {
+        setVisible(fblse);
     }
 
-    public void setVisible(final boolean b) {
-        // Tell our parent to add/remove us -- parent may be nil if we aren't set up yet.
-        // Hang on to our parent
-        final MenuContainer parent = getParent();
+    public void setVisible(finbl boolebn b) {
+        // Tell our pbrent to bdd/remove us -- pbrent mby be nil if we bren't set up yet.
+        // Hbng on to our pbrent
+        finbl MenuContbiner pbrent = getPbrent();
 
-        if (parent != null) {
-            ((ScreenMenuPropertyHandler)parent).setChildVisible(fMenuItem, b);
+        if (pbrent != null) {
+            ((ScreenMenuPropertyHbndler)pbrent).setChildVisible(fMenuItem, b);
         }
     }
 
-    public void setToolTipText(final String text) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setToolTipText(finbl String text) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
-        final CMenuItem cmi = (CMenuItem)peer;
+        finbl CMenuItem cmi = (CMenuItem)peer;
         cmi.setToolTipText(text);
     }
 
-    public void setIcon(final Icon i) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setIcon(finbl Icon i) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
-        final CMenuItem cmi = (CMenuItem)peer;
-            Image img = null;
+        finbl CMenuItem cmi = (CMenuItem)peer;
+            Imbge img = null;
 
         if (i != null) {
             if (i.getIconWidth() > 0 && i.getIconHeight() > 0) {
-                    img = AquaIcon.getImageForIcon(i);
+                    img = AqubIcon.getImbgeForIcon(i);
                 }
         }
-            cmi.setImage(img);
+            cmi.setImbge(img);
         }
 
-    // we have no children
-    public void setChildVisible(final JMenuItem child, final boolean b) {}
+    // we hbve no children
+    public void setChildVisible(finbl JMenuItem child, finbl boolebn b) {}
 
-    // only check and radio items can be indeterminate
-    public void setIndeterminate(boolean indeterminate) { }
+    // only check bnd rbdio items cbn be indeterminbte
+    public void setIndeterminbte(boolebn indeterminbte) { }
 }

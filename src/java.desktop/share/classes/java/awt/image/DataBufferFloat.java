@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import static sun.java2d.StateTrackable.State.*;
+import stbtic sun.jbvb2d.StbteTrbckbble.Stbte.*;
 
 /**
- * This class extends <code>DataBuffer</code> and stores data internally
- * in <code>float</code> form.
+ * This clbss extends <code>DbtbBuffer</code> bnd stores dbtb internblly
+ * in <code>flobt</code> form.
  * <p>
- * <a name="optimizations">
- * Note that some implementations may function more efficiently
- * if they can maintain control over how the data for an image is
+ * <b nbme="optimizbtions">
+ * Note thbt some implementbtions mby function more efficiently
+ * if they cbn mbintbin control over how the dbtb for bn imbge is
  * stored.
- * For example, optimizations such as caching an image in video
- * memory require that the implementation track all modifications
- * to that data.
- * Other implementations may operate better if they can store the
- * data in locations other than a Java array.
- * To maintain optimum compatibility with various optimizations
- * it is best to avoid constructors and methods which expose the
- * underlying storage as a Java array as noted below in the
- * documentation for those methods.
- * </a>
+ * For exbmple, optimizbtions such bs cbching bn imbge in video
+ * memory require thbt the implementbtion trbck bll modificbtions
+ * to thbt dbtb.
+ * Other implementbtions mby operbte better if they cbn store the
+ * dbtb in locbtions other thbn b Jbvb brrby.
+ * To mbintbin optimum compbtibility with vbrious optimizbtions
+ * it is best to bvoid constructors bnd methods which expose the
+ * underlying storbge bs b Jbvb brrby bs noted below in the
+ * documentbtion for those methods.
+ * </b>
  *
  * @since 1.4
  */
 
-public final class DataBufferFloat extends DataBuffer {
+public finbl clbss DbtbBufferFlobt extends DbtbBuffer {
 
-    /** The array of data banks. */
-    float bankdata[][];
+    /** The brrby of dbtb bbnks. */
+    flobt bbnkdbtb[][];
 
-    /** A reference to the default data bank. */
-    float data[];
+    /** A reference to the defbult dbtb bbnk. */
+    flobt dbtb[];
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with a specified size.
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with b specified size.
      *
-     * @param size The number of elements in the DataBuffer.
+     * @pbrbm size The number of elements in the DbtbBuffer.
      */
-    public DataBufferFloat(int size) {
+    public DbtbBufferFlobt(int size) {
         super(STABLE, TYPE_FLOAT, size);
-        data = new float[size];
-        bankdata = new float[1][];
-        bankdata[0] = data;
+        dbtb = new flobt[size];
+        bbnkdbtb = new flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with a specified number of banks, all of which are of a
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with b specified number of bbnks, bll of which bre of b
      * specified size.
      *
-     * @param size The number of elements in each bank of the
-     * <code>DataBuffer</code>.
-     * @param numBanks The number of banks in the
-     *        <code>DataBuffer</code>.
+     * @pbrbm size The number of elements in ebch bbnk of the
+     * <code>DbtbBuffer</code>.
+     * @pbrbm numBbnks The number of bbnks in the
+     *        <code>DbtbBuffer</code>.
      */
-    public DataBufferFloat(int size, int numBanks) {
-        super(STABLE, TYPE_FLOAT, size, numBanks);
-        bankdata = new float[numBanks][];
-        for (int i= 0; i < numBanks; i++) {
-            bankdata[i] = new float[size];
+    public DbtbBufferFlobt(int size, int numBbnks) {
+        super(STABLE, TYPE_FLOAT, size, numBbnks);
+        bbnkdbtb = new flobt[numBbnks][];
+        for (int i= 0; i < numBbnks; i++) {
+            bbnkdbtb[i] = new flobt[size];
         }
-        data = bankdata[0];
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the first
-     * <code>size</code> elements are available for use by this
-     * <code>DataBuffer</code>.  The array must be large enough to
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with the specified dbtb brrby.  Only the first
+     * <code>size</code> elements bre bvbilbble for use by this
+     * <code>DbtbBuffer</code>.  The brrby must be lbrge enough to
      * hold <code>size</code> elements.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray An array of <code>float</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
-     * @param size The number of elements of the array to be used.
+     * @pbrbm dbtbArrby An brrby of <code>flobt</code>s to be used bs the
+     *                  first bnd only bbnk of this <code>DbtbBuffer</code>.
+     * @pbrbm size The number of elements of the brrby to be used.
      */
-    public DataBufferFloat(float dataArray[], int size) {
+    public DbtbBufferFlobt(flobt dbtbArrby[], int size) {
         super(UNTRACKABLE, TYPE_FLOAT, size);
-        data = dataArray;
-        bankdata = new float[1][];
-        bankdata[0] = data;
+        dbtb = dbtbArrby;
+        bbnkdbtb = new flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the elements between
-     * <code>offset</code> and <code>offset + size - 1</code> are
-     * available for use by this <code>DataBuffer</code>.  The array
-     * must be large enough to hold <code>offset + size</code>
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with the specified dbtb brrby.  Only the elements between
+     * <code>offset</code> bnd <code>offset + size - 1</code> bre
+     * bvbilbble for use by this <code>DbtbBuffer</code>.  The brrby
+     * must be lbrge enough to hold <code>offset + size</code>
      * elements.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray An array of <code>float</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
-     * @param size The number of elements of the array to be used.
-     * @param offset The offset of the first element of the array
-     *               that will be used.
+     * @pbrbm dbtbArrby An brrby of <code>flobt</code>s to be used bs the
+     *                  first bnd only bbnk of this <code>DbtbBuffer</code>.
+     * @pbrbm size The number of elements of the brrby to be used.
+     * @pbrbm offset The offset of the first element of the brrby
+     *               thbt will be used.
      */
-    public DataBufferFloat(float dataArray[], int size, int offset) {
+    public DbtbBufferFlobt(flobt dbtbArrby[], int size, int offset) {
         super(UNTRACKABLE, TYPE_FLOAT, size, 1, offset);
-        data = dataArray;
-        bankdata = new float[1][];
-        bankdata[0] = data;
+        dbtb = dbtbArrby;
+        bbnkdbtb = new flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data arrays.  Only the first
-     * <code>size</code> elements of each array are available for use
-     * by this <code>DataBuffer</code>.  The number of banks will be
-     * equal to <code>dataArray.length</code>.
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with the specified dbtb brrbys.  Only the first
+     * <code>size</code> elements of ebch brrby bre bvbilbble for use
+     * by this <code>DbtbBuffer</code>.  The number of bbnks will be
+     * equbl to <code>dbtbArrby.length</code>.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray An array of arrays of <code>float</code>s to be
-     *                  used as the banks of this <code>DataBuffer</code>.
-     * @param size The number of elements of each array to be used.
+     * @pbrbm dbtbArrby An brrby of brrbys of <code>flobt</code>s to be
+     *                  used bs the bbnks of this <code>DbtbBuffer</code>.
+     * @pbrbm size The number of elements of ebch brrby to be used.
      */
-    public DataBufferFloat(float dataArray[][], int size) {
-        super(UNTRACKABLE, TYPE_FLOAT, size, dataArray.length);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    public DbtbBufferFlobt(flobt dbtbArrby[][], int size) {
+        super(UNTRACKABLE, TYPE_FLOAT, size, dbtbArrby.length);
+        bbnkdbtb = dbtbArrby.clone();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data arrays, size, and per-bank offsets.
-     * The number of banks is equal to <code>dataArray.length</code>.
-     * Each array must be at least as large as <code>size</code> plus the
-     * corresponding offset.  There must be an entry in the offsets
-     * array for each data array.
+     * Constructs b <code>flobt</code>-bbsed <code>DbtbBuffer</code>
+     * with the specified dbtb brrbys, size, bnd per-bbnk offsets.
+     * The number of bbnks is equbl to <code>dbtbArrby.length</code>.
+     * Ebch brrby must be bt lebst bs lbrge bs <code>size</code> plus the
+     * corresponding offset.  There must be bn entry in the offsets
+     * brrby for ebch dbtb brrby.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray An array of arrays of <code>float</code>s to be
-     *                  used as the banks of this <code>DataBuffer</code>.
-     * @param size The number of elements of each array to be used.
-     * @param offsets An array of integer offsets, one for each bank.
+     * @pbrbm dbtbArrby An brrby of brrbys of <code>flobt</code>s to be
+     *                  used bs the bbnks of this <code>DbtbBuffer</code>.
+     * @pbrbm size The number of elements of ebch brrby to be used.
+     * @pbrbm offsets An brrby of integer offsets, one for ebch bbnk.
      */
-    public DataBufferFloat(float dataArray[][], int size, int offsets[]) {
-        super(UNTRACKABLE, TYPE_FLOAT, size,dataArray.length, offsets);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    public DbtbBufferFlobt(flobt dbtbArrby[][], int size, int offsets[]) {
+        super(UNTRACKABLE, TYPE_FLOAT, size,dbtbArrby.length, offsets);
+        bbnkdbtb = dbtbArrby.clone();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Returns the default (first) <code>float</code> data array.
+     * Returns the defbult (first) <code>flobt</code> dbtb brrby.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @return the first float data array.
+     * @return the first flobt dbtb brrby.
      */
-    public float[] getData() {
-        theTrackable.setUntrackable();
-        return data;
+    public flobt[] getDbtb() {
+        theTrbckbble.setUntrbckbble();
+        return dbtb;
     }
 
     /**
-     * Returns the data array for the specified bank.
+     * Returns the dbtb brrby for the specified bbnk.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param bank the data array
-     * @return the data array specified by <code>bank</code>.
+     * @pbrbm bbnk the dbtb brrby
+     * @return the dbtb brrby specified by <code>bbnk</code>.
      */
-    public float[] getData(int bank) {
-        theTrackable.setUntrackable();
-        return bankdata[bank];
+    public flobt[] getDbtb(int bbnk) {
+        theTrbckbble.setUntrbckbble();
+        return bbnkdbtb[bbnk];
     }
 
     /**
-     * Returns the data array for all banks.
+     * Returns the dbtb brrby for bll bbnks.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @return all data arrays for this data buffer.
+     * @return bll dbtb brrbys for this dbtb buffer.
      */
-    public float[][] getBankData() {
-        theTrackable.setUntrackable();
-        return bankdata.clone();
+    public flobt[][] getBbnkDbtb() {
+        theTrbckbble.setUntrbckbble();
+        return bbnkdbtb.clone();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as an <code>int</code>.
+     * Returns the requested dbtb brrby element from the first
+     * (defbult) bbnk bs bn <code>int</code>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as an <code>int</code>.
+     * @return The dbtb entry bs bn <code>int</code>.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int i) {
-        return (int)(data[i+offset]);
+        return (int)(dbtb[i+offset]);
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as an <code>int</code>.
+     * Returns the requested dbtb brrby element from the specified
+     * bbnk bs bn <code>int</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as an <code>int</code>.
+     * @return The dbtb entry bs bn <code>int</code>.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
-    public int getElem(int bank, int i) {
-        return (int)(bankdata[bank][i+offsets[bank]]);
+    public int getElem(int bbnk, int i) {
+        return (int)(bbnkdbtb[bbnk][i+offsets[bbnk]]);
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>int</code>.
+     * Sets the requested dbtb brrby element in the first (defbult)
+     * bbnk to the given <code>int</code>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
-    public void setElem(int i, int val) {
-        data[i+offset] = (float)val;
-        theTrackable.markDirty();
+    public void setElem(int i, int vbl) {
+        dbtb[i+offset] = (flobt)vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
+     * Sets the requested dbtb brrby element in the specified bbnk to
      * the given <code>int</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
-    public void setElem(int bank, int i, int val) {
-        bankdata[bank][i+offsets[bank]] = (float)val;
-        theTrackable.markDirty();
+    public void setElem(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk][i+offsets[bbnk]] = (flobt)vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>float</code>.
+     * Returns the requested dbtb brrby element from the first
+     * (defbult) bbnk bs b <code>flobt</code>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as a <code>float</code>.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * @return The dbtb entry bs b <code>flobt</code>.
+     * @see #setElemFlobt(int, flobt)
+     * @see #setElemFlobt(int, int, flobt)
      */
-    public float getElemFloat(int i) {
-        return data[i+offset];
+    public flobt getElemFlobt(int i) {
+        return dbtb[i+offset];
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>float</code>.
+     * Returns the requested dbtb brrby element from the specified
+     * bbnk bs b <code>flobt</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as a <code>float</code>.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * @return The dbtb entry bs b <code>flobt</code>.
+     * @see #setElemFlobt(int, flobt)
+     * @see #setElemFlobt(int, int, flobt)
      */
-    public float getElemFloat(int bank, int i) {
-        return bankdata[bank][i+offsets[bank]];
+    public flobt getElemFlobt(int bbnk, int i) {
+        return bbnkdbtb[bbnk][i+offsets[bbnk]];
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>float</code>.
+     * Sets the requested dbtb brrby element in the first (defbult)
+     * bbnk to the given <code>flobt</code>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
+     * @see #getElemFlobt(int)
+     * @see #getElemFlobt(int, int)
      */
-    public void setElemFloat(int i, float val) {
-        data[i+offset] = val;
-        theTrackable.markDirty();
+    public void setElemFlobt(int i, flobt vbl) {
+        dbtb[i+offset] = vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>float</code>.
+     * Sets the requested dbtb brrby element in the specified bbnk to
+     * the given <code>flobt</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
+     * @see #getElemFlobt(int)
+     * @see #getElemFlobt(int, int)
      */
-    public void setElemFloat(int bank, int i, float val) {
-        bankdata[bank][i+offsets[bank]] = val;
-        theTrackable.markDirty();
+    public void setElemFlobt(int bbnk, int i, flobt vbl) {
+        bbnkdbtb[bbnk][i+offsets[bbnk]] = vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>double</code>.
+     * Returns the requested dbtb brrby element from the first
+     * (defbult) bbnk bs b <code>double</code>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as a <code>double</code>.
+     * @return The dbtb entry bs b <code>double</code>.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
     public double getElemDouble(int i) {
-        return (double)data[i+offset];
+        return (double)dbtb[i+offset];
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>double</code>.
+     * Returns the requested dbtb brrby element from the specified
+     * bbnk bs b <code>double</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
      *
-     * @return The data entry as a <code>double</code>.
+     * @return The dbtb entry bs b <code>double</code>.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
-    public double getElemDouble(int bank, int i) {
-        return (double)bankdata[bank][i+offsets[bank]];
+    public double getElemDouble(int bbnk, int i) {
+        return (double)bbnkdbtb[bbnk][i+offsets[bbnk]];
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>double</code>.
+     * Sets the requested dbtb brrby element in the first (defbult)
+     * bbnk to the given <code>double</code>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
-    public void setElemDouble(int i, double val) {
-        data[i+offset] = (float)val;
-        theTrackable.markDirty();
+    public void setElemDouble(int i, double vbl) {
+        dbtb[i+offset] = (flobt)vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
+     * Sets the requested dbtb brrby element in the specified bbnk to
      * the given <code>double</code>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
+     * @pbrbm bbnk The bbnk number.
+     * @pbrbm i The desired dbtb brrby element.
+     * @pbrbm vbl The vblue to be set.
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
-    public void setElemDouble(int bank, int i, double val) {
-        bankdata[bank][i+offsets[bank]] = (float)val;
-        theTrackable.markDirty();
+    public void setElemDouble(int bbnk, int i, double vbl) {
+        bbnkdbtb[bbnk][i+offsets[bbnk]] = (flobt)vbl;
+        theTrbckbble.mbrkDirty();
     }
 }

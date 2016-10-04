@@ -1,787 +1,787 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.locks;
+pbckbge jbvb.util.concurrent.locks;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.LockSupport;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.LockSupport;
 
 /**
- * A capability-based lock with three modes for controlling read/write
- * access.  The state of a StampedLock consists of a version and mode.
- * Lock acquisition methods return a stamp that represents and
- * controls access with respect to a lock state; "try" versions of
- * these methods may instead return the special value zero to
- * represent failure to acquire access. Lock release and conversion
- * methods require stamps as arguments, and fail if they do not match
- * the state of the lock. The three modes are:
+ * A cbpbbility-bbsed lock with three modes for controlling rebd/write
+ * bccess.  The stbte of b StbmpedLock consists of b version bnd mode.
+ * Lock bcquisition methods return b stbmp thbt represents bnd
+ * controls bccess with respect to b lock stbte; "try" versions of
+ * these methods mby instebd return the specibl vblue zero to
+ * represent fbilure to bcquire bccess. Lock relebse bnd conversion
+ * methods require stbmps bs brguments, bnd fbil if they do not mbtch
+ * the stbte of the lock. The three modes bre:
  *
  * <ul>
  *
  *  <li><b>Writing.</b> Method {@link #writeLock} possibly blocks
- *   waiting for exclusive access, returning a stamp that can be used
- *   in method {@link #unlockWrite} to release the lock. Untimed and
- *   timed versions of {@code tryWriteLock} are also provided. When
- *   the lock is held in write mode, no read locks may be obtained,
- *   and all optimistic read validations will fail.  </li>
+ *   wbiting for exclusive bccess, returning b stbmp thbt cbn be used
+ *   in method {@link #unlockWrite} to relebse the lock. Untimed bnd
+ *   timed versions of {@code tryWriteLock} bre blso provided. When
+ *   the lock is held in write mode, no rebd locks mby be obtbined,
+ *   bnd bll optimistic rebd vblidbtions will fbil.  </li>
  *
- *  <li><b>Reading.</b> Method {@link #readLock} possibly blocks
- *   waiting for non-exclusive access, returning a stamp that can be
- *   used in method {@link #unlockRead} to release the lock. Untimed
- *   and timed versions of {@code tryReadLock} are also provided. </li>
+ *  <li><b>Rebding.</b> Method {@link #rebdLock} possibly blocks
+ *   wbiting for non-exclusive bccess, returning b stbmp thbt cbn be
+ *   used in method {@link #unlockRebd} to relebse the lock. Untimed
+ *   bnd timed versions of {@code tryRebdLock} bre blso provided. </li>
  *
- *  <li><b>Optimistic Reading.</b> Method {@link #tryOptimisticRead}
- *   returns a non-zero stamp only if the lock is not currently held
- *   in write mode. Method {@link #validate} returns true if the lock
- *   has not been acquired in write mode since obtaining a given
- *   stamp.  This mode can be thought of as an extremely weak version
- *   of a read-lock, that can be broken by a writer at any time.  The
- *   use of optimistic mode for short read-only code segments often
- *   reduces contention and improves throughput.  However, its use is
- *   inherently fragile.  Optimistic read sections should only read
- *   fields and hold them in local variables for later use after
- *   validation. Fields read while in optimistic mode may be wildly
- *   inconsistent, so usage applies only when you are familiar enough
- *   with data representations to check consistency and/or repeatedly
- *   invoke method {@code validate()}.  For example, such steps are
- *   typically required when first reading an object or array
- *   reference, and then accessing one of its fields, elements or
+ *  <li><b>Optimistic Rebding.</b> Method {@link #tryOptimisticRebd}
+ *   returns b non-zero stbmp only if the lock is not currently held
+ *   in write mode. Method {@link #vblidbte} returns true if the lock
+ *   hbs not been bcquired in write mode since obtbining b given
+ *   stbmp.  This mode cbn be thought of bs bn extremely webk version
+ *   of b rebd-lock, thbt cbn be broken by b writer bt bny time.  The
+ *   use of optimistic mode for short rebd-only code segments often
+ *   reduces contention bnd improves throughput.  However, its use is
+ *   inherently frbgile.  Optimistic rebd sections should only rebd
+ *   fields bnd hold them in locbl vbribbles for lbter use bfter
+ *   vblidbtion. Fields rebd while in optimistic mode mby be wildly
+ *   inconsistent, so usbge bpplies only when you bre fbmilibr enough
+ *   with dbtb representbtions to check consistency bnd/or repebtedly
+ *   invoke method {@code vblidbte()}.  For exbmple, such steps bre
+ *   typicblly required when first rebding bn object or brrby
+ *   reference, bnd then bccessing one of its fields, elements or
  *   methods. </li>
  *
  * </ul>
  *
- * <p>This class also supports methods that conditionally provide
- * conversions across the three modes. For example, method {@link
- * #tryConvertToWriteLock} attempts to "upgrade" a mode, returning
- * a valid write stamp if (1) already in writing mode (2) in reading
- * mode and there are no other readers or (3) in optimistic mode and
- * the lock is available. The forms of these methods are designed to
- * help reduce some of the code bloat that otherwise occurs in
- * retry-based designs.
+ * <p>This clbss blso supports methods thbt conditionblly provide
+ * conversions bcross the three modes. For exbmple, method {@link
+ * #tryConvertToWriteLock} bttempts to "upgrbde" b mode, returning
+ * b vblid write stbmp if (1) blrebdy in writing mode (2) in rebding
+ * mode bnd there bre no other rebders or (3) in optimistic mode bnd
+ * the lock is bvbilbble. The forms of these methods bre designed to
+ * help reduce some of the code blobt thbt otherwise occurs in
+ * retry-bbsed designs.
  *
- * <p>StampedLocks are designed for use as internal utilities in the
- * development of thread-safe components. Their use relies on
- * knowledge of the internal properties of the data, objects, and
- * methods they are protecting.  They are not reentrant, so locked
- * bodies should not call other unknown methods that may try to
- * re-acquire locks (although you may pass a stamp to other methods
- * that can use or convert it).  The use of read lock modes relies on
- * the associated code sections being side-effect-free.  Unvalidated
- * optimistic read sections cannot call methods that are not known to
- * tolerate potential inconsistencies.  Stamps use finite
- * representations, and are not cryptographically secure (i.e., a
- * valid stamp may be guessable). Stamp values may recycle after (no
- * sooner than) one year of continuous operation. A stamp held without
- * use or validation for longer than this period may fail to validate
- * correctly.  StampedLocks are serializable, but always deserialize
- * into initial unlocked state, so they are not useful for remote
+ * <p>StbmpedLocks bre designed for use bs internbl utilities in the
+ * development of threbd-sbfe components. Their use relies on
+ * knowledge of the internbl properties of the dbtb, objects, bnd
+ * methods they bre protecting.  They bre not reentrbnt, so locked
+ * bodies should not cbll other unknown methods thbt mby try to
+ * re-bcquire locks (blthough you mby pbss b stbmp to other methods
+ * thbt cbn use or convert it).  The use of rebd lock modes relies on
+ * the bssocibted code sections being side-effect-free.  Unvblidbted
+ * optimistic rebd sections cbnnot cbll methods thbt bre not known to
+ * tolerbte potentibl inconsistencies.  Stbmps use finite
+ * representbtions, bnd bre not cryptogrbphicblly secure (i.e., b
+ * vblid stbmp mby be guessbble). Stbmp vblues mby recycle bfter (no
+ * sooner thbn) one yebr of continuous operbtion. A stbmp held without
+ * use or vblidbtion for longer thbn this period mby fbil to vblidbte
+ * correctly.  StbmpedLocks bre seriblizbble, but blwbys deseriblize
+ * into initibl unlocked stbte, so they bre not useful for remote
  * locking.
  *
- * <p>The scheduling policy of StampedLock does not consistently
- * prefer readers over writers or vice versa.  All "try" methods are
- * best-effort and do not necessarily conform to any scheduling or
- * fairness policy. A zero return from any "try" method for acquiring
- * or converting locks does not carry any information about the state
- * of the lock; a subsequent invocation may succeed.
+ * <p>The scheduling policy of StbmpedLock does not consistently
+ * prefer rebders over writers or vice versb.  All "try" methods bre
+ * best-effort bnd do not necessbrily conform to bny scheduling or
+ * fbirness policy. A zero return from bny "try" method for bcquiring
+ * or converting locks does not cbrry bny informbtion bbout the stbte
+ * of the lock; b subsequent invocbtion mby succeed.
  *
- * <p>Because it supports coordinated usage across multiple lock
- * modes, this class does not directly implement the {@link Lock} or
- * {@link ReadWriteLock} interfaces. However, a StampedLock may be
- * viewed {@link #asReadLock()}, {@link #asWriteLock()}, or {@link
- * #asReadWriteLock()} in applications requiring only the associated
- * set of functionality.
+ * <p>Becbuse it supports coordinbted usbge bcross multiple lock
+ * modes, this clbss does not directly implement the {@link Lock} or
+ * {@link RebdWriteLock} interfbces. However, b StbmpedLock mby be
+ * viewed {@link #bsRebdLock()}, {@link #bsWriteLock()}, or {@link
+ * #bsRebdWriteLock()} in bpplicbtions requiring only the bssocibted
+ * set of functionblity.
  *
- * <p><b>Sample Usage.</b> The following illustrates some usage idioms
- * in a class that maintains simple two-dimensional points. The sample
- * code illustrates some try/catch conventions even though they are
- * not strictly needed here because no exceptions can occur in their
+ * <p><b>Sbmple Usbge.</b> The following illustrbtes some usbge idioms
+ * in b clbss thbt mbintbins simple two-dimensionbl points. The sbmple
+ * code illustrbtes some try/cbtch conventions even though they bre
+ * not strictly needed here becbuse no exceptions cbn occur in their
  * bodies.<br>
  *
  *  <pre>{@code
- * class Point {
- *   private double x, y;
- *   private final StampedLock sl = new StampedLock();
+ * clbss Point {
+ *   privbte double x, y;
+ *   privbte finbl StbmpedLock sl = new StbmpedLock();
  *
- *   void move(double deltaX, double deltaY) { // an exclusively locked method
- *     long stamp = sl.writeLock();
+ *   void move(double deltbX, double deltbY) { // bn exclusively locked method
+ *     long stbmp = sl.writeLock();
  *     try {
- *       x += deltaX;
- *       y += deltaY;
- *     } finally {
- *       sl.unlockWrite(stamp);
+ *       x += deltbX;
+ *       y += deltbY;
+ *     } finblly {
+ *       sl.unlockWrite(stbmp);
  *     }
  *   }
  *
- *   double distanceFromOrigin() { // A read-only method
- *     long stamp = sl.tryOptimisticRead();
+ *   double distbnceFromOrigin() { // A rebd-only method
+ *     long stbmp = sl.tryOptimisticRebd();
  *     double currentX = x, currentY = y;
- *     if (!sl.validate(stamp)) {
- *        stamp = sl.readLock();
+ *     if (!sl.vblidbte(stbmp)) {
+ *        stbmp = sl.rebdLock();
  *        try {
  *          currentX = x;
  *          currentY = y;
- *        } finally {
- *           sl.unlockRead(stamp);
+ *        } finblly {
+ *           sl.unlockRebd(stbmp);
  *        }
  *     }
- *     return Math.sqrt(currentX * currentX + currentY * currentY);
+ *     return Mbth.sqrt(currentX * currentX + currentY * currentY);
  *   }
  *
- *   void moveIfAtOrigin(double newX, double newY) { // upgrade
- *     // Could instead start with optimistic, not read mode
- *     long stamp = sl.readLock();
+ *   void moveIfAtOrigin(double newX, double newY) { // upgrbde
+ *     // Could instebd stbrt with optimistic, not rebd mode
+ *     long stbmp = sl.rebdLock();
  *     try {
  *       while (x == 0.0 && y == 0.0) {
- *         long ws = sl.tryConvertToWriteLock(stamp);
+ *         long ws = sl.tryConvertToWriteLock(stbmp);
  *         if (ws != 0L) {
- *           stamp = ws;
+ *           stbmp = ws;
  *           x = newX;
  *           y = newY;
- *           break;
+ *           brebk;
  *         }
  *         else {
- *           sl.unlockRead(stamp);
- *           stamp = sl.writeLock();
+ *           sl.unlockRebd(stbmp);
+ *           stbmp = sl.writeLock();
  *         }
  *       }
- *     } finally {
- *       sl.unlock(stamp);
+ *     } finblly {
+ *       sl.unlock(stbmp);
  *     }
  *   }
  * }}</pre>
  *
  * @since 1.8
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class StampedLock implements java.io.Serializable {
+public clbss StbmpedLock implements jbvb.io.Seriblizbble {
     /*
      * Algorithmic notes:
      *
      * The design employs elements of Sequence locks
-     * (as used in linux kernels; see Lameter's
-     * http://www.lameter.com/gelato2005.pdf
-     * and elsewhere; see
+     * (bs used in linux kernels; see Lbmeter's
+     * http://www.lbmeter.com/gelbto2005.pdf
+     * bnd elsewhere; see
      * Boehm's http://www.hpl.hp.com/techreports/2012/HPL-2012-68.html)
-     * and Ordered RW locks (see Shirako et al
-     * http://dl.acm.org/citation.cfm?id=2312015)
+     * bnd Ordered RW locks (see Shirbko et bl
+     * http://dl.bcm.org/citbtion.cfm?id=2312015)
      *
-     * Conceptually, the primary state of the lock includes a sequence
-     * number that is odd when write-locked and even otherwise.
-     * However, this is offset by a reader count that is non-zero when
-     * read-locked.  The read count is ignored when validating
-     * "optimistic" seqlock-reader-style stamps.  Because we must use
-     * a small finite number of bits (currently 7) for readers, a
-     * supplementary reader overflow word is used when the number of
-     * readers exceeds the count field. We do this by treating the max
-     * reader count value (RBITS) as a spinlock protecting overflow
-     * updates.
+     * Conceptublly, the primbry stbte of the lock includes b sequence
+     * number thbt is odd when write-locked bnd even otherwise.
+     * However, this is offset by b rebder count thbt is non-zero when
+     * rebd-locked.  The rebd count is ignored when vblidbting
+     * "optimistic" seqlock-rebder-style stbmps.  Becbuse we must use
+     * b smbll finite number of bits (currently 7) for rebders, b
+     * supplementbry rebder overflow word is used when the number of
+     * rebders exceeds the count field. We do this by trebting the mbx
+     * rebder count vblue (RBITS) bs b spinlock protecting overflow
+     * updbtes.
      *
-     * Waiters use a modified form of CLH lock used in
-     * AbstractQueuedSynchronizer (see its internal documentation for
-     * a fuller account), where each node is tagged (field mode) as
-     * either a reader or writer. Sets of waiting readers are grouped
-     * (linked) under a common node (field cowait) so act as a single
-     * node with respect to most CLH mechanics.  By virtue of the
-     * queue structure, wait nodes need not actually carry sequence
-     * numbers; we know each is greater than its predecessor.  This
-     * simplifies the scheduling policy to a mainly-FIFO scheme that
-     * incorporates elements of Phase-Fair locks (see Brandenburg &
-     * Anderson, especially http://www.cs.unc.edu/~bbb/diss/).  In
-     * particular, we use the phase-fair anti-barging rule: If an
-     * incoming reader arrives while read lock is held but there is a
-     * queued writer, this incoming reader is queued.  (This rule is
-     * responsible for some of the complexity of method acquireRead,
-     * but without it, the lock becomes highly unfair.) Method release
-     * does not (and sometimes cannot) itself wake up cowaiters. This
-     * is done by the primary thread, but helped by any other threads
-     * with nothing better to do in methods acquireRead and
-     * acquireWrite.
+     * Wbiters use b modified form of CLH lock used in
+     * AbstrbctQueuedSynchronizer (see its internbl documentbtion for
+     * b fuller bccount), where ebch node is tbgged (field mode) bs
+     * either b rebder or writer. Sets of wbiting rebders bre grouped
+     * (linked) under b common node (field cowbit) so bct bs b single
+     * node with respect to most CLH mechbnics.  By virtue of the
+     * queue structure, wbit nodes need not bctublly cbrry sequence
+     * numbers; we know ebch is grebter thbn its predecessor.  This
+     * simplifies the scheduling policy to b mbinly-FIFO scheme thbt
+     * incorporbtes elements of Phbse-Fbir locks (see Brbndenburg &
+     * Anderson, especiblly http://www.cs.unc.edu/~bbb/diss/).  In
+     * pbrticulbr, we use the phbse-fbir bnti-bbrging rule: If bn
+     * incoming rebder brrives while rebd lock is held but there is b
+     * queued writer, this incoming rebder is queued.  (This rule is
+     * responsible for some of the complexity of method bcquireRebd,
+     * but without it, the lock becomes highly unfbir.) Method relebse
+     * does not (bnd sometimes cbnnot) itself wbke up cowbiters. This
+     * is done by the primbry threbd, but helped by bny other threbds
+     * with nothing better to do in methods bcquireRebd bnd
+     * bcquireWrite.
      *
-     * These rules apply to threads actually queued. All tryLock forms
-     * opportunistically try to acquire locks regardless of preference
-     * rules, and so may "barge" their way in.  Randomized spinning is
-     * used in the acquire methods to reduce (increasingly expensive)
-     * context switching while also avoiding sustained memory
-     * thrashing among many threads.  We limit spins to the head of
-     * queue. A thread spin-waits up to SPINS times (where each
-     * iteration decreases spin count with 50% probability) before
-     * blocking. If, upon wakening it fails to obtain lock, and is
-     * still (or becomes) the first waiting thread (which indicates
-     * that some other thread barged and obtained lock), it escalates
+     * These rules bpply to threbds bctublly queued. All tryLock forms
+     * opportunisticblly try to bcquire locks regbrdless of preference
+     * rules, bnd so mby "bbrge" their wby in.  Rbndomized spinning is
+     * used in the bcquire methods to reduce (increbsingly expensive)
+     * context switching while blso bvoiding sustbined memory
+     * thrbshing bmong mbny threbds.  We limit spins to the hebd of
+     * queue. A threbd spin-wbits up to SPINS times (where ebch
+     * iterbtion decrebses spin count with 50% probbbility) before
+     * blocking. If, upon wbkening it fbils to obtbin lock, bnd is
+     * still (or becomes) the first wbiting threbd (which indicbtes
+     * thbt some other threbd bbrged bnd obtbined lock), it escblbtes
      * spins (up to MAX_HEAD_SPINS) to reduce the likelihood of
-     * continually losing to barging threads.
+     * continublly losing to bbrging threbds.
      *
-     * Nearly all of these mechanics are carried out in methods
-     * acquireWrite and acquireRead, that, as typical of such code,
-     * sprawl out because actions and retries rely on consistent sets
-     * of locally cached reads.
+     * Nebrly bll of these mechbnics bre cbrried out in methods
+     * bcquireWrite bnd bcquireRebd, thbt, bs typicbl of such code,
+     * sprbwl out becbuse bctions bnd retries rely on consistent sets
+     * of locblly cbched rebds.
      *
-     * As noted in Boehm's paper (above), sequence validation (mainly
-     * method validate()) requires stricter ordering rules than apply
-     * to normal volatile reads (of "state").  To force orderings of
-     * reads before a validation and the validation itself in those
-     * cases where this is not already forced, we use
-     * Unsafe.loadFence.
+     * As noted in Boehm's pbper (bbove), sequence vblidbtion (mbinly
+     * method vblidbte()) requires stricter ordering rules thbn bpply
+     * to normbl volbtile rebds (of "stbte").  To force orderings of
+     * rebds before b vblidbtion bnd the vblidbtion itself in those
+     * cbses where this is not blrebdy forced, we use
+     * Unsbfe.lobdFence.
      *
-     * The memory layout keeps lock state and queue pointers together
-     * (normally on the same cache line). This usually works well for
-     * read-mostly loads. In most other cases, the natural tendency of
-     * adaptive-spin CLH locks to reduce memory contention lessens
-     * motivation to further spread out contended locations, but might
+     * The memory lbyout keeps lock stbte bnd queue pointers together
+     * (normblly on the sbme cbche line). This usublly works well for
+     * rebd-mostly lobds. In most other cbses, the nbturbl tendency of
+     * bdbptive-spin CLH locks to reduce memory contention lessens
+     * motivbtion to further sprebd out contended locbtions, but might
      * be subject to future improvements.
      */
 
-    private static final long serialVersionUID = -6001602636862214147L;
+    privbte stbtic finbl long seriblVersionUID = -6001602636862214147L;
 
     /** Number of processors, for spin control */
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    privbte stbtic finbl int NCPU = Runtime.getRuntime().bvbilbbleProcessors();
 
-    /** Maximum number of retries before enqueuing on acquisition */
-    private static final int SPINS = (NCPU > 1) ? 1 << 6 : 0;
+    /** Mbximum number of retries before enqueuing on bcquisition */
+    privbte stbtic finbl int SPINS = (NCPU > 1) ? 1 << 6 : 0;
 
-    /** Maximum number of retries before blocking at head on acquisition */
-    private static final int HEAD_SPINS = (NCPU > 1) ? 1 << 10 : 0;
+    /** Mbximum number of retries before blocking bt hebd on bcquisition */
+    privbte stbtic finbl int HEAD_SPINS = (NCPU > 1) ? 1 << 10 : 0;
 
-    /** Maximum number of retries before re-blocking */
-    private static final int MAX_HEAD_SPINS = (NCPU > 1) ? 1 << 16 : 0;
+    /** Mbximum number of retries before re-blocking */
+    privbte stbtic finbl int MAX_HEAD_SPINS = (NCPU > 1) ? 1 << 16 : 0;
 
-    /** The period for yielding when waiting for overflow spinlock */
-    private static final int OVERFLOW_YIELD_RATE = 7; // must be power 2 - 1
+    /** The period for yielding when wbiting for overflow spinlock */
+    privbte stbtic finbl int OVERFLOW_YIELD_RATE = 7; // must be power 2 - 1
 
-    /** The number of bits to use for reader count before overflowing */
-    private static final int LG_READERS = 7;
+    /** The number of bits to use for rebder count before overflowing */
+    privbte stbtic finbl int LG_READERS = 7;
 
-    // Values for lock state and stamp operations
-    private static final long RUNIT = 1L;
-    private static final long WBIT  = 1L << LG_READERS;
-    private static final long RBITS = WBIT - 1L;
-    private static final long RFULL = RBITS - 1L;
-    private static final long ABITS = RBITS | WBIT;
-    private static final long SBITS = ~RBITS; // note overlap with ABITS
+    // Vblues for lock stbte bnd stbmp operbtions
+    privbte stbtic finbl long RUNIT = 1L;
+    privbte stbtic finbl long WBIT  = 1L << LG_READERS;
+    privbte stbtic finbl long RBITS = WBIT - 1L;
+    privbte stbtic finbl long RFULL = RBITS - 1L;
+    privbte stbtic finbl long ABITS = RBITS | WBIT;
+    privbte stbtic finbl long SBITS = ~RBITS; // note overlbp with ABITS
 
-    // Initial value for lock state; avoid failure value zero
-    private static final long ORIGIN = WBIT << 1;
+    // Initibl vblue for lock stbte; bvoid fbilure vblue zero
+    privbte stbtic finbl long ORIGIN = WBIT << 1;
 
-    // Special value from cancelled acquire methods so caller can throw IE
-    private static final long INTERRUPTED = 1L;
+    // Specibl vblue from cbncelled bcquire methods so cbller cbn throw IE
+    privbte stbtic finbl long INTERRUPTED = 1L;
 
-    // Values for node status; order matters
-    private static final int WAITING   = -1;
-    private static final int CANCELLED =  1;
+    // Vblues for node stbtus; order mbtters
+    privbte stbtic finbl int WAITING   = -1;
+    privbte stbtic finbl int CANCELLED =  1;
 
-    // Modes for nodes (int not boolean to allow arithmetic)
-    private static final int RMODE = 0;
-    private static final int WMODE = 1;
+    // Modes for nodes (int not boolebn to bllow brithmetic)
+    privbte stbtic finbl int RMODE = 0;
+    privbte stbtic finbl int WMODE = 1;
 
-    /** Wait nodes */
-    static final class WNode {
-        volatile WNode prev;
-        volatile WNode next;
-        volatile WNode cowait;    // list of linked readers
-        volatile Thread thread;   // non-null while possibly parked
-        volatile int status;      // 0, WAITING, or CANCELLED
-        final int mode;           // RMODE or WMODE
+    /** Wbit nodes */
+    stbtic finbl clbss WNode {
+        volbtile WNode prev;
+        volbtile WNode next;
+        volbtile WNode cowbit;    // list of linked rebders
+        volbtile Threbd threbd;   // non-null while possibly pbrked
+        volbtile int stbtus;      // 0, WAITING, or CANCELLED
+        finbl int mode;           // RMODE or WMODE
         WNode(int m, WNode p) { mode = m; prev = p; }
     }
 
-    /** Head of CLH queue */
-    private transient volatile WNode whead;
-    /** Tail (last) of CLH queue */
-    private transient volatile WNode wtail;
+    /** Hebd of CLH queue */
+    privbte trbnsient volbtile WNode whebd;
+    /** Tbil (lbst) of CLH queue */
+    privbte trbnsient volbtile WNode wtbil;
 
     // views
-    transient ReadLockView readLockView;
-    transient WriteLockView writeLockView;
-    transient ReadWriteLockView readWriteLockView;
+    trbnsient RebdLockView rebdLockView;
+    trbnsient WriteLockView writeLockView;
+    trbnsient RebdWriteLockView rebdWriteLockView;
 
-    /** Lock sequence/state */
-    private transient volatile long state;
-    /** extra reader count when state read count saturated */
-    private transient int readerOverflow;
+    /** Lock sequence/stbte */
+    privbte trbnsient volbtile long stbte;
+    /** extrb rebder count when stbte rebd count sbturbted */
+    privbte trbnsient int rebderOverflow;
 
     /**
-     * Creates a new lock, initially in unlocked state.
+     * Crebtes b new lock, initiblly in unlocked stbte.
      */
-    public StampedLock() {
-        state = ORIGIN;
+    public StbmpedLock() {
+        stbte = ORIGIN;
     }
 
     /**
-     * Exclusively acquires the lock, blocking if necessary
-     * until available.
+     * Exclusively bcquires the lock, blocking if necessbry
+     * until bvbilbble.
      *
-     * @return a stamp that can be used to unlock or convert mode
+     * @return b stbmp thbt cbn be used to unlock or convert mode
      */
     public long writeLock() {
-        long s, next;  // bypass acquireWrite in fully unlocked case only
-        return ((((s = state) & ABITS) == 0L &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + WBIT)) ?
-                next : acquireWrite(false, 0L));
+        long s, next;  // bypbss bcquireWrite in fully unlocked cbse only
+        return ((((s = stbte) & ABITS) == 0L &&
+                 U.compbreAndSwbpLong(this, STATE, s, next = s + WBIT)) ?
+                next : bcquireWrite(fblse, 0L));
     }
 
     /**
-     * Exclusively acquires the lock if it is immediately available.
+     * Exclusively bcquires the lock if it is immedibtely bvbilbble.
      *
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
+     * @return b stbmp thbt cbn be used to unlock or convert mode,
+     * or zero if the lock is not bvbilbble
      */
     public long tryWriteLock() {
         long s, next;
-        return ((((s = state) & ABITS) == 0L &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + WBIT)) ?
+        return ((((s = stbte) & ABITS) == 0L &&
+                 U.compbreAndSwbpLong(this, STATE, s, next = s + WBIT)) ?
                 next : 0L);
     }
 
     /**
-     * Exclusively acquires the lock if it is available within the
-     * given time and the current thread has not been interrupted.
-     * Behavior under timeout and interruption matches that specified
+     * Exclusively bcquires the lock if it is bvbilbble within the
+     * given time bnd the current threbd hbs not been interrupted.
+     * Behbvior under timeout bnd interruption mbtches thbt specified
      * for method {@link Lock#tryLock(long,TimeUnit)}.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @pbrbm time the mbximum time to wbit for the lock
+     * @pbrbm unit the time unit of the {@code time} brgument
+     * @return b stbmp thbt cbn be used to unlock or convert mode,
+     * or zero if the lock is not bvbilbble
+     * @throws InterruptedException if the current threbd is interrupted
+     * before bcquiring the lock
      */
     public long tryWriteLock(long time, TimeUnit unit)
         throws InterruptedException {
-        long nanos = unit.toNanos(time);
-        if (!Thread.interrupted()) {
-            long next, deadline;
+        long nbnos = unit.toNbnos(time);
+        if (!Threbd.interrupted()) {
+            long next, debdline;
             if ((next = tryWriteLock()) != 0L)
                 return next;
-            if (nanos <= 0L)
+            if (nbnos <= 0L)
                 return 0L;
-            if ((deadline = System.nanoTime() + nanos) == 0L)
-                deadline = 1L;
-            if ((next = acquireWrite(true, deadline)) != INTERRUPTED)
+            if ((debdline = System.nbnoTime() + nbnos) == 0L)
+                debdline = 1L;
+            if ((next = bcquireWrite(true, debdline)) != INTERRUPTED)
                 return next;
         }
         throw new InterruptedException();
     }
 
     /**
-     * Exclusively acquires the lock, blocking if necessary
-     * until available or the current thread is interrupted.
-     * Behavior under interruption matches that specified
+     * Exclusively bcquires the lock, blocking if necessbry
+     * until bvbilbble or the current threbd is interrupted.
+     * Behbvior under interruption mbtches thbt specified
      * for method {@link Lock#lockInterruptibly()}.
      *
-     * @return a stamp that can be used to unlock or convert mode
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @return b stbmp thbt cbn be used to unlock or convert mode
+     * @throws InterruptedException if the current threbd is interrupted
+     * before bcquiring the lock
      */
     public long writeLockInterruptibly() throws InterruptedException {
         long next;
-        if (!Thread.interrupted() &&
-            (next = acquireWrite(true, 0L)) != INTERRUPTED)
+        if (!Threbd.interrupted() &&
+            (next = bcquireWrite(true, 0L)) != INTERRUPTED)
             return next;
         throw new InterruptedException();
     }
 
     /**
-     * Non-exclusively acquires the lock, blocking if necessary
-     * until available.
+     * Non-exclusively bcquires the lock, blocking if necessbry
+     * until bvbilbble.
      *
-     * @return a stamp that can be used to unlock or convert mode
+     * @return b stbmp thbt cbn be used to unlock or convert mode
      */
-    public long readLock() {
-        long s = state, next;  // bypass acquireRead on common uncontended case
-        return ((whead == wtail && (s & ABITS) < RFULL &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + RUNIT)) ?
-                next : acquireRead(false, 0L));
+    public long rebdLock() {
+        long s = stbte, next;  // bypbss bcquireRebd on common uncontended cbse
+        return ((whebd == wtbil && (s & ABITS) < RFULL &&
+                 U.compbreAndSwbpLong(this, STATE, s, next = s + RUNIT)) ?
+                next : bcquireRebd(fblse, 0L));
     }
 
     /**
-     * Non-exclusively acquires the lock if it is immediately available.
+     * Non-exclusively bcquires the lock if it is immedibtely bvbilbble.
      *
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
+     * @return b stbmp thbt cbn be used to unlock or convert mode,
+     * or zero if the lock is not bvbilbble
      */
-    public long tryReadLock() {
+    public long tryRebdLock() {
         for (;;) {
             long s, m, next;
-            if ((m = (s = state) & ABITS) == WBIT)
+            if ((m = (s = stbte) & ABITS) == WBIT)
                 return 0L;
             else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
+                if (U.compbreAndSwbpLong(this, STATE, s, next = s + RUNIT))
                     return next;
             }
-            else if ((next = tryIncReaderOverflow(s)) != 0L)
+            else if ((next = tryIncRebderOverflow(s)) != 0L)
                 return next;
         }
     }
 
     /**
-     * Non-exclusively acquires the lock if it is available within the
-     * given time and the current thread has not been interrupted.
-     * Behavior under timeout and interruption matches that specified
+     * Non-exclusively bcquires the lock if it is bvbilbble within the
+     * given time bnd the current threbd hbs not been interrupted.
+     * Behbvior under timeout bnd interruption mbtches thbt specified
      * for method {@link Lock#tryLock(long,TimeUnit)}.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @pbrbm time the mbximum time to wbit for the lock
+     * @pbrbm unit the time unit of the {@code time} brgument
+     * @return b stbmp thbt cbn be used to unlock or convert mode,
+     * or zero if the lock is not bvbilbble
+     * @throws InterruptedException if the current threbd is interrupted
+     * before bcquiring the lock
      */
-    public long tryReadLock(long time, TimeUnit unit)
+    public long tryRebdLock(long time, TimeUnit unit)
         throws InterruptedException {
-        long s, m, next, deadline;
-        long nanos = unit.toNanos(time);
-        if (!Thread.interrupted()) {
-            if ((m = (s = state) & ABITS) != WBIT) {
+        long s, m, next, debdline;
+        long nbnos = unit.toNbnos(time);
+        if (!Threbd.interrupted()) {
+            if ((m = (s = stbte) & ABITS) != WBIT) {
                 if (m < RFULL) {
-                    if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
+                    if (U.compbreAndSwbpLong(this, STATE, s, next = s + RUNIT))
                         return next;
                 }
-                else if ((next = tryIncReaderOverflow(s)) != 0L)
+                else if ((next = tryIncRebderOverflow(s)) != 0L)
                     return next;
             }
-            if (nanos <= 0L)
+            if (nbnos <= 0L)
                 return 0L;
-            if ((deadline = System.nanoTime() + nanos) == 0L)
-                deadline = 1L;
-            if ((next = acquireRead(true, deadline)) != INTERRUPTED)
+            if ((debdline = System.nbnoTime() + nbnos) == 0L)
+                debdline = 1L;
+            if ((next = bcquireRebd(true, debdline)) != INTERRUPTED)
                 return next;
         }
         throw new InterruptedException();
     }
 
     /**
-     * Non-exclusively acquires the lock, blocking if necessary
-     * until available or the current thread is interrupted.
-     * Behavior under interruption matches that specified
+     * Non-exclusively bcquires the lock, blocking if necessbry
+     * until bvbilbble or the current threbd is interrupted.
+     * Behbvior under interruption mbtches thbt specified
      * for method {@link Lock#lockInterruptibly()}.
      *
-     * @return a stamp that can be used to unlock or convert mode
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @return b stbmp thbt cbn be used to unlock or convert mode
+     * @throws InterruptedException if the current threbd is interrupted
+     * before bcquiring the lock
      */
-    public long readLockInterruptibly() throws InterruptedException {
+    public long rebdLockInterruptibly() throws InterruptedException {
         long next;
-        if (!Thread.interrupted() &&
-            (next = acquireRead(true, 0L)) != INTERRUPTED)
+        if (!Threbd.interrupted() &&
+            (next = bcquireRebd(true, 0L)) != INTERRUPTED)
             return next;
         throw new InterruptedException();
     }
 
     /**
-     * Returns a stamp that can later be validated, or zero
+     * Returns b stbmp thbt cbn lbter be vblidbted, or zero
      * if exclusively locked.
      *
-     * @return a stamp, or zero if exclusively locked
+     * @return b stbmp, or zero if exclusively locked
      */
-    public long tryOptimisticRead() {
+    public long tryOptimisticRebd() {
         long s;
-        return (((s = state) & WBIT) == 0L) ? (s & SBITS) : 0L;
+        return (((s = stbte) & WBIT) == 0L) ? (s & SBITS) : 0L;
     }
 
     /**
-     * Returns true if the lock has not been exclusively acquired
-     * since issuance of the given stamp. Always returns false if the
-     * stamp is zero. Always returns true if the stamp represents a
-     * currently held lock. Invoking this method with a value not
-     * obtained from {@link #tryOptimisticRead} or a locking method
-     * for this lock has no defined effect or result.
+     * Returns true if the lock hbs not been exclusively bcquired
+     * since issubnce of the given stbmp. Alwbys returns fblse if the
+     * stbmp is zero. Alwbys returns true if the stbmp represents b
+     * currently held lock. Invoking this method with b vblue not
+     * obtbined from {@link #tryOptimisticRebd} or b locking method
+     * for this lock hbs no defined effect or result.
      *
-     * @param stamp a stamp
-     * @return {@code true} if the lock has not been exclusively acquired
-     * since issuance of the given stamp; else false
+     * @pbrbm stbmp b stbmp
+     * @return {@code true} if the lock hbs not been exclusively bcquired
+     * since issubnce of the given stbmp; else fblse
      */
-    public boolean validate(long stamp) {
-        U.loadFence();
-        return (stamp & SBITS) == (state & SBITS);
+    public boolebn vblidbte(long stbmp) {
+        U.lobdFence();
+        return (stbmp & SBITS) == (stbte & SBITS);
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
+     * If the lock stbte mbtches the given stbmp, relebses the
      * exclusive lock.
      *
-     * @param stamp a stamp returned by a write-lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp returned by b write-lock operbtion
+     * @throws IllegblMonitorStbteException if the stbmp does
+     * not mbtch the current stbte of this lock
      */
-    public void unlockWrite(long stamp) {
+    public void unlockWrite(long stbmp) {
         WNode h;
-        if (state != stamp || (stamp & WBIT) == 0L)
-            throw new IllegalMonitorStateException();
-        state = (stamp += WBIT) == 0L ? ORIGIN : stamp;
-        if ((h = whead) != null && h.status != 0)
-            release(h);
+        if (stbte != stbmp || (stbmp & WBIT) == 0L)
+            throw new IllegblMonitorStbteException();
+        stbte = (stbmp += WBIT) == 0L ? ORIGIN : stbmp;
+        if ((h = whebd) != null && h.stbtus != 0)
+            relebse(h);
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
+     * If the lock stbte mbtches the given stbmp, relebses the
      * non-exclusive lock.
      *
-     * @param stamp a stamp returned by a read-lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp returned by b rebd-lock operbtion
+     * @throws IllegblMonitorStbteException if the stbmp does
+     * not mbtch the current stbte of this lock
      */
-    public void unlockRead(long stamp) {
+    public void unlockRebd(long stbmp) {
         long s, m; WNode h;
         for (;;) {
-            if (((s = state) & SBITS) != (stamp & SBITS) ||
-                (stamp & ABITS) == 0L || (m = s & ABITS) == 0L || m == WBIT)
-                throw new IllegalMonitorStateException();
+            if (((s = stbte) & SBITS) != (stbmp & SBITS) ||
+                (stbmp & ABITS) == 0L || (m = s & ABITS) == 0L || m == WBIT)
+                throw new IllegblMonitorStbteException();
             if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    break;
+                if (U.compbreAndSwbpLong(this, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (h = whebd) != null && h.stbtus != 0)
+                        relebse(h);
+                    brebk;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                break;
+            else if (tryDecRebderOverflow(s) != 0L)
+                brebk;
         }
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
+     * If the lock stbte mbtches the given stbmp, relebses the
      * corresponding mode of the lock.
      *
-     * @param stamp a stamp returned by a lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp returned by b lock operbtion
+     * @throws IllegblMonitorStbteException if the stbmp does
+     * not mbtch the current stbte of this lock
      */
-    public void unlock(long stamp) {
-        long a = stamp & ABITS, m, s; WNode h;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    public void unlock(long stbmp) {
+        long b = stbmp & ABITS, m, s; WNode h;
+        while (((s = stbte) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L)
-                break;
+                brebk;
             else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = (s += WBIT) == 0L ? ORIGIN : s;
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
+                if (b != m)
+                    brebk;
+                stbte = (s += WBIT) == 0L ? ORIGIN : s;
+                if ((h = whebd) != null && h.stbtus != 0)
+                    relebse(h);
                 return;
             }
-            else if (a == 0L || a >= WBIT)
-                break;
+            else if (b == 0L || b >= WBIT)
+                brebk;
             else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
+                if (U.compbreAndSwbpLong(this, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (h = whebd) != null && h.stbtus != 0)
+                        relebse(h);
                     return;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
+            else if (tryDecRebderOverflow(s) != 0L)
                 return;
         }
-        throw new IllegalMonitorStateException();
+        throw new IllegblMonitorStbteException();
     }
 
     /**
-     * If the lock state matches the given stamp, performs one of
-     * the following actions. If the stamp represents holding a write
-     * lock, returns it.  Or, if a read lock, if the write lock is
-     * available, releases the read lock and returns a write stamp.
-     * Or, if an optimistic read, returns a write stamp only if
-     * immediately available. This method returns zero in all other
-     * cases.
+     * If the lock stbte mbtches the given stbmp, performs one of
+     * the following bctions. If the stbmp represents holding b write
+     * lock, returns it.  Or, if b rebd lock, if the write lock is
+     * bvbilbble, relebses the rebd lock bnd returns b write stbmp.
+     * Or, if bn optimistic rebd, returns b write stbmp only if
+     * immedibtely bvbilbble. This method returns zero in bll other
+     * cbses.
      *
-     * @param stamp a stamp
-     * @return a valid write stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @return b vblid write stbmp, or zero on fbilure
      */
-    public long tryConvertToWriteLock(long stamp) {
-        long a = stamp & ABITS, m, s, next;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    public long tryConvertToWriteLock(long stbmp) {
+        long b = stbmp & ABITS, m, s, next;
+        while (((s = stbte) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
-                if (U.compareAndSwapLong(this, STATE, s, next = s + WBIT))
+                if (b != 0L)
+                    brebk;
+                if (U.compbreAndSwbpLong(this, STATE, s, next = s + WBIT))
                     return next;
             }
             else if (m == WBIT) {
-                if (a != m)
-                    break;
-                return stamp;
+                if (b != m)
+                    brebk;
+                return stbmp;
             }
-            else if (m == RUNIT && a != 0L) {
-                if (U.compareAndSwapLong(this, STATE, s,
+            else if (m == RUNIT && b != 0L) {
+                if (U.compbreAndSwbpLong(this, STATE, s,
                                          next = s - RUNIT + WBIT))
                     return next;
             }
             else
-                break;
+                brebk;
         }
         return 0L;
     }
 
     /**
-     * If the lock state matches the given stamp, performs one of
-     * the following actions. If the stamp represents holding a write
-     * lock, releases it and obtains a read lock.  Or, if a read lock,
-     * returns it. Or, if an optimistic read, acquires a read lock and
-     * returns a read stamp only if immediately available. This method
-     * returns zero in all other cases.
+     * If the lock stbte mbtches the given stbmp, performs one of
+     * the following bctions. If the stbmp represents holding b write
+     * lock, relebses it bnd obtbins b rebd lock.  Or, if b rebd lock,
+     * returns it. Or, if bn optimistic rebd, bcquires b rebd lock bnd
+     * returns b rebd stbmp only if immedibtely bvbilbble. This method
+     * returns zero in bll other cbses.
      *
-     * @param stamp a stamp
-     * @return a valid read stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @return b vblid rebd stbmp, or zero on fbilure
      */
-    public long tryConvertToReadLock(long stamp) {
-        long a = stamp & ABITS, m, s, next; WNode h;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    public long tryConvertToRebdLock(long stbmp) {
+        long b = stbmp & ABITS, m, s, next; WNode h;
+        while (((s = stbte) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
+                if (b != 0L)
+                    brebk;
                 else if (m < RFULL) {
-                    if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
+                    if (U.compbreAndSwbpLong(this, STATE, s, next = s + RUNIT))
                         return next;
                 }
-                else if ((next = tryIncReaderOverflow(s)) != 0L)
+                else if ((next = tryIncRebderOverflow(s)) != 0L)
                     return next;
             }
             else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = next = s + (WBIT + RUNIT);
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
+                if (b != m)
+                    brebk;
+                stbte = next = s + (WBIT + RUNIT);
+                if ((h = whebd) != null && h.stbtus != 0)
+                    relebse(h);
                 return next;
             }
-            else if (a != 0L && a < WBIT)
-                return stamp;
+            else if (b != 0L && b < WBIT)
+                return stbmp;
             else
-                break;
+                brebk;
         }
         return 0L;
     }
 
     /**
-     * If the lock state matches the given stamp then, if the stamp
-     * represents holding a lock, releases it and returns an
-     * observation stamp.  Or, if an optimistic read, returns it if
-     * validated. This method returns zero in all other cases, and so
-     * may be useful as a form of "tryUnlock".
+     * If the lock stbte mbtches the given stbmp then, if the stbmp
+     * represents holding b lock, relebses it bnd returns bn
+     * observbtion stbmp.  Or, if bn optimistic rebd, returns it if
+     * vblidbted. This method returns zero in bll other cbses, bnd so
+     * mby be useful bs b form of "tryUnlock".
      *
-     * @param stamp a stamp
-     * @return a valid optimistic read stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @return b vblid optimistic rebd stbmp, or zero on fbilure
      */
-    public long tryConvertToOptimisticRead(long stamp) {
-        long a = stamp & ABITS, m, s, next; WNode h;
-        U.loadFence();
+    public long tryConvertToOptimisticRebd(long stbmp) {
+        long b = stbmp & ABITS, m, s, next; WNode h;
+        U.lobdFence();
         for (;;) {
-            if (((s = state) & SBITS) != (stamp & SBITS))
-                break;
+            if (((s = stbte) & SBITS) != (stbmp & SBITS))
+                brebk;
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
+                if (b != 0L)
+                    brebk;
                 return s;
             }
             else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = next = (s += WBIT) == 0L ? ORIGIN : s;
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
+                if (b != m)
+                    brebk;
+                stbte = next = (s += WBIT) == 0L ? ORIGIN : s;
+                if ((h = whebd) != null && h.stbtus != 0)
+                    relebse(h);
                 return next;
             }
-            else if (a == 0L || a >= WBIT)
-                break;
+            else if (b == 0L || b >= WBIT)
+                brebk;
             else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, next = s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
+                if (U.compbreAndSwbpLong(this, STATE, s, next = s - RUNIT)) {
+                    if (m == RUNIT && (h = whebd) != null && h.stbtus != 0)
+                        relebse(h);
                     return next & SBITS;
                 }
             }
-            else if ((next = tryDecReaderOverflow(s)) != 0L)
+            else if ((next = tryDecRebderOverflow(s)) != 0L)
                 return next & SBITS;
         }
         return 0L;
     }
 
     /**
-     * Releases the write lock if it is held, without requiring a
-     * stamp value. This method may be useful for recovery after
+     * Relebses the write lock if it is held, without requiring b
+     * stbmp vblue. This method mby be useful for recovery bfter
      * errors.
      *
-     * @return {@code true} if the lock was held, else false
+     * @return {@code true} if the lock wbs held, else fblse
      */
-    public boolean tryUnlockWrite() {
+    public boolebn tryUnlockWrite() {
         long s; WNode h;
-        if (((s = state) & WBIT) != 0L) {
-            state = (s += WBIT) == 0L ? ORIGIN : s;
-            if ((h = whead) != null && h.status != 0)
-                release(h);
+        if (((s = stbte) & WBIT) != 0L) {
+            stbte = (s += WBIT) == 0L ? ORIGIN : s;
+            if ((h = whebd) != null && h.stbtus != 0)
+                relebse(h);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Releases one hold of the read lock if it is held, without
-     * requiring a stamp value. This method may be useful for recovery
-     * after errors.
+     * Relebses one hold of the rebd lock if it is held, without
+     * requiring b stbmp vblue. This method mby be useful for recovery
+     * bfter errors.
      *
-     * @return {@code true} if the read lock was held, else false
+     * @return {@code true} if the rebd lock wbs held, else fblse
      */
-    public boolean tryUnlockRead() {
+    public boolebn tryUnlockRebd() {
         long s, m; WNode h;
-        while ((m = (s = state) & ABITS) != 0L && m < WBIT) {
+        while ((m = (s = stbte) & ABITS) != 0L && m < WBIT) {
             if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
+                if (U.compbreAndSwbpLong(this, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (h = whebd) != null && h.stbtus != 0)
+                        relebse(h);
                     return true;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
+            else if (tryDecRebderOverflow(s) != 0L)
                 return true;
         }
-        return false;
+        return fblse;
     }
 
-    // status monitoring methods
+    // stbtus monitoring methods
 
     /**
-     * Returns combined state-held and overflow read count for given
-     * state s.
+     * Returns combined stbte-held bnd overflow rebd count for given
+     * stbte s.
      */
-    private int getReadLockCount(long s) {
-        long readers;
-        if ((readers = s & RBITS) >= RFULL)
-            readers = RFULL + readerOverflow;
-        return (int) readers;
+    privbte int getRebdLockCount(long s) {
+        long rebders;
+        if ((rebders = s & RBITS) >= RFULL)
+            rebders = RFULL + rebderOverflow;
+        return (int) rebders;
     }
 
     /**
@@ -789,8 +789,8 @@ public class StampedLock implements java.io.Serializable {
      *
      * @return {@code true} if the lock is currently held exclusively
      */
-    public boolean isWriteLocked() {
-        return (state & WBIT) != 0L;
+    public boolebn isWriteLocked() {
+        return (stbte & WBIT) != 0L;
     }
 
     /**
@@ -798,307 +798,307 @@ public class StampedLock implements java.io.Serializable {
      *
      * @return {@code true} if the lock is currently held non-exclusively
      */
-    public boolean isReadLocked() {
-        return (state & RBITS) != 0L;
+    public boolebn isRebdLocked() {
+        return (stbte & RBITS) != 0L;
     }
 
     /**
-     * Queries the number of read locks held for this lock. This
-     * method is designed for use in monitoring system state, not for
-     * synchronization control.
-     * @return the number of read locks held
+     * Queries the number of rebd locks held for this lock. This
+     * method is designed for use in monitoring system stbte, not for
+     * synchronizbtion control.
+     * @return the number of rebd locks held
      */
-    public int getReadLockCount() {
-        return getReadLockCount(state);
+    public int getRebdLockCount() {
+        return getRebdLockCount(stbte);
     }
 
     /**
-     * Returns a string identifying this lock, as well as its lock
-     * state.  The state, in brackets, includes the String {@code
+     * Returns b string identifying this lock, bs well bs its lock
+     * stbte.  The stbte, in brbckets, includes the String {@code
      * "Unlocked"} or the String {@code "Write-locked"} or the String
-     * {@code "Read-locks:"} followed by the current number of
-     * read-locks held.
+     * {@code "Rebd-locks:"} followed by the current number of
+     * rebd-locks held.
      *
-     * @return a string identifying this lock, as well as its lock state
+     * @return b string identifying this lock, bs well bs its lock stbte
      */
     public String toString() {
-        long s = state;
+        long s = stbte;
         return super.toString() +
             ((s & ABITS) == 0L ? "[Unlocked]" :
              (s & WBIT) != 0L ? "[Write-locked]" :
-             "[Read-locks:" + getReadLockCount(s) + "]");
+             "[Rebd-locks:" + getRebdLockCount(s) + "]");
     }
 
     // views
 
     /**
-     * Returns a plain {@link Lock} view of this StampedLock in which
-     * the {@link Lock#lock} method is mapped to {@link #readLock},
-     * and similarly for other methods. The returned Lock does not
-     * support a {@link Condition}; method {@link
+     * Returns b plbin {@link Lock} view of this StbmpedLock in which
+     * the {@link Lock#lock} method is mbpped to {@link #rebdLock},
+     * bnd similbrly for other methods. The returned Lock does not
+     * support b {@link Condition}; method {@link
      * Lock#newCondition()} throws {@code
-     * UnsupportedOperationException}.
+     * UnsupportedOperbtionException}.
      *
      * @return the lock
      */
-    public Lock asReadLock() {
-        ReadLockView v;
-        return ((v = readLockView) != null ? v :
-                (readLockView = new ReadLockView()));
+    public Lock bsRebdLock() {
+        RebdLockView v;
+        return ((v = rebdLockView) != null ? v :
+                (rebdLockView = new RebdLockView()));
     }
 
     /**
-     * Returns a plain {@link Lock} view of this StampedLock in which
-     * the {@link Lock#lock} method is mapped to {@link #writeLock},
-     * and similarly for other methods. The returned Lock does not
-     * support a {@link Condition}; method {@link
+     * Returns b plbin {@link Lock} view of this StbmpedLock in which
+     * the {@link Lock#lock} method is mbpped to {@link #writeLock},
+     * bnd similbrly for other methods. The returned Lock does not
+     * support b {@link Condition}; method {@link
      * Lock#newCondition()} throws {@code
-     * UnsupportedOperationException}.
+     * UnsupportedOperbtionException}.
      *
      * @return the lock
      */
-    public Lock asWriteLock() {
+    public Lock bsWriteLock() {
         WriteLockView v;
         return ((v = writeLockView) != null ? v :
                 (writeLockView = new WriteLockView()));
     }
 
     /**
-     * Returns a {@link ReadWriteLock} view of this StampedLock in
-     * which the {@link ReadWriteLock#readLock()} method is mapped to
-     * {@link #asReadLock()}, and {@link ReadWriteLock#writeLock()} to
-     * {@link #asWriteLock()}.
+     * Returns b {@link RebdWriteLock} view of this StbmpedLock in
+     * which the {@link RebdWriteLock#rebdLock()} method is mbpped to
+     * {@link #bsRebdLock()}, bnd {@link RebdWriteLock#writeLock()} to
+     * {@link #bsWriteLock()}.
      *
      * @return the lock
      */
-    public ReadWriteLock asReadWriteLock() {
-        ReadWriteLockView v;
-        return ((v = readWriteLockView) != null ? v :
-                (readWriteLockView = new ReadWriteLockView()));
+    public RebdWriteLock bsRebdWriteLock() {
+        RebdWriteLockView v;
+        return ((v = rebdWriteLockView) != null ? v :
+                (rebdWriteLockView = new RebdWriteLockView()));
     }
 
-    // view classes
+    // view clbsses
 
-    final class ReadLockView implements Lock {
-        public void lock() { readLock(); }
+    finbl clbss RebdLockView implements Lock {
+        public void lock() { rebdLock(); }
         public void lockInterruptibly() throws InterruptedException {
-            readLockInterruptibly();
+            rebdLockInterruptibly();
         }
-        public boolean tryLock() { return tryReadLock() != 0L; }
-        public boolean tryLock(long time, TimeUnit unit)
+        public boolebn tryLock() { return tryRebdLock() != 0L; }
+        public boolebn tryLock(long time, TimeUnit unit)
             throws InterruptedException {
-            return tryReadLock(time, unit) != 0L;
+            return tryRebdLock(time, unit) != 0L;
         }
-        public void unlock() { unstampedUnlockRead(); }
+        public void unlock() { unstbmpedUnlockRebd(); }
         public Condition newCondition() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    final class WriteLockView implements Lock {
+    finbl clbss WriteLockView implements Lock {
         public void lock() { writeLock(); }
         public void lockInterruptibly() throws InterruptedException {
             writeLockInterruptibly();
         }
-        public boolean tryLock() { return tryWriteLock() != 0L; }
-        public boolean tryLock(long time, TimeUnit unit)
+        public boolebn tryLock() { return tryWriteLock() != 0L; }
+        public boolebn tryLock(long time, TimeUnit unit)
             throws InterruptedException {
             return tryWriteLock(time, unit) != 0L;
         }
-        public void unlock() { unstampedUnlockWrite(); }
+        public void unlock() { unstbmpedUnlockWrite(); }
         public Condition newCondition() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    final class ReadWriteLockView implements ReadWriteLock {
-        public Lock readLock() { return asReadLock(); }
-        public Lock writeLock() { return asWriteLock(); }
+    finbl clbss RebdWriteLockView implements RebdWriteLock {
+        public Lock rebdLock() { return bsRebdLock(); }
+        public Lock writeLock() { return bsWriteLock(); }
     }
 
-    // Unlock methods without stamp argument checks for view classes.
-    // Needed because view-class lock methods throw away stamps.
+    // Unlock methods without stbmp brgument checks for view clbsses.
+    // Needed becbuse view-clbss lock methods throw bwby stbmps.
 
-    final void unstampedUnlockWrite() {
+    finbl void unstbmpedUnlockWrite() {
         WNode h; long s;
-        if (((s = state) & WBIT) == 0L)
-            throw new IllegalMonitorStateException();
-        state = (s += WBIT) == 0L ? ORIGIN : s;
-        if ((h = whead) != null && h.status != 0)
-            release(h);
+        if (((s = stbte) & WBIT) == 0L)
+            throw new IllegblMonitorStbteException();
+        stbte = (s += WBIT) == 0L ? ORIGIN : s;
+        if ((h = whebd) != null && h.stbtus != 0)
+            relebse(h);
     }
 
-    final void unstampedUnlockRead() {
+    finbl void unstbmpedUnlockRebd() {
         for (;;) {
             long s, m; WNode h;
-            if ((m = (s = state) & ABITS) == 0L || m >= WBIT)
-                throw new IllegalMonitorStateException();
+            if ((m = (s = stbte) & ABITS) == 0L || m >= WBIT)
+                throw new IllegblMonitorStbteException();
             else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    break;
+                if (U.compbreAndSwbpLong(this, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (h = whebd) != null && h.stbtus != 0)
+                        relebse(h);
+                    brebk;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                break;
+            else if (tryDecRebderOverflow(s) != 0L)
+                brebk;
         }
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        state = ORIGIN; // reset to unlocked state
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        stbte = ORIGIN; // reset to unlocked stbte
     }
 
-    // internals
+    // internbls
 
     /**
-     * Tries to increment readerOverflow by first setting state
-     * access bits value to RBITS, indicating hold of spinlock,
-     * then updating, then releasing.
+     * Tries to increment rebderOverflow by first setting stbte
+     * bccess bits vblue to RBITS, indicbting hold of spinlock,
+     * then updbting, then relebsing.
      *
-     * @param s a reader overflow stamp: (s & ABITS) >= RFULL
-     * @return new stamp on success, else zero
+     * @pbrbm s b rebder overflow stbmp: (s & ABITS) >= RFULL
+     * @return new stbmp on success, else zero
      */
-    private long tryIncReaderOverflow(long s) {
-        // assert (s & ABITS) >= RFULL;
+    privbte long tryIncRebderOverflow(long s) {
+        // bssert (s & ABITS) >= RFULL;
         if ((s & ABITS) == RFULL) {
-            if (U.compareAndSwapLong(this, STATE, s, s | RBITS)) {
-                ++readerOverflow;
-                state = s;
+            if (U.compbreAndSwbpLong(this, STATE, s, s | RBITS)) {
+                ++rebderOverflow;
+                stbte = s;
                 return s;
             }
         }
-        else if ((LockSupport.nextSecondarySeed() &
+        else if ((LockSupport.nextSecondbrySeed() &
                   OVERFLOW_YIELD_RATE) == 0)
-            Thread.yield();
+            Threbd.yield();
         return 0L;
     }
 
     /**
-     * Tries to decrement readerOverflow.
+     * Tries to decrement rebderOverflow.
      *
-     * @param s a reader overflow stamp: (s & ABITS) >= RFULL
-     * @return new stamp on success, else zero
+     * @pbrbm s b rebder overflow stbmp: (s & ABITS) >= RFULL
+     * @return new stbmp on success, else zero
      */
-    private long tryDecReaderOverflow(long s) {
-        // assert (s & ABITS) >= RFULL;
+    privbte long tryDecRebderOverflow(long s) {
+        // bssert (s & ABITS) >= RFULL;
         if ((s & ABITS) == RFULL) {
-            if (U.compareAndSwapLong(this, STATE, s, s | RBITS)) {
+            if (U.compbreAndSwbpLong(this, STATE, s, s | RBITS)) {
                 int r; long next;
-                if ((r = readerOverflow) > 0) {
-                    readerOverflow = r - 1;
+                if ((r = rebderOverflow) > 0) {
+                    rebderOverflow = r - 1;
                     next = s;
                 }
                 else
                     next = s - RUNIT;
-                 state = next;
+                 stbte = next;
                  return next;
             }
         }
-        else if ((LockSupport.nextSecondarySeed() &
+        else if ((LockSupport.nextSecondbrySeed() &
                   OVERFLOW_YIELD_RATE) == 0)
-            Thread.yield();
+            Threbd.yield();
         return 0L;
     }
 
     /**
-     * Wakes up the successor of h (normally whead). This is normally
-     * just h.next, but may require traversal from wtail if next
-     * pointers are lagging. This may fail to wake up an acquiring
-     * thread when one or more have been cancelled, but the cancel
-     * methods themselves provide extra safeguards to ensure liveness.
+     * Wbkes up the successor of h (normblly whebd). This is normblly
+     * just h.next, but mby require trbversbl from wtbil if next
+     * pointers bre lbgging. This mby fbil to wbke up bn bcquiring
+     * threbd when one or more hbve been cbncelled, but the cbncel
+     * methods themselves provide extrb sbfegubrds to ensure liveness.
      */
-    private void release(WNode h) {
+    privbte void relebse(WNode h) {
         if (h != null) {
-            WNode q; Thread w;
-            U.compareAndSwapInt(h, WSTATUS, WAITING, 0);
-            if ((q = h.next) == null || q.status == CANCELLED) {
-                for (WNode t = wtail; t != null && t != h; t = t.prev)
-                    if (t.status <= 0)
+            WNode q; Threbd w;
+            U.compbreAndSwbpInt(h, WSTATUS, WAITING, 0);
+            if ((q = h.next) == null || q.stbtus == CANCELLED) {
+                for (WNode t = wtbil; t != null && t != h; t = t.prev)
+                    if (t.stbtus <= 0)
                         q = t;
             }
-            if (q != null && (w = q.thread) != null)
-                U.unpark(w);
+            if (q != null && (w = q.threbd) != null)
+                U.unpbrk(w);
         }
     }
 
     /**
-     * See above for explanation.
+     * See bbove for explbnbtion.
      *
-     * @param interruptible true if should check interrupts and if so
+     * @pbrbm interruptible true if should check interrupts bnd if so
      * return INTERRUPTED
-     * @param deadline if nonzero, the System.nanoTime value to timeout
-     * at (and return zero)
-     * @return next state, or INTERRUPTED
+     * @pbrbm debdline if nonzero, the System.nbnoTime vblue to timeout
+     * bt (bnd return zero)
+     * @return next stbte, or INTERRUPTED
      */
-    private long acquireWrite(boolean interruptible, long deadline) {
+    privbte long bcquireWrite(boolebn interruptible, long debdline) {
         WNode node = null, p;
         for (int spins = -1;;) { // spin while enqueuing
             long m, s, ns;
-            if ((m = (s = state) & ABITS) == 0L) {
-                if (U.compareAndSwapLong(this, STATE, s, ns = s + WBIT))
+            if ((m = (s = stbte) & ABITS) == 0L) {
+                if (U.compbreAndSwbpLong(this, STATE, s, ns = s + WBIT))
                     return ns;
             }
             else if (spins < 0)
-                spins = (m == WBIT && wtail == whead) ? SPINS : 0;
+                spins = (m == WBIT && wtbil == whebd) ? SPINS : 0;
             else if (spins > 0) {
-                if (LockSupport.nextSecondarySeed() >= 0)
+                if (LockSupport.nextSecondbrySeed() >= 0)
                     --spins;
             }
-            else if ((p = wtail) == null) { // initialize queue
+            else if ((p = wtbil) == null) { // initiblize queue
                 WNode hd = new WNode(WMODE, null);
-                if (U.compareAndSwapObject(this, WHEAD, null, hd))
-                    wtail = hd;
+                if (U.compbreAndSwbpObject(this, WHEAD, null, hd))
+                    wtbil = hd;
             }
             else if (node == null)
                 node = new WNode(WMODE, p);
             else if (node.prev != p)
                 node.prev = p;
-            else if (U.compareAndSwapObject(this, WTAIL, p, node)) {
+            else if (U.compbreAndSwbpObject(this, WTAIL, p, node)) {
                 p.next = node;
-                break;
+                brebk;
             }
         }
 
         for (int spins = -1;;) {
             WNode h, np, pp; int ps;
-            if ((h = whead) == p) {
+            if ((h = whebd) == p) {
                 if (spins < 0)
                     spins = HEAD_SPINS;
                 else if (spins < MAX_HEAD_SPINS)
                     spins <<= 1;
-                for (int k = spins;;) { // spin at head
+                for (int k = spins;;) { // spin bt hebd
                     long s, ns;
-                    if (((s = state) & ABITS) == 0L) {
-                        if (U.compareAndSwapLong(this, STATE, s,
+                    if (((s = stbte) & ABITS) == 0L) {
+                        if (U.compbreAndSwbpLong(this, STATE, s,
                                                  ns = s + WBIT)) {
-                            whead = node;
+                            whebd = node;
                             node.prev = null;
                             return ns;
                         }
                     }
-                    else if (LockSupport.nextSecondarySeed() >= 0 &&
+                    else if (LockSupport.nextSecondbrySeed() >= 0 &&
                              --k <= 0)
-                        break;
+                        brebk;
                 }
             }
-            else if (h != null) { // help release stale waiters
-                WNode c; Thread w;
-                while ((c = h.cowait) != null) {
-                    if (U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null)
-                        U.unpark(w);
+            else if (h != null) { // help relebse stble wbiters
+                WNode c; Threbd w;
+                while ((c = h.cowbit) != null) {
+                    if (U.compbreAndSwbpObject(h, WCOWAIT, c, c.cowbit) &&
+                        (w = c.threbd) != null)
+                        U.unpbrk(w);
                 }
             }
-            if (whead == h) {
+            if (whebd == h) {
                 if ((np = node.prev) != p) {
                     if (np != null)
-                        (p = np).next = node;   // stale
+                        (p = np).next = node;   // stble
                 }
-                else if ((ps = p.status) == 0)
-                    U.compareAndSwapInt(p, WSTATUS, 0, WAITING);
+                else if ((ps = p.stbtus) == 0)
+                    U.compbreAndSwbpInt(p, WSTATUS, 0, WAITING);
                 else if (ps == CANCELLED) {
                     if ((pp = p.prev) != null) {
                         node.prev = pp;
@@ -1106,117 +1106,117 @@ public class StampedLock implements java.io.Serializable {
                     }
                 }
                 else {
-                    long time; // 0 argument to park means no timeout
-                    if (deadline == 0L)
+                    long time; // 0 brgument to pbrk mebns no timeout
+                    if (debdline == 0L)
                         time = 0L;
-                    else if ((time = deadline - System.nanoTime()) <= 0L)
-                        return cancelWaiter(node, node, false);
-                    Thread wt = Thread.currentThread();
+                    else if ((time = debdline - System.nbnoTime()) <= 0L)
+                        return cbncelWbiter(node, node, fblse);
+                    Threbd wt = Threbd.currentThrebd();
                     U.putObject(wt, PARKBLOCKER, this);
-                    node.thread = wt;
-                    if (p.status < 0 && (p != h || (state & ABITS) != 0L) &&
-                        whead == h && node.prev == p)
-                        U.park(false, time);  // emulate LockSupport.park
-                    node.thread = null;
+                    node.threbd = wt;
+                    if (p.stbtus < 0 && (p != h || (stbte & ABITS) != 0L) &&
+                        whebd == h && node.prev == p)
+                        U.pbrk(fblse, time);  // emulbte LockSupport.pbrk
+                    node.threbd = null;
                     U.putObject(wt, PARKBLOCKER, null);
-                    if (interruptible && Thread.interrupted())
-                        return cancelWaiter(node, node, true);
+                    if (interruptible && Threbd.interrupted())
+                        return cbncelWbiter(node, node, true);
                 }
             }
         }
     }
 
     /**
-     * See above for explanation.
+     * See bbove for explbnbtion.
      *
-     * @param interruptible true if should check interrupts and if so
+     * @pbrbm interruptible true if should check interrupts bnd if so
      * return INTERRUPTED
-     * @param deadline if nonzero, the System.nanoTime value to timeout
-     * at (and return zero)
-     * @return next state, or INTERRUPTED
+     * @pbrbm debdline if nonzero, the System.nbnoTime vblue to timeout
+     * bt (bnd return zero)
+     * @return next stbte, or INTERRUPTED
      */
-    private long acquireRead(boolean interruptible, long deadline) {
+    privbte long bcquireRebd(boolebn interruptible, long debdline) {
         WNode node = null, p;
         for (int spins = -1;;) {
             WNode h;
-            if ((h = whead) == (p = wtail)) {
+            if ((h = whebd) == (p = wtbil)) {
                 for (long m, s, ns;;) {
-                    if ((m = (s = state) & ABITS) < RFULL ?
-                        U.compareAndSwapLong(this, STATE, s, ns = s + RUNIT) :
-                        (m < WBIT && (ns = tryIncReaderOverflow(s)) != 0L))
+                    if ((m = (s = stbte) & ABITS) < RFULL ?
+                        U.compbreAndSwbpLong(this, STATE, s, ns = s + RUNIT) :
+                        (m < WBIT && (ns = tryIncRebderOverflow(s)) != 0L))
                         return ns;
                     else if (m >= WBIT) {
                         if (spins > 0) {
-                            if (LockSupport.nextSecondarySeed() >= 0)
+                            if (LockSupport.nextSecondbrySeed() >= 0)
                                 --spins;
                         }
                         else {
                             if (spins == 0) {
-                                WNode nh = whead, np = wtail;
+                                WNode nh = whebd, np = wtbil;
                                 if ((nh == h && np == p) || (h = nh) != (p = np))
-                                    break;
+                                    brebk;
                             }
                             spins = SPINS;
                         }
                     }
                 }
             }
-            if (p == null) { // initialize queue
+            if (p == null) { // initiblize queue
                 WNode hd = new WNode(WMODE, null);
-                if (U.compareAndSwapObject(this, WHEAD, null, hd))
-                    wtail = hd;
+                if (U.compbreAndSwbpObject(this, WHEAD, null, hd))
+                    wtbil = hd;
             }
             else if (node == null)
                 node = new WNode(RMODE, p);
             else if (h == p || p.mode != RMODE) {
                 if (node.prev != p)
                     node.prev = p;
-                else if (U.compareAndSwapObject(this, WTAIL, p, node)) {
+                else if (U.compbreAndSwbpObject(this, WTAIL, p, node)) {
                     p.next = node;
-                    break;
+                    brebk;
                 }
             }
-            else if (!U.compareAndSwapObject(p, WCOWAIT,
-                                             node.cowait = p.cowait, node))
-                node.cowait = null;
+            else if (!U.compbreAndSwbpObject(p, WCOWAIT,
+                                             node.cowbit = p.cowbit, node))
+                node.cowbit = null;
             else {
                 for (;;) {
-                    WNode pp, c; Thread w;
-                    if ((h = whead) != null && (c = h.cowait) != null &&
-                        U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null) // help release
-                        U.unpark(w);
+                    WNode pp, c; Threbd w;
+                    if ((h = whebd) != null && (c = h.cowbit) != null &&
+                        U.compbreAndSwbpObject(h, WCOWAIT, c, c.cowbit) &&
+                        (w = c.threbd) != null) // help relebse
+                        U.unpbrk(w);
                     if (h == (pp = p.prev) || h == p || pp == null) {
                         long m, s, ns;
                         do {
-                            if ((m = (s = state) & ABITS) < RFULL ?
-                                U.compareAndSwapLong(this, STATE, s,
+                            if ((m = (s = stbte) & ABITS) < RFULL ?
+                                U.compbreAndSwbpLong(this, STATE, s,
                                                      ns = s + RUNIT) :
                                 (m < WBIT &&
-                                 (ns = tryIncReaderOverflow(s)) != 0L))
+                                 (ns = tryIncRebderOverflow(s)) != 0L))
                                 return ns;
                         } while (m < WBIT);
                     }
-                    if (whead == h && p.prev == pp) {
+                    if (whebd == h && p.prev == pp) {
                         long time;
-                        if (pp == null || h == p || p.status > 0) {
-                            node = null; // throw away
-                            break;
+                        if (pp == null || h == p || p.stbtus > 0) {
+                            node = null; // throw bwby
+                            brebk;
                         }
-                        if (deadline == 0L)
+                        if (debdline == 0L)
                             time = 0L;
-                        else if ((time = deadline - System.nanoTime()) <= 0L)
-                            return cancelWaiter(node, p, false);
-                        Thread wt = Thread.currentThread();
+                        else if ((time = debdline - System.nbnoTime()) <= 0L)
+                            return cbncelWbiter(node, p, fblse);
+                        Threbd wt = Threbd.currentThrebd();
                         U.putObject(wt, PARKBLOCKER, this);
-                        node.thread = wt;
-                        if ((h != pp || (state & ABITS) == WBIT) &&
-                            whead == h && p.prev == pp)
-                            U.park(false, time);
-                        node.thread = null;
+                        node.threbd = wt;
+                        if ((h != pp || (stbte & ABITS) == WBIT) &&
+                            whebd == h && p.prev == pp)
+                            U.pbrk(fblse, time);
+                        node.threbd = null;
                         U.putObject(wt, PARKBLOCKER, null);
-                        if (interruptible && Thread.interrupted())
-                            return cancelWaiter(node, p, true);
+                        if (interruptible && Threbd.interrupted())
+                            return cbncelWbiter(node, p, true);
                     }
                 }
             }
@@ -1224,47 +1224,47 @@ public class StampedLock implements java.io.Serializable {
 
         for (int spins = -1;;) {
             WNode h, np, pp; int ps;
-            if ((h = whead) == p) {
+            if ((h = whebd) == p) {
                 if (spins < 0)
                     spins = HEAD_SPINS;
                 else if (spins < MAX_HEAD_SPINS)
                     spins <<= 1;
-                for (int k = spins;;) { // spin at head
+                for (int k = spins;;) { // spin bt hebd
                     long m, s, ns;
-                    if ((m = (s = state) & ABITS) < RFULL ?
-                        U.compareAndSwapLong(this, STATE, s, ns = s + RUNIT) :
-                        (m < WBIT && (ns = tryIncReaderOverflow(s)) != 0L)) {
-                        WNode c; Thread w;
-                        whead = node;
+                    if ((m = (s = stbte) & ABITS) < RFULL ?
+                        U.compbreAndSwbpLong(this, STATE, s, ns = s + RUNIT) :
+                        (m < WBIT && (ns = tryIncRebderOverflow(s)) != 0L)) {
+                        WNode c; Threbd w;
+                        whebd = node;
                         node.prev = null;
-                        while ((c = node.cowait) != null) {
-                            if (U.compareAndSwapObject(node, WCOWAIT,
-                                                       c, c.cowait) &&
-                                (w = c.thread) != null)
-                                U.unpark(w);
+                        while ((c = node.cowbit) != null) {
+                            if (U.compbreAndSwbpObject(node, WCOWAIT,
+                                                       c, c.cowbit) &&
+                                (w = c.threbd) != null)
+                                U.unpbrk(w);
                         }
                         return ns;
                     }
                     else if (m >= WBIT &&
-                             LockSupport.nextSecondarySeed() >= 0 && --k <= 0)
-                        break;
+                             LockSupport.nextSecondbrySeed() >= 0 && --k <= 0)
+                        brebk;
                 }
             }
             else if (h != null) {
-                WNode c; Thread w;
-                while ((c = h.cowait) != null) {
-                    if (U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null)
-                        U.unpark(w);
+                WNode c; Threbd w;
+                while ((c = h.cowbit) != null) {
+                    if (U.compbreAndSwbpObject(h, WCOWAIT, c, c.cowbit) &&
+                        (w = c.threbd) != null)
+                        U.unpbrk(w);
                 }
             }
-            if (whead == h) {
+            if (whebd == h) {
                 if ((np = node.prev) != p) {
                     if (np != null)
-                        (p = np).next = node;   // stale
+                        (p = np).next = node;   // stble
                 }
-                else if ((ps = p.status) == 0)
-                    U.compareAndSwapInt(p, WSTATUS, 0, WAITING);
+                else if ((ps = p.stbtus) == 0)
+                    U.compbreAndSwbpInt(p, WSTATUS, 0, WAITING);
                 else if (ps == CANCELLED) {
                     if ((pp = p.prev) != null) {
                         node.prev = pp;
@@ -1273,141 +1273,141 @@ public class StampedLock implements java.io.Serializable {
                 }
                 else {
                     long time;
-                    if (deadline == 0L)
+                    if (debdline == 0L)
                         time = 0L;
-                    else if ((time = deadline - System.nanoTime()) <= 0L)
-                        return cancelWaiter(node, node, false);
-                    Thread wt = Thread.currentThread();
+                    else if ((time = debdline - System.nbnoTime()) <= 0L)
+                        return cbncelWbiter(node, node, fblse);
+                    Threbd wt = Threbd.currentThrebd();
                     U.putObject(wt, PARKBLOCKER, this);
-                    node.thread = wt;
-                    if (p.status < 0 &&
-                        (p != h || (state & ABITS) == WBIT) &&
-                        whead == h && node.prev == p)
-                        U.park(false, time);
-                    node.thread = null;
+                    node.threbd = wt;
+                    if (p.stbtus < 0 &&
+                        (p != h || (stbte & ABITS) == WBIT) &&
+                        whebd == h && node.prev == p)
+                        U.pbrk(fblse, time);
+                    node.threbd = null;
                     U.putObject(wt, PARKBLOCKER, null);
-                    if (interruptible && Thread.interrupted())
-                        return cancelWaiter(node, node, true);
+                    if (interruptible && Threbd.interrupted())
+                        return cbncelWbiter(node, node, true);
                 }
             }
         }
     }
 
     /**
-     * If node non-null, forces cancel status and unsplices it from
-     * queue if possible and wakes up any cowaiters (of the node, or
-     * group, as applicable), and in any case helps release current
-     * first waiter if lock is free. (Calling with null arguments
-     * serves as a conditional form of release, which is not currently
-     * needed but may be needed under possible future cancellation
-     * policies). This is a variant of cancellation methods in
-     * AbstractQueuedSynchronizer (see its detailed explanation in AQS
-     * internal documentation).
+     * If node non-null, forces cbncel stbtus bnd unsplices it from
+     * queue if possible bnd wbkes up bny cowbiters (of the node, or
+     * group, bs bpplicbble), bnd in bny cbse helps relebse current
+     * first wbiter if lock is free. (Cblling with null brguments
+     * serves bs b conditionbl form of relebse, which is not currently
+     * needed but mby be needed under possible future cbncellbtion
+     * policies). This is b vbribnt of cbncellbtion methods in
+     * AbstrbctQueuedSynchronizer (see its detbiled explbnbtion in AQS
+     * internbl documentbtion).
      *
-     * @param node if nonnull, the waiter
-     * @param group either node or the group node is cowaiting with
-     * @param interrupted if already interrupted
-     * @return INTERRUPTED if interrupted or Thread.interrupted, else zero
+     * @pbrbm node if nonnull, the wbiter
+     * @pbrbm group either node or the group node is cowbiting with
+     * @pbrbm interrupted if blrebdy interrupted
+     * @return INTERRUPTED if interrupted or Threbd.interrupted, else zero
      */
-    private long cancelWaiter(WNode node, WNode group, boolean interrupted) {
+    privbte long cbncelWbiter(WNode node, WNode group, boolebn interrupted) {
         if (node != null && group != null) {
-            Thread w;
-            node.status = CANCELLED;
-            // unsplice cancelled nodes from group
-            for (WNode p = group, q; (q = p.cowait) != null;) {
-                if (q.status == CANCELLED) {
-                    U.compareAndSwapObject(p, WCOWAIT, q, q.cowait);
-                    p = group; // restart
+            Threbd w;
+            node.stbtus = CANCELLED;
+            // unsplice cbncelled nodes from group
+            for (WNode p = group, q; (q = p.cowbit) != null;) {
+                if (q.stbtus == CANCELLED) {
+                    U.compbreAndSwbpObject(p, WCOWAIT, q, q.cowbit);
+                    p = group; // restbrt
                 }
                 else
                     p = q;
             }
             if (group == node) {
-                for (WNode r = group.cowait; r != null; r = r.cowait) {
-                    if ((w = r.thread) != null)
-                        U.unpark(w);       // wake up uncancelled co-waiters
+                for (WNode r = group.cowbit; r != null; r = r.cowbit) {
+                    if ((w = r.threbd) != null)
+                        U.unpbrk(w);       // wbke up uncbncelled co-wbiters
                 }
                 for (WNode pred = node.prev; pred != null; ) { // unsplice
-                    WNode succ, pp;        // find valid successor
+                    WNode succ, pp;        // find vblid successor
                     while ((succ = node.next) == null ||
-                           succ.status == CANCELLED) {
-                        WNode q = null;    // find successor the slow way
-                        for (WNode t = wtail; t != null && t != node; t = t.prev)
-                            if (t.status != CANCELLED)
-                                q = t;     // don't link if succ cancelled
-                        if (succ == q ||   // ensure accurate successor
-                            U.compareAndSwapObject(node, WNEXT,
+                           succ.stbtus == CANCELLED) {
+                        WNode q = null;    // find successor the slow wby
+                        for (WNode t = wtbil; t != null && t != node; t = t.prev)
+                            if (t.stbtus != CANCELLED)
+                                q = t;     // don't link if succ cbncelled
+                        if (succ == q ||   // ensure bccurbte successor
+                            U.compbreAndSwbpObject(node, WNEXT,
                                                    succ, succ = q)) {
-                            if (succ == null && node == wtail)
-                                U.compareAndSwapObject(this, WTAIL, node, pred);
-                            break;
+                            if (succ == null && node == wtbil)
+                                U.compbreAndSwbpObject(this, WTAIL, node, pred);
+                            brebk;
                         }
                     }
                     if (pred.next == node) // unsplice pred link
-                        U.compareAndSwapObject(pred, WNEXT, node, succ);
-                    if (succ != null && (w = succ.thread) != null) {
-                        succ.thread = null;
-                        U.unpark(w);       // wake up succ to observe new pred
+                        U.compbreAndSwbpObject(pred, WNEXT, node, succ);
+                    if (succ != null && (w = succ.threbd) != null) {
+                        succ.threbd = null;
+                        U.unpbrk(w);       // wbke up succ to observe new pred
                     }
-                    if (pred.status != CANCELLED || (pp = pred.prev) == null)
-                        break;
-                    node.prev = pp;        // repeat if new pred wrong/cancelled
-                    U.compareAndSwapObject(pp, WNEXT, pred, succ);
+                    if (pred.stbtus != CANCELLED || (pp = pred.prev) == null)
+                        brebk;
+                    node.prev = pp;        // repebt if new pred wrong/cbncelled
+                    U.compbreAndSwbpObject(pp, WNEXT, pred, succ);
                     pred = pp;
                 }
             }
         }
-        WNode h; // Possibly release first waiter
-        while ((h = whead) != null) {
-            long s; WNode q; // similar to release() but check eligibility
-            if ((q = h.next) == null || q.status == CANCELLED) {
-                for (WNode t = wtail; t != null && t != h; t = t.prev)
-                    if (t.status <= 0)
+        WNode h; // Possibly relebse first wbiter
+        while ((h = whebd) != null) {
+            long s; WNode q; // similbr to relebse() but check eligibility
+            if ((q = h.next) == null || q.stbtus == CANCELLED) {
+                for (WNode t = wtbil; t != null && t != h; t = t.prev)
+                    if (t.stbtus <= 0)
                         q = t;
             }
-            if (h == whead) {
-                if (q != null && h.status == 0 &&
-                    ((s = state) & ABITS) != WBIT && // waiter is eligible
+            if (h == whebd) {
+                if (q != null && h.stbtus == 0 &&
+                    ((s = stbte) & ABITS) != WBIT && // wbiter is eligible
                     (s == 0L || q.mode == RMODE))
-                    release(h);
-                break;
+                    relebse(h);
+                brebk;
             }
         }
-        return (interrupted || Thread.interrupted()) ? INTERRUPTED : 0L;
+        return (interrupted || Threbd.interrupted()) ? INTERRUPTED : 0L;
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long STATE;
-    private static final long WHEAD;
-    private static final long WTAIL;
-    private static final long WNEXT;
-    private static final long WSTATUS;
-    private static final long WCOWAIT;
-    private static final long PARKBLOCKER;
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long STATE;
+    privbte stbtic finbl long WHEAD;
+    privbte stbtic finbl long WTAIL;
+    privbte stbtic finbl long WNEXT;
+    privbte stbtic finbl long WSTATUS;
+    privbte stbtic finbl long WCOWAIT;
+    privbte stbtic finbl long PARKBLOCKER;
 
-    static {
+    stbtic {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = StampedLock.class;
-            Class<?> wk = WNode.class;
+            U = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = StbmpedLock.clbss;
+            Clbss<?> wk = WNode.clbss;
             STATE = U.objectFieldOffset
-                (k.getDeclaredField("state"));
+                (k.getDeclbredField("stbte"));
             WHEAD = U.objectFieldOffset
-                (k.getDeclaredField("whead"));
+                (k.getDeclbredField("whebd"));
             WTAIL = U.objectFieldOffset
-                (k.getDeclaredField("wtail"));
+                (k.getDeclbredField("wtbil"));
             WSTATUS = U.objectFieldOffset
-                (wk.getDeclaredField("status"));
+                (wk.getDeclbredField("stbtus"));
             WNEXT = U.objectFieldOffset
-                (wk.getDeclaredField("next"));
+                (wk.getDeclbredField("next"));
             WCOWAIT = U.objectFieldOffset
-                (wk.getDeclaredField("cowait"));
-            Class<?> tk = Thread.class;
+                (wk.getDeclbredField("cowbit"));
+            Clbss<?> tk = Threbd.clbss;
             PARKBLOCKER = U.objectFieldOffset
-                (tk.getDeclaredField("parkBlocker"));
+                (tk.getDeclbredField("pbrkBlocker"));
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

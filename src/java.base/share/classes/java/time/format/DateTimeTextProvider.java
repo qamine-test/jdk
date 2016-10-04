@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,500 +59,500 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
-import static java.time.temporal.ChronoField.AMPM_OF_DAY;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.AMPM_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoField.ERA;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
 
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.chrono.JapaneseChronology;
-import java.time.temporal.ChronoField;
-import java.time.temporal.IsoFields;
-import java.time.temporal.TemporalField;
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.chrono.JbpbneseChronology;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.IsoFields;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.util.AbstrbctMbp.SimpleImmutbbleEntry;
+import jbvb.util.ArrbyList;
+import jbvb.util.Cblendbr;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
-import sun.util.locale.provider.CalendarDataUtility;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
+import sun.util.locble.provider.CblendbrDbtbUtility;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleResources;
 
 /**
- * A provider to obtain the textual form of a date-time field.
+ * A provider to obtbin the textubl form of b dbte-time field.
  *
  * @implSpec
- * Implementations must be thread-safe.
- * Implementations should cache the textual information.
+ * Implementbtions must be threbd-sbfe.
+ * Implementbtions should cbche the textubl informbtion.
  *
  * @since 1.8
  */
-class DateTimeTextProvider {
+clbss DbteTimeTextProvider {
 
-    /** Cache. */
-    private static final ConcurrentMap<Entry<TemporalField, Locale>, Object> CACHE = new ConcurrentHashMap<>(16, 0.75f, 2);
-    /** Comparator. */
-    private static final Comparator<Entry<String, Long>> COMPARATOR = new Comparator<Entry<String, Long>>() {
+    /** Cbche. */
+    privbte stbtic finbl ConcurrentMbp<Entry<TemporblField, Locble>, Object> CACHE = new ConcurrentHbshMbp<>(16, 0.75f, 2);
+    /** Compbrbtor. */
+    privbte stbtic finbl Compbrbtor<Entry<String, Long>> COMPARATOR = new Compbrbtor<Entry<String, Long>>() {
         @Override
-        public int compare(Entry<String, Long> obj1, Entry<String, Long> obj2) {
+        public int compbre(Entry<String, Long> obj1, Entry<String, Long> obj2) {
             return obj2.getKey().length() - obj1.getKey().length();  // longest to shortest
         }
     };
 
-    DateTimeTextProvider() {}
+    DbteTimeTextProvider() {}
 
     /**
      * Gets the provider of text.
      *
      * @return the provider, not null
      */
-    static DateTimeTextProvider getInstance() {
-        return new DateTimeTextProvider();
+    stbtic DbteTimeTextProvider getInstbnce() {
+        return new DbteTimeTextProvider();
     }
 
     /**
-     * Gets the text for the specified field, locale and style
-     * for the purpose of formatting.
+     * Gets the text for the specified field, locble bnd style
+     * for the purpose of formbtting.
      * <p>
-     * The text associated with the value is returned.
-     * The null return value should be used if there is no applicable text, or
-     * if the text would be a numeric representation of the value.
+     * The text bssocibted with the vblue is returned.
+     * The null return vblue should be used if there is no bpplicbble text, or
+     * if the text would be b numeric representbtion of the vblue.
      *
-     * @param field  the field to get text for, not null
-     * @param value  the field value to get text for, not null
-     * @param style  the style to get text for, not null
-     * @param locale  the locale to get text for, not null
-     * @return the text for the field value, null if no text found
+     * @pbrbm field  the field to get text for, not null
+     * @pbrbm vblue  the field vblue to get text for, not null
+     * @pbrbm style  the style to get text for, not null
+     * @pbrbm locble  the locble to get text for, not null
+     * @return the text for the field vblue, null if no text found
      */
-    public String getText(TemporalField field, long value, TextStyle style, Locale locale) {
-        Object store = findStore(field, locale);
-        if (store instanceof LocaleStore) {
-            return ((LocaleStore) store).getText(value, style);
+    public String getText(TemporblField field, long vblue, TextStyle style, Locble locble) {
+        Object store = findStore(field, locble);
+        if (store instbnceof LocbleStore) {
+            return ((LocbleStore) store).getText(vblue, style);
         }
         return null;
     }
 
     /**
-     * Gets the text for the specified chrono, field, locale and style
-     * for the purpose of formatting.
+     * Gets the text for the specified chrono, field, locble bnd style
+     * for the purpose of formbtting.
      * <p>
-     * The text associated with the value is returned.
-     * The null return value should be used if there is no applicable text, or
-     * if the text would be a numeric representation of the value.
+     * The text bssocibted with the vblue is returned.
+     * The null return vblue should be used if there is no bpplicbble text, or
+     * if the text would be b numeric representbtion of the vblue.
      *
-     * @param chrono  the Chronology to get text for, not null
-     * @param field  the field to get text for, not null
-     * @param value  the field value to get text for, not null
-     * @param style  the style to get text for, not null
-     * @param locale  the locale to get text for, not null
-     * @return the text for the field value, null if no text found
+     * @pbrbm chrono  the Chronology to get text for, not null
+     * @pbrbm field  the field to get text for, not null
+     * @pbrbm vblue  the field vblue to get text for, not null
+     * @pbrbm style  the style to get text for, not null
+     * @pbrbm locble  the locble to get text for, not null
+     * @return the text for the field vblue, null if no text found
      */
-    public String getText(Chronology chrono, TemporalField field, long value,
-                                    TextStyle style, Locale locale) {
+    public String getText(Chronology chrono, TemporblField field, long vblue,
+                                    TextStyle style, Locble locble) {
         if (chrono == IsoChronology.INSTANCE
-                || !(field instanceof ChronoField)) {
-            return getText(field, value, style, locale);
+                || !(field instbnceof ChronoField)) {
+            return getText(field, vblue, style, locble);
         }
 
         int fieldIndex;
-        int fieldValue;
+        int fieldVblue;
         if (field == ERA) {
-            fieldIndex = Calendar.ERA;
-            if (chrono == JapaneseChronology.INSTANCE) {
-                if (value == -999) {
-                    fieldValue = 0;
+            fieldIndex = Cblendbr.ERA;
+            if (chrono == JbpbneseChronology.INSTANCE) {
+                if (vblue == -999) {
+                    fieldVblue = 0;
                 } else {
-                    fieldValue = (int) value + 2;
+                    fieldVblue = (int) vblue + 2;
                 }
             } else {
-                fieldValue = (int) value;
+                fieldVblue = (int) vblue;
             }
         } else if (field == MONTH_OF_YEAR) {
-            fieldIndex = Calendar.MONTH;
-            fieldValue = (int) value - 1;
+            fieldIndex = Cblendbr.MONTH;
+            fieldVblue = (int) vblue - 1;
         } else if (field == DAY_OF_WEEK) {
-            fieldIndex = Calendar.DAY_OF_WEEK;
-            fieldValue = (int) value + 1;
-            if (fieldValue > 7) {
-                fieldValue = Calendar.SUNDAY;
+            fieldIndex = Cblendbr.DAY_OF_WEEK;
+            fieldVblue = (int) vblue + 1;
+            if (fieldVblue > 7) {
+                fieldVblue = Cblendbr.SUNDAY;
             }
         } else if (field == AMPM_OF_DAY) {
-            fieldIndex = Calendar.AM_PM;
-            fieldValue = (int) value;
+            fieldIndex = Cblendbr.AM_PM;
+            fieldVblue = (int) vblue;
         } else {
             return null;
         }
-        return CalendarDataUtility.retrieveJavaTimeFieldValueName(
-                chrono.getCalendarType(), fieldIndex, fieldValue, style.toCalendarStyle(), locale);
+        return CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbme(
+                chrono.getCblendbrType(), fieldIndex, fieldVblue, style.toCblendbrStyle(), locble);
     }
 
     /**
-     * Gets an iterator of text to field for the specified field, locale and style
-     * for the purpose of parsing.
+     * Gets bn iterbtor of text to field for the specified field, locble bnd style
+     * for the purpose of pbrsing.
      * <p>
-     * The iterator must be returned in order from the longest text to the shortest.
+     * The iterbtor must be returned in order from the longest text to the shortest.
      * <p>
-     * The null return value should be used if there is no applicable parsable text, or
-     * if the text would be a numeric representation of the value.
-     * Text can only be parsed if all the values for that field-style-locale combination are unique.
+     * The null return vblue should be used if there is no bpplicbble pbrsbble text, or
+     * if the text would be b numeric representbtion of the vblue.
+     * Text cbn only be pbrsed if bll the vblues for thbt field-style-locble combinbtion bre unique.
      *
-     * @param field  the field to get text for, not null
-     * @param style  the style to get text for, null for all parsable text
-     * @param locale  the locale to get text for, not null
-     * @return the iterator of text to field pairs, in order from longest text to shortest text,
-     *  null if the field or style is not parsable
+     * @pbrbm field  the field to get text for, not null
+     * @pbrbm style  the style to get text for, null for bll pbrsbble text
+     * @pbrbm locble  the locble to get text for, not null
+     * @return the iterbtor of text to field pbirs, in order from longest text to shortest text,
+     *  null if the field or style is not pbrsbble
      */
-    public Iterator<Entry<String, Long>> getTextIterator(TemporalField field, TextStyle style, Locale locale) {
-        Object store = findStore(field, locale);
-        if (store instanceof LocaleStore) {
-            return ((LocaleStore) store).getTextIterator(style);
+    public Iterbtor<Entry<String, Long>> getTextIterbtor(TemporblField field, TextStyle style, Locble locble) {
+        Object store = findStore(field, locble);
+        if (store instbnceof LocbleStore) {
+            return ((LocbleStore) store).getTextIterbtor(style);
         }
         return null;
     }
 
     /**
-     * Gets an iterator of text to field for the specified chrono, field, locale and style
-     * for the purpose of parsing.
+     * Gets bn iterbtor of text to field for the specified chrono, field, locble bnd style
+     * for the purpose of pbrsing.
      * <p>
-     * The iterator must be returned in order from the longest text to the shortest.
+     * The iterbtor must be returned in order from the longest text to the shortest.
      * <p>
-     * The null return value should be used if there is no applicable parsable text, or
-     * if the text would be a numeric representation of the value.
-     * Text can only be parsed if all the values for that field-style-locale combination are unique.
+     * The null return vblue should be used if there is no bpplicbble pbrsbble text, or
+     * if the text would be b numeric representbtion of the vblue.
+     * Text cbn only be pbrsed if bll the vblues for thbt field-style-locble combinbtion bre unique.
      *
-     * @param chrono  the Chronology to get text for, not null
-     * @param field  the field to get text for, not null
-     * @param style  the style to get text for, null for all parsable text
-     * @param locale  the locale to get text for, not null
-     * @return the iterator of text to field pairs, in order from longest text to shortest text,
-     *  null if the field or style is not parsable
+     * @pbrbm chrono  the Chronology to get text for, not null
+     * @pbrbm field  the field to get text for, not null
+     * @pbrbm style  the style to get text for, null for bll pbrsbble text
+     * @pbrbm locble  the locble to get text for, not null
+     * @return the iterbtor of text to field pbirs, in order from longest text to shortest text,
+     *  null if the field or style is not pbrsbble
      */
-    public Iterator<Entry<String, Long>> getTextIterator(Chronology chrono, TemporalField field,
-                                                         TextStyle style, Locale locale) {
+    public Iterbtor<Entry<String, Long>> getTextIterbtor(Chronology chrono, TemporblField field,
+                                                         TextStyle style, Locble locble) {
         if (chrono == IsoChronology.INSTANCE
-                || !(field instanceof ChronoField)) {
-            return getTextIterator(field, style, locale);
+                || !(field instbnceof ChronoField)) {
+            return getTextIterbtor(field, style, locble);
         }
 
         int fieldIndex;
         switch ((ChronoField)field) {
-        case ERA:
-            fieldIndex = Calendar.ERA;
-            break;
-        case MONTH_OF_YEAR:
-            fieldIndex = Calendar.MONTH;
-            break;
-        case DAY_OF_WEEK:
-            fieldIndex = Calendar.DAY_OF_WEEK;
-            break;
-        case AMPM_OF_DAY:
-            fieldIndex = Calendar.AM_PM;
-            break;
-        default:
+        cbse ERA:
+            fieldIndex = Cblendbr.ERA;
+            brebk;
+        cbse MONTH_OF_YEAR:
+            fieldIndex = Cblendbr.MONTH;
+            brebk;
+        cbse DAY_OF_WEEK:
+            fieldIndex = Cblendbr.DAY_OF_WEEK;
+            brebk;
+        cbse AMPM_OF_DAY:
+            fieldIndex = Cblendbr.AM_PM;
+            brebk;
+        defbult:
             return null;
         }
 
-        int calendarStyle = (style == null) ? Calendar.ALL_STYLES : style.toCalendarStyle();
-        Map<String, Integer> map = CalendarDataUtility.retrieveJavaTimeFieldValueNames(
-                chrono.getCalendarType(), fieldIndex, calendarStyle, locale);
-        if (map == null) {
+        int cblendbrStyle = (style == null) ? Cblendbr.ALL_STYLES : style.toCblendbrStyle();
+        Mbp<String, Integer> mbp = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbmes(
+                chrono.getCblendbrType(), fieldIndex, cblendbrStyle, locble);
+        if (mbp == null) {
             return null;
         }
-        List<Entry<String, Long>> list = new ArrayList<>(map.size());
+        List<Entry<String, Long>> list = new ArrbyList<>(mbp.size());
         switch (fieldIndex) {
-        case Calendar.ERA:
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                int era = entry.getValue();
-                if (chrono == JapaneseChronology.INSTANCE) {
-                    if (era == 0) {
-                        era = -999;
+        cbse Cblendbr.ERA:
+            for (Mbp.Entry<String, Integer> entry : mbp.entrySet()) {
+                int erb = entry.getVblue();
+                if (chrono == JbpbneseChronology.INSTANCE) {
+                    if (erb == 0) {
+                        erb = -999;
                     } else {
-                        era -= 2;
+                        erb -= 2;
                     }
                 }
-                list.add(createEntry(entry.getKey(), (long)era));
+                list.bdd(crebteEntry(entry.getKey(), (long)erb));
             }
-            break;
-        case Calendar.MONTH:
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                list.add(createEntry(entry.getKey(), (long)(entry.getValue() + 1)));
+            brebk;
+        cbse Cblendbr.MONTH:
+            for (Mbp.Entry<String, Integer> entry : mbp.entrySet()) {
+                list.bdd(crebteEntry(entry.getKey(), (long)(entry.getVblue() + 1)));
             }
-            break;
-        case Calendar.DAY_OF_WEEK:
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                list.add(createEntry(entry.getKey(), (long)toWeekDay(entry.getValue())));
+            brebk;
+        cbse Cblendbr.DAY_OF_WEEK:
+            for (Mbp.Entry<String, Integer> entry : mbp.entrySet()) {
+                list.bdd(crebteEntry(entry.getKey(), (long)toWeekDby(entry.getVblue())));
             }
-            break;
-        default:
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                list.add(createEntry(entry.getKey(), (long)entry.getValue()));
+            brebk;
+        defbult:
+            for (Mbp.Entry<String, Integer> entry : mbp.entrySet()) {
+                list.bdd(crebteEntry(entry.getKey(), (long)entry.getVblue()));
             }
-            break;
+            brebk;
         }
-        return list.iterator();
+        return list.iterbtor();
     }
 
-    private Object findStore(TemporalField field, Locale locale) {
-        Entry<TemporalField, Locale> key = createEntry(field, locale);
+    privbte Object findStore(TemporblField field, Locble locble) {
+        Entry<TemporblField, Locble> key = crebteEntry(field, locble);
         Object store = CACHE.get(key);
         if (store == null) {
-            store = createStore(field, locale);
+            store = crebteStore(field, locble);
             CACHE.putIfAbsent(key, store);
             store = CACHE.get(key);
         }
         return store;
     }
 
-    private static int toWeekDay(int calWeekDay) {
-        if (calWeekDay == Calendar.SUNDAY) {
+    privbte stbtic int toWeekDby(int cblWeekDby) {
+        if (cblWeekDby == Cblendbr.SUNDAY) {
             return 7;
         } else {
-            return calWeekDay - 1;
+            return cblWeekDby - 1;
         }
     }
 
-    private Object createStore(TemporalField field, Locale locale) {
-        Map<TextStyle, Map<Long, String>> styleMap = new HashMap<>();
+    privbte Object crebteStore(TemporblField field, Locble locble) {
+        Mbp<TextStyle, Mbp<Long, String>> styleMbp = new HbshMbp<>();
         if (field == ERA) {
-            for (TextStyle textStyle : TextStyle.values()) {
-                if (textStyle.isStandalone()) {
-                    // Stand-alone isn't applicable to era names.
+            for (TextStyle textStyle : TextStyle.vblues()) {
+                if (textStyle.isStbndblone()) {
+                    // Stbnd-blone isn't bpplicbble to erb nbmes.
                     continue;
                 }
-                Map<String, Integer> displayNames = CalendarDataUtility.retrieveJavaTimeFieldValueNames(
-                        "gregory", Calendar.ERA, textStyle.toCalendarStyle(), locale);
-                if (displayNames != null) {
-                    Map<Long, String> map = new HashMap<>();
-                    for (Entry<String, Integer> entry : displayNames.entrySet()) {
-                        map.put((long) entry.getValue(), entry.getKey());
+                Mbp<String, Integer> displbyNbmes = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbmes(
+                        "gregory", Cblendbr.ERA, textStyle.toCblendbrStyle(), locble);
+                if (displbyNbmes != null) {
+                    Mbp<Long, String> mbp = new HbshMbp<>();
+                    for (Entry<String, Integer> entry : displbyNbmes.entrySet()) {
+                        mbp.put((long) entry.getVblue(), entry.getKey());
                     }
-                    if (!map.isEmpty()) {
-                        styleMap.put(textStyle, map);
+                    if (!mbp.isEmpty()) {
+                        styleMbp.put(textStyle, mbp);
                     }
                 }
             }
-            return new LocaleStore(styleMap);
+            return new LocbleStore(styleMbp);
         }
 
         if (field == MONTH_OF_YEAR) {
-            for (TextStyle textStyle : TextStyle.values()) {
-                Map<String, Integer> displayNames = CalendarDataUtility.retrieveJavaTimeFieldValueNames(
-                        "gregory", Calendar.MONTH, textStyle.toCalendarStyle(), locale);
-                Map<Long, String> map = new HashMap<>();
-                if (displayNames != null) {
-                    for (Entry<String, Integer> entry : displayNames.entrySet()) {
-                        map.put((long) (entry.getValue() + 1), entry.getKey());
+            for (TextStyle textStyle : TextStyle.vblues()) {
+                Mbp<String, Integer> displbyNbmes = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbmes(
+                        "gregory", Cblendbr.MONTH, textStyle.toCblendbrStyle(), locble);
+                Mbp<Long, String> mbp = new HbshMbp<>();
+                if (displbyNbmes != null) {
+                    for (Entry<String, Integer> entry : displbyNbmes.entrySet()) {
+                        mbp.put((long) (entry.getVblue() + 1), entry.getKey());
                     }
 
                 } else {
-                    // Narrow names may have duplicated names, such as "J" for January, Jun, July.
-                    // Get names one by one in that case.
-                    for (int month = Calendar.JANUARY; month <= Calendar.DECEMBER; month++) {
-                        String name;
-                        name = CalendarDataUtility.retrieveJavaTimeFieldValueName(
-                                "gregory", Calendar.MONTH, month, textStyle.toCalendarStyle(), locale);
-                        if (name == null) {
-                            break;
+                    // Nbrrow nbmes mby hbve duplicbted nbmes, such bs "J" for Jbnubry, Jun, July.
+                    // Get nbmes one by one in thbt cbse.
+                    for (int month = Cblendbr.JANUARY; month <= Cblendbr.DECEMBER; month++) {
+                        String nbme;
+                        nbme = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbme(
+                                "gregory", Cblendbr.MONTH, month, textStyle.toCblendbrStyle(), locble);
+                        if (nbme == null) {
+                            brebk;
                         }
-                        map.put((long) (month + 1), name);
+                        mbp.put((long) (month + 1), nbme);
                     }
                 }
-                if (!map.isEmpty()) {
-                    styleMap.put(textStyle, map);
+                if (!mbp.isEmpty()) {
+                    styleMbp.put(textStyle, mbp);
                 }
             }
-            return new LocaleStore(styleMap);
+            return new LocbleStore(styleMbp);
         }
 
         if (field == DAY_OF_WEEK) {
-            for (TextStyle textStyle : TextStyle.values()) {
-                Map<String, Integer> displayNames = CalendarDataUtility.retrieveJavaTimeFieldValueNames(
-                        "gregory", Calendar.DAY_OF_WEEK, textStyle.toCalendarStyle(), locale);
-                Map<Long, String> map = new HashMap<>();
-                if (displayNames != null) {
-                    for (Entry<String, Integer> entry : displayNames.entrySet()) {
-                        map.put((long)toWeekDay(entry.getValue()), entry.getKey());
+            for (TextStyle textStyle : TextStyle.vblues()) {
+                Mbp<String, Integer> displbyNbmes = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbmes(
+                        "gregory", Cblendbr.DAY_OF_WEEK, textStyle.toCblendbrStyle(), locble);
+                Mbp<Long, String> mbp = new HbshMbp<>();
+                if (displbyNbmes != null) {
+                    for (Entry<String, Integer> entry : displbyNbmes.entrySet()) {
+                        mbp.put((long)toWeekDby(entry.getVblue()), entry.getKey());
                     }
 
                 } else {
-                    // Narrow names may have duplicated names, such as "S" for Sunday and Saturday.
-                    // Get names one by one in that case.
-                    for (int wday = Calendar.SUNDAY; wday <= Calendar.SATURDAY; wday++) {
-                        String name;
-                        name = CalendarDataUtility.retrieveJavaTimeFieldValueName(
-                            "gregory", Calendar.DAY_OF_WEEK, wday, textStyle.toCalendarStyle(), locale);
-                        if (name == null) {
-                            break;
+                    // Nbrrow nbmes mby hbve duplicbted nbmes, such bs "S" for Sundby bnd Sbturdby.
+                    // Get nbmes one by one in thbt cbse.
+                    for (int wdby = Cblendbr.SUNDAY; wdby <= Cblendbr.SATURDAY; wdby++) {
+                        String nbme;
+                        nbme = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbme(
+                            "gregory", Cblendbr.DAY_OF_WEEK, wdby, textStyle.toCblendbrStyle(), locble);
+                        if (nbme == null) {
+                            brebk;
                         }
-                        map.put((long)toWeekDay(wday), name);
+                        mbp.put((long)toWeekDby(wdby), nbme);
                     }
                 }
-                if (!map.isEmpty()) {
-                    styleMap.put(textStyle, map);
+                if (!mbp.isEmpty()) {
+                    styleMbp.put(textStyle, mbp);
                 }
             }
-            return new LocaleStore(styleMap);
+            return new LocbleStore(styleMbp);
         }
 
         if (field == AMPM_OF_DAY) {
-            for (TextStyle textStyle : TextStyle.values()) {
-                if (textStyle.isStandalone()) {
-                    // Stand-alone isn't applicable to AM/PM.
+            for (TextStyle textStyle : TextStyle.vblues()) {
+                if (textStyle.isStbndblone()) {
+                    // Stbnd-blone isn't bpplicbble to AM/PM.
                     continue;
                 }
-                Map<String, Integer> displayNames = CalendarDataUtility.retrieveJavaTimeFieldValueNames(
-                        "gregory", Calendar.AM_PM, textStyle.toCalendarStyle(), locale);
-                if (displayNames != null) {
-                    Map<Long, String> map = new HashMap<>();
-                    for (Entry<String, Integer> entry : displayNames.entrySet()) {
-                        map.put((long) entry.getValue(), entry.getKey());
+                Mbp<String, Integer> displbyNbmes = CblendbrDbtbUtility.retrieveJbvbTimeFieldVblueNbmes(
+                        "gregory", Cblendbr.AM_PM, textStyle.toCblendbrStyle(), locble);
+                if (displbyNbmes != null) {
+                    Mbp<Long, String> mbp = new HbshMbp<>();
+                    for (Entry<String, Integer> entry : displbyNbmes.entrySet()) {
+                        mbp.put((long) entry.getVblue(), entry.getKey());
                     }
-                    if (!map.isEmpty()) {
-                        styleMap.put(textStyle, map);
+                    if (!mbp.isEmpty()) {
+                        styleMbp.put(textStyle, mbp);
                     }
                 }
             }
-            return new LocaleStore(styleMap);
+            return new LocbleStore(styleMbp);
         }
 
         if (field == IsoFields.QUARTER_OF_YEAR) {
-            // The order of keys must correspond to the TextStyle.values() order.
-            final String[] keys = {
-                "QuarterNames",
-                "standalone.QuarterNames",
-                "QuarterAbbreviations",
-                "standalone.QuarterAbbreviations",
-                "QuarterNarrows",
-                "standalone.QuarterNarrows",
+            // The order of keys must correspond to the TextStyle.vblues() order.
+            finbl String[] keys = {
+                "QubrterNbmes",
+                "stbndblone.QubrterNbmes",
+                "QubrterAbbrevibtions",
+                "stbndblone.QubrterAbbrevibtions",
+                "QubrterNbrrows",
+                "stbndblone.QubrterNbrrows",
             };
             for (int i = 0; i < keys.length; i++) {
-                String[] names = getLocalizedResource(keys[i], locale);
-                if (names != null) {
-                    Map<Long, String> map = new HashMap<>();
-                    for (int q = 0; q < names.length; q++) {
-                        map.put((long) (q + 1), names[q]);
+                String[] nbmes = getLocblizedResource(keys[i], locble);
+                if (nbmes != null) {
+                    Mbp<Long, String> mbp = new HbshMbp<>();
+                    for (int q = 0; q < nbmes.length; q++) {
+                        mbp.put((long) (q + 1), nbmes[q]);
                     }
-                    styleMap.put(TextStyle.values()[i], map);
+                    styleMbp.put(TextStyle.vblues()[i], mbp);
                 }
             }
-            return new LocaleStore(styleMap);
+            return new LocbleStore(styleMbp);
         }
 
-        return "";  // null marker for map
+        return "";  // null mbrker for mbp
     }
 
     /**
-     * Helper method to create an immutable entry.
+     * Helper method to crebte bn immutbble entry.
      *
-     * @param text  the text, not null
-     * @param field  the field, not null
+     * @pbrbm text  the text, not null
+     * @pbrbm field  the field, not null
      * @return the entry, not null
      */
-    private static <A, B> Entry<A, B> createEntry(A text, B field) {
-        return new SimpleImmutableEntry<>(text, field);
+    privbte stbtic <A, B> Entry<A, B> crebteEntry(A text, B field) {
+        return new SimpleImmutbbleEntry<>(text, field);
     }
 
     /**
-     * Returns the localized resource of the given key and locale, or null
-     * if no localized resource is available.
+     * Returns the locblized resource of the given key bnd locble, or null
+     * if no locblized resource is bvbilbble.
      *
-     * @param key  the key of the localized resource, not null
-     * @param locale  the locale, not null
-     * @return the localized resource, or null if not available
-     * @throws NullPointerException if key or locale is null
+     * @pbrbm key  the key of the locblized resource, not null
+     * @pbrbm locble  the locble, not null
+     * @return the locblized resource, or null if not bvbilbble
+     * @throws NullPointerException if key or locble is null
      */
-    @SuppressWarnings("unchecked")
-    static <T> T getLocalizedResource(String key, Locale locale) {
-        LocaleResources lr = LocaleProviderAdapter.getResourceBundleBased()
-                                    .getLocaleResources(locale);
-        ResourceBundle rb = lr.getJavaTimeFormatData();
-        return rb.containsKey(key) ? (T) rb.getObject(key) : null;
+    @SuppressWbrnings("unchecked")
+    stbtic <T> T getLocblizedResource(String key, Locble locble) {
+        LocbleResources lr = LocbleProviderAdbpter.getResourceBundleBbsed()
+                                    .getLocbleResources(locble);
+        ResourceBundle rb = lr.getJbvbTimeFormbtDbtb();
+        return rb.contbinsKey(key) ? (T) rb.getObject(key) : null;
     }
 
     /**
-     * Stores the text for a single locale.
+     * Stores the text for b single locble.
      * <p>
-     * Some fields have a textual representation, such as day-of-week or month-of-year.
-     * These textual representations can be captured in this class for printing
-     * and parsing.
+     * Some fields hbve b textubl representbtion, such bs dby-of-week or month-of-yebr.
+     * These textubl representbtions cbn be cbptured in this clbss for printing
+     * bnd pbrsing.
      * <p>
-     * This class is immutable and thread-safe.
+     * This clbss is immutbble bnd threbd-sbfe.
      */
-    static final class LocaleStore {
+    stbtic finbl clbss LocbleStore {
         /**
-         * Map of value to text.
+         * Mbp of vblue to text.
          */
-        private final Map<TextStyle, Map<Long, String>> valueTextMap;
+        privbte finbl Mbp<TextStyle, Mbp<Long, String>> vblueTextMbp;
         /**
-         * Parsable data.
+         * Pbrsbble dbtb.
          */
-        private final Map<TextStyle, List<Entry<String, Long>>> parsable;
+        privbte finbl Mbp<TextStyle, List<Entry<String, Long>>> pbrsbble;
 
         /**
          * Constructor.
          *
-         * @param valueTextMap  the map of values to text to store, assigned and not altered, not null
+         * @pbrbm vblueTextMbp  the mbp of vblues to text to store, bssigned bnd not bltered, not null
          */
-        LocaleStore(Map<TextStyle, Map<Long, String>> valueTextMap) {
-            this.valueTextMap = valueTextMap;
-            Map<TextStyle, List<Entry<String, Long>>> map = new HashMap<>();
-            List<Entry<String, Long>> allList = new ArrayList<>();
-            for (Map.Entry<TextStyle, Map<Long, String>> vtmEntry : valueTextMap.entrySet()) {
-                Map<String, Entry<String, Long>> reverse = new HashMap<>();
-                for (Map.Entry<Long, String> entry : vtmEntry.getValue().entrySet()) {
-                    if (reverse.put(entry.getValue(), createEntry(entry.getValue(), entry.getKey())) != null) {
-                        // TODO: BUG: this has no effect
-                        continue;  // not parsable, try next style
+        LocbleStore(Mbp<TextStyle, Mbp<Long, String>> vblueTextMbp) {
+            this.vblueTextMbp = vblueTextMbp;
+            Mbp<TextStyle, List<Entry<String, Long>>> mbp = new HbshMbp<>();
+            List<Entry<String, Long>> bllList = new ArrbyList<>();
+            for (Mbp.Entry<TextStyle, Mbp<Long, String>> vtmEntry : vblueTextMbp.entrySet()) {
+                Mbp<String, Entry<String, Long>> reverse = new HbshMbp<>();
+                for (Mbp.Entry<Long, String> entry : vtmEntry.getVblue().entrySet()) {
+                    if (reverse.put(entry.getVblue(), crebteEntry(entry.getVblue(), entry.getKey())) != null) {
+                        // TODO: BUG: this hbs no effect
+                        continue;  // not pbrsbble, try next style
                     }
                 }
-                List<Entry<String, Long>> list = new ArrayList<>(reverse.values());
+                List<Entry<String, Long>> list = new ArrbyList<>(reverse.vblues());
                 Collections.sort(list, COMPARATOR);
-                map.put(vtmEntry.getKey(), list);
-                allList.addAll(list);
-                map.put(null, allList);
+                mbp.put(vtmEntry.getKey(), list);
+                bllList.bddAll(list);
+                mbp.put(null, bllList);
             }
-            Collections.sort(allList, COMPARATOR);
-            this.parsable = map;
+            Collections.sort(bllList, COMPARATOR);
+            this.pbrsbble = mbp;
         }
 
         /**
-         * Gets the text for the specified field value, locale and style
+         * Gets the text for the specified field vblue, locble bnd style
          * for the purpose of printing.
          *
-         * @param value  the value to get text for, not null
-         * @param style  the style to get text for, not null
-         * @return the text for the field value, null if no text found
+         * @pbrbm vblue  the vblue to get text for, not null
+         * @pbrbm style  the style to get text for, not null
+         * @return the text for the field vblue, null if no text found
          */
-        String getText(long value, TextStyle style) {
-            Map<Long, String> map = valueTextMap.get(style);
-            return map != null ? map.get(value) : null;
+        String getText(long vblue, TextStyle style) {
+            Mbp<Long, String> mbp = vblueTextMbp.get(style);
+            return mbp != null ? mbp.get(vblue) : null;
         }
 
         /**
-         * Gets an iterator of text to field for the specified style for the purpose of parsing.
+         * Gets bn iterbtor of text to field for the specified style for the purpose of pbrsing.
          * <p>
-         * The iterator must be returned in order from the longest text to the shortest.
+         * The iterbtor must be returned in order from the longest text to the shortest.
          *
-         * @param style  the style to get text for, null for all parsable text
-         * @return the iterator of text to field pairs, in order from longest text to shortest text,
-         *  null if the style is not parsable
+         * @pbrbm style  the style to get text for, null for bll pbrsbble text
+         * @return the iterbtor of text to field pbirs, in order from longest text to shortest text,
+         *  null if the style is not pbrsbble
          */
-        Iterator<Entry<String, Long>> getTextIterator(TextStyle style) {
-            List<Entry<String, Long>> list = parsable.get(style);
-            return list != null ? list.iterator() : null;
+        Iterbtor<Entry<String, Long>> getTextIterbtor(TextStyle style) {
+            List<Entry<String, Long>> list = pbrsbble.get(style);
+            return list != null ? list.iterbtor() : null;
         }
     }
 }

@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, 2013 Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, 2013 Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,161 +59,161 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Period;
-import java.util.List;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Durbtion;
+import jbvb.time.Period;
+import jbvb.util.List;
 
 /**
- * Framework-level interface defining an amount of time, such as
- * "6 hours", "8 days" or "2 years and 3 months".
+ * Frbmework-level interfbce defining bn bmount of time, such bs
+ * "6 hours", "8 dbys" or "2 yebrs bnd 3 months".
  * <p>
- * This is the base interface type for amounts of time.
- * An amount is distinct from a date or time-of-day in that it is not tied
- * to any specific point on the time-line.
+ * This is the bbse interfbce type for bmounts of time.
+ * An bmount is distinct from b dbte or time-of-dby in thbt it is not tied
+ * to bny specific point on the time-line.
  * <p>
- * The amount can be thought of as a {@code Map} of {@link TemporalUnit} to
- * {@code long}, exposed via {@link #getUnits()} and {@link #get(TemporalUnit)}.
- * A simple case might have a single unit-value pair, such as "6 hours".
- * A more complex case may have multiple unit-value pairs, such as
- * "7 years, 3 months and 5 days".
+ * The bmount cbn be thought of bs b {@code Mbp} of {@link TemporblUnit} to
+ * {@code long}, exposed vib {@link #getUnits()} bnd {@link #get(TemporblUnit)}.
+ * A simple cbse might hbve b single unit-vblue pbir, such bs "6 hours".
+ * A more complex cbse mby hbve multiple unit-vblue pbirs, such bs
+ * "7 yebrs, 3 months bnd 5 dbys".
  * <p>
- * There are two common implementations.
- * {@link Period} is a date-based implementation, storing years, months and days.
- * {@link Duration} is a time-based implementation, storing seconds and nanoseconds,
- * but providing some access using other duration based units such as minutes,
- * hours and fixed 24-hour days.
+ * There bre two common implementbtions.
+ * {@link Period} is b dbte-bbsed implementbtion, storing yebrs, months bnd dbys.
+ * {@link Durbtion} is b time-bbsed implementbtion, storing seconds bnd nbnoseconds,
+ * but providing some bccess using other durbtion bbsed units such bs minutes,
+ * hours bnd fixed 24-hour dbys.
  * <p>
- * This interface is a framework-level interface that should not be widely
- * used in application code. Instead, applications should create and pass
- * around instances of concrete types, such as {@code Period} and {@code Duration}.
+ * This interfbce is b frbmework-level interfbce thbt should not be widely
+ * used in bpplicbtion code. Instebd, bpplicbtions should crebte bnd pbss
+ * bround instbnces of concrete types, such bs {@code Period} bnd {@code Durbtion}.
  *
  * @implSpec
- * This interface places no restrictions on the mutability of implementations,
- * however immutability is strongly recommended.
+ * This interfbce plbces no restrictions on the mutbbility of implementbtions,
+ * however immutbbility is strongly recommended.
  *
  * @since 1.8
  */
-public interface TemporalAmount {
+public interfbce TemporblAmount {
 
     /**
-     * Returns the value of the requested unit.
+     * Returns the vblue of the requested unit.
      * The units returned from {@link #getUnits()} uniquely define the
-     * value of the {@code TemporalAmount}.  A value must be returned
-     * for each unit listed in {@code getUnits}.
+     * vblue of the {@code TemporblAmount}.  A vblue must be returned
+     * for ebch unit listed in {@code getUnits}.
      *
      * @implSpec
-     * Implementations may declare support for units not listed by {@link #getUnits()}.
-     * Typically, the implementation would define additional units
-     * as conversions for the convenience of developers.
+     * Implementbtions mby declbre support for units not listed by {@link #getUnits()}.
+     * Typicblly, the implementbtion would define bdditionbl units
+     * bs conversions for the convenience of developers.
      *
-     * @param unit the {@code TemporalUnit} for which to return the value
-     * @return the long value of the unit
-     * @throws DateTimeException if a value for the unit cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the {@code unit} is not supported
+     * @pbrbm unit the {@code TemporblUnit} for which to return the vblue
+     * @return the long vblue of the unit
+     * @throws DbteTimeException if b vblue for the unit cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the {@code unit} is not supported
      */
-    long get(TemporalUnit unit);
+    long get(TemporblUnit unit);
 
     /**
-     * Returns the list of units uniquely defining the value of this TemporalAmount.
-     * The list of {@code TemporalUnits} is defined by the implementation class.
-     * The list is a snapshot of the units at the time {@code getUnits}
-     * is called and is not mutable.
-     * The units are ordered from longest duration to the shortest duration
+     * Returns the list of units uniquely defining the vblue of this TemporblAmount.
+     * The list of {@code TemporblUnits} is defined by the implementbtion clbss.
+     * The list is b snbpshot of the units bt the time {@code getUnits}
+     * is cblled bnd is not mutbble.
+     * The units bre ordered from longest durbtion to the shortest durbtion
      * of the unit.
      *
      * @implSpec
-     * The list of units completely and uniquely represents the
-     * state of the object without omissions, overlaps or duplication.
-     * The units are in order from longest duration to shortest.
+     * The list of units completely bnd uniquely represents the
+     * stbte of the object without omissions, overlbps or duplicbtion.
+     * The units bre in order from longest durbtion to shortest.
      *
-     * @return the List of {@code TemporalUnits}; not null
+     * @return the List of {@code TemporblUnits}; not null
      */
-    List<TemporalUnit> getUnits();
+    List<TemporblUnit> getUnits();
 
     /**
-     * Adds to the specified temporal object.
+     * Adds to the specified temporbl object.
      * <p>
-     * Adds the amount to the specified temporal object using the logic
-     * encapsulated in the implementing class.
+     * Adds the bmount to the specified temporbl object using the logic
+     * encbpsulbted in the implementing clbss.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#plus(TemporalAmount)}:
+     * The second is to use {@link Temporbl#plus(TemporblAmount)}:
      * <pre>
-     *   // These two lines are equivalent, but the second approach is recommended
-     *   dateTime = amount.addTo(dateTime);
-     *   dateTime = dateTime.plus(adder);
+     *   // These two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = bmount.bddTo(dbteTime);
+     *   dbteTime = dbteTime.plus(bdder);
      * </pre>
-     * It is recommended to use the second approach, {@code plus(TemporalAmount)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code plus(TemporblAmount)},
+     * bs it is b lot clebrer to rebd in code.
      *
      * @implSpec
-     * The implementation must take the input object and add to it.
-     * The implementation defines the logic of the addition and is responsible for
-     * documenting that logic. It may use any method on {@code Temporal} to
-     * query the temporal object and perform the addition.
-     * The returned object must have the same observable type as the input object
+     * The implementbtion must tbke the input object bnd bdd to it.
+     * The implementbtion defines the logic of the bddition bnd is responsible for
+     * documenting thbt logic. It mby use bny method on {@code Temporbl} to
+     * query the temporbl object bnd perform the bddition.
+     * The returned object must hbve the sbme observbble type bs the input object
      * <p>
-     * The input object must not be altered.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable temporal objects.
+     * The input object must not be bltered.
+     * Instebd, bn bdjusted copy of the originbl must be returned.
+     * This provides equivblent, sbfe behbvior for immutbble bnd mutbble temporbl objects.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * The input temporbl object mby be in b cblendbr system other thbn ISO.
+     * Implementbtions mby choose to document compbtibility with other cblendbr systems,
+     * or reject non-ISO temporbl objects by {@link TemporblQueries#chronology() querying the chronology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * This method mby be cblled from multiple threbds in pbrbllel.
+     * It must be threbd-sbfe when invoked.
      *
-     * @param temporal  the temporal object to add the amount to, not null
-     * @return an object of the same observable type with the addition made, not null
-     * @throws DateTimeException if unable to add
+     * @pbrbm temporbl  the temporbl object to bdd the bmount to, not null
+     * @return bn object of the sbme observbble type with the bddition mbde, not null
+     * @throws DbteTimeException if unbble to bdd
      * @throws ArithmeticException if numeric overflow occurs
      */
-    Temporal addTo(Temporal temporal);
+    Temporbl bddTo(Temporbl temporbl);
 
     /**
-     * Subtracts this object from the specified temporal object.
+     * Subtrbcts this object from the specified temporbl object.
      * <p>
-     * Subtracts the amount from the specified temporal object using the logic
-     * encapsulated in the implementing class.
+     * Subtrbcts the bmount from the specified temporbl object using the logic
+     * encbpsulbted in the implementing clbss.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#minus(TemporalAmount)}:
+     * The second is to use {@link Temporbl#minus(TemporblAmount)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = amount.subtractFrom(dateTime);
-     *   dateTime = dateTime.minus(amount);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = bmount.subtrbctFrom(dbteTime);
+     *   dbteTime = dbteTime.minus(bmount);
      * </pre>
-     * It is recommended to use the second approach, {@code minus(TemporalAmount)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code minus(TemporblAmount)},
+     * bs it is b lot clebrer to rebd in code.
      *
      * @implSpec
-     * The implementation must take the input object and subtract from it.
-     * The implementation defines the logic of the subtraction and is responsible for
-     * documenting that logic. It may use any method on {@code Temporal} to
-     * query the temporal object and perform the subtraction.
-     * The returned object must have the same observable type as the input object
+     * The implementbtion must tbke the input object bnd subtrbct from it.
+     * The implementbtion defines the logic of the subtrbction bnd is responsible for
+     * documenting thbt logic. It mby use bny method on {@code Temporbl} to
+     * query the temporbl object bnd perform the subtrbction.
+     * The returned object must hbve the sbme observbble type bs the input object
      * <p>
-     * The input object must not be altered.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable temporal objects.
+     * The input object must not be bltered.
+     * Instebd, bn bdjusted copy of the originbl must be returned.
+     * This provides equivblent, sbfe behbvior for immutbble bnd mutbble temporbl objects.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * The input temporbl object mby be in b cblendbr system other thbn ISO.
+     * Implementbtions mby choose to document compbtibility with other cblendbr systems,
+     * or reject non-ISO temporbl objects by {@link TemporblQueries#chronology() querying the chronology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * This method mby be cblled from multiple threbds in pbrbllel.
+     * It must be threbd-sbfe when invoked.
      *
-     * @param temporal  the temporal object to subtract the amount from, not null
-     * @return an object of the same observable type with the subtraction made, not null
-     * @throws DateTimeException if unable to subtract
+     * @pbrbm temporbl  the temporbl object to subtrbct the bmount from, not null
+     * @return bn object of the sbme observbble type with the subtrbction mbde, not null
+     * @throws DbteTimeException if unbble to subtrbct
      * @throws ArithmeticException if numeric overflow occurs
      */
-    Temporal subtractFrom(Temporal temporal);
+    Temporbl subtrbctFrom(Temporbl temporbl);
 }

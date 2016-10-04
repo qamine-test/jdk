@@ -1,442 +1,442 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.Timer;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.Timer;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.ScrollBarState;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
+import bpple.lbf.JRSUIStbte.ScrollBbrStbte;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-public class AquaScrollBarUI extends ScrollBarUI {
-    private static final int kInitialDelay = 300;
-    private static final int kNormalDelay = 100;
+public clbss AqubScrollBbrUI extends ScrollBbrUI {
+    privbte stbtic finbl int kInitiblDelby = 300;
+    privbte stbtic finbl int kNormblDelby = 100;
 
-    // when we make small and mini scrollbars, this will no longer be a constant
-    static final int MIN_ARROW_COLLAPSE_SIZE = 64;
+    // when we mbke smbll bnd mini scrollbbrs, this will no longer be b constbnt
+    stbtic finbl int MIN_ARROW_COLLAPSE_SIZE = 64;
 
-    // tracking state
-    protected boolean fIsDragging;
+    // trbcking stbte
+    protected boolebn fIsDrbgging;
     protected Timer fScrollTimer;
     protected ScrollListener fScrollListener;
-    protected TrackListener fTrackListener;
-    protected Hit fTrackHighlight = Hit.NONE;
-    protected Hit fMousePart = Hit.NONE; // Which arrow (if any) we moused pressed down in (used by arrow drag tracking)
+    protected TrbckListener fTrbckListener;
+    protected Hit fTrbckHighlight = Hit.NONE;
+    protected Hit fMousePbrt = Hit.NONE; // Which brrow (if bny) we moused pressed down in (used by brrow drbg trbcking)
 
-    protected JScrollBar fScrollBar;
+    protected JScrollBbr fScrollBbr;
     protected ModelListener fModelListener;
-    protected PropertyChangeListener fPropertyChangeListener;
+    protected PropertyChbngeListener fPropertyChbngeListener;
 
-    protected final AquaPainter<ScrollBarState> painter = AquaPainter.create(JRSUIStateFactory.getScrollBar());
+    protected finbl AqubPbinter<ScrollBbrStbte> pbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getScrollBbr());
 
-    // Create PLAF
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaScrollBarUI();
+    // Crebte PLAF
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubScrollBbrUI();
     }
 
-    public AquaScrollBarUI() { }
+    public AqubScrollBbrUI() { }
 
-    public void installUI(final JComponent c) {
-        fScrollBar = (JScrollBar)c;
-        installListeners();
-        configureScrollBarColors();
+    public void instbllUI(finbl JComponent c) {
+        fScrollBbr = (JScrollBbr)c;
+        instbllListeners();
+        configureScrollBbrColors();
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallListeners();
-        fScrollBar = null;
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllListeners();
+        fScrollBbr = null;
     }
 
-    protected void configureScrollBarColors() {
-        LookAndFeel.installColors(fScrollBar, "ScrollBar.background", "ScrollBar.foreground");
+    protected void configureScrollBbrColors() {
+        LookAndFeel.instbllColors(fScrollBbr, "ScrollBbr.bbckground", "ScrollBbr.foreground");
     }
 
-    protected TrackListener createTrackListener() {
-        return new TrackListener();
+    protected TrbckListener crebteTrbckListener() {
+        return new TrbckListener();
     }
 
-    protected ScrollListener createScrollListener() {
+    protected ScrollListener crebteScrollListener() {
         return new ScrollListener();
     }
 
-    protected void installListeners() {
-        fTrackListener = createTrackListener();
-        fModelListener = createModelListener();
-        fPropertyChangeListener = createPropertyChangeListener();
-        fScrollBar.addMouseListener(fTrackListener);
-        fScrollBar.addMouseMotionListener(fTrackListener);
-        fScrollBar.getModel().addChangeListener(fModelListener);
-        fScrollBar.addPropertyChangeListener(fPropertyChangeListener);
-        fScrollListener = createScrollListener();
-        fScrollTimer = new Timer(kNormalDelay, fScrollListener);
-        fScrollTimer.setInitialDelay(kInitialDelay); // default InitialDelay?
+    protected void instbllListeners() {
+        fTrbckListener = crebteTrbckListener();
+        fModelListener = crebteModelListener();
+        fPropertyChbngeListener = crebtePropertyChbngeListener();
+        fScrollBbr.bddMouseListener(fTrbckListener);
+        fScrollBbr.bddMouseMotionListener(fTrbckListener);
+        fScrollBbr.getModel().bddChbngeListener(fModelListener);
+        fScrollBbr.bddPropertyChbngeListener(fPropertyChbngeListener);
+        fScrollListener = crebteScrollListener();
+        fScrollTimer = new Timer(kNormblDelby, fScrollListener);
+        fScrollTimer.setInitiblDelby(kInitiblDelby); // defbult InitiblDelby?
     }
 
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
         fScrollTimer.stop();
         fScrollTimer = null;
-        fScrollBar.getModel().removeChangeListener(fModelListener);
-        fScrollBar.removeMouseListener(fTrackListener);
-        fScrollBar.removeMouseMotionListener(fTrackListener);
-        fScrollBar.removePropertyChangeListener(fPropertyChangeListener);
+        fScrollBbr.getModel().removeChbngeListener(fModelListener);
+        fScrollBbr.removeMouseListener(fTrbckListener);
+        fScrollBbr.removeMouseMotionListener(fTrbckListener);
+        fScrollBbr.removePropertyChbngeListener(fPropertyChbngeListener);
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new PropertyChangeHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new PropertyChbngeHbndler();
     }
 
-    protected ModelListener createModelListener() {
+    protected ModelListener crebteModelListener() {
         return new ModelListener();
     }
 
-    protected void syncState(final JComponent c) {
-        final ScrollBarState scrollBarState = painter.state;
-        scrollBarState.set(isHorizontal() ? Orientation.HORIZONTAL : Orientation.VERTICAL);
+    protected void syncStbte(finbl JComponent c) {
+        finbl ScrollBbrStbte scrollBbrStbte = pbinter.stbte;
+        scrollBbrStbte.set(isHorizontbl() ? Orientbtion.HORIZONTAL : Orientbtion.VERTICAL);
 
-        final float trackExtent = fScrollBar.getMaximum() - fScrollBar.getMinimum() - fScrollBar.getModel().getExtent();
-        if (trackExtent <= 0.0f) {
-            scrollBarState.set(NothingToScroll.YES);
+        finbl flobt trbckExtent = fScrollBbr.getMbximum() - fScrollBbr.getMinimum() - fScrollBbr.getModel().getExtent();
+        if (trbckExtent <= 0.0f) {
+            scrollBbrStbte.set(NothingToScroll.YES);
             return;
         }
 
-        final ScrollBarPart pressedPart = getPressedPart();
-        scrollBarState.set(pressedPart);
-        scrollBarState.set(getState(c, pressedPart));
-        scrollBarState.set(NothingToScroll.NO);
-        scrollBarState.setValue((fScrollBar.getValue() - fScrollBar.getMinimum()) / trackExtent);
-        scrollBarState.setThumbStart(getThumbStart());
-        scrollBarState.setThumbPercent(getThumbPercent());
-        scrollBarState.set(shouldShowArrows() ? ShowArrows.YES : ShowArrows.NO);
+        finbl ScrollBbrPbrt pressedPbrt = getPressedPbrt();
+        scrollBbrStbte.set(pressedPbrt);
+        scrollBbrStbte.set(getStbte(c, pressedPbrt));
+        scrollBbrStbte.set(NothingToScroll.NO);
+        scrollBbrStbte.setVblue((fScrollBbr.getVblue() - fScrollBbr.getMinimum()) / trbckExtent);
+        scrollBbrStbte.setThumbStbrt(getThumbStbrt());
+        scrollBbrStbte.setThumbPercent(getThumbPercent());
+        scrollBbrStbte.set(shouldShowArrows() ? ShowArrows.YES : ShowArrows.NO);
     }
 
-    public void paint(final Graphics g, final JComponent c) {
-        syncState(c);
-        painter.paint(g, c, 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        syncStbte(c);
+        pbinter.pbint(g, c, 0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight());
     }
 
-    protected State getState(final JComponent c, final ScrollBarPart pressedPart) {
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        if (!c.isEnabled()) return State.INACTIVE;
-        if (pressedPart != ScrollBarPart.NONE) return State.PRESSED;
-        return State.ACTIVE;
+    protected Stbte getStbte(finbl JComponent c, finbl ScrollBbrPbrt pressedPbrt) {
+        if (!AqubFocusHbndler.isActive(c)) return Stbte.INACTIVE;
+        if (!c.isEnbbled()) return Stbte.INACTIVE;
+        if (pressedPbrt != ScrollBbrPbrt.NONE) return Stbte.PRESSED;
+        return Stbte.ACTIVE;
     }
 
-    static final RecyclableSingleton<Map<Hit, ScrollBarPart>> hitToPressedPartMap = new RecyclableSingleton<Map<Hit,ScrollBarPart>>(){
+    stbtic finbl RecyclbbleSingleton<Mbp<Hit, ScrollBbrPbrt>> hitToPressedPbrtMbp = new RecyclbbleSingleton<Mbp<Hit,ScrollBbrPbrt>>(){
         @Override
-        protected Map<Hit, ScrollBarPart> getInstance() {
-            final Map<Hit, ScrollBarPart> map = new HashMap<Hit, ScrollBarPart>(7);
-            map.put(ScrollBarHit.ARROW_MAX, ScrollBarPart.ARROW_MAX);
-            map.put(ScrollBarHit.ARROW_MIN, ScrollBarPart.ARROW_MIN);
-            map.put(ScrollBarHit.ARROW_MAX_INSIDE, ScrollBarPart.ARROW_MAX_INSIDE);
-            map.put(ScrollBarHit.ARROW_MIN_INSIDE, ScrollBarPart.ARROW_MIN_INSIDE);
-            map.put(ScrollBarHit.TRACK_MAX, ScrollBarPart.TRACK_MAX);
-            map.put(ScrollBarHit.TRACK_MIN, ScrollBarPart.TRACK_MIN);
-            map.put(ScrollBarHit.THUMB, ScrollBarPart.THUMB);
-            return map;
+        protected Mbp<Hit, ScrollBbrPbrt> getInstbnce() {
+            finbl Mbp<Hit, ScrollBbrPbrt> mbp = new HbshMbp<Hit, ScrollBbrPbrt>(7);
+            mbp.put(ScrollBbrHit.ARROW_MAX, ScrollBbrPbrt.ARROW_MAX);
+            mbp.put(ScrollBbrHit.ARROW_MIN, ScrollBbrPbrt.ARROW_MIN);
+            mbp.put(ScrollBbrHit.ARROW_MAX_INSIDE, ScrollBbrPbrt.ARROW_MAX_INSIDE);
+            mbp.put(ScrollBbrHit.ARROW_MIN_INSIDE, ScrollBbrPbrt.ARROW_MIN_INSIDE);
+            mbp.put(ScrollBbrHit.TRACK_MAX, ScrollBbrPbrt.TRACK_MAX);
+            mbp.put(ScrollBbrHit.TRACK_MIN, ScrollBbrPbrt.TRACK_MIN);
+            mbp.put(ScrollBbrHit.THUMB, ScrollBbrPbrt.THUMB);
+            return mbp;
         }
     };
-    protected ScrollBarPart getPressedPart() {
-        if (!fTrackListener.fInArrows || !fTrackListener.fStillInArrow) return ScrollBarPart.NONE;
-        final ScrollBarPart pressedPart = hitToPressedPartMap.get().get(fMousePart);
-        if (pressedPart == null) return ScrollBarPart.NONE;
-        return pressedPart;
+    protected ScrollBbrPbrt getPressedPbrt() {
+        if (!fTrbckListener.fInArrows || !fTrbckListener.fStillInArrow) return ScrollBbrPbrt.NONE;
+        finbl ScrollBbrPbrt pressedPbrt = hitToPressedPbrtMbp.get().get(fMousePbrt);
+        if (pressedPbrt == null) return ScrollBbrPbrt.NONE;
+        return pressedPbrt;
     }
 
-    protected boolean shouldShowArrows() {
-        return MIN_ARROW_COLLAPSE_SIZE < (isHorizontal() ? fScrollBar.getWidth() : fScrollBar.getHeight());
+    protected boolebn shouldShowArrows() {
+        return MIN_ARROW_COLLAPSE_SIZE < (isHorizontbl() ? fScrollBbr.getWidth() : fScrollBbr.getHeight());
     }
 
-    // Layout Methods
-    // Layout is controlled by the user in the Appearance Control Panel
-    // Theme will redraw correctly for the current layout
-    public void layoutContainer(final Container fScrollBarContainer) {
-        fScrollBar.repaint();
-        fScrollBar.revalidate();
+    // Lbyout Methods
+    // Lbyout is controlled by the user in the Appebrbnce Control Pbnel
+    // Theme will redrbw correctly for the current lbyout
+    public void lbyoutContbiner(finbl Contbiner fScrollBbrContbiner) {
+        fScrollBbr.repbint();
+        fScrollBbr.revblidbte();
     }
 
-    protected Rectangle getTrackBounds() {
-        return new Rectangle(0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    protected Rectbngle getTrbckBounds() {
+        return new Rectbngle(0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight());
     }
 
-    protected Rectangle getDragBounds() {
-        return new Rectangle(0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    protected Rectbngle getDrbgBounds() {
+        return new Rectbngle(0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight());
     }
 
-    protected void startTimer(final boolean initial) {
-        fScrollTimer.setInitialDelay(initial ? kInitialDelay : kNormalDelay); // default InitialDelay?
-        fScrollTimer.start();
+    protected void stbrtTimer(finbl boolebn initibl) {
+        fScrollTimer.setInitiblDelby(initibl ? kInitiblDelby : kNormblDelby); // defbult InitiblDelby?
+        fScrollTimer.stbrt();
     }
 
-    protected void scrollByBlock(final int direction) {
-        synchronized(fScrollBar) {
-            final int oldValue = fScrollBar.getValue();
-            final int blockIncrement = fScrollBar.getBlockIncrement(direction);
-            final int delta = blockIncrement * ((direction > 0) ? +1 : -1);
+    protected void scrollByBlock(finbl int direction) {
+        synchronized(fScrollBbr) {
+            finbl int oldVblue = fScrollBbr.getVblue();
+            finbl int blockIncrement = fScrollBbr.getBlockIncrement(direction);
+            finbl int deltb = blockIncrement * ((direction > 0) ? +1 : -1);
 
-            fScrollBar.setValue(oldValue + delta);
-            fTrackHighlight = direction > 0 ? ScrollBarHit.TRACK_MAX : ScrollBarHit.TRACK_MIN;
-            fScrollBar.repaint();
+            fScrollBbr.setVblue(oldVblue + deltb);
+            fTrbckHighlight = direction > 0 ? ScrollBbrHit.TRACK_MAX : ScrollBbrHit.TRACK_MIN;
+            fScrollBbr.repbint();
             fScrollListener.setDirection(direction);
             fScrollListener.setScrollByBlock(true);
         }
     }
 
-    protected void scrollByUnit(final int direction) {
-        synchronized(fScrollBar) {
-            int delta = fScrollBar.getUnitIncrement(direction);
-            if (direction <= 0) delta = -delta;
+    protected void scrollByUnit(finbl int direction) {
+        synchronized(fScrollBbr) {
+            int deltb = fScrollBbr.getUnitIncrement(direction);
+            if (direction <= 0) deltb = -deltb;
 
-            fScrollBar.setValue(delta + fScrollBar.getValue());
-            fScrollBar.repaint();
+            fScrollBbr.setVblue(deltb + fScrollBbr.getVblue());
+            fScrollBbr.repbint();
             fScrollListener.setDirection(direction);
-            fScrollListener.setScrollByBlock(false);
+            fScrollListener.setScrollByBlock(fblse);
         }
     }
 
-    protected Hit getPartHit(final int x, final int y) {
-        syncState(fScrollBar);
-        return JRSUIUtils.HitDetection.getHitForPoint(painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), x, y);
+    protected Hit getPbrtHit(finbl int x, finbl int y) {
+        syncStbte(fScrollBbr);
+        return JRSUIUtils.HitDetection.getHitForPoint(pbinter.getControl(), 0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight(), x, y);
     }
 
-    protected class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String propertyName = e.getPropertyName();
+    protected clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            finbl String propertyNbme = e.getPropertyNbme();
 
-            if ("model".equals(propertyName)) {
-                final BoundedRangeModel oldModel = (BoundedRangeModel)e.getOldValue();
-                final BoundedRangeModel newModel = (BoundedRangeModel)e.getNewValue();
-                oldModel.removeChangeListener(fModelListener);
-                newModel.addChangeListener(fModelListener);
-                fScrollBar.repaint();
-                fScrollBar.revalidate();
-            } else if (AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(propertyName)) {
-                fScrollBar.repaint();
+            if ("model".equbls(propertyNbme)) {
+                finbl BoundedRbngeModel oldModel = (BoundedRbngeModel)e.getOldVblue();
+                finbl BoundedRbngeModel newModel = (BoundedRbngeModel)e.getNewVblue();
+                oldModel.removeChbngeListener(fModelListener);
+                newModel.bddChbngeListener(fModelListener);
+                fScrollBbr.repbint();
+                fScrollBbr.revblidbte();
+            } else if (AqubFocusHbndler.FRAME_ACTIVE_PROPERTY.equbls(propertyNbme)) {
+                fScrollBbr.repbint();
             }
         }
     }
 
-    protected class ModelListener implements ChangeListener {
-        public void stateChanged(final ChangeEvent e) {
-            layoutContainer(fScrollBar);
+    protected clbss ModelListener implements ChbngeListener {
+        public void stbteChbnged(finbl ChbngeEvent e) {
+            lbyoutContbiner(fScrollBbr);
         }
     }
 
-    // Track mouse drags.
-    protected class TrackListener extends MouseAdapter implements MouseMotionListener {
-        protected transient int fCurrentMouseX, fCurrentMouseY;
-        protected transient boolean fInArrows; // are we currently tracking arrows?
-        protected transient boolean fStillInArrow = false; // Whether mouse is in an arrow during arrow tracking
-        protected transient boolean fStillInTrack = false; // Whether mouse is in the track during pageup/down tracking
-        protected transient int fFirstMouseX, fFirstMouseY, fFirstValue; // Values for getValueFromOffset
+    // Trbck mouse drbgs.
+    protected clbss TrbckListener extends MouseAdbpter implements MouseMotionListener {
+        protected trbnsient int fCurrentMouseX, fCurrentMouseY;
+        protected trbnsient boolebn fInArrows; // bre we currently trbcking brrows?
+        protected trbnsient boolebn fStillInArrow = fblse; // Whether mouse is in bn brrow during brrow trbcking
+        protected trbnsient boolebn fStillInTrbck = fblse; // Whether mouse is in the trbck during pbgeup/down trbcking
+        protected trbnsient int fFirstMouseX, fFirstMouseY, fFirstVblue; // Vblues for getVblueFromOffset
 
-        public void mouseReleased(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        public void mouseRelebsed(finbl MouseEvent e) {
+            if (!fScrollBbr.isEnbbled()) return;
             if (fInArrows) {
-                mouseReleasedInArrows(e);
+                mouseRelebsedInArrows(e);
             } else {
-                mouseReleasedInTrack(e);
+                mouseRelebsedInTrbck(e);
             }
 
-            fInArrows = false;
-            fStillInArrow = false;
-            fStillInTrack = false;
+            fInArrows = fblse;
+            fStillInArrow = fblse;
+            fStillInTrbck = fblse;
 
-            fScrollBar.repaint();
-            fScrollBar.revalidate();
+            fScrollBbr.repbint();
+            fScrollBbr.revblidbte();
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        public void mousePressed(finbl MouseEvent e) {
+            if (!fScrollBbr.isEnbbled()) return;
 
-            final Hit part = getPartHit(e.getX(), e.getY());
-            fInArrows = HitUtil.isArrow(part);
+            finbl Hit pbrt = getPbrtHit(e.getX(), e.getY());
+            fInArrows = HitUtil.isArrow(pbrt);
             if (fInArrows) {
-                mousePressedInArrows(e, part);
+                mousePressedInArrows(e, pbrt);
             } else {
-                if (part == Hit.NONE) {
-                    fTrackHighlight = Hit.NONE;
+                if (pbrt == Hit.NONE) {
+                    fTrbckHighlight = Hit.NONE;
                 } else {
-                    mousePressedInTrack(e, part);
+                    mousePressedInTrbck(e, pbrt);
                 }
             }
         }
 
-        public void mouseDragged(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        public void mouseDrbgged(finbl MouseEvent e) {
+            if (!fScrollBbr.isEnbbled()) return;
 
             if (fInArrows) {
-                mouseDraggedInArrows(e);
-            } else if (fIsDragging) {
-                mouseDraggedInTrack(e);
+                mouseDrbggedInArrows(e);
+            } else if (fIsDrbgging) {
+                mouseDrbggedInTrbck(e);
             } else {
-                // In pageup/down zones
+                // In pbgeup/down zones
 
-                // check that thumb has not been scrolled under the mouse cursor
-                final Hit previousPart = getPartHit(fCurrentMouseX, fCurrentMouseY);
-                if (!HitUtil.isTrack(previousPart)) {
-                    fStillInTrack = false;
+                // check thbt thumb hbs not been scrolled under the mouse cursor
+                finbl Hit previousPbrt = getPbrtHit(fCurrentMouseX, fCurrentMouseY);
+                if (!HitUtil.isTrbck(previousPbrt)) {
+                    fStillInTrbck = fblse;
                 }
 
                 fCurrentMouseX = e.getX();
                 fCurrentMouseY = e.getY();
 
-                final Hit part = getPartHit(e.getX(), e.getY());
-                final boolean temp = HitUtil.isTrack(part);
-                if (temp == fStillInTrack) return;
+                finbl Hit pbrt = getPbrtHit(e.getX(), e.getY());
+                finbl boolebn temp = HitUtil.isTrbck(pbrt);
+                if (temp == fStillInTrbck) return;
 
-                fStillInTrack = temp;
-                if (!fStillInTrack) {
+                fStillInTrbck = temp;
+                if (!fStillInTrbck) {
                     fScrollTimer.stop();
                 } else {
-                    fScrollListener.actionPerformed(new ActionEvent(fScrollTimer, 0, ""));
-                    startTimer(false);
+                    fScrollListener.bctionPerformed(new ActionEvent(fScrollTimer, 0, ""));
+                    stbrtTimer(fblse);
                 }
             }
         }
 
-        int getValueFromOffset(final int xOffset, final int yOffset, final int firstValue) {
-            final boolean isHoriz = isHorizontal();
+        int getVblueFromOffset(finbl int xOffset, finbl int yOffset, finbl int firstVblue) {
+            finbl boolebn isHoriz = isHorizontbl();
 
-            // find the amount of pixels we've moved x & y (we only care about one)
-            final int offsetWeCareAbout = isHoriz ? xOffset : yOffset;
+            // find the bmount of pixels we've moved x & y (we only cbre bbout one)
+            finbl int offsetWeCbreAbout = isHoriz ? xOffset : yOffset;
 
-            // now based on that floating point percentage compute the real scroller value.
-            final int visibleAmt = fScrollBar.getVisibleAmount();
-            final int max = fScrollBar.getMaximum();
-            final int min = fScrollBar.getMinimum();
-            final int extent = max - min;
+            // now bbsed on thbt flobting point percentbge compute the rebl scroller vblue.
+            finbl int visibleAmt = fScrollBbr.getVisibleAmount();
+            finbl int mbx = fScrollBbr.getMbximum();
+            finbl int min = fScrollBbr.getMinimum();
+            finbl int extent = mbx - min;
 
-            // ask native to tell us what the new float that is a ratio of how much scrollable area
-            // we have moved (not the thumb area, just the scrollable). If the
-            // scroller goes 0-100 with a visible area of 20 we are getting a ratio of the
-            // remaining 80.
-            syncState(fScrollBar);
-            final double offsetChange = JRSUIUtils.ScrollBar.getNativeOffsetChange(painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), offsetWeCareAbout, visibleAmt, extent);
+            // bsk nbtive to tell us whbt the new flobt thbt is b rbtio of how much scrollbble breb
+            // we hbve moved (not the thumb breb, just the scrollbble). If the
+            // scroller goes 0-100 with b visible breb of 20 we bre getting b rbtio of the
+            // rembining 80.
+            syncStbte(fScrollBbr);
+            finbl double offsetChbnge = JRSUIUtils.ScrollBbr.getNbtiveOffsetChbnge(pbinter.getControl(), 0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight(), offsetWeCbreAbout, visibleAmt, extent);
 
-            // the scrollable area is the extent - visible amount;
-            final int scrollableArea = extent - visibleAmt;
+            // the scrollbble breb is the extent - visible bmount;
+            finbl int scrollbbleAreb = extent - visibleAmt;
 
-            final int changeByValue = (int)(offsetChange * scrollableArea);
-            int newValue = firstValue + changeByValue;
-            newValue = Math.max(min, newValue);
-            newValue = Math.min((max - visibleAmt), newValue);
-            return newValue;
+            finbl int chbngeByVblue = (int)(offsetChbnge * scrollbbleAreb);
+            int newVblue = firstVblue + chbngeByVblue;
+            newVblue = Mbth.mbx(min, newVblue);
+            newVblue = Mbth.min((mbx - visibleAmt), newVblue);
+            return newVblue;
         }
 
         /**
          * Arrow Listeners
          */
-        // Because we are handling both mousePressed and Actions
-        // we need to make sure we don't fire under both conditions.
-        // (keyfocus on scrollbars causes action without mousePress
-        void mousePressedInArrows(final MouseEvent e, final Hit part) {
-            final int direction = HitUtil.isIncrement(part) ? 1 : -1;
+        // Becbuse we bre hbndling both mousePressed bnd Actions
+        // we need to mbke sure we don't fire under both conditions.
+        // (keyfocus on scrollbbrs cbuses bction without mousePress
+        void mousePressedInArrows(finbl MouseEvent e, finbl Hit pbrt) {
+            finbl int direction = HitUtil.isIncrement(pbrt) ? 1 : -1;
 
             fStillInArrow = true;
             scrollByUnit(direction);
             fScrollTimer.stop();
             fScrollListener.setDirection(direction);
-            fScrollListener.setScrollByBlock(false);
+            fScrollListener.setScrollByBlock(fblse);
 
-            fMousePart = part;
-            startTimer(true);
+            fMousePbrt = pbrt;
+            stbrtTimer(true);
         }
 
-        void mouseReleasedInArrows(final MouseEvent e) {
+        void mouseRelebsedInArrows(finbl MouseEvent e) {
             fScrollTimer.stop();
-            fMousePart = Hit.NONE;
-            fScrollBar.setValueIsAdjusting(false);
+            fMousePbrt = Hit.NONE;
+            fScrollBbr.setVblueIsAdjusting(fblse);
         }
 
-        void mouseDraggedInArrows(final MouseEvent e) {
-            final Hit whichPart = getPartHit(e.getX(), e.getY());
+        void mouseDrbggedInArrows(finbl MouseEvent e) {
+            finbl Hit whichPbrt = getPbrtHit(e.getX(), e.getY());
 
-            if ((fMousePart == whichPart) && fStillInArrow) return; // Nothing has changed, so return
+            if ((fMousePbrt == whichPbrt) && fStillInArrow) return; // Nothing hbs chbnged, so return
 
-            if (fMousePart != whichPart && !HitUtil.isArrow(whichPart)) {
-                // The mouse is not over the arrow we mouse pressed in, so stop the timer and mark as
-                // not being in the arrow
+            if (fMousePbrt != whichPbrt && !HitUtil.isArrow(whichPbrt)) {
+                // The mouse is not over the brrow we mouse pressed in, so stop the timer bnd mbrk bs
+                // not being in the brrow
                 fScrollTimer.stop();
-                fStillInArrow = false;
-                fScrollBar.repaint();
+                fStillInArrow = fblse;
+                fScrollBbr.repbint();
             } else {
-                // We are in the arrow we mouse pressed down in originally, but the timer was stopped so we need
-                // to start it up again.
-                fMousePart = whichPart;
-                fScrollListener.setDirection(HitUtil.isIncrement(whichPart) ? 1 : -1);
+                // We bre in the brrow we mouse pressed down in originblly, but the timer wbs stopped so we need
+                // to stbrt it up bgbin.
+                fMousePbrt = whichPbrt;
+                fScrollListener.setDirection(HitUtil.isIncrement(whichPbrt) ? 1 : -1);
                 fStillInArrow = true;
-                fScrollListener.actionPerformed(new ActionEvent(fScrollTimer, 0, ""));
-                startTimer(false);
+                fScrollListener.bctionPerformed(new ActionEvent(fScrollTimer, 0, ""));
+                stbrtTimer(fblse);
             }
 
-            fScrollBar.repaint();
+            fScrollBbr.repbint();
         }
 
-        void mouseReleasedInTrack(final MouseEvent e) {
-            if (fTrackHighlight != Hit.NONE) {
-                fScrollBar.repaint();
+        void mouseRelebsedInTrbck(finbl MouseEvent e) {
+            if (fTrbckHighlight != Hit.NONE) {
+                fScrollBbr.repbint();
             }
 
-            fTrackHighlight = Hit.NONE;
-            fIsDragging = false;
+            fTrbckHighlight = Hit.NONE;
+            fIsDrbgging = fblse;
             fScrollTimer.stop();
-            fScrollBar.setValueIsAdjusting(false);
+            fScrollBbr.setVblueIsAdjusting(fblse);
         }
 
         /**
-         * Adjust the fScrollBars value based on the result of hitTestTrack
+         * Adjust the fScrollBbrs vblue bbsed on the result of hitTestTrbck
          */
-        void mousePressedInTrack(final MouseEvent e, final Hit part) {
-            fScrollBar.setValueIsAdjusting(true);
+        void mousePressedInTrbck(finbl MouseEvent e, finbl Hit pbrt) {
+            fScrollBbr.setVblueIsAdjusting(true);
 
             // If option-click, toggle scroll-to-here
-            boolean shouldScrollToHere = (part != ScrollBarHit.THUMB) && JRSUIUtils.ScrollBar.useScrollToClick();
+            boolebn shouldScrollToHere = (pbrt != ScrollBbrHit.THUMB) && JRSUIUtils.ScrollBbr.useScrollToClick();
             if (e.isAltDown()) shouldScrollToHere = !shouldScrollToHere;
 
-            // pretend the mouse was dragged from a point in the current thumb to the current mouse point in one big jump
+            // pretend the mouse wbs drbgged from b point in the current thumb to the current mouse point in one big jump
             if (shouldScrollToHere) {
-                final Point p = getScrollToHereStartPoint(e.getX(), e.getY());
+                finbl Point p = getScrollToHereStbrtPoint(e.getX(), e.getY());
                 fFirstMouseX = p.x;
                 fFirstMouseY = p.y;
-                fFirstValue = fScrollBar.getValue();
+                fFirstVblue = fScrollBbr.getVblue();
                 moveToMouse(e);
 
-                // OK, now we're in the thumb - any subsequent dragging should move it
-                fTrackHighlight = ScrollBarHit.THUMB;
-                fIsDragging = true;
+                // OK, now we're in the thumb - bny subsequent drbgging should move it
+                fTrbckHighlight = ScrollBbrHit.THUMB;
+                fIsDrbgging = true;
                 return;
             }
 
@@ -444,222 +444,222 @@ public class AquaScrollBarUI extends ScrollBarUI {
             fCurrentMouseY = e.getY();
 
             int direction = 0;
-            if (part == ScrollBarHit.TRACK_MIN) {
-                fTrackHighlight = ScrollBarHit.TRACK_MIN;
+            if (pbrt == ScrollBbrHit.TRACK_MIN) {
+                fTrbckHighlight = ScrollBbrHit.TRACK_MIN;
                 direction = -1;
-            } else if (part == ScrollBarHit.TRACK_MAX) {
-                fTrackHighlight = ScrollBarHit.TRACK_MAX;
+            } else if (pbrt == ScrollBbrHit.TRACK_MAX) {
+                fTrbckHighlight = ScrollBbrHit.TRACK_MAX;
                 direction = 1;
             } else {
-                fFirstValue = fScrollBar.getValue();
+                fFirstVblue = fScrollBbr.getVblue();
                 fFirstMouseX = fCurrentMouseX;
                 fFirstMouseY = fCurrentMouseY;
-                fTrackHighlight = ScrollBarHit.THUMB;
-                fIsDragging = true;
+                fTrbckHighlight = ScrollBbrHit.THUMB;
+                fIsDrbgging = true;
                 return;
             }
 
-            fIsDragging = false;
-            fStillInTrack = true;
+            fIsDrbgging = fblse;
+            fStillInTrbck = true;
 
             scrollByBlock(direction);
-            // Check the new location of the thumb
+            // Check the new locbtion of the thumb
             // stop scrolling if the thumb is under the mouse??
 
-            final Hit newPart = getPartHit(fCurrentMouseX, fCurrentMouseY);
-            if (newPart == ScrollBarHit.TRACK_MIN || newPart == ScrollBarHit.TRACK_MAX) {
+            finbl Hit newPbrt = getPbrtHit(fCurrentMouseX, fCurrentMouseY);
+            if (newPbrt == ScrollBbrHit.TRACK_MIN || newPbrt == ScrollBbrHit.TRACK_MAX) {
                 fScrollTimer.stop();
-                fScrollListener.setDirection(((newPart == ScrollBarHit.TRACK_MAX) ? 1 : -1));
+                fScrollListener.setDirection(((newPbrt == ScrollBbrHit.TRACK_MAX) ? 1 : -1));
                 fScrollListener.setScrollByBlock(true);
-                startTimer(true);
+                stbrtTimer(true);
             }
         }
 
         /**
-         * Set the models value to the position of the top/left
-         * of the thumb relative to the origin of the track.
+         * Set the models vblue to the position of the top/left
+         * of the thumb relbtive to the origin of the trbck.
          */
-        void mouseDraggedInTrack(final MouseEvent e) {
+        void mouseDrbggedInTrbck(finbl MouseEvent e) {
             moveToMouse(e);
         }
 
-        // For normal mouse dragging or click-to-here
-        // fCurrentMouseX, fCurrentMouseY, and fFirstValue must be set
-        void moveToMouse(final MouseEvent e) {
+        // For normbl mouse drbgging or click-to-here
+        // fCurrentMouseX, fCurrentMouseY, bnd fFirstVblue must be set
+        void moveToMouse(finbl MouseEvent e) {
             fCurrentMouseX = e.getX();
             fCurrentMouseY = e.getY();
 
-            final int oldValue = fScrollBar.getValue();
-            final int newValue = getValueFromOffset(fCurrentMouseX - fFirstMouseX, fCurrentMouseY - fFirstMouseY, fFirstValue);
-            if (newValue == oldValue) return;
+            finbl int oldVblue = fScrollBbr.getVblue();
+            finbl int newVblue = getVblueFromOffset(fCurrentMouseX - fFirstMouseX, fCurrentMouseY - fFirstMouseY, fFirstVblue);
+            if (newVblue == oldVblue) return;
 
-            fScrollBar.setValue(newValue);
-            final Rectangle dirtyRect = getTrackBounds();
-            fScrollBar.repaint(dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
+            fScrollBbr.setVblue(newVblue);
+            finbl Rectbngle dirtyRect = getTrbckBounds();
+            fScrollBbr.repbint(dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
         }
     }
 
     /**
-     * Listener for scrolling events initiated in the ScrollPane.
+     * Listener for scrolling events initibted in the ScrollPbne.
      */
-    protected class ScrollListener implements ActionListener {
-        boolean fUseBlockIncrement;
+    protected clbss ScrollListener implements ActionListener {
+        boolebn fUseBlockIncrement;
         int fDirection = 1;
 
-        void setDirection(final int direction) {
+        void setDirection(finbl int direction) {
             this.fDirection = direction;
         }
 
-        void setScrollByBlock(final boolean block) {
+        void setScrollByBlock(finbl boolebn block) {
             this.fUseBlockIncrement = block;
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             if (fUseBlockIncrement) {
-                Hit newPart = getPartHit(fTrackListener.fCurrentMouseX, fTrackListener.fCurrentMouseY);
+                Hit newPbrt = getPbrtHit(fTrbckListener.fCurrentMouseX, fTrbckListener.fCurrentMouseY);
 
-                if (newPart == ScrollBarHit.TRACK_MIN || newPart == ScrollBarHit.TRACK_MAX) {
-                    final int newDirection = (newPart == ScrollBarHit.TRACK_MAX ? 1 : -1);
+                if (newPbrt == ScrollBbrHit.TRACK_MIN || newPbrt == ScrollBbrHit.TRACK_MAX) {
+                    finbl int newDirection = (newPbrt == ScrollBbrHit.TRACK_MAX ? 1 : -1);
                     if (fDirection != newDirection) {
                         fDirection = newDirection;
                     }
                 }
 
                 scrollByBlock(fDirection);
-                newPart = getPartHit(fTrackListener.fCurrentMouseX, fTrackListener.fCurrentMouseY);
+                newPbrt = getPbrtHit(fTrbckListener.fCurrentMouseX, fTrbckListener.fCurrentMouseY);
 
-                if (newPart == ScrollBarHit.THUMB) {
+                if (newPbrt == ScrollBbrHit.THUMB) {
                     ((Timer)e.getSource()).stop();
                 }
             } else {
                 scrollByUnit(fDirection);
             }
 
-            if (fDirection > 0 && fScrollBar.getValue() + fScrollBar.getVisibleAmount() >= fScrollBar.getMaximum()) {
+            if (fDirection > 0 && fScrollBbr.getVblue() + fScrollBbr.getVisibleAmount() >= fScrollBbr.getMbximum()) {
                 ((Timer)e.getSource()).stop();
-            } else if (fDirection < 0 && fScrollBar.getValue() <= fScrollBar.getMinimum()) {
+            } else if (fDirection < 0 && fScrollBbr.getVblue() <= fScrollBbr.getMinimum()) {
                 ((Timer)e.getSource()).stop();
             }
         }
     }
 
-    float getThumbStart() {
-        final int max = fScrollBar.getMaximum();
-        final int min = fScrollBar.getMinimum();
-        final int extent = max - min;
+    flobt getThumbStbrt() {
+        finbl int mbx = fScrollBbr.getMbximum();
+        finbl int min = fScrollBbr.getMinimum();
+        finbl int extent = mbx - min;
         if (extent <= 0) return 0f;
 
-        return (float)(fScrollBar.getValue() - fScrollBar.getMinimum()) / (float)extent;
+        return (flobt)(fScrollBbr.getVblue() - fScrollBbr.getMinimum()) / (flobt)extent;
     }
 
-    float getThumbPercent() {
-        final int visible = fScrollBar.getVisibleAmount();
-        final int max = fScrollBar.getMaximum();
-        final int min = fScrollBar.getMinimum();
-        final int extent = max - min;
+    flobt getThumbPercent() {
+        finbl int visible = fScrollBbr.getVisibleAmount();
+        finbl int mbx = fScrollBbr.getMbximum();
+        finbl int min = fScrollBbr.getMinimum();
+        finbl int extent = mbx - min;
         if (extent <= 0) return 0f;
 
-        return (float)visible / (float)extent;
+        return (flobt)visible / (flobt)extent;
     }
 
     /**
-     * A scrollbar's preferred width is 16 by a reasonable size to hold
-     * the arrows
+     * A scrollbbr's preferred width is 16 by b rebsonbble size to hold
+     * the brrows
      *
-     * @param c The JScrollBar that's delegating this method to us.
-     * @return The preferred size of a Basic JScrollBar.
-     * @see #getMaximumSize
+     * @pbrbm c The JScrollBbr thbt's delegbting this method to us.
+     * @return The preferred size of b Bbsic JScrollBbr.
+     * @see #getMbximumSize
      * @see #getMinimumSize
      */
-    public Dimension getPreferredSize(final JComponent c) {
-        return isHorizontal() ? new Dimension(96, 15) : new Dimension(15, 96);
+    public Dimension getPreferredSize(finbl JComponent c) {
+        return isHorizontbl() ? new Dimension(96, 15) : new Dimension(15, 96);
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
-        return isHorizontal() ? new Dimension(54, 15) : new Dimension(15, 54);
+    public Dimension getMinimumSize(finbl JComponent c) {
+        return isHorizontbl() ? new Dimension(54, 15) : new Dimension(15, 54);
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
+    public Dimension getMbximumSize(finbl JComponent c) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    boolean isHorizontal() {
-        return fScrollBar.getOrientation() == Adjustable.HORIZONTAL;
+    boolebn isHorizontbl() {
+        return fScrollBbr.getOrientbtion() == Adjustbble.HORIZONTAL;
     }
 
-    // only do scroll-to-here for page up and page down regions, when the option key is pressed
-    // This gets the point where the mouse would have been clicked in the current thumb
-    // so we can pretend the mouse was dragged to the current mouse point in one big jump
-    Point getScrollToHereStartPoint(final int clickPosX, final int clickPosY) {
-        // prepare the track rectangle and limit rectangle so we can do our calculations
-        final Rectangle limitRect = getDragBounds(); // GetThemeTrackDragRect
+    // only do scroll-to-here for pbge up bnd pbge down regions, when the option key is pressed
+    // This gets the point where the mouse would hbve been clicked in the current thumb
+    // so we cbn pretend the mouse wbs drbgged to the current mouse point in one big jump
+    Point getScrollToHereStbrtPoint(finbl int clickPosX, finbl int clickPosY) {
+        // prepbre the trbck rectbngle bnd limit rectbngle so we cbn do our cblculbtions
+        finbl Rectbngle limitRect = getDrbgBounds(); // GetThemeTrbckDrbgRect
 
-        // determine the bounding rectangle for our thumb region
-        syncState(fScrollBar);
+        // determine the bounding rectbngle for our thumb region
+        syncStbte(fScrollBbr);
         double[] rect = new double[4];
-        JRSUIUtils.ScrollBar.getPartBounds(rect, painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), ScrollBarPart.THUMB);
-        final Rectangle r = new Rectangle((int)rect[0], (int)rect[1], (int)rect[2], (int)rect[3]);
+        JRSUIUtils.ScrollBbr.getPbrtBounds(rect, pbinter.getControl(), 0, 0, fScrollBbr.getWidth(), fScrollBbr.getHeight(), ScrollBbrPbrt.THUMB);
+        finbl Rectbngle r = new Rectbngle((int)rect[0], (int)rect[1], (int)rect[2], (int)rect[3]);
 
-        // figure out the scroll-to-here start location based on our orientation, the
-        // click position, and where it must be in the thumb to travel to the endpoints
+        // figure out the scroll-to-here stbrt locbtion bbsed on our orientbtion, the
+        // click position, bnd where it must be in the thumb to trbvel to the endpoints
         // properly.
-        final Point startPoint = new Point(clickPosX, clickPosY);
+        finbl Point stbrtPoint = new Point(clickPosX, clickPosY);
 
-        if (isHorizontal()) {
-            final int halfWidth = r.width / 2;
-            final int limitRectRight = limitRect.x + limitRect.width;
+        if (isHorizontbl()) {
+            finbl int hblfWidth = r.width / 2;
+            finbl int limitRectRight = limitRect.x + limitRect.width;
 
-            if (clickPosX + halfWidth > limitRectRight) {
-                // Up against right edge
-                startPoint.x = r.x + r.width - limitRectRight - clickPosX - 1;
-            } else if (clickPosX - halfWidth < limitRect.x) {
-                // Up against left edge
-                startPoint.x = r.x + clickPosX - limitRect.x;
+            if (clickPosX + hblfWidth > limitRectRight) {
+                // Up bgbinst right edge
+                stbrtPoint.x = r.x + r.width - limitRectRight - clickPosX - 1;
+            } else if (clickPosX - hblfWidth < limitRect.x) {
+                // Up bgbinst left edge
+                stbrtPoint.x = r.x + clickPosX - limitRect.x;
             } else {
                 // Center the thumb
-                startPoint.x = r.x + halfWidth;
+                stbrtPoint.x = r.x + hblfWidth;
             }
 
-            // Pretend clicked in middle of indicator vertically
-            startPoint.y = (r.y + r.height) / 2;
-            return startPoint;
+            // Pretend clicked in middle of indicbtor verticblly
+            stbrtPoint.y = (r.y + r.height) / 2;
+            return stbrtPoint;
         }
 
-        final int halfHeight = r.height / 2;
-        final int limitRectBottom = limitRect.y + limitRect.height;
+        finbl int hblfHeight = r.height / 2;
+        finbl int limitRectBottom = limitRect.y + limitRect.height;
 
-        if (clickPosY + halfHeight > limitRectBottom) {
-            // Up against bottom edge
-            startPoint.y = r.y + r.height - limitRectBottom - clickPosY - 1;
-        } else if (clickPosY - halfHeight < limitRect.y) {
-            // Up against top edge
-            startPoint.y = r.y + clickPosY - limitRect.y;
+        if (clickPosY + hblfHeight > limitRectBottom) {
+            // Up bgbinst bottom edge
+            stbrtPoint.y = r.y + r.height - limitRectBottom - clickPosY - 1;
+        } else if (clickPosY - hblfHeight < limitRect.y) {
+            // Up bgbinst top edge
+            stbrtPoint.y = r.y + clickPosY - limitRect.y;
         } else {
             // Center the thumb
-            startPoint.y = r.y + halfHeight;
+            stbrtPoint.y = r.y + hblfHeight;
         }
 
-        // Pretend clicked in middle of indicator horizontally
-        startPoint.x = (r.x + r.width) / 2;
+        // Pretend clicked in middle of indicbtor horizontblly
+        stbrtPoint.x = (r.x + r.width) / 2;
 
-        return startPoint;
+        return stbrtPoint;
     }
 
-    static class HitUtil {
-        static boolean isIncrement(final Hit hit) {
-            return (hit == ScrollBarHit.ARROW_MAX) || (hit == ScrollBarHit.ARROW_MAX_INSIDE);
+    stbtic clbss HitUtil {
+        stbtic boolebn isIncrement(finbl Hit hit) {
+            return (hit == ScrollBbrHit.ARROW_MAX) || (hit == ScrollBbrHit.ARROW_MAX_INSIDE);
         }
 
-        static boolean isDecrement(final Hit hit) {
-            return (hit == ScrollBarHit.ARROW_MIN) || (hit == ScrollBarHit.ARROW_MIN_INSIDE);
+        stbtic boolebn isDecrement(finbl Hit hit) {
+            return (hit == ScrollBbrHit.ARROW_MIN) || (hit == ScrollBbrHit.ARROW_MIN_INSIDE);
         }
 
-        static boolean isArrow(final Hit hit) {
+        stbtic boolebn isArrow(finbl Hit hit) {
             return isIncrement(hit) || isDecrement(hit);
         }
 
-        static boolean isTrack(final Hit hit) {
-            return (hit == ScrollBarHit.TRACK_MAX) || (hit == ScrollBarHit.TRACK_MIN);
+        stbtic boolebn isTrbck(finbl Hit hit) {
+            return (hit == ScrollBbrHit.TRACK_MAX) || (hit == ScrollBbrHit.TRACK_MIN);
         }
     }
 }

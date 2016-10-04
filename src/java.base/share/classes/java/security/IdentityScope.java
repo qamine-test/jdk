@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
 
 /**
- * <p>This class represents a scope for identities. It is an Identity
- * itself, and therefore has a name and can have a scope. It can also
- * optionally have a public key and associated certificates.
+ * <p>This clbss represents b scope for identities. It is bn Identity
+ * itself, bnd therefore hbs b nbme bnd cbn hbve b scope. It cbn blso
+ * optionblly hbve b public key bnd bssocibted certificbtes.
  *
- * <p>An IdentityScope can contain Identity objects of all kinds, including
- * Signers. All types of Identity objects can be retrieved, added, and
- * removed using the same methods. Note that it is possible, and in fact
- * expected, that different types of identity scopes will
- * apply different policies for their various operations on the
- * various types of Identities.
+ * <p>An IdentityScope cbn contbin Identity objects of bll kinds, including
+ * Signers. All types of Identity objects cbn be retrieved, bdded, bnd
+ * removed using the sbme methods. Note thbt it is possible, bnd in fbct
+ * expected, thbt different types of identity scopes will
+ * bpply different policies for their vbrious operbtions on the
+ * vbrious types of Identities.
  *
- * <p>There is a one-to-one mapping between keys and identities, and
- * there can only be one copy of one key per scope. For example, suppose
- * <b>Acme Software, Inc</b> is a software publisher known to a user.
- * Suppose it is an Identity, that is, it has a public key, and a set of
- * associated certificates. It is named in the scope using the name
- * "Acme Software". No other named Identity in the scope has the same
- * public  key. Of course, none has the same name as well.
+ * <p>There is b one-to-one mbpping between keys bnd identities, bnd
+ * there cbn only be one copy of one key per scope. For exbmple, suppose
+ * <b>Acme Softwbre, Inc</b> is b softwbre publisher known to b user.
+ * Suppose it is bn Identity, thbt is, it hbs b public key, bnd b set of
+ * bssocibted certificbtes. It is nbmed in the scope using the nbme
+ * "Acme Softwbre". No other nbmed Identity in the scope hbs the sbme
+ * public  key. Of course, none hbs the sbme nbme bs well.
  *
  * @see Identity
  * @see Signer
- * @see Principal
+ * @see Principbl
  * @see Key
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @deprecbted This clbss is no longer used. Its functionblity hbs been
+ * replbced by {@code jbvb.security.KeyStore}, the
+ * {@code jbvb.security.cert} pbckbge, bnd
+ * {@code jbvb.security.Principbl}.
  */
-@Deprecated
-public abstract
-class IdentityScope extends Identity {
+@Deprecbted
+public bbstrbct
+clbss IdentityScope extends Identity {
 
-    private static final long serialVersionUID = -2337346281189773310L;
+    privbte stbtic finbl long seriblVersionUID = -2337346281189773310L;
 
     /* The system's scope */
-    private static IdentityScope scope;
+    privbte stbtic IdentityScope scope;
 
-    // initialize the system scope
-    private static void initializeSystemScope() {
+    // initiblize the system scope
+    privbte stbtic void initiblizeSystemScope() {
 
-        String classname = AccessController.doPrivileged(
+        String clbssnbme = AccessController.doPrivileged(
                                 new PrivilegedAction<String>() {
             public String run() {
                 return Security.getProperty("system.scope");
             }
         });
 
-        if (classname == null) {
+        if (clbssnbme == null) {
             return;
 
         } else {
 
             try {
-                Class.forName(classname);
-            } catch (ClassNotFoundException e) {
-                //Security.error("unable to establish a system scope from " +
-                //             classname);
-                e.printStackTrace();
+                Clbss.forNbme(clbssnbme);
+            } cbtch (ClbssNotFoundException e) {
+                //Security.error("unbble to estbblish b system scope from " +
+                //             clbssnbme);
+                e.printStbckTrbce();
             }
         }
     }
 
     /**
-     * This constructor is used for serialization only and should not
-     * be used by subclasses.
+     * This constructor is used for seriblizbtion only bnd should not
+     * be used by subclbsses.
      */
     protected IdentityScope() {
         this("restoring...");
     }
 
     /**
-     * Constructs a new identity scope with the specified name.
+     * Constructs b new identity scope with the specified nbme.
      *
-     * @param name the scope name.
+     * @pbrbm nbme the scope nbme.
      */
-    public IdentityScope(String name) {
-        super(name);
+    public IdentityScope(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Constructs a new identity scope with the specified name and scope.
+     * Constructs b new identity scope with the specified nbme bnd scope.
      *
-     * @param name the scope name.
-     * @param scope the scope for the new identity scope.
+     * @pbrbm nbme the scope nbme.
+     * @pbrbm scope the scope for the new identity scope.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @exception KeyMbnbgementException if there is blrebdy bn identity
+     * with the sbme nbme in the scope.
      */
-    public IdentityScope(String name, IdentityScope scope)
-    throws KeyManagementException {
-        super(name, scope);
+    public IdentityScope(String nbme, IdentityScope scope)
+    throws KeyMbnbgementException {
+        super(nbme, scope);
     }
 
     /**
      * Returns the system's identity scope.
      *
-     * @return the system's identity scope, or {@code null} if none has been
+     * @return the system's identity scope, or {@code null} if none hbs been
      *         set.
      *
      * @see #setSystemScope
      */
-    public static IdentityScope getSystemScope() {
+    public stbtic IdentityScope getSystemScope() {
         if (scope == null) {
-            initializeSystemScope();
+            initiblizeSystemScope();
         }
         return scope;
     }
@@ -145,21 +145,21 @@ class IdentityScope extends Identity {
     /**
      * Sets the system's identity scope.
      *
-     * <p>First, if there is a security manager, its
+     * <p>First, if there is b security mbnbger, its
      * {@code checkSecurityAccess}
-     * method is called with {@code "setSystemScope"}
-     * as its argument to see if it's ok to set the identity scope.
+     * method is cblled with {@code "setSystemScope"}
+     * bs its brgument to see if it's ok to set the identity scope.
      *
-     * @param scope the scope to set.
+     * @pbrbm scope the scope to set.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
      * setting the identity scope.
      *
      * @see #getSystemScope
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    protected static void setSystemScope(IdentityScope scope) {
+    protected stbtic void setSystemScope(IdentityScope scope) {
         check("setSystemScope");
         IdentityScope.scope = scope;
     }
@@ -169,86 +169,86 @@ class IdentityScope extends Identity {
      *
      * @return the number of identities within this identity scope.
      */
-    public abstract int size();
+    public bbstrbct int size();
 
     /**
-     * Returns the identity in this scope with the specified name (if any).
+     * Returns the identity in this scope with the specified nbme (if bny).
      *
-     * @param name the name of the identity to be retrieved.
+     * @pbrbm nbme the nbme of the identity to be retrieved.
      *
-     * @return the identity named {@code name}, or null if there are
-     * no identities named {@code name} in this scope.
+     * @return the identity nbmed {@code nbme}, or null if there bre
+     * no identities nbmed {@code nbme} in this scope.
      */
-    public abstract Identity getIdentity(String name);
+    public bbstrbct Identity getIdentity(String nbme);
 
     /**
-     * Retrieves the identity whose name is the same as that of the
-     * specified principal. (Note: Identity implements Principal.)
+     * Retrieves the identity whose nbme is the sbme bs thbt of the
+     * specified principbl. (Note: Identity implements Principbl.)
      *
-     * @param principal the principal corresponding to the identity
+     * @pbrbm principbl the principbl corresponding to the identity
      * to be retrieved.
      *
-     * @return the identity whose name is the same as that of the
-     * principal, or null if there are no identities of the same name
+     * @return the identity whose nbme is the sbme bs thbt of the
+     * principbl, or null if there bre no identities of the sbme nbme
      * in this scope.
      */
-    public Identity getIdentity(Principal principal) {
-        return getIdentity(principal.getName());
+    public Identity getIdentity(Principbl principbl) {
+        return getIdentity(principbl.getNbme());
     }
 
     /**
      * Retrieves the identity with the specified public key.
      *
-     * @param key the public key for the identity to be returned.
+     * @pbrbm key the public key for the identity to be returned.
      *
-     * @return the identity with the given key, or null if there are
-     * no identities in this scope with that key.
+     * @return the identity with the given key, or null if there bre
+     * no identities in this scope with thbt key.
      */
-    public abstract Identity getIdentity(PublicKey key);
+    public bbstrbct Identity getIdentity(PublicKey key);
 
     /**
-     * Adds an identity to this identity scope.
+     * Adds bn identity to this identity scope.
      *
-     * @param identity the identity to be added.
+     * @pbrbm identity the identity to be bdded.
      *
-     * @exception KeyManagementException if the identity is not
-     * valid, a name conflict occurs, another identity has the same
-     * public key as the identity being added, or another exception
+     * @exception KeyMbnbgementException if the identity is not
+     * vblid, b nbme conflict occurs, bnother identity hbs the sbme
+     * public key bs the identity being bdded, or bnother exception
      * occurs. */
-    public abstract void addIdentity(Identity identity)
-    throws KeyManagementException;
+    public bbstrbct void bddIdentity(Identity identity)
+    throws KeyMbnbgementException;
 
     /**
-     * Removes an identity from this identity scope.
+     * Removes bn identity from this identity scope.
      *
-     * @param identity the identity to be removed.
+     * @pbrbm identity the identity to be removed.
      *
-     * @exception KeyManagementException if the identity is missing,
-     * or another exception occurs.
+     * @exception KeyMbnbgementException if the identity is missing,
+     * or bnother exception occurs.
      */
-    public abstract void removeIdentity(Identity identity)
-    throws KeyManagementException;
+    public bbstrbct void removeIdentity(Identity identity)
+    throws KeyMbnbgementException;
 
     /**
-     * Returns an enumeration of all identities in this identity scope.
+     * Returns bn enumerbtion of bll identities in this identity scope.
      *
-     * @return an enumeration of all identities in this identity scope.
+     * @return bn enumerbtion of bll identities in this identity scope.
      */
-    public abstract Enumeration<Identity> identities();
+    public bbstrbct Enumerbtion<Identity> identities();
 
     /**
-     * Returns a string representation of this identity scope, including
-     * its name, its scope name, and the number of identities in this
+     * Returns b string representbtion of this identity scope, including
+     * its nbme, its scope nbme, bnd the number of identities in this
      * identity scope.
      *
-     * @return a string representation of this identity scope.
+     * @return b string representbtion of this identity scope.
      */
     public String toString() {
         return super.toString() + "[" + size() + "]";
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void check(String directive) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkSecurityAccess(directive);
         }

@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.FilePermission;
+import jbvb.io.FilePermission;
 
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.KeyboardFocusManager;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.print.Book;
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterAbortException;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-import java.awt.Window;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
-import sun.awt.image.ByteInterleavedRaster;
+import jbvb.bwt.Color;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Areb;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.print.Book;
+import jbvb.bwt.print.Pbgebble;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Pbper;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterAbortException;
+import jbvb.bwt.print.PrinterException;
+import jbvb.bwt.print.PrinterJob;
+import jbvb.bwt.Window;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Locble;
+import sun.bwt.imbge.ByteInterlebvedRbster;
 
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.ServiceUI;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.ResolutionSyntax;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.DialogTypeSelection;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.JobSheets;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.PageRanges;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.standard.PrinterState;
-import javax.print.attribute.standard.PrinterStateReason;
-import javax.print.attribute.standard.PrinterStateReasons;
-import javax.print.attribute.standard.PrinterIsAcceptingJobs;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Sides;
+import jbvbx.print.Doc;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.DocPrintJob;
+import jbvbx.print.PrintException;
+import jbvbx.print.PrintService;
+import jbvbx.print.PrintServiceLookup;
+import jbvbx.print.ServiceUI;
+import jbvbx.print.StrebmPrintService;
+import jbvbx.print.StrebmPrintServiceFbctory;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.ResolutionSyntbx;
+import jbvbx.print.bttribute.Size2DSyntbx;
+import jbvbx.print.bttribute.stbndbrd.Chrombticity;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.DiblogTypeSelection;
+import jbvbx.print.bttribute.stbndbrd.Fidelity;
+import jbvbx.print.bttribute.stbndbrd.JobNbme;
+import jbvbx.print.bttribute.stbndbrd.JobSheets;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibPrintbbleAreb;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.OrientbtionRequested;
+import jbvbx.print.bttribute.stbndbrd.PbgeRbnges;
+import jbvbx.print.bttribute.stbndbrd.PrinterResolution;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbte;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebson;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebsons;
+import jbvbx.print.bttribute.stbndbrd.PrinterIsAcceptingJobs;
+import jbvbx.print.bttribute.stbndbrd.RequestingUserNbme;
+import jbvbx.print.bttribute.stbndbrd.SheetCollbte;
+import jbvbx.print.bttribute.stbndbrd.Sides;
 
-import sun.print.PageableDoc;
-import sun.print.ServiceDialog;
+import sun.print.PbgebbleDoc;
+import sun.print.ServiceDiblog;
 import sun.print.SunPrinterJobService;
-import sun.print.SunPageSelection;
+import sun.print.SunPbgeSelection;
 
 /**
- * A class which rasterizes a printer job.
+ * A clbss which rbsterizes b printer job.
  *
- * @author Richard Blanchard
+ * @buthor Richbrd Blbnchbrd
  */
-public abstract class RasterPrinterJob extends PrinterJob {
+public bbstrbct clbss RbsterPrinterJob extends PrinterJob {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
-     /* Printer destination type. */
-    protected static final int PRINTER = 0;
+     /* Printer destinbtion type. */
+    protected stbtic finbl int PRINTER = 0;
 
-     /* File destination type.  */
-    protected static final int FILE = 1;
+     /* File destinbtion type.  */
+    protected stbtic finbl int FILE = 1;
 
-    /* Stream destination type.  */
-    protected static final int STREAM = 2;
+    /* Strebm destinbtion type.  */
+    protected stbtic finbl int STREAM = 2;
 
     /**
-     * Pageable MAX pages
+     * Pbgebble MAX pbges
      */
-    protected static final int MAX_UNKNOWN_PAGES = 9999;
+    protected stbtic finbl int MAX_UNKNOWN_PAGES = 9999;
 
-    protected static final int PD_ALLPAGES = 0x00000000;
-    protected static final int PD_SELECTION = 0x00000001;
-    protected static final int PD_PAGENUMS = 0x00000002;
-    protected static final int PD_NOSELECTION = 0x00000004;
+    protected stbtic finbl int PD_ALLPAGES = 0x00000000;
+    protected stbtic finbl int PD_SELECTION = 0x00000001;
+    protected stbtic finbl int PD_PAGENUMS = 0x00000002;
+    protected stbtic finbl int PD_NOSELECTION = 0x00000004;
 
     /**
-     * Maximum amount of memory in bytes to use for the
-     * buffered image "band". 4Mb is a compromise between
-     * limiting the number of bands on hi-res printers and
-     * not using too much of the Java heap or causing paging
+     * Mbximum bmount of memory in bytes to use for the
+     * buffered imbge "bbnd". 4Mb is b compromise between
+     * limiting the number of bbnds on hi-res printers bnd
+     * not using too much of the Jbvb hebp or cbusing pbging
      * on systems with little RAM.
      */
-    private static final int MAX_BAND_SIZE = (1024 * 1024 * 4);
+    privbte stbtic finbl int MAX_BAND_SIZE = (1024 * 1024 * 4);
 
     /* Dots Per Inch */
-    private static final float DPI = 72.0f;
+    privbte stbtic finbl flobt DPI = 72.0f;
 
     /**
-     * Useful mainly for debugging, this system property
-     * can be used to force the printing code to print
-     * using a particular pipeline. The two currently
-     * supported values are FORCE_RASTER and FORCE_PDL.
+     * Useful mbinly for debugging, this system property
+     * cbn be used to force the printing code to print
+     * using b pbrticulbr pipeline. The two currently
+     * supported vblues bre FORCE_RASTER bnd FORCE_PDL.
      */
-    private static final String FORCE_PIPE_PROP = "sun.java2d.print.pipeline";
+    privbte stbtic finbl String FORCE_PIPE_PROP = "sun.jbvb2d.print.pipeline";
 
     /**
-     * When the system property FORCE_PIPE_PROP has this value
-     * then each page of a print job will be rendered through
-     * the raster pipeline.
+     * When the system property FORCE_PIPE_PROP hbs this vblue
+     * then ebch pbge of b print job will be rendered through
+     * the rbster pipeline.
      */
-    private static final String FORCE_RASTER = "raster";
+    privbte stbtic finbl String FORCE_RASTER = "rbster";
 
     /**
-     * When the system property FORCE_PIPE_PROP has this value
-     * then each page of a print job will be rendered through
+     * When the system property FORCE_PIPE_PROP hbs this vblue
+     * then ebch pbge of b print job will be rendered through
      * the PDL pipeline.
      */
-    private static final String FORCE_PDL = "pdl";
+    privbte stbtic finbl String FORCE_PDL = "pdl";
 
     /**
-     * When the system property SHAPE_TEXT_PROP has this value
-     * then text is always rendered as a shape, and no attempt is made
-     * to match the font through GDI
+     * When the system property SHAPE_TEXT_PROP hbs this vblue
+     * then text is blwbys rendered bs b shbpe, bnd no bttempt is mbde
+     * to mbtch the font through GDI
      */
-    private static final String SHAPE_TEXT_PROP = "sun.java2d.print.shapetext";
+    privbte stbtic finbl String SHAPE_TEXT_PROP = "sun.jbvb2d.print.shbpetext";
 
     /**
-     * values obtained from System properties in static initialiser block
+     * vblues obtbined from System properties in stbtic initibliser block
      */
-    public static boolean forcePDL = false;
-    public static boolean forceRaster = false;
-    public static boolean shapeTextProp = false;
+    public stbtic boolebn forcePDL = fblse;
+    public stbtic boolebn forceRbster = fblse;
+    public stbtic boolebn shbpeTextProp = fblse;
 
-    static {
+    stbtic {
         /* The system property FORCE_PIPE_PROP
-         * can be used to force the printing code to
-         * use a particular pipeline. Either the raster
-         * pipeline or the pdl pipeline can be forced.
+         * cbn be used to force the printing code to
+         * use b pbrticulbr pipeline. Either the rbster
+         * pipeline or the pdl pipeline cbn be forced.
          */
-        String forceStr = java.security.AccessController.doPrivileged(
-                   new sun.security.action.GetPropertyAction(FORCE_PIPE_PROP));
+        String forceStr = jbvb.security.AccessController.doPrivileged(
+                   new sun.security.bction.GetPropertyAction(FORCE_PIPE_PROP));
 
         if (forceStr != null) {
-            if (forceStr.equalsIgnoreCase(FORCE_PDL)) {
+            if (forceStr.equblsIgnoreCbse(FORCE_PDL)) {
                 forcePDL = true;
-            } else if (forceStr.equalsIgnoreCase(FORCE_RASTER)) {
-                forceRaster = true;
+            } else if (forceStr.equblsIgnoreCbse(FORCE_RASTER)) {
+                forceRbster = true;
             }
         }
 
-        String shapeTextStr =java.security.AccessController.doPrivileged(
-                   new sun.security.action.GetPropertyAction(SHAPE_TEXT_PROP));
+        String shbpeTextStr =jbvb.security.AccessController.doPrivileged(
+                   new sun.security.bction.GetPropertyAction(SHAPE_TEXT_PROP));
 
-        if (shapeTextStr != null) {
-            shapeTextProp = true;
+        if (shbpeTextStr != null) {
+            shbpeTextProp = true;
         }
     }
 
-    /* Instance Variables */
+    /* Instbnce Vbribbles */
 
     /**
-     * Used to minimize GC & reallocation of band when printing
+     * Used to minimize GC & rebllocbtion of bbnd when printing
      */
-    private int cachedBandWidth = 0;
-    private int cachedBandHeight = 0;
-    private BufferedImage cachedBand = null;
+    privbte int cbchedBbndWidth = 0;
+    privbte int cbchedBbndHeight = 0;
+    privbte BufferedImbge cbchedBbnd = null;
 
     /**
      * The number of book copies to be printed.
      */
-    private int mNumCopies = 1;
+    privbte int mNumCopies = 1;
 
     /**
-     * Collation effects the order of the pages printed
-     * when multiple copies are requested. For two copies
-     * of a three page document the page order is:
-     *  mCollate true: 1, 2, 3, 1, 2, 3
-     *  mCollate false: 1, 1, 2, 2, 3, 3
+     * Collbtion effects the order of the pbges printed
+     * when multiple copies bre requested. For two copies
+     * of b three pbge document the pbge order is:
+     *  mCollbte true: 1, 2, 3, 1, 2, 3
+     *  mCollbte fblse: 1, 1, 2, 2, 3, 3
      */
-    private boolean mCollate = false;
+    privbte boolebn mCollbte = fblse;
 
     /**
-     * The zero based indices of the first and last
-     * pages to be printed. If 'mFirstPage' is
-     * UNDEFINED_PAGE_NUM then the first page to
-     * be printed is page 0. If 'mLastPage' is
-     * UNDEFINED_PAGE_NUM then the last page to
-     * be printed is the last one in the book.
+     * The zero bbsed indices of the first bnd lbst
+     * pbges to be printed. If 'mFirstPbge' is
+     * UNDEFINED_PAGE_NUM then the first pbge to
+     * be printed is pbge 0. If 'mLbstPbge' is
+     * UNDEFINED_PAGE_NUM then the lbst pbge to
+     * be printed is the lbst one in the book.
      */
-    private int mFirstPage = Pageable.UNKNOWN_NUMBER_OF_PAGES;
-    private int mLastPage = Pageable.UNKNOWN_NUMBER_OF_PAGES;
+    privbte int mFirstPbge = Pbgebble.UNKNOWN_NUMBER_OF_PAGES;
+    privbte int mLbstPbge = Pbgebble.UNKNOWN_NUMBER_OF_PAGES;
 
     /**
-     * The previous print stream Paper
-     * Used to check if the paper size has changed such that the
-     * implementation needs to emit the new paper size information
-     * into the print stream.
-     * Since we do our own rotation, and the margins aren't relevant,
-     * Its strictly the dimensions of the paper that we will check.
+     * The previous print strebm Pbper
+     * Used to check if the pbper size hbs chbnged such thbt the
+     * implementbtion needs to emit the new pbper size informbtion
+     * into the print strebm.
+     * Since we do our own rotbtion, bnd the mbrgins bren't relevbnt,
+     * Its strictly the dimensions of the pbper thbt we will check.
      */
-    private Paper previousPaper;
+    privbte Pbper previousPbper;
 
     /**
-     * The document to be printed. It is initialized to an
-     * empty (zero pages) book.
+     * The document to be printed. It is initiblized to bn
+     * empty (zero pbges) book.
      */
-// MacOSX - made protected so subclasses can reference it.
-    protected Pageable mDocument = new Book();
+// MbcOSX - mbde protected so subclbsses cbn reference it.
+    protected Pbgebble mDocument = new Book();
 
     /**
-     * The name of the job being printed.
+     * The nbme of the job being printed.
      */
-    private String mDocName = "Java Printing";
+    privbte String mDocNbme = "Jbvb Printing";
 
 
     /**
-     * Printing cancellation flags
+     * Printing cbncellbtion flbgs
      */
- // MacOSX - made protected so subclasses can reference it.
-    protected boolean performingPrinting = false;
- // MacOSX - made protected so subclasses can reference it.
-    protected boolean userCancelled = false;
+ // MbcOSX - mbde protected so subclbsses cbn reference it.
+    protected boolebn performingPrinting = fblse;
+ // MbcOSX - mbde protected so subclbsses cbn reference it.
+    protected boolebn userCbncelled = fblse;
 
    /**
-    * Print to file permission variables.
+    * Print to file permission vbribbles.
     */
-    private FilePermission printToFilePermission;
+    privbte FilePermission printToFilePermission;
 
     /**
-     * List of areas & the graphics state for redrawing
+     * List of brebs & the grbphics stbte for redrbwing
      */
-    private ArrayList<GraphicsState> redrawList = new ArrayList<>();
+    privbte ArrbyList<GrbphicsStbte> redrbwList = new ArrbyList<>();
 
 
-    /* variables representing values extracted from an attribute set.
-     * These take precedence over values set on a printer job
+    /* vbribbles representing vblues extrbcted from bn bttribute set.
+     * These tbke precedence over vblues set on b printer job
      */
-    private int copiesAttr;
-    private String jobNameAttr;
-    private String userNameAttr;
-    private PageRanges pageRangesAttr;
+    privbte int copiesAttr;
+    privbte String jobNbmeAttr;
+    privbte String userNbmeAttr;
+    privbte PbgeRbnges pbgeRbngesAttr;
     protected PrinterResolution printerResAttr;
     protected Sides sidesAttr;
-    protected String destinationAttr;
-    protected boolean noJobSheet = false;
-    protected int mDestType = RasterPrinterJob.FILE;
-    protected String mDestination = "";
-    protected boolean collateAttReq = false;
+    protected String destinbtionAttr;
+    protected boolebn noJobSheet = fblse;
+    protected int mDestType = RbsterPrinterJob.FILE;
+    protected String mDestinbtion = "";
+    protected boolebn collbteAttReq = fblse;
 
     /**
-     * Device rotation flag, if it support 270, this is set to true;
+     * Device rotbtion flbg, if it support 270, this is set to true;
      */
-    protected boolean landscapeRotates270 = false;
+    protected boolebn lbndscbpeRotbtes270 = fblse;
 
    /**
-     * attributes used by no-args page and print dialog and print method to
-     * communicate state
+     * bttributes used by no-brgs pbge bnd print diblog bnd print method to
+     * communicbte stbte
      */
-    protected PrintRequestAttributeSet attributes = null;
+    protected PrintRequestAttributeSet bttributes = null;
 
     /**
-     * Class to keep state information for redrawing areas
-     * "region" is an area at as a high a resolution as possible.
-     * The redrawing code needs to look at sx, sy to calculate the scale
+     * Clbss to keep stbte informbtion for redrbwing brebs
+     * "region" is bn breb bt bs b high b resolution bs possible.
+     * The redrbwing code needs to look bt sx, sy to cblculbte the scble
      * to device resolution.
      */
-    private class GraphicsState {
-        Rectangle2D region;  // Area of page to repaint
-        Shape theClip;       // image drawing clip.
-        AffineTransform theTransform; // to transform clip to dev coords.
-        double sx;           // X scale from region to device resolution
-        double sy;           // Y scale from region to device resolution
+    privbte clbss GrbphicsStbte {
+        Rectbngle2D region;  // Areb of pbge to repbint
+        Shbpe theClip;       // imbge drbwing clip.
+        AffineTrbnsform theTrbnsform; // to trbnsform clip to dev coords.
+        double sx;           // X scble from region to device resolution
+        double sy;           // Y scble from region to device resolution
     }
 
     /**
@@ -325,132 +325,132 @@ public abstract class RasterPrinterJob extends PrinterJob {
 
  /* Constructors */
 
-    public RasterPrinterJob()
+    public RbsterPrinterJob()
     {
     }
 
-/* Abstract Methods */
+/* Abstrbct Methods */
 
     /**
-     * Returns the resolution in dots per inch across the width
-     * of the page.
+     * Returns the resolution in dots per inch bcross the width
+     * of the pbge.
      */
-    abstract protected double getXRes();
+    bbstrbct protected double getXRes();
 
     /**
      * Returns the resolution in dots per inch down the height
-     * of the page.
+     * of the pbge.
      */
-    abstract protected double getYRes();
+    bbstrbct protected double getYRes();
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPrintableX(Paper p);
+    bbstrbct protected double getPhysicblPrintbbleX(Pbper p);
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPrintableY(Paper p);
+    bbstrbct protected double getPhysicblPrintbbleY(Pbper p);
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPrintableWidth(Paper p);
+    bbstrbct protected double getPhysicblPrintbbleWidth(Pbper p);
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPrintableHeight(Paper p);
+    bbstrbct protected double getPhysicblPrintbbleHeight(Pbper p);
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPageWidth(Paper p);
+    bbstrbct protected double getPhysicblPbgeWidth(Pbper p);
 
     /**
-     * Must be obtained from the current printer.
-     * Value is in device pixels.
-     * Not adjusted for orientation of the paper.
+     * Must be obtbined from the current printer.
+     * Vblue is in device pixels.
+     * Not bdjusted for orientbtion of the pbper.
      */
-    abstract protected double getPhysicalPageHeight(Paper p);
+    bbstrbct protected double getPhysicblPbgeHeight(Pbper p);
 
     /**
-     * Begin a new page.
+     * Begin b new pbge.
      */
-    abstract protected void startPage(PageFormat format, Printable painter,
-                                      int index, boolean paperChanged)
+    bbstrbct protected void stbrtPbge(PbgeFormbt formbt, Printbble pbinter,
+                                      int index, boolebn pbperChbnged)
         throws PrinterException;
 
     /**
-     * End a page.
+     * End b pbge.
      */
-    abstract protected void endPage(PageFormat format, Printable painter,
+    bbstrbct protected void endPbge(PbgeFormbt formbt, Printbble pbinter,
                                     int index)
         throws PrinterException;
 
     /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller.
+     * Prints the contents of the brrby of ints, 'dbtb'
+     * to the current pbge. The bbnd is plbced bt the
+     * locbtion (x, y) in device coordinbtes on the
+     * pbge. The width bnd height of the bbnd is
+     * specified by the cbller.
      */
-    abstract protected void printBand(byte[] data, int x, int y,
+    bbstrbct protected void printBbnd(byte[] dbtb, int x, int y,
                                       int width, int height)
         throws PrinterException;
 
-/* Instance Methods */
+/* Instbnce Methods */
 
     /**
-      * save graphics state of a PathGraphics for later redrawing
-      * of part of page represented by the region in that state
+      * sbve grbphics stbte of b PbthGrbphics for lbter redrbwing
+      * of pbrt of pbge represented by the region in thbt stbte
       */
 
-    public void saveState(AffineTransform at, Shape clip,
-                          Rectangle2D region, double sx, double sy) {
-        GraphicsState gstate = new GraphicsState();
-        gstate.theTransform = at;
-        gstate.theClip = clip;
-        gstate.region = region;
-        gstate.sx = sx;
-        gstate.sy = sy;
-        redrawList.add(gstate);
+    public void sbveStbte(AffineTrbnsform bt, Shbpe clip,
+                          Rectbngle2D region, double sx, double sy) {
+        GrbphicsStbte gstbte = new GrbphicsStbte();
+        gstbte.theTrbnsform = bt;
+        gstbte.theClip = clip;
+        gstbte.region = region;
+        gstbte.sx = sx;
+        gstbte.sy = sy;
+        redrbwList.bdd(gstbte);
     }
 
 
     /*
-     * A convenience method which returns the default service
+     * A convenience method which returns the defbult service
      * for 2D <code>PrinterJob</code>s.
-     * May return null if there is no suitable default (although there
-     * may still be 2D services available).
-     * @return default 2D print service, or null.
+     * Mby return null if there is no suitbble defbult (blthough there
+     * mby still be 2D services bvbilbble).
+     * @return defbult 2D print service, or null.
      * @since     1.4
      */
-    protected static PrintService lookupDefaultPrintService() {
-        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+    protected stbtic PrintService lookupDefbultPrintService() {
+        PrintService service = PrintServiceLookup.lookupDefbultPrintService();
 
-        /* Pageable implies Printable so checking both isn't strictly needed */
+        /* Pbgebble implies Printbble so checking both isn't strictly needed */
         if (service != null &&
-            service.isDocFlavorSupported(
-                                DocFlavor.SERVICE_FORMATTED.PAGEABLE) &&
-            service.isDocFlavorSupported(
-                                DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
+            service.isDocFlbvorSupported(
+                                DocFlbvor.SERVICE_FORMATTED.PAGEABLE) &&
+            service.isDocFlbvorSupported(
+                                DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
             return service;
         } else {
            PrintService []services =
              PrintServiceLookup.lookupPrintServices(
-                                DocFlavor.SERVICE_FORMATTED.PAGEABLE, null);
+                                DocFlbvor.SERVICE_FORMATTED.PAGEABLE, null);
            if (services.length > 0) {
                return services[0];
            }
@@ -460,31 +460,31 @@ public abstract class RasterPrinterJob extends PrinterJob {
 
    /**
      * Returns the service (printer) for this printer job.
-     * Implementations of this class which do not support print services
-     * may return null;
+     * Implementbtions of this clbss which do not support print services
+     * mby return null;
      * @return the service for this printer job.
      *
      */
     public PrintService getPrintService() {
         if (myService == null) {
-            PrintService svc = PrintServiceLookup.lookupDefaultPrintService();
+            PrintService svc = PrintServiceLookup.lookupDefbultPrintService();
             if (svc != null &&
-                svc.isDocFlavorSupported(
-                     DocFlavor.SERVICE_FORMATTED.PAGEABLE)) {
+                svc.isDocFlbvorSupported(
+                     DocFlbvor.SERVICE_FORMATTED.PAGEABLE)) {
                 try {
                     setPrintService(svc);
                     myService = svc;
-                } catch (PrinterException e) {
+                } cbtch (PrinterException e) {
                 }
             }
             if (myService == null) {
                 PrintService[] svcs = PrintServiceLookup.lookupPrintServices(
-                    DocFlavor.SERVICE_FORMATTED.PAGEABLE, null);
+                    DocFlbvor.SERVICE_FORMATTED.PAGEABLE, null);
                 if (svcs.length > 0) {
                     try {
                         setPrintService(svcs[0]);
                         myService = svcs[0];
-                    } catch (PrinterException e) {
+                    } cbtch (PrinterException e) {
                     }
                 }
             }
@@ -493,105 +493,105 @@ public abstract class RasterPrinterJob extends PrinterJob {
     }
 
     /**
-     * Associate this PrinterJob with a new PrintService.
+     * Associbte this PrinterJob with b new PrintService.
      *
      * Throws <code>PrinterException</code> if the specified service
-     * cannot support the <code>Pageable</code> and
-     * <code>Printable</code> interfaces necessary to support 2D printing.
-     * @param a print service which supports 2D printing.
+     * cbnnot support the <code>Pbgebble</code> bnd
+     * <code>Printbble</code> interfbces necessbry to support 2D printing.
+     * @pbrbm b print service which supports 2D printing.
      *
      * @throws PrinterException if the specified service does not support
-     * 2D printing or no longer available.
+     * 2D printing or no longer bvbilbble.
      */
     public void setPrintService(PrintService service)
         throws PrinterException {
         if (service == null) {
-            throw new PrinterException("Service cannot be null");
-        } else if (!(service instanceof StreamPrintService) &&
-                   service.getName() == null) {
-            throw new PrinterException("Null PrintService name.");
+            throw new PrinterException("Service cbnnot be null");
+        } else if (!(service instbnceof StrebmPrintService) &&
+                   service.getNbme() == null) {
+            throw new PrinterException("Null PrintService nbme.");
         } else {
-            // Check the list of services.  This service may have been
-            // deleted already
-            PrinterState prnState = service.getAttribute(PrinterState.class);
-            if (prnState == PrinterState.STOPPED) {
-                PrinterStateReasons prnStateReasons =
-                    service.getAttribute(PrinterStateReasons.class);
-                if ((prnStateReasons != null) &&
-                    (prnStateReasons.containsKey(PrinterStateReason.SHUTDOWN)))
+            // Check the list of services.  This service mby hbve been
+            // deleted blrebdy
+            PrinterStbte prnStbte = service.getAttribute(PrinterStbte.clbss);
+            if (prnStbte == PrinterStbte.STOPPED) {
+                PrinterStbteRebsons prnStbteRebsons =
+                    service.getAttribute(PrinterStbteRebsons.clbss);
+                if ((prnStbteRebsons != null) &&
+                    (prnStbteRebsons.contbinsKey(PrinterStbteRebson.SHUTDOWN)))
                 {
-                    throw new PrinterException("PrintService is no longer available.");
+                    throw new PrinterException("PrintService is no longer bvbilbble.");
                 }
             }
 
 
-            if (service.isDocFlavorSupported(
-                                             DocFlavor.SERVICE_FORMATTED.PAGEABLE) &&
-                service.isDocFlavorSupported(
-                                             DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
+            if (service.isDocFlbvorSupported(
+                                             DocFlbvor.SERVICE_FORMATTED.PAGEABLE) &&
+                service.isDocFlbvorSupported(
+                                             DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
                 myService = service;
             } else {
-                throw new PrinterException("Not a 2D print service: " + service);
+                throw new PrinterException("Not b 2D print service: " + service);
             }
         }
     }
 
-    private PageFormat attributeToPageFormat(PrintService service,
-                                               PrintRequestAttributeSet attSet) {
-        PageFormat page = defaultPage();
+    privbte PbgeFormbt bttributeToPbgeFormbt(PrintService service,
+                                               PrintRequestAttributeSet bttSet) {
+        PbgeFormbt pbge = defbultPbge();
 
         if (service == null) {
-            return page;
+            return pbge;
         }
 
-        OrientationRequested orient = (OrientationRequested)
-                                      attSet.get(OrientationRequested.class);
+        OrientbtionRequested orient = (OrientbtionRequested)
+                                      bttSet.get(OrientbtionRequested.clbss);
         if (orient == null) {
-            orient = (OrientationRequested)
-                    service.getDefaultAttributeValue(OrientationRequested.class);
+            orient = (OrientbtionRequested)
+                    service.getDefbultAttributeVblue(OrientbtionRequested.clbss);
         }
-        if (orient == OrientationRequested.REVERSE_LANDSCAPE) {
-            page.setOrientation(PageFormat.REVERSE_LANDSCAPE);
-        } else if (orient == OrientationRequested.LANDSCAPE) {
-            page.setOrientation(PageFormat.LANDSCAPE);
+        if (orient == OrientbtionRequested.REVERSE_LANDSCAPE) {
+            pbge.setOrientbtion(PbgeFormbt.REVERSE_LANDSCAPE);
+        } else if (orient == OrientbtionRequested.LANDSCAPE) {
+            pbge.setOrientbtion(PbgeFormbt.LANDSCAPE);
         } else {
-            page.setOrientation(PageFormat.PORTRAIT);
+            pbge.setOrientbtion(PbgeFormbt.PORTRAIT);
         }
 
-        Media media = (Media)attSet.get(Media.class);
-        if (media == null) {
-            media =
-                (Media)service.getDefaultAttributeValue(Media.class);
+        Medib medib = (Medib)bttSet.get(Medib.clbss);
+        if (medib == null) {
+            medib =
+                (Medib)service.getDefbultAttributeVblue(Medib.clbss);
         }
-        if (!(media instanceof MediaSizeName)) {
-            media = MediaSizeName.NA_LETTER;
+        if (!(medib instbnceof MedibSizeNbme)) {
+            medib = MedibSizeNbme.NA_LETTER;
         }
-        MediaSize size =
-            MediaSize.getMediaSizeForName((MediaSizeName)media);
+        MedibSize size =
+            MedibSize.getMedibSizeForNbme((MedibSizeNbme)medib);
         if (size == null) {
-            size = MediaSize.NA.LETTER;
+            size = MedibSize.NA.LETTER;
         }
-        Paper paper = new Paper();
-        float dim[] = size.getSize(1); //units == 1 to avoid FP error
-        double w = Math.rint((dim[0]*72.0)/Size2DSyntax.INCH);
-        double h = Math.rint((dim[1]*72.0)/Size2DSyntax.INCH);
-        paper.setSize(w, h);
-        MediaPrintableArea area =
-             (MediaPrintableArea)
-             attSet.get(MediaPrintableArea.class);
+        Pbper pbper = new Pbper();
+        flobt dim[] = size.getSize(1); //units == 1 to bvoid FP error
+        double w = Mbth.rint((dim[0]*72.0)/Size2DSyntbx.INCH);
+        double h = Mbth.rint((dim[1]*72.0)/Size2DSyntbx.INCH);
+        pbper.setSize(w, h);
+        MedibPrintbbleAreb breb =
+             (MedibPrintbbleAreb)
+             bttSet.get(MedibPrintbbleAreb.clbss);
         double ix, iw, iy, ih;
 
-        if (area != null) {
-            // Should pass in same unit as updatePageAttributes
-            // to avoid rounding off errors.
-            ix = Math.rint(
-                           area.getX(MediaPrintableArea.INCH) * DPI);
-            iy = Math.rint(
-                           area.getY(MediaPrintableArea.INCH) * DPI);
-            iw = Math.rint(
-                           area.getWidth(MediaPrintableArea.INCH) * DPI);
-            ih = Math.rint(
-                           area.getHeight(MediaPrintableArea.INCH) * DPI);
+        if (breb != null) {
+            // Should pbss in sbme unit bs updbtePbgeAttributes
+            // to bvoid rounding off errors.
+            ix = Mbth.rint(
+                           breb.getX(MedibPrintbbleAreb.INCH) * DPI);
+            iy = Mbth.rint(
+                           breb.getY(MedibPrintbbleAreb.INCH) * DPI);
+            iw = Mbth.rint(
+                           breb.getWidth(MedibPrintbbleAreb.INCH) * DPI);
+            ih = Mbth.rint(
+                           breb.getHeight(MedibPrintbbleAreb.INCH) * DPI);
         }
         else {
             if (w >= 72.0 * 6.0) {
@@ -609,118 +609,118 @@ public abstract class RasterPrinterJob extends PrinterJob {
                 ih = h * 0.75;
             }
         }
-        paper.setImageableArea(ix, iy, iw, ih);
-        page.setPaper(paper);
-        return page;
+        pbper.setImbgebbleAreb(ix, iy, iw, ih);
+        pbge.setPbper(pbper);
+        return pbge;
     }
 
-    protected void updatePageAttributes(PrintService service,
-                                        PageFormat page) {
-        if (this.attributes == null) {
-            this.attributes = new HashPrintRequestAttributeSet();
+    protected void updbtePbgeAttributes(PrintService service,
+                                        PbgeFormbt pbge) {
+        if (this.bttributes == null) {
+            this.bttributes = new HbshPrintRequestAttributeSet();
         }
 
-        updateAttributesWithPageFormat(service, page, this.attributes);
+        updbteAttributesWithPbgeFormbt(service, pbge, this.bttributes);
     }
 
-    protected void updateAttributesWithPageFormat(PrintService service,
-                                        PageFormat page,
-                                        PrintRequestAttributeSet pageAttributes) {
-        if (service == null || page == null || pageAttributes == null) {
+    protected void updbteAttributesWithPbgeFormbt(PrintService service,
+                                        PbgeFormbt pbge,
+                                        PrintRequestAttributeSet pbgeAttributes) {
+        if (service == null || pbge == null || pbgeAttributes == null) {
             return;
         }
 
-        float x = (float)Math.rint(
-                         (page.getPaper().getWidth()*Size2DSyntax.INCH)/
-                         (72.0))/(float)Size2DSyntax.INCH;
-        float y = (float)Math.rint(
-                         (page.getPaper().getHeight()*Size2DSyntax.INCH)/
-                         (72.0))/(float)Size2DSyntax.INCH;
+        flobt x = (flobt)Mbth.rint(
+                         (pbge.getPbper().getWidth()*Size2DSyntbx.INCH)/
+                         (72.0))/(flobt)Size2DSyntbx.INCH;
+        flobt y = (flobt)Mbth.rint(
+                         (pbge.getPbper().getHeight()*Size2DSyntbx.INCH)/
+                         (72.0))/(flobt)Size2DSyntbx.INCH;
 
-        // We should limit the list where we search the matching
-        // media, this will prevent mapping to wrong media ex. Ledger
-        // can be mapped to B.  Especially useful when creating
-        // custom MediaSize.
-        Media[] mediaList = (Media[])service.getSupportedAttributeValues(
-                                      Media.class, null, null);
-        Media media = null;
+        // We should limit the list where we sebrch the mbtching
+        // medib, this will prevent mbpping to wrong medib ex. Ledger
+        // cbn be mbpped to B.  Especiblly useful when crebting
+        // custom MedibSize.
+        Medib[] medibList = (Medib[])service.getSupportedAttributeVblues(
+                                      Medib.clbss, null, null);
+        Medib medib = null;
         try {
-            media = CustomMediaSizeName.findMedia(mediaList, x, y,
-                                   Size2DSyntax.INCH);
-        } catch (IllegalArgumentException iae) {
+            medib = CustomMedibSizeNbme.findMedib(medibList, x, y,
+                                   Size2DSyntbx.INCH);
+        } cbtch (IllegblArgumentException ibe) {
         }
-        if ((media == null) ||
-             !(service.isAttributeValueSupported(media, null, null))) {
-            media = (Media)service.getDefaultAttributeValue(Media.class);
-        }
-
-        OrientationRequested orient;
-        switch (page.getOrientation()) {
-        case PageFormat.LANDSCAPE :
-            orient = OrientationRequested.LANDSCAPE;
-            break;
-        case PageFormat.REVERSE_LANDSCAPE:
-            orient = OrientationRequested.REVERSE_LANDSCAPE;
-            break;
-        default:
-            orient = OrientationRequested.PORTRAIT;
+        if ((medib == null) ||
+             !(service.isAttributeVblueSupported(medib, null, null))) {
+            medib = (Medib)service.getDefbultAttributeVblue(Medib.clbss);
         }
 
-        if (media != null) {
-            pageAttributes.add(media);
+        OrientbtionRequested orient;
+        switch (pbge.getOrientbtion()) {
+        cbse PbgeFormbt.LANDSCAPE :
+            orient = OrientbtionRequested.LANDSCAPE;
+            brebk;
+        cbse PbgeFormbt.REVERSE_LANDSCAPE:
+            orient = OrientbtionRequested.REVERSE_LANDSCAPE;
+            brebk;
+        defbult:
+            orient = OrientbtionRequested.PORTRAIT;
         }
-        pageAttributes.add(orient);
 
-        float ix = (float)(page.getPaper().getImageableX()/DPI);
-        float iw = (float)(page.getPaper().getImageableWidth()/DPI);
-        float iy = (float)(page.getPaper().getImageableY()/DPI);
-        float ih = (float)(page.getPaper().getImageableHeight()/DPI);
+        if (medib != null) {
+            pbgeAttributes.bdd(medib);
+        }
+        pbgeAttributes.bdd(orient);
+
+        flobt ix = (flobt)(pbge.getPbper().getImbgebbleX()/DPI);
+        flobt iw = (flobt)(pbge.getPbper().getImbgebbleWidth()/DPI);
+        flobt iy = (flobt)(pbge.getPbper().getImbgebbleY()/DPI);
+        flobt ih = (flobt)(pbge.getPbper().getImbgebbleHeight()/DPI);
         if (ix < 0) ix = 0f; if (iy < 0) iy = 0f;
         try {
-            pageAttributes.add(new MediaPrintableArea(ix, iy, iw, ih,
-                                                  MediaPrintableArea.INCH));
-        } catch (IllegalArgumentException iae) {
+            pbgeAttributes.bdd(new MedibPrintbbleAreb(ix, iy, iw, ih,
+                                                  MedibPrintbbleAreb.INCH));
+        } cbtch (IllegblArgumentException ibe) {
         }
     }
 
    /**
-     * Display a dialog to the user allowing the modification of a
-     * PageFormat instance.
-     * The <code>page</code> argument is used to initialize controls
-     * in the page setup dialog.
-     * If the user cancels the dialog, then the method returns the
-     * original <code>page</code> object unmodified.
-     * If the user okays the dialog then the method returns a new
-     * PageFormat object with the indicated changes.
-     * In either case the original <code>page</code> object will
+     * Displby b diblog to the user bllowing the modificbtion of b
+     * PbgeFormbt instbnce.
+     * The <code>pbge</code> brgument is used to initiblize controls
+     * in the pbge setup diblog.
+     * If the user cbncels the diblog, then the method returns the
+     * originbl <code>pbge</code> object unmodified.
+     * If the user okbys the diblog then the method returns b new
+     * PbgeFormbt object with the indicbted chbnges.
+     * In either cbse the originbl <code>pbge</code> object will
      * not be modified.
-     * @param     page    the default PageFormat presented to the user
-     *                    for modification
-     * @return    the original <code>page</code> object if the dialog
-     *            is cancelled, or a new PageFormat object containing
-     *            the format indicated by the user if the dialog is
-     *            acknowledged
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     pbge    the defbult PbgeFormbt presented to the user
+     *                    for modificbtion
+     * @return    the originbl <code>pbge</code> object if the diblog
+     *            is cbncelled, or b new PbgeFormbt object contbining
+     *            the formbt indicbted by the user if the diblog is
+     *            bcknowledged
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
-    public PageFormat pageDialog(PageFormat page)
-        throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public PbgeFormbt pbgeDiblog(PbgeFormbt pbge)
+        throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        final GraphicsConfiguration gc =
-          GraphicsEnvironment.getLocalGraphicsEnvironment().
-          getDefaultScreenDevice().getDefaultConfiguration();
+        finbl GrbphicsConfigurbtion gc =
+          GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+          getDefbultScreenDevice().getDefbultConfigurbtion();
 
-        PrintService service = java.security.AccessController.doPrivileged(
-                               new java.security.PrivilegedAction<PrintService>() {
+        PrintService service = jbvb.security.AccessController.doPrivileged(
+                               new jbvb.security.PrivilegedAction<PrintService>() {
                 public PrintService run() {
                     PrintService service = getPrintService();
                     if (service == null) {
-                        ServiceDialog.showNoPrintService(gc);
+                        ServiceDiblog.showNoPrintService(gc);
                         return null;
                     }
                     return service;
@@ -728,54 +728,54 @@ public abstract class RasterPrinterJob extends PrinterJob {
             });
 
         if (service == null) {
-            return page;
+            return pbge;
         }
-        updatePageAttributes(service, page);
+        updbtePbgeAttributes(service, pbge);
 
-        PageFormat newPage = pageDialog(attributes);
+        PbgeFormbt newPbge = pbgeDiblog(bttributes);
 
-        if (newPage == null) {
-            return page;
+        if (newPbge == null) {
+            return pbge;
         } else {
-            return newPage;
+            return newPbge;
         }
     }
 
     /**
-     * return a PageFormat corresponding to the updated attributes,
-     * or null if the user cancelled the dialog.
+     * return b PbgeFormbt corresponding to the updbted bttributes,
+     * or null if the user cbncelled the diblog.
      */
-    public PageFormat pageDialog(final PrintRequestAttributeSet attributes)
-        throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public PbgeFormbt pbgeDiblog(finbl PrintRequestAttributeSet bttributes)
+        throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        DialogTypeSelection dlg =
-            (DialogTypeSelection)attributes.get(DialogTypeSelection.class);
+        DiblogTypeSelection dlg =
+            (DiblogTypeSelection)bttributes.get(DiblogTypeSelection.clbss);
 
-        // Check for native, note that default dialog is COMMON.
-        if (dlg == DialogTypeSelection.NATIVE) {
+        // Check for nbtive, note thbt defbult diblog is COMMON.
+        if (dlg == DiblogTypeSelection.NATIVE) {
             PrintService pservice = getPrintService();
-            PageFormat page = pageDialog(attributeToPageFormat(pservice,
-                                                               attributes));
-            updateAttributesWithPageFormat(pservice, page, attributes);
-            return page;
+            PbgeFormbt pbge = pbgeDiblog(bttributeToPbgeFormbt(pservice,
+                                                               bttributes));
+            updbteAttributesWithPbgeFormbt(pservice, pbge, bttributes);
+            return pbge;
         }
 
-        final GraphicsConfiguration gc =
-            GraphicsEnvironment.getLocalGraphicsEnvironment().
-            getDefaultScreenDevice().getDefaultConfiguration();
-        Rectangle bounds = gc.getBounds();
+        finbl GrbphicsConfigurbtion gc =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+            getDefbultScreenDevice().getDefbultConfigurbtion();
+        Rectbngle bounds = gc.getBounds();
         int x = bounds.x+bounds.width/3;
         int y = bounds.y+bounds.height/3;
 
-        PrintService service = java.security.AccessController.doPrivileged(
-                               new java.security.PrivilegedAction<PrintService>() {
+        PrintService service = jbvb.security.AccessController.doPrivileged(
+                               new jbvb.security.PrivilegedAction<PrintService>() {
                 public PrintService run() {
                     PrintService service = getPrintService();
                     if (service == null) {
-                        ServiceDialog.showNoPrintService(gc);
+                        ServiceDiblog.showNoPrintService(gc);
                         return null;
                     }
                     return service;
@@ -786,95 +786,95 @@ public abstract class RasterPrinterJob extends PrinterJob {
             return null;
         }
 
-        ServiceDialog pageDialog = new ServiceDialog(gc, x, y, service,
-                                       DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-                                       attributes, (Frame)null);
-        pageDialog.show();
+        ServiceDiblog pbgeDiblog = new ServiceDiblog(gc, x, y, service,
+                                       DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                       bttributes, (Frbme)null);
+        pbgeDiblog.show();
 
-        if (pageDialog.getStatus() == ServiceDialog.APPROVE) {
-            PrintRequestAttributeSet newas =
-                pageDialog.getAttributes();
-            Class<?> amCategory = SunAlternateMedia.class;
+        if (pbgeDiblog.getStbtus() == ServiceDiblog.APPROVE) {
+            PrintRequestAttributeSet newbs =
+                pbgeDiblog.getAttributes();
+            Clbss<?> bmCbtegory = SunAlternbteMedib.clbss;
 
-            if (attributes.containsKey(amCategory) &&
-                !newas.containsKey(amCategory)) {
-                attributes.remove(amCategory);
+            if (bttributes.contbinsKey(bmCbtegory) &&
+                !newbs.contbinsKey(bmCbtegory)) {
+                bttributes.remove(bmCbtegory);
             }
-            attributes.addAll(newas);
-            return attributeToPageFormat(service, attributes);
+            bttributes.bddAll(newbs);
+            return bttributeToPbgeFormbt(service, bttributes);
         } else {
             return null;
         }
    }
 
-   protected PageFormat getPageFormatFromAttributes() {
-       if (attributes == null) {
+   protected PbgeFormbt getPbgeFormbtFromAttributes() {
+       if (bttributes == null) {
             return null;
         }
-        return attributeToPageFormat(getPrintService(), this.attributes);
+        return bttributeToPbgeFormbt(getPrintService(), this.bttributes);
    }
 
 
    /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * The services browsable here are determined by the type of
-     * service currently installed.
-     * If the application installed a StreamPrintService on this
-     * PrinterJob, only the available StreamPrintService (factories) are
-     * browsable.
+     * Presents the user b diblog for chbnging properties of the
+     * print job interbctively.
+     * The services browsbble here bre determined by the type of
+     * service currently instblled.
+     * If the bpplicbtion instblled b StrebmPrintService on this
+     * PrinterJob, only the bvbilbble StrebmPrintService (fbctories) bre
+     * browsbble.
      *
-     * @param attributes to store changed properties.
-     * @return false if the user cancels the dialog and true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm bttributes to store chbnged properties.
+     * @return fblse if the user cbncels the diblog bnd true otherwise.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public boolean printDialog(final PrintRequestAttributeSet attributes)
-        throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public boolebn printDiblog(finbl PrintRequestAttributeSet bttributes)
+        throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        DialogTypeSelection dlg =
-            (DialogTypeSelection)attributes.get(DialogTypeSelection.class);
+        DiblogTypeSelection dlg =
+            (DiblogTypeSelection)bttributes.get(DiblogTypeSelection.clbss);
 
-        // Check for native, note that default dialog is COMMON.
-        if (dlg == DialogTypeSelection.NATIVE) {
-            this.attributes = attributes;
+        // Check for nbtive, note thbt defbult diblog is COMMON.
+        if (dlg == DiblogTypeSelection.NATIVE) {
+            this.bttributes = bttributes;
             try {
-                debug_println("calling setAttributes in printDialog");
-                setAttributes(attributes);
+                debug_println("cblling setAttributes in printDiblog");
+                setAttributes(bttributes);
 
-            } catch (PrinterException e) {
+            } cbtch (PrinterException e) {
 
             }
 
-            boolean ret = printDialog();
-            this.attributes = attributes;
+            boolebn ret = printDiblog();
+            this.bttributes = bttributes;
             return ret;
 
         }
 
-        /* A security check has already been performed in the
-         * java.awt.print.printerJob.getPrinterJob method.
-         * So by the time we get here, it is OK for the current thread
-         * to print either to a file (from a Dialog we control!) or
-         * to a chosen printer.
+        /* A security check hbs blrebdy been performed in the
+         * jbvb.bwt.print.printerJob.getPrinterJob method.
+         * So by the time we get here, it is OK for the current threbd
+         * to print either to b file (from b Diblog we control!) or
+         * to b chosen printer.
          *
-         * We raise privilege when we put up the dialog, to avoid
-         * the "warning applet window" banner.
+         * We rbise privilege when we put up the diblog, to bvoid
+         * the "wbrning bpplet window" bbnner.
          */
-        final GraphicsConfiguration gc =
-            GraphicsEnvironment.getLocalGraphicsEnvironment().
-            getDefaultScreenDevice().getDefaultConfiguration();
+        finbl GrbphicsConfigurbtion gc =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+            getDefbultScreenDevice().getDefbultConfigurbtion();
 
-        PrintService service = java.security.AccessController.doPrivileged(
-                               new java.security.PrivilegedAction<PrintService>() {
+        PrintService service = jbvb.security.AccessController.doPrivileged(
+                               new jbvb.security.PrivilegedAction<PrintService>() {
                 public PrintService run() {
                     PrintService service = getPrintService();
                     if (service == null) {
-                        ServiceDialog.showNoPrintService(gc);
+                        ServiceDiblog.showNoPrintService(gc);
                         return null;
                     }
                     return service;
@@ -882,20 +882,20 @@ public abstract class RasterPrinterJob extends PrinterJob {
             });
 
         if (service == null) {
-            return false;
+            return fblse;
         }
 
         PrintService[] services;
-        StreamPrintServiceFactory[] spsFactories = null;
-        if (service instanceof StreamPrintService) {
-            spsFactories = lookupStreamPrintServices(null);
-            services = new StreamPrintService[spsFactories.length];
-            for (int i=0; i<spsFactories.length; i++) {
-                services[i] = spsFactories[i].getPrintService(null);
+        StrebmPrintServiceFbctory[] spsFbctories = null;
+        if (service instbnceof StrebmPrintService) {
+            spsFbctories = lookupStrebmPrintServices(null);
+            services = new StrebmPrintService[spsFbctories.length];
+            for (int i=0; i<spsFbctories.length; i++) {
+                services[i] = spsFbctories[i].getPrintService(null);
             }
         } else {
-            services = java.security.AccessController.doPrivileged(
-                       new java.security.PrivilegedAction<PrintService[]>() {
+            services = jbvb.security.AccessController.doPrivileged(
+                       new jbvb.security.PrivilegedAction<PrintService[]>() {
                 public PrintService[] run() {
                     PrintService[] services = PrinterJob.lookupPrintServices();
                     return services;
@@ -904,46 +904,46 @@ public abstract class RasterPrinterJob extends PrinterJob {
 
             if ((services == null) || (services.length == 0)) {
                 /*
-                 * No services but default PrintService exists?
-                 * Create services using defaultService.
+                 * No services but defbult PrintService exists?
+                 * Crebte services using defbultService.
                  */
                 services = new PrintService[1];
                 services[0] = service;
             }
         }
 
-        Rectangle bounds = gc.getBounds();
+        Rectbngle bounds = gc.getBounds();
         int x = bounds.x+bounds.width/3;
         int y = bounds.y+bounds.height/3;
         PrintService newService;
-        // temporarily add an attribute pointing back to this job.
-        PrinterJobWrapper jobWrapper = new PrinterJobWrapper(this);
-        attributes.add(jobWrapper);
+        // temporbrily bdd bn bttribute pointing bbck to this job.
+        PrinterJobWrbpper jobWrbpper = new PrinterJobWrbpper(this);
+        bttributes.bdd(jobWrbpper);
         try {
             newService =
-            ServiceUI.printDialog(gc, x, y,
+            ServiceUI.printDiblog(gc, x, y,
                                   services, service,
-                                  DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-                                  attributes);
-        } catch (IllegalArgumentException iae) {
-            newService = ServiceUI.printDialog(gc, x, y,
+                                  DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                  bttributes);
+        } cbtch (IllegblArgumentException ibe) {
+            newService = ServiceUI.printDiblog(gc, x, y,
                                   services, services[0],
-                                  DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-                                  attributes);
+                                  DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                  bttributes);
         }
-        attributes.remove(PrinterJobWrapper.class);
+        bttributes.remove(PrinterJobWrbpper.clbss);
 
         if (newService == null) {
-            return false;
+            return fblse;
         }
 
-        if (!service.equals(newService)) {
+        if (!service.equbls(newService)) {
             try {
                 setPrintService(newService);
-            } catch (PrinterException e) {
+            } cbtch (PrinterException e) {
                 /*
-                 * The only time it would throw an exception is when
-                 * newService is no longer available but we should still
+                 * The only time it would throw bn exception is when
+                 * newService is no longer bvbilbble but we should still
                  * select this printer.
                  */
                 myService = newService;
@@ -953,57 +953,57 @@ public abstract class RasterPrinterJob extends PrinterJob {
     }
 
    /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * @returns false if the user cancels the dialog and
+     * Presents the user b diblog for chbnging properties of the
+     * print job interbctively.
+     * @returns fblse if the user cbncels the diblog bnd
      *          true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public boolean printDialog() throws HeadlessException {
+    public boolebn printDiblog() throws HebdlessException {
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        PrintRequestAttributeSet attributes =
-          new HashPrintRequestAttributeSet();
-        attributes.add(new Copies(getCopies()));
-        attributes.add(new JobName(getJobName(), null));
-        boolean doPrint = printDialog(attributes);
+        PrintRequestAttributeSet bttributes =
+          new HbshPrintRequestAttributeSet();
+        bttributes.bdd(new Copies(getCopies()));
+        bttributes.bdd(new JobNbme(getJobNbme(), null));
+        boolebn doPrint = printDiblog(bttributes);
         if (doPrint) {
-            JobName jobName = (JobName)attributes.get(JobName.class);
-            if (jobName != null) {
-                setJobName(jobName.getValue());
+            JobNbme jobNbme = (JobNbme)bttributes.get(JobNbme.clbss);
+            if (jobNbme != null) {
+                setJobNbme(jobNbme.getVblue());
             }
-            Copies copies = (Copies)attributes.get(Copies.class);
+            Copies copies = (Copies)bttributes.get(Copies.clbss);
             if (copies != null) {
-                setCopies(copies.getValue());
+                setCopies(copies.getVblue());
             }
 
-            Destination dest = (Destination)attributes.get(Destination.class);
+            Destinbtion dest = (Destinbtion)bttributes.get(Destinbtion.clbss);
 
             if (dest != null) {
                 try {
-                    mDestType = RasterPrinterJob.FILE;
-                    mDestination = (new File(dest.getURI())).getPath();
-                } catch (Exception e) {
-                    mDestination = "out.prn";
+                    mDestType = RbsterPrinterJob.FILE;
+                    mDestinbtion = (new File(dest.getURI())).getPbth();
+                } cbtch (Exception e) {
+                    mDestinbtion = "out.prn";
                     PrintService ps = getPrintService();
                     if (ps != null) {
-                        Destination defaultDest = (Destination)ps.
-                            getDefaultAttributeValue(Destination.class);
-                        if (defaultDest != null) {
-                            mDestination = (new File(defaultDest.getURI())).getPath();
+                        Destinbtion defbultDest = (Destinbtion)ps.
+                            getDefbultAttributeVblue(Destinbtion.clbss);
+                        if (defbultDest != null) {
+                            mDestinbtion = (new File(defbultDest.getURI())).getPbth();
                         }
                     }
                 }
             } else {
-                mDestType = RasterPrinterJob.PRINTER;
+                mDestType = RbsterPrinterJob.PRINTER;
                 PrintService ps = getPrintService();
                 if (ps != null) {
-                    mDestination = ps.getName();
+                    mDestinbtion = ps.getNbme();
                 }
             }
         }
@@ -1012,39 +1012,39 @@ public abstract class RasterPrinterJob extends PrinterJob {
     }
 
     /**
-     * The pages in the document to be printed by this PrinterJob
-     * are drawn by the Printable object 'painter'. The PageFormat
-     * for each page is the default page format.
-     * @param Printable Called to render each page of the document.
+     * The pbges in the document to be printed by this PrinterJob
+     * bre drbwn by the Printbble object 'pbinter'. The PbgeFormbt
+     * for ebch pbge is the defbult pbge formbt.
+     * @pbrbm Printbble Cblled to render ebch pbge of the document.
      */
-    public void setPrintable(Printable painter) {
-        setPageable(new OpenBook(defaultPage(new PageFormat()), painter));
+    public void setPrintbble(Printbble pbinter) {
+        setPbgebble(new OpenBook(defbultPbge(new PbgeFormbt()), pbinter));
     }
 
     /**
-     * The pages in the document to be printed by this PrinterJob
-     * are drawn by the Printable object 'painter'. The PageFormat
-     * of each page is 'format'.
-     * @param Printable Called to render each page of the document.
-     * @param PageFormat The size and orientation of each page to
+     * The pbges in the document to be printed by this PrinterJob
+     * bre drbwn by the Printbble object 'pbinter'. The PbgeFormbt
+     * of ebch pbge is 'formbt'.
+     * @pbrbm Printbble Cblled to render ebch pbge of the document.
+     * @pbrbm PbgeFormbt The size bnd orientbtion of ebch pbge to
      *                   be printed.
      */
-    public void setPrintable(Printable painter, PageFormat format) {
-        setPageable(new OpenBook(format, painter));
-        updatePageAttributes(getPrintService(), format);
+    public void setPrintbble(Printbble pbinter, PbgeFormbt formbt) {
+        setPbgebble(new OpenBook(formbt, pbinter));
+        updbtePbgeAttributes(getPrintService(), formbt);
     }
 
     /**
-     * The pages in the document to be printed are held by the
-     * Pageable instance 'document'. 'document' will be queried
-     * for the number of pages as well as the PageFormat and
-     * Printable for each page.
-     * @param Pageable The document to be printed. It may not be null.
-     * @exception NullPointerException the Pageable passed in was null.
-     * @see PageFormat
-     * @see Printable
+     * The pbges in the document to be printed bre held by the
+     * Pbgebble instbnce 'document'. 'document' will be queried
+     * for the number of pbges bs well bs the PbgeFormbt bnd
+     * Printbble for ebch pbge.
+     * @pbrbm Pbgebble The document to be printed. It mby not be null.
+     * @exception NullPointerException the Pbgebble pbssed in wbs null.
+     * @see PbgeFormbt
+     * @see Printbble
      */
-    public void setPageable(Pageable document) throws NullPointerException {
+    public void setPbgebble(Pbgebble document) throws NullPointerException {
         if (document != null) {
             mDocument = document;
 
@@ -1057,309 +1057,309 @@ public abstract class RasterPrinterJob extends PrinterJob {
         return;
     }
 
-    protected boolean isSupportedValue(Attribute attrval,
-                                     PrintRequestAttributeSet attrset) {
+    protected boolebn isSupportedVblue(Attribute bttrvbl,
+                                     PrintRequestAttributeSet bttrset) {
         PrintService ps = getPrintService();
         return
-            (attrval != null && ps != null &&
-             ps.isAttributeValueSupported(attrval,
-                                          DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-                                          attrset));
+            (bttrvbl != null && ps != null &&
+             ps.isAttributeVblueSupported(bttrvbl,
+                                          DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                          bttrset));
     }
 
     /**
      * Set the device resolution.
-     * Overridden and used only by the postscript code.
-     * Windows code pulls the information from the attribute set itself.
+     * Overridden bnd used only by the postscript code.
+     * Windows code pulls the informbtion from the bttribute set itself.
      */
     protected void setXYRes(double x, double y) {
     }
 
-    /* subclasses may need to pull extra information out of the attribute set
-     * They can override this method & call super.setAttributes()
+    /* subclbsses mby need to pull extrb informbtion out of the bttribute set
+     * They cbn override this method & cbll super.setAttributes()
      */
-    protected  void setAttributes(PrintRequestAttributeSet attributes)
+    protected  void setAttributes(PrintRequestAttributeSet bttributes)
         throws PrinterException {
-        /*  reset all values to defaults */
-        setCollated(false);
+        /*  reset bll vblues to defbults */
+        setCollbted(fblse);
         sidesAttr = null;
         printerResAttr = null;
-        pageRangesAttr = null;
+        pbgeRbngesAttr = null;
         copiesAttr = 0;
-        jobNameAttr = null;
-        userNameAttr = null;
-        destinationAttr = null;
-        collateAttReq = false;
+        jobNbmeAttr = null;
+        userNbmeAttr = null;
+        destinbtionAttr = null;
+        collbteAttReq = fblse;
 
         PrintService service = getPrintService();
-        if (attributes == null  || service == null) {
+        if (bttributes == null  || service == null) {
             return;
         }
 
-        boolean fidelity = false;
-        Fidelity attrFidelity = (Fidelity)attributes.get(Fidelity.class);
-        if (attrFidelity != null && attrFidelity == Fidelity.FIDELITY_TRUE) {
+        boolebn fidelity = fblse;
+        Fidelity bttrFidelity = (Fidelity)bttributes.get(Fidelity.clbss);
+        if (bttrFidelity != null && bttrFidelity == Fidelity.FIDELITY_TRUE) {
             fidelity = true;
         }
 
         if (fidelity == true) {
            AttributeSet unsupported =
                service.getUnsupportedAttributes(
-                                         DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-                                         attributes);
+                                         DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+                                         bttributes);
            if (unsupported != null) {
-               throw new PrinterException("Fidelity cannot be satisfied");
+               throw new PrinterException("Fidelity cbnnot be sbtisfied");
            }
         }
 
         /*
-         * Since we have verified supported values if fidelity is true,
-         * we can either ignore unsupported values, or substitute a
-         * reasonable alternative
+         * Since we hbve verified supported vblues if fidelity is true,
+         * we cbn either ignore unsupported vblues, or substitute b
+         * rebsonbble blternbtive
          */
 
-        SheetCollate collateAttr =
-            (SheetCollate)attributes.get(SheetCollate.class);
-        if (isSupportedValue(collateAttr,  attributes)) {
-            setCollated(collateAttr == SheetCollate.COLLATED);
+        SheetCollbte collbteAttr =
+            (SheetCollbte)bttributes.get(SheetCollbte.clbss);
+        if (isSupportedVblue(collbteAttr,  bttributes)) {
+            setCollbted(collbteAttr == SheetCollbte.COLLATED);
         }
 
-        sidesAttr = (Sides)attributes.get(Sides.class);
-        if (!isSupportedValue(sidesAttr,  attributes)) {
+        sidesAttr = (Sides)bttributes.get(Sides.clbss);
+        if (!isSupportedVblue(sidesAttr,  bttributes)) {
             sidesAttr = Sides.ONE_SIDED;
         }
 
-        printerResAttr = (PrinterResolution)attributes.get(PrinterResolution.class);
-        if (service.isAttributeCategorySupported(PrinterResolution.class)) {
-            if (!isSupportedValue(printerResAttr,  attributes)) {
+        printerResAttr = (PrinterResolution)bttributes.get(PrinterResolution.clbss);
+        if (service.isAttributeCbtegorySupported(PrinterResolution.clbss)) {
+            if (!isSupportedVblue(printerResAttr,  bttributes)) {
                printerResAttr = (PrinterResolution)
-                   service.getDefaultAttributeValue(PrinterResolution.class);
+                   service.getDefbultAttributeVblue(PrinterResolution.clbss);
             }
             double xr =
-               printerResAttr.getCrossFeedResolution(ResolutionSyntax.DPI);
-            double yr = printerResAttr.getFeedResolution(ResolutionSyntax.DPI);
+               printerResAttr.getCrossFeedResolution(ResolutionSyntbx.DPI);
+            double yr = printerResAttr.getFeedResolution(ResolutionSyntbx.DPI);
             setXYRes(xr, yr);
         }
 
-        pageRangesAttr =  (PageRanges)attributes.get(PageRanges.class);
-        if (!isSupportedValue(pageRangesAttr, attributes)) {
-            pageRangesAttr = null;
+        pbgeRbngesAttr =  (PbgeRbnges)bttributes.get(PbgeRbnges.clbss);
+        if (!isSupportedVblue(pbgeRbngesAttr, bttributes)) {
+            pbgeRbngesAttr = null;
         } else {
-            if ((SunPageSelection)attributes.get(SunPageSelection.class)
-                     == SunPageSelection.RANGE) {
-                // get to, from, min, max page ranges
-                int[][] range = pageRangesAttr.getMembers();
-                // setPageRanges uses 0-based indexing so we subtract 1
-                setPageRange(range[0][0] - 1, range[0][1] - 1);
+            if ((SunPbgeSelection)bttributes.get(SunPbgeSelection.clbss)
+                     == SunPbgeSelection.RANGE) {
+                // get to, from, min, mbx pbge rbnges
+                int[][] rbnge = pbgeRbngesAttr.getMembers();
+                // setPbgeRbnges uses 0-bbsed indexing so we subtrbct 1
+                setPbgeRbnge(rbnge[0][0] - 1, rbnge[0][1] - 1);
             } else {
-               setPageRange(-1, - 1);
+               setPbgeRbnge(-1, - 1);
             }
         }
 
-        Copies copies = (Copies)attributes.get(Copies.class);
-        if (isSupportedValue(copies,  attributes) ||
+        Copies copies = (Copies)bttributes.get(Copies.clbss);
+        if (isSupportedVblue(copies,  bttributes) ||
             (!fidelity && copies != null)) {
-            copiesAttr = copies.getValue();
+            copiesAttr = copies.getVblue();
             setCopies(copiesAttr);
         } else {
             copiesAttr = getCopies();
         }
 
-        Destination destination =
-            (Destination)attributes.get(Destination.class);
+        Destinbtion destinbtion =
+            (Destinbtion)bttributes.get(Destinbtion.clbss);
 
-        if (isSupportedValue(destination,  attributes)) {
+        if (isSupportedVblue(destinbtion,  bttributes)) {
             try {
-                // Old code (new File(destination.getURI())).getPath()
-                // would generate a "URI is not hierarchical" IAE
-                // for "file:out.prn" so we use getSchemeSpecificPart instead
-                destinationAttr = "" + new File(destination.getURI().
-                                                getSchemeSpecificPart());
-            } catch (Exception e) { // paranoid exception
-                Destination defaultDest = (Destination)service.
-                    getDefaultAttributeValue(Destination.class);
-                if (defaultDest != null) {
-                    destinationAttr = "" + new File(defaultDest.getURI().
-                                                getSchemeSpecificPart());
+                // Old code (new File(destinbtion.getURI())).getPbth()
+                // would generbte b "URI is not hierbrchicbl" IAE
+                // for "file:out.prn" so we use getSchemeSpecificPbrt instebd
+                destinbtionAttr = "" + new File(destinbtion.getURI().
+                                                getSchemeSpecificPbrt());
+            } cbtch (Exception e) { // pbrbnoid exception
+                Destinbtion defbultDest = (Destinbtion)service.
+                    getDefbultAttributeVblue(Destinbtion.clbss);
+                if (defbultDest != null) {
+                    destinbtionAttr = "" + new File(defbultDest.getURI().
+                                                getSchemeSpecificPbrt());
                 }
             }
         }
 
-        JobSheets jobSheets = (JobSheets)attributes.get(JobSheets.class);
+        JobSheets jobSheets = (JobSheets)bttributes.get(JobSheets.clbss);
         if (jobSheets != null) {
             noJobSheet = jobSheets == JobSheets.NONE;
         }
 
-        JobName jobName = (JobName)attributes.get(JobName.class);
-        if (isSupportedValue(jobName,  attributes) ||
-            (!fidelity && jobName != null)) {
-            jobNameAttr = jobName.getValue();
-            setJobName(jobNameAttr);
+        JobNbme jobNbme = (JobNbme)bttributes.get(JobNbme.clbss);
+        if (isSupportedVblue(jobNbme,  bttributes) ||
+            (!fidelity && jobNbme != null)) {
+            jobNbmeAttr = jobNbme.getVblue();
+            setJobNbme(jobNbmeAttr);
         } else {
-            jobNameAttr = getJobName();
+            jobNbmeAttr = getJobNbme();
         }
 
-        RequestingUserName userName =
-            (RequestingUserName)attributes.get(RequestingUserName.class);
-        if (isSupportedValue(userName,  attributes) ||
-            (!fidelity && userName != null)) {
-            userNameAttr = userName.getValue();
+        RequestingUserNbme userNbme =
+            (RequestingUserNbme)bttributes.get(RequestingUserNbme.clbss);
+        if (isSupportedVblue(userNbme,  bttributes) ||
+            (!fidelity && userNbme != null)) {
+            userNbmeAttr = userNbme.getVblue();
         } else {
             try {
-                userNameAttr = getUserName();
-            } catch (SecurityException e) {
-                userNameAttr = "";
+                userNbmeAttr = getUserNbme();
+            } cbtch (SecurityException e) {
+                userNbmeAttr = "";
             }
         }
 
-        /* OpenBook is used internally only when app uses Printable.
-         * This is the case when we use the values from the attribute set.
+        /* OpenBook is used internblly only when bpp uses Printbble.
+         * This is the cbse when we use the vblues from the bttribute set.
          */
-        Media media = (Media)attributes.get(Media.class);
-        OrientationRequested orientReq =
-           (OrientationRequested)attributes.get(OrientationRequested.class);
-        MediaPrintableArea mpa =
-            (MediaPrintableArea)attributes.get(MediaPrintableArea.class);
+        Medib medib = (Medib)bttributes.get(Medib.clbss);
+        OrientbtionRequested orientReq =
+           (OrientbtionRequested)bttributes.get(OrientbtionRequested.clbss);
+        MedibPrintbbleAreb mpb =
+            (MedibPrintbbleAreb)bttributes.get(MedibPrintbbleAreb.clbss);
 
-        if ((orientReq != null || media != null || mpa != null) &&
-            getPageable() instanceof OpenBook) {
+        if ((orientReq != null || medib != null || mpb != null) &&
+            getPbgebble() instbnceof OpenBook) {
 
-            /* We could almost(!) use PrinterJob.getPageFormat() except
-             * here we need to start with the PageFormat from the OpenBook :
+            /* We could blmost(!) use PrinterJob.getPbgeFormbt() except
+             * here we need to stbrt with the PbgeFormbt from the OpenBook :
              */
-            Pageable pageable = getPageable();
-            Printable printable = pageable.getPrintable(0);
-            PageFormat pf = (PageFormat)pageable.getPageFormat(0).clone();
-            Paper paper = pf.getPaper();
+            Pbgebble pbgebble = getPbgebble();
+            Printbble printbble = pbgebble.getPrintbble(0);
+            PbgeFormbt pf = (PbgeFormbt)pbgebble.getPbgeFormbt(0).clone();
+            Pbper pbper = pf.getPbper();
 
-            /* If there's a media but no media printable area, we can try
-             * to retrieve the default value for mpa and use that.
+            /* If there's b medib but no medib printbble breb, we cbn try
+             * to retrieve the defbult vblue for mpb bnd use thbt.
              */
-            if (mpa == null && media != null &&
+            if (mpb == null && medib != null &&
                 service.
-                isAttributeCategorySupported(MediaPrintableArea.class)) {
-                Object mpaVals = service.
-                    getSupportedAttributeValues(MediaPrintableArea.class,
-                                                null, attributes);
-                if (mpaVals instanceof MediaPrintableArea[] &&
-                    ((MediaPrintableArea[])mpaVals).length > 0) {
-                    mpa = ((MediaPrintableArea[])mpaVals)[0];
+                isAttributeCbtegorySupported(MedibPrintbbleAreb.clbss)) {
+                Object mpbVbls = service.
+                    getSupportedAttributeVblues(MedibPrintbbleAreb.clbss,
+                                                null, bttributes);
+                if (mpbVbls instbnceof MedibPrintbbleAreb[] &&
+                    ((MedibPrintbbleAreb[])mpbVbls).length > 0) {
+                    mpb = ((MedibPrintbbleAreb[])mpbVbls)[0];
                 }
             }
 
-            if (isSupportedValue(orientReq, attributes) ||
+            if (isSupportedVblue(orientReq, bttributes) ||
                 (!fidelity && orientReq != null)) {
                 int orient;
-                if (orientReq.equals(OrientationRequested.REVERSE_LANDSCAPE)) {
-                    orient = PageFormat.REVERSE_LANDSCAPE;
-                } else if (orientReq.equals(OrientationRequested.LANDSCAPE)) {
-                    orient = PageFormat.LANDSCAPE;
+                if (orientReq.equbls(OrientbtionRequested.REVERSE_LANDSCAPE)) {
+                    orient = PbgeFormbt.REVERSE_LANDSCAPE;
+                } else if (orientReq.equbls(OrientbtionRequested.LANDSCAPE)) {
+                    orient = PbgeFormbt.LANDSCAPE;
                 } else {
-                    orient = PageFormat.PORTRAIT;
+                    orient = PbgeFormbt.PORTRAIT;
                 }
-                pf.setOrientation(orient);
+                pf.setOrientbtion(orient);
             }
 
-            if (isSupportedValue(media, attributes) ||
-                (!fidelity && media != null)) {
-                if (media instanceof MediaSizeName) {
-                    MediaSizeName msn = (MediaSizeName)media;
-                    MediaSize msz = MediaSize.getMediaSizeForName(msn);
+            if (isSupportedVblue(medib, bttributes) ||
+                (!fidelity && medib != null)) {
+                if (medib instbnceof MedibSizeNbme) {
+                    MedibSizeNbme msn = (MedibSizeNbme)medib;
+                    MedibSize msz = MedibSize.getMedibSizeForNbme(msn);
                     if (msz != null) {
-                        float paperWid =  msz.getX(MediaSize.INCH) * 72.0f;
-                        float paperHgt =  msz.getY(MediaSize.INCH) * 72.0f;
-                        paper.setSize(paperWid, paperHgt);
-                        if (mpa == null) {
-                            paper.setImageableArea(72.0, 72.0,
-                                                   paperWid-144.0,
-                                                   paperHgt-144.0);
+                        flobt pbperWid =  msz.getX(MedibSize.INCH) * 72.0f;
+                        flobt pbperHgt =  msz.getY(MedibSize.INCH) * 72.0f;
+                        pbper.setSize(pbperWid, pbperHgt);
+                        if (mpb == null) {
+                            pbper.setImbgebbleAreb(72.0, 72.0,
+                                                   pbperWid-144.0,
+                                                   pbperHgt-144.0);
                         }
                     }
                 }
             }
 
-            if (isSupportedValue(mpa, attributes) ||
-                (!fidelity && mpa != null)) {
-                float [] printableArea =
-                    mpa.getPrintableArea(MediaPrintableArea.INCH);
-                for (int i=0; i < printableArea.length; i++) {
-                    printableArea[i] = printableArea[i]*72.0f;
+            if (isSupportedVblue(mpb, bttributes) ||
+                (!fidelity && mpb != null)) {
+                flobt [] printbbleAreb =
+                    mpb.getPrintbbleAreb(MedibPrintbbleAreb.INCH);
+                for (int i=0; i < printbbleAreb.length; i++) {
+                    printbbleAreb[i] = printbbleAreb[i]*72.0f;
                 }
-                paper.setImageableArea(printableArea[0], printableArea[1],
-                                       printableArea[2], printableArea[3]);
+                pbper.setImbgebbleAreb(printbbleAreb[0], printbbleAreb[1],
+                                       printbbleAreb[2], printbbleAreb[3]);
             }
 
-            pf.setPaper(paper);
-            pf = validatePage(pf);
-            setPrintable(printable, pf);
+            pf.setPbper(pbper);
+            pf = vblidbtePbge(pf);
+            setPrintbble(printbble, pf);
         } else {
-            // for AWT where pageable is not an instance of OpenBook,
-            // we need to save paper info
-            this.attributes = attributes;
+            // for AWT where pbgebble is not bn instbnce of OpenBook,
+            // we need to sbve pbper info
+            this.bttributes = bttributes;
         }
 
     }
 
     /*
-     * Services we don't recognize as built-in services can't be
-     * implemented as subclasses of PrinterJob, therefore we create
-     * a DocPrintJob from their service and pass a Doc representing
-     * the application's printjob
+     * Services we don't recognize bs built-in services cbn't be
+     * implemented bs subclbsses of PrinterJob, therefore we crebte
+     * b DocPrintJob from their service bnd pbss b Doc representing
+     * the bpplicbtion's printjob
      */
-// MacOSX - made protected so subclasses can reference it.
+// MbcOSX - mbde protected so subclbsses cbn reference it.
     protected void spoolToService(PrintService psvc,
-                                PrintRequestAttributeSet attributes)
+                                PrintRequestAttributeSet bttributes)
         throws PrinterException {
 
         if (psvc == null) {
             throw new PrinterException("No print service found.");
         }
 
-        DocPrintJob job = psvc.createPrintJob();
-        Doc doc = new PageableDoc(getPageable());
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
+        DocPrintJob job = psvc.crebtePrintJob();
+        Doc doc = new PbgebbleDoc(getPbgebble());
+        if (bttributes == null) {
+            bttributes = new HbshPrintRequestAttributeSet();
         }
         try {
-            job.print(doc, attributes);
-        } catch (PrintException e) {
+            job.print(doc, bttributes);
+        } cbtch (PrintException e) {
             throw new PrinterException(e.toString());
         }
     }
 
     /**
-     * Prints a set of pages.
-     * @exception java.awt.print.PrinterException an error in the print system
-     *                                          caused the job to be aborted
-     * @see java.awt.print.Book
-     * @see java.awt.print.Pageable
-     * @see java.awt.print.Printable
+     * Prints b set of pbges.
+     * @exception jbvb.bwt.print.PrinterException bn error in the print system
+     *                                          cbused the job to be bborted
+     * @see jbvb.bwt.print.Book
+     * @see jbvb.bwt.print.Pbgebble
+     * @see jbvb.bwt.print.Printbble
      */
     public void print() throws PrinterException {
-        print(attributes);
+        print(bttributes);
     }
 
-    public static boolean debugPrint = false;
+    public stbtic boolebn debugPrint = fblse;
     protected void debug_println(String str) {
         if (debugPrint) {
-            System.out.println("RasterPrinterJob "+str+" "+this);
+            System.out.println("RbsterPrinterJob "+str+" "+this);
         }
     }
 
-    public void print(PrintRequestAttributeSet attributes)
+    public void print(PrintRequestAttributeSet bttributes)
         throws PrinterException {
 
         /*
-         * In the future PrinterJob will probably always dispatch
+         * In the future PrinterJob will probbbly blwbys dispbtch
          * the print job to the PrintService.
-         * This is how third party 2D Print Services will be invoked
-         * when applications use the PrinterJob API.
-         * However the JRE's concrete PrinterJob implementations have
-         * not yet been re-worked to be implemented as standalone
-         * services, and are implemented only as subclasses of PrinterJob.
-         * So here we dispatch only those services we do not recognize
-         * as implemented through platform subclasses of PrinterJob
-         * (and this class).
+         * This is how third pbrty 2D Print Services will be invoked
+         * when bpplicbtions use the PrinterJob API.
+         * However the JRE's concrete PrinterJob implementbtions hbve
+         * not yet been re-worked to be implemented bs stbndblone
+         * services, bnd bre implemented only bs subclbsses of PrinterJob.
+         * So here we dispbtch only those services we do not recognize
+         * bs implemented through plbtform subclbsses of PrinterJob
+         * (bnd this clbss).
          */
         PrintService psvc = getPrintService();
         debug_println("psvc = "+psvc);
@@ -1367,218 +1367,218 @@ public abstract class RasterPrinterJob extends PrinterJob {
             throw new PrinterException("No print service found.");
         }
 
-        // Check the list of services.  This service may have been
-        // deleted already
-        PrinterState prnState = psvc.getAttribute(PrinterState.class);
-        if (prnState == PrinterState.STOPPED) {
-            PrinterStateReasons prnStateReasons =
-                    psvc.getAttribute(PrinterStateReasons.class);
-                if ((prnStateReasons != null) &&
-                    (prnStateReasons.containsKey(PrinterStateReason.SHUTDOWN)))
+        // Check the list of services.  This service mby hbve been
+        // deleted blrebdy
+        PrinterStbte prnStbte = psvc.getAttribute(PrinterStbte.clbss);
+        if (prnStbte == PrinterStbte.STOPPED) {
+            PrinterStbteRebsons prnStbteRebsons =
+                    psvc.getAttribute(PrinterStbteRebsons.clbss);
+                if ((prnStbteRebsons != null) &&
+                    (prnStbteRebsons.contbinsKey(PrinterStbteRebson.SHUTDOWN)))
                 {
-                    throw new PrinterException("PrintService is no longer available.");
+                    throw new PrinterException("PrintService is no longer bvbilbble.");
                 }
         }
 
-        if ((psvc.getAttribute(PrinterIsAcceptingJobs.class)) ==
+        if ((psvc.getAttribute(PrinterIsAcceptingJobs.clbss)) ==
                          PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS) {
-            throw new PrinterException("Printer is not accepting job.");
+            throw new PrinterException("Printer is not bccepting job.");
         }
 
-        if ((psvc instanceof SunPrinterJobService) &&
-            ((SunPrinterJobService)psvc).usesClass(getClass())) {
-            setAttributes(attributes);
-            // throw exception for invalid destination
-            if (destinationAttr != null) {
-                validateDestination(destinationAttr);
+        if ((psvc instbnceof SunPrinterJobService) &&
+            ((SunPrinterJobService)psvc).usesClbss(getClbss())) {
+            setAttributes(bttributes);
+            // throw exception for invblid destinbtion
+            if (destinbtionAttr != null) {
+                vblidbteDestinbtion(destinbtionAttr);
             }
         } else {
-            spoolToService(psvc, attributes);
+            spoolToService(psvc, bttributes);
             return;
         }
-        /* We need to make sure that the collation and copies
-         * settings are initialised */
+        /* We need to mbke sure thbt the collbtion bnd copies
+         * settings bre initiblised */
         initPrinter();
 
-        int numCollatedCopies = getCollatedCopies();
-        int numNonCollatedCopies = getNoncollatedCopies();
-        debug_println("getCollatedCopies()  "+numCollatedCopies
-              + " getNoncollatedCopies() "+ numNonCollatedCopies);
+        int numCollbtedCopies = getCollbtedCopies();
+        int numNonCollbtedCopies = getNoncollbtedCopies();
+        debug_println("getCollbtedCopies()  "+numCollbtedCopies
+              + " getNoncollbtedCopies() "+ numNonCollbtedCopies);
 
-        /* Get the range of pages we are to print. If the
-         * last page to print is unknown, then we print to
-         * the end of the document. Note that firstPage
-         * and lastPage are 0 based page indices.
+        /* Get the rbnge of pbges we bre to print. If the
+         * lbst pbge to print is unknown, then we print to
+         * the end of the document. Note thbt firstPbge
+         * bnd lbstPbge bre 0 bbsed pbge indices.
          */
-        int numPages = mDocument.getNumberOfPages();
-        if (numPages == 0) {
+        int numPbges = mDocument.getNumberOfPbges();
+        if (numPbges == 0) {
             return;
         }
 
-        int firstPage = getFirstPage();
-        int lastPage = getLastPage();
-        if(lastPage == Pageable.UNKNOWN_NUMBER_OF_PAGES){
-            int totalPages = mDocument.getNumberOfPages();
-            if (totalPages != Pageable.UNKNOWN_NUMBER_OF_PAGES) {
-                lastPage = mDocument.getNumberOfPages() - 1;
+        int firstPbge = getFirstPbge();
+        int lbstPbge = getLbstPbge();
+        if(lbstPbge == Pbgebble.UNKNOWN_NUMBER_OF_PAGES){
+            int totblPbges = mDocument.getNumberOfPbges();
+            if (totblPbges != Pbgebble.UNKNOWN_NUMBER_OF_PAGES) {
+                lbstPbge = mDocument.getNumberOfPbges() - 1;
             }
         }
 
         try {
             synchronized (this) {
                 performingPrinting = true;
-                userCancelled = false;
+                userCbncelled = fblse;
             }
 
-            startDoc();
-            if (isCancelled()) {
-                cancelDoc();
+            stbrtDoc();
+            if (isCbncelled()) {
+                cbncelDoc();
             }
 
-            // PageRanges can be set even if RANGE is not selected
+            // PbgeRbnges cbn be set even if RANGE is not selected
             // so we need to check if it is selected.
-            boolean rangeIsSelected = true;
-            if (attributes != null) {
-                SunPageSelection pages =
-                    (SunPageSelection)attributes.get(SunPageSelection.class);
-                if ((pages != null) && (pages != SunPageSelection.RANGE)) {
-                    rangeIsSelected = false;
+            boolebn rbngeIsSelected = true;
+            if (bttributes != null) {
+                SunPbgeSelection pbges =
+                    (SunPbgeSelection)bttributes.get(SunPbgeSelection.clbss);
+                if ((pbges != null) && (pbges != SunPbgeSelection.RANGE)) {
+                    rbngeIsSelected = fblse;
                 }
             }
 
 
-            debug_println("after startDoc rangeSelected? "+rangeIsSelected
-                      + " numNonCollatedCopies "+ numNonCollatedCopies);
+            debug_println("bfter stbrtDoc rbngeSelected? "+rbngeIsSelected
+                      + " numNonCollbtedCopies "+ numNonCollbtedCopies);
 
 
-            /* Three nested loops iterate over the document. The outer loop
-             * counts the number of collated copies while the inner loop
-             * counts the number of nonCollated copies. Normally, one of
-             * these two loops will only execute once; that is we will
-             * either print collated copies or noncollated copies. The
-             * middle loop iterates over the pages.
-             * If a PageRanges attribute is used, it constrains the pages
-             * that are imaged. If a platform subclass (though a user dialog)
-             * requests a page range via setPageRange(). it too can
-             * constrain the page ranges that are imaged.
-             * It is expected that only one of these will be used in a
-             * job but both should be able to co-exist.
+            /* Three nested loops iterbte over the document. The outer loop
+             * counts the number of collbted copies while the inner loop
+             * counts the number of nonCollbted copies. Normblly, one of
+             * these two loops will only execute once; thbt is we will
+             * either print collbted copies or noncollbted copies. The
+             * middle loop iterbtes over the pbges.
+             * If b PbgeRbnges bttribute is used, it constrbins the pbges
+             * thbt bre imbged. If b plbtform subclbss (though b user diblog)
+             * requests b pbge rbnge vib setPbgeRbnge(). it too cbn
+             * constrbin the pbge rbnges thbt bre imbged.
+             * It is expected thbt only one of these will be used in b
+             * job but both should be bble to co-exist.
              */
-            for(int collated = 0; collated < numCollatedCopies; collated++) {
-                for(int i = firstPage, pageResult = Printable.PAGE_EXISTS;
-                    (i <= lastPage ||
-                     lastPage == Pageable.UNKNOWN_NUMBER_OF_PAGES)
-                    && pageResult == Printable.PAGE_EXISTS;
+            for(int collbted = 0; collbted < numCollbtedCopies; collbted++) {
+                for(int i = firstPbge, pbgeResult = Printbble.PAGE_EXISTS;
+                    (i <= lbstPbge ||
+                     lbstPbge == Pbgebble.UNKNOWN_NUMBER_OF_PAGES)
+                    && pbgeResult == Printbble.PAGE_EXISTS;
                     i++)
                 {
 
-                    if ((pageRangesAttr != null) && rangeIsSelected ){
-                        int nexti = pageRangesAttr.next(i);
+                    if ((pbgeRbngesAttr != null) && rbngeIsSelected ){
+                        int nexti = pbgeRbngesAttr.next(i);
                         if (nexti == -1) {
-                            break;
+                            brebk;
                         } else if (nexti != i+1) {
                             continue;
                         }
                     }
 
-                    for(int nonCollated = 0;
-                        nonCollated < numNonCollatedCopies
-                        && pageResult == Printable.PAGE_EXISTS;
-                        nonCollated++)
+                    for(int nonCollbted = 0;
+                        nonCollbted < numNonCollbtedCopies
+                        && pbgeResult == Printbble.PAGE_EXISTS;
+                        nonCollbted++)
                     {
-                        if (isCancelled()) {
-                            cancelDoc();
+                        if (isCbncelled()) {
+                            cbncelDoc();
                         }
-                        debug_println("printPage "+i);
-                        pageResult = printPage(mDocument, i);
+                        debug_println("printPbge "+i);
+                        pbgeResult = printPbge(mDocument, i);
 
                     }
                 }
             }
 
-            if (isCancelled()) {
-                cancelDoc();
+            if (isCbncelled()) {
+                cbncelDoc();
             }
 
-        } finally {
-            // reset previousPaper in case this job is invoked again.
-            previousPaper = null;
+        } finblly {
+            // reset previousPbper in cbse this job is invoked bgbin.
+            previousPbper = null;
             synchronized (this) {
                 if (performingPrinting) {
                     endDoc();
                 }
-                performingPrinting = false;
+                performingPrinting = fblse;
                 notify();
             }
         }
     }
 
-    protected void validateDestination(String dest) throws PrinterException {
+    protected void vblidbteDestinbtion(String dest) throws PrinterException {
         if (dest == null) {
             return;
         }
-        // dest is null for Destination(new URI(""))
-        // because isAttributeValueSupported returns false in setAttributes
+        // dest is null for Destinbtion(new URI(""))
+        // becbuse isAttributeVblueSupported returns fblse in setAttributes
 
-        // Destination(new URI(" ")) throws URISyntaxException
+        // Destinbtion(new URI(" ")) throws URISyntbxException
         File f = new File(dest);
         try {
-            // check if this is a new file and if filename chars are valid
-            if (f.createNewFile()) {
+            // check if this is b new file bnd if filenbme chbrs bre vblid
+            if (f.crebteNewFile()) {
                 f.delete();
             }
-        } catch (IOException ioe) {
-            throw new PrinterException("Cannot write to file:"+
+        } cbtch (IOException ioe) {
+            throw new PrinterException("Cbnnot write to file:"+
                                        dest);
-        } catch (SecurityException se) {
-            //There is already file read/write access so at this point
-            // only delete access is denied.  Just ignore it because in
-            // most cases the file created in createNewFile gets overwritten
-            // anyway.
+        } cbtch (SecurityException se) {
+            //There is blrebdy file rebd/write bccess so bt this point
+            // only delete bccess is denied.  Just ignore it becbuse in
+            // most cbses the file crebted in crebteNewFile gets overwritten
+            // bnywby.
         }
 
-        File pFile = f.getParentFile();
+        File pFile = f.getPbrentFile();
         if ((f.exists() &&
-             (!f.isFile() || !f.canWrite())) ||
+             (!f.isFile() || !f.cbnWrite())) ||
             ((pFile != null) &&
-             (!pFile.exists() || (pFile.exists() && !pFile.canWrite())))) {
-            throw new PrinterException("Cannot write to file:"+
+             (!pFile.exists() || (pFile.exists() && !pFile.cbnWrite())))) {
+            throw new PrinterException("Cbnnot write to file:"+
                                        dest);
         }
     }
 
     /**
-     * updates a Paper object to reflect the current printer's selected
-     * paper size and imageable area for that paper size.
-     * Default implementation copies settings from the original, applies
-     * applies some validity checks, changes them only if they are
-     * clearly unreasonable, then sets them into the new Paper.
-     * Subclasses are expected to override this method to make more
+     * updbtes b Pbper object to reflect the current printer's selected
+     * pbper size bnd imbgebble breb for thbt pbper size.
+     * Defbult implementbtion copies settings from the originbl, bpplies
+     * bpplies some vblidity checks, chbnges them only if they bre
+     * clebrly unrebsonbble, then sets them into the new Pbper.
+     * Subclbsses bre expected to override this method to mbke more
      * informed decisons.
      */
-    protected void validatePaper(Paper origPaper, Paper newPaper) {
-        if (origPaper == null || newPaper == null) {
+    protected void vblidbtePbper(Pbper origPbper, Pbper newPbper) {
+        if (origPbper == null || newPbper == null) {
             return;
         } else {
-            double wid = origPaper.getWidth();
-            double hgt = origPaper.getHeight();
-            double ix = origPaper.getImageableX();
-            double iy = origPaper.getImageableY();
-            double iw = origPaper.getImageableWidth();
-            double ih = origPaper.getImageableHeight();
+            double wid = origPbper.getWidth();
+            double hgt = origPbper.getHeight();
+            double ix = origPbper.getImbgebbleX();
+            double iy = origPbper.getImbgebbleY();
+            double iw = origPbper.getImbgebbleWidth();
+            double ih = origPbper.getImbgebbleHeight();
 
-            /* Assume any +ve values are legal. Overall paper dimensions
-             * take precedence. Make sure imageable area fits on the paper.
+            /* Assume bny +ve vblues bre legbl. Overbll pbper dimensions
+             * tbke precedence. Mbke sure imbgebble breb fits on the pbper.
              */
-            Paper defaultPaper = new Paper();
-            wid = ((wid > 0.0) ? wid : defaultPaper.getWidth());
-            hgt = ((hgt > 0.0) ? hgt : defaultPaper.getHeight());
-            ix = ((ix > 0.0) ? ix : defaultPaper.getImageableX());
-            iy = ((iy > 0.0) ? iy : defaultPaper.getImageableY());
-            iw = ((iw > 0.0) ? iw : defaultPaper.getImageableWidth());
-            ih = ((ih > 0.0) ? ih : defaultPaper.getImageableHeight());
-            /* full width/height is not likely to be imageable, but since we
-             * don't know the limits we have to allow it
+            Pbper defbultPbper = new Pbper();
+            wid = ((wid > 0.0) ? wid : defbultPbper.getWidth());
+            hgt = ((hgt > 0.0) ? hgt : defbultPbper.getHeight());
+            ix = ((ix > 0.0) ? ix : defbultPbper.getImbgebbleX());
+            iy = ((iy > 0.0) ? iy : defbultPbper.getImbgebbleY());
+            iw = ((iw > 0.0) ? iw : defbultPbper.getImbgebbleWidth());
+            ih = ((ih > 0.0) ? ih : defbultPbper.getImbgebbleHeight());
+            /* full width/height is not likely to be imbgebble, but since we
+             * don't know the limits we hbve to bllow it
              */
             if (iw > wid) {
                 iw = wid;
@@ -1592,80 +1592,80 @@ public abstract class RasterPrinterJob extends PrinterJob {
             if ((iy + ih) > hgt) {
                 iy = hgt - ih;
             }
-            newPaper.setSize(wid, hgt);
-            newPaper.setImageableArea(ix, iy, iw, ih);
+            newPbper.setSize(wid, hgt);
+            newPbper.setImbgebbleAreb(ix, iy, iw, ih);
         }
     }
 
     /**
-     * The passed in PageFormat will be copied and altered to describe
-     * the default page size and orientation of the PrinterJob's
+     * The pbssed in PbgeFormbt will be copied bnd bltered to describe
+     * the defbult pbge size bnd orientbtion of the PrinterJob's
      * current printer.
-     * Platform subclasses which can access the actual default paper size
-     * for a printer may override this method.
+     * Plbtform subclbsses which cbn bccess the bctubl defbult pbper size
+     * for b printer mby override this method.
      */
-    public PageFormat defaultPage(PageFormat page) {
-        PageFormat newPage = (PageFormat)page.clone();
-        newPage.setOrientation(PageFormat.PORTRAIT);
-        Paper newPaper = new Paper();
+    public PbgeFormbt defbultPbge(PbgeFormbt pbge) {
+        PbgeFormbt newPbge = (PbgeFormbt)pbge.clone();
+        newPbge.setOrientbtion(PbgeFormbt.PORTRAIT);
+        Pbper newPbper = new Pbper();
         double ptsPerInch = 72.0;
         double w, h;
-        Media media = null;
+        Medib medib = null;
 
         PrintService service = getPrintService();
         if (service != null) {
-            MediaSize size;
-            media =
-                (Media)service.getDefaultAttributeValue(Media.class);
+            MedibSize size;
+            medib =
+                (Medib)service.getDefbultAttributeVblue(Medib.clbss);
 
-            if (media instanceof MediaSizeName &&
-               ((size = MediaSize.getMediaSizeForName((MediaSizeName)media)) !=
+            if (medib instbnceof MedibSizeNbme &&
+               ((size = MedibSize.getMedibSizeForNbme((MedibSizeNbme)medib)) !=
                 null)) {
-                w =  size.getX(MediaSize.INCH) * ptsPerInch;
-                h =  size.getY(MediaSize.INCH) * ptsPerInch;
-                newPaper.setSize(w, h);
-                newPaper.setImageableArea(ptsPerInch, ptsPerInch,
+                w =  size.getX(MedibSize.INCH) * ptsPerInch;
+                h =  size.getY(MedibSize.INCH) * ptsPerInch;
+                newPbper.setSize(w, h);
+                newPbper.setImbgebbleAreb(ptsPerInch, ptsPerInch,
                                           w - 2.0*ptsPerInch,
                                           h - 2.0*ptsPerInch);
-                newPage.setPaper(newPaper);
-                return newPage;
+                newPbge.setPbper(newPbper);
+                return newPbge;
 
             }
         }
 
-        /* Default to A4 paper outside North America.
+        /* Defbult to A4 pbper outside North Americb.
          */
-        String defaultCountry = Locale.getDefault().getCountry();
-        if (!Locale.getDefault().equals(Locale.ENGLISH) && // ie "C"
-            defaultCountry != null &&
-            !defaultCountry.equals(Locale.US.getCountry()) &&
-            !defaultCountry.equals(Locale.CANADA.getCountry())) {
+        String defbultCountry = Locble.getDefbult().getCountry();
+        if (!Locble.getDefbult().equbls(Locble.ENGLISH) && // ie "C"
+            defbultCountry != null &&
+            !defbultCountry.equbls(Locble.US.getCountry()) &&
+            !defbultCountry.equbls(Locble.CANADA.getCountry())) {
 
             double mmPerInch = 25.4;
-            w = Math.rint((210.0*ptsPerInch)/mmPerInch);
-            h = Math.rint((297.0*ptsPerInch)/mmPerInch);
-            newPaper.setSize(w, h);
-            newPaper.setImageableArea(ptsPerInch, ptsPerInch,
+            w = Mbth.rint((210.0*ptsPerInch)/mmPerInch);
+            h = Mbth.rint((297.0*ptsPerInch)/mmPerInch);
+            newPbper.setSize(w, h);
+            newPbper.setImbgebbleAreb(ptsPerInch, ptsPerInch,
                                       w - 2.0*ptsPerInch,
                                       h - 2.0*ptsPerInch);
         }
 
-        newPage.setPaper(newPaper);
+        newPbge.setPbper(newPbper);
 
-        return newPage;
+        return newPbge;
     }
 
     /**
-     * The passed in PageFormat is cloned and altered to be usable on
+     * The pbssed in PbgeFormbt is cloned bnd bltered to be usbble on
      * the PrinterJob's current printer.
      */
-    public PageFormat validatePage(PageFormat page) {
-        PageFormat newPage = (PageFormat)page.clone();
-        Paper newPaper = new Paper();
-        validatePaper(newPage.getPaper(), newPaper);
-        newPage.setPaper(newPaper);
+    public PbgeFormbt vblidbtePbge(PbgeFormbt pbge) {
+        PbgeFormbt newPbge = (PbgeFormbt)pbge.clone();
+        Pbper newPbper = new Pbper();
+        vblidbtePbper(newPbge.getPbper(), newPbper);
+        newPbge.setPbper(newPbper);
 
-        return newPage;
+        return newPbge;
     }
 
     /**
@@ -1682,162 +1682,162 @@ public abstract class RasterPrinterJob extends PrinterJob {
         return mNumCopies;
     }
 
-   /* Used when executing a print job where an attribute set may
-     * over ride API values.
+   /* Used when executing b print job where bn bttribute set mby
+     * over ride API vblues.
      */
     protected int getCopiesInt() {
         return (copiesAttr > 0) ? copiesAttr : getCopies();
     }
 
     /**
-     * Get the name of the printing user.
-     * The caller must have security permission to read system properties.
+     * Get the nbme of the printing user.
+     * The cbller must hbve security permission to rebd system properties.
      */
-    public String getUserName() {
-        return System.getProperty("user.name");
+    public String getUserNbme() {
+        return System.getProperty("user.nbme");
     }
 
-   /* Used when executing a print job where an attribute set may
-     * over ride API values.
+   /* Used when executing b print job where bn bttribute set mby
+     * over ride API vblues.
      */
-    protected String getUserNameInt() {
-        if  (userNameAttr != null) {
-            return userNameAttr;
+    protected String getUserNbmeInt() {
+        if  (userNbmeAttr != null) {
+            return userNbmeAttr;
         } else {
             try {
-                return  getUserName();
-            } catch (SecurityException e) {
+                return  getUserNbme();
+            } cbtch (SecurityException e) {
                 return "";
             }
         }
     }
 
     /**
-     * Set the name of the document to be printed.
-     * The document name can not be null.
+     * Set the nbme of the document to be printed.
+     * The document nbme cbn not be null.
      */
-    public void setJobName(String jobName) {
-        if (jobName != null) {
-            mDocName = jobName;
+    public void setJobNbme(String jobNbme) {
+        if (jobNbme != null) {
+            mDocNbme = jobNbme;
         } else {
             throw new NullPointerException();
         }
     }
 
     /**
-     * Get the name of the document to be printed.
+     * Get the nbme of the document to be printed.
      */
-    public String getJobName() {
-        return mDocName;
+    public String getJobNbme() {
+        return mDocNbme;
     }
 
-    /* Used when executing a print job where an attribute set may
-     * over ride API values.
+    /* Used when executing b print job where bn bttribute set mby
+     * over ride API vblues.
      */
-    protected String getJobNameInt() {
-        return (jobNameAttr != null) ? jobNameAttr : getJobName();
+    protected String getJobNbmeInt() {
+        return (jobNbmeAttr != null) ? jobNbmeAttr : getJobNbme();
     }
 
     /**
-     * Set the range of pages from a Book to be printed.
-     * Both 'firstPage' and 'lastPage' are zero based
-     * page indices. If either parameter is less than
-     * zero then the page range is set to be from the
-     * first page to the last.
+     * Set the rbnge of pbges from b Book to be printed.
+     * Both 'firstPbge' bnd 'lbstPbge' bre zero bbsed
+     * pbge indices. If either pbrbmeter is less thbn
+     * zero then the pbge rbnge is set to be from the
+     * first pbge to the lbst.
      */
-    protected void setPageRange(int firstPage, int lastPage) {
-        if(firstPage >= 0 && lastPage >= 0) {
-            mFirstPage = firstPage;
-            mLastPage = lastPage;
-            if(mLastPage < mFirstPage) mLastPage = mFirstPage;
+    protected void setPbgeRbnge(int firstPbge, int lbstPbge) {
+        if(firstPbge >= 0 && lbstPbge >= 0) {
+            mFirstPbge = firstPbge;
+            mLbstPbge = lbstPbge;
+            if(mLbstPbge < mFirstPbge) mLbstPbge = mFirstPbge;
         } else {
-            mFirstPage = Pageable.UNKNOWN_NUMBER_OF_PAGES;
-            mLastPage = Pageable.UNKNOWN_NUMBER_OF_PAGES;
+            mFirstPbge = Pbgebble.UNKNOWN_NUMBER_OF_PAGES;
+            mLbstPbge = Pbgebble.UNKNOWN_NUMBER_OF_PAGES;
         }
     }
 
     /**
-     * Return the zero based index of the first page to
+     * Return the zero bbsed index of the first pbge to
      * be printed in this job.
      */
-    protected int getFirstPage() {
-        return mFirstPage == Book.UNKNOWN_NUMBER_OF_PAGES ? 0 : mFirstPage;
+    protected int getFirstPbge() {
+        return mFirstPbge == Book.UNKNOWN_NUMBER_OF_PAGES ? 0 : mFirstPbge;
     }
 
     /**
-     * Return the zero based index of the last page to
+     * Return the zero bbsed index of the lbst pbge to
      * be printed in this job.
      */
-    protected int getLastPage() {
-        return mLastPage;
+    protected int getLbstPbge() {
+        return mLbstPbge;
     }
 
     /**
-     * Set whether copies should be collated or not.
-     * Two collated copies of a three page document
+     * Set whether copies should be collbted or not.
+     * Two collbted copies of b three pbge document
      * print in this order: 1, 2, 3, 1, 2, 3 while
-     * uncollated copies print in this order:
+     * uncollbted copies print in this order:
      * 1, 1, 2, 2, 3, 3.
-     * This is set when request is using an attribute set.
+     * This is set when request is using bn bttribute set.
      */
-    protected void setCollated(boolean collate) {
-        mCollate = collate;
-        collateAttReq = true;
+    protected void setCollbted(boolebn collbte) {
+        mCollbte = collbte;
+        collbteAttReq = true;
     }
 
     /**
-     * Return true if collated copies will be printed as determined
-     * in an attribute set.
+     * Return true if collbted copies will be printed bs determined
+     * in bn bttribute set.
      */
-    protected boolean isCollated() {
-            return mCollate;
+    protected boolebn isCollbted() {
+            return mCollbte;
     }
 
-    protected final int getSelectAttrib() {
-        if (attributes != null) {
-            SunPageSelection pages =
-                (SunPageSelection)attributes.get(SunPageSelection.class);
-            if (pages == SunPageSelection.RANGE) {
+    protected finbl int getSelectAttrib() {
+        if (bttributes != null) {
+            SunPbgeSelection pbges =
+                (SunPbgeSelection)bttributes.get(SunPbgeSelection.clbss);
+            if (pbges == SunPbgeSelection.RANGE) {
                 return PD_PAGENUMS;
-            } else if (pages == SunPageSelection.SELECTION) {
+            } else if (pbges == SunPbgeSelection.SELECTION) {
                 return PD_SELECTION;
-            } else if (pages ==  SunPageSelection.ALL) {
+            } else if (pbges ==  SunPbgeSelection.ALL) {
                 return PD_ALLPAGES;
             }
         }
         return PD_NOSELECTION;
     }
 
-    //returns 1-based index for "From" page
-    protected final int getFromPageAttrib() {
-        if (attributes != null) {
-            PageRanges pageRangesAttr =
-                (PageRanges)attributes.get(PageRanges.class);
-            if (pageRangesAttr != null) {
-                int[][] range = pageRangesAttr.getMembers();
-                return range[0][0];
+    //returns 1-bbsed index for "From" pbge
+    protected finbl int getFromPbgeAttrib() {
+        if (bttributes != null) {
+            PbgeRbnges pbgeRbngesAttr =
+                (PbgeRbnges)bttributes.get(PbgeRbnges.clbss);
+            if (pbgeRbngesAttr != null) {
+                int[][] rbnge = pbgeRbngesAttr.getMembers();
+                return rbnge[0][0];
             }
         }
-        return getMinPageAttrib();
+        return getMinPbgeAttrib();
     }
 
-    //returns 1-based index for "To" page
-    protected final int getToPageAttrib() {
-        if (attributes != null) {
-            PageRanges pageRangesAttr =
-                (PageRanges)attributes.get(PageRanges.class);
-            if (pageRangesAttr != null) {
-                int[][] range = pageRangesAttr.getMembers();
-                return range[range.length-1][1];
+    //returns 1-bbsed index for "To" pbge
+    protected finbl int getToPbgeAttrib() {
+        if (bttributes != null) {
+            PbgeRbnges pbgeRbngesAttr =
+                (PbgeRbnges)bttributes.get(PbgeRbnges.clbss);
+            if (pbgeRbngesAttr != null) {
+                int[][] rbnge = pbgeRbngesAttr.getMembers();
+                return rbnge[rbnge.length-1][1];
             }
         }
-        return getMaxPageAttrib();
+        return getMbxPbgeAttrib();
     }
 
-    protected final int getMinPageAttrib() {
-        if (attributes != null) {
-            SunMinMaxPage s =
-                (SunMinMaxPage)attributes.get(SunMinMaxPage.class);
+    protected finbl int getMinPbgeAttrib() {
+        if (bttributes != null) {
+            SunMinMbxPbge s =
+                (SunMinMbxPbge)bttributes.get(SunMinMbxPbge.clbss);
             if (s != null) {
                 return s.getMin();
             }
@@ -1845,103 +1845,103 @@ public abstract class RasterPrinterJob extends PrinterJob {
         return 1;
     }
 
-    protected final int getMaxPageAttrib() {
-        if (attributes != null) {
-            SunMinMaxPage s =
-                (SunMinMaxPage)attributes.get(SunMinMaxPage.class);
+    protected finbl int getMbxPbgeAttrib() {
+        if (bttributes != null) {
+            SunMinMbxPbge s =
+                (SunMinMbxPbge)bttributes.get(SunMinMbxPbge.clbss);
             if (s != null) {
-                return s.getMax();
+                return s.getMbx();
             }
         }
 
-        Pageable pageable = getPageable();
-        if (pageable != null) {
-            int numPages = pageable.getNumberOfPages();
-            if (numPages <= Pageable.UNKNOWN_NUMBER_OF_PAGES) {
-                numPages = MAX_UNKNOWN_PAGES;
+        Pbgebble pbgebble = getPbgebble();
+        if (pbgebble != null) {
+            int numPbges = pbgebble.getNumberOfPbges();
+            if (numPbges <= Pbgebble.UNKNOWN_NUMBER_OF_PAGES) {
+                numPbges = MAX_UNKNOWN_PAGES;
             }
-            return  ((numPages == 0) ? 1 : numPages);
+            return  ((numPbges == 0) ? 1 : numPbges);
         }
 
         return Integer.MAX_VALUE;
     }
     /**
-     * Called by the print() method at the start of
-     * a print job.
+     * Cblled by the print() method bt the stbrt of
+     * b print job.
      */
-    protected abstract void startDoc() throws PrinterException;
+    protected bbstrbct void stbrtDoc() throws PrinterException;
 
     /**
-     * Called by the print() method at the end of
-     * a print job.
+     * Cblled by the print() method bt the end of
+     * b print job.
      */
-    protected abstract void endDoc() throws PrinterException;
+    protected bbstrbct void endDoc() throws PrinterException;
 
-    /* Called by cancelDoc */
-    protected abstract void abortDoc();
+    /* Cblled by cbncelDoc */
+    protected bbstrbct void bbortDoc();
 
-// MacOSX - made protected so subclasses can reference it.
-    protected void cancelDoc() throws PrinterAbortException {
-        abortDoc();
+// MbcOSX - mbde protected so subclbsses cbn reference it.
+    protected void cbncelDoc() throws PrinterAbortException {
+        bbortDoc();
         synchronized (this) {
-            userCancelled = false;
-            performingPrinting = false;
+            userCbncelled = fblse;
+            performingPrinting = fblse;
             notify();
         }
         throw new PrinterAbortException();
     }
 
     /**
-     * Returns how many times the entire book should
+     * Returns how mbny times the entire book should
      * be printed by the PrintJob. If the printer
-     * itself supports collation then this method
-     * should return 1 indicating that the entire
-     * book need only be printed once and the copies
-     * will be collated and made in the printer.
+     * itself supports collbtion then this method
+     * should return 1 indicbting thbt the entire
+     * book need only be printed once bnd the copies
+     * will be collbted bnd mbde in the printer.
      */
-    protected int getCollatedCopies() {
-        return isCollated() ? getCopiesInt() : 1;
+    protected int getCollbtedCopies() {
+        return isCollbted() ? getCopiesInt() : 1;
     }
 
     /**
-     * Returns how many times each page in the book
+     * Returns how mbny times ebch pbge in the book
      * should be consecutively printed by PrintJob.
-     * If the printer makes copies itself then this
+     * If the printer mbkes copies itself then this
      * method should return 1.
      */
-    protected int getNoncollatedCopies() {
-        return isCollated() ? 1 : getCopiesInt();
+    protected int getNoncollbtedCopies() {
+        return isCollbted() ? 1 : getCopiesInt();
     }
 
 
-    /* The printer graphics config is cached on the job, so that it can
-     * be created once, and updated only as needed (for now only to change
-     * the bounds if when using a Pageable the page sizes changes).
+    /* The printer grbphics config is cbched on the job, so thbt it cbn
+     * be crebted once, bnd updbted only bs needed (for now only to chbnge
+     * the bounds if when using b Pbgebble the pbge sizes chbnges).
      */
 
-    private int deviceWidth, deviceHeight;
-    private AffineTransform defaultDeviceTransform;
-    private PrinterGraphicsConfig pgConfig;
+    privbte int deviceWidth, deviceHeight;
+    privbte AffineTrbnsform defbultDeviceTrbnsform;
+    privbte PrinterGrbphicsConfig pgConfig;
 
-    synchronized void setGraphicsConfigInfo(AffineTransform at,
+    synchronized void setGrbphicsConfigInfo(AffineTrbnsform bt,
                                             double pw, double ph) {
         Point2D.Double pt = new Point2D.Double(pw, ph);
-        at.transform(pt, pt);
+        bt.trbnsform(pt, pt);
 
         if (pgConfig == null ||
-            defaultDeviceTransform == null ||
-            !at.equals(defaultDeviceTransform) ||
+            defbultDeviceTrbnsform == null ||
+            !bt.equbls(defbultDeviceTrbnsform) ||
             deviceWidth != (int)pt.getX() ||
             deviceHeight != (int)pt.getY()) {
 
                 deviceWidth = (int)pt.getX();
                 deviceHeight = (int)pt.getY();
-                defaultDeviceTransform = at;
+                defbultDeviceTrbnsform = bt;
                 pgConfig = null;
         }
     }
 
-    synchronized PrinterGraphicsConfig getPrinterGraphicsConfig() {
+    synchronized PrinterGrbphicsConfig getPrinterGrbphicsConfig() {
         if (pgConfig != null) {
             return pgConfig;
         }
@@ -1950,478 +1950,478 @@ public abstract class RasterPrinterJob extends PrinterJob {
         if (service != null) {
             deviceID = service.toString();
         }
-        pgConfig = new PrinterGraphicsConfig(deviceID,
-                                             defaultDeviceTransform,
+        pgConfig = new PrinterGrbphicsConfig(deviceID,
+                                             defbultDeviceTrbnsform,
                                              deviceWidth, deviceHeight);
         return pgConfig;
     }
 
     /**
-     * Print a page from the provided document.
-     * @return int Printable.PAGE_EXISTS if the page existed and was drawn and
-     *             Printable.NO_SUCH_PAGE if the page did not exist.
-     * @see java.awt.print.Printable
+     * Print b pbge from the provided document.
+     * @return int Printbble.PAGE_EXISTS if the pbge existed bnd wbs drbwn bnd
+     *             Printbble.NO_SUCH_PAGE if the pbge did not exist.
+     * @see jbvb.bwt.print.Printbble
      */
-    protected int printPage(Pageable document, int pageIndex)
+    protected int printPbge(Pbgebble document, int pbgeIndex)
         throws PrinterException
     {
-        PageFormat page;
-        PageFormat origPage;
-        Printable painter;
+        PbgeFormbt pbge;
+        PbgeFormbt origPbge;
+        Printbble pbinter;
         try {
-            origPage = document.getPageFormat(pageIndex);
-            page = (PageFormat)origPage.clone();
-            painter = document.getPrintable(pageIndex);
-        } catch (Exception e) {
+            origPbge = document.getPbgeFormbt(pbgeIndex);
+            pbge = (PbgeFormbt)origPbge.clone();
+            pbinter = document.getPrintbble(pbgeIndex);
+        } cbtch (Exception e) {
             PrinterException pe =
-                    new PrinterException("Error getting page or printable.[ " +
+                    new PrinterException("Error getting pbge or printbble.[ " +
                                           e +" ]");
-            pe.initCause(e);
+            pe.initCbuse(e);
             throw pe;
         }
 
-        /* Get the imageable area from Paper instead of PageFormat
-         * because we do not want it adjusted by the page orientation.
+        /* Get the imbgebble breb from Pbper instebd of PbgeFormbt
+         * becbuse we do not wbnt it bdjusted by the pbge orientbtion.
          */
-        Paper paper = page.getPaper();
-        // if non-portrait and 270 degree landscape rotation
-        if (page.getOrientation() != PageFormat.PORTRAIT &&
-            landscapeRotates270) {
+        Pbper pbper = pbge.getPbper();
+        // if non-portrbit bnd 270 degree lbndscbpe rotbtion
+        if (pbge.getOrientbtion() != PbgeFormbt.PORTRAIT &&
+            lbndscbpeRotbtes270) {
 
-            double left = paper.getImageableX();
-            double top = paper.getImageableY();
-            double width = paper.getImageableWidth();
-            double height = paper.getImageableHeight();
-            paper.setImageableArea(paper.getWidth()-left-width,
-                                   paper.getHeight()-top-height,
+            double left = pbper.getImbgebbleX();
+            double top = pbper.getImbgebbleY();
+            double width = pbper.getImbgebbleWidth();
+            double height = pbper.getImbgebbleHeight();
+            pbper.setImbgebbleAreb(pbper.getWidth()-left-width,
+                                   pbper.getHeight()-top-height,
                                    width, height);
-            page.setPaper(paper);
-            if (page.getOrientation() == PageFormat.LANDSCAPE) {
-                page.setOrientation(PageFormat.REVERSE_LANDSCAPE);
+            pbge.setPbper(pbper);
+            if (pbge.getOrientbtion() == PbgeFormbt.LANDSCAPE) {
+                pbge.setOrientbtion(PbgeFormbt.REVERSE_LANDSCAPE);
             } else {
-                page.setOrientation(PageFormat.LANDSCAPE);
+                pbge.setOrientbtion(PbgeFormbt.LANDSCAPE);
             }
         }
 
-        double xScale = getXRes() / 72.0;
-        double yScale = getYRes() / 72.0;
+        double xScble = getXRes() / 72.0;
+        double yScble = getYRes() / 72.0;
 
-        /* The deviceArea is the imageable area in the printer's
+        /* The deviceAreb is the imbgebble breb in the printer's
          * resolution.
          */
-        Rectangle2D deviceArea =
-            new Rectangle2D.Double(paper.getImageableX() * xScale,
-                                   paper.getImageableY() * yScale,
-                                   paper.getImageableWidth() * xScale,
-                                   paper.getImageableHeight() * yScale);
+        Rectbngle2D deviceAreb =
+            new Rectbngle2D.Double(pbper.getImbgebbleX() * xScble,
+                                   pbper.getImbgebbleY() * yScble,
+                                   pbper.getImbgebbleWidth() * xScble,
+                                   pbper.getImbgebbleHeight() * yScble);
 
-        /* Build and hold on to a uniform transform so that
-         * we can get back to device space at the beginning
-         * of each band.
+        /* Build bnd hold on to b uniform trbnsform so thbt
+         * we cbn get bbck to device spbce bt the beginning
+         * of ebch bbnd.
          */
-        AffineTransform uniformTransform = new AffineTransform();
+        AffineTrbnsform uniformTrbnsform = new AffineTrbnsform();
 
-        /* The scale transform is used to switch from the
-         * device space to the user's 72 dpi space.
+        /* The scble trbnsform is used to switch from the
+         * device spbce to the user's 72 dpi spbce.
          */
-        AffineTransform scaleTransform = new AffineTransform();
-        scaleTransform.scale(xScale, yScale);
+        AffineTrbnsform scbleTrbnsform = new AffineTrbnsform();
+        scbleTrbnsform.scble(xScble, yScble);
 
-        /* bandwidth is multiple of 4 as the data is used in a win32 DIB and
-         * some drivers behave badly if scanlines aren't multiples of 4 bytes.
+        /* bbndwidth is multiple of 4 bs the dbtb is used in b win32 DIB bnd
+         * some drivers behbve bbdly if scbnlines bren't multiples of 4 bytes.
          */
-        int bandWidth = (int) deviceArea.getWidth();
-        if (bandWidth % 4 != 0) {
-            bandWidth += (4 - (bandWidth % 4));
+        int bbndWidth = (int) deviceAreb.getWidth();
+        if (bbndWidth % 4 != 0) {
+            bbndWidth += (4 - (bbndWidth % 4));
         }
-        if (bandWidth <= 0) {
-            throw new PrinterException("Paper's imageable width is too small.");
-        }
-
-        int deviceAreaHeight = (int)deviceArea.getHeight();
-        if (deviceAreaHeight <= 0) {
-            throw new PrinterException("Paper's imageable height is too small.");
+        if (bbndWidth <= 0) {
+            throw new PrinterException("Pbper's imbgebble width is too smbll.");
         }
 
-        /* Figure out the number of lines that will fit into
-         * our maximum band size. The hard coded 3 reflects the
-         * fact that we can only create 24 bit per pixel 3 byte BGR
-         * BufferedImages. FIX.
+        int deviceArebHeight = (int)deviceAreb.getHeight();
+        if (deviceArebHeight <= 0) {
+            throw new PrinterException("Pbper's imbgebble height is too smbll.");
+        }
+
+        /* Figure out the number of lines thbt will fit into
+         * our mbximum bbnd size. The hbrd coded 3 reflects the
+         * fbct thbt we cbn only crebte 24 bit per pixel 3 byte BGR
+         * BufferedImbges. FIX.
          */
-        int bandHeight = (MAX_BAND_SIZE / bandWidth / 3);
+        int bbndHeight = (MAX_BAND_SIZE / bbndWidth / 3);
 
-        int deviceLeft = (int)Math.rint(paper.getImageableX() * xScale);
-        int deviceTop  = (int)Math.rint(paper.getImageableY() * yScale);
+        int deviceLeft = (int)Mbth.rint(pbper.getImbgebbleX() * xScble);
+        int deviceTop  = (int)Mbth.rint(pbper.getImbgebbleY() * yScble);
 
-        /* The device transform is used to move the band down
-         * the page using translates. Normally this is all it
+        /* The device trbnsform is used to move the bbnd down
+         * the pbge using trbnslbtes. Normblly this is bll it
          * would do, but since, when printing, the Window's
-         * DIB format wants the last line to be first (lowest) in
-         * memory, the deviceTransform moves the origin to the
-         * bottom of the band and flips the origin. This way the
-         * app prints upside down into the band which is the DIB
-         * format.
+         * DIB formbt wbnts the lbst line to be first (lowest) in
+         * memory, the deviceTrbnsform moves the origin to the
+         * bottom of the bbnd bnd flips the origin. This wby the
+         * bpp prints upside down into the bbnd which is the DIB
+         * formbt.
          */
-        AffineTransform deviceTransform = new AffineTransform();
-        deviceTransform.translate(-deviceLeft, deviceTop);
-        deviceTransform.translate(0, bandHeight);
-        deviceTransform.scale(1, -1);
+        AffineTrbnsform deviceTrbnsform = new AffineTrbnsform();
+        deviceTrbnsform.trbnslbte(-deviceLeft, deviceTop);
+        deviceTrbnsform.trbnslbte(0, bbndHeight);
+        deviceTrbnsform.scble(1, -1);
 
-        /* Create a BufferedImage to hold the band. We set the clip
-         * of the band to be tight around the bits so that the
-         * application can use it to figure what part of the
-         * page needs to be drawn. The clip is never altered in
-         * this method, but we do translate the band's coordinate
-         * system so that the app will see the clip moving down the
-         * page though it s always around the same set of pixels.
+        /* Crebte b BufferedImbge to hold the bbnd. We set the clip
+         * of the bbnd to be tight bround the bits so thbt the
+         * bpplicbtion cbn use it to figure whbt pbrt of the
+         * pbge needs to be drbwn. The clip is never bltered in
+         * this method, but we do trbnslbte the bbnd's coordinbte
+         * system so thbt the bpp will see the clip moving down the
+         * pbge though it s blwbys bround the sbme set of pixels.
          */
-        BufferedImage pBand = new BufferedImage(1, 1,
-                                                BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImbge pBbnd = new BufferedImbge(1, 1,
+                                                BufferedImbge.TYPE_3BYTE_BGR);
 
-        /* Have the app draw into a PeekGraphics object so we can
-         * learn something about the needs of the print job.
+        /* Hbve the bpp drbw into b PeekGrbphics object so we cbn
+         * lebrn something bbout the needs of the print job.
          */
 
-        PeekGraphics peekGraphics = createPeekGraphics(pBand.createGraphics(),
+        PeekGrbphics peekGrbphics = crebtePeekGrbphics(pBbnd.crebteGrbphics(),
                                                        this);
 
-        Rectangle2D.Double pageFormatArea =
-            new Rectangle2D.Double(page.getImageableX(),
-                                   page.getImageableY(),
-                                   page.getImageableWidth(),
-                                   page.getImageableHeight());
-        peekGraphics.transform(scaleTransform);
-        peekGraphics.translate(-getPhysicalPrintableX(paper) / xScale,
-                               -getPhysicalPrintableY(paper) / yScale);
-        peekGraphics.transform(new AffineTransform(page.getMatrix()));
-        initPrinterGraphics(peekGraphics, pageFormatArea);
-        AffineTransform pgAt = peekGraphics.getTransform();
+        Rectbngle2D.Double pbgeFormbtAreb =
+            new Rectbngle2D.Double(pbge.getImbgebbleX(),
+                                   pbge.getImbgebbleY(),
+                                   pbge.getImbgebbleWidth(),
+                                   pbge.getImbgebbleHeight());
+        peekGrbphics.trbnsform(scbleTrbnsform);
+        peekGrbphics.trbnslbte(-getPhysicblPrintbbleX(pbper) / xScble,
+                               -getPhysicblPrintbbleY(pbper) / yScble);
+        peekGrbphics.trbnsform(new AffineTrbnsform(pbge.getMbtrix()));
+        initPrinterGrbphics(peekGrbphics, pbgeFormbtAreb);
+        AffineTrbnsform pgAt = peekGrbphics.getTrbnsform();
 
-        /* Update the information used to return a GraphicsConfiguration
-         * for this printer device. It needs to be updated per page as
-         * not all pages in a job may be the same size (different bounds)
-         * The transform is the scaling transform as this corresponds to
-         * the default transform for the device. The width and height are
-         * those of the paper, not the page format, as we want to describe
-         * the bounds of the device in its natural coordinate system of
-         * device coordinate whereas a page format may be in a rotated context.
+        /* Updbte the informbtion used to return b GrbphicsConfigurbtion
+         * for this printer device. It needs to be updbted per pbge bs
+         * not bll pbges in b job mby be the sbme size (different bounds)
+         * The trbnsform is the scbling trbnsform bs this corresponds to
+         * the defbult trbnsform for the device. The width bnd height bre
+         * those of the pbper, not the pbge formbt, bs we wbnt to describe
+         * the bounds of the device in its nbturbl coordinbte system of
+         * device coordinbte wherebs b pbge formbt mby be in b rotbted context.
          */
-        setGraphicsConfigInfo(scaleTransform,
-                              paper.getWidth(), paper.getHeight());
-        int pageResult = painter.print(peekGraphics, origPage, pageIndex);
-        debug_println("pageResult "+pageResult);
-        if (pageResult == Printable.PAGE_EXISTS) {
-            debug_println("startPage "+pageIndex);
+        setGrbphicsConfigInfo(scbleTrbnsform,
+                              pbper.getWidth(), pbper.getHeight());
+        int pbgeResult = pbinter.print(peekGrbphics, origPbge, pbgeIndex);
+        debug_println("pbgeResult "+pbgeResult);
+        if (pbgeResult == Printbble.PAGE_EXISTS) {
+            debug_println("stbrtPbge "+pbgeIndex);
 
-            /* We need to check if the paper size is changed.
-             * Note that it is not sufficient to ask for the pageformat
-             * of "pageIndex-1", since PageRanges mean that pages can be
-             * skipped. So we have to look at the actual last paper size used.
+            /* We need to check if the pbper size is chbnged.
+             * Note thbt it is not sufficient to bsk for the pbgeformbt
+             * of "pbgeIndex-1", since PbgeRbnges mebn thbt pbges cbn be
+             * skipped. So we hbve to look bt the bctubl lbst pbper size used.
              */
-            Paper thisPaper = page.getPaper();
-            boolean paperChanged =
-                previousPaper == null ||
-                thisPaper.getWidth() != previousPaper.getWidth() ||
-                thisPaper.getHeight() != previousPaper.getHeight();
-            previousPaper = thisPaper;
+            Pbper thisPbper = pbge.getPbper();
+            boolebn pbperChbnged =
+                previousPbper == null ||
+                thisPbper.getWidth() != previousPbper.getWidth() ||
+                thisPbper.getHeight() != previousPbper.getHeight();
+            previousPbper = thisPbper;
 
-            startPage(page, painter, pageIndex, paperChanged);
-            Graphics2D pathGraphics = createPathGraphics(peekGraphics, this,
-                                                         painter, page,
-                                                         pageIndex);
+            stbrtPbge(pbge, pbinter, pbgeIndex, pbperChbnged);
+            Grbphics2D pbthGrbphics = crebtePbthGrbphics(peekGrbphics, this,
+                                                         pbinter, pbge,
+                                                         pbgeIndex);
 
-            /* If we can convert the page directly to the
-             * underlying graphics system then we do not
-             * need to rasterize. We also may not need to
-             * create the 'band' if all the pages can take
-             * this path.
+            /* If we cbn convert the pbge directly to the
+             * underlying grbphics system then we do not
+             * need to rbsterize. We blso mby not need to
+             * crebte the 'bbnd' if bll the pbges cbn tbke
+             * this pbth.
              */
-            if (pathGraphics != null) {
-                pathGraphics.transform(scaleTransform);
-                // user (0,0) should be origin of page, not imageable area
-                pathGraphics.translate(-getPhysicalPrintableX(paper) / xScale,
-                                       -getPhysicalPrintableY(paper) / yScale);
-                pathGraphics.transform(new AffineTransform(page.getMatrix()));
-                initPrinterGraphics(pathGraphics, pageFormatArea);
+            if (pbthGrbphics != null) {
+                pbthGrbphics.trbnsform(scbleTrbnsform);
+                // user (0,0) should be origin of pbge, not imbgebble breb
+                pbthGrbphics.trbnslbte(-getPhysicblPrintbbleX(pbper) / xScble,
+                                       -getPhysicblPrintbbleY(pbper) / yScble);
+                pbthGrbphics.trbnsform(new AffineTrbnsform(pbge.getMbtrix()));
+                initPrinterGrbphics(pbthGrbphics, pbgeFormbtAreb);
 
-                redrawList.clear();
+                redrbwList.clebr();
 
-                AffineTransform initialTx = pathGraphics.getTransform();
+                AffineTrbnsform initiblTx = pbthGrbphics.getTrbnsform();
 
-                painter.print(pathGraphics, origPage, pageIndex);
+                pbinter.print(pbthGrbphics, origPbge, pbgeIndex);
 
-                for (int i=0;i<redrawList.size();i++) {
-                   GraphicsState gstate = redrawList.get(i);
-                   pathGraphics.setTransform(initialTx);
-                   ((PathGraphics)pathGraphics).redrawRegion(
-                                                         gstate.region,
-                                                         gstate.sx,
-                                                         gstate.sy,
-                                                         gstate.theClip,
-                                                         gstate.theTransform);
+                for (int i=0;i<redrbwList.size();i++) {
+                   GrbphicsStbte gstbte = redrbwList.get(i);
+                   pbthGrbphics.setTrbnsform(initiblTx);
+                   ((PbthGrbphics)pbthGrbphics).redrbwRegion(
+                                                         gstbte.region,
+                                                         gstbte.sx,
+                                                         gstbte.sy,
+                                                         gstbte.theClip,
+                                                         gstbte.theTrbnsform);
                 }
 
-            /* This is the banded-raster printing loop.
+            /* This is the bbnded-rbster printing loop.
              * It should be moved into its own method.
              */
             } else {
-                BufferedImage band = cachedBand;
-                if (cachedBand == null ||
-                    bandWidth != cachedBandWidth ||
-                    bandHeight != cachedBandHeight) {
-                    band = new BufferedImage(bandWidth, bandHeight,
-                                             BufferedImage.TYPE_3BYTE_BGR);
-                    cachedBand = band;
-                    cachedBandWidth = bandWidth;
-                    cachedBandHeight = bandHeight;
+                BufferedImbge bbnd = cbchedBbnd;
+                if (cbchedBbnd == null ||
+                    bbndWidth != cbchedBbndWidth ||
+                    bbndHeight != cbchedBbndHeight) {
+                    bbnd = new BufferedImbge(bbndWidth, bbndHeight,
+                                             BufferedImbge.TYPE_3BYTE_BGR);
+                    cbchedBbnd = bbnd;
+                    cbchedBbndWidth = bbndWidth;
+                    cbchedBbndHeight = bbndHeight;
                 }
-                Graphics2D bandGraphics = band.createGraphics();
+                Grbphics2D bbndGrbphics = bbnd.crebteGrbphics();
 
-                Rectangle2D.Double clipArea =
-                    new Rectangle2D.Double(0, 0, bandWidth, bandHeight);
+                Rectbngle2D.Double clipAreb =
+                    new Rectbngle2D.Double(0, 0, bbndWidth, bbndHeight);
 
-                initPrinterGraphics(bandGraphics, clipArea);
+                initPrinterGrbphics(bbndGrbphics, clipAreb);
 
-                ProxyGraphics2D painterGraphics =
-                    new ProxyGraphics2D(bandGraphics, this);
+                ProxyGrbphics2D pbinterGrbphics =
+                    new ProxyGrbphics2D(bbndGrbphics, this);
 
-                Graphics2D clearGraphics = band.createGraphics();
-                clearGraphics.setColor(Color.white);
+                Grbphics2D clebrGrbphics = bbnd.crebteGrbphics();
+                clebrGrbphics.setColor(Color.white);
 
-                /* We need the actual bits of the BufferedImage to send to
-                 * the native Window's code. 'data' points to the actual
-                 * pixels. Right now these are in ARGB format with 8 bits
-                 * per component. We need to use a monochrome BufferedImage
+                /* We need the bctubl bits of the BufferedImbge to send to
+                 * the nbtive Window's code. 'dbtb' points to the bctubl
+                 * pixels. Right now these bre in ARGB formbt with 8 bits
+                 * per component. We need to use b monochrome BufferedImbge
                  * for monochrome printers when this is supported by
-                 * BufferedImage. FIX
+                 * BufferedImbge. FIX
                  */
-                ByteInterleavedRaster tile = (ByteInterleavedRaster)band.getRaster();
-                byte[] data = tile.getDataStorage();
+                ByteInterlebvedRbster tile = (ByteInterlebvedRbster)bbnd.getRbster();
+                byte[] dbtb = tile.getDbtbStorbge();
 
-                /* Loop over the page moving our band down the page,
-                 * calling the app to render the band, and then send the band
+                /* Loop over the pbge moving our bbnd down the pbge,
+                 * cblling the bpp to render the bbnd, bnd then send the bbnd
                  * to the printer.
                  */
-                int deviceBottom = deviceTop + deviceAreaHeight;
+                int deviceBottom = deviceTop + deviceArebHeight;
 
-                /* device's printable x,y is really addressable origin
-                 * we address relative to media origin so when we print a
-                 * band we need to adjust for the different methods of
-                 * addressing it.
+                /* device's printbble x,y is reblly bddressbble origin
+                 * we bddress relbtive to medib origin so when we print b
+                 * bbnd we need to bdjust for the different methods of
+                 * bddressing it.
                  */
-                int deviceAddressableX = (int)getPhysicalPrintableX(paper);
-                int deviceAddressableY = (int)getPhysicalPrintableY(paper);
+                int deviceAddressbbleX = (int)getPhysicblPrintbbleX(pbper);
+                int deviceAddressbbleY = (int)getPhysicblPrintbbleY(pbper);
 
-                for (int bandTop = 0; bandTop <= deviceAreaHeight;
-                     bandTop += bandHeight)
+                for (int bbndTop = 0; bbndTop <= deviceArebHeight;
+                     bbndTop += bbndHeight)
                 {
 
-                    /* Put the band back into device space and
-                     * erase the contents of the band.
+                    /* Put the bbnd bbck into device spbce bnd
+                     * erbse the contents of the bbnd.
                      */
-                    clearGraphics.fillRect(0, 0, bandWidth, bandHeight);
+                    clebrGrbphics.fillRect(0, 0, bbndWidth, bbndHeight);
 
-                    /* Put the band into the correct location on the
-                     * page. Once the band is moved we translate the
-                     * device transform so that the band will move down
-                     * the page on the next iteration of the loop.
+                    /* Put the bbnd into the correct locbtion on the
+                     * pbge. Once the bbnd is moved we trbnslbte the
+                     * device trbnsform so thbt the bbnd will move down
+                     * the pbge on the next iterbtion of the loop.
                      */
-                    bandGraphics.setTransform(uniformTransform);
-                    bandGraphics.transform(deviceTransform);
-                    deviceTransform.translate(0, -bandHeight);
+                    bbndGrbphics.setTrbnsform(uniformTrbnsform);
+                    bbndGrbphics.trbnsform(deviceTrbnsform);
+                    deviceTrbnsform.trbnslbte(0, -bbndHeight);
 
-                    /* Switch the band from device space to user,
-                     * 72 dpi, space.
+                    /* Switch the bbnd from device spbce to user,
+                     * 72 dpi, spbce.
                      */
-                    bandGraphics.transform(scaleTransform);
-                    bandGraphics.transform(new AffineTransform(page.getMatrix()));
+                    bbndGrbphics.trbnsform(scbleTrbnsform);
+                    bbndGrbphics.trbnsform(new AffineTrbnsform(pbge.getMbtrix()));
 
-                    Rectangle clip = bandGraphics.getClipBounds();
-                    clip = pgAt.createTransformedShape(clip).getBounds();
+                    Rectbngle clip = bbndGrbphics.getClipBounds();
+                    clip = pgAt.crebteTrbnsformedShbpe(clip).getBounds();
 
-                    if ((clip == null) || peekGraphics.hitsDrawingArea(clip) &&
-                        (bandWidth > 0 && bandHeight > 0)) {
+                    if ((clip == null) || peekGrbphics.hitsDrbwingAreb(clip) &&
+                        (bbndWidth > 0 && bbndHeight > 0)) {
 
-                        /* if the client has specified an imageable X or Y
-                         * which is off than the physically addressable
-                         * area of the page, then we need to adjust for that
-                         * here so that we pass only non -ve band coordinates
-                         * We also need to translate by the adjusted amount
-                         * so that printing appears in the correct place.
+                        /* if the client hbs specified bn imbgebble X or Y
+                         * which is off thbn the physicblly bddressbble
+                         * breb of the pbge, then we need to bdjust for thbt
+                         * here so thbt we pbss only non -ve bbnd coordinbtes
+                         * We blso need to trbnslbte by the bdjusted bmount
+                         * so thbt printing bppebrs in the correct plbce.
                          */
-                        int bandX = deviceLeft - deviceAddressableX;
-                        if (bandX < 0) {
-                            bandGraphics.translate(bandX/xScale,0);
-                            bandX = 0;
+                        int bbndX = deviceLeft - deviceAddressbbleX;
+                        if (bbndX < 0) {
+                            bbndGrbphics.trbnslbte(bbndX/xScble,0);
+                            bbndX = 0;
                         }
-                        int bandY = deviceTop + bandTop - deviceAddressableY;
-                        if (bandY < 0) {
-                            bandGraphics.translate(0,bandY/yScale);
-                            bandY = 0;
+                        int bbndY = deviceTop + bbndTop - deviceAddressbbleY;
+                        if (bbndY < 0) {
+                            bbndGrbphics.trbnslbte(0,bbndY/yScble);
+                            bbndY = 0;
                         }
-                        /* Have the app's painter image into the band
-                         * and then send the band to the printer.
+                        /* Hbve the bpp's pbinter imbge into the bbnd
+                         * bnd then send the bbnd to the printer.
                          */
-                        painterGraphics.setDelegate((Graphics2D) bandGraphics.create());
-                        painter.print(painterGraphics, origPage, pageIndex);
-                        painterGraphics.dispose();
-                        printBand(data, bandX, bandY, bandWidth, bandHeight);
+                        pbinterGrbphics.setDelegbte((Grbphics2D) bbndGrbphics.crebte());
+                        pbinter.print(pbinterGrbphics, origPbge, pbgeIndex);
+                        pbinterGrbphics.dispose();
+                        printBbnd(dbtb, bbndX, bbndY, bbndWidth, bbndHeight);
                     }
                 }
 
-                clearGraphics.dispose();
-                bandGraphics.dispose();
+                clebrGrbphics.dispose();
+                bbndGrbphics.dispose();
 
             }
-            debug_println("calling endPage "+pageIndex);
-            endPage(page, painter, pageIndex);
+            debug_println("cblling endPbge "+pbgeIndex);
+            endPbge(pbge, pbinter, pbgeIndex);
         }
 
-        return pageResult;
+        return pbgeResult;
     }
 
     /**
-     * If a print job is in progress, print() has been
-     * called but has not returned, then this signals
-     * that the job should be cancelled and the next
-     * chance. If there is no print job in progress then
-     * this call does nothing.
+     * If b print job is in progress, print() hbs been
+     * cblled but hbs not returned, then this signbls
+     * thbt the job should be cbncelled bnd the next
+     * chbnce. If there is no print job in progress then
+     * this cbll does nothing.
      */
-    public void cancel() {
+    public void cbncel() {
         synchronized (this) {
             if (performingPrinting) {
-                userCancelled = true;
+                userCbncelled = true;
             }
             notify();
         }
     }
 
     /**
-     * Returns true is a print job is ongoing but will
-     * be cancelled and the next opportunity. false is
+     * Returns true is b print job is ongoing but will
+     * be cbncelled bnd the next opportunity. fblse is
      * returned otherwise.
      */
-    public boolean isCancelled() {
+    public boolebn isCbncelled() {
 
-        boolean cancelled = false;
+        boolebn cbncelled = fblse;
 
         synchronized (this) {
-            cancelled = (performingPrinting && userCancelled);
+            cbncelled = (performingPrinting && userCbncelled);
             notify();
         }
 
-        return cancelled;
+        return cbncelled;
     }
 
     /**
-     * Return the Pageable describing the pages to be printed.
+     * Return the Pbgebble describing the pbges to be printed.
      */
-    protected Pageable getPageable() {
+    protected Pbgebble getPbgebble() {
         return mDocument;
     }
 
     /**
-     * Examine the metrics captured by the
-     * <code>PeekGraphics</code> instance and
-     * if capable of directly converting this
-     * print job to the printer's control language
-     * or the native OS's graphics primitives, then
-     * return a <code>PathGraphics</code> to perform
-     * that conversion. If there is not an object
-     * capable of the conversion then return
+     * Exbmine the metrics cbptured by the
+     * <code>PeekGrbphics</code> instbnce bnd
+     * if cbpbble of directly converting this
+     * print job to the printer's control lbngubge
+     * or the nbtive OS's grbphics primitives, then
+     * return b <code>PbthGrbphics</code> to perform
+     * thbt conversion. If there is not bn object
+     * cbpbble of the conversion then return
      * <code>null</code>. Returning <code>null</code>
-     * causes the print job to be rasterized.
+     * cbuses the print job to be rbsterized.
      */
-    protected Graphics2D createPathGraphics(PeekGraphics graphics,
+    protected Grbphics2D crebtePbthGrbphics(PeekGrbphics grbphics,
                                             PrinterJob printerJob,
-                                            Printable painter,
-                                            PageFormat pageFormat,
-                                            int pageIndex) {
+                                            Printbble pbinter,
+                                            PbgeFormbt pbgeFormbt,
+                                            int pbgeIndex) {
 
         return null;
     }
 
     /**
-     * Create and return an object that will
-     * gather and hold metrics about the print
-     * job. This method is passed a <code>Graphics2D</code>
-     * object that can be used as a proxy for the
-     * object gathering the print job matrics. The
-     * method is also supplied with the instance
+     * Crebte bnd return bn object thbt will
+     * gbther bnd hold metrics bbout the print
+     * job. This method is pbssed b <code>Grbphics2D</code>
+     * object thbt cbn be used bs b proxy for the
+     * object gbthering the print job mbtrics. The
+     * method is blso supplied with the instbnce
      * controlling the print job, <code>printerJob</code>.
      */
-    protected PeekGraphics createPeekGraphics(Graphics2D graphics,
+    protected PeekGrbphics crebtePeekGrbphics(Grbphics2D grbphics,
                                               PrinterJob printerJob) {
 
-        return new PeekGraphics(graphics, printerJob);
+        return new PeekGrbphics(grbphics, printerJob);
     }
 
     /**
-     * Configure the passed in Graphics2D so that
-     * is contains the defined initial settings
-     * for a print job. These settings are:
-     *      color:  black.
-     *      clip:   <as passed in>
+     * Configure the pbssed in Grbphics2D so thbt
+     * is contbins the defined initibl settings
+     * for b print job. These settings bre:
+     *      color:  blbck.
+     *      clip:   <bs pbssed in>
      */
-// MacOSX - made protected so subclasses can reference it.
-    protected void initPrinterGraphics(Graphics2D g, Rectangle2D clip) {
+// MbcOSX - mbde protected so subclbsses cbn reference it.
+    protected void initPrinterGrbphics(Grbphics2D g, Rectbngle2D clip) {
 
         g.setClip(clip);
-        g.setPaint(Color.black);
+        g.setPbint(Color.blbck);
     }
 
 
    /**
-    * User dialogs should disable "File" buttons if this returns false.
+    * User diblogs should disbble "File" buttons if this returns fblse.
     *
     */
-    public boolean checkAllowedToPrintToFile() {
+    public boolebn checkAllowedToPrintToFile() {
         try {
             throwPrintToFile();
             return true;
-        } catch (SecurityException e) {
-            return false;
+        } cbtch (SecurityException e) {
+            return fblse;
         }
     }
 
     /**
-     * Break this out as it may be useful when we allow API to
-     * specify printing to a file. In that case its probably right
-     * to throw a SecurityException if the permission is not granted
+     * Brebk this out bs it mby be useful when we bllow API to
+     * specify printing to b file. In thbt cbse its probbbly right
+     * to throw b SecurityException if the permission is not grbnted
      */
-    private void throwPrintToFile() {
-        SecurityManager security = System.getSecurityManager();
+    privbte void throwPrintToFile() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             if (printToFilePermission == null) {
                 printToFilePermission =
-                    new FilePermission("<<ALL FILES>>", "read,write");
+                    new FilePermission("<<ALL FILES>>", "rebd,write");
             }
             security.checkPermission(printToFilePermission);
         }
     }
 
-    /* On-screen drawString renders most control chars as the missing glyph
-     * and have the non-zero advance of that glyph.
-     * Exceptions are \t, \n and \r which are considered zero-width.
-     * This is a utility method used by subclasses to remove them so we
-     * don't have to worry about platform or font specific handling of them.
+    /* On-screen drbwString renders most control chbrs bs the missing glyph
+     * bnd hbve the non-zero bdvbnce of thbt glyph.
+     * Exceptions bre \t, \n bnd \r which bre considered zero-width.
+     * This is b utility method used by subclbsses to remove them so we
+     * don't hbve to worry bbout plbtform or font specific hbndling of them.
      */
-    protected String removeControlChars(String s) {
-        char[] in_chars = s.toCharArray();
-        int len = in_chars.length;
-        char[] out_chars = new char[len];
+    protected String removeControlChbrs(String s) {
+        chbr[] in_chbrs = s.toChbrArrby();
+        int len = in_chbrs.length;
+        chbr[] out_chbrs = new chbr[len];
         int pos = 0;
 
         for (int i = 0; i < len; i++) {
-            char c = in_chars[i];
+            chbr c = in_chbrs[i];
             if (c > '\r' || c < '\t' || c == '\u000b' || c == '\u000c')  {
-               out_chars[pos++] = c;
+               out_chbrs[pos++] = c;
             }
         }
         if (pos == len) {
-            return s; // no need to make a new String.
+            return s; // no need to mbke b new String.
         } else {
-            return new String(out_chars, 0, pos);
+            return new String(out_chbrs, 0, pos);
         }
     }
 }

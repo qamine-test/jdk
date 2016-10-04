@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.util.Arrays;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.util.Arrbys;
 
-class ISO_8859_1
-    extends Charset
-    implements HistoricallyNamedCharset
+clbss ISO_8859_1
+    extends Chbrset
+    implements HistoricbllyNbmedChbrset
 {
 
     public ISO_8859_1() {
-        super("ISO-8859-1", StandardCharsets.aliases_ISO_8859_1);
+        super("ISO-8859-1", StbndbrdChbrsets.blibses_ISO_8859_1);
     }
 
-    public String historicalName() {
+    public String historicblNbme() {
         return "ISO8859_1";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs instanceof US_ASCII)
-                || (cs instanceof ISO_8859_1));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs instbnceof US_ASCII)
+                || (cs instbnceof ISO_8859_1));
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    private static class Decoder extends CharsetDecoder
-                                 implements ArrayDecoder {
-        private Decoder(Charset cs) {
+    privbte stbtic clbss Decoder extends ChbrsetDecoder
+                                 implements ArrbyDecoder {
+        privbte Decoder(Chbrset cs) {
             super(cs, 1.0f, 1.0f);
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
                 while (sp < sl) {
-                    byte b = sa[sp];
+                    byte b = sb[sp];
                     if (dp >= dl)
                         return CoderResult.OVERFLOW;
-                    da[dp++] = (char)(b & 0xff);
+                    db[dp++] = (chbr)(b & 0xff);
                     sp++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbte CoderResult decodeBufferLoop(ByteBuffer src,
+                                             ChbrBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     byte b = src.get();
-                    if (!dst.hasRemaining())
+                    if (!dst.hbsRembining())
                         return CoderResult.OVERFLOW;
-                    dst.put((char)(b & 0xff));
-                    mark++;
+                    dst.put((chbr)(b & 0xff));
+                    mbrk++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
         protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+                                         ChbrBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        public int decode(byte[] src, int sp, int len, chbr[] dst) {
             if (len > dst.length)
                 len = dst.length;
             int dp = 0;
             while (dp < len)
-                dst[dp++] = (char)(src[sp++] & 0xff);
+                dst[dp++] = (chbr)(src[sp++] & 0xff);
             return dp;
         }
     }
 
-    private static class Encoder extends CharsetEncoder
-                                 implements ArrayEncoder {
-        private Encoder(Charset cs) {
+    privbte stbtic clbss Encoder extends ChbrsetEncoder
+                                 implements ArrbyEncoder {
+        privbte Encoder(Chbrset cs) {
             super(cs, 1.0f, 1.0f);
         }
 
-        public boolean canEncode(char c) {
+        public boolebn cbnEncode(chbr c) {
             return c <= '\u00FF';
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
-            return true;  // we accept any byte value
+        public boolebn isLegblReplbcement(byte[] repl) {
+            return true;  // we bccept bny byte vblue
         }
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
+        privbte finbl Surrogbte.Pbrser sgp = new Surrogbte.Pbrser();
 
-        // JVM may replace this method with intrinsic code.
-        private static int encodeISOArray(char[] sa, int sp,
-                                          byte[] da, int dp, int len)
+        // JVM mby replbce this method with intrinsic code.
+        privbte stbtic int encodeISOArrby(chbr[] sb, int sp,
+                                          byte[] db, int dp, int len)
         {
             int i = 0;
             for (; i < len; i++) {
-                char c = sa[sp++];
+                chbr c = sb[sp++];
                 if (c > '\u00FF')
-                    break;
-                da[dp++] = (byte)c;
+                    brebk;
+                db[dp++] = (byte)c;
             }
             return i;
         }
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
+        privbte CoderResult encodeArrbyLoop(ChbrBuffer src,
                                             ByteBuffer dst)
         {
-            char[] sa = src.array();
-            int soff = src.arrayOffset();
+            chbr[] sb = src.brrby();
+            int soff = src.brrbyOffset();
             int sp = soff + src.position();
             int sl = soff + src.limit();
-            assert (sp <= sl);
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int doff = dst.arrayOffset();
+            byte[] db = dst.brrby();
+            int doff = dst.brrbyOffset();
             int dp = doff + dst.position();
             int dl = doff + dst.limit();
-            assert (dp <= dl);
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
             int dlen = dl - dp;
             int slen = sl - sp;
             int len  = (dlen < slen) ? dlen : slen;
             try {
-                int ret = encodeISOArray(sa, sp, da, dp, len);
+                int ret = encodeISOArrby(sb, sp, db, dp, len);
                 sp = sp + ret;
                 dp = dp + ret;
                 if (ret != len) {
-                    if (sgp.parse(sa[sp], sa, sp, sl) < 0)
+                    if (sgp.pbrse(sb[sp], sb, sp, sl) < 0)
                         return sgp.error();
-                    return sgp.unmappableResult();
+                    return sgp.unmbppbbleResult();
                 }
                 if (len < slen)
                     return CoderResult.OVERFLOW;
                 return CoderResult.UNDERFLOW;
-            } finally {
+            } finblly {
                 src.position(sp - soff);
                 dst.position(dp - doff);
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
+        privbte CoderResult encodeBufferLoop(ChbrBuffer src,
                                              ByteBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
                     if (c <= '\u00FF') {
-                        if (!dst.hasRemaining())
+                        if (!dst.hbsRembining())
                             return CoderResult.OVERFLOW;
                         dst.put((byte)c);
-                        mark++;
+                        mbrk++;
                         continue;
                     }
-                    if (sgp.parse(c, src) < 0)
+                    if (sgp.pbrse(c, src) < 0)
                         return sgp.error();
-                    return sgp.unmappableResult();
+                    return sgp.unmbppbbleResult();
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
+        protected CoderResult encodeLoop(ChbrBuffer src,
                                          ByteBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }
 
-        private byte repl = (byte)'?';
-        protected void implReplaceWith(byte[] newReplacement) {
-            repl = newReplacement[0];
+        privbte byte repl = (byte)'?';
+        protected void implReplbceWith(byte[] newReplbcement) {
+            repl = newReplbcement[0];
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        public int encode(chbr[] src, int sp, int len, byte[] dst) {
             int dp = 0;
-            int slen = Math.min(len, dst.length);
+            int slen = Mbth.min(len, dst.length);
             int sl = sp + slen;
             while (sp < sl) {
-                int ret = encodeISOArray(src, sp, dst, dp, slen);
+                int ret = encodeISOArrby(src, sp, dst, dp, slen);
                 sp = sp + ret;
                 dp = dp + ret;
                 if (ret != slen) {
-                    char c = src[sp++];
-                    if (Character.isHighSurrogate(c) && sp < sl &&
-                        Character.isLowSurrogate(src[sp])) {
+                    chbr c = src[sp++];
+                    if (Chbrbcter.isHighSurrogbte(c) && sp < sl &&
+                        Chbrbcter.isLowSurrogbte(src[sp])) {
                         if (len > dst.length) {
                             sl++;
                             len--;
@@ -254,7 +254,7 @@ class ISO_8859_1
                         sp++;
                     }
                     dst[dp++] = repl;
-                    slen = Math.min((sl - sp), (dst.length - dp));
+                    slen = Mbth.min((sl - sp), (dst.length - dp));
                 }
             }
             return dp;

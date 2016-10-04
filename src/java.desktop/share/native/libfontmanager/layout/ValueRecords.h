@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,62 +34,62 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphIterator.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphIterbtor.h"
 
 U_NAMESPACE_BEGIN
 
-typedef le_uint16 ValueFormat;
-typedef le_int16 ValueRecordField;
+typedef le_uint16 VblueFormbt;
+typedef le_int16 VblueRecordField;
 
-struct ValueRecord
+struct VblueRecord
 {
-    le_int16   values[ANY_NUMBER];
+    le_int16   vblues[ANY_NUMBER];
 
-    le_int16   getFieldValue(ValueFormat valueFormat, ValueRecordField field) const;
-    le_int16   getFieldValue(le_int16 index, ValueFormat valueFormat, ValueRecordField field) const;
-    void    adjustPosition(ValueFormat valueFormat, const LETableReference &base, GlyphIterator &glyphIterator,
-                const LEFontInstance *fontInstance, LEErrorCode &success) const;
-    void    adjustPosition(le_int16 index, ValueFormat valueFormat, const LETableReference &base, GlyphIterator &glyphIterator,
-                const LEFontInstance *fontInstance, LEErrorCode &success) const;
+    le_int16   getFieldVblue(VblueFormbt vblueFormbt, VblueRecordField field) const;
+    le_int16   getFieldVblue(le_int16 index, VblueFormbt vblueFormbt, VblueRecordField field) const;
+    void    bdjustPosition(VblueFormbt vblueFormbt, const LETbbleReference &bbse, GlyphIterbtor &glyphIterbtor,
+                const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const;
+    void    bdjustPosition(le_int16 index, VblueFormbt vblueFormbt, const LETbbleReference &bbse, GlyphIterbtor &glyphIterbtor,
+                const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const;
 
-    static le_int16    getSize(ValueFormat valueFormat);
+    stbtic le_int16    getSize(VblueFormbt vblueFormbt);
 
-private:
-    static le_int16    getFieldCount(ValueFormat valueFormat);
-    static le_int16    getFieldIndex(ValueFormat valueFormat, ValueRecordField field);
+privbte:
+    stbtic le_int16    getFieldCount(VblueFormbt vblueFormbt);
+    stbtic le_int16    getFieldIndex(VblueFormbt vblueFormbt, VblueRecordField field);
 };
-LE_VAR_ARRAY(ValueRecord, values)
+LE_VAR_ARRAY(VblueRecord, vblues)
 
-enum ValueRecordFields
+enum VblueRecordFields
 {
-    vrfXPlacement   = 0,
-    vrfYPlacement   = 1,
-    vrfXAdvance     = 2,
-    vrfYAdvance     = 3,
-    vrfXPlaDevice   = 4,
-    vrfYPlaDevice   = 5,
+    vrfXPlbcement   = 0,
+    vrfYPlbcement   = 1,
+    vrfXAdvbnce     = 2,
+    vrfYAdvbnce     = 3,
+    vrfXPlbDevice   = 4,
+    vrfYPlbDevice   = 5,
     vrfXAdvDevice   = 6,
     vrfYAdvDevice   = 7
 };
 
-enum ValueFormatBits
+enum VblueFormbtBits
 {
-    vfbXPlacement   = 0x0001,
-    vfbYPlacement   = 0x0002,
-    vfbXAdvance     = 0x0004,
-    vfbYAdvance     = 0x0008,
-    vfbXPlaDevice   = 0x0010,
-    vfbYPlaDevice   = 0x0020,
+    vfbXPlbcement   = 0x0001,
+    vfbYPlbcement   = 0x0002,
+    vfbXAdvbnce     = 0x0004,
+    vfbYAdvbnce     = 0x0008,
+    vfbXPlbDevice   = 0x0010,
+    vfbYPlbDevice   = 0x0020,
     vfbXAdvDevice   = 0x0040,
     vfbYAdvDevice   = 0x0080,
     vfbReserved     = 0xFF00,
-    vfbAnyDevice    = vfbXPlaDevice + vfbYPlaDevice + vfbXAdvDevice + vfbYAdvDevice
+    vfbAnyDevice    = vfbXPlbDevice + vfbYPlbDevice + vfbXAdvDevice + vfbYAdvDevice
 };
 
 U_NAMESPACE_END

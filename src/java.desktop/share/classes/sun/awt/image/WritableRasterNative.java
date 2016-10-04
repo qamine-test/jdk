@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.WritableRaster;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.Point;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.PixelInterlebvedSbmpleModel;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * WritableRasterNative
- * This class exists to wrap a native DataBuffer object.  The
- * standard WritableRaster object assumes that a DataBuffer
- * of a given type (e.g., DataBuffer.TYPE_INT) implies a certain
- * subclass (e.g., DataBufferInt).  But this is not always the
- * case.  DataBufferNative, for example, may allow access to
- * integer-based data, but it is not DataBufferInt (which is a
- * final class and cannot be subclassed).
- * So this class exists simply to allow the WritableRaster
- * functionality for this new kind of DataBuffer object.
+ * WritbbleRbsterNbtive
+ * This clbss exists to wrbp b nbtive DbtbBuffer object.  The
+ * stbndbrd WritbbleRbster object bssumes thbt b DbtbBuffer
+ * of b given type (e.g., DbtbBuffer.TYPE_INT) implies b certbin
+ * subclbss (e.g., DbtbBufferInt).  But this is not blwbys the
+ * cbse.  DbtbBufferNbtive, for exbmple, mby bllow bccess to
+ * integer-bbsed dbtb, but it is not DbtbBufferInt (which is b
+ * finbl clbss bnd cbnnot be subclbssed).
+ * So this clbss exists simply to bllow the WritbbleRbster
+ * functionblity for this new kind of DbtbBuffer object.
  */
-public class WritableRasterNative extends WritableRaster {
+public clbss WritbbleRbsterNbtive extends WritbbleRbster {
 
-    public static WritableRasterNative createNativeRaster(SampleModel sm,
-                                                          DataBuffer db)
+    public stbtic WritbbleRbsterNbtive crebteNbtiveRbster(SbmpleModel sm,
+                                                          DbtbBuffer db)
     {
-        return new WritableRasterNative(sm, db);
+        return new WritbbleRbsterNbtive(sm, db);
     }
 
-    protected WritableRasterNative(SampleModel sm, DataBuffer db) {
+    protected WritbbleRbsterNbtive(SbmpleModel sm, DbtbBuffer db) {
         super(sm, db, new Point(0, 0));
     }
 
-    public static WritableRasterNative createNativeRaster(ColorModel cm,
-                                                          SurfaceData sd,
+    public stbtic WritbbleRbsterNbtive crebteNbtiveRbster(ColorModel cm,
+                                                          SurfbceDbtb sd,
                                                           int width,
                                                           int height)
     {
-        SampleModel smHw = null;
-        int dataType = 0;
-        int scanStride = width;
+        SbmpleModel smHw = null;
+        int dbtbType = 0;
+        int scbnStride = width;
 
         switch (cm.getPixelSize()) {
-        case 8:
-        case 12:
-            // 8-bits uses PixelInterleavedSampleModel
+        cbse 8:
+        cbse 12:
+            // 8-bits uses PixelInterlebvedSbmpleModel
             if (cm.getPixelSize() == 8) {
-                dataType = DataBuffer.TYPE_BYTE;
+                dbtbType = DbtbBuffer.TYPE_BYTE;
             } else {
-                dataType = DataBuffer.TYPE_USHORT;
+                dbtbType = DbtbBuffer.TYPE_USHORT;
             }
-            int[] bandOffsets = new int[1];
-            bandOffsets[0] = 0;
-            smHw = new PixelInterleavedSampleModel(dataType, width,
+            int[] bbndOffsets = new int[1];
+            bbndOffsets[0] = 0;
+            smHw = new PixelInterlebvedSbmpleModel(dbtbType, width,
                                                    height,
-                                                   1, scanStride,
-                                                   bandOffsets);
-            break;
+                                                   1, scbnStride,
+                                                   bbndOffsets);
+            brebk;
 
-            // all others use SinglePixelPackedSampleModel
-        case 15:
-        case 16:
-            dataType = DataBuffer.TYPE_USHORT;
-            int[] bitMasks = new int[3];
+            // bll others use SinglePixelPbckedSbmpleModel
+        cbse 15:
+        cbse 16:
+            dbtbType = DbtbBuffer.TYPE_USHORT;
+            int[] bitMbsks = new int[3];
             DirectColorModel dcm = (DirectColorModel)cm;
-            bitMasks[0] = dcm.getRedMask();
-            bitMasks[1] = dcm.getGreenMask();
-            bitMasks[2] = dcm.getBlueMask();
-            smHw = new SinglePixelPackedSampleModel(dataType, width,
-                                                    height, scanStride,
-                                                    bitMasks);
-            break;
-        case 24:
-        case 32:
-            dataType = DataBuffer.TYPE_INT;
-            bitMasks = new int[3];
+            bitMbsks[0] = dcm.getRedMbsk();
+            bitMbsks[1] = dcm.getGreenMbsk();
+            bitMbsks[2] = dcm.getBlueMbsk();
+            smHw = new SinglePixelPbckedSbmpleModel(dbtbType, width,
+                                                    height, scbnStride,
+                                                    bitMbsks);
+            brebk;
+        cbse 24:
+        cbse 32:
+            dbtbType = DbtbBuffer.TYPE_INT;
+            bitMbsks = new int[3];
             dcm = (DirectColorModel)cm;
-            bitMasks[0] = dcm.getRedMask();
-            bitMasks[1] = dcm.getGreenMask();
-            bitMasks[2] = dcm.getBlueMask();
-            smHw = new SinglePixelPackedSampleModel(dataType, width,
-                                                    height, scanStride,
-                                                    bitMasks);
-            break;
-        default:
-            throw new InternalError("Unsupported depth " +
+            bitMbsks[0] = dcm.getRedMbsk();
+            bitMbsks[1] = dcm.getGreenMbsk();
+            bitMbsks[2] = dcm.getBlueMbsk();
+            smHw = new SinglePixelPbckedSbmpleModel(dbtbType, width,
+                                                    height, scbnStride,
+                                                    bitMbsks);
+            brebk;
+        defbult:
+            throw new InternblError("Unsupported depth " +
                                     cm.getPixelSize());
         }
 
-        DataBuffer dbn = new DataBufferNative(sd, dataType,
+        DbtbBuffer dbn = new DbtbBufferNbtive(sd, dbtbType,
                                               width, height);
-        return new WritableRasterNative(smHw, dbn);
+        return new WritbbleRbsterNbtive(smHw, dbn);
     }
 }

@@ -1,478 +1,478 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.io.*;
-import java.lang.ref.SoftReference;
-import java.net.URL;
-import java.util.*;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-import java.util.zip.*;
-import java.security.CodeSigner;
-import java.security.cert.Certificate;
-import java.security.AccessController;
-import java.security.CodeSource;
+import jbvb.io.*;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvb.util.strebm.Strebm;
+import jbvb.util.strebm.StrebmSupport;
+import jbvb.util.zip.*;
+import jbvb.security.CodeSigner;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.AccessController;
+import jbvb.security.CodeSource;
 import sun.misc.IOUtils;
-import sun.security.action.GetPropertyAction;
-import sun.security.util.ManifestEntryVerifier;
-import sun.misc.SharedSecrets;
-import sun.security.util.SignatureFileVerifier;
+import sun.security.bction.GetPropertyAction;
+import sun.security.util.MbnifestEntryVerifier;
+import sun.misc.ShbredSecrets;
+import sun.security.util.SignbtureFileVerifier;
 
 /**
- * The <code>JarFile</code> class is used to read the contents of a jar file
- * from any file that can be opened with <code>java.io.RandomAccessFile</code>.
- * It extends the class <code>java.util.zip.ZipFile</code> with support
- * for reading an optional <code>Manifest</code> entry. The
- * <code>Manifest</code> can be used to specify meta-information about the
- * jar file and its entries.
+ * The <code>JbrFile</code> clbss is used to rebd the contents of b jbr file
+ * from bny file thbt cbn be opened with <code>jbvb.io.RbndomAccessFile</code>.
+ * It extends the clbss <code>jbvb.util.zip.ZipFile</code> with support
+ * for rebding bn optionbl <code>Mbnifest</code> entry. The
+ * <code>Mbnifest</code> cbn be used to specify metb-informbtion bbout the
+ * jbr file bnd its entries.
  *
- * <p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
+ * <p> Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor
+ * or method in this clbss will cbuse b {@link NullPointerException} to be
  * thrown.
  *
- * If the verify flag is on when opening a signed jar file, the content of the
- * file is verified against its signature embedded inside the file. Please note
- * that the verification process does not include validating the signer's
- * certificate. A caller should inspect the return value of
- * {@link JarEntry#getCodeSigners()} to further determine if the signature
- * can be trusted.
+ * If the verify flbg is on when opening b signed jbr file, the content of the
+ * file is verified bgbinst its signbture embedded inside the file. Plebse note
+ * thbt the verificbtion process does not include vblidbting the signer's
+ * certificbte. A cbller should inspect the return vblue of
+ * {@link JbrEntry#getCodeSigners()} to further determine if the signbture
+ * cbn be trusted.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipFile
- * @see     java.util.jar.JarEntry
+ * @buthor  Dbvid Connelly
+ * @see     Mbnifest
+ * @see     jbvb.util.zip.ZipFile
+ * @see     jbvb.util.jbr.JbrEntry
  * @since   1.2
  */
 public
-class JarFile extends ZipFile {
-    private SoftReference<Manifest> manRef;
-    private JarEntry manEntry;
-    private JarVerifier jv;
-    private boolean jvInitialized;
-    private boolean verify;
+clbss JbrFile extends ZipFile {
+    privbte SoftReference<Mbnifest> mbnRef;
+    privbte JbrEntry mbnEntry;
+    privbte JbrVerifier jv;
+    privbte boolebn jvInitiblized;
+    privbte boolebn verify;
 
-    // indicates if Class-Path attribute present (only valid if hasCheckedSpecialAttributes true)
-    private boolean hasClassPathAttribute;
-    // true if manifest checked for special attributes
-    private volatile boolean hasCheckedSpecialAttributes;
+    // indicbtes if Clbss-Pbth bttribute present (only vblid if hbsCheckedSpeciblAttributes true)
+    privbte boolebn hbsClbssPbthAttribute;
+    // true if mbnifest checked for specibl bttributes
+    privbte volbtile boolebn hbsCheckedSpeciblAttributes;
 
-    // Set up JavaUtilJarAccess in SharedSecrets
-    static {
-        SharedSecrets.setJavaUtilJarAccess(new JavaUtilJarAccessImpl());
+    // Set up JbvbUtilJbrAccess in ShbredSecrets
+    stbtic {
+        ShbredSecrets.setJbvbUtilJbrAccess(new JbvbUtilJbrAccessImpl());
     }
 
     /**
-     * The JAR manifest file name.
+     * The JAR mbnifest file nbme.
      */
-    public static final String MANIFEST_NAME = "META-INF/MANIFEST.MF";
+    public stbtic finbl String MANIFEST_NAME = "META-INF/MANIFEST.MF";
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * file <code>name</code>. The <code>JarFile</code> will be verified if
+     * Crebtes b new <code>JbrFile</code> to rebd from the specified
+     * file <code>nbme</code>. The <code>JbrFile</code> will be verified if
      * it is signed.
-     * @param name the name of the jar file to be opened for reading
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * @pbrbm nbme the nbme of the jbr file to be opened for rebding
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if bccess to the file is denied
+     *         by the SecurityMbnbger
      */
-    public JarFile(String name) throws IOException {
-        this(new File(name), true, ZipFile.OPEN_READ);
+    public JbrFile(String nbme) throws IOException {
+        this(new File(nbme), true, ZipFile.OPEN_READ);
     }
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * file <code>name</code>.
-     * @param name the name of the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
+     * Crebtes b new <code>JbrFile</code> to rebd from the specified
+     * file <code>nbme</code>.
+     * @pbrbm nbme the nbme of the jbr file to be opened for rebding
+     * @pbrbm verify whether or not to verify the jbr file if
      * it is signed.
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if bccess to the file is denied
+     *         by the SecurityMbnbger
      */
-    public JarFile(String name, boolean verify) throws IOException {
-        this(new File(name), verify, ZipFile.OPEN_READ);
+    public JbrFile(String nbme, boolebn verify) throws IOException {
+        this(new File(nbme), verify, ZipFile.OPEN_READ);
     }
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * <code>File</code> object. The <code>JarFile</code> will be verified if
+     * Crebtes b new <code>JbrFile</code> to rebd from the specified
+     * <code>File</code> object. The <code>JbrFile</code> will be verified if
      * it is signed.
-     * @param file the jar file to be opened for reading
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * @pbrbm file the jbr file to be opened for rebding
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if bccess to the file is denied
+     *         by the SecurityMbnbger
      */
-    public JarFile(File file) throws IOException {
+    public JbrFile(File file) throws IOException {
         this(file, true, ZipFile.OPEN_READ);
     }
 
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
+     * Crebtes b new <code>JbrFile</code> to rebd from the specified
      * <code>File</code> object.
-     * @param file the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
+     * @pbrbm file the jbr file to be opened for rebding
+     * @pbrbm verify whether or not to verify the jbr file if
      * it is signed.
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager.
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if bccess to the file is denied
+     *         by the SecurityMbnbger.
      */
-    public JarFile(File file, boolean verify) throws IOException {
+    public JbrFile(File file, boolebn verify) throws IOException {
         this(file, verify, ZipFile.OPEN_READ);
     }
 
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
+     * Crebtes b new <code>JbrFile</code> to rebd from the specified
+     * <code>File</code> object in the specified mode.  The mode brgument
      * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * @param file the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
+     * @pbrbm file the jbr file to be opened for rebding
+     * @pbrbm verify whether or not to verify the jbr file if
      * it is signed.
-     * @param mode the mode in which the file is to be opened
-     * @throws IOException if an I/O error has occurred
-     * @throws IllegalArgumentException
-     *         if the <tt>mode</tt> argument is invalid
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * @pbrbm mode the mode in which the file is to be opened
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws IllegblArgumentException
+     *         if the <tt>mode</tt> brgument is invblid
+     * @throws SecurityException if bccess to the file is denied
+     *         by the SecurityMbnbger
      * @since 1.3
      */
-    public JarFile(File file, boolean verify, int mode) throws IOException {
+    public JbrFile(File file, boolebn verify, int mode) throws IOException {
         super(file, mode);
         this.verify = verify;
     }
 
     /**
-     * Returns the jar file manifest, or <code>null</code> if none.
+     * Returns the jbr file mbnifest, or <code>null</code> if none.
      *
-     * @return the jar file manifest, or <code>null</code> if none
+     * @return the jbr file mbnifest, or <code>null</code> if none
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
-     * @throws IOException  if an I/O error has occurred
+     * @throws IllegblStbteException
+     *         mby be thrown if the jbr file hbs been closed
+     * @throws IOException  if bn I/O error hbs occurred
      */
-    public Manifest getManifest() throws IOException {
-        return getManifestFromReference();
+    public Mbnifest getMbnifest() throws IOException {
+        return getMbnifestFromReference();
     }
 
-    private Manifest getManifestFromReference() throws IOException {
-        Manifest man = manRef != null ? manRef.get() : null;
+    privbte Mbnifest getMbnifestFromReference() throws IOException {
+        Mbnifest mbn = mbnRef != null ? mbnRef.get() : null;
 
-        if (man == null) {
+        if (mbn == null) {
 
-            JarEntry manEntry = getManEntry();
+            JbrEntry mbnEntry = getMbnEntry();
 
-            // If found then load the manifest
-            if (manEntry != null) {
+            // If found then lobd the mbnifest
+            if (mbnEntry != null) {
                 if (verify) {
-                    byte[] b = getBytes(manEntry);
-                    man = new Manifest(new ByteArrayInputStream(b));
-                    if (!jvInitialized) {
-                        jv = new JarVerifier(b);
+                    byte[] b = getBytes(mbnEntry);
+                    mbn = new Mbnifest(new ByteArrbyInputStrebm(b));
+                    if (!jvInitiblized) {
+                        jv = new JbrVerifier(b);
                     }
                 } else {
-                    man = new Manifest(super.getInputStream(manEntry));
+                    mbn = new Mbnifest(super.getInputStrebm(mbnEntry));
                 }
-                manRef = new SoftReference<>(man);
+                mbnRef = new SoftReference<>(mbn);
             }
         }
-        return man;
+        return mbn;
     }
 
-    private native String[] getMetaInfEntryNames();
+    privbte nbtive String[] getMetbInfEntryNbmes();
 
     /**
-     * Returns the <code>JarEntry</code> for the given entry name or
+     * Returns the <code>JbrEntry</code> for the given entry nbme or
      * <code>null</code> if not found.
      *
-     * @param name the jar file entry name
-     * @return the <code>JarEntry</code> for the given entry name or
+     * @pbrbm nbme the jbr file entry nbme
+     * @return the <code>JbrEntry</code> for the given entry nbme or
      *         <code>null</code> if not found.
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * @throws IllegblStbteException
+     *         mby be thrown if the jbr file hbs been closed
      *
-     * @see java.util.jar.JarEntry
+     * @see jbvb.util.jbr.JbrEntry
      */
-    public JarEntry getJarEntry(String name) {
-        return (JarEntry)getEntry(name);
+    public JbrEntry getJbrEntry(String nbme) {
+        return (JbrEntry)getEntry(nbme);
     }
 
     /**
-     * Returns the <code>ZipEntry</code> for the given entry name or
+     * Returns the <code>ZipEntry</code> for the given entry nbme or
      * <code>null</code> if not found.
      *
-     * @param name the jar file entry name
-     * @return the <code>ZipEntry</code> for the given entry name or
+     * @pbrbm nbme the jbr file entry nbme
+     * @return the <code>ZipEntry</code> for the given entry nbme or
      *         <code>null</code> if not found
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * @throws IllegblStbteException
+     *         mby be thrown if the jbr file hbs been closed
      *
-     * @see java.util.zip.ZipEntry
+     * @see jbvb.util.zip.ZipEntry
      */
-    public ZipEntry getEntry(String name) {
-        ZipEntry ze = super.getEntry(name);
+    public ZipEntry getEntry(String nbme) {
+        ZipEntry ze = super.getEntry(nbme);
         if (ze != null) {
-            return new JarFileEntry(ze);
+            return new JbrFileEntry(ze);
         }
         return null;
     }
 
-    private class JarEntryIterator implements Enumeration<JarEntry>,
-            Iterator<JarEntry>
+    privbte clbss JbrEntryIterbtor implements Enumerbtion<JbrEntry>,
+            Iterbtor<JbrEntry>
     {
-        final Enumeration<? extends ZipEntry> e = JarFile.super.entries();
+        finbl Enumerbtion<? extends ZipEntry> e = JbrFile.super.entries();
 
-        public boolean hasNext() {
-            return e.hasMoreElements();
+        public boolebn hbsNext() {
+            return e.hbsMoreElements();
         }
 
-        public JarEntry next() {
+        public JbrEntry next() {
             ZipEntry ze = e.nextElement();
-            return new JarFileEntry(ze);
+            return new JbrFileEntry(ze);
         }
 
-        public boolean hasMoreElements() {
-            return hasNext();
+        public boolebn hbsMoreElements() {
+            return hbsNext();
         }
 
-        public JarEntry nextElement() {
+        public JbrEntry nextElement() {
             return next();
         }
     }
 
     /**
-     * Returns an enumeration of the zip file entries.
+     * Returns bn enumerbtion of the zip file entries.
      */
-    public Enumeration<JarEntry> entries() {
-        return new JarEntryIterator();
+    public Enumerbtion<JbrEntry> entries() {
+        return new JbrEntryIterbtor();
     }
 
     @Override
-    public Stream<JarEntry> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(
-                new JarEntryIterator(), size(),
-                Spliterator.ORDERED | Spliterator.DISTINCT |
-                        Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+    public Strebm<JbrEntry> strebm() {
+        return StrebmSupport.strebm(Spliterbtors.spliterbtor(
+                new JbrEntryIterbtor(), size(),
+                Spliterbtor.ORDERED | Spliterbtor.DISTINCT |
+                        Spliterbtor.IMMUTABLE | Spliterbtor.NONNULL), fblse);
     }
 
-    private class JarFileEntry extends JarEntry {
-        JarFileEntry(ZipEntry ze) {
+    privbte clbss JbrFileEntry extends JbrEntry {
+        JbrFileEntry(ZipEntry ze) {
             super(ze);
         }
         public Attributes getAttributes() throws IOException {
-            Manifest man = JarFile.this.getManifest();
-            if (man != null) {
-                return man.getAttributes(getName());
+            Mbnifest mbn = JbrFile.this.getMbnifest();
+            if (mbn != null) {
+                return mbn.getAttributes(getNbme());
             } else {
                 return null;
             }
         }
-        public Certificate[] getCertificates() {
+        public Certificbte[] getCertificbtes() {
             try {
-                maybeInstantiateVerifier();
-            } catch (IOException e) {
+                mbybeInstbntibteVerifier();
+            } cbtch (IOException e) {
                 throw new RuntimeException(e);
             }
             if (certs == null && jv != null) {
-                certs = jv.getCerts(JarFile.this, this);
+                certs = jv.getCerts(JbrFile.this, this);
             }
             return certs == null ? null : certs.clone();
         }
         public CodeSigner[] getCodeSigners() {
             try {
-                maybeInstantiateVerifier();
-            } catch (IOException e) {
+                mbybeInstbntibteVerifier();
+            } cbtch (IOException e) {
                 throw new RuntimeException(e);
             }
             if (signers == null && jv != null) {
-                signers = jv.getCodeSigners(JarFile.this, this);
+                signers = jv.getCodeSigners(JbrFile.this, this);
             }
             return signers == null ? null : signers.clone();
         }
     }
 
     /*
-     * Ensures that the JarVerifier has been created if one is
-     * necessary (i.e., the jar appears to be signed.) This is done as
-     * a quick check to avoid processing of the manifest for unsigned
-     * jars.
+     * Ensures thbt the JbrVerifier hbs been crebted if one is
+     * necessbry (i.e., the jbr bppebrs to be signed.) This is done bs
+     * b quick check to bvoid processing of the mbnifest for unsigned
+     * jbrs.
      */
-    private void maybeInstantiateVerifier() throws IOException {
+    privbte void mbybeInstbntibteVerifier() throws IOException {
         if (jv != null) {
             return;
         }
 
         if (verify) {
-            String[] names = getMetaInfEntryNames();
-            if (names != null) {
-                for (String nameLower : names) {
-                    String name = nameLower.toUpperCase(Locale.ENGLISH);
-                    if (name.endsWith(".DSA") ||
-                        name.endsWith(".RSA") ||
-                        name.endsWith(".EC") ||
-                        name.endsWith(".SF")) {
-                        // Assume since we found a signature-related file
-                        // that the jar is signed and that we therefore
-                        // need a JarVerifier and Manifest
-                        getManifest();
+            String[] nbmes = getMetbInfEntryNbmes();
+            if (nbmes != null) {
+                for (String nbmeLower : nbmes) {
+                    String nbme = nbmeLower.toUpperCbse(Locble.ENGLISH);
+                    if (nbme.endsWith(".DSA") ||
+                        nbme.endsWith(".RSA") ||
+                        nbme.endsWith(".EC") ||
+                        nbme.endsWith(".SF")) {
+                        // Assume since we found b signbture-relbted file
+                        // thbt the jbr is signed bnd thbt we therefore
+                        // need b JbrVerifier bnd Mbnifest
+                        getMbnifest();
                         return;
                     }
                 }
             }
-            // No signature-related files; don't instantiate a
+            // No signbture-relbted files; don't instbntibte b
             // verifier
-            verify = false;
+            verify = fblse;
         }
     }
 
 
     /*
-     * Initializes the verifier object by reading all the manifest
-     * entries and passing them to the verifier.
+     * Initiblizes the verifier object by rebding bll the mbnifest
+     * entries bnd pbssing them to the verifier.
      */
-    private void initializeVerifier() {
-        ManifestEntryVerifier mev = null;
+    privbte void initiblizeVerifier() {
+        MbnifestEntryVerifier mev = null;
 
         // Verify "META-INF/" entries...
         try {
-            String[] names = getMetaInfEntryNames();
-            if (names != null) {
-                for (String name : names) {
-                    String uname = name.toUpperCase(Locale.ENGLISH);
-                    if (MANIFEST_NAME.equals(uname)
-                            || SignatureFileVerifier.isBlockOrSF(uname)) {
-                        JarEntry e = getJarEntry(name);
+            String[] nbmes = getMetbInfEntryNbmes();
+            if (nbmes != null) {
+                for (String nbme : nbmes) {
+                    String unbme = nbme.toUpperCbse(Locble.ENGLISH);
+                    if (MANIFEST_NAME.equbls(unbme)
+                            || SignbtureFileVerifier.isBlockOrSF(unbme)) {
+                        JbrEntry e = getJbrEntry(nbme);
                         if (e == null) {
-                            throw new JarException("corrupted jar file");
+                            throw new JbrException("corrupted jbr file");
                         }
                         if (mev == null) {
-                            mev = new ManifestEntryVerifier
-                                (getManifestFromReference());
+                            mev = new MbnifestEntryVerifier
+                                (getMbnifestFromReference());
                         }
                         byte[] b = getBytes(e);
                         if (b != null && b.length > 0) {
                             jv.beginEntry(e, mev);
-                            jv.update(b.length, b, 0, b.length, mev);
-                            jv.update(-1, null, 0, 0, mev);
+                            jv.updbte(b.length, b, 0, b.length, mev);
+                            jv.updbte(-1, null, 0, 0, mev);
                         }
                     }
                 }
             }
-        } catch (IOException ex) {
-            // if we had an error parsing any blocks, just
-            // treat the jar file as being unsigned
+        } cbtch (IOException ex) {
+            // if we hbd bn error pbrsing bny blocks, just
+            // trebt the jbr file bs being unsigned
             jv = null;
-            verify = false;
-            if (JarVerifier.debug != null) {
-                JarVerifier.debug.println("jarfile parsing error!");
-                ex.printStackTrace();
+            verify = fblse;
+            if (JbrVerifier.debug != null) {
+                JbrVerifier.debug.println("jbrfile pbrsing error!");
+                ex.printStbckTrbce();
             }
         }
 
-        // if after initializing the verifier we have nothing
+        // if bfter initiblizing the verifier we hbve nothing
         // signed, we null it out.
 
         if (jv != null) {
 
-            jv.doneWithMeta();
-            if (JarVerifier.debug != null) {
-                JarVerifier.debug.println("done with meta!");
+            jv.doneWithMetb();
+            if (JbrVerifier.debug != null) {
+                JbrVerifier.debug.println("done with metb!");
             }
 
             if (jv.nothingToVerify()) {
-                if (JarVerifier.debug != null) {
-                    JarVerifier.debug.println("nothing to verify!");
+                if (JbrVerifier.debug != null) {
+                    JbrVerifier.debug.println("nothing to verify!");
                 }
                 jv = null;
-                verify = false;
+                verify = fblse;
             }
         }
     }
 
     /*
-     * Reads all the bytes for a given entry. Used to process the
+     * Rebds bll the bytes for b given entry. Used to process the
      * META-INF files.
      */
-    private byte[] getBytes(ZipEntry ze) throws IOException {
-        try (InputStream is = super.getInputStream(ze)) {
-            return IOUtils.readFully(is, (int)ze.getSize(), true);
+    privbte byte[] getBytes(ZipEntry ze) throws IOException {
+        try (InputStrebm is = super.getInputStrebm(ze)) {
+            return IOUtils.rebdFully(is, (int)ze.getSize(), true);
         }
     }
 
     /**
-     * Returns an input stream for reading the contents of the specified
+     * Returns bn input strebm for rebding the contents of the specified
      * zip file entry.
-     * @param ze the zip file entry
-     * @return an input stream for reading the contents of the specified
+     * @pbrbm ze the zip file entry
+     * @return bn input strebm for rebding the contents of the specified
      *         zip file entry
-     * @throws ZipException if a zip file format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if any of the jar file entries
-     *         are incorrectly signed.
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * @throws ZipException if b zip file formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if bny of the jbr file entries
+     *         bre incorrectly signed.
+     * @throws IllegblStbteException
+     *         mby be thrown if the jbr file hbs been closed
      */
-    public synchronized InputStream getInputStream(ZipEntry ze)
+    public synchronized InputStrebm getInputStrebm(ZipEntry ze)
         throws IOException
     {
-        maybeInstantiateVerifier();
+        mbybeInstbntibteVerifier();
         if (jv == null) {
-            return super.getInputStream(ze);
+            return super.getInputStrebm(ze);
         }
-        if (!jvInitialized) {
-            initializeVerifier();
-            jvInitialized = true;
-            // could be set to null after a call to
-            // initializeVerifier if we have nothing to
+        if (!jvInitiblized) {
+            initiblizeVerifier();
+            jvInitiblized = true;
+            // could be set to null bfter b cbll to
+            // initiblizeVerifier if we hbve nothing to
             // verify
             if (jv == null)
-                return super.getInputStream(ze);
+                return super.getInputStrebm(ze);
         }
 
-        // wrap a verifier stream around the real stream
-        return new JarVerifier.VerifierStream(
-            getManifestFromReference(),
-            ze instanceof JarFileEntry ?
-            (JarEntry) ze : getJarEntry(ze.getName()),
-            super.getInputStream(ze),
+        // wrbp b verifier strebm bround the rebl strebm
+        return new JbrVerifier.VerifierStrebm(
+            getMbnifestFromReference(),
+            ze instbnceof JbrFileEntry ?
+            (JbrEntry) ze : getJbrEntry(ze.getNbme()),
+            super.getInputStrebm(ze),
             jv);
     }
 
-    // Statics for hand-coded Boyer-Moore search
-    private static final char[] CLASSPATH_CHARS = {'c','l','a','s','s','-','p','a','t','h'};
-    // The bad character shift for "class-path"
-    private static final int[] CLASSPATH_LASTOCC;
-    // The good suffix shift for "class-path"
-    private static final int[] CLASSPATH_OPTOSFT;
+    // Stbtics for hbnd-coded Boyer-Moore sebrch
+    privbte stbtic finbl chbr[] CLASSPATH_CHARS = {'c','l','b','s','s','-','p','b','t','h'};
+    // The bbd chbrbcter shift for "clbss-pbth"
+    privbte stbtic finbl int[] CLASSPATH_LASTOCC;
+    // The good suffix shift for "clbss-pbth"
+    privbte stbtic finbl int[] CLASSPATH_OPTOSFT;
 
-    static {
+    stbtic {
         CLASSPATH_LASTOCC = new int[128];
         CLASSPATH_OPTOSFT = new int[10];
         CLASSPATH_LASTOCC[(int)'c'] = 1;
@@ -480,7 +480,7 @@ class JarFile extends ZipFile {
         CLASSPATH_LASTOCC[(int)'s'] = 5;
         CLASSPATH_LASTOCC[(int)'-'] = 6;
         CLASSPATH_LASTOCC[(int)'p'] = 7;
-        CLASSPATH_LASTOCC[(int)'a'] = 8;
+        CLASSPATH_LASTOCC[(int)'b'] = 8;
         CLASSPATH_LASTOCC[(int)'t'] = 9;
         CLASSPATH_LASTOCC[(int)'h'] = 10;
         for (int i=0; i<9; i++)
@@ -488,158 +488,158 @@ class JarFile extends ZipFile {
         CLASSPATH_OPTOSFT[9]=1;
     }
 
-    private JarEntry getManEntry() {
-        if (manEntry == null) {
-            // First look up manifest entry using standard name
-            manEntry = getJarEntry(MANIFEST_NAME);
-            if (manEntry == null) {
-                // If not found, then iterate through all the "META-INF/"
-                // entries to find a match.
-                String[] names = getMetaInfEntryNames();
-                if (names != null) {
-                    for (String name : names) {
-                        if (MANIFEST_NAME.equals(name.toUpperCase(Locale.ENGLISH))) {
-                            manEntry = getJarEntry(name);
-                            break;
+    privbte JbrEntry getMbnEntry() {
+        if (mbnEntry == null) {
+            // First look up mbnifest entry using stbndbrd nbme
+            mbnEntry = getJbrEntry(MANIFEST_NAME);
+            if (mbnEntry == null) {
+                // If not found, then iterbte through bll the "META-INF/"
+                // entries to find b mbtch.
+                String[] nbmes = getMetbInfEntryNbmes();
+                if (nbmes != null) {
+                    for (String nbme : nbmes) {
+                        if (MANIFEST_NAME.equbls(nbme.toUpperCbse(Locble.ENGLISH))) {
+                            mbnEntry = getJbrEntry(nbme);
+                            brebk;
                         }
                     }
                 }
             }
         }
-        return manEntry;
+        return mbnEntry;
     }
 
    /**
-    * Returns {@code true} iff this JAR file has a manifest with the
-    * Class-Path attribute
+    * Returns {@code true} iff this JAR file hbs b mbnifest with the
+    * Clbss-Pbth bttribute
     */
-    boolean hasClassPathAttribute() throws IOException {
-        checkForSpecialAttributes();
-        return hasClassPathAttribute;
+    boolebn hbsClbssPbthAttribute() throws IOException {
+        checkForSpeciblAttributes();
+        return hbsClbssPbthAttribute;
     }
 
     /**
-     * Returns true if the pattern {@code src} is found in {@code b}.
-     * The {@code lastOcc} and {@code optoSft} arrays are the precomputed
-     * bad character and good suffix shifts.
+     * Returns true if the pbttern {@code src} is found in {@code b}.
+     * The {@code lbstOcc} bnd {@code optoSft} brrbys bre the precomputed
+     * bbd chbrbcter bnd good suffix shifts.
      */
-    private boolean match(char[] src, byte[] b, int[] lastOcc, int[] optoSft) {
+    privbte boolebn mbtch(chbr[] src, byte[] b, int[] lbstOcc, int[] optoSft) {
         int len = src.length;
-        int last = b.length - len;
+        int lbst = b.length - len;
         int i = 0;
         next:
-        while (i<=last) {
+        while (i<=lbst) {
             for (int j=(len-1); j>=0; j--) {
-                char c = (char) b[i+j];
-                c = (((c-'A')|('Z'-c)) >= 0) ? (char)(c + 32) : c;
+                chbr c = (chbr) b[i+j];
+                c = (((c-'A')|('Z'-c)) >= 0) ? (chbr)(c + 32) : c;
                 if (c != src[j]) {
-                    i += Math.max(j + 1 - lastOcc[c&0x7F], optoSft[j]);
+                    i += Mbth.mbx(j + 1 - lbstOcc[c&0x7F], optoSft[j]);
                     continue next;
                  }
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * On first invocation, check if the JAR file has the Class-Path
-     * attribute. A no-op on subsequent calls.
+     * On first invocbtion, check if the JAR file hbs the Clbss-Pbth
+     * bttribute. A no-op on subsequent cblls.
      */
-    private void checkForSpecialAttributes() throws IOException {
-        if (hasCheckedSpecialAttributes) return;
-        if (!isKnownNotToHaveSpecialAttributes()) {
-            JarEntry manEntry = getManEntry();
-            if (manEntry != null) {
-                byte[] b = getBytes(manEntry);
-                if (match(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT))
-                    hasClassPathAttribute = true;
+    privbte void checkForSpeciblAttributes() throws IOException {
+        if (hbsCheckedSpeciblAttributes) return;
+        if (!isKnownNotToHbveSpeciblAttributes()) {
+            JbrEntry mbnEntry = getMbnEntry();
+            if (mbnEntry != null) {
+                byte[] b = getBytes(mbnEntry);
+                if (mbtch(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT))
+                    hbsClbssPbthAttribute = true;
             }
         }
-        hasCheckedSpecialAttributes = true;
+        hbsCheckedSpeciblAttributes = true;
     }
 
-    private static String javaHome;
-    private static volatile String[] jarNames;
-    private boolean isKnownNotToHaveSpecialAttributes() {
-        // Optimize away even scanning of manifest for jar files we
-        // deliver which don't have a class-path attribute. If one of
-        // these jars is changed to include such an attribute this code
-        // must be changed.
-        if (javaHome == null) {
-            javaHome = AccessController.doPrivileged(
-                new GetPropertyAction("java.home"));
+    privbte stbtic String jbvbHome;
+    privbte stbtic volbtile String[] jbrNbmes;
+    privbte boolebn isKnownNotToHbveSpeciblAttributes() {
+        // Optimize bwby even scbnning of mbnifest for jbr files we
+        // deliver which don't hbve b clbss-pbth bttribute. If one of
+        // these jbrs is chbnged to include such bn bttribute this code
+        // must be chbnged.
+        if (jbvbHome == null) {
+            jbvbHome = AccessController.doPrivileged(
+                new GetPropertyAction("jbvb.home"));
         }
-        if (jarNames == null) {
-            String[] names = new String[11];
-            String fileSep = File.separator;
+        if (jbrNbmes == null) {
+            String[] nbmes = new String[11];
+            String fileSep = File.sepbrbtor;
             int i = 0;
-            names[i++] = fileSep + "rt.jar";
-            names[i++] = fileSep + "jsse.jar";
-            names[i++] = fileSep + "jce.jar";
-            names[i++] = fileSep + "charsets.jar";
-            names[i++] = fileSep + "dnsns.jar";
-            names[i++] = fileSep + "zipfs.jar";
-            names[i++] = fileSep + "localedata.jar";
-            names[i++] = fileSep = "cldrdata.jar";
-            names[i++] = fileSep + "sunjce_provider.jar";
-            names[i++] = fileSep + "sunpkcs11.jar";
-            names[i++] = fileSep + "sunec.jar";
-            jarNames = names;
+            nbmes[i++] = fileSep + "rt.jbr";
+            nbmes[i++] = fileSep + "jsse.jbr";
+            nbmes[i++] = fileSep + "jce.jbr";
+            nbmes[i++] = fileSep + "chbrsets.jbr";
+            nbmes[i++] = fileSep + "dnsns.jbr";
+            nbmes[i++] = fileSep + "zipfs.jbr";
+            nbmes[i++] = fileSep + "locbledbtb.jbr";
+            nbmes[i++] = fileSep = "cldrdbtb.jbr";
+            nbmes[i++] = fileSep + "sunjce_provider.jbr";
+            nbmes[i++] = fileSep + "sunpkcs11.jbr";
+            nbmes[i++] = fileSep + "sunec.jbr";
+            jbrNbmes = nbmes;
         }
 
-        String name = getName();
-        if (name.startsWith(javaHome)) {
-            String[] names = jarNames;
-            for (String jarName : names) {
-                if (name.endsWith(jarName)) {
+        String nbme = getNbme();
+        if (nbme.stbrtsWith(jbvbHome)) {
+            String[] nbmes = jbrNbmes;
+            for (String jbrNbme : nbmes) {
+                if (nbme.endsWith(jbrNbme)) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    private synchronized void ensureInitialization() {
+    privbte synchronized void ensureInitiblizbtion() {
         try {
-            maybeInstantiateVerifier();
-        } catch (IOException e) {
+            mbybeInstbntibteVerifier();
+        } cbtch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (jv != null && !jvInitialized) {
-            initializeVerifier();
-            jvInitialized = true;
+        if (jv != null && !jvInitiblized) {
+            initiblizeVerifier();
+            jvInitiblized = true;
         }
     }
 
-    JarEntry newEntry(ZipEntry ze) {
-        return new JarFileEntry(ze);
+    JbrEntry newEntry(ZipEntry ze) {
+        return new JbrFileEntry(ze);
     }
 
-    Enumeration<String> entryNames(CodeSource[] cs) {
-        ensureInitialization();
+    Enumerbtion<String> entryNbmes(CodeSource[] cs) {
+        ensureInitiblizbtion();
         if (jv != null) {
-            return jv.entryNames(this, cs);
+            return jv.entryNbmes(this, cs);
         }
 
         /*
-         * JAR file has no signed content. Is there a non-signing
+         * JAR file hbs no signed content. Is there b non-signing
          * code source?
          */
-        boolean includeUnsigned = false;
+        boolebn includeUnsigned = fblse;
         for (CodeSource c : cs) {
             if (c.getCodeSigners() == null) {
                 includeUnsigned = true;
-                break;
+                brebk;
             }
         }
         if (includeUnsigned) {
-            return unsignedEntryNames();
+            return unsignedEntryNbmes();
         } else {
-            return new Enumeration<String>() {
+            return new Enumerbtion<String>() {
 
-                public boolean hasMoreElements() {
-                    return false;
+                public boolebn hbsMoreElements() {
+                    return fblse;
                 }
 
                 public String nextElement() {
@@ -650,42 +650,42 @@ class JarFile extends ZipFile {
     }
 
     /**
-     * Returns an enumeration of the zip file entries
-     * excluding internal JAR mechanism entries and including
+     * Returns bn enumerbtion of the zip file entries
+     * excluding internbl JAR mechbnism entries bnd including
      * signed entries missing from the ZIP directory.
      */
-    Enumeration<JarEntry> entries2() {
-        ensureInitialization();
+    Enumerbtion<JbrEntry> entries2() {
+        ensureInitiblizbtion();
         if (jv != null) {
             return jv.entries2(this, super.entries());
         }
 
-        // screen out entries which are never signed
-        final Enumeration<? extends ZipEntry> enum_ = super.entries();
-        return new Enumeration<JarEntry>() {
+        // screen out entries which bre never signed
+        finbl Enumerbtion<? extends ZipEntry> enum_ = super.entries();
+        return new Enumerbtion<JbrEntry>() {
 
             ZipEntry entry;
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 if (entry != null) {
                     return true;
                 }
-                while (enum_.hasMoreElements()) {
+                while (enum_.hbsMoreElements()) {
                     ZipEntry ze = enum_.nextElement();
-                    if (JarVerifier.isSigningRelated(ze.getName())) {
+                    if (JbrVerifier.isSigningRelbted(ze.getNbme())) {
                         continue;
                     }
                     entry = ze;
                     return true;
                 }
-                return false;
+                return fblse;
             }
 
-            public JarFileEntry nextElement() {
-                if (hasMoreElements()) {
+            public JbrFileEntry nextElement() {
+                if (hbsMoreElements()) {
                     ZipEntry ze = entry;
                     entry = null;
-                    return new JarFileEntry(ze);
+                    return new JbrFileEntry(ze);
                 }
                 throw new NoSuchElementException();
             }
@@ -693,97 +693,97 @@ class JarFile extends ZipFile {
     }
 
     CodeSource[] getCodeSources(URL url) {
-        ensureInitialization();
+        ensureInitiblizbtion();
         if (jv != null) {
             return jv.getCodeSources(this, url);
         }
 
         /*
-         * JAR file has no signed content. Is there a non-signing
+         * JAR file hbs no signed content. Is there b non-signing
          * code source?
          */
-        Enumeration<String> unsigned = unsignedEntryNames();
-        if (unsigned.hasMoreElements()) {
-            return new CodeSource[]{JarVerifier.getUnsignedCS(url)};
+        Enumerbtion<String> unsigned = unsignedEntryNbmes();
+        if (unsigned.hbsMoreElements()) {
+            return new CodeSource[]{JbrVerifier.getUnsignedCS(url)};
         } else {
             return null;
         }
     }
 
-    private Enumeration<String> unsignedEntryNames() {
-        final Enumeration<JarEntry> entries = entries();
-        return new Enumeration<String>() {
+    privbte Enumerbtion<String> unsignedEntryNbmes() {
+        finbl Enumerbtion<JbrEntry> entries = entries();
+        return new Enumerbtion<String>() {
 
-            String name;
+            String nbme;
 
             /*
-             * Grab entries from ZIP directory but screen out
-             * metadata.
+             * Grbb entries from ZIP directory but screen out
+             * metbdbtb.
              */
-            public boolean hasMoreElements() {
-                if (name != null) {
+            public boolebn hbsMoreElements() {
+                if (nbme != null) {
                     return true;
                 }
-                while (entries.hasMoreElements()) {
-                    String value;
+                while (entries.hbsMoreElements()) {
+                    String vblue;
                     ZipEntry e = entries.nextElement();
-                    value = e.getName();
-                    if (e.isDirectory() || JarVerifier.isSigningRelated(value)) {
+                    vblue = e.getNbme();
+                    if (e.isDirectory() || JbrVerifier.isSigningRelbted(vblue)) {
                         continue;
                     }
-                    name = value;
+                    nbme = vblue;
                     return true;
                 }
-                return false;
+                return fblse;
             }
 
             public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+                if (hbsMoreElements()) {
+                    String vblue = nbme;
+                    nbme = null;
+                    return vblue;
                 }
                 throw new NoSuchElementException();
             }
         };
     }
 
-    CodeSource getCodeSource(URL url, String name) {
-        ensureInitialization();
+    CodeSource getCodeSource(URL url, String nbme) {
+        ensureInitiblizbtion();
         if (jv != null) {
-            if (jv.eagerValidation) {
+            if (jv.ebgerVblidbtion) {
                 CodeSource cs = null;
-                JarEntry je = getJarEntry(name);
+                JbrEntry je = getJbrEntry(nbme);
                 if (je != null) {
                     cs = jv.getCodeSource(url, this, je);
                 } else {
-                    cs = jv.getCodeSource(url, name);
+                    cs = jv.getCodeSource(url, nbme);
                 }
                 return cs;
             } else {
-                return jv.getCodeSource(url, name);
+                return jv.getCodeSource(url, nbme);
             }
         }
 
-        return JarVerifier.getUnsignedCS(url);
+        return JbrVerifier.getUnsignedCS(url);
     }
 
-    void setEagerValidation(boolean eager) {
+    void setEbgerVblidbtion(boolebn ebger) {
         try {
-            maybeInstantiateVerifier();
-        } catch (IOException e) {
+            mbybeInstbntibteVerifier();
+        } cbtch (IOException e) {
             throw new RuntimeException(e);
         }
         if (jv != null) {
-            jv.setEagerValidation(eager);
+            jv.setEbgerVblidbtion(ebger);
         }
     }
 
-    List<Object> getManifestDigests() {
-        ensureInitialization();
+    List<Object> getMbnifestDigests() {
+        ensureInitiblizbtion();
         if (jv != null) {
-            return jv.getManifestDigests();
+            return jv.getMbnifestDigests();
         }
-        return new ArrayList<>();
+        return new ArrbyList<>();
     }
 }

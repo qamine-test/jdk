@@ -1,152 +1,152 @@
 <html>
-<head>
-<title>javax.management.openmbean package</title>
+<hebd>
+<title>jbvbx.mbnbgement.openmbebn pbckbge</title>
 <!--
-Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 
-    <p>Provides the open data types and Open MBean descriptor classes.
-      An <em>Open MBean</em> is an MBean where the types of attributes
-      and of operation parameters and return values are built using a
-      small set of predefined Java classes.  Open MBeans facilitate
-      operation with remote management programs that do not necessarily
-      have access to application-specific types, including non-Java
-      programs.</p>
+    <p>Provides the open dbtb types bnd Open MBebn descriptor clbsses.
+      An <em>Open MBebn</em> is bn MBebn where the types of bttributes
+      bnd of operbtion pbrbmeters bnd return vblues bre built using b
+      smbll set of predefined Jbvb clbsses.  Open MBebns fbcilitbte
+      operbtion with remote mbnbgement progrbms thbt do not necessbrily
+      hbve bccess to bpplicbtion-specific types, including non-Jbvb
+      progrbms.</p>
 
-    <p>Every MBean has an {@link javax.management.MBeanInfo
-      MBeanInfo} with information about the MBean itself, and its
-      attributes, operations, constructors, and notifications.  In an
-      Open MBean, this <code>MBeanInfo</code> implements the {@link
-      javax.management.openmbean.OpenMBeanInfo OpenMBeanInfo}
-      interface, usually by being an instance of {@link
-      javax.management.openmbean.OpenMBeanInfoSupport
-      OpenMBeanInfoSupport}.</p>
+    <p>Every MBebn hbs bn {@link jbvbx.mbnbgement.MBebnInfo
+      MBebnInfo} with informbtion bbout the MBebn itself, bnd its
+      bttributes, operbtions, constructors, bnd notificbtions.  In bn
+      Open MBebn, this <code>MBebnInfo</code> implements the {@link
+      jbvbx.mbnbgement.openmbebn.OpenMBebnInfo OpenMBebnInfo}
+      interfbce, usublly by being bn instbnce of {@link
+      jbvbx.mbnbgement.openmbebn.OpenMBebnInfoSupport
+      OpenMBebnInfoSupport}.</p>
 
-    <p>The attribute information returned by {@link
-      javax.management.MBeanInfo#getAttributes()
-      MBeanInfo.getAttributes} for an Open MBean is an array of
+    <p>The bttribute informbtion returned by {@link
+      jbvbx.mbnbgement.MBebnInfo#getAttributes()
+      MBebnInfo.getAttributes} for bn Open MBebn is bn brrby of
       objects implementing {@link
-      javax.management.openmbean.OpenMBeanAttributeInfo
-      OpenMBeanAttributeInfo}, usually instances of {@link
-      javax.management.openmbean.OpenMBeanAttributeInfoSupport
-      OpenMBeanAttributeInfoSupport}.  In addition to the usual
-      information about attributes, an
-      <code>OpenMBeanAttributeInfo</code> specifies the {@link
-      javax.management.openmbean.OpenType OpenType} of the attribute.
-      The possible <code>OpenType</code> values are predefined, which
-      is what ensures that remote managers will understand them.</p>
+      jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfo
+      OpenMBebnAttributeInfo}, usublly instbnces of {@link
+      jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfoSupport
+      OpenMBebnAttributeInfoSupport}.  In bddition to the usubl
+      informbtion bbout bttributes, bn
+      <code>OpenMBebnAttributeInfo</code> specifies the {@link
+      jbvbx.mbnbgement.openmbebn.OpenType OpenType} of the bttribute.
+      The possible <code>OpenType</code> vblues bre predefined, which
+      is whbt ensures thbt remote mbnbgers will understbnd them.</p>
 
-    <p>Similar remarks apply to the parameter types of operations and
-      constructors, and to the return types of operations.</p>
+    <p>Similbr rembrks bpply to the pbrbmeter types of operbtions bnd
+      constructors, bnd to the return types of operbtions.</p>
 
-    <p>There is a distinction between an attribute's Java language
-      type, as returned by {@link
-      javax.management.MBeanAttributeInfo#getType() getType()}, and
-      its <code>OpenType</code>, as returned by {@link
-      javax.management.openmbean.OpenMBeanAttributeInfo#getOpenType()
-      getOpenType()}.  For example, if the Java language type is
-      <code>java.lang.String</code>, the <code>OpenType</code> will be
-      {@link javax.management.openmbean.SimpleType#STRING
-      SimpleType.String}.  If the Java language type is {@link
-      javax.management.openmbean.CompositeData}, the
-      <code>OpenType</code> will be a {@link
-      javax.management.openmbean.CompositeType CompositeType} that
-      describes the items in the <code>CompositeData</code> instances
-      for the attribute.</p>
+    <p>There is b distinction between bn bttribute's Jbvb lbngubge
+      type, bs returned by {@link
+      jbvbx.mbnbgement.MBebnAttributeInfo#getType() getType()}, bnd
+      its <code>OpenType</code>, bs returned by {@link
+      jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfo#getOpenType()
+      getOpenType()}.  For exbmple, if the Jbvb lbngubge type is
+      <code>jbvb.lbng.String</code>, the <code>OpenType</code> will be
+      {@link jbvbx.mbnbgement.openmbebn.SimpleType#STRING
+      SimpleType.String}.  If the Jbvb lbngubge type is {@link
+      jbvbx.mbnbgement.openmbebn.CompositeDbtb}, the
+      <code>OpenType</code> will be b {@link
+      jbvbx.mbnbgement.openmbebn.CompositeType CompositeType} thbt
+      describes the items in the <code>CompositeDbtb</code> instbnces
+      for the bttribute.</p>
 
-    <h2><a name="constraints">Default values and constraints</a></h2>
+    <h2><b nbme="constrbints">Defbult vblues bnd constrbints</b></h2>
 
-    <p>In Open MBeans, attributes and parameters can have default values
-      and/or constraints associated with them in the {@code
-      OpenMBeanAttributeInfo} or {@code OpenMBeanParameterInfo}.
-      There are two ways to specify these constraints.  Either the
-      values are directly specified as parameters to one of the
-      constructors of {@code OpenMBeanAttributeInfoSupport} or
-      {@code OpenMBeanParameterInfoSupport}, for example
+    <p>In Open MBebns, bttributes bnd pbrbmeters cbn hbve defbult vblues
+      bnd/or constrbints bssocibted with them in the {@code
+      OpenMBebnAttributeInfo} or {@code OpenMBebnPbrbmeterInfo}.
+      There bre two wbys to specify these constrbints.  Either the
+      vblues bre directly specified bs pbrbmeters to one of the
+      constructors of {@code OpenMBebnAttributeInfoSupport} or
+      {@code OpenMBebnPbrbmeterInfoSupport}, for exbmple
       {@link
-      javax.management.openmbean.OpenMBeanParameterInfoSupport#OpenMBeanParameterInfoSupport(
-      String, String, OpenType, Object, Object[])}; or the values are
-      specified in a {@link javax.management.Descriptor Descriptor} given
-      as a parameter to one of the constructors.</p>
+      jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfoSupport#OpenMBebnPbrbmeterInfoSupport(
+      String, String, OpenType, Object, Object[])}; or the vblues bre
+      specified in b {@link jbvbx.mbnbgement.Descriptor Descriptor} given
+      bs b pbrbmeter to one of the constructors.</p>
 
-    <p>When a {@code Descriptor} is used, the fields of interest are
+    <p>When b {@code Descriptor} is used, the fields of interest bre
       these:</p>
 
     <ul>
 
-      <li>{@code defaultValue} defines the value returned by
-	{@link javax.management.openmbean.OpenMBeanParameterInfo#getDefaultValue()
-	getDefaultValue()};
+      <li>{@code defbultVblue} defines the vblue returned by
+	{@link jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo#getDefbultVblue()
+	getDefbultVblue()};
 
-      <li>{@code minValue} defines the value returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getMinValue() getMinValue()};
+      <li>{@code minVblue} defines the vblue returned by {@link
+	jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo#getMinVblue() getMinVblue()};
 
-      <li>{@code maxValue} defines the value returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getMaxValue() getMaxValue()};
+      <li>{@code mbxVblue} defines the vblue returned by {@link
+	jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo#getMbxVblue() getMbxVblue()};
 
-      <li>{@code legalValues} defines the values returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getLegalValues() getLegalValues()}.
+      <li>{@code legblVblues} defines the vblues returned by {@link
+	jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo#getLegblVblues() getLegblVblues()}.
 
     </ul>
 
-    <p>For {@code defaultValue}, {@code minValue}, and {@code
-      maxValue}, the associated value must either be of the Java type
-      corresponding to {@code openType}, or be a string that can be
-      converted into that type.  The conversion uses the static method
-      {@code valueOf(String)} if it finds one; otherwise a constructor
-      with a single {@code String} parameter if it finds one; otherwise
-      it fails.</p>
+    <p>For {@code defbultVblue}, {@code minVblue}, bnd {@code
+      mbxVblue}, the bssocibted vblue must either be of the Jbvb type
+      corresponding to {@code openType}, or be b string thbt cbn be
+      converted into thbt type.  The conversion uses the stbtic method
+      {@code vblueOf(String)} if it finds one; otherwise b constructor
+      with b single {@code String} pbrbmeter if it finds one; otherwise
+      it fbils.</p>
 
-    <p>For {@code legalValues}, the associated value must be either
-      an array or a {@code Set}, and the elements of the array or set
-      must be convertible as described for {@code defaultValue} etc.</p>
+    <p>For {@code legblVblues}, the bssocibted vblue must be either
+      bn brrby or b {@code Set}, bnd the elements of the brrby or set
+      must be convertible bs described for {@code defbultVblue} etc.</p>
 
     <p>The following conditions must be met for these fields:</p>
 
     <ul>
-      <li>the values must be of the appropriate type, or be strings
-	that can be converted to the appropriate type as explained
-	above;
+      <li>the vblues must be of the bppropribte type, or be strings
+	thbt cbn be converted to the bppropribte type bs explbined
+	bbove;
 
-      <li>if {@code legalValues} is present then neither {@code
-	minValue} nor {@code maxValue} must be present;
+      <li>if {@code legblVblues} is present then neither {@code
+	minVblue} nor {@code mbxVblue} must be present;
 
-      <li>if {@code defaultValue} is present then it must satisfy the
-	constraints defined by {@code legalValues}, {@code minValue}, or
-	{@code maxValue} when any of these is also present;
+      <li>if {@code defbultVblue} is present then it must sbtisfy the
+	constrbints defined by {@code legblVblues}, {@code minVblue}, or
+	{@code mbxVblue} when bny of these is blso present;
 
-      <li>if {@code minValue} and {@code maxValue} are both present
-	then {@code minValue} must not be greater than {@code maxValue}.
+      <li>if {@code minVblue} bnd {@code mbxVblue} bre both present
+	then {@code minVblue} must not be grebter thbn {@code mbxVblue}.
     </ul>
 
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4</a>
+    @see <b href="{@docRoot}/../technotes/guides/jmx/">
+      Jbvb Plbtform documentbtion on JMX technology</b>,
+    in pbrticulbr the 
+    <b href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specificbtion.pdf">
+      JMX Specificbtion, version 1.4</b>
 
     @since 1.5
 

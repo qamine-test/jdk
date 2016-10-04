@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
-import java.util.*;
+import jbvb.util.*;
 
-public class ThreadGroupReferenceImpl extends ObjectReferenceImpl
-    implements ThreadGroupReference, VMListener
+public clbss ThrebdGroupReferenceImpl extends ObjectReferenceImpl
+    implements ThrebdGroupReference, VMListener
 {
-    // Cached components that cannot change
-    String name;
-    ThreadGroupReference parent;
-    boolean triedParent;
+    // Cbched components thbt cbnnot chbnge
+    String nbme;
+    ThrebdGroupReference pbrent;
+    boolebn triedPbrent;
 
-    // This is cached only while the VM is suspended
-    private static class Cache extends ObjectReferenceImpl.Cache {
-        JDWP.ThreadGroupReference.Children kids = null;
+    // This is cbched only while the VM is suspended
+    privbte stbtic clbss Cbche extends ObjectReferenceImpl.Cbche {
+        JDWP.ThrebdGroupReference.Children kids = null;
     }
 
-    protected ObjectReferenceImpl.Cache newCache() {
-        return new Cache();
+    protected ObjectReferenceImpl.Cbche newCbche() {
+        return new Cbche();
     }
 
-    ThreadGroupReferenceImpl(VirtualMachine aVm,long aRef) {
-        super(aVm,aRef);
-        vm.state().addListener(this);
+    ThrebdGroupReferenceImpl(VirtublMbchine bVm,long bRef) {
+        super(bVm,bRef);
+        vm.stbte().bddListener(this);
     }
 
     protected String description() {
-        return "ThreadGroupReference " + uniqueID();
+        return "ThrebdGroupReference " + uniqueID();
     }
 
-    public String name() {
-        if (name == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice (Thread group name
-            // cannot change)
+    public String nbme() {
+        if (nbme == null) {
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice (Threbd group nbme
+            // cbnnot chbnge)
             try {
-                name = JDWP.ThreadGroupReference.Name.
-                                     process(vm, this).groupName;
-            } catch (JDWPException exc) {
+                nbme = JDWP.ThrebdGroupReference.Nbme.
+                                     process(vm, this).groupNbme;
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return name;
+        return nbme;
     }
 
-    public ThreadGroupReference parent() {
-        if (!triedParent) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice (Thread group parent cannot
-            // change)
+    public ThrebdGroupReference pbrent() {
+        if (!triedPbrent) {
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice (Threbd group pbrent cbnnot
+            // chbnge)
             try {
-                parent = JDWP.ThreadGroupReference.Parent.
-                                 process(vm, this).parentGroup;
-                triedParent = true;
-            } catch (JDWPException exc) {
+                pbrent = JDWP.ThrebdGroupReference.Pbrent.
+                                 process(vm, this).pbrentGroup;
+                triedPbrent = true;
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-       return parent;
+       return pbrent;
     }
 
     public void suspend() {
-        for (ThreadReference thread : threads()) {
-            thread.suspend();
+        for (ThrebdReference threbd : threbds()) {
+            threbd.suspend();
         }
 
-        for (ThreadGroupReference threadGroup : threadGroups()) {
-            threadGroup.suspend();
+        for (ThrebdGroupReference threbdGroup : threbdGroups()) {
+            threbdGroup.suspend();
         }
     }
 
     public void resume() {
-        for (ThreadReference thread : threads()) {
-            thread.resume();
+        for (ThrebdReference threbd : threbds()) {
+            threbd.resume();
         }
 
-        for (ThreadGroupReference threadGroup : threadGroups()) {
-            threadGroup.resume();
+        for (ThrebdGroupReference threbdGroup : threbdGroups()) {
+            threbdGroup.resume();
         }
     }
 
-    private JDWP.ThreadGroupReference.Children kids() {
-        JDWP.ThreadGroupReference.Children kids = null;
+    privbte JDWP.ThrebdGroupReference.Children kids() {
+        JDWP.ThrebdGroupReference.Children kids = null;
         try {
-            Cache local = (Cache)getCache();
+            Cbche locbl = (Cbche)getCbche();
 
-            if (local != null) {
-                kids = local.kids;
+            if (locbl != null) {
+                kids = locbl.kids;
             }
             if (kids == null) {
-                kids = JDWP.ThreadGroupReference.Children
+                kids = JDWP.ThrebdGroupReference.Children
                                                   .process(vm, this);
-                if (local != null) {
-                    local.kids = kids;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace(description() +
-                                      " temporarily caching children ");
+                if (locbl != null) {
+                    locbl.kids = kids;
+                    if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                        vm.printTrbce(description() +
+                                      " temporbrily cbching children ");
                     }
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
         return kids;
     }
 
-    public List<ThreadReference> threads() {
-        return Arrays.asList((ThreadReference[])kids().childThreads);
+    public List<ThrebdReference> threbds() {
+        return Arrbys.bsList((ThrebdReference[])kids().childThrebds);
     }
 
-    public List<ThreadGroupReference> threadGroups() {
-        return Arrays.asList((ThreadGroupReference[])kids().childGroups);
+    public List<ThrebdGroupReference> threbdGroups() {
+        return Arrbys.bsList((ThrebdGroupReference[])kids().childGroups);
     }
 
     public String toString() {
-        return "instance of " + referenceType().name() +
-               "(name='" + name() + "', " + "id=" + uniqueID() + ")";
+        return "instbnce of " + referenceType().nbme() +
+               "(nbme='" + nbme() + "', " + "id=" + uniqueID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.THREAD_GROUP;
+    byte typeVblueKey() {
+        return JDWP.Tbg.THREAD_GROUP;
     }
 }

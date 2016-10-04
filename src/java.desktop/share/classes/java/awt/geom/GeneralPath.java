@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.awt.Shape;
+import jbvb.bwt.Shbpe;
 
 /**
- * The {@code GeneralPath} class represents a geometric path
- * constructed from straight lines, and quadratic and cubic
- * (B&eacute;zier) curves.  It can contain multiple subpaths.
+ * The {@code GenerblPbth} clbss represents b geometric pbth
+ * constructed from strbight lines, bnd qubdrbtic bnd cubic
+ * (B&ebcute;zier) curves.  It cbn contbin multiple subpbths.
  * <p>
- * {@code GeneralPath} is a legacy final class which exactly
- * implements the behavior of its superclass {@link Path2D.Float}.
- * Together with {@link Path2D.Double}, the {@link Path2D} classes
- * provide full implementations of a general geometric path that
- * support all of the functionality of the {@link Shape} and
- * {@link PathIterator} interfaces with the ability to explicitly
- * select different levels of internal coordinate precision.
+ * {@code GenerblPbth} is b legbcy finbl clbss which exbctly
+ * implements the behbvior of its superclbss {@link Pbth2D.Flobt}.
+ * Together with {@link Pbth2D.Double}, the {@link Pbth2D} clbsses
+ * provide full implementbtions of b generbl geometric pbth thbt
+ * support bll of the functionblity of the {@link Shbpe} bnd
+ * {@link PbthIterbtor} interfbces with the bbility to explicitly
+ * select different levels of internbl coordinbte precision.
  * <p>
- * Use {@code Path2D.Float} (or this legacy {@code GeneralPath}
- * subclass) when dealing with data that can be represented
- * and used with floating point precision.  Use {@code Path2D.Double}
- * for data that requires the accuracy or range of double precision.
+ * Use {@code Pbth2D.Flobt} (or this legbcy {@code GenerblPbth}
+ * subclbss) when debling with dbtb thbt cbn be represented
+ * bnd used with flobting point precision.  Use {@code Pbth2D.Double}
+ * for dbtb thbt requires the bccurbcy or rbnge of double precision.
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  * @since 1.2
  */
-public final class GeneralPath extends Path2D.Float {
+public finbl clbss GenerblPbth extends Pbth2D.Flobt {
     /**
-     * Constructs a new empty single precision {@code GeneralPath} object
-     * with a default winding rule of {@link #WIND_NON_ZERO}.
+     * Constructs b new empty single precision {@code GenerblPbth} object
+     * with b defbult winding rule of {@link #WIND_NON_ZERO}.
      *
      * @since 1.2
      */
-    public GeneralPath() {
+    public GenerblPbth() {
         super(WIND_NON_ZERO, INIT_SIZE);
     }
 
     /**
-     * Constructs a new <code>GeneralPath</code> object with the specified
-     * winding rule to control operations that require the interior of the
-     * path to be defined.
+     * Constructs b new <code>GenerblPbth</code> object with the specified
+     * winding rule to control operbtions thbt require the interior of the
+     * pbth to be defined.
      *
-     * @param rule the winding rule
+     * @pbrbm rule the winding rule
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      * @since 1.2
      */
-    public GeneralPath(int rule) {
+    public GenerblPbth(int rule) {
         super(rule, INIT_SIZE);
     }
 
     /**
-     * Constructs a new <code>GeneralPath</code> object with the specified
-     * winding rule and the specified initial capacity to store path
-     * coordinates.
-     * This number is an initial guess as to how many path segments
-     * will be added to the path, but the storage is expanded as
-     * needed to store whatever path segments are added.
+     * Constructs b new <code>GenerblPbth</code> object with the specified
+     * winding rule bnd the specified initibl cbpbcity to store pbth
+     * coordinbtes.
+     * This number is bn initibl guess bs to how mbny pbth segments
+     * will be bdded to the pbth, but the storbge is expbnded bs
+     * needed to store whbtever pbth segments bre bdded.
      *
-     * @param rule the winding rule
-     * @param initialCapacity the estimate for the number of path segments
-     *                        in the path
+     * @pbrbm rule the winding rule
+     * @pbrbm initiblCbpbcity the estimbte for the number of pbth segments
+     *                        in the pbth
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      * @since 1.2
      */
-    public GeneralPath(int rule, int initialCapacity) {
-        super(rule, initialCapacity);
+    public GenerblPbth(int rule, int initiblCbpbcity) {
+        super(rule, initiblCbpbcity);
     }
 
     /**
-     * Constructs a new <code>GeneralPath</code> object from an arbitrary
-     * {@link Shape} object.
-     * All of the initial geometry and the winding rule for this path are
-     * taken from the specified <code>Shape</code> object.
+     * Constructs b new <code>GenerblPbth</code> object from bn brbitrbry
+     * {@link Shbpe} object.
+     * All of the initibl geometry bnd the winding rule for this pbth bre
+     * tbken from the specified <code>Shbpe</code> object.
      *
-     * @param s the specified <code>Shape</code> object
+     * @pbrbm s the specified <code>Shbpe</code> object
      * @since 1.2
      */
-    public GeneralPath(Shape s) {
+    public GenerblPbth(Shbpe s) {
         super(s, null);
     }
 
-    GeneralPath(int windingRule,
+    GenerblPbth(int windingRule,
                 byte[] pointTypes,
                 int numTypes,
-                float[] pointCoords,
+                flobt[] pointCoords,
                 int numCoords)
     {
-        // used to construct from native
+        // used to construct from nbtive
 
         this.windingRule = windingRule;
         this.pointTypes = pointTypes;
         this.numTypes = numTypes;
-        this.floatCoords = pointCoords;
+        this.flobtCoords = pointCoords;
         this.numCoords = numCoords;
     }
 
     /*
-     * JDK 1.6 serialVersionUID
+     * JDK 1.6 seriblVersionUID
      */
-    private static final long serialVersionUID = -8327096662768731142L;
+    privbte stbtic finbl long seriblVersionUID = -8327096662768731142L;
 }

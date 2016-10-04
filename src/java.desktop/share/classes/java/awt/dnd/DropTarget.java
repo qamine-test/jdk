@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.util.TooManyListenersException;
+import jbvb.util.TooMbnyListenersException;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.datatransfer.FlavorMap;
-import java.awt.datatransfer.SystemFlavorMap;
-import javax.swing.Timer;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
-import java.awt.dnd.peer.DropTargetPeer;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorMbp;
+import jbvb.bwt.dbtbtrbnsfer.SystemFlbvorMbp;
+import jbvbx.swing.Timer;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.LightweightPeer;
+import jbvb.bwt.dnd.peer.DropTbrgetPeer;
 
 
 /**
- * The <code>DropTarget</code> is associated
- * with a <code>Component</code> when that <code>Component</code>
+ * The <code>DropTbrget</code> is bssocibted
+ * with b <code>Component</code> when thbt <code>Component</code>
  * wishes
- * to accept drops during Drag and Drop operations.
+ * to bccept drops during Drbg bnd Drop operbtions.
  * <P>
- *  Each
- * <code>DropTarget</code> is associated with a <code>FlavorMap</code>.
- * The default <code>FlavorMap</code> hereafter designates the
- * <code>FlavorMap</code> returned by <code>SystemFlavorMap.getDefaultFlavorMap()</code>.
+ *  Ebch
+ * <code>DropTbrget</code> is bssocibted with b <code>FlbvorMbp</code>.
+ * The defbult <code>FlbvorMbp</code> herebfter designbtes the
+ * <code>FlbvorMbp</code> returned by <code>SystemFlbvorMbp.getDefbultFlbvorMbp()</code>.
  *
  * @since 1.2
  */
 
-public class DropTarget implements DropTargetListener, Serializable {
+public clbss DropTbrget implements DropTbrgetListener, Seriblizbble {
 
-    private static final long serialVersionUID = -6283860791671019047L;
+    privbte stbtic finbl long seriblVersionUID = -6283860791671019047L;
 
     /**
-     * Creates a new DropTarget given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s) to
-     * support, a <code>DropTargetListener</code>
-     * to handle event processing, a <code>boolean</code> indicating
-     * if the <code>DropTarget</code> is currently accepting drops, and
-     * a <code>FlavorMap</code> to use (or null for the default <CODE>FlavorMap</CODE>).
+     * Crebtes b new DropTbrget given the <code>Component</code>
+     * to bssocibte itself with, bn <code>int</code> representing
+     * the defbult bcceptbble bction(s) to
+     * support, b <code>DropTbrgetListener</code>
+     * to hbndle event processing, b <code>boolebn</code> indicbting
+     * if the <code>DropTbrget</code> is currently bccepting drops, bnd
+     * b <code>FlbvorMbp</code> to use (or null for the defbult <CODE>FlbvorMbp</CODE>).
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @param act       Is the <code>DropTarget</code> accepting drops.
-     * @param fm        The <code>FlavorMap</code> to use, or null for the default <CODE>FlavorMap</CODE>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * The Component will receive drops only if it is enbbled.
+     * @pbrbm c         The <code>Component</code> with which this <code>DropTbrget</code> is bssocibted
+     * @pbrbm ops       The defbult bcceptbble bctions for this <code>DropTbrget</code>
+     * @pbrbm dtl       The <code>DropTbrgetListener</code> for this <code>DropTbrget</code>
+     * @pbrbm bct       Is the <code>DropTbrget</code> bccepting drops.
+     * @pbrbm fm        The <code>FlbvorMbp</code> to use, or null for the defbult <CODE>FlbvorMbp</CODE>
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl,
-                      boolean act, FlavorMap fm)
-        throws HeadlessException
+    public DropTbrget(Component c, int ops, DropTbrgetListener dtl,
+                      boolebn bct, FlbvorMbp fm)
+        throws HebdlessException
     {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
         component = c;
 
-        setDefaultActions(ops);
+        setDefbultActions(ops);
 
         if (dtl != null) try {
-            addDropTargetListener(dtl);
-        } catch (TooManyListenersException tmle) {
+            bddDropTbrgetListener(dtl);
+        } cbtch (TooMbnyListenersException tmle) {
             // do nothing!
         }
 
         if (c != null) {
-            c.setDropTarget(this);
-            setActive(act);
+            c.setDropTbrget(this);
+            setActive(bct);
         }
 
         if (fm != null) {
-            flavorMap = fm;
+            flbvorMbp = fm;
         } else {
-            flavorMap = SystemFlavorMap.getDefaultFlavorMap();
+            flbvorMbp = SystemFlbvorMbp.getDefbultFlbvorMbp();
         }
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s)
-     * to support, a <code>DropTargetListener</code>
-     * to handle event processing, and a <code>boolean</code> indicating
-     * if the <code>DropTarget</code> is currently accepting drops.
+     * Crebtes b <code>DropTbrget</code> given the <code>Component</code>
+     * to bssocibte itself with, bn <code>int</code> representing
+     * the defbult bcceptbble bction(s)
+     * to support, b <code>DropTbrgetListener</code>
+     * to hbndle event processing, bnd b <code>boolebn</code> indicbting
+     * if the <code>DropTbrget</code> is currently bccepting drops.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @param act       Is the <code>DropTarget</code> accepting drops.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * The Component will receive drops only if it is enbbled.
+     * @pbrbm c         The <code>Component</code> with which this <code>DropTbrget</code> is bssocibted
+     * @pbrbm ops       The defbult bcceptbble bctions for this <code>DropTbrget</code>
+     * @pbrbm dtl       The <code>DropTbrgetListener</code> for this <code>DropTbrget</code>
+     * @pbrbm bct       Is the <code>DropTbrget</code> bccepting drops.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl,
-                      boolean act)
-        throws HeadlessException
+    public DropTbrget(Component c, int ops, DropTbrgetListener dtl,
+                      boolebn bct)
+        throws HebdlessException
     {
-        this(c, ops, dtl, act, null);
+        this(c, ops, dtl, bct, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b <code>DropTbrget</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DropTarget() throws HeadlessException {
-        this(null, DnDConstants.ACTION_COPY_OR_MOVE, null, true, null);
+    public DropTbrget() throws HebdlessException {
+        this(null, DnDConstbnts.ACTION_COPY_OR_MOVE, null, true, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, and the <code>DropTargetListener</code>
-     * to handle event processing.
+     * Crebtes b <code>DropTbrget</code> given the <code>Component</code>
+     * to bssocibte itself with, bnd the <code>DropTbrgetListener</code>
+     * to hbndle event processing.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * The Component will receive drops only if it is enbbled.
+     * @pbrbm c         The <code>Component</code> with which this <code>DropTbrget</code> is bssocibted
+     * @pbrbm dtl       The <code>DropTbrgetListener</code> for this <code>DropTbrget</code>
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DropTarget(Component c, DropTargetListener dtl)
-        throws HeadlessException
+    public DropTbrget(Component c, DropTbrgetListener dtl)
+        throws HebdlessException
     {
-        this(c, DnDConstants.ACTION_COPY_OR_MOVE, dtl, true, null);
+        this(c, DnDConstbnts.ACTION_COPY_OR_MOVE, dtl, true, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s) to support, and a
-     * <code>DropTargetListener</code> to handle event processing.
+     * Crebtes b <code>DropTbrget</code> given the <code>Component</code>
+     * to bssocibte itself with, bn <code>int</code> representing
+     * the defbult bcceptbble bction(s) to support, bnd b
+     * <code>DropTbrgetListener</code> to hbndle event processing.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * The Component will receive drops only if it is enbbled.
+     * @pbrbm c         The <code>Component</code> with which this <code>DropTbrget</code> is bssocibted
+     * @pbrbm ops       The defbult bcceptbble bctions for this <code>DropTbrget</code>
+     * @pbrbm dtl       The <code>DropTbrgetListener</code> for this <code>DropTbrget</code>
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl)
-        throws HeadlessException
+    public DropTbrget(Component c, int ops, DropTbrgetListener dtl)
+        throws HebdlessException
     {
         this(c, ops, dtl, true);
     }
 
     /**
-     * Note: this interface is required to permit the safe association
-     * of a DropTarget with a Component in one of two ways, either:
-     * <code> component.setDropTarget(droptarget); </code>
-     * or <code> droptarget.setComponent(component); </code>
+     * Note: this interfbce is required to permit the sbfe bssocibtion
+     * of b DropTbrget with b Component in one of two wbys, either:
+     * <code> component.setDropTbrget(droptbrget); </code>
+     * or <code> droptbrget.setComponent(component); </code>
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c The new <code>Component</code> this <code>DropTarget</code>
-     * is to be associated with.
+     * The Component will receive drops only if it is enbbled.
+     * @pbrbm c The new <code>Component</code> this <code>DropTbrget</code>
+     * is to be bssocibted with.
      */
 
     public synchronized void setComponent(Component c) {
-        if (component == c || component != null && component.equals(c))
+        if (component == c || component != null && component.equbls(c))
             return;
 
         Component     old;
         ComponentPeer oldPeer = null;
 
         if ((old = component) != null) {
-            clearAutoscroll();
+            clebrAutoscroll();
 
             component = null;
 
@@ -217,23 +217,23 @@ public class DropTarget implements DropTargetListener, Serializable {
                 removeNotify(componentPeer);
             }
 
-            old.setDropTarget(null);
+            old.setDropTbrget(null);
 
         }
 
         if ((component = c) != null) try {
-            c.setDropTarget(this);
-        } catch (Exception e) { // undo the change
+            c.setDropTbrget(this);
+        } cbtch (Exception e) { // undo the chbnge
             if (old != null) {
-                old.setDropTarget(this);
-                addNotify(oldPeer);
+                old.setDropTbrget(this);
+                bddNotify(oldPeer);
             }
         }
     }
 
     /**
-     * Gets the <code>Component</code> associated
-     * with this <code>DropTarget</code>.
+     * Gets the <code>Component</code> bssocibted
+     * with this <code>DropTbrget</code>.
      *
      * @return the current <code>Component</code>
      */
@@ -243,215 +243,215 @@ public class DropTarget implements DropTargetListener, Serializable {
     }
 
     /**
-     * Sets the default acceptable actions for this <code>DropTarget</code>
+     * Sets the defbult bcceptbble bctions for this <code>DropTbrget</code>
      *
-     * @param ops the default actions
-     * @see java.awt.dnd.DnDConstants
+     * @pbrbm ops the defbult bctions
+     * @see jbvb.bwt.dnd.DnDConstbnts
      */
 
-    public void setDefaultActions(int ops) {
-        getDropTargetContext().setTargetActions(ops & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_REFERENCE));
+    public void setDefbultActions(int ops) {
+        getDropTbrgetContext().setTbrgetActions(ops & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_REFERENCE));
     }
 
     /*
-     * Called by DropTargetContext.setTargetActions()
-     * with appropriate synchronization.
+     * Cblled by DropTbrgetContext.setTbrgetActions()
+     * with bppropribte synchronizbtion.
      */
-    void doSetDefaultActions(int ops) {
-        actions = ops;
+    void doSetDefbultActions(int ops) {
+        bctions = ops;
     }
 
     /**
-     * Gets an <code>int</code> representing the
-     * current action(s) supported by this <code>DropTarget</code>.
+     * Gets bn <code>int</code> representing the
+     * current bction(s) supported by this <code>DropTbrget</code>.
      *
-     * @return the current default actions
+     * @return the current defbult bctions
      */
 
-    public int getDefaultActions() {
-        return actions;
+    public int getDefbultActions() {
+        return bctions;
     }
 
     /**
-     * Sets the DropTarget active if <code>true</code>,
-     * inactive if <code>false</code>.
+     * Sets the DropTbrget bctive if <code>true</code>,
+     * inbctive if <code>fblse</code>.
      *
-     * @param isActive sets the <code>DropTarget</code> (in)active.
+     * @pbrbm isActive sets the <code>DropTbrget</code> (in)bctive.
      */
 
-    public synchronized void setActive(boolean isActive) {
-        if (isActive != active) {
-            active = isActive;
+    public synchronized void setActive(boolebn isActive) {
+        if (isActive != bctive) {
+            bctive = isActive;
         }
 
-        if (!active) clearAutoscroll();
+        if (!bctive) clebrAutoscroll();
     }
 
     /**
      * Reports whether or not
-     * this <code>DropTarget</code>
-     * is currently active (ready to accept drops).
+     * this <code>DropTbrget</code>
+     * is currently bctive (rebdy to bccept drops).
      *
-     * @return <CODE>true</CODE> if active, <CODE>false</CODE> if not
+     * @return <CODE>true</CODE> if bctive, <CODE>fblse</CODE> if not
      */
 
-    public boolean isActive() {
-        return active;
+    public boolebn isActive() {
+        return bctive;
     }
 
     /**
-     * Adds a new <code>DropTargetListener</code> (UNICAST SOURCE).
+     * Adds b new <code>DropTbrgetListener</code> (UNICAST SOURCE).
      *
-     * @param dtl The new <code>DropTargetListener</code>
+     * @pbrbm dtl The new <code>DropTbrgetListener</code>
      *
-     * @throws TooManyListenersException if a
-     * <code>DropTargetListener</code> is already added to this
-     * <code>DropTarget</code>.
+     * @throws TooMbnyListenersException if b
+     * <code>DropTbrgetListener</code> is blrebdy bdded to this
+     * <code>DropTbrget</code>.
      */
 
-    public synchronized void addDropTargetListener(DropTargetListener dtl) throws TooManyListenersException {
+    public synchronized void bddDropTbrgetListener(DropTbrgetListener dtl) throws TooMbnyListenersException {
         if (dtl == null) return;
 
-        if (equals(dtl)) throw new IllegalArgumentException("DropTarget may not be its own Listener");
+        if (equbls(dtl)) throw new IllegblArgumentException("DropTbrget mby not be its own Listener");
 
         if (dtListener == null)
             dtListener = dtl;
         else
-            throw new TooManyListenersException();
+            throw new TooMbnyListenersException();
     }
 
     /**
-     * Removes the current <code>DropTargetListener</code> (UNICAST SOURCE).
+     * Removes the current <code>DropTbrgetListener</code> (UNICAST SOURCE).
      *
-     * @param dtl the DropTargetListener to deregister.
+     * @pbrbm dtl the DropTbrgetListener to deregister.
      */
 
-    public synchronized void removeDropTargetListener(DropTargetListener dtl) {
+    public synchronized void removeDropTbrgetListener(DropTbrgetListener dtl) {
         if (dtl != null && dtListener != null) {
-            if(dtListener.equals(dtl))
+            if(dtListener.equbls(dtl))
                 dtListener = null;
             else
-                throw new IllegalArgumentException("listener mismatch");
+                throw new IllegblArgumentException("listener mismbtch");
         }
     }
 
     /**
-     * Calls <code>dragEnter</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <code>drbgEnter</code> on the registered
+     * <code>DropTbrgetListener</code> bnd pbsses it
+     * the specified <code>DropTbrgetDrbgEvent</code>.
+     * Hbs no effect if this <code>DropTbrget</code>
+     * is not bctive.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtde the <code>DropTbrgetDrbgEvent</code>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @throws NullPointerException if this <code>DropTbrget</code>
+     *         is bctive bnd <code>dtde</code> is <code>null</code>
      *
      * @see #isActive
      */
-    public synchronized void dragEnter(DropTargetDragEvent dtde) {
-        isDraggingInside = true;
+    public synchronized void drbgEnter(DropTbrgetDrbgEvent dtde) {
+        isDrbggingInside = true;
 
-        if (!active) return;
+        if (!bctive) return;
 
         if (dtListener != null) {
-            dtListener.dragEnter(dtde);
+            dtListener.drbgEnter(dtde);
         } else
-            dtde.getDropTargetContext().setTargetActions(DnDConstants.ACTION_NONE);
+            dtde.getDropTbrgetContext().setTbrgetActions(DnDConstbnts.ACTION_NONE);
 
-        initializeAutoscrolling(dtde.getLocation());
+        initiblizeAutoscrolling(dtde.getLocbtion());
     }
 
     /**
-     * Calls <code>dragOver</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <code>drbgOver</code> on the registered
+     * <code>DropTbrgetListener</code> bnd pbsses it
+     * the specified <code>DropTbrgetDrbgEvent</code>.
+     * Hbs no effect if this <code>DropTbrget</code>
+     * is not bctive.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtde the <code>DropTbrgetDrbgEvent</code>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @throws NullPointerException if this <code>DropTbrget</code>
+     *         is bctive bnd <code>dtde</code> is <code>null</code>
      *
      * @see #isActive
      */
-    public synchronized void dragOver(DropTargetDragEvent dtde) {
-        if (!active) return;
+    public synchronized void drbgOver(DropTbrgetDrbgEvent dtde) {
+        if (!bctive) return;
 
-        if (dtListener != null && active) dtListener.dragOver(dtde);
+        if (dtListener != null && bctive) dtListener.drbgOver(dtde);
 
-        updateAutoscroll(dtde.getLocation());
+        updbteAutoscroll(dtde.getLocbtion());
     }
 
     /**
-     * Calls <code>dropActionChanged</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <code>dropActionChbnged</code> on the registered
+     * <code>DropTbrgetListener</code> bnd pbsses it
+     * the specified <code>DropTbrgetDrbgEvent</code>.
+     * Hbs no effect if this <code>DropTbrget</code>
+     * is not bctive.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtde the <code>DropTbrgetDrbgEvent</code>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @throws NullPointerException if this <code>DropTbrget</code>
+     *         is bctive bnd <code>dtde</code> is <code>null</code>
      *
      * @see #isActive
      */
-    public synchronized void dropActionChanged(DropTargetDragEvent dtde) {
-        if (!active) return;
+    public synchronized void dropActionChbnged(DropTbrgetDrbgEvent dtde) {
+        if (!bctive) return;
 
-        if (dtListener != null) dtListener.dropActionChanged(dtde);
+        if (dtListener != null) dtListener.dropActionChbnged(dtde);
 
-        updateAutoscroll(dtde.getLocation());
+        updbteAutoscroll(dtde.getLocbtion());
     }
 
     /**
-     * Calls <code>dragExit</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <code>drbgExit</code> on the registered
+     * <code>DropTbrgetListener</code> bnd pbsses it
+     * the specified <code>DropTbrgetEvent</code>.
+     * Hbs no effect if this <code>DropTbrget</code>
+     * is not bctive.
      * <p>
-     * This method itself does not throw any exception
-     * for null parameter but for exceptions thrown by
+     * This method itself does not throw bny exception
+     * for null pbrbmeter but for exceptions thrown by
      * the respective method of the listener.
      *
-     * @param dte the <code>DropTargetEvent</code>
+     * @pbrbm dte the <code>DropTbrgetEvent</code>
      *
      * @see #isActive
      */
-    public synchronized void dragExit(DropTargetEvent dte) {
-        isDraggingInside = false;
+    public synchronized void drbgExit(DropTbrgetEvent dte) {
+        isDrbggingInside = fblse;
 
-        if (!active) return;
+        if (!bctive) return;
 
-        if (dtListener != null && active) dtListener.dragExit(dte);
+        if (dtListener != null && bctive) dtListener.drbgExit(dte);
 
-        clearAutoscroll();
+        clebrAutoscroll();
     }
 
     /**
-     * Calls <code>drop</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDropEvent</code>
-     * if this <code>DropTarget</code> is active.
+     * Cblls <code>drop</code> on the registered
+     * <code>DropTbrgetListener</code> bnd pbsses it
+     * the specified <code>DropTbrgetDropEvent</code>
+     * if this <code>DropTbrget</code> is bctive.
      *
-     * @param dtde the <code>DropTargetDropEvent</code>
+     * @pbrbm dtde the <code>DropTbrgetDropEvent</code>
      *
      * @throws NullPointerException if <code>dtde</code> is null
-     *         and at least one of the following is true: this
-     *         <code>DropTarget</code> is not active, or there is
-     *         no a <code>DropTargetListener</code> registered.
+     *         bnd bt lebst one of the following is true: this
+     *         <code>DropTbrget</code> is not bctive, or there is
+     *         no b <code>DropTbrgetListener</code> registered.
      *
      * @see #isActive
      */
-    public synchronized void drop(DropTargetDropEvent dtde) {
-        isDraggingInside = false;
+    public synchronized void drop(DropTbrgetDropEvent dtde) {
+        isDrbggingInside = fblse;
 
-        clearAutoscroll();
+        clebrAutoscroll();
 
-        if (dtListener != null && active)
+        if (dtListener != null && bctive)
             dtListener.drop(dtde);
         else { // we should'nt get here ...
             dtde.rejectDrop();
@@ -459,246 +459,246 @@ public class DropTarget implements DropTargetListener, Serializable {
     }
 
     /**
-     * Gets the <code>FlavorMap</code>
-     * associated with this <code>DropTarget</code>.
-     * If no <code>FlavorMap</code> has been set for this
-     * <code>DropTarget</code>, it is associated with the default
-     * <code>FlavorMap</code>.
+     * Gets the <code>FlbvorMbp</code>
+     * bssocibted with this <code>DropTbrget</code>.
+     * If no <code>FlbvorMbp</code> hbs been set for this
+     * <code>DropTbrget</code>, it is bssocibted with the defbult
+     * <code>FlbvorMbp</code>.
      *
-     * @return the FlavorMap for this DropTarget
+     * @return the FlbvorMbp for this DropTbrget
      */
 
-    public FlavorMap getFlavorMap() { return flavorMap; }
+    public FlbvorMbp getFlbvorMbp() { return flbvorMbp; }
 
     /**
-     * Sets the <code>FlavorMap</code> associated
-     * with this <code>DropTarget</code>.
+     * Sets the <code>FlbvorMbp</code> bssocibted
+     * with this <code>DropTbrget</code>.
      *
-     * @param fm the new <code>FlavorMap</code>, or null to
-     * associate the default FlavorMap with this DropTarget.
+     * @pbrbm fm the new <code>FlbvorMbp</code>, or null to
+     * bssocibte the defbult FlbvorMbp with this DropTbrget.
      */
 
-    public void setFlavorMap(FlavorMap fm) {
-        flavorMap = fm == null ? SystemFlavorMap.getDefaultFlavorMap() : fm;
+    public void setFlbvorMbp(FlbvorMbp fm) {
+        flbvorMbp = fm == null ? SystemFlbvorMbp.getDefbultFlbvorMbp() : fm;
     }
 
     /**
-     * Notify the DropTarget that it has been associated with a Component
+     * Notify the DropTbrget thbt it hbs been bssocibted with b Component
      *
      **********************************************************************
-     * This method is usually called from java.awt.Component.addNotify() of
-     * the Component associated with this DropTarget to notify the DropTarget
-     * that a ComponentPeer has been associated with that Component.
+     * This method is usublly cblled from jbvb.bwt.Component.bddNotify() of
+     * the Component bssocibted with this DropTbrget to notify the DropTbrget
+     * thbt b ComponentPeer hbs been bssocibted with thbt Component.
      *
-     * Calling this method, other than to notify this DropTarget of the
-     * association of the ComponentPeer with the Component may result in
-     * a malfunction of the DnD system.
+     * Cblling this method, other thbn to notify this DropTbrget of the
+     * bssocibtion of the ComponentPeer with the Component mby result in
+     * b mblfunction of the DnD system.
      **********************************************************************
      *
-     * @param peer The Peer of the Component we are associated with!
+     * @pbrbm peer The Peer of the Component we bre bssocibted with!
      *
      */
 
-    public void addNotify(ComponentPeer peer) {
+    public void bddNotify(ComponentPeer peer) {
         if (peer == componentPeer) return;
 
         componentPeer = peer;
 
         for (Component c = component;
-             c != null && peer instanceof LightweightPeer; c = c.getParent()) {
+             c != null && peer instbnceof LightweightPeer; c = c.getPbrent()) {
             peer = c.getPeer();
         }
 
-        if (peer instanceof DropTargetPeer) {
-            nativePeer = peer;
-            ((DropTargetPeer)peer).addDropTarget(this);
+        if (peer instbnceof DropTbrgetPeer) {
+            nbtivePeer = peer;
+            ((DropTbrgetPeer)peer).bddDropTbrget(this);
         } else {
-            nativePeer = null;
+            nbtivePeer = null;
         }
     }
 
     /**
-     * Notify the DropTarget that it has been disassociated from a Component
+     * Notify the DropTbrget thbt it hbs been disbssocibted from b Component
      *
      **********************************************************************
-     * This method is usually called from java.awt.Component.removeNotify() of
-     * the Component associated with this DropTarget to notify the DropTarget
-     * that a ComponentPeer has been disassociated with that Component.
+     * This method is usublly cblled from jbvb.bwt.Component.removeNotify() of
+     * the Component bssocibted with this DropTbrget to notify the DropTbrget
+     * thbt b ComponentPeer hbs been disbssocibted with thbt Component.
      *
-     * Calling this method, other than to notify this DropTarget of the
-     * disassociation of the ComponentPeer from the Component may result in
-     * a malfunction of the DnD system.
+     * Cblling this method, other thbn to notify this DropTbrget of the
+     * disbssocibtion of the ComponentPeer from the Component mby result in
+     * b mblfunction of the DnD system.
      **********************************************************************
      *
-     * @param peer The Peer of the Component we are being disassociated from!
+     * @pbrbm peer The Peer of the Component we bre being disbssocibted from!
      */
 
     public void removeNotify(ComponentPeer peer) {
-        if (nativePeer != null)
-            ((DropTargetPeer)nativePeer).removeDropTarget(this);
+        if (nbtivePeer != null)
+            ((DropTbrgetPeer)nbtivePeer).removeDropTbrget(this);
 
-        componentPeer = nativePeer = null;
+        componentPeer = nbtivePeer = null;
 
         synchronized (this) {
-            if (isDraggingInside) {
-                dragExit(new DropTargetEvent(getDropTargetContext()));
+            if (isDrbggingInside) {
+                drbgExit(new DropTbrgetEvent(getDropTbrgetContext()));
             }
         }
     }
 
     /**
-     * Gets the <code>DropTargetContext</code> associated
-     * with this <code>DropTarget</code>.
+     * Gets the <code>DropTbrgetContext</code> bssocibted
+     * with this <code>DropTbrget</code>.
      *
-     * @return the <code>DropTargetContext</code> associated with this <code>DropTarget</code>.
+     * @return the <code>DropTbrgetContext</code> bssocibted with this <code>DropTbrget</code>.
      */
 
-    public DropTargetContext getDropTargetContext() {
-        return dropTargetContext;
+    public DropTbrgetContext getDropTbrgetContext() {
+        return dropTbrgetContext;
     }
 
     /**
-     * Creates the DropTargetContext associated with this DropTarget.
-     * Subclasses may override this method to instantiate their own
-     * DropTargetContext subclass.
+     * Crebtes the DropTbrgetContext bssocibted with this DropTbrget.
+     * Subclbsses mby override this method to instbntibte their own
+     * DropTbrgetContext subclbss.
      *
-     * This call is typically *only* called by the platform's
-     * DropTargetContextPeer as a drag operation encounters this
-     * DropTarget. Accessing the Context while no Drag is current
-     * has undefined results.
-     * @return the DropTargetContext associated with this DropTarget
+     * This cbll is typicblly *only* cblled by the plbtform's
+     * DropTbrgetContextPeer bs b drbg operbtion encounters this
+     * DropTbrget. Accessing the Context while no Drbg is current
+     * hbs undefined results.
+     * @return the DropTbrgetContext bssocibted with this DropTbrget
      */
 
-    protected DropTargetContext createDropTargetContext() {
-        return new DropTargetContext(this);
+    protected DropTbrgetContext crebteDropTbrgetContext() {
+        return new DropTbrgetContext(this);
     }
 
     /**
-     * Serializes this <code>DropTarget</code>. Performs default serialization,
-     * and then writes out this object's <code>DropTargetListener</code> if and
-     * only if it can be serialized. If not, <code>null</code> is written
-     * instead.
+     * Seriblizes this <code>DropTbrget</code>. Performs defbult seriblizbtion,
+     * bnd then writes out this object's <code>DropTbrgetListener</code> if bnd
+     * only if it cbn be seriblized. If not, <code>null</code> is written
+     * instebd.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>DropTargetListener</code>
-     *             instance, or <code>null</code>.
+     * @seriblDbtb The defbult seriblizbble fields, in blphbbeticbl order,
+     *             followed by either b <code>DropTbrgetListener</code>
+     *             instbnce, or <code>null</code>.
      * @since 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
 
-        s.writeObject(SerializationTester.test(dtListener)
+        s.writeObject(SeriblizbtionTester.test(dtListener)
                       ? dtListener : null);
     }
 
     /**
-     * Deserializes this <code>DropTarget</code>. This method first performs
-     * default deserialization for all non-<code>transient</code> fields. An
-     * attempt is then made to deserialize this object's
-     * <code>DropTargetListener</code> as well. This is first attempted by
-     * deserializing the field <code>dtListener</code>, because, in releases
-     * prior to 1.4, a non-<code>transient</code> field of this name stored the
-     * <code>DropTargetListener</code>. If this fails, the next object in the
-     * stream is used instead.
+     * Deseriblizes this <code>DropTbrget</code>. This method first performs
+     * defbult deseriblizbtion for bll non-<code>trbnsient</code> fields. An
+     * bttempt is then mbde to deseriblize this object's
+     * <code>DropTbrgetListener</code> bs well. This is first bttempted by
+     * deseriblizing the field <code>dtListener</code>, becbuse, in relebses
+     * prior to 1.4, b non-<code>trbnsient</code> field of this nbme stored the
+     * <code>DropTbrgetListener</code>. If this fbils, the next object in the
+     * strebm is used instebd.
      *
      * @since 1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjectInputStrebm.GetField f = s.rebdFields();
 
         try {
-            dropTargetContext =
-                (DropTargetContext)f.get("dropTargetContext", null);
-        } catch (IllegalArgumentException e) {
-            // Pre-1.4 support. 'dropTargetContext' was previously transient
+            dropTbrgetContext =
+                (DropTbrgetContext)f.get("dropTbrgetContext", null);
+        } cbtch (IllegblArgumentException e) {
+            // Pre-1.4 support. 'dropTbrgetContext' wbs previously trbnsient
         }
-        if (dropTargetContext == null) {
-            dropTargetContext = createDropTargetContext();
+        if (dropTbrgetContext == null) {
+            dropTbrgetContext = crebteDropTbrgetContext();
         }
 
         component = (Component)f.get("component", null);
-        actions = f.get("actions", DnDConstants.ACTION_COPY_OR_MOVE);
-        active = f.get("active", true);
+        bctions = f.get("bctions", DnDConstbnts.ACTION_COPY_OR_MOVE);
+        bctive = f.get("bctive", true);
 
-        // Pre-1.4 support. 'dtListener' was previously non-transient
+        // Pre-1.4 support. 'dtListener' wbs previously non-trbnsient
         try {
-            dtListener = (DropTargetListener)f.get("dtListener", null);
-        } catch (IllegalArgumentException e) {
-            // 1.4-compatible byte stream. 'dtListener' was written explicitly
-            dtListener = (DropTargetListener)s.readObject();
+            dtListener = (DropTbrgetListener)f.get("dtListener", null);
+        } cbtch (IllegblArgumentException e) {
+            // 1.4-compbtible byte strebm. 'dtListener' wbs written explicitly
+            dtListener = (DropTbrgetListener)s.rebdObject();
         }
     }
 
     /*********************************************************************/
 
     /**
-     * this protected nested class implements autoscrolling
+     * this protected nested clbss implements butoscrolling
      */
 
-    protected static class DropTargetAutoScroller implements ActionListener {
+    protected stbtic clbss DropTbrgetAutoScroller implements ActionListener {
 
         /**
-         * construct a DropTargetAutoScroller
+         * construct b DropTbrgetAutoScroller
          *
-         * @param c the <code>Component</code>
-         * @param p the <code>Point</code>
+         * @pbrbm c the <code>Component</code>
+         * @pbrbm p the <code>Point</code>
          */
 
-        protected DropTargetAutoScroller(Component c, Point p) {
+        protected DropTbrgetAutoScroller(Component c, Point p) {
             super();
 
             component  = c;
-            autoScroll = (Autoscroll)component;
+            butoScroll = (Autoscroll)component;
 
-            Toolkit t  = Toolkit.getDefaultToolkit();
+            Toolkit t  = Toolkit.getDefbultToolkit();
 
-            Integer    initial  = Integer.valueOf(100);
-            Integer    interval = Integer.valueOf(100);
+            Integer    initibl  = Integer.vblueOf(100);
+            Integer    intervbl = Integer.vblueOf(100);
 
             try {
-                initial = (Integer)t.getDesktopProperty("DnD.Autoscroll.initialDelay");
-            } catch (Exception e) {
+                initibl = (Integer)t.getDesktopProperty("DnD.Autoscroll.initiblDelby");
+            } cbtch (Exception e) {
                 // ignore
             }
 
             try {
-                interval = (Integer)t.getDesktopProperty("DnD.Autoscroll.interval");
-            } catch (Exception e) {
+                intervbl = (Integer)t.getDesktopProperty("DnD.Autoscroll.intervbl");
+            } cbtch (Exception e) {
                 // ignore
             }
 
-            timer  = new Timer(interval.intValue(), this);
+            timer  = new Timer(intervbl.intVblue(), this);
 
-            timer.setCoalesce(true);
-            timer.setInitialDelay(initial.intValue());
+            timer.setCoblesce(true);
+            timer.setInitiblDelby(initibl.intVblue());
 
             locn = p;
             prev = p;
 
             try {
-                hysteresis = ((Integer)t.getDesktopProperty("DnD.Autoscroll.cursorHysteresis")).intValue();
-            } catch (Exception e) {
+                hysteresis = ((Integer)t.getDesktopProperty("DnD.Autoscroll.cursorHysteresis")).intVblue();
+            } cbtch (Exception e) {
                 // ignore
             }
 
-            timer.start();
+            timer.stbrt();
         }
 
         /**
-         * update the geometry of the autoscroll region
+         * updbte the geometry of the butoscroll region
          */
 
-        private void updateRegion() {
-           Insets    i    = autoScroll.getAutoscrollInsets();
+        privbte void updbteRegion() {
+           Insets    i    = butoScroll.getAutoscrollInsets();
            Dimension size = component.getSize();
 
            if (size.width != outer.width || size.height != outer.height)
-                outer.reshape(0, 0, size.width, size.height);
+                outer.reshbpe(0, 0, size.width, size.height);
 
            if (inner.x != i.left || inner.y != i.top)
-                inner.setLocation(i.left, i.top);
+                inner.setLocbtion(i.left, i.top);
 
            int newWidth  = size.width -  (i.left + i.right);
            int newHeight = size.height - (i.top  + i.bottom);
@@ -709,168 +709,168 @@ public class DropTarget implements DropTargetListener, Serializable {
         }
 
         /**
-         * cause autoscroll to occur
+         * cbuse butoscroll to occur
          *
-         * @param newLocn the <code>Point</code>
+         * @pbrbm newLocn the <code>Point</code>
          */
 
-        protected synchronized void updateLocation(Point newLocn) {
+        protected synchronized void updbteLocbtion(Point newLocn) {
             prev = locn;
             locn = newLocn;
 
-            if (Math.abs(locn.x - prev.x) > hysteresis ||
-                Math.abs(locn.y - prev.y) > hysteresis) {
+            if (Mbth.bbs(locn.x - prev.x) > hysteresis ||
+                Mbth.bbs(locn.y - prev.y) > hysteresis) {
                 if (timer.isRunning()) timer.stop();
             } else {
-                if (!timer.isRunning()) timer.start();
+                if (!timer.isRunning()) timer.stbrt();
             }
         }
 
         /**
-         * cause autoscrolling to stop
+         * cbuse butoscrolling to stop
          */
 
         protected void stop() { timer.stop(); }
 
         /**
-         * cause autoscroll to occur
+         * cbuse butoscroll to occur
          *
-         * @param e the <code>ActionEvent</code>
+         * @pbrbm e the <code>ActionEvent</code>
          */
 
-        public synchronized void actionPerformed(ActionEvent e) {
-            updateRegion();
+        public synchronized void bctionPerformed(ActionEvent e) {
+            updbteRegion();
 
-            if (outer.contains(locn) && !inner.contains(locn))
-                autoScroll.autoscroll(locn);
+            if (outer.contbins(locn) && !inner.contbins(locn))
+                butoScroll.butoscroll(locn);
         }
 
         /*
          * fields
          */
 
-        private Component  component;
-        private Autoscroll autoScroll;
+        privbte Component  component;
+        privbte Autoscroll butoScroll;
 
-        private Timer      timer;
+        privbte Timer      timer;
 
-        private Point      locn;
-        private Point      prev;
+        privbte Point      locn;
+        privbte Point      prev;
 
-        private Rectangle  outer = new Rectangle();
-        private Rectangle  inner = new Rectangle();
+        privbte Rectbngle  outer = new Rectbngle();
+        privbte Rectbngle  inner = new Rectbngle();
 
-        private int        hysteresis = 10;
+        privbte int        hysteresis = 10;
     }
 
     /*********************************************************************/
 
     /**
-     * create an embedded autoscroller
+     * crebte bn embedded butoscroller
      *
-     * @param c the <code>Component</code>
-     * @param p the <code>Point</code>
-     * @return an embedded autoscroller
+     * @pbrbm c the <code>Component</code>
+     * @pbrbm p the <code>Point</code>
+     * @return bn embedded butoscroller
      */
 
-    protected DropTargetAutoScroller createDropTargetAutoScroller(Component c, Point p) {
-        return new DropTargetAutoScroller(c, p);
+    protected DropTbrgetAutoScroller crebteDropTbrgetAutoScroller(Component c, Point p) {
+        return new DropTbrgetAutoScroller(c, p);
     }
 
     /**
-     * initialize autoscrolling
+     * initiblize butoscrolling
      *
-     * @param p the <code>Point</code>
+     * @pbrbm p the <code>Point</code>
      */
 
-    protected void initializeAutoscrolling(Point p) {
-        if (component == null || !(component instanceof Autoscroll)) return;
+    protected void initiblizeAutoscrolling(Point p) {
+        if (component == null || !(component instbnceof Autoscroll)) return;
 
-        autoScroller = createDropTargetAutoScroller(component, p);
+        butoScroller = crebteDropTbrgetAutoScroller(component, p);
     }
 
     /**
-     * update autoscrolling with current cursor location
+     * updbte butoscrolling with current cursor locbtion
      *
-     * @param dragCursorLocn the <code>Point</code>
+     * @pbrbm drbgCursorLocn the <code>Point</code>
      */
 
-    protected void updateAutoscroll(Point dragCursorLocn) {
-        if (autoScroller != null) autoScroller.updateLocation(dragCursorLocn);
+    protected void updbteAutoscroll(Point drbgCursorLocn) {
+        if (butoScroller != null) butoScroller.updbteLocbtion(drbgCursorLocn);
     }
 
     /**
-     * clear autoscrolling
+     * clebr butoscrolling
      */
 
-    protected void clearAutoscroll() {
-        if (autoScroller != null) {
-            autoScroller.stop();
-            autoScroller = null;
+    protected void clebrAutoscroll() {
+        if (butoScroller != null) {
+            butoScroller.stop();
+            butoScroller = null;
         }
     }
 
     /**
-     * The DropTargetContext associated with this DropTarget.
+     * The DropTbrgetContext bssocibted with this DropTbrget.
      *
-     * @serial
+     * @seribl
      */
-    private DropTargetContext dropTargetContext = createDropTargetContext();
+    privbte DropTbrgetContext dropTbrgetContext = crebteDropTbrgetContext();
 
     /**
-     * The Component associated with this DropTarget.
+     * The Component bssocibted with this DropTbrget.
      *
-     * @serial
+     * @seribl
      */
-    private Component component;
+    privbte Component component;
 
     /*
-     * That Component's  Peer
+     * Thbt Component's  Peer
      */
-    private transient ComponentPeer componentPeer;
+    privbte trbnsient ComponentPeer componentPeer;
 
     /*
-     * That Component's "native" Peer
+     * Thbt Component's "nbtive" Peer
      */
-    private transient ComponentPeer nativePeer;
+    privbte trbnsient ComponentPeer nbtivePeer;
 
 
     /**
-     * Default permissible actions supported by this DropTarget.
+     * Defbult permissible bctions supported by this DropTbrget.
      *
-     * @see #setDefaultActions
-     * @see #getDefaultActions
-     * @serial
+     * @see #setDefbultActions
+     * @see #getDefbultActions
+     * @seribl
      */
-    int     actions = DnDConstants.ACTION_COPY_OR_MOVE;
+    int     bctions = DnDConstbnts.ACTION_COPY_OR_MOVE;
 
     /**
-     * <code>true</code> if the DropTarget is accepting Drag &amp; Drop operations.
+     * <code>true</code> if the DropTbrget is bccepting Drbg &bmp; Drop operbtions.
      *
-     * @serial
+     * @seribl
      */
-    boolean active = true;
+    boolebn bctive = true;
 
     /*
-     * the auto scrolling object
+     * the buto scrolling object
      */
 
-    private transient DropTargetAutoScroller autoScroller;
+    privbte trbnsient DropTbrgetAutoScroller butoScroller;
 
     /*
-     * The delegate
+     * The delegbte
      */
 
-    private transient DropTargetListener dtListener;
+    privbte trbnsient DropTbrgetListener dtListener;
 
     /*
-     * The FlavorMap
+     * The FlbvorMbp
      */
 
-    private transient FlavorMap flavorMap;
+    privbte trbnsient FlbvorMbp flbvorMbp;
 
     /*
-     * If the dragging is currently inside this drop target
+     * If the drbgging is currently inside this drop tbrget
      */
-    private transient boolean isDraggingInside;
+    privbte trbnsient boolebn isDrbggingInside;
 }

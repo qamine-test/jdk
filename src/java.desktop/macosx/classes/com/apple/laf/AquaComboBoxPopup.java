@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboPopup;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.BbsicComboPopup;
 
-import sun.lwawt.macosx.CPlatformWindow;
+import sun.lwbwt.mbcosx.CPlbtformWindow;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaComboBoxPopup extends BasicComboPopup {
-    static final int FOCUS_RING_PAD_LEFT = 6;
-    static final int FOCUS_RING_PAD_RIGHT = 6;
-    static final int FOCUS_RING_PAD_BOTTOM = 5;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss AqubComboBoxPopup extends BbsicComboPopup {
+    stbtic finbl int FOCUS_RING_PAD_LEFT = 6;
+    stbtic finbl int FOCUS_RING_PAD_RIGHT = 6;
+    stbtic finbl int FOCUS_RING_PAD_BOTTOM = 5;
 
     protected Component topStrut;
     protected Component bottomStrut;
-    protected boolean isPopDown = false;
+    protected boolebn isPopDown = fblse;
 
-    public AquaComboBoxPopup(final JComboBox<Object> cBox) {
+    public AqubComboBoxPopup(finbl JComboBox<Object> cBox) {
         super(cBox);
     }
 
@@ -51,16 +51,16 @@ class AquaComboBoxPopup extends BasicComboPopup {
     protected void configurePopup() {
         super.configurePopup();
 
-        setBorderPainted(false);
+        setBorderPbinted(fblse);
         setBorder(null);
-        updateContents(false);
+        updbteContents(fblse);
 
-        // TODO: CPlatformWindow?
-        putClientProperty(CPlatformWindow.WINDOW_FADE_OUT, new Integer(150));
+        // TODO: CPlbtformWindow?
+        putClientProperty(CPlbtformWindow.WINDOW_FADE_OUT, new Integer(150));
     }
 
-    public void updateContents(final boolean remove) {
-        // for more background on this issue, see AquaMenuBorder.getBorderInsets()
+    public void updbteContents(finbl boolebn remove) {
+        // for more bbckground on this issue, see AqubMenuBorder.getBorderInsets()
 
         isPopDown = isPopdown();
         if (isPopDown) {
@@ -72,36 +72,36 @@ class AquaComboBoxPopup extends BasicComboPopup {
                     this.remove(bottomStrut);
                 }
             } else {
-                add(scroller);
+                bdd(scroller);
             }
         } else {
             if (topStrut == null) {
-                topStrut = Box.createVerticalStrut(4);
-                bottomStrut = Box.createVerticalStrut(4);
+                topStrut = Box.crebteVerticblStrut(4);
+                bottomStrut = Box.crebteVerticblStrut(4);
             }
 
             if (remove) remove(scroller);
 
-            this.add(topStrut);
-            this.add(scroller);
-            this.add(bottomStrut);
+            this.bdd(topStrut);
+            this.bdd(scroller);
+            this.bdd(bottomStrut);
         }
     }
 
-    protected Dimension getBestPopupSizeForRowCount(final int maxRowCount) {
-        final int currentElementCount = comboBox.getModel().getSize();
-        final int rowCount = Math.min(maxRowCount, currentElementCount);
+    protected Dimension getBestPopupSizeForRowCount(finbl int mbxRowCount) {
+        finbl int currentElementCount = comboBox.getModel().getSize();
+        finbl int rowCount = Mbth.min(mbxRowCount, currentElementCount);
 
-        final Dimension popupSize = new Dimension();
-        final ListCellRenderer<Object> renderer = list.getCellRenderer();
+        finbl Dimension popupSize = new Dimension();
+        finbl ListCellRenderer<Object> renderer = list.getCellRenderer();
 
         for (int i = 0; i < rowCount; i++) {
-            final Object value = list.getModel().getElementAt(i);
-            final Component c = renderer.getListCellRendererComponent(list, value, i, false, false);
+            finbl Object vblue = list.getModel().getElementAt(i);
+            finbl Component c = renderer.getListCellRendererComponent(list, vblue, i, fblse, fblse);
 
-            final Dimension prefSize = c.getPreferredSize();
+            finbl Dimension prefSize = c.getPreferredSize();
             popupSize.height += prefSize.height;
-            popupSize.width = Math.max(prefSize.width, popupSize.width);
+            popupSize.width = Mbth.mbx(prefSize.width, popupSize.width);
         }
 
         popupSize.width += 10;
@@ -109,51 +109,51 @@ class AquaComboBoxPopup extends BasicComboPopup {
         return popupSize;
     }
 
-    protected boolean shouldScroll() {
-        return comboBox.getItemCount() > comboBox.getMaximumRowCount();
+    protected boolebn shouldScroll() {
+        return comboBox.getItemCount() > comboBox.getMbximumRowCount();
     }
 
-    protected boolean isPopdown() {
-        return shouldScroll() || AquaComboBoxUI.isPopdown(comboBox);
+    protected boolebn isPopdown() {
+        return shouldScroll() || AqubComboBoxUI.isPopdown(comboBox);
     }
 
     @Override
     public void show() {
-        final int startItemCount = comboBox.getItemCount();
+        finbl int stbrtItemCount = comboBox.getItemCount();
 
-        final Rectangle popupBounds = adjustPopupAndGetBounds();
-        if (popupBounds == null) return; // null means don't show
+        finbl Rectbngle popupBounds = bdjustPopupAndGetBounds();
+        if (popupBounds == null) return; // null mebns don't show
 
         comboBox.firePopupMenuWillBecomeVisible();
         show(comboBox, popupBounds.x, popupBounds.y);
 
-        // hack for <rdar://problem/4905531> JComboBox does not fire popupWillBecomeVisible if item count is 0
-        final int afterShowItemCount = comboBox.getItemCount();
-        if (afterShowItemCount == 0) {
+        // hbck for <rdbr://problem/4905531> JComboBox does not fire popupWillBecomeVisible if item count is 0
+        finbl int bfterShowItemCount = comboBox.getItemCount();
+        if (bfterShowItemCount == 0) {
             hide();
             return;
         }
 
-        if (startItemCount != afterShowItemCount) {
-            final Rectangle newBounds = adjustPopupAndGetBounds();
+        if (stbrtItemCount != bfterShowItemCount) {
+            finbl Rectbngle newBounds = bdjustPopupAndGetBounds();
             list.setSize(newBounds.width, newBounds.height);
-            pack();
+            pbck();
 
-            final Point newLoc = comboBox.getLocationOnScreen();
-            setLocation(newLoc.x + newBounds.x, newLoc.y + newBounds.y);
+            finbl Point newLoc = comboBox.getLocbtionOnScreen();
+            setLocbtion(newLoc.x + newBounds.x, newLoc.y + newBounds.y);
         }
-        // end hack
+        // end hbck
 
         list.requestFocusInWindow();
     }
 
     @Override
-    @SuppressWarnings("serial") // anonymous class
-    protected JList<Object> createList() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected JList<Object> crebteList() {
         return new JList<Object>(comboBox.getModel()) {
             @Override
             public void processMouseEvent(MouseEvent e) {
-                if (e.isMetaDown()) {
+                if (e.isMetbDown()) {
                     e = new MouseEvent((Component)e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ InputEvent.META_MASK, e.getX(), e.getY(), e.getXOnScreen(), e.getYOnScreen(), e.getClickCount(), e.isPopupTrigger(), MouseEvent.NOBUTTON);
                 }
                 super.processMouseEvent(e);
@@ -161,24 +161,24 @@ class AquaComboBoxPopup extends BasicComboPopup {
         };
     }
 
-    protected Rectangle adjustPopupAndGetBounds() {
+    protected Rectbngle bdjustPopupAndGetBounds() {
         if (isPopDown != isPopdown()) {
-            updateContents(true);
+            updbteContents(true);
         }
 
-        final Dimension popupSize = getBestPopupSizeForRowCount(comboBox.getMaximumRowCount());
-        final Rectangle popupBounds = computePopupBounds(0, comboBox.getBounds().height, popupSize.width, popupSize.height);
-        if (popupBounds == null) return null; // returning null means don't show anything
+        finbl Dimension popupSize = getBestPopupSizeForRowCount(comboBox.getMbximumRowCount());
+        finbl Rectbngle popupBounds = computePopupBounds(0, comboBox.getBounds().height, popupSize.width, popupSize.height);
+        if (popupBounds == null) return null; // returning null mebns don't show bnything
 
-        final Dimension realPopupSize = popupBounds.getSize();
-        scroller.setMaximumSize(realPopupSize);
-        scroller.setPreferredSize(realPopupSize);
-        scroller.setMinimumSize(realPopupSize);
-        list.invalidate();
+        finbl Dimension reblPopupSize = popupBounds.getSize();
+        scroller.setMbximumSize(reblPopupSize);
+        scroller.setPreferredSize(reblPopupSize);
+        scroller.setMinimumSize(reblPopupSize);
+        list.invblidbte();
 
-        final int selectedIndex = comboBox.getSelectedIndex();
+        finbl int selectedIndex = comboBox.getSelectedIndex();
         if (selectedIndex == -1) {
-            list.clearSelection();
+            list.clebrSelection();
         } else {
             list.setSelectedIndex(selectedIndex);
         }
@@ -187,40 +187,40 @@ class AquaComboBoxPopup extends BasicComboPopup {
         return popupBounds;
     }
 
-    // Get the bounds of the screen where the menu should appear
+    // Get the bounds of the screen where the menu should bppebr
     // p is the origin of the combo box in screen bounds
-    Rectangle getBestScreenBounds(final Point p) {
+    Rectbngle getBestScreenBounds(finbl Point p) {
         //System.err.println("GetBestScreenBounds p: "+ p.x + ", " + p.y);
-        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        final GraphicsDevice[] gs = ge.getScreenDevices();
+        finbl GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        finbl GrbphicsDevice[] gs = ge.getScreenDevices();
         //System.err.println("  gs.length = " + gs.length);
-        final Rectangle comboBoxBounds = comboBox.getBounds();
+        finbl Rectbngle comboBoxBounds = comboBox.getBounds();
         if (gs.length == 1) {
-            final Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+            finbl Dimension scrSize = Toolkit.getDefbultToolkit().getScreenSize();
 
             //System.err.println("  scrSize: "+ scrSize);
 
-            // If the combo box is totally off screen, don't show a popup
+            // If the combo box is totblly off screen, don't show b popup
             if ((p.x + comboBoxBounds.width < 0) || (p.y + comboBoxBounds.height < 0) || (p.x > scrSize.width) || (p.y > scrSize.height)) {
                 return null;
             }
-            return new Rectangle(0, 22, scrSize.width, scrSize.height - 22);
+            return new Rectbngle(0, 22, scrSize.width, scrSize.height - 22);
         }
 
-        for (final GraphicsDevice gd : gs) {
-            final GraphicsConfiguration[] gc = gd.getConfigurations();
-            for (final GraphicsConfiguration element0 : gc) {
-                final Rectangle gcBounds = element0.getBounds();
-                if (gcBounds.contains(p)) return gcBounds;
+        for (finbl GrbphicsDevice gd : gs) {
+            finbl GrbphicsConfigurbtion[] gc = gd.getConfigurbtions();
+            for (finbl GrbphicsConfigurbtion element0 : gc) {
+                finbl Rectbngle gcBounds = element0.getBounds();
+                if (gcBounds.contbins(p)) return gcBounds;
             }
         }
 
-        // Hmm.  Origin's off screen, but is any part on?
-        comboBoxBounds.setLocation(p);
-        for (final GraphicsDevice gd : gs) {
-            final GraphicsConfiguration[] gc = gd.getConfigurations();
-            for (final GraphicsConfiguration element0 : gc) {
-                final Rectangle gcBounds = element0.getBounds();
+        // Hmm.  Origin's off screen, but is bny pbrt on?
+        comboBoxBounds.setLocbtion(p);
+        for (finbl GrbphicsDevice gd : gs) {
+            finbl GrbphicsConfigurbtion[] gc = gd.getConfigurbtions();
+            for (finbl GrbphicsConfigurbtion element0 : gc) {
+                finbl Rectbngle gcBounds = element0.getBounds();
                 if (gcBounds.intersects(comboBoxBounds)) return gcBounds;
             }
         }
@@ -229,32 +229,32 @@ class AquaComboBoxPopup extends BasicComboPopup {
     }
 
     @Override
-    protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
-        final int itemCount = comboBox.getModel().getSize();
-        final boolean isPopdown = isPopdown();
-        final boolean isTableCellEditor = AquaComboBoxUI.isTableCellEditor(comboBox);
-        if (isPopdown && !isTableCellEditor) {
-            // place the popup just below the button, which is
-            // near the center of a large combo box
-            py = Math.min((py / 2) + 9, py); // if py is less than new y we have a clipped combo, so leave it alone.
+    protected Rectbngle computePopupBounds(int px, int py, int pw, int ph) {
+        finbl int itemCount = comboBox.getModel().getSize();
+        finbl boolebn isPopdown = isPopdown();
+        finbl boolebn isTbbleCellEditor = AqubComboBoxUI.isTbbleCellEditor(comboBox);
+        if (isPopdown && !isTbbleCellEditor) {
+            // plbce the popup just below the button, which is
+            // nebr the center of b lbrge combo box
+            py = Mbth.min((py / 2) + 9, py); // if py is less thbn new y we hbve b clipped combo, so lebve it blone.
         }
 
-        // px & py are relative to the combo box
+        // px & py bre relbtive to the combo box
 
-        // **** Common calculation - applies to the scrolling and menu-style ****
-        final Point p = new Point(0, 0);
+        // **** Common cblculbtion - bpplies to the scrolling bnd menu-style ****
+        finbl Point p = new Point(0, 0);
         SwingUtilities.convertPointToScreen(p, comboBox);
         //System.err.println("First Converting from point to screen: 0,0 is now " + p.x + ", " + p.y);
-        final Rectangle scrBounds = getBestScreenBounds(p);
+        finbl Rectbngle scrBounds = getBestScreenBounds(p);
         //System.err.println("BestScreenBounds is " + scrBounds);
 
-        // If the combo box is totally off screen, do whatever super does
+        // If the combo box is totblly off screen, do whbtever super does
         if (scrBounds == null) return super.computePopupBounds(px, py, pw, ph);
 
-        // line up with the bottom of the text field/button (or top, if we have to go above it)
-        // and left edge if left-to-right, right edge if right-to-left
-        final Insets comboBoxInsets = comboBox.getInsets();
-        final Rectangle comboBoxBounds = comboBox.getBounds();
+        // line up with the bottom of the text field/button (or top, if we hbve to go bbove it)
+        // bnd left edge if left-to-right, right edge if right-to-left
+        finbl Insets comboBoxInsets = comboBox.getInsets();
+        finbl Rectbngle comboBoxBounds = comboBox.getBounds();
 
         if (shouldScroll()) {
             pw += 15;
@@ -264,11 +264,11 @@ class AquaComboBoxPopup extends BasicComboPopup {
             pw += 4;
         }
 
-        // the popup should be wide enough for the items but not wider than the screen it's on
-        final int minWidth = comboBoxBounds.width - (comboBoxInsets.left + comboBoxInsets.right);
-        pw = Math.max(minWidth, pw);
+        // the popup should be wide enough for the items but not wider thbn the screen it's on
+        finbl int minWidth = comboBoxBounds.width - (comboBoxInsets.left + comboBoxInsets.right);
+        pw = Mbth.mbx(minWidth, pw);
 
-        final boolean leftToRight = AquaUtils.isLeftToRight(comboBox);
+        finbl boolebn leftToRight = AqubUtils.isLeftToRight(comboBox);
         if (leftToRight) {
             px += comboBoxInsets.left;
             if (!isPopDown) px -= FOCUS_RING_PAD_LEFT;
@@ -276,58 +276,58 @@ class AquaComboBoxPopup extends BasicComboPopup {
             px = comboBoxBounds.width - pw - comboBoxInsets.right;
             if (!isPopDown) px += FOCUS_RING_PAD_RIGHT;
         }
-        py -= (comboBoxInsets.bottom); //sja fix was +kInset
+        py -= (comboBoxInsets.bottom); //sjb fix wbs +kInset
 
-        // Make sure it's all on the screen - shift it by the amount it's off
+        // Mbke sure it's bll on the screen - shift it by the bmount it's off
         p.x += px;
-        p.y += py; // Screen location of px & py
+        p.y += py; // Screen locbtion of px & py
         if (p.x < scrBounds.x) px -= (p.x + scrBounds.x);
         if (p.y < scrBounds.y) py -= (p.y + scrBounds.y);
 
-        final Point top = new Point(0, 0);
+        finbl Point top = new Point(0, 0);
         SwingUtilities.convertPointFromScreen(top, comboBox);
         //System.err.println("Converting from point to screen: 0,0 is now " + top.x + ", " + top.y);
 
-        // Since the popup is at zero in this coord space, the maxWidth == the X coord of the screen right edge
-        // (it might be wider than the screen, if the combo is off the left edge)
-        final int maxWidth = Math.min(scrBounds.width, top.x + scrBounds.x + scrBounds.width) - 2; // subtract some buffer space
+        // Since the popup is bt zero in this coord spbce, the mbxWidth == the X coord of the screen right edge
+        // (it might be wider thbn the screen, if the combo is off the left edge)
+        finbl int mbxWidth = Mbth.min(scrBounds.width, top.x + scrBounds.x + scrBounds.width) - 2; // subtrbct some buffer spbce
 
-        pw = Math.min(maxWidth, pw);
+        pw = Mbth.min(mbxWidth, pw);
         if (pw < minWidth) {
             px -= (minWidth - pw);
             pw = minWidth;
         }
 
-        // this is a popup window, and will continue calculations below
+        // this is b popup window, bnd will continue cblculbtions below
         if (!isPopdown) {
-            // popup windows are slightly inset from the combo end-cap
+            // popup windows bre slightly inset from the combo end-cbp
             pw -= 6;
             return computePopupBoundsForMenu(px, py, pw, ph, itemCount, scrBounds);
         }
 
-        // don't attempt to inset table cell editors
-        if (!isTableCellEditor) {
+        // don't bttempt to inset tbble cell editors
+        if (!isTbbleCellEditor) {
             pw -= (FOCUS_RING_PAD_LEFT + FOCUS_RING_PAD_RIGHT);
             if (leftToRight) {
                 px += FOCUS_RING_PAD_LEFT;
             }
         }
 
-        final Rectangle r = new Rectangle(px, py, pw, ph);
+        finbl Rectbngle r = new Rectbngle(px, py, pw, ph);
         // Check whether it goes below the bottom of the screen, if so flip it
         if (r.y + r.height < top.y + scrBounds.y + scrBounds.height) return r;
 
-        return new Rectangle(px, -r.height + comboBoxInsets.top, r.width, r.height);
+        return new Rectbngle(px, -r.height + comboBoxInsets.top, r.width, r.height);
     }
 
-    // The one to use when itemCount <= maxRowCount.  Size never adjusts for arrows
-    // We want it positioned so the selected item is right above the combo box
-    protected Rectangle computePopupBoundsForMenu(final int px, final int py, final int pw, final int ph, final int itemCount, final Rectangle scrBounds) {
+    // The one to use when itemCount <= mbxRowCount.  Size never bdjusts for brrows
+    // We wbnt it positioned so the selected item is right bbove the combo box
+    protected Rectbngle computePopupBoundsForMenu(finbl int px, finbl int py, finbl int pw, finbl int ph, finbl int itemCount, finbl Rectbngle scrBounds) {
         //System.err.println("computePopupBoundsForMenu: " + px + "," + py + " " +  pw + "," + ph);
         //System.err.println("itemCount: " +itemCount +" src: "+ scrBounds);
-        int elementSize = 0; //kDefaultItemSize;
+        int elementSize = 0; //kDefbultItemSize;
         if (list != null && itemCount > 0) {
-            final Rectangle cellBounds = list.getCellBounds(0, 0);
+            finbl Rectbngle cellBounds = list.getCellBounds(0, 0);
             if (cellBounds != null) elementSize = cellBounds.height;
         }
 
@@ -335,41 +335,41 @@ class AquaComboBoxPopup extends BasicComboPopup {
         if (offsetIndex < 0) offsetIndex = 0;
         list.setSelectedIndex(offsetIndex);
 
-        final int selectedLocation = elementSize * offsetIndex;
+        finbl int selectedLocbtion = elementSize * offsetIndex;
 
-        final Point top = new Point(0, scrBounds.y);
-        final Point bottom = new Point(0, scrBounds.y + scrBounds.height - 20); // Allow some slack
+        finbl Point top = new Point(0, scrBounds.y);
+        finbl Point bottom = new Point(0, scrBounds.y + scrBounds.height - 20); // Allow some slbck
         SwingUtilities.convertPointFromScreen(top, comboBox);
         SwingUtilities.convertPointFromScreen(bottom, comboBox);
 
-        final Rectangle popupBounds = new Rectangle(px, py, pw, ph);// Relative to comboBox
+        finbl Rectbngle popupBounds = new Rectbngle(px, py, pw, ph);// Relbtive to comboBox
 
-        final int theRest = ph - selectedLocation;
+        finbl int theRest = ph - selectedLocbtion;
 
-        // If the popup fits on the screen and the selection appears under the mouse w/o scrolling, cool!
-        // If the popup won't fit on the screen, adjust its position but not its size
-        // and rewrite this to support arrows - JLists always move the contents so they all show
+        // If the popup fits on the screen bnd the selection bppebrs under the mouse w/o scrolling, cool!
+        // If the popup won't fit on the screen, bdjust its position but not its size
+        // bnd rewrite this to support brrows - JLists blwbys move the contents so they bll show
 
         // Test to see if it extends off the screen
-        final boolean extendsOffscreenAtTop = selectedLocation > -top.y;
-        final boolean extendsOffscreenAtBottom = theRest > bottom.y;
+        finbl boolebn extendsOffscreenAtTop = selectedLocbtion > -top.y;
+        finbl boolebn extendsOffscreenAtBottom = theRest > bottom.y;
 
         if (extendsOffscreenAtTop) {
             popupBounds.y = top.y + 1;
             // Round it so the selection lines up with the combobox
             popupBounds.y = (popupBounds.y / elementSize) * elementSize;
         } else if (extendsOffscreenAtBottom) {
-            // Provide blank space at top for off-screen stuff to scroll into
-            popupBounds.y = bottom.y - popupBounds.height; // popupBounds.height has already been adjusted to fit
-        } else { // fits - position it so the selectedLocation is under the mouse
-            popupBounds.y = -selectedLocation;
+            // Provide blbnk spbce bt top for off-screen stuff to scroll into
+            popupBounds.y = bottom.y - popupBounds.height; // popupBounds.height hbs blrebdy been bdjusted to fit
+        } else { // fits - position it so the selectedLocbtion is under the mouse
+            popupBounds.y = -selectedLocbtion;
         }
 
         // Center the selected item on the combobox
-        final int height = comboBox.getHeight();
-        final Insets insets = comboBox.getInsets();
-        final int buttonSize = height - (insets.top + insets.bottom);
-        final int diff = (buttonSize - elementSize) / 2 + insets.top;
+        finbl int height = comboBox.getHeight();
+        finbl Insets insets = comboBox.getInsets();
+        finbl int buttonSize = height - (insets.top + insets.bottom);
+        finbl int diff = (buttonSize - elementSize) / 2 + insets.top;
         popupBounds.y += diff - FOCUS_RING_PAD_BOTTOM;
 
         return popupBounds;

@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * (C) Copyright IBM Corp. 1999-2003 - All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by IBM. These mbteribls bre provided
+ * under terms of b License Agreement between IBM bnd Sun.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import sun.text.bidi.BidiBase;
+import sun.text.bidi.BidiBbse;
 
 /**
- * This class implements the Unicode Bidirectional Algorithm.
+ * This clbss implements the Unicode Bidirectionbl Algorithm.
  * <p>
- * A Bidi object provides information on the bidirectional reordering of the text
- * used to create it.  This is required, for example, to properly display Arabic
- * or Hebrew text.  These languages are inherently mixed directional, as they order
+ * A Bidi object provides informbtion on the bidirectionbl reordering of the text
+ * used to crebte it.  This is required, for exbmple, to properly displby Arbbic
+ * or Hebrew text.  These lbngubges bre inherently mixed directionbl, bs they order
  * numbers from left-to-right while ordering most other text from right-to-left.
  * <p>
- * Once created, a Bidi object can be queried to see if the text it represents is
- * all left-to-right or all right-to-left.  Such objects are very lightweight and
- * this text is relatively easy to process.
+ * Once crebted, b Bidi object cbn be queried to see if the text it represents is
+ * bll left-to-right or bll right-to-left.  Such objects bre very lightweight bnd
+ * this text is relbtively ebsy to process.
  * <p>
- * If there are multiple runs of text, information about the runs can be accessed
- * by indexing to get the start, limit, and level of a run.  The level represents
- * both the direction and the 'nesting level' of a directional run.  Odd levels
- * are right-to-left, while even levels are left-to-right.  So for example level
- * 0 represents left-to-right text, while level 1 represents right-to-left text, and
- * level 2 represents left-to-right text embedded in a right-to-left run.
+ * If there bre multiple runs of text, informbtion bbout the runs cbn be bccessed
+ * by indexing to get the stbrt, limit, bnd level of b run.  The level represents
+ * both the direction bnd the 'nesting level' of b directionbl run.  Odd levels
+ * bre right-to-left, while even levels bre left-to-right.  So for exbmple level
+ * 0 represents left-to-right text, while level 1 represents right-to-left text, bnd
+ * level 2 represents left-to-right text embedded in b right-to-left run.
  *
  * @since 1.4
  */
-public final class Bidi {
+public finbl clbss Bidi {
 
-    /** Constant indicating base direction is left-to-right. */
-    public static final int DIRECTION_LEFT_TO_RIGHT = 0;
+    /** Constbnt indicbting bbse direction is left-to-right. */
+    public stbtic finbl int DIRECTION_LEFT_TO_RIGHT = 0;
 
-    /** Constant indicating base direction is right-to-left. */
-    public static final int DIRECTION_RIGHT_TO_LEFT = 1;
-
-    /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode
-     * Bidirectional Algorithm.  If no strong directional character is present,
-     * the base direction is left-to-right.
-     */
-    public static final int DIRECTION_DEFAULT_LEFT_TO_RIGHT = -2;
+    /** Constbnt indicbting bbse direction is right-to-left. */
+    public stbtic finbl int DIRECTION_RIGHT_TO_LEFT = 1;
 
     /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode
-     * Bidirectional Algorithm.  If no strong directional character is present,
-     * the base direction is right-to-left.
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode
+     * Bidirectionbl Algorithm.  If no strong directionbl chbrbcter is present,
+     * the bbse direction is left-to-right.
      */
-    public static final int DIRECTION_DEFAULT_RIGHT_TO_LEFT = -1;
-
-    private BidiBase bidiBase;
+    public stbtic finbl int DIRECTION_DEFAULT_LEFT_TO_RIGHT = -2;
 
     /**
-     * Create Bidi from the given paragraph of text and base direction.
-     * @param paragraph a paragraph of text
-     * @param flags a collection of flags that control the algorithm.  The
-     * algorithm understands the flags DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
-     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, and DIRECTION_DEFAULT_RIGHT_TO_LEFT.
-     * Other values are reserved.
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode
+     * Bidirectionbl Algorithm.  If no strong directionbl chbrbcter is present,
+     * the bbse direction is right-to-left.
      */
-    public Bidi(String paragraph, int flags) {
-        if (paragraph == null) {
-            throw new IllegalArgumentException("paragraph is null");
+    public stbtic finbl int DIRECTION_DEFAULT_RIGHT_TO_LEFT = -1;
+
+    privbte BidiBbse bidiBbse;
+
+    /**
+     * Crebte Bidi from the given pbrbgrbph of text bnd bbse direction.
+     * @pbrbm pbrbgrbph b pbrbgrbph of text
+     * @pbrbm flbgs b collection of flbgs thbt control the blgorithm.  The
+     * blgorithm understbnds the flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Other vblues bre reserved.
+     */
+    public Bidi(String pbrbgrbph, int flbgs) {
+        if (pbrbgrbph == null) {
+            throw new IllegblArgumentException("pbrbgrbph is null");
         }
 
-        bidiBase = new BidiBase(paragraph.toCharArray(), 0, null, 0, paragraph.length(), flags);
+        bidiBbse = new BidiBbse(pbrbgrbph.toChbrArrby(), 0, null, 0, pbrbgrbph.length(), flbgs);
     }
 
     /**
-     * Create Bidi from the given paragraph of text.
+     * Crebte Bidi from the given pbrbgrbph of text.
      * <p>
-     * The RUN_DIRECTION attribute in the text, if present, determines the base
-     * direction (left-to-right or right-to-left).  If not present, the base
-     * direction is computes using the Unicode Bidirectional Algorithm, defaulting to left-to-right
-     * if there are no strong directional characters in the text.  This attribute, if
-     * present, must be applied to all the text in the paragraph.
+     * The RUN_DIRECTION bttribute in the text, if present, determines the bbse
+     * direction (left-to-right or right-to-left).  If not present, the bbse
+     * direction is computes using the Unicode Bidirectionbl Algorithm, defbulting to left-to-right
+     * if there bre no strong directionbl chbrbcters in the text.  This bttribute, if
+     * present, must be bpplied to bll the text in the pbrbgrbph.
      * <p>
-     * The BIDI_EMBEDDING attribute in the text, if present, represents embedding level
-     * information.  Negative values from -1 to -62 indicate overrides at the absolute value
-     * of the level.  Positive values from 1 to 62 indicate embeddings.  Where values are
-     * zero or not defined, the base embedding level as determined by the base direction
-     * is assumed.
+     * The BIDI_EMBEDDING bttribute in the text, if present, represents embedding level
+     * informbtion.  Negbtive vblues from -1 to -62 indicbte overrides bt the bbsolute vblue
+     * of the level.  Positive vblues from 1 to 62 indicbte embeddings.  Where vblues bre
+     * zero or not defined, the bbse embedding level bs determined by the bbse direction
+     * is bssumed.
      * <p>
-     * The NUMERIC_SHAPING attribute in the text, if present, converts European digits to
-     * other decimal digits before running the bidi algorithm.  This attribute, if present,
-     * must be applied to all the text in the paragraph.
+     * The NUMERIC_SHAPING bttribute in the text, if present, converts Europebn digits to
+     * other decimbl digits before running the bidi blgorithm.  This bttribute, if present,
+     * must be bpplied to bll the text in the pbrbgrbph.
      *
-     * @param paragraph a paragraph of text with optional character and paragraph attribute information
+     * @pbrbm pbrbgrbph b pbrbgrbph of text with optionbl chbrbcter bnd pbrbgrbph bttribute informbtion
      *
-     * @see java.awt.font.TextAttribute#BIDI_EMBEDDING
-     * @see java.awt.font.TextAttribute#NUMERIC_SHAPING
-     * @see java.awt.font.TextAttribute#RUN_DIRECTION
+     * @see jbvb.bwt.font.TextAttribute#BIDI_EMBEDDING
+     * @see jbvb.bwt.font.TextAttribute#NUMERIC_SHAPING
+     * @see jbvb.bwt.font.TextAttribute#RUN_DIRECTION
      */
-    public Bidi(AttributedCharacterIterator paragraph) {
-        if (paragraph == null) {
-            throw new IllegalArgumentException("paragraph is null");
+    public Bidi(AttributedChbrbcterIterbtor pbrbgrbph) {
+        if (pbrbgrbph == null) {
+            throw new IllegblArgumentException("pbrbgrbph is null");
         }
 
-        bidiBase = new BidiBase(0, 0);
-        bidiBase.setPara(paragraph);
+        bidiBbse = new BidiBbse(0, 0);
+        bidiBbse.setPbrb(pbrbgrbph);
     }
 
     /**
-     * Create Bidi from the given text, embedding, and direction information.
-     * The embeddings array may be null.  If present, the values represent embedding level
-     * information.  Negative values from -1 to -61 indicate overrides at the absolute value
-     * of the level.  Positive values from 1 to 61 indicate embeddings.  Where values are
-     * zero, the base embedding level as determined by the base direction is assumed.
-     * @param text an array containing the paragraph of text to process.
-     * @param textStart the index into the text array of the start of the paragraph.
-     * @param embeddings an array containing embedding values for each character in the paragraph.
-     * This can be null, in which case it is assumed that there is no external embedding information.
-     * @param embStart the index into the embedding array of the start of the paragraph.
-     * @param paragraphLength the length of the paragraph in the text and embeddings arrays.
-     * @param flags a collection of flags that control the algorithm.  The
-     * algorithm understands the flags DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
-     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, and DIRECTION_DEFAULT_RIGHT_TO_LEFT.
-     * Other values are reserved.
+     * Crebte Bidi from the given text, embedding, bnd direction informbtion.
+     * The embeddings brrby mby be null.  If present, the vblues represent embedding level
+     * informbtion.  Negbtive vblues from -1 to -61 indicbte overrides bt the bbsolute vblue
+     * of the level.  Positive vblues from 1 to 61 indicbte embeddings.  Where vblues bre
+     * zero, the bbse embedding level bs determined by the bbse direction is bssumed.
+     * @pbrbm text bn brrby contbining the pbrbgrbph of text to process.
+     * @pbrbm textStbrt the index into the text brrby of the stbrt of the pbrbgrbph.
+     * @pbrbm embeddings bn brrby contbining embedding vblues for ebch chbrbcter in the pbrbgrbph.
+     * This cbn be null, in which cbse it is bssumed thbt there is no externbl embedding informbtion.
+     * @pbrbm embStbrt the index into the embedding brrby of the stbrt of the pbrbgrbph.
+     * @pbrbm pbrbgrbphLength the length of the pbrbgrbph in the text bnd embeddings brrbys.
+     * @pbrbm flbgs b collection of flbgs thbt control the blgorithm.  The
+     * blgorithm understbnds the flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Other vblues bre reserved.
      */
-    public Bidi(char[] text, int textStart, byte[] embeddings, int embStart, int paragraphLength, int flags) {
+    public Bidi(chbr[] text, int textStbrt, byte[] embeddings, int embStbrt, int pbrbgrbphLength, int flbgs) {
         if (text == null) {
-            throw new IllegalArgumentException("text is null");
+            throw new IllegblArgumentException("text is null");
         }
-        if (paragraphLength < 0) {
-            throw new IllegalArgumentException("bad length: " + paragraphLength);
+        if (pbrbgrbphLength < 0) {
+            throw new IllegblArgumentException("bbd length: " + pbrbgrbphLength);
         }
-        if (textStart < 0 || paragraphLength > text.length - textStart) {
-            throw new IllegalArgumentException("bad range: " + textStart +
-                                               " length: " + paragraphLength +
+        if (textStbrt < 0 || pbrbgrbphLength > text.length - textStbrt) {
+            throw new IllegblArgumentException("bbd rbnge: " + textStbrt +
+                                               " length: " + pbrbgrbphLength +
                                                " for text of length: " + text.length);
         }
-        if (embeddings != null && (embStart < 0 || paragraphLength > embeddings.length - embStart)) {
-            throw new IllegalArgumentException("bad range: " + embStart +
-                                               " length: " + paragraphLength +
+        if (embeddings != null && (embStbrt < 0 || pbrbgrbphLength > embeddings.length - embStbrt)) {
+            throw new IllegblArgumentException("bbd rbnge: " + embStbrt +
+                                               " length: " + pbrbgrbphLength +
                                                " for embeddings of length: " + text.length);
         }
 
-        bidiBase = new BidiBase(text, textStart, embeddings, embStart, paragraphLength, flags);
+        bidiBbse = new BidiBbse(text, textStbrt, embeddings, embStbrt, pbrbgrbphLength, flbgs);
     }
 
     /**
-     * Create a Bidi object representing the bidi information on a line of text within
-     * the paragraph represented by the current Bidi.  This call is not required if the
-     * entire paragraph fits on one line.
+     * Crebte b Bidi object representing the bidi informbtion on b line of text within
+     * the pbrbgrbph represented by the current Bidi.  This cbll is not required if the
+     * entire pbrbgrbph fits on one line.
      *
-     * @param lineStart the offset from the start of the paragraph to the start of the line.
-     * @param lineLimit the offset from the start of the paragraph to the limit of the line.
-     * @return a {@code Bidi} object
+     * @pbrbm lineStbrt the offset from the stbrt of the pbrbgrbph to the stbrt of the line.
+     * @pbrbm lineLimit the offset from the stbrt of the pbrbgrbph to the limit of the line.
+     * @return b {@code Bidi} object
      */
-    public Bidi createLineBidi(int lineStart, int lineLimit) {
-        AttributedString astr = new AttributedString("");
-        Bidi newBidi = new Bidi(astr.getIterator());
+    public Bidi crebteLineBidi(int lineStbrt, int lineLimit) {
+        AttributedString bstr = new AttributedString("");
+        Bidi newBidi = new Bidi(bstr.getIterbtor());
 
-        return bidiBase.setLine(this, bidiBase, newBidi, newBidi.bidiBase,lineStart, lineLimit);
+        return bidiBbse.setLine(this, bidiBbse, newBidi, newBidi.bidiBbse,lineStbrt, lineLimit);
     }
 
     /**
-     * Return true if the line is not left-to-right or right-to-left.  This means it either has mixed runs of left-to-right
-     * and right-to-left text, or the base direction differs from the direction of the only run of text.
+     * Return true if the line is not left-to-right or right-to-left.  This mebns it either hbs mixed runs of left-to-right
+     * bnd right-to-left text, or the bbse direction differs from the direction of the only run of text.
      *
      * @return true if the line is not left-to-right or right-to-left.
      */
-    public boolean isMixed() {
-        return bidiBase.isMixed();
+    public boolebn isMixed() {
+        return bidiBbse.isMixed();
     }
 
     /**
-     * Return true if the line is all left-to-right text and the base direction is left-to-right.
+     * Return true if the line is bll left-to-right text bnd the bbse direction is left-to-right.
      *
-     * @return true if the line is all left-to-right text and the base direction is left-to-right
+     * @return true if the line is bll left-to-right text bnd the bbse direction is left-to-right
      */
-    public boolean isLeftToRight() {
-        return bidiBase.isLeftToRight();
+    public boolebn isLeftToRight() {
+        return bidiBbse.isLeftToRight();
     }
 
     /**
-     * Return true if the line is all right-to-left text, and the base direction is right-to-left.
-     * @return true if the line is all right-to-left text, and the base direction is right-to-left
+     * Return true if the line is bll right-to-left text, bnd the bbse direction is right-to-left.
+     * @return true if the line is bll right-to-left text, bnd the bbse direction is right-to-left
      */
-    public boolean isRightToLeft() {
-        return bidiBase.isRightToLeft();
+    public boolebn isRightToLeft() {
+        return bidiBbse.isRightToLeft();
     }
 
     /**
@@ -220,35 +220,35 @@ public final class Bidi {
      * @return the length of text in the line
      */
     public int getLength() {
-        return bidiBase.getLength();
+        return bidiBbse.getLength();
     }
 
     /**
-     * Return true if the base direction is left-to-right.
-     * @return true if the base direction is left-to-right
+     * Return true if the bbse direction is left-to-right.
+     * @return true if the bbse direction is left-to-right
      */
-    public boolean baseIsLeftToRight() {
-        return bidiBase.baseIsLeftToRight();
+    public boolebn bbseIsLeftToRight() {
+        return bidiBbse.bbseIsLeftToRight();
     }
 
     /**
-     * Return the base level (0 if left-to-right, 1 if right-to-left).
-     * @return the base level
+     * Return the bbse level (0 if left-to-right, 1 if right-to-left).
+     * @return the bbse level
      */
-    public int getBaseLevel() {
-        return bidiBase.getParaLevel();
+    public int getBbseLevel() {
+        return bidiBbse.getPbrbLevel();
     }
 
     /**
-     * Return the resolved level of the character at offset.  If offset is
-     * {@literal <} 0 or &ge; the length of the line, return the base direction
+     * Return the resolved level of the chbrbcter bt offset.  If offset is
+     * {@literbl <} 0 or &ge; the length of the line, return the bbse direction
      * level.
      *
-     * @param offset the index of the character for which to return the level
-     * @return the resolved level of the character at offset
+     * @pbrbm offset the index of the chbrbcter for which to return the level
+     * @return the resolved level of the chbrbcter bt offset
      */
     public int getLevelAt(int offset) {
-        return bidiBase.getLevelAt(offset);
+        return bidiBbse.getLevelAt(offset);
     }
 
     /**
@@ -256,79 +256,79 @@ public final class Bidi {
      * @return the number of level runs
      */
     public int getRunCount() {
-        return bidiBase.countRuns();
+        return bidiBbse.countRuns();
     }
 
     /**
-     * Return the level of the nth logical run in this line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
+     * Return the level of the nth logicbl run in this line.
+     * @pbrbm run the index of the run, between 0 bnd <code>getRunCount()</code>
      * @return the level of the run
      */
     public int getRunLevel(int run) {
-        return bidiBase.getRunLevel(run);
+        return bidiBbse.getRunLevel(run);
     }
 
     /**
-     * Return the index of the character at the start of the nth logical run in this line, as
-     * an offset from the start of the line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
-     * @return the start of the run
+     * Return the index of the chbrbcter bt the stbrt of the nth logicbl run in this line, bs
+     * bn offset from the stbrt of the line.
+     * @pbrbm run the index of the run, between 0 bnd <code>getRunCount()</code>
+     * @return the stbrt of the run
      */
-    public int getRunStart(int run) {
-        return bidiBase.getRunStart(run);
+    public int getRunStbrt(int run) {
+        return bidiBbse.getRunStbrt(run);
     }
 
     /**
-     * Return the index of the character past the end of the nth logical run in this line, as
-     * an offset from the start of the line.  For example, this will return the length
-     * of the line for the last run on the line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
+     * Return the index of the chbrbcter pbst the end of the nth logicbl run in this line, bs
+     * bn offset from the stbrt of the line.  For exbmple, this will return the length
+     * of the line for the lbst run on the line.
+     * @pbrbm run the index of the run, between 0 bnd <code>getRunCount()</code>
      * @return limit the limit of the run
      */
     public int getRunLimit(int run) {
-        return bidiBase.getRunLimit(run);
+        return bidiBbse.getRunLimit(run);
     }
 
     /**
-     * Return true if the specified text requires bidi analysis.  If this returns false,
-     * the text will display left-to-right.  Clients can then avoid constructing a Bidi object.
-     * Text in the Arabic Presentation Forms area of Unicode is presumed to already be shaped
-     * and ordered for display, and so will not cause this function to return true.
+     * Return true if the specified text requires bidi bnblysis.  If this returns fblse,
+     * the text will displby left-to-right.  Clients cbn then bvoid constructing b Bidi object.
+     * Text in the Arbbic Presentbtion Forms breb of Unicode is presumed to blrebdy be shbped
+     * bnd ordered for displby, bnd so will not cbuse this function to return true.
      *
-     * @param text the text containing the characters to test
-     * @param start the start of the range of characters to test
-     * @param limit the limit of the range of characters to test
-     * @return true if the range of characters requires bidi analysis
+     * @pbrbm text the text contbining the chbrbcters to test
+     * @pbrbm stbrt the stbrt of the rbnge of chbrbcters to test
+     * @pbrbm limit the limit of the rbnge of chbrbcters to test
+     * @return true if the rbnge of chbrbcters requires bidi bnblysis
      */
-    public static boolean requiresBidi(char[] text, int start, int limit) {
-        return BidiBase.requiresBidi(text, start, limit);
+    public stbtic boolebn requiresBidi(chbr[] text, int stbrt, int limit) {
+        return BidiBbse.requiresBidi(text, stbrt, limit);
     }
 
     /**
-     * Reorder the objects in the array into visual order based on their levels.
-     * This is a utility function to use when you have a collection of objects
-     * representing runs of text in logical order, each run containing text
-     * at a single level.  The elements at <code>index</code> from
-     * <code>objectStart</code> up to <code>objectStart + count</code>
-     * in the objects array will be reordered into visual order assuming
-     * each run of text has the level indicated by the corresponding element
-     * in the levels array (at <code>index - objectStart + levelStart</code>).
+     * Reorder the objects in the brrby into visubl order bbsed on their levels.
+     * This is b utility function to use when you hbve b collection of objects
+     * representing runs of text in logicbl order, ebch run contbining text
+     * bt b single level.  The elements bt <code>index</code> from
+     * <code>objectStbrt</code> up to <code>objectStbrt + count</code>
+     * in the objects brrby will be reordered into visubl order bssuming
+     * ebch run of text hbs the level indicbted by the corresponding element
+     * in the levels brrby (bt <code>index - objectStbrt + levelStbrt</code>).
      *
-     * @param levels an array representing the bidi level of each object
-     * @param levelStart the start position in the levels array
-     * @param objects the array of objects to be reordered into visual order
-     * @param objectStart the start position in the objects array
-     * @param count the number of objects to reorder
+     * @pbrbm levels bn brrby representing the bidi level of ebch object
+     * @pbrbm levelStbrt the stbrt position in the levels brrby
+     * @pbrbm objects the brrby of objects to be reordered into visubl order
+     * @pbrbm objectStbrt the stbrt position in the objects brrby
+     * @pbrbm count the number of objects to reorder
      */
-    public static void reorderVisually(byte[] levels, int levelStart, Object[] objects, int objectStart, int count) {
-        BidiBase.reorderVisually(levels, levelStart, objects, objectStart, count);
+    public stbtic void reorderVisublly(byte[] levels, int levelStbrt, Object[] objects, int objectStbrt, int count) {
+        BidiBbse.reorderVisublly(levels, levelStbrt, objects, objectStbrt, count);
     }
 
     /**
-     * Display the bidi internal state, used in debugging.
+     * Displby the bidi internbl stbte, used in debugging.
      */
     public String toString() {
-        return bidiBase.toString();
+        return bidiBbse.toString();
     }
 
 }

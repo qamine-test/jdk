@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.lang.Math;
+import jbvb.lbng.Mbth;
 
 /**
- * Represents an SNMP String defined with a fixed length.
- * The class is mainly used when dealing with table indexes for which one of the keys
- * is defined as a <CODE>String</CODE>.
+ * Represents bn SNMP String defined with b fixed length.
+ * The clbss is mbinly used when debling with tbble indexes for which one of the keys
+ * is defined bs b <CODE>String</CODE>.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpStringFixed extends SnmpString {
-    private static final long serialVersionUID = -9120939046874646063L;
+public clbss SnmpStringFixed extends SnmpString {
+    privbte stbtic finbl long seriblVersionUID = -9120939046874646063L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified bytes array.
-     * @param v The bytes composing the fixed-string value.
+     * Constructs b new <CODE>SnmpStringFixed</CODE> from the specified bytes brrby.
+     * @pbrbm v The bytes composing the fixed-string vblue.
      */
     public SnmpStringFixed(byte[] v) {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> with the specified <CODE>Bytes</CODE> array.
-     * @param v The <CODE>Bytes</CODE> composing the fixed-string value.
+     * Constructs b new <CODE>SnmpStringFixed</CODE> with the specified <CODE>Bytes</CODE> brrby.
+     * @pbrbm v The <CODE>Bytes</CODE> composing the fixed-string vblue.
      */
     public SnmpStringFixed(Byte[] v) {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE> value.
-     * @param v The initialization value.
+     * Constructs b new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
      */
     public SnmpStringFixed(String v) {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>bytes</CODE> array
+     * Constructs b new <CODE>SnmpStringFixed</CODE> from the specified <CODE>bytes</CODE> brrby
      * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param v The <CODE>bytes</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>byte</CODE> array is not valid.
+     * @pbrbm l The length of the fixed-string.
+     * @pbrbm v The <CODE>bytes</CODE> composing the fixed-string vblue.
+     * @exception IllegblArgumentException Either the length or the <CODE>byte</CODE> brrby is not vblid.
      */
-    public SnmpStringFixed(int l, byte[] v) throws IllegalArgumentException {
+    public SnmpStringFixed(int l, byte[] v) throws IllegblArgumentException {
         if ((l <= 0) || (v == null)) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
+        int length = Mbth.min(l, v.length);
+        vblue = new byte[l] ;
         for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i] ;
+            vblue[i] = v[i] ;
         }
         for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+            vblue[i] = 0 ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>Bytes</CODE> array
+     * Constructs b new <CODE>SnmpStringFixed</CODE> from the specified <CODE>Bytes</CODE> brrby
      * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param v The <CODE>Bytes</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>Byte</CODE> array is not valid.
+     * @pbrbm l The length of the fixed-string.
+     * @pbrbm v The <CODE>Bytes</CODE> composing the fixed-string vblue.
+     * @exception IllegblArgumentException Either the length or the <CODE>Byte</CODE> brrby is not vblid.
      */
-    public SnmpStringFixed(int l, Byte[] v) throws IllegalArgumentException {
+    public SnmpStringFixed(int l, Byte[] v) throws IllegblArgumentException {
         if ((l <= 0) || (v == null)) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
+        int length = Mbth.min(l, v.length);
+        vblue = new byte[l] ;
         for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i].byteValue() ;
+            vblue[i] = v[i].byteVblue() ;
         }
         for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+            vblue[i] = 0 ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE>
+     * Constructs b new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE>
      * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param s The <CODE>String</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>String</CODE> is not valid.
+     * @pbrbm l The length of the fixed-string.
+     * @pbrbm s The <CODE>String</CODE> composing the fixed-string vblue.
+     * @exception IllegblArgumentException Either the length or the <CODE>String</CODE> is not vblid.
      */
-    public SnmpStringFixed(int l, String s) throws IllegalArgumentException {
+    public SnmpStringFixed(int l, String s) throws IllegblArgumentException {
         if ((l <= 0) || (s == null)) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
         byte[] v = s.getBytes();
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
+        int length = Mbth.min(l, v.length);
+        vblue = new byte[l] ;
         for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i] ;
+            vblue[i] = v[i] ;
         }
         for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+            vblue[i] = 0 ;
         }
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Extracts the fixed-string from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param l The number of successive array elements to be retreived
+     * Extrbcts the fixed-string from bn index OID bnd returns its
+     * vblue converted bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm l The number of successive brrby elements to be retreived
      * in order to construct the OID.
-     * These elements are retreived starting at the <CODE>start</CODE> position.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the fixed-string value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * These elements bre retreived stbrting bt the <CODE>stbrt</CODE> position.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The OID representing the fixed-string vblue.
+     * @exception SnmpStbtusException There is no string vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static SnmpOid toOid(int l, long[] index, int start) throws SnmpStatusException {
+    public stbtic SnmpOid toOid(int l, long[] index, int stbrt) throws SnmpStbtusException {
         try {
             long[] ids = new long[l] ;
             for (int i = 0 ; i < l ; i++) {
-                ids[i] = index[start + i] ;
+                ids[i] = index[stbrt + i] ;
             }
             return new SnmpOid(ids) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        cbtch(IndexOutOfBoundsException e) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Scans an index OID, skip the string value and returns the position
-     * of the next value.
-     * @param l The number of successive array elements to be passed
-     * in order to get the position of the next value.
-     * These elements are passed starting at the <CODE>start</CODE> position.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Scbns bn index OID, skip the string vblue bnd returns the position
+     * of the next vblue.
+     * @pbrbm l The number of successive brrby elements to be pbssed
+     * in order to get the position of the next vblue.
+     * These elements bre pbssed stbrting bt the <CODE>stbrt</CODE> position.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The position of the next vblue.
+     * @exception SnmpStbtusException There is no string vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static int nextOid(int l, long[] index, int start) throws SnmpStatusException {
-        int result = start + l ;
+    public stbtic int nextOid(int l, long[] index, int stbrt) throws SnmpStbtusException {
+        int result = stbrt + l ;
         if (result > index.length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
         return result ;
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpStringFixed</CODE> to another OID.
-     * @param l Unused.
-     * @param source An OID representing an <CODE>SnmpStringFixed</CODE> value.
-     * @param dest Where source should be appended.
+     * Appends bn <CODE>SnmpOid</CODE> representing bn <CODE>SnmpStringFixed</CODE> to bnother OID.
+     * @pbrbm l Unused.
+     * @pbrbm source An OID representing bn <CODE>SnmpStringFixed</CODE> vblue.
+     * @pbrbm dest Where source should be bppended.
      */
-    public static void appendToOid(int l, SnmpOid source, SnmpOid dest) {
-        dest.append(source) ;
+    public stbtic void bppendToOid(int l, SnmpOid source, SnmpOid dest) {
+        dest.bppend(source) ;
     }
 }

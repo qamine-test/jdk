@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
 
 
 /**
- * An interface that provides information to a scrolling container
- * like JScrollPane.  A complex component that's likely to be used
- * as a viewing a JScrollPane viewport (or other scrolling container)
- * should implement this interface.
+ * An interfbce thbt provides informbtion to b scrolling contbiner
+ * like JScrollPbne.  A complex component thbt's likely to be used
+ * bs b viewing b JScrollPbne viewport (or other scrolling contbiner)
+ * should implement this interfbce.
  *
  * @see JViewport
- * @see JScrollPane
- * @see JScrollBar
- * @author Hans Muller
+ * @see JScrollPbne
+ * @see JScrollBbr
+ * @buthor Hbns Muller
  * @since 1.2
  */
-public interface Scrollable
+public interfbce Scrollbble
 {
     /**
-     * Returns the preferred size of the viewport for a view component.
-     * For example, the preferred size of a <code>JList</code> component
-     * is the size required to accommodate all of the cells in its list.
-     * However, the value of <code>preferredScrollableViewportSize</code>
+     * Returns the preferred size of the viewport for b view component.
+     * For exbmple, the preferred size of b <code>JList</code> component
+     * is the size required to bccommodbte bll of the cells in its list.
+     * However, the vblue of <code>preferredScrollbbleViewportSize</code>
      * is the size required for <code>JList.getVisibleRowCount</code> rows.
-     * A component without any properties that would affect the viewport
+     * A component without bny properties thbt would bffect the viewport
      * size should just return <code>getPreferredSize</code> here.
      *
-     * @return the preferredSize of a <code>JViewport</code> whose view
-     *    is this <code>Scrollable</code>
+     * @return the preferredSize of b <code>JViewport</code> whose view
+     *    is this <code>Scrollbble</code>
      * @see JViewport#getPreferredSize
      */
-    Dimension getPreferredScrollableViewportSize();
+    Dimension getPreferredScrollbbleViewportSize();
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one new row
-     * or column, depending on the value of orientation.  Ideally,
-     * components should handle a partially exposed row or column by
-     * returning the distance required to completely expose the item.
+     * Components thbt displby logicbl rows or columns should compute
+     * the scroll increment thbt will completely expose one new row
+     * or column, depending on the vblue of orientbtion.  Ideblly,
+     * components should hbndle b pbrtiblly exposed row or column by
+     * returning the distbnce required to completely expose the item.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a unit scroll.
+     * Scrolling contbiners, like JScrollPbne, will use this method
+     * ebch time the user requests b unit scroll.
      *
-     * @param visibleRect The view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left, greater than zero for down/right.
+     * @pbrbm visibleRect The view breb visible within the viewport
+     * @pbrbm orientbtion Either SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm direction Less thbn zero to scroll up/left, grebter thbn zero for down/right.
      * @return The "unit" increment for scrolling in the specified direction.
-     *         This value should always be positive.
-     * @see JScrollBar#setUnitIncrement
+     *         This vblue should blwbys be positive.
+     * @see JScrollBbr#setUnitIncrement
      */
-    int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction);
+    int getScrollbbleUnitIncrement(Rectbngle visibleRect, int orientbtion, int direction);
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one block
-     * of rows or columns, depending on the value of orientation.
+     * Components thbt displby logicbl rows or columns should compute
+     * the scroll increment thbt will completely expose one block
+     * of rows or columns, depending on the vblue of orientbtion.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a block scroll.
+     * Scrolling contbiners, like JScrollPbne, will use this method
+     * ebch time the user requests b block scroll.
      *
-     * @param visibleRect The view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left, greater than zero for down/right.
+     * @pbrbm visibleRect The view breb visible within the viewport
+     * @pbrbm orientbtion Either SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm direction Less thbn zero to scroll up/left, grebter thbn zero for down/right.
      * @return The "block" increment for scrolling in the specified direction.
-     *         This value should always be positive.
-     * @see JScrollBar#setBlockIncrement
+     *         This vblue should blwbys be positive.
+     * @see JScrollBbr#setBlockIncrement
      */
-    int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction);
+    int getScrollbbleBlockIncrement(Rectbngle visibleRect, int orientbtion, int direction);
 
 
     /**
-     * Return true if a viewport should always force the width of this
-     * <code>Scrollable</code> to match the width of the viewport.
-     * For example a normal
-     * text view that supported line wrapping would return true here, since it
-     * would be undesirable for wrapped lines to disappear beyond the right
-     * edge of the viewport.  Note that returning true for a Scrollable
-     * whose ancestor is a JScrollPane effectively disables horizontal
+     * Return true if b viewport should blwbys force the width of this
+     * <code>Scrollbble</code> to mbtch the width of the viewport.
+     * For exbmple b normbl
+     * text view thbt supported line wrbpping would return true here, since it
+     * would be undesirbble for wrbpped lines to disbppebr beyond the right
+     * edge of the viewport.  Note thbt returning true for b Scrollbble
+     * whose bncestor is b JScrollPbne effectively disbbles horizontbl
      * scrolling.
      * <p>
-     * Scrolling containers, like JViewport, will use this method each
-     * time they are validated.
+     * Scrolling contbiners, like JViewport, will use this method ebch
+     * time they bre vblidbted.
      *
-     * @return True if a viewport should force the Scrollables width to match its own.
+     * @return True if b viewport should force the Scrollbbles width to mbtch its own.
      */
-    boolean getScrollableTracksViewportWidth();
+    boolebn getScrollbbleTrbcksViewportWidth();
 
     /**
-     * Return true if a viewport should always force the height of this
-     * Scrollable to match the height of the viewport.  For example a
-     * columnar text view that flowed text in left to right columns
-     * could effectively disable vertical scrolling by returning
+     * Return true if b viewport should blwbys force the height of this
+     * Scrollbble to mbtch the height of the viewport.  For exbmple b
+     * columnbr text view thbt flowed text in left to right columns
+     * could effectively disbble verticbl scrolling by returning
      * true here.
      * <p>
-     * Scrolling containers, like JViewport, will use this method each
-     * time they are validated.
+     * Scrolling contbiners, like JViewport, will use this method ebch
+     * time they bre vblidbted.
      *
-     * @return True if a viewport should force the Scrollables height to match its own.
+     * @return True if b viewport should force the Scrollbbles height to mbtch its own.
      */
-    boolean getScrollableTracksViewportHeight();
+    boolebn getScrollbbleTrbcksViewportHeight();
 }

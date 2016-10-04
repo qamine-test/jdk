@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
 import sun.security.krb5.Checksum;
 import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
-import javax.crypto.spec.DESKeySpec;
-import java.security.InvalidKeyException;
-import java.security.GeneralSecurityException;
+import sun.security.krb5.internbl.*;
+import jbvbx.crypto.spec.DESKeySpec;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.GenerblSecurityException;
 
-public class HmacSha1Des3KdCksumType extends CksumType {
+public clbss HmbcShb1Des3KdCksumType extends CksumType {
 
-    public HmacSha1Des3KdCksumType() {
+    public HmbcShb1Des3KdCksumType() {
     }
 
     public int confounderSize() {
@@ -45,7 +45,7 @@ public class HmacSha1Des3KdCksumType extends CksumType {
         return Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD;
     }
 
-    public boolean isSafe() {
+    public boolebn isSbfe() {
         return true;
     }
 
@@ -61,48 +61,48 @@ public class HmacSha1Des3KdCksumType extends CksumType {
         return 24;   // bytes
     }
 
-    public byte[] calculateChecksum(byte[] data, int size) {
+    public byte[] cblculbteChecksum(byte[] dbtb, int size) {
         return null;
     }
 
     /**
-     * Calculates keyed checksum.
-     * @param data the data used to generate the checksum.
-     * @param size length of the data.
-     * @param key the key used to encrypt the checksum.
+     * Cblculbtes keyed checksum.
+     * @pbrbm dbtb the dbtb used to generbte the checksum.
+     * @pbrbm size length of the dbtb.
+     * @pbrbm key the key used to encrypt the checksum.
      * @return keyed checksum.
      */
-    public byte[] calculateKeyedChecksum(byte[] data, int size, byte[] key,
-        int usage) throws KrbCryptoException {
+    public byte[] cblculbteKeyedChecksum(byte[] dbtb, int size, byte[] key,
+        int usbge) throws KrbCryptoException {
 
          try {
-             return Des3.calculateChecksum(key, usage, data, 0, size);
-         } catch (GeneralSecurityException e) {
-             KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-             ke.initCause(e);
+             return Des3.cblculbteChecksum(key, usbge, dbtb, 0, size);
+         } cbtch (GenerblSecurityException e) {
+             KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+             ke.initCbuse(e);
              throw ke;
          }
     }
 
     /**
      * Verifies keyed checksum.
-     * @param data the data.
-     * @param size the length of data.
-     * @param key the key used to encrypt the checksum.
-     * @param checksum
-     * @return true if verification is successful.
+     * @pbrbm dbtb the dbtb.
+     * @pbrbm size the length of dbtb.
+     * @pbrbm key the key used to encrypt the checksum.
+     * @pbrbm checksum
+     * @return true if verificbtion is successful.
      */
-    public boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException {
+    public boolebn verifyKeyedChecksum(byte[] dbtb, int size,
+        byte[] key, byte[] checksum, int usbge) throws KrbCryptoException {
 
          try {
-             byte[] newCksum = Des3.calculateChecksum(key, usage,
-                 data, 0, size);
+             byte[] newCksum = Des3.cblculbteChecksum(key, usbge,
+                 dbtb, 0, size);
 
-             return isChecksumEqual(checksum, newCksum);
-         } catch (GeneralSecurityException e) {
-             KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-             ke.initCause(e);
+             return isChecksumEqubl(checksum, newCksum);
+         } cbtch (GenerblSecurityException e) {
+             KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+             ke.initCbuse(e);
              throw ke;
          }
      }

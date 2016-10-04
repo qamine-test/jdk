@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -33,44 +33,44 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
 #include "Lookups.h"
-#include "ICUFeatures.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
-#include "GlyphIterator.h"
+#include "ICUFebtures.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphPositioningTbbles.h"
+#include "GlyphIterbtor.h"
 #include "LookupProcessor.h"
 
 U_NAMESPACE_BEGIN
 
-class GlyphPositioningLookupProcessor : public LookupProcessor
+clbss GlyphPositioningLookupProcessor : public LookupProcessor
 {
 public:
-    GlyphPositioningLookupProcessor(const LEReferenceTo<GlyphPositioningTableHeader> &glyphPositioningTableHeader,
-        LETag scriptTag,
-        LETag languageTag,
-        const FeatureMap *featureMap,
-        le_int32 featureMapCount,
-        le_bool featureOrder,
+    GlyphPositioningLookupProcessor(const LEReferenceTo<GlyphPositioningTbbleHebder> &glyphPositioningTbbleHebder,
+        LETbg scriptTbg,
+        LETbg lbngubgeTbg,
+        const FebtureMbp *febtureMbp,
+        le_int32 febtureMbpCount,
+        le_bool febtureOrder,
         LEErrorCode& success);
 
-    virtual ~GlyphPositioningLookupProcessor();
+    virtubl ~GlyphPositioningLookupProcessor();
 
-    virtual le_uint32 applySubtable(const LEReferenceTo<LookupSubtable> &lookupSubtable, le_uint16 lookupType, GlyphIterator *glyphIterator,
-        const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    virtubl le_uint32 bpplySubtbble(const LEReferenceTo<LookupSubtbble> &lookupSubtbble, le_uint16 lookupType, GlyphIterbtor *glyphIterbtor,
+        const LEFontInstbnce *fontInstbnce, LEErrorCode& success) const;
 
 protected:
     GlyphPositioningLookupProcessor();
 
-private:
+privbte:
 
-    GlyphPositioningLookupProcessor(const GlyphPositioningLookupProcessor &other); // forbid copying of this class
-    GlyphPositioningLookupProcessor &operator=(const GlyphPositioningLookupProcessor &other); // forbid copying of this class
+    GlyphPositioningLookupProcessor(const GlyphPositioningLookupProcessor &other); // forbid copying of this clbss
+    GlyphPositioningLookupProcessor &operbtor=(const GlyphPositioningLookupProcessor &other); // forbid copying of this clbss
 };
 
 U_NAMESPACE_END

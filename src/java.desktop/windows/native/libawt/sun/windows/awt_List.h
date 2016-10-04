@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_LIST_H
 #define AWT_LIST_H
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
-#include "sun_awt_windows_WListPeer.h"
+#include "sun_bwt_windows_WListPeer.h"
 
 
 /************************************************************************
- * AwtList class
+ * AwtList clbss
  */
 
-class AwtList : public AwtComponent {
+clbss AwtList : public AwtComponent {
 public:
     AwtList();
-    virtual ~AwtList();
+    virtubl ~AwtList();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    static AwtList* Create(jobject peer, jobject parent);
+    stbtic AwtList* Crebte(jobject peer, jobject pbrent);
 
-    virtual BOOL NeedDblClick() { return TRUE; }
+    virtubl BOOL NeedDblClick() { return TRUE; }
 
     INLINE void Select(int pos) {
         if (isMultiSelect) {
-            SendListMessage(LB_SETSEL, TRUE, pos);
+            SendListMessbge(LB_SETSEL, TRUE, pos);
         }
         else {
-            SendListMessage(LB_SETCURSEL, pos);
+            SendListMessbge(LB_SETCURSEL, pos);
         }
     }
     INLINE void Deselect(int pos) {
         if (isMultiSelect) {
-            SendListMessage(LB_SETSEL, FALSE, pos);
+            SendListMessbge(LB_SETSEL, FALSE, pos);
         }
         else {
-            SendListMessage(LB_SETCURSEL, (WPARAM)-1);
+            SendListMessbge(LB_SETCURSEL, (WPARAM)-1);
         }
     }
     INLINE UINT GetCount() {
-        LRESULT index = SendListMessage(LB_GETCOUNT);
+        LRESULT index = SendListMessbge(LB_GETCOUNT);
         DASSERT(index != LB_ERR);
-        return static_cast<UINT>(index);
+        return stbtic_cbst<UINT>(index);
     }
 
     INLINE void InsertString(WPARAM index, LPTSTR str) {
-        VERIFY(SendListMessage(LB_INSERTSTRING, index, (LPARAM)str) != LB_ERR);
+        VERIFY(SendListMessbge(LB_INSERTSTRING, index, (LPARAM)str) != LB_ERR);
     }
     INLINE BOOL IsItemSelected(UINT index) {
-        LRESULT ret = SendListMessage(LB_GETSEL, index);
+        LRESULT ret = SendListMessbge(LB_GETSEL, index);
         DASSERT(ret != LB_ERR);
         return (ret > 0);
     }
-    INLINE BOOL InvalidateList(CONST RECT* lpRect, BOOL bErase) {
-        DASSERT(GetListHandle());
-        return InvalidateRect(GetListHandle(), lpRect, bErase);
+    INLINE BOOL InvblidbteList(CONST RECT* lpRect, BOOL bErbse) {
+        DASSERT(GetListHbndle());
+        return InvblidbteRect(GetListHbndle(), lpRect, bErbse);
     }
 
-    // Adjust the horizontal scrollbar as necessary
-    void AdjustHorizontalScrollbar();
-    void UpdateMaxItemWidth();
+    // Adjust the horizontbl scrollbbr bs necessbry
+    void AdjustHorizontblScrollbbr();
+    void UpdbteMbxItemWidth();
 
-    INLINE long GetMaxWidth() {
-        return m_nMaxWidth;
+    INLINE long GetMbxWidth() {
+        return m_nMbxWidth;
     }
 
-    INLINE void CheckMaxWidth(long nWidth) {
-        if (nWidth > m_nMaxWidth) {
-            m_nMaxWidth = nWidth;
-            AdjustHorizontalScrollbar();
+    INLINE void CheckMbxWidth(long nWidth) {
+        if (nWidth > m_nMbxWidth) {
+            m_nMbxWidth = nWidth;
+            AdjustHorizontblScrollbbr();
         }
     }
 
-    // Netscape : Change the font on the list and redraw the
+    // Netscbpe : Chbnge the font on the list bnd redrbw the
     // items nicely.
-    virtual void SetFont(AwtFont *pFont);
+    virtubl void SetFont(AwtFont *pFont);
 
-    /* Set whether a list accepts single or multiple selections. */
+    /* Set whether b list bccepts single or multiple selections. */
     void SetMultiSelect(BOOL ms);
 
     /*for multifont list */
     jobject PreferredItemSize(JNIEnv *envx);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
-    MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVal);
-    MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
+    MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVbl);
+    MsgRouting WmMouseDown(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
     MsgRouting WmNotify(UINT notifyCode);
 
     /* for multifont list */
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting OwnerMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
+    MsgRouting OwnerDrbwItem(UINT ctrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting OwnerMebsureItem(UINT ctrlId, MEASUREITEMSTRUCT& mebsureInfo);
 
-    //for horizontal scrollbar
+    //for horizontbl scrollbbr
     MsgRouting WmSize(UINT type, int w, int h);
 
     MsgRouting WmCtlColor(HDC hDC, HWND hCtrl, UINT ctlColor,
                           HBRUSH& retBrush);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    MsgRouting WmPrint(HDC hDC, LPARAM flags);
+    MsgRouting WmPrint(HDC hDC, LPARAM flbgs);
 
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
-    void Reshape(int x, int y, int w, int h);
+    virtubl void SetDrbgCbpture(UINT flbgs);
+    virtubl void RelebseDrbgCbpture(UINT flbgs);
+    void Reshbpe(int x, int y, int w, int h);
 
-    INLINE LRESULT SendListMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0)
+    INLINE LRESULT SendListMessbge(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0)
     {
-        DASSERT(GetListHandle() != NULL);
-        return ::SendMessage(GetListHandle(), msg, wParam, lParam);
+        DASSERT(GetListHbndle() != NULL);
+        return ::SendMessbge(GetListHbndle(), msg, wPbrbm, lPbrbm);
     }
-    INLINE virtual LONG GetStyle() {
-        DASSERT(GetListHandle());
-        return ::GetWindowLong(GetListHandle(), GWL_STYLE);
+    INLINE virtubl LONG GetStyle() {
+        DASSERT(GetListHbndle());
+        return ::GetWindowLong(GetListHbndle(), GWL_STYLE);
     }
-    INLINE virtual void SetStyle(LONG style) {
-        DASSERT(GetListHandle());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        LONG ret = ::SetWindowLong(GetListHandle(), GWL_STYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SetStyle(LONG style) {
+        DASSERT(GetListHbndle());
+        // SetWindowLong() error hbndling bs recommended by Win32 API doc.
+        ::SetLbstError(0);
+        LONG ret = ::SetWindowLong(GetListHbndle(), GWL_STYLE, style);
+        DASSERT(ret != 0 || ::GetLbstError() == 0);
     }
-    INLINE virtual LONG GetStyleEx() {
-        DASSERT(GetListHandle());
-        return ::GetWindowLong(GetListHandle(), GWL_EXSTYLE);
+    INLINE virtubl LONG GetStyleEx() {
+        DASSERT(GetListHbndle());
+        return ::GetWindowLong(GetListHbndle(), GWL_EXSTYLE);
     }
-    INLINE virtual void SetStyleEx(LONG style) {
-        DASSERT(GetListHandle());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        LONG ret = ::SetWindowLong(GetListHandle(), GWL_EXSTYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SetStyleEx(LONG style) {
+        DASSERT(GetListHbndle());
+        // SetWindowLong() error hbndling bs recommended by Win32 API doc.
+        ::SetLbstError(0);
+        LONG ret = ::SetWindowLong(GetListHbndle(), GWL_EXSTYLE, style);
+        DASSERT(ret != 0 || ::GetLbstError() == 0);
     }
 
-    INLINE HWND GetDBCSEditHandle() { return GetListHandle(); }
+    INLINE HWND GetDBCSEditHbndle() { return GetListHbndle(); }
 
-    virtual BOOL InheritsNativeMouseWheelBehavior();
+    virtubl BOOL InheritsNbtiveMouseWheelBehbvior();
 
-    virtual BOOL IsFocusingMouseMessage(MSG *pMsg);
+    virtubl BOOL IsFocusingMouseMessbge(MSG *pMsg);
 
-    // some methods called on Toolkit thread
-    static jint _GetMaxWidth(void *param);
-    static void _UpdateMaxItemWidth(void *param);
-    static void _AddItems(void *param);
-    static void _DelItems(void *param);
-    static void _Select(void *param);
-    static void _Deselect(void *param);
-    static void _MakeVisible(void *param);
-    static void _SetMultipleSelections(void *param);
-    static jboolean _IsSelected(void *param);
+    // some methods cblled on Toolkit threbd
+    stbtic jint _GetMbxWidth(void *pbrbm);
+    stbtic void _UpdbteMbxItemWidth(void *pbrbm);
+    stbtic void _AddItems(void *pbrbm);
+    stbtic void _DelItems(void *pbrbm);
+    stbtic void _Select(void *pbrbm);
+    stbtic void _Deselect(void *pbrbm);
+    stbtic void _MbkeVisible(void *pbrbm);
+    stbtic void _SetMultipleSelections(void *pbrbm);
+    stbtic jboolebn _IsSelected(void *pbrbm);
 
 protected:
-    INLINE HWND GetListHandle() { return GetHWnd(); }
+    INLINE HWND GetListHbndle() { return GetHWnd(); }
 
-    static BOOL IsListOwnerMessage(UINT message) {
-        switch (message) {
-        case WM_DRAWITEM:
-        case WM_MEASUREITEM:
-        case WM_COMMAND:
+    stbtic BOOL IsListOwnerMessbge(UINT messbge) {
+        switch (messbge) {
+        cbse WM_DRAWITEM:
+        cbse WM_MEASUREITEM:
+        cbse WM_COMMAND:
 #if defined(WIN32)
-        case WM_CTLCOLORLISTBOX:
+        cbse WM_CTLCOLORLISTBOX:
 #else
-        case WM_CTLCOLOR:
+        cbse WM_CTLCOLOR:
 #endif
             return TRUE;
         }
         return FALSE;
     }
 
-    static BOOL IsAwtMessage(UINT message) {
-        return (message >= WM_APP);
+    stbtic BOOL IsAwtMessbge(UINT messbge) {
+        return (messbge >= WM_APP);
     }
 
-private:
+privbte:
     BOOL isMultiSelect;
-    BOOL isWrapperPrint;
+    BOOL isWrbpperPrint;
 
     // The width of the longest item in the listbox
-    long m_nMaxWidth;
+    long m_nMbxWidth;
 };
 
 #endif /* AWT_LIST_H */

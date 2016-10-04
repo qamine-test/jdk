@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
+import sun.tools.jbvb.*;
 import sun.tools.tree.*;
-import java.util.Vector;
+import jbvb.util.Vector;
 
 /**
- * A local Field
+ * A locbl Field
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 
 public
-class LocalMember extends MemberDefinition {
+clbss LocblMember extends MemberDefinition {
     /**
-     * The number of the variable
+     * The number of the vbribble
      */
     int number = -1;
 
     /**
-     * Some statistics
+     * Some stbtistics
      */
-    int readcount;
+    int rebdcount;
     int writecount;
 
     /**
-     * An indication of which block the variable comes from.
+     * An indicbtion of which block the vbribble comes from.
      * Helps identify uplevel references.
      */
     int scopeNumber;
 
     /**
-     * Return current nesting level, i.e., the value of 'scopeNumber'.
-     * Made public for the benefit of 'ClassDefinition.resolveName'.
+     * Return current nesting level, i.e., the vblue of 'scopeNumber'.
+     * Mbde public for the benefit of 'ClbssDefinition.resolveNbme'.
      */
     public int getScopeNumber() {
         return scopeNumber;
     }
 
     /**
-     * Used by copyInline to record the original of this copy.
+     * Used by copyInline to record the originbl of this copy.
      */
-    LocalMember originalOfCopy;
+    LocblMember originblOfCopy;
 
     /**
-     * The previous local variable, this list is used to build a nested
-     * context of local variables.
+     * The previous locbl vbribble, this list is used to build b nested
+     * context of locbl vbribbles.
      */
-    LocalMember prev;
+    LocblMember prev;
 
     /**
      * Constructor
      */
-    public LocalMember(long where, ClassDefinition clazz, int modifiers, Type type,
-                      Identifier name) {
-        super(where, clazz, modifiers, type, name, null, null);
+    public LocblMember(long where, ClbssDefinition clbzz, int modifiers, Type type,
+                      Identifier nbme) {
+        super(where, clbzz, modifiers, type, nbme, null, null);
     }
 
     /**
-     * Constructor for a block-inner class.
+     * Constructor for b block-inner clbss.
      */
-    public LocalMember(ClassDefinition innerClass) {
-        super(innerClass);
+    public LocblMember(ClbssDefinition innerClbss) {
+        super(innerClbss);
 
-        // The class's "real" name is something like "foo$1$bar", but locally:
-        name = innerClass.getLocalName();
+        // The clbss's "rebl" nbme is something like "foo$1$bbr", but locblly:
+        nbme = innerClbss.getLocblNbme();
     }
 
     /**
-     * Constructor for a proxy to an instance or class variable.
+     * Constructor for b proxy to bn instbnce or clbss vbribble.
      */
-    LocalMember(MemberDefinition field) {
-        this(0, null, 0, field.getType(), idClass);
-        // use this random slot to store the info:
-        accessPeer = field;
+    LocblMember(MemberDefinition field) {
+        this(0, null, 0, field.getType(), idClbss);
+        // use this rbndom slot to store the info:
+        bccessPeer = field;
     }
 
     /**
-     * Is this a proxy for the given field?
+     * Is this b proxy for the given field?
      */
-    final MemberDefinition getMember() {
-        return (name == idClass) ? accessPeer : null;
+    finbl MemberDefinition getMember() {
+        return (nbme == idClbss) ? bccessPeer : null;
     }
 
     /**
-     * Special checks
+     * Specibl checks
      */
-    public boolean isLocal() {
+    public boolebn isLocbl() {
         return true;
     }
 
     /**
-     * Make a copy of this field, which is an argument to a method
-     * or constructor.  Arrange so that when occurrences of the field
-     * are encountered in an immediately following copyInline() operation,
-     * the expression nodes will replace the original argument by the
+     * Mbke b copy of this field, which is bn brgument to b method
+     * or constructor.  Arrbnge so thbt when occurrences of the field
+     * bre encountered in bn immedibtely following copyInline() operbtion,
+     * the expression nodes will replbce the originbl brgument by the
      * fresh copy.
      */
-    public LocalMember copyInline(Context ctx) {
-        LocalMember copy = new LocalMember(where, clazz, modifiers, type, name);
-        copy.readcount = this.readcount;
+    public LocblMember copyInline(Context ctx) {
+        LocblMember copy = new LocblMember(where, clbzz, modifiers, type, nbme);
+        copy.rebdcount = this.rebdcount;
         copy.writecount = this.writecount;
 
-        copy.originalOfCopy = this;
+        copy.originblOfCopy = this;
 
-        // Make a temporary link from the original.
-        // It only stays valid through the next call to copyInline().
-        // (This means that recursive inlining won't work.)
-        // To stay honest, we mark these inline copies:
-        copy.addModifiers(M_LOCAL);
-        if (this.accessPeer != null
-            && (this.accessPeer.getModifiers() & M_LOCAL) == 0) {
-            throw new CompilerError("local copyInline");
+        // Mbke b temporbry link from the originbl.
+        // It only stbys vblid through the next cbll to copyInline().
+        // (This mebns thbt recursive inlining won't work.)
+        // To stby honest, we mbrk these inline copies:
+        copy.bddModifiers(M_LOCAL);
+        if (this.bccessPeer != null
+            && (this.bccessPeer.getModifiers() & M_LOCAL) == 0) {
+            throw new CompilerError("locbl copyInline");
         }
-        this.accessPeer = copy;
+        this.bccessPeer = copy;
 
         return copy;
     }
 
     /**
      * Returns the previous result of copyInline(ctx).
-     * Must be called in the course of an Expression.copyInline()
-     * operation that immediately follows the LocalMember.copyInline().
+     * Must be cblled in the course of bn Expression.copyInline()
+     * operbtion thbt immedibtely follows the LocblMember.copyInline().
      * Return "this" if there is no such copy.
      */
-    public LocalMember getCurrentInlineCopy(Context ctx) {
-        MemberDefinition accessPeer = this.accessPeer;
-        if (accessPeer != null && (accessPeer.getModifiers() & M_LOCAL) != 0) {
-            LocalMember copy = (LocalMember)accessPeer;
+    public LocblMember getCurrentInlineCopy(Context ctx) {
+        MemberDefinition bccessPeer = this.bccessPeer;
+        if (bccessPeer != null && (bccessPeer.getModifiers() & M_LOCAL) != 0) {
+            LocblMember copy = (LocblMember)bccessPeer;
             return copy;
         }
         return this;
     }
 
     /**
-     * May inline copies of all the arguments of the given method.
+     * Mby inline copies of bll the brguments of the given method.
      */
-    static public LocalMember[] copyArguments(Context ctx, MemberDefinition field) {
+    stbtic public LocblMember[] copyArguments(Context ctx, MemberDefinition field) {
         Vector<MemberDefinition> v = field.getArguments();
-        LocalMember res[] = new LocalMember[v.size()];
+        LocblMember res[] = new LocblMember[v.size()];
         v.copyInto(res);
         for (int i = 0; i < res.length; i++) {
             res[i] = res[i].copyInline(ctx);
@@ -173,57 +173,57 @@ class LocalMember extends MemberDefinition {
     }
 
     /**
-     * Call this when finished with the result of a copyArguments() call.
+     * Cbll this when finished with the result of b copyArguments() cbll.
      */
-    static public void doneWithArguments(Context ctx, LocalMember res[]) {
+    stbtic public void doneWithArguments(Context ctx, LocblMember res[]) {
         for (int i = 0; i < res.length; i++) {
-            if (res[i].originalOfCopy.accessPeer == res[i]) {
-                res[i].originalOfCopy.accessPeer = null;
+            if (res[i].originblOfCopy.bccessPeer == res[i]) {
+                res[i].originblOfCopy.bccessPeer = null;
             }
         }
     }
 
     /**
-     * Is this local variable's value stable and simple enough to be directly
-     * substituted for occurrences of the variable itself?
-     * (This decision is made by VarDeclarationStatement.inline().)
+     * Is this locbl vbribble's vblue stbble bnd simple enough to be directly
+     * substituted for occurrences of the vbribble itself?
+     * (This decision is mbde by VbrDeclbrbtionStbtement.inline().)
      */
-    public boolean isInlineable(Environment env, boolean fromFinal) {
+    public boolebn isInlinebble(Environment env, boolebn fromFinbl) {
         return (getModifiers() & M_INLINEABLE) != 0;
     }
 
     /**
      * Check if used
      */
-    public boolean isUsed() {
-        return (readcount != 0) || (writecount != 0);
+    public boolebn isUsed() {
+        return (rebdcount != 0) || (writecount != 0);
     }
 
-    // Used by class Context, only on members of MemberDefinition.available:
-    LocalMember getAccessVar() {
-        return (LocalMember)accessPeer;
+    // Used by clbss Context, only on members of MemberDefinition.bvbilbble:
+    LocblMember getAccessVbr() {
+        return (LocblMember)bccessPeer;
     }
-    void setAccessVar(LocalMember f) {
-        accessPeer = f;
+    void setAccessVbr(LocblMember f) {
+        bccessPeer = f;
     }
-    // Used by class Context, only on "AccessVar" constructor args
-    MemberDefinition getAccessVarMember() {
-        return accessPeer;
+    // Used by clbss Context, only on "AccessVbr" constructor brgs
+    MemberDefinition getAccessVbrMember() {
+        return bccessPeer;
     }
-    void setAccessVarMember(MemberDefinition f) {
-        accessPeer = f;
+    void setAccessVbrMember(MemberDefinition f) {
+        bccessPeer = f;
     }
 
 
     /**
-     * Return value
+     * Return vblue
      */
-    public Node getValue(Environment env) {
-        return (Expression)getValue();
+    public Node getVblue(Environment env) {
+        return (Expression)getVblue();
     }
 
     /**
-     * Value number for vsets, or -1 if none.
+     * Vblue number for vsets, or -1 if none.
      */
     public int getNumber(Context ctx) {
         return number;

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.print;
+pbckbge sun.print;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import java.util.ArrayList;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvb.util.ArrbyList;
 
-class CustomMediaSizeName extends MediaSizeName {
-    private static ArrayList<String> customStringTable = new ArrayList<>();
-    private static ArrayList<MediaSizeName> customEnumTable = new ArrayList<>();
-    private String choiceName;
-    private MediaSizeName mediaName;
+clbss CustomMedibSizeNbme extends MedibSizeNbme {
+    privbte stbtic ArrbyList<String> customStringTbble = new ArrbyList<>();
+    privbte stbtic ArrbyList<MedibSizeNbme> customEnumTbble = new ArrbyList<>();
+    privbte String choiceNbme;
+    privbte MedibSizeNbme medibNbme;
 
-    private CustomMediaSizeName(int x) {
+    privbte CustomMedibSizeNbme(int x) {
         super(x);
 
     }
 
-    private synchronized static int nextValue(String name) {
-      customStringTable.add(name);
+    privbte synchronized stbtic int nextVblue(String nbme) {
+      customStringTbble.bdd(nbme);
 
-      return (customStringTable.size()-1);
+      return (customStringTbble.size()-1);
     }
 
-    public CustomMediaSizeName(String name) {
-        super(nextValue(name));
-        customEnumTable.add(this);
-        choiceName = null;
-        mediaName = null;
+    public CustomMedibSizeNbme(String nbme) {
+        super(nextVblue(nbme));
+        customEnumTbble.bdd(this);
+        choiceNbme = null;
+        medibNbme = null;
     }
 
-    public CustomMediaSizeName(String name, String choice,
-                               float width, float length) {
-        super(nextValue(name));
-        choiceName = choice;
-        customEnumTable.add(this);
-        mediaName = null;
+    public CustomMedibSizeNbme(String nbme, String choice,
+                               flobt width, flobt length) {
+        super(nextVblue(nbme));
+        choiceNbme = choice;
+        customEnumTbble.bdd(this);
+        medibNbme = null;
         try {
-            mediaName = MediaSize.findMedia(width, length,
-                                            MediaSize.INCH);
-        } catch (IllegalArgumentException iae) {
+            medibNbme = MedibSize.findMedib(width, length,
+                                            MedibSize.INCH);
+        } cbtch (IllegblArgumentException ibe) {
         }
-        // The public API method finds a closest match even if it not
-        // all that close. Here we want to be sure its *really* close.
-        if (mediaName != null) {
-            MediaSize sz = MediaSize.getMediaSizeForName(mediaName);
+        // The public API method finds b closest mbtch even if it not
+        // bll thbt close. Here we wbnt to be sure its *reblly* close.
+        if (medibNbme != null) {
+            MedibSize sz = MedibSize.getMedibSizeForNbme(medibNbme);
             if (sz == null) {
-                mediaName = null;
+                medibNbme = null;
             } else {
-                float w = sz.getX(MediaSize.INCH);
-                float h = sz.getY(MediaSize.INCH);
-                float dw = Math.abs(w - width);
-                float dh = Math.abs(h - length);
+                flobt w = sz.getX(MedibSize.INCH);
+                flobt h = sz.getY(MedibSize.INCH);
+                flobt dw = Mbth.bbs(w - width);
+                flobt dh = Mbth.bbs(h - length);
                 if (dw > 0.1 || dh > 0.1) {
-                    mediaName = null;
+                    medibNbme = null;
                 }
             }
         }
     }
 
     /**
-     * Version ID for serialized form.
+     * Version ID for seriblized form.
      */
-    private static final long serialVersionUID = 7412807582228043717L;
+    privbte stbtic finbl long seriblVersionUID = 7412807582228043717L;
 
     /**
-     * Returns the command string for this media.
+     * Returns the commbnd string for this medib.
      */
-    public String getChoiceName() {
-        return choiceName;
+    public String getChoiceNbme() {
+        return choiceNbme;
     }
 
 
     /**
-     * Returns matching standard MediaSizeName.
+     * Returns mbtching stbndbrd MedibSizeNbme.
      */
-    public MediaSizeName getStandardMedia() {
-        return mediaName;
+    public MedibSizeNbme getStbndbrdMedib() {
+        return medibNbme;
     }
 
 
-    // moved from RasterPrinterJob
+    // moved from RbsterPrinterJob
     /**
-     * Returns closest matching MediaSizeName among given array of Media
+     * Returns closest mbtching MedibSizeNbme bmong given brrby of Medib
      */
-    public static MediaSizeName findMedia(Media[] media, float x, float y,
+    public stbtic MedibSizeNbme findMedib(Medib[] medib, flobt x, flobt y,
                                           int units) {
 
 
         if (x <= 0.0f || y <= 0.0f || units < 1) {
-            throw new IllegalArgumentException("args must be +ve values");
+            throw new IllegblArgumentException("brgs must be +ve vblues");
         }
 
-        if (media == null || media.length == 0) {
-            throw new IllegalArgumentException("args must have valid array of media");
+        if (medib == null || medib.length == 0) {
+            throw new IllegblArgumentException("brgs must hbve vblid brrby of medib");
         }
 
         int size =0;
-        MediaSizeName[] msn = new MediaSizeName[media.length];
-        for (int i=0; i<media.length; i++) {
-            if (media[i] instanceof MediaSizeName) {
-                msn[size++] = (MediaSizeName)media[i];
+        MedibSizeNbme[] msn = new MedibSizeNbme[medib.length];
+        for (int i=0; i<medib.length; i++) {
+            if (medib[i] instbnceof MedibSizeNbme) {
+                msn[size++] = (MedibSizeNbme)medib[i];
             }
         }
 
@@ -134,59 +134,59 @@ class CustomMediaSizeName extends MediaSizeName {
             return null;
         }
 
-        int match = 0;
+        int mbtch = 0;
 
         double ls = x * x + y * y;
         double tmp_ls;
-        float []dim;
-        float diffx = x;
-        float diffy = y;
+        flobt []dim;
+        flobt diffx = x;
+        flobt diffy = y;
 
         for (int i=0; i < size ; i++) {
-            MediaSize mediaSize = MediaSize.getMediaSizeForName(msn[i]);
-            if (mediaSize == null) {
+            MedibSize medibSize = MedibSize.getMedibSizeForNbme(msn[i]);
+            if (medibSize == null) {
                 continue;
             }
-            dim = mediaSize.getSize(units);
+            dim = medibSize.getSize(units);
             if (x == dim[0] && y == dim[1]) {
-                match = i;
-                break;
+                mbtch = i;
+                brebk;
             } else {
                 diffx = x - dim[0];
                 diffy = y - dim[1];
                 tmp_ls = diffx * diffx + diffy * diffy;
                 if (tmp_ls < ls) {
                     ls = tmp_ls;
-                    match = i;
+                    mbtch = i;
                 }
             }
         }
 
-        return msn[match];
+        return msn[mbtch];
     }
 
     /**
-     * Returns the string table for super class MediaSizeName.
+     * Returns the string tbble for super clbss MedibSizeNbme.
      */
-    public  Media[] getSuperEnumTable() {
-        return (Media[])super.getEnumValueTable();
+    public  Medib[] getSuperEnumTbble() {
+        return (Medib[])super.getEnumVblueTbble();
     }
 
 
     /**
-     * Returns the string table for class CustomMediaSizeName.
+     * Returns the string tbble for clbss CustomMedibSizeNbme.
      */
-    protected String[] getStringTable() {
-      String[] nameTable = new String[customStringTable.size()];
-      return customStringTable.toArray(nameTable);
+    protected String[] getStringTbble() {
+      String[] nbmeTbble = new String[customStringTbble.size()];
+      return customStringTbble.toArrby(nbmeTbble);
     }
 
     /**
-     * Returns the enumeration value table for class CustomMediaSizeName.
+     * Returns the enumerbtion vblue tbble for clbss CustomMedibSizeNbme.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-      MediaSizeName[] enumTable = new MediaSizeName[customEnumTable.size()];
-      return customEnumTable.toArray(enumTable);
+    protected EnumSyntbx[] getEnumVblueTbble() {
+      MedibSizeNbme[] enumTbble = new MedibSizeNbme[customEnumTbble.size()];
+      return customEnumTbble.toArrby(enumTbble);
     }
 
 }

@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * Platform-specific management interface for the thread system
- * of the Java virtual machine.
+ * Plbtform-specific mbnbgement interfbce for the threbd system
+ * of the Jbvb virtubl mbchine.
  * <p>
- * This platform extension is only available to a thread
- * implementation that supports this extension.
+ * This plbtform extension is only bvbilbble to b threbd
+ * implementbtion thbt supports this extension.
  *
- * @author  Paul Hohensee
+ * @buthor  Pbul Hohensee
  * @since   6u25
  */
 
 @jdk.Exported
-public interface ThreadMXBean extends java.lang.management.ThreadMXBean {
+public interfbce ThrebdMXBebn extends jbvb.lbng.mbnbgement.ThrebdMXBebn {
     /**
-     * Returns the total CPU time for each thread whose ID is
-     * in the input array {@code ids} in nanoseconds.
-     * The returned values are of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Returns the totbl CPU time for ebch threbd whose ID is
+     * in the input brrby {@code ids} in nbnoseconds.
+     * The returned vblues bre of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
      * <p>
-     * This method is equivalent to calling the
-     * {@link ThreadMXBean#getThreadCpuTime(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * This method is equivblent to cblling the
+     * {@link ThrebdMXBebn#getThrebdCpuTime(long)}
+     * method for ebch threbd ID in the input brrby {@code ids} bnd setting the
+     * returned vblue in the corresponding element of the returned brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is the amount of CPU
-     * time the thread whose ID is in the corresponding element of the input
-     * array of IDs has used,
-     * if the thread of a specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
+     * @pbrbm ids bn brrby of threbd IDs.
+     * @return bn brrby of long vblues, ebch of which is the bmount of CPU
+     * time the threbd whose ID is in the corresponding element of the input
+     * brrby of IDs hbs used,
+     * if the threbd of b specified ID exists, the threbd is blive,
+     * bnd CPU time mebsurement is enbbled;
      * {@code -1} otherwise.
      *
      * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
+     * @throws IllegblArgumentException if bny element in the input brrby
      *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     *         virtual machine implementation does not support CPU time
-     *         measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     *         virtubl mbchine implementbtion does not support CPU time
+     *         mebsurement.
      *
-     * @see ThreadMXBean#getThreadCpuTime(long)
-     * @see #getThreadUserTime
-     * @see ThreadMXBean#isThreadCpuTimeSupported
-     * @see ThreadMXBean#isThreadCpuTimeEnabled
-     * @see ThreadMXBean#setThreadCpuTimeEnabled
+     * @see ThrebdMXBebn#getThrebdCpuTime(long)
+     * @see #getThrebdUserTime
+     * @see ThrebdMXBebn#isThrebdCpuTimeSupported
+     * @see ThrebdMXBebn#isThrebdCpuTimeEnbbled
+     * @see ThrebdMXBebn#setThrebdCpuTimeEnbbled
      */
-    public long[] getThreadCpuTime(long[] ids);
+    public long[] getThrebdCpuTime(long[] ids);
 
     /**
-     * Returns the CPU time that each thread whose ID is in the input array
-     * {@code ids} has executed in user mode in nanoseconds.
-     * The returned values are of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Returns the CPU time thbt ebch threbd whose ID is in the input brrby
+     * {@code ids} hbs executed in user mode in nbnoseconds.
+     * The returned vblues bre of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
      * <p>
-     * This method is equivalent to calling the
-     * {@link ThreadMXBean#getThreadUserTime(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * This method is equivblent to cblling the
+     * {@link ThrebdMXBebn#getThrebdUserTime(long)}
+     * method for ebch threbd ID in the input brrby {@code ids} bnd setting the
+     * returned vblue in the corresponding element of the returned brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is the amount of user
-     * mode CPU time the thread whose ID is in the corresponding element of
-     * the input array of IDs has used,
-     * if the thread of a specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
+     * @pbrbm ids bn brrby of threbd IDs.
+     * @return bn brrby of long vblues, ebch of which is the bmount of user
+     * mode CPU time the threbd whose ID is in the corresponding element of
+     * the input brrby of IDs hbs used,
+     * if the threbd of b specified ID exists, the threbd is blive,
+     * bnd CPU time mebsurement is enbbled;
      * {@code -1} otherwise.
      *
      * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
+     * @throws IllegblArgumentException if bny element in the input brrby
      *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     *         virtual machine implementation does not support CPU time
-     *         measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     *         virtubl mbchine implementbtion does not support CPU time
+     *         mebsurement.
      *
-     * @see ThreadMXBean#getThreadUserTime(long)
-     * @see #getThreadCpuTime
-     * @see ThreadMXBean#isThreadCpuTimeSupported
-     * @see ThreadMXBean#isThreadCpuTimeEnabled
-     * @see ThreadMXBean#setThreadCpuTimeEnabled
+     * @see ThrebdMXBebn#getThrebdUserTime(long)
+     * @see #getThrebdCpuTime
+     * @see ThrebdMXBebn#isThrebdCpuTimeSupported
+     * @see ThrebdMXBebn#isThrebdCpuTimeEnbbled
+     * @see ThrebdMXBebn#setThrebdCpuTimeEnbbled
      */
-    public long[] getThreadUserTime(long[] ids);
+    public long[] getThrebdUserTime(long[] ids);
 
     /**
-     * Returns an approximation of the total amount of memory, in bytes,
-     * allocated in heap memory for the thread of the specified ID.
-     * The returned value is an approximation because some Java virtual machine
-     * implementations may use object allocation mechanisms that result in a
-     * delay between the time an object is allocated and the time its size is
+     * Returns bn bpproximbtion of the totbl bmount of memory, in bytes,
+     * bllocbted in hebp memory for the threbd of the specified ID.
+     * The returned vblue is bn bpproximbtion becbuse some Jbvb virtubl mbchine
+     * implementbtions mby use object bllocbtion mechbnisms thbt result in b
+     * delby between the time bn object is bllocbted bnd the time its size is
      * recorded.
      * <p>
-     * If the thread of the specified ID is not alive or does not exist,
-     * this method returns {@code -1}. If thread memory allocation measurement
-     * is disabled, this method returns {@code -1}.
-     * A thread is alive if it has been started and has not yet died.
+     * If the threbd of the specified ID is not blive or does not exist,
+     * this method returns {@code -1}. If threbd memory bllocbtion mebsurement
+     * is disbbled, this method returns {@code -1}.
+     * A threbd is blive if it hbs been stbrted bnd hbs not yet died.
      * <p>
-     * If thread memory allocation measurement is enabled after the thread has
-     * started, the Java virtual machine implementation may choose any time up
-     * to and including the time that the capability is enabled as the point
-     * where thread memory allocation measurement starts.
+     * If threbd memory bllocbtion mebsurement is enbbled bfter the threbd hbs
+     * stbrted, the Jbvb virtubl mbchine implementbtion mby choose bny time up
+     * to bnd including the time thbt the cbpbbility is enbbled bs the point
+     * where threbd memory bllocbtion mebsurement stbrts.
      *
-     * @param id the thread ID of a thread
-     * @return an approximation of the total memory allocated, in bytes, in
-     * heap memory for a thread of the specified ID
-     * if the thread of the specified ID exists, the thread is alive,
-     * and thread memory allocation measurement is enabled;
+     * @pbrbm id the threbd ID of b threbd
+     * @return bn bpproximbtion of the totbl memory bllocbted, in bytes, in
+     * hebp memory for b threbd of the specified ID
+     * if the threbd of the specified ID exists, the threbd is blive,
+     * bnd threbd memory bllocbtion mebsurement is enbbled;
      * {@code -1} otherwise.
      *
-     * @throws IllegalArgumentException if {@code id} {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine implementation does not support thread memory allocation
-     *         measurement.
+     * @throws IllegblArgumentException if {@code id} {@code <=} {@code 0}.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     *         mbchine implementbtion does not support threbd memory bllocbtion
+     *         mebsurement.
      *
-     * @see #isThreadAllocatedMemorySupported
-     * @see #isThreadAllocatedMemoryEnabled
-     * @see #setThreadAllocatedMemoryEnabled
+     * @see #isThrebdAllocbtedMemorySupported
+     * @see #isThrebdAllocbtedMemoryEnbbled
+     * @see #setThrebdAllocbtedMemoryEnbbled
      */
-    public long getThreadAllocatedBytes(long id);
+    public long getThrebdAllocbtedBytes(long id);
 
     /**
-     * Returns an approximation of the total amount of memory, in bytes,
-     * allocated in heap memory for each thread whose ID is in the input
-     * array {@code ids}.
-     * The returned values are approximations because some Java virtual machine
-     * implementations may use object allocation mechanisms that result in a
-     * delay between the time an object is allocated and the time its size is
+     * Returns bn bpproximbtion of the totbl bmount of memory, in bytes,
+     * bllocbted in hebp memory for ebch threbd whose ID is in the input
+     * brrby {@code ids}.
+     * The returned vblues bre bpproximbtions becbuse some Jbvb virtubl mbchine
+     * implementbtions mby use object bllocbtion mechbnisms thbt result in b
+     * delby between the time bn object is bllocbted bnd the time its size is
      * recorded.
      * <p>
-     * This method is equivalent to calling the
-     * {@link #getThreadAllocatedBytes(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * This method is equivblent to cblling the
+     * {@link #getThrebdAllocbtedBytes(long)}
+     * method for ebch threbd ID in the input brrby {@code ids} bnd setting the
+     * returned vblue in the corresponding element of the returned brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is an approximation of
-     * the total memory allocated, in bytes, in heap memory for the thread
-     * whose ID is in the corresponding element of the input array of IDs.
+     * @pbrbm ids bn brrby of threbd IDs.
+     * @return bn brrby of long vblues, ebch of which is bn bpproximbtion of
+     * the totbl memory bllocbted, in bytes, in hebp memory for the threbd
+     * whose ID is in the corresponding element of the input brrby of IDs.
      *
      * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
+     * @throws IllegblArgumentException if bny element in the input brrby
      *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine implementation does not support thread memory allocation
-     *         measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     *         mbchine implementbtion does not support threbd memory bllocbtion
+     *         mebsurement.
      *
-     * @see #getThreadAllocatedBytes(long)
-     * @see #isThreadAllocatedMemorySupported
-     * @see #isThreadAllocatedMemoryEnabled
-     * @see #setThreadAllocatedMemoryEnabled
+     * @see #getThrebdAllocbtedBytes(long)
+     * @see #isThrebdAllocbtedMemorySupported
+     * @see #isThrebdAllocbtedMemoryEnbbled
+     * @see #setThrebdAllocbtedMemoryEnbbled
      */
-    public long[] getThreadAllocatedBytes(long[] ids);
+    public long[] getThrebdAllocbtedBytes(long[] ids);
 
     /**
-     * Tests if the Java virtual machine implementation supports thread memory
-     * allocation measurement.
+     * Tests if the Jbvb virtubl mbchine implementbtion supports threbd memory
+     * bllocbtion mebsurement.
      *
      * @return
      *   {@code true}
-     *     if the Java virtual machine implementation supports thread memory
-     *     allocation measurement;
-     *   {@code false} otherwise.
+     *     if the Jbvb virtubl mbchine implementbtion supports threbd memory
+     *     bllocbtion mebsurement;
+     *   {@code fblse} otherwise.
      */
-    public boolean isThreadAllocatedMemorySupported();
+    public boolebn isThrebdAllocbtedMemorySupported();
 
     /**
-     * Tests if thread memory allocation measurement is enabled.
+     * Tests if threbd memory bllocbtion mebsurement is enbbled.
      *
-     * @return {@code true} if thread memory allocation measurement is enabled;
-     *         {@code false} otherwise.
+     * @return {@code true} if threbd memory bllocbtion mebsurement is enbbled;
+     *         {@code fblse} otherwise.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine does not support thread memory allocation measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     *         mbchine does not support threbd memory bllocbtion mebsurement.
      *
-     * @see #isThreadAllocatedMemorySupported
+     * @see #isThrebdAllocbtedMemorySupported
      */
-    public boolean isThreadAllocatedMemoryEnabled();
+    public boolebn isThrebdAllocbtedMemoryEnbbled();
 
     /**
-     * Enables or disables thread memory allocation measurement.  The default
-     * is platform dependent.
+     * Enbbles or disbbles threbd memory bllocbtion mebsurement.  The defbult
+     * is plbtform dependent.
      *
-     * @param enable {@code true} to enable;
-     *               {@code false} to disable.
+     * @pbrbm enbble {@code true} to enbble;
+     *               {@code fblse} to disbble.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine does not support thread memory allocation measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     *         mbchine does not support threbd memory bllocbtion mebsurement.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #isThreadAllocatedMemorySupported
+     * @see #isThrebdAllocbtedMemorySupported
      */
-    public void setThreadAllocatedMemoryEnabled(boolean enable);
+    public void setThrebdAllocbtedMemoryEnbbled(boolebn enbble);
 }

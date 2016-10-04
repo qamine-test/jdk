@@ -1,844 +1,844 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * A set of attributes which control a print job.
+ * A set of bttributes which control b print job.
  * <p>
- * Instances of this class control the number of copies, default selection,
- * destination, print dialog, file and printer names, page ranges, multiple
- * document handling (including collation), and multi-page imposition (such
- * as duplex) of every print job which uses the instance. Attribute names are
- * compliant with the Internet Printing Protocol (IPP) 1.1 where possible.
- * Attribute values are partially compliant where possible.
+ * Instbnces of this clbss control the number of copies, defbult selection,
+ * destinbtion, print diblog, file bnd printer nbmes, pbge rbnges, multiple
+ * document hbndling (including collbtion), bnd multi-pbge imposition (such
+ * bs duplex) of every print job which uses the instbnce. Attribute nbmes bre
+ * complibnt with the Internet Printing Protocol (IPP) 1.1 where possible.
+ * Attribute vblues bre pbrtiblly complibnt where possible.
  * <p>
- * To use a method which takes an inner class type, pass a reference to
- * one of the constant fields of the inner class. Client code cannot create
- * new instances of the inner class types because none of those classes
- * has a public constructor. For example, to set the print dialog type to
- * the cross-platform, pure Java print dialog, use the following code:
+ * To use b method which tbkes bn inner clbss type, pbss b reference to
+ * one of the constbnt fields of the inner clbss. Client code cbnnot crebte
+ * new instbnces of the inner clbss types becbuse none of those clbsses
+ * hbs b public constructor. For exbmple, to set the print diblog type to
+ * the cross-plbtform, pure Jbvb print diblog, use the following code:
  * <pre>
- * import java.awt.JobAttributes;
+ * import jbvb.bwt.JobAttributes;
  *
- * public class PureJavaPrintDialogExample {
- *     public void setPureJavaPrintDialog(JobAttributes jobAttributes) {
- *         jobAttributes.setDialog(JobAttributes.DialogType.COMMON);
+ * public clbss PureJbvbPrintDiblogExbmple {
+ *     public void setPureJbvbPrintDiblog(JobAttributes jobAttributes) {
+ *         jobAttributes.setDiblog(JobAttributes.DiblogType.COMMON);
  *     }
  * }
  * </pre>
  * <p>
- * Every IPP attribute which supports an <i>attributeName</i>-default value
- * has a corresponding <code>set<i>attributeName</i>ToDefault</code> method.
- * Default value fields are not provided.
+ * Every IPP bttribute which supports bn <i>bttributeNbme</i>-defbult vblue
+ * hbs b corresponding <code>set<i>bttributeNbme</i>ToDefbult</code> method.
+ * Defbult vblue fields bre not provided.
  *
- * @author      David Mendenhall
+ * @buthor      Dbvid Mendenhbll
  * @since 1.3
  */
-public final class JobAttributes implements Cloneable {
+public finbl clbss JobAttributes implements Clonebble {
     /**
-     * A type-safe enumeration of possible default selection states.
+     * A type-sbfe enumerbtion of possible defbult selection stbtes.
      * @since 1.3
      */
-    public static final class DefaultSelectionType extends AttributeValue {
-        private static final int I_ALL = 0;
-        private static final int I_RANGE = 1;
-        private static final int I_SELECTION = 2;
+    public stbtic finbl clbss DefbultSelectionType extends AttributeVblue {
+        privbte stbtic finbl int I_ALL = 0;
+        privbte stbtic finbl int I_RANGE = 1;
+        privbte stbtic finbl int I_SELECTION = 2;
 
-        private static final String NAMES[] = {
-            "all", "range", "selection"
+        privbte stbtic finbl String NAMES[] = {
+            "bll", "rbnge", "selection"
         };
 
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that all pages of the job should be printed.
+         * The <code>DefbultSelectionType</code> instbnce to use for
+         * specifying thbt bll pbges of the job should be printed.
          */
-        public static final DefaultSelectionType ALL =
-           new DefaultSelectionType(I_ALL);
+        public stbtic finbl DefbultSelectionType ALL =
+           new DefbultSelectionType(I_ALL);
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that a range of pages of the job should be printed.
+         * The <code>DefbultSelectionType</code> instbnce to use for
+         * specifying thbt b rbnge of pbges of the job should be printed.
          */
-        public static final DefaultSelectionType RANGE =
-           new DefaultSelectionType(I_RANGE);
+        public stbtic finbl DefbultSelectionType RANGE =
+           new DefbultSelectionType(I_RANGE);
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that the current selection should be printed.
+         * The <code>DefbultSelectionType</code> instbnce to use for
+         * specifying thbt the current selection should be printed.
          */
-        public static final DefaultSelectionType SELECTION =
-           new DefaultSelectionType(I_SELECTION);
+        public stbtic finbl DefbultSelectionType SELECTION =
+           new DefbultSelectionType(I_SELECTION);
 
-        private DefaultSelectionType(int type) {
+        privbte DefbultSelectionType(int type) {
             super(type, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible job destinations.
+     * A type-sbfe enumerbtion of possible job destinbtions.
      * @since 1.3
      */
-    public static final class DestinationType extends AttributeValue {
-        private static final int I_FILE = 0;
-        private static final int I_PRINTER = 1;
+    public stbtic finbl clbss DestinbtionType extends AttributeVblue {
+        privbte stbtic finbl int I_FILE = 0;
+        privbte stbtic finbl int I_PRINTER = 1;
 
-        private static final String NAMES[] = {
+        privbte stbtic finbl String NAMES[] = {
             "file", "printer"
         };
 
         /**
-         * The <code>DestinationType</code> instance to use for
+         * The <code>DestinbtionType</code> instbnce to use for
          * specifying print to file.
          */
-        public static final DestinationType FILE =
-            new DestinationType(I_FILE);
+        public stbtic finbl DestinbtionType FILE =
+            new DestinbtionType(I_FILE);
         /**
-         * The <code>DestinationType</code> instance to use for
+         * The <code>DestinbtionType</code> instbnce to use for
          * specifying print to printer.
          */
-        public static final DestinationType PRINTER =
-            new DestinationType(I_PRINTER);
+        public stbtic finbl DestinbtionType PRINTER =
+            new DestinbtionType(I_PRINTER);
 
-        private DestinationType(int type) {
+        privbte DestinbtionType(int type) {
             super(type, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible dialogs to display to the user.
+     * A type-sbfe enumerbtion of possible diblogs to displby to the user.
      * @since 1.3
      */
-    public static final class DialogType extends AttributeValue {
-        private static final int I_COMMON = 0;
-        private static final int I_NATIVE = 1;
-        private static final int I_NONE = 2;
+    public stbtic finbl clbss DiblogType extends AttributeVblue {
+        privbte stbtic finbl int I_COMMON = 0;
+        privbte stbtic finbl int I_NATIVE = 1;
+        privbte stbtic finbl int I_NONE = 2;
 
-        private static final String NAMES[] = {
-            "common", "native", "none"
+        privbte stbtic finbl String NAMES[] = {
+            "common", "nbtive", "none"
         };
 
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying the cross-platform, pure Java print dialog.
+         * The <code>DiblogType</code> instbnce to use for
+         * specifying the cross-plbtform, pure Jbvb print diblog.
          */
-        public static final DialogType COMMON = new DialogType(I_COMMON);
+        public stbtic finbl DiblogType COMMON = new DiblogType(I_COMMON);
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying the platform's native print dialog.
+         * The <code>DiblogType</code> instbnce to use for
+         * specifying the plbtform's nbtive print diblog.
          */
-        public static final DialogType NATIVE = new DialogType(I_NATIVE);
+        public stbtic finbl DiblogType NATIVE = new DiblogType(I_NATIVE);
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying no print dialog.
+         * The <code>DiblogType</code> instbnce to use for
+         * specifying no print diblog.
          */
-        public static final DialogType NONE = new DialogType(I_NONE);
+        public stbtic finbl DiblogType NONE = new DiblogType(I_NONE);
 
-        private DialogType(int type) {
+        privbte DiblogType(int type) {
             super(type, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible multiple copy handling states.
-     * It is used to control how the sheets of multiple copies of a single
-     * document are collated.
+     * A type-sbfe enumerbtion of possible multiple copy hbndling stbtes.
+     * It is used to control how the sheets of multiple copies of b single
+     * document bre collbted.
      * @since 1.3
      */
-    public static final class MultipleDocumentHandlingType extends
-                                                               AttributeValue {
-        private static final int I_SEPARATE_DOCUMENTS_COLLATED_COPIES = 0;
-        private static final int I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = 1;
+    public stbtic finbl clbss MultipleDocumentHbndlingType extends
+                                                               AttributeVblue {
+        privbte stbtic finbl int I_SEPARATE_DOCUMENTS_COLLATED_COPIES = 0;
+        privbte stbtic finbl int I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = 1;
 
-        private static final String NAMES[] = {
-            "separate-documents-collated-copies",
-            "separate-documents-uncollated-copies"
+        privbte stbtic finbl String NAMES[] = {
+            "sepbrbte-documents-collbted-copies",
+            "sepbrbte-documents-uncollbted-copies"
         };
 
         /**
-         * The <code>MultipleDocumentHandlingType</code> instance to use for specifying
-         * that the job should be divided into separate, collated copies.
+         * The <code>MultipleDocumentHbndlingType</code> instbnce to use for specifying
+         * thbt the job should be divided into sepbrbte, collbted copies.
          */
-        public static final MultipleDocumentHandlingType
+        public stbtic finbl MultipleDocumentHbndlingType
             SEPARATE_DOCUMENTS_COLLATED_COPIES =
-                new MultipleDocumentHandlingType(
+                new MultipleDocumentHbndlingType(
                     I_SEPARATE_DOCUMENTS_COLLATED_COPIES);
         /**
-         * The <code>MultipleDocumentHandlingType</code> instance to use for specifying
-         * that the job should be divided into separate, uncollated copies.
+         * The <code>MultipleDocumentHbndlingType</code> instbnce to use for specifying
+         * thbt the job should be divided into sepbrbte, uncollbted copies.
          */
-        public static final MultipleDocumentHandlingType
+        public stbtic finbl MultipleDocumentHbndlingType
             SEPARATE_DOCUMENTS_UNCOLLATED_COPIES =
-                new MultipleDocumentHandlingType(
+                new MultipleDocumentHbndlingType(
                     I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
 
-        private MultipleDocumentHandlingType(int type) {
+        privbte MultipleDocumentHbndlingType(int type) {
             super(type, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible multi-page impositions. These
-     * impositions are in compliance with IPP 1.1.
+     * A type-sbfe enumerbtion of possible multi-pbge impositions. These
+     * impositions bre in complibnce with IPP 1.1.
      * @since 1.3
      */
-    public static final class SidesType extends AttributeValue {
-        private static final int I_ONE_SIDED = 0;
-        private static final int I_TWO_SIDED_LONG_EDGE = 1;
-        private static final int I_TWO_SIDED_SHORT_EDGE = 2;
+    public stbtic finbl clbss SidesType extends AttributeVblue {
+        privbte stbtic finbl int I_ONE_SIDED = 0;
+        privbte stbtic finbl int I_TWO_SIDED_LONG_EDGE = 1;
+        privbte stbtic finbl int I_TWO_SIDED_SHORT_EDGE = 2;
 
-        private static final String NAMES[] = {
+        privbte stbtic finbl String NAMES[] = {
             "one-sided", "two-sided-long-edge", "two-sided-short-edge"
         };
 
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon the same side of
-         * consecutive media sheets.
+         * The <code>SidesType</code> instbnce to use for specifying thbt
+         * consecutive job pbges should be printed upon the sbme side of
+         * consecutive medib sheets.
          */
-        public static final SidesType ONE_SIDED = new SidesType(I_ONE_SIDED);
+        public stbtic finbl SidesType ONE_SIDED = new SidesType(I_ONE_SIDED);
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon front and back sides
-         * of consecutive media sheets, such that the orientation of each pair
-         * of pages on the medium would be correct for the reader as if for
+         * The <code>SidesType</code> instbnce to use for specifying thbt
+         * consecutive job pbges should be printed upon front bnd bbck sides
+         * of consecutive medib sheets, such thbt the orientbtion of ebch pbir
+         * of pbges on the medium would be correct for the rebder bs if for
          * binding on the long edge.
          */
-        public static final SidesType TWO_SIDED_LONG_EDGE =
+        public stbtic finbl SidesType TWO_SIDED_LONG_EDGE =
             new SidesType(I_TWO_SIDED_LONG_EDGE);
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon front and back sides
-         * of consecutive media sheets, such that the orientation of each pair
-         * of pages on the medium would be correct for the reader as if for
+         * The <code>SidesType</code> instbnce to use for specifying thbt
+         * consecutive job pbges should be printed upon front bnd bbck sides
+         * of consecutive medib sheets, such thbt the orientbtion of ebch pbir
+         * of pbges on the medium would be correct for the rebder bs if for
          * binding on the short edge.
          */
-        public static final SidesType TWO_SIDED_SHORT_EDGE =
+        public stbtic finbl SidesType TWO_SIDED_SHORT_EDGE =
             new SidesType(I_TWO_SIDED_SHORT_EDGE);
 
-        private SidesType(int type) {
+        privbte SidesType(int type) {
             super(type, NAMES);
         }
     }
 
-    private int copies;
-    private DefaultSelectionType defaultSelection;
-    private DestinationType destination;
-    private DialogType dialog;
-    private String fileName;
-    private int fromPage;
-    private int maxPage;
-    private int minPage;
-    private MultipleDocumentHandlingType multipleDocumentHandling;
-    private int[][] pageRanges;
-    private int prFirst;
-    private int prLast;
-    private String printer;
-    private SidesType sides;
-    private int toPage;
+    privbte int copies;
+    privbte DefbultSelectionType defbultSelection;
+    privbte DestinbtionType destinbtion;
+    privbte DiblogType diblog;
+    privbte String fileNbme;
+    privbte int fromPbge;
+    privbte int mbxPbge;
+    privbte int minPbge;
+    privbte MultipleDocumentHbndlingType multipleDocumentHbndling;
+    privbte int[][] pbgeRbnges;
+    privbte int prFirst;
+    privbte int prLbst;
+    privbte String printer;
+    privbte SidesType sides;
+    privbte int toPbge;
 
     /**
-     * Constructs a <code>JobAttributes</code> instance with default
-     * values for every attribute.  The dialog defaults to
-     * <code>DialogType.NATIVE</code>.  Min page defaults to
-     * <code>1</code>.  Max page defaults to <code>Integer.MAX_VALUE</code>.
-     * Destination defaults to <code>DestinationType.PRINTER</code>.
-     * Selection defaults to <code>DefaultSelectionType.ALL</code>.
-     * Number of copies defaults to <code>1</code>. Multiple document handling defaults
-     * to <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>.
-     * Sides defaults to <code>SidesType.ONE_SIDED</code>. File name defaults
+     * Constructs b <code>JobAttributes</code> instbnce with defbult
+     * vblues for every bttribute.  The diblog defbults to
+     * <code>DiblogType.NATIVE</code>.  Min pbge defbults to
+     * <code>1</code>.  Mbx pbge defbults to <code>Integer.MAX_VALUE</code>.
+     * Destinbtion defbults to <code>DestinbtionType.PRINTER</code>.
+     * Selection defbults to <code>DefbultSelectionType.ALL</code>.
+     * Number of copies defbults to <code>1</code>. Multiple document hbndling defbults
+     * to <code>MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>.
+     * Sides defbults to <code>SidesType.ONE_SIDED</code>. File nbme defbults
      * to <code>null</code>.
      */
     public JobAttributes() {
-        setCopiesToDefault();
-        setDefaultSelection(DefaultSelectionType.ALL);
-        setDestination(DestinationType.PRINTER);
-        setDialog(DialogType.NATIVE);
-        setMaxPage(Integer.MAX_VALUE);
-        setMinPage(1);
-        setMultipleDocumentHandlingToDefault();
-        setSidesToDefault();
+        setCopiesToDefbult();
+        setDefbultSelection(DefbultSelectionType.ALL);
+        setDestinbtion(DestinbtionType.PRINTER);
+        setDiblog(DiblogType.NATIVE);
+        setMbxPbge(Integer.MAX_VALUE);
+        setMinPbge(1);
+        setMultipleDocumentHbndlingToDefbult();
+        setSidesToDefbult();
     }
 
     /**
-     * Constructs a <code>JobAttributes</code> instance which is a copy
+     * Constructs b <code>JobAttributes</code> instbnce which is b copy
      * of the supplied <code>JobAttributes</code>.
      *
-     * @param   obj the <code>JobAttributes</code> to copy
+     * @pbrbm   obj the <code>JobAttributes</code> to copy
      */
     public JobAttributes(JobAttributes obj) {
         set(obj);
     }
 
     /**
-     * Constructs a <code>JobAttributes</code> instance with the
-     * specified values for every attribute.
+     * Constructs b <code>JobAttributes</code> instbnce with the
+     * specified vblues for every bttribute.
      *
-     * @param   copies an integer greater than 0
-     * @param   defaultSelection <code>DefaultSelectionType.ALL</code>,
-     *          <code>DefaultSelectionType.RANGE</code>, or
-     *          <code>DefaultSelectionType.SELECTION</code>
-     * @param   destination <code>DesintationType.FILE</code> or
-     *          <code>DesintationType.PRINTER</code>
-     * @param   dialog <code>DialogType.COMMON</code>,
-     *          <code>DialogType.NATIVE</code>, or
-     *          <code>DialogType.NONE</code>
-     * @param   fileName the possibly <code>null</code> file name
-     * @param   maxPage an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>
-     * @param   minPage an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>
-     * @param   multipleDocumentHandling
-     *     <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES</code> or
-     *     <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>
-     * @param   pageRanges an array of integer arrays of two elements; an array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages; ranges must be in ascending
-     *          order and must not overlap; specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>;
-     *          for example:
+     * @pbrbm   copies bn integer grebter thbn 0
+     * @pbrbm   defbultSelection <code>DefbultSelectionType.ALL</code>,
+     *          <code>DefbultSelectionType.RANGE</code>, or
+     *          <code>DefbultSelectionType.SELECTION</code>
+     * @pbrbm   destinbtion <code>DesintbtionType.FILE</code> or
+     *          <code>DesintbtionType.PRINTER</code>
+     * @pbrbm   diblog <code>DiblogType.COMMON</code>,
+     *          <code>DiblogType.NATIVE</code>, or
+     *          <code>DiblogType.NONE</code>
+     * @pbrbm   fileNbme the possibly <code>null</code> file nbme
+     * @pbrbm   mbxPbge bn integer grebter thbn zero bnd grebter thbn or equbl
+     *          to <i>minPbge</i>
+     * @pbrbm   minPbge bn integer grebter thbn zero bnd less thbn or equbl
+     *          to <i>mbxPbge</i>
+     * @pbrbm   multipleDocumentHbndling
+     *     <code>MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES</code> or
+     *     <code>MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>
+     * @pbrbm   pbgeRbnges bn brrby of integer brrbys of two elements; bn brrby
+     *          is interpreted bs b rbnge spbnning bll pbges including bnd
+     *          between the specified pbges; rbnges must be in bscending
+     *          order bnd must not overlbp; specified pbge numbers cbnnot be
+     *          less thbn <i>minPbge</i> nor grebter thbn <i>mbxPbge</i>;
+     *          for exbmple:
      *          <pre>
      *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
      *                         new int[] { 15, 19 } }),
      *          </pre>
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19. Note that
+     *          specifies pbges 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Note thbt
      *          (<code>new int[][] { new int[] { 1, 1 }, new int[] { 1, 2 } }</code>),
-     *          is an invalid set of page ranges because the two ranges
-     *          overlap
-     * @param   printer the possibly <code>null</code> printer name
-     * @param   sides <code>SidesType.ONE_SIDED</code>,
+     *          is bn invblid set of pbge rbnges becbuse the two rbnges
+     *          overlbp
+     * @pbrbm   printer the possibly <code>null</code> printer nbme
+     * @pbrbm   sides <code>SidesType.ONE_SIDED</code>,
      *          <code>SidesType.TWO_SIDED_LONG_EDGE</code>, or
      *          <code>SidesType.TWO_SIDED_SHORT_EDGE</code>
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted
      */
-    public JobAttributes(int copies, DefaultSelectionType defaultSelection,
-                         DestinationType destination, DialogType dialog,
-                         String fileName, int maxPage, int minPage,
-                         MultipleDocumentHandlingType multipleDocumentHandling,
-                         int[][] pageRanges, String printer, SidesType sides) {
+    public JobAttributes(int copies, DefbultSelectionType defbultSelection,
+                         DestinbtionType destinbtion, DiblogType diblog,
+                         String fileNbme, int mbxPbge, int minPbge,
+                         MultipleDocumentHbndlingType multipleDocumentHbndling,
+                         int[][] pbgeRbnges, String printer, SidesType sides) {
         setCopies(copies);
-        setDefaultSelection(defaultSelection);
-        setDestination(destination);
-        setDialog(dialog);
-        setFileName(fileName);
-        setMaxPage(maxPage);
-        setMinPage(minPage);
-        setMultipleDocumentHandling(multipleDocumentHandling);
-        setPageRanges(pageRanges);
+        setDefbultSelection(defbultSelection);
+        setDestinbtion(destinbtion);
+        setDiblog(diblog);
+        setFileNbme(fileNbme);
+        setMbxPbge(mbxPbge);
+        setMinPbge(minPbge);
+        setMultipleDocumentHbndling(multipleDocumentHbndling);
+        setPbgeRbnges(pbgeRbnges);
         setPrinter(printer);
         setSides(sides);
     }
 
     /**
-     * Creates and returns a copy of this <code>JobAttributes</code>.
+     * Crebtes bnd returns b copy of this <code>JobAttributes</code>.
      *
-     * @return  the newly created copy; it is safe to cast this Object into
-     *          a <code>JobAttributes</code>
+     * @return  the newly crebted copy; it is sbfe to cbst this Object into
+     *          b <code>JobAttributes</code>
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Since we implement Cloneable, this should never happen
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // Since we implement Clonebble, this should never hbppen
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Sets all of the attributes of this <code>JobAttributes</code> to
-     * the same values as the attributes of obj.
+     * Sets bll of the bttributes of this <code>JobAttributes</code> to
+     * the sbme vblues bs the bttributes of obj.
      *
-     * @param   obj the <code>JobAttributes</code> to copy
+     * @pbrbm   obj the <code>JobAttributes</code> to copy
      */
     public void set(JobAttributes obj) {
         copies = obj.copies;
-        defaultSelection = obj.defaultSelection;
-        destination = obj.destination;
-        dialog = obj.dialog;
-        fileName = obj.fileName;
-        fromPage = obj.fromPage;
-        maxPage = obj.maxPage;
-        minPage = obj.minPage;
-        multipleDocumentHandling = obj.multipleDocumentHandling;
-        // okay because we never modify the contents of pageRanges
-        pageRanges = obj.pageRanges;
+        defbultSelection = obj.defbultSelection;
+        destinbtion = obj.destinbtion;
+        diblog = obj.diblog;
+        fileNbme = obj.fileNbme;
+        fromPbge = obj.fromPbge;
+        mbxPbge = obj.mbxPbge;
+        minPbge = obj.minPbge;
+        multipleDocumentHbndling = obj.multipleDocumentHbndling;
+        // okby becbuse we never modify the contents of pbgeRbnges
+        pbgeRbnges = obj.pbgeRbnges;
         prFirst = obj.prFirst;
-        prLast = obj.prLast;
+        prLbst = obj.prLbst;
         printer = obj.printer;
         sides = obj.sides;
-        toPage = obj.toPage;
+        toPbge = obj.toPbge;
     }
 
     /**
-     * Returns the number of copies the application should render for jobs
-     * using these attributes. This attribute is updated to the value chosen
+     * Returns the number of copies the bpplicbtion should render for jobs
+     * using these bttributes. This bttribute is updbted to the vblue chosen
      * by the user.
      *
-     * @return  an integer greater than 0.
+     * @return  bn integer grebter thbn 0.
      */
     public int getCopies() {
         return copies;
     }
 
     /**
-     * Specifies the number of copies the application should render for jobs
-     * using these attributes. Not specifying this attribute is equivalent to
+     * Specifies the number of copies the bpplicbtion should render for jobs
+     * using these bttributes. Not specifying this bttribute is equivblent to
      * specifying <code>1</code>.
      *
-     * @param   copies an integer greater than 0
-     * @throws  IllegalArgumentException if <code>copies</code> is less than
-     *      or equal to 0
+     * @pbrbm   copies bn integer grebter thbn 0
+     * @throws  IllegblArgumentException if <code>copies</code> is less thbn
+     *      or equbl to 0
      */
     public void setCopies(int copies) {
         if (copies <= 0) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
                                                "copies");
         }
         this.copies = copies;
     }
 
     /**
-     * Sets the number of copies the application should render for jobs using
-     * these attributes to the default. The default number of copies is 1.
+     * Sets the number of copies the bpplicbtion should render for jobs using
+     * these bttributes to the defbult. The defbult number of copies is 1.
      */
-    public void setCopiesToDefault() {
+    public void setCopiesToDefbult() {
         setCopies(1);
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the application
-     * should print all pages, the range specified by the return value of
-     * <code>getPageRanges</code>, or the current selection. This attribute
-     * is updated to the value chosen by the user.
+     * Specifies whether, for jobs using these bttributes, the bpplicbtion
+     * should print bll pbges, the rbnge specified by the return vblue of
+     * <code>getPbgeRbnges</code>, or the current selection. This bttribute
+     * is updbted to the vblue chosen by the user.
      *
-     * @return  DefaultSelectionType.ALL, DefaultSelectionType.RANGE, or
-     *          DefaultSelectionType.SELECTION
+     * @return  DefbultSelectionType.ALL, DefbultSelectionType.RANGE, or
+     *          DefbultSelectionType.SELECTION
      */
-    public DefaultSelectionType getDefaultSelection() {
-        return defaultSelection;
+    public DefbultSelectionType getDefbultSelection() {
+        return defbultSelection;
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the application
-     * should print all pages, the range specified by the return value of
-     * <code>getPageRanges</code>, or the current selection. Not specifying
-     * this attribute is equivalent to specifying DefaultSelectionType.ALL.
+     * Specifies whether, for jobs using these bttributes, the bpplicbtion
+     * should print bll pbges, the rbnge specified by the return vblue of
+     * <code>getPbgeRbnges</code>, or the current selection. Not specifying
+     * this bttribute is equivblent to specifying DefbultSelectionType.ALL.
      *
-     * @param   defaultSelection DefaultSelectionType.ALL,
-     *          DefaultSelectionType.RANGE, or DefaultSelectionType.SELECTION.
-     * @throws  IllegalArgumentException if defaultSelection is <code>null</code>
+     * @pbrbm   defbultSelection DefbultSelectionType.ALL,
+     *          DefbultSelectionType.RANGE, or DefbultSelectionType.SELECTION.
+     * @throws  IllegblArgumentException if defbultSelection is <code>null</code>
      */
-    public void setDefaultSelection(DefaultSelectionType defaultSelection) {
-        if (defaultSelection == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "defaultSelection");
+    public void setDefbultSelection(DefbultSelectionType defbultSelection) {
+        if (defbultSelection == null) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "defbultSelection");
         }
-        this.defaultSelection = defaultSelection;
+        this.defbultSelection = defbultSelection;
     }
 
     /**
-     * Specifies whether output will be to a printer or a file for jobs using
-     * these attributes. This attribute is updated to the value chosen by the
+     * Specifies whether output will be to b printer or b file for jobs using
+     * these bttributes. This bttribute is updbted to the vblue chosen by the
      * user.
      *
-     * @return  DesintationType.FILE or DesintationType.PRINTER
+     * @return  DesintbtionType.FILE or DesintbtionType.PRINTER
      */
-    public DestinationType getDestination() {
-        return destination;
+    public DestinbtionType getDestinbtion() {
+        return destinbtion;
     }
 
     /**
-     * Specifies whether output will be to a printer or a file for jobs using
-     * these attributes. Not specifying this attribute is equivalent to
-     * specifying DesintationType.PRINTER.
+     * Specifies whether output will be to b printer or b file for jobs using
+     * these bttributes. Not specifying this bttribute is equivblent to
+     * specifying DesintbtionType.PRINTER.
      *
-     * @param   destination DesintationType.FILE or DesintationType.PRINTER.
-     * @throws  IllegalArgumentException if destination is null.
+     * @pbrbm   destinbtion DesintbtionType.FILE or DesintbtionType.PRINTER.
+     * @throws  IllegblArgumentException if destinbtion is null.
      */
-    public void setDestination(DestinationType destination) {
-        if (destination == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "destination");
+    public void setDestinbtion(DestinbtionType destinbtion) {
+        if (destinbtion == null) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "destinbtion");
         }
-        this.destination = destination;
+        this.destinbtion = destinbtion;
     }
 
     /**
-     * Returns whether, for jobs using these attributes, the user should see
-     * a print dialog in which to modify the print settings, and which type of
-     * print dialog should be displayed. DialogType.COMMON denotes a cross-
-     * platform, pure Java print dialog. DialogType.NATIVE denotes the
-     * platform's native print dialog. If a platform does not support a native
-     * print dialog, the pure Java print dialog is displayed instead.
-     * DialogType.NONE specifies no print dialog (i.e., background printing).
-     * This attribute cannot be modified by, and is not subject to any
-     * limitations of, the implementation or the target printer.
+     * Returns whether, for jobs using these bttributes, the user should see
+     * b print diblog in which to modify the print settings, bnd which type of
+     * print diblog should be displbyed. DiblogType.COMMON denotes b cross-
+     * plbtform, pure Jbvb print diblog. DiblogType.NATIVE denotes the
+     * plbtform's nbtive print diblog. If b plbtform does not support b nbtive
+     * print diblog, the pure Jbvb print diblog is displbyed instebd.
+     * DiblogType.NONE specifies no print diblog (i.e., bbckground printing).
+     * This bttribute cbnnot be modified by, bnd is not subject to bny
+     * limitbtions of, the implementbtion or the tbrget printer.
      *
-     * @return  <code>DialogType.COMMON</code>, <code>DialogType.NATIVE</code>, or
-     *          <code>DialogType.NONE</code>
+     * @return  <code>DiblogType.COMMON</code>, <code>DiblogType.NATIVE</code>, or
+     *          <code>DiblogType.NONE</code>
      */
-    public DialogType getDialog() {
-        return dialog;
+    public DiblogType getDiblog() {
+        return diblog;
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the user should see
-     * a print dialog in which to modify the print settings, and which type of
-     * print dialog should be displayed. DialogType.COMMON denotes a cross-
-     * platform, pure Java print dialog. DialogType.NATIVE denotes the
-     * platform's native print dialog. If a platform does not support a native
-     * print dialog, the pure Java print dialog is displayed instead.
-     * DialogType.NONE specifies no print dialog (i.e., background printing).
-     * Not specifying this attribute is equivalent to specifying
-     * DialogType.NATIVE.
+     * Specifies whether, for jobs using these bttributes, the user should see
+     * b print diblog in which to modify the print settings, bnd which type of
+     * print diblog should be displbyed. DiblogType.COMMON denotes b cross-
+     * plbtform, pure Jbvb print diblog. DiblogType.NATIVE denotes the
+     * plbtform's nbtive print diblog. If b plbtform does not support b nbtive
+     * print diblog, the pure Jbvb print diblog is displbyed instebd.
+     * DiblogType.NONE specifies no print diblog (i.e., bbckground printing).
+     * Not specifying this bttribute is equivblent to specifying
+     * DiblogType.NATIVE.
      *
-     * @param   dialog DialogType.COMMON, DialogType.NATIVE, or
-     *          DialogType.NONE.
-     * @throws  IllegalArgumentException if dialog is null.
+     * @pbrbm   diblog DiblogType.COMMON, DiblogType.NATIVE, or
+     *          DiblogType.NONE.
+     * @throws  IllegblArgumentException if diblog is null.
      */
-    public void setDialog(DialogType dialog) {
-        if (dialog == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "dialog");
+    public void setDiblog(DiblogType diblog) {
+        if (diblog == null) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "diblog");
         }
-        this.dialog = dialog;
+        this.diblog = diblog;
     }
 
     /**
-     * Specifies the file name for the output file for jobs using these
-     * attributes. This attribute is updated to the value chosen by the user.
+     * Specifies the file nbme for the output file for jobs using these
+     * bttributes. This bttribute is updbted to the vblue chosen by the user.
      *
-     * @return  the possibly <code>null</code> file name
+     * @return  the possibly <code>null</code> file nbme
      */
-    public String getFileName() {
-        return fileName;
+    public String getFileNbme() {
+        return fileNbme;
     }
 
     /**
-     * Specifies the file name for the output file for jobs using these
-     * attributes. Default is platform-dependent and implementation-defined.
+     * Specifies the file nbme for the output file for jobs using these
+     * bttributes. Defbult is plbtform-dependent bnd implementbtion-defined.
      *
-     * @param   fileName the possibly null file name.
+     * @pbrbm   fileNbme the possibly null file nbme.
      */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFileNbme(String fileNbme) {
+        this.fileNbme = fileNbme;
     }
 
     /**
-     * Returns, for jobs using these attributes, the first page to be
-     * printed, if a range of pages is to be printed. This attribute is
-     * updated to the value chosen by the user. An application should ignore
-     * this attribute on output, unless the return value of the <code>
-     * getDefaultSelection</code> method is DefaultSelectionType.RANGE. An
-     * application should honor the return value of <code>getPageRanges</code>
-     * over the return value of this method, if possible.
+     * Returns, for jobs using these bttributes, the first pbge to be
+     * printed, if b rbnge of pbges is to be printed. This bttribute is
+     * updbted to the vblue chosen by the user. An bpplicbtion should ignore
+     * this bttribute on output, unless the return vblue of the <code>
+     * getDefbultSelection</code> method is DefbultSelectionType.RANGE. An
+     * bpplicbtion should honor the return vblue of <code>getPbgeRbnges</code>
+     * over the return vblue of this method, if possible.
      *
-     * @return  an integer greater than zero and less than or equal to
-     *          <i>toPage</i> and greater than or equal to <i>minPage</i> and
-     *          less than or equal to <i>maxPage</i>.
+     * @return  bn integer grebter thbn zero bnd less thbn or equbl to
+     *          <i>toPbge</i> bnd grebter thbn or equbl to <i>minPbge</i> bnd
+     *          less thbn or equbl to <i>mbxPbge</i>.
      */
-    public int getFromPage() {
-        if (fromPage != 0) {
-            return fromPage;
-        } else if (toPage != 0) {
-            return getMinPage();
-        } else if (pageRanges != null) {
+    public int getFromPbge() {
+        if (fromPbge != 0) {
+            return fromPbge;
+        } else if (toPbge != 0) {
+            return getMinPbge();
+        } else if (pbgeRbnges != null) {
             return prFirst;
         } else {
-            return getMinPage();
+            return getMinPbge();
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the first page to be
-     * printed, if a range of pages is to be printed. If this attribute is not
-     * specified, then the values from the pageRanges attribute are used. If
-     * pageRanges and either or both of fromPage and toPage are specified,
-     * pageRanges takes precedence. Specifying none of pageRanges, fromPage,
-     * or toPage is equivalent to calling
-     * setPageRanges(new int[][] { new int[] { <i>minPage</i> } });
+     * Specifies, for jobs using these bttributes, the first pbge to be
+     * printed, if b rbnge of pbges is to be printed. If this bttribute is not
+     * specified, then the vblues from the pbgeRbnges bttribute bre used. If
+     * pbgeRbnges bnd either or both of fromPbge bnd toPbge bre specified,
+     * pbgeRbnges tbkes precedence. Specifying none of pbgeRbnges, fromPbge,
+     * or toPbge is equivblent to cblling
+     * setPbgeRbnges(new int[][] { new int[] { <i>minPbge</i> } });
      *
-     * @param   fromPage an integer greater than zero and less than or equal to
-     *          <i>toPage</i> and greater than or equal to <i>minPage</i> and
-     *          less than or equal to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   fromPbge bn integer grebter thbn zero bnd less thbn or equbl to
+     *          <i>toPbge</i> bnd grebter thbn or equbl to <i>minPbge</i> bnd
+     *          less thbn or equbl to <i>mbxPbge</i>.
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted.
      */
-    public void setFromPage(int fromPage) {
-        if (fromPage <= 0 ||
-            (toPage != 0 && fromPage > toPage) ||
-            fromPage < minPage ||
-            fromPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "fromPage");
+    public void setFromPbge(int fromPbge) {
+        if (fromPbge <= 0 ||
+            (toPbge != 0 && fromPbge > toPbge) ||
+            fromPbge < minPbge ||
+            fromPbge > mbxPbge) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "fromPbge");
         }
-        this.fromPage = fromPage;
+        this.fromPbge = fromPbge;
     }
 
     /**
-     * Specifies the maximum value the user can specify as the last page to
-     * be printed for jobs using these attributes. This attribute cannot be
-     * modified by, and is not subject to any limitations of, the
-     * implementation or the target printer.
+     * Specifies the mbximum vblue the user cbn specify bs the lbst pbge to
+     * be printed for jobs using these bttributes. This bttribute cbnnot be
+     * modified by, bnd is not subject to bny limitbtions of, the
+     * implementbtion or the tbrget printer.
      *
-     * @return  an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>.
+     * @return  bn integer grebter thbn zero bnd grebter thbn or equbl
+     *          to <i>minPbge</i>.
      */
-    public int getMaxPage() {
-        return maxPage;
+    public int getMbxPbge() {
+        return mbxPbge;
     }
 
     /**
-     * Specifies the maximum value the user can specify as the last page to
-     * be printed for jobs using these attributes. Not specifying this
-     * attribute is equivalent to specifying <code>Integer.MAX_VALUE</code>.
+     * Specifies the mbximum vblue the user cbn specify bs the lbst pbge to
+     * be printed for jobs using these bttributes. Not specifying this
+     * bttribute is equivblent to specifying <code>Integer.MAX_VALUE</code>.
      *
-     * @param   maxPage an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated
+     * @pbrbm   mbxPbge bn integer grebter thbn zero bnd grebter thbn or equbl
+     *          to <i>minPbge</i>
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted
      */
-    public void setMaxPage(int maxPage) {
-        if (maxPage <= 0 || maxPage < minPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "maxPage");
+    public void setMbxPbge(int mbxPbge) {
+        if (mbxPbge <= 0 || mbxPbge < minPbge) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "mbxPbge");
         }
-        this.maxPage = maxPage;
+        this.mbxPbge = mbxPbge;
     }
 
     /**
-     * Specifies the minimum value the user can specify as the first page to
-     * be printed for jobs using these attributes. This attribute cannot be
-     * modified by, and is not subject to any limitations of, the
-     * implementation or the target printer.
+     * Specifies the minimum vblue the user cbn specify bs the first pbge to
+     * be printed for jobs using these bttributes. This bttribute cbnnot be
+     * modified by, bnd is not subject to bny limitbtions of, the
+     * implementbtion or the tbrget printer.
      *
-     * @return  an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>.
+     * @return  bn integer grebter thbn zero bnd less thbn or equbl
+     *          to <i>mbxPbge</i>.
      */
-    public int getMinPage() {
-        return minPage;
+    public int getMinPbge() {
+        return minPbge;
     }
 
     /**
-     * Specifies the minimum value the user can specify as the first page to
-     * be printed for jobs using these attributes. Not specifying this
-     * attribute is equivalent to specifying <code>1</code>.
+     * Specifies the minimum vblue the user cbn specify bs the first pbge to
+     * be printed for jobs using these bttributes. Not specifying this
+     * bttribute is equivblent to specifying <code>1</code>.
      *
-     * @param   minPage an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   minPbge bn integer grebter thbn zero bnd less thbn or equbl
+     *          to <i>mbxPbge</i>.
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted.
      */
-    public void setMinPage(int minPage) {
-        if (minPage <= 0 || minPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "minPage");
+    public void setMinPbge(int minPbge) {
+        if (minPbge <= 0 || minPbge > mbxPbge) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "minPbge");
         }
-        this.minPage = minPage;
+        this.minPbge = minPbge;
     }
 
     /**
-     * Specifies the handling of multiple copies, including collation, for
-     * jobs using these attributes. This attribute is updated to the value
+     * Specifies the hbndling of multiple copies, including collbtion, for
+     * jobs using these bttributes. This bttribute is updbted to the vblue
      * chosen by the user.
      *
      * @return
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     *     MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      */
-    public MultipleDocumentHandlingType getMultipleDocumentHandling() {
-        return multipleDocumentHandling;
+    public MultipleDocumentHbndlingType getMultipleDocumentHbndling() {
+        return multipleDocumentHbndling;
     }
 
     /**
-     * Specifies the handling of multiple copies, including collation, for
-     * jobs using these attributes. Not specifying this attribute is equivalent
+     * Specifies the hbndling of multiple copies, including collbtion, for
+     * jobs using these bttributes. Not specifying this bttribute is equivblent
      * to specifying
-     * MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      *
-     * @param   multipleDocumentHandling
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
-     * @throws  IllegalArgumentException if multipleDocumentHandling is null.
+     * @pbrbm   multipleDocumentHbndling
+     *     MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * @throws  IllegblArgumentException if multipleDocumentHbndling is null.
      */
-    public void setMultipleDocumentHandling(MultipleDocumentHandlingType
-                                            multipleDocumentHandling) {
-        if (multipleDocumentHandling == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "multipleDocumentHandling");
+    public void setMultipleDocumentHbndling(MultipleDocumentHbndlingType
+                                            multipleDocumentHbndling) {
+        if (multipleDocumentHbndling == null) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "multipleDocumentHbndling");
         }
-        this.multipleDocumentHandling = multipleDocumentHandling;
+        this.multipleDocumentHbndling = multipleDocumentHbndling;
     }
 
     /**
-     * Sets the handling of multiple copies, including collation, for jobs
-     * using these attributes to the default. The default handling is
-     * MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * Sets the hbndling of multiple copies, including collbtion, for jobs
+     * using these bttributes to the defbult. The defbult hbndling is
+     * MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      */
-    public void setMultipleDocumentHandlingToDefault() {
-        setMultipleDocumentHandling(
-            MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
+    public void setMultipleDocumentHbndlingToDefbult() {
+        setMultipleDocumentHbndling(
+            MultipleDocumentHbndlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
     }
 
     /**
-     * Specifies, for jobs using these attributes, the ranges of pages to be
-     * printed, if a range of pages is to be printed. All range numbers are
-     * inclusive. This attribute is updated to the value chosen by the user.
-     * An application should ignore this attribute on output, unless the
-     * return value of the <code>getDefaultSelection</code> method is
-     * DefaultSelectionType.RANGE.
+     * Specifies, for jobs using these bttributes, the rbnges of pbges to be
+     * printed, if b rbnge of pbges is to be printed. All rbnge numbers bre
+     * inclusive. This bttribute is updbted to the vblue chosen by the user.
+     * An bpplicbtion should ignore this bttribute on output, unless the
+     * return vblue of the <code>getDefbultSelection</code> method is
+     * DefbultSelectionType.RANGE.
      *
-     * @return  an array of integer arrays of 2 elements. An array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages. Ranges must be in ascending
-     *          order and must not overlap. Specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>.
-     *          For example:
+     * @return  bn brrby of integer brrbys of 2 elements. An brrby
+     *          is interpreted bs b rbnge spbnning bll pbges including bnd
+     *          between the specified pbges. Rbnges must be in bscending
+     *          order bnd must not overlbp. Specified pbge numbers cbnnot be
+     *          less thbn <i>minPbge</i> nor grebter thbn <i>mbxPbge</i>.
+     *          For exbmple:
      *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
      *                         new int[] { 15, 19 } }),
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19.
+     *          specifies pbges 1, 2, 3, 5, 15, 16, 17, 18, bnd 19.
      */
-    public int[][] getPageRanges() {
-        if (pageRanges != null) {
-            // Return a copy because otherwise client code could circumvent the
-            // the checks made in setPageRanges by modifying the returned
-            // array.
-            int[][] copy = new int[pageRanges.length][2];
-            for (int i = 0; i < pageRanges.length; i++) {
-                copy[i][0] = pageRanges[i][0];
-                copy[i][1] = pageRanges[i][1];
+    public int[][] getPbgeRbnges() {
+        if (pbgeRbnges != null) {
+            // Return b copy becbuse otherwise client code could circumvent the
+            // the checks mbde in setPbgeRbnges by modifying the returned
+            // brrby.
+            int[][] copy = new int[pbgeRbnges.length][2];
+            for (int i = 0; i < pbgeRbnges.length; i++) {
+                copy[i][0] = pbgeRbnges[i][0];
+                copy[i][1] = pbgeRbnges[i][1];
             }
             return copy;
-        } else if (fromPage != 0 || toPage != 0) {
-            int fromPage = getFromPage();
-            int toPage = getToPage();
-            return new int[][] { new int[] { fromPage, toPage } };
+        } else if (fromPbge != 0 || toPbge != 0) {
+            int fromPbge = getFromPbge();
+            int toPbge = getToPbge();
+            return new int[][] { new int[] { fromPbge, toPbge } };
         } else {
-            int minPage = getMinPage();
-            return new int[][] { new int[] { minPage, minPage } };
+            int minPbge = getMinPbge();
+            return new int[][] { new int[] { minPbge, minPbge } };
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the ranges of pages to be
-     * printed, if a range of pages is to be printed. All range numbers are
-     * inclusive. If this attribute is not specified, then the values from the
-     * fromPage and toPages attributes are used. If pageRanges and either or
-     * both of fromPage and toPage are specified, pageRanges takes precedence.
-     * Specifying none of pageRanges, fromPage, or toPage is equivalent to
-     * calling setPageRanges(new int[][] { new int[] { <i>minPage</i>,
-     *                                                 <i>minPage</i> } });
+     * Specifies, for jobs using these bttributes, the rbnges of pbges to be
+     * printed, if b rbnge of pbges is to be printed. All rbnge numbers bre
+     * inclusive. If this bttribute is not specified, then the vblues from the
+     * fromPbge bnd toPbges bttributes bre used. If pbgeRbnges bnd either or
+     * both of fromPbge bnd toPbge bre specified, pbgeRbnges tbkes precedence.
+     * Specifying none of pbgeRbnges, fromPbge, or toPbge is equivblent to
+     * cblling setPbgeRbnges(new int[][] { new int[] { <i>minPbge</i>,
+     *                                                 <i>minPbge</i> } });
      *
-     * @param   pageRanges an array of integer arrays of 2 elements. An array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages. Ranges must be in ascending
-     *          order and must not overlap. Specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>.
-     *          For example:
+     * @pbrbm   pbgeRbnges bn brrby of integer brrbys of 2 elements. An brrby
+     *          is interpreted bs b rbnge spbnning bll pbges including bnd
+     *          between the specified pbges. Rbnges must be in bscending
+     *          order bnd must not overlbp. Specified pbge numbers cbnnot be
+     *          less thbn <i>minPbge</i> nor grebter thbn <i>mbxPbge</i>.
+     *          For exbmple:
      *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
      *                         new int[] { 15, 19 } }),
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19. Note that
+     *          specifies pbges 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Note thbt
      *          (new int[][] { new int[] { 1, 1 }, new int[] { 1, 2 } }),
-     *          is an invalid set of page ranges because the two ranges
-     *          overlap.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     *          is bn invblid set of pbge rbnges becbuse the two rbnges
+     *          overlbp.
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted.
      */
-    public void setPageRanges(int[][] pageRanges) {
-        String xcp = "Invalid value for attribute pageRanges";
+    public void setPbgeRbnges(int[][] pbgeRbnges) {
+        String xcp = "Invblid vblue for bttribute pbgeRbnges";
         int first = 0;
-        int last = 0;
+        int lbst = 0;
 
-        if (pageRanges == null) {
-            throw new IllegalArgumentException(xcp);
+        if (pbgeRbnges == null) {
+            throw new IllegblArgumentException(xcp);
         }
 
-        for (int i = 0; i < pageRanges.length; i++) {
-            if (pageRanges[i] == null ||
-                pageRanges[i].length != 2 ||
-                pageRanges[i][0] <= last ||
-                pageRanges[i][1] < pageRanges[i][0]) {
-                    throw new IllegalArgumentException(xcp);
+        for (int i = 0; i < pbgeRbnges.length; i++) {
+            if (pbgeRbnges[i] == null ||
+                pbgeRbnges[i].length != 2 ||
+                pbgeRbnges[i][0] <= lbst ||
+                pbgeRbnges[i][1] < pbgeRbnges[i][0]) {
+                    throw new IllegblArgumentException(xcp);
             }
-            last = pageRanges[i][1];
+            lbst = pbgeRbnges[i][1];
             if (first == 0) {
-                first = pageRanges[i][0];
+                first = pbgeRbnges[i][0];
             }
         }
 
-        if (first < minPage || last > maxPage) {
-            throw new IllegalArgumentException(xcp);
+        if (first < minPbge || lbst > mbxPbge) {
+            throw new IllegblArgumentException(xcp);
         }
 
-        // Store a copy because otherwise client code could circumvent the
-        // the checks made above by holding a reference to the array and
-        // modifying it after calling setPageRanges.
-        int[][] copy = new int[pageRanges.length][2];
-        for (int i = 0; i < pageRanges.length; i++) {
-            copy[i][0] = pageRanges[i][0];
-            copy[i][1] = pageRanges[i][1];
+        // Store b copy becbuse otherwise client code could circumvent the
+        // the checks mbde bbove by holding b reference to the brrby bnd
+        // modifying it bfter cblling setPbgeRbnges.
+        int[][] copy = new int[pbgeRbnges.length][2];
+        for (int i = 0; i < pbgeRbnges.length; i++) {
+            copy[i][0] = pbgeRbnges[i][0];
+            copy[i][1] = pbgeRbnges[i][1];
         }
-        this.pageRanges = copy;
+        this.pbgeRbnges = copy;
         this.prFirst = first;
-        this.prLast = last;
+        this.prLbst = lbst;
     }
 
     /**
-     * Returns the destination printer for jobs using these attributes. This
-     * attribute is updated to the value chosen by the user.
+     * Returns the destinbtion printer for jobs using these bttributes. This
+     * bttribute is updbted to the vblue chosen by the user.
      *
-     * @return  the possibly null printer name.
+     * @return  the possibly null printer nbme.
      */
     public String getPrinter() {
         return printer;
     }
 
     /**
-     * Specifies the destination printer for jobs using these attributes.
-     * Default is platform-dependent and implementation-defined.
+     * Specifies the destinbtion printer for jobs using these bttributes.
+     * Defbult is plbtform-dependent bnd implementbtion-defined.
      *
-     * @param   printer the possibly null printer name.
+     * @pbrbm   printer the possibly null printer nbme.
      */
     public void setPrinter(String printer) {
         this.printer = printer;
     }
 
     /**
-     * Returns how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes. SidesType.ONE_SIDED
-     * imposes each consecutive page upon the same side of consecutive media
-     * sheets. This imposition is sometimes called <i>simplex</i>.
-     * SidesType.TWO_SIDED_LONG_EDGE imposes each consecutive pair of pages
-     * upon front and back sides of consecutive media sheets, such that the
-     * orientation of each pair of pages on the medium would be correct for
-     * the reader as if for binding on the long edge. This imposition is
-     * sometimes called <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
-     * each consecutive pair of pages upon front and back sides of consecutive
-     * media sheets, such that the orientation of each pair of pages on the
-     * medium would be correct for the reader as if for binding on the short
-     * edge. This imposition is sometimes called <i>tumble</i>. This attribute
-     * is updated to the value chosen by the user.
+     * Returns how consecutive pbges should be imposed upon the sides of the
+     * print medium for jobs using these bttributes. SidesType.ONE_SIDED
+     * imposes ebch consecutive pbge upon the sbme side of consecutive medib
+     * sheets. This imposition is sometimes cblled <i>simplex</i>.
+     * SidesType.TWO_SIDED_LONG_EDGE imposes ebch consecutive pbir of pbges
+     * upon front bnd bbck sides of consecutive medib sheets, such thbt the
+     * orientbtion of ebch pbir of pbges on the medium would be correct for
+     * the rebder bs if for binding on the long edge. This imposition is
+     * sometimes cblled <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
+     * ebch consecutive pbir of pbges upon front bnd bbck sides of consecutive
+     * medib sheets, such thbt the orientbtion of ebch pbir of pbges on the
+     * medium would be correct for the rebder bs if for binding on the short
+     * edge. This imposition is sometimes cblled <i>tumble</i>. This bttribute
+     * is updbted to the vblue chosen by the user.
      *
      * @return  SidesType.ONE_SIDED, SidesType.TWO_SIDED_LONG_EDGE, or
      *          SidesType.TWO_SIDED_SHORT_EDGE.
@@ -848,218 +848,218 @@ public final class JobAttributes implements Cloneable {
     }
 
     /**
-     * Specifies how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes. SidesType.ONE_SIDED
-     * imposes each consecutive page upon the same side of consecutive media
-     * sheets. This imposition is sometimes called <i>simplex</i>.
-     * SidesType.TWO_SIDED_LONG_EDGE imposes each consecutive pair of pages
-     * upon front and back sides of consecutive media sheets, such that the
-     * orientation of each pair of pages on the medium would be correct for
-     * the reader as if for binding on the long edge. This imposition is
-     * sometimes called <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
-     * each consecutive pair of pages upon front and back sides of consecutive
-     * media sheets, such that the orientation of each pair of pages on the
-     * medium would be correct for the reader as if for binding on the short
-     * edge. This imposition is sometimes called <i>tumble</i>. Not specifying
-     * this attribute is equivalent to specifying SidesType.ONE_SIDED.
+     * Specifies how consecutive pbges should be imposed upon the sides of the
+     * print medium for jobs using these bttributes. SidesType.ONE_SIDED
+     * imposes ebch consecutive pbge upon the sbme side of consecutive medib
+     * sheets. This imposition is sometimes cblled <i>simplex</i>.
+     * SidesType.TWO_SIDED_LONG_EDGE imposes ebch consecutive pbir of pbges
+     * upon front bnd bbck sides of consecutive medib sheets, such thbt the
+     * orientbtion of ebch pbir of pbges on the medium would be correct for
+     * the rebder bs if for binding on the long edge. This imposition is
+     * sometimes cblled <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
+     * ebch consecutive pbir of pbges upon front bnd bbck sides of consecutive
+     * medib sheets, such thbt the orientbtion of ebch pbir of pbges on the
+     * medium would be correct for the rebder bs if for binding on the short
+     * edge. This imposition is sometimes cblled <i>tumble</i>. Not specifying
+     * this bttribute is equivblent to specifying SidesType.ONE_SIDED.
      *
-     * @param   sides SidesType.ONE_SIDED, SidesType.TWO_SIDED_LONG_EDGE, or
+     * @pbrbm   sides SidesType.ONE_SIDED, SidesType.TWO_SIDED_LONG_EDGE, or
      *          SidesType.TWO_SIDED_SHORT_EDGE.
-     * @throws  IllegalArgumentException if sides is null.
+     * @throws  IllegblArgumentException if sides is null.
      */
     public void setSides(SidesType sides) {
         if (sides == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
                                                "sides");
         }
         this.sides = sides;
     }
 
     /**
-     * Sets how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes to the default. The
-     * default imposition is SidesType.ONE_SIDED.
+     * Sets how consecutive pbges should be imposed upon the sides of the
+     * print medium for jobs using these bttributes to the defbult. The
+     * defbult imposition is SidesType.ONE_SIDED.
      */
-    public void setSidesToDefault() {
+    public void setSidesToDefbult() {
         setSides(SidesType.ONE_SIDED);
     }
 
     /**
-     * Returns, for jobs using these attributes, the last page (inclusive)
-     * to be printed, if a range of pages is to be printed. This attribute is
-     * updated to the value chosen by the user. An application should ignore
-     * this attribute on output, unless the return value of the <code>
-     * getDefaultSelection</code> method is DefaultSelectionType.RANGE. An
-     * application should honor the return value of <code>getPageRanges</code>
-     * over the return value of this method, if possible.
+     * Returns, for jobs using these bttributes, the lbst pbge (inclusive)
+     * to be printed, if b rbnge of pbges is to be printed. This bttribute is
+     * updbted to the vblue chosen by the user. An bpplicbtion should ignore
+     * this bttribute on output, unless the return vblue of the <code>
+     * getDefbultSelection</code> method is DefbultSelectionType.RANGE. An
+     * bpplicbtion should honor the return vblue of <code>getPbgeRbnges</code>
+     * over the return vblue of this method, if possible.
      *
-     * @return  an integer greater than zero and greater than or equal
-     *          to <i>toPage</i> and greater than or equal to <i>minPage</i>
-     *          and less than or equal to <i>maxPage</i>.
+     * @return  bn integer grebter thbn zero bnd grebter thbn or equbl
+     *          to <i>toPbge</i> bnd grebter thbn or equbl to <i>minPbge</i>
+     *          bnd less thbn or equbl to <i>mbxPbge</i>.
      */
-    public int getToPage() {
-        if (toPage != 0) {
-            return toPage;
-        } else if (fromPage != 0) {
-            return fromPage;
-        } else if (pageRanges != null) {
-            return prLast;
+    public int getToPbge() {
+        if (toPbge != 0) {
+            return toPbge;
+        } else if (fromPbge != 0) {
+            return fromPbge;
+        } else if (pbgeRbnges != null) {
+            return prLbst;
         } else {
-            return getMinPage();
+            return getMinPbge();
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the last page (inclusive)
-     * to be printed, if a range of pages is to be printed.
-     * If this attribute is not specified, then the values from the pageRanges
-     * attribute are used. If pageRanges and either or both of fromPage and
-     * toPage are specified, pageRanges takes precedence. Specifying none of
-     * pageRanges, fromPage, or toPage is equivalent to calling
-     * setPageRanges(new int[][] { new int[] { <i>minPage</i> } });
+     * Specifies, for jobs using these bttributes, the lbst pbge (inclusive)
+     * to be printed, if b rbnge of pbges is to be printed.
+     * If this bttribute is not specified, then the vblues from the pbgeRbnges
+     * bttribute bre used. If pbgeRbnges bnd either or both of fromPbge bnd
+     * toPbge bre specified, pbgeRbnges tbkes precedence. Specifying none of
+     * pbgeRbnges, fromPbge, or toPbge is equivblent to cblling
+     * setPbgeRbnges(new int[][] { new int[] { <i>minPbge</i> } });
      *
-     * @param   toPage an integer greater than zero and greater than or equal
-     *          to <i>fromPage</i> and greater than or equal to <i>minPage</i>
-     *          and less than or equal to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   toPbge bn integer grebter thbn zero bnd grebter thbn or equbl
+     *          to <i>fromPbge</i> bnd grebter thbn or equbl to <i>minPbge</i>
+     *          bnd less thbn or equbl to <i>mbxPbge</i>.
+     * @throws  IllegblArgumentException if one or more of the bbove
+     *          conditions is violbted.
      */
-    public void setToPage(int toPage) {
-        if (toPage <= 0 ||
-            (fromPage != 0 && toPage < fromPage) ||
-            toPage < minPage ||
-            toPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "toPage");
+    public void setToPbge(int toPbge) {
+        if (toPbge <= 0 ||
+            (fromPbge != 0 && toPbge < fromPbge) ||
+            toPbge < minPbge ||
+            toPbge > mbxPbge) {
+            throw new IllegblArgumentException("Invblid vblue for bttribute "+
+                                               "toPbge");
         }
-        this.toPage = toPage;
+        this.toPbge = toPbge;
     }
 
     /**
-     * Determines whether two JobAttributes are equal to each other.
+     * Determines whether two JobAttributes bre equbl to ebch other.
      * <p>
-     * Two JobAttributes are equal if and only if each of their attributes are
-     * equal. Attributes of enumeration type are equal if and only if the
-     * fields refer to the same unique enumeration object. A set of page
-     * ranges is equal if and only if the sets are of equal length, each range
-     * enumerates the same pages, and the ranges are in the same order.
+     * Two JobAttributes bre equbl if bnd only if ebch of their bttributes bre
+     * equbl. Attributes of enumerbtion type bre equbl if bnd only if the
+     * fields refer to the sbme unique enumerbtion object. A set of pbge
+     * rbnges is equbl if bnd only if the sets bre of equbl length, ebch rbnge
+     * enumerbtes the sbme pbges, bnd the rbnges bre in the sbme order.
      *
-     * @param   obj the object whose equality will be checked.
-     * @return  whether obj is equal to this JobAttribute according to the
-     *          above criteria.
+     * @pbrbm   obj the object whose equblity will be checked.
+     * @return  whether obj is equbl to this JobAttribute bccording to the
+     *          bbove criterib.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JobAttributes)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof JobAttributes)) {
+            return fblse;
         }
         JobAttributes rhs = (JobAttributes)obj;
 
-        if (fileName == null) {
-            if (rhs.fileName != null) {
-                return false;
+        if (fileNbme == null) {
+            if (rhs.fileNbme != null) {
+                return fblse;
             }
         } else {
-            if (!fileName.equals(rhs.fileName)) {
-                return false;
+            if (!fileNbme.equbls(rhs.fileNbme)) {
+                return fblse;
             }
         }
 
-        if (pageRanges == null) {
-            if (rhs.pageRanges != null) {
-                return false;
+        if (pbgeRbnges == null) {
+            if (rhs.pbgeRbnges != null) {
+                return fblse;
             }
         } else {
-            if (rhs.pageRanges == null ||
-                    pageRanges.length != rhs.pageRanges.length) {
-                return false;
+            if (rhs.pbgeRbnges == null ||
+                    pbgeRbnges.length != rhs.pbgeRbnges.length) {
+                return fblse;
             }
-            for (int i = 0; i < pageRanges.length; i++) {
-                if (pageRanges[i][0] != rhs.pageRanges[i][0] ||
-                    pageRanges[i][1] != rhs.pageRanges[i][1]) {
-                    return false;
+            for (int i = 0; i < pbgeRbnges.length; i++) {
+                if (pbgeRbnges[i][0] != rhs.pbgeRbnges[i][0] ||
+                    pbgeRbnges[i][1] != rhs.pbgeRbnges[i][1]) {
+                    return fblse;
                 }
             }
         }
 
         if (printer == null) {
             if (rhs.printer != null) {
-                return false;
+                return fblse;
             }
         } else {
-            if (!printer.equals(rhs.printer)) {
-                return false;
+            if (!printer.equbls(rhs.printer)) {
+                return fblse;
             }
         }
 
         return (copies == rhs.copies &&
-                defaultSelection == rhs.defaultSelection &&
-                destination == rhs.destination &&
-                dialog == rhs.dialog &&
-                fromPage == rhs.fromPage &&
-                maxPage == rhs.maxPage &&
-                minPage == rhs.minPage &&
-                multipleDocumentHandling == rhs.multipleDocumentHandling &&
+                defbultSelection == rhs.defbultSelection &&
+                destinbtion == rhs.destinbtion &&
+                diblog == rhs.diblog &&
+                fromPbge == rhs.fromPbge &&
+                mbxPbge == rhs.mbxPbge &&
+                minPbge == rhs.minPbge &&
+                multipleDocumentHbndling == rhs.multipleDocumentHbndling &&
                 prFirst == rhs.prFirst &&
-                prLast == rhs.prLast &&
+                prLbst == rhs.prLbst &&
                 sides == rhs.sides &&
-                toPage == rhs.toPage);
+                toPbge == rhs.toPbge);
     }
 
     /**
-     * Returns a hash code value for this JobAttributes.
+     * Returns b hbsh code vblue for this JobAttributes.
      *
-     * @return  the hash code.
+     * @return  the hbsh code.
      */
-    public int hashCode() {
-        int rest = ((copies + fromPage + maxPage + minPage + prFirst + prLast +
-                     toPage) * 31) << 21;
-        if (pageRanges != null) {
+    public int hbshCode() {
+        int rest = ((copies + fromPbge + mbxPbge + minPbge + prFirst + prLbst +
+                     toPbge) * 31) << 21;
+        if (pbgeRbnges != null) {
             int sum = 0;
-            for (int i = 0; i < pageRanges.length; i++) {
-                sum += pageRanges[i][0] + pageRanges[i][1];
+            for (int i = 0; i < pbgeRbnges.length; i++) {
+                sum += pbgeRbnges[i][0] + pbgeRbnges[i][1];
             }
             rest ^= (sum * 31) << 11;
         }
-        if (fileName != null) {
-            rest ^= fileName.hashCode();
+        if (fileNbme != null) {
+            rest ^= fileNbme.hbshCode();
         }
         if (printer != null) {
-            rest ^= printer.hashCode();
+            rest ^= printer.hbshCode();
         }
-        return (defaultSelection.hashCode() << 6 ^
-                destination.hashCode() << 5 ^
-                dialog.hashCode() << 3 ^
-                multipleDocumentHandling.hashCode() << 2 ^
-                sides.hashCode() ^
+        return (defbultSelection.hbshCode() << 6 ^
+                destinbtion.hbshCode() << 5 ^
+                diblog.hbshCode() << 3 ^
+                multipleDocumentHbndling.hbshCode() << 2 ^
+                sides.hbshCode() ^
                 rest);
     }
 
     /**
-     * Returns a string representation of this JobAttributes.
+     * Returns b string representbtion of this JobAttributes.
      *
-     * @return  the string representation.
+     * @return  the string representbtion.
      */
     public String toString() {
-        int[][] pageRanges = getPageRanges();
+        int[][] pbgeRbnges = getPbgeRbnges();
         String prStr = "[";
-        boolean first = true;
-        for (int i = 0; i < pageRanges.length; i++) {
+        boolebn first = true;
+        for (int i = 0; i < pbgeRbnges.length; i++) {
             if (first) {
-                first = false;
+                first = fblse;
             } else {
                 prStr += ",";
             }
-            prStr += pageRanges[i][0] + ":" + pageRanges[i][1];
+            prStr += pbgeRbnges[i][0] + ":" + pbgeRbnges[i][1];
         }
         prStr += "]";
 
-        return "copies=" + getCopies() + ",defaultSelection=" +
-            getDefaultSelection() + ",destination=" + getDestination() +
-            ",dialog=" + getDialog() + ",fileName=" + getFileName() +
-            ",fromPage=" + getFromPage() + ",maxPage=" + getMaxPage() +
-            ",minPage=" + getMinPage() + ",multiple-document-handling=" +
-            getMultipleDocumentHandling() + ",page-ranges=" + prStr +
-            ",printer=" + getPrinter() + ",sides=" + getSides() + ",toPage=" +
-            getToPage();
+        return "copies=" + getCopies() + ",defbultSelection=" +
+            getDefbultSelection() + ",destinbtion=" + getDestinbtion() +
+            ",diblog=" + getDiblog() + ",fileNbme=" + getFileNbme() +
+            ",fromPbge=" + getFromPbge() + ",mbxPbge=" + getMbxPbge() +
+            ",minPbge=" + getMinPbge() + ",multiple-document-hbndling=" +
+            getMultipleDocumentHbndling() + ",pbge-rbnges=" + prStr +
+            ",printer=" + getPrinter() + ",sides=" + getSides() + ",toPbge=" +
+            getToPbge();
     }
 }

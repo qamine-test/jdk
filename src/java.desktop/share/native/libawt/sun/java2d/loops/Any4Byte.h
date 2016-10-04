@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
-#include "LoopMacros.h"
+#include "GrbphicsPrimitiveMgr.h"
+#include "LoopMbcros.h"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "Any4Byte".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "Any4Byte".
  */
 
-typedef jubyte  Any4ByteDataType;
+typedef jubyte  Any4ByteDbtbType;
 
 #define Any4BytePixelStride     4
 
-#define DeclareAny4ByteLoadVars(PREFIX)
-#define DeclareAny4ByteStoreVars(PREFIX)
-#define InitAny4ByteLoadVars(PREFIX, pRasInfo)
-#define InitAny4ByteStoreVarsY(PREFIX, pRasInfo)
-#define InitAny4ByteStoreVarsX(PREFIX, pRasInfo)
-#define NextAny4ByteStoreVarsX(PREFIX)
-#define NextAny4ByteStoreVarsY(PREFIX)
+#define DeclbreAny4ByteLobdVbrs(PREFIX)
+#define DeclbreAny4ByteStoreVbrs(PREFIX)
+#define InitAny4ByteLobdVbrs(PREFIX, pRbsInfo)
+#define InitAny4ByteStoreVbrsY(PREFIX, pRbsInfo)
+#define InitAny4ByteStoreVbrsX(PREFIX, pRbsInfo)
+#define NextAny4ByteStoreVbrsX(PREFIX)
+#define NextAny4ByteStoreVbrsY(PREFIX)
 
-#define DeclareAny4BytePixelData(PREFIX) \
+#define DeclbreAny4BytePixelDbtb(PREFIX) \
     jubyte PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
 
-#define ExtractAny4BytePixelData(PIXEL, PREFIX) \
+#define ExtrbctAny4BytePixelDbtb(PIXEL, PREFIX) \
     do { \
         PREFIX ## 0 = (jubyte) (PIXEL); \
         PREFIX ## 1 = (jubyte) (PIXEL >> 8); \
@@ -54,7 +54,7 @@ typedef jubyte  Any4ByteDataType;
         PREFIX ## 3 = (jubyte) (PIXEL >> 24); \
     } while (0)
 
-#define StoreAny4BytePixelData(pPix, x, pixel, PREFIX) \
+#define StoreAny4BytePixelDbtb(pPix, x, pixel, PREFIX) \
     do { \
         (pPix)[4*x+0] = PREFIX ## 0; \
         (pPix)[4*x+1] = PREFIX ## 1; \
@@ -62,7 +62,7 @@ typedef jubyte  Any4ByteDataType;
         (pPix)[4*x+3] = PREFIX ## 3; \
     } while (0)
 
-#define CopyAny4BytePixelData(pSrc, sx, pDst, dx) \
+#define CopyAny4BytePixelDbtb(pSrc, sx, pDst, dx) \
     do { \
         (pDst)[4*dx+0] = (pSrc)[4*sx+0]; \
         (pDst)[4*dx+1] = (pSrc)[4*sx+1]; \
@@ -70,7 +70,7 @@ typedef jubyte  Any4ByteDataType;
         (pDst)[4*dx+3] = (pSrc)[4*sx+3]; \
     } while (0)
 
-#define XorCopyAny4BytePixelData(pSrc, pDst, x, xorpixel, XORPREFIX) \
+#define XorCopyAny4BytePixelDbtb(pSrc, pDst, x, xorpixel, XORPREFIX) \
     do { \
         (pDst)[4*x+0] ^= (pSrc)[4*x+0] ^ XORPREFIX ## 0; \
         (pDst)[4*x+1] ^= (pSrc)[4*x+1] ^ XORPREFIX ## 1; \
@@ -78,8 +78,8 @@ typedef jubyte  Any4ByteDataType;
         (pDst)[4*x+3] ^= (pSrc)[4*x+3] ^ XORPREFIX ## 3; \
     } while (0)
 
-#define XorAny4BytePixelData(srcpixel, SRCPREFIX, pDst, x, \
-                             xorpixel, XORPREFIX, mask, MASKPREFIX) \
+#define XorAny4BytePixelDbtb(srcpixel, SRCPREFIX, pDst, x, \
+                             xorpixel, XORPREFIX, mbsk, MASKPREFIX) \
     do { \
         (pDst)[4*x+0] ^= ((SRCPREFIX ## 0 ^ XORPREFIX ## 0) & \
                           ~MASKPREFIX ## 0); \

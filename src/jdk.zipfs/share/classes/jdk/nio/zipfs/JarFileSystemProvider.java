@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.nio.file.*;
-import java.nio.file.spi.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.FileSystemProvider;
+import jbvb.nio.file.*;
+import jbvb.nio.file.spi.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.FileSystemProvider;
 
-import java.net.URI;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.channels.FileChannel;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvb.net.URI;
+import jbvb.io.IOException;
+import jbvb.net.URISyntbxException;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-class JarFileSystemProvider extends ZipFileSystemProvider
+clbss JbrFileSystemProvider extends ZipFileSystemProvider
 {
 
     @Override
     public String getScheme() {
-        return "jar";
+        return "jbr";
     }
 
     @Override
-    protected Path uriToPath(URI uri) {
+    protected Pbth uriToPbth(URI uri) {
         String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase(getScheme())) {
-            throw new IllegalArgumentException("URI scheme is not '" + getScheme() + "'");
+        if ((scheme == null) || !scheme.equblsIgnoreCbse(getScheme())) {
+            throw new IllegblArgumentException("URI scheme is not '" + getScheme() + "'");
         }
         try {
             String uristr = uri.toString();
             int end = uristr.indexOf("!/");
             uristr = uristr.substring(4, (end == -1) ? uristr.length() : end);
             uri = new URI(uristr);
-            return Paths.get(new URI("file", uri.getHost(), uri.getPath(), null))
-                        .toAbsolutePath();
-        } catch (URISyntaxException e) {
+            return Pbths.get(new URI("file", uri.getHost(), uri.getPbth(), null))
+                        .toAbsolutePbth();
+        } cbtch (URISyntbxException e) {
             throw new AssertionError(e); //never thrown
         }
     }
 
     @Override
-    public Path getPath(URI uri) {
+    public Pbth getPbth(URI uri) {
         FileSystem fs = getFileSystem(uri);
-        String path = uri.getFragment();
-        if (path == null) {
+        String pbth = uri.getFrbgment();
+        if (pbth == null) {
             String uristr = uri.toString();
             int off = uristr.indexOf("!/");
             if (off != -1)
-                path = uristr.substring(off + 2);
+                pbth = uristr.substring(off + 2);
         }
-        if (path != null)
-            return fs.getPath(path);
-        throw new IllegalArgumentException("URI: "
+        if (pbth != null)
+            return fs.getPbth(pbth);
+        throw new IllegblArgumentException("URI: "
             + uri
-            + " does not contain path fragment ex. jar:///c:/foo.zip!/BAR");
+            + " does not contbin pbth frbgment ex. jbr:///c:/foo.zip!/BAR");
     }
 }

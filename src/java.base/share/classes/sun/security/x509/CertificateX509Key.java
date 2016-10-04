@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.security.PublicKey;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.security.PublicKey;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class defines the X509Key attribute for the Certificate.
+ * This clbss defines the X509Key bttribute for the Certificbte.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see CertAttrSet
  */
-public class CertificateX509Key implements CertAttrSet<String> {
+public clbss CertificbteX509Key implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.key";
+    public stbtic finbl String IDENT = "x509.info.key";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributes nbme for this CertAttrSet.
      */
-    public static final String NAME = "key";
-    public static final String KEY = "value";
+    public stbtic finbl String NAME = "key";
+    public stbtic finbl String KEY = "vblue";
 
-    // Private data member
-    private PublicKey key;
+    // Privbte dbtb member
+    privbte PublicKey key;
 
     /**
-     * Default constructor for the certificate attribute.
+     * Defbult constructor for the certificbte bttribute.
      *
-     * @param key the X509Key
+     * @pbrbm key the X509Key
      */
-    public CertificateX509Key(PublicKey key) {
+    public CertificbteX509Key(PublicKey key) {
         this.key = key;
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the X509Key from.
+     * @pbrbm in the DerInputStrebm to rebd the X509Key from.
      * @exception IOException on decoding errors.
      */
-    public CertificateX509Key(DerInputStream in) throws IOException {
-        DerValue val = in.getDerValue();
-        key = X509Key.parse(val);
+    public CertificbteX509Key(DerInputStrebm in) throws IOException {
+        DerVblue vbl = in.getDerVblue();
+        key = X509Key.pbrse(vbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crebte the object, decoding the vblues from the pbssed strebm.
      *
-     * @param in the InputStream to read the X509Key from.
+     * @pbrbm in the InputStrebm to rebd the X509Key from.
      * @exception IOException on decoding errors.
      */
-    public CertificateX509Key(InputStream in) throws IOException {
-        DerValue val = new DerValue(in);
-        key = X509Key.parse(val);
+    public CertificbteX509Key(InputStrebm in) throws IOException {
+        DerVblue vbl = new DerVblue(in);
+        key = X509Key.pbrse(vbl);
     }
 
     /**
-     * Return the key as printable string.
+     * Return the key bs printbble string.
      */
     public String toString() {
         if (key == null) return "";
@@ -95,69 +95,69 @@ public class CertificateX509Key implements CertAttrSet<String> {
     }
 
     /**
-     * Encode the key in DER form to the stream.
+     * Encode the key in DER form to the strebm.
      *
-     * @param out the OutputStream to marshal the contents to.
+     * @pbrbm out the OutputStrebm to mbrshbl the contents to.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
         tmp.write(key.getEncoded());
 
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(KEY)) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY)) {
             this.key = (PublicKey)obj;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateX509Key.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteX509Key.");
         }
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public PublicKey get(String name) throws IOException {
-        if (name.equalsIgnoreCase(KEY)) {
+    public PublicKey get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY)) {
             return(key);
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateX509Key.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteX509Key.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-      if (name.equalsIgnoreCase(KEY)) {
+    public void delete(String nbme) throws IOException {
+      if (nbme.equblsIgnoreCbse(KEY)) {
         key = null;
       } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateX509Key.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteX509Key.");
       }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(KEY);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(KEY);
 
         return(elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return(NAME);
     }
 }

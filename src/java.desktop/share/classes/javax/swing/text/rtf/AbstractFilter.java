@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1997, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.io.*;
-import java.lang.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
 
 /**
- * A generic superclass for streams which read and parse text
- * consisting of runs of characters interspersed with occasional
- * ``specials'' (formatting characters).
+ * A generic superclbss for strebms which rebd bnd pbrse text
+ * consisting of runs of chbrbcters interspersed with occbsionbl
+ * ``specibls'' (formbtting chbrbcters).
  *
- * <p> Most of the functionality
- * of this class would be redundant except that the
- * <code>ByteToChar</code> converters
- * are suddenly private API. Presumably this class will disappear
- * when the API is made public again. (sigh) That will also let us handle
- * multibyte character sets...
+ * <p> Most of the functionblity
+ * of this clbss would be redundbnt except thbt the
+ * <code>ByteToChbr</code> converters
+ * bre suddenly privbte API. Presumbbly this clbss will disbppebr
+ * when the API is mbde public bgbin. (sigh) Thbt will blso let us hbndle
+ * multibyte chbrbcter sets...
  *
- * <P> A subclass should override at least <code>write(char)</code>
- * and <code>writeSpecial(int)</code>. For efficiency's sake it's a
- * good idea to override <code>write(String)</code> as well. The subclass'
- * initializer may also install appropriate translation and specials tables.
+ * <P> A subclbss should override bt lebst <code>write(chbr)</code>
+ * bnd <code>writeSpecibl(int)</code>. For efficiency's sbke it's b
+ * good ideb to override <code>write(String)</code> bs well. The subclbss'
+ * initiblizer mby blso instbll bppropribte trbnslbtion bnd specibls tbbles.
  *
- * @see OutputStream
+ * @see OutputStrebm
  */
-abstract class AbstractFilter extends OutputStream
+bbstrbct clbss AbstrbctFilter extends OutputStrebm
 {
-    /** A table mapping bytes to characters */
-    protected char translationTable[];
-    /** A table indicating which byte values should be interpreted as
-     *  characters and which should be treated as formatting codes */
-    protected boolean specialsTable[];
+    /** A tbble mbpping bytes to chbrbcters */
+    protected chbr trbnslbtionTbble[];
+    /** A tbble indicbting which byte vblues should be interpreted bs
+     *  chbrbcters bnd which should be trebted bs formbtting codes */
+    protected boolebn speciblsTbble[];
 
-    /** A translation table which does ISO Latin-1 (trivial) */
-    static final char latin1TranslationTable[];
-    /** A specials table which indicates that no characters are special */
-    static final boolean noSpecialsTable[];
-    /** A specials table which indicates that all characters are special */
-    static final boolean allSpecialsTable[];
+    /** A trbnslbtion tbble which does ISO Lbtin-1 (trivibl) */
+    stbtic finbl chbr lbtin1TrbnslbtionTbble[];
+    /** A specibls tbble which indicbtes thbt no chbrbcters bre specibl */
+    stbtic finbl boolebn noSpeciblsTbble[];
+    /** A specibls tbble which indicbtes thbt bll chbrbcters bre specibl */
+    stbtic finbl boolebn bllSpeciblsTbble[];
 
-    static {
+    stbtic {
       int i;
 
-      noSpecialsTable = new boolean[256];
+      noSpeciblsTbble = new boolebn[256];
       for (i = 0; i < 256; i++)
-        noSpecialsTable[i] = false;
+        noSpeciblsTbble[i] = fblse;
 
-      allSpecialsTable = new boolean[256];
+      bllSpeciblsTbble = new boolebn[256];
       for (i = 0; i < 256; i++)
-        allSpecialsTable[i] = true;
+        bllSpeciblsTbble[i] = true;
 
-      latin1TranslationTable = new char[256];
+      lbtin1TrbnslbtionTbble = new chbr[256];
       for (i = 0; i < 256; i++)
-        latin1TranslationTable[i] = (char)i;
+        lbtin1TrbnslbtionTbble[i] = (chbr)i;
     }
 
     /**
-     * A convenience method that reads text from a FileInputStream
-     * and writes it to the receiver.
-     * The format in which the file
-     * is read is determined by the concrete subclass of
-     * AbstractFilter to which this method is sent.
-     * <p>This method does not close the receiver after reaching EOF on
-     * the input stream.
-     * The user must call <code>close()</code> to ensure that all
-     * data are processed.
+     * A convenience method thbt rebds text from b FileInputStrebm
+     * bnd writes it to the receiver.
+     * The formbt in which the file
+     * is rebd is determined by the concrete subclbss of
+     * AbstrbctFilter to which this method is sent.
+     * <p>This method does not close the receiver bfter rebching EOF on
+     * the input strebm.
+     * The user must cbll <code>close()</code> to ensure thbt bll
+     * dbtb bre processed.
      *
-     * @param in      An InputStream providing text.
+     * @pbrbm in      An InputStrebm providing text.
      */
-    public void readFromStream(InputStream in)
+    public void rebdFromStrebm(InputStrebm in)
       throws IOException
     {
         byte buf[];
@@ -99,68 +99,68 @@ abstract class AbstractFilter extends OutputStream
         buf = new byte[16384];
 
         while(true) {
-            count = in.read(buf);
+            count = in.rebd(buf);
             if (count < 0)
-                break;
+                brebk;
 
             this.write(buf, 0, count);
         }
     }
 
-    public void readFromReader(Reader in)
+    public void rebdFromRebder(Rebder in)
       throws IOException
     {
-        char buf[];
+        chbr buf[];
         int count;
 
-        buf = new char[2048];
+        buf = new chbr[2048];
 
         while(true) {
-            count = in.read(buf);
+            count = in.rebd(buf);
             if (count < 0)
-                break;
+                brebk;
             for (int i = 0; i < count; i++) {
               this.write(buf[i]);
             }
         }
     }
 
-    public AbstractFilter()
+    public AbstrbctFilter()
     {
-        translationTable = latin1TranslationTable;
-        specialsTable = noSpecialsTable;
+        trbnslbtionTbble = lbtin1TrbnslbtionTbble;
+        speciblsTbble = noSpeciblsTbble;
     }
 
     /**
-     * Implements the abstract method of OutputStream, of which this class
-     * is a subclass.
+     * Implements the bbstrbct method of OutputStrebm, of which this clbss
+     * is b subclbss.
      */
     public void write(int b)
       throws IOException
     {
       if (b < 0)
         b += 256;
-      if (specialsTable[b])
-        writeSpecial(b);
+      if (speciblsTbble[b])
+        writeSpecibl(b);
       else {
-        char ch = translationTable[b];
-        if (ch != (char)0)
+        chbr ch = trbnslbtionTbble[b];
+        if (ch != (chbr)0)
           write(ch);
       }
     }
 
     /**
-     * Implements the buffer-at-a-time write method for greater
+     * Implements the buffer-bt-b-time write method for grebter
      * efficiency.
      *
      * <p> <strong>PENDING:</strong> Does <code>write(byte[])</code>
-     * call <code>write(byte[], int, int)</code> or is it the other way
-     * around?
+     * cbll <code>write(byte[], int, int)</code> or is it the other wby
+     * bround?
      */
     public void write(byte[] buf, int off, int len)
       throws IOException
     {
-      StringBuilder accumulator = null;
+      StringBuilder bccumulbtor = null;
       while (len > 0) {
         short b = (short)buf[off];
 
@@ -168,18 +168,18 @@ abstract class AbstractFilter extends OutputStream
         if (b < 0)
             b += 256;
 
-        if (specialsTable[b]) {
-          if (accumulator != null) {
-            write(accumulator.toString());
-            accumulator = null;
+        if (speciblsTbble[b]) {
+          if (bccumulbtor != null) {
+            write(bccumulbtor.toString());
+            bccumulbtor = null;
           }
-          writeSpecial(b);
+          writeSpecibl(b);
         } else {
-          char ch = translationTable[b];
-          if (ch != (char)0) {
-            if (accumulator == null)
-              accumulator = new StringBuilder();
-            accumulator.append(ch);
+          chbr ch = trbnslbtionTbble[b];
+          if (ch != (chbr)0) {
+            if (bccumulbtor == null)
+              bccumulbtor = new StringBuilder();
+            bccumulbtor.bppend(ch);
           }
         }
 
@@ -187,17 +187,17 @@ abstract class AbstractFilter extends OutputStream
         off ++;
       }
 
-      if (accumulator != null)
-        write(accumulator.toString());
+      if (bccumulbtor != null)
+        write(bccumulbtor.toString());
     }
 
     /**
-     * Hopefully, all subclasses will override this method to accept strings
-     * of text, but if they don't, AbstractFilter's implementation
-     * will spoon-feed them via <code>write(char)</code>.
+     * Hopefully, bll subclbsses will override this method to bccept strings
+     * of text, but if they don't, AbstrbctFilter's implementbtion
+     * will spoon-feed them vib <code>write(chbr)</code>.
      *
-     * @param s The string of non-special characters written to the
-     *          OutputStream.
+     * @pbrbm s The string of non-specibl chbrbcters written to the
+     *          OutputStrebm.
      */
     public void write(String s)
       throws IOException
@@ -206,24 +206,24 @@ abstract class AbstractFilter extends OutputStream
 
       length = s.length();
       for(index = 0; index < length; index ++) {
-        write(s.charAt(index));
+        write(s.chbrAt(index));
       }
     }
 
     /**
-     * Subclasses must provide an implementation of this method which
-     * accepts a single (non-special) character.
+     * Subclbsses must provide bn implementbtion of this method which
+     * bccepts b single (non-specibl) chbrbcter.
      *
-     * @param ch The character written to the OutputStream.
+     * @pbrbm ch The chbrbcter written to the OutputStrebm.
      */
-    protected abstract void write(char ch) throws IOException;
+    protected bbstrbct void write(chbr ch) throws IOException;
 
     /**
-     * Subclasses must provide an implementation of this method which
-     * accepts a single special byte. No translation is performed
-     * on specials.
+     * Subclbsses must provide bn implementbtion of this method which
+     * bccepts b single specibl byte. No trbnslbtion is performed
+     * on specibls.
      *
-     * @param b The byte written to the OutputStream.
+     * @pbrbm b The byte written to the OutputStrebm.
      */
-    protected abstract void writeSpecial(int b) throws IOException;
+    protected bbstrbct void writeSpecibl(int b) throws IOException;
 }

@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 /**
- * An interface for all objects that implement HTTP authentication.
- * See the HTTP spec for details on how this works in general.
- * A single class or object can implement an arbitrary number of
- * authentication schemes.
+ * An interfbce for bll objects thbt implement HTTP buthenticbtion.
+ * See the HTTP spec for detbils on how this works in generbl.
+ * A single clbss or object cbn implement bn brbitrbry number of
+ * buthenticbtion schemes.
  *
- * @author David Brown
+ * @buthor Dbvid Brown
  *
- * @deprecated -- use java.net.Authenticator instead
- * @see java.net.Authenticator
+ * @deprecbted -- use jbvb.net.Authenticbtor instebd
+ * @see jbvb.net.Authenticbtor
  */
 //
-// REMIND:  Unless compatibility with sun.* API's from 1.2 to 2.0 is
-// a goal, there's no reason to carry this forward into JDK 2.0.
-@Deprecated
-public interface HttpAuthenticator {
+// REMIND:  Unless compbtibility with sun.* API's from 1.2 to 2.0 is
+// b gobl, there's no rebson to cbrry this forwbrd into JDK 2.0.
+@Deprecbted
+public interfbce HttpAuthenticbtor {
 
 
     /**
-     * Indicate whether the specified authentication scheme is
-     * supported.  In accordance with HTTP specifications, the
-     * scheme name should be checked in a case-insensitive fashion.
+     * Indicbte whether the specified buthenticbtion scheme is
+     * supported.  In bccordbnce with HTTP specificbtions, the
+     * scheme nbme should be checked in b cbse-insensitive fbshion.
      */
 
-    boolean schemeSupported (String scheme);
+    boolebn schemeSupported (String scheme);
 
     /**
-     * Returns the String that should be included in the HTTP
-     * <B>Authorization</B> field.  Return null if no info was
+     * Returns the String thbt should be included in the HTTP
+     * <B>Authorizbtion</B> field.  Return null if no info wbs
      * supplied or could be found.
      * <P>
-     * Example:
-     * --> GET http://www.authorization-required.com/ HTTP/1.0
-     * <-- HTTP/1.0 403 Unauthorized
-     * <-- WWW-Authenticate: Basic realm="WallyWorld"
-     * call schemeSupported("Basic"); (return true)
-     * call authString(u, "Basic", "WallyWorld", null);
-     *   return "QWadhgWERghghWERfdfQ=="
-     * --> GET http://www.authorization-required.com/ HTTP/1.0
-     * --> Authorization: Basic QWadhgWERghghWERfdfQ==
+     * Exbmple:
+     * --> GET http://www.buthorizbtion-required.com/ HTTP/1.0
+     * <-- HTTP/1.0 403 Unbuthorized
+     * <-- WWW-Authenticbte: Bbsic reblm="WbllyWorld"
+     * cbll schemeSupported("Bbsic"); (return true)
+     * cbll buthString(u, "Bbsic", "WbllyWorld", null);
+     *   return "QWbdhgWERghghWERfdfQ=="
+     * --> GET http://www.buthorizbtion-required.com/ HTTP/1.0
+     * --> Authorizbtion: Bbsic QWbdhgWERghghWERfdfQ==
      * <-- HTTP/1.0 200 OK
      * <B> YAY!!!</B>
      */
 
-    public String authString (URL u, String scheme, String realm);
+    public String buthString (URL u, String scheme, String reblm);
 
 }

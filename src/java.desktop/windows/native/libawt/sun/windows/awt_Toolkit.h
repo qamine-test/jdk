@@ -1,651 +1,651 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * The Toolkit class has two functions: it instantiates the AWT
- * ToolkitPeer's native methods, and provides the DLL's core functions.
+ * The Toolkit clbss hbs two functions: it instbntibtes the AWT
+ * ToolkitPeer's nbtive methods, bnd provides the DLL's core functions.
  *
- * There are two ways this DLL can be used: either as a dynamically-
- * loaded Java native library from the interpreter, or by a Windows-
- * specific app.  The first manner requires that the Toolkit provide
- * all support needed so the app can function as a first-class Windows
- * app, while the second assumes that the app will provide that
- * functionality.  Which mode this DLL functions in is determined by
- * which initialization paradigm is used. If the Toolkit is constructed
- * normally, then the Toolkit will have its own pump. If it is explicitly
- * initialized for an embedded environment (via a static method on
- * sun.awt.windows.WToolkit), then it will rely on an external message
+ * There bre two wbys this DLL cbn be used: either bs b dynbmicblly-
+ * lobded Jbvb nbtive librbry from the interpreter, or by b Windows-
+ * specific bpp.  The first mbnner requires thbt the Toolkit provide
+ * bll support needed so the bpp cbn function bs b first-clbss Windows
+ * bpp, while the second bssumes thbt the bpp will provide thbt
+ * functionblity.  Which mode this DLL functions in is determined by
+ * which initiblizbtion pbrbdigm is used. If the Toolkit is constructed
+ * normblly, then the Toolkit will hbve its own pump. If it is explicitly
+ * initiblized for bn embedded environment (vib b stbtic method on
+ * sun.bwt.windows.WToolkit), then it will rely on bn externbl messbge
  * pump.
  *
- * The most basic functionality needed is a Windows message pump (also
- * known as a message loop).  When an Java app is started as a console
- * app by the interpreter, the Toolkit needs to provide that message
- * pump if the AWT is dynamically loaded.
+ * The most bbsic functionblity needed is b Windows messbge pump (blso
+ * known bs b messbge loop).  When bn Jbvb bpp is stbrted bs b console
+ * bpp by the interpreter, the Toolkit needs to provide thbt messbge
+ * pump if the AWT is dynbmicblly lobded.
  */
 
 #ifndef AWT_TOOLKIT_H
 #define AWT_TOOLKIT_H
 
-#include "awt.h"
-#include "awtmsg.h"
-#include "Trace.h"
+#include "bwt.h"
+#include "bwtmsg.h"
+#include "Trbce.h"
 
-#include "sun_awt_windows_WToolkit.h"
+#include "sun_bwt_windows_WToolkit.h"
 
-class AwtObject;
-class AwtDialog;
-class AwtDropTarget;
+clbss AwtObject;
+clbss AwtDiblog;
+clbss AwtDropTbrget;
 
 typedef VOID (CALLBACK* IDLEPROC)(VOID);
 typedef BOOL (CALLBACK* PEEKMESSAGEPROC)(MSG&);
 
-// Struct for _WInputMethod_enable|disableNativeIME method
-struct EnableNativeIMEStruct {
+// Struct for _WInputMethod_enbble|disbbleNbtiveIME method
+struct EnbbleNbtiveIMEStruct {
     jobject self;
     jobject peer;
     jint context;
-    jboolean useNativeCompWindow;
+    jboolebn useNbtiveCompWindow;
 };
 
 /*
- * class JNILocalFrame
- * Push/PopLocalFrame helper
+ * clbss JNILocblFrbme
+ * Push/PopLocblFrbme helper
  */
-class JNILocalFrame {
+clbss JNILocblFrbme {
   public:
-    INLINE JNILocalFrame(JNIEnv *env, int size) {
+    INLINE JNILocblFrbme(JNIEnv *env, int size) {
         m_env = env;
-        int result = m_env->PushLocalFrame(size);
+        int result = m_env->PushLocblFrbme(size);
         if (result < 0) {
             DASSERT(FALSE);
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
     }
-    INLINE ~JNILocalFrame() { m_env->PopLocalFrame(NULL); }
-  private:
+    INLINE ~JNILocblFrbme() { m_env->PopLocblFrbme(NULL); }
+  privbte:
     JNIEnv* m_env;
 };
 
 /*
- * class CriticalSection
+ * clbss CriticblSection
  * ~~~~~ ~~~~~~~~~~~~~~~~
- * Lightweight intra-process thread synchronization. Can only be used with
- * other critical sections, and only within the same process.
+ * Lightweight intrb-process threbd synchronizbtion. Cbn only be used with
+ * other criticbl sections, bnd only within the sbme process.
  */
-class CriticalSection {
+clbss CriticblSection {
   public:
-    INLINE  CriticalSection() { ::InitializeCriticalSection(&rep); }
-    INLINE ~CriticalSection() { ::DeleteCriticalSection(&rep); }
+    INLINE  CriticblSection() { ::InitiblizeCriticblSection(&rep); }
+    INLINE ~CriticblSection() { ::DeleteCriticblSection(&rep); }
 
-    class Lock {
+    clbss Lock {
       public:
-        INLINE Lock(const CriticalSection& cs) : critSec(cs) {
-            (const_cast<CriticalSection &>(critSec)).Enter();
+        INLINE Lock(const CriticblSection& cs) : critSec(cs) {
+            (const_cbst<CriticblSection &>(critSec)).Enter();
         }
         INLINE ~Lock() {
-            (const_cast<CriticalSection &>(critSec)).Leave();
+            (const_cbst<CriticblSection &>(critSec)).Lebve();
         }
-      private:
-        const CriticalSection& critSec;
+      privbte:
+        const CriticblSection& critSec;
     };
-    friend class Lock;
+    friend clbss Lock;
 
-  private:
+  privbte:
     CRITICAL_SECTION rep;
 
-    CriticalSection(const CriticalSection&);
-    const CriticalSection& operator =(const CriticalSection&);
+    CriticblSection(const CriticblSection&);
+    const CriticblSection& operbtor =(const CriticblSection&);
 
   public:
-    virtual void Enter() {
-        ::EnterCriticalSection(&rep);
+    virtubl void Enter() {
+        ::EnterCriticblSection(&rep);
     }
-    virtual BOOL TryEnter() {
-        return ::TryEnterCriticalSection(&rep);
+    virtubl BOOL TryEnter() {
+        return ::TryEnterCriticblSection(&rep);
     }
-    virtual void Leave() {
-        ::LeaveCriticalSection(&rep);
+    virtubl void Lebve() {
+        ::LebveCriticblSection(&rep);
     }
 };
 
-// Macros for using CriticalSection objects that help trace
-// lock/unlock actions
+// Mbcros for using CriticblSection objects thbt help trbce
+// lock/unlock bctions
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
 #define CRITICAL_SECTION_ENTER(cs) { \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Wait:  tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
+    J2dTrbceLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Wbit:  tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
+                GetCurrentThrebdId(), &(cs), THIS_FILE, __LINE__); \
     (cs).Enter(); \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
+    J2dTrbceLn4(J2D_TRACE_VERBOSE2, \
                 "CS.Enter: tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
+                GetCurrentThrebdId(), &(cs), THIS_FILE, __LINE__); \
 }
 
 #define CRITICAL_SECTION_LEAVE(cs) { \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Leave: tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
-    (cs).Leave(); \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
+    J2dTrbceLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Lebve: tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
+                GetCurrentThrebdId(), &(cs), THIS_FILE, __LINE__); \
+    (cs).Lebve(); \
+    J2dTrbceLn4(J2D_TRACE_VERBOSE2, \
                 "CS.Left:  tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
+                GetCurrentThrebdId(), &(cs), THIS_FILE, __LINE__); \
 }
 
 /************************************************************************
- * AwtToolkit class
+ * AwtToolkit clbss
  */
 
-class AwtToolkit {
+clbss AwtToolkit {
 public:
     enum {
         KB_STATE_SIZE = 256
     };
 
-    /* java.awt.Toolkit method ids */
-    static jmethodID getDefaultToolkitMID;
-    static jmethodID getFontMetricsMID;
-        static jmethodID insetsMID;
+    /* jbvb.bwt.Toolkit method ids */
+    stbtic jmethodID getDefbultToolkitMID;
+    stbtic jmethodID getFontMetricsMID;
+        stbtic jmethodID insetsMID;
 
-    /* sun.awt.windows.WToolkit ids */
-    static jmethodID windowsSettingChangeMID;
-    static jmethodID displayChangeMID;
+    /* sun.bwt.windows.WToolkit ids */
+    stbtic jmethodID windowsSettingChbngeMID;
+    stbtic jmethodID displbyChbngeMID;
 
-    BOOL m_isDynamicLayoutSet;
+    BOOL m_isDynbmicLbyoutSet;
 
     AwtToolkit();
     ~AwtToolkit();
 
-    BOOL Initialize(BOOL localPump);
+    BOOL Initiblize(BOOL locblPump);
     BOOL Dispose();
 
-    void SetDynamicLayout(BOOL dynamic);
-    BOOL IsDynamicLayoutSet();
-    BOOL IsDynamicLayoutSupported();
-    BOOL IsDynamicLayoutActive();
-    BOOL areExtraMouseButtonsEnabled();
-    void setExtraMouseButtonsEnabled(BOOL enable);
-    static UINT GetNumberOfButtons();
+    void SetDynbmicLbyout(BOOL dynbmic);
+    BOOL IsDynbmicLbyoutSet();
+    BOOL IsDynbmicLbyoutSupported();
+    BOOL IsDynbmicLbyoutActive();
+    BOOL breExtrbMouseButtonsEnbbled();
+    void setExtrbMouseButtonsEnbbled(BOOL enbble);
+    stbtic UINT GetNumberOfButtons();
 
-    INLINE BOOL localPump() { return m_localPump; }
-    INLINE BOOL VerifyComponents() { return FALSE; } // TODO: Use new DebugHelper class to set this flag
+    INLINE BOOL locblPump() { return m_locblPump; }
+    INLINE BOOL VerifyComponents() { return FALSE; } // TODO: Use new DebugHelper clbss to set this flbg
     INLINE HWND GetHWnd() { return m_toolkitHWnd; }
 
-    INLINE HMODULE GetModuleHandle() { return m_dllHandle; }
-    INLINE void SetModuleHandle(HMODULE h) { m_dllHandle = h; }
+    INLINE HMODULE GetModuleHbndle() { return m_dllHbndle; }
+    INLINE void SetModuleHbndle(HMODULE h) { m_dllHbndle = h; }
 
-    INLINE static DWORD MainThread() { return GetInstance().m_mainThreadId; }
-    INLINE void VerifyActive() throw (awt_toolkit_shutdown) {
-        if (!m_isActive && m_mainThreadId != ::GetCurrentThreadId()) {
-            throw awt_toolkit_shutdown();
+    INLINE stbtic DWORD MbinThrebd() { return GetInstbnce().m_mbinThrebdId; }
+    INLINE void VerifyActive() throw (bwt_toolkit_shutdown) {
+        if (!m_isActive && m_mbinThrebdId != ::GetCurrentThrebdId()) {
+            throw bwt_toolkit_shutdown();
         }
     }
     INLINE BOOL IsDisposed() { return m_isDisposed; }
-    static UINT GetMouseKeyState();
-    static void GetKeyboardState(PBYTE keyboardState);
+    stbtic UINT GetMouseKeyStbte();
+    stbtic void GetKeybobrdStbte(PBYTE keybobrdStbte);
 
-    static ATOM RegisterClass();
-    static void UnregisterClass();
-    INLINE LRESULT SendMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0) {
+    stbtic ATOM RegisterClbss();
+    stbtic void UnregisterClbss();
+    INLINE LRESULT SendMessbge(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
         if (!m_isDisposed) {
-            return ::SendMessage(GetHWnd(), msg, wParam, lParam);
+            return ::SendMessbge(GetHWnd(), msg, wPbrbm, lPbrbm);
         } else {
             return NULL;
         }
     }
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
-                                    LPARAM lParam);
-    static LRESULT CALLBACK GetMessageFilter(int code, WPARAM wParam,
-                                             LPARAM lParam);
-    static LRESULT CALLBACK ForegroundIdleFilter(int code, WPARAM wParam,
-                                                 LPARAM lParam);
-    static LRESULT CALLBACK MouseLowLevelHook(int code, WPARAM wParam,
-            LPARAM lParam);
+    stbtic LRESULT CALLBACK WndProc(HWND hWnd, UINT messbge, WPARAM wPbrbm,
+                                    LPARAM lPbrbm);
+    stbtic LRESULT CALLBACK GetMessbgeFilter(int code, WPARAM wPbrbm,
+                                             LPARAM lPbrbm);
+    stbtic LRESULT CALLBACK ForegroundIdleFilter(int code, WPARAM wPbrbm,
+                                                 LPARAM lPbrbm);
+    stbtic LRESULT CALLBACK MouseLowLevelHook(int code, WPARAM wPbrbm,
+            LPARAM lPbrbm);
 
-    INLINE static AwtToolkit& GetInstance() { return theInstance; }
+    INLINE stbtic AwtToolkit& GetInstbnce() { return theInstbnce; }
     INLINE void SetPeer(JNIEnv *env, jobject wToolkit) {
-        AwtToolkit &tk = AwtToolkit::GetInstance();
+        AwtToolkit &tk = AwtToolkit::GetInstbnce();
         if (tk.m_peer != NULL) {
-            env->DeleteGlobalRef(tk.m_peer);
+            env->DeleteGlobblRef(tk.m_peer);
         }
-        tk.m_peer = (wToolkit != NULL) ? env->NewGlobalRef(wToolkit) : NULL;
+        tk.m_peer = (wToolkit != NULL) ? env->NewGlobblRef(wToolkit) : NULL;
     }
 
     INLINE jobject GetPeer() {
         return m_peer;
     }
 
-    // is this thread the main thread?
+    // is this threbd the mbin threbd?
 
-    INLINE static BOOL IsMainThread() {
-        return GetInstance().m_mainThreadId == ::GetCurrentThreadId();
+    INLINE stbtic BOOL IsMbinThrebd() {
+        return GetInstbnce().m_mbinThrebdId == ::GetCurrentThrebdId();
     }
 
-    // post a message to the message pump thread
+    // post b messbge to the messbge pump threbd
 
-    INLINE BOOL PostMessage(UINT msg, WPARAM wp=0, LPARAM lp=0) {
-        return ::PostMessage(GetHWnd(), msg, wp, lp);
+    INLINE BOOL PostMessbge(UINT msg, WPARAM wp=0, LPARAM lp=0) {
+        return ::PostMessbge(GetHWnd(), msg, wp, lp);
     }
 
-    // cause the message pump thread to call the function synchronously now!
+    // cbuse the messbge pump threbd to cbll the function synchronously now!
 
     INLINE void * InvokeFunction(void*(*ftn)(void)) {
-        return (void *)SendMessage(WM_AWT_INVOKE_VOID_METHOD, (WPARAM)ftn, 0);
+        return (void *)SendMessbge(WM_AWT_INVOKE_VOID_METHOD, (WPARAM)ftn, 0);
     }
     INLINE void InvokeFunction(void (*ftn)(void)) {
         InvokeFunction((void*(*)(void))ftn);
     }
-    INLINE void * InvokeFunction(void*(*ftn)(void *), void* param) {
-        return (void *)SendMessage(WM_AWT_INVOKE_METHOD, (WPARAM)ftn,
-                                   (LPARAM)param);
+    INLINE void * InvokeFunction(void*(*ftn)(void *), void* pbrbm) {
+        return (void *)SendMessbge(WM_AWT_INVOKE_METHOD, (WPARAM)ftn,
+                                   (LPARAM)pbrbm);
     }
-    INLINE void InvokeFunction(void (*ftn)(void *), void* param) {
-        InvokeFunction((void*(*)(void*))ftn, param);
+    INLINE void InvokeFunction(void (*ftn)(void *), void* pbrbm) {
+        InvokeFunction((void*(*)(void*))ftn, pbrbm);
     }
 
-    INLINE CriticalSection &GetSyncCS() { return m_Sync; }
+    INLINE CriticblSection &GetSyncCS() { return m_Sync; }
 
-    void *SyncCall(void*(*ftn)(void *), void* param);
-    void SyncCall(void (*ftn)(void *), void *param);
-    void *SyncCall(void *(*ftn)(void));
-    void SyncCall(void (*ftn)(void));
+    void *SyncCbll(void*(*ftn)(void *), void* pbrbm);
+    void SyncCbll(void (*ftn)(void *), void *pbrbm);
+    void *SyncCbll(void *(*ftn)(void));
+    void SyncCbll(void (*ftn)(void));
 
-    // cause the message pump thread to call the function later ...
+    // cbuse the messbge pump threbd to cbll the function lbter ...
 
-    INLINE void InvokeFunctionLater(void (*ftn)(void *), void* param) {
-        if (!PostMessage(WM_AWT_INVOKE_METHOD, (WPARAM)ftn, (LPARAM)param)) {
+    INLINE void InvokeFunctionLbter(void (*ftn)(void *), void* pbrbm) {
+        if (!PostMessbge(WM_AWT_INVOKE_METHOD, (WPARAM)ftn, (LPARAM)pbrbm)) {
             JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            JNU_ThrowInternalError(env, "Message not posted, native event queue may be full.");
+            JNU_ThrowInternblError(env, "Messbge not posted, nbtive event queue mby be full.");
         }
     }
 
-   // cause the message pump thread to synchronously synchronize on the handle
+   // cbuse the messbge pump threbd to synchronously synchronize on the hbndle
 
-    INLINE void WaitForSingleObject(HANDLE handle) {
-        SendMessage(WM_AWT_WAIT_FOR_SINGLE_OBJECT, 0, (LPARAM)handle);
+    INLINE void WbitForSingleObject(HANDLE hbndle) {
+        SendMessbge(WM_AWT_WAIT_FOR_SINGLE_OBJECT, 0, (LPARAM)hbndle);
     }
 
     /*
-     * Create an AwtXxxx C++ component using a given factory
+     * Crebte bn AwtXxxx C++ component using b given fbctory
      */
-    typedef void (*ComponentFactory)(void*, void*);
-    static void CreateComponent(void* hComponent, void* hParent,
-                                ComponentFactory compFactory, BOOL isParentALocalReference=TRUE);
+    typedef void (*ComponentFbctory)(void*, void*);
+    stbtic void CrebteComponent(void* hComponent, void* hPbrent,
+                                ComponentFbctory compFbctory, BOOL isPbrentALocblReference=TRUE);
 
-    static void DestroyComponentHWND(HWND hwnd);
+    stbtic void DestroyComponentHWND(HWND hwnd);
 
-    // constants used to PostQuitMessage
+    // constbnts used to PostQuitMessbge
 
-    static const int EXIT_ENCLOSING_LOOP;
-    static const int EXIT_ALL_ENCLOSING_LOOPS;
+    stbtic const int EXIT_ENCLOSING_LOOP;
+    stbtic const int EXIT_ALL_ENCLOSING_LOOPS;
 
     // ...
 
-    void QuitMessageLoop(int status);
+    void QuitMessbgeLoop(int stbtus);
 
-    UINT MessageLoop(IDLEPROC lpIdleFunc, PEEKMESSAGEPROC lpPeekMessageFunc);
-    BOOL PumpWaitingMessages(PEEKMESSAGEPROC lpPeekMessageFunc);
-    void PumpToDestroy(class AwtComponent* p);
+    UINT MessbgeLoop(IDLEPROC lpIdleFunc, PEEKMESSAGEPROC lpPeekMessbgeFunc);
+    BOOL PumpWbitingMessbges(PEEKMESSAGEPROC lpPeekMessbgeFunc);
+    void PumpToDestroy(clbss AwtComponent* p);
     void ProcessMsg(MSG& msg);
     BOOL PreProcessMsg(MSG& msg);
-    BOOL PreProcessMouseMsg(class AwtComponent* p, MSG& msg);
-    BOOL PreProcessKeyMsg(class AwtComponent* p, MSG& msg);
+    BOOL PreProcessMouseMsg(clbss AwtComponent* p, MSG& msg);
+    BOOL PreProcessKeyMsg(clbss AwtComponent* p, MSG& msg);
 
-    /* Create an ID which maps to an AwtObject pointer, such as a menu. */
-    UINT CreateCmdID(AwtObject* object);
+    /* Crebte bn ID which mbps to bn AwtObject pointer, such bs b menu. */
+    UINT CrebteCmdID(AwtObject* object);
 
-    // removes cmd id mapping
+    // removes cmd id mbpping
     void RemoveCmdID(UINT id);
 
-    /* Return the AwtObject associated with its ID. */
+    /* Return the AwtObject bssocibted with its ID. */
     AwtObject* LookupCmdID(UINT id);
 
-    /* Return the current application icon. */
+    /* Return the current bpplicbtion icon. */
     HICON GetAwtIcon();
     HICON GetAwtIconSm();
 
-    // Calculate a wave-like value out of the integer 'value' and
+    // Cblculbte b wbve-like vblue out of the integer 'vblue' bnd
     // the specified period.
-    // The argument 'value' is an integer 0, 1, 2, ... *infinity*.
+    // The brgument 'vblue' is bn integer 0, 1, 2, ... *infinity*.
     //
-    // Examples:
+    // Exbmples:
     //    Period == 3
-    //    Generated sequence: 0 1 2 1 0 .....
+    //    Generbted sequence: 0 1 2 1 0 .....
     //
     //    Period == 4
-    //    Generated sequence: 0 1 2 3 2 1 0 .....
-    static inline UINT CalculateWave(UINT value, const UINT period) {
+    //    Generbted sequence: 0 1 2 3 2 1 0 .....
+    stbtic inline UINT CblculbteWbve(UINT vblue, const UINT period) {
         if (period < 2) {
             return 0;
         }
-        // -2 is necessary to avoid repeating extreme values (0 and period-1)
-        value %= period * 2 -2;
-        if (value >= period) {
-            value = period * 2 -2 - value;
+        // -2 is necessbry to bvoid repebting extreme vblues (0 bnd period-1)
+        vblue %= period * 2 -2;
+        if (vblue >= period) {
+            vblue = period * 2 -2 - vblue;
         }
-        return value;
+        return vblue;
     }
 
-    HICON GetSecurityWarningIcon(UINT index, UINT w, UINT h);
+    HICON GetSecurityWbrningIcon(UINT index, UINT w, UINT h);
 
-    /* Turns on/off dialog modality for the system. */
-    INLINE AwtDialog* SetModal(AwtDialog* frame) {
-        AwtDialog* previousDialog = m_pModalDialog;
-        m_pModalDialog = frame;
-        return previousDialog;
+    /* Turns on/off diblog modblity for the system. */
+    INLINE AwtDiblog* SetModbl(AwtDiblog* frbme) {
+        AwtDiblog* previousDiblog = m_pModblDiblog;
+        m_pModblDiblog = frbme;
+        return previousDiblog;
     };
-    INLINE void ResetModal(AwtDialog* oldFrame) { m_pModalDialog = oldFrame; };
-    INLINE BOOL IsModal() { return (m_pModalDialog != NULL); };
-    INLINE AwtDialog* GetModalDialog(void) { return m_pModalDialog; };
+    INLINE void ResetModbl(AwtDiblog* oldFrbme) { m_pModblDiblog = oldFrbme; };
+    INLINE BOOL IsModbl() { return (m_pModblDiblog != NULL); };
+    INLINE AwtDiblog* GetModblDiblog(void) { return m_pModblDiblog; };
 
-    /* Stops the current message pump (normally a modal dialog pump) */
-    INLINE void StopMessagePump() { m_breakOnError = TRUE; }
+    /* Stops the current messbge pump (normblly b modbl diblog pump) */
+    INLINE void StopMessbgePump() { m_brebkOnError = TRUE; }
 
     /* Debug settings */
-    INLINE void SetVerbose(long flag)   { m_verbose = (flag != 0); }
-    INLINE void SetVerify(long flag)    { m_verifyComponents = (flag != 0); }
-    INLINE void SetBreak(long flag)     { m_breakOnError = (flag != 0); }
-    INLINE void SetHeapCheck(long flag);
+    INLINE void SetVerbose(long flbg)   { m_verbose = (flbg != 0); }
+    INLINE void SetVerify(long flbg)    { m_verifyComponents = (flbg != 0); }
+    INLINE void SetBrebk(long flbg)     { m_brebkOnError = (flbg != 0); }
+    INLINE void SetHebpCheck(long flbg);
 
-    static void SetBusy(BOOL busy);
+    stbtic void SetBusy(BOOL busy);
 
-    /* Set and get the default input method Window handler. */
+    /* Set bnd get the defbult input method Window hbndler. */
     INLINE void SetInputMethodWindow(HWND inputMethodHWnd) { m_inputMethodHWnd = inputMethodHWnd; }
     INLINE HWND GetInputMethodWindow() { return m_inputMethodHWnd; }
 
-    static VOID CALLBACK PrimaryIdleFunc();
-    static VOID CALLBACK SecondaryIdleFunc();
-    static BOOL CALLBACK CommonPeekMessageFunc(MSG& msg);
-    static BOOL activateKeyboardLayout(HKL hkl);
+    stbtic VOID CALLBACK PrimbryIdleFunc();
+    stbtic VOID CALLBACK SecondbryIdleFunc();
+    stbtic BOOL CALLBACK CommonPeekMessbgeFunc(MSG& msg);
+    stbtic BOOL bctivbteKeybobrdLbyout(HKL hkl);
 
-    HANDLE m_waitEvent;
+    HANDLE m_wbitEvent;
     DWORD eventNumber;
-private:
-    HWND CreateToolkitWnd(LPCTSTR name);
+privbte:
+    HWND CrebteToolkitWnd(LPCTSTR nbme);
 
-    BOOL m_localPump;
-    DWORD m_mainThreadId;
+    BOOL m_locblPump;
+    DWORD m_mbinThrebdId;
     HWND m_toolkitHWnd;
     HWND m_inputMethodHWnd;
     BOOL m_verbose;
-    BOOL m_isActive; // set to FALSE at beginning of Dispose
-    BOOL m_isDisposed; // set to TRUE at end of Dispose
-    BOOL m_areExtraMouseButtonsEnabled;
+    BOOL m_isActive; // set to FALSE bt beginning of Dispose
+    BOOL m_isDisposed; // set to TRUE bt end of Dispose
+    BOOL m_breExtrbMouseButtonsEnbbled;
 
-    BOOL m_vmSignalled; // set to TRUE if QUERYENDSESSION has successfully
-                        // raised SIGTERM
+    BOOL m_vmSignblled; // set to TRUE if QUERYENDSESSION hbs successfully
+                        // rbised SIGTERM
 
     BOOL m_verifyComponents;
-    BOOL m_breakOnError;
+    BOOL m_brebkOnError;
 
-    BOOL  m_breakMessageLoop;
-    UINT  m_messageLoopResult;
+    BOOL  m_brebkMessbgeLoop;
+    UINT  m_messbgeLoopResult;
 
-    class AwtComponent* m_lastMouseOver;
+    clbss AwtComponent* m_lbstMouseOver;
     BOOL                m_mouseDown;
 
-    HHOOK m_hGetMessageHook;
+    HHOOK m_hGetMessbgeHook;
     HHOOK m_hMouseLLHook;
     UINT_PTR  m_timer;
 
-    class AwtCmdIDList* m_cmdIDs;
-    BYTE                m_lastKeyboardState[KB_STATE_SIZE];
-    CriticalSection     m_lockKB;
+    clbss AwtCmdIDList* m_cmdIDs;
+    BYTE                m_lbstKeybobrdStbte[KB_STATE_SIZE];
+    CriticblSection     m_lockKB;
 
-    static AwtToolkit theInstance;
+    stbtic AwtToolkit theInstbnce;
 
-    /* The current modal dialog frame (normally NULL). */
-    AwtDialog* m_pModalDialog;
+    /* The current modbl diblog frbme (normblly NULL). */
+    AwtDiblog* m_pModblDiblog;
 
-    /* The WToolkit peer instance */
+    /* The WToolkit peer instbnce */
     jobject m_peer;
 
-    HMODULE m_dllHandle;  /* The module handle. */
+    HMODULE m_dllHbndle;  /* The module hbndle. */
 
-    CriticalSection m_Sync;
+    CriticblSection m_Sync;
 
-/* track display changes - used by palette-updating code.
-   This is a workaround for a windows bug that prevents
-   WM_PALETTECHANGED event from occurring immediately after
-   a WM_DISPLAYCHANGED event.
+/* trbck displby chbnges - used by pblette-updbting code.
+   This is b workbround for b windows bug thbt prevents
+   WM_PALETTECHANGED event from occurring immedibtely bfter
+   b WM_DISPLAYCHANGED event.
   */
-private:
-    BOOL m_displayChanged;  /* Tracks displayChanged events */
-    // 0 means we are not embedded.
+privbte:
+    BOOL m_displbyChbnged;  /* Trbcks displbyChbnged events */
+    // 0 mebns we bre not embedded.
     DWORD m_embedderProcessID;
 
 public:
-    BOOL HasDisplayChanged() { return m_displayChanged; }
-    void ResetDisplayChanged() { m_displayChanged = FALSE; }
+    BOOL HbsDisplbyChbnged() { return m_displbyChbnged; }
+    void ResetDisplbyChbnged() { m_displbyChbnged = FALSE; }
     void RegisterEmbedderProcessId(HWND);
     BOOL IsEmbedderProcessId(const DWORD processID) const
     {
         return m_embedderProcessID && (processID == m_embedderProcessID);
     }
 
- private:
-    static JNIEnv *m_env;
-    static DWORD m_threadId;
+ privbte:
+    stbtic JNIEnv *m_env;
+    stbtic DWORD m_threbdId;
  public:
-    static void SetEnv(JNIEnv *env);
-    static JNIEnv* GetEnv();
+    stbtic void SetEnv(JNIEnv *env);
+    stbtic JNIEnv* GetEnv();
 
-    static BOOL GetScreenInsets(int screenNum, RECT * rect);
+    stbtic BOOL GetScreenInsets(int screenNum, RECT * rect);
 
-    // If the DWM is active, this function uses
+    // If the DWM is bctive, this function uses
     // DwmGetWindowAttribute()/DWMWA_EXTENDED_FRAME_BOUNDS.
-    // Otherwise, fall back to regular ::GetWindowRect().
-    // See 6711576 for more details.
-    static void GetWindowRect(HWND hWnd, LPRECT lpRect);
+    // Otherwise, fbll bbck to regulbr ::GetWindowRect().
+    // See 6711576 for more detbils.
+    stbtic void GetWindowRect(HWND hWnd, LPRECT lpRect);
 
- private:
-    // The window handle of a toplevel window last seen under the mouse cursor.
-    // See MouseLowLevelHook() for details.
-    HWND m_lastWindowUnderMouse;
+ privbte:
+    // The window hbndle of b toplevel window lbst seen under the mouse cursor.
+    // See MouseLowLevelHook() for detbils.
+    HWND m_lbstWindowUnderMouse;
  public:
-    HWND GetWindowUnderMouse() { return m_lastWindowUnderMouse; }
+    HWND GetWindowUnderMouse() { return m_lbstWindowUnderMouse; }
 
-    void InstallMouseLowLevelHook();
-    void UninstallMouseLowLevelHook();
+    void InstbllMouseLowLevelHook();
+    void UninstbllMouseLowLevelHook();
 
 
-/* AWT preloading (early Toolkit thread start)
+/* AWT prelobding (ebrly Toolkit threbd stbrt)
  */
 public:
-    /* Toolkit preload action class.
-     * Preload actions should be registered with
-     * AwtToolkit::getInstance().GetPreloadThread().AddAction().
-     * AwtToolkit thread calls InitImpl method at the beghining
-     * and CleanImpl(false) before exiting for all registered actions.
-     * If an application provides own Toolkit thread
-     * (sun.awt.windows.WToolkit.embeddedInit), the thread calls Clean(true)
-     * for each action.
+    /* Toolkit prelobd bction clbss.
+     * Prelobd bctions should be registered with
+     * AwtToolkit::getInstbnce().GetPrelobdThrebd().AddAction().
+     * AwtToolkit threbd cblls InitImpl method bt the beghining
+     * bnd ClebnImpl(fblse) before exiting for bll registered bctions.
+     * If bn bpplicbtion provides own Toolkit threbd
+     * (sun.bwt.windows.WToolkit.embeddedInit), the threbd cblls Clebn(true)
+     * for ebch bction.
      */
-    class PreloadThread;    // forward declaration
-    class PreloadAction {
-        friend class PreloadThread;
+    clbss PrelobdThrebd;    // forwbrd declbrbtion
+    clbss PrelobdAction {
+        friend clbss PrelobdThrebd;
     public:
-        PreloadAction() : initThreadId(0), pNext(NULL) {}
-        virtual ~PreloadAction() {}
+        PrelobdAction() : initThrebdId(0), pNext(NULL) {}
+        virtubl ~PrelobdAction() {}
 
     protected:
-        // called by PreloadThread or as result
-        // of EnsureInited() call (on Toolkit thread!).
-        virtual void InitImpl() = 0;
+        // cblled by PrelobdThrebd or bs result
+        // of EnsureInited() cbll (on Toolkit threbd!).
+        virtubl void InitImpl() = 0;
 
-        // called by PreloadThread (before exiting).
-        // reInit == false: normal shutdown;
-        // reInit == true: PreloadThread is shutting down due external
-        //   Toolkit thread was provided.
-        virtual void CleanImpl(bool reInit) = 0;
+        // cblled by PrelobdThrebd (before exiting).
+        // reInit == fblse: normbl shutdown;
+        // reInit == true: PrelobdThrebd is shutting down due externbl
+        //   Toolkit threbd wbs provided.
+        virtubl void ClebnImpl(bool reInit) = 0;
 
     public:
-        // Initialized the action on the Toolkit thread if not yet initialized.
+        // Initiblized the bction on the Toolkit threbd if not yet initiblized.
         bool EnsureInited();
 
-        // returns thread ID which the action was inited on (0 if not inited)
-        DWORD GetInitThreadID();
+        // returns threbd ID which the bction wbs inited on (0 if not inited)
+        DWORD GetInitThrebdID();
 
-        // Allows to deinitialize action earlier.
-        // The method must be called on the Toolkit thread only.
+        // Allows to deinitiblize bction ebrlier.
+        // The method must be cblled on the Toolkit threbd only.
         // returns true on success,
-        //         false if the action was inited on other thread.
-        bool Clean();
+        //         fblse if the bction wbs inited on other threbd.
+        bool Clebn();
 
-    private:
-        unsigned initThreadId;
-        // lock for Init/Clean
-        CriticalSection initLock;
+    privbte:
+        unsigned initThrebdId;
+        // lock for Init/Clebn
+        CriticblSection initLock;
 
-        // Chain support (for PreloadThread)
-        PreloadAction *pNext;   // for action chain used by PreloadThread
-        void SetNext(PreloadAction *pNext) { this->pNext = pNext; }
-        PreloadAction *GetNext() { return pNext; }
+        // Chbin support (for PrelobdThrebd)
+        PrelobdAction *pNext;   // for bction chbin used by PrelobdThrebd
+        void SetNext(PrelobdAction *pNext) { this->pNext = pNext; }
+        PrelobdAction *GetNext() { return pNext; }
 
-        // wrapper for AwtToolkit::InvokeFunction
-        static void InitWrapper(void *param);
+        // wrbpper for AwtToolkit::InvokeFunction
+        stbtic void InitWrbpper(void *pbrbm);
 
         void Init();
-        void Clean(bool reInit);
+        void Clebn(bool reInit);
 
     };
 
-    /** Toolkit preload thread class.
+    /** Toolkit prelobd threbd clbss.
      */
-    class PreloadThread {
+    clbss PrelobdThrebd {
     public:
-        PreloadThread();
-        ~PreloadThread();
+        PrelobdThrebd();
+        ~PrelobdThrebd();
 
-        // adds action & start the thread if not yet started
-        bool AddAction(PreloadAction *pAction);
+        // bdds bction & stbrt the threbd if not yet stbrted
+        bool AddAction(PrelobdAction *pAction);
 
-        // sets termination flag; returns true if the thread is running.
-        // wrongThread specifies cause of the termination:
-        //   false means termination on the application shutdown;
-        // wrongThread is used as reInit parameter for action cleanup.
-        bool Terminate(bool wrongThread);
-        bool InvokeAndTerminate(void(_cdecl *fn)(void *), void *param);
+        // sets terminbtion flbg; returns true if the threbd is running.
+        // wrongThrebd specifies cbuse of the terminbtion:
+        //   fblse mebns terminbtion on the bpplicbtion shutdown;
+        // wrongThrebd is used bs reInit pbrbmeter for bction clebnup.
+        bool Terminbte(bool wrongThrebd);
+        bool InvokeAndTerminbte(void(_cdecl *fn)(void *), void *pbrbm);
 
-        // waits for the the thread completion;
-        // use the method after Terminate() only if Terminate() returned true
-        INLINE void Wait4Finish() {
-            ::WaitForSingleObject(hFinished, INFINITE);
+        // wbits for the the threbd completion;
+        // use the method bfter Terminbte() only if Terminbte() returned true
+        INLINE void Wbit4Finish() {
+            ::WbitForSingleObject(hFinished, INFINITE);
         }
 
-        INLINE unsigned GetThreadId() {
-            CriticalSection::Lock lock(threadLock);
-            return threadId;
+        INLINE unsigned GetThrebdId() {
+            CriticblSection::Lock lock(threbdLock);
+            return threbdId;
         }
-        INLINE bool IsWrongThread() {
-            CriticalSection::Lock lock(threadLock);
-            return wrongThread;
+        INLINE bool IsWrongThrebd() {
+            CriticblSection::Lock lock(threbdLock);
+            return wrongThrebd;
         }
-        // returns true if the current thread is "preload" thread
-        bool OnPreloadThread();
+        // returns true if the current threbd is "prelobd" threbd
+        bool OnPrelobdThrebd();
 
-    private:
-        // data access lock
-        CriticalSection threadLock;
+    privbte:
+        // dbtb bccess lock
+        CriticblSection threbdLock;
 
-        // the thread status
-        enum Status {
-            None = -1,      // initial
-            Preloading = 0, // preloading in progress
-            RunningToolkit, // Running as Toolkit thread
-            Cleaning,       // exited from Toolkit thread proc, cleaning
+        // the threbd stbtus
+        enum Stbtus {
+            None = -1,      // initibl
+            Prelobding = 0, // prelobding in progress
+            RunningToolkit, // Running bs Toolkit threbd
+            Clebning,       // exited from Toolkit threbd proc, clebning
             Finished        //
-        } status;
+        } stbtus;
 
-        // "wrong thread" flag
-        bool wrongThread;
+        // "wrong threbd" flbg
+        bool wrongThrebd;
 
-        // thread proc (calls (this)param->ThreadProc())
-        static unsigned WINAPI StaticThreadProc(void *param);
-        unsigned ThreadProc();
+        // threbd proc (cblls (this)pbrbm->ThrebdProc())
+        stbtic unsigned WINAPI StbticThrebdProc(void *pbrbm);
+        unsigned ThrebdProc();
 
-        INLINE void AwakeThread() {
-            ::SetEvent(hAwake);
+        INLINE void AwbkeThrebd() {
+            ::SetEvent(hAwbke);
         }
 
-        // if threadId != 0 -> we are running
-        unsigned threadId;
-        // ThreadProc sets the event on exit
+        // if threbdId != 0 -> we bre running
+        unsigned threbdId;
+        // ThrebdProc sets the event on exit
         HANDLE hFinished;
-        // ThreadProc waits on the event for NewAction/Terminate/InvokeAndTerminate
-        HANDLE hAwake;
+        // ThrebdProc wbits on the event for NewAction/Terminbte/InvokeAndTerminbte
+        HANDLE hAwbke;
 
-        // function/param to invoke (InvokeAndTerminate)
-        // if execFunc == NULL => just terminate
+        // function/pbrbm to invoke (InvokeAndTerminbte)
+        // if execFunc == NULL => just terminbte
         void(_cdecl *execFunc)(void *);
-        void *execParam;
+        void *execPbrbm;
 
-        // action chain
-        PreloadAction *pActionChain;
-        PreloadAction *pLastProcessedAction;
+        // bction chbin
+        PrelobdAction *pActionChbin;
+        PrelobdAction *pLbstProcessedAction;
 
-        // returns next action in the list (NULL if no more actions)
-        PreloadAction* GetNextAction();
+        // returns next bction in the list (NULL if no more bctions)
+        PrelobdAction* GetNextAction();
 
     };
 
-    INLINE PreloadThread& GetPreloadThread() { return preloadThread; }
+    INLINE PrelobdThrebd& GetPrelobdThrebd() { return prelobdThrebd; }
 
-private:
-    PreloadThread preloadThread;
+privbte:
+    PrelobdThrebd prelobdThrebd;
 
 };
 
 
-/*  creates an instance of T and assigns it to the argument, but only if
-    the argument is initially NULL. Supposed to be thread-safe.
-    returns the new value of the argument. I'm not using volatile here
-    as InterlockedCompareExchange ensures volatile semantics
-    and acquire/release.
-    The function is useful when used with static POD NULL-initialized
-    pointers, as they are guaranteed to be NULL before any dynamic
-    initialization takes place. This function turns such a pointer
-    into a thread-safe singleton, working regardless of dynamic
-    initialization order. Destruction problem is not solved,
+/*  crebtes bn instbnce of T bnd bssigns it to the brgument, but only if
+    the brgument is initiblly NULL. Supposed to be threbd-sbfe.
+    returns the new vblue of the brgument. I'm not using volbtile here
+    bs InterlockedCompbreExchbnge ensures volbtile sembntics
+    bnd bcquire/relebse.
+    The function is useful when used with stbtic POD NULL-initiblized
+    pointers, bs they bre gubrbnteed to be NULL before bny dynbmic
+    initiblizbtion tbkes plbce. This function turns such b pointer
+    into b threbd-sbfe singleton, working regbrdless of dynbmic
+    initiblizbtion order. Destruction problem is not solved,
     we don't need it here.
 */
 
-template<typename T> inline T* SafeCreate(T* &pArg) {
-    /*  this implementation has no locks, it just destroys the object if it
-        fails to be the first to init. another way would be using a special
-        flag pointer value to mark the pointer as "being initialized". */
-    T* pTemp = (T*)InterlockedCompareExchangePointer((void**)&pArg, NULL, NULL);
+templbte<typenbme T> inline T* SbfeCrebte(T* &pArg) {
+    /*  this implementbtion hbs no locks, it just destroys the object if it
+        fbils to be the first to init. bnother wby would be using b specibl
+        flbg pointer vblue to mbrk the pointer bs "being initiblized". */
+    T* pTemp = (T*)InterlockedCompbreExchbngePointer((void**)&pArg, NULL, NULL);
     if (pTemp != NULL) return pTemp;
     T* pNew = new T;
-    pTemp = (T*)InterlockedCompareExchangePointer((void**)&pArg, pNew, NULL);
+    pTemp = (T*)InterlockedCompbreExchbngePointer((void**)&pArg, pNew, NULL);
     if (pTemp != NULL) {
-        // we failed it - another thread has already initialized pArg
+        // we fbiled it - bnother threbd hbs blrebdy initiblized pArg
         delete pNew;
         return pTemp;
     } else {

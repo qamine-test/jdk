@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.applet;
+pbckbge jbvb.bpplet;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 /**
- * When an applet is first created, an applet stub is attached to it
- * using the applet's <code>setStub</code> method. This stub
- * serves as the interface between the applet and the browser
- * environment or applet viewer environment in which the application
+ * When bn bpplet is first crebted, bn bpplet stub is bttbched to it
+ * using the bpplet's <code>setStub</code> method. This stub
+ * serves bs the interfbce between the bpplet bnd the browser
+ * environment or bpplet viewer environment in which the bpplicbtion
  * is running.
  *
- * @author      Arthur van Hoff
- * @see         java.applet.Applet#setStub(java.applet.AppletStub)
+ * @buthor      Arthur vbn Hoff
+ * @see         jbvb.bpplet.Applet#setStub(jbvb.bpplet.AppletStub)
  * @since       1.0
  */
-public interface AppletStub {
+public interfbce AppletStub {
     /**
-     * Determines if the applet is active. An applet is active just
-     * before its <code>start</code> method is called. It becomes
-     * inactive just before its <code>stop</code> method is called.
+     * Determines if the bpplet is bctive. An bpplet is bctive just
+     * before its <code>stbrt</code> method is cblled. It becomes
+     * inbctive just before its <code>stop</code> method is cblled.
      *
-     * @return  <code>true</code> if the applet is active;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if the bpplet is bctive;
+     *          <code>fblse</code> otherwise.
      */
-    boolean isActive();
+    boolebn isActive();
 
 
     /**
-     * Gets the URL of the document in which the applet is embedded.
-     * For example, suppose an applet is contained
+     * Gets the URL of the document in which the bpplet is embedded.
+     * For exbmple, suppose bn bpplet is contbined
      * within the document:
      * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
+     *    http://www.orbcle.com/technetwork/jbvb/index.html
      * </pre></blockquote>
-     * The document base is:
+     * The document bbse is:
      * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
+     *    http://www.orbcle.com/technetwork/jbvb/index.html
      * </pre></blockquote>
      *
-     * @return  the {@link java.net.URL} of the document that contains the
-     *          applet.
-     * @see     java.applet.AppletStub#getCodeBase()
+     * @return  the {@link jbvb.net.URL} of the document thbt contbins the
+     *          bpplet.
+     * @see     jbvb.bpplet.AppletStub#getCodeBbse()
      */
-    URL getDocumentBase();
+    URL getDocumentBbse();
 
     /**
-     * Gets the base URL. This is the URL of the directory which contains the applet.
+     * Gets the bbse URL. This is the URL of the directory which contbins the bpplet.
      *
-     * @return  the base {@link java.net.URL} of
-     *          the directory which contains the applet.
-     * @see     java.applet.AppletStub#getDocumentBase()
+     * @return  the bbse {@link jbvb.net.URL} of
+     *          the directory which contbins the bpplet.
+     * @see     jbvb.bpplet.AppletStub#getDocumentBbse()
      */
-    URL getCodeBase();
+    URL getCodeBbse();
 
     /**
-     * Returns the value of the named parameter in the HTML tag. For
-     * example, if an applet is specified as
+     * Returns the vblue of the nbmed pbrbmeter in the HTML tbg. For
+     * exbmple, if bn bpplet is specified bs
      * <blockquote><pre>
-     * &lt;applet code="Clock" width=50 height=50&gt;
-     * &lt;param name=Color value="blue"&gt;
-     * &lt;/applet&gt;
+     * &lt;bpplet code="Clock" width=50 height=50&gt;
+     * &lt;pbrbm nbme=Color vblue="blue"&gt;
+     * &lt;/bpplet&gt;
      * </pre></blockquote>
      * <p>
-     * then a call to <code>getParameter("Color")</code> returns the
-     * value <code>"blue"</code>.
+     * then b cbll to <code>getPbrbmeter("Color")</code> returns the
+     * vblue <code>"blue"</code>.
      *
-     * @param   name   a parameter name.
-     * @return  the value of the named parameter,
+     * @pbrbm   nbme   b pbrbmeter nbme.
+     * @return  the vblue of the nbmed pbrbmeter,
      * or <tt>null</tt> if not set.
      */
-    String getParameter(String name);
+    String getPbrbmeter(String nbme);
 
     /**
-     * Returns the applet's context.
+     * Returns the bpplet's context.
      *
-     * @return  the applet's context.
+     * @return  the bpplet's context.
      */
     AppletContext getAppletContext();
 
     /**
-     * Called when the applet wants to be resized.
+     * Cblled when the bpplet wbnts to be resized.
      *
-     * @param   width    the new requested width for the applet.
-     * @param   height   the new requested height for the applet.
+     * @pbrbm   width    the new requested width for the bpplet.
+     * @pbrbm   height   the new requested height for the bpplet.
      */
-    void appletResize(int width, int height);
+    void bppletResize(int width, int height);
 }

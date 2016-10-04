@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef JDWP_EVENTFILTER_H
 #define JDWP_EVENTFILTER_H
 
-#include "eventHandler.h"
+#include "eventHbndler.h"
 
 /***** filter set-up *****/
 
-jvmtiError eventFilter_setConditionalFilter(HandlerNode *node,
+jvmtiError eventFilter_setConditionblFilter(HbndlerNode *node,
                                       jint index, jint exprID);
-jvmtiError eventFilter_setCountFilter(HandlerNode *node,
+jvmtiError eventFilter_setCountFilter(HbndlerNode *node,
                                 jint index, jint count);
-jvmtiError eventFilter_setThreadOnlyFilter(HandlerNode *node,
-                                     jint index, jthread thread);
-jvmtiError eventFilter_setLocationOnlyFilter(HandlerNode *node,
+jvmtiError eventFilter_setThrebdOnlyFilter(HbndlerNode *node,
+                                     jint index, jthrebd threbd);
+jvmtiError eventFilter_setLocbtionOnlyFilter(HbndlerNode *node,
                                        jint index,
-                                       jclass clazz,
+                                       jclbss clbzz,
                                        jmethodID method,
-                                       jlocation location);
-jvmtiError eventFilter_setFieldOnlyFilter(HandlerNode *node,
+                                       jlocbtion locbtion);
+jvmtiError eventFilter_setFieldOnlyFilter(HbndlerNode *node,
                                     jint index,
-                                    jclass clazz,
+                                    jclbss clbzz,
                                     jfieldID field);
-jvmtiError eventFilter_setClassOnlyFilter(HandlerNode *node,
+jvmtiError eventFilter_setClbssOnlyFilter(HbndlerNode *node,
                                     jint index,
-                                    jclass clazz);
-jvmtiError eventFilter_setExceptionOnlyFilter(HandlerNode *node,
+                                    jclbss clbzz);
+jvmtiError eventFilter_setExceptionOnlyFilter(HbndlerNode *node,
                                         jint index,
-                                        jclass exceptionClass,
-                                        jboolean caught,
-                                        jboolean uncaught);
-jvmtiError eventFilter_setInstanceOnlyFilter(HandlerNode *node,
+                                        jclbss exceptionClbss,
+                                        jboolebn cbught,
+                                        jboolebn uncbught);
+jvmtiError eventFilter_setInstbnceOnlyFilter(HbndlerNode *node,
                                        jint index,
                                        jobject object);
-jvmtiError eventFilter_setClassMatchFilter(HandlerNode *node,
+jvmtiError eventFilter_setClbssMbtchFilter(HbndlerNode *node,
                                      jint index,
-                                     char *classPattern);
-jvmtiError eventFilter_setClassExcludeFilter(HandlerNode *node,
+                                     chbr *clbssPbttern);
+jvmtiError eventFilter_setClbssExcludeFilter(HbndlerNode *node,
                                        jint index,
-                                       char *classPattern);
-jvmtiError eventFilter_setStepFilter(HandlerNode *node,
+                                       chbr *clbssPbttern);
+jvmtiError eventFilter_setStepFilter(HbndlerNode *node,
                                jint index,
-                               jthread thread,
+                               jthrebd threbd,
                                jint size, jint depth);
-jvmtiError eventFilter_setSourceNameMatchFilter(HandlerNode *node,
+jvmtiError eventFilter_setSourceNbmeMbtchFilter(HbndlerNode *node,
                                                 jint index,
-                                                char *sourceNamePattern);
+                                                chbr *sourceNbmePbttern);
 
 /***** misc *****/
 
-jboolean eventFilter_predictFiltering(HandlerNode *node, jclass clazz, char *classname);
-jboolean isBreakpointSet(jclass clazz, jmethodID method, jlocation location);
+jboolebn eventFilter_predictFiltering(HbndlerNode *node, jclbss clbzz, chbr *clbssnbme);
+jboolebn isBrebkpointSet(jclbss clbzz, jmethodID method, jlocbtion locbtion);
 
 #endif /* _EVENT_FILTER_H */

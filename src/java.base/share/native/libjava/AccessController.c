@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*-
- *      Implementation of class java.security.AccessController
+ *      Implementbtion of clbss jbvb.security.AccessController
  *
  */
 
@@ -32,63 +32,63 @@
 
 #include "jni.h"
 #include "jvm.h"
-#include "java_security_AccessController.h"
+#include "jbvb_security_AccessController.h"
 
 /*
- * Class:     java_security_AccessController
+ * Clbss:     jbvb_security_AccessController
  * Method:    doPrivileged
- * Signature: (Ljava/security/PrivilegedAction;)Ljava/lang/Object;
+ * Signbture: (Ljbvb/security/PrivilegedAction;)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedAction_2
-  (JNIEnv *env, jclass cls, jobject action)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_security_AccessController_doPrivileged__Ljbvb_security_PrivilegedAction_2
+  (JNIEnv *env, jclbss cls, jobject bction)
 {
-    return JVM_DoPrivileged(env, cls, action, NULL, JNI_FALSE);
+    return JVM_DoPrivileged(env, cls, bction, NULL, JNI_FALSE);
 }
 
 /*
- * Class:     java_security_AccessController
+ * Clbss:     jbvb_security_AccessController
  * Method:    doPrivileged
- * Signature: (Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+ * Signbture: (Ljbvb/security/PrivilegedAction;Ljbvb/security/AccessControlContext;)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedAction_2Ljava_security_AccessControlContext_2
-  (JNIEnv *env, jclass cls, jobject action, jobject context)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_security_AccessController_doPrivileged__Ljbvb_security_PrivilegedAction_2Ljbvb_security_AccessControlContext_2
+  (JNIEnv *env, jclbss cls, jobject bction, jobject context)
 {
-    return JVM_DoPrivileged(env, cls, action, context, JNI_FALSE);
+    return JVM_DoPrivileged(env, cls, bction, context, JNI_FALSE);
 }
 
 /*
- * Class:     java_security_AccessController
+ * Clbss:     jbvb_security_AccessController
  * Method:    doPrivileged
- * Signature: (Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;
+ * Signbture: (Ljbvb/security/PrivilegedExceptionAction;)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedExceptionAction_2
-  (JNIEnv *env, jclass cls, jobject action)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_security_AccessController_doPrivileged__Ljbvb_security_PrivilegedExceptionAction_2
+  (JNIEnv *env, jclbss cls, jobject bction)
 {
-    return JVM_DoPrivileged(env, cls, action, NULL, JNI_TRUE);
+    return JVM_DoPrivileged(env, cls, bction, NULL, JNI_TRUE);
 }
 
 /*
- * Class:     java_security_AccessController
+ * Clbss:     jbvb_security_AccessController
  * Method:    doPrivileged
- * Signature: (Ljava/security/PrivilegedExceptionAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+ * Signbture: (Ljbvb/security/PrivilegedExceptionAction;Ljbvb/security/AccessControlContext;)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedExceptionAction_2Ljava_security_AccessControlContext_2
-  (JNIEnv *env, jclass cls, jobject action, jobject context)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_security_AccessController_doPrivileged__Ljbvb_security_PrivilegedExceptionAction_2Ljbvb_security_AccessControlContext_2
+  (JNIEnv *env, jclbss cls, jobject bction, jobject context)
 {
-    return JVM_DoPrivileged(env, cls, action, context, JNI_TRUE);
+    return JVM_DoPrivileged(env, cls, bction, context, JNI_TRUE);
 }
 
 JNIEXPORT jobject JNICALL
-Java_java_security_AccessController_getStackAccessControlContext(
+Jbvb_jbvb_security_AccessController_getStbckAccessControlContext(
                                                               JNIEnv *env,
                                                               jobject this)
 {
-    return JVM_GetStackAccessControlContext(env, this);
+    return JVM_GetStbckAccessControlContext(env, this);
 }
 
 
 JNIEXPORT jobject JNICALL
-Java_java_security_AccessController_getInheritedAccessControlContext(
+Jbvb_jbvb_security_AccessController_getInheritedAccessControlContext(
                                                               JNIEnv *env,
                                                               jobject this)
 {

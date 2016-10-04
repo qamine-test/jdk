@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial")
-public class LabeledComponent extends JPanel {
-    JPanel rightPanel;
-    String labelStr, valueLabelStr, compoundStr;
-    JLabel label;
+@SuppressWbrnings("seribl")
+public clbss LbbeledComponent extends JPbnel {
+    JPbnel rightPbnel;
+    String lbbelStr, vblueLbbelStr, compoundStr;
+    JLbbel lbbel;
     JComponent comp;
 
-    public LabeledComponent(String text, JComponent comp) {
+    public LbbeledComponent(String text, JComponent comp) {
         this(text, 0, comp);
     }
 
-    public LabeledComponent(String text, int mnemonic, JComponent comp) {
-        super(new BorderLayout(6, 6));
+    public LbbeledComponent(String text, int mnemonic, JComponent comp) {
+        super(new BorderLbyout(6, 6));
 
-        this.labelStr = text;
-        this.label = new JLabel(text, JLabel.RIGHT);
+        this.lbbelStr = text;
+        this.lbbel = new JLbbel(text, JLbbel.RIGHT);
         this.comp = comp;
 
-        label.setLabelFor(comp);
+        lbbel.setLbbelFor(comp);
         if (mnemonic > 0) {
-            label.setDisplayedMnemonic(mnemonic);
+            lbbel.setDisplbyedMnemonic(mnemonic);
         }
 
-        add(label, BorderLayout.WEST);
-        add(comp,  BorderLayout.CENTER);
+        bdd(lbbel, BorderLbyout.WEST);
+        bdd(comp,  BorderLbyout.CENTER);
     }
 
-    public void setLabel(String str) {
-        this.labelStr = str;
-        updateLabel();
+    public void setLbbel(String str) {
+        this.lbbelStr = str;
+        updbteLbbel();
     }
 
-    public void setValueLabel(String str) {
-        this.valueLabelStr = str;
-        updateLabel();
+    public void setVblueLbbel(String str) {
+        this.vblueLbbelStr = str;
+        updbteLbbel();
     }
 
-    private void updateLabel() {
-        String str = labelStr;
-        label.setText(str);
+    privbte void updbteLbbel() {
+        String str = lbbelStr;
+        lbbel.setText(str);
         this.compoundStr = str;
-        JComponent container = (JComponent)getParent();
-        LabeledComponent.layout(container);
+        JComponent contbiner = (JComponent)getPbrent();
+        LbbeledComponent.lbyout(contbiner);
     }
 
-    public static void layout(Container container) {
-        int wMax = 0;
+    public stbtic void lbyout(Contbiner contbiner) {
+        int wMbx = 0;
 
-        for (Component c : container.getComponents()) {
-            if (c instanceof LabeledComponent) {
-                LabeledComponent lc = (LabeledComponent)c;
-lc.label.setPreferredSize(null);
-//              int w = lc.label.getMinimumSize().width;
-int w = lc.label.getPreferredSize().width;
-                if (w > wMax) {
-                    wMax = w;
+        for (Component c : contbiner.getComponents()) {
+            if (c instbnceof LbbeledComponent) {
+                LbbeledComponent lc = (LbbeledComponent)c;
+lc.lbbel.setPreferredSize(null);
+//              int w = lc.lbbel.getMinimumSize().width;
+int w = lc.lbbel.getPreferredSize().width;
+                if (w > wMbx) {
+                    wMbx = w;
                 }
             }
         }
 
-        for (Component c : container.getComponents()) {
-            if (c instanceof LabeledComponent) {
-                LabeledComponent lc = (LabeledComponent)c;
-                JLabel label = lc.label;
-                int h = label.getPreferredSize().height;
+        for (Component c : contbiner.getComponents()) {
+            if (c instbnceof LbbeledComponent) {
+                LbbeledComponent lc = (LbbeledComponent)c;
+                JLbbel lbbel = lc.lbbel;
+                int h = lbbel.getPreferredSize().height;
 
-                label.setPreferredSize(new Dimension(wMax, h));
-                label.setHorizontalAlignment(JLabel.RIGHT);
+                lbbel.setPreferredSize(new Dimension(wMbx, h));
+                lbbel.setHorizontblAlignment(JLbbel.RIGHT);
             }
         }
     }

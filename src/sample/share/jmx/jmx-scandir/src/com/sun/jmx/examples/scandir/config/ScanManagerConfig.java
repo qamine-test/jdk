@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,275 +30,275 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbckbge com.sun.jmx.exbmples.scbndir.config;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import jbvb.util.Arrbys;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.xml.bind.bnnotbtion.XmlAttribute;
+import jbvbx.xml.bind.bnnotbtion.XmlElement;
+import jbvbx.xml.bind.bnnotbtion.XmlElementRef;
+import jbvbx.xml.bind.bnnotbtion.XmlElementWrbpper;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElement;
 
 
 /**
- * The <code>ScanManagerConfig</code> Java Bean is used to model
- * the configuration of the {@link
- * com.sun.jmx.examples.scandir.ScanManagerMXBean ScanManagerMXBean}.
+ * The <code>ScbnMbnbgerConfig</code> Jbvb Bebn is used to model
+ * the configurbtion of the {@link
+ * com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn ScbnMbnbgerMXBebn}.
  *
  * The {@link
- * com.sun.jmx.examples.scandir.ScanManagerMXBean ScanManagerMXBean} will
- * use this configuration to initialize the {@link
- * com.sun.jmx.examples.scandir.ResultLogManagerMXBean ResultLogManagerMXBean}
- * and create the {@link
- * com.sun.jmx.examples.scandir.DirectoryScannerMXBean DirectoryScannerMXBeans}
+ * com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn ScbnMbnbgerMXBebn} will
+ * use this configurbtion to initiblize the {@link
+ * com.sun.jmx.exbmples.scbndir.ResultLogMbnbgerMXBebn ResultLogMbnbgerMXBebn}
+ * bnd crebte the {@link
+ * com.sun.jmx.exbmples.scbndir.DirectoryScbnnerMXBebn DirectoryScbnnerMXBebns}
  * <p>
- * This class is annotated for XML binding.
+ * This clbss is bnnotbted for XML binding.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  **/
-@XmlRootElement(name="ScanManager",
-        namespace="jmx:com.sun.jmx.examples.scandir.config")
-public class ScanManagerConfig {
+@XmlRootElement(nbme="ScbnMbnbger",
+        nbmespbce="jmx:com.sun.jmx.exbmples.scbndir.config")
+public clbss ScbnMbnbgerConfig {
 
-    // A logger for this class
+    // A logger for this clbss
     //
-    // private static final Logger LOG =
-    //        Logger.getLogger(ScanManagerConfig.class.getName());
+    // privbte stbtic finbl Logger LOG =
+    //        Logger.getLogger(ScbnMbnbgerConfig.clbss.getNbme());
 
     /**
-     * A set of DirectoryScannerConfig objects indexed by their names.
+     * A set of DirectoryScbnnerConfig objects indexed by their nbmes.
      **/
-    private final Map<String, DirectoryScannerConfig> directoryScanners;
+    privbte finbl Mbp<String, DirectoryScbnnerConfig> directoryScbnners;
 
     /**
-     * The initial Result Log configuration.
+     * The initibl Result Log configurbtion.
      */
-    private ResultLogConfig initialResultLogConfig;
+    privbte ResultLogConfig initiblResultLogConfig;
 
     /**
-     * Holds value of property name. The name of the configuration
-     *       usually corresponds to
-     *       the value of the {@code name=} key of the {@code ObjectName}
+     * Holds vblue of property nbme. The nbme of the configurbtion
+     *       usublly corresponds to
+     *       the vblue of the {@code nbme=} key of the {@code ObjectNbme}
      *       of the {@link
-     *       com.sun.jmx.examples.scandir.ScanDirConfigMXBean
-     *       ScanDirConfigMXBean} which owns this configuration.
+     *       com.sun.jmx.exbmples.scbndir.ScbnDirConfigMXBebn
+     *       ScbnDirConfigMXBebn} which owns this configurbtion.
      **/
-    private String name;
+    privbte String nbme;
 
     /**
-     * Creates a new instance of ScanManagerConfig.
+     * Crebtes b new instbnce of ScbnMbnbgerConfig.
      * <p>You should not use this constructor directly, but use
-     *    {@link #ScanManagerConfig(String)} instead.
+     *    {@link #ScbnMbnbgerConfig(String)} instebd.
      * </p>
-     * <p>This constructor is tagged deprecated so that the compiler
-     *    will generate a warning if it is used by mistake.
+     * <p>This constructor is tbgged deprecbted so thbt the compiler
+     *    will generbte b wbrning if it is used by mistbke.
      * </p>
-     * @deprecated Use {@link #ScanManagerConfig(String)} instead. This
+     * @deprecbted Use {@link #ScbnMbnbgerConfig(String)} instebd. This
      *             constructor is used through reflection by the XML
-     *             binding framework.
+     *             binding frbmework.
      */
-    public ScanManagerConfig() {
+    public ScbnMbnbgerConfig() {
         this(null,true);
     }
 
     /**
-     * Creates a new instance of ScanManagerConfig.
-     * @param name The name of the configuration which usually corresponds to
-     *       the value of the {@code name=} key of the {@code ObjectName}
+     * Crebtes b new instbnce of ScbnMbnbgerConfig.
+     * @pbrbm nbme The nbme of the configurbtion which usublly corresponds to
+     *       the vblue of the {@code nbme=} key of the {@code ObjectNbme}
      *       of the {@link
-     *       com.sun.jmx.examples.scandir.ScanDirConfigMXBean
-     *       ScanDirConfigMXBean} which owns this configuration.
+     *       com.sun.jmx.exbmples.scbndir.ScbnDirConfigMXBebn
+     *       ScbnDirConfigMXBebn} which owns this configurbtion.
      **/
-    public ScanManagerConfig(String name) {
-        this(name,false);
+    public ScbnMbnbgerConfig(String nbme) {
+        this(nbme,fblse);
     }
 
-    // Our private constructor...
-    private ScanManagerConfig(String name, boolean allowsNull) {
-        if (name == null && allowsNull==false)
-            throw new IllegalArgumentException("name=null");
-        this.name = name;
-        directoryScanners = new LinkedHashMap<String,DirectoryScannerConfig>();
-        this.initialResultLogConfig = new ResultLogConfig();
-        this.initialResultLogConfig.setMemoryMaxRecords(1024);
+    // Our privbte constructor...
+    privbte ScbnMbnbgerConfig(String nbme, boolebn bllowsNull) {
+        if (nbme == null && bllowsNull==fblse)
+            throw new IllegblArgumentException("nbme=null");
+        this.nbme = nbme;
+        directoryScbnners = new LinkedHbshMbp<String,DirectoryScbnnerConfig>();
+        this.initiblResultLogConfig = new ResultLogConfig();
+        this.initiblResultLogConfig.setMemoryMbxRecords(1024);
     }
 
-    // Creates an array for deep equality.
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            name,directoryScanners,initialResultLogConfig
+    // Crebtes bn brrby for deep equblity.
+    privbte Object[] toArrby() {
+        finbl Object[] thisconfig = {
+            nbme,directoryScbnners,initiblResultLogConfig
         };
         return thisconfig;
     }
 
-    // equals
+    // equbls
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this) return true;
-        if (!(o instanceof ScanManagerConfig)) return false;
-        final ScanManagerConfig other = (ScanManagerConfig)o;
-        if (this.directoryScanners.size() != other.directoryScanners.size())
-            return false;
-        return Arrays.deepEquals(toArray(),other.toArray());
+        if (!(o instbnceof ScbnMbnbgerConfig)) return fblse;
+        finbl ScbnMbnbgerConfig other = (ScbnMbnbgerConfig)o;
+        if (this.directoryScbnners.size() != other.directoryScbnners.size())
+            return fblse;
+        return Arrbys.deepEqubls(toArrby(),other.toArrby());
     }
 
     @Override
-    public int hashCode() {
-        final String key = name;
+    public int hbshCode() {
+        finbl String key = nbme;
         if (key == null) return 0;
-        else return key.hashCode();
+        else return key.hbshCode();
     }
 
     /**
-     * Gets the name of this configuration. The name of the configuration
-     *       usually corresponds to
-     *       the value of the {@code name=} key of the {@code ObjectName}
+     * Gets the nbme of this configurbtion. The nbme of the configurbtion
+     *       usublly corresponds to
+     *       the vblue of the {@code nbme=} key of the {@code ObjectNbme}
      *       of the {@link
-     *       com.sun.jmx.examples.scandir.ScanDirConfigMXBean
-     *       ScanDirConfigMXBean} which owns this configuration.
-     * @return The name of this configuration.
+     *       com.sun.jmx.exbmples.scbndir.ScbnDirConfigMXBebn
+     *       ScbnDirConfigMXBebn} which owns this configurbtion.
+     * @return The nbme of this configurbtion.
      */
-    @XmlAttribute(name="name",required=true)
-    public String getName() {
-        return this.name;
+    @XmlAttribute(nbme="nbme",required=true)
+    public String getNbme() {
+        return this.nbme;
     }
 
     /**
-     * Sets the name of this configuration. The name of the configuration
-     *       usually corresponds to
-     *       the value of the {@code name=} key of the {@code ObjectName}
+     * Sets the nbme of this configurbtion. The nbme of the configurbtion
+     *       usublly corresponds to
+     *       the vblue of the {@code nbme=} key of the {@code ObjectNbme}
      *       of the {@link
-     *       com.sun.jmx.examples.scandir.ScanDirConfigMXBean
-     *       ScanDirConfigMXBean} which owns this configuration.
-     *       <p>Once set this value cannot change.</p>
-     * @param name The name of this configuration.
+     *       com.sun.jmx.exbmples.scbndir.ScbnDirConfigMXBebn
+     *       ScbnDirConfigMXBebn} which owns this configurbtion.
+     *       <p>Once set this vblue cbnnot chbnge.</p>
+     * @pbrbm nbme The nbme of this configurbtion.
      */
-    public void setName(String name) {
-        if (this.name == null)
-            this.name = name;
-        else if (name == null)
-            throw new IllegalArgumentException("name=null");
-        else if (!name.equals(this.name))
-            throw new IllegalArgumentException("name="+name);
+    public void setNbme(String nbme) {
+        if (this.nbme == null)
+            this.nbme = nbme;
+        else if (nbme == null)
+            throw new IllegblArgumentException("nbme=null");
+        else if (!nbme.equbls(this.nbme))
+            throw new IllegblArgumentException("nbme="+nbme);
     }
 
    /**
-    * Gets the list of Directory Scanner configured by this
-    * configuration. From each element in this list, the
-    * {@link com.sun.jmx.examples.scandir.ScanManagerMXBean ScanManagerMXBean}
-    * will create, initialize, and register a {@link
-    * com.sun.jmx.examples.scandir.DirectoryScannerMXBean}.
-    * @return The list of Directory Scanner configured by this configuration.
+    * Gets the list of Directory Scbnner configured by this
+    * configurbtion. From ebch element in this list, the
+    * {@link com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn ScbnMbnbgerMXBebn}
+    * will crebte, initiblize, bnd register b {@link
+    * com.sun.jmx.exbmples.scbndir.DirectoryScbnnerMXBebn}.
+    * @return The list of Directory Scbnner configured by this configurbtion.
     */
-    @XmlElementWrapper(name="DirectoryScannerList",
-            namespace=XmlConfigUtils.NAMESPACE)
+    @XmlElementWrbpper(nbme="DirectoryScbnnerList",
+            nbmespbce=XmlConfigUtils.NAMESPACE)
     @XmlElementRef
-    public DirectoryScannerConfig[] getScanList() {
-        return directoryScanners.values().toArray(new DirectoryScannerConfig[0]);
+    public DirectoryScbnnerConfig[] getScbnList() {
+        return directoryScbnners.vblues().toArrby(new DirectoryScbnnerConfig[0]);
     }
 
    /**
-    * Sets the list of Directory Scanner configured by this
-    * configuration. From each element in this list, the
-    * {@link com.sun.jmx.examples.scandir.ScanManagerMXBean ScanManagerMXBean}
-    * will create, initialize, and register a {@link
-    * com.sun.jmx.examples.scandir.DirectoryScannerMXBean}.
-    * @param scans The list of Directory Scanner configured by this configuration.
+    * Sets the list of Directory Scbnner configured by this
+    * configurbtion. From ebch element in this list, the
+    * {@link com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn ScbnMbnbgerMXBebn}
+    * will crebte, initiblize, bnd register b {@link
+    * com.sun.jmx.exbmples.scbndir.DirectoryScbnnerMXBebn}.
+    * @pbrbm scbns The list of Directory Scbnner configured by this configurbtion.
     */
-    public void setScanList(DirectoryScannerConfig[] scans) {
-        directoryScanners.clear();
-        for (DirectoryScannerConfig scan : scans)
-            directoryScanners.put(scan.getName(),scan);
+    public void setScbnList(DirectoryScbnnerConfig[] scbns) {
+        directoryScbnners.clebr();
+        for (DirectoryScbnnerConfig scbn : scbns)
+            directoryScbnners.put(scbn.getNbme(),scbn);
     }
 
     /**
-     * Get a directory scanner by its name.
+     * Get b directory scbnner by its nbme.
      *
-     * @param name The name of the directory scanner. This is the
-     *             value returned by {@link
-     *             DirectoryScannerConfig#getName()}.
-     * @return The named {@code DirectoryScannerConfig}
+     * @pbrbm nbme The nbme of the directory scbnner. This is the
+     *             vblue returned by {@link
+     *             DirectoryScbnnerConfig#getNbme()}.
+     * @return The nbmed {@code DirectoryScbnnerConfig}
      */
-    public DirectoryScannerConfig getScan(String name) {
-        return directoryScanners.get(name);
+    public DirectoryScbnnerConfig getScbn(String nbme) {
+        return directoryScbnners.get(nbme);
     }
 
     /**
-     * Adds a directory scanner to the list.
-     * <p>If a directory scanner
-     * configuration by that name already exists in the list, it will
-     * be replaced by the given <var>scan</var>.
+     * Adds b directory scbnner to the list.
+     * <p>If b directory scbnner
+     * configurbtion by thbt nbme blrebdy exists in the list, it will
+     * be replbced by the given <vbr>scbn</vbr>.
      * </p>
-     * @param scan The {@code DirectoryScannerConfig} to add to the list.
-     * @return The replaced {@code DirectoryScannerConfig}, or {@code null}
-     *         if there was no {@code DirectoryScannerConfig} by that name
+     * @pbrbm scbn The {@code DirectoryScbnnerConfig} to bdd to the list.
+     * @return The replbced {@code DirectoryScbnnerConfig}, or {@code null}
+     *         if there wbs no {@code DirectoryScbnnerConfig} by thbt nbme
      *         in the list.
      */
-    public DirectoryScannerConfig putScan(DirectoryScannerConfig scan) {
-        return this.directoryScanners.put(scan.getName(),scan);
+    public DirectoryScbnnerConfig putScbn(DirectoryScbnnerConfig scbn) {
+        return this.directoryScbnners.put(scbn.getNbme(),scbn);
     }
 
-    // XML value of  this object.
+    // XML vblue of  this object.
     public String toString() {
         return XmlConfigUtils.toString(this);
     }
 
     /**
-     * Removes the named directory scanner from the list.
+     * Removes the nbmed directory scbnner from the list.
      *
-     * @param name The name of the directory scanner. This is the
-     *             value returned by {@link
-     *             DirectoryScannerConfig#getName()}.
-     * @return The removed {@code DirectoryScannerConfig}, or {@code null}
-     *         if there was no directory scanner by that name in the list.
+     * @pbrbm nbme The nbme of the directory scbnner. This is the
+     *             vblue returned by {@link
+     *             DirectoryScbnnerConfig#getNbme()}.
+     * @return The removed {@code DirectoryScbnnerConfig}, or {@code null}
+     *         if there wbs no directory scbnner by thbt nbme in the list.
      */
-    public DirectoryScannerConfig removeScan(String name) {
-       return this.directoryScanners.remove(name);
+    public DirectoryScbnnerConfig removeScbn(String nbme) {
+       return this.directoryScbnners.remove(nbme);
     }
 
     /**
-     * Gets the initial Result Log Configuration.
-     * @return The initial Result Log Configuration.
+     * Gets the initibl Result Log Configurbtion.
+     * @return The initibl Result Log Configurbtion.
      */
-    @XmlElement(name="InitialResultLogConfig",namespace=XmlConfigUtils.NAMESPACE)
-    public ResultLogConfig getInitialResultLogConfig() {
-        return this.initialResultLogConfig;
+    @XmlElement(nbme="InitiblResultLogConfig",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public ResultLogConfig getInitiblResultLogConfig() {
+        return this.initiblResultLogConfig;
     }
 
     /**
-     * Sets the initial Result Log Configuration.
-     * @param initialLogConfig The initial Result Log Configuration.
+     * Sets the initibl Result Log Configurbtion.
+     * @pbrbm initiblLogConfig The initibl Result Log Configurbtion.
      */
-    public void setInitialResultLogConfig(ResultLogConfig initialLogConfig) {
-        this.initialResultLogConfig = initialLogConfig;
+    public void setInitiblResultLogConfig(ResultLogConfig initiblLogConfig) {
+        this.initiblResultLogConfig = initiblLogConfig;
     }
 
     /**
-     * Creates a copy of this object, with the specified name.
-     * @param newname the name of the copy.
+     * Crebtes b copy of this object, with the specified nbme.
+     * @pbrbm newnbme the nbme of the copy.
      * @return A copy of this object.
      **/
-    public ScanManagerConfig copy(String newname) {
-        return copy(newname,this);
+    public ScbnMbnbgerConfig copy(String newnbme) {
+        return copy(newnbme,this);
     }
 
-    // Copy by XML cloning, then change the name.
+    // Copy by XML cloning, then chbnge the nbme.
     //
-    private static ScanManagerConfig
-            copy(String newname, ScanManagerConfig other) {
-        ScanManagerConfig newbean = XmlConfigUtils.xmlClone(other);
-        newbean.name = newname;
-        return newbean;
+    privbte stbtic ScbnMbnbgerConfig
+            copy(String newnbme, ScbnMbnbgerConfig other) {
+        ScbnMbnbgerConfig newbebn = XmlConfigUtils.xmlClone(other);
+        newbebn.nbme = newnbme;
+        return newbebn;
     }
 }

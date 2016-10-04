@@ -3,35 +3,35 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
 
 /**
  *
  */
-public class XMLEncryptionException extends XMLSecurityException {
+public clbss XMLEncryptionException extends XMLSecurityException {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    privbte stbtic finbl long seriblVersionUID = 1L;
 
     /**
      *
@@ -43,7 +43,7 @@ public class XMLEncryptionException extends XMLSecurityException {
 
     /**
      *
-     * @param msgID
+     * @pbrbm msgID
      */
     public XMLEncryptionException(String msgID) {
         super(msgID);
@@ -51,8 +51,8 @@ public class XMLEncryptionException extends XMLSecurityException {
 
     /**
      *
-     * @param msgID
-     * @param exArgs
+     * @pbrbm msgID
+     * @pbrbm exArgs
      */
     public XMLEncryptionException(String msgID, Object exArgs[]) {
         super(msgID, exArgs);
@@ -60,21 +60,21 @@ public class XMLEncryptionException extends XMLSecurityException {
 
     /**
      *
-     * @param msgID
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm originblException
      */
-    public XMLEncryptionException(String msgID, Exception originalException) {
-        super(msgID, originalException);
+    public XMLEncryptionException(String msgID, Exception originblException) {
+        super(msgID, originblException);
 
     }
 
     /**
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm exArgs
+     * @pbrbm originblException
      */
-    public XMLEncryptionException(String msgID, Object exArgs[], Exception originalException) {
-        super(msgID, exArgs, originalException);
+    public XMLEncryptionException(String msgID, Object exArgs[], Exception originblException) {
+        super(msgID, exArgs, originblException);
     }
 }

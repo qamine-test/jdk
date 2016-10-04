@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.io.*;
-import java.net.*;
-import javax.net.ssl.*;
-import java.util.*;
-import java.util.logging.Logger;
-import java.text.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvbx.net.ssl.*;
+import jbvb.util.*;
+import jbvb.util.logging.Logger;
+import jbvb.text.*;
 import com.sun.net.httpserver.*;
 
-class ExchangeImpl {
+clbss ExchbngeImpl {
 
-    Headers reqHdrs, rspHdrs;
+    Hebders reqHdrs, rspHdrs;
     Request req;
     String method;
-    boolean writefinished;
+    boolebn writefinished;
     URI uri;
     HttpConnection connection;
     long reqContentLen;
     long rspContentLen;
-    /* raw streams which access the socket directly */
-    InputStream ris;
-    OutputStream ros;
-    Thread thread;
-    /* close the underlying connection when this exchange finished */
-    boolean close;
-    boolean closed;
-    boolean http10 = false;
+    /* rbw strebms which bccess the socket directly */
+    InputStrebm ris;
+    OutputStrebm ros;
+    Threbd threbd;
+    /* close the underlying connection when this exchbnge finished */
+    boolebn close;
+    boolebn closed;
+    boolebn http10 = fblse;
 
-    /* for formatting the Date: header */
-    private static final String pattern = "EEE, dd MMM yyyy HH:mm:ss zzz";
-    private static final TimeZone gmtTZ = TimeZone.getTimeZone("GMT");
-    private static final ThreadLocal<DateFormat> dateFormat =
-         new ThreadLocal<DateFormat>() {
-             @Override protected DateFormat initialValue() {
-                 DateFormat df = new SimpleDateFormat(pattern, Locale.US);
+    /* for formbtting the Dbte: hebder */
+    privbte stbtic finbl String pbttern = "EEE, dd MMM yyyy HH:mm:ss zzz";
+    privbte stbtic finbl TimeZone gmtTZ = TimeZone.getTimeZone("GMT");
+    privbte stbtic finbl ThrebdLocbl<DbteFormbt> dbteFormbt =
+         new ThrebdLocbl<DbteFormbt>() {
+             @Override protected DbteFormbt initiblVblue() {
+                 DbteFormbt df = new SimpleDbteFormbt(pbttern, Locble.US);
                  df.setTimeZone(gmtTZ);
                  return df;
          }
      };
 
-    private static final String HEAD = "HEAD";
+    privbte stbtic finbl String HEAD = "HEAD";
 
-    /* streams which take care of the HTTP protocol framing
-     * and are passed up to higher layers
+    /* strebms which tbke cbre of the HTTP protocol frbming
+     * bnd bre pbssed up to higher lbyers
      */
-    InputStream uis;
-    OutputStream uos;
-    LeftOverInputStream uis_orig; // uis may have be a user supplied wrapper
-    PlaceholderOutputStream uos_orig;
+    InputStrebm uis;
+    OutputStrebm uos;
+    LeftOverInputStrebm uis_orig; // uis mby hbve be b user supplied wrbpper
+    PlbceholderOutputStrebm uos_orig;
 
-    boolean sentHeaders; /* true after response headers sent */
-    Map<String,Object> attributes;
+    boolebn sentHebders; /* true bfter response hebders sent */
+    Mbp<String,Object> bttributes;
     int rcode = -1;
-    HttpPrincipal principal;
+    HttpPrincipbl principbl;
     ServerImpl server;
 
-    ExchangeImpl (
+    ExchbngeImpl (
         String m, URI u, Request req, long len, HttpConnection connection
     ) throws IOException {
         this.req = req;
-        this.reqHdrs = req.headers();
-        this.rspHdrs = new Headers();
+        this.reqHdrs = req.hebders();
+        this.rspHdrs = new Hebders();
         this.method = m;
         this.uri = u;
         this.connection = connection;
         this.reqContentLen = len;
-        /* ros only used for headers, body written directly to stream */
-        this.ros = req.outputStream();
-        this.ris = req.inputStream();
+        /* ros only used for hebders, body written directly to strebm */
+        this.ros = req.outputStrebm();
+        this.ris = req.inputStrebm();
         server = getServerImpl();
-        server.startExchange();
+        server.stbrtExchbnge();
     }
 
-    public Headers getRequestHeaders () {
-        return new UnmodifiableHeaders (reqHdrs);
+    public Hebders getRequestHebders () {
+        return new UnmodifibbleHebders (reqHdrs);
     }
 
-    public Headers getResponseHeaders () {
+    public Hebders getResponseHebders () {
         return rspHdrs;
     }
 
@@ -117,8 +117,8 @@ class ExchangeImpl {
         return connection.getHttpContext();
     }
 
-    private boolean isHeadRequest() {
-        return HEAD.equals(getRequestMethod());
+    privbte boolebn isHebdRequest() {
+        return HEAD.equbls(getRequestMethod());
     }
 
     public void close () {
@@ -128,16 +128,16 @@ class ExchangeImpl {
         closed = true;
 
         /* close the underlying connection if,
-         * a) the streams not set up yet, no response can be sent, or
-         * b) if the wrapper output stream is not set up, or
-         * c) if the close of the input/outpu stream fails
+         * b) the strebms not set up yet, no response cbn be sent, or
+         * b) if the wrbpper output strebm is not set up, or
+         * c) if the close of the input/outpu strebm fbils
          */
         try {
             if (uis_orig == null || uos == null) {
                 connection.close();
                 return;
             }
-            if (!uos_orig.isWrapped()) {
+            if (!uos_orig.isWrbpped()) {
                 connection.close();
                 return;
             }
@@ -145,26 +145,26 @@ class ExchangeImpl {
                 uis_orig.close();
             }
             uos.close();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             connection.close();
         }
     }
 
-    public InputStream getRequestBody () {
+    public InputStrebm getRequestBody () {
         if (uis != null) {
             return uis;
         }
         if (reqContentLen == -1L) {
-            uis_orig = new ChunkedInputStream (this, ris);
+            uis_orig = new ChunkedInputStrebm (this, ris);
             uis = uis_orig;
         } else {
-            uis_orig = new FixedLengthInputStream (this, ris, reqContentLen);
+            uis_orig = new FixedLengthInputStrebm (this, ris, reqContentLen);
             uis = uis_orig;
         }
         return uis;
     }
 
-    LeftOverInputStream getOriginalInputStream () {
+    LeftOverInputStrebm getOriginblInputStrebm () {
         return uis_orig;
     }
 
@@ -172,80 +172,80 @@ class ExchangeImpl {
         return rcode;
     }
 
-    public OutputStream getResponseBody () {
-        /* TODO. Change spec to remove restriction below. Filters
-         * cannot work with this restriction
+    public OutputStrebm getResponseBody () {
+        /* TODO. Chbnge spec to remove restriction below. Filters
+         * cbnnot work with this restriction
          *
-         * if (!sentHeaders) {
-         *    throw new IllegalStateException ("headers not sent");
+         * if (!sentHebders) {
+         *    throw new IllegblStbteException ("hebders not sent");
          * }
          */
         if (uos == null) {
-            uos_orig = new PlaceholderOutputStream (null);
+            uos_orig = new PlbceholderOutputStrebm (null);
             uos = uos_orig;
         }
         return uos;
     }
 
 
-    /* returns the place holder stream, which is the stream
-     * returned from the 1st call to getResponseBody()
-     * The "real" ouputstream is then placed inside this
+    /* returns the plbce holder strebm, which is the strebm
+     * returned from the 1st cbll to getResponseBody()
+     * The "rebl" ouputstrebm is then plbced inside this
      */
-    PlaceholderOutputStream getPlaceholderResponseBody () {
+    PlbceholderOutputStrebm getPlbceholderResponseBody () {
         getResponseBody();
         return uos_orig;
     }
 
-    public void sendResponseHeaders (int rCode, long contentLen)
+    public void sendResponseHebders (int rCode, long contentLen)
     throws IOException
     {
-        if (sentHeaders) {
-            throw new IOException ("headers already sent");
+        if (sentHebders) {
+            throw new IOException ("hebders blrebdy sent");
         }
         this.rcode = rCode;
-        String statusLine = "HTTP/1.1 "+rCode+Code.msg(rCode)+"\r\n";
-        OutputStream tmpout = new BufferedOutputStream (ros);
-        PlaceholderOutputStream o = getPlaceholderResponseBody();
-        tmpout.write (bytes(statusLine, 0), 0, statusLine.length());
-        boolean noContentToSend = false; // assume there is content
-        rspHdrs.set ("Date", dateFormat.get().format (new Date()));
+        String stbtusLine = "HTTP/1.1 "+rCode+Code.msg(rCode)+"\r\n";
+        OutputStrebm tmpout = new BufferedOutputStrebm (ros);
+        PlbceholderOutputStrebm o = getPlbceholderResponseBody();
+        tmpout.write (bytes(stbtusLine, 0), 0, stbtusLine.length());
+        boolebn noContentToSend = fblse; // bssume there is content
+        rspHdrs.set ("Dbte", dbteFormbt.get().formbt (new Dbte()));
 
-        /* check for response type that is not allowed to send a body */
+        /* check for response type thbt is not bllowed to send b body */
 
-        if ((rCode>=100 && rCode <200) /* informational */
+        if ((rCode>=100 && rCode <200) /* informbtionbl */
             ||(rCode == 204)           /* no content */
             ||(rCode == 304))          /* not modified */
         {
             if (contentLen != -1) {
                 Logger logger = server.getLogger();
-                String msg = "sendResponseHeaders: rCode = "+ rCode
+                String msg = "sendResponseHebders: rCode = "+ rCode
                     + ": forcing contentLen = -1";
-                logger.warning (msg);
+                logger.wbrning (msg);
             }
             contentLen = -1;
         }
 
-        if (isHeadRequest()) {
-            /* HEAD requests should not set a content length by passing it
-             * through this API, but should instead manually set the required
-             * headers.*/
+        if (isHebdRequest()) {
+            /* HEAD requests should not set b content length by pbssing it
+             * through this API, but should instebd mbnublly set the required
+             * hebders.*/
             if (contentLen >= 0) {
-                final Logger logger = server.getLogger();
+                finbl Logger logger = server.getLogger();
                 String msg =
-                    "sendResponseHeaders: being invoked with a content length for a HEAD request";
-                logger.warning (msg);
+                    "sendResponseHebders: being invoked with b content length for b HEAD request";
+                logger.wbrning (msg);
             }
             noContentToSend = true;
             contentLen = 0;
-        } else { /* not a HEAD request */
+        } else { /* not b HEAD request */
             if (contentLen == 0) {
                 if (http10) {
-                    o.setWrappedStream (new UndefLengthOutputStream (this, ros));
+                    o.setWrbppedStrebm (new UndefLengthOutputStrebm (this, ros));
                     close = true;
                 } else {
-                    rspHdrs.set ("Transfer-encoding", "chunked");
-                    o.setWrappedStream (new ChunkedOutputStream (this, ros));
+                    rspHdrs.set ("Trbnsfer-encoding", "chunked");
+                    o.setWrbppedStrebm (new ChunkedOutputStrebm (this, ros));
                 }
             } else {
                 if (contentLen == -1) {
@@ -253,36 +253,36 @@ class ExchangeImpl {
                     contentLen = 0;
                 }
                 rspHdrs.set("Content-length", Long.toString(contentLen));
-                o.setWrappedStream (new FixedLengthOutputStream (this, ros, contentLen));
+                o.setWrbppedStrebm (new FixedLengthOutputStrebm (this, ros, contentLen));
             }
         }
         write (rspHdrs, tmpout);
         this.rspContentLen = contentLen;
         tmpout.flush() ;
         tmpout = null;
-        sentHeaders = true;
+        sentHebders = true;
         if (noContentToSend) {
             WriteFinishedEvent e = new WriteFinishedEvent (this);
-            server.addEvent (e);
+            server.bddEvent (e);
             closed = true;
         }
         server.logReply (rCode, req.requestLine(), null);
     }
 
-    void write (Headers map, OutputStream os) throws IOException {
-        Set<Map.Entry<String,List<String>>> entries = map.entrySet();
-        for (Map.Entry<String,List<String>> entry : entries) {
+    void write (Hebders mbp, OutputStrebm os) throws IOException {
+        Set<Mbp.Entry<String,List<String>>> entries = mbp.entrySet();
+        for (Mbp.Entry<String,List<String>> entry : entries) {
             String key = entry.getKey();
             byte[] buf;
-            List<String> values = entry.getValue();
-            for (String val : values) {
+            List<String> vblues = entry.getVblue();
+            for (String vbl : vblues) {
                 int i = key.length();
                 buf = bytes (key, 2);
                 buf[i++] = ':';
                 buf[i++] = ' ';
                 os.write (buf, 0, i);
-                buf = bytes (val, 2);
-                i = val.length();
+                buf = bytes (vbl, 2);
+                i = vbl.length();
                 buf[i++] = '\r';
                 buf[i++] = '\n';
                 os.write (buf, 0, i);
@@ -292,21 +292,21 @@ class ExchangeImpl {
         os.write ('\n');
     }
 
-    private byte[] rspbuf = new byte [128]; // used by bytes()
+    privbte byte[] rspbuf = new byte [128]; // used by bytes()
 
     /**
      * convert string to byte[], using rspbuf
-     * Make sure that at least "extra" bytes are free at end
-     * of rspbuf. Reallocate rspbuf if not big enough.
-     * caller must check return value to see if rspbuf moved
+     * Mbke sure thbt bt lebst "extrb" bytes bre free bt end
+     * of rspbuf. Rebllocbte rspbuf if not big enough.
+     * cbller must check return vblue to see if rspbuf moved
      */
-    private byte[] bytes (String s, int extra) {
+    privbte byte[] bytes (String s, int extrb) {
         int slen = s.length();
-        if (slen+extra > rspbuf.length) {
-            int diff = slen + extra - rspbuf.length;
+        if (slen+extrb > rspbuf.length) {
+            int diff = slen + extrb - rspbuf.length;
             rspbuf = new byte [2* (rspbuf.length + diff)];
         }
-        char c[] = s.toCharArray();
+        chbr c[] = s.toChbrArrby();
         for (int i=0; i<c.length; i++) {
             rspbuf[i] = (byte)c[i];
         }
@@ -314,22 +314,22 @@ class ExchangeImpl {
     }
 
     public InetSocketAddress getRemoteAddress (){
-        Socket s = connection.getChannel().socket();
-        InetAddress ia = s.getInetAddress();
+        Socket s = connection.getChbnnel().socket();
+        InetAddress ib = s.getInetAddress();
         int port = s.getPort();
-        return new InetSocketAddress (ia, port);
+        return new InetSocketAddress (ib, port);
     }
 
-    public InetSocketAddress getLocalAddress (){
-        Socket s = connection.getChannel().socket();
-        InetAddress ia = s.getLocalAddress();
-        int port = s.getLocalPort();
-        return new InetSocketAddress (ia, port);
+    public InetSocketAddress getLocblAddress (){
+        Socket s = connection.getChbnnel().socket();
+        InetAddress ib = s.getLocblAddress();
+        int port = s.getLocblPort();
+        return new InetSocketAddress (ib, port);
     }
 
     public String getProtocol (){
         String reqline = req.requestLine();
-        int index = reqline.lastIndexOf (' ');
+        int index = reqline.lbstIndexOf (' ');
         return reqline.substring (index+1);
     }
 
@@ -341,28 +341,28 @@ class ExchangeImpl {
         return e.getSession();
     }
 
-    public Object getAttribute (String name) {
-        if (name == null) {
-            throw new NullPointerException ("null name parameter");
+    public Object getAttribute (String nbme) {
+        if (nbme == null) {
+            throw new NullPointerException ("null nbme pbrbmeter");
         }
-        if (attributes == null) {
-            attributes = getHttpContext().getAttributes();
+        if (bttributes == null) {
+            bttributes = getHttpContext().getAttributes();
         }
-        return attributes.get (name);
+        return bttributes.get (nbme);
     }
 
-    public void setAttribute (String name, Object value) {
-        if (name == null) {
-            throw new NullPointerException ("null name parameter");
+    public void setAttribute (String nbme, Object vblue) {
+        if (nbme == null) {
+            throw new NullPointerException ("null nbme pbrbmeter");
         }
-        if (attributes == null) {
-            attributes = getHttpContext().getAttributes();
+        if (bttributes == null) {
+            bttributes = getHttpContext().getAttributes();
         }
-        attributes.put (name, value);
+        bttributes.put (nbme, vblue);
     }
 
-    public void setStreams (InputStream i, OutputStream o) {
-        assert uis != null;
+    public void setStrebms (InputStrebm i, OutputStrebm o) {
+        bssert uis != null;
         if (i != null) {
             uis = i;
         }
@@ -382,75 +382,75 @@ class ExchangeImpl {
         return getHttpContext().getServerImpl();
     }
 
-    public HttpPrincipal getPrincipal () {
-        return principal;
+    public HttpPrincipbl getPrincipbl () {
+        return principbl;
     }
 
-    void setPrincipal (HttpPrincipal principal) {
-        this.principal = principal;
+    void setPrincipbl (HttpPrincipbl principbl) {
+        this.principbl = principbl;
     }
 
-    static ExchangeImpl get (HttpExchange t) {
-        if (t instanceof HttpExchangeImpl) {
-            return ((HttpExchangeImpl)t).getExchangeImpl();
+    stbtic ExchbngeImpl get (HttpExchbnge t) {
+        if (t instbnceof HttpExchbngeImpl) {
+            return ((HttpExchbngeImpl)t).getExchbngeImpl();
         } else {
-            assert t instanceof HttpsExchangeImpl;
-            return ((HttpsExchangeImpl)t).getExchangeImpl();
+            bssert t instbnceof HttpsExchbngeImpl;
+            return ((HttpsExchbngeImpl)t).getExchbngeImpl();
         }
     }
 }
 
 /**
- * An OutputStream which wraps another stream
- * which is supplied either at creation time, or sometime later.
- * If a caller/user tries to write to this stream before
- * the wrapped stream has been provided, then an IOException will
+ * An OutputStrebm which wrbps bnother strebm
+ * which is supplied either bt crebtion time, or sometime lbter.
+ * If b cbller/user tries to write to this strebm before
+ * the wrbpped strebm hbs been provided, then bn IOException will
  * be thrown.
  */
-class PlaceholderOutputStream extends java.io.OutputStream {
+clbss PlbceholderOutputStrebm extends jbvb.io.OutputStrebm {
 
-    OutputStream wrapped;
+    OutputStrebm wrbpped;
 
-    PlaceholderOutputStream (OutputStream os) {
-        wrapped = os;
+    PlbceholderOutputStrebm (OutputStrebm os) {
+        wrbpped = os;
     }
 
-    void setWrappedStream (OutputStream os) {
-        wrapped = os;
+    void setWrbppedStrebm (OutputStrebm os) {
+        wrbpped = os;
     }
 
-    boolean isWrapped () {
-        return wrapped != null;
+    boolebn isWrbpped () {
+        return wrbpped != null;
     }
 
-    private void checkWrap () throws IOException {
-        if (wrapped == null) {
-            throw new IOException ("response headers not sent yet");
+    privbte void checkWrbp () throws IOException {
+        if (wrbpped == null) {
+            throw new IOException ("response hebders not sent yet");
         }
     }
 
     public void write(int b) throws IOException {
-        checkWrap();
-        wrapped.write (b);
+        checkWrbp();
+        wrbpped.write (b);
     }
 
     public void write(byte b[]) throws IOException {
-        checkWrap();
-        wrapped.write (b);
+        checkWrbp();
+        wrbpped.write (b);
     }
 
     public void write(byte b[], int off, int len) throws IOException {
-        checkWrap();
-        wrapped.write (b, off, len);
+        checkWrbp();
+        wrbpped.write (b, off, len);
     }
 
     public void flush() throws IOException {
-        checkWrap();
-        wrapped.flush();
+        checkWrbp();
+        wrbpped.flush();
     }
 
     public void close() throws IOException {
-        checkWrap();
-        wrapped.close();
+        checkWrbp();
+        wrbpped.close();
     }
 }

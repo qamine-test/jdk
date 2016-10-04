@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.FileImageSource;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ImbgeObserver;
+import sun.bwt.imbge.ImbgeRepresentbtion;
+import sun.bwt.imbge.FileImbgeSource;
 
-public class ToolkitImage extends Image {
-
-    /**
-     * The object which is used to reconstruct the original image data
-     * as needed.
-     */
-    ImageProducer source;
-
-    InputStreamImageSource src;
-
-    ImageRepresentation imagerep;
-
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
-    }
-
-    protected ToolkitImage() {
-    }
+public clbss ToolkitImbge extends Imbge {
 
     /**
-     * Construct an image from an ImageProducer object.
+     * The object which is used to reconstruct the originbl imbge dbtb
+     * bs needed.
      */
-    public ToolkitImage(ImageProducer is) {
+    ImbgeProducer source;
+
+    InputStrebmImbgeSource src;
+
+    ImbgeRepresentbtion imbgerep;
+
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
+    }
+
+    protected ToolkitImbge() {
+    }
+
+    /**
+     * Construct bn imbge from bn ImbgeProducer object.
+     */
+    public ToolkitImbge(ImbgeProducer is) {
         source = is;
-        if (is instanceof InputStreamImageSource) {
-            src = (InputStreamImageSource) is;
+        if (is instbnceof InputStrebmImbgeSource) {
+            src = (InputStrebmImbgeSource) is;
         }
     }
 
-    public ImageProducer getSource() {
+    public ImbgeProducer getSource() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
         return source;
     }
 
-    private int width = -1;
-    private int height = -1;
-    private Hashtable<?, ?> properties;
+    privbte int width = -1;
+    privbte int height = -1;
+    privbte Hbshtbble<?, ?> properties;
 
-    private int availinfo;
+    privbte int bvbilinfo;
 
     /**
-     * Return the width of the original image source.
-     * If the width isn't known, then the image is reconstructed.
+     * Return the width of the originbl imbge source.
+     * If the width isn't known, then the imbge is reconstructed.
      */
     public int getWidth() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.WIDTH) == 0) {
-            reconstruct(ImageObserver.WIDTH);
+        if ((bvbilinfo & ImbgeObserver.WIDTH) == 0) {
+            reconstruct(ImbgeObserver.WIDTH);
         }
         return width;
     }
 
     /**
-     * Return the width of the original image source.
-     * If the width isn't known, then the ImageObserver object will be
-     * notified when the data is available.
+     * Return the width of the originbl imbge source.
+     * If the width isn't known, then the ImbgeObserver object will be
+     * notified when the dbtb is bvbilbble.
      */
-    public synchronized int getWidth(ImageObserver iw) {
+    public synchronized int getWidth(ImbgeObserver iw) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.WIDTH) == 0) {
-            addWatcher(iw, true);
-            if ((availinfo & ImageObserver.WIDTH) == 0) {
+        if ((bvbilinfo & ImbgeObserver.WIDTH) == 0) {
+            bddWbtcher(iw, true);
+            if ((bvbilinfo & ImbgeObserver.WIDTH) == 0) {
                 return -1;
             }
         }
@@ -116,31 +116,31 @@ public class ToolkitImage extends Image {
     }
 
     /**
-     * Return the height of the original image source.
-     * If the height isn't known, then the image is reconstructed.
+     * Return the height of the originbl imbge source.
+     * If the height isn't known, then the imbge is reconstructed.
      */
     public int getHeight() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.HEIGHT) == 0) {
-            reconstruct(ImageObserver.HEIGHT);
+        if ((bvbilinfo & ImbgeObserver.HEIGHT) == 0) {
+            reconstruct(ImbgeObserver.HEIGHT);
         }
         return height;
     }
 
     /**
-     * Return the height of the original image source.
-     * If the height isn't known, then the ImageObserver object will be
-     * notified when the data is available.
+     * Return the height of the originbl imbge source.
+     * If the height isn't known, then the ImbgeObserver object will be
+     * notified when the dbtb is bvbilbble.
      */
-    public synchronized int getHeight(ImageObserver iw) {
+    public synchronized int getHeight(ImbgeObserver iw) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.HEIGHT) == 0) {
-            addWatcher(iw, true);
-            if ((availinfo & ImageObserver.HEIGHT) == 0) {
+        if ((bvbilinfo & ImbgeObserver.HEIGHT) == 0) {
+            bddWbtcher(iw, true);
+            if ((bvbilinfo & ImbgeObserver.HEIGHT) == 0) {
                 return -1;
             }
         }
@@ -148,184 +148,184 @@ public class ToolkitImage extends Image {
     }
 
     /**
-     * Return a property of the image by name.  Individual property names
-     * are defined by the various image formats.  If a property is not
-     * defined for a particular image, then this method will return the
-     * UndefinedProperty object.  If the properties for this image are
-     * not yet known, then this method will return null and the ImageObserver
-     * object will be notified later.  The property name "comment" should
-     * be used to store an optional comment which can be presented to
-     * the user as a description of the image, its source, or its author.
+     * Return b property of the imbge by nbme.  Individubl property nbmes
+     * bre defined by the vbrious imbge formbts.  If b property is not
+     * defined for b pbrticulbr imbge, then this method will return the
+     * UndefinedProperty object.  If the properties for this imbge bre
+     * not yet known, then this method will return null bnd the ImbgeObserver
+     * object will be notified lbter.  The property nbme "comment" should
+     * be used to store bn optionbl comment which cbn be presented to
+     * the user bs b description of the imbge, its source, or its buthor.
      */
-    public Object getProperty(String name, ImageObserver observer) {
-        if (name == null) {
-            throw new NullPointerException("null property name is not allowed");
+    public Object getProperty(String nbme, ImbgeObserver observer) {
+        if (nbme == null) {
+            throw new NullPointerException("null property nbme is not bllowed");
         }
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
         if (properties == null) {
-            addWatcher(observer, true);
+            bddWbtcher(observer, true);
             if (properties == null) {
                 return null;
             }
         }
-        Object o = properties.get(name);
+        Object o = properties.get(nbme);
         if (o == null) {
-            o = Image.UndefinedProperty;
+            o = Imbge.UndefinedProperty;
         }
         return o;
     }
 
-    public boolean hasError() {
+    public boolebn hbsError() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        return (availinfo & ImageObserver.ERROR) != 0;
+        return (bvbilinfo & ImbgeObserver.ERROR) != 0;
     }
 
-    public int check(ImageObserver iw) {
+    public int check(ImbgeObserver iw) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) == 0 &&
-            ((~availinfo) & (ImageObserver.WIDTH |
-                             ImageObserver.HEIGHT |
-                             ImageObserver.PROPERTIES)) != 0) {
-            addWatcher(iw, false);
+        if ((bvbilinfo & ImbgeObserver.ERROR) == 0 &&
+            ((~bvbilinfo) & (ImbgeObserver.WIDTH |
+                             ImbgeObserver.HEIGHT |
+                             ImbgeObserver.PROPERTIES)) != 0) {
+            bddWbtcher(iw, fblse);
         }
-        return availinfo;
+        return bvbilinfo;
     }
 
-    public void preload(ImageObserver iw) {
+    public void prelobd(ImbgeObserver iw) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ALLBITS) == 0) {
-            addWatcher(iw, true);
+        if ((bvbilinfo & ImbgeObserver.ALLBITS) == 0) {
+            bddWbtcher(iw, true);
         }
     }
 
-    private synchronized void addWatcher(ImageObserver iw, boolean load) {
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+    privbte synchronized void bddWbtcher(ImbgeObserver iw, boolebn lobd) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(this, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(this, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
             return;
         }
-        ImageRepresentation ir = getImageRep();
-        ir.addWatcher(iw);
-        if (load) {
-            ir.startProduction();
+        ImbgeRepresentbtion ir = getImbgeRep();
+        ir.bddWbtcher(iw);
+        if (lobd) {
+            ir.stbrtProduction();
         }
     }
 
-    private synchronized void reconstruct(int flags) {
-        if ((flags & ~availinfo) != 0) {
-            if ((availinfo & ImageObserver.ERROR) != 0) {
+    privbte synchronized void reconstruct(int flbgs) {
+        if ((flbgs & ~bvbilinfo) != 0) {
+            if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
                 return;
             }
-            ImageRepresentation ir = getImageRep();
-            ir.startProduction();
-            while ((flags & ~availinfo) != 0) {
+            ImbgeRepresentbtion ir = getImbgeRep();
+            ir.stbrtProduction();
+            while ((flbgs & ~bvbilinfo) != 0) {
                 try {
-                    wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    wbit();
+                } cbtch (InterruptedException e) {
+                    Threbd.currentThrebd().interrupt();
                     return;
                 }
-                if ((availinfo & ImageObserver.ERROR) != 0) {
+                if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
                     return;
                 }
             }
         }
     }
 
-    synchronized void addInfo(int newinfo) {
-        availinfo |= newinfo;
+    synchronized void bddInfo(int newinfo) {
+        bvbilinfo |= newinfo;
         notifyAll();
     }
 
     void setDimensions(int w, int h) {
         width = w;
         height = h;
-        addInfo(ImageObserver.WIDTH | ImageObserver.HEIGHT);
+        bddInfo(ImbgeObserver.WIDTH | ImbgeObserver.HEIGHT);
     }
 
-    void setProperties(Hashtable<?, ?> props) {
+    void setProperties(Hbshtbble<?, ?> props) {
         if (props == null) {
-            props = new Hashtable<String, Object>();
+            props = new Hbshtbble<String, Object>();
         }
         properties = props;
-        addInfo(ImageObserver.PROPERTIES);
+        bddInfo(ImbgeObserver.PROPERTIES);
     }
 
-    synchronized void infoDone(int status) {
-        if (status == ImageConsumer.IMAGEERROR ||
-            ((~availinfo) & (ImageObserver.WIDTH |
-                             ImageObserver.HEIGHT)) != 0) {
-            addInfo(ImageObserver.ERROR);
-        } else if ((availinfo & ImageObserver.PROPERTIES) == 0) {
+    synchronized void infoDone(int stbtus) {
+        if (stbtus == ImbgeConsumer.IMAGEERROR ||
+            ((~bvbilinfo) & (ImbgeObserver.WIDTH |
+                             ImbgeObserver.HEIGHT)) != 0) {
+            bddInfo(ImbgeObserver.ERROR);
+        } else if ((bvbilinfo & ImbgeObserver.PROPERTIES) == 0) {
             setProperties(null);
         }
     }
 
     public void flush() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
 
-        ImageRepresentation ir;
+        ImbgeRepresentbtion ir;
         synchronized (this) {
-            availinfo &= ~ImageObserver.ERROR;
-            ir = imagerep;
-            imagerep = null;
+            bvbilinfo &= ~ImbgeObserver.ERROR;
+            ir = imbgerep;
+            imbgerep = null;
         }
         if (ir != null) {
-            ir.abort();
+            ir.bbort();
         }
         if (src != null) {
             src.flush();
         }
     }
 
-    protected ImageRepresentation makeImageRep() {
-        return new ImageRepresentation(this, ColorModel.getRGBdefault(),
-                                       false);
+    protected ImbgeRepresentbtion mbkeImbgeRep() {
+        return new ImbgeRepresentbtion(this, ColorModel.getRGBdefbult(),
+                                       fblse);
     }
 
-    public synchronized ImageRepresentation getImageRep() {
+    public synchronized ImbgeRepresentbtion getImbgeRep() {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if (imagerep == null) {
-            imagerep = makeImageRep();
+        if (imbgerep == null) {
+            imbgerep = mbkeImbgeRep();
         }
-        return imagerep;
+        return imbgerep;
     }
 
-    public Graphics getGraphics() {
-        throw new UnsupportedOperationException("getGraphics() not valid for images " +
-                                     "created with createImage(producer)");
+    public Grbphics getGrbphics() {
+        throw new UnsupportedOperbtionException("getGrbphics() not vblid for imbges " +
+                                     "crebted with crebteImbge(producer)");
     }
 
     /* this method is needed by printing code */
     public ColorModel getColorModel() {
-        ImageRepresentation imageRep = getImageRep();
-        return imageRep.getColorModel();
+        ImbgeRepresentbtion imbgeRep = getImbgeRep();
+        return imbgeRep.getColorModel();
     }
 
     /* this method is needed by printing code */
-    public BufferedImage getBufferedImage() {
-        ImageRepresentation imageRep = getImageRep();
-        return imageRep.getBufferedImage();
+    public BufferedImbge getBufferedImbge() {
+        ImbgeRepresentbtion imbgeRep = getImbgeRep();
+        return imbgeRep.getBufferedImbge();
     }
 
-    public void setAccelerationPriority(float priority) {
-        super.setAccelerationPriority(priority);
-        ImageRepresentation imageRep = getImageRep();
-        imageRep.setAccelerationPriority(accelerationPriority);
+    public void setAccelerbtionPriority(flobt priority) {
+        super.setAccelerbtionPriority(priority);
+        ImbgeRepresentbtion imbgeRep = getImbgeRep();
+        imbgeRep.setAccelerbtionPriority(bccelerbtionPriority);
     }
 }

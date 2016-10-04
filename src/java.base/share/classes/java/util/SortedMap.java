@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A {@link Map} that further provides a <em>total ordering</em> on its keys.
- * The map is ordered according to the {@linkplain Comparable natural
- * ordering} of its keys, or by a {@link Comparator} typically
- * provided at sorted map creation time.  This order is reflected when
- * iterating over the sorted map's collection views (returned by the
- * {@code entrySet}, {@code keySet} and {@code values} methods).
- * Several additional operations are provided to take advantage of the
- * ordering.  (This interface is the map analogue of {@link SortedSet}.)
+ * A {@link Mbp} thbt further provides b <em>totbl ordering</em> on its keys.
+ * The mbp is ordered bccording to the {@linkplbin Compbrbble nbturbl
+ * ordering} of its keys, or by b {@link Compbrbtor} typicblly
+ * provided bt sorted mbp crebtion time.  This order is reflected when
+ * iterbting over the sorted mbp's collection views (returned by the
+ * {@code entrySet}, {@code keySet} bnd {@code vblues} methods).
+ * Severbl bdditionbl operbtions bre provided to tbke bdvbntbge of the
+ * ordering.  (This interfbce is the mbp bnblogue of {@link SortedSet}.)
  *
- * <p>All keys inserted into a sorted map must implement the {@code Comparable}
- * interface (or be accepted by the specified comparator).  Furthermore, all
- * such keys must be <em>mutually comparable</em>: {@code k1.compareTo(k2)} (or
- * {@code comparator.compare(k1, k2)}) must not throw a
- * {@code ClassCastException} for any keys {@code k1} and {@code k2} in
- * the sorted map.  Attempts to violate this restriction will cause the
- * offending method or constructor invocation to throw a
- * {@code ClassCastException}.
+ * <p>All keys inserted into b sorted mbp must implement the {@code Compbrbble}
+ * interfbce (or be bccepted by the specified compbrbtor).  Furthermore, bll
+ * such keys must be <em>mutublly compbrbble</em>: {@code k1.compbreTo(k2)} (or
+ * {@code compbrbtor.compbre(k1, k2)}) must not throw b
+ * {@code ClbssCbstException} for bny keys {@code k1} bnd {@code k2} in
+ * the sorted mbp.  Attempts to violbte this restriction will cbuse the
+ * offending method or constructor invocbtion to throw b
+ * {@code ClbssCbstException}.
  *
- * <p>Note that the ordering maintained by a sorted map (whether or not an
- * explicit comparator is provided) must be <em>consistent with equals</em> if
- * the sorted map is to correctly implement the {@code Map} interface.  (See
- * the {@code Comparable} interface or {@code Comparator} interface for a
- * precise definition of <em>consistent with equals</em>.)  This is so because
- * the {@code Map} interface is defined in terms of the {@code equals}
- * operation, but a sorted map performs all key comparisons using its
- * {@code compareTo} (or {@code compare}) method, so two keys that are
- * deemed equal by this method are, from the standpoint of the sorted map,
- * equal.  The behavior of a tree map <em>is</em> well-defined even if its
- * ordering is inconsistent with equals; it just fails to obey the general
- * contract of the {@code Map} interface.
+ * <p>Note thbt the ordering mbintbined by b sorted mbp (whether or not bn
+ * explicit compbrbtor is provided) must be <em>consistent with equbls</em> if
+ * the sorted mbp is to correctly implement the {@code Mbp} interfbce.  (See
+ * the {@code Compbrbble} interfbce or {@code Compbrbtor} interfbce for b
+ * precise definition of <em>consistent with equbls</em>.)  This is so becbuse
+ * the {@code Mbp} interfbce is defined in terms of the {@code equbls}
+ * operbtion, but b sorted mbp performs bll key compbrisons using its
+ * {@code compbreTo} (or {@code compbre}) method, so two keys thbt bre
+ * deemed equbl by this method bre, from the stbndpoint of the sorted mbp,
+ * equbl.  The behbvior of b tree mbp <em>is</em> well-defined even if its
+ * ordering is inconsistent with equbls; it just fbils to obey the generbl
+ * contrbct of the {@code Mbp} interfbce.
  *
- * <p>All general-purpose sorted map implementation classes should provide four
- * "standard" constructors. It is not possible to enforce this recommendation
- * though as required constructors cannot be specified by interfaces. The
- * expected "standard" constructors for all sorted map implementations are:
+ * <p>All generbl-purpose sorted mbp implementbtion clbsses should provide four
+ * "stbndbrd" constructors. It is not possible to enforce this recommendbtion
+ * though bs required constructors cbnnot be specified by interfbces. The
+ * expected "stbndbrd" constructors for bll sorted mbp implementbtions bre:
  * <ol>
- *   <li>A void (no arguments) constructor, which creates an empty sorted map
- *   sorted according to the natural ordering of its keys.</li>
- *   <li>A constructor with a single argument of type {@code Comparator}, which
- *   creates an empty sorted map sorted according to the specified comparator.</li>
- *   <li>A constructor with a single argument of type {@code Map}, which creates
- *   a new map with the same key-value mappings as its argument, sorted
- *   according to the keys' natural ordering.</li>
- *   <li>A constructor with a single argument of type {@code SortedMap}, which
- *   creates a new sorted map with the same key-value mappings and the same
- *   ordering as the input sorted map.</li>
+ *   <li>A void (no brguments) constructor, which crebtes bn empty sorted mbp
+ *   sorted bccording to the nbturbl ordering of its keys.</li>
+ *   <li>A constructor with b single brgument of type {@code Compbrbtor}, which
+ *   crebtes bn empty sorted mbp sorted bccording to the specified compbrbtor.</li>
+ *   <li>A constructor with b single brgument of type {@code Mbp}, which crebtes
+ *   b new mbp with the sbme key-vblue mbppings bs its brgument, sorted
+ *   bccording to the keys' nbturbl ordering.</li>
+ *   <li>A constructor with b single brgument of type {@code SortedMbp}, which
+ *   crebtes b new sorted mbp with the sbme key-vblue mbppings bnd the sbme
+ *   ordering bs the input sorted mbp.</li>
  * </ol>
  *
- * <p><strong>Note</strong>: several methods return submaps with restricted key
- * ranges. Such ranges are <em>half-open</em>, that is, they include their low
- * endpoint but not their high endpoint (where applicable).  If you need a
- * <em>closed range</em> (which includes both endpoints), and the key type
- * allows for calculation of the successor of a given key, merely request
- * the subrange from {@code lowEndpoint} to
- * {@code successor(highEndpoint)}.  For example, suppose that {@code m}
- * is a map whose keys are strings.  The following idiom obtains a view
- * containing all of the key-value mappings in {@code m} whose keys are
- * between {@code low} and {@code high}, inclusive:<pre>
- *   SortedMap&lt;String, V&gt; sub = m.subMap(low, high+"\0");</pre>
+ * <p><strong>Note</strong>: severbl methods return submbps with restricted key
+ * rbnges. Such rbnges bre <em>hblf-open</em>, thbt is, they include their low
+ * endpoint but not their high endpoint (where bpplicbble).  If you need b
+ * <em>closed rbnge</em> (which includes both endpoints), bnd the key type
+ * bllows for cblculbtion of the successor of b given key, merely request
+ * the subrbnge from {@code lowEndpoint} to
+ * {@code successor(highEndpoint)}.  For exbmple, suppose thbt {@code m}
+ * is b mbp whose keys bre strings.  The following idiom obtbins b view
+ * contbining bll of the key-vblue mbppings in {@code m} whose keys bre
+ * between {@code low} bnd {@code high}, inclusive:<pre>
+ *   SortedMbp&lt;String, V&gt; sub = m.subMbp(low, high+"\0");</pre>
  *
- * A similar technique can be used to generate an <em>open range</em>
- * (which contains neither endpoint).  The following idiom obtains a
- * view containing all of the key-value mappings in {@code m} whose keys
- * are between {@code low} and {@code high}, exclusive:<pre>
- *   SortedMap&lt;String, V&gt; sub = m.subMap(low+"\0", high);</pre>
+ * A similbr technique cbn be used to generbte bn <em>open rbnge</em>
+ * (which contbins neither endpoint).  The following idiom obtbins b
+ * view contbining bll of the key-vblue mbppings in {@code m} whose keys
+ * bre between {@code low} bnd {@code high}, exclusive:<pre>
+ *   SortedMbp&lt;String, V&gt; sub = m.subMbp(low+"\0", high);</pre>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  *
- * @author  Josh Bloch
- * @see Map
- * @see TreeMap
+ * @buthor  Josh Bloch
+ * @see Mbp
+ * @see TreeMbp
  * @see SortedSet
- * @see Comparator
- * @see Comparable
+ * @see Compbrbtor
+ * @see Compbrbble
  * @see Collection
- * @see ClassCastException
+ * @see ClbssCbstException
  * @since 1.2
  */
 
-public interface SortedMap<K,V> extends Map<K,V> {
+public interfbce SortedMbp<K,V> extends Mbp<K,V> {
     /**
-     * Returns the comparator used to order the keys in this map, or
-     * {@code null} if this map uses the {@linkplain Comparable
-     * natural ordering} of its keys.
+     * Returns the compbrbtor used to order the keys in this mbp, or
+     * {@code null} if this mbp uses the {@linkplbin Compbrbble
+     * nbturbl ordering} of its keys.
      *
-     * @return the comparator used to order the keys in this map,
-     *         or {@code null} if this map uses the natural ordering
+     * @return the compbrbtor used to order the keys in this mbp,
+     *         or {@code null} if this mbp uses the nbturbl ordering
      *         of its keys
      */
-    Comparator<? super K> comparator();
+    Compbrbtor<? super K> compbrbtor();
 
     /**
-     * Returns a view of the portion of this map whose keys range from
+     * Returns b view of the portion of this mbp whose keys rbnge from
      * {@code fromKey}, inclusive, to {@code toKey}, exclusive.  (If
-     * {@code fromKey} and {@code toKey} are equal, the returned map
-     * is empty.)  The returned map is backed by this map, so changes
-     * in the returned map are reflected in this map, and vice-versa.
-     * The returned map supports all optional map operations that this
-     * map supports.
+     * {@code fromKey} bnd {@code toKey} bre equbl, the returned mbp
+     * is empty.)  The returned mbp is bbcked by this mbp, so chbnges
+     * in the returned mbp bre reflected in this mbp, bnd vice-versb.
+     * The returned mbp supports bll optionbl mbp operbtions thbt this
+     * mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside its rbnge.
      *
-     * @param fromKey low endpoint (inclusive) of the keys in the returned map
-     * @param toKey high endpoint (exclusive) of the keys in the returned map
-     * @return a view of the portion of this map whose keys range from
+     * @pbrbm fromKey low endpoint (inclusive) of the keys in the returned mbp
+     * @pbrbm toKey high endpoint (exclusive) of the keys in the returned mbp
+     * @return b view of the portion of this mbp whose keys rbnge from
      *         {@code fromKey}, inclusive, to {@code toKey}, exclusive
-     * @throws ClassCastException if {@code fromKey} and {@code toKey}
-     *         cannot be compared to one another using this map's comparator
-     *         (or, if the map has no comparator, using natural ordering).
-     *         Implementations may, but are not required to, throw this
+     * @throws ClbssCbstException if {@code fromKey} bnd {@code toKey}
+     *         cbnnot be compbred to one bnother using this mbp's compbrbtor
+     *         (or, if the mbp hbs no compbrbtor, using nbturbl ordering).
+     *         Implementbtions mby, but bre not required to, throw this
      *         exception if {@code fromKey} or {@code toKey}
-     *         cannot be compared to keys currently in the map.
+     *         cbnnot be compbred to keys currently in the mbp.
      * @throws NullPointerException if {@code fromKey} or {@code toKey}
-     *         is null and this map does not permit null keys
-     * @throws IllegalArgumentException if {@code fromKey} is greater than
-     *         {@code toKey}; or if this map itself has a restricted
-     *         range, and {@code fromKey} or {@code toKey} lies
-     *         outside the bounds of the range
+     *         is null bnd this mbp does not permit null keys
+     * @throws IllegblArgumentException if {@code fromKey} is grebter thbn
+     *         {@code toKey}; or if this mbp itself hbs b restricted
+     *         rbnge, bnd {@code fromKey} or {@code toKey} lies
+     *         outside the bounds of the rbnge
      */
-    SortedMap<K,V> subMap(K fromKey, K toKey);
+    SortedMbp<K,V> subMbp(K fromKey, K toKey);
 
     /**
-     * Returns a view of the portion of this map whose keys are
-     * strictly less than {@code toKey}.  The returned map is backed
-     * by this map, so changes in the returned map are reflected in
-     * this map, and vice-versa.  The returned map supports all
-     * optional map operations that this map supports.
+     * Returns b view of the portion of this mbp whose keys bre
+     * strictly less thbn {@code toKey}.  The returned mbp is bbcked
+     * by this mbp, so chbnges in the returned mbp bre reflected in
+     * this mbp, bnd vice-versb.  The returned mbp supports bll
+     * optionbl mbp operbtions thbt this mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside its rbnge.
      *
-     * @param toKey high endpoint (exclusive) of the keys in the returned map
-     * @return a view of the portion of this map whose keys are strictly
-     *         less than {@code toKey}
-     * @throws ClassCastException if {@code toKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code toKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code toKey} cannot be compared to keys
-     *         currently in the map.
-     * @throws NullPointerException if {@code toKey} is null and
-     *         this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code toKey} lies outside the
-     *         bounds of the range
+     * @pbrbm toKey high endpoint (exclusive) of the keys in the returned mbp
+     * @return b view of the portion of this mbp whose keys bre strictly
+     *         less thbn {@code toKey}
+     * @throws ClbssCbstException if {@code toKey} is not compbtible
+     *         with this mbp's compbrbtor (or, if the mbp hbs no compbrbtor,
+     *         if {@code toKey} does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if {@code toKey} cbnnot be compbred to keys
+     *         currently in the mbp.
+     * @throws NullPointerException if {@code toKey} is null bnd
+     *         this mbp does not permit null keys
+     * @throws IllegblArgumentException if this mbp itself hbs b
+     *         restricted rbnge, bnd {@code toKey} lies outside the
+     *         bounds of the rbnge
      */
-    SortedMap<K,V> headMap(K toKey);
+    SortedMbp<K,V> hebdMbp(K toKey);
 
     /**
-     * Returns a view of the portion of this map whose keys are
-     * greater than or equal to {@code fromKey}.  The returned map is
-     * backed by this map, so changes in the returned map are
-     * reflected in this map, and vice-versa.  The returned map
-     * supports all optional map operations that this map supports.
+     * Returns b view of the portion of this mbp whose keys bre
+     * grebter thbn or equbl to {@code fromKey}.  The returned mbp is
+     * bbcked by this mbp, so chbnges in the returned mbp bre
+     * reflected in this mbp, bnd vice-versb.  The returned mbp
+     * supports bll optionbl mbp operbtions thbt this mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside its rbnge.
      *
-     * @param fromKey low endpoint (inclusive) of the keys in the returned map
-     * @return a view of the portion of this map whose keys are greater
-     *         than or equal to {@code fromKey}
-     * @throws ClassCastException if {@code fromKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code fromKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code fromKey} cannot be compared to keys
-     *         currently in the map.
-     * @throws NullPointerException if {@code fromKey} is null and
-     *         this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code fromKey} lies outside the
-     *         bounds of the range
+     * @pbrbm fromKey low endpoint (inclusive) of the keys in the returned mbp
+     * @return b view of the portion of this mbp whose keys bre grebter
+     *         thbn or equbl to {@code fromKey}
+     * @throws ClbssCbstException if {@code fromKey} is not compbtible
+     *         with this mbp's compbrbtor (or, if the mbp hbs no compbrbtor,
+     *         if {@code fromKey} does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if {@code fromKey} cbnnot be compbred to keys
+     *         currently in the mbp.
+     * @throws NullPointerException if {@code fromKey} is null bnd
+     *         this mbp does not permit null keys
+     * @throws IllegblArgumentException if this mbp itself hbs b
+     *         restricted rbnge, bnd {@code fromKey} lies outside the
+     *         bounds of the rbnge
      */
-    SortedMap<K,V> tailMap(K fromKey);
+    SortedMbp<K,V> tbilMbp(K fromKey);
 
     /**
-     * Returns the first (lowest) key currently in this map.
+     * Returns the first (lowest) key currently in this mbp.
      *
-     * @return the first (lowest) key currently in this map
-     * @throws NoSuchElementException if this map is empty
+     * @return the first (lowest) key currently in this mbp
+     * @throws NoSuchElementException if this mbp is empty
      */
     K firstKey();
 
     /**
-     * Returns the last (highest) key currently in this map.
+     * Returns the lbst (highest) key currently in this mbp.
      *
-     * @return the last (highest) key currently in this map
-     * @throws NoSuchElementException if this map is empty
+     * @return the lbst (highest) key currently in this mbp
+     * @throws NoSuchElementException if this mbp is empty
      */
-    K lastKey();
+    K lbstKey();
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set's iterator returns the keys in ascending order.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own {@code remove} operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear}
-     * operations.  It does not support the {@code add} or {@code addAll}
-     * operations.
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The set's iterbtor returns the keys in bscending order.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own {@code remove} operbtion), the results of
+     * the iterbtion bre undefined.  The set supports element removbl,
+     * which removes the corresponding mbpping from the mbp, vib the
+     * {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr}
+     * operbtions.  It does not support the {@code bdd} or {@code bddAll}
+     * operbtions.
      *
-     * @return a set view of the keys contained in this map, sorted in
-     *         ascending order
+     * @return b set view of the keys contbined in this mbp, sorted in
+     *         bscending order
      */
     Set<K> keySet();
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection's iterator returns the values in ascending order
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection's iterbtor returns the vblues in bscending order
      * of the corresponding keys.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own {@code remove} operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the {@code Iterator.remove},
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  If the mbp is
+     * modified while bn iterbtion over the collection is in progress
+     * (except through the iterbtor's own {@code remove} operbtion),
+     * the results of the iterbtion bre undefined.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the {@code Iterbtor.remove},
      * {@code Collection.remove}, {@code removeAll},
-     * {@code retainAll} and {@code clear} operations.  It does not
-     * support the {@code add} or {@code addAll} operations.
+     * {@code retbinAll} bnd {@code clebr} operbtions.  It does not
+     * support the {@code bdd} or {@code bddAll} operbtions.
      *
-     * @return a collection view of the values contained in this map,
-     *         sorted in ascending key order
+     * @return b collection view of the vblues contbined in this mbp,
+     *         sorted in bscending key order
      */
-    Collection<V> values();
+    Collection<V> vblues();
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set's iterator returns the entries in ascending key order.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own {@code remove} operation, or through the
-     * {@code setValue} operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the {@code Iterator.remove},
-     * {@code Set.remove}, {@code removeAll}, {@code retainAll} and
-     * {@code clear} operations.  It does not support the
-     * {@code add} or {@code addAll} operations.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The set's iterbtor returns the entries in bscending key order.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own {@code remove} operbtion, or through the
+     * {@code setVblue} operbtion on b mbp entry returned by the
+     * iterbtor) the results of the iterbtion bre undefined.  The set
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the {@code Iterbtor.remove},
+     * {@code Set.remove}, {@code removeAll}, {@code retbinAll} bnd
+     * {@code clebr} operbtions.  It does not support the
+     * {@code bdd} or {@code bddAll} operbtions.
      *
-     * @return a set view of the mappings contained in this map,
-     *         sorted in ascending key order
+     * @return b set view of the mbppings contbined in this mbp,
+     *         sorted in bscending key order
      */
-    Set<Map.Entry<K, V>> entrySet();
+    Set<Mbp.Entry<K, V>> entrySet();
 }

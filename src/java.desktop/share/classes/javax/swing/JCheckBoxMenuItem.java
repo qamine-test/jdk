@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
 
 /**
- * A menu item that can be selected or deselected. If selected, the menu
- * item typically appears with a checkmark next to it. If unselected or
- * deselected, the menu item appears without a checkmark. Like a regular
- * menu item, a check box menu item can have either text or a graphic
- * icon associated with it, or both.
+ * A menu item thbt cbn be selected or deselected. If selected, the menu
+ * item typicblly bppebrs with b checkmbrk next to it. If unselected or
+ * deselected, the menu item bppebrs without b checkmbrk. Like b regulbr
+ * menu item, b check box menu item cbn hbve either text or b grbphic
+ * icon bssocibted with it, or both.
  * <p>
  * Either <code>isSelected</code>/<code>setSelected</code> or
- * <code>getState</code>/<code>setState</code> can be used
- * to determine/specify the menu item's selection state. The
- * preferred methods are <code>isSelected</code> and
- * <code>setSelected</code>, which work for all menus and buttons.
- * The <code>getState</code> and <code>setState</code> methods exist for
- * compatibility with other component sets.
+ * <code>getStbte</code>/<code>setStbte</code> cbn be used
+ * to determine/specify the menu item's selection stbte. The
+ * preferred methods bre <code>isSelected</code> bnd
+ * <code>setSelected</code>, which work for bll menus bnd buttons.
+ * The <code>getStbte</code> bnd <code>setStbte</code> methods exist for
+ * compbtibility with other component sets.
  * <p>
- * Menu items can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a menu item has many benefits beyond directly
- * configuring a menu item.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Menu items cbn be configured, bnd to some degree controlled, by
+ * <code><b href="Action.html">Action</b></code>s.  Using bn
+ * <code>Action</code> with b menu item hbs mbny benefits beyond directly
+ * configuring b menu item.  Refer to <b href="Action.html#buttonActions">
+ * Swing Components Supporting <code>Action</code></b> for more
+ * detbils, bnd you cbn find more informbtion in <b
+ * href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/bction.html">How
+ * to Use Actions</b>, b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * For further information and examples of using check box menu items,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For further informbtion bnd exbmples of using check box menu items,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/menu.html">How to Use Menus</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A menu item which can be selected or deselected.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A menu item which cbn be selected or deselected.
  *
- * @author Georges Saab
- * @author David Karlton
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JCheckBoxMenuItem extends JMenuItem implements SwingConstbnts,
         Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "CheckBoxMenuItemUI";
+    privbte stbtic finbl String uiClbssID = "CheckBoxMenuItemUI";
 
     /**
-     * Creates an initially unselected check box menu item with no set text or icon.
+     * Crebtes bn initiblly unselected check box menu item with no set text or icon.
      */
     public JCheckBoxMenuItem() {
-        this(null, null, false);
+        this(null, null, fblse);
     }
 
     /**
-     * Creates an initially unselected check box menu item with an icon.
+     * Crebtes bn initiblly unselected check box menu item with bn icon.
      *
-     * @param icon the icon of the {@code JCheckBoxMenuItem}.
+     * @pbrbm icon the icon of the {@code JCheckBoxMenuItem}.
      */
     public JCheckBoxMenuItem(Icon icon) {
-        this(null, icon, false);
+        this(null, icon, fblse);
     }
 
     /**
-     * Creates an initially unselected check box menu item with text.
+     * Crebtes bn initiblly unselected check box menu item with text.
      *
-     * @param text the text of the {@code JCheckBoxMenuItem}
+     * @pbrbm text the text of the {@code JCheckBoxMenuItem}
      */
     public JCheckBoxMenuItem(String text) {
-        this(text, null, false);
+        this(text, null, fblse);
     }
 
     /**
-     * Creates a menu item whose properties are taken from the
+     * Crebtes b menu item whose properties bre tbken from the
      * Action supplied.
      *
-     * @param a the action of the {@code JCheckBoxMenuItem}
+     * @pbrbm b the bction of the {@code JCheckBoxMenuItem}
      * @since 1.3
      */
-    public JCheckBoxMenuItem(Action a) {
+    public JCheckBoxMenuItem(Action b) {
         this();
-        setAction(a);
+        setAction(b);
     }
 
     /**
-     * Creates an initially unselected check box menu item with the specified text and icon.
+     * Crebtes bn initiblly unselected check box menu item with the specified text bnd icon.
      *
-     * @param text the text of the {@code JCheckBoxMenuItem}
-     * @param icon the icon of the {@code JCheckBoxMenuItem}
+     * @pbrbm text the text of the {@code JCheckBoxMenuItem}
+     * @pbrbm icon the icon of the {@code JCheckBoxMenuItem}
      */
     public JCheckBoxMenuItem(String text, Icon icon) {
-        this(text, icon, false);
+        this(text, icon, fblse);
     }
 
     /**
-     * Creates a check box menu item with the specified text and selection state.
+     * Crebtes b check box menu item with the specified text bnd selection stbte.
      *
-     * @param text the text of the check box menu item.
-     * @param b the selected state of the check box menu item
+     * @pbrbm text the text of the check box menu item.
+     * @pbrbm b the selected stbte of the check box menu item
      */
-    public JCheckBoxMenuItem(String text, boolean b) {
+    public JCheckBoxMenuItem(String text, boolebn b) {
         this(text, null, b);
     }
 
     /**
-     * Creates a check box menu item with the specified text, icon, and selection state.
+     * Crebtes b check box menu item with the specified text, icon, bnd selection stbte.
      *
-     * @param text the text of the check box menu item
-     * @param icon the icon of the check box menu item
-     * @param b the selected state of the check box menu item
+     * @pbrbm text the text of the check box menu item
+     * @pbrbm icon the icon of the check box menu item
+     * @pbrbm b the selected stbte of the check box menu item
      */
-    public JCheckBoxMenuItem(String text, Icon icon, boolean b) {
+    public JCheckBoxMenuItem(String text, Icon icon, boolebn b) {
         super(text, icon);
         setModel(new JToggleButton.ToggleButtonModel());
         setSelected(b);
-        setFocusable(false);
+        setFocusbble(fblse);
     }
 
     /**
-     * Returns the name of the L&amp;F class
-     * that renders this component.
+     * Returns the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
      * @return "CheckBoxMenuItemUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
      /**
-      * Returns the selected-state of the item. This method
-      * exists for AWT compatibility only.  New code should
-      * use isSelected() instead.
+      * Returns the selected-stbte of the item. This method
+      * exists for AWT compbtibility only.  New code should
+      * use isSelected() instebd.
       *
       * @return true  if the item is selected
       */
-    public boolean getState() {
+    public boolebn getStbte() {
         return isSelected();
     }
 
     /**
-     * Sets the selected-state of the item. This method
-     * exists for AWT compatibility only.  New code should
-     * use setSelected() instead.
+     * Sets the selected-stbte of the item. This method
+     * exists for AWT compbtibility only.  New code should
+     * use setSelected() instebd.
      *
-     * @param b  a boolean value indicating the item's
-     *           selected-state, where true=selected
-     * @beaninfo
-     * description: The selection state of the check box menu item
+     * @pbrbm b  b boolebn vblue indicbting the item's
+     *           selected-stbte, where true=selected
+     * @bebninfo
+     * description: The selection stbte of the check box menu item
      *      hidden: true
      */
-    public synchronized void setState(boolean b) {
+    public synchronized void setStbte(boolebn b) {
         setSelected(b);
     }
 
 
     /**
-     * Returns an array (length 1) containing the check box menu item
-     * label or null if the check box is not selected.
+     * Returns bn brrby (length 1) contbining the check box menu item
+     * lbbel or null if the check box is not selected.
      *
-     * @return an array containing one Object -- the text of the menu item
+     * @return bn brrby contbining one Object -- the text of the menu item
      *         -- if the item is selected; otherwise null
      */
     public Object[] getSelectedObjects() {
-        if (isSelected() == false)
+        if (isSelected() == fblse)
             return null;
         Object[] selectedObjects = new Object[1];
         selectedObjects[0] = getText();
@@ -225,39 +225,39 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JCheckBoxMenuItem. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JCheckBoxMenuItem. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JCheckBoxMenuItem.
+     * @return  b string representbtion of this JCheckBoxMenuItem.
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
     /**
      * Overriden to return true, JCheckBoxMenuItem supports
-     * the selected state.
+     * the selected stbte.
      */
-    boolean shouldUpdateSelectedStateFromAction() {
+    boolebn shouldUpdbteSelectedStbteFromAction() {
         return true;
     }
 
@@ -266,46 +266,46 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JCheckBoxMenuItem.
-     * For JCheckBoxMenuItems, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JCheckBoxMenuItem.
+     * For JCheckBoxMenuItems, the AccessibleContext tbkes the form of bn
      * AccessibleJCheckBoxMenuItem.
-     * A new AccessibleJCheckBoxMenuItem instance is created if necessary.
+     * A new AccessibleJCheckBoxMenuItem instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJCheckBoxMenuItem that serves as the
+     * @return bn AccessibleJCheckBoxMenuItem thbt serves bs the
      *         AccessibleContext of this AccessibleJCheckBoxMenuItem
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJCheckBoxMenuItem();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJCheckBoxMenuItem();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JCheckBoxMenuItem</code> class.  It provides an implementation
-     * of the Java Accessibility API appropriate to checkbox menu item
-     * user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JCheckBoxMenuItem</code> clbss.  It provides bn implementbtion
+     * of the Jbvb Accessibility API bppropribte to checkbox menu item
+     * user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJCheckBoxMenuItem extends AccessibleJMenuItem {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJCheckBoxMenuItem extends AccessibleJMenuItem {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }
-    } // inner class AccessibleJCheckBoxMenuItem
+    } // inner clbss AccessibleJCheckBoxMenuItem
 }

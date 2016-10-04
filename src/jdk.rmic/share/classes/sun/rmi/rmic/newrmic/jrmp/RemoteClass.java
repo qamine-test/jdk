@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic.jrmp;
+pbckbge sun.rmi.rmic.newrmic.jrmp;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.Parameter;
-import com.sun.javadoc.Type;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.security.MessageDigest;
-import java.security.DigestOutputStream;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import sun.rmi.rmic.newrmic.BatchEnvironment;
+import com.sun.jbvbdoc.ClbssDoc;
+import com.sun.jbvbdoc.MethodDoc;
+import com.sun.jbvbdoc.Pbrbmeter;
+import com.sun.jbvbdoc.Type;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.DigestOutputStrebm;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.List;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.rmi.rmic.newrmic.BbtchEnvironment;
 
-import static sun.rmi.rmic.newrmic.Constants.*;
-import static sun.rmi.rmic.newrmic.jrmp.Constants.*;
+import stbtic sun.rmi.rmic.newrmic.Constbnts.*;
+import stbtic sun.rmi.rmic.newrmic.jrmp.Constbnts.*;
 
 /**
- * Encapsulates RMI-specific information about a remote implementation
- * class (a class that implements one or more remote interfaces).
+ * Encbpsulbtes RMI-specific informbtion bbout b remote implementbtion
+ * clbss (b clbss thbt implements one or more remote interfbces).
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-final class RemoteClass {
+finbl clbss RemoteClbss {
 
     /** rmic environment for this object */
-    private final BatchEnvironment env;
+    privbte finbl BbtchEnvironment env;
 
-    /** the remote implementation class this object represents */
-    private final ClassDoc implClass;
+    /** the remote implementbtion clbss this object represents */
+    privbte finbl ClbssDoc implClbss;
 
-    /** remote interfaces implemented by this class */
-    private ClassDoc[] remoteInterfaces;
+    /** remote interfbces implemented by this clbss */
+    privbte ClbssDoc[] remoteInterfbces;
 
-    /** the remote methods of this class */
-    private Method[] remoteMethods;
+    /** the remote methods of this clbss */
+    privbte Method[] remoteMethods;
 
-    /** stub/skeleton "interface hash" for this class */
-    private long interfaceHash;
+    /** stub/skeleton "interfbce hbsh" for this clbss */
+    privbte long interfbceHbsh;
 
     /**
-     * Creates a RemoteClass instance that represents the RMI-specific
-     * information about the specified remote implementation class.
+     * Crebtes b RemoteClbss instbnce thbt represents the RMI-specific
+     * informbtion bbout the specified remote implementbtion clbss.
      *
-     * If the class is not a valid remote implementation class or if
-     * some other error occurs, the return value will be null, and
-     * errors will have been reported to the supplied
-     * BatchEnvironment.
+     * If the clbss is not b vblid remote implementbtion clbss or if
+     * some other error occurs, the return vblue will be null, bnd
+     * errors will hbve been reported to the supplied
+     * BbtchEnvironment.
      **/
-    static RemoteClass forClass(BatchEnvironment env, ClassDoc implClass) {
-        RemoteClass remoteClass = new RemoteClass(env, implClass);
-        if (remoteClass.init()) {
-            return remoteClass;
+    stbtic RemoteClbss forClbss(BbtchEnvironment env, ClbssDoc implClbss) {
+        RemoteClbss remoteClbss = new RemoteClbss(env, implClbss);
+        if (remoteClbss.init()) {
+            return remoteClbss;
         } else {
             return null;
         }
     }
 
     /**
-     * Creates a RemoteClass instance for the specified class.  The
-     * resulting object is not yet initialized.
+     * Crebtes b RemoteClbss instbnce for the specified clbss.  The
+     * resulting object is not yet initiblized.
      **/
-    private RemoteClass(BatchEnvironment env, ClassDoc implClass) {
+    privbte RemoteClbss(BbtchEnvironment env, ClbssDoc implClbss) {
         this.env = env;
-        this.implClass = implClass;
+        this.implClbss = implClbss;
     }
 
     /**
-     * Returns the ClassDoc for this remote implementation class.
+     * Returns the ClbssDoc for this remote implementbtion clbss.
      **/
-    ClassDoc classDoc() {
-        return implClass;
+    ClbssDoc clbssDoc() {
+        return implClbss;
     }
 
     /**
-     * Returns the remote interfaces implemented by this remote
-     * implementation class.
+     * Returns the remote interfbces implemented by this remote
+     * implementbtion clbss.
      *
-     * A remote interface is an interface that is a subinterface of
-     * java.rmi.Remote.  The remote interfaces of a class are the
-     * direct superinterfaces of the class and all of its superclasses
-     * that are remote interfaces.
+     * A remote interfbce is bn interfbce thbt is b subinterfbce of
+     * jbvb.rmi.Remote.  The remote interfbces of b clbss bre the
+     * direct superinterfbces of the clbss bnd bll of its superclbsses
+     * thbt bre remote interfbces.
      *
-     * The order of the array returned is arbitrary, and some elements
-     * may be superfluous (i.e., superinterfaces of other interfaces
-     * in the array).
+     * The order of the brrby returned is brbitrbry, bnd some elements
+     * mby be superfluous (i.e., superinterfbces of other interfbces
+     * in the brrby).
      **/
-    ClassDoc[] remoteInterfaces() {
-        return remoteInterfaces.clone();
+    ClbssDoc[] remoteInterfbces() {
+        return remoteInterfbces.clone();
     }
 
     /**
-     * Returns an array of RemoteClass.Method objects representing all
-     * of the remote methods of this remote implementation class (all
-     * of the member methods of the class's remote interfaces).
+     * Returns bn brrby of RemoteClbss.Method objects representing bll
+     * of the remote methods of this remote implementbtion clbss (bll
+     * of the member methods of the clbss's remote interfbces).
      *
-     * The methods in the array are ordered according to a comparison
-     * of strings consisting of their name followed by their
-     * descriptor, so each method's index in the array corresponds to
-     * its "operation number" in the JDK 1.1 version of the JRMP
+     * The methods in the brrby bre ordered bccording to b compbrison
+     * of strings consisting of their nbme followed by their
+     * descriptor, so ebch method's index in the brrby corresponds to
+     * its "operbtion number" in the JDK 1.1 version of the JRMP
      * stub/skeleton protocol.
      **/
     Method[] remoteMethods() {
@@ -140,210 +140,210 @@ final class RemoteClass {
     }
 
     /**
-     * Returns the "interface hash" used to match a stub/skeleton pair
-     * for this remote implementation class in the JDK 1.1 version of
+     * Returns the "interfbce hbsh" used to mbtch b stub/skeleton pbir
+     * for this remote implementbtion clbss in the JDK 1.1 version of
      * the JRMP stub/skeleton protocol.
      **/
-    long interfaceHash() {
-        return interfaceHash;
+    long interfbceHbsh() {
+        return interfbceHbsh;
     }
 
     /**
-     * Validates this remote implementation class and computes the
-     * RMI-specific information.  Returns true if successful, or false
-     * if an error occurred.
+     * Vblidbtes this remote implementbtion clbss bnd computes the
+     * RMI-specific informbtion.  Returns true if successful, or fblse
+     * if bn error occurred.
      **/
-    private boolean init() {
+    privbte boolebn init() {
         /*
-         * Verify that it is really a class, not an interface.
+         * Verify thbt it is reblly b clbss, not bn interfbce.
          */
-        if (implClass.isInterface()) {
-            env.error("rmic.cant.make.stubs.for.interface",
-                      implClass.qualifiedName());
-            return false;
+        if (implClbss.isInterfbce()) {
+            env.error("rmic.cbnt.mbke.stubs.for.interfbce",
+                      implClbss.qublifiedNbme());
+            return fblse;
         }
 
         /*
-         * Find all of the remote interfaces of our remote
-         * implementation class-- for each class up the superclass
-         * chain, add each directly-implemented interface that somehow
-         * extends Remote to a list.
+         * Find bll of the remote interfbces of our remote
+         * implementbtion clbss-- for ebch clbss up the superclbss
+         * chbin, bdd ebch directly-implemented interfbce thbt somehow
+         * extends Remote to b list.
          */
-        List<ClassDoc> remotesImplemented = new ArrayList<ClassDoc>();
-        for (ClassDoc cl = implClass; cl != null; cl = cl.superclass()) {
-            for (ClassDoc intf : cl.interfaces()) {
+        List<ClbssDoc> remotesImplemented = new ArrbyList<ClbssDoc>();
+        for (ClbssDoc cl = implClbss; cl != null; cl = cl.superclbss()) {
+            for (ClbssDoc intf : cl.interfbces()) {
                 /*
-                 * Add interface to the list if it extends Remote and
-                 * it is not already there.
+                 * Add interfbce to the list if it extends Remote bnd
+                 * it is not blrebdy there.
                  */
-                if (!remotesImplemented.contains(intf) &&
-                    intf.subclassOf(env.docRemote()))
+                if (!remotesImplemented.contbins(intf) &&
+                    intf.subclbssOf(env.docRemote()))
                 {
-                    remotesImplemented.add(intf);
+                    remotesImplemented.bdd(intf);
                     if (env.verbose()) {
-                        env.output("[found remote interface: " +
-                                   intf.qualifiedName() + "]");
+                        env.output("[found remote interfbce: " +
+                                   intf.qublifiedNbme() + "]");
                     }
                 }
             }
 
             /*
-             * Verify that the candidate remote implementation class
-             * implements at least one remote interface directly.
+             * Verify thbt the cbndidbte remote implementbtion clbss
+             * implements bt lebst one remote interfbce directly.
              */
-            if (cl == implClass && remotesImplemented.isEmpty()) {
-                if (implClass.subclassOf(env.docRemote())) {
+            if (cl == implClbss && remotesImplemented.isEmpty()) {
+                if (implClbss.subclbssOf(env.docRemote())) {
                     /*
-                     * This error message is used if the class does
-                     * implement a remote interface through one of its
-                     * superclasses, but not directly.
+                     * This error messbge is used if the clbss does
+                     * implement b remote interfbce through one of its
+                     * superclbsses, but not directly.
                      */
                     env.error("rmic.must.implement.remote.directly",
-                              implClass.qualifiedName());
+                              implClbss.qublifiedNbme());
                 } else {
                     /*
-                     * This error message is used if the class does
-                     * not implement a remote interface at all.
+                     * This error messbge is used if the clbss does
+                     * not implement b remote interfbce bt bll.
                      */
                     env.error("rmic.must.implement.remote",
-                              implClass.qualifiedName());
+                              implClbss.qublifiedNbme());
                 }
-                return false;
+                return fblse;
             }
         }
 
         /*
-         * Convert list of remote interfaces to an array
-         * (order is not important for this array).
+         * Convert list of remote interfbces to bn brrby
+         * (order is not importbnt for this brrby).
          */
-        remoteInterfaces =
-            remotesImplemented.toArray(
-                new ClassDoc[remotesImplemented.size()]);
+        remoteInterfbces =
+            remotesImplemented.toArrby(
+                new ClbssDoc[remotesImplemented.size()]);
 
         /*
-         * Collect the methods from all of the remote interfaces into
-         * a table, which maps from method name-and-descriptor string
+         * Collect the methods from bll of the remote interfbces into
+         * b tbble, which mbps from method nbme-bnd-descriptor string
          * to Method object.
          */
-        Map<String,Method> methods = new HashMap<String,Method>();
-        boolean errors = false;
-        for (ClassDoc intf : remotesImplemented) {
+        Mbp<String,Method> methods = new HbshMbp<String,Method>();
+        boolebn errors = fblse;
+        for (ClbssDoc intf : remotesImplemented) {
             if (!collectRemoteMethods(intf, methods)) {
                 /*
-                 * Continue iterating despite errors in order to
-                 * generate more complete error report.
+                 * Continue iterbting despite errors in order to
+                 * generbte more complete error report.
                  */
                 errors = true;
             }
         }
         if (errors) {
-            return false;
+            return fblse;
         }
 
         /*
-         * Sort table of remote methods into an array.  The elements
-         * are sorted in ascending order of the string of the method's
-         * name and descriptor, so that each elements index is equal
-         * to its operation number in the JDK 1.1 version of the JRMP
+         * Sort tbble of remote methods into bn brrby.  The elements
+         * bre sorted in bscending order of the string of the method's
+         * nbme bnd descriptor, so thbt ebch elements index is equbl
+         * to its operbtion number in the JDK 1.1 version of the JRMP
          * stub/skeleton protocol.
          */
         String[] orderedKeys =
-            methods.keySet().toArray(new String[methods.size()]);
-        Arrays.sort(orderedKeys);
+            methods.keySet().toArrby(new String[methods.size()]);
+        Arrbys.sort(orderedKeys);
         remoteMethods = new Method[methods.size()];
         for (int i = 0; i < remoteMethods.length; i++) {
             remoteMethods[i] = methods.get(orderedKeys[i]);
             if (env.verbose()) {
                 String msg = "[found remote method <" + i + ">: " +
-                    remoteMethods[i].operationString();
-                ClassDoc[] exceptions = remoteMethods[i].exceptionTypes();
+                    remoteMethods[i].operbtionString();
+                ClbssDoc[] exceptions = remoteMethods[i].exceptionTypes();
                 if (exceptions.length > 0) {
                     msg += " throws ";
                     for (int j = 0; j < exceptions.length; j++) {
                         if (j > 0) {
                             msg += ", ";
                         }
-                        msg +=  exceptions[j].qualifiedName();
+                        msg +=  exceptions[j].qublifiedNbme();
                     }
                 }
-                msg += "\n\tname and descriptor = \"" +
-                    remoteMethods[i].nameAndDescriptor();
-                msg += "\n\tmethod hash = " +
-                    remoteMethods[i].methodHash() + "]";
+                msg += "\n\tnbme bnd descriptor = \"" +
+                    remoteMethods[i].nbmeAndDescriptor();
+                msg += "\n\tmethod hbsh = " +
+                    remoteMethods[i].methodHbsh() + "]";
                 env.output(msg);
             }
         }
 
         /*
-         * Finally, pre-compute the interface hash to be used by
-         * stubs/skeletons for this remote class in the JDK 1.1
+         * Finblly, pre-compute the interfbce hbsh to be used by
+         * stubs/skeletons for this remote clbss in the JDK 1.1
          * version of the JRMP stub/skeleton protocol.
          */
-        interfaceHash = computeInterfaceHash();
+        interfbceHbsh = computeInterfbceHbsh();
 
         return true;
     }
 
     /**
-     * Collects and validates all methods from the specified interface
-     * and all of its superinterfaces as remote methods.  Remote
-     * methods are added to the supplied table.  Returns true if
-     * successful, or false if an error occurred.
+     * Collects bnd vblidbtes bll methods from the specified interfbce
+     * bnd bll of its superinterfbces bs remote methods.  Remote
+     * methods bre bdded to the supplied tbble.  Returns true if
+     * successful, or fblse if bn error occurred.
      **/
-    private boolean collectRemoteMethods(ClassDoc intf,
-                                         Map<String,Method> table)
+    privbte boolebn collectRemoteMethods(ClbssDoc intf,
+                                         Mbp<String,Method> tbble)
     {
-        if (!intf.isInterface()) {
+        if (!intf.isInterfbce()) {
             throw new AssertionError(
-                intf.qualifiedName() + " not an interface");
+                intf.qublifiedNbme() + " not bn interfbce");
         }
 
-        boolean errors = false;
+        boolebn errors = fblse;
 
         /*
-         * Search interface's declared methods.
+         * Sebrch interfbce's declbred methods.
          */
     nextMethod:
         for (MethodDoc method : intf.methods()) {
 
             /*
-             * Verify that each method throws RemoteException (or a
-             * superclass of RemoteException).
+             * Verify thbt ebch method throws RemoteException (or b
+             * superclbss of RemoteException).
              */
-            boolean hasRemoteException = false;
-            for (ClassDoc ex : method.thrownExceptions()) {
-                if (env.docRemoteException().subclassOf(ex)) {
-                    hasRemoteException = true;
-                    break;
+            boolebn hbsRemoteException = fblse;
+            for (ClbssDoc ex : method.thrownExceptions()) {
+                if (env.docRemoteException().subclbssOf(ex)) {
+                    hbsRemoteException = true;
+                    brebk;
                 }
             }
 
             /*
-             * If this method did not throw RemoteException as required,
-             * generate the error but continue, so that multiple such
-             * errors can be reported.
+             * If this method did not throw RemoteException bs required,
+             * generbte the error but continue, so thbt multiple such
+             * errors cbn be reported.
              */
-            if (!hasRemoteException) {
+            if (!hbsRemoteException) {
                 env.error("rmic.must.throw.remoteexception",
-                          intf.qualifiedName(),
-                          method.name() + method.signature());
+                          intf.qublifiedNbme(),
+                          method.nbme() + method.signbture());
                 errors = true;
                 continue nextMethod;
             }
 
             /*
-             * Verify that the implementation of this method throws only
-             * java.lang.Exception or its subclasses (fix bugid 4092486).
+             * Verify thbt the implementbtion of this method throws only
+             * jbvb.lbng.Exception or its subclbsses (fix bugid 4092486).
              * JRMP does not support remote methods throwing
-             * java.lang.Throwable or other subclasses.
+             * jbvb.lbng.Throwbble or other subclbsses.
              */
             MethodDoc implMethod = findImplMethod(method);
             if (implMethod != null) {           // should not be null
-                for (ClassDoc ex : implMethod.thrownExceptions()) {
-                    if (!ex.subclassOf(env.docException())) {
+                for (ClbssDoc ex : implMethod.thrownExceptions()) {
+                    if (!ex.subclbssOf(env.docException())) {
                         env.error("rmic.must.only.throw.exception",
-                                  implMethod.name() + implMethod.signature(),
-                                  ex.qualifiedName());
+                                  implMethod.nbme() + implMethod.signbture(),
+                                  ex.qublifiedNbme());
                         errors = true;
                         continue nextMethod;
                     }
@@ -351,37 +351,37 @@ final class RemoteClass {
             }
 
             /*
-             * Create RemoteClass.Method object to represent this method
-             * found in a remote interface.
+             * Crebte RemoteClbss.Method object to represent this method
+             * found in b remote interfbce.
              */
             Method newMethod = new Method(method);
 
             /*
-             * Store remote method's representation in the table of
-             * remote methods found, keyed by its name and descriptor.
+             * Store remote method's representbtion in the tbble of
+             * remote methods found, keyed by its nbme bnd descriptor.
              *
-             * If the table already contains an entry with the same
-             * method name and descriptor, then we must replace the
-             * old entry with a Method object that represents a legal
-             * combination of the old and the new methods;
-             * specifically, the combined method must have a throws
-             * clause that contains (only) all of the checked
-             * exceptions that can be thrown by both the old and the
+             * If the tbble blrebdy contbins bn entry with the sbme
+             * method nbme bnd descriptor, then we must replbce the
+             * old entry with b Method object thbt represents b legbl
+             * combinbtion of the old bnd the new methods;
+             * specificblly, the combined method must hbve b throws
+             * clbuse thbt contbins (only) bll of the checked
+             * exceptions thbt cbn be thrown by both the old bnd the
              * new method (see bugid 4070653).
              */
-            String key = newMethod.nameAndDescriptor();
-            Method oldMethod = table.get(key);
+            String key = newMethod.nbmeAndDescriptor();
+            Method oldMethod = tbble.get(key);
             if (oldMethod != null) {
                 newMethod = newMethod.mergeWith(oldMethod);
             }
-            table.put(key, newMethod);
+            tbble.put(key, newMethod);
         }
 
         /*
-         * Recursively collect methods for all superinterfaces.
+         * Recursively collect methods for bll superinterfbces.
          */
-        for (ClassDoc superintf : intf.interfaces()) {
-            if (!collectRemoteMethods(superintf, table)) {
+        for (ClbssDoc superintf : intf.interfbces()) {
+            if (!collectRemoteMethods(superintf, tbble)) {
                 errors = true;
             }
         }
@@ -391,16 +391,16 @@ final class RemoteClass {
 
     /**
      * Returns the MethodDoc for the method of this remote
-     * implementation class that implements the specified remote
-     * method of a remote interface.  Returns null if no matching
-     * method was found in this remote implementation class.
+     * implementbtion clbss thbt implements the specified remote
+     * method of b remote interfbce.  Returns null if no mbtching
+     * method wbs found in this remote implementbtion clbss.
      **/
-    private MethodDoc findImplMethod(MethodDoc interfaceMethod) {
-        String name = interfaceMethod.name();
-        String desc = Util.methodDescriptorOf(interfaceMethod);
-        for (MethodDoc implMethod : implClass.methods()) {
-            if (name.equals(implMethod.name()) &&
-                desc.equals(Util.methodDescriptorOf(implMethod)))
+    privbte MethodDoc findImplMethod(MethodDoc interfbceMethod) {
+        String nbme = interfbceMethod.nbme();
+        String desc = Util.methodDescriptorOf(interfbceMethod);
+        for (MethodDoc implMethod : implClbss.methods()) {
+            if (nbme.equbls(implMethod.nbme()) &&
+                desc.equbls(Util.methodDescriptorOf(implMethod)))
             {
                 return implMethod;
             }
@@ -409,241 +409,241 @@ final class RemoteClass {
     }
 
     /**
-     * Computes the "interface hash" of the stub/skeleton pair for
-     * this remote implementation class.  This is the 64-bit value
-     * used to enforce compatibility between a stub class and a
-     * skeleton class in the JDK 1.1 version of the JRMP stub/skeleton
+     * Computes the "interfbce hbsh" of the stub/skeleton pbir for
+     * this remote implementbtion clbss.  This is the 64-bit vblue
+     * used to enforce compbtibility between b stub clbss bnd b
+     * skeleton clbss in the JDK 1.1 version of the JRMP stub/skeleton
      * protocol.
      *
-     * It is calculated using the first 64 bits of an SHA digest.  The
-     * digest is of a stream consisting of the following data:
-     *     (int) stub version number, always 1
-     *     for each remote method, in order of operation number:
-     *         (UTF-8) method name
+     * It is cblculbted using the first 64 bits of bn SHA digest.  The
+     * digest is of b strebm consisting of the following dbtb:
+     *     (int) stub version number, blwbys 1
+     *     for ebch remote method, in order of operbtion number:
+     *         (UTF-8) method nbme
      *         (UTF-8) method descriptor
-     *         for each declared exception, in alphabetical name order:
-     *             (UTF-8) name of exception class
-     * (where "UTF-8" includes a 16-bit length prefix as written by
-     * java.io.DataOutput.writeUTF).
+     *         for ebch declbred exception, in blphbbeticbl nbme order:
+     *             (UTF-8) nbme of exception clbss
+     * (where "UTF-8" includes b 16-bit length prefix bs written by
+     * jbvb.io.DbtbOutput.writeUTF).
      **/
-    private long computeInterfaceHash() {
-        long hash = 0;
-        ByteArrayOutputStream sink = new ByteArrayOutputStream(512);
+    privbte long computeInterfbceHbsh() {
+        long hbsh = 0;
+        ByteArrbyOutputStrebm sink = new ByteArrbyOutputStrebm(512);
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            DataOutputStream out = new DataOutputStream(
-                new DigestOutputStream(sink, md));
+            MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
+            DbtbOutputStrebm out = new DbtbOutputStrebm(
+                new DigestOutputStrebm(sink, md));
 
             out.writeInt(INTERFACE_HASH_STUB_VERSION);
 
             for (Method method : remoteMethods) {
                 MethodDoc methodDoc = method.methodDoc();
 
-                out.writeUTF(methodDoc.name());
+                out.writeUTF(methodDoc.nbme());
                 out.writeUTF(Util.methodDescriptorOf(methodDoc));
-                                // descriptors already use binary names
+                                // descriptors blrebdy use binbry nbmes
 
-                ClassDoc exceptions[] = methodDoc.thrownExceptions();
-                Arrays.sort(exceptions, new ClassDocComparator());
-                for (ClassDoc ex : exceptions) {
-                    out.writeUTF(Util.binaryNameOf(ex));
+                ClbssDoc exceptions[] = methodDoc.thrownExceptions();
+                Arrbys.sort(exceptions, new ClbssDocCompbrbtor());
+                for (ClbssDoc ex : exceptions) {
+                    out.writeUTF(Util.binbryNbmeOf(ex));
                 }
             }
             out.flush();
 
-            // use only the first 64 bits of the digest for the hash
-            byte hashArray[] = md.digest();
-            for (int i = 0; i < Math.min(8, hashArray.length); i++) {
-                hash += ((long) (hashArray[i] & 0xFF)) << (i * 8);
+            // use only the first 64 bits of the digest for the hbsh
+            byte hbshArrby[] = md.digest();
+            for (int i = 0; i < Mbth.min(8, hbshArrby.length); i++) {
+                hbsh += ((long) (hbshArrby[i] & 0xFF)) << (i * 8);
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new AssertionError(e);
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
             throw new AssertionError(e);
         }
 
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Compares ClassDoc instances according to the lexicographic
-     * order of their binary names.
+     * Compbres ClbssDoc instbnces bccording to the lexicogrbphic
+     * order of their binbry nbmes.
      **/
-    private static class ClassDocComparator implements Comparator<ClassDoc> {
-        public int compare(ClassDoc o1, ClassDoc o2) {
-            return Util.binaryNameOf(o1).compareTo(Util.binaryNameOf(o2));
+    privbte stbtic clbss ClbssDocCompbrbtor implements Compbrbtor<ClbssDoc> {
+        public int compbre(ClbssDoc o1, ClbssDoc o2) {
+            return Util.binbryNbmeOf(o1).compbreTo(Util.binbryNbmeOf(o2));
         }
     }
 
     /**
-     * Encapsulates RMI-specific information about a particular remote
-     * method in the remote implementation class represented by the
-     * enclosing RemoteClass.
+     * Encbpsulbtes RMI-specific informbtion bbout b pbrticulbr remote
+     * method in the remote implementbtion clbss represented by the
+     * enclosing RemoteClbss.
      **/
-    final class Method implements Cloneable {
+    finbl clbss Method implements Clonebble {
 
         /**
          * MethodDoc for this remove method, from one of the remote
-         * interfaces that this method was found in.
+         * interfbces thbt this method wbs found in.
          *
-         * Note that this MethodDoc may be only one of multiple that
+         * Note thbt this MethodDoc mby be only one of multiple thbt
          * correspond to this remote method object, if multiple of
-         * this class's remote interfaces contain methods with the
-         * same name and descriptor.  Therefore, this MethodDoc may
-         * declare more exceptions thrown that this remote method
+         * this clbss's remote interfbces contbin methods with the
+         * sbme nbme bnd descriptor.  Therefore, this MethodDoc mby
+         * declbre more exceptions thrown thbt this remote method
          * does.
          **/
-        private final MethodDoc methodDoc;
+        privbte finbl MethodDoc methodDoc;
 
-        /** java.rmi.server.Operation string for this remote method */
-        private final String operationString;
+        /** jbvb.rmi.server.Operbtion string for this remote method */
+        privbte finbl String operbtionString;
 
-        /** name and descriptor of this remote method */
-        private final String nameAndDescriptor;
+        /** nbme bnd descriptor of this remote method */
+        privbte finbl String nbmeAndDescriptor;
 
-        /** JRMP "method hash" for this remote method */
-        private final long methodHash;
+        /** JRMP "method hbsh" for this remote method */
+        privbte finbl long methodHbsh;
 
         /**
-         * Exceptions declared to be thrown by this remote method.
+         * Exceptions declbred to be thrown by this remote method.
          *
-         * This list may include superfluous entries, such as
-         * unchecked exceptions and subclasses of other entries.
+         * This list mby include superfluous entries, such bs
+         * unchecked exceptions bnd subclbsses of other entries.
          **/
-        private ClassDoc[] exceptionTypes;
+        privbte ClbssDoc[] exceptionTypes;
 
         /**
-         * Creates a new Method instance for the specified method.
+         * Crebtes b new Method instbnce for the specified method.
          **/
         Method(MethodDoc methodDoc) {
             this.methodDoc = methodDoc;
             exceptionTypes = methodDoc.thrownExceptions();
             /*
              * Sort exception types to improve consistency with
-             * previous implementations.
+             * previous implementbtions.
              */
-            Arrays.sort(exceptionTypes, new ClassDocComparator());
-            operationString = computeOperationString();
-            nameAndDescriptor =
-                methodDoc.name() + Util.methodDescriptorOf(methodDoc);
-            methodHash = computeMethodHash();
+            Arrbys.sort(exceptionTypes, new ClbssDocCompbrbtor());
+            operbtionString = computeOperbtionString();
+            nbmeAndDescriptor =
+                methodDoc.nbme() + Util.methodDescriptorOf(methodDoc);
+            methodHbsh = computeMethodHbsh();
         }
 
         /**
          * Returns the MethodDoc object corresponding to this method
-         * of a remote interface.
+         * of b remote interfbce.
          **/
         MethodDoc methodDoc() {
             return methodDoc;
         }
 
         /**
-         * Returns the parameter types declared by this method.
+         * Returns the pbrbmeter types declbred by this method.
          **/
-        Type[] parameterTypes() {
-            Parameter[] parameters = methodDoc.parameters();
-            Type[] paramTypes = new Type[parameters.length];
-            for (int i = 0; i < paramTypes.length; i++) {
-                paramTypes[i] = parameters[i].type();
+        Type[] pbrbmeterTypes() {
+            Pbrbmeter[] pbrbmeters = methodDoc.pbrbmeters();
+            Type[] pbrbmTypes = new Type[pbrbmeters.length];
+            for (int i = 0; i < pbrbmTypes.length; i++) {
+                pbrbmTypes[i] = pbrbmeters[i].type();
             }
-            return paramTypes;
+            return pbrbmTypes;
         }
 
         /**
-         * Returns the exception types declared to be thrown by this
+         * Returns the exception types declbred to be thrown by this
          * remote method.
          *
-         * For methods with the same name and descriptor inherited
-         * from multiple remote interfaces, the array will contain the
-         * set of exceptions declared in all of the interfaces'
-         * methods that can be legally thrown by all of them.
+         * For methods with the sbme nbme bnd descriptor inherited
+         * from multiple remote interfbces, the brrby will contbin the
+         * set of exceptions declbred in bll of the interfbces'
+         * methods thbt cbn be legblly thrown by bll of them.
          **/
-        ClassDoc[] exceptionTypes() {
+        ClbssDoc[] exceptionTypes() {
             return exceptionTypes.clone();
         }
 
         /**
-         * Returns the JRMP "method hash" used to identify this remote
+         * Returns the JRMP "method hbsh" used to identify this remote
          * method in the JDK 1.2 version of the stub protocol.
          **/
-        long methodHash() {
-            return methodHash;
+        long methodHbsh() {
+            return methodHbsh;
         }
 
         /**
-         * Returns the string representation of this method
-         * appropriate for the construction of a
-         * java.rmi.server.Operation object.
+         * Returns the string representbtion of this method
+         * bppropribte for the construction of b
+         * jbvb.rmi.server.Operbtion object.
          **/
-        String operationString() {
-            return operationString;
+        String operbtionString() {
+            return operbtionString;
         }
 
         /**
-         * Returns a string consisting of this method's name followed
+         * Returns b string consisting of this method's nbme followed
          * by its descriptor.
          **/
-        String nameAndDescriptor() {
-            return nameAndDescriptor;
+        String nbmeAndDescriptor() {
+            return nbmeAndDescriptor;
         }
 
         /**
-         * Returns a new Method object that is a legal combination of
-         * this Method object and another one.
+         * Returns b new Method object thbt is b legbl combinbtion of
+         * this Method object bnd bnother one.
          *
-         * Doing this requires determining the exceptions declared by
-         * the combined method, which must be (only) all of the
-         * exceptions declared in both old Methods that may thrown in
+         * Doing this requires determining the exceptions declbred by
+         * the combined method, which must be (only) bll of the
+         * exceptions declbred in both old Methods thbt mby thrown in
          * either of them.
          **/
         Method mergeWith(Method other) {
-            if (!nameAndDescriptor().equals(other.nameAndDescriptor())) {
+            if (!nbmeAndDescriptor().equbls(other.nbmeAndDescriptor())) {
                 throw new AssertionError(
-                    "attempt to merge method \"" +
-                    other.nameAndDescriptor() + "\" with \"" +
-                    nameAndDescriptor());
+                    "bttempt to merge method \"" +
+                    other.nbmeAndDescriptor() + "\" with \"" +
+                    nbmeAndDescriptor());
             }
 
-            List<ClassDoc> legalExceptions = new ArrayList<ClassDoc>();
-            collectCompatibleExceptions(
-                other.exceptionTypes, exceptionTypes, legalExceptions);
-            collectCompatibleExceptions(
-                exceptionTypes, other.exceptionTypes, legalExceptions);
+            List<ClbssDoc> legblExceptions = new ArrbyList<ClbssDoc>();
+            collectCompbtibleExceptions(
+                other.exceptionTypes, exceptionTypes, legblExceptions);
+            collectCompbtibleExceptions(
+                exceptionTypes, other.exceptionTypes, legblExceptions);
 
             Method merged = clone();
             merged.exceptionTypes =
-                legalExceptions.toArray(new ClassDoc[legalExceptions.size()]);
+                legblExceptions.toArrby(new ClbssDoc[legblExceptions.size()]);
 
             return merged;
         }
 
         /**
-         * Cloning is supported by returning a shallow copy of this
+         * Cloning is supported by returning b shbllow copy of this
          * object.
          **/
         protected Method clone() {
             try {
                 return (Method) super.clone();
-            } catch (CloneNotSupportedException e) {
+            } cbtch (CloneNotSupportedException e) {
                 throw new AssertionError(e);
             }
         }
 
         /**
-         * Adds to the supplied list all exceptions in the "froms"
-         * array that are subclasses of an exception in the "withs"
-         * array.
+         * Adds to the supplied list bll exceptions in the "froms"
+         * brrby thbt bre subclbsses of bn exception in the "withs"
+         * brrby.
          **/
-        private void collectCompatibleExceptions(ClassDoc[] froms,
-                                                 ClassDoc[] withs,
-                                                 List<ClassDoc> list)
+        privbte void collectCompbtibleExceptions(ClbssDoc[] froms,
+                                                 ClbssDoc[] withs,
+                                                 List<ClbssDoc> list)
         {
-            for (ClassDoc from : froms) {
-                if (!list.contains(from)) {
-                    for (ClassDoc with : withs) {
-                        if (from.subclassOf(with)) {
-                            list.add(from);
-                            break;
+            for (ClbssDoc from : froms) {
+                if (!list.contbins(from)) {
+                    for (ClbssDoc with : withs) {
+                        if (from.subclbssOf(with)) {
+                            list.bdd(from);
+                            brebk;
                         }
                     }
                 }
@@ -651,57 +651,57 @@ final class RemoteClass {
         }
 
         /**
-         * Computes the JRMP "method hash" of this remote method.  The
-         * method hash is a long containing the first 64 bits of the
-         * SHA digest from the UTF-8 encoded string of the method name
-         * and descriptor.
+         * Computes the JRMP "method hbsh" of this remote method.  The
+         * method hbsh is b long contbining the first 64 bits of the
+         * SHA digest from the UTF-8 encoded string of the method nbme
+         * bnd descriptor.
          **/
-        private long computeMethodHash() {
-            long hash = 0;
-            ByteArrayOutputStream sink = new ByteArrayOutputStream(512);
+        privbte long computeMethodHbsh() {
+            long hbsh = 0;
+            ByteArrbyOutputStrebm sink = new ByteArrbyOutputStrebm(512);
             try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                DataOutputStream out = new DataOutputStream(
-                    new DigestOutputStream(sink, md));
+                MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
+                DbtbOutputStrebm out = new DbtbOutputStrebm(
+                    new DigestOutputStrebm(sink, md));
 
-                String methodString = nameAndDescriptor();
+                String methodString = nbmeAndDescriptor();
                 out.writeUTF(methodString);
 
-                // use only the first 64 bits of the digest for the hash
+                // use only the first 64 bits of the digest for the hbsh
                 out.flush();
-                byte hashArray[] = md.digest();
-                for (int i = 0; i < Math.min(8, hashArray.length); i++) {
-                    hash += ((long) (hashArray[i] & 0xFF)) << (i * 8);
+                byte hbshArrby[] = md.digest();
+                for (int i = 0; i < Mbth.min(8, hbshArrby.length); i++) {
+                    hbsh += ((long) (hbshArrby[i] & 0xFF)) << (i * 8);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 throw new AssertionError(e);
-            } catch (NoSuchAlgorithmException e) {
+            } cbtch (NoSuchAlgorithmException e) {
                 throw new AssertionError(e);
             }
 
-            return hash;
+            return hbsh;
         }
 
         /**
-         * Computes the string representation of this method
-         * appropriate for the construction of a
-         * java.rmi.server.Operation object.
+         * Computes the string representbtion of this method
+         * bppropribte for the construction of b
+         * jbvb.rmi.server.Operbtion object.
          **/
-        private String computeOperationString() {
+        privbte String computeOperbtionString() {
             /*
-             * To be consistent with previous implementations, we use
-             * the deprecated style of placing the "[]" for the return
-             * type (if any) after the parameter list.
+             * To be consistent with previous implementbtions, we use
+             * the deprecbted style of plbcing the "[]" for the return
+             * type (if bny) bfter the pbrbmeter list.
              */
             Type returnType = methodDoc.returnType();
-            String op = returnType.qualifiedTypeName() + " " +
-                methodDoc.name() + "(";
-            Parameter[] parameters = methodDoc.parameters();
-            for (int i = 0; i < parameters.length; i++) {
+            String op = returnType.qublifiedTypeNbme() + " " +
+                methodDoc.nbme() + "(";
+            Pbrbmeter[] pbrbmeters = methodDoc.pbrbmeters();
+            for (int i = 0; i < pbrbmeters.length; i++) {
                 if (i > 0) {
                     op += ", ";
                 }
-                op += parameters[i].type().toString();
+                op += pbrbmeters[i].type().toString();
             }
             op += ")" + returnType.dimension();
             return op;

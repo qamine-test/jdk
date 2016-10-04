@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,39 +27,39 @@
 #include <windows.h>
 #include <winsock2.h>           /* needed for htonl */
 #include <iprtrmib.h>
-#include <assert.h>
+#include <bssert.h>
 
-#include "java_net_NetworkInterface.h"
+#include "jbvb_net_NetworkInterfbce.h"
 #include "jni_util.h"
 
-#include "NetworkInterface.h"
+#include "NetworkInterfbce.h"
 #include "net_util.h"
 
 /*
- * Windows implementation of the java.net.NetworkInterface native methods.
- * This module provides the implementations of getAll, getByName, getByIndex,
- * and getByAddress.
+ * Windows implementbtion of the jbvb.net.NetworkInterfbce nbtive methods.
+ * This module provides the implementbtions of getAll, getByNbme, getByIndex,
+ * bnd getByAddress.
  */
 
-extern int enumAddresses_win(JNIEnv *env, netif *netifP, netaddr **netaddrPP);
-int getAddrsFromAdapter(IP_ADAPTER_ADDRESSES *ptr, netaddr **netaddrPP);
+extern int enumAddresses_win(JNIEnv *env, netif *netifP, netbddr **netbddrPP);
+int getAddrsFromAdbpter(IP_ADAPTER_ADDRESSES *ptr, netbddr **netbddrPP);
 
 #ifdef DEBUG
 void printnif (netif *nif) {
 #ifdef _WIN64
-        printf ("nif:0x%I64x name:%s\n", nif,nif->name);
+        printf ("nif:0x%I64x nbme:%s\n", nif,nif->nbme);
 #else
-        printf ("nif:0x%x name:%s\n", nif,nif->name);
+        printf ("nif:0x%x nbme:%s\n", nif,nif->nbme);
 #endif
-        if (nif->dNameIsUnicode) {
-            printf ("dName:%S index:%d ", nif->displayName,nif->index);
+        if (nif->dNbmeIsUnicode) {
+            printf ("dNbme:%S index:%d ", nif->displbyNbme,nif->index);
         } else {
-            printf ("dName:%s index:%d ", nif->displayName,nif->index);
+            printf ("dNbme:%s index:%d ", nif->displbyNbme,nif->index);
         }
-        printf ("naddrs:%d\n", nif->naddrs);
+        printf ("nbddrs:%d\n", nif->nbddrs);
 }
 
-void printnifs (netif *netifPP, char *str) {
+void printnifs (netif *netifPP, chbr *str) {
     netif *nif;
     printf ("%s\n", str);
     for (nif=netifPP; nif!=NULL; nif=nif->next) {
@@ -70,760 +70,760 @@ void printnifs (netif *netifPP, char *str) {
 
 #endif
 
-static int bufsize = 1024;
+stbtic int bufsize = 1024;
 
 /*
- * return an array of IP_ADAPTER_ADDRESSES containing one element
- * for each adapter on the system. Returned in *adapters.
- * Buffer is malloc'd and must be freed (unless error returned)
+ * return bn brrby of IP_ADAPTER_ADDRESSES contbining one element
+ * for ebch bdbpter on the system. Returned in *bdbpters.
+ * Buffer is mblloc'd bnd must be freed (unless error returned)
  */
-static int getAdapters (JNIEnv *env, IP_ADAPTER_ADDRESSES **adapters) {
-    DWORD ret, flags;
-    IP_ADAPTER_ADDRESSES *adapterInfo;
+stbtic int getAdbpters (JNIEnv *env, IP_ADAPTER_ADDRESSES **bdbpters) {
+    DWORD ret, flbgs;
+    IP_ADAPTER_ADDRESSES *bdbpterInfo;
     ULONG len;
-    adapterInfo = (IP_ADAPTER_ADDRESSES *)malloc (bufsize);
-    if (adapterInfo == NULL) {
-        JNU_ThrowByName(env, "java/lang/OutOfMemoryError", "Native heap allocation failure");
+    bdbpterInfo = (IP_ADAPTER_ADDRESSES *)mblloc (bufsize);
+    if (bdbpterInfo == NULL) {
+        JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError", "Nbtive hebp bllocbtion fbilure");
         return -1;
     }
 
     len = bufsize;
-    flags = GAA_FLAG_SKIP_DNS_SERVER;
-    flags |= GAA_FLAG_SKIP_MULTICAST;
-    flags |= GAA_FLAG_INCLUDE_PREFIX;
-    ret = GetAdaptersAddresses(AF_UNSPEC, flags, NULL, adapterInfo, &len);
+    flbgs = GAA_FLAG_SKIP_DNS_SERVER;
+    flbgs |= GAA_FLAG_SKIP_MULTICAST;
+    flbgs |= GAA_FLAG_INCLUDE_PREFIX;
+    ret = GetAdbptersAddresses(AF_UNSPEC, flbgs, NULL, bdbpterInfo, &len);
 
     if (ret == ERROR_BUFFER_OVERFLOW) {
-        IP_ADAPTER_ADDRESSES * newAdapterInfo = (IP_ADAPTER_ADDRESSES *) realloc (adapterInfo, len);
-        if (newAdapterInfo == NULL) {
-            free(adapterInfo);
-            JNU_ThrowByName(env, "java/lang/OutOfMemoryError", "Native heap allocation failure");
+        IP_ADAPTER_ADDRESSES * newAdbpterInfo = (IP_ADAPTER_ADDRESSES *) reblloc (bdbpterInfo, len);
+        if (newAdbpterInfo == NULL) {
+            free(bdbpterInfo);
+            JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError", "Nbtive hebp bllocbtion fbilure");
             return -1;
         }
 
-        adapterInfo = newAdapterInfo;
+        bdbpterInfo = newAdbpterInfo;
 
         bufsize = len;
-        ret = GetAdaptersAddresses(AF_UNSPEC, flags, NULL, adapterInfo, &len);
+        ret = GetAdbptersAddresses(AF_UNSPEC, flbgs, NULL, bdbpterInfo, &len);
     }
 
     if (ret != ERROR_SUCCESS) {
-        free (adapterInfo);
-        JNU_ThrowByName(env, "java/lang/Error",
-                "IP Helper Library GetAdaptersAddresses function failed");
+        free (bdbpterInfo);
+        JNU_ThrowByNbme(env, "jbvb/lbng/Error",
+                "IP Helper Librbry GetAdbptersAddresses function fbiled");
         return -1;
     }
-    *adapters = adapterInfo;
+    *bdbpters = bdbpterInfo;
     return ERROR_SUCCESS;
 }
 
 /*
- * return an array of IP_ADAPTER_ADDRESSES containing one element
- * for each adapter on the system. Returned in *adapters.
- * Buffer is malloc'd and must be freed (unless error returned)
+ * return bn brrby of IP_ADAPTER_ADDRESSES contbining one element
+ * for ebch bdbpter on the system. Returned in *bdbpters.
+ * Buffer is mblloc'd bnd must be freed (unless error returned)
  */
-IP_ADAPTER_ADDRESSES *getAdapter (JNIEnv *env,  jint index) {
-    DWORD flags, val;
-    IP_ADAPTER_ADDRESSES *adapterInfo, *ptr, *ret;
+IP_ADAPTER_ADDRESSES *getAdbpter (JNIEnv *env,  jint index) {
+    DWORD flbgs, vbl;
+    IP_ADAPTER_ADDRESSES *bdbpterInfo, *ptr, *ret;
     ULONG len;
-    adapterInfo = (IP_ADAPTER_ADDRESSES *)malloc (bufsize);
-    if (adapterInfo == NULL) {
-        JNU_ThrowByName(env, "java/lang/OutOfMemoryError", "Native heap allocation failure");
+    bdbpterInfo = (IP_ADAPTER_ADDRESSES *)mblloc (bufsize);
+    if (bdbpterInfo == NULL) {
+        JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError", "Nbtive hebp bllocbtion fbilure");
         return NULL;
     }
     len = bufsize;
-    flags = GAA_FLAG_SKIP_DNS_SERVER;
-    flags |= GAA_FLAG_SKIP_MULTICAST;
-    flags |= GAA_FLAG_INCLUDE_PREFIX;
-    val = GetAdaptersAddresses(AF_UNSPEC, flags, NULL, adapterInfo, &len);
-    if (val == ERROR_BUFFER_OVERFLOW) {
-        IP_ADAPTER_ADDRESSES * newAdapterInfo = (IP_ADAPTER_ADDRESSES *) realloc (adapterInfo, len);
-        if (newAdapterInfo == NULL) {
-            free(adapterInfo);
-            JNU_ThrowByName(env, "java/lang/OutOfMemoryError", "Native heap allocation failure");
+    flbgs = GAA_FLAG_SKIP_DNS_SERVER;
+    flbgs |= GAA_FLAG_SKIP_MULTICAST;
+    flbgs |= GAA_FLAG_INCLUDE_PREFIX;
+    vbl = GetAdbptersAddresses(AF_UNSPEC, flbgs, NULL, bdbpterInfo, &len);
+    if (vbl == ERROR_BUFFER_OVERFLOW) {
+        IP_ADAPTER_ADDRESSES * newAdbpterInfo = (IP_ADAPTER_ADDRESSES *) reblloc (bdbpterInfo, len);
+        if (newAdbpterInfo == NULL) {
+            free(bdbpterInfo);
+            JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError", "Nbtive hebp bllocbtion fbilure");
             return NULL;
         }
 
-        adapterInfo = newAdapterInfo;
+        bdbpterInfo = newAdbpterInfo;
 
         bufsize = len;
-        val = GetAdaptersAddresses(AF_UNSPEC, flags, NULL, adapterInfo, &len);
+        vbl = GetAdbptersAddresses(AF_UNSPEC, flbgs, NULL, bdbpterInfo, &len);
     }
 
-    if (val != ERROR_SUCCESS) {
-        free (adapterInfo);
-        JNU_ThrowByName(env, "java/lang/Error",
-                "IP Helper Library GetAdaptersAddresses function failed");
+    if (vbl != ERROR_SUCCESS) {
+        free (bdbpterInfo);
+        JNU_ThrowByNbme(env, "jbvb/lbng/Error",
+                "IP Helper Librbry GetAdbptersAddresses function fbiled");
         return NULL;
     }
-    ptr = adapterInfo;
+    ptr = bdbpterInfo;
     ret = NULL;
     while (ptr != NULL) {
-      // in theory the IPv4 index and the IPv6 index can be the same
-      // where an interface is enabled for v4 and v6
-      // IfIndex == 0 IPv4 not available on this interface
-      // Ipv6IfIndex == 0 IPv6 not available on this interface
+      // in theory the IPv4 index bnd the IPv6 index cbn be the sbme
+      // where bn interfbce is enbbled for v4 bnd v6
+      // IfIndex == 0 IPv4 not bvbilbble on this interfbce
+      // Ipv6IfIndex == 0 IPv6 not bvbilbble on this interfbce
       if (((ptr->IfIndex != 0)&&(ptr->IfIndex == index)) ||
           ((ptr->Ipv6IfIndex !=0) && (ptr->Ipv6IfIndex == index))) {
-        ret = (IP_ADAPTER_ADDRESSES *) malloc(sizeof(IP_ADAPTER_ADDRESSES));
+        ret = (IP_ADAPTER_ADDRESSES *) mblloc(sizeof(IP_ADAPTER_ADDRESSES));
         if (ret == NULL) {
-            free(adapterInfo);
-            JNU_ThrowByName(env, "java/lang/OutOfMemoryError", "Native heap allocation failure");
+            free(bdbpterInfo);
+            JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError", "Nbtive hebp bllocbtion fbilure");
             return NULL;
         }
 
-        //copy the memory and break out of the while loop.
+        //copy the memory bnd brebk out of the while loop.
         memcpy(ret, ptr, sizeof(IP_ADAPTER_ADDRESSES));
-        break;
+        brebk;
 
       }
       ptr=ptr->Next;
     }
-    free(adapterInfo);
+    free(bdbpterInfo);
     return ret;
 }
 
-static int ipinflen = 2048;
+stbtic int ipinflen = 2048;
 
 /*
  */
-int getAllInterfacesAndAddresses (JNIEnv *env, netif **netifPP)
+int getAllInterfbcesAndAddresses (JNIEnv *env, netif **netifPP)
 {
     DWORD ret;
-    IP_ADAPTER_ADDRESSES *ptr, *adapters=NULL;
+    IP_ADAPTER_ADDRESSES *ptr, *bdbpters=NULL;
     ULONG len=ipinflen, count=0;
-    netif *nif=NULL, *dup_nif, *last=NULL, *loopif=NULL, *curr;
+    netif *nif=NULL, *dup_nif, *lbst=NULL, *loopif=NULL, *curr;
     int tun=0, net=0;
 
     *netifPP = NULL;
    /*
-    * Get the IPv4 interfaces. This information is the same
-    * as what previous JDK versions would return.
+    * Get the IPv4 interfbces. This informbtion is the sbme
+    * bs whbt previous JDK versions would return.
     */
 
-    ret = enumInterfaces(env, netifPP);
+    ret = enumInterfbces(env, netifPP);
     if (ret == -1) {
         return -1;
     } else {
         count = ret;
     }
 
-    /* locate the loopback (and the last) interface */
-    for (nif=*netifPP, last=nif; nif!=NULL; nif=nif->next) {
+    /* locbte the loopbbck (bnd the lbst) interfbce */
+    for (nif=*netifPP, lbst=nif; nif!=NULL; nif=nif->next) {
         if (nif->ifType == MIB_IF_TYPE_LOOPBACK) {
             loopif = nif;
         }
-        last = nif;
+        lbst = nif;
     }
 
-    // Retrieve IPv4 addresses with the IP Helper API
+    // Retrieve IPv4 bddresses with the IP Helper API
     curr = *netifPP;
     while (curr != NULL) {
-        netaddr *netaddrP;
-        ret = enumAddresses_win(env, curr, &netaddrP);
+        netbddr *netbddrP;
+        ret = enumAddresses_win(env, curr, &netbddrP);
         if (ret == -1) {
             return -1;
         }
-        curr->addrs = netaddrP;
-        curr->naddrs += ret;
+        curr->bddrs = netbddrP;
+        curr->nbddrs += ret;
         curr = curr->next;
     }
 
-    ret = getAdapters (env, &adapters);
+    ret = getAdbpters (env, &bdbpters);
     if (ret != ERROR_SUCCESS) {
         goto err;
     }
 
-    /* Now get the IPv6 information. This includes:
-     *  (a)  IPv6 information associated with interfaces already found
-     *  (b)  IPv6 information for IPv6 only interfaces (probably tunnels)
+    /* Now get the IPv6 informbtion. This includes:
+     *  (b)  IPv6 informbtion bssocibted with interfbces blrebdy found
+     *  (b)  IPv6 informbtion for IPv6 only interfbces (probbbly tunnels)
      *
-     * For compatibility with previous releases we use the naming
-     * information gotten from enumInterfaces() for (a) entries
-     * However, the index numbers are taken from the new API.
+     * For compbtibility with previous relebses we use the nbming
+     * informbtion gotten from enumInterfbces() for (b) entries
+     * However, the index numbers bre tbken from the new API.
      *
-     * The procedure is to go through the list of adapters returned
-     * by the new API looking for entries that correspond to IPv4 interfaces
-     * already found.
+     * The procedure is to go through the list of bdbpters returned
+     * by the new API looking for entries thbt correspond to IPv4 interfbces
+     * blrebdy found.
      */
 
-    ptr = adapters;
+    ptr = bdbpters;
     while (ptr != NULL) {
         int c;
         netif *nif0;
         if (ptr->IfType == IF_TYPE_SOFTWARE_LOOPBACK && (loopif != NULL)) {
-            c = getAddrsFromAdapter(ptr, &loopif->addrs);
+            c = getAddrsFromAdbpter(ptr, &loopif->bddrs);
             if (c == -1) {
                 goto err;
             }
-            loopif->naddrs += c;
+            loopif->nbddrs += c;
         } else {
             int index = ptr->IfIndex;
             if (index != 0) {
-                /* This entry is associated with an IPv4 interface */
+                /* This entry is bssocibted with bn IPv4 interfbce */
                 for (nif=*netifPP; nif!=NULL; nif=nif->next) {
                     if (nif->index == index) {
-                        /* found the interface entry
-                         * set the index to the IPv6 index and add the
-                         * IPv6 addresses
+                        /* found the interfbce entry
+                         * set the index to the IPv6 index bnd bdd the
+                         * IPv6 bddresses
                          */
                         nif->ipv6Index = ptr->Ipv6IfIndex;
-                        c = getAddrsFromAdapter(ptr, &nif->addrs);
-                        nif->naddrs += c;
-                        break;
+                        c = getAddrsFromAdbpter(ptr, &nif->bddrs);
+                        nif->nbddrs += c;
+                        brebk;
                     }
                 }
             } else {
                 /* This entry is IPv6 only */
-                char newname [128];
+                chbr newnbme [128];
                 int c;
 
-                /* Windows allocates duplicate adapter entries
-                 * for tunnel interfaces when there are multiple
-                 * physical adapters. Need to check
-                 * if this is a duplicate (ipv6Index is the same)
+                /* Windows bllocbtes duplicbte bdbpter entries
+                 * for tunnel interfbces when there bre multiple
+                 * physicbl bdbpters. Need to check
+                 * if this is b duplicbte (ipv6Index is the sbme)
                  */
                 dup_nif = 0;
                 for (nif0=*netifPP; nif0!=NULL; nif0=nif0->next) {
-                    if (nif0->hasIpv6Address &&
+                    if (nif0->hbsIpv6Address &&
                                 ptr->Ipv6IfIndex == nif0->ipv6Index) {
                         dup_nif = nif0;
-                        break;
+                        brebk;
                     }
                 }
                 if (dup_nif == 0) {
-                    /* new interface */
-                        nif = (netif *) calloc (1, sizeof(netif));
+                    /* new interfbce */
+                        nif = (netif *) cblloc (1, sizeof(netif));
                         if (nif == 0) {
                             goto err;
                         }
                         if (ptr->IfType == IF_TYPE_TUNNEL) {
-                                sprintf (newname, "tun%d", tun);
+                                sprintf (newnbme, "tun%d", tun);
                                 tun ++;
                         } else {
-                                sprintf (newname, "net%d", net);
+                                sprintf (newnbme, "net%d", net);
                                 net ++;
                         }
-                        nif->name = malloc (strlen(newname)+1);
-                        nif->displayName = malloc (wcslen(ptr->FriendlyName)*2+2);
-                        if (nif->name == 0 || nif->displayName == 0) {
+                        nif->nbme = mblloc (strlen(newnbme)+1);
+                        nif->displbyNbme = mblloc (wcslen(ptr->FriendlyNbme)*2+2);
+                        if (nif->nbme == 0 || nif->displbyNbme == 0) {
                                 goto err;
                         }
-                        strcpy (nif->name, newname);
-                        wcscpy ((PWCHAR)nif->displayName, ptr->FriendlyName);
-                        nif->dNameIsUnicode = TRUE;
+                        strcpy (nif->nbme, newnbme);
+                        wcscpy ((PWCHAR)nif->displbyNbme, ptr->FriendlyNbme);
+                        nif->dNbmeIsUnicode = TRUE;
 
-                        // the java.net.NetworkInterface abstraction only has index
-                        // so the Ipv6IfIndex needs to map onto index
+                        // the jbvb.net.NetworkInterfbce bbstrbction only hbs index
+                        // so the Ipv6IfIndex needs to mbp onto index
                         nif->index = ptr->Ipv6IfIndex;
                         nif->ipv6Index = ptr->Ipv6IfIndex;
-                        nif->hasIpv6Address = TRUE;
+                        nif->hbsIpv6Address = TRUE;
 
-                        last->next = nif;
-                        last = nif;
+                        lbst->next = nif;
+                        lbst = nif;
                         count++;
-                        c = getAddrsFromAdapter(ptr, &nif->addrs);
+                        c = getAddrsFromAdbpter(ptr, &nif->bddrs);
                         if (c == -1) {
                                 goto err;
                         }
-                        nif->naddrs += c;
+                        nif->nbddrs += c;
                  } else {
-                        /* add the addresses from this adapter to the
-                         * original (dup_nif)
+                        /* bdd the bddresses from this bdbpter to the
+                         * originbl (dup_nif)
                          */
-                        c = getAddrsFromAdapter(ptr, &dup_nif->addrs);
+                        c = getAddrsFromAdbpter(ptr, &dup_nif->bddrs);
                         if (c == -1) {
                                 goto err;
                         }
-                        dup_nif->naddrs += c;
+                        dup_nif->nbddrs += c;
                 }
             }
         }
         ptr=ptr->Next;
     }
 
-    free (adapters);
+    free (bdbpters);
     return count;
 
 err:
     if (*netifPP) {
         free_netif (*netifPP);
     }
-    if (adapters) {
-        free (adapters);
+    if (bdbpters) {
+        free (bdbpters);
     }
     return -1;
 }
 
-/* If *netaddrPP is null, then the addresses are allocated and the beginning
- * of the allocated chain is returned in *netaddrPP.
- * If *netaddrPP is not null, then the addresses allocated here are appended
- * to the existing chain.
+/* If *netbddrPP is null, then the bddresses bre bllocbted bnd the beginning
+ * of the bllocbted chbin is returned in *netbddrPP.
+ * If *netbddrPP is not null, then the bddresses bllocbted here bre bppended
+ * to the existing chbin.
  *
- * Returns count of addresses or -1 on error.
+ * Returns count of bddresses or -1 on error.
  */
 
-static int getAddrsFromAdapter(IP_ADAPTER_ADDRESSES *ptr, netaddr **netaddrPP) {
+stbtic int getAddrsFromAdbpter(IP_ADAPTER_ADDRESSES *ptr, netbddr **netbddrPP) {
         LPSOCKADDR sock;
         int        count = 0;
-        netaddr    *curr, *start = NULL, *prev = NULL;
-        PIP_ADAPTER_UNICAST_ADDRESS uni_addr;
-        PIP_ADAPTER_ANYCAST_ADDRESS any_addr;
+        netbddr    *curr, *stbrt = NULL, *prev = NULL;
+        PIP_ADAPTER_UNICAST_ADDRESS uni_bddr;
+        PIP_ADAPTER_ANYCAST_ADDRESS bny_bddr;
         PIP_ADAPTER_PREFIX prefix;
 
-        /* If chain passed in, find end */
-        if (*netaddrPP != NULL) {
-            for (start=*netaddrPP; start->next!=NULL; start=start->next)
+        /* If chbin pbssed in, find end */
+        if (*netbddrPP != NULL) {
+            for (stbrt=*netbddrPP; stbrt->next!=NULL; stbrt=stbrt->next)
                 ;
 
-            prev=start;
+            prev=stbrt;
         }
 
         prefix = ptr->FirstPrefix;
-        /* Unicast */
-        uni_addr = ptr->FirstUnicastAddress;
-        while (uni_addr != NULL) {
-        /* address is only usable if dad state is preferred or deprecated */
-                if (uni_addr->DadState == IpDadStateDeprecated ||
-                                uni_addr->DadState == IpDadStatePreferred) {
-                        sock = uni_addr->Address.lpSockaddr;
+        /* Unicbst */
+        uni_bddr = ptr->FirstUnicbstAddress;
+        while (uni_bddr != NULL) {
+        /* bddress is only usbble if dbd stbte is preferred or deprecbted */
+                if (uni_bddr->DbdStbte == IpDbdStbteDeprecbted ||
+                                uni_bddr->DbdStbte == IpDbdStbtePreferred) {
+                        sock = uni_bddr->Address.lpSockbddr;
 
-                        // IPv4 addresses already retrieved with enumAddresses_win
-                        if (sock->sa_family == AF_INET) {
-                                uni_addr = uni_addr->Next;
+                        // IPv4 bddresses blrebdy retrieved with enumAddresses_win
+                        if (sock->sb_fbmily == AF_INET) {
+                                uni_bddr = uni_bddr->Next;
                                 continue;
                         }
 
-            curr = (netaddr *)calloc (1, sizeof (netaddr));
+            curr = (netbddr *)cblloc (1, sizeof (netbddr));
 
             if (curr == NULL)
-                goto freeAllocatedMemory;
+                goto freeAllocbtedMemory;
 
-            if (start == NULL)
-                start = curr;
+            if (stbrt == NULL)
+                stbrt = curr;
 
             if (prev != NULL)
                prev->next = curr;
 
             prev = curr;
-            SOCKETADDRESS_COPY (&curr->addr, sock);
+            SOCKETADDRESS_COPY (&curr->bddr, sock);
             if (prefix != NULL) {
-              curr->mask = (short)prefix->PrefixLength;
+              curr->mbsk = (short)prefix->PrefixLength;
               prefix = prefix->Next;
             }
             count ++;
         }
-        uni_addr = uni_addr->Next;
+        uni_bddr = uni_bddr->Next;
     }
-    /* Anycast */
-    any_addr = ptr->FirstAnycastAddress;
-    while (any_addr != NULL) {
-        curr = (netaddr *)calloc (1, sizeof (netaddr));
+    /* Anycbst */
+    bny_bddr = ptr->FirstAnycbstAddress;
+    while (bny_bddr != NULL) {
+        curr = (netbddr *)cblloc (1, sizeof (netbddr));
 
         if (curr == NULL)
-            goto freeAllocatedMemory;
+            goto freeAllocbtedMemory;
 
-        if (start == NULL)
-            start = curr;
+        if (stbrt == NULL)
+            stbrt = curr;
 
         if (prev != NULL)
             prev->next = curr;
 
         prev = curr;
-        sock = any_addr->Address.lpSockaddr;
-        SOCKETADDRESS_COPY (&curr->addr, sock);
+        sock = bny_bddr->Address.lpSockbddr;
+        SOCKETADDRESS_COPY (&curr->bddr, sock);
         count ++;
-        any_addr = any_addr->Next;
+        bny_bddr = bny_bddr->Next;
     }
-    if (*netaddrPP == NULL) {
-        *netaddrPP = start;
+    if (*netbddrPP == NULL) {
+        *netbddrPP = stbrt;
     }
     return count;
 
-freeAllocatedMemory:
+freeAllocbtedMemory:
 
-    if (*netaddrPP != NULL) {
-        //N.B. the variable "start" cannot be NULL at this point because we started with an
+    if (*netbddrPP != NULL) {
+        //N.B. the vbribble "stbrt" cbnnot be NULL bt this point becbuse we stbrted with bn
         //existing list.
-        curr=start->next;
-        start->next = NULL;
-        start = curr;
+        curr=stbrt->next;
+        stbrt->next = NULL;
+        stbrt = curr;
     }
-    // otherwise, "start" points to the beginning of an incomplete list that we must deallocate.
+    // otherwise, "stbrt" points to the beginning of bn incomplete list thbt we must debllocbte.
 
-    while (start != NULL) {
-        curr = start->next;
-        free(start);
-        start = curr;
+    while (stbrt != NULL) {
+        curr = stbrt->next;
+        free(stbrt);
+        stbrt = curr;
     }
 
     return -1;
 }
 
 /*
- * Create a NetworkInterface object, populate the name and index, and
- * populate the InetAddress array based on the IP addresses for this
- * interface.
+ * Crebte b NetworkInterfbce object, populbte the nbme bnd index, bnd
+ * populbte the InetAddress brrby bbsed on the IP bddresses for this
+ * interfbce.
  */
-static jobject createNetworkInterfaceXP(JNIEnv *env, netif *ifs)
+stbtic jobject crebteNetworkInterfbceXP(JNIEnv *env, netif *ifs)
 {
     jobject netifObj;
-    jobject name, displayName;
-    jobjectArray addrArr, bindsArr, childArr;
-    netaddr *addrs;
-    jint addr_index;
-    int netaddrCount=ifs->naddrs;
-    netaddr *netaddrP=ifs->addrs;
+    jobject nbme, displbyNbme;
+    jobjectArrby bddrArr, bindsArr, childArr;
+    netbddr *bddrs;
+    jint bddr_index;
+    int netbddrCount=ifs->nbddrs;
+    netbddr *netbddrP=ifs->bddrs;
     jint bind_index;
 
     /*
-     * Create a NetworkInterface object and populate it
+     * Crebte b NetworkInterfbce object bnd populbte it
      */
-    netifObj = (*env)->NewObject(env, ni_class, ni_ctor);
-    name = (*env)->NewStringUTF(env, ifs->name);
-    if (ifs->dNameIsUnicode) {
-        displayName = (*env)->NewString(env, (PWCHAR)ifs->displayName,
-                                        (jsize)wcslen ((PWCHAR)ifs->displayName));
+    netifObj = (*env)->NewObject(env, ni_clbss, ni_ctor);
+    nbme = (*env)->NewStringUTF(env, ifs->nbme);
+    if (ifs->dNbmeIsUnicode) {
+        displbyNbme = (*env)->NewString(env, (PWCHAR)ifs->displbyNbme,
+                                        (jsize)wcslen ((PWCHAR)ifs->displbyNbme));
     } else {
-        displayName = (*env)->NewStringUTF(env, ifs->displayName);
+        displbyNbme = (*env)->NewStringUTF(env, ifs->displbyNbme);
     }
-    if (netifObj == NULL || name == NULL || displayName == NULL) {
+    if (netifObj == NULL || nbme == NULL || displbyNbme == NULL) {
         return NULL;
     }
-    (*env)->SetObjectField(env, netifObj, ni_nameID, name);
-    (*env)->SetObjectField(env, netifObj, ni_displayNameID, displayName);
+    (*env)->SetObjectField(env, netifObj, ni_nbmeID, nbme);
+    (*env)->SetObjectField(env, netifObj, ni_displbyNbmeID, displbyNbme);
     (*env)->SetIntField(env, netifObj, ni_indexID, ifs->index);
     /*
-     * Get the IP addresses for this interface if necessary
-     * Note that 0 is a valid number of addresses.
+     * Get the IP bddresses for this interfbce if necessbry
+     * Note thbt 0 is b vblid number of bddresses.
      */
-    if (netaddrCount < 0) {
-        netaddrCount = enumAddresses_win(env, ifs, &netaddrP);
-        if (netaddrCount == -1) {
+    if (netbddrCount < 0) {
+        netbddrCount = enumAddresses_win(env, ifs, &netbddrP);
+        if (netbddrCount == -1) {
             return NULL;
         }
     }
 
-    addrArr = (*env)->NewObjectArray(env, netaddrCount, ia_class, NULL);
-    if (addrArr == NULL) {
+    bddrArr = (*env)->NewObjectArrby(env, netbddrCount, ib_clbss, NULL);
+    if (bddrArr == NULL) {
         return NULL;
     }
 
-    bindsArr = (*env)->NewObjectArray(env, netaddrCount, ni_ibcls, NULL);
+    bindsArr = (*env)->NewObjectArrby(env, netbddrCount, ni_ibcls, NULL);
     if (bindsArr == NULL) {
-      free_netaddr(netaddrP);
+      free_netbddr(netbddrP);
       return NULL;
     }
 
-    addrs = netaddrP;
-    addr_index = 0;
+    bddrs = netbddrP;
+    bddr_index = 0;
     bind_index = 0;
-    while (addrs != NULL) {
-        jobject iaObj, ia2Obj;
+    while (bddrs != NULL) {
+        jobject ibObj, ib2Obj;
         jobject ibObj = NULL;
-        if (addrs->addr.him.sa_family == AF_INET) {
-            iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (iaObj == NULL) {
+        if (bddrs->bddr.him.sb_fbmily == AF_INET) {
+            ibObj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+            if (ibObj == NULL) {
                 return NULL;
             }
-            /* default ctor will set family to AF_INET */
+            /* defbult ctor will set fbmily to AF_INET */
 
-            setInetAddress_addr(env, iaObj, ntohl(addrs->addr.him4.sin_addr.s_addr));
+            setInetAddress_bddr(env, ibObj, ntohl(bddrs->bddr.him4.sin_bddr.s_bddr));
 
             ibObj = (*env)->NewObject(env, ni_ibcls, ni_ibctrID);
             if (ibObj == NULL) {
-              free_netaddr(netaddrP);
+              free_netbddr(netbddrP);
               return NULL;
             }
-            (*env)->SetObjectField(env, ibObj, ni_ibaddressID, iaObj);
-            ia2Obj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (ia2Obj == NULL) {
-              free_netaddr(netaddrP);
+            (*env)->SetObjectField(env, ibObj, ni_ibbddressID, ibObj);
+            ib2Obj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+            if (ib2Obj == NULL) {
+              free_netbddr(netbddrP);
               return NULL;
             }
-            setInetAddress_addr(env, ia2Obj, ntohl(addrs->brdcast.him4.sin_addr.s_addr));
-            (*env)->SetObjectField(env, ibObj, ni_ibbroadcastID, ia2Obj);
-            (*env)->SetShortField(env, ibObj, ni_ibmaskID, addrs->mask);
-            (*env)->SetObjectArrayElement(env, bindsArr, bind_index++, ibObj);
+            setInetAddress_bddr(env, ib2Obj, ntohl(bddrs->brdcbst.him4.sin_bddr.s_bddr));
+            (*env)->SetObjectField(env, ibObj, ni_ibbrobdcbstID, ib2Obj);
+            (*env)->SetShortField(env, ibObj, ni_ibmbskID, bddrs->mbsk);
+            (*env)->SetObjectArrbyElement(env, bindsArr, bind_index++, ibObj);
         } else /* AF_INET6 */ {
             int scope;
-            iaObj = (*env)->NewObject(env, ia6_class, ia6_ctrID);
-            if (iaObj) {
-                jboolean ret = setInet6Address_ipaddress(env, iaObj, (jbyte *)&(addrs->addr.him6.sin6_addr.s6_addr));
+            ibObj = (*env)->NewObject(env, ib6_clbss, ib6_ctrID);
+            if (ibObj) {
+                jboolebn ret = setInet6Address_ipbddress(env, ibObj, (jbyte *)&(bddrs->bddr.him6.sin6_bddr.s6_bddr));
                 if (ret == JNI_FALSE) {
                     return NULL;
                 }
-                scope = addrs->addr.him6.sin6_scope_id;
-                if (scope != 0) { /* zero is default value, no need to set */
-                    setInet6Address_scopeid(env, iaObj, scope);
-                    setInet6Address_scopeifname(env, iaObj, netifObj);
+                scope = bddrs->bddr.him6.sin6_scope_id;
+                if (scope != 0) { /* zero is defbult vblue, no need to set */
+                    setInet6Address_scopeid(env, ibObj, scope);
+                    setInet6Address_scopeifnbme(env, ibObj, netifObj);
                 }
                 ibObj = (*env)->NewObject(env, ni_ibcls, ni_ibctrID);
                 if (ibObj == NULL) {
-                  free_netaddr(netaddrP);
+                  free_netbddr(netbddrP);
                   return NULL;
                 }
-                (*env)->SetObjectField(env, ibObj, ni_ibaddressID, iaObj);
-                (*env)->SetShortField(env, ibObj, ni_ibmaskID, addrs->mask);
-                (*env)->SetObjectArrayElement(env, bindsArr, bind_index++, ibObj);
+                (*env)->SetObjectField(env, ibObj, ni_ibbddressID, ibObj);
+                (*env)->SetShortField(env, ibObj, ni_ibmbskID, bddrs->mbsk);
+                (*env)->SetObjectArrbyElement(env, bindsArr, bind_index++, ibObj);
             }
         }
-        (*env)->SetObjectArrayElement(env, addrArr, addr_index, iaObj);
-        addrs = addrs->next;
-        addr_index++;
+        (*env)->SetObjectArrbyElement(env, bddrArr, bddr_index, ibObj);
+        bddrs = bddrs->next;
+        bddr_index++;
     }
-    (*env)->SetObjectField(env, netifObj, ni_addrsID, addrArr);
+    (*env)->SetObjectField(env, netifObj, ni_bddrsID, bddrArr);
     (*env)->SetObjectField(env, netifObj, ni_bindsID, bindsArr);
 
     /*
-     * Windows doesn't have virtual interfaces, so child array
-     * is always empty.
+     * Windows doesn't hbve virtubl interfbces, so child brrby
+     * is blwbys empty.
      */
-    childArr = (*env)->NewObjectArray(env, 0, ni_class, NULL);
+    childArr = (*env)->NewObjectArrby(env, 0, ni_clbss, NULL);
     if (childArr == NULL) {
       return NULL;
     }
     (*env)->SetObjectField(env, netifObj, ni_childsID, childArr);
 
-    /* return the NetworkInterface */
+    /* return the NetworkInterfbce */
     return netifObj;
 }
 
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByName0_XP
-    (JNIEnv *env, jclass cls, jstring name)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByNbme0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme)
 {
     netif *ifList, *curr;
-    jboolean isCopy;
-    const char *name_utf;
+    jboolebn isCopy;
+    const chbr *nbme_utf;
     jobject netifObj = NULL;
 
-    if (getAllInterfacesAndAddresses (env, &ifList) < 0) {
+    if (getAllInterfbcesAndAddresses (env, &ifList) < 0) {
         return NULL;
     }
 
-    /* get the name as a C string */
-    name_utf = (*env)->GetStringUTFChars(env, name, &isCopy);
+    /* get the nbme bs b C string */
+    nbme_utf = (*env)->GetStringUTFChbrs(env, nbme, &isCopy);
 
-    /* Search by name */
+    /* Sebrch by nbme */
     curr = ifList;
     while (curr != NULL) {
-        if (strcmp(name_utf, curr->name) == 0) {
-            break;
+        if (strcmp(nbme_utf, curr->nbme) == 0) {
+            brebk;
         }
         curr = curr->next;
     }
 
-    /* if found create a NetworkInterface */
+    /* if found crebte b NetworkInterfbce */
     if (curr != NULL) {;
-        netifObj = createNetworkInterfaceXP(env, curr);
+        netifObj = crebteNetworkInterfbceXP(env, curr);
     }
 
-    /* release the UTF string */
-    (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    /* relebse the UTF string */
+    (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
 
-    /* release the interface list */
+    /* relebse the interfbce list */
     free_netif(ifList);
 
     return netifObj;
 }
 
 /*
- * Class:     NetworkInterface
+ * Clbss:     NetworkInterfbce
  * Method:    getByIndex0_XP
- * Signature: (I)LNetworkInterface;
+ * Signbture: (I)LNetworkInterfbce;
  */
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByIndex0_XP
-  (JNIEnv *env, jclass cls, jint index)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByIndex0_XP
+  (JNIEnv *env, jclbss cls, jint index)
 {
     netif *ifList, *curr;
     jobject netifObj = NULL;
 
-    if (getAllInterfacesAndAddresses (env, &ifList) < 0) {
+    if (getAllInterfbcesAndAddresses (env, &ifList) < 0) {
         return NULL;
     }
 
-    /* search by index */
+    /* sebrch by index */
     curr = ifList;
     while (curr != NULL) {
         if (index == curr->index) {
-            break;
+            brebk;
         }
         curr = curr->next;
     }
 
-    /* if found create a NetworkInterface */
+    /* if found crebte b NetworkInterfbce */
     if (curr != NULL) {
-        netifObj = createNetworkInterfaceXP(env, curr);
+        netifObj = crebteNetworkInterfbceXP(env, curr);
     }
 
-    /* release the interface list */
+    /* relebse the interfbce list */
     free_netif(ifList);
 
     return netifObj;
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    getByInetAddress0
- * Signature: (Ljava/net/InetAddress;)Ljava/net/NetworkInterface;
+ * Signbture: (Ljbvb/net/InetAddress;)Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByInetAddress0_XP
-    (JNIEnv *env, jclass cls, jobject iaObj)
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByInetAddress0_XP
+    (JNIEnv *env, jclbss cls, jobject ibObj)
 {
     netif *ifList, *curr;
     jobject netifObj = NULL;
 
-    /* get the list of interfaces */
-    if (getAllInterfacesAndAddresses (env, &ifList) < 0) {
+    /* get the list of interfbces */
+    if (getAllInterfbcesAndAddresses (env, &ifList) < 0) {
         return NULL;
     }
 
     /*
-     * Enumerate the addresses on each interface until we find a
-     * matching address.
+     * Enumerbte the bddresses on ebch interfbce until we find b
+     * mbtching bddress.
      */
     curr = ifList;
     while (curr != NULL) {
-        netaddr *addrList = curr->addrs;
-        netaddr *addrP;
+        netbddr *bddrList = curr->bddrs;
+        netbddr *bddrP;
 
-        /* iterate through each address */
-        addrP = addrList;
+        /* iterbte through ebch bddress */
+        bddrP = bddrList;
 
-        while (addrP != NULL) {
-            if (NET_SockaddrEqualsInetAddress(env,
-                                (struct sockaddr*)&addrP->addr, iaObj)) {
-                break;
+        while (bddrP != NULL) {
+            if (NET_SockbddrEqublsInetAddress(env,
+                                (struct sockbddr*)&bddrP->bddr, ibObj)) {
+                brebk;
             }
-            addrP = addrP->next;
+            bddrP = bddrP->next;
         }
 
         /*
-         * Address matched so create NetworkInterface for this interface
-         * and address list.
+         * Address mbtched so crebte NetworkInterfbce for this interfbce
+         * bnd bddress list.
          */
-        if (addrP != NULL) {
-            netifObj = createNetworkInterfaceXP(env, curr);
-            break;
+        if (bddrP != NULL) {
+            netifObj = crebteNetworkInterfbceXP(env, curr);
+            brebk;
         }
 
-        /* on next interface */
+        /* on next interfbce */
         curr = curr->next;
     }
 
-    /* release the interface list */
+    /* relebse the interfbce list */
     free_netif(ifList);
 
     return netifObj;
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    getAll
- * Signature: ()[Ljava/net/NetworkInterface;
+ * Signbture: ()[Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobjectArray JNICALL Java_java_net_NetworkInterface_getAll_XP
-    (JNIEnv *env, jclass cls)
+JNIEXPORT jobjectArrby JNICALL Jbvb_jbvb_net_NetworkInterfbce_getAll_XP
+    (JNIEnv *env, jclbss cls)
 {
     int count;
     netif *ifList, *curr;
-    jobjectArray netIFArr;
-    jint arr_index;
+    jobjectArrby netIFArr;
+    jint brr_index;
 
     /*
-     * Get list of interfaces
+     * Get list of interfbces
      */
-    count = getAllInterfacesAndAddresses (env, &ifList);
+    count = getAllInterfbcesAndAddresses (env, &ifList);
     if (count < 0) {
         return NULL;
     }
 
-    /* allocate a NetworkInterface array */
-    netIFArr = (*env)->NewObjectArray(env, count, cls, NULL);
+    /* bllocbte b NetworkInterfbce brrby */
+    netIFArr = (*env)->NewObjectArrby(env, count, cls, NULL);
     if (netIFArr == NULL) {
         return NULL;
     }
 
     /*
-     * Iterate through the interfaces, create a NetworkInterface instance
-     * for each array element and populate the object.
+     * Iterbte through the interfbces, crebte b NetworkInterfbce instbnce
+     * for ebch brrby element bnd populbte the object.
      */
     curr = ifList;
-    arr_index = 0;
+    brr_index = 0;
     while (curr != NULL) {
         jobject netifObj;
 
-        netifObj = createNetworkInterfaceXP(env, curr);
+        netifObj = crebteNetworkInterfbceXP(env, curr);
         if (netifObj == NULL) {
             return NULL;
         }
 
-        /* put the NetworkInterface into the array */
-        (*env)->SetObjectArrayElement(env, netIFArr, arr_index++, netifObj);
+        /* put the NetworkInterfbce into the brrby */
+        (*env)->SetObjectArrbyElement(env, netIFArr, brr_index++, netifObj);
         curr = curr->next;
     }
 
-    /* release the interface list */
+    /* relebse the interfbce list */
     free_netif(ifList);
 
     return netIFArr;
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    supportsMulticast0
- * Signature: (Ljava/lang/String;I)Z
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    supportsMulticbst0
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_supportsMulticast0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_supportsMulticbst0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
-      jboolean val = JNI_TRUE;
+      jboolebn vbl = JNI_TRUE;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
-        val = ptr->Flags & IP_ADAPTER_NO_MULTICAST ? JNI_FALSE : JNI_TRUE;
+        vbl = ptr->Flbgs & IP_ADAPTER_NO_MULTICAST ? JNI_FALSE : JNI_TRUE;
         free(ptr);
       }
-      return val;
+      return vbl;
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    isUp0
- * Signature: (Ljava/lang/String;I)Z
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isUp0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isUp0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
-      jboolean val = JNI_FALSE;
+      jboolebn vbl = JNI_FALSE;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
-        val = ptr->OperStatus == IfOperStatusUp ? JNI_TRUE : JNI_FALSE;
+        vbl = ptr->OperStbtus == IfOperStbtusUp ? JNI_TRUE : JNI_FALSE;
         free(ptr);
       }
-      return val;
+      return vbl;
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    getMacAddr0
- * Signature: (Ljava/lang/String;I)Z
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    getMbcAddr0
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jbyteArray JNICALL Java_java_net_NetworkInterface_getMacAddr0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jbyteArrby JNICALL Jbvb_jbvb_net_NetworkInterfbce_getMbcAddr0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
-      jbyteArray ret = NULL;
+      jbyteArrby ret = NULL;
       int len;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
-        len = ptr->PhysicalAddressLength;
+        len = ptr->PhysicblAddressLength;
         if (len > 0) {
-          ret = (*env)->NewByteArray(env, len);
+          ret = (*env)->NewByteArrby(env, len);
           if (!IS_NULL(ret)) {
-            (*env)->SetByteArrayRegion(env, ret, 0, len,
-                                       (jbyte*) ptr->PhysicalAddress);
+            (*env)->SetByteArrbyRegion(env, ret, 0, len,
+                                       (jbyte*) ptr->PhysicblAddress);
           }
         }
         free(ptr);
@@ -832,16 +832,16 @@ JNIEXPORT jbyteArray JNICALL Java_java_net_NetworkInterface_getMacAddr0_XP
 }
 
 /*
- * Class:       java_net_NetworkInterface
+ * Clbss:       jbvb_net_NetworkInterfbce
  * Method:      getMTU0
- * Signature:   ([bLjava/lang/String;I)I
+ * Signbture:   ([bLjbvb/lbng/String;I)I
  */
-JNIEXPORT jint JNICALL Java_java_net_NetworkInterface_getMTU0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_NetworkInterfbce_getMTU0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
       jint ret = -1;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
         ret = ptr->Mtu;
         free(ptr);
@@ -850,40 +850,40 @@ JNIEXPORT jint JNICALL Java_java_net_NetworkInterface_getMTU0_XP
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    isLoopback0
- * Signature: (Ljava/lang/String;I)Z
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    isLoopbbck0
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isLoopback0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isLoopbbck0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
-      jboolean val = JNI_FALSE;
+      jboolebn vbl = JNI_FALSE;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
-        val = ptr->IfType == IF_TYPE_SOFTWARE_LOOPBACK ? JNI_TRUE : JNI_FALSE;
+        vbl = ptr->IfType == IF_TYPE_SOFTWARE_LOOPBACK ? JNI_TRUE : JNI_FALSE;
         free(ptr);
       }
-      return val;
+      return vbl;
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    isP2P0
- * Signature: (Ljava/lang/String;I)Z
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isP2P0_XP
-    (JNIEnv *env, jclass cls, jstring name, jint index) {
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isP2P0_XP
+    (JNIEnv *env, jclbss cls, jstring nbme, jint index) {
       IP_ADAPTER_ADDRESSES *ptr;
-      jboolean val = JNI_FALSE;
+      jboolebn vbl = JNI_FALSE;
 
-      ptr = getAdapter(env, index);
+      ptr = getAdbpter(env, index);
       if (ptr != NULL) {
         if (ptr->IfType == IF_TYPE_PPP || ptr->IfType == IF_TYPE_SLIP ||
            ptr->IfType == IF_TYPE_TUNNEL) {
-          val = JNI_TRUE;
+          vbl = JNI_TRUE;
         }
         free(ptr);
       }
-      return val;
+      return vbl;
 }

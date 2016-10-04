@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,39 +30,39 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests.iio;
+pbckbge j2dbench.tests.iio;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.event.IIOReadProgressListener;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.MedibTrbcker;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.net.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.event.IIORebdProgressListener;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 import j2dbench.Group;
 import j2dbench.Modifier;
@@ -71,156 +71,156 @@ import j2dbench.Result;
 import j2dbench.Test;
 import j2dbench.TestEnvironment;
 
-abstract class InputImageTests extends InputTests {
+bbstrbct clbss InputImbgeTests extends InputTests {
 
-    private static final int TEST_TOOLKIT     = 1;
-    private static final int TEST_IMAGEIO     = 2;
-    private static final int TEST_IMAGEREADER = 3;
+    privbte stbtic finbl int TEST_TOOLKIT     = 1;
+    privbte stbtic finbl int TEST_IMAGEIO     = 2;
+    privbte stbtic finbl int TEST_IMAGEREADER = 3;
 
-    private static Group imageRoot;
+    privbte stbtic Group imbgeRoot;
 
-    private static Group toolkitRoot;
-    private static Group toolkitOptRoot;
-    private static Option toolkitReadFormatList;
-    private static Group toolkitTestRoot;
+    privbte stbtic Group toolkitRoot;
+    privbte stbtic Group toolkitOptRoot;
+    privbte stbtic Option toolkitRebdFormbtList;
+    privbte stbtic Group toolkitTestRoot;
 
-    private static Group imageioRoot;
-    private static Group imageioOptRoot;
-    private static ImageReaderSpi[] imageioReaderSpis;
-    private static String[] imageioReadFormatShortNames;
-    private static Option imageioReadFormatList;
-    private static Group imageioTestRoot;
+    privbte stbtic Group imbgeioRoot;
+    privbte stbtic Group imbgeioOptRoot;
+    privbte stbtic ImbgeRebderSpi[] imbgeioRebderSpis;
+    privbte stbtic String[] imbgeioRebdFormbtShortNbmes;
+    privbte stbtic Option imbgeioRebdFormbtList;
+    privbte stbtic Group imbgeioTestRoot;
 
-    private static Group imageReaderRoot;
-    private static Group imageReaderOptRoot;
-    private static Option seekForwardOnlyTog;
-    private static Option ignoreMetadataTog;
-    private static Option installListenerTog;
-    private static Group imageReaderTestRoot;
+    privbte stbtic Group imbgeRebderRoot;
+    privbte stbtic Group imbgeRebderOptRoot;
+    privbte stbtic Option seekForwbrdOnlyTog;
+    privbte stbtic Option ignoreMetbdbtbTog;
+    privbte stbtic Option instbllListenerTog;
+    privbte stbtic Group imbgeRebderTestRoot;
 
-    public static void init() {
-        imageRoot = new Group(inputRoot, "image", "Image Reading Benchmarks");
-        imageRoot.setTabbed();
+    public stbtic void init() {
+        imbgeRoot = new Group(inputRoot, "imbge", "Imbge Rebding Benchmbrks");
+        imbgeRoot.setTbbbed();
 
-        // Toolkit Benchmarks
-        toolkitRoot = new Group(imageRoot, "toolkit", "Toolkit");
+        // Toolkit Benchmbrks
+        toolkitRoot = new Group(imbgeRoot, "toolkit", "Toolkit");
 
         toolkitOptRoot = new Group(toolkitRoot, "opts", "Toolkit Options");
-        String[] tkFormats = new String[] {"gif", "jpg", "png"};
-        toolkitReadFormatList =
+        String[] tkFormbts = new String[] {"gif", "jpg", "png"};
+        toolkitRebdFormbtList =
             new Option.ObjectList(toolkitOptRoot,
-                                  "format", "Image Format",
-                                  tkFormats, tkFormats,
-                                  tkFormats, tkFormats,
+                                  "formbt", "Imbge Formbt",
+                                  tkFormbts, tkFormbts,
+                                  tkFormbts, tkFormbts,
                                   0x0);
 
         toolkitTestRoot = new Group(toolkitRoot, "tests", "Toolkit Tests");
-        new ToolkitCreateImage();
+        new ToolkitCrebteImbge();
 
-        // Image I/O Benchmarks
-        if (hasImageIO) {
-            imageioRoot = new Group(imageRoot, "imageio", "Image I/O");
+        // Imbge I/O Benchmbrks
+        if (hbsImbgeIO) {
+            imbgeioRoot = new Group(imbgeRoot, "imbgeio", "Imbge I/O");
 
-            // Image I/O Options
-            imageioOptRoot = new Group(imageioRoot, "opts",
-                                       "Image I/O Options");
-            initIIOReadFormats();
-            imageioReadFormatList =
-                new Option.ObjectList(imageioOptRoot,
-                                      "format", "Image Format",
-                                      imageioReadFormatShortNames,
-                                      imageioReaderSpis,
-                                      imageioReadFormatShortNames,
-                                      imageioReadFormatShortNames,
+            // Imbge I/O Options
+            imbgeioOptRoot = new Group(imbgeioRoot, "opts",
+                                       "Imbge I/O Options");
+            initIIORebdFormbts();
+            imbgeioRebdFormbtList =
+                new Option.ObjectList(imbgeioOptRoot,
+                                      "formbt", "Imbge Formbt",
+                                      imbgeioRebdFormbtShortNbmes,
+                                      imbgeioRebderSpis,
+                                      imbgeioRebdFormbtShortNbmes,
+                                      imbgeioRebdFormbtShortNbmes,
                                       0x0);
 
-            // Image I/O Tests
-            imageioTestRoot = new Group(imageioRoot, "tests",
-                                        "Image I/O Tests");
-            new ImageIORead();
+            // Imbge I/O Tests
+            imbgeioTestRoot = new Group(imbgeioRoot, "tests",
+                                        "Imbge I/O Tests");
+            new ImbgeIORebd();
 
-            // ImageReader Options
-            imageReaderRoot = new Group(imageioRoot, "reader",
-                                        "ImageReader Benchmarks");
-            imageReaderOptRoot = new Group(imageReaderRoot, "opts",
-                                           "ImageReader Options");
-            seekForwardOnlyTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "seekForwardOnly",
-                                  "Seek Forward Only",
+            // ImbgeRebder Options
+            imbgeRebderRoot = new Group(imbgeioRoot, "rebder",
+                                        "ImbgeRebder Benchmbrks");
+            imbgeRebderOptRoot = new Group(imbgeRebderRoot, "opts",
+                                           "ImbgeRebder Options");
+            seekForwbrdOnlyTog =
+                new Option.Toggle(imbgeRebderOptRoot,
+                                  "seekForwbrdOnly",
+                                  "Seek Forwbrd Only",
                                   Option.Toggle.On);
-            ignoreMetadataTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "ignoreMetadata",
-                                  "Ignore Metadata",
+            ignoreMetbdbtbTog =
+                new Option.Toggle(imbgeRebderOptRoot,
+                                  "ignoreMetbdbtb",
+                                  "Ignore Metbdbtb",
                                   Option.Toggle.On);
-            installListenerTog =
-                new Option.Toggle(imageReaderOptRoot,
-                                  "installListener",
-                                  "Install Progress Listener",
+            instbllListenerTog =
+                new Option.Toggle(imbgeRebderOptRoot,
+                                  "instbllListener",
+                                  "Instbll Progress Listener",
                                   Option.Toggle.Off);
 
-            // ImageReader Tests
-            imageReaderTestRoot = new Group(imageReaderRoot, "tests",
-                                            "ImageReader Tests");
-            new ImageReaderRead();
-            new ImageReaderGetImageMetadata();
+            // ImbgeRebder Tests
+            imbgeRebderTestRoot = new Group(imbgeRebderRoot, "tests",
+                                            "ImbgeRebder Tests");
+            new ImbgeRebderRebd();
+            new ImbgeRebderGetImbgeMetbdbtb();
         }
     }
 
-    private static void initIIOReadFormats() {
-        List spis = new ArrayList();
-        List shortNames = new ArrayList();
+    privbte stbtic void initIIORebdFormbts() {
+        List spis = new ArrbyList();
+        List shortNbmes = new ArrbyList();
 
-        ImageIO.scanForPlugins();
-        IIORegistry registry = IIORegistry.getDefaultInstance();
-        java.util.Iterator readerspis =
-            registry.getServiceProviders(ImageReaderSpi.class, false);
-        while (readerspis.hasNext()) {
-            // REMIND: there could be more than one non-core plugin for
-            // a particular format, as is the case for JPEG2000 in the JAI
-            // IIO Tools package, so we should support that somehow
-            ImageReaderSpi spi = (ImageReaderSpi)readerspis.next();
-            String klass = spi.getClass().getName();
-            String format = spi.getFormatNames()[0].toLowerCase();
-            String suffix = spi.getFileSuffixes()[0].toLowerCase();
-            if (suffix == null || suffix.equals("")) {
-                suffix = format;
+        ImbgeIO.scbnForPlugins();
+        IIORegistry registry = IIORegistry.getDefbultInstbnce();
+        jbvb.util.Iterbtor rebderspis =
+            registry.getServiceProviders(ImbgeRebderSpi.clbss, fblse);
+        while (rebderspis.hbsNext()) {
+            // REMIND: there could be more thbn one non-core plugin for
+            // b pbrticulbr formbt, bs is the cbse for JPEG2000 in the JAI
+            // IIO Tools pbckbge, so we should support thbt somehow
+            ImbgeRebderSpi spi = (ImbgeRebderSpi)rebderspis.next();
+            String klbss = spi.getClbss().getNbme();
+            String formbt = spi.getFormbtNbmes()[0].toLowerCbse();
+            String suffix = spi.getFileSuffixes()[0].toLowerCbse();
+            if (suffix == null || suffix.equbls("")) {
+                suffix = formbt;
             }
-            String shortName;
-            if (klass.startsWith("com.sun.imageio.plugins")) {
-                shortName = "core-" + suffix;
+            String shortNbme;
+            if (klbss.stbrtsWith("com.sun.imbgeio.plugins")) {
+                shortNbme = "core-" + suffix;
             } else {
-                shortName = "ext-" + suffix;
+                shortNbme = "ext-" + suffix;
             }
-            spis.add(spi);
-            shortNames.add(shortName);
+            spis.bdd(spi);
+            shortNbmes.bdd(shortNbme);
         }
 
-        imageioReaderSpis = new ImageReaderSpi[spis.size()];
-        imageioReaderSpis = (ImageReaderSpi[])spis.toArray(imageioReaderSpis);
-        imageioReadFormatShortNames = new String[shortNames.size()];
-        imageioReadFormatShortNames =
-            (String[])shortNames.toArray(imageioReadFormatShortNames);
+        imbgeioRebderSpis = new ImbgeRebderSpi[spis.size()];
+        imbgeioRebderSpis = (ImbgeRebderSpi[])spis.toArrby(imbgeioRebderSpis);
+        imbgeioRebdFormbtShortNbmes = new String[shortNbmes.size()];
+        imbgeioRebdFormbtShortNbmes =
+            (String[])shortNbmes.toArrby(imbgeioRebdFormbtShortNbmes);
     }
 
-    protected InputImageTests(Group parent,
-                              String nodeName, String description)
+    protected InputImbgeTests(Group pbrent,
+                              String nodeNbme, String description)
     {
-        super(parent, nodeName, description);
+        super(pbrent, nodeNbme, description);
     }
 
-    public void cleanupTest(TestEnvironment env, Object ctx) {
+    public void clebnupTest(TestEnvironment env, Object ctx) {
         Context iioctx = (Context)ctx;
-        iioctx.cleanup(env);
+        iioctx.clebnup(env);
     }
 
-    private static class Context extends InputTests.Context {
-        String format;
-        BufferedImage image;
-        ImageReader reader;
-        boolean seekForwardOnly;
-        boolean ignoreMetadata;
+    privbte stbtic clbss Context extends InputTests.Context {
+        String formbt;
+        BufferedImbge imbge;
+        ImbgeRebder rebder;
+        boolebn seekForwbrdOnly;
+        boolebn ignoreMetbdbtb;
 
         Context(TestEnvironment env, Result result, int testType) {
             super(env, result);
@@ -229,86 +229,86 @@ abstract class InputImageTests extends InputTests {
             if (content == null) {
                 content = CONTENT_BLANK;
             }
-            // REMIND: add option for non-opaque images
-            image = createBufferedImage(size, size, content, false);
+            // REMIND: bdd option for non-opbque imbges
+            imbge = crebteBufferedImbge(size, size, content, fblse);
 
             result.setUnits(size*size);
-            result.setUnitName("pixel");
+            result.setUnitNbme("pixel");
 
             if (testType == TEST_IMAGEIO || testType == TEST_IMAGEREADER) {
-                ImageReaderSpi readerspi =
-                    (ImageReaderSpi)env.getModifier(imageioReadFormatList);
-                format = readerspi.getFileSuffixes()[0].toLowerCase();
+                ImbgeRebderSpi rebderspi =
+                    (ImbgeRebderSpi)env.getModifier(imbgeioRebdFormbtList);
+                formbt = rebderspi.getFileSuffixes()[0].toLowerCbse();
                 if (testType == TEST_IMAGEREADER) {
-                    seekForwardOnly = env.isEnabled(seekForwardOnlyTog);
-                    ignoreMetadata = env.isEnabled(ignoreMetadataTog);
+                    seekForwbrdOnly = env.isEnbbled(seekForwbrdOnlyTog);
+                    ignoreMetbdbtb = env.isEnbbled(ignoreMetbdbtbTog);
                     try {
-                        reader = readerspi.createReaderInstance();
-                    } catch (IOException e) {
-                        System.err.println("error creating reader");
-                        e.printStackTrace();
+                        rebder = rebderspi.crebteRebderInstbnce();
+                    } cbtch (IOException e) {
+                        System.err.println("error crebting rebder");
+                        e.printStbckTrbce();
                     }
-                    if (env.isEnabled(installListenerTog)) {
-                        reader.addIIOReadProgressListener(
-                            new ReadProgressListener());
+                    if (env.isEnbbled(instbllListenerTog)) {
+                        rebder.bddIIORebdProgressListener(
+                            new RebdProgressListener());
                     }
                 }
-                if (format.equals("wbmp")) {
-                    // REMIND: this is a hack to create an image that the
-                    //         WBMPImageWriter can handle (a better approach
-                    //         would involve checking the ImageTypeSpecifier
-                    //         of the writer's default image param)
-                    BufferedImage newimg =
-                        new BufferedImage(size, size,
-                                          BufferedImage.TYPE_BYTE_BINARY);
-                    Graphics g = newimg.createGraphics();
-                    g.drawImage(image, 0, 0, null);
+                if (formbt.equbls("wbmp")) {
+                    // REMIND: this is b hbck to crebte bn imbge thbt the
+                    //         WBMPImbgeWriter cbn hbndle (b better bpprobch
+                    //         would involve checking the ImbgeTypeSpecifier
+                    //         of the writer's defbult imbge pbrbm)
+                    BufferedImbge newimg =
+                        new BufferedImbge(size, size,
+                                          BufferedImbge.TYPE_BYTE_BINARY);
+                    Grbphics g = newimg.crebteGrbphics();
+                    g.drbwImbge(imbge, 0, 0, null);
                     g.dispose();
-                    image = newimg;
+                    imbge = newimg;
                 }
             } else if (testType == TEST_TOOLKIT) {
-                format = (String)env.getModifier(toolkitReadFormatList);
+                formbt = (String)env.getModifier(toolkitRebdFormbtList);
             } else { // testType == TEST_JPEGCODEC
-                format = "jpeg";
+                formbt = "jpeg";
             }
 
             initInput();
         }
 
         void initContents(File f) throws IOException {
-            ImageIO.write(image, format, f);
+            ImbgeIO.write(imbge, formbt, f);
         }
 
-        void initContents(OutputStream out) throws IOException {
-            ImageIO.write(image, format, out);
+        void initContents(OutputStrebm out) throws IOException {
+            ImbgeIO.write(imbge, formbt, out);
         }
 
-        void cleanup(TestEnvironment env) {
-            super.cleanup(env);
-            if (reader != null) {
-                reader.dispose();
-                reader = null;
+        void clebnup(TestEnvironment env) {
+            super.clebnup(env);
+            if (rebder != null) {
+                rebder.dispose();
+                rebder = null;
             }
         }
     }
 
-    private static class ToolkitCreateImage extends InputImageTests {
-        private static final Component canvas = new Component() {};
+    privbte stbtic clbss ToolkitCrebteImbge extends InputImbgeTests {
+        privbte stbtic finbl Component cbnvbs = new Component() {};
 
-        public ToolkitCreateImage() {
+        public ToolkitCrebteImbge() {
             super(toolkitTestRoot,
-                  "createImage",
-                  "Toolkit.createImage()");
-            addDependency(generalSourceRoot,
+                  "crebteImbge",
+                  "Toolkit.crebteImbge()");
+            bddDependency(generblSourceRoot,
                 new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // Toolkit handles FILE, URL, and ARRAY, but
+                    public boolebn isCompbtible(Object vbl) {
+                        // Toolkit hbndles FILE, URL, bnd ARRAY, but
                         // not FILECHANNEL
-                        InputType t = (InputType)val;
+                        InputType t = (InputType)vbl;
                         return (t.getType() != INPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(toolkitOptRoot, true);
+            bddDependencies(toolkitOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
@@ -316,73 +316,73 @@ abstract class InputImageTests extends InputTests {
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object input = ictx.input;
-            final int inputType = ictx.inputType;
-            final Toolkit tk = Toolkit.getDefaultToolkit();
-            final MediaTracker mt = new MediaTracker(canvas);
+            finbl Context ictx = (Context)ctx;
+            finbl Object input = ictx.input;
+            finbl int inputType = ictx.inputType;
+            finbl Toolkit tk = Toolkit.getDefbultToolkit();
+            finbl MedibTrbcker mt = new MedibTrbcker(cbnvbs);
             switch (inputType) {
-            case INPUT_FILE:
-                String filename = ((File)input).getAbsolutePath();
+            cbse INPUT_FILE:
+                String filenbme = ((File)input).getAbsolutePbth();
                 do {
                     try {
-                        Image img = tk.createImage(filename);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbge img = tk.crebteImbge(filenbme);
+                        mt.bddImbge(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.removeImbge(img, 0);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            case INPUT_URL:
+                brebk;
+            cbse INPUT_URL:
                 do {
                     try {
-                        Image img = tk.createImage((URL)input);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbge img = tk.crebteImbge((URL)input);
+                        mt.bddImbge(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.removeImbge(img, 0);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            case INPUT_ARRAY:
+                brebk;
+            cbse INPUT_ARRAY:
                 do {
                     try {
-                        Image img = tk.createImage((byte[])input);
-                        mt.addImage(img, 0);
-                        mt.waitForID(0, 0);
-                        mt.removeImage(img, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Imbge img = tk.crebteImbge((byte[])input);
+                        mt.bddImbge(img, 0);
+                        mt.wbitForID(0, 0);
+                        mt.removeImbge(img, 0);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid input type");
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Invblid input type");
             }
         }
     }
 
-    private static class ImageIORead extends InputImageTests {
-        public ImageIORead() {
-            super(imageioTestRoot,
-                  "imageioRead",
-                  "ImageIO.read()");
-            addDependency(generalSourceRoot,
+    privbte stbtic clbss ImbgeIORebd extends InputImbgeTests {
+        public ImbgeIORebd() {
+            super(imbgeioTestRoot,
+                  "imbgeioRebd",
+                  "ImbgeIO.rebd()");
+            bddDependency(generblSourceRoot,
                 new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // ImageIO.read() handles FILE, URL, and ARRAY, but
-                        // not FILECHANNEL (well, I suppose we could create
-                        // an ImageInputStream from a FileChannel source,
-                        // but that's not a common use case; FileChannel is
-                        // better handled by the ImageReader tests below)
-                        InputType t = (InputType)val;
+                    public boolebn isCompbtible(Object vbl) {
+                        // ImbgeIO.rebd() hbndles FILE, URL, bnd ARRAY, but
+                        // not FILECHANNEL (well, I suppose we could crebte
+                        // bn ImbgeInputStrebm from b FileChbnnel source,
+                        // but thbt's not b common use cbse; FileChbnnel is
+                        // better hbndled by the ImbgeRebder tests below)
+                        InputType t = (InputType)vbl;
                         return (t.getType() != INPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(imageioOptRoot, true);
+            bddDependencies(imbgeioOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
@@ -390,57 +390,57 @@ abstract class InputImageTests extends InputTests {
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object input = ictx.input;
-            final int inputType = ictx.inputType;
+            finbl Context ictx = (Context)ctx;
+            finbl Object input = ictx.input;
+            finbl int inputType = ictx.inputType;
             switch (inputType) {
-            case INPUT_FILE:
+            cbse INPUT_FILE:
                 do {
                     try {
-                        ImageIO.read((File)input);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgeIO.rebd((File)input);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            case INPUT_URL:
+                brebk;
+            cbse INPUT_URL:
                 do {
                     try {
-                        ImageIO.read((URL)input);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgeIO.rebd((URL)input);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            case INPUT_ARRAY:
+                brebk;
+            cbse INPUT_ARRAY:
                 do {
                     try {
-                        ByteArrayInputStream bais =
-                            new ByteArrayInputStream((byte[])input);
-                        BufferedInputStream bis =
-                            new BufferedInputStream(bais);
-                        ImageIO.read(bis);
-                        bais.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ByteArrbyInputStrebm bbis =
+                            new ByteArrbyInputStrebm((byte[])input);
+                        BufferedInputStrebm bis =
+                            new BufferedInputStrebm(bbis);
+                        ImbgeIO.rebd(bis);
+                        bbis.close();
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid input type");
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Invblid input type");
             }
         }
     }
 
-    private static class ImageReaderRead extends InputImageTests {
-        public ImageReaderRead() {
-            super(imageReaderTestRoot,
-                  "read",
-                  "ImageReader.read()");
-            addDependency(generalSourceRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageReaderOptRoot, true);
+    privbte stbtic clbss ImbgeRebderRebd extends InputImbgeTests {
+        public ImbgeRebderRebd() {
+            super(imbgeRebderTestRoot,
+                  "rebd",
+                  "ImbgeRebder.rebd()");
+            bddDependency(generblSourceRoot);
+            bddDependencies(imbgeioGenerblOptRoot, true);
+            bddDependencies(imbgeioOptRoot, true);
+            bddDependencies(imbgeRebderOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
@@ -448,77 +448,77 @@ abstract class InputImageTests extends InputTests {
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageReader reader = ictx.reader;
-            final boolean seekForwardOnly = ictx.seekForwardOnly;
-            final boolean ignoreMetadata = ictx.ignoreMetadata;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeRebder rebder = ictx.rebder;
+            finbl boolebn seekForwbrdOnly = ictx.seekForwbrdOnly;
+            finbl boolebn ignoreMetbdbtb = ictx.ignoreMetbdbtb;
             do {
                 try {
-                    ImageInputStream iis = ictx.createImageInputStream();
-                    reader.setInput(iis, seekForwardOnly, ignoreMetadata);
-                    reader.read(0);
-                    reader.reset();
+                    ImbgeInputStrebm iis = ictx.crebteImbgeInputStrebm();
+                    rebder.setInput(iis, seekForwbrdOnly, ignoreMetbdbtb);
+                    rebder.rebd(0);
+                    rebder.reset();
                     iis.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ictx.closeOriginblStrebm();
+                } cbtch (IOException e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class ImageReaderGetImageMetadata extends InputImageTests {
-        public ImageReaderGetImageMetadata() {
-            super(imageReaderTestRoot,
-                  "getImageMetadata",
-                  "ImageReader.getImageMetadata()");
-            addDependency(generalSourceRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageReaderOptRoot, true);
+    privbte stbtic clbss ImbgeRebderGetImbgeMetbdbtb extends InputImbgeTests {
+        public ImbgeRebderGetImbgeMetbdbtb() {
+            super(imbgeRebderTestRoot,
+                  "getImbgeMetbdbtb",
+                  "ImbgeRebder.getImbgeMetbdbtb()");
+            bddDependency(generblSourceRoot);
+            bddDependencies(imbgeioGenerblOptRoot, true);
+            bddDependencies(imbgeioOptRoot, true);
+            bddDependencies(imbgeRebderOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result, TEST_IMAGEREADER);
-            // override units since this test doesn't read "pixels"
+            // override units since this test doesn't rebd "pixels"
             result.setUnits(1);
-            result.setUnitName("image");
+            result.setUnitNbme("imbge");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageReader reader = ictx.reader;
-            final boolean seekForwardOnly = ictx.seekForwardOnly;
-            final boolean ignoreMetadata = ictx.ignoreMetadata;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeRebder rebder = ictx.rebder;
+            finbl boolebn seekForwbrdOnly = ictx.seekForwbrdOnly;
+            finbl boolebn ignoreMetbdbtb = ictx.ignoreMetbdbtb;
             do {
                 try {
-                    ImageInputStream iis = ictx.createImageInputStream();
-                    reader.setInput(iis, seekForwardOnly, ignoreMetadata);
-                    reader.getImageMetadata(0);
-                    reader.reset();
+                    ImbgeInputStrebm iis = ictx.crebteImbgeInputStrebm();
+                    rebder.setInput(iis, seekForwbrdOnly, ignoreMetbdbtb);
+                    rebder.getImbgeMetbdbtb(0);
+                    rebder.reset();
                     iis.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ictx.closeOriginblStrebm();
+                } cbtch (IOException e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class ReadProgressListener
-        implements IIOReadProgressListener
+    privbte stbtic clbss RebdProgressListener
+        implements IIORebdProgressListener
     {
-        public void sequenceStarted(ImageReader source, int minIndex) {}
-        public void sequenceComplete(ImageReader source) {}
-        public void imageStarted(ImageReader source, int imageIndex) {}
-        public void imageProgress(ImageReader source, float percentageDone) {}
-        public void imageComplete(ImageReader source) {}
-        public void thumbnailStarted(ImageReader source,
-                                     int imageIndex, int thumbnailIndex) {}
-        public void thumbnailProgress(ImageReader source,
-                                      float percentageDone) {}
-        public void thumbnailComplete(ImageReader source) {}
-        public void readAborted(ImageReader source) {}
+        public void sequenceStbrted(ImbgeRebder source, int minIndex) {}
+        public void sequenceComplete(ImbgeRebder source) {}
+        public void imbgeStbrted(ImbgeRebder source, int imbgeIndex) {}
+        public void imbgeProgress(ImbgeRebder source, flobt percentbgeDone) {}
+        public void imbgeComplete(ImbgeRebder source) {}
+        public void thumbnbilStbrted(ImbgeRebder source,
+                                     int imbgeIndex, int thumbnbilIndex) {}
+        public void thumbnbilProgress(ImbgeRebder source,
+                                      flobt percentbgeDone) {}
+        public void thumbnbilComplete(ImbgeRebder source) {}
+        public void rebdAborted(ImbgeRebder source) {}
     }
 }

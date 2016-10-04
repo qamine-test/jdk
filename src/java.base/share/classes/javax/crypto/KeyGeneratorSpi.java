@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>KeyGenerator</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a key generator for a particular algorithm.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>KeyGenerbtor</code> clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b key generbtor for b pbrticulbr blgorithm.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @see SecretKey
  * @since 1.4
  */
 
-public abstract class KeyGeneratorSpi {
+public bbstrbct clbss KeyGenerbtorSpi {
 
     /**
-     * Initializes the key generator.
+     * Initiblizes the key generbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom the source of rbndomness for this generbtor
      */
-    protected abstract void engineInit(SecureRandom random);
+    protected bbstrbct void engineInit(SecureRbndom rbndom);
 
     /**
-     * Initializes the key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizes the key generbtor with the specified pbrbmeter
+     * set bnd b user-provided source of rbndomness.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms the key generbtion pbrbmeters
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @exception InvblidAlgorithmPbrbmeterException if <code>pbrbms</code> is
+     * inbppropribte for this key generbtor
      */
-    protected abstract void engineInit(AlgorithmParameterSpec params,
-                                       SecureRandom random)
-        throws InvalidAlgorithmParameterException;
+    protected bbstrbct void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+                                       SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizes this key generbtor for b certbin keysize, using the given
+     * source of rbndomness.
      *
-     * @param keysize the keysize. This is an algorithm-specific metric,
+     * @pbrbm keysize the keysize. This is bn blgorithm-specific metric,
      * specified in number of bits.
-     * @param random the source of randomness for this key generator
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      *
-     * @exception InvalidParameterException if the keysize is wrong or not
+     * @exception InvblidPbrbmeterException if the keysize is wrong or not
      * supported.
      */
-    protected abstract void engineInit(int keysize, SecureRandom random);
+    protected bbstrbct void engineInit(int keysize, SecureRbndom rbndom);
 
     /**
-     * Generates a secret key.
+     * Generbtes b secret key.
      *
      * @return the new key
      */
-    protected abstract SecretKey engineGenerateKey();
+    protected bbstrbct SecretKey engineGenerbteKey();
 }

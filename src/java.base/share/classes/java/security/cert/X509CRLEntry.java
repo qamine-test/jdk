@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.math.BigInteger;
-import java.util.Date;
-import javax.security.auth.x500.X500Principal;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Dbte;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.x509.X509CRLEntryImpl;
 
 /**
- * <p>Abstract class for a revoked certificate in a CRL (Certificate
- * Revocation List).
+ * <p>Abstrbct clbss for b revoked certificbte in b CRL (Certificbte
+ * Revocbtion List).
  *
- * The ASN.1 definition for <em>revokedCertificates</em> is:
+ * The ASN.1 definition for <em>revokedCertificbtes</em> is:
  * <pre>
- * revokedCertificates    SEQUENCE OF SEQUENCE  {
- *     userCertificate    CertificateSerialNumber,
- *     revocationDate     ChoiceOfTime,
+ * revokedCertificbtes    SEQUENCE OF SEQUENCE  {
+ *     userCertificbte    CertificbteSeriblNumber,
+ *     revocbtionDbte     ChoiceOfTime,
  *     crlEntryExtensions Extensions OPTIONAL
  *                        -- if present, must be v2
  * }  OPTIONAL
  *
- * CertificateSerialNumber  ::=  INTEGER
+ * CertificbteSeriblNumber  ::=  INTEGER
  *
  * Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
  *
  * Extension  ::=  SEQUENCE  {
  *     extnId        OBJECT IDENTIFIER,
- *     critical      BOOLEAN DEFAULT FALSE,
- *     extnValue     OCTET STRING
- *                   -- contains a DER encoding of a value
+ *     criticbl      BOOLEAN DEFAULT FALSE,
+ *     extnVblue     OCTET STRING
+ *                   -- contbins b DER encoding of b vblue
  *                   -- of the type registered for use with
- *                   -- the extnId object identifier value
+ *                   -- the extnId object identifier vblue
  * }
  * </pre>
  *
  * @see X509CRL
  * @see X509Extension
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  */
 
-public abstract class X509CRLEntry implements X509Extension {
+public bbstrbct clbss X509CRLEntry implements X509Extension {
 
     /**
-     * Compares this CRL entry for equality with the given
-     * object. If the {@code other} object is an
-     * {@code instanceof} {@code X509CRLEntry}, then
-     * its encoded form (the inner SEQUENCE) is retrieved and compared
+     * Compbres this CRL entry for equblity with the given
+     * object. If the {@code other} object is bn
+     * {@code instbnceof} {@code X509CRLEntry}, then
+     * its encoded form (the inner SEQUENCE) is retrieved bnd compbred
      * with the encoded form of this CRL entry.
      *
-     * @param other the object to test for equality with this CRL entry.
+     * @pbrbm other the object to test for equblity with this CRL entry.
      * @return true iff the encoded forms of the two CRL entries
-     * match, false otherwise.
+     * mbtch, fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof X509CRLEntry))
-            return false;
+        if (!(other instbnceof X509CRLEntry))
+            return fblse;
         try {
             byte[] thisCRLEntry = this.getEncoded();
             byte[] otherCRLEntry = ((X509CRLEntry)other).getEncoded();
 
             if (thisCRLEntry.length != otherCRLEntry.length)
-                return false;
+                return fblse;
             for (int i = 0; i < thisCRLEntry.length; i++)
                  if (thisCRLEntry[i] != otherCRLEntry[i])
-                     return false;
-        } catch (CRLException ce) {
-            return false;
+                     return fblse;
+        } cbtch (CRLException ce) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns a hashcode value for this CRL entry from its
+     * Returns b hbshcode vblue for this CRL entry from its
      * encoded form.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    public int hashCode() {
-        int     retval = 0;
+    public int hbshCode() {
+        int     retvbl = 0;
         try {
-            byte[] entryData = this.getEncoded();
-            for (int i = 1; i < entryData.length; i++)
-                 retval += entryData[i] * i;
+            byte[] entryDbtb = this.getEncoded();
+            for (int i = 1; i < entryDbtb.length; i++)
+                 retvbl += entryDbtb[i] * i;
 
-        } catch (CRLException ce) {
-            return(retval);
+        } cbtch (CRLException ce) {
+            return(retvbl);
         }
-        return(retval);
+        return(retvbl);
     }
 
     /**
      * Returns the ASN.1 DER-encoded form of this CRL Entry,
-     * that is the inner SEQUENCE.
+     * thbt is the inner SEQUENCE.
      *
-     * @return the encoded form of this certificate
-     * @exception CRLException if an encoding error occurs.
+     * @return the encoded form of this certificbte
+     * @exception CRLException if bn encoding error occurs.
      */
-    public abstract byte[] getEncoded() throws CRLException;
+    public bbstrbct byte[] getEncoded() throws CRLException;
 
     /**
-     * Gets the serial number from this X509CRLEntry,
-     * the <em>userCertificate</em>.
+     * Gets the seribl number from this X509CRLEntry,
+     * the <em>userCertificbte</em>.
      *
-     * @return the serial number.
+     * @return the seribl number.
      */
-    public abstract BigInteger getSerialNumber();
+    public bbstrbct BigInteger getSeriblNumber();
 
     /**
-     * Get the issuer of the X509Certificate described by this entry. If
-     * the certificate issuer is also the CRL issuer, this method returns
+     * Get the issuer of the X509Certificbte described by this entry. If
+     * the certificbte issuer is blso the CRL issuer, this method returns
      * null.
      *
-     * <p>This method is used with indirect CRLs. The default implementation
-     * always returns null. Subclasses that wish to support indirect CRLs
+     * <p>This method is used with indirect CRLs. The defbult implementbtion
+     * blwbys returns null. Subclbsses thbt wish to support indirect CRLs
      * should override it.
      *
-     * @return the issuer of the X509Certificate described by this entry
+     * @return the issuer of the X509Certificbte described by this entry
      * or null if it is issued by the CRL issuer.
      *
      * @since 1.5
      */
-    public X500Principal getCertificateIssuer() {
+    public X500Principbl getCertificbteIssuer() {
         return null;
     }
 
     /**
-     * Gets the revocation date from this X509CRLEntry,
-     * the <em>revocationDate</em>.
+     * Gets the revocbtion dbte from this X509CRLEntry,
+     * the <em>revocbtionDbte</em>.
      *
-     * @return the revocation date.
+     * @return the revocbtion dbte.
      */
-    public abstract Date getRevocationDate();
+    public bbstrbct Dbte getRevocbtionDbte();
 
     /**
-     * Returns true if this CRL entry has extensions.
+     * Returns true if this CRL entry hbs extensions.
      *
-     * @return true if this entry has extensions, false otherwise.
+     * @return true if this entry hbs extensions, fblse otherwise.
      */
-    public abstract boolean hasExtensions();
+    public bbstrbct boolebn hbsExtensions();
 
     /**
-     * Returns a string representation of this CRL entry.
+     * Returns b string representbtion of this CRL entry.
      *
-     * @return a string representation of this CRL entry.
+     * @return b string representbtion of this CRL entry.
      */
-    public abstract String toString();
+    public bbstrbct String toString();
 
     /**
-     * Returns the reason the certificate has been revoked, as specified
-     * in the Reason Code extension of this CRL entry.
+     * Returns the rebson the certificbte hbs been revoked, bs specified
+     * in the Rebson Code extension of this CRL entry.
      *
-     * @return the reason the certificate has been revoked, or
-     *    {@code null} if this CRL entry does not have
-     *    a Reason Code extension
+     * @return the rebson the certificbte hbs been revoked, or
+     *    {@code null} if this CRL entry does not hbve
+     *    b Rebson Code extension
      * @since 1.7
      */
-    public CRLReason getRevocationReason() {
-        if (!hasExtensions()) {
+    public CRLRebson getRevocbtionRebson() {
+        if (!hbsExtensions()) {
             return null;
         }
-        return X509CRLEntryImpl.getRevocationReason(this);
+        return X509CRLEntryImpl.getRevocbtionRebson(this);
     }
 }

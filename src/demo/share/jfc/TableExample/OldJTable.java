@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,235 +30,235 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.util.EventObject;
-import java.util.List;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
+import jbvb.util.EventObject;
+import jbvb.util.List;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.tbble.DefbultTbbleModel;
+import jbvbx.swing.tbble.TbbleCellEditor;
+import jbvbx.swing.tbble.TbbleCellRenderer;
+import jbvbx.swing.tbble.TbbleColumn;
 
 
 /**
- *  The OldJTable is an unsupported class containing some methods that were
- *  deleted from the JTable between releases 0.6 and 0.7
+ *  The OldJTbble is bn unsupported clbss contbining some methods thbt were
+ *  deleted from the JTbble between relebses 0.6 bnd 0.7
  */
-@SuppressWarnings("serial")
-public class OldJTable extends JTable
+@SuppressWbrnings("seribl")
+public clbss OldJTbble extends JTbble
 {
    /*
     *  A new convenience method returning the index of the column in the
-    *  co-ordinate space of the view.
+    *  co-ordinbte spbce of the view.
     */
     public int getColumnIndex(Object identifier) {
         return getColumnModel().getColumnIndex(identifier);
     }
 
 //
-//  Methods deleted from the JTable because they only work with the
-//  DefaultTableModel.
+//  Methods deleted from the JTbble becbuse they only work with the
+//  DefbultTbbleModel.
 //
 
-    public TableColumn addColumn(Object columnIdentifier, int width) {
-        return addColumn(columnIdentifier, width, null, null, null);
+    public TbbleColumn bddColumn(Object columnIdentifier, int width) {
+        return bddColumn(columnIdentifier, width, null, null, null);
     }
 
-    public TableColumn addColumn(Object columnIdentifier, List columnData) {
-        return addColumn(columnIdentifier, -1, null, null, columnData);
+    public TbbleColumn bddColumn(Object columnIdentifier, List columnDbtb) {
+        return bddColumn(columnIdentifier, -1, null, null, columnDbtb);
     }
 
-    // Override the new JTable implementation - it will not add a column to the
-    // DefaultTableModel.
-    public TableColumn addColumn(Object columnIdentifier, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor) {
-        return addColumn(columnIdentifier, width, renderer, editor, null);
+    // Override the new JTbble implementbtion - it will not bdd b column to the
+    // DefbultTbbleModel.
+    public TbbleColumn bddColumn(Object columnIdentifier, int width,
+                                 TbbleCellRenderer renderer,
+                                 TbbleCellEditor editor) {
+        return bddColumn(columnIdentifier, width, renderer, editor, null);
     }
 
-    public TableColumn addColumn(Object columnIdentifier, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor, List columnData) {
-        checkDefaultTableModel();
+    public TbbleColumn bddColumn(Object columnIdentifier, int width,
+                                 TbbleCellRenderer renderer,
+                                 TbbleCellEditor editor, List columnDbtb) {
+        checkDefbultTbbleModel();
 
         // Set up the model side first
-        DefaultTableModel m = (DefaultTableModel)getModel();
-        m.addColumn(columnIdentifier, columnData.toArray());
+        DefbultTbbleModel m = (DefbultTbbleModel)getModel();
+        m.bddColumn(columnIdentifier, columnDbtb.toArrby());
 
-        // The column will have been added to the end, so the index of the
-        // column in the model is the last element.
-        TableColumn newColumn = new TableColumn(
+        // The column will hbve been bdded to the end, so the index of the
+        // column in the model is the lbst element.
+        TbbleColumn newColumn = new TbbleColumn(
                 m.getColumnCount()-1, width, renderer, editor);
-        super.addColumn(newColumn);
+        super.bddColumn(newColumn);
         return newColumn;
     }
 
-    // Not possilble to make this work the same way ... change it so that
+    // Not possilble to mbke this work the sbme wby ... chbnge it so thbt
     // it does not delete columns from the model.
     public void removeColumn(Object columnIdentifier) {
         super.removeColumn(getColumn(columnIdentifier));
     }
 
-    public void addRow(Object[] rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).addRow(rowData);
+    public void bddRow(Object[] rowDbtb) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).bddRow(rowDbtb);
     }
 
-    public void addRow(List rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).addRow(rowData.toArray());
+    public void bddRow(List rowDbtb) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).bddRow(rowDbtb.toArrby());
     }
 
     public void removeRow(int rowIndex) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).removeRow(rowIndex);
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).removeRow(rowIndex);
     }
 
-    public void moveRow(int startIndex, int endIndex, int toIndex) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).moveRow(startIndex, endIndex, toIndex);
+    public void moveRow(int stbrtIndex, int endIndex, int toIndex) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).moveRow(stbrtIndex, endIndex, toIndex);
     }
 
-    public void insertRow(int rowIndex, Object[] rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).insertRow(rowIndex, rowData);
+    public void insertRow(int rowIndex, Object[] rowDbtb) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).insertRow(rowIndex, rowDbtb);
     }
 
-    public void insertRow(int rowIndex, List rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).insertRow(rowIndex, rowData.toArray());
+    public void insertRow(int rowIndex, List rowDbtb) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).insertRow(rowIndex, rowDbtb.toArrby());
     }
 
     public void setNumRows(int newSize) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setNumRows(newSize);
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).setNumRows(newSize);
     }
 
-    public void setDataVector(Object[][] newData, List columnIds) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setDataVector(
-                newData, columnIds.toArray());
+    public void setDbtbVector(Object[][] newDbtb, List columnIds) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).setDbtbVector(
+                newDbtb, columnIds.toArrby());
     }
 
-    public void setDataVector(Object[][] newData, Object[] columnIds) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setDataVector(newData, columnIds);
+    public void setDbtbVector(Object[][] newDbtb, Object[] columnIds) {
+        checkDefbultTbbleModel();
+        ((DefbultTbbleModel)getModel()).setDbtbVector(newDbtb, columnIds);
     }
 
-    protected void checkDefaultTableModel() {
-        if(!(dataModel instanceof DefaultTableModel))
-            throw new InternalError("In order to use this method, the data model must be an instance of DefaultTableModel.");
+    protected void checkDefbultTbbleModel() {
+        if(!(dbtbModel instbnceof DefbultTbbleModel))
+            throw new InternblError("In order to use this method, the dbtb model must be bn instbnce of DefbultTbbleModel.");
     }
 
 //
-//  Methods removed from JTable in the move from identifiers to ints.
+//  Methods removed from JTbble in the move from identifiers to ints.
 //
 
-    public Object getValueAt(Object columnIdentifier, int rowIndex) {
-        return super.getValueAt(rowIndex, getColumnIndex(columnIdentifier));
+    public Object getVblueAt(Object columnIdentifier, int rowIndex) {
+        return super.getVblueAt(rowIndex, getColumnIndex(columnIdentifier));
     }
 
-    public boolean isCellEditable(Object columnIdentifier, int rowIndex) {
-        return super.isCellEditable(rowIndex, getColumnIndex(columnIdentifier));
+    public boolebn isCellEditbble(Object columnIdentifier, int rowIndex) {
+        return super.isCellEditbble(rowIndex, getColumnIndex(columnIdentifier));
     }
 
-    public void setValueAt(Object aValue, Object columnIdentifier, int rowIndex) {
-        super.setValueAt(aValue, rowIndex, getColumnIndex(columnIdentifier));
+    public void setVblueAt(Object bVblue, Object columnIdentifier, int rowIndex) {
+        super.setVblueAt(bVblue, rowIndex, getColumnIndex(columnIdentifier));
     }
 
-    public boolean editColumnRow(Object identifier, int row) {
+    public boolebn editColumnRow(Object identifier, int row) {
         return super.editCellAt(row, getColumnIndex(identifier));
     }
 
-    public void moveColumn(Object columnIdentifier, Object targetColumnIdentifier) {
+    public void moveColumn(Object columnIdentifier, Object tbrgetColumnIdentifier) {
         moveColumn(getColumnIndex(columnIdentifier),
-                   getColumnIndex(targetColumnIdentifier));
+                   getColumnIndex(tbrgetColumnIdentifier));
     }
 
-    public boolean isColumnSelected(Object identifier) {
+    public boolebn isColumnSelected(Object identifier) {
         return isColumnSelected(getColumnIndex(identifier));
     }
 
-    public TableColumn addColumn(int modelColumn, int width) {
-        return addColumn(modelColumn, width, null, null);
+    public TbbleColumn bddColumn(int modelColumn, int width) {
+        return bddColumn(modelColumn, width, null, null);
     }
 
-    public TableColumn addColumn(int modelColumn) {
-        return addColumn(modelColumn, 75, null, null);
+    public TbbleColumn bddColumn(int modelColumn) {
+        return bddColumn(modelColumn, 75, null, null);
     }
 
     /**
-     *  Creates a new column with <I>modelColumn</I>, <I>width</I>,
-     *  <I>renderer</I>, and <I>editor</I> and adds it to the end of
-     *  the JTable's array of columns. This method also retrieves the
-     *  name of the column using the model's <I>getColumnName(modelColumn)</I>
-     *  method, and sets the both the header value and the identifier
-     *  for this TableColumn accordingly.
+     *  Crebtes b new column with <I>modelColumn</I>, <I>width</I>,
+     *  <I>renderer</I>, bnd <I>editor</I> bnd bdds it to the end of
+     *  the JTbble's brrby of columns. This method blso retrieves the
+     *  nbme of the column using the model's <I>getColumnNbme(modelColumn)</I>
+     *  method, bnd sets the both the hebder vblue bnd the identifier
+     *  for this TbbleColumn bccordingly.
      *  <p>
      *  The <I>modelColumn</I> is the index of the column in the model which
-     *  will supply the data for this column in the table. This, like the
-     *  <I>columnIdentifier</I> in previous releases, does not change as the
-     *  columns are moved in the view.
+     *  will supply the dbtb for this column in the tbble. This, like the
+     *  <I>columnIdentifier</I> in previous relebses, does not chbnge bs the
+     *  columns bre moved in the view.
      *  <p>
-     *  For the rest of the JTable API, and all of its associated classes,
-     *  columns are referred to in the co-ordinate system of the view, the
-     *  index of the column in the model is kept inside the TableColumn
-     *  and is used only to retrieve the information from the appropraite
+     *  For the rest of the JTbble API, bnd bll of its bssocibted clbsses,
+     *  columns bre referred to in the co-ordinbte system of the view, the
+     *  index of the column in the model is kept inside the TbbleColumn
+     *  bnd is used only to retrieve the informbtion from the bpproprbite
      *  column in the model.
      *  <p>
      *
-     *  @param  modelColumn     The index of the column in the model
-     *  @param  width           The new column's width.  Or -1 to use
-     *                          the default width
-     *  @param  renderer        The renderer used with the new column.
-     *                          Or null to use the default renderer.
-     *  @param  editor          The editor used with the new column.
-     *                          Or null to use the default editor.
+     *  @pbrbm  modelColumn     The index of the column in the model
+     *  @pbrbm  width           The new column's width.  Or -1 to use
+     *                          the defbult width
+     *  @pbrbm  renderer        The renderer used with the new column.
+     *                          Or null to use the defbult renderer.
+     *  @pbrbm  editor          The editor used with the new column.
+     *                          Or null to use the defbult editor.
      */
-    public TableColumn addColumn(int modelColumn, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor) {
-        TableColumn newColumn = new TableColumn(
+    public TbbleColumn bddColumn(int modelColumn, int width,
+                                 TbbleCellRenderer renderer,
+                                 TbbleCellEditor editor) {
+        TbbleColumn newColumn = new TbbleColumn(
                 modelColumn, width, renderer, editor);
-        addColumn(newColumn);
+        bddColumn(newColumn);
         return newColumn;
     }
 
 //
-//  Methods that had their arguments switched.
+//  Methods thbt hbd their brguments switched.
 //
 
-// These won't work with the new table package.
+// These won't work with the new tbble pbckbge.
 
 /*
-    public Object getValueAt(int columnIndex, int rowIndex) {
-        return super.getValueAt(rowIndex, columnIndex);
+    public Object getVblueAt(int columnIndex, int rowIndex) {
+        return super.getVblueAt(rowIndex, columnIndex);
     }
 
-    public boolean isCellEditable(int columnIndex, int rowIndex) {
-        return super.isCellEditable(rowIndex, columnIndex);
+    public boolebn isCellEditbble(int columnIndex, int rowIndex) {
+        return super.isCellEditbble(rowIndex, columnIndex);
     }
 
-    public void setValueAt(Object aValue, int columnIndex, int rowIndex) {
-        super.setValueAt(aValue, rowIndex, columnIndex);
+    public void setVblueAt(Object bVblue, int columnIndex, int rowIndex) {
+        super.setVblueAt(bVblue, rowIndex, columnIndex);
     }
 */
 
-    public boolean editColumnRow(int columnIndex, int rowIndex) {
+    public boolebn editColumnRow(int columnIndex, int rowIndex) {
         return super.editCellAt(rowIndex, columnIndex);
     }
 
-    public boolean editColumnRow(int columnIndex, int rowIndex, EventObject e){
+    public boolebn editColumnRow(int columnIndex, int rowIndex, EventObject e){
         return super.editCellAt(rowIndex, columnIndex, e);
     }
 
 
-}  // End Of Class OldJTable
+}  // End Of Clbss OldJTbble

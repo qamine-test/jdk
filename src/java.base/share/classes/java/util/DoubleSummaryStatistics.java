@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.DoubleConsumer;
-import java.util.stream.Collector;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.strebm.Collector;
 
 /**
- * A state object for collecting statistics such as count, min, max, sum, and
- * average.
+ * A stbte object for collecting stbtistics such bs count, min, mbx, sum, bnd
+ * bverbge.
  *
- * <p>This class is designed to work with (though does not require)
- * {@linkplain java.util.stream streams}. For example, you can compute
- * summary statistics on a stream of doubles with:
+ * <p>This clbss is designed to work with (though does not require)
+ * {@linkplbin jbvb.util.strebm strebms}. For exbmple, you cbn compute
+ * summbry stbtistics on b strebm of doubles with:
  * <pre> {@code
- * DoubleSummaryStatistics stats = doubleStream.collect(DoubleSummaryStatistics::new,
- *                                                      DoubleSummaryStatistics::accept,
- *                                                      DoubleSummaryStatistics::combine);
+ * DoubleSummbryStbtistics stbts = doubleStrebm.collect(DoubleSummbryStbtistics::new,
+ *                                                      DoubleSummbryStbtistics::bccept,
+ *                                                      DoubleSummbryStbtistics::combine);
  * }</pre>
  *
- * <p>{@code DoubleSummaryStatistics} can be used as a
- * {@linkplain java.util.stream.Stream#collect(Collector) reduction}
- * target for a {@linkplain java.util.stream.Stream stream}. For example:
+ * <p>{@code DoubleSummbryStbtistics} cbn be used bs b
+ * {@linkplbin jbvb.util.strebm.Strebm#collect(Collector) reduction}
+ * tbrget for b {@linkplbin jbvb.util.strebm.Strebm strebm}. For exbmple:
  *
  * <pre> {@code
- * DoubleSummaryStatistics stats = people.stream()
- *     .collect(Collectors.summarizingDouble(Person::getWeight));
+ * DoubleSummbryStbtistics stbts = people.strebm()
+ *     .collect(Collectors.summbrizingDouble(Person::getWeight));
  *}</pre>
  *
- * This computes, in a single pass, the count of people, as well as the minimum,
- * maximum, sum, and average of their weights.
+ * This computes, in b single pbss, the count of people, bs well bs the minimum,
+ * mbximum, sum, bnd bverbge of their weights.
  *
- * @implNote This implementation is not thread safe. However, it is safe to use
- * {@link java.util.stream.Collectors#summarizingDouble(java.util.function.ToDoubleFunction)
- * Collectors.summarizingDouble()} on a parallel stream, because the parallel
- * implementation of {@link java.util.stream.Stream#collect Stream.collect()}
- * provides the necessary partitioning, isolation, and merging of results for
- * safe and efficient parallel execution.
+ * @implNote This implementbtion is not threbd sbfe. However, it is sbfe to use
+ * {@link jbvb.util.strebm.Collectors#summbrizingDouble(jbvb.util.function.ToDoubleFunction)
+ * Collectors.summbrizingDouble()} on b pbrbllel strebm, becbuse the pbrbllel
+ * implementbtion of {@link jbvb.util.strebm.Strebm#collect Strebm.collect()}
+ * provides the necessbry pbrtitioning, isolbtion, bnd merging of results for
+ * sbfe bnd efficient pbrbllel execution.
  * @since 1.8
  */
-public class DoubleSummaryStatistics implements DoubleConsumer {
-    private long count;
-    private double sum;
-    private double sumCompensation; // Low order bits of sum
-    private double simpleSum; // Used to compute right sum for non-finite inputs
-    private double min = Double.POSITIVE_INFINITY;
-    private double max = Double.NEGATIVE_INFINITY;
+public clbss DoubleSummbryStbtistics implements DoubleConsumer {
+    privbte long count;
+    privbte double sum;
+    privbte double sumCompensbtion; // Low order bits of sum
+    privbte double simpleSum; // Used to compute right sum for non-finite inputs
+    privbte double min = Double.POSITIVE_INFINITY;
+    privbte double mbx = Double.NEGATIVE_INFINITY;
 
     /**
-     * Construct an empty instance with zero count, zero sum,
+     * Construct bn empty instbnce with zero count, zero sum,
      * {@code Double.POSITIVE_INFINITY} min, {@code Double.NEGATIVE_INFINITY}
-     * max and zero average.
+     * mbx bnd zero bverbge.
      */
-    public DoubleSummaryStatistics() { }
+    public DoubleSummbryStbtistics() { }
 
     /**
-     * Records another value into the summary information.
+     * Records bnother vblue into the summbry informbtion.
      *
-     * @param value the input value
+     * @pbrbm vblue the input vblue
      */
     @Override
-    public void accept(double value) {
+    public void bccept(double vblue) {
         ++count;
-        simpleSum += value;
-        sumWithCompensation(value);
-        min = Math.min(min, value);
-        max = Math.max(max, value);
+        simpleSum += vblue;
+        sumWithCompensbtion(vblue);
+        min = Mbth.min(min, vblue);
+        mbx = Mbth.mbx(mbx, vblue);
     }
 
     /**
-     * Combines the state of another {@code DoubleSummaryStatistics} into this
+     * Combines the stbte of bnother {@code DoubleSummbryStbtistics} into this
      * one.
      *
-     * @param other another {@code DoubleSummaryStatistics}
+     * @pbrbm other bnother {@code DoubleSummbryStbtistics}
      * @throws NullPointerException if {@code other} is null
      */
-    public void combine(DoubleSummaryStatistics other) {
+    public void combine(DoubleSummbryStbtistics other) {
         count += other.count;
         simpleSum += other.simpleSum;
-        sumWithCompensation(other.sum);
-        sumWithCompensation(other.sumCompensation);
-        min = Math.min(min, other.min);
-        max = Math.max(max, other.max);
+        sumWithCompensbtion(other.sum);
+        sumWithCompensbtion(other.sumCompensbtion);
+        min = Mbth.min(min, other.min);
+        mbx = Mbth.mbx(mbx, other.mbx);
     }
 
     /**
-     * Incorporate a new double value using Kahan summation /
-     * compensated summation.
+     * Incorporbte b new double vblue using Kbhbn summbtion /
+     * compensbted summbtion.
      */
-    private void sumWithCompensation(double value) {
-        double tmp = value - sumCompensation;
+    privbte void sumWithCompensbtion(double vblue) {
+        double tmp = vblue - sumCompensbtion;
         double velvel = sum + tmp; // Little wolf of rounding error
-        sumCompensation = (velvel - sum) - tmp;
+        sumCompensbtion = (velvel - sum) - tmp;
         sum = velvel;
     }
 
     /**
-     * Return the count of values recorded.
+     * Return the count of vblues recorded.
      *
-     * @return the count of values
+     * @return the count of vblues
      */
-    public final long getCount() {
+    public finbl long getCount() {
         return count;
     }
 
     /**
-     * Returns the sum of values recorded, or zero if no values have been
+     * Returns the sum of vblues recorded, or zero if no vblues hbve been
      * recorded.
      *
-     * <p> The value of a floating-point sum is a function both of the
-     * input values as well as the order of addition operations. The
-     * order of addition operations of this method is intentionally
-     * not defined to allow for implementation flexibility to improve
-     * the speed and accuracy of the computed result.
+     * <p> The vblue of b flobting-point sum is b function both of the
+     * input vblues bs well bs the order of bddition operbtions. The
+     * order of bddition operbtions of this method is intentionblly
+     * not defined to bllow for implementbtion flexibility to improve
+     * the speed bnd bccurbcy of the computed result.
      *
-     * In particular, this method may be implemented using compensated
-     * summation or other technique to reduce the error bound in the
-     * numerical sum compared to a simple summation of {@code double}
-     * values.
+     * In pbrticulbr, this method mby be implemented using compensbted
+     * summbtion or other technique to reduce the error bound in the
+     * numericbl sum compbred to b simple summbtion of {@code double}
+     * vblues.
      *
-     * Because of the unspecified order of operations and the
-     * possibility of using differing summation schemes, the output of
-     * this method may vary on the same input values.
+     * Becbuse of the unspecified order of operbtions bnd the
+     * possibility of using differing summbtion schemes, the output of
+     * this method mby vbry on the sbme input vblues.
      *
-     * <p>Various conditions can result in a non-finite sum being
-     * computed. This can occur even if the all the recorded values
-     * being summed are finite. If any recorded value is non-finite,
+     * <p>Vbrious conditions cbn result in b non-finite sum being
+     * computed. This cbn occur even if the bll the recorded vblues
+     * being summed bre finite. If bny recorded vblue is non-finite,
      * the sum will be non-finite:
      *
      * <ul>
      *
-     * <li>If any recorded value is a NaN, then the final sum will be
-     * NaN.
+     * <li>If bny recorded vblue is b NbN, then the finbl sum will be
+     * NbN.
      *
-     * <li>If the recorded values contain one or more infinities, the
-     * sum will be infinite or NaN.
+     * <li>If the recorded vblues contbin one or more infinities, the
+     * sum will be infinite or NbN.
      *
      * <ul>
      *
-     * <li>If the recorded values contain infinities of opposite sign,
-     * the sum will be NaN.
+     * <li>If the recorded vblues contbin infinities of opposite sign,
+     * the sum will be NbN.
      *
-     * <li>If the recorded values contain infinities of one sign and
-     * an intermediate sum overflows to an infinity of the opposite
-     * sign, the sum may be NaN.
-     *
-     * </ul>
+     * <li>If the recorded vblues contbin infinities of one sign bnd
+     * bn intermedibte sum overflows to bn infinity of the opposite
+     * sign, the sum mby be NbN.
      *
      * </ul>
      *
-     * It is possible for intermediate sums of finite values to
-     * overflow into opposite-signed infinities; if that occurs, the
-     * final sum will be NaN even if the recorded values are all
+     * </ul>
+     *
+     * It is possible for intermedibte sums of finite vblues to
+     * overflow into opposite-signed infinities; if thbt occurs, the
+     * finbl sum will be NbN even if the recorded vblues bre bll
      * finite.
      *
-     * If all the recorded values are zero, the sign of zero is
-     * <em>not</em> guaranteed to be preserved in the final sum.
+     * If bll the recorded vblues bre zero, the sign of zero is
+     * <em>not</em> gubrbnteed to be preserved in the finbl sum.
      *
-     * @apiNote Values sorted by increasing absolute magnitude tend to yield
-     * more accurate results.
+     * @bpiNote Vblues sorted by increbsing bbsolute mbgnitude tend to yield
+     * more bccurbte results.
      *
-     * @return the sum of values, or zero if none
+     * @return the sum of vblues, or zero if none
      */
-    public final double getSum() {
-        // Better error bounds to add both terms as the final sum
-        double tmp =  sum + sumCompensation;
-        if (Double.isNaN(tmp) && Double.isInfinite(simpleSum))
-            // If the compensated sum is spuriously NaN from
-            // accumulating one or more same-signed infinite values,
+    public finbl double getSum() {
+        // Better error bounds to bdd both terms bs the finbl sum
+        double tmp =  sum + sumCompensbtion;
+        if (Double.isNbN(tmp) && Double.isInfinite(simpleSum))
+            // If the compensbted sum is spuriously NbN from
+            // bccumulbting one or more sbme-signed infinite vblues,
             // return the correctly-signed infinity stored in
             // simpleSum.
             return simpleSum;
@@ -197,66 +197,66 @@ public class DoubleSummaryStatistics implements DoubleConsumer {
     }
 
     /**
-     * Returns the minimum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.POSITIVE_INFINITY} if no values were
-     * recorded. Unlike the numerical comparison operators, this method
-     * considers negative zero to be strictly smaller than positive zero.
+     * Returns the minimum recorded vblue, {@code Double.NbN} if bny recorded
+     * vblue wbs NbN or {@code Double.POSITIVE_INFINITY} if no vblues were
+     * recorded. Unlike the numericbl compbrison operbtors, this method
+     * considers negbtive zero to be strictly smbller thbn positive zero.
      *
-     * @return the minimum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.POSITIVE_INFINITY} if no values were
+     * @return the minimum recorded vblue, {@code Double.NbN} if bny recorded
+     * vblue wbs NbN or {@code Double.POSITIVE_INFINITY} if no vblues were
      * recorded
      */
-    public final double getMin() {
+    public finbl double getMin() {
         return min;
     }
 
     /**
-     * Returns the maximum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.NEGATIVE_INFINITY} if no values were
-     * recorded. Unlike the numerical comparison operators, this method
-     * considers negative zero to be strictly smaller than positive zero.
+     * Returns the mbximum recorded vblue, {@code Double.NbN} if bny recorded
+     * vblue wbs NbN or {@code Double.NEGATIVE_INFINITY} if no vblues were
+     * recorded. Unlike the numericbl compbrison operbtors, this method
+     * considers negbtive zero to be strictly smbller thbn positive zero.
      *
-     * @return the maximum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.NEGATIVE_INFINITY} if no values were
+     * @return the mbximum recorded vblue, {@code Double.NbN} if bny recorded
+     * vblue wbs NbN or {@code Double.NEGATIVE_INFINITY} if no vblues were
      * recorded
      */
-    public final double getMax() {
-        return max;
+    public finbl double getMbx() {
+        return mbx;
     }
 
     /**
-     * Returns the arithmetic mean of values recorded, or zero if no
-     * values have been recorded.
+     * Returns the brithmetic mebn of vblues recorded, or zero if no
+     * vblues hbve been recorded.
      *
-     * <p> The computed average can vary numerically and have the
-     * special case behavior as computing the sum; see {@link #getSum}
-     * for details.
+     * <p> The computed bverbge cbn vbry numericblly bnd hbve the
+     * specibl cbse behbvior bs computing the sum; see {@link #getSum}
+     * for detbils.
      *
-     * @apiNote Values sorted by increasing absolute magnitude tend to yield
-     * more accurate results.
+     * @bpiNote Vblues sorted by increbsing bbsolute mbgnitude tend to yield
+     * more bccurbte results.
      *
-     * @return the arithmetic mean of values, or zero if none
+     * @return the brithmetic mebn of vblues, or zero if none
      */
-    public final double getAverage() {
+    public finbl double getAverbge() {
         return getCount() > 0 ? getSum() / getCount() : 0.0d;
     }
 
     /**
      * {@inheritDoc}
      *
-     * Returns a non-empty string representation of this object suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Returns b non-empty string representbtion of this object suitbble for
+     * debugging. The exbct presentbtion formbt is unspecified bnd mby vbry
+     * between implementbtions bnd versions.
      */
     @Override
     public String toString() {
-        return String.format(
-            "%s{count=%d, sum=%f, min=%f, average=%f, max=%f}",
-            this.getClass().getSimpleName(),
+        return String.formbt(
+            "%s{count=%d, sum=%f, min=%f, bverbge=%f, mbx=%f}",
+            this.getClbss().getSimpleNbme(),
             getCount(),
             getSum(),
             getMin(),
-            getAverage(),
-            getMax());
+            getAverbge(),
+            getMbx());
     }
 }

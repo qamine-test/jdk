@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.IOException;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.io.IOException;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 /**
- * This class contains utility methods that may be useful to ImageReader
- * plugins.  Ideally these methods would be in the ImageReader base class
- * so that all subclasses could benefit from them, but that would be an
- * addition to the existing API, and it is not yet clear whether these methods
- * are universally useful, so for now we will leave them here.
+ * This clbss contbins utility methods thbt mby be useful to ImbgeRebder
+ * plugins.  Ideblly these methods would be in the ImbgeRebder bbse clbss
+ * so thbt bll subclbsses could benefit from them, but thbt would be bn
+ * bddition to the existing API, bnd it is not yet clebr whether these methods
+ * bre universblly useful, so for now we will lebve them here.
  */
-public class ReaderUtil {
+public clbss RebderUtil {
 
-    // Helper for computeUpdatedPixels method
-    private static void computeUpdatedPixels(int sourceOffset,
+    // Helper for computeUpdbtedPixels method
+    privbte stbtic void computeUpdbtedPixels(int sourceOffset,
                                              int sourceExtent,
-                                             int destinationOffset,
+                                             int destinbtionOffset,
                                              int dstMin,
-                                             int dstMax,
-                                             int sourceSubsampling,
-                                             int passStart,
-                                             int passExtent,
-                                             int passPeriod,
-                                             int[] vals,
+                                             int dstMbx,
+                                             int sourceSubsbmpling,
+                                             int pbssStbrt,
+                                             int pbssExtent,
+                                             int pbssPeriod,
+                                             int[] vbls,
                                              int offset)
     {
-        // We need to satisfy the congruences:
-        // dst = destinationOffset + (src - sourceOffset)/sourceSubsampling
+        // We need to sbtisfy the congruences:
+        // dst = destinbtionOffset + (src - sourceOffset)/sourceSubsbmpling
         //
-        // src - passStart == 0 (mod passPeriod)
-        // src - sourceOffset == 0 (mod sourceSubsampling)
+        // src - pbssStbrt == 0 (mod pbssPeriod)
+        // src - sourceOffset == 0 (mod sourceSubsbmpling)
         //
-        // subject to the inequalities:
+        // subject to the inequblities:
         //
-        // src >= passStart
-        // src < passStart + passExtent
+        // src >= pbssStbrt
+        // src < pbssStbrt + pbssExtent
         // src >= sourceOffset
         // src < sourceOffset + sourceExtent
         // dst >= dstMin
-        // dst <= dstmax
+        // dst <= dstmbx
         //
         // where
         //
-        // dst = destinationOffset + (src - sourceOffset)/sourceSubsampling
+        // dst = destinbtionOffset + (src - sourceOffset)/sourceSubsbmpling
         //
-        // For now we use a brute-force approach although we could
-        // attempt to analyze the congruences.  If passPeriod and
-        // sourceSubsamling are relatively prime, the period will be
-        // their product.  If they share a common factor, either the
-        // period will be equal to the larger value, or the sequences
-        // will be completely disjoint, depending on the relationship
-        // between passStart and sourceOffset.  Since we only have to do this
-        // twice per image (once each for X and Y), it seems cheap enough
-        // to do it the straightforward way.
+        // For now we use b brute-force bpprobch blthough we could
+        // bttempt to bnblyze the congruences.  If pbssPeriod bnd
+        // sourceSubsbmling bre relbtively prime, the period will be
+        // their product.  If they shbre b common fbctor, either the
+        // period will be equbl to the lbrger vblue, or the sequences
+        // will be completely disjoint, depending on the relbtionship
+        // between pbssStbrt bnd sourceOffset.  Since we only hbve to do this
+        // twice per imbge (once ebch for X bnd Y), it seems chebp enough
+        // to do it the strbightforwbrd wby.
 
-        boolean gotPixel = false;
+        boolebn gotPixel = fblse;
         int firstDst = -1;
         int secondDst = -1;
-        int lastDst = -1;
+        int lbstDst = -1;
 
-        for (int i = 0; i < passExtent; i++) {
-            int src = passStart + i*passPeriod;
+        for (int i = 0; i < pbssExtent; i++) {
+            int src = pbssStbrt + i*pbssPeriod;
             if (src < sourceOffset) {
                 continue;
             }
-            if ((src - sourceOffset) % sourceSubsampling != 0) {
+            if ((src - sourceOffset) % sourceSubsbmpling != 0) {
                 continue;
             }
             if (src >= sourceOffset + sourceExtent) {
-                break;
+                brebk;
             }
 
-            int dst = destinationOffset +
-                (src - sourceOffset)/sourceSubsampling;
+            int dst = destinbtionOffset +
+                (src - sourceOffset)/sourceSubsbmpling;
             if (dst < dstMin) {
                 continue;
             }
-            if (dst > dstMax) {
-                break;
+            if (dst > dstMbx) {
+                brebk;
             }
 
             if (!gotPixel) {
-                firstDst = dst; // Record smallest valid pixel
+                firstDst = dst; // Record smbllest vblid pixel
                 gotPixel = true;
             } else if (secondDst == -1) {
-                secondDst = dst; // Record second smallest valid pixel
+                secondDst = dst; // Record second smbllest vblid pixel
             }
-            lastDst = dst; // Record largest valid pixel
+            lbstDst = dst; // Record lbrgest vblid pixel
         }
 
-        vals[offset] = firstDst;
+        vbls[offset] = firstDst;
 
-        // If we never saw a valid pixel, set width to 0
+        // If we never sbw b vblid pixel, set width to 0
         if (!gotPixel) {
-            vals[offset + 2] = 0;
+            vbls[offset + 2] = 0;
         } else {
-            vals[offset + 2] = lastDst - firstDst + 1;
+            vbls[offset + 2] = lbstDst - firstDst + 1;
         }
 
-        // The period is given by the difference of any two adjacent pixels
-        vals[offset + 4] = Math.max(secondDst - firstDst, 1);
+        // The period is given by the difference of bny two bdjbcent pixels
+        vbls[offset + 4] = Mbth.mbx(secondDst - firstDst, 1);
     }
 
     /**
-     * A utility method that computes the exact set of destination
-     * pixels that will be written during a particular decoding pass.
-     * The intent is to simplify the work done by readers in combining
-     * the source region, source subsampling, and destination offset
-     * information obtained from the <code>ImageReadParam</code> with
-     * the offsets and periods of a progressive or interlaced decoding
-     * pass.
+     * A utility method thbt computes the exbct set of destinbtion
+     * pixels thbt will be written during b pbrticulbr decoding pbss.
+     * The intent is to simplify the work done by rebders in combining
+     * the source region, source subsbmpling, bnd destinbtion offset
+     * informbtion obtbined from the <code>ImbgeRebdPbrbm</code> with
+     * the offsets bnd periods of b progressive or interlbced decoding
+     * pbss.
      *
-     * @param sourceRegion a <code>Rectangle</code> containing the
-     * source region being read, offset by the source subsampling
-     * offsets, and clipped against the source bounds, as returned by
+     * @pbrbm sourceRegion b <code>Rectbngle</code> contbining the
+     * source region being rebd, offset by the source subsbmpling
+     * offsets, bnd clipped bgbinst the source bounds, bs returned by
      * the <code>getSourceRegion</code> method.
-     * @param destinationOffset a <code>Point</code> containing the
-     * coordinates of the upper-left pixel to be written in the
-     * destination.
-     * @param dstMinX the smallest X coordinate (inclusive) of the
-     * destination <code>Raster</code>.
-     * @param dstMinY the smallest Y coordinate (inclusive) of the
-     * destination <code>Raster</code>.
-     * @param dstMaxX the largest X coordinate (inclusive) of the destination
-     * <code>Raster</code>.
-     * @param dstMaxY the largest Y coordinate (inclusive) of the destination
-     * <code>Raster</code>.
-     * @param sourceXSubsampling the X subsampling factor.
-     * @param sourceYSubsampling the Y subsampling factor.
-     * @param passXStart the smallest source X coordinate (inclusive)
-     * of the current progressive pass.
-     * @param passYStart the smallest source Y coordinate (inclusive)
-     * of the current progressive pass.
-     * @param passWidth the width in pixels of the current progressive
-     * pass.
-     * @param passHeight the height in pixels of the current progressive
-     * pass.
-     * @param passPeriodX the X period (horizontal spacing between
-     * pixels) of the current progressive pass.
-     * @param passPeriodY the Y period (vertical spacing between
-     * pixels) of the current progressive pass.
+     * @pbrbm destinbtionOffset b <code>Point</code> contbining the
+     * coordinbtes of the upper-left pixel to be written in the
+     * destinbtion.
+     * @pbrbm dstMinX the smbllest X coordinbte (inclusive) of the
+     * destinbtion <code>Rbster</code>.
+     * @pbrbm dstMinY the smbllest Y coordinbte (inclusive) of the
+     * destinbtion <code>Rbster</code>.
+     * @pbrbm dstMbxX the lbrgest X coordinbte (inclusive) of the destinbtion
+     * <code>Rbster</code>.
+     * @pbrbm dstMbxY the lbrgest Y coordinbte (inclusive) of the destinbtion
+     * <code>Rbster</code>.
+     * @pbrbm sourceXSubsbmpling the X subsbmpling fbctor.
+     * @pbrbm sourceYSubsbmpling the Y subsbmpling fbctor.
+     * @pbrbm pbssXStbrt the smbllest source X coordinbte (inclusive)
+     * of the current progressive pbss.
+     * @pbrbm pbssYStbrt the smbllest source Y coordinbte (inclusive)
+     * of the current progressive pbss.
+     * @pbrbm pbssWidth the width in pixels of the current progressive
+     * pbss.
+     * @pbrbm pbssHeight the height in pixels of the current progressive
+     * pbss.
+     * @pbrbm pbssPeriodX the X period (horizontbl spbcing between
+     * pixels) of the current progressive pbss.
+     * @pbrbm pbssPeriodY the Y period (verticbl spbcing between
+     * pixels) of the current progressive pbss.
      *
-     * @return an array of 6 <code>int</code>s containing the
-     * destination min X, min Y, width, height, X period and Y period
-     * of the region that will be updated.
+     * @return bn brrby of 6 <code>int</code>s contbining the
+     * destinbtion min X, min Y, width, height, X period bnd Y period
+     * of the region thbt will be updbted.
      */
-    public static int[] computeUpdatedPixels(Rectangle sourceRegion,
-                                             Point destinationOffset,
+    public stbtic int[] computeUpdbtedPixels(Rectbngle sourceRegion,
+                                             Point destinbtionOffset,
                                              int dstMinX,
                                              int dstMinY,
-                                             int dstMaxX,
-                                             int dstMaxY,
-                                             int sourceXSubsampling,
-                                             int sourceYSubsampling,
-                                             int passXStart,
-                                             int passYStart,
-                                             int passWidth,
-                                             int passHeight,
-                                             int passPeriodX,
-                                             int passPeriodY)
+                                             int dstMbxX,
+                                             int dstMbxY,
+                                             int sourceXSubsbmpling,
+                                             int sourceYSubsbmpling,
+                                             int pbssXStbrt,
+                                             int pbssYStbrt,
+                                             int pbssWidth,
+                                             int pbssHeight,
+                                             int pbssPeriodX,
+                                             int pbssPeriodY)
     {
-        int[] vals = new int[6];
-        computeUpdatedPixels(sourceRegion.x, sourceRegion.width,
-                             destinationOffset.x,
-                             dstMinX, dstMaxX, sourceXSubsampling,
-                             passXStart, passWidth, passPeriodX,
-                             vals, 0);
-        computeUpdatedPixels(sourceRegion.y, sourceRegion.height,
-                             destinationOffset.y,
-                             dstMinY, dstMaxY, sourceYSubsampling,
-                             passYStart, passHeight, passPeriodY,
-                             vals, 1);
-        return vals;
+        int[] vbls = new int[6];
+        computeUpdbtedPixels(sourceRegion.x, sourceRegion.width,
+                             destinbtionOffset.x,
+                             dstMinX, dstMbxX, sourceXSubsbmpling,
+                             pbssXStbrt, pbssWidth, pbssPeriodX,
+                             vbls, 0);
+        computeUpdbtedPixels(sourceRegion.y, sourceRegion.height,
+                             destinbtionOffset.y,
+                             dstMinY, dstMbxY, sourceYSubsbmpling,
+                             pbssYStbrt, pbssHeight, pbssPeriodY,
+                             vbls, 1);
+        return vbls;
     }
 
-    public static int readMultiByteInteger(ImageInputStream iis)
+    public stbtic int rebdMultiByteInteger(ImbgeInputStrebm iis)
         throws IOException
     {
-        int value = iis.readByte();
-        int result = value & 0x7f;
-        while((value & 0x80) == 0x80) {
+        int vblue = iis.rebdByte();
+        int result = vblue & 0x7f;
+        while((vblue & 0x80) == 0x80) {
             result <<= 7;
-            value = iis.readByte();
-            result |= (value & 0x7f);
+            vblue = iis.rebdByte();
+            result |= (vblue & 0x7f);
         }
         return result;
     }

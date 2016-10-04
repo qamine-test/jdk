@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.net.InetSocketAddress;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.net.InetSocketAddress;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Unix implementation of AsynchronousServerSocketChannel
+ * Unix implementbtion of AsynchronousServerSocketChbnnel
  */
 
-class UnixAsynchronousServerSocketChannelImpl
-    extends AsynchronousServerSocketChannelImpl
-    implements Port.PollableChannel
+clbss UnixAsynchronousServerSocketChbnnelImpl
+    extends AsynchronousServerSocketChbnnelImpl
+    implements Port.PollbbleChbnnel
 {
-    private final static NativeDispatcher nd = new SocketDispatcher();
+    privbte finbl stbtic NbtiveDispbtcher nd = new SocketDispbtcher();
 
-    private final Port port;
-    private final int fdVal;
+    privbte finbl Port port;
+    privbte finbl int fdVbl;
 
-    // flag to indicate an accept is outstanding
-    private final AtomicBoolean accepting = new AtomicBoolean();
-    private void enableAccept() {
-        accepting.set(false);
+    // flbg to indicbte bn bccept is outstbnding
+    privbte finbl AtomicBoolebn bccepting = new AtomicBoolebn();
+    privbte void enbbleAccept() {
+        bccepting.set(fblse);
     }
 
-    // used to ensure that the context for an asynchronous accept is visible
-    // the pooled thread that handles the I/O event
-    private final Object updateLock = new Object();
+    // used to ensure thbt the context for bn bsynchronous bccept is visible
+    // the pooled threbd thbt hbndles the I/O event
+    privbte finbl Object updbteLock = new Object();
 
-    // pending accept
-    private boolean acceptPending;
-    private CompletionHandler<AsynchronousSocketChannel,Object> acceptHandler;
-    private Object acceptAttachment;
-    private PendingFuture<AsynchronousSocketChannel,Object> acceptFuture;
+    // pending bccept
+    privbte boolebn bcceptPending;
+    privbte CompletionHbndler<AsynchronousSocketChbnnel,Object> bcceptHbndler;
+    privbte Object bcceptAttbchment;
+    privbte PendingFuture<AsynchronousSocketChbnnel,Object> bcceptFuture;
 
-    // context for permission check when security manager set
-    private AccessControlContext acceptAcc;
+    // context for permission check when security mbnbger set
+    privbte AccessControlContext bcceptAcc;
 
 
-    UnixAsynchronousServerSocketChannelImpl(Port port)
+    UnixAsynchronousServerSocketChbnnelImpl(Port port)
         throws IOException
     {
         super(port);
 
         try {
-            IOUtil.configureBlocking(fd, false);
-        } catch (IOException x) {
-            nd.close(fd);  // prevent leak
+            IOUtil.configureBlocking(fd, fblse);
+        } cbtch (IOException x) {
+            nd.close(fd);  // prevent lebk
             throw x;
         }
         this.port = port;
-        this.fdVal = IOUtil.fdVal(fd);
+        this.fdVbl = IOUtil.fdVbl(fd);
 
-        // add mapping from file descriptor to this channel
-        port.register(fdVal, this);
+        // bdd mbpping from file descriptor to this chbnnel
+        port.register(fdVbl, this);
     }
 
     @Override
     void implClose() throws IOException {
-        // remove the mapping
-        port.unregister(fdVal);
+        // remove the mbpping
+        port.unregister(fdVbl);
 
         // close file descriptor
         nd.close(fd);
 
-        // if there is a pending accept then complete it
-        CompletionHandler<AsynchronousSocketChannel,Object> handler;
-        Object att;
-        PendingFuture<AsynchronousSocketChannel,Object> future;
-        synchronized (updateLock) {
-            if (!acceptPending)
-                return;  // no pending accept
-            acceptPending = false;
-            handler = acceptHandler;
-            att = acceptAttachment;
-            future = acceptFuture;
+        // if there is b pending bccept then complete it
+        CompletionHbndler<AsynchronousSocketChbnnel,Object> hbndler;
+        Object btt;
+        PendingFuture<AsynchronousSocketChbnnel,Object> future;
+        synchronized (updbteLock) {
+            if (!bcceptPending)
+                return;  // no pending bccept
+            bcceptPending = fblse;
+            hbndler = bcceptHbndler;
+            btt = bcceptAttbchment;
+            future = bcceptFuture;
         }
 
-        // discard the stack trace as otherwise it may appear that implClose
-        // has thrown the exception.
+        // discbrd the stbck trbce bs otherwise it mby bppebr thbt implClose
+        // hbs thrown the exception.
         AsynchronousCloseException x = new AsynchronousCloseException();
-        x.setStackTrace(new StackTraceElement[0]);
-        if (handler == null) {
-            future.setFailure(x);
+        x.setStbckTrbce(new StbckTrbceElement[0]);
+        if (hbndler == null) {
+            future.setFbilure(x);
         } else {
-            // invoke by submitting task rather than directly
-            Invoker.invokeIndirectly(this, handler, att, null, x);
+            // invoke by submitting tbsk rbther thbn directly
+            Invoker.invokeIndirectly(this, hbndler, btt, null, x);
         }
     }
 
     @Override
-    public AsynchronousChannelGroupImpl group() {
+    public AsynchronousChbnnelGroupImpl group() {
         return port;
     }
 
     /**
-     * Invoked by event handling thread when listener socket is polled
+     * Invoked by event hbndling threbd when listener socket is polled
      */
     @Override
-    public void onEvent(int events, boolean mayInvokeDirect) {
-        synchronized (updateLock) {
-            if (!acceptPending)
-                return;  // may have been grabbed by asynchronous close
-            acceptPending = false;
+    public void onEvent(int events, boolebn mbyInvokeDirect) {
+        synchronized (updbteLock) {
+            if (!bcceptPending)
+                return;  // mby hbve been grbbbed by bsynchronous close
+            bcceptPending = fblse;
         }
 
-        // attempt to accept connection
+        // bttempt to bccept connection
         FileDescriptor newfd = new FileDescriptor();
-        InetSocketAddress[] isaa = new InetSocketAddress[1];
-        Throwable exc = null;
+        InetSocketAddress[] isbb = new InetSocketAddress[1];
+        Throwbble exc = null;
         try {
             begin();
-            int n = accept0(this.fd, newfd, isaa);
+            int n = bccept0(this.fd, newfd, isbb);
 
-            // spurious wakeup, is this possible?
-            if (n == IOStatus.UNAVAILABLE) {
-                synchronized (updateLock) {
-                    acceptPending = true;
+            // spurious wbkeup, is this possible?
+            if (n == IOStbtus.UNAVAILABLE) {
+                synchronized (updbteLock) {
+                    bcceptPending = true;
                 }
-                port.startPoll(fdVal, Net.POLLIN);
+                port.stbrtPoll(fdVbl, Net.POLLIN);
                 return;
             }
 
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
+        } finblly {
             end();
         }
 
-        // Connection accepted so finish it when not holding locks.
-        AsynchronousSocketChannel child = null;
+        // Connection bccepted so finish it when not holding locks.
+        AsynchronousSocketChbnnel child = null;
         if (exc == null) {
             try {
-                child = finishAccept(newfd, isaa[0], acceptAcc);
-            } catch (Throwable x) {
-                if (!(x instanceof IOException) && !(x instanceof SecurityException))
+                child = finishAccept(newfd, isbb[0], bcceptAcc);
+            } cbtch (Throwbble x) {
+                if (!(x instbnceof IOException) && !(x instbnceof SecurityException))
                     x = new IOException(x);
                 exc = x;
             }
         }
 
-        // copy field befores accept is re-renabled
-        CompletionHandler<AsynchronousSocketChannel,Object> handler = acceptHandler;
-        Object att = acceptAttachment;
-        PendingFuture<AsynchronousSocketChannel,Object> future = acceptFuture;
+        // copy field befores bccept is re-renbbled
+        CompletionHbndler<AsynchronousSocketChbnnel,Object> hbndler = bcceptHbndler;
+        Object btt = bcceptAttbchment;
+        PendingFuture<AsynchronousSocketChbnnel,Object> future = bcceptFuture;
 
-        // re-enable accepting and invoke handler
-        enableAccept();
+        // re-enbble bccepting bnd invoke hbndler
+        enbbleAccept();
 
-        if (handler == null) {
+        if (hbndler == null) {
             future.setResult(child, exc);
-            // if an async cancel has already cancelled the operation then
-            // close the new channel so as to free resources
-            if (child != null && future.isCancelled()) {
+            // if bn bsync cbncel hbs blrebdy cbncelled the operbtion then
+            // close the new chbnnel so bs to free resources
+            if (child != null && future.isCbncelled()) {
                 try {
                     child.close();
-                } catch (IOException ignore) { }
+                } cbtch (IOException ignore) { }
             }
         } else {
-            Invoker.invoke(this, handler, att, child, exc);
+            Invoker.invoke(this, hbndler, btt, child, exc);
         }
     }
 
     /**
-     * Completes the accept by creating the AsynchronousSocketChannel for
-     * the given file descriptor and remote address. If this method completes
-     * with an IOException or SecurityException then the channel/file descriptor
+     * Completes the bccept by crebting the AsynchronousSocketChbnnel for
+     * the given file descriptor bnd remote bddress. If this method completes
+     * with bn IOException or SecurityException then the chbnnel/file descriptor
      * will be closed.
      */
-    private AsynchronousSocketChannel finishAccept(FileDescriptor newfd,
-                                                   final InetSocketAddress remote,
-                                                   AccessControlContext acc)
+    privbte AsynchronousSocketChbnnel finishAccept(FileDescriptor newfd,
+                                                   finbl InetSocketAddress remote,
+                                                   AccessControlContext bcc)
         throws IOException, SecurityException
     {
-        AsynchronousSocketChannel ch = null;
+        AsynchronousSocketChbnnel ch = null;
         try {
-            ch = new UnixAsynchronousSocketChannelImpl(port, newfd, remote);
-        } catch (IOException x) {
+            ch = new UnixAsynchronousSocketChbnnelImpl(port, newfd, remote);
+        } cbtch (IOException x) {
             nd.close(newfd);
             throw x;
         }
 
-        // permission check must always be in initiator's context
+        // permission check must blwbys be in initibtor's context
         try {
-            if (acc != null) {
+            if (bcc != null) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        SecurityManager sm = System.getSecurityManager();
+                        SecurityMbnbger sm = System.getSecurityMbnbger();
                         if (sm != null) {
                             sm.checkAccept(remote.getAddress().getHostAddress(),
                                            remote.getPort());
                         }
                         return null;
                     }
-                }, acc);
+                }, bcc);
             } else {
-                SecurityManager sm = System.getSecurityManager();
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     sm.checkAccept(remote.getAddress().getHostAddress(),
                                    remote.getPort());
                 }
             }
-        } catch (SecurityException x) {
+        } cbtch (SecurityException x) {
             try {
                 ch.close();
-            } catch (Throwable suppressed) {
-                x.addSuppressed(suppressed);
+            } cbtch (Throwbble suppressed) {
+                x.bddSuppressed(suppressed);
             }
             throw x;
         }
@@ -245,107 +245,107 @@ class UnixAsynchronousServerSocketChannelImpl
     }
 
     @Override
-    Future<AsynchronousSocketChannel> implAccept(Object att,
-        CompletionHandler<AsynchronousSocketChannel,Object> handler)
+    Future<AsynchronousSocketChbnnel> implAccept(Object btt,
+        CompletionHbndler<AsynchronousSocketChbnnel,Object> hbndler)
     {
-        // complete immediately if channel is closed
+        // complete immedibtely if chbnnel is closed
         if (!isOpen()) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null) {
-                return CompletedFuture.withFailure(e);
+            Throwbble e = new ClosedChbnnelException();
+            if (hbndler == null) {
+                return CompletedFuture.withFbilure(e);
             } else {
-                Invoker.invoke(this, handler, att, null, e);
+                Invoker.invoke(this, hbndler, btt, null, e);
                 return null;
             }
         }
-        if (localAddress == null)
+        if (locblAddress == null)
             throw new NotYetBoundException();
 
-        // cancel was invoked with pending accept so connection may have been
+        // cbncel wbs invoked with pending bccept so connection mby hbve been
         // dropped.
         if (isAcceptKilled())
-            throw new RuntimeException("Accept not allowed due cancellation");
+            throw new RuntimeException("Accept not bllowed due cbncellbtion");
 
-        // check and set flag to prevent concurrent accepting
-        if (!accepting.compareAndSet(false, true))
+        // check bnd set flbg to prevent concurrent bccepting
+        if (!bccepting.compbreAndSet(fblse, true))
             throw new AcceptPendingException();
 
-        // attempt accept
+        // bttempt bccept
         FileDescriptor newfd = new FileDescriptor();
-        InetSocketAddress[] isaa = new InetSocketAddress[1];
-        Throwable exc = null;
+        InetSocketAddress[] isbb = new InetSocketAddress[1];
+        Throwbble exc = null;
         try {
             begin();
 
-            int n = accept0(this.fd, newfd, isaa);
-            if (n == IOStatus.UNAVAILABLE) {
+            int n = bccept0(this.fd, newfd, isbb);
+            if (n == IOStbtus.UNAVAILABLE) {
 
-                // need calling context when there is security manager as
-                // permission check may be done in a different thread without
-                // any application call frames on the stack
-                PendingFuture<AsynchronousSocketChannel,Object> result = null;
-                synchronized (updateLock) {
-                    if (handler == null) {
-                        this.acceptHandler = null;
-                        result = new PendingFuture<AsynchronousSocketChannel,Object>(this);
-                        this.acceptFuture = result;
+                // need cblling context when there is security mbnbger bs
+                // permission check mby be done in b different threbd without
+                // bny bpplicbtion cbll frbmes on the stbck
+                PendingFuture<AsynchronousSocketChbnnel,Object> result = null;
+                synchronized (updbteLock) {
+                    if (hbndler == null) {
+                        this.bcceptHbndler = null;
+                        result = new PendingFuture<AsynchronousSocketChbnnel,Object>(this);
+                        this.bcceptFuture = result;
                     } else {
-                        this.acceptHandler = handler;
-                        this.acceptAttachment = att;
+                        this.bcceptHbndler = hbndler;
+                        this.bcceptAttbchment = btt;
                     }
-                    this.acceptAcc = (System.getSecurityManager() == null) ?
+                    this.bcceptAcc = (System.getSecurityMbnbger() == null) ?
                         null : AccessController.getContext();
-                    this.acceptPending = true;
+                    this.bcceptPending = true;
                 }
 
                 // register for connections
-                port.startPoll(fdVal, Net.POLLIN);
+                port.stbrtPoll(fdVbl, Net.POLLIN);
                 return result;
             }
-        } catch (Throwable x) {
-            // accept failed
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            // bccept fbiled
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
+        } finblly {
             end();
         }
 
-        AsynchronousSocketChannel child = null;
+        AsynchronousSocketChbnnel child = null;
         if (exc == null) {
-            // connection accepted immediately
+            // connection bccepted immedibtely
             try {
-                child = finishAccept(newfd, isaa[0], null);
-            } catch (Throwable x) {
+                child = finishAccept(newfd, isbb[0], null);
+            } cbtch (Throwbble x) {
                 exc = x;
             }
         }
 
-        // re-enable accepting before invoking handler
-        enableAccept();
+        // re-enbble bccepting before invoking hbndler
+        enbbleAccept();
 
-        if (handler == null) {
+        if (hbndler == null) {
             return CompletedFuture.withResult(child, exc);
         } else {
-            Invoker.invokeIndirectly(this, handler, att, child, exc);
+            Invoker.invokeIndirectly(this, hbndler, btt, child, exc);
             return null;
         }
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    // Accepts a new connection, setting the given file descriptor to refer to
-    // the new socket and setting isaa[0] to the socket's remote address.
-    // Returns 1 on success, or IOStatus.UNAVAILABLE.
+    // Accepts b new connection, setting the given file descriptor to refer to
+    // the new socket bnd setting isbb[0] to the socket's remote bddress.
+    // Returns 1 on success, or IOStbtus.UNAVAILABLE.
     //
-    private native int accept0(FileDescriptor ssfd, FileDescriptor newfd,
-                               InetSocketAddress[] isaa)
+    privbte nbtive int bccept0(FileDescriptor ssfd, FileDescriptor newfd,
+                               InetSocketAddress[] isbb)
         throws IOException;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
     }
 }

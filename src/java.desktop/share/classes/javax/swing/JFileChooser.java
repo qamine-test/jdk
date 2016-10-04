@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.plaf.FileChooserUI;
+import jbvbx.swing.event.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.plbf.FileChooserUI;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
-import java.io.File;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.File;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
-import java.util.Vector;
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.BorderLayout;
-import java.awt.Window;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.lang.ref.WeakReference;
+import jbvb.util.Vector;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Window;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * <code>JFileChooser</code> provides a simple mechanism for the user to
- * choose a file.
- * For information about using <code>JFileChooser</code>, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html">How to Use File Choosers</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <code>JFileChooser</code> provides b simple mechbnism for the user to
+ * choose b file.
+ * For informbtion bbout using <code>JFileChooser</code>, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/filechooser.html">How to Use File Choosers</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
  *
- * The following code pops up a file chooser for the user's home directory that
- * sees only .jpg and .gif images:
+ * The following code pops up b file chooser for the user's home directory thbt
+ * sees only .jpg bnd .gif imbges:
  * <pre>
  *    JFileChooser chooser = new JFileChooser();
- *    FileNameExtensionFilter filter = new FileNameExtensionFilter(
- *        "JPG &amp; GIF Images", "jpg", "gif");
+ *    FileNbmeExtensionFilter filter = new FileNbmeExtensionFilter(
+ *        "JPG &bmp; GIF Imbges", "jpg", "gif");
  *    chooser.setFileFilter(filter);
- *    int returnVal = chooser.showOpenDialog(parent);
- *    if(returnVal == JFileChooser.APPROVE_OPTION) {
+ *    int returnVbl = chooser.showOpenDiblog(pbrent);
+ *    if(returnVbl == JFileChooser.APPROVE_OPTION) {
  *       System.out.println("You chose to open this file: " +
- *            chooser.getSelectedFile().getName());
+ *            chooser.getSelectedFile().getNbme());
  *    }
  * </pre>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which allows for the interactive selection of a file.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component which bllows for the interbctive selection of b file.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  * @since 1.2
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class JFileChooser extends JComponent implements Accessible {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss JFileChooser extends JComponent implements Accessible {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "FileChooserUI";
+    privbte stbtic finbl String uiClbssID = "FileChooserUI";
 
     // ************************
-    // ***** Dialog Types *****
+    // ***** Diblog Types *****
     // ************************
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports an
-     * "Open" file operation.
+     * Type vblue indicbting thbt the <code>JFileChooser</code> supports bn
+     * "Open" file operbtion.
      */
-    public static final int OPEN_DIALOG = 0;
+    public stbtic finbl int OPEN_DIALOG = 0;
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports a
-     * "Save" file operation.
+     * Type vblue indicbting thbt the <code>JFileChooser</code> supports b
+     * "Sbve" file operbtion.
      */
-    public static final int SAVE_DIALOG = 1;
+    public stbtic finbl int SAVE_DIALOG = 1;
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports a
-     * developer-specified file operation.
+     * Type vblue indicbting thbt the <code>JFileChooser</code> supports b
+     * developer-specified file operbtion.
      */
-    public static final int CUSTOM_DIALOG = 2;
+    public stbtic finbl int CUSTOM_DIALOG = 2;
 
 
     // ********************************
-    // ***** Dialog Return Values *****
+    // ***** Diblog Return Vblues *****
     // ********************************
 
     /**
-     * Return value if cancel is chosen.
+     * Return vblue if cbncel is chosen.
      */
-    public static final int CANCEL_OPTION = 1;
+    public stbtic finbl int CANCEL_OPTION = 1;
 
     /**
-     * Return value if approve (yes, ok) is chosen.
+     * Return vblue if bpprove (yes, ok) is chosen.
      */
-    public static final int APPROVE_OPTION = 0;
+    public stbtic finbl int APPROVE_OPTION = 0;
 
     /**
-     * Return value if an error occurred.
+     * Return vblue if bn error occurred.
      */
-    public static final int ERROR_OPTION = -1;
+    public stbtic finbl int ERROR_OPTION = -1;
 
 
     // **********************************
@@ -145,152 +145,152 @@ public class JFileChooser extends JComponent implements Accessible {
     // **********************************
 
 
-    /** Instruction to display only files. */
-    public static final int FILES_ONLY = 0;
+    /** Instruction to displby only files. */
+    public stbtic finbl int FILES_ONLY = 0;
 
-    /** Instruction to display only directories. */
-    public static final int DIRECTORIES_ONLY = 1;
+    /** Instruction to displby only directories. */
+    public stbtic finbl int DIRECTORIES_ONLY = 1;
 
-    /** Instruction to display both files and directories. */
-    public static final int FILES_AND_DIRECTORIES = 2;
+    /** Instruction to displby both files bnd directories. */
+    public stbtic finbl int FILES_AND_DIRECTORIES = 2;
 
-    /** Instruction to cancel the current selection. */
-    public static final String CANCEL_SELECTION = "CancelSelection";
+    /** Instruction to cbncel the current selection. */
+    public stbtic finbl String CANCEL_SELECTION = "CbncelSelection";
 
     /**
-     * Instruction to approve the current selection
-     * (same as pressing yes or ok).
+     * Instruction to bpprove the current selection
+     * (sbme bs pressing yes or ok).
      */
-    public static final String APPROVE_SELECTION = "ApproveSelection";
+    public stbtic finbl String APPROVE_SELECTION = "ApproveSelection";
 
-    /** Identifies change in the text on the approve (yes, ok) button. */
-    public static final String APPROVE_BUTTON_TEXT_CHANGED_PROPERTY = "ApproveButtonTextChangedProperty";
+    /** Identifies chbnge in the text on the bpprove (yes, ok) button. */
+    public stbtic finbl String APPROVE_BUTTON_TEXT_CHANGED_PROPERTY = "ApproveButtonTextChbngedProperty";
 
     /**
-     * Identifies change in the tooltip text for the approve (yes, ok)
+     * Identifies chbnge in the tooltip text for the bpprove (yes, ok)
      * button.
      */
-    public static final String APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY = "ApproveButtonToolTipTextChangedProperty";
+    public stbtic finbl String APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY = "ApproveButtonToolTipTextChbngedProperty";
 
-    /** Identifies change in the mnemonic for the approve (yes, ok) button. */
-    public static final String APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY = "ApproveButtonMnemonicChangedProperty";
+    /** Identifies chbnge in the mnemonic for the bpprove (yes, ok) button. */
+    public stbtic finbl String APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY = "ApproveButtonMnemonicChbngedProperty";
 
-    /** Instruction to display the control buttons. */
-    public static final String CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY = "ControlButtonsAreShownChangedProperty";
+    /** Instruction to displby the control buttons. */
+    public stbtic finbl String CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY = "ControlButtonsAreShownChbngedProperty";
 
-    /** Identifies user's directory change. */
-    public static final String DIRECTORY_CHANGED_PROPERTY = "directoryChanged";
+    /** Identifies user's directory chbnge. */
+    public stbtic finbl String DIRECTORY_CHANGED_PROPERTY = "directoryChbnged";
 
-    /** Identifies change in user's single-file selection. */
-    public static final String SELECTED_FILE_CHANGED_PROPERTY = "SelectedFileChangedProperty";
+    /** Identifies chbnge in user's single-file selection. */
+    public stbtic finbl String SELECTED_FILE_CHANGED_PROPERTY = "SelectedFileChbngedProperty";
 
-    /** Identifies change in user's multiple-file selection. */
-    public static final String SELECTED_FILES_CHANGED_PROPERTY = "SelectedFilesChangedProperty";
+    /** Identifies chbnge in user's multiple-file selection. */
+    public stbtic finbl String SELECTED_FILES_CHANGED_PROPERTY = "SelectedFilesChbngedProperty";
 
-    /** Enables multiple-file selections. */
-    public static final String MULTI_SELECTION_ENABLED_CHANGED_PROPERTY = "MultiSelectionEnabledChangedProperty";
+    /** Enbbles multiple-file selections. */
+    public stbtic finbl String MULTI_SELECTION_ENABLED_CHANGED_PROPERTY = "MultiSelectionEnbbledChbngedProperty";
 
     /**
-     * Says that a different object is being used to find available drives
+     * Sbys thbt b different object is being used to find bvbilbble drives
      * on the system.
      */
-    public static final String FILE_SYSTEM_VIEW_CHANGED_PROPERTY = "FileSystemViewChanged";
+    public stbtic finbl String FILE_SYSTEM_VIEW_CHANGED_PROPERTY = "FileSystemViewChbnged";
 
     /**
-     * Says that a different object is being used to retrieve file
-     * information.
+     * Sbys thbt b different object is being used to retrieve file
+     * informbtion.
      */
-    public static final String FILE_VIEW_CHANGED_PROPERTY = "fileViewChanged";
+    public stbtic finbl String FILE_VIEW_CHANGED_PROPERTY = "fileViewChbnged";
 
-    /** Identifies a change in the display-hidden-files property. */
-    public static final String FILE_HIDING_CHANGED_PROPERTY = "FileHidingChanged";
+    /** Identifies b chbnge in the displby-hidden-files property. */
+    public stbtic finbl String FILE_HIDING_CHANGED_PROPERTY = "FileHidingChbnged";
 
-    /** User changed the kind of files to display. */
-    public static final String FILE_FILTER_CHANGED_PROPERTY = "fileFilterChanged";
+    /** User chbnged the kind of files to displby. */
+    public stbtic finbl String FILE_FILTER_CHANGED_PROPERTY = "fileFilterChbnged";
 
     /**
-     * Identifies a change in the kind of selection (single,
+     * Identifies b chbnge in the kind of selection (single,
      * multiple, etc.).
      */
-    public static final String FILE_SELECTION_MODE_CHANGED_PROPERTY = "fileSelectionChanged";
+    public stbtic finbl String FILE_SELECTION_MODE_CHANGED_PROPERTY = "fileSelectionChbnged";
 
     /**
-     * Says that a different accessory component is in use
-     * (for example, to preview files).
+     * Sbys thbt b different bccessory component is in use
+     * (for exbmple, to preview files).
      */
-    public static final String ACCESSORY_CHANGED_PROPERTY = "AccessoryChangedProperty";
+    public stbtic finbl String ACCESSORY_CHANGED_PROPERTY = "AccessoryChbngedProperty";
 
     /**
-     * Identifies whether a the AcceptAllFileFilter is used or not.
+     * Identifies whether b the AcceptAllFileFilter is used or not.
      */
-    public static final String ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY = "acceptAllFileFilterUsedChanged";
+    public stbtic finbl String ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY = "bcceptAllFileFilterUsedChbnged";
 
-    /** Identifies a change in the dialog title. */
-    public static final String DIALOG_TITLE_CHANGED_PROPERTY = "DialogTitleChangedProperty";
-
-    /**
-     * Identifies a change in the type of files displayed (files only,
-     * directories only, or both files and directories).
-     */
-    public static final String DIALOG_TYPE_CHANGED_PROPERTY = "DialogTypeChangedProperty";
+    /** Identifies b chbnge in the diblog title. */
+    public stbtic finbl String DIALOG_TITLE_CHANGED_PROPERTY = "DiblogTitleChbngedProperty";
 
     /**
-     * Identifies a change in the list of predefined file filters
-     * the user can choose from.
+     * Identifies b chbnge in the type of files displbyed (files only,
+     * directories only, or both files bnd directories).
      */
-    public static final String CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY = "ChoosableFileFilterChangedProperty";
+    public stbtic finbl String DIALOG_TYPE_CHANGED_PROPERTY = "DiblogTypeChbngedProperty";
+
+    /**
+     * Identifies b chbnge in the list of predefined file filters
+     * the user cbn choose from.
+     */
+    public stbtic finbl String CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY = "ChoosbbleFileFilterChbngedProperty";
 
     // ******************************
-    // ***** instance variables *****
+    // ***** instbnce vbribbles *****
     // ******************************
 
-    private String dialogTitle = null;
-    private String approveButtonText = null;
-    private String approveButtonToolTipText = null;
-    private int approveButtonMnemonic = 0;
+    privbte String diblogTitle = null;
+    privbte String bpproveButtonText = null;
+    privbte String bpproveButtonToolTipText = null;
+    privbte int bpproveButtonMnemonic = 0;
 
-    private Vector<FileFilter> filters = new Vector<FileFilter>(5);
-    private JDialog dialog = null;
-    private int dialogType = OPEN_DIALOG;
-    private int returnValue = ERROR_OPTION;
-    private JComponent accessory = null;
+    privbte Vector<FileFilter> filters = new Vector<FileFilter>(5);
+    privbte JDiblog diblog = null;
+    privbte int diblogType = OPEN_DIALOG;
+    privbte int returnVblue = ERROR_OPTION;
+    privbte JComponent bccessory = null;
 
-    private FileView fileView = null;
+    privbte FileView fileView = null;
 
-    private boolean controlsShown = true;
+    privbte boolebn controlsShown = true;
 
-    private boolean useFileHiding = true;
-    private static final String SHOW_HIDDEN_PROP = "awt.file.showHiddenFiles";
+    privbte boolebn useFileHiding = true;
+    privbte stbtic finbl String SHOW_HIDDEN_PROP = "bwt.file.showHiddenFiles";
 
-    // Listens to changes in the native setting for showing hidden files.
-    // The Listener is removed and the native setting is ignored if
-    // setFileHidingEnabled() is ever called.
-    private transient PropertyChangeListener showFilesListener = null;
+    // Listens to chbnges in the nbtive setting for showing hidden files.
+    // The Listener is removed bnd the nbtive setting is ignored if
+    // setFileHidingEnbbled() is ever cblled.
+    privbte trbnsient PropertyChbngeListener showFilesListener = null;
 
-    private int fileSelectionMode = FILES_ONLY;
+    privbte int fileSelectionMode = FILES_ONLY;
 
-    private boolean multiSelectionEnabled = false;
+    privbte boolebn multiSelectionEnbbled = fblse;
 
-    private boolean useAcceptAllFileFilter = true;
+    privbte boolebn useAcceptAllFileFilter = true;
 
-    private boolean dragEnabled = false;
+    privbte boolebn drbgEnbbled = fblse;
 
-    private FileFilter fileFilter = null;
+    privbte FileFilter fileFilter = null;
 
-    private FileSystemView fileSystemView = null;
+    privbte FileSystemView fileSystemView = null;
 
-    private File currentDirectory = null;
-    private File selectedFile = null;
-    private File[] selectedFiles;
+    privbte File currentDirectory = null;
+    privbte File selectedFile = null;
+    privbte File[] selectedFiles;
 
     // *************************************
     // ***** JFileChooser Constructors *****
     // *************************************
 
     /**
-     * Constructs a <code>JFileChooser</code> pointing to the user's
-     * default directory. This default depends on the operating system.
-     * It is typically the "My Documents" folder on Windows, and the
+     * Constructs b <code>JFileChooser</code> pointing to the user's
+     * defbult directory. This defbult depends on the operbting system.
+     * It is typicblly the "My Documents" folder on Windows, bnd the
      * user's home directory on Unix.
      */
     public JFileChooser() {
@@ -298,40 +298,40 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given path.
-     * Passing in a <code>null</code>
-     * string causes the file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
+     * Constructs b <code>JFileChooser</code> using the given pbth.
+     * Pbssing in b <code>null</code>
+     * string cbuses the file chooser to point to the user's defbult directory.
+     * This defbult depends on the operbting system. It is
+     * typicblly the "My Documents" folder on Windows, bnd the user's
      * home directory on Unix.
      *
-     * @param currentDirectoryPath  a <code>String</code> giving the path
-     *                          to a file or directory
+     * @pbrbm currentDirectoryPbth  b <code>String</code> giving the pbth
+     *                          to b file or directory
      */
-    public JFileChooser(String currentDirectoryPath) {
-        this(currentDirectoryPath, (FileSystemView) null);
+    public JFileChooser(String currentDirectoryPbth) {
+        this(currentDirectoryPbth, (FileSystemView) null);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given <code>File</code>
-     * as the path. Passing in a <code>null</code> file
-     * causes the file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
+     * Constructs b <code>JFileChooser</code> using the given <code>File</code>
+     * bs the pbth. Pbssing in b <code>null</code> file
+     * cbuses the file chooser to point to the user's defbult directory.
+     * This defbult depends on the operbting system. It is
+     * typicblly the "My Documents" folder on Windows, bnd the user's
      * home directory on Unix.
      *
-     * @param currentDirectory  a <code>File</code> object specifying
-     *                          the path to a file or directory
+     * @pbrbm currentDirectory  b <code>File</code> object specifying
+     *                          the pbth to b file or directory
      */
     public JFileChooser(File currentDirectory) {
         this(currentDirectory, (FileSystemView) null);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given
+     * Constructs b <code>JFileChooser</code> using the given
      * <code>FileSystemView</code>.
      *
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm fsv b {@code FileSystemView}
      */
     public JFileChooser(FileSystemView fsv) {
         this((File) null, fsv);
@@ -339,12 +339,12 @@ public class JFileChooser extends JComponent implements Accessible {
 
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given current directory
-     * and <code>FileSystemView</code>.
+     * Constructs b <code>JFileChooser</code> using the given current directory
+     * bnd <code>FileSystemView</code>.
      *
-     * @param currentDirectory a {@code File} object specifying the path to a
+     * @pbrbm currentDirectory b {@code File} object specifying the pbth to b
      *                         file or directory
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm fsv b {@code FileSystemView}
      */
     public JFileChooser(File currentDirectory, FileSystemView fsv) {
         setup(fsv);
@@ -352,140 +352,140 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given current directory
-     * path and <code>FileSystemView</code>.
+     * Constructs b <code>JFileChooser</code> using the given current directory
+     * pbth bnd <code>FileSystemView</code>.
      *
-     * @param currentDirectoryPath a {@code String} specifying the path to a file
+     * @pbrbm currentDirectoryPbth b {@code String} specifying the pbth to b file
      *                             or directory
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm fsv b {@code FileSystemView}
      */
-    public JFileChooser(String currentDirectoryPath, FileSystemView fsv) {
+    public JFileChooser(String currentDirectoryPbth, FileSystemView fsv) {
         setup(fsv);
-        if(currentDirectoryPath == null) {
+        if(currentDirectoryPbth == null) {
             setCurrentDirectory(null);
         } else {
-            setCurrentDirectory(fileSystemView.createFileObject(currentDirectoryPath));
+            setCurrentDirectory(fileSystemView.crebteFileObject(currentDirectoryPbth));
         }
     }
 
     /**
-     * Performs common constructor initialization and setup.
+     * Performs common constructor initiblizbtion bnd setup.
      *
-     * @param view the {@code FileSystemView} used for setup
+     * @pbrbm view the {@code FileSystemView} used for setup
      */
     protected void setup(FileSystemView view) {
-        installShowFilesListener();
-        installHierarchyListener();
+        instbllShowFilesListener();
+        instbllHierbrchyListener();
 
         if(view == null) {
             view = FileSystemView.getFileSystemView();
         }
         setFileSystemView(view);
-        updateUI();
+        updbteUI();
         if(isAcceptAllFileFilterUsed()) {
             setFileFilter(getAcceptAllFileFilter());
         }
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        enbbleEvents(AWTEvent.MOUSE_EVENT_MASK);
     }
 
-    private void installHierarchyListener() {
-        addHierarchyListener(new HierarchyListener() {
+    privbte void instbllHierbrchyListener() {
+        bddHierbrchyListener(new HierbrchyListener() {
             @Override
-            public void hierarchyChanged(HierarchyEvent e) {
-                if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED)
-                        == HierarchyEvent.PARENT_CHANGED) {
+            public void hierbrchyChbnged(HierbrchyEvent e) {
+                if ((e.getChbngeFlbgs() & HierbrchyEvent.PARENT_CHANGED)
+                        == HierbrchyEvent.PARENT_CHANGED) {
                     JFileChooser fc = JFileChooser.this;
-                    JRootPane rootPane = SwingUtilities.getRootPane(fc);
-                    if (rootPane != null) {
-                        rootPane.setDefaultButton(fc.getUI().getDefaultButton(fc));
+                    JRootPbne rootPbne = SwingUtilities.getRootPbne(fc);
+                    if (rootPbne != null) {
+                        rootPbne.setDefbultButton(fc.getUI().getDefbultButton(fc));
                     }
                 }
             }
         });
     }
 
-    private void installShowFilesListener() {
-        // Track native setting for showing hidden files
-        Toolkit tk = Toolkit.getDefaultToolkit();
+    privbte void instbllShowFilesListener() {
+        // Trbck nbtive setting for showing hidden files
+        Toolkit tk = Toolkit.getDefbultToolkit();
         Object showHiddenProperty = tk.getDesktopProperty(SHOW_HIDDEN_PROP);
-        if (showHiddenProperty instanceof Boolean) {
-            useFileHiding = !((Boolean)showHiddenProperty).booleanValue();
-            showFilesListener = new WeakPCL(this);
-            tk.addPropertyChangeListener(SHOW_HIDDEN_PROP, showFilesListener);
+        if (showHiddenProperty instbnceof Boolebn) {
+            useFileHiding = !((Boolebn)showHiddenProperty).boolebnVblue();
+            showFilesListener = new WebkPCL(this);
+            tk.bddPropertyChbngeListener(SHOW_HIDDEN_PROP, showFilesListener);
         }
     }
 
     /**
-     * Sets the <code>dragEnabled</code> property,
-     * which must be <code>true</code> to enable
-     * automatic drag handling (the first part of drag and drop)
+     * Sets the <code>drbgEnbbled</code> property,
+     * which must be <code>true</code> to enbble
+     * butombtic drbg hbndling (the first pbrt of drbg bnd drop)
      * on this component.
-     * The <code>transferHandler</code> property needs to be set
-     * to a non-<code>null</code> value for the drag to do
-     * anything.  The default value of the <code>dragEnabled</code>
+     * The <code>trbnsferHbndler</code> property needs to be set
+     * to b non-<code>null</code> vblue for the drbg to do
+     * bnything.  The defbult vblue of the <code>drbgEnbbled</code>
      * property
-     * is <code>false</code>.
+     * is <code>fblse</code>.
      *
      * <p>
      *
-     * When automatic drag handling is enabled,
-     * most look and feels begin a drag-and-drop operation
-     * whenever the user presses the mouse button over an item
-     * and then moves the mouse a few pixels.
+     * When butombtic drbg hbndling is enbbled,
+     * most look bnd feels begin b drbg-bnd-drop operbtion
+     * whenever the user presses the mouse button over bn item
+     * bnd then moves the mouse b few pixels.
      * Setting this property to <code>true</code>
-     * can therefore have a subtle effect on
-     * how selections behave.
+     * cbn therefore hbve b subtle effect on
+     * how selections behbve.
      *
      * <p>
      *
-     * Some look and feels might not support automatic drag and drop;
-     * they will ignore this property.  You can work around such
-     * look and feels by modifying the component
-     * to directly call the <code>exportAsDrag</code> method of a
-     * <code>TransferHandler</code>.
+     * Some look bnd feels might not support butombtic drbg bnd drop;
+     * they will ignore this property.  You cbn work bround such
+     * look bnd feels by modifying the component
+     * to directly cbll the <code>exportAsDrbg</code> method of b
+     * <code>TrbnsferHbndler</code>.
      *
-     * @param b the value to set the <code>dragEnabled</code> property to
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b the vblue to set the <code>drbgEnbbled</code> property to
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bebninfo
+     *  description: determines whether butombtic drbg hbndling is enbbled
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Gets the value of the <code>dragEnabled</code> property.
+     * Gets the vblue of the <code>drbgEnbbled</code> property.
      *
-     * @return  the value of the <code>dragEnabled</code> property
-     * @see #setDragEnabled
+     * @return  the vblue of the <code>drbgEnbbled</code> property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     // *****************************
-    // ****** File Operations ******
+    // ****** File Operbtions ******
     // *****************************
 
     /**
-     * Returns the selected file. This can be set either by the
-     * programmer via <code>setSelectedFile</code> or by a user action, such as
-     * either typing the filename into the UI or selecting the
-     * file from a list in the UI.
+     * Returns the selected file. This cbn be set either by the
+     * progrbmmer vib <code>setSelectedFile</code> or by b user bction, such bs
+     * either typing the filenbme into the UI or selecting the
+     * file from b list in the UI.
      *
      * @see #setSelectedFile
      * @return the selected file
@@ -495,37 +495,37 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Sets the selected file. If the file's parent directory is
-     * not the current directory, changes the current directory
-     * to be the file's parent directory.
+     * Sets the selected file. If the file's pbrent directory is
+     * not the current directory, chbnges the current directory
+     * to be the file's pbrent directory.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
      *
      * @see #getSelectedFile
      *
-     * @param file the selected file
+     * @pbrbm file the selected file
      */
     public void setSelectedFile(File file) {
-        File oldValue = selectedFile;
+        File oldVblue = selectedFile;
         selectedFile = file;
         if(selectedFile != null) {
-            if (file.isAbsolute() && !getFileSystemView().isParent(getCurrentDirectory(), selectedFile)) {
-                setCurrentDirectory(selectedFile.getParentFile());
+            if (file.isAbsolute() && !getFileSystemView().isPbrent(getCurrentDirectory(), selectedFile)) {
+                setCurrentDirectory(selectedFile.getPbrentFile());
             }
-            if (!isMultiSelectionEnabled() || selectedFiles == null || selectedFiles.length == 1) {
+            if (!isMultiSelectionEnbbled() || selectedFiles == null || selectedFiles.length == 1) {
                 ensureFileIsVisible(selectedFile);
             }
         }
-        firePropertyChange(SELECTED_FILE_CHANGED_PROPERTY, oldValue, selectedFile);
+        firePropertyChbnge(SELECTED_FILE_CHANGED_PROPERTY, oldVblue, selectedFile);
     }
 
     /**
-     * Returns a list of selected files if the file chooser is
-     * set to allow multiple selection.
+     * Returns b list of selected files if the file chooser is
+     * set to bllow multiple selection.
      *
-     * @return an array of selected {@code File}s
+     * @return bn brrby of selected {@code File}s
      */
     public File[] getSelectedFiles() {
         if(selectedFiles == null) {
@@ -537,15 +537,15 @@ public class JFileChooser extends JComponent implements Accessible {
 
     /**
      * Sets the list of selected files if the file chooser is
-     * set to allow multiple selection.
+     * set to bllow multiple selection.
      *
-     * @param selectedFiles an array {@code File}s to be selected
-     * @beaninfo
+     * @pbrbm selectedFiles bn brrby {@code File}s to be selected
+     * @bebninfo
      *       bound: true
      * description: The list of selected files if the chooser is in multiple selection mode.
      */
     public void setSelectedFiles(File[] selectedFiles) {
-        File[] oldValue = this.selectedFiles;
+        File[] oldVblue = this.selectedFiles;
         if (selectedFiles == null || selectedFiles.length == 0) {
             selectedFiles = null;
             this.selectedFiles = null;
@@ -554,7 +554,7 @@ public class JFileChooser extends JComponent implements Accessible {
             this.selectedFiles = selectedFiles.clone();
             setSelectedFile(this.selectedFiles[0]);
         }
-        firePropertyChange(SELECTED_FILES_CHANGED_PROPERTY, oldValue, selectedFiles);
+        firePropertyChbnge(SELECTED_FILES_CHANGED_PROPERTY, oldVblue, selectedFiles);
     }
 
     /**
@@ -568,429 +568,429 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Sets the current directory. Passing in <code>null</code> sets the
-     * file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
+     * Sets the current directory. Pbssing in <code>null</code> sets the
+     * file chooser to point to the user's defbult directory.
+     * This defbult depends on the operbting system. It is
+     * typicblly the "My Documents" folder on Windows, bnd the user's
      * home directory on Unix.
      *
-     * If the file passed in as <code>currentDirectory</code> is not a
-     * directory, the parent of the file will be used as the currentDirectory.
-     * If the parent is not traversable, then it will walk up the parent tree
-     * until it finds a traversable directory, or hits the root of the
+     * If the file pbssed in bs <code>currentDirectory</code> is not b
+     * directory, the pbrent of the file will be used bs the currentDirectory.
+     * If the pbrent is not trbversbble, then it will wblk up the pbrent tree
+     * until it finds b trbversbble directory, or hits the root of the
      * file system.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The directory that the JFileChooser is showing files of.
+     * description: The directory thbt the JFileChooser is showing files of.
      *
-     * @param dir the current directory to point to
+     * @pbrbm dir the current directory to point to
      * @see #getCurrentDirectory
      */
     public void setCurrentDirectory(File dir) {
-        File oldValue = currentDirectory;
+        File oldVblue = currentDirectory;
 
         if (dir != null && !dir.exists()) {
             dir = currentDirectory;
         }
         if (dir == null) {
-            dir = getFileSystemView().getDefaultDirectory();
+            dir = getFileSystemView().getDefbultDirectory();
         }
         if (currentDirectory != null) {
             /* Verify the toString of object */
-            if (this.currentDirectory.equals(dir)) {
+            if (this.currentDirectory.equbls(dir)) {
                 return;
             }
         }
 
         File prev = null;
-        while (!isTraversable(dir) && prev != dir) {
+        while (!isTrbversbble(dir) && prev != dir) {
             prev = dir;
-            dir = getFileSystemView().getParentDirectory(dir);
+            dir = getFileSystemView().getPbrentDirectory(dir);
         }
         currentDirectory = dir;
 
-        firePropertyChange(DIRECTORY_CHANGED_PROPERTY, oldValue, currentDirectory);
+        firePropertyChbnge(DIRECTORY_CHANGED_PROPERTY, oldVblue, currentDirectory);
     }
 
     /**
-     * Changes the directory to be set to the parent of the
+     * Chbnges the directory to be set to the pbrent of the
      * current directory.
      *
      * @see #getCurrentDirectory
      */
-    public void changeToParentDirectory() {
+    public void chbngeToPbrentDirectory() {
         selectedFile = null;
-        File oldValue = getCurrentDirectory();
-        setCurrentDirectory(getFileSystemView().getParentDirectory(oldValue));
+        File oldVblue = getCurrentDirectory();
+        setCurrentDirectory(getFileSystemView().getPbrentDirectory(oldVblue));
     }
 
     /**
-     * Tells the UI to rescan its files list from the current directory.
+     * Tells the UI to rescbn its files list from the current directory.
      */
-    public void rescanCurrentDirectory() {
-        getUI().rescanCurrentDirectory(this);
+    public void rescbnCurrentDirectory() {
+        getUI().rescbnCurrentDirectory(this);
     }
 
     /**
-     * Makes sure that the specified file is viewable, and
+     * Mbkes sure thbt the specified file is viewbble, bnd
      * not hidden.
      *
-     * @param f  a File object
+     * @pbrbm f  b File object
      */
     public void ensureFileIsVisible(File f) {
         getUI().ensureFileIsVisible(this, f);
     }
 
     // **************************************
-    // ***** JFileChooser Dialog methods *****
+    // ***** JFileChooser Diblog methods *****
     // **************************************
 
     /**
-     * Pops up an "Open File" file chooser dialog. Note that the
-     * text that appears in the approve button is determined by
-     * the L&amp;F.
+     * Pops up bn "Open File" file chooser diblog. Note thbt the
+     * text thbt bppebrs in the bpprove button is determined by
+     * the L&bmp;F.
      *
-     * @param    parent  the parent component of the dialog,
-     *                  can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
-     * @return   the return state of the file chooser on popdown:
+     * @pbrbm    pbrent  the pbrent component of the diblog,
+     *                  cbn be <code>null</code>;
+     *                  see <code>showDiblog</code> for detbils
+     * @return   the return stbte of the file chooser on popdown:
      * <ul>
      * <li>JFileChooser.CANCEL_OPTION
      * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFileChooser.ERROR_OPTION if bn error occurs or the
+     *                  diblog is dismissed
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #showDialog
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #showDiblog
      */
-    public int showOpenDialog(Component parent) throws HeadlessException {
-        setDialogType(OPEN_DIALOG);
-        return showDialog(parent, null);
+    public int showOpenDiblog(Component pbrent) throws HebdlessException {
+        setDiblogType(OPEN_DIALOG);
+        return showDiblog(pbrent, null);
     }
 
     /**
-     * Pops up a "Save File" file chooser dialog. Note that the
-     * text that appears in the approve button is determined by
-     * the L&amp;F.
+     * Pops up b "Sbve File" file chooser diblog. Note thbt the
+     * text thbt bppebrs in the bpprove button is determined by
+     * the L&bmp;F.
      *
-     * @param    parent  the parent component of the dialog,
-     *                  can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
-     * @return   the return state of the file chooser on popdown:
+     * @pbrbm    pbrent  the pbrent component of the diblog,
+     *                  cbn be <code>null</code>;
+     *                  see <code>showDiblog</code> for detbils
+     * @return   the return stbte of the file chooser on popdown:
      * <ul>
      * <li>JFileChooser.CANCEL_OPTION
      * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFileChooser.ERROR_OPTION if bn error occurs or the
+     *                  diblog is dismissed
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #showDialog
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #showDiblog
      */
-    public int showSaveDialog(Component parent) throws HeadlessException {
-        setDialogType(SAVE_DIALOG);
-        return showDialog(parent, null);
+    public int showSbveDiblog(Component pbrent) throws HebdlessException {
+        setDiblogType(SAVE_DIALOG);
+        return showDiblog(pbrent, null);
     }
 
     /**
-     * Pops a custom file chooser dialog with a custom approve button.
-     * For example, the following code
-     * pops up a file chooser with a "Run Application" button
-     * (instead of the normal "Save" or "Open" button):
+     * Pops b custom file chooser diblog with b custom bpprove button.
+     * For exbmple, the following code
+     * pops up b file chooser with b "Run Applicbtion" button
+     * (instebd of the normbl "Sbve" or "Open" button):
      * <pre>
-     * filechooser.showDialog(parentFrame, "Run Application");
+     * filechooser.showDiblog(pbrentFrbme, "Run Applicbtion");
      * </pre>
      *
-     * Alternatively, the following code does the same thing:
+     * Alternbtively, the following code does the sbme thing:
      * <pre>
      *    JFileChooser chooser = new JFileChooser(null);
-     *    chooser.setApproveButtonText("Run Application");
-     *    chooser.showDialog(parentFrame, null);
+     *    chooser.setApproveButtonText("Run Applicbtion");
+     *    chooser.showDiblog(pbrentFrbme, null);
      * </pre>
      *
-     * <!--PENDING(jeff) - the following method should be added to the api:
-     *      showDialog(Component parent);-->
-     * <!--PENDING(kwalrath) - should specify modality and what
-     *      "depends" means.-->
+     * <!--PENDING(jeff) - the following method should be bdded to the bpi:
+     *      showDiblog(Component pbrent);-->
+     * <!--PENDING(kwblrbth) - should specify modblity bnd whbt
+     *      "depends" mebns.-->
      *
      * <p>
      *
-     * The <code>parent</code> argument determines two things:
-     * the frame on which the open dialog depends and
-     * the component whose position the look and feel
-     * should consider when placing the dialog.  If the parent
-     * is a <code>Frame</code> object (such as a <code>JFrame</code>)
-     * then the dialog depends on the frame and
-     * the look and feel positions the dialog
-     * relative to the frame (for example, centered over the frame).
-     * If the parent is a component, then the dialog
-     * depends on the frame containing the component,
-     * and is positioned relative to the component
-     * (for example, centered over the component).
-     * If the parent is <code>null</code>, then the dialog depends on
-     * no visible window, and it's placed in a
-     * look-and-feel-dependent position
-     * such as the center of the screen.
+     * The <code>pbrent</code> brgument determines two things:
+     * the frbme on which the open diblog depends bnd
+     * the component whose position the look bnd feel
+     * should consider when plbcing the diblog.  If the pbrent
+     * is b <code>Frbme</code> object (such bs b <code>JFrbme</code>)
+     * then the diblog depends on the frbme bnd
+     * the look bnd feel positions the diblog
+     * relbtive to the frbme (for exbmple, centered over the frbme).
+     * If the pbrent is b component, then the diblog
+     * depends on the frbme contbining the component,
+     * bnd is positioned relbtive to the component
+     * (for exbmple, centered over the component).
+     * If the pbrent is <code>null</code>, then the diblog depends on
+     * no visible window, bnd it's plbced in b
+     * look-bnd-feel-dependent position
+     * such bs the center of the screen.
      *
-     * @param   parent  the parent component of the dialog;
-     *                  can be <code>null</code>
-     * @param   approveButtonText the text of the <code>ApproveButton</code>
-     * @return  the return state of the file chooser on popdown:
+     * @pbrbm   pbrent  the pbrent component of the diblog;
+     *                  cbn be <code>null</code>
+     * @pbrbm   bpproveButtonText the text of the <code>ApproveButton</code>
+     * @return  the return stbte of the file chooser on popdown:
      * <ul>
      * <li>JFileChooser.CANCEL_OPTION
      * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFileChooser.ERROR_OPTION if bn error occurs or the
+     *                  diblog is dismissed
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public int showDialog(Component parent, String approveButtonText)
-        throws HeadlessException {
-        if (dialog != null) {
-            // Prevent to show second instance of dialog if the previous one still exists
+    public int showDiblog(Component pbrent, String bpproveButtonText)
+        throws HebdlessException {
+        if (diblog != null) {
+            // Prevent to show second instbnce of diblog if the previous one still exists
             return JFileChooser.ERROR_OPTION;
         }
 
-        if(approveButtonText != null) {
-            setApproveButtonText(approveButtonText);
-            setDialogType(CUSTOM_DIALOG);
+        if(bpproveButtonText != null) {
+            setApproveButtonText(bpproveButtonText);
+            setDiblogType(CUSTOM_DIALOG);
         }
-        dialog = createDialog(parent);
-        dialog.addWindowListener(new WindowAdapter() {
+        diblog = crebteDiblog(pbrent);
+        diblog.bddWindowListener(new WindowAdbpter() {
             public void windowClosing(WindowEvent e) {
-                returnValue = CANCEL_OPTION;
+                returnVblue = CANCEL_OPTION;
             }
         });
-        returnValue = ERROR_OPTION;
-        rescanCurrentDirectory();
+        returnVblue = ERROR_OPTION;
+        rescbnCurrentDirectory();
 
-        dialog.show();
-        firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
+        diblog.show();
+        firePropertyChbnge("JFileChooserDiblogIsClosingProperty", diblog, null);
 
-        // Remove all components from dialog. The MetalFileChooserUI.installUI() method (and other LAFs)
-        // registers AWT listener for dialogs and produces memory leaks. It happens when
-        // installUI invoked after the showDialog method.
-        dialog.getContentPane().removeAll();
-        dialog.dispose();
-        dialog = null;
-        return returnValue;
+        // Remove bll components from diblog. The MetblFileChooserUI.instbllUI() method (bnd other LAFs)
+        // registers AWT listener for diblogs bnd produces memory lebks. It hbppens when
+        // instbllUI invoked bfter the showDiblog method.
+        diblog.getContentPbne().removeAll();
+        diblog.dispose();
+        diblog = null;
+        return returnVblue;
     }
 
     /**
-     * Creates and returns a new <code>JDialog</code> wrapping
-     * <code>this</code> centered on the <code>parent</code>
-     * in the <code>parent</code>'s frame.
-     * This method can be overriden to further manipulate the dialog,
-     * to disable resizing, set the location, etc. Example:
+     * Crebtes bnd returns b new <code>JDiblog</code> wrbpping
+     * <code>this</code> centered on the <code>pbrent</code>
+     * in the <code>pbrent</code>'s frbme.
+     * This method cbn be overriden to further mbnipulbte the diblog,
+     * to disbble resizing, set the locbtion, etc. Exbmple:
      * <pre>
-     *     class MyFileChooser extends JFileChooser {
-     *         protected JDialog createDialog(Component parent) throws HeadlessException {
-     *             JDialog dialog = super.createDialog(parent);
-     *             dialog.setLocation(300, 200);
-     *             dialog.setResizable(false);
-     *             return dialog;
+     *     clbss MyFileChooser extends JFileChooser {
+     *         protected JDiblog crebteDiblog(Component pbrent) throws HebdlessException {
+     *             JDiblog diblog = super.crebteDiblog(pbrent);
+     *             diblog.setLocbtion(300, 200);
+     *             diblog.setResizbble(fblse);
+     *             return diblog;
      *         }
      *     }
      * </pre>
      *
-     * @param   parent  the parent component of the dialog;
-     *                  can be <code>null</code>
-     * @return a new <code>JDialog</code> containing this instance
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm   pbrent  the pbrent component of the diblog;
+     *                  cbn be <code>null</code>
+     * @return b new <code>JDiblog</code> contbining this instbnce
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.4
      */
-    protected JDialog createDialog(Component parent) throws HeadlessException {
+    protected JDiblog crebteDiblog(Component pbrent) throws HebdlessException {
         FileChooserUI ui = getUI();
-        String title = ui.getDialogTitle(this);
+        String title = ui.getDiblogTitle(this);
         putClientProperty(AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY,
                           title);
 
-        JDialog dialog;
-        Window window = JOptionPane.getWindowForComponent(parent);
-        if (window instanceof Frame) {
-            dialog = new JDialog((Frame)window, title, true);
+        JDiblog diblog;
+        Window window = JOptionPbne.getWindowForComponent(pbrent);
+        if (window instbnceof Frbme) {
+            diblog = new JDiblog((Frbme)window, title, true);
         } else {
-            dialog = new JDialog((Dialog)window, title, true);
+            diblog = new JDiblog((Diblog)window, title, true);
         }
-        dialog.setComponentOrientation(this.getComponentOrientation());
+        diblog.setComponentOrientbtion(this.getComponentOrientbtion());
 
-        Container contentPane = dialog.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(this, BorderLayout.CENTER);
+        Contbiner contentPbne = diblog.getContentPbne();
+        contentPbne.setLbyout(new BorderLbyout());
+        contentPbne.bdd(this, BorderLbyout.CENTER);
 
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
+        if (JDiblog.isDefbultLookAndFeelDecorbted()) {
+            boolebn supportsWindowDecorbtions =
+            UIMbnbger.getLookAndFeel().getSupportsWindowDecorbtions();
+            if (supportsWindowDecorbtions) {
+                diblog.getRootPbne().setWindowDecorbtionStyle(JRootPbne.FILE_CHOOSER_DIALOG);
             }
         }
-        dialog.pack();
-        dialog.setLocationRelativeTo(parent);
+        diblog.pbck();
+        diblog.setLocbtionRelbtiveTo(pbrent);
 
-        return dialog;
+        return diblog;
     }
 
     // **************************
-    // ***** Dialog Options *****
+    // ***** Diblog Options *****
     // **************************
 
     /**
-     * Returns the value of the <code>controlButtonsAreShown</code>
+     * Returns the vblue of the <code>controlButtonsAreShown</code>
      * property.
      *
-     * @return   the value of the <code>controlButtonsAreShown</code>
+     * @return   the vblue of the <code>controlButtonsAreShown</code>
      *     property
      *
      * @see #setControlButtonsAreShown
      * @since 1.3
      */
-    public boolean getControlButtonsAreShown() {
+    public boolebn getControlButtonsAreShown() {
         return controlsShown;
     }
 
 
     /**
      * Sets the property
-     * that indicates whether the <i>approve</i> and <i>cancel</i>
-     * buttons are shown in the file chooser.  This property
-     * is <code>true</code> by default.  Look and feels
-     * that always show these buttons will ignore the value
+     * thbt indicbtes whether the <i>bpprove</i> bnd <i>cbncel</i>
+     * buttons bre shown in the file chooser.  This property
+     * is <code>true</code> by defbult.  Look bnd feels
+     * thbt blwbys show these buttons will ignore the vblue
      * of this property.
-     * This method fires a property-changed event,
-     * using the string value of
+     * This method fires b property-chbnged event,
+     * using the string vblue of
      * <code>CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY</code>
-     * as the name of the property.
+     * bs the nbme of the property.
      *
-     * @param b <code>false</code> if control buttons should not be
+     * @pbrbm b <code>fblse</code> if control buttons should not be
      *    shown; otherwise, <code>true</code>
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Sets whether the approve &amp; cancel buttons are shown.
+     * description: Sets whether the bpprove &bmp; cbncel buttons bre shown.
      *
      * @see #getControlButtonsAreShown
      * @see #CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY
      * @since 1.3
      */
-    public void setControlButtonsAreShown(boolean b) {
+    public void setControlButtonsAreShown(boolebn b) {
         if(controlsShown == b) {
             return;
         }
-        boolean oldValue = controlsShown;
+        boolebn oldVblue = controlsShown;
         controlsShown = b;
-        firePropertyChange(CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY, oldValue, controlsShown);
+        firePropertyChbnge(CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY, oldVblue, controlsShown);
     }
 
     /**
-     * Returns the type of this dialog.  The default is
+     * Returns the type of this diblog.  The defbult is
      * <code>JFileChooser.OPEN_DIALOG</code>.
      *
-     * @return   the type of dialog to be displayed:
+     * @return   the type of diblog to be displbyed:
      * <ul>
      * <li>JFileChooser.OPEN_DIALOG
      * <li>JFileChooser.SAVE_DIALOG
      * <li>JFileChooser.CUSTOM_DIALOG
      * </ul>
      *
-     * @see #setDialogType
+     * @see #setDiblogType
      */
-    public int getDialogType() {
-        return dialogType;
+    public int getDiblogType() {
+        return diblogType;
     }
 
     /**
-     * Sets the type of this dialog. Use <code>OPEN_DIALOG</code> when you
-     * want to bring up a file chooser that the user can use to open a file.
+     * Sets the type of this diblog. Use <code>OPEN_DIALOG</code> when you
+     * wbnt to bring up b file chooser thbt the user cbn use to open b file.
      * Likewise, use <code>SAVE_DIALOG</code> for letting the user choose
-     * a file for saving.
-     * Use <code>CUSTOM_DIALOG</code> when you want to use the file
-     * chooser in a context other than "Open" or "Save".
-     * For instance, you might want to bring up a file chooser that allows
-     * the user to choose a file to execute. Note that you normally would not
+     * b file for sbving.
+     * Use <code>CUSTOM_DIALOG</code> when you wbnt to use the file
+     * chooser in b context other thbn "Open" or "Sbve".
+     * For instbnce, you might wbnt to bring up b file chooser thbt bllows
+     * the user to choose b file to execute. Note thbt you normblly would not
      * need to set the <code>JFileChooser</code> to use
      * <code>CUSTOM_DIALOG</code>
-     * since a call to <code>setApproveButtonText</code> does this for you.
-     * The default dialog type is <code>JFileChooser.OPEN_DIALOG</code>.
+     * since b cbll to <code>setApproveButtonText</code> does this for you.
+     * The defbult diblog type is <code>JFileChooser.OPEN_DIALOG</code>.
      *
-     * @param dialogType the type of dialog to be displayed:
+     * @pbrbm diblogType the type of diblog to be displbyed:
      * <ul>
      * <li>JFileChooser.OPEN_DIALOG
      * <li>JFileChooser.SAVE_DIALOG
      * <li>JFileChooser.CUSTOM_DIALOG
      * </ul>
      *
-     * @exception IllegalArgumentException if <code>dialogType</code> is
-     *                          not legal
-     * @beaninfo
+     * @exception IllegblArgumentException if <code>diblogType</code> is
+     *                          not legbl
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The type (open, save, custom) of the JFileChooser.
+     * description: The type (open, sbve, custom) of the JFileChooser.
      *        enum:
      *              OPEN_DIALOG JFileChooser.OPEN_DIALOG
      *              SAVE_DIALOG JFileChooser.SAVE_DIALOG
      *              CUSTOM_DIALOG JFileChooser.CUSTOM_DIALOG
      *
-     * @see #getDialogType
+     * @see #getDiblogType
      * @see #setApproveButtonText
      */
-    // PENDING(jeff) - fire button text change property
-    public void setDialogType(int dialogType) {
-        if(this.dialogType == dialogType) {
+    // PENDING(jeff) - fire button text chbnge property
+    public void setDiblogType(int diblogType) {
+        if(this.diblogType == diblogType) {
             return;
         }
-        if(!(dialogType == OPEN_DIALOG || dialogType == SAVE_DIALOG || dialogType == CUSTOM_DIALOG)) {
-            throw new IllegalArgumentException("Incorrect Dialog Type: " + dialogType);
+        if(!(diblogType == OPEN_DIALOG || diblogType == SAVE_DIALOG || diblogType == CUSTOM_DIALOG)) {
+            throw new IllegblArgumentException("Incorrect Diblog Type: " + diblogType);
         }
-        int oldValue = this.dialogType;
-        this.dialogType = dialogType;
-        if(dialogType == OPEN_DIALOG || dialogType == SAVE_DIALOG) {
+        int oldVblue = this.diblogType;
+        this.diblogType = diblogType;
+        if(diblogType == OPEN_DIALOG || diblogType == SAVE_DIALOG) {
             setApproveButtonText(null);
         }
-        firePropertyChange(DIALOG_TYPE_CHANGED_PROPERTY, oldValue, dialogType);
+        firePropertyChbnge(DIALOG_TYPE_CHANGED_PROPERTY, oldVblue, diblogType);
     }
 
     /**
-     * Sets the string that goes in the <code>JFileChooser</code> window's
-     * title bar.
+     * Sets the string thbt goes in the <code>JFileChooser</code> window's
+     * title bbr.
      *
-     * @param dialogTitle the new <code>String</code> for the title bar
+     * @pbrbm diblogTitle the new <code>String</code> for the title bbr
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The title of the JFileChooser dialog window.
+     * description: The title of the JFileChooser diblog window.
      *
-     * @see #getDialogTitle
+     * @see #getDiblogTitle
      *
      */
-    public void setDialogTitle(String dialogTitle) {
-        String oldValue = this.dialogTitle;
-        this.dialogTitle = dialogTitle;
-        if(dialog != null) {
-            dialog.setTitle(dialogTitle);
+    public void setDiblogTitle(String diblogTitle) {
+        String oldVblue = this.diblogTitle;
+        this.diblogTitle = diblogTitle;
+        if(diblog != null) {
+            diblog.setTitle(diblogTitle);
         }
-        firePropertyChange(DIALOG_TITLE_CHANGED_PROPERTY, oldValue, dialogTitle);
+        firePropertyChbnge(DIALOG_TITLE_CHANGED_PROPERTY, oldVblue, diblogTitle);
     }
 
     /**
-     * Gets the string that goes in the <code>JFileChooser</code>'s titlebar.
+     * Gets the string thbt goes in the <code>JFileChooser</code>'s titlebbr.
      *
-     * @return the string from the {@code JFileChooser} window's title bar
-     * @see #setDialogTitle
+     * @return the string from the {@code JFileChooser} window's title bbr
+     * @see #setDiblogTitle
      */
-    public String getDialogTitle() {
-        return dialogTitle;
+    public String getDiblogTitle() {
+        return diblogTitle;
     }
 
     // ************************************
@@ -1003,23 +1003,23 @@ public class JFileChooser extends JComponent implements Accessible {
      * Sets the tooltip text used in the <code>ApproveButton</code>.
      * If <code>null</code>, the UI object will determine the button's text.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
      * description: The tooltip text for the ApproveButton.
      *
-     * @param toolTipText the tooltip text for the approve button
+     * @pbrbm toolTipText the tooltip text for the bpprove button
      * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @see #setDiblogType
+     * @see #showDiblog
      */
     public void setApproveButtonToolTipText(String toolTipText) {
-        if(approveButtonToolTipText == toolTipText) {
+        if(bpproveButtonToolTipText == toolTipText) {
             return;
         }
-        String oldValue = approveButtonToolTipText;
-        approveButtonToolTipText = toolTipText;
-        firePropertyChange(APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY, oldValue, approveButtonToolTipText);
+        String oldVblue = bpproveButtonToolTipText;
+        bpproveButtonToolTipText = toolTipText;
+        firePropertyChbnge(APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY, oldVblue, bpproveButtonToolTipText);
     }
 
 
@@ -1027,57 +1027,57 @@ public class JFileChooser extends JComponent implements Accessible {
      * Returns the tooltip text used in the <code>ApproveButton</code>.
      * If <code>null</code>, the UI object will determine the button's text.
      *
-     * @return the tooltip text used for the approve button
+     * @return the tooltip text used for the bpprove button
      *
      * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @see #setDiblogType
+     * @see #showDiblog
      */
     public String getApproveButtonToolTipText() {
-        return approveButtonToolTipText;
+        return bpproveButtonToolTipText;
     }
 
     /**
-     * Returns the approve button's mnemonic.
-     * @return an integer value for the mnemonic key
+     * Returns the bpprove button's mnemonic.
+     * @return bn integer vblue for the mnemonic key
      *
      * @see #setApproveButtonMnemonic
      */
     public int getApproveButtonMnemonic() {
-        return approveButtonMnemonic;
+        return bpproveButtonMnemonic;
     }
 
     /**
-     * Sets the approve button's mnemonic using a numeric keycode.
+     * Sets the bpprove button's mnemonic using b numeric keycode.
      *
-     * @param mnemonic  an integer value for the mnemonic key
+     * @pbrbm mnemonic  bn integer vblue for the mnemonic key
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The mnemonic key accelerator for the ApproveButton.
+     * description: The mnemonic key bccelerbtor for the ApproveButton.
      *
      * @see #getApproveButtonMnemonic
      */
     public void setApproveButtonMnemonic(int mnemonic) {
-        if(approveButtonMnemonic == mnemonic) {
+        if(bpproveButtonMnemonic == mnemonic) {
            return;
         }
-        int oldValue = approveButtonMnemonic;
-        approveButtonMnemonic = mnemonic;
-        firePropertyChange(APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY, oldValue, approveButtonMnemonic);
+        int oldVblue = bpproveButtonMnemonic;
+        bpproveButtonMnemonic = mnemonic;
+        firePropertyChbnge(APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY, oldVblue, bpproveButtonMnemonic);
     }
 
     /**
-     * Sets the approve button's mnemonic using a character.
-     * @param mnemonic  a character value for the mnemonic key
+     * Sets the bpprove button's mnemonic using b chbrbcter.
+     * @pbrbm mnemonic  b chbrbcter vblue for the mnemonic key
      *
      * @see #getApproveButtonMnemonic
      */
-    public void setApproveButtonMnemonic(char mnemonic) {
+    public void setApproveButtonMnemonic(chbr mnemonic) {
         int vk = (int) mnemonic;
-        if(vk >= 'a' && vk <='z') {
-            vk -= ('a' - 'A');
+        if(vk >= 'b' && vk <='z') {
+            vk -= ('b' - 'A');
         }
         setApproveButtonMnemonic(vk);
     }
@@ -1087,25 +1087,25 @@ public class JFileChooser extends JComponent implements Accessible {
      * Sets the text used in the <code>ApproveButton</code> in the
      * <code>FileChooserUI</code>.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The text that goes in the ApproveButton.
+     * description: The text thbt goes in the ApproveButton.
      *
-     * @param approveButtonText the text used in the <code>ApproveButton</code>
+     * @pbrbm bpproveButtonText the text used in the <code>ApproveButton</code>
      *
      * @see #getApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @see #setDiblogType
+     * @see #showDiblog
      */
-    // PENDING(jeff) - have ui set this on dialog type change
-    public void setApproveButtonText(String approveButtonText) {
-        if(this.approveButtonText == approveButtonText) {
+    // PENDING(jeff) - hbve ui set this on diblog type chbnge
+    public void setApproveButtonText(String bpproveButtonText) {
+        if(this.bpproveButtonText == bpproveButtonText) {
             return;
         }
-        String oldValue = this.approveButtonText;
-        this.approveButtonText = approveButtonText;
-        firePropertyChange(APPROVE_BUTTON_TEXT_CHANGED_PROPERTY, oldValue, approveButtonText);
+        String oldVblue = this.bpproveButtonText;
+        this.bpproveButtonText = bpproveButtonText;
+        firePropertyChbnge(APPROVE_BUTTON_TEXT_CHANGED_PROPERTY, oldVblue, bpproveButtonText);
     }
 
     /**
@@ -1113,57 +1113,57 @@ public class JFileChooser extends JComponent implements Accessible {
      * <code>FileChooserUI</code>.
      * If <code>null</code>, the UI object will determine the button's text.
      *
-     * Typically, this would be "Open" or "Save".
+     * Typicblly, this would be "Open" or "Sbve".
      *
      * @return the text used in the <code>ApproveButton</code>
      *
      * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @see #setDiblogType
+     * @see #showDiblog
      */
     public String getApproveButtonText() {
-        return approveButtonText;
+        return bpproveButtonText;
     }
 
     /**
-     * Gets the list of user choosable file filters.
+     * Gets the list of user choosbble file filters.
      *
-     * @return a <code>FileFilter</code> array containing all the choosable
+     * @return b <code>FileFilter</code> brrby contbining bll the choosbble
      *         file filters
      *
-     * @see #addChoosableFileFilter
-     * @see #removeChoosableFileFilter
-     * @see #resetChoosableFileFilters
+     * @see #bddChoosbbleFileFilter
+     * @see #removeChoosbbleFileFilter
+     * @see #resetChoosbbleFileFilters
      */
-    public FileFilter[] getChoosableFileFilters() {
-        FileFilter[] filterArray = new FileFilter[filters.size()];
-        filters.copyInto(filterArray);
-        return filterArray;
+    public FileFilter[] getChoosbbleFileFilters() {
+        FileFilter[] filterArrby = new FileFilter[filters.size()];
+        filters.copyInto(filterArrby);
+        return filterArrby;
     }
 
     /**
-     * Adds a filter to the list of user choosable file filters.
-     * For information on setting the file selection mode, see
+     * Adds b filter to the list of user choosbble file filters.
+     * For informbtion on setting the file selection mode, see
      * {@link #setFileSelectionMode setFileSelectionMode}.
      *
-     * @param filter the <code>FileFilter</code> to add to the choosable file
+     * @pbrbm filter the <code>FileFilter</code> to bdd to the choosbble file
      *               filter list
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Adds a filter to the list of user choosable file filters.
+     * description: Adds b filter to the list of user choosbble file filters.
      *
-     * @see #getChoosableFileFilters
-     * @see #removeChoosableFileFilter
-     * @see #resetChoosableFileFilters
+     * @see #getChoosbbleFileFilters
+     * @see #removeChoosbbleFileFilter
+     * @see #resetChoosbbleFileFilters
      * @see #setFileSelectionMode
      */
-    public void addChoosableFileFilter(FileFilter filter) {
-        if(filter != null && !filters.contains(filter)) {
-            FileFilter[] oldValue = getChoosableFileFilters();
-            filters.addElement(filter);
-            firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
+    public void bddChoosbbleFileFilter(FileFilter filter) {
+        if(filter != null && !filters.contbins(filter)) {
+            FileFilter[] oldVblue = getChoosbbleFileFilters();
+            filters.bddElement(filter);
+            firePropertyChbnge(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVblue, getChoosbbleFileFilters());
             if (fileFilter == null && filters.size() == 1) {
                 setFileFilter(filter);
             }
@@ -1171,30 +1171,30 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Removes a filter from the list of user choosable file filters. Returns
-     * true if the file filter was removed.
+     * Removes b filter from the list of user choosbble file filters. Returns
+     * true if the file filter wbs removed.
      *
-     * @param f the file filter to be removed
-     * @return true if the file filter was removed, false otherwise
-     * @see #addChoosableFileFilter
-     * @see #getChoosableFileFilters
-     * @see #resetChoosableFileFilters
+     * @pbrbm f the file filter to be removed
+     * @return true if the file filter wbs removed, fblse otherwise
+     * @see #bddChoosbbleFileFilter
+     * @see #getChoosbbleFileFilters
+     * @see #resetChoosbbleFileFilters
      */
-    public boolean removeChoosableFileFilter(FileFilter f) {
+    public boolebn removeChoosbbleFileFilter(FileFilter f) {
         int index = filters.indexOf(f);
         if (index >= 0) {
             if(getFileFilter() == f) {
-                FileFilter aaff = getAcceptAllFileFilter();
-                if (isAcceptAllFileFilterUsed() && (aaff != f)) {
-                    // choose default filter if it is used
-                    setFileFilter(aaff);
+                FileFilter bbff = getAcceptAllFileFilter();
+                if (isAcceptAllFileFilterUsed() && (bbff != f)) {
+                    // choose defbult filter if it is used
+                    setFileFilter(bbff);
                 }
                 else if (index > 0) {
-                    // choose the first filter, because it is not removed
+                    // choose the first filter, becbuse it is not removed
                     setFileFilter(filters.get(0));
                 }
                 else if (filters.size() > 1) {
-                    // choose the second filter, because the first one is removed
+                    // choose the second filter, becbuse the first one is removed
                     setFileFilter(filters.get(1));
                 }
                 else {
@@ -1202,37 +1202,37 @@ public class JFileChooser extends JComponent implements Accessible {
                     setFileFilter(null);
                 }
             }
-            FileFilter[] oldValue = getChoosableFileFilters();
+            FileFilter[] oldVblue = getChoosbbleFileFilters();
             filters.removeElement(f);
-            firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
+            firePropertyChbnge(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVblue, getChoosbbleFileFilters());
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Resets the choosable file filter list to its starting state. Normally,
-     * this removes all added file filters while leaving the
+     * Resets the choosbble file filter list to its stbrting stbte. Normblly,
+     * this removes bll bdded file filters while lebving the
      * <code>AcceptAll</code> file filter.
      *
-     * @see #addChoosableFileFilter
-     * @see #getChoosableFileFilters
-     * @see #removeChoosableFileFilter
+     * @see #bddChoosbbleFileFilter
+     * @see #getChoosbbleFileFilters
+     * @see #removeChoosbbleFileFilter
      */
-    public void resetChoosableFileFilters() {
-        FileFilter[] oldValue = getChoosableFileFilters();
+    public void resetChoosbbleFileFilters() {
+        FileFilter[] oldVblue = getChoosbbleFileFilters();
         setFileFilter(null);
         filters.removeAllElements();
         if(isAcceptAllFileFilterUsed()) {
-           addChoosableFileFilter(getAcceptAllFileFilter());
+           bddChoosbbleFileFilter(getAcceptAllFileFilter());
         }
-        firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
+        firePropertyChbnge(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVblue, getChoosbbleFileFilters());
     }
 
     /**
      * Returns the <code>AcceptAll</code> file filter.
-     * For example, on Microsoft Windows this would be All Files (*.*).
+     * For exbmple, on Microsoft Windows this would be All Files (*.*).
      *
      * @return the {@code AcceptAll} file filter
      */
@@ -1250,93 +1250,93 @@ public class JFileChooser extends JComponent implements Accessible {
     * @see #setAcceptAllFileFilterUsed
     * @since 1.3
     */
-    public boolean isAcceptAllFileFilterUsed() {
+    public boolebn isAcceptAllFileFilterUsed() {
         return useAcceptAllFileFilter;
     }
 
    /**
     * Determines whether the <code>AcceptAll FileFilter</code> is used
-    * as an available choice in the choosable filter list.
-    * If false, the <code>AcceptAll</code> file filter is removed from
-    * the list of available file filters.
+    * bs bn bvbilbble choice in the choosbble filter list.
+    * If fblse, the <code>AcceptAll</code> file filter is removed from
+    * the list of bvbilbble file filters.
     * If true, the <code>AcceptAll</code> file filter will become the
-    * actively used file filter.
+    * bctively used file filter.
     *
-    * @param b a {@code boolean} which determines whether the {@code AcceptAll}
-    *          file filter is an available choice in the choosable filter list
-    * @beaninfo
+    * @pbrbm b b {@code boolebn} which determines whether the {@code AcceptAll}
+    *          file filter is bn bvbilbble choice in the choosbble filter list
+    * @bebninfo
     *   preferred: true
     *       bound: true
-    * description: Sets whether the AcceptAll FileFilter is used as an available choice in the choosable filter list.
+    * description: Sets whether the AcceptAll FileFilter is used bs bn bvbilbble choice in the choosbble filter list.
     *
     * @see #isAcceptAllFileFilterUsed
     * @see #getAcceptAllFileFilter
     * @see #setFileFilter
     * @since 1.3
     */
-    public void setAcceptAllFileFilterUsed(boolean b) {
-        boolean oldValue = useAcceptAllFileFilter;
+    public void setAcceptAllFileFilterUsed(boolebn b) {
+        boolebn oldVblue = useAcceptAllFileFilter;
         useAcceptAllFileFilter = b;
         if(!b) {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
+            removeChoosbbleFileFilter(getAcceptAllFileFilter());
         } else {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
-            addChoosableFileFilter(getAcceptAllFileFilter());
+            removeChoosbbleFileFilter(getAcceptAllFileFilter());
+            bddChoosbbleFileFilter(getAcceptAllFileFilter());
         }
-        firePropertyChange(ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY, oldValue, useAcceptAllFileFilter);
+        firePropertyChbnge(ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY, oldVblue, useAcceptAllFileFilter);
     }
 
     /**
-     * Returns the accessory component.
+     * Returns the bccessory component.
      *
-     * @return this JFileChooser's accessory component, or null
+     * @return this JFileChooser's bccessory component, or null
      * @see #setAccessory
      */
     public JComponent getAccessory() {
-        return accessory;
+        return bccessory;
     }
 
     /**
-     * Sets the accessory component. An accessory is often used to show a
-     * preview image of the selected file; however, it can be used for anything
-     * that the programmer wishes, such as extra custom file chooser controls.
+     * Sets the bccessory component. An bccessory is often used to show b
+     * preview imbge of the selected file; however, it cbn be used for bnything
+     * thbt the progrbmmer wishes, such bs extrb custom file chooser controls.
      *
      * <p>
-     * Note: if there was a previous accessory, you should unregister
-     * any listeners that the accessory might have registered with the
+     * Note: if there wbs b previous bccessory, you should unregister
+     * bny listeners thbt the bccessory might hbve registered with the
      * file chooser.
      *
-     * @param newAccessory the accessory component to be set
-     * @beaninfo
+     * @pbrbm newAccessory the bccessory component to be set
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Sets the accessory component on the JFileChooser.
+     * description: Sets the bccessory component on the JFileChooser.
      */
     public void setAccessory(JComponent newAccessory) {
-        JComponent oldValue = accessory;
-        accessory = newAccessory;
-        firePropertyChange(ACCESSORY_CHANGED_PROPERTY, oldValue, accessory);
+        JComponent oldVblue = bccessory;
+        bccessory = newAccessory;
+        firePropertyChbnge(ACCESSORY_CHANGED_PROPERTY, oldVblue, bccessory);
     }
 
     /**
-     * Sets the <code>JFileChooser</code> to allow the user to just
+     * Sets the <code>JFileChooser</code> to bllow the user to just
      * select files, just select
-     * directories, or select both files and directories.  The default is
+     * directories, or select both files bnd directories.  The defbult is
      * <code>JFilesChooser.FILES_ONLY</code>.
      *
-     * @param mode the type of files to be displayed:
+     * @pbrbm mode the type of files to be displbyed:
      * <ul>
      * <li>JFileChooser.FILES_ONLY
      * <li>JFileChooser.DIRECTORIES_ONLY
      * <li>JFileChooser.FILES_AND_DIRECTORIES
      * </ul>
      *
-     * @exception IllegalArgumentException  if <code>mode</code> is an
-     *                          illegal file selection mode
-     * @beaninfo
+     * @exception IllegblArgumentException  if <code>mode</code> is bn
+     *                          illegbl file selection mode
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Sets the types of files that the JFileChooser can choose.
+     * description: Sets the types of files thbt the JFileChooser cbn choose.
      *        enum: FILES_ONLY JFileChooser.FILES_ONLY
      *              DIRECTORIES_ONLY JFileChooser.DIRECTORIES_ONLY
      *              FILES_AND_DIRECTORIES JFileChooser.FILES_AND_DIRECTORIES
@@ -1350,19 +1350,19 @@ public class JFileChooser extends JComponent implements Accessible {
         }
 
         if ((mode == FILES_ONLY) || (mode == DIRECTORIES_ONLY) || (mode == FILES_AND_DIRECTORIES)) {
-           int oldValue = fileSelectionMode;
+           int oldVblue = fileSelectionMode;
            fileSelectionMode = mode;
-           firePropertyChange(FILE_SELECTION_MODE_CHANGED_PROPERTY, oldValue, fileSelectionMode);
+           firePropertyChbnge(FILE_SELECTION_MODE_CHANGED_PROPERTY, oldVblue, fileSelectionMode);
         } else {
-           throw new IllegalArgumentException("Incorrect Mode for file selection: " + mode);
+           throw new IllegblArgumentException("Incorrect Mode for file selection: " + mode);
         }
     }
 
     /**
-     * Returns the current file-selection mode.  The default is
+     * Returns the current file-selection mode.  The defbult is
      * <code>JFilesChooser.FILES_ONLY</code>.
      *
-     * @return the type of files to be displayed, one of the following:
+     * @return the type of files to be displbyed, one of the following:
      * <ul>
      * <li>JFileChooser.FILES_ONLY
      * <li>JFileChooser.DIRECTORIES_ONLY
@@ -1375,128 +1375,128 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Convenience call that determines if files are selectable based on the
+     * Convenience cbll thbt determines if files bre selectbble bbsed on the
      * current file selection mode.
      *
-     * @return true if files are selectable, false otherwise
+     * @return true if files bre selectbble, fblse otherwise
      * @see #setFileSelectionMode
      * @see #getFileSelectionMode
      */
-    public boolean isFileSelectionEnabled() {
+    public boolebn isFileSelectionEnbbled() {
         return ((fileSelectionMode == FILES_ONLY) || (fileSelectionMode == FILES_AND_DIRECTORIES));
     }
 
     /**
-     * Convenience call that determines if directories are selectable based
+     * Convenience cbll thbt determines if directories bre selectbble bbsed
      * on the current file selection mode.
      *
-     * @return true if directories are selectable, false otherwise
+     * @return true if directories bre selectbble, fblse otherwise
      * @see #setFileSelectionMode
      * @see #getFileSelectionMode
      */
-    public boolean isDirectorySelectionEnabled() {
+    public boolebn isDirectorySelectionEnbbled() {
         return ((fileSelectionMode == DIRECTORIES_ONLY) || (fileSelectionMode == FILES_AND_DIRECTORIES));
     }
 
     /**
-     * Sets the file chooser to allow multiple file selections.
+     * Sets the file chooser to bllow multiple file selections.
      *
-     * @param b true if multiple files may be selected
-     * @beaninfo
+     * @pbrbm b true if multiple files mby be selected
+     * @bebninfo
      *       bound: true
      * description: Sets multiple file selection mode.
      *
-     * @see #isMultiSelectionEnabled
+     * @see #isMultiSelectionEnbbled
      */
-    public void setMultiSelectionEnabled(boolean b) {
-        if(multiSelectionEnabled == b) {
+    public void setMultiSelectionEnbbled(boolebn b) {
+        if(multiSelectionEnbbled == b) {
             return;
         }
-        boolean oldValue = multiSelectionEnabled;
-        multiSelectionEnabled = b;
-        firePropertyChange(MULTI_SELECTION_ENABLED_CHANGED_PROPERTY, oldValue, multiSelectionEnabled);
+        boolebn oldVblue = multiSelectionEnbbled;
+        multiSelectionEnbbled = b;
+        firePropertyChbnge(MULTI_SELECTION_ENABLED_CHANGED_PROPERTY, oldVblue, multiSelectionEnbbled);
     }
 
     /**
-     * Returns true if multiple files can be selected.
-     * @return true if multiple files can be selected
-     * @see #setMultiSelectionEnabled
+     * Returns true if multiple files cbn be selected.
+     * @return true if multiple files cbn be selected
+     * @see #setMultiSelectionEnbbled
      */
-    public boolean isMultiSelectionEnabled() {
-        return multiSelectionEnabled;
+    public boolebn isMultiSelectionEnbbled() {
+        return multiSelectionEnbbled;
     }
 
 
     /**
-     * Returns true if hidden files are not shown in the file chooser;
-     * otherwise, returns false.
+     * Returns true if hidden files bre not shown in the file chooser;
+     * otherwise, returns fblse.
      *
-     * @return the status of the file hiding property
-     * @see #setFileHidingEnabled
+     * @return the stbtus of the file hiding property
+     * @see #setFileHidingEnbbled
      */
-    public boolean isFileHidingEnabled() {
+    public boolebn isFileHidingEnbbled() {
         return useFileHiding;
     }
 
     /**
-     * Sets file hiding on or off. If true, hidden files are not shown
-     * in the file chooser. The job of determining which files are
+     * Sets file hiding on or off. If true, hidden files bre not shown
+     * in the file chooser. The job of determining which files bre
      * shown is done by the <code>FileView</code>.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
      * description: Sets file hiding on or off.
      *
-     * @param b the boolean value that determines whether file hiding is
+     * @pbrbm b the boolebn vblue thbt determines whether file hiding is
      *          turned on
-     * @see #isFileHidingEnabled
+     * @see #isFileHidingEnbbled
      */
-    public void setFileHidingEnabled(boolean b) {
+    public void setFileHidingEnbbled(boolebn b) {
         // Dump showFilesListener since we'll ignore it from now on
         if (showFilesListener != null) {
-            Toolkit.getDefaultToolkit().removePropertyChangeListener(SHOW_HIDDEN_PROP, showFilesListener);
+            Toolkit.getDefbultToolkit().removePropertyChbngeListener(SHOW_HIDDEN_PROP, showFilesListener);
             showFilesListener = null;
         }
-        boolean oldValue = useFileHiding;
+        boolebn oldVblue = useFileHiding;
         useFileHiding = b;
-        firePropertyChange(FILE_HIDING_CHANGED_PROPERTY, oldValue, useFileHiding);
+        firePropertyChbnge(FILE_HIDING_CHANGED_PROPERTY, oldVblue, useFileHiding);
     }
 
     /**
      * Sets the current file filter. The file filter is used by the
      * file chooser to filter out files from the user's view.
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
      * description: Sets the File Filter used to filter out files of type.
      *
-     * @param filter the new current file filter to use
+     * @pbrbm filter the new current file filter to use
      * @see #getFileFilter
      */
     public void setFileFilter(FileFilter filter) {
-        FileFilter oldValue = fileFilter;
+        FileFilter oldVblue = fileFilter;
         fileFilter = filter;
         if (filter != null) {
-            if (isMultiSelectionEnabled() && selectedFiles != null && selectedFiles.length > 0) {
+            if (isMultiSelectionEnbbled() && selectedFiles != null && selectedFiles.length > 0) {
                 Vector<File> fList = new Vector<File>();
-                boolean failed = false;
+                boolebn fbiled = fblse;
                 for (File file : selectedFiles) {
-                    if (filter.accept(file)) {
-                        fList.add(file);
+                    if (filter.bccept(file)) {
+                        fList.bdd(file);
                     } else {
-                        failed = true;
+                        fbiled = true;
                     }
                 }
-                if (failed) {
-                    setSelectedFiles((fList.size() == 0) ? null : fList.toArray(new File[fList.size()]));
+                if (fbiled) {
+                    setSelectedFiles((fList.size() == 0) ? null : fList.toArrby(new File[fList.size()]));
                 }
-            } else if (selectedFile != null && !filter.accept(selectedFile)) {
+            } else if (selectedFile != null && !filter.bccept(selectedFile)) {
                 setSelectedFile(null);
             }
         }
-        firePropertyChange(FILE_FILTER_CHANGED_PROPERTY, oldValue, fileFilter);
+        firePropertyChbnge(FILE_FILTER_CHANGED_PROPERTY, oldVblue, fileFilter);
     }
 
 
@@ -1505,28 +1505,28 @@ public class JFileChooser extends JComponent implements Accessible {
      *
      * @return the current file filter
      * @see #setFileFilter
-     * @see #addChoosableFileFilter
+     * @see #bddChoosbbleFileFilter
      */
     public FileFilter getFileFilter() {
         return fileFilter;
     }
 
     /**
-     * Sets the file view to be used to retrieve UI information, such as
-     * the icon that represents a file or the type description of a file.
+     * Sets the file view to be used to retrieve UI informbtion, such bs
+     * the icon thbt represents b file or the type description of b file.
      *
-     * @param fileView a {@code FileView} to be used to retrieve UI information
-     * @beaninfo
+     * @pbrbm fileView b {@code FileView} to be used to retrieve UI informbtion
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Sets the File View used to get file type information.
+     * description: Sets the File View used to get file type informbtion.
      *
      * @see #getFileView
      */
     public void setFileView(FileView fileView) {
-        FileView oldValue = this.fileView;
+        FileView oldVblue = this.fileView;
         this.fileView = fileView;
-        firePropertyChange(FILE_VIEW_CHANGED_PROPERTY, oldValue, fileView);
+        firePropertyChbnge(FILE_VIEW_CHANGED_PROPERTY, oldVblue, fileView);
     }
 
     /**
@@ -1540,41 +1540,41 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     // ******************************
-    // *****FileView delegation *****
+    // *****FileView delegbtion *****
     // ******************************
 
-    // NOTE: all of the following methods attempt to delegate
-    // first to the client set fileView, and if <code>null</code> is returned
-    // (or there is now client defined fileView) then calls the
-    // UI's default fileView.
+    // NOTE: bll of the following methods bttempt to delegbte
+    // first to the client set fileView, bnd if <code>null</code> is returned
+    // (or there is now client defined fileView) then cblls the
+    // UI's defbult fileView.
 
     /**
-     * Returns the filename.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the filename for
+     * Returns the filenbme.
+     * @pbrbm f the <code>File</code>
+     * @return the <code>String</code> contbining the filenbme for
      *          <code>f</code>
-     * @see FileView#getName
+     * @see FileView#getNbme
      */
-    public String getName(File f) {
-        String filename = null;
+    public String getNbme(File f) {
+        String filenbme = null;
         if(f != null) {
             if(getFileView() != null) {
-                filename = getFileView().getName(f);
+                filenbme = getFileView().getNbme(f);
             }
 
             FileView uiFileView = getUI().getFileView(this);
 
-            if(filename == null && uiFileView != null) {
-                filename = uiFileView.getName(f);
+            if(filenbme == null && uiFileView != null) {
+                filenbme = uiFileView.getNbme(f);
             }
         }
-        return filename;
+        return filenbme;
     }
 
     /**
      * Returns the file description.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the file description for
+     * @pbrbm f the <code>File</code>
+     * @return the <code>String</code> contbining the file description for
      *          <code>f</code>
      * @see FileView#getDescription
      */
@@ -1596,8 +1596,8 @@ public class JFileChooser extends JComponent implements Accessible {
 
     /**
      * Returns the file type.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the file type description for
+     * @pbrbm f the <code>File</code>
+     * @return the <code>String</code> contbining the file type description for
      *          <code>f</code>
      * @see FileView#getTypeDescription
      */
@@ -1620,7 +1620,7 @@ public class JFileChooser extends JComponent implements Accessible {
     /**
      * Returns the icon for this file or type of file, depending
      * on the system.
-     * @param f the <code>File</code>
+     * @pbrbm f the <code>File</code>
      * @return the <code>Icon</code> for this file, or type of file
      * @see FileView#getIcon
      */
@@ -1641,62 +1641,62 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Returns true if the file (directory) can be visited.
-     * Returns false if the directory cannot be traversed.
-     * @param f the <code>File</code>
-     * @return true if the file/directory can be traversed, otherwise false
-     * @see FileView#isTraversable
+     * Returns true if the file (directory) cbn be visited.
+     * Returns fblse if the directory cbnnot be trbversed.
+     * @pbrbm f the <code>File</code>
+     * @return true if the file/directory cbn be trbversed, otherwise fblse
+     * @see FileView#isTrbversbble
      */
-    public boolean isTraversable(File f) {
-        Boolean traversable = null;
+    public boolebn isTrbversbble(File f) {
+        Boolebn trbversbble = null;
         if (f != null) {
             if (getFileView() != null) {
-                traversable = getFileView().isTraversable(f);
+                trbversbble = getFileView().isTrbversbble(f);
             }
 
             FileView uiFileView = getUI().getFileView(this);
 
-            if (traversable == null && uiFileView != null) {
-                traversable = uiFileView.isTraversable(f);
+            if (trbversbble == null && uiFileView != null) {
+                trbversbble = uiFileView.isTrbversbble(f);
             }
-            if (traversable == null) {
-                traversable = getFileSystemView().isTraversable(f);
+            if (trbversbble == null) {
+                trbversbble = getFileSystemView().isTrbversbble(f);
             }
         }
-        return (traversable != null && traversable.booleanValue());
+        return (trbversbble != null && trbversbble.boolebnVblue());
     }
 
     /**
-     * Returns true if the file should be displayed.
-     * @param f the <code>File</code>
-     * @return true if the file should be displayed, otherwise false
-     * @see FileFilter#accept
+     * Returns true if the file should be displbyed.
+     * @pbrbm f the <code>File</code>
+     * @return true if the file should be displbyed, otherwise fblse
+     * @see FileFilter#bccept
      */
-    public boolean accept(File f) {
-        boolean shown = true;
+    public boolebn bccept(File f) {
+        boolebn shown = true;
         if(f != null && fileFilter != null) {
-            shown = fileFilter.accept(f);
+            shown = fileFilter.bccept(f);
         }
         return shown;
     }
 
     /**
-     * Sets the file system view that the <code>JFileChooser</code> uses for
-     * accessing and creating file system resources, such as finding
-     * the floppy drive and getting a list of root drives.
-     * @param fsv  the new <code>FileSystemView</code>
+     * Sets the file system view thbt the <code>JFileChooser</code> uses for
+     * bccessing bnd crebting file system resources, such bs finding
+     * the floppy drive bnd getting b list of root drives.
+     * @pbrbm fsv  the new <code>FileSystemView</code>
      *
-     * @beaninfo
+     * @bebninfo
      *      expert: true
      *       bound: true
-     * description: Sets the FileSytemView used to get filesystem information.
+     * description: Sets the FileSytemView used to get filesystem informbtion.
      *
      * @see FileSystemView
      */
     public void setFileSystemView(FileSystemView fsv) {
-        FileSystemView oldValue = fileSystemView;
+        FileSystemView oldVblue = fileSystemView;
         fileSystemView = fsv;
-        firePropertyChange(FILE_SYSTEM_VIEW_CHANGED_PROPERTY, oldValue, fileSystemView);
+        firePropertyChbnge(FILE_SYSTEM_VIEW_CHANGED_PROPERTY, oldVblue, fileSystemView);
     }
 
     /**
@@ -1709,271 +1709,271 @@ public class JFileChooser extends JComponent implements Accessible {
     }
 
     // **************************
-    // ***** Event Handling *****
+    // ***** Event Hbndling *****
     // **************************
 
     /**
-     * Called by the UI when the user hits the Approve button
-     * (labeled "Open" or "Save", by default). This can also be
-     * called by the programmer.
-     * This method causes an action event to fire
-     * with the command string equal to
+     * Cblled by the UI when the user hits the Approve button
+     * (lbbeled "Open" or "Sbve", by defbult). This cbn blso be
+     * cblled by the progrbmmer.
+     * This method cbuses bn bction event to fire
+     * with the commbnd string equbl to
      * <code>APPROVE_SELECTION</code>.
      *
      * @see #APPROVE_SELECTION
      */
-    public void approveSelection() {
-        returnValue = APPROVE_OPTION;
-        if(dialog != null) {
-            dialog.setVisible(false);
+    public void bpproveSelection() {
+        returnVblue = APPROVE_OPTION;
+        if(diblog != null) {
+            diblog.setVisible(fblse);
         }
         fireActionPerformed(APPROVE_SELECTION);
     }
 
     /**
-     * Called by the UI when the user chooses the Cancel button.
-     * This can also be called by the programmer.
-     * This method causes an action event to fire
-     * with the command string equal to
+     * Cblled by the UI when the user chooses the Cbncel button.
+     * This cbn blso be cblled by the progrbmmer.
+     * This method cbuses bn bction event to fire
+     * with the commbnd string equbl to
      * <code>CANCEL_SELECTION</code>.
      *
      * @see #CANCEL_SELECTION
      */
-    public void cancelSelection() {
-        returnValue = CANCEL_OPTION;
-        if(dialog != null) {
-            dialog.setVisible(false);
+    public void cbncelSelection() {
+        returnVblue = CANCEL_OPTION;
+        if(diblog != null) {
+            diblog.setVisible(fblse);
         }
         fireActionPerformed(CANCEL_SELECTION);
     }
 
     /**
-     * Adds an <code>ActionListener</code> to the file chooser.
+     * Adds bn <code>ActionListener</code> to the file chooser.
      *
-     * @param l  the listener to be added
+     * @pbrbm l  the listener to be bdded
      *
-     * @see #approveSelection
-     * @see #cancelSelection
+     * @see #bpproveSelection
+     * @see #cbncelSelection
      */
-    public void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class, l);
+    public void bddActionListener(ActionListener l) {
+        listenerList.bdd(ActionListener.clbss, l);
     }
 
     /**
-     * Removes an <code>ActionListener</code> from the file chooser.
+     * Removes bn <code>ActionListener</code> from the file chooser.
      *
-     * @param l  the listener to be removed
+     * @pbrbm l  the listener to be removed
      *
-     * @see #addActionListener
+     * @see #bddActionListener
      */
     public void removeActionListener(ActionListener l) {
-        listenerList.remove(ActionListener.class, l);
+        listenerList.remove(ActionListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the action listeners
+     * Returns bn brrby of bll the bction listeners
      * registered on this file chooser.
      *
-     * @return all of this file chooser's <code>ActionListener</code>s
-     *         or an empty
-     *         array if no action listeners are currently registered
+     * @return bll of this file chooser's <code>ActionListener</code>s
+     *         or bn empty
+     *         brrby if no bction listeners bre currently registered
      *
-     * @see #addActionListener
+     * @see #bddActionListener
      * @see #removeActionListener
      *
      * @since 1.4
      */
     public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+        return listenerList.getListeners(ActionListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type. The event instance
-     * is lazily created using the <code>command</code> parameter.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type. The event instbnce
+     * is lbzily crebted using the <code>commbnd</code> pbrbmeter.
      *
-     * @param command a string that may specify a command associated with
+     * @pbrbm commbnd b string thbt mby specify b commbnd bssocibted with
      *                the event
      * @see EventListenerList
      */
-    protected void fireActionPerformed(String command) {
-        // Guaranteed to return a non-null array
+    protected void fireActionPerformed(String commbnd) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         long mostRecentEventTime = EventQueue.getMostRecentEventTime();
         int modifiers = 0;
         AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
+        if (currentEvent instbnceof InputEvent) {
             modifiers = ((InputEvent)currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
+        } else if (currentEvent instbnceof ActionEvent) {
             modifiers = ((ActionEvent)currentEvent).getModifiers();
         }
         ActionEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==ActionListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null) {
                     e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                        command, mostRecentEventTime,
+                                        commbnd, mostRecentEventTime,
                                         modifiers);
                 }
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+                ((ActionListener)listeners[i+1]).bctionPerformed(e);
             }
         }
     }
 
-    private static class WeakPCL implements PropertyChangeListener {
-        WeakReference<JFileChooser> jfcRef;
+    privbte stbtic clbss WebkPCL implements PropertyChbngeListener {
+        WebkReference<JFileChooser> jfcRef;
 
-        public WeakPCL(JFileChooser jfc) {
-            jfcRef = new WeakReference<JFileChooser>(jfc);
+        public WebkPCL(JFileChooser jfc) {
+            jfcRef = new WebkReference<JFileChooser>(jfc);
         }
-        public void propertyChange(PropertyChangeEvent ev) {
-            assert ev.getPropertyName().equals(SHOW_HIDDEN_PROP);
+        public void propertyChbnge(PropertyChbngeEvent ev) {
+            bssert ev.getPropertyNbme().equbls(SHOW_HIDDEN_PROP);
             JFileChooser jfc = jfcRef.get();
             if (jfc == null) {
-                // Our JFileChooser is no longer around, so we no longer need to
-                // listen for PropertyChangeEvents.
-                Toolkit.getDefaultToolkit().removePropertyChangeListener(SHOW_HIDDEN_PROP, this);
+                // Our JFileChooser is no longer bround, so we no longer need to
+                // listen for PropertyChbngeEvents.
+                Toolkit.getDefbultToolkit().removePropertyChbngeListener(SHOW_HIDDEN_PROP, this);
             }
             else {
-                boolean oldValue = jfc.useFileHiding;
-                jfc.useFileHiding = !((Boolean)ev.getNewValue()).booleanValue();
-                jfc.firePropertyChange(FILE_HIDING_CHANGED_PROPERTY, oldValue, jfc.useFileHiding);
+                boolebn oldVblue = jfc.useFileHiding;
+                jfc.useFileHiding = !((Boolebn)ev.getNewVblue()).boolebnVblue();
+                jfc.firePropertyChbnge(FILE_HIDING_CHANGED_PROPERTY, oldVblue, jfc.useFileHiding);
             }
         }
     }
 
     // *********************************
-    // ***** Pluggable L&F methods *****
+    // ***** Pluggbble L&F methods *****
     // *********************************
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
+    public void updbteUI() {
         if (isAcceptAllFileFilterUsed()) {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
+            removeChoosbbleFileFilter(getAcceptAllFileFilter());
         }
-        FileChooserUI ui = ((FileChooserUI)UIManager.getUI(this));
+        FileChooserUI ui = ((FileChooserUI)UIMbnbger.getUI(this));
         if (fileSystemView == null) {
-            // We were probably deserialized
+            // We were probbbly deseriblized
             setFileSystemView(FileSystemView.getFileSystemView());
         }
         setUI(ui);
 
         if(isAcceptAllFileFilterUsed()) {
-            addChoosableFileFilter(getAcceptAllFileFilter());
+            bddChoosbbleFileFilter(getAcceptAllFileFilter());
         }
     }
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
      * @return the string "FileChooserUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class.
+     *   description: A string thbt specifies the nbme of the L&bmp;F clbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Gets the UI object which implements the L&amp;F for this component.
+     * Gets the UI object which implements the L&bmp;F for this component.
      *
-     * @return the FileChooserUI object that implements the FileChooserUI L&amp;F
+     * @return the FileChooserUI object thbt implements the FileChooserUI L&bmp;F
      */
     public FileChooserUI getUI() {
         return (FileChooserUI) ui;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        installShowFilesListener();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+        in.defbultRebdObject();
+        instbllShowFilesListener();
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
         FileSystemView fsv = null;
 
         if (isAcceptAllFileFilterUsed()) {
             //The AcceptAllFileFilter is UI specific, it will be reset by
-            //updateUI() after deserialization
-            removeChoosableFileFilter(getAcceptAllFileFilter());
+            //updbteUI() bfter deseriblizbtion
+            removeChoosbbleFileFilter(getAcceptAllFileFilter());
         }
-        if (fileSystemView.equals(FileSystemView.getFileSystemView())) {
-            //The default FileSystemView is platform specific, it will be
-            //reset by updateUI() after deserialization
+        if (fileSystemView.equbls(FileSystemView.getFileSystemView())) {
+            //The defbult FileSystemView is plbtform specific, it will be
+            //reset by updbteUI() bfter deseriblizbtion
             fsv = fileSystemView;
             fileSystemView = null;
         }
-        s.defaultWriteObject();
+        s.defbultWriteObject();
         if (fsv != null) {
             fileSystemView = fsv;
         }
         if (isAcceptAllFileFilterUsed()) {
-            addChoosableFileFilter(getAcceptAllFileFilter());
+            bddChoosbbleFileFilter(getAcceptAllFileFilter());
         }
-        if (getUIClassID().equals(uiClassID)) {
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JFileChooser</code>.
+     * Returns b string representbtion of this <code>JFileChooser</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JFileChooser</code>
+     * @return  b string representbtion of this <code>JFileChooser</code>
      */
-    protected String paramString() {
-        String approveButtonTextString = (approveButtonText != null ?
-                                          approveButtonText: "");
-        String dialogTitleString = (dialogTitle != null ?
-                                    dialogTitle: "");
-        String dialogTypeString;
-        if (dialogType == OPEN_DIALOG) {
-            dialogTypeString = "OPEN_DIALOG";
-        } else if (dialogType == SAVE_DIALOG) {
-            dialogTypeString = "SAVE_DIALOG";
-        } else if (dialogType == CUSTOM_DIALOG) {
-            dialogTypeString = "CUSTOM_DIALOG";
-        } else dialogTypeString = "";
-        String returnValueString;
-        if (returnValue == CANCEL_OPTION) {
-            returnValueString = "CANCEL_OPTION";
-        } else if (returnValue == APPROVE_OPTION) {
-            returnValueString = "APPROVE_OPTION";
-        } else if (returnValue == ERROR_OPTION) {
-            returnValueString = "ERROR_OPTION";
-        } else returnValueString = "";
+    protected String pbrbmString() {
+        String bpproveButtonTextString = (bpproveButtonText != null ?
+                                          bpproveButtonText: "");
+        String diblogTitleString = (diblogTitle != null ?
+                                    diblogTitle: "");
+        String diblogTypeString;
+        if (diblogType == OPEN_DIALOG) {
+            diblogTypeString = "OPEN_DIALOG";
+        } else if (diblogType == SAVE_DIALOG) {
+            diblogTypeString = "SAVE_DIALOG";
+        } else if (diblogType == CUSTOM_DIALOG) {
+            diblogTypeString = "CUSTOM_DIALOG";
+        } else diblogTypeString = "";
+        String returnVblueString;
+        if (returnVblue == CANCEL_OPTION) {
+            returnVblueString = "CANCEL_OPTION";
+        } else if (returnVblue == APPROVE_OPTION) {
+            returnVblueString = "APPROVE_OPTION";
+        } else if (returnVblue == ERROR_OPTION) {
+            returnVblueString = "ERROR_OPTION";
+        } else returnVblueString = "";
         String useFileHidingString = (useFileHiding ?
-                                    "true" : "false");
+                                    "true" : "fblse");
         String fileSelectionModeString;
         if (fileSelectionMode == FILES_ONLY) {
             fileSelectionModeString = "FILES_ONLY";
@@ -1987,13 +1987,13 @@ public class JFileChooser extends JComponent implements Accessible {
         String selectedFileString = (selectedFile != null ?
                                      selectedFile.toString() : "");
 
-        return super.paramString() +
-        ",approveButtonText=" + approveButtonTextString +
+        return super.pbrbmString() +
+        ",bpproveButtonText=" + bpproveButtonTextString +
         ",currentDirectory=" + currentDirectoryString +
-        ",dialogTitle=" + dialogTitleString +
-        ",dialogType=" + dialogTypeString +
+        ",diblogTitle=" + diblogTitleString +
+        ",diblogType=" + diblogTypeString +
         ",fileSelectionMode=" + fileSelectionModeString +
-        ",returnValue=" + returnValueString +
+        ",returnVblue=" + returnVblueString +
         ",selectedFile=" + selectedFileString +
         ",useFileHiding=" + useFileHidingString;
     }
@@ -2003,39 +2003,39 @@ public class JFileChooser extends JComponent implements Accessible {
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JFileChooser}
+     * {@code AccessibleContext} bssocibted with this {@code JFileChooser}
      */
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JFileChooser.
-     * For file choosers, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JFileChooser.
+     * For file choosers, the AccessibleContext tbkes the form of bn
      * AccessibleJFileChooser.
-     * A new AccessibleJFileChooser instance is created if necessary.
+     * A new AccessibleJFileChooser instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJFileChooser that serves as the
+     * @return bn AccessibleJFileChooser thbt serves bs the
      *         AccessibleContext of this JFileChooser
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJFileChooser();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJFileChooser();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JFileChooser</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to file chooser user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JFileChooser</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to file chooser user-interfbce
      * elements.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class AccessibleJFileChooser extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss AccessibleJFileChooser extends AccessibleJComponent {
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -2043,6 +2043,6 @@ public class JFileChooser extends JComponent implements Accessible {
             return AccessibleRole.FILE_CHOOSER;
         }
 
-    } // inner class AccessibleJFileChooser
+    } // inner clbss AccessibleJFileChooser
 
 }

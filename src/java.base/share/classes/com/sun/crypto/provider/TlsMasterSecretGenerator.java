@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.*;
+import jbvbx.crypto.*;
 
-import sun.security.internal.interfaces.TlsMasterSecret;
-import sun.security.internal.spec.TlsMasterSecretParameterSpec;
+import sun.security.internbl.interfbces.TlsMbsterSecret;
+import sun.security.internbl.spec.TlsMbsterSecretPbrbmeterSpec;
 
-import static com.sun.crypto.provider.TlsPrfGenerator.*;
+import stbtic com.sun.crypto.provider.TlsPrfGenerbtor.*;
 
 /**
- * KeyGenerator implementation for the SSL/TLS master secret derivation.
+ * KeyGenerbtor implementbtion for the SSL/TLS mbster secret derivbtion.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.6
  */
-public final class TlsMasterSecretGenerator extends KeyGeneratorSpi {
+public finbl clbss TlsMbsterSecretGenerbtor extends KeyGenerbtorSpi {
 
-    private final static String MSG = "TlsMasterSecretGenerator must be "
-        + "initialized using a TlsMasterSecretParameterSpec";
+    privbte finbl stbtic String MSG = "TlsMbsterSecretGenerbtor must be "
+        + "initiblized using b TlsMbsterSecretPbrbmeterSpec";
 
-    private TlsMasterSecretParameterSpec spec;
+    privbte TlsMbsterSecretPbrbmeterSpec spec;
 
-    private int protocolVersion;
+    privbte int protocolVersion;
 
-    public TlsMasterSecretGenerator() {
+    public TlsMbsterSecretGenerbtor() {
     }
 
-    protected void engineInit(SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    protected void engineInit(AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (params instanceof TlsMasterSecretParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException(MSG);
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+            SecureRbndom rbndom) throws InvblidAlgorithmPbrbmeterException {
+        if (pbrbms instbnceof TlsMbsterSecretPbrbmeterSpec == fblse) {
+            throw new InvblidAlgorithmPbrbmeterException(MSG);
         }
-        this.spec = (TlsMasterSecretParameterSpec)params;
-        if ("RAW".equals(spec.getPremasterSecret().getFormat()) == false) {
-            throw new InvalidAlgorithmParameterException(
-                "Key format must be RAW");
+        this.spec = (TlsMbsterSecretPbrbmeterSpec)pbrbms;
+        if ("RAW".equbls(spec.getPrembsterSecret().getFormbt()) == fblse) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "Key formbt must be RAW");
         }
-        protocolVersion = (spec.getMajorVersion() << 8)
+        protocolVersion = (spec.getMbjorVersion() << 8)
             | spec.getMinorVersion();
         if ((protocolVersion < 0x0300) || (protocolVersion > 0x0303)) {
-            throw new InvalidAlgorithmParameterException(
+            throw new InvblidAlgorithmPbrbmeterException(
                 "Only SSL 3.0, TLS 1.0/1.1/1.2 supported");
         }
     }
 
-    protected void engineInit(int keysize, SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    protected SecretKey engineGenerateKey() {
+    protected SecretKey engineGenerbteKey() {
         if (spec == null) {
-            throw new IllegalStateException(
-                "TlsMasterSecretGenerator must be initialized");
+            throw new IllegblStbteException(
+                "TlsMbsterSecretGenerbtor must be initiblized");
         }
-        SecretKey premasterKey = spec.getPremasterSecret();
-        byte[] premaster = premasterKey.getEncoded();
+        SecretKey prembsterKey = spec.getPrembsterSecret();
+        byte[] prembster = prembsterKey.getEncoded();
 
-        int premasterMajor, premasterMinor;
-        if (premasterKey.getAlgorithm().equals("TlsRsaPremasterSecret")) {
+        int prembsterMbjor, prembsterMinor;
+        if (prembsterKey.getAlgorithm().equbls("TlsRsbPrembsterSecret")) {
             // RSA
-            premasterMajor = premaster[0] & 0xff;
-            premasterMinor = premaster[1] & 0xff;
+            prembsterMbjor = prembster[0] & 0xff;
+            prembsterMinor = prembster[1] & 0xff;
         } else {
             // DH, KRB5, others
-            premasterMajor = -1;
-            premasterMinor = -1;
+            prembsterMbjor = -1;
+            prembsterMinor = -1;
         }
 
         try {
-            byte[] master;
-            byte[] clientRandom = spec.getClientRandom();
-            byte[] serverRandom = spec.getServerRandom();
+            byte[] mbster;
+            byte[] clientRbndom = spec.getClientRbndom();
+            byte[] serverRbndom = spec.getServerRbndom();
 
             if (protocolVersion >= 0x0301) {
-                byte[] seed = concat(clientRandom, serverRandom);
-                master = ((protocolVersion >= 0x0303) ?
-                    doTLS12PRF(premaster, LABEL_MASTER_SECRET, seed, 48,
-                        spec.getPRFHashAlg(), spec.getPRFHashLength(),
+                byte[] seed = concbt(clientRbndom, serverRbndom);
+                mbster = ((protocolVersion >= 0x0303) ?
+                    doTLS12PRF(prembster, LABEL_MASTER_SECRET, seed, 48,
+                        spec.getPRFHbshAlg(), spec.getPRFHbshLength(),
                         spec.getPRFBlockSize()) :
-                    doTLS10PRF(premaster, LABEL_MASTER_SECRET, seed, 48));
+                    doTLS10PRF(prembster, LABEL_MASTER_SECRET, seed, 48));
             } else {
-                master = new byte[48];
-                MessageDigest md5 = MessageDigest.getInstance("MD5");
-                MessageDigest sha = MessageDigest.getInstance("SHA");
+                mbster = new byte[48];
+                MessbgeDigest md5 = MessbgeDigest.getInstbnce("MD5");
+                MessbgeDigest shb = MessbgeDigest.getInstbnce("SHA");
 
                 byte[] tmp = new byte[20];
                 for (int i = 0; i < 3; i++) {
-                    sha.update(SSL3_CONST[i]);
-                    sha.update(premaster);
-                    sha.update(clientRandom);
-                    sha.update(serverRandom);
-                    sha.digest(tmp, 0, 20);
+                    shb.updbte(SSL3_CONST[i]);
+                    shb.updbte(prembster);
+                    shb.updbte(clientRbndom);
+                    shb.updbte(serverRbndom);
+                    shb.digest(tmp, 0, 20);
 
-                    md5.update(premaster);
-                    md5.update(tmp);
-                    md5.digest(master, i << 4, 16);
+                    md5.updbte(prembster);
+                    md5.updbte(tmp);
+                    md5.digest(mbster, i << 4, 16);
                 }
 
             }
 
-            return new TlsMasterSecretKey(master, premasterMajor,
-                premasterMinor);
-        } catch (NoSuchAlgorithmException e) {
+            return new TlsMbsterSecretKey(mbster, prembsterMbjor,
+                prembsterMinor);
+        } cbtch (NoSuchAlgorithmException e) {
             throw new ProviderException(e);
-        } catch (DigestException e) {
+        } cbtch (DigestException e) {
             throw new ProviderException(e);
         }
     }
 
-    private static final class TlsMasterSecretKey implements TlsMasterSecret {
-        private static final long serialVersionUID = 1019571680375368880L;
+    privbte stbtic finbl clbss TlsMbsterSecretKey implements TlsMbsterSecret {
+        privbte stbtic finbl long seriblVersionUID = 1019571680375368880L;
 
-        private byte[] key;
-        private final int majorVersion, minorVersion;
+        privbte byte[] key;
+        privbte finbl int mbjorVersion, minorVersion;
 
-        TlsMasterSecretKey(byte[] key, int majorVersion, int minorVersion) {
+        TlsMbsterSecretKey(byte[] key, int mbjorVersion, int minorVersion) {
             this.key = key;
-            this.majorVersion = majorVersion;
+            this.mbjorVersion = mbjorVersion;
             this.minorVersion = minorVersion;
         }
 
-        public int getMajorVersion() {
-            return majorVersion;
+        public int getMbjorVersion() {
+            return mbjorVersion;
         }
 
         public int getMinorVersion() {
@@ -160,10 +160,10 @@ public final class TlsMasterSecretGenerator extends KeyGeneratorSpi {
         }
 
         public String getAlgorithm() {
-            return "TlsMasterSecret";
+            return "TlsMbsterSecret";
         }
 
-        public String getFormat() {
+        public String getFormbt() {
             return "RAW";
         }
 

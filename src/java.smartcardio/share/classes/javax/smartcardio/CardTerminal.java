@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A Smart Card terminal, sometimes referred to as a Smart Card Reader.
- * A CardTerminal object can be obtained by calling
- * {@linkplain CardTerminals#list}
- * or {@linkplain CardTerminals#getTerminal CardTerminals.getTerminal()}.
+ * A Smbrt Cbrd terminbl, sometimes referred to bs b Smbrt Cbrd Rebder.
+ * A CbrdTerminbl object cbn be obtbined by cblling
+ * {@linkplbin CbrdTerminbls#list}
+ * or {@linkplbin CbrdTerminbls#getTerminbl CbrdTerminbls.getTerminbl()}.
  *
- * <p>Note that physical card readers with slots for multiple cards are
- * represented by one <code>CardTerminal</code> object per such slot.
+ * <p>Note thbt physicbl cbrd rebders with slots for multiple cbrds bre
+ * represented by one <code>CbrdTerminbl</code> object per such slot.
  *
- * @see CardTerminals
- * @see TerminalFactory
+ * @see CbrdTerminbls
+ * @see TerminblFbctory
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
  */
-public abstract class CardTerminal {
+public bbstrbct clbss CbrdTerminbl {
 
     /**
-     * Constructs a new CardTerminal object.
+     * Constructs b new CbrdTerminbl object.
      *
-     * <p>This constructor is called by subclasses only. Application should
-     * call {@linkplain CardTerminals#list list()}
-     * or {@linkplain CardTerminals#getTerminal getTerminal()}
-     * to obtain a CardTerminal object.
+     * <p>This constructor is cblled by subclbsses only. Applicbtion should
+     * cbll {@linkplbin CbrdTerminbls#list list()}
+     * or {@linkplbin CbrdTerminbls#getTerminbl getTerminbl()}
+     * to obtbin b CbrdTerminbl object.
      */
-    protected CardTerminal() {
+    protected CbrdTerminbl() {
         // empty
     }
 
     /**
-     * Returns the unique name of this terminal.
+     * Returns the unique nbme of this terminbl.
      *
-     * @return the unique name of this terminal.
+     * @return the unique nbme of this terminbl.
      */
-    public abstract String getName();
+    public bbstrbct String getNbme();
 
     /**
-     * Establishes a connection to the card.
-     * If a connection has previously established using
-     * the specified protocol, this method returns the same Card object as
-     * the previous call.
+     * Estbblishes b connection to the cbrd.
+     * If b connection hbs previously estbblished using
+     * the specified protocol, this method returns the sbme Cbrd object bs
+     * the previous cbll.
      *
-     * @param protocol the protocol to use ("T=0", "T=1", or "T=CL"), or "*" to
-     *   connect using any available protocol.
+     * @pbrbm protocol the protocol to use ("T=0", "T=1", or "T=CL"), or "*" to
+     *   connect using bny bvbilbble protocol.
      *
      * @throws NullPointerException if protocol is null
-     * @throws IllegalArgumentException if protocol is an invalid protocol
-     *   specification
-     * @throws CardNotPresentException if no card is present in this terminal
-     * @throws CardException if a connection could not be established
-     *   using the specified protocol or if a connection has previously been
-     *   established using a different protocol
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
+     * @throws IllegblArgumentException if protocol is bn invblid protocol
+     *   specificbtion
+     * @throws CbrdNotPresentException if no cbrd is present in this terminbl
+     * @throws CbrdException if b connection could not be estbblished
+     *   using the specified protocol or if b connection hbs previously been
+     *   estbblished using b different protocol
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
      */
-    public abstract Card connect(String protocol) throws CardException;
+    public bbstrbct Cbrd connect(String protocol) throws CbrdException;
 
     /**
-     * Returns whether a card is present in this terminal.
+     * Returns whether b cbrd is present in this terminbl.
      *
-     * @return whether a card is present in this terminal.
+     * @return whether b cbrd is present in this terminbl.
      *
-     * @throws CardException if the status could not be determined
+     * @throws CbrdException if the stbtus could not be determined
      */
-    public abstract boolean isCardPresent() throws CardException;
+    public bbstrbct boolebn isCbrdPresent() throws CbrdException;
 
     /**
-     * Waits until a card is present in this terminal or the timeout
-     * expires. If the method returns due to an expired timeout, it returns
-     * false. Otherwise it return true.
+     * Wbits until b cbrd is present in this terminbl or the timeout
+     * expires. If the method returns due to bn expired timeout, it returns
+     * fblse. Otherwise it return true.
      *
-     * <P>If a card is present in this terminal when this
-     * method is called, it returns immediately.
+     * <P>If b cbrd is present in this terminbl when this
+     * method is cblled, it returns immedibtely.
      *
-     * @param timeout if positive, block for up to <code>timeout</code>
-     *   milliseconds; if zero, block indefinitely; must not be negative
-     * @return false if the method returns due to an expired timeout,
+     * @pbrbm timeout if positive, block for up to <code>timeout</code>
+     *   milliseconds; if zero, block indefinitely; must not be negbtive
+     * @return fblse if the method returns due to bn expired timeout,
      *   true otherwise.
      *
-     * @throws IllegalArgumentException if timeout is negative
-     * @throws CardException if the operation failed
+     * @throws IllegblArgumentException if timeout is negbtive
+     * @throws CbrdException if the operbtion fbiled
      */
-    public abstract boolean waitForCardPresent(long timeout) throws CardException;
+    public bbstrbct boolebn wbitForCbrdPresent(long timeout) throws CbrdException;
 
     /**
-     * Waits until a card is absent in this terminal or the timeout
-     * expires. If the method returns due to an expired timeout, it returns
-     * false. Otherwise it return true.
+     * Wbits until b cbrd is bbsent in this terminbl or the timeout
+     * expires. If the method returns due to bn expired timeout, it returns
+     * fblse. Otherwise it return true.
      *
-     * <P>If no card is present in this terminal when this
-     * method is called, it returns immediately.
+     * <P>If no cbrd is present in this terminbl when this
+     * method is cblled, it returns immedibtely.
      *
-     * @param timeout if positive, block for up to <code>timeout</code>
-     *   milliseconds; if zero, block indefinitely; must not be negative
-     * @return false if the method returns due to an expired timeout,
+     * @pbrbm timeout if positive, block for up to <code>timeout</code>
+     *   milliseconds; if zero, block indefinitely; must not be negbtive
+     * @return fblse if the method returns due to bn expired timeout,
      *   true otherwise.
      *
-     * @throws IllegalArgumentException if timeout is negative
-     * @throws CardException if the operation failed
+     * @throws IllegblArgumentException if timeout is negbtive
+     * @throws CbrdException if the operbtion fbiled
      */
-    public abstract boolean waitForCardAbsent(long timeout) throws CardException;
+    public bbstrbct boolebn wbitForCbrdAbsent(long timeout) throws CbrdException;
 
 }

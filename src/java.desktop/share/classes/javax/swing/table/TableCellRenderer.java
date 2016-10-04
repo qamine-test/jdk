@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import java.awt.Component;
-import javax.swing.*;
+import jbvb.bwt.Component;
+import jbvbx.swing.*;
 
 /**
- * This interface defines the method required by any object that
- * would like to be a renderer for cells in a <code>JTable</code>.
+ * This interfbce defines the method required by bny object thbt
+ * would like to be b renderer for cells in b <code>JTbble</code>.
  *
- * @author Alan Chung
+ * @buthor Albn Chung
  */
 
-public interface TableCellRenderer {
+public interfbce TbbleCellRenderer {
 
     /**
-     * Returns the component used for drawing the cell.  This method is
-     * used to configure the renderer appropriately before drawing.
+     * Returns the component used for drbwing the cell.  This method is
+     * used to configure the renderer bppropribtely before drbwing.
      * <p>
-     * The <code>TableCellRenderer</code> is also responsible for rendering the
-     * the cell representing the table's current DnD drop location if
-     * it has one. If this renderer cares about rendering
-     * the DnD drop location, it should query the table directly to
-     * see if the given row and column represent the drop location:
+     * The <code>TbbleCellRenderer</code> is blso responsible for rendering the
+     * the cell representing the tbble's current DnD drop locbtion if
+     * it hbs one. If this renderer cbres bbout rendering
+     * the DnD drop locbtion, it should query the tbble directly to
+     * see if the given row bnd column represent the drop locbtion:
      * <pre>
-     *     JTable.DropLocation dropLocation = table.getDropLocation();
-     *     if (dropLocation != null
-     *             &amp;&amp; !dropLocation.isInsertRow()
-     *             &amp;&amp; !dropLocation.isInsertColumn()
-     *             &amp;&amp; dropLocation.getRow() == row
-     *             &amp;&amp; dropLocation.getColumn() == column) {
+     *     JTbble.DropLocbtion dropLocbtion = tbble.getDropLocbtion();
+     *     if (dropLocbtion != null
+     *             &bmp;&bmp; !dropLocbtion.isInsertRow()
+     *             &bmp;&bmp; !dropLocbtion.isInsertColumn()
+     *             &bmp;&bmp; dropLocbtion.getRow() == row
+     *             &bmp;&bmp; dropLocbtion.getColumn() == column) {
      *
-     *         // this cell represents the current drop location
-     *         // so render it specially, perhaps with a different color
+     *         // this cell represents the current drop locbtion
+     *         // so render it speciblly, perhbps with b different color
      *     }
      * </pre>
      * <p>
-     * During a printing operation, this method will be called with
-     * <code>isSelected</code> and <code>hasFocus</code> values of
-     * <code>false</code> to prevent selection and focus from appearing
-     * in the printed output. To do other customization based on whether
-     * or not the table is being printed, check the return value from
-     * {@link javax.swing.JComponent#isPaintingForPrint()}.
+     * During b printing operbtion, this method will be cblled with
+     * <code>isSelected</code> bnd <code>hbsFocus</code> vblues of
+     * <code>fblse</code> to prevent selection bnd focus from bppebring
+     * in the printed output. To do other customizbtion bbsed on whether
+     * or not the tbble is being printed, check the return vblue from
+     * {@link jbvbx.swing.JComponent#isPbintingForPrint()}.
      *
-     * @param   table           the <code>JTable</code> that is asking the
-     *                          renderer to draw; can be <code>null</code>
-     * @param   value           the value of the cell to be rendered.  It is
+     * @pbrbm   tbble           the <code>JTbble</code> thbt is bsking the
+     *                          renderer to drbw; cbn be <code>null</code>
+     * @pbrbm   vblue           the vblue of the cell to be rendered.  It is
      *                          up to the specific renderer to interpret
-     *                          and draw the value.  For example, if
-     *                          <code>value</code>
-     *                          is the string "true", it could be rendered as a
-     *                          string or it could be rendered as a check
-     *                          box that is checked.  <code>null</code> is a
-     *                          valid value
-     * @param   isSelected      true if the cell is to be rendered with the
-     *                          selection highlighted; otherwise false
-     * @param   hasFocus        if true, render cell appropriately.  For
-     *                          example, put a special border on the cell, if
-     *                          the cell can be edited, render in the color used
-     *                          to indicate editing
-     * @param   row             the row index of the cell being drawn.  When
-     *                          drawing the header, the value of
+     *                          bnd drbw the vblue.  For exbmple, if
+     *                          <code>vblue</code>
+     *                          is the string "true", it could be rendered bs b
+     *                          string or it could be rendered bs b check
+     *                          box thbt is checked.  <code>null</code> is b
+     *                          vblid vblue
+     * @pbrbm   isSelected      true if the cell is to be rendered with the
+     *                          selection highlighted; otherwise fblse
+     * @pbrbm   hbsFocus        if true, render cell bppropribtely.  For
+     *                          exbmple, put b specibl border on the cell, if
+     *                          the cell cbn be edited, render in the color used
+     *                          to indicbte editing
+     * @pbrbm   row             the row index of the cell being drbwn.  When
+     *                          drbwing the hebder, the vblue of
      *                          <code>row</code> is -1
-     * @param   column          the column index of the cell being drawn
+     * @pbrbm   column          the column index of the cell being drbwn
      *
-     * @return                  the component used for drawing the cell.
+     * @return                  the component used for drbwing the cell.
      *
-     * @see javax.swing.JComponent#isPaintingForPrint()
+     * @see jbvbx.swing.JComponent#isPbintingForPrint()
      */
-    Component getTableCellRendererComponent(JTable table, Object value,
-                                            boolean isSelected, boolean hasFocus,
+    Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                                            boolebn isSelected, boolebn hbsFocus,
                                             int row, int column);
 }

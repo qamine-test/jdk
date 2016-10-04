@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.InvalidKeyException;
+import jbvb.security.InvblidKeyException;
 
 /**
- * This class specifies a DES-EDE ("triple-DES") key.
+ * This clbss specifies b DES-EDE ("triple-DES") key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class DESedeKeySpec implements java.security.spec.KeySpec {
+public clbss DESedeKeySpec implements jbvb.security.spec.KeySpec {
 
     /**
-     * The constant which defines the length of a DESede key in bytes.
+     * The constbnt which defines the length of b DESede key in bytes.
      */
-    public static final int DES_EDE_KEY_LEN = 24;
+    public stbtic finbl int DES_EDE_KEY_LEN = 24;
 
-    private byte[] key;
+    privbte byte[] key;
 
     /**
-     * Creates a DESedeKeySpec object using the first 24 bytes in
-     * <code>key</code> as the key material for the DES-EDE key.
+     * Crebtes b DESedeKeySpec object using the first 24 bytes in
+     * <code>key</code> bs the key mbteribl for the DES-EDE key.
      *
-     * <p> The bytes that constitute the DES-EDE key are those between
-     * <code>key[0]</code> and <code>key[23]</code> inclusive
+     * <p> The bytes thbt constitute the DES-EDE key bre those between
+     * <code>key[0]</code> bnd <code>key[23]</code> inclusive
      *
-     * @param key the buffer with the DES-EDE key material. The first
-     * 24 bytes of the buffer are copied to protect against subsequent
-     * modification.
+     * @pbrbm key the buffer with the DES-EDE key mbteribl. The first
+     * 24 bytes of the buffer bre copied to protect bgbinst subsequent
+     * modificbtion.
      *
      * @exception NullPointerException if <code>key</code> is null.
-     * @exception InvalidKeyException if the given key material is shorter
-     * than 24 bytes.
+     * @exception InvblidKeyException if the given key mbteribl is shorter
+     * thbn 24 bytes.
      */
-    public DESedeKeySpec(byte[] key) throws InvalidKeyException {
+    public DESedeKeySpec(byte[] key) throws InvblidKeyException {
         this(key, 0);
     }
 
     /**
-     * Creates a DESedeKeySpec object using the first 24 bytes in
-     * <code>key</code>, beginning at <code>offset</code> inclusive,
-     * as the key material for the DES-EDE key.
+     * Crebtes b DESedeKeySpec object using the first 24 bytes in
+     * <code>key</code>, beginning bt <code>offset</code> inclusive,
+     * bs the key mbteribl for the DES-EDE key.
      *
-     * <p> The bytes that constitute the DES-EDE key are those between
-     * <code>key[offset]</code> and <code>key[offset+23]</code> inclusive.
+     * <p> The bytes thbt constitute the DES-EDE key bre those between
+     * <code>key[offset]</code> bnd <code>key[offset+23]</code> inclusive.
      *
-     * @param key the buffer with the DES-EDE key material. The first
-     * 24 bytes of the buffer beginning at <code>offset</code> inclusive
-     * are copied to protect against subsequent modification.
-     * @param offset the offset in <code>key</code>, where the DES-EDE key
-     * material starts.
+     * @pbrbm key the buffer with the DES-EDE key mbteribl. The first
+     * 24 bytes of the buffer beginning bt <code>offset</code> inclusive
+     * bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>key</code>, where the DES-EDE key
+     * mbteribl stbrts.
      *
      * @exception NullPointerException if <code>key</code> is null.
-     * @exception InvalidKeyException if the given key material, starting at
-     * <code>offset</code> inclusive, is shorter than 24 bytes
+     * @exception InvblidKeyException if the given key mbteribl, stbrting bt
+     * <code>offset</code> inclusive, is shorter thbn 24 bytes
      */
-    public DESedeKeySpec(byte[] key, int offset) throws InvalidKeyException {
+    public DESedeKeySpec(byte[] key, int offset) throws InvblidKeyException {
         if (key.length - offset < 24) {
-            throw new InvalidKeyException("Wrong key size");
+            throw new InvblidKeyException("Wrong key size");
         }
         this.key = new byte[24];
-        System.arraycopy(key, offset, this.key, 0, 24);
+        System.brrbycopy(key, offset, this.key, 0, 24);
     }
 
     /**
      * Returns the DES-EDE key.
      *
-     * @return the DES-EDE key. Returns a new array
-     * each time this method is called.
+     * @return the DES-EDE key. Returns b new brrby
+     * ebch time this method is cblled.
      */
     public byte[] getKey() {
         return this.key.clone();
     }
 
     /**
-     * Checks if the given DES-EDE key, starting at <code>offset</code>
-     * inclusive, is parity-adjusted.
+     * Checks if the given DES-EDE key, stbrting bt <code>offset</code>
+     * inclusive, is pbrity-bdjusted.
      *
-     * @param key    a byte array which holds the key value
-     * @param offset the offset into the byte array
-     * @return true if the given DES-EDE key is parity-adjusted, false
+     * @pbrbm key    b byte brrby which holds the key vblue
+     * @pbrbm offset the offset into the byte brrby
+     * @return true if the given DES-EDE key is pbrity-bdjusted, fblse
      * otherwise
      *
      * @exception NullPointerException if <code>key</code> is null.
-     * @exception InvalidKeyException if the given key material, starting at
-     * <code>offset</code> inclusive, is shorter than 24 bytes
+     * @exception InvblidKeyException if the given key mbteribl, stbrting bt
+     * <code>offset</code> inclusive, is shorter thbn 24 bytes
      */
-    public static boolean isParityAdjusted(byte[] key, int offset)
-        throws InvalidKeyException {
+    public stbtic boolebn isPbrityAdjusted(byte[] key, int offset)
+        throws InvblidKeyException {
             if (key.length - offset < 24) {
-                throw new InvalidKeyException("Wrong key size");
+                throw new InvblidKeyException("Wrong key size");
             }
-            if (DESKeySpec.isParityAdjusted(key, offset) == false
-                || DESKeySpec.isParityAdjusted(key, offset + 8) == false
-                || DESKeySpec.isParityAdjusted(key, offset + 16) == false) {
-                return false;
+            if (DESKeySpec.isPbrityAdjusted(key, offset) == fblse
+                || DESKeySpec.isPbrityAdjusted(key, offset + 8) == fblse
+                || DESKeySpec.isPbrityAdjusted(key, offset + 16) == fblse) {
+                return fblse;
             }
             return true;
     }

@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import static sun.java2d.loops.CompositeType.SrcNoEa;
+import stbtic sun.jbvb2d.loops.CompositeType.SrcNoEb;
 
-import static sun.java2d.loops.CompositeType.SrcOver;
-import static sun.java2d.loops.SurfaceType.AnyColor;
-import static sun.java2d.loops.SurfaceType.GradientPaint;
-import static sun.java2d.loops.SurfaceType.LinearGradientPaint;
-import static sun.java2d.loops.SurfaceType.OpaqueColor;
-import static sun.java2d.loops.SurfaceType.OpaqueGradientPaint;
-import static sun.java2d.loops.SurfaceType.OpaqueLinearGradientPaint;
-import static sun.java2d.loops.SurfaceType.OpaqueRadialGradientPaint;
-import static sun.java2d.loops.SurfaceType.OpaqueTexturePaint;
-import static sun.java2d.loops.SurfaceType.RadialGradientPaint;
-import static sun.java2d.loops.SurfaceType.TexturePaint;
+import stbtic sun.jbvb2d.loops.CompositeType.SrcOver;
+import stbtic sun.jbvb2d.loops.SurfbceType.AnyColor;
+import stbtic sun.jbvb2d.loops.SurfbceType.GrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.LinebrGrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.OpbqueColor;
+import stbtic sun.jbvb2d.loops.SurfbceType.OpbqueGrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.OpbqueLinebrGrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.OpbqueRbdiblGrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.OpbqueTexturePbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.RbdiblGrbdientPbint;
+import stbtic sun.jbvb2d.loops.SurfbceType.TexturePbint;
 
-import java.awt.*;
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
+import jbvb.bwt.*;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
 
-public class XRMaskFill extends MaskFill {
-    static void register() {
-        GraphicsPrimitive[] primitives = {
-                new XRMaskFill(AnyColor, SrcOver, XRSurfaceData.IntRgbX11),
-                new XRMaskFill(OpaqueColor, SrcNoEa, XRSurfaceData.IntRgbX11),
-                new XRMaskFill(GradientPaint, SrcOver, XRSurfaceData.IntRgbX11),
-                new XRMaskFill(OpaqueGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntRgbX11),
-                new XRMaskFill(LinearGradientPaint, SrcOver,
-                        XRSurfaceData.IntRgbX11),
-                new XRMaskFill(OpaqueLinearGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntRgbX11),
-                new XRMaskFill(RadialGradientPaint, SrcOver,
-                        XRSurfaceData.IntRgbX11),
-                new XRMaskFill(OpaqueRadialGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntRgbX11),
-                new XRMaskFill(TexturePaint, SrcOver, XRSurfaceData.IntRgbX11),
-                new XRMaskFill(OpaqueTexturePaint, SrcNoEa,
-                        XRSurfaceData.IntRgbX11),
+public clbss XRMbskFill extends MbskFill {
+    stbtic void register() {
+        GrbphicsPrimitive[] primitives = {
+                new XRMbskFill(AnyColor, SrcOver, XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(OpbqueColor, SrcNoEb, XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(GrbdientPbint, SrcOver, XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(OpbqueGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(LinebrGrbdientPbint, SrcOver,
+                        XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(OpbqueLinebrGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(RbdiblGrbdientPbint, SrcOver,
+                        XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(OpbqueRbdiblGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(TexturePbint, SrcOver, XRSurfbceDbtb.IntRgbX11),
+                new XRMbskFill(OpbqueTexturePbint, SrcNoEb,
+                        XRSurfbceDbtb.IntRgbX11),
 
-                new XRMaskFill(AnyColor, SrcOver, XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(OpaqueColor, SrcNoEa, XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(GradientPaint, SrcOver, XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(OpaqueGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(LinearGradientPaint, SrcOver,
-                        XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(OpaqueLinearGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(RadialGradientPaint, SrcOver,
-                        XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(OpaqueRadialGradientPaint, SrcNoEa,
-                        XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(TexturePaint, SrcOver, XRSurfaceData.IntArgbPreX11),
-                new XRMaskFill(OpaqueTexturePaint, SrcNoEa,
-                        XRSurfaceData.IntArgbPreX11)
+                new XRMbskFill(AnyColor, SrcOver, XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(OpbqueColor, SrcNoEb, XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(GrbdientPbint, SrcOver, XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(OpbqueGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(LinebrGrbdientPbint, SrcOver,
+                        XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(OpbqueLinebrGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(RbdiblGrbdientPbint, SrcOver,
+                        XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(OpbqueRbdiblGrbdientPbint, SrcNoEb,
+                        XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(TexturePbint, SrcOver, XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskFill(OpbqueTexturePbint, SrcNoEb,
+                        XRSurfbceDbtb.IntArgbPreX11)
                 };
 
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
-    protected XRMaskFill(SurfaceType srcType, CompositeType compType,
-            SurfaceType surfaceType) {
-        super(srcType, compType, surfaceType);
+    protected XRMbskFill(SurfbceType srcType, CompositeType compType,
+            SurfbceType surfbceType) {
+        super(srcType, compType, surfbceType);
     }
 
-    protected native void maskFill(long xsdo, int x, int y, int w, int h,
-            int maskoff, int maskscan, int masklen, byte[] mask);
+    protected nbtive void mbskFill(long xsdo, int x, int y, int w, int h,
+            int mbskoff, int mbskscbn, int mbsklen, byte[] mbsk);
 
-    public void MaskFill(SunGraphics2D sg2d, SurfaceData sData, Composite comp,
-            final int x, final int y, final int w, final int h,
-            final byte[] mask, final int maskoff, final int maskscan) {
+    public void MbskFill(SunGrbphics2D sg2d, SurfbceDbtb sDbtb, Composite comp,
+            finbl int x, finbl int y, finbl int w, finbl int h,
+            finbl byte[] mbsk, finbl int mbskoff, finbl int mbskscbn) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sd = (XRSurfaceData) sData;
-            x11sd.validateAsDestination(null, sg2d.getCompClip());
+            XRSurfbceDbtb x11sd = (XRSurfbceDbtb) sDbtb;
+            x11sd.vblidbteAsDestinbtion(null, sg2d.getCompClip());
 
-            XRCompositeManager maskBuffer = x11sd.maskBuffer;
-            maskBuffer.validateCompositeState(comp, sg2d.transform, sg2d.paint, sg2d);
+            XRCompositeMbnbger mbskBuffer = x11sd.mbskBuffer;
+            mbskBuffer.vblidbteCompositeStbte(comp, sg2d.trbnsform, sg2d.pbint, sg2d);
 
-            int maskPict = maskBuffer.getMaskBuffer().uploadMask(w, h, maskscan, maskoff, mask);
-            maskBuffer.XRComposite(XRUtils.None, maskPict, x11sd.picture, x, y, 0, 0, x, y, w, h);
-            maskBuffer.getMaskBuffer().clearUploadMask(maskPict, w, h);
-        } finally {
-            SunToolkit.awtUnlock();
+            int mbskPict = mbskBuffer.getMbskBuffer().uplobdMbsk(w, h, mbskscbn, mbskoff, mbsk);
+            mbskBuffer.XRComposite(XRUtils.None, mbskPict, x11sd.picture, x, y, 0, 0, x, y, w, h);
+            mbskBuffer.getMbskBuffer().clebrUplobdMbsk(mbskPict, w, h);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }

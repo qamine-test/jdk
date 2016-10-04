@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.StringTokenizer;
+import jbvb.util.Collections;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * A <code>JTextArea</code> is a multi-line area that displays plain text.
- * It is intended to be a lightweight component that provides source
- * compatibility with the <code>java.awt.TextArea</code> class where it can
- * reasonably do so.
- * You can find information and examples of using all the text components in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A <code>JTextAreb</code> is b multi-line breb thbt displbys plbin text.
+ * It is intended to be b lightweight component thbt provides source
+ * compbtibility with the <code>jbvb.bwt.TextAreb</code> clbss where it cbn
+ * rebsonbbly do so.
+ * You cbn find informbtion bnd exbmples of using bll the text components in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/text.html">Using Text Components</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
  * <p>
- * This component has capabilities not found in the
- * <code>java.awt.TextArea</code> class.  The superclass should be
- * consulted for additional capabilities.
- * Alternative multi-line text classes with
- * more capabilities are <code>JTextPane</code> and <code>JEditorPane</code>.
+ * This component hbs cbpbbilities not found in the
+ * <code>jbvb.bwt.TextAreb</code> clbss.  The superclbss should be
+ * consulted for bdditionbl cbpbbilities.
+ * Alternbtive multi-line text clbsses with
+ * more cbpbbilities bre <code>JTextPbne</code> bnd <code>JEditorPbne</code>.
  * <p>
- * The <code>java.awt.TextArea</code> internally handles scrolling.
- * <code>JTextArea</code> is different in that it doesn't manage scrolling,
- * but implements the swing <code>Scrollable</code> interface.  This allows it
- * to be placed inside a <code>JScrollPane</code> if scrolling
- * behavior is desired, and used directly if scrolling is not desired.
+ * The <code>jbvb.bwt.TextAreb</code> internblly hbndles scrolling.
+ * <code>JTextAreb</code> is different in thbt it doesn't mbnbge scrolling,
+ * but implements the swing <code>Scrollbble</code> interfbce.  This bllows it
+ * to be plbced inside b <code>JScrollPbne</code> if scrolling
+ * behbvior is desired, bnd used directly if scrolling is not desired.
  * <p>
- * The <code>java.awt.TextArea</code> has the ability to do line wrapping.
- * This was controlled by the horizontal scrolling policy.  Since
- * scrolling is not done by <code>JTextArea</code> directly, backward
- * compatibility must be provided another way.  <code>JTextArea</code> has
- * a bound property for line wrapping that controls whether or
- * not it will wrap lines.  By default, the line wrapping property
- * is set to false (not wrapped).
+ * The <code>jbvb.bwt.TextAreb</code> hbs the bbility to do line wrbpping.
+ * This wbs controlled by the horizontbl scrolling policy.  Since
+ * scrolling is not done by <code>JTextAreb</code> directly, bbckwbrd
+ * compbtibility must be provided bnother wby.  <code>JTextAreb</code> hbs
+ * b bound property for line wrbpping thbt controls whether or
+ * not it will wrbp lines.  By defbult, the line wrbpping property
+ * is set to fblse (not wrbpped).
  * <p>
- * <code>java.awt.TextArea</code> has two properties <code>rows</code>
- * and <code>columns</code> that are used to determine the preferred size.
- * <code>JTextArea</code> uses these properties to indicate the
- * preferred size of the viewport when placed inside a <code>JScrollPane</code>
- * to match the functionality provided by <code>java.awt.TextArea</code>.
- * <code>JTextArea</code> has a preferred size of what is needed to
- * display all of the text, so that it functions properly inside of
- * a <code>JScrollPane</code>.  If the value for <code>rows</code>
- * or <code>columns</code> is equal to zero,
- * the preferred size along that axis is used for
- * the viewport preferred size along the same axis.
+ * <code>jbvb.bwt.TextAreb</code> hbs two properties <code>rows</code>
+ * bnd <code>columns</code> thbt bre used to determine the preferred size.
+ * <code>JTextAreb</code> uses these properties to indicbte the
+ * preferred size of the viewport when plbced inside b <code>JScrollPbne</code>
+ * to mbtch the functionblity provided by <code>jbvb.bwt.TextAreb</code>.
+ * <code>JTextAreb</code> hbs b preferred size of whbt is needed to
+ * displby bll of the text, so thbt it functions properly inside of
+ * b <code>JScrollPbne</code>.  If the vblue for <code>rows</code>
+ * or <code>columns</code> is equbl to zero,
+ * the preferred size blong thbt bxis is used for
+ * the viewport preferred size blong the sbme bxis.
  * <p>
- * The <code>java.awt.TextArea</code> could be monitored for changes by adding
- * a <code>TextListener</code> for <code>TextEvent</code>s.
- * In the <code>JTextComponent</code> based
- * components, changes are broadcasted from the model via a
+ * The <code>jbvb.bwt.TextAreb</code> could be monitored for chbnges by bdding
+ * b <code>TextListener</code> for <code>TextEvent</code>s.
+ * In the <code>JTextComponent</code> bbsed
+ * components, chbnges bre brobdcbsted from the model vib b
  * <code>DocumentEvent</code> to <code>DocumentListeners</code>.
  * The <code>DocumentEvent</code> gives
- * the location of the change and the kind of change if desired.
- * The code fragment might look something like:
+ * the locbtion of the chbnge bnd the kind of chbnge if desired.
+ * The code frbgment might look something like:
  * <pre>
  *    DocumentListener myListener = ??;
- *    JTextArea myArea = ??;
- *    myArea.getDocument().addDocumentListener(myListener);
+ *    JTextAreb myAreb = ??;
+ *    myAreb.getDocument().bddDocumentListener(myListener);
  * </pre>
  *
  * <dl>
  * <dt><b>Newlines</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b discussion on how newlines bre hbndled, see
+ * <b href="text/DefbultEditorKit.html">DefbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A multi-line area that displays plain text.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A multi-line breb thbt displbys plbin text.
  *
- * @author  Timothy Prinzing
- * @see JTextPane
- * @see JEditorPane
+ * @buthor  Timothy Prinzing
+ * @see JTextPbne
+ * @see JEditorPbne
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTextArea extends JTextComponent {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JTextAreb extends JTextComponent {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TextAreaUI";
+    privbte stbtic finbl String uiClbssID = "TextArebUI";
 
     /**
-     * Constructs a new TextArea.  A default model is set, the initial string
-     * is null, and rows/columns are set to 0.
+     * Constructs b new TextAreb.  A defbult model is set, the initibl string
+     * is null, bnd rows/columns bre set to 0.
      */
-    public JTextArea() {
+    public JTextAreb() {
         this(null, null, 0, 0);
     }
 
     /**
-     * Constructs a new TextArea with the specified text displayed.
-     * A default model is created and rows/columns are set to 0.
+     * Constructs b new TextAreb with the specified text displbyed.
+     * A defbult model is crebted bnd rows/columns bre set to 0.
      *
-     * @param text the text to be displayed, or null
+     * @pbrbm text the text to be displbyed, or null
      */
-    public JTextArea(String text) {
+    public JTextAreb(String text) {
         this(null, text, 0, 0);
     }
 
     /**
-     * Constructs a new empty TextArea with the specified number of
-     * rows and columns.  A default model is created, and the initial
+     * Constructs b new empty TextAreb with the specified number of
+     * rows bnd columns.  A defbult model is crebted, bnd the initibl
      * string is null.
      *
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm rows the number of rows &gt;= 0
+     * @pbrbm columns the number of columns &gt;= 0
+     * @exception IllegblArgumentException if the rows or columns
+     *  brguments bre negbtive.
      */
-    public JTextArea(int rows, int columns) {
+    public JTextAreb(int rows, int columns) {
         this(null, null, rows, columns);
     }
 
     /**
-     * Constructs a new TextArea with the specified text and number
-     * of rows and columns.  A default model is created.
+     * Constructs b new TextAreb with the specified text bnd number
+     * of rows bnd columns.  A defbult model is crebted.
      *
-     * @param text the text to be displayed, or null
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm text the text to be displbyed, or null
+     * @pbrbm rows the number of rows &gt;= 0
+     * @pbrbm columns the number of columns &gt;= 0
+     * @exception IllegblArgumentException if the rows or columns
+     *  brguments bre negbtive.
      */
-    public JTextArea(String text, int rows, int columns) {
+    public JTextAreb(String text, int rows, int columns) {
         this(null, text, rows, columns);
     }
 
     /**
-     * Constructs a new JTextArea with the given document model, and defaults
-     * for all of the other arguments (null, 0, 0).
+     * Constructs b new JTextAreb with the given document model, bnd defbults
+     * for bll of the other brguments (null, 0, 0).
      *
-     * @param doc  the model to use
+     * @pbrbm doc  the model to use
      */
-    public JTextArea(Document doc) {
+    public JTextAreb(Document doc) {
         this(doc, null, 0, 0);
     }
 
     /**
-     * Constructs a new JTextArea with the specified number of rows
-     * and columns, and the given model.  All of the constructors
+     * Constructs b new JTextAreb with the specified number of rows
+     * bnd columns, bnd the given model.  All of the constructors
      * feed through this constructor.
      *
-     * @param doc the model to use, or create a default one if null
-     * @param text the text to be displayed, null if none
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm doc the model to use, or crebte b defbult one if null
+     * @pbrbm text the text to be displbyed, null if none
+     * @pbrbm rows the number of rows &gt;= 0
+     * @pbrbm columns the number of columns &gt;= 0
+     * @exception IllegblArgumentException if the rows or columns
+     *  brguments bre negbtive.
      */
-    public JTextArea(Document doc, String text, int rows, int columns) {
+    public JTextAreb(Document doc, String text, int rows, int columns) {
         super();
         this.rows = rows;
         this.columns = columns;
         if (doc == null) {
-            doc = createDefaultModel();
+            doc = crebteDefbultModel();
         }
         setDocument(doc);
         if (text != null) {
@@ -215,252 +215,252 @@ public class JTextArea extends JTextComponent {
             select(0, 0);
         }
         if (rows < 0) {
-            throw new IllegalArgumentException("rows: " + rows);
+            throw new IllegblArgumentException("rows: " + rows);
         }
         if (columns < 0) {
-            throw new IllegalArgumentException("columns: " + columns);
+            throw new IllegblArgumentException("columns: " + columns);
         }
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysForward",
+        LookAndFeel.instbllProperty(this,
+                                    "focusTrbversblKeysForwbrd",
                                     JComponent.
-                                    getManagingFocusForwardTraversalKeys());
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysBackward",
+                                    getMbnbgingFocusForwbrdTrbversblKeys());
+        LookAndFeel.instbllProperty(this,
+                                    "focusTrbversblKeysBbckwbrd",
                                     JComponent.
-                                    getManagingFocusBackwardTraversalKeys());
+                                    getMbnbgingFocusBbckwbrdTrbversblKeys());
     }
 
     /**
-     * Returns the class ID for the UI.
+     * Returns the clbss ID for the UI.
      *
-     * @return the ID ("TextAreaUI")
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the ID ("TextArebUI")
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Creates the default implementation of the model
-     * to be used at construction if one isn't explicitly
-     * given.  A new instance of PlainDocument is returned.
+     * Crebtes the defbult implementbtion of the model
+     * to be used bt construction if one isn't explicitly
+     * given.  A new instbnce of PlbinDocument is returned.
      *
-     * @return the default document model
+     * @return the defbult document model
      */
-    protected Document createDefaultModel() {
-        return new PlainDocument();
+    protected Document crebteDefbultModel() {
+        return new PlbinDocument();
     }
 
     /**
-     * Sets the number of characters to expand tabs to.
-     * This will be multiplied by the maximum advance for
-     * variable width fonts.  A PropertyChange event ("tabSize") is fired
-     * when the tab size changes.
+     * Sets the number of chbrbcters to expbnd tbbs to.
+     * This will be multiplied by the mbximum bdvbnce for
+     * vbribble width fonts.  A PropertyChbnge event ("tbbSize") is fired
+     * when the tbb size chbnges.
      *
-     * @param size number of characters to expand to
-     * @see #getTabSize
-     * @beaninfo
+     * @pbrbm size number of chbrbcters to expbnd to
+     * @see #getTbbSize
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: the number of characters to expand tabs to
+     * description: the number of chbrbcters to expbnd tbbs to
      */
-    public void setTabSize(int size) {
+    public void setTbbSize(int size) {
         Document doc = getDocument();
         if (doc != null) {
-            int old = getTabSize();
-            doc.putProperty(PlainDocument.tabSizeAttribute, Integer.valueOf(size));
-            firePropertyChange("tabSize", old, size);
+            int old = getTbbSize();
+            doc.putProperty(PlbinDocument.tbbSizeAttribute, Integer.vblueOf(size));
+            firePropertyChbnge("tbbSize", old, size);
         }
     }
 
     /**
-     * Gets the number of characters used to expand tabs.  If the document is
-     * null or doesn't have a tab setting, return a default of 8.
+     * Gets the number of chbrbcters used to expbnd tbbs.  If the document is
+     * null or doesn't hbve b tbb setting, return b defbult of 8.
      *
-     * @return the number of characters
+     * @return the number of chbrbcters
      */
-    public int getTabSize() {
+    public int getTbbSize() {
         int size = 8;
         Document doc = getDocument();
         if (doc != null) {
-            Integer i = (Integer) doc.getProperty(PlainDocument.tabSizeAttribute);
+            Integer i = (Integer) doc.getProperty(PlbinDocument.tbbSizeAttribute);
             if (i != null) {
-                size = i.intValue();
+                size = i.intVblue();
             }
         }
         return size;
     }
 
     /**
-     * Sets the line-wrapping policy of the text area.  If set
-     * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.  A <code>PropertyChange</code>
-     * event ("lineWrap") is fired when the policy is changed.
-     * By default this property is false.
+     * Sets the line-wrbpping policy of the text breb.  If set
+     * to true the lines will be wrbpped if they bre too long
+     * to fit within the bllocbted width.  If set to fblse,
+     * the lines will blwbys be unwrbpped.  A <code>PropertyChbnge</code>
+     * event ("lineWrbp") is fired when the policy is chbnged.
+     * By defbult this property is fblse.
      *
-     * @param wrap indicates if lines should be wrapped
-     * @see #getLineWrap
-     * @beaninfo
+     * @pbrbm wrbp indicbtes if lines should be wrbpped
+     * @see #getLineWrbp
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: should lines be wrapped
+     * description: should lines be wrbpped
      */
-    public void setLineWrap(boolean wrap) {
-        boolean old = this.wrap;
-        this.wrap = wrap;
-        firePropertyChange("lineWrap", old, wrap);
+    public void setLineWrbp(boolebn wrbp) {
+        boolebn old = this.wrbp;
+        this.wrbp = wrbp;
+        firePropertyChbnge("lineWrbp", old, wrbp);
     }
 
     /**
-     * Gets the line-wrapping policy of the text area.  If set
-     * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.
+     * Gets the line-wrbpping policy of the text breb.  If set
+     * to true the lines will be wrbpped if they bre too long
+     * to fit within the bllocbted width.  If set to fblse,
+     * the lines will blwbys be unwrbpped.
      *
-     * @return if lines will be wrapped
+     * @return if lines will be wrbpped
      */
-    public boolean getLineWrap() {
-        return wrap;
+    public boolebn getLineWrbp() {
+        return wrbp;
     }
 
     /**
-     * Sets the style of wrapping used if the text area is wrapping
-     * lines.  If set to true the lines will be wrapped at word
-     * boundaries (whitespace) if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will be wrapped at character boundaries.
-     * By default this property is false.
+     * Sets the style of wrbpping used if the text breb is wrbpping
+     * lines.  If set to true the lines will be wrbpped bt word
+     * boundbries (whitespbce) if they bre too long
+     * to fit within the bllocbted width.  If set to fblse,
+     * the lines will be wrbpped bt chbrbcter boundbries.
+     * By defbult this property is fblse.
      *
-     * @param word indicates if word boundaries should be used
-     *   for line wrapping
-     * @see #getWrapStyleWord
-     * @beaninfo
-     *   preferred: false
+     * @pbrbm word indicbtes if word boundbries should be used
+     *   for line wrbpping
+     * @see #getWrbpStyleWord
+     * @bebninfo
+     *   preferred: fblse
      *       bound: true
-     * description: should wrapping occur at word boundaries
+     * description: should wrbpping occur bt word boundbries
      */
-    public void setWrapStyleWord(boolean word) {
-        boolean old = this.word;
+    public void setWrbpStyleWord(boolebn word) {
+        boolebn old = this.word;
         this.word = word;
-        firePropertyChange("wrapStyleWord", old, word);
+        firePropertyChbnge("wrbpStyleWord", old, word);
     }
 
     /**
-     * Gets the style of wrapping used if the text area is wrapping
-     * lines.  If set to true the lines will be wrapped at word
-     * boundaries (ie whitespace) if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will be wrapped at character boundaries.
+     * Gets the style of wrbpping used if the text breb is wrbpping
+     * lines.  If set to true the lines will be wrbpped bt word
+     * boundbries (ie whitespbce) if they bre too long
+     * to fit within the bllocbted width.  If set to fblse,
+     * the lines will be wrbpped bt chbrbcter boundbries.
      *
-     * @return if the wrap style should be word boundaries
-     *  instead of character boundaries
-     * @see #setWrapStyleWord
+     * @return if the wrbp style should be word boundbries
+     *  instebd of chbrbcter boundbries
+     * @see #setWrbpStyleWord
      */
-    public boolean getWrapStyleWord() {
+    public boolebn getWrbpStyleWord() {
         return word;
     }
 
     /**
-     * Translates an offset into the components text to a
+     * Trbnslbtes bn offset into the components text to b
      * line number.
      *
-     * @param offset the offset &gt;= 0
+     * @pbrbm offset the offset &gt;= 0
      * @return the line number &gt;= 0
-     * @exception BadLocationException thrown if the offset is
-     *   less than zero or greater than the document length.
+     * @exception BbdLocbtionException thrown if the offset is
+     *   less thbn zero or grebter thbn the document length.
      */
-    public int getLineOfOffset(int offset) throws BadLocationException {
+    public int getLineOfOffset(int offset) throws BbdLocbtionException {
         Document doc = getDocument();
         if (offset < 0) {
-            throw new BadLocationException("Can't translate offset to line", -1);
+            throw new BbdLocbtionException("Cbn't trbnslbte offset to line", -1);
         } else if (offset > doc.getLength()) {
-            throw new BadLocationException("Can't translate offset to line", doc.getLength()+1);
+            throw new BbdLocbtionException("Cbn't trbnslbte offset to line", doc.getLength()+1);
         } else {
-            Element map = getDocument().getDefaultRootElement();
-            return map.getElementIndex(offset);
+            Element mbp = getDocument().getDefbultRootElement();
+            return mbp.getElementIndex(offset);
         }
     }
 
     /**
-     * Determines the number of lines contained in the area.
+     * Determines the number of lines contbined in the breb.
      *
      * @return the number of lines &gt; 0
      */
     public int getLineCount() {
-        Element map = getDocument().getDefaultRootElement();
-        return map.getElementCount();
+        Element mbp = getDocument().getDefbultRootElement();
+        return mbp.getElementCount();
     }
 
     /**
-     * Determines the offset of the start of the given line.
+     * Determines the offset of the stbrt of the given line.
      *
-     * @param line  the line number to translate &gt;= 0
+     * @pbrbm line  the line number to trbnslbte &gt;= 0
      * @return the offset &gt;= 0
-     * @exception BadLocationException thrown if the line is
-     * less than zero or greater or equal to the number of
-     * lines contained in the document (as reported by
+     * @exception BbdLocbtionException thrown if the line is
+     * less thbn zero or grebter or equbl to the number of
+     * lines contbined in the document (bs reported by
      * getLineCount).
      */
-    public int getLineStartOffset(int line) throws BadLocationException {
+    public int getLineStbrtOffset(int line) throws BbdLocbtionException {
         int lineCount = getLineCount();
         if (line < 0) {
-            throw new BadLocationException("Negative line", -1);
+            throw new BbdLocbtionException("Negbtive line", -1);
         } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", getDocument().getLength()+1);
+            throw new BbdLocbtionException("No such line", getDocument().getLength()+1);
         } else {
-            Element map = getDocument().getDefaultRootElement();
-            Element lineElem = map.getElement(line);
-            return lineElem.getStartOffset();
+            Element mbp = getDocument().getDefbultRootElement();
+            Element lineElem = mbp.getElement(line);
+            return lineElem.getStbrtOffset();
         }
     }
 
     /**
      * Determines the offset of the end of the given line.
      *
-     * @param line  the line &gt;= 0
+     * @pbrbm line  the line &gt;= 0
      * @return the offset &gt;= 0
-     * @exception BadLocationException Thrown if the line is
-     * less than zero or greater or equal to the number of
-     * lines contained in the document (as reported by
+     * @exception BbdLocbtionException Thrown if the line is
+     * less thbn zero or grebter or equbl to the number of
+     * lines contbined in the document (bs reported by
      * getLineCount).
      */
-    public int getLineEndOffset(int line) throws BadLocationException {
+    public int getLineEndOffset(int line) throws BbdLocbtionException {
         int lineCount = getLineCount();
         if (line < 0) {
-            throw new BadLocationException("Negative line", -1);
+            throw new BbdLocbtionException("Negbtive line", -1);
         } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", getDocument().getLength()+1);
+            throw new BbdLocbtionException("No such line", getDocument().getLength()+1);
         } else {
-            Element map = getDocument().getDefaultRootElement();
-            Element lineElem = map.getElement(line);
+            Element mbp = getDocument().getDefbultRootElement();
+            Element lineElem = mbp.getElement(line);
             int endOffset = lineElem.getEndOffset();
-            // hide the implicit break at the end of the document
+            // hide the implicit brebk bt the end of the document
             return ((line == lineCount - 1) ? (endOffset - 1) : endOffset);
         }
     }
 
-    // --- java.awt.TextArea methods ---------------------------------
+    // --- jbvb.bwt.TextAreb methods ---------------------------------
 
     /**
-     * Inserts the specified text at the specified position.  Does nothing
+     * Inserts the specified text bt the specified position.  Does nothing
      * if the model is null or if the text is null or empty.
      *
-     * @param str the text to insert
-     * @param pos the position at which to insert &gt;= 0
-     * @exception IllegalArgumentException  if pos is an
-     *  invalid position in the model
+     * @pbrbm str the text to insert
+     * @pbrbm pos the position bt which to insert &gt;= 0
+     * @exception IllegblArgumentException  if pos is bn
+     *  invblid position in the model
      * @see TextComponent#setText
-     * @see #replaceRange
+     * @see #replbceRbnge
      */
     public void insert(String str, int pos) {
         Document doc = getDocument();
         if (doc != null) {
             try {
                 doc.insertString(pos, str, null);
-            } catch (BadLocationException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } cbtch (BbdLocbtionException e) {
+                throw new IllegblArgumentException(e.getMessbge());
             }
         }
     }
@@ -469,55 +469,55 @@ public class JTextArea extends JTextComponent {
      * Appends the given text to the end of the document.  Does nothing if
      * the model is null or the string is null or empty.
      *
-     * @param str the text to insert
+     * @pbrbm str the text to insert
      * @see #insert
      */
-    public void append(String str) {
+    public void bppend(String str) {
         Document doc = getDocument();
         if (doc != null) {
             try {
                 doc.insertString(doc.getLength(), str, null);
-            } catch (BadLocationException e) {
+            } cbtch (BbdLocbtionException e) {
             }
         }
     }
 
     /**
-     * Replaces text from the indicated start to end position with the
+     * Replbces text from the indicbted stbrt to end position with the
      * new text specified.  Does nothing if the model is null.  Simply
-     * does a delete if the new string is null or empty.
+     * does b delete if the new string is null or empty.
      *
-     * @param str the text to use as the replacement
-     * @param start the start position &gt;= 0
-     * @param end the end position &gt;= start
-     * @exception IllegalArgumentException  if part of the range is an
-     *  invalid position in the model
+     * @pbrbm str the text to use bs the replbcement
+     * @pbrbm stbrt the stbrt position &gt;= 0
+     * @pbrbm end the end position &gt;= stbrt
+     * @exception IllegblArgumentException  if pbrt of the rbnge is bn
+     *  invblid position in the model
      * @see #insert
-     * @see #replaceRange
+     * @see #replbceRbnge
      */
-    public void replaceRange(String str, int start, int end) {
-        if (end < start) {
-            throw new IllegalArgumentException("end before start");
+    public void replbceRbnge(String str, int stbrt, int end) {
+        if (end < stbrt) {
+            throw new IllegblArgumentException("end before stbrt");
         }
         Document doc = getDocument();
         if (doc != null) {
             try {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(start, end - start, str,
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).replbce(stbrt, end - stbrt, str,
                                                     null);
                 }
                 else {
-                    doc.remove(start, end - start);
-                    doc.insertString(start, str, null);
+                    doc.remove(stbrt, end - stbrt);
+                    doc.insertString(stbrt, str, null);
                 }
-            } catch (BadLocationException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } cbtch (BbdLocbtionException e) {
+                throw new IllegblArgumentException(e.getMessbge());
             }
         }
     }
 
     /**
-     * Returns the number of rows in the TextArea.
+     * Returns the number of rows in the TextAreb.
      *
      * @return the number of rows &gt;= 0
      */
@@ -526,28 +526,28 @@ public class JTextArea extends JTextComponent {
     }
 
     /**
-     * Sets the number of rows for this TextArea.  Calls invalidate() after
-     * setting the new value.
+     * Sets the number of rows for this TextAreb.  Cblls invblidbte() bfter
+     * setting the new vblue.
      *
-     * @param rows the number of rows &gt;= 0
-     * @exception IllegalArgumentException if rows is less than 0
+     * @pbrbm rows the number of rows &gt;= 0
+     * @exception IllegblArgumentException if rows is less thbn 0
      * @see #getRows
-     * @beaninfo
-     * description: the number of rows preferred for display
+     * @bebninfo
+     * description: the number of rows preferred for displby
      */
     public void setRows(int rows) {
-        int oldVal = this.rows;
+        int oldVbl = this.rows;
         if (rows < 0) {
-            throw new IllegalArgumentException("rows less than zero.");
+            throw new IllegblArgumentException("rows less thbn zero.");
         }
-        if (rows != oldVal) {
+        if (rows != oldVbl) {
             this.rows = rows;
-            invalidate();
+            invblidbte();
         }
     }
 
     /**
-     * Defines the meaning of the height of a row.  This defaults to
+     * Defines the mebning of the height of b row.  This defbults to
      * the height of the font.
      *
      * @return the height &gt;= 1
@@ -561,7 +561,7 @@ public class JTextArea extends JTextComponent {
     }
 
     /**
-     * Returns the number of columns in the TextArea.
+     * Returns the number of columns in the TextAreb.
      *
      * @return number of columns &gt;= 0
      */
@@ -570,40 +570,40 @@ public class JTextArea extends JTextComponent {
     }
 
     /**
-     * Sets the number of columns for this TextArea.  Does an invalidate()
-     * after setting the new value.
+     * Sets the number of columns for this TextAreb.  Does bn invblidbte()
+     * bfter setting the new vblue.
      *
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if columns is less than 0
+     * @pbrbm columns the number of columns &gt;= 0
+     * @exception IllegblArgumentException if columns is less thbn 0
      * @see #getColumns
-     * @beaninfo
-     * description: the number of columns preferred for display
+     * @bebninfo
+     * description: the number of columns preferred for displby
      */
     public void setColumns(int columns) {
-        int oldVal = this.columns;
+        int oldVbl = this.columns;
         if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
+            throw new IllegblArgumentException("columns less thbn zero.");
         }
-        if (columns != oldVal) {
+        if (columns != oldVbl) {
             this.columns = columns;
-            invalidate();
+            invblidbte();
         }
     }
 
     /**
      * Gets column width.
-     * The meaning of what a column is can be considered a fairly weak
+     * The mebning of whbt b column is cbn be considered b fbirly webk
      * notion for some fonts.  This method is used to define the width
-     * of a column.  By default this is defined to be the width of the
-     * character <em>m</em> for the font used.  This method can be
-     * redefined to be some alternative amount.
+     * of b column.  By defbult this is defined to be the width of the
+     * chbrbcter <em>m</em> for the font used.  This method cbn be
+     * redefined to be some blternbtive bmount.
      *
      * @return the column width &gt;= 1
      */
     protected int getColumnWidth() {
         if (columnWidth == 0) {
             FontMetrics metrics = getFontMetrics(getFont());
-            columnWidth = metrics.charWidth('m');
+            columnWidth = metrics.chbrWidth('m');
         }
         return columnWidth;
     }
@@ -611,8 +611,8 @@ public class JTextArea extends JTextComponent {
     // --- Component methods -----------------------------------------
 
     /**
-     * Returns the preferred size of the TextArea.  This is the
-     * maximum of the size needed to display the text and the
+     * Returns the preferred size of the TextAreb.  This is the
+     * mbximum of the size needed to displby the text bnd the
      * size requested for the viewport.
      *
      * @return the size
@@ -623,21 +623,21 @@ public class JTextArea extends JTextComponent {
         Insets insets = getInsets();
 
         if (columns != 0) {
-            d.width = Math.max(d.width, columns * getColumnWidth() +
+            d.width = Mbth.mbx(d.width, columns * getColumnWidth() +
                     insets.left + insets.right);
         }
         if (rows != 0) {
-            d.height = Math.max(d.height, rows * getRowHeight() +
+            d.height = Mbth.mbx(d.height, rows * getRowHeight() +
                                 insets.top + insets.bottom);
         }
         return d;
     }
 
     /**
-     * Sets the current font.  This removes cached row height and column
-     * width so the new font will be reflected, and calls revalidate().
+     * Sets the current font.  This removes cbched row height bnd column
+     * width so the new font will be reflected, bnd cblls revblidbte().
      *
-     * @param f the font to use as the current font
+     * @pbrbm f the font to use bs the current font
      */
     public void setFont(Font f) {
         super.setFont(f);
@@ -647,55 +647,55 @@ public class JTextArea extends JTextComponent {
 
 
     /**
-     * Returns a string representation of this JTextArea. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JTextAreb. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JTextArea.
+     * @return  b string representbtion of this JTextAreb.
      */
-    protected String paramString() {
-        String wrapString = (wrap ?
-                             "true" : "false");
+    protected String pbrbmString() {
+        String wrbpString = (wrbp ?
+                             "true" : "fblse");
         String wordString = (word ?
-                             "true" : "false");
+                             "true" : "fblse");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",colums=" + columns +
         ",columWidth=" + columnWidth +
         ",rows=" + rows +
         ",rowHeight=" + rowHeight +
         ",word=" + wordString +
-        ",wrap=" + wrapString;
+        ",wrbp=" + wrbpString;
     }
 
-    // --- Scrollable methods ----------------------------------------
+    // --- Scrollbble methods ----------------------------------------
 
     /**
-     * Returns true if a viewport should always force the width of this
-     * Scrollable to match the width of the viewport.  This is implemented
-     * to return true if the line wrapping policy is true, and false
-     * if lines are not being wrapped.
+     * Returns true if b viewport should blwbys force the width of this
+     * Scrollbble to mbtch the width of the viewport.  This is implemented
+     * to return true if the line wrbpping policy is true, bnd fblse
+     * if lines bre not being wrbpped.
      *
-     * @return true if a viewport should force the Scrollables width
-     * to match its own.
+     * @return true if b viewport should force the Scrollbbles width
+     * to mbtch its own.
      */
-    public boolean getScrollableTracksViewportWidth() {
-        return (wrap) ? true : super.getScrollableTracksViewportWidth();
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        return (wrbp) ? true : super.getScrollbbleTrbcksViewportWidth();
     }
 
     /**
      * Returns the preferred size of the viewport if this component
-     * is embedded in a JScrollPane.  This uses the desired column
-     * and row settings if they have been set, otherwise the superclass
-     * behavior is used.
+     * is embedded in b JScrollPbne.  This uses the desired column
+     * bnd row settings if they hbve been set, otherwise the superclbss
+     * behbvior is used.
      *
-     * @return The preferredSize of a JViewport whose view is this Scrollable.
+     * @return The preferredSize of b JViewport whose view is this Scrollbble.
      * @see JViewport#getPreferredSize
      */
-    public Dimension getPreferredScrollableViewportSize() {
-        Dimension size = super.getPreferredScrollableViewportSize();
+    public Dimension getPreferredScrollbbleViewportSize() {
+        Dimension size = super.getPreferredScrollbbleViewportSize();
         size = (size == null) ? new Dimension(400,400) : size;
         Insets insets = getInsets();
 
@@ -707,48 +707,48 @@ public class JTextArea extends JTextComponent {
     }
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one new row
-     * or column, depending on the value of orientation.  This is implemented
-     * to use the values returned by the <code>getRowHeight</code> and
+     * Components thbt displby logicbl rows or columns should compute
+     * the scroll increment thbt will completely expose one new row
+     * or column, depending on the vblue of orientbtion.  This is implemented
+     * to use the vblues returned by the <code>getRowHeight</code> bnd
      * <code>getColumnWidth</code> methods.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a unit scroll.
+     * Scrolling contbiners, like JScrollPbne, will use this method
+     * ebch time the user requests b unit scroll.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or
-     *   SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left,
-     *   greater than zero for down/right.
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion Either SwingConstbnts.VERTICAL or
+     *   SwingConstbnts.HORIZONTAL.
+     * @pbrbm direction Less thbn zero to scroll up/left,
+     *   grebter thbn zero for down/right.
      * @return The "unit" increment for scrolling in the specified direction
-     * @exception IllegalArgumentException for an invalid orientation
-     * @see JScrollBar#setUnitIncrement
+     * @exception IllegblArgumentException for bn invblid orientbtion
+     * @see JScrollBbr#setUnitIncrement
      * @see #getRowHeight
      * @see #getColumnWidth
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch (orientation) {
-        case SwingConstants.VERTICAL:
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect, int orientbtion, int direction) {
+        switch (orientbtion) {
+        cbse SwingConstbnts.VERTICAL:
             return getRowHeight();
-        case SwingConstants.HORIZONTAL:
+        cbse SwingConstbnts.HORIZONTAL:
             return getColumnWidth();
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+        defbult:
+            throw new IllegblArgumentException("Invblid orientbtion: " + orientbtion);
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
@@ -759,60 +759,60 @@ public class JTextArea extends JTextComponent {
 
 
     /**
-     * Gets the AccessibleContext associated with this JTextArea.
-     * For JTextAreas, the AccessibleContext takes the form of an
-     * AccessibleJTextArea.
-     * A new AccessibleJTextArea instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JTextAreb.
+     * For JTextArebs, the AccessibleContext tbkes the form of bn
+     * AccessibleJTextAreb.
+     * A new AccessibleJTextAreb instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJTextArea that serves as the
-     *         AccessibleContext of this JTextArea
+     * @return bn AccessibleJTextAreb thbt serves bs the
+     *         AccessibleContext of this JTextAreb
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTextArea();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTextAreb();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTextArea</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text area user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JTextAreb</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to text breb user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTextArea extends AccessibleJTextComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJTextAreb extends AccessibleJTextComponent {
 
         /**
-         * Gets the state set of this object.
+         * Gets the stbte set of this object.
          *
-         * @return an instance of AccessibleStateSet describing the states
+         * @return bn instbnce of AccessibleStbteSet describing the stbtes
          * of the object
-         * @see AccessibleStateSet
+         * @see AccessibleStbteSet
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.MULTI_LINE);
+            return stbtes;
         }
     }
 
-    // --- variables -------------------------------------------------
+    // --- vbribbles -------------------------------------------------
 
-    private int rows;
-    private int columns;
-    private int columnWidth;
-    private int rowHeight;
-    private boolean wrap;
-    private boolean word;
+    privbte int rows;
+    privbte int columns;
+    privbte int columnWidth;
+    privbte int rowHeight;
+    privbte boolebn wrbp;
+    privbte boolebn word;
 
 }

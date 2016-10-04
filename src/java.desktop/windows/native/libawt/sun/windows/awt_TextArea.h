@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_TEXTAREA_H
 #define AWT_TEXTAREA_H
 
-#include "awt_TextComponent.h"
+#include "bwt_TextComponent.h"
 
-#include "java_awt_TextArea.h"
-#include "sun_awt_windows_WTextAreaPeer.h"
+#include "jbvb_bwt_TextAreb.h"
+#include "sun_bwt_windows_WTextArebPeer.h"
 
 #include <ole2.h>
 #include <richedit.h>
 #include <richole.h>
 
 /************************************************************************
- * AwtTextArea class
+ * AwtTextAreb clbss
  */
 
-class AwtTextArea : public AwtTextComponent {
+clbss AwtTextAreb : public AwtTextComponent {
 
 public:
 
-    /* java.awt.TextArea fields ids */
-    static jfieldID scrollbarVisibilityID;
+    /* jbvb.bwt.TextAreb fields ids */
+    stbtic jfieldID scrollbbrVisibilityID;
 
-    AwtTextArea();
-    virtual ~AwtTextArea();
+    AwtTextAreb();
+    virtubl ~AwtTextAreb();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    static AwtTextArea* Create(jobject self, jobject parent);
+    stbtic AwtTextAreb* Crebte(jobject self, jobject pbrent);
 
-    static size_t CountNewLines(JNIEnv *env, jstring jStr, size_t maxlen);
-    static size_t GetALength(JNIEnv* env, jstring jStr, size_t maxlen);
+    stbtic size_t CountNewLines(JNIEnv *env, jstring jStr, size_t mbxlen);
+    stbtic size_t GetALength(JNIEnv* env, jstring jStr, size_t mbxlen);
 
-    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-    static LRESULT CALLBACK EditProc(HWND hWnd, UINT message,
-                                     WPARAM wParam, LPARAM lParam);
+    LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
+    stbtic LRESULT CALLBACK EditProc(HWND hWnd, UINT messbge,
+                                     WPARAM wPbrbm, LPARAM lPbrbm);
 
-    MsgRouting WmEnable(BOOL fEnabled);
+    MsgRouting WmEnbble(BOOL fEnbbled);
     MsgRouting WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos);
     MsgRouting WmNotify(UINT notifyCode);
-    MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT &retVal);
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT &retVbl);
+    MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    INLINE void SetIgnoreEnChange(BOOL b) { m_bIgnoreEnChange = b; }
+    INLINE void SetIgnoreEnChbnge(BOOL b) { m_bIgnoreEnChbnge = b; }
 
-    virtual BOOL InheritsNativeMouseWheelBehavior();
-    virtual void Reshape(int x, int y, int w, int h);
+    virtubl BOOL InheritsNbtiveMouseWheelBehbvior();
+    virtubl void Reshbpe(int x, int y, int w, int h);
 
-    virtual LONG getJavaSelPos(LONG orgPos);
-    virtual LONG getWin32SelPos(LONG orgPos);
-    virtual void SetSelRange(LONG start, LONG end);
+    virtubl LONG getJbvbSelPos(LONG orgPos);
+    virtubl LONG getWin32SelPos(LONG orgPos);
+    virtubl void SetSelRbnge(LONG stbrt, LONG end);
 
-    // called on Toolkit thread from JNI
-    static void _ReplaceText(void *param);
+    // cblled on Toolkit threbd from JNI
+    stbtic void _ReplbceText(void *pbrbm);
 
 protected:
 
     void EditSetSel(CHARRANGE &cr);
     void EditGetSel(CHARRANGE &cr);
-  private:
-    // RichEdit 1.0 control generates EN_CHANGE notifications not only
-    // on text changes, but also on any character formatting change.
-    // This flag is true when the latter case is detected.
-    BOOL    m_bIgnoreEnChange;
+  privbte:
+    // RichEdit 1.0 control generbtes EN_CHANGE notificbtions not only
+    // on text chbnges, but blso on bny chbrbcter formbtting chbnge.
+    // This flbg is true when the lbtter cbse is detected.
+    BOOL    m_bIgnoreEnChbnge;
 
-    // RichEdit 1.0 control undoes a character formatting change
-    // if it is the latest. We don't create our own undo buffer,
-    // but just prohibit undo in case if the latest operation
-    // is a formatting change.
-    BOOL    m_bCanUndo;
+    // RichEdit 1.0 control undoes b chbrbcter formbtting chbnge
+    // if it is the lbtest. We don't crebte our own undo buffer,
+    // but just prohibit undo in cbse if the lbtest operbtion
+    // is b formbtting chbnge.
+    BOOL    m_bCbnUndo;
 
     HWND    m_hEditCtrl;
-    static WNDPROC sm_pDefWindowProc;
+    stbtic WNDPROC sm_pDefWindowProc;
 
-    LONG    m_lHDeltaAccum;
-    LONG    m_lVDeltaAccum;
+    LONG    m_lHDeltbAccum;
+    LONG    m_lVDeltbAccum;
 
 
 };

@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.text.*;
 
 
 /**
- * <P>The AccessibleHypertext class is the base class for all
- * classes that present hypertext information on the display.  This class
- * provides the standard mechanism for an assistive technology to access
- * that text via its content, attributes, and spatial location.
- * It also provides standard mechanisms for manipulating hyperlinks.
- * Applications can determine if an object supports the AccessibleHypertext
- * interface by first obtaining its AccessibleContext (see {@link Accessible})
- * and then calling the {@link AccessibleContext#getAccessibleText}
- * method of AccessibleContext.  If the return value is a class which extends
- * AccessibleHypertext, then that object supports AccessibleHypertext.
+ * <P>The AccessibleHypertext clbss is the bbse clbss for bll
+ * clbsses thbt present hypertext informbtion on the displby.  This clbss
+ * provides the stbndbrd mechbnism for bn bssistive technology to bccess
+ * thbt text vib its content, bttributes, bnd spbtibl locbtion.
+ * It blso provides stbndbrd mechbnisms for mbnipulbting hyperlinks.
+ * Applicbtions cbn determine if bn object supports the AccessibleHypertext
+ * interfbce by first obtbining its AccessibleContext (see {@link Accessible})
+ * bnd then cblling the {@link AccessibleContext#getAccessibleText}
+ * method of AccessibleContext.  If the return vblue is b clbss which extends
+ * AccessibleHypertext, then thbt object supports AccessibleHypertext.
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
@@ -49,32 +49,32 @@ import javax.swing.text.*;
  * @see AccessibleText
  * @see AccessibleContext#getAccessibleText
  *
- * @author      Peter Korn
+ * @buthor      Peter Korn
  */
-public interface AccessibleHypertext extends AccessibleText {
+public interfbce AccessibleHypertext extends AccessibleText {
 
     /**
      * Returns the number of links within this hypertext document.
      *
      * @return number of links in this hypertext doc.
      */
-    public abstract int getLinkCount();
+    public bbstrbct int getLinkCount();
 
     /**
      * Returns the nth Link of this Hypertext document.
      *
-     * @param linkIndex within the links of this Hypertext
-     * @return Link object encapsulating the nth link(s)
+     * @pbrbm linkIndex within the links of this Hypertext
+     * @return Link object encbpsulbting the nth link(s)
      */
-    public abstract AccessibleHyperlink getLink(int linkIndex);
+    public bbstrbct AccessibleHyperlink getLink(int linkIndex);
 
     /**
-     * Returns the index into an array of hyperlinks that
-     * is associated with this character index, or -1 if there
-     * is no hyperlink associated with this index.
+     * Returns the index into bn brrby of hyperlinks thbt
+     * is bssocibted with this chbrbcter index, or -1 if there
+     * is no hyperlink bssocibted with this index.
      *
-     * @param charIndex index within the text
+     * @pbrbm chbrIndex index within the text
      * @return index into the set of hyperlinks for this hypertext doc.
      */
-    public abstract int getLinkIndex(int charIndex);
+    public bbstrbct int getLinkIndex(int chbrIndex);
 }

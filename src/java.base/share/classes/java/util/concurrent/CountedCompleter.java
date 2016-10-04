@@ -1,300 +1,300 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A {@link ForkJoinTask} with a completion action performed when
- * triggered and there are no remaining pending actions.
- * CountedCompleters are in general more robust in the
- * presence of subtask stalls and blockage than are other forms of
- * ForkJoinTasks, but are less intuitive to program.  Uses of
- * CountedCompleter are similar to those of other completion based
- * components (such as {@link java.nio.channels.CompletionHandler})
- * except that multiple <em>pending</em> completions may be necessary
- * to trigger the completion action {@link #onCompletion(CountedCompleter)},
+ * A {@link ForkJoinTbsk} with b completion bction performed when
+ * triggered bnd there bre no rembining pending bctions.
+ * CountedCompleters bre in generbl more robust in the
+ * presence of subtbsk stblls bnd blockbge thbn bre other forms of
+ * ForkJoinTbsks, but bre less intuitive to progrbm.  Uses of
+ * CountedCompleter bre similbr to those of other completion bbsed
+ * components (such bs {@link jbvb.nio.chbnnels.CompletionHbndler})
+ * except thbt multiple <em>pending</em> completions mby be necessbry
+ * to trigger the completion bction {@link #onCompletion(CountedCompleter)},
  * not just one.
- * Unless initialized otherwise, the {@linkplain #getPendingCount pending
- * count} starts at zero, but may be (atomically) changed using
- * methods {@link #setPendingCount}, {@link #addToPendingCount}, and
- * {@link #compareAndSetPendingCount}. Upon invocation of {@link
- * #tryComplete}, if the pending action count is nonzero, it is
- * decremented; otherwise, the completion action is performed, and if
- * this completer itself has a completer, the process is continued
- * with its completer.  As is the case with related synchronization
- * components such as {@link java.util.concurrent.Phaser Phaser} and
- * {@link java.util.concurrent.Semaphore Semaphore}, these methods
- * affect only internal counts; they do not establish any further
- * internal bookkeeping. In particular, the identities of pending
- * tasks are not maintained. As illustrated below, you can create
- * subclasses that do record some or all pending tasks or their
- * results when needed.  As illustrated below, utility methods
- * supporting customization of completion traversals are also
- * provided. However, because CountedCompleters provide only basic
- * synchronization mechanisms, it may be useful to create further
- * abstract subclasses that maintain linkages, fields, and additional
- * support methods appropriate for a set of related usages.
+ * Unless initiblized otherwise, the {@linkplbin #getPendingCount pending
+ * count} stbrts bt zero, but mby be (btomicblly) chbnged using
+ * methods {@link #setPendingCount}, {@link #bddToPendingCount}, bnd
+ * {@link #compbreAndSetPendingCount}. Upon invocbtion of {@link
+ * #tryComplete}, if the pending bction count is nonzero, it is
+ * decremented; otherwise, the completion bction is performed, bnd if
+ * this completer itself hbs b completer, the process is continued
+ * with its completer.  As is the cbse with relbted synchronizbtion
+ * components such bs {@link jbvb.util.concurrent.Phbser Phbser} bnd
+ * {@link jbvb.util.concurrent.Sembphore Sembphore}, these methods
+ * bffect only internbl counts; they do not estbblish bny further
+ * internbl bookkeeping. In pbrticulbr, the identities of pending
+ * tbsks bre not mbintbined. As illustrbted below, you cbn crebte
+ * subclbsses thbt do record some or bll pending tbsks or their
+ * results when needed.  As illustrbted below, utility methods
+ * supporting customizbtion of completion trbversbls bre blso
+ * provided. However, becbuse CountedCompleters provide only bbsic
+ * synchronizbtion mechbnisms, it mby be useful to crebte further
+ * bbstrbct subclbsses thbt mbintbin linkbges, fields, bnd bdditionbl
+ * support methods bppropribte for b set of relbted usbges.
  *
- * <p>A concrete CountedCompleter class must define method {@link
- * #compute}, that should in most cases (as illustrated below), invoke
- * {@code tryComplete()} once before returning. The class may also
- * optionally override method {@link #onCompletion(CountedCompleter)}
- * to perform an action upon normal completion, and method
- * {@link #onExceptionalCompletion(Throwable, CountedCompleter)} to
- * perform an action upon any exception.
+ * <p>A concrete CountedCompleter clbss must define method {@link
+ * #compute}, thbt should in most cbses (bs illustrbted below), invoke
+ * {@code tryComplete()} once before returning. The clbss mby blso
+ * optionblly override method {@link #onCompletion(CountedCompleter)}
+ * to perform bn bction upon normbl completion, bnd method
+ * {@link #onExceptionblCompletion(Throwbble, CountedCompleter)} to
+ * perform bn bction upon bny exception.
  *
- * <p>CountedCompleters most often do not bear results, in which case
- * they are normally declared as {@code CountedCompleter<Void>}, and
- * will always return {@code null} as a result value.  In other cases,
- * you should override method {@link #getRawResult} to provide a
- * result from {@code join(), invoke()}, and related methods.  In
- * general, this method should return the value of a field (or a
- * function of one or more fields) of the CountedCompleter object that
- * holds the result upon completion. Method {@link #setRawResult} by
- * default plays no role in CountedCompleters.  It is possible, but
- * rarely applicable, to override this method to maintain other
- * objects or fields holding result data.
+ * <p>CountedCompleters most often do not bebr results, in which cbse
+ * they bre normblly declbred bs {@code CountedCompleter<Void>}, bnd
+ * will blwbys return {@code null} bs b result vblue.  In other cbses,
+ * you should override method {@link #getRbwResult} to provide b
+ * result from {@code join(), invoke()}, bnd relbted methods.  In
+ * generbl, this method should return the vblue of b field (or b
+ * function of one or more fields) of the CountedCompleter object thbt
+ * holds the result upon completion. Method {@link #setRbwResult} by
+ * defbult plbys no role in CountedCompleters.  It is possible, but
+ * rbrely bpplicbble, to override this method to mbintbin other
+ * objects or fields holding result dbtb.
  *
- * <p>A CountedCompleter that does not itself have a completer (i.e.,
- * one for which {@link #getCompleter} returns {@code null}) can be
- * used as a regular ForkJoinTask with this added functionality.
- * However, any completer that in turn has another completer serves
- * only as an internal helper for other computations, so its own task
- * status (as reported in methods such as {@link ForkJoinTask#isDone})
- * is arbitrary; this status changes only upon explicit invocations of
- * {@link #complete}, {@link ForkJoinTask#cancel},
- * {@link ForkJoinTask#completeExceptionally(Throwable)} or upon
- * exceptional completion of method {@code compute}. Upon any
- * exceptional completion, the exception may be relayed to a task's
- * completer (and its completer, and so on), if one exists and it has
- * not otherwise already completed. Similarly, cancelling an internal
- * CountedCompleter has only a local effect on that completer, so is
+ * <p>A CountedCompleter thbt does not itself hbve b completer (i.e.,
+ * one for which {@link #getCompleter} returns {@code null}) cbn be
+ * used bs b regulbr ForkJoinTbsk with this bdded functionblity.
+ * However, bny completer thbt in turn hbs bnother completer serves
+ * only bs bn internbl helper for other computbtions, so its own tbsk
+ * stbtus (bs reported in methods such bs {@link ForkJoinTbsk#isDone})
+ * is brbitrbry; this stbtus chbnges only upon explicit invocbtions of
+ * {@link #complete}, {@link ForkJoinTbsk#cbncel},
+ * {@link ForkJoinTbsk#completeExceptionblly(Throwbble)} or upon
+ * exceptionbl completion of method {@code compute}. Upon bny
+ * exceptionbl completion, the exception mby be relbyed to b tbsk's
+ * completer (bnd its completer, bnd so on), if one exists bnd it hbs
+ * not otherwise blrebdy completed. Similbrly, cbncelling bn internbl
+ * CountedCompleter hbs only b locbl effect on thbt completer, so is
  * not often useful.
  *
- * <p><b>Sample Usages.</b>
+ * <p><b>Sbmple Usbges.</b>
  *
- * <p><b>Parallel recursive decomposition.</b> CountedCompleters may
- * be arranged in trees similar to those often used with {@link
- * RecursiveAction}s, although the constructions involved in setting
- * them up typically vary. Here, the completer of each task is its
- * parent in the computation tree. Even though they entail a bit more
- * bookkeeping, CountedCompleters may be better choices when applying
- * a possibly time-consuming operation (that cannot be further
- * subdivided) to each element of an array or collection; especially
- * when the operation takes a significantly different amount of time
- * to complete for some elements than others, either because of
- * intrinsic variation (for example I/O) or auxiliary effects such as
- * garbage collection.  Because CountedCompleters provide their own
- * continuations, other threads need not block waiting to perform
+ * <p><b>Pbrbllel recursive decomposition.</b> CountedCompleters mby
+ * be brrbnged in trees similbr to those often used with {@link
+ * RecursiveAction}s, blthough the constructions involved in setting
+ * them up typicblly vbry. Here, the completer of ebch tbsk is its
+ * pbrent in the computbtion tree. Even though they entbil b bit more
+ * bookkeeping, CountedCompleters mby be better choices when bpplying
+ * b possibly time-consuming operbtion (thbt cbnnot be further
+ * subdivided) to ebch element of bn brrby or collection; especiblly
+ * when the operbtion tbkes b significbntly different bmount of time
+ * to complete for some elements thbn others, either becbuse of
+ * intrinsic vbribtion (for exbmple I/O) or buxilibry effects such bs
+ * gbrbbge collection.  Becbuse CountedCompleters provide their own
+ * continubtions, other threbds need not block wbiting to perform
  * them.
  *
- * <p>For example, here is an initial version of a class that uses
+ * <p>For exbmple, here is bn initibl version of b clbss thbt uses
  * divide-by-two recursive decomposition to divide work into single
- * pieces (leaf tasks). Even when work is split into individual calls,
- * tree-based techniques are usually preferable to directly forking
- * leaf tasks, because they reduce inter-thread communication and
- * improve load balancing. In the recursive case, the second of each
- * pair of subtasks to finish triggers completion of its parent
- * (because no result combination is performed, the default no-op
- * implementation of method {@code onCompletion} is not overridden).
- * A static utility method sets up the base task and invokes it
+ * pieces (lebf tbsks). Even when work is split into individubl cblls,
+ * tree-bbsed techniques bre usublly preferbble to directly forking
+ * lebf tbsks, becbuse they reduce inter-threbd communicbtion bnd
+ * improve lobd bblbncing. In the recursive cbse, the second of ebch
+ * pbir of subtbsks to finish triggers completion of its pbrent
+ * (becbuse no result combinbtion is performed, the defbult no-op
+ * implementbtion of method {@code onCompletion} is not overridden).
+ * A stbtic utility method sets up the bbse tbsk bnd invokes it
  * (here, implicitly using the {@link ForkJoinPool#commonPool()}).
  *
  * <pre> {@code
- * class MyOperation<E> { void apply(E e) { ... }  }
+ * clbss MyOperbtion<E> { void bpply(E e) { ... }  }
  *
- * class ForEach<E> extends CountedCompleter<Void> {
+ * clbss ForEbch<E> extends CountedCompleter<Void> {
  *
- *   public static <E> void forEach(E[] array, MyOperation<E> op) {
- *     new ForEach<E>(null, array, op, 0, array.length).invoke();
+ *   public stbtic <E> void forEbch(E[] brrby, MyOperbtion<E> op) {
+ *     new ForEbch<E>(null, brrby, op, 0, brrby.length).invoke();
  *   }
  *
- *   final E[] array; final MyOperation<E> op; final int lo, hi;
- *   ForEach(CountedCompleter<?> p, E[] array, MyOperation<E> op, int lo, int hi) {
+ *   finbl E[] brrby; finbl MyOperbtion<E> op; finbl int lo, hi;
+ *   ForEbch(CountedCompleter<?> p, E[] brrby, MyOperbtion<E> op, int lo, int hi) {
  *     super(p);
- *     this.array = array; this.op = op; this.lo = lo; this.hi = hi;
+ *     this.brrby = brrby; this.op = op; this.lo = lo; this.hi = hi;
  *   }
  *
  *   public void compute() { // version 1
  *     if (hi - lo >= 2) {
  *       int mid = (lo + hi) >>> 1;
  *       setPendingCount(2); // must set pending count before fork
- *       new ForEach(this, array, op, mid, hi).fork(); // right child
- *       new ForEach(this, array, op, lo, mid).fork(); // left child
+ *       new ForEbch(this, brrby, op, mid, hi).fork(); // right child
+ *       new ForEbch(this, brrby, op, lo, mid).fork(); // left child
  *     }
  *     else if (hi > lo)
- *       op.apply(array[lo]);
+ *       op.bpply(brrby[lo]);
  *     tryComplete();
  *   }
  * }}</pre>
  *
- * This design can be improved by noticing that in the recursive case,
- * the task has nothing to do after forking its right task, so can
- * directly invoke its left task before returning. (This is an analog
- * of tail recursion removal.)  Also, because the task returns upon
- * executing its left task (rather than falling through to invoke
+ * This design cbn be improved by noticing thbt in the recursive cbse,
+ * the tbsk hbs nothing to do bfter forking its right tbsk, so cbn
+ * directly invoke its left tbsk before returning. (This is bn bnblog
+ * of tbil recursion removbl.)  Also, becbuse the tbsk returns upon
+ * executing its left tbsk (rbther thbn fblling through to invoke
  * {@code tryComplete}) the pending count is set to one:
  *
  * <pre> {@code
- * class ForEach<E> ...
+ * clbss ForEbch<E> ...
  *   public void compute() { // version 2
  *     if (hi - lo >= 2) {
  *       int mid = (lo + hi) >>> 1;
  *       setPendingCount(1); // only one pending
- *       new ForEach(this, array, op, mid, hi).fork(); // right child
- *       new ForEach(this, array, op, lo, mid).compute(); // direct invoke
+ *       new ForEbch(this, brrby, op, mid, hi).fork(); // right child
+ *       new ForEbch(this, brrby, op, lo, mid).compute(); // direct invoke
  *     }
  *     else {
  *       if (hi > lo)
- *         op.apply(array[lo]);
+ *         op.bpply(brrby[lo]);
  *       tryComplete();
  *     }
  *   }
  * }</pre>
  *
- * As a further improvement, notice that the left task need not even exist.
- * Instead of creating a new one, we can iterate using the original task,
- * and add a pending count for each fork.  Additionally, because no task
- * in this tree implements an {@link #onCompletion(CountedCompleter)} method,
- * {@code tryComplete()} can be replaced with {@link #propagateCompletion}.
+ * As b further improvement, notice thbt the left tbsk need not even exist.
+ * Instebd of crebting b new one, we cbn iterbte using the originbl tbsk,
+ * bnd bdd b pending count for ebch fork.  Additionblly, becbuse no tbsk
+ * in this tree implements bn {@link #onCompletion(CountedCompleter)} method,
+ * {@code tryComplete()} cbn be replbced with {@link #propbgbteCompletion}.
  *
  * <pre> {@code
- * class ForEach<E> ...
+ * clbss ForEbch<E> ...
  *   public void compute() { // version 3
  *     int l = lo,  h = hi;
  *     while (h - l >= 2) {
  *       int mid = (l + h) >>> 1;
- *       addToPendingCount(1);
- *       new ForEach(this, array, op, mid, h).fork(); // right child
+ *       bddToPendingCount(1);
+ *       new ForEbch(this, brrby, op, mid, h).fork(); // right child
  *       h = mid;
  *     }
  *     if (h > l)
- *       op.apply(array[l]);
- *     propagateCompletion();
+ *       op.bpply(brrby[l]);
+ *     propbgbteCompletion();
  *   }
  * }</pre>
  *
- * Additional improvements of such classes might entail precomputing
- * pending counts so that they can be established in constructors,
- * specializing classes for leaf steps, subdividing by say, four,
- * instead of two per iteration, and using an adaptive threshold
- * instead of always subdividing down to single elements.
+ * Additionbl improvements of such clbsses might entbil precomputing
+ * pending counts so thbt they cbn be estbblished in constructors,
+ * speciblizing clbsses for lebf steps, subdividing by sby, four,
+ * instebd of two per iterbtion, bnd using bn bdbptive threshold
+ * instebd of blwbys subdividing down to single elements.
  *
- * <p><b>Searching.</b> A tree of CountedCompleters can search for a
- * value or property in different parts of a data structure, and
- * report a result in an {@link
- * java.util.concurrent.atomic.AtomicReference AtomicReference} as
- * soon as one is found. The others can poll the result to avoid
- * unnecessary work. (You could additionally {@linkplain #cancel
- * cancel} other tasks, but it is usually simpler and more efficient
- * to just let them notice that the result is set and if so skip
- * further processing.)  Illustrating again with an array using full
- * partitioning (again, in practice, leaf tasks will almost always
- * process more than one element):
+ * <p><b>Sebrching.</b> A tree of CountedCompleters cbn sebrch for b
+ * vblue or property in different pbrts of b dbtb structure, bnd
+ * report b result in bn {@link
+ * jbvb.util.concurrent.btomic.AtomicReference AtomicReference} bs
+ * soon bs one is found. The others cbn poll the result to bvoid
+ * unnecessbry work. (You could bdditionblly {@linkplbin #cbncel
+ * cbncel} other tbsks, but it is usublly simpler bnd more efficient
+ * to just let them notice thbt the result is set bnd if so skip
+ * further processing.)  Illustrbting bgbin with bn brrby using full
+ * pbrtitioning (bgbin, in prbctice, lebf tbsks will blmost blwbys
+ * process more thbn one element):
  *
  * <pre> {@code
- * class Searcher<E> extends CountedCompleter<E> {
- *   final E[] array; final AtomicReference<E> result; final int lo, hi;
- *   Searcher(CountedCompleter<?> p, E[] array, AtomicReference<E> result, int lo, int hi) {
+ * clbss Sebrcher<E> extends CountedCompleter<E> {
+ *   finbl E[] brrby; finbl AtomicReference<E> result; finbl int lo, hi;
+ *   Sebrcher(CountedCompleter<?> p, E[] brrby, AtomicReference<E> result, int lo, int hi) {
  *     super(p);
- *     this.array = array; this.result = result; this.lo = lo; this.hi = hi;
+ *     this.brrby = brrby; this.result = result; this.lo = lo; this.hi = hi;
  *   }
- *   public E getRawResult() { return result.get(); }
- *   public void compute() { // similar to ForEach version 3
+ *   public E getRbwResult() { return result.get(); }
+ *   public void compute() { // similbr to ForEbch version 3
  *     int l = lo,  h = hi;
  *     while (result.get() == null && h >= l) {
  *       if (h - l >= 2) {
  *         int mid = (l + h) >>> 1;
- *         addToPendingCount(1);
- *         new Searcher(this, array, result, mid, h).fork();
+ *         bddToPendingCount(1);
+ *         new Sebrcher(this, brrby, result, mid, h).fork();
  *         h = mid;
  *       }
  *       else {
- *         E x = array[l];
- *         if (matches(x) && result.compareAndSet(null, x))
- *           quietlyCompleteRoot(); // root task is now joinable
- *         break;
+ *         E x = brrby[l];
+ *         if (mbtches(x) && result.compbreAndSet(null, x))
+ *           quietlyCompleteRoot(); // root tbsk is now joinbble
+ *         brebk;
  *       }
  *     }
- *     tryComplete(); // normally complete whether or not found
+ *     tryComplete(); // normblly complete whether or not found
  *   }
- *   boolean matches(E e) { ... } // return true if found
+ *   boolebn mbtches(E e) { ... } // return true if found
  *
- *   public static <E> E search(E[] array) {
- *       return new Searcher<E>(null, array, new AtomicReference<E>(), 0, array.length).invoke();
+ *   public stbtic <E> E sebrch(E[] brrby) {
+ *       return new Sebrcher<E>(null, brrby, new AtomicReference<E>(), 0, brrby.length).invoke();
  *   }
  * }}</pre>
  *
- * In this example, as well as others in which tasks have no other
- * effects except to compareAndSet a common result, the trailing
- * unconditional invocation of {@code tryComplete} could be made
- * conditional ({@code if (result.get() == null) tryComplete();})
- * because no further bookkeeping is required to manage completions
- * once the root task completes.
+ * In this exbmple, bs well bs others in which tbsks hbve no other
+ * effects except to compbreAndSet b common result, the trbiling
+ * unconditionbl invocbtion of {@code tryComplete} could be mbde
+ * conditionbl ({@code if (result.get() == null) tryComplete();})
+ * becbuse no further bookkeeping is required to mbnbge completions
+ * once the root tbsk completes.
  *
- * <p><b>Recording subtasks.</b> CountedCompleter tasks that combine
- * results of multiple subtasks usually need to access these results
- * in method {@link #onCompletion(CountedCompleter)}. As illustrated in the following
- * class (that performs a simplified form of map-reduce where mappings
- * and reductions are all of type {@code E}), one way to do this in
- * divide and conquer designs is to have each subtask record its
- * sibling, so that it can be accessed in method {@code onCompletion}.
- * This technique applies to reductions in which the order of
- * combining left and right results does not matter; ordered
- * reductions require explicit left/right designations.  Variants of
- * other streamlinings seen in the above examples may also apply.
+ * <p><b>Recording subtbsks.</b> CountedCompleter tbsks thbt combine
+ * results of multiple subtbsks usublly need to bccess these results
+ * in method {@link #onCompletion(CountedCompleter)}. As illustrbted in the following
+ * clbss (thbt performs b simplified form of mbp-reduce where mbppings
+ * bnd reductions bre bll of type {@code E}), one wby to do this in
+ * divide bnd conquer designs is to hbve ebch subtbsk record its
+ * sibling, so thbt it cbn be bccessed in method {@code onCompletion}.
+ * This technique bpplies to reductions in which the order of
+ * combining left bnd right results does not mbtter; ordered
+ * reductions require explicit left/right designbtions.  Vbribnts of
+ * other strebmlinings seen in the bbove exbmples mby blso bpply.
  *
  * <pre> {@code
- * class MyMapper<E> { E apply(E v) {  ...  } }
- * class MyReducer<E> { E apply(E x, E y) {  ...  } }
- * class MapReducer<E> extends CountedCompleter<E> {
- *   final E[] array; final MyMapper<E> mapper;
- *   final MyReducer<E> reducer; final int lo, hi;
- *   MapReducer<E> sibling;
+ * clbss MyMbpper<E> { E bpply(E v) {  ...  } }
+ * clbss MyReducer<E> { E bpply(E x, E y) {  ...  } }
+ * clbss MbpReducer<E> extends CountedCompleter<E> {
+ *   finbl E[] brrby; finbl MyMbpper<E> mbpper;
+ *   finbl MyReducer<E> reducer; finbl int lo, hi;
+ *   MbpReducer<E> sibling;
  *   E result;
- *   MapReducer(CountedCompleter<?> p, E[] array, MyMapper<E> mapper,
+ *   MbpReducer(CountedCompleter<?> p, E[] brrby, MyMbpper<E> mbpper,
  *              MyReducer<E> reducer, int lo, int hi) {
  *     super(p);
- *     this.array = array; this.mapper = mapper;
+ *     this.brrby = brrby; this.mbpper = mbpper;
  *     this.reducer = reducer; this.lo = lo; this.hi = hi;
  *   }
  *   public void compute() {
  *     if (hi - lo >= 2) {
  *       int mid = (lo + hi) >>> 1;
- *       MapReducer<E> left = new MapReducer(this, array, mapper, reducer, lo, mid);
- *       MapReducer<E> right = new MapReducer(this, array, mapper, reducer, mid, hi);
+ *       MbpReducer<E> left = new MbpReducer(this, brrby, mbpper, reducer, lo, mid);
+ *       MbpReducer<E> right = new MbpReducer(this, brrby, mbpper, reducer, mid, hi);
  *       left.sibling = right;
  *       right.sibling = left;
  *       setPendingCount(1); // only right is pending
@@ -303,62 +303,62 @@ package java.util.concurrent;
  *     }
  *     else {
  *       if (hi > lo)
- *           result = mapper.apply(array[lo]);
+ *           result = mbpper.bpply(brrby[lo]);
  *       tryComplete();
  *     }
  *   }
- *   public void onCompletion(CountedCompleter<?> caller) {
- *     if (caller != this) {
- *       MapReducer<E> child = (MapReducer<E>)caller;
- *       MapReducer<E> sib = child.sibling;
+ *   public void onCompletion(CountedCompleter<?> cbller) {
+ *     if (cbller != this) {
+ *       MbpReducer<E> child = (MbpReducer<E>)cbller;
+ *       MbpReducer<E> sib = child.sibling;
  *       if (sib == null || sib.result == null)
  *         result = child.result;
  *       else
- *         result = reducer.apply(child.result, sib.result);
+ *         result = reducer.bpply(child.result, sib.result);
  *     }
  *   }
- *   public E getRawResult() { return result; }
+ *   public E getRbwResult() { return result; }
  *
- *   public static <E> E mapReduce(E[] array, MyMapper<E> mapper, MyReducer<E> reducer) {
- *     return new MapReducer<E>(null, array, mapper, reducer,
- *                              0, array.length).invoke();
+ *   public stbtic <E> E mbpReduce(E[] brrby, MyMbpper<E> mbpper, MyReducer<E> reducer) {
+ *     return new MbpReducer<E>(null, brrby, mbpper, reducer,
+ *                              0, brrby.length).invoke();
  *   }
  * }}</pre>
  *
- * Here, method {@code onCompletion} takes a form common to many
- * completion designs that combine results. This callback-style method
- * is triggered once per task, in either of the two different contexts
- * in which the pending count is, or becomes, zero: (1) by a task
- * itself, if its pending count is zero upon invocation of {@code
- * tryComplete}, or (2) by any of its subtasks when they complete and
- * decrement the pending count to zero. The {@code caller} argument
- * distinguishes cases.  Most often, when the caller is {@code this},
- * no action is necessary. Otherwise the caller argument can be used
- * (usually via a cast) to supply a value (and/or links to other
- * values) to be combined.  Assuming proper use of pending counts, the
- * actions inside {@code onCompletion} occur (once) upon completion of
- * a task and its subtasks. No additional synchronization is required
- * within this method to ensure thread safety of accesses to fields of
- * this task or other completed tasks.
+ * Here, method {@code onCompletion} tbkes b form common to mbny
+ * completion designs thbt combine results. This cbllbbck-style method
+ * is triggered once per tbsk, in either of the two different contexts
+ * in which the pending count is, or becomes, zero: (1) by b tbsk
+ * itself, if its pending count is zero upon invocbtion of {@code
+ * tryComplete}, or (2) by bny of its subtbsks when they complete bnd
+ * decrement the pending count to zero. The {@code cbller} brgument
+ * distinguishes cbses.  Most often, when the cbller is {@code this},
+ * no bction is necessbry. Otherwise the cbller brgument cbn be used
+ * (usublly vib b cbst) to supply b vblue (bnd/or links to other
+ * vblues) to be combined.  Assuming proper use of pending counts, the
+ * bctions inside {@code onCompletion} occur (once) upon completion of
+ * b tbsk bnd its subtbsks. No bdditionbl synchronizbtion is required
+ * within this method to ensure threbd sbfety of bccesses to fields of
+ * this tbsk or other completed tbsks.
  *
- * <p><b>Completion Traversals</b>. If using {@code onCompletion} to
- * process completions is inapplicable or inconvenient, you can use
- * methods {@link #firstComplete} and {@link #nextComplete} to create
- * custom traversals.  For example, to define a MapReducer that only
- * splits out right-hand tasks in the form of the third ForEach
- * example, the completions must cooperatively reduce along
- * unexhausted subtask links, which can be done as follows:
+ * <p><b>Completion Trbversbls</b>. If using {@code onCompletion} to
+ * process completions is inbpplicbble or inconvenient, you cbn use
+ * methods {@link #firstComplete} bnd {@link #nextComplete} to crebte
+ * custom trbversbls.  For exbmple, to define b MbpReducer thbt only
+ * splits out right-hbnd tbsks in the form of the third ForEbch
+ * exbmple, the completions must cooperbtively reduce blong
+ * unexhbusted subtbsk links, which cbn be done bs follows:
  *
  * <pre> {@code
- * class MapReducer<E> extends CountedCompleter<E> { // version 2
- *   final E[] array; final MyMapper<E> mapper;
- *   final MyReducer<E> reducer; final int lo, hi;
- *   MapReducer<E> forks, next; // record subtask forks in list
+ * clbss MbpReducer<E> extends CountedCompleter<E> { // version 2
+ *   finbl E[] brrby; finbl MyMbpper<E> mbpper;
+ *   finbl MyReducer<E> reducer; finbl int lo, hi;
+ *   MbpReducer<E> forks, next; // record subtbsk forks in list
  *   E result;
- *   MapReducer(CountedCompleter<?> p, E[] array, MyMapper<E> mapper,
- *              MyReducer<E> reducer, int lo, int hi, MapReducer<E> next) {
+ *   MbpReducer(CountedCompleter<?> p, E[] brrby, MyMbpper<E> mbpper,
+ *              MyReducer<E> reducer, int lo, int hi, MbpReducer<E> next) {
  *     super(p);
- *     this.array = array; this.mapper = mapper;
+ *     this.brrby = brrby; this.mbpper = mbpper;
  *     this.reducer = reducer; this.lo = lo; this.hi = hi;
  *     this.next = next;
  *   }
@@ -366,136 +366,136 @@ package java.util.concurrent;
  *     int l = lo,  h = hi;
  *     while (h - l >= 2) {
  *       int mid = (l + h) >>> 1;
- *       addToPendingCount(1);
- *       (forks = new MapReducer(this, array, mapper, reducer, mid, h, forks)).fork();
+ *       bddToPendingCount(1);
+ *       (forks = new MbpReducer(this, brrby, mbpper, reducer, mid, h, forks)).fork();
  *       h = mid;
  *     }
  *     if (h > l)
- *       result = mapper.apply(array[l]);
- *     // process completions by reducing along and advancing subtask links
+ *       result = mbpper.bpply(brrby[l]);
+ *     // process completions by reducing blong bnd bdvbncing subtbsk links
  *     for (CountedCompleter<?> c = firstComplete(); c != null; c = c.nextComplete()) {
- *       for (MapReducer t = (MapReducer)c, s = t.forks;  s != null; s = t.forks = s.next)
- *         t.result = reducer.apply(t.result, s.result);
+ *       for (MbpReducer t = (MbpReducer)c, s = t.forks;  s != null; s = t.forks = s.next)
+ *         t.result = reducer.bpply(t.result, s.result);
  *     }
  *   }
- *   public E getRawResult() { return result; }
+ *   public E getRbwResult() { return result; }
  *
- *   public static <E> E mapReduce(E[] array, MyMapper<E> mapper, MyReducer<E> reducer) {
- *     return new MapReducer<E>(null, array, mapper, reducer,
- *                              0, array.length, null).invoke();
+ *   public stbtic <E> E mbpReduce(E[] brrby, MyMbpper<E> mbpper, MyReducer<E> reducer) {
+ *     return new MbpReducer<E>(null, brrby, mbpper, reducer,
+ *                              0, brrby.length, null).invoke();
  *   }
  * }}</pre>
  *
- * <p><b>Triggers.</b> Some CountedCompleters are themselves never
- * forked, but instead serve as bits of plumbing in other designs;
- * including those in which the completion of one or more async tasks
- * triggers another async task. For example:
+ * <p><b>Triggers.</b> Some CountedCompleters bre themselves never
+ * forked, but instebd serve bs bits of plumbing in other designs;
+ * including those in which the completion of one or more bsync tbsks
+ * triggers bnother bsync tbsk. For exbmple:
  *
  * <pre> {@code
- * class HeaderBuilder extends CountedCompleter<...> { ... }
- * class BodyBuilder extends CountedCompleter<...> { ... }
- * class PacketSender extends CountedCompleter<...> {
- *   PacketSender(...) { super(null, 1); ... } // trigger on second completion
- *   public void compute() { } // never called
- *   public void onCompletion(CountedCompleter<?> caller) { sendPacket(); }
+ * clbss HebderBuilder extends CountedCompleter<...> { ... }
+ * clbss BodyBuilder extends CountedCompleter<...> { ... }
+ * clbss PbcketSender extends CountedCompleter<...> {
+ *   PbcketSender(...) { super(null, 1); ... } // trigger on second completion
+ *   public void compute() { } // never cblled
+ *   public void onCompletion(CountedCompleter<?> cbller) { sendPbcket(); }
  * }
- * // sample use:
- * PacketSender p = new PacketSender();
- * new HeaderBuilder(p, ...).fork();
+ * // sbmple use:
+ * PbcketSender p = new PbcketSender();
+ * new HebderBuilder(p, ...).fork();
  * new BodyBuilder(p, ...).fork();
  * }</pre>
  *
  * @since 1.8
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
-    private static final long serialVersionUID = 5232453752276485070L;
+public bbstrbct clbss CountedCompleter<T> extends ForkJoinTbsk<T> {
+    privbte stbtic finbl long seriblVersionUID = 5232453752276485070L;
 
-    /** This task's completer, or null if none */
-    final CountedCompleter<?> completer;
-    /** The number of pending tasks until completion */
-    volatile int pending;
+    /** This tbsk's completer, or null if none */
+    finbl CountedCompleter<?> completer;
+    /** The number of pending tbsks until completion */
+    volbtile int pending;
 
     /**
-     * Creates a new CountedCompleter with the given completer
-     * and initial pending count.
+     * Crebtes b new CountedCompleter with the given completer
+     * bnd initibl pending count.
      *
-     * @param completer this task's completer, or {@code null} if none
-     * @param initialPendingCount the initial pending count
+     * @pbrbm completer this tbsk's completer, or {@code null} if none
+     * @pbrbm initiblPendingCount the initibl pending count
      */
     protected CountedCompleter(CountedCompleter<?> completer,
-                               int initialPendingCount) {
+                               int initiblPendingCount) {
         this.completer = completer;
-        this.pending = initialPendingCount;
+        this.pending = initiblPendingCount;
     }
 
     /**
-     * Creates a new CountedCompleter with the given completer
-     * and an initial pending count of zero.
+     * Crebtes b new CountedCompleter with the given completer
+     * bnd bn initibl pending count of zero.
      *
-     * @param completer this task's completer, or {@code null} if none
+     * @pbrbm completer this tbsk's completer, or {@code null} if none
      */
     protected CountedCompleter(CountedCompleter<?> completer) {
         this.completer = completer;
     }
 
     /**
-     * Creates a new CountedCompleter with no completer
-     * and an initial pending count of zero.
+     * Crebtes b new CountedCompleter with no completer
+     * bnd bn initibl pending count of zero.
      */
     protected CountedCompleter() {
         this.completer = null;
     }
 
     /**
-     * The main computation performed by this task.
+     * The mbin computbtion performed by this tbsk.
      */
-    public abstract void compute();
+    public bbstrbct void compute();
 
     /**
-     * Performs an action when method {@link #tryComplete} is invoked
-     * and the pending count is zero, or when the unconditional
-     * method {@link #complete} is invoked.  By default, this method
-     * does nothing. You can distinguish cases by checking the
-     * identity of the given caller argument. If not equal to {@code
-     * this}, then it is typically a subtask that may contain results
-     * (and/or links to other results) to combine.
+     * Performs bn bction when method {@link #tryComplete} is invoked
+     * bnd the pending count is zero, or when the unconditionbl
+     * method {@link #complete} is invoked.  By defbult, this method
+     * does nothing. You cbn distinguish cbses by checking the
+     * identity of the given cbller brgument. If not equbl to {@code
+     * this}, then it is typicblly b subtbsk thbt mby contbin results
+     * (bnd/or links to other results) to combine.
      *
-     * @param caller the task invoking this method (which may
-     * be this task itself)
+     * @pbrbm cbller the tbsk invoking this method (which mby
+     * be this tbsk itself)
      */
-    public void onCompletion(CountedCompleter<?> caller) {
+    public void onCompletion(CountedCompleter<?> cbller) {
     }
 
     /**
-     * Performs an action when method {@link
-     * #completeExceptionally(Throwable)} is invoked or method {@link
-     * #compute} throws an exception, and this task has not already
-     * otherwise completed normally. On entry to this method, this task
-     * {@link ForkJoinTask#isCompletedAbnormally}.  The return value
-     * of this method controls further propagation: If {@code true}
-     * and this task has a completer that has not completed, then that
-     * completer is also completed exceptionally, with the same
-     * exception as this completer.  The default implementation of
+     * Performs bn bction when method {@link
+     * #completeExceptionblly(Throwbble)} is invoked or method {@link
+     * #compute} throws bn exception, bnd this tbsk hbs not blrebdy
+     * otherwise completed normblly. On entry to this method, this tbsk
+     * {@link ForkJoinTbsk#isCompletedAbnormblly}.  The return vblue
+     * of this method controls further propbgbtion: If {@code true}
+     * bnd this tbsk hbs b completer thbt hbs not completed, then thbt
+     * completer is blso completed exceptionblly, with the sbme
+     * exception bs this completer.  The defbult implementbtion of
      * this method does nothing except return {@code true}.
      *
-     * @param ex the exception
-     * @param caller the task invoking this method (which may
-     * be this task itself)
-     * @return {@code true} if this exception should be propagated to this
-     * task's completer, if one exists
+     * @pbrbm ex the exception
+     * @pbrbm cbller the tbsk invoking this method (which mby
+     * be this tbsk itself)
+     * @return {@code true} if this exception should be propbgbted to this
+     * tbsk's completer, if one exists
      */
-    public boolean onExceptionalCompletion(Throwable ex, CountedCompleter<?> caller) {
+    public boolebn onExceptionblCompletion(Throwbble ex, CountedCompleter<?> cbller) {
         return true;
     }
 
     /**
-     * Returns the completer established in this task's constructor,
+     * Returns the completer estbblished in this tbsk's constructor,
      * or {@code null} if none.
      *
      * @return the completer
      */
-    public final CountedCompleter<?> getCompleter() {
+    public finbl CountedCompleter<?> getCompleter() {
         return completer;
     }
 
@@ -504,132 +504,132 @@ public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
      *
      * @return the current pending count
      */
-    public final int getPendingCount() {
+    public finbl int getPendingCount() {
         return pending;
     }
 
     /**
-     * Sets the pending count to the given value.
+     * Sets the pending count to the given vblue.
      *
-     * @param count the count
+     * @pbrbm count the count
      */
-    public final void setPendingCount(int count) {
+    public finbl void setPendingCount(int count) {
         pending = count;
     }
 
     /**
-     * Adds (atomically) the given value to the pending count.
+     * Adds (btomicblly) the given vblue to the pending count.
      *
-     * @param delta the value to add
+     * @pbrbm deltb the vblue to bdd
      */
-    public final void addToPendingCount(int delta) {
-        U.getAndAddInt(this, PENDING, delta);
+    public finbl void bddToPendingCount(int deltb) {
+        U.getAndAddInt(this, PENDING, deltb);
     }
 
     /**
-     * Sets (atomically) the pending count to the given count only if
-     * it currently holds the given expected value.
+     * Sets (btomicblly) the pending count to the given count only if
+     * it currently holds the given expected vblue.
      *
-     * @param expected the expected value
-     * @param count the new value
+     * @pbrbm expected the expected vblue
+     * @pbrbm count the new vblue
      * @return {@code true} if successful
      */
-    public final boolean compareAndSetPendingCount(int expected, int count) {
-        return U.compareAndSwapInt(this, PENDING, expected, count);
+    public finbl boolebn compbreAndSetPendingCount(int expected, int count) {
+        return U.compbreAndSwbpInt(this, PENDING, expected, count);
     }
 
     /**
-     * If the pending count is nonzero, (atomically) decrements it.
+     * If the pending count is nonzero, (btomicblly) decrements it.
      *
-     * @return the initial (undecremented) pending count holding on entry
+     * @return the initibl (undecremented) pending count holding on entry
      * to this method
      */
-    public final int decrementPendingCountUnlessZero() {
+    public finbl int decrementPendingCountUnlessZero() {
         int c;
         do {} while ((c = pending) != 0 &&
-                     !U.compareAndSwapInt(this, PENDING, c, c - 1));
+                     !U.compbreAndSwbpInt(this, PENDING, c, c - 1));
         return c;
     }
 
     /**
-     * Returns the root of the current computation; i.e., this
-     * task if it has no completer, else its completer's root.
+     * Returns the root of the current computbtion; i.e., this
+     * tbsk if it hbs no completer, else its completer's root.
      *
-     * @return the root of the current computation
+     * @return the root of the current computbtion
      */
-    public final CountedCompleter<?> getRoot() {
-        CountedCompleter<?> a = this, p;
-        while ((p = a.completer) != null)
-            a = p;
-        return a;
+    public finbl CountedCompleter<?> getRoot() {
+        CountedCompleter<?> b = this, p;
+        while ((p = b.completer) != null)
+            b = p;
+        return b;
     }
 
     /**
      * If the pending count is nonzero, decrements the count;
      * otherwise invokes {@link #onCompletion(CountedCompleter)}
-     * and then similarly tries to complete this task's completer,
-     * if one exists, else marks this task as complete.
+     * bnd then similbrly tries to complete this tbsk's completer,
+     * if one exists, else mbrks this tbsk bs complete.
      */
-    public final void tryComplete() {
-        CountedCompleter<?> a = this, s = a;
+    public finbl void tryComplete() {
+        CountedCompleter<?> b = this, s = b;
         for (int c;;) {
-            if ((c = a.pending) == 0) {
-                a.onCompletion(s);
-                if ((a = (s = a).completer) == null) {
+            if ((c = b.pending) == 0) {
+                b.onCompletion(s);
+                if ((b = (s = b).completer) == null) {
                     s.quietlyComplete();
                     return;
                 }
             }
-            else if (U.compareAndSwapInt(a, PENDING, c, c - 1))
+            else if (U.compbreAndSwbpInt(b, PENDING, c, c - 1))
                 return;
         }
     }
 
     /**
-     * Equivalent to {@link #tryComplete} but does not invoke {@link
-     * #onCompletion(CountedCompleter)} along the completion path:
+     * Equivblent to {@link #tryComplete} but does not invoke {@link
+     * #onCompletion(CountedCompleter)} blong the completion pbth:
      * If the pending count is nonzero, decrements the count;
-     * otherwise, similarly tries to complete this task's completer, if
-     * one exists, else marks this task as complete. This method may be
-     * useful in cases where {@code onCompletion} should not, or need
-     * not, be invoked for each completer in a computation.
+     * otherwise, similbrly tries to complete this tbsk's completer, if
+     * one exists, else mbrks this tbsk bs complete. This method mby be
+     * useful in cbses where {@code onCompletion} should not, or need
+     * not, be invoked for ebch completer in b computbtion.
      */
-    public final void propagateCompletion() {
-        CountedCompleter<?> a = this, s = a;
+    public finbl void propbgbteCompletion() {
+        CountedCompleter<?> b = this, s = b;
         for (int c;;) {
-            if ((c = a.pending) == 0) {
-                if ((a = (s = a).completer) == null) {
+            if ((c = b.pending) == 0) {
+                if ((b = (s = b).completer) == null) {
                     s.quietlyComplete();
                     return;
                 }
             }
-            else if (U.compareAndSwapInt(a, PENDING, c, c - 1))
+            else if (U.compbreAndSwbpInt(b, PENDING, c, c - 1))
                 return;
         }
     }
 
     /**
-     * Regardless of pending count, invokes
-     * {@link #onCompletion(CountedCompleter)}, marks this task as
-     * complete and further triggers {@link #tryComplete} on this
-     * task's completer, if one exists.  The given rawResult is
-     * used as an argument to {@link #setRawResult} before invoking
-     * {@link #onCompletion(CountedCompleter)} or marking this task
-     * as complete; its value is meaningful only for classes
-     * overriding {@code setRawResult}.  This method does not modify
+     * Regbrdless of pending count, invokes
+     * {@link #onCompletion(CountedCompleter)}, mbrks this tbsk bs
+     * complete bnd further triggers {@link #tryComplete} on this
+     * tbsk's completer, if one exists.  The given rbwResult is
+     * used bs bn brgument to {@link #setRbwResult} before invoking
+     * {@link #onCompletion(CountedCompleter)} or mbrking this tbsk
+     * bs complete; its vblue is mebningful only for clbsses
+     * overriding {@code setRbwResult}.  This method does not modify
      * the pending count.
      *
-     * <p>This method may be useful when forcing completion as soon as
-     * any one (versus all) of several subtask results are obtained.
-     * However, in the common (and recommended) case in which {@code
-     * setRawResult} is not overridden, this effect can be obtained
+     * <p>This method mby be useful when forcing completion bs soon bs
+     * bny one (versus bll) of severbl subtbsk results bre obtbined.
+     * However, in the common (bnd recommended) cbse in which {@code
+     * setRbwResult} is not overridden, this effect cbn be obtbined
      * more simply using {@code quietlyCompleteRoot();}.
      *
-     * @param rawResult the raw result
+     * @pbrbm rbwResult the rbw result
      */
-    public void complete(T rawResult) {
+    public void complete(T rbwResult) {
         CountedCompleter<?> p;
-        setRawResult(rawResult);
+        setRbwResult(rbwResult);
         onCompletion(this);
         quietlyComplete();
         if ((p = completer) != null)
@@ -637,29 +637,29 @@ public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
     }
 
     /**
-     * If this task's pending count is zero, returns this task;
-     * otherwise decrements its pending count and returns {@code
+     * If this tbsk's pending count is zero, returns this tbsk;
+     * otherwise decrements its pending count bnd returns {@code
      * null}. This method is designed to be used with {@link
-     * #nextComplete} in completion traversal loops.
+     * #nextComplete} in completion trbversbl loops.
      *
-     * @return this task, if pending count was zero, else {@code null}
+     * @return this tbsk, if pending count wbs zero, else {@code null}
      */
-    public final CountedCompleter<?> firstComplete() {
+    public finbl CountedCompleter<?> firstComplete() {
         for (int c;;) {
             if ((c = pending) == 0)
                 return this;
-            else if (U.compareAndSwapInt(this, PENDING, c, c - 1))
+            else if (U.compbreAndSwbpInt(this, PENDING, c, c - 1))
                 return null;
         }
     }
 
     /**
-     * If this task does not have a completer, invokes {@link
-     * ForkJoinTask#quietlyComplete} and returns {@code null}.  Or, if
-     * the completer's pending count is non-zero, decrements that
-     * pending count and returns {@code null}.  Otherwise, returns the
-     * completer.  This method can be used as part of a completion
-     * traversal loop for homogeneous task hierarchies:
+     * If this tbsk does not hbve b completer, invokes {@link
+     * ForkJoinTbsk#quietlyComplete} bnd returns {@code null}.  Or, if
+     * the completer's pending count is non-zero, decrements thbt
+     * pending count bnd returns {@code null}.  Otherwise, returns the
+     * completer.  This method cbn be used bs pbrt of b completion
+     * trbversbl loop for homogeneous tbsk hierbrchies:
      *
      * <pre> {@code
      * for (CountedCompleter<?> c = firstComplete();
@@ -670,7 +670,7 @@ public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
      *
      * @return the completer, or {@code null} if none
      */
-    public final CountedCompleter<?> nextComplete() {
+    public finbl CountedCompleter<?> nextComplete() {
         CountedCompleter<?> p;
         if ((p = completer) != null)
             return p.firstComplete();
@@ -681,86 +681,86 @@ public abstract class CountedCompleter<T> extends ForkJoinTask<T> {
     }
 
     /**
-     * Equivalent to {@code getRoot().quietlyComplete()}.
+     * Equivblent to {@code getRoot().quietlyComplete()}.
      */
-    public final void quietlyCompleteRoot() {
-        for (CountedCompleter<?> a = this, p;;) {
-            if ((p = a.completer) == null) {
-                a.quietlyComplete();
+    public finbl void quietlyCompleteRoot() {
+        for (CountedCompleter<?> b = this, p;;) {
+            if ((p = b.completer) == null) {
+                b.quietlyComplete();
                 return;
             }
-            a = p;
+            b = p;
         }
     }
 
     /**
-     * If this task has not completed, attempts to process at most the
-     * given number of other unprocessed tasks for which this task is
-     * on the completion path, if any are known to exist.
+     * If this tbsk hbs not completed, bttempts to process bt most the
+     * given number of other unprocessed tbsks for which this tbsk is
+     * on the completion pbth, if bny bre known to exist.
      *
-     * @param maxTasks the maximum number of tasks to process.  If
-     *                 less than or equal to zero, then no tasks are
+     * @pbrbm mbxTbsks the mbximum number of tbsks to process.  If
+     *                 less thbn or equbl to zero, then no tbsks bre
      *                 processed.
      */
-    public final void helpComplete(int maxTasks) {
-        Thread t; ForkJoinWorkerThread wt;
-        if (maxTasks > 0 && status >= 0) {
-            if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-                (wt = (ForkJoinWorkerThread)t).pool.
-                    helpComplete(wt.workQueue, this, maxTasks);
+    public finbl void helpComplete(int mbxTbsks) {
+        Threbd t; ForkJoinWorkerThrebd wt;
+        if (mbxTbsks > 0 && stbtus >= 0) {
+            if ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd)
+                (wt = (ForkJoinWorkerThrebd)t).pool.
+                    helpComplete(wt.workQueue, this, mbxTbsks);
             else
-                ForkJoinPool.common.externalHelpComplete(this, maxTasks);
+                ForkJoinPool.common.externblHelpComplete(this, mbxTbsks);
         }
     }
 
     /**
-     * Supports ForkJoinTask exception propagation.
+     * Supports ForkJoinTbsk exception propbgbtion.
      */
-    void internalPropagateException(Throwable ex) {
-        CountedCompleter<?> a = this, s = a;
-        while (a.onExceptionalCompletion(ex, s) &&
-               (a = (s = a).completer) != null && a.status >= 0 &&
-               a.recordExceptionalCompletion(ex) == EXCEPTIONAL)
+    void internblPropbgbteException(Throwbble ex) {
+        CountedCompleter<?> b = this, s = b;
+        while (b.onExceptionblCompletion(ex, s) &&
+               (b = (s = b).completer) != null && b.stbtus >= 0 &&
+               b.recordExceptionblCompletion(ex) == EXCEPTIONAL)
             ;
     }
 
     /**
      * Implements execution conventions for CountedCompleters.
      */
-    protected final boolean exec() {
+    protected finbl boolebn exec() {
         compute();
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the result of the computation. By default
-     * returns {@code null}, which is appropriate for {@code Void}
-     * actions, but in other cases should be overridden, almost
-     * always to return a field or function of a field that
+     * Returns the result of the computbtion. By defbult
+     * returns {@code null}, which is bppropribte for {@code Void}
+     * bctions, but in other cbses should be overridden, blmost
+     * blwbys to return b field or function of b field thbt
      * holds the result upon completion.
      *
-     * @return the result of the computation
+     * @return the result of the computbtion
      */
-    public T getRawResult() { return null; }
+    public T getRbwResult() { return null; }
 
     /**
-     * A method that result-bearing CountedCompleters may optionally
-     * use to help maintain result data.  By default, does nothing.
-     * Overrides are not recommended. However, if this method is
-     * overridden to update existing objects or fields, then it must
-     * in general be defined to be thread-safe.
+     * A method thbt result-bebring CountedCompleters mby optionblly
+     * use to help mbintbin result dbtb.  By defbult, does nothing.
+     * Overrides bre not recommended. However, if this method is
+     * overridden to updbte existing objects or fields, then it must
+     * in generbl be defined to be threbd-sbfe.
      */
-    protected void setRawResult(T t) { }
+    protected void setRbwResult(T t) { }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long PENDING;
-    static {
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long PENDING;
+    stbtic {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
+            U = sun.misc.Unsbfe.getUnsbfe();
             PENDING = U.objectFieldOffset
-                (CountedCompleter.class.getDeclaredField("pending"));
-        } catch (Exception e) {
+                (CountedCompleter.clbss.getDeclbredField("pending"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

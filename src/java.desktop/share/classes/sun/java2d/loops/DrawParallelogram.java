@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * DrawParallelogram
- * 1) fill the area between the 4 edges of an outer parallelogram
- *    (as specified by an origin and 2 delta vectors)
- *    but also outside the 4 edges of an inner parallelogram
- *    (as specified by proportional amounts of the outer delta vectors)
+ * DrbwPbrbllelogrbm
+ * 1) fill the breb between the 4 edges of bn outer pbrbllelogrbm
+ *    (bs specified by bn origin bnd 2 deltb vectors)
+ *    but blso outside the 4 edges of bn inner pbrbllelogrbm
+ *    (bs specified by proportionbl bmounts of the outer deltb vectors)
  */
-public class DrawParallelogram extends GraphicsPrimitive
+public clbss DrbwPbrbllelogrbm extends GrbphicsPrimitive
 {
-    public final static String methodSignature =
-        "DrawParallelogram(...)".toString();
+    public finbl stbtic String methodSignbture =
+        "DrbwPbrbllelogrbm(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    public finbl stbtic int primTypeID = mbkePrimTypeID();
 
-    public static DrawParallelogram locate(SurfaceType srctype,
+    public stbtic DrbwPbrbllelogrbm locbte(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
-        return (DrawParallelogram)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+        return (DrbwPbrbllelogrbm)
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    protected DrawParallelogram(SurfaceType srctype,
+    protected DrbwPbrbllelogrbm(SurfbceType srctype,
                                 CompositeType comptype,
-                                SurfaceType dsttype)
+                                SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID,
+        super(methodSignbture, primTypeID,
               srctype, comptype, dsttype);
     }
 
-    public DrawParallelogram(long pNativePrim,
-                             SurfaceType srctype,
+    public DrbwPbrbllelogrbm(long pNbtivePrim,
+                             SurfbceType srctype,
                              CompositeType comptype,
-                             SurfaceType dsttype)
+                             SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID,
+        super(pNbtivePrim, methodSignbture, primTypeID,
               srctype, comptype, dsttype);
     }
 
     /**
-     * All DrawParallelogram implementors must have this invoker method
+     * All DrbwPbrbllelogrbm implementors must hbve this invoker method
      */
-    public native void DrawParallelogram(SunGraphics2D sg, SurfaceData dest,
+    public nbtive void DrbwPbrbllelogrbm(SunGrbphics2D sg, SurfbceDbtb dest,
                                          double x, double y,
                                          double dx1, double dy1,
                                          double dx2, double dy2,
                                          double lw1, double lw2);
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
-        // REMIND: iterate with a FillRect primitive?
-        throw new InternalError("DrawParallelogram not implemented for "+
+        // REMIND: iterbte with b FillRect primitive?
+        throw new InternblError("DrbwPbrbllelogrbm not implemented for "+
                                 srctype+" with "+comptype);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceDrawParallelogram(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceDrbwPbrbllelogrbm(this);
     }
 
-    private static class TraceDrawParallelogram extends DrawParallelogram {
-        DrawParallelogram target;
+    privbte stbtic clbss TrbceDrbwPbrbllelogrbm extends DrbwPbrbllelogrbm {
+        DrbwPbrbllelogrbm tbrget;
 
-        public TraceDrawParallelogram(DrawParallelogram target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceDrbwPbrbllelogrbm(DrbwPbrbllelogrbm tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void DrawParallelogram(SunGraphics2D sg2d, SurfaceData dest,
+        public void DrbwPbrbllelogrbm(SunGrbphics2D sg2d, SurfbceDbtb dest,
                                       double x, double y,
                                       double dx1, double dy1,
                                       double dx2, double dy2,
                                       double lw1, double lw2)
         {
-            tracePrimitive(target);
-            target.DrawParallelogram(sg2d, dest,
+            trbcePrimitive(tbrget);
+            tbrget.DrbwPbrbllelogrbm(sg2d, dest,
                                      x, y, dx1, dy1, dx2, dy2, lw1, lw2);
         }
     }

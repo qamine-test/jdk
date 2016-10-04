@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
 
-import java.security.cert.*;
+import jbvb.security.cert.*;
 
 /**
- * Implements the <code>PolicyNode</code> interface.
+ * Implements the <code>PolicyNode</code> interfbce.
  * <p>
- * This class provides an implementation of the <code>PolicyNode</code>
- * interface, and is used internally to build and search Policy Trees.
- * While the implementation is mutable during construction, it is immutable
- * before returning to a client and no mutable public or protected methods
- * are exposed by this implementation, as per the contract of PolicyNode.
+ * This clbss provides bn implementbtion of the <code>PolicyNode</code>
+ * interfbce, bnd is used internblly to build bnd sebrch Policy Trees.
+ * While the implementbtion is mutbble during construction, it is immutbble
+ * before returning to b client bnd no mutbble public or protected methods
+ * bre exposed by this implementbtion, bs per the contrbct of PolicyNode.
  *
  * @since       1.4
- * @author      Seth Proctor
- * @author      Sean Mullan
+ * @buthor      Seth Proctor
+ * @buthor      Sebn Mullbn
  */
-final class PolicyNodeImpl implements PolicyNode {
+finbl clbss PolicyNodeImpl implements PolicyNode {
 
     /**
-     * Use to specify the special policy "Any Policy"
+     * Use to specify the specibl policy "Any Policy"
      */
-    private static final String ANY_POLICY = "2.5.29.32.0";
+    privbte stbtic finbl String ANY_POLICY = "2.5.29.32.0";
 
-    // every node has one parent, and zero or more children
-    private PolicyNodeImpl mParent;
-    private HashSet<PolicyNodeImpl> mChildren;
+    // every node hbs one pbrent, bnd zero or more children
+    privbte PolicyNodeImpl mPbrent;
+    privbte HbshSet<PolicyNodeImpl> mChildren;
 
     // the 4 fields specified by RFC 3280
-    private String mValidPolicy;
-    private HashSet<PolicyQualifierInfo> mQualifierSet;
-    private boolean mCriticalityIndicator;
-    private HashSet<String> mExpectedPolicySet;
-    private boolean mOriginalExpectedPolicySet;
+    privbte String mVblidPolicy;
+    privbte HbshSet<PolicyQublifierInfo> mQublifierSet;
+    privbte boolebn mCriticblityIndicbtor;
+    privbte HbshSet<String> mExpectedPolicySet;
+    privbte boolebn mOriginblExpectedPolicySet;
 
     // the tree depth
-    private int mDepth;
-    // immutability flag
-    private boolean isImmutable = false;
+    privbte int mDepth;
+    // immutbbility flbg
+    privbte boolebn isImmutbble = fblse;
 
     /**
-     * Constructor which takes a <code>PolicyNodeImpl</code> representing the
-     * parent in the Policy Tree to this node. If null, this is the
-     * root of the tree. The constructor also takes the associated data
-     * for this node, as found in the certificate. It also takes a boolean
-     * argument specifying whether this node is being created as a result
-     * of policy mapping.
+     * Constructor which tbkes b <code>PolicyNodeImpl</code> representing the
+     * pbrent in the Policy Tree to this node. If null, this is the
+     * root of the tree. The constructor blso tbkes the bssocibted dbtb
+     * for this node, bs found in the certificbte. It blso tbkes b boolebn
+     * brgument specifying whether this node is being crebted bs b result
+     * of policy mbpping.
      *
-     * @param parent the PolicyNode above this in the tree, or null if this
+     * @pbrbm pbrent the PolicyNode bbove this in the tree, or null if this
      *               node is the tree's root node
-     * @param validPolicy a String representing this node's valid policy OID
-     * @param qualifierSet the Set of qualifiers for this policy
-     * @param criticalityIndicator a boolean representing whether or not the
-     *                             extension is critical
-     * @param expectedPolicySet a Set of expected policies
-     * @param generatedByPolicyMapping a boolean indicating whether this
-     * node was generated by a policy mapping
+     * @pbrbm vblidPolicy b String representing this node's vblid policy OID
+     * @pbrbm qublifierSet the Set of qublifiers for this policy
+     * @pbrbm criticblityIndicbtor b boolebn representing whether or not the
+     *                             extension is criticbl
+     * @pbrbm expectedPolicySet b Set of expected policies
+     * @pbrbm generbtedByPolicyMbpping b boolebn indicbting whether this
+     * node wbs generbted by b policy mbpping
      */
-    PolicyNodeImpl(PolicyNodeImpl parent, String validPolicy,
-                Set<PolicyQualifierInfo> qualifierSet,
-                boolean criticalityIndicator, Set<String> expectedPolicySet,
-                boolean generatedByPolicyMapping) {
-        mParent = parent;
-        mChildren = new HashSet<PolicyNodeImpl>();
+    PolicyNodeImpl(PolicyNodeImpl pbrent, String vblidPolicy,
+                Set<PolicyQublifierInfo> qublifierSet,
+                boolebn criticblityIndicbtor, Set<String> expectedPolicySet,
+                boolebn generbtedByPolicyMbpping) {
+        mPbrent = pbrent;
+        mChildren = new HbshSet<PolicyNodeImpl>();
 
-        if (validPolicy != null)
-            mValidPolicy = validPolicy;
+        if (vblidPolicy != null)
+            mVblidPolicy = vblidPolicy;
         else
-            mValidPolicy = "";
+            mVblidPolicy = "";
 
-        if (qualifierSet != null)
-            mQualifierSet = new HashSet<PolicyQualifierInfo>(qualifierSet);
+        if (qublifierSet != null)
+            mQublifierSet = new HbshSet<PolicyQublifierInfo>(qublifierSet);
         else
-            mQualifierSet = new HashSet<PolicyQualifierInfo>();
+            mQublifierSet = new HbshSet<PolicyQublifierInfo>();
 
-        mCriticalityIndicator = criticalityIndicator;
+        mCriticblityIndicbtor = criticblityIndicbtor;
 
         if (expectedPolicySet != null)
-            mExpectedPolicySet = new HashSet<String>(expectedPolicySet);
+            mExpectedPolicySet = new HbshSet<String>(expectedPolicySet);
         else
-            mExpectedPolicySet = new HashSet<String>();
+            mExpectedPolicySet = new HbshSet<String>();
 
-        mOriginalExpectedPolicySet = !generatedByPolicyMapping;
+        mOriginblExpectedPolicySet = !generbtedByPolicyMbpping;
 
-        // see if we're the root, and act appropriately
-        if (mParent != null) {
-            mDepth = mParent.getDepth() + 1;
-            mParent.addChild(this);
+        // see if we're the root, bnd bct bppropribtely
+        if (mPbrent != null) {
+            mDepth = mPbrent.getDepth() + 1;
+            mPbrent.bddChild(this);
         } else {
             mDepth = 0;
         }
     }
 
     /**
-     * Alternate constructor which makes a new node with the policy data
-     * in an existing <code>PolicyNodeImpl</code>.
+     * Alternbte constructor which mbkes b new node with the policy dbtb
+     * in bn existing <code>PolicyNodeImpl</code>.
      *
-     * @param parent a PolicyNode that's the new parent of the node, or
+     * @pbrbm pbrent b PolicyNode thbt's the new pbrent of the node, or
      *               null if this is the root node
-     * @param node a PolicyNode containing the policy data to copy
+     * @pbrbm node b PolicyNode contbining the policy dbtb to copy
      */
-    PolicyNodeImpl(PolicyNodeImpl parent, PolicyNodeImpl node) {
-        this(parent, node.mValidPolicy, node.mQualifierSet,
-             node.mCriticalityIndicator, node.mExpectedPolicySet, false);
+    PolicyNodeImpl(PolicyNodeImpl pbrent, PolicyNodeImpl node) {
+        this(pbrent, node.mVblidPolicy, node.mQublifierSet,
+             node.mCriticblityIndicbtor, node.mExpectedPolicySet, fblse);
     }
 
     @Override
-    public PolicyNode getParent() {
-        return mParent;
+    public PolicyNode getPbrent() {
+        return mPbrent;
     }
 
     @Override
-    public Iterator<PolicyNodeImpl> getChildren() {
-        return Collections.unmodifiableSet(mChildren).iterator();
+    public Iterbtor<PolicyNodeImpl> getChildren() {
+        return Collections.unmodifibbleSet(mChildren).iterbtor();
     }
 
     @Override
@@ -150,111 +150,111 @@ final class PolicyNodeImpl implements PolicyNode {
     }
 
     @Override
-    public String getValidPolicy() {
-        return mValidPolicy;
+    public String getVblidPolicy() {
+        return mVblidPolicy;
     }
 
     @Override
-    public Set<PolicyQualifierInfo> getPolicyQualifiers() {
-        return Collections.unmodifiableSet(mQualifierSet);
+    public Set<PolicyQublifierInfo> getPolicyQublifiers() {
+        return Collections.unmodifibbleSet(mQublifierSet);
     }
 
     @Override
     public Set<String> getExpectedPolicies() {
-        return Collections.unmodifiableSet(mExpectedPolicySet);
+        return Collections.unmodifibbleSet(mExpectedPolicySet);
     }
 
     @Override
-    public boolean isCritical() {
-        return mCriticalityIndicator;
+    public boolebn isCriticbl() {
+        return mCriticblityIndicbtor;
     }
 
     /**
-     * Return a printable representation of the PolicyNode.
-     * Starting at the node on which this method is called,
-     * it recurses through the tree and prints out each node.
+     * Return b printbble representbtion of the PolicyNode.
+     * Stbrting bt the node on which this method is cblled,
+     * it recurses through the tree bnd prints out ebch node.
      *
-     * @return a String describing the contents of the Policy Node
+     * @return b String describing the contents of the Policy Node
      */
     @Override
     public String toString() {
-        StringBuilder buffer = new StringBuilder(this.asString());
+        StringBuilder buffer = new StringBuilder(this.bsString());
 
         for (PolicyNodeImpl node : mChildren) {
-            buffer.append(node);
+            buffer.bppend(node);
         }
         return buffer.toString();
     }
 
-    // private methods and package private operations
+    // privbte methods bnd pbckbge privbte operbtions
 
-    boolean isImmutable() {
-        return isImmutable;
+    boolebn isImmutbble() {
+        return isImmutbble;
     }
 
     /**
-     * Sets the immutability flag of this node and all of its children
+     * Sets the immutbbility flbg of this node bnd bll of its children
      * to true.
      */
-    void setImmutable() {
-        if (isImmutable)
+    void setImmutbble() {
+        if (isImmutbble)
             return;
         for (PolicyNodeImpl node : mChildren) {
-            node.setImmutable();
+            node.setImmutbble();
         }
-        isImmutable = true;
+        isImmutbble = true;
     }
 
     /**
-     * Private method sets a child node. This is called from the child's
+     * Privbte method sets b child node. This is cblled from the child's
      * constructor.
      *
-     * @param child new <code>PolicyNodeImpl</code> child node
+     * @pbrbm child new <code>PolicyNodeImpl</code> child node
      */
-    private void addChild(PolicyNodeImpl child) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+    privbte void bddChild(PolicyNodeImpl child) {
+        if (isImmutbble) {
+            throw new IllegblStbteException("PolicyNode is immutbble");
         }
-        mChildren.add(child);
+        mChildren.bdd(child);
     }
 
     /**
-     * Adds an expectedPolicy to the expected policy set.
-     * If this is the original expected policy set initialized
-     * by the constructor, then the expected policy set is cleared
-     * before the expected policy is added.
+     * Adds bn expectedPolicy to the expected policy set.
+     * If this is the originbl expected policy set initiblized
+     * by the constructor, then the expected policy set is clebred
+     * before the expected policy is bdded.
      *
-     * @param expectedPolicy a String representing an expected policy.
+     * @pbrbm expectedPolicy b String representing bn expected policy.
      */
-    void addExpectedPolicy(String expectedPolicy) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+    void bddExpectedPolicy(String expectedPolicy) {
+        if (isImmutbble) {
+            throw new IllegblStbteException("PolicyNode is immutbble");
         }
-        if (mOriginalExpectedPolicySet) {
-            mExpectedPolicySet.clear();
-            mOriginalExpectedPolicySet = false;
+        if (mOriginblExpectedPolicySet) {
+            mExpectedPolicySet.clebr();
+            mOriginblExpectedPolicySet = fblse;
         }
-        mExpectedPolicySet.add(expectedPolicy);
+        mExpectedPolicySet.bdd(expectedPolicy);
     }
 
     /**
-     * Removes all paths which don't reach the specified depth.
+     * Removes bll pbths which don't rebch the specified depth.
      *
-     * @param depth an int representing the desired minimum depth of all paths
+     * @pbrbm depth bn int representing the desired minimum depth of bll pbths
      */
     void prune(int depth) {
-        if (isImmutable)
-            throw new IllegalStateException("PolicyNode is immutable");
+        if (isImmutbble)
+            throw new IllegblStbteException("PolicyNode is immutbble");
 
-        // if we have no children, we can't prune below us...
+        // if we hbve no children, we cbn't prune below us...
         if (mChildren.size() == 0)
             return;
 
-        Iterator<PolicyNodeImpl> it = mChildren.iterator();
-        while (it.hasNext()) {
+        Iterbtor<PolicyNodeImpl> it = mChildren.iterbtor();
+        while (it.hbsNext()) {
             PolicyNodeImpl node = it.next();
             node.prune(depth);
-            // now that we've called prune on the child, see if we should
+            // now thbt we've cblled prune on the child, see if we should
             // remove it from the tree
             if ((node.mChildren.size() == 0) && (depth > mDepth + 1))
                 it.remove();
@@ -264,27 +264,27 @@ final class PolicyNodeImpl implements PolicyNode {
     /**
      * Deletes the specified child node of this node, if it exists.
      *
-     * @param childNode the child node to be deleted
+     * @pbrbm childNode the child node to be deleted
      */
     void deleteChild(PolicyNode childNode) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+        if (isImmutbble) {
+            throw new IllegblStbteException("PolicyNode is immutbble");
         }
         mChildren.remove(childNode);
     }
 
     /**
-     * Returns a copy of the tree, without copying the policy-related data,
-     * rooted at the node on which this was called.
+     * Returns b copy of the tree, without copying the policy-relbted dbtb,
+     * rooted bt the node on which this wbs cblled.
      *
-     * @return a copy of the tree
+     * @return b copy of the tree
      */
     PolicyNodeImpl copyTree() {
         return copyTree(null);
     }
 
-    private PolicyNodeImpl copyTree(PolicyNodeImpl parent) {
-        PolicyNodeImpl newNode = new PolicyNodeImpl(parent, this);
+    privbte PolicyNodeImpl copyTree(PolicyNodeImpl pbrent) {
+        PolicyNodeImpl newNode = new PolicyNodeImpl(pbrent, this);
 
         for (PolicyNodeImpl node : mChildren) {
             node.copyTree(newNode);
@@ -294,25 +294,25 @@ final class PolicyNodeImpl implements PolicyNode {
     }
 
     /**
-     * Returns all nodes at the specified depth in the tree.
+     * Returns bll nodes bt the specified depth in the tree.
      *
-     * @param depth an int representing the depth of the desired nodes
-     * @return a <code>Set</code> of all nodes at the specified depth
+     * @pbrbm depth bn int representing the depth of the desired nodes
+     * @return b <code>Set</code> of bll nodes bt the specified depth
      */
     Set<PolicyNodeImpl> getPolicyNodes(int depth) {
-        Set<PolicyNodeImpl> set = new HashSet<>();
+        Set<PolicyNodeImpl> set = new HbshSet<>();
         getPolicyNodes(depth, set);
         return set;
     }
 
     /**
-     * Add all nodes at depth depth to set and return the Set.
-     * Internal recursion helper.
+     * Add bll nodes bt depth depth to set bnd return the Set.
+     * Internbl recursion helper.
      */
-    private void getPolicyNodes(int depth, Set<PolicyNodeImpl> set) {
-        // if we've reached the desired depth, then return ourself
+    privbte void getPolicyNodes(int depth, Set<PolicyNodeImpl> set) {
+        // if we've rebched the desired depth, then return ourself
         if (mDepth == depth) {
-            set.add(this);
+            set.bdd(this);
         } else {
             for (PolicyNodeImpl node : mChildren) {
                 node.getPolicyNodes(depth, set);
@@ -321,44 +321,44 @@ final class PolicyNodeImpl implements PolicyNode {
     }
 
     /**
-     * Finds all nodes at the specified depth whose expected_policy_set
-     * contains the specified expected OID (if matchAny is false)
-     * or the special OID "any value" (if matchAny is true).
+     * Finds bll nodes bt the specified depth whose expected_policy_set
+     * contbins the specified expected OID (if mbtchAny is fblse)
+     * or the specibl OID "bny vblue" (if mbtchAny is true).
      *
-     * @param depth an int representing the desired depth
-     * @param expectedOID a String encoding the valid OID to match
-     * @param matchAny a boolean indicating whether an expected_policy_set
-     * containing ANY_POLICY should be considered a match
-     * @return a Set of matched <code>PolicyNode</code>s
+     * @pbrbm depth bn int representing the desired depth
+     * @pbrbm expectedOID b String encoding the vblid OID to mbtch
+     * @pbrbm mbtchAny b boolebn indicbting whether bn expected_policy_set
+     * contbining ANY_POLICY should be considered b mbtch
+     * @return b Set of mbtched <code>PolicyNode</code>s
      */
     Set<PolicyNodeImpl> getPolicyNodesExpected(int depth,
-        String expectedOID, boolean matchAny) {
+        String expectedOID, boolebn mbtchAny) {
 
-        if (expectedOID.equals(ANY_POLICY)) {
+        if (expectedOID.equbls(ANY_POLICY)) {
             return getPolicyNodes(depth);
         } else {
-            return getPolicyNodesExpectedHelper(depth, expectedOID, matchAny);
+            return getPolicyNodesExpectedHelper(depth, expectedOID, mbtchAny);
         }
     }
 
-    private Set<PolicyNodeImpl> getPolicyNodesExpectedHelper(int depth,
-        String expectedOID, boolean matchAny) {
+    privbte Set<PolicyNodeImpl> getPolicyNodesExpectedHelper(int depth,
+        String expectedOID, boolebn mbtchAny) {
 
-        HashSet<PolicyNodeImpl> set = new HashSet<>();
+        HbshSet<PolicyNodeImpl> set = new HbshSet<>();
 
         if (mDepth < depth) {
             for (PolicyNodeImpl node : mChildren) {
-                set.addAll(node.getPolicyNodesExpectedHelper(depth,
+                set.bddAll(node.getPolicyNodesExpectedHelper(depth,
                                                              expectedOID,
-                                                             matchAny));
+                                                             mbtchAny));
             }
         } else {
-            if (matchAny) {
-                if (mExpectedPolicySet.contains(ANY_POLICY))
-                    set.add(this);
+            if (mbtchAny) {
+                if (mExpectedPolicySet.contbins(ANY_POLICY))
+                    set.bdd(this);
             } else {
-                if (mExpectedPolicySet.contains(expectedOID))
-                    set.add(this);
+                if (mExpectedPolicySet.contbins(expectedOID))
+                    set.bdd(this);
             }
         }
 
@@ -366,58 +366,58 @@ final class PolicyNodeImpl implements PolicyNode {
     }
 
     /**
-     * Finds all nodes at the specified depth that contains the
-     * specified valid OID
+     * Finds bll nodes bt the specified depth thbt contbins the
+     * specified vblid OID
      *
-     * @param depth an int representing the desired depth
-     * @param validOID a String encoding the valid OID to match
-     * @return a Set of matched <code>PolicyNode</code>s
+     * @pbrbm depth bn int representing the desired depth
+     * @pbrbm vblidOID b String encoding the vblid OID to mbtch
+     * @return b Set of mbtched <code>PolicyNode</code>s
      */
-    Set<PolicyNodeImpl> getPolicyNodesValid(int depth, String validOID) {
-        HashSet<PolicyNodeImpl> set = new HashSet<>();
+    Set<PolicyNodeImpl> getPolicyNodesVblid(int depth, String vblidOID) {
+        HbshSet<PolicyNodeImpl> set = new HbshSet<>();
 
         if (mDepth < depth) {
             for (PolicyNodeImpl node : mChildren) {
-                set.addAll(node.getPolicyNodesValid(depth, validOID));
+                set.bddAll(node.getPolicyNodesVblid(depth, vblidOID));
             }
         } else {
-            if (mValidPolicy.equals(validOID))
-                set.add(this);
+            if (mVblidPolicy.equbls(vblidOID))
+                set.bdd(this);
         }
 
         return set;
     }
 
-    private static String policyToString(String oid) {
-        if (oid.equals(ANY_POLICY)) {
-            return "anyPolicy";
+    privbte stbtic String policyToString(String oid) {
+        if (oid.equbls(ANY_POLICY)) {
+            return "bnyPolicy";
         } else {
             return oid;
         }
     }
 
     /**
-     * Prints out some data on this node.
+     * Prints out some dbtb on this node.
      */
-    String asString() {
-        if (mParent == null) {
-            return "anyPolicy  ROOT\n";
+    String bsString() {
+        if (mPbrent == null) {
+            return "bnyPolicy  ROOT\n";
         } else {
             StringBuilder sb = new StringBuilder();
             for (int i = 0, n = getDepth(); i < n; i++) {
-                sb.append("  ");
+                sb.bppend("  ");
             }
-            sb.append(policyToString(getValidPolicy()));
-            sb.append("  CRIT: ");
-            sb.append(isCritical());
-            sb.append("  EP: ");
+            sb.bppend(policyToString(getVblidPolicy()));
+            sb.bppend("  CRIT: ");
+            sb.bppend(isCriticbl());
+            sb.bppend("  EP: ");
             for (String policy : getExpectedPolicies()) {
-                sb.append(policyToString(policy));
-                sb.append(" ");
+                sb.bppend(policyToString(policy));
+                sb.bppend(" ");
             }
-            sb.append(" (");
-            sb.append(getDepth());
-            sb.append(")\n");
+            sb.bppend(" (");
+            sb.bppend(getDepth());
+            sb.bppend(")\n");
             return sb.toString();
         }
     }

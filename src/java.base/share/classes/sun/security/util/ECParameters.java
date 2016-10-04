@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
 /**
- * This class implements encoding and decoding of Elliptic Curve parameters
- * as specified in RFC 3279.
+ * This clbss implements encoding bnd decoding of Elliptic Curve pbrbmeters
+ * bs specified in RFC 3279.
  *
- * However, only named curves are currently supported.
+ * However, only nbmed curves bre currently supported.
  *
- * ASN.1 from RFC 3279 follows. Note that X9.62 (2005) has added some additional
+ * ASN.1 from RFC 3279 follows. Note thbt X9.62 (2005) hbs bdded some bdditionbl
  * options.
  *
  * <pre>
- *    EcpkParameters ::= CHOICE {
- *      ecParameters  ECParameters,
- *      namedCurve    OBJECT IDENTIFIER,
+ *    EcpkPbrbmeters ::= CHOICE {
+ *      ecPbrbmeters  ECPbrbmeters,
+ *      nbmedCurve    OBJECT IDENTIFIER,
  *      implicitlyCA  NULL }
  *
- *    ECParameters ::= SEQUENCE {
- *       version   ECPVer,          -- version is always 1
+ *    ECPbrbmeters ::= SEQUENCE {
+ *       version   ECPVer,          -- version is blwbys 1
  *       fieldID   FieldID,         -- identifies the finite field over
  *                                  -- which the curve is defined
- *       curve     Curve,           -- coefficients a and b of the
+ *       curve     Curve,           -- coefficients b bnd b of the
  *                                  -- elliptic curve
- *       base      ECPoint,         -- specifies the base point P
+ *       bbse      ECPoint,         -- specifies the bbse point P
  *                                  -- on the elliptic curve
- *       order     INTEGER,         -- the order n of the base point
- *       cofactor  INTEGER OPTIONAL -- The integer h = #E(Fq)/n
+ *       order     INTEGER,         -- the order n of the bbse point
+ *       cofbctor  INTEGER OPTIONAL -- The integer h = #E(Fq)/n
  *       }
  *
  *    ECPVer ::= INTEGER {ecpVer1(1)}
  *
  *    Curve ::= SEQUENCE {
- *       a         FieldElement,
+ *       b         FieldElement,
  *       b         FieldElement,
  *       seed      BIT STRING OPTIONAL }
  *
@@ -70,154 +70,154 @@ import java.security.spec.*;
  * </pre>
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class ECParameters extends AlgorithmParametersSpi {
+public finbl clbss ECPbrbmeters extends AlgorithmPbrbmetersSpi {
 
-    // used by ECPublicKeyImpl and ECPrivateKeyImpl
-    public static AlgorithmParameters getAlgorithmParameters(ECParameterSpec spec)
-            throws InvalidKeyException {
+    // used by ECPublicKeyImpl bnd ECPrivbteKeyImpl
+    public stbtic AlgorithmPbrbmeters getAlgorithmPbrbmeters(ECPbrbmeterSpec spec)
+            throws InvblidKeyException {
         try {
-            AlgorithmParameters params =
-                AlgorithmParameters.getInstance("EC", "SunEC");
-            params.init(spec);
-            return params;
-        } catch (GeneralSecurityException e) {
-            throw new InvalidKeyException("EC parameters error", e);
+            AlgorithmPbrbmeters pbrbms =
+                AlgorithmPbrbmeters.getInstbnce("EC", "SunEC");
+            pbrbms.init(spec);
+            return pbrbms;
+        } cbtch (GenerblSecurityException e) {
+            throw new InvblidKeyException("EC pbrbmeters error", e);
         }
     }
 
     /*
-     * The parameters these AlgorithmParameters object represents.
-     * Currently, it is always an instance of NamedCurve.
+     * The pbrbmeters these AlgorithmPbrbmeters object represents.
+     * Currently, it is blwbys bn instbnce of NbmedCurve.
      */
-    private NamedCurve namedCurve;
+    privbte NbmedCurve nbmedCurve;
 
-    // A public constructor is required by AlgorithmParameters class.
-    public ECParameters() {
+    // A public constructor is required by AlgorithmPbrbmeters clbss.
+    public ECPbrbmeters() {
         // empty
     }
 
-    // AlgorithmParameterSpi methods
+    // AlgorithmPbrbmeterSpi methods
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-            throws InvalidParameterSpecException {
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+            throws InvblidPbrbmeterSpecException {
 
-        if (paramSpec == null) {
-            throw new InvalidParameterSpecException
-                ("paramSpec must not be null");
+        if (pbrbmSpec == null) {
+            throw new InvblidPbrbmeterSpecException
+                ("pbrbmSpec must not be null");
         }
 
-        if (paramSpec instanceof NamedCurve) {
-            namedCurve = (NamedCurve)paramSpec;
+        if (pbrbmSpec instbnceof NbmedCurve) {
+            nbmedCurve = (NbmedCurve)pbrbmSpec;
             return;
         }
 
-        if (paramSpec instanceof ECParameterSpec) {
-            namedCurve = CurveDB.lookup((ECParameterSpec)paramSpec);
-        } else if (paramSpec instanceof ECGenParameterSpec) {
-            String name = ((ECGenParameterSpec)paramSpec).getName();
-            namedCurve = CurveDB.lookup(name);
-        } else if (paramSpec instanceof ECKeySizeParameterSpec) {
-            int keySize = ((ECKeySizeParameterSpec)paramSpec).getKeySize();
-            namedCurve = CurveDB.lookup(keySize);
+        if (pbrbmSpec instbnceof ECPbrbmeterSpec) {
+            nbmedCurve = CurveDB.lookup((ECPbrbmeterSpec)pbrbmSpec);
+        } else if (pbrbmSpec instbnceof ECGenPbrbmeterSpec) {
+            String nbme = ((ECGenPbrbmeterSpec)pbrbmSpec).getNbme();
+            nbmedCurve = CurveDB.lookup(nbme);
+        } else if (pbrbmSpec instbnceof ECKeySizePbrbmeterSpec) {
+            int keySize = ((ECKeySizePbrbmeterSpec)pbrbmSpec).getKeySize();
+            nbmedCurve = CurveDB.lookup(keySize);
         } else {
-            throw new InvalidParameterSpecException
-                ("Only ECParameterSpec and ECGenParameterSpec supported");
+            throw new InvblidPbrbmeterSpecException
+                ("Only ECPbrbmeterSpec bnd ECGenPbrbmeterSpec supported");
         }
 
-        if (namedCurve == null) {
-            throw new InvalidParameterSpecException(
-                "Not a supported curve: " + paramSpec);
+        if (nbmedCurve == null) {
+            throw new InvblidPbrbmeterSpecException(
+                "Not b supported curve: " + pbrbmSpec);
         }
     }
 
-    protected void engineInit(byte[] params) throws IOException {
-        DerValue encodedParams = new DerValue(params);
-        if (encodedParams.tag == DerValue.tag_ObjectId) {
-            ObjectIdentifier oid = encodedParams.getOID();
-            NamedCurve spec = CurveDB.lookup(oid.toString());
+    protected void engineInit(byte[] pbrbms) throws IOException {
+        DerVblue encodedPbrbms = new DerVblue(pbrbms);
+        if (encodedPbrbms.tbg == DerVblue.tbg_ObjectId) {
+            ObjectIdentifier oid = encodedPbrbms.getOID();
+            NbmedCurve spec = CurveDB.lookup(oid.toString());
             if (spec == null) {
-                throw new IOException("Unknown named curve: " + oid);
+                throw new IOException("Unknown nbmed curve: " + oid);
             }
 
-            namedCurve = spec;
+            nbmedCurve = spec;
             return;
         }
 
-        throw new IOException("Only named ECParameters supported");
+        throw new IOException("Only nbmed ECPbrbmeters supported");
 
         // The code below is incomplete.
-        // It is left as a starting point for a complete parsing implementation.
+        // It is left bs b stbrting point for b complete pbrsing implementbtion.
 
 /*
-        if (encodedParams.tag != DerValue.tag_Sequence) {
-            throw new IOException("Unsupported EC parameters, tag: " +
-                encodedParams.tag);
+        if (encodedPbrbms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Unsupported EC pbrbmeters, tbg: " +
+                encodedPbrbms.tbg);
         }
 
-        encodedParams.data.reset();
+        encodedPbrbms.dbtb.reset();
 
-        DerInputStream in = encodedParams.data;
+        DerInputStrebm in = encodedPbrbms.dbtb;
 
         int version = in.getInteger();
         if (version != 1) {
-            throw new IOException("Unsupported EC parameters version: " +
+            throw new IOException("Unsupported EC pbrbmeters version: " +
                version);
         }
-        ECField field = parseField(in);
-        EllipticCurve curve = parseCurve(in, field);
-        ECPoint point = parsePoint(in, curve);
+        ECField field = pbrseField(in);
+        EllipticCurve curve = pbrseCurve(in, field);
+        ECPoint point = pbrsePoint(in, curve);
 
         BigInteger order = in.getBigInteger();
-        int cofactor = 0;
+        int cofbctor = 0;
 
-        if (in.available() != 0) {
-            cofactor = in.getInteger();
+        if (in.bvbilbble() != 0) {
+            cofbctor = in.getInteger();
         }
 
-        // XXX HashAlgorithm optional
+        // XXX HbshAlgorithm optionbl
 
-        if (encodedParams.data.available() != 0) {
-            throw new IOException("encoded params have " +
-                                  encodedParams.data.available() +
-                                  " extra bytes");
+        if (encodedPbrbms.dbtb.bvbilbble() != 0) {
+            throw new IOException("encoded pbrbms hbve " +
+                                  encodedPbrbms.dbtb.bvbilbble() +
+                                  " extrb bytes");
         }
 
-        return new ECParameterSpec(curve, point, order, cofactor);
+        return new ECPbrbmeterSpec(curve, point, order, cofbctor);
 */
     }
 
-    protected void engineInit(byte[] params, String decodingMethod)
+    protected void engineInit(byte[] pbrbms, String decodingMethod)
             throws IOException {
-        engineInit(params);
+        engineInit(pbrbms);
     }
 
-    protected <T extends AlgorithmParameterSpec> T
-            engineGetParameterSpec(Class<T> spec)
-            throws InvalidParameterSpecException {
+    protected <T extends AlgorithmPbrbmeterSpec> T
+            engineGetPbrbmeterSpec(Clbss<T> spec)
+            throws InvblidPbrbmeterSpecException {
 
-        if (spec.isAssignableFrom(ECParameterSpec.class)) {
-            return spec.cast(namedCurve);
+        if (spec.isAssignbbleFrom(ECPbrbmeterSpec.clbss)) {
+            return spec.cbst(nbmedCurve);
         }
 
-        if (spec.isAssignableFrom(ECGenParameterSpec.class)) {
-            // Ensure the name is the Object ID
-            String name = namedCurve.getObjectId();
-            return spec.cast(new ECGenParameterSpec(name));
+        if (spec.isAssignbbleFrom(ECGenPbrbmeterSpec.clbss)) {
+            // Ensure the nbme is the Object ID
+            String nbme = nbmedCurve.getObjectId();
+            return spec.cbst(new ECGenPbrbmeterSpec(nbme));
         }
 
-        if (spec.isAssignableFrom(ECKeySizeParameterSpec.class)) {
-            int keySize = namedCurve.getCurve().getField().getFieldSize();
-            return spec.cast(new ECKeySizeParameterSpec(keySize));
+        if (spec.isAssignbbleFrom(ECKeySizePbrbmeterSpec.clbss)) {
+            int keySize = nbmedCurve.getCurve().getField().getFieldSize();
+            return spec.cbst(new ECKeySizePbrbmeterSpec(keySize));
         }
 
-        throw new InvalidParameterSpecException(
-            "Only ECParameterSpec and ECGenParameterSpec supported");
+        throw new InvblidPbrbmeterSpecException(
+            "Only ECPbrbmeterSpec bnd ECGenPbrbmeterSpec supported");
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        return namedCurve.getEncoded();
+        return nbmedCurve.getEncoded();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
@@ -226,11 +226,11 @@ public final class ECParameters extends AlgorithmParametersSpi {
     }
 
     protected String engineToString() {
-        if (namedCurve == null) {
-            return "Not initialized";
+        if (nbmedCurve == null) {
+            return "Not initiblized";
         }
 
-        return namedCurve.toString();
+        return nbmedCurve.toString();
     }
 }
 

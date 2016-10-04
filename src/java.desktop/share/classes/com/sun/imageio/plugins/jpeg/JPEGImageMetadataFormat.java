@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.ImageTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
 
-import java.awt.color.ICC_Profile;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.ColorModel;
 
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-public class JPEGImageMetadataFormat extends JPEGMetadataFormat {
+public clbss JPEGImbgeMetbdbtbFormbt extends JPEGMetbdbtbFormbt {
 
-    private static JPEGImageMetadataFormat theInstance = null;
+    privbte stbtic JPEGImbgeMetbdbtbFormbt theInstbnce = null;
 
-    private JPEGImageMetadataFormat() {
-        super(JPEG.nativeImageMetadataFormatName,
+    privbte JPEGImbgeMetbdbtbFormbt() {
+        super(JPEG.nbtiveImbgeMetbdbtbFormbtNbme,
               CHILD_POLICY_ALL);
 
-        addElement("JPEGvariety",
-                   JPEG.nativeImageMetadataFormatName,
+        bddElement("JPEGvbriety",
+                   JPEG.nbtiveImbgeMetbdbtbFormbtNbme,
                    CHILD_POLICY_CHOICE);
 
-        addElement("markerSequence",
-                   JPEG.nativeImageMetadataFormatName,
+        bddElement("mbrkerSequence",
+                   JPEG.nbtiveImbgeMetbdbtbFormbtNbme,
                    CHILD_POLICY_SEQUENCE);
 
-        addElement("app0JFIF", "JPEGvariety", CHILD_POLICY_SOME);
+        bddElement("bpp0JFIF", "JPEGvbriety", CHILD_POLICY_SOME);
 
-        addStreamElements("markerSequence");
+        bddStrebmElements("mbrkerSequence");
 
-        addElement("app14Adobe", "markerSequence", CHILD_POLICY_EMPTY);
+        bddElement("bpp14Adobe", "mbrkerSequence", CHILD_POLICY_EMPTY);
 
-        addElement("sof", "markerSequence", 1, 4);
+        bddElement("sof", "mbrkerSequence", 1, 4);
 
-        addElement("sos", "markerSequence", 1, 4);
+        bddElement("sos", "mbrkerSequence", 1, 4);
 
-        addElement("JFXX", "app0JFIF", 1, Integer.MAX_VALUE);
+        bddElement("JFXX", "bpp0JFIF", 1, Integer.MAX_VALUE);
 
-        addElement("app0JFXX", "JFXX", CHILD_POLICY_CHOICE);
+        bddElement("bpp0JFXX", "JFXX", CHILD_POLICY_CHOICE);
 
-        addElement("app2ICC", "app0JFIF", CHILD_POLICY_EMPTY);
+        bddElement("bpp2ICC", "bpp0JFIF", CHILD_POLICY_EMPTY);
 
-        addAttribute("app0JFIF",
-                     "majorVersion",
+        bddAttribute("bpp0JFIF",
+                     "mbjorVersion",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "1",
                      "0", "255",
                      true, true);
-        addAttribute("app0JFIF",
+        bddAttribute("bpp0JFIF",
                      "minorVersion",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "2",
                      "0", "255",
                      true, true);
-        List<String> resUnits = new ArrayList<>();
-        resUnits.add("0");
-        resUnits.add("1");
-        resUnits.add("2");
-        addAttribute("app0JFIF",
+        List<String> resUnits = new ArrbyList<>();
+        resUnits.bdd("0");
+        resUnits.bdd("1");
+        resUnits.bdd("2");
+        bddAttribute("bpp0JFIF",
                      "resUnits",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      resUnits);
-        addAttribute("app0JFIF",
+        bddAttribute("bpp0JFIF",
                      "Xdensity",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "1",
                      "1", "65535",
                      true, true);
-        addAttribute("app0JFIF",
+        bddAttribute("bpp0JFIF",
                      "Ydensity",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "1",
                      "1", "65535",
                      true, true);
-        addAttribute("app0JFIF",
+        bddAttribute("bpp0JFIF",
                      "thumbWidth",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "255",
                      true, true);
-        addAttribute("app0JFIF",
+        bddAttribute("bpp0JFIF",
                      "thumbHeight",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "255",
                      true, true);
 
-        addElement("JFIFthumbJPEG", "app0JFXX", CHILD_POLICY_SOME);
-        addElement("JFIFthumbPalette", "app0JFXX", CHILD_POLICY_EMPTY);
-        addElement("JFIFthumbRGB", "app0JFXX", CHILD_POLICY_EMPTY);
+        bddElement("JFIFthumbJPEG", "bpp0JFXX", CHILD_POLICY_SOME);
+        bddElement("JFIFthumbPblette", "bpp0JFXX", CHILD_POLICY_EMPTY);
+        bddElement("JFIFthumbRGB", "bpp0JFXX", CHILD_POLICY_EMPTY);
 
-        List<String> codes = new ArrayList<>();
-        codes.add("16"); // Hex 10
-        codes.add("17"); // Hex 11
-        codes.add("19"); // Hex 13
-        addAttribute("app0JFXX",
+        List<String> codes = new ArrbyList<>();
+        codes.bdd("16"); // Hex 10
+        codes.bdd("17"); // Hex 11
+        codes.bdd("19"); // Hex 13
+        bddAttribute("bpp0JFXX",
                      "extensionCode",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      codes);
 
-        addChildElement("markerSequence", "JFIFthumbJPEG");
+        bddChildElement("mbrkerSequence", "JFIFthumbJPEG");
 
-        addAttribute("JFIFthumbPalette",
+        bddAttribute("JFIFthumbPblette",
                      "thumbWidth",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "255",
                      true, true);
-        addAttribute("JFIFthumbPalette",
+        bddAttribute("JFIFthumbPblette",
                      "thumbHeight",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "255",
                      true, true);
 
-        addAttribute("JFIFthumbRGB",
+        bddAttribute("JFIFthumbRGB",
                      "thumbWidth",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "255",
                      true, true);
-        addAttribute("JFIFthumbRGB",
+        bddAttribute("JFIFthumbRGB",
                      "thumbHeight",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "255",
                      true, true);
 
-        addObjectValue("app2ICC", ICC_Profile.class, false, null);
+        bddObjectVblue("bpp2ICC", ICC_Profile.clbss, fblse, null);
 
-        addAttribute("app14Adobe",
+        bddAttribute("bpp14Adobe",
                      "version",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "100",
                      "100", "255",
                      true, true);
-        addAttribute("app14Adobe",
-                     "flags0",
+        bddAttribute("bpp14Adobe",
+                     "flbgs0",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "65535",
                      true, true);
-        addAttribute("app14Adobe",
-                     "flags1",
+        bddAttribute("bpp14Adobe",
+                     "flbgs1",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "65535",
                      true, true);
 
-        List<String> transforms = new ArrayList<>();
-        transforms.add("0");
-        transforms.add("1");
-        transforms.add("2");
-        addAttribute("app14Adobe",
-                     "transform",
+        List<String> trbnsforms = new ArrbyList<>();
+        trbnsforms.bdd("0");
+        trbnsforms.bdd("1");
+        trbnsforms.bdd("2");
+        bddAttribute("bpp14Adobe",
+                     "trbnsform",
                      DATATYPE_INTEGER,
                      true,
                      null,
-                     transforms);
+                     trbnsforms);
 
-        addElement("componentSpec", "sof", CHILD_POLICY_EMPTY);
+        bddElement("componentSpec", "sof", CHILD_POLICY_EMPTY);
 
-        List<String> procs = new ArrayList<>();
-        procs.add("0");
-        procs.add("1");
-        procs.add("2");
-        addAttribute("sof",
+        List<String> procs = new ArrbyList<>();
+        procs.bdd("0");
+        procs.bdd("1");
+        procs.bdd("2");
+        bddAttribute("sof",
                      "process",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      procs);
-        addAttribute("sof",
-                     "samplePrecision",
+        bddAttribute("sof",
+                     "sbmplePrecision",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "8");
-        addAttribute("sof",
+        bddAttribute("sof",
                      "numLines",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "65535",
                      true, true);
-        addAttribute("sof",
-                     "samplesPerLine",
+        bddAttribute("sof",
+                     "sbmplesPerLine",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      "0", "65535",
                      true, true);
-        List<String> comps = new ArrayList<>();
-        comps.add("1");
-        comps.add("2");
-        comps.add("3");
-        comps.add("4");
-        addAttribute("sof",
-                     "numFrameComponents",
+        List<String> comps = new ArrbyList<>();
+        comps.bdd("1");
+        comps.bdd("2");
+        comps.bdd("3");
+        comps.bdd("4");
+        bddAttribute("sof",
+                     "numFrbmeComponents",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      null,
                      comps);
 
-        addAttribute("componentSpec",
+        bddAttribute("componentSpec",
                      "componentId",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "0", "255",
                      true, true);
-        addAttribute("componentSpec",
-                     "HsamplingFactor",
+        bddAttribute("componentSpec",
+                     "HsbmplingFbctor",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "255",
                      true, true);
-        addAttribute("componentSpec",
-                     "VsamplingFactor",
+        bddAttribute("componentSpec",
+                     "VsbmplingFbctor",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "255",
                      true, true);
-        List<String> tabids = new ArrayList<>();
-        tabids.add("0");
-        tabids.add("1");
-        tabids.add("2");
-        tabids.add("3");
-        addAttribute("componentSpec",
-                     "QtableSelector",
+        List<String> tbbids = new ArrbyList<>();
+        tbbids.bdd("0");
+        tbbids.bdd("1");
+        tbbids.bdd("2");
+        tbbids.bdd("3");
+        bddAttribute("componentSpec",
+                     "QtbbleSelector",
                      DATATYPE_INTEGER,
                      true,
                      null,
-                     tabids);
+                     tbbids);
 
-        addElement("scanComponentSpec", "sos", CHILD_POLICY_EMPTY);
+        bddElement("scbnComponentSpec", "sos", CHILD_POLICY_EMPTY);
 
-        addAttribute("sos",
-                     "numScanComponents",
+        bddAttribute("sos",
+                     "numScbnComponents",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      comps);
-        addAttribute("sos",
-                     "startSpectralSelection",
+        bddAttribute("sos",
+                     "stbrtSpectrblSelection",
                       DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "63",
                      true, true);
-        addAttribute("sos",
-                     "endSpectralSelection",
+        bddAttribute("sos",
+                     "endSpectrblSelection",
                       DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "63",
                      "0", "63",
                      true, true);
-        addAttribute("sos",
-                     "approxHigh",
+        bddAttribute("sos",
+                     "bpproxHigh",
                       DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "15",
                      true, true);
-        addAttribute("sos",
-                     "approxLow",
+        bddAttribute("sos",
+                     "bpproxLow",
                       DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "15",
                      true, true);
 
-        addAttribute("scanComponentSpec",
+        bddAttribute("scbnComponentSpec",
                      "componentSelector",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "0", "255",
                      true, true);
-        addAttribute("scanComponentSpec",
-                     "dcHuffTable",
+        bddAttribute("scbnComponentSpec",
+                     "dcHuffTbble",
                      DATATYPE_INTEGER,
                      true,
                      null,
-                     tabids);
-        addAttribute("scanComponentSpec",
-                     "acHuffTable",
+                     tbbids);
+        bddAttribute("scbnComponentSpec",
+                     "bcHuffTbble",
                      DATATYPE_INTEGER,
                      true,
                      null,
-                     tabids);
+                     tbbids);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
-        // All images can have these
-        if (elementName.equals(getRootName())
-            || elementName.equals("JPEGvariety")
-            || isInSubtree(elementName, "markerSequence")) {
+    public boolebn cbnNodeAppebr(String elementNbme,
+                                 ImbgeTypeSpecifier imbgeType) {
+        // All imbges cbn hbve these
+        if (elementNbme.equbls(getRootNbme())
+            || elementNbme.equbls("JPEGvbriety")
+            || isInSubtree(elementNbme, "mbrkerSequence")) {
             return true;
         }
 
-        // If it is an element in the app0jfif subtree, just check
-        // that the image type is JFIF compliant.
-        if ((isInSubtree(elementName, "app0JFIF"))
-            && JPEG.isJFIFcompliant(imageType, true)) {
+        // If it is bn element in the bpp0jfif subtree, just check
+        // thbt the imbge type is JFIF complibnt.
+        if ((isInSubtree(elementNbme, "bpp0JFIF"))
+            && JPEG.isJFIFcomplibnt(imbgeType, true)) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
 
-    public static synchronized IIOMetadataFormat getInstance() {
-        if (theInstance == null) {
-            theInstance = new JPEGImageMetadataFormat();
+    public stbtic synchronized IIOMetbdbtbFormbt getInstbnce() {
+        if (theInstbnce == null) {
+            theInstbnce = new JPEGImbgeMetbdbtbFormbt();
         }
-        return theInstance;
+        return theInstbnce;
     }
 }

@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 import sun.security.util.Debug;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
 
 /**
- * An AccessControlContext is used to make system resource access decisions
- * based on the context it encapsulates.
+ * An AccessControlContext is used to mbke system resource bccess decisions
+ * bbsed on the context it encbpsulbtes.
  *
- * <p>More specifically, it encapsulates a context and
- * has a single method, {@code checkPermission},
- * that is equivalent to the {@code checkPermission} method
- * in the AccessController class, with one difference: The AccessControlContext
- * {@code checkPermission} method makes access decisions based on the
- * context it encapsulates,
- * rather than that of the current execution thread.
+ * <p>More specificblly, it encbpsulbtes b context bnd
+ * hbs b single method, {@code checkPermission},
+ * thbt is equivblent to the {@code checkPermission} method
+ * in the AccessController clbss, with one difference: The AccessControlContext
+ * {@code checkPermission} method mbkes bccess decisions bbsed on the
+ * context it encbpsulbtes,
+ * rbther thbn thbt of the current execution threbd.
  *
- * <p>Thus, the purpose of AccessControlContext is for those situations where
- * a security check that should be made within a given context
- * actually needs to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
+ * <p>Thus, the purpose of AccessControlContext is for those situbtions where
+ * b security check thbt should be mbde within b given context
+ * bctublly needs to be done from within b
+ * <i>different</i> context (for exbmple, from within b worker threbd).
  *
- * <p> An AccessControlContext is created by calling the
+ * <p> An AccessControlContext is crebted by cblling the
  * {@code AccessController.getContext} method.
- * The {@code getContext} method takes a "snapshot"
- * of the current calling context, and places
- * it in an AccessControlContext object, which it returns. A sample call is
+ * The {@code getContext} method tbkes b "snbpshot"
+ * of the current cblling context, bnd plbces
+ * it in bn AccessControlContext object, which it returns. A sbmple cbll is
  * the following:
  *
  * <pre>
- *   AccessControlContext acc = AccessController.getContext()
+ *   AccessControlContext bcc = AccessController.getContext()
  * </pre>
  *
  * <p>
- * Code within a different context can subsequently call the
+ * Code within b different context cbn subsequently cbll the
  * {@code checkPermission} method on the
- * previously-saved AccessControlContext object. A sample call is the
+ * previously-sbved AccessControlContext object. A sbmple cbll is the
  * following:
  *
  * <pre>
- *   acc.checkPermission(permission)
+ *   bcc.checkPermission(permission)
  * </pre>
  *
  * @see AccessController
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  */
 
-public final class AccessControlContext {
+public finbl clbss AccessControlContext {
 
-    private ProtectionDomain context[];
-    // isPrivileged and isAuthorized are referenced by the VM - do not remove
-    // or change their names
-    private boolean isPrivileged;
-    private boolean isAuthorized = false;
+    privbte ProtectionDombin context[];
+    // isPrivileged bnd isAuthorized bre referenced by the VM - do not remove
+    // or chbnge their nbmes
+    privbte boolebn isPrivileged;
+    privbte boolebn isAuthorized = fblse;
 
-    // Note: This field is directly used by the virtual machine
-    // native codes. Don't touch it.
-    private AccessControlContext privilegedContext;
+    // Note: This field is directly used by the virtubl mbchine
+    // nbtive codes. Don't touch it.
+    privbte AccessControlContext privilegedContext;
 
-    private DomainCombiner combiner = null;
+    privbte DombinCombiner combiner = null;
 
     // limited privilege scope
-    private Permission permissions[];
-    private AccessControlContext parent;
-    private boolean isWrapped;
+    privbte Permission permissions[];
+    privbte AccessControlContext pbrent;
+    privbte boolebn isWrbpped;
 
-    // is constrained by limited privilege scope?
-    private boolean isLimited;
-    private ProtectionDomain limitedContext[];
+    // is constrbined by limited privilege scope?
+    privbte boolebn isLimited;
+    privbte ProtectionDombin limitedContext[];
 
-    private static boolean debugInit = false;
-    private static Debug debug = null;
+    privbte stbtic boolebn debugInit = fblse;
+    privbte stbtic Debug debug = null;
 
-    static Debug getDebug()
+    stbtic Debug getDebug()
     {
         if (debugInit)
             return debug;
         else {
             if (Policy.isSet()) {
-                debug = Debug.getInstance("access");
+                debug = Debug.getInstbnce("bccess");
                 debugInit = true;
             }
             return debug;
@@ -114,16 +114,16 @@ public final class AccessControlContext {
     }
 
     /**
-     * Create an AccessControlContext with the given array of ProtectionDomains.
-     * Context must not be null. Duplicate domains will be removed from the
+     * Crebte bn AccessControlContext with the given brrby of ProtectionDombins.
+     * Context must not be null. Duplicbte dombins will be removed from the
      * context.
      *
-     * @param context the ProtectionDomains associated with this context.
-     * The non-duplicate domains are copied from the array. Subsequent
-     * changes to the array will not affect this AccessControlContext.
+     * @pbrbm context the ProtectionDombins bssocibted with this context.
+     * The non-duplicbte dombins bre copied from the brrby. Subsequent
+     * chbnges to the brrby will not bffect this AccessControlContext.
      * @throws NullPointerException if {@code context} is {@code null}
      */
-    public AccessControlContext(ProtectionDomain context[])
+    public AccessControlContext(ProtectionDombin context[])
     {
         if (context.length == 0) {
             this.context = null;
@@ -134,93 +134,93 @@ public final class AccessControlContext {
                 this.context = null;
             }
         } else {
-            List<ProtectionDomain> v = new ArrayList<>(context.length);
+            List<ProtectionDombin> v = new ArrbyList<>(context.length);
             for (int i =0; i< context.length; i++) {
-                if ((context[i] != null) &&  (!v.contains(context[i])))
-                    v.add(context[i]);
+                if ((context[i] != null) &&  (!v.contbins(context[i])))
+                    v.bdd(context[i]);
             }
             if (!v.isEmpty()) {
-                this.context = new ProtectionDomain[v.size()];
-                this.context = v.toArray(this.context);
+                this.context = new ProtectionDombin[v.size()];
+                this.context = v.toArrby(this.context);
             }
         }
     }
 
     /**
-     * Create a new {@code AccessControlContext} with the given
-     * {@code AccessControlContext} and {@code DomainCombiner}.
-     * This constructor associates the provided
-     * {@code DomainCombiner} with the provided
+     * Crebte b new {@code AccessControlContext} with the given
+     * {@code AccessControlContext} bnd {@code DombinCombiner}.
+     * This constructor bssocibtes the provided
+     * {@code DombinCombiner} with the provided
      * {@code AccessControlContext}.
      *
      * <p>
      *
-     * @param acc the {@code AccessControlContext} associated
-     *          with the provided {@code DomainCombiner}.
+     * @pbrbm bcc the {@code AccessControlContext} bssocibted
+     *          with the provided {@code DombinCombiner}.
      *
-     * @param combiner the {@code DomainCombiner} to be associated
+     * @pbrbm combiner the {@code DombinCombiner} to be bssocibted
      *          with the provided {@code AccessControlContext}.
      *
      * @exception NullPointerException if the provided
      *          {@code context} is {@code null}.
      *
-     * @exception SecurityException if a security manager is installed and the
-     *          caller does not have the "createAccessControlContext"
+     * @exception SecurityException if b security mbnbger is instblled bnd the
+     *          cbller does not hbve the "crebteAccessControlContext"
      *          {@link SecurityPermission}
      * @since 1.3
      */
-    public AccessControlContext(AccessControlContext acc,
-                                DomainCombiner combiner) {
+    public AccessControlContext(AccessControlContext bcc,
+                                DombinCombiner combiner) {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.CREATE_ACC_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.CREATE_ACC_PERMISSION);
             this.isAuthorized = true;
         }
 
-        this.context = acc.context;
+        this.context = bcc.context;
 
         // we do not need to run the combine method on the
-        // provided ACC.  it was already "combined" when the
-        // context was originally retrieved.
+        // provided ACC.  it wbs blrebdy "combined" when the
+        // context wbs originblly retrieved.
         //
-        // at this point in time, we simply throw away the old
-        // combiner and use the newly provided one.
+        // bt this point in time, we simply throw bwby the old
+        // combiner bnd use the newly provided one.
         this.combiner = combiner;
     }
 
     /**
-     * package private for AccessController
+     * pbckbge privbte for AccessController
      *
-     * This "argument wrapper" context will be passed as the actual context
-     * parameter on an internal doPrivileged() call used in the implementation.
+     * This "brgument wrbpper" context will be pbssed bs the bctubl context
+     * pbrbmeter on bn internbl doPrivileged() cbll used in the implementbtion.
      */
-    AccessControlContext(ProtectionDomain caller, DomainCombiner combiner,
-        AccessControlContext parent, AccessControlContext context,
+    AccessControlContext(ProtectionDombin cbller, DombinCombiner combiner,
+        AccessControlContext pbrent, AccessControlContext context,
         Permission[] perms)
     {
         /*
-         * Combine the domains from the doPrivileged() context into our
-         * wrapper context, if necessary.
+         * Combine the dombins from the doPrivileged() context into our
+         * wrbpper context, if necessbry.
          */
-        ProtectionDomain[] callerPDs = null;
-        if (caller != null) {
-             callerPDs = new ProtectionDomain[] { caller };
+        ProtectionDombin[] cbllerPDs = null;
+        if (cbller != null) {
+             cbllerPDs = new ProtectionDombin[] { cbller };
         }
         if (context != null) {
             if (combiner != null) {
-                this.context = combiner.combine(callerPDs, context.context);
+                this.context = combiner.combine(cbllerPDs, context.context);
             } else {
-                this.context = combine(callerPDs, context.context);
+                this.context = combine(cbllerPDs, context.context);
             }
         } else {
             /*
-             * Call combiner even if there is seemingly nothing to combine.
+             * Cbll combiner even if there is seemingly nothing to combine.
              */
             if (combiner != null) {
-                this.context = combiner.combine(callerPDs, null);
+                this.context = combiner.combine(cbllerPDs, null);
             } else {
-                this.context = combine(callerPDs, null);
+                this.context = combine(cbllerPDs, null);
             }
         }
         this.combiner = combiner;
@@ -230,35 +230,35 @@ public final class AccessControlContext {
             tmp = new Permission[perms.length];
             for (int i=0; i < perms.length; i++) {
                 if (perms[i] == null) {
-                    throw new NullPointerException("permission can't be null");
+                    throw new NullPointerException("permission cbn't be null");
                 }
 
                 /*
-                 * An AllPermission argument is equivalent to calling
-                 * doPrivileged() without any limit permissions.
+                 * An AllPermission brgument is equivblent to cblling
+                 * doPrivileged() without bny limit permissions.
                  */
-                if (perms[i].getClass() == AllPermission.class) {
-                    parent = null;
+                if (perms[i].getClbss() == AllPermission.clbss) {
+                    pbrent = null;
                 }
                 tmp[i] = perms[i];
             }
         }
 
         /*
-         * For a doPrivileged() with limited privilege scope, initialize
-         * the relevant fields.
+         * For b doPrivileged() with limited privilege scope, initiblize
+         * the relevbnt fields.
          *
-         * The limitedContext field contains the union of all domains which
-         * are enclosed by this limited privilege scope. In other words,
-         * it contains all of the domains which could potentially be checked
-         * if none of the limiting permissions implied a requested permission.
+         * The limitedContext field contbins the union of bll dombins which
+         * bre enclosed by this limited privilege scope. In other words,
+         * it contbins bll of the dombins which could potentiblly be checked
+         * if none of the limiting permissions implied b requested permission.
          */
-        if (parent != null) {
-            this.limitedContext = combine(parent.context, parent.limitedContext);
+        if (pbrent != null) {
+            this.limitedContext = combine(pbrent.context, pbrent.limitedContext);
             this.isLimited = true;
-            this.isWrapped = true;
+            this.isWrbpped = true;
             this.permissions = tmp;
-            this.parent = parent;
+            this.pbrent = pbrent;
             this.privilegedContext = context; // used in checkPermission2()
         }
         this.isAuthorized = true;
@@ -266,11 +266,11 @@ public final class AccessControlContext {
 
 
     /**
-     * package private constructor for AccessController.getContext()
+     * pbckbge privbte constructor for AccessController.getContext()
      */
 
-    AccessControlContext(ProtectionDomain context[],
-                         boolean isPrivileged)
+    AccessControlContext(ProtectionDombin context[],
+                         boolebn isPrivileged)
     {
         this.context = context;
         this.isPrivileged = isPrivileged;
@@ -278,9 +278,9 @@ public final class AccessControlContext {
     }
 
     /**
-     * Constructor for JavaSecurityAccess.doIntersectionPrivilege()
+     * Constructor for JbvbSecurityAccess.doIntersectionPrivilege()
      */
-    AccessControlContext(ProtectionDomain[] context,
+    AccessControlContext(ProtectionDombin[] context,
                          AccessControlContext privilegedContext)
     {
         this.context = context;
@@ -291,140 +291,140 @@ public final class AccessControlContext {
     /**
      * Returns this context's context.
      */
-    ProtectionDomain[] getContext() {
+    ProtectionDombin[] getContext() {
         return context;
     }
 
     /**
      * Returns true if this context is privileged.
      */
-    boolean isPrivileged()
+    boolebn isPrivileged()
     {
         return isPrivileged;
     }
 
     /**
-     * get the assigned combiner from the privileged or inherited context
+     * get the bssigned combiner from the privileged or inherited context
      */
-    DomainCombiner getAssignedCombiner() {
-        AccessControlContext acc;
+    DombinCombiner getAssignedCombiner() {
+        AccessControlContext bcc;
         if (isPrivileged) {
-            acc = privilegedContext;
+            bcc = privilegedContext;
         } else {
-            acc = AccessController.getInheritedAccessControlContext();
+            bcc = AccessController.getInheritedAccessControlContext();
         }
-        if (acc != null) {
-            return acc.combiner;
+        if (bcc != null) {
+            return bcc.combiner;
         }
         return null;
     }
 
     /**
-     * Get the {@code DomainCombiner} associated with this
+     * Get the {@code DombinCombiner} bssocibted with this
      * {@code AccessControlContext}.
      *
      * <p>
      *
-     * @return the {@code DomainCombiner} associated with this
+     * @return the {@code DombinCombiner} bssocibted with this
      *          {@code AccessControlContext}, or {@code null}
      *          if there is none.
      *
-     * @exception SecurityException if a security manager is installed and
-     *          the caller does not have the "getDomainCombiner"
+     * @exception SecurityException if b security mbnbger is instblled bnd
+     *          the cbller does not hbve the "getDombinCombiner"
      *          {@link SecurityPermission}
      * @since 1.3
      */
-    public DomainCombiner getDomainCombiner() {
+    public DombinCombiner getDombinCombiner() {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_COMBINER_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_COMBINER_PERMISSION);
         }
         return getCombiner();
     }
 
     /**
-     * package private for AccessController
+     * pbckbge privbte for AccessController
      */
-    DomainCombiner getCombiner() {
+    DombinCombiner getCombiner() {
         return combiner;
     }
 
-    boolean isAuthorized() {
+    boolebn isAuthorized() {
         return isAuthorized;
     }
 
     /**
-     * Determines whether the access request indicated by the
-     * specified permission should be allowed or denied, based on
-     * the security policy currently in effect, and the context in
-     * this object. The request is allowed only if every ProtectionDomain
+     * Determines whether the bccess request indicbted by the
+     * specified permission should be bllowed or denied, bbsed on
+     * the security policy currently in effect, bnd the context in
+     * this object. The request is bllowed only if every ProtectionDombin
      * in the context implies the permission. Otherwise the request is
      * denied.
      *
      * <p>
-     * This method quietly returns if the access request
-     * is permitted, or throws a suitable AccessControlException otherwise.
+     * This method quietly returns if the bccess request
+     * is permitted, or throws b suitbble AccessControlException otherwise.
      *
-     * @param perm the requested permission.
+     * @pbrbm perm the requested permission.
      *
      * @exception AccessControlException if the specified permission
-     * is not permitted, based on the current security policy and the
-     * context encapsulated by this object.
+     * is not permitted, bbsed on the current security policy bnd the
+     * context encbpsulbted by this object.
      * @exception NullPointerException if the permission to check for is null.
      */
     public void checkPermission(Permission perm)
         throws AccessControlException
     {
-        boolean dumpDebug = false;
+        boolebn dumpDebug = fblse;
 
         if (perm == null) {
-            throw new NullPointerException("permission can't be null");
+            throw new NullPointerException("permission cbn't be null");
         }
         if (getDebug() != null) {
-            // If "codebase" is not specified, we dump the info by default.
-            dumpDebug = !Debug.isOn("codebase=");
+            // If "codebbse" is not specified, we dump the info by defbult.
+            dumpDebug = !Debug.isOn("codebbse=");
             if (!dumpDebug) {
-                // If "codebase" is specified, only dump if the specified code
-                // value is in the stack.
+                // If "codebbse" is specified, only dump if the specified code
+                // vblue is in the stbck.
                 for (int i = 0; context != null && i < context.length; i++) {
                     if (context[i].getCodeSource() != null &&
-                        context[i].getCodeSource().getLocation() != null &&
-                        Debug.isOn("codebase=" + context[i].getCodeSource().getLocation().toString())) {
+                        context[i].getCodeSource().getLocbtion() != null &&
+                        Debug.isOn("codebbse=" + context[i].getCodeSource().getLocbtion().toString())) {
                         dumpDebug = true;
-                        break;
+                        brebk;
                     }
                 }
             }
 
             dumpDebug &= !Debug.isOn("permission=") ||
-                Debug.isOn("permission=" + perm.getClass().getCanonicalName());
+                Debug.isOn("permission=" + perm.getClbss().getCbnonicblNbme());
 
-            if (dumpDebug && Debug.isOn("stack")) {
-                Thread.dumpStack();
+            if (dumpDebug && Debug.isOn("stbck")) {
+                Threbd.dumpStbck();
             }
 
-            if (dumpDebug && Debug.isOn("domain")) {
+            if (dumpDebug && Debug.isOn("dombin")) {
                 if (context == null) {
-                    debug.println("domain (context is null)");
+                    debug.println("dombin (context is null)");
                 } else {
                     for (int i=0; i< context.length; i++) {
-                        debug.println("domain "+i+" "+context[i]);
+                        debug.println("dombin "+i+" "+context[i]);
                     }
                 }
             }
         }
 
         /*
-         * iterate through the ProtectionDomains in the context.
-         * Stop at the first one that doesn't allow the
-         * requested permission (throwing an exception).
+         * iterbte through the ProtectionDombins in the context.
+         * Stop bt the first one thbt doesn't bllow the
+         * requested permission (throwing bn exception).
          *
          */
 
-        /* if ctxt is null, all we had on the stack were system domains,
-           or the first domain was a Privileged system domain. This
-           is to make the common case for system code very fast */
+        /* if ctxt is null, bll we hbd on the stbck were system dombins,
+           or the first dombin wbs b Privileged system dombin. This
+           is to mbke the common cbse for system code very fbst */
 
         if (context == null) {
             checkPermission2(perm);
@@ -434,187 +434,187 @@ public final class AccessControlContext {
         for (int i=0; i< context.length; i++) {
             if (context[i] != null &&  !context[i].implies(perm)) {
                 if (dumpDebug) {
-                    debug.println("access denied " + perm);
+                    debug.println("bccess denied " + perm);
                 }
 
-                if (Debug.isOn("failure") && debug != null) {
-                    // Want to make sure this is always displayed for failure,
-                    // but do not want to display again if already displayed
-                    // above.
+                if (Debug.isOn("fbilure") && debug != null) {
+                    // Wbnt to mbke sure this is blwbys displbyed for fbilure,
+                    // but do not wbnt to displby bgbin if blrebdy displbyed
+                    // bbove.
                     if (!dumpDebug) {
-                        debug.println("access denied " + perm);
+                        debug.println("bccess denied " + perm);
                     }
-                    Thread.dumpStack();
-                    final ProtectionDomain pd = context[i];
-                    final Debug db = debug;
+                    Threbd.dumpStbck();
+                    finbl ProtectionDombin pd = context[i];
+                    finbl Debug db = debug;
                     AccessController.doPrivileged (new PrivilegedAction<Void>() {
                         public Void run() {
-                            db.println("domain that failed "+pd);
+                            db.println("dombin thbt fbiled "+pd);
                             return null;
                         }
                     });
                 }
-                throw new AccessControlException("access denied "+perm, perm);
+                throw new AccessControlException("bccess denied "+perm, perm);
             }
         }
 
-        // allow if all of them allowed access
+        // bllow if bll of them bllowed bccess
         if (dumpDebug) {
-            debug.println("access allowed "+perm);
+            debug.println("bccess bllowed "+perm);
         }
 
         checkPermission2(perm);
     }
 
     /*
-     * Check the domains associated with the limited privilege scope.
+     * Check the dombins bssocibted with the limited privilege scope.
      */
-    private void checkPermission2(Permission perm) {
+    privbte void checkPermission2(Permission perm) {
         if (!isLimited) {
             return;
         }
 
         /*
-         * Check the doPrivileged() context parameter, if present.
+         * Check the doPrivileged() context pbrbmeter, if present.
          */
         if (privilegedContext != null) {
             privilegedContext.checkPermission2(perm);
         }
 
         /*
-         * Ignore the limited permissions and parent fields of a wrapper
-         * context since they were already carried down into the unwrapped
+         * Ignore the limited permissions bnd pbrent fields of b wrbpper
+         * context since they were blrebdy cbrried down into the unwrbpped
          * context.
          */
-        if (isWrapped) {
+        if (isWrbpped) {
             return;
         }
 
         /*
-         * Try to match any limited privilege scope.
+         * Try to mbtch bny limited privilege scope.
          */
         if (permissions != null) {
-            Class<?> permClass = perm.getClass();
+            Clbss<?> permClbss = perm.getClbss();
             for (int i=0; i < permissions.length; i++) {
                 Permission limit = permissions[i];
-                if (limit.getClass().equals(permClass) && limit.implies(perm)) {
+                if (limit.getClbss().equbls(permClbss) && limit.implies(perm)) {
                     return;
                 }
             }
         }
 
         /*
-         * Check the limited privilege scope up the call stack or the inherited
-         * parent thread call stack of this ACC.
+         * Check the limited privilege scope up the cbll stbck or the inherited
+         * pbrent threbd cbll stbck of this ACC.
          */
-        if (parent != null) {
+        if (pbrent != null) {
             /*
-             * As an optimization, if the parent context is the inherited call
-             * stack context from a parent thread then checking the protection
-             * domains of the parent context is redundant since they have
-             * already been merged into the child thread's context by
-             * optimize(). When parent is set to an inherited context this
-             * context was not directly created by a limited scope
-             * doPrivileged() and it does not have its own limited permissions.
+             * As bn optimizbtion, if the pbrent context is the inherited cbll
+             * stbck context from b pbrent threbd then checking the protection
+             * dombins of the pbrent context is redundbnt since they hbve
+             * blrebdy been merged into the child threbd's context by
+             * optimize(). When pbrent is set to bn inherited context this
+             * context wbs not directly crebted by b limited scope
+             * doPrivileged() bnd it does not hbve its own limited permissions.
              */
             if (permissions == null) {
-                parent.checkPermission2(perm);
+                pbrent.checkPermission2(perm);
             } else {
-                parent.checkPermission(perm);
+                pbrent.checkPermission(perm);
             }
         }
     }
 
     /**
-     * Take the stack-based context (this) and combine it with the
+     * Tbke the stbck-bbsed context (this) bnd combine it with the
      * privileged or inherited context, if need be. Any limited
-     * privilege scope is flagged regardless of whether the assigned
-     * context comes from an immediately enclosing limited doPrivileged().
-     * The limited privilege scope can indirectly flow from the inherited
-     * parent thread or an assigned context previously captured by getContext().
+     * privilege scope is flbgged regbrdless of whether the bssigned
+     * context comes from bn immedibtely enclosing limited doPrivileged().
+     * The limited privilege scope cbn indirectly flow from the inherited
+     * pbrent threbd or bn bssigned context previously cbptured by getContext().
      */
     AccessControlContext optimize() {
-        // the assigned (privileged or inherited) context
-        AccessControlContext acc;
-        DomainCombiner combiner = null;
-        AccessControlContext parent = null;
+        // the bssigned (privileged or inherited) context
+        AccessControlContext bcc;
+        DombinCombiner combiner = null;
+        AccessControlContext pbrent = null;
         Permission[] permissions = null;
 
         if (isPrivileged) {
-            acc = privilegedContext;
-            if (acc != null) {
+            bcc = privilegedContext;
+            if (bcc != null) {
                 /*
-                 * If the context is from a limited scope doPrivileged() then
-                 * copy the permissions and parent fields out of the wrapper
-                 * context that was created to hold them.
+                 * If the context is from b limited scope doPrivileged() then
+                 * copy the permissions bnd pbrent fields out of the wrbpper
+                 * context thbt wbs crebted to hold them.
                  */
-                if (acc.isWrapped) {
-                    permissions = acc.permissions;
-                    parent = acc.parent;
+                if (bcc.isWrbpped) {
+                    permissions = bcc.permissions;
+                    pbrent = bcc.pbrent;
                 }
             }
         } else {
-            acc = AccessController.getInheritedAccessControlContext();
-            if (acc != null) {
+            bcc = AccessController.getInheritedAccessControlContext();
+            if (bcc != null) {
                 /*
-                 * If the inherited context is constrained by a limited scope
-                 * doPrivileged() then set it as our parent so we will process
-                 * the non-domain-related state.
+                 * If the inherited context is constrbined by b limited scope
+                 * doPrivileged() then set it bs our pbrent so we will process
+                 * the non-dombin-relbted stbte.
                  */
-                if (acc.isLimited) {
-                    parent = acc;
+                if (bcc.isLimited) {
+                    pbrent = bcc;
                 }
             }
         }
 
-        // this.context could be null if only system code is on the stack;
-        // in that case, ignore the stack context
-        boolean skipStack = (context == null);
+        // this.context could be null if only system code is on the stbck;
+        // in thbt cbse, ignore the stbck context
+        boolebn skipStbck = (context == null);
 
-        // acc.context could be null if only system code was involved;
-        // in that case, ignore the assigned context
-        boolean skipAssigned = (acc == null || acc.context == null);
-        ProtectionDomain[] assigned = (skipAssigned) ? null : acc.context;
-        ProtectionDomain[] pd;
+        // bcc.context could be null if only system code wbs involved;
+        // in thbt cbse, ignore the bssigned context
+        boolebn skipAssigned = (bcc == null || bcc.context == null);
+        ProtectionDombin[] bssigned = (skipAssigned) ? null : bcc.context;
+        ProtectionDombin[] pd;
 
-        // if there is no enclosing limited privilege scope on the stack or
-        // inherited from a parent thread
-        boolean skipLimited = ((acc == null || !acc.isWrapped) && parent == null);
+        // if there is no enclosing limited privilege scope on the stbck or
+        // inherited from b pbrent threbd
+        boolebn skipLimited = ((bcc == null || !bcc.isWrbpped) && pbrent == null);
 
-        if (acc != null && acc.combiner != null) {
-            // let the assigned acc's combiner do its thing
+        if (bcc != null && bcc.combiner != null) {
+            // let the bssigned bcc's combiner do its thing
             if (getDebug() != null) {
                 debug.println("AccessControlContext invoking the Combiner");
             }
 
-            // No need to clone current and assigned.context
-            // combine() will not update them
-            combiner = acc.combiner;
-            pd = combiner.combine(context, assigned);
+            // No need to clone current bnd bssigned.context
+            // combine() will not updbte them
+            combiner = bcc.combiner;
+            pd = combiner.combine(context, bssigned);
         } else {
-            if (skipStack) {
+            if (skipStbck) {
                 if (skipAssigned) {
-                    calculateFields(acc, parent, permissions);
+                    cblculbteFields(bcc, pbrent, permissions);
                     return this;
                 } else if (skipLimited) {
-                    return acc;
+                    return bcc;
                 }
-            } else if (assigned != null) {
+            } else if (bssigned != null) {
                 if (skipLimited) {
-                    // optimization: if there is a single stack domain and
-                    // that domain is already in the assigned context; no
+                    // optimizbtion: if there is b single stbck dombin bnd
+                    // thbt dombin is blrebdy in the bssigned context; no
                     // need to combine
-                    if (context.length == 1 && context[0] == assigned[0]) {
-                        return acc;
+                    if (context.length == 1 && context[0] == bssigned[0]) {
+                        return bcc;
                     }
                 }
             }
 
-            pd = combine(context, assigned);
-            if (skipLimited && !skipAssigned && pd == assigned) {
-                return acc;
+            pd = combine(context, bssigned);
+            if (skipLimited && !skipAssigned && pd == bssigned) {
+                return bcc;
             } else if (skipAssigned && pd == context) {
-                calculateFields(acc, parent, permissions);
+                cblculbteFields(bcc, pbrent, permissions);
                 return this;
             }
         }
@@ -622,50 +622,50 @@ public final class AccessControlContext {
         // Reuse existing ACC
         this.context = pd;
         this.combiner = combiner;
-        this.isPrivileged = false;
+        this.isPrivileged = fblse;
 
-        calculateFields(acc, parent, permissions);
+        cblculbteFields(bcc, pbrent, permissions);
         return this;
     }
 
 
     /*
-     * Combine the current (stack) and assigned domains.
+     * Combine the current (stbck) bnd bssigned dombins.
      */
-    private static ProtectionDomain[] combine(ProtectionDomain[]current,
-        ProtectionDomain[] assigned) {
+    privbte stbtic ProtectionDombin[] combine(ProtectionDombin[]current,
+        ProtectionDombin[] bssigned) {
 
-        // current could be null if only system code is on the stack;
-        // in that case, ignore the stack context
-        boolean skipStack = (current == null);
+        // current could be null if only system code is on the stbck;
+        // in thbt cbse, ignore the stbck context
+        boolebn skipStbck = (current == null);
 
-        // assigned could be null if only system code was involved;
-        // in that case, ignore the assigned context
-        boolean skipAssigned = (assigned == null);
+        // bssigned could be null if only system code wbs involved;
+        // in thbt cbse, ignore the bssigned context
+        boolebn skipAssigned = (bssigned == null);
 
-        int slen = (skipStack) ? 0 : current.length;
+        int slen = (skipStbck) ? 0 : current.length;
 
-        // optimization: if there is no assigned context and the stack length
-        // is less then or equal to two; there is no reason to compress the
-        // stack context, it already is
+        // optimizbtion: if there is no bssigned context bnd the stbck length
+        // is less then or equbl to two; there is no rebson to compress the
+        // stbck context, it blrebdy is
         if (skipAssigned && slen <= 2) {
             return current;
         }
 
-        int n = (skipAssigned) ? 0 : assigned.length;
+        int n = (skipAssigned) ? 0 : bssigned.length;
 
-        // now we combine both of them, and create a new context
-        ProtectionDomain pd[] = new ProtectionDomain[slen + n];
+        // now we combine both of them, bnd crebte b new context
+        ProtectionDombin pd[] = new ProtectionDombin[slen + n];
 
-        // first copy in the assigned context domains, no need to compress
+        // first copy in the bssigned context dombins, no need to compress
         if (!skipAssigned) {
-            System.arraycopy(assigned, 0, pd, 0, n);
+            System.brrbycopy(bssigned, 0, pd, 0, n);
         }
 
-        // now add the stack context domains, discarding nulls and duplicates
+        // now bdd the stbck context dombins, discbrding nulls bnd duplicbtes
     outer:
         for (int i = 0; i < slen; i++) {
-            ProtectionDomain sd = current[i];
+            ProtectionDombin sd = current[i];
             if (sd != null) {
                 for (int j = 0; j < n; j++) {
                     if (sd == pd[j]) {
@@ -676,16 +676,16 @@ public final class AccessControlContext {
             }
         }
 
-        // if length isn't equal, we need to shorten the array
+        // if length isn't equbl, we need to shorten the brrby
         if (n != pd.length) {
-            // optimization: if we didn't really combine anything
-            if (!skipAssigned && n == assigned.length) {
-                return assigned;
+            // optimizbtion: if we didn't reblly combine bnything
+            if (!skipAssigned && n == bssigned.length) {
+                return bssigned;
             } else if (skipAssigned && n == slen) {
                 return current;
             }
-            ProtectionDomain tmp[] = new ProtectionDomain[n];
-            System.arraycopy(pd, 0, tmp, 0, n);
+            ProtectionDombin tmp[] = new ProtectionDombin[n];
+            System.brrbycopy(pd, 0, tmp, 0, n);
             pd = tmp;
         }
 
@@ -694,27 +694,27 @@ public final class AccessControlContext {
 
 
     /*
-     * Calculate the additional domains that could potentially be reached via
-     * limited privilege scope. Mark the context as being subject to limited
-     * privilege scope unless the reachable domains (if any) are already
-     * contained in this domain context (in which case any limited
-     * privilege scope checking would be redundant).
+     * Cblculbte the bdditionbl dombins thbt could potentiblly be rebched vib
+     * limited privilege scope. Mbrk the context bs being subject to limited
+     * privilege scope unless the rebchbble dombins (if bny) bre blrebdy
+     * contbined in this dombin context (in which cbse bny limited
+     * privilege scope checking would be redundbnt).
      */
-    private void calculateFields(AccessControlContext assigned,
-        AccessControlContext parent, Permission[] permissions)
+    privbte void cblculbteFields(AccessControlContext bssigned,
+        AccessControlContext pbrent, Permission[] permissions)
     {
-        ProtectionDomain[] parentLimit = null;
-        ProtectionDomain[] assignedLimit = null;
-        ProtectionDomain[] newLimit;
+        ProtectionDombin[] pbrentLimit = null;
+        ProtectionDombin[] bssignedLimit = null;
+        ProtectionDombin[] newLimit;
 
-        parentLimit = (parent != null)? parent.limitedContext: null;
-        assignedLimit = (assigned != null)? assigned.limitedContext: null;
-        newLimit = combine(parentLimit, assignedLimit);
+        pbrentLimit = (pbrent != null)? pbrent.limitedContext: null;
+        bssignedLimit = (bssigned != null)? bssigned.limitedContext: null;
+        newLimit = combine(pbrentLimit, bssignedLimit);
         if (newLimit != null) {
-            if (context == null || !containsAllPDs(newLimit, context)) {
+            if (context == null || !contbinsAllPDs(newLimit, context)) {
                 this.limitedContext = newLimit;
                 this.permissions = permissions;
-                this.parent = parent;
+                this.pbrent = pbrent;
                 this.isLimited = true;
             }
         }
@@ -722,219 +722,219 @@ public final class AccessControlContext {
 
 
     /**
-     * Checks two AccessControlContext objects for equality.
-     * Checks that <i>obj</i> is
-     * an AccessControlContext and has the same set of ProtectionDomains
-     * as this context.
+     * Checks two AccessControlContext objects for equblity.
+     * Checks thbt <i>obj</i> is
+     * bn AccessControlContext bnd hbs the sbme set of ProtectionDombins
+     * bs this context.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an AccessControlContext, and has the
-     * same set of ProtectionDomains as this context, false otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if <i>obj</i> is bn AccessControlContext, bnd hbs the
+     * sbme set of ProtectionDombins bs this context, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof AccessControlContext))
-            return false;
+        if (! (obj instbnceof AccessControlContext))
+            return fblse;
 
-        AccessControlContext that = (AccessControlContext) obj;
+        AccessControlContext thbt = (AccessControlContext) obj;
 
-        if (!equalContext(that))
-            return false;
+        if (!equblContext(thbt))
+            return fblse;
 
-        if (!equalLimitedContext(that))
-            return false;
+        if (!equblLimitedContext(thbt))
+            return fblse;
 
         return true;
     }
 
     /*
-     * Compare for equality based on state that is free of limited
-     * privilege complications.
+     * Compbre for equblity bbsed on stbte thbt is free of limited
+     * privilege complicbtions.
      */
-    private boolean equalContext(AccessControlContext that) {
-        if (!equalPDs(this.context, that.context))
-            return false;
+    privbte boolebn equblContext(AccessControlContext thbt) {
+        if (!equblPDs(this.context, thbt.context))
+            return fblse;
 
-        if (this.combiner == null && that.combiner != null)
-            return false;
+        if (this.combiner == null && thbt.combiner != null)
+            return fblse;
 
-        if (this.combiner != null && !this.combiner.equals(that.combiner))
-            return false;
+        if (this.combiner != null && !this.combiner.equbls(thbt.combiner))
+            return fblse;
 
         return true;
     }
 
-    private boolean equalPDs(ProtectionDomain[] a, ProtectionDomain[] b) {
-        if (a == null) {
+    privbte boolebn equblPDs(ProtectionDombin[] b, ProtectionDombin[] b) {
+        if (b == null) {
             return (b == null);
         }
 
         if (b == null)
-            return false;
+            return fblse;
 
-        if (!(containsAllPDs(a, b) && containsAllPDs(b, a)))
-            return false;
+        if (!(contbinsAllPDs(b, b) && contbinsAllPDs(b, b)))
+            return fblse;
 
         return true;
     }
 
     /*
-     * Compare for equality based on state that is captured during a
-     * call to AccessController.getContext() when a limited privilege
+     * Compbre for equblity bbsed on stbte thbt is cbptured during b
+     * cbll to AccessController.getContext() when b limited privilege
      * scope is in effect.
      */
-    private boolean equalLimitedContext(AccessControlContext that) {
-        if (that == null)
-            return false;
+    privbte boolebn equblLimitedContext(AccessControlContext thbt) {
+        if (thbt == null)
+            return fblse;
 
         /*
-         * If neither instance has limited privilege scope then we're done.
+         * If neither instbnce hbs limited privilege scope then we're done.
          */
-        if (!this.isLimited && !that.isLimited)
+        if (!this.isLimited && !thbt.isLimited)
             return true;
 
         /*
-         * If only one instance has limited privilege scope then we're done.
+         * If only one instbnce hbs limited privilege scope then we're done.
          */
-         if (!(this.isLimited && that.isLimited))
-             return false;
+         if (!(this.isLimited && thbt.isLimited))
+             return fblse;
 
         /*
-         * Wrapped instances should never escape outside the implementation
-         * this class and AccessController so this will probably never happen
-         * but it only makes any sense to compare if they both have the same
-         * isWrapped state.
+         * Wrbpped instbnces should never escbpe outside the implementbtion
+         * this clbss bnd AccessController so this will probbbly never hbppen
+         * but it only mbkes bny sense to compbre if they both hbve the sbme
+         * isWrbpped stbte.
          */
-        if ((this.isWrapped && !that.isWrapped) ||
-            (!this.isWrapped && that.isWrapped)) {
-            return false;
+        if ((this.isWrbpped && !thbt.isWrbpped) ||
+            (!this.isWrbpped && thbt.isWrbpped)) {
+            return fblse;
         }
 
-        if (this.permissions == null && that.permissions != null)
-            return false;
+        if (this.permissions == null && thbt.permissions != null)
+            return fblse;
 
-        if (this.permissions != null && that.permissions == null)
-            return false;
+        if (this.permissions != null && thbt.permissions == null)
+            return fblse;
 
-        if (!(this.containsAllLimits(that) && that.containsAllLimits(this)))
-            return false;
+        if (!(this.contbinsAllLimits(thbt) && thbt.contbinsAllLimits(this)))
+            return fblse;
 
         /*
-         * Skip through any wrapped contexts.
+         * Skip through bny wrbpped contexts.
          */
         AccessControlContext thisNextPC = getNextPC(this);
-        AccessControlContext thatNextPC = getNextPC(that);
+        AccessControlContext thbtNextPC = getNextPC(thbt);
 
         /*
-         * The protection domains and combiner of a privilegedContext are
-         * not relevant because they have already been included in the context
-         * of this instance by optimize() so we only care about any limited
-         * privilege state they may have.
+         * The protection dombins bnd combiner of b privilegedContext bre
+         * not relevbnt becbuse they hbve blrebdy been included in the context
+         * of this instbnce by optimize() so we only cbre bbout bny limited
+         * privilege stbte they mby hbve.
          */
-        if (thisNextPC == null && thatNextPC != null && thatNextPC.isLimited)
-            return false;
+        if (thisNextPC == null && thbtNextPC != null && thbtNextPC.isLimited)
+            return fblse;
 
-        if (thisNextPC != null && !thisNextPC.equalLimitedContext(thatNextPC))
-            return false;
+        if (thisNextPC != null && !thisNextPC.equblLimitedContext(thbtNextPC))
+            return fblse;
 
-        if (this.parent == null && that.parent != null)
-            return false;
+        if (this.pbrent == null && thbt.pbrent != null)
+            return fblse;
 
-        if (this.parent != null && !this.parent.equals(that.parent))
-            return false;
+        if (this.pbrent != null && !this.pbrent.equbls(thbt.pbrent))
+            return fblse;
 
         return true;
     }
 
     /*
-     * Follow the privilegedContext link making our best effort to skip
-     * through any wrapper contexts.
+     * Follow the privilegedContext link mbking our best effort to skip
+     * through bny wrbpper contexts.
      */
-    private static AccessControlContext getNextPC(AccessControlContext acc) {
-        while (acc != null && acc.privilegedContext != null) {
-            acc = acc.privilegedContext;
-            if (!acc.isWrapped)
-                return acc;
+    privbte stbtic AccessControlContext getNextPC(AccessControlContext bcc) {
+        while (bcc != null && bcc.privilegedContext != null) {
+            bcc = bcc.privilegedContext;
+            if (!bcc.isWrbpped)
+                return bcc;
         }
         return null;
     }
 
-    private static boolean containsAllPDs(ProtectionDomain[] thisContext,
-        ProtectionDomain[] thatContext) {
-        boolean match = false;
+    privbte stbtic boolebn contbinsAllPDs(ProtectionDombin[] thisContext,
+        ProtectionDombin[] thbtContext) {
+        boolebn mbtch = fblse;
 
         //
-        // ProtectionDomains within an ACC currently cannot be null
-        // and this is enforced by the constructor and the various
-        // optimize methods. However, historically this logic made attempts
-        // to support the notion of a null PD and therefore this logic continues
-        // to support that notion.
-        ProtectionDomain thisPd;
+        // ProtectionDombins within bn ACC currently cbnnot be null
+        // bnd this is enforced by the constructor bnd the vbrious
+        // optimize methods. However, historicblly this logic mbde bttempts
+        // to support the notion of b null PD bnd therefore this logic continues
+        // to support thbt notion.
+        ProtectionDombin thisPd;
         for (int i = 0; i < thisContext.length; i++) {
-            match = false;
+            mbtch = fblse;
             if ((thisPd = thisContext[i]) == null) {
-                for (int j = 0; (j < thatContext.length) && !match; j++) {
-                    match = (thatContext[j] == null);
+                for (int j = 0; (j < thbtContext.length) && !mbtch; j++) {
+                    mbtch = (thbtContext[j] == null);
                 }
             } else {
-                Class<?> thisPdClass = thisPd.getClass();
-                ProtectionDomain thatPd;
-                for (int j = 0; (j < thatContext.length) && !match; j++) {
-                    thatPd = thatContext[j];
+                Clbss<?> thisPdClbss = thisPd.getClbss();
+                ProtectionDombin thbtPd;
+                for (int j = 0; (j < thbtContext.length) && !mbtch; j++) {
+                    thbtPd = thbtContext[j];
 
-                    // Class check required to avoid PD exposure (4285406)
-                    match = (thatPd != null &&
-                        thisPdClass == thatPd.getClass() && thisPd.equals(thatPd));
+                    // Clbss check required to bvoid PD exposure (4285406)
+                    mbtch = (thbtPd != null &&
+                        thisPdClbss == thbtPd.getClbss() && thisPd.equbls(thbtPd));
                 }
             }
-            if (!match) return false;
+            if (!mbtch) return fblse;
         }
-        return match;
+        return mbtch;
     }
 
-    private boolean containsAllLimits(AccessControlContext that) {
-        boolean match = false;
+    privbte boolebn contbinsAllLimits(AccessControlContext thbt) {
+        boolebn mbtch = fblse;
         Permission thisPerm;
 
-        if (this.permissions == null && that.permissions == null)
+        if (this.permissions == null && thbt.permissions == null)
             return true;
 
         for (int i = 0; i < this.permissions.length; i++) {
             Permission limit = this.permissions[i];
-            Class <?> limitClass = limit.getClass();
-            match = false;
-            for (int j = 0; (j < that.permissions.length) && !match; j++) {
-                Permission perm = that.permissions[j];
-                match = (limitClass.equals(perm.getClass()) &&
-                    limit.equals(perm));
+            Clbss <?> limitClbss = limit.getClbss();
+            mbtch = fblse;
+            for (int j = 0; (j < thbt.permissions.length) && !mbtch; j++) {
+                Permission perm = thbt.permissions[j];
+                mbtch = (limitClbss.equbls(perm.getClbss()) &&
+                    limit.equbls(perm));
             }
-            if (!match) return false;
+            if (!mbtch) return fblse;
         }
-        return match;
+        return mbtch;
     }
 
 
     /**
-     * Returns the hash code value for this context. The hash code
-     * is computed by exclusive or-ing the hash code of all the protection
-     * domains in the context together.
+     * Returns the hbsh code vblue for this context. The hbsh code
+     * is computed by exclusive or-ing the hbsh code of bll the protection
+     * dombins in the context together.
      *
-     * @return a hash code value for this context.
+     * @return b hbsh code vblue for this context.
      */
 
-    public int hashCode() {
-        int hashCode = 0;
+    public int hbshCode() {
+        int hbshCode = 0;
 
         if (context == null)
-            return hashCode;
+            return hbshCode;
 
         for (int i =0; i < context.length; i++) {
             if (context[i] != null)
-                hashCode ^= context[i].hashCode();
+                hbshCode ^= context[i].hbshCode();
         }
 
-        return hashCode;
+        return hbshCode;
     }
 }

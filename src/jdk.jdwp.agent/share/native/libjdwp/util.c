@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <ctype.h>
 
 #include "util.h"
-#include "transport.h"
-#include "eventHandler.h"
-#include "threadControl.h"
-#include "outStream.h"
-#include "inStream.h"
+#include "trbnsport.h"
+#include "eventHbndler.h"
+#include "threbdControl.h"
+#include "outStrebm.h"
+#include "inStrebm.h"
 #include "invoker.h"
 
-/* Global data area */
-BackendGlobalData *gdata = NULL;
+/* Globbl dbtb breb */
+BbckendGlobblDbtb *gdbtb = NULL;
 
-/* Forward declarations */
-static jboolean isInterface(jclass clazz);
-static jboolean isArrayClass(jclass clazz);
-static char * getPropertyUTF8(JNIEnv *env, char *propertyName);
+/* Forwbrd declbrbtions */
+stbtic jboolebn isInterfbce(jclbss clbzz);
+stbtic jboolebn isArrbyClbss(jclbss clbzz);
+stbtic chbr * getPropertyUTF8(JNIEnv *env, chbr *propertyNbme);
 
-/* Save an object reference for use later (create a NewGlobalRef) */
+/* Sbve bn object reference for use lbter (crebte b NewGlobblRef) */
 void
-saveGlobalRef(JNIEnv *env, jobject obj, jobject *pobj)
+sbveGlobblRef(JNIEnv *env, jobject obj, jobject *pobj)
 {
     jobject newobj;
 
     if ( pobj == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"saveGlobalRef pobj");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"sbveGlobblRef pobj");
     }
     if ( *pobj != NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"saveGlobalRef *pobj");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"sbveGlobblRef *pobj");
     }
     if ( env == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"saveGlobalRef env");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"sbveGlobblRef env");
     }
     if ( obj == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"saveGlobalRef obj");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"sbveGlobblRef obj");
     }
-    newobj = JNI_FUNC_PTR(env,NewGlobalRef)(env, obj);
+    newobj = JNI_FUNC_PTR(env,NewGlobblRef)(env, obj);
     if ( newobj == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"NewGlobalRef");
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"NewGlobblRef");
     }
     *pobj = newobj;
 }
 
-/* Toss a previously saved object reference */
+/* Toss b previously sbved object reference */
 void
-tossGlobalRef(JNIEnv *env, jobject *pobj)
+tossGlobblRef(JNIEnv *env, jobject *pobj)
 {
     jobject obj;
 
     if ( pobj == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"tossGlobalRef pobj");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"tossGlobblRef pobj");
     }
     obj = *pobj;
     if ( env == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"tossGlobalRef env");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"tossGlobblRef env");
     }
     if ( obj == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"tossGlobalRef obj");
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"tossGlobblRef obj");
     }
-    JNI_FUNC_PTR(env,DeleteGlobalRef)(env, obj);
+    JNI_FUNC_PTR(env,DeleteGlobblRef)(env, obj);
     *pobj = NULL;
 }
 
-static jclass
-findClass(JNIEnv *env, const char * name)
+stbtic jclbss
+findClbss(JNIEnv *env, const chbr * nbme)
 {
-    jclass x;
+    jclbss x;
 
     if ( env == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"findClass env");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"findClbss env");
     }
-    if ( name == NULL || name[0] == 0 ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"findClass name");
+    if ( nbme == NULL || nbme[0] == 0 ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"findClbss nbme");
     }
-    x = JNI_FUNC_PTR(env,FindClass)(env, name);
+    x = JNI_FUNC_PTR(env,FindClbss)(env, nbme);
     if (x == NULL) {
-        ERROR_MESSAGE(("JDWP Can't find class %s", name));
+        ERROR_MESSAGE(("JDWP Cbn't find clbss %s", nbme));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     if ( JNI_FUNC_PTR(env,ExceptionOccurred)(env) ) {
-        ERROR_MESSAGE(("JDWP Exception occurred finding class %s", name));
+        ERROR_MESSAGE(("JDWP Exception occurred finding clbss %s", nbme));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     return x;
 }
 
-static jmethodID
-getMethod(JNIEnv *env, jclass clazz, const char * name, const char *signature)
+stbtic jmethodID
+getMethod(JNIEnv *env, jclbss clbzz, const chbr * nbme, const chbr *signbture)
 {
     jmethodID method;
 
     if ( env == NULL ) {
         EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod env");
     }
-    if ( clazz == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod clazz");
+    if ( clbzz == NULL ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod clbzz");
     }
-    if ( name == NULL || name[0] == 0 ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod name");
+    if ( nbme == NULL || nbme[0] == 0 ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod nbme");
     }
-    if ( signature == NULL || signature[0] == 0 ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod signature");
+    if ( signbture == NULL || signbture[0] == 0 ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getMethod signbture");
     }
-    method = JNI_FUNC_PTR(env,GetMethodID)(env, clazz, name, signature);
+    method = JNI_FUNC_PTR(env,GetMethodID)(env, clbzz, nbme, signbture);
     if (method == NULL) {
-        ERROR_MESSAGE(("JDWP Can't find method %s with signature %s",
-                                name, signature));
+        ERROR_MESSAGE(("JDWP Cbn't find method %s with signbture %s",
+                                nbme, signbture));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     if ( JNI_FUNC_PTR(env,ExceptionOccurred)(env) ) {
-        ERROR_MESSAGE(("JDWP Exception occurred finding method %s with signature %s",
-                                name, signature));
+        ERROR_MESSAGE(("JDWP Exception occurred finding method %s with signbture %s",
+                                nbme, signbture));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     return method;
 }
 
-static jmethodID
-getStaticMethod(JNIEnv *env, jclass clazz, const char * name, const char *signature)
+stbtic jmethodID
+getStbticMethod(JNIEnv *env, jclbss clbzz, const chbr * nbme, const chbr *signbture)
 {
     jmethodID method;
 
     if ( env == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStaticMethod env");
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStbticMethod env");
     }
-    if ( clazz == NULL ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStaticMethod clazz");
+    if ( clbzz == NULL ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStbticMethod clbzz");
     }
-    if ( name == NULL || name[0] == 0 ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStaticMethod name");
+    if ( nbme == NULL || nbme[0] == 0 ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStbticMethod nbme");
     }
-    if ( signature == NULL || signature[0] == 0 ) {
-        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStaticMethod signature");
+    if ( signbture == NULL || signbture[0] == 0 ) {
+        EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"getStbticMethod signbture");
     }
-    method = JNI_FUNC_PTR(env,GetStaticMethodID)(env, clazz, name, signature);
+    method = JNI_FUNC_PTR(env,GetStbticMethodID)(env, clbzz, nbme, signbture);
     if (method == NULL) {
-        ERROR_MESSAGE(("JDWP Can't find method %s with signature %s",
-                                name, signature));
+        ERROR_MESSAGE(("JDWP Cbn't find method %s with signbture %s",
+                                nbme, signbture));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     if ( JNI_FUNC_PTR(env,ExceptionOccurred)(env) ) {
-        ERROR_MESSAGE(("JDWP Exception occurred finding method %s with signature %s",
-                                name, signature));
+        ERROR_MESSAGE(("JDWP Exception occurred finding method %s with signbture %s",
+                                nbme, signbture));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
     return method;
 }
 
 void
-util_initialize(JNIEnv *env)
+util_initiblize(JNIEnv *env)
 {
     WITH_LOCAL_REFS(env, 6) {
 
         jvmtiError error;
-        jclass localClassClass;
-        jclass localThreadClass;
-        jclass localThreadGroupClass;
-        jclass localClassLoaderClass;
-        jclass localStringClass;
-        jclass localSystemClass;
-        jclass localPropertiesClass;
-        jclass localVMSupportClass;
-        jobject localAgentProperties;
+        jclbss locblClbssClbss;
+        jclbss locblThrebdClbss;
+        jclbss locblThrebdGroupClbss;
+        jclbss locblClbssLobderClbss;
+        jclbss locblStringClbss;
+        jclbss locblSystemClbss;
+        jclbss locblPropertiesClbss;
+        jclbss locblVMSupportClbss;
+        jobject locblAgentProperties;
         jmethodID getAgentProperties;
         jint groupCount;
-        jthreadGroup *groups;
-        jthreadGroup localSystemThreadGroup;
+        jthrebdGroup *groups;
+        jthrebdGroup locblSystemThrebdGroup;
 
-        /* Find some standard classes */
+        /* Find some stbndbrd clbsses */
 
-        localClassClass         = findClass(env,"java/lang/Class");
-        localThreadClass        = findClass(env,"java/lang/Thread");
-        localThreadGroupClass   = findClass(env,"java/lang/ThreadGroup");
-        localClassLoaderClass   = findClass(env,"java/lang/ClassLoader");
-        localStringClass        = findClass(env,"java/lang/String");
-        localSystemClass        = findClass(env,"java/lang/System");
-        localPropertiesClass    = findClass(env,"java/util/Properties");
+        locblClbssClbss         = findClbss(env,"jbvb/lbng/Clbss");
+        locblThrebdClbss        = findClbss(env,"jbvb/lbng/Threbd");
+        locblThrebdGroupClbss   = findClbss(env,"jbvb/lbng/ThrebdGroup");
+        locblClbssLobderClbss   = findClbss(env,"jbvb/lbng/ClbssLobder");
+        locblStringClbss        = findClbss(env,"jbvb/lbng/String");
+        locblSystemClbss        = findClbss(env,"jbvb/lbng/System");
+        locblPropertiesClbss    = findClbss(env,"jbvb/util/Properties");
 
-        /* Save references */
+        /* Sbve references */
 
-        saveGlobalRef(env, localClassClass,       &(gdata->classClass));
-        saveGlobalRef(env, localThreadClass,      &(gdata->threadClass));
-        saveGlobalRef(env, localThreadGroupClass, &(gdata->threadGroupClass));
-        saveGlobalRef(env, localClassLoaderClass, &(gdata->classLoaderClass));
-        saveGlobalRef(env, localStringClass,      &(gdata->stringClass));
-        saveGlobalRef(env, localSystemClass,      &(gdata->systemClass));
+        sbveGlobblRef(env, locblClbssClbss,       &(gdbtb->clbssClbss));
+        sbveGlobblRef(env, locblThrebdClbss,      &(gdbtb->threbdClbss));
+        sbveGlobblRef(env, locblThrebdGroupClbss, &(gdbtb->threbdGroupClbss));
+        sbveGlobblRef(env, locblClbssLobderClbss, &(gdbtb->clbssLobderClbss));
+        sbveGlobblRef(env, locblStringClbss,      &(gdbtb->stringClbss));
+        sbveGlobblRef(env, locblSystemClbss,      &(gdbtb->systemClbss));
 
-        /* Find some standard methods */
+        /* Find some stbndbrd methods */
 
-        gdata->threadConstructor =
-                getMethod(env, gdata->threadClass,
-                    "<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V");
-        gdata->threadSetDaemon =
-                getMethod(env, gdata->threadClass, "setDaemon", "(Z)V");
-        gdata->threadResume =
-                getMethod(env, gdata->threadClass, "resume", "()V");
-        gdata->systemGetProperty =
-                getStaticMethod(env, gdata->systemClass,
-                    "getProperty", "(Ljava/lang/String;)Ljava/lang/String;");
-        gdata->setProperty =
-                getMethod(env, localPropertiesClass,
-                    "setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;");
+        gdbtb->threbdConstructor =
+                getMethod(env, gdbtb->threbdClbss,
+                    "<init>", "(Ljbvb/lbng/ThrebdGroup;Ljbvb/lbng/String;)V");
+        gdbtb->threbdSetDbemon =
+                getMethod(env, gdbtb->threbdClbss, "setDbemon", "(Z)V");
+        gdbtb->threbdResume =
+                getMethod(env, gdbtb->threbdClbss, "resume", "()V");
+        gdbtb->systemGetProperty =
+                getStbticMethod(env, gdbtb->systemClbss,
+                    "getProperty", "(Ljbvb/lbng/String;)Ljbvb/lbng/String;");
+        gdbtb->setProperty =
+                getMethod(env, locblPropertiesClbss,
+                    "setProperty", "(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/Object;");
 
-        /* Find the system thread group */
+        /* Find the system threbd group */
 
         groups = NULL;
         groupCount = 0;
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetTopThreadGroups)
-                    (gdata->jvmti, &groupCount, &groups);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetTopThrebdGroups)
+                    (gdbtb->jvmti, &groupCount, &groups);
         if (error != JVMTI_ERROR_NONE ) {
-            EXIT_ERROR(error, "Can't get system thread group");
+            EXIT_ERROR(error, "Cbn't get system threbd group");
         }
         if ( groupCount == 0 ) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "Can't get system thread group");
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "Cbn't get system threbd group");
         }
-        localSystemThreadGroup = groups[0];
-        saveGlobalRef(env, localSystemThreadGroup, &(gdata->systemThreadGroup));
+        locblSystemThrebdGroup = groups[0];
+        sbveGlobblRef(env, locblSystemThrebdGroup, &(gdbtb->systemThrebdGroup));
 
-        /* Get some basic Java property values we will need at some point */
-        gdata->property_java_version
-                        = getPropertyUTF8(env, "java.version");
-        gdata->property_java_vm_name
-                        = getPropertyUTF8(env, "java.vm.name");
-        gdata->property_java_vm_info
-                        = getPropertyUTF8(env, "java.vm.info");
-        gdata->property_java_class_path
-                        = getPropertyUTF8(env, "java.class.path");
-        gdata->property_sun_boot_class_path
-                        = getPropertyUTF8(env, "sun.boot.class.path");
-        gdata->property_sun_boot_library_path
-                        = getPropertyUTF8(env, "sun.boot.library.path");
-        gdata->property_path_separator
-                        = getPropertyUTF8(env, "path.separator");
-        gdata->property_user_dir
+        /* Get some bbsic Jbvb property vblues we will need bt some point */
+        gdbtb->property_jbvb_version
+                        = getPropertyUTF8(env, "jbvb.version");
+        gdbtb->property_jbvb_vm_nbme
+                        = getPropertyUTF8(env, "jbvb.vm.nbme");
+        gdbtb->property_jbvb_vm_info
+                        = getPropertyUTF8(env, "jbvb.vm.info");
+        gdbtb->property_jbvb_clbss_pbth
+                        = getPropertyUTF8(env, "jbvb.clbss.pbth");
+        gdbtb->property_sun_boot_clbss_pbth
+                        = getPropertyUTF8(env, "sun.boot.clbss.pbth");
+        gdbtb->property_sun_boot_librbry_pbth
+                        = getPropertyUTF8(env, "sun.boot.librbry.pbth");
+        gdbtb->property_pbth_sepbrbtor
+                        = getPropertyUTF8(env, "pbth.sepbrbtor");
+        gdbtb->property_user_dir
                         = getPropertyUTF8(env, "user.dir");
 
-        /* Get agent properties: invoke sun.misc.VMSupport.getAgentProperties */
-        localVMSupportClass = JNI_FUNC_PTR(env,FindClass)
+        /* Get bgent properties: invoke sun.misc.VMSupport.getAgentProperties */
+        locblVMSupportClbss = JNI_FUNC_PTR(env,FindClbss)
                                           (env, "sun/misc/VMSupport");
-        if (localVMSupportClass == NULL) {
-            gdata->agent_properties = NULL;
+        if (locblVMSupportClbss == NULL) {
+            gdbtb->bgent_properties = NULL;
             if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-                JNI_FUNC_PTR(env,ExceptionClear)(env);
+                JNI_FUNC_PTR(env,ExceptionClebr)(env);
             }
         } else {
             getAgentProperties  =
-                getStaticMethod(env, localVMSupportClass,
-                                "getAgentProperties", "()Ljava/util/Properties;");
-            localAgentProperties =
-                JNI_FUNC_PTR(env,CallStaticObjectMethod)
-                            (env, localVMSupportClass, getAgentProperties);
-            saveGlobalRef(env, localAgentProperties, &(gdata->agent_properties));
+                getStbticMethod(env, locblVMSupportClbss,
+                                "getAgentProperties", "()Ljbvb/util/Properties;");
+            locblAgentProperties =
+                JNI_FUNC_PTR(env,CbllStbticObjectMethod)
+                            (env, locblVMSupportClbss, getAgentProperties);
+            sbveGlobblRef(env, locblAgentProperties, &(gdbtb->bgent_properties));
             if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-                JNI_FUNC_PTR(env,ExceptionClear)(env);
+                JNI_FUNC_PTR(env,ExceptionClebr)(env);
                 EXIT_ERROR(AGENT_ERROR_INTERNAL,
-                    "Exception occurred calling sun.misc.VMSupport.getAgentProperties");
+                    "Exception occurred cblling sun.misc.VMSupport.getAgentProperties");
             }
         }
 
@@ -291,15 +291,15 @@ util_reset(void)
 {
 }
 
-jboolean
-isObjectTag(jbyte tag) {
-    return (tag == JDWP_TAG(OBJECT)) ||
-           (tag == JDWP_TAG(STRING)) ||
-           (tag == JDWP_TAG(THREAD)) ||
-           (tag == JDWP_TAG(THREAD_GROUP)) ||
-           (tag == JDWP_TAG(CLASS_LOADER)) ||
-           (tag == JDWP_TAG(CLASS_OBJECT)) ||
-           (tag == JDWP_TAG(ARRAY));
+jboolebn
+isObjectTbg(jbyte tbg) {
+    return (tbg == JDWP_TAG(OBJECT)) ||
+           (tbg == JDWP_TAG(STRING)) ||
+           (tbg == JDWP_TAG(THREAD)) ||
+           (tbg == JDWP_TAG(THREAD_GROUP)) ||
+           (tbg == JDWP_TAG(CLASS_LOADER)) ||
+           (tbg == JDWP_TAG(CLASS_OBJECT)) ||
+           (tbg == JDWP_TAG(ARRAY));
 }
 
 jbyte
@@ -307,314 +307,314 @@ specificTypeKey(JNIEnv *env, jobject object)
 {
     if (object == NULL) {
         return JDWP_TAG(OBJECT);
-    } else if (JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->stringClass)) {
+    } else if (JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->stringClbss)) {
         return JDWP_TAG(STRING);
-    } else if (JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->threadClass)) {
+    } else if (JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->threbdClbss)) {
         return JDWP_TAG(THREAD);
-    } else if (JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->threadGroupClass)) {
+    } else if (JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->threbdGroupClbss)) {
         return JDWP_TAG(THREAD_GROUP);
-    } else if (JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->classLoaderClass)) {
+    } else if (JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->clbssLobderClbss)) {
         return JDWP_TAG(CLASS_LOADER);
-    } else if (JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->classClass)) {
+    } else if (JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->clbssClbss)) {
         return JDWP_TAG(CLASS_OBJECT);
     } else {
-        jboolean classIsArray;
+        jboolebn clbssIsArrby;
 
         WITH_LOCAL_REFS(env, 1) {
-            jclass clazz;
-            clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
-            classIsArray = isArrayClass(clazz);
+            jclbss clbzz;
+            clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, object);
+            clbssIsArrby = isArrbyClbss(clbzz);
         } END_WITH_LOCAL_REFS(env);
 
-        return (classIsArray ? JDWP_TAG(ARRAY) : JDWP_TAG(OBJECT));
+        return (clbssIsArrby ? JDWP_TAG(ARRAY) : JDWP_TAG(OBJECT));
     }
 }
 
-static void
-writeFieldValue(JNIEnv *env, PacketOutputStream *out, jobject object,
+stbtic void
+writeFieldVblue(JNIEnv *env, PbcketOutputStrebm *out, jobject object,
                 jfieldID field)
 {
-    jclass clazz;
-    char *signature = NULL;
+    jclbss clbzz;
+    chbr *signbture = NULL;
     jvmtiError error;
     jbyte typeKey;
 
-    clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
-    error = fieldSignature(clazz, field, NULL, &signature, NULL);
+    clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, object);
+    error = fieldSignbture(clbzz, field, NULL, &signbture, NULL);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return;
     }
-    typeKey = signature[0];
-    jvmtiDeallocate(signature);
+    typeKey = signbture[0];
+    jvmtiDebllocbte(signbture);
 
     /*
-     * For primitive types, the type key is bounced back as is. Objects
-     * are handled in the switch statement below.
+     * For primitive types, the type key is bounced bbck bs is. Objects
+     * bre hbndled in the switch stbtement below.
      */
     if ((typeKey != JDWP_TAG(OBJECT)) && (typeKey != JDWP_TAG(ARRAY))) {
-        (void)outStream_writeByte(out, typeKey);
+        (void)outStrebm_writeByte(out, typeKey);
     }
 
     switch (typeKey) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY):   {
-            jobject value = JNI_FUNC_PTR(env,GetObjectField)(env, object, field);
-            (void)outStream_writeByte(out, specificTypeKey(env, value));
-            (void)outStream_writeObjectRef(env, out, value);
-            break;
+        cbse JDWP_TAG(OBJECT):
+        cbse JDWP_TAG(ARRAY):   {
+            jobject vblue = JNI_FUNC_PTR(env,GetObjectField)(env, object, field);
+            (void)outStrebm_writeByte(out, specificTypeKey(env, vblue));
+            (void)outStrebm_writeObjectRef(env, out, vblue);
+            brebk;
         }
 
-        case JDWP_TAG(BYTE):
-            (void)outStream_writeByte(out,
+        cbse JDWP_TAG(BYTE):
+            (void)outStrebm_writeByte(out,
                       JNI_FUNC_PTR(env,GetByteField)(env, object, field));
-            break;
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            (void)outStream_writeChar(out,
-                      JNI_FUNC_PTR(env,GetCharField)(env, object, field));
-            break;
+        cbse JDWP_TAG(CHAR):
+            (void)outStrebm_writeChbr(out,
+                      JNI_FUNC_PTR(env,GetChbrField)(env, object, field));
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            (void)outStream_writeFloat(out,
-                      JNI_FUNC_PTR(env,GetFloatField)(env, object, field));
-            break;
+        cbse JDWP_TAG(FLOAT):
+            (void)outStrebm_writeFlobt(out,
+                      JNI_FUNC_PTR(env,GetFlobtField)(env, object, field));
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            (void)outStream_writeDouble(out,
+        cbse JDWP_TAG(DOUBLE):
+            (void)outStrebm_writeDouble(out,
                       JNI_FUNC_PTR(env,GetDoubleField)(env, object, field));
-            break;
+            brebk;
 
-        case JDWP_TAG(INT):
-            (void)outStream_writeInt(out,
+        cbse JDWP_TAG(INT):
+            (void)outStrebm_writeInt(out,
                       JNI_FUNC_PTR(env,GetIntField)(env, object, field));
-            break;
+            brebk;
 
-        case JDWP_TAG(LONG):
-            (void)outStream_writeLong(out,
+        cbse JDWP_TAG(LONG):
+            (void)outStrebm_writeLong(out,
                       JNI_FUNC_PTR(env,GetLongField)(env, object, field));
-            break;
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            (void)outStream_writeShort(out,
+        cbse JDWP_TAG(SHORT):
+            (void)outStrebm_writeShort(out,
                       JNI_FUNC_PTR(env,GetShortField)(env, object, field));
-            break;
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            (void)outStream_writeBoolean(out,
-                      JNI_FUNC_PTR(env,GetBooleanField)(env, object, field));
-            break;
+        cbse JDWP_TAG(BOOLEAN):
+            (void)outStrebm_writeBoolebn(out,
+                      JNI_FUNC_PTR(env,GetBoolebnField)(env, object, field));
+            brebk;
     }
 }
 
-static void
-writeStaticFieldValue(JNIEnv *env, PacketOutputStream *out, jclass clazz,
+stbtic void
+writeStbticFieldVblue(JNIEnv *env, PbcketOutputStrebm *out, jclbss clbzz,
                       jfieldID field)
 {
     jvmtiError error;
-    char *signature = NULL;
+    chbr *signbture = NULL;
     jbyte typeKey;
 
-    error = fieldSignature(clazz, field, NULL, &signature, NULL);
+    error = fieldSignbture(clbzz, field, NULL, &signbture, NULL);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return;
     }
-    typeKey = signature[0];
-    jvmtiDeallocate(signature);
+    typeKey = signbture[0];
+    jvmtiDebllocbte(signbture);
 
     /*
-     * For primitive types, the type key is bounced back as is. Objects
-     * are handled in the switch statement below.
+     * For primitive types, the type key is bounced bbck bs is. Objects
+     * bre hbndled in the switch stbtement below.
      */
     if ((typeKey != JDWP_TAG(OBJECT)) && (typeKey != JDWP_TAG(ARRAY))) {
-        (void)outStream_writeByte(out, typeKey);
+        (void)outStrebm_writeByte(out, typeKey);
     }
 
     switch (typeKey) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY):   {
-            jobject value = JNI_FUNC_PTR(env,GetStaticObjectField)(env, clazz, field);
-            (void)outStream_writeByte(out, specificTypeKey(env, value));
-            (void)outStream_writeObjectRef(env, out, value);
-            break;
+        cbse JDWP_TAG(OBJECT):
+        cbse JDWP_TAG(ARRAY):   {
+            jobject vblue = JNI_FUNC_PTR(env,GetStbticObjectField)(env, clbzz, field);
+            (void)outStrebm_writeByte(out, specificTypeKey(env, vblue));
+            (void)outStrebm_writeObjectRef(env, out, vblue);
+            brebk;
         }
 
-        case JDWP_TAG(BYTE):
-            (void)outStream_writeByte(out,
-                      JNI_FUNC_PTR(env,GetStaticByteField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(BYTE):
+            (void)outStrebm_writeByte(out,
+                      JNI_FUNC_PTR(env,GetStbticByteField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            (void)outStream_writeChar(out,
-                      JNI_FUNC_PTR(env,GetStaticCharField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(CHAR):
+            (void)outStrebm_writeChbr(out,
+                      JNI_FUNC_PTR(env,GetStbticChbrField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            (void)outStream_writeFloat(out,
-                      JNI_FUNC_PTR(env,GetStaticFloatField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(FLOAT):
+            (void)outStrebm_writeFlobt(out,
+                      JNI_FUNC_PTR(env,GetStbticFlobtField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            (void)outStream_writeDouble(out,
-                      JNI_FUNC_PTR(env,GetStaticDoubleField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(DOUBLE):
+            (void)outStrebm_writeDouble(out,
+                      JNI_FUNC_PTR(env,GetStbticDoubleField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(INT):
-            (void)outStream_writeInt(out,
-                      JNI_FUNC_PTR(env,GetStaticIntField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(INT):
+            (void)outStrebm_writeInt(out,
+                      JNI_FUNC_PTR(env,GetStbticIntField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(LONG):
-            (void)outStream_writeLong(out,
-                      JNI_FUNC_PTR(env,GetStaticLongField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(LONG):
+            (void)outStrebm_writeLong(out,
+                      JNI_FUNC_PTR(env,GetStbticLongField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            (void)outStream_writeShort(out,
-                      JNI_FUNC_PTR(env,GetStaticShortField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(SHORT):
+            (void)outStrebm_writeShort(out,
+                      JNI_FUNC_PTR(env,GetStbticShortField)(env, clbzz, field));
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            (void)outStream_writeBoolean(out,
-                      JNI_FUNC_PTR(env,GetStaticBooleanField)(env, clazz, field));
-            break;
+        cbse JDWP_TAG(BOOLEAN):
+            (void)outStrebm_writeBoolebn(out,
+                      JNI_FUNC_PTR(env,GetStbticBoolebnField)(env, clbzz, field));
+            brebk;
     }
 }
 
 void
-sharedGetFieldValues(PacketInputStream *in, PacketOutputStream *out,
-                     jboolean isStatic)
+shbredGetFieldVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out,
+                     jboolebn isStbtic)
 {
     JNIEnv *env = getEnv();
     jint length;
     jobject object;
-    jclass clazz;
+    jclbss clbzz;
 
     object = NULL;
-    clazz  = NULL;
+    clbzz  = NULL;
 
-    if (isStatic) {
-        clazz = inStream_readClassRef(env, in);
+    if (isStbtic) {
+        clbzz = inStrebm_rebdClbssRef(env, in);
     } else {
-        object = inStream_readObjectRef(env, in);
+        object = inStrebm_rebdObjectRef(env, in);
     }
 
-    length = inStream_readInt(in);
-    if (inStream_error(in)) {
+    length = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return;
     }
 
-    WITH_LOCAL_REFS(env, length + 1) { /* +1 for class with instance fields */
+    WITH_LOCAL_REFS(env, length + 1) { /* +1 for clbss with instbnce fields */
 
         int i;
 
-        (void)outStream_writeInt(out, length);
-        for (i = 0; (i < length) && !outStream_error(out); i++) {
-            jfieldID field = inStream_readFieldID(in);
+        (void)outStrebm_writeInt(out, length);
+        for (i = 0; (i < length) && !outStrebm_error(out); i++) {
+            jfieldID field = inStrebm_rebdFieldID(in);
 
-            if (isStatic) {
-                writeStaticFieldValue(env, out, clazz, field);
+            if (isStbtic) {
+                writeStbticFieldVblue(env, out, clbzz, field);
             } else {
-                writeFieldValue(env, out, object, field);
+                writeFieldVblue(env, out, object, field);
             }
         }
 
     } END_WITH_LOCAL_REFS(env);
 }
 
-jboolean
-sharedInvoke(PacketInputStream *in, PacketOutputStream *out)
+jboolebn
+shbredInvoke(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jvalue *arguments = NULL;
+    jvblue *brguments = NULL;
     jint options;
     jvmtiError error;
     jbyte invokeType;
-    jclass clazz;
+    jclbss clbzz;
     jmethodID method;
-    jint argumentCount;
-    jobject instance;
-    jthread thread;
+    jint brgumentCount;
+    jobject instbnce;
+    jthrebd threbd;
     JNIEnv *env;
 
     /*
-     * Instance methods start with the instance, thread and class,
-     * and statics and constructors start with the class and then the
-     * thread.
+     * Instbnce methods stbrt with the instbnce, threbd bnd clbss,
+     * bnd stbtics bnd constructors stbrt with the clbss bnd then the
+     * threbd.
      */
     env = getEnv();
-    if (inStream_command(in) == JDWP_COMMAND(ObjectReference, InvokeMethod)) {
-        instance = inStream_readObjectRef(env, in);
-        thread = inStream_readThreadRef(env, in);
-        clazz = inStream_readClassRef(env, in);
-    } else { /* static method or constructor */
-        instance = NULL;
-        clazz = inStream_readClassRef(env, in);
-        thread = inStream_readThreadRef(env, in);
+    if (inStrebm_commbnd(in) == JDWP_COMMAND(ObjectReference, InvokeMethod)) {
+        instbnce = inStrebm_rebdObjectRef(env, in);
+        threbd = inStrebm_rebdThrebdRef(env, in);
+        clbzz = inStrebm_rebdClbssRef(env, in);
+    } else { /* stbtic method or constructor */
+        instbnce = NULL;
+        clbzz = inStrebm_rebdClbssRef(env, in);
+        threbd = inStrebm_rebdThrebdRef(env, in);
     }
 
     /*
-     * ... and the rest of the packet is identical for all commands
+     * ... bnd the rest of the pbcket is identicbl for bll commbnds
      */
-    method = inStream_readMethodID(in);
-    argumentCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    method = inStrebm_rebdMethodID(in);
+    brgumentCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    /* If count == 0, don't try and allocate 0 bytes, you'll get NULL */
-    if ( argumentCount > 0 ) {
+    /* If count == 0, don't try bnd bllocbte 0 bytes, you'll get NULL */
+    if ( brgumentCount > 0 ) {
         int i;
         /*LINTED*/
-        arguments = jvmtiAllocate(argumentCount * (jint)sizeof(*arguments));
-        if (arguments == NULL) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        brguments = jvmtiAllocbte(brgumentCount * (jint)sizeof(*brguments));
+        if (brguments == NULL) {
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
             return JNI_TRUE;
         }
-        for (i = 0; (i < argumentCount) && !inStream_error(in); i++) {
-            arguments[i] = inStream_readValue(in, NULL);
+        for (i = 0; (i < brgumentCount) && !inStrebm_error(in); i++) {
+            brguments[i] = inStrebm_rebdVblue(in, NULL);
         }
-        if (inStream_error(in)) {
+        if (inStrebm_error(in)) {
             return JNI_TRUE;
         }
     }
 
-    options = inStream_readInt(in);
-    if (inStream_error(in)) {
-        if ( arguments != NULL ) {
-            jvmtiDeallocate(arguments);
+    options = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
+        if ( brguments != NULL ) {
+            jvmtiDebllocbte(brguments);
         }
         return JNI_TRUE;
     }
 
-    if (inStream_command(in) == JDWP_COMMAND(ClassType, NewInstance)) {
+    if (inStrebm_commbnd(in) == JDWP_COMMAND(ClbssType, NewInstbnce)) {
         invokeType = INVOKE_CONSTRUCTOR;
-    } else if (inStream_command(in) == JDWP_COMMAND(ClassType, InvokeMethod)) {
+    } else if (inStrebm_commbnd(in) == JDWP_COMMAND(ClbssType, InvokeMethod)) {
         invokeType = INVOKE_STATIC;
-    } else if (inStream_command(in) == JDWP_COMMAND(InterfaceType, InvokeMethod)) {
+    } else if (inStrebm_commbnd(in) == JDWP_COMMAND(InterfbceType, InvokeMethod)) {
         invokeType = INVOKE_STATIC;
-    } else if (inStream_command(in) == JDWP_COMMAND(ObjectReference, InvokeMethod)) {
+    } else if (inStrebm_commbnd(in) == JDWP_COMMAND(ObjectReference, InvokeMethod)) {
         invokeType = INVOKE_INSTANCE;
     } else {
-        outStream_setError(out, JDWP_ERROR(INTERNAL));
-        if ( arguments != NULL ) {
-            jvmtiDeallocate(arguments);
+        outStrebm_setError(out, JDWP_ERROR(INTERNAL));
+        if ( brguments != NULL ) {
+            jvmtiDebllocbte(brguments);
         }
         return JNI_TRUE;
     }
 
     /*
-     * Request the invoke. If there are no errors in the request,
-     * the interrupting thread will actually do the invoke and a
-     * reply will be generated subsequently, so we don't reply here.
+     * Request the invoke. If there bre no errors in the request,
+     * the interrupting threbd will bctublly do the invoke bnd b
+     * reply will be generbted subsequently, so we don't reply here.
      */
-    error = invoker_requestInvoke(invokeType, (jbyte)options, inStream_id(in),
-                                  thread, clazz, method,
-                                  instance, arguments, argumentCount);
+    error = invoker_requestInvoke(invokeType, (jbyte)options, inStrebm_id(in),
+                                  threbd, clbzz, method,
+                                  instbnce, brguments, brgumentCount);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        if ( arguments != NULL ) {
-            jvmtiDeallocate(arguments);
+        outStrebm_setError(out, mbp2jdwpError(error));
+        if ( brguments != NULL ) {
+            jvmtiDebllocbte(brguments);
         }
         return JNI_TRUE;
     }
@@ -625,22 +625,22 @@ sharedInvoke(PacketInputStream *in, PacketOutputStream *out)
 jint
 uniqueID(void)
 {
-    static jint currentID = 0;
+    stbtic jint currentID = 0;
     return currentID++;
 }
 
 int
-filterDebugThreads(jthread *threads, int count)
+filterDebugThrebds(jthrebd *threbds, int count)
 {
     int i;
     int current;
 
-    /* Squish out all of the debugger-spawned threads */
+    /* Squish out bll of the debugger-spbwned threbds */
     for (i = 0, current = 0; i < count; i++) {
-        jthread thread = threads[i];
-        if (!threadControl_isDebugThread(thread)) {
+        jthrebd threbd = threbds[i];
+        if (!threbdControl_isDebugThrebd(threbd)) {
             if (i > current) {
-                threads[current] = thread;
+                threbds[current] = threbd;
             }
             current++;
         }
@@ -649,32 +649,32 @@ filterDebugThreads(jthread *threads, int count)
 }
 
 jbyte
-referenceTypeTag(jclass clazz)
+referenceTypeTbg(jclbss clbzz)
 {
-    jbyte tag;
+    jbyte tbg;
 
-    if (isInterface(clazz)) {
-        tag = JDWP_TYPE_TAG(INTERFACE);
-    } else if (isArrayClass(clazz)) {
-        tag = JDWP_TYPE_TAG(ARRAY);
+    if (isInterfbce(clbzz)) {
+        tbg = JDWP_TYPE_TAG(INTERFACE);
+    } else if (isArrbyClbss(clbzz)) {
+        tbg = JDWP_TYPE_TAG(ARRAY);
     } else {
-        tag = JDWP_TYPE_TAG(CLASS);
+        tbg = JDWP_TYPE_TAG(CLASS);
     }
 
-    return tag;
+    return tbg;
 }
 
 /**
  * Get field modifiers
  */
 jvmtiError
-fieldModifiers(jclass clazz, jfieldID field, jint *pmodifiers)
+fieldModifiers(jclbss clbzz, jfieldID field, jint *pmodifiers)
 {
     jvmtiError error;
 
     *pmodifiers = 0;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFieldModifiers)
-            (gdata->jvmti, clazz, field, pmodifiers);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFieldModifiers)
+            (gdbtb->jvmti, clbzz, field, pmodifiers);
     return error;
 }
 
@@ -687,63 +687,63 @@ methodModifiers(jmethodID method, jint *pmodifiers)
     jvmtiError error;
 
     *pmodifiers = 0;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetMethodModifiers)
-            (gdata->jvmti, method, pmodifiers);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetMethodModifiers)
+            (gdbtb->jvmti, method, pmodifiers);
     return error;
 }
 
-/* Returns a local ref to the declaring class for a method, or NULL. */
+/* Returns b locbl ref to the declbring clbss for b method, or NULL. */
 jvmtiError
-methodClass(jmethodID method, jclass *pclazz)
+methodClbss(jmethodID method, jclbss *pclbzz)
 {
     jvmtiError error;
 
-    *pclazz = NULL;
-    error = FUNC_PTR(gdata->jvmti,GetMethodDeclaringClass)
-                                (gdata->jvmti, method, pclazz);
+    *pclbzz = NULL;
+    error = FUNC_PTR(gdbtb->jvmti,GetMethodDeclbringClbss)
+                                (gdbtb->jvmti, method, pclbzz);
     return error;
 }
 
-/* Returns a local ref to the declaring class for a method, or NULL. */
+/* Returns b locbl ref to the declbring clbss for b method, or NULL. */
 jvmtiError
-methodLocation(jmethodID method, jlocation *ploc1, jlocation *ploc2)
+methodLocbtion(jmethodID method, jlocbtion *ploc1, jlocbtion *ploc2)
 {
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetMethodLocation)
-                                (gdata->jvmti, method, ploc1, ploc2);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetMethodLocbtion)
+                                (gdbtb->jvmti, method, ploc1, ploc2);
     return error;
 }
 
 /**
- * Get method signature
+ * Get method signbture
  */
 jvmtiError
-methodSignature(jmethodID method,
-        char **pname, char **psignature, char **pgeneric_signature)
+methodSignbture(jmethodID method,
+        chbr **pnbme, chbr **psignbture, chbr **pgeneric_signbture)
 {
     jvmtiError error;
-    char *name = NULL;
-    char *signature = NULL;
-    char *generic_signature = NULL;
+    chbr *nbme = NULL;
+    chbr *signbture = NULL;
+    chbr *generic_signbture = NULL;
 
-    error = FUNC_PTR(gdata->jvmti,GetMethodName)
-            (gdata->jvmti, method, &name, &signature, &generic_signature);
+    error = FUNC_PTR(gdbtb->jvmti,GetMethodNbme)
+            (gdbtb->jvmti, method, &nbme, &signbture, &generic_signbture);
 
-    if ( pname != NULL ) {
-        *pname = name;
-    } else if ( name != NULL )  {
-        jvmtiDeallocate(name);
+    if ( pnbme != NULL ) {
+        *pnbme = nbme;
+    } else if ( nbme != NULL )  {
+        jvmtiDebllocbte(nbme);
     }
-    if ( psignature != NULL ) {
-        *psignature = signature;
-    } else if ( signature != NULL ) {
-        jvmtiDeallocate(signature);
+    if ( psignbture != NULL ) {
+        *psignbture = signbture;
+    } else if ( signbture != NULL ) {
+        jvmtiDebllocbte(signbture);
     }
-    if ( pgeneric_signature != NULL ) {
-        *pgeneric_signature = generic_signature;
-    } else if ( generic_signature != NULL )  {
-        jvmtiDeallocate(generic_signature);
+    if ( pgeneric_signbture != NULL ) {
+        *pgeneric_signbture = generic_signbture;
+    } else if ( generic_signbture != NULL )  {
+        jvmtiDebllocbte(generic_signbture);
     }
     return error;
 }
@@ -753,26 +753,26 @@ methodSignature(jmethodID method,
  *     V or B C D F I J S Z L  [
  */
 jvmtiError
-methodReturnType(jmethodID method, char *typeKey)
+methodReturnType(jmethodID method, chbr *typeKey)
 {
-    char       *signature;
+    chbr       *signbture;
     jvmtiError  error;
 
-    signature = NULL;
-    error     = methodSignature(method, NULL, &signature, NULL);
+    signbture = NULL;
+    error     = methodSignbture(method, NULL, &signbture, NULL);
     if (error == JVMTI_ERROR_NONE) {
-        if (signature == NULL ) {
+        if (signbture == NULL ) {
             error = AGENT_ERROR_INVALID_TAG;
         } else {
-            char * xx;
+            chbr * xx;
 
-            xx = strchr(signature, ')');
+            xx = strchr(signbture, ')');
             if (xx == NULL || *(xx + 1) == 0) {
                 error = AGENT_ERROR_INVALID_TAG;
             } else {
                *typeKey = *(xx + 1);
             }
-            jvmtiDeallocate(signature);
+            jvmtiDebllocbte(signbture);
         }
     }
     return error;
@@ -780,48 +780,48 @@ methodReturnType(jmethodID method, char *typeKey)
 
 
 /**
- * Return class loader for a class (must be inside a WITH_LOCAL_REFS)
+ * Return clbss lobder for b clbss (must be inside b WITH_LOCAL_REFS)
  */
 jvmtiError
-classLoader(jclass clazz, jobject *pclazz)
+clbssLobder(jclbss clbzz, jobject *pclbzz)
 {
     jvmtiError error;
 
-    *pclazz = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassLoader)
-            (gdata->jvmti, clazz, pclazz);
+    *pclbzz = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetClbssLobder)
+            (gdbtb->jvmti, clbzz, pclbzz);
     return error;
 }
 
 /**
- * Get field signature
+ * Get field signbture
  */
 jvmtiError
-fieldSignature(jclass clazz, jfieldID field,
-        char **pname, char **psignature, char **pgeneric_signature)
+fieldSignbture(jclbss clbzz, jfieldID field,
+        chbr **pnbme, chbr **psignbture, chbr **pgeneric_signbture)
 {
     jvmtiError error;
-    char *name = NULL;
-    char *signature = NULL;
-    char *generic_signature = NULL;
+    chbr *nbme = NULL;
+    chbr *signbture = NULL;
+    chbr *generic_signbture = NULL;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFieldName)
-            (gdata->jvmti, clazz, field, &name, &signature, &generic_signature);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFieldNbme)
+            (gdbtb->jvmti, clbzz, field, &nbme, &signbture, &generic_signbture);
 
-    if ( pname != NULL ) {
-        *pname = name;
-    } else if ( name != NULL )  {
-        jvmtiDeallocate(name);
+    if ( pnbme != NULL ) {
+        *pnbme = nbme;
+    } else if ( nbme != NULL )  {
+        jvmtiDebllocbte(nbme);
     }
-    if ( psignature != NULL ) {
-        *psignature = signature;
-    } else if ( signature != NULL )  {
-        jvmtiDeallocate(signature);
+    if ( psignbture != NULL ) {
+        *psignbture = signbture;
+    } else if ( signbture != NULL )  {
+        jvmtiDebllocbte(signbture);
     }
-    if ( pgeneric_signature != NULL ) {
-        *pgeneric_signature = generic_signature;
-    } else if ( generic_signature != NULL )  {
-        jvmtiDeallocate(generic_signature);
+    if ( pgeneric_signbture != NULL ) {
+        *pgeneric_signbture = generic_signbture;
+    } else if ( generic_signbture != NULL )  {
+        jvmtiDebllocbte(generic_signbture);
     }
     return error;
 }
@@ -832,10 +832,10 @@ getEnv(void)
     JNIEnv *env = NULL;
     jint rc;
 
-    rc = FUNC_PTR(gdata->jvm,GetEnv)
-                (gdata->jvm, (void **)&env, JNI_VERSION_1_2);
+    rc = FUNC_PTR(gdbtb->jvm,GetEnv)
+                (gdbtb->jvm, (void **)&env, JNI_VERSION_1_2);
     if (rc != JNI_OK) {
-        ERROR_MESSAGE(("JDWP Unable to get JNI 1.2 environment, jvm->GetEnv() return code = %d",
+        ERROR_MESSAGE(("JDWP Unbble to get JNI 1.2 environment, jvm->GetEnv() return code = %d",
                 rc));
         EXIT_ERROR(AGENT_ERROR_NO_JNI_ENV,NULL);
     }
@@ -843,58 +843,58 @@ getEnv(void)
 }
 
 jvmtiError
-spawnNewThread(jvmtiStartFunction func, void *arg, char *name)
+spbwnNewThrebd(jvmtiStbrtFunction func, void *brg, chbr *nbme)
 {
     JNIEnv *env = getEnv();
     jvmtiError error;
 
-    LOG_MISC(("Spawning new thread: %s", name));
+    LOG_MISC(("Spbwning new threbd: %s", nbme));
 
     WITH_LOCAL_REFS(env, 3) {
 
-        jthread thread;
-        jstring nameString;
+        jthrebd threbd;
+        jstring nbmeString;
 
-        nameString = JNI_FUNC_PTR(env,NewStringUTF)(env, name);
+        nbmeString = JNI_FUNC_PTR(env,NewStringUTF)(env, nbme);
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
             error = AGENT_ERROR_OUT_OF_MEMORY;
             goto err;
         }
 
-        thread = JNI_FUNC_PTR(env,NewObject)
-                        (env, gdata->threadClass, gdata->threadConstructor,
-                                   gdata->systemThreadGroup, nameString);
+        threbd = JNI_FUNC_PTR(env,NewObject)
+                        (env, gdbtb->threbdClbss, gdbtb->threbdConstructor,
+                                   gdbtb->systemThrebdGroup, nbmeString);
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
             error = AGENT_ERROR_OUT_OF_MEMORY;
             goto err;
         }
 
         /*
-         * Make the debugger thread a daemon
+         * Mbke the debugger threbd b dbemon
          */
-        JNI_FUNC_PTR(env,CallVoidMethod)
-                        (env, thread, gdata->threadSetDaemon, JNI_TRUE);
+        JNI_FUNC_PTR(env,CbllVoidMethod)
+                        (env, threbd, gdbtb->threbdSetDbemon, JNI_TRUE);
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
             error = AGENT_ERROR_JNI_EXCEPTION;
             goto err;
         }
 
-        error = threadControl_addDebugThread(thread);
+        error = threbdControl_bddDebugThrebd(threbd);
         if (error == JVMTI_ERROR_NONE) {
             /*
-             * Debugger threads need cycles in all sorts of strange
-             * situations (e.g. infinite cpu-bound loops), so give the
-             * thread a high priority. Note that if the VM has an application
-             * thread running at the max priority, there is still a chance
-             * that debugger threads will be starved. (There needs to be
-             * a way to give debugger threads a priority higher than any
-             * application thread).
+             * Debugger threbds need cycles in bll sorts of strbnge
+             * situbtions (e.g. infinite cpu-bound loops), so give the
+             * threbd b high priority. Note thbt if the VM hbs bn bpplicbtion
+             * threbd running bt the mbx priority, there is still b chbnce
+             * thbt debugger threbds will be stbrved. (There needs to be
+             * b wby to give debugger threbds b priority higher thbn bny
+             * bpplicbtion threbd).
              */
-            error = JVMTI_FUNC_PTR(gdata->jvmti,RunAgentThread)
-                        (gdata->jvmti, thread, func, arg,
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,RunAgentThrebd)
+                        (gdbtb->jvmti, threbd, func, brg,
                                         JVMTI_THREAD_MAX_PRIORITY);
         }
 
@@ -906,43 +906,43 @@ spawnNewThread(jvmtiStartFunction func, void *arg, char *name)
 }
 
 jvmtiError
-jvmtiGetCapabilities(jvmtiCapabilities *caps)
+jvmtiGetCbpbbilities(jvmtiCbpbbilities *cbps)
 {
-    if ( gdata->vmDead ) {
+    if ( gdbtb->vmDebd ) {
         return AGENT_ERROR_VM_DEAD;
     }
-    if (!gdata->haveCachedJvmtiCapabilities) {
+    if (!gdbtb->hbveCbchedJvmtiCbpbbilities) {
         jvmtiError error;
 
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetCapabilities)
-                        (gdata->jvmti, &(gdata->cachedJvmtiCapabilities));
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetCbpbbilities)
+                        (gdbtb->jvmti, &(gdbtb->cbchedJvmtiCbpbbilities));
         if (error != JVMTI_ERROR_NONE) {
             return error;
         }
-        gdata->haveCachedJvmtiCapabilities = JNI_TRUE;
+        gdbtb->hbveCbchedJvmtiCbpbbilities = JNI_TRUE;
     }
 
-    *caps = gdata->cachedJvmtiCapabilities;
+    *cbps = gdbtb->cbchedJvmtiCbpbbilities;
 
     return JVMTI_ERROR_NONE;
 }
 
-static jint
+stbtic jint
 jvmtiVersion(void)
 {
-    if (gdata->cachedJvmtiVersion == 0) {
+    if (gdbtb->cbchedJvmtiVersion == 0) {
         jvmtiError error;
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetVersionNumber)
-                        (gdata->jvmti, &(gdata->cachedJvmtiVersion));
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetVersionNumber)
+                        (gdbtb->jvmti, &(gdbtb->cbchedJvmtiVersion));
         if (error != JVMTI_ERROR_NONE) {
             EXIT_ERROR(error, "on getting the JVMTI version number");
         }
     }
-    return gdata->cachedJvmtiVersion;
+    return gdbtb->cbchedJvmtiVersion;
 }
 
 jint
-jvmtiMajorVersion(void)
+jvmtiMbjorVersion(void)
 {
     return (jvmtiVersion() & JVMTI_VERSION_MASK_MAJOR)
                     >> JVMTI_VERSION_SHIFT_MAJOR;
@@ -962,36 +962,36 @@ jvmtiMicroVersion(void)
                     >> JVMTI_VERSION_SHIFT_MICRO;
 }
 
-jboolean
-canSuspendResumeThreadLists(void)
+jboolebn
+cbnSuspendResumeThrebdLists(void)
 {
     jvmtiError error;
-    jvmtiCapabilities cap;
+    jvmtiCbpbbilities cbp;
 
-    error = jvmtiGetCapabilities(&cap);
-    return (error == JVMTI_ERROR_NONE && cap.can_suspend);
+    error = jvmtiGetCbpbbilities(&cbp);
+    return (error == JVMTI_ERROR_NONE && cbp.cbn_suspend);
 }
 
 jvmtiError
-getSourceDebugExtension(jclass clazz, char **extensionPtr)
+getSourceDebugExtension(jclbss clbzz, chbr **extensionPtr)
 {
-    return JVMTI_FUNC_PTR(gdata->jvmti,GetSourceDebugExtension)
-                (gdata->jvmti, clazz, extensionPtr);
+    return JVMTI_FUNC_PTR(gdbtb->jvmti,GetSourceDebugExtension)
+                (gdbtb->jvmti, clbzz, extensionPtr);
 }
 
 /*
- * Convert the signature "Ljava/lang/Foo;" to a
- * classname "java.lang.Foo" compatible with the pattern.
- * Signature is overwritten in-place.
+ * Convert the signbture "Ljbvb/lbng/Foo;" to b
+ * clbssnbme "jbvb.lbng.Foo" compbtible with the pbttern.
+ * Signbture is overwritten in-plbce.
  */
 void
-convertSignatureToClassname(char *convert)
+convertSignbtureToClbssnbme(chbr *convert)
 {
-    char *p;
+    chbr *p;
 
     p = convert + 1;
     while ((*p != ';') && (*p != '\0')) {
-        char c = *p;
+        chbr c = *p;
         if (c == '/') {
             *(p-1) = '.';
         } else {
@@ -1002,32 +1002,32 @@ convertSignatureToClassname(char *convert)
     *(p-1) = '\0';
 }
 
-static void
-handleInterrupt(void)
+stbtic void
+hbndleInterrupt(void)
 {
     /*
-     * An interrupt is handled:
+     * An interrupt is hbndled:
      *
-     * 1) for running application threads by deferring the interrupt
-     * until the current event handler has concluded.
+     * 1) for running bpplicbtion threbds by deferring the interrupt
+     * until the current event hbndler hbs concluded.
      *
-     * 2) for debugger threads by ignoring the interrupt; this is the
-     * most robust solution since debugger threads don't use interrupts
-     * to signal any condition.
+     * 2) for debugger threbds by ignoring the interrupt; this is the
+     * most robust solution since debugger threbds don't use interrupts
+     * to signbl bny condition.
      *
-     * 3) for application threads that have not started or already
-     * ended by ignoring the interrupt. In the former case, the application
-     * is relying on timing to determine whether or not the thread sees
-     * the interrupt; in the latter case, the interrupt is meaningless.
+     * 3) for bpplicbtion threbds thbt hbve not stbrted or blrebdy
+     * ended by ignoring the interrupt. In the former cbse, the bpplicbtion
+     * is relying on timing to determine whether or not the threbd sees
+     * the interrupt; in the lbtter cbse, the interrupt is mebningless.
      */
-    jthread thread = threadControl_currentThread();
-    if ((thread != NULL) && (!threadControl_isDebugThread(thread))) {
-        threadControl_setPendingInterrupt(thread);
+    jthrebd threbd = threbdControl_currentThrebd();
+    if ((threbd != NULL) && (!threbdControl_isDebugThrebd(threbd))) {
+        threbdControl_setPendingInterrupt(threbd);
     }
 }
 
-static jvmtiError
-ignore_vm_death(jvmtiError error)
+stbtic jvmtiError
+ignore_vm_debth(jvmtiError error)
 {
     if (error == JVMTI_ERROR_WRONG_PHASE) {
         LOG_MISC(("VM_DEAD, in debugMonitor*()?"));
@@ -1037,293 +1037,293 @@ ignore_vm_death(jvmtiError error)
 }
 
 void
-debugMonitorEnter(jrawMonitorID monitor)
+debugMonitorEnter(jrbwMonitorID monitor)
 {
     jvmtiError error;
     while (JNI_TRUE) {
-        error = FUNC_PTR(gdata->jvmti,RawMonitorEnter)
-                        (gdata->jvmti, monitor);
-        error = ignore_vm_death(error);
+        error = FUNC_PTR(gdbtb->jvmti,RbwMonitorEnter)
+                        (gdbtb->jvmti, monitor);
+        error = ignore_vm_debth(error);
         if (error == JVMTI_ERROR_INTERRUPT) {
-            handleInterrupt();
+            hbndleInterrupt();
         } else {
-            break;
+            brebk;
         }
     }
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor enter");
+        EXIT_ERROR(error, "on rbw monitor enter");
     }
 }
 
 void
-debugMonitorExit(jrawMonitorID monitor)
+debugMonitorExit(jrbwMonitorID monitor)
 {
     jvmtiError error;
 
-    error = FUNC_PTR(gdata->jvmti,RawMonitorExit)
-                (gdata->jvmti, monitor);
-    error = ignore_vm_death(error);
+    error = FUNC_PTR(gdbtb->jvmti,RbwMonitorExit)
+                (gdbtb->jvmti, monitor);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor exit");
+        EXIT_ERROR(error, "on rbw monitor exit");
     }
 }
 
 void
-debugMonitorWait(jrawMonitorID monitor)
+debugMonitorWbit(jrbwMonitorID monitor)
 {
     jvmtiError error;
-    error = FUNC_PTR(gdata->jvmti,RawMonitorWait)
-        (gdata->jvmti, monitor, ((jlong)(-1)));
+    error = FUNC_PTR(gdbtb->jvmti,RbwMonitorWbit)
+        (gdbtb->jvmti, monitor, ((jlong)(-1)));
 
     /*
-     * According to the JLS (17.8), here we have
+     * According to the JLS (17.8), here we hbve
      * either :
-     * a- been notified
-     * b- gotten a suprious wakeup
+     * b- been notified
+     * b- gotten b suprious wbkeup
      * c- been interrupted
-     * If both a and c have happened, the VM must choose
-     * which way to return - a or c.  If it chooses c
+     * If both b bnd c hbve hbppened, the VM must choose
+     * which wby to return - b or c.  If it chooses c
      * then the notify is gone - either to some other
-     * thread that is also waiting, or it is dropped
+     * threbd thbt is blso wbiting, or it is dropped
      * on the floor.
      *
-     * a is what we expect.  b won't hurt us any -
-     * callers should be programmed to handle
-     * spurious wakeups.  In case of c,
-     * then the interrupt has been cleared, but
-     * we don't want to consume it.  It came from
-     * user code and is intended for user code, not us.
-     * So, we will remember that the interrupt has
-     * occurred and re-activate it when this thread
-     * goes back into user code.
-     * That being said, what do we do here?  Since
-     * we could have been notified too, here we will
-     * just pretend that we have been.  It won't hurt
-     * anything to return in the same way as if
-     * we were notified since callers have to be able to
-     * handle spurious wakeups anyway.
+     * b is whbt we expect.  b won't hurt us bny -
+     * cbllers should be progrbmmed to hbndle
+     * spurious wbkeups.  In cbse of c,
+     * then the interrupt hbs been clebred, but
+     * we don't wbnt to consume it.  It cbme from
+     * user code bnd is intended for user code, not us.
+     * So, we will remember thbt the interrupt hbs
+     * occurred bnd re-bctivbte it when this threbd
+     * goes bbck into user code.
+     * Thbt being sbid, whbt do we do here?  Since
+     * we could hbve been notified too, here we will
+     * just pretend thbt we hbve been.  It won't hurt
+     * bnything to return in the sbme wby bs if
+     * we were notified since cbllers hbve to be bble to
+     * hbndle spurious wbkeups bnywby.
      */
     if (error == JVMTI_ERROR_INTERRUPT) {
-        handleInterrupt();
+        hbndleInterrupt();
         error = JVMTI_ERROR_NONE;
     }
-    error = ignore_vm_death(error);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor wait");
+        EXIT_ERROR(error, "on rbw monitor wbit");
     }
 }
 
 void
-debugMonitorTimedWait(jrawMonitorID monitor, jlong millis)
+debugMonitorTimedWbit(jrbwMonitorID monitor, jlong millis)
 {
     jvmtiError error;
-    error = FUNC_PTR(gdata->jvmti,RawMonitorWait)
-        (gdata->jvmti, monitor, millis);
+    error = FUNC_PTR(gdbtb->jvmti,RbwMonitorWbit)
+        (gdbtb->jvmti, monitor, millis);
     if (error == JVMTI_ERROR_INTERRUPT) {
-        /* See comment above */
-        handleInterrupt();
+        /* See comment bbove */
+        hbndleInterrupt();
         error = JVMTI_ERROR_NONE;
     }
-    error = ignore_vm_death(error);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor timed wait");
+        EXIT_ERROR(error, "on rbw monitor timed wbit");
     }
 }
 
 void
-debugMonitorNotify(jrawMonitorID monitor)
+debugMonitorNotify(jrbwMonitorID monitor)
 {
     jvmtiError error;
 
-    error = FUNC_PTR(gdata->jvmti,RawMonitorNotify)
-                (gdata->jvmti, monitor);
-    error = ignore_vm_death(error);
+    error = FUNC_PTR(gdbtb->jvmti,RbwMonitorNotify)
+                (gdbtb->jvmti, monitor);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor notify");
+        EXIT_ERROR(error, "on rbw monitor notify");
     }
 }
 
 void
-debugMonitorNotifyAll(jrawMonitorID monitor)
+debugMonitorNotifyAll(jrbwMonitorID monitor)
 {
     jvmtiError error;
 
-    error = FUNC_PTR(gdata->jvmti,RawMonitorNotifyAll)
-                (gdata->jvmti, monitor);
-    error = ignore_vm_death(error);
+    error = FUNC_PTR(gdbtb->jvmti,RbwMonitorNotifyAll)
+                (gdbtb->jvmti, monitor);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on raw monitor notify all");
+        EXIT_ERROR(error, "on rbw monitor notify bll");
     }
 }
 
-jrawMonitorID
-debugMonitorCreate(char *name)
+jrbwMonitorID
+debugMonitorCrebte(chbr *nbme)
 {
-    jrawMonitorID monitor;
+    jrbwMonitorID monitor;
     jvmtiError error;
 
-    error = FUNC_PTR(gdata->jvmti,CreateRawMonitor)
-                (gdata->jvmti, name, &monitor);
+    error = FUNC_PTR(gdbtb->jvmti,CrebteRbwMonitor)
+                (gdbtb->jvmti, nbme, &monitor);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on creation of a raw monitor");
+        EXIT_ERROR(error, "on crebtion of b rbw monitor");
     }
     return monitor;
 }
 
 void
-debugMonitorDestroy(jrawMonitorID monitor)
+debugMonitorDestroy(jrbwMonitorID monitor)
 {
     jvmtiError error;
 
-    error = FUNC_PTR(gdata->jvmti,DestroyRawMonitor)
-                (gdata->jvmti, monitor);
-    error = ignore_vm_death(error);
+    error = FUNC_PTR(gdbtb->jvmti,DestroyRbwMonitor)
+                (gdbtb->jvmti, monitor);
+    error = ignore_vm_debth(error);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on destruction of raw monitor");
+        EXIT_ERROR(error, "on destruction of rbw monitor");
     }
 }
 
 /**
- * Return array of all threads (must be inside a WITH_LOCAL_REFS)
+ * Return brrby of bll threbds (must be inside b WITH_LOCAL_REFS)
  */
-jthread *
-allThreads(jint *count)
+jthrebd *
+bllThrebds(jint *count)
 {
-    jthread *threads;
+    jthrebd *threbds;
     jvmtiError error;
 
     *count = 0;
-    threads = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetAllThreads)
-                (gdata->jvmti, count, &threads);
+    threbds = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetAllThrebds)
+                (gdbtb->jvmti, count, &threbds);
     if (error == AGENT_ERROR_OUT_OF_MEMORY) {
-        return NULL; /* Let caller deal with no memory? */
+        return NULL; /* Let cbller debl with no memory? */
     }
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting all threads");
+        EXIT_ERROR(error, "getting bll threbds");
     }
-    return threads;
+    return threbds;
 }
 
 /**
- * Fill the passed in structure with thread group info.
- * name field is JVMTI allocated.  parent is global ref.
+ * Fill the pbssed in structure with threbd group info.
+ * nbme field is JVMTI bllocbted.  pbrent is globbl ref.
  */
 void
-threadGroupInfo(jthreadGroup group, jvmtiThreadGroupInfo *info)
+threbdGroupInfo(jthrebdGroup group, jvmtiThrebdGroupInfo *info)
 {
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetThreadGroupInfo)
-                (gdata->jvmti, group, info);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetThrebdGroupInfo)
+                (gdbtb->jvmti, group, info);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on getting thread group info");
+        EXIT_ERROR(error, "on getting threbd group info");
     }
 }
 
 /**
- * Return class signature string
+ * Return clbss signbture string
  */
 jvmtiError
-classSignature(jclass clazz, char **psignature, char **pgeneric_signature)
+clbssSignbture(jclbss clbzz, chbr **psignbture, chbr **pgeneric_signbture)
 {
     jvmtiError error;
-    char *signature = NULL;
+    chbr *signbture = NULL;
 
     /*
-     * pgeneric_signature can be NULL, and GetClassSignature
-     * accepts NULL.
+     * pgeneric_signbture cbn be NULL, bnd GetClbssSignbture
+     * bccepts NULL.
      */
-    error = FUNC_PTR(gdata->jvmti,GetClassSignature)
-                (gdata->jvmti, clazz, &signature, pgeneric_signature);
+    error = FUNC_PTR(gdbtb->jvmti,GetClbssSignbture)
+                (gdbtb->jvmti, clbzz, &signbture, pgeneric_signbture);
 
-    if ( psignature != NULL ) {
-        *psignature = signature;
-    } else if ( signature != NULL )  {
-        jvmtiDeallocate(signature);
+    if ( psignbture != NULL ) {
+        *psignbture = signbture;
+    } else if ( signbture != NULL )  {
+        jvmtiDebllocbte(signbture);
     }
     return error;
 }
 
-/* Get class name (not signature) */
-char *
-getClassname(jclass clazz)
+/* Get clbss nbme (not signbture) */
+chbr *
+getClbssnbme(jclbss clbzz)
 {
-    char *classname;
+    chbr *clbssnbme;
 
-    classname = NULL;
-    if ( clazz != NULL ) {
-        if (classSignature(clazz, &classname, NULL) != JVMTI_ERROR_NONE) {
-            classname = NULL;
+    clbssnbme = NULL;
+    if ( clbzz != NULL ) {
+        if (clbssSignbture(clbzz, &clbssnbme, NULL) != JVMTI_ERROR_NONE) {
+            clbssnbme = NULL;
         } else {
-            /* Convert in place */
-            convertSignatureToClassname(classname);
+            /* Convert in plbce */
+            convertSignbtureToClbssnbme(clbssnbme);
         }
     }
-    return classname; /* Caller must free this memory */
+    return clbssnbme; /* Cbller must free this memory */
 }
 
 void
-writeGenericSignature(PacketOutputStream *out, char *genericSignature)
+writeGenericSignbture(PbcketOutputStrebm *out, chbr *genericSignbture)
 {
-    if (genericSignature == NULL) {
-        (void)outStream_writeString(out, "");
+    if (genericSignbture == NULL) {
+        (void)outStrebm_writeString(out, "");
     } else {
-        (void)outStream_writeString(out, genericSignature);
+        (void)outStrebm_writeString(out, genericSignbture);
     }
 }
 
 jint
-classStatus(jclass clazz)
+clbssStbtus(jclbss clbzz)
 {
-    jint status;
+    jint stbtus;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassStatus)
-                (gdata->jvmti, clazz, &status);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetClbssStbtus)
+                (gdbtb->jvmti, clbzz, &stbtus);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on getting class status");
+        EXIT_ERROR(error, "on getting clbss stbtus");
     }
-    return status;
+    return stbtus;
 }
 
-static jboolean
-isArrayClass(jclass clazz)
+stbtic jboolebn
+isArrbyClbss(jclbss clbzz)
 {
-    jboolean isArray = JNI_FALSE;
+    jboolebn isArrby = JNI_FALSE;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,IsArrayClass)
-                (gdata->jvmti, clazz, &isArray);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsArrbyClbss)
+                (gdbtb->jvmti, clbzz, &isArrby);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on checking for an array class");
+        EXIT_ERROR(error, "on checking for bn brrby clbss");
     }
-    return isArray;
+    return isArrby;
 }
 
-static jboolean
-isInterface(jclass clazz)
+stbtic jboolebn
+isInterfbce(jclbss clbzz)
 {
-    jboolean isInterface = JNI_FALSE;
+    jboolebn isInterfbce = JNI_FALSE;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,IsInterface)
-                (gdata->jvmti, clazz, &isInterface);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsInterfbce)
+                (gdbtb->jvmti, clbzz, &isInterfbce);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on checking for an interface");
+        EXIT_ERROR(error, "on checking for bn interfbce");
     }
-    return isInterface;
+    return isInterfbce;
 }
 
 jvmtiError
-isFieldSynthetic(jclass clazz, jfieldID field, jboolean *psynthetic)
+isFieldSynthetic(jclbss clbzz, jfieldID field, jboolebn *psynthetic)
 {
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,IsFieldSynthetic)
-                (gdata->jvmti, clazz, field, psynthetic);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsFieldSynthetic)
+                (gdbtb->jvmti, clbzz, field, psynthetic);
     if ( error == JVMTI_ERROR_MUST_POSSESS_CAPABILITY ) {
-        /* If the query is not supported, we assume it is not synthetic. */
+        /* If the query is not supported, we bssume it is not synthetic. */
         *psynthetic = JNI_FALSE;
         return JVMTI_ERROR_NONE;
     }
@@ -1331,113 +1331,113 @@ isFieldSynthetic(jclass clazz, jfieldID field, jboolean *psynthetic)
 }
 
 jvmtiError
-isMethodSynthetic(jmethodID method, jboolean *psynthetic)
+isMethodSynthetic(jmethodID method, jboolebn *psynthetic)
 {
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,IsMethodSynthetic)
-                (gdata->jvmti, method, psynthetic);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsMethodSynthetic)
+                (gdbtb->jvmti, method, psynthetic);
     if ( error == JVMTI_ERROR_MUST_POSSESS_CAPABILITY ) {
-        /* If the query is not supported, we assume it is not synthetic. */
+        /* If the query is not supported, we bssume it is not synthetic. */
         *psynthetic = JNI_FALSE;
         return JVMTI_ERROR_NONE;
     }
     return error;
 }
 
-jboolean
-isMethodNative(jmethodID method)
+jboolebn
+isMethodNbtive(jmethodID method)
 {
-    jboolean isNative = JNI_FALSE;
+    jboolebn isNbtive = JNI_FALSE;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,IsMethodNative)
-                (gdata->jvmti, method, &isNative);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsMethodNbtive)
+                (gdbtb->jvmti, method, &isNbtive);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "on checking for a native interface");
+        EXIT_ERROR(error, "on checking for b nbtive interfbce");
     }
-    return isNative;
+    return isNbtive;
 }
 
-jboolean
-isSameObject(JNIEnv *env, jobject o1, jobject o2)
+jboolebn
+isSbmeObject(JNIEnv *env, jobject o1, jobject o2)
 {
     if ( o1==o2 ) {
         return JNI_TRUE;
     }
-    return FUNC_PTR(env,IsSameObject)(env, o1, o2);
+    return FUNC_PTR(env,IsSbmeObject)(env, o1, o2);
 }
 
 jint
-objectHashCode(jobject object)
+objectHbshCode(jobject object)
 {
-    jint hashCode = 0;
+    jint hbshCode = 0;
     jvmtiError error;
 
     if ( object!=NULL ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetObjectHashCode)
-                    (gdata->jvmti, object, &hashCode);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetObjectHbshCode)
+                    (gdbtb->jvmti, object, &hbshCode);
         if (error != JVMTI_ERROR_NONE) {
-            EXIT_ERROR(error, "on getting an object hash code");
+            EXIT_ERROR(error, "on getting bn object hbsh code");
         }
     }
-    return hashCode;
+    return hbshCode;
 }
 
-/* Get all implemented interfaces (must be inside a WITH_LOCAL_REFS) */
+/* Get bll implemented interfbces (must be inside b WITH_LOCAL_REFS) */
 jvmtiError
-allInterfaces(jclass clazz, jclass **ppinterfaces, jint *pcount)
+bllInterfbces(jclbss clbzz, jclbss **ppinterfbces, jint *pcount)
 {
     jvmtiError error;
 
     *pcount = 0;
-    *ppinterfaces = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetImplementedInterfaces)
-                (gdata->jvmti, clazz, pcount, ppinterfaces);
+    *ppinterfbces = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetImplementedInterfbces)
+                (gdbtb->jvmti, clbzz, pcount, ppinterfbces);
     return error;
 }
 
-/* Get all loaded classes (must be inside a WITH_LOCAL_REFS) */
+/* Get bll lobded clbsses (must be inside b WITH_LOCAL_REFS) */
 jvmtiError
-allLoadedClasses(jclass **ppclasses, jint *pcount)
+bllLobdedClbsses(jclbss **ppclbsses, jint *pcount)
 {
     jvmtiError error;
 
     *pcount = 0;
-    *ppclasses = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLoadedClasses)
-                (gdata->jvmti, pcount, ppclasses);
+    *ppclbsses = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLobdedClbsses)
+                (gdbtb->jvmti, pcount, ppclbsses);
     return error;
 }
 
-/* Get all loaded classes for a loader (must be inside a WITH_LOCAL_REFS) */
+/* Get bll lobded clbsses for b lobder (must be inside b WITH_LOCAL_REFS) */
 jvmtiError
-allClassLoaderClasses(jobject loader, jclass **ppclasses, jint *pcount)
+bllClbssLobderClbsses(jobject lobder, jclbss **ppclbsses, jint *pcount)
 {
     jvmtiError error;
 
     *pcount = 0;
-    *ppclasses = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassLoaderClasses)
-                (gdata->jvmti, loader, pcount, ppclasses);
+    *ppclbsses = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetClbssLobderClbsses)
+                (gdbtb->jvmti, lobder, pcount, ppclbsses);
     return error;
 }
 
-static jboolean
-is_a_nested_class(char *outer_sig, int outer_sig_len, char *sig, int sep)
+stbtic jboolebn
+is_b_nested_clbss(chbr *outer_sig, int outer_sig_len, chbr *sig, int sep)
 {
-    char *inner;
+    chbr *inner;
 
-    /* Assumed outer class signature is  "LOUTERCLASSNAME;"
-     *         inner class signature is  "LOUTERCLASSNAME$INNERNAME;"
+    /* Assumed outer clbss signbture is  "LOUTERCLASSNAME;"
+     *         inner clbss signbture is  "LOUTERCLASSNAME$INNERNAME;"
      *
-     * INNERNAME can take the form:
-     *    [0-9][1-9]*        anonymous class somewhere in the file
-     *    [0-9][1-9]*NAME    local class somewhere in the OUTER class
-     *    NAME               nested class in OUTER
+     * INNERNAME cbn tbke the form:
+     *    [0-9][1-9]*        bnonymous clbss somewhere in the file
+     *    [0-9][1-9]*NAME    locbl clbss somewhere in the OUTER clbss
+     *    NAME               nested clbss in OUTER
      *
-     * If NAME itself contains a $ (sep) then classname is further nested
-     *    inside another class.
+     * If NAME itself contbins b $ (sep) then clbssnbme is further nested
+     *    inside bnother clbss.
      *
      */
 
@@ -1446,42 +1446,42 @@ is_a_nested_class(char *outer_sig, int outer_sig_len, char *sig, int sep)
         return JNI_FALSE;
     }
 
-    /* Prefix must be followed by a $ (sep) */
+    /* Prefix must be followed by b $ (sep) */
     if ( sig[outer_sig_len-1] != sep ) {
-        return JNI_FALSE;  /* No sep follows the match, must not be nested. */
+        return JNI_FALSE;  /* No sep follows the mbtch, must not be nested. */
     }
 
-    /* Walk past any digits, if we reach the end, must be pure anonymous */
+    /* Wblk pbst bny digits, if we rebch the end, must be pure bnonymous */
     inner = sig + outer_sig_len;
-#if 1 /* We want to return local classes */
+#if 1 /* We wbnt to return locbl clbsses */
     while ( *inner && isdigit(*inner) ) {
         inner++;
     }
-    /* But anonymous class names can't be trusted. */
+    /* But bnonymous clbss nbmes cbn't be trusted. */
     if ( *inner == ';' ) {
-        return JNI_FALSE;  /* A pure anonymous class */
+        return JNI_FALSE;  /* A pure bnonymous clbss */
     }
 #else
     if ( *inner && isdigit(*inner) ) {
-        return JNI_FALSE;  /* A pure anonymous or local class */
+        return JNI_FALSE;  /* A pure bnonymous or locbl clbss */
     }
 #endif
 
     /* Nested deeper? */
     if ( strchr(inner, sep) != NULL ) {
-        return JNI_FALSE;  /* Nested deeper than we want? */
+        return JNI_FALSE;  /* Nested deeper thbn we wbnt? */
     }
     return JNI_TRUE;
 }
 
-/* Get all nested classes for a class (must be inside a WITH_LOCAL_REFS) */
+/* Get bll nested clbsses for b clbss (must be inside b WITH_LOCAL_REFS) */
 jvmtiError
-allNestedClasses(jclass parent_clazz, jclass **ppnested, jint *pcount)
+bllNestedClbsses(jclbss pbrent_clbzz, jclbss **ppnested, jint *pcount)
 {
     jvmtiError error;
-    jobject parent_loader;
-    jclass *classes;
-    char *signature;
+    jobject pbrent_lobder;
+    jclbss *clbsses;
+    chbr *signbture;
     size_t len;
     jint count;
     jint ncount;
@@ -1490,252 +1490,252 @@ allNestedClasses(jclass parent_clazz, jclass **ppnested, jint *pcount)
     *ppnested   = NULL;
     *pcount     = 0;
 
-    parent_loader = NULL;
-    classes       = NULL;
-    signature     = NULL;
+    pbrent_lobder = NULL;
+    clbsses       = NULL;
+    signbture     = NULL;
     count         = 0;
     ncount        = 0;
 
-    error = classLoader(parent_clazz, &parent_loader);
+    error = clbssLobder(pbrent_clbzz, &pbrent_lobder);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
-    error = classSignature(parent_clazz, &signature, NULL);
+    error = clbssSignbture(pbrent_clbzz, &signbture, NULL);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
-    len = strlen(signature);
+    len = strlen(signbture);
 
-    error = allClassLoaderClasses(parent_loader, &classes, &count);
+    error = bllClbssLobderClbsses(pbrent_lobder, &clbsses, &count);
     if ( error != JVMTI_ERROR_NONE ) {
-        jvmtiDeallocate(signature);
+        jvmtiDebllocbte(signbture);
         return error;
     }
 
     for (i=0; i<count; i++) {
-        jclass clazz;
-        char *candidate_signature;
+        jclbss clbzz;
+        chbr *cbndidbte_signbture;
 
-        clazz = classes[i];
-        candidate_signature = NULL;
-        error = classSignature(clazz, &candidate_signature, NULL);
+        clbzz = clbsses[i];
+        cbndidbte_signbture = NULL;
+        error = clbssSignbture(clbzz, &cbndidbte_signbture, NULL);
         if (error != JVMTI_ERROR_NONE) {
-            break;
+            brebk;
         }
 
-        if ( is_a_nested_class(signature, (int)len, candidate_signature, '$') ||
-             is_a_nested_class(signature, (int)len, candidate_signature, '#') ) {
-            /* Float nested classes to top */
-            classes[i] = classes[ncount];
-            classes[ncount++] = clazz;
+        if ( is_b_nested_clbss(signbture, (int)len, cbndidbte_signbture, '$') ||
+             is_b_nested_clbss(signbture, (int)len, cbndidbte_signbture, '#') ) {
+            /* Flobt nested clbsses to top */
+            clbsses[i] = clbsses[ncount];
+            clbsses[ncount++] = clbzz;
         }
-        jvmtiDeallocate(candidate_signature);
+        jvmtiDebllocbte(cbndidbte_signbture);
     }
 
-    jvmtiDeallocate(signature);
+    jvmtiDebllocbte(signbture);
 
     if ( count != 0 &&  ncount == 0 ) {
-        jvmtiDeallocate(classes);
-        classes = NULL;
+        jvmtiDebllocbte(clbsses);
+        clbsses = NULL;
     }
 
-    *ppnested = classes;
+    *ppnested = clbsses;
     *pcount = ncount;
     return error;
 }
 
 void
-createLocalRefSpace(JNIEnv *env, jint capacity)
+crebteLocblRefSpbce(JNIEnv *env, jint cbpbcity)
 {
     /*
-     * Save current exception since it might get overwritten by
-     * the calls below. Note we must depend on space in the existing
-     * frame because asking for a new frame may generate an exception.
+     * Sbve current exception since it might get overwritten by
+     * the cblls below. Note we must depend on spbce in the existing
+     * frbme becbuse bsking for b new frbme mby generbte bn exception.
      */
-    jobject throwable = JNI_FUNC_PTR(env,ExceptionOccurred)(env);
+    jobject throwbble = JNI_FUNC_PTR(env,ExceptionOccurred)(env);
 
     /*
-     * Use the current frame if necessary; otherwise create a new one
+     * Use the current frbme if necessbry; otherwise crebte b new one
      */
-    if (JNI_FUNC_PTR(env,PushLocalFrame)(env, capacity) < 0) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"PushLocalFrame: Unable to push JNI frame");
+    if (JNI_FUNC_PTR(env,PushLocblFrbme)(env, cbpbcity) < 0) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"PushLocblFrbme: Unbble to push JNI frbme");
     }
 
     /*
-     * TO DO: This could be more efficient if it used EnsureLocalCapacity,
-     * but that would not work if two functions on the call stack
-     * use this function. We would need to either track reserved
-     * references on a per-thread basis or come up with a convention
-     * that would prevent two functions from depending on this function
-     * at the same time.
+     * TO DO: This could be more efficient if it used EnsureLocblCbpbcity,
+     * but thbt would not work if two functions on the cbll stbck
+     * use this function. We would need to either trbck reserved
+     * references on b per-threbd bbsis or come up with b convention
+     * thbt would prevent two functions from depending on this function
+     * bt the sbme time.
      */
 
     /*
-     * Restore exception state from before call
+     * Restore exception stbte from before cbll
      */
-    if (throwable != NULL) {
-        JNI_FUNC_PTR(env,Throw)(env, throwable);
+    if (throwbble != NULL) {
+        JNI_FUNC_PTR(env,Throw)(env, throwbble);
     } else {
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        JNI_FUNC_PTR(env,ExceptionClebr)(env);
     }
 }
 
-jboolean
-isClass(jobject object)
+jboolebn
+isClbss(jobject object)
 {
     JNIEnv *env = getEnv();
-    return JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->classClass);
+    return JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->clbssClbss);
 }
 
-jboolean
-isThread(jobject object)
+jboolebn
+isThrebd(jobject object)
 {
     JNIEnv *env = getEnv();
-    return JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->threadClass);
+    return JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->threbdClbss);
 }
 
-jboolean
-isThreadGroup(jobject object)
+jboolebn
+isThrebdGroup(jobject object)
 {
     JNIEnv *env = getEnv();
-    return JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->threadGroupClass);
+    return JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->threbdGroupClbss);
 }
 
-jboolean
+jboolebn
 isString(jobject object)
 {
     JNIEnv *env = getEnv();
-    return JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->stringClass);
+    return JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->stringClbss);
 }
 
-jboolean
-isClassLoader(jobject object)
+jboolebn
+isClbssLobder(jobject object)
 {
     JNIEnv *env = getEnv();
-    return JNI_FUNC_PTR(env,IsInstanceOf)(env, object, gdata->classLoaderClass);
+    return JNI_FUNC_PTR(env,IsInstbnceOf)(env, object, gdbtb->clbssLobderClbss);
 }
 
-jboolean
-isArray(jobject object)
+jboolebn
+isArrby(jobject object)
 {
     JNIEnv *env = getEnv();
-    jboolean is;
+    jboolebn is;
 
     WITH_LOCAL_REFS(env, 1) {
-        jclass clazz;
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
-        is = isArrayClass(clazz);
+        jclbss clbzz;
+        clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, object);
+        is = isArrbyClbss(clbzz);
     } END_WITH_LOCAL_REFS(env);
 
     return is;
 }
 
 /**
- * Return property value as jstring
+ * Return property vblue bs jstring
  */
-static jstring
-getPropertyValue(JNIEnv *env, char *propertyName)
+stbtic jstring
+getPropertyVblue(JNIEnv *env, chbr *propertyNbme)
 {
-    jstring valueString;
-    jstring nameString;
+    jstring vblueString;
+    jstring nbmeString;
 
-    valueString = NULL;
+    vblueString = NULL;
 
-    /* Create new String object to hold the property name */
-    nameString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyName);
+    /* Crebte new String object to hold the property nbme */
+    nbmeString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyNbme);
     if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        JNI_FUNC_PTR(env,ExceptionClebr)(env);
         /* NULL will be returned below */
     } else {
-        /* Call valueString = System.getProperty(nameString) */
-        valueString = JNI_FUNC_PTR(env,CallStaticObjectMethod)
-            (env, gdata->systemClass, gdata->systemGetProperty, nameString);
+        /* Cbll vblueString = System.getProperty(nbmeString) */
+        vblueString = JNI_FUNC_PTR(env,CbllStbticObjectMethod)
+            (env, gdbtb->systemClbss, gdbtb->systemGetProperty, nbmeString);
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
-            valueString = NULL;
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
+            vblueString = NULL;
         }
     }
-    return valueString;
+    return vblueString;
 }
 
 /**
- * Set an agent property
+ * Set bn bgent property
  */
 void
-setAgentPropertyValue(JNIEnv *env, char *propertyName, char* propertyValue)
+setAgentPropertyVblue(JNIEnv *env, chbr *propertyNbme, chbr* propertyVblue)
 {
-    jstring nameString;
-    jstring valueString;
+    jstring nbmeString;
+    jstring vblueString;
 
-    if (gdata->agent_properties == NULL) {
+    if (gdbtb->bgent_properties == NULL) {
         /* VMSupport doesn't exist; so ignore */
         return;
     }
 
-    /* Create jstrings for property name and value */
-    nameString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyName);
-    if (nameString != NULL) {
-        valueString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyValue);
-        if (valueString != NULL) {
+    /* Crebte jstrings for property nbme bnd vblue */
+    nbmeString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyNbme);
+    if (nbmeString != NULL) {
+        vblueString = JNI_FUNC_PTR(env,NewStringUTF)(env, propertyVblue);
+        if (vblueString != NULL) {
             /* invoke Properties.setProperty */
-            JNI_FUNC_PTR(env,CallObjectMethod)
-                (env, gdata->agent_properties,
-                 gdata->setProperty,
-                 nameString, valueString);
+            JNI_FUNC_PTR(env,CbllObjectMethod)
+                (env, gdbtb->bgent_properties,
+                 gdbtb->setProperty,
+                 nbmeString, vblueString);
         }
     }
     if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        JNI_FUNC_PTR(env,ExceptionClebr)(env);
     }
 }
 
 /**
- * Return property value as JDWP allocated string in UTF8 encoding
+ * Return property vblue bs JDWP bllocbted string in UTF8 encoding
  */
-static char *
-getPropertyUTF8(JNIEnv *env, char *propertyName)
+stbtic chbr *
+getPropertyUTF8(JNIEnv *env, chbr *propertyNbme)
 {
     jvmtiError  error;
-    char       *value;
+    chbr       *vblue;
 
-    value = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetSystemProperty)
-                (gdata->jvmti, (const char *)propertyName, &value);
+    vblue = NULL;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetSystemProperty)
+                (gdbtb->jvmti, (const chbr *)propertyNbme, &vblue);
     if (error != JVMTI_ERROR_NONE) {
-        jstring valueString;
+        jstring vblueString;
 
-        value = NULL;
-        valueString = getPropertyValue(env, propertyName);
+        vblue = NULL;
+        vblueString = getPropertyVblue(env, propertyNbme);
 
-        if (valueString != NULL) {
-            const char *utf;
+        if (vblueString != NULL) {
+            const chbr *utf;
 
-            /* Get the UTF8 encoding for this property value string */
-            utf = JNI_FUNC_PTR(env,GetStringUTFChars)(env, valueString, NULL);
-            /* Make a copy for returning, release the JNI copy */
-            value = jvmtiAllocate((int)strlen(utf) + 1);
-            if (value != NULL) {
-                (void)strcpy(value, utf);
+            /* Get the UTF8 encoding for this property vblue string */
+            utf = JNI_FUNC_PTR(env,GetStringUTFChbrs)(env, vblueString, NULL);
+            /* Mbke b copy for returning, relebse the JNI copy */
+            vblue = jvmtiAllocbte((int)strlen(utf) + 1);
+            if (vblue != NULL) {
+                (void)strcpy(vblue, utf);
             }
-            JNI_FUNC_PTR(env,ReleaseStringUTFChars)(env, valueString, utf);
+            JNI_FUNC_PTR(env,RelebseStringUTFChbrs)(env, vblueString, utf);
         }
     }
-    if ( value == NULL ) {
-        ERROR_MESSAGE(("JDWP Can't get property value for %s", propertyName));
+    if ( vblue == NULL ) {
+        ERROR_MESSAGE(("JDWP Cbn't get property vblue for %s", propertyNbme));
         EXIT_ERROR(AGENT_ERROR_NULL_POINTER,NULL);
     }
-    return value;
+    return vblue;
 }
 
-jboolean
+jboolebn
 isMethodObsolete(jmethodID method)
 {
     jvmtiError error;
-    jboolean obsolete = JNI_TRUE;
+    jboolebn obsolete = JNI_TRUE;
 
     if ( method != NULL ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,IsMethodObsolete)
-                    (gdata->jvmti, method, &obsolete);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,IsMethodObsolete)
+                    (gdbtb->jvmti, method, &obsolete);
         if (error != JVMTI_ERROR_NONE) {
             obsolete = JNI_TRUE;
         }
@@ -1743,25 +1743,25 @@ isMethodObsolete(jmethodID method)
     return obsolete;
 }
 
-/* Get the jvmti environment to be used with tags */
-static jvmtiEnv *
-getSpecialJvmti(void)
+/* Get the jvmti environment to be used with tbgs */
+stbtic jvmtiEnv *
+getSpeciblJvmti(void)
 {
     jvmtiEnv  *jvmti;
     jvmtiError error;
     int        rc;
 
     /* Get one time use JVMTI Env */
-    jvmtiCapabilities caps;
+    jvmtiCbpbbilities cbps;
 
-    rc = JVM_FUNC_PTR(gdata->jvm,GetEnv)
-                     (gdata->jvm, (void **)&jvmti, JVMTI_VERSION_1);
+    rc = JVM_FUNC_PTR(gdbtb->jvm,GetEnv)
+                     (gdbtb->jvm, (void **)&jvmti, JVMTI_VERSION_1);
     if (rc != JNI_OK) {
         return NULL;
     }
-    (void)memset(&caps, 0, (int)sizeof(caps));
-    caps.can_tag_objects = 1;
-    error = JVMTI_FUNC_PTR(jvmti,AddCapabilities)(jvmti, &caps);
+    (void)memset(&cbps, 0, (int)sizeof(cbps));
+    cbps.cbn_tbg_objects = 1;
+    error = JVMTI_FUNC_PTR(jvmti,AddCbpbbilities)(jvmti, &cbps);
     if ( error != JVMTI_ERROR_NONE ) {
         return NULL;
     }
@@ -1769,175 +1769,175 @@ getSpecialJvmti(void)
 }
 
 void
-writeCodeLocation(PacketOutputStream *out, jclass clazz,
-                       jmethodID method, jlocation location)
+writeCodeLocbtion(PbcketOutputStrebm *out, jclbss clbzz,
+                       jmethodID method, jlocbtion locbtion)
 {
-    jbyte tag;
+    jbyte tbg;
 
-    if (clazz != NULL) {
-        tag = referenceTypeTag(clazz);
+    if (clbzz != NULL) {
+        tbg = referenceTypeTbg(clbzz);
     } else {
-        tag = JDWP_TYPE_TAG(CLASS);
+        tbg = JDWP_TYPE_TAG(CLASS);
     }
-    (void)outStream_writeByte(out, tag);
-    (void)outStream_writeObjectRef(getEnv(), out, clazz);
-    (void)outStream_writeMethodID(out, isMethodObsolete(method)?NULL:method);
-    (void)outStream_writeLocation(out, location);
+    (void)outStrebm_writeByte(out, tbg);
+    (void)outStrebm_writeObjectRef(getEnv(), out, clbzz);
+    (void)outStrebm_writeMethodID(out, isMethodObsolete(method)?NULL:method);
+    (void)outStrebm_writeLocbtion(out, locbtion);
 }
 
 void *
-jvmtiAllocate(jint numBytes)
+jvmtiAllocbte(jint numBytes)
 {
     void *ptr;
     jvmtiError error;
     if ( numBytes == 0 ) {
         return NULL;
     }
-    error = FUNC_PTR(gdata->jvmti,Allocate)
-                (gdata->jvmti, numBytes, (unsigned char**)&ptr);
+    error = FUNC_PTR(gdbtb->jvmti,Allocbte)
+                (gdbtb->jvmti, numBytes, (unsigned chbr**)&ptr);
     if (error != JVMTI_ERROR_NONE ) {
-        EXIT_ERROR(error, "Can't allocate jvmti memory");
+        EXIT_ERROR(error, "Cbn't bllocbte jvmti memory");
     }
     return ptr;
 }
 
 void
-jvmtiDeallocate(void *ptr)
+jvmtiDebllocbte(void *ptr)
 {
     jvmtiError error;
     if ( ptr == NULL ) {
         return;
     }
-    error = FUNC_PTR(gdata->jvmti,Deallocate)
-                (gdata->jvmti, ptr);
+    error = FUNC_PTR(gdbtb->jvmti,Debllocbte)
+                (gdbtb->jvmti, ptr);
     if (error != JVMTI_ERROR_NONE ) {
-        EXIT_ERROR(error, "Can't deallocate jvmti memory");
+        EXIT_ERROR(error, "Cbn't debllocbte jvmti memory");
     }
 }
 
-/* Rarely needed, transport library uses JDWP errors, only use? */
+/* Rbrely needed, trbnsport librbry uses JDWP errors, only use? */
 jvmtiError
-map2jvmtiError(jdwpError error)
+mbp2jvmtiError(jdwpError error)
 {
     switch ( error ) {
-        case JDWP_ERROR(NONE):
+        cbse JDWP_ERROR(NONE):
             return JVMTI_ERROR_NONE;
-        case JDWP_ERROR(INVALID_THREAD):
+        cbse JDWP_ERROR(INVALID_THREAD):
             return JVMTI_ERROR_INVALID_THREAD;
-        case JDWP_ERROR(INVALID_THREAD_GROUP):
+        cbse JDWP_ERROR(INVALID_THREAD_GROUP):
             return JVMTI_ERROR_INVALID_THREAD_GROUP;
-        case JDWP_ERROR(INVALID_PRIORITY):
+        cbse JDWP_ERROR(INVALID_PRIORITY):
             return JVMTI_ERROR_INVALID_PRIORITY;
-        case JDWP_ERROR(THREAD_NOT_SUSPENDED):
+        cbse JDWP_ERROR(THREAD_NOT_SUSPENDED):
             return JVMTI_ERROR_THREAD_NOT_SUSPENDED;
-        case JDWP_ERROR(THREAD_SUSPENDED):
+        cbse JDWP_ERROR(THREAD_SUSPENDED):
             return JVMTI_ERROR_THREAD_SUSPENDED;
-        case JDWP_ERROR(INVALID_OBJECT):
+        cbse JDWP_ERROR(INVALID_OBJECT):
             return JVMTI_ERROR_INVALID_OBJECT;
-        case JDWP_ERROR(INVALID_CLASS):
+        cbse JDWP_ERROR(INVALID_CLASS):
             return JVMTI_ERROR_INVALID_CLASS;
-        case JDWP_ERROR(CLASS_NOT_PREPARED):
+        cbse JDWP_ERROR(CLASS_NOT_PREPARED):
             return JVMTI_ERROR_CLASS_NOT_PREPARED;
-        case JDWP_ERROR(INVALID_METHODID):
+        cbse JDWP_ERROR(INVALID_METHODID):
             return JVMTI_ERROR_INVALID_METHODID;
-        case JDWP_ERROR(INVALID_LOCATION):
+        cbse JDWP_ERROR(INVALID_LOCATION):
             return JVMTI_ERROR_INVALID_LOCATION;
-        case JDWP_ERROR(INVALID_FIELDID):
+        cbse JDWP_ERROR(INVALID_FIELDID):
             return JVMTI_ERROR_INVALID_FIELDID;
-        case JDWP_ERROR(INVALID_FRAMEID):
+        cbse JDWP_ERROR(INVALID_FRAMEID):
             return AGENT_ERROR_INVALID_FRAMEID;
-        case JDWP_ERROR(NO_MORE_FRAMES):
+        cbse JDWP_ERROR(NO_MORE_FRAMES):
             return JVMTI_ERROR_NO_MORE_FRAMES;
-        case JDWP_ERROR(OPAQUE_FRAME):
+        cbse JDWP_ERROR(OPAQUE_FRAME):
             return JVMTI_ERROR_OPAQUE_FRAME;
-        case JDWP_ERROR(NOT_CURRENT_FRAME):
+        cbse JDWP_ERROR(NOT_CURRENT_FRAME):
             return AGENT_ERROR_NOT_CURRENT_FRAME;
-        case JDWP_ERROR(TYPE_MISMATCH):
+        cbse JDWP_ERROR(TYPE_MISMATCH):
             return JVMTI_ERROR_TYPE_MISMATCH;
-        case JDWP_ERROR(INVALID_SLOT):
+        cbse JDWP_ERROR(INVALID_SLOT):
             return JVMTI_ERROR_INVALID_SLOT;
-        case JDWP_ERROR(DUPLICATE):
+        cbse JDWP_ERROR(DUPLICATE):
             return JVMTI_ERROR_DUPLICATE;
-        case JDWP_ERROR(NOT_FOUND):
+        cbse JDWP_ERROR(NOT_FOUND):
             return JVMTI_ERROR_NOT_FOUND;
-        case JDWP_ERROR(INVALID_MONITOR):
+        cbse JDWP_ERROR(INVALID_MONITOR):
             return JVMTI_ERROR_INVALID_MONITOR;
-        case JDWP_ERROR(NOT_MONITOR_OWNER):
+        cbse JDWP_ERROR(NOT_MONITOR_OWNER):
             return JVMTI_ERROR_NOT_MONITOR_OWNER;
-        case JDWP_ERROR(INTERRUPT):
+        cbse JDWP_ERROR(INTERRUPT):
             return JVMTI_ERROR_INTERRUPT;
-        case JDWP_ERROR(INVALID_CLASS_FORMAT):
+        cbse JDWP_ERROR(INVALID_CLASS_FORMAT):
             return JVMTI_ERROR_INVALID_CLASS_FORMAT;
-        case JDWP_ERROR(CIRCULAR_CLASS_DEFINITION):
+        cbse JDWP_ERROR(CIRCULAR_CLASS_DEFINITION):
             return JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION;
-        case JDWP_ERROR(FAILS_VERIFICATION):
+        cbse JDWP_ERROR(FAILS_VERIFICATION):
             return JVMTI_ERROR_FAILS_VERIFICATION;
-        case JDWP_ERROR(ADD_METHOD_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(ADD_METHOD_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED;
-        case JDWP_ERROR(SCHEMA_CHANGE_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(SCHEMA_CHANGE_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED;
-        case JDWP_ERROR(INVALID_TYPESTATE):
+        cbse JDWP_ERROR(INVALID_TYPESTATE):
             return JVMTI_ERROR_INVALID_TYPESTATE;
-        case JDWP_ERROR(HIERARCHY_CHANGE_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(HIERARCHY_CHANGE_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED;
-        case JDWP_ERROR(DELETE_METHOD_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(DELETE_METHOD_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED;
-        case JDWP_ERROR(UNSUPPORTED_VERSION):
+        cbse JDWP_ERROR(UNSUPPORTED_VERSION):
             return JVMTI_ERROR_UNSUPPORTED_VERSION;
-        case JDWP_ERROR(NAMES_DONT_MATCH):
+        cbse JDWP_ERROR(NAMES_DONT_MATCH):
             return JVMTI_ERROR_NAMES_DONT_MATCH;
-        case JDWP_ERROR(CLASS_MODIFIERS_CHANGE_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(CLASS_MODIFIERS_CHANGE_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED;
-        case JDWP_ERROR(METHOD_MODIFIERS_CHANGE_NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(METHOD_MODIFIERS_CHANGE_NOT_IMPLEMENTED):
             return JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED;
-        case JDWP_ERROR(NOT_IMPLEMENTED):
+        cbse JDWP_ERROR(NOT_IMPLEMENTED):
             return JVMTI_ERROR_NOT_AVAILABLE;
-        case JDWP_ERROR(NULL_POINTER):
+        cbse JDWP_ERROR(NULL_POINTER):
             return JVMTI_ERROR_NULL_POINTER;
-        case JDWP_ERROR(ABSENT_INFORMATION):
+        cbse JDWP_ERROR(ABSENT_INFORMATION):
             return JVMTI_ERROR_ABSENT_INFORMATION;
-        case JDWP_ERROR(INVALID_EVENT_TYPE):
+        cbse JDWP_ERROR(INVALID_EVENT_TYPE):
             return JVMTI_ERROR_INVALID_EVENT_TYPE;
-        case JDWP_ERROR(ILLEGAL_ARGUMENT):
+        cbse JDWP_ERROR(ILLEGAL_ARGUMENT):
             return JVMTI_ERROR_ILLEGAL_ARGUMENT;
-        case JDWP_ERROR(OUT_OF_MEMORY):
+        cbse JDWP_ERROR(OUT_OF_MEMORY):
             return JVMTI_ERROR_OUT_OF_MEMORY;
-        case JDWP_ERROR(ACCESS_DENIED):
+        cbse JDWP_ERROR(ACCESS_DENIED):
             return JVMTI_ERROR_ACCESS_DENIED;
-        case JDWP_ERROR(VM_DEAD):
+        cbse JDWP_ERROR(VM_DEAD):
             return JVMTI_ERROR_WRONG_PHASE;
-        case JDWP_ERROR(UNATTACHED_THREAD):
+        cbse JDWP_ERROR(UNATTACHED_THREAD):
             return JVMTI_ERROR_UNATTACHED_THREAD;
-        case JDWP_ERROR(INVALID_TAG):
+        cbse JDWP_ERROR(INVALID_TAG):
             return AGENT_ERROR_INVALID_TAG;
-        case JDWP_ERROR(ALREADY_INVOKING):
+        cbse JDWP_ERROR(ALREADY_INVOKING):
             return AGENT_ERROR_ALREADY_INVOKING;
-        case JDWP_ERROR(INVALID_INDEX):
+        cbse JDWP_ERROR(INVALID_INDEX):
             return AGENT_ERROR_INVALID_INDEX;
-        case JDWP_ERROR(INVALID_LENGTH):
+        cbse JDWP_ERROR(INVALID_LENGTH):
             return AGENT_ERROR_INVALID_LENGTH;
-        case JDWP_ERROR(INVALID_STRING):
+        cbse JDWP_ERROR(INVALID_STRING):
             return AGENT_ERROR_INVALID_STRING;
-        case JDWP_ERROR(INVALID_CLASS_LOADER):
+        cbse JDWP_ERROR(INVALID_CLASS_LOADER):
             return AGENT_ERROR_INVALID_CLASS_LOADER;
-        case JDWP_ERROR(INVALID_ARRAY):
+        cbse JDWP_ERROR(INVALID_ARRAY):
             return AGENT_ERROR_INVALID_ARRAY;
-        case JDWP_ERROR(TRANSPORT_LOAD):
+        cbse JDWP_ERROR(TRANSPORT_LOAD):
             return AGENT_ERROR_TRANSPORT_LOAD;
-        case JDWP_ERROR(TRANSPORT_INIT):
+        cbse JDWP_ERROR(TRANSPORT_INIT):
             return AGENT_ERROR_TRANSPORT_INIT;
-        case JDWP_ERROR(NATIVE_METHOD):
+        cbse JDWP_ERROR(NATIVE_METHOD):
             return AGENT_ERROR_NATIVE_METHOD;
-        case JDWP_ERROR(INVALID_COUNT):
+        cbse JDWP_ERROR(INVALID_COUNT):
             return AGENT_ERROR_INVALID_COUNT;
-        case JDWP_ERROR(INTERNAL):
+        cbse JDWP_ERROR(INTERNAL):
             return AGENT_ERROR_JDWP_INTERNAL;
     }
     return AGENT_ERROR_INTERNAL;
 }
 
-static jvmtiEvent index2jvmti[EI_max-EI_min+1];
-static jdwpEvent  index2jdwp [EI_max-EI_min+1];
+stbtic jvmtiEvent index2jvmti[EI_mbx-EI_min+1];
+stbtic jdwpEvent  index2jdwp [EI_mbx-EI_min+1];
 
 void
 eventIndexInit(void)
@@ -1991,8 +1991,8 @@ eventIndexInit(void)
 jdwpEvent
 eventIndex2jdwp(EventIndex i)
 {
-    if ( i < EI_min || i > EI_max ) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"bad EventIndex");
+    if ( i < EI_min || i > EI_mbx ) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"bbd EventIndex");
     }
     return index2jdwp[i-EI_min];
 }
@@ -2000,8 +2000,8 @@ eventIndex2jdwp(EventIndex i)
 jvmtiEvent
 eventIndex2jvmti(EventIndex i)
 {
-    if ( i < EI_min || i > EI_max ) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"bad EventIndex");
+    if ( i < EI_min || i > EI_mbx ) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"bbd EventIndex");
     }
     return index2jvmti[i-EI_min];
 }
@@ -2010,55 +2010,55 @@ EventIndex
 jdwp2EventIndex(jdwpEvent eventType)
 {
     switch ( eventType ) {
-        case JDWP_EVENT(SINGLE_STEP):
+        cbse JDWP_EVENT(SINGLE_STEP):
             return EI_SINGLE_STEP;
-        case JDWP_EVENT(BREAKPOINT):
+        cbse JDWP_EVENT(BREAKPOINT):
             return EI_BREAKPOINT;
-        case JDWP_EVENT(FRAME_POP):
+        cbse JDWP_EVENT(FRAME_POP):
             return EI_FRAME_POP;
-        case JDWP_EVENT(EXCEPTION):
+        cbse JDWP_EVENT(EXCEPTION):
             return EI_EXCEPTION;
-        case JDWP_EVENT(THREAD_START):
+        cbse JDWP_EVENT(THREAD_START):
             return EI_THREAD_START;
-        case JDWP_EVENT(THREAD_END):
+        cbse JDWP_EVENT(THREAD_END):
             return EI_THREAD_END;
-        case JDWP_EVENT(CLASS_PREPARE):
+        cbse JDWP_EVENT(CLASS_PREPARE):
             return EI_CLASS_PREPARE;
-        case JDWP_EVENT(CLASS_UNLOAD):
+        cbse JDWP_EVENT(CLASS_UNLOAD):
             return EI_GC_FINISH;
-        case JDWP_EVENT(CLASS_LOAD):
+        cbse JDWP_EVENT(CLASS_LOAD):
             return EI_CLASS_LOAD;
-        case JDWP_EVENT(FIELD_ACCESS):
+        cbse JDWP_EVENT(FIELD_ACCESS):
             return EI_FIELD_ACCESS;
-        case JDWP_EVENT(FIELD_MODIFICATION):
+        cbse JDWP_EVENT(FIELD_MODIFICATION):
             return EI_FIELD_MODIFICATION;
-        case JDWP_EVENT(EXCEPTION_CATCH):
+        cbse JDWP_EVENT(EXCEPTION_CATCH):
             return EI_EXCEPTION_CATCH;
-        case JDWP_EVENT(METHOD_ENTRY):
+        cbse JDWP_EVENT(METHOD_ENTRY):
             return EI_METHOD_ENTRY;
-        case JDWP_EVENT(METHOD_EXIT):
+        cbse JDWP_EVENT(METHOD_EXIT):
             return EI_METHOD_EXIT;
-        case JDWP_EVENT(METHOD_EXIT_WITH_RETURN_VALUE):
+        cbse JDWP_EVENT(METHOD_EXIT_WITH_RETURN_VALUE):
             return EI_METHOD_EXIT;
-        case JDWP_EVENT(MONITOR_CONTENDED_ENTER):
+        cbse JDWP_EVENT(MONITOR_CONTENDED_ENTER):
             return EI_MONITOR_CONTENDED_ENTER;
-        case JDWP_EVENT(MONITOR_CONTENDED_ENTERED):
+        cbse JDWP_EVENT(MONITOR_CONTENDED_ENTERED):
             return EI_MONITOR_CONTENDED_ENTERED;
-        case JDWP_EVENT(MONITOR_WAIT):
+        cbse JDWP_EVENT(MONITOR_WAIT):
             return EI_MONITOR_WAIT;
-        case JDWP_EVENT(MONITOR_WAITED):
+        cbse JDWP_EVENT(MONITOR_WAITED):
             return EI_MONITOR_WAITED;
-        case JDWP_EVENT(VM_INIT):
+        cbse JDWP_EVENT(VM_INIT):
             return EI_VM_INIT;
-        case JDWP_EVENT(VM_DEATH):
+        cbse JDWP_EVENT(VM_DEATH):
             return EI_VM_DEATH;
-        default:
-            break;
+        defbult:
+            brebk;
     }
 
     /*
-     * Event type not recognized - don't exit with error as caller
-     * may wish to return error to debugger.
+     * Event type not recognized - don't exit with error bs cbller
+     * mby wish to return error to debugger.
      */
     return (EventIndex)0;
 }
@@ -2067,669 +2067,669 @@ EventIndex
 jvmti2EventIndex(jvmtiEvent kind)
 {
     switch ( kind ) {
-        case JVMTI_EVENT_SINGLE_STEP:
+        cbse JVMTI_EVENT_SINGLE_STEP:
             return EI_SINGLE_STEP;
-        case JVMTI_EVENT_BREAKPOINT:
+        cbse JVMTI_EVENT_BREAKPOINT:
             return EI_BREAKPOINT;
-        case JVMTI_EVENT_FRAME_POP:
+        cbse JVMTI_EVENT_FRAME_POP:
             return EI_FRAME_POP;
-        case JVMTI_EVENT_EXCEPTION:
+        cbse JVMTI_EVENT_EXCEPTION:
             return EI_EXCEPTION;
-        case JVMTI_EVENT_THREAD_START:
+        cbse JVMTI_EVENT_THREAD_START:
             return EI_THREAD_START;
-        case JVMTI_EVENT_THREAD_END:
+        cbse JVMTI_EVENT_THREAD_END:
             return EI_THREAD_END;
-        case JVMTI_EVENT_CLASS_PREPARE:
+        cbse JVMTI_EVENT_CLASS_PREPARE:
             return EI_CLASS_PREPARE;
-        case JVMTI_EVENT_GARBAGE_COLLECTION_FINISH:
+        cbse JVMTI_EVENT_GARBAGE_COLLECTION_FINISH:
             return EI_GC_FINISH;
-        case JVMTI_EVENT_CLASS_LOAD:
+        cbse JVMTI_EVENT_CLASS_LOAD:
             return EI_CLASS_LOAD;
-        case JVMTI_EVENT_FIELD_ACCESS:
+        cbse JVMTI_EVENT_FIELD_ACCESS:
             return EI_FIELD_ACCESS;
-        case JVMTI_EVENT_FIELD_MODIFICATION:
+        cbse JVMTI_EVENT_FIELD_MODIFICATION:
             return EI_FIELD_MODIFICATION;
-        case JVMTI_EVENT_EXCEPTION_CATCH:
+        cbse JVMTI_EVENT_EXCEPTION_CATCH:
             return EI_EXCEPTION_CATCH;
-        case JVMTI_EVENT_METHOD_ENTRY:
+        cbse JVMTI_EVENT_METHOD_ENTRY:
             return EI_METHOD_ENTRY;
-        case JVMTI_EVENT_METHOD_EXIT:
+        cbse JVMTI_EVENT_METHOD_EXIT:
             return EI_METHOD_EXIT;
         /*
          * There is no JVMTI_EVENT_METHOD_EXIT_WITH_RETURN_VALUE.
-         * The normal JVMTI_EVENT_METHOD_EXIT always contains the return value.
+         * The normbl JVMTI_EVENT_METHOD_EXIT blwbys contbins the return vblue.
          */
-        case JVMTI_EVENT_MONITOR_CONTENDED_ENTER:
+        cbse JVMTI_EVENT_MONITOR_CONTENDED_ENTER:
             return EI_MONITOR_CONTENDED_ENTER;
-        case JVMTI_EVENT_MONITOR_CONTENDED_ENTERED:
+        cbse JVMTI_EVENT_MONITOR_CONTENDED_ENTERED:
             return EI_MONITOR_CONTENDED_ENTERED;
-        case JVMTI_EVENT_MONITOR_WAIT:
+        cbse JVMTI_EVENT_MONITOR_WAIT:
             return EI_MONITOR_WAIT;
-        case JVMTI_EVENT_MONITOR_WAITED:
+        cbse JVMTI_EVENT_MONITOR_WAITED:
             return EI_MONITOR_WAITED;
-        case JVMTI_EVENT_VM_INIT:
+        cbse JVMTI_EVENT_VM_INIT:
             return EI_VM_INIT;
-        case JVMTI_EVENT_VM_DEATH:
+        cbse JVMTI_EVENT_VM_DEATH:
             return EI_VM_DEATH;
-        default:
-            EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"JVMTI to EventIndex mapping");
-            break;
+        defbult:
+            EXIT_ERROR(AGENT_ERROR_INVALID_INDEX,"JVMTI to EventIndex mbpping");
+            brebk;
     }
     return (EventIndex)0;
 }
 
-/* This routine is commonly used, maps jvmti and agent errors to the best
- *    jdwp error code we can map to.
+/* This routine is commonly used, mbps jvmti bnd bgent errors to the best
+ *    jdwp error code we cbn mbp to.
  */
 jdwpError
-map2jdwpError(jvmtiError error)
+mbp2jdwpError(jvmtiError error)
 {
     switch ( (int)error ) {
-        case JVMTI_ERROR_NONE:
+        cbse JVMTI_ERROR_NONE:
             return JDWP_ERROR(NONE);
-        case AGENT_ERROR_INVALID_THREAD:
-        case JVMTI_ERROR_INVALID_THREAD:
+        cbse AGENT_ERROR_INVALID_THREAD:
+        cbse JVMTI_ERROR_INVALID_THREAD:
             return JDWP_ERROR(INVALID_THREAD);
-        case JVMTI_ERROR_INVALID_THREAD_GROUP:
+        cbse JVMTI_ERROR_INVALID_THREAD_GROUP:
             return JDWP_ERROR(INVALID_THREAD_GROUP);
-        case JVMTI_ERROR_INVALID_PRIORITY:
+        cbse JVMTI_ERROR_INVALID_PRIORITY:
             return JDWP_ERROR(INVALID_PRIORITY);
-        case JVMTI_ERROR_THREAD_NOT_SUSPENDED:
+        cbse JVMTI_ERROR_THREAD_NOT_SUSPENDED:
             return JDWP_ERROR(THREAD_NOT_SUSPENDED);
-        case JVMTI_ERROR_THREAD_SUSPENDED:
+        cbse JVMTI_ERROR_THREAD_SUSPENDED:
             return JDWP_ERROR(THREAD_SUSPENDED);
-        case JVMTI_ERROR_THREAD_NOT_ALIVE:
+        cbse JVMTI_ERROR_THREAD_NOT_ALIVE:
             return JDWP_ERROR(INVALID_THREAD);
-        case AGENT_ERROR_INVALID_OBJECT:
-        case JVMTI_ERROR_INVALID_OBJECT:
+        cbse AGENT_ERROR_INVALID_OBJECT:
+        cbse JVMTI_ERROR_INVALID_OBJECT:
             return JDWP_ERROR(INVALID_OBJECT);
-        case JVMTI_ERROR_INVALID_CLASS:
+        cbse JVMTI_ERROR_INVALID_CLASS:
             return JDWP_ERROR(INVALID_CLASS);
-        case JVMTI_ERROR_CLASS_NOT_PREPARED:
+        cbse JVMTI_ERROR_CLASS_NOT_PREPARED:
             return JDWP_ERROR(CLASS_NOT_PREPARED);
-        case JVMTI_ERROR_INVALID_METHODID:
+        cbse JVMTI_ERROR_INVALID_METHODID:
             return JDWP_ERROR(INVALID_METHODID);
-        case JVMTI_ERROR_INVALID_LOCATION:
+        cbse JVMTI_ERROR_INVALID_LOCATION:
             return JDWP_ERROR(INVALID_LOCATION);
-        case JVMTI_ERROR_INVALID_FIELDID:
+        cbse JVMTI_ERROR_INVALID_FIELDID:
             return JDWP_ERROR(INVALID_FIELDID);
-        case AGENT_ERROR_NO_MORE_FRAMES:
-        case JVMTI_ERROR_NO_MORE_FRAMES:
+        cbse AGENT_ERROR_NO_MORE_FRAMES:
+        cbse JVMTI_ERROR_NO_MORE_FRAMES:
             return JDWP_ERROR(NO_MORE_FRAMES);
-        case JVMTI_ERROR_OPAQUE_FRAME:
+        cbse JVMTI_ERROR_OPAQUE_FRAME:
             return JDWP_ERROR(OPAQUE_FRAME);
-        case JVMTI_ERROR_TYPE_MISMATCH:
+        cbse JVMTI_ERROR_TYPE_MISMATCH:
             return JDWP_ERROR(TYPE_MISMATCH);
-        case JVMTI_ERROR_INVALID_SLOT:
+        cbse JVMTI_ERROR_INVALID_SLOT:
             return JDWP_ERROR(INVALID_SLOT);
-        case JVMTI_ERROR_DUPLICATE:
+        cbse JVMTI_ERROR_DUPLICATE:
             return JDWP_ERROR(DUPLICATE);
-        case JVMTI_ERROR_NOT_FOUND:
+        cbse JVMTI_ERROR_NOT_FOUND:
             return JDWP_ERROR(NOT_FOUND);
-        case JVMTI_ERROR_INVALID_MONITOR:
+        cbse JVMTI_ERROR_INVALID_MONITOR:
             return JDWP_ERROR(INVALID_MONITOR);
-        case JVMTI_ERROR_NOT_MONITOR_OWNER:
+        cbse JVMTI_ERROR_NOT_MONITOR_OWNER:
             return JDWP_ERROR(NOT_MONITOR_OWNER);
-        case JVMTI_ERROR_INTERRUPT:
+        cbse JVMTI_ERROR_INTERRUPT:
             return JDWP_ERROR(INTERRUPT);
-        case JVMTI_ERROR_INVALID_CLASS_FORMAT:
+        cbse JVMTI_ERROR_INVALID_CLASS_FORMAT:
             return JDWP_ERROR(INVALID_CLASS_FORMAT);
-        case JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
+        cbse JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
             return JDWP_ERROR(CIRCULAR_CLASS_DEFINITION);
-        case JVMTI_ERROR_FAILS_VERIFICATION:
+        cbse JVMTI_ERROR_FAILS_VERIFICATION:
             return JDWP_ERROR(FAILS_VERIFICATION);
-        case JVMTI_ERROR_INVALID_TYPESTATE:
+        cbse JVMTI_ERROR_INVALID_TYPESTATE:
             return JDWP_ERROR(INVALID_TYPESTATE);
-        case JVMTI_ERROR_UNSUPPORTED_VERSION:
+        cbse JVMTI_ERROR_UNSUPPORTED_VERSION:
             return JDWP_ERROR(UNSUPPORTED_VERSION);
-        case JVMTI_ERROR_NAMES_DONT_MATCH:
+        cbse JVMTI_ERROR_NAMES_DONT_MATCH:
             return JDWP_ERROR(NAMES_DONT_MATCH);
-        case AGENT_ERROR_NULL_POINTER:
-        case JVMTI_ERROR_NULL_POINTER:
+        cbse AGENT_ERROR_NULL_POINTER:
+        cbse JVMTI_ERROR_NULL_POINTER:
             return JDWP_ERROR(NULL_POINTER);
-        case JVMTI_ERROR_ABSENT_INFORMATION:
+        cbse JVMTI_ERROR_ABSENT_INFORMATION:
             return JDWP_ERROR(ABSENT_INFORMATION);
-        case AGENT_ERROR_INVALID_EVENT_TYPE:
-        case JVMTI_ERROR_INVALID_EVENT_TYPE:
+        cbse AGENT_ERROR_INVALID_EVENT_TYPE:
+        cbse JVMTI_ERROR_INVALID_EVENT_TYPE:
             return JDWP_ERROR(INVALID_EVENT_TYPE);
-        case AGENT_ERROR_ILLEGAL_ARGUMENT:
-        case JVMTI_ERROR_ILLEGAL_ARGUMENT:
+        cbse AGENT_ERROR_ILLEGAL_ARGUMENT:
+        cbse JVMTI_ERROR_ILLEGAL_ARGUMENT:
             return JDWP_ERROR(ILLEGAL_ARGUMENT);
-        case JVMTI_ERROR_OUT_OF_MEMORY:
-        case AGENT_ERROR_OUT_OF_MEMORY:
+        cbse JVMTI_ERROR_OUT_OF_MEMORY:
+        cbse AGENT_ERROR_OUT_OF_MEMORY:
             return JDWP_ERROR(OUT_OF_MEMORY);
-        case JVMTI_ERROR_ACCESS_DENIED:
+        cbse JVMTI_ERROR_ACCESS_DENIED:
             return JDWP_ERROR(ACCESS_DENIED);
-        case JVMTI_ERROR_WRONG_PHASE:
-        case AGENT_ERROR_VM_DEAD:
-        case AGENT_ERROR_NO_JNI_ENV:
+        cbse JVMTI_ERROR_WRONG_PHASE:
+        cbse AGENT_ERROR_VM_DEAD:
+        cbse AGENT_ERROR_NO_JNI_ENV:
             return JDWP_ERROR(VM_DEAD);
-        case AGENT_ERROR_JNI_EXCEPTION:
-        case JVMTI_ERROR_UNATTACHED_THREAD:
+        cbse AGENT_ERROR_JNI_EXCEPTION:
+        cbse JVMTI_ERROR_UNATTACHED_THREAD:
             return JDWP_ERROR(UNATTACHED_THREAD);
-        case JVMTI_ERROR_NOT_AVAILABLE:
-        case JVMTI_ERROR_MUST_POSSESS_CAPABILITY:
+        cbse JVMTI_ERROR_NOT_AVAILABLE:
+        cbse JVMTI_ERROR_MUST_POSSESS_CAPABILITY:
             return JDWP_ERROR(NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
             return JDWP_ERROR(HIERARCHY_CHANGE_NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
             return JDWP_ERROR(DELETE_METHOD_NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
             return JDWP_ERROR(ADD_METHOD_NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
             return JDWP_ERROR(SCHEMA_CHANGE_NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
             return JDWP_ERROR(CLASS_MODIFIERS_CHANGE_NOT_IMPLEMENTED);
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
             return JDWP_ERROR(METHOD_MODIFIERS_CHANGE_NOT_IMPLEMENTED);
-        case AGENT_ERROR_NOT_CURRENT_FRAME:
+        cbse AGENT_ERROR_NOT_CURRENT_FRAME:
             return JDWP_ERROR(NOT_CURRENT_FRAME);
-        case AGENT_ERROR_INVALID_TAG:
+        cbse AGENT_ERROR_INVALID_TAG:
             return JDWP_ERROR(INVALID_TAG);
-        case AGENT_ERROR_ALREADY_INVOKING:
+        cbse AGENT_ERROR_ALREADY_INVOKING:
             return JDWP_ERROR(ALREADY_INVOKING);
-        case AGENT_ERROR_INVALID_INDEX:
+        cbse AGENT_ERROR_INVALID_INDEX:
             return JDWP_ERROR(INVALID_INDEX);
-        case AGENT_ERROR_INVALID_LENGTH:
+        cbse AGENT_ERROR_INVALID_LENGTH:
             return JDWP_ERROR(INVALID_LENGTH);
-        case AGENT_ERROR_INVALID_STRING:
+        cbse AGENT_ERROR_INVALID_STRING:
             return JDWP_ERROR(INVALID_STRING);
-        case AGENT_ERROR_INVALID_CLASS_LOADER:
+        cbse AGENT_ERROR_INVALID_CLASS_LOADER:
             return JDWP_ERROR(INVALID_CLASS_LOADER);
-        case AGENT_ERROR_INVALID_ARRAY:
+        cbse AGENT_ERROR_INVALID_ARRAY:
             return JDWP_ERROR(INVALID_ARRAY);
-        case AGENT_ERROR_TRANSPORT_LOAD:
+        cbse AGENT_ERROR_TRANSPORT_LOAD:
             return JDWP_ERROR(TRANSPORT_LOAD);
-        case AGENT_ERROR_TRANSPORT_INIT:
+        cbse AGENT_ERROR_TRANSPORT_INIT:
             return JDWP_ERROR(TRANSPORT_INIT);
-        case AGENT_ERROR_NATIVE_METHOD:
+        cbse AGENT_ERROR_NATIVE_METHOD:
             return JDWP_ERROR(NATIVE_METHOD);
-        case AGENT_ERROR_INVALID_COUNT:
+        cbse AGENT_ERROR_INVALID_COUNT:
             return JDWP_ERROR(INVALID_COUNT);
-        case AGENT_ERROR_INVALID_FRAMEID:
+        cbse AGENT_ERROR_INVALID_FRAMEID:
             return JDWP_ERROR(INVALID_FRAMEID);
-        case JVMTI_ERROR_INTERNAL:
-        case JVMTI_ERROR_INVALID_ENVIRONMENT:
-        case AGENT_ERROR_INTERNAL:
-        case AGENT_ERROR_JVMTI_INTERNAL:
-        case AGENT_ERROR_JDWP_INTERNAL:
+        cbse JVMTI_ERROR_INTERNAL:
+        cbse JVMTI_ERROR_INVALID_ENVIRONMENT:
+        cbse AGENT_ERROR_INTERNAL:
+        cbse AGENT_ERROR_JVMTI_INTERNAL:
+        cbse AGENT_ERROR_JDWP_INTERNAL:
             return JDWP_ERROR(INTERNAL);
-        default:
-            break;
+        defbult:
+            brebk;
     }
     return JDWP_ERROR(INTERNAL);
 }
 
 jint
-map2jdwpSuspendStatus(jint state)
+mbp2jdwpSuspendStbtus(jint stbte)
 {
-    jint status = 0;
-    if ( ( state & JVMTI_THREAD_STATE_SUSPENDED ) != 0 )  {
-        status = JDWP_SUSPEND_STATUS(SUSPENDED);
+    jint stbtus = 0;
+    if ( ( stbte & JVMTI_THREAD_STATE_SUSPENDED ) != 0 )  {
+        stbtus = JDWP_SUSPEND_STATUS(SUSPENDED);
     }
-    return status;
+    return stbtus;
 }
 
-jdwpThreadStatus
-map2jdwpThreadStatus(jint state)
+jdwpThrebdStbtus
+mbp2jdwpThrebdStbtus(jint stbte)
 {
-    jdwpThreadStatus status;
+    jdwpThrebdStbtus stbtus;
 
-    status = (jdwpThreadStatus)(-1);
+    stbtus = (jdwpThrebdStbtus)(-1);
 
-    if ( ! ( state & JVMTI_THREAD_STATE_ALIVE ) ) {
-        if ( state & JVMTI_THREAD_STATE_TERMINATED ) {
-            status = JDWP_THREAD_STATUS(ZOMBIE);
+    if ( ! ( stbte & JVMTI_THREAD_STATE_ALIVE ) ) {
+        if ( stbte & JVMTI_THREAD_STATE_TERMINATED ) {
+            stbtus = JDWP_THREAD_STATUS(ZOMBIE);
         } else {
-            /* FIXUP? New JDWP #define for not started? */
-            status = (jdwpThreadStatus)(-1);
+            /* FIXUP? New JDWP #define for not stbrted? */
+            stbtus = (jdwpThrebdStbtus)(-1);
         }
     } else {
-        if ( state & JVMTI_THREAD_STATE_SLEEPING ) {
-            status = JDWP_THREAD_STATUS(SLEEPING);
-        } else if ( state & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER ) {
-            status = JDWP_THREAD_STATUS(MONITOR);
-        } else if ( state & JVMTI_THREAD_STATE_WAITING ) {
-            status = JDWP_THREAD_STATUS(WAIT);
-        } else if ( state & JVMTI_THREAD_STATE_RUNNABLE ) {
-            status = JDWP_THREAD_STATUS(RUNNING);
+        if ( stbte & JVMTI_THREAD_STATE_SLEEPING ) {
+            stbtus = JDWP_THREAD_STATUS(SLEEPING);
+        } else if ( stbte & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER ) {
+            stbtus = JDWP_THREAD_STATUS(MONITOR);
+        } else if ( stbte & JVMTI_THREAD_STATE_WAITING ) {
+            stbtus = JDWP_THREAD_STATUS(WAIT);
+        } else if ( stbte & JVMTI_THREAD_STATE_RUNNABLE ) {
+            stbtus = JDWP_THREAD_STATUS(RUNNING);
         }
     }
-    return status;
+    return stbtus;
 }
 
 jint
-map2jdwpClassStatus(jint classStatus)
+mbp2jdwpClbssStbtus(jint clbssStbtus)
 {
-    jint status = 0;
-    if ( ( classStatus & JVMTI_CLASS_STATUS_VERIFIED ) != 0 ) {
-        status |= JDWP_CLASS_STATUS(VERIFIED);
+    jint stbtus = 0;
+    if ( ( clbssStbtus & JVMTI_CLASS_STATUS_VERIFIED ) != 0 ) {
+        stbtus |= JDWP_CLASS_STATUS(VERIFIED);
     }
-    if ( ( classStatus & JVMTI_CLASS_STATUS_PREPARED ) != 0 ) {
-        status |= JDWP_CLASS_STATUS(PREPARED);
+    if ( ( clbssStbtus & JVMTI_CLASS_STATUS_PREPARED ) != 0 ) {
+        stbtus |= JDWP_CLASS_STATUS(PREPARED);
     }
-    if ( ( classStatus & JVMTI_CLASS_STATUS_INITIALIZED ) != 0 ) {
-        status |= JDWP_CLASS_STATUS(INITIALIZED);
+    if ( ( clbssStbtus & JVMTI_CLASS_STATUS_INITIALIZED ) != 0 ) {
+        stbtus |= JDWP_CLASS_STATUS(INITIALIZED);
     }
-    if ( ( classStatus & JVMTI_CLASS_STATUS_ERROR ) != 0 ) {
-        status |= JDWP_CLASS_STATUS(ERROR);
+    if ( ( clbssStbtus & JVMTI_CLASS_STATUS_ERROR ) != 0 ) {
+        stbtus |= JDWP_CLASS_STATUS(ERROR);
     }
-    return status;
+    return stbtus;
 }
 
 void
-log_debugee_location(const char *func,
-        jthread thread, jmethodID method, jlocation location)
+log_debugee_locbtion(const chbr *func,
+        jthrebd threbd, jmethodID method, jlocbtion locbtion)
 {
-    int logging_locations = LOG_TEST(JDWP_LOG_LOC);
+    int logging_locbtions = LOG_TEST(JDWP_LOG_LOC);
 
-    if ( logging_locations ) {
-        char *method_name;
-        char *class_sig;
+    if ( logging_locbtions ) {
+        chbr *method_nbme;
+        chbr *clbss_sig;
         jvmtiError error;
-        jvmtiThreadInfo info;
-        jint state;
+        jvmtiThrebdInfo info;
+        jint stbte;
 
-        /* Get thread information */
-        info.name = NULL;
-        error = FUNC_PTR(gdata->jvmti,GetThreadInfo)
-                                (gdata->jvmti, thread, &info);
+        /* Get threbd informbtion */
+        info.nbme = NULL;
+        error = FUNC_PTR(gdbtb->jvmti,GetThrebdInfo)
+                                (gdbtb->jvmti, threbd, &info);
         if ( error != JVMTI_ERROR_NONE) {
-            info.name = NULL;
+            info.nbme = NULL;
         }
-        error = FUNC_PTR(gdata->jvmti,GetThreadState)
-                                (gdata->jvmti, thread, &state);
+        error = FUNC_PTR(gdbtb->jvmti,GetThrebdStbte)
+                                (gdbtb->jvmti, threbd, &stbte);
         if ( error != JVMTI_ERROR_NONE) {
-            state = 0;
+            stbte = 0;
         }
 
-        /* Get method if necessary */
+        /* Get method if necessbry */
         if ( method==NULL ) {
-            error = FUNC_PTR(gdata->jvmti,GetFrameLocation)
-                        (gdata->jvmti, thread, 0, &method, &location);
+            error = FUNC_PTR(gdbtb->jvmti,GetFrbmeLocbtion)
+                        (gdbtb->jvmti, threbd, 0, &method, &locbtion);
             if ( error != JVMTI_ERROR_NONE ) {
                 method = NULL;
-                location = 0;
+                locbtion = 0;
             }
         }
 
-        /* Get method name */
-        method_name = NULL;
+        /* Get method nbme */
+        method_nbme = NULL;
         if ( method != NULL ) {
-            error = methodSignature(method, &method_name, NULL, NULL);
+            error = methodSignbture(method, &method_nbme, NULL, NULL);
             if ( error != JVMTI_ERROR_NONE ) {
-                method_name = NULL;
+                method_nbme = NULL;
             }
         }
 
-        /* Get class signature */
-        class_sig = NULL;
+        /* Get clbss signbture */
+        clbss_sig = NULL;
         if ( method != NULL ) {
-            jclass clazz;
+            jclbss clbzz;
 
-            error = methodClass(method, &clazz);
+            error = methodClbss(method, &clbzz);
             if ( error == JVMTI_ERROR_NONE ) {
-                error = classSignature(clazz, &class_sig, NULL);
+                error = clbssSignbture(clbzz, &clbss_sig, NULL);
                 if ( error != JVMTI_ERROR_NONE ) {
-                    class_sig = NULL;
+                    clbss_sig = NULL;
                 }
             }
         }
 
-        /* Issue log message */
-        LOG_LOC(("%s: debugee: thread=%p(%s:0x%x),method=%p(%s@%d;%s)",
+        /* Issue log messbge */
+        LOG_LOC(("%s: debugee: threbd=%p(%s:0x%x),method=%p(%s@%d;%s)",
                 func,
-                thread, info.name==NULL ? "?" : info.name, state,
-                method, method_name==NULL ? "?" : method_name,
-                (int)location, class_sig==NULL ? "?" : class_sig));
+                threbd, info.nbme==NULL ? "?" : info.nbme, stbte,
+                method, method_nbme==NULL ? "?" : method_nbme,
+                (int)locbtion, clbss_sig==NULL ? "?" : clbss_sig));
 
         /* Free memory */
-        if ( class_sig != NULL ) {
-            jvmtiDeallocate(class_sig);
+        if ( clbss_sig != NULL ) {
+            jvmtiDebllocbte(clbss_sig);
         }
-        if ( method_name != NULL ) {
-            jvmtiDeallocate(method_name);
+        if ( method_nbme != NULL ) {
+            jvmtiDebllocbte(method_nbme);
         }
-        if ( info.name != NULL ) {
-            jvmtiDeallocate(info.name);
+        if ( info.nbme != NULL ) {
+            jvmtiDebllocbte(info.nbme);
         }
     }
 }
 
 /* ********************************************************************* */
-/* JDK 6.0: Use of new Heap Iteration functions */
+/* JDK 6.0: Use of new Hebp Iterbtion functions */
 /* ********************************************************************* */
 
 /* ********************************************************************* */
-/* Instances */
+/* Instbnces */
 
-/* Structure to hold class instances heap iteration data (arg user_data) */
-typedef struct ClassInstancesData {
+/* Structure to hold clbss instbnces hebp iterbtion dbtb (brg user_dbtb) */
+typedef struct ClbssInstbncesDbtb {
     jint         instCount;
-    jint         maxInstances;
-    jlong        objTag;
+    jint         mbxInstbnces;
+    jlong        objTbg;
     jvmtiError   error;
-} ClassInstancesData;
+} ClbssInstbncesDbtb;
 
-/* Callback for instance object tagging (heap_reference_callback). */
-static jint JNICALL
-cbObjectTagInstance(jvmtiHeapReferenceKind reference_kind,
-     const jvmtiHeapReferenceInfo* reference_info, jlong class_tag,
-     jlong referrer_class_tag, jlong size,
-     jlong* tag_ptr, jlong* referrer_tag_ptr, jint length, void* user_data)
+/* Cbllbbck for instbnce object tbgging (hebp_reference_cbllbbck). */
+stbtic jint JNICALL
+cbObjectTbgInstbnce(jvmtiHebpReferenceKind reference_kind,
+     const jvmtiHebpReferenceInfo* reference_info, jlong clbss_tbg,
+     jlong referrer_clbss_tbg, jlong size,
+     jlong* tbg_ptr, jlong* referrer_tbg_ptr, jint length, void* user_dbtb)
 {
-    ClassInstancesData  *data;
+    ClbssInstbncesDbtb  *dbtb;
 
-    /* Check data structure */
-    data = (ClassInstancesData*)user_data;
-    if (data == NULL) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    /* Check dbtb structure */
+    dbtb = (ClbssInstbncesDbtb*)user_dbtb;
+    if (dbtb == NULL) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* If we have tagged enough objects, just abort */
-    if ( data->maxInstances != 0 && data->instCount >= data->maxInstances ) {
+    /* If we hbve tbgged enough objects, just bbort */
+    if ( dbtb->mbxInstbnces != 0 && dbtb->instCount >= dbtb->mbxInstbnces ) {
         return JVMTI_VISIT_ABORT;
     }
 
-    /* If tagged already, just continue */
-    if ( (*tag_ptr) != (jlong)0 ) {
+    /* If tbgged blrebdy, just continue */
+    if ( (*tbg_ptr) != (jlong)0 ) {
         return JVMTI_VISIT_OBJECTS;
     }
 
-    /* Tag the object so we don't count it again, and so we can retrieve it */
-    (*tag_ptr) = data->objTag;
-    data->instCount++;
+    /* Tbg the object so we don't count it bgbin, bnd so we cbn retrieve it */
+    (*tbg_ptr) = dbtb->objTbg;
+    dbtb->instCount++;
     return JVMTI_VISIT_OBJECTS;
 }
 
-/* Get instances for one class */
+/* Get instbnces for one clbss */
 jvmtiError
-classInstances(jclass klass, ObjectBatch *instances, int maxInstances)
+clbssInstbnces(jclbss klbss, ObjectBbtch *instbnces, int mbxInstbnces)
 {
-    ClassInstancesData data;
-    jvmtiHeapCallbacks heap_callbacks;
+    ClbssInstbncesDbtb dbtb;
+    jvmtiHebpCbllbbcks hebp_cbllbbcks;
     jvmtiError         error;
     jvmtiEnv          *jvmti;
 
-    /* Check interface assumptions */
+    /* Check interfbce bssumptions */
 
-    if (klass == NULL) {
+    if (klbss == NULL) {
         return AGENT_ERROR_INVALID_OBJECT;
     }
 
-    if ( maxInstances < 0 || instances == NULL) {
+    if ( mbxInstbnces < 0 || instbnces == NULL) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Initialize return information */
-    instances->count   = 0;
-    instances->objects = NULL;
+    /* Initiblize return informbtion */
+    instbnces->count   = 0;
+    instbnces->objects = NULL;
 
     /* Get jvmti environment to use */
-    jvmti = getSpecialJvmti();
+    jvmti = getSpeciblJvmti();
     if ( jvmti == NULL ) {
         return AGENT_ERROR_INTERNAL;
     }
 
-    /* Setup data to passed around the callbacks */
-    data.instCount    = 0;
-    data.maxInstances = maxInstances;
-    data.objTag       = (jlong)1;
-    data.error        = JVMTI_ERROR_NONE;
+    /* Setup dbtb to pbssed bround the cbllbbcks */
+    dbtb.instCount    = 0;
+    dbtb.mbxInstbnces = mbxInstbnces;
+    dbtb.objTbg       = (jlong)1;
+    dbtb.error        = JVMTI_ERROR_NONE;
 
-    /* Clear out callbacks structure */
-    (void)memset(&heap_callbacks,0,sizeof(heap_callbacks));
+    /* Clebr out cbllbbcks structure */
+    (void)memset(&hebp_cbllbbcks,0,sizeof(hebp_cbllbbcks));
 
-    /* Set the callbacks we want */
-    heap_callbacks.heap_reference_callback = &cbObjectTagInstance;
+    /* Set the cbllbbcks we wbnt */
+    hebp_cbllbbcks.hebp_reference_cbllbbck = &cbObjectTbgInstbnce;
 
-    /* Follow references, no initiating object, just this class, all objects */
+    /* Follow references, no initibting object, just this clbss, bll objects */
     error = JVMTI_FUNC_PTR(jvmti,FollowReferences)
-                 (jvmti, 0, klass, NULL, &heap_callbacks, &data);
+                 (jvmti, 0, klbss, NULL, &hebp_cbllbbcks, &dbtb);
     if ( error == JVMTI_ERROR_NONE ) {
-        error = data.error;
+        error = dbtb.error;
     }
 
-    /* Get all the instances now that they are tagged */
+    /* Get bll the instbnces now thbt they bre tbgged */
     if ( error == JVMTI_ERROR_NONE ) {
-        error = JVMTI_FUNC_PTR(jvmti,GetObjectsWithTags)
-                      (jvmti, 1, &(data.objTag), &(instances->count),
-                       &(instances->objects), NULL);
+        error = JVMTI_FUNC_PTR(jvmti,GetObjectsWithTbgs)
+                      (jvmti, 1, &(dbtb.objTbg), &(instbnces->count),
+                       &(instbnces->objects), NULL);
         /* Verify we got the count we expected */
-        if ( data.instCount != instances->count ) {
+        if ( dbtb.instCount != instbnces->count ) {
             error = AGENT_ERROR_INTERNAL;
         }
     }
 
-    /* Dispose of any special jvmti environment */
+    /* Dispose of bny specibl jvmti environment */
     (void)JVMTI_FUNC_PTR(jvmti,DisposeEnvironment)(jvmti);
     return error;
 }
 
 /* ********************************************************************* */
-/* Instance counts. */
+/* Instbnce counts. */
 
-/* Macros to convert a class or instance tag to an index and back again */
+/* Mbcros to convert b clbss or instbnce tbg to bn index bnd bbck bgbin */
 #define INDEX2CLASSTAG(i)      ((jlong)((i)+1))
 #define CLASSTAG2INDEX(t)      (((int)(t))-1)
 #define JLONG_ABS(x)           (((x)<(jlong)0)?-(x):(x))
 
-/* Structure to hold class count heap traversal data (arg user_data) */
-typedef struct ClassCountData {
-    int          classCount;
+/* Structure to hold clbss count hebp trbversbl dbtb (brg user_dbtb) */
+typedef struct ClbssCountDbtb {
+    int          clbssCount;
     jlong       *counts;
-    jlong        negObjTag;
+    jlong        negObjTbg;
     jvmtiError   error;
-} ClassCountData;
+} ClbssCountDbtb;
 
 /* Two different cbObjectCounter's, one for FollowReferences, one for
- *    IterateThroughHeap. Pick a card, any card.
+ *    IterbteThroughHebp. Pick b cbrd, bny cbrd.
  */
 
-/* Callback for object count heap traversal (heap_reference_callback) */
-static jint JNICALL
-cbObjectCounterFromRef(jvmtiHeapReferenceKind reference_kind,
-     const jvmtiHeapReferenceInfo* reference_info, jlong class_tag,
-     jlong referrer_class_tag, jlong size,
-     jlong* tag_ptr, jlong* referrer_tag_ptr, jint length, void* user_data)
+/* Cbllbbck for object count hebp trbversbl (hebp_reference_cbllbbck) */
+stbtic jint JNICALL
+cbObjectCounterFromRef(jvmtiHebpReferenceKind reference_kind,
+     const jvmtiHebpReferenceInfo* reference_info, jlong clbss_tbg,
+     jlong referrer_clbss_tbg, jlong size,
+     jlong* tbg_ptr, jlong* referrer_tbg_ptr, jint length, void* user_dbtb)
 {
-    ClassCountData  *data;
+    ClbssCountDbtb  *dbtb;
     int              index;
     jlong            jindex;
-    jlong            tag;
+    jlong            tbg;
 
-    /* Check data structure */
-    data = (ClassCountData*)user_data;
-    if (data == NULL) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    /* Check dbtb structure */
+    dbtb = (ClbssCountDbtb*)user_dbtb;
+    if (dbtb == NULL) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Classes with no class_tag should have been filtered out. */
-    if ( class_tag == (jlong)0 ) {
-        data->error = AGENT_ERROR_INTERNAL;
+    /* Clbsses with no clbss_tbg should hbve been filtered out. */
+    if ( clbss_tbg == (jlong)0 ) {
+        dbtb->error = AGENT_ERROR_INTERNAL;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Class tag not one we really want (jclass not in supplied list) */
-    if ( class_tag == data->negObjTag ) {
+    /* Clbss tbg not one we reblly wbnt (jclbss not in supplied list) */
+    if ( clbss_tbg == dbtb->negObjTbg ) {
         return JVMTI_VISIT_OBJECTS;
     }
 
-    /* If object tag is negative, just continue, we counted it */
-    tag = (*tag_ptr);
-    if ( tag < (jlong)0 ) {
+    /* If object tbg is negbtive, just continue, we counted it */
+    tbg = (*tbg_ptr);
+    if ( tbg < (jlong)0 ) {
         return JVMTI_VISIT_OBJECTS;
     }
 
-    /* Tag the object with a negative value just so we don't count it again */
-    if ( tag == (jlong)0 ) {
-        /* This object had no tag value, so we give it the negObjTag value */
-        (*tag_ptr) = data->negObjTag;
+    /* Tbg the object with b negbtive vblue just so we don't count it bgbin */
+    if ( tbg == (jlong)0 ) {
+        /* This object hbd no tbg vblue, so we give it the negObjTbg vblue */
+        (*tbg_ptr) = dbtb->negObjTbg;
     } else {
-        /* If this object had a positive tag value, it must be one of the
-         *    jclass objects we tagged. We need to preserve the value of
-         *    this tag for later objects that might have this as a class
-         *    tag, so we just make the existing tag value negative.
+        /* If this object hbd b positive tbg vblue, it must be one of the
+         *    jclbss objects we tbgged. We need to preserve the vblue of
+         *    this tbg for lbter objects thbt might hbve this bs b clbss
+         *    tbg, so we just mbke the existing tbg vblue negbtive.
          */
-        (*tag_ptr) = -tag;
+        (*tbg_ptr) = -tbg;
     }
 
-    /* Absolute value of class tag is an index into the counts[] array */
-    jindex = JLONG_ABS(class_tag);
+    /* Absolute vblue of clbss tbg is bn index into the counts[] brrby */
+    jindex = JLONG_ABS(clbss_tbg);
     index = CLASSTAG2INDEX(jindex);
-    if (index < 0 || index >= data->classCount) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    if (index < 0 || index >= dbtb->clbssCount) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Bump instance count on this class */
-    data->counts[index]++;
+    /* Bump instbnce count on this clbss */
+    dbtb->counts[index]++;
     return JVMTI_VISIT_OBJECTS;
 }
 
-/* Callback for instance count heap traversal (heap_iteration_callback) */
-static jint JNICALL
-cbObjectCounter(jlong class_tag, jlong size, jlong* tag_ptr, jint length,
-                        void* user_data)
+/* Cbllbbck for instbnce count hebp trbversbl (hebp_iterbtion_cbllbbck) */
+stbtic jint JNICALL
+cbObjectCounter(jlong clbss_tbg, jlong size, jlong* tbg_ptr, jint length,
+                        void* user_dbtb)
 {
-    ClassCountData  *data;
+    ClbssCountDbtb  *dbtb;
     int              index;
 
-    /* Check data structure */
-    data = (ClassCountData*)user_data;
-    if (data == NULL) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    /* Check dbtb structure */
+    dbtb = (ClbssCountDbtb*)user_dbtb;
+    if (dbtb == NULL) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Classes with no tag should be filtered out. */
-    if ( class_tag == (jlong)0 ) {
-        data->error = AGENT_ERROR_INTERNAL;
+    /* Clbsses with no tbg should be filtered out. */
+    if ( clbss_tbg == (jlong)0 ) {
+        dbtb->error = AGENT_ERROR_INTERNAL;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Class tag is actually an index into data arrays */
-    index = CLASSTAG2INDEX(class_tag);
-    if (index < 0 || index >= data->classCount) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    /* Clbss tbg is bctublly bn index into dbtb brrbys */
+    index = CLASSTAG2INDEX(clbss_tbg);
+    if (index < 0 || index >= dbtb->clbssCount) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* Bump instance count on this class */
-    data->counts[index]++;
+    /* Bump instbnce count on this clbss */
+    dbtb->counts[index]++;
     return JVMTI_VISIT_OBJECTS;
 }
 
-/* Get instance counts for a set of classes */
+/* Get instbnce counts for b set of clbsses */
 jvmtiError
-classInstanceCounts(jint classCount, jclass *classes, jlong *counts)
+clbssInstbnceCounts(jint clbssCount, jclbss *clbsses, jlong *counts)
 {
-    jvmtiHeapCallbacks heap_callbacks;
-    ClassCountData     data;
+    jvmtiHebpCbllbbcks hebp_cbllbbcks;
+    ClbssCountDbtb     dbtb;
     jvmtiError         error;
     jvmtiEnv          *jvmti;
     int                i;
 
-    /* Check interface assumptions */
-    if ( classes == NULL || classCount <= 0 || counts == NULL ) {
+    /* Check interfbce bssumptions */
+    if ( clbsses == NULL || clbssCount <= 0 || counts == NULL ) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Initialize return information */
-    for ( i = 0 ; i < classCount ; i++ ) {
+    /* Initiblize return informbtion */
+    for ( i = 0 ; i < clbssCount ; i++ ) {
         counts[i] = (jlong)0;
     }
 
     /* Get jvmti environment to use */
-    jvmti = getSpecialJvmti();
+    jvmti = getSpeciblJvmti();
     if ( jvmti == NULL ) {
         return AGENT_ERROR_INTERNAL;
     }
 
-    /* Setup class data structure */
-    data.error        = JVMTI_ERROR_NONE;
-    data.classCount   = classCount;
-    data.counts       = counts;
+    /* Setup clbss dbtb structure */
+    dbtb.error        = JVMTI_ERROR_NONE;
+    dbtb.clbssCount   = clbssCount;
+    dbtb.counts       = counts;
 
     error = JVMTI_ERROR_NONE;
-    /* Set tags on classes, use index in classes[] as the tag value. */
+    /* Set tbgs on clbsses, use index in clbsses[] bs the tbg vblue. */
     error             = JVMTI_ERROR_NONE;
-    for ( i = 0 ; i < classCount ; i++ ) {
-        if (classes[i] != NULL) {
-            jlong tag;
+    for ( i = 0 ; i < clbssCount ; i++ ) {
+        if (clbsses[i] != NULL) {
+            jlong tbg;
 
-            tag = INDEX2CLASSTAG(i);
-            error = JVMTI_FUNC_PTR(jvmti,SetTag) (jvmti, classes[i], tag);
+            tbg = INDEX2CLASSTAG(i);
+            error = JVMTI_FUNC_PTR(jvmti,SetTbg) (jvmti, clbsses[i], tbg);
             if ( error != JVMTI_ERROR_NONE ) {
-                break;
+                brebk;
             }
         }
     }
 
-    /* Traverse heap, two ways to do this for instance counts. */
+    /* Trbverse hebp, two wbys to do this for instbnce counts. */
     if ( error == JVMTI_ERROR_NONE ) {
 
-        /* Clear out callbacks structure */
-        (void)memset(&heap_callbacks,0,sizeof(heap_callbacks));
+        /* Clebr out cbllbbcks structure */
+        (void)memset(&hebp_cbllbbcks,0,sizeof(hebp_cbllbbcks));
 
-        /* Check debug flags to see how to do this. */
-        if ( (gdata->debugflags & USE_ITERATE_THROUGH_HEAP) == 0 ) {
+        /* Check debug flbgs to see how to do this. */
+        if ( (gdbtb->debugflbgs & USE_ITERATE_THROUGH_HEAP) == 0 ) {
 
             /* Using FollowReferences only gives us live objects, but we
-             *   need to tag the objects to avoid counting them twice since
-             *   the callback is per reference.
-             *   The jclass objects have been tagged with their index in the
-             *   supplied list, and that tag may flip to negative if it
-             *   is also an object of interest.
-             *   All other objects being counted that weren't in the
-             *   supplied classes list will have a negative classCount
-             *   tag value. So all objects counted will have negative tags.
-             *   If the absolute tag value is an index in the supplied
-             *   list, then it's one of the supplied classes.
+             *   need to tbg the objects to bvoid counting them twice since
+             *   the cbllbbck is per reference.
+             *   The jclbss objects hbve been tbgged with their index in the
+             *   supplied list, bnd thbt tbg mby flip to negbtive if it
+             *   is blso bn object of interest.
+             *   All other objects being counted thbt weren't in the
+             *   supplied clbsses list will hbve b negbtive clbssCount
+             *   tbg vblue. So bll objects counted will hbve negbtive tbgs.
+             *   If the bbsolute tbg vblue is bn index in the supplied
+             *   list, then it's one of the supplied clbsses.
              */
-            data.negObjTag = -INDEX2CLASSTAG(classCount);
+            dbtb.negObjTbg = -INDEX2CLASSTAG(clbssCount);
 
-            /* Setup callbacks, only using object reference callback */
-            heap_callbacks.heap_reference_callback = &cbObjectCounterFromRef;
+            /* Setup cbllbbcks, only using object reference cbllbbck */
+            hebp_cbllbbcks.hebp_reference_cbllbbck = &cbObjectCounterFromRef;
 
-            /* Follow references, no initiating object, tagged classes only */
+            /* Follow references, no initibting object, tbgged clbsses only */
             error = JVMTI_FUNC_PTR(jvmti,FollowReferences)
                           (jvmti, JVMTI_HEAP_FILTER_CLASS_UNTAGGED,
-                           NULL, NULL, &heap_callbacks, &data);
+                           NULL, NULL, &hebp_cbllbbcks, &dbtb);
 
         } else {
 
-            /* Using IterateThroughHeap means that we will visit each object
-             *   once, so no special tag tricks here. Just simple counting.
-             *   However in this case the object might not be live, so we do
-             *   a GC beforehand to make sure we minimize this.
+            /* Using IterbteThroughHebp mebns thbt we will visit ebch object
+             *   once, so no specibl tbg tricks here. Just simple counting.
+             *   However in this cbse the object might not be live, so we do
+             *   b GC beforehbnd to mbke sure we minimize this.
              */
 
-            /* FIXUP: Need some kind of trigger here to avoid excessive GC's? */
-            error = JVMTI_FUNC_PTR(jvmti,ForceGarbageCollection)(jvmti);
+            /* FIXUP: Need some kind of trigger here to bvoid excessive GC's? */
+            error = JVMTI_FUNC_PTR(jvmti,ForceGbrbbgeCollection)(jvmti);
             if ( error != JVMTI_ERROR_NONE ) {
 
-                /* Setup callbacks, just need object callback */
-                heap_callbacks.heap_iteration_callback = &cbObjectCounter;
+                /* Setup cbllbbcks, just need object cbllbbck */
+                hebp_cbllbbcks.hebp_iterbtion_cbllbbck = &cbObjectCounter;
 
-                /* Iterate through entire heap, tagged classes only */
-                error = JVMTI_FUNC_PTR(jvmti,IterateThroughHeap)
+                /* Iterbte through entire hebp, tbgged clbsses only */
+                error = JVMTI_FUNC_PTR(jvmti,IterbteThroughHebp)
                               (jvmti, JVMTI_HEAP_FILTER_CLASS_UNTAGGED,
-                               NULL, &heap_callbacks, &data);
+                               NULL, &hebp_cbllbbcks, &dbtb);
 
             }
         }
 
-        /* Use data error if needed */
+        /* Use dbtb error if needed */
         if ( error == JVMTI_ERROR_NONE ) {
-            error = data.error;
+            error = dbtb.error;
         }
 
     }
 
-    /* Dispose of any special jvmti environment */
+    /* Dispose of bny specibl jvmti environment */
     (void)JVMTI_FUNC_PTR(jvmti,DisposeEnvironment)(jvmti);
     return error;
 }
@@ -2737,138 +2737,138 @@ classInstanceCounts(jint classCount, jclass *classes, jlong *counts)
 /* ********************************************************************* */
 /* Referrers */
 
-/* Structure to hold object referrer heap traversal data (arg user_data) */
-typedef struct ReferrerData {
+/* Structure to hold object referrer hebp trbversbl dbtb (brg user_dbtb) */
+typedef struct ReferrerDbtb {
   int        refCount;
-  int        maxObjects;
-  jlong      refTag;
-  jlong      objTag;
-  jboolean   selfRef;
+  int        mbxObjects;
+  jlong      refTbg;
+  jlong      objTbg;
+  jboolebn   selfRef;
   jvmtiError error;
-} ReferrerData;
+} ReferrerDbtb;
 
-/* Callback for referrers object tagging (heap_reference_callback). */
-static jint JNICALL
-cbObjectTagReferrer(jvmtiHeapReferenceKind reference_kind,
-     const jvmtiHeapReferenceInfo* reference_info, jlong class_tag,
-     jlong referrer_class_tag, jlong size,
-     jlong* tag_ptr, jlong* referrer_tag_ptr, jint length, void* user_data)
+/* Cbllbbck for referrers object tbgging (hebp_reference_cbllbbck). */
+stbtic jint JNICALL
+cbObjectTbgReferrer(jvmtiHebpReferenceKind reference_kind,
+     const jvmtiHebpReferenceInfo* reference_info, jlong clbss_tbg,
+     jlong referrer_clbss_tbg, jlong size,
+     jlong* tbg_ptr, jlong* referrer_tbg_ptr, jint length, void* user_dbtb)
 {
-    ReferrerData  *data;
+    ReferrerDbtb  *dbtb;
 
-    /* Check data structure */
-    data = (ReferrerData*)user_data;
-    if (data == NULL) {
-        data->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
+    /* Check dbtb structure */
+    dbtb = (ReferrerDbtb*)user_dbtb;
+    if (dbtb == NULL) {
+        dbtb->error = AGENT_ERROR_ILLEGAL_ARGUMENT;
         return JVMTI_VISIT_ABORT;
     }
 
-    /* If we have tagged enough objects, just abort */
-    if ( data->maxObjects != 0 && data->refCount >= data->maxObjects ) {
+    /* If we hbve tbgged enough objects, just bbort */
+    if ( dbtb->mbxObjects != 0 && dbtb->refCount >= dbtb->mbxObjects ) {
         return JVMTI_VISIT_ABORT;
     }
 
     /* If not of interest, just continue */
-    if ( (*tag_ptr) != data->objTag ) {
+    if ( (*tbg_ptr) != dbtb->objTbg ) {
         return JVMTI_VISIT_OBJECTS;
     }
 
-    /* Self reference that we haven't counted? */
-    if ( tag_ptr == referrer_tag_ptr ) {
-        if ( data->selfRef == JNI_FALSE ) {
-            data->selfRef = JNI_TRUE;
-            data->refCount++;
+    /* Self reference thbt we hbven't counted? */
+    if ( tbg_ptr == referrer_tbg_ptr ) {
+        if ( dbtb->selfRef == JNI_FALSE ) {
+            dbtb->selfRef = JNI_TRUE;
+            dbtb->refCount++;
         }
         return JVMTI_VISIT_OBJECTS;
     }
 
-    /* If the referrer can be tagged, and hasn't been tagged, tag it */
-    if ( referrer_tag_ptr != NULL ) {
-        if ( (*referrer_tag_ptr) == (jlong)0 ) {
-            *referrer_tag_ptr = data->refTag;
-            data->refCount++;
+    /* If the referrer cbn be tbgged, bnd hbsn't been tbgged, tbg it */
+    if ( referrer_tbg_ptr != NULL ) {
+        if ( (*referrer_tbg_ptr) == (jlong)0 ) {
+            *referrer_tbg_ptr = dbtb->refTbg;
+            dbtb->refCount++;
         }
     }
     return JVMTI_VISIT_OBJECTS;
 }
 
-/* Heap traversal to find referrers of an object */
+/* Hebp trbversbl to find referrers of bn object */
 jvmtiError
-objectReferrers(jobject obj, ObjectBatch *referrers, int maxObjects)
+objectReferrers(jobject obj, ObjectBbtch *referrers, int mbxObjects)
 {
-    jvmtiHeapCallbacks heap_callbacks;
-    ReferrerData       data;
+    jvmtiHebpCbllbbcks hebp_cbllbbcks;
+    ReferrerDbtb       dbtb;
     jvmtiError         error;
     jvmtiEnv          *jvmti;
 
-    /* Check interface assumptions */
+    /* Check interfbce bssumptions */
     if (obj == NULL) {
         return AGENT_ERROR_INVALID_OBJECT;
     }
-    if (referrers == NULL || maxObjects < 0 ) {
+    if (referrers == NULL || mbxObjects < 0 ) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Initialize return information */
+    /* Initiblize return informbtion */
     referrers->count = 0;
     referrers->objects = NULL;
 
     /* Get jvmti environment to use */
-    jvmti = getSpecialJvmti();
+    jvmti = getSpeciblJvmti();
     if ( jvmti == NULL ) {
         return AGENT_ERROR_INTERNAL;
     }
 
-    /* Fill in the data structure passed around the callbacks */
-    data.refCount   = 0;
-    data.maxObjects = maxObjects;
-    data.objTag     = (jlong)1;
-    data.refTag     = (jlong)2;
-    data.selfRef    = JNI_FALSE;
-    data.error      = JVMTI_ERROR_NONE;
+    /* Fill in the dbtb structure pbssed bround the cbllbbcks */
+    dbtb.refCount   = 0;
+    dbtb.mbxObjects = mbxObjects;
+    dbtb.objTbg     = (jlong)1;
+    dbtb.refTbg     = (jlong)2;
+    dbtb.selfRef    = JNI_FALSE;
+    dbtb.error      = JVMTI_ERROR_NONE;
 
-    /* Tag the object of interest */
-    error = JVMTI_FUNC_PTR(jvmti,SetTag) (jvmti, obj, data.objTag);
+    /* Tbg the object of interest */
+    error = JVMTI_FUNC_PTR(jvmti,SetTbg) (jvmti, obj, dbtb.objTbg);
 
-    /* No need to go any further if we can't tag the object */
+    /* No need to go bny further if we cbn't tbg the object */
     if ( error == JVMTI_ERROR_NONE ) {
 
-        /* Clear out callbacks structure */
-        (void)memset(&heap_callbacks,0,sizeof(heap_callbacks));
+        /* Clebr out cbllbbcks structure */
+        (void)memset(&hebp_cbllbbcks,0,sizeof(hebp_cbllbbcks));
 
-        /* Setup callbacks we want */
-        heap_callbacks.heap_reference_callback = &cbObjectTagReferrer;
+        /* Setup cbllbbcks we wbnt */
+        hebp_cbllbbcks.hebp_reference_cbllbbck = &cbObjectTbgReferrer;
 
-        /* Follow references, no initiating object, all classes, 1 tagged objs */
+        /* Follow references, no initibting object, bll clbsses, 1 tbgged objs */
         error = JVMTI_FUNC_PTR(jvmti,FollowReferences)
                       (jvmti, JVMTI_HEAP_FILTER_UNTAGGED,
-                       NULL, NULL, &heap_callbacks, &data);
+                       NULL, NULL, &hebp_cbllbbcks, &dbtb);
 
-        /* Use data error if needed */
+        /* Use dbtb error if needed */
         if ( error == JVMTI_ERROR_NONE ) {
-            error = data.error;
+            error = dbtb.error;
         }
 
     }
 
-    /* Watch out for self-reference */
-    if ( error == JVMTI_ERROR_NONE && data.selfRef == JNI_TRUE ) {
-        /* Tag itself as a referer */
-        error = JVMTI_FUNC_PTR(jvmti,SetTag) (jvmti, obj, data.refTag);
+    /* Wbtch out for self-reference */
+    if ( error == JVMTI_ERROR_NONE && dbtb.selfRef == JNI_TRUE ) {
+        /* Tbg itself bs b referer */
+        error = JVMTI_FUNC_PTR(jvmti,SetTbg) (jvmti, obj, dbtb.refTbg);
     }
 
-    /* Get the jobjects for the tagged referrer objects.  */
+    /* Get the jobjects for the tbgged referrer objects.  */
     if ( error == JVMTI_ERROR_NONE ) {
-        error = JVMTI_FUNC_PTR(jvmti,GetObjectsWithTags)
-                    (jvmti, 1, &(data.refTag), &(referrers->count),
+        error = JVMTI_FUNC_PTR(jvmti,GetObjectsWithTbgs)
+                    (jvmti, 1, &(dbtb.refTbg), &(referrers->count),
                           &(referrers->objects), NULL);
         /* Verify we got the count we expected */
-        if ( data.refCount != referrers->count ) {
+        if ( dbtb.refCount != referrers->count ) {
             error = AGENT_ERROR_INTERNAL;
         }
     }
 
-    /* Dispose of any special jvmti environment */
+    /* Dispose of bny specibl jvmti environment */
     (void)JVMTI_FUNC_PTR(jvmti,DisposeEnvironment)(jvmti);
     return error;
 }

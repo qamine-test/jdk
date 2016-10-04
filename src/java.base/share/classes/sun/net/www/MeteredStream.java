@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www;
+pbckbge sun.net.www;
 
-import java.net.URL;
-import java.util.*;
-import java.io.*;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvb.io.*;
 import sun.net.ProgressSource;
-import sun.net.www.http.ChunkedInputStream;
+import sun.net.www.http.ChunkedInputStrebm;
 
 
-public class MeteredStream extends FilterInputStream {
+public clbss MeteredStrebm extends FilterInputStrebm {
 
-    // Instance variables.
-    /* if expected != -1, after we've read >= expected, we're "closed" and return -1
-     * from subsequest read() 's
+    // Instbnce vbribbles.
+    /* if expected != -1, bfter we've rebd >= expected, we're "closed" bnd return -1
+     * from subsequest rebd() 's
      */
-    protected boolean closed = false;
+    protected boolebn closed = fblse;
     protected long expected;
     protected long count = 0;
-    protected long markedCount = 0;
-    protected int markLimit = -1;
+    protected long mbrkedCount = 0;
+    protected int mbrkLimit = -1;
     protected ProgressSource pi;
 
-    public MeteredStream(InputStream is, ProgressSource pi, long expected)
+    public MeteredStrebm(InputStrebm is, ProgressSource pi, long expected)
     {
         super(is);
 
@@ -53,18 +53,18 @@ public class MeteredStream extends FilterInputStream {
         this.expected = expected;
 
         if (pi != null) {
-            pi.updateProgress(0, expected);
+            pi.updbteProgress(0, expected);
         }
     }
 
-    private final void justRead(long n) throws IOException   {
+    privbte finbl void justRebd(long n) throws IOException   {
         if (n == -1) {
 
             /*
-             * don't close automatically when mark is set and is valid;
-             * cannot reset() after close()
+             * don't close butombticblly when mbrk is set bnd is vblid;
+             * cbnnot reset() bfter close()
              */
-            if (!isMarked()) {
+            if (!isMbrked()) {
                 close();
             }
             return;
@@ -73,21 +73,21 @@ public class MeteredStream extends FilterInputStream {
         count += n;
 
         /**
-         * If read beyond the markLimit, invalidate the mark
+         * If rebd beyond the mbrkLimit, invblidbte the mbrk
          */
-        if (count - markedCount > markLimit) {
-            markLimit = -1;
+        if (count - mbrkedCount > mbrkLimit) {
+            mbrkLimit = -1;
         }
 
         if (pi != null)
-            pi.updateProgress(count, expected);
+            pi.updbteProgress(count, expected);
 
-        if (isMarked()) {
+        if (isMbrked()) {
             return;
         }
 
         // if expected length is known, we could determine if
-        // read overrun.
+        // rebd overrun.
         if (expected > 0)   {
             if (count >= expected) {
                 close();
@@ -96,54 +96,54 @@ public class MeteredStream extends FilterInputStream {
     }
 
     /**
-     * Returns true if the mark is valid, false otherwise
+     * Returns true if the mbrk is vblid, fblse otherwise
      */
-    private boolean isMarked() {
+    privbte boolebn isMbrked() {
 
-        if (markLimit < 0) {
-            return false;
+        if (mbrkLimit < 0) {
+            return fblse;
         }
 
-        // mark is set, but is not valid anymore
-        if (count - markedCount > markLimit) {
-           return false;
+        // mbrk is set, but is not vblid bnymore
+        if (count - mbrkedCount > mbrkLimit) {
+           return fblse;
         }
 
-        // mark still holds
+        // mbrk still holds
         return true;
     }
 
-    public synchronized int read() throws java.io.IOException {
+    public synchronized int rebd() throws jbvb.io.IOException {
         if (closed) {
             return -1;
         }
-        int c = in.read();
+        int c = in.rebd();
         if (c != -1) {
-            justRead(1);
+            justRebd(1);
         } else {
-            justRead(c);
+            justRebd(c);
         }
         return c;
     }
 
-    public synchronized int read(byte b[], int off, int len)
-                throws java.io.IOException {
+    public synchronized int rebd(byte b[], int off, int len)
+                throws jbvb.io.IOException {
         if (closed) {
             return -1;
         }
-        int n = in.read(b, off, len);
-        justRead(n);
+        int n = in.rebd(b, off, len);
+        justRebd(n);
         return n;
     }
 
     public synchronized long skip(long n) throws IOException {
 
-        // REMIND: what does skip do on EOF????
+        // REMIND: whbt does skip do on EOF????
         if (closed) {
             return 0;
         }
 
-        if (in instanceof ChunkedInputStream) {
+        if (in instbnceof ChunkedInputStrebm) {
             n = in.skip(n);
         }
         else {
@@ -151,7 +151,7 @@ public class MeteredStream extends FilterInputStream {
             long min = (n > expected - count) ? expected - count: n;
             n = in.skip(min);
         }
-        justRead(n);
+        justRebd(n);
         return n;
     }
 
@@ -160,27 +160,27 @@ public class MeteredStream extends FilterInputStream {
             return;
         }
         if (pi != null)
-            pi.finishTracking();
+            pi.finishTrbcking();
 
         closed = true;
         in.close();
     }
 
-    public synchronized int available() throws IOException {
-        return closed ? 0: in.available();
+    public synchronized int bvbilbble() throws IOException {
+        return closed ? 0: in.bvbilbble();
     }
 
-    public synchronized void mark(int readLimit) {
+    public synchronized void mbrk(int rebdLimit) {
         if (closed) {
             return;
         }
-        super.mark(readLimit);
+        super.mbrk(rebdLimit);
 
         /*
-         * mark the count to restore upon reset
+         * mbrk the count to restore upon reset
          */
-        markedCount = count;
-        markLimit = readLimit;
+        mbrkedCount = count;
+        mbrkLimit = rebdLimit;
     }
 
     public synchronized void reset() throws IOException {
@@ -188,30 +188,30 @@ public class MeteredStream extends FilterInputStream {
             return;
         }
 
-        if (!isMarked()) {
-            throw new IOException ("Resetting to an invalid mark");
+        if (!isMbrked()) {
+            throw new IOException ("Resetting to bn invblid mbrk");
         }
 
-        count = markedCount;
+        count = mbrkedCount;
         super.reset();
     }
 
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         if (closed) {
-            return false;
+            return fblse;
         }
-        return super.markSupported();
+        return super.mbrkSupported();
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         try {
             close();
             if (pi != null)
                 pi.close();
         }
-        finally {
-            // Call super class
-            super.finalize();
+        finblly {
+            // Cbll super clbss
+            super.finblize();
         }
     }
 }

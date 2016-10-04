@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ThrowStatement extends Statement {
+clbss ThrowStbtement extends Stbtement {
     Expression expr;
 
     /**
      * Constructor
      */
-    public ThrowStatement(long where, Expression expr) {
+    public ThrowStbtement(long where, Expression expr) {
         super(THROW, where);
         this.expr = expr;
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        checkLbbel(env, ctx);
         try {
-            vset = reach(env, vset);
-            expr.checkValue(env, ctx, vset, exp);
+            vset = rebch(env, vset);
+            expr.checkVblue(env, ctx, vset, exp);
             if (expr.type.isType(TC_CLASS)) {
-                ClassDeclaration c = env.getClassDeclaration(expr.type);
+                ClbssDeclbrbtion c = env.getClbssDeclbrbtion(expr.type);
                 if (exp.get(c) == null) {
                     exp.put(c, this);
                 }
-                ClassDefinition def = c.getClassDefinition(env);
-                ClassDeclaration throwable =
-                    env.getClassDeclaration(idJavaLangThrowable);
-                if (!def.subClassOf(env, throwable)) {
-                    env.error(where, "throw.not.throwable", def);
+                ClbssDefinition def = c.getClbssDefinition(env);
+                ClbssDeclbrbtion throwbble =
+                    env.getClbssDeclbrbtion(idJbvbLbngThrowbble);
+                if (!def.subClbssOf(env, throwbble)) {
+                    env.error(where, "throw.not.throwbble", def);
                 }
                 expr = convert(env, ctx, Type.tObject, expr);
             } else if (!expr.type.isType(TC_ERROR)) {
-                env.error(expr.where, "throw.not.throwable", expr.type);
+                env.error(expr.where, "throw.not.throwbble", expr.type);
             }
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, opNbmes[op]);
         }
         CheckContext exitctx = ctx.getTryExitContext();
         if (exitctx != null) {
@@ -83,22 +83,22 @@ class ThrowStatement extends Statement {
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
-        expr = expr.inlineValue(env, ctx);
+    public Stbtement inline(Environment env, Context ctx) {
+        expr = expr.inlineVblue(env, ctx);
         return this;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        ThrowStatement s = (ThrowStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        ThrowStbtement s = (ThrowStbtement)clone();
         s.expr = expr.copyInline(ctx);
         return s;
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + expr.costInline(thresh, env, ctx);
@@ -107,15 +107,15 @@ class ThrowStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        expr.codeValue(env, ctx, asm);
-        asm.add(where, opc_athrow);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        expr.codeVblue(env, ctx, bsm);
+        bsm.bdd(where, opc_bthrow);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         out.print("throw ");
         expr.print(out);

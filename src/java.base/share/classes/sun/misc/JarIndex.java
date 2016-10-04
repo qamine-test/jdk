@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.zip.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.util.zip.*;
 
 /**
- * This class is used to maintain mappings from packages, classes
- * and resources to their enclosing JAR files. Mappings are kept
- * at the package level except for class or resource files that
- * are located at the root directory. URLClassLoader uses the mapping
- * information to determine where to fetch an extension class or
+ * This clbss is used to mbintbin mbppings from pbckbges, clbsses
+ * bnd resources to their enclosing JAR files. Mbppings bre kept
+ * bt the pbckbge level except for clbss or resource files thbt
+ * bre locbted bt the root directory. URLClbssLobder uses the mbpping
+ * informbtion to determine where to fetch bn extension clbss or
  * resource from.
  *
- * @author  Zhenghua Li
+ * @buthor  Zhenghub Li
  * @since   1.3
  */
 
-public class JarIndex {
+public clbss JbrIndex {
 
     /**
-     * The hash map that maintains mappings from
-     * package/classe/resource to jar file list(s)
+     * The hbsh mbp thbt mbintbins mbppings from
+     * pbckbge/clbsse/resource to jbr file list(s)
      */
-    private HashMap<String,LinkedList<String>> indexMap;
+    privbte HbshMbp<String,LinkedList<String>> indexMbp;
 
     /**
-     * The hash map that maintains mappings from
-     * jar file to package/class/resource lists
+     * The hbsh mbp thbt mbintbins mbppings from
+     * jbr file to pbckbge/clbss/resource lists
      */
-    private HashMap<String,LinkedList<String>> jarMap;
+    privbte HbshMbp<String,LinkedList<String>> jbrMbp;
 
     /*
-     * An ordered list of jar file names.
+     * An ordered list of jbr file nbmes.
      */
-    private String[] jarFiles;
+    privbte String[] jbrFiles;
 
     /**
-     * The index file name.
+     * The index file nbme.
      */
-    public static final String INDEX_NAME = "META-INF/INDEX.LIST";
+    public stbtic finbl String INDEX_NAME = "META-INF/INDEX.LIST";
 
     /**
-     * true if, and only if, sun.misc.JarIndex.metaInfFilenames is set to true.
-     * If true, the names of the files in META-INF, and its subdirectories, will
-     * be added to the index. Otherwise, just the directory names are added.
+     * true if, bnd only if, sun.misc.JbrIndex.metbInfFilenbmes is set to true.
+     * If true, the nbmes of the files in META-INF, bnd its subdirectories, will
+     * be bdded to the index. Otherwise, just the directory nbmes bre bdded.
      */
-    private static final boolean metaInfFilenames =
-        "true".equals(System.getProperty("sun.misc.JarIndex.metaInfFilenames"));
+    privbte stbtic finbl boolebn metbInfFilenbmes =
+        "true".equbls(System.getProperty("sun.misc.JbrIndex.metbInfFilenbmes"));
 
     /**
-     * Constructs a new, empty jar index.
+     * Constructs b new, empty jbr index.
      */
-    public JarIndex() {
-        indexMap = new HashMap<>();
-        jarMap = new HashMap<>();
+    public JbrIndex() {
+        indexMbp = new HbshMbp<>();
+        jbrMbp = new HbshMbp<>();
     }
 
     /**
-     * Constructs a new index from the specified input stream.
+     * Constructs b new index from the specified input strebm.
      *
-     * @param is the input stream containing the index data
+     * @pbrbm is the input strebm contbining the index dbtb
      */
-    public JarIndex(InputStream is) throws IOException {
+    public JbrIndex(InputStrebm is) throws IOException {
         this();
-        read(is);
+        rebd(is);
     }
 
     /**
-     * Constructs a new index for the specified list of jar files.
+     * Constructs b new index for the specified list of jbr files.
      *
-     * @param files the list of jar files to construct the index from.
+     * @pbrbm files the list of jbr files to construct the index from.
      */
-    public JarIndex(String[] files) throws IOException {
+    public JbrIndex(String[] files) throws IOException {
         this();
-        this.jarFiles = files;
-        parseJars(files);
+        this.jbrFiles = files;
+        pbrseJbrs(files);
     }
 
     /**
-     * Returns the jar index, or <code>null</code> if none.
+     * Returns the jbr index, or <code>null</code> if none.
      *
-     * This single parameter version of the method is retained
-     * for binary compatibility with earlier releases.
+     * This single pbrbmeter version of the method is retbined
+     * for binbry compbtibility with ebrlier relebses.
      *
-     * @param jar the JAR file to get the index from.
-     * @exception IOException if an I/O error has occurred.
+     * @pbrbm jbr the JAR file to get the index from.
+     * @exception IOException if bn I/O error hbs occurred.
      */
-    public static JarIndex getJarIndex(JarFile jar) throws IOException {
-        return getJarIndex(jar, null);
+    public stbtic JbrIndex getJbrIndex(JbrFile jbr) throws IOException {
+        return getJbrIndex(jbr, null);
     }
 
     /**
-     * Returns the jar index, or <code>null</code> if none.
+     * Returns the jbr index, or <code>null</code> if none.
      *
-     * @param jar the JAR file to get the index from.
-     * @exception IOException if an I/O error has occurred.
+     * @pbrbm jbr the JAR file to get the index from.
+     * @exception IOException if bn I/O error hbs occurred.
      */
-    public static JarIndex getJarIndex(JarFile jar, MetaIndex metaIndex) throws IOException {
-        JarIndex index = null;
-        /* If metaIndex is not null, check the meta index to see
-           if META-INF/INDEX.LIST is contained in jar file or not.
+    public stbtic JbrIndex getJbrIndex(JbrFile jbr, MetbIndex metbIndex) throws IOException {
+        JbrIndex index = null;
+        /* If metbIndex is not null, check the metb index to see
+           if META-INF/INDEX.LIST is contbined in jbr file or not.
         */
-        if (metaIndex != null &&
-            !metaIndex.mayContain(INDEX_NAME)) {
+        if (metbIndex != null &&
+            !metbIndex.mbyContbin(INDEX_NAME)) {
             return null;
         }
-        JarEntry e = jar.getJarEntry(INDEX_NAME);
-        // if found, then load the index
+        JbrEntry e = jbr.getJbrEntry(INDEX_NAME);
+        // if found, then lobd the index
         if (e != null) {
-            index = new JarIndex(jar.getInputStream(e));
+            index = new JbrIndex(jbr.getInputStrebm(e));
         }
         return index;
     }
 
     /**
-     * Returns the jar files that are defined in this index.
+     * Returns the jbr files thbt bre defined in this index.
      */
-    public String[] getJarFiles() {
-        return jarFiles;
+    public String[] getJbrFiles() {
+        return jbrFiles;
     }
 
     /*
-     * Add the key, value pair to the hashmap, the value will
-     * be put in a linked list which is created if necessary.
+     * Add the key, vblue pbir to the hbshmbp, the vblue will
+     * be put in b linked list which is crebted if necessbry.
      */
-    private void addToList(String key, String value,
-                           HashMap<String,LinkedList<String>> t) {
+    privbte void bddToList(String key, String vblue,
+                           HbshMbp<String,LinkedList<String>> t) {
         LinkedList<String> list = t.get(key);
         if (list == null) {
             list = new LinkedList<>();
-            list.add(value);
+            list.bdd(vblue);
             t.put(key, list);
-        } else if (!list.contains(value)) {
-            list.add(value);
+        } else if (!list.contbins(vblue)) {
+            list.bdd(vblue);
         }
     }
 
     /**
-     * Returns the list of jar files that are mapped to the file.
+     * Returns the list of jbr files thbt bre mbpped to the file.
      *
-     * @param fileName the key of the mapping
+     * @pbrbm fileNbme the key of the mbpping
      */
-    public LinkedList<String> get(String fileName) {
-        LinkedList<String> jarFiles = null;
-        if ((jarFiles = indexMap.get(fileName)) == null) {
-            /* try the package name again */
+    public LinkedList<String> get(String fileNbme) {
+        LinkedList<String> jbrFiles = null;
+        if ((jbrFiles = indexMbp.get(fileNbme)) == null) {
+            /* try the pbckbge nbme bgbin */
             int pos;
-            if((pos = fileName.lastIndexOf('/')) != -1) {
-                jarFiles = indexMap.get(fileName.substring(0, pos));
+            if((pos = fileNbme.lbstIndexOf('/')) != -1) {
+                jbrFiles = indexMbp.get(fileNbme.substring(0, pos));
             }
         }
-        return jarFiles;
+        return jbrFiles;
     }
 
     /**
-     * Add the mapping from the specified file to the specified
-     * jar file. If there were no mapping for the package of the
-     * specified file before, a new linked list will be created,
-     * the jar file is added to the list and a new mapping from
-     * the package to the jar file list is added to the hashmap.
-     * Otherwise, the jar file will be added to the end of the
+     * Add the mbpping from the specified file to the specified
+     * jbr file. If there were no mbpping for the pbckbge of the
+     * specified file before, b new linked list will be crebted,
+     * the jbr file is bdded to the list bnd b new mbpping from
+     * the pbckbge to the jbr file list is bdded to the hbshmbp.
+     * Otherwise, the jbr file will be bdded to the end of the
      * existing list.
      *
-     * @param fileName the file name
-     * @param jarName the jar file that the file is mapped to
+     * @pbrbm fileNbme the file nbme
+     * @pbrbm jbrNbme the jbr file thbt the file is mbpped to
      *
      */
-    public void add(String fileName, String jarName) {
-        String packageName;
+    public void bdd(String fileNbme, String jbrNbme) {
+        String pbckbgeNbme;
         int pos;
-        if((pos = fileName.lastIndexOf('/')) != -1) {
-            packageName = fileName.substring(0, pos);
+        if((pos = fileNbme.lbstIndexOf('/')) != -1) {
+            pbckbgeNbme = fileNbme.substring(0, pos);
         } else {
-            packageName = fileName;
+            pbckbgeNbme = fileNbme;
         }
 
-        addMapping(packageName, jarName);
+        bddMbpping(pbckbgeNbme, jbrNbme);
     }
 
     /**
-     * Same as add(String,String) except that it doesn't strip off from the
-     * last index of '/'. It just adds the jarItem (filename or package)
-     * as it is received.
+     * Sbme bs bdd(String,String) except thbt it doesn't strip off from the
+     * lbst index of '/'. It just bdds the jbrItem (filenbme or pbckbge)
+     * bs it is received.
      */
-    private void addMapping(String jarItem, String jarName) {
-        // add the mapping to indexMap
-        addToList(jarItem, jarName, indexMap);
+    privbte void bddMbpping(String jbrItem, String jbrNbme) {
+        // bdd the mbpping to indexMbp
+        bddToList(jbrItem, jbrNbme, indexMbp);
 
-        // add the mapping to jarMap
-        addToList(jarName, jarItem, jarMap);
+        // bdd the mbpping to jbrMbp
+        bddToList(jbrNbme, jbrItem, jbrMbp);
      }
 
     /**
-     * Go through all the jar files and construct the
-     * index table.
+     * Go through bll the jbr files bnd construct the
+     * index tbble.
      */
-    private void parseJars(String[] files) throws IOException {
+    privbte void pbrseJbrs(String[] files) throws IOException {
         if (files == null) {
             return;
         }
 
-        String currentJar = null;
+        String currentJbr = null;
 
         for (int i = 0; i < files.length; i++) {
-            currentJar = files[i];
-            ZipFile zrf = new ZipFile(currentJar.replace
-                                      ('/', File.separatorChar));
+            currentJbr = files[i];
+            ZipFile zrf = new ZipFile(currentJbr.replbce
+                                      ('/', File.sepbrbtorChbr));
 
-            Enumeration<? extends ZipEntry> entries = zrf.entries();
-            while(entries.hasMoreElements()) {
+            Enumerbtion<? extends ZipEntry> entries = zrf.entries();
+            while(entries.hbsMoreElements()) {
                 ZipEntry entry = entries.nextElement();
-                String fileName = entry.getName();
+                String fileNbme = entry.getNbme();
 
-                // Skip the META-INF directory, the index, and manifest.
+                // Skip the META-INF directory, the index, bnd mbnifest.
                 // Any files in META-INF/ will be indexed explicitly
-                if (fileName.equals("META-INF/") ||
-                    fileName.equals(INDEX_NAME) ||
-                    fileName.equals(JarFile.MANIFEST_NAME))
+                if (fileNbme.equbls("META-INF/") ||
+                    fileNbme.equbls(INDEX_NAME) ||
+                    fileNbme.equbls(JbrFile.MANIFEST_NAME))
                     continue;
 
-                if (!metaInfFilenames || !fileName.startsWith("META-INF/")) {
-                    add(fileName, currentJar);
+                if (!metbInfFilenbmes || !fileNbme.stbrtsWith("META-INF/")) {
+                    bdd(fileNbme, currentJbr);
                 } else if (!entry.isDirectory()) {
-                        // Add files under META-INF explicitly so that certain
-                        // services, like ServiceLoader, etc, can be located
-                        // with greater accuracy. Directories can be skipped
-                        // since each file will be added explicitly.
-                        addMapping(fileName, currentJar);
+                        // Add files under META-INF explicitly so thbt certbin
+                        // services, like ServiceLobder, etc, cbn be locbted
+                        // with grebter bccurbcy. Directories cbn be skipped
+                        // since ebch file will be bdded explicitly.
+                        bddMbpping(fileNbme, currentJbr);
                 }
             }
 
@@ -261,25 +261,25 @@ public class JarIndex {
     }
 
     /**
-     * Writes the index to the specified OutputStream
+     * Writes the index to the specified OutputStrebm
      *
-     * @param out the output stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm out the output strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public void write(OutputStream out) throws IOException {
+    public void write(OutputStrebm out) throws IOException {
         BufferedWriter bw = new BufferedWriter
-            (new OutputStreamWriter(out, "UTF8"));
-        bw.write("JarIndex-Version: 1.0\n\n");
+            (new OutputStrebmWriter(out, "UTF8"));
+        bw.write("JbrIndex-Version: 1.0\n\n");
 
-        if (jarFiles != null) {
-            for (int i = 0; i < jarFiles.length; i++) {
-                /* print out the jar file name */
-                String jar = jarFiles[i];
-                bw.write(jar + "\n");
-                LinkedList<String> jarlist = jarMap.get(jar);
-                if (jarlist != null) {
-                    Iterator<String> listitr = jarlist.iterator();
-                    while(listitr.hasNext()) {
+        if (jbrFiles != null) {
+            for (int i = 0; i < jbrFiles.length; i++) {
+                /* print out the jbr file nbme */
+                String jbr = jbrFiles[i];
+                bw.write(jbr + "\n");
+                LinkedList<String> jbrlist = jbrMbp.get(jbr);
+                if (jbrlist != null) {
+                    Iterbtor<String> listitr = jbrlist.iterbtor();
+                    while(listitr.hbsNext()) {
                         bw.write(listitr.next() + "\n");
                     }
                 }
@@ -291,62 +291,62 @@ public class JarIndex {
 
 
     /**
-     * Reads the index from the specified InputStream.
+     * Rebds the index from the specified InputStrebm.
      *
-     * @param is the input stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm is the input strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public void read(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader
-            (new InputStreamReader(is, "UTF8"));
+    public void rebd(InputStrebm is) throws IOException {
+        BufferedRebder br = new BufferedRebder
+            (new InputStrebmRebder(is, "UTF8"));
         String line = null;
-        String currentJar = null;
+        String currentJbr = null;
 
-        /* an ordered list of jar file names */
-        Vector<String> jars = new Vector<>();
+        /* bn ordered list of jbr file nbmes */
+        Vector<String> jbrs = new Vector<>();
 
-        /* read until we see a .jar line */
-        while((line = br.readLine()) != null && !line.endsWith(".jar"));
+        /* rebd until we see b .jbr line */
+        while((line = br.rebdLine()) != null && !line.endsWith(".jbr"));
 
-        for(;line != null; line = br.readLine()) {
+        for(;line != null; line = br.rebdLine()) {
             if (line.length() == 0)
                 continue;
 
-            if (line.endsWith(".jar")) {
-                currentJar = line;
-                jars.add(currentJar);
+            if (line.endsWith(".jbr")) {
+                currentJbr = line;
+                jbrs.bdd(currentJbr);
             } else {
-                String name = line;
-                addMapping(name, currentJar);
+                String nbme = line;
+                bddMbpping(nbme, currentJbr);
             }
         }
 
-        jarFiles = jars.toArray(new String[jars.size()]);
+        jbrFiles = jbrs.toArrby(new String[jbrs.size()]);
     }
 
     /**
-     * Merges the current index into another index, taking into account
-     * the relative path of the current index.
+     * Merges the current index into bnother index, tbking into bccount
+     * the relbtive pbth of the current index.
      *
-     * @param toIndex The destination index which the current index will
+     * @pbrbm toIndex The destinbtion index which the current index will
      *                merge into.
-     * @param path    The relative path of the this index to the destination
+     * @pbrbm pbth    The relbtive pbth of the this index to the destinbtion
      *                index.
      *
      */
-    public void merge(JarIndex toIndex, String path) {
-        Iterator<Map.Entry<String,LinkedList<String>>> itr = indexMap.entrySet().iterator();
-        while(itr.hasNext()) {
-            Map.Entry<String,LinkedList<String>> e = itr.next();
-            String packageName = e.getKey();
-            LinkedList<String> from_list = e.getValue();
-            Iterator<String> listItr = from_list.iterator();
-            while(listItr.hasNext()) {
-                String jarName = listItr.next();
-                if (path != null) {
-                    jarName = path.concat(jarName);
+    public void merge(JbrIndex toIndex, String pbth) {
+        Iterbtor<Mbp.Entry<String,LinkedList<String>>> itr = indexMbp.entrySet().iterbtor();
+        while(itr.hbsNext()) {
+            Mbp.Entry<String,LinkedList<String>> e = itr.next();
+            String pbckbgeNbme = e.getKey();
+            LinkedList<String> from_list = e.getVblue();
+            Iterbtor<String> listItr = from_list.iterbtor();
+            while(listItr.hbsNext()) {
+                String jbrNbme = listItr.next();
+                if (pbth != null) {
+                    jbrNbme = pbth.concbt(jbrNbme);
                 }
-                toIndex.addMapping(packageName, jarName);
+                toIndex.bddMbpping(pbckbgeNbme, jbrNbme);
             }
         }
     }

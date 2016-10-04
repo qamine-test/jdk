@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.*;
-import javax.swing.Action;
-import javax.swing.JEditorPane;
+import jbvb.io.*;
+import jbvbx.swing.Action;
+import jbvbx.swing.JEditorPbne;
 
 /**
- * Establishes the set of things needed by a text component
- * to be a reasonably functioning editor for some <em>type</em>
- * of text content.  The EditorKit acts as a factory for some
- * kind of policy.  For example, an implementation
- * of html and rtf can be provided that is replaceable
- * with other implementations.
+ * Estbblishes the set of things needed by b text component
+ * to be b rebsonbbly functioning editor for some <em>type</em>
+ * of text content.  The EditorKit bcts bs b fbctory for some
+ * kind of policy.  For exbmple, bn implementbtion
+ * of html bnd rtf cbn be provided thbt is replbcebble
+ * with other implementbtions.
  * <p>
- * A kit can safely store editing state as an instance
- * of the kit will be dedicated to a text component.
- * New kits will normally be created by cloning a
- * prototype kit.  The kit will have its
- * <code>setComponent</code> method called to establish
- * its relationship with a JTextComponent.
+ * A kit cbn sbfely store editing stbte bs bn instbnce
+ * of the kit will be dedicbted to b text component.
+ * New kits will normblly be crebted by cloning b
+ * prototype kit.  The kit will hbve its
+ * <code>setComponent</code> method cblled to estbblish
+ * its relbtionship with b JTextComponent.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class EditorKit implements Cloneable, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss EditorKit implements Clonebble, Seriblizbble {
 
     /**
-     * Construct an EditorKit.
+     * Construct bn EditorKit.
      */
     public EditorKit() {
     }
 
     /**
-     * Creates a copy of the editor kit.  This is implemented
-     * to use <code>Object.clone()</code>.  If the kit cannot be cloned,
+     * Crebtes b copy of the editor kit.  This is implemented
+     * to use <code>Object.clone()</code>.  If the kit cbnnot be cloned,
      * null is returned.
      *
      * @return the copy
@@ -65,145 +65,145 @@ public abstract class EditorKit implements Cloneable, Serializable {
         Object o;
         try {
             o = super.clone();
-        } catch (CloneNotSupportedException cnse) {
+        } cbtch (CloneNotSupportedException cnse) {
             o = null;
         }
         return o;
     }
 
     /**
-     * Called when the kit is being installed into the
-     * a JEditorPane.
+     * Cblled when the kit is being instblled into the
+     * b JEditorPbne.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void install(JEditorPane c) {
+    public void instbll(JEditorPbne c) {
     }
 
     /**
-     * Called when the kit is being removed from the
-     * JEditorPane.  This is used to unregister any
-     * listeners that were attached.
+     * Cblled when the kit is being removed from the
+     * JEditorPbne.  This is used to unregister bny
+     * listeners thbt were bttbched.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void deinstall(JEditorPane c) {
+    public void deinstbll(JEditorPbne c) {
     }
 
     /**
-     * Gets the MIME type of the data that this
+     * Gets the MIME type of the dbtb thbt this
      * kit represents support for.
      *
      * @return the type
      */
-    public abstract String getContentType();
+    public bbstrbct String getContentType();
 
     /**
-     * Fetches a factory that is suitable for producing
-     * views of any models that are produced by this
+     * Fetches b fbctory thbt is suitbble for producing
+     * views of bny models thbt bre produced by this
      * kit.
      *
-     * @return the factory
+     * @return the fbctory
      */
-    public abstract ViewFactory getViewFactory();
+    public bbstrbct ViewFbctory getViewFbctory();
 
     /**
-     * Fetches the set of commands that can be used
-     * on a text component that is using a model and
+     * Fetches the set of commbnds thbt cbn be used
+     * on b text component thbt is using b model bnd
      * view produced by this kit.
      *
-     * @return the set of actions
+     * @return the set of bctions
      */
-    public abstract Action[] getActions();
+    public bbstrbct Action[] getActions();
 
     /**
-     * Fetches a caret that can navigate through views
-     * produced by the associated ViewFactory.
+     * Fetches b cbret thbt cbn nbvigbte through views
+     * produced by the bssocibted ViewFbctory.
      *
-     * @return the caret
+     * @return the cbret
      */
-    public abstract Caret createCaret();
+    public bbstrbct Cbret crebteCbret();
 
     /**
-     * Creates an uninitialized text storage model
-     * that is appropriate for this type of editor.
+     * Crebtes bn uninitiblized text storbge model
+     * thbt is bppropribte for this type of editor.
      *
      * @return the model
      */
-    public abstract Document createDefaultDocument();
+    public bbstrbct Document crebteDefbultDocument();
 
     /**
-     * Inserts content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Inserts content from the given strebm which is expected
+     * to be in b formbt bppropribte for this kind of content
+     * hbndler.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
+     * @pbrbm in  The strebm to rebd from
+     * @pbrbm doc The destinbtion for the insertion.
+     * @pbrbm pos The locbtion in the document to plbce the
      *   content &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public abstract void read(InputStream in, Document doc, int pos)
-        throws IOException, BadLocationException;
+    public bbstrbct void rebd(InputStrebm in, Document doc, int pos)
+        throws IOException, BbdLocbtionException;
 
     /**
-     * Writes content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Writes content from b document to the given strebm
+     * in b formbt bppropribte for this kind of content hbndler.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
+     * @pbrbm out  The strebm to write to
+     * @pbrbm doc The source for the write.
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content from &gt;= 0.
-     * @param len The amount to write out &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm len The bmount to write out &gt;= 0.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public abstract void write(OutputStream out, Document doc, int pos, int len)
-        throws IOException, BadLocationException;
+    public bbstrbct void write(OutputStrebm out, Document doc, int pos, int len)
+        throws IOException, BbdLocbtionException;
 
     /**
-     * Inserts content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Inserts content from the given strebm which is expected
+     * to be in b formbt bppropribte for this kind of content
+     * hbndler.
      * <p>
-     * Since actual text editing is unicode based, this would
-     * generally be the preferred way to read in the data.
-     * Some types of content are stored in an 8-bit form however,
-     * and will favor the InputStream.
+     * Since bctubl text editing is unicode bbsed, this would
+     * generblly be the preferred wby to rebd in the dbtb.
+     * Some types of content bre stored in bn 8-bit form however,
+     * bnd will fbvor the InputStrebm.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
+     * @pbrbm in  The strebm to rebd from
+     * @pbrbm doc The destinbtion for the insertion.
+     * @pbrbm pos The locbtion in the document to plbce the
      *   content &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public abstract void read(Reader in, Document doc, int pos)
-        throws IOException, BadLocationException;
+    public bbstrbct void rebd(Rebder in, Document doc, int pos)
+        throws IOException, BbdLocbtionException;
 
     /**
-     * Writes content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Writes content from b document to the given strebm
+     * in b formbt bppropribte for this kind of content hbndler.
      * <p>
-     * Since actual text editing is unicode based, this would
-     * generally be the preferred way to write the data.
-     * Some types of content are stored in an 8-bit form however,
-     * and will favor the OutputStream.
+     * Since bctubl text editing is unicode bbsed, this would
+     * generblly be the preferred wby to write the dbtb.
+     * Some types of content bre stored in bn 8-bit form however,
+     * bnd will fbvor the OutputStrebm.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
+     * @pbrbm out  The strebm to write to
+     * @pbrbm doc The source for the write.
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content &gt;= 0.
-     * @param len The amount to write out &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm len The bmount to write out &gt;= 0.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public abstract void write(Writer out, Document doc, int pos, int len)
-        throws IOException, BadLocationException;
+    public bbstrbct void write(Writer out, Document doc, int pos, int len)
+        throws IOException, BbdLocbtionException;
 
 }

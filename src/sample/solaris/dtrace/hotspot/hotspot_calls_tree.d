@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,73 +34,73 @@
 */
 
 /*
- * Usage:
- *   1. hotspot_calls_tree.d -c "java ..."
- *   2. hotspot_calls_tree.d -p JAVA_PID
+ * Usbge:
+ *   1. hotspot_cblls_tree.d -c "jbvb ..."
+ *   2. hotspot_cblls_tree.d -p JAVA_PID
  *
- * This script prints calls tree of fired 'hotspot' probes.
+ * This script prints cblls tree of fired 'hotspot' probes.
  *
  * Notes: 
- *    The script uses 'monitors' probes which are disabled by default since
- *    it incurs performance overhead to the application. To enable them, you
- *    need to turn on the ExtendedDTraceProbes VM option. You can either
- *    start the application with -XX:+ExtendedDTraceProbes option or use the
- *    jinfo command to enable it at runtime as follows:
+ *    The script uses 'monitors' probes which bre disbbled by defbult since
+ *    it incurs performbnce overhebd to the bpplicbtion. To enbble them, you
+ *    need to turn on the ExtendedDTrbceProbes VM option. You cbn either
+ *    stbrt the bpplicbtion with -XX:+ExtendedDTrbceProbes option or use the
+ *    jinfo commbnd to enbble it bt runtime bs follows:
  *
- *       jinfo -flag +ExtendedDTraceProbes <java_pid>
+ *       jinfo -flbg +ExtendedDTrbceProbes <jbvb_pid>
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bggrbte=100ms
 
 self int indent;
 string PAUSE_AT_STARTUP_FILE;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot probes tracing";
+    SAMPLE_NAME = "hotspot probes trbcing";
 
     printf("BEGIN %s\n\n", SAMPLE_NAME);
 
     self->indent = 10;
 }
 
-hotspot$target:::class-loaded,
-hotspot$target:::class-unloaded,
-hotspot$target:::compiled-method-load,
-hotspot$target:::compiled-method-unload,
-hotspot$target:::monitor-notify,
-hotspot$target:::monitor-notifyAll
+hotspot$tbrget:::clbss-lobded,
+hotspot$tbrget:::clbss-unlobded,
+hotspot$tbrget:::compiled-method-lobd,
+hotspot$tbrget:::compiled-method-unlobd,
+hotspot$tbrget:::monitor-notify,
+hotspot$tbrget:::monitor-notifyAll
 {
-    printf("%d %*s <-> %s\n", curcpu->cpu_id, self->indent, "", probename);
+    printf("%d %*s <-> %s\n", curcpu->cpu_id, self->indent, "", probenbme);
 }
 
-hotspot$target:::vm-init-begin,
-hotspot$target:::gc-begin,
-hotspot$target:::mem-pool-gc-begin,
-hotspot$target:::thread-start,
-hotspot$target:::method-compile-begin,
-hotspot$target:::monitor-contended-enter,
-hotspot$target:::monitor-wait
+hotspot$tbrget:::vm-init-begin,
+hotspot$tbrget:::gc-begin,
+hotspot$tbrget:::mem-pool-gc-begin,
+hotspot$tbrget:::threbd-stbrt,
+hotspot$tbrget:::method-compile-begin,
+hotspot$tbrget:::monitor-contended-enter,
+hotspot$tbrget:::monitor-wbit
 {
     self->indent ++;
-    printf("%d %*s -> %s\n", curcpu->cpu_id, self->indent, "", probename);
+    printf("%d %*s -> %s\n", curcpu->cpu_id, self->indent, "", probenbme);
 }
 
-hotspot$target:::vm-init-end,
-hotspot$target:::vm-shutdown,
-hotspot$target:::gc-end,
-hotspot$target:::mem-pool-gc-end,
-hotspot$target:::thread-stop,
-hotspot$target:::method-compile-end,
-hotspot$target:::monitor-contended-entered,
-hotspot$target:::monitor-contended-exit,
-hotspot$target:::monitor-waited
+hotspot$tbrget:::vm-init-end,
+hotspot$tbrget:::vm-shutdown,
+hotspot$tbrget:::gc-end,
+hotspot$tbrget:::mem-pool-gc-end,
+hotspot$tbrget:::threbd-stop,
+hotspot$tbrget:::method-compile-end,
+hotspot$tbrget:::monitor-contended-entered,
+hotspot$tbrget:::monitor-contended-exit,
+hotspot$tbrget:::monitor-wbited
 {
-    printf("%d %*s <- %s\n", curcpu->cpu_id, self->indent, "", probename);
+    printf("%d %*s <- %s\n", curcpu->cpu_id, self->indent, "", probenbme);
     self->indent --;
 }
 
@@ -109,9 +109,9 @@ hotspot$target:::monitor-waited
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
     exit(0);
 }

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import javax.swing.event.*;
-import java.awt.event.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.event.*;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Window;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * @author Dave Moore
+ * @buthor Dbve Moore
  */
 
-@SuppressWarnings("serial")
-class AncestorNotifier implements ComponentListener, PropertyChangeListener, Serializable
+@SuppressWbrnings("seribl")
+clbss AncestorNotifier implements ComponentListener, PropertyChbngeListener, Seriblizbble
 {
-    transient Component firstInvisibleAncestor;
+    trbnsient Component firstInvisibleAncestor;
     EventListenerList listenerList = new EventListenerList();
     JComponent root;
 
     AncestorNotifier(JComponent root) {
         this.root = root;
-        addListeners(root, true);
+        bddListeners(root, true);
     }
 
-    void addAncestorListener(AncestorListener l) {
-        listenerList.add(AncestorListener.class, l);
+    void bddAncestorListener(AncestorListener l) {
+        listenerList.bdd(AncestorListener.clbss, l);
     }
 
     void removeAncestorListener(AncestorListener l) {
-        listenerList.remove(AncestorListener.class, l);
+        listenerList.remove(AncestorListener.clbss, l);
     }
 
     AncestorListener[] getAncestorListeners() {
-        return listenerList.getListeners(AncestorListener.class);
+        return listenerList.getListeners(AncestorListener.clbss);
     }
 
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notify bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireAncestorAdded(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
+    protected void fireAncestorAdded(JComponent source, int id, Contbiner bncestor, Contbiner bncestorPbrent) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorAdded(ancestorEvent);
+            if (listeners[i]==AncestorListener.clbss) {
+                // Lbzily crebte the event:
+                AncestorEvent bncestorEvent =
+                    new AncestorEvent(source, id, bncestor, bncestorPbrent);
+                ((AncestorListener)listeners[i+1]).bncestorAdded(bncestorEvent);
             }
         }
     }
 
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notify bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireAncestorRemoved(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
+    protected void fireAncestorRemoved(JComponent source, int id, Contbiner bncestor, Contbiner bncestorPbrent) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorRemoved(ancestorEvent);
+            if (listeners[i]==AncestorListener.clbss) {
+                // Lbzily crebte the event:
+                AncestorEvent bncestorEvent =
+                    new AncestorEvent(source, id, bncestor, bncestorPbrent);
+                ((AncestorListener)listeners[i+1]).bncestorRemoved(bncestorEvent);
             }
         }
     }
     /**
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notify bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireAncestorMoved(JComponent source, int id, Container ancestor, Container ancestorParent) {
-        // Guaranteed to return a non-null array
+    protected void fireAncestorMoved(JComponent source, int id, Contbiner bncestor, Contbiner bncestorPbrent) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==AncestorListener.class) {
-                // Lazily create the event:
-                AncestorEvent ancestorEvent =
-                    new AncestorEvent(source, id, ancestor, ancestorParent);
-                ((AncestorListener)listeners[i+1]).ancestorMoved(ancestorEvent);
+            if (listeners[i]==AncestorListener.clbss) {
+                // Lbzily crebte the event:
+                AncestorEvent bncestorEvent =
+                    new AncestorEvent(source, id, bncestor, bncestorPbrent);
+                ((AncestorListener)listeners[i+1]).bncestorMoved(bncestorEvent);
             }
         }
     }
@@ -135,42 +135,42 @@ class AncestorNotifier implements ComponentListener, PropertyChangeListener, Ser
         removeListeners(root);
     }
 
-    void addListeners(Component ancestor, boolean addToFirst) {
-        Component a;
+    void bddListeners(Component bncestor, boolebn bddToFirst) {
+        Component b;
 
         firstInvisibleAncestor = null;
-        for (a = ancestor;
+        for (b = bncestor;
              firstInvisibleAncestor == null;
-             a = a.getParent()) {
-            if (addToFirst || a != ancestor) {
-                a.addComponentListener(this);
+             b = b.getPbrent()) {
+            if (bddToFirst || b != bncestor) {
+                b.bddComponentListener(this);
 
-                if (a instanceof JComponent) {
-                    JComponent jAncestor = (JComponent)a;
+                if (b instbnceof JComponent) {
+                    JComponent jAncestor = (JComponent)b;
 
-                    jAncestor.addPropertyChangeListener(this);
+                    jAncestor.bddPropertyChbngeListener(this);
                 }
             }
-            if (!a.isVisible() || a.getParent() == null || a instanceof Window) {
-                firstInvisibleAncestor = a;
+            if (!b.isVisible() || b.getPbrent() == null || b instbnceof Window) {
+                firstInvisibleAncestor = b;
             }
         }
-        if (firstInvisibleAncestor instanceof Window &&
+        if (firstInvisibleAncestor instbnceof Window &&
             firstInvisibleAncestor.isVisible()) {
             firstInvisibleAncestor = null;
         }
     }
 
-    void removeListeners(Component ancestor) {
-        Component a;
-        for (a = ancestor; a != null; a = a.getParent()) {
-            a.removeComponentListener(this);
-            if (a instanceof JComponent) {
-                JComponent jAncestor = (JComponent)a;
-                jAncestor.removePropertyChangeListener(this);
+    void removeListeners(Component bncestor) {
+        Component b;
+        for (b = bncestor; b != null; b = b.getPbrent()) {
+            b.removeComponentListener(this);
+            if (b instbnceof JComponent) {
+                JComponent jAncestor = (JComponent)b;
+                jAncestor.removePropertyChbngeListener(this);
             }
-            if (a == firstInvisibleAncestor || a instanceof Window) {
-                break;
+            if (b == firstInvisibleAncestor || b instbnceof Window) {
+                brebk;
             }
         }
     }
@@ -181,58 +181,58 @@ class AncestorNotifier implements ComponentListener, PropertyChangeListener, Ser
         Component source = e.getComponent();
 
         fireAncestorMoved(root, AncestorEvent.ANCESTOR_MOVED,
-                          (Container)source, source.getParent());
+                          (Contbiner)source, source.getPbrent());
     }
 
     public void componentShown(ComponentEvent e) {
-        Component ancestor = e.getComponent();
+        Component bncestor = e.getComponent();
 
-        if (ancestor == firstInvisibleAncestor) {
-            addListeners(ancestor, false);
+        if (bncestor == firstInvisibleAncestor) {
+            bddListeners(bncestor, fblse);
             if (firstInvisibleAncestor == null) {
                 fireAncestorAdded(root, AncestorEvent.ANCESTOR_ADDED,
-                                  (Container)ancestor, ancestor.getParent());
+                                  (Contbiner)bncestor, bncestor.getPbrent());
             }
         }
     }
 
     public void componentHidden(ComponentEvent e) {
-        Component ancestor = e.getComponent();
-        boolean needsNotify = firstInvisibleAncestor == null;
+        Component bncestor = e.getComponent();
+        boolebn needsNotify = firstInvisibleAncestor == null;
 
-        if ( !(ancestor instanceof Window) ) {
-            removeListeners(ancestor.getParent());
+        if ( !(bncestor instbnceof Window) ) {
+            removeListeners(bncestor.getPbrent());
         }
-        firstInvisibleAncestor = ancestor;
+        firstInvisibleAncestor = bncestor;
         if (needsNotify) {
             fireAncestorRemoved(root, AncestorEvent.ANCESTOR_REMOVED,
-                                (Container)ancestor, ancestor.getParent());
+                                (Contbiner)bncestor, bncestor.getPbrent());
         }
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        String s = evt.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        String s = evt.getPropertyNbme();
 
-        if (s!=null && (s.equals("parent") || s.equals("ancestor"))) {
+        if (s!=null && (s.equbls("pbrent") || s.equbls("bncestor"))) {
             JComponent component = (JComponent)evt.getSource();
 
-            if (evt.getNewValue() != null) {
+            if (evt.getNewVblue() != null) {
                 if (component == firstInvisibleAncestor) {
-                    addListeners(component, false);
+                    bddListeners(component, fblse);
                     if (firstInvisibleAncestor == null) {
                         fireAncestorAdded(root, AncestorEvent.ANCESTOR_ADDED,
-                                          component, component.getParent());
+                                          component, component.getPbrent());
                     }
                 }
             } else {
-                boolean needsNotify = firstInvisibleAncestor == null;
-                Container oldParent = (Container)evt.getOldValue();
+                boolebn needsNotify = firstInvisibleAncestor == null;
+                Contbiner oldPbrent = (Contbiner)evt.getOldVblue();
 
-                removeListeners(oldParent);
+                removeListeners(oldPbrent);
                 firstInvisibleAncestor = component;
                 if (needsNotify) {
                     fireAncestorRemoved(root, AncestorEvent.ANCESTOR_REMOVED,
-                                        component, oldParent);
+                                        component, oldPbrent);
                 }
             }
         }

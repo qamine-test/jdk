@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.*;
 import sun.net.NetHooks;
 import sun.net.ExtendedOptionsImpl;
 
 
 /**
- * An implementation of SocketChannels
+ * An implementbtion of SocketChbnnels
  */
 
-class SocketChannelImpl
-    extends SocketChannel
+clbss SocketChbnnelImpl
+    extends SocketChbnnel
     implements SelChImpl
 {
 
-    // Used to make native read and write calls
-    private static NativeDispatcher nd;
+    // Used to mbke nbtive rebd bnd write cblls
+    privbte stbtic NbtiveDispbtcher nd;
 
     // Our file descriptor object
-    private final FileDescriptor fd;
+    privbte finbl FileDescriptor fd;
 
-    // fd value needed for dev/poll. This value will remain valid
-    // even after the value in the file descriptor object has been set to -1
-    private final int fdVal;
+    // fd vblue needed for dev/poll. This vblue will rembin vblid
+    // even bfter the vblue in the file descriptor object hbs been set to -1
+    privbte finbl int fdVbl;
 
-    // IDs of native threads doing reads and writes, for signalling
-    private volatile long readerThread = 0;
-    private volatile long writerThread = 0;
+    // IDs of nbtive threbds doing rebds bnd writes, for signblling
+    privbte volbtile long rebderThrebd = 0;
+    privbte volbtile long writerThrebd = 0;
 
-    // Lock held by current reading or connecting thread
-    private final Object readLock = new Object();
+    // Lock held by current rebding or connecting threbd
+    privbte finbl Object rebdLock = new Object();
 
-    // Lock held by current writing or connecting thread
-    private final Object writeLock = new Object();
+    // Lock held by current writing or connecting threbd
+    privbte finbl Object writeLock = new Object();
 
-    // Lock held by any thread that modifies the state fields declared below
-    // DO NOT invoke a blocking I/O operation while holding this lock!
-    private final Object stateLock = new Object();
+    // Lock held by bny threbd thbt modifies the stbte fields declbred below
+    // DO NOT invoke b blocking I/O operbtion while holding this lock!
+    privbte finbl Object stbteLock = new Object();
 
-    // -- The following fields are protected by stateLock
+    // -- The following fields bre protected by stbteLock
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // set true when exclusive binding is on bnd SO_REUSEADDR is emulbted
+    privbte boolebn isReuseAddress;
 
-    // State, increases monotonically
-    private static final int ST_UNINITIALIZED = -1;
-    private static final int ST_UNCONNECTED = 0;
-    private static final int ST_PENDING = 1;
-    private static final int ST_CONNECTED = 2;
-    private static final int ST_KILLPENDING = 3;
-    private static final int ST_KILLED = 4;
-    private int state = ST_UNINITIALIZED;
+    // Stbte, increbses monotonicblly
+    privbte stbtic finbl int ST_UNINITIALIZED = -1;
+    privbte stbtic finbl int ST_UNCONNECTED = 0;
+    privbte stbtic finbl int ST_PENDING = 1;
+    privbte stbtic finbl int ST_CONNECTED = 2;
+    privbte stbtic finbl int ST_KILLPENDING = 3;
+    privbte stbtic finbl int ST_KILLED = 4;
+    privbte int stbte = ST_UNINITIALIZED;
 
     // Binding
-    private InetSocketAddress localAddress;
-    private InetSocketAddress remoteAddress;
+    privbte InetSocketAddress locblAddress;
+    privbte InetSocketAddress remoteAddress;
 
     // Input/Output open
-    private boolean isInputOpen = true;
-    private boolean isOutputOpen = true;
-    private boolean readyToConnect = false;
+    privbte boolebn isInputOpen = true;
+    privbte boolebn isOutputOpen = true;
+    privbte boolebn rebdyToConnect = fblse;
 
-    // Socket adaptor, created on demand
-    private Socket socket;
+    // Socket bdbptor, crebted on dembnd
+    privbte Socket socket;
 
-    // -- End of fields protected by stateLock
+    // -- End of fields protected by stbteLock
 
 
-    // Constructor for normal connecting sockets
+    // Constructor for normbl connecting sockets
     //
-    SocketChannelImpl(SelectorProvider sp) throws IOException {
+    SocketChbnnelImpl(SelectorProvider sp) throws IOException {
         super(sp);
         this.fd = Net.socket(true);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_UNCONNECTED;
     }
 
-    SocketChannelImpl(SelectorProvider sp,
+    SocketChbnnelImpl(SelectorProvider sp,
                       FileDescriptor fd,
-                      boolean bound)
+                      boolebn bound)
         throws IOException
     {
         super(sp);
         this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_UNCONNECTED;
         if (bound)
-            this.localAddress = Net.localAddress(fd);
+            this.locblAddress = Net.locblAddress(fd);
     }
 
-    // Constructor for sockets obtained from server sockets
+    // Constructor for sockets obtbined from server sockets
     //
-    SocketChannelImpl(SelectorProvider sp,
+    SocketChbnnelImpl(SelectorProvider sp,
                       FileDescriptor fd, InetSocketAddress remote)
         throws IOException
     {
         super(sp);
         this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_CONNECTED;
-        this.localAddress = Net.localAddress(fd);
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_CONNECTED;
+        this.locblAddress = Net.locblAddress(fd);
         this.remoteAddress = remote;
     }
 
     public Socket socket() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (socket == null)
-                socket = SocketAdaptor.create(this);
+                socket = SocketAdbptor.crebte(this);
             return socket;
         }
     }
 
     @Override
-    public SocketAddress getLocalAddress() throws IOException {
-        synchronized (stateLock) {
+    public SocketAddress getLocblAddress() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            return  Net.getRevealedLocalAddress(localAddress);
+                throw new ClosedChbnnelException();
+            return  Net.getRevebledLocblAddress(locblAddress);
         }
     }
 
     @Override
     public SocketAddress getRemoteAddress() throws IOException {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             return remoteAddress;
         }
     }
 
     @Override
-    public <T> SocketChannel setOption(SocketOption<T> name, T value)
+    public <T> SocketChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            if (name == StandardSocketOptions.IP_TOS) {
-                ProtocolFamily family = Net.isIPv6Available() ?
-                    StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-                Net.setSocketOption(fd, family, name, value);
+            if (nbme == StbndbrdSocketOptions.IP_TOS) {
+                ProtocolFbmily fbmily = Net.isIPv6Avbilbble() ?
+                    StbndbrdProtocolFbmily.INET6 : StbndbrdProtocolFbmily.INET;
+                Net.setSocketOption(fd, fbmily, nbme, vblue);
                 return this;
             }
 
-            if (name == StandardSocketOptions.SO_REUSEADDR && Net.useExclusiveBind()) {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR && Net.useExclusiveBind()) {
+                // SO_REUSEADDR emulbted when using exclusive bind
+                isReuseAddress = (Boolebn)vblue;
                 return this;
             }
 
-            // no options that require special handling
-            Net.setSocketOption(fd, Net.UNSPEC, name, value);
+            // no options thbt require specibl hbndling
+            Net.setSocketOption(fd, Net.UNSPEC, nbme, vblue);
             return this;
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SocketOption<T> name)
+    @SuppressWbrnings("unchecked")
+    public <T> T getOption(SocketOption<T> nbme)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR emulbted when using exclusive bind
+                return (T)Boolebn.vblueOf(isReuseAddress);
             }
 
-            // special handling for IP_TOS: always return 0 when IPv6
-            if (name == StandardSocketOptions.IP_TOS) {
-                ProtocolFamily family = Net.isIPv6Available() ?
-                    StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-                return (T) Net.getSocketOption(fd, family, name);
+            // specibl hbndling for IP_TOS: blwbys return 0 when IPv6
+            if (nbme == StbndbrdSocketOptions.IP_TOS) {
+                ProtocolFbmily fbmily = Net.isIPv6Avbilbble() ?
+                    StbndbrdProtocolFbmily.INET6 : StbndbrdProtocolFbmily.INET;
+                return (T) Net.getSocketOption(fd, fbmily, nbme);
             }
 
-            // no options that require special handling
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
+            // no options thbt require specibl hbndling
+            return (T) Net.getSocketOption(fd, Net.UNSPEC, nbme);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(8);
-            set.add(StandardSocketOptions.SO_SNDBUF);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_KEEPALIVE);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.SO_LINGER);
-            set.add(StandardSocketOptions.TCP_NODELAY);
-            // additional options required by socket adaptor
-            set.add(StandardSocketOptions.IP_TOS);
-            set.add(ExtendedSocketOption.SO_OOBINLINE);
+        privbte stbtic Set<SocketOption<?>> defbultOptions() {
+            HbshSet<SocketOption<?>> set = new HbshSet<SocketOption<?>>(8);
+            set.bdd(StbndbrdSocketOptions.SO_SNDBUF);
+            set.bdd(StbndbrdSocketOptions.SO_RCVBUF);
+            set.bdd(StbndbrdSocketOptions.SO_KEEPALIVE);
+            set.bdd(StbndbrdSocketOptions.SO_REUSEADDR);
+            set.bdd(StbndbrdSocketOptions.SO_LINGER);
+            set.bdd(StbndbrdSocketOptions.TCP_NODELAY);
+            // bdditionbl options required by socket bdbptor
+            set.bdd(StbndbrdSocketOptions.IP_TOS);
+            set.bdd(ExtendedSocketOption.SO_OOBINLINE);
             if (ExtendedOptionsImpl.flowSupported()) {
-                set.add(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
+                set.bdd(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
             }
-            return Collections.unmodifiableSet(set);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    public finbl Set<SocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
     }
 
-    private boolean ensureReadOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
+    privbte boolebn ensureRebdOpen() throws ClosedChbnnelException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
             if (!isInputOpen)
-                return false;
+                return fblse;
             else
                 return true;
         }
     }
 
-    private void ensureWriteOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
+    privbte void ensureWriteOpen() throws ClosedChbnnelException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isOutputOpen)
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
         }
     }
 
-    private void readerCleanup() throws IOException {
-        synchronized (stateLock) {
-            readerThread = 0;
-            if (state == ST_KILLPENDING)
+    privbte void rebderClebnup() throws IOException {
+        synchronized (stbteLock) {
+            rebderThrebd = 0;
+            if (stbte == ST_KILLPENDING)
                 kill();
         }
     }
 
-    private void writerCleanup() throws IOException {
-        synchronized (stateLock) {
-            writerThread = 0;
-            if (state == ST_KILLPENDING)
+    privbte void writerClebnup() throws IOException {
+        synchronized (stbteLock) {
+            writerThrebd = 0;
+            if (stbte == ST_KILLPENDING)
                 kill();
         }
     }
 
-    public int read(ByteBuffer buf) throws IOException {
+    public int rebd(ByteBuffer buf) throws IOException {
 
         if (buf == null)
             throw new NullPointerException();
 
-        synchronized (readLock) {
-            if (!ensureReadOpen())
+        synchronized (rebdLock) {
+            if (!ensureRebdOpen())
                 return -1;
             int n = 0;
             try {
 
-                // Set up the interruption machinery; see
-                // AbstractInterruptibleChannel for details
+                // Set up the interruption mbchinery; see
+                // AbstrbctInterruptibleChbnnel for detbils
                 //
                 begin();
 
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen()) {
-                    // Either the current thread is already interrupted, so
-                    // begin() closed the channel, or another thread closed the
-                    // channel since we checked it a few bytecodes ago.  In
-                    // either case the value returned here is irrelevant since
-                    // the invocation of end() in the finally block will throw
-                    // an appropriate exception.
+                    // Either the current threbd is blrebdy interrupted, so
+                    // begin() closed the chbnnel, or bnother threbd closed the
+                    // chbnnel since we checked it b few bytecodes bgo.  In
+                    // either cbse the vblue returned here is irrelevbnt since
+                    // the invocbtion of end() in the finblly block will throw
+                    // bn bppropribte exception.
                     //
                         return 0;
 
                     }
 
-                    // Save this thread so that it can be signalled on those
-                    // platforms that require it
+                    // Sbve this threbd so thbt it cbn be signblled on those
+                    // plbtforms thbt require it
                     //
-                    readerThread = NativeThread.current();
+                    rebderThrebd = NbtiveThrebd.current();
                 }
 
-                // Between the previous test of isOpen() and the return of the
-                // IOUtil.read invocation below, this channel might be closed
-                // or this thread might be interrupted.  We rely upon the
-                // implicit synchronization point in the kernel read() call to
-                // make sure that the right thing happens.  In either case the
-                // implCloseSelectableChannel method is ultimately invoked in
-                // some other thread, so there are three possibilities:
+                // Between the previous test of isOpen() bnd the return of the
+                // IOUtil.rebd invocbtion below, this chbnnel might be closed
+                // or this threbd might be interrupted.  We rely upon the
+                // implicit synchronizbtion point in the kernel rebd() cbll to
+                // mbke sure thbt the right thing hbppens.  In either cbse the
+                // implCloseSelectbbleChbnnel method is ultimbtely invoked in
+                // some other threbd, so there bre three possibilities:
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose()
-                //     before this thread invokes read(), in which case the
-                //     read returns immediately with either EOF or an error,
-                //     the latter of which will cause an IOException to be
+                //   - implCloseSelectbbleChbnnel() invokes nd.preClose()
+                //     before this threbd invokes rebd(), in which cbse the
+                //     rebd returns immedibtely with either EOF or bn error,
+                //     the lbtter of which will cbuse bn IOException to be
                 //     thrown.
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose() after
-                //     this thread is blocked in read().  On some operating
-                //     systems (e.g., Solaris and Windows) this causes the read
-                //     to return immediately with either EOF or an error
-                //     indication.
+                //   - implCloseSelectbbleChbnnel() invokes nd.preClose() bfter
+                //     this threbd is blocked in rebd().  On some operbting
+                //     systems (e.g., Solbris bnd Windows) this cbuses the rebd
+                //     to return immedibtely with either EOF or bn error
+                //     indicbtion.
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose() after
-                //     this thread is blocked in read() but the operating
+                //   - implCloseSelectbbleChbnnel() invokes nd.preClose() bfter
+                //     this threbd is blocked in rebd() but the operbting
                 //     system (e.g., Linux) doesn't support preemptive close,
-                //     so implCloseSelectableChannel() proceeds to signal this
-                //     thread, thereby causing the read to return immediately
-                //     with IOStatus.INTERRUPTED.
+                //     so implCloseSelectbbleChbnnel() proceeds to signbl this
+                //     threbd, thereby cbusing the rebd to return immedibtely
+                //     with IOStbtus.INTERRUPTED.
                 //
-                // In all three cases the invocation of end() in the finally
-                // clause will notice that the channel has been closed and
-                // throw an appropriate exception (AsynchronousCloseException
-                // or ClosedByInterruptException) if necessary.
+                // In bll three cbses the invocbtion of end() in the finblly
+                // clbuse will notice thbt the chbnnel hbs been closed bnd
+                // throw bn bppropribte exception (AsynchronousCloseException
+                // or ClosedByInterruptException) if necessbry.
                 //
-                // *There is A fourth possibility. implCloseSelectableChannel()
-                // invokes nd.preClose(), signals reader/writer thred and quickly
-                // moves on to nd.close() in kill(), which does a real close.
-                // Then a third thread accepts a new connection, opens file or
-                // whatever that causes the released "fd" to be recycled. All
-                // above happens just between our last isOpen() check and the
-                // next kernel read reached, with the recycled "fd". The solution
-                // is to postpone the real kill() if there is a reader or/and
-                // writer thread(s) over there "waiting", leave the cleanup/kill
-                // to the reader or writer thread. (the preClose() still happens
-                // so the connection gets cut off as usual).
+                // *There is A fourth possibility. implCloseSelectbbleChbnnel()
+                // invokes nd.preClose(), signbls rebder/writer thred bnd quickly
+                // moves on to nd.close() in kill(), which does b rebl close.
+                // Then b third threbd bccepts b new connection, opens file or
+                // whbtever thbt cbuses the relebsed "fd" to be recycled. All
+                // bbove hbppens just between our lbst isOpen() check bnd the
+                // next kernel rebd rebched, with the recycled "fd". The solution
+                // is to postpone the rebl kill() if there is b rebder or/bnd
+                // writer threbd(s) over there "wbiting", lebve the clebnup/kill
+                // to the rebder or writer threbd. (the preClose() still hbppens
+                // so the connection gets cut off bs usubl).
                 //
-                // For socket channels there is the additional wrinkle that
-                // asynchronous shutdown works much like asynchronous close,
-                // except that the channel is shutdown rather than completely
-                // closed.  This is analogous to the first two cases above,
-                // except that the shutdown operation plays the role of
+                // For socket chbnnels there is the bdditionbl wrinkle thbt
+                // bsynchronous shutdown works much like bsynchronous close,
+                // except thbt the chbnnel is shutdown rbther thbn completely
+                // closed.  This is bnblogous to the first two cbses bbove,
+                // except thbt the shutdown operbtion plbys the role of
                 // nd.preClose().
                 for (;;) {
-                    n = IOUtil.read(fd, buf, -1, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen()) {
-                        // The system call was interrupted but the channel
+                    n = IOUtil.rebd(fd, buf, -1, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen()) {
+                        // The system cbll wbs interrupted but the chbnnel
                         // is still open, so retry
                         continue;
                     }
-                    return IOStatus.normalize(n);
+                    return IOStbtus.normblize(n);
                 }
 
-            } finally {
-                readerCleanup();        // Clear reader thread
-                // The end method, which is defined in our superclass
-                // AbstractInterruptibleChannel, resets the interruption
-                // machinery.  If its argument is true then it returns
-                // normally; otherwise it checks the interrupt and open state
-                // of this channel and throws an appropriate exception if
-                // necessary.
+            } finblly {
+                rebderClebnup();        // Clebr rebder threbd
+                // The end method, which is defined in our superclbss
+                // AbstrbctInterruptibleChbnnel, resets the interruption
+                // mbchinery.  If its brgument is true then it returns
+                // normblly; otherwise it checks the interrupt bnd open stbte
+                // of this chbnnel bnd throws bn bppropribte exception if
+                // necessbry.
                 //
-                // So, if we actually managed to do any I/O in the above try
-                // block then we pass true to the end method.  We also pass
-                // true if the channel was in non-blocking mode when the I/O
-                // operation was initiated but no data could be transferred;
+                // So, if we bctublly mbnbged to do bny I/O in the bbove try
+                // block then we pbss true to the end method.  We blso pbss
+                // true if the chbnnel wbs in non-blocking mode when the I/O
+                // operbtion wbs initibted but no dbtb could be trbnsferred;
                 // this prevents spurious exceptions from being thrown in the
-                // rare event that a channel is closed or a thread is
-                // interrupted at the exact moment that a non-blocking I/O
-                // request is made.
+                // rbre event thbt b chbnnel is closed or b threbd is
+                // interrupted bt the exbct moment thbt b non-blocking I/O
+                // request is mbde.
                 //
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
+                end(n > 0 || (n == IOStbtus.UNAVAILABLE));
 
-                // Extra case for socket channels: Asynchronous shutdown
+                // Extrb cbse for socket chbnnels: Asynchronous shutdown
                 //
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if ((n <= 0) && (!isInputOpen))
-                        return IOStatus.EOF;
+                        return IOStbtus.EOF;
                 }
 
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
 
             }
         }
     }
 
-    public long read(ByteBuffer[] dsts, int offset, int length)
+    public long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException
     {
         if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
             throw new IndexOutOfBoundsException();
-        synchronized (readLock) {
-            if (!ensureReadOpen())
+        synchronized (rebdLock) {
+            if (!ensureRebdOpen())
                 return -1;
             long n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    readerThread = NativeThread.current();
+                    rebderThrebd = NbtiveThrebd.current();
                 }
 
                 for (;;) {
-                    n = IOUtil.read(fd, dsts, offset, length, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    n = IOUtil.rebd(fd, dsts, offset, length, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen())
                         continue;
-                    return IOStatus.normalize(n);
+                    return IOStbtus.normblize(n);
                 }
-            } finally {
-                readerCleanup();
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
+            } finblly {
+                rebderClebnup();
+                end(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                synchronized (stbteLock) {
                     if ((n <= 0) && (!isInputOpen))
-                        return IOStatus.EOF;
+                        return IOStbtus.EOF;
                 }
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
@@ -462,25 +462,25 @@ class SocketChannelImpl
             int n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    writerThread = NativeThread.current();
+                    writerThrebd = NbtiveThrebd.current();
                 }
                 for (;;) {
                     n = IOUtil.write(fd, buf, -1, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen())
                         continue;
-                    return IOStatus.normalize(n);
+                    return IOStbtus.normblize(n);
                 }
-            } finally {
-                writerCleanup();
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
+            } finblly {
+                writerClebnup();
+                end(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                synchronized (stbteLock) {
                     if ((n <= 0) && (!isOutputOpen))
                         throw new AsynchronousCloseException();
                 }
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
@@ -495,210 +495,210 @@ class SocketChannelImpl
             long n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    writerThread = NativeThread.current();
+                    writerThrebd = NbtiveThrebd.current();
                 }
                 for (;;) {
                     n = IOUtil.write(fd, srcs, offset, length, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen())
                         continue;
-                    return IOStatus.normalize(n);
+                    return IOStbtus.normblize(n);
                 }
-            } finally {
-                writerCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
+            } finblly {
+                writerClebnup();
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                synchronized (stbteLock) {
                     if ((n <= 0) && (!isOutputOpen))
                         throw new AsynchronousCloseException();
                 }
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    // package-private
-    int sendOutOfBandData(byte b) throws IOException {
+    // pbckbge-privbte
+    int sendOutOfBbndDbtb(byte b) throws IOException {
         synchronized (writeLock) {
             ensureWriteOpen();
             int n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    writerThread = NativeThread.current();
+                    writerThrebd = NbtiveThrebd.current();
                 }
                 for (;;) {
-                    n = sendOutOfBandData(fd, b);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    n = sendOutOfBbndDbtb(fd, b);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen())
                         continue;
-                    return IOStatus.normalize(n);
+                    return IOStbtus.normblize(n);
                 }
-            } finally {
-                writerCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
+            } finblly {
+                writerClebnup();
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                synchronized (stbteLock) {
                     if ((n <= 0) && (!isOutputOpen))
                         throw new AsynchronousCloseException();
                 }
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
+    protected void implConfigureBlocking(boolebn block) throws IOException {
         IOUtil.configureBlocking(fd, block);
     }
 
-    public InetSocketAddress localAddress() {
-        synchronized (stateLock) {
-            return localAddress;
+    public InetSocketAddress locblAddress() {
+        synchronized (stbteLock) {
+            return locblAddress;
         }
     }
 
     public SocketAddress remoteAddress() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             return remoteAddress;
         }
     }
 
     @Override
-    public SocketChannel bind(SocketAddress local) throws IOException {
-        synchronized (readLock) {
+    public SocketChbnnel bind(SocketAddress locbl) throws IOException {
+        synchronized (rebdLock) {
             synchronized (writeLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
-                        throw new ClosedChannelException();
-                    if (state == ST_PENDING)
+                        throw new ClosedChbnnelException();
+                    if (stbte == ST_PENDING)
                         throw new ConnectionPendingException();
-                    if (localAddress != null)
-                        throw new AlreadyBoundException();
-                    InetSocketAddress isa = (local == null) ?
-                        new InetSocketAddress(0) : Net.checkAddress(local);
-                    SecurityManager sm = System.getSecurityManager();
+                    if (locblAddress != null)
+                        throw new AlrebdyBoundException();
+                    InetSocketAddress isb = (locbl == null) ?
+                        new InetSocketAddress(0) : Net.checkAddress(locbl);
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
-                        sm.checkListen(isa.getPort());
+                        sm.checkListen(isb.getPort());
                     }
-                    NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-                    Net.bind(fd, isa.getAddress(), isa.getPort());
-                    localAddress = Net.localAddress(fd);
+                    NetHooks.beforeTcpBind(fd, isb.getAddress(), isb.getPort());
+                    Net.bind(fd, isb.getAddress(), isb.getPort());
+                    locblAddress = Net.locblAddress(fd);
                 }
             }
         }
         return this;
     }
 
-    public boolean isConnected() {
-        synchronized (stateLock) {
-            return (state == ST_CONNECTED);
+    public boolebn isConnected() {
+        synchronized (stbteLock) {
+            return (stbte == ST_CONNECTED);
         }
     }
 
-    public boolean isConnectionPending() {
-        synchronized (stateLock) {
-            return (state == ST_PENDING);
+    public boolebn isConnectionPending() {
+        synchronized (stbteLock) {
+            return (stbte == ST_PENDING);
         }
     }
 
-    void ensureOpenAndUnconnected() throws IOException { // package-private
-        synchronized (stateLock) {
+    void ensureOpenAndUnconnected() throws IOException { // pbckbge-privbte
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
+                throw new ClosedChbnnelException();
+            if (stbte == ST_CONNECTED)
+                throw new AlrebdyConnectedException();
+            if (stbte == ST_PENDING)
                 throw new ConnectionPendingException();
         }
     }
 
-    public boolean connect(SocketAddress sa) throws IOException {
-        int localPort = 0;
+    public boolebn connect(SocketAddress sb) throws IOException {
+        int locblPort = 0;
 
-        synchronized (readLock) {
+        synchronized (rebdLock) {
             synchronized (writeLock) {
                 ensureOpenAndUnconnected();
-                InetSocketAddress isa = Net.checkAddress(sa);
-                SecurityManager sm = System.getSecurityManager();
+                InetSocketAddress isb = Net.checkAddress(sb);
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null)
-                    sm.checkConnect(isa.getAddress().getHostAddress(),
-                                    isa.getPort());
+                    sm.checkConnect(isb.getAddress().getHostAddress(),
+                                    isb.getPort());
                 synchronized (blockingLock()) {
                     int n = 0;
                     try {
                         try {
                             begin();
-                            synchronized (stateLock) {
+                            synchronized (stbteLock) {
                                 if (!isOpen()) {
-                                    return false;
+                                    return fblse;
                                 }
                                 // notify hook only if unbound
-                                if (localAddress == null) {
+                                if (locblAddress == null) {
                                     NetHooks.beforeTcpConnect(fd,
-                                                           isa.getAddress(),
-                                                           isa.getPort());
+                                                           isb.getAddress(),
+                                                           isb.getPort());
                                 }
-                                readerThread = NativeThread.current();
+                                rebderThrebd = NbtiveThrebd.current();
                             }
                             for (;;) {
-                                InetAddress ia = isa.getAddress();
-                                if (ia.isAnyLocalAddress())
-                                    ia = InetAddress.getLocalHost();
+                                InetAddress ib = isb.getAddress();
+                                if (ib.isAnyLocblAddress())
+                                    ib = InetAddress.getLocblHost();
                                 n = Net.connect(fd,
-                                                ia,
-                                                isa.getPort());
-                                if (  (n == IOStatus.INTERRUPTED)
+                                                ib,
+                                                isb.getPort());
+                                if (  (n == IOStbtus.INTERRUPTED)
                                       && isOpen())
                                     continue;
-                                break;
+                                brebk;
                             }
 
-                        } finally {
-                            readerCleanup();
-                            end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                            assert IOStatus.check(n);
+                        } finblly {
+                            rebderClebnup();
+                            end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                            bssert IOStbtus.check(n);
                         }
-                    } catch (IOException x) {
-                        // If an exception was thrown, close the channel after
-                        // invoking end() so as to avoid bogus
+                    } cbtch (IOException x) {
+                        // If bn exception wbs thrown, close the chbnnel bfter
+                        // invoking end() so bs to bvoid bogus
                         // AsynchronousCloseExceptions
                         close();
                         throw x;
                     }
-                    synchronized (stateLock) {
-                        remoteAddress = isa;
+                    synchronized (stbteLock) {
+                        remoteAddress = isb;
                         if (n > 0) {
 
-                            // Connection succeeded; disallow further
-                            // invocation
-                            state = ST_CONNECTED;
+                            // Connection succeeded; disbllow further
+                            // invocbtion
+                            stbte = ST_CONNECTED;
                             if (isOpen())
-                                localAddress = Net.localAddress(fd);
+                                locblAddress = Net.locblAddress(fd);
                             return true;
                         }
-                        // If nonblocking and no exception then connection
-                        // pending; disallow another invocation
+                        // If nonblocking bnd no exception then connection
+                        // pending; disbllow bnother invocbtion
                         if (!isBlocking())
-                            state = ST_PENDING;
+                            stbte = ST_PENDING;
                         else
-                            assert false;
+                            bssert fblse;
                     }
                 }
-                return false;
+                return fblse;
             }
         }
     }
 
-    public boolean finishConnect() throws IOException {
-        synchronized (readLock) {
+    public boolebn finishConnect() throws IOException {
+        synchronized (rebdLock) {
             synchronized (writeLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
-                        throw new ClosedChannelException();
-                    if (state == ST_CONNECTED)
+                        throw new ClosedChbnnelException();
+                    if (stbte == ST_CONNECTED)
                         return true;
-                    if (state != ST_PENDING)
+                    if (stbte != ST_PENDING)
                         throw new NoConnectionPendingException();
                 }
                 int n = 0;
@@ -706,155 +706,155 @@ class SocketChannelImpl
                     try {
                         begin();
                         synchronized (blockingLock()) {
-                            synchronized (stateLock) {
+                            synchronized (stbteLock) {
                                 if (!isOpen()) {
-                                    return false;
+                                    return fblse;
                                 }
-                                readerThread = NativeThread.current();
+                                rebderThrebd = NbtiveThrebd.current();
                             }
                             if (!isBlocking()) {
                                 for (;;) {
-                                    n = checkConnect(fd, false,
-                                                     readyToConnect);
-                                    if (  (n == IOStatus.INTERRUPTED)
+                                    n = checkConnect(fd, fblse,
+                                                     rebdyToConnect);
+                                    if (  (n == IOStbtus.INTERRUPTED)
                                           && isOpen())
                                         continue;
-                                    break;
+                                    brebk;
                                 }
                             } else {
                                 for (;;) {
                                     n = checkConnect(fd, true,
-                                                     readyToConnect);
+                                                     rebdyToConnect);
                                     if (n == 0) {
-                                        // Loop in case of
-                                        // spurious notifications
+                                        // Loop in cbse of
+                                        // spurious notificbtions
                                         continue;
                                     }
-                                    if (  (n == IOStatus.INTERRUPTED)
+                                    if (  (n == IOStbtus.INTERRUPTED)
                                           && isOpen())
                                         continue;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
-                    } finally {
-                        synchronized (stateLock) {
-                            readerThread = 0;
-                            if (state == ST_KILLPENDING) {
+                    } finblly {
+                        synchronized (stbteLock) {
+                            rebderThrebd = 0;
+                            if (stbte == ST_KILLPENDING) {
                                 kill();
                                 // poll()/getsockopt() does not report
                                 // error (throws exception, with n = 0)
-                                // on Linux platform after dup2 and
-                                // signal-wakeup. Force n to 0 so the
-                                // end() can throw appropriate exception
+                                // on Linux plbtform bfter dup2 bnd
+                                // signbl-wbkeup. Force n to 0 so the
+                                // end() cbn throw bppropribte exception
                                 n = 0;
                             }
                         }
-                        end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                        assert IOStatus.check(n);
+                        end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssert IOStbtus.check(n);
                     }
-                } catch (IOException x) {
-                    // If an exception was thrown, close the channel after
-                    // invoking end() so as to avoid bogus
+                } cbtch (IOException x) {
+                    // If bn exception wbs thrown, close the chbnnel bfter
+                    // invoking end() so bs to bvoid bogus
                     // AsynchronousCloseExceptions
                     close();
                     throw x;
                 }
                 if (n > 0) {
-                    synchronized (stateLock) {
-                        state = ST_CONNECTED;
+                    synchronized (stbteLock) {
+                        stbte = ST_CONNECTED;
                         if (isOpen())
-                            localAddress = Net.localAddress(fd);
+                            locblAddress = Net.locblAddress(fd);
                     }
                     return true;
                 }
-                return false;
+                return fblse;
             }
         }
     }
 
     @Override
-    public SocketChannel shutdownInput() throws IOException {
-        synchronized (stateLock) {
+    public SocketChbnnel shutdownInput() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
             if (isInputOpen) {
                 Net.shutdown(fd, Net.SHUT_RD);
-                if (readerThread != 0)
-                    NativeThread.signal(readerThread);
-                isInputOpen = false;
+                if (rebderThrebd != 0)
+                    NbtiveThrebd.signbl(rebderThrebd);
+                isInputOpen = fblse;
             }
             return this;
         }
     }
 
     @Override
-    public SocketChannel shutdownOutput() throws IOException {
-        synchronized (stateLock) {
+    public SocketChbnnel shutdownOutput() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
             if (isOutputOpen) {
                 Net.shutdown(fd, Net.SHUT_WR);
-                if (writerThread != 0)
-                    NativeThread.signal(writerThread);
-                isOutputOpen = false;
+                if (writerThrebd != 0)
+                    NbtiveThrebd.signbl(writerThrebd);
+                isOutputOpen = fblse;
             }
             return this;
         }
     }
 
-    public boolean isInputOpen() {
-        synchronized (stateLock) {
+    public boolebn isInputOpen() {
+        synchronized (stbteLock) {
             return isInputOpen;
         }
     }
 
-    public boolean isOutputOpen() {
-        synchronized (stateLock) {
+    public boolebn isOutputOpen() {
+        synchronized (stbteLock) {
             return isOutputOpen;
         }
     }
 
-    // AbstractInterruptibleChannel synchronizes invocations of this method
-    // using AbstractInterruptibleChannel.closeLock, and also ensures that this
+    // AbstrbctInterruptibleChbnnel synchronizes invocbtions of this method
+    // using AbstrbctInterruptibleChbnnel.closeLock, bnd blso ensures thbt this
     // method is only ever invoked once.  Before we get to this method, isOpen
-    // (which is volatile) will have been set to false.
+    // (which is volbtile) will hbve been set to fblse.
     //
-    protected void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            isInputOpen = false;
-            isOutputOpen = false;
+    protected void implCloseSelectbbleChbnnel() throws IOException {
+        synchronized (stbteLock) {
+            isInputOpen = fblse;
+            isOutputOpen = fblse;
 
-            // Close the underlying file descriptor and dup it to a known fd
-            // that's already closed.  This prevents other operations on this
-            // channel from using the old fd, which might be recycled in the
-            // meantime and allocated to an entirely different channel.
+            // Close the underlying file descriptor bnd dup it to b known fd
+            // thbt's blrebdy closed.  This prevents other operbtions on this
+            // chbnnel from using the old fd, which might be recycled in the
+            // mebntime bnd bllocbted to bn entirely different chbnnel.
             //
-            if (state != ST_KILLED)
+            if (stbte != ST_KILLED)
                 nd.preClose(fd);
 
-            // Signal native threads, if needed.  If a target thread is not
-            // currently blocked in an I/O operation then no harm is done since
-            // the signal handler doesn't actually do anything.
+            // Signbl nbtive threbds, if needed.  If b tbrget threbd is not
+            // currently blocked in bn I/O operbtion then no hbrm is done since
+            // the signbl hbndler doesn't bctublly do bnything.
             //
-            if (readerThread != 0)
-                NativeThread.signal(readerThread);
+            if (rebderThrebd != 0)
+                NbtiveThrebd.signbl(rebderThrebd);
 
-            if (writerThread != 0)
-                NativeThread.signal(writerThread);
+            if (writerThrebd != 0)
+                NbtiveThrebd.signbl(writerThrebd);
 
-            // If this channel is not registered then it's safe to close the fd
-            // immediately since we know at this point that no thread is
-            // blocked in an I/O operation upon the channel and, since the
-            // channel is marked closed, no thread will start another such
-            // operation.  If this channel is registered then we don't close
-            // the fd since it might be in use by a selector.  In that case
-            // closing this channel caused its keys to be cancelled, so the
-            // last selector to deregister a key for this channel will invoke
+            // If this chbnnel is not registered then it's sbfe to close the fd
+            // immedibtely since we know bt this point thbt no threbd is
+            // blocked in bn I/O operbtion upon the chbnnel bnd, since the
+            // chbnnel is mbrked closed, no threbd will stbrt bnother such
+            // operbtion.  If this chbnnel is registered then we don't close
+            // the fd since it might be in use by b selector.  In thbt cbse
+            // closing this chbnnel cbused its keys to be cbncelled, so the
+            // lbst selector to deregister b key for this chbnnel will invoke
             // kill() to close the fd.
             //
             if (!isRegistered())
@@ -863,97 +863,97 @@ class SocketChannelImpl
     }
 
     public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ST_KILLED)
+        synchronized (stbteLock) {
+            if (stbte == ST_KILLED)
                 return;
-            if (state == ST_UNINITIALIZED) {
-                state = ST_KILLED;
+            if (stbte == ST_UNINITIALIZED) {
+                stbte = ST_KILLED;
                 return;
             }
-            assert !isOpen() && !isRegistered();
+            bssert !isOpen() && !isRegistered();
 
-            // Postpone the kill if there is a waiting reader
-            // or writer thread. See the comments in read() for
-            // more detailed explanation.
-            if (readerThread == 0 && writerThread == 0) {
+            // Postpone the kill if there is b wbiting rebder
+            // or writer threbd. See the comments in rebd() for
+            // more detbiled explbnbtion.
+            if (rebderThrebd == 0 && writerThrebd == 0) {
                 nd.close(fd);
-                state = ST_KILLED;
+                stbte = ST_KILLED;
             } else {
-                state = ST_KILLPENDING;
+                stbte = ST_KILLPENDING;
             }
         }
     }
 
     /**
-     * Translates native poll revent ops into a ready operation ops
+     * Trbnslbtes nbtive poll revent ops into b rebdy operbtion ops
      */
-    public boolean translateReadyOps(int ops, int initialOps,
+    public boolebn trbnslbteRebdyOps(int ops, int initiblOps,
                                      SelectionKeyImpl sk) {
         int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+        int oldOps = sk.nioRebdyOps();
+        int newOps = initiblOps;
 
         if ((ops & Net.POLLNVAL) != 0) {
-            // This should only happen if this channel is pre-closed while a
-            // selection operation is in progress
-            // ## Throw an error if this channel has not been pre-closed
-            return false;
+            // This should only hbppen if this chbnnel is pre-closed while b
+            // selection operbtion is in progress
+            // ## Throw bn error if this chbnnel hbs not been pre-closed
+            return fblse;
         }
 
         if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
             newOps = intOps;
-            sk.nioReadyOps(newOps);
-            // No need to poll again in checkConnect,
+            sk.nioRebdyOps(newOps);
+            // No need to poll bgbin in checkConnect,
             // the error will be detected there
-            readyToConnect = true;
+            rebdyToConnect = true;
             return (newOps & ~oldOps) != 0;
         }
 
         if (((ops & Net.POLLIN) != 0) &&
             ((intOps & SelectionKey.OP_READ) != 0) &&
-            (state == ST_CONNECTED))
+            (stbte == ST_CONNECTED))
             newOps |= SelectionKey.OP_READ;
 
         if (((ops & Net.POLLCONN) != 0) &&
             ((intOps & SelectionKey.OP_CONNECT) != 0) &&
-            ((state == ST_UNCONNECTED) || (state == ST_PENDING))) {
+            ((stbte == ST_UNCONNECTED) || (stbte == ST_PENDING))) {
             newOps |= SelectionKey.OP_CONNECT;
-            readyToConnect = true;
+            rebdyToConnect = true;
         }
 
         if (((ops & Net.POLLOUT) != 0) &&
             ((intOps & SelectionKey.OP_WRITE) != 0) &&
-            (state == ST_CONNECTED))
+            (stbte == ST_CONNECTED))
             newOps |= SelectionKey.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
+        sk.nioRebdyOps(newOps);
         return (newOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    public boolebn trbnslbteAndUpdbteRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, sk.nioRebdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    public boolebn trbnslbteAndSetRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, 0, sk);
     }
 
-    // package-private
+    // pbckbge-privbte
     int poll(int events, long timeout) throws IOException {
-        assert Thread.holdsLock(blockingLock()) && !isBlocking();
+        bssert Threbd.holdsLock(blockingLock()) && !isBlocking();
 
-        synchronized (readLock) {
+        synchronized (rebdLock) {
             int n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    readerThread = NativeThread.current();
+                    rebderThrebd = NbtiveThrebd.current();
                 }
                 n = Net.poll(fd, events, timeout);
-            } finally {
-                readerCleanup();
+            } finblly {
+                rebderClebnup();
                 end(n > 0);
             }
             return n;
@@ -961,9 +961,9 @@ class SocketChannelImpl
     }
 
     /**
-     * Translates an interest operation set into a native poll event set
+     * Trbnslbtes bn interest operbtion set into b nbtive poll event set
      */
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
+    public void trbnslbteAndSetInterestOps(int ops, SelectionKeyImpl sk) {
         int newOps = 0;
         if ((ops & SelectionKey.OP_READ) != 0)
             newOps |= Net.POLLIN;
@@ -978,62 +978,62 @@ class SocketChannelImpl
         return fd;
     }
 
-    public int getFDVal() {
-        return fdVal;
+    public int getFDVbl() {
+        return fdVbl;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getSuperclass().getName());
-        sb.append('[');
+        sb.bppend(this.getClbss().getSuperclbss().getNbme());
+        sb.bppend('[');
         if (!isOpen())
-            sb.append("closed");
+            sb.bppend("closed");
         else {
-            synchronized (stateLock) {
-                switch (state) {
-                case ST_UNCONNECTED:
-                    sb.append("unconnected");
-                    break;
-                case ST_PENDING:
-                    sb.append("connection-pending");
-                    break;
-                case ST_CONNECTED:
-                    sb.append("connected");
+            synchronized (stbteLock) {
+                switch (stbte) {
+                cbse ST_UNCONNECTED:
+                    sb.bppend("unconnected");
+                    brebk;
+                cbse ST_PENDING:
+                    sb.bppend("connection-pending");
+                    brebk;
+                cbse ST_CONNECTED:
+                    sb.bppend("connected");
                     if (!isInputOpen)
-                        sb.append(" ishut");
+                        sb.bppend(" ishut");
                     if (!isOutputOpen)
-                        sb.append(" oshut");
-                    break;
+                        sb.bppend(" oshut");
+                    brebk;
                 }
-                InetSocketAddress addr = localAddress();
-                if (addr != null) {
-                    sb.append(" local=");
-                    sb.append(Net.getRevealedLocalAddressAsString(addr));
+                InetSocketAddress bddr = locblAddress();
+                if (bddr != null) {
+                    sb.bppend(" locbl=");
+                    sb.bppend(Net.getRevebledLocblAddressAsString(bddr));
                 }
                 if (remoteAddress() != null) {
-                    sb.append(" remote=");
-                    sb.append(remoteAddress().toString());
+                    sb.bppend(" remote=");
+                    sb.bppend(remoteAddress().toString());
                 }
             }
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native int checkConnect(FileDescriptor fd,
-                                           boolean block, boolean ready)
+    privbte stbtic nbtive int checkConnect(FileDescriptor fd,
+                                           boolebn block, boolebn rebdy)
         throws IOException;
 
-    private static native int sendOutOfBandData(FileDescriptor fd, byte data)
+    privbte stbtic nbtive int sendOutOfBbndDbtb(FileDescriptor fd, byte dbtb)
         throws IOException;
 
-    static {
-        IOUtil.load();
-        nd = new SocketDispatcher();
+    stbtic {
+        IOUtil.lobd();
+        nd = new SocketDispbtcher();
     }
 
 }

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.UnsupportedCharsetException;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
-import java.util.concurrent.ExecutionException;
-import sun.nio.ch.ChannelInputStream;
-import sun.nio.cs.StreamDecoder;
-import sun.nio.cs.StreamEncoder;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.Writer;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
+import jbvb.nio.chbnnels.spi.AbstrbctInterruptibleChbnnel;
+import jbvb.util.concurrent.ExecutionException;
+import sun.nio.ch.ChbnnelInputStrebm;
+import sun.nio.cs.StrebmDecoder;
+import sun.nio.cs.StrebmEncoder;
 
 
 /**
- * Utility methods for channels and streams.
+ * Utility methods for chbnnels bnd strebms.
  *
- * <p> This class defines static methods that support the interoperation of the
- * stream classes of the <tt>{@link java.io}</tt> package with the channel
- * classes of this package.  </p>
+ * <p> This clbss defines stbtic methods thbt support the interoperbtion of the
+ * strebm clbsses of the <tt>{@link jbvb.io}</tt> pbckbge with the chbnnel
+ * clbsses of this pbckbge.  </p>
  *
  *
- * @author Mark Reinhold
- * @author Mike McCloskey
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor Mike McCloskey
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public final class Channels {
+public finbl clbss Chbnnels {
 
-    private Channels() { }              // No instantiation
+    privbte Chbnnels() { }              // No instbntibtion
 
-    private static void checkNotNull(Object o, String name) {
+    privbte stbtic void checkNotNull(Object o, String nbme) {
         if (o == null)
-            throw new NullPointerException("\"" + name + "\" is null!");
+            throw new NullPointerException("\"" + nbme + "\" is null!");
     }
 
     /**
-     * Write all remaining bytes in buffer to the given channel.
-     * If the channel is selectable then it must be configured blocking.
+     * Write bll rembining bytes in buffer to the given chbnnel.
+     * If the chbnnel is selectbble then it must be configured blocking.
      */
-    private static void writeFullyImpl(WritableByteChannel ch, ByteBuffer bb)
+    privbte stbtic void writeFullyImpl(WritbbleByteChbnnel ch, ByteBuffer bb)
         throws IOException
     {
-        while (bb.remaining() > 0) {
+        while (bb.rembining() > 0) {
             int n = ch.write(bb);
             if (n <= 0)
                 throw new RuntimeException("no bytes written");
@@ -82,19 +82,19 @@ public final class Channels {
     }
 
     /**
-     * Write all remaining bytes in buffer to the given channel.
+     * Write bll rembining bytes in buffer to the given chbnnel.
      *
-     * @throws  IllegalBlockingModeException
-     *          If the channel is selectable and configured non-blocking.
+     * @throws  IllegblBlockingModeException
+     *          If the chbnnel is selectbble bnd configured non-blocking.
      */
-    private static void writeFully(WritableByteChannel ch, ByteBuffer bb)
+    privbte stbtic void writeFully(WritbbleByteChbnnel ch, ByteBuffer bb)
         throws IOException
     {
-        if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel)ch;
+        if (ch instbnceof SelectbbleChbnnel) {
+            SelectbbleChbnnel sc = (SelectbbleChbnnel)ch;
             synchronized (sc.blockingLock()) {
                 if (!sc.isBlocking())
-                    throw new IllegalBlockingModeException();
+                    throw new IllegblBlockingModeException();
                 writeFullyImpl(ch, bb);
             }
         } else {
@@ -102,51 +102,51 @@ public final class Channels {
         }
     }
 
-    // -- Byte streams from channels --
+    // -- Byte strebms from chbnnels --
 
     /**
-     * Constructs a stream that reads bytes from the given channel.
+     * Constructs b strebm thbt rebds bytes from the given chbnnel.
      *
-     * <p> The <tt>read</tt> methods of the resulting stream will throw an
-     * {@link IllegalBlockingModeException} if invoked while the underlying
-     * channel is in non-blocking mode.  The stream will not be buffered, and
-     * it will not support the {@link InputStream#mark mark} or {@link
-     * InputStream#reset reset} methods.  The stream will be safe for access by
-     * multiple concurrent threads.  Closing the stream will in turn cause the
-     * channel to be closed.  </p>
+     * <p> The <tt>rebd</tt> methods of the resulting strebm will throw bn
+     * {@link IllegblBlockingModeException} if invoked while the underlying
+     * chbnnel is in non-blocking mode.  The strebm will not be buffered, bnd
+     * it will not support the {@link InputStrebm#mbrk mbrk} or {@link
+     * InputStrebm#reset reset} methods.  The strebm will be sbfe for bccess by
+     * multiple concurrent threbds.  Closing the strebm will in turn cbuse the
+     * chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  ch
+     *         The chbnnel from which bytes will be rebd
      *
-     * @return  A new input stream
+     * @return  A new input strebm
      */
-    public static InputStream newInputStream(ReadableByteChannel ch) {
+    public stbtic InputStrebm newInputStrebm(RebdbbleByteChbnnel ch) {
         checkNotNull(ch, "ch");
-        return new sun.nio.ch.ChannelInputStream(ch);
+        return new sun.nio.ch.ChbnnelInputStrebm(ch);
     }
 
     /**
-     * Constructs a stream that writes bytes to the given channel.
+     * Constructs b strebm thbt writes bytes to the given chbnnel.
      *
-     * <p> The <tt>write</tt> methods of the resulting stream will throw an
-     * {@link IllegalBlockingModeException} if invoked while the underlying
-     * channel is in non-blocking mode.  The stream will not be buffered.  The
-     * stream will be safe for access by multiple concurrent threads.  Closing
-     * the stream will in turn cause the channel to be closed.  </p>
+     * <p> The <tt>write</tt> methods of the resulting strebm will throw bn
+     * {@link IllegblBlockingModeException} if invoked while the underlying
+     * chbnnel is in non-blocking mode.  The strebm will not be buffered.  The
+     * strebm will be sbfe for bccess by multiple concurrent threbds.  Closing
+     * the strebm will in turn cbuse the chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  ch
+     *         The chbnnel to which bytes will be written
      *
-     * @return  A new output stream
+     * @return  A new output strebm
      */
-    public static OutputStream newOutputStream(final WritableByteChannel ch) {
+    public stbtic OutputStrebm newOutputStrebm(finbl WritbbleByteChbnnel ch) {
         checkNotNull(ch, "ch");
 
-        return new OutputStream() {
+        return new OutputStrebm() {
 
-                private ByteBuffer bb = null;
-                private byte[] bs = null;       // Invoker's previous array
-                private byte[] b1 = null;
+                privbte ByteBuffer bb = null;
+                privbte byte[] bs = null;       // Invoker's previous brrby
+                privbte byte[] b1 = null;
 
                 public synchronized void write(int b) throws IOException {
                    if (b1 == null)
@@ -166,12 +166,12 @@ public final class Channels {
                     }
                     ByteBuffer bb = ((this.bs == bs)
                                      ? this.bb
-                                     : ByteBuffer.wrap(bs));
-                    bb.limit(Math.min(off + len, bb.capacity()));
+                                     : ByteBuffer.wrbp(bs));
+                    bb.limit(Mbth.min(off + len, bb.cbpbcity()));
                     bb.position(off);
                     this.bb = bb;
                     this.bs = bs;
-                    Channels.writeFully(ch, bb);
+                    Chbnnels.writeFully(ch, bb);
                 }
 
                 public void close() throws IOException {
@@ -182,40 +182,40 @@ public final class Channels {
     }
 
     /**
-     * Constructs a stream that reads bytes from the given channel.
+     * Constructs b strebm thbt rebds bytes from the given chbnnel.
      *
-     * <p> The stream will not be buffered, and it will not support the {@link
-     * InputStream#mark mark} or {@link InputStream#reset reset} methods.  The
-     * stream will be safe for access by multiple concurrent threads.  Closing
-     * the stream will in turn cause the channel to be closed.  </p>
+     * <p> The strebm will not be buffered, bnd it will not support the {@link
+     * InputStrebm#mbrk mbrk} or {@link InputStrebm#reset reset} methods.  The
+     * strebm will be sbfe for bccess by multiple concurrent threbds.  Closing
+     * the strebm will in turn cbuse the chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  ch
+     *         The chbnnel from which bytes will be rebd
      *
-     * @return  A new input stream
+     * @return  A new input strebm
      *
      * @since 1.7
      */
-    public static InputStream newInputStream(final AsynchronousByteChannel ch) {
+    public stbtic InputStrebm newInputStrebm(finbl AsynchronousByteChbnnel ch) {
         checkNotNull(ch, "ch");
-        return new InputStream() {
+        return new InputStrebm() {
 
-            private ByteBuffer bb = null;
-            private byte[] bs = null;           // Invoker's previous array
-            private byte[] b1 = null;
+            privbte ByteBuffer bb = null;
+            privbte byte[] bs = null;           // Invoker's previous brrby
+            privbte byte[] b1 = null;
 
             @Override
-            public synchronized int read() throws IOException {
+            public synchronized int rebd() throws IOException {
                 if (b1 == null)
                     b1 = new byte[1];
-                int n = this.read(b1);
+                int n = this.rebd(b1);
                 if (n == 1)
                     return b1[0] & 0xff;
                 return -1;
             }
 
             @Override
-            public synchronized int read(byte[] bs, int off, int len)
+            public synchronized int rebd(byte[] bs, int off, int len)
                 throws IOException
             {
                 if ((off < 0) || (off > bs.length) || (len < 0) ||
@@ -226,26 +226,26 @@ public final class Channels {
 
                 ByteBuffer bb = ((this.bs == bs)
                                  ? this.bb
-                                 : ByteBuffer.wrap(bs));
+                                 : ByteBuffer.wrbp(bs));
                 bb.position(off);
-                bb.limit(Math.min(off + len, bb.capacity()));
+                bb.limit(Mbth.min(off + len, bb.cbpbcity()));
                 this.bb = bb;
                 this.bs = bs;
 
-                boolean interrupted = false;
+                boolebn interrupted = fblse;
                 try {
                     for (;;) {
                         try {
-                            return ch.read(bb).get();
-                        } catch (ExecutionException ee) {
-                            throw new IOException(ee.getCause());
-                        } catch (InterruptedException ie) {
+                            return ch.rebd(bb).get();
+                        } cbtch (ExecutionException ee) {
+                            throw new IOException(ee.getCbuse());
+                        } cbtch (InterruptedException ie) {
                             interrupted = true;
                         }
                     }
-                } finally {
+                } finblly {
                     if (interrupted)
-                        Thread.currentThread().interrupt();
+                        Threbd.currentThrebd().interrupt();
                 }
             }
 
@@ -257,26 +257,26 @@ public final class Channels {
     }
 
     /**
-     * Constructs a stream that writes bytes to the given channel.
+     * Constructs b strebm thbt writes bytes to the given chbnnel.
      *
-     * <p> The stream will not be buffered. The stream will be safe for access
-     * by multiple concurrent threads.  Closing the stream will in turn cause
-     * the channel to be closed.  </p>
+     * <p> The strebm will not be buffered. The strebm will be sbfe for bccess
+     * by multiple concurrent threbds.  Closing the strebm will in turn cbuse
+     * the chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  ch
+     *         The chbnnel to which bytes will be written
      *
-     * @return  A new output stream
+     * @return  A new output strebm
      *
      * @since 1.7
      */
-    public static OutputStream newOutputStream(final AsynchronousByteChannel ch) {
+    public stbtic OutputStrebm newOutputStrebm(finbl AsynchronousByteChbnnel ch) {
         checkNotNull(ch, "ch");
-        return new OutputStream() {
+        return new OutputStrebm() {
 
-            private ByteBuffer bb = null;
-            private byte[] bs = null;   // Invoker's previous array
-            private byte[] b1 = null;
+            privbte ByteBuffer bb = null;
+            privbte byte[] bs = null;   // Invoker's previous brrby
+            privbte byte[] b1 = null;
 
             @Override
             public synchronized void write(int b) throws IOException {
@@ -298,26 +298,26 @@ public final class Channels {
                 }
                 ByteBuffer bb = ((this.bs == bs)
                                  ? this.bb
-                                 : ByteBuffer.wrap(bs));
-                bb.limit(Math.min(off + len, bb.capacity()));
+                                 : ByteBuffer.wrbp(bs));
+                bb.limit(Mbth.min(off + len, bb.cbpbcity()));
                 bb.position(off);
                 this.bb = bb;
                 this.bs = bs;
 
-                boolean interrupted = false;
+                boolebn interrupted = fblse;
                 try {
-                    while (bb.remaining() > 0) {
+                    while (bb.rembining() > 0) {
                         try {
                             ch.write(bb).get();
-                        } catch (ExecutionException ee) {
-                            throw new IOException(ee.getCause());
-                        } catch (InterruptedException ie) {
+                        } cbtch (ExecutionException ee) {
+                            throw new IOException(ee.getCbuse());
+                        } cbtch (InterruptedException ie) {
                             interrupted = true;
                         }
                     }
-                } finally {
+                } finblly {
                     if (interrupted)
-                        Thread.currentThread().interrupt();
+                        Threbd.currentThrebd().interrupt();
                 }
             }
 
@@ -329,126 +329,126 @@ public final class Channels {
     }
 
 
-    // -- Channels from streams --
+    // -- Chbnnels from strebms --
 
     /**
-     * Constructs a channel that reads bytes from the given stream.
+     * Constructs b chbnnel thbt rebds bytes from the given strebm.
      *
-     * <p> The resulting channel will not be buffered; it will simply redirect
-     * its I/O operations to the given stream.  Closing the channel will in
-     * turn cause the stream to be closed.  </p>
+     * <p> The resulting chbnnel will not be buffered; it will simply redirect
+     * its I/O operbtions to the given strebm.  Closing the chbnnel will in
+     * turn cbuse the strebm to be closed.  </p>
      *
-     * @param  in
-     *         The stream from which bytes are to be read
+     * @pbrbm  in
+     *         The strebm from which bytes bre to be rebd
      *
-     * @return  A new readable byte channel
+     * @return  A new rebdbble byte chbnnel
      */
-    public static ReadableByteChannel newChannel(final InputStream in) {
+    public stbtic RebdbbleByteChbnnel newChbnnel(finbl InputStrebm in) {
         checkNotNull(in, "in");
 
-        if (in instanceof FileInputStream &&
-            FileInputStream.class.equals(in.getClass())) {
-            return ((FileInputStream)in).getChannel();
+        if (in instbnceof FileInputStrebm &&
+            FileInputStrebm.clbss.equbls(in.getClbss())) {
+            return ((FileInputStrebm)in).getChbnnel();
         }
 
-        return new ReadableByteChannelImpl(in);
+        return new RebdbbleByteChbnnelImpl(in);
     }
 
-    private static class ReadableByteChannelImpl
-        extends AbstractInterruptibleChannel    // Not really interruptible
-        implements ReadableByteChannel
+    privbte stbtic clbss RebdbbleByteChbnnelImpl
+        extends AbstrbctInterruptibleChbnnel    // Not reblly interruptible
+        implements RebdbbleByteChbnnel
     {
-        InputStream in;
-        private static final int TRANSFER_SIZE = 8192;
-        private byte buf[] = new byte[0];
-        private boolean open = true;
-        private Object readLock = new Object();
+        InputStrebm in;
+        privbte stbtic finbl int TRANSFER_SIZE = 8192;
+        privbte byte buf[] = new byte[0];
+        privbte boolebn open = true;
+        privbte Object rebdLock = new Object();
 
-        ReadableByteChannelImpl(InputStream in) {
+        RebdbbleByteChbnnelImpl(InputStrebm in) {
             this.in = in;
         }
 
-        public int read(ByteBuffer dst) throws IOException {
-            int len = dst.remaining();
-            int totalRead = 0;
-            int bytesRead = 0;
-            synchronized (readLock) {
-                while (totalRead < len) {
-                    int bytesToRead = Math.min((len - totalRead),
+        public int rebd(ByteBuffer dst) throws IOException {
+            int len = dst.rembining();
+            int totblRebd = 0;
+            int bytesRebd = 0;
+            synchronized (rebdLock) {
+                while (totblRebd < len) {
+                    int bytesToRebd = Mbth.min((len - totblRebd),
                                                TRANSFER_SIZE);
-                    if (buf.length < bytesToRead)
-                        buf = new byte[bytesToRead];
-                    if ((totalRead > 0) && !(in.available() > 0))
-                        break; // block at most once
+                    if (buf.length < bytesToRebd)
+                        buf = new byte[bytesToRebd];
+                    if ((totblRebd > 0) && !(in.bvbilbble() > 0))
+                        brebk; // block bt most once
                     try {
                         begin();
-                        bytesRead = in.read(buf, 0, bytesToRead);
-                    } finally {
-                        end(bytesRead > 0);
+                        bytesRebd = in.rebd(buf, 0, bytesToRebd);
+                    } finblly {
+                        end(bytesRebd > 0);
                     }
-                    if (bytesRead < 0)
-                        break;
+                    if (bytesRebd < 0)
+                        brebk;
                     else
-                        totalRead += bytesRead;
-                    dst.put(buf, 0, bytesRead);
+                        totblRebd += bytesRebd;
+                    dst.put(buf, 0, bytesRebd);
                 }
-                if ((bytesRead < 0) && (totalRead == 0))
+                if ((bytesRebd < 0) && (totblRebd == 0))
                     return -1;
 
-                return totalRead;
+                return totblRebd;
             }
         }
 
-        protected void implCloseChannel() throws IOException {
+        protected void implCloseChbnnel() throws IOException {
             in.close();
-            open = false;
+            open = fblse;
         }
     }
 
 
     /**
-     * Constructs a channel that writes bytes to the given stream.
+     * Constructs b chbnnel thbt writes bytes to the given strebm.
      *
-     * <p> The resulting channel will not be buffered; it will simply redirect
-     * its I/O operations to the given stream.  Closing the channel will in
-     * turn cause the stream to be closed.  </p>
+     * <p> The resulting chbnnel will not be buffered; it will simply redirect
+     * its I/O operbtions to the given strebm.  Closing the chbnnel will in
+     * turn cbuse the strebm to be closed.  </p>
      *
-     * @param  out
-     *         The stream to which bytes are to be written
+     * @pbrbm  out
+     *         The strebm to which bytes bre to be written
      *
-     * @return  A new writable byte channel
+     * @return  A new writbble byte chbnnel
      */
-    public static WritableByteChannel newChannel(final OutputStream out) {
+    public stbtic WritbbleByteChbnnel newChbnnel(finbl OutputStrebm out) {
         checkNotNull(out, "out");
 
-        if (out instanceof FileOutputStream &&
-            FileOutputStream.class.equals(out.getClass())) {
-                return ((FileOutputStream)out).getChannel();
+        if (out instbnceof FileOutputStrebm &&
+            FileOutputStrebm.clbss.equbls(out.getClbss())) {
+                return ((FileOutputStrebm)out).getChbnnel();
         }
 
-        return new WritableByteChannelImpl(out);
+        return new WritbbleByteChbnnelImpl(out);
     }
 
-    private static class WritableByteChannelImpl
-        extends AbstractInterruptibleChannel    // Not really interruptible
-        implements WritableByteChannel
+    privbte stbtic clbss WritbbleByteChbnnelImpl
+        extends AbstrbctInterruptibleChbnnel    // Not reblly interruptible
+        implements WritbbleByteChbnnel
     {
-        OutputStream out;
-        private static final int TRANSFER_SIZE = 8192;
-        private byte buf[] = new byte[0];
-        private boolean open = true;
-        private Object writeLock = new Object();
+        OutputStrebm out;
+        privbte stbtic finbl int TRANSFER_SIZE = 8192;
+        privbte byte buf[] = new byte[0];
+        privbte boolebn open = true;
+        privbte Object writeLock = new Object();
 
-        WritableByteChannelImpl(OutputStream out) {
+        WritbbleByteChbnnelImpl(OutputStrebm out) {
             this.out = out;
         }
 
         public int write(ByteBuffer src) throws IOException {
-            int len = src.remaining();
-            int totalWritten = 0;
+            int len = src.rembining();
+            int totblWritten = 0;
             synchronized (writeLock) {
-                while (totalWritten < len) {
-                    int bytesToWrite = Math.min((len - totalWritten),
+                while (totblWritten < len) {
+                    int bytesToWrite = Mbth.min((len - totblWritten),
                                                 TRANSFER_SIZE);
                     if (buf.length < bytesToWrite)
                         buf = new byte[bytesToWrite];
@@ -456,160 +456,160 @@ public final class Channels {
                     try {
                         begin();
                         out.write(buf, 0, bytesToWrite);
-                    } finally {
+                    } finblly {
                         end(bytesToWrite > 0);
                     }
-                    totalWritten += bytesToWrite;
+                    totblWritten += bytesToWrite;
                 }
-                return totalWritten;
+                return totblWritten;
             }
         }
 
-        protected void implCloseChannel() throws IOException {
+        protected void implCloseChbnnel() throws IOException {
             out.close();
-            open = false;
+            open = fblse;
         }
     }
 
 
-    // -- Character streams from channels --
+    // -- Chbrbcter strebms from chbnnels --
 
     /**
-     * Constructs a reader that decodes bytes from the given channel using the
+     * Constructs b rebder thbt decodes bytes from the given chbnnel using the
      * given decoder.
      *
-     * <p> The resulting stream will contain an internal input buffer of at
-     * least <tt>minBufferCap</tt> bytes.  The stream's <tt>read</tt> methods
-     * will, as needed, fill the buffer by reading bytes from the underlying
-     * channel; if the channel is in non-blocking mode when bytes are to be
-     * read then an {@link IllegalBlockingModeException} will be thrown.  The
-     * resulting stream will not otherwise be buffered, and it will not support
-     * the {@link Reader#mark mark} or {@link Reader#reset reset} methods.
-     * Closing the stream will in turn cause the channel to be closed.  </p>
+     * <p> The resulting strebm will contbin bn internbl input buffer of bt
+     * lebst <tt>minBufferCbp</tt> bytes.  The strebm's <tt>rebd</tt> methods
+     * will, bs needed, fill the buffer by rebding bytes from the underlying
+     * chbnnel; if the chbnnel is in non-blocking mode when bytes bre to be
+     * rebd then bn {@link IllegblBlockingModeException} will be thrown.  The
+     * resulting strebm will not otherwise be buffered, bnd it will not support
+     * the {@link Rebder#mbrk mbrk} or {@link Rebder#reset reset} methods.
+     * Closing the strebm will in turn cbuse the chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  ch
+     *         The chbnnel from which bytes will be rebd
      *
-     * @param  dec
-     *         The charset decoder to be used
+     * @pbrbm  dec
+     *         The chbrset decoder to be used
      *
-     * @param  minBufferCap
-     *         The minimum capacity of the internal byte buffer,
-     *         or <tt>-1</tt> if an implementation-dependent
-     *         default capacity is to be used
+     * @pbrbm  minBufferCbp
+     *         The minimum cbpbcity of the internbl byte buffer,
+     *         or <tt>-1</tt> if bn implementbtion-dependent
+     *         defbult cbpbcity is to be used
      *
-     * @return  A new reader
+     * @return  A new rebder
      */
-    public static Reader newReader(ReadableByteChannel ch,
-                                   CharsetDecoder dec,
-                                   int minBufferCap)
+    public stbtic Rebder newRebder(RebdbbleByteChbnnel ch,
+                                   ChbrsetDecoder dec,
+                                   int minBufferCbp)
     {
         checkNotNull(ch, "ch");
-        return StreamDecoder.forDecoder(ch, dec.reset(), minBufferCap);
+        return StrebmDecoder.forDecoder(ch, dec.reset(), minBufferCbp);
     }
 
     /**
-     * Constructs a reader that decodes bytes from the given channel according
-     * to the named charset.
+     * Constructs b rebder thbt decodes bytes from the given chbnnel bccording
+     * to the nbmed chbrset.
      *
-     * <p> An invocation of this method of the form
-     *
-     * <blockquote><pre>
-     * Channels.newReader(ch, csname)</pre></blockquote>
-     *
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form
      *
      * <blockquote><pre>
-     * Channels.newReader(ch,
-     *                    Charset.forName(csName)
+     * Chbnnels.newRebder(ch, csnbme)</pre></blockquote>
+     *
+     * behbves in exbctly the sbme wby bs the expression
+     *
+     * <blockquote><pre>
+     * Chbnnels.newRebder(ch,
+     *                    Chbrset.forNbme(csNbme)
      *                        .newDecoder(),
      *                    -1);</pre></blockquote>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  ch
+     *         The chbnnel from which bytes will be rebd
      *
-     * @param  csName
-     *         The name of the charset to be used
+     * @pbrbm  csNbme
+     *         The nbme of the chbrset to be used
      *
-     * @return  A new reader
+     * @return  A new rebder
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @throws  UnsupportedChbrsetException
+     *          If no support for the nbmed chbrset is bvbilbble
+     *          in this instbnce of the Jbvb virtubl mbchine
      */
-    public static Reader newReader(ReadableByteChannel ch,
-                                   String csName)
+    public stbtic Rebder newRebder(RebdbbleByteChbnnel ch,
+                                   String csNbme)
     {
-        checkNotNull(csName, "csName");
-        return newReader(ch, Charset.forName(csName).newDecoder(), -1);
+        checkNotNull(csNbme, "csNbme");
+        return newRebder(ch, Chbrset.forNbme(csNbme).newDecoder(), -1);
     }
 
     /**
-     * Constructs a writer that encodes characters using the given encoder and
-     * writes the resulting bytes to the given channel.
+     * Constructs b writer thbt encodes chbrbcters using the given encoder bnd
+     * writes the resulting bytes to the given chbnnel.
      *
-     * <p> The resulting stream will contain an internal output buffer of at
-     * least <tt>minBufferCap</tt> bytes.  The stream's <tt>write</tt> methods
-     * will, as needed, flush the buffer by writing bytes to the underlying
-     * channel; if the channel is in non-blocking mode when bytes are to be
-     * written then an {@link IllegalBlockingModeException} will be thrown.
-     * The resulting stream will not otherwise be buffered.  Closing the stream
-     * will in turn cause the channel to be closed.  </p>
+     * <p> The resulting strebm will contbin bn internbl output buffer of bt
+     * lebst <tt>minBufferCbp</tt> bytes.  The strebm's <tt>write</tt> methods
+     * will, bs needed, flush the buffer by writing bytes to the underlying
+     * chbnnel; if the chbnnel is in non-blocking mode when bytes bre to be
+     * written then bn {@link IllegblBlockingModeException} will be thrown.
+     * The resulting strebm will not otherwise be buffered.  Closing the strebm
+     * will in turn cbuse the chbnnel to be closed.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  ch
+     *         The chbnnel to which bytes will be written
      *
-     * @param  enc
-     *         The charset encoder to be used
+     * @pbrbm  enc
+     *         The chbrset encoder to be used
      *
-     * @param  minBufferCap
-     *         The minimum capacity of the internal byte buffer,
-     *         or <tt>-1</tt> if an implementation-dependent
-     *         default capacity is to be used
+     * @pbrbm  minBufferCbp
+     *         The minimum cbpbcity of the internbl byte buffer,
+     *         or <tt>-1</tt> if bn implementbtion-dependent
+     *         defbult cbpbcity is to be used
      *
      * @return  A new writer
      */
-    public static Writer newWriter(final WritableByteChannel ch,
-                                   final CharsetEncoder enc,
-                                   final int minBufferCap)
+    public stbtic Writer newWriter(finbl WritbbleByteChbnnel ch,
+                                   finbl ChbrsetEncoder enc,
+                                   finbl int minBufferCbp)
     {
         checkNotNull(ch, "ch");
-        return StreamEncoder.forEncoder(ch, enc.reset(), minBufferCap);
+        return StrebmEncoder.forEncoder(ch, enc.reset(), minBufferCbp);
     }
 
     /**
-     * Constructs a writer that encodes characters according to the named
-     * charset and writes the resulting bytes to the given channel.
+     * Constructs b writer thbt encodes chbrbcters bccording to the nbmed
+     * chbrset bnd writes the resulting bytes to the given chbnnel.
      *
-     * <p> An invocation of this method of the form
-     *
-     * <blockquote><pre>
-     * Channels.newWriter(ch, csname)</pre></blockquote>
-     *
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form
      *
      * <blockquote><pre>
-     * Channels.newWriter(ch,
-     *                    Charset.forName(csName)
+     * Chbnnels.newWriter(ch, csnbme)</pre></blockquote>
+     *
+     * behbves in exbctly the sbme wby bs the expression
+     *
+     * <blockquote><pre>
+     * Chbnnels.newWriter(ch,
+     *                    Chbrset.forNbme(csNbme)
      *                        .newEncoder(),
      *                    -1);</pre></blockquote>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  ch
+     *         The chbnnel to which bytes will be written
      *
-     * @param  csName
-     *         The name of the charset to be used
+     * @pbrbm  csNbme
+     *         The nbme of the chbrset to be used
      *
      * @return  A new writer
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @throws  UnsupportedChbrsetException
+     *          If no support for the nbmed chbrset is bvbilbble
+     *          in this instbnce of the Jbvb virtubl mbchine
      */
-    public static Writer newWriter(WritableByteChannel ch,
-                                   String csName)
+    public stbtic Writer newWriter(WritbbleByteChbnnel ch,
+                                   String csNbme)
     {
-        checkNotNull(csName, "csName");
-        return newWriter(ch, Charset.forName(csName).newEncoder(), -1);
+        checkNotNull(csNbme, "csNbme");
+        return newWriter(ch, Chbrset.forNbme(csNbme).newEncoder(), -1);
     }
 }

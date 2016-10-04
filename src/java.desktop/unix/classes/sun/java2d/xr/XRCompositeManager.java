@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 import sun.font.*;
-import sun.java2d.*;
-import sun.java2d.jules.*;
-import sun.java2d.loops.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.jules.*;
+import sun.jbvb2d.loops.*;
 
 /**
- * Manages per-application resources, e.g. the 1x1 pixmap used for solid color
- * fill as well as per-application state e.g. the currently set source picture
+ * Mbnbges per-bpplicbtion resources, e.g. the 1x1 pixmbp used for solid color
+ * fill bs well bs per-bpplicbtion stbte e.g. the currently set source picture
  * used for composition .
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRCompositeManager {
-    private static boolean enableGradCache = true;
-    private static XRCompositeManager instance;
+public clbss XRCompositeMbnbger {
+    privbte stbtic boolebn enbbleGrbdCbche = true;
+    privbte stbtic XRCompositeMbnbger instbnce;
 
-    private final static int SOLID = 0;
-    private final static int TEXTURE = 1;
-    private final static int GRADIENT = 2;
+    privbte finbl stbtic int SOLID = 0;
+    privbte finbl stbtic int TEXTURE = 1;
+    privbte finbl stbtic int GRADIENT = 2;
 
     int srcType;
     XRSolidSrcPict solidSrc32;
-    XRSurfaceData texture;
-    XRSurfaceData gradient;
-    int alphaMask = XRUtils.None;
+    XRSurfbceDbtb texture;
+    XRSurfbceDbtb grbdient;
+    int blphbMbsk = XRUtils.None;
 
     XRColor solidColor = new XRColor();
-    float extraAlpha = 1.0f;
+    flobt extrbAlphb = 1.0f;
     byte compRule = XRUtils.PictOpOver;
-    XRColor alphaColor = new XRColor();
+    XRColor blphbColor = new XRColor();
 
-    XRSurfaceData solidSrcPict;
-    int alphaMaskPict;
-    int gradCachePixmap;
-    int gradCachePicture;
+    XRSurfbceDbtb solidSrcPict;
+    int blphbMbskPict;
+    int grbdCbchePixmbp;
+    int grbdCbchePicture;
 
-    boolean xorEnabled = false;
-    int validatedPixel = 0;
-    Composite validatedComp;
-    Paint validatedPaint;
-    float validatedExtraAlpha = 1.0f;
+    boolebn xorEnbbled = fblse;
+    int vblidbtedPixel = 0;
+    Composite vblidbtedComp;
+    Pbint vblidbtedPbint;
+    flobt vblidbtedExtrbAlphb = 1.0f;
 
-    XRBackend con;
-    MaskTileManager maskBuffer;
+    XRBbckend con;
+    MbskTileMbnbger mbskBuffer;
     XRTextRenderer textRenderer;
-    XRMaskImage maskImage;
+    XRMbskImbge mbskImbge;
 
-    public static synchronized XRCompositeManager getInstance(
-            XRSurfaceData surface) {
-        if (instance == null) {
-            instance = new XRCompositeManager(surface);
+    public stbtic synchronized XRCompositeMbnbger getInstbnce(
+            XRSurfbceDbtb surfbce) {
+        if (instbnce == null) {
+            instbnce = new XRCompositeMbnbger(surfbce);
         }
-        return instance;
+        return instbnce;
     }
 
-    private XRCompositeManager(XRSurfaceData surface) {
-        con = new XRBackendNative();
+    privbte XRCompositeMbnbger(XRSurfbceDbtb surfbce) {
+        con = new XRBbckendNbtive();
 
-        String gradProp =
+        String grbdProp =
             AccessController.doPrivileged(new PrivilegedAction<String>() {
                 public String run() {
-                    return System.getProperty("sun.java2d.xrgradcache");
+                    return System.getProperty("sun.jbvb2d.xrgrbdcbche");
                 }
             });
 
-        enableGradCache = gradProp == null ||
-                          !(gradProp.equalsIgnoreCase("false") ||
-                          gradProp.equalsIgnoreCase("f"));
+        enbbleGrbdCbche = grbdProp == null ||
+                          !(grbdProp.equblsIgnoreCbse("fblse") ||
+                          grbdProp.equblsIgnoreCbse("f"));
 
-        XRPaints.register(this);
+        XRPbints.register(this);
 
-        initResources(surface);
+        initResources(surfbce);
 
-        maskBuffer = new MaskTileManager(this, surface.getXid());
+        mbskBuffer = new MbskTileMbnbger(this, surfbce.getXid());
         textRenderer = new XRTextRenderer(this);
-        maskImage = new XRMaskImage(this, surface.getXid());
+        mbskImbge = new XRMbskImbge(this, surfbce.getXid());
     }
 
-    public void initResources(XRSurfaceData surface) {
-        int parentXid = surface.getXid();
+    public void initResources(XRSurfbceDbtb surfbce) {
+        int pbrentXid = surfbce.getXid();
 
-        solidSrc32 = new XRSolidSrcPict(con, parentXid);
+        solidSrc32 = new XRSolidSrcPict(con, pbrentXid);
         setForeground(0);
 
-        int extraAlphaMask = con.createPixmap(parentXid, 8, 1, 1);
-        alphaMaskPict = con.createPicture(extraAlphaMask,
-                XRUtils.PictStandardA8);
-        con.setPictureRepeat(alphaMaskPict, XRUtils.RepeatNormal);
-        con.renderRectangle(alphaMaskPict, XRUtils.PictOpClear,
+        int extrbAlphbMbsk = con.crebtePixmbp(pbrentXid, 8, 1, 1);
+        blphbMbskPict = con.crebtePicture(extrbAlphbMbsk,
+                XRUtils.PictStbndbrdA8);
+        con.setPictureRepebt(blphbMbskPict, XRUtils.RepebtNormbl);
+        con.renderRectbngle(blphbMbskPict, XRUtils.PictOpClebr,
                 XRColor.NO_ALPHA, 0, 0, 1, 1);
 
-        if (enableGradCache) {
-            gradCachePixmap = con.createPixmap(parentXid, 32,
-                    MaskTileManager.MASK_SIZE, MaskTileManager.MASK_SIZE);
-            gradCachePicture = con.createPicture(gradCachePixmap,
-                    XRUtils.PictStandardARGB32);
+        if (enbbleGrbdCbche) {
+            grbdCbchePixmbp = con.crebtePixmbp(pbrentXid, 32,
+                    MbskTileMbnbger.MASK_SIZE, MbskTileMbnbger.MASK_SIZE);
+            grbdCbchePicture = con.crebtePicture(grbdCbchePixmbp,
+                    XRUtils.PictStbndbrdARGB32);
         }
     }
 
     public void setForeground(int pixel) {
-        solidColor.setColorValues(pixel, true);
+        solidColor.setColorVblues(pixel, true);
     }
 
-    public void setGradientPaint(XRSurfaceData gradient) {
-        if (this.gradient != null) {
-            con.freePicture(this.gradient.picture);
+    public void setGrbdientPbint(XRSurfbceDbtb grbdient) {
+        if (this.grbdient != null) {
+            con.freePicture(this.grbdient.picture);
         }
-        this.gradient = gradient;
+        this.grbdient = grbdient;
         srcType = GRADIENT;
     }
 
-    public void setTexturePaint(XRSurfaceData texture) {
+    public void setTexturePbint(XRSurfbceDbtb texture) {
         this.texture = texture;
         this.srcType = TEXTURE;
     }
 
-    public void XRResetPaint() {
+    public void XRResetPbint() {
         srcType = SOLID;
     }
 
-    public void validateCompositeState(Composite comp, AffineTransform xform,
-            Paint paint, SunGraphics2D sg2d) {
-        boolean updatePaint = (paint != validatedPaint) || paint == null;
+    public void vblidbteCompositeStbte(Composite comp, AffineTrbnsform xform,
+            Pbint pbint, SunGrbphics2D sg2d) {
+        boolebn updbtePbint = (pbint != vblidbtedPbint) || pbint == null;
 
-        // validate composite
-        if ((comp != validatedComp)) {
+        // vblidbte composite
+        if ((comp != vblidbtedComp)) {
             if (comp != null) {
                 setComposite(comp);
             } else {
-                comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
+                comp = AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER);
                 setComposite(comp);
             }
-            // the paint state is dependent on the composite state, so make
-            // sure we update the color below
-            updatePaint = true;
-            validatedComp = comp;
+            // the pbint stbte is dependent on the composite stbte, so mbke
+            // sure we updbte the color below
+            updbtePbint = true;
+            vblidbtedComp = comp;
         }
 
-        if (sg2d != null && (validatedPixel != sg2d.pixel  || updatePaint)) {
-            validatedPixel = sg2d.pixel;
-            setForeground(validatedPixel);
+        if (sg2d != null && (vblidbtedPixel != sg2d.pixel  || updbtePbint)) {
+            vblidbtedPixel = sg2d.pixel;
+            setForeground(vblidbtedPixel);
         }
 
-        // validate paint
-        if (updatePaint) {
-            if (paint != null && sg2d != null
-                    && sg2d.paintState >= SunGraphics2D.PAINT_GRADIENT) {
-                XRPaints.setPaint(sg2d, paint);
+        // vblidbte pbint
+        if (updbtePbint) {
+            if (pbint != null && sg2d != null
+                    && sg2d.pbintStbte >= SunGrbphics2D.PAINT_GRADIENT) {
+                XRPbints.setPbint(sg2d, pbint);
             } else {
-                XRResetPaint();
+                XRResetPbint();
             }
-            validatedPaint = paint;
+            vblidbtedPbint = pbint;
         }
 
         if (srcType != SOLID) {
-            AffineTransform at = (AffineTransform) xform.clone();
+            AffineTrbnsform bt = (AffineTrbnsform) xform.clone();
             try {
-                at.invert();
-            } catch (NoninvertibleTransformException e) {
-                at.setToIdentity();
+                bt.invert();
+            } cbtch (NoninvertibleTrbnsformException e) {
+                bt.setToIdentity();
             }
-            getCurrentSource().validateAsSource(at, -1, XRUtils.ATransOpToXRQuality(sg2d.interpolationType));
+            getCurrentSource().vblidbteAsSource(bt, -1, XRUtils.ATrbnsOpToXRQublity(sg2d.interpolbtionType));
         }
     }
 
-    private void setComposite(Composite comp) {
-        if (comp instanceof AlphaComposite) {
-            AlphaComposite aComp = (AlphaComposite) comp;
-            validatedExtraAlpha = aComp.getAlpha();
+    privbte void setComposite(Composite comp) {
+        if (comp instbnceof AlphbComposite) {
+            AlphbComposite bComp = (AlphbComposite) comp;
+            vblidbtedExtrbAlphb = bComp.getAlphb();
 
-            this.compRule = XRUtils.j2dAlphaCompToXR(aComp.getRule());
-            this.extraAlpha = validatedExtraAlpha;
+            this.compRule = XRUtils.j2dAlphbCompToXR(bComp.getRule());
+            this.extrbAlphb = vblidbtedExtrbAlphb;
 
-            if (extraAlpha == 1.0f) {
-                alphaMask = XRUtils.None;
-                alphaColor.alpha = XRColor.FULL_ALPHA.alpha;
+            if (extrbAlphb == 1.0f) {
+                blphbMbsk = XRUtils.None;
+                blphbColor.blphb = XRColor.FULL_ALPHA.blphb;
             } else {
-                alphaColor.alpha = XRColor
-                        .byteToXRColorValue((int) (extraAlpha * 255));
-                alphaMask = alphaMaskPict;
-                con.renderRectangle(alphaMaskPict, XRUtils.PictOpSrc,
-                        alphaColor, 0, 0, 1, 1);
+                blphbColor.blphb = XRColor
+                        .byteToXRColorVblue((int) (extrbAlphb * 255));
+                blphbMbsk = blphbMbskPict;
+                con.renderRectbngle(blphbMbskPict, XRUtils.PictOpSrc,
+                        blphbColor, 0, 0, 1, 1);
             }
 
-            xorEnabled = false;
-        } else if (comp instanceof XORComposite) {
-            /* XOR composite validation is handled in XRSurfaceData */
-            xorEnabled = true;
+            xorEnbbled = fblse;
+        } else if (comp instbnceof XORComposite) {
+            /* XOR composite vblidbtion is hbndled in XRSurfbceDbtb */
+            xorEnbbled = true;
         } else {
-            throw new InternalError(
-                    "Composite accaleration not implemented for: "
-                            + comp.getClass().getName());
+            throw new InternblError(
+                    "Composite bccblerbtion not implemented for: "
+                            + comp.getClbss().getNbme());
         }
     }
 
-    public boolean maskRequired() {
-        return (!xorEnabled)
+    public boolebn mbskRequired() {
+        return (!xorEnbbled)
                 && ((srcType != SOLID)
-                        || (srcType == SOLID && (solidColor.alpha != 0xffff) || (extraAlpha != 1.0f)));
+                        || (srcType == SOLID && (solidColor.blphb != 0xffff) || (extrbAlphb != 1.0f)));
     }
 
-    public void XRComposite(int src, int mask, int dst, int srcX, int srcY,
-            int maskX, int maskY, int dstX, int dstY, int width, int height) {
-        int cachedSrc = (src == XRUtils.None) ? getCurrentSource().picture : src;
-        int cachedX = srcX;
-        int cachedY = srcY;
+    public void XRComposite(int src, int mbsk, int dst, int srcX, int srcY,
+            int mbskX, int mbskY, int dstX, int dstY, int width, int height) {
+        int cbchedSrc = (src == XRUtils.None) ? getCurrentSource().picture : src;
+        int cbchedX = srcX;
+        int cbchedY = srcY;
 
-        if (enableGradCache && gradient != null
-                && cachedSrc == gradient.picture) {
-            con.renderComposite(XRUtils.PictOpSrc, gradient.picture,
-                    XRUtils.None, gradCachePicture, srcX, srcY, 0, 0, 0, 0,
+        if (enbbleGrbdCbche && grbdient != null
+                && cbchedSrc == grbdient.picture) {
+            con.renderComposite(XRUtils.PictOpSrc, grbdient.picture,
+                    XRUtils.None, grbdCbchePicture, srcX, srcY, 0, 0, 0, 0,
                     width, height);
-            cachedX = 0;
-            cachedY = 0;
-            cachedSrc = gradCachePicture;
+            cbchedX = 0;
+            cbchedY = 0;
+            cbchedSrc = grbdCbchePicture;
         }
 
-        con.renderComposite(compRule, cachedSrc, mask, dst, cachedX, cachedY,
-                maskX, maskY, dstX, dstY, width, height);
+        con.renderComposite(compRule, cbchedSrc, mbsk, dst, cbchedX, cbchedY,
+                mbskX, mbskY, dstX, dstY, width, height);
     }
 
-    public void XRCompositeTraps(int dst, int srcX, int srcY,
-            TrapezoidList trapList) {
+    public void XRCompositeTrbps(int dst, int srcX, int srcY,
+            TrbpezoidList trbpList) {
         int renderReferenceX = 0;
         int renderReferenceY = 0;
 
-        if (trapList.getP1YLeft(0) < trapList.getP2YLeft(0)) {
-            renderReferenceX = trapList.getP1XLeft(0);
-            renderReferenceY = trapList.getP1YLeft(0);
+        if (trbpList.getP1YLeft(0) < trbpList.getP2YLeft(0)) {
+            renderReferenceX = trbpList.getP1XLeft(0);
+            renderReferenceY = trbpList.getP1YLeft(0);
         } else {
-            renderReferenceX = trapList.getP2XLeft(0);
-            renderReferenceY = trapList.getP2YLeft(0);
+            renderReferenceX = trbpList.getP2XLeft(0);
+            renderReferenceY = trbpList.getP2YLeft(0);
         }
 
-        renderReferenceX = (int) Math.floor(XRUtils
+        renderReferenceX = (int) Mbth.floor(XRUtils
                 .XFixedToDouble(renderReferenceX));
-        renderReferenceY = (int) Math.floor(XRUtils
+        renderReferenceY = (int) Mbth.floor(XRUtils
                 .XFixedToDouble(renderReferenceY));
 
-        con.renderCompositeTrapezoids(compRule, getCurrentSource().picture,
-                XRUtils.PictStandardA8, dst, renderReferenceX,
-                renderReferenceY, trapList);
+        con.renderCompositeTrbpezoids(compRule, getCurrentSource().picture,
+                XRUtils.PictStbndbrdA8, dst, renderReferenceX,
+                renderReferenceY, trbpList);
     }
 
-    public void XRRenderRectangles(XRSurfaceData dst, GrowableRectArray rects) {
-        if (xorEnabled) {
-            con.GCRectangles(dst.getXid(), dst.getGC(), rects);
+    public void XRRenderRectbngles(XRSurfbceDbtb dst, GrowbbleRectArrby rects) {
+        if (xorEnbbled) {
+            con.GCRectbngles(dst.getXid(), dst.getGC(), rects);
         } else {
             if (rects.getSize() == 1) {
-                con.renderRectangle(dst.getPicture(), compRule, solidColor,
+                con.renderRectbngle(dst.getPicture(), compRule, solidColor,
                         rects.getX(0), rects.getY(0), rects.getWidth(0), rects.getHeight(0));
             } else {
-                con.renderRectangles(dst.getPicture(), compRule, solidColor, rects);
+                con.renderRectbngles(dst.getPicture(), compRule, solidColor, rects);
             }
         }
     }
 
-    public void XRCompositeRectangles(XRSurfaceData dst, GrowableRectArray rects) {
+    public void XRCompositeRectbngles(XRSurfbceDbtb dst, GrowbbleRectArrby rects) {
         int srcPict = getCurrentSource().picture;
 
         for(int i=0; i < rects.getSize(); i++) {
@@ -302,62 +302,62 @@ public class XRCompositeManager {
         }
     }
 
-    protected XRSurfaceData getCurrentSource() {
+    protected XRSurfbceDbtb getCurrentSource() {
         switch(srcType) {
-        case SOLID:
-            return solidSrc32.prepareSrcPict(validatedPixel);
-        case TEXTURE:
+        cbse SOLID:
+            return solidSrc32.prepbreSrcPict(vblidbtedPixel);
+        cbse TEXTURE:
             return texture;
-        case GRADIENT:
-            return gradient;
+        cbse GRADIENT:
+            return grbdient;
         }
 
         return null;
     }
 
-    public void compositeBlit(XRSurfaceData src, XRSurfaceData dst, int sx,
+    public void compositeBlit(XRSurfbceDbtb src, XRSurfbceDbtb dst, int sx,
             int sy, int dx, int dy, int w, int h) {
-        con.renderComposite(compRule, src.picture, alphaMask, dst.picture, sx,
+        con.renderComposite(compRule, src.picture, blphbMbsk, dst.picture, sx,
                 sy, 0, 0, dx, dy, w, h);
     }
 
-    public void compositeText(XRSurfaceData dst, int sx, int sy, int glyphSet,
-            int maskFormat, GrowableEltArray elts) {
+    public void compositeText(XRSurfbceDbtb dst, int sx, int sy, int glyphSet,
+            int mbskFormbt, GrowbbleEltArrby elts) {
         /*
-         * Try to emulate the SRC blend mode with SRC_OVER.
-         * We bail out during pipe validation for cases where this is not possible.
+         * Try to emulbte the SRC blend mode with SRC_OVER.
+         * We bbil out during pipe vblidbtion for cbses where this is not possible.
          */
         byte textCompRule = (compRule != XRUtils.PictOpSrc) ? compRule : XRUtils.PictOpOver;
         con.XRenderCompositeText(textCompRule, getCurrentSource().picture, dst.picture,
-                maskFormat, sx, sy, 0, 0, glyphSet, elts);
+                mbskFormbt, sx, sy, 0, 0, glyphSet, elts);
     }
 
-    public XRColor getMaskColor() {
-        return !isTexturePaintActive() ? XRColor.FULL_ALPHA : getAlphaColor();
+    public XRColor getMbskColor() {
+        return !isTexturePbintActive() ? XRColor.FULL_ALPHA : getAlphbColor();
     }
 
-    public int getExtraAlphaMask() {
-        return alphaMask;
+    public int getExtrbAlphbMbsk() {
+        return blphbMbsk;
     }
 
-    public boolean isTexturePaintActive() {
+    public boolebn isTexturePbintActive() {
         return srcType == TEXTURE;
     }
 
-    public boolean isSolidPaintActive() {
+    public boolebn isSolidPbintActive() {
         return srcType == SOLID;
     }
 
-    public XRColor getAlphaColor() {
-        return alphaColor;
+    public XRColor getAlphbColor() {
+        return blphbColor;
     }
 
-    public XRBackend getBackend() {
+    public XRBbckend getBbckend() {
         return con;
     }
 
-    public float getExtraAlpha() {
-        return validatedExtraAlpha;
+    public flobt getExtrbAlphb() {
+        return vblidbtedExtrbAlphb;
     }
 
     public byte getCompRule() {
@@ -368,11 +368,11 @@ public class XRCompositeManager {
         return textRenderer;
     }
 
-    public MaskTileManager getMaskBuffer() {
-        return maskBuffer;
+    public MbskTileMbnbger getMbskBuffer() {
+        return mbskBuffer;
     }
 
-    public XRMaskImage getMaskImage() {
-        return maskImage;
+    public XRMbskImbge getMbskImbge() {
+        return mbskImbge;
     }
 }

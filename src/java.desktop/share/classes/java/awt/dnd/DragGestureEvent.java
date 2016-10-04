@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Component;
-import java.awt.Cursor;
+import jbvb.bwt.Component;
+import jbvb.bwt.Cursor;
 
-import java.awt.Image;
-import java.awt.Point;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Point;
 
-import java.awt.event.InputEvent;
+import jbvb.bwt.event.InputEvent;
 
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
 
-import java.io.InvalidObjectException;
-import java.util.EventObject;
+import jbvb.io.InvblidObjectException;
+import jbvb.util.EventObject;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
 
 
 /**
- * A <code>DragGestureEvent</code> is passed
- * to <code>DragGestureListener</code>'s
- * dragGestureRecognized() method
- * when a particular <code>DragGestureRecognizer</code> detects that a
- * platform dependent drag initiating gesture has occurred
- * on the <code>Component</code> that it is tracking.
+ * A <code>DrbgGestureEvent</code> is pbssed
+ * to <code>DrbgGestureListener</code>'s
+ * drbgGestureRecognized() method
+ * when b pbrticulbr <code>DrbgGestureRecognizer</code> detects thbt b
+ * plbtform dependent drbg initibting gesture hbs occurred
+ * on the <code>Component</code> thbt it is trbcking.
  *
- * The {@code action} field of any {@code DragGestureEvent} instance should take one of the following
- * values:
+ * The {@code bction} field of bny {@code DrbgGestureEvent} instbnce should tbke one of the following
+ * vblues:
  * <ul>
- * <li> {@code DnDConstants.ACTION_COPY}
- * <li> {@code DnDConstants.ACTION_MOVE}
- * <li> {@code DnDConstants.ACTION_LINK}
+ * <li> {@code DnDConstbnts.ACTION_COPY}
+ * <li> {@code DnDConstbnts.ACTION_MOVE}
+ * <li> {@code DnDConstbnts.ACTION_LINK}
  * </ul>
- * Assigning the value different from listed above will cause an unspecified behavior.
+ * Assigning the vblue different from listed bbove will cbuse bn unspecified behbvior.
  *
- * @see java.awt.dnd.DragGestureRecognizer
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragSource
- * @see java.awt.dnd.DnDConstants
+ * @see jbvb.bwt.dnd.DrbgGestureRecognizer
+ * @see jbvb.bwt.dnd.DrbgGestureListener
+ * @see jbvb.bwt.dnd.DrbgSource
+ * @see jbvb.bwt.dnd.DnDConstbnts
  */
 
-public class DragGestureEvent extends EventObject {
+public clbss DrbgGestureEvent extends EventObject {
 
-    private static final long serialVersionUID = 9080172649166731306L;
+    privbte stbtic finbl long seriblVersionUID = 9080172649166731306L;
 
     /**
-     * Constructs a <code>DragGestureEvent</code> object given by the
-     * <code>DragGestureRecognizer</code> instance firing this event,
-     * an {@code act} parameter representing
-     * the user's preferred action, an {@code ori} parameter
-     * indicating the origin of the drag, and a {@code List} of
-     * events that comprise the gesture({@code evs} parameter).
+     * Constructs b <code>DrbgGestureEvent</code> object given by the
+     * <code>DrbgGestureRecognizer</code> instbnce firing this event,
+     * bn {@code bct} pbrbmeter representing
+     * the user's preferred bction, bn {@code ori} pbrbmeter
+     * indicbting the origin of the drbg, bnd b {@code List} of
+     * events thbt comprise the gesture({@code evs} pbrbmeter).
      *
-     * @param dgr The <code>DragGestureRecognizer</code> firing this event
-     * @param act The user's preferred action.
-     *            For information on allowable values, see
-     *            the class description for {@link DragGestureEvent}
-     * @param ori The origin of the drag
-     * @param evs The <code>List</code> of events that comprise the gesture
+     * @pbrbm dgr The <code>DrbgGestureRecognizer</code> firing this event
+     * @pbrbm bct The user's preferred bction.
+     *            For informbtion on bllowbble vblues, see
+     *            the clbss description for {@link DrbgGestureEvent}
+     * @pbrbm ori The origin of the drbg
+     * @pbrbm evs The <code>List</code> of events thbt comprise the gesture
      *
-     * @throws IllegalArgumentException if any parameter equals {@code null}
-     * @throws IllegalArgumentException if the act parameter does not comply with
-     *                                  the values given in the class
-     *                                  description for {@link DragGestureEvent}
-     * @see java.awt.dnd.DnDConstants
+     * @throws IllegblArgumentException if bny pbrbmeter equbls {@code null}
+     * @throws IllegblArgumentException if the bct pbrbmeter does not comply with
+     *                                  the vblues given in the clbss
+     *                                  description for {@link DrbgGestureEvent}
+     * @see jbvb.bwt.dnd.DnDConstbnts
      */
 
-    public DragGestureEvent(DragGestureRecognizer dgr, int act, Point ori,
+    public DrbgGestureEvent(DrbgGestureRecognizer dgr, int bct, Point ori,
                             List<? extends InputEvent> evs)
     {
         super(dgr);
 
         if ((component = dgr.getComponent()) == null)
-            throw new IllegalArgumentException("null component");
-        if ((dragSource = dgr.getDragSource()) == null)
-            throw new IllegalArgumentException("null DragSource");
+            throw new IllegblArgumentException("null component");
+        if ((drbgSource = dgr.getDrbgSource()) == null)
+            throw new IllegblArgumentException("null DrbgSource");
 
         if (evs == null || evs.isEmpty())
-            throw new IllegalArgumentException("null or empty list of events");
+            throw new IllegblArgumentException("null or empty list of events");
 
-        if (act != DnDConstants.ACTION_COPY &&
-            act != DnDConstants.ACTION_MOVE &&
-            act != DnDConstants.ACTION_LINK)
-            throw new IllegalArgumentException("bad action");
+        if (bct != DnDConstbnts.ACTION_COPY &&
+            bct != DnDConstbnts.ACTION_MOVE &&
+            bct != DnDConstbnts.ACTION_LINK)
+            throw new IllegblArgumentException("bbd bction");
 
-        if (ori == null) throw new IllegalArgumentException("null origin");
+        if (ori == null) throw new IllegblArgumentException("null origin");
 
         events     = evs;
-        action     = act;
+        bction     = bct;
         origin     = ori;
     }
 
     /**
-     * Returns the source as a <code>DragGestureRecognizer</code>.
+     * Returns the source bs b <code>DrbgGestureRecognizer</code>.
      *
-     * @return the source as a <code>DragGestureRecognizer</code>
+     * @return the source bs b <code>DrbgGestureRecognizer</code>
      */
 
-    public DragGestureRecognizer getSourceAsDragGestureRecognizer() {
-        return (DragGestureRecognizer)getSource();
+    public DrbgGestureRecognizer getSourceAsDrbgGestureRecognizer() {
+        return (DrbgGestureRecognizer)getSource();
     }
 
     /**
-     * Returns the <code>Component</code> associated
-     * with this <code>DragGestureEvent</code>.
+     * Returns the <code>Component</code> bssocibted
+     * with this <code>DrbgGestureEvent</code>.
      *
      * @return the Component
      */
@@ -142,235 +142,235 @@ public class DragGestureEvent extends EventObject {
     public Component getComponent() { return component; }
 
     /**
-     * Returns the <code>DragSource</code>.
+     * Returns the <code>DrbgSource</code>.
      *
-     * @return the <code>DragSource</code>
+     * @return the <code>DrbgSource</code>
      */
 
-    public DragSource getDragSource() { return dragSource; }
+    public DrbgSource getDrbgSource() { return drbgSource; }
 
     /**
-     * Returns a <code>Point</code> in the coordinates
-     * of the <code>Component</code> over which the drag originated.
+     * Returns b <code>Point</code> in the coordinbtes
+     * of the <code>Component</code> over which the drbg originbted.
      *
-     * @return the Point where the drag originated in Component coords.
+     * @return the Point where the drbg originbted in Component coords.
      */
 
-    public Point getDragOrigin() {
+    public Point getDrbgOrigin() {
         return origin;
     }
 
     /**
-     * Returns an <code>Iterator</code> for the events
+     * Returns bn <code>Iterbtor</code> for the events
      * comprising the gesture.
      *
-     * @return an Iterator for the events comprising the gesture
+     * @return bn Iterbtor for the events comprising the gesture
      */
-    @SuppressWarnings("unchecked")
-    public Iterator<InputEvent> iterator() { return events.iterator(); }
+    @SuppressWbrnings("unchecked")
+    public Iterbtor<InputEvent> iterbtor() { return events.iterbtor(); }
 
     /**
-     * Returns an <code>Object</code> array of the
-     * events comprising the drag gesture.
+     * Returns bn <code>Object</code> brrby of the
+     * events comprising the drbg gesture.
      *
-     * @return an array of the events comprising the gesture
+     * @return bn brrby of the events comprising the gesture
      */
 
-    public Object[] toArray() { return events.toArray(); }
+    public Object[] toArrby() { return events.toArrby(); }
 
     /**
-     * Returns an array of the events comprising the drag gesture.
+     * Returns bn brrby of the events comprising the drbg gesture.
      *
-     * @param array the array of <code>EventObject</code> sub(types)
+     * @pbrbm brrby the brrby of <code>EventObject</code> sub(types)
      *
-     * @return an array of the events comprising the gesture
+     * @return bn brrby of the events comprising the gesture
      */
-    @SuppressWarnings("unchecked")
-    public Object[] toArray(Object[] array) { return events.toArray(array); }
+    @SuppressWbrnings("unchecked")
+    public Object[] toArrby(Object[] brrby) { return events.toArrby(brrby); }
 
     /**
-     * Returns an <code>int</code> representing the
-     * action selected by the user.
+     * Returns bn <code>int</code> representing the
+     * bction selected by the user.
      *
-     * @return the action selected by the user
+     * @return the bction selected by the user
      */
 
-    public int getDragAction() { return action; }
+    public int getDrbgAction() { return bction; }
 
     /**
-     * Returns the initial event that triggered the gesture.
+     * Returns the initibl event thbt triggered the gesture.
      *
      * @return the first "triggering" event in the sequence of the gesture
      */
 
     public InputEvent getTriggerEvent() {
-        return getSourceAsDragGestureRecognizer().getTriggerEvent();
+        return getSourceAsDrbgGestureRecognizer().getTriggerEvent();
     }
 
     /**
-     * Starts the drag operation given the <code>Cursor</code> for this drag
-     * operation and the <code>Transferable</code> representing the source data
-     * for this drag operation.
+     * Stbrts the drbg operbtion given the <code>Cursor</code> for this drbg
+     * operbtion bnd the <code>Trbnsferbble</code> representing the source dbtb
+     * for this drbg operbtion.
      * <br>
-     * If a <code>null</code> <code>Cursor</code> is specified no exception will
-     * be thrown and default drag cursors will be used instead.
+     * If b <code>null</code> <code>Cursor</code> is specified no exception will
+     * be thrown bnd defbult drbg cursors will be used instebd.
      * <br>
-     * If a <code>null</code> <code>Transferable</code> is specified
+     * If b <code>null</code> <code>Trbnsferbble</code> is specified
      * <code>NullPointerException</code> will be thrown.
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
+     * @pbrbm drbgCursor     The initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
      *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param transferable The <code>Transferable</code> representing the source
-     *                     data for this drag operation.
+     *                       <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsferbble The <code>Trbnsferbble</code> representing the source
+     *                     dbtb for this drbg operbtion.
      *
-     * @throws InvalidDnDOperationException if the Drag and Drop
-     *         system is unable to initiate a drag operation, or if the user
-     *         attempts to start a drag while an existing drag operation is
+     * @throws InvblidDnDOperbtionException if the Drbg bnd Drop
+     *         system is unbble to initibte b drbg operbtion, or if the user
+     *         bttempts to stbrt b drbg while bn existing drbg operbtion is
      *         still executing.
-     * @throws NullPointerException if the {@code Transferable} is {@code null}
+     * @throws NullPointerException if the {@code Trbnsferbble} is {@code null}
      * @since 1.4
      */
-    public void startDrag(Cursor dragCursor, Transferable transferable)
-      throws InvalidDnDOperationException {
-        dragSource.startDrag(this, dragCursor, transferable, null);
+    public void stbrtDrbg(Cursor drbgCursor, Trbnsferbble trbnsferbble)
+      throws InvblidDnDOperbtionException {
+        drbgSource.stbrtDrbg(this, drbgCursor, trbnsferbble, null);
     }
 
     /**
-     * Starts the drag given the initial <code>Cursor</code> to display,
-     * the <code>Transferable</code> object,
-     * and the <code>DragSourceListener</code> to use.
+     * Stbrts the drbg given the initibl <code>Cursor</code> to displby,
+     * the <code>Trbnsferbble</code> object,
+     * bnd the <code>DrbgSourceListener</code> to use.
      *
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
+     * @pbrbm drbgCursor     The initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
      *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param transferable The source's Transferable
-     * @param dsl          The source's DragSourceListener
+     *                       <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsferbble The source's Trbnsferbble
+     * @pbrbm dsl          The source's DrbgSourceListener
      *
-     * @throws InvalidDnDOperationException if
-     * the Drag and Drop system is unable to
-     * initiate a drag operation, or if the user
-     * attempts to start a drag while an existing
-     * drag operation is still executing.
+     * @throws InvblidDnDOperbtionException if
+     * the Drbg bnd Drop system is unbble to
+     * initibte b drbg operbtion, or if the user
+     * bttempts to stbrt b drbg while bn existing
+     * drbg operbtion is still executing.
      */
 
-    public void startDrag(Cursor dragCursor, Transferable transferable, DragSourceListener dsl) throws InvalidDnDOperationException {
-        dragSource.startDrag(this, dragCursor, transferable, dsl);
+    public void stbrtDrbg(Cursor drbgCursor, Trbnsferbble trbnsferbble, DrbgSourceListener dsl) throws InvblidDnDOperbtionException {
+        drbgSource.stbrtDrbg(this, drbgCursor, trbnsferbble, dsl);
     }
 
     /**
-     * Start the drag given the initial <code>Cursor</code> to display,
-     * a drag <code>Image</code>, the offset of
-     * the <code>Image</code>,
-     * the <code>Transferable</code> object, and
-     * the <code>DragSourceListener</code> to use.
+     * Stbrt the drbg given the initibl <code>Cursor</code> to displby,
+     * b drbg <code>Imbge</code>, the offset of
+     * the <code>Imbge</code>,
+     * the <code>Trbnsferbble</code> object, bnd
+     * the <code>DrbgSourceListener</code> to use.
      *
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
+     * @pbrbm drbgCursor     The initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
      *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param dragImage    The source's dragImage
-     * @param imageOffset  The dragImage's offset
-     * @param transferable The source's Transferable
-     * @param dsl          The source's DragSourceListener
+     *                       <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism
+     *                       during drbg bnd drop
+     * @pbrbm drbgImbge    The source's drbgImbge
+     * @pbrbm imbgeOffset  The drbgImbge's offset
+     * @pbrbm trbnsferbble The source's Trbnsferbble
+     * @pbrbm dsl          The source's DrbgSourceListener
      *
-     * @throws InvalidDnDOperationException if
-     * the Drag and Drop system is unable to
-     * initiate a drag operation, or if the user
-     * attempts to start a drag while an existing
-     * drag operation is still executing.
+     * @throws InvblidDnDOperbtionException if
+     * the Drbg bnd Drop system is unbble to
+     * initibte b drbg operbtion, or if the user
+     * bttempts to stbrt b drbg while bn existing
+     * drbg operbtion is still executing.
      */
 
-    public void startDrag(Cursor dragCursor, Image dragImage, Point imageOffset, Transferable transferable, DragSourceListener dsl) throws InvalidDnDOperationException {
-        dragSource.startDrag(this,  dragCursor, dragImage, imageOffset, transferable, dsl);
+    public void stbrtDrbg(Cursor drbgCursor, Imbge drbgImbge, Point imbgeOffset, Trbnsferbble trbnsferbble, DrbgSourceListener dsl) throws InvblidDnDOperbtionException {
+        drbgSource.stbrtDrbg(this,  drbgCursor, drbgImbge, imbgeOffset, trbnsferbble, dsl);
     }
 
     /**
-     * Serializes this <code>DragGestureEvent</code>. Performs default
-     * serialization and then writes out this object's <code>List</code> of
-     * gesture events if and only if the <code>List</code> can be serialized.
-     * If not, <code>null</code> is written instead. In this case, a
-     * <code>DragGestureEvent</code> created from the resulting deserialized
-     * stream will contain an empty <code>List</code> of gesture events.
+     * Seriblizes this <code>DrbgGestureEvent</code>. Performs defbult
+     * seriblizbtion bnd then writes out this object's <code>List</code> of
+     * gesture events if bnd only if the <code>List</code> cbn be seriblized.
+     * If not, <code>null</code> is written instebd. In this cbse, b
+     * <code>DrbgGestureEvent</code> crebted from the resulting deseriblized
+     * strebm will contbin bn empty <code>List</code> of gesture events.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>List</code> instance, or
+     * @seriblDbtb The defbult seriblizbble fields, in blphbbeticbl order,
+     *             followed by either b <code>List</code> instbnce, or
      *             <code>null</code>.
      * @since 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
 
-        s.writeObject(SerializationTester.test(events) ? events : null);
+        s.writeObject(SeriblizbtionTester.test(events) ? events : null);
     }
 
     /**
-     * Deserializes this <code>DragGestureEvent</code>. This method first
-     * performs default deserialization for all non-<code>transient</code>
-     * fields. An attempt is then made to deserialize this object's
-     * <code>List</code> of gesture events as well. This is first attempted
-     * by deserializing the field <code>events</code>, because, in releases
-     * prior to 1.4, a non-<code>transient</code> field of this name stored the
-     * <code>List</code> of gesture events. If this fails, the next object in
-     * the stream is used instead. If the resulting <code>List</code> is
+     * Deseriblizes this <code>DrbgGestureEvent</code>. This method first
+     * performs defbult deseriblizbtion for bll non-<code>trbnsient</code>
+     * fields. An bttempt is then mbde to deseriblize this object's
+     * <code>List</code> of gesture events bs well. This is first bttempted
+     * by deseriblizing the field <code>events</code>, becbuse, in relebses
+     * prior to 1.4, b non-<code>trbnsient</code> field of this nbme stored the
+     * <code>List</code> of gesture events. If this fbils, the next object in
+     * the strebm is used instebd. If the resulting <code>List</code> is
      * <code>null</code>, this object's <code>List</code> of gesture events
-     * is set to an empty <code>List</code>.
+     * is set to bn empty <code>List</code>.
      *
      * @since 1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjectInputStrebm.GetField f = s.rebdFields();
 
-        DragSource newDragSource = (DragSource)f.get("dragSource", null);
-        if (newDragSource == null) {
-            throw new InvalidObjectException("null DragSource");
+        DrbgSource newDrbgSource = (DrbgSource)f.get("drbgSource", null);
+        if (newDrbgSource == null) {
+            throw new InvblidObjectException("null DrbgSource");
         }
-        dragSource = newDragSource;
+        drbgSource = newDrbgSource;
 
         Component newComponent = (Component)f.get("component", null);
         if (newComponent == null) {
-            throw new InvalidObjectException("null component");
+            throw new InvblidObjectException("null component");
         }
         component = newComponent;
 
         Point newOrigin = (Point)f.get("origin", null);
         if (newOrigin == null) {
-            throw new InvalidObjectException("null origin");
+            throw new InvblidObjectException("null origin");
         }
         origin = newOrigin;
 
-        int newAction = f.get("action", 0);
-        if (newAction != DnDConstants.ACTION_COPY &&
-                newAction != DnDConstants.ACTION_MOVE &&
-                newAction != DnDConstants.ACTION_LINK) {
-            throw new InvalidObjectException("bad action");
+        int newAction = f.get("bction", 0);
+        if (newAction != DnDConstbnts.ACTION_COPY &&
+                newAction != DnDConstbnts.ACTION_MOVE &&
+                newAction != DnDConstbnts.ACTION_LINK) {
+            throw new InvblidObjectException("bbd bction");
         }
-        action = newAction;
+        bction = newAction;
 
-        // Pre-1.4 support. 'events' was previously non-transient
-        @SuppressWarnings("rawtypes")
+        // Pre-1.4 support. 'events' wbs previously non-trbnsient
+        @SuppressWbrnings("rbwtypes")
         List newEvents;
         try {
             newEvents = (List)f.get("events", null);
-        } catch (IllegalArgumentException e) {
-            // 1.4-compatible byte stream. 'events' was written explicitly
-            newEvents = (List)s.readObject();
+        } cbtch (IllegblArgumentException e) {
+            // 1.4-compbtible byte strebm. 'events' wbs written explicitly
+            newEvents = (List)s.rebdObject();
         }
 
-        // Implementation assumes 'events' is never null.
+        // Implementbtion bssumes 'events' is never null.
         if (newEvents != null && newEvents.isEmpty()) {
-            // Constructor treats empty events list as invalid value
-            // Throw exception if serialized list is empty
-            throw new InvalidObjectException("empty list of events");
+            // Constructor trebts empty events list bs invblid vblue
+            // Throw exception if seriblized list is empty
+            throw new InvblidObjectException("empty list of events");
         } else if (newEvents == null) {
             newEvents = Collections.emptyList();
         }
@@ -380,34 +380,34 @@ public class DragGestureEvent extends EventObject {
     /*
      * fields
      */
-    @SuppressWarnings("rawtypes")
-    private transient List events;
+    @SuppressWbrnings("rbwtypes")
+    privbte trbnsient List events;
 
     /**
-     * The DragSource associated with this DragGestureEvent.
+     * The DrbgSource bssocibted with this DrbgGestureEvent.
      *
-     * @serial
+     * @seribl
      */
-    private DragSource dragSource;
+    privbte DrbgSource drbgSource;
 
     /**
-     * The Component associated with this DragGestureEvent.
+     * The Component bssocibted with this DrbgGestureEvent.
      *
-     * @serial
+     * @seribl
      */
-    private Component  component;
+    privbte Component  component;
 
     /**
-     * The origin of the drag.
+     * The origin of the drbg.
      *
-     * @serial
+     * @seribl
      */
-    private Point      origin;
+    privbte Point      origin;
 
     /**
-     * The user's preferred action.
+     * The user's preferred bction.
      *
-     * @serial
+     * @seribl
      */
-    private int        action;
+    privbte int        bction;
 }

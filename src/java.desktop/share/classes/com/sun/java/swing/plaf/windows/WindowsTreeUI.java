@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
-import javax.swing.tree.*;
+import jbvbx.swing.tree.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
  * A Windows tree.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class WindowsTreeUI extends BasicTreeUI {
+public clbss WindowsTreeUI extends BbsicTreeUI {
 
-    public static ComponentUI createUI( JComponent c )
+    public stbtic ComponentUI crebteUI( JComponent c )
       {
         return new WindowsTreeUI();
       }
 
 
     /**
-      * Ensures that the rows identified by beginRow through endRow are
+      * Ensures thbt the rows identified by beginRow through endRow bre
       * visible.
       */
     protected void ensureRowsAreVisible(int beginRow, int endRow) {
         if(tree != null && beginRow >= 0 && endRow < getRowCount(tree)) {
-            Rectangle visRect = tree.getVisibleRect();
+            Rectbngle visRect = tree.getVisibleRect();
             if(beginRow == endRow) {
-                Rectangle     scrollBounds = getPathBounds(tree, getPathForRow
+                Rectbngle     scrollBounds = getPbthBounds(tree, getPbthForRow
                                                            (tree, beginRow));
 
                 if(scrollBounds != null) {
@@ -79,17 +79,17 @@ public class WindowsTreeUI extends BasicTreeUI {
                 }
             }
             else {
-                Rectangle   beginRect = getPathBounds(tree, getPathForRow
+                Rectbngle   beginRect = getPbthBounds(tree, getPbthForRow
                                                       (tree, beginRow));
                 if (beginRect != null) {
-                    Rectangle   testRect = beginRect;
+                    Rectbngle   testRect = beginRect;
                     int         beginY = beginRect.y;
-                    int         maxY = beginY + visRect.height;
+                    int         mbxY = beginY + visRect.height;
 
                     for(int counter = beginRow + 1; counter <= endRow; counter++) {
-                        testRect = getPathBounds(tree,
-                                                 getPathForRow(tree, counter));
-                        if(testRect != null && (testRect.y + testRect.height) > maxY) {
+                        testRect = getPbthBounds(tree,
+                                                 getPbthForRow(tree, counter));
+                        if(testRect != null && (testRect.y + testRect.height) > mbxY) {
                             counter = endRow;
                         }
                     }
@@ -98,7 +98,7 @@ public class WindowsTreeUI extends BasicTreeUI {
                         return;
                     }
 
-                    tree.scrollRectToVisible(new Rectangle(visRect.x, beginY, 1,
+                    tree.scrollRectToVisible(new Rectbngle(visRect.x, beginY, 1,
                                                       testRect.y + testRect.height-
                                                       beginY));
                 }
@@ -106,57 +106,57 @@ public class WindowsTreeUI extends BasicTreeUI {
         }
     }
 
-    static protected final int HALF_SIZE = 4;
-    static protected final int SIZE = 9;
+    stbtic protected finbl int HALF_SIZE = 4;
+    stbtic protected finbl int SIZE = 9;
 
     /**
-     * Returns the default cell renderer that is used to do the
-     * stamping of each node.
+     * Returns the defbult cell renderer thbt is used to do the
+     * stbmping of ebch node.
      */
-    protected TreeCellRenderer createDefaultCellRenderer() {
+    protected TreeCellRenderer crebteDefbultCellRenderer() {
         return new WindowsTreeCellRenderer();
     }
 
     /**
      * The minus sign button icon
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ExpandedIcon implements Icon, Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss ExpbndedIcon implements Icon, Seriblizbble {
 
-        static public Icon createExpandedIcon() {
-            return new ExpandedIcon();
+        stbtic public Icon crebteExpbndedIcon() {
+            return new ExpbndedIcon();
         }
 
         Skin getSkin(Component c) {
             XPStyle xp = XPStyle.getXP();
-            return (xp != null) ? xp.getSkin(c, Part.TVP_GLYPH) : null;
+            return (xp != null) ? xp.getSkin(c, Pbrt.TVP_GLYPH) : null;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             Skin skin = getSkin(c);
             if (skin != null) {
-                skin.paintSkin(g, x, y, State.OPENED);
+                skin.pbintSkin(g, x, y, Stbte.OPENED);
                 return;
             }
 
-            Color     backgroundColor = c.getBackground();
+            Color     bbckgroundColor = c.getBbckground();
 
-            if(backgroundColor != null)
-                g.setColor(backgroundColor);
+            if(bbckgroundColor != null)
+                g.setColor(bbckgroundColor);
             else
                 g.setColor(Color.white);
             g.fillRect(x, y, SIZE-1, SIZE-1);
-            g.setColor(Color.gray);
-            g.drawRect(x, y, SIZE-1, SIZE-1);
-            g.setColor(Color.black);
-            g.drawLine(x + 2, y + HALF_SIZE, x + (SIZE - 3), y + HALF_SIZE);
+            g.setColor(Color.grby);
+            g.drbwRect(x, y, SIZE-1, SIZE-1);
+            g.setColor(Color.blbck);
+            g.drbwLine(x + 2, y + HALF_SIZE, x + (SIZE - 3), y + HALF_SIZE);
         }
 
         public int getIconWidth() {
@@ -173,64 +173,64 @@ public class WindowsTreeUI extends BasicTreeUI {
     /**
      * The plus sign button icon
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class CollapsedIcon extends ExpandedIcon {
-        static public Icon createCollapsedIcon() {
-            return new CollapsedIcon();
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss CollbpsedIcon extends ExpbndedIcon {
+        stbtic public Icon crebteCollbpsedIcon() {
+            return new CollbpsedIcon();
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             Skin skin = getSkin(c);
             if (skin != null) {
-                skin.paintSkin(g, x, y, State.CLOSED);
+                skin.pbintSkin(g, x, y, Stbte.CLOSED);
             } else {
-            super.paintIcon(c, g, x, y);
-            g.drawLine(x + HALF_SIZE, y + 2, x + HALF_SIZE, y + (SIZE - 3));
+            super.pbintIcon(c, g, x, y);
+            g.drbwLine(x + HALF_SIZE, y + 2, x + HALF_SIZE, y + (SIZE - 3));
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class WindowsTreeCellRenderer extends DefaultTreeCellRenderer {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss WindowsTreeCellRenderer extends DefbultTreeCellRenderer {
 
         /**
-         * Configures the renderer based on the passed in components.
-         * The value is set from messaging the tree with
-         * <code>convertValueToText</code>, which ultimately invokes
-         * <code>toString</code> on <code>value</code>.
-         * The foreground color is set based on the selection and the icon
-         * is set based on on leaf and expanded.
+         * Configures the renderer bbsed on the pbssed in components.
+         * The vblue is set from messbging the tree with
+         * <code>convertVblueToText</code>, which ultimbtely invokes
+         * <code>toString</code> on <code>vblue</code>.
+         * The foreground color is set bbsed on the selection bnd the icon
+         * is set bbsed on on lebf bnd expbnded.
          */
-        public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                      boolean sel,
-                                                      boolean expanded,
-                                                      boolean leaf, int row,
-                                                      boolean hasFocus) {
-            super.getTreeCellRendererComponent(tree, value, sel,
-                                               expanded, leaf, row,
-                                               hasFocus);
-            // Windows displays the open icon when the tree item selected.
-            if (!tree.isEnabled()) {
-                setEnabled(false);
-                if (leaf) {
-                    setDisabledIcon(getLeafIcon());
+        public Component getTreeCellRendererComponent(JTree tree, Object vblue,
+                                                      boolebn sel,
+                                                      boolebn expbnded,
+                                                      boolebn lebf, int row,
+                                                      boolebn hbsFocus) {
+            super.getTreeCellRendererComponent(tree, vblue, sel,
+                                               expbnded, lebf, row,
+                                               hbsFocus);
+            // Windows displbys the open icon when the tree item selected.
+            if (!tree.isEnbbled()) {
+                setEnbbled(fblse);
+                if (lebf) {
+                    setDisbbledIcon(getLebfIcon());
                 } else if (sel) {
-                    setDisabledIcon(getOpenIcon());
+                    setDisbbledIcon(getOpenIcon());
                 } else {
-                    setDisabledIcon(getClosedIcon());
+                    setDisbbledIcon(getClosedIcon());
                 }
             }
             else {
-                setEnabled(true);
-                if (leaf) {
-                    setIcon(getLeafIcon());
+                setEnbbled(true);
+                if (lebf) {
+                    setIcon(getLebfIcon());
                 } else if (sel) {
                     setIcon(getOpenIcon());
                 } else {

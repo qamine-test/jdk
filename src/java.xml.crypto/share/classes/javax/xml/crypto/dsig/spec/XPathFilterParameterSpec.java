@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XPathFilterParameterSpec.java,v 1.4 2005/05/10 16:40:17 mullan Exp $
+ * $Id: XPbthFilterPbrbmeterSpec.jbvb,v 1.4 2005/05/10 16:40:17 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbckbge jbvbx.xml.crypto.dsig.spec;
 
-import javax.xml.crypto.dsig.Transform;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+import jbvbx.xml.crypto.dsig.Trbnsform;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
 
 /**
- * Parameters for the <a href="http://www.w3.org/TR/xmldsig-core/#sec-XPath">
- * XPath Filtering Transform Algorithm</a>.
- * The parameters include the XPath expression and an optional <code>Map</code>
- * of additional namespace prefix mappings. The XML Schema Definition of
- * the XPath Filtering transform parameters is defined as:
+ * Pbrbmeters for the <b href="http://www.w3.org/TR/xmldsig-core/#sec-XPbth">
+ * XPbth Filtering Trbnsform Algorithm</b>.
+ * The pbrbmeters include the XPbth expression bnd bn optionbl <code>Mbp</code>
+ * of bdditionbl nbmespbce prefix mbppings. The XML Schemb Definition of
+ * the XPbth Filtering trbnsform pbrbmeters is defined bs:
  * <pre><code>
- * &lt;element name="XPath" type="string"/&gt;
+ * &lt;element nbme="XPbth" type="string"/&gt;
  * </code></pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see Transform
+ * @see Trbnsform
  */
-public final class XPathFilterParameterSpec implements TransformParameterSpec {
+public finbl clbss XPbthFilterPbrbmeterSpec implements TrbnsformPbrbmeterSpec {
 
-    private String xPath;
-    private Map<String,String> nsMap;
+    privbte String xPbth;
+    privbte Mbp<String,String> nsMbp;
 
     /**
-     * Creates an <code>XPathFilterParameterSpec</code> with the specified
-     * XPath expression.
+     * Crebtes bn <code>XPbthFilterPbrbmeterSpec</code> with the specified
+     * XPbth expression.
      *
-     * @param xPath the XPath expression to be evaluated
-     * @throws NullPointerException if <code>xPath</code> is <code>null</code>
+     * @pbrbm xPbth the XPbth expression to be evblubted
+     * @throws NullPointerException if <code>xPbth</code> is <code>null</code>
      */
-    public XPathFilterParameterSpec(String xPath) {
-        if (xPath == null) {
+    public XPbthFilterPbrbmeterSpec(String xPbth) {
+        if (xPbth == null) {
             throw new NullPointerException();
         }
-        this.xPath = xPath;
-        this.nsMap = Collections.emptyMap();
+        this.xPbth = xPbth;
+        this.nsMbp = Collections.emptyMbp();
     }
 
     /**
-     * Creates an <code>XPathFilterParameterSpec</code> with the specified
-     * XPath expression and namespace map. The map is copied to protect against
-     * subsequent modification.
+     * Crebtes bn <code>XPbthFilterPbrbmeterSpec</code> with the specified
+     * XPbth expression bnd nbmespbce mbp. The mbp is copied to protect bgbinst
+     * subsequent modificbtion.
      *
-     * @param xPath the XPath expression to be evaluated
-     * @param namespaceMap the map of namespace prefixes. Each key is a
-     *    namespace prefix <code>String</code> that maps to a corresponding
-     *    namespace URI <code>String</code>.
-     * @throws NullPointerException if <code>xPath</code> or
-     *    <code>namespaceMap</code> are <code>null</code>
-     * @throws ClassCastException if any of the map's keys or entries are not
+     * @pbrbm xPbth the XPbth expression to be evblubted
+     * @pbrbm nbmespbceMbp the mbp of nbmespbce prefixes. Ebch key is b
+     *    nbmespbce prefix <code>String</code> thbt mbps to b corresponding
+     *    nbmespbce URI <code>String</code>.
+     * @throws NullPointerException if <code>xPbth</code> or
+     *    <code>nbmespbceMbp</code> bre <code>null</code>
+     * @throws ClbssCbstException if bny of the mbp's keys or entries bre not
      *    of type <code>String</code>
      */
-    @SuppressWarnings("rawtypes")
-    public XPathFilterParameterSpec(String xPath, Map namespaceMap) {
-        if (xPath == null || namespaceMap == null) {
+    @SuppressWbrnings("rbwtypes")
+    public XPbthFilterPbrbmeterSpec(String xPbth, Mbp nbmespbceMbp) {
+        if (xPbth == null || nbmespbceMbp == null) {
             throw new NullPointerException();
         }
-        this.xPath = xPath;
-        Map<?,?> copy = new HashMap<>((Map<?,?>)namespaceMap);
-        Iterator<? extends Map.Entry<?,?>> entries = copy.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<?,?> me = entries.next();
-            if (!(me.getKey() instanceof String) ||
-                !(me.getValue() instanceof String)) {
-                throw new ClassCastException("not a String");
+        this.xPbth = xPbth;
+        Mbp<?,?> copy = new HbshMbp<>((Mbp<?,?>)nbmespbceMbp);
+        Iterbtor<? extends Mbp.Entry<?,?>> entries = copy.entrySet().iterbtor();
+        while (entries.hbsNext()) {
+            Mbp.Entry<?,?> me = entries.next();
+            if (!(me.getKey() instbnceof String) ||
+                !(me.getVblue() instbnceof String)) {
+                throw new ClbssCbstException("not b String");
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String,String> temp = (Map<String,String>)copy;
+        @SuppressWbrnings("unchecked")
+        Mbp<String,String> temp = (Mbp<String,String>)copy;
 
-        nsMap = Collections.unmodifiableMap(temp);
+        nsMbp = Collections.unmodifibbleMbp(temp);
     }
 
     /**
-     * Returns the XPath expression to be evaluated.
+     * Returns the XPbth expression to be evblubted.
      *
-     * @return the XPath expression to be evaluated
+     * @return the XPbth expression to be evblubted
      */
-    public String getXPath() {
-        return xPath;
+    public String getXPbth() {
+        return xPbth;
     }
 
     /**
-     * Returns a map of namespace prefixes. Each key is a namespace prefix
-     * <code>String</code> that maps to a corresponding namespace URI
+     * Returns b mbp of nbmespbce prefixes. Ebch key is b nbmespbce prefix
+     * <code>String</code> thbt mbps to b corresponding nbmespbce URI
      * <code>String</code>.
      * <p>
-     * This implementation returns an {@link Collections#unmodifiableMap
-     * unmodifiable map}.
+     * This implementbtion returns bn {@link Collections#unmodifibbleMbp
+     * unmodifibble mbp}.
      *
-     * @return a <code>Map</code> of namespace prefixes to namespace URIs (may
+     * @return b <code>Mbp</code> of nbmespbce prefixes to nbmespbce URIs (mby
      *    be empty, but never <code>null</code>)
      */
-    @SuppressWarnings("rawtypes")
-    public Map getNamespaceMap() {
-        return nsMap;
+    @SuppressWbrnings("rbwtypes")
+    public Mbp getNbmespbceMbp() {
+        return nsMbp;
     }
 }

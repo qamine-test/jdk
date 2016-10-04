@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import java.util.Hashtable;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.directory.DirContext;
+import jbvb.util.Hbshtbble;
 
 /**
- * This interface represents a context in which you can perform
- * operations with LDAPv3-style controls and perform LDAPv3-style
- * extended operations.
+ * This interfbce represents b context in which you cbn perform
+ * operbtions with LDAPv3-style controls bnd perform LDAPv3-style
+ * extended operbtions.
  *
- * For applications that do not require such controls or extended
- * operations, the more generic <tt>javax.naming.directory.DirContext</tt>
- * should be used instead.
+ * For bpplicbtions thbt do not require such controls or extended
+ * operbtions, the more generic <tt>jbvbx.nbming.directory.DirContext</tt>
+ * should be used instebd.
  *
- * <h3>Usage Details About Controls</h3>
+ * <h3>Usbge Detbils About Controls</h3>
  *
- * This interface provides support for LDAP v3 controls.
- * At a high level, this support allows a user
- * program to set request controls for LDAP operations that are executed
- * in the course of the user program's invocation of
+ * This interfbce provides support for LDAP v3 controls.
+ * At b high level, this support bllows b user
+ * progrbm to set request controls for LDAP operbtions thbt bre executed
+ * in the course of the user progrbm's invocbtion of
  * <tt>Context</tt>/<tt>DirContext</tt>
- * methods, and read response controls resulting from LDAP operations.
- * At the implementation level, there are some details that developers of
- * both the user program and service providers need to understand in order
- * to correctly use request and response controls.
+ * methods, bnd rebd response controls resulting from LDAP operbtions.
+ * At the implementbtion level, there bre some detbils thbt developers of
+ * both the user progrbm bnd service providers need to understbnd in order
+ * to correctly use request bnd response controls.
  *
  * <h3>Request Controls</h3>
  * <p>
- * There are two types of request controls:
+ * There bre two types of request controls:
  * <ul>
- * <li>Request controls that affect how a connection is created
- * <li>Request controls that affect context methods
+ * <li>Request controls thbt bffect how b connection is crebted
+ * <li>Request controls thbt bffect context methods
  * </ul>
  *
- * The former is used whenever a connection needs to be established or
- * re-established with an LDAP server. The latter is used when all other
- * LDAP operations are sent to the LDAP server.  The reason why a
- * distinction between these two types of request controls is necessary
- * is because JNDI is a high-level API that does not deal directly with
- * connections.  It is the job of service providers to do any necessary
- * connection management. Consequently, a single
- * connection may be shared by multiple context instances, and a service provider
- * is free to use its own algorithms to conserve connection and network
- * usage. Thus, when a method is invoked on the context instance, the service
- * provider might need to do some connection management in addition to
- * performing the corresponding LDAP operations. For connection management,
- * it uses the <em>connection request controls</em>, while for the normal
- * LDAP operations, it uses the <em>context request controls</em>.
- *<p>Unless explicitly qualified, the term "request controls" refers to
+ * The former is used whenever b connection needs to be estbblished or
+ * re-estbblished with bn LDAP server. The lbtter is used when bll other
+ * LDAP operbtions bre sent to the LDAP server.  The rebson why b
+ * distinction between these two types of request controls is necessbry
+ * is becbuse JNDI is b high-level API thbt does not debl directly with
+ * connections.  It is the job of service providers to do bny necessbry
+ * connection mbnbgement. Consequently, b single
+ * connection mby be shbred by multiple context instbnces, bnd b service provider
+ * is free to use its own blgorithms to conserve connection bnd network
+ * usbge. Thus, when b method is invoked on the context instbnce, the service
+ * provider might need to do some connection mbnbgement in bddition to
+ * performing the corresponding LDAP operbtions. For connection mbnbgement,
+ * it uses the <em>connection request controls</em>, while for the normbl
+ * LDAP operbtions, it uses the <em>context request controls</em>.
+ *<p>Unless explicitly qublified, the term "request controls" refers to
  * context request controls.
  *
  * <h4>Context Request Controls</h4>
- * There are two ways in which a context instance gets its request controls:
+ * There bre two wbys in which b context instbnce gets its request controls:
  * <ol>
- * <li><tt>ldapContext.newInstance(<strong>reqCtls</strong>)</tt>
- * <li><tt>ldapContext.setRequestControls(<strong>reqCtls</strong>)</tt>
+ * <li><tt>ldbpContext.newInstbnce(<strong>reqCtls</strong>)</tt>
+ * <li><tt>ldbpContext.setRequestControls(<strong>reqCtls</strong>)</tt>
  * </ol>
- * where <tt>ldapContext</tt> is an instance of <tt>LdapContext</tt>.
- * Specifying <tt>null</tt> or an empty array for <tt>reqCtls</tt>
- * means no request controls.
- * <tt>newInstance()</tt> creates a new instance of a context using
+ * where <tt>ldbpContext</tt> is bn instbnce of <tt>LdbpContext</tt>.
+ * Specifying <tt>null</tt> or bn empty brrby for <tt>reqCtls</tt>
+ * mebns no request controls.
+ * <tt>newInstbnce()</tt> crebtes b new instbnce of b context using
  * <tt>reqCtls</tt>, while <tt>setRequestControls()</tt>
- * updates an existing context instance's request controls to <tt>reqCtls</tt>.
+ * updbtes bn existing context instbnce's request controls to <tt>reqCtls</tt>.
  * <p>
- * Unlike environment properties, request controls of a context instance
- * <em>are not inherited</em> by context instances that are derived from
- * it.  Derived context instances have <tt>null</tt> as their context
- * request controls.  You must set the request controls of a derived context
- * instance explicitly using <tt>setRequestControls()</tt>.
+ * Unlike environment properties, request controls of b context instbnce
+ * <em>bre not inherited</em> by context instbnces thbt bre derived from
+ * it.  Derived context instbnces hbve <tt>null</tt> bs their context
+ * request controls.  You must set the request controls of b derived context
+ * instbnce explicitly using <tt>setRequestControls()</tt>.
  * <p>
- * A context instance's request controls are retrieved using
+ * A context instbnce's request controls bre retrieved using
  * the method <tt>getRequestControls()</tt>.
  *
  * <h4>Connection Request Controls</h4>
- * There are three ways in which connection request controls are set:
+ * There bre three wbys in which connection request controls bre set:
  * <ol>
  * <li><tt>
- * new InitialLdapContext(env, <strong>connCtls</strong>)</tt>
- * <li><tt>refException.getReferralContext(env, <strong>connCtls</strong>)</tt>
- * <li><tt>ldapContext.reconnect(<strong>connCtls</strong>);</tt>
+ * new InitiblLdbpContext(env, <strong>connCtls</strong>)</tt>
+ * <li><tt>refException.getReferrblContext(env, <strong>connCtls</strong>)</tt>
+ * <li><tt>ldbpContext.reconnect(<strong>connCtls</strong>);</tt>
  * </ol>
- * where <tt>refException</tt> is an instance of
- * <tt>LdapReferralException</tt>, and <tt>ldapContext</tt> is an
- * instance of <tt>LdapContext</tt>.
- * Specifying <tt>null</tt> or an empty array for <tt>connCtls</tt>
- * means no connection request controls.
+ * where <tt>refException</tt> is bn instbnce of
+ * <tt>LdbpReferrblException</tt>, bnd <tt>ldbpContext</tt> is bn
+ * instbnce of <tt>LdbpContext</tt>.
+ * Specifying <tt>null</tt> or bn empty brrby for <tt>connCtls</tt>
+ * mebns no connection request controls.
  * <p>
- * Like environment properties, connection request controls of a context
- * <em>are inherited</em> by contexts that are derived from it.
- * Typically, you initialize the connection request controls using the
- * <tt>InitialLdapContext</tt> constructor or
- * <tt>LdapReferralContext.getReferralContext()</tt>. These connection
- * request controls are inherited by contexts that share the same
- * connection--that is, contexts derived from the initial or referral
+ * Like environment properties, connection request controls of b context
+ * <em>bre inherited</em> by contexts thbt bre derived from it.
+ * Typicblly, you initiblize the connection request controls using the
+ * <tt>InitiblLdbpContext</tt> constructor or
+ * <tt>LdbpReferrblContext.getReferrblContext()</tt>. These connection
+ * request controls bre inherited by contexts thbt shbre the sbme
+ * connection--thbt is, contexts derived from the initibl or referrbl
  * contexts.
  * <p>
- * Use <tt>reconnect()</tt> to change the connection request controls of
- * a context.
- * Invoking <tt>ldapContext.reconnect()</tt> affects only the
- * connection used by <tt>ldapContext</tt> and any new contexts instances that are
- * derived form <tt>ldapContext</tt>. Contexts that previously shared the
- * connection with <tt>ldapContext</tt> remain unchanged. That is, a context's
- * connection request controls must be explicitly changed and is not
- * affected by changes to another context's connection request
+ * Use <tt>reconnect()</tt> to chbnge the connection request controls of
+ * b context.
+ * Invoking <tt>ldbpContext.reconnect()</tt> bffects only the
+ * connection used by <tt>ldbpContext</tt> bnd bny new contexts instbnces thbt bre
+ * derived form <tt>ldbpContext</tt>. Contexts thbt previously shbred the
+ * connection with <tt>ldbpContext</tt> rembin unchbnged. Thbt is, b context's
+ * connection request controls must be explicitly chbnged bnd is not
+ * bffected by chbnges to bnother context's connection request
  * controls.
  * <p>
- * A context instance's connection request controls are retrieved using
+ * A context instbnce's connection request controls bre retrieved using
  * the method <tt>getConnectControls()</tt>.
  *
  * <h4>Service Provider Requirements</h4>
  *
- * A service provider supports connection and context request controls
- * in the following ways.  Context request controls must be associated on
- * a per context instance basis while connection request controls must be
- * associated on a per connection instance basis.  The service provider
+ * A service provider supports connection bnd context request controls
+ * in the following wbys.  Context request controls must be bssocibted on
+ * b per context instbnce bbsis while connection request controls must be
+ * bssocibted on b per connection instbnce bbsis.  The service provider
  * must look for the connection request controls in the environment
- * property "java.naming.ldap.control.connect" and pass this environment
- * property on to context instances that it creates.
+ * property "jbvb.nbming.ldbp.control.connect" bnd pbss this environment
+ * property on to context instbnces thbt it crebtes.
  *
  * <h3>Response Controls</h3>
  *
- * The method <tt>LdapContext.getResponseControls()</tt> is used to
- * retrieve the response controls generated by LDAP operations executed
- * as the result of invoking a <tt>Context</tt>/<tt>DirContext</tt>
- * operation. The result is all of the responses controls generated
- * by the underlying LDAP operations, including any implicit reconnection.
+ * The method <tt>LdbpContext.getResponseControls()</tt> is used to
+ * retrieve the response controls generbted by LDAP operbtions executed
+ * bs the result of invoking b <tt>Context</tt>/<tt>DirContext</tt>
+ * operbtion. The result is bll of the responses controls generbted
+ * by the underlying LDAP operbtions, including bny implicit reconnection.
  * To get only the reconnection response controls,
  * use <tt>reconnect()</tt> followed by <tt>getResponseControls()</tt>.
  *
- * <h3>Parameters</h3>
+ * <h3>Pbrbmeters</h3>
  *
- * A <tt>Control[]</tt> array
- * passed as a parameter to any method is owned by the caller.
- * The service provider will not modify the array or keep a reference to it,
- * although it may keep references to the individual <tt>Control</tt> objects
- * in the array.
- * A <tt>Control[]</tt> array returned by any method is immutable, and may
- * not subsequently be modified by either the caller or the service provider.
+ * A <tt>Control[]</tt> brrby
+ * pbssed bs b pbrbmeter to bny method is owned by the cbller.
+ * The service provider will not modify the brrby or keep b reference to it,
+ * blthough it mby keep references to the individubl <tt>Control</tt> objects
+ * in the brrby.
+ * A <tt>Control[]</tt> brrby returned by bny method is immutbble, bnd mby
+ * not subsequently be modified by either the cbller or the service provider.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author Vincent Ryan
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
+ * @buthor Vincent Rybn
  *
- * @see InitialLdapContext
- * @see LdapReferralException#getReferralContext(java.util.Hashtable,javax.naming.ldap.Control[])
+ * @see InitiblLdbpContext
+ * @see LdbpReferrblException#getReferrblContext(jbvb.util.Hbshtbble,jbvbx.nbming.ldbp.Control[])
  * @since 1.3
  */
 
-public interface LdapContext extends DirContext {
+public interfbce LdbpContext extends DirContext {
    /**
-    * Performs an extended operation.
+    * Performs bn extended operbtion.
     *
-    * This method is used to support LDAPv3 extended operations.
-    * @param request The non-null request to be performed.
-    * @return The possibly null response of the operation. null means
-    * the operation did not generate any response.
-    * @throws NamingException If an error occurred while performing the
-    * extended operation.
+    * This method is used to support LDAPv3 extended operbtions.
+    * @pbrbm request The non-null request to be performed.
+    * @return The possibly null response of the operbtion. null mebns
+    * the operbtion did not generbte bny response.
+    * @throws NbmingException If bn error occurred while performing the
+    * extended operbtion.
     */
-    public ExtendedResponse extendedOperation(ExtendedRequest request)
-        throws NamingException;
+    public ExtendedResponse extendedOperbtion(ExtendedRequest request)
+        throws NbmingException;
 
     /**
-     * Creates a new instance of this context initialized using request controls.
+     * Crebtes b new instbnce of this context initiblized using request controls.
      *
-     * This method is a convenience method for creating a new instance
-     * of this context for the purposes of multithreaded access.
-     * For example, if multiple threads want to use different context
+     * This method is b convenience method for crebting b new instbnce
+     * of this context for the purposes of multithrebded bccess.
+     * For exbmple, if multiple threbds wbnt to use different context
      * request controls,
-     * each thread may use this method to get its own copy of this context
-     * and set/get context request controls without having to synchronize with other
-     * threads.
+     * ebch threbd mby use this method to get its own copy of this context
+     * bnd set/get context request controls without hbving to synchronize with other
+     * threbds.
      *<p>
-     * The new context has the same environment properties and connection
-     * request controls as this context. See the class description for details.
-     * Implementations might also allow this context and the new context
-     * to share the same network connection or other resources if doing
+     * The new context hbs the sbme environment properties bnd connection
+     * request controls bs this context. See the clbss description for detbils.
+     * Implementbtions might blso bllow this context bnd the new context
+     * to shbre the sbme network connection or other resources if doing
      * so does not impede the independence of either context.
      *
-     * @param requestControls The possibly null request controls
+     * @pbrbm requestControls The possibly null request controls
      * to use for the new context.
-     * If null, the context is initialized with no request controls.
+     * If null, the context is initiblized with no request controls.
      *
-     * @return A non-null <tt>LdapContext</tt> instance.
-     * @exception NamingException If an error occurred while creating
-     * the new instance.
-     * @see InitialLdapContext
+     * @return A non-null <tt>LdbpContext</tt> instbnce.
+     * @exception NbmingException If bn error occurred while crebting
+     * the new instbnce.
+     * @see InitiblLdbpContext
      */
-    public LdapContext newInstance(Control[] requestControls)
-        throws NamingException;
+    public LdbpContext newInstbnce(Control[] requestControls)
+        throws NbmingException;
 
     /**
-     * Reconnects to the LDAP server using the supplied controls and
+     * Reconnects to the LDAP server using the supplied controls bnd
      * this context's environment.
      *<p>
-     * This method is a way to explicitly initiate an LDAP "bind" operation.
-     * For example, you can use this method to set request controls for
-     * the LDAP "bind" operation, or to explicitly connect to the server
-     * to get response controls returned by the LDAP "bind" operation.
+     * This method is b wby to explicitly initibte bn LDAP "bind" operbtion.
+     * For exbmple, you cbn use this method to set request controls for
+     * the LDAP "bind" operbtion, or to explicitly connect to the server
+     * to get response controls returned by the LDAP "bind" operbtion.
      *<p>
      * This method sets this context's <tt>connCtls</tt>
      * to be its new connection request controls. This context's
-     * context request controls are not affected.
-     * After this method has been invoked, any subsequent
+     * context request controls bre not bffected.
+     * After this method hbs been invoked, bny subsequent
      * implicit reconnections will be done using <tt>connCtls</tt>.
-     * <tt>connCtls</tt> are also used as
-     * connection request controls for new context instances derived from this
+     * <tt>connCtls</tt> bre blso used bs
+     * connection request controls for new context instbnces derived from this
      * context.
-     * These connection request controls are not
-     * affected by <tt>setRequestControls()</tt>.
+     * These connection request controls bre not
+     * bffected by <tt>setRequestControls()</tt>.
      *<p>
-     * Service provider implementors should read the "Service Provider" section
-     * in the class description for implementation details.
-     * @param connCtls The possibly null controls to use. If null, no
-     * controls are used.
-     * @exception NamingException If an error occurred while reconnecting.
+     * Service provider implementors should rebd the "Service Provider" section
+     * in the clbss description for implementbtion detbils.
+     * @pbrbm connCtls The possibly null controls to use. If null, no
+     * controls bre used.
+     * @exception NbmingException If bn error occurred while reconnecting.
      * @see #getConnectControls
-     * @see #newInstance
+     * @see #newInstbnce
      */
-    public void reconnect(Control[] connCtls) throws NamingException;
+    public void reconnect(Control[] connCtls) throws NbmingException;
 
     /**
      * Retrieves the connection request controls in effect for this context.
-     * The controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * The controls bre owned by the JNDI implementbtion bnd bre
+     * immutbble. Neither the brrby nor the controls mby be modified by the
+     * cbller.
      *
-     * @return A possibly-null array of controls. null means no connect controls
-     * have been set for this context.
-     * @exception NamingException If an error occurred while getting the request
+     * @return A possibly-null brrby of controls. null mebns no connect controls
+     * hbve been set for this context.
+     * @exception NbmingException If bn error occurred while getting the request
      * controls.
      */
-    public Control[] getConnectControls() throws NamingException;
+    public Control[] getConnectControls() throws NbmingException;
 
     /**
      * Sets the request controls for methods subsequently
      * invoked on this context.
-     * The request controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * The request controls bre owned by the JNDI implementbtion bnd bre
+     * immutbble. Neither the brrby nor the controls mby be modified by the
+     * cbller.
      * <p>
-     * This removes any previous request controls and adds
+     * This removes bny previous request controls bnd bdds
      * <tt>requestControls</tt>
      * for use by subsequent methods invoked on this context.
-     * This method does not affect this context's connection request controls.
+     * This method does not bffect this context's connection request controls.
      *<p>
-     * Note that <tt>requestControls</tt> will be in effect until the next
-     * invocation of <tt>setRequestControls()</tt>. You need to explicitly
-     * invoke <tt>setRequestControls()</tt> with <tt>null</tt> or an empty
-     * array to clear the controls if you don't want them to affect the
-     * context methods any more.
-     * To check what request controls are in effect for this context, use
+     * Note thbt <tt>requestControls</tt> will be in effect until the next
+     * invocbtion of <tt>setRequestControls()</tt>. You need to explicitly
+     * invoke <tt>setRequestControls()</tt> with <tt>null</tt> or bn empty
+     * brrby to clebr the controls if you don't wbnt them to bffect the
+     * context methods bny more.
+     * To check whbt request controls bre in effect for this context, use
      * <tt>getRequestControls()</tt>.
-     * @param requestControls The possibly null controls to use. If null, no
-     * controls are used.
-     * @exception NamingException If an error occurred while setting the
+     * @pbrbm requestControls The possibly null controls to use. If null, no
+     * controls bre used.
+     * @exception NbmingException If bn error occurred while setting the
      * request controls.
      * @see #getRequestControls
      */
     public void setRequestControls(Control[] requestControls)
-        throws NamingException;
+        throws NbmingException;
 
     /**
      * Retrieves the request controls in effect for this context.
-     * The request controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * The request controls bre owned by the JNDI implementbtion bnd bre
+     * immutbble. Neither the brrby nor the controls mby be modified by the
+     * cbller.
      *
-     * @return A possibly-null array of controls. null means no request controls
-     * have been set for this context.
-     * @exception NamingException If an error occurred while getting the request
+     * @return A possibly-null brrby of controls. null mebns no request controls
+     * hbve been set for this context.
+     * @exception NbmingException If bn error occurred while getting the request
      * controls.
      * @see #setRequestControls
      */
-    public Control[] getRequestControls() throws NamingException;
+    public Control[] getRequestControls() throws NbmingException;
 
     /**
-     * Retrieves the response controls produced as a result of the last
+     * Retrieves the response controls produced bs b result of the lbst
      * method invoked on this context.
-     * The response controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * The response controls bre owned by the JNDI implementbtion bnd bre
+     * immutbble. Neither the brrby nor the controls mby be modified by the
+     * cbller.
      *<p>
-     * These response controls might have been generated by a successful or
-     * failed operation.
+     * These response controls might hbve been generbted by b successful or
+     * fbiled operbtion.
      *<p>
-     * When a context method that may return response controls is invoked,
-     * response controls from the previous method invocation are cleared.
-     * <tt>getResponseControls()</tt> returns all of the response controls
-     * generated by LDAP operations used by the context method in the order
+     * When b context method thbt mby return response controls is invoked,
+     * response controls from the previous method invocbtion bre clebred.
+     * <tt>getResponseControls()</tt> returns bll of the response controls
+     * generbted by LDAP operbtions used by the context method in the order
      * received from the LDAP server.
      * Invoking <tt>getResponseControls()</tt> does not
-     * clear the response controls. You can call it many times (and get
-     * back the same controls) until the next context method that may return
+     * clebr the response controls. You cbn cbll it mbny times (bnd get
+     * bbck the sbme controls) until the next context method thbt mby return
      * controls is invoked.
      *
-     * @return A possibly null array of controls. If null, the previous
-     * method invoked on this context did not produce any controls.
-     * @exception NamingException If an error occurred while getting the response
+     * @return A possibly null brrby of controls. If null, the previous
+     * method invoked on this context did not produce bny controls.
+     * @exception NbmingException If bn error occurred while getting the response
      * controls.
      */
-    public Control[] getResponseControls() throws NamingException;
+    public Control[] getResponseControls() throws NbmingException;
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the list of control factories to use. The value
-     * of the property should be a colon-separated list of the fully
-     * qualified class names of factory classes that will create a control
-     * given another control. See
-     * <tt>ControlFactory.getControlInstance()</tt> for details.
-     * This property may be specified in the environment, a system property,
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the list of control fbctories to use. The vblue
+     * of the property should be b colon-sepbrbted list of the fully
+     * qublified clbss nbmes of fbctory clbsses thbt will crebte b control
+     * given bnother control. See
+     * <tt>ControlFbctory.getControlInstbnce()</tt> for detbils.
+     * This property mby be specified in the environment, b system property,
      * or one or more resource files.
      *<p>
-     * The value of this constant is "java.naming.factory.control".
+     * The vblue of this constbnt is "jbvb.nbming.fbctory.control".
      *
-     * @see ControlFactory
-     * @see javax.naming.Context#addToEnvironment
-     * @see javax.naming.Context#removeFromEnvironment
+     * @see ControlFbctory
+     * @see jbvbx.nbming.Context#bddToEnvironment
+     * @see jbvbx.nbming.Context#removeFromEnvironment
      */
-    static final String CONTROL_FACTORIES = "java.naming.factory.control";
+    stbtic finbl String CONTROL_FACTORIES = "jbvb.nbming.fbctory.control";
 }

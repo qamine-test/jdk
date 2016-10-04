@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.*;
-import java.io.*;
-import java.util.Set;
-import javax.management.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import sun.tools.jconsole.ProxyClient.SnapshotMBeanServerConnection;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.event.MouseAdbpter;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseListener;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.tree.*;
+import sun.tools.jconsole.ProxyClient.SnbpshotMBebnServerConnection;
 import sun.tools.jconsole.inspector.*;
 
 import com.sun.tools.jconsole.JConsoleContext;
 
-@SuppressWarnings("serial")
-public class MBeansTab extends Tab implements
-        NotificationListener, PropertyChangeListener,
-        TreeSelectionListener, TreeWillExpandListener {
+@SuppressWbrnings("seribl")
+public clbss MBebnsTbb extends Tbb implements
+        NotificbtionListener, PropertyChbngeListener,
+        TreeSelectionListener, TreeWillExpbndListener {
 
-    private XTree tree;
-    private XSheet sheet;
-    private XDataViewer viewer;
+    privbte XTree tree;
+    privbte XSheet sheet;
+    privbte XDbtbViewer viewer;
 
-    public static String getTabName() {
-        return Messages.MBEANS;
+    public stbtic String getTbbNbme() {
+        return Messbges.MBEANS;
     }
 
-    public MBeansTab(final VMPanel vmPanel) {
-        super(vmPanel, getTabName());
-        addPropertyChangeListener(this);
-        setupTab();
+    public MBebnsTbb(finbl VMPbnel vmPbnel) {
+        super(vmPbnel, getTbbNbme());
+        bddPropertyChbngeListener(this);
+        setupTbb();
     }
 
-    public XDataViewer getDataViewer() {
+    public XDbtbViewer getDbtbViewer() {
         return viewer;
     }
 
@@ -79,203 +79,203 @@ public class MBeansTab extends Tab implements
         sheet.dispose();
     }
 
-    public int getUpdateInterval() {
-        return vmPanel.getUpdateInterval();
+    public int getUpdbteIntervbl() {
+        return vmPbnel.getUpdbteIntervbl();
     }
 
-    private void buildMBeanServerView() {
-        new SwingWorker<Set<ObjectName>, Void>() {
+    privbte void buildMBebnServerView() {
+        new SwingWorker<Set<ObjectNbme>, Void>() {
             @Override
-            public Set<ObjectName> doInBackground() {
-                // Register listener for MBean registration/unregistration
+            public Set<ObjectNbme> doInBbckground() {
+                // Register listener for MBebn registrbtion/unregistrbtion
                 //
                 try {
-                    getMBeanServerConnection().addNotificationListener(
-                            MBeanServerDelegate.DELEGATE_NAME,
-                            MBeansTab.this,
+                    getMBebnServerConnection().bddNotificbtionListener(
+                            MBebnServerDelegbte.DELEGATE_NAME,
+                            MBebnsTbb.this,
                             null,
                             null);
-                } catch (InstanceNotFoundException e) {
-                    // Should never happen because the MBeanServerDelegate
-                    // is always present in any standard MBeanServer
+                } cbtch (InstbnceNotFoundException e) {
+                    // Should never hbppen becbuse the MBebnServerDelegbte
+                    // is blwbys present in bny stbndbrd MBebnServer
                     //
                     if (JConsole.isDebug()) {
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     if (JConsole.isDebug()) {
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
-                    vmPanel.getProxyClient().markAsDead();
+                    vmPbnel.getProxyClient().mbrkAsDebd();
                     return null;
                 }
-                // Retrieve MBeans from MBeanServer
+                // Retrieve MBebns from MBebnServer
                 //
-                Set<ObjectName> mbeans = null;
+                Set<ObjectNbme> mbebns = null;
                 try {
-                    mbeans = getMBeanServerConnection().queryNames(null, null);
-                } catch (IOException e) {
+                    mbebns = getMBebnServerConnection().queryNbmes(null, null);
+                } cbtch (IOException e) {
                     if (JConsole.isDebug()) {
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
-                    vmPanel.getProxyClient().markAsDead();
+                    vmPbnel.getProxyClient().mbrkAsDebd();
                     return null;
                 }
-                return mbeans;
+                return mbebns;
             }
             @Override
             protected void done() {
                 try {
-                    // Wait for mbsc.queryNames() result
-                    Set<ObjectName> mbeans = get();
-                    // Do not display anything until the new tree has been built
+                    // Wbit for mbsc.queryNbmes() result
+                    Set<ObjectNbme> mbebns = get();
+                    // Do not displby bnything until the new tree hbs been built
                     //
-                    tree.setVisible(false);
-                    // Cleanup current tree
+                    tree.setVisible(fblse);
+                    // Clebnup current tree
                     //
                     tree.removeAll();
-                    // Add MBeans to tree
+                    // Add MBebns to tree
                     //
-                    tree.addMBeansToView(mbeans);
-                    // Display the new tree
+                    tree.bddMBebnsToView(mbebns);
+                    // Displby the new tree
                     //
                     tree.setVisible(true);
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
-                        System.err.println("Problem at MBean tree construction");
-                        t.printStackTrace();
+                        System.err.println("Problem bt MBebn tree construction");
+                        t.printStbckTrbce();
                     }
                 }
             }
         }.execute();
     }
 
-    public MBeanServerConnection getMBeanServerConnection() {
-        return vmPanel.getProxyClient().getMBeanServerConnection();
+    public MBebnServerConnection getMBebnServerConnection() {
+        return vmPbnel.getProxyClient().getMBebnServerConnection();
     }
 
-    public SnapshotMBeanServerConnection getSnapshotMBeanServerConnection() {
-        return vmPanel.getProxyClient().getSnapshotMBeanServerConnection();
+    public SnbpshotMBebnServerConnection getSnbpshotMBebnServerConnection() {
+        return vmPbnel.getProxyClient().getSnbpshotMBebnServerConnection();
     }
 
     @Override
-    public void update() {
-        // Ping the connection to see if it is still alive. At
-        // some point the ProxyClient class should centralize
-        // the connection aliveness monitoring and no longer
-        // rely on the custom tabs to ping the connections.
+    public void updbte() {
+        // Ping the connection to see if it is still blive. At
+        // some point the ProxyClient clbss should centrblize
+        // the connection bliveness monitoring bnd no longer
+        // rely on the custom tbbs to ping the connections.
         //
         try {
-            getMBeanServerConnection().getDefaultDomain();
-        } catch (IOException ex) {
-            vmPanel.getProxyClient().markAsDead();
+            getMBebnServerConnection().getDefbultDombin();
+        } cbtch (IOException ex) {
+            vmPbnel.getProxyClient().mbrkAsDebd();
         }
     }
 
-    private void setupTab() {
-        // set up the split pane with the MBean tree and MBean sheet panels
-        setLayout(new BorderLayout());
-        JSplitPane mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        mainSplit.setDividerLocation(160);
-        mainSplit.setBorder(BorderFactory.createEmptyBorder());
+    privbte void setupTbb() {
+        // set up the split pbne with the MBebn tree bnd MBebn sheet pbnels
+        setLbyout(new BorderLbyout());
+        JSplitPbne mbinSplit = new JSplitPbne(JSplitPbne.HORIZONTAL_SPLIT);
+        mbinSplit.setDividerLocbtion(160);
+        mbinSplit.setBorder(BorderFbctory.crebteEmptyBorder());
 
-        // set up the MBean tree panel (left pane)
+        // set up the MBebn tree pbnel (left pbne)
         tree = new XTree(this);
         tree.setCellRenderer(new XTreeRenderer());
         tree.getSelectionModel().setSelectionMode(
                 TreeSelectionModel.SINGLE_TREE_SELECTION);
-        tree.addTreeSelectionListener(this);
-        tree.addTreeWillExpandListener(this);
-        tree.addMouseListener(ml);
-        JScrollPane theScrollPane = new JScrollPane(
+        tree.bddTreeSelectionListener(this);
+        tree.bddTreeWillExpbndListener(this);
+        tree.bddMouseListener(ml);
+        JScrollPbne theScrollPbne = new JScrollPbne(
                 tree,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        JPanel treePanel = new JPanel(new BorderLayout());
-        treePanel.add(theScrollPane, BorderLayout.CENTER);
-        mainSplit.add(treePanel, JSplitPane.LEFT, 0);
+                JScrollPbne.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPbne.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JPbnel treePbnel = new JPbnel(new BorderLbyout());
+        treePbnel.bdd(theScrollPbne, BorderLbyout.CENTER);
+        mbinSplit.bdd(treePbnel, JSplitPbne.LEFT, 0);
 
-        // set up the MBean sheet panel (right pane)
-        viewer = new XDataViewer(this);
+        // set up the MBebn sheet pbnel (right pbne)
+        viewer = new XDbtbViewer(this);
         sheet = new XSheet(this);
-        mainSplit.add(sheet, JSplitPane.RIGHT, 0);
+        mbinSplit.bdd(sheet, JSplitPbne.RIGHT, 0);
 
-        add(mainSplit);
+        bdd(mbinSplit);
     }
 
-    /* notification listener:  handleNotification */
-    public void handleNotification(
-            final Notification notification, Object handback) {
-        EventQueue.invokeLater(new Runnable() {
+    /* notificbtion listener:  hbndleNotificbtion */
+    public void hbndleNotificbtion(
+            finbl Notificbtion notificbtion, Object hbndbbck) {
+        EventQueue.invokeLbter(new Runnbble() {
             public void run() {
-                if (notification instanceof MBeanServerNotification) {
-                    ObjectName mbean =
-                            ((MBeanServerNotification) notification).getMBeanName();
-                    if (notification.getType().equals(
-                            MBeanServerNotification.REGISTRATION_NOTIFICATION)) {
-                        tree.addMBeanToView(mbean);
-                    } else if (notification.getType().equals(
-                            MBeanServerNotification.UNREGISTRATION_NOTIFICATION)) {
-                        tree.removeMBeanFromView(mbean);
+                if (notificbtion instbnceof MBebnServerNotificbtion) {
+                    ObjectNbme mbebn =
+                            ((MBebnServerNotificbtion) notificbtion).getMBebnNbme();
+                    if (notificbtion.getType().equbls(
+                            MBebnServerNotificbtion.REGISTRATION_NOTIFICATION)) {
+                        tree.bddMBebnToView(mbebn);
+                    } else if (notificbtion.getType().equbls(
+                            MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION)) {
+                        tree.removeMBebnFromView(mbebn);
                     }
                 }
             }
         });
     }
 
-    /* property change listener:  propertyChange */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (JConsoleContext.CONNECTION_STATE_PROPERTY.equals(evt.getPropertyName())) {
-            boolean connected = (Boolean) evt.getNewValue();
+    /* property chbnge listener:  propertyChbnge */
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (JConsoleContext.CONNECTION_STATE_PROPERTY.equbls(evt.getPropertyNbme())) {
+            boolebn connected = (Boolebn) evt.getNewVblue();
             if (connected) {
-                buildMBeanServerView();
+                buildMBebnServerView();
             } else {
                 sheet.dispose();
             }
         }
     }
 
-    /* tree selection listener: valueChanged */
-    public void valueChanged(TreeSelectionEvent e) {
-        DefaultMutableTreeNode node =
-                (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        sheet.displayNode(node);
+    /* tree selection listener: vblueChbnged */
+    public void vblueChbnged(TreeSelectionEvent e) {
+        DefbultMutbbleTreeNode node =
+                (DefbultMutbbleTreeNode) tree.getLbstSelectedPbthComponent();
+        sheet.displbyNode(node);
     }
     /* tree mouse listener: mousePressed */
-    private MouseListener ml = new MouseAdapter() {
+    privbte MouseListener ml = new MouseAdbpter() {
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getClickCount() == 1) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
+                int selRow = tree.getRowForLocbtion(e.getX(), e.getY());
                 if (selRow != -1) {
-                    TreePath selPath =
-                            tree.getPathForLocation(e.getX(), e.getY());
-                    DefaultMutableTreeNode node =
-                            (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                    if (sheet.isMBeanNode(node)) {
-                        tree.expandPath(selPath);
+                    TreePbth selPbth =
+                            tree.getPbthForLocbtion(e.getX(), e.getY());
+                    DefbultMutbbleTreeNode node =
+                            (DefbultMutbbleTreeNode) selPbth.getLbstPbthComponent();
+                    if (sheet.isMBebnNode(node)) {
+                        tree.expbndPbth(selPbth);
                     }
                 }
             }
         }
     };
 
-    /* tree will expand listener: treeWillExpand */
-    public void treeWillExpand(TreeExpansionEvent e)
-            throws ExpandVetoException {
-        TreePath path = e.getPath();
-        if (!tree.hasBeenExpanded(path)) {
-            DefaultMutableTreeNode node =
-                    (DefaultMutableTreeNode) path.getLastPathComponent();
-            if (sheet.isMBeanNode(node) && !tree.hasMetadataNodes(node)) {
-                tree.addMetadataNodes(node);
+    /* tree will expbnd listener: treeWillExpbnd */
+    public void treeWillExpbnd(TreeExpbnsionEvent e)
+            throws ExpbndVetoException {
+        TreePbth pbth = e.getPbth();
+        if (!tree.hbsBeenExpbnded(pbth)) {
+            DefbultMutbbleTreeNode node =
+                    (DefbultMutbbleTreeNode) pbth.getLbstPbthComponent();
+            if (sheet.isMBebnNode(node) && !tree.hbsMetbdbtbNodes(node)) {
+                tree.bddMetbdbtbNodes(node);
             }
         }
     }
 
-    /* tree will expand listener: treeWillCollapse */
-    public void treeWillCollapse(TreeExpansionEvent e)
-            throws ExpandVetoException {
+    /* tree will expbnd listener: treeWillCollbpse */
+    public void treeWillCollbpse(TreeExpbnsionEvent e)
+            throws ExpbndVetoException {
     }
 }

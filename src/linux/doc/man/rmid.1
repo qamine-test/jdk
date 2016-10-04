@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Remote Method Invocation (RMI) Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Remote Method Invocbtion (RMI) Tools
 .\"     Title: rmid.1
 .\"
 .if n .pl 99999
-.TH rmid 1 "21 November 2013" "JDK 8" "Remote Method Invocation (RMI) Tools"
+.TH rmid 1 "21 November 2013" "JDK 8" "Remote Method Invocbtion (RMI) Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-rmid \- Starts the activation system daemon that enables objects to be registered and activated in a Java Virtual Machine (JVM)\&.
+rmid \- Stbrts the bctivbtion system dbemon thbt enbbles objects to be registered bnd bctivbted in b Jbvb Virtubl Mbchine (JVM)\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,57 +60,57 @@ rmid \- Starts the activation system daemon that enables objects to be registere
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .SH DESCRIPTION    
-The \f3rmid\fR command starts the activation system daemon\&. The activation system daemon must be started before activatable objects can be either registered with the activation system or activated in a JVM\&. For details on how to write programs that use activatable objects, the \fIUsing Activation\fR tutorial at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/rmi/activation/overview\&.html
+The \f3rmid\fR commbnd stbrts the bctivbtion system dbemon\&. The bctivbtion system dbemon must be stbrted before bctivbtbble objects cbn be either registered with the bctivbtion system or bctivbted in b JVM\&. For detbils on how to write progrbms thbt use bctivbtbble objects, the \fIUsing Activbtion\fR tutoribl bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/rmi/bctivbtion/overview\&.html
 .PP
-Start the daemon by executing the \f3rmid\fR command and specifying a security policy file, as follows:
+Stbrt the dbemon by executing the \f3rmid\fR commbnd bnd specifying b security policy file, bs follows:
 .sp     
 .nf     
-\f3rmid \-J\-Djava\&.security\&.policy=rmid\&.policy\fP
+\f3rmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-When you run Oracle\(cqs implementation of the \f3rmid\fR command, by default you must specify a security policy file so that the \f3rmid\fR command can verify whether or not the information in each \f3ActivationGroupDesc\fR is allowed to be used to start a JVM for an activation group\&. Specifically, the command and options specified by the \f3CommandEnvironment\fR and any properties passed to an \f3ActivationGroupDesc\fR constructor must now be explicitly allowed in the security policy file for the \f3rmid\fR command\&. The value of the \f3sun\&.rmi\&.activation\&.execPolicy\fR property dictates the policy that the \f3rmid\fR command uses to determine whether or not the information in an \f3ActivationGroupDesc\fR can be used to start a JVM for an activation group\&. For more information see the description of the -J-Dsun\&.rmi\&.activation\&.execPolicy=policy option\&.
+When you run Orbcle\(cqs implementbtion of the \f3rmid\fR commbnd, by defbult you must specify b security policy file so thbt the \f3rmid\fR commbnd cbn verify whether or not the informbtion in ebch \f3ActivbtionGroupDesc\fR is bllowed to be used to stbrt b JVM for bn bctivbtion group\&. Specificblly, the commbnd bnd options specified by the \f3CommbndEnvironment\fR bnd bny properties pbssed to bn \f3ActivbtionGroupDesc\fR constructor must now be explicitly bllowed in the security policy file for the \f3rmid\fR commbnd\&. The vblue of the \f3sun\&.rmi\&.bctivbtion\&.execPolicy\fR property dictbtes the policy thbt the \f3rmid\fR commbnd uses to determine whether or not the informbtion in bn \f3ActivbtionGroupDesc\fR cbn be used to stbrt b JVM for bn bctivbtion group\&. For more informbtion see the description of the -J-Dsun\&.rmi\&.bctivbtion\&.execPolicy=policy option\&.
 .PP
-Executing the \f3rmid\fR command starts the Activator and an internal registry on the default port1098 and binds an \f3ActivationSystem\fR to the name \f3java\&.rmi\&.activation\&.ActivationSystem\fR in this internal registry\&.
+Executing the \f3rmid\fR commbnd stbrts the Activbtor bnd bn internbl registry on the defbult port1098 bnd binds bn \f3ActivbtionSystem\fR to the nbme \f3jbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR in this internbl registry\&.
 .PP
-To specify an alternate port for the registry, you must specify the \f3-port\fR option when you execute the \f3rmid\fR command\&. For example, the following command starts the activation system daemon and a registry on the registry\&'s default port, 1099\&.
+To specify bn blternbte port for the registry, you must specify the \f3-port\fR option when you execute the \f3rmid\fR commbnd\&. For exbmple, the following commbnd stbrts the bctivbtion system dbemon bnd b registry on the registry\&'s defbult port, 1099\&.
 .sp     
 .nf     
-\f3rmid \-J\-Djava\&.security\&.policy=rmid\&.policy \-port 1099\fP
+\f3rmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy \-port 1099\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SH START\ RMID\ ON\ DEMAND    
-An alternative to starting \f3rmid\fR from the command line is to configure \f3inetd\fR (Oracle Solaris) or \f3xinetd\fR (Linux) to start \f3rmid\fR on demand\&.
+An blternbtive to stbrting \f3rmid\fR from the commbnd line is to configure \f3inetd\fR (Orbcle Solbris) or \f3xinetd\fR (Linux) to stbrt \f3rmid\fR on dembnd\&.
 .PP
-When RMID starts, it attempts to obtain an inherited channel (inherited from \f3inetd\fR/\f3xinetd\fR) by calling the \f3System\&.inheritedChannel\fR method\&. If the inherited channel is null or not an instance of \f3java\&.nio\&.channels\&.ServerSocketChannel\fR, then RMID assumes that it was not started by \f3inetd\fR/\f3xinetd\fR, and it starts as previously described\&.
+When RMID stbrts, it bttempts to obtbin bn inherited chbnnel (inherited from \f3inetd\fR/\f3xinetd\fR) by cblling the \f3System\&.inheritedChbnnel\fR method\&. If the inherited chbnnel is null or not bn instbnce of \f3jbvb\&.nio\&.chbnnels\&.ServerSocketChbnnel\fR, then RMID bssumes thbt it wbs not stbrted by \f3inetd\fR/\f3xinetd\fR, bnd it stbrts bs previously described\&.
 .PP
-If the inherited channel is a \f3ServerSocketChannel\fR instance, then RMID uses the \f3java\&.net\&.ServerSocket\fR obtained from the \f3ServerSocketChannel\fR as the server socket that accepts requests for the remote objects it exports: The registry in which the \f3java\&.rmi\&.activation\&.ActivationSystem\fR is bound and the \f3java\&.rmi\&.activation\&.Activator\fR remote object\&. In this mode, RMID behaves the same as when it is started from the command line, except in the following cases:
+If the inherited chbnnel is b \f3ServerSocketChbnnel\fR instbnce, then RMID uses the \f3jbvb\&.net\&.ServerSocket\fR obtbined from the \f3ServerSocketChbnnel\fR bs the server socket thbt bccepts requests for the remote objects it exports: The registry in which the \f3jbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR is bound bnd the \f3jbvb\&.rmi\&.bctivbtion\&.Activbtor\fR remote object\&. In this mode, RMID behbves the sbme bs when it is stbrted from the commbnd line, except in the following cbses:
 .TP 0.2i    
 \(bu
-Output printed to \f3System\&.err\fR is redirected to a file\&. This file is located in the directory specified by the \f3java\&.io\&.tmpdir\fR system property (typically \f3/var/tmp\fR or \f3/tmp\fR) with the prefix \f3rmid-err\fR and the suffix \f3tmp\fR\&.
+Output printed to \f3System\&.err\fR is redirected to b file\&. This file is locbted in the directory specified by the \f3jbvb\&.io\&.tmpdir\fR system property (typicblly \f3/vbr/tmp\fR or \f3/tmp\fR) with the prefix \f3rmid-err\fR bnd the suffix \f3tmp\fR\&.
 .TP 0.2i    
 \(bu
-The \f3-port\fR option is not allowed\&. If this option is specified, then RMID exits with an error message\&.
+The \f3-port\fR option is not bllowed\&. If this option is specified, then RMID exits with bn error messbge\&.
 .TP 0.2i    
 \(bu
-The \f3-log\fR option is required\&. If this option is not specified, then RMID exits with an error message
+The \f3-log\fR option is required\&. If this option is not specified, then RMID exits with bn error messbge
 .PP
-See the man pages for \f3inetd\fR (Oracle Solaris) or \f3xinetd\fR (Linux) for details on how to configure services to be started on demand\&.
+See the mbn pbges for \f3inetd\fR (Orbcle Solbris) or \f3xinetd\fR (Linux) for detbils on how to configure services to be stbrted on dembnd\&.
 .SH OPTIONS    
 .TP
 -C\fIoption\fR
 .br
-Specifies an option that is passed as a command-line argument to each child process (activation group) of the \f3rmid\fR command when that process is created\&. For example, you could pass a property to each virtual machine spawned by the activation system daemon:
+Specifies bn option thbt is pbssed bs b commbnd-line brgument to ebch child process (bctivbtion group) of the \f3rmid\fR commbnd when thbt process is crebted\&. For exbmple, you could pbss b property to ebch virtubl mbchine spbwned by the bctivbtion system dbemon:
 .sp     
 .nf     
-\f3rmid \-C\-Dsome\&.property=value\fP
+\f3rmid \-C\-Dsome\&.property=vblue\fP
 .fi     
 .nf     
 \f3\fP
@@ -118,10 +118,10 @@ Specifies an option that is passed as a command-line argument to each child proc
 .sp     
 
 
-This ability to pass command-line arguments to child processes can be useful for debugging\&. For example, the following command enables server-call logging in all child JVMs\&.
+This bbility to pbss commbnd-line brguments to child processes cbn be useful for debugging\&. For exbmple, the following commbnd enbbles server-cbll logging in bll child JVMs\&.
 .sp     
 .nf     
-\f3rmid \-C\-Djava\&.rmi\&.server\&.logCalls=true\fP
+\f3rmid \-C\-Djbvb\&.rmi\&.server\&.logCblls=true\fP
 .fi     
 .nf     
 \f3\fP
@@ -131,10 +131,10 @@ This ability to pass command-line arguments to child processes can be useful for
 .TP
 -J\fIoption\fR
 .br
-Specifies an option that is passed to the Java interpreter running RMID\&. For example, to specify that the \f3rmid\fR command use a policy file named \f3rmid\&.policy\fR, the \f3-J\fR option can be used to define the \f3java\&.security\&.policy\fR property on the \f3rmid\fR command line, for example:
+Specifies bn option thbt is pbssed to the Jbvb interpreter running RMID\&. For exbmple, to specify thbt the \f3rmid\fR commbnd use b policy file nbmed \f3rmid\&.policy\fR, the \f3-J\fR option cbn be used to define the \f3jbvb\&.security\&.policy\fR property on the \f3rmid\fR commbnd line, for exbmple:
 .sp     
 .nf     
-\f3rmid \-J\-Djava\&.security\&.policy\-rmid\&.policy\fP
+\f3rmid \-J\-Djbvb\&.security\&.policy\-rmid\&.policy\fP
 .fi     
 .nf     
 \f3\fP
@@ -142,48 +142,48 @@ Specifies an option that is passed to the Java interpreter running RMID\&. For e
 .sp     
 
 .TP
--J-Dsun\&.rmi\&.activation\&.execPolicy=\fIpolicy\fR
+-J-Dsun\&.rmi\&.bctivbtion\&.execPolicy=\fIpolicy\fR
 .br
-Specifies the policy that RMID employs to check commands and command-line options used to start the JVM in which an activation group runs\&. Please note that this option exists only in Oracle\&'s implementation of the Java RMI activation daemon\&. If this property is not specified on the command line, then the result is the same as though \f3-J-Dsun\&.rmi\&.activation\&.execPolicy=default\fR were specified\&. The possible values of \f3policy\fR can be \f3default\fR, \f3policyClassName\fR, or \f3none\fR\&.
+Specifies the policy thbt RMID employs to check commbnds bnd commbnd-line options used to stbrt the JVM in which bn bctivbtion group runs\&. Plebse note thbt this option exists only in Orbcle\&'s implementbtion of the Jbvb RMI bctivbtion dbemon\&. If this property is not specified on the commbnd line, then the result is the sbme bs though \f3-J-Dsun\&.rmi\&.bctivbtion\&.execPolicy=defbult\fR were specified\&. The possible vblues of \f3policy\fR cbn be \f3defbult\fR, \f3policyClbssNbme\fR, or \f3none\fR\&.
 .RS     
 .TP 0.2i    
 \(bu
-default
+defbult
 
-The \f3default\fR or unspecified value \f3execPolicy\fR allows the \f3rmid\fR command to execute commands with specific command-line options only when the \f3rmid\fR command was granted permission to execute those commands and options in the security policy file that the \f3rmid\fR command uses\&. Only the default activation group implementation can be used with the default execution policy\&.
+The \f3defbult\fR or unspecified vblue \f3execPolicy\fR bllows the \f3rmid\fR commbnd to execute commbnds with specific commbnd-line options only when the \f3rmid\fR commbnd wbs grbnted permission to execute those commbnds bnd options in the security policy file thbt the \f3rmid\fR commbnd uses\&. Only the defbult bctivbtion group implementbtion cbn be used with the defbult execution policy\&.
 
-The \f3rmid\fR command starts a JVM for an activation group with the information in the group\&'s registered activation group descriptor, an \f3ActivationGroupDesc\fR\&. The group descriptor specifies an optional \f3ActivationGroupDesc\&.CommandEnvironment\fR that includes the command to execute to start the activation group and any command-line options to be added to the command line\&. By default, the \f3rmid\fR command uses the \f3java\fR command found in \f3java\&.home\fR\&. The group descriptor also contains properties overrides that are added to the command line as options defined as: \f3-D<property>=<value>\fR\&.The \f3com\&.sun\&.rmi\&.rmid\&.ExecPermission\fR permission grants the \f3rmid\fR command permission to execute a command that is specified in the group descriptor\&'s \f3CommandEnvironment\fR to start an activation group\&. The \f3com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission\fR permission enables the \f3rmid\fR command to use command-line options, specified as properties overrides in the group descriptor or as options in the \f3CommandEnvironment\fR when starting the activation group\&.When granting the \f3rmid\fR command permission to execute various commands and options, the permissions \f3ExecPermission\fR and \f3ExecOptionPermission\fR must be granted to all code sources\&.
+The \f3rmid\fR commbnd stbrts b JVM for bn bctivbtion group with the informbtion in the group\&'s registered bctivbtion group descriptor, bn \f3ActivbtionGroupDesc\fR\&. The group descriptor specifies bn optionbl \f3ActivbtionGroupDesc\&.CommbndEnvironment\fR thbt includes the commbnd to execute to stbrt the bctivbtion group bnd bny commbnd-line options to be bdded to the commbnd line\&. By defbult, the \f3rmid\fR commbnd uses the \f3jbvb\fR commbnd found in \f3jbvb\&.home\fR\&. The group descriptor blso contbins properties overrides thbt bre bdded to the commbnd line bs options defined bs: \f3-D<property>=<vblue>\fR\&.The \f3com\&.sun\&.rmi\&.rmid\&.ExecPermission\fR permission grbnts the \f3rmid\fR commbnd permission to execute b commbnd thbt is specified in the group descriptor\&'s \f3CommbndEnvironment\fR to stbrt bn bctivbtion group\&. The \f3com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission\fR permission enbbles the \f3rmid\fR commbnd to use commbnd-line options, specified bs properties overrides in the group descriptor or bs options in the \f3CommbndEnvironment\fR when stbrting the bctivbtion group\&.When grbnting the \f3rmid\fR commbnd permission to execute vbrious commbnds bnd options, the permissions \f3ExecPermission\fR bnd \f3ExecOptionPermission\fR must be grbnted to bll code sources\&.
 
 \fIExecPermission\fR
 
-The \f3ExecPermission\fR class represents permission for the \f3rmid\fR command to execute a specific command to start an activation group\&.
+The \f3ExecPermission\fR clbss represents permission for the \f3rmid\fR commbnd to execute b specific commbnd to stbrt bn bctivbtion group\&.
 
-\fISyntax\fR: The name of an \f3ExecPermission\fR is the path name of a command to grant the \f3rmid\fR command permission to execute\&. A path name that ends in a slash (/) and an asterisk (*) indicates that all of the files contained in that directory where slash is the file-separator character, \f3File\&.separatorChar\fR\&. A path name that ends in a slash (/) and a minus sign (-) indicates all files and subdirectories contained in that directory (recursively)\&. A path name that consists of the special token \f3<<ALL FILES>>\fR matches any file\&.
+\fISyntbx\fR: The nbme of bn \f3ExecPermission\fR is the pbth nbme of b commbnd to grbnt the \f3rmid\fR commbnd permission to execute\&. A pbth nbme thbt ends in b slbsh (/) bnd bn bsterisk (*) indicbtes thbt bll of the files contbined in thbt directory where slbsh is the file-sepbrbtor chbrbcter, \f3File\&.sepbrbtorChbr\fR\&. A pbth nbme thbt ends in b slbsh (/) bnd b minus sign (-) indicbtes bll files bnd subdirectories contbined in thbt directory (recursively)\&. A pbth nbme thbt consists of the specibl token \f3<<ALL FILES>>\fR mbtches bny file\&.
 
-A path name that consists of an asterisk (*) indicates all the files in the current directory\&. A path name that consists of a minus sign (-) indicates all the files in the current directory and (recursively) all files and subdirectories contained in the current directory\&.
+A pbth nbme thbt consists of bn bsterisk (*) indicbtes bll the files in the current directory\&. A pbth nbme thbt consists of b minus sign (-) indicbtes bll the files in the current directory bnd (recursively) bll files bnd subdirectories contbined in the current directory\&.
 
 \fIExecOptionPermission\fR
 
-The \f3ExecOptionPermission\fR class represents permission for the \f3rmid\fR command to use a specific command-line option when starting an activation group\&. The name of an \f3ExecOptionPermission\fR is the value of a command-line option\&.
+The \f3ExecOptionPermission\fR clbss represents permission for the \f3rmid\fR commbnd to use b specific commbnd-line option when stbrting bn bctivbtion group\&. The nbme of bn \f3ExecOptionPermission\fR is the vblue of b commbnd-line option\&.
 
-\fISyntax\fR: Options support a limited wild card scheme\&. An asterisk signifies a wild card match, and it can appear as the option name itself (matches any option), or an asterisk (*) can appear at the end of the option name only when the asterisk (*) follows a dot (\&.) or an equals sign (=)\&.
+\fISyntbx\fR: Options support b limited wild cbrd scheme\&. An bsterisk signifies b wild cbrd mbtch, bnd it cbn bppebr bs the option nbme itself (mbtches bny option), or bn bsterisk (*) cbn bppebr bt the end of the option nbme only when the bsterisk (*) follows b dot (\&.) or bn equbls sign (=)\&.
 
-For example: \f3*\fR or \f3-Dmydir\&.*\fR or \f3-Da\&.b\&.c=*\fR is valid, but \f3*mydir\fR or \f3-Da*b\fR or \f3ab*\fR is not\&.
+For exbmple: \f3*\fR or \f3-Dmydir\&.*\fR or \f3-Db\&.b\&.c=*\fR is vblid, but \f3*mydir\fR or \f3-Db*b\fR or \f3bb*\fR is not\&.
 
 \fIPolicy file for rmid\fR
 
-When you grant the \f3rmid\fR command permission to execute various commands and options, the permissions \f3ExecPermission\fR and \f3ExecOptionPermission\fR must be granted to all code sources (universally)\&. It is safe to grant these permissions universally because only the \f3rmid\fR command checks these permissions\&.
+When you grbnt the \f3rmid\fR commbnd permission to execute vbrious commbnds bnd options, the permissions \f3ExecPermission\fR bnd \f3ExecOptionPermission\fR must be grbnted to bll code sources (universblly)\&. It is sbfe to grbnt these permissions universblly becbuse only the \f3rmid\fR commbnd checks these permissions\&.
 
-An example policy file that grants various execute permissions to the \f3rmid\fR command is:
+An exbmple policy file thbt grbnts vbrious execute permissions to the \f3rmid\fR commbnd is:
 .sp     
 .nf     
-\f3grant {\fP
+\f3grbnt {\fP
 .fi     
 .nf     
 \f3    permission com\&.sun\&.rmi\&.rmid\&.ExecPermission\fP
 .fi     
 .nf     
-\f3        "/files/apps/java/jdk1\&.7\&.0/solaris/bin/java";\fP
+\f3        "/files/bpps/jbvb/jdk1\&.7\&.0/solbris/bin/jbvb";\fP
 .fi     
 .nf     
 \f3\fP
@@ -192,7 +192,7 @@ An example policy file that grants various execute permissions to the \f3rmid\fR
 \f3    permission com\&.sun\&.rmi\&.rmid\&.ExecPermission\fP
 .fi     
 .nf     
-\f3        "/files/apps/rmidcmds/*";\fP
+\f3        "/files/bpps/rmidcmds/*";\fP
 .fi     
 .nf     
 \f3\fP
@@ -201,7 +201,7 @@ An example policy file that grants various execute permissions to the \f3rmid\fR
 \f3    permission com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission\fP
 .fi     
 .nf     
-\f3        "\-Djava\&.security\&.policy=/files/policies/group\&.policy";\fP
+\f3        "\-Djbvb\&.security\&.policy=/files/policies/group\&.policy";\fP
 .fi     
 .nf     
 \f3\fP
@@ -210,7 +210,7 @@ An example policy file that grants various execute permissions to the \f3rmid\fR
 \f3    permission com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission\fP
 .fi     
 .nf     
-\f3        "\-Djava\&.security\&.debug=*";\fP
+\f3        "\-Djbvb\&.security\&.debug=*";\fP
 .fi     
 .nf     
 \f3\fP
@@ -230,23 +230,23 @@ An example policy file that grants various execute permissions to the \f3rmid\fR
 .sp     
 
 
-The first permission granted allows the \f3rmid\fR tcommand o execute the 1\&.7\&.0 release of the \f3java\fR command, specified by its explicit path name\&. By default, the version of the \f3java\fR command found in \f3java\&.home\fR is used (the same one that the \f3rmid\fR command uses), and does not need to be specified in the policy file\&. The second permission allows the \f3rmid\fR command to execute any command in the directory \f3/files/apps/rmidcmds\fR\&.
+The first permission grbnted bllows the \f3rmid\fR tcommbnd o execute the 1\&.7\&.0 relebse of the \f3jbvb\fR commbnd, specified by its explicit pbth nbme\&. By defbult, the version of the \f3jbvb\fR commbnd found in \f3jbvb\&.home\fR is used (the sbme one thbt the \f3rmid\fR commbnd uses), bnd does not need to be specified in the policy file\&. The second permission bllows the \f3rmid\fR commbnd to execute bny commbnd in the directory \f3/files/bpps/rmidcmds\fR\&.
 
-The third permission granted, an \f3ExecOptionPermission\fR, allows the \f3rmid\fR command to start an activation group that defines the security policy file to be \f3/files/policies/group\&.policy\fR\&. The next permission allows the \f3java\&.security\&.debug property\fR to be used by an activation group\&. The last permission allows any property in the \f3sun\&.rmi property\fR name hierarchy to be used by activation groups\&.
+The third permission grbnted, bn \f3ExecOptionPermission\fR, bllows the \f3rmid\fR commbnd to stbrt bn bctivbtion group thbt defines the security policy file to be \f3/files/policies/group\&.policy\fR\&. The next permission bllows the \f3jbvb\&.security\&.debug property\fR to be used by bn bctivbtion group\&. The lbst permission bllows bny property in the \f3sun\&.rmi property\fR nbme hierbrchy to be used by bctivbtion groups\&.
 
-To start the \f3rmid\fR command with a policy file, the \f3java\&.security\&.policy\fR property needs to be specified on the \f3rmid\fR command line, for example:
+To stbrt the \f3rmid\fR commbnd with b policy file, the \f3jbvb\&.security\&.policy\fR property needs to be specified on the \f3rmid\fR commbnd line, for exbmple:
 
-\f3rmid -J-Djava\&.security\&.policy=rmid\&.policy\fR\&.
+\f3rmid -J-Djbvb\&.security\&.policy=rmid\&.policy\fR\&.
 .TP 0.2i    
 \(bu
-<policyClassName>
+<policyClbssNbme>
 
-If the default behavior is not flexible enough, then an administrator can provide, when starting the \f3rmid\fR command, the name of a class whose \f3checkExecCommand\fR method is executed to check commands to be executed by the \f3rmid\fR command\&.
+If the defbult behbvior is not flexible enough, then bn bdministrbtor cbn provide, when stbrting the \f3rmid\fR commbnd, the nbme of b clbss whose \f3checkExecCommbnd\fR method is executed to check commbnds to be executed by the \f3rmid\fR commbnd\&.
 
-The \f3policyClassName\fR specifies a public class with a public, no-argument constructor and an implementation of the following \f3checkExecCommand\fR method:
+The \f3policyClbssNbme\fR specifies b public clbss with b public, no-brgument constructor bnd bn implementbtion of the following \f3checkExecCommbnd\fR method:
 .sp     
 .nf     
-\f3 public void checkExecCommand(ActivationGroupDesc desc, String[] command)\fP
+\f3 public void checkExecCommbnd(ActivbtionGroupDesc desc, String[] commbnd)\fP
 .fi     
 .nf     
 \f3        throws SecurityException;\fP
@@ -257,37 +257,37 @@ The \f3policyClassName\fR specifies a public class with a public, no-argument co
 .sp     
 
 
-Before starting an activation group, the \f3rmid\fR command calls the policy\&'s \f3checkExecCommand\fR method and passes to it the activation group descriptor and an array that contains the complete command to start the activation group\&. If the \f3checkExecCommand\fR throws a \f3SecurityException\fR, then the \f3rmid\fR command does not start the activation group and an \f3ActivationException\fR is thrown to the caller attempting to activate the object\&.
+Before stbrting bn bctivbtion group, the \f3rmid\fR commbnd cblls the policy\&'s \f3checkExecCommbnd\fR method bnd pbsses to it the bctivbtion group descriptor bnd bn brrby thbt contbins the complete commbnd to stbrt the bctivbtion group\&. If the \f3checkExecCommbnd\fR throws b \f3SecurityException\fR, then the \f3rmid\fR commbnd does not stbrt the bctivbtion group bnd bn \f3ActivbtionException\fR is thrown to the cbller bttempting to bctivbte the object\&.
 .TP 0.2i    
 \(bu
 none
 
-If the \f3sun\&.rmi\&.activation\&.execPolicy\fR property value is \f3none\fR, then the \f3rmid\fR command does not perform any validation of commands to start activation groups\&.
+If the \f3sun\&.rmi\&.bctivbtion\&.execPolicy\fR property vblue is \f3none\fR, then the \f3rmid\fR commbnd does not perform bny vblidbtion of commbnds to stbrt bctivbtion groups\&.
 .RE     
 
 .TP
 -log \fIdir\fR
 .br
-Specifies the name of the directory the activation system daemon uses to write its database and associated information\&. The log directory defaults to creating a log, in the directory in which the \f3rmid\fR command was executed\&.
+Specifies the nbme of the directory the bctivbtion system dbemon uses to write its dbtbbbse bnd bssocibted informbtion\&. The log directory defbults to crebting b log, in the directory in which the \f3rmid\fR commbnd wbs executed\&.
 .TP
 -port \fIport\fR
 .br
-Specifies the port the registry uses\&. The activation system daemon binds the \f3ActivationSystem\fR, with the name \f3java\&.rmi\&.activation\&.ActivationSystem\fR, in this registry\&. The \f3ActivationSystem\fR on the local machine can be obtained using the following \f3Naming\&.lookup\fR method call:
+Specifies the port the registry uses\&. The bctivbtion system dbemon binds the \f3ActivbtionSystem\fR, with the nbme \f3jbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR, in this registry\&. The \f3ActivbtionSystem\fR on the locbl mbchine cbn be obtbined using the following \f3Nbming\&.lookup\fR method cbll:
 .sp     
 .nf     
-\f3import java\&.rmi\&.*; \fP
+\f3import jbvb\&.rmi\&.*; \fP
 .fi     
 .nf     
-\f3    import java\&.rmi\&.activation\&.*;\fP
+\f3    import jbvb\&.rmi\&.bctivbtion\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3    ActivationSystem system; system = (ActivationSystem)\fP
+\f3    ActivbtionSystem system; system = (ActivbtionSystem)\fP
 .fi     
 .nf     
-\f3    Naming\&.lookup("//:port/java\&.rmi\&.activation\&.ActivationSystem");\fP
+\f3    Nbming\&.lookup("//:port/jbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem");\fP
 .fi     
 .nf     
 \f3\fP
@@ -297,18 +297,18 @@ Specifies the port the registry uses\&. The activation system daemon binds the \
 .TP
 -stop
 .br
-Stops the current invocation of the \f3rmid\fR command for a port specified by the \f3-port\fR option\&. If no port is specified, then this option stops the \f3rmid\fR invocation running on port 1098\&.
+Stops the current invocbtion of the \f3rmid\fR commbnd for b port specified by the \f3-port\fR option\&. If no port is specified, then this option stops the \f3rmid\fR invocbtion running on port 1098\&.
 .SH ENVIRONMENT\ VARIABLES    
 .TP     
 CLASSPATH
-Used to provide the system a path to user-defined classes\&. Directories are separated by colons, for example: \f3\&.:/usr/local/java/classes\fR\&.
+Used to provide the system b pbth to user-defined clbsses\&. Directories bre sepbrbted by colons, for exbmple: \f3\&.:/usr/locbl/jbvb/clbsses\fR\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
-Setting the Class Path
+Setting the Clbss Pbth
 .RE
 .br
 'pl 8.5i

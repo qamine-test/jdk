@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.internal.spec;
+pbckbge sun.security.internbl.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
 /**
- * Parameters for SSL/TLS key material generation.
- * This class is used to initialize KeyGenerator of the type
- * "TlsKeyMaterial". The keys returned by such KeyGenerators will be
- * instances of {@link TlsKeyMaterialSpec}.
+ * Pbrbmeters for SSL/TLS key mbteribl generbtion.
+ * This clbss is used to initiblize KeyGenerbtor of the type
+ * "TlsKeyMbteribl". The keys returned by such KeyGenerbtors will be
+ * instbnces of {@link TlsKeyMbteriblSpec}.
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbnces of this clbss bre immutbble.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @buthor  Andrebs Sterbenz
+ * @deprecbted Sun JDK internbl use only --- WILL BE REMOVED in b future
+ * relebse.
  */
-@Deprecated
-public class TlsKeyMaterialParameterSpec implements AlgorithmParameterSpec {
+@Deprecbted
+public clbss TlsKeyMbteriblPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private final SecretKey masterSecret;
-    private final int majorVersion, minorVersion;
-    private final byte[] clientRandom, serverRandom;
-    private final String cipherAlgorithm;
-    private final int cipherKeyLength, ivLength, macKeyLength;
-    private final int expandedCipherKeyLength; // == 0 for domestic ciphersuites
-    private final String prfHashAlg;
-    private final int prfHashLength;
-    private final int prfBlockSize;
+    privbte finbl SecretKey mbsterSecret;
+    privbte finbl int mbjorVersion, minorVersion;
+    privbte finbl byte[] clientRbndom, serverRbndom;
+    privbte finbl String cipherAlgorithm;
+    privbte finbl int cipherKeyLength, ivLength, mbcKeyLength;
+    privbte finbl int expbndedCipherKeyLength; // == 0 for domestic ciphersuites
+    privbte finbl String prfHbshAlg;
+    privbte finbl int prfHbshLength;
+    privbte finbl int prfBlockSize;
 
     /**
-     * Constructs a new TlsKeyMaterialParameterSpec.
+     * Constructs b new TlsKeyMbteriblPbrbmeterSpec.
      *
-     * @param masterSecret the master secret
-     * @param majorVersion the major number of the protocol version
-     * @param minorVersion the minor number of the protocol version
-     * @param clientRandom the client's random value
-     * @param serverRandom the server's random value
-     * @param cipherAlgorithm the algorithm name of the cipher keys to
-     *    be generated
-     * @param cipherKeyLength if 0, no cipher keys will be generated;
+     * @pbrbm mbsterSecret the mbster secret
+     * @pbrbm mbjorVersion the mbjor number of the protocol version
+     * @pbrbm minorVersion the minor number of the protocol version
+     * @pbrbm clientRbndom the client's rbndom vblue
+     * @pbrbm serverRbndom the server's rbndom vblue
+     * @pbrbm cipherAlgorithm the blgorithm nbme of the cipher keys to
+     *    be generbted
+     * @pbrbm cipherKeyLength if 0, no cipher keys will be generbted;
      *    otherwise, the length in bytes of cipher keys to be
-     *    generated for domestic cipher suites; for cipher suites defined as
-     *    exportable, the number of key material bytes to be generated;
-     * @param expandedCipherKeyLength 0 for domestic cipher suites; for
-     *    exportable cipher suites the length in bytes of the key to be
-     *    generated.
-     * @param ivLength the length in bytes of the initialization vector
-     *    to be generated, or 0 if no initialization vector is required
-     * @param macKeyLength the length in bytes of the MAC key to be generated
-     * @param prfHashAlg the name of the TLS PRF hash algorithm to use.
-     *        Used only for TLS 1.2+.  TLS1.1 and earlier use a fixed PRF.
-     * @param prfHashLength the output length of the TLS PRF hash algorithm.
+     *    generbted for domestic cipher suites; for cipher suites defined bs
+     *    exportbble, the number of key mbteribl bytes to be generbted;
+     * @pbrbm expbndedCipherKeyLength 0 for domestic cipher suites; for
+     *    exportbble cipher suites the length in bytes of the key to be
+     *    generbted.
+     * @pbrbm ivLength the length in bytes of the initiblizbtion vector
+     *    to be generbted, or 0 if no initiblizbtion vector is required
+     * @pbrbm mbcKeyLength the length in bytes of the MAC key to be generbted
+     * @pbrbm prfHbshAlg the nbme of the TLS PRF hbsh blgorithm to use.
+     *        Used only for TLS 1.2+.  TLS1.1 bnd ebrlier use b fixed PRF.
+     * @pbrbm prfHbshLength the output length of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
-     * @param prfBlockSize the input block size of the TLS PRF hash algorithm.
+     * @pbrbm prfBlockSize the input block size of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
      *
-     * @throws NullPointerException if masterSecret, clientRandom,
-     *   serverRandom, or cipherAlgorithm are null
-     * @throws IllegalArgumentException if the algorithm of masterSecret is
-     *   not TlsMasterSecret, or if majorVersion or minorVersion are
-     *   negative or larger than 255; or if cipherKeyLength, expandedKeyLength,
-     *   ivLength, or macKeyLength are negative
+     * @throws NullPointerException if mbsterSecret, clientRbndom,
+     *   serverRbndom, or cipherAlgorithm bre null
+     * @throws IllegblArgumentException if the blgorithm of mbsterSecret is
+     *   not TlsMbsterSecret, or if mbjorVersion or minorVersion bre
+     *   negbtive or lbrger thbn 255; or if cipherKeyLength, expbndedKeyLength,
+     *   ivLength, or mbcKeyLength bre negbtive
      */
-    public TlsKeyMaterialParameterSpec(SecretKey masterSecret,
-            int majorVersion, int minorVersion, byte[] clientRandom,
-            byte[] serverRandom, String cipherAlgorithm, int cipherKeyLength,
-            int expandedCipherKeyLength, int ivLength, int macKeyLength,
-            String prfHashAlg, int prfHashLength, int prfBlockSize) {
-        if (masterSecret.getAlgorithm().equals("TlsMasterSecret") == false) {
-            throw new IllegalArgumentException("Not a TLS master secret");
+    public TlsKeyMbteriblPbrbmeterSpec(SecretKey mbsterSecret,
+            int mbjorVersion, int minorVersion, byte[] clientRbndom,
+            byte[] serverRbndom, String cipherAlgorithm, int cipherKeyLength,
+            int expbndedCipherKeyLength, int ivLength, int mbcKeyLength,
+            String prfHbshAlg, int prfHbshLength, int prfBlockSize) {
+        if (mbsterSecret.getAlgorithm().equbls("TlsMbsterSecret") == fblse) {
+            throw new IllegblArgumentException("Not b TLS mbster secret");
         }
         if (cipherAlgorithm == null) {
             throw new NullPointerException();
         }
-        this.masterSecret = masterSecret;
-        this.majorVersion =
-            TlsMasterSecretParameterSpec.checkVersion(majorVersion);
+        this.mbsterSecret = mbsterSecret;
+        this.mbjorVersion =
+            TlsMbsterSecretPbrbmeterSpec.checkVersion(mbjorVersion);
         this.minorVersion =
-            TlsMasterSecretParameterSpec.checkVersion(minorVersion);
-        this.clientRandom = clientRandom.clone();
-        this.serverRandom = serverRandom.clone();
+            TlsMbsterSecretPbrbmeterSpec.checkVersion(minorVersion);
+        this.clientRbndom = clientRbndom.clone();
+        this.serverRbndom = serverRbndom.clone();
         this.cipherAlgorithm = cipherAlgorithm;
         this.cipherKeyLength = checkSign(cipherKeyLength);
-        this.expandedCipherKeyLength = checkSign(expandedCipherKeyLength);
+        this.expbndedCipherKeyLength = checkSign(expbndedCipherKeyLength);
         this.ivLength = checkSign(ivLength);
-        this.macKeyLength = checkSign(macKeyLength);
-        this.prfHashAlg = prfHashAlg;
-        this.prfHashLength = prfHashLength;
+        this.mbcKeyLength = checkSign(mbcKeyLength);
+        this.prfHbshAlg = prfHbshAlg;
+        this.prfHbshLength = prfHbshLength;
         this.prfBlockSize = prfBlockSize;
     }
 
-    private static int checkSign(int k) {
+    privbte stbtic int checkSign(int k) {
         if (k < 0) {
-            throw new IllegalArgumentException("Value must not be negative");
+            throw new IllegblArgumentException("Vblue must not be negbtive");
         }
         return k;
     }
 
     /**
-     * Returns the master secret.
+     * Returns the mbster secret.
      *
-     * @return the master secret.
+     * @return the mbster secret.
      */
-    public SecretKey getMasterSecret() {
-        return masterSecret;
+    public SecretKey getMbsterSecret() {
+        return mbsterSecret;
     }
 
     /**
-     * Returns the major version number.
+     * Returns the mbjor version number.
      *
-     * @return the major version number.
+     * @return the mbjor version number.
      */
-    public int getMajorVersion() {
-        return majorVersion;
+    public int getMbjorVersion() {
+        return mbjorVersion;
     }
 
     /**
@@ -152,100 +152,100 @@ public class TlsKeyMaterialParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns a copy of the client's random value.
+     * Returns b copy of the client's rbndom vblue.
      *
-     * @return a copy of the client's random value.
+     * @return b copy of the client's rbndom vblue.
      */
-    public byte[] getClientRandom() {
-        return clientRandom.clone();
+    public byte[] getClientRbndom() {
+        return clientRbndom.clone();
     }
 
     /**
-     * Returns a copy of the server's random value.
+     * Returns b copy of the server's rbndom vblue.
      *
-     * @return a copy of the server's random value.
+     * @return b copy of the server's rbndom vblue.
      */
-    public byte[] getServerRandom() {
-        return serverRandom.clone();
+    public byte[] getServerRbndom() {
+        return serverRbndom.clone();
     }
 
     /**
-     * Returns the cipher algorithm.
+     * Returns the cipher blgorithm.
      *
-     * @return the cipher algorithm.
+     * @return the cipher blgorithm.
      */
     public String getCipherAlgorithm() {
         return cipherAlgorithm;
     }
 
     /**
-     * Returns the length in bytes of the encryption key to be generated.
+     * Returns the length in bytes of the encryption key to be generbted.
      *
-     * @return the length in bytes of the encryption key to be generated.
+     * @return the length in bytes of the encryption key to be generbted.
      */
     public int getCipherKeyLength() {
         return cipherKeyLength;
     }
 
     /**
-     * Returns the length in bytes of the expanded encryption key to be
-     * generated. Returns zero if the expanded encryption key is not
-     * supposed to be generated.
+     * Returns the length in bytes of the expbnded encryption key to be
+     * generbted. Returns zero if the expbnded encryption key is not
+     * supposed to be generbted.
      *
-     * @return the length in bytes of the expanded encryption key to be
-     *     generated.
+     * @return the length in bytes of the expbnded encryption key to be
+     *     generbted.
      */
-    public int getExpandedCipherKeyLength() {
-        // TLS v1.1 disables the exportable weak cipher suites.
-        if (majorVersion >= 0x03 && minorVersion >= 0x02) {
+    public int getExpbndedCipherKeyLength() {
+        // TLS v1.1 disbbles the exportbble webk cipher suites.
+        if (mbjorVersion >= 0x03 && minorVersion >= 0x02) {
             return 0;
         }
-        return expandedCipherKeyLength;
+        return expbndedCipherKeyLength;
     }
 
     /**
-     * Returns the length in bytes of the initialization vector to be
-     * generated. Returns zero if the initialization vector is not
-     * supposed to be generated.
+     * Returns the length in bytes of the initiblizbtion vector to be
+     * generbted. Returns zero if the initiblizbtion vector is not
+     * supposed to be generbted.
      *
-     * @return the length in bytes of the initialization vector to be
-     *     generated.
+     * @return the length in bytes of the initiblizbtion vector to be
+     *     generbted.
      */
     public int getIvLength() {
         return ivLength;
     }
 
     /**
-     * Returns the length in bytes of the MAC key to be generated.
+     * Returns the length in bytes of the MAC key to be generbted.
      *
-     * @return the length in bytes of the MAC key to be generated.
+     * @return the length in bytes of the MAC key to be generbted.
      */
-    public int getMacKeyLength() {
-        return macKeyLength;
+    public int getMbcKeyLength() {
+        return mbcKeyLength;
     }
 
     /**
-     * Obtains the PRF hash algorithm to use in the PRF calculation.
+     * Obtbins the PRF hbsh blgorithm to use in the PRF cblculbtion.
      *
-     * @return the hash algorithm.
+     * @return the hbsh blgorithm.
      */
-    public String getPRFHashAlg() {
-        return prfHashAlg;
+    public String getPRFHbshAlg() {
+        return prfHbshAlg;
     }
 
     /**
-     * Obtains the length of the PRF hash algorithm.
+     * Obtbins the length of the PRF hbsh blgorithm.
      *
-     * @return the hash algorithm length.
+     * @return the hbsh blgorithm length.
      */
-    public int getPRFHashLength() {
-        return prfHashLength;
+    public int getPRFHbshLength() {
+        return prfHbshLength;
     }
 
     /**
-     * Obtains the block size of the PRF hash algorithm.
+     * Obtbins the block size of the PRF hbsh blgorithm.
      *
-     * @return the hash algorithm block size
+     * @return the hbsh blgorithm block size
      */
     public int getPRFBlockSize() {
         return prfBlockSize;

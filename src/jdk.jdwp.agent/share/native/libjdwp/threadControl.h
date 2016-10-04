@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,51 +28,51 @@
 
 #include "stepControl.h"
 #include "invoker.h"
-#include "bag.h"
+#include "bbg.h"
 
-void threadControl_initialize(void);
-void threadControl_reset(void);
-void threadControl_detachInvokes(void);
+void threbdControl_initiblize(void);
+void threbdControl_reset(void);
+void threbdControl_detbchInvokes(void);
 
-void threadControl_onHook(void);
-void threadControl_onConnect(void);
-void threadControl_onDisconnect(void);
+void threbdControl_onHook(void);
+void threbdControl_onConnect(void);
+void threbdControl_onDisconnect(void);
 
-jvmtiError threadControl_popFrames(jthread thread, FrameNumber fnum);
+jvmtiError threbdControl_popFrbmes(jthrebd threbd, FrbmeNumber fnum);
 
-struct bag *threadControl_onEventHandlerEntry(jbyte sessionID,
-                  EventIndex ei, jthread thread, jobject currentException);
-void threadControl_onEventHandlerExit(EventIndex ei, jthread thread, struct bag *);
+struct bbg *threbdControl_onEventHbndlerEntry(jbyte sessionID,
+                  EventIndex ei, jthrebd threbd, jobject currentException);
+void threbdControl_onEventHbndlerExit(EventIndex ei, jthrebd threbd, struct bbg *);
 
 
-jvmtiError threadControl_suspendThread(jthread thread, jboolean deferred);
-jvmtiError threadControl_resumeThread(jthread thread, jboolean do_unblock);
-jvmtiError threadControl_suspendCount(jthread thread, jint *count);
+jvmtiError threbdControl_suspendThrebd(jthrebd threbd, jboolebn deferred);
+jvmtiError threbdControl_resumeThrebd(jthrebd threbd, jboolebn do_unblock);
+jvmtiError threbdControl_suspendCount(jthrebd threbd, jint *count);
 
-jvmtiError threadControl_suspendAll(void);
-jvmtiError threadControl_resumeAll(void);
+jvmtiError threbdControl_suspendAll(void);
+jvmtiError threbdControl_resumeAll(void);
 
-StepRequest *threadControl_getStepRequest(jthread);
-InvokeRequest *threadControl_getInvokeRequest(jthread);
+StepRequest *threbdControl_getStepRequest(jthrebd);
+InvokeRequest *threbdControl_getInvokeRequest(jthrebd);
 
-jboolean threadControl_isDebugThread(jthread thread);
-jvmtiError threadControl_addDebugThread(jthread thread);
+jboolebn threbdControl_isDebugThrebd(jthrebd threbd);
+jvmtiError threbdControl_bddDebugThrebd(jthrebd threbd);
 
-jvmtiError threadControl_applicationThreadStatus(jthread thread, jdwpThreadStatus *pstatus, jint *suspendStatus);
-jvmtiError threadControl_interrupt(jthread thread);
-jvmtiError threadControl_stop(jthread thread, jobject throwable);
+jvmtiError threbdControl_bpplicbtionThrebdStbtus(jthrebd threbd, jdwpThrebdStbtus *pstbtus, jint *suspendStbtus);
+jvmtiError threbdControl_interrupt(jthrebd threbd);
+jvmtiError threbdControl_stop(jthrebd threbd, jobject throwbble);
 
-jvmtiError threadControl_setEventMode(jvmtiEventMode mode, EventIndex ei, jthread thread);
-jvmtiEventMode threadControl_getInstructionStepMode(jthread thread);
+jvmtiError threbdControl_setEventMode(jvmtiEventMode mode, EventIndex ei, jthrebd threbd);
+jvmtiEventMode threbdControl_getInstructionStepMode(jthrebd threbd);
 
-jthread threadControl_currentThread(void);
-void threadControl_setPendingInterrupt(jthread thread);
-void threadControl_clearCLEInfo(JNIEnv *env, jthread thread);
-jboolean threadControl_cmpCLEInfo(JNIEnv *env, jthread thread, jclass clazz,
-                                  jmethodID method, jlocation location);
-void threadControl_saveCLEInfo(JNIEnv *env, jthread thread, EventIndex ei,
-                               jclass clazz, jmethodID method,
-                               jlocation location);
-jlong threadControl_getFrameGeneration(jthread thread);
+jthrebd threbdControl_currentThrebd(void);
+void threbdControl_setPendingInterrupt(jthrebd threbd);
+void threbdControl_clebrCLEInfo(JNIEnv *env, jthrebd threbd);
+jboolebn threbdControl_cmpCLEInfo(JNIEnv *env, jthrebd threbd, jclbss clbzz,
+                                  jmethodID method, jlocbtion locbtion);
+void threbdControl_sbveCLEInfo(JNIEnv *env, jthrebd threbd, EventIndex ei,
+                               jclbss clbzz, jmethodID method,
+                               jlocbtion locbtion);
+jlong threbdControl_getFrbmeGenerbtion(jthrebd threbd);
 
 #endif

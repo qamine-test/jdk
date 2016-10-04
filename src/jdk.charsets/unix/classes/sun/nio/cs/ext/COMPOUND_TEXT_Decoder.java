@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.*;
+pbckbge sun.nio.cs.ext;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.*;
 
 /**
- * An algorithmic conversion from COMPOUND_TEXT to Unicode.
+ * An blgorithmic conversion from COMPOUND_TEXT to Unicode.
  */
 
-public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
+public clbss COMPOUND_TEXT_Decoder extends ChbrsetDecoder {
 
-    private static final int NORMAL_BYTES             =  0;
-    private static final int NONSTANDARD_BYTES        =  1;
-    private static final int VERSION_SEQUENCE_V       =  2;
-    private static final int VERSION_SEQUENCE_TERM    =  3;
-    private static final int ESCAPE_SEQUENCE          =  4;
-    private static final int CHARSET_NGIIF            =  5;
-    private static final int CHARSET_NLIIF            =  6;
-    private static final int CHARSET_NLIF             =  7;
-    private static final int CHARSET_NRIIF            =  8;
-    private static final int CHARSET_NRIF             =  9;
-    private static final int CHARSET_NONSTANDARD_FOML = 10;
-    private static final int CHARSET_NONSTANDARD_OML  = 11;
-    private static final int CHARSET_NONSTANDARD_ML   = 12;
-    private static final int CHARSET_NONSTANDARD_L    = 13;
-    private static final int CHARSET_NONSTANDARD      = 14;
-    private static final int CHARSET_LIIF             = 15;
-    private static final int CHARSET_LIF              = 16;
-    private static final int CHARSET_RIIF             = 17;
-    private static final int CHARSET_RIF              = 18;
-    private static final int CONTROL_SEQUENCE_PIF     = 19;
-    private static final int CONTROL_SEQUENCE_IF      = 20;
-    private static final int EXTENSION_ML             = 21;
-    private static final int EXTENSION_L              = 22;
-    private static final int EXTENSION                = 23;
-    private static final int ESCAPE_SEQUENCE_OTHER    = 24;
+    privbte stbtic finbl int NORMAL_BYTES             =  0;
+    privbte stbtic finbl int NONSTANDARD_BYTES        =  1;
+    privbte stbtic finbl int VERSION_SEQUENCE_V       =  2;
+    privbte stbtic finbl int VERSION_SEQUENCE_TERM    =  3;
+    privbte stbtic finbl int ESCAPE_SEQUENCE          =  4;
+    privbte stbtic finbl int CHARSET_NGIIF            =  5;
+    privbte stbtic finbl int CHARSET_NLIIF            =  6;
+    privbte stbtic finbl int CHARSET_NLIF             =  7;
+    privbte stbtic finbl int CHARSET_NRIIF            =  8;
+    privbte stbtic finbl int CHARSET_NRIF             =  9;
+    privbte stbtic finbl int CHARSET_NONSTANDARD_FOML = 10;
+    privbte stbtic finbl int CHARSET_NONSTANDARD_OML  = 11;
+    privbte stbtic finbl int CHARSET_NONSTANDARD_ML   = 12;
+    privbte stbtic finbl int CHARSET_NONSTANDARD_L    = 13;
+    privbte stbtic finbl int CHARSET_NONSTANDARD      = 14;
+    privbte stbtic finbl int CHARSET_LIIF             = 15;
+    privbte stbtic finbl int CHARSET_LIF              = 16;
+    privbte stbtic finbl int CHARSET_RIIF             = 17;
+    privbte stbtic finbl int CHARSET_RIF              = 18;
+    privbte stbtic finbl int CONTROL_SEQUENCE_PIF     = 19;
+    privbte stbtic finbl int CONTROL_SEQUENCE_IF      = 20;
+    privbte stbtic finbl int EXTENSION_ML             = 21;
+    privbte stbtic finbl int EXTENSION_L              = 22;
+    privbte stbtic finbl int EXTENSION                = 23;
+    privbte stbtic finbl int ESCAPE_SEQUENCE_OTHER    = 24;
 
-    private static final String ERR_LATIN1 = "ISO8859_1 unsupported";
-    private static final String ERR_ILLSTATE = "Illegal state";
-    private static final String ERR_ESCBYTE =
-        "Illegal byte in 0x1B escape sequence";
-    private static final String ERR_ENCODINGBYTE =
-        "Illegal byte in non-standard character set name";
-    private static final String ERR_CTRLBYTE =
-        "Illegal byte in 0x9B control sequence";
-    private static final String ERR_CTRLPI =
+    privbte stbtic finbl String ERR_LATIN1 = "ISO8859_1 unsupported";
+    privbte stbtic finbl String ERR_ILLSTATE = "Illegbl stbte";
+    privbte stbtic finbl String ERR_ESCBYTE =
+        "Illegbl byte in 0x1B escbpe sequence";
+    privbte stbtic finbl String ERR_ENCODINGBYTE =
+        "Illegbl byte in non-stbndbrd chbrbcter set nbme";
+    privbte stbtic finbl String ERR_CTRLBYTE =
+        "Illegbl byte in 0x9B control sequence";
+    privbte stbtic finbl String ERR_CTRLPI =
         "P following I in 0x9B control sequence";
-    private static final String ERR_VERSTART =
-        "Versioning escape sequence can only appear at start of byte stream";
-    private static final String ERR_VERMANDATORY =
-        "Cannot parse mandatory extensions";
-    private static final String ERR_ENCODING = "Unknown encoding: ";
-    private static final String ERR_FLUSH =
-        "Escape sequence, control sequence, or ML extension not terminated";
+    privbte stbtic finbl String ERR_VERSTART =
+        "Versioning escbpe sequence cbn only bppebr bt stbrt of byte strebm";
+    privbte stbtic finbl String ERR_VERMANDATORY =
+        "Cbnnot pbrse mbndbtory extensions";
+    privbte stbtic finbl String ERR_ENCODING = "Unknown encoding: ";
+    privbte stbtic finbl String ERR_FLUSH =
+        "Escbpe sequence, control sequence, or ML extension not terminbted";
 
-    private int state = NORMAL_BYTES ;
-    private int ext_count, ext_offset;
-    private boolean versionSequenceAllowed = true;
-    private byte[] byteBuf = new byte[1];
-    private ByteBuffer inBB = ByteBuffer.allocate(16);
-    private ByteArrayOutputStream queue = new ByteArrayOutputStream(),
-        encodingQueue = new ByteArrayOutputStream();
+    privbte int stbte = NORMAL_BYTES ;
+    privbte int ext_count, ext_offset;
+    privbte boolebn versionSequenceAllowed = true;
+    privbte byte[] byteBuf = new byte[1];
+    privbte ByteBuffer inBB = ByteBuffer.bllocbte(16);
+    privbte ByteArrbyOutputStrebm queue = new ByteArrbyOutputStrebm(),
+        encodingQueue = new ByteArrbyOutputStrebm();
 
-    private CharsetDecoder glDecoder, grDecoder, nonStandardDecoder,
-        lastDecoder;
-    private boolean glHigh = false, grHigh = true;
+    privbte ChbrsetDecoder glDecoder, grDecoder, nonStbndbrdDecoder,
+        lbstDecoder;
+    privbte boolebn glHigh = fblse, grHigh = true;
 
 
-    public COMPOUND_TEXT_Decoder(Charset cs) {
+    public COMPOUND_TEXT_Decoder(Chbrset cs) {
         super(cs, 1.0f, 1.0f);
         try {
-            // Initial state in ISO 2022 designates Latin-1 charset.
-            glDecoder = Charset.forName("ASCII").newDecoder();
-            grDecoder = Charset.forName("ISO8859_1").newDecoder();
-        } catch (IllegalArgumentException e) {
+            // Initibl stbte in ISO 2022 designbtes Lbtin-1 chbrset.
+            glDecoder = Chbrset.forNbme("ASCII").newDecoder();
+            grDecoder = Chbrset.forNbme("ISO8859_1").newDecoder();
+        } cbtch (IllegblArgumentException e) {
             error(ERR_LATIN1);
         }
         initDecoder(glDecoder);
         initDecoder(grDecoder);
     }
 
-    protected CoderResult decodeLoop(ByteBuffer src, CharBuffer des) {
+    protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer des) {
         CoderResult cr = CoderResult.UNDERFLOW;
-        byte[] input = src.array();
-        int inOff = src.arrayOffset() + src.position();
-        int inEnd = src.arrayOffset() + src.limit();
+        byte[] input = src.brrby();
+        int inOff = src.brrbyOffset() + src.position();
+        int inEnd = src.brrbyOffset() + src.limit();
 
         try {
             while (inOff < inEnd && cr.isUnderflow()) {
-                // Byte parsing is done with shorts instead of bytes because
-                // Java bytes are signed, while COMPOUND_TEXT bytes are not. If
-                // we used the Java byte type, the > and < tests during parsing
+                // Byte pbrsing is done with shorts instebd of bytes becbuse
+                // Jbvb bytes bre signed, while COMPOUND_TEXT bytes bre not. If
+                // we used the Jbvb byte type, the > bnd < tests during pbrsing
                 // would not work correctly.
-                cr = handleByte((short)(input[inOff] & 0xFF), des);
+                cr = hbndleByte((short)(input[inOff] & 0xFF), des);
                 inOff++;
             }
             return cr;
-        } finally {
-            src.position(inOff - src.arrayOffset());
+        } finblly {
+            src.position(inOff - src.brrbyOffset());
         }
     }
 
-    private CoderResult handleByte(short newByte, CharBuffer cb) {
+    privbte CoderResult hbndleByte(short newByte, ChbrBuffer cb) {
         CoderResult cr = CoderResult.UNDERFLOW;
-        switch (state) {
-        case NORMAL_BYTES:
-            cr= normalBytes(newByte, cb);
-            break;
-        case NONSTANDARD_BYTES:
-            cr = nonStandardBytes(newByte, cb);
-            break;
-        case VERSION_SEQUENCE_V:
-        case VERSION_SEQUENCE_TERM:
+        switch (stbte) {
+        cbse NORMAL_BYTES:
+            cr= normblBytes(newByte, cb);
+            brebk;
+        cbse NONSTANDARD_BYTES:
+            cr = nonStbndbrdBytes(newByte, cb);
+            brebk;
+        cbse VERSION_SEQUENCE_V:
+        cbse VERSION_SEQUENCE_TERM:
             cr = versionSequence(newByte);
-            break;
-        case ESCAPE_SEQUENCE:
-            cr = escapeSequence(newByte);
-            break;
-        case CHARSET_NGIIF:
-            cr = charset94N(newByte);
-            break;
-        case CHARSET_NLIIF:
-        case CHARSET_NLIF:
-            cr = charset94NL(newByte, cb);
-            break;
-        case CHARSET_NRIIF:
-        case CHARSET_NRIF:
-            cr = charset94NR(newByte, cb);
-            break;
-        case CHARSET_NONSTANDARD_FOML:
-        case CHARSET_NONSTANDARD_OML:
-        case CHARSET_NONSTANDARD_ML:
-        case CHARSET_NONSTANDARD_L:
-        case CHARSET_NONSTANDARD:
-            cr = charsetNonStandard(newByte, cb);
-            break;
-        case CHARSET_LIIF:
-        case CHARSET_LIF:
-            cr = charset9496L(newByte, cb);
-            break;
-        case CHARSET_RIIF:
-        case CHARSET_RIF:
-            cr = charset9496R(newByte, cb);
-            break;
-        case CONTROL_SEQUENCE_PIF:
-        case CONTROL_SEQUENCE_IF:
+            brebk;
+        cbse ESCAPE_SEQUENCE:
+            cr = escbpeSequence(newByte);
+            brebk;
+        cbse CHARSET_NGIIF:
+            cr = chbrset94N(newByte);
+            brebk;
+        cbse CHARSET_NLIIF:
+        cbse CHARSET_NLIF:
+            cr = chbrset94NL(newByte, cb);
+            brebk;
+        cbse CHARSET_NRIIF:
+        cbse CHARSET_NRIF:
+            cr = chbrset94NR(newByte, cb);
+            brebk;
+        cbse CHARSET_NONSTANDARD_FOML:
+        cbse CHARSET_NONSTANDARD_OML:
+        cbse CHARSET_NONSTANDARD_ML:
+        cbse CHARSET_NONSTANDARD_L:
+        cbse CHARSET_NONSTANDARD:
+            cr = chbrsetNonStbndbrd(newByte, cb);
+            brebk;
+        cbse CHARSET_LIIF:
+        cbse CHARSET_LIF:
+            cr = chbrset9496L(newByte, cb);
+            brebk;
+        cbse CHARSET_RIIF:
+        cbse CHARSET_RIF:
+            cr = chbrset9496R(newByte, cb);
+            brebk;
+        cbse CONTROL_SEQUENCE_PIF:
+        cbse CONTROL_SEQUENCE_IF:
             cr = controlSequence(newByte);
-            break;
-        case EXTENSION_ML:
-        case EXTENSION_L:
-        case EXTENSION:
+            brebk;
+        cbse EXTENSION_ML:
+        cbse EXTENSION_L:
+        cbse EXTENSION:
             cr = extension(newByte);
-            break;
-        case ESCAPE_SEQUENCE_OTHER:
-            cr = escapeSequenceOther(newByte);
-            break;
-        default:
+            brebk;
+        cbse ESCAPE_SEQUENCE_OTHER:
+            cr = escbpeSequenceOther(newByte);
+            brebk;
+        defbult:
             error(ERR_ILLSTATE);
         }
         return cr;
     }
 
-    private CoderResult normalBytes(short newByte, CharBuffer cb) {
+    privbte CoderResult normblBytes(short newByte, ChbrBuffer cb) {
         CoderResult cr = CoderResult.UNDERFLOW;
         if ((newByte >= 0x00 && newByte <= 0x1F) || // C0
             (newByte >= 0x80 && newByte <= 0x9F)) { // C1
-            char newChar;
+            chbr newChbr;
 
             switch (newByte) {
-            case 0x1B:
-                state = ESCAPE_SEQUENCE;
+            cbse 0x1B:
+                stbte = ESCAPE_SEQUENCE;
                 queue.write(newByte);
                 return cr;
-            case 0x9B:
-                state = CONTROL_SEQUENCE_PIF;
-                versionSequenceAllowed = false;
+            cbse 0x9B:
+                stbte = CONTROL_SEQUENCE_PIF;
+                versionSequenceAllowed = fblse;
                 queue.write(newByte);
                 return cr;
-            case 0x09:
-                versionSequenceAllowed = false;
-                newChar = '\t';
-                break;
-            case 0x0A:
-                versionSequenceAllowed = false;
-                newChar = '\n';
-                break;
-            default:
-                versionSequenceAllowed = false;
+            cbse 0x09:
+                versionSequenceAllowed = fblse;
+                newChbr = '\t';
+                brebk;
+            cbse 0x0A:
+                versionSequenceAllowed = fblse;
+                newChbr = '\n';
+                brebk;
+            defbult:
+                versionSequenceAllowed = fblse;
                 return cr;
             }
-            if (!cb.hasRemaining())
+            if (!cb.hbsRembining())
                 return CoderResult.OVERFLOW;
             else
-                cb.put(newChar);
+                cb.put(newChbr);
         } else {
-            CharsetDecoder decoder;
-            boolean high;
-            versionSequenceAllowed = false;
+            ChbrsetDecoder decoder;
+            boolebn high;
+            versionSequenceAllowed = fblse;
 
             if (newByte >= 0x20 && newByte <= 0x7F) {
                 decoder = glDecoder;
@@ -230,10 +230,10 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
                 decoder = grDecoder;
                 high = grHigh;
             }
-            if (lastDecoder != null && decoder != lastDecoder) {
-                cr = flushDecoder(lastDecoder, cb);
+            if (lbstDecoder != null && decoder != lbstDecoder) {
+                cr = flushDecoder(lbstDecoder, cb);
             }
-            lastDecoder = decoder;
+            lbstDecoder = decoder;
 
             if (decoder != null) {
                 byte b = (byte)newByte;
@@ -244,16 +244,16 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
                 }
                 inBB.put(b);
                 inBB.flip();
-                cr = decoder.decode(inBB, cb, false);
-                if (!inBB.hasRemaining() || cr.isMalformed()) {
-                    inBB.clear();
+                cr = decoder.decode(inBB, cb, fblse);
+                if (!inBB.hbsRembining() || cr.isMblformed()) {
+                    inBB.clebr();
                 } else {
                   int pos = inBB.limit();
-                  inBB.clear();
+                  inBB.clebr();
                   inBB.position(pos);
                 }
-            } else if (cb.remaining() < replacement().length()) {
-                cb.put(replacement());
+            } else if (cb.rembining() < replbcement().length()) {
+                cb.put(replbcement());
             } else {
                 return CoderResult.OVERFLOW;
             }
@@ -261,23 +261,23 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
         return cr;
     }
 
-    private CoderResult nonStandardBytes(short newByte, CharBuffer cb)
+    privbte CoderResult nonStbndbrdBytes(short newByte, ChbrBuffer cb)
     {
         CoderResult cr = CoderResult.UNDERFLOW;
-        if (nonStandardDecoder != null) {
+        if (nonStbndbrdDecoder != null) {
             //byteBuf[0] = (byte)newByte;
             inBB.put((byte)newByte);
             inBB.flip();
-            cr = nonStandardDecoder.decode(inBB, cb, false);
-            if (!inBB.hasRemaining()) {
-                inBB.clear();
+            cr = nonStbndbrdDecoder.decode(inBB, cb, fblse);
+            if (!inBB.hbsRembining()) {
+                inBB.clebr();
             } else {
                 int pos = inBB.limit();
-                inBB.clear();
+                inBB.clebr();
                 inBB.position(pos);
             }
-        } else if (cb.remaining() < replacement().length()) {
-            cb.put(replacement());
+        } else if (cb.rembining() < replbcement().length()) {
+            cb.put(replbcement());
         } else {
             return CoderResult.OVERFLOW;
         }
@@ -285,38 +285,38 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
         ext_offset++;
         if (ext_offset >= ext_count) {
             ext_offset = ext_count = 0;
-            state = NORMAL_BYTES;
-            cr = flushDecoder(nonStandardDecoder, cb);
-            nonStandardDecoder = null;
+            stbte = NORMAL_BYTES;
+            cr = flushDecoder(nonStbndbrdDecoder, cb);
+            nonStbndbrdDecoder = null;
         }
         return cr;
     }
 
-    private CoderResult escapeSequence(short newByte) {
+    privbte CoderResult escbpeSequence(short newByte) {
         switch (newByte) {
-        case 0x23:
-            state = VERSION_SEQUENCE_V;
-            break;
-        case 0x24:
-            state = CHARSET_NGIIF;
-            versionSequenceAllowed = false;
-            break;
-        case 0x25:
-            state = CHARSET_NONSTANDARD_FOML;
-            versionSequenceAllowed = false;
-            break;
-        case 0x28:
-            state = CHARSET_LIIF;
-            versionSequenceAllowed = false;
-            break;
-        case 0x29:
-        case 0x2D:
-            state = CHARSET_RIIF;
-            versionSequenceAllowed = false;
-            break;
-        default:
-            // escapeSequenceOther will write to queue if appropriate
-            return escapeSequenceOther(newByte);
+        cbse 0x23:
+            stbte = VERSION_SEQUENCE_V;
+            brebk;
+        cbse 0x24:
+            stbte = CHARSET_NGIIF;
+            versionSequenceAllowed = fblse;
+            brebk;
+        cbse 0x25:
+            stbte = CHARSET_NONSTANDARD_FOML;
+            versionSequenceAllowed = fblse;
+            brebk;
+        cbse 0x28:
+            stbte = CHARSET_LIIF;
+            versionSequenceAllowed = fblse;
+            brebk;
+        cbse 0x29:
+        cbse 0x2D:
+            stbte = CHARSET_RIIF;
+            versionSequenceAllowed = fblse;
+            brebk;
+        defbult:
+            // escbpeSequenceOther will write to queue if bppropribte
+            return escbpeSequenceOther(newByte);
         }
 
         queue.write(newByte);
@@ -324,232 +324,232 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
     }
 
     /**
-     * Test for unknown, but valid, escape sequences.
+     * Test for unknown, but vblid, escbpe sequences.
      */
-    private CoderResult escapeSequenceOther(short newByte) {
+    privbte CoderResult escbpeSequenceOther(short newByte) {
         if (newByte >= 0x20 && newByte <= 0x2F) {
             // {I}
-            state = ESCAPE_SEQUENCE_OTHER;
-            versionSequenceAllowed = false;
+            stbte = ESCAPE_SEQUENCE_OTHER;
+            versionSequenceAllowed = fblse;
             queue.write(newByte);
         } else if (newByte >= 0x30 && newByte <= 0x7E) {
             // F -- end of sequence
-            state = NORMAL_BYTES;
-            versionSequenceAllowed = false;
+            stbte = NORMAL_BYTES;
+            versionSequenceAllowed = fblse;
             queue.reset();
         } else {
-            return malformedInput(ERR_ESCBYTE);
+            return mblformedInput(ERR_ESCBYTE);
         }
         return CoderResult.UNDERFLOW;
     }
 
     /**
-     * Parses directionality, as well as unknown, but valid, control sequences.
+     * Pbrses directionblity, bs well bs unknown, but vblid, control sequences.
      */
-    private CoderResult controlSequence(short newByte) {
+    privbte CoderResult controlSequence(short newByte) {
         if (newByte >= 0x30 && newByte <= 0x3F) {
             // {P}
-            if (state == CONTROL_SEQUENCE_IF) {
-                // P no longer allowed
-                return malformedInput(ERR_CTRLPI);
+            if (stbte == CONTROL_SEQUENCE_IF) {
+                // P no longer bllowed
+                return mblformedInput(ERR_CTRLPI);
             }
             queue.write(newByte);
         } else if (newByte >= 0x20 && newByte <= 0x2F) {
             // {I}
-            state = CONTROL_SEQUENCE_IF;
+            stbte = CONTROL_SEQUENCE_IF;
             queue.write(newByte);
         } else if (newByte >= 0x40 && newByte <= 0x7E) {
             // F -- end of sequence
-            state = NORMAL_BYTES;
+            stbte = NORMAL_BYTES;
             queue.reset();
         } else {
-            return malformedInput(ERR_CTRLBYTE);
+            return mblformedInput(ERR_CTRLBYTE);
         }
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult versionSequence(short newByte) {
-        if (state == VERSION_SEQUENCE_V) {
+    privbte CoderResult versionSequence(short newByte) {
+        if (stbte == VERSION_SEQUENCE_V) {
             if (newByte >= 0x20 && newByte <= 0x2F) {
-                state = VERSION_SEQUENCE_TERM;
+                stbte = VERSION_SEQUENCE_TERM;
                 queue.write(newByte);
             } else {
-                return escapeSequenceOther(newByte);
+                return escbpeSequenceOther(newByte);
             }
-        } else /* if (state == VERSION_SEQUENCE_TERM) */ {
+        } else /* if (stbte == VERSION_SEQUENCE_TERM) */ {
             switch (newByte) {
-            case 0x30:
+            cbse 0x30:
                 if (!versionSequenceAllowed) {
-                    return malformedInput(ERR_VERSTART);
+                    return mblformedInput(ERR_VERSTART);
                 }
 
                 // OK to ignore extensions
-                versionSequenceAllowed = false;
-                state = NORMAL_BYTES;
+                versionSequenceAllowed = fblse;
+                stbte = NORMAL_BYTES;
                 queue.reset();
-                break;
-            case 0x31:
-                return malformedInput((versionSequenceAllowed)
+                brebk;
+            cbse 0x31:
+                return mblformedInput((versionSequenceAllowed)
                                ? ERR_VERMANDATORY : ERR_VERSTART);
-            default:
-                return escapeSequenceOther(newByte);
+            defbult:
+                return escbpeSequenceOther(newByte);
             }
         }
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult charset94N(short newByte) {
+    privbte CoderResult chbrset94N(short newByte) {
         switch (newByte) {
-        case 0x28:
-            state = CHARSET_NLIIF;
-            break;
-        case 0x29:
-            state = CHARSET_NRIIF;
-            break;
-        default:
-            // escapeSequenceOther will write byte if appropriate
-            return escapeSequenceOther(newByte);
+        cbse 0x28:
+            stbte = CHARSET_NLIIF;
+            brebk;
+        cbse 0x29:
+            stbte = CHARSET_NRIIF;
+            brebk;
+        defbult:
+            // escbpeSequenceOther will write byte if bppropribte
+            return escbpeSequenceOther(newByte);
         }
 
         queue.write(newByte);
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult charset94NL(short newByte, CharBuffer cb) {
+    privbte CoderResult chbrset94NL(short newByte, ChbrBuffer cb) {
         if (newByte >= 0x21 &&
-            newByte <= (state == CHARSET_NLIIF ? 0x23 : 0x2F)) {
+            newByte <= (stbte == CHARSET_NLIIF ? 0x23 : 0x2F)) {
             // {I}
-            state = CHARSET_NLIF;
+            stbte = CHARSET_NLIF;
             queue.write(newByte);
         } else if (newByte >= 0x40 && newByte <= 0x7E) {
             // F
             return switchDecoder(newByte, cb);
         } else {
-            return escapeSequenceOther(newByte);
+            return escbpeSequenceOther(newByte);
         }
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult charset94NR(short newByte, CharBuffer cb)
+    privbte CoderResult chbrset94NR(short newByte, ChbrBuffer cb)
     {
         if (newByte >= 0x21 &&
-            newByte <= (state == CHARSET_NRIIF ? 0x23 : 0x2F)) {
+            newByte <= (stbte == CHARSET_NRIIF ? 0x23 : 0x2F)) {
             // {I}
-            state = CHARSET_NRIF;
+            stbte = CHARSET_NRIF;
             queue.write(newByte);
         } else if (newByte >= 0x40 && newByte <= 0x7E) {
             // F
             return switchDecoder(newByte, cb);
         } else {
-            return escapeSequenceOther(newByte);
+            return escbpeSequenceOther(newByte);
         }
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult charset9496L(short newByte, CharBuffer cb) {
+    privbte CoderResult chbrset9496L(short newByte, ChbrBuffer cb) {
         if (newByte >= 0x21 &&
-            newByte <= (state == CHARSET_LIIF ? 0x23 : 0x2F)) {
+            newByte <= (stbte == CHARSET_LIIF ? 0x23 : 0x2F)) {
             // {I}
-            state = CHARSET_LIF;
+            stbte = CHARSET_LIF;
             queue.write(newByte);
             return CoderResult.UNDERFLOW;
         } else if (newByte >= 0x40 && newByte <= 0x7E) {
             // F
             return switchDecoder(newByte, cb);
         } else {
-            return escapeSequenceOther(newByte);
+            return escbpeSequenceOther(newByte);
         }
     }
 
-    private CoderResult charset9496R(short newByte, CharBuffer cb) {
+    privbte CoderResult chbrset9496R(short newByte, ChbrBuffer cb) {
         if (newByte >= 0x21 &&
-            newByte <= (state == CHARSET_RIIF ? 0x23 : 0x2F)) {
+            newByte <= (stbte == CHARSET_RIIF ? 0x23 : 0x2F)) {
             // {I}
-            state = CHARSET_RIF;
+            stbte = CHARSET_RIF;
             queue.write(newByte);
             return CoderResult.UNDERFLOW;
         } else if (newByte >= 0x40 && newByte <= 0x7E) {
             // F
             return switchDecoder(newByte, cb);
         } else {
-            return escapeSequenceOther(newByte);
+            return escbpeSequenceOther(newByte);
         }
     }
 
-    private CoderResult charsetNonStandard(short newByte, CharBuffer cb) {
-        switch (state) {
-        case CHARSET_NONSTANDARD_FOML:
+    privbte CoderResult chbrsetNonStbndbrd(short newByte, ChbrBuffer cb) {
+        switch (stbte) {
+        cbse CHARSET_NONSTANDARD_FOML:
             if (newByte == 0x2F) {
-                state = CHARSET_NONSTANDARD_OML;
+                stbte = CHARSET_NONSTANDARD_OML;
                 queue.write(newByte);
             } else {
-                return escapeSequenceOther(newByte);
+                return escbpeSequenceOther(newByte);
             }
-            break;
-        case CHARSET_NONSTANDARD_OML:
+            brebk;
+        cbse CHARSET_NONSTANDARD_OML:
             if (newByte >= 0x30 && newByte <= 0x34) {
-                state = CHARSET_NONSTANDARD_ML;
+                stbte = CHARSET_NONSTANDARD_ML;
                 queue.write(newByte);
             } else if (newByte >= 0x35 && newByte <= 0x3F) {
-                state = EXTENSION_ML;
+                stbte = EXTENSION_ML;
                 queue.write(newByte);
             } else {
-                return escapeSequenceOther(newByte);
+                return escbpeSequenceOther(newByte);
             }
-            break;
-        case CHARSET_NONSTANDARD_ML:
+            brebk;
+        cbse CHARSET_NONSTANDARD_ML:
             ext_count = (newByte & 0x7F) * 0x80;
-            state = CHARSET_NONSTANDARD_L;
-            break;
-        case CHARSET_NONSTANDARD_L:
+            stbte = CHARSET_NONSTANDARD_L;
+            brebk;
+        cbse CHARSET_NONSTANDARD_L:
             ext_count = ext_count + (newByte & 0x7F);
-            state = (ext_count > 0) ? CHARSET_NONSTANDARD : NORMAL_BYTES;
-            break;
-        case CHARSET_NONSTANDARD:
+            stbte = (ext_count > 0) ? CHARSET_NONSTANDARD : NORMAL_BYTES;
+            brebk;
+        cbse CHARSET_NONSTANDARD:
             if (newByte == 0x3F || newByte == 0x2A) {
-                queue.reset(); // In this case, only current byte is bad.
-                return malformedInput(ERR_ENCODINGBYTE);
+                queue.reset(); // In this cbse, only current byte is bbd.
+                return mblformedInput(ERR_ENCODINGBYTE);
             }
             ext_offset++;
             if (ext_offset >= ext_count) {
                 ext_offset = ext_count = 0;
-                state = NORMAL_BYTES;
+                stbte = NORMAL_BYTES;
                 queue.reset();
                 encodingQueue.reset();
             } else if (newByte == 0x02) {
-                // encoding name terminator
+                // encoding nbme terminbtor
                 return switchDecoder((short)0, cb);
             } else {
                 encodingQueue.write(newByte);
             }
-            break;
-        default:
+            brebk;
+        defbult:
             error(ERR_ILLSTATE);
         }
         return CoderResult.UNDERFLOW;
     }
 
-    private CoderResult extension(short newByte) {
-        switch (state) {
-        case EXTENSION_ML:
+    privbte CoderResult extension(short newByte) {
+        switch (stbte) {
+        cbse EXTENSION_ML:
             ext_count = (newByte & 0x7F) * 0x80;
-            state = EXTENSION_L;
-            break;
-        case EXTENSION_L:
+            stbte = EXTENSION_L;
+            brebk;
+        cbse EXTENSION_L:
             ext_count = ext_count + (newByte & 0x7F);
-            state = (ext_count > 0) ? EXTENSION : NORMAL_BYTES;
-            break;
-        case EXTENSION:
+            stbte = (ext_count > 0) ? EXTENSION : NORMAL_BYTES;
+            brebk;
+        cbse EXTENSION:
             // Consume 'count' bytes. Don't bother putting them on the queue.
-            // There may be too many and we can't do anything with them anyway.
+            // There mby be too mbny bnd we cbn't do bnything with them bnywby.
             ext_offset++;
             if (ext_offset >= ext_count) {
                 ext_offset = ext_count = 0;
-                state = NORMAL_BYTES;
+                stbte = NORMAL_BYTES;
                 queue.reset();
             }
-            break;
-        default:
+            brebk;
+        defbult:
             error(ERR_ILLSTATE);
         }
         return CoderResult.UNDERFLOW;
@@ -557,158 +557,158 @@ public class COMPOUND_TEXT_Decoder extends CharsetDecoder {
 
     /**
      * Preconditions:
-     *   1. 'queue' contains ControlSequence.escSequence
-     *   2. 'encodingQueue' contains ControlSequence.encoding
+     *   1. 'queue' contbins ControlSequence.escSequence
+     *   2. 'encodingQueue' contbins ControlSequence.encoding
      */
-    private CoderResult switchDecoder(short lastByte, CharBuffer cb) {
+    privbte CoderResult switchDecoder(short lbstByte, ChbrBuffer cb) {
         CoderResult cr = CoderResult.UNDERFLOW;
-        CharsetDecoder decoder = null;
-        boolean high = false;
+        ChbrsetDecoder decoder = null;
+        boolebn high = fblse;
         byte[] escSequence;
         byte[] encoding = null;
 
-        if (lastByte != 0) {
-            queue.write(lastByte);
+        if (lbstByte != 0) {
+            queue.write(lbstByte);
         }
 
-        escSequence = queue.toByteArray();
+        escSequence = queue.toByteArrby();
         queue.reset();
 
-        if (state == CHARSET_NONSTANDARD) {
-            encoding = encodingQueue.toByteArray();
+        if (stbte == CHARSET_NONSTANDARD) {
+            encoding = encodingQueue.toByteArrby();
             encodingQueue.reset();
             decoder = CompoundTextSupport.
-                getNonStandardDecoder(escSequence, encoding);
+                getNonStbndbrdDecoder(escSequence, encoding);
         } else {
-            decoder = CompoundTextSupport.getStandardDecoder(escSequence);
+            decoder = CompoundTextSupport.getStbndbrdDecoder(escSequence);
             high = CompoundTextSupport.getHighBit(escSequence);
         }
         if (decoder != null) {
             initDecoder(decoder);
-        } else if (unmappableCharacterAction() == CodingErrorAction.REPORT) {
-            int badInputLength = 1;
+        } else if (unmbppbbleChbrbcterAction() == CodingErrorAction.REPORT) {
+            int bbdInputLength = 1;
             if (encoding != null) {
-                badInputLength = encoding.length;
+                bbdInputLength = encoding.length;
             } else if (escSequence.length > 0) {
-                badInputLength = escSequence.length;
+                bbdInputLength = escSequence.length;
             }
-            return CoderResult.unmappableForLength(badInputLength);
+            return CoderResult.unmbppbbleForLength(bbdInputLength);
         }
 
-        if (state == CHARSET_NLIIF || state == CHARSET_NLIF ||
-            state == CHARSET_LIIF || state == CHARSET_LIF)
+        if (stbte == CHARSET_NLIIF || stbte == CHARSET_NLIF ||
+            stbte == CHARSET_LIIF || stbte == CHARSET_LIF)
         {
-            if (lastDecoder == glDecoder) {
+            if (lbstDecoder == glDecoder) {
                 cr = flushDecoder(glDecoder, cb);
             }
-            glDecoder = lastDecoder = decoder;
+            glDecoder = lbstDecoder = decoder;
             glHigh = high;
-            state = NORMAL_BYTES;
-        } else if (state == CHARSET_NRIIF || state == CHARSET_NRIF ||
-                   state == CHARSET_RIIF || state == CHARSET_RIF) {
-            if (lastDecoder == grDecoder) {
+            stbte = NORMAL_BYTES;
+        } else if (stbte == CHARSET_NRIIF || stbte == CHARSET_NRIF ||
+                   stbte == CHARSET_RIIF || stbte == CHARSET_RIF) {
+            if (lbstDecoder == grDecoder) {
                 cr = flushDecoder(grDecoder, cb);
             }
-            grDecoder = lastDecoder = decoder;
+            grDecoder = lbstDecoder = decoder;
             grHigh = high;
-            state = NORMAL_BYTES;
-        } else if (state == CHARSET_NONSTANDARD) {
-            if (lastDecoder != null) {
-                cr = flushDecoder(lastDecoder, cb);
-                lastDecoder = null;
+            stbte = NORMAL_BYTES;
+        } else if (stbte == CHARSET_NONSTANDARD) {
+            if (lbstDecoder != null) {
+                cr = flushDecoder(lbstDecoder, cb);
+                lbstDecoder = null;
             }
-            nonStandardDecoder = decoder;
-            state = NONSTANDARD_BYTES;
+            nonStbndbrdDecoder = decoder;
+            stbte = NONSTANDARD_BYTES;
         } else {
             error(ERR_ILLSTATE);
         }
         return cr;
     }
 
-    private ByteBuffer fbb= ByteBuffer.allocate(0);
-    private CoderResult flushDecoder(CharsetDecoder dec, CharBuffer cb) {
+    privbte ByteBuffer fbb= ByteBuffer.bllocbte(0);
+    privbte CoderResult flushDecoder(ChbrsetDecoder dec, ChbrBuffer cb) {
         dec.decode(fbb, cb, true);
         CoderResult cr = dec.flush(cb);
         dec.reset();  //reuse
         return cr;
     }
 
-    private CoderResult malformedInput(String msg) {
-        int badInputLength = queue.size() + 1 /* current byte */ ;
+    privbte CoderResult mblformedInput(String msg) {
+        int bbdInputLength = queue.size() + 1 /* current byte */ ;
         queue.reset();
         //TBD: nowhere to put the msg in CoderResult
-        return CoderResult.malformedForLength(badInputLength);
+        return CoderResult.mblformedForLength(bbdInputLength);
     }
 
-    private void error(String msg) {
-        // For now, throw InternalError. Convert to 'assert' keyword later.
-        throw new InternalError(msg);
+    privbte void error(String msg) {
+        // For now, throw InternblError. Convert to 'bssert' keyword lbter.
+        throw new InternblError(msg);
     }
 
-    protected CoderResult implFlush(CharBuffer out) {
+    protected CoderResult implFlush(ChbrBuffer out) {
         CoderResult cr = CoderResult.UNDERFLOW;
-        if (lastDecoder != null)
-          cr = flushDecoder(lastDecoder, out);
-        if (state != NORMAL_BYTES)
-            //TBD message ERR_FLUSH;
-            cr = CoderResult.malformedForLength(0);
+        if (lbstDecoder != null)
+          cr = flushDecoder(lbstDecoder, out);
+        if (stbte != NORMAL_BYTES)
+            //TBD messbge ERR_FLUSH;
+            cr = CoderResult.mblformedForLength(0);
         reset();
         return cr;
     }
 
     /**
      * Resets the decoder.
-     * Call this method to reset the decoder to its initial state
+     * Cbll this method to reset the decoder to its initibl stbte
      */
     protected void implReset() {
-        state = NORMAL_BYTES;
+        stbte = NORMAL_BYTES;
         ext_count = ext_offset = 0;
         versionSequenceAllowed = true;
         queue.reset();
         encodingQueue.reset();
-        nonStandardDecoder = lastDecoder = null;
-        glHigh = false;
+        nonStbndbrdDecoder = lbstDecoder = null;
+        glHigh = fblse;
         grHigh = true;
         try {
-            // Initial state in ISO 2022 designates Latin-1 charset.
-            glDecoder = Charset.forName("ASCII").newDecoder();
-            grDecoder = Charset.forName("ISO8859_1").newDecoder();
-        } catch (IllegalArgumentException e) {
+            // Initibl stbte in ISO 2022 designbtes Lbtin-1 chbrset.
+            glDecoder = Chbrset.forNbme("ASCII").newDecoder();
+            grDecoder = Chbrset.forNbme("ISO8859_1").newDecoder();
+        } cbtch (IllegblArgumentException e) {
             error(ERR_LATIN1);
         }
         initDecoder(glDecoder);
         initDecoder(grDecoder);
     }
 
-    protected void implOnMalformedInput(CodingErrorAction newAction) {
+    protected void implOnMblformedInput(CodingErrorAction newAction) {
         if (glDecoder != null)
-            glDecoder.onMalformedInput(newAction);
+            glDecoder.onMblformedInput(newAction);
         if (grDecoder != null)
-            grDecoder.onMalformedInput(newAction);
-        if (nonStandardDecoder != null)
-            nonStandardDecoder.onMalformedInput(newAction);
+            grDecoder.onMblformedInput(newAction);
+        if (nonStbndbrdDecoder != null)
+            nonStbndbrdDecoder.onMblformedInput(newAction);
     }
 
-    protected void implOnUnmappableCharacter(CodingErrorAction newAction) {
+    protected void implOnUnmbppbbleChbrbcter(CodingErrorAction newAction) {
         if (glDecoder != null)
-            glDecoder.onUnmappableCharacter(newAction);
+            glDecoder.onUnmbppbbleChbrbcter(newAction);
         if (grDecoder != null)
-            grDecoder.onUnmappableCharacter(newAction);
-        if (nonStandardDecoder != null)
-            nonStandardDecoder.onUnmappableCharacter(newAction);
+            grDecoder.onUnmbppbbleChbrbcter(newAction);
+        if (nonStbndbrdDecoder != null)
+            nonStbndbrdDecoder.onUnmbppbbleChbrbcter(newAction);
     }
 
-    protected void implReplaceWith(String newReplacement) {
+    protected void implReplbceWith(String newReplbcement) {
         if (glDecoder != null)
-            glDecoder.replaceWith(newReplacement);
+            glDecoder.replbceWith(newReplbcement);
         if (grDecoder != null)
-            grDecoder.replaceWith(newReplacement);
-        if (nonStandardDecoder != null)
-            nonStandardDecoder.replaceWith(newReplacement);
+            grDecoder.replbceWith(newReplbcement);
+        if (nonStbndbrdDecoder != null)
+            nonStbndbrdDecoder.replbceWith(newReplbcement);
     }
 
-    private void initDecoder(CharsetDecoder dec) {
-        dec.onUnmappableCharacter(CodingErrorAction.REPLACE)
-            .replaceWith(replacement());
+    privbte void initDecoder(ChbrsetDecoder dec) {
+        dec.onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
+            .replbceWith(replbcement());
     }
 }

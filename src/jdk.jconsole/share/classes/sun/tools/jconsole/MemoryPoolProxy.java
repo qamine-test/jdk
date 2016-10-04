@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import javax.management.ObjectName;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
-import com.sun.management.GarbageCollectorMXBean;
-import com.sun.management.GcInfo;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import com.sun.mbnbgement.GbrbbgeCollectorMXBebn;
+import com.sun.mbnbgement.GcInfo;
+import jbvb.util.HbshMbp;
+import jbvb.util.Set;
+import jbvb.util.Mbp;
 
-import static java.lang.management.ManagementFactory.*;
+import stbtic jbvb.lbng.mbnbgement.MbnbgementFbctory.*;
 
-public class MemoryPoolProxy {
-    private String poolName;
-    private ProxyClient client;
-    private MemoryPoolMXBean pool;
-    private Map<ObjectName,Long> gcMBeans;
-    private GcInfo lastGcInfo;
+public clbss MemoryPoolProxy {
+    privbte String poolNbme;
+    privbte ProxyClient client;
+    privbte MemoryPoolMXBebn pool;
+    privbte Mbp<ObjectNbme,Long> gcMBebns;
+    privbte GcInfo lbstGcInfo;
 
-    public MemoryPoolProxy(ProxyClient client, ObjectName poolName) throws java.io.IOException {
+    public MemoryPoolProxy(ProxyClient client, ObjectNbme poolNbme) throws jbvb.io.IOException {
         this.client = client;
-        this.pool = client.getMXBean(poolName, MemoryPoolMXBean.class);
-        this.poolName = this.pool.getName();
-        this.gcMBeans = new HashMap<ObjectName,Long>();
-        this.lastGcInfo = null;
+        this.pool = client.getMXBebn(poolNbme, MemoryPoolMXBebn.clbss);
+        this.poolNbme = this.pool.getNbme();
+        this.gcMBebns = new HbshMbp<ObjectNbme,Long>();
+        this.lbstGcInfo = null;
 
-        String[] mgrNames = pool.getMemoryManagerNames();
-        for (String name : mgrNames) {
+        String[] mgrNbmes = pool.getMemoryMbnbgerNbmes();
+        for (String nbme : mgrNbmes) {
             try {
-                ObjectName mbeanName = new ObjectName(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
-                                                      ",name=" + name);
-                if (client.isRegistered(mbeanName)) {
-                    gcMBeans.put(mbeanName, 0L);
+                ObjectNbme mbebnNbme = new ObjectNbme(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
+                                                      ",nbme=" + nbme);
+                if (client.isRegistered(mbebnNbme)) {
+                    gcMBebns.put(mbebnNbme, 0L);
                 }
-            } catch (Exception e) {
-                assert false;
+            } cbtch (Exception e) {
+                bssert fblse;
             }
 
         }
     }
 
-    public boolean isCollectedMemoryPool() {
-        return (gcMBeans.size() != 0);
+    public boolebn isCollectedMemoryPool() {
+        return (gcMBebns.size() != 0);
     }
 
-    public MemoryPoolStat getStat() throws java.io.IOException {
-        long usageThreshold = (pool.isUsageThresholdSupported()
-                                  ? pool.getUsageThreshold()
+    public MemoryPoolStbt getStbt() throws jbvb.io.IOException {
+        long usbgeThreshold = (pool.isUsbgeThresholdSupported()
+                                  ? pool.getUsbgeThreshold()
                                   : -1);
-        long collectThreshold = (pool.isCollectionUsageThresholdSupported()
-                                  ? pool.getCollectionUsageThreshold()
+        long collectThreshold = (pool.isCollectionUsbgeThresholdSupported()
+                                  ? pool.getCollectionUsbgeThreshold()
                                   : -1);
-        long lastGcStartTime = 0;
-        long lastGcEndTime = 0;
-        MemoryUsage beforeGcUsage = null;
-        MemoryUsage afterGcUsage = null;
+        long lbstGcStbrtTime = 0;
+        long lbstGcEndTime = 0;
+        MemoryUsbge beforeGcUsbge = null;
+        MemoryUsbge bfterGcUsbge = null;
         long gcId = 0;
-        if (lastGcInfo != null) {
-            gcId = lastGcInfo.getId();
-            lastGcStartTime = lastGcInfo.getStartTime();
-            lastGcEndTime = lastGcInfo.getEndTime();
-            beforeGcUsage = lastGcInfo.getMemoryUsageBeforeGc().get(poolName);
-            afterGcUsage = lastGcInfo.getMemoryUsageAfterGc().get(poolName);
+        if (lbstGcInfo != null) {
+            gcId = lbstGcInfo.getId();
+            lbstGcStbrtTime = lbstGcInfo.getStbrtTime();
+            lbstGcEndTime = lbstGcInfo.getEndTime();
+            beforeGcUsbge = lbstGcInfo.getMemoryUsbgeBeforeGc().get(poolNbme);
+            bfterGcUsbge = lbstGcInfo.getMemoryUsbgeAfterGc().get(poolNbme);
         }
 
-        Set<Map.Entry<ObjectName,Long>> set = gcMBeans.entrySet();
-        for (Map.Entry<ObjectName,Long> e : set) {
-            GarbageCollectorMXBean gc =
-                client.getMXBean(e.getKey(),
-                                 com.sun.management.GarbageCollectorMXBean.class);
-            Long gcCount = e.getValue();
+        Set<Mbp.Entry<ObjectNbme,Long>> set = gcMBebns.entrySet();
+        for (Mbp.Entry<ObjectNbme,Long> e : set) {
+            GbrbbgeCollectorMXBebn gc =
+                client.getMXBebn(e.getKey(),
+                                 com.sun.mbnbgement.GbrbbgeCollectorMXBebn.clbss);
+            Long gcCount = e.getVblue();
             Long newCount = gc.getCollectionCount();
             if (newCount > gcCount) {
-                gcMBeans.put(e.getKey(), newCount);
-                lastGcInfo = gc.getLastGcInfo();
-                if (lastGcInfo.getEndTime() > lastGcEndTime) {
-                    gcId = lastGcInfo.getId();
-                    lastGcStartTime = lastGcInfo.getStartTime();
-                    lastGcEndTime = lastGcInfo.getEndTime();
-                    beforeGcUsage = lastGcInfo.getMemoryUsageBeforeGc().get(poolName);
-                    afterGcUsage = lastGcInfo.getMemoryUsageAfterGc().get(poolName);
-                    assert(beforeGcUsage != null);
-                    assert(afterGcUsage != null);
+                gcMBebns.put(e.getKey(), newCount);
+                lbstGcInfo = gc.getLbstGcInfo();
+                if (lbstGcInfo.getEndTime() > lbstGcEndTime) {
+                    gcId = lbstGcInfo.getId();
+                    lbstGcStbrtTime = lbstGcInfo.getStbrtTime();
+                    lbstGcEndTime = lbstGcInfo.getEndTime();
+                    beforeGcUsbge = lbstGcInfo.getMemoryUsbgeBeforeGc().get(poolNbme);
+                    bfterGcUsbge = lbstGcInfo.getMemoryUsbgeAfterGc().get(poolNbme);
+                    bssert(beforeGcUsbge != null);
+                    bssert(bfterGcUsbge != null);
                 }
             }
         }
 
-        MemoryUsage usage = pool.getUsage();
-        return new MemoryPoolStat(poolName,
-                                  usageThreshold,
-                                  usage,
+        MemoryUsbge usbge = pool.getUsbge();
+        return new MemoryPoolStbt(poolNbme,
+                                  usbgeThreshold,
+                                  usbge,
                                   gcId,
-                                  lastGcStartTime,
-                                  lastGcEndTime,
+                                  lbstGcStbrtTime,
+                                  lbstGcEndTime,
                                   collectThreshold,
-                                  beforeGcUsage,
-                                  afterGcUsage);
+                                  beforeGcUsbge,
+                                  bfterGcUsbge);
     }
 }

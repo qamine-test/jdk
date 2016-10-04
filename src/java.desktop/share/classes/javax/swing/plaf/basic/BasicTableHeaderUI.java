@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.table.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tbble.*;
 
 import sun.swing.*;
 
 /**
- * BasicTableHeaderUI implementation
+ * BbsicTbbleHebderUI implementbtion
  *
- * @author Alan Chung
- * @author Philip Milne
+ * @buthor Albn Chung
+ * @buthor Philip Milne
  */
-public class BasicTableHeaderUI extends TableHeaderUI {
+public clbss BbsicTbbleHebderUI extends TbbleHebderUI {
 
-    private static Cursor resizeCursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+    privbte stbtic Cursor resizeCursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
     /**
-     *  The {@code JTableHeader} that is delegating the painting to this UI.
+     *  The {@code JTbbleHebder} thbt is delegbting the pbinting to this UI.
      */
-    protected JTableHeader header;
+    protected JTbbleHebder hebder;
 
     /**
-     * The instance of {@code CellRendererPane}.
+     * The instbnce of {@code CellRendererPbne}.
      */
-    protected CellRendererPane rendererPane;
+    protected CellRendererPbne rendererPbne;
 
     /**
-     * Listeners that are attached to the {@code JTable}
+     * Listeners thbt bre bttbched to the {@code JTbble}
      */
     protected MouseInputListener mouseInputListener;
 
-    // The column header over which the mouse currently is.
-    private int rolloverColumn = -1;
+    // The column hebder over which the mouse currently is.
+    privbte int rolloverColumn = -1;
 
-    // The column that should be highlighted when the table header has the focus.
-    private int selectedColumnIndex = 0; // Read ONLY via getSelectedColumnIndex!
+    // The column thbt should be highlighted when the tbble hebder hbs the focus.
+    privbte int selectedColumnIndex = 0; // Rebd ONLY vib getSelectedColumnIndex!
 
-    private static FocusListener focusListener = new FocusListener() {
-        public void focusGained(FocusEvent e) {
-            repaintHeader(e.getSource());
+    privbte stbtic FocusListener focusListener = new FocusListener() {
+        public void focusGbined(FocusEvent e) {
+            repbintHebder(e.getSource());
         }
 
         public void focusLost(FocusEvent e) {
-            repaintHeader(e.getSource());
+            repbintHebder(e.getSource());
         }
 
-        private void repaintHeader(Object source) {
-            if (source instanceof JTableHeader) {
-                JTableHeader th = (JTableHeader)source;
-                BasicTableHeaderUI ui =
-                   (BasicTableHeaderUI)BasicLookAndFeel.
+        privbte void repbintHebder(Object source) {
+            if (source instbnceof JTbbleHebder) {
+                JTbbleHebder th = (JTbbleHebder)source;
+                BbsicTbbleHebderUI ui =
+                   (BbsicTbbleHebderUI)BbsicLookAndFeel.
                                         getUIOfType(th.getUI(),
-                                            BasicTableHeaderUI.class);
+                                            BbsicTbbleHebderUI.clbss);
                 if (ui == null) {
                     return;
                 }
 
-                th.repaint(th.getHeaderRect(ui.getSelectedColumnIndex()));
+                th.repbint(th.getHebderRect(ui.getSelectedColumnIndex()));
             }
         }
     };
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableHeaderUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicTbbleHebderUI}.
      */
-    public class MouseInputHandler implements MouseInputListener {
+    public clbss MouseInputHbndler implements MouseInputListener {
 
-        private int mouseXOffset;
-        private Cursor otherCursor = resizeCursor;
+        privbte int mouseXOffset;
+        privbte Cursor otherCursor = resizeCursor;
 
         public void mouseClicked(MouseEvent e) {
-            if (!header.isEnabled()) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
             if (e.getClickCount() % 2 == 1 &&
                     SwingUtilities.isLeftMouseButton(e)) {
-                JTable table = header.getTable();
+                JTbble tbble = hebder.getTbble();
                 RowSorter<?> sorter;
-                if (table != null && (sorter = table.getRowSorter()) != null) {
-                    int columnIndex = header.columnAtPoint(e.getPoint());
+                if (tbble != null && (sorter = tbble.getRowSorter()) != null) {
+                    int columnIndex = hebder.columnAtPoint(e.getPoint());
                     if (columnIndex != -1) {
-                        columnIndex = table.convertColumnIndexToModel(
+                        columnIndex = tbble.convertColumnIndexToModel(
                                 columnIndex);
                         sorter.toggleSortOrder(columnIndex);
                     }
@@ -123,22 +123,22 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             }
         }
 
-        private TableColumn getResizingColumn(Point p) {
-            return getResizingColumn(p, header.columnAtPoint(p));
+        privbte TbbleColumn getResizingColumn(Point p) {
+            return getResizingColumn(p, hebder.columnAtPoint(p));
         }
 
-        private TableColumn getResizingColumn(Point p, int column) {
+        privbte TbbleColumn getResizingColumn(Point p, int column) {
             if (column == -1) {
                  return null;
             }
-            Rectangle r = header.getHeaderRect(column);
+            Rectbngle r = hebder.getHebderRect(column);
             r.grow(-3, 0);
-            if (r.contains(p)) {
+            if (r.contbins(p)) {
                 return null;
             }
             int midPoint = r.x + r.width/2;
             int columnIndex;
-            if( header.getComponentOrientation().isLeftToRight() ) {
+            if( hebder.getComponentOrientbtion().isLeftToRight() ) {
                 columnIndex = (p.x < midPoint) ? column - 1 : column;
             } else {
                 columnIndex = (p.x < midPoint) ? column : column - 1;
@@ -146,287 +146,287 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             if (columnIndex == -1) {
                 return null;
             }
-            return header.getColumnModel().getColumn(columnIndex);
+            return hebder.getColumnModel().getColumn(columnIndex);
         }
 
         public void mousePressed(MouseEvent e) {
-            if (!header.isEnabled()) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
-            header.setDraggedColumn(null);
-            header.setResizingColumn(null);
-            header.setDraggedDistance(0);
+            hebder.setDrbggedColumn(null);
+            hebder.setResizingColumn(null);
+            hebder.setDrbggedDistbnce(0);
 
             Point p = e.getPoint();
 
-            // First find which header cell was hit
-            TableColumnModel columnModel = header.getColumnModel();
-            int index = header.columnAtPoint(p);
+            // First find which hebder cell wbs hit
+            TbbleColumnModel columnModel = hebder.getColumnModel();
+            int index = hebder.columnAtPoint(p);
 
             if (index != -1) {
-                // The last 3 pixels + 3 pixels of next column are for resizing
-                TableColumn resizingColumn = getResizingColumn(p, index);
-                if (canResize(resizingColumn, header)) {
-                    header.setResizingColumn(resizingColumn);
-                    if( header.getComponentOrientation().isLeftToRight() ) {
+                // The lbst 3 pixels + 3 pixels of next column bre for resizing
+                TbbleColumn resizingColumn = getResizingColumn(p, index);
+                if (cbnResize(resizingColumn, hebder)) {
+                    hebder.setResizingColumn(resizingColumn);
+                    if( hebder.getComponentOrientbtion().isLeftToRight() ) {
                         mouseXOffset = p.x - resizingColumn.getWidth();
                     } else {
                         mouseXOffset = p.x + resizingColumn.getWidth();
                     }
                 }
-                else if (header.getReorderingAllowed()) {
-                    TableColumn hitColumn = columnModel.getColumn(index);
-                    header.setDraggedColumn(hitColumn);
+                else if (hebder.getReorderingAllowed()) {
+                    TbbleColumn hitColumn = columnModel.getColumn(index);
+                    hebder.setDrbggedColumn(hitColumn);
                     mouseXOffset = p.x;
                 }
             }
 
-            if (header.getReorderingAllowed()) {
+            if (hebder.getReorderingAllowed()) {
                 int oldRolloverColumn = rolloverColumn;
                 rolloverColumn = -1;
-                rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+                rolloverColumnUpdbted(oldRolloverColumn, rolloverColumn);
             }
         }
 
-        private void swapCursor() {
-            Cursor tmp = header.getCursor();
-            header.setCursor(otherCursor);
+        privbte void swbpCursor() {
+            Cursor tmp = hebder.getCursor();
+            hebder.setCursor(otherCursor);
             otherCursor = tmp;
         }
 
         public void mouseMoved(MouseEvent e) {
-            if (!header.isEnabled()) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
-            if (canResize(getResizingColumn(e.getPoint()), header) !=
-                (header.getCursor() == resizeCursor)) {
-                swapCursor();
+            if (cbnResize(getResizingColumn(e.getPoint()), hebder) !=
+                (hebder.getCursor() == resizeCursor)) {
+                swbpCursor();
             }
-            updateRolloverColumn(e);
+            updbteRolloverColumn(e);
        }
 
-        public void mouseDragged(MouseEvent e) {
-            if (!header.isEnabled()) {
+        public void mouseDrbgged(MouseEvent e) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
             int mouseX = e.getX();
 
-            TableColumn resizingColumn  = header.getResizingColumn();
-            TableColumn draggedColumn  = header.getDraggedColumn();
+            TbbleColumn resizingColumn  = hebder.getResizingColumn();
+            TbbleColumn drbggedColumn  = hebder.getDrbggedColumn();
 
-            boolean headerLeftToRight = header.getComponentOrientation().isLeftToRight();
+            boolebn hebderLeftToRight = hebder.getComponentOrientbtion().isLeftToRight();
 
             if (resizingColumn != null) {
                 int oldWidth = resizingColumn.getWidth();
                 int newWidth;
-                if (headerLeftToRight) {
+                if (hebderLeftToRight) {
                     newWidth = mouseX - mouseXOffset;
                 } else  {
                     newWidth = mouseXOffset - mouseX;
                 }
-                mouseXOffset += changeColumnWidth(resizingColumn, header,
+                mouseXOffset += chbngeColumnWidth(resizingColumn, hebder,
                                                   oldWidth, newWidth);
             }
-            else if (draggedColumn != null) {
-                TableColumnModel cm = header.getColumnModel();
-                int draggedDistance = mouseX - mouseXOffset;
-                int direction = (draggedDistance < 0) ? -1 : 1;
-                int columnIndex = viewIndexForColumn(draggedColumn);
-                int newColumnIndex = columnIndex + (headerLeftToRight ? direction : -direction);
+            else if (drbggedColumn != null) {
+                TbbleColumnModel cm = hebder.getColumnModel();
+                int drbggedDistbnce = mouseX - mouseXOffset;
+                int direction = (drbggedDistbnce < 0) ? -1 : 1;
+                int columnIndex = viewIndexForColumn(drbggedColumn);
+                int newColumnIndex = columnIndex + (hebderLeftToRight ? direction : -direction);
                 if (0 <= newColumnIndex && newColumnIndex < cm.getColumnCount()) {
                     int width = cm.getColumn(newColumnIndex).getWidth();
-                    if (Math.abs(draggedDistance) > (width / 2)) {
+                    if (Mbth.bbs(drbggedDistbnce) > (width / 2)) {
 
                         mouseXOffset = mouseXOffset + direction * width;
-                        header.setDraggedDistance(draggedDistance - direction * width);
+                        hebder.setDrbggedDistbnce(drbggedDistbnce - direction * width);
 
-                        //Cache the selected column.
+                        //Cbche the selected column.
                         int selectedIndex =
                                 SwingUtilities2.convertColumnIndexToModel(
-                                        header.getColumnModel(),
+                                        hebder.getColumnModel(),
                                         getSelectedColumnIndex());
 
                         //Now do the move.
                         cm.moveColumn(columnIndex, newColumnIndex);
 
-                        //Update the selected index.
+                        //Updbte the selected index.
                         selectColumn(
                             SwingUtilities2.convertColumnIndexToView(
-                                    header.getColumnModel(), selectedIndex),
-                            false);
+                                    hebder.getColumnModel(), selectedIndex),
+                            fblse);
 
                         return;
                     }
                 }
-                setDraggedDistance(draggedDistance, columnIndex);
+                setDrbggedDistbnce(drbggedDistbnce, columnIndex);
             }
 
-            updateRolloverColumn(e);
+            updbteRolloverColumn(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if (!header.isEnabled()) {
+        public void mouseRelebsed(MouseEvent e) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
-            setDraggedDistance(0, viewIndexForColumn(header.getDraggedColumn()));
+            setDrbggedDistbnce(0, viewIndexForColumn(hebder.getDrbggedColumn()));
 
-            header.setResizingColumn(null);
-            header.setDraggedColumn(null);
+            hebder.setResizingColumn(null);
+            hebder.setDrbggedColumn(null);
 
-            updateRolloverColumn(e);
+            updbteRolloverColumn(e);
         }
 
         public void mouseEntered(MouseEvent e) {
-            if (!header.isEnabled()) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
-            updateRolloverColumn(e);
+            updbteRolloverColumn(e);
         }
 
         public void mouseExited(MouseEvent e) {
-            if (!header.isEnabled()) {
+            if (!hebder.isEnbbled()) {
                 return;
             }
             int oldRolloverColumn = rolloverColumn;
             rolloverColumn = -1;
-            rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+            rolloverColumnUpdbted(oldRolloverColumn, rolloverColumn);
         }
 //
-// Protected & Private Methods
+// Protected & Privbte Methods
 //
 
-        private void setDraggedDistance(int draggedDistance, int column) {
-            header.setDraggedDistance(draggedDistance);
+        privbte void setDrbggedDistbnce(int drbggedDistbnce, int column) {
+            hebder.setDrbggedDistbnce(drbggedDistbnce);
             if (column != -1) {
-                header.getColumnModel().moveColumn(column, column);
+                hebder.getColumnModel().moveColumn(column, column);
             }
         }
     }
 
 //
-//  Factory methods for the Listeners
+//  Fbctory methods for the Listeners
 //
 
     /**
-     * Creates the mouse listener for the {@code JTableHeader}.
+     * Crebtes the mouse listener for the {@code JTbbleHebder}.
      *
-     * @return the mouse listener for the {@code JTableHeader}
+     * @return the mouse listener for the {@code JTbbleHebder}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return new MouseInputHandler();
+    protected MouseInputListener crebteMouseInputListener() {
+        return new MouseInputHbndler();
     }
 
 //
-//  The installation/uninstall procedures and support
+//  The instbllbtion/uninstbll procedures bnd support
 //
 
     /**
-     * Returns a new instance of {@code BasicTableHeaderUI}.
+     * Returns b new instbnce of {@code BbsicTbbleHebderUI}.
      *
-     * @param h a component.
-     * @return a new instance of {@code BasicTableHeaderUI}
+     * @pbrbm h b component.
+     * @return b new instbnce of {@code BbsicTbbleHebderUI}
      */
-    public static ComponentUI createUI(JComponent h) {
-        return new BasicTableHeaderUI();
+    public stbtic ComponentUI crebteUI(JComponent h) {
+        return new BbsicTbbleHebderUI();
     }
 
-//  Installation
+//  Instbllbtion
 
-    public void installUI(JComponent c) {
-        header = (JTableHeader)c;
+    public void instbllUI(JComponent c) {
+        hebder = (JTbbleHebder)c;
 
-        rendererPane = new CellRendererPane();
-        header.add(rendererPane);
+        rendererPbne = new CellRendererPbne();
+        hebder.bdd(rendererPbne);
 
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        instbllDefbults();
+        instbllListeners();
+        instbllKeybobrdActions();
     }
 
     /**
-     * Initializes JTableHeader properties such as font, foreground, and background.
-     * The font, foreground, and background properties are only set if their
-     * current value is either null or a UIResource, other properties are set
-     * if the current value is null.
+     * Initiblizes JTbbleHebder properties such bs font, foreground, bnd bbckground.
+     * The font, foreground, bnd bbckground properties bre only set if their
+     * current vblue is either null or b UIResource, other properties bre set
+     * if the current vblue is null.
      *
-     * @see #installUI
+     * @see #instbllUI
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(header, "TableHeader.background",
-                                         "TableHeader.foreground", "TableHeader.font");
-        LookAndFeel.installProperty(header, "opaque", Boolean.TRUE);
+    protected void instbllDefbults() {
+        LookAndFeel.instbllColorsAndFont(hebder, "TbbleHebder.bbckground",
+                                         "TbbleHebder.foreground", "TbbleHebder.font");
+        LookAndFeel.instbllProperty(hebder, "opbque", Boolebn.TRUE);
     }
 
     /**
-     * Attaches listeners to the JTableHeader.
+     * Attbches listeners to the JTbbleHebder.
      */
-    protected void installListeners() {
-        mouseInputListener = createMouseInputListener();
+    protected void instbllListeners() {
+        mouseInputListener = crebteMouseInputListener();
 
-        header.addMouseListener(mouseInputListener);
-        header.addMouseMotionListener(mouseInputListener);
-        header.addFocusListener(focusListener);
+        hebder.bddMouseListener(mouseInputListener);
+        hebder.bddMouseMotionListener(mouseInputListener);
+        hebder.bddFocusListener(focusListener);
     }
 
     /**
-     * Register all keyboard actions on the JTableHeader.
+     * Register bll keybobrd bctions on the JTbbleHebder.
      */
-    protected void installKeyboardActions() {
-        InputMap keyMap = (InputMap)DefaultLookup.get(header, this,
-                "TableHeader.ancestorInputMap");
-        SwingUtilities.replaceUIInputMap(header,
-                                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, keyMap);
-        LazyActionMap.installLazyActionMap(header, BasicTableHeaderUI.class,
-                "TableHeader.actionMap");
+    protected void instbllKeybobrdActions() {
+        InputMbp keyMbp = (InputMbp)DefbultLookup.get(hebder, this,
+                "TbbleHebder.bncestorInputMbp");
+        SwingUtilities.replbceUIInputMbp(hebder,
+                                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, keyMbp);
+        LbzyActionMbp.instbllLbzyActionMbp(hebder, BbsicTbbleHebderUI.clbss,
+                "TbbleHebder.bctionMbp");
     }
 
-// Uninstall methods
+// Uninstbll methods
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults();
+        uninstbllListeners();
+        uninstbllKeybobrdActions();
 
-        header.remove(rendererPane);
-        rendererPane = null;
-        header = null;
+        hebder.remove(rendererPbne);
+        rendererPbne = null;
+        hebder = null;
     }
 
     /**
-     * Uninstalls default properties
+     * Uninstblls defbult properties
      */
-    protected void uninstallDefaults() {}
+    protected void uninstbllDefbults() {}
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        header.removeMouseListener(mouseInputListener);
-        header.removeMouseMotionListener(mouseInputListener);
+    protected void uninstbllListeners() {
+        hebder.removeMouseListener(mouseInputListener);
+        hebder.removeMouseMotionListener(mouseInputListener);
 
         mouseInputListener = null;
     }
 
     /**
-     * Unregisters default key actions.
+     * Unregisters defbult key bctions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(header, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIActionMap(header, null);
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIInputMbp(hebder, JComponent.WHEN_FOCUSED, null);
+        SwingUtilities.replbceUIActionMbp(hebder, null);
     }
 
     /**
-     * Populates TableHeader's actions.
+     * Populbtes TbbleHebder's bctions.
      */
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.TOGGLE_SORT_ORDER));
-        map.put(new Actions(Actions.SELECT_COLUMN_TO_LEFT));
-        map.put(new Actions(Actions.SELECT_COLUMN_TO_RIGHT));
-        map.put(new Actions(Actions.MOVE_COLUMN_LEFT));
-        map.put(new Actions(Actions.MOVE_COLUMN_RIGHT));
-        map.put(new Actions(Actions.RESIZE_LEFT));
-        map.put(new Actions(Actions.RESIZE_RIGHT));
-        map.put(new Actions(Actions.FOCUS_TABLE));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.TOGGLE_SORT_ORDER));
+        mbp.put(new Actions(Actions.SELECT_COLUMN_TO_LEFT));
+        mbp.put(new Actions(Actions.SELECT_COLUMN_TO_RIGHT));
+        mbp.put(new Actions(Actions.MOVE_COLUMN_LEFT));
+        mbp.put(new Actions(Actions.MOVE_COLUMN_RIGHT));
+        mbp.put(new Actions(Actions.RESIZE_LEFT));
+        mbp.put(new Actions(Actions.RESIZE_RIGHT));
+        mbp.put(new Actions(Actions.FOCUS_TABLE));
     }
 
 //
@@ -434,11 +434,11 @@ public class BasicTableHeaderUI extends TableHeaderUI {
 //
 
     /**
-     * Returns the index of the column header over which the mouse
-     * currently is. When the mouse is not over the table header,
+     * Returns the index of the column hebder over which the mouse
+     * currently is. When the mouse is not over the tbble hebder,
      * -1 is returned.
      *
-     * @see #rolloverColumnUpdated(int, int)
+     * @see #rolloverColumnUpdbted(int, int)
      * @return the index of the current rollover column
      * @since 1.6
      */
@@ -447,40 +447,40 @@ public class BasicTableHeaderUI extends TableHeaderUI {
     }
 
     /**
-     * This method gets called every time when a rollover column in the table
-     * header is updated. Every look and feel that supports a rollover effect
-     * in a table header should override this method and repaint the header.
+     * This method gets cblled every time when b rollover column in the tbble
+     * hebder is updbted. Every look bnd feel thbt supports b rollover effect
+     * in b tbble hebder should override this method bnd repbint the hebder.
      *
-     * @param oldColumn the index of the previous rollover column or -1 if the
-     * mouse was not over a column
-     * @param newColumn the index of the new rollover column or -1 if the mouse
-     * is not over a column
+     * @pbrbm oldColumn the index of the previous rollover column or -1 if the
+     * mouse wbs not over b column
+     * @pbrbm newColumn the index of the new rollover column or -1 if the mouse
+     * is not over b column
      * @see #getRolloverColumn()
-     * @see JTableHeader#getHeaderRect(int)
+     * @see JTbbleHebder#getHebderRect(int)
      * @since 1.6
      */
-    protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
+    protected void rolloverColumnUpdbted(int oldColumn, int newColumn) {
     }
 
-    private void updateRolloverColumn(MouseEvent e) {
-        if (header.getDraggedColumn() == null &&
-            header.contains(e.getPoint())) {
+    privbte void updbteRolloverColumn(MouseEvent e) {
+        if (hebder.getDrbggedColumn() == null &&
+            hebder.contbins(e.getPoint())) {
 
-            int col = header.columnAtPoint(e.getPoint());
+            int col = hebder.columnAtPoint(e.getPoint());
             if (col != rolloverColumn) {
                 int oldRolloverColumn = rolloverColumn;
                 rolloverColumn = col;
-                rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+                rolloverColumnUpdbted(oldRolloverColumn, rolloverColumn);
             }
         }
     }
 
 //
-// Support for keyboard and mouse access
+// Support for keybobrd bnd mouse bccess
 //
-    private int selectNextColumn(boolean doIt) {
+    privbte int selectNextColumn(boolebn doIt) {
         int newIndex = getSelectedColumnIndex();
-        if (newIndex < header.getColumnModel().getColumnCount() - 1) {
+        if (newIndex < hebder.getColumnModel().getColumnCount() - 1) {
             newIndex++;
             if (doIt) {
                 selectColumn(newIndex);
@@ -489,7 +489,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
         return newIndex;
     }
 
-    private int selectPreviousColumn(boolean doIt) {
+    privbte int selectPreviousColumn(boolebn doIt) {
         int newIndex = getSelectedColumnIndex();
         if (newIndex > 0) {
             newIndex--;
@@ -501,97 +501,97 @@ public class BasicTableHeaderUI extends TableHeaderUI {
     }
 
     /**
-     * Selects the specified column in the table header. Repaints the
-     * affected header cells and makes sure the newly selected one is visible.
+     * Selects the specified column in the tbble hebder. Repbints the
+     * bffected hebder cells bnd mbkes sure the newly selected one is visible.
      */
     void selectColumn(int newColIndex) {
         selectColumn(newColIndex, true);
     }
 
-    void selectColumn(int newColIndex, boolean doScroll) {
-        Rectangle repaintRect = header.getHeaderRect(selectedColumnIndex);
-        header.repaint(repaintRect);
+    void selectColumn(int newColIndex, boolebn doScroll) {
+        Rectbngle repbintRect = hebder.getHebderRect(selectedColumnIndex);
+        hebder.repbint(repbintRect);
         selectedColumnIndex = newColIndex;
-        repaintRect = header.getHeaderRect(newColIndex);
-        header.repaint(repaintRect);
+        repbintRect = hebder.getHebderRect(newColIndex);
+        hebder.repbint(repbintRect);
         if (doScroll) {
             scrollToColumn(newColIndex);
         }
         return;
     }
     /**
-     * Used by selectColumn to scroll horizontally, if necessary,
-     * to ensure that the newly selected column is visible.
+     * Used by selectColumn to scroll horizontblly, if necessbry,
+     * to ensure thbt the newly selected column is visible.
      */
-    private void scrollToColumn(int col) {
-        Container container;
-        JTable table;
+    privbte void scrollToColumn(int col) {
+        Contbiner contbiner;
+        JTbble tbble;
 
-        //Test whether the header is in a scroll pane and has a table.
-        if ((header.getParent() == null) ||
-            ((container = header.getParent().getParent()) == null) ||
-            !(container instanceof JScrollPane) ||
-            ((table = header.getTable()) == null)) {
+        //Test whether the hebder is in b scroll pbne bnd hbs b tbble.
+        if ((hebder.getPbrent() == null) ||
+            ((contbiner = hebder.getPbrent().getPbrent()) == null) ||
+            !(contbiner instbnceof JScrollPbne) ||
+            ((tbble = hebder.getTbble()) == null)) {
             return;
         }
 
-        //Now scroll, if necessary.
-        Rectangle vis = table.getVisibleRect();
-        Rectangle cellBounds = table.getCellRect(0, col, true);
+        //Now scroll, if necessbry.
+        Rectbngle vis = tbble.getVisibleRect();
+        Rectbngle cellBounds = tbble.getCellRect(0, col, true);
         vis.x = cellBounds.x;
         vis.width = cellBounds.width;
-        table.scrollRectToVisible(vis);
+        tbble.scrollRectToVisible(vis);
     }
 
-    private int getSelectedColumnIndex() {
-        int numCols = header.getColumnModel().getColumnCount();
+    privbte int getSelectedColumnIndex() {
+        int numCols = hebder.getColumnModel().getColumnCount();
         if (selectedColumnIndex >= numCols && numCols > 0) {
             selectedColumnIndex = numCols - 1;
         }
         return selectedColumnIndex;
     }
 
-    private static boolean canResize(TableColumn column,
-                                     JTableHeader header) {
-        return (column != null) && header.getResizingAllowed()
-                                && column.getResizable();
+    privbte stbtic boolebn cbnResize(TbbleColumn column,
+                                     JTbbleHebder hebder) {
+        return (column != null) && hebder.getResizingAllowed()
+                                && column.getResizbble();
     }
 
-    private int changeColumnWidth(TableColumn resizingColumn,
-                                  JTableHeader th,
+    privbte int chbngeColumnWidth(TbbleColumn resizingColumn,
+                                  JTbbleHebder th,
                                   int oldWidth, int newWidth) {
         resizingColumn.setWidth(newWidth);
 
-        Container container;
-        JTable table;
+        Contbiner contbiner;
+        JTbble tbble;
 
-        if ((th.getParent() == null) ||
-            ((container = th.getParent().getParent()) == null) ||
-            !(container instanceof JScrollPane) ||
-            ((table = th.getTable()) == null)) {
+        if ((th.getPbrent() == null) ||
+            ((contbiner = th.getPbrent().getPbrent()) == null) ||
+            !(contbiner instbnceof JScrollPbne) ||
+            ((tbble = th.getTbble()) == null)) {
             return 0;
         }
 
-        if (!container.getComponentOrientation().isLeftToRight() &&
-                !th.getComponentOrientation().isLeftToRight()) {
-                JViewport viewport = ((JScrollPane)container).getViewport();
+        if (!contbiner.getComponentOrientbtion().isLeftToRight() &&
+                !th.getComponentOrientbtion().isLeftToRight()) {
+                JViewport viewport = ((JScrollPbne)contbiner).getViewport();
                 int viewportWidth = viewport.getWidth();
                 int diff = newWidth - oldWidth;
-                int newHeaderWidth = table.getWidth() + diff;
+                int newHebderWidth = tbble.getWidth() + diff;
 
-                /* Resize a table */
-                Dimension tableSize = table.getSize();
-                tableSize.width += diff;
-                table.setSize(tableSize);
+                /* Resize b tbble */
+                Dimension tbbleSize = tbble.getSize();
+                tbbleSize.width += diff;
+                tbble.setSize(tbbleSize);
 
-                /* If this table is in AUTO_RESIZE_OFF mode and
-                 * has a horizontal scrollbar, we need to update
-                 * a view's position.
+                /* If this tbble is in AUTO_RESIZE_OFF mode bnd
+                 * hbs b horizontbl scrollbbr, we need to updbte
+                 * b view's position.
                  */
-                if ((newHeaderWidth >= viewportWidth) &&
-                    (table.getAutoResizeMode() == JTable.AUTO_RESIZE_OFF)) {
+                if ((newHebderWidth >= viewportWidth) &&
+                    (tbble.getAutoResizeMode() == JTbble.AUTO_RESIZE_OFF)) {
                     Point p = viewport.getViewPosition();
-                    p.x = Math.max(0, Math.min(newHeaderWidth - viewportWidth,
+                    p.x = Mbth.mbx(0, Mbth.min(newHebderWidth - viewportWidth,
                                                p.x + diff));
                     viewport.setViewPosition(p);
                     return diff;
@@ -601,142 +601,142 @@ public class BasicTableHeaderUI extends TableHeaderUI {
     }
 
 //
-// Baseline
+// Bbseline
 //
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        int baseline = -1;
-        TableColumnModel columnModel = header.getColumnModel();
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        int bbseline = -1;
+        TbbleColumnModel columnModel = hebder.getColumnModel();
         for(int column = 0; column < columnModel.getColumnCount();
             column++) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            Component comp = getHeaderRenderer(column);
+            TbbleColumn bColumn = columnModel.getColumn(column);
+            Component comp = getHebderRenderer(column);
             Dimension pref = comp.getPreferredSize();
-            int columnBaseline = comp.getBaseline(pref.width, height);
-            if (columnBaseline >= 0) {
-                if (baseline == -1) {
-                    baseline = columnBaseline;
+            int columnBbseline = comp.getBbseline(pref.width, height);
+            if (columnBbseline >= 0) {
+                if (bbseline == -1) {
+                    bbseline = columnBbseline;
                 }
-                else if (baseline != columnBaseline) {
-                    baseline = -1;
-                    break;
+                else if (bbseline != columnBbseline) {
+                    bbseline = -1;
+                    brebk;
                 }
             }
         }
-        return baseline;
+        return bbseline;
     }
 
 //
-// Paint Methods and support
+// Pbint Methods bnd support
 //
 
-    public void paint(Graphics g, JComponent c) {
-        if (header.getColumnModel().getColumnCount() <= 0) {
+    public void pbint(Grbphics g, JComponent c) {
+        if (hebder.getColumnModel().getColumnCount() <= 0) {
             return;
         }
-        boolean ltr = header.getComponentOrientation().isLeftToRight();
+        boolebn ltr = hebder.getComponentOrientbtion().isLeftToRight();
 
-        Rectangle clip = g.getClipBounds();
-        Point left = clip.getLocation();
+        Rectbngle clip = g.getClipBounds();
+        Point left = clip.getLocbtion();
         Point right = new Point( clip.x + clip.width - 1, clip.y );
-        TableColumnModel cm = header.getColumnModel();
-        int cMin = header.columnAtPoint( ltr ? left : right );
-        int cMax = header.columnAtPoint( ltr ? right : left );
-        // This should never happen.
+        TbbleColumnModel cm = hebder.getColumnModel();
+        int cMin = hebder.columnAtPoint( ltr ? left : right );
+        int cMbx = hebder.columnAtPoint( ltr ? right : left );
+        // This should never hbppen.
         if (cMin == -1) {
             cMin =  0;
         }
-        // If the table does not have enough columns to fill the view we'll get -1.
-        // Replace this with the index of the last column.
-        if (cMax == -1) {
-            cMax = cm.getColumnCount()-1;
+        // If the tbble does not hbve enough columns to fill the view we'll get -1.
+        // Replbce this with the index of the lbst column.
+        if (cMbx == -1) {
+            cMbx = cm.getColumnCount()-1;
         }
 
-        TableColumn draggedColumn = header.getDraggedColumn();
+        TbbleColumn drbggedColumn = hebder.getDrbggedColumn();
         int columnWidth;
-        Rectangle cellRect = header.getHeaderRect(ltr ? cMin : cMax);
-        TableColumn aColumn;
+        Rectbngle cellRect = hebder.getHebderRect(ltr ? cMin : cMbx);
+        TbbleColumn bColumn;
         if (ltr) {
-            for(int column = cMin; column <= cMax ; column++) {
-                aColumn = cm.getColumn(column);
-                columnWidth = aColumn.getWidth();
+            for(int column = cMin; column <= cMbx ; column++) {
+                bColumn = cm.getColumn(column);
+                columnWidth = bColumn.getWidth();
                 cellRect.width = columnWidth;
-                if (aColumn != draggedColumn) {
-                    paintCell(g, cellRect, column);
+                if (bColumn != drbggedColumn) {
+                    pbintCell(g, cellRect, column);
                 }
                 cellRect.x += columnWidth;
             }
         } else {
-            for(int column = cMax; column >= cMin; column--) {
-                aColumn = cm.getColumn(column);
-                columnWidth = aColumn.getWidth();
+            for(int column = cMbx; column >= cMin; column--) {
+                bColumn = cm.getColumn(column);
+                columnWidth = bColumn.getWidth();
                 cellRect.width = columnWidth;
-                if (aColumn != draggedColumn) {
-                    paintCell(g, cellRect, column);
+                if (bColumn != drbggedColumn) {
+                    pbintCell(g, cellRect, column);
                 }
                 cellRect.x += columnWidth;
             }
         }
 
-        // Paint the dragged column if we are dragging.
-        if (draggedColumn != null) {
-            int draggedColumnIndex = viewIndexForColumn(draggedColumn);
-            Rectangle draggedCellRect = header.getHeaderRect(draggedColumnIndex);
+        // Pbint the drbgged column if we bre drbgging.
+        if (drbggedColumn != null) {
+            int drbggedColumnIndex = viewIndexForColumn(drbggedColumn);
+            Rectbngle drbggedCellRect = hebder.getHebderRect(drbggedColumnIndex);
 
-            // Draw a gray well in place of the moving column.
-            g.setColor(header.getParent().getBackground());
-            g.fillRect(draggedCellRect.x, draggedCellRect.y,
-                               draggedCellRect.width, draggedCellRect.height);
+            // Drbw b grby well in plbce of the moving column.
+            g.setColor(hebder.getPbrent().getBbckground());
+            g.fillRect(drbggedCellRect.x, drbggedCellRect.y,
+                               drbggedCellRect.width, drbggedCellRect.height);
 
-            draggedCellRect.x += header.getDraggedDistance();
+            drbggedCellRect.x += hebder.getDrbggedDistbnce();
 
-            // Fill the background.
-            g.setColor(header.getBackground());
-            g.fillRect(draggedCellRect.x, draggedCellRect.y,
-                       draggedCellRect.width, draggedCellRect.height);
+            // Fill the bbckground.
+            g.setColor(hebder.getBbckground());
+            g.fillRect(drbggedCellRect.x, drbggedCellRect.y,
+                       drbggedCellRect.width, drbggedCellRect.height);
 
-            paintCell(g, draggedCellRect, draggedColumnIndex);
+            pbintCell(g, drbggedCellRect, drbggedColumnIndex);
         }
 
-        // Remove all components in the rendererPane.
-        rendererPane.removeAll();
+        // Remove bll components in the rendererPbne.
+        rendererPbne.removeAll();
     }
 
-    private Component getHeaderRenderer(int columnIndex) {
-        TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);
-        TableCellRenderer renderer = aColumn.getHeaderRenderer();
+    privbte Component getHebderRenderer(int columnIndex) {
+        TbbleColumn bColumn = hebder.getColumnModel().getColumn(columnIndex);
+        TbbleCellRenderer renderer = bColumn.getHebderRenderer();
         if (renderer == null) {
-            renderer = header.getDefaultRenderer();
+            renderer = hebder.getDefbultRenderer();
         }
 
-        boolean hasFocus = !header.isPaintingForPrint()
+        boolebn hbsFocus = !hebder.isPbintingForPrint()
                            && (columnIndex == getSelectedColumnIndex())
-                           && header.hasFocus();
-        return renderer.getTableCellRendererComponent(header.getTable(),
-                                                aColumn.getHeaderValue(),
-                                                false, hasFocus,
+                           && hebder.hbsFocus();
+        return renderer.getTbbleCellRendererComponent(hebder.getTbble(),
+                                                bColumn.getHebderVblue(),
+                                                fblse, hbsFocus,
                                                 -1, columnIndex);
     }
 
-    private void paintCell(Graphics g, Rectangle cellRect, int columnIndex) {
-        Component component = getHeaderRenderer(columnIndex);
-        rendererPane.paintComponent(g, component, header, cellRect.x, cellRect.y,
+    privbte void pbintCell(Grbphics g, Rectbngle cellRect, int columnIndex) {
+        Component component = getHebderRenderer(columnIndex);
+        rendererPbne.pbintComponent(g, component, hebder, cellRect.x, cellRect.y,
                             cellRect.width, cellRect.height, true);
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = header.getColumnModel();
+    privbte int viewIndexForColumn(TbbleColumn bColumn) {
+        TbbleColumnModel cm = hebder.getColumnModel();
         for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
+            if (cm.getColumn(column) == bColumn) {
                 return column;
             }
         }
@@ -747,30 +747,30 @@ public class BasicTableHeaderUI extends TableHeaderUI {
 // Size Methods
 //
 
-    private int getHeaderHeight() {
+    privbte int getHebderHeight() {
         int height = 0;
-        boolean accomodatedDefault = false;
-        TableColumnModel columnModel = header.getColumnModel();
+        boolebn bccomodbtedDefbult = fblse;
+        TbbleColumnModel columnModel = hebder.getColumnModel();
         for(int column = 0; column < columnModel.getColumnCount(); column++) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            boolean isDefault = (aColumn.getHeaderRenderer() == null);
+            TbbleColumn bColumn = columnModel.getColumn(column);
+            boolebn isDefbult = (bColumn.getHebderRenderer() == null);
 
-            if (!isDefault || !accomodatedDefault) {
-                Component comp = getHeaderRenderer(column);
+            if (!isDefbult || !bccomodbtedDefbult) {
+                Component comp = getHebderRenderer(column);
                 int rendererHeight = comp.getPreferredSize().height;
-                height = Math.max(height, rendererHeight);
+                height = Mbth.mbx(height, rendererHeight);
 
-                // Configuring the header renderer to calculate its preferred size
-                // is expensive. Optimise this by assuming the default renderer
-                // always has the same height as the first non-zero height that
-                // it returns for a non-null/non-empty value.
-                if (isDefault && rendererHeight > 0) {
-                    Object headerValue = aColumn.getHeaderValue();
-                    if (headerValue != null) {
-                        headerValue = headerValue.toString();
+                // Configuring the hebder renderer to cblculbte its preferred size
+                // is expensive. Optimise this by bssuming the defbult renderer
+                // blwbys hbs the sbme height bs the first non-zero height thbt
+                // it returns for b non-null/non-empty vblue.
+                if (isDefbult && rendererHeight > 0) {
+                    Object hebderVblue = bColumn.getHebderVblue();
+                    if (hebderVblue != null) {
+                        hebderVblue = hebderVblue.toString();
 
-                        if (headerValue != null && !headerValue.equals("")) {
-                            accomodatedDefault = true;
+                        if (hebderVblue != null && !hebderVblue.equbls("")) {
+                            bccomodbtedDefbult = true;
                         }
                     }
                 }
@@ -779,170 +779,170 @@ public class BasicTableHeaderUI extends TableHeaderUI {
         return height;
     }
 
-    private Dimension createHeaderSize(long width) {
-        // None of the callers include the intercell spacing, do it here.
+    privbte Dimension crebteHebderSize(long width) {
+        // None of the cbllers include the intercell spbcing, do it here.
         if (width > Integer.MAX_VALUE) {
             width = Integer.MAX_VALUE;
         }
-        return new Dimension((int)width, getHeaderHeight());
+        return new Dimension((int)width, getHebderHeight());
     }
 
 
     /**
-     * Return the minimum size of the header. The minimum width is the sum
-     * of the minimum widths of each column (plus inter-cell spacing).
+     * Return the minimum size of the hebder. The minimum width is the sum
+     * of the minimum widths of ebch column (plus inter-cell spbcing).
      */
     public Dimension getMinimumSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMinWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = hebder.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getMinWidth();
         }
-        return createHeaderSize(width);
+        return crebteHebderSize(width);
     }
 
     /**
-     * Return the preferred size of the header. The preferred height is the
-     * maximum of the preferred heights of all of the components provided
-     * by the header renderers. The preferred width is the sum of the
-     * preferred widths of each column (plus inter-cell spacing).
+     * Return the preferred size of the hebder. The preferred height is the
+     * mbximum of the preferred heights of bll of the components provided
+     * by the hebder renderers. The preferred width is the sum of the
+     * preferred widths of ebch column (plus inter-cell spbcing).
      */
     public Dimension getPreferredSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getPreferredWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = hebder.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getPreferredWidth();
         }
-        return createHeaderSize(width);
+        return crebteHebderSize(width);
     }
 
     /**
-     * Return the maximum size of the header. The maximum width is the sum
-     * of the maximum widths of each column (plus inter-cell spacing).
+     * Return the mbximum size of the hebder. The mbximum width is the sum
+     * of the mbximum widths of ebch column (plus inter-cell spbcing).
      */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMaxWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = hebder.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getMbxWidth();
         }
-        return createHeaderSize(width);
+        return crebteHebderSize(width);
     }
 
-    private static class Actions extends UIAction {
-        public static final String TOGGLE_SORT_ORDER =
+    privbte stbtic clbss Actions extends UIAction {
+        public stbtic finbl String TOGGLE_SORT_ORDER =
             "toggleSortOrder";
-        public static final String SELECT_COLUMN_TO_LEFT =
+        public stbtic finbl String SELECT_COLUMN_TO_LEFT =
             "selectColumnToLeft";
-        public static final String SELECT_COLUMN_TO_RIGHT =
+        public stbtic finbl String SELECT_COLUMN_TO_RIGHT =
             "selectColumnToRight";
-        public static final String MOVE_COLUMN_LEFT =
+        public stbtic finbl String MOVE_COLUMN_LEFT =
             "moveColumnLeft";
-        public static final String MOVE_COLUMN_RIGHT =
+        public stbtic finbl String MOVE_COLUMN_RIGHT =
             "moveColumnRight";
-        public static final String RESIZE_LEFT =
+        public stbtic finbl String RESIZE_LEFT =
             "resizeLeft";
-        public static final String RESIZE_RIGHT =
+        public stbtic finbl String RESIZE_RIGHT =
             "resizeRight";
-        public static final String FOCUS_TABLE =
-            "focusTable";
+        public stbtic finbl String FOCUS_TABLE =
+            "focusTbble";
 
-        public Actions(String name) {
-            super(name);
+        public Actions(String nbme) {
+            super(nbme);
         }
 
-        public boolean isEnabled(Object sender) {
-            if (sender instanceof JTableHeader) {
-                JTableHeader th = (JTableHeader)sender;
-                TableColumnModel cm = th.getColumnModel();
+        public boolebn isEnbbled(Object sender) {
+            if (sender instbnceof JTbbleHebder) {
+                JTbbleHebder th = (JTbbleHebder)sender;
+                TbbleColumnModel cm = th.getColumnModel();
                 if (cm.getColumnCount() <= 0) {
-                    return false;
+                    return fblse;
                 }
 
-                String key = getName();
-                BasicTableHeaderUI ui =
-                    (BasicTableHeaderUI)BasicLookAndFeel.getUIOfType(th.getUI(),
-                                                      BasicTableHeaderUI.class);
+                String key = getNbme();
+                BbsicTbbleHebderUI ui =
+                    (BbsicTbbleHebderUI)BbsicLookAndFeel.getUIOfType(th.getUI(),
+                                                      BbsicTbbleHebderUI.clbss);
                 if (ui != null) {
                     if (key == MOVE_COLUMN_LEFT) {
                         return th.getReorderingAllowed()
-                            && maybeMoveColumn(true, th, ui, false);
+                            && mbybeMoveColumn(true, th, ui, fblse);
                     } else if (key == MOVE_COLUMN_RIGHT) {
                         return th.getReorderingAllowed()
-                            && maybeMoveColumn(false, th, ui, false);
+                            && mbybeMoveColumn(fblse, th, ui, fblse);
                     } else if (key == RESIZE_LEFT ||
                                key == RESIZE_RIGHT) {
-                        return canResize(cm.getColumn(ui.getSelectedColumnIndex()), th);
+                        return cbnResize(cm.getColumn(ui.getSelectedColumnIndex()), th);
                     } else if (key == FOCUS_TABLE) {
-                        return (th.getTable() != null);
+                        return (th.getTbble() != null);
                     }
                 }
             }
             return true;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTableHeader th = (JTableHeader)e.getSource();
-            BasicTableHeaderUI ui =
-                (BasicTableHeaderUI)BasicLookAndFeel.
+        public void bctionPerformed(ActionEvent e) {
+            JTbbleHebder th = (JTbbleHebder)e.getSource();
+            BbsicTbbleHebderUI ui =
+                (BbsicTbbleHebderUI)BbsicLookAndFeel.
                                         getUIOfType(th.getUI(),
-                                            BasicTableHeaderUI.class);
+                                            BbsicTbbleHebderUI.clbss);
             if (ui == null) {
                 return;
             }
 
-            String name = getName();
-            if (TOGGLE_SORT_ORDER == name) {
-                JTable table = th.getTable();
-                RowSorter<?> sorter = table == null ? null : table.getRowSorter();
+            String nbme = getNbme();
+            if (TOGGLE_SORT_ORDER == nbme) {
+                JTbble tbble = th.getTbble();
+                RowSorter<?> sorter = tbble == null ? null : tbble.getRowSorter();
                 if (sorter != null) {
                     int columnIndex = ui.getSelectedColumnIndex();
-                    columnIndex = table.convertColumnIndexToModel(
+                    columnIndex = tbble.convertColumnIndexToModel(
                                                       columnIndex);
                     sorter.toggleSortOrder(columnIndex);
                 }
-            } else if (SELECT_COLUMN_TO_LEFT == name) {
-                if (th.getComponentOrientation().isLeftToRight()) {
+            } else if (SELECT_COLUMN_TO_LEFT == nbme) {
+                if (th.getComponentOrientbtion().isLeftToRight()) {
                     ui.selectPreviousColumn(true);
                 } else {
                     ui.selectNextColumn(true);
                 }
-            } else if (SELECT_COLUMN_TO_RIGHT == name) {
-                if (th.getComponentOrientation().isLeftToRight()) {
+            } else if (SELECT_COLUMN_TO_RIGHT == nbme) {
+                if (th.getComponentOrientbtion().isLeftToRight()) {
                     ui.selectNextColumn(true);
                 } else {
                     ui.selectPreviousColumn(true);
                 }
-            } else if (MOVE_COLUMN_LEFT == name) {
+            } else if (MOVE_COLUMN_LEFT == nbme) {
                 moveColumn(true, th, ui);
-            } else if (MOVE_COLUMN_RIGHT == name) {
-                moveColumn(false, th, ui);
-            } else if (RESIZE_LEFT == name) {
+            } else if (MOVE_COLUMN_RIGHT == nbme) {
+                moveColumn(fblse, th, ui);
+            } else if (RESIZE_LEFT == nbme) {
                 resize(true, th, ui);
-            } else if (RESIZE_RIGHT == name) {
-                resize(false, th, ui);
-            } else if (FOCUS_TABLE == name) {
-                JTable table = th.getTable();
-                if (table != null) {
-                    table.requestFocusInWindow();
+            } else if (RESIZE_RIGHT == nbme) {
+                resize(fblse, th, ui);
+            } else if (FOCUS_TABLE == nbme) {
+                JTbble tbble = th.getTbble();
+                if (tbble != null) {
+                    tbble.requestFocusInWindow();
                 }
             }
         }
 
-        private void moveColumn(boolean leftArrow, JTableHeader th,
-                                BasicTableHeaderUI ui) {
-            maybeMoveColumn(leftArrow, th, ui, true);
+        privbte void moveColumn(boolebn leftArrow, JTbbleHebder th,
+                                BbsicTbbleHebderUI ui) {
+            mbybeMoveColumn(leftArrow, th, ui, true);
         }
 
-        private boolean maybeMoveColumn(boolean leftArrow, JTableHeader th,
-                                        BasicTableHeaderUI ui, boolean doIt) {
+        privbte boolebn mbybeMoveColumn(boolebn leftArrow, JTbbleHebder th,
+                                        BbsicTbbleHebderUI ui, boolebn doIt) {
             int oldIndex = ui.getSelectedColumnIndex();
             int newIndex;
 
-            if (th.getComponentOrientation().isLeftToRight()) {
+            if (th.getComponentOrientbtion().isLeftToRight()) {
                 newIndex = leftArrow ? ui.selectPreviousColumn(doIt)
                                      : ui.selectNextColumn(doIt);
             } else {
@@ -954,30 +954,30 @@ public class BasicTableHeaderUI extends TableHeaderUI {
                 if (doIt) {
                     th.getColumnModel().moveColumn(oldIndex, newIndex);
                 } else {
-                    return true; // we'd do the move if asked
+                    return true; // we'd do the move if bsked
                 }
             }
 
-            return false;
+            return fblse;
         }
 
-        private void resize(boolean leftArrow, JTableHeader th,
-                            BasicTableHeaderUI ui) {
+        privbte void resize(boolebn leftArrow, JTbbleHebder th,
+                            BbsicTbbleHebderUI ui) {
             int columnIndex = ui.getSelectedColumnIndex();
-            TableColumn resizingColumn =
+            TbbleColumn resizingColumn =
                 th.getColumnModel().getColumn(columnIndex);
 
             th.setResizingColumn(resizingColumn);
             int oldWidth = resizingColumn.getWidth();
             int newWidth = oldWidth;
 
-            if (th.getComponentOrientation().isLeftToRight()) {
+            if (th.getComponentOrientbtion().isLeftToRight()) {
                 newWidth = newWidth + (leftArrow ? -1 : 1);
             } else {
                 newWidth = newWidth + (leftArrow ? 1 : -1);
             }
 
-            ui.changeColumnWidth(resizingColumn, th, oldWidth, newWidth);
+            ui.chbngeColumnWidth(resizingColumn, th, oldWidth, newWidth);
         }
     }
-}  // End of Class BasicTableHeaderUI
+}  // End of Clbss BbsicTbbleHebderUI

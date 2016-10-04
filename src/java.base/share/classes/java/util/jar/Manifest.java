@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.io.FilterInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
 
 /**
- * The Manifest class is used to maintain Manifest entry names and their
- * associated Attributes. There are main Manifest Attributes as well as
- * per-entry Attributes. For information on the Manifest format, please
+ * The Mbnifest clbss is used to mbintbin Mbnifest entry nbmes bnd their
+ * bssocibted Attributes. There bre mbin Mbnifest Attributes bs well bs
+ * per-entry Attributes. For informbtion on the Mbnifest formbt, plebse
  * see the
- * <a href="../../../../technotes/guides/jar/jar.html">
- * Manifest format specification</a>.
+ * <b href="../../../../technotes/guides/jbr/jbr.html">
+ * Mbnifest formbt specificbtion</b>.
  *
- * @author  David Connelly
+ * @buthor  Dbvid Connelly
  * @see     Attributes
  * @since   1.2
  */
-public class Manifest implements Cloneable {
-    // manifest main attributes
-    private Attributes attr = new Attributes();
+public clbss Mbnifest implements Clonebble {
+    // mbnifest mbin bttributes
+    privbte Attributes bttr = new Attributes();
 
-    // manifest entries
-    private Map<String, Attributes> entries = new HashMap<>();
+    // mbnifest entries
+    privbte Mbp<String, Attributes> entries = new HbshMbp<>();
 
     /**
-     * Constructs a new, empty Manifest.
+     * Constructs b new, empty Mbnifest.
      */
-    public Manifest() {
+    public Mbnifest() {
     }
 
     /**
-     * Constructs a new Manifest from the specified input stream.
+     * Constructs b new Mbnifest from the specified input strebm.
      *
-     * @param is the input stream containing manifest data
-     * @throws IOException if an I/O error has occurred
+     * @pbrbm is the input strebm contbining mbnifest dbtb
+     * @throws IOException if bn I/O error hbs occurred
      */
-    public Manifest(InputStream is) throws IOException {
-        read(is);
+    public Mbnifest(InputStrebm is) throws IOException {
+        rebd(is);
     }
 
     /**
-     * Constructs a new Manifest that is a copy of the specified Manifest.
+     * Constructs b new Mbnifest thbt is b copy of the specified Mbnifest.
      *
-     * @param man the Manifest to copy
+     * @pbrbm mbn the Mbnifest to copy
      */
-    public Manifest(Manifest man) {
-        attr.putAll(man.getMainAttributes());
-        entries.putAll(man.getEntries());
+    public Mbnifest(Mbnifest mbn) {
+        bttr.putAll(mbn.getMbinAttributes());
+        entries.putAll(mbn.getEntries());
     }
 
     /**
-     * Returns the main Attributes for the Manifest.
-     * @return the main Attributes for the Manifest
+     * Returns the mbin Attributes for the Mbnifest.
+     * @return the mbin Attributes for the Mbnifest
      */
-    public Attributes getMainAttributes() {
-        return attr;
+    public Attributes getMbinAttributes() {
+        return bttr;
     }
 
     /**
-     * Returns a Map of the entries contained in this Manifest. Each entry
-     * is represented by a String name (key) and associated Attributes (value).
-     * The Map permits the {@code null} key, but no entry with a null key is
-     * created by {@link #read}, nor is such an entry written by using {@link
+     * Returns b Mbp of the entries contbined in this Mbnifest. Ebch entry
+     * is represented by b String nbme (key) bnd bssocibted Attributes (vblue).
+     * The Mbp permits the {@code null} key, but no entry with b null key is
+     * crebted by {@link #rebd}, nor is such bn entry written by using {@link
      * #write}.
      *
-     * @return a Map of the entries contained in this Manifest
+     * @return b Mbp of the entries contbined in this Mbnifest
      */
-    public Map<String,Attributes> getEntries() {
+    public Mbp<String,Attributes> getEntries() {
         return entries;
     }
 
     /**
-     * Returns the Attributes for the specified entry name.
-     * This method is defined as:
+     * Returns the Attributes for the specified entry nbme.
+     * This method is defined bs:
      * <pre>
-     *      return (Attributes)getEntries().get(name)
+     *      return (Attributes)getEntries().get(nbme)
      * </pre>
-     * Though {@code null} is a valid {@code name}, when
-     * {@code getAttributes(null)} is invoked on a {@code Manifest}
-     * obtained from a jar file, {@code null} will be returned.  While jar
-     * files themselves do not allow {@code null}-named attributes, it is
-     * possible to invoke {@link #getEntries} on a {@code Manifest}, and
-     * on that result, invoke {@code put} with a null key and an
-     * arbitrary value.  Subsequent invocations of
+     * Though {@code null} is b vblid {@code nbme}, when
+     * {@code getAttributes(null)} is invoked on b {@code Mbnifest}
+     * obtbined from b jbr file, {@code null} will be returned.  While jbr
+     * files themselves do not bllow {@code null}-nbmed bttributes, it is
+     * possible to invoke {@link #getEntries} on b {@code Mbnifest}, bnd
+     * on thbt result, invoke {@code put} with b null key bnd bn
+     * brbitrbry vblue.  Subsequent invocbtions of
      * {@code getAttributes(null)} will return the just-{@code put}
-     * value.
+     * vblue.
      * <p>
-     * Note that this method does not return the manifest's main attributes;
-     * see {@link #getMainAttributes}.
+     * Note thbt this method does not return the mbnifest's mbin bttributes;
+     * see {@link #getMbinAttributes}.
      *
-     * @param name entry name
-     * @return the Attributes for the specified entry name
+     * @pbrbm nbme entry nbme
+     * @return the Attributes for the specified entry nbme
      */
-    public Attributes getAttributes(String name) {
-        return getEntries().get(name);
+    public Attributes getAttributes(String nbme) {
+        return getEntries().get(nbme);
     }
 
     /**
-     * Clears the main Attributes as well as the entries in this Manifest.
+     * Clebrs the mbin Attributes bs well bs the entries in this Mbnifest.
      */
-    public void clear() {
-        attr.clear();
-        entries.clear();
+    public void clebr() {
+        bttr.clebr();
+        entries.clebr();
     }
 
     /**
-     * Writes the Manifest to the specified OutputStream.
-     * Attributes.Name.MANIFEST_VERSION must be set in
-     * MainAttributes prior to invoking this method.
+     * Writes the Mbnifest to the specified OutputStrebm.
+     * Attributes.Nbme.MANIFEST_VERSION must be set in
+     * MbinAttributes prior to invoking this method.
      *
-     * @param out the output stream
-     * @exception IOException if an I/O error has occurred
-     * @see #getMainAttributes
+     * @pbrbm out the output strebm
+     * @exception IOException if bn I/O error hbs occurred
+     * @see #getMbinAttributes
      */
-    public void write(OutputStream out) throws IOException {
-        DataOutputStream dos = new DataOutputStream(out);
-        // Write out the main attributes for the manifest
-        attr.writeMain(dos);
-        // Now write out the pre-entry attributes
-        for (Map.Entry<String, Attributes> e : entries.entrySet()) {
-            StringBuffer buffer = new StringBuffer("Name: ");
-            String value = e.getKey();
-            if (value != null) {
-                byte[] vb = value.getBytes("UTF8");
-                value = new String(vb, 0, 0, vb.length);
+    public void write(OutputStrebm out) throws IOException {
+        DbtbOutputStrebm dos = new DbtbOutputStrebm(out);
+        // Write out the mbin bttributes for the mbnifest
+        bttr.writeMbin(dos);
+        // Now write out the pre-entry bttributes
+        for (Mbp.Entry<String, Attributes> e : entries.entrySet()) {
+            StringBuffer buffer = new StringBuffer("Nbme: ");
+            String vblue = e.getKey();
+            if (vblue != null) {
+                byte[] vb = vblue.getBytes("UTF8");
+                vblue = new String(vb, 0, 0, vb.length);
             }
-            buffer.append(value);
-            buffer.append("\r\n");
-            make72Safe(buffer);
+            buffer.bppend(vblue);
+            buffer.bppend("\r\n");
+            mbke72Sbfe(buffer);
             dos.writeBytes(buffer.toString());
-            e.getValue().write(dos);
+            e.getVblue().write(dos);
         }
         dos.flush();
     }
 
     /**
-     * Adds line breaks to enforce a maximum 72 bytes per line.
+     * Adds line brebks to enforce b mbximum 72 bytes per line.
      */
-    static void make72Safe(StringBuffer line) {
+    stbtic void mbke72Sbfe(StringBuffer line) {
         int length = line.length();
         if (length > 72) {
             int index = 70;
@@ -181,33 +181,33 @@ public class Manifest implements Cloneable {
     }
 
     /**
-     * Reads the Manifest from the specified InputStream. The entry
-     * names and attributes read will be merged in with the current
-     * manifest entries.
+     * Rebds the Mbnifest from the specified InputStrebm. The entry
+     * nbmes bnd bttributes rebd will be merged in with the current
+     * mbnifest entries.
      *
-     * @param is the input stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm is the input strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public void read(InputStream is) throws IOException {
-        // Buffered input stream for reading manifest data
-        FastInputStream fis = new FastInputStream(is);
+    public void rebd(InputStrebm is) throws IOException {
+        // Buffered input strebm for rebding mbnifest dbtb
+        FbstInputStrebm fis = new FbstInputStrebm(is);
         // Line buffer
         byte[] lbuf = new byte[512];
-        // Read the main attributes for the manifest
-        attr.read(fis, lbuf);
-        // Total number of entries, attributes read
-        int ecount = 0, acount = 0;
-        // Average size of entry attributes
-        int asize = 2;
-        // Now parse the manifest entries
+        // Rebd the mbin bttributes for the mbnifest
+        bttr.rebd(fis, lbuf);
+        // Totbl number of entries, bttributes rebd
+        int ecount = 0, bcount = 0;
+        // Averbge size of entry bttributes
+        int bsize = 2;
+        // Now pbrse the mbnifest entries
         int len;
-        String name = null;
-        boolean skipEmptyLines = true;
-        byte[] lastline = null;
+        String nbme = null;
+        boolebn skipEmptyLines = true;
+        byte[] lbstline = null;
 
-        while ((len = fis.readLine(lbuf)) != -1) {
+        while ((len = fis.rebdLine(lbuf)) != -1) {
             if (lbuf[--len] != '\n') {
-                throw new IOException("manifest line too long");
+                throw new IOException("mbnifest line too long");
             }
             if (len > 0 && lbuf[len-1] == '\r') {
                 --len;
@@ -215,122 +215,122 @@ public class Manifest implements Cloneable {
             if (len == 0 && skipEmptyLines) {
                 continue;
             }
-            skipEmptyLines = false;
+            skipEmptyLines = fblse;
 
-            if (name == null) {
-                name = parseName(lbuf, len);
-                if (name == null) {
-                    throw new IOException("invalid manifest format");
+            if (nbme == null) {
+                nbme = pbrseNbme(lbuf, len);
+                if (nbme == null) {
+                    throw new IOException("invblid mbnifest formbt");
                 }
                 if (fis.peek() == ' ') {
-                    // name is wrapped
-                    lastline = new byte[len - 6];
-                    System.arraycopy(lbuf, 6, lastline, 0, len - 6);
+                    // nbme is wrbpped
+                    lbstline = new byte[len - 6];
+                    System.brrbycopy(lbuf, 6, lbstline, 0, len - 6);
                     continue;
                 }
             } else {
-                // continuation line
-                byte[] buf = new byte[lastline.length + len - 1];
-                System.arraycopy(lastline, 0, buf, 0, lastline.length);
-                System.arraycopy(lbuf, 1, buf, lastline.length, len - 1);
+                // continubtion line
+                byte[] buf = new byte[lbstline.length + len - 1];
+                System.brrbycopy(lbstline, 0, buf, 0, lbstline.length);
+                System.brrbycopy(lbuf, 1, buf, lbstline.length, len - 1);
                 if (fis.peek() == ' ') {
-                    // name is wrapped
-                    lastline = buf;
+                    // nbme is wrbpped
+                    lbstline = buf;
                     continue;
                 }
-                name = new String(buf, 0, buf.length, "UTF8");
-                lastline = null;
+                nbme = new String(buf, 0, buf.length, "UTF8");
+                lbstline = null;
             }
-            Attributes attr = getAttributes(name);
-            if (attr == null) {
-                attr = new Attributes(asize);
-                entries.put(name, attr);
+            Attributes bttr = getAttributes(nbme);
+            if (bttr == null) {
+                bttr = new Attributes(bsize);
+                entries.put(nbme, bttr);
             }
-            attr.read(fis, lbuf);
+            bttr.rebd(fis, lbuf);
             ecount++;
-            acount += attr.size();
-            //XXX: Fix for when the average is 0. When it is 0,
-            // you get an Attributes object with an initial
-            // capacity of 0, which tickles a bug in HashMap.
-            asize = Math.max(2, acount / ecount);
+            bcount += bttr.size();
+            //XXX: Fix for when the bverbge is 0. When it is 0,
+            // you get bn Attributes object with bn initibl
+            // cbpbcity of 0, which tickles b bug in HbshMbp.
+            bsize = Mbth.mbx(2, bcount / ecount);
 
-            name = null;
+            nbme = null;
             skipEmptyLines = true;
         }
     }
 
-    private String parseName(byte[] lbuf, int len) {
-        if (toLower(lbuf[0]) == 'n' && toLower(lbuf[1]) == 'a' &&
+    privbte String pbrseNbme(byte[] lbuf, int len) {
+        if (toLower(lbuf[0]) == 'n' && toLower(lbuf[1]) == 'b' &&
             toLower(lbuf[2]) == 'm' && toLower(lbuf[3]) == 'e' &&
             lbuf[4] == ':' && lbuf[5] == ' ') {
             try {
                 return new String(lbuf, 6, len - 6, "UTF8");
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
             }
         }
         return null;
     }
 
-    private int toLower(int c) {
-        return (c >= 'A' && c <= 'Z') ? 'a' + (c - 'A') : c;
+    privbte int toLower(int c) {
+        return (c >= 'A' && c <= 'Z') ? 'b' + (c - 'A') : c;
     }
 
     /**
-     * Returns true if the specified Object is also a Manifest and has
-     * the same main Attributes and entries.
+     * Returns true if the specified Object is blso b Mbnifest bnd hbs
+     * the sbme mbin Attributes bnd entries.
      *
-     * @param o the object to be compared
-     * @return true if the specified Object is also a Manifest and has
-     * the same main Attributes and entries
+     * @pbrbm o the object to be compbred
+     * @return true if the specified Object is blso b Mbnifest bnd hbs
+     * the sbme mbin Attributes bnd entries
      */
-    public boolean equals(Object o) {
-        if (o instanceof Manifest) {
-            Manifest m = (Manifest)o;
-            return attr.equals(m.getMainAttributes()) &&
-                   entries.equals(m.getEntries());
+    public boolebn equbls(Object o) {
+        if (o instbnceof Mbnifest) {
+            Mbnifest m = (Mbnifest)o;
+            return bttr.equbls(m.getMbinAttributes()) &&
+                   entries.equbls(m.getEntries());
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns the hash code for this Manifest.
+     * Returns the hbsh code for this Mbnifest.
      */
-    public int hashCode() {
-        return attr.hashCode() + entries.hashCode();
+    public int hbshCode() {
+        return bttr.hbshCode() + entries.hbshCode();
     }
 
     /**
-     * Returns a shallow copy of this Manifest.  The shallow copy is
-     * implemented as follows:
+     * Returns b shbllow copy of this Mbnifest.  The shbllow copy is
+     * implemented bs follows:
      * <pre>
-     *     public Object clone() { return new Manifest(this); }
+     *     public Object clone() { return new Mbnifest(this); }
      * </pre>
-     * @return a shallow copy of this Manifest
+     * @return b shbllow copy of this Mbnifest
      */
     public Object clone() {
-        return new Manifest(this);
+        return new Mbnifest(this);
     }
 
     /*
-     * A fast buffered input stream for parsing manifest files.
+     * A fbst buffered input strebm for pbrsing mbnifest files.
      */
-    static class FastInputStream extends FilterInputStream {
-        private byte buf[];
-        private int count = 0;
-        private int pos = 0;
+    stbtic clbss FbstInputStrebm extends FilterInputStrebm {
+        privbte byte buf[];
+        privbte int count = 0;
+        privbte int pos = 0;
 
-        FastInputStream(InputStream in) {
+        FbstInputStrebm(InputStrebm in) {
             this(in, 8192);
         }
 
-        FastInputStream(InputStream in, int size) {
+        FbstInputStrebm(InputStrebm in, int size) {
             super(in);
             buf = new byte[size];
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             if (pos >= count) {
                 fill();
                 if (pos >= count) {
@@ -340,59 +340,59 @@ public class Manifest implements Cloneable {
             return Byte.toUnsignedInt(buf[pos++]);
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-            int avail = count - pos;
-            if (avail <= 0) {
+        public int rebd(byte[] b, int off, int len) throws IOException {
+            int bvbil = count - pos;
+            if (bvbil <= 0) {
                 if (len >= buf.length) {
-                    return in.read(b, off, len);
+                    return in.rebd(b, off, len);
                 }
                 fill();
-                avail = count - pos;
-                if (avail <= 0) {
+                bvbil = count - pos;
+                if (bvbil <= 0) {
                     return -1;
                 }
             }
-            if (len > avail) {
-                len = avail;
+            if (len > bvbil) {
+                len = bvbil;
             }
-            System.arraycopy(buf, pos, b, off, len);
+            System.brrbycopy(buf, pos, b, off, len);
             pos += len;
             return len;
         }
 
         /*
-         * Reads 'len' bytes from the input stream, or until an end-of-line
-         * is reached. Returns the number of bytes read.
+         * Rebds 'len' bytes from the input strebm, or until bn end-of-line
+         * is rebched. Returns the number of bytes rebd.
          */
-        public int readLine(byte[] b, int off, int len) throws IOException {
+        public int rebdLine(byte[] b, int off, int len) throws IOException {
             byte[] tbuf = this.buf;
-            int total = 0;
-            while (total < len) {
-                int avail = count - pos;
-                if (avail <= 0) {
+            int totbl = 0;
+            while (totbl < len) {
+                int bvbil = count - pos;
+                if (bvbil <= 0) {
                     fill();
-                    avail = count - pos;
-                    if (avail <= 0) {
+                    bvbil = count - pos;
+                    if (bvbil <= 0) {
                         return -1;
                     }
                 }
-                int n = len - total;
-                if (n > avail) {
-                    n = avail;
+                int n = len - totbl;
+                if (n > bvbil) {
+                    n = bvbil;
                 }
                 int tpos = pos;
-                int maxpos = tpos + n;
-                while (tpos < maxpos && tbuf[tpos++] != '\n') ;
+                int mbxpos = tpos + n;
+                while (tpos < mbxpos && tbuf[tpos++] != '\n') ;
                 n = tpos - pos;
-                System.arraycopy(tbuf, pos, b, off, n);
+                System.brrbycopy(tbuf, pos, b, off, n);
                 off += n;
-                total += n;
+                totbl += n;
                 pos = tpos;
                 if (tbuf[tpos-1] == '\n') {
-                    break;
+                    brebk;
                 }
             }
-            return total;
+            return totbl;
         }
 
         public byte peek() throws IOException {
@@ -403,27 +403,27 @@ public class Manifest implements Cloneable {
             return buf[pos];
         }
 
-        public int readLine(byte[] b) throws IOException {
-            return readLine(b, 0, b.length);
+        public int rebdLine(byte[] b) throws IOException {
+            return rebdLine(b, 0, b.length);
         }
 
         public long skip(long n) throws IOException {
             if (n <= 0) {
                 return 0;
             }
-            long avail = count - pos;
-            if (avail <= 0) {
+            long bvbil = count - pos;
+            if (bvbil <= 0) {
                 return in.skip(n);
             }
-            if (n > avail) {
-                n = avail;
+            if (n > bvbil) {
+                n = bvbil;
             }
             pos += n;
             return n;
         }
 
-        public int available() throws IOException {
-            return (count - pos) + in.available();
+        public int bvbilbble() throws IOException {
+            return (count - pos) + in.bvbilbble();
         }
 
         public void close() throws IOException {
@@ -434,9 +434,9 @@ public class Manifest implements Cloneable {
             }
         }
 
-        private void fill() throws IOException {
+        privbte void fill() throws IOException {
             count = pos = 0;
-            int n = in.read(buf, 0, buf.length);
+            int n = in.rebd(buf, 0, buf.length);
             if (n > 0) {
                 count = n;
             }

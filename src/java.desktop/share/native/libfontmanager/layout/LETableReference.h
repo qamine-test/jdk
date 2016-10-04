@@ -1,33 +1,33 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * -*- c++ -*-
  *
- * (C) Copyright IBM Corp. and others 2013 - All Rights Reserved
+ * (C) Copyright IBM Corp. bnd others 2013 - All Rights Reserved
  *
- * Range checking
+ * Rbnge checking
  *
  */
 
@@ -35,22 +35,22 @@
 #define __LETABLEREFERENCE_H
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
+#include "LEFontInstbnce.h"
 
 /**
  * \def LE_ENABLE_RAW
- * If this is 1, enables old non-safe raw access
+ * If this is 1, enbbles old non-sbfe rbw bccess
  */
 #ifndef LE_ENABLE_RAW
 #define LE_ENABLE_RAW 0
 #endif
 
-#define kQuestionmarkTableTag  0x3F3F3F3FUL /* ???? */
-#define kStaticTableTag  0x30303030UL  /* 0000 */
-#define kTildeTableTag  0x7e7e7e7eUL /* ~~~~ */
+#define kQuestionmbrkTbbleTbg  0x3F3F3F3FUL /* ???? */
+#define kStbticTbbleTbg  0x30303030UL  /* 0000 */
+#define kTildeTbbleTbg  0x7e7e7e7eUL /* ~~~~ */
 #ifdef __cplusplus
 
-// internal - interface for range checking
+// internbl - interfbce for rbnge checking
 U_NAMESPACE_BEGIN
 
 #if LE_ASSERT_BAD_FONT
@@ -59,17 +59,17 @@ U_NAMESPACE_BEGIN
 #define LE_TRACE_TR 0
 #endif
 
-class LETableReference; // fwd
+clbss LETbbleReference; // fwd
 /**
  *  defined in OpenTypeUtilities.cpp
- * @internal
+ * @internbl
  */
-U_CAPI void U_EXPORT2 _debug_LETableReference(const char *f, int l, const char *msg, const LETableReference *what, const void *ptr, size_t len);
+U_CAPI void U_EXPORT2 _debug_LETbbleReference(const chbr *f, int l, const chbr *msg, const LETbbleReference *whbt, const void *ptr, size_t len);
 
-#define LE_DEBUG_TR(x) _debug_LETableReference(__FILE__, __LINE__, x, this, NULL, 0);
-#define LE_DEBUG_TR3(x,y,z) _debug_LETableReference(__FILE__, __LINE__, x, this, (const void*)y, (size_t)z);
+#define LE_DEBUG_TR(x) _debug_LETbbleReference(__FILE__, __LINE__, x, this, NULL, 0);
+#define LE_DEBUG_TR3(x,y,z) _debug_LETbbleReference(__FILE__, __LINE__, x, this, (const void*)y, (size_t)z);
 #if LE_TRACE_TR
-#define _TRTRACE(x) _debug_LETableReference(__FILE__, __LINE__, x, this, NULL, 0);
+#define _TRTRACE(x) _debug_LETbbleReference(__FILE__, __LINE__, x, this, NULL, 0);
 #else
 #define _TRTRACE(x)
 #endif
@@ -81,140 +81,140 @@ U_CAPI void U_EXPORT2 _debug_LETableReference(const char *f, int l, const char *
 #endif
 
 /**
- * @internal
+ * @internbl
  */
-class LETableReference {
+clbss LETbbleReference {
 public:
 
   /**
-   * Dummy enum asserting that a value is actually static data
-   * and does not need to be range checked
+   * Dummy enum bsserting thbt b vblue is bctublly stbtic dbtb
+   * bnd does not need to be rbnge checked
    */
-  enum EStaticData { kStaticData = 0 };
+  enum EStbticDbtb { kStbticDbtb = 0 };
 
 /**
- * @internal
- * Construct from a specific tag
+ * @internbl
+ * Construct from b specific tbg
  */
-  LETableReference(const LEFontInstance* font, LETag tableTag, LEErrorCode &success) :
-    fFont(font), fTag(tableTag), fParent(NULL), fStart(NULL),fLength(LE_UINTPTR_MAX) {
-      loadTable(success);
-    _TRTRACE("INFO: new table load")
+  LETbbleReference(const LEFontInstbnce* font, LETbg tbbleTbg, LEErrorCode &success) :
+    fFont(font), fTbg(tbbleTbg), fPbrent(NULL), fStbrt(NULL),fLength(LE_UINTPTR_MAX) {
+      lobdTbble(success);
+    _TRTRACE("INFO: new tbble lobd")
   }
 
-  LETableReference(const LETableReference &parent, LEErrorCode &success) : fFont(parent.fFont), fTag(parent.fTag), fParent(&parent), fStart(parent.fStart), fLength(parent.fLength) {
+  LETbbleReference(const LETbbleReference &pbrent, LEErrorCode &success) : fFont(pbrent.fFont), fTbg(pbrent.fTbg), fPbrent(&pbrent), fStbrt(pbrent.fStbrt), fLength(pbrent.fLength) {
     if(LE_FAILURE(success)) {
-      clear();
+      clebr();
     }
     _TRTRACE("INFO: new clone")
   }
 
 #if LE_ENABLE_RAW
    /**
-    * Construct  without a parent LETR.
+    * Construct  without b pbrent LETR.
     */
-   LETableReference(const le_uint8* data, size_t length = LE_UINTPTR_MAX) :
-    fFont(NULL), fTag(kQuestionmarkTableTag), fParent(NULL), fStart(data), fLength(length) {
-    _TRTRACE("INFO: new raw")
+   LETbbleReference(const le_uint8* dbtb, size_t length = LE_UINTPTR_MAX) :
+    fFont(NULL), fTbg(kQuestionmbrkTbbleTbg), fPbrent(NULL), fStbrt(dbtb), fLength(length) {
+    _TRTRACE("INFO: new rbw")
   }
 #endif
 
    /**
-    * Construct  without a parent LETR.
+    * Construct  without b pbrent LETR.
     */
- LETableReference(EStaticData /* NOTUSED */, const le_uint8* data, size_t length) :
-    fFont(NULL), fTag(kQuestionmarkTableTag), fParent(NULL), fStart(data), fLength(length) {
-    _TRTRACE("INFO: new EStaticData")
+ LETbbleReference(EStbticDbtb /* NOTUSED */, const le_uint8* dbtb, size_t length) :
+    fFont(NULL), fTbg(kQuestionmbrkTbbleTbg), fPbrent(NULL), fStbrt(dbtb), fLength(length) {
+    _TRTRACE("INFO: new EStbticDbtb")
   }
 
-  LETableReference() :
-    fFont(NULL), fTag(kQuestionmarkTableTag), fParent(NULL), fStart(NULL), fLength(0) {
+  LETbbleReference() :
+    fFont(NULL), fTbg(kQuestionmbrkTbbleTbg), fPbrent(NULL), fStbrt(NULL), fLength(0) {
     _TRTRACE("INFO: new empty")
   }
 
-  ~LETableReference() {
-    fTag= (LETag)kTildeTableTag;
+  ~LETbbleReference() {
+    fTbg= (LETbg)kTildeTbbleTbg;
     _TRTRACE("INFO: new dtor")
   }
 
   /**
-   * @internal
-   * @param length  if LE_UINTPTR_MAX means "whole table"
+   * @internbl
+   * @pbrbm length  if LE_UINTPTR_MAX mebns "whole tbble"
    * subset
    */
-  LETableReference(const LETableReference &parent, size_t offset, size_t length,
+  LETbbleReference(const LETbbleReference &pbrent, size_t offset, size_t length,
                    LEErrorCode &err) :
-    fFont(parent.fFont), fTag(parent.fTag), fParent(&parent),
-    fStart((parent.fStart)+offset), fLength(length) {
+    fFont(pbrent.fFont), fTbg(pbrent.fTbg), fPbrent(&pbrent),
+    fStbrt((pbrent.fStbrt)+offset), fLength(length) {
     if(LE_SUCCESS(err)) {
       if(isEmpty()) {
         //err = LE_MISSING_FONT_TABLE_ERROR;
-        clear(); // it's just empty. Not an error.
-      } else if(offset >= fParent->fLength) {
-        LE_DEBUG_TR3("offset out of range: (%p) +%d", NULL, offset);
+        clebr(); // it's just empty. Not bn error.
+      } else if(offset >= fPbrent->fLength) {
+        LE_DEBUG_TR3("offset out of rbnge: (%p) +%d", NULL, offset);
         err = LE_INDEX_OUT_OF_BOUNDS_ERROR;
-        clear();
+        clebr();
       } else {
         if(fLength == LE_UINTPTR_MAX &&
-           fParent->fLength != LE_UINTPTR_MAX) {
-          fLength = (fParent->fLength) - offset; // decrement length as base address is incremented
+           fPbrent->fLength != LE_UINTPTR_MAX) {
+          fLength = (fPbrent->fLength) - offset; // decrement length bs bbse bddress is incremented
         }
-        if(fLength != LE_UINTPTR_MAX) {  // if we have bounds:
-          if((offset+fLength < offset) || (offset+fLength > fParent->fLength)) {
-            LE_DEBUG_TR3("offset+fLength out of range: (%p) +%d", NULL, offset+fLength);
+        if(fLength != LE_UINTPTR_MAX) {  // if we hbve bounds:
+          if((offset+fLength < offset) || (offset+fLength > fPbrent->fLength)) {
+            LE_DEBUG_TR3("offset+fLength out of rbnge: (%p) +%d", NULL, offset+fLength);
             err = LE_INDEX_OUT_OF_BOUNDS_ERROR; // exceeded
-            clear();
+            clebr();
           }
         }
       }
     } else {
-      clear();
+      clebr();
     }
     _TRTRACE("INFO: new subset")
   }
 
-  const void* getAlias() const { return (const void*)fStart; }
+  const void* getAlibs() const { return (const void*)fStbrt; }
 #ifndef LE_ENABLE_RAW
-  const void* getAliasRAW() const { LE_DEBUG_TR("getAliasRAW()"); return (const void*)fStart; }
+  const void* getAlibsRAW() const { LE_DEBUG_TR("getAlibsRAW()"); return (const void*)fStbrt; }
 #endif
-  le_bool isEmpty() const { return fStart==NULL || fLength==0; }
-  le_bool isValid() const { return !isEmpty(); }
-  le_bool hasBounds() const { return fLength!=LE_UINTPTR_MAX; }
-  void clear() { fLength=0; fStart=NULL; }
+  le_bool isEmpty() const { return fStbrt==NULL || fLength==0; }
+  le_bool isVblid() const { return !isEmpty(); }
+  le_bool hbsBounds() const { return fLength!=LE_UINTPTR_MAX; }
+  void clebr() { fLength=0; fStbrt=NULL; }
   size_t getLength() const { return fLength; }
-  const LEFontInstance* getFont() const { return fFont; }
-  LETag getTag() const { return fTag; }
-  const LETableReference* getParent() const { return fParent; }
+  const LEFontInstbnce* getFont() const { return fFont; }
+  LETbg getTbg() const { return fTbg; }
+  const LETbbleReference* getPbrent() const { return fPbrent; }
 
-  void addOffset(size_t offset, LEErrorCode &success) {
-    if(hasBounds()) {
+  void bddOffset(size_t offset, LEErrorCode &success) {
+    if(hbsBounds()) {
       if(offset > fLength) {
-        LE_DEBUG_TR("addOffset off end");
+        LE_DEBUG_TR("bddOffset off end");
         success = LE_INDEX_OUT_OF_BOUNDS_ERROR;
         return;
       } else {
         fLength -= offset;
       }
     }
-    fStart += offset;
+    fStbrt += offset;
   }
 
-  size_t ptrToOffset(const void *atPtr, LEErrorCode &success) const {
-    if(atPtr==NULL) return 0;
+  size_t ptrToOffset(const void *btPtr, LEErrorCode &success) const {
+    if(btPtr==NULL) return 0;
     if(LE_FAILURE(success)) return LE_UINTPTR_MAX;
-    if((atPtr < fStart) ||
-       (hasBounds() && (atPtr > fStart+fLength))) {
-      LE_DEBUG_TR3("ptrToOffset args out of range: %p", atPtr, 0);
+    if((btPtr < fStbrt) ||
+       (hbsBounds() && (btPtr > fStbrt+fLength))) {
+      LE_DEBUG_TR3("ptrToOffset brgs out of rbnge: %p", btPtr, 0);
       success = LE_INDEX_OUT_OF_BOUNDS_ERROR;
       return LE_UINTPTR_MAX;
     }
-    return ((const le_uint8*)atPtr)-fStart;
+    return ((const le_uint8*)btPtr)-fStbrt;
   }
 
   /**
-   * Clamp down the length, for range checking.
+   * Clbmp down the length, for rbnge checking.
    */
-  size_t contractLength(size_t newLength) {
+  size_t contrbctLength(size_t newLength) {
     if(fLength!=LE_UINTPTR_MAX&&newLength>0&&newLength<=fLength) {
       fLength = newLength;
     }
@@ -222,186 +222,186 @@ public:
   }
 
   /**
-   * Throw an error if offset+length off end
+   * Throw bn error if offset+length off end
    */
 public:
   size_t verifyLength(size_t offset, size_t length, LEErrorCode &success) {
-    if(isValid()&&
+    if(isVblid()&&
        LE_SUCCESS(success) &&
        fLength!=LE_UINTPTR_MAX && length!=LE_UINTPTR_MAX && offset!=LE_UINTPTR_MAX &&
        (offset+length)>fLength) {
-      LE_DEBUG_TR3("verifyLength failed (%p) %d",NULL, offset+length);
+      LE_DEBUG_TR3("verifyLength fbiled (%p) %d",NULL, offset+length);
       success = LE_INDEX_OUT_OF_BOUNDS_ERROR;
 #if LE_ASSERT_BAD_FONT
-      fprintf(stderr, "offset=%lu, len=%lu, would be at %p, (%lu) off end. End at %p\n", offset,length, fStart+offset+length, (offset+length-fLength), (offset+length-fLength)+fStart);
+      fprintf(stderr, "offset=%lu, len=%lu, would be bt %p, (%lu) off end. End bt %p\n", offset,length, fStbrt+offset+length, (offset+length-fLength), (offset+length-fLength)+fStbrt);
 #endif
     }
     return fLength;
   }
 
   /**
-   * Change parent link to another
+   * Chbnge pbrent link to bnother
    */
-  LETableReference &reparent(const LETableReference &base) {
-    fParent = &base;
+  LETbbleReference &repbrent(const LETbbleReference &bbse) {
+    fPbrent = &bbse;
     return *this;
   }
 
   /**
-   * remove parent link. Factory functions should do this.
+   * remove pbrent link. Fbctory functions should do this.
    */
-  void orphan(void) {
-    fParent=NULL;
+  void orphbn(void) {
+    fPbrent=NULL;
   }
 
 protected:
-  const LEFontInstance* fFont;
-  LETag  fTag;
-  const LETableReference *fParent;
-  const le_uint8 *fStart; // keep as 8 bit internally, for pointer math
+  const LEFontInstbnce* fFont;
+  LETbg  fTbg;
+  const LETbbleReference *fPbrent;
+  const le_uint8 *fStbrt; // keep bs 8 bit internblly, for pointer mbth
   size_t fLength;
 
-  void loadTable(LEErrorCode &success) {
+  void lobdTbble(LEErrorCode &success) {
     if(LE_SUCCESS(success)) {
-      fStart = (const le_uint8*)(fFont->getFontTable(fTag, fLength)); // note - a null table is not an error.
+      fStbrt = (const le_uint8*)(fFont->getFontTbble(fTbg, fLength)); // note - b null tbble is not bn error.
     }
   }
 
-  void setRaw(const void *data, size_t length = LE_UINTPTR_MAX) {
+  void setRbw(const void *dbtb, size_t length = LE_UINTPTR_MAX) {
     fFont = NULL;
-    fTag = (LETag)kQuestionmarkTableTag;
-    fParent = NULL;
-    fStart = (const le_uint8*)data;
+    fTbg = (LETbg)kQuestionmbrkTbbleTbg;
+    fPbrent = NULL;
+    fStbrt = (const le_uint8*)dbtb;
     fLength = length;
   }
 
   /**
-   * set this object pointing to static data
+   * set this object pointing to stbtic dbtb
    */
-  void setTo(EStaticData /*notused*/, const void *data, size_t length) {
+  void setTo(EStbticDbtb /*notused*/, const void *dbtb, size_t length) {
     fFont = NULL;
-    fTag = (LETag)kStaticTableTag;
-    fParent = NULL;
-    fStart = (const le_uint8*)data;
+    fTbg = (LETbg)kStbticTbbleTbg;
+    fPbrent = NULL;
+    fStbrt = (const le_uint8*)dbtb;
     fLength = length;
   }
 };
 
 
-template<class T>
-class LETableVarSizer {
+templbte<clbss T>
+clbss LETbbleVbrSizer {
  public:
-  inline static size_t getSize();
+  inline stbtic size_t getSize();
 };
 
-// base definition- could override for adjustments
-template<class T> inline
-size_t LETableVarSizer<T>::getSize() {
+// bbse definition- could override for bdjustments
+templbte<clbss T> inline
+size_t LETbbleVbrSizer<T>::getSize() {
   return sizeof(T);
 }
 
 /**
  * \def LE_VAR_ARRAY
- * @param x Type (T)
- * @param y some member that is of length ANY_NUMBER
- * Call this after defining a class, for example:
- *   LE_VAR_ARRAY(FeatureListTable,featureRecordArray)
- * this is roughly equivalent to:
- *   template<> inline size_t LETableVarSizer<FeatureListTable>::getSize() { return sizeof(FeatureListTable) - (sizeof(le_uint16)*ANY_NUMBER); }
- * it's a specialization that informs the LETableReference subclasses to NOT include the variable array in the size.
- * dereferencing NULL is valid here because we never actually dereference it, just inside sizeof.
+ * @pbrbm x Type (T)
+ * @pbrbm y some member thbt is of length ANY_NUMBER
+ * Cbll this bfter defining b clbss, for exbmple:
+ *   LE_VAR_ARRAY(FebtureListTbble,febtureRecordArrby)
+ * this is roughly equivblent to:
+ *   templbte<> inline size_t LETbbleVbrSizer<FebtureListTbble>::getSize() { return sizeof(FebtureListTbble) - (sizeof(le_uint16)*ANY_NUMBER); }
+ * it's b speciblizbtion thbt informs the LETbbleReference subclbsses to NOT include the vbribble brrby in the size.
+ * dereferencing NULL is vblid here becbuse we never bctublly dereference it, just inside sizeof.
  */
-#define LE_VAR_ARRAY(x,y) template<> inline size_t LETableVarSizer<x>::getSize() { return sizeof(x) - (sizeof(((const x*)0)->y)); }
+#define LE_VAR_ARRAY(x,y) templbte<> inline size_t LETbbleVbrSizer<x>::getSize() { return sizeof(x) - (sizeof(((const x*)0)->y)); }
 /**
  * \def LE_CORRECT_SIZE
- * @param x type (T)
- * @param y fixed size for T
+ * @pbrbm x type (T)
+ * @pbrbm y fixed size for T
  */
-#define LE_CORRECT_SIZE(x,y) template<> inline size_t LETableVarSizer<x>::getSize() { return y; }
+#define LE_CORRECT_SIZE(x,y) templbte<> inline size_t LETbbleVbrSizer<x>::getSize() { return y; }
 
 /**
- * Open a new entry based on an existing table
+ * Open b new entry bbsed on bn existing tbble
  */
 
-template<class T>
-class LEReferenceTo : public LETableReference {
+templbte<clbss T>
+clbss LEReferenceTo : public LETbbleReference {
 public:
   /**
-   * open a sub reference.
-   * @param parent parent reference
-   * @param success error status
-   * @param atPtr location of reference - if NULL, will be at offset zero (i.e. downcast of parent). Otherwise must be a pointer within parent's bounds.
+   * open b sub reference.
+   * @pbrbm pbrent pbrent reference
+   * @pbrbm success error stbtus
+   * @pbrbm btPtr locbtion of reference - if NULL, will be bt offset zero (i.e. downcbst of pbrent). Otherwise must be b pointer within pbrent's bounds.
    */
- inline LEReferenceTo(const LETableReference &parent, LEErrorCode &success, const void* atPtr)
-    : LETableReference(parent, parent.ptrToOffset(atPtr, success), LE_UINTPTR_MAX, success) {
-    verifyLength(0, LETableVarSizer<T>::getSize(), success);
-    if(LE_FAILURE(success)) clear();
+ inline LEReferenceTo(const LETbbleReference &pbrent, LEErrorCode &success, const void* btPtr)
+    : LETbbleReference(pbrent, pbrent.ptrToOffset(btPtr, success), LE_UINTPTR_MAX, success) {
+    verifyLength(0, LETbbleVbrSizer<T>::getSize(), success);
+    if(LE_FAILURE(success)) clebr();
   }
   /**
    * ptr plus offset
    */
- inline LEReferenceTo(const LETableReference &parent, LEErrorCode &success, const void* atPtr, size_t offset)
-    : LETableReference(parent, parent.ptrToOffset(atPtr, success)+offset, LE_UINTPTR_MAX, success) {
-    verifyLength(0, LETableVarSizer<T>::getSize(), success);
-    if(LE_FAILURE(success)) clear();
+ inline LEReferenceTo(const LETbbleReference &pbrent, LEErrorCode &success, const void* btPtr, size_t offset)
+    : LETbbleReference(pbrent, pbrent.ptrToOffset(btPtr, success)+offset, LE_UINTPTR_MAX, success) {
+    verifyLength(0, LETbbleVbrSizer<T>::getSize(), success);
+    if(LE_FAILURE(success)) clebr();
   }
- inline LEReferenceTo(const LETableReference &parent, LEErrorCode &success, size_t offset)
-    : LETableReference(parent, offset, LE_UINTPTR_MAX, success) {
-    verifyLength(0, LETableVarSizer<T>::getSize(), success);
-    if(LE_FAILURE(success)) clear();
+ inline LEReferenceTo(const LETbbleReference &pbrent, LEErrorCode &success, size_t offset)
+    : LETbbleReference(pbrent, offset, LE_UINTPTR_MAX, success) {
+    verifyLength(0, LETbbleVbrSizer<T>::getSize(), success);
+    if(LE_FAILURE(success)) clebr();
   }
- inline LEReferenceTo(const LETableReference &parent, LEErrorCode &success)
-    : LETableReference(parent, 0, LE_UINTPTR_MAX, success) {
-    verifyLength(0, LETableVarSizer<T>::getSize(), success);
-    if(LE_FAILURE(success)) clear();
+ inline LEReferenceTo(const LETbbleReference &pbrent, LEErrorCode &success)
+    : LETbbleReference(pbrent, 0, LE_UINTPTR_MAX, success) {
+    verifyLength(0, LETbbleVbrSizer<T>::getSize(), success);
+    if(LE_FAILURE(success)) clebr();
   }
- inline LEReferenceTo(const LEFontInstance *font, LETag tableTag, LEErrorCode &success)
-   : LETableReference(font, tableTag, success) {
-    verifyLength(0, LETableVarSizer<T>::getSize(), success);
-    if(LE_FAILURE(success)) clear();
+ inline LEReferenceTo(const LEFontInstbnce *font, LETbg tbbleTbg, LEErrorCode &success)
+   : LETbbleReference(font, tbbleTbg, success) {
+    verifyLength(0, LETbbleVbrSizer<T>::getSize(), success);
+    if(LE_FAILURE(success)) clebr();
   }
 #if LE_ENABLE_RAW
- inline LEReferenceTo(const le_uint8 *data, size_t length = LE_UINTPTR_MAX) : LETableReference(data, length) {}
- inline LEReferenceTo(const T *data, size_t length = LE_UINTPTR_MAX) : LETableReference((const le_uint8*)data, length) {}
+ inline LEReferenceTo(const le_uint8 *dbtb, size_t length = LE_UINTPTR_MAX) : LETbbleReference(dbtb, length) {}
+ inline LEReferenceTo(const T *dbtb, size_t length = LE_UINTPTR_MAX) : LETbbleReference((const le_uint8*)dbtb, length) {}
 #endif
- inline LEReferenceTo(EStaticData staticData, const le_uint8 *data, size_t length) : LETableReference(staticData, data, length) {}
- inline LEReferenceTo(EStaticData staticData, const T *data, size_t length) : LETableReference(staticData, (const le_uint8*)data, length) {}
+ inline LEReferenceTo(EStbticDbtb stbticDbtb, const le_uint8 *dbtb, size_t length) : LETbbleReference(stbticDbtb, dbtb, length) {}
+ inline LEReferenceTo(EStbticDbtb stbticDbtb, const T *dbtb, size_t length) : LETbbleReference(stbticDbtb, (const le_uint8*)dbtb, length) {}
 
- inline LEReferenceTo() : LETableReference() {}
+ inline LEReferenceTo() : LETbbleReference() {}
 
 #if LE_ENABLE_RAW
- inline LEReferenceTo<T>& operator=(const T* other) {
-    setRaw(other);
+ inline LEReferenceTo<T>& operbtor=(const T* other) {
+    setRbw(other);
     return *this;
   }
 #endif
 
- LEReferenceTo<T>& setTo(LETableReference::EStaticData staticData, const T* other, size_t length) {
-   LETableReference::setTo(staticData, other, length);
+ LEReferenceTo<T>& setTo(LETbbleReference::EStbticDbtb stbticDbtb, const T* other, size_t length) {
+   LETbbleReference::setTo(stbticDbtb, other, length);
    return *this;
  }
 
-  LEReferenceTo<T> &reparent(const LETableReference &base) {
-    fParent = &base;
+  LEReferenceTo<T> &repbrent(const LETbbleReference &bbse) {
+    fPbrent = &bbse;
     return *this;
   }
 
   /**
-   * roll forward by one <T> size.
-   * same as addOffset(LETableVarSizer<T>::getSize(),success)
+   * roll forwbrd by one <T> size.
+   * sbme bs bddOffset(LETbbleVbrSizer<T>::getSize(),success)
    */
-  void addObject(LEErrorCode &success) {
-    addOffset(LETableVarSizer<T>::getSize(), success);
+  void bddObject(LEErrorCode &success) {
+    bddOffset(LETbbleVbrSizer<T>::getSize(), success);
   }
-  void addObject(size_t count, LEErrorCode &success) {
-    addOffset(LETableVarSizer<T>::getSize()*count, success);
+  void bddObject(size_t count, LEErrorCode &success) {
+    bddOffset(LETbbleVbrSizer<T>::getSize()*count, success);
   }
 
-  const T *operator->() const { return getAlias(); }
-  const T *operator*() const { return getAlias(); }
-  const T *getAlias() const { return (const T*)fStart; }
+  const T *operbtor->() const { return getAlibs(); }
+  const T *operbtor*() const { return getAlibs(); }
+  const T *getAlibs() const { return (const T*)fStbrt; }
 #if LE_ENABLE_RAW
-  const T *getAliasRAW() const { LE_DEBUG_TR("getAliasRAW<>"); return (const T*)fStart; }
+  const T *getAlibsRAW() const { LE_DEBUG_TR("getAlibsRAW<>"); return (const T*)fStbrt; }
 #endif
 
 };
@@ -409,114 +409,114 @@ public:
 
 /**
  * \def LE_UNBOUNDED_ARRAY
- * define an array with no *known* bound. Will trim to available size.
- * @internal
+ * define bn brrby with no *known* bound. Will trim to bvbilbble size.
+ * @internbl
  */
 #define LE_UNBOUNDED_ARRAY LE_UINT32_MAX
 
-template<class T>
-class LEReferenceToArrayOf : public LETableReference {
+templbte<clbss T>
+clbss LEReferenceToArrbyOf : public LETbbleReference {
 public:
-  LEReferenceToArrayOf(const LETableReference &parent, LEErrorCode &success, size_t offset, le_uint32 count)
-    : LETableReference(parent, offset, LE_UINTPTR_MAX, success), fCount(count) {
+  LEReferenceToArrbyOf(const LETbbleReference &pbrent, LEErrorCode &success, size_t offset, le_uint32 count)
+    : LETbbleReference(pbrent, offset, LE_UINTPTR_MAX, success), fCount(count) {
     _TRTRACE("INFO: new RTAO by offset")
     if(LE_SUCCESS(success)) {
-      if(fCount == LE_UNBOUNDED_ARRAY) { // not a known length
-        fCount = getLength()/LETableVarSizer<T>::getSize(); // fit to max size
+      if(fCount == LE_UNBOUNDED_ARRAY) { // not b known length
+        fCount = getLength()/LETbbleVbrSizer<T>::getSize(); // fit to mbx size
       }
-      LETableReference::verifyLength(0, LETableVarSizer<T>::getSize()*fCount, success);
+      LETbbleReference::verifyLength(0, LETbbleVbrSizer<T>::getSize()*fCount, success);
     }
     if(LE_FAILURE(success)) {
       fCount=0;
-      clear();
+      clebr();
     }
   }
 
-  LEReferenceToArrayOf(const LETableReference &parent, LEErrorCode &success, const T* array, le_uint32 count)
-    : LETableReference(parent, parent.ptrToOffset(array, success), LE_UINTPTR_MAX, success), fCount(count) {
+  LEReferenceToArrbyOf(const LETbbleReference &pbrent, LEErrorCode &success, const T* brrby, le_uint32 count)
+    : LETbbleReference(pbrent, pbrent.ptrToOffset(brrby, success), LE_UINTPTR_MAX, success), fCount(count) {
 _TRTRACE("INFO: new RTAO")
     if(LE_SUCCESS(success)) {
-      if(fCount == LE_UNBOUNDED_ARRAY) { // not a known length
-        fCount = getLength()/LETableVarSizer<T>::getSize(); // fit to max size
+      if(fCount == LE_UNBOUNDED_ARRAY) { // not b known length
+        fCount = getLength()/LETbbleVbrSizer<T>::getSize(); // fit to mbx size
       }
-      LETableReference::verifyLength(0, LETableVarSizer<T>::getSize()*fCount, success);
+      LETbbleReference::verifyLength(0, LETbbleVbrSizer<T>::getSize()*fCount, success);
     }
-    if(LE_FAILURE(success)) clear();
+    if(LE_FAILURE(success)) clebr();
   }
- LEReferenceToArrayOf(const LETableReference &parent, LEErrorCode &success, const T* array, size_t offset, le_uint32 count)
-   : LETableReference(parent, parent.ptrToOffset(array, success)+offset, LE_UINTPTR_MAX, success), fCount(count) {
+ LEReferenceToArrbyOf(const LETbbleReference &pbrent, LEErrorCode &success, const T* brrby, size_t offset, le_uint32 count)
+   : LETbbleReference(pbrent, pbrent.ptrToOffset(brrby, success)+offset, LE_UINTPTR_MAX, success), fCount(count) {
 _TRTRACE("INFO: new RTAO")
     if(LE_SUCCESS(success)) {
-      if(fCount == LE_UNBOUNDED_ARRAY) { // not a known length
-        fCount = getLength()/LETableVarSizer<T>::getSize(); // fit to max size
+      if(fCount == LE_UNBOUNDED_ARRAY) { // not b known length
+        fCount = getLength()/LETbbleVbrSizer<T>::getSize(); // fit to mbx size
       }
-      LETableReference::verifyLength(0, LETableVarSizer<T>::getSize()*fCount, success);
+      LETbbleReference::verifyLength(0, LETbbleVbrSizer<T>::getSize()*fCount, success);
     }
-    if(LE_FAILURE(success)) clear();
+    if(LE_FAILURE(success)) clebr();
   }
 
- LEReferenceToArrayOf() :LETableReference(), fCount(0) {}
+ LEReferenceToArrbyOf() :LETbbleReference(), fCount(0) {}
 
   le_uint32 getCount() const { return fCount; }
 
-  const T *getAlias() const { return (const T*)fStart; }
+  const T *getAlibs() const { return (const T*)fStbrt; }
 
-  const T *getAlias(le_uint32 i, LEErrorCode &success) const {
-    return ((const T*)(((const char*)getAlias())+getOffsetFor(i, success)));
+  const T *getAlibs(le_uint32 i, LEErrorCode &success) const {
+    return ((const T*)(((const chbr*)getAlibs())+getOffsetFor(i, success)));
   }
 
 #ifndef LE_ENABLE_RAW
-  const T *getAliasRAW() const { LE_DEBUG_TR("getAliasRAW<>"); return (const T*)fStart; }
+  const T *getAlibsRAW() const { LE_DEBUG_TR("getAlibsRAW<>"); return (const T*)fStbrt; }
 #endif
 
   const T& getObject(le_uint32 i, LEErrorCode &success) const {
-    return *getAlias(i,success);
+    return *getAlibs(i,success);
   }
 
   /**
-   * by-value array accessor for integral types.
+   * by-vblue brrby bccessor for integrbl types.
    */
-  const T operator[](le_uint32 i) const {
+  const T operbtor[](le_uint32 i) const {
     LEErrorCode success = LE_NO_ERROR;
-    const T *ret = getAlias(i, success);
+    const T *ret = getAlibs(i, success);
     if(LE_FAILURE(success) || ret==NULL) {
 #if LE_ASSERT_BAD_FONT
-      LE_DEBUG_TR3("Range error, out of bounds? (%p) #%d", NULL, i);
+      LE_DEBUG_TR3("Rbnge error, out of bounds? (%p) #%d", NULL, i);
 #endif
-      return T(0); // will not work for all types.
+      return T(0); // will not work for bll types.
     }
     return *ret;
   }
 
   const LEReferenceTo<T> getReference(le_uint32 i, LEErrorCode &success) const {
     if(LE_FAILURE(success)) return LEReferenceTo<T>();
-    return LEReferenceTo<T>(*this, success, getAlias(i,success));
+    return LEReferenceTo<T>(*this, success, getAlibs(i,success));
   }
 
-  const T& operator()(le_uint32 i, LEErrorCode &success) const {
-    return *getAlias(i,success);
+  const T& operbtor()(le_uint32 i, LEErrorCode &success) const {
+    return *getAlibs(i,success);
   }
 
   size_t getOffsetFor(le_uint32 i, LEErrorCode &success) const {
     if(LE_SUCCESS(success)&&i<getCount()) {
-      return LETableVarSizer<T>::getSize()*i;
+      return LETbbleVbrSizer<T>::getSize()*i;
     } else {
-      LE_DEBUG_TR3("getOffsetFor failed (%p) index=%d",NULL, i);
+      LE_DEBUG_TR3("getOffsetFor fbiled (%p) index=%d",NULL, i);
       success = LE_INDEX_OUT_OF_BOUNDS_ERROR;
     }
     return 0;
   }
 
-  LEReferenceToArrayOf<T> &reparent(const LETableReference &base) {
-    fParent = &base;
+  LEReferenceToArrbyOf<T> &repbrent(const LETbbleReference &bbse) {
+    fPbrent = &bbse;
     return *this;
   }
 
- LEReferenceToArrayOf(const LETableReference& parent, LEErrorCode & success) : LETableReference(parent,0, LE_UINTPTR_MAX, success), fCount(0) {
+ LEReferenceToArrbyOf(const LETbbleReference& pbrent, LEErrorCode & success) : LETbbleReference(pbrent,0, LE_UINTPTR_MAX, success), fCount(0) {
     _TRTRACE("INFO: null RTAO")
   }
 
-private:
+privbte:
   le_uint32 fCount;
 };
 

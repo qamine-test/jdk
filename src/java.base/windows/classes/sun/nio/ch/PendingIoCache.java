@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.*;
-import sun.misc.Unsafe;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import sun.misc.Unsbfe;
 
 /**
- * Maintains a mapping of pending I/O requests (identified by the address of
- * an OVERLAPPED structure) to Futures.
+ * Mbintbins b mbpping of pending I/O requests (identified by the bddress of
+ * bn OVERLAPPED structure) to Futures.
  */
 
-class PendingIoCache {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final int addressSize = unsafe.addressSize();
+clbss PendingIoCbche {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl int bddressSize = unsbfe.bddressSize();
 
-    private static int dependsArch(int value32, int value64) {
-        return (addressSize == 4) ? value32 : value64;
+    privbte stbtic int dependsArch(int vblue32, int vblue64) {
+        return (bddressSize == 4) ? vblue32 : vblue64;
     }
 
     /*
      * typedef struct _OVERLAPPED {
-     *     DWORD  Internal;
-     *     DWORD  InternalHigh;
+     *     DWORD  Internbl;
+     *     DWORD  InternblHigh;
      *     DWORD  Offset;
      *     DWORD  OffsetHigh;
      *     HANDLE hEvent;
      * } OVERLAPPED;
      */
-    private static final int SIZEOF_OVERLAPPED = dependsArch(20, 32);
+    privbte stbtic finbl int SIZEOF_OVERLAPPED = dependsArch(20, 32);
 
     // set to true when closed
-    private boolean closed;
+    privbte boolebn closed;
 
-    // set to true when thread is waiting for all I/O operations to complete
-    private boolean closePending;
+    // set to true when threbd is wbiting for bll I/O operbtions to complete
+    privbte boolebn closePending;
 
-    // maps OVERLAPPED to PendingFuture
-    @SuppressWarnings("rawtypes")
-    private final Map<Long,PendingFuture> pendingIoMap =
-        new HashMap<Long,PendingFuture>();
+    // mbps OVERLAPPED to PendingFuture
+    @SuppressWbrnings("rbwtypes")
+    privbte finbl Mbp<Long,PendingFuture> pendingIoMbp =
+        new HbshMbp<Long,PendingFuture>();
 
-    // per-channel cache of OVERLAPPED structures
-    private long[] overlappedCache = new long[4];
-    private int overlappedCacheCount = 0;
+    // per-chbnnel cbche of OVERLAPPED structures
+    privbte long[] overlbppedCbche = new long[4];
+    privbte int overlbppedCbcheCount = 0;
 
-    PendingIoCache() {
+    PendingIoCbche() {
     }
 
-    long add(PendingFuture<?,?> result) {
+    long bdd(PendingFuture<?,?> result) {
         synchronized (this) {
             if (closed)
                 throw new AssertionError("Should not get here");
             long ov;
-            if (overlappedCacheCount > 0) {
-                ov = overlappedCache[--overlappedCacheCount];
+            if (overlbppedCbcheCount > 0) {
+                ov = overlbppedCbche[--overlbppedCbcheCount];
             } else {
-                ov = unsafe.allocateMemory(SIZEOF_OVERLAPPED);
+                ov = unsbfe.bllocbteMemory(SIZEOF_OVERLAPPED);
             }
-            pendingIoMap.put(ov, result);
+            pendingIoMbp.put(ov, result);
             return ov;
         }
     }
 
-    @SuppressWarnings("unchecked")
-    <V,A> PendingFuture<V,A> remove(long overlapped) {
+    @SuppressWbrnings("unchecked")
+    <V,A> PendingFuture<V,A> remove(long overlbpped) {
         synchronized (this) {
-            PendingFuture<V,A> res = pendingIoMap.remove(overlapped);
+            PendingFuture<V,A> res = pendingIoMbp.remove(overlbpped);
             if (res != null) {
-                if (overlappedCacheCount < overlappedCache.length) {
-                    overlappedCache[overlappedCacheCount++] = overlapped;
+                if (overlbppedCbcheCount < overlbppedCbche.length) {
+                    overlbppedCbche[overlbppedCbcheCount++] = overlbpped;
                 } else {
-                    // cache full or channel closing
-                    unsafe.freeMemory(overlapped);
+                    // cbche full or chbnnel closing
+                    unsbfe.freeMemory(overlbpped);
                 }
-                // notify closing thread.
+                // notify closing threbd.
                 if (closePending) {
                     this.notifyAll();
                 }
@@ -111,13 +111,13 @@ class PendingIoCache {
             if (closed)
                 return;
 
-            // handle case where I/O operations that have not completed.
-            if (!pendingIoMap.isEmpty())
-                clearPendingIoMap();
+            // hbndle cbse where I/O operbtions thbt hbve not completed.
+            if (!pendingIoMbp.isEmpty())
+                clebrPendingIoMbp();
 
-            // release memory for any cached OVERLAPPED structures
-            while (overlappedCacheCount > 0) {
-                unsafe.freeMemory( overlappedCache[--overlappedCacheCount] );
+            // relebse memory for bny cbched OVERLAPPED structures
+            while (overlbppedCbcheCount > 0) {
+                unsbfe.freeMemory( overlbppedCbche[--overlbppedCbcheCount] );
             }
 
             // done
@@ -125,39 +125,39 @@ class PendingIoCache {
         }
     }
 
-    private void clearPendingIoMap() {
-        assert Thread.holdsLock(this);
+    privbte void clebrPendingIoMbp() {
+        bssert Threbd.holdsLock(this);
 
-        // wait up to 50ms for the I/O operations to complete
+        // wbit up to 50ms for the I/O operbtions to complete
         closePending = true;
         try {
-            this.wait(50);
-        } catch (InterruptedException x) {
-            Thread.currentThread().interrupt();
+            this.wbit(50);
+        } cbtch (InterruptedException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        closePending = false;
-        if (pendingIoMap.isEmpty())
+        closePending = fblse;
+        if (pendingIoMbp.isEmpty())
             return;
 
-        // cause all pending I/O operations to fail
-        // simulate the failure of all pending I/O operations.
-        for (Long ov: pendingIoMap.keySet()) {
-            PendingFuture<?,?> result = pendingIoMap.get(ov);
-            assert !result.isDone();
+        // cbuse bll pending I/O operbtions to fbil
+        // simulbte the fbilure of bll pending I/O operbtions.
+        for (Long ov: pendingIoMbp.keySet()) {
+            PendingFuture<?,?> result = pendingIoMbp.get(ov);
+            bssert !result.isDone();
 
-            // make I/O port aware of the stale OVERLAPPED structure
-            Iocp iocp = (Iocp)((Groupable)result.channel()).group();
-            iocp.makeStale(ov);
+            // mbke I/O port bwbre of the stble OVERLAPPED structure
+            Iocp iocp = (Iocp)((Groupbble)result.chbnnel()).group();
+            iocp.mbkeStble(ov);
 
-            // execute a task that invokes the result handler's failed method
-            final Iocp.ResultHandler rh = (Iocp.ResultHandler)result.getContext();
-            Runnable task = new Runnable() {
+            // execute b tbsk thbt invokes the result hbndler's fbiled method
+            finbl Iocp.ResultHbndler rh = (Iocp.ResultHbndler)result.getContext();
+            Runnbble tbsk = new Runnbble() {
                 public void run() {
-                    rh.failed(-1, new AsynchronousCloseException());
+                    rh.fbiled(-1, new AsynchronousCloseException());
                 }
             };
-            iocp.executeOnPooledThread(task);
+            iocp.executeOnPooledThrebd(tbsk);
         }
-        pendingIoMap.clear();
+        pendingIoMbp.clebr();
     }
 }

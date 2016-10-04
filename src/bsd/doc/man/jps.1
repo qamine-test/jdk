@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Monitoring Tools
 .\"     Title: jps.1
 .\"
 .if n .pl 99999
 .TH jps 1 "21 November 2013" "JDK 8" "Monitoring Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jps \- Lists the instrumented Java Virtual Machines (JVMs) on the target system\&. This command is experimental and unsupported\&.
+jps \- Lists the instrumented Jbvb Virtubl Mbchines (JVMs) on the tbrget system\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,51 +60,51 @@ jps \- Lists the instrumented Java Virtual Machines (JVMs) on the target system\
 .sp     
 .TP     
 \fIoptions\fR
-Command-line options\&. See Options\&.
+Commbnd-line options\&. See Options\&.
 .TP     
 \fIhostid\fR
-The identifier of the host for which the process report should be generated\&. The \f3hostid\fR can include optional components that indicate the communications protocol, port number, and other implementation specific data\&. See Host Identifier\&.
+The identifier of the host for which the process report should be generbted\&. The \f3hostid\fR cbn include optionbl components thbt indicbte the communicbtions protocol, port number, bnd other implementbtion specific dbtb\&. See Host Identifier\&.
 .SH DESCRIPTION    
-The \f3jps\fR command lists the instrumented Java HotSpot VMs on the target system\&. The command is limited to reporting information on JVMs for which it has the access permissions\&.
+The \f3jps\fR commbnd lists the instrumented Jbvb HotSpot VMs on the tbrget system\&. The commbnd is limited to reporting informbtion on JVMs for which it hbs the bccess permissions\&.
 .PP
-If the \f3jps\fR command is run without specifying a \f3hostid\fR, then it searches for instrumented JVMs on the local host\&. If started with a \f3hostid\fR, then it searches for JVMs on the indicated host, using the specified protocol and port\&. A \f3jstatd\fR process is assumed to be running on the target host\&.
+If the \f3jps\fR commbnd is run without specifying b \f3hostid\fR, then it sebrches for instrumented JVMs on the locbl host\&. If stbrted with b \f3hostid\fR, then it sebrches for JVMs on the indicbted host, using the specified protocol bnd port\&. A \f3jstbtd\fR process is bssumed to be running on the tbrget host\&.
 .PP
-The \f3jps\fR command reports the local JVM identifier, or \f3lvmid\fR, for each instrumented JVM found on the target system\&. The \f3lvmid\fR is typically, but not necessarily, the operating system\&'s process identifier for the JVM process\&. With no options, \f3jps\fR lists each Java application\&'s \f3lvmid\fR followed by the short form of the application\&'s class name or jar file name\&. The short form of the class name or JAR file name omits the class\&'s package information or the JAR files path information\&.
+The \f3jps\fR commbnd reports the locbl JVM identifier, or \f3lvmid\fR, for ebch instrumented JVM found on the tbrget system\&. The \f3lvmid\fR is typicblly, but not necessbrily, the operbting system\&'s process identifier for the JVM process\&. With no options, \f3jps\fR lists ebch Jbvb bpplicbtion\&'s \f3lvmid\fR followed by the short form of the bpplicbtion\&'s clbss nbme or jbr file nbme\&. The short form of the clbss nbme or JAR file nbme omits the clbss\&'s pbckbge informbtion or the JAR files pbth informbtion\&.
 .PP
-The \f3jps\fR command uses the Java launcher to find the class name and arguments passed to the main method\&. If the target JVM is started with a custom launcher, then the class or JAR file name and the arguments to the \f3main\fR method are not available\&. In this case, the \f3jps\fR command outputs the string \f3Unknown\fR for the class name or JAR file name and for the arguments to the \f3main\fR method\&.
+The \f3jps\fR commbnd uses the Jbvb lbuncher to find the clbss nbme bnd brguments pbssed to the mbin method\&. If the tbrget JVM is stbrted with b custom lbuncher, then the clbss or JAR file nbme bnd the brguments to the \f3mbin\fR method bre not bvbilbble\&. In this cbse, the \f3jps\fR commbnd outputs the string \f3Unknown\fR for the clbss nbme or JAR file nbme bnd for the brguments to the \f3mbin\fR method\&.
 .PP
-The list of JVMs produced by the \f3jps\fR command can be limited by the permissions granted to the principal running the command\&. The command only lists the JVMs for which the principle has access rights as determined by operating system-specific access control mechanisms\&.
+The list of JVMs produced by the \f3jps\fR commbnd cbn be limited by the permissions grbnted to the principbl running the commbnd\&. The commbnd only lists the JVMs for which the principle hbs bccess rights bs determined by operbting system-specific bccess control mechbnisms\&.
 .SH OPTIONS    
-The \f3jps\fR command supports a number of options that modify the output of the command\&. These options are subject to change or removal in the future\&.
+The \f3jps\fR commbnd supports b number of options thbt modify the output of the commbnd\&. These options bre subject to chbnge or removbl in the future\&.
 .TP
 -q
 .br
-Suppresses the output of the class name, JAR file name, and arguments passed to the \f3main\fR method, producing only a list of local JVM identifiers\&.
+Suppresses the output of the clbss nbme, JAR file nbme, bnd brguments pbssed to the \f3mbin\fR method, producing only b list of locbl JVM identifiers\&.
 .TP
 -m
 .br
-Displays the arguments passed to the \f3main\fR method\&. The output may be \f3null\fR for embedded JVMs\&.
+Displbys the brguments pbssed to the \f3mbin\fR method\&. The output mby be \f3null\fR for embedded JVMs\&.
 .TP
 -l
 .br
-Displays the full package name for the application\&'s \f3main\fR class or the full path name to the application\&'s JAR file\&.
+Displbys the full pbckbge nbme for the bpplicbtion\&'s \f3mbin\fR clbss or the full pbth nbme to the bpplicbtion\&'s JAR file\&.
 .TP
 -v
 .br
-Displays the arguments passed to the JVM\&.
+Displbys the brguments pbssed to the JVM\&.
 .TP
 -V
 .br
-Suppresses the output of the class name, JAR file name, and arguments passed to the main method, producing only a list of local JVM identifiers\&.
+Suppresses the output of the clbss nbme, JAR file nbme, bnd brguments pbssed to the mbin method, producing only b list of locbl JVM identifiers\&.
 .TP
 -J\f3option\fR
 .br
-Passes \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SH HOST\ IDENTIFIER    
-The host identifier, or \f3hostid\fR is a string that indicates the target system\&. The syntax of the \f3hostid\fR string corresponds to the syntax of a URI:
+The host identifier, or \f3hostid\fR is b string thbt indicbtes the tbrget system\&. The syntbx of the \f3hostid\fR string corresponds to the syntbx of b URI:
 .sp     
 .nf     
-\f3[protocol:][[//]hostname][:port][/servername]\fP
+\f3[protocol:][[//]hostnbme][:port][/servernbme]\fP
 .fi     
 .nf     
 \f3\fP
@@ -112,75 +112,75 @@ The host identifier, or \f3hostid\fR is a string that indicates the target syste
 .sp     
 .TP     
 \fIprotocol\fR
-The communications protocol\&. If the \f3protocol\fR is omitted and a \f3hostname\fR is not specified, then the default protocol is a platform-specific, optimized, local protocol\&. If the protocol is omitted and a host name is specified, then the default protocol is \f3rmi\fR\&.
+The communicbtions protocol\&. If the \f3protocol\fR is omitted bnd b \f3hostnbme\fR is not specified, then the defbult protocol is b plbtform-specific, optimized, locbl protocol\&. If the protocol is omitted bnd b host nbme is specified, then the defbult protocol is \f3rmi\fR\&.
 .TP     
-hostname
-A hostname or IP address that indicates the target host\&. If you omit the \f3hostname\fR parameter, then the target host is the local host\&.
+hostnbme
+A hostnbme or IP bddress thbt indicbtes the tbrget host\&. If you omit the \f3hostnbme\fR pbrbmeter, then the tbrget host is the locbl host\&.
 .TP     
 port
-The default port for communicating with the remote server\&. If the \f3hostname\fR parameter is omitted or the \f3protocol\fR parameter specifies an optimized, local protocol, then the \f3port\fR parameter is ignored\&. Otherwise, treatment of the \f3port\fR parameter is implementation specific\&. For the default \f3rmi\fR protocol, the \f3port\fR parameter indicates the port number for the rmiregistry on the remote host\&. If the \f3port\fR parameter is omitted, and the \f3protocol\fR parameter indicates \f3rmi\fR, then the default rmiregistry port (1099) is used\&.
+The defbult port for communicbting with the remote server\&. If the \f3hostnbme\fR pbrbmeter is omitted or the \f3protocol\fR pbrbmeter specifies bn optimized, locbl protocol, then the \f3port\fR pbrbmeter is ignored\&. Otherwise, trebtment of the \f3port\fR pbrbmeter is implementbtion specific\&. For the defbult \f3rmi\fR protocol, the \f3port\fR pbrbmeter indicbtes the port number for the rmiregistry on the remote host\&. If the \f3port\fR pbrbmeter is omitted, bnd the \f3protocol\fR pbrbmeter indicbtes \f3rmi\fR, then the defbult rmiregistry port (1099) is used\&.
 .TP     
-servername
-The treatment of this parameter depends on the implementation\&. For the optimized, local protocol, this field is ignored\&. For the \f3rmi\fR protocol, this parameter is a string that represents the name of the RMI remote object on the remote host\&. See the \f3jstatd\fR command \f3-n\fRoption for more information\&.
+servernbme
+The trebtment of this pbrbmeter depends on the implementbtion\&. For the optimized, locbl protocol, this field is ignored\&. For the \f3rmi\fR protocol, this pbrbmeter is b string thbt represents the nbme of the RMI remote object on the remote host\&. See the \f3jstbtd\fR commbnd \f3-n\fRoption for more informbtion\&.
 .SH OUTPUT\ FORMAT    
-The output of the \f3jps\fR command follows the following pattern:
+The output of the \f3jps\fR commbnd follows the following pbttern:
 .sp     
 .nf     
-\f3lvmid [ [ classname | JARfilename | "Unknown"] [ arg* ] [ jvmarg* ] ]\fP
+\f3lvmid [ [ clbssnbme | JARfilenbme | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-All output tokens are separated by white space\&. An \f3arg\fR value that includes embedded white space introduces ambiguity when attempting to map arguments to their actual positional parameters\&.
+All output tokens bre sepbrbted by white spbce\&. An \f3brg\fR vblue thbt includes embedded white spbce introduces bmbiguity when bttempting to mbp brguments to their bctubl positionbl pbrbmeters\&.
 .PP
-\fINote:\fR It is recommended that you do not write scripts to parse \f3jps\fR output because the format might change in future releases\&. If you write scripts that parse \f3jps\fR output, then expect to modify them for future releases of this tool\&.
+\fINote:\fR It is recommended thbt you do not write scripts to pbrse \f3jps\fR output becbuse the formbt might chbnge in future relebses\&. If you write scripts thbt pbrse \f3jps\fR output, then expect to modify them for future relebses of this tool\&.
 .SH EXAMPLES    
-This section provides examples of the \f3jps\fR command\&.
+This section provides exbmples of the \f3jps\fR commbnd\&.
 .PP
-List the instrumented JVMs on the local host:
+List the instrumented JVMs on the locbl host:
 .sp     
 .nf     
 \f3jps\fP
 .fi     
 .nf     
-\f318027 Java2Demo\&.JAR\fP
+\f318027 Jbvb2Demo\&.JAR\fP
 .fi     
 .nf     
 \f318032 jps\fP
 .fi     
 .nf     
-\f318005 jstat\fP
+\f318005 jstbt\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The following example lists the instrumented JVMs on a remote host\&. This example assumes that the \f3jstat\fR server and either the its internal RMI registry or a separate external rmiregistry process are running on the remote host on the default port (port 1099)\&. It also assumes that the local host has appropriate permissions to access the remote host\&. This example also includes the \f3-l\fR option to output the long form of the class names or JAR file names\&.
+The following exbmple lists the instrumented JVMs on b remote host\&. This exbmple bssumes thbt the \f3jstbt\fR server bnd either the its internbl RMI registry or b sepbrbte externbl rmiregistry process bre running on the remote host on the defbult port (port 1099)\&. It blso bssumes thbt the locbl host hbs bppropribte permissions to bccess the remote host\&. This exbmple blso includes the \f3-l\fR option to output the long form of the clbss nbmes or JAR file nbmes\&.
 .sp     
 .nf     
-\f3jps \-l remote\&.domain\fP
+\f3jps \-l remote\&.dombin\fP
 .fi     
 .nf     
-\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Java2D/Java2Demo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR\fP
 .fi     
 .nf     
-\f32857 sun\&.tools\&.jstatd\&.jstatd\fP
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The following example lists the instrumented JVMs on a remote host with a non-default port for the RMI registry\&. This example assumes that the \f3jstatd\fR server, with an internal RMI registry bound to port 2002, is running on the remote host\&. This example also uses the \f3-m\fR option to include the arguments passed to the \f3main\fR method of each of the listed Java applications\&.
+The following exbmple lists the instrumented JVMs on b remote host with b non-defbult port for the RMI registry\&. This exbmple bssumes thbt the \f3jstbtd\fR server, with bn internbl RMI registry bound to port 2002, is running on the remote host\&. This exbmple blso uses the \f3-m\fR option to include the brguments pbssed to the \f3mbin\fR method of ebch of the listed Jbvb bpplicbtions\&.
 .sp     
 .nf     
-\f3jps \-m remote\&.domain:2002\fP
+\f3jps \-m remote\&.dombin:2002\fP
 .fi     
 .nf     
-\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Java2D/Java2Demo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR\fP
 .fi     
 .nf     
-\f33102 sun\&.tools\&.jstatd\&.jstatd \-p 2002\fP
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
 .fi     
 .nf     
 \f3\fP
@@ -189,13 +189,13 @@ The following example lists the instrumented JVMs on a remote host with a non-de
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
-jstat(1)
+jstbt(1)
 .TP 0.2i    
 \(bu
-jstatd(1)
+jstbtd(1)
 .TP 0.2i    
 \(bu
 rmiregistry(1)

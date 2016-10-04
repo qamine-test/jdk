@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.security.AccessController;
 
 /**
- * Exception thrown when an invalid target object type is specified.
+ * Exception thrown when bn invblid tbrget object type is specified.
  *
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>1190536278266811217L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>1190536278266811217L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class InvalidTargetObjectTypeException  extends Exception
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss InvblidTbrgetObjectTypeException  extends Exception
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 3711724570458346634L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 3711724570458346634L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 1190536278266811217L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = 1190536278266811217L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("msgStr", String.class),
-      new ObjectStreamField("relatedExcept", Exception.class)
+      new ObjectStrebmField("msgStr", String.clbss),
+      new ObjectStrebmField("relbtedExcept", Exception.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("exception", Exception.class)
+      new ObjectStrebmField("exception", Exception.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField exception Exception Encapsulated {@link Exception}
+     * @seriblField exception Exception Encbpsulbted {@link Exception}
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: No compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     /**
-     * @serial Encapsulated {@link Exception}
+     * @seribl Encbpsulbted {@link Exception}
      */
     Exception exception;
 
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    public InvalidTargetObjectTypeException ()
+    public InvblidTbrgetObjectTypeException ()
     {
-      super("InvalidTargetObjectTypeException: ");
+      super("InvblidTbrgetObjectTypeException: ");
       exception = null;
     }
 
 
     /**
-     * Constructor from a string.
+     * Constructor from b string.
      *
-     * @param s String value that will be incorporated in the message for
+     * @pbrbm s String vblue thbt will be incorporbted in the messbge for
      *    this exception.
      */
 
-    public InvalidTargetObjectTypeException (String s)
+    public InvblidTbrgetObjectTypeException (String s)
     {
-      super("InvalidTargetObjectTypeException: " + s);
+      super("InvblidTbrgetObjectTypeException: " + s);
       exception = null;
     }
 
 
     /**
-     * Constructor taking an exception and a string.
+     * Constructor tbking bn exception bnd b string.
      *
-     * @param e Exception that we may have caught to reissue as an
-     *    InvalidTargetObjectTypeException.  The message will be used, and we may want to
-     *    consider overriding the printStackTrace() methods to get data
-     *    pointing back to original throw stack.
-     * @param s String value that will be incorporated in message for
+     * @pbrbm e Exception thbt we mby hbve cbught to reissue bs bn
+     *    InvblidTbrgetObjectTypeException.  The messbge will be used, bnd we mby wbnt to
+     *    consider overriding the printStbckTrbce() methods to get dbtb
+     *    pointing bbck to originbl throw stbck.
+     * @pbrbm s String vblue thbt will be incorporbted in messbge for
      *    this exception.
      */
 
-    public InvalidTargetObjectTypeException (Exception e, String s)
+    public InvblidTbrgetObjectTypeException (Exception e, String s)
     {
-      super("InvalidTargetObjectTypeException: " +
+      super("InvblidTbrgetObjectTypeException: " +
             s +
             ((e != null)?("\n\t triggered by:" + e.toString()):""));
       exception = e;
     }
 
     /**
-     * Deserializes an {@link InvalidTargetObjectTypeException} from an {@link ObjectInputStream}.
+     * Deseriblizes bn {@link InvblidTbrgetObjectTypeException} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        exception = (Exception) fields.get("relatedExcept", null);
-        if (fields.defaulted("relatedExcept"))
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        exception = (Exception) fields.get("relbtedExcept", null);
+        if (fields.defbulted("relbtedExcept"))
         {
-          throw new NullPointerException("relatedExcept");
+          throw new NullPointerException("relbtedExcept");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes an {@link InvalidTargetObjectTypeException} to an {@link ObjectOutputStream}.
+     * Seriblizes bn {@link InvblidTbrgetObjectTypeException} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("relatedExcept", exception);
-        fields.put("msgStr", ((exception != null)?exception.getMessage():""));
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("relbtedExcept", exception);
+        fields.put("msgStr", ((exception != null)?exception.getMessbge():""));
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

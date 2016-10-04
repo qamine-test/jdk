@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.concurrent.locks.ReentrantLock;
+import jbvb.util.concurrent.locks.ReentrbntLock;
 
 /**
- * This class is used to prevent multiple calling of g_thread_init ()
- * and gdk_thread_init ().
+ * This clbss is used to prevent multiple cblling of g_threbd_init ()
+ * bnd gdk_threbd_init ().
  *
- * Since version 2.24 of GLib, calling g_thread_init () multiple times is
- * allowed, but it will crash for older versions. There are two ways to
- * find out if g_thread_init () has been called:
- * g_thread_get_initialized (), but it was introduced in 2.20
- * g_thread_supported (), but it is a macro and cannot be loaded with dlsym.
+ * Since version 2.24 of GLib, cblling g_threbd_init () multiple times is
+ * bllowed, but it will crbsh for older versions. There bre two wbys to
+ * find out if g_threbd_init () hbs been cblled:
+ * g_threbd_get_initiblized (), but it wbs introduced in 2.20
+ * g_threbd_supported (), but it is b mbcro bnd cbnnot be lobded with dlsym.
  *
- * usage:
+ * usbge:
  * <pre>
  * lock();
  * try {
- *    if (!getAndSetInitializationNeededFlag()) {
- *        //call to g_thread_init();
- *        //call to gdk_thread_init();
+ *    if (!getAndSetInitiblizbtionNeededFlbg()) {
+ *        //cbll to g_threbd_init();
+ *        //cbll to gdk_threbd_init();
  *    }
- * } finally {
+ * } finblly {
  *    unlock();
  * }
  * </pre>
  */
-public final class GThreadHelper {
+public finbl clbss GThrebdHelper {
 
-    private static final ReentrantLock LOCK = new ReentrantLock();
-    private static boolean isGThreadInitialized = false;
+    privbte stbtic finbl ReentrbntLock LOCK = new ReentrbntLock();
+    privbte stbtic boolebn isGThrebdInitiblized = fblse;
 
     /**
      * Acquires the lock.
      */
-    public static void lock() {
+    public stbtic void lock() {
         LOCK.lock();
     }
 
     /**
-     * Releases the lock.
+     * Relebses the lock.
      */
-    public static void unlock() {
+    public stbtic void unlock() {
         LOCK.unlock();
     }
 
     /**
-     * Gets current value of initialization flag and sets it to {@code true}.
-     * MUST be called under the lock.
+     * Gets current vblue of initiblizbtion flbg bnd sets it to {@code true}.
+     * MUST be cblled under the lock.
      *
-     * A return value of {@code false} indicates that the calling code
-     * should call the g_thread_init() and gdk_thread_init() functions
-     * before releasing the lock.
+     * A return vblue of {@code fblse} indicbtes thbt the cblling code
+     * should cbll the g_threbd_init() bnd gdk_threbd_init() functions
+     * before relebsing the lock.
      *
-     * @return {@code true} if initialization has been completed.
+     * @return {@code true} if initiblizbtion hbs been completed.
      */
-    public static boolean getAndSetInitializationNeededFlag() {
-        boolean ret = isGThreadInitialized;
-        isGThreadInitialized = true;
+    public stbtic boolebn getAndSetInitiblizbtionNeededFlbg() {
+        boolebn ret = isGThrebdInitiblized;
+        isGThrebdInitiblized = true;
         return ret;
     }
 }

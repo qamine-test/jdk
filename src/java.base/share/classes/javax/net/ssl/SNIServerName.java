@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Instances of this class represent a server name in a Server Name
- * Indication (SNI) extension.
+ * Instbnces of this clbss represent b server nbme in b Server Nbme
+ * Indicbtion (SNI) extension.
  * <P>
- * The SNI extension is a feature that extends the SSL/TLS protocols to
- * indicate what server name the client is attempting to connect to during
- * handshaking.  See section 3, "Server Name Indication", of <A
+ * The SNI extension is b febture thbt extends the SSL/TLS protocols to
+ * indicbte whbt server nbme the client is bttempting to connect to during
+ * hbndshbking.  See section 3, "Server Nbme Indicbtion", of <A
  * HREF="http://www.ietf.org/rfc/rfc6066.txt">TLS Extensions (RFC 6066)</A>.
  * <P>
- * {@code SNIServerName} objects are immutable.  Subclasses should not provide
- * methods that can change the state of an instance once it has been created.
+ * {@code SNIServerNbme} objects bre immutbble.  Subclbsses should not provide
+ * methods thbt cbn chbnge the stbte of bn instbnce once it hbs been crebted.
  *
- * @see SSLParameters#getServerNames()
- * @see SSLParameters#setServerNames(List)
+ * @see SSLPbrbmeters#getServerNbmes()
+ * @see SSLPbrbmeters#setServerNbmes(List)
  *
  * @since 1.8
  */
-public abstract class SNIServerName {
+public bbstrbct clbss SNIServerNbme {
 
-    // the type of the server name
-    private final int type;
+    // the type of the server nbme
+    privbte finbl int type;
 
-    // the encoded value of the server name
-    private final byte[] encoded;
+    // the encoded vblue of the server nbme
+    privbte finbl byte[] encoded;
 
-    // the hex digitals
-    private static final char[] HEXES = "0123456789ABCDEF".toCharArray();
+    // the hex digitbls
+    privbte stbtic finbl chbr[] HEXES = "0123456789ABCDEF".toChbrArrby();
 
     /**
-     * Creates an {@code SNIServerName} using the specified name type and
-     * encoded value.
+     * Crebtes bn {@code SNIServerNbme} using the specified nbme type bnd
+     * encoded vblue.
      * <P>
-     * Note that the {@code encoded} byte array is cloned to protect against
-     * subsequent modification.
+     * Note thbt the {@code encoded} byte brrby is cloned to protect bgbinst
+     * subsequent modificbtion.
      *
-     * @param  type
-     *         the type of the server name
-     * @param  encoded
-     *         the encoded value of the server name
+     * @pbrbm  type
+     *         the type of the server nbme
+     * @pbrbm  encoded
+     *         the encoded vblue of the server nbme
      *
-     * @throws IllegalArgumentException if {@code type} is not in the range
+     * @throws IllegblArgumentException if {@code type} is not in the rbnge
      *         of 0 to 255, inclusive.
      * @throws NullPointerException if {@code encoded} is null
      */
-    protected SNIServerName(int type, byte[] encoded) {
+    protected SNIServerNbme(int type, byte[] encoded) {
         if (type < 0) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be less than zero");
+            throw new IllegblArgumentException(
+                "Server nbme type cbnnot be less thbn zero");
         } else if (type > 255) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be greater than 255");
+            throw new IllegblArgumentException(
+                "Server nbme type cbnnot be grebter thbn 255");
         }
         this.type = type;
 
         if (encoded == null) {
             throw new NullPointerException(
-                "Server name encoded value cannot be null");
+                "Server nbme encoded vblue cbnnot be null");
         }
         this.encoded = encoded.clone();
     }
 
 
     /**
-     * Returns the name type of this server name.
+     * Returns the nbme type of this server nbme.
      *
-     * @return the name type of this server name
+     * @return the nbme type of this server nbme
      */
-    public final int getType() {
+    public finbl int getType() {
         return type;
     }
 
     /**
-     * Returns a copy of the encoded server name value of this server name.
+     * Returns b copy of the encoded server nbme vblue of this server nbme.
      *
-     * @return a copy of the encoded server name value of this server name
+     * @return b copy of the encoded server nbme vblue of this server nbme
      */
-    public final byte[] getEncoded() {
+    public finbl byte[] getEncoded() {
         return encoded.clone();
     }
 
     /**
-     * Indicates whether some other object is "equal to" this server name.
+     * Indicbtes whether some other object is "equbl to" this server nbme.
      *
-     * @return true if, and only if, {@code other} is of the same class
-     *         of this object, and has the same name type and
-     *         encoded value as this server name.
+     * @return true if, bnd only if, {@code other} is of the sbme clbss
+     *         of this object, bnd hbs the sbme nbme type bnd
+     *         encoded vblue bs this server nbme.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
 
-        if (this.getClass() != other.getClass()) {
-            return false;
+        if (this.getClbss() != other.getClbss()) {
+            return fblse;
         }
 
-        SNIServerName that = (SNIServerName)other;
-        return (this.type == that.type) &&
-                    Arrays.equals(this.encoded, that.encoded);
+        SNIServerNbme thbt = (SNIServerNbme)other;
+        return (this.type == thbt.type) &&
+                    Arrbys.equbls(this.encoded, thbt.encoded);
     }
 
     /**
-     * Returns a hash code value for this server name.
+     * Returns b hbsh code vblue for this server nbme.
      * <P>
-     * The hash code value is generated using the name type and encoded
-     * value of this server name.
+     * The hbsh code vblue is generbted using the nbme type bnd encoded
+     * vblue of this server nbme.
      *
-     * @return a hash code value for this server name.
+     * @return b hbsh code vblue for this server nbme.
      */
     @Override
-    public int hashCode() {
-        int result = 17;    // 17/31: prime number to decrease collisions
+    public int hbshCode() {
+        int result = 17;    // 17/31: prime number to decrebse collisions
         result = 31 * result + type;
-        result = 31 * result + Arrays.hashCode(encoded);
+        result = 31 * result + Arrbys.hbshCode(encoded);
 
         return result;
     }
 
     /**
-     * Returns a string representation of this server name, including the server
-     * name type and the encoded server name value in this
-     * {@code SNIServerName} object.
+     * Returns b string representbtion of this server nbme, including the server
+     * nbme type bnd the encoded server nbme vblue in this
+     * {@code SNIServerNbme} object.
      * <P>
-     * The exact details of the representation are unspecified and subject
-     * to change, but the following may be regarded as typical:
+     * The exbct detbils of the representbtion bre unspecified bnd subject
+     * to chbnge, but the following mby be regbrded bs typicbl:
      * <pre>
-     *     "type={@literal <name type>}, value={@literal <name value>}"
+     *     "type={@literbl <nbme type>}, vblue={@literbl <nbme vblue>}"
      * </pre>
      * <P>
-     * In this class, the format of "{@literal <name type>}" is
-     * "[LITERAL] (INTEGER)", where the optional "LITERAL" is the literal
-     * name, and INTEGER is the integer value of the name type.  The format
-     * of "{@literal <name value>}" is "XX:...:XX", where "XX" is the
-     * hexadecimal digit representation of a byte value. For example, a
-     * returned value of an pseudo server name may look like:
+     * In this clbss, the formbt of "{@literbl <nbme type>}" is
+     * "[LITERAL] (INTEGER)", where the optionbl "LITERAL" is the literbl
+     * nbme, bnd INTEGER is the integer vblue of the nbme type.  The formbt
+     * of "{@literbl <nbme vblue>}" is "XX:...:XX", where "XX" is the
+     * hexbdecimbl digit representbtion of b byte vblue. For exbmple, b
+     * returned vblue of bn pseudo server nbme mby look like:
      * <pre>
-     *     "type=(31), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     *     "type=(31), vblue=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
      * </pre>
      * or
      * <pre>
-     *     "type=host_name (0), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     *     "type=host_nbme (0), vblue=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
      * </pre>
      *
      * <P>
-     * Please NOTE that the exact details of the representation are unspecified
-     * and subject to change, and subclasses may override the method with
-     * their own formats.
+     * Plebse NOTE thbt the exbct detbils of the representbtion bre unspecified
+     * bnd subject to chbnge, bnd subclbsses mby override the method with
+     * their own formbts.
      *
-     * @return a string representation of this server name
+     * @return b string representbtion of this server nbme
      */
     @Override
     public String toString() {
-        if (type == StandardConstants.SNI_HOST_NAME) {
-            return "type=host_name (0), value=" + toHexString(encoded);
+        if (type == StbndbrdConstbnts.SNI_HOST_NAME) {
+            return "type=host_nbme (0), vblue=" + toHexString(encoded);
         } else {
-            return "type=(" + type + "), value=" + toHexString(encoded);
+            return "type=(" + type + "), vblue=" + toHexString(encoded);
         }
     }
 
-    // convert byte array to hex string
-    private static String toHexString(byte[] bytes) {
+    // convert byte brrby to hex string
+    privbte stbtic String toHexString(byte[] bytes) {
         if (bytes.length == 0) {
             return "(empty)";
         }
 
         StringBuilder sb = new StringBuilder(bytes.length * 3 - 1);
-        boolean isInitial = true;
+        boolebn isInitibl = true;
         for (byte b : bytes) {
-            if (isInitial) {
-                isInitial = false;
+            if (isInitibl) {
+                isInitibl = fblse;
             } else {
-                sb.append(':');
+                sb.bppend(':');
             }
 
             int k = b & 0xFF;
-            sb.append(HEXES[k >>> 4]);
-            sb.append(HEXES[k & 0xF]);
+            sb.bppend(HEXES[k >>> 4]);
+            sb.bppend(HEXES[k & 0xF]);
         }
 
         return sb.toString();

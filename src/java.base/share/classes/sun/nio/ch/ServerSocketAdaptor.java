@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.nio.chbnnels.*;
 
 
-// Make a server-socket channel look like a server socket.
+// Mbke b server-socket chbnnel look like b server socket.
 //
-// The methods in this class are defined in exactly the same order as in
-// java.net.ServerSocket so as to simplify tracking future changes to that
-// class.
+// The methods in this clbss bre defined in exbctly the sbme order bs in
+// jbvb.net.ServerSocket so bs to simplify trbcking future chbnges to thbt
+// clbss.
 //
 
-public class ServerSocketAdaptor                        // package-private
+public clbss ServerSocketAdbptor                        // pbckbge-privbte
     extends ServerSocket
 {
 
-    // The channel being adapted
-    private final ServerSocketChannelImpl ssc;
+    // The chbnnel being bdbpted
+    privbte finbl ServerSocketChbnnelImpl ssc;
 
-    // Timeout "option" value for accepts
-    private volatile int timeout = 0;
+    // Timeout "option" vblue for bccepts
+    privbte volbtile int timeout = 0;
 
-    public static ServerSocket create(ServerSocketChannelImpl ssc) {
+    public stbtic ServerSocket crebte(ServerSocketChbnnelImpl ssc) {
         try {
-            return new ServerSocketAdaptor(ssc);
-        } catch (IOException x) {
+            return new ServerSocketAdbptor(ssc);
+        } cbtch (IOException x) {
             throw new Error(x);
         }
     }
 
-    // ## super will create a useless impl
-    private ServerSocketAdaptor(ServerSocketChannelImpl ssc)
+    // ## super will crebte b useless impl
+    privbte ServerSocketAdbptor(ServerSocketChbnnelImpl ssc)
         throws IOException
     {
         this.ssc = ssc;
     }
 
 
-    public void bind(SocketAddress local) throws IOException {
-        bind(local, 50);
+    public void bind(SocketAddress locbl) throws IOException {
+        bind(locbl, 50);
     }
 
-    public void bind(SocketAddress local, int backlog) throws IOException {
-        if (local == null)
-            local = new InetSocketAddress(0);
+    public void bind(SocketAddress locbl, int bbcklog) throws IOException {
+        if (locbl == null)
+            locbl = new InetSocketAddress(0);
         try {
-            ssc.bind(local, backlog);
-        } catch (Exception x) {
-            Net.translateException(x);
+            ssc.bind(locbl, bbcklog);
+        } cbtch (Exception x) {
+            Net.trbnslbteException(x);
         }
     }
 
     public InetAddress getInetAddress() {
         if (!ssc.isBound())
             return null;
-        return Net.getRevealedLocalAddress(ssc.localAddress()).getAddress();
+        return Net.getRevebledLocblAddress(ssc.locblAddress()).getAddress();
 
     }
 
-    public int getLocalPort() {
+    public int getLocblPort() {
         if (!ssc.isBound())
             return -1;
-        return Net.asInetSocketAddress(ssc.localAddress()).getPort();
+        return Net.bsInetSocketAddress(ssc.locblAddress()).getPort();
     }
 
 
-    public Socket accept() throws IOException {
+    public Socket bccept() throws IOException {
         synchronized (ssc.blockingLock()) {
             try {
                 if (!ssc.isBound())
                     throw new NotYetBoundException();
                 if (timeout == 0) {
-                    SocketChannel sc = ssc.accept();
+                    SocketChbnnel sc = ssc.bccept();
                     if (sc == null && !ssc.isBlocking())
-                        throw new IllegalBlockingModeException();
+                        throw new IllegblBlockingModeException();
                     return sc.socket();
                 }
 
-                ssc.configureBlocking(false);
+                ssc.configureBlocking(fblse);
                 try {
-                    SocketChannel sc;
-                    if ((sc = ssc.accept()) != null)
+                    SocketChbnnel sc;
+                    if ((sc = ssc.bccept()) != null)
                         return sc.socket();
                     long to = timeout;
                     for (;;) {
                         if (!ssc.isOpen())
-                            throw new ClosedChannelException();
+                            throw new ClosedChbnnelException();
                         long st = System.currentTimeMillis();
                         int result = ssc.poll(Net.POLLIN, to);
-                        if (result > 0 && ((sc = ssc.accept()) != null))
+                        if (result > 0 && ((sc = ssc.bccept()) != null))
                             return sc.socket();
                         to -= System.currentTimeMillis() - st;
                         if (to <= 0)
                             throw new SocketTimeoutException();
                     }
-                } finally {
+                } finblly {
                     if (ssc.isOpen())
                         ssc.configureBlocking(true);
                 }
 
-            } catch (Exception x) {
-                Net.translateException(x);
-                assert false;
-                return null;            // Never happens
+            } cbtch (Exception x) {
+                Net.trbnslbteException(x);
+                bssert fblse;
+                return null;            // Never hbppens
             }
         }
     }
@@ -137,15 +137,15 @@ public class ServerSocketAdaptor                        // package-private
         ssc.close();
     }
 
-    public ServerSocketChannel getChannel() {
+    public ServerSocketChbnnel getChbnnel() {
         return ssc;
     }
 
-    public boolean isBound() {
+    public boolebn isBound() {
         return ssc.isBound();
     }
 
-    public boolean isClosed() {
+    public boolebn isClosed() {
         return !ssc.isOpen();
     }
 
@@ -157,48 +157,48 @@ public class ServerSocketAdaptor                        // package-private
         return timeout;
     }
 
-    public void setReuseAddress(boolean on) throws SocketException {
+    public void setReuseAddress(boolebn on) throws SocketException {
         try {
-            ssc.setOption(StandardSocketOptions.SO_REUSEADDR, on);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            ssc.setOption(StbndbrdSocketOptions.SO_REUSEADDR, on);
+        } cbtch (IOException x) {
+            Net.trbnslbteToSocketException(x);
         }
     }
 
-    public boolean getReuseAddress() throws SocketException {
+    public boolebn getReuseAddress() throws SocketException {
         try {
-            return ssc.getOption(StandardSocketOptions.SO_REUSEADDR).booleanValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return false;       // Never happens
+            return ssc.getOption(StbndbrdSocketOptions.SO_REUSEADDR).boolebnVblue();
+        } cbtch (IOException x) {
+            Net.trbnslbteToSocketException(x);
+            return fblse;       // Never hbppens
         }
     }
 
     public String toString() {
         if (!isBound())
             return "ServerSocket[unbound]";
-        return "ServerSocket[addr=" + getInetAddress() +
+        return "ServerSocket[bddr=" + getInetAddress() +
             //          ",port=" + getPort() +
-                ",localport=" + getLocalPort()  + "]";
+                ",locblport=" + getLocblPort()  + "]";
     }
 
     public void setReceiveBufferSize(int size) throws SocketException {
-        // size 0 valid for ServerSocketChannel, invalid for ServerSocket
+        // size 0 vblid for ServerSocketChbnnel, invblid for ServerSocket
         if (size <= 0)
-            throw new IllegalArgumentException("size cannot be 0 or negative");
+            throw new IllegblArgumentException("size cbnnot be 0 or negbtive");
         try {
-            ssc.setOption(StandardSocketOptions.SO_RCVBUF, size);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            ssc.setOption(StbndbrdSocketOptions.SO_RCVBUF, size);
+        } cbtch (IOException x) {
+            Net.trbnslbteToSocketException(x);
         }
     }
 
     public int getReceiveBufferSize() throws SocketException {
         try {
-            return ssc.getOption(StandardSocketOptions.SO_RCVBUF).intValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return -1;          // Never happens
+            return ssc.getOption(StbndbrdSocketOptions.SO_RCVBUF).intVblue();
+        } cbtch (IOException x) {
+            Net.trbnslbteToSocketException(x);
+            return -1;          // Never hbppens
         }
     }
 

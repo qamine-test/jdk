@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Image;
-import java.util.List;
+import jbvb.bwt.Imbge;
+import jbvb.util.List;
 
 /**
- * This interface is designed to provide a set of images at various resolutions.
+ * This interfbce is designed to provide b set of imbges bt vbrious resolutions.
  *
- * The <code>MultiResolutionImage</code> interface should be implemented by any
- * class whose instances are intended to provide image resolution variants
- * according to the given image width and height.
+ * The <code>MultiResolutionImbge</code> interfbce should be implemented by bny
+ * clbss whose instbnces bre intended to provide imbge resolution vbribnts
+ * bccording to the given imbge width bnd height.
  *
- * For example,
+ * For exbmple,
  * <pre>
  * {@code
- *  public class ScaledImage extends BufferedImage
- *         implements MultiResolutionImage {
+ *  public clbss ScbledImbge extends BufferedImbge
+ *         implements MultiResolutionImbge {
  *
  *    @Override
- *    public Image getResolutionVariant(int width, int height) {
+ *    public Imbge getResolutionVbribnt(int width, int height) {
  *      return ((width <= getWidth() && height <= getHeight()))
- *             ? this : highResolutionImage;
+ *             ? this : highResolutionImbge;
  *    }
  *
  *    @Override
- *    public List<Image> getResolutionVariants() {
- *        return Arrays.asList(this, highResolutionImage);
+ *    public List<Imbge> getResolutionVbribnts() {
+ *        return Arrbys.bsList(this, highResolutionImbge);
  *    }
  *  }
  * }</pre>
  *
- * It is recommended to cache image variants for performance reasons.
+ * It is recommended to cbche imbge vbribnts for performbnce rebsons.
  *
- * <b>WARNING</b>: This class is an implementation detail. This API may change
- * between update release, and it may even be removed or be moved in some other
- * package(s)/class(es).
+ * <b>WARNING</b>: This clbss is bn implementbtion detbil. This API mby chbnge
+ * between updbte relebse, bnd it mby even be removed or be moved in some other
+ * pbckbge(s)/clbss(es).
  */
-public interface MultiResolutionImage {
+public interfbce MultiResolutionImbge {
 
     /**
-     * Provides an image with necessary resolution which best fits to the given
-     * image width and height.
+     * Provides bn imbge with necessbry resolution which best fits to the given
+     * imbge width bnd height.
      *
-     * @param width the desired image resolution width.
-     * @param height the desired image resolution height.
-     * @return image resolution variant.
+     * @pbrbm width the desired imbge resolution width.
+     * @pbrbm height the desired imbge resolution height.
+     * @return imbge resolution vbribnt.
      *
      * @since 1.8
      */
-    public Image getResolutionVariant(int width, int height);
+    public Imbge getResolutionVbribnt(int width, int height);
 
     /**
-     * Gets list of all resolution variants including the base image
+     * Gets list of bll resolution vbribnts including the bbse imbge
      *
-     * @return list of resolution variants.
+     * @return list of resolution vbribnts.
      * @since 1.8
      */
-    public List<Image> getResolutionVariants();
+    public List<Imbge> getResolutionVbribnts();
 }

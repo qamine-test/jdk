@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 import sun.swing.SwingUtilities2;
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.View;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
 /**
- * A Windows L&amp;F implementation of LabelUI.  This implementation
- * is completely static, i.e. there's only one UIView implementation
- * that's shared by all JLabel objects.
+ * A Windows L&bmp;F implementbtion of LbbelUI.  This implementbtion
+ * is completely stbtic, i.e. there's only one UIView implementbtion
+ * thbt's shbred by bll JLbbel objects.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  */
-public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
+public clbss BbsicLbbelUI extends LbbelUI implements  PropertyChbngeListener
 {
    /**
-    * The default <code>BasicLabelUI</code> instance. This field might
-    * not be used. To change the default instance use a subclass which
-    * overrides the <code>createUI</code> method, and place that class
-    * name in defaults table under the key "LabelUI".
+    * The defbult <code>BbsicLbbelUI</code> instbnce. This field might
+    * not be used. To chbnge the defbult instbnce use b subclbss which
+    * overrides the <code>crebteUI</code> method, bnd plbce thbt clbss
+    * nbme in defbults tbble under the key "LbbelUI".
     */
-    protected static BasicLabelUI labelUI = new BasicLabelUI();
-    private static final Object BASIC_LABEL_UI_KEY = new Object();
+    protected stbtic BbsicLbbelUI lbbelUI = new BbsicLbbelUI();
+    privbte stbtic finbl Object BASIC_LABEL_UI_KEY = new Object();
 
-    private Rectangle paintIconR = new Rectangle();
-    private Rectangle paintTextR = new Rectangle();
+    privbte Rectbngle pbintIconR = new Rectbngle();
+    privbte Rectbngle pbintTextR = new Rectbngle();
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.PRESS));
-        map.put(new Actions(Actions.RELEASE));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.PRESS));
+        mbp.put(new Actions(Actions.RELEASE));
     }
 
     /**
-     * Forwards the call to SwingUtilities.layoutCompoundLabel().
-     * This method is here so that a subclass could do Label specific
-     * layout and to shorten the method name a little.
+     * Forwbrds the cbll to SwingUtilities.lbyoutCompoundLbbel().
+     * This method is here so thbt b subclbss could do Lbbel specific
+     * lbyout bnd to shorten the method nbme b little.
      *
-     * @param label an instance of {@code JLabel}
-     * @param fontMetrics a font metrics
-     * @param text a text
-     * @param icon an icon
-     * @param viewR a bounding rectangle to lay out label
-     * @param iconR a bounding rectangle to lay out icon
-     * @param textR a bounding rectangle to lay out text
-     * @return a possibly clipped version of the compound labels string
-     * @see SwingUtilities#layoutCompoundLabel
+     * @pbrbm lbbel bn instbnce of {@code JLbbel}
+     * @pbrbm fontMetrics b font metrics
+     * @pbrbm text b text
+     * @pbrbm icon bn icon
+     * @pbrbm viewR b bounding rectbngle to lby out lbbel
+     * @pbrbm iconR b bounding rectbngle to lby out icon
+     * @pbrbm textR b bounding rectbngle to lby out text
+     * @return b possibly clipped version of the compound lbbels string
+     * @see SwingUtilities#lbyoutCompoundLbbel
      */
-    protected String layoutCL(
-        JLabel label,
+    protected String lbyoutCL(
+        JLbbel lbbel,
         FontMetrics fontMetrics,
         String text,
         Icon icon,
-        Rectangle viewR,
-        Rectangle iconR,
-        Rectangle textR)
+        Rectbngle viewR,
+        Rectbngle iconR,
+        Rectbngle textR)
     {
-        return SwingUtilities.layoutCompoundLabel(
-            (JComponent) label,
+        return SwingUtilities.lbyoutCompoundLbbel(
+            (JComponent) lbbel,
             fontMetrics,
             text,
             icon,
-            label.getVerticalAlignment(),
-            label.getHorizontalAlignment(),
-            label.getVerticalTextPosition(),
-            label.getHorizontalTextPosition(),
+            lbbel.getVerticblAlignment(),
+            lbbel.getHorizontblAlignment(),
+            lbbel.getVerticblTextPosition(),
+            lbbel.getHorizontblTextPosition(),
             viewR,
             iconR,
             textR,
-            label.getIconTextGap());
+            lbbel.getIconTextGbp());
     }
 
     /**
-     * Paint clippedText at textX, textY with the labels foreground color.
+     * Pbint clippedText bt textX, textY with the lbbels foreground color.
      *
-     * @param l an instance of {@code JLabel}
-     * @param g an instance of {@code Graphics}
-     * @param s a text
-     * @param textX an X coordinate
-     * @param textY an Y coordinate
-     * @see #paint
-     * @see #paintDisabledText
+     * @pbrbm l bn instbnce of {@code JLbbel}
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm s b text
+     * @pbrbm textX bn X coordinbte
+     * @pbrbm textY bn Y coordinbte
+     * @see #pbint
+     * @see #pbintDisbbledText
      */
-    protected void paintEnabledText(JLabel l, Graphics g, String s, int textX, int textY)
+    protected void pbintEnbbledText(JLbbel l, Grbphics g, String s, int textX, int textY)
     {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
+        int mnemIndex = l.getDisplbyedMnemonicIndex();
         g.setColor(l.getForeground());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
+        SwingUtilities2.drbwStringUnderlineChbrAt(l, g, s, mnemIndex,
                                                      textX, textY);
     }
 
 
     /**
-     * Paint clippedText at textX, textY with background.lighter() and then
-     * shifted down and to the right by one pixel with background.darker().
+     * Pbint clippedText bt textX, textY with bbckground.lighter() bnd then
+     * shifted down bnd to the right by one pixel with bbckground.dbrker().
      *
-     * @param l an instance of {@code JLabel}
-     * @param g an instance of {@code Graphics}
-     * @param s a text
-     * @param textX an X coordinate
-     * @param textY an Y coordinate
-     * @see #paint
-     * @see #paintEnabledText
+     * @pbrbm l bn instbnce of {@code JLbbel}
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm s b text
+     * @pbrbm textX bn X coordinbte
+     * @pbrbm textY bn Y coordinbte
+     * @see #pbint
+     * @see #pbintEnbbledText
      */
-    protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY)
+    protected void pbintDisbbledText(JLbbel l, Grbphics g, String s, int textX, int textY)
     {
-        int accChar = l.getDisplayedMnemonicIndex();
-        Color background = l.getBackground();
-        g.setColor(background.brighter());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar,
+        int bccChbr = l.getDisplbyedMnemonicIndex();
+        Color bbckground = l.getBbckground();
+        g.setColor(bbckground.brighter());
+        SwingUtilities2.drbwStringUnderlineChbrAt(l, g, s, bccChbr,
                                                    textX + 1, textY + 1);
-        g.setColor(background.darker());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar,
+        g.setColor(bbckground.dbrker());
+        SwingUtilities2.drbwStringUnderlineChbrAt(l, g, s, bccChbr,
                                                    textX, textY);
     }
 
     /**
-     * Paints the label text with the foreground color, if the label is opaque
-     * then paints the entire background with the background color. The Label
-     * text is drawn by {@link #paintEnabledText} or {@link #paintDisabledText}.
-     * The locations of the label parts are computed by {@link #layoutCL}.
+     * Pbints the lbbel text with the foreground color, if the lbbel is opbque
+     * then pbints the entire bbckground with the bbckground color. The Lbbel
+     * text is drbwn by {@link #pbintEnbbledText} or {@link #pbintDisbbledText}.
+     * The locbtions of the lbbel pbrts bre computed by {@link #lbyoutCL}.
      *
-     * @see #paintEnabledText
-     * @see #paintDisabledText
-     * @see #layoutCL
+     * @see #pbintEnbbledText
+     * @see #pbintDisbbledText
+     * @see #lbyoutCL
      */
-    public void paint(Graphics g, JComponent c)
+    public void pbint(Grbphics g, JComponent c)
     {
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() : label.getDisabledIcon();
+        JLbbel lbbel = (JLbbel)c;
+        String text = lbbel.getText();
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() : lbbel.getDisbbledIcon();
 
         if ((icon == null) && (text == null)) {
             return;
         }
 
-        FontMetrics fm = SwingUtilities2.getFontMetrics(label, g);
-        String clippedText = layout(label, fm, c.getWidth(), c.getHeight());
+        FontMetrics fm = SwingUtilities2.getFontMetrics(lbbel, g);
+        String clippedText = lbyout(lbbel, fm, c.getWidth(), c.getHeight());
 
         if (icon != null) {
-            icon.paintIcon(c, g, paintIconR.x, paintIconR.y);
+            icon.pbintIcon(c, g, pbintIconR.x, pbintIconR.y);
         }
 
         if (text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+            View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-                v.paint(g, paintTextR);
+                v.pbint(g, pbintTextR);
             } else {
-                int textX = paintTextR.x;
-                int textY = paintTextR.y + fm.getAscent();
+                int textX = pbintTextR.x;
+                int textY = pbintTextR.y + fm.getAscent();
 
-                if (label.isEnabled()) {
-                    paintEnabledText(label, g, clippedText, textX, textY);
+                if (lbbel.isEnbbled()) {
+                    pbintEnbbledText(lbbel, g, clippedText, textX, textY);
                 }
                 else {
-                    paintDisabledText(label, g, clippedText, textX, textY);
+                    pbintDisbbledText(lbbel, g, clippedText, textX, textY);
                 }
             }
         }
     }
 
-    private String layout(JLabel label, FontMetrics fm,
+    privbte String lbyout(JLbbel lbbel, FontMetrics fm,
                           int width, int height) {
-        Insets insets = label.getInsets(null);
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
-        Rectangle paintViewR = new Rectangle();
-        paintViewR.x = insets.left;
-        paintViewR.y = insets.top;
-        paintViewR.width = width - (insets.left + insets.right);
-        paintViewR.height = height - (insets.top + insets.bottom);
-        paintIconR.x = paintIconR.y = paintIconR.width = paintIconR.height = 0;
-        paintTextR.x = paintTextR.y = paintTextR.width = paintTextR.height = 0;
-        return layoutCL(label, fm, text, icon, paintViewR, paintIconR,
-                        paintTextR);
+        Insets insets = lbbel.getInsets(null);
+        String text = lbbel.getText();
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
+        Rectbngle pbintViewR = new Rectbngle();
+        pbintViewR.x = insets.left;
+        pbintViewR.y = insets.top;
+        pbintViewR.width = width - (insets.left + insets.right);
+        pbintViewR.height = height - (insets.top + insets.bottom);
+        pbintIconR.x = pbintIconR.y = pbintIconR.width = pbintIconR.height = 0;
+        pbintTextR.x = pbintTextR.y = pbintTextR.width = pbintTextR.height = 0;
+        return lbyoutCL(lbbel, fm, text, icon, pbintViewR, pbintIconR,
+                        pbintTextR);
     }
 
     public Dimension getPreferredSize(JComponent c)
     {
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
-        Insets insets = label.getInsets(null);
-        Font font = label.getFont();
+        JLbbel lbbel = (JLbbel)c;
+        String text = lbbel.getText();
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
+        Insets insets = lbbel.getInsets(null);
+        Font font = lbbel.getFont();
 
         int dx = insets.left + insets.right;
         int dy = insets.top + insets.bottom;
@@ -242,10 +242,10 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
                                  icon.getIconHeight() + dy);
         }
         else {
-            FontMetrics fm = label.getFontMetrics(font);
-            Rectangle iconR = new Rectangle();
-            Rectangle textR = new Rectangle();
-            Rectangle viewR = new Rectangle();
+            FontMetrics fm = lbbel.getFontMetrics(font);
+            Rectbngle iconR = new Rectbngle();
+            Rectbngle textR = new Rectbngle();
+            Rectbngle viewR = new Rectbngle();
 
             iconR.x = iconR.y = iconR.width = iconR.height = 0;
             textR.x = textR.y = textR.width = textR.height = 0;
@@ -253,11 +253,11 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
             viewR.y = dy;
             viewR.width = viewR.height = Short.MAX_VALUE;
 
-            layoutCL(label, fm, text, icon, viewR, iconR, textR);
-            int x1 = Math.min(iconR.x, textR.x);
-            int x2 = Math.max(iconR.x + iconR.width, textR.x + textR.width);
-            int y1 = Math.min(iconR.y, textR.y);
-            int y2 = Math.max(iconR.y + iconR.height, textR.y + textR.height);
+            lbyoutCL(lbbel, fm, text, icon, viewR, iconR, textR);
+            int x1 = Mbth.min(iconR.x, textR.x);
+            int x2 = Mbth.mbx(iconR.x + iconR.width, textR.x + textR.width);
+            int y1 = Mbth.min(iconR.y, textR.y);
+            int y2 = Mbth.mbx(iconR.y + iconR.height, textR.y + textR.height);
             Dimension rv = new Dimension(x2 - x1, y2 - y1);
 
             rv.width += dx;
@@ -272,9 +272,9 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
      */
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width -= v.getPreferredSpan(View.X_AXIS) - v.getMinimumSpan(View.X_AXIS);
+            d.width -= v.getPreferredSpbn(View.X_AXIS) - v.getMinimumSpbn(View.X_AXIS);
         }
         return d;
     }
@@ -282,266 +282,266 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
     /**
      * @return getPreferredSize(c)
      */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width += v.getMaximumSpan(View.X_AXIS) - v.getPreferredSpan(View.X_AXIS);
+            d.width += v.getMbximumSpbn(View.X_AXIS) - v.getPreferredSpbn(View.X_AXIS);
         }
         return d;
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        if (text == null || "".equals(text) || label.getFont() == null) {
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        JLbbel lbbel = (JLbbel)c;
+        String text = lbbel.getText();
+        if (text == null || "".equbls(text) || lbbel.getFont() == null) {
             return -1;
         }
-        FontMetrics fm = label.getFontMetrics(label.getFont());
-        layout(label, fm, width, height);
-        return BasicHTML.getBaseline(label, paintTextR.y, fm.getAscent(),
-                                     paintTextR.width, paintTextR.height);
+        FontMetrics fm = lbbel.getFontMetrics(lbbel.getFont());
+        lbyout(lbbel, fm, width, height);
+        return BbsicHTML.getBbseline(lbbel, pbintTextR.y, fm.getAscent(),
+                                     pbintTextR.width, pbintTextR.height);
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        if (c.getClientProperty(BasicHTML.propertyKey) != null) {
-            return Component.BaselineResizeBehavior.OTHER;
+        super.getBbselineResizeBehbvior(c);
+        if (c.getClientProperty(BbsicHTML.propertyKey) != null) {
+            return Component.BbselineResizeBehbvior.OTHER;
         }
-        switch(((JLabel)c).getVerticalAlignment()) {
-        case JLabel.TOP:
-            return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
-        case JLabel.BOTTOM:
-            return Component.BaselineResizeBehavior.CONSTANT_DESCENT;
-        case JLabel.CENTER:
-            return Component.BaselineResizeBehavior.CENTER_OFFSET;
+        switch(((JLbbel)c).getVerticblAlignment()) {
+        cbse JLbbel.TOP:
+            return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
+        cbse JLbbel.BOTTOM:
+            return Component.BbselineResizeBehbvior.CONSTANT_DESCENT;
+        cbse JLbbel.CENTER:
+            return Component.BbselineResizeBehbvior.CENTER_OFFSET;
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        return Component.BbselineResizeBehbvior.OTHER;
     }
 
 
-    public void installUI(JComponent c) {
-        installDefaults((JLabel)c);
-        installComponents((JLabel)c);
-        installListeners((JLabel)c);
-        installKeyboardActions((JLabel)c);
+    public void instbllUI(JComponent c) {
+        instbllDefbults((JLbbel)c);
+        instbllComponents((JLbbel)c);
+        instbllListeners((JLbbel)c);
+        instbllKeybobrdActions((JLbbel)c);
     }
 
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults((JLabel) c);
-        uninstallComponents((JLabel) c);
-        uninstallListeners((JLabel) c);
-        uninstallKeyboardActions((JLabel) c);
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults((JLbbel) c);
+        uninstbllComponents((JLbbel) c);
+        uninstbllListeners((JLbbel) c);
+        uninstbllKeybobrdActions((JLbbel) c);
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void installDefaults(JLabel c){
-        LookAndFeel.installColorsAndFont(c, "Label.background", "Label.foreground", "Label.font");
-        LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
+    protected void instbllDefbults(JLbbel c){
+        LookAndFeel.instbllColorsAndFont(c, "Lbbel.bbckground", "Lbbel.foreground", "Lbbel.font");
+        LookAndFeel.instbllProperty(c, "opbque", Boolebn.FALSE);
     }
 
     /**
      * Registers listeners.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void installListeners(JLabel c){
-        c.addPropertyChangeListener(this);
+    protected void instbllListeners(JLbbel c){
+        c.bddPropertyChbngeListener(this);
     }
 
     /**
      * Registers components.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void installComponents(JLabel c){
-        BasicHTML.updateRenderer(c, c.getText());
+    protected void instbllComponents(JLbbel c){
+        BbsicHTML.updbteRenderer(c, c.getText());
         c.setInheritsPopupMenu(true);
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      *
-     * @param l an instance of {@code JLabel}
+     * @pbrbm l bn instbnce of {@code JLbbel}
      */
-    protected void installKeyboardActions(JLabel l) {
-        int dka = l.getDisplayedMnemonic();
-        Component lf = l.getLabelFor();
-        if ((dka != 0) && (lf != null)) {
-            LazyActionMap.installLazyActionMap(l, BasicLabelUI.class,
-                                               "Label.actionMap");
-            InputMap inputMap = SwingUtilities.getUIInputMap
+    protected void instbllKeybobrdActions(JLbbel l) {
+        int dkb = l.getDisplbyedMnemonic();
+        Component lf = l.getLbbelFor();
+        if ((dkb != 0) && (lf != null)) {
+            LbzyActionMbp.instbllLbzyActionMbp(l, BbsicLbbelUI.clbss,
+                                               "Lbbel.bctionMbp");
+            InputMbp inputMbp = SwingUtilities.getUIInputMbp
                             (l, JComponent.WHEN_IN_FOCUSED_WINDOW);
-            if (inputMap == null) {
-                inputMap = new ComponentInputMapUIResource(l);
-                SwingUtilities.replaceUIInputMap(l,
-                                JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+            if (inputMbp == null) {
+                inputMbp = new ComponentInputMbpUIResource(l);
+                SwingUtilities.replbceUIInputMbp(l,
+                                JComponent.WHEN_IN_FOCUSED_WINDOW, inputMbp);
             }
-            inputMap.clear();
-            inputMap.put(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), false), "press");
+            inputMbp.clebr();
+            inputMbp.put(KeyStroke.getKeyStroke(dkb, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk(), fblse), "press");
         }
         else {
-            InputMap inputMap = SwingUtilities.getUIInputMap
+            InputMbp inputMbp = SwingUtilities.getUIInputMbp
                             (l, JComponent.WHEN_IN_FOCUSED_WINDOW);
-            if (inputMap != null) {
-                inputMap.clear();
+            if (inputMbp != null) {
+                inputMbp.clebr();
             }
         }
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void uninstallDefaults(JLabel c){
+    protected void uninstbllDefbults(JLbbel c){
     }
 
     /**
      * Unregisters listeners.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void uninstallListeners(JLabel c){
-        c.removePropertyChangeListener(this);
+    protected void uninstbllListeners(JLbbel c){
+        c.removePropertyChbngeListener(this);
     }
 
     /**
      * Unregisters components.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void uninstallComponents(JLabel c){
-        BasicHTML.updateRenderer(c, "");
+    protected void uninstbllComponents(JLbbel c){
+        BbsicHTML.updbteRenderer(c, "");
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm c bn instbnce of {@code JLbbel}
      */
-    protected void uninstallKeyboardActions(JLabel c) {
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_IN_FOCUSED_WINDOW,
+    protected void uninstbllKeybobrdActions(JLbbel c) {
+        SwingUtilities.replbceUIInputMbp(c, JComponent.WHEN_FOCUSED, null);
+        SwingUtilities.replbceUIInputMbp(c, JComponent.WHEN_IN_FOCUSED_WINDOW,
                                        null);
-        SwingUtilities.replaceUIActionMap(c, null);
+        SwingUtilities.replbceUIActionMbp(c, null);
     }
 
     /**
-     * Returns an instance of {@code BasicLabelUI}.
+     * Returns bn instbnce of {@code BbsicLbbelUI}.
      *
-     * @param c a component
-     * @return an instance of {@code BasicLabelUI}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code BbsicLbbelUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        if (System.getSecurityManager() != null) {
-            AppContext appContext = AppContext.getAppContext();
-            BasicLabelUI safeBasicLabelUI =
-                    (BasicLabelUI) appContext.get(BASIC_LABEL_UI_KEY);
-            if (safeBasicLabelUI == null) {
-                safeBasicLabelUI = new BasicLabelUI();
-                appContext.put(BASIC_LABEL_UI_KEY, safeBasicLabelUI);
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        if (System.getSecurityMbnbger() != null) {
+            AppContext bppContext = AppContext.getAppContext();
+            BbsicLbbelUI sbfeBbsicLbbelUI =
+                    (BbsicLbbelUI) bppContext.get(BASIC_LABEL_UI_KEY);
+            if (sbfeBbsicLbbelUI == null) {
+                sbfeBbsicLbbelUI = new BbsicLbbelUI();
+                bppContext.put(BASIC_LABEL_UI_KEY, sbfeBbsicLbbelUI);
             }
-            return safeBasicLabelUI;
+            return sbfeBbsicLbbelUI;
         }
-        return labelUI;
+        return lbbelUI;
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String name = e.getPropertyName();
-        if (name == "text" || "font" == name || "foreground" == name) {
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        String nbme = e.getPropertyNbme();
+        if (nbme == "text" || "font" == nbme || "foreground" == nbme) {
             // remove the old html view client property if one
-            // existed, and install a new one if the text installed
-            // into the JLabel is html source.
-            JLabel lbl = ((JLabel) e.getSource());
+            // existed, bnd instbll b new one if the text instblled
+            // into the JLbbel is html source.
+            JLbbel lbl = ((JLbbel) e.getSource());
             String text = lbl.getText();
-            BasicHTML.updateRenderer(lbl, text);
+            BbsicHTML.updbteRenderer(lbl, text);
         }
-        else if (name == "labelFor" || name == "displayedMnemonic") {
-            installKeyboardActions((JLabel) e.getSource());
+        else if (nbme == "lbbelFor" || nbme == "displbyedMnemonic") {
+            instbllKeybobrdActions((JLbbel) e.getSource());
         }
     }
 
-    // When the accelerator is pressed, temporarily make the JLabel
-    // focusTraversable by registering a WHEN_FOCUSED action for the
-    // release of the accelerator.  Then give it focus so it can
-    // prevent unwanted keyTyped events from getting to other components.
-    private static class Actions extends UIAction {
-        private static final String PRESS = "press";
-        private static final String RELEASE = "release";
+    // When the bccelerbtor is pressed, temporbrily mbke the JLbbel
+    // focusTrbversbble by registering b WHEN_FOCUSED bction for the
+    // relebse of the bccelerbtor.  Then give it focus so it cbn
+    // prevent unwbnted keyTyped events from getting to other components.
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String PRESS = "press";
+        privbte stbtic finbl String RELEASE = "relebse";
 
         Actions(String key) {
             super(key);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JLabel label = (JLabel)e.getSource();
-            String key = getName();
+        public void bctionPerformed(ActionEvent e) {
+            JLbbel lbbel = (JLbbel)e.getSource();
+            String key = getNbme();
             if (key == PRESS) {
-                doPress(label);
+                doPress(lbbel);
             }
             else if (key == RELEASE) {
-                doRelease(label);
+                doRelebse(lbbel);
             }
         }
 
-        private void doPress(JLabel label) {
-            Component labelFor = label.getLabelFor();
-            if (labelFor != null && labelFor.isEnabled()) {
-                InputMap inputMap = SwingUtilities.getUIInputMap(label, JComponent.WHEN_FOCUSED);
-                if (inputMap == null) {
-                    inputMap = new InputMapUIResource();
-                    SwingUtilities.replaceUIInputMap(label, JComponent.WHEN_FOCUSED, inputMap);
+        privbte void doPress(JLbbel lbbel) {
+            Component lbbelFor = lbbel.getLbbelFor();
+            if (lbbelFor != null && lbbelFor.isEnbbled()) {
+                InputMbp inputMbp = SwingUtilities.getUIInputMbp(lbbel, JComponent.WHEN_FOCUSED);
+                if (inputMbp == null) {
+                    inputMbp = new InputMbpUIResource();
+                    SwingUtilities.replbceUIInputMbp(lbbel, JComponent.WHEN_FOCUSED, inputMbp);
                 }
-                int dka = label.getDisplayedMnemonic();
-                inputMap.put(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true), RELEASE);
-                // Need this when the sticky keys are enabled
-                inputMap.put(KeyStroke.getKeyStroke(dka, 0, true), RELEASE);
-                // Need this if ALT is released before the accelerator
-                inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true), RELEASE);
-                label.requestFocus();
+                int dkb = lbbel.getDisplbyedMnemonic();
+                inputMbp.put(KeyStroke.getKeyStroke(dkb, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk(), true), RELEASE);
+                // Need this when the sticky keys bre enbbled
+                inputMbp.put(KeyStroke.getKeyStroke(dkb, 0, true), RELEASE);
+                // Need this if ALT is relebsed before the bccelerbtor
+                inputMbp.put(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true), RELEASE);
+                lbbel.requestFocus();
             }
         }
 
-        private void doRelease(JLabel label) {
-            Component labelFor = label.getLabelFor();
-            if (labelFor != null && labelFor.isEnabled()) {
-                InputMap inputMap = SwingUtilities.getUIInputMap(label, JComponent.WHEN_FOCUSED);
-                if (inputMap != null) {
-                    // inputMap should never be null.
-                    int dka = label.getDisplayedMnemonic();
-                    inputMap.remove(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true));
-                    inputMap.remove(KeyStroke.getKeyStroke(dka, 0, true));
-                    inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true));
+        privbte void doRelebse(JLbbel lbbel) {
+            Component lbbelFor = lbbel.getLbbelFor();
+            if (lbbelFor != null && lbbelFor.isEnbbled()) {
+                InputMbp inputMbp = SwingUtilities.getUIInputMbp(lbbel, JComponent.WHEN_FOCUSED);
+                if (inputMbp != null) {
+                    // inputMbp should never be null.
+                    int dkb = lbbel.getDisplbyedMnemonic();
+                    inputMbp.remove(KeyStroke.getKeyStroke(dkb, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk(), true));
+                    inputMbp.remove(KeyStroke.getKeyStroke(dkb, 0, true));
+                    inputMbp.remove(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true));
                 }
-                if (labelFor instanceof Container &&
-                        ((Container) labelFor).isFocusCycleRoot()) {
-                    labelFor.requestFocus();
+                if (lbbelFor instbnceof Contbiner &&
+                        ((Contbiner) lbbelFor).isFocusCycleRoot()) {
+                    lbbelFor.requestFocus();
                 } else {
-                    SwingUtilities2.compositeRequestFocus(labelFor);
+                    SwingUtilities2.compositeRequestFocus(lbbelFor);
                 }
             }
         }

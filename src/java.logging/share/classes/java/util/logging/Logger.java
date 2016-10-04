@@ -1,696 +1,696 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Supplier;
-import sun.reflect.CallerSensitive;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.CopyOnWriteArrbyList;
+import jbvb.util.function.Supplier;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
 /**
- * A Logger object is used to log messages for a specific
- * system or application component.  Loggers are normally named,
- * using a hierarchical dot-separated namespace.  Logger names
- * can be arbitrary strings, but they should normally be based on
- * the package name or class name of the logged component, such
- * as java.net or javax.swing.  In addition it is possible to create
- * "anonymous" Loggers that are not stored in the Logger namespace.
+ * A Logger object is used to log messbges for b specific
+ * system or bpplicbtion component.  Loggers bre normblly nbmed,
+ * using b hierbrchicbl dot-sepbrbted nbmespbce.  Logger nbmes
+ * cbn be brbitrbry strings, but they should normblly be bbsed on
+ * the pbckbge nbme or clbss nbme of the logged component, such
+ * bs jbvb.net or jbvbx.swing.  In bddition it is possible to crebte
+ * "bnonymous" Loggers thbt bre not stored in the Logger nbmespbce.
  * <p>
- * Logger objects may be obtained by calls on one of the getLogger
- * factory methods.  These will either create a new Logger or
- * return a suitable existing Logger. It is important to note that
- * the Logger returned by one of the {@code getLogger} factory methods
- * may be garbage collected at any time if a strong reference to the
+ * Logger objects mby be obtbined by cblls on one of the getLogger
+ * fbctory methods.  These will either crebte b new Logger or
+ * return b suitbble existing Logger. It is importbnt to note thbt
+ * the Logger returned by one of the {@code getLogger} fbctory methods
+ * mby be gbrbbge collected bt bny time if b strong reference to the
  * Logger is not kept.
  * <p>
- * Logging messages will be forwarded to registered Handler
- * objects, which can forward the messages to a variety of
- * destinations, including consoles, files, OS logs, etc.
+ * Logging messbges will be forwbrded to registered Hbndler
+ * objects, which cbn forwbrd the messbges to b vbriety of
+ * destinbtions, including consoles, files, OS logs, etc.
  * <p>
- * Each Logger keeps track of a "parent" Logger, which is its
- * nearest existing ancestor in the Logger namespace.
+ * Ebch Logger keeps trbck of b "pbrent" Logger, which is its
+ * nebrest existing bncestor in the Logger nbmespbce.
  * <p>
- * Each Logger has a "Level" associated with it.  This reflects
- * a minimum Level that this logger cares about.  If a Logger's
+ * Ebch Logger hbs b "Level" bssocibted with it.  This reflects
+ * b minimum Level thbt this logger cbres bbout.  If b Logger's
  * level is set to <tt>null</tt>, then its effective level is inherited
- * from its parent, which may in turn obtain it recursively from its
- * parent, and so on up the tree.
+ * from its pbrent, which mby in turn obtbin it recursively from its
+ * pbrent, bnd so on up the tree.
  * <p>
- * The log level can be configured based on the properties from the
- * logging configuration file, as described in the description
- * of the LogManager class.  However it may also be dynamically changed
- * by calls on the Logger.setLevel method.  If a logger's level is
- * changed the change may also affect child loggers, since any child
- * logger that has <tt>null</tt> as its level will inherit its
- * effective level from its parent.
+ * The log level cbn be configured bbsed on the properties from the
+ * logging configurbtion file, bs described in the description
+ * of the LogMbnbger clbss.  However it mby blso be dynbmicblly chbnged
+ * by cblls on the Logger.setLevel method.  If b logger's level is
+ * chbnged the chbnge mby blso bffect child loggers, since bny child
+ * logger thbt hbs <tt>null</tt> bs its level will inherit its
+ * effective level from its pbrent.
  * <p>
- * On each logging call the Logger initially performs a cheap
- * check of the request level (e.g., SEVERE or FINE) against the
+ * On ebch logging cbll the Logger initiblly performs b chebp
+ * check of the request level (e.g., SEVERE or FINE) bgbinst the
  * effective log level of the logger.  If the request level is
- * lower than the log level, the logging call returns immediately.
+ * lower thbn the log level, the logging cbll returns immedibtely.
  * <p>
- * After passing this initial (cheap) test, the Logger will allocate
- * a LogRecord to describe the logging message.  It will then call a
- * Filter (if present) to do a more detailed check on whether the
- * record should be published.  If that passes it will then publish
- * the LogRecord to its output Handlers.  By default, loggers also
- * publish to their parent's Handlers, recursively up the tree.
+ * After pbssing this initibl (chebp) test, the Logger will bllocbte
+ * b LogRecord to describe the logging messbge.  It will then cbll b
+ * Filter (if present) to do b more detbiled check on whether the
+ * record should be published.  If thbt pbsses it will then publish
+ * the LogRecord to its output Hbndlers.  By defbult, loggers blso
+ * publish to their pbrent's Hbndlers, recursively up the tree.
  * <p>
- * Each Logger may have a {@code ResourceBundle} associated with it.
- * The {@code ResourceBundle} may be specified by name, using the
- * {@link #getLogger(java.lang.String, java.lang.String)} factory
- * method, or by value - using the {@link
- * #setResourceBundle(java.util.ResourceBundle) setResourceBundle} method.
- * This bundle will be used for localizing logging messages.
- * If a Logger does not have its own {@code ResourceBundle} or resource bundle
- * name, then it will inherit the {@code ResourceBundle} or resource bundle name
- * from its parent, recursively up the tree.
+ * Ebch Logger mby hbve b {@code ResourceBundle} bssocibted with it.
+ * The {@code ResourceBundle} mby be specified by nbme, using the
+ * {@link #getLogger(jbvb.lbng.String, jbvb.lbng.String)} fbctory
+ * method, or by vblue - using the {@link
+ * #setResourceBundle(jbvb.util.ResourceBundle) setResourceBundle} method.
+ * This bundle will be used for locblizing logging messbges.
+ * If b Logger does not hbve its own {@code ResourceBundle} or resource bundle
+ * nbme, then it will inherit the {@code ResourceBundle} or resource bundle nbme
+ * from its pbrent, recursively up the tree.
  * <p>
- * Most of the logger output methods take a "msg" argument.  This
- * msg argument may be either a raw value or a localization key.
- * During formatting, if the logger has (or inherits) a localization
- * {@code ResourceBundle} and if the {@code ResourceBundle} has a mapping for
- * the msg string, then the msg string is replaced by the localized value.
- * Otherwise the original msg string is used.  Typically, formatters use
- * java.text.MessageFormat style formatting to format parameters, so
- * for example a format string "{0} {1}" would format two parameters
- * as strings.
+ * Most of the logger output methods tbke b "msg" brgument.  This
+ * msg brgument mby be either b rbw vblue or b locblizbtion key.
+ * During formbtting, if the logger hbs (or inherits) b locblizbtion
+ * {@code ResourceBundle} bnd if the {@code ResourceBundle} hbs b mbpping for
+ * the msg string, then the msg string is replbced by the locblized vblue.
+ * Otherwise the originbl msg string is used.  Typicblly, formbtters use
+ * jbvb.text.MessbgeFormbt style formbtting to formbt pbrbmeters, so
+ * for exbmple b formbt string "{0} {1}" would formbt two pbrbmeters
+ * bs strings.
  * <p>
- * A set of methods alternatively take a "msgSupplier" instead of a "msg"
- * argument.  These methods take a {@link Supplier}{@code <String>} function
- * which is invoked to construct the desired log message only when the message
- * actually is to be logged based on the effective log level thus eliminating
- * unnecessary message construction. For example, if the developer wants to
- * log system health status for diagnosis, with the String-accepting version,
+ * A set of methods blternbtively tbke b "msgSupplier" instebd of b "msg"
+ * brgument.  These methods tbke b {@link Supplier}{@code <String>} function
+ * which is invoked to construct the desired log messbge only when the messbge
+ * bctublly is to be logged bbsed on the effective log level thus eliminbting
+ * unnecessbry messbge construction. For exbmple, if the developer wbnts to
+ * log system heblth stbtus for dibgnosis, with the String-bccepting version,
  * the code would look like:
  <pre><code>
 
-   class DiagnosisMessages {
-     static String systemHealthStatus() {
-       // collect system health information
+   clbss DibgnosisMessbges {
+     stbtic String systemHeblthStbtus() {
+       // collect system heblth informbtion
        ...
      }
    }
    ...
-   logger.log(Level.FINER, DiagnosisMessages.systemHealthStatus());
+   logger.log(Level.FINER, DibgnosisMessbges.systemHeblthStbtus());
 </code></pre>
- * With the above code, the health status is collected unnecessarily even when
- * the log level FINER is disabled. With the Supplier-accepting version as
- * below, the status will only be collected when the log level FINER is
- * enabled.
+ * With the bbove code, the heblth stbtus is collected unnecessbrily even when
+ * the log level FINER is disbbled. With the Supplier-bccepting version bs
+ * below, the stbtus will only be collected when the log level FINER is
+ * enbbled.
  <pre><code>
 
-   logger.log(Level.FINER, DiagnosisMessages::systemHealthStatus);
+   logger.log(Level.FINER, DibgnosisMessbges::systemHeblthStbtus);
 </code></pre>
  * <p>
- * When looking for a {@code ResourceBundle}, the logger will first look at
- * whether a bundle was specified using {@link
- * #setResourceBundle(java.util.ResourceBundle) setResourceBundle}, and then
- * only whether a resource bundle name was specified through the {@link
- * #getLogger(java.lang.String, java.lang.String) getLogger} factory method.
- * If no {@code ResourceBundle} or no resource bundle name is found,
- * then it will use the nearest {@code ResourceBundle} or resource bundle
- * name inherited from its parent tree.<br>
- * When a {@code ResourceBundle} was inherited or specified through the
+ * When looking for b {@code ResourceBundle}, the logger will first look bt
+ * whether b bundle wbs specified using {@link
+ * #setResourceBundle(jbvb.util.ResourceBundle) setResourceBundle}, bnd then
+ * only whether b resource bundle nbme wbs specified through the {@link
+ * #getLogger(jbvb.lbng.String, jbvb.lbng.String) getLogger} fbctory method.
+ * If no {@code ResourceBundle} or no resource bundle nbme is found,
+ * then it will use the nebrest {@code ResourceBundle} or resource bundle
+ * nbme inherited from its pbrent tree.<br>
+ * When b {@code ResourceBundle} wbs inherited or specified through the
  * {@link
- * #setResourceBundle(java.util.ResourceBundle) setResourceBundle} method, then
- * that {@code ResourceBundle} will be used. Otherwise if the logger only
- * has or inherited a resource bundle name, then that resource bundle name
- * will be mapped to a {@code ResourceBundle} object, using the default Locale
- * at the time of logging.
- * <br id="ResourceBundleMapping">When mapping resource bundle names to
+ * #setResourceBundle(jbvb.util.ResourceBundle) setResourceBundle} method, then
+ * thbt {@code ResourceBundle} will be used. Otherwise if the logger only
+ * hbs or inherited b resource bundle nbme, then thbt resource bundle nbme
+ * will be mbpped to b {@code ResourceBundle} object, using the defbult Locble
+ * bt the time of logging.
+ * <br id="ResourceBundleMbpping">When mbpping resource bundle nbmes to
  * {@code ResourceBundle} objects, the logger will first try to use the
- * Thread's {@linkplain java.lang.Thread#getContextClassLoader() context class
- * loader} to map the given resource bundle name to a {@code ResourceBundle}.
- * If the thread context class loader is {@code null}, it will try the
- * {@linkplain java.lang.ClassLoader#getSystemClassLoader() system class loader}
- * instead.  If the {@code ResourceBundle} is still not found, it will use the
- * class loader of the first caller of the {@link
- * #getLogger(java.lang.String, java.lang.String) getLogger} factory method.
+ * Threbd's {@linkplbin jbvb.lbng.Threbd#getContextClbssLobder() context clbss
+ * lobder} to mbp the given resource bundle nbme to b {@code ResourceBundle}.
+ * If the threbd context clbss lobder is {@code null}, it will try the
+ * {@linkplbin jbvb.lbng.ClbssLobder#getSystemClbssLobder() system clbss lobder}
+ * instebd.  If the {@code ResourceBundle} is still not found, it will use the
+ * clbss lobder of the first cbller of the {@link
+ * #getLogger(jbvb.lbng.String, jbvb.lbng.String) getLogger} fbctory method.
  * <p>
- * Formatting (including localization) is the responsibility of
- * the output Handler, which will typically call a Formatter.
+ * Formbtting (including locblizbtion) is the responsibility of
+ * the output Hbndler, which will typicblly cbll b Formbtter.
  * <p>
- * Note that formatting need not occur synchronously.  It may be delayed
- * until a LogRecord is actually written to an external sink.
+ * Note thbt formbtting need not occur synchronously.  It mby be delbyed
+ * until b LogRecord is bctublly written to bn externbl sink.
  * <p>
- * The logging methods are grouped in five main categories:
+ * The logging methods bre grouped in five mbin cbtegories:
  * <ul>
  * <li><p>
- *     There are a set of "log" methods that take a log level, a message
- *     string, and optionally some parameters to the message string.
+ *     There bre b set of "log" methods thbt tbke b log level, b messbge
+ *     string, bnd optionblly some pbrbmeters to the messbge string.
  * <li><p>
- *     There are a set of "logp" methods (for "log precise") that are
- *     like the "log" methods, but also take an explicit source class name
- *     and method name.
+ *     There bre b set of "logp" methods (for "log precise") thbt bre
+ *     like the "log" methods, but blso tbke bn explicit source clbss nbme
+ *     bnd method nbme.
  * <li><p>
- *     There are a set of "logrb" method (for "log with resource bundle")
- *     that are like the "logp" method, but also take an explicit resource
- *     bundle object for use in localizing the log message.
+ *     There bre b set of "logrb" method (for "log with resource bundle")
+ *     thbt bre like the "logp" method, but blso tbke bn explicit resource
+ *     bundle object for use in locblizing the log messbge.
  * <li><p>
- *     There are convenience methods for tracing method entries (the
- *     "entering" methods), method returns (the "exiting" methods) and
+ *     There bre convenience methods for trbcing method entries (the
+ *     "entering" methods), method returns (the "exiting" methods) bnd
  *     throwing exceptions (the "throwing" methods).
  * <li><p>
- *     Finally, there are a set of convenience methods for use in the
- *     very simplest cases, when a developer simply wants to log a
- *     simple string at a given log level.  These methods are named
- *     after the standard Level names ("severe", "warning", "info", etc.)
- *     and take a single argument, a message string.
+ *     Finblly, there bre b set of convenience methods for use in the
+ *     very simplest cbses, when b developer simply wbnts to log b
+ *     simple string bt b given log level.  These methods bre nbmed
+ *     bfter the stbndbrd Level nbmes ("severe", "wbrning", "info", etc.)
+ *     bnd tbke b single brgument, b messbge string.
  * </ul>
  * <p>
- * For the methods that do not take an explicit source name and
- * method name, the Logging framework will make a "best effort"
- * to determine which class and method called into the logging method.
- * However, it is important to realize that this automatically inferred
- * information may only be approximate (or may even be quite wrong!).
- * Virtual machines are allowed to do extensive optimizations when
- * JITing and may entirely remove stack frames, making it impossible
- * to reliably locate the calling class and method.
+ * For the methods thbt do not tbke bn explicit source nbme bnd
+ * method nbme, the Logging frbmework will mbke b "best effort"
+ * to determine which clbss bnd method cblled into the logging method.
+ * However, it is importbnt to reblize thbt this butombticblly inferred
+ * informbtion mby only be bpproximbte (or mby even be quite wrong!).
+ * Virtubl mbchines bre bllowed to do extensive optimizbtions when
+ * JITing bnd mby entirely remove stbck frbmes, mbking it impossible
+ * to relibbly locbte the cblling clbss bnd method.
  * <P>
- * All methods on Logger are multi-thread safe.
+ * All methods on Logger bre multi-threbd sbfe.
  * <p>
- * <b>Subclassing Information:</b> Note that a LogManager class may
- * provide its own implementation of named Loggers for any point in
- * the namespace.  Therefore, any subclasses of Logger (unless they
- * are implemented in conjunction with a new LogManager class) should
- * take care to obtain a Logger instance from the LogManager class and
- * should delegate operations such as "isLoggable" and "log(LogRecord)"
- * to that instance.  Note that in order to intercept all logging
- * output, subclasses need only override the log(LogRecord) method.
- * All the other logging methods are implemented as calls on this
+ * <b>Subclbssing Informbtion:</b> Note thbt b LogMbnbger clbss mby
+ * provide its own implementbtion of nbmed Loggers for bny point in
+ * the nbmespbce.  Therefore, bny subclbsses of Logger (unless they
+ * bre implemented in conjunction with b new LogMbnbger clbss) should
+ * tbke cbre to obtbin b Logger instbnce from the LogMbnbger clbss bnd
+ * should delegbte operbtions such bs "isLoggbble" bnd "log(LogRecord)"
+ * to thbt instbnce.  Note thbt in order to intercept bll logging
+ * output, subclbsses need only override the log(LogRecord) method.
+ * All the other logging methods bre implemented bs cblls on this
  * log(LogRecord) method.
  *
  * @since 1.4
  */
-public class Logger {
-    private static final Handler emptyHandlers[] = new Handler[0];
-    private static final int offValue = Level.OFF.intValue();
+public clbss Logger {
+    privbte stbtic finbl Hbndler emptyHbndlers[] = new Hbndler[0];
+    privbte stbtic finbl int offVblue = Level.OFF.intVblue();
 
-    static final String SYSTEM_LOGGER_RB_NAME = "sun.util.logging.resources.logging";
+    stbtic finbl String SYSTEM_LOGGER_RB_NAME = "sun.util.logging.resources.logging";
 
-    // This class is immutable and it is important that it remains so.
-    private static final class LoggerBundle {
-        final String resourceBundleName; // Base name of the bundle.
-        final ResourceBundle userBundle; // Bundle set through setResourceBundle.
-        private LoggerBundle(String resourceBundleName, ResourceBundle bundle) {
-            this.resourceBundleName = resourceBundleName;
+    // This clbss is immutbble bnd it is importbnt thbt it rembins so.
+    privbte stbtic finbl clbss LoggerBundle {
+        finbl String resourceBundleNbme; // Bbse nbme of the bundle.
+        finbl ResourceBundle userBundle; // Bundle set through setResourceBundle.
+        privbte LoggerBundle(String resourceBundleNbme, ResourceBundle bundle) {
+            this.resourceBundleNbme = resourceBundleNbme;
             this.userBundle = bundle;
         }
-        boolean isSystemBundle() {
-            return SYSTEM_LOGGER_RB_NAME.equals(resourceBundleName);
+        boolebn isSystemBundle() {
+            return SYSTEM_LOGGER_RB_NAME.equbls(resourceBundleNbme);
         }
-        static LoggerBundle get(String name, ResourceBundle bundle) {
-            if (name == null && bundle == null) {
+        stbtic LoggerBundle get(String nbme, ResourceBundle bundle) {
+            if (nbme == null && bundle == null) {
                 return NO_RESOURCE_BUNDLE;
-            } else if (SYSTEM_LOGGER_RB_NAME.equals(name) && bundle == null) {
+            } else if (SYSTEM_LOGGER_RB_NAME.equbls(nbme) && bundle == null) {
                 return SYSTEM_BUNDLE;
             } else {
-                return new LoggerBundle(name, bundle);
+                return new LoggerBundle(nbme, bundle);
             }
         }
     }
 
-    // This instance will be shared by all loggers created by the system
+    // This instbnce will be shbred by bll loggers crebted by the system
     // code
-    private static final LoggerBundle SYSTEM_BUNDLE =
+    privbte stbtic finbl LoggerBundle SYSTEM_BUNDLE =
             new LoggerBundle(SYSTEM_LOGGER_RB_NAME, null);
 
-    // This instance indicates that no resource bundle has been specified yet,
-    // and it will be shared by all loggers which have no resource bundle.
-    private static final LoggerBundle NO_RESOURCE_BUNDLE =
+    // This instbnce indicbtes thbt no resource bundle hbs been specified yet,
+    // bnd it will be shbred by bll loggers which hbve no resource bundle.
+    privbte stbtic finbl LoggerBundle NO_RESOURCE_BUNDLE =
             new LoggerBundle(null, null);
 
-    private volatile LogManager manager;
-    private String name;
-    private final CopyOnWriteArrayList<Handler> handlers =
-        new CopyOnWriteArrayList<>();
-    private volatile LoggerBundle loggerBundle = NO_RESOURCE_BUNDLE;
-    private volatile boolean useParentHandlers = true;
-    private volatile Filter filter;
-    private boolean anonymous;
+    privbte volbtile LogMbnbger mbnbger;
+    privbte String nbme;
+    privbte finbl CopyOnWriteArrbyList<Hbndler> hbndlers =
+        new CopyOnWriteArrbyList<>();
+    privbte volbtile LoggerBundle loggerBundle = NO_RESOURCE_BUNDLE;
+    privbte volbtile boolebn usePbrentHbndlers = true;
+    privbte volbtile Filter filter;
+    privbte boolebn bnonymous;
 
-    // Cache to speed up behavior of findResourceBundle:
-    private ResourceBundle catalog;     // Cached resource bundle
-    private String catalogName;         // name associated with catalog
-    private Locale catalogLocale;       // locale associated with catalog
+    // Cbche to speed up behbvior of findResourceBundle:
+    privbte ResourceBundle cbtblog;     // Cbched resource bundle
+    privbte String cbtblogNbme;         // nbme bssocibted with cbtblog
+    privbte Locble cbtblogLocble;       // locble bssocibted with cbtblog
 
-    // The fields relating to parent-child relationships and levels
-    // are managed under a separate lock, the treeLock.
-    private static final Object treeLock = new Object();
-    // We keep weak references from parents to children, but strong
-    // references from children to parents.
-    private volatile Logger parent;    // our nearest parent.
-    private ArrayList<LogManager.LoggerWeakRef> kids;   // WeakReferences to loggers that have us as parent
-    private volatile Level levelObject;
-    private volatile int levelValue;  // current effective level value
-    private WeakReference<ClassLoader> callersClassLoaderRef;
-    private final boolean isSystemLogger;
+    // The fields relbting to pbrent-child relbtionships bnd levels
+    // bre mbnbged under b sepbrbte lock, the treeLock.
+    privbte stbtic finbl Object treeLock = new Object();
+    // We keep webk references from pbrents to children, but strong
+    // references from children to pbrents.
+    privbte volbtile Logger pbrent;    // our nebrest pbrent.
+    privbte ArrbyList<LogMbnbger.LoggerWebkRef> kids;   // WebkReferences to loggers thbt hbve us bs pbrent
+    privbte volbtile Level levelObject;
+    privbte volbtile int levelVblue;  // current effective level vblue
+    privbte WebkReference<ClbssLobder> cbllersClbssLobderRef;
+    privbte finbl boolebn isSystemLogger;
 
     /**
-     * GLOBAL_LOGGER_NAME is a name for the global logger.
+     * GLOBAL_LOGGER_NAME is b nbme for the globbl logger.
      *
      * @since 1.6
      */
-    public static final String GLOBAL_LOGGER_NAME = "global";
+    public stbtic finbl String GLOBAL_LOGGER_NAME = "globbl";
 
     /**
-     * Return global logger object with the name Logger.GLOBAL_LOGGER_NAME.
+     * Return globbl logger object with the nbme Logger.GLOBAL_LOGGER_NAME.
      *
-     * @return global logger object
+     * @return globbl logger object
      * @since 1.7
      */
-    public static final Logger getGlobal() {
-        // In order to break a cyclic dependence between the LogManager
-        // and Logger static initializers causing deadlocks, the global
-        // logger is created with a special constructor that does not
-        // initialize its log manager.
+    public stbtic finbl Logger getGlobbl() {
+        // In order to brebk b cyclic dependence between the LogMbnbger
+        // bnd Logger stbtic initiblizers cbusing debdlocks, the globbl
+        // logger is crebted with b specibl constructor thbt does not
+        // initiblize its log mbnbger.
         //
-        // If an application calls Logger.getGlobal() before any logger
-        // has been initialized, it is therefore possible that the
-        // LogManager class has not been initialized yet, and therefore
-        // Logger.global.manager will be null.
+        // If bn bpplicbtion cblls Logger.getGlobbl() before bny logger
+        // hbs been initiblized, it is therefore possible thbt the
+        // LogMbnbger clbss hbs not been initiblized yet, bnd therefore
+        // Logger.globbl.mbnbger will be null.
         //
-        // In order to finish the initialization of the global logger, we
-        // will therefore call LogManager.getLogManager() here.
+        // In order to finish the initiblizbtion of the globbl logger, we
+        // will therefore cbll LogMbnbger.getLogMbnbger() here.
         //
-        // To prevent race conditions we also need to call
-        // LogManager.getLogManager() unconditionally here.
-        // Indeed we cannot rely on the observed value of global.manager,
-        // because global.manager will become not null somewhere during
-        // the initialization of LogManager.
-        // If two threads are calling getGlobal() concurrently, one thread
-        // will see global.manager null and call LogManager.getLogManager(),
-        // but the other thread could come in at a time when global.manager
-        // is already set although ensureLogManagerInitialized is not finished
+        // To prevent rbce conditions we blso need to cbll
+        // LogMbnbger.getLogMbnbger() unconditionblly here.
+        // Indeed we cbnnot rely on the observed vblue of globbl.mbnbger,
+        // becbuse globbl.mbnbger will become not null somewhere during
+        // the initiblizbtion of LogMbnbger.
+        // If two threbds bre cblling getGlobbl() concurrently, one threbd
+        // will see globbl.mbnbger null bnd cbll LogMbnbger.getLogMbnbger(),
+        // but the other threbd could come in bt b time when globbl.mbnbger
+        // is blrebdy set blthough ensureLogMbnbgerInitiblized is not finished
         // yet...
-        // Calling LogManager.getLogManager() unconditionally will fix that.
+        // Cblling LogMbnbger.getLogMbnbger() unconditionblly will fix thbt.
 
-        LogManager.getLogManager();
+        LogMbnbger.getLogMbnbger();
 
-        // Now the global LogManager should be initialized,
-        // and the global logger should have been added to
-        // it, unless we were called within the constructor of a LogManager
-        // subclass installed as LogManager, in which case global.manager
-        // would still be null, and global will be lazily initialized later on.
+        // Now the globbl LogMbnbger should be initiblized,
+        // bnd the globbl logger should hbve been bdded to
+        // it, unless we were cblled within the constructor of b LogMbnbger
+        // subclbss instblled bs LogMbnbger, in which cbse globbl.mbnbger
+        // would still be null, bnd globbl will be lbzily initiblized lbter on.
 
-        return global;
+        return globbl;
     }
 
     /**
-     * The "global" Logger object is provided as a convenience to developers
-     * who are making casual use of the Logging package.  Developers
-     * who are making serious use of the logging package (for example
-     * in products) should create and use their own Logger objects,
-     * with appropriate names, so that logging can be controlled on a
-     * suitable per-Logger granularity. Developers also need to keep a
+     * The "globbl" Logger object is provided bs b convenience to developers
+     * who bre mbking cbsubl use of the Logging pbckbge.  Developers
+     * who bre mbking serious use of the logging pbckbge (for exbmple
+     * in products) should crebte bnd use their own Logger objects,
+     * with bppropribte nbmes, so thbt logging cbn be controlled on b
+     * suitbble per-Logger grbnulbrity. Developers blso need to keep b
      * strong reference to their Logger objects to prevent them from
-     * being garbage collected.
+     * being gbrbbge collected.
      *
-     * @deprecated Initialization of this field is prone to deadlocks.
-     * The field must be initialized by the Logger class initialization
-     * which may cause deadlocks with the LogManager class initialization.
-     * In such cases two class initialization wait for each other to complete.
-     * The preferred way to get the global logger object is via the call
-     * <code>Logger.getGlobal()</code>.
-     * For compatibility with old JDK versions where the
-     * <code>Logger.getGlobal()</code> is not available use the call
+     * @deprecbted Initiblizbtion of this field is prone to debdlocks.
+     * The field must be initiblized by the Logger clbss initiblizbtion
+     * which mby cbuse debdlocks with the LogMbnbger clbss initiblizbtion.
+     * In such cbses two clbss initiblizbtion wbit for ebch other to complete.
+     * The preferred wby to get the globbl logger object is vib the cbll
+     * <code>Logger.getGlobbl()</code>.
+     * For compbtibility with old JDK versions where the
+     * <code>Logger.getGlobbl()</code> is not bvbilbble use the cbll
      * <code>Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)</code>
-     * or <code>Logger.getLogger("global")</code>.
+     * or <code>Logger.getLogger("globbl")</code>.
      */
-    @Deprecated
-    public static final Logger global = new Logger(GLOBAL_LOGGER_NAME);
+    @Deprecbted
+    public stbtic finbl Logger globbl = new Logger(GLOBAL_LOGGER_NAME);
 
     /**
-     * Protected method to construct a logger for a named subsystem.
+     * Protected method to construct b logger for b nbmed subsystem.
      * <p>
-     * The logger will be initially configured with a null Level
-     * and with useParentHandlers set to true.
+     * The logger will be initiblly configured with b null Level
+     * bnd with usePbrentHbndlers set to true.
      *
-     * @param   name    A name for the logger.  This should
-     *                          be a dot-separated name and should normally
-     *                          be based on the package name or class name
-     *                          of the subsystem, such as java.net
-     *                          or javax.swing.  It may be null for anonymous Loggers.
-     * @param   resourceBundleName  name of ResourceBundle to be used for localizing
-     *                          messages for this logger.  May be null if none
-     *                          of the messages require localization.
-     * @throws MissingResourceException if the resourceBundleName is non-null and
-     *             no corresponding resource can be found.
+     * @pbrbm   nbme    A nbme for the logger.  This should
+     *                          be b dot-sepbrbted nbme bnd should normblly
+     *                          be bbsed on the pbckbge nbme or clbss nbme
+     *                          of the subsystem, such bs jbvb.net
+     *                          or jbvbx.swing.  It mby be null for bnonymous Loggers.
+     * @pbrbm   resourceBundleNbme  nbme of ResourceBundle to be used for locblizing
+     *                          messbges for this logger.  Mby be null if none
+     *                          of the messbges require locblizbtion.
+     * @throws MissingResourceException if the resourceBundleNbme is non-null bnd
+     *             no corresponding resource cbn be found.
      */
-    protected Logger(String name, String resourceBundleName) {
-        this(name, resourceBundleName, null, LogManager.getLogManager(), false);
+    protected Logger(String nbme, String resourceBundleNbme) {
+        this(nbme, resourceBundleNbme, null, LogMbnbger.getLogMbnbger(), fblse);
     }
 
-    Logger(String name, String resourceBundleName, Class<?> caller, LogManager manager, boolean isSystemLogger) {
-        this.manager = manager;
+    Logger(String nbme, String resourceBundleNbme, Clbss<?> cbller, LogMbnbger mbnbger, boolebn isSystemLogger) {
+        this.mbnbger = mbnbger;
         this.isSystemLogger = isSystemLogger;
-        setupResourceInfo(resourceBundleName, caller);
-        this.name = name;
-        levelValue = Level.INFO.intValue();
+        setupResourceInfo(resourceBundleNbme, cbller);
+        this.nbme = nbme;
+        levelVblue = Level.INFO.intVblue();
     }
 
-    private void setCallersClassLoaderRef(Class<?> caller) {
-        ClassLoader callersClassLoader = ((caller != null)
-                                         ? caller.getClassLoader()
+    privbte void setCbllersClbssLobderRef(Clbss<?> cbller) {
+        ClbssLobder cbllersClbssLobder = ((cbller != null)
+                                         ? cbller.getClbssLobder()
                                          : null);
-        if (callersClassLoader != null) {
-            this.callersClassLoaderRef = new WeakReference<>(callersClassLoader);
+        if (cbllersClbssLobder != null) {
+            this.cbllersClbssLobderRef = new WebkReference<>(cbllersClbssLobder);
         }
     }
 
-    private ClassLoader getCallersClassLoader() {
-        return (callersClassLoaderRef != null)
-                ? callersClassLoaderRef.get()
+    privbte ClbssLobder getCbllersClbssLobder() {
+        return (cbllersClbssLobderRef != null)
+                ? cbllersClbssLobderRef.get()
                 : null;
     }
 
-    // This constructor is used only to create the global Logger.
-    // It is needed to break a cyclic dependence between the LogManager
-    // and Logger static initializers causing deadlocks.
-    private Logger(String name) {
-        // The manager field is not initialized here.
-        this.name = name;
+    // This constructor is used only to crebte the globbl Logger.
+    // It is needed to brebk b cyclic dependence between the LogMbnbger
+    // bnd Logger stbtic initiblizers cbusing debdlocks.
+    privbte Logger(String nbme) {
+        // The mbnbger field is not initiblized here.
+        this.nbme = nbme;
         this.isSystemLogger = true;
-        levelValue = Level.INFO.intValue();
+        levelVblue = Level.INFO.intVblue();
     }
 
-    // It is called from LoggerContext.addLocalLogger() when the logger
-    // is actually added to a LogManager.
-    void setLogManager(LogManager manager) {
-        this.manager = manager;
+    // It is cblled from LoggerContext.bddLocblLogger() when the logger
+    // is bctublly bdded to b LogMbnbger.
+    void setLogMbnbger(LogMbnbger mbnbger) {
+        this.mbnbger = mbnbger;
     }
 
-    private void checkPermission() throws SecurityException {
-        if (!anonymous) {
-            if (manager == null) {
-                // Complete initialization of the global Logger.
-                manager = LogManager.getLogManager();
+    privbte void checkPermission() throws SecurityException {
+        if (!bnonymous) {
+            if (mbnbger == null) {
+                // Complete initiblizbtion of the globbl Logger.
+                mbnbger = LogMbnbger.getLogMbnbger();
             }
-            manager.checkPermission();
+            mbnbger.checkPermission();
         }
     }
 
-    // Until all JDK code converted to call sun.util.logging.PlatformLogger
-    // (see 7054233), we need to determine if Logger.getLogger is to add
-    // a system logger or user logger.
+    // Until bll JDK code converted to cbll sun.util.logging.PlbtformLogger
+    // (see 7054233), we need to determine if Logger.getLogger is to bdd
+    // b system logger or user logger.
     //
-    // As an interim solution, if the immediate caller whose caller loader is
-    // null, we assume it's a system logger and add it to the system context.
+    // As bn interim solution, if the immedibte cbller whose cbller lobder is
+    // null, we bssume it's b system logger bnd bdd it to the system context.
     // These system loggers only set the resource bundle to the given
-    // resource bundle name (rather than the default system resource bundle).
-    private static class SystemLoggerHelper {
-        static boolean disableCallerCheck = getBooleanProperty("sun.util.logging.disableCallerCheck");
-        private static boolean getBooleanProperty(final String key) {
+    // resource bundle nbme (rbther thbn the defbult system resource bundle).
+    privbte stbtic clbss SystemLoggerHelper {
+        stbtic boolebn disbbleCbllerCheck = getBoolebnProperty("sun.util.logging.disbbleCbllerCheck");
+        privbte stbtic boolebn getBoolebnProperty(finbl String key) {
             String s = AccessController.doPrivileged(new PrivilegedAction<String>() {
                 @Override
                 public String run() {
                     return System.getProperty(key);
                 }
             });
-            return Boolean.valueOf(s);
+            return Boolebn.vblueOf(s);
         }
     }
 
-    private static Logger demandLogger(String name, String resourceBundleName, Class<?> caller) {
-        LogManager manager = LogManager.getLogManager();
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null && !SystemLoggerHelper.disableCallerCheck) {
-            if (caller.getClassLoader() == null) {
-                return manager.demandSystemLogger(name, resourceBundleName);
+    privbte stbtic Logger dembndLogger(String nbme, String resourceBundleNbme, Clbss<?> cbller) {
+        LogMbnbger mbnbger = LogMbnbger.getLogMbnbger();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
+        if (sm != null && !SystemLoggerHelper.disbbleCbllerCheck) {
+            if (cbller.getClbssLobder() == null) {
+                return mbnbger.dembndSystemLogger(nbme, resourceBundleNbme);
             }
         }
-        return manager.demandLogger(name, resourceBundleName, caller);
-        // ends up calling new Logger(name, resourceBundleName, caller)
-        // iff the logger doesn't exist already
+        return mbnbger.dembndLogger(nbme, resourceBundleNbme, cbller);
+        // ends up cblling new Logger(nbme, resourceBundleNbme, cbller)
+        // iff the logger doesn't exist blrebdy
     }
 
     /**
-     * Find or create a logger for a named subsystem.  If a logger has
-     * already been created with the given name it is returned.  Otherwise
-     * a new logger is created.
+     * Find or crebte b logger for b nbmed subsystem.  If b logger hbs
+     * blrebdy been crebted with the given nbme it is returned.  Otherwise
+     * b new logger is crebted.
      * <p>
-     * If a new logger is created its log level will be configured
-     * based on the LogManager configuration and it will configured
-     * to also send logging output to its parent's Handlers.  It will
-     * be registered in the LogManager global namespace.
+     * If b new logger is crebted its log level will be configured
+     * bbsed on the LogMbnbger configurbtion bnd it will configured
+     * to blso send logging output to its pbrent's Hbndlers.  It will
+     * be registered in the LogMbnbger globbl nbmespbce.
      * <p>
-     * Note: The LogManager may only retain a weak reference to the newly
-     * created Logger. It is important to understand that a previously
-     * created Logger with the given name may be garbage collected at any
-     * time if there is no strong reference to the Logger. In particular,
-     * this means that two back-to-back calls like
-     * {@code getLogger("MyLogger").log(...)} may use different Logger
-     * objects named "MyLogger" if there is no strong reference to the
-     * Logger named "MyLogger" elsewhere in the program.
+     * Note: The LogMbnbger mby only retbin b webk reference to the newly
+     * crebted Logger. It is importbnt to understbnd thbt b previously
+     * crebted Logger with the given nbme mby be gbrbbge collected bt bny
+     * time if there is no strong reference to the Logger. In pbrticulbr,
+     * this mebns thbt two bbck-to-bbck cblls like
+     * {@code getLogger("MyLogger").log(...)} mby use different Logger
+     * objects nbmed "MyLogger" if there is no strong reference to the
+     * Logger nbmed "MyLogger" elsewhere in the progrbm.
      *
-     * @param   name            A name for the logger.  This should
-     *                          be a dot-separated name and should normally
-     *                          be based on the package name or class name
-     *                          of the subsystem, such as java.net
-     *                          or javax.swing
-     * @return a suitable Logger
-     * @throws NullPointerException if the name is null.
+     * @pbrbm   nbme            A nbme for the logger.  This should
+     *                          be b dot-sepbrbted nbme bnd should normblly
+     *                          be bbsed on the pbckbge nbme or clbss nbme
+     *                          of the subsystem, such bs jbvb.net
+     *                          or jbvbx.swing
+     * @return b suitbble Logger
+     * @throws NullPointerException if the nbme is null.
      */
 
-    // Synchronization is not required here. All synchronization for
-    // adding a new Logger object is handled by LogManager.addLogger().
-    @CallerSensitive
-    public static Logger getLogger(String name) {
-        // This method is intentionally not a wrapper around a call
-        // to getLogger(name, resourceBundleName). If it were then
+    // Synchronizbtion is not required here. All synchronizbtion for
+    // bdding b new Logger object is hbndled by LogMbnbger.bddLogger().
+    @CbllerSensitive
+    public stbtic Logger getLogger(String nbme) {
+        // This method is intentionblly not b wrbpper bround b cbll
+        // to getLogger(nbme, resourceBundleNbme). If it were then
         // this sequence:
         //
         //     getLogger("Foo", "resourceBundleForFoo");
         //     getLogger("Foo");
         //
-        // would throw an IllegalArgumentException in the second call
-        // because the wrapper would result in an attempt to replace
+        // would throw bn IllegblArgumentException in the second cbll
+        // becbuse the wrbpper would result in bn bttempt to replbce
         // the existing "resourceBundleForFoo" with null.
-        return demandLogger(name, null, Reflection.getCallerClass());
+        return dembndLogger(nbme, null, Reflection.getCbllerClbss());
     }
 
     /**
-     * Find or create a logger for a named subsystem.  If a logger has
-     * already been created with the given name it is returned.  Otherwise
-     * a new logger is created.
+     * Find or crebte b logger for b nbmed subsystem.  If b logger hbs
+     * blrebdy been crebted with the given nbme it is returned.  Otherwise
+     * b new logger is crebted.
      * <p>
-     * If a new logger is created its log level will be configured
-     * based on the LogManager and it will configured to also send logging
-     * output to its parent's Handlers.  It will be registered in
-     * the LogManager global namespace.
+     * If b new logger is crebted its log level will be configured
+     * bbsed on the LogMbnbger bnd it will configured to blso send logging
+     * output to its pbrent's Hbndlers.  It will be registered in
+     * the LogMbnbger globbl nbmespbce.
      * <p>
-     * Note: The LogManager may only retain a weak reference to the newly
-     * created Logger. It is important to understand that a previously
-     * created Logger with the given name may be garbage collected at any
-     * time if there is no strong reference to the Logger. In particular,
-     * this means that two back-to-back calls like
-     * {@code getLogger("MyLogger", ...).log(...)} may use different Logger
-     * objects named "MyLogger" if there is no strong reference to the
-     * Logger named "MyLogger" elsewhere in the program.
+     * Note: The LogMbnbger mby only retbin b webk reference to the newly
+     * crebted Logger. It is importbnt to understbnd thbt b previously
+     * crebted Logger with the given nbme mby be gbrbbge collected bt bny
+     * time if there is no strong reference to the Logger. In pbrticulbr,
+     * this mebns thbt two bbck-to-bbck cblls like
+     * {@code getLogger("MyLogger", ...).log(...)} mby use different Logger
+     * objects nbmed "MyLogger" if there is no strong reference to the
+     * Logger nbmed "MyLogger" elsewhere in the progrbm.
      * <p>
-     * If the named Logger already exists and does not yet have a
-     * localization resource bundle then the given resource bundle
-     * name is used.  If the named Logger already exists and has
-     * a different resource bundle name then an IllegalArgumentException
+     * If the nbmed Logger blrebdy exists bnd does not yet hbve b
+     * locblizbtion resource bundle then the given resource bundle
+     * nbme is used.  If the nbmed Logger blrebdy exists bnd hbs
+     * b different resource bundle nbme then bn IllegblArgumentException
      * is thrown.
      *
-     * @param   name    A name for the logger.  This should
-     *                          be a dot-separated name and should normally
-     *                          be based on the package name or class name
-     *                          of the subsystem, such as java.net
-     *                          or javax.swing
-     * @param   resourceBundleName  name of ResourceBundle to be used for localizing
-     *                          messages for this logger. May be {@code null}
-     *                          if none of the messages require localization.
-     * @return a suitable Logger
-     * @throws MissingResourceException if the resourceBundleName is non-null and
-     *             no corresponding resource can be found.
-     * @throws IllegalArgumentException if the Logger already exists and uses
-     *             a different resource bundle name; or if
-     *             {@code resourceBundleName} is {@code null} but the named
-     *             logger has a resource bundle set.
-     * @throws NullPointerException if the name is null.
+     * @pbrbm   nbme    A nbme for the logger.  This should
+     *                          be b dot-sepbrbted nbme bnd should normblly
+     *                          be bbsed on the pbckbge nbme or clbss nbme
+     *                          of the subsystem, such bs jbvb.net
+     *                          or jbvbx.swing
+     * @pbrbm   resourceBundleNbme  nbme of ResourceBundle to be used for locblizing
+     *                          messbges for this logger. Mby be {@code null}
+     *                          if none of the messbges require locblizbtion.
+     * @return b suitbble Logger
+     * @throws MissingResourceException if the resourceBundleNbme is non-null bnd
+     *             no corresponding resource cbn be found.
+     * @throws IllegblArgumentException if the Logger blrebdy exists bnd uses
+     *             b different resource bundle nbme; or if
+     *             {@code resourceBundleNbme} is {@code null} but the nbmed
+     *             logger hbs b resource bundle set.
+     * @throws NullPointerException if the nbme is null.
      */
 
-    // Synchronization is not required here. All synchronization for
-    // adding a new Logger object is handled by LogManager.addLogger().
-    @CallerSensitive
-    public static Logger getLogger(String name, String resourceBundleName) {
-        Class<?> callerClass = Reflection.getCallerClass();
-        Logger result = demandLogger(name, resourceBundleName, callerClass);
+    // Synchronizbtion is not required here. All synchronizbtion for
+    // bdding b new Logger object is hbndled by LogMbnbger.bddLogger().
+    @CbllerSensitive
+    public stbtic Logger getLogger(String nbme, String resourceBundleNbme) {
+        Clbss<?> cbllerClbss = Reflection.getCbllerClbss();
+        Logger result = dembndLogger(nbme, resourceBundleNbme, cbllerClbss);
 
-        // MissingResourceException or IllegalArgumentException can be
+        // MissingResourceException or IllegblArgumentException cbn be
         // thrown by setupResourceInfo().
-        // We have to set the callers ClassLoader here in case demandLogger
-        // above found a previously created Logger.  This can happen, for
-        // example, if Logger.getLogger(name) is called and subsequently
-        // Logger.getLogger(name, resourceBundleName) is called.  In this case
-        // we won't necessarily have the correct classloader saved away, so
+        // We hbve to set the cbllers ClbssLobder here in cbse dembndLogger
+        // bbove found b previously crebted Logger.  This cbn hbppen, for
+        // exbmple, if Logger.getLogger(nbme) is cblled bnd subsequently
+        // Logger.getLogger(nbme, resourceBundleNbme) is cblled.  In this cbse
+        // we won't necessbrily hbve the correct clbsslobder sbved bwby, so
         // we need to set it here, too.
 
-        result.setupResourceInfo(resourceBundleName, callerClass);
+        result.setupResourceInfo(resourceBundleNbme, cbllerClbss);
         return result;
     }
 
-    // package-private
-    // Add a platform logger to the system context.
-    // i.e. caller of sun.util.logging.PlatformLogger.getLogger
-    static Logger getPlatformLogger(String name) {
-        LogManager manager = LogManager.getLogManager();
+    // pbckbge-privbte
+    // Add b plbtform logger to the system context.
+    // i.e. cbller of sun.util.logging.PlbtformLogger.getLogger
+    stbtic Logger getPlbtformLogger(String nbme) {
+        LogMbnbger mbnbger = LogMbnbger.getLogMbnbger();
 
-        // all loggers in the system context will default to
+        // bll loggers in the system context will defbult to
         // the system logger's resource bundle
-        Logger result = manager.demandSystemLogger(name, SYSTEM_LOGGER_RB_NAME);
+        Logger result = mbnbger.dembndSystemLogger(nbme, SYSTEM_LOGGER_RB_NAME);
         return result;
     }
 
     /**
-     * Create an anonymous Logger.  The newly created Logger is not
-     * registered in the LogManager namespace.  There will be no
-     * access checks on updates to the logger.
+     * Crebte bn bnonymous Logger.  The newly crebted Logger is not
+     * registered in the LogMbnbger nbmespbce.  There will be no
+     * bccess checks on updbtes to the logger.
      * <p>
-     * This factory method is primarily intended for use from applets.
-     * Because the resulting Logger is anonymous it can be kept private
-     * by the creating class.  This removes the need for normal security
-     * checks, which in turn allows untrusted applet code to update
-     * the control state of the Logger.  For example an applet can do
-     * a setLevel or an addHandler on an anonymous Logger.
+     * This fbctory method is primbrily intended for use from bpplets.
+     * Becbuse the resulting Logger is bnonymous it cbn be kept privbte
+     * by the crebting clbss.  This removes the need for normbl security
+     * checks, which in turn bllows untrusted bpplet code to updbte
+     * the control stbte of the Logger.  For exbmple bn bpplet cbn do
+     * b setLevel or bn bddHbndler on bn bnonymous Logger.
      * <p>
-     * Even although the new logger is anonymous, it is configured
-     * to have the root logger ("") as its parent.  This means that
-     * by default it inherits its effective level and handlers
-     * from the root logger. Changing its parent via the
-     * {@link #setParent(java.util.logging.Logger) setParent} method
-     * will still require the security permission specified by that method.
+     * Even blthough the new logger is bnonymous, it is configured
+     * to hbve the root logger ("") bs its pbrent.  This mebns thbt
+     * by defbult it inherits its effective level bnd hbndlers
+     * from the root logger. Chbnging its pbrent vib the
+     * {@link #setPbrent(jbvb.util.logging.Logger) setPbrent} method
+     * will still require the security permission specified by thbt method.
      *
-     * @return a newly created private Logger
+     * @return b newly crebted privbte Logger
      */
-    public static Logger getAnonymousLogger() {
+    public stbtic Logger getAnonymousLogger() {
         return getAnonymousLogger(null);
     }
 
     /**
-     * Create an anonymous Logger.  The newly created Logger is not
-     * registered in the LogManager namespace.  There will be no
-     * access checks on updates to the logger.
+     * Crebte bn bnonymous Logger.  The newly crebted Logger is not
+     * registered in the LogMbnbger nbmespbce.  There will be no
+     * bccess checks on updbtes to the logger.
      * <p>
-     * This factory method is primarily intended for use from applets.
-     * Because the resulting Logger is anonymous it can be kept private
-     * by the creating class.  This removes the need for normal security
-     * checks, which in turn allows untrusted applet code to update
-     * the control state of the Logger.  For example an applet can do
-     * a setLevel or an addHandler on an anonymous Logger.
+     * This fbctory method is primbrily intended for use from bpplets.
+     * Becbuse the resulting Logger is bnonymous it cbn be kept privbte
+     * by the crebting clbss.  This removes the need for normbl security
+     * checks, which in turn bllows untrusted bpplet code to updbte
+     * the control stbte of the Logger.  For exbmple bn bpplet cbn do
+     * b setLevel or bn bddHbndler on bn bnonymous Logger.
      * <p>
-     * Even although the new logger is anonymous, it is configured
-     * to have the root logger ("") as its parent.  This means that
-     * by default it inherits its effective level and handlers
-     * from the root logger.  Changing its parent via the
-     * {@link #setParent(java.util.logging.Logger) setParent} method
-     * will still require the security permission specified by that method.
+     * Even blthough the new logger is bnonymous, it is configured
+     * to hbve the root logger ("") bs its pbrent.  This mebns thbt
+     * by defbult it inherits its effective level bnd hbndlers
+     * from the root logger.  Chbnging its pbrent vib the
+     * {@link #setPbrent(jbvb.util.logging.Logger) setPbrent} method
+     * will still require the security permission specified by thbt method.
      *
-     * @param   resourceBundleName  name of ResourceBundle to be used for localizing
-     *                          messages for this logger.
-     *          May be null if none of the messages require localization.
-     * @return a newly created private Logger
-     * @throws MissingResourceException if the resourceBundleName is non-null and
-     *             no corresponding resource can be found.
+     * @pbrbm   resourceBundleNbme  nbme of ResourceBundle to be used for locblizing
+     *                          messbges for this logger.
+     *          Mby be null if none of the messbges require locblizbtion.
+     * @return b newly crebted privbte Logger
+     * @throws MissingResourceException if the resourceBundleNbme is non-null bnd
+     *             no corresponding resource cbn be found.
      */
 
-    // Synchronization is not required here. All synchronization for
-    // adding a new anonymous Logger object is handled by doSetParent().
-    @CallerSensitive
-    public static Logger getAnonymousLogger(String resourceBundleName) {
-        LogManager manager = LogManager.getLogManager();
-        // cleanup some Loggers that have been GC'ed
-        manager.drainLoggerRefQueueBounded();
-        Logger result = new Logger(null, resourceBundleName,
-                                   Reflection.getCallerClass(), manager, false);
-        result.anonymous = true;
-        Logger root = manager.getLogger("");
-        result.doSetParent(root);
+    // Synchronizbtion is not required here. All synchronizbtion for
+    // bdding b new bnonymous Logger object is hbndled by doSetPbrent().
+    @CbllerSensitive
+    public stbtic Logger getAnonymousLogger(String resourceBundleNbme) {
+        LogMbnbger mbnbger = LogMbnbger.getLogMbnbger();
+        // clebnup some Loggers thbt hbve been GC'ed
+        mbnbger.drbinLoggerRefQueueBounded();
+        Logger result = new Logger(null, resourceBundleNbme,
+                                   Reflection.getCbllerClbss(), mbnbger, fblse);
+        result.bnonymous = true;
+        Logger root = mbnbger.getLogger("");
+        result.doSetPbrent(root);
         return result;
     }
 
     /**
-     * Retrieve the localization resource bundle for this
+     * Retrieve the locblizbtion resource bundle for this
      * logger.
-     * This method will return a {@code ResourceBundle} that was either
+     * This method will return b {@code ResourceBundle} thbt wbs either
      * set by the {@link
-     * #setResourceBundle(java.util.ResourceBundle) setResourceBundle} method or
-     * <a href="#ResourceBundleMapping">mapped from the
-     * the resource bundle name</a> set via the {@link
-     * Logger#getLogger(java.lang.String, java.lang.String) getLogger} factory
-     * method for the current default locale.
-     * <br>Note that if the result is {@code null}, then the Logger will use a resource
-     * bundle or resource bundle name inherited from its parent.
+     * #setResourceBundle(jbvb.util.ResourceBundle) setResourceBundle} method or
+     * <b href="#ResourceBundleMbpping">mbpped from the
+     * the resource bundle nbme</b> set vib the {@link
+     * Logger#getLogger(jbvb.lbng.String, jbvb.lbng.String) getLogger} fbctory
+     * method for the current defbult locble.
+     * <br>Note thbt if the result is {@code null}, then the Logger will use b resource
+     * bundle or resource bundle nbme inherited from its pbrent.
      *
-     * @return localization bundle (may be {@code null})
+     * @return locblizbtion bundle (mby be {@code null})
      */
     public ResourceBundle getResourceBundle() {
-        return findResourceBundle(getResourceBundleName(), true);
+        return findResourceBundle(getResourceBundleNbme(), true);
     }
 
     /**
-     * Retrieve the localization resource bundle name for this
+     * Retrieve the locblizbtion resource bundle nbme for this
      * logger.
-     * This is either the name specified through the {@link
-     * #getLogger(java.lang.String, java.lang.String) getLogger} factory method,
-     * or the {@linkplain ResourceBundle#getBaseBundleName() base name} of the
+     * This is either the nbme specified through the {@link
+     * #getLogger(jbvb.lbng.String, jbvb.lbng.String) getLogger} fbctory method,
+     * or the {@linkplbin ResourceBundle#getBbseBundleNbme() bbse nbme} of the
      * ResourceBundle set through {@link
-     * #setResourceBundle(java.util.ResourceBundle) setResourceBundle} method.
-     * <br>Note that if the result is {@code null}, then the Logger will use a resource
-     * bundle or resource bundle name inherited from its parent.
+     * #setResourceBundle(jbvb.util.ResourceBundle) setResourceBundle} method.
+     * <br>Note thbt if the result is {@code null}, then the Logger will use b resource
+     * bundle or resource bundle nbme inherited from its pbrent.
      *
-     * @return localization bundle name (may be {@code null})
+     * @return locblizbtion bundle nbme (mby be {@code null})
      */
-    public String getResourceBundleName() {
-        return loggerBundle.resourceBundleName;
+    public String getResourceBundleNbme() {
+        return loggerBundle.resourceBundleNbme;
     }
 
     /**
-     * Set a filter to control output on this Logger.
+     * Set b filter to control output on this Logger.
      * <P>
-     * After passing the initial "level" check, the Logger will
-     * call this Filter to check if a log record should really
+     * After pbssing the initibl "level" check, the Logger will
+     * cbll this Filter to check if b log record should reblly
      * be published.
      *
-     * @param   newFilter  a filter object (may be null)
-     * @throws  SecurityException if a security manager exists,
-     *          this logger is not anonymous, and the caller
-     *          does not have LoggingPermission("control").
+     * @pbrbm   newFilter  b filter object (mby be null)
+     * @throws  SecurityException if b security mbnbger exists,
+     *          this logger is not bnonymous, bnd the cbller
+     *          does not hbve LoggingPermission("control").
      */
     public void setFilter(Filter newFilter) throws SecurityException {
         checkPermission();
@@ -700,65 +700,65 @@ public class Logger {
     /**
      * Get the current filter for this Logger.
      *
-     * @return  a filter object (may be null)
+     * @return  b filter object (mby be null)
      */
     public Filter getFilter() {
         return filter;
     }
 
     /**
-     * Log a LogRecord.
+     * Log b LogRecord.
      * <p>
-     * All the other logging methods in this class call through
-     * this method to actually perform any logging.  Subclasses can
-     * override this single method to capture all log activity.
+     * All the other logging methods in this clbss cbll through
+     * this method to bctublly perform bny logging.  Subclbsses cbn
+     * override this single method to cbpture bll log bctivity.
      *
-     * @param record the LogRecord to be published
+     * @pbrbm record the LogRecord to be published
      */
     public void log(LogRecord record) {
-        if (!isLoggable(record.getLevel())) {
+        if (!isLoggbble(record.getLevel())) {
             return;
         }
         Filter theFilter = filter;
-        if (theFilter != null && !theFilter.isLoggable(record)) {
+        if (theFilter != null && !theFilter.isLoggbble(record)) {
             return;
         }
 
-        // Post the LogRecord to all our Handlers, and then to
-        // our parents' handlers, all the way up the tree.
+        // Post the LogRecord to bll our Hbndlers, bnd then to
+        // our pbrents' hbndlers, bll the wby up the tree.
 
         Logger logger = this;
         while (logger != null) {
-            final Handler[] loggerHandlers = isSystemLogger
-                ? logger.accessCheckedHandlers()
-                : logger.getHandlers();
+            finbl Hbndler[] loggerHbndlers = isSystemLogger
+                ? logger.bccessCheckedHbndlers()
+                : logger.getHbndlers();
 
-            for (Handler handler : loggerHandlers) {
-                handler.publish(record);
+            for (Hbndler hbndler : loggerHbndlers) {
+                hbndler.publish(record);
             }
 
-            final boolean useParentHdls = isSystemLogger
-                ? logger.useParentHandlers
-                : logger.getUseParentHandlers();
+            finbl boolebn usePbrentHdls = isSystemLogger
+                ? logger.usePbrentHbndlers
+                : logger.getUsePbrentHbndlers();
 
-            if (!useParentHdls) {
-                break;
+            if (!usePbrentHdls) {
+                brebk;
             }
 
-            logger = isSystemLogger ? logger.parent : logger.getParent();
+            logger = isSystemLogger ? logger.pbrent : logger.getPbrent();
         }
     }
 
-    // private support method for logging.
-    // We fill in the logger name, resource bundle name, and
-    // resource bundle and then call "void log(LogRecord)".
-    private void doLog(LogRecord lr) {
-        lr.setLoggerName(name);
-        final LoggerBundle lb = getEffectiveLoggerBundle();
-        final ResourceBundle  bundle = lb.userBundle;
-        final String ebname = lb.resourceBundleName;
-        if (ebname != null && bundle != null) {
-            lr.setResourceBundleName(ebname);
+    // privbte support method for logging.
+    // We fill in the logger nbme, resource bundle nbme, bnd
+    // resource bundle bnd then cbll "void log(LogRecord)".
+    privbte void doLog(LogRecord lr) {
+        lr.setLoggerNbme(nbme);
+        finbl LoggerBundle lb = getEffectiveLoggerBundle();
+        finbl ResourceBundle  bundle = lb.userBundle;
+        finbl String ebnbme = lb.resourceBundleNbme;
+        if (ebnbme != null && bundle != null) {
+            lr.setResourceBundleNbme(ebnbme);
             lr.setResourceBundle(bundle);
         }
         log(lr);
@@ -766,21 +766,21 @@ public class Logger {
 
 
     //================================================================
-    // Start of convenience methods WITHOUT className and methodName
+    // Stbrt of convenience methods WITHOUT clbssNbme bnd methodNbme
     //================================================================
 
     /**
-     * Log a message, with no arguments.
+     * Log b messbge, with no brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void log(Level level, String msg) {
-        if (!isLoggable(level)) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
@@ -788,20 +788,20 @@ public class Logger {
     }
 
     /**
-     * Log a message, which is only to be constructed if the logging level
-     * is such that the message will actually be logged.
+     * Log b messbge, which is only to be constructed if the logging level
+     * is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      */
     public void log(Level level, Supplier<String> msgSupplier) {
-        if (!isLoggable(level)) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msgSupplier.get());
@@ -809,64 +809,64 @@ public class Logger {
     }
 
     /**
-     * Log a message, with one object parameter.
+     * Log b messbge, with one object pbrbmeter.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   param1  parameter to the message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbm1  pbrbmeter to the messbge
      */
-    public void log(Level level, String msg, Object param1) {
-        if (!isLoggable(level)) {
+    public void log(Level level, String msg, Object pbrbm1) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        Object params[] = { param1 };
-        lr.setParameters(params);
+        Object pbrbms[] = { pbrbm1 };
+        lr.setPbrbmeters(pbrbms);
         doLog(lr);
     }
 
     /**
-     * Log a message, with an array of object arguments.
+     * Log b messbge, with bn brrby of object brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   params  array of parameters to the message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbms  brrby of pbrbmeters to the messbge
      */
-    public void log(Level level, String msg, Object params[]) {
-        if (!isLoggable(level)) {
+    public void log(Level level, String msg, Object pbrbms[]) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setParameters(params);
+        lr.setPbrbmeters(pbrbms);
         doLog(lr);
     }
 
     /**
-     * Log a message, with associated Throwable information.
+     * Log b messbge, with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given arguments are stored in a LogRecord
-     * which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given brguments bre stored in b LogRecord
+     * which is forwbrded to bll registered output hbndlers.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   thrown  Throwable associated with log message.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   thrown  Throwbble bssocibted with log messbge.
      */
-    public void log(Level level, String msg, Throwable thrown) {
-        if (!isLoggable(level)) {
+    public void log(Level level, String msg, Throwbble thrown) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
@@ -875,26 +875,26 @@ public class Logger {
     }
 
     /**
-     * Log a lazily constructed message, with associated Throwable information.
+     * Log b lbzily constructed messbge, with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message level then the
-     * message is constructed by invoking the provided supplier function. The
-     * message and the given {@link Throwable} are then stored in a {@link
-     * LogRecord} which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge level then the
+     * messbge is constructed by invoking the provided supplier function. The
+     * messbge bnd the given {@link Throwbble} bre then stored in b {@link
+     * LogRecord} which is forwbrded to bll registered output hbndlers.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   thrown  Throwable associated with log message.
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   thrown  Throwbble bssocibted with log messbge.
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
-    public void log(Level level, Throwable thrown, Supplier<String> msgSupplier) {
-        if (!isLoggable(level)) {
+    public void log(Level level, Throwbble thrown, Supplier<String> msgSupplier) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msgSupplier.get());
@@ -903,659 +903,659 @@ public class Logger {
     }
 
     //================================================================
-    // Start of convenience methods WITH className and methodName
+    // Stbrt of convenience methods WITH clbssNbme bnd methodNbme
     //================================================================
 
     /**
-     * Log a message, specifying source class and method,
-     * with no arguments.
+     * Log b messbge, specifying source clbss bnd method,
+     * with no brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
-    public void logp(Level level, String sourceClass, String sourceMethod, String msg) {
-        if (!isLoggable(level)) {
+    public void logp(Level level, String sourceClbss, String sourceMethod, String msg) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         doLog(lr);
     }
 
     /**
-     * Log a lazily constructed message, specifying source class and method,
-     * with no arguments.
+     * Log b lbzily constructed messbge, specifying source clbss bnd method,
+     * with no brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
-    public void logp(Level level, String sourceClass, String sourceMethod,
+    public void logp(Level level, String sourceClbss, String sourceMethod,
                      Supplier<String> msgSupplier) {
-        if (!isLoggable(level)) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msgSupplier.get());
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         doLog(lr);
     }
 
     /**
-     * Log a message, specifying source class and method,
-     * with a single object parameter to the log message.
+     * Log b messbge, specifying source clbss bnd method,
+     * with b single object pbrbmeter to the log messbge.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   msg      The string message (or a key in the message catalog)
-     * @param   param1    Parameter to the log message.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   msg      The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbm1    Pbrbmeter to the log messbge.
      */
-    public void logp(Level level, String sourceClass, String sourceMethod,
-                                                String msg, Object param1) {
-        if (!isLoggable(level)) {
+    public void logp(Level level, String sourceClbss, String sourceMethod,
+                                                String msg, Object pbrbm1) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        Object params[] = { param1 };
-        lr.setParameters(params);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        Object pbrbms[] = { pbrbm1 };
+        lr.setPbrbmeters(pbrbms);
         doLog(lr);
     }
 
     /**
-     * Log a message, specifying source class and method,
-     * with an array of object arguments.
+     * Log b messbge, specifying source clbss bnd method,
+     * with bn brrby of object brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   params  Array of parameters to the message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbms  Arrby of pbrbmeters to the messbge
      */
-    public void logp(Level level, String sourceClass, String sourceMethod,
-                                                String msg, Object params[]) {
-        if (!isLoggable(level)) {
+    public void logp(Level level, String sourceClbss, String sourceMethod,
+                                                String msg, Object pbrbms[]) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        lr.setParameters(params);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        lr.setPbrbmeters(pbrbms);
         doLog(lr);
     }
 
     /**
-     * Log a message, specifying source class and method,
-     * with associated Throwable information.
+     * Log b messbge, specifying source clbss bnd method,
+     * with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given arguments are stored in a LogRecord
-     * which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given brguments bre stored in b LogRecord
+     * which is forwbrded to bll registered output hbndlers.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   thrown  Throwable associated with log message.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   thrown  Throwbble bssocibted with log messbge.
      */
-    public void logp(Level level, String sourceClass, String sourceMethod,
-                     String msg, Throwable thrown) {
-        if (!isLoggable(level)) {
+    public void logp(Level level, String sourceClbss, String sourceMethod,
+                     String msg, Throwbble thrown) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         lr.setThrown(thrown);
         doLog(lr);
     }
 
     /**
-     * Log a lazily constructed message, specifying source class and method,
-     * with associated Throwable information.
+     * Log b lbzily constructed messbge, specifying source clbss bnd method,
+     * with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message level then the
-     * message is constructed by invoking the provided supplier function. The
-     * message and the given {@link Throwable} are then stored in a {@link
-     * LogRecord} which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge level then the
+     * messbge is constructed by invoking the provided supplier function. The
+     * messbge bnd the given {@link Throwbble} bre then stored in b {@link
+     * LogRecord} which is forwbrded to bll registered output hbndlers.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   thrown  Throwable associated with log message.
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   thrown  Throwbble bssocibted with log messbge.
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
-    public void logp(Level level, String sourceClass, String sourceMethod,
-                     Throwable thrown, Supplier<String> msgSupplier) {
-        if (!isLoggable(level)) {
+    public void logp(Level level, String sourceClbss, String sourceMethod,
+                     Throwbble thrown, Supplier<String> msgSupplier) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msgSupplier.get());
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         lr.setThrown(thrown);
         doLog(lr);
     }
 
 
     //=========================================================================
-    // Start of convenience methods WITH className, methodName and bundle name.
+    // Stbrt of convenience methods WITH clbssNbme, methodNbme bnd bundle nbme.
     //=========================================================================
 
-    // Private support method for logging for "logrb" methods.
-    // We fill in the logger name, resource bundle name, and
-    // resource bundle and then call "void log(LogRecord)".
-    private void doLog(LogRecord lr, String rbname) {
-        lr.setLoggerName(name);
-        if (rbname != null) {
-            lr.setResourceBundleName(rbname);
-            lr.setResourceBundle(findResourceBundle(rbname, false));
+    // Privbte support method for logging for "logrb" methods.
+    // We fill in the logger nbme, resource bundle nbme, bnd
+    // resource bundle bnd then cbll "void log(LogRecord)".
+    privbte void doLog(LogRecord lr, String rbnbme) {
+        lr.setLoggerNbme(nbme);
+        if (rbnbme != null) {
+            lr.setResourceBundleNbme(rbnbme);
+            lr.setResourceBundle(findResourceBundle(rbnbme, fblse));
         }
         log(lr);
     }
 
-    // Private support method for logging for "logrb" methods.
-    private void doLog(LogRecord lr, ResourceBundle rb) {
-        lr.setLoggerName(name);
+    // Privbte support method for logging for "logrb" methods.
+    privbte void doLog(LogRecord lr, ResourceBundle rb) {
+        lr.setLoggerNbme(nbme);
         if (rb != null) {
-            lr.setResourceBundleName(rb.getBaseBundleName());
+            lr.setResourceBundleNbme(rb.getBbseBundleNbme());
             lr.setResourceBundle(rb);
         }
         log(lr);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle name
-     * with no arguments.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle nbme
+     * with no brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      * <p>
-     * The msg string is localized using the named resource bundle.  If the
-     * resource bundle name is null, or an empty String or invalid
-     * then the msg string is not localized.
+     * The msg string is locblized using the nbmed resource bundle.  If the
+     * resource bundle nbme is null, or bn empty String or invblid
+     * then the msg string is not locblized.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   bundleName     name of resource bundle to localize msg,
-     *                         can be null
-     * @param   msg     The string message (or a key in the message catalog)
-     * @deprecated Use {@link #logrb(java.util.logging.Level, java.lang.String,
-     * java.lang.String, java.util.ResourceBundle, java.lang.String,
-     * java.lang.Object...)} instead.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   bundleNbme     nbme of resource bundle to locblize msg,
+     *                         cbn be null
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @deprecbted Use {@link #logrb(jbvb.util.logging.Level, jbvb.lbng.String,
+     * jbvb.lbng.String, jbvb.util.ResourceBundle, jbvb.lbng.String,
+     * jbvb.lbng.Object...)} instebd.
      */
-    @Deprecated
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                                String bundleName, String msg) {
-        if (!isLoggable(level)) {
+    @Deprecbted
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                                String bundleNbme, String msg) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        doLog(lr, bundleName);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        doLog(lr, bundleNbme);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle name,
-     * with a single object parameter to the log message.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle nbme,
+     * with b single object pbrbmeter to the log messbge.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      * <p>
-     * The msg string is localized using the named resource bundle.  If the
-     * resource bundle name is null, or an empty String or invalid
-     * then the msg string is not localized.
+     * The msg string is locblized using the nbmed resource bundle.  If the
+     * resource bundle nbme is null, or bn empty String or invblid
+     * then the msg string is not locblized.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   bundleName     name of resource bundle to localize msg,
-     *                         can be null
-     * @param   msg      The string message (or a key in the message catalog)
-     * @param   param1    Parameter to the log message.
-     * @deprecated Use {@link #logrb(java.util.logging.Level, java.lang.String,
-     *   java.lang.String, java.util.ResourceBundle, java.lang.String,
-     *   java.lang.Object...)} instead
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   bundleNbme     nbme of resource bundle to locblize msg,
+     *                         cbn be null
+     * @pbrbm   msg      The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbm1    Pbrbmeter to the log messbge.
+     * @deprecbted Use {@link #logrb(jbvb.util.logging.Level, jbvb.lbng.String,
+     *   jbvb.lbng.String, jbvb.util.ResourceBundle, jbvb.lbng.String,
+     *   jbvb.lbng.Object...)} instebd
      */
-    @Deprecated
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                                String bundleName, String msg, Object param1) {
-        if (!isLoggable(level)) {
+    @Deprecbted
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                                String bundleNbme, String msg, Object pbrbm1) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        Object params[] = { param1 };
-        lr.setParameters(params);
-        doLog(lr, bundleName);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        Object pbrbms[] = { pbrbm1 };
+        lr.setPbrbmeters(pbrbms);
+        doLog(lr, bundleNbme);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle name,
-     * with an array of object arguments.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle nbme,
+     * with bn brrby of object brguments.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      * <p>
-     * The msg string is localized using the named resource bundle.  If the
-     * resource bundle name is null, or an empty String or invalid
-     * then the msg string is not localized.
+     * The msg string is locblized using the nbmed resource bundle.  If the
+     * resource bundle nbme is null, or bn empty String or invblid
+     * then the msg string is not locblized.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   bundleName     name of resource bundle to localize msg,
-     *                         can be null.
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   params  Array of parameters to the message
-     * @deprecated Use {@link #logrb(java.util.logging.Level, java.lang.String,
-     *      java.lang.String, java.util.ResourceBundle, java.lang.String,
-     *      java.lang.Object...)} instead.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   bundleNbme     nbme of resource bundle to locblize msg,
+     *                         cbn be null.
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbms  Arrby of pbrbmeters to the messbge
+     * @deprecbted Use {@link #logrb(jbvb.util.logging.Level, jbvb.lbng.String,
+     *      jbvb.lbng.String, jbvb.util.ResourceBundle, jbvb.lbng.String,
+     *      jbvb.lbng.Object...)} instebd.
      */
-    @Deprecated
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                                String bundleName, String msg, Object params[]) {
-        if (!isLoggable(level)) {
+    @Deprecbted
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                                String bundleNbme, String msg, Object pbrbms[]) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        lr.setParameters(params);
-        doLog(lr, bundleName);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        lr.setPbrbmeters(pbrbms);
+        doLog(lr, bundleNbme);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle,
-     * with an optional list of message parameters.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle,
+     * with bn optionbl list of messbge pbrbmeters.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then a corresponding LogRecord is created and forwarded
-     * to all the registered output Handler objects.
+     * If the logger is currently enbbled for the given messbge
+     * level then b corresponding LogRecord is crebted bnd forwbrded
+     * to bll the registered output Hbndler objects.
      * <p>
-     * The {@code msg} string is localized using the given resource bundle.
+     * The {@code msg} string is locblized using the given resource bundle.
      * If the resource bundle is {@code null}, then the {@code msg} string is not
-     * localized.
+     * locblized.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    Name of the class that issued the logging request
-     * @param   sourceMethod   Name of the method that issued the logging request
-     * @param   bundle         Resource bundle to localize {@code msg},
-     *                         can be {@code null}.
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   params  Parameters to the message (optional, may be none).
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    Nbme of the clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   Nbme of the method thbt issued the logging request
+     * @pbrbm   bundle         Resource bundle to locblize {@code msg},
+     *                         cbn be {@code null}.
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   pbrbms  Pbrbmeters to the messbge (optionbl, mby be none).
      * @since 1.8
      */
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                      ResourceBundle bundle, String msg, Object... params) {
-        if (!isLoggable(level)) {
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                      ResourceBundle bundle, String msg, Object... pbrbms) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
-        if (params != null && params.length != 0) {
-            lr.setParameters(params);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
+        if (pbrbms != null && pbrbms.length != 0) {
+            lr.setPbrbmeters(pbrbms);
         }
         doLog(lr, bundle);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle name,
-     * with associated Throwable information.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle nbme,
+     * with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given arguments are stored in a LogRecord
-     * which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given brguments bre stored in b LogRecord
+     * which is forwbrded to bll registered output hbndlers.
      * <p>
-     * The msg string is localized using the named resource bundle.  If the
-     * resource bundle name is null, or an empty String or invalid
-     * then the msg string is not localized.
+     * The msg string is locblized using the nbmed resource bundle.  If the
+     * resource bundle nbme is null, or bn empty String or invblid
+     * then the msg string is not locblized.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that issued the logging request
-     * @param   bundleName     name of resource bundle to localize msg,
-     *                         can be null
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   thrown  Throwable associated with log message.
-     * @deprecated Use {@link #logrb(java.util.logging.Level, java.lang.String,
-     *     java.lang.String, java.util.ResourceBundle, java.lang.String,
-     *     java.lang.Throwable)} instead.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt issued the logging request
+     * @pbrbm   bundleNbme     nbme of resource bundle to locblize msg,
+     *                         cbn be null
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   thrown  Throwbble bssocibted with log messbge.
+     * @deprecbted Use {@link #logrb(jbvb.util.logging.Level, jbvb.lbng.String,
+     *     jbvb.lbng.String, jbvb.util.ResourceBundle, jbvb.lbng.String,
+     *     jbvb.lbng.Throwbble)} instebd.
      */
-    @Deprecated
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                                        String bundleName, String msg, Throwable thrown) {
-        if (!isLoggable(level)) {
+    @Deprecbted
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                                        String bundleNbme, String msg, Throwbble thrown) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         lr.setThrown(thrown);
-        doLog(lr, bundleName);
+        doLog(lr, bundleNbme);
     }
 
     /**
-     * Log a message, specifying source class, method, and resource bundle,
-     * with associated Throwable information.
+     * Log b messbge, specifying source clbss, method, bnd resource bundle,
+     * with bssocibted Throwbble informbtion.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given arguments are stored in a LogRecord
-     * which is forwarded to all registered output handlers.
+     * If the logger is currently enbbled for the given messbge
+     * level then the given brguments bre stored in b LogRecord
+     * which is forwbrded to bll registered output hbndlers.
      * <p>
-     * The {@code msg} string is localized using the given resource bundle.
+     * The {@code msg} string is locblized using the given resource bundle.
      * If the resource bundle is {@code null}, then the {@code msg} string is not
-     * localized.
+     * locblized.
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   level   One of the message level identifiers, e.g., SEVERE
-     * @param   sourceClass    Name of the class that issued the logging request
-     * @param   sourceMethod   Name of the method that issued the logging request
-     * @param   bundle         Resource bundle to localize {@code msg},
-     *                         can be {@code null}
-     * @param   msg     The string message (or a key in the message catalog)
-     * @param   thrown  Throwable associated with the log message.
+     * @pbrbm   level   One of the messbge level identifiers, e.g., SEVERE
+     * @pbrbm   sourceClbss    Nbme of the clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   Nbme of the method thbt issued the logging request
+     * @pbrbm   bundle         Resource bundle to locblize {@code msg},
+     *                         cbn be {@code null}
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
+     * @pbrbm   thrown  Throwbble bssocibted with the log messbge.
      * @since 1.8
      */
-    public void logrb(Level level, String sourceClass, String sourceMethod,
-                      ResourceBundle bundle, String msg, Throwable thrown) {
-        if (!isLoggable(level)) {
+    public void logrb(Level level, String sourceClbss, String sourceMethod,
+                      ResourceBundle bundle, String msg, Throwbble thrown) {
+        if (!isLoggbble(level)) {
             return;
         }
         LogRecord lr = new LogRecord(level, msg);
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         lr.setThrown(thrown);
         doLog(lr, bundle);
     }
 
     //======================================================================
-    // Start of convenience methods for logging method entries and returns.
+    // Stbrt of convenience methods for logging method entries bnd returns.
     //======================================================================
 
     /**
-     * Log a method entry.
+     * Log b method entry.
      * <p>
-     * This is a convenience method that can be used to log entry
-     * to a method.  A LogRecord with message "ENTRY", log level
-     * FINER, and the given sourceMethod and sourceClass is logged.
+     * This is b convenience method thbt cbn be used to log entry
+     * to b method.  A LogRecord with messbge "ENTRY", log level
+     * FINER, bnd the given sourceMethod bnd sourceClbss is logged.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that is being entered
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt is being entered
      */
-    public void entering(String sourceClass, String sourceMethod) {
-        logp(Level.FINER, sourceClass, sourceMethod, "ENTRY");
+    public void entering(String sourceClbss, String sourceMethod) {
+        logp(Level.FINER, sourceClbss, sourceMethod, "ENTRY");
     }
 
     /**
-     * Log a method entry, with one parameter.
+     * Log b method entry, with one pbrbmeter.
      * <p>
-     * This is a convenience method that can be used to log entry
-     * to a method.  A LogRecord with message "ENTRY {0}", log level
-     * FINER, and the given sourceMethod, sourceClass, and parameter
+     * This is b convenience method thbt cbn be used to log entry
+     * to b method.  A LogRecord with messbge "ENTRY {0}", log level
+     * FINER, bnd the given sourceMethod, sourceClbss, bnd pbrbmeter
      * is logged.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that is being entered
-     * @param   param1         parameter to the method being entered
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt is being entered
+     * @pbrbm   pbrbm1         pbrbmeter to the method being entered
      */
-    public void entering(String sourceClass, String sourceMethod, Object param1) {
-        logp(Level.FINER, sourceClass, sourceMethod, "ENTRY {0}", param1);
+    public void entering(String sourceClbss, String sourceMethod, Object pbrbm1) {
+        logp(Level.FINER, sourceClbss, sourceMethod, "ENTRY {0}", pbrbm1);
     }
 
     /**
-     * Log a method entry, with an array of parameters.
+     * Log b method entry, with bn brrby of pbrbmeters.
      * <p>
-     * This is a convenience method that can be used to log entry
-     * to a method.  A LogRecord with message "ENTRY" (followed by a
-     * format {N} indicator for each entry in the parameter array),
-     * log level FINER, and the given sourceMethod, sourceClass, and
-     * parameters is logged.
+     * This is b convenience method thbt cbn be used to log entry
+     * to b method.  A LogRecord with messbge "ENTRY" (followed by b
+     * formbt {N} indicbtor for ebch entry in the pbrbmeter brrby),
+     * log level FINER, bnd the given sourceMethod, sourceClbss, bnd
+     * pbrbmeters is logged.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of method that is being entered
-     * @param   params         array of parameters to the method being entered
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of method thbt is being entered
+     * @pbrbm   pbrbms         brrby of pbrbmeters to the method being entered
      */
-    public void entering(String sourceClass, String sourceMethod, Object params[]) {
+    public void entering(String sourceClbss, String sourceMethod, Object pbrbms[]) {
         String msg = "ENTRY";
-        if (params == null ) {
-           logp(Level.FINER, sourceClass, sourceMethod, msg);
+        if (pbrbms == null ) {
+           logp(Level.FINER, sourceClbss, sourceMethod, msg);
            return;
         }
-        if (!isLoggable(Level.FINER)) return;
-        for (int i = 0; i < params.length; i++) {
+        if (!isLoggbble(Level.FINER)) return;
+        for (int i = 0; i < pbrbms.length; i++) {
             msg = msg + " {" + i + "}";
         }
-        logp(Level.FINER, sourceClass, sourceMethod, msg, params);
+        logp(Level.FINER, sourceClbss, sourceMethod, msg, pbrbms);
     }
 
     /**
-     * Log a method return.
+     * Log b method return.
      * <p>
-     * This is a convenience method that can be used to log returning
-     * from a method.  A LogRecord with message "RETURN", log level
-     * FINER, and the given sourceMethod and sourceClass is logged.
+     * This is b convenience method thbt cbn be used to log returning
+     * from b method.  A LogRecord with messbge "RETURN", log level
+     * FINER, bnd the given sourceMethod bnd sourceClbss is logged.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of the method
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of the method
      */
-    public void exiting(String sourceClass, String sourceMethod) {
-        logp(Level.FINER, sourceClass, sourceMethod, "RETURN");
+    public void exiting(String sourceClbss, String sourceMethod) {
+        logp(Level.FINER, sourceClbss, sourceMethod, "RETURN");
     }
 
 
     /**
-     * Log a method return, with result object.
+     * Log b method return, with result object.
      * <p>
-     * This is a convenience method that can be used to log returning
-     * from a method.  A LogRecord with message "RETURN {0}", log level
-     * FINER, and the gives sourceMethod, sourceClass, and result
+     * This is b convenience method thbt cbn be used to log returning
+     * from b method.  A LogRecord with messbge "RETURN {0}", log level
+     * FINER, bnd the gives sourceMethod, sourceClbss, bnd result
      * object is logged.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod   name of the method
-     * @param   result  Object that is being returned
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod   nbme of the method
+     * @pbrbm   result  Object thbt is being returned
      */
-    public void exiting(String sourceClass, String sourceMethod, Object result) {
-        logp(Level.FINER, sourceClass, sourceMethod, "RETURN {0}", result);
+    public void exiting(String sourceClbss, String sourceMethod, Object result) {
+        logp(Level.FINER, sourceClbss, sourceMethod, "RETURN {0}", result);
     }
 
     /**
-     * Log throwing an exception.
+     * Log throwing bn exception.
      * <p>
-     * This is a convenience method to log that a method is
-     * terminating by throwing an exception.  The logging is done
+     * This is b convenience method to log thbt b method is
+     * terminbting by throwing bn exception.  The logging is done
      * using the FINER level.
      * <p>
-     * If the logger is currently enabled for the given message
-     * level then the given arguments are stored in a LogRecord
-     * which is forwarded to all registered output handlers.  The
-     * LogRecord's message is set to "THROW".
+     * If the logger is currently enbbled for the given messbge
+     * level then the given brguments bre stored in b LogRecord
+     * which is forwbrded to bll registered output hbndlers.  The
+     * LogRecord's messbge is set to "THROW".
      * <p>
-     * Note that the thrown argument is stored in the LogRecord thrown
-     * property, rather than the LogRecord parameters property.  Thus it is
-     * processed specially by output Formatters and is not treated
-     * as a formatting parameter to the LogRecord message property.
+     * Note thbt the thrown brgument is stored in the LogRecord thrown
+     * property, rbther thbn the LogRecord pbrbmeters property.  Thus it is
+     * processed speciblly by output Formbtters bnd is not trebted
+     * bs b formbtting pbrbmeter to the LogRecord messbge property.
      *
-     * @param   sourceClass    name of class that issued the logging request
-     * @param   sourceMethod  name of the method.
-     * @param   thrown  The Throwable that is being thrown.
+     * @pbrbm   sourceClbss    nbme of clbss thbt issued the logging request
+     * @pbrbm   sourceMethod  nbme of the method.
+     * @pbrbm   thrown  The Throwbble thbt is being thrown.
      */
-    public void throwing(String sourceClass, String sourceMethod, Throwable thrown) {
-        if (!isLoggable(Level.FINER)) {
+    public void throwing(String sourceClbss, String sourceMethod, Throwbble thrown) {
+        if (!isLoggbble(Level.FINER)) {
             return;
         }
         LogRecord lr = new LogRecord(Level.FINER, "THROW");
-        lr.setSourceClassName(sourceClass);
-        lr.setSourceMethodName(sourceMethod);
+        lr.setSourceClbssNbme(sourceClbss);
+        lr.setSourceMethodNbme(sourceMethod);
         lr.setThrown(thrown);
         doLog(lr);
     }
 
     //=======================================================================
-    // Start of simple convenience methods using level names as method names
+    // Stbrt of simple convenience methods using level nbmes bs method nbmes
     //=======================================================================
 
     /**
-     * Log a SEVERE message.
+     * Log b SEVERE messbge.
      * <p>
-     * If the logger is currently enabled for the SEVERE message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the SEVERE messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void severe(String msg) {
         log(Level.SEVERE, msg);
     }
 
     /**
-     * Log a WARNING message.
+     * Log b WARNING messbge.
      * <p>
-     * If the logger is currently enabled for the WARNING message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the WARNING messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
-    public void warning(String msg) {
+    public void wbrning(String msg) {
         log(Level.WARNING, msg);
     }
 
     /**
-     * Log an INFO message.
+     * Log bn INFO messbge.
      * <p>
-     * If the logger is currently enabled for the INFO message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the INFO messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void info(String msg) {
         log(Level.INFO, msg);
     }
 
     /**
-     * Log a CONFIG message.
+     * Log b CONFIG messbge.
      * <p>
-     * If the logger is currently enabled for the CONFIG message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the CONFIG messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void config(String msg) {
         log(Level.CONFIG, msg);
     }
 
     /**
-     * Log a FINE message.
+     * Log b FINE messbge.
      * <p>
-     * If the logger is currently enabled for the FINE message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the FINE messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void fine(String msg) {
         log(Level.FINE, msg);
     }
 
     /**
-     * Log a FINER message.
+     * Log b FINER messbge.
      * <p>
-     * If the logger is currently enabled for the FINER message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the FINER messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void finer(String msg) {
         log(Level.FINER, msg);
     }
 
     /**
-     * Log a FINEST message.
+     * Log b FINEST messbge.
      * <p>
-     * If the logger is currently enabled for the FINEST message
-     * level then the given message is forwarded to all the
-     * registered output Handler objects.
+     * If the logger is currently enbbled for the FINEST messbge
+     * level then the given messbge is forwbrded to bll the
+     * registered output Hbndler objects.
      *
-     * @param   msg     The string message (or a key in the message catalog)
+     * @pbrbm   msg     The string messbge (or b key in the messbge cbtblog)
      */
     public void finest(String msg) {
         log(Level.FINEST, msg);
     }
 
     //=======================================================================
-    // Start of simple convenience methods using level names as method names
-    // and use Supplier<String>
+    // Stbrt of simple convenience methods using level nbmes bs method nbmes
+    // bnd use Supplier<String>
     //=======================================================================
 
     /**
-     * Log a SEVERE message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b SEVERE messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the SEVERE message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the SEVERE messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void severe(Supplier<String> msgSupplier) {
@@ -1563,33 +1563,33 @@ public class Logger {
     }
 
     /**
-     * Log a WARNING message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b WARNING messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the WARNING message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the WARNING messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
-    public void warning(Supplier<String> msgSupplier) {
+    public void wbrning(Supplier<String> msgSupplier) {
         log(Level.WARNING, msgSupplier);
     }
 
     /**
-     * Log a INFO message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b INFO messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the INFO message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the INFO messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void info(Supplier<String> msgSupplier) {
@@ -1597,16 +1597,16 @@ public class Logger {
     }
 
     /**
-     * Log a CONFIG message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b CONFIG messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the CONFIG message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the CONFIG messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void config(Supplier<String> msgSupplier) {
@@ -1614,16 +1614,16 @@ public class Logger {
     }
 
     /**
-     * Log a FINE message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b FINE messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the FINE message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the FINE messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void fine(Supplier<String> msgSupplier) {
@@ -1631,16 +1631,16 @@ public class Logger {
     }
 
     /**
-     * Log a FINER message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b FINER messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the FINER message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the FINER messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void finer(Supplier<String> msgSupplier) {
@@ -1648,16 +1648,16 @@ public class Logger {
     }
 
     /**
-     * Log a FINEST message, which is only to be constructed if the logging
-     * level is such that the message will actually be logged.
+     * Log b FINEST messbge, which is only to be constructed if the logging
+     * level is such thbt the messbge will bctublly be logged.
      * <p>
-     * If the logger is currently enabled for the FINEST message
-     * level then the message is constructed by invoking the provided
-     * supplier function and forwarded to all the registered output
-     * Handler objects.
+     * If the logger is currently enbbled for the FINEST messbge
+     * level then the messbge is constructed by invoking the provided
+     * supplier function bnd forwbrded to bll the registered output
+     * Hbndler objects.
      *
-     * @param   msgSupplier   A function, which when called, produces the
-     *                        desired log message
+     * @pbrbm   msgSupplier   A function, which when cblled, produces the
+     *                        desired log messbge
      * @since   1.8
      */
     public void finest(Supplier<String> msgSupplier) {
@@ -1669,36 +1669,36 @@ public class Logger {
     //================================================================
 
     /**
-     * Set the log level specifying which message levels will be
-     * logged by this logger.  Message levels lower than this
-     * value will be discarded.  The level value Level.OFF
-     * can be used to turn off logging.
+     * Set the log level specifying which messbge levels will be
+     * logged by this logger.  Messbge levels lower thbn this
+     * vblue will be discbrded.  The level vblue Level.OFF
+     * cbn be used to turn off logging.
      * <p>
-     * If the new level is null, it means that this node should
-     * inherit its level from its nearest ancestor with a specific
-     * (non-null) level value.
+     * If the new level is null, it mebns thbt this node should
+     * inherit its level from its nebrest bncestor with b specific
+     * (non-null) level vblue.
      *
-     * @param newLevel   the new value for the log level (may be null)
-     * @throws  SecurityException if a security manager exists,
-     *          this logger is not anonymous, and the caller
-     *          does not have LoggingPermission("control").
+     * @pbrbm newLevel   the new vblue for the log level (mby be null)
+     * @throws  SecurityException if b security mbnbger exists,
+     *          this logger is not bnonymous, bnd the cbller
+     *          does not hbve LoggingPermission("control").
      */
     public void setLevel(Level newLevel) throws SecurityException {
         checkPermission();
         synchronized (treeLock) {
             levelObject = newLevel;
-            updateEffectiveLevel();
+            updbteEffectiveLevel();
         }
     }
 
-    final boolean isLevelInitialized() {
+    finbl boolebn isLevelInitiblized() {
         return levelObject != null;
     }
 
     /**
-     * Get the log Level that has been specified for this Logger.
-     * The result may be null, which means that this logger's
-     * effective level will be inherited from its parent.
+     * Get the log Level thbt hbs been specified for this Logger.
+     * The result mby be null, which mebns thbt this logger's
+     * effective level will be inherited from its pbrent.
      *
      * @return  this Logger's level
      */
@@ -1707,198 +1707,198 @@ public class Logger {
     }
 
     /**
-     * Check if a message of the given level would actually be logged
-     * by this logger.  This check is based on the Loggers effective level,
-     * which may be inherited from its parent.
+     * Check if b messbge of the given level would bctublly be logged
+     * by this logger.  This check is bbsed on the Loggers effective level,
+     * which mby be inherited from its pbrent.
      *
-     * @param   level   a message logging level
-     * @return  true if the given message level is currently being logged.
+     * @pbrbm   level   b messbge logging level
+     * @return  true if the given messbge level is currently being logged.
      */
-    public boolean isLoggable(Level level) {
-        if (level.intValue() < levelValue || levelValue == offValue) {
-            return false;
+    public boolebn isLoggbble(Level level) {
+        if (level.intVblue() < levelVblue || levelVblue == offVblue) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Get the name for this logger.
-     * @return logger name.  Will be null for anonymous Loggers.
+     * Get the nbme for this logger.
+     * @return logger nbme.  Will be null for bnonymous Loggers.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Add a log Handler to receive logging messages.
+     * Add b log Hbndler to receive logging messbges.
      * <p>
-     * By default, Loggers also send their output to their parent logger.
-     * Typically the root Logger is configured with a set of Handlers
-     * that essentially act as default handlers for all loggers.
+     * By defbult, Loggers blso send their output to their pbrent logger.
+     * Typicblly the root Logger is configured with b set of Hbndlers
+     * thbt essentiblly bct bs defbult hbndlers for bll loggers.
      *
-     * @param   handler a logging Handler
-     * @throws  SecurityException if a security manager exists,
-     *          this logger is not anonymous, and the caller
-     *          does not have LoggingPermission("control").
+     * @pbrbm   hbndler b logging Hbndler
+     * @throws  SecurityException if b security mbnbger exists,
+     *          this logger is not bnonymous, bnd the cbller
+     *          does not hbve LoggingPermission("control").
      */
-    public void addHandler(Handler handler) throws SecurityException {
-        // Check for null handler
-        handler.getClass();
+    public void bddHbndler(Hbndler hbndler) throws SecurityException {
+        // Check for null hbndler
+        hbndler.getClbss();
         checkPermission();
-        handlers.add(handler);
+        hbndlers.bdd(hbndler);
     }
 
     /**
-     * Remove a log Handler.
+     * Remove b log Hbndler.
      * <P>
-     * Returns silently if the given Handler is not found or is null
+     * Returns silently if the given Hbndler is not found or is null
      *
-     * @param   handler a logging Handler
-     * @throws  SecurityException if a security manager exists,
-     *          this logger is not anonymous, and the caller
-     *          does not have LoggingPermission("control").
+     * @pbrbm   hbndler b logging Hbndler
+     * @throws  SecurityException if b security mbnbger exists,
+     *          this logger is not bnonymous, bnd the cbller
+     *          does not hbve LoggingPermission("control").
      */
-    public void removeHandler(Handler handler) throws SecurityException {
+    public void removeHbndler(Hbndler hbndler) throws SecurityException {
         checkPermission();
-        if (handler == null) {
+        if (hbndler == null) {
             return;
         }
-        handlers.remove(handler);
+        hbndlers.remove(hbndler);
     }
 
     /**
-     * Get the Handlers associated with this logger.
+     * Get the Hbndlers bssocibted with this logger.
      *
-     * @return  an array of all registered Handlers
+     * @return  bn brrby of bll registered Hbndlers
      */
-    public Handler[] getHandlers() {
-        return accessCheckedHandlers();
+    public Hbndler[] getHbndlers() {
+        return bccessCheckedHbndlers();
     }
 
-    // This method should ideally be marked final - but unfortunately
-    // it needs to be overridden by LogManager.RootLogger
-    Handler[] accessCheckedHandlers() {
-        return handlers.toArray(emptyHandlers);
+    // This method should ideblly be mbrked finbl - but unfortunbtely
+    // it needs to be overridden by LogMbnbger.RootLogger
+    Hbndler[] bccessCheckedHbndlers() {
+        return hbndlers.toArrby(emptyHbndlers);
     }
 
     /**
      * Specify whether or not this logger should send its output
-     * to its parent Logger.  This means that any LogRecords will
-     * also be written to the parent's Handlers, and potentially
-     * to its parent, recursively up the namespace.
+     * to its pbrent Logger.  This mebns thbt bny LogRecords will
+     * blso be written to the pbrent's Hbndlers, bnd potentiblly
+     * to its pbrent, recursively up the nbmespbce.
      *
-     * @param useParentHandlers   true if output is to be sent to the
-     *          logger's parent.
-     * @throws  SecurityException if a security manager exists,
-     *          this logger is not anonymous, and the caller
-     *          does not have LoggingPermission("control").
+     * @pbrbm usePbrentHbndlers   true if output is to be sent to the
+     *          logger's pbrent.
+     * @throws  SecurityException if b security mbnbger exists,
+     *          this logger is not bnonymous, bnd the cbller
+     *          does not hbve LoggingPermission("control").
      */
-    public void setUseParentHandlers(boolean useParentHandlers) {
+    public void setUsePbrentHbndlers(boolebn usePbrentHbndlers) {
         checkPermission();
-        this.useParentHandlers = useParentHandlers;
+        this.usePbrentHbndlers = usePbrentHbndlers;
     }
 
     /**
      * Discover whether or not this logger is sending its output
-     * to its parent logger.
+     * to its pbrent logger.
      *
-     * @return  true if output is to be sent to the logger's parent
+     * @return  true if output is to be sent to the logger's pbrent
      */
-    public boolean getUseParentHandlers() {
-        return useParentHandlers;
+    public boolebn getUsePbrentHbndlers() {
+        return usePbrentHbndlers;
     }
 
-    private static ResourceBundle findSystemResourceBundle(final Locale locale) {
-        // the resource bundle is in a restricted package
+    privbte stbtic ResourceBundle findSystemResourceBundle(finbl Locble locble) {
+        // the resource bundle is in b restricted pbckbge
         return AccessController.doPrivileged(new PrivilegedAction<ResourceBundle>() {
             @Override
             public ResourceBundle run() {
                 try {
                     return ResourceBundle.getBundle(SYSTEM_LOGGER_RB_NAME,
-                                                    locale,
-                                                    ClassLoader.getSystemClassLoader());
-                } catch (MissingResourceException e) {
-                    throw new InternalError(e.toString());
+                                                    locble,
+                                                    ClbssLobder.getSystemClbssLobder());
+                } cbtch (MissingResourceException e) {
+                    throw new InternblError(e.toString());
                 }
             }
         });
     }
 
     /**
-     * Private utility method to map a resource bundle name to an
-     * actual resource bundle, using a simple one-entry cache.
-     * Returns null for a null name.
-     * May also return null if we can't find the resource bundle and
-     * there is no suitable previous cached value.
+     * Privbte utility method to mbp b resource bundle nbme to bn
+     * bctubl resource bundle, using b simple one-entry cbche.
+     * Returns null for b null nbme.
+     * Mby blso return null if we cbn't find the resource bundle bnd
+     * there is no suitbble previous cbched vblue.
      *
-     * @param name the ResourceBundle to locate
-     * @param userCallersClassLoader if true search using the caller's ClassLoader
-     * @return ResourceBundle specified by name or null if not found
+     * @pbrbm nbme the ResourceBundle to locbte
+     * @pbrbm userCbllersClbssLobder if true sebrch using the cbller's ClbssLobder
+     * @return ResourceBundle specified by nbme or null if not found
      */
-    private synchronized ResourceBundle findResourceBundle(String name,
-                                                           boolean useCallersClassLoader) {
-        // For all lookups, we first check the thread context class loader
-        // if it is set.  If not, we use the system classloader.  If we
-        // still haven't found it we use the callersClassLoaderRef if it
-        // is set and useCallersClassLoader is true.  We set
-        // callersClassLoaderRef initially upon creating the logger with a
-        // non-null resource bundle name.
+    privbte synchronized ResourceBundle findResourceBundle(String nbme,
+                                                           boolebn useCbllersClbssLobder) {
+        // For bll lookups, we first check the threbd context clbss lobder
+        // if it is set.  If not, we use the system clbsslobder.  If we
+        // still hbven't found it we use the cbllersClbssLobderRef if it
+        // is set bnd useCbllersClbssLobder is true.  We set
+        // cbllersClbssLobderRef initiblly upon crebting the logger with b
+        // non-null resource bundle nbme.
 
-        // Return a null bundle for a null name.
-        if (name == null) {
+        // Return b null bundle for b null nbme.
+        if (nbme == null) {
             return null;
         }
 
-        Locale currentLocale = Locale.getDefault();
-        final LoggerBundle lb = loggerBundle;
+        Locble currentLocble = Locble.getDefbult();
+        finbl LoggerBundle lb = loggerBundle;
 
-        // Normally we should hit on our simple one entry cache.
+        // Normblly we should hit on our simple one entry cbche.
         if (lb.userBundle != null &&
-                name.equals(lb.resourceBundleName)) {
+                nbme.equbls(lb.resourceBundleNbme)) {
             return lb.userBundle;
-        } else if (catalog != null && currentLocale.equals(catalogLocale)
-                && name.equals(catalogName)) {
-            return catalog;
+        } else if (cbtblog != null && currentLocble.equbls(cbtblogLocble)
+                && nbme.equbls(cbtblogNbme)) {
+            return cbtblog;
         }
 
-        if (name.equals(SYSTEM_LOGGER_RB_NAME)) {
-            catalog = findSystemResourceBundle(currentLocale);
-            catalogName = name;
-            catalogLocale = currentLocale;
-            return catalog;
+        if (nbme.equbls(SYSTEM_LOGGER_RB_NAME)) {
+            cbtblog = findSystemResourceBundle(currentLocble);
+            cbtblogNbme = nbme;
+            cbtblogLocble = currentLocble;
+            return cbtblog;
         }
 
-        // Use the thread's context ClassLoader.  If there isn't one, use the
-        // {@linkplain java.lang.ClassLoader#getSystemClassLoader() system ClassLoader}.
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        // Use the threbd's context ClbssLobder.  If there isn't one, use the
+        // {@linkplbin jbvb.lbng.ClbssLobder#getSystemClbssLobder() system ClbssLobder}.
+        ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
         if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
+            cl = ClbssLobder.getSystemClbssLobder();
         }
         try {
-            catalog = ResourceBundle.getBundle(name, currentLocale, cl);
-            catalogName = name;
-            catalogLocale = currentLocale;
-            return catalog;
-        } catch (MissingResourceException ex) {
-            // We can't find the ResourceBundle in the default
-            // ClassLoader.  Drop through.
+            cbtblog = ResourceBundle.getBundle(nbme, currentLocble, cl);
+            cbtblogNbme = nbme;
+            cbtblogLocble = currentLocble;
+            return cbtblog;
+        } cbtch (MissingResourceException ex) {
+            // We cbn't find the ResourceBundle in the defbult
+            // ClbssLobder.  Drop through.
         }
 
-        if (useCallersClassLoader) {
-            // Try with the caller's ClassLoader
-            ClassLoader callersClassLoader = getCallersClassLoader();
+        if (useCbllersClbssLobder) {
+            // Try with the cbller's ClbssLobder
+            ClbssLobder cbllersClbssLobder = getCbllersClbssLobder();
 
-            if (callersClassLoader == null || callersClassLoader == cl) {
+            if (cbllersClbssLobder == null || cbllersClbssLobder == cl) {
                 return null;
             }
 
             try {
-                catalog = ResourceBundle.getBundle(name, currentLocale,
-                                                   callersClassLoader);
-                catalogName = name;
-                catalogLocale = currentLocale;
-                return catalog;
-            } catch (MissingResourceException ex) {
+                cbtblog = ResourceBundle.getBundle(nbme, currentLocble,
+                                                   cbllersClbssLobder);
+                cbtblogNbme = nbme;
+                cbtblogLocble = currentLocble;
+                return cbtblog;
+            } cbtch (MissingResourceException ex) {
                 return null; // no luck
             }
         } else {
@@ -1906,186 +1906,186 @@ public class Logger {
         }
     }
 
-    // Private utility method to initialize our one entry
-    // resource bundle name cache and the callers ClassLoader
-    // Note: for consistency reasons, we are careful to check
-    // that a suitable ResourceBundle exists before setting the
-    // resourceBundleName field.
-    // Synchronized to prevent races in setting the fields.
-    private synchronized void setupResourceInfo(String name,
-                                                Class<?> callersClass) {
-        final LoggerBundle lb = loggerBundle;
-        if (lb.resourceBundleName != null) {
-            // this Logger already has a ResourceBundle
+    // Privbte utility method to initiblize our one entry
+    // resource bundle nbme cbche bnd the cbllers ClbssLobder
+    // Note: for consistency rebsons, we bre cbreful to check
+    // thbt b suitbble ResourceBundle exists before setting the
+    // resourceBundleNbme field.
+    // Synchronized to prevent rbces in setting the fields.
+    privbte synchronized void setupResourceInfo(String nbme,
+                                                Clbss<?> cbllersClbss) {
+        finbl LoggerBundle lb = loggerBundle;
+        if (lb.resourceBundleNbme != null) {
+            // this Logger blrebdy hbs b ResourceBundle
 
-            if (lb.resourceBundleName.equals(name)) {
-                // the names match so there is nothing more to do
+            if (lb.resourceBundleNbme.equbls(nbme)) {
+                // the nbmes mbtch so there is nothing more to do
                 return;
             }
 
-            // cannot change ResourceBundles once they are set
-            throw new IllegalArgumentException(
-                lb.resourceBundleName + " != " + name);
+            // cbnnot chbnge ResourceBundles once they bre set
+            throw new IllegblArgumentException(
+                lb.resourceBundleNbme + " != " + nbme);
         }
 
-        if (name == null) {
+        if (nbme == null) {
             return;
         }
 
-        setCallersClassLoaderRef(callersClass);
-        if (findResourceBundle(name, true) == null) {
-            // We've failed to find an expected ResourceBundle.
-            // unset the caller's ClassLoader since we were unable to find the
+        setCbllersClbssLobderRef(cbllersClbss);
+        if (findResourceBundle(nbme, true) == null) {
+            // We've fbiled to find bn expected ResourceBundle.
+            // unset the cbller's ClbssLobder since we were unbble to find the
             // the bundle using it
-            this.callersClassLoaderRef = null;
-            throw new MissingResourceException("Can't find " + name + " bundle",
-                                                name, "");
+            this.cbllersClbssLobderRef = null;
+            throw new MissingResourceException("Cbn't find " + nbme + " bundle",
+                                                nbme, "");
         }
 
-        // if lb.userBundle is not null we won't reach this line.
-        assert lb.userBundle == null;
-        loggerBundle = LoggerBundle.get(name, null);
+        // if lb.userBundle is not null we won't rebch this line.
+        bssert lb.userBundle == null;
+        loggerBundle = LoggerBundle.get(nbme, null);
     }
 
     /**
-     * Sets a resource bundle on this logger.
-     * All messages will be logged using the given resource bundle for its
-     * specific {@linkplain ResourceBundle#getLocale locale}.
-     * @param bundle The resource bundle that this logger shall use.
+     * Sets b resource bundle on this logger.
+     * All messbges will be logged using the given resource bundle for its
+     * specific {@linkplbin ResourceBundle#getLocble locble}.
+     * @pbrbm bundle The resource bundle thbt this logger shbll use.
      * @throws NullPointerException if the given bundle is {@code null}.
-     * @throws IllegalArgumentException if the given bundle doesn't have a
-     *         {@linkplain ResourceBundle#getBaseBundleName base name},
-     *         or if this logger already has a resource bundle set but
-     *         the given bundle has a different base name.
-     * @throws SecurityException if a security manager exists,
-     *         this logger is not anonymous, and the caller
-     *         does not have LoggingPermission("control").
+     * @throws IllegblArgumentException if the given bundle doesn't hbve b
+     *         {@linkplbin ResourceBundle#getBbseBundleNbme bbse nbme},
+     *         or if this logger blrebdy hbs b resource bundle set but
+     *         the given bundle hbs b different bbse nbme.
+     * @throws SecurityException if b security mbnbger exists,
+     *         this logger is not bnonymous, bnd the cbller
+     *         does not hbve LoggingPermission("control").
      * @since 1.8
      */
     public void setResourceBundle(ResourceBundle bundle) {
         checkPermission();
 
         // Will throw NPE if bundle is null.
-        final String baseName = bundle.getBaseBundleName();
+        finbl String bbseNbme = bundle.getBbseBundleNbme();
 
-        // bundle must have a name
-        if (baseName == null || baseName.isEmpty()) {
-            throw new IllegalArgumentException("resource bundle must have a name");
+        // bundle must hbve b nbme
+        if (bbseNbme == null || bbseNbme.isEmpty()) {
+            throw new IllegblArgumentException("resource bundle must hbve b nbme");
         }
 
         synchronized (this) {
             LoggerBundle lb = loggerBundle;
-            final boolean canReplaceResourceBundle = lb.resourceBundleName == null
-                    || lb.resourceBundleName.equals(baseName);
+            finbl boolebn cbnReplbceResourceBundle = lb.resourceBundleNbme == null
+                    || lb.resourceBundleNbme.equbls(bbseNbme);
 
-            if (!canReplaceResourceBundle) {
-                throw new IllegalArgumentException("can't replace resource bundle");
+            if (!cbnReplbceResourceBundle) {
+                throw new IllegblArgumentException("cbn't replbce resource bundle");
             }
 
 
-            loggerBundle = LoggerBundle.get(baseName, bundle);
+            loggerBundle = LoggerBundle.get(bbseNbme, bundle);
         }
     }
 
     /**
-     * Return the parent for this Logger.
+     * Return the pbrent for this Logger.
      * <p>
-     * This method returns the nearest extant parent in the namespace.
-     * Thus if a Logger is called "a.b.c.d", and a Logger called "a.b"
-     * has been created but no logger "a.b.c" exists, then a call of
-     * getParent on the Logger "a.b.c.d" will return the Logger "a.b".
+     * This method returns the nebrest extbnt pbrent in the nbmespbce.
+     * Thus if b Logger is cblled "b.b.c.d", bnd b Logger cblled "b.b"
+     * hbs been crebted but no logger "b.b.c" exists, then b cbll of
+     * getPbrent on the Logger "b.b.c.d" will return the Logger "b.b".
      * <p>
-     * The result will be null if it is called on the root Logger
-     * in the namespace.
+     * The result will be null if it is cblled on the root Logger
+     * in the nbmespbce.
      *
-     * @return nearest existing parent Logger
+     * @return nebrest existing pbrent Logger
      */
-    public Logger getParent() {
+    public Logger getPbrent() {
         // Note: this used to be synchronized on treeLock.  However, this only
-        // provided memory semantics, as there was no guarantee that the caller
-        // would synchronize on treeLock (in fact, there is no way for external
-        // callers to so synchronize).  Therefore, we have made parent volatile
-        // instead.
-        return parent;
+        // provided memory sembntics, bs there wbs no gubrbntee thbt the cbller
+        // would synchronize on treeLock (in fbct, there is no wby for externbl
+        // cbllers to so synchronize).  Therefore, we hbve mbde pbrent volbtile
+        // instebd.
+        return pbrent;
     }
 
     /**
-     * Set the parent for this Logger.  This method is used by
-     * the LogManager to update a Logger when the namespace changes.
+     * Set the pbrent for this Logger.  This method is used by
+     * the LogMbnbger to updbte b Logger when the nbmespbce chbnges.
      * <p>
-     * It should not be called from application code.
+     * It should not be cblled from bpplicbtion code.
      *
-     * @param  parent   the new parent logger
-     * @throws  SecurityException  if a security manager exists and if
-     *          the caller does not have LoggingPermission("control").
+     * @pbrbm  pbrent   the new pbrent logger
+     * @throws  SecurityException  if b security mbnbger exists bnd if
+     *          the cbller does not hbve LoggingPermission("control").
      */
-    public void setParent(Logger parent) {
-        if (parent == null) {
+    public void setPbrent(Logger pbrent) {
+        if (pbrent == null) {
             throw new NullPointerException();
         }
 
-        // check permission for all loggers, including anonymous loggers
-        if (manager == null) {
-            manager = LogManager.getLogManager();
+        // check permission for bll loggers, including bnonymous loggers
+        if (mbnbger == null) {
+            mbnbger = LogMbnbger.getLogMbnbger();
         }
-        manager.checkPermission();
+        mbnbger.checkPermission();
 
-        doSetParent(parent);
+        doSetPbrent(pbrent);
     }
 
-    // Private method to do the work for parenting a child
-    // Logger onto a parent logger.
-    private void doSetParent(Logger newParent) {
+    // Privbte method to do the work for pbrenting b child
+    // Logger onto b pbrent logger.
+    privbte void doSetPbrent(Logger newPbrent) {
 
-        // System.err.println("doSetParent \"" + getName() + "\" \""
-        //                              + newParent.getName() + "\"");
+        // System.err.println("doSetPbrent \"" + getNbme() + "\" \""
+        //                              + newPbrent.getNbme() + "\"");
 
         synchronized (treeLock) {
 
-            // Remove ourself from any previous parent.
-            LogManager.LoggerWeakRef ref = null;
-            if (parent != null) {
-                // assert parent.kids != null;
-                for (Iterator<LogManager.LoggerWeakRef> iter = parent.kids.iterator(); iter.hasNext(); ) {
+            // Remove ourself from bny previous pbrent.
+            LogMbnbger.LoggerWebkRef ref = null;
+            if (pbrent != null) {
+                // bssert pbrent.kids != null;
+                for (Iterbtor<LogMbnbger.LoggerWebkRef> iter = pbrent.kids.iterbtor(); iter.hbsNext(); ) {
                     ref = iter.next();
                     Logger kid =  ref.get();
                     if (kid == this) {
-                        // ref is used down below to complete the reparenting
+                        // ref is used down below to complete the repbrenting
                         iter.remove();
-                        break;
+                        brebk;
                     } else {
                         ref = null;
                     }
                 }
-                // We have now removed ourself from our parents' kids.
+                // We hbve now removed ourself from our pbrents' kids.
             }
 
-            // Set our new parent.
-            parent = newParent;
-            if (parent.kids == null) {
-                parent.kids = new ArrayList<>(2);
+            // Set our new pbrent.
+            pbrent = newPbrent;
+            if (pbrent.kids == null) {
+                pbrent.kids = new ArrbyList<>(2);
             }
             if (ref == null) {
-                // we didn't have a previous parent
-                ref = manager.new LoggerWeakRef(this);
+                // we didn't hbve b previous pbrent
+                ref = mbnbger.new LoggerWebkRef(this);
             }
-            ref.setParentRef(new WeakReference<>(parent));
-            parent.kids.add(ref);
+            ref.setPbrentRef(new WebkReference<>(pbrent));
+            pbrent.kids.bdd(ref);
 
-            // As a result of the reparenting, the effective level
-            // may have changed for us and our children.
-            updateEffectiveLevel();
+            // As b result of the repbrenting, the effective level
+            // mby hbve chbnged for us bnd our children.
+            updbteEffectiveLevel();
 
         }
     }
 
-    // Package-level method.
-    // Remove the weak reference for the specified child Logger from the
-    // kid list. We should only be called from LoggerWeakRef.dispose().
-    final void removeChildLogger(LogManager.LoggerWeakRef child) {
+    // Pbckbge-level method.
+    // Remove the webk reference for the specified child Logger from the
+    // kid list. We should only be cblled from LoggerWebkRef.dispose().
+    finbl void removeChildLogger(LogMbnbger.LoggerWebkRef child) {
         synchronized (treeLock) {
-            for (Iterator<LogManager.LoggerWeakRef> iter = kids.iterator(); iter.hasNext(); ) {
-                LogManager.LoggerWeakRef ref = iter.next();
+            for (Iterbtor<LogMbnbger.LoggerWebkRef> iter = kids.iterbtor(); iter.hbsNext(); ) {
+                LogMbnbger.LoggerWebkRef ref = iter.next();
                 if (ref == child) {
                     iter.remove();
                     return;
@@ -2094,85 +2094,85 @@ public class Logger {
         }
     }
 
-    // Recalculate the effective level for this node and
+    // Recblculbte the effective level for this node bnd
     // recursively for our children.
 
-    private void updateEffectiveLevel() {
-        // assert Thread.holdsLock(treeLock);
+    privbte void updbteEffectiveLevel() {
+        // bssert Threbd.holdsLock(treeLock);
 
         // Figure out our current effective level.
-        int newLevelValue;
+        int newLevelVblue;
         if (levelObject != null) {
-            newLevelValue = levelObject.intValue();
+            newLevelVblue = levelObject.intVblue();
         } else {
-            if (parent != null) {
-                newLevelValue = parent.levelValue;
+            if (pbrent != null) {
+                newLevelVblue = pbrent.levelVblue;
             } else {
-                // This may happen during initialization.
-                newLevelValue = Level.INFO.intValue();
+                // This mby hbppen during initiblizbtion.
+                newLevelVblue = Level.INFO.intVblue();
             }
         }
 
-        // If our effective value hasn't changed, we're done.
-        if (levelValue == newLevelValue) {
+        // If our effective vblue hbsn't chbnged, we're done.
+        if (levelVblue == newLevelVblue) {
             return;
         }
 
-        levelValue = newLevelValue;
+        levelVblue = newLevelVblue;
 
-        // System.err.println("effective level: \"" + getName() + "\" := " + level);
+        // System.err.println("effective level: \"" + getNbme() + "\" := " + level);
 
-        // Recursively update the level on each of our kids.
+        // Recursively updbte the level on ebch of our kids.
         if (kids != null) {
-            for (LogManager.LoggerWeakRef ref : kids) {
+            for (LogMbnbger.LoggerWebkRef ref : kids) {
                 Logger kid = ref.get();
                 if (kid != null) {
-                    kid.updateEffectiveLevel();
+                    kid.updbteEffectiveLevel();
                 }
             }
         }
     }
 
 
-    // Private method to get the potentially inherited
-    // resource bundle and resource bundle name for this Logger.
+    // Privbte method to get the potentiblly inherited
+    // resource bundle bnd resource bundle nbme for this Logger.
     // This method never returns null.
-    private LoggerBundle getEffectiveLoggerBundle() {
-        final LoggerBundle lb = loggerBundle;
+    privbte LoggerBundle getEffectiveLoggerBundle() {
+        finbl LoggerBundle lb = loggerBundle;
         if (lb.isSystemBundle()) {
             return SYSTEM_BUNDLE;
         }
 
-        // first take care of this logger
-        final ResourceBundle b = getResourceBundle();
+        // first tbke cbre of this logger
+        finbl ResourceBundle b = getResourceBundle();
         if (b != null && b == lb.userBundle) {
             return lb;
         } else if (b != null) {
             // either lb.userBundle is null or getResourceBundle() is
             // overriden
-            final String rbName = getResourceBundleName();
-            return LoggerBundle.get(rbName, b);
+            finbl String rbNbme = getResourceBundleNbme();
+            return LoggerBundle.get(rbNbme, b);
         }
 
-        // no resource bundle was specified on this logger, look up the
-        // parent stack.
-        Logger target = this.parent;
-        while (target != null) {
-            final LoggerBundle trb = target.loggerBundle;
+        // no resource bundle wbs specified on this logger, look up the
+        // pbrent stbck.
+        Logger tbrget = this.pbrent;
+        while (tbrget != null) {
+            finbl LoggerBundle trb = tbrget.loggerBundle;
             if (trb.isSystemBundle()) {
                 return SYSTEM_BUNDLE;
             }
             if (trb.userBundle != null) {
                 return trb;
             }
-            final String rbName = isSystemLogger
-                ? trb.resourceBundleName
-                : target.getResourceBundleName();
-            if (rbName != null) {
-                return LoggerBundle.get(rbName,
-                            findResourceBundle(rbName, true));
+            finbl String rbNbme = isSystemLogger
+                ? trb.resourceBundleNbme
+                : tbrget.getResourceBundleNbme();
+            if (rbNbme != null) {
+                return LoggerBundle.get(rbNbme,
+                            findResourceBundle(rbNbme, true));
             }
-            target = isSystemLogger ? target.parent : target.getParent();
+            tbrget = isSystemLogger ? tbrget.pbrent : tbrget.getPbrent();
         }
         return NO_RESOURCE_BUNDLE;
     }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 /**
- * Represents an SNMP gauge.
+ * Represents bn SNMP gbuge.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpGauge extends SnmpUnsignedInt {
-    private static final long serialVersionUID = -8366622742122792945L;
+public clbss SnmpGbuge extends SnmpUnsignedInt {
+    privbte stbtic finbl long seriblVersionUID = -8366622742122792945L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpGauge</CODE> from the specified integer value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpGbuge</CODE> from the specified integer vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpGauge(int v) throws IllegalArgumentException {
+    public SnmpGbuge(int v) throws IllegblArgumentException {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpGauge</CODE> from the specified <CODE>Integer</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpGbuge</CODE> from the specified <CODE>Integer</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpGauge(Integer v) throws IllegalArgumentException {
+    public SnmpGbuge(Integer v) throws IllegblArgumentException {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpGauge</CODE> from the specified long value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpGbuge</CODE> from the specified long vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpGauge(long v) throws IllegalArgumentException {
+    public SnmpGbuge(long v) throws IllegblArgumentException {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpGauge</CODE> from the specified <CODE>Long</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
+     * Constructs b new <CODE>SnmpGbuge</CODE> from the specified <CODE>Long</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn {@link SnmpUnsignedInt#MAX_VALUE SnmpUnsignedInt.MAX_VALUE}.
      */
-    public SnmpGauge(Long v) throws IllegalArgumentException {
+    public SnmpGbuge(Long v) throws IllegblArgumentException {
         super(v) ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl public String getTypeNbme() {
+        return nbme ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "Gauge32" ;
+    finbl stbtic String nbme = "Gbuge32" ;
 }

@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* Note that the contents of this file were taken from canvas.c
- * in the old motif-based AWT.
+/* Note thbt the contents of this file were tbken from cbnvbs.c
+ * in the old motif-bbsed AWT.
  */
 
 #ifdef HEADLESS
-    #error This file should not be included in headless library
+    #error This file should not be included in hebdless librbry
 #endif
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
-#include <X11/Xatom.h>
+#include <X11/Xbtom.h>
 #include <ctype.h>
 
 #include <jvm.h>
@@ -42,39 +42,39 @@
 #include <jlong.h>
 #include <jni_util.h>
 
-#include "sun_awt_X11_XWindow.h"
+#include "sun_bwt_X11_XWindow.h"
 
-#include "awt_p.h"
-#include "awt_GraphicsEnv.h"
-#include "awt_AWTEvent.h"
+#include "bwt_p.h"
+#include "bwt_GrbphicsEnv.h"
+#include "bwt_AWTEvent.h"
 
 #define XK_KATAKANA
-#include <X11/keysym.h>     /* standard X keysyms */
+#include <X11/keysym.h>     /* stbndbrd X keysyms */
 #include <X11/DECkeysym.h>  /* DEC vendor-specific */
 #include <X11/Sunkeysym.h>  /* Sun vendor-specific */
-#include <X11/ap_keysym.h>  /* Apollo (HP) vendor-specific */
+#include <X11/bp_keysym.h>  /* Apollo (HP) vendor-specific */
 /*
  * #include <X11/HPkeysym.h>    HP vendor-specific
- * I checked HPkeysym.h into the workspace because although
- * I think it will ship with X11R6.4.2 (and later) on Linux,
- * it doesn't seem to be in Solaris 9 Update 2.
+ * I checked HPkeysym.h into the workspbce becbuse blthough
+ * I think it will ship with X11R6.4.2 (bnd lbter) on Linux,
+ * it doesn't seem to be in Solbris 9 Updbte 2.
  *
- * This is done not only for the hp keysyms, but also to
- * give us the osf keysyms that are also defined in HPkeysym.h.
- * However, HPkeysym.h is missing a couple of osf keysyms,
- * so I have #defined them below.
+ * This is done not only for the hp keysyms, but blso to
+ * give us the osf keysyms thbt bre blso defined in HPkeysym.h.
+ * However, HPkeysym.h is missing b couple of osf keysyms,
+ * so I hbve #defined them below.
  */
 #include "HPkeysym.h"   /* HP vendor-specific */
 
-#include "java_awt_event_KeyEvent.h"
-#include "java_awt_event_InputEvent.h"
-#include "java_awt_event_MouseEvent.h"
-#include "java_awt_event_MouseWheelEvent.h"
-#include "java_awt_AWTEvent.h"
+#include "jbvb_bwt_event_KeyEvent.h"
+#include "jbvb_bwt_event_InputEvent.h"
+#include "jbvb_bwt_event_MouseEvent.h"
+#include "jbvb_bwt_event_MouseWheelEvent.h"
+#include "jbvb_bwt_AWTEvent.h"
 
 /*
- * Two osf keys are not defined in standard keysym.h,
- * /Xm/VirtKeys.h, or HPkeysym.h, so I added them below.
+ * Two osf keys bre not defined in stbndbrd keysym.h,
+ * /Xm/VirtKeys.h, or HPkeysym.h, so I bdded them below.
  * I found them in /usr/openwin/lib/X11/XKeysymDB
  */
 #ifndef osfXK_Prior
@@ -85,1118 +85,1118 @@
 #endif
 
 jfieldID windowID;
-jfieldID drawStateID;
-jfieldID targetID;
-jfieldID graphicsConfigID;
+jfieldID drbwStbteID;
+jfieldID tbrgetID;
+jfieldID grbphicsConfigID;
 
-extern jobject currentX11InputMethodInstance;
-extern Boolean awt_x11inputmethod_lookupString(XKeyPressedEvent *, KeySym *);
-Boolean awt_UseType4Patch = False;
-/* how about HEADLESS */
-Boolean awt_ServerDetected = False;
-Boolean awt_XKBDetected = False;
-Boolean awt_IsXsun = False;
-Boolean awt_UseXKB = False;
+extern jobject currentX11InputMethodInstbnce;
+extern Boolebn bwt_x11inputmethod_lookupString(XKeyPressedEvent *, KeySym *);
+Boolebn bwt_UseType4Pbtch = Fblse;
+/* how bbout HEADLESS */
+Boolebn bwt_ServerDetected = Fblse;
+Boolebn bwt_XKBDetected = Fblse;
+Boolebn bwt_IsXsun = Fblse;
+Boolebn bwt_UseXKB = Fblse;
 
 typedef struct KEYMAP_ENTRY {
-    jint awtKey;
+    jint bwtKey;
     KeySym x11Key;
-    Boolean mapsToUnicodeChar;
-    jint keyLocation;
-} KeymapEntry;
+    Boolebn mbpsToUnicodeChbr;
+    jint keyLocbtion;
+} KeymbpEntry;
 
-/* NB: XK_R? keysyms are for Type 4 keyboards.
- * The corresponding XK_F? keysyms are for Type 5
+/* NB: XK_R? keysyms bre for Type 4 keybobrds.
+ * The corresponding XK_F? keysyms bre for Type 5
  *
- * Note: this table must be kept in sorted order, since it is traversed
- * according to both Java keycode and X keysym.  There are a number of
- * keycodes that map to more than one corresponding keysym, and we need
- * to choose the right one.  Unfortunately, there are some keysyms that
- * can map to more than one keycode, depending on what kind of keyboard
- * is in use (e.g. F11 and F12).
+ * Note: this tbble must be kept in sorted order, since it is trbversed
+ * bccording to both Jbvb keycode bnd X keysym.  There bre b number of
+ * keycodes thbt mbp to more thbn one corresponding keysym, bnd we need
+ * to choose the right one.  Unfortunbtely, there bre some keysyms thbt
+ * cbn mbp to more thbn one keycode, depending on whbt kind of keybobrd
+ * is in use (e.g. F11 bnd F12).
  */
 
-KeymapEntry keymapTable[] =
+KeymbpEntry keymbpTbble[] =
 {
-    {java_awt_event_KeyEvent_VK_A, XK_a, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_B, XK_b, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_C, XK_c, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_D, XK_d, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_E, XK_e, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F, XK_f, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_G, XK_g, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_H, XK_h, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_I, XK_i, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_J, XK_j, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_K, XK_k, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_L, XK_l, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_M, XK_m, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_N, XK_n, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_O, XK_o, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_P, XK_p, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_Q, XK_q, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_R, XK_r, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_S, XK_s, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_T, XK_t, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_U, XK_u, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_V, XK_v, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_W, XK_w, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_X, XK_x, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_Y, XK_y, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_Z, XK_z, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_A, XK_b, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_B, XK_b, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_C, XK_c, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_D, XK_d, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_E, XK_e, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F, XK_f, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_G, XK_g, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_H, XK_h, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_I, XK_i, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_J, XK_j, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_K, XK_k, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_L, XK_l, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_M, XK_m, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_N, XK_n, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_O, XK_o, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_P, XK_p, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_Q, XK_q, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_R, XK_r, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_S, XK_s, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_T, XK_t, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_U, XK_u, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_V, XK_v, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_W, XK_w, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_X, XK_x, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_Y, XK_y, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_Z, XK_z, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* TTY Function keys */
-    {java_awt_event_KeyEvent_VK_BACK_SPACE, XK_BackSpace, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_TAB, XK_Tab, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_TAB, XK_ISO_Left_Tab, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CLEAR, XK_Clear, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ENTER, XK_Return, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ENTER, XK_Linefeed, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAUSE, XK_Pause, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAUSE, XK_F21, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAUSE, XK_R1, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_SCROLL_LOCK, XK_Scroll_Lock, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_SCROLL_LOCK, XK_F23, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_SCROLL_LOCK, XK_R3, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ESCAPE, XK_Escape, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BACK_SPACE, XK_BbckSpbce, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_TAB, XK_Tbb, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_TAB, XK_ISO_Left_Tbb, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CLEAR, XK_Clebr, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ENTER, XK_Return, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ENTER, XK_Linefeed, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAUSE, XK_Pbuse, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAUSE, XK_F21, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAUSE, XK_R1, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SCROLL_LOCK, XK_Scroll_Lock, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SCROLL_LOCK, XK_F23, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SCROLL_LOCK, XK_R3, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ESCAPE, XK_Escbpe, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Other vendor-specific versions of TTY Function keys */
-    {java_awt_event_KeyEvent_VK_BACK_SPACE, osfXK_BackSpace, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CLEAR, osfXK_Clear, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ESCAPE, osfXK_Escape, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BACK_SPACE, osfXK_BbckSpbce, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CLEAR, osfXK_Clebr, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ESCAPE, osfXK_Escbpe, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Modifier keys */
-    {java_awt_event_KeyEvent_VK_SHIFT, XK_Shift_L, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_LEFT},
-    {java_awt_event_KeyEvent_VK_SHIFT, XK_Shift_R, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_RIGHT},
-    {java_awt_event_KeyEvent_VK_CONTROL, XK_Control_L, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_LEFT},
-    {java_awt_event_KeyEvent_VK_CONTROL, XK_Control_R, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_RIGHT},
-    {java_awt_event_KeyEvent_VK_ALT, XK_Alt_L, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_LEFT},
-    {java_awt_event_KeyEvent_VK_ALT, XK_Alt_R, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_RIGHT},
-    {java_awt_event_KeyEvent_VK_META, XK_Meta_L, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_LEFT},
-    {java_awt_event_KeyEvent_VK_META, XK_Meta_R, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_RIGHT},
-    {java_awt_event_KeyEvent_VK_CAPS_LOCK, XK_Caps_Lock, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CAPS_LOCK, XK_Shift_Lock, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SHIFT, XK_Shift_L, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_LEFT},
+    {jbvb_bwt_event_KeyEvent_VK_SHIFT, XK_Shift_R, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_RIGHT},
+    {jbvb_bwt_event_KeyEvent_VK_CONTROL, XK_Control_L, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_LEFT},
+    {jbvb_bwt_event_KeyEvent_VK_CONTROL, XK_Control_R, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_RIGHT},
+    {jbvb_bwt_event_KeyEvent_VK_ALT, XK_Alt_L, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_LEFT},
+    {jbvb_bwt_event_KeyEvent_VK_ALT, XK_Alt_R, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_RIGHT},
+    {jbvb_bwt_event_KeyEvent_VK_META, XK_Metb_L, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_LEFT},
+    {jbvb_bwt_event_KeyEvent_VK_META, XK_Metb_R, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_RIGHT},
+    {jbvb_bwt_event_KeyEvent_VK_CAPS_LOCK, XK_Cbps_Lock, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CAPS_LOCK, XK_Shift_Lock, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Misc Functions */
-    {java_awt_event_KeyEvent_VK_PRINTSCREEN, XK_Print, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PRINTSCREEN, XK_F22, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PRINTSCREEN, XK_R2, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CANCEL, XK_Cancel, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_HELP, XK_Help, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_NUM_LOCK, XK_Num_Lock, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_PRINTSCREEN, XK_Print, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PRINTSCREEN, XK_F22, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PRINTSCREEN, XK_R2, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CANCEL, XK_Cbncel, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_HELP, XK_Help, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_NUM_LOCK, XK_Num_Lock, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
 
     /* Other vendor-specific versions of Misc Functions */
-    {java_awt_event_KeyEvent_VK_CANCEL, osfXK_Cancel, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_HELP, osfXK_Help, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CANCEL, osfXK_Cbncel, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_HELP, osfXK_Help, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Rectangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_HOME, XK_Home, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_HOME, XK_R7, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, XK_Page_Up, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, XK_Prior, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, XK_R9, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, XK_Page_Down, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, XK_Next, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, XK_R15, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_END, XK_End, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_END, XK_R13, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_INSERT, XK_Insert, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DELETE, XK_Delete, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Rectbngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_HOME, XK_Home, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_HOME, XK_R7, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, XK_Pbge_Up, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, XK_Prior, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, XK_R9, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, XK_Pbge_Down, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, XK_Next, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, XK_R15, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_END, XK_End, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_END, XK_R13, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_INSERT, XK_Insert, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DELETE, XK_Delete, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Keypad equivalents of Rectangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_HOME, XK_KP_Home, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, XK_KP_Page_Up, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, XK_KP_Prior, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, XK_KP_Page_Down, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, XK_KP_Next, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_END, XK_KP_End, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_INSERT, XK_KP_Insert, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_DELETE, XK_KP_Delete, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    /* Keypbd equivblents of Rectbngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_HOME, XK_KP_Home, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, XK_KP_Pbge_Up, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, XK_KP_Prior, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, XK_KP_Pbge_Down, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, XK_KP_Next, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_END, XK_KP_End, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_INSERT, XK_KP_Insert, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_DELETE, XK_KP_Delete, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
 
-    /* Other vendor-specific Rectangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_PAGE_UP, osfXK_PageUp, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_UP, osfXK_Prior, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, osfXK_PageDown, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PAGE_DOWN, osfXK_Next, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_END, osfXK_EndLine, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_INSERT, osfXK_Insert, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DELETE, osfXK_Delete, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Other vendor-specific Rectbngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, osfXK_PbgeUp, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_UP, osfXK_Prior, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, osfXK_PbgeDown, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN, osfXK_Next, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_END, osfXK_EndLine, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_INSERT, osfXK_Insert, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DELETE, osfXK_Delete, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Triangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_LEFT, XK_Left, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UP, XK_Up, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_RIGHT, XK_Right, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DOWN, XK_Down, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Tribngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_LEFT, XK_Left, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UP, XK_Up, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_RIGHT, XK_Right, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DOWN, XK_Down, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Keypad equivalents of Triangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_KP_LEFT, XK_KP_Left, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_KP_UP, XK_KP_Up, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_KP_RIGHT, XK_KP_Right, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_KP_DOWN, XK_KP_Down, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    /* Keypbd equivblents of Tribngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_KP_LEFT, XK_KP_Left, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_KP_UP, XK_KP_Up, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_KP_RIGHT, XK_KP_Right, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_KP_DOWN, XK_KP_Down, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
 
-    /* Other vendor-specific Triangular Navigation Block */
-    {java_awt_event_KeyEvent_VK_LEFT, osfXK_Left, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UP, osfXK_Up, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_RIGHT, osfXK_Right, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DOWN, osfXK_Down, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Other vendor-specific Tribngulbr Nbvigbtion Block */
+    {jbvb_bwt_event_KeyEvent_VK_LEFT, osfXK_Left, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UP, osfXK_Up, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_RIGHT, osfXK_Right, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DOWN, osfXK_Down, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Remaining Cursor control & motion */
-    {java_awt_event_KeyEvent_VK_BEGIN, XK_Begin, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_BEGIN, XK_KP_Begin, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    /* Rembining Cursor control & motion */
+    {jbvb_bwt_event_KeyEvent_VK_BEGIN, XK_Begin, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BEGIN, XK_KP_Begin, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
 
-    {java_awt_event_KeyEvent_VK_0, XK_0, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_1, XK_1, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_2, XK_2, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_3, XK_3, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_4, XK_4, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_5, XK_5, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_6, XK_6, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_7, XK_7, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_8, XK_8, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_9, XK_9, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_0, XK_0, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_1, XK_1, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_2, XK_2, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_3, XK_3, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_4, XK_4, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_5, XK_5, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_6, XK_6, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_7, XK_7, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_8, XK_8, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_9, XK_9, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_SPACE, XK_space, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_EXCLAMATION_MARK, XK_exclam, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_QUOTEDBL, XK_quotedbl, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_NUMBER_SIGN, XK_numbersign, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DOLLAR, XK_dollar, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_AMPERSAND, XK_ampersand, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_QUOTE, XK_apostrophe, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_LEFT_PARENTHESIS, XK_parenleft, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_RIGHT_PARENTHESIS, XK_parenright, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ASTERISK, XK_asterisk, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PLUS, XK_plus, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_COMMA, XK_comma, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_MINUS, XK_minus, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PERIOD, XK_period, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_SLASH, XK_slash, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SPACE, XK_spbce, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_EXCLAMATION_MARK, XK_exclbm, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_QUOTEDBL, XK_quotedbl, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMBER_SIGN, XK_numbersign, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DOLLAR, XK_dollbr, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_AMPERSAND, XK_bmpersbnd, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_QUOTE, XK_bpostrophe, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_LEFT_PARENTHESIS, XK_pbrenleft, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_RIGHT_PARENTHESIS, XK_pbrenright, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ASTERISK, XK_bsterisk, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PLUS, XK_plus, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COMMA, XK_commb, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_MINUS, XK_minus, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PERIOD, XK_period, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SLASH, XK_slbsh, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_COLON, XK_colon, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_SEMICOLON, XK_semicolon, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_LESS, XK_less, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_EQUALS, XK_equal, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_GREATER, XK_greater, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COLON, XK_colon, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_SEMICOLON, XK_semicolon, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_LESS, XK_less, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_EQUALS, XK_equbl, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_GREATER, XK_grebter, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_AT, XK_at, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_AT, XK_bt, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_OPEN_BRACKET, XK_bracketleft, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_BACK_SLASH, XK_backslash, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CLOSE_BRACKET, XK_bracketright, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CIRCUMFLEX, XK_asciicircum, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UNDERSCORE, XK_underscore, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_BACK_QUOTE, XK_grave, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_OPEN_BRACKET, XK_brbcketleft, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BACK_SLASH, XK_bbckslbsh, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CLOSE_BRACKET, XK_brbcketright, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CIRCUMFLEX, XK_bsciicircum, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UNDERSCORE, XK_underscore, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BACK_QUOTE, XK_grbve, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_BRACELEFT, XK_braceleft, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_BRACERIGHT, XK_braceright, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BRACELEFT, XK_brbceleft, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_BRACERIGHT, XK_brbceright, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_INVERTED_EXCLAMATION_MARK, XK_exclamdown, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_INVERTED_EXCLAMATION_MARK, XK_exclbmdown, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Remaining Numeric Keypad Keys */
-    {java_awt_event_KeyEvent_VK_NUMPAD0, XK_KP_0, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD1, XK_KP_1, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD2, XK_KP_2, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD3, XK_KP_3, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD4, XK_KP_4, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD5, XK_KP_5, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD6, XK_KP_6, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD7, XK_KP_7, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD8, XK_KP_8, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_NUMPAD9, XK_KP_9, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_SPACE, XK_KP_Space, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_TAB, XK_KP_Tab, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_ENTER, XK_KP_Enter, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_EQUALS, XK_KP_Equal, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_EQUALS, XK_R4, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_MULTIPLY, XK_KP_Multiply, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_MULTIPLY, XK_F26, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_MULTIPLY, XK_R6, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_ADD, XK_KP_Add, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_SEPARATOR, XK_KP_Separator, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_SUBTRACT, XK_KP_Subtract, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_SUBTRACT, XK_F24, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_DECIMAL, XK_KP_Decimal, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_DIVIDE, XK_KP_Divide, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_DIVIDE, XK_F25, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
-    {java_awt_event_KeyEvent_VK_DIVIDE, XK_R5, TRUE, java_awt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    /* Rembining Numeric Keypbd Keys */
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD0, XK_KP_0, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD1, XK_KP_1, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD2, XK_KP_2, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD3, XK_KP_3, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD4, XK_KP_4, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD5, XK_KP_5, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD6, XK_KP_6, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD7, XK_KP_7, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD8, XK_KP_8, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_NUMPAD9, XK_KP_9, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_SPACE, XK_KP_Spbce, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_TAB, XK_KP_Tbb, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_ENTER, XK_KP_Enter, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_EQUALS, XK_KP_Equbl, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_EQUALS, XK_R4, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_MULTIPLY, XK_KP_Multiply, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_MULTIPLY, XK_F26, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_MULTIPLY, XK_R6, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_ADD, XK_KP_Add, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_SEPARATOR, XK_KP_Sepbrbtor, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_SUBTRACT, XK_KP_Subtrbct, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_SUBTRACT, XK_F24, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_DECIMAL, XK_KP_Decimbl, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_DIVIDE, XK_KP_Divide, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_DIVIDE, XK_F25, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
+    {jbvb_bwt_event_KeyEvent_VK_DIVIDE, XK_R5, TRUE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_NUMPAD},
 
     /* Function Keys */
-    {java_awt_event_KeyEvent_VK_F1, XK_F1, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F2, XK_F2, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F3, XK_F3, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F4, XK_F4, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F5, XK_F5, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F6, XK_F6, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F7, XK_F7, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F8, XK_F8, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F9, XK_F9, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F10, XK_F10, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F11, XK_F11, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F12, XK_F12, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F1, XK_F1, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F2, XK_F2, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F3, XK_F3, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F4, XK_F4, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F5, XK_F5, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F6, XK_F6, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F7, XK_F7, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F8, XK_F8, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F9, XK_F9, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F10, XK_F10, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F11, XK_F11, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F12, XK_F12, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Sun vendor-specific version of F11 and F12 */
-    {java_awt_event_KeyEvent_VK_F11, SunXK_F36, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_F12, SunXK_F37, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Sun vendor-specific version of F11 bnd F12 */
+    {jbvb_bwt_event_KeyEvent_VK_F11, SunXK_F36, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_F12, SunXK_F37, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* X11 keysym names for input method related keys don't always
-     * match keytop engravings or Java virtual key names, so here we
-     * only map constants that we've found on real keyboards.
+    /* X11 keysym nbmes for input method relbted keys don't blwbys
+     * mbtch keytop engrbvings or Jbvb virtubl key nbmes, so here we
+     * only mbp constbnts thbt we've found on rebl keybobrds.
      */
-    /* Type 5c Japanese keyboard: kakutei */
-    {java_awt_event_KeyEvent_VK_ACCEPT, XK_Execute, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    /* Type 5c Japanese keyboard: henkan */
-    {java_awt_event_KeyEvent_VK_CONVERT, XK_Kanji, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    /* Type 5c Japanese keyboard: nihongo */
-    {java_awt_event_KeyEvent_VK_INPUT_METHOD_ON_OFF, XK_Henkan_Mode, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    /* VK_KANA_LOCK is handled separately because it generates the
-     * same keysym as ALT_GRAPH in spite of its different behavior.
+    /* Type 5c Jbpbnese keybobrd: kbkutei */
+    {jbvb_bwt_event_KeyEvent_VK_ACCEPT, XK_Execute, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Type 5c Jbpbnese keybobrd: henkbn */
+    {jbvb_bwt_event_KeyEvent_VK_CONVERT, XK_Kbnji, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Type 5c Jbpbnese keybobrd: nihongo */
+    {jbvb_bwt_event_KeyEvent_VK_INPUT_METHOD_ON_OFF, XK_Henkbn_Mode, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* VK_KANA_LOCK is hbndled sepbrbtely becbuse it generbtes the
+     * sbme keysym bs ALT_GRAPH in spite of its different behbvior.
      */
 
-    {java_awt_event_KeyEvent_VK_ALL_CANDIDATES, XK_Zen_Koho, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ALPHANUMERIC, XK_Eisu_Shift, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ALPHANUMERIC, XK_Eisu_toggle, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CODE_INPUT, XK_Kanji_Bangou, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_FULL_WIDTH, XK_Zenkaku, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_HALF_WIDTH, XK_Hankaku, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_HIRAGANA, XK_Hiragana, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_JAPANESE_HIRAGANA, XK_Hiragana, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_KATAKANA, XK_Katakana, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_JAPANESE_KATAKANA, XK_Katakana, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_JAPANESE_ROMAN, XK_Romaji, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_KANA, XK_Kana_Shift, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_KANA_LOCK, XK_Kana_Lock, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_KANJI, XK_Kanji, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_NONCONVERT, XK_Muhenkan, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PREVIOUS_CANDIDATE, XK_Mae_Koho, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ROMAN_CHARACTERS, XK_Romaji, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ALL_CANDIDATES, XK_Zen_Koho, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ALPHANUMERIC, XK_Eisu_Shift, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ALPHANUMERIC, XK_Eisu_toggle, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CODE_INPUT, XK_Kbnji_Bbngou, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_FULL_WIDTH, XK_Zenkbku, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_HALF_WIDTH, XK_Hbnkbku, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_HIRAGANA, XK_Hirbgbnb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_JAPANESE_HIRAGANA, XK_Hirbgbnb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_KATAKANA, XK_Kbtbkbnb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_JAPANESE_KATAKANA, XK_Kbtbkbnb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_JAPANESE_ROMAN, XK_Rombji, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_KANA, XK_Kbnb_Shift, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_KANA_LOCK, XK_Kbnb_Lock, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_KANJI, XK_Kbnji, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_NONCONVERT, XK_Muhenkbn, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PREVIOUS_CANDIDATE, XK_Mbe_Koho, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ROMAN_CHARACTERS, XK_Rombji, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_COMPOSE, XK_Multi_key, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_ALT_GRAPH, XK_Mode_switch, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COMPOSE, XK_Multi_key, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_ALT_GRAPH, XK_Mode_switch, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Editing block */
-    {java_awt_event_KeyEvent_VK_AGAIN, XK_Redo, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_AGAIN, XK_L2, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UNDO, XK_Undo, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UNDO, XK_L4, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_COPY, XK_L6, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PASTE, XK_L8, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CUT, XK_L10, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_FIND, XK_Find, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_FIND, XK_L9, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PROPS, XK_L3, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_STOP, XK_L1, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_AGAIN, XK_Redo, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_AGAIN, XK_L2, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UNDO, XK_Undo, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UNDO, XK_L4, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COPY, XK_L6, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PASTE, XK_L8, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CUT, XK_L10, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_FIND, XK_Find, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_FIND, XK_L9, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PROPS, XK_L3, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_STOP, XK_L1, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Sun vendor-specific versions for editing block */
-    {java_awt_event_KeyEvent_VK_AGAIN, SunXK_Again, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UNDO, SunXK_Undo, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_COPY, SunXK_Copy, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PASTE, SunXK_Paste, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CUT, SunXK_Cut, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_FIND, SunXK_Find, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PROPS, SunXK_Props, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_STOP, SunXK_Stop, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_AGAIN, SunXK_Agbin, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UNDO, SunXK_Undo, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COPY, SunXK_Copy, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PASTE, SunXK_Pbste, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CUT, SunXK_Cut, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_FIND, SunXK_Find, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PROPS, SunXK_Props, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_STOP, SunXK_Stop, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Apollo (HP) vendor-specific versions for editing block */
-    {java_awt_event_KeyEvent_VK_COPY, apXK_Copy, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CUT, apXK_Cut, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PASTE, apXK_Paste, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COPY, bpXK_Copy, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CUT, bpXK_Cut, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PASTE, bpXK_Pbste, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
     /* Other vendor-specific versions for editing block */
-    {java_awt_event_KeyEvent_VK_COPY, osfXK_Copy, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_CUT, osfXK_Cut, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_PASTE, osfXK_Paste, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_UNDO, osfXK_Undo, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_COPY, osfXK_Copy, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_CUT, osfXK_Cut, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_PASTE, osfXK_Pbste, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_UNDO, osfXK_Undo, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Dead key mappings (for European keyboards) */
-    {java_awt_event_KeyEvent_VK_DEAD_GRAVE, XK_dead_grave, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_ACUTE, XK_dead_acute, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, XK_dead_circumflex, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_TILDE, XK_dead_tilde, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_MACRON, XK_dead_macron, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_BREVE, XK_dead_breve, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_ABOVEDOT, XK_dead_abovedot, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_DIAERESIS, XK_dead_diaeresis, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_ABOVERING, XK_dead_abovering, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_DOUBLEACUTE, XK_dead_doubleacute, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CARON, XK_dead_caron, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CEDILLA, XK_dead_cedilla, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_OGONEK, XK_dead_ogonek, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_IOTA, XK_dead_iota, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_VOICED_SOUND, XK_dead_voiced_sound, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_SEMIVOICED_SOUND, XK_dead_semivoiced_sound, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Debd key mbppings (for Europebn keybobrds) */
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_GRAVE, XK_debd_grbve, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ACUTE, XK_debd_bcute, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, XK_debd_circumflex, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_TILDE, XK_debd_tilde, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_MACRON, XK_debd_mbcron, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_BREVE, XK_debd_breve, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ABOVEDOT, XK_debd_bbovedot, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_DIAERESIS, XK_debd_diberesis, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ABOVERING, XK_debd_bbovering, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_DOUBLEACUTE, XK_debd_doublebcute, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CARON, XK_debd_cbron, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CEDILLA, XK_debd_cedillb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_OGONEK, XK_debd_ogonek, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_IOTA, XK_debd_iotb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_VOICED_SOUND, XK_debd_voiced_sound, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_SEMIVOICED_SOUND, XK_debd_semivoiced_sound, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Sun vendor-specific dead key mappings (for European keyboards) */
-    {java_awt_event_KeyEvent_VK_DEAD_GRAVE, SunXK_FA_Grave, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, SunXK_FA_Circum, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_TILDE, SunXK_FA_Tilde, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_ACUTE, SunXK_FA_Acute, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_DIAERESIS, SunXK_FA_Diaeresis, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CEDILLA, SunXK_FA_Cedilla, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Sun vendor-specific debd key mbppings (for Europebn keybobrds) */
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_GRAVE, SunXK_FA_Grbve, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, SunXK_FA_Circum, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_TILDE, SunXK_FA_Tilde, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ACUTE, SunXK_FA_Acute, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_DIAERESIS, SunXK_FA_Diberesis, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CEDILLA, SunXK_FA_Cedillb, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* DEC vendor-specific dead key mappings (for European keyboards) */
-    {java_awt_event_KeyEvent_VK_DEAD_ABOVERING, DXK_ring_accent, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, DXK_circumflex_accent, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CEDILLA, DXK_cedilla_accent, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_ACUTE, DXK_acute_accent, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_GRAVE, DXK_grave_accent, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_TILDE, DXK_tilde, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_DIAERESIS, DXK_diaeresis, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* DEC vendor-specific debd key mbppings (for Europebn keybobrds) */
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ABOVERING, DXK_ring_bccent, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, DXK_circumflex_bccent, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CEDILLA, DXK_cedillb_bccent, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ACUTE, DXK_bcute_bccent, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_GRAVE, DXK_grbve_bccent, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_TILDE, DXK_tilde, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_DIAERESIS, DXK_diberesis, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    /* Other vendor-specific dead key mappings (for European keyboards) */
-    {java_awt_event_KeyEvent_VK_DEAD_ACUTE, hpXK_mute_acute, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_GRAVE, hpXK_mute_grave, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, hpXK_mute_asciicircum, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_DIAERESIS, hpXK_mute_diaeresis, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
-    {java_awt_event_KeyEvent_VK_DEAD_TILDE, hpXK_mute_asciitilde, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    /* Other vendor-specific debd key mbppings (for Europebn keybobrds) */
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_ACUTE, hpXK_mute_bcute, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_GRAVE, hpXK_mute_grbve, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_CIRCUMFLEX, hpXK_mute_bsciicircum, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_DIAERESIS, hpXK_mute_diberesis, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
+    {jbvb_bwt_event_KeyEvent_VK_DEAD_TILDE, hpXK_mute_bsciitilde, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_STANDARD},
 
-    {java_awt_event_KeyEvent_VK_UNDEFINED, NoSymbol, FALSE, java_awt_event_KeyEvent_KEY_LOCATION_UNKNOWN}
+    {jbvb_bwt_event_KeyEvent_VK_UNDEFINED, NoSymbol, FALSE, jbvb_bwt_event_KeyEvent_KEY_LOCATION_UNKNOWN}
 };
 
-static Boolean
-keyboardHasKanaLockKey()
+stbtic Boolebn
+keybobrdHbsKbnbLockKey()
 {
-    static Boolean haveResult = FALSE;
-    static Boolean result = FALSE;
+    stbtic Boolebn hbveResult = FALSE;
+    stbtic Boolebn result = FALSE;
 
-    int32_t minKeyCode, maxKeyCode, keySymsPerKeyCode;
-    KeySym *keySyms, *keySymsStart, keySym;
+    int32_t minKeyCode, mbxKeyCode, keySymsPerKeyCode;
+    KeySym *keySyms, *keySymsStbrt, keySym;
     int32_t i;
-    int32_t kanaCount = 0;
+    int32_t kbnbCount = 0;
 
-    // Solaris doesn't let you swap keyboards without rebooting,
-    // so there's no need to check for the kana lock key more than once.
-    if (haveResult) {
+    // Solbris doesn't let you swbp keybobrds without rebooting,
+    // so there's no need to check for the kbnb lock key more thbn once.
+    if (hbveResult) {
        return result;
     }
 
-    // There's no direct way to determine whether the keyboard has
-    // a kana lock key. From available keyboard mapping tables, it looks
-    // like only keyboards with the kana lock key can produce keysyms
-    // for kana characters. So, as an indirect test, we check for those.
-    XDisplayKeycodes(awt_display, &minKeyCode, &maxKeyCode);
-    keySyms = XGetKeyboardMapping(awt_display, minKeyCode, maxKeyCode - minKeyCode + 1, &keySymsPerKeyCode);
-    keySymsStart = keySyms;
-    for (i = 0; i < (maxKeyCode - minKeyCode + 1) * keySymsPerKeyCode; i++) {
+    // There's no direct wby to determine whether the keybobrd hbs
+    // b kbnb lock key. From bvbilbble keybobrd mbpping tbbles, it looks
+    // like only keybobrds with the kbnb lock key cbn produce keysyms
+    // for kbnb chbrbcters. So, bs bn indirect test, we check for those.
+    XDisplbyKeycodes(bwt_displby, &minKeyCode, &mbxKeyCode);
+    keySyms = XGetKeybobrdMbpping(bwt_displby, minKeyCode, mbxKeyCode - minKeyCode + 1, &keySymsPerKeyCode);
+    keySymsStbrt = keySyms;
+    for (i = 0; i < (mbxKeyCode - minKeyCode + 1) * keySymsPerKeyCode; i++) {
         keySym = *keySyms++;
         if ((keySym & 0xff00) == 0x0400) {
-            kanaCount++;
+            kbnbCount++;
         }
     }
-    XFree(keySymsStart);
+    XFree(keySymsStbrt);
 
-    // use a (somewhat arbitrary) minimum so we don't get confused by a stray function key
-    result = kanaCount > 10;
-    haveResult = TRUE;
+    // use b (somewhbt brbitrbry) minimum so we don't get confused by b strby function key
+    result = kbnbCount > 10;
+    hbveResult = TRUE;
     return result;
 }
 
-static void
-keysymToAWTKeyCode(KeySym x11Key, jint *keycode, Boolean *mapsToUnicodeChar,
-  jint *keyLocation)
+stbtic void
+keysymToAWTKeyCode(KeySym x11Key, jint *keycode, Boolebn *mbpsToUnicodeChbr,
+  jint *keyLocbtion)
 {
     int32_t i;
 
-    // Solaris uses XK_Mode_switch for both the non-locking AltGraph
-    // and the locking Kana key, but we want to keep them separate for
+    // Solbris uses XK_Mode_switch for both the non-locking AltGrbph
+    // bnd the locking Kbnb key, but we wbnt to keep them sepbrbte for
     // KeyEvent.
-    if (x11Key == XK_Mode_switch && keyboardHasKanaLockKey()) {
-        *keycode = java_awt_event_KeyEvent_VK_KANA_LOCK;
-        *mapsToUnicodeChar = FALSE;
-        *keyLocation = java_awt_event_KeyEvent_KEY_LOCATION_UNKNOWN;
+    if (x11Key == XK_Mode_switch && keybobrdHbsKbnbLockKey()) {
+        *keycode = jbvb_bwt_event_KeyEvent_VK_KANA_LOCK;
+        *mbpsToUnicodeChbr = FALSE;
+        *keyLocbtion = jbvb_bwt_event_KeyEvent_KEY_LOCATION_UNKNOWN;
         return;
     }
 
     for (i = 0;
-         keymapTable[i].awtKey != java_awt_event_KeyEvent_VK_UNDEFINED;
+         keymbpTbble[i].bwtKey != jbvb_bwt_event_KeyEvent_VK_UNDEFINED;
          i++)
     {
-        if (keymapTable[i].x11Key == x11Key) {
-            *keycode = keymapTable[i].awtKey;
-            *mapsToUnicodeChar = keymapTable[i].mapsToUnicodeChar;
-            *keyLocation = keymapTable[i].keyLocation;
+        if (keymbpTbble[i].x11Key == x11Key) {
+            *keycode = keymbpTbble[i].bwtKey;
+            *mbpsToUnicodeChbr = keymbpTbble[i].mbpsToUnicodeChbr;
+            *keyLocbtion = keymbpTbble[i].keyLocbtion;
             return;
         }
     }
 
-    *keycode = java_awt_event_KeyEvent_VK_UNDEFINED;
-    *mapsToUnicodeChar = FALSE;
-    *keyLocation = java_awt_event_KeyEvent_KEY_LOCATION_UNKNOWN;
+    *keycode = jbvb_bwt_event_KeyEvent_VK_UNDEFINED;
+    *mbpsToUnicodeChbr = FALSE;
+    *keyLocbtion = jbvb_bwt_event_KeyEvent_KEY_LOCATION_UNKNOWN;
 
-    DTRACE_PRINTLN1("keysymToAWTKeyCode: no key mapping found: keysym = 0x%x", x11Key);
+    DTRACE_PRINTLN1("keysymToAWTKeyCode: no key mbpping found: keysym = 0x%x", x11Key);
 }
 
 KeySym
-awt_getX11KeySym(jint awtKey)
+bwt_getX11KeySym(jint bwtKey)
 {
     int32_t i;
 
-    if (awtKey == java_awt_event_KeyEvent_VK_KANA_LOCK && keyboardHasKanaLockKey()) {
+    if (bwtKey == jbvb_bwt_event_KeyEvent_VK_KANA_LOCK && keybobrdHbsKbnbLockKey()) {
         return XK_Mode_switch;
     }
 
-    for (i = 0; keymapTable[i].awtKey != 0; i++) {
-        if (keymapTable[i].awtKey == awtKey) {
-            return keymapTable[i].x11Key;
+    for (i = 0; keymbpTbble[i].bwtKey != 0; i++) {
+        if (keymbpTbble[i].bwtKey == bwtKey) {
+            return keymbpTbble[i].x11Key;
         }
     }
 
-    DTRACE_PRINTLN1("awt_getX11KeySym: no key mapping found: awtKey = 0x%x", awtKey);
+    DTRACE_PRINTLN1("bwt_getX11KeySym: no key mbpping found: bwtKey = 0x%x", bwtKey);
     return NoSymbol;
 }
 
-/* Called from handleKeyEvent.  The purpose of this function is
- * to check for a list of vendor-specific keysyms, most of which
- * have values greater than 0xFFFF.  Most of these keys don't map
- * to unicode characters, but some do.
+/* Cblled from hbndleKeyEvent.  The purpose of this function is
+ * to check for b list of vendor-specific keysyms, most of which
+ * hbve vblues grebter thbn 0xFFFF.  Most of these keys don't mbp
+ * to unicode chbrbcters, but some do.
  *
- * For keys that don't map to unicode characters, the keysym
- * is irrelevant at this point.  We set the keysym to zero
- * to ensure that the switch statement immediately below
- * this function call (in adjustKeySym) won't incorrectly act
- * on them after the high bits are stripped off.
+ * For keys thbt don't mbp to unicode chbrbcters, the keysym
+ * is irrelevbnt bt this point.  We set the keysym to zero
+ * to ensure thbt the switch stbtement immedibtely below
+ * this function cbll (in bdjustKeySym) won't incorrectly bct
+ * on them bfter the high bits bre stripped off.
  *
- * For keys that do map to unicode characters, we change the keysym
- * to the equivalent that is < 0xFFFF
+ * For keys thbt do mbp to unicode chbrbcters, we chbnge the keysym
+ * to the equivblent thbt is < 0xFFFF
  */
-static void
-handleVendorKeySyms(XEvent *event, KeySym *keysym)
+stbtic void
+hbndleVendorKeySyms(XEvent *event, KeySym *keysym)
 {
-    KeySym originalKeysym = *keysym;
+    KeySym originblKeysym = *keysym;
 
     switch (*keysym) {
-        /* Apollo (HP) vendor-specific from <X11/ap_keysym.h> */
-        case apXK_Copy:
-        case apXK_Cut:
-        case apXK_Paste:
+        /* Apollo (HP) vendor-specific from <X11/bp_keysym.h> */
+        cbse bpXK_Copy:
+        cbse bpXK_Cut:
+        cbse bpXK_Pbste:
         /* DEC vendor-specific from <X11/DECkeysym.h> */
-        case DXK_ring_accent:         /* syn usldead_ring */
-        case DXK_circumflex_accent:
-        case DXK_cedilla_accent:      /* syn usldead_cedilla */
-        case DXK_acute_accent:
-        case DXK_grave_accent:
-        case DXK_tilde:
-        case DXK_diaeresis:
+        cbse DXK_ring_bccent:         /* syn usldebd_ring */
+        cbse DXK_circumflex_bccent:
+        cbse DXK_cedillb_bccent:      /* syn usldebd_cedillb */
+        cbse DXK_bcute_bccent:
+        cbse DXK_grbve_bccent:
+        cbse DXK_tilde:
+        cbse DXK_diberesis:
         /* Sun vendor-specific from <X11/Sunkeysym.h> */
-        case SunXK_FA_Grave:
-        case SunXK_FA_Circum:
-        case SunXK_FA_Tilde:
-        case SunXK_FA_Acute:
-        case SunXK_FA_Diaeresis:
-        case SunXK_FA_Cedilla:
-        case SunXK_F36:                /* Labeled F11 */
-        case SunXK_F37:                /* Labeled F12 */
-        case SunXK_Props:
-        case SunXK_Copy:
-        case SunXK_Open:
-        case SunXK_Paste:
-        case SunXK_Cut:
+        cbse SunXK_FA_Grbve:
+        cbse SunXK_FA_Circum:
+        cbse SunXK_FA_Tilde:
+        cbse SunXK_FA_Acute:
+        cbse SunXK_FA_Diberesis:
+        cbse SunXK_FA_Cedillb:
+        cbse SunXK_F36:                /* Lbbeled F11 */
+        cbse SunXK_F37:                /* Lbbeled F12 */
+        cbse SunXK_Props:
+        cbse SunXK_Copy:
+        cbse SunXK_Open:
+        cbse SunXK_Pbste:
+        cbse SunXK_Cut:
         /* Other vendor-specific from HPkeysym.h */
-        case hpXK_mute_acute:          /* syn usldead_acute */
-        case hpXK_mute_grave:          /* syn usldead_grave */
-        case hpXK_mute_asciicircum:    /* syn usldead_asciicircum */
-        case hpXK_mute_diaeresis:      /* syn usldead_diaeresis */
-        case hpXK_mute_asciitilde:     /* syn usldead_asciitilde */
-        case osfXK_Copy:
-        case osfXK_Cut:
-        case osfXK_Paste:
-        case osfXK_PageUp:
-        case osfXK_PageDown:
-        case osfXK_EndLine:
-        case osfXK_Clear:
-        case osfXK_Left:
-        case osfXK_Up:
-        case osfXK_Right:
-        case osfXK_Down:
-        case osfXK_Prior:
-        case osfXK_Next:
-        case osfXK_Insert:
-        case osfXK_Undo:
-        case osfXK_Help:
+        cbse hpXK_mute_bcute:          /* syn usldebd_bcute */
+        cbse hpXK_mute_grbve:          /* syn usldebd_grbve */
+        cbse hpXK_mute_bsciicircum:    /* syn usldebd_bsciicircum */
+        cbse hpXK_mute_diberesis:      /* syn usldebd_diberesis */
+        cbse hpXK_mute_bsciitilde:     /* syn usldebd_bsciitilde */
+        cbse osfXK_Copy:
+        cbse osfXK_Cut:
+        cbse osfXK_Pbste:
+        cbse osfXK_PbgeUp:
+        cbse osfXK_PbgeDown:
+        cbse osfXK_EndLine:
+        cbse osfXK_Clebr:
+        cbse osfXK_Left:
+        cbse osfXK_Up:
+        cbse osfXK_Right:
+        cbse osfXK_Down:
+        cbse osfXK_Prior:
+        cbse osfXK_Next:
+        cbse osfXK_Insert:
+        cbse osfXK_Undo:
+        cbse osfXK_Help:
             *keysym = 0;
-            break;
+            brebk;
         /*
-         * The rest DO map to unicode characters, so translate them
+         * The rest DO mbp to unicode chbrbcters, so trbnslbte them
          */
-        case osfXK_BackSpace:
-            *keysym = XK_BackSpace;
-            break;
-        case osfXK_Escape:
-            *keysym = XK_Escape;
-            break;
-        case osfXK_Cancel:
-            *keysym = XK_Cancel;
-            break;
-        case osfXK_Delete:
+        cbse osfXK_BbckSpbce:
+            *keysym = XK_BbckSpbce;
+            brebk;
+        cbse osfXK_Escbpe:
+            *keysym = XK_Escbpe;
+            brebk;
+        cbse osfXK_Cbncel:
+            *keysym = XK_Cbncel;
+            brebk;
+        cbse osfXK_Delete:
             *keysym = XK_Delete;
-            break;
-        default:
-            break;
+            brebk;
+        defbult:
+            brebk;
     }
 
-    if (originalKeysym != *keysym) {
-        DTRACE_PRINTLN3("%s originalKeysym=0x%x, keysym=0x%x",
-          "In handleVendorKeySyms:", originalKeysym, *keysym);
+    if (originblKeysym != *keysym) {
+        DTRACE_PRINTLN3("%s originblKeysym=0x%x, keysym=0x%x",
+          "In hbndleVendorKeySyms:", originblKeysym, *keysym);
     }
 }
 
-/* Called from handleKeyEvent.
- * The purpose of this function is to adjust the keysym and XEvent
- * keycode for a key event.  This is basically a conglomeration of
- * bugfixes that require these adjustments.
- * Note that none of the keysyms in this function are less than 256.
+/* Cblled from hbndleKeyEvent.
+ * The purpose of this function is to bdjust the keysym bnd XEvent
+ * keycode for b key event.  This is bbsicblly b conglomerbtion of
+ * bugfixes thbt require these bdjustments.
+ * Note thbt none of the keysyms in this function bre less thbn 256.
  */
-static void
-adjustKeySym(XEvent *event, KeySym *keysym)
+stbtic void
+bdjustKeySym(XEvent *event, KeySym *keysym)
 {
-    KeySym originalKeysym = *keysym;
-    KeyCode originalKeycode = event->xkey.keycode;
+    KeySym originblKeysym = *keysym;
+    KeyCode originblKeycode = event->xkey.keycode;
 
-    /* We have seen bits set in the high two bytes on Linux,
-     * which prevents this switch statement from executing
+    /* We hbve seen bits set in the high two bytes on Linux,
+     * which prevents this switch stbtement from executing
      * correctly.  Strip off the high order bits.
      */
     *keysym &= 0x0000FFFF;
 
     switch (*keysym) {
-        case XK_ISO_Left_Tab:        /* shift-tab on Linux */
-            *keysym = XK_Tab;
-            break;
-        case XK_KP_Decimal:
+        cbse XK_ISO_Left_Tbb:        /* shift-tbb on Linux */
+            *keysym = XK_Tbb;
+            brebk;
+        cbse XK_KP_Decimbl:
             *keysym = '.';
-            break;
-        case XK_KP_Add:
+            brebk;
+        cbse XK_KP_Add:
             *keysym = '+';
-            break;
-        case XK_F24:           /* NumLock off */
-        case XK_KP_Subtract:   /* NumLock on */
+            brebk;
+        cbse XK_F24:           /* NumLock off */
+        cbse XK_KP_Subtrbct:   /* NumLock on */
             *keysym = '-';
-            break;
-        case XK_F25:           /* NumLock off */
-        case XK_KP_Divide:     /* NumLock on */
+            brebk;
+        cbse XK_F25:           /* NumLock off */
+        cbse XK_KP_Divide:     /* NumLock on */
             *keysym = '/';
-            break;
-        case XK_F26:           /* NumLock off */
-        case XK_KP_Multiply:   /* NumLock on */
+            brebk;
+        cbse XK_F26:           /* NumLock off */
+        cbse XK_KP_Multiply:   /* NumLock on */
             *keysym = '*';
-            break;
-        case XK_KP_Equal:
+            brebk;
+        cbse XK_KP_Equbl:
             *keysym = '=';
-            break;
-        case XK_KP_0:
+            brebk;
+        cbse XK_KP_0:
             *keysym = '0';
-            break;
-        case XK_KP_1:
+            brebk;
+        cbse XK_KP_1:
             *keysym = '1';
-            break;
-        case XK_KP_2:
+            brebk;
+        cbse XK_KP_2:
             *keysym = '2';
-            break;
-        case XK_KP_3:
+            brebk;
+        cbse XK_KP_3:
             *keysym = '3';
-            break;
-        case XK_KP_4:
+            brebk;
+        cbse XK_KP_4:
             *keysym = '4';
-            break;
-        case XK_KP_5:
+            brebk;
+        cbse XK_KP_5:
             *keysym = '5';
-            break;
-        case XK_KP_6:
+            brebk;
+        cbse XK_KP_6:
             *keysym = '6';
-            break;
-        case XK_KP_7:
+            brebk;
+        cbse XK_KP_7:
             *keysym = '7';
-            break;
-        case XK_KP_8:
+            brebk;
+        cbse XK_KP_8:
             *keysym = '8';
-            break;
-        case XK_KP_9:
+            brebk;
+        cbse XK_KP_9:
             *keysym = '9';
-            break;
-        case XK_KP_Left:  /* Bug 4350175 */
+            brebk;
+        cbse XK_KP_Left:  /* Bug 4350175 */
             *keysym = XK_Left;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Up:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Up:
             *keysym = XK_Up;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Right:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Right:
             *keysym = XK_Right;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Down:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Down:
             *keysym = XK_Down;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Home:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Home:
             *keysym = XK_Home;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_End:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_End:
             *keysym = XK_End;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Page_Up:
-            *keysym = XK_Page_Up;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Page_Down:
-            *keysym = XK_Page_Down;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Begin:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Pbge_Up:
+            *keysym = XK_Pbge_Up;
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Pbge_Down:
+            *keysym = XK_Pbge_Down;
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Begin:
             *keysym = XK_Begin;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Insert:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Insert:
             *keysym = XK_Insert;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Delete:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Delete:
             *keysym = XK_Delete;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, *keysym);
-            break;
-        case XK_KP_Enter:
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, *keysym);
+            brebk;
+        cbse XK_KP_Enter:
             *keysym = XK_Linefeed;
-            event->xkey.keycode = XKeysymToKeycode(awt_display, XK_Return);
-            break;
-        default:
-            break;
+            event->xkey.keycode = XKeysymToKeycode(bwt_displby, XK_Return);
+            brebk;
+        defbult:
+            brebk;
     }
 
-    if (originalKeysym != *keysym) {
-        DTRACE_PRINTLN2("In adjustKeySym: originalKeysym=0x%x, keysym=0x%x",
-          originalKeysym, *keysym);
+    if (originblKeysym != *keysym) {
+        DTRACE_PRINTLN2("In bdjustKeySym: originblKeysym=0x%x, keysym=0x%x",
+          originblKeysym, *keysym);
     }
-    if (originalKeycode != event->xkey.keycode) {
-        DTRACE_PRINTLN2("In adjustKeySym: originalKeycode=0x%x, keycode=0x%x",
-          originalKeycode, event->xkey.keycode);
+    if (originblKeycode != event->xkey.keycode) {
+        DTRACE_PRINTLN2("In bdjustKeySym: originblKeycode=0x%x, keycode=0x%x",
+          originblKeycode, event->xkey.keycode);
     }
 }
 
 /*
- * What a sniffer sez?
- * Xsun and Xorg if NumLock is on do two thing different:
- * keep Keypad key in different places of keysyms array and
+ * Whbt b sniffer sez?
+ * Xsun bnd Xorg if NumLock is on do two thing different:
+ * keep Keypbd key in different plbces of keysyms brrby bnd
  * ignore/obey "ModLock is ShiftLock", so we should choose.
- * People say, it's right to use behavior and not Vendor tags to decide.
- * Maybe. But why these tags were invented, then?
- * TODO: use behavior, not tags. Maybe.
+ * People sby, it's right to use behbvior bnd not Vendor tbgs to decide.
+ * Mbybe. But why these tbgs were invented, then?
+ * TODO: use behbvior, not tbgs. Mbybe.
  */
-static Boolean
+stbtic Boolebn
 isXsunServer(XEvent *event) {
-    if( awt_ServerDetected ) return awt_IsXsun;
-    if( (strncmp( ServerVendor( event->xkey.display ), "Sun Microsystems, Inc.", 22) != 0) &&
-        (strncmp( ServerVendor( event->xkey.display ), "Oracle Corporation", 18) != 0) )
+    if( bwt_ServerDetected ) return bwt_IsXsun;
+    if( (strncmp( ServerVendor( event->xkey.displby ), "Sun Microsystems, Inc.", 22) != 0) &&
+        (strncmp( ServerVendor( event->xkey.displby ), "Orbcle Corporbtion", 18) != 0) )
     {
-        awt_ServerDetected = True;
-        awt_IsXsun = False;
-        return False;
+        bwt_ServerDetected = True;
+        bwt_IsXsun = Fblse;
+        return Fblse;
     }
-    // Now, it's Sun. It still may be Xorg though, eg on Solaris 10, x86.
-    // Today (2005), VendorRelease of Xorg is a Big Number unlike Xsun.
-    if( VendorRelease( event->xkey.display ) > 10000 ) {
-        awt_ServerDetected = True;
-        awt_IsXsun = False;
-        return False;
+    // Now, it's Sun. It still mby be Xorg though, eg on Solbris 10, x86.
+    // Todby (2005), VendorRelebse of Xorg is b Big Number unlike Xsun.
+    if( VendorRelebse( event->xkey.displby ) > 10000 ) {
+        bwt_ServerDetected = True;
+        bwt_IsXsun = Fblse;
+        return Fblse;
     }
-    awt_ServerDetected = True;
-    awt_IsXsun = True;
+    bwt_ServerDetected = True;
+    bwt_IsXsun = True;
     return True;
 }
 /*
  * +kb or -kb ?
  */
-static Boolean
-isXKBenabled(Display *display) {
+stbtic Boolebn
+isXKBenbbled(Displby *displby) {
     int mop, beve, berr;
-    if( !awt_XKBDetected ) {
+    if( !bwt_XKBDetected ) {
         /*
-         * NB: TODO: hope it will return False if XkbIgnoreExtension was called!
+         * NB: TODO: hope it will return Fblse if XkbIgnoreExtension wbs cblled!
          */
-        awt_UseXKB = XQueryExtension(display, "XKEYBOARD", &mop, &beve, &berr);
-        awt_XKBDetected = True;
+        bwt_UseXKB = XQueryExtension(displby, "XKEYBOARD", &mop, &beve, &berr);
+        bwt_XKBDetected = True;
     }
-    return awt_UseXKB;
+    return bwt_UseXKB;
 }
-static Boolean
+stbtic Boolebn
 isKPevent(XEvent *event)
 {
     /*
-     *  Xlib manual, ch 12.7 says, as a first rule for choice of keysym:
-     *  The numlock modifier is on and the second KeySym is a keypad KeySym. In this case,
-     *  if the Shift modifier is on, or if the Lock modifier is on and is interpreted as ShiftLock,
+     *  Xlib mbnubl, ch 12.7 sbys, bs b first rule for choice of keysym:
+     *  The numlock modifier is on bnd the second KeySym is b keypbd KeySym. In this cbse,
+     *  if the Shift modifier is on, or if the Lock modifier is on bnd is interpreted bs ShiftLock,
      *  then the first KeySym is used, otherwise the second KeySym is used.
      *
-     *  However, Xsun server does ignore ShiftLock and always takes 3-rd element from an array.
+     *  However, Xsun server does ignore ShiftLock bnd blwbys tbkes 3-rd element from bn brrby.
      *
-     *  So, is it a keypad keysym?
+     *  So, is it b keypbd keysym?
      */
-    Boolean bsun = isXsunServer( event );
-    Boolean bxkb = isXKBenabled( event->xkey.display );
-    return IsKeypadKey( XKeycodeToKeysym(event->xkey.display, event->xkey.keycode,(bsun && !bxkb ? 2 : 1) ) );
+    Boolebn bsun = isXsunServer( event );
+    Boolebn bxkb = isXKBenbbled( event->xkey.displby );
+    return IsKeypbdKey( XKeycodeToKeysym(event->xkey.displby, event->xkey.keycode,(bsun && !bxkb ? 2 : 1) ) );
 }
-static void
-dumpKeysymArray(XEvent *event) {
-    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.display, event->xkey.keycode, 0));
-    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.display, event->xkey.keycode, 1));
-    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.display, event->xkey.keycode, 2));
-    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.display, event->xkey.keycode, 3));
+stbtic void
+dumpKeysymArrby(XEvent *event) {
+    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.displby, event->xkey.keycode, 0));
+    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.displby, event->xkey.keycode, 1));
+    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.displby, event->xkey.keycode, 2));
+    printf("    0x%X\n",XKeycodeToKeysym(event->xkey.displby, event->xkey.keycode, 3));
 }
 /*
- * In a next redesign, get rid of this code altogether.
+ * In b next redesign, get rid of this code bltogether.
  *
  */
-static void
-handleKeyEventWithNumLockMask_New(XEvent *event, KeySym *keysym)
+stbtic void
+hbndleKeyEventWithNumLockMbsk_New(XEvent *event, KeySym *keysym)
 {
-    KeySym originalKeysym = *keysym;
+    KeySym originblKeysym = *keysym;
     if( !isKPevent( event ) ) {
         return;
     }
-    if( isXsunServer( event ) && !awt_UseXKB) {
-        if( (event->xkey.state & ShiftMask) ) { // shift modifier is on
-            *keysym = XKeycodeToKeysym(event->xkey.display,
+    if( isXsunServer( event ) && !bwt_UseXKB) {
+        if( (event->xkey.stbte & ShiftMbsk) ) { // shift modifier is on
+            *keysym = XKeycodeToKeysym(event->xkey.displby,
                                    event->xkey.keycode, 3);
          }else {
-            *keysym = XKeycodeToKeysym(event->xkey.display,
+            *keysym = XKeycodeToKeysym(event->xkey.displby,
                                    event->xkey.keycode, 2);
          }
     } else {
-        if( (event->xkey.state & ShiftMask) || // shift modifier is on
-            ((event->xkey.state & LockMask) && // lock modifier is on
-             (awt_ModLockIsShiftLock)) ) {     // it is interpreted as ShiftLock
-            *keysym = XKeycodeToKeysym(event->xkey.display,
+        if( (event->xkey.stbte & ShiftMbsk) || // shift modifier is on
+            ((event->xkey.stbte & LockMbsk) && // lock modifier is on
+             (bwt_ModLockIsShiftLock)) ) {     // it is interpreted bs ShiftLock
+            *keysym = XKeycodeToKeysym(event->xkey.displby,
                                    event->xkey.keycode, 0);
         }else{
-            *keysym = XKeycodeToKeysym(event->xkey.display,
+            *keysym = XKeycodeToKeysym(event->xkey.displby,
                                    event->xkey.keycode, 1);
         }
     }
 }
 
-/* Called from handleKeyEvent.
- * The purpose of this function is to make some adjustments to keysyms
- * that have been found to be necessary when the NumLock mask is set.
- * They come from various bug fixes and rearchitectures.
- * This function is meant to be called when
- * (event->xkey.state & awt_NumLockMask) is TRUE.
+/* Cblled from hbndleKeyEvent.
+ * The purpose of this function is to mbke some bdjustments to keysyms
+ * thbt hbve been found to be necessbry when the NumLock mbsk is set.
+ * They come from vbrious bug fixes bnd rebrchitectures.
+ * This function is mebnt to be cblled when
+ * (event->xkey.stbte & bwt_NumLockMbsk) is TRUE.
  */
-static void
-handleKeyEventWithNumLockMask(XEvent *event, KeySym *keysym)
+stbtic void
+hbndleKeyEventWithNumLockMbsk(XEvent *event, KeySym *keysym)
 {
-    KeySym originalKeysym = *keysym;
+    KeySym originblKeysym = *keysym;
 
 #if !defined(__linux__) && !defined(MACOSX)
-    /* The following code on Linux will cause the keypad keys
+    /* The following code on Linux will cbuse the keypbd keys
      * not to echo on JTextField when the NumLock is on. The
-     * keysyms will be 0, because the last parameter 2 is not defined.
-     * See Xlib Programming Manual, O'Reilly & Associates, Section
-     * 9.1.5 "Other Keyboard-handling Routines", "The meaning of
+     * keysyms will be 0, becbuse the lbst pbrbmeter 2 is not defined.
+     * See Xlib Progrbmming Mbnubl, O'Reilly & Associbtes, Section
+     * 9.1.5 "Other Keybobrd-hbndling Routines", "The mebning of
      * the keysym list beyond the first two (unmodified, Shift or
      * Shift Lock) is not defined."
      */
 
-    /* Translate again with NumLock as modifier. */
-    /* ECH - I wonder why we think that NumLock corresponds to 2?
-       On Linux, we've seen xmodmap -pm yield mod2 as NumLock,
-       but I don't know that it will be for every configuration.
-       Perhaps using the index (modn in awt_MToolkit.c:setup_modifier_map)
+    /* Trbnslbte bgbin with NumLock bs modifier. */
+    /* ECH - I wonder why we think thbt NumLock corresponds to 2?
+       On Linux, we've seen xmodmbp -pm yield mod2 bs NumLock,
+       but I don't know thbt it will be for every configurbtion.
+       Perhbps using the index (modn in bwt_MToolkit.c:setup_modifier_mbp)
        would be more correct.
      */
-    *keysym = XKeycodeToKeysym(event->xkey.display,
+    *keysym = XKeycodeToKeysym(event->xkey.displby,
                                event->xkey.keycode, 2);
-    if (originalKeysym != *keysym) {
-        DTRACE_PRINTLN3("%s originalKeysym=0x%x, keysym=0x%x",
-          "In handleKeyEventWithNumLockMask ifndef linux:",
-          originalKeysym, *keysym);
+    if (originblKeysym != *keysym) {
+        DTRACE_PRINTLN3("%s originblKeysym=0x%x, keysym=0x%x",
+          "In hbndleKeyEventWithNumLockMbsk ifndef linux:",
+          originblKeysym, *keysym);
     }
 #endif
 
-    /* Note: the XK_R? key assignments are for Type 4 kbds */
+    /* Note: the XK_R? key bssignments bre for Type 4 kbds */
     switch (*keysym) {
-        case XK_R13:
+        cbse XK_R13:
             *keysym = XK_KP_1;
-            break;
-        case XK_R14:
+            brebk;
+        cbse XK_R14:
             *keysym = XK_KP_2;
-            break;
-        case XK_R15:
+            brebk;
+        cbse XK_R15:
             *keysym = XK_KP_3;
-            break;
-        case XK_R10:
+            brebk;
+        cbse XK_R10:
             *keysym = XK_KP_4;
-            break;
-        case XK_R11:
+            brebk;
+        cbse XK_R11:
             *keysym = XK_KP_5;
-            break;
-        case XK_R12:
+            brebk;
+        cbse XK_R12:
             *keysym = XK_KP_6;
-            break;
-        case XK_R7:
+            brebk;
+        cbse XK_R7:
             *keysym = XK_KP_7;
-            break;
-        case XK_R8:
+            brebk;
+        cbse XK_R8:
             *keysym = XK_KP_8;
-            break;
-        case XK_R9:
+            brebk;
+        cbse XK_R9:
             *keysym = XK_KP_9;
-            break;
-        case XK_KP_Insert:
+            brebk;
+        cbse XK_KP_Insert:
             *keysym = XK_KP_0;
-            break;
-        case XK_KP_Delete:
-            *keysym = XK_KP_Decimal;
-            break;
-        case XK_R4:
-            *keysym = XK_KP_Equal;  /* Type 4 kbd */
-            break;
-        case XK_R5:
+            brebk;
+        cbse XK_KP_Delete:
+            *keysym = XK_KP_Decimbl;
+            brebk;
+        cbse XK_R4:
+            *keysym = XK_KP_Equbl;  /* Type 4 kbd */
+            brebk;
+        cbse XK_R5:
             *keysym = XK_KP_Divide;
-            break;
-        case XK_R6:
+            brebk;
+        cbse XK_R6:
             *keysym = XK_KP_Multiply;
-            break;
+            brebk;
         /*
-         * Need the following keysym changes for Linux key releases.
-         * Sometimes the modifier state gets messed up, so we get a
-         * KP_Left when we should get a KP_4, for example.
-         * XK_KP_Insert and XK_KP_Delete were already handled above.
+         * Need the following keysym chbnges for Linux key relebses.
+         * Sometimes the modifier stbte gets messed up, so we get b
+         * KP_Left when we should get b KP_4, for exbmple.
+         * XK_KP_Insert bnd XK_KP_Delete were blrebdy hbndled bbove.
          */
-        case XK_KP_Left:
+        cbse XK_KP_Left:
             *keysym = XK_KP_4;
-            break;
-        case XK_KP_Up:
+            brebk;
+        cbse XK_KP_Up:
             *keysym = XK_KP_8;
-            break;
-        case XK_KP_Right:
+            brebk;
+        cbse XK_KP_Right:
             *keysym = XK_KP_6;
-            break;
-        case XK_KP_Down:
+            brebk;
+        cbse XK_KP_Down:
             *keysym = XK_KP_2;
-            break;
-        case XK_KP_Home:
+            brebk;
+        cbse XK_KP_Home:
             *keysym = XK_KP_7;
-            break;
-        case XK_KP_End:
+            brebk;
+        cbse XK_KP_End:
             *keysym = XK_KP_1;
-            break;
-        case XK_KP_Page_Up:
+            brebk;
+        cbse XK_KP_Pbge_Up:
             *keysym = XK_KP_9;
-            break;
-        case XK_KP_Page_Down:
+            brebk;
+        cbse XK_KP_Pbge_Down:
             *keysym = XK_KP_3;
-            break;
-        case XK_KP_Begin:
+            brebk;
+        cbse XK_KP_Begin:
             *keysym = XK_KP_5;
-            break;
-        default:
-            break;
+            brebk;
+        defbult:
+            brebk;
     }
 
-    if (originalKeysym != *keysym) {
-        DTRACE_PRINTLN3("%s originalKeysym=0x%x, keysym=0x%x",
-          "In handleKeyEventWithNumLockMask:", originalKeysym, *keysym);
+    if (originblKeysym != *keysym) {
+        DTRACE_PRINTLN3("%s originblKeysym=0x%x, keysym=0x%x",
+          "In hbndleKeyEventWithNumLockMbsk:", originblKeysym, *keysym);
     }
 }
 
 
-/* This function is called as the keyChar parameter of a call to
- * awt_post_java_key_event.  It depends on being called after adjustKeySym.
+/* This function is cblled bs the keyChbr pbrbmeter of b cbll to
+ * bwt_post_jbvb_key_event.  It depends on being cblled bfter bdjustKeySym.
  *
- * This function just handles a few values where we know that the
- * keysym is not the same as the unicode value.  For values that
- * we don't handle explicitly, we just cast the keysym to a jchar.
- * Most of the real mapping work that gets the correct keysym is handled
- * in the mapping table, adjustKeySym, etc.
+ * This function just hbndles b few vblues where we know thbt the
+ * keysym is not the sbme bs the unicode vblue.  For vblues thbt
+ * we don't hbndle explicitly, we just cbst the keysym to b jchbr.
+ * Most of the rebl mbpping work thbt gets the correct keysym is hbndled
+ * in the mbpping tbble, bdjustKeySym, etc.
  *
  * XXX
- * Maybe we should enumerate the keysyms for which we have a mapping
- * in the keyMap, but that don't map to unicode chars, and return
- * CHAR_UNDEFINED?  Then use the buffer value from XLookupString
- * instead of the keysym as the keychar when posting.  Then we don't
- * need to test using mapsToUnicodeChar.  That way, we would post keyTyped
- * for all the chars that generate unicode chars, including LATIN2-4, etc.
- * Note: what does the buffer from XLookupString contain when
- * the character is a non-printable unicode character like Cancel or Delete?
+ * Mbybe we should enumerbte the keysyms for which we hbve b mbpping
+ * in the keyMbp, but thbt don't mbp to unicode chbrs, bnd return
+ * CHAR_UNDEFINED?  Then use the buffer vblue from XLookupString
+ * instebd of the keysym bs the keychbr when posting.  Then we don't
+ * need to test using mbpsToUnicodeChbr.  Thbt wby, we would post keyTyped
+ * for bll the chbrs thbt generbte unicode chbrs, including LATIN2-4, etc.
+ * Note: whbt does the buffer from XLookupString contbin when
+ * the chbrbcter is b non-printbble unicode chbrbcter like Cbncel or Delete?
  */
-jchar
-keySymToUnicodeCharacter(KeySym keysym) {
-    jchar unicodeValue = (jchar) keysym;
+jchbr
+keySymToUnicodeChbrbcter(KeySym keysym) {
+    jchbr unicodeVblue = (jchbr) keysym;
 
     switch (keysym) {
-      case XK_BackSpace:
-      case XK_Tab:
-      case XK_Linefeed:
-      case XK_Escape:
-      case XK_Delete:
+      cbse XK_BbckSpbce:
+      cbse XK_Tbb:
+      cbse XK_Linefeed:
+      cbse XK_Escbpe:
+      cbse XK_Delete:
           /* Strip off highorder bits defined in xkeysymdef.h
-           * I think doing this converts them to values that
-           * we can cast to jchars and use as java keychars.
+           * I think doing this converts them to vblues thbt
+           * we cbn cbst to jchbrs bnd use bs jbvb keychbrs.
            */
-          unicodeValue = (jchar) (keysym & 0x007F);
-          break;
-      case XK_Return:
-          unicodeValue = (jchar) 0x000a;  /* the unicode char for Linefeed */
-          break;
-      case XK_Cancel:
-          unicodeValue = (jchar) 0x0018;  /* the unicode char for Cancel */
-          break;
-      default:
-          break;
+          unicodeVblue = (jchbr) (keysym & 0x007F);
+          brebk;
+      cbse XK_Return:
+          unicodeVblue = (jchbr) 0x000b;  /* the unicode chbr for Linefeed */
+          brebk;
+      cbse XK_Cbncel:
+          unicodeVblue = (jchbr) 0x0018;  /* the unicode chbr for Cbncel */
+          brebk;
+      defbult:
+          brebk;
     }
 
-    if (unicodeValue != (jchar)keysym) {
-        DTRACE_PRINTLN3("%s originalKeysym=0x%x, keysym=0x%x",
-          "In keysymToUnicode:", keysym, unicodeValue);
+    if (unicodeVblue != (jchbr)keysym) {
+        DTRACE_PRINTLN3("%s originblKeysym=0x%x, keysym=0x%x",
+          "In keysymToUnicode:", keysym, unicodeVblue);
     }
 
-    return unicodeValue;
+    return unicodeVblue;
 }
 
 
 void
-awt_post_java_key_event(JNIEnv *env, jobject peer, jint id,
-  jlong when, jint keyCode, jchar keyChar, jint keyLocation, jint state, XEvent * event)
+bwt_post_jbvb_key_event(JNIEnv *env, jobject peer, jint id,
+  jlong when, jint keyCode, jchbr keyChbr, jint keyLocbtion, jint stbte, XEvent * event)
 {
-    JNU_CallMethodByName(env, NULL, peer, "postKeyEvent", "(IJICIIJI)V", id,
-        when, keyCode, keyChar, keyLocation, state, ptr_to_jlong(event), (jint)sizeof(XEvent));
-} /* awt_post_java_key_event() */
+    JNU_CbllMethodByNbme(env, NULL, peer, "postKeyEvent", "(IJICIIJI)V", id,
+        when, keyCode, keyChbr, keyLocbtion, stbte, ptr_to_jlong(event), (jint)sizeof(XEvent));
+} /* bwt_post_jbvb_key_event() */
 
 
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XWindow_getAWTKeyCodeForKeySym(JNIEnv *env, jclass clazz, jint keysym) {
-    jint keycode = java_awt_event_KeyEvent_VK_UNDEFINED;
-    Boolean mapsToUnicodeChar;
-    jint keyLocation;
-    keysymToAWTKeyCode(keysym, &keycode, &mapsToUnicodeChar, &keyLocation);
+Jbvb_sun_bwt_X11_XWindow_getAWTKeyCodeForKeySym(JNIEnv *env, jclbss clbzz, jint keysym) {
+    jint keycode = jbvb_bwt_event_KeyEvent_VK_UNDEFINED;
+    Boolebn mbpsToUnicodeChbr;
+    jint keyLocbtion;
+    keysymToAWTKeyCode(keysym, &keycode, &mbpsToUnicodeChbr, &keyLocbtion);
     return keycode;
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XWindow_haveCurrentX11InputMethodInstance
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11_XWindow_hbveCurrentX11InputMethodInstbnce
 (JNIEnv *env, jobject object) {
-    /*printf("Java_sun_awt_X11_XWindow_haveCurrentX11InputMethodInstance: %s\n", (currentX11InputMethodInstance==NULL? "NULL":" notnull"));
+    /*printf("Jbvb_sun_bwt_X11_XWindow_hbveCurrentX11InputMethodInstbnce: %s\n", (currentX11InputMethodInstbnce==NULL? "NULL":" notnull"));
     */
-    return currentX11InputMethodInstance != NULL ? JNI_TRUE : JNI_FALSE;
+    return currentX11InputMethodInstbnce != NULL ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XWindow_x11inputMethodLookupString
-(JNIEnv *env, jobject object, jlong event, jlongArray keysymArray) {
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11_XWindow_x11inputMethodLookupString
+(JNIEnv *env, jobject object, jlong event, jlongArrby keysymArrby) {
    KeySym keysym = NoSymbol;
-   Boolean boo;
-   /* keysymArray (and testbuf[]) have dimension 2 because we put there two
-    * perhaps different values of keysyms.
-    * XXX: not anymore at the moment, but I'll still keep them as arrays
-    * for a while.  If in the course of testing we will be satisfied with
-    * a current single result from awt_x11inputmethod_lookupString, we'll
-    * change this.
+   Boolebn boo;
+   /* keysymArrby (bnd testbuf[]) hbve dimension 2 becbuse we put there two
+    * perhbps different vblues of keysyms.
+    * XXX: not bnymore bt the moment, but I'll still keep them bs brrbys
+    * for b while.  If in the course of testing we will be sbtisfied with
+    * b current single result from bwt_x11inputmethod_lookupString, we'll
+    * chbnge this.
     */
    jlong testbuf[2];
 
    testbuf[1]=0;
 
-   boo = awt_x11inputmethod_lookupString((XKeyPressedEvent*)jlong_to_ptr(event), &keysym);
+   boo = bwt_x11inputmethod_lookupString((XKeyPressedEvent*)jlong_to_ptr(event), &keysym);
    testbuf[0] = keysym;
 
-   (*env)->SetLongArrayRegion(env, keysymArray, 0, 2, (jlong *)(testbuf));
+   (*env)->SetLongArrbyRegion(env, keysymArrby, 0, 2, (jlong *)(testbuf));
    return boo ? JNI_TRUE : JNI_FALSE;
 }
 
 
-extern struct X11GraphicsConfigIDs x11GraphicsConfigIDs;
+extern struct X11GrbphicsConfigIDs x11GrbphicsConfigIDs;
 
 /*
- * Class:     Java_sun_awt_X11_XWindow_getNativeColor
- * Method:    getNativeColor
- * Signature  (Ljava/awt/Color;Ljava/awt/GraphicsConfiguration;)I
+ * Clbss:     Jbvb_sun_bwt_X11_XWindow_getNbtiveColor
+ * Method:    getNbtiveColor
+ * Signbture  (Ljbvb/bwt/Color;Ljbvb/bwt/GrbphicsConfigurbtion;)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XWindow_getNativeColor
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XWindow_getNbtiveColor
 (JNIEnv *env, jobject this, jobject color, jobject gc_object) {
-    AwtGraphicsConfigDataPtr adata;
-    /* fire warning because JNU_GetLongFieldAsPtr casts jlong to (void *) */
-    adata = (AwtGraphicsConfigDataPtr) JNU_GetLongFieldAsPtr(env, gc_object, x11GraphicsConfigIDs.aData);
-    return awtJNI_GetColorForVis(env, color, adata);
+    AwtGrbphicsConfigDbtbPtr bdbtb;
+    /* fire wbrning becbuse JNU_GetLongFieldAsPtr cbsts jlong to (void *) */
+    bdbtb = (AwtGrbphicsConfigDbtbPtr) JNU_GetLongFieldAsPtr(env, gc_object, x11GrbphicsConfigIDs.bDbtb);
+    return bwtJNI_GetColorForVis(env, color, bdbtb);
 }
 
-/* syncTopLevelPos() is necessary to insure that the window manager has in
- * fact moved us to our final position relative to the reParented WM window.
- * We have noted a timing window which our shell has not been moved so we
- * screw up the insets thinking they are 0,0.  Wait (for a limited period of
- * time to let the WM hava a chance to move us
+/* syncTopLevelPos() is necessbry to insure thbt the window mbnbger hbs in
+ * fbct moved us to our finbl position relbtive to the rePbrented WM window.
+ * We hbve noted b timing window which our shell hbs not been moved so we
+ * screw up the insets thinking they bre 0,0.  Wbit (for b limited period of
+ * time to let the WM hbvb b chbnce to move us
  */
-void syncTopLevelPos( Display *d, Window w, XWindowAttributes *winAttr ) {
+void syncTopLevelPos( Displby *d, Window w, XWindowAttributes *winAttr ) {
     int32_t i = 0;
     do {
          XGetWindowAttributes( d, w, winAttr );
-         /* Sometimes we get here before the WM has updated the
-         ** window data struct with the correct position.  Loop
-         ** until we get a non-zero position.
+         /* Sometimes we get here before the WM hbs updbted the
+         ** window dbtb struct with the correct position.  Loop
+         ** until we get b non-zero position.
          */
          if ((winAttr->x != 0) || (winAttr->y != 0)) {
-             break;
+             brebk;
          }
          else {
-             /* What we really want here is to sync with the WM,
-             ** but there's no explicit way to do this, so we
-             ** call XSync for a delay.
+             /* Whbt we reblly wbnt here is to sync with the WM,
+             ** but there's no explicit wby to do this, so we
+             ** cbll XSync for b delby.
              */
-             XSync(d, False);
+             XSync(d, Fblse);
          }
     } while (i++ < 50);
 }
 
-static Window getTopWindow(Window win, Window *rootWin)
+stbtic Window getTopWindow(Window win, Window *rootWin)
 {
-    Window root=None, current_window=win, parent=None, *ignore_children=NULL;
+    Window root=None, current_window=win, pbrent=None, *ignore_children=NULL;
     Window prev_window=None;
     unsigned int ignore_uint=0;
-    Status status = 0;
+    Stbtus stbtus = 0;
 
     if (win == None) return None;
     do {
-        status = XQueryTree(awt_display,
+        stbtus = XQueryTree(bwt_displby,
                             current_window,
                             &root,
-                            &parent,
+                            &pbrent,
                             &ignore_children,
                             &ignore_uint);
         XFree(ignore_children);
-        if (status == 0) return None;
+        if (stbtus == 0) return None;
         prev_window = current_window;
-        current_window = parent;
-    } while (parent != root);
+        current_window = pbrent;
+    } while (pbrent != root);
     *rootWin = root;
     return prev_window;
 }
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XWindow_getTopWindow
-(JNIEnv *env, jclass clazz, jlong win, jlong rootWin) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XWindow_getTopWindow
+(JNIEnv *env, jclbss clbzz, jlong win, jlong rootWin) {
     return getTopWindow((Window) win, (Window*) jlong_to_ptr(rootWin));
 }
 
-static void
+stbtic void
 getWMInsets
 (Window window, int *left, int *top, int *right, int *bottom, int *border) {
-    // window is event->xreparent.window
-    Window topWin = None, rootWin = None, containerWindow = None;
+    // window is event->xrepbrent.window
+    Window topWin = None, rootWin = None, contbinerWindow = None;
     XWindowAttributes winAttr, topAttr;
     int screenX, screenY;
     topWin = getTopWindow(window, &rootWin);
-    syncTopLevelPos(awt_display, topWin, &topAttr);
-    // (screenX, screenY) is (0,0) of the reparented window
-    // converted to screen coordinates.
-    XTranslateCoordinates(awt_display, window, rootWin,
-        0,0, &screenX, &screenY, &containerWindow);
+    syncTopLevelPos(bwt_displby, topWin, &topAttr);
+    // (screenX, screenY) is (0,0) of the repbrented window
+    // converted to screen coordinbtes.
+    XTrbnslbteCoordinbtes(bwt_displby, window, rootWin,
+        0,0, &screenX, &screenY, &contbinerWindow);
     *left = screenX - topAttr.x - topAttr.border_width;
     *top  = screenY - topAttr.y - topAttr.border_width;
-    XGetWindowAttributes(awt_display, window, &winAttr);
+    XGetWindowAttributes(bwt_displby, window, &winAttr);
     *right  = topAttr.width  - ((winAttr.width)  + *left);
     *bottom = topAttr.height - ((winAttr.height) + *top);
     *border = topAttr.border_width;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XWindow_getWMInsets
-(JNIEnv *env, jclass clazz, jlong window, jlong left, jlong top, jlong right, jlong bottom, jlong border) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XWindow_getWMInsets
+(JNIEnv *env, jclbss clbzz, jlong window, jlong left, jlong top, jlong right, jlong bottom, jlong border) {
     getWMInsets((Window) window,
                 (int*) jlong_to_ptr(left),
                 (int*) jlong_to_ptr(top),
@@ -1205,61 +1205,61 @@ JNIEXPORT void JNICALL Java_sun_awt_X11_XWindow_getWMInsets
                 (int*) jlong_to_ptr(border));
 }
 
-static void
+stbtic void
 getWindowBounds
 (Window window, int *x, int *y, int *width, int *height) {
     XWindowAttributes winAttr;
-    XSync(awt_display, False);
-    XGetWindowAttributes(awt_display, window, &winAttr);
+    XSync(bwt_displby, Fblse);
+    XGetWindowAttributes(bwt_displby, window, &winAttr);
     *x = winAttr.x;
     *y = winAttr.y;
     *width = winAttr.width;
     *height = winAttr.height;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XWindow_getWindowBounds
-(JNIEnv *env, jclass clazz, jlong window, jlong x, jlong y, jlong width, jlong height) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XWindow_getWindowBounds
+(JNIEnv *env, jclbss clbzz, jlong window, jlong x, jlong y, jlong width, jlong height) {
     getWindowBounds((Window) window, (int*) jlong_to_ptr(x), (int*) jlong_to_ptr(y),
                     (int*) jlong_to_ptr(width), (int*) jlong_to_ptr(height));
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XWindow_setSizeHints
-(JNIEnv *env, jclass clazz, jlong window, jlong x, jlong y, jlong width, jlong height) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XWindow_setSizeHints
+(JNIEnv *env, jclbss clbzz, jlong window, jlong x, jlong y, jlong width, jlong height) {
     XSizeHints *size_hints = XAllocSizeHints();
-    size_hints->flags = USPosition | PPosition | PSize;
+    size_hints->flbgs = USPosition | PPosition | PSize;
     size_hints->x = (int)x;
     size_hints->y = (int)y;
     size_hints->width = (int)width;
     size_hints->height = (int)height;
-    XSetWMNormalHints(awt_display, (Window)window, size_hints);
-    XFree((char*)size_hints);
+    XSetWMNormblHints(bwt_displby, (Window)window, size_hints);
+    XFree((chbr*)size_hints);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XWindow_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_sun_bwt_X11_XWindow_initIDs
+  (JNIEnv *env, jclbss clbzz)
 {
-   char *ptr = NULL;
-   windowID = (*env)->GetFieldID(env, clazz, "window", "J");
+   chbr *ptr = NULL;
+   windowID = (*env)->GetFieldID(env, clbzz, "window", "J");
    CHECK_NULL(windowID);
-   targetID = (*env)->GetFieldID(env, clazz, "target", "Ljava/awt/Component;");
-   CHECK_NULL(targetID);
-   graphicsConfigID = (*env)->GetFieldID(env, clazz, "graphicsConfig", "Lsun/awt/X11GraphicsConfig;");
-   CHECK_NULL(graphicsConfigID);
-   drawStateID = (*env)->GetFieldID(env, clazz, "drawState", "I");
-   CHECK_NULL(drawStateID);
+   tbrgetID = (*env)->GetFieldID(env, clbzz, "tbrget", "Ljbvb/bwt/Component;");
+   CHECK_NULL(tbrgetID);
+   grbphicsConfigID = (*env)->GetFieldID(env, clbzz, "grbphicsConfig", "Lsun/bwt/X11GrbphicsConfig;");
+   CHECK_NULL(grbphicsConfigID);
+   drbwStbteID = (*env)->GetFieldID(env, clbzz, "drbwStbte", "I");
+   CHECK_NULL(drbwStbteID);
    ptr = getenv("_AWT_USE_TYPE4_PATCH");
    if( ptr != NULL && ptr[0] != 0 ) {
        if( strncmp("true", ptr, 4) == 0 ) {
-          awt_UseType4Patch = True;
-       }else if( strncmp("false", ptr, 5) == 0 ) {
-          awt_UseType4Patch = False;
+          bwt_UseType4Pbtch = True;
+       }else if( strncmp("fblse", ptr, 5) == 0 ) {
+          bwt_UseType4Pbtch = Fblse;
        }
    }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XWindow_getKeySymForAWTKeyCode(JNIEnv* env, jclass clazz, jint keycode) {
-    return awt_getX11KeySym(keycode);
+Jbvb_sun_bwt_X11_XWindow_getKeySymForAWTKeyCode(JNIEnv* env, jclbss clbzz, jint keycode) {
+    return bwt_getX11KeySym(keycode);
 }

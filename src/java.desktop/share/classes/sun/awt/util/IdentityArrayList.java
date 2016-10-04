@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.util;
+pbckbge sun.bwt.util;
 
-import java.util.AbstractList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.RandomAccess;
+import jbvb.util.AbstrbctList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.ConcurrentModificbtionException;
+import jbvb.util.List;
+import jbvb.util.RbndomAccess;
 
 /**
- * Resizable-array implementation of the <tt>List</tt> interface.  Implements
- * all optional list operations, and permits all elements, including
- * <tt>null</tt>.  In addition to implementing the <tt>List</tt> interface,
- * this class provides methods to manipulate the size of the array that is
- * used internally to store the list.  (This class is roughly equivalent to
- * <tt>Vector</tt>, except that it is unsynchronized.)<p>
+ * Resizbble-brrby implementbtion of the <tt>List</tt> interfbce.  Implements
+ * bll optionbl list operbtions, bnd permits bll elements, including
+ * <tt>null</tt>.  In bddition to implementing the <tt>List</tt> interfbce,
+ * this clbss provides methods to mbnipulbte the size of the brrby thbt is
+ * used internblly to store the list.  (This clbss is roughly equivblent to
+ * <tt>Vector</tt>, except thbt it is unsynchronized.)<p>
  *
  * The <tt>size</tt>, <tt>isEmpty</tt>, <tt>get</tt>, <tt>set</tt>,
- * <tt>iterator</tt>, and <tt>listIterator</tt> operations run in constant
- * time.  The <tt>add</tt> operation runs in <i>amortized constant time</i>,
- * that is, adding n elements requires O(n) time.  All of the other operations
- * run in linear time (roughly speaking).  The constant factor is low compared
- * to that for the <tt>LinkedList</tt> implementation.<p>
+ * <tt>iterbtor</tt>, bnd <tt>listIterbtor</tt> operbtions run in constbnt
+ * time.  The <tt>bdd</tt> operbtion runs in <i>bmortized constbnt time</i>,
+ * thbt is, bdding n elements requires O(n) time.  All of the other operbtions
+ * run in linebr time (roughly spebking).  The constbnt fbctor is low compbred
+ * to thbt for the <tt>LinkedList</tt> implementbtion.<p>
  *
- * Each <tt>IdentityArrayList</tt> instance has a <i>capacity</i>.  The capacity is
- * the size of the array used to store the elements in the list.  It is always
- * at least as large as the list size.  As elements are added to an IdentityArrayList,
- * its capacity grows automatically.  The details of the growth policy are not
- * specified beyond the fact that adding an element has constant amortized
+ * Ebch <tt>IdentityArrbyList</tt> instbnce hbs b <i>cbpbcity</i>.  The cbpbcity is
+ * the size of the brrby used to store the elements in the list.  It is blwbys
+ * bt lebst bs lbrge bs the list size.  As elements bre bdded to bn IdentityArrbyList,
+ * its cbpbcity grows butombticblly.  The detbils of the growth policy bre not
+ * specified beyond the fbct thbt bdding bn element hbs constbnt bmortized
  * time cost.<p>
  *
- * An application can increase the capacity of an <tt>IdentityArrayList</tt> instance
- * before adding a large number of elements using the <tt>ensureCapacity</tt>
- * operation.  This may reduce the amount of incremental reallocation.
+ * An bpplicbtion cbn increbse the cbpbcity of bn <tt>IdentityArrbyList</tt> instbnce
+ * before bdding b lbrge number of elements using the <tt>ensureCbpbcity</tt>
+ * operbtion.  This mby reduce the bmount of incrementbl rebllocbtion.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access an <tt>IdentityArrayList</tt> instance concurrently,
- * and at least one of the threads modifies the list structurally, it
- * <i>must</i> be synchronized externally.  (A structural modification is
- * any operation that adds or deletes one or more elements, or explicitly
- * resizes the backing array; merely setting the value of an element is not
- * a structural modification.)  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the list.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess bn <tt>IdentityArrbyList</tt> instbnce concurrently,
+ * bnd bt lebst one of the threbds modifies the list structurblly, it
+ * <i>must</i> be synchronized externblly.  (A structurbl modificbtion is
+ * bny operbtion thbt bdds or deletes one or more elements, or explicitly
+ * resizes the bbcking brrby; merely setting the vblue of bn element is not
+ * b structurbl modificbtion.)  This is typicblly bccomplished by
+ * synchronizing on some object thbt nbturblly encbpsulbtes the list.
  *
- * If no such object exists, the list should be "wrapped" using the
+ * If no such object exists, the list should be "wrbpped" using the
  * {@link Collections#synchronizedList Collections.synchronizedList}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the list:<pre>
- *   List list = Collections.synchronizedList(new IdentityArrayList(...));</pre>
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the list:<pre>
+ *   List list = Collections.synchronizedList(new IdentityArrbyList(...));</pre>
  *
- * <p>The iterators returned by this class's <tt>iterator</tt> and
- * <tt>listIterator</tt> methods are <i>fail-fast</i>: if the list is
- * structurally modified at any time after the iterator is created, in any way
- * except through the iterator's own <tt>remove</tt> or <tt>add</tt> methods,
- * the iterator will throw a {@link ConcurrentModificationException}.  Thus, in
- * the face of concurrent modification, the iterator fails quickly and cleanly,
- * rather than risking arbitrary, non-deterministic behavior at an undetermined
+ * <p>The iterbtors returned by this clbss's <tt>iterbtor</tt> bnd
+ * <tt>listIterbtor</tt> methods bre <i>fbil-fbst</i>: if the list is
+ * structurblly modified bt bny time bfter the iterbtor is crebted, in bny wby
+ * except through the iterbtor's own <tt>remove</tt> or <tt>bdd</tt> methods,
+ * the iterbtor will throw b {@link ConcurrentModificbtionException}.  Thus, in
+ * the fbce of concurrent modificbtion, the iterbtor fbils quickly bnd clebnly,
+ * rbther thbn risking brbitrbry, non-deterministic behbvior bt bn undetermined
  * time in the future.<p>
  *
- * Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
+ * Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i><p>
  *
  */
 
-public class IdentityArrayList<E> extends AbstractList<E>
-        implements List<E>, RandomAccess
+public clbss IdentityArrbyList<E> extends AbstrbctList<E>
+        implements List<E>, RbndomAccess
 {
 
     /**
-     * The array buffer into which the elements of the IdentityArrayList are stored.
-     * The capacity of the IdentityArrayList is the length of this array buffer.
+     * The brrby buffer into which the elements of the IdentityArrbyList bre stored.
+     * The cbpbcity of the IdentityArrbyList is the length of this brrby buffer.
      */
-    private transient Object[] elementData;
+    privbte trbnsient Object[] elementDbtb;
 
     /**
-     * The size of the IdentityArrayList (the number of elements it contains).
+     * The size of the IdentityArrbyList (the number of elements it contbins).
      *
-     * @serial
+     * @seribl
      */
-    private int size;
+    privbte int size;
 
     /**
-     * Constructs an empty list with the specified initial capacity.
+     * Constructs bn empty list with the specified initibl cbpbcity.
      *
-     * @param   initialCapacity   the initial capacity of the list
-     * @exception IllegalArgumentException if the specified initial capacity
-     *            is negative
+     * @pbrbm   initiblCbpbcity   the initibl cbpbcity of the list
+     * @exception IllegblArgumentException if the specified initibl cbpbcity
+     *            is negbtive
      */
-    public IdentityArrayList(int initialCapacity) {
+    public IdentityArrbyList(int initiblCbpbcity) {
         super();
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+
-                    initialCapacity);
-        this.elementData = new Object[initialCapacity];
+        if (initiblCbpbcity < 0)
+            throw new IllegblArgumentException("Illegbl Cbpbcity: "+
+                    initiblCbpbcity);
+        this.elementDbtb = new Object[initiblCbpbcity];
     }
 
     /**
-     * Constructs an empty list with an initial capacity of ten.
+     * Constructs bn empty list with bn initibl cbpbcity of ten.
      */
-    public IdentityArrayList() {
+    public IdentityArrbyList() {
         this(10);
     }
 
     /**
-     * Constructs a list containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.
+     * Constructs b list contbining the elements of the specified
+     * collection, in the order they bre returned by the collection's
+     * iterbtor.
      *
-     * @param c the collection whose elements are to be placed into this list
+     * @pbrbm c the collection whose elements bre to be plbced into this list
      * @throws NullPointerException if the specified collection is null
      */
-    public IdentityArrayList(Collection<? extends E> c) {
-        elementData = c.toArray();
-        size = elementData.length;
-        // c.toArray might (incorrectly) not return Object[] (see 6260652)
-        if (elementData.getClass() != Object[].class)
-            elementData = Arrays.copyOf(elementData, size, Object[].class);
+    public IdentityArrbyList(Collection<? extends E> c) {
+        elementDbtb = c.toArrby();
+        size = elementDbtb.length;
+        // c.toArrby might (incorrectly) not return Object[] (see 6260652)
+        if (elementDbtb.getClbss() != Object[].clbss)
+            elementDbtb = Arrbys.copyOf(elementDbtb, size, Object[].clbss);
     }
 
     /**
-     * Trims the capacity of this <tt>IdentityArrayList</tt> instance to be the
-     * list's current size.  An application can use this operation to minimize
-     * the storage of an <tt>IdentityArrayList</tt> instance.
+     * Trims the cbpbcity of this <tt>IdentityArrbyList</tt> instbnce to be the
+     * list's current size.  An bpplicbtion cbn use this operbtion to minimize
+     * the storbge of bn <tt>IdentityArrbyList</tt> instbnce.
      */
     public void trimToSize() {
         modCount++;
-        int oldCapacity = elementData.length;
-        if (size < oldCapacity) {
-            elementData = Arrays.copyOf(elementData, size);
+        int oldCbpbcity = elementDbtb.length;
+        if (size < oldCbpbcity) {
+            elementDbtb = Arrbys.copyOf(elementDbtb, size);
         }
     }
 
     /**
-     * Increases the capacity of this <tt>IdentityArrayList</tt> instance, if
-     * necessary, to ensure that it can hold at least the number of elements
-     * specified by the minimum capacity argument.
+     * Increbses the cbpbcity of this <tt>IdentityArrbyList</tt> instbnce, if
+     * necessbry, to ensure thbt it cbn hold bt lebst the number of elements
+     * specified by the minimum cbpbcity brgument.
      *
-     * @param   minCapacity   the desired minimum capacity
+     * @pbrbm   minCbpbcity   the desired minimum cbpbcity
      */
-    public void ensureCapacity(int minCapacity) {
+    public void ensureCbpbcity(int minCbpbcity) {
         modCount++;
-        int oldCapacity = elementData.length;
-        if (minCapacity > oldCapacity) {
-            Object oldData[] = elementData;
-            int newCapacity = (oldCapacity * 3)/2 + 1;
-            if (newCapacity < minCapacity)
-                newCapacity = minCapacity;
-            // minCapacity is usually close to size, so this is a win:
-            elementData = Arrays.copyOf(elementData, newCapacity);
+        int oldCbpbcity = elementDbtb.length;
+        if (minCbpbcity > oldCbpbcity) {
+            Object oldDbtb[] = elementDbtb;
+            int newCbpbcity = (oldCbpbcity * 3)/2 + 1;
+            if (newCbpbcity < minCbpbcity)
+                newCbpbcity = minCbpbcity;
+            // minCbpbcity is usublly close to size, so this is b win:
+            elementDbtb = Arrbys.copyOf(elementDbtb, newCbpbcity);
         }
     }
 
@@ -190,37 +190,37 @@ public class IdentityArrayList<E> extends AbstractList<E>
     }
 
     /**
-     * Returns <tt>true</tt> if this list contains no elements.
+     * Returns <tt>true</tt> if this list contbins no elements.
      *
-     * @return <tt>true</tt> if this list contains no elements
+     * @return <tt>true</tt> if this list contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size == 0;
     }
 
     /**
-     * Returns <tt>true</tt> if this list contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this list contains
-     * at least one element <tt>e</tt> such that
+     * Returns <tt>true</tt> if this list contbins the specified element.
+     * More formblly, returns <tt>true</tt> if bnd only if this list contbins
+     * bt lebst one element <tt>e</tt> such thbt
      * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o == e)</tt>.
      *
-     * @param o element whose presence in this list is to be tested
-     * @return <tt>true</tt> if this list contains the specified element
+     * @pbrbm o element whose presence in this list is to be tested
+     * @return <tt>true</tt> if this list contbins the specified element
      */
-    public boolean contains(Object o) {
+    public boolebn contbins(Object o) {
         return indexOf(o) >= 0;
     }
 
     /**
      * Returns the index of the first occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the lowest index <tt>i</tt> such that
+     * in this list, or -1 if this list does not contbin the element.
+     * More formblly, returns the lowest index <tt>i</tt> such thbt
      * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o == get(i))</tt>,
      * or -1 if there is no such index.
      */
     public int indexOf(Object o) {
         for (int i = 0; i < size; i++) {
-            if (o == elementData[i]) {
+            if (o == elementDbtb[i]) {
                 return i;
             }
         }
@@ -228,15 +228,15 @@ public class IdentityArrayList<E> extends AbstractList<E>
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the highest index <tt>i</tt> such that
+     * Returns the index of the lbst occurrence of the specified element
+     * in this list, or -1 if this list does not contbin the element.
+     * More formblly, returns the highest index <tt>i</tt> such thbt
      * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o == get(i))</tt>,
      * or -1 if there is no such index.
      */
-    public int lastIndexOf(Object o) {
+    public int lbstIndexOf(Object o) {
         for (int i = size-1; i >= 0; i--) {
-            if (o == elementData[i]) {
+            if (o == elementDbtb[i]) {
                 return i;
             }
         }
@@ -244,303 +244,303 @@ public class IdentityArrayList<E> extends AbstractList<E>
     }
 
     /**
-     * Returns an array containing all of the elements in this list
-     * in proper sequence (from first to last element).
+     * Returns bn brrby contbining bll of the elements in this list
+     * in proper sequence (from first to lbst element).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this list.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this list.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this list in
+     * @return bn brrby contbining bll of the elements in this list in
      *         proper sequence
      */
-    public Object[] toArray() {
-        return Arrays.copyOf(elementData, size);
+    public Object[] toArrby() {
+        return Arrbys.copyOf(elementDbtb, size);
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper
-     * sequence (from first to last element); the runtime type of the returned
-     * array is that of the specified array.  If the list fits in the
-     * specified array, it is returned therein.  Otherwise, a new array is
-     * allocated with the runtime type of the specified array and the size of
+     * Returns bn brrby contbining bll of the elements in this list in proper
+     * sequence (from first to lbst element); the runtime type of the returned
+     * brrby is thbt of the specified brrby.  If the list fits in the
+     * specified brrby, it is returned therein.  Otherwise, b new brrby is
+     * bllocbted with the runtime type of the specified brrby bnd the size of
      * this list.
      *
-     * <p>If the list fits in the specified array with room to spare
-     * (i.e., the array has more elements than the list), the element in
-     * the array immediately following the end of the collection is set to
+     * <p>If the list fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn the list), the element in
+     * the brrby immedibtely following the end of the collection is set to
      * <tt>null</tt>.  (This is useful in determining the length of the
-     * list <i>only</i> if the caller knows that the list does not contain
-     * any null elements.)
+     * list <i>only</i> if the cbller knows thbt the list does not contbin
+     * bny null elements.)
      *
-     * @param a the array into which the elements of the list are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of the list
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the list bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining the elements of the list
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this list
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
-            return (T[]) Arrays.copyOf(elementData, size, a.getClass());
-        System.arraycopy(elementData, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
+        if (b.length < size)
+            // Mbke b new brrby of b's runtime type, but my contents:
+            return (T[]) Arrbys.copyOf(elementDbtb, size, b.getClbss());
+        System.brrbycopy(elementDbtb, 0, b, 0, size);
+        if (b.length > size)
+            b[size] = null;
+        return b;
     }
 
-    // Positional Access Operations
+    // Positionbl Access Operbtions
 
     /**
-     * Returns the element at the specified position in this list.
+     * Returns the element bt the specified position in this list.
      *
-     * @param  index index of the element to return
-     * @return the element at the specified position in this list
+     * @pbrbm  index index of the element to return
+     * @return the element bt the specified position in this list
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public E get(int index) {
-        rangeCheck(index);
+        rbngeCheck(index);
 
-        @SuppressWarnings("unchecked")
-        E rv = (E) elementData[index];
+        @SuppressWbrnings("unchecked")
+        E rv = (E) elementDbtb[index];
         return rv;
     }
 
     /**
-     * Replaces the element at the specified position in this list with
+     * Replbces the element bt the specified position in this list with
      * the specified element.
      *
-     * @param index index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
+     * @pbrbm index index of the element to replbce
+     * @pbrbm element element to be stored bt the specified position
+     * @return the element previously bt the specified position
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public E set(int index, E element) {
-        rangeCheck(index);
+        rbngeCheck(index);
 
-        @SuppressWarnings("unchecked")
-        E oldValue = (E) elementData[index];
-        elementData[index] = element;
-        return oldValue;
+        @SuppressWbrnings("unchecked")
+        E oldVblue = (E) elementDbtb[index];
+        elementDbtb[index] = element;
+        return oldVblue;
     }
 
     /**
      * Appends the specified element to the end of this list.
      *
-     * @param e element to be appended to this list
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
+     * @pbrbm e element to be bppended to this list
+     * @return <tt>true</tt> (bs specified by {@link Collection#bdd})
      */
-    public boolean add(E e) {
-        ensureCapacity(size + 1);  // Increments modCount!!
-        elementData[size++] = e;
+    public boolebn bdd(E e) {
+        ensureCbpbcity(size + 1);  // Increments modCount!!
+        elementDbtb[size++] = e;
         return true;
     }
 
     /**
-     * Inserts the specified element at the specified position in this
-     * list. Shifts the element currently at that position (if any) and
-     * any subsequent elements to the right (adds one to their indices).
+     * Inserts the specified element bt the specified position in this
+     * list. Shifts the element currently bt thbt position (if bny) bnd
+     * bny subsequent elements to the right (bdds one to their indices).
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
+     * @pbrbm index index bt which the specified element is to be inserted
+     * @pbrbm element element to be inserted
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public void add(int index, E element) {
-        rangeCheckForAdd(index);
+    public void bdd(int index, E element) {
+        rbngeCheckForAdd(index);
 
-        ensureCapacity(size+1);  // Increments modCount!!
-        System.arraycopy(elementData, index, elementData, index + 1,
+        ensureCbpbcity(size+1);  // Increments modCount!!
+        System.brrbycopy(elementDbtb, index, elementDbtb, index + 1,
                 size - index);
-        elementData[index] = element;
+        elementDbtb[index] = element;
         size++;
     }
 
     /**
-     * Removes the element at the specified position in this list.
-     * Shifts any subsequent elements to the left (subtracts one from their
+     * Removes the element bt the specified position in this list.
+     * Shifts bny subsequent elements to the left (subtrbcts one from their
      * indices).
      *
-     * @param index the index of the element to be removed
-     * @return the element that was removed from the list
+     * @pbrbm index the index of the element to be removed
+     * @return the element thbt wbs removed from the list
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public E remove(int index) {
-        rangeCheck(index);
+        rbngeCheck(index);
 
         modCount++;
-        @SuppressWarnings("unchecked")
-        E oldValue = (E) elementData[index];
+        @SuppressWbrnings("unchecked")
+        E oldVblue = (E) elementDbtb[index];
 
         int numMoved = size - index - 1;
         if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
+            System.brrbycopy(elementDbtb, index+1, elementDbtb, index,
                     numMoved);
-        elementData[--size] = null; // Let gc do its work
+        elementDbtb[--size] = null; // Let gc do its work
 
-        return oldValue;
+        return oldVblue;
     }
 
     /**
      * Removes the first occurrence of the specified element from this list,
-     * if it is present.  If the list does not contain the element, it is
-     * unchanged.  More formally, removes the element with the lowest index
-     * <tt>i</tt> such that
+     * if it is present.  If the list does not contbin the element, it is
+     * unchbnged.  More formblly, removes the element with the lowest index
+     * <tt>i</tt> such thbt
      * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o == get(i))</tt>
-     * (if such an element exists).  Returns <tt>true</tt> if this list
-     * contained the specified element (or equivalently, if this list
-     * changed as a result of the call).
+     * (if such bn element exists).  Returns <tt>true</tt> if this list
+     * contbined the specified element (or equivblently, if this list
+     * chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this list, if present
-     * @return <tt>true</tt> if this list contained the specified element
+     * @pbrbm o element to be removed from this list, if present
+     * @return <tt>true</tt> if this list contbined the specified element
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         for (int index = 0; index < size; index++) {
-            if (o == elementData[index]) {
-                fastRemove(index);
+            if (o == elementDbtb[index]) {
+                fbstRemove(index);
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Private remove method that skips bounds checking and does not
-     * return the value removed.
+     * Privbte remove method thbt skips bounds checking bnd does not
+     * return the vblue removed.
      */
-    private void fastRemove(int index) {
+    privbte void fbstRemove(int index) {
         modCount++;
         int numMoved = size - index - 1;
         if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
+            System.brrbycopy(elementDbtb, index+1, elementDbtb, index,
                     numMoved);
-        elementData[--size] = null; // Let gc do its work
+        elementDbtb[--size] = null; // Let gc do its work
     }
 
     /**
-     * Removes all of the elements from this list.  The list will
-     * be empty after this call returns.
+     * Removes bll of the elements from this list.  The list will
+     * be empty bfter this cbll returns.
      */
-    public void clear() {
+    public void clebr() {
         modCount++;
 
         // Let gc do its work
         for (int i = 0; i < size; i++)
-            elementData[i] = null;
+            elementDbtb[i] = null;
 
         size = 0;
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the
-     * specified collection's Iterator.  The behavior of this operation is
-     * undefined if the specified collection is modified while the operation
-     * is in progress.  (This implies that the behavior of this call is
-     * undefined if the specified collection is this list, and this
+     * Appends bll of the elements in the specified collection to the end of
+     * this list, in the order thbt they bre returned by the
+     * specified collection's Iterbtor.  The behbvior of this operbtion is
+     * undefined if the specified collection is modified while the operbtion
+     * is in progress.  (This implies thbt the behbvior of this cbll is
+     * undefined if the specified collection is this list, bnd this
      * list is nonempty.)
      *
-     * @param c collection containing elements to be added to this list
-     * @return <tt>true</tt> if this list changed as a result of the call
+     * @pbrbm c collection contbining elements to be bdded to this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean addAll(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        ensureCapacity(size + numNew);  // Increments modCount
-        System.arraycopy(a, 0, elementData, size, numNew);
+    public boolebn bddAll(Collection<? extends E> c) {
+        Object[] b = c.toArrby();
+        int numNew = b.length;
+        ensureCbpbcity(size + numNew);  // Increments modCount
+        System.brrbycopy(b, 0, elementDbtb, size, numNew);
         size += numNew;
         return numNew != 0;
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this
-     * list, starting at the specified position.  Shifts the element
-     * currently at that position (if any) and any subsequent elements to
-     * the right (increases their indices).  The new elements will appear
-     * in the list in the order that they are returned by the
-     * specified collection's iterator.
+     * Inserts bll of the elements in the specified collection into this
+     * list, stbrting bt the specified position.  Shifts the element
+     * currently bt thbt position (if bny) bnd bny subsequent elements to
+     * the right (increbses their indices).  The new elements will bppebr
+     * in the list in the order thbt they bre returned by the
+     * specified collection's iterbtor.
      *
-     * @param index index at which to insert the first element from the
+     * @pbrbm index index bt which to insert the first element from the
      *              specified collection
-     * @param c collection containing elements to be added to this list
-     * @return <tt>true</tt> if this list changed as a result of the call
+     * @pbrbm c collection contbining elements to be bdded to this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
      * @throws IndexOutOfBoundsException {@inheritDoc}
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
+    public boolebn bddAll(int index, Collection<? extends E> c) {
+        rbngeCheckForAdd(index);
 
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        ensureCapacity(size + numNew);  // Increments modCount
+        Object[] b = c.toArrby();
+        int numNew = b.length;
+        ensureCbpbcity(size + numNew);  // Increments modCount
 
         int numMoved = size - index;
         if (numMoved > 0) {
-            System.arraycopy(elementData, index, elementData, index + numNew, numMoved);
+            System.brrbycopy(elementDbtb, index, elementDbtb, index + numNew, numMoved);
         }
 
-        System.arraycopy(a, 0, elementData, index, numNew);
+        System.brrbycopy(b, 0, elementDbtb, index, numNew);
         size += numNew;
         return numNew != 0;
     }
 
     /**
-     * Removes from this list all of the elements whose index is between
-     * <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.
-     * Shifts any succeeding elements to the left (reduces their index).
-     * This call shortens the list by <tt>(toIndex - fromIndex)</tt> elements.
-     * (If <tt>toIndex==fromIndex</tt>, this operation has no effect.)
+     * Removes from this list bll of the elements whose index is between
+     * <tt>fromIndex</tt>, inclusive, bnd <tt>toIndex</tt>, exclusive.
+     * Shifts bny succeeding elements to the left (reduces their index).
+     * This cbll shortens the list by <tt>(toIndex - fromIndex)</tt> elements.
+     * (If <tt>toIndex==fromIndex</tt>, this operbtion hbs no effect.)
      *
-     * @param fromIndex index of first element to be removed
-     * @param toIndex index after last element to be removed
+     * @pbrbm fromIndex index of first element to be removed
+     * @pbrbm toIndex index bfter lbst element to be removed
      * @throws IndexOutOfBoundsException if fromIndex or toIndex out of
-     *              range (fromIndex &lt; 0 || fromIndex &gt;= size() || toIndex
+     *              rbnge (fromIndex &lt; 0 || fromIndex &gt;= size() || toIndex
      *              &gt; size() || toIndex &lt; fromIndex)
      */
-    protected void removeRange(int fromIndex, int toIndex) {
+    protected void removeRbnge(int fromIndex, int toIndex) {
         modCount++;
         int numMoved = size - toIndex;
-        System.arraycopy(elementData, toIndex, elementData, fromIndex,
+        System.brrbycopy(elementDbtb, toIndex, elementDbtb, fromIndex,
                 numMoved);
 
         // Let gc do its work
         int newSize = size - (toIndex-fromIndex);
         while (size != newSize)
-            elementData[--size] = null;
+            elementDbtb[--size] = null;
     }
 
     /**
-     * Checks if the given index is in range.  If not, throws an appropriate
+     * Checks if the given index is in rbnge.  If not, throws bn bppropribte
      * runtime exception.  This method does *not* check if the index is
-     * negative: It is always used immediately prior to an array access,
-     * which throws an ArrayIndexOutOfBoundsException if index is negative.
+     * negbtive: It is blwbys used immedibtely prior to bn brrby bccess,
+     * which throws bn ArrbyIndexOutOfBoundsException if index is negbtive.
      */
-    private void rangeCheck(int index) {
+    privbte void rbngeCheck(int index) {
         if (index >= size)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
     /**
-     * A version of rangeCheck used by add and addAll.
+     * A version of rbngeCheck used by bdd bnd bddAll.
      */
-    private void rangeCheckForAdd(int index) {
+    privbte void rbngeCheckForAdd(int index) {
         if (index > size || index < 0)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
     /**
-     * Constructs an IndexOutOfBoundsException detail message.
-     * Of the many possible refactorings of the error handling code,
-     * this "outlining" performs best with both server and client VMs.
+     * Constructs bn IndexOutOfBoundsException detbil messbge.
+     * Of the mbny possible refbctorings of the error hbndling code,
+     * this "outlining" performs best with both server bnd client VMs.
      */
-    private String outOfBoundsMsg(int index) {
+    privbte String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+size;
     }
 }

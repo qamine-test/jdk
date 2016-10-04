@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.cert.CertificbteException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
 import sun.security.util.*;
 
 /**
- * This class defines the certificate extension which specifies the
- * Policy constraints.
+ * This clbss defines the certificbte extension which specifies the
+ * Policy constrbints.
  * <p>
- * The policy constraints extension can be used in certificates issued
- * to CAs. The policy constraints extension constrains path validation
- * in two ways. It can be used to prohibit policy mapping or require
- * that each certificate in a path contain an acceptable policy
+ * The policy constrbints extension cbn be used in certificbtes issued
+ * to CAs. The policy constrbints extension constrbins pbth vblidbtion
+ * in two wbys. It cbn be used to prohibit policy mbpping or require
+ * thbt ebch certificbte in b pbth contbin bn bcceptbble policy
  * identifier.<p>
- * The ASN.1 syntax for this is (IMPLICIT tagging is defined in the
+ * The ASN.1 syntbx for this is (IMPLICIT tbgging is defined in the
  * module definition):
  * <pre>
- * PolicyConstraints ::= SEQUENCE {
+ * PolicyConstrbints ::= SEQUENCE {
  *     requireExplicitPolicy [0] SkipCerts OPTIONAL,
- *     inhibitPolicyMapping  [1] SkipCerts OPTIONAL
+ *     inhibitPolicyMbpping  [1] SkipCerts OPTIONAL
  * }
  * SkipCerts ::= INTEGER (0..MAX)
  * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class PolicyConstraintsExtension extends Extension
+public clbss PolicyConstrbintsExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.PolicyConstraints";
+    public stbtic finbl String IDENT = "x509.info.extensions.PolicyConstrbints";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "PolicyConstraints";
-    public static final String REQUIRE = "require";
-    public static final String INHIBIT = "inhibit";
+    public stbtic finbl String NAME = "PolicyConstrbints";
+    public stbtic finbl String REQUIRE = "require";
+    public stbtic finbl String INHIBIT = "inhibit";
 
-    private static final byte TAG_REQUIRE = 0;
-    private static final byte TAG_INHIBIT = 1;
+    privbte stbtic finbl byte TAG_REQUIRE = 0;
+    privbte stbtic finbl byte TAG_INHIBIT = 1;
 
-    private int require = -1;
-    private int inhibit = -1;
+    privbte int require = -1;
+    privbte int inhibit = -1;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
+    // Encode this extension vblue.
+    privbte void encodeThis() throws IOException {
         if (require == -1 && inhibit == -1) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream tagged = new DerOutputStream();
-        DerOutputStream seq = new DerOutputStream();
+        DerOutputStrebm tbgged = new DerOutputStrebm();
+        DerOutputStrebm seq = new DerOutputStrebm();
 
         if (require != -1) {
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm tmp = new DerOutputStrebm();
             tmp.putInteger(require);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                         false, TAG_REQUIRE), tmp);
+            tbgged.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                         fblse, TAG_REQUIRE), tmp);
         }
         if (inhibit != -1) {
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm tmp = new DerOutputStrebm();
             tmp.putInteger(inhibit);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                         false, TAG_INHIBIT), tmp);
+            tbgged.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                         fblse, TAG_INHIBIT), tmp);
         }
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        seq.write(DerVblue.tbg_Sequence, tbgged);
+        this.extensionVblue = seq.toByteArrby();
     }
 
     /**
-     * Create a PolicyConstraintsExtension object with both
-     * require explicit policy and inhibit policy mapping. The
-     * extension is marked non-critical.
+     * Crebte b PolicyConstrbintsExtension object with both
+     * require explicit policy bnd inhibit policy mbpping. The
+     * extension is mbrked non-criticbl.
      *
-     * @param require require explicit policy (-1 for optional).
-     * @param inhibit inhibit policy mapping (-1 for optional).
+     * @pbrbm require require explicit policy (-1 for optionbl).
+     * @pbrbm inhibit inhibit policy mbpping (-1 for optionbl).
      */
-    public PolicyConstraintsExtension(int require, int inhibit)
+    public PolicyConstrbintsExtension(int require, int inhibit)
     throws IOException {
-        this(Boolean.FALSE, require, inhibit);
+        this(Boolebn.FALSE, require, inhibit);
     }
 
     /**
-     * Create a PolicyConstraintsExtension object with specified
-     * criticality and both require explicit policy and inhibit
-     * policy mapping.
+     * Crebte b PolicyConstrbintsExtension object with specified
+     * criticblity bnd both require explicit policy bnd inhibit
+     * policy mbpping.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param require require explicit policy (-1 for optional).
-     * @param inhibit inhibit policy mapping (-1 for optional).
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm require require explicit policy (-1 for optionbl).
+     * @pbrbm inhibit inhibit policy mbpping (-1 for optionbl).
      */
-    public PolicyConstraintsExtension(Boolean critical, int require, int inhibit)
+    public PolicyConstrbintsExtension(Boolebn criticbl, int require, int inhibit)
     throws IOException {
         this.require = require;
         this.inhibit = inhibit;
-        this.extensionId = PKIXExtensions.PolicyConstraints_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.PolicyConstrbints_Id;
+        this.criticbl = criticbl.boolebnVblue();
         encodeThis();
     }
 
     /**
-     * Create the extension from its DER encoded value and criticality.
+     * Crebte the extension from its DER encoded vblue bnd criticblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public PolicyConstraintsExtension(Boolean critical, Object value)
+    public PolicyConstrbintsExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.PolicyConstraints_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.PolicyConstrbints_Id;
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Sequence tag missing for PolicyConstraint.");
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Sequence tbg missing for PolicyConstrbint.");
         }
-        DerInputStream in = val.data;
-        while (in != null && in.available() != 0) {
-            DerValue next = in.getDerValue();
+        DerInputStrebm in = vbl.dbtb;
+        while (in != null && in.bvbilbble() != 0) {
+            DerVblue next = in.getDerVblue();
 
             if (next.isContextSpecific(TAG_REQUIRE) && !next.isConstructed()) {
                 if (this.require != -1)
-                    throw new IOException("Duplicate requireExplicitPolicy" +
-                          "found in the PolicyConstraintsExtension");
-                next.resetTag(DerValue.tag_Integer);
+                    throw new IOException("Duplicbte requireExplicitPolicy" +
+                          "found in the PolicyConstrbintsExtension");
+                next.resetTbg(DerVblue.tbg_Integer);
                 this.require = next.getInteger();
 
             } else if (next.isContextSpecific(TAG_INHIBIT) &&
                        !next.isConstructed()) {
                 if (this.inhibit != -1)
-                    throw new IOException("Duplicate inhibitPolicyMapping" +
-                          "found in the PolicyConstraintsExtension");
-                next.resetTag(DerValue.tag_Integer);
+                    throw new IOException("Duplicbte inhibitPolicyMbpping" +
+                          "found in the PolicyConstrbintsExtension");
+                next.resetTbg(DerVblue.tbg_Integer);
                 this.inhibit = next.getInteger();
             } else
-                throw new IOException("Invalid encoding of PolicyConstraint");
+                throw new IOException("Invblid encoding of PolicyConstrbint");
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Return the extension bs user rebdbble string.
      */
     public String toString() {
         String s;
-        s = super.toString() + "PolicyConstraints: [" + "  Require: ";
+        s = super.toString() + "PolicyConstrbints: [" + "  Require: ";
         if (require == -1)
             s += "unspecified;";
         else
@@ -193,86 +193,86 @@ implements CertAttrSet<String> {
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-          extensionId = PKIXExtensions.PolicyConstraints_Id;
-          critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+          extensionId = PKIXExtensions.PolicyConstrbints_Id;
+          criticbl = fblse;
           encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
-            throw new IOException("Attribute value should be of type Integer.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Integer)) {
+            throw new IOException("Attribute vblue should be of type Integer.");
         }
-        if (name.equalsIgnoreCase(REQUIRE)) {
-            require = ((Integer)obj).intValue();
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
-            inhibit = ((Integer)obj).intValue();
+        if (nbme.equblsIgnoreCbse(REQUIRE)) {
+            require = ((Integer)obj).intVblue();
+        } else if (nbme.equblsIgnoreCbse(INHIBIT)) {
+            inhibit = ((Integer)obj).intVblue();
         } else {
-          throw new IOException("Attribute name " + "[" + name + "]" +
+          throw new IOException("Attribute nbme " + "[" + nbme + "]" +
                                 " not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+                                "CertAttrSet:PolicyConstrbints.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(REQUIRE)) {
+    public Integer get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(REQUIRE)) {
             return require;
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
+        } else if (nbme.equblsIgnoreCbse(INHIBIT)) {
             return inhibit;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+          throw new IOException("Attribute nbme not recognized by " +
+                                "CertAttrSet:PolicyConstrbints.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(REQUIRE)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(REQUIRE)) {
             require = -1;
-        } else if (name.equalsIgnoreCase(INHIBIT)) {
+        } else if (nbme.equblsIgnoreCbse(INHIBIT)) {
             inhibit = -1;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:PolicyConstraints.");
+          throw new IOException("Attribute nbme not recognized by " +
+                                "CertAttrSet:PolicyConstrbints.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(REQUIRE);
-        elements.addElement(INHIBIT);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(REQUIRE);
+        elements.bddElement(INHIBIT);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

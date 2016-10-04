@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * Ports are simple lines for input or output of audio to or from audio devices.
- * Common examples of ports that act as source lines (mixer inputs) include the
- * microphone, line input, and CD-ROM drive. Ports that act as target lines
- * (mixer outputs) include the speaker, headphone, and line output. You can
- * access port using a {@link Port.Info} object.
+ * Ports bre simple lines for input or output of budio to or from budio devices.
+ * Common exbmples of ports thbt bct bs source lines (mixer inputs) include the
+ * microphone, line input, bnd CD-ROM drive. Ports thbt bct bs tbrget lines
+ * (mixer outputs) include the spebker, hebdphone, bnd line output. You cbn
+ * bccess port using b {@link Port.Info} object.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public interface Port extends Line {
+public interfbce Port extends Line {
 
     /**
-     * The {@code Port.Info} class extends {@code Line.Info} with additional
-     * information specific to ports, including the port's name and whether it
-     * is a source or a target for its mixer. By definition, a port acts as
-     * either a source or a target to its mixer, but not both. (Audio input
-     * ports are sources; audio output ports are targets.)
+     * The {@code Port.Info} clbss extends {@code Line.Info} with bdditionbl
+     * informbtion specific to ports, including the port's nbme bnd whether it
+     * is b source or b tbrget for its mixer. By definition, b port bcts bs
+     * either b source or b tbrget to its mixer, but not both. (Audio input
+     * ports bre sources; budio output ports bre tbrgets.)
      * <p>
-     * To learn what ports are available, you can retrieve port info objects
-     * through the {@link Mixer#getSourceLineInfo getSourceLineInfo} and
-     * {@link Mixer#getTargetLineInfo getTargetLineInfo} methods of the
-     * {@code Mixer} interface. Instances of the {@code Port.Info} class may
-     * also be constructed and used to obtain lines matching the parameters
+     * To lebrn whbt ports bre bvbilbble, you cbn retrieve port info objects
+     * through the {@link Mixer#getSourceLineInfo getSourceLineInfo} bnd
+     * {@link Mixer#getTbrgetLineInfo getTbrgetLineInfo} methods of the
+     * {@code Mixer} interfbce. Instbnces of the {@code Port.Info} clbss mby
+     * blso be constructed bnd used to obtbin lines mbtching the pbrbmeters
      * specified in the {@code Port.Info} object.
      *
-     * @author Kara Kytle
+     * @buthor Kbrb Kytle
      * @since 1.3
      */
-    class Info extends Line.Info {
+    clbss Info extends Line.Info {
 
 
         // AUDIO PORT TYPE DEFINES
@@ -63,39 +63,39 @@ public interface Port extends Line {
         // SOURCE PORTS
 
         /**
-         * A type of port that gets audio from a built-in microphone or a
-         * microphone jack.
+         * A type of port thbt gets budio from b built-in microphone or b
+         * microphone jbck.
          */
-        public static final Info MICROPHONE = new Info(Port.class,"MICROPHONE", true);
+        public stbtic finbl Info MICROPHONE = new Info(Port.clbss,"MICROPHONE", true);
 
         /**
-         * A type of port that gets audio from a line-level audio input jack.
+         * A type of port thbt gets budio from b line-level budio input jbck.
          */
-        public static final Info LINE_IN = new Info(Port.class,"LINE_IN", true);
+        public stbtic finbl Info LINE_IN = new Info(Port.clbss,"LINE_IN", true);
 
         /**
-         * A type of port that gets audio from a CD-ROM drive.
+         * A type of port thbt gets budio from b CD-ROM drive.
          */
-        public static final Info COMPACT_DISC = new Info(Port.class,"COMPACT_DISC", true);
+        public stbtic finbl Info COMPACT_DISC = new Info(Port.clbss,"COMPACT_DISC", true);
 
 
         // TARGET PORTS
 
         /**
-         * A type of port that sends audio to a built-in speaker or a speaker
-         * jack.
+         * A type of port thbt sends budio to b built-in spebker or b spebker
+         * jbck.
          */
-        public static final Info SPEAKER = new Info(Port.class,"SPEAKER", false);
+        public stbtic finbl Info SPEAKER = new Info(Port.clbss,"SPEAKER", fblse);
 
         /**
-         * A type of port that sends audio to a headphone jack.
+         * A type of port thbt sends budio to b hebdphone jbck.
          */
-        public static final Info HEADPHONE = new Info(Port.class,"HEADPHONE", false);
+        public stbtic finbl Info HEADPHONE = new Info(Port.clbss,"HEADPHONE", fblse);
 
         /**
-         * A type of port that sends audio to a line-level audio output jack.
+         * A type of port thbt sends budio to b line-level budio output jbck.
          */
-        public static final Info LINE_OUT = new Info(Port.class,"LINE_OUT", false);
+        public stbtic finbl Info LINE_OUT = new Info(Port.clbss,"LINE_OUT", fblse);
 
 
         // FUTURE DIRECTIONS...
@@ -107,96 +107,96 @@ public interface Port extends Line {
 
         // INSTANCE VARIABLES
 
-        private String name;
-        private boolean isSource;
+        privbte String nbme;
+        privbte boolebn isSource;
 
         /**
-         * Constructs a port's info object from the information given. This
-         * constructor is typically used by an implementation of Java Sound to
-         * describe a supported line.
+         * Constructs b port's info object from the informbtion given. This
+         * constructor is typicblly used by bn implementbtion of Jbvb Sound to
+         * describe b supported line.
          *
-         * @param  lineClass the class of the port described by the info object
-         * @param  name the string that names the port
-         * @param  isSource {@code true} if the port is a source port (such as a
-         *         microphone), {@code false} if the port is a target port
-         *         (such as a speaker)
+         * @pbrbm  lineClbss the clbss of the port described by the info object
+         * @pbrbm  nbme the string thbt nbmes the port
+         * @pbrbm  isSource {@code true} if the port is b source port (such bs b
+         *         microphone), {@code fblse} if the port is b tbrget port
+         *         (such bs b spebker)
          */
-        public Info(Class<?> lineClass, String name, boolean isSource) {
+        public Info(Clbss<?> lineClbss, String nbme, boolebn isSource) {
 
-            super(lineClass);
-            this.name = name;
+            super(lineClbss);
+            this.nbme = nbme;
             this.isSource = isSource;
         }
 
         /**
-         * Obtains the name of the port.
+         * Obtbins the nbme of the port.
          *
-         * @return the string that names the port
+         * @return the string thbt nbmes the port
          */
-        public String getName() {
-            return name;
+        public String getNbme() {
+            return nbme;
         }
 
         /**
-         * Indicates whether the port is a source or a target for its mixer.
+         * Indicbtes whether the port is b source or b tbrget for its mixer.
          *
-         * @return {@code true} if the port is a source port (such as a
-         *         microphone), {@code false} if the port is a target port
-         *         (such as a speaker)
+         * @return {@code true} if the port is b source port (such bs b
+         *         microphone), {@code fblse} if the port is b tbrget port
+         *         (such bs b spebker)
          */
-        public boolean isSource() {
+        public boolebn isSource() {
             return isSource;
         }
 
         /**
-         * Indicates whether this info object specified matches this one. To
-         * match, the match requirements of the superclass must be met and the
-         * types must be equal.
+         * Indicbtes whether this info object specified mbtches this one. To
+         * mbtch, the mbtch requirements of the superclbss must be met bnd the
+         * types must be equbl.
          *
-         * @param  info the info object for which the match is queried
+         * @pbrbm  info the info object for which the mbtch is queried
          */
         @Override
-        public boolean matches(Line.Info info) {
+        public boolebn mbtches(Line.Info info) {
 
-            if (! (super.matches(info)) ) {
-                return false;
+            if (! (super.mbtches(info)) ) {
+                return fblse;
             }
 
-            if (!(name.equals(((Info)info).getName())) ) {
-                return false;
+            if (!(nbme.equbls(((Info)info).getNbme())) ) {
+                return fblse;
             }
 
             if (! (isSource == ((Info)info).isSource()) ) {
-                return false;
+                return fblse;
             }
 
             return true;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizes the equbls method.
          */
         @Override
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        public finbl boolebn equbls(Object obj) {
+            return super.equbls(obj);
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizes the hbshCode method.
          */
         @Override
-        public final int hashCode() {
-            return super.hashCode();
+        public finbl int hbshCode() {
+            return super.hbshCode();
         }
 
         /**
-         * Provides a {@code String} representation of the port.
+         * Provides b {@code String} representbtion of the port.
          *
-         * @return a string that describes the port
+         * @return b string thbt describes the port
          */
         @Override
-        public final String toString() {
-            return (name + ((isSource == true) ? " source" : " target") + " port");
+        public finbl String toString() {
+            return (nbme + ((isSource == true) ? " source" : " tbrget") + " port");
         }
     }
 }

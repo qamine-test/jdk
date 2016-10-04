@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ec;
+pbckbge sun.security.ec;
 
-import java.util.Collection;
-import java.util.Map;
+import jbvb.util.Collection;
+import jbvb.util.Mbp;
 
-import java.util.regex.Pattern;
+import jbvb.util.regex.Pbttern;
 import sun.security.util.CurveDB;
-import sun.security.util.NamedCurve;
+import sun.security.util.NbmedCurve;
 
 /**
  * Defines the entries of the SunEC provider.
  *
  * @since 1.7
  */
-final class SunECEntries {
+finbl clbss SunECEntries {
 
-    private SunECEntries() {
+    privbte SunECEntries() {
         // empty
     }
 
-    static void putEntries(Map<Object, Object> map,
-        boolean useFullImplementation) {
+    stbtic void putEntries(Mbp<Object, Object> mbp,
+        boolebn useFullImplementbtion) {
 
         /*
-         *  Key Factory engine
+         *  Key Fbctory engine
          */
-        map.put("KeyFactory.EC", "sun.security.ec.ECKeyFactory");
-        map.put("Alg.Alias.KeyFactory.EllipticCurve", "EC");
+        mbp.put("KeyFbctory.EC", "sun.security.ec.ECKeyFbctory");
+        mbp.put("Alg.Alibs.KeyFbctory.EllipticCurve", "EC");
 
-        map.put("KeyFactory.EC ImplementedIn", "Software");
+        mbp.put("KeyFbctory.EC ImplementedIn", "Softwbre");
 
         /*
-         * Algorithm Parameter engine
+         * Algorithm Pbrbmeter engine
          */
-        map.put("AlgorithmParameters.EC", "sun.security.util.ECParameters");
-        map.put("Alg.Alias.AlgorithmParameters.EllipticCurve", "EC");
-        map.put("Alg.Alias.AlgorithmParameters.1.2.840.10045.2.1", "EC");
+        mbp.put("AlgorithmPbrbmeters.EC", "sun.security.util.ECPbrbmeters");
+        mbp.put("Alg.Alibs.AlgorithmPbrbmeters.EllipticCurve", "EC");
+        mbp.put("Alg.Alibs.AlgorithmPbrbmeters.1.2.840.10045.2.1", "EC");
 
-        map.put("AlgorithmParameters.EC KeySize", "256");
+        mbp.put("AlgorithmPbrbmeters.EC KeySize", "256");
 
-        map.put("AlgorithmParameters.EC ImplementedIn", "Software");
+        mbp.put("AlgorithmPbrbmeters.EC ImplementedIn", "Softwbre");
 
-        // "AlgorithmParameters.EC SupportedCurves" prop used by unit test
-        boolean firstCurve = true;
-        StringBuilder names = new StringBuilder();
-        Pattern nameSplitPattern = Pattern.compile(CurveDB.SPLIT_PATTERN);
+        // "AlgorithmPbrbmeters.EC SupportedCurves" prop used by unit test
+        boolebn firstCurve = true;
+        StringBuilder nbmes = new StringBuilder();
+        Pbttern nbmeSplitPbttern = Pbttern.compile(CurveDB.SPLIT_PATTERN);
 
-        Collection<? extends NamedCurve> supportedCurves =
+        Collection<? extends NbmedCurve> supportedCurves =
             CurveDB.getSupportedCurves();
-        for (NamedCurve namedCurve : supportedCurves) {
+        for (NbmedCurve nbmedCurve : supportedCurves) {
             if (!firstCurve) {
-                names.append("|");
+                nbmes.bppend("|");
             } else {
-                firstCurve = false;
+                firstCurve = fblse;
             }
 
-            names.append("[");
+            nbmes.bppend("[");
 
-            String[] commonNames = nameSplitPattern.split(namedCurve.getName());
-            for (String commonName : commonNames) {
-                names.append(commonName.trim());
-                names.append(",");
+            String[] commonNbmes = nbmeSplitPbttern.split(nbmedCurve.getNbme());
+            for (String commonNbme : commonNbmes) {
+                nbmes.bppend(commonNbme.trim());
+                nbmes.bppend(",");
             }
 
-            names.append(namedCurve.getObjectId());
-            names.append("]");
+            nbmes.bppend(nbmedCurve.getObjectId());
+            nbmes.bppend("]");
         }
 
-        map.put("AlgorithmParameters.EC SupportedCurves", names.toString());
+        mbp.put("AlgorithmPbrbmeters.EC SupportedCurves", nbmes.toString());
 
         /*
-         * Register the algorithms below only when the full ECC implementation
-         * is available
+         * Register the blgorithms below only when the full ECC implementbtion
+         * is bvbilbble
          */
-        if (!useFullImplementation) {
+        if (!useFullImplementbtion) {
             return;
         }
 
         /*
-         * Signature engines
+         * Signbture engines
          */
-        map.put("Signature.NONEwithECDSA",
-            "sun.security.ec.ECDSASignature$Raw");
-        map.put("Signature.SHA1withECDSA",
-            "sun.security.ec.ECDSASignature$SHA1");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.1", "SHA1withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.1", "SHA1withECDSA");
+        mbp.put("Signbture.NONEwithECDSA",
+            "sun.security.ec.ECDSASignbture$Rbw");
+        mbp.put("Signbture.SHA1withECDSA",
+            "sun.security.ec.ECDSASignbture$SHA1");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.10045.4.1", "SHA1withECDSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.10045.4.1", "SHA1withECDSA");
 
-        map.put("Signature.SHA224withECDSA",
-            "sun.security.ec.ECDSASignature$SHA224");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.1", "SHA224withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.1", "SHA224withECDSA");
+        mbp.put("Signbture.SHA224withECDSA",
+            "sun.security.ec.ECDSASignbture$SHA224");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.10045.4.3.1", "SHA224withECDSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.10045.4.3.1", "SHA224withECDSA");
 
-        map.put("Signature.SHA256withECDSA",
-            "sun.security.ec.ECDSASignature$SHA256");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.2", "SHA256withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.2", "SHA256withECDSA");
+        mbp.put("Signbture.SHA256withECDSA",
+            "sun.security.ec.ECDSASignbture$SHA256");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.10045.4.3.2", "SHA256withECDSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.10045.4.3.2", "SHA256withECDSA");
 
-        map.put("Signature.SHA384withECDSA",
-            "sun.security.ec.ECDSASignature$SHA384");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.3", "SHA384withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.3", "SHA384withECDSA");
+        mbp.put("Signbture.SHA384withECDSA",
+            "sun.security.ec.ECDSASignbture$SHA384");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.10045.4.3.3", "SHA384withECDSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.10045.4.3.3", "SHA384withECDSA");
 
-        map.put("Signature.SHA512withECDSA",
-            "sun.security.ec.ECDSASignature$SHA512");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.4", "SHA512withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.4", "SHA512withECDSA");
+        mbp.put("Signbture.SHA512withECDSA",
+            "sun.security.ec.ECDSASignbture$SHA512");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.10045.4.3.4", "SHA512withECDSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.10045.4.3.4", "SHA512withECDSA");
 
-        String ecKeyClasses = "java.security.interfaces.ECPublicKey" +
-                "|java.security.interfaces.ECPrivateKey";
-        map.put("Signature.NONEwithECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA1withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA224withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA256withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA384withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA512withECDSA SupportedKeyClasses", ecKeyClasses);
+        String ecKeyClbsses = "jbvb.security.interfbces.ECPublicKey" +
+                "|jbvb.security.interfbces.ECPrivbteKey";
+        mbp.put("Signbture.NONEwithECDSA SupportedKeyClbsses", ecKeyClbsses);
+        mbp.put("Signbture.SHA1withECDSA SupportedKeyClbsses", ecKeyClbsses);
+        mbp.put("Signbture.SHA224withECDSA SupportedKeyClbsses", ecKeyClbsses);
+        mbp.put("Signbture.SHA256withECDSA SupportedKeyClbsses", ecKeyClbsses);
+        mbp.put("Signbture.SHA384withECDSA SupportedKeyClbsses", ecKeyClbsses);
+        mbp.put("Signbture.SHA512withECDSA SupportedKeyClbsses", ecKeyClbsses);
 
-        map.put("Signature.SHA1withECDSA KeySize", "256");
+        mbp.put("Signbture.SHA1withECDSA KeySize", "256");
 
-        map.put("Signature.NONEwithECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA1withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA224withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA256withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA384withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA512withECDSA ImplementedIn", "Software");
+        mbp.put("Signbture.NONEwithECDSA ImplementedIn", "Softwbre");
+        mbp.put("Signbture.SHA1withECDSA ImplementedIn", "Softwbre");
+        mbp.put("Signbture.SHA224withECDSA ImplementedIn", "Softwbre");
+        mbp.put("Signbture.SHA256withECDSA ImplementedIn", "Softwbre");
+        mbp.put("Signbture.SHA384withECDSA ImplementedIn", "Softwbre");
+        mbp.put("Signbture.SHA512withECDSA ImplementedIn", "Softwbre");
 
         /*
-         *  Key Pair Generator engine
+         *  Key Pbir Generbtor engine
          */
-        map.put("KeyPairGenerator.EC", "sun.security.ec.ECKeyPairGenerator");
-        map.put("Alg.Alias.KeyPairGenerator.EllipticCurve", "EC");
+        mbp.put("KeyPbirGenerbtor.EC", "sun.security.ec.ECKeyPbirGenerbtor");
+        mbp.put("Alg.Alibs.KeyPbirGenerbtor.EllipticCurve", "EC");
 
-        map.put("KeyPairGenerator.EC KeySize", "256");
+        mbp.put("KeyPbirGenerbtor.EC KeySize", "256");
 
-        map.put("KeyPairGenerator.EC ImplementedIn", "Software");
+        mbp.put("KeyPbirGenerbtor.EC ImplementedIn", "Softwbre");
 
         /*
          * Key Agreement engine
          */
-        map.put("KeyAgreement.ECDH", "sun.security.ec.ECDHKeyAgreement");
+        mbp.put("KeyAgreement.ECDH", "sun.security.ec.ECDHKeyAgreement");
 
-        map.put("KeyAgreement.ECDH SupportedKeyClasses", ecKeyClasses);
+        mbp.put("KeyAgreement.ECDH SupportedKeyClbsses", ecKeyClbsses);
 
-        map.put("KeyAgreement.ECDH ImplementedIn", "Software");
+        mbp.put("KeyAgreement.ECDH ImplementedIn", "Softwbre");
     }
 }

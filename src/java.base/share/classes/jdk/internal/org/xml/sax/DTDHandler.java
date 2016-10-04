@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAX DTD handler.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: DTDHandler.java,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+// SAX DTD hbndler.
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: DTDHbndler.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 /**
- * Receive notification of basic DTD-related events.
+ * Receive notificbtion of bbsic DTD-relbted events.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>If a SAX application needs information about notations and
- * unparsed entities, then the application implements this
- * interface and registers an instance with the SAX parser using
- * the parser's setDTDHandler method.  The parser uses the
- * instance to report notation and unparsed entity declarations to
- * the application.</p>
+ * <p>If b SAX bpplicbtion needs informbtion bbout notbtions bnd
+ * unpbrsed entities, then the bpplicbtion implements this
+ * interfbce bnd registers bn instbnce with the SAX pbrser using
+ * the pbrser's setDTDHbndler method.  The pbrser uses the
+ * instbnce to report notbtion bnd unpbrsed entity declbrbtions to
+ * the bpplicbtion.</p>
  *
- * <p>Note that this interface includes only those DTD events that
- * the XML recommendation <em>requires</em> processors to report:
- * notation and unparsed entity declarations.</p>
+ * <p>Note thbt this interfbce includes only those DTD events thbt
+ * the XML recommendbtion <em>requires</em> processors to report:
+ * notbtion bnd unpbrsed entity declbrbtions.</p>
  *
- * <p>The SAX parser may report these events in any order, regardless
- * of the order in which the notations and unparsed entities were
- * declared; however, all DTD events must be reported after the
- * document handler's startDocument event, and before the first
- * startElement event.
- * (If the {@link org.xml.sax.ext.LexicalHandler LexicalHandler} is
- * used, these events must also be reported before the endDTD event.)
+ * <p>The SAX pbrser mby report these events in bny order, regbrdless
+ * of the order in which the notbtions bnd unpbrsed entities were
+ * declbred; however, bll DTD events must be reported bfter the
+ * document hbndler's stbrtDocument event, bnd before the first
+ * stbrtElement event.
+ * (If the {@link org.xml.sbx.ext.LexicblHbndler LexicblHbndler} is
+ * used, these events must blso be reported before the endDTD event.)
  * </p>
  *
- * <p>It is up to the application to store the information for
- * future use (perhaps in a hash table or object tree).
- * If the application encounters attributes of type "NOTATION",
- * "ENTITY", or "ENTITIES", it can use the information that it
- * obtained through this interface to find the entity and/or
- * notation corresponding with the attribute value.</p>
+ * <p>It is up to the bpplicbtion to store the informbtion for
+ * future use (perhbps in b hbsh tbble or object tree).
+ * If the bpplicbtion encounters bttributes of type "NOTATION",
+ * "ENTITY", or "ENTITIES", it cbn use the informbtion thbt it
+ * obtbined through this interfbce to find the entity bnd/or
+ * notbtion corresponding with the bttribute vblue.</p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader#setDTDHandler
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.XMLRebder#setDTDHbndler
  */
-public interface DTDHandler {
+public interfbce DTDHbndler {
 
 
     /**
-     * Receive notification of a notation declaration event.
+     * Receive notificbtion of b notbtion declbrbtion event.
      *
-     * <p>It is up to the application to record the notation for later
-     * reference, if necessary;
-     * notations may appear as attribute values and in unparsed entity
-     * declarations, and are sometime used with processing instruction
-     * target names.</p>
+     * <p>It is up to the bpplicbtion to record the notbtion for lbter
+     * reference, if necessbry;
+     * notbtions mby bppebr bs bttribute vblues bnd in unpbrsed entity
+     * declbrbtions, bnd bre sometime used with processing instruction
+     * tbrget nbmes.</p>
      *
-     * <p>At least one of publicId and systemId must be non-null.
-     * If a system identifier is present, and it is a URL, the SAX
-     * parser must resolve it fully before passing it to the
-     * application through this event.</p>
+     * <p>At lebst one of publicId bnd systemId must be non-null.
+     * If b system identifier is present, bnd it is b URL, the SAX
+     * pbrser must resolve it fully before pbssing it to the
+     * bpplicbtion through this event.</p>
      *
-     * <p>There is no guarantee that the notation declaration will be
-     * reported before any unparsed entities that use it.</p>
+     * <p>There is no gubrbntee thbt the notbtion declbrbtion will be
+     * reported before bny unpbrsed entities thbt use it.</p>
      *
-     * @param name The notation name.
-     * @param publicId The notation's public identifier, or null if
-     *        none was given.
-     * @param systemId The notation's system identifier, or null if
-     *        none was given.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see #unparsedEntityDecl
-     * @see org.xml.sax.Attributes
+     * @pbrbm nbme The notbtion nbme.
+     * @pbrbm publicId The notbtion's public identifier, or null if
+     *        none wbs given.
+     * @pbrbm systemId The notbtion's system identifier, or null if
+     *        none wbs given.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see #unpbrsedEntityDecl
+     * @see org.xml.sbx.Attributes
      */
-    public abstract void notationDecl (String name,
+    public bbstrbct void notbtionDecl (String nbme,
                                        String publicId,
                                        String systemId)
         throws SAXException;
 
 
     /**
-     * Receive notification of an unparsed entity declaration event.
+     * Receive notificbtion of bn unpbrsed entity declbrbtion event.
      *
-     * <p>Note that the notation name corresponds to a notation
-     * reported by the {@link #notationDecl notationDecl} event.
-     * It is up to the application to record the entity for later
-     * reference, if necessary;
-     * unparsed entities may appear as attribute values.
+     * <p>Note thbt the notbtion nbme corresponds to b notbtion
+     * reported by the {@link #notbtionDecl notbtionDecl} event.
+     * It is up to the bpplicbtion to record the entity for lbter
+     * reference, if necessbry;
+     * unpbrsed entities mby bppebr bs bttribute vblues.
      * </p>
      *
-     * <p>If the system identifier is a URL, the parser must resolve it
-     * fully before passing it to the application.</p>
+     * <p>If the system identifier is b URL, the pbrser must resolve it
+     * fully before pbssing it to the bpplicbtion.</p>
      *
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @param name The unparsed entity's name.
-     * @param publicId The entity's public identifier, or null if none
-     *        was given.
-     * @param systemId The entity's system identifier.
-     * @param notationName The name of the associated notation.
-     * @see #notationDecl
-     * @see org.xml.sax.Attributes
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @pbrbm nbme The unpbrsed entity's nbme.
+     * @pbrbm publicId The entity's public identifier, or null if none
+     *        wbs given.
+     * @pbrbm systemId The entity's system identifier.
+     * @pbrbm notbtionNbme The nbme of the bssocibted notbtion.
+     * @see #notbtionDecl
+     * @see org.xml.sbx.Attributes
      */
-    public abstract void unparsedEntityDecl (String name,
+    public bbstrbct void unpbrsedEntityDecl (String nbme,
                                              String publicId,
                                              String systemId,
-                                             String notationName)
+                                             String notbtionNbme)
         throws SAXException;
 
 }
 
-// end of DTDHandler.java
+// end of DTDHbndler.jbvb

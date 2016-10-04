@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import javax.sound.sampled.AudioFormat;
+import jbvbx.sound.sbmpled.AudioFormbt;
 
 /**
- * This class is used to store audio buffer.
+ * This clbss is used to store budio buffer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftAudioBuffer {
+public finbl clbss SoftAudioBuffer {
 
-    private int size;
-    private float[] buffer;
-    private boolean empty = true;
-    private AudioFormat format;
-    private AudioFloatConverter converter;
-    private byte[] converter_buffer;
+    privbte int size;
+    privbte flobt[] buffer;
+    privbte boolebn empty = true;
+    privbte AudioFormbt formbt;
+    privbte AudioFlobtConverter converter;
+    privbte byte[] converter_buffer;
 
-    public SoftAudioBuffer(int size, AudioFormat format) {
+    public SoftAudioBuffer(int size, AudioFormbt formbt) {
         this.size = size;
-        this.format = format;
-        converter = AudioFloatConverter.getConverter(format);
+        this.formbt = formbt;
+        converter = AudioFlobtConverter.getConverter(formbt);
     }
 
-    public void swap(SoftAudioBuffer swap)
+    public void swbp(SoftAudioBuffer swbp)
     {
-        int bak_size = size;
-        float[] bak_buffer = buffer;
-        boolean bak_empty = empty;
-        AudioFormat bak_format = format;
-        AudioFloatConverter bak_converter = converter;
-        byte[] bak_converter_buffer = converter_buffer;
+        int bbk_size = size;
+        flobt[] bbk_buffer = buffer;
+        boolebn bbk_empty = empty;
+        AudioFormbt bbk_formbt = formbt;
+        AudioFlobtConverter bbk_converter = converter;
+        byte[] bbk_converter_buffer = converter_buffer;
 
-        size = swap.size;
-        buffer = swap.buffer;
-        empty = swap.empty;
-        format = swap.format;
-        converter = swap.converter;
-        converter_buffer = swap.converter_buffer;
+        size = swbp.size;
+        buffer = swbp.buffer;
+        empty = swbp.empty;
+        formbt = swbp.formbt;
+        converter = swbp.converter;
+        converter_buffer = swbp.converter_buffer;
 
-        swap.size = bak_size;
-        swap.buffer = bak_buffer;
-        swap.empty = bak_empty;
-        swap.format = bak_format;
-        swap.converter = bak_converter;
-        swap.converter_buffer = bak_converter_buffer;
+        swbp.size = bbk_size;
+        swbp.buffer = bbk_buffer;
+        swbp.empty = bbk_empty;
+        swbp.formbt = bbk_formbt;
+        swbp.converter = bbk_converter;
+        swbp.converter_buffer = bbk_converter_buffer;
     }
 
-    public AudioFormat getFormat() {
-        return format;
+    public AudioFormbt getFormbt() {
+        return formbt;
     }
 
     public int getSize() {
         return size;
     }
 
-    public void clear() {
+    public void clebr() {
         if (!empty) {
-            Arrays.fill(buffer, 0);
+            Arrbys.fill(buffer, 0);
             empty = true;
         }
     }
 
-    public boolean isSilent() {
+    public boolebn isSilent() {
         return empty;
     }
 
-    public float[] array() {
-        empty = false;
+    public flobt[] brrby() {
+        empty = fblse;
         if (buffer == null)
-            buffer = new float[size];
+            buffer = new flobt[size];
         return buffer;
     }
 
-    public void get(byte[] buffer, int channel) {
+    public void get(byte[] buffer, int chbnnel) {
 
-        int framesize_pc = (format.getFrameSize() / format.getChannels());
-        int c_len = size * framesize_pc;
+        int frbmesize_pc = (formbt.getFrbmeSize() / formbt.getChbnnels());
+        int c_len = size * frbmesize_pc;
         if (converter_buffer == null || converter_buffer.length < c_len)
             converter_buffer = new byte[c_len];
 
-        if (format.getChannels() == 1) {
-            converter.toByteArray(array(), size, buffer);
+        if (formbt.getChbnnels() == 1) {
+            converter.toByteArrby(brrby(), size, buffer);
         } else {
-            converter.toByteArray(array(), size, converter_buffer);
-            if (channel >= format.getChannels())
+            converter.toByteArrby(brrby(), size, converter_buffer);
+            if (chbnnel >= formbt.getChbnnels())
                 return;
-            int z_stepover = format.getChannels() * framesize_pc;
-            int k_stepover = framesize_pc;
-            for (int j = 0; j < framesize_pc; j++) {
+            int z_stepover = formbt.getChbnnels() * frbmesize_pc;
+            int k_stepover = frbmesize_pc;
+            for (int j = 0; j < frbmesize_pc; j++) {
                 int k = j;
-                int z = channel * framesize_pc + j;
+                int z = chbnnel * frbmesize_pc + j;
                 for (int i = 0; i < size; i++) {
                     buffer[z] = converter_buffer[k];
                     z += z_stepover;

@@ -1,368 +1,368 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import javax.naming.event.*;
-import javax.naming.ldap.*;
-import javax.naming.ldap.LdapName;
-import javax.naming.ldap.Rdn;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.*;
+import jbvbx.nbming.event.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.nbming.ldbp.LdbpNbme;
+import jbvbx.nbming.ldbp.Rdn;
 
-import java.util.Locale;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Enumeration;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.List;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Enumerbtion;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
 import com.sun.jndi.toolkit.ctx.*;
 import com.sun.jndi.toolkit.dir.HierMemDirCtx;
-import com.sun.jndi.toolkit.dir.SearchFilter;
-import com.sun.jndi.ldap.ext.StartTlsResponseImpl;
+import com.sun.jndi.toolkit.dir.SebrchFilter;
+import com.sun.jndi.ldbp.ext.StbrtTlsResponseImpl;
 
 /**
- * The LDAP context implementation.
+ * The LDAP context implementbtion.
  *
- * Implementation is not thread-safe. Caller must sync as per JNDI spec.
- * Members that are used directly or indirectly by internal worker threads
- * (Connection, EventQueue, NamingEventNotifier) must be thread-safe.
- * Connection - calls LdapClient.processUnsolicited(), which in turn calls
- *   LdapCtx.convertControls() and LdapCtx.fireUnsolicited().
- *   convertControls() - no sync; reads envprops and 'this'
- *   fireUnsolicited() - sync on eventSupport for all references to 'unsolicited'
- *      (even those in other methods);  don't sync on LdapCtx in case caller
- *      is already sync'ing on it - this would prevent Unsol events from firing
- *      and the Connection thread to block (thus preventing any other data
- *      from being read from the connection)
- *      References to 'eventSupport' need not be sync'ed because these
- *      methods can only be called after eventSupport has been set first
- *      (via addNamingListener()).
- * EventQueue - no direct or indirect calls to LdapCtx
- * NamingEventNotifier - calls newInstance() to get instance for run() to use;
- *      no sync needed for methods invoked on new instance;
+ * Implementbtion is not threbd-sbfe. Cbller must sync bs per JNDI spec.
+ * Members thbt bre used directly or indirectly by internbl worker threbds
+ * (Connection, EventQueue, NbmingEventNotifier) must be threbd-sbfe.
+ * Connection - cblls LdbpClient.processUnsolicited(), which in turn cblls
+ *   LdbpCtx.convertControls() bnd LdbpCtx.fireUnsolicited().
+ *   convertControls() - no sync; rebds envprops bnd 'this'
+ *   fireUnsolicited() - sync on eventSupport for bll references to 'unsolicited'
+ *      (even those in other methods);  don't sync on LdbpCtx in cbse cbller
+ *      is blrebdy sync'ing on it - this would prevent Unsol events from firing
+ *      bnd the Connection threbd to block (thus preventing bny other dbtb
+ *      from being rebd from the connection)
+ *      References to 'eventSupport' need not be sync'ed becbuse these
+ *      methods cbn only be cblled bfter eventSupport hbs been set first
+ *      (vib bddNbmingListener()).
+ * EventQueue - no direct or indirect cblls to LdbpCtx
+ * NbmingEventNotifier - cblls newInstbnce() to get instbnce for run() to use;
+ *      no sync needed for methods invoked on new instbnce;
  *
- * LdapAttribute links to LdapCtx in order to process getAttributeDefinition()
- * and getAttributeSyntaxDefinition() calls. It invokes LdapCtx.getSchema(),
- * which uses schemaTrees (a Hashtable - already sync). Potential conflict
- * of duplicating construction of tree for same subschemasubentry
+ * LdbpAttribute links to LdbpCtx in order to process getAttributeDefinition()
+ * bnd getAttributeSyntbxDefinition() cblls. It invokes LdbpCtx.getSchemb(),
+ * which uses schembTrees (b Hbshtbble - blrebdy sync). Potentibl conflict
+ * of duplicbting construction of tree for sbme subschembsubentry
  * but no inconsistency problems.
  *
- * NamingEnumerations link to LdapCtx for the following:
- * 1. increment/decrement enum count so that ctx doesn't close the
+ * NbmingEnumerbtions link to LdbpCtx for the following:
+ * 1. increment/decrement enum count so thbt ctx doesn't close the
  *    underlying connection
- * 2. LdapClient handle to get next batch of results
- * 3. Sets LdapCtx's response controls
+ * 2. LdbpClient hbndle to get next bbtch of results
+ * 3. Sets LdbpCtx's response controls
  * 4. Process return code
- * 5. For narrowing response controls (using ctx's factories)
- * Since processing of NamingEnumeration by client is treated the same as method
- * invocation on LdapCtx, caller is responsible for locking.
+ * 5. For nbrrowing response controls (using ctx's fbctories)
+ * Since processing of NbmingEnumerbtion by client is trebted the sbme bs method
+ * invocbtion on LdbpCtx, cbller is responsible for locking.
  *
- * @author Vincent Ryan
- * @author Rosanna Lee
+ * @buthor Vincent Rybn
+ * @buthor Rosbnnb Lee
  */
 
-final public class LdapCtx extends ComponentDirContext
-    implements EventDirContext, LdapContext {
+finbl public clbss LdbpCtx extends ComponentDirContext
+    implements EventDirContext, LdbpContext {
 
     /*
-     * Used to store arguments to the search method.
+     * Used to store brguments to the sebrch method.
      */
-    final static class SearchArgs {
-        Name name;
+    finbl stbtic clbss SebrchArgs {
+        Nbme nbme;
         String filter;
-        SearchControls cons;
-        String[] reqAttrs; // those attributes originally requested
+        SebrchControls cons;
+        String[] reqAttrs; // those bttributes originblly requested
 
-        SearchArgs(Name name, String filter, SearchControls cons, String[] ra) {
-            this.name = name;
+        SebrchArgs(Nbme nbme, String filter, SebrchControls cons, String[] rb) {
+            this.nbme = nbme;
             this.filter = filter;
             this.cons = cons;
-            this.reqAttrs = ra;
+            this.reqAttrs = rb;
         }
     }
 
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private static final boolean HARD_CLOSE = true;
-    private static final boolean SOFT_CLOSE = false;
+    privbte stbtic finbl boolebn HARD_CLOSE = true;
+    privbte stbtic finbl boolebn SOFT_CLOSE = fblse;
 
-    // -----------------  Constants  -----------------
+    // -----------------  Constbnts  -----------------
 
-    public static final int DEFAULT_PORT = 389;
-    public static final int DEFAULT_SSL_PORT = 636;
-    public static final String DEFAULT_HOST = "localhost";
+    public stbtic finbl int DEFAULT_PORT = 389;
+    public stbtic finbl int DEFAULT_SSL_PORT = 636;
+    public stbtic finbl String DEFAULT_HOST = "locblhost";
 
-    private static final boolean DEFAULT_DELETE_RDN = true;
-    private static final boolean DEFAULT_TYPES_ONLY = false;
-    private static final int DEFAULT_DEREF_ALIASES = 3; // always deref
-    private static final int DEFAULT_LDAP_VERSION = LdapClient.LDAP_VERSION3_VERSION2;
-    private static final int DEFAULT_BATCH_SIZE = 1;
-    private static final int DEFAULT_REFERRAL_MODE = LdapClient.LDAP_REF_IGNORE;
-    private static final char DEFAULT_REF_SEPARATOR = '#';
+    privbte stbtic finbl boolebn DEFAULT_DELETE_RDN = true;
+    privbte stbtic finbl boolebn DEFAULT_TYPES_ONLY = fblse;
+    privbte stbtic finbl int DEFAULT_DEREF_ALIASES = 3; // blwbys deref
+    privbte stbtic finbl int DEFAULT_LDAP_VERSION = LdbpClient.LDAP_VERSION3_VERSION2;
+    privbte stbtic finbl int DEFAULT_BATCH_SIZE = 1;
+    privbte stbtic finbl int DEFAULT_REFERRAL_MODE = LdbpClient.LDAP_REF_IGNORE;
+    privbte stbtic finbl chbr DEFAULT_REF_SEPARATOR = '#';
 
-        // Used by LdapPoolManager
-    static final String DEFAULT_SSL_FACTORY =
-        "javax.net.ssl.SSLSocketFactory";       // use Sun's SSL
-    private static final int DEFAULT_REFERRAL_LIMIT = 10;
-    private static final String STARTTLS_REQ_OID = "1.3.6.1.4.1.1466.20037";
+        // Used by LdbpPoolMbnbger
+    stbtic finbl String DEFAULT_SSL_FACTORY =
+        "jbvbx.net.ssl.SSLSocketFbctory";       // use Sun's SSL
+    privbte stbtic finbl int DEFAULT_REFERRAL_LIMIT = 10;
+    privbte stbtic finbl String STARTTLS_REQ_OID = "1.3.6.1.4.1.1466.20037";
 
-    // schema operational and user attributes
-    private static final String[] SCHEMA_ATTRIBUTES =
-        { "objectClasses", "attributeTypes", "matchingRules", "ldapSyntaxes" };
+    // schemb operbtionbl bnd user bttributes
+    privbte stbtic finbl String[] SCHEMA_ATTRIBUTES =
+        { "objectClbsses", "bttributeTypes", "mbtchingRules", "ldbpSyntbxes" };
 
-    // --------------- Environment property names ----------
+    // --------------- Environment property nbmes ----------
 
     // LDAP protocol version: "2", "3"
-    private static final String VERSION = "java.naming.ldap.version";
+    privbte stbtic finbl String VERSION = "jbvb.nbming.ldbp.version";
 
-    // Binary-valued attributes. Space separated string of attribute names.
-    private static final String BINARY_ATTRIBUTES =
-                                        "java.naming.ldap.attributes.binary";
+    // Binbry-vblued bttributes. Spbce sepbrbted string of bttribute nbmes.
+    privbte stbtic finbl String BINARY_ATTRIBUTES =
+                                        "jbvb.nbming.ldbp.bttributes.binbry";
 
-    // Delete old RDN during modifyDN: "true", "false"
-    private static final String DELETE_RDN = "java.naming.ldap.deleteRDN";
+    // Delete old RDN during modifyDN: "true", "fblse"
+    privbte stbtic finbl String DELETE_RDN = "jbvb.nbming.ldbp.deleteRDN";
 
-    // De-reference aliases: "never", "searching", "finding", "always"
-    private static final String DEREF_ALIASES = "java.naming.ldap.derefAliases";
+    // De-reference blibses: "never", "sebrching", "finding", "blwbys"
+    privbte stbtic finbl String DEREF_ALIASES = "jbvb.nbming.ldbp.derefAlibses";
 
-    // Return only attribute types (no values)
-    private static final String TYPES_ONLY = "java.naming.ldap.typesOnly";
+    // Return only bttribute types (no vblues)
+    privbte stbtic finbl String TYPES_ONLY = "jbvb.nbming.ldbp.typesOnly";
 
-    // Separator character for encoding Reference's RefAddrs; default is '#'
-    private static final String REF_SEPARATOR = "java.naming.ldap.ref.separator";
+    // Sepbrbtor chbrbcter for encoding Reference's RefAddrs; defbult is '#'
+    privbte stbtic finbl String REF_SEPARATOR = "jbvb.nbming.ldbp.ref.sepbrbtor";
 
-    // Socket factory
-    private static final String SOCKET_FACTORY = "java.naming.ldap.factory.socket";
+    // Socket fbctory
+    privbte stbtic finbl String SOCKET_FACTORY = "jbvb.nbming.ldbp.fbctory.socket";
 
-    // Bind Controls (used by LdapReferralException)
-    static final String BIND_CONTROLS = "java.naming.ldap.control.connect";
+    // Bind Controls (used by LdbpReferrblException)
+    stbtic finbl String BIND_CONTROLS = "jbvb.nbming.ldbp.control.connect";
 
-    private static final String REFERRAL_LIMIT =
-        "java.naming.ldap.referral.limit";
+    privbte stbtic finbl String REFERRAL_LIMIT =
+        "jbvb.nbming.ldbp.referrbl.limit";
 
-    // trace BER (java.io.OutputStream)
-    private static final String TRACE_BER = "com.sun.jndi.ldap.trace.ber";
+    // trbce BER (jbvb.io.OutputStrebm)
+    privbte stbtic finbl String TRACE_BER = "com.sun.jndi.ldbp.trbce.ber";
 
-    // Get around Netscape Schema Bugs
-    private static final String NETSCAPE_SCHEMA_BUG =
-        "com.sun.jndi.ldap.netscape.schemaBugs";
-    // deprecated
-    private static final String OLD_NETSCAPE_SCHEMA_BUG =
-        "com.sun.naming.netscape.schemaBugs";   // for backward compatibility
+    // Get bround Netscbpe Schemb Bugs
+    privbte stbtic finbl String NETSCAPE_SCHEMA_BUG =
+        "com.sun.jndi.ldbp.netscbpe.schembBugs";
+    // deprecbted
+    privbte stbtic finbl String OLD_NETSCAPE_SCHEMA_BUG =
+        "com.sun.nbming.netscbpe.schembBugs";   // for bbckwbrd compbtibility
 
     // Timeout for socket connect
-    private static final String CONNECT_TIMEOUT =
-        "com.sun.jndi.ldap.connect.timeout";
+    privbte stbtic finbl String CONNECT_TIMEOUT =
+        "com.sun.jndi.ldbp.connect.timeout";
 
-     // Timeout for reading responses
-    private static final String READ_TIMEOUT =
-        "com.sun.jndi.ldap.read.timeout";
+     // Timeout for rebding responses
+    privbte stbtic finbl String READ_TIMEOUT =
+        "com.sun.jndi.ldbp.rebd.timeout";
 
     // Environment property for connection pooling
-    private static final String ENABLE_POOL = "com.sun.jndi.ldap.connect.pool";
+    privbte stbtic finbl String ENABLE_POOL = "com.sun.jndi.ldbp.connect.pool";
 
-    // Environment property for the domain name (derived from this context's DN)
-    private static final String DOMAIN_NAME = "com.sun.jndi.ldap.domainname";
+    // Environment property for the dombin nbme (derived from this context's DN)
+    privbte stbtic finbl String DOMAIN_NAME = "com.sun.jndi.ldbp.dombinnbme";
 
-    // Block until the first search reply is received
-    private static final String WAIT_FOR_REPLY =
-        "com.sun.jndi.ldap.search.waitForReply";
+    // Block until the first sebrch reply is received
+    privbte stbtic finbl String WAIT_FOR_REPLY =
+        "com.sun.jndi.ldbp.sebrch.wbitForReply";
 
-    // Size of the queue of unprocessed search replies
-    private static final String REPLY_QUEUE_SIZE =
-        "com.sun.jndi.ldap.search.replyQueueSize";
+    // Size of the queue of unprocessed sebrch replies
+    privbte stbtic finbl String REPLY_QUEUE_SIZE =
+        "com.sun.jndi.ldbp.sebrch.replyQueueSize";
 
-    // ----------------- Fields that don't change -----------------------
-    private static final NameParser parser = new LdapNameParser();
+    // ----------------- Fields thbt don't chbnge -----------------------
+    privbte stbtic finbl NbmePbrser pbrser = new LdbpNbmePbrser();
 
-    // controls that Provider needs
-    private static final ControlFactory myResponseControlFactory =
-        new DefaultResponseControlFactory();
-    private static final Control manageReferralControl =
-        new ManageReferralControl(false);
+    // controls thbt Provider needs
+    privbte stbtic finbl ControlFbctory myResponseControlFbctory =
+        new DefbultResponseControlFbctory();
+    privbte stbtic finbl Control mbnbgeReferrblControl =
+        new MbnbgeReferrblControl(fblse);
 
-    private static final HierMemDirCtx EMPTY_SCHEMA = new HierMemDirCtx();
-    static {
-        EMPTY_SCHEMA.setReadOnly(
-            new SchemaViolationException("Cannot update schema object"));
+    privbte stbtic finbl HierMemDirCtx EMPTY_SCHEMA = new HierMemDirCtx();
+    stbtic {
+        EMPTY_SCHEMA.setRebdOnly(
+            new SchembViolbtionException("Cbnnot updbte schemb object"));
     }
 
-    // ------------ Package private instance variables ----------------
-    // Cannot be private; used by enums
+    // ------------ Pbckbge privbte instbnce vbribbles ----------------
+    // Cbnnot be privbte; used by enums
 
-        // ------- Inherited by derived context instances
+        // ------- Inherited by derived context instbnces
 
     int port_number;                    // port number of server
-    String hostname = null;             // host name of server (no brackets
-                                        //   for IPv6 literals)
-    LdapClient clnt = null;             // connection handle
-    Hashtable<String, java.lang.Object> envprops = null; // environment properties of context
-    int handleReferrals = DEFAULT_REFERRAL_MODE; // how referral is handled
-    boolean hasLdapsScheme = false;     // true if the context was created
-                                        //  using an LDAPS URL.
+    String hostnbme = null;             // host nbme of server (no brbckets
+                                        //   for IPv6 literbls)
+    LdbpClient clnt = null;             // connection hbndle
+    Hbshtbble<String, jbvb.lbng.Object> envprops = null; // environment properties of context
+    int hbndleReferrbls = DEFAULT_REFERRAL_MODE; // how referrbl is hbndled
+    boolebn hbsLdbpsScheme = fblse;     // true if the context wbs crebted
+                                        //  using bn LDAPS URL.
 
-        // ------- Not inherited by derived context instances
+        // ------- Not inherited by derived context instbnces
 
     String currentDN;                   // DN of this context
-    Name currentParsedDN;               // DN of this context
-    Vector<Control> respCtls = null;    // Response controls read
-    Control[] reqCtls = null;           // Controls to be sent with each request
+    Nbme currentPbrsedDN;               // DN of this context
+    Vector<Control> respCtls = null;    // Response controls rebd
+    Control[] reqCtls = null;           // Controls to be sent with ebch request
 
 
-    // ------------- Private instance variables ------------------------
+    // ------------- Privbte instbnce vbribbles ------------------------
 
-        // ------- Inherited by derived context instances
+        // ------- Inherited by derived context instbnces
 
-    private OutputStream trace = null;  // output stream for BER debug output
-    private boolean netscapeSchemaBug = false;       // workaround
-    private Control[] bindCtls = null;  // Controls to be sent with LDAP "bind"
-    private int referralHopLimit = DEFAULT_REFERRAL_LIMIT;  // max referral
-    private Hashtable<String, DirContext> schemaTrees = null; // schema root of this context
-    private int batchSize = DEFAULT_BATCH_SIZE;      // batch size for search results
-    private boolean deleteRDN = DEFAULT_DELETE_RDN;  // delete the old RDN when modifying DN
-    private boolean typesOnly = DEFAULT_TYPES_ONLY;  // return attribute types (no values)
-    private int derefAliases = DEFAULT_DEREF_ALIASES;// de-reference alias entries during searching
-    private char addrEncodingSeparator = DEFAULT_REF_SEPARATOR;  // encoding RefAddr
+    privbte OutputStrebm trbce = null;  // output strebm for BER debug output
+    privbte boolebn netscbpeSchembBug = fblse;       // workbround
+    privbte Control[] bindCtls = null;  // Controls to be sent with LDAP "bind"
+    privbte int referrblHopLimit = DEFAULT_REFERRAL_LIMIT;  // mbx referrbl
+    privbte Hbshtbble<String, DirContext> schembTrees = null; // schemb root of this context
+    privbte int bbtchSize = DEFAULT_BATCH_SIZE;      // bbtch size for sebrch results
+    privbte boolebn deleteRDN = DEFAULT_DELETE_RDN;  // delete the old RDN when modifying DN
+    privbte boolebn typesOnly = DEFAULT_TYPES_ONLY;  // return bttribute types (no vblues)
+    privbte int derefAlibses = DEFAULT_DEREF_ALIASES;// de-reference blibs entries during sebrching
+    privbte chbr bddrEncodingSepbrbtor = DEFAULT_REF_SEPARATOR;  // encoding RefAddr
 
-    private Hashtable<String, Boolean> binaryAttrs = null; // attr values returned as byte[]
-    private int connectTimeout = -1;         // no timeout value
-    private int readTimeout = -1;            // no timeout value
-    private boolean waitForReply = true;     // wait for search response
-    private int replyQueueSize  = -1;        // unlimited queue size
-    private boolean useSsl = false;          // true if SSL protocol is active
-    private boolean useDefaultPortNumber = false; // no port number was supplied
+    privbte Hbshtbble<String, Boolebn> binbryAttrs = null; // bttr vblues returned bs byte[]
+    privbte int connectTimeout = -1;         // no timeout vblue
+    privbte int rebdTimeout = -1;            // no timeout vblue
+    privbte boolebn wbitForReply = true;     // wbit for sebrch response
+    privbte int replyQueueSize  = -1;        // unlimited queue size
+    privbte boolebn useSsl = fblse;          // true if SSL protocol is bctive
+    privbte boolebn useDefbultPortNumber = fblse; // no port number wbs supplied
 
-        // ------- Not inherited by derived context instances
+        // ------- Not inherited by derived context instbnces
 
-    // True if this context was created by another LdapCtx.
-    private boolean parentIsLdapCtx = false; // see composeName()
+    // True if this context wbs crebted by bnother LdbpCtx.
+    privbte boolebn pbrentIsLdbpCtx = fblse; // see composeNbme()
 
-    private int hopCount = 1;                // current referral hop count
-    private String url = null;               // URL of context; see getURL()
-    private EventSupport eventSupport;       // Event support helper for this ctx
-    private boolean unsolicited = false;     // if there unsolicited listeners
-    private boolean sharable = true;         // can share connection with other ctx
+    privbte int hopCount = 1;                // current referrbl hop count
+    privbte String url = null;               // URL of context; see getURL()
+    privbte EventSupport eventSupport;       // Event support helper for this ctx
+    privbte boolebn unsolicited = fblse;     // if there unsolicited listeners
+    privbte boolebn shbrbble = true;         // cbn shbre connection with other ctx
 
     // -------------- Constructors  -----------------------------------
 
-    @SuppressWarnings("unchecked")
-    public LdapCtx(String dn, String host, int port_number,
-            Hashtable<?,?> props,
-            boolean useSsl) throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public LdbpCtx(String dn, String host, int port_number,
+            Hbshtbble<?,?> props,
+            boolebn useSsl) throws NbmingException {
 
-        this.useSsl = this.hasLdapsScheme = useSsl;
+        this.useSsl = this.hbsLdbpsScheme = useSsl;
 
         if (props != null) {
-            envprops = (Hashtable<String, java.lang.Object>) props.clone();
+            envprops = (Hbshtbble<String, jbvb.lbng.Object>) props.clone();
 
-            // SSL env prop overrides the useSsl argument
-            if ("ssl".equals(envprops.get(Context.SECURITY_PROTOCOL))) {
+            // SSL env prop overrides the useSsl brgument
+            if ("ssl".equbls(envprops.get(Context.SECURITY_PROTOCOL))) {
                 this.useSsl = true;
             }
 
-            // %%% These are only examined when the context is created
-            // %%% because they are only for debugging or workaround purposes.
-            trace = (OutputStream)envprops.get(TRACE_BER);
+            // %%% These bre only exbmined when the context is crebted
+            // %%% becbuse they bre only for debugging or workbround purposes.
+            trbce = (OutputStrebm)envprops.get(TRACE_BER);
 
             if (props.get(NETSCAPE_SCHEMA_BUG) != null ||
                 props.get(OLD_NETSCAPE_SCHEMA_BUG) != null) {
-                netscapeSchemaBug = true;
+                netscbpeSchembBug = true;
             }
         }
 
         currentDN = (dn != null) ? dn : "";
-        currentParsedDN = parser.parse(currentDN);
+        currentPbrsedDN = pbrser.pbrse(currentDN);
 
-        hostname = (host != null && host.length() > 0) ? host : DEFAULT_HOST;
-        if (hostname.charAt(0) == '[') {
-            hostname = hostname.substring(1, hostname.length() - 1);
+        hostnbme = (host != null && host.length() > 0) ? host : DEFAULT_HOST;
+        if (hostnbme.chbrAt(0) == '[') {
+            hostnbme = hostnbme.substring(1, hostnbme.length() - 1);
         }
 
         if (port_number > 0) {
             this.port_number = port_number;
         } else {
             this.port_number = this.useSsl ? DEFAULT_SSL_PORT : DEFAULT_PORT;
-            this.useDefaultPortNumber = true;
+            this.useDefbultPortNumber = true;
         }
 
-        schemaTrees = new Hashtable<>(11, 0.75f);
+        schembTrees = new Hbshtbble<>(11, 0.75f);
         initEnv();
         try {
-            connect(false);
-        } catch (NamingException e) {
+            connect(fblse);
+        } cbtch (NbmingException e) {
             try {
                 close();
-            } catch (Exception e2) {
+            } cbtch (Exception e2) {
                 // Nothing
             }
             throw e;
         }
     }
 
-    LdapCtx(LdapCtx existing, String newDN) throws NamingException {
+    LdbpCtx(LdbpCtx existing, String newDN) throws NbmingException {
         useSsl = existing.useSsl;
-        hasLdapsScheme = existing.hasLdapsScheme;
-        useDefaultPortNumber = existing.useDefaultPortNumber;
+        hbsLdbpsScheme = existing.hbsLdbpsScheme;
+        useDefbultPortNumber = existing.useDefbultPortNumber;
 
-        hostname = existing.hostname;
+        hostnbme = existing.hostnbme;
         port_number = existing.port_number;
         currentDN = newDN;
         if (existing.currentDN == currentDN) {
-            currentParsedDN = existing.currentParsedDN;
+            currentPbrsedDN = existing.currentPbrsedDN;
         } else {
-            currentParsedDN = parser.parse(currentDN);
+            currentPbrsedDN = pbrser.pbrse(currentDN);
         }
 
         envprops = existing.envprops;
-        schemaTrees = existing.schemaTrees;
+        schembTrees = existing.schembTrees;
 
         clnt = existing.clnt;
         clnt.incRefCount();
 
-        parentIsLdapCtx = ((newDN == null || newDN.equals(existing.currentDN))
-                           ? existing.parentIsLdapCtx
+        pbrentIsLdbpCtx = ((newDN == null || newDN.equbls(existing.currentDN))
+                           ? existing.pbrentIsLdbpCtx
                            : true);
 
-        // inherit these debugging/workaround flags
-        trace = existing.trace;
-        netscapeSchemaBug = existing.netscapeSchemaBug;
+        // inherit these debugging/workbround flbgs
+        trbce = existing.trbce;
+        netscbpeSchembBug = existing.netscbpeSchembBug;
 
         initEnv();
     }
 
-    public LdapContext newInstance(Control[] reqCtls) throws NamingException {
+    public LdbpContext newInstbnce(Control[] reqCtls) throws NbmingException {
 
-        LdapContext clone = new LdapCtx(this, currentDN);
+        LdbpContext clone = new LdbpCtx(this, currentDN);
 
-        // Connection controls are inherited from environment
+        // Connection controls bre inherited from environment
 
         // Set clone's request controls
         // setRequestControls() will clone reqCtls
@@ -370,621 +370,621 @@ final public class LdapCtx extends ComponentDirContext
         return clone;
     }
 
-    // --------------- Namespace Updates ---------------------
+    // --------------- Nbmespbce Updbtes ---------------------
     // -- bind/rebind/unbind
-    // -- rename
-    // -- createSubcontext/destroySubcontext
+    // -- renbme
+    // -- crebteSubcontext/destroySubcontext
 
-    protected void c_bind(Name name, Object obj, Continuation cont)
-            throws NamingException {
-        c_bind(name, obj, null, cont);
+    protected void c_bind(Nbme nbme, Object obj, Continubtion cont)
+            throws NbmingException {
+        c_bind(nbme, obj, null, cont);
     }
 
     /*
-     * attrs == null
-     *      if obj is DirContext, attrs = obj.getAttributes()
-     * if attrs == null && obj == null
-     *      disallow (cannot determine objectclass to use)
+     * bttrs == null
+     *      if obj is DirContext, bttrs = obj.getAttributes()
+     * if bttrs == null && obj == null
+     *      disbllow (cbnnot determine objectclbss to use)
      * if obj == null
-     *      just create entry using attrs
+     *      just crebte entry using bttrs
      * else
-     *      objAttrs = create attributes for representing obj
-     *      attrs += objAttrs
-     *      create entry using attrs
+     *      objAttrs = crebte bttributes for representing obj
+     *      bttrs += objAttrs
+     *      crebte entry using bttrs
      */
-    protected void c_bind(Name name, Object obj, Attributes attrs,
-                          Continuation cont)
-            throws NamingException {
+    protected void c_bind(Nbme nbme, Object obj, Attributes bttrs,
+                          Continubtion cont)
+            throws NbmingException {
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
 
-        Attributes inputAttrs = attrs; // Attributes supplied by caller
+        Attributes inputAttrs = bttrs; // Attributes supplied by cbller
         try {
             ensureOpen();
 
             if (obj == null) {
-                if (attrs == null) {
-                    throw new IllegalArgumentException(
-                        "cannot bind null object with no attributes");
+                if (bttrs == null) {
+                    throw new IllegblArgumentException(
+                        "cbnnot bind null object with no bttributes");
                 }
             } else {
-                attrs = Obj.determineBindAttrs(addrEncodingSeparator, obj, attrs,
-                    false, name, this, envprops); // not cloned
+                bttrs = Obj.determineBindAttrs(bddrEncodingSepbrbtor, obj, bttrs,
+                    fblse, nbme, this, envprops); // not cloned
             }
 
-            String newDN = fullyQualifiedName(name);
-            attrs = addRdnAttributes(newDN, attrs, inputAttrs != attrs);
-            LdapEntry entry = new LdapEntry(newDN, attrs);
+            String newDN = fullyQublifiedNbme(nbme);
+            bttrs = bddRdnAttributes(newDN, bttrs, inputAttrs != bttrs);
+            LdbpEntry entry = new LdbpEntry(newDN, bttrs);
 
-            LdapResult answer = clnt.add(entry, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = clnt.bdd(entry, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.bind(name, obj, inputAttrs);
+                    refCtx.bind(nbme, obj, inputAttrs);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_rebind(Name name, Object obj, Continuation cont)
-            throws NamingException {
-        c_rebind(name, obj, null, cont);
+    protected void c_rebind(Nbme nbme, Object obj, Continubtion cont)
+            throws NbmingException {
+        c_rebind(nbme, obj, null, cont);
     }
 
 
     /*
-     * attrs == null
-     *    if obj is DirContext, attrs = obj.getAttributes().
-     * if attrs == null
-     *    leave any existing attributes alone
-     *    (set attrs = {objectclass=top} if object doesn't exist)
+     * bttrs == null
+     *    if obj is DirContext, bttrs = obj.getAttributes().
+     * if bttrs == null
+     *    lebve bny existing bttributes blone
+     *    (set bttrs = {objectclbss=top} if object doesn't exist)
      * else
-     *    replace all existing attributes with attrs
+     *    replbce bll existing bttributes with bttrs
      * if obj == null
-     *      just create entry using attrs
+     *      just crebte entry using bttrs
      * else
-     *      objAttrs = create attributes for representing obj
-     *      attrs += objAttrs
-     *      create entry using attrs
+     *      objAttrs = crebte bttributes for representing obj
+     *      bttrs += objAttrs
+     *      crebte entry using bttrs
      */
-    protected void c_rebind(Name name, Object obj, Attributes attrs,
-        Continuation cont) throws NamingException {
+    protected void c_rebind(Nbme nbme, Object obj, Attributes bttrs,
+        Continubtion cont) throws NbmingException {
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
 
-        Attributes inputAttrs = attrs;
+        Attributes inputAttrs = bttrs;
 
         try {
             Attributes origAttrs = null;
 
-            // Check if name is bound
+            // Check if nbme is bound
             try {
-                origAttrs = c_getAttributes(name, null, cont);
-            } catch (NameNotFoundException e) {}
+                origAttrs = c_getAttributes(nbme, null, cont);
+            } cbtch (NbmeNotFoundException e) {}
 
-            // Name not bound, just add it
+            // Nbme not bound, just bdd it
             if (origAttrs == null) {
-                c_bind(name, obj, attrs, cont);
+                c_bind(nbme, obj, bttrs, cont);
                 return;
             }
 
-            // there's an object there already, need to figure out
-            // what to do about its attributes
+            // there's bn object there blrebdy, need to figure out
+            // whbt to do bbout its bttributes
 
-            if (attrs == null && obj instanceof DirContext) {
-                attrs = ((DirContext)obj).getAttributes("");
+            if (bttrs == null && obj instbnceof DirContext) {
+                bttrs = ((DirContext)obj).getAttributes("");
             }
             Attributes keepAttrs = (Attributes)origAttrs.clone();
 
-            if (attrs == null) {
-                // we're not changing any attrs, leave old attributes alone
+            if (bttrs == null) {
+                // we're not chbnging bny bttrs, lebve old bttributes blone
 
-                // Remove Java-related object classes from objectclass attribute
-                Attribute origObjectClass =
+                // Remove Jbvb-relbted object clbsses from objectclbss bttribute
+                Attribute origObjectClbss =
                     origAttrs.get(Obj.JAVA_ATTRIBUTES[Obj.OBJECT_CLASS]);
 
-                if (origObjectClass != null) {
-                    // clone so that keepAttrs is not affected
-                    origObjectClass = (Attribute)origObjectClass.clone();
+                if (origObjectClbss != null) {
+                    // clone so thbt keepAttrs is not bffected
+                    origObjectClbss = (Attribute)origObjectClbss.clone();
                     for (int i = 0; i < Obj.JAVA_OBJECT_CLASSES.length; i++) {
-                        origObjectClass.remove(Obj.JAVA_OBJECT_CLASSES_LOWER[i]);
-                        origObjectClass.remove(Obj.JAVA_OBJECT_CLASSES[i]);
+                        origObjectClbss.remove(Obj.JAVA_OBJECT_CLASSES_LOWER[i]);
+                        origObjectClbss.remove(Obj.JAVA_OBJECT_CLASSES[i]);
                     }
-                    // update;
-                    origAttrs.put(origObjectClass);
+                    // updbte;
+                    origAttrs.put(origObjectClbss);
                 }
 
-                // remove all Java-related attributes except objectclass
+                // remove bll Jbvb-relbted bttributes except objectclbss
                 for (int i = 1; i < Obj.JAVA_ATTRIBUTES.length; i++) {
                     origAttrs.remove(Obj.JAVA_ATTRIBUTES[i]);
                 }
 
-                attrs = origAttrs;
+                bttrs = origAttrs;
             }
             if (obj != null) {
-                attrs =
-                    Obj.determineBindAttrs(addrEncodingSeparator, obj, attrs,
-                        inputAttrs != attrs, name, this, envprops);
+                bttrs =
+                    Obj.determineBindAttrs(bddrEncodingSepbrbtor, obj, bttrs,
+                        inputAttrs != bttrs, nbme, this, envprops);
             }
 
-            String newDN = fullyQualifiedName(name);
+            String newDN = fullyQublifiedNbme(nbme);
             // remove entry
-            LdapResult answer = clnt.delete(newDN, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = clnt.delete(newDN, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
                 return;
             }
 
-            Exception addEx = null;
+            Exception bddEx = null;
             try {
-                attrs = addRdnAttributes(newDN, attrs, inputAttrs != attrs);
+                bttrs = bddRdnAttributes(newDN, bttrs, inputAttrs != bttrs);
 
-                // add it back using updated attrs
-                LdapEntry entry = new LdapEntry(newDN, attrs);
-                answer = clnt.add(entry, reqCtls);
-                if (answer.resControls != null) {
-                    respCtls = appendVector(respCtls, answer.resControls);
+                // bdd it bbck using updbted bttrs
+                LdbpEntry entry = new LdbpEntry(newDN, bttrs);
+                bnswer = clnt.bdd(entry, reqCtls);
+                if (bnswer.resControls != null) {
+                    respCtls = bppendVector(respCtls, bnswer.resControls);
                 }
-            } catch (NamingException | IOException ae) {
-                addEx = ae;
+            } cbtch (NbmingException | IOException be) {
+                bddEx = be;
             }
 
-            if ((addEx != null && !(addEx instanceof LdapReferralException)) ||
-                answer.status != LdapClient.LDAP_SUCCESS) {
+            if ((bddEx != null && !(bddEx instbnceof LdbpReferrblException)) ||
+                bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
                 // Attempt to restore old entry
-                LdapResult answer2 =
-                    clnt.add(new LdapEntry(newDN, keepAttrs), reqCtls);
-                if (answer2.resControls != null) {
-                    respCtls = appendVector(respCtls, answer2.resControls);
+                LdbpResult bnswer2 =
+                    clnt.bdd(new LdbpEntry(newDN, keepAttrs), reqCtls);
+                if (bnswer2.resControls != null) {
+                    respCtls = bppendVector(respCtls, bnswer2.resControls);
                 }
 
-                if (addEx == null) {
-                    processReturnCode(answer, name);
+                if (bddEx == null) {
+                    processReturnCode(bnswer, nbme);
                 }
             }
 
             // Rethrow exception
-            if (addEx instanceof NamingException) {
-                throw (NamingException)addEx;
-            } else if (addEx instanceof IOException) {
-                throw (IOException)addEx;
+            if (bddEx instbnceof NbmingException) {
+                throw (NbmingException)bddEx;
+            } else if (bddEx instbnceof IOException) {
+                throw (IOException)bddEx;
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.rebind(name, obj, inputAttrs);
+                    refCtx.rebind(nbme, obj, inputAttrs);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_unbind(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected void c_unbind(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
 
         try {
             ensureOpen();
 
-            String fname = fullyQualifiedName(name);
-            LdapResult answer = clnt.delete(fname, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            String fnbme = fullyQublifiedNbme(nbme);
+            LdbpResult bnswer = clnt.delete(fnbme, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            adjustDeleteStatus(fname, answer);
+            bdjustDeleteStbtus(fnbme, bnswer);
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.unbind(name);
+                    refCtx.unbind(nbme);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_rename(Name oldName, Name newName, Continuation cont)
-            throws NamingException
+    protected void c_renbme(Nbme oldNbme, Nbme newNbme, Continubtion cont)
+            throws NbmingException
     {
-        Name oldParsed, newParsed;
-        Name oldParent, newParent;
+        Nbme oldPbrsed, newPbrsed;
+        Nbme oldPbrent, newPbrent;
         String newRDN = null;
         String newSuperior = null;
 
-        // assert (oldName instanceOf CompositeName);
+        // bssert (oldNbme instbnceOf CompositeNbme);
 
-        cont.setError(this, oldName);
+        cont.setError(this, oldNbme);
 
         try {
             ensureOpen();
 
-            // permit oldName to be empty (for processing referral contexts)
-            if (oldName.isEmpty()) {
-                oldParent = parser.parse("");
+            // permit oldNbme to be empty (for processing referrbl contexts)
+            if (oldNbme.isEmpty()) {
+                oldPbrent = pbrser.pbrse("");
             } else {
-                oldParsed = parser.parse(oldName.get(0)); // extract DN & parse
-                oldParent = oldParsed.getPrefix(oldParsed.size() - 1);
+                oldPbrsed = pbrser.pbrse(oldNbme.get(0)); // extrbct DN & pbrse
+                oldPbrent = oldPbrsed.getPrefix(oldPbrsed.size() - 1);
             }
 
-            if (newName instanceof CompositeName) {
-                newParsed = parser.parse(newName.get(0)); // extract DN & parse
+            if (newNbme instbnceof CompositeNbme) {
+                newPbrsed = pbrser.pbrse(newNbme.get(0)); // extrbct DN & pbrse
             } else {
-                newParsed = newName; // CompoundName/LdapName is already parsed
+                newPbrsed = newNbme; // CompoundNbme/LdbpNbme is blrebdy pbrsed
             }
-            newParent = newParsed.getPrefix(newParsed.size() - 1);
+            newPbrent = newPbrsed.getPrefix(newPbrsed.size() - 1);
 
-            if(!oldParent.equals(newParent)) {
-                if (!clnt.isLdapv3) {
-                    throw new InvalidNameException(
-                                  "LDAPv2 doesn't support changing " +
-                                  "the parent as a result of a rename");
+            if(!oldPbrent.equbls(newPbrent)) {
+                if (!clnt.isLdbpv3) {
+                    throw new InvblidNbmeException(
+                                  "LDAPv2 doesn't support chbnging " +
+                                  "the pbrent bs b result of b renbme");
                 } else {
-                    newSuperior = fullyQualifiedName(newParent.toString());
+                    newSuperior = fullyQublifiedNbme(newPbrent.toString());
                 }
             }
 
-            newRDN = newParsed.get(newParsed.size() - 1);
+            newRDN = newPbrsed.get(newPbrsed.size() - 1);
 
-            LdapResult answer = clnt.moddn(fullyQualifiedName(oldName),
+            LdbpResult bnswer = clnt.moddn(fullyQublifiedNbme(oldNbme),
                                     newRDN,
                                     deleteRDN,
                                     newSuperior,
                                     reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, oldName);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, oldNbme);
             }
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            // Record the new RDN (for use after the referral is followed).
+            // Record the new RDN (for use bfter the referrbl is followed).
             e.setNewRdn(newRDN);
 
-            // Cannot continue when a referral has been received and a
-            // newSuperior name was supplied (because the newSuperior is
-            // relative to a naming context BEFORE the referral is followed).
+            // Cbnnot continue when b referrbl hbs been received bnd b
+            // newSuperior nbme wbs supplied (becbuse the newSuperior is
+            // relbtive to b nbming context BEFORE the referrbl is followed).
             if (newSuperior != null) {
-                PartialResultException pre = new PartialResultException(
-                    "Cannot continue referral processing when newSuperior is " +
+                PbrtiblResultException pre = new PbrtiblResultException(
+                    "Cbnnot continue referrbl processing when newSuperior is " +
                     "nonempty: " + newSuperior);
-                pre.setRootCause(cont.fillInException(e));
+                pre.setRootCbuse(cont.fillInException(e));
                 throw cont.fillInException(pre);
             }
 
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.rename(oldName, newName);
+                    refCtx.renbme(oldNbme, newNbme);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected Context c_createSubcontext(Name name, Continuation cont)
-            throws NamingException {
-        return c_createSubcontext(name, null, cont);
+    protected Context c_crebteSubcontext(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        return c_crebteSubcontext(nbme, null, cont);
     }
 
-    protected DirContext c_createSubcontext(Name name, Attributes attrs,
-                                            Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected DirContext c_crebteSubcontext(Nbme nbme, Attributes bttrs,
+                                            Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
 
-        Attributes inputAttrs = attrs;
+        Attributes inputAttrs = bttrs;
         try {
             ensureOpen();
-            if (attrs == null) {
-                  // add structural objectclass; name needs to have "cn"
-                  Attribute oc = new BasicAttribute(
+            if (bttrs == null) {
+                  // bdd structurbl objectclbss; nbme needs to hbve "cn"
+                  Attribute oc = new BbsicAttribute(
                       Obj.JAVA_ATTRIBUTES[Obj.OBJECT_CLASS],
                       Obj.JAVA_OBJECT_CLASSES[Obj.STRUCTURAL]);
-                  oc.add("top");
-                  attrs = new BasicAttributes(true); // case ignore
-                  attrs.put(oc);
+                  oc.bdd("top");
+                  bttrs = new BbsicAttributes(true); // cbse ignore
+                  bttrs.put(oc);
             }
-            String newDN = fullyQualifiedName(name);
-            attrs = addRdnAttributes(newDN, attrs, inputAttrs != attrs);
+            String newDN = fullyQublifiedNbme(nbme);
+            bttrs = bddRdnAttributes(newDN, bttrs, inputAttrs != bttrs);
 
-            LdapEntry entry = new LdapEntry(newDN, attrs);
+            LdbpEntry entry = new LdbpEntry(newDN, bttrs);
 
-            LdapResult answer = clnt.add(entry, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = clnt.bdd(entry, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
                 return null;
             }
 
-            // creation successful, get back live object
-            return new LdapCtx(this, newDN);
+            // crebtion successful, get bbck live object
+            return new LdbpCtx(this, newDN);
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.createSubcontext(name, inputAttrs);
+                    return refCtx.crebteSubcontext(nbme, inputAttrs);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_destroySubcontext(Name name, Continuation cont)
-        throws NamingException {
-        cont.setError(this, name);
+    protected void c_destroySubcontext(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+        cont.setError(this, nbme);
 
         try {
             ensureOpen();
 
-            String fname = fullyQualifiedName(name);
-            LdapResult answer = clnt.delete(fname, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            String fnbme = fullyQublifiedNbme(nbme);
+            LdbpResult bnswer = clnt.delete(fnbme, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            adjustDeleteStatus(fname, answer);
+            bdjustDeleteStbtus(fnbme, bnswer);
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.destroySubcontext(name);
+                    refCtx.destroySubcontext(nbme);
                     return;
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
     /**
-     * Adds attributes from RDN to attrs if not already present.
-     * Note that if attrs already contains an attribute by the same name,
-     * or if the distinguished name is empty, then leave attrs unchanged.
+     * Adds bttributes from RDN to bttrs if not blrebdy present.
+     * Note thbt if bttrs blrebdy contbins bn bttribute by the sbme nbme,
+     * or if the distinguished nbme is empty, then lebve bttrs unchbnged.
      *
-     * @param dn The non-null DN of the entry to add
-     * @param attrs The non-null attributes of entry to add
-     * @param directUpdate Whether attrs can be updated directly
-     * @returns Non-null attributes with attributes from the RDN added
+     * @pbrbm dn The non-null DN of the entry to bdd
+     * @pbrbm bttrs The non-null bttributes of entry to bdd
+     * @pbrbm directUpdbte Whether bttrs cbn be updbted directly
+     * @returns Non-null bttributes with bttributes from the RDN bdded
      */
-    private static Attributes addRdnAttributes(String dn, Attributes attrs,
-        boolean directUpdate) throws NamingException {
+    privbte stbtic Attributes bddRdnAttributes(String dn, Attributes bttrs,
+        boolebn directUpdbte) throws NbmingException {
 
-            // Handle the empty name
-            if (dn.equals("")) {
-                return attrs;
+            // Hbndle the empty nbme
+            if (dn.equbls("")) {
+                return bttrs;
             }
 
-            // Parse string name into list of RDNs
-            List<Rdn> rdnList = (new LdapName(dn)).getRdns();
+            // Pbrse string nbme into list of RDNs
+            List<Rdn> rdnList = (new LdbpNbme(dn)).getRdns();
 
-            // Get leaf RDN
+            // Get lebf RDN
             Rdn rdn = rdnList.get(rdnList.size() - 1);
-            Attributes nameAttrs = rdn.toAttributes();
+            Attributes nbmeAttrs = rdn.toAttributes();
 
-            // Add attributes of RDN to attrs if not already there
-            NamingEnumeration<? extends Attribute> enum_ = nameAttrs.getAll();
-            Attribute nameAttr;
-            while (enum_.hasMore()) {
-                nameAttr = enum_.next();
+            // Add bttributes of RDN to bttrs if not blrebdy there
+            NbmingEnumerbtion<? extends Attribute> enum_ = nbmeAttrs.getAll();
+            Attribute nbmeAttr;
+            while (enum_.hbsMore()) {
+                nbmeAttr = enum_.next();
 
-                // If attrs already has the attribute, don't change or add to it
-                if (attrs.get(nameAttr.getID()) ==  null) {
+                // If bttrs blrebdy hbs the bttribute, don't chbnge or bdd to it
+                if (bttrs.get(nbmeAttr.getID()) ==  null) {
 
                     /**
-                     * When attrs.isCaseIgnored() is false, attrs.get() will
-                     * return null when the case mis-matches for otherwise
-                     * equal attrIDs.
-                     * As the attrIDs' case is irrelevant for LDAP, ignore
-                     * the case of attrIDs even when attrs.isCaseIgnored() is
-                     * false. This is done by explicitly comparing the elements in
-                     * the enumeration of IDs with their case ignored.
+                     * When bttrs.isCbseIgnored() is fblse, bttrs.get() will
+                     * return null when the cbse mis-mbtches for otherwise
+                     * equbl bttrIDs.
+                     * As the bttrIDs' cbse is irrelevbnt for LDAP, ignore
+                     * the cbse of bttrIDs even when bttrs.isCbseIgnored() is
+                     * fblse. This is done by explicitly compbring the elements in
+                     * the enumerbtion of IDs with their cbse ignored.
                      */
-                    if (!attrs.isCaseIgnored() &&
-                            containsIgnoreCase(attrs.getIDs(), nameAttr.getID())) {
+                    if (!bttrs.isCbseIgnored() &&
+                            contbinsIgnoreCbse(bttrs.getIDs(), nbmeAttr.getID())) {
                         continue;
                     }
 
-                    if (!directUpdate) {
-                        attrs = (Attributes)attrs.clone();
-                        directUpdate = true;
+                    if (!directUpdbte) {
+                        bttrs = (Attributes)bttrs.clone();
+                        directUpdbte = true;
                     }
-                    attrs.put(nameAttr);
+                    bttrs.put(nbmeAttr);
                 }
             }
 
-            return attrs;
+            return bttrs;
     }
 
 
-    private static boolean containsIgnoreCase(NamingEnumeration<String> enumStr,
-                                String str) throws NamingException {
+    privbte stbtic boolebn contbinsIgnoreCbse(NbmingEnumerbtion<String> enumStr,
+                                String str) throws NbmingException {
         String strEntry;
 
-        while (enumStr.hasMore()) {
+        while (enumStr.hbsMore()) {
              strEntry = enumStr.next();
-             if (strEntry.equalsIgnoreCase(str)) {
+             if (strEntry.equblsIgnoreCbse(str)) {
                 return true;
              }
         }
-        return false;
+        return fblse;
     }
 
 
-    private void adjustDeleteStatus(String fname, LdapResult answer) {
-        if (answer.status == LdapClient.LDAP_NO_SUCH_OBJECT &&
-            answer.matchedDN != null) {
+    privbte void bdjustDeleteStbtus(String fnbme, LdbpResult bnswer) {
+        if (bnswer.stbtus == LdbpClient.LDAP_NO_SUCH_OBJECT &&
+            bnswer.mbtchedDN != null) {
             try {
-                // %%% RL: are there any implications for referrals?
+                // %%% RL: bre there bny implicbtions for referrbls?
 
-                Name orig = parser.parse(fname);
-                Name matched = parser.parse(answer.matchedDN);
-                if ((orig.size() - matched.size()) == 1)
-                    answer.status = LdapClient.LDAP_SUCCESS;
-            } catch (NamingException e) {}
+                Nbme orig = pbrser.pbrse(fnbme);
+                Nbme mbtched = pbrser.pbrse(bnswer.mbtchedDN);
+                if ((orig.size() - mbtched.size()) == 1)
+                    bnswer.stbtus = LdbpClient.LDAP_SUCCESS;
+            } cbtch (NbmingException e) {}
         }
     }
 
@@ -992,463 +992,463 @@ final public class LdapCtx extends ComponentDirContext
      * Append the the second Vector onto the first Vector
      * (v2 must be non-null)
      */
-    private static <T> Vector<T> appendVector(Vector<T> v1, Vector<T> v2) {
+    privbte stbtic <T> Vector<T> bppendVector(Vector<T> v1, Vector<T> v2) {
         if (v1 == null) {
             v1 = v2;
         } else {
             for (int i = 0; i < v2.size(); i++) {
-                v1.addElement(v2.elementAt(i));
+                v1.bddElement(v2.elementAt(i));
             }
         }
         return v1;
     }
 
-    // ------------- Lookups and Browsing -------------------------
+    // ------------- Lookups bnd Browsing -------------------------
     // lookup/lookupLink
     // list/listBindings
 
-    protected Object c_lookupLink(Name name, Continuation cont)
-            throws NamingException {
-        return c_lookup(name, cont);
+    protected Object c_lookupLink(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        return c_lookup(nbme, cont);
     }
 
-    protected Object c_lookup(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected Object c_lookup(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         Object obj = null;
-        Attributes attrs;
+        Attributes bttrs;
 
         try {
-            SearchControls cons = new SearchControls();
-            cons.setSearchScope(SearchControls.OBJECT_SCOPE);
-            cons.setReturningAttributes(null); // ask for all attributes
-            cons.setReturningObjFlag(true); // need values to construct obj
+            SebrchControls cons = new SebrchControls();
+            cons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
+            cons.setReturningAttributes(null); // bsk for bll bttributes
+            cons.setReturningObjFlbg(true); // need vblues to construct obj
 
-            LdapResult answer = doSearchOnce(name, "(objectClass=*)", cons, true);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = doSebrchOnce(nbme, "(objectClbss=*)", cons, true);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            // should get back 1 SearchResponse and 1 SearchResult
+            // should get bbck 1 SebrchResponse bnd 1 SebrchResult
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-            if (answer.entries == null || answer.entries.size() != 1) {
-                // found it but got no attributes
-                attrs = new BasicAttributes(LdapClient.caseIgnore);
+            if (bnswer.entries == null || bnswer.entries.size() != 1) {
+                // found it but got no bttributes
+                bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
             } else {
-                LdapEntry entry = answer.entries.elementAt(0);
-                attrs = entry.attributes;
+                LdbpEntry entry = bnswer.entries.elementAt(0);
+                bttrs = entry.bttributes;
 
                 Vector<Control> entryCtls = entry.respCtls; // retrieve entry controls
                 if (entryCtls != null) {
-                    appendVector(respCtls, entryCtls); // concatenate controls
+                    bppendVector(respCtls, entryCtls); // concbtenbte controls
                 }
             }
 
-            if (attrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
-                // serialized object or object reference
-                obj = Obj.decodeObject(attrs);
+            if (bttrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
+                // seriblized object or object reference
+                obj = Obj.decodeObject(bttrs);
             }
             if (obj == null) {
-                obj = new LdapCtx(this, fullyQualifiedName(name));
+                obj = new LdbpCtx(this, fullyQublifiedNbme(nbme));
             }
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
-                // repeat the original operation at the new context
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.lookup(name);
+                    return refCtx.lookup(nbme);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
 
         try {
-            return DirectoryManager.getObjectInstance(obj, name,
-                this, envprops, attrs);
+            return DirectoryMbnbger.getObjectInstbnce(obj, nbme,
+                this, envprops, bttrs);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
 
-        } catch (Exception e) {
-            NamingException e2 = new NamingException(
-                    "problem generating object using object factory");
-            e2.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException e2 = new NbmingException(
+                    "problem generbting object using object fbctory");
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
         }
     }
 
-    protected NamingEnumeration<NameClassPair> c_list(Name name, Continuation cont)
-            throws NamingException {
-        SearchControls cons = new SearchControls();
-        String[] classAttrs = new String[2];
+    protected NbmingEnumerbtion<NbmeClbssPbir> c_list(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        SebrchControls cons = new SebrchControls();
+        String[] clbssAttrs = new String[2];
 
-        classAttrs[0] = Obj.JAVA_ATTRIBUTES[Obj.OBJECT_CLASS];
-        classAttrs[1] = Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME];
-        cons.setReturningAttributes(classAttrs);
+        clbssAttrs[0] = Obj.JAVA_ATTRIBUTES[Obj.OBJECT_CLASS];
+        clbssAttrs[1] = Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME];
+        cons.setReturningAttributes(clbssAttrs);
 
-        // set this flag to override the typesOnly flag
-        cons.setReturningObjFlag(true);
+        // set this flbg to override the typesOnly flbg
+        cons.setReturningObjFlbg(true);
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
 
-        LdapResult answer = null;
+        LdbpResult bnswer = null;
 
         try {
-            answer = doSearch(name, "(objectClass=*)", cons, true, true);
+            bnswer = doSebrch(nbme, "(objectClbss=*)", cons, true, true);
 
-            // list result may contain continuation references
-            if ((answer.status != LdapClient.LDAP_SUCCESS) ||
-                (answer.referrals != null)) {
-                processReturnCode(answer, name);
+            // list result mby contbin continubtion references
+            if ((bnswer.stbtus != LdbpClient.LDAP_SUCCESS) ||
+                (bnswer.referrbls != null)) {
+                processReturnCode(bnswer, nbme);
             }
 
-            return new LdapNamingEnumeration(this, answer, name, cont);
+            return new LdbpNbmingEnumerbtion(this, bnswer, nbme, cont);
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.list(name);
+                    return refCtx.list(nbme);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (LimitExceededException e) {
-            LdapNamingEnumeration res =
-                new LdapNamingEnumeration(this, answer, name, cont);
+        } cbtch (LimitExceededException e) {
+            LdbpNbmingEnumerbtion res =
+                new LdbpNbmingEnumerbtion(this, bnswer, nbme, cont);
 
-            res.setNamingException(
+            res.setNbmingException(
                     (LimitExceededException)cont.fillInException(e));
             return res;
 
-        } catch (PartialResultException e) {
-            LdapNamingEnumeration res =
-                new LdapNamingEnumeration(this, answer, name, cont);
+        } cbtch (PbrtiblResultException e) {
+            LdbpNbmingEnumerbtion res =
+                new LdbpNbmingEnumerbtion(this, bnswer, nbme, cont);
 
-            res.setNamingException(
-                    (PartialResultException)cont.fillInException(e));
+            res.setNbmingException(
+                    (PbrtiblResultException)cont.fillInException(e));
             return res;
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected NamingEnumeration<Binding> c_listBindings(Name name, Continuation cont)
-            throws NamingException {
+    protected NbmingEnumerbtion<Binding> c_listBindings(Nbme nbme, Continubtion cont)
+            throws NbmingException {
 
-        SearchControls cons = new SearchControls();
-        cons.setReturningAttributes(null); // ask for all attributes
-        cons.setReturningObjFlag(true); // need values to construct obj
+        SebrchControls cons = new SebrchControls();
+        cons.setReturningAttributes(null); // bsk for bll bttributes
+        cons.setReturningObjFlbg(true); // need vblues to construct obj
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
 
-        LdapResult answer = null;
+        LdbpResult bnswer = null;
 
         try {
-            answer = doSearch(name, "(objectClass=*)", cons, true, true);
+            bnswer = doSebrch(nbme, "(objectClbss=*)", cons, true, true);
 
-            // listBindings result may contain continuation references
-            if ((answer.status != LdapClient.LDAP_SUCCESS) ||
-                (answer.referrals != null)) {
-                processReturnCode(answer, name);
+            // listBindings result mby contbin continubtion references
+            if ((bnswer.stbtus != LdbpClient.LDAP_SUCCESS) ||
+                (bnswer.referrbls != null)) {
+                processReturnCode(bnswer, nbme);
             }
 
-            return new LdapBindingEnumeration(this, answer, name, cont);
+            return new LdbpBindingEnumerbtion(this, bnswer, nbme, cont);
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
-                @SuppressWarnings("unchecked")
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                @SuppressWbrnings("unchecked")
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.listBindings(name);
+                    return refCtx.listBindings(nbme);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
-        } catch (LimitExceededException e) {
-            LdapBindingEnumeration res =
-                new LdapBindingEnumeration(this, answer, name, cont);
+        } cbtch (LimitExceededException e) {
+            LdbpBindingEnumerbtion res =
+                new LdbpBindingEnumerbtion(this, bnswer, nbme, cont);
 
-            res.setNamingException(cont.fillInException(e));
+            res.setNbmingException(cont.fillInException(e));
             return res;
 
-        } catch (PartialResultException e) {
-            LdapBindingEnumeration res =
-                new LdapBindingEnumeration(this, answer, name, cont);
+        } cbtch (PbrtiblResultException e) {
+            LdbpBindingEnumerbtion res =
+                new LdbpBindingEnumerbtion(this, bnswer, nbme, cont);
 
-            res.setNamingException(cont.fillInException(e));
+            res.setNbmingException(cont.fillInException(e));
             return res;
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    // --------------- Name-related Methods -----------------------
-    // -- getNameParser/getNameInNamespace/composeName
+    // --------------- Nbme-relbted Methods -----------------------
+    // -- getNbmePbrser/getNbmeInNbmespbce/composeNbme
 
-    protected NameParser c_getNameParser(Name name, Continuation cont)
-            throws NamingException
+    protected NbmePbrser c_getNbmePbrser(Nbme nbme, Continubtion cont)
+            throws NbmingException
     {
-        // ignore name, always return same parser
+        // ignore nbme, blwbys return sbme pbrser
         cont.setSuccess();
-        return parser;
+        return pbrser;
     }
 
-    public String getNameInNamespace() {
+    public String getNbmeInNbmespbce() {
         return currentDN;
     }
 
-    public Name composeName(Name name, Name prefix)
-        throws NamingException
+    public Nbme composeNbme(Nbme nbme, Nbme prefix)
+        throws NbmingException
     {
-        Name result;
+        Nbme result;
 
-        // Handle compound names.  A pair of LdapNames is an easy case.
-        if ((name instanceof LdapName) && (prefix instanceof LdapName)) {
-            result = (Name)(prefix.clone());
-            result.addAll(name);
-            return new CompositeName().add(result.toString());
+        // Hbndle compound nbmes.  A pbir of LdbpNbmes is bn ebsy cbse.
+        if ((nbme instbnceof LdbpNbme) && (prefix instbnceof LdbpNbme)) {
+            result = (Nbme)(prefix.clone());
+            result.bddAll(nbme);
+            return new CompositeNbme().bdd(result.toString());
         }
-        if (!(name instanceof CompositeName)) {
-            name = new CompositeName().add(name.toString());
+        if (!(nbme instbnceof CompositeNbme)) {
+            nbme = new CompositeNbme().bdd(nbme.toString());
         }
-        if (!(prefix instanceof CompositeName)) {
-            prefix = new CompositeName().add(prefix.toString());
-        }
-
-        int prefixLast = prefix.size() - 1;
-
-        if (name.isEmpty() || prefix.isEmpty() ||
-                name.get(0).equals("") || prefix.get(prefixLast).equals("")) {
-            return super.composeName(name, prefix);
+        if (!(prefix instbnceof CompositeNbme)) {
+            prefix = new CompositeNbme().bdd(prefix.toString());
         }
 
-        result = (Name)(prefix.clone());
-        result.addAll(name);
+        int prefixLbst = prefix.size() - 1;
 
-        if (parentIsLdapCtx) {
-            String ldapComp = concatNames(result.get(prefixLast + 1),
-                                          result.get(prefixLast));
-            result.remove(prefixLast + 1);
-            result.remove(prefixLast);
-            result.add(prefixLast, ldapComp);
+        if (nbme.isEmpty() || prefix.isEmpty() ||
+                nbme.get(0).equbls("") || prefix.get(prefixLbst).equbls("")) {
+            return super.composeNbme(nbme, prefix);
+        }
+
+        result = (Nbme)(prefix.clone());
+        result.bddAll(nbme);
+
+        if (pbrentIsLdbpCtx) {
+            String ldbpComp = concbtNbmes(result.get(prefixLbst + 1),
+                                          result.get(prefixLbst));
+            result.remove(prefixLbst + 1);
+            result.remove(prefixLbst);
+            result.bdd(prefixLbst, ldbpComp);
         }
         return result;
     }
 
-    private String fullyQualifiedName(Name rel) {
+    privbte String fullyQublifiedNbme(Nbme rel) {
         return rel.isEmpty()
                 ? currentDN
-                : fullyQualifiedName(rel.get(0));
+                : fullyQublifiedNbme(rel.get(0));
     }
 
-    private String fullyQualifiedName(String rel) {
-        return (concatNames(rel, currentDN));
+    privbte String fullyQublifiedNbme(String rel) {
+        return (concbtNbmes(rel, currentDN));
     }
 
-    // used by LdapSearchEnumeration
-    private static String concatNames(String lesser, String greater) {
-        if (lesser == null || lesser.equals("")) {
-            return greater;
-        } else if (greater == null || greater.equals("")) {
+    // used by LdbpSebrchEnumerbtion
+    privbte stbtic String concbtNbmes(String lesser, String grebter) {
+        if (lesser == null || lesser.equbls("")) {
+            return grebter;
+        } else if (grebter == null || grebter.equbls("")) {
             return lesser;
         } else {
-            return (lesser + "," + greater);
+            return (lesser + "," + grebter);
         }
     }
 
-   // --------------- Reading and Updating Attributes
+   // --------------- Rebding bnd Updbting Attributes
    // getAttributes/modifyAttributes
 
-    protected Attributes c_getAttributes(Name name, String[] attrIds,
-                                      Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected Attributes c_getAttributes(Nbme nbme, String[] bttrIds,
+                                      Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
 
-        SearchControls cons = new SearchControls();
-        cons.setSearchScope(SearchControls.OBJECT_SCOPE);
-        cons.setReturningAttributes(attrIds);
+        SebrchControls cons = new SebrchControls();
+        cons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
+        cons.setReturningAttributes(bttrIds);
 
         try {
-            LdapResult answer =
-                doSearchOnce(name, "(objectClass=*)", cons, true);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer =
+                doSebrchOnce(nbme, "(objectClbss=*)", cons, true);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-            if (answer.entries == null || answer.entries.size() != 1) {
-                return new BasicAttributes(LdapClient.caseIgnore);
+            if (bnswer.entries == null || bnswer.entries.size() != 1) {
+                return new BbsicAttributes(LdbpClient.cbseIgnore);
             }
 
-            // get attributes from result
-            LdapEntry entry = answer.entries.elementAt(0);
+            // get bttributes from result
+            LdbpEntry entry = bnswer.entries.elementAt(0);
 
             Vector<Control> entryCtls = entry.respCtls; // retrieve entry controls
             if (entryCtls != null) {
-                appendVector(respCtls, entryCtls); // concatenate controls
+                bppendVector(respCtls, entryCtls); // concbtenbte controls
             }
 
-            // do this so attributes can find their schema
-            setParents(entry.attributes, (Name) name.clone());
+            // do this so bttributes cbn find their schemb
+            setPbrents(entry.bttributes, (Nbme) nbme.clone());
 
-            return (entry.attributes);
+            return (entry.bttributes);
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.getAttributes(name, attrIds);
+                    return refCtx.getAttributes(nbme, bttrIds);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_modifyAttributes(Name name, int mod_op, Attributes attrs,
-                                      Continuation cont)
-            throws NamingException {
+    protected void c_modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs,
+                                      Continubtion cont)
+            throws NbmingException {
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
 
         try {
             ensureOpen();
 
-            if (attrs == null || attrs.size() == 0) {
+            if (bttrs == null || bttrs.size() == 0) {
                 return; // nothing to do
             }
-            String newDN = fullyQualifiedName(name);
-            int jmod_op = convertToLdapModCode(mod_op);
+            String newDN = fullyQublifiedNbme(nbme);
+            int jmod_op = convertToLdbpModCode(mod_op);
 
             // construct mod list
-            int[] jmods = new int[attrs.size()];
-            Attribute[] jattrs = new Attribute[attrs.size()];
+            int[] jmods = new int[bttrs.size()];
+            Attribute[] jbttrs = new Attribute[bttrs.size()];
 
-            NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-            for(int i = 0; i < jmods.length && ae.hasMore(); i++) {
+            NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+            for(int i = 0; i < jmods.length && be.hbsMore(); i++) {
                 jmods[i] = jmod_op;
-                jattrs[i] = ae.next();
+                jbttrs[i] = be.next();
             }
 
-            LdapResult answer = clnt.modify(newDN, jmods, jattrs, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = clnt.modify(newDN, jmods, jbttrs, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
                 return;
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.modifyAttributes(name, mod_op, attrs);
+                    refCtx.modifyAttributes(nbme, mod_op, bttrs);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected void c_modifyAttributes(Name name, ModificationItem[] mods,
-                                      Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected void c_modifyAttributes(Nbme nbme, ModificbtionItem[] mods,
+                                      Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
 
         try {
             ensureOpen();
@@ -1456,524 +1456,524 @@ final public class LdapCtx extends ComponentDirContext
             if (mods == null || mods.length == 0) {
                 return; // nothing to do
             }
-            String newDN = fullyQualifiedName(name);
+            String newDN = fullyQublifiedNbme(nbme);
 
             // construct mod list
             int[] jmods = new int[mods.length];
-            Attribute[] jattrs = new Attribute[mods.length];
-            ModificationItem mod;
+            Attribute[] jbttrs = new Attribute[mods.length];
+            ModificbtionItem mod;
             for (int i = 0; i < jmods.length; i++) {
                 mod = mods[i];
-                jmods[i] = convertToLdapModCode(mod.getModificationOp());
-                jattrs[i] = mod.getAttribute();
+                jmods[i] = convertToLdbpModCode(mod.getModificbtionOp());
+                jbttrs[i] = mod.getAttribute();
             }
 
-            LdapResult answer = clnt.modify(newDN, jmods, jattrs, reqCtls);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer = clnt.modify(newDN, jmods, jbttrs, reqCtls);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, name);
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, nbme);
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    refCtx.modifyAttributes(name, mods);
+                    refCtx.modifyAttributes(nbme, mods);
                     return;
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    private static int convertToLdapModCode(int mod_op) {
+    privbte stbtic int convertToLdbpModCode(int mod_op) {
         switch (mod_op) {
-        case DirContext.ADD_ATTRIBUTE:
-            return(LdapClient.ADD);
+        cbse DirContext.ADD_ATTRIBUTE:
+            return(LdbpClient.ADD);
 
-        case DirContext.REPLACE_ATTRIBUTE:
-            return (LdapClient.REPLACE);
+        cbse DirContext.REPLACE_ATTRIBUTE:
+            return (LdbpClient.REPLACE);
 
-        case DirContext.REMOVE_ATTRIBUTE:
-            return (LdapClient.DELETE);
+        cbse DirContext.REMOVE_ATTRIBUTE:
+            return (LdbpClient.DELETE);
 
-        default:
-            throw new IllegalArgumentException("Invalid modification code");
+        defbult:
+            throw new IllegblArgumentException("Invblid modificbtion code");
         }
     }
 
-   // ------------------- Schema -----------------------
+   // ------------------- Schemb -----------------------
 
-    protected DirContext c_getSchema(Name name, Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected DirContext c_getSchemb(Nbme nbme, Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
         try {
-            return getSchemaTree(name);
+            return getSchembTree(nbme);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
-    protected DirContext c_getSchemaClassDefinition(Name name,
-                                                    Continuation cont)
-            throws NamingException {
-        cont.setError(this, name);
+    protected DirContext c_getSchembClbssDefinition(Nbme nbme,
+                                                    Continubtion cont)
+            throws NbmingException {
+        cont.setError(this, nbme);
 
         try {
-            // retrieve the objectClass attribute from LDAP
-            Attribute objectClassAttr = c_getAttributes(name,
-                new String[]{"objectclass"}, cont).get("objectclass");
-            if (objectClassAttr == null || objectClassAttr.size() == 0) {
+            // retrieve the objectClbss bttribute from LDAP
+            Attribute objectClbssAttr = c_getAttributes(nbme,
+                new String[]{"objectclbss"}, cont).get("objectclbss");
+            if (objectClbssAttr == null || objectClbssAttr.size() == 0) {
                 return EMPTY_SCHEMA;
             }
 
-            // retrieve the root of the ObjectClass schema tree
-            Context ocSchema = (Context) c_getSchema(name, cont).lookup(
-                LdapSchemaParser.OBJECTCLASS_DEFINITION_NAME);
+            // retrieve the root of the ObjectClbss schemb tree
+            Context ocSchemb = (Context) c_getSchemb(nbme, cont).lookup(
+                LdbpSchembPbrser.OBJECTCLASS_DEFINITION_NAME);
 
-            // create a context to hold the schema objects representing the object
-            // classes
-            HierMemDirCtx objectClassCtx = new HierMemDirCtx();
-            DirContext objectClassDef;
-            String objectClassName;
-            for (Enumeration<?> objectClasses = objectClassAttr.getAll();
-                objectClasses.hasMoreElements(); ) {
-                objectClassName = (String)objectClasses.nextElement();
-                // %%% Should we fail if not found, or just continue?
-                objectClassDef = (DirContext)ocSchema.lookup(objectClassName);
-                objectClassCtx.bind(objectClassName, objectClassDef);
+            // crebte b context to hold the schemb objects representing the object
+            // clbsses
+            HierMemDirCtx objectClbssCtx = new HierMemDirCtx();
+            DirContext objectClbssDef;
+            String objectClbssNbme;
+            for (Enumerbtion<?> objectClbsses = objectClbssAttr.getAll();
+                objectClbsses.hbsMoreElements(); ) {
+                objectClbssNbme = (String)objectClbsses.nextElement();
+                // %%% Should we fbil if not found, or just continue?
+                objectClbssDef = (DirContext)ocSchemb.lookup(objectClbssNbme);
+                objectClbssCtx.bind(objectClbssNbme, objectClbssDef);
             }
 
-            // Make context read-only
-            objectClassCtx.setReadOnly(
-                new SchemaViolationException("Cannot update schema object"));
-            return (DirContext)objectClassCtx;
+            // Mbke context rebd-only
+            objectClbssCtx.setRebdOnly(
+                new SchembViolbtionException("Cbnnot updbte schemb object"));
+            return (DirContext)objectClbssCtx;
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
     /*
-     * getSchemaTree first looks to see if we have already built a
-     * schema tree for the given entry. If not, it builds a new one and
-     * stores it in our private hash table
+     * getSchembTree first looks to see if we hbve blrebdy built b
+     * schemb tree for the given entry. If not, it builds b new one bnd
+     * stores it in our privbte hbsh tbble
      */
-    private DirContext getSchemaTree(Name name) throws NamingException {
-        String subschemasubentry = getSchemaEntry(name, true);
+    privbte DirContext getSchembTree(Nbme nbme) throws NbmingException {
+        String subschembsubentry = getSchembEntry(nbme, true);
 
-        DirContext schemaTree = schemaTrees.get(subschemasubentry);
+        DirContext schembTree = schembTrees.get(subschembsubentry);
 
-        if(schemaTree==null) {
-            if(debug){System.err.println("LdapCtx: building new schema tree " + this);}
-            schemaTree = buildSchemaTree(subschemasubentry);
-            schemaTrees.put(subschemasubentry, schemaTree);
+        if(schembTree==null) {
+            if(debug){System.err.println("LdbpCtx: building new schemb tree " + this);}
+            schembTree = buildSchembTree(subschembsubentry);
+            schembTrees.put(subschembsubentry, schembTree);
         }
 
-        return schemaTree;
+        return schembTree;
     }
 
     /*
-     * buildSchemaTree builds the schema tree corresponding to the
-     * given subschemasubentree
+     * buildSchembTree builds the schemb tree corresponding to the
+     * given subschembsubentree
      */
-    private DirContext buildSchemaTree(String subschemasubentry)
-        throws NamingException {
+    privbte DirContext buildSchembTree(String subschembsubentry)
+        throws NbmingException {
 
-        // get the schema entry itself
-        // DO ask for return object here because we need it to
-        // create context. Since asking for all attrs, we won't
-        // be transmitting any specific attrIDs (like Java-specific ones).
-        SearchControls constraints = new
-            SearchControls(SearchControls.OBJECT_SCOPE,
-                0, 0, /* count and time limits */
-                SCHEMA_ATTRIBUTES /* return schema attrs */,
+        // get the schemb entry itself
+        // DO bsk for return object here becbuse we need it to
+        // crebte context. Since bsking for bll bttrs, we won't
+        // be trbnsmitting bny specific bttrIDs (like Jbvb-specific ones).
+        SebrchControls constrbints = new
+            SebrchControls(SebrchControls.OBJECT_SCOPE,
+                0, 0, /* count bnd time limits */
+                SCHEMA_ATTRIBUTES /* return schemb bttrs */,
                 true /* return obj */,
-                false /*deref link */ );
+                fblse /*deref link */ );
 
-        Name sse = (new CompositeName()).add(subschemasubentry);
-        NamingEnumeration<SearchResult> results =
-            searchAux(sse, "(objectClass=subschema)", constraints,
-            false, true, new Continuation());
+        Nbme sse = (new CompositeNbme()).bdd(subschembsubentry);
+        NbmingEnumerbtion<SebrchResult> results =
+            sebrchAux(sse, "(objectClbss=subschemb)", constrbints,
+            fblse, true, new Continubtion());
 
-        if(!results.hasMore()) {
-            throw new OperationNotSupportedException(
-                "Cannot get read subschemasubentry: " + subschemasubentry);
+        if(!results.hbsMore()) {
+            throw new OperbtionNotSupportedException(
+                "Cbnnot get rebd subschembsubentry: " + subschembsubentry);
         }
-        SearchResult result = results.next();
+        SebrchResult result = results.next();
         results.close();
 
         Object obj = result.getObject();
-        if(!(obj instanceof LdapCtx)) {
-            throw new NamingException(
-                "Cannot get schema object as DirContext: " + subschemasubentry);
+        if(!(obj instbnceof LdbpCtx)) {
+            throw new NbmingException(
+                "Cbnnot get schemb object bs DirContext: " + subschembsubentry);
         }
 
-        return LdapSchemaCtx.createSchemaTree(envprops, subschemasubentry,
-            (LdapCtx)obj /* schema entry */,
-            result.getAttributes() /* schema attributes */,
-            netscapeSchemaBug);
+        return LdbpSchembCtx.crebteSchembTree(envprops, subschembsubentry,
+            (LdbpCtx)obj /* schemb entry */,
+            result.getAttributes() /* schemb bttributes */,
+            netscbpeSchembBug);
    }
 
     /*
-     * getSchemaEntree returns the DN of the subschemasubentree for the
-     * given entree. It first looks to see if the given entry has
-     * a subschema different from that of the root DIT (by looking for
-     * a "subschemasubentry" attribute). If it doesn't find one, it returns
+     * getSchembEntree returns the DN of the subschembsubentree for the
+     * given entree. It first looks to see if the given entry hbs
+     * b subschemb different from thbt of the root DIT (by looking for
+     * b "subschembsubentry" bttribute). If it doesn't find one, it returns
      * the one for the root of the DIT (by looking for the root's
-     * "subschemasubentry" attribute).
+     * "subschembsubentry" bttribute).
      *
-     * This function is called regardless of the server's version, since
-     * an administrator may have setup the server to support client schema
-     * queries. If this function tries a search on a v2 server that
-     * doesn't support schema, one of these two things will happen:
-     * 1) It will get an exception when querying the root DSE
-     * 2) It will not find a subschemasubentry on the root DSE
-     * If either of these things occur and the server is not v3, we
-     * throw OperationNotSupported.
+     * This function is cblled regbrdless of the server's version, since
+     * bn bdministrbtor mby hbve setup the server to support client schemb
+     * queries. If this function tries b sebrch on b v2 server thbt
+     * doesn't support schemb, one of these two things will hbppen:
+     * 1) It will get bn exception when querying the root DSE
+     * 2) It will not find b subschembsubentry on the root DSE
+     * If either of these things occur bnd the server is not v3, we
+     * throw OperbtionNotSupported.
      *
-     * the relative flag tells whether the given name is relative to this
+     * the relbtive flbg tells whether the given nbme is relbtive to this
      * context.
      */
-    private String getSchemaEntry(Name name, boolean relative)
-        throws NamingException {
+    privbte String getSchembEntry(Nbme nbme, boolebn relbtive)
+        throws NbmingException {
 
-        // Asks for operational attribute "subschemasubentry"
-        SearchControls constraints = new SearchControls(SearchControls.OBJECT_SCOPE,
-            0, 0, /* count and time limits */
-            new String[]{"subschemasubentry"} /* attr to return */,
-            false /* returning obj */,
-            false /* deref link */);
+        // Asks for operbtionbl bttribute "subschembsubentry"
+        SebrchControls constrbints = new SebrchControls(SebrchControls.OBJECT_SCOPE,
+            0, 0, /* count bnd time limits */
+            new String[]{"subschembsubentry"} /* bttr to return */,
+            fblse /* returning obj */,
+            fblse /* deref link */);
 
-        NamingEnumeration<SearchResult> results;
+        NbmingEnumerbtion<SebrchResult> results;
         try {
-            results = searchAux(name, "objectclass=*", constraints, relative,
-                true, new Continuation());
+            results = sebrchAux(nbme, "objectclbss=*", constrbints, relbtive,
+                true, new Continubtion());
 
-        } catch (NamingException ne) {
-            if (!clnt.isLdapv3 && currentDN.length() == 0 && name.isEmpty()) {
-                // we got an error looking for a root entry on an ldapv2
-                // server. The server must not support schema.
-                throw new OperationNotSupportedException(
-                    "Cannot get schema information from server");
+        } cbtch (NbmingException ne) {
+            if (!clnt.isLdbpv3 && currentDN.length() == 0 && nbme.isEmpty()) {
+                // we got bn error looking for b root entry on bn ldbpv2
+                // server. The server must not support schemb.
+                throw new OperbtionNotSupportedException(
+                    "Cbnnot get schemb informbtion from server");
             } else {
                 throw ne;
             }
         }
 
-        if (!results.hasMoreElements()) {
-            throw new ConfigurationException(
-                "Requesting schema of nonexistent entry: " + name);
+        if (!results.hbsMoreElements()) {
+            throw new ConfigurbtionException(
+                "Requesting schemb of nonexistent entry: " + nbme);
         }
 
-        SearchResult result = results.next();
+        SebrchResult result = results.next();
         results.close();
 
-        Attribute schemaEntryAttr =
-            result.getAttributes().get("subschemasubentry");
-        //System.err.println("schema entry attrs: " + schemaEntryAttr);
+        Attribute schembEntryAttr =
+            result.getAttributes().get("subschembsubentry");
+        //System.err.println("schemb entry bttrs: " + schembEntryAttr);
 
-        if (schemaEntryAttr == null || schemaEntryAttr.size() < 0) {
-            if (currentDN.length() == 0 && name.isEmpty()) {
-                // the server doesn't have a subschemasubentry in its root DSE.
-                // therefore, it doesn't support schema.
-                throw new OperationNotSupportedException(
-                    "Cannot read subschemasubentry of root DSE");
+        if (schembEntryAttr == null || schembEntryAttr.size() < 0) {
+            if (currentDN.length() == 0 && nbme.isEmpty()) {
+                // the server doesn't hbve b subschembsubentry in its root DSE.
+                // therefore, it doesn't support schemb.
+                throw new OperbtionNotSupportedException(
+                    "Cbnnot rebd subschembsubentry of root DSE");
             } else {
-                return getSchemaEntry(new CompositeName(), false);
+                return getSchembEntry(new CompositeNbme(), fblse);
             }
         }
 
-        return (String)(schemaEntryAttr.get()); // return schema entry name
+        return (String)(schembEntryAttr.get()); // return schemb entry nbme
     }
 
-    // package-private; used by search enum.
-    // Set attributes to point to this context in case some one
-    // asked for their schema
-    void setParents(Attributes attrs, Name name) throws NamingException {
-        NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-        while(ae.hasMore()) {
-            ((LdapAttribute) ae.next()).setParent(this, name);
+    // pbckbge-privbte; used by sebrch enum.
+    // Set bttributes to point to this context in cbse some one
+    // bsked for their schemb
+    void setPbrents(Attributes bttrs, Nbme nbme) throws NbmingException {
+        NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+        while(be.hbsMore()) {
+            ((LdbpAttribute) be.next()).setPbrent(this, nbme);
         }
     }
 
     /*
-     * Returns the URL associated with this context; used by LdapAttribute
-     * after deserialization to get pointer to this context.
+     * Returns the URL bssocibted with this context; used by LdbpAttribute
+     * bfter deseriblizbtion to get pointer to this context.
      */
     String getURL() {
         if (url == null) {
-            url = LdapURL.toUrlString(hostname, port_number, currentDN,
-                hasLdapsScheme);
+            url = LdbpURL.toUrlString(hostnbme, port_number, currentDN,
+                hbsLdbpsScheme);
         }
 
         return url;
     }
 
-   // --------------------- Searches -----------------------------
-    protected NamingEnumeration<SearchResult> c_search(Name name,
-                                         Attributes matchingAttributes,
-                                         Continuation cont)
-            throws NamingException {
-        return c_search(name, matchingAttributes, null, cont);
+   // --------------------- Sebrches -----------------------------
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
+                                         Attributes mbtchingAttributes,
+                                         Continubtion cont)
+            throws NbmingException {
+        return c_sebrch(nbme, mbtchingAttributes, null, cont);
     }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
-                                         Attributes matchingAttributes,
-                                         String[] attributesToReturn,
-                                         Continuation cont)
-            throws NamingException {
-        SearchControls cons = new SearchControls();
-        cons.setReturningAttributes(attributesToReturn);
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
+                                         Attributes mbtchingAttributes,
+                                         String[] bttributesToReturn,
+                                         Continubtion cont)
+            throws NbmingException {
+        SebrchControls cons = new SebrchControls();
+        cons.setReturningAttributes(bttributesToReturn);
         String filter;
         try {
-            filter = SearchFilter.format(matchingAttributes);
-        } catch (NamingException e) {
-            cont.setError(this, name);
+            filter = SebrchFilter.formbt(mbtchingAttributes);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
         }
-        return c_search(name, filter, cons, cont);
+        return c_sebrch(nbme, filter, cons, cont);
     }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
                                          String filter,
-                                         SearchControls cons,
-                                         Continuation cont)
-            throws NamingException {
-        return searchAux(name, filter, cloneSearchControls(cons), true,
-                 waitForReply, cont);
+                                         SebrchControls cons,
+                                         Continubtion cont)
+            throws NbmingException {
+        return sebrchAux(nbme, filter, cloneSebrchControls(cons), true,
+                 wbitForReply, cont);
     }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch(Nbme nbme,
                                          String filterExpr,
                                          Object[] filterArgs,
-                                         SearchControls cons,
-                                         Continuation cont)
-            throws NamingException {
+                                         SebrchControls cons,
+                                         Continubtion cont)
+            throws NbmingException {
         String strfilter;
         try {
-            strfilter = SearchFilter.format(filterExpr, filterArgs);
-        } catch (NamingException e) {
-            cont.setError(this, name);
+            strfilter = SebrchFilter.formbt(filterExpr, filterArgs);
+        } cbtch (NbmingException e) {
+            cont.setError(this, nbme);
             throw cont.fillInException(e);
         }
-        return c_search(name, strfilter, cons, cont);
+        return c_sebrch(nbme, strfilter, cons, cont);
     }
 
-        // Used by NamingNotifier
-    NamingEnumeration<SearchResult> searchAux(Name name,
+        // Used by NbmingNotifier
+    NbmingEnumerbtion<SebrchResult> sebrchAux(Nbme nbme,
         String filter,
-        SearchControls cons,
-        boolean relative,
-        boolean waitForReply, Continuation cont) throws NamingException {
+        SebrchControls cons,
+        boolebn relbtive,
+        boolebn wbitForReply, Continubtion cont) throws NbmingException {
 
-        LdapResult answer = null;
-        String[] tokens = new String[2];    // stores ldap compare op. values
-        String[] reqAttrs;                  // remember what was asked
+        LdbpResult bnswer = null;
+        String[] tokens = new String[2];    // stores ldbp compbre op. vblues
+        String[] reqAttrs;                  // remember whbt wbs bsked
 
         if (cons == null) {
-            cons = new SearchControls();
+            cons = new SebrchControls();
         }
         reqAttrs = cons.getReturningAttributes();
 
-        // if objects are requested then request the Java attributes too
-        // so that the objects can be constructed
-        if (cons.getReturningObjFlag()) {
+        // if objects bre requested then request the Jbvb bttributes too
+        // so thbt the objects cbn be constructed
+        if (cons.getReturningObjFlbg()) {
             if (reqAttrs != null) {
 
-                // check for presence of "*" (user attributes wildcard)
-                boolean hasWildcard = false;
+                // check for presence of "*" (user bttributes wildcbrd)
+                boolebn hbsWildcbrd = fblse;
                 for (int i = reqAttrs.length - 1; i >= 0; i--) {
-                    if (reqAttrs[i].equals("*")) {
-                        hasWildcard = true;
-                        break;
+                    if (reqAttrs[i].equbls("*")) {
+                        hbsWildcbrd = true;
+                        brebk;
                     }
                 }
-                if (! hasWildcard) {
-                    String[] totalAttrs =
+                if (! hbsWildcbrd) {
+                    String[] totblAttrs =
                         new String[reqAttrs.length +Obj.JAVA_ATTRIBUTES.length];
-                    System.arraycopy(reqAttrs, 0, totalAttrs, 0,
+                    System.brrbycopy(reqAttrs, 0, totblAttrs, 0,
                         reqAttrs.length);
-                    System.arraycopy(Obj.JAVA_ATTRIBUTES, 0, totalAttrs,
+                    System.brrbycopy(Obj.JAVA_ATTRIBUTES, 0, totblAttrs,
                         reqAttrs.length, Obj.JAVA_ATTRIBUTES.length);
 
-                    cons.setReturningAttributes(totalAttrs);
+                    cons.setReturningAttributes(totblAttrs);
                 }
             }
         }
 
-        LdapCtx.SearchArgs args =
-            new LdapCtx.SearchArgs(name, filter, cons, reqAttrs);
+        LdbpCtx.SebrchArgs brgs =
+            new LdbpCtx.SebrchArgs(nbme, filter, cons, reqAttrs);
 
-        cont.setError(this, name);
+        cont.setError(this, nbme);
         try {
-            // see if this can be done as a compare, otherwise do a search
-            if (searchToCompare(filter, cons, tokens)){
-                //System.err.println("compare triggered");
-                answer = compare(name, tokens[0], tokens[1]);
-                if (! (answer.compareToSearchResult(fullyQualifiedName(name)))){
-                    processReturnCode(answer, name);
+            // see if this cbn be done bs b compbre, otherwise do b sebrch
+            if (sebrchToCompbre(filter, cons, tokens)){
+                //System.err.println("compbre triggered");
+                bnswer = compbre(nbme, tokens[0], tokens[1]);
+                if (! (bnswer.compbreToSebrchResult(fullyQublifiedNbme(nbme)))){
+                    processReturnCode(bnswer, nbme);
                 }
             } else {
-                answer = doSearch(name, filter, cons, relative, waitForReply);
-                // search result may contain referrals
-                processReturnCode(answer, name);
+                bnswer = doSebrch(nbme, filter, cons, relbtive, wbitForReply);
+                // sebrch result mby contbin referrbls
+                processReturnCode(bnswer, nbme);
             }
-            return new LdapSearchEnumeration(this, answer,
-                                             fullyQualifiedName(name),
-                                             args, cont);
+            return new LdbpSebrchEnumerbtion(this, bnswer,
+                                             fullyQublifiedNbme(nbme),
+                                             brgs, cont);
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw cont.fillInException(e);
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                @SuppressWarnings("unchecked")
-                LdapReferralContext refCtx = (LdapReferralContext)
-                        e.getReferralContext(envprops, bindCtls);
+                @SuppressWbrnings("unchecked")
+                LdbpReferrblContext refCtx = (LdbpReferrblContext)
+                        e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.search(name, filter, cons);
+                    return refCtx.sebrch(nbme, filter, cons);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (LimitExceededException e) {
-            LdapSearchEnumeration res =
-                new LdapSearchEnumeration(this, answer, fullyQualifiedName(name),
-                                          args, cont);
-            res.setNamingException(e);
+        } cbtch (LimitExceededException e) {
+            LdbpSebrchEnumerbtion res =
+                new LdbpSebrchEnumerbtion(this, bnswer, fullyQublifiedNbme(nbme),
+                                          brgs, cont);
+            res.setNbmingException(e);
             return res;
 
-        } catch (PartialResultException e) {
-            LdapSearchEnumeration res =
-                new LdapSearchEnumeration(this, answer, fullyQualifiedName(name),
-                                          args, cont);
+        } cbtch (PbrtiblResultException e) {
+            LdbpSebrchEnumerbtion res =
+                new LdbpSebrchEnumerbtion(this, bnswer, fullyQublifiedNbme(nbme),
+                                          brgs, cont);
 
-            res.setNamingException(e);
+            res.setNbmingException(e);
             return res;
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw cont.fillInException(e2);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw cont.fillInException(e);
         }
     }
 
 
-    LdapResult getSearchReply(LdapClient eClnt, LdapResult res)
-            throws NamingException {
-        // ensureOpen() won't work here because
-        // session was associated with previous connection
+    LdbpResult getSebrchReply(LdbpClient eClnt, LdbpResult res)
+            throws NbmingException {
+        // ensureOpen() won't work here becbuse
+        // session wbs bssocibted with previous connection
 
-        // %%% RL: we can actually allow the enumeration to continue
-        // using the old handle but other weird things might happen
-        // when we hit a referral
+        // %%% RL: we cbn bctublly bllow the enumerbtion to continue
+        // using the old hbndle but other weird things might hbppen
+        // when we hit b referrbl
         if (clnt != eClnt) {
-            throw new CommunicationException(
-                "Context's connection changed; unable to continue enumeration");
+            throw new CommunicbtionException(
+                "Context's connection chbnged; unbble to continue enumerbtion");
         }
 
         try {
-            return eClnt.getSearchReply(batchSize, res, binaryAttrs);
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+            return eClnt.getSebrchReply(bbtchSize, res, binbryAttrs);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw e2;
         }
     }
 
-    // Perform a search. Expect 1 SearchResultEntry and the SearchResultDone.
-    private LdapResult doSearchOnce(Name name, String filter,
-        SearchControls cons, boolean relative) throws NamingException {
+    // Perform b sebrch. Expect 1 SebrchResultEntry bnd the SebrchResultDone.
+    privbte LdbpResult doSebrchOnce(Nbme nbme, String filter,
+        SebrchControls cons, boolebn relbtive) throws NbmingException {
 
-        int savedBatchSize = batchSize;
-        batchSize = 2; // 2 protocol elements
+        int sbvedBbtchSize = bbtchSize;
+        bbtchSize = 2; // 2 protocol elements
 
-        LdapResult answer = doSearch(name, filter, cons, relative, true);
+        LdbpResult bnswer = doSebrch(nbme, filter, cons, relbtive, true);
 
-        batchSize = savedBatchSize;
-        return answer;
+        bbtchSize = sbvedBbtchSize;
+        return bnswer;
     }
 
-    private LdapResult doSearch(Name name, String filter, SearchControls cons,
-        boolean relative, boolean waitForReply) throws NamingException {
+    privbte LdbpResult doSebrch(Nbme nbme, String filter, SebrchControls cons,
+        boolebn relbtive, boolebn wbitForReply) throws NbmingException {
             ensureOpen();
             try {
                 int scope;
 
-                switch (cons.getSearchScope()) {
-                case SearchControls.OBJECT_SCOPE:
-                    scope = LdapClient.SCOPE_BASE_OBJECT;
-                    break;
-                default:
-                case SearchControls.ONELEVEL_SCOPE:
-                    scope = LdapClient.SCOPE_ONE_LEVEL;
-                    break;
-                case SearchControls.SUBTREE_SCOPE:
-                    scope = LdapClient.SCOPE_SUBTREE;
-                    break;
+                switch (cons.getSebrchScope()) {
+                cbse SebrchControls.OBJECT_SCOPE:
+                    scope = LdbpClient.SCOPE_BASE_OBJECT;
+                    brebk;
+                defbult:
+                cbse SebrchControls.ONELEVEL_SCOPE:
+                    scope = LdbpClient.SCOPE_ONE_LEVEL;
+                    brebk;
+                cbse SebrchControls.SUBTREE_SCOPE:
+                    scope = LdbpClient.SCOPE_SUBTREE;
+                    brebk;
                 }
 
-                // If cons.getReturningObjFlag() then caller should already
-                // have make sure to request the appropriate attrs
+                // If cons.getReturningObjFlbg() then cbller should blrebdy
+                // hbve mbke sure to request the bppropribte bttrs
 
-                String[] retattrs = cons.getReturningAttributes();
-                if (retattrs != null && retattrs.length == 0) {
-                    // Ldap treats null and empty array the same
-                    // need to replace with single element array
-                    retattrs = new String[1];
-                    retattrs[0] = "1.1";
+                String[] retbttrs = cons.getReturningAttributes();
+                if (retbttrs != null && retbttrs.length == 0) {
+                    // Ldbp trebts null bnd empty brrby the sbme
+                    // need to replbce with single element brrby
+                    retbttrs = new String[1];
+                    retbttrs[0] = "1.1";
                 }
 
-                String nm = (relative
-                             ? fullyQualifiedName(name)
-                             : (name.isEmpty()
+                String nm = (relbtive
+                             ? fullyQublifiedNbme(nbme)
+                             : (nbme.isEmpty()
                                 ? ""
-                                : name.get(0)));
+                                : nbme.get(0)));
 
                 // JNDI unit is milliseconds, LDAP unit is seconds.
-                // Zero means no limit.
+                // Zero mebns no limit.
                 int msecLimit = cons.getTimeLimit();
                 int secLimit = 0;
 
@@ -1981,125 +1981,125 @@ final public class LdapCtx extends ComponentDirContext
                     secLimit = (msecLimit / 1000) + 1;
                 }
 
-                LdapResult answer =
-                    clnt.search(nm,
+                LdbpResult bnswer =
+                    clnt.sebrch(nm,
                         scope,
-                        derefAliases,
+                        derefAlibses,
                         (int)cons.getCountLimit(),
                         secLimit,
-                        cons.getReturningObjFlag() ? false : typesOnly,
-                        retattrs,
+                        cons.getReturningObjFlbg() ? fblse : typesOnly,
+                        retbttrs,
                         filter,
-                        batchSize,
+                        bbtchSize,
                         reqCtls,
-                        binaryAttrs,
-                        waitForReply,
+                        binbryAttrs,
+                        wbitForReply,
                         replyQueueSize);
-                respCtls = answer.resControls; // retrieve response controls
-                return answer;
+                respCtls = bnswer.resControls; // retrieve response controls
+                return bnswer;
 
-            } catch (IOException e) {
-                NamingException e2 = new CommunicationException(e.getMessage());
-                e2.setRootCause(e);
+            } cbtch (IOException e) {
+                NbmingException e2 = new CommunicbtionException(e.getMessbge());
+                e2.setRootCbuse(e);
                 throw e2;
             }
     }
 
 
     /*
-     * Certain simple JNDI searches are automatically converted to
-     * LDAP compare operations by the LDAP service provider. A search
-     * is converted to a compare iff:
+     * Certbin simple JNDI sebrches bre butombticblly converted to
+     * LDAP compbre operbtions by the LDAP service provider. A sebrch
+     * is converted to b compbre iff:
      *
      *    - the scope is set to OBJECT_SCOPE
-     *    - the filter string contains a simple assertion: "<type>=<value>"
-     *    - the returning attributes list is present but empty
+     *    - the filter string contbins b simple bssertion: "<type>=<vblue>"
+     *    - the returning bttributes list is present but empty
      */
 
-    // returns true if a search can be carried out as a compare, and sets
-    // tokens[0] and tokens[1] to the type and value respectively.
-    // e.g. filter "cn=Jon Ruiz" becomes, type "cn" and value "Jon Ruiz"
-    // This function uses the documents JNDI Compare example as a model
-    // for when to turn a search into a compare.
+    // returns true if b sebrch cbn be cbrried out bs b compbre, bnd sets
+    // tokens[0] bnd tokens[1] to the type bnd vblue respectively.
+    // e.g. filter "cn=Jon Ruiz" becomes, type "cn" bnd vblue "Jon Ruiz"
+    // This function uses the documents JNDI Compbre exbmple bs b model
+    // for when to turn b sebrch into b compbre.
 
-    private static boolean searchToCompare(
+    privbte stbtic boolebn sebrchToCompbre(
                                     String filter,
-                                    SearchControls cons,
+                                    SebrchControls cons,
                                     String tokens[]) {
 
-        // if scope is not object-scope, it's really a search
-        if (cons.getSearchScope() != SearchControls.OBJECT_SCOPE) {
-            return false;
+        // if scope is not object-scope, it's reblly b sebrch
+        if (cons.getSebrchScope() != SebrchControls.OBJECT_SCOPE) {
+            return fblse;
         }
 
-        // if attributes are to be returned, it's really a search
-        String[] attrs = cons.getReturningAttributes();
-        if (attrs == null || attrs.length != 0) {
-            return false;
+        // if bttributes bre to be returned, it's reblly b sebrch
+        String[] bttrs = cons.getReturningAttributes();
+        if (bttrs == null || bttrs.length != 0) {
+            return fblse;
         }
 
-        // if the filter not a simple assertion, it's really a search
+        // if the filter not b simple bssertion, it's reblly b sebrch
         if (! filterToAssertion(filter, tokens)) {
-            return false;
+            return fblse;
         }
 
-        // it can be converted to a compare
+        // it cbn be converted to b compbre
         return true;
     }
 
-    // If the supplied filter is a simple assertion i.e. "<type>=<value>"
-    // (enclosing parentheses are permitted) then
-    // filterToAssertion will return true and pass the type and value as
-    // the first and second elements of tokens respectively.
-    // precondition: tokens[] must be initialized and be at least of size 2.
+    // If the supplied filter is b simple bssertion i.e. "<type>=<vblue>"
+    // (enclosing pbrentheses bre permitted) then
+    // filterToAssertion will return true bnd pbss the type bnd vblue bs
+    // the first bnd second elements of tokens respectively.
+    // precondition: tokens[] must be initiblized bnd be bt lebst of size 2.
 
-    private static boolean filterToAssertion(String filter, String tokens[]) {
+    privbte stbtic boolebn filterToAssertion(String filter, String tokens[]) {
 
-        // find the left and right half of the assertion
-        StringTokenizer assertionTokenizer = new StringTokenizer(filter, "=");
+        // find the left bnd right hblf of the bssertion
+        StringTokenizer bssertionTokenizer = new StringTokenizer(filter, "=");
 
-        if (assertionTokenizer.countTokens() != 2) {
-            return false;
+        if (bssertionTokenizer.countTokens() != 2) {
+            return fblse;
         }
 
-        tokens[0] = assertionTokenizer.nextToken();
-        tokens[1] = assertionTokenizer.nextToken();
+        tokens[0] = bssertionTokenizer.nextToken();
+        tokens[1] = bssertionTokenizer.nextToken();
 
-        // make sure the value does not contain a wildcard
+        // mbke sure the vblue does not contbin b wildcbrd
         if (tokens[1].indexOf('*') != -1) {
-            return false;
+            return fblse;
         }
 
-        // test for enclosing parenthesis
-        boolean hasParens = false;
+        // test for enclosing pbrenthesis
+        boolebn hbsPbrens = fblse;
         int len = tokens[1].length();
 
-        if ((tokens[0].charAt(0) == '(') &&
-            (tokens[1].charAt(len - 1) == ')')) {
-            hasParens = true;
+        if ((tokens[0].chbrAt(0) == '(') &&
+            (tokens[1].chbrAt(len - 1) == ')')) {
+            hbsPbrens = true;
 
-        } else if ((tokens[0].charAt(0) == '(') ||
-            (tokens[1].charAt(len - 1) == ')')) {
-            return false; // unbalanced
+        } else if ((tokens[0].chbrAt(0) == '(') ||
+            (tokens[1].chbrAt(len - 1) == ')')) {
+            return fblse; // unbblbnced
         }
 
-        // make sure the left and right half are not expressions themselves
-        StringTokenizer illegalCharsTokenizer =
+        // mbke sure the left bnd right hblf bre not expressions themselves
+        StringTokenizer illegblChbrsTokenizer =
             new StringTokenizer(tokens[0], "()&|!=~><*", true);
 
-        if (illegalCharsTokenizer.countTokens() != (hasParens ? 2 : 1)) {
-            return false;
+        if (illegblChbrsTokenizer.countTokens() != (hbsPbrens ? 2 : 1)) {
+            return fblse;
         }
 
-        illegalCharsTokenizer =
+        illegblChbrsTokenizer =
             new StringTokenizer(tokens[1], "()&|!=~><*", true);
 
-        if (illegalCharsTokenizer.countTokens() != (hasParens ? 2 : 1)) {
-            return false;
+        if (illegblChbrsTokenizer.countTokens() != (hbsPbrens ? 2 : 1)) {
+            return fblse;
         }
 
-        // strip off enclosing parenthesis, if present
-        if (hasParens) {
+        // strip off enclosing pbrenthesis, if present
+        if (hbsPbrens) {
             tokens[0] = tokens[0].substring(1);
             tokens[1] = tokens[1].substring(0, len - 1);
         }
@@ -2107,34 +2107,34 @@ final public class LdapCtx extends ComponentDirContext
         return true;
     }
 
-    private LdapResult compare(Name name, String type, String value)
-        throws IOException, NamingException {
+    privbte LdbpResult compbre(Nbme nbme, String type, String vblue)
+        throws IOException, NbmingException {
 
         ensureOpen();
-        String nm = fullyQualifiedName(name);
+        String nm = fullyQublifiedNbme(nbme);
 
-        LdapResult answer = clnt.compare(nm, type, value, reqCtls);
-        respCtls = answer.resControls; // retrieve response controls
+        LdbpResult bnswer = clnt.compbre(nm, type, vblue, reqCtls);
+        respCtls = bnswer.resControls; // retrieve response controls
 
-        return answer;
+        return bnswer;
     }
 
-    private static SearchControls cloneSearchControls(SearchControls cons) {
+    privbte stbtic SebrchControls cloneSebrchControls(SebrchControls cons) {
         if (cons == null) {
             return null;
         }
         String[] retAttrs = cons.getReturningAttributes();
         if (retAttrs != null) {
-            String[] attrs = new String[retAttrs.length];
-            System.arraycopy(retAttrs, 0, attrs, 0, retAttrs.length);
-            retAttrs = attrs;
+            String[] bttrs = new String[retAttrs.length];
+            System.brrbycopy(retAttrs, 0, bttrs, 0, retAttrs.length);
+            retAttrs = bttrs;
         }
-        return new SearchControls(cons.getSearchScope(),
+        return new SebrchControls(cons.getSebrchScope(),
                                   cons.getCountLimit(),
                                   cons.getTimeLimit(),
                                   retAttrs,
-                                  cons.getReturningObjFlag(),
-                                  cons.getDerefLinkFlag());
+                                  cons.getReturningObjFlbg(),
+                                  cons.getDerefLinkFlbg());
     }
 
    // -------------- Environment Properties ------------------
@@ -2142,251 +2142,251 @@ final public class LdapCtx extends ComponentDirContext
     /**
      * Override with noncloning version.
      */
-    protected Hashtable<String, Object> p_getEnvironment() {
+    protected Hbshtbble<String, Object> p_getEnvironment() {
         return envprops;
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Hashtable<String, Object> getEnvironment() throws NamingException {
+    @SuppressWbrnings("unchecked") // clone()
+    public Hbshtbble<String, Object> getEnvironment() throws NbmingException {
         return (envprops == null
-                ? new Hashtable<String, Object>(5, 0.75f)
-                : (Hashtable<String, Object>)envprops.clone());
+                ? new Hbshtbble<String, Object>(5, 0.75f)
+                : (Hbshtbble<String, Object>)envprops.clone());
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Object removeFromEnvironment(String propName)
-        throws NamingException {
+    @SuppressWbrnings("unchecked") // clone()
+    public Object removeFromEnvironment(String propNbme)
+        throws NbmingException {
 
         // not there; just return
-        if (envprops == null || envprops.get(propName) == null) {
+        if (envprops == null || envprops.get(propNbme) == null) {
             return null;
         }
-        switch (propName) {
-            case REF_SEPARATOR:
-                addrEncodingSeparator = DEFAULT_REF_SEPARATOR;
-                break;
-            case TYPES_ONLY:
+        switch (propNbme) {
+            cbse REF_SEPARATOR:
+                bddrEncodingSepbrbtor = DEFAULT_REF_SEPARATOR;
+                brebk;
+            cbse TYPES_ONLY:
                 typesOnly = DEFAULT_TYPES_ONLY;
-                break;
-            case DELETE_RDN:
+                brebk;
+            cbse DELETE_RDN:
                 deleteRDN = DEFAULT_DELETE_RDN;
-                break;
-            case DEREF_ALIASES:
-                derefAliases = DEFAULT_DEREF_ALIASES;
-                break;
-            case Context.BATCHSIZE:
-                batchSize = DEFAULT_BATCH_SIZE;
-                break;
-            case REFERRAL_LIMIT:
-                referralHopLimit = DEFAULT_REFERRAL_LIMIT;
-                break;
-            case Context.REFERRAL:
-                setReferralMode(null, true);
-                break;
-            case BINARY_ATTRIBUTES:
-                setBinaryAttributes(null);
-                break;
-            case CONNECT_TIMEOUT:
+                brebk;
+            cbse DEREF_ALIASES:
+                derefAlibses = DEFAULT_DEREF_ALIASES;
+                brebk;
+            cbse Context.BATCHSIZE:
+                bbtchSize = DEFAULT_BATCH_SIZE;
+                brebk;
+            cbse REFERRAL_LIMIT:
+                referrblHopLimit = DEFAULT_REFERRAL_LIMIT;
+                brebk;
+            cbse Context.REFERRAL:
+                setReferrblMode(null, true);
+                brebk;
+            cbse BINARY_ATTRIBUTES:
+                setBinbryAttributes(null);
+                brebk;
+            cbse CONNECT_TIMEOUT:
                 connectTimeout = -1;
-                break;
-            case READ_TIMEOUT:
-                readTimeout = -1;
-                break;
-            case WAIT_FOR_REPLY:
-                waitForReply = true;
-                break;
-            case REPLY_QUEUE_SIZE:
+                brebk;
+            cbse READ_TIMEOUT:
+                rebdTimeout = -1;
+                brebk;
+            cbse WAIT_FOR_REPLY:
+                wbitForReply = true;
+                brebk;
+            cbse REPLY_QUEUE_SIZE:
                 replyQueueSize = -1;
-                break;
+                brebk;
 
-            // The following properties affect the connection
+            // The following properties bffect the connection
 
-            case Context.SECURITY_PROTOCOL:
+            cbse Context.SECURITY_PROTOCOL:
                 closeConnection(SOFT_CLOSE);
-                // De-activate SSL and reset the context's url and port number
-                if (useSsl && !hasLdapsScheme) {
-                    useSsl = false;
+                // De-bctivbte SSL bnd reset the context's url bnd port number
+                if (useSsl && !hbsLdbpsScheme) {
+                    useSsl = fblse;
                     url = null;
-                    if (useDefaultPortNumber) {
+                    if (useDefbultPortNumber) {
                         port_number = DEFAULT_PORT;
                     }
                 }
-                break;
-            case VERSION:
-            case SOCKET_FACTORY:
+                brebk;
+            cbse VERSION:
+            cbse SOCKET_FACTORY:
                 closeConnection(SOFT_CLOSE);
-                break;
-            case Context.SECURITY_AUTHENTICATION:
-            case Context.SECURITY_PRINCIPAL:
-            case Context.SECURITY_CREDENTIALS:
-                sharable = false;
-                break;
+                brebk;
+            cbse Context.SECURITY_AUTHENTICATION:
+            cbse Context.SECURITY_PRINCIPAL:
+            cbse Context.SECURITY_CREDENTIALS:
+                shbrbble = fblse;
+                brebk;
         }
 
-        // Update environment; reconnection will use new props
-        envprops = (Hashtable<String, Object>)envprops.clone();
-        return envprops.remove(propName);
+        // Updbte environment; reconnection will use new props
+        envprops = (Hbshtbble<String, Object>)envprops.clone();
+        return envprops.remove(propNbme);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Object addToEnvironment(String propName, Object propVal)
-        throws NamingException {
+    @SuppressWbrnings("unchecked") // clone()
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+        throws NbmingException {
 
-            // If adding null, call remove
-            if (propVal == null) {
-                return removeFromEnvironment(propName);
+            // If bdding null, cbll remove
+            if (propVbl == null) {
+                return removeFromEnvironment(propNbme);
             }
-            switch (propName) {
-                case REF_SEPARATOR:
-                    setRefSeparator((String)propVal);
-                    break;
-                case TYPES_ONLY:
-                    setTypesOnly((String)propVal);
-                    break;
-                case DELETE_RDN:
-                    setDeleteRDN((String)propVal);
-                    break;
-                case DEREF_ALIASES:
-                    setDerefAliases((String)propVal);
-                    break;
-                case Context.BATCHSIZE:
-                    setBatchSize((String)propVal);
-                    break;
-                case REFERRAL_LIMIT:
-                    setReferralLimit((String)propVal);
-                    break;
-                case Context.REFERRAL:
-                    setReferralMode((String)propVal, true);
-                    break;
-                case BINARY_ATTRIBUTES:
-                    setBinaryAttributes((String)propVal);
-                    break;
-                case CONNECT_TIMEOUT:
-                    setConnectTimeout((String)propVal);
-                    break;
-                case READ_TIMEOUT:
-                    setReadTimeout((String)propVal);
-                    break;
-                case WAIT_FOR_REPLY:
-                    setWaitForReply((String)propVal);
-                    break;
-                case REPLY_QUEUE_SIZE:
-                    setReplyQueueSize((String)propVal);
-                    break;
+            switch (propNbme) {
+                cbse REF_SEPARATOR:
+                    setRefSepbrbtor((String)propVbl);
+                    brebk;
+                cbse TYPES_ONLY:
+                    setTypesOnly((String)propVbl);
+                    brebk;
+                cbse DELETE_RDN:
+                    setDeleteRDN((String)propVbl);
+                    brebk;
+                cbse DEREF_ALIASES:
+                    setDerefAlibses((String)propVbl);
+                    brebk;
+                cbse Context.BATCHSIZE:
+                    setBbtchSize((String)propVbl);
+                    brebk;
+                cbse REFERRAL_LIMIT:
+                    setReferrblLimit((String)propVbl);
+                    brebk;
+                cbse Context.REFERRAL:
+                    setReferrblMode((String)propVbl, true);
+                    brebk;
+                cbse BINARY_ATTRIBUTES:
+                    setBinbryAttributes((String)propVbl);
+                    brebk;
+                cbse CONNECT_TIMEOUT:
+                    setConnectTimeout((String)propVbl);
+                    brebk;
+                cbse READ_TIMEOUT:
+                    setRebdTimeout((String)propVbl);
+                    brebk;
+                cbse WAIT_FOR_REPLY:
+                    setWbitForReply((String)propVbl);
+                    brebk;
+                cbse REPLY_QUEUE_SIZE:
+                    setReplyQueueSize((String)propVbl);
+                    brebk;
 
-            // The following properties affect the connection
+            // The following properties bffect the connection
 
-                case Context.SECURITY_PROTOCOL:
+                cbse Context.SECURITY_PROTOCOL:
                     closeConnection(SOFT_CLOSE);
-                    // Activate SSL and reset the context's url and port number
-                    if ("ssl".equals(propVal)) {
+                    // Activbte SSL bnd reset the context's url bnd port number
+                    if ("ssl".equbls(propVbl)) {
                         useSsl = true;
                         url = null;
-                        if (useDefaultPortNumber) {
+                        if (useDefbultPortNumber) {
                             port_number = DEFAULT_SSL_PORT;
                         }
                     }
-                    break;
-                case VERSION:
-                case SOCKET_FACTORY:
+                    brebk;
+                cbse VERSION:
+                cbse SOCKET_FACTORY:
                     closeConnection(SOFT_CLOSE);
-                    break;
-                case Context.SECURITY_AUTHENTICATION:
-                case Context.SECURITY_PRINCIPAL:
-                case Context.SECURITY_CREDENTIALS:
-                    sharable = false;
-                    break;
+                    brebk;
+                cbse Context.SECURITY_AUTHENTICATION:
+                cbse Context.SECURITY_PRINCIPAL:
+                cbse Context.SECURITY_CREDENTIALS:
+                    shbrbble = fblse;
+                    brebk;
             }
 
-            // Update environment; reconnection will use new props
+            // Updbte environment; reconnection will use new props
             envprops = (envprops == null
-                ? new Hashtable<String, Object>(5, 0.75f)
-                : (Hashtable<String, Object>)envprops.clone());
-            return envprops.put(propName, propVal);
+                ? new Hbshtbble<String, Object>(5, 0.75f)
+                : (Hbshtbble<String, Object>)envprops.clone());
+            return envprops.put(propNbme, propVbl);
     }
 
     /**
-     * Sets the URL that created the context in the java.naming.provider.url
+     * Sets the URL thbt crebted the context in the jbvb.nbming.provider.url
      * property.
      */
-    void setProviderUrl(String providerUrl) { // called by LdapCtxFactory
+    void setProviderUrl(String providerUrl) { // cblled by LdbpCtxFbctory
         if (envprops != null) {
             envprops.put(Context.PROVIDER_URL, providerUrl);
         }
     }
 
     /**
-     * Sets the domain name for the context in the com.sun.jndi.ldap.domainname
+     * Sets the dombin nbme for the context in the com.sun.jndi.ldbp.dombinnbme
      * property.
-     * Used for hostname verification by Start TLS
+     * Used for hostnbme verificbtion by Stbrt TLS
      */
-    void setDomainName(String domainName) { // called by LdapCtxFactory
+    void setDombinNbme(String dombinNbme) { // cblled by LdbpCtxFbctory
         if (envprops != null) {
-            envprops.put(DOMAIN_NAME, domainName);
+            envprops.put(DOMAIN_NAME, dombinNbme);
         }
     }
 
-    private void initEnv() throws NamingException {
+    privbte void initEnv() throws NbmingException {
         if (envprops == null) {
-            // Make sure that referrals are to their default
-            setReferralMode(null, false);
+            // Mbke sure thbt referrbls bre to their defbult
+            setReferrblMode(null, fblse);
             return;
         }
 
-        // Set batch size
-        setBatchSize((String)envprops.get(Context.BATCHSIZE));
+        // Set bbtch size
+        setBbtchSize((String)envprops.get(Context.BATCHSIZE));
 
-        // Set separator used for encoding RefAddr
-        setRefSeparator((String)envprops.get(REF_SEPARATOR));
+        // Set sepbrbtor used for encoding RefAddr
+        setRefSepbrbtor((String)envprops.get(REF_SEPARATOR));
 
-        // Set whether RDN is removed when renaming object
+        // Set whether RDN is removed when renbming object
         setDeleteRDN((String)envprops.get(DELETE_RDN));
 
-        // Set whether types are returned only
+        // Set whether types bre returned only
         setTypesOnly((String)envprops.get(TYPES_ONLY));
 
-        // Set how aliases are dereferenced
-        setDerefAliases((String)envprops.get(DEREF_ALIASES));
+        // Set how blibses bre dereferenced
+        setDerefAlibses((String)envprops.get(DEREF_ALIASES));
 
-        // Set the limit on referral chains
-        setReferralLimit((String)envprops.get(REFERRAL_LIMIT));
+        // Set the limit on referrbl chbins
+        setReferrblLimit((String)envprops.get(REFERRAL_LIMIT));
 
-        setBinaryAttributes((String)envprops.get(BINARY_ATTRIBUTES));
+        setBinbryAttributes((String)envprops.get(BINARY_ATTRIBUTES));
 
         bindCtls = cloneControls((Control[]) envprops.get(BIND_CONTROLS));
 
-        // set referral handling
-        setReferralMode((String)envprops.get(Context.REFERRAL), false);
+        // set referrbl hbndling
+        setReferrblMode((String)envprops.get(Context.REFERRAL), fblse);
 
         // Set the connect timeout
         setConnectTimeout((String)envprops.get(CONNECT_TIMEOUT));
 
-        // Set the read timeout
-        setReadTimeout((String)envprops.get(READ_TIMEOUT));
+        // Set the rebd timeout
+        setRebdTimeout((String)envprops.get(READ_TIMEOUT));
 
-        // Set the flag that controls whether to block until the first reply
+        // Set the flbg thbt controls whether to block until the first reply
         // is received
-        setWaitForReply((String)envprops.get(WAIT_FOR_REPLY));
+        setWbitForReply((String)envprops.get(WAIT_FOR_REPLY));
 
-        // Set the size of the queue of unprocessed search replies
+        // Set the size of the queue of unprocessed sebrch replies
         setReplyQueueSize((String)envprops.get(REPLY_QUEUE_SIZE));
 
-        // When connection is created, it will use these and other
+        // When connection is crebted, it will use these bnd other
         // properties from the environment
     }
 
-    private void setDeleteRDN(String deleteRDNProp) {
+    privbte void setDeleteRDN(String deleteRDNProp) {
         if ((deleteRDNProp != null) &&
-            (deleteRDNProp.equalsIgnoreCase("false"))) {
-            deleteRDN = false;
+            (deleteRDNProp.equblsIgnoreCbse("fblse"))) {
+            deleteRDN = fblse;
         } else {
             deleteRDN = DEFAULT_DELETE_RDN;
         }
     }
 
-    private void setTypesOnly(String typesOnlyProp) {
+    privbte void setTypesOnly(String typesOnlyProp) {
         if ((typesOnlyProp != null) &&
-            (typesOnlyProp.equalsIgnoreCase("true"))) {
+            (typesOnlyProp.equblsIgnoreCbse("true"))) {
             typesOnly = true;
         } else {
             typesOnly = DEFAULT_TYPES_ONLY;
@@ -2394,128 +2394,128 @@ final public class LdapCtx extends ComponentDirContext
     }
 
     /**
-     * Sets the batch size of this context;
+     * Sets the bbtch size of this context;
      */
-    private void setBatchSize(String batchSizeProp) {
-        // set batchsize
-        if (batchSizeProp != null) {
-            batchSize = Integer.parseInt(batchSizeProp);
+    privbte void setBbtchSize(String bbtchSizeProp) {
+        // set bbtchsize
+        if (bbtchSizeProp != null) {
+            bbtchSize = Integer.pbrseInt(bbtchSizeProp);
         } else {
-            batchSize = DEFAULT_BATCH_SIZE;
+            bbtchSize = DEFAULT_BATCH_SIZE;
         }
     }
 
     /**
-     * Sets the referral mode of this context to 'follow', 'throw' or 'ignore'.
-     * If referral mode is 'ignore' then activate the manageReferral control.
+     * Sets the referrbl mode of this context to 'follow', 'throw' or 'ignore'.
+     * If referrbl mode is 'ignore' then bctivbte the mbnbgeReferrbl control.
      */
-    private void setReferralMode(String ref, boolean update) {
-        // First determine the referral mode
+    privbte void setReferrblMode(String ref, boolebn updbte) {
+        // First determine the referrbl mode
         if (ref != null) {
             switch (ref) {
-                case "follow":
-                    handleReferrals = LdapClient.LDAP_REF_FOLLOW;
-                    break;
-                case "throw":
-                    handleReferrals = LdapClient.LDAP_REF_THROW;
-                    break;
-                case "ignore":
-                    handleReferrals = LdapClient.LDAP_REF_IGNORE;
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                        "Illegal value for " + Context.REFERRAL + " property.");
+                cbse "follow":
+                    hbndleReferrbls = LdbpClient.LDAP_REF_FOLLOW;
+                    brebk;
+                cbse "throw":
+                    hbndleReferrbls = LdbpClient.LDAP_REF_THROW;
+                    brebk;
+                cbse "ignore":
+                    hbndleReferrbls = LdbpClient.LDAP_REF_IGNORE;
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException(
+                        "Illegbl vblue for " + Context.REFERRAL + " property.");
             }
         } else {
-            handleReferrals = DEFAULT_REFERRAL_MODE;
+            hbndleReferrbls = DEFAULT_REFERRAL_MODE;
         }
 
-        if (handleReferrals == LdapClient.LDAP_REF_IGNORE) {
-            // If ignoring referrals, add manageReferralControl
-            reqCtls = addControl(reqCtls, manageReferralControl);
+        if (hbndleReferrbls == LdbpClient.LDAP_REF_IGNORE) {
+            // If ignoring referrbls, bdd mbnbgeReferrblControl
+            reqCtls = bddControl(reqCtls, mbnbgeReferrblControl);
 
-        } else if (update) {
+        } else if (updbte) {
 
-            // If we're update an existing context, remove the control
-            reqCtls = removeControl(reqCtls, manageReferralControl);
+            // If we're updbte bn existing context, remove the control
+            reqCtls = removeControl(reqCtls, mbnbgeReferrblControl);
 
-        } // else, leave alone; need not update
+        } // else, lebve blone; need not updbte
     }
 
     /**
-     * Set whether aliases are dereferenced during resolution and searches.
+     * Set whether blibses bre dereferenced during resolution bnd sebrches.
      */
-    private void setDerefAliases(String deref) {
+    privbte void setDerefAlibses(String deref) {
         if (deref != null) {
             switch (deref) {
-                case "never":
-                    derefAliases = 0; // never de-reference aliases
-                    break;
-                case "searching":
-                    derefAliases = 1; // de-reference aliases during searching
-                    break;
-                case "finding":
-                    derefAliases = 2; // de-reference during name resolution
-                    break;
-                case "always":
-                    derefAliases = 3; // always de-reference aliases
-                    break;
-                default:
-                    throw new IllegalArgumentException("Illegal value for " +
+                cbse "never":
+                    derefAlibses = 0; // never de-reference blibses
+                    brebk;
+                cbse "sebrching":
+                    derefAlibses = 1; // de-reference blibses during sebrching
+                    brebk;
+                cbse "finding":
+                    derefAlibses = 2; // de-reference during nbme resolution
+                    brebk;
+                cbse "blwbys":
+                    derefAlibses = 3; // blwbys de-reference blibses
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException("Illegbl vblue for " +
                         DEREF_ALIASES + " property.");
             }
         } else {
-            derefAliases = DEFAULT_DEREF_ALIASES;
+            derefAlibses = DEFAULT_DEREF_ALIASES;
         }
     }
 
-    private void setRefSeparator(String sepStr) throws NamingException {
+    privbte void setRefSepbrbtor(String sepStr) throws NbmingException {
         if (sepStr != null && sepStr.length() > 0) {
-            addrEncodingSeparator = sepStr.charAt(0);
+            bddrEncodingSepbrbtor = sepStr.chbrAt(0);
         } else {
-            addrEncodingSeparator = DEFAULT_REF_SEPARATOR;
+            bddrEncodingSepbrbtor = DEFAULT_REF_SEPARATOR;
         }
     }
 
     /**
-     * Sets the limit on referral chains
+     * Sets the limit on referrbl chbins
      */
-    private void setReferralLimit(String referralLimitProp) {
-        // set referral limit
-        if (referralLimitProp != null) {
-            referralHopLimit = Integer.parseInt(referralLimitProp);
+    privbte void setReferrblLimit(String referrblLimitProp) {
+        // set referrbl limit
+        if (referrblLimitProp != null) {
+            referrblHopLimit = Integer.pbrseInt(referrblLimitProp);
 
-            // a zero setting indicates no limit
-            if (referralHopLimit == 0)
-                referralHopLimit = Integer.MAX_VALUE;
+            // b zero setting indicbtes no limit
+            if (referrblHopLimit == 0)
+                referrblHopLimit = Integer.MAX_VALUE;
         } else {
-            referralHopLimit = DEFAULT_REFERRAL_LIMIT;
+            referrblHopLimit = DEFAULT_REFERRAL_LIMIT;
         }
     }
 
-    // For counting referral hops
+    // For counting referrbl hops
     void setHopCount(int hopCount) {
         this.hopCount = hopCount;
     }
 
     /**
-     * Sets the connect timeout value
+     * Sets the connect timeout vblue
      */
-    private void setConnectTimeout(String connectTimeoutProp) {
+    privbte void setConnectTimeout(String connectTimeoutProp) {
         if (connectTimeoutProp != null) {
-            connectTimeout = Integer.parseInt(connectTimeoutProp);
+            connectTimeout = Integer.pbrseInt(connectTimeoutProp);
         } else {
             connectTimeout = -1;
         }
     }
 
     /**
-     * Sets the size of the queue of unprocessed search replies
+     * Sets the size of the queue of unprocessed sebrch replies
      */
-    private void setReplyQueueSize(String replyQueueSizeProp) {
+    privbte void setReplyQueueSize(String replyQueueSizeProp) {
         if (replyQueueSizeProp != null) {
-           replyQueueSize = Integer.parseInt(replyQueueSizeProp);
-            // disallow an empty queue
+           replyQueueSize = Integer.pbrseInt(replyQueueSizeProp);
+            // disbllow bn empty queue
             if (replyQueueSize <= 0) {
                 replyQueueSize = -1;    // unlimited
             }
@@ -2525,135 +2525,135 @@ final public class LdapCtx extends ComponentDirContext
     }
 
     /**
-     * Sets the flag that controls whether to block until the first search
+     * Sets the flbg thbt controls whether to block until the first sebrch
      * reply is received
      */
-    private void setWaitForReply(String waitForReplyProp) {
-        if (waitForReplyProp != null &&
-            (waitForReplyProp.equalsIgnoreCase("false"))) {
-            waitForReply = false;
+    privbte void setWbitForReply(String wbitForReplyProp) {
+        if (wbitForReplyProp != null &&
+            (wbitForReplyProp.equblsIgnoreCbse("fblse"))) {
+            wbitForReply = fblse;
         } else {
-            waitForReply = true;
+            wbitForReply = true;
         }
     }
 
     /**
-     * Sets the read timeout value
+     * Sets the rebd timeout vblue
      */
-    private void setReadTimeout(String readTimeoutProp) {
-        if (readTimeoutProp != null) {
-           readTimeout = Integer.parseInt(readTimeoutProp);
+    privbte void setRebdTimeout(String rebdTimeoutProp) {
+        if (rebdTimeoutProp != null) {
+           rebdTimeout = Integer.pbrseInt(rebdTimeoutProp);
         } else {
-            readTimeout = -1;
+            rebdTimeout = -1;
         }
     }
 
     /*
-     * Extract URLs from a string. The format of the string is:
+     * Extrbct URLs from b string. The formbt of the string is:
      *
-     *     <urlstring > ::= "Referral:" <ldapurls>
-     *     <ldapurls>   ::= <separator> <ldapurl> | <ldapurls>
-     *     <separator>  ::= ASCII linefeed character (0x0a)
-     *     <ldapurl>    ::= LDAP URL format (RFC 1959)
+     *     <urlstring > ::= "Referrbl:" <ldbpurls>
+     *     <ldbpurls>   ::= <sepbrbtor> <ldbpurl> | <ldbpurls>
+     *     <sepbrbtor>  ::= ASCII linefeed chbrbcter (0x0b)
+     *     <ldbpurl>    ::= LDAP URL formbt (RFC 1959)
      *
-     * Returns a Vector of single-String Vectors.
+     * Returns b Vector of single-String Vectors.
      */
-    private static Vector<Vector<String>> extractURLs(String refString) {
+    privbte stbtic Vector<Vector<String>> extrbctURLs(String refString) {
 
-        int separator = 0;
+        int sepbrbtor = 0;
         int urlCount = 0;
 
         // count the number of URLs
-        while ((separator = refString.indexOf('\n', separator)) >= 0) {
-            separator++;
+        while ((sepbrbtor = refString.indexOf('\n', sepbrbtor)) >= 0) {
+            sepbrbtor++;
             urlCount++;
         }
 
-        Vector<Vector<String>> referrals = new Vector<>(urlCount);
+        Vector<Vector<String>> referrbls = new Vector<>(urlCount);
         int iURL;
         int i = 0;
 
-        separator = refString.indexOf('\n');
-        iURL = separator + 1;
-        while ((separator = refString.indexOf('\n', iURL)) >= 0) {
-            Vector<String> referral = new Vector<>(1);
-            referral.addElement(refString.substring(iURL, separator));
-            referrals.addElement(referral);
-            iURL = separator + 1;
+        sepbrbtor = refString.indexOf('\n');
+        iURL = sepbrbtor + 1;
+        while ((sepbrbtor = refString.indexOf('\n', iURL)) >= 0) {
+            Vector<String> referrbl = new Vector<>(1);
+            referrbl.bddElement(refString.substring(iURL, sepbrbtor));
+            referrbls.bddElement(referrbl);
+            iURL = sepbrbtor + 1;
         }
-        Vector<String> referral = new Vector<>(1);
-        referral.addElement(refString.substring(iURL));
-        referrals.addElement(referral);
+        Vector<String> referrbl = new Vector<>(1);
+        referrbl.bddElement(refString.substring(iURL));
+        referrbls.bddElement(referrbl);
 
-        return referrals;
+        return referrbls;
     }
 
     /*
-     * Argument is a space-separated list of attribute IDs
-     * Converts attribute IDs to lowercase before adding to built-in list.
+     * Argument is b spbce-sepbrbted list of bttribute IDs
+     * Converts bttribute IDs to lowercbse before bdding to built-in list.
      */
-    private void setBinaryAttributes(String attrIds) {
-        if (attrIds == null) {
-            binaryAttrs = null;
+    privbte void setBinbryAttributes(String bttrIds) {
+        if (bttrIds == null) {
+            binbryAttrs = null;
         } else {
-            binaryAttrs = new Hashtable<>(11, 0.75f);
+            binbryAttrs = new Hbshtbble<>(11, 0.75f);
             StringTokenizer tokens =
-                new StringTokenizer(attrIds.toLowerCase(Locale.ENGLISH), " ");
+                new StringTokenizer(bttrIds.toLowerCbse(Locble.ENGLISH), " ");
 
-            while (tokens.hasMoreTokens()) {
-                binaryAttrs.put(tokens.nextToken(), Boolean.TRUE);
+            while (tokens.hbsMoreTokens()) {
+                binbryAttrs.put(tokens.nextToken(), Boolebn.TRUE);
             }
         }
     }
 
    // ----------------- Connection  ---------------------
 
-    protected void finalize() {
+    protected void finblize() {
         try {
             close();
-        } catch (NamingException e) {
-            // ignore failures
+        } cbtch (NbmingException e) {
+            // ignore fbilures
         }
     }
 
-    synchronized public void close() throws NamingException {
+    synchronized public void close() throws NbmingException {
         if (debug) {
-            System.err.println("LdapCtx: close() called " + this);
-            (new Throwable()).printStackTrace();
+            System.err.println("LdbpCtx: close() cblled " + this);
+            (new Throwbble()).printStbckTrbce();
         }
 
-        // Event (normal and unsolicited)
+        // Event (normbl bnd unsolicited)
         if (eventSupport != null) {
-            eventSupport.cleanup(); // idempotent
+            eventSupport.clebnup(); // idempotent
             removeUnsolicited();
         }
 
-        // Enumerations that are keeping the connection alive
+        // Enumerbtions thbt bre keeping the connection blive
         if (enumCount > 0) {
             if (debug)
-                System.err.println("LdapCtx: close deferred");
+                System.err.println("LdbpCtx: close deferred");
             closeRequested = true;
             return;
         }
         closeConnection(SOFT_CLOSE);
 
-// %%%: RL: There is no need to set these to null, as they're just
-// variables whose contents and references will automatically
-// be cleaned up when they're no longer referenced.
-// Also, setting these to null creates problems for the attribute
-// schema-related methods, which need these to work.
+// %%%: RL: There is no need to set these to null, bs they're just
+// vbribbles whose contents bnd references will butombticblly
+// be clebned up when they're no longer referenced.
+// Also, setting these to null crebtes problems for the bttribute
+// schemb-relbted methods, which need these to work.
 /*
-        schemaTrees = null;
+        schembTrees = null;
         envprops = null;
 */
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public void reconnect(Control[] connCtls) throws NamingException {
-        // Update environment
+    @SuppressWbrnings("unchecked") // clone()
+    public void reconnect(Control[] connCtls) throws NbmingException {
+        // Updbte environment
         envprops = (envprops == null
-                ? new Hashtable<String, Object>(5, 0.75f)
-                : (Hashtable<String, Object>)envprops.clone());
+                ? new Hbshtbble<String, Object>(5, 0.75f)
+                : (Hbshtbble<String, Object>)envprops.clone());
 
         if (connCtls == null) {
             envprops.remove(BIND_CONTROLS);
@@ -2662,372 +2662,372 @@ final public class LdapCtx extends ComponentDirContext
             envprops.put(BIND_CONTROLS, bindCtls = cloneControls(connCtls));
         }
 
-        sharable = false;  // can't share with existing contexts
-        ensureOpen();      // open or reauthenticated
+        shbrbble = fblse;  // cbn't shbre with existing contexts
+        ensureOpen();      // open or rebuthenticbted
     }
 
-    private void ensureOpen() throws NamingException {
-        ensureOpen(false);
+    privbte void ensureOpen() throws NbmingException {
+        ensureOpen(fblse);
     }
 
-    private void ensureOpen(boolean startTLS) throws NamingException {
+    privbte void ensureOpen(boolebn stbrtTLS) throws NbmingException {
 
         try {
             if (clnt == null) {
                 if (debug) {
-                    System.err.println("LdapCtx: Reconnecting " + this);
+                    System.err.println("LdbpCtx: Reconnecting " + this);
                 }
 
-                // reset the cache before a new connection is established
-                schemaTrees = new Hashtable<>(11, 0.75f);
-                connect(startTLS);
+                // reset the cbche before b new connection is estbblished
+                schembTrees = new Hbshtbble<>(11, 0.75f);
+                connect(stbrtTLS);
 
-            } else if (!sharable || startTLS) {
+            } else if (!shbrbble || stbrtTLS) {
 
                 synchronized (clnt) {
-                    if (!clnt.isLdapv3
+                    if (!clnt.isLdbpv3
                         || clnt.referenceCount > 1
-                        || clnt.usingSaslStreams()) {
+                        || clnt.usingSbslStrebms()) {
                         closeConnection(SOFT_CLOSE);
                     }
                 }
-                // reset the cache before a new connection is established
-                schemaTrees = new Hashtable<>(11, 0.75f);
-                connect(startTLS);
+                // reset the cbche before b new connection is estbblished
+                schembTrees = new Hbshtbble<>(11, 0.75f);
+                connect(stbrtTLS);
             }
 
-        } finally {
-            sharable = true;   // connection is now either new or single-use
-                               // OK for others to start sharing again
+        } finblly {
+            shbrbble = true;   // connection is now either new or single-use
+                               // OK for others to stbrt shbring bgbin
         }
     }
 
-    private void connect(boolean startTLS) throws NamingException {
-        if (debug) { System.err.println("LdapCtx: Connecting " + this); }
+    privbte void connect(boolebn stbrtTLS) throws NbmingException {
+        if (debug) { System.err.println("LdbpCtx: Connecting " + this); }
 
-        String user = null;             // authenticating user
-        Object passwd = null;           // password for authenticating user
+        String user = null;             // buthenticbting user
+        Object pbsswd = null;           // pbssword for buthenticbting user
         String secProtocol = null;      // security protocol (e.g. "ssl")
-        String socketFactory = null;    // socket factory
-        String authMechanism = null;    // authentication mechanism
+        String socketFbctory = null;    // socket fbctory
+        String buthMechbnism = null;    // buthenticbtion mechbnism
         String ver = null;
-        int ldapVersion;                // LDAP protocol version
-        boolean usePool = false;        // enable connection pooling
+        int ldbpVersion;                // LDAP protocol version
+        boolebn usePool = fblse;        // enbble connection pooling
 
         if (envprops != null) {
             user = (String)envprops.get(Context.SECURITY_PRINCIPAL);
-            passwd = envprops.get(Context.SECURITY_CREDENTIALS);
+            pbsswd = envprops.get(Context.SECURITY_CREDENTIALS);
             ver = (String)envprops.get(VERSION);
             secProtocol =
                useSsl ? "ssl" : (String)envprops.get(Context.SECURITY_PROTOCOL);
-            socketFactory = (String)envprops.get(SOCKET_FACTORY);
-            authMechanism =
+            socketFbctory = (String)envprops.get(SOCKET_FACTORY);
+            buthMechbnism =
                 (String)envprops.get(Context.SECURITY_AUTHENTICATION);
 
-            usePool = "true".equalsIgnoreCase((String)envprops.get(ENABLE_POOL));
+            usePool = "true".equblsIgnoreCbse((String)envprops.get(ENABLE_POOL));
         }
 
-        if (socketFactory == null) {
-            socketFactory =
-                "ssl".equals(secProtocol) ? DEFAULT_SSL_FACTORY : null;
+        if (socketFbctory == null) {
+            socketFbctory =
+                "ssl".equbls(secProtocol) ? DEFAULT_SSL_FACTORY : null;
         }
 
-        if (authMechanism == null) {
-            authMechanism = (user == null) ? "none" : "simple";
+        if (buthMechbnism == null) {
+            buthMechbnism = (user == null) ? "none" : "simple";
         }
 
         try {
-            boolean initial = (clnt == null);
+            boolebn initibl = (clnt == null);
 
-            if (initial) {
-                ldapVersion = (ver != null) ? Integer.parseInt(ver) :
+            if (initibl) {
+                ldbpVersion = (ver != null) ? Integer.pbrseInt(ver) :
                     DEFAULT_LDAP_VERSION;
 
-                clnt = LdapClient.getInstance(
+                clnt = LdbpClient.getInstbnce(
                     usePool, // Whether to use connection pooling
 
-                    // Required for LdapClient constructor
-                    hostname,
+                    // Required for LdbpClient constructor
+                    hostnbme,
                     port_number,
-                    socketFactory,
+                    socketFbctory,
                     connectTimeout,
-                    readTimeout,
-                    trace,
+                    rebdTimeout,
+                    trbce,
 
-                    // Required for basic client identity
-                    ldapVersion,
-                    authMechanism,
+                    // Required for bbsic client identity
+                    ldbpVersion,
+                    buthMechbnism,
                     bindCtls,
                     secProtocol,
 
                     // Required for simple client identity
                     user,
-                    passwd,
+                    pbsswd,
 
                     // Required for SASL client identity
                     envprops);
 
 
                 /**
-                 * Pooled connections are preauthenticated;
-                 * newly created ones are not.
+                 * Pooled connections bre prebuthenticbted;
+                 * newly crebted ones bre not.
                  */
-                if (clnt.authenticateCalled()) {
+                if (clnt.buthenticbteCblled()) {
                     return;
                 }
 
-            } else if (sharable && startTLS) {
-                return; // no authentication required
+            } else if (shbrbble && stbrtTLS) {
+                return; // no buthenticbtion required
 
             } else {
-                // reauthenticating over existing connection;
+                // rebuthenticbting over existing connection;
                 // only v3 supports this
-                ldapVersion = LdapClient.LDAP_VERSION3;
+                ldbpVersion = LdbpClient.LDAP_VERSION3;
             }
 
-            LdapResult answer = clnt.authenticate(initial,
-                user, passwd, ldapVersion, authMechanism, bindCtls, envprops);
+            LdbpResult bnswer = clnt.buthenticbte(initibl,
+                user, pbsswd, ldbpVersion, buthMechbnism, bindCtls, envprops);
 
-            respCtls = answer.resControls; // retrieve (bind) response controls
+            respCtls = bnswer.resControls; // retrieve (bind) response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                if (initial) {
-                    closeConnection(HARD_CLOSE);  // hard close
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                if (initibl) {
+                    closeConnection(HARD_CLOSE);  // hbrd close
                 }
-                processReturnCode(answer);
+                processReturnCode(bnswer);
             }
 
-        } catch (LdapReferralException e) {
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+        } cbtch (LdbpReferrblException e) {
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw e;
 
-            String referral;
-            LdapURL url;
-            NamingException saved_ex = null;
+            String referrbl;
+            LdbpURL url;
+            NbmingException sbved_ex = null;
 
-            // Process the referrals sequentially (top level) and
-            // recursively (per referral)
+            // Process the referrbls sequentiblly (top level) bnd
+            // recursively (per referrbl)
             while (true) {
 
-                if ((referral = e.getNextReferral()) == null) {
-                    // No more referrals to follow
+                if ((referrbl = e.getNextReferrbl()) == null) {
+                    // No more referrbls to follow
 
-                    if (saved_ex != null) {
-                        throw (NamingException)(saved_ex.fillInStackTrace());
+                    if (sbved_ex != null) {
+                        throw (NbmingException)(sbved_ex.fillInStbckTrbce());
                     } else {
-                        // No saved exception, something must have gone wrong
-                        throw new NamingException(
-                        "Internal error processing referral during connection");
+                        // No sbved exception, something must hbve gone wrong
+                        throw new NbmingException(
+                        "Internbl error processing referrbl during connection");
                     }
                 }
 
-                // Use host/port number from referral
-                url = new LdapURL(referral);
-                hostname = url.getHost();
-                if ((hostname != null) && (hostname.charAt(0) == '[')) {
-                    hostname = hostname.substring(1, hostname.length() - 1);
+                // Use host/port number from referrbl
+                url = new LdbpURL(referrbl);
+                hostnbme = url.getHost();
+                if ((hostnbme != null) && (hostnbme.chbrAt(0) == '[')) {
+                    hostnbme = hostnbme.substring(1, hostnbme.length() - 1);
                 }
                 port_number = url.getPort();
 
-                // Try to connect again using new host/port number
+                // Try to connect bgbin using new host/port number
                 try {
-                    connect(startTLS);
-                    break;
+                    connect(stbrtTLS);
+                    brebk;
 
-                } catch (NamingException ne) {
-                    saved_ex = ne;
-                    continue; // follow another referral
+                } cbtch (NbmingException ne) {
+                    sbved_ex = ne;
+                    continue; // follow bnother referrbl
                 }
             }
         }
     }
 
-    private void closeConnection(boolean hardclose) {
+    privbte void closeConnection(boolebn hbrdclose) {
         removeUnsolicited();            // idempotent
 
         if (clnt != null) {
             if (debug) {
-                System.err.println("LdapCtx: calling clnt.close() " + this);
+                System.err.println("LdbpCtx: cblling clnt.close() " + this);
             }
-            clnt.close(reqCtls, hardclose);
+            clnt.close(reqCtls, hbrdclose);
             clnt = null;
         }
     }
 
-    // Used by Enum classes to track whether it still needs context
-    private int enumCount = 0;
-    private boolean closeRequested = false;
+    // Used by Enum clbsses to trbck whether it still needs context
+    privbte int enumCount = 0;
+    privbte boolebn closeRequested = fblse;
 
     synchronized void incEnumCount() {
         ++enumCount;
-        if (debug) System.err.println("LdapCtx: " + this + " enum inc: " + enumCount);
+        if (debug) System.err.println("LdbpCtx: " + this + " enum inc: " + enumCount);
     }
 
     synchronized void decEnumCount() {
         --enumCount;
-        if (debug) System.err.println("LdapCtx: " + this + " enum dec: " + enumCount);
+        if (debug) System.err.println("LdbpCtx: " + this + " enum dec: " + enumCount);
 
         if (enumCount == 0 && closeRequested) {
             try {
                 close();
-            } catch (NamingException e) {
-                // ignore failures
+            } cbtch (NbmingException e) {
+                // ignore fbilures
             }
         }
     }
 
 
-   // ------------ Return code and Error messages  -----------------------
+   // ------------ Return code bnd Error messbges  -----------------------
 
-    protected void processReturnCode(LdapResult answer) throws NamingException {
-        processReturnCode(answer, null, this, null, envprops, null);
+    protected void processReturnCode(LdbpResult bnswer) throws NbmingException {
+        processReturnCode(bnswer, null, this, null, envprops, null);
     }
 
-    void processReturnCode(LdapResult answer, Name remainName)
-    throws NamingException {
-        processReturnCode(answer,
-                          (new CompositeName()).add(currentDN),
+    void processReturnCode(LdbpResult bnswer, Nbme rembinNbme)
+    throws NbmingException {
+        processReturnCode(bnswer,
+                          (new CompositeNbme()).bdd(currentDN),
                           this,
-                          remainName,
+                          rembinNbme,
                           envprops,
-                          fullyQualifiedName(remainName));
+                          fullyQublifiedNbme(rembinNbme));
     }
 
-    protected void processReturnCode(LdapResult res, Name resolvedName,
-        Object resolvedObj, Name remainName, Hashtable<?,?> envprops, String fullDN)
-    throws NamingException {
+    protected void processReturnCode(LdbpResult res, Nbme resolvedNbme,
+        Object resolvedObj, Nbme rembinNbme, Hbshtbble<?,?> envprops, String fullDN)
+    throws NbmingException {
 
-        String msg = LdapClient.getErrorMessage(res.status, res.errorMessage);
-        NamingException e;
-        LdapReferralException r = null;
+        String msg = LdbpClient.getErrorMessbge(res.stbtus, res.errorMessbge);
+        NbmingException e;
+        LdbpReferrblException r = null;
 
-        switch (res.status) {
+        switch (res.stbtus) {
 
-        case LdapClient.LDAP_SUCCESS:
+        cbse LdbpClient.LDAP_SUCCESS:
 
-            // handle Search continuation references
-            if (res.referrals != null) {
+            // hbndle Sebrch continubtion references
+            if (res.referrbls != null) {
 
-                msg = "Unprocessed Continuation Reference(s)";
+                msg = "Unprocessed Continubtion Reference(s)";
 
-                if (handleReferrals == LdapClient.LDAP_REF_IGNORE) {
-                    e = new PartialResultException(msg);
-                    break;
+                if (hbndleReferrbls == LdbpClient.LDAP_REF_IGNORE) {
+                    e = new PbrtiblResultException(msg);
+                    brebk;
                 }
 
-                // handle multiple sets of URLs
-                int contRefCount = res.referrals.size();
-                LdapReferralException head = null;
-                LdapReferralException ptr = null;
+                // hbndle multiple sets of URLs
+                int contRefCount = res.referrbls.size();
+                LdbpReferrblException hebd = null;
+                LdbpReferrblException ptr = null;
 
-                msg = "Continuation Reference";
+                msg = "Continubtion Reference";
 
-                // make a chain of LdapReferralExceptions
+                // mbke b chbin of LdbpReferrblExceptions
                 for (int i = 0; i < contRefCount; i++) {
 
-                    r = new LdapReferralException(resolvedName, resolvedObj,
-                        remainName, msg, envprops, fullDN, handleReferrals,
+                    r = new LdbpReferrblException(resolvedNbme, resolvedObj,
+                        rembinNbme, msg, envprops, fullDN, hbndleReferrbls,
                         reqCtls);
-                    r.setReferralInfo(res.referrals.elementAt(i), true);
+                    r.setReferrblInfo(res.referrbls.elementAt(i), true);
 
                     if (hopCount > 1) {
                         r.setHopCount(hopCount);
                     }
 
-                    if (head == null) {
-                        head = ptr = r;
+                    if (hebd == null) {
+                        hebd = ptr = r;
                     } else {
-                        ptr.nextReferralEx = r; // append ex. to end of chain
+                        ptr.nextReferrblEx = r; // bppend ex. to end of chbin
                         ptr = r;
                     }
                 }
-                res.referrals = null;  // reset
+                res.referrbls = null;  // reset
 
                 if (res.refEx == null) {
-                    res.refEx = head;
+                    res.refEx = hebd;
 
                 } else {
                     ptr = res.refEx;
 
-                    while (ptr.nextReferralEx != null) {
-                        ptr = ptr.nextReferralEx;
+                    while (ptr.nextReferrblEx != null) {
+                        ptr = ptr.nextReferrblEx;
                     }
-                    ptr.nextReferralEx = head;
+                    ptr.nextReferrblEx = hebd;
                 }
 
                 // check the hop limit
-                if (hopCount > referralHopLimit) {
-                    NamingException lee =
-                        new LimitExceededException("Referral limit exceeded");
-                    lee.setRootCause(r);
+                if (hopCount > referrblHopLimit) {
+                    NbmingException lee =
+                        new LimitExceededException("Referrbl limit exceeded");
+                    lee.setRootCbuse(r);
                     throw lee;
                 }
             }
             return;
 
-        case LdapClient.LDAP_REFERRAL:
+        cbse LdbpClient.LDAP_REFERRAL:
 
-            if (handleReferrals == LdapClient.LDAP_REF_IGNORE) {
-                e = new PartialResultException(msg);
-                break;
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_IGNORE) {
+                e = new PbrtiblResultException(msg);
+                brebk;
             }
 
-            r = new LdapReferralException(resolvedName, resolvedObj, remainName,
-                msg, envprops, fullDN, handleReferrals, reqCtls);
+            r = new LdbpReferrblException(resolvedNbme, resolvedObj, rembinNbme,
+                msg, envprops, fullDN, hbndleReferrbls, reqCtls);
             // only one set of URLs is present
-            r.setReferralInfo(res.referrals.elementAt(0), false);
+            r.setReferrblInfo(res.referrbls.elementAt(0), fblse);
 
             if (hopCount > 1) {
                 r.setHopCount(hopCount);
             }
 
             // check the hop limit
-            if (hopCount > referralHopLimit) {
-                NamingException lee =
-                    new LimitExceededException("Referral limit exceeded");
-                lee.setRootCause(r);
+            if (hopCount > referrblHopLimit) {
+                NbmingException lee =
+                    new LimitExceededException("Referrbl limit exceeded");
+                lee.setRootCbuse(r);
                 e = lee;
 
             } else {
                 e = r;
             }
-            break;
+            brebk;
 
         /*
-         * Handle SLAPD-style referrals.
+         * Hbndle SLAPD-style referrbls.
          *
-         * Referrals received during name resolution should be followed
-         * until one succeeds - the target entry is located. An exception
-         * is thrown now to handle these.
+         * Referrbls received during nbme resolution should be followed
+         * until one succeeds - the tbrget entry is locbted. An exception
+         * is thrown now to hbndle these.
          *
-         * Referrals received during a search operation point to unexplored
-         * parts of the directory and each should be followed. An exception
-         * is thrown later (during results enumeration) to handle these.
+         * Referrbls received during b sebrch operbtion point to unexplored
+         * pbrts of the directory bnd ebch should be followed. An exception
+         * is thrown lbter (during results enumerbtion) to hbndle these.
          */
 
-        case LdapClient.LDAP_PARTIAL_RESULTS:
+        cbse LdbpClient.LDAP_PARTIAL_RESULTS:
 
-            if (handleReferrals == LdapClient.LDAP_REF_IGNORE) {
-                e = new PartialResultException(msg);
-                break;
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_IGNORE) {
+                e = new PbrtiblResultException(msg);
+                brebk;
             }
 
-            // extract SLAPD-style referrals from errorMessage
-            if ((res.errorMessage != null) && (!res.errorMessage.equals(""))) {
-                res.referrals = extractURLs(res.errorMessage);
+            // extrbct SLAPD-style referrbls from errorMessbge
+            if ((res.errorMessbge != null) && (!res.errorMessbge.equbls(""))) {
+                res.referrbls = extrbctURLs(res.errorMessbge);
             } else {
-                e = new PartialResultException(msg);
-                break;
+                e = new PbrtiblResultException(msg);
+                brebk;
             }
 
             // build exception
-            r = new LdapReferralException(resolvedName,
+            r = new LdbpReferrblException(resolvedNbme,
                 resolvedObj,
-                remainName,
+                rembinNbme,
                 msg,
                 envprops,
                 fullDN,
-                handleReferrals,
+                hbndleReferrbls,
                 reqCtls);
 
             if (hopCount > 1) {
@@ -3035,24 +3035,24 @@ final public class LdapCtx extends ComponentDirContext
             }
             /*
              * %%%
-             * SLAPD-style referrals received during name resolution
-             * cannot be distinguished from those received during a
-             * search operation. Since both must be handled differently
-             * the following rule is applied:
+             * SLAPD-style referrbls received during nbme resolution
+             * cbnnot be distinguished from those received during b
+             * sebrch operbtion. Since both must be hbndled differently
+             * the following rule is bpplied:
              *
-             *     If 1 referral and 0 entries is received then
-             *     assume name resolution has not yet completed.
+             *     If 1 referrbl bnd 0 entries is received then
+             *     bssume nbme resolution hbs not yet completed.
              */
             if (((res.entries == null) || (res.entries.isEmpty())) &&
-                (res.referrals.size() == 1)) {
+                (res.referrbls.size() == 1)) {
 
-                r.setReferralInfo(res.referrals, false);
+                r.setReferrblInfo(res.referrbls, fblse);
 
                 // check the hop limit
-                if (hopCount > referralHopLimit) {
-                    NamingException lee =
-                        new LimitExceededException("Referral limit exceeded");
-                    lee.setRootCause(r);
+                if (hopCount > referrblHopLimit) {
+                    NbmingException lee =
+                        new LimitExceededException("Referrbl limit exceeded");
+                    lee.setRootCbuse(r);
                     e = lee;
 
                 } else {
@@ -3060,281 +3060,281 @@ final public class LdapCtx extends ComponentDirContext
                 }
 
             } else {
-                r.setReferralInfo(res.referrals, true);
+                r.setReferrblInfo(res.referrbls, true);
                 res.refEx = r;
                 return;
             }
-            break;
+            brebk;
 
-        case LdapClient.LDAP_INVALID_DN_SYNTAX:
-        case LdapClient.LDAP_NAMING_VIOLATION:
+        cbse LdbpClient.LDAP_INVALID_DN_SYNTAX:
+        cbse LdbpClient.LDAP_NAMING_VIOLATION:
 
-            if (remainName != null) {
+            if (rembinNbme != null) {
                 e = new
-                    InvalidNameException(remainName.toString() + ": " + msg);
+                    InvblidNbmeException(rembinNbme.toString() + ": " + msg);
             } else {
-                e = new InvalidNameException(msg);
+                e = new InvblidNbmeException(msg);
             }
-            break;
+            brebk;
 
-        default:
-            e = mapErrorCode(res.status, res.errorMessage);
-            break;
+        defbult:
+            e = mbpErrorCode(res.stbtus, res.errorMessbge);
+            brebk;
         }
-        e.setResolvedName(resolvedName);
+        e.setResolvedNbme(resolvedNbme);
         e.setResolvedObj(resolvedObj);
-        e.setRemainingName(remainName);
+        e.setRembiningNbme(rembinNbme);
         throw e;
     }
 
     /**
-     * Maps an LDAP error code to an appropriate NamingException.
+     * Mbps bn LDAP error code to bn bppropribte NbmingException.
      * %%% public; used by controls
      *
-     * @param errorCode numeric LDAP error code
-     * @param errorMessage textual description of the LDAP error. May be null.
+     * @pbrbm errorCode numeric LDAP error code
+     * @pbrbm errorMessbge textubl description of the LDAP error. Mby be null.
      *
-     * @return A NamingException or null if the error code indicates success.
+     * @return A NbmingException or null if the error code indicbtes success.
      */
-    public static NamingException mapErrorCode(int errorCode,
-        String errorMessage) {
+    public stbtic NbmingException mbpErrorCode(int errorCode,
+        String errorMessbge) {
 
-        if (errorCode == LdapClient.LDAP_SUCCESS)
+        if (errorCode == LdbpClient.LDAP_SUCCESS)
             return null;
 
-        NamingException e = null;
-        String message = LdapClient.getErrorMessage(errorCode, errorMessage);
+        NbmingException e = null;
+        String messbge = LdbpClient.getErrorMessbge(errorCode, errorMessbge);
 
         switch (errorCode) {
 
-        case LdapClient.LDAP_ALIAS_DEREFERENCING_PROBLEM:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_ALIAS_DEREFERENCING_PROBLEM:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_ALIAS_PROBLEM:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_ALIAS_PROBLEM:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_ATTRIBUTE_OR_VALUE_EXISTS:
-            e = new AttributeInUseException(message);
-            break;
+        cbse LdbpClient.LDAP_ATTRIBUTE_OR_VALUE_EXISTS:
+            e = new AttributeInUseException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_AUTH_METHOD_NOT_SUPPORTED:
-        case LdapClient.LDAP_CONFIDENTIALITY_REQUIRED:
-        case LdapClient.LDAP_STRONG_AUTH_REQUIRED:
-        case LdapClient.LDAP_INAPPROPRIATE_AUTHENTICATION:
-            e = new AuthenticationNotSupportedException(message);
-            break;
+        cbse LdbpClient.LDAP_AUTH_METHOD_NOT_SUPPORTED:
+        cbse LdbpClient.LDAP_CONFIDENTIALITY_REQUIRED:
+        cbse LdbpClient.LDAP_STRONG_AUTH_REQUIRED:
+        cbse LdbpClient.LDAP_INAPPROPRIATE_AUTHENTICATION:
+            e = new AuthenticbtionNotSupportedException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_ENTRY_ALREADY_EXISTS:
-            e = new NameAlreadyBoundException(message);
-            break;
+        cbse LdbpClient.LDAP_ENTRY_ALREADY_EXISTS:
+            e = new NbmeAlrebdyBoundException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_INVALID_CREDENTIALS:
-        case LdapClient.LDAP_SASL_BIND_IN_PROGRESS:
-            e = new AuthenticationException(message);
-            break;
+        cbse LdbpClient.LDAP_INVALID_CREDENTIALS:
+        cbse LdbpClient.LDAP_SASL_BIND_IN_PROGRESS:
+            e = new AuthenticbtionException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_INAPPROPRIATE_MATCHING:
-            e = new InvalidSearchFilterException(message);
-            break;
+        cbse LdbpClient.LDAP_INAPPROPRIATE_MATCHING:
+            e = new InvblidSebrchFilterException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_INSUFFICIENT_ACCESS_RIGHTS:
-            e = new NoPermissionException(message);
-            break;
+        cbse LdbpClient.LDAP_INSUFFICIENT_ACCESS_RIGHTS:
+            e = new NoPermissionException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_INVALID_ATTRIBUTE_SYNTAX:
-        case LdapClient.LDAP_CONSTRAINT_VIOLATION:
-            e =  new InvalidAttributeValueException(message);
-            break;
+        cbse LdbpClient.LDAP_INVALID_ATTRIBUTE_SYNTAX:
+        cbse LdbpClient.LDAP_CONSTRAINT_VIOLATION:
+            e =  new InvblidAttributeVblueException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_LOOP_DETECT:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_LOOP_DETECT:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_NO_SUCH_ATTRIBUTE:
-            e = new NoSuchAttributeException(message);
-            break;
+        cbse LdbpClient.LDAP_NO_SUCH_ATTRIBUTE:
+            e = new NoSuchAttributeException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_NO_SUCH_OBJECT:
-            e = new NameNotFoundException(message);
-            break;
+        cbse LdbpClient.LDAP_NO_SUCH_OBJECT:
+            e = new NbmeNotFoundException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_OBJECT_CLASS_MODS_PROHIBITED:
-        case LdapClient.LDAP_OBJECT_CLASS_VIOLATION:
-        case LdapClient.LDAP_NOT_ALLOWED_ON_RDN:
-            e = new SchemaViolationException(message);
-            break;
+        cbse LdbpClient.LDAP_OBJECT_CLASS_MODS_PROHIBITED:
+        cbse LdbpClient.LDAP_OBJECT_CLASS_VIOLATION:
+        cbse LdbpClient.LDAP_NOT_ALLOWED_ON_RDN:
+            e = new SchembViolbtionException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_NOT_ALLOWED_ON_NON_LEAF:
-            e = new ContextNotEmptyException(message);
-            break;
+        cbse LdbpClient.LDAP_NOT_ALLOWED_ON_NON_LEAF:
+            e = new ContextNotEmptyException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_OPERATIONS_ERROR:
+        cbse LdbpClient.LDAP_OPERATIONS_ERROR:
             // %%% need new exception ?
-            e = new NamingException(message);
-            break;
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_OTHER:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_OTHER:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_PROTOCOL_ERROR:
-            e = new CommunicationException(message);
-            break;
+        cbse LdbpClient.LDAP_PROTOCOL_ERROR:
+            e = new CommunicbtionException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_SIZE_LIMIT_EXCEEDED:
-            e = new SizeLimitExceededException(message);
-            break;
+        cbse LdbpClient.LDAP_SIZE_LIMIT_EXCEEDED:
+            e = new SizeLimitExceededException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_TIME_LIMIT_EXCEEDED:
-            e = new TimeLimitExceededException(message);
-            break;
+        cbse LdbpClient.LDAP_TIME_LIMIT_EXCEEDED:
+            e = new TimeLimitExceededException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_UNAVAILABLE_CRITICAL_EXTENSION:
-            e = new OperationNotSupportedException(message);
-            break;
+        cbse LdbpClient.LDAP_UNAVAILABLE_CRITICAL_EXTENSION:
+            e = new OperbtionNotSupportedException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_UNAVAILABLE:
-        case LdapClient.LDAP_BUSY:
-            e = new ServiceUnavailableException(message);
-            break;
+        cbse LdbpClient.LDAP_UNAVAILABLE:
+        cbse LdbpClient.LDAP_BUSY:
+            e = new ServiceUnbvbilbbleException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_UNDEFINED_ATTRIBUTE_TYPE:
-            e = new InvalidAttributeIdentifierException(message);
-            break;
+        cbse LdbpClient.LDAP_UNDEFINED_ATTRIBUTE_TYPE:
+            e = new InvblidAttributeIdentifierException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_UNWILLING_TO_PERFORM:
-            e = new OperationNotSupportedException(message);
-            break;
+        cbse LdbpClient.LDAP_UNWILLING_TO_PERFORM:
+            e = new OperbtionNotSupportedException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_COMPARE_FALSE:
-        case LdapClient.LDAP_COMPARE_TRUE:
-        case LdapClient.LDAP_IS_LEAF:
-            // these are really not exceptions and this code probably
+        cbse LdbpClient.LDAP_COMPARE_FALSE:
+        cbse LdbpClient.LDAP_COMPARE_TRUE:
+        cbse LdbpClient.LDAP_IS_LEAF:
+            // these bre reblly not exceptions bnd this code probbbly
             // never gets executed
-            e = new NamingException(message);
-            break;
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_ADMIN_LIMIT_EXCEEDED:
-            e = new LimitExceededException(message);
-            break;
+        cbse LdbpClient.LDAP_ADMIN_LIMIT_EXCEEDED:
+            e = new LimitExceededException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_REFERRAL:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_REFERRAL:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_PARTIAL_RESULTS:
-            e = new NamingException(message);
-            break;
+        cbse LdbpClient.LDAP_PARTIAL_RESULTS:
+            e = new NbmingException(messbge);
+            brebk;
 
-        case LdapClient.LDAP_INVALID_DN_SYNTAX:
-        case LdapClient.LDAP_NAMING_VIOLATION:
-            e = new InvalidNameException(message);
-            break;
+        cbse LdbpClient.LDAP_INVALID_DN_SYNTAX:
+        cbse LdbpClient.LDAP_NAMING_VIOLATION:
+            e = new InvblidNbmeException(messbge);
+            brebk;
 
-        default:
-            e = new NamingException(message);
-            break;
+        defbult:
+            e = new NbmingException(messbge);
+            brebk;
         }
 
         return e;
     }
 
-    // ----------------- Extensions and Controls -------------------
+    // ----------------- Extensions bnd Controls -------------------
 
-    public ExtendedResponse extendedOperation(ExtendedRequest request)
-        throws NamingException {
+    public ExtendedResponse extendedOperbtion(ExtendedRequest request)
+        throws NbmingException {
 
-        boolean startTLS = (request.getID().equals(STARTTLS_REQ_OID));
-        ensureOpen(startTLS);
+        boolebn stbrtTLS = (request.getID().equbls(STARTTLS_REQ_OID));
+        ensureOpen(stbrtTLS);
 
         try {
 
-            LdapResult answer =
-                clnt.extendedOp(request.getID(), request.getEncodedValue(),
-                                reqCtls, startTLS);
-            respCtls = answer.resControls; // retrieve response controls
+            LdbpResult bnswer =
+                clnt.extendedOp(request.getID(), request.getEncodedVblue(),
+                                reqCtls, stbrtTLS);
+            respCtls = bnswer.resControls; // retrieve response controls
 
-            if (answer.status != LdapClient.LDAP_SUCCESS) {
-                processReturnCode(answer, new CompositeName());
+            if (bnswer.stbtus != LdbpClient.LDAP_SUCCESS) {
+                processReturnCode(bnswer, new CompositeNbme());
             }
-            // %%% verify request.getID() == answer.extensionId
+            // %%% verify request.getID() == bnswer.extensionId
 
-            int len = (answer.extensionValue == null) ?
+            int len = (bnswer.extensionVblue == null) ?
                         0 :
-                        answer.extensionValue.length;
+                        bnswer.extensionVblue.length;
 
             ExtendedResponse er =
-                request.createExtendedResponse(answer.extensionId,
-                    answer.extensionValue, 0, len);
+                request.crebteExtendedResponse(bnswer.extensionId,
+                    bnswer.extensionVblue, 0, len);
 
-            if (er instanceof StartTlsResponseImpl) {
-                // Pass the connection handle to StartTlsResponseImpl
-                String domainName = (String)
+            if (er instbnceof StbrtTlsResponseImpl) {
+                // Pbss the connection hbndle to StbrtTlsResponseImpl
+                String dombinNbme = (String)
                     (envprops != null ? envprops.get(DOMAIN_NAME) : null);
-                ((StartTlsResponseImpl)er).setConnection(clnt.conn, domainName);
+                ((StbrtTlsResponseImpl)er).setConnection(clnt.conn, dombinNbme);
             }
             return er;
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            if (handleReferrals == LdapClient.LDAP_REF_THROW)
+            if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW)
                 throw e;
 
-            // process the referrals sequentially
+            // process the referrbls sequentiblly
             while (true) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)e.getReferralContext(envprops, bindCtls);
+                LdbpReferrblContext refCtx =
+                    (LdbpReferrblContext)e.getReferrblContext(envprops, bindCtls);
 
-                // repeat the original operation at the new context
+                // repebt the originbl operbtion bt the new context
                 try {
 
-                    return refCtx.extendedOperation(request);
+                    return refCtx.extendedOperbtion(request);
 
-                } catch (LdapReferralException re) {
+                } cbtch (LdbpReferrblException re) {
                     e = re;
                     continue;
 
-                } finally {
-                    // Make sure we close referral context
+                } finblly {
+                    // Mbke sure we close referrbl context
                     refCtx.close();
                 }
             }
 
-        } catch (IOException e) {
-            NamingException e2 = new CommunicationException(e.getMessage());
-            e2.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException e2 = new CommunicbtionException(e.getMessbge());
+            e2.setRootCbuse(e);
             throw e2;
         }
     }
 
-    public void setRequestControls(Control[] reqCtls) throws NamingException {
-        if (handleReferrals == LdapClient.LDAP_REF_IGNORE) {
-            this.reqCtls = addControl(reqCtls, manageReferralControl);
+    public void setRequestControls(Control[] reqCtls) throws NbmingException {
+        if (hbndleReferrbls == LdbpClient.LDAP_REF_IGNORE) {
+            this.reqCtls = bddControl(reqCtls, mbnbgeReferrblControl);
         } else {
             this.reqCtls = cloneControls(reqCtls);
         }
     }
 
-    public Control[] getRequestControls() throws NamingException {
+    public Control[] getRequestControls() throws NbmingException {
         return cloneControls(reqCtls);
     }
 
-    public Control[] getConnectControls() throws NamingException {
+    public Control[] getConnectControls() throws NbmingException {
         return cloneControls(bindCtls);
     }
 
-    public Control[] getResponseControls() throws NamingException {
+    public Control[] getResponseControls() throws NbmingException {
         return (respCtls != null)? convertControls(respCtls) : null;
     }
 
     /**
-     * Narrow controls using own default factory and ControlFactory.
-     * @param ctls A non-null Vector<Control>
+     * Nbrrow controls using own defbult fbctory bnd ControlFbctory.
+     * @pbrbm ctls A non-null Vector<Control>
      */
-    Control[] convertControls(Vector<Control> ctls) throws NamingException {
+    Control[] convertControls(Vector<Control> ctls) throws NbmingException {
         int count = ctls.size();
 
         if (count == 0) {
@@ -3344,244 +3344,244 @@ final public class LdapCtx extends ComponentDirContext
         Control[] controls = new Control[count];
 
         for (int i = 0; i < count; i++) {
-            // Try own factory first
-            controls[i] = myResponseControlFactory.getControlInstance(
+            // Try own fbctory first
+            controls[i] = myResponseControlFbctory.getControlInstbnce(
                 ctls.elementAt(i));
 
-            // Try assigned factories if own produced null
+            // Try bssigned fbctories if own produced null
             if (controls[i] == null) {
-                controls[i] = ControlFactory.getControlInstance(
+                controls[i] = ControlFbctory.getControlInstbnce(
                 ctls.elementAt(i), this, envprops);
             }
         }
         return controls;
     }
 
-    private static Control[] addControl(Control[] prevCtls, Control addition) {
+    privbte stbtic Control[] bddControl(Control[] prevCtls, Control bddition) {
         if (prevCtls == null) {
-            return new Control[]{addition};
+            return new Control[]{bddition};
         }
 
         // Find it
-        int found = findControl(prevCtls, addition);
+        int found = findControl(prevCtls, bddition);
         if (found != -1) {
-            return prevCtls;  // no need to do it again
+            return prevCtls;  // no need to do it bgbin
         }
 
         Control[] newCtls = new Control[prevCtls.length+1];
-        System.arraycopy(prevCtls, 0, newCtls, 0, prevCtls.length);
-        newCtls[prevCtls.length] = addition;
+        System.brrbycopy(prevCtls, 0, newCtls, 0, prevCtls.length);
+        newCtls[prevCtls.length] = bddition;
         return newCtls;
     }
 
-    private static int findControl(Control[] ctls, Control target) {
+    privbte stbtic int findControl(Control[] ctls, Control tbrget) {
         for (int i = 0; i < ctls.length; i++) {
-            if (ctls[i] == target) {
+            if (ctls[i] == tbrget) {
                 return i;
             }
         }
         return -1;
     }
 
-    private static Control[] removeControl(Control[] prevCtls, Control target) {
+    privbte stbtic Control[] removeControl(Control[] prevCtls, Control tbrget) {
         if (prevCtls == null) {
             return null;
         }
 
         // Find it
-        int found = findControl(prevCtls, target);
+        int found = findControl(prevCtls, tbrget);
         if (found == -1) {
             return prevCtls;  // not there
         }
 
         // Remove it
         Control[] newCtls = new Control[prevCtls.length-1];
-        System.arraycopy(prevCtls, 0, newCtls, 0, found);
-        System.arraycopy(prevCtls, found+1, newCtls, found,
+        System.brrbycopy(prevCtls, 0, newCtls, 0, found);
+        System.brrbycopy(prevCtls, found+1, newCtls, found,
             prevCtls.length-found-1);
         return newCtls;
     }
 
-    private static Control[] cloneControls(Control[] ctls) {
+    privbte stbtic Control[] cloneControls(Control[] ctls) {
         if (ctls == null) {
             return null;
         }
         Control[] copiedCtls = new Control[ctls.length];
-        System.arraycopy(ctls, 0, copiedCtls, 0, ctls.length);
+        System.brrbycopy(ctls, 0, copiedCtls, 0, ctls.length);
         return copiedCtls;
     }
 
     // -------------------- Events ------------------------
     /*
      * Access to eventSupport need not be synchronized even though the
-     * Connection thread can access it asynchronously. It is
-     * impossible for a race condition to occur because
-     * eventSupport.addNamingListener() must have been called before
-     * the Connection thread can call back to this ctx.
+     * Connection threbd cbn bccess it bsynchronously. It is
+     * impossible for b rbce condition to occur becbuse
+     * eventSupport.bddNbmingListener() must hbve been cblled before
+     * the Connection threbd cbn cbll bbck to this ctx.
      */
-    public void addNamingListener(Name nm, int scope, NamingListener l)
-        throws NamingException {
-            addNamingListener(getTargetName(nm), scope, l);
+    public void bddNbmingListener(Nbme nm, int scope, NbmingListener l)
+        throws NbmingException {
+            bddNbmingListener(getTbrgetNbme(nm), scope, l);
     }
 
-    public void addNamingListener(String nm, int scope, NamingListener l)
-        throws NamingException {
+    public void bddNbmingListener(String nm, int scope, NbmingListener l)
+        throws NbmingException {
             if (eventSupport == null)
                 eventSupport = new EventSupport(this);
-            eventSupport.addNamingListener(getTargetName(new CompositeName(nm)),
+            eventSupport.bddNbmingListener(getTbrgetNbme(new CompositeNbme(nm)),
                 scope, l);
 
-            // If first time asking for unsol
-            if (l instanceof UnsolicitedNotificationListener && !unsolicited) {
-                addUnsolicited();
+            // If first time bsking for unsol
+            if (l instbnceof UnsolicitedNotificbtionListener && !unsolicited) {
+                bddUnsolicited();
             }
     }
 
-    public void removeNamingListener(NamingListener l) throws NamingException {
+    public void removeNbmingListener(NbmingListener l) throws NbmingException {
         if (eventSupport == null)
-            return; // no activity before, so just return
+            return; // no bctivity before, so just return
 
-        eventSupport.removeNamingListener(l);
+        eventSupport.removeNbmingListener(l);
 
-        // If removing an Unsol listener and it is the last one, let clnt know
-        if (l instanceof UnsolicitedNotificationListener &&
-            !eventSupport.hasUnsolicited()) {
+        // If removing bn Unsol listener bnd it is the lbst one, let clnt know
+        if (l instbnceof UnsolicitedNotificbtionListener &&
+            !eventSupport.hbsUnsolicited()) {
             removeUnsolicited();
         }
     }
 
-    public void addNamingListener(String nm, String filter, SearchControls ctls,
-        NamingListener l) throws NamingException {
+    public void bddNbmingListener(String nm, String filter, SebrchControls ctls,
+        NbmingListener l) throws NbmingException {
             if (eventSupport == null)
                 eventSupport = new EventSupport(this);
-            eventSupport.addNamingListener(getTargetName(new CompositeName(nm)),
-                filter, cloneSearchControls(ctls), l);
+            eventSupport.bddNbmingListener(getTbrgetNbme(new CompositeNbme(nm)),
+                filter, cloneSebrchControls(ctls), l);
 
-            // If first time asking for unsol
-            if (l instanceof UnsolicitedNotificationListener && !unsolicited) {
-                addUnsolicited();
+            // If first time bsking for unsol
+            if (l instbnceof UnsolicitedNotificbtionListener && !unsolicited) {
+                bddUnsolicited();
             }
     }
 
-    public void addNamingListener(Name nm, String filter, SearchControls ctls,
-        NamingListener l) throws NamingException {
-            addNamingListener(getTargetName(nm), filter, ctls, l);
+    public void bddNbmingListener(Nbme nm, String filter, SebrchControls ctls,
+        NbmingListener l) throws NbmingException {
+            bddNbmingListener(getTbrgetNbme(nm), filter, ctls, l);
     }
 
-    public void addNamingListener(Name nm, String filter, Object[] filterArgs,
-        SearchControls ctls, NamingListener l) throws NamingException {
-            addNamingListener(getTargetName(nm), filter, filterArgs, ctls, l);
+    public void bddNbmingListener(Nbme nm, String filter, Object[] filterArgs,
+        SebrchControls ctls, NbmingListener l) throws NbmingException {
+            bddNbmingListener(getTbrgetNbme(nm), filter, filterArgs, ctls, l);
     }
 
-    public void addNamingListener(String nm, String filterExpr, Object[] filterArgs,
-        SearchControls ctls, NamingListener l) throws NamingException {
-        String strfilter = SearchFilter.format(filterExpr, filterArgs);
-        addNamingListener(getTargetName(new CompositeName(nm)), strfilter, ctls, l);
+    public void bddNbmingListener(String nm, String filterExpr, Object[] filterArgs,
+        SebrchControls ctls, NbmingListener l) throws NbmingException {
+        String strfilter = SebrchFilter.formbt(filterExpr, filterArgs);
+        bddNbmingListener(getTbrgetNbme(new CompositeNbme(nm)), strfilter, ctls, l);
     }
 
-    public boolean targetMustExist() {
+    public boolebn tbrgetMustExist() {
         return true;
     }
 
     /**
-     * Retrieves the target name for which the listener is registering.
-     * If nm is a CompositeName, use its first and only component. It
-     * cannot have more than one components because a target be outside of
-     * this namespace. If nm is not a CompositeName, then treat it as a
-     * compound name.
-     * @param nm The non-null target name.
+     * Retrieves the tbrget nbme for which the listener is registering.
+     * If nm is b CompositeNbme, use its first bnd only component. It
+     * cbnnot hbve more thbn one components becbuse b tbrget be outside of
+     * this nbmespbce. If nm is not b CompositeNbme, then trebt it bs b
+     * compound nbme.
+     * @pbrbm nm The non-null tbrget nbme.
      */
-    private static String getTargetName(Name nm) throws NamingException {
-        if (nm instanceof CompositeName) {
+    privbte stbtic String getTbrgetNbme(Nbme nm) throws NbmingException {
+        if (nm instbnceof CompositeNbme) {
             if (nm.size() > 1) {
-                throw new InvalidNameException(
-                    "Target cannot span multiple namespaces: " + nm);
+                throw new InvblidNbmeException(
+                    "Tbrget cbnnot spbn multiple nbmespbces: " + nm);
             } else if (nm.isEmpty()) {
                 return "";
             } else {
                 return nm.get(0);
             }
         } else {
-            // treat as compound name
+            // trebt bs compound nbme
             return nm.toString();
         }
     }
 
-    // ------------------ Unsolicited Notification ---------------
-    // package private methods for handling unsolicited notification
+    // ------------------ Unsolicited Notificbtion ---------------
+    // pbckbge privbte methods for hbndling unsolicited notificbtion
 
     /**
-     * Registers this context with the underlying LdapClient.
-     * When the underlying LdapClient receives an unsolicited notification,
-     * it will invoke LdapCtx.fireUnsolicited() so that this context
-     * can (using EventSupport) notified any registered listeners.
-     * This method is called by EventSupport when an unsolicited listener
-     * first registers with this context (should be called just once).
+     * Registers this context with the underlying LdbpClient.
+     * When the underlying LdbpClient receives bn unsolicited notificbtion,
+     * it will invoke LdbpCtx.fireUnsolicited() so thbt this context
+     * cbn (using EventSupport) notified bny registered listeners.
+     * This method is cblled by EventSupport when bn unsolicited listener
+     * first registers with this context (should be cblled just once).
      * @see #removeUnsolicited
      * @see #fireUnsolicited
      */
-    private void addUnsolicited() throws NamingException {
+    privbte void bddUnsolicited() throws NbmingException {
         if (debug) {
-            System.out.println("LdapCtx.addUnsolicited: " + this);
+            System.out.println("LdbpCtx.bddUnsolicited: " + this);
         }
 
-        // addNamingListener must have created EventSupport already
+        // bddNbmingListener must hbve crebted EventSupport blrebdy
         ensureOpen();
         synchronized (eventSupport) {
-            clnt.addUnsolicited(this);
+            clnt.bddUnsolicited(this);
             unsolicited = true;
         }
     }
 
     /**
      * Removes this context from registering interest in unsolicited
-     * notifications from the underlying LdapClient. This method is called
-     * under any one of the following conditions:
+     * notificbtions from the underlying LdbpClient. This method is cblled
+     * under bny one of the following conditions:
      * <ul>
-     * <li>All unsolicited listeners have been removed. (see removingNamingListener)
+     * <li>All unsolicited listeners hbve been removed. (see removingNbmingListener)
      * <li>This context is closed.
-     * <li>This context's underlying LdapClient changes.
+     * <li>This context's underlying LdbpClient chbnges.
      *</ul>
-     * After this method has been called, this context will not pass
-     * on any events related to unsolicited notifications to EventSupport and
-     * and its listeners.
+     * After this method hbs been cblled, this context will not pbss
+     * on bny events relbted to unsolicited notificbtions to EventSupport bnd
+     * bnd its listeners.
      */
 
-    private void removeUnsolicited() {
+    privbte void removeUnsolicited() {
         if (debug) {
-            System.out.println("LdapCtx.removeUnsolicited: " + unsolicited);
+            System.out.println("LdbpCtx.removeUnsolicited: " + unsolicited);
         }
         if (eventSupport == null) {
             return;
         }
 
-        // addNamingListener must have created EventSupport already
+        // bddNbmingListener must hbve crebted EventSupport blrebdy
         synchronized(eventSupport) {
             if (unsolicited && clnt != null) {
                 clnt.removeUnsolicited(this);
             }
-            unsolicited = false;
+            unsolicited = fblse;
         }
     }
 
     /**
-     * Uses EventSupport to fire an event related to an unsolicited notification.
-     * Called by LdapClient when LdapClient receives an unsolicited notification.
+     * Uses EventSupport to fire bn event relbted to bn unsolicited notificbtion.
+     * Cblled by LdbpClient when LdbpClient receives bn unsolicited notificbtion.
      */
     void fireUnsolicited(Object obj) {
         if (debug) {
-            System.out.println("LdapCtx.fireUnsolicited: " + obj);
+            System.out.println("LdbpCtx.fireUnsolicited: " + obj);
         }
-        // addNamingListener must have created EventSupport already
+        // bddNbmingListener must hbve crebted EventSupport blrebdy
         synchronized(eventSupport) {
             if (unsolicited) {
                 eventSupport.fireUnsolicited(obj);
 
-                if (obj instanceof NamingException) {
-                    unsolicited = false;
-                    // No need to notify clnt because clnt is the
-                    // only one that can fire a NamingException to
-                    // unsol listeners and it will handle its own cleanup
+                if (obj instbnceof NbmingException) {
+                    unsolicited = fblse;
+                    // No need to notify clnt becbuse clnt is the
+                    // only one thbt cbn fire b NbmingException to
+                    // unsol listeners bnd it will hbndle its own clebnup
                 }
             }
         }

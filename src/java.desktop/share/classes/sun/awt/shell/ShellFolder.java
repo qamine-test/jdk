@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.shell;
+pbckbge sun.bwt.shell;
 
-import javax.swing.*;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.concurrent.Callable;
+import jbvbx.swing.*;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Toolkit;
+import jbvb.io.*;
+import jbvb.io.FileNotFoundException;
+import jbvb.util.*;
+import jbvb.util.concurrent.Cbllbble;
 
 /**
- * @author Michael Martak
+ * @buthor Michbel Mbrtbk
  * @since 1.4
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class ShellFolder extends File {
-    private static final String COLUMN_NAME = "FileChooser.fileNameHeaderText";
-    private static final String COLUMN_SIZE = "FileChooser.fileSizeHeaderText";
-    private static final String COLUMN_DATE = "FileChooser.fileDateHeaderText";
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public bbstrbct clbss ShellFolder extends File {
+    privbte stbtic finbl String COLUMN_NAME = "FileChooser.fileNbmeHebderText";
+    privbte stbtic finbl String COLUMN_SIZE = "FileChooser.fileSizeHebderText";
+    privbte stbtic finbl String COLUMN_DATE = "FileChooser.fileDbteHebderText";
 
-    protected ShellFolder parent;
+    protected ShellFolder pbrent;
 
     /**
-     * Create a file system shell folder from a file
+     * Crebte b file system shell folder from b file
      */
-    ShellFolder(ShellFolder parent, String pathname) {
-        super((pathname != null) ? pathname : "ShellFolder");
-        this.parent = parent;
+    ShellFolder(ShellFolder pbrent, String pbthnbme) {
+        super((pbthnbme != null) ? pbthnbme : "ShellFolder");
+        this.pbrent = pbrent;
     }
 
     /**
-     * @return Whether this is a file system shell folder
+     * @return Whether this is b file system shell folder
      */
-    public boolean isFileSystem() {
-        return (!getPath().startsWith("ShellFolder"));
+    public boolebn isFileSystem() {
+        return (!getPbth().stbrtsWith("ShellFolder"));
     }
 
     /**
-     * This method must be implemented to make sure that no instances
-     * of <code>ShellFolder</code> are ever serialized. If <code>isFileSystem()</code> returns
-     * <code>true</code>, then the object should be representable with an instance of
-     * <code>java.io.File</code> instead. If not, then the object is most likely
-     * depending on some internal (native) state and cannot be serialized.
+     * This method must be implemented to mbke sure thbt no instbnces
+     * of <code>ShellFolder</code> bre ever seriblized. If <code>isFileSystem()</code> returns
+     * <code>true</code>, then the object should be representbble with bn instbnce of
+     * <code>jbvb.io.File</code> instebd. If not, then the object is most likely
+     * depending on some internbl (nbtive) stbte bnd cbnnot be seriblized.
      *
-     * @returns a <code>java.io.File</code> replacement object, or <code>null</code>
-     * if no suitable replacement can be found.
+     * @returns b <code>jbvb.io.File</code> replbcement object, or <code>null</code>
+     * if no suitbble replbcement cbn be found.
      */
-    protected abstract Object writeReplace() throws java.io.ObjectStreamException;
+    protected bbstrbct Object writeReplbce() throws jbvb.io.ObjectStrebmException;
 
     /**
-     * Returns the path for this object's parent,
-     * or <code>null</code> if this object does not name a parent
+     * Returns the pbth for this object's pbrent,
+     * or <code>null</code> if this object does not nbme b pbrent
      * folder.
      *
-     * @return  the path as a String for this object's parent,
-     * or <code>null</code> if this object does not name a parent
+     * @return  the pbth bs b String for this object's pbrent,
+     * or <code>null</code> if this object does not nbme b pbrent
      * folder
      *
-     * @see java.io.File#getParent()
+     * @see jbvb.io.File#getPbrent()
      * @since 1.4
      */
-    public String getParent() {
-        if (parent == null && isFileSystem()) {
-            return super.getParent();
+    public String getPbrent() {
+        if (pbrent == null && isFileSystem()) {
+            return super.getPbrent();
         }
-        if (parent != null) {
-            return (parent.getPath());
+        if (pbrent != null) {
+            return (pbrent.getPbth());
         } else {
             return null;
         }
     }
 
     /**
-     * Returns a File object representing this object's parent,
-     * or <code>null</code> if this object does not name a parent
+     * Returns b File object representing this object's pbrent,
+     * or <code>null</code> if this object does not nbme b pbrent
      * folder.
      *
-     * @return  a File object representing this object's parent,
-     * or <code>null</code> if this object does not name a parent
+     * @return  b File object representing this object's pbrent,
+     * or <code>null</code> if this object does not nbme b pbrent
      * folder
      *
-     * @see java.io.File#getParentFile()
+     * @see jbvb.io.File#getPbrentFile()
      * @since 1.4
      */
-    public File getParentFile() {
-        if (parent != null) {
-            return parent;
+    public File getPbrentFile() {
+        if (pbrent != null) {
+            return pbrent;
         } else if (isFileSystem()) {
-            return super.getParentFile();
+            return super.getPbrentFile();
         } else {
             return null;
         }
@@ -121,18 +121,18 @@ public abstract class ShellFolder extends File {
         return listFiles(true);
     }
 
-    public File[] listFiles(boolean includeHiddenFiles) {
+    public File[] listFiles(boolebn includeHiddenFiles) {
         File[] files = super.listFiles();
 
         if (!includeHiddenFiles) {
             Vector<File> v = new Vector<>();
-            int nameCount = (files == null) ? 0 : files.length;
-            for (int i = 0; i < nameCount; i++) {
+            int nbmeCount = (files == null) ? 0 : files.length;
+            for (int i = 0; i < nbmeCount; i++) {
                 if (!files[i].isHidden()) {
-                    v.addElement(files[i]);
+                    v.bddElement(files[i]);
                 }
             }
-            files = v.toArray(new File[v.size()]);
+            files = v.toArrby(new File[v.size()]);
         }
 
         return files;
@@ -140,42 +140,42 @@ public abstract class ShellFolder extends File {
 
 
     /**
-     * @return Whether this shell folder is a link
+     * @return Whether this shell folder is b link
      */
-    public abstract boolean isLink();
+    public bbstrbct boolebn isLink();
 
     /**
      * @return The shell folder linked to by this shell folder, or null
-     * if this shell folder is not a link
+     * if this shell folder is not b link
      */
-    public abstract ShellFolder getLinkLocation() throws FileNotFoundException;
+    public bbstrbct ShellFolder getLinkLocbtion() throws FileNotFoundException;
 
     /**
-     * @return The name used to display this shell folder
+     * @return The nbme used to displby this shell folder
      */
-    public abstract String getDisplayName();
+    public bbstrbct String getDisplbyNbme();
 
     /**
-     * @return The type of shell folder as a string
+     * @return The type of shell folder bs b string
      */
-    public abstract String getFolderType();
+    public bbstrbct String getFolderType();
 
     /**
-     * @return The executable type as a string
+     * @return The executbble type bs b string
      */
-    public abstract String getExecutableType();
+    public bbstrbct String getExecutbbleType();
 
     /**
-     * Compares this ShellFolder with the specified ShellFolder for order.
+     * Compbres this ShellFolder with the specified ShellFolder for order.
      *
-     * @see #compareTo(Object)
+     * @see #compbreTo(Object)
      */
-    public int compareTo(File file2) {
-        if (file2 == null || !(file2 instanceof ShellFolder)
-            || ((file2 instanceof ShellFolder) && ((ShellFolder)file2).isFileSystem())) {
+    public int compbreTo(File file2) {
+        if (file2 == null || !(file2 instbnceof ShellFolder)
+            || ((file2 instbnceof ShellFolder) && ((ShellFolder)file2).isFileSystem())) {
 
             if (isFileSystem()) {
-                return super.compareTo(file2);
+                return super.compbreTo(file2);
             } else {
                 return -1;
             }
@@ -183,149 +183,149 @@ public abstract class ShellFolder extends File {
             if (isFileSystem()) {
                 return 1;
             } else {
-                return getName().compareTo(file2.getName());
+                return getNbme().compbreTo(file2.getNbme());
             }
         }
     }
 
     /**
-     * @param getLargeIcon whether to return large icon (ignored in base implementation)
-     * @return The icon used to display this shell folder
+     * @pbrbm getLbrgeIcon whether to return lbrge icon (ignored in bbse implementbtion)
+     * @return The icon used to displby this shell folder
      */
-    public Image getIcon(boolean getLargeIcon) {
+    public Imbge getIcon(boolebn getLbrgeIcon) {
         return null;
     }
 
 
-    // Static
+    // Stbtic
 
-    private static final ShellFolderManager shellFolderManager;
+    privbte stbtic finbl ShellFolderMbnbger shellFolderMbnbger;
 
-    private static final Invoker invoker;
+    privbte stbtic finbl Invoker invoker;
 
-    static {
-        String managerClassName = (String)Toolkit.getDefaultToolkit().
-                                      getDesktopProperty("Shell.shellFolderManager");
-        Class<?> managerClass = null;
+    stbtic {
+        String mbnbgerClbssNbme = (String)Toolkit.getDefbultToolkit().
+                                      getDesktopProperty("Shell.shellFolderMbnbger");
+        Clbss<?> mbnbgerClbss = null;
         try {
-            managerClass = Class.forName(managerClassName, false, null);
-            if (!ShellFolderManager.class.isAssignableFrom(managerClass)) {
-                managerClass = null;
+            mbnbgerClbss = Clbss.forNbme(mbnbgerClbssNbme, fblse, null);
+            if (!ShellFolderMbnbger.clbss.isAssignbbleFrom(mbnbgerClbss)) {
+                mbnbgerClbss = null;
             }
-        // swallow the exceptions below and use default shell folder
-        } catch(ClassNotFoundException e) {
-        } catch(NullPointerException e) {
-        } catch(SecurityException e) {
+        // swbllow the exceptions below bnd use defbult shell folder
+        } cbtch(ClbssNotFoundException e) {
+        } cbtch(NullPointerException e) {
+        } cbtch(SecurityException e) {
         }
 
-        if (managerClass == null) {
-            managerClass = ShellFolderManager.class;
+        if (mbnbgerClbss == null) {
+            mbnbgerClbss = ShellFolderMbnbger.clbss;
         }
         try {
-            shellFolderManager =
-                (ShellFolderManager)managerClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new Error("Could not instantiate Shell Folder Manager: "
-            + managerClass.getName());
-        } catch (IllegalAccessException e) {
-            throw new Error ("Could not access Shell Folder Manager: "
-            + managerClass.getName());
+            shellFolderMbnbger =
+                (ShellFolderMbnbger)mbnbgerClbss.newInstbnce();
+        } cbtch (InstbntibtionException e) {
+            throw new Error("Could not instbntibte Shell Folder Mbnbger: "
+            + mbnbgerClbss.getNbme());
+        } cbtch (IllegblAccessException e) {
+            throw new Error ("Could not bccess Shell Folder Mbnbger: "
+            + mbnbgerClbss.getNbme());
         }
 
-        invoker = shellFolderManager.createInvoker();
+        invoker = shellFolderMbnbger.crebteInvoker();
     }
 
     /**
-     * Return a shell folder from a file object
+     * Return b shell folder from b file object
      * @exception FileNotFoundException if file does not exist
      */
-    public static ShellFolder getShellFolder(File file) throws FileNotFoundException {
-        if (file instanceof ShellFolder) {
+    public stbtic ShellFolder getShellFolder(File file) throws FileNotFoundException {
+        if (file instbnceof ShellFolder) {
             return (ShellFolder)file;
         }
         if (!file.exists()) {
             throw new FileNotFoundException();
         }
-        return shellFolderManager.createShellFolder(file);
+        return shellFolderMbnbger.crebteShellFolder(file);
     }
 
     /**
-     * @param key a <code>String</code>
-     * @return An Object matching the string <code>key</code>.
-     * @see ShellFolderManager#get(String)
+     * @pbrbm key b <code>String</code>
+     * @return An Object mbtching the string <code>key</code>.
+     * @see ShellFolderMbnbger#get(String)
      */
-    public static Object get(String key) {
-        return shellFolderManager.get(key);
+    public stbtic Object get(String key) {
+        return shellFolderMbnbger.get(key);
     }
 
     /**
-     * Does <code>dir</code> represent a "computer" such as a node on the network, or
+     * Does <code>dir</code> represent b "computer" such bs b node on the network, or
      * "My Computer" on the desktop.
      */
-    public static boolean isComputerNode(File dir) {
-        return shellFolderManager.isComputerNode(dir);
+    public stbtic boolebn isComputerNode(File dir) {
+        return shellFolderMbnbger.isComputerNode(dir);
     }
 
     /**
-     * @return Whether this is a file system root directory
+     * @return Whether this is b file system root directory
      */
-    public static boolean isFileSystemRoot(File dir) {
-        return shellFolderManager.isFileSystemRoot(dir);
+    public stbtic boolebn isFileSystemRoot(File dir) {
+        return shellFolderMbnbger.isFileSystemRoot(dir);
     }
 
     /**
-     * Canonicalizes files that don't have symbolic links in their path.
-     * Normalizes files that do, preserving symbolic links from being resolved.
+     * Cbnonicblizes files thbt don't hbve symbolic links in their pbth.
+     * Normblizes files thbt do, preserving symbolic links from being resolved.
      */
-    public static File getNormalizedFile(File f) throws IOException {
-        File canonical = f.getCanonicalFile();
-        if (f.equals(canonical)) {
-            // path of f doesn't contain symbolic links
-            return canonical;
+    public stbtic File getNormblizedFile(File f) throws IOException {
+        File cbnonicbl = f.getCbnonicblFile();
+        if (f.equbls(cbnonicbl)) {
+            // pbth of f doesn't contbin symbolic links
+            return cbnonicbl;
         }
 
         // preserve symbolic links from being resolved
-        return new File(f.toURI().normalize());
+        return new File(f.toURI().normblize());
     }
 
     // Override File methods
 
-    public static void sort(final List<? extends File> files) {
+    public stbtic void sort(finbl List<? extends File> files) {
         if (files == null || files.size() <= 1) {
             return;
         }
 
-        // To avoid loads of synchronizations with Invoker and improve performance we
+        // To bvoid lobds of synchronizbtions with Invoker bnd improve performbnce we
         // synchronize the whole code of the sort method once
-        invoke(new Callable<Void>() {
-            public Void call() {
-                // Check that we can use the ShellFolder.sortChildren() method:
-                //   1. All files have the same non-null parent
+        invoke(new Cbllbble<Void>() {
+            public Void cbll() {
+                // Check thbt we cbn use the ShellFolder.sortChildren() method:
+                //   1. All files hbve the sbme non-null pbrent
                 //   2. All files is ShellFolders
-                File commonParent = null;
+                File commonPbrent = null;
 
                 for (File file : files) {
-                    File parent = file.getParentFile();
+                    File pbrent = file.getPbrentFile();
 
-                    if (parent == null || !(file instanceof ShellFolder)) {
-                        commonParent = null;
+                    if (pbrent == null || !(file instbnceof ShellFolder)) {
+                        commonPbrent = null;
 
-                        break;
+                        brebk;
                     }
 
-                    if (commonParent == null) {
-                        commonParent = parent;
+                    if (commonPbrent == null) {
+                        commonPbrent = pbrent;
                     } else {
-                        if (commonParent != parent && !commonParent.equals(parent)) {
-                            commonParent = null;
+                        if (commonPbrent != pbrent && !commonPbrent.equbls(pbrent)) {
+                            commonPbrent = null;
 
-                            break;
+                            brebk;
                         }
                     }
                 }
 
-                if (commonParent instanceof ShellFolder) {
-                    ((ShellFolder) commonParent).sortChildren(files);
+                if (commonPbrent instbnceof ShellFolder) {
+                    ((ShellFolder) commonPbrent).sortChildren(files);
                 } else {
                     Collections.sort(files, FILE_COMPARATOR);
                 }
@@ -335,11 +335,11 @@ public abstract class ShellFolder extends File {
         });
     }
 
-    public void sortChildren(final List<? extends File> files) {
-        // To avoid loads of synchronizations with Invoker and improve performance we
+    public void sortChildren(finbl List<? extends File> files) {
+        // To bvoid lobds of synchronizbtions with Invoker bnd improve performbnce we
         // synchronize the whole code of the sort method once
-        invoke(new Callable<Void>() {
-            public Void call() {
+        invoke(new Cbllbble<Void>() {
+            public Void cbll() {
                 Collections.sort(files, FILE_COMPARATOR);
 
                 return null;
@@ -347,7 +347,7 @@ public abstract class ShellFolder extends File {
         });
     }
 
-    public boolean isAbsolute() {
+    public boolebn isAbsolute() {
         return (!isFileSystem() || super.isAbsolute());
     }
 
@@ -355,47 +355,47 @@ public abstract class ShellFolder extends File {
         return (isFileSystem() ? super.getAbsoluteFile() : this);
     }
 
-    public boolean canRead() {
-        return (isFileSystem() ? super.canRead() : true);       // ((Fix?))
+    public boolebn cbnRebd() {
+        return (isFileSystem() ? super.cbnRebd() : true);       // ((Fix?))
     }
 
     /**
-     * Returns true if folder allows creation of children.
-     * True for the "Desktop" folder, but false for the "My Computer"
+     * Returns true if folder bllows crebtion of children.
+     * True for the "Desktop" folder, but fblse for the "My Computer"
      * folder.
      */
-    public boolean canWrite() {
-        return (isFileSystem() ? super.canWrite() : false);     // ((Fix?))
+    public boolebn cbnWrite() {
+        return (isFileSystem() ? super.cbnWrite() : fblse);     // ((Fix?))
     }
 
-    public boolean exists() {
-        // Assume top-level drives exist, because state is uncertain for
-        // removable drives.
+    public boolebn exists() {
+        // Assume top-level drives exist, becbuse stbte is uncertbin for
+        // removbble drives.
         return (!isFileSystem() || isFileSystemRoot(this) || super.exists()) ;
     }
 
-    public boolean isDirectory() {
+    public boolebn isDirectory() {
         return (isFileSystem() ? super.isDirectory() : true);   // ((Fix?))
     }
 
-    public boolean isFile() {
+    public boolebn isFile() {
         return (isFileSystem() ? super.isFile() : !isDirectory());      // ((Fix?))
     }
 
-    public long lastModified() {
-        return (isFileSystem() ? super.lastModified() : 0L);    // ((Fix?))
+    public long lbstModified() {
+        return (isFileSystem() ? super.lbstModified() : 0L);    // ((Fix?))
     }
 
     public long length() {
         return (isFileSystem() ? super.length() : 0L);  // ((Fix?))
     }
 
-    public boolean createNewFile() throws IOException {
-        return (isFileSystem() ? super.createNewFile() : false);
+    public boolebn crebteNewFile() throws IOException {
+        return (isFileSystem() ? super.crebteNewFile() : fblse);
     }
 
-    public boolean delete() {
-        return (isFileSystem() ? super.delete() : false);       // ((Fix?))
+    public boolebn delete() {
+        return (isFileSystem() ? super.delete() : fblse);       // ((Fix?))
     }
 
     public void deleteOnExit() {
@@ -406,47 +406,47 @@ public abstract class ShellFolder extends File {
         }
     }
 
-    public boolean mkdir() {
-        return (isFileSystem() ? super.mkdir() : false);
+    public boolebn mkdir() {
+        return (isFileSystem() ? super.mkdir() : fblse);
     }
 
-    public boolean mkdirs() {
-        return (isFileSystem() ? super.mkdirs() : false);
+    public boolebn mkdirs() {
+        return (isFileSystem() ? super.mkdirs() : fblse);
     }
 
-    public boolean renameTo(File dest) {
-        return (isFileSystem() ? super.renameTo(dest) : false); // ((Fix?))
+    public boolebn renbmeTo(File dest) {
+        return (isFileSystem() ? super.renbmeTo(dest) : fblse); // ((Fix?))
     }
 
-    public boolean setLastModified(long time) {
-        return (isFileSystem() ? super.setLastModified(time) : false); // ((Fix?))
+    public boolebn setLbstModified(long time) {
+        return (isFileSystem() ? super.setLbstModified(time) : fblse); // ((Fix?))
     }
 
-    public boolean setReadOnly() {
-        return (isFileSystem() ? super.setReadOnly() : false); // ((Fix?))
+    public boolebn setRebdOnly() {
+        return (isFileSystem() ? super.setRebdOnly() : fblse); // ((Fix?))
     }
 
     public String toString() {
-        return (isFileSystem() ? super.toString() : getDisplayName());
+        return (isFileSystem() ? super.toString() : getDisplbyNbme());
     }
 
-    public static ShellFolderColumnInfo[] getFolderColumns(File dir) {
+    public stbtic ShellFolderColumnInfo[] getFolderColumns(File dir) {
         ShellFolderColumnInfo[] columns = null;
 
-        if (dir instanceof ShellFolder) {
+        if (dir instbnceof ShellFolder) {
             columns = ((ShellFolder) dir).getFolderColumns();
         }
 
         if (columns == null) {
             columns = new ShellFolderColumnInfo[]{
                     new ShellFolderColumnInfo(COLUMN_NAME, 150,
-                            SwingConstants.LEADING, true, null,
+                            SwingConstbnts.LEADING, true, null,
                             FILE_COMPARATOR),
                     new ShellFolderColumnInfo(COLUMN_SIZE, 75,
-                            SwingConstants.RIGHT, true, null,
+                            SwingConstbnts.RIGHT, true, null,
                             DEFAULT_COMPARATOR, true),
                     new ShellFolderColumnInfo(COLUMN_DATE, 130,
-                            SwingConstants.LEADING, true, null,
+                            SwingConstbnts.LEADING, true, null,
                             DEFAULT_COMPARATOR, true)
             };
         }
@@ -458,11 +458,11 @@ public abstract class ShellFolder extends File {
         return null;
     }
 
-    public static Object getFolderColumnValue(File file, int column) {
-        if (file instanceof ShellFolder) {
-            Object value = ((ShellFolder)file).getFolderColumnValue(column);
-            if (value != null) {
-                return value;
+    public stbtic Object getFolderColumnVblue(File file, int column) {
+        if (file instbnceof ShellFolder) {
+            Object vblue = ((ShellFolder)file).getFolderColumnVblue(column);
+            if (vblue != null) {
+                return vblue;
             }
         }
 
@@ -471,67 +471,67 @@ public abstract class ShellFolder extends File {
         }
 
         switch (column) {
-            case 0:
-                // By default, file name will be rendered using getSystemDisplayName()
+            cbse 0:
+                // By defbult, file nbme will be rendered using getSystemDisplbyNbme()
                 return file;
 
-            case 1: // size
-                return file.isDirectory() ? null : Long.valueOf(file.length());
+            cbse 1: // size
+                return file.isDirectory() ? null : Long.vblueOf(file.length());
 
-            case 2: // date
+            cbse 2: // dbte
                 if (isFileSystemRoot(file)) {
                     return null;
                 }
-                long time = file.lastModified();
-                return (time == 0L) ? null : new Date(time);
+                long time = file.lbstModified();
+                return (time == 0L) ? null : new Dbte(time);
 
-            default:
+            defbult:
                 return null;
         }
     }
 
-    public Object getFolderColumnValue(int column) {
+    public Object getFolderColumnVblue(int column) {
         return null;
     }
 
     /**
-     * Invokes the {@code task} which doesn't throw checked exceptions
-     * from its {@code call} method. If invokation is interrupted then Thread.currentThread().isInterrupted() will
-     * be set and result will be {@code null}
+     * Invokes the {@code tbsk} which doesn't throw checked exceptions
+     * from its {@code cbll} method. If invokbtion is interrupted then Threbd.currentThrebd().isInterrupted() will
+     * be set bnd result will be {@code null}
      */
-    public static <T> T invoke(Callable<T> task) {
+    public stbtic <T> T invoke(Cbllbble<T> tbsk) {
         try {
-            return invoke(task, RuntimeException.class);
-        } catch (InterruptedException e) {
+            return invoke(tbsk, RuntimeException.clbss);
+        } cbtch (InterruptedException e) {
             return null;
         }
     }
 
     /**
-     * Invokes the {@code task} which throws checked exceptions from its {@code call} method.
-     * If invokation is interrupted then Thread.currentThread().isInterrupted() will
-     * be set and InterruptedException will be thrown as well.
+     * Invokes the {@code tbsk} which throws checked exceptions from its {@code cbll} method.
+     * If invokbtion is interrupted then Threbd.currentThrebd().isInterrupted() will
+     * be set bnd InterruptedException will be thrown bs well.
      */
-    public static <T, E extends Throwable> T invoke(Callable<T> task, Class<E> exceptionClass)
+    public stbtic <T, E extends Throwbble> T invoke(Cbllbble<T> tbsk, Clbss<E> exceptionClbss)
             throws InterruptedException, E {
         try {
-            return invoker.invoke(task);
-        } catch (Exception e) {
-            if (e instanceof RuntimeException) {
+            return invoker.invoke(tbsk);
+        } cbtch (Exception e) {
+            if (e instbnceof RuntimeException) {
                 // Rethrow unchecked exceptions
                 throw (RuntimeException) e;
             }
 
-            if (e instanceof InterruptedException) {
-                // Set isInterrupted flag for current thread
-                Thread.currentThread().interrupt();
+            if (e instbnceof InterruptedException) {
+                // Set isInterrupted flbg for current threbd
+                Threbd.currentThrebd().interrupt();
 
                 // Rethrow InterruptedException
                 throw (InterruptedException) e;
             }
 
-            if (exceptionClass.isInstance(e)) {
-                throw exceptionClass.cast(e);
+            if (exceptionClbss.isInstbnce(e)) {
+                throw exceptionClbss.cbst(e);
             }
 
             throw new RuntimeException("Unexpected error", e);
@@ -539,24 +539,24 @@ public abstract class ShellFolder extends File {
     }
 
     /**
-     * Interface allowing to invoke tasks in different environments on different platforms.
+     * Interfbce bllowing to invoke tbsks in different environments on different plbtforms.
      */
-    public static interface Invoker {
+    public stbtic interfbce Invoker {
         /**
-         * Invokes a callable task.
+         * Invokes b cbllbble tbsk.
          *
-         * @param task a task to invoke
-         * @throws Exception {@code InterruptedException} or an exception that was thrown from the {@code task}
-         * @return the result of {@code task}'s invokation
+         * @pbrbm tbsk b tbsk to invoke
+         * @throws Exception {@code InterruptedException} or bn exception thbt wbs thrown from the {@code tbsk}
+         * @return the result of {@code tbsk}'s invokbtion
          */
-        <T> T invoke(Callable<T> task) throws Exception;
+        <T> T invoke(Cbllbble<T> tbsk) throws Exception;
     }
 
     /**
-     * Provides a default comparator for the default column set
+     * Provides b defbult compbrbtor for the defbult column set
      */
-    private static final Comparator<Object> DEFAULT_COMPARATOR = new Comparator<Object>() {
-        public int compare(Object o1, Object o2) {
+    privbte stbtic finbl Compbrbtor<Object> DEFAULT_COMPARATOR = new Compbrbtor<Object>() {
+        public int compbre(Object o1, Object o2) {
             int gt;
 
             if (o1 == null && o2 == null) {
@@ -565,10 +565,10 @@ public abstract class ShellFolder extends File {
                 gt = 1;
             } else if (o1 == null && o2 != null) {
                 gt = -1;
-            } else if (o1 instanceof Comparable) {
-                @SuppressWarnings("unchecked")
-                Comparable<Object> o = (Comparable<Object>) o1;
-                gt = o.compareTo(o2);
+            } else if (o1 instbnceof Compbrbble) {
+                @SuppressWbrnings("unchecked")
+                Compbrbble<Object> o = (Compbrbble<Object>) o1;
+                gt = o.compbreTo(o2);
             } else {
                 gt = 0;
             }
@@ -577,18 +577,18 @@ public abstract class ShellFolder extends File {
         }
     };
 
-    private static final Comparator<File> FILE_COMPARATOR = new Comparator<File>() {
-        public int compare(File f1, File f2) {
+    privbte stbtic finbl Compbrbtor<File> FILE_COMPARATOR = new Compbrbtor<File>() {
+        public int compbre(File f1, File f2) {
             ShellFolder sf1 = null;
             ShellFolder sf2 = null;
 
-            if (f1 instanceof ShellFolder) {
+            if (f1 instbnceof ShellFolder) {
                 sf1 = (ShellFolder) f1;
                 if (sf1.isFileSystem()) {
                     sf1 = null;
                 }
             }
-            if (f2 instanceof ShellFolder) {
+            if (f2 instbnceof ShellFolder) {
                 sf2 = (ShellFolder) f2;
                 if (sf2.isFileSystem()) {
                     sf2 = null;
@@ -596,24 +596,24 @@ public abstract class ShellFolder extends File {
             }
 
             if (sf1 != null && sf2 != null) {
-                return sf1.compareTo(sf2);
+                return sf1.compbreTo(sf2);
             } else if (sf1 != null) {
                 // Non-file shellfolders sort before files
                 return -1;
             } else if (sf2 != null) {
                 return 1;
             } else {
-                String name1 = f1.getName();
-                String name2 = f2.getName();
+                String nbme1 = f1.getNbme();
+                String nbme2 = f2.getNbme();
 
-                // First ignore case when comparing
-                int diff = name1.compareToIgnoreCase(name2);
+                // First ignore cbse when compbring
+                int diff = nbme1.compbreToIgnoreCbse(nbme2);
                 if (diff != 0) {
                     return diff;
                 } else {
-                    // May differ in case (e.g. "mail" vs. "Mail")
+                    // Mby differ in cbse (e.g. "mbil" vs. "Mbil")
                     // We need this test for consistent sorting
-                    return name1.compareTo(name2);
+                    return nbme1.compbreTo(nbme2);
                 }
             }
         }

@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.BufferCapabilities;
-import java.awt.Graphics;
-import java.awt.Image;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
 
 /**
- * The <code>BufferStrategy</code> class represents the mechanism with which
- * to organize complex memory on a particular <code>Canvas</code> or
- * <code>Window</code>.  Hardware and software limitations determine whether and
- * how a particular buffer strategy can be implemented.  These limitations
- * are detectable through the capabilities of the
- * <code>GraphicsConfiguration</code> used when creating the
- * <code>Canvas</code> or <code>Window</code>.
+ * The <code>BufferStrbtegy</code> clbss represents the mechbnism with which
+ * to orgbnize complex memory on b pbrticulbr <code>Cbnvbs</code> or
+ * <code>Window</code>.  Hbrdwbre bnd softwbre limitbtions determine whether bnd
+ * how b pbrticulbr buffer strbtegy cbn be implemented.  These limitbtions
+ * bre detectbble through the cbpbbilities of the
+ * <code>GrbphicsConfigurbtion</code> used when crebting the
+ * <code>Cbnvbs</code> or <code>Window</code>.
  * <p>
- * It is worth noting that the terms <i>buffer</i> and <i>surface</i> are meant
- * to be synonymous: an area of contiguous memory, either in video device
+ * It is worth noting thbt the terms <i>buffer</i> bnd <i>surfbce</i> bre mebnt
+ * to be synonymous: bn breb of contiguous memory, either in video device
  * memory or in system memory.
  * <p>
- * There are several types of complex buffer strategies, including
- * sequential ring buffering and blit buffering.
- * Sequential ring buffering (i.e., double or triple
- * buffering) is the most common; an application draws to a single <i>back
- * buffer</i> and then moves the contents to the front (display) in a single
- * step, either by copying the data or moving the video pointer.
- * Moving the video pointer exchanges the buffers so that the first buffer
- * drawn becomes the <i>front buffer</i>, or what is currently displayed on the
- * device; this is called <i>page flipping</i>.
+ * There bre severbl types of complex buffer strbtegies, including
+ * sequentibl ring buffering bnd blit buffering.
+ * Sequentibl ring buffering (i.e., double or triple
+ * buffering) is the most common; bn bpplicbtion drbws to b single <i>bbck
+ * buffer</i> bnd then moves the contents to the front (displby) in b single
+ * step, either by copying the dbtb or moving the video pointer.
+ * Moving the video pointer exchbnges the buffers so thbt the first buffer
+ * drbwn becomes the <i>front buffer</i>, or whbt is currently displbyed on the
+ * device; this is cblled <i>pbge flipping</i>.
  * <p>
- * Alternatively, the contents of the back buffer can be copied, or
- * <i>blitted</i> forward in a chain instead of moving the video pointer.
+ * Alternbtively, the contents of the bbck buffer cbn be copied, or
+ * <i>blitted</i> forwbrd in b chbin instebd of moving the video pointer.
  * <pre>{@code
  * Double buffering:
  *
  *                    ***********         ***********
  *                    *         * ------> *         *
- * [To display] <---- * Front B *   Show  * Back B. * <---- Rendering
+ * [To displby] <---- * Front B *   Show  * Bbck B. * <---- Rendering
  *                    *         * <------ *         *
  *                    ***********         ***********
  *
  * Triple buffering:
  *
  * [To      ***********         ***********        ***********
- * display] *         * --------+---------+------> *         *
- *    <---- * Front B *   Show  * Mid. B. *        * Back B. * <---- Rendering
+ * displby] *         * --------+---------+------> *         *
+ *    <---- * Front B *   Show  * Mid. B. *        * Bbck B. * <---- Rendering
  *          *         * <------ *         * <----- *         *
  *          ***********         ***********        ***********
  *
  * }</pre>
  * <p>
- * Here is an example of how buffer strategies can be created and used:
+ * Here is bn exbmple of how buffer strbtegies cbn be crebted bnd used:
  * <pre><code>
  *
- * // Check the capabilities of the GraphicsConfiguration
+ * // Check the cbpbbilities of the GrbphicsConfigurbtion
  * ...
  *
- * // Create our component
+ * // Crebte our component
  * Window w = new Window(gc);
  *
  * // Show our window
  * w.setVisible(true);
  *
- * // Create a general double-buffering strategy
- * w.createBufferStrategy(2);
- * BufferStrategy strategy = w.getBufferStrategy();
+ * // Crebte b generbl double-buffering strbtegy
+ * w.crebteBufferStrbtegy(2);
+ * BufferStrbtegy strbtegy = w.getBufferStrbtegy();
  *
- * // Main loop
+ * // Mbin loop
  * while (!done) {
- *     // Prepare for rendering the next frame
+ *     // Prepbre for rendering the next frbme
  *     // ...
  *
- *     // Render single frame
+ *     // Render single frbme
  *     do {
- *         // The following loop ensures that the contents of the drawing buffer
- *         // are consistent in case the underlying surface was recreated
+ *         // The following loop ensures thbt the contents of the drbwing buffer
+ *         // bre consistent in cbse the underlying surfbce wbs recrebted
  *         do {
- *             // Get a new graphics context every time through the loop
- *             // to make sure the strategy is validated
- *             Graphics graphics = strategy.getDrawGraphics();
+ *             // Get b new grbphics context every time through the loop
+ *             // to mbke sure the strbtegy is vblidbted
+ *             Grbphics grbphics = strbtegy.getDrbwGrbphics();
  *
- *             // Render to graphics
+ *             // Render to grbphics
  *             // ...
  *
- *             // Dispose the graphics
- *             graphics.dispose();
+ *             // Dispose the grbphics
+ *             grbphics.dispose();
  *
- *             // Repeat the rendering if the drawing buffer contents
+ *             // Repebt the rendering if the drbwing buffer contents
  *             // were restored
- *         } while (strategy.contentsRestored());
+ *         } while (strbtegy.contentsRestored());
  *
- *         // Display the buffer
- *         strategy.show();
+ *         // Displby the buffer
+ *         strbtegy.show();
  *
- *         // Repeat the rendering if the drawing buffer was lost
- *     } while (strategy.contentsLost());
+ *         // Repebt the rendering if the drbwing buffer wbs lost
+ *     } while (strbtegy.contentsLost());
  * }
  *
  * // Dispose the window
- * w.setVisible(false);
+ * w.setVisible(fblse);
  * w.dispose();
  * </code></pre>
  *
- * @see java.awt.Window
- * @see java.awt.Canvas
- * @see java.awt.GraphicsConfiguration
- * @see VolatileImage
- * @author Michael Martak
+ * @see jbvb.bwt.Window
+ * @see jbvb.bwt.Cbnvbs
+ * @see jbvb.bwt.GrbphicsConfigurbtion
+ * @see VolbtileImbge
+ * @buthor Michbel Mbrtbk
  * @since 1.4
  */
-public abstract class BufferStrategy {
+public bbstrbct clbss BufferStrbtegy {
 
     /**
-     * Returns the <code>BufferCapabilities</code> for this
-     * <code>BufferStrategy</code>.
+     * Returns the <code>BufferCbpbbilities</code> for this
+     * <code>BufferStrbtegy</code>.
      *
-     * @return the buffering capabilities of this strategy
+     * @return the buffering cbpbbilities of this strbtegy
      */
-    public abstract BufferCapabilities getCapabilities();
+    public bbstrbct BufferCbpbbilities getCbpbbilities();
 
     /**
-     * Creates a graphics context for the drawing buffer.  This method may not
-     * be synchronized for performance reasons; use of this method by multiple
-     * threads should be handled at the application level.  Disposal of the
-     * graphics object obtained must be handled by the application.
+     * Crebtes b grbphics context for the drbwing buffer.  This method mby not
+     * be synchronized for performbnce rebsons; use of this method by multiple
+     * threbds should be hbndled bt the bpplicbtion level.  Disposbl of the
+     * grbphics object obtbined must be hbndled by the bpplicbtion.
      *
-     * @return a graphics context for the drawing buffer
+     * @return b grbphics context for the drbwing buffer
      */
-    public abstract Graphics getDrawGraphics();
+    public bbstrbct Grbphics getDrbwGrbphics();
 
     /**
-     * Returns whether the drawing buffer was lost since the last call to
-     * <code>getDrawGraphics</code>.  Since the buffers in a buffer strategy
-     * are usually type <code>VolatileImage</code>, they may become lost.
-     * For a discussion on lost buffers, see <code>VolatileImage</code>.
+     * Returns whether the drbwing buffer wbs lost since the lbst cbll to
+     * <code>getDrbwGrbphics</code>.  Since the buffers in b buffer strbtegy
+     * bre usublly type <code>VolbtileImbge</code>, they mby become lost.
+     * For b discussion on lost buffers, see <code>VolbtileImbge</code>.
      *
-     * @return Whether or not the drawing buffer was lost since the last call
-     * to <code>getDrawGraphics</code>.
-     * @see java.awt.image.VolatileImage
+     * @return Whether or not the drbwing buffer wbs lost since the lbst cbll
+     * to <code>getDrbwGrbphics</code>.
+     * @see jbvb.bwt.imbge.VolbtileImbge
      */
-    public abstract boolean contentsLost();
+    public bbstrbct boolebn contentsLost();
 
     /**
-     * Returns whether the drawing buffer was recently restored from a lost
-     * state and reinitialized to the default background color (white).
-     * Since the buffers in a buffer strategy are usually type
-     * <code>VolatileImage</code>, they may become lost.  If a surface has
-     * been recently restored from a lost state since the last call to
-     * <code>getDrawGraphics</code>, it may require repainting.
-     * For a discussion on lost buffers, see <code>VolatileImage</code>.
+     * Returns whether the drbwing buffer wbs recently restored from b lost
+     * stbte bnd reinitiblized to the defbult bbckground color (white).
+     * Since the buffers in b buffer strbtegy bre usublly type
+     * <code>VolbtileImbge</code>, they mby become lost.  If b surfbce hbs
+     * been recently restored from b lost stbte since the lbst cbll to
+     * <code>getDrbwGrbphics</code>, it mby require repbinting.
+     * For b discussion on lost buffers, see <code>VolbtileImbge</code>.
      *
-     * @return Whether or not the drawing buffer was restored since the last
-     *         call to <code>getDrawGraphics</code>.
-     * @see java.awt.image.VolatileImage
+     * @return Whether or not the drbwing buffer wbs restored since the lbst
+     *         cbll to <code>getDrbwGrbphics</code>.
+     * @see jbvb.bwt.imbge.VolbtileImbge
      */
-    public abstract boolean contentsRestored();
+    public bbstrbct boolebn contentsRestored();
 
     /**
-     * Makes the next available buffer visible by either copying the memory
-     * (blitting) or changing the display pointer (flipping).
+     * Mbkes the next bvbilbble buffer visible by either copying the memory
+     * (blitting) or chbnging the displby pointer (flipping).
      */
-    public abstract void show();
+    public bbstrbct void show();
 
     /**
-     * Releases system resources currently consumed by this
-     * <code>BufferStrategy</code> and
-     * removes it from the associated Component.  After invoking this
-     * method, <code>getBufferStrategy</code> will return null.  Trying
-     * to use a <code>BufferStrategy</code> after it has been disposed will
-     * result in undefined behavior.
+     * Relebses system resources currently consumed by this
+     * <code>BufferStrbtegy</code> bnd
+     * removes it from the bssocibted Component.  After invoking this
+     * method, <code>getBufferStrbtegy</code> will return null.  Trying
+     * to use b <code>BufferStrbtegy</code> bfter it hbs been disposed will
+     * result in undefined behbvior.
      *
-     * @see java.awt.Window#createBufferStrategy
-     * @see java.awt.Canvas#createBufferStrategy
-     * @see java.awt.Window#getBufferStrategy
-     * @see java.awt.Canvas#getBufferStrategy
+     * @see jbvb.bwt.Window#crebteBufferStrbtegy
+     * @see jbvb.bwt.Cbnvbs#crebteBufferStrbtegy
+     * @see jbvb.bwt.Window#getBufferStrbtegy
+     * @see jbvb.bwt.Cbnvbs#getBufferStrbtegy
      * @since 1.6
      */
     public void dispose() {

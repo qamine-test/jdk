@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.accessibility.AccessibleContext;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.event.InternalFrameEvent;
-import java.util.EventListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.VetoableChangeListener;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.InternblFrbmeEvent;
+import jbvb.util.EventListener;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.VetobbleChbngeListener;
+import jbvb.bebns.PropertyVetoException;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * The class that manages a basic title bar
+ * The clbss thbt mbnbges b bbsic title bbr
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
- * @author Steve Wilson
+ * @buthor Dbvid Klobb
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicInternalFrameTitlePane extends JComponent
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicInternblFrbmeTitlePbne extends JComponent
 {
     /**
-     * The instance of {@code JMenuBar}.
+     * The instbnce of {@code JMenuBbr}.
      */
-    protected JMenuBar menuBar;
+    protected JMenuBbr menuBbr;
     /**
      * The iconify button.
      */
     protected JButton iconButton;
     /**
-     * The maximize button.
+     * The mbximize button.
      */
-    protected JButton maxButton;
+    protected JButton mbxButton;
     /**
      * The close button.
      */
     protected JButton closeButton;
 
     /**
-     * The instance of {@code JMenu}.
+     * The instbnce of {@code JMenu}.
      */
     protected JMenu windowMenu;
     /**
-     * The instance of {@code JInternalFrame}.
+     * The instbnce of {@code JInternblFrbme}.
      */
-    protected JInternalFrame frame;
+    protected JInternblFrbme frbme;
 
     /**
-     * The color of a selected title.
+     * The color of b selected title.
      */
     protected Color selectedTitleColor;
     /**
-     * The color of a selected text.
+     * The color of b selected text.
      */
     protected Color selectedTextColor;
     /**
-     * The color of a not selected title.
+     * The color of b not selected title.
      */
     protected Color notSelectedTitleColor;
     /**
-     * The color of a not selected text.
+     * The color of b not selected text.
      */
     protected Color notSelectedTextColor;
 
     /**
-     * The maximize icon.
+     * The mbximize icon.
      */
-    protected Icon maxIcon;
+    protected Icon mbxIcon;
     /**
      * The minimize icon.
      */
@@ -121,117 +121,117 @@ public class BasicInternalFrameTitlePane extends JComponent
     protected Icon closeIcon;
 
     /**
-     * The instance of a {@code PropertyChangeListener}.
+     * The instbnce of b {@code PropertyChbngeListener}.
      */
-    protected PropertyChangeListener propertyChangeListener;
+    protected PropertyChbngeListener propertyChbngeListener;
 
     /**
-     * The instance of a {@code CloseAction}.
+     * The instbnce of b {@code CloseAction}.
      */
     protected Action closeAction;
     /**
-     * The instance of a {@code MaximizeAction}.
+     * The instbnce of b {@code MbximizeAction}.
      */
-    protected Action maximizeAction;
+    protected Action mbximizeAction;
     /**
-     * The instance of an {@code IconifyAction}.
+     * The instbnce of bn {@code IconifyAction}.
      */
     protected Action iconifyAction;
     /**
-     * The instance of a {@code RestoreAction}.
+     * The instbnce of b {@code RestoreAction}.
      */
     protected Action restoreAction;
     /**
-     * The instance of a {@code MoveAction}.
+     * The instbnce of b {@code MoveAction}.
      */
     protected Action moveAction;
     /**
-     * The instance of a {@code SizeAction}.
+     * The instbnce of b {@code SizeAction}.
      */
     protected Action sizeAction;
 
-    // These constants are not used in JDK code
+    // These constbnts bre not used in JDK code
     /**
      * The close button text property.
      */
-    protected static final String CLOSE_CMD =
-        UIManager.getString("InternalFrameTitlePane.closeButtonText");
+    protected stbtic finbl String CLOSE_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.closeButtonText");
     /**
      * The minimize button text property.
      */
-    protected static final String ICONIFY_CMD =
-        UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
+    protected stbtic finbl String ICONIFY_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.minimizeButtonText");
     /**
      * The restore button text property.
      */
-    protected static final String RESTORE_CMD =
-        UIManager.getString("InternalFrameTitlePane.restoreButtonText");
+    protected stbtic finbl String RESTORE_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.restoreButtonText");
     /**
-     * The maximize button text property.
+     * The mbximize button text property.
      */
-    protected static final String MAXIMIZE_CMD =
-        UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
+    protected stbtic finbl String MAXIMIZE_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.mbximizeButtonText");
     /**
      * The move button text property.
      */
-    protected static final String MOVE_CMD =
-        UIManager.getString("InternalFrameTitlePane.moveButtonText");
+    protected stbtic finbl String MOVE_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.moveButtonText");
     /**
      * The size button text property.
      */
-    protected static final String SIZE_CMD =
-        UIManager.getString("InternalFrameTitlePane.sizeButtonText");
+    protected stbtic finbl String SIZE_CMD =
+        UIMbnbger.getString("InternblFrbmeTitlePbne.sizeButtonText");
 
-    private String closeButtonToolTip;
-    private String iconButtonToolTip;
-    private String restoreButtonToolTip;
-    private String maxButtonToolTip;
-    private Handler handler;
+    privbte String closeButtonToolTip;
+    privbte String iconButtonToolTip;
+    privbte String restoreButtonToolTip;
+    privbte String mbxButtonToolTip;
+    privbte Hbndler hbndler;
 
     /**
-     * Constructs a new instance of {@code BasicInternalFrameTitlePane}.
+     * Constructs b new instbnce of {@code BbsicInternblFrbmeTitlePbne}.
      *
-     * @param f an instance of {@code JInternalFrame}
+     * @pbrbm f bn instbnce of {@code JInternblFrbme}
      */
-    public BasicInternalFrameTitlePane(JInternalFrame f) {
-        frame = f;
-        installTitlePane();
+    public BbsicInternblFrbmeTitlePbne(JInternblFrbme f) {
+        frbme = f;
+        instbllTitlePbne();
     }
 
     /**
-     * Installs the title pane.
+     * Instblls the title pbne.
      */
-    protected void installTitlePane() {
-        installDefaults();
-        installListeners();
+    protected void instbllTitlePbne() {
+        instbllDefbults();
+        instbllListeners();
 
-        createActions();
-        enableActions();
-        createActionMap();
+        crebteActions();
+        enbbleActions();
+        crebteActionMbp();
 
-        setLayout(createLayout());
+        setLbyout(crebteLbyout());
 
-        assembleSystemMenu();
-        createButtons();
-        addSubComponents();
+        bssembleSystemMenu();
+        crebteButtons();
+        bddSubComponents();
 
     }
 
     /**
      * Adds subcomponents.
      */
-    protected void addSubComponents() {
-        add(menuBar);
-        add(iconButton);
-        add(maxButton);
-        add(closeButton);
+    protected void bddSubComponents() {
+        bdd(menuBbr);
+        bdd(iconButton);
+        bdd(mbxButton);
+        bdd(closeButton);
     }
 
     /**
-     * Creates actions.
+     * Crebtes bctions.
      */
-    protected void createActions() {
-        maximizeAction = new MaximizeAction();
+    protected void crebteActions() {
+        mbximizeAction = new MbximizeAction();
         iconifyAction = new IconifyAction();
         closeAction = new CloseAction();
         restoreAction = new RestoreAction();
@@ -239,82 +239,82 @@ public class BasicInternalFrameTitlePane extends JComponent
         sizeAction = new SizeAction();
     }
 
-    ActionMap createActionMap() {
-        ActionMap map = new ActionMapUIResource();
-        map.put("showSystemMenu", new ShowSystemMenuAction(true));
-        map.put("hideSystemMenu", new ShowSystemMenuAction(false));
-        return map;
+    ActionMbp crebteActionMbp() {
+        ActionMbp mbp = new ActionMbpUIResource();
+        mbp.put("showSystemMenu", new ShowSystemMenuAction(true));
+        mbp.put("hideSystemMenu", new ShowSystemMenuAction(fblse));
+        return mbp;
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        if( propertyChangeListener == null ) {
-            propertyChangeListener = createPropertyChangeListener();
+    protected void instbllListeners() {
+        if( propertyChbngeListener == null ) {
+            propertyChbngeListener = crebtePropertyChbngeListener();
         }
-        frame.addPropertyChangeListener(propertyChangeListener);
+        frbme.bddPropertyChbngeListener(propertyChbngeListener);
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        frame.removePropertyChangeListener(propertyChangeListener);
-        handler = null;
+    protected void uninstbllListeners() {
+        frbme.removePropertyChbngeListener(propertyChbngeListener);
+        hbndler = null;
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        maxIcon = UIManager.getIcon("InternalFrame.maximizeIcon");
-        minIcon = UIManager.getIcon("InternalFrame.minimizeIcon");
-        iconIcon = UIManager.getIcon("InternalFrame.iconifyIcon");
-        closeIcon = UIManager.getIcon("InternalFrame.closeIcon");
+    protected void instbllDefbults() {
+        mbxIcon = UIMbnbger.getIcon("InternblFrbme.mbximizeIcon");
+        minIcon = UIMbnbger.getIcon("InternblFrbme.minimizeIcon");
+        iconIcon = UIMbnbger.getIcon("InternblFrbme.iconifyIcon");
+        closeIcon = UIMbnbger.getIcon("InternblFrbme.closeIcon");
 
-        selectedTitleColor = UIManager.getColor("InternalFrame.activeTitleBackground");
-        selectedTextColor = UIManager.getColor("InternalFrame.activeTitleForeground");
-        notSelectedTitleColor = UIManager.getColor("InternalFrame.inactiveTitleBackground");
-        notSelectedTextColor = UIManager.getColor("InternalFrame.inactiveTitleForeground");
-        setFont(UIManager.getFont("InternalFrame.titleFont"));
+        selectedTitleColor = UIMbnbger.getColor("InternblFrbme.bctiveTitleBbckground");
+        selectedTextColor = UIMbnbger.getColor("InternblFrbme.bctiveTitleForeground");
+        notSelectedTitleColor = UIMbnbger.getColor("InternblFrbme.inbctiveTitleBbckground");
+        notSelectedTextColor = UIMbnbger.getColor("InternblFrbme.inbctiveTitleForeground");
+        setFont(UIMbnbger.getFont("InternblFrbme.titleFont"));
         closeButtonToolTip =
-                UIManager.getString("InternalFrame.closeButtonToolTip");
+                UIMbnbger.getString("InternblFrbme.closeButtonToolTip");
         iconButtonToolTip =
-                UIManager.getString("InternalFrame.iconButtonToolTip");
+                UIMbnbger.getString("InternblFrbme.iconButtonToolTip");
         restoreButtonToolTip =
-                UIManager.getString("InternalFrame.restoreButtonToolTip");
-        maxButtonToolTip =
-                UIManager.getString("InternalFrame.maxButtonToolTip");
+                UIMbnbger.getString("InternblFrbme.restoreButtonToolTip");
+        mbxButtonToolTip =
+                UIMbnbger.getString("InternblFrbme.mbxButtonToolTip");
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
     }
 
     /**
-     * Creates buttons.
+     * Crebtes buttons.
      */
-    protected void createButtons() {
+    protected void crebteButtons() {
         iconButton = new NoFocusButton(
-                     "InternalFrameTitlePane.iconifyButtonAccessibleName",
-                     "InternalFrameTitlePane.iconifyButtonOpacity");
-        iconButton.addActionListener(iconifyAction);
+                     "InternblFrbmeTitlePbne.iconifyButtonAccessibleNbme",
+                     "InternblFrbmeTitlePbne.iconifyButtonOpbcity");
+        iconButton.bddActionListener(iconifyAction);
         if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
             iconButton.setToolTipText(iconButtonToolTip);
         }
 
-        maxButton = new NoFocusButton(
-                        "InternalFrameTitlePane.maximizeButtonAccessibleName",
-                        "InternalFrameTitlePane.maximizeButtonOpacity");
-        maxButton.addActionListener(maximizeAction);
+        mbxButton = new NoFocusButton(
+                        "InternblFrbmeTitlePbne.mbximizeButtonAccessibleNbme",
+                        "InternblFrbmeTitlePbne.mbximizeButtonOpbcity");
+        mbxButton.bddActionListener(mbximizeAction);
 
         closeButton = new NoFocusButton(
-                      "InternalFrameTitlePane.closeButtonAccessibleName",
-                      "InternalFrameTitlePane.closeButtonOpacity");
-        closeButton.addActionListener(closeAction);
+                      "InternblFrbmeTitlePbne.closeButtonAccessibleNbme",
+                      "InternblFrbmeTitlePbne.closeButtonOpbcity");
+        closeButton.bddActionListener(closeAction);
         if (closeButtonToolTip != null && closeButtonToolTip.length() != 0) {
             closeButton.setToolTipText(closeButtonToolTip);
         }
@@ -326,7 +326,7 @@ public class BasicInternalFrameTitlePane extends JComponent
      * Sets the button icons.
      */
     protected void setButtonIcons() {
-        if(frame.isIcon()) {
+        if(frbme.isIcon()) {
             if (minIcon != null) {
                 iconButton.setIcon(minIcon);
             }
@@ -334,13 +334,13 @@ public class BasicInternalFrameTitlePane extends JComponent
                     restoreButtonToolTip.length() != 0) {
                 iconButton.setToolTipText(restoreButtonToolTip);
             }
-            if (maxIcon != null) {
-                maxButton.setIcon(maxIcon);
+            if (mbxIcon != null) {
+                mbxButton.setIcon(mbxIcon);
             }
-            if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
-                maxButton.setToolTipText(maxButtonToolTip);
+            if (mbxButtonToolTip != null && mbxButtonToolTip.length() != 0) {
+                mbxButton.setToolTipText(mbxButtonToolTip);
             }
-        } else if (frame.isMaximum()) {
+        } else if (frbme.isMbximum()) {
             if (iconIcon != null) {
                 iconButton.setIcon(iconIcon);
             }
@@ -348,11 +348,11 @@ public class BasicInternalFrameTitlePane extends JComponent
                 iconButton.setToolTipText(iconButtonToolTip);
             }
             if (minIcon != null) {
-                maxButton.setIcon(minIcon);
+                mbxButton.setIcon(minIcon);
             }
             if (restoreButtonToolTip != null &&
                     restoreButtonToolTip.length() != 0) {
-                maxButton.setToolTipText(restoreButtonToolTip);
+                mbxButton.setToolTipText(restoreButtonToolTip);
             }
         } else {
             if (iconIcon != null) {
@@ -361,11 +361,11 @@ public class BasicInternalFrameTitlePane extends JComponent
             if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
                 iconButton.setToolTipText(iconButtonToolTip);
             }
-            if (maxIcon != null) {
-                maxButton.setIcon(maxIcon);
+            if (mbxIcon != null) {
+                mbxButton.setIcon(mbxIcon);
             }
-            if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
-                maxButton.setToolTipText(maxButtonToolTip);
+            if (mbxButtonToolTip != null && mbxButtonToolTip.length() != 0) {
+                mbxButton.setToolTipText(mbxButtonToolTip);
             }
         }
         if (closeIcon != null) {
@@ -376,62 +376,62 @@ public class BasicInternalFrameTitlePane extends JComponent
     /**
      * Assembles system menu.
      */
-    protected void assembleSystemMenu() {
-        menuBar = createSystemMenuBar();
-        windowMenu = createSystemMenu();
-        menuBar.add(windowMenu);
-        addSystemMenuItems(windowMenu);
-        enableActions();
+    protected void bssembleSystemMenu() {
+        menuBbr = crebteSystemMenuBbr();
+        windowMenu = crebteSystemMenu();
+        menuBbr.bdd(windowMenu);
+        bddSystemMenuItems(windowMenu);
+        enbbleActions();
     }
 
     /**
      * Adds system menu items to {@code systemMenu}.
      *
-     * @param systemMenu an instance of {@code JMenu}
+     * @pbrbm systemMenu bn instbnce of {@code JMenu}
      */
-    protected void addSystemMenuItems(JMenu systemMenu) {
-        JMenuItem mi = systemMenu.add(restoreAction);
+    protected void bddSystemMenuItems(JMenu systemMenu) {
+        JMenuItem mi = systemMenu.bdd(restoreAction);
         mi.setMnemonic(getButtonMnemonic("restore"));
-        mi = systemMenu.add(moveAction);
+        mi = systemMenu.bdd(moveAction);
         mi.setMnemonic(getButtonMnemonic("move"));
-        mi = systemMenu.add(sizeAction);
+        mi = systemMenu.bdd(sizeAction);
         mi.setMnemonic(getButtonMnemonic("size"));
-        mi = systemMenu.add(iconifyAction);
+        mi = systemMenu.bdd(iconifyAction);
         mi.setMnemonic(getButtonMnemonic("minimize"));
-        mi = systemMenu.add(maximizeAction);
-        mi.setMnemonic(getButtonMnemonic("maximize"));
-        systemMenu.add(new JSeparator());
-        mi = systemMenu.add(closeAction);
+        mi = systemMenu.bdd(mbximizeAction);
+        mi.setMnemonic(getButtonMnemonic("mbximize"));
+        systemMenu.bdd(new JSepbrbtor());
+        mi = systemMenu.bdd(closeAction);
         mi.setMnemonic(getButtonMnemonic("close"));
     }
 
-    private static int getButtonMnemonic(String button) {
+    privbte stbtic int getButtonMnemonic(String button) {
         try {
-            return Integer.parseInt(UIManager.getString(
-                    "InternalFrameTitlePane." + button + "Button.mnemonic"));
-        } catch (NumberFormatException e) {
+            return Integer.pbrseInt(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne." + button + "Button.mnemonic"));
+        } cbtch (NumberFormbtException e) {
             return -1;
         }
     }
 
     /**
-     * Returns a new instance of {@code JMenu}.
+     * Returns b new instbnce of {@code JMenu}.
      *
-     * @return a new instance of {@code JMenu}
+     * @return b new instbnce of {@code JMenu}
      */
-    protected JMenu createSystemMenu() {
+    protected JMenu crebteSystemMenu() {
         return new JMenu("    ");
     }
 
     /**
-     * Returns a new instance of {@code JMenuBar}.
+     * Returns b new instbnce of {@code JMenuBbr}.
      *
-     * @return a new instance of {@code JMenuBar}
+     * @return b new instbnce of {@code JMenuBbr}
      */
-    protected JMenuBar createSystemMenuBar() {
-        menuBar = new SystemMenuBar();
-        menuBar.setBorderPainted(false);
-        return menuBar;
+    protected JMenuBbr crebteSystemMenuBbr() {
+        menuBbr = new SystemMenuBbr();
+        menuBbr.setBorderPbinted(fblse);
+        return menuBbr;
     }
 
     /**
@@ -443,11 +443,11 @@ public class BasicInternalFrameTitlePane extends JComponent
       windowMenu.doClick();
     }
 
-    public void paintComponent(Graphics g)  {
-        paintTitleBackground(g);
+    public void pbintComponent(Grbphics g)  {
+        pbintTitleBbckground(g);
 
-        if(frame.getTitle() != null) {
-            boolean isSelected = frame.isSelected();
+        if(frbme.getTitle() != null) {
+            boolebn isSelected = frbme.isSelected();
             Font f = g.getFont();
             g.setFont(getFont());
             if(isSelected)
@@ -455,43 +455,43 @@ public class BasicInternalFrameTitlePane extends JComponent
             else
                 g.setColor(notSelectedTextColor);
 
-            // Center text vertically.
-            FontMetrics fm = SwingUtilities2.getFontMetrics(frame, g);
-            int baseline = (getHeight() + fm.getAscent() - fm.getLeading() -
+            // Center text verticblly.
+            FontMetrics fm = SwingUtilities2.getFontMetrics(frbme, g);
+            int bbseline = (getHeight() + fm.getAscent() - fm.getLebding() -
                     fm.getDescent()) / 2;
 
             int titleX;
-            Rectangle r = new Rectangle(0, 0, 0, 0);
-            if (frame.isIconifiable())  r = iconButton.getBounds();
-            else if (frame.isMaximizable())  r = maxButton.getBounds();
-            else if (frame.isClosable())  r = closeButton.getBounds();
+            Rectbngle r = new Rectbngle(0, 0, 0, 0);
+            if (frbme.isIconifibble())  r = iconButton.getBounds();
+            else if (frbme.isMbximizbble())  r = mbxButton.getBounds();
+            else if (frbme.isClosbble())  r = closeButton.getBounds();
             int titleW;
 
-            String title = frame.getTitle();
-            if( BasicGraphicsUtils.isLeftToRight(frame) ) {
-              if (r.x == 0)  r.x = frame.getWidth()-frame.getInsets().right;
-              titleX = menuBar.getX() + menuBar.getWidth() + 2;
+            String title = frbme.getTitle();
+            if( BbsicGrbphicsUtils.isLeftToRight(frbme) ) {
+              if (r.x == 0)  r.x = frbme.getWidth()-frbme.getInsets().right;
+              titleX = menuBbr.getX() + menuBbr.getWidth() + 2;
               titleW = r.x - titleX - 3;
-              title = getTitle(frame.getTitle(), fm, titleW);
+              title = getTitle(frbme.getTitle(), fm, titleW);
             } else {
-                titleX = menuBar.getX() - 2
-                         - SwingUtilities2.stringWidth(frame,fm,title);
+                titleX = menuBbr.getX() - 2
+                         - SwingUtilities2.stringWidth(frbme,fm,title);
             }
 
-            SwingUtilities2.drawString(frame, g, title, titleX, baseline);
+            SwingUtilities2.drbwString(frbme, g, title, titleX, bbseline);
             g.setFont(f);
         }
     }
 
    /**
-    * Invoked from paintComponent.
-    * Paints the background of the titlepane.  All text and icons will
-    * then be rendered on top of this background.
-    * @param g the graphics to use to render the background
+    * Invoked from pbintComponent.
+    * Pbints the bbckground of the titlepbne.  All text bnd icons will
+    * then be rendered on top of this bbckground.
+    * @pbrbm g the grbphics to use to render the bbckground
     * @since 1.4
     */
-    protected void paintTitleBackground(Graphics g) {
-        boolean isSelected = frame.isSelected();
+    protected void pbintTitleBbckground(Grbphics g) {
+        boolebn isSelected = frbme.isSelected();
 
         if(isSelected)
             g.setColor(selectedTitleColor);
@@ -503,172 +503,172 @@ public class BasicInternalFrameTitlePane extends JComponent
     /**
      * Returns the title.
      *
-     * @param text a text
-     * @param fm an instance of {@code FontMetrics}
-     * @param availTextWidth an available text width
+     * @pbrbm text b text
+     * @pbrbm fm bn instbnce of {@code FontMetrics}
+     * @pbrbm bvbilTextWidth bn bvbilbble text width
      * @return the title.
      */
-    protected String getTitle(String text, FontMetrics fm, int availTextWidth) {
-        return SwingUtilities2.clipStringIfNecessary(
-                           frame, fm, text, availTextWidth);
+    protected String getTitle(String text, FontMetrics fm, int bvbilTextWidth) {
+        return SwingUtilities2.clipStringIfNecessbry(
+                           frbme, fm, text, bvbilTextWidth);
     }
 
     /**
-     * Post a WINDOW_CLOSING-like event to the frame, so that it can
-     * be treated like a regular {@code Frame}.
+     * Post b WINDOW_CLOSING-like event to the frbme, so thbt it cbn
+     * be trebted like b regulbr {@code Frbme}.
      *
-     * @param frame an instance of {@code JInternalFrame}
+     * @pbrbm frbme bn instbnce of {@code JInternblFrbme}
      */
-    protected void postClosingEvent(JInternalFrame frame) {
-        InternalFrameEvent e = new InternalFrameEvent(
-            frame, InternalFrameEvent.INTERNAL_FRAME_CLOSING);
-        // Try posting event, unless there's a SecurityManager.
+    protected void postClosingEvent(JInternblFrbme frbme) {
+        InternblFrbmeEvent e = new InternblFrbmeEvent(
+            frbme, InternblFrbmeEvent.INTERNAL_FRAME_CLOSING);
+        // Try posting event, unless there's b SecurityMbnbger.
         try {
-            Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(e);
-        } catch (SecurityException se) {
-            frame.dispatchEvent(e);
+            Toolkit.getDefbultToolkit().getSystemEventQueue().postEvent(e);
+        } cbtch (SecurityException se) {
+            frbme.dispbtchEvent(e);
         }
     }
 
     /**
-     * Enables actions.
+     * Enbbles bctions.
      */
-    protected void enableActions() {
-        restoreAction.setEnabled(frame.isMaximum() || frame.isIcon());
-        maximizeAction.setEnabled(
-            (frame.isMaximizable() && !frame.isMaximum() && !frame.isIcon()) ||
-            (frame.isMaximizable() && frame.isIcon()));
-        iconifyAction.setEnabled(frame.isIconifiable() && !frame.isIcon());
-        closeAction.setEnabled(frame.isClosable());
-        sizeAction.setEnabled(false);
-        moveAction.setEnabled(false);
+    protected void enbbleActions() {
+        restoreAction.setEnbbled(frbme.isMbximum() || frbme.isIcon());
+        mbximizeAction.setEnbbled(
+            (frbme.isMbximizbble() && !frbme.isMbximum() && !frbme.isIcon()) ||
+            (frbme.isMbximizbble() && frbme.isIcon()));
+        iconifyAction.setEnbbled(frbme.isIconifibble() && !frbme.isIcon());
+        closeAction.setEnbbled(frbme.isClosbble());
+        sizeAction.setEnbbled(fblse);
+        moveAction.setEnbbled(fblse);
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Returns bn instbnce of {@code PropertyChbngeListener}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @return bn instbnce of {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
     /**
-     * Returns a layout manager.
+     * Returns b lbyout mbnbger.
      *
-     * @return a layout manager
+     * @return b lbyout mbnbger
      */
-    protected LayoutManager createLayout() {
-        return getHandler();
+    protected LbyoutMbnbger crebteLbyout() {
+        return getHbndler();
     }
 
 
-    private class Handler implements LayoutManager, PropertyChangeListener {
+    privbte clbss Hbndler implements LbyoutMbnbger, PropertyChbngeListener {
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String prop = evt.getPropertyNbme();
 
-            if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {
-                repaint();
+            if (prop == JInternblFrbme.IS_SELECTED_PROPERTY) {
+                repbint();
                 return;
             }
 
-            if (prop == JInternalFrame.IS_ICON_PROPERTY ||
-                    prop == JInternalFrame.IS_MAXIMUM_PROPERTY) {
+            if (prop == JInternblFrbme.IS_ICON_PROPERTY ||
+                    prop == JInternblFrbme.IS_MAXIMUM_PROPERTY) {
                 setButtonIcons();
-                enableActions();
+                enbbleActions();
                 return;
             }
 
-            if ("closable" == prop) {
-                if (evt.getNewValue() == Boolean.TRUE) {
-                    add(closeButton);
+            if ("closbble" == prop) {
+                if (evt.getNewVblue() == Boolebn.TRUE) {
+                    bdd(closeButton);
                 } else {
                     remove(closeButton);
                 }
-            } else if ("maximizable" == prop) {
-                if (evt.getNewValue() == Boolean.TRUE) {
-                    add(maxButton);
+            } else if ("mbximizbble" == prop) {
+                if (evt.getNewVblue() == Boolebn.TRUE) {
+                    bdd(mbxButton);
                 } else {
-                    remove(maxButton);
+                    remove(mbxButton);
                 }
-            } else if ("iconable" == prop) {
-                if (evt.getNewValue() == Boolean.TRUE) {
-                    add(iconButton);
+            } else if ("iconbble" == prop) {
+                if (evt.getNewVblue() == Boolebn.TRUE) {
+                    bdd(iconButton);
                 } else {
                     remove(iconButton);
                 }
             }
-            enableActions();
+            enbbleActions();
 
-            revalidate();
-            repaint();
+            revblidbte();
+            repbint();
         }
 
 
         //
-        // LayoutManager
+        // LbyoutMbnbger
         //
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        public void bddLbyoutComponent(String nbme, Component c) {}
+        public void removeLbyoutComponent(Component c) {}
+        public Dimension preferredLbyoutSize(Contbiner c) {
+            return minimumLbyoutSize(c);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            // Calculate width.
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            // Cblculbte width.
             int width = 22;
 
-            if (frame.isClosable()) {
+            if (frbme.isClosbble()) {
                 width += 19;
             }
-            if (frame.isMaximizable()) {
+            if (frbme.isMbximizbble()) {
                 width += 19;
             }
-            if (frame.isIconifiable()) {
+            if (frbme.isIconifibble()) {
                 width += 19;
             }
 
-            FontMetrics fm = frame.getFontMetrics(getFont());
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? SwingUtilities2.stringWidth(
-                               frame, fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
+            FontMetrics fm = frbme.getFontMetrics(getFont());
+            String frbmeTitle = frbme.getTitle();
+            int title_w = frbmeTitle != null ? SwingUtilities2.stringWidth(
+                               frbme, fm, frbmeTitle) : 0;
+            int title_length = frbmeTitle != null ? frbmeTitle.length() : 0;
 
-            // Leave room for three characters in the title.
+            // Lebve room for three chbrbcters in the title.
             if (title_length > 3) {
                 int subtitle_w = SwingUtilities2.stringWidth(
-                    frame, fm, frameTitle.substring(0, 3) + "...");
+                    frbme, fm, frbmeTitle.substring(0, 3) + "...");
                 width += (title_w < subtitle_w) ? title_w : subtitle_w;
             } else {
                 width += title_w;
             }
 
-            // Calculate height.
-            Icon icon = frame.getFrameIcon();
+            // Cblculbte height.
+            Icon icon = frbme.getFrbmeIcon();
             int fontHeight = fm.getHeight();
             fontHeight += 2;
             int iconHeight = 0;
             if (icon != null) {
-                // SystemMenuBar forces the icon to be 16x16 or less.
-                iconHeight = Math.min(icon.getIconHeight(), 16);
+                // SystemMenuBbr forces the icon to be 16x16 or less.
+                iconHeight = Mbth.min(icon.getIconHeight(), 16);
             }
             iconHeight += 2;
 
-            int height = Math.max( fontHeight, iconHeight );
+            int height = Mbth.mbx( fontHeight, iconHeight );
 
             Dimension dim = new Dimension(width, height);
 
-            // Take into account the border insets if any.
+            // Tbke into bccount the border insets if bny.
             if (getBorder() != null) {
                 Insets insets = getBorder().getBorderInsets(c);
                 dim.height += insets.top + insets.bottom;
@@ -677,8 +677,8 @@ public class BasicInternalFrameTitlePane extends JComponent
             return dim;
         }
 
-        public void layoutContainer(Container c) {
-            boolean leftToRight = BasicGraphicsUtils.isLeftToRight(frame);
+        public void lbyoutContbiner(Contbiner c) {
+            boolebn leftToRight = BbsicGrbphicsUtils.isLeftToRight(frbme);
 
             int w = getWidth();
             int h = getHeight();
@@ -686,289 +686,289 @@ public class BasicInternalFrameTitlePane extends JComponent
 
             int buttonHeight = closeButton.getIcon().getIconHeight();
 
-            Icon icon = frame.getFrameIcon();
+            Icon icon = frbme.getFrbmeIcon();
             int iconHeight = 0;
             if (icon != null) {
                 iconHeight = icon.getIconHeight();
             }
             x = (leftToRight) ? 2 : w - 16 - 2;
-            menuBar.setBounds(x, (h - iconHeight) / 2, 16, 16);
+            menuBbr.setBounds(x, (h - iconHeight) / 2, 16, 16);
 
             x = (leftToRight) ? w - 16 - 2 : 2;
 
-            if (frame.isClosable()) {
+            if (frbme.isClosbble()) {
                 closeButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
                 x += (leftToRight) ? -(16 + 2) : 16 + 2;
             }
 
-            if (frame.isMaximizable()) {
-                maxButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
+            if (frbme.isMbximizbble()) {
+                mbxButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
                 x += (leftToRight) ? -(16 + 2) : 16 + 2;
             }
 
-            if (frame.isIconifiable()) {
+            if (frbme.isIconifibble()) {
                 iconButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class PropertyChangeHandler implements PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void propertyChange(PropertyChangeEvent evt) {
-            getHandler().propertyChange(evt);
+    public clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            getHbndler().propertyChbnge(evt);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class TitlePaneLayout implements LayoutManager {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void addLayoutComponent(String name, Component c) {
-            getHandler().addLayoutComponent(name, c);
+    public clbss TitlePbneLbyout implements LbyoutMbnbger {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void bddLbyoutComponent(String nbme, Component c) {
+            getHbndler().bddLbyoutComponent(nbme, c);
         }
 
-        public void removeLayoutComponent(Component c) {
-            getHandler().removeLayoutComponent(c);
+        public void removeLbyoutComponent(Component c) {
+            getHbndler().removeLbyoutComponent(c);
         }
 
-        public Dimension preferredLayoutSize(Container c)  {
-            return getHandler().preferredLayoutSize(c);
+        public Dimension preferredLbyoutSize(Contbiner c)  {
+            return getHbndler().preferredLbyoutSize(c);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            return getHandler().minimumLayoutSize(c);
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            return getHbndler().minimumLbyoutSize(c);
         }
 
-        public void layoutContainer(Container c) {
-            getHandler().layoutContainer(c);
+        public void lbyoutContbiner(Contbiner c) {
+            getHbndler().lbyoutContbiner(c);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class CloseAction extends AbstractAction {
+    public clbss CloseAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of a {@code CloseAction}.
+         * Constructs b new instbnce of b {@code CloseAction}.
          */
         public CloseAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.closeButtonText"));
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.closeButtonText"));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if(frame.isClosable()) {
-                frame.doDefaultCloseAction();
+        public void bctionPerformed(ActionEvent e) {
+            if(frbme.isClosbble()) {
+                frbme.doDefbultCloseAction();
             }
         }
     } // end CloseAction
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class MaximizeAction extends AbstractAction {
+    public clbss MbximizeAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of a {@code MaximizeAction}.
+         * Constructs b new instbnce of b {@code MbximizeAction}.
          */
-        public MaximizeAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.maximizeButtonText"));
+        public MbximizeAction() {
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.mbximizeButtonText"));
         }
 
-        public void actionPerformed(ActionEvent evt) {
-            if (frame.isMaximizable()) {
-                if (frame.isMaximum() && frame.isIcon()) {
+        public void bctionPerformed(ActionEvent evt) {
+            if (frbme.isMbximizbble()) {
+                if (frbme.isMbximum() && frbme.isIcon()) {
                     try {
-                        frame.setIcon(false);
-                    } catch (PropertyVetoException e) { }
-                } else if (!frame.isMaximum()) {
+                        frbme.setIcon(fblse);
+                    } cbtch (PropertyVetoException e) { }
+                } else if (!frbme.isMbximum()) {
                     try {
-                        frame.setMaximum(true);
-                    } catch (PropertyVetoException e) { }
+                        frbme.setMbximum(true);
+                    } cbtch (PropertyVetoException e) { }
                 } else {
                     try {
-                        frame.setMaximum(false);
-                    } catch (PropertyVetoException e) { }
+                        frbme.setMbximum(fblse);
+                    } cbtch (PropertyVetoException e) { }
                 }
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class IconifyAction extends AbstractAction {
+    public clbss IconifyAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of an {@code IconifyAction}.
+         * Constructs b new instbnce of bn {@code IconifyAction}.
          */
         public IconifyAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.minimizeButtonText"));
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.minimizeButtonText"));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if(frame.isIconifiable()) {
-              if(!frame.isIcon()) {
-                try { frame.setIcon(true); } catch (PropertyVetoException e1) { }
+        public void bctionPerformed(ActionEvent e) {
+            if(frbme.isIconifibble()) {
+              if(!frbme.isIcon()) {
+                try { frbme.setIcon(true); } cbtch (PropertyVetoException e1) { }
               } else{
-                try { frame.setIcon(false); } catch (PropertyVetoException e1) { }
+                try { frbme.setIcon(fblse); } cbtch (PropertyVetoException e1) { }
               }
             }
         }
     } // end IconifyAction
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class RestoreAction extends AbstractAction {
+    public clbss RestoreAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of a {@code RestoreAction}.
+         * Constructs b new instbnce of b {@code RestoreAction}.
          */
         public RestoreAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.restoreButtonText"));
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.restoreButtonText"));
         }
 
-        public void actionPerformed(ActionEvent evt) {
-            if (frame.isMaximizable() && frame.isMaximum() && frame.isIcon()) {
+        public void bctionPerformed(ActionEvent evt) {
+            if (frbme.isMbximizbble() && frbme.isMbximum() && frbme.isIcon()) {
                 try {
-                    frame.setIcon(false);
-                } catch (PropertyVetoException e) { }
-            } else if (frame.isMaximizable() && frame.isMaximum()) {
+                    frbme.setIcon(fblse);
+                } cbtch (PropertyVetoException e) { }
+            } else if (frbme.isMbximizbble() && frbme.isMbximum()) {
                 try {
-                    frame.setMaximum(false);
-                } catch (PropertyVetoException e) { }
-            } else if (frame.isIconifiable() && frame.isIcon()) {
+                    frbme.setMbximum(fblse);
+                } cbtch (PropertyVetoException e) { }
+            } else if (frbme.isIconifibble() && frbme.isIcon()) {
                 try {
-                    frame.setIcon(false);
-                } catch (PropertyVetoException e) { }
+                    frbme.setIcon(fblse);
+                } cbtch (PropertyVetoException e) { }
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class MoveAction extends AbstractAction {
+    public clbss MoveAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of a {@code MoveAction}.
+         * Constructs b new instbnce of b {@code MoveAction}.
          */
         public MoveAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.moveButtonText"));
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.moveButtonText"));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            // This action is currently undefined
+        public void bctionPerformed(ActionEvent e) {
+            // This bction is currently undefined
         }
     } // end MoveAction
 
     /*
-     * Handles showing and hiding the system menu.
+     * Hbndles showing bnd hiding the system menu.
      */
-    private class ShowSystemMenuAction extends AbstractAction {
-        private boolean show;   // whether to show the menu
+    privbte clbss ShowSystemMenuAction extends AbstrbctAction {
+        privbte boolebn show;   // whether to show the menu
 
-        public ShowSystemMenuAction(boolean show) {
+        public ShowSystemMenuAction(boolebn show) {
             this.show = show;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (show) {
                 windowMenu.doClick();
             } else {
-                windowMenu.setVisible(false);
+                windowMenu.setVisible(fblse);
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class SizeAction extends AbstractAction {
+    public clbss SizeAction extends AbstrbctAction {
         /**
-         * Constructs a new instance of a {@code SizeAction}.
+         * Constructs b new instbnce of b {@code SizeAction}.
          */
         public SizeAction() {
-            super(UIManager.getString(
-                    "InternalFrameTitlePane.sizeButtonText"));
+            super(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne.sizeButtonText"));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            // This action is currently undefined
+        public void bctionPerformed(ActionEvent e) {
+            // This bction is currently undefined
         }
     } // end SizeAction
 
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class SystemMenuBar extends JMenuBar {
-        public boolean isFocusTraversable() { return false; }
+    public clbss SystemMenuBbr extends JMenuBbr {
+        public boolebn isFocusTrbversbble() { return fblse; }
         public void requestFocus() {}
-        public void paint(Graphics g) {
-            Icon icon = frame.getFrameIcon();
+        public void pbint(Grbphics g) {
+            Icon icon = frbme.getFrbmeIcon();
             if (icon == null) {
-              icon = (Icon)DefaultLookup.get(frame, frame.getUI(),
-                      "InternalFrame.icon");
+              icon = (Icon)DefbultLookup.get(frbme, frbme.getUI(),
+                      "InternblFrbme.icon");
             }
             if (icon != null) {
-                // Resize to 16x16 if necessary.
-                if (icon instanceof ImageIcon && (icon.getIconWidth() > 16 || icon.getIconHeight() > 16)) {
-                    Image img = ((ImageIcon)icon).getImage();
-                    ((ImageIcon)icon).setImage(img.getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+                // Resize to 16x16 if necessbry.
+                if (icon instbnceof ImbgeIcon && (icon.getIconWidth() > 16 || icon.getIconHeight() > 16)) {
+                    Imbge img = ((ImbgeIcon)icon).getImbge();
+                    ((ImbgeIcon)icon).setImbge(img.getScbledInstbnce(16, 16, Imbge.SCALE_SMOOTH));
                 }
-                icon.paintIcon(this, g, 0, 0);
+                icon.pbintIcon(this, g, 0, 0);
             }
         }
 
-        public boolean isOpaque() {
+        public boolebn isOpbque() {
             return true;
         }
-    } // end SystemMenuBar
+    } // end SystemMenuBbr
 
 
-    private class NoFocusButton extends JButton {
-        private String uiKey;
-        public NoFocusButton(String uiKey, String opacityKey) {
-            setFocusPainted(false);
-            setMargin(new Insets(0,0,0,0));
+    privbte clbss NoFocusButton extends JButton {
+        privbte String uiKey;
+        public NoFocusButton(String uiKey, String opbcityKey) {
+            setFocusPbinted(fblse);
+            setMbrgin(new Insets(0,0,0,0));
             this.uiKey = uiKey;
 
-            Object opacity = UIManager.get(opacityKey);
-            if (opacity instanceof Boolean) {
-                setOpaque(((Boolean)opacity).booleanValue());
+            Object opbcity = UIMbnbger.get(opbcityKey);
+            if (opbcity instbnceof Boolebn) {
+                setOpbque(((Boolebn)opbcity).boolebnVblue());
             }
         }
-        public boolean isFocusTraversable() { return false; }
+        public boolebn isFocusTrbversbble() { return fblse; }
         public void requestFocus() {}
         public AccessibleContext getAccessibleContext() {
-            AccessibleContext ac = super.getAccessibleContext();
+            AccessibleContext bc = super.getAccessibleContext();
             if (uiKey != null) {
-                ac.setAccessibleName(UIManager.getString(uiKey));
+                bc.setAccessibleNbme(UIMbnbger.getString(uiKey));
                 uiKey = null;
             }
-            return ac;
+            return bc;
         }
     }  // end NoFocusButton
 
-}   // End Title Pane Class
+}   // End Title Pbne Clbss

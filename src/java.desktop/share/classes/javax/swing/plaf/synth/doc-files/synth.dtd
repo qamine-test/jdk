@@ -1,52 +1,52 @@
-<!ELEMENT defaultsProperty EMPTY>
+<!ELEMENT defbultsProperty EMPTY>
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <!--
- Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
 
-<!ELEMENT synth ((%beansPersistance;) | style | bind | font | color |
-          imagePainter | imageIcon | inputMap | defaultsProperty)*>
+<!ELEMENT synth ((%bebnsPersistbnce;) | style | bind | font | color |
+          imbgePbinter | imbgeIcon | inputMbp | defbultsProperty)*>
 <!ATTLIST synth
           version              CDATA          #IMPLIED
 >
 
-<!ELEMENT style (property | defaultsProperty | state | font |
-          graphicsUtils | insets | painter | imagePainter | opaque |
-          inputMap | %beansPersistance; | imageIcon)*>
+<!ELEMENT style (property | defbultsProperty | stbte | font |
+          grbphicsUtils | insets | pbinter | imbgePbinter | opbque |
+          inputMbp | %bebnsPersistbnce; | imbgeIcon)*>
 <!ATTLIST style
           id                   ID             #IMPLIED
           clone                IDREF          #IMPLIED
 >
 
-<!ELEMENT state (font | color | painter | imagePainter |
-          (%beansPersistance;) | property | imageIcon)*>
-<!ATTLIST state
+<!ELEMENT stbte (font | color | pbinter | imbgePbinter |
+          (%bebnsPersistbnce;) | property | imbgeIcon)*>
+<!ATTLIST stbte
           id                   ID             #IMPLIED
           clone                IDREF          #IMPLIED
-          value                CDATA          #IMPLIED
+          vblue                CDATA          #IMPLIED
           idref                IDREF          #IMPLIED
 >
 
@@ -54,7 +54,7 @@
 <!ATTLIST font
           id                   ID             #IMPLIED
           idref                IDREF          #IMPLIED
-          name                 CDATA          #IMPLIED
+          nbme                 CDATA          #IMPLIED
           style                CDATA          #IMPLIED
           size                 CDATA          #IMPLIED
 >
@@ -64,25 +64,25 @@
           id                   ID             #IMPLIED
           idref                IDREF          #IMPLIED
           type                 CDATA          #IMPLIED
-          value                CDATA          #IMPLIED
+          vblue                CDATA          #IMPLIED
 >
 
 <!ELEMENT property EMPTY>
 <!ATTLIST property
           key         CDATA                                           #REQUIRED
-          type        (idref|boolean|dimension|insets|integer|string) "idref"
-          value       CDATA                                           #REQUIRED
+          type        (idref|boolebn|dimension|insets|integer|string) "idref"
+          vblue       CDATA                                           #REQUIRED
 >
 
-<!ELEMENT defaultsProperty EMPTY>
-<!ATTLIST defaultsProperty
+<!ELEMENT defbultsProperty EMPTY>
+<!ATTLIST defbultsProperty
           key         CDATA                                           #REQUIRED
-          type        (idref|boolean|dimension|insets|integer|string)   "idref"
-          value       CDATA                                           #REQUIRED
+          type        (idref|boolebn|dimension|insets|integer|string)   "idref"
+          vblue       CDATA                                           #REQUIRED
 >
 
-<!ELEMENT graphicsUtils EMPTY>
-<!ATTLIST graphicsUtils
+<!ELEMENT grbphicsUtils EMPTY>
+<!ATTLIST grbphicsUtils
           idref                IDREF          #REQUIRED
 >
 
@@ -103,44 +103,44 @@
           key                  CDATA          #REQUIRED
 >
 
-<!ELEMENT painter EMPTY>
-<!ATTLIST painter
+<!ELEMENT pbinter EMPTY>
+<!ATTLIST pbinter
           idref                IDREF          #IMPLIED
           method               CDATA          #IMPLIED
-          direction            (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
+          direction            (north|south|ebst|west|top|left|bottom|right|horizontbl|verticbl|horizontbl_split|verticbl_split)          #IMPLIED
 >
 
-<!ELEMENT imagePainter EMPTY>
-<!ATTLIST imagePainter
+<!ELEMENT imbgePbinter EMPTY>
+<!ATTLIST imbgePbinter
           id                   ID             #IMPLIED
           method               CDATA          #IMPLIED
-          direction            (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
-          path                 CDATA          #IMPLIED
+          direction            (north|south|ebst|west|top|left|bottom|right|horizontbl|verticbl|horizontbl_split|verticbl_split)          #IMPLIED
+          pbth                 CDATA          #IMPLIED
           sourceInsets         CDATA          #IMPLIED
-          destinationInsets    CDATA          #IMPLIED
-          paintCenter          (true|false)   "true"
-          stretch              (true|false)   "true"
-          center               (true|false)   "false"
+          destinbtionInsets    CDATA          #IMPLIED
+          pbintCenter          (true|fblse)   "true"
+          stretch              (true|fblse)   "true"
+          center               (true|fblse)   "fblse"
 >
 
-<!ELEMENT imageIcon EMPTY>
-<!ATTLIST imageIcon
+<!ELEMENT imbgeIcon EMPTY>
+<!ATTLIST imbgeIcon
           id                   ID             #REQUIRED
-          path                 CDATA          #REQUIRED
+          pbth                 CDATA          #REQUIRED
 >
 
-<!ELEMENT opaque EMPTY>
-<!ATTLIST opaque
-          value                (true|false)   "true"
+<!ELEMENT opbque EMPTY>
+<!ATTLIST opbque
+          vblue                (true|fblse)   "true"
 >
 
-<!ELEMENT inputMap (bindKey)*>
-<!ATTLIST inputMap
+<!ELEMENT inputMbp (bindKey)*>
+<!ATTLIST inputMbp
           id                   ID             #REQUIRED
 >
 
 <!ELEMENT bindKey EMPTY>
 <!ATTLIST bindKey
           key                  CDATA          #REQUIRED
-          action               CDATA          #REQUIRED
+          bction               CDATA          #REQUIRED
 >

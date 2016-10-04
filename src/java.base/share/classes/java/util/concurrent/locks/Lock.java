@@ -1,357 +1,357 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
+pbckbge jbvb.util.concurrent.locks;
+import jbvb.util.concurrent.TimeUnit;
 
 /**
- * {@code Lock} implementations provide more extensive locking
- * operations than can be obtained using {@code synchronized} methods
- * and statements.  They allow more flexible structuring, may have
- * quite different properties, and may support multiple associated
+ * {@code Lock} implementbtions provide more extensive locking
+ * operbtions thbn cbn be obtbined using {@code synchronized} methods
+ * bnd stbtements.  They bllow more flexible structuring, mby hbve
+ * quite different properties, bnd mby support multiple bssocibted
  * {@link Condition} objects.
  *
- * <p>A lock is a tool for controlling access to a shared resource by
- * multiple threads. Commonly, a lock provides exclusive access to a
- * shared resource: only one thread at a time can acquire the lock and
- * all access to the shared resource requires that the lock be
- * acquired first. However, some locks may allow concurrent access to
- * a shared resource, such as the read lock of a {@link ReadWriteLock}.
+ * <p>A lock is b tool for controlling bccess to b shbred resource by
+ * multiple threbds. Commonly, b lock provides exclusive bccess to b
+ * shbred resource: only one threbd bt b time cbn bcquire the lock bnd
+ * bll bccess to the shbred resource requires thbt the lock be
+ * bcquired first. However, some locks mby bllow concurrent bccess to
+ * b shbred resource, such bs the rebd lock of b {@link RebdWriteLock}.
  *
- * <p>The use of {@code synchronized} methods or statements provides
- * access to the implicit monitor lock associated with every object, but
- * forces all lock acquisition and release to occur in a block-structured way:
- * when multiple locks are acquired they must be released in the opposite
- * order, and all locks must be released in the same lexical scope in which
- * they were acquired.
+ * <p>The use of {@code synchronized} methods or stbtements provides
+ * bccess to the implicit monitor lock bssocibted with every object, but
+ * forces bll lock bcquisition bnd relebse to occur in b block-structured wby:
+ * when multiple locks bre bcquired they must be relebsed in the opposite
+ * order, bnd bll locks must be relebsed in the sbme lexicbl scope in which
+ * they were bcquired.
  *
- * <p>While the scoping mechanism for {@code synchronized} methods
- * and statements makes it much easier to program with monitor locks,
- * and helps avoid many common programming errors involving locks,
- * there are occasions where you need to work with locks in a more
- * flexible way. For example, some algorithms for traversing
- * concurrently accessed data structures require the use of
- * &quot;hand-over-hand&quot; or &quot;chain locking&quot;: you
- * acquire the lock of node A, then node B, then release A and acquire
- * C, then release B and acquire D and so on.  Implementations of the
- * {@code Lock} interface enable the use of such techniques by
- * allowing a lock to be acquired and released in different scopes,
- * and allowing multiple locks to be acquired and released in any
+ * <p>While the scoping mechbnism for {@code synchronized} methods
+ * bnd stbtements mbkes it much ebsier to progrbm with monitor locks,
+ * bnd helps bvoid mbny common progrbmming errors involving locks,
+ * there bre occbsions where you need to work with locks in b more
+ * flexible wby. For exbmple, some blgorithms for trbversing
+ * concurrently bccessed dbtb structures require the use of
+ * &quot;hbnd-over-hbnd&quot; or &quot;chbin locking&quot;: you
+ * bcquire the lock of node A, then node B, then relebse A bnd bcquire
+ * C, then relebse B bnd bcquire D bnd so on.  Implementbtions of the
+ * {@code Lock} interfbce enbble the use of such techniques by
+ * bllowing b lock to be bcquired bnd relebsed in different scopes,
+ * bnd bllowing multiple locks to be bcquired bnd relebsed in bny
  * order.
  *
- * <p>With this increased flexibility comes additional
- * responsibility. The absence of block-structured locking removes the
- * automatic release of locks that occurs with {@code synchronized}
- * methods and statements. In most cases, the following idiom
+ * <p>With this increbsed flexibility comes bdditionbl
+ * responsibility. The bbsence of block-structured locking removes the
+ * butombtic relebse of locks thbt occurs with {@code synchronized}
+ * methods bnd stbtements. In most cbses, the following idiom
  * should be used:
  *
  *  <pre> {@code
  * Lock l = ...;
  * l.lock();
  * try {
- *   // access the resource protected by this lock
- * } finally {
+ *   // bccess the resource protected by this lock
+ * } finblly {
  *   l.unlock();
  * }}</pre>
  *
- * When locking and unlocking occur in different scopes, care must be
- * taken to ensure that all code that is executed while the lock is
- * held is protected by try-finally or try-catch to ensure that the
- * lock is released when necessary.
+ * When locking bnd unlocking occur in different scopes, cbre must be
+ * tbken to ensure thbt bll code thbt is executed while the lock is
+ * held is protected by try-finblly or try-cbtch to ensure thbt the
+ * lock is relebsed when necessbry.
  *
- * <p>{@code Lock} implementations provide additional functionality
- * over the use of {@code synchronized} methods and statements by
- * providing a non-blocking attempt to acquire a lock ({@link
- * #tryLock()}), an attempt to acquire the lock that can be
- * interrupted ({@link #lockInterruptibly}, and an attempt to acquire
- * the lock that can timeout ({@link #tryLock(long, TimeUnit)}).
+ * <p>{@code Lock} implementbtions provide bdditionbl functionblity
+ * over the use of {@code synchronized} methods bnd stbtements by
+ * providing b non-blocking bttempt to bcquire b lock ({@link
+ * #tryLock()}), bn bttempt to bcquire the lock thbt cbn be
+ * interrupted ({@link #lockInterruptibly}, bnd bn bttempt to bcquire
+ * the lock thbt cbn timeout ({@link #tryLock(long, TimeUnit)}).
  *
- * <p>A {@code Lock} class can also provide behavior and semantics
- * that is quite different from that of the implicit monitor lock,
- * such as guaranteed ordering, non-reentrant usage, or deadlock
- * detection. If an implementation provides such specialized semantics
- * then the implementation must document those semantics.
+ * <p>A {@code Lock} clbss cbn blso provide behbvior bnd sembntics
+ * thbt is quite different from thbt of the implicit monitor lock,
+ * such bs gubrbnteed ordering, non-reentrbnt usbge, or debdlock
+ * detection. If bn implementbtion provides such speciblized sembntics
+ * then the implementbtion must document those sembntics.
  *
- * <p>Note that {@code Lock} instances are just normal objects and can
- * themselves be used as the target in a {@code synchronized} statement.
+ * <p>Note thbt {@code Lock} instbnces bre just normbl objects bnd cbn
+ * themselves be used bs the tbrget in b {@code synchronized} stbtement.
  * Acquiring the
- * monitor lock of a {@code Lock} instance has no specified relationship
- * with invoking any of the {@link #lock} methods of that instance.
- * It is recommended that to avoid confusion you never use {@code Lock}
- * instances in this way, except within their own implementation.
+ * monitor lock of b {@code Lock} instbnce hbs no specified relbtionship
+ * with invoking bny of the {@link #lock} methods of thbt instbnce.
+ * It is recommended thbt to bvoid confusion you never use {@code Lock}
+ * instbnces in this wby, except within their own implementbtion.
  *
- * <p>Except where noted, passing a {@code null} value for any
- * parameter will result in a {@link NullPointerException} being
+ * <p>Except where noted, pbssing b {@code null} vblue for bny
+ * pbrbmeter will result in b {@link NullPointerException} being
  * thrown.
  *
- * <h3>Memory Synchronization</h3>
+ * <h3>Memory Synchronizbtion</h3>
  *
- * <p>All {@code Lock} implementations <em>must</em> enforce the same
- * memory synchronization semantics as provided by the built-in monitor
- * lock, as described in
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4">
- * The Java Language Specification (17.4 Memory Model)</a>:
+ * <p>All {@code Lock} implementbtions <em>must</em> enforce the sbme
+ * memory synchronizbtion sembntics bs provided by the built-in monitor
+ * lock, bs described in
+ * <b href="http://docs.orbcle.com/jbvbse/specs/jls/se7/html/jls-17.html#jls-17.4">
+ * The Jbvb Lbngubge Specificbtion (17.4 Memory Model)</b>:
  * <ul>
- * <li>A successful {@code lock} operation has the same memory
- * synchronization effects as a successful <em>Lock</em> action.
- * <li>A successful {@code unlock} operation has the same
- * memory synchronization effects as a successful <em>Unlock</em> action.
+ * <li>A successful {@code lock} operbtion hbs the sbme memory
+ * synchronizbtion effects bs b successful <em>Lock</em> bction.
+ * <li>A successful {@code unlock} operbtion hbs the sbme
+ * memory synchronizbtion effects bs b successful <em>Unlock</em> bction.
  * </ul>
  *
- * Unsuccessful locking and unlocking operations, and reentrant
- * locking/unlocking operations, do not require any memory
- * synchronization effects.
+ * Unsuccessful locking bnd unlocking operbtions, bnd reentrbnt
+ * locking/unlocking operbtions, do not require bny memory
+ * synchronizbtion effects.
  *
- * <h3>Implementation Considerations</h3>
+ * <h3>Implementbtion Considerbtions</h3>
  *
- * <p>The three forms of lock acquisition (interruptible,
- * non-interruptible, and timed) may differ in their performance
- * characteristics, ordering guarantees, or other implementation
- * qualities.  Further, the ability to interrupt the <em>ongoing</em>
- * acquisition of a lock may not be available in a given {@code Lock}
- * class.  Consequently, an implementation is not required to define
- * exactly the same guarantees or semantics for all three forms of
- * lock acquisition, nor is it required to support interruption of an
- * ongoing lock acquisition.  An implementation is required to clearly
- * document the semantics and guarantees provided by each of the
- * locking methods. It must also obey the interruption semantics as
- * defined in this interface, to the extent that interruption of lock
- * acquisition is supported: which is either totally, or only on
+ * <p>The three forms of lock bcquisition (interruptible,
+ * non-interruptible, bnd timed) mby differ in their performbnce
+ * chbrbcteristics, ordering gubrbntees, or other implementbtion
+ * qublities.  Further, the bbility to interrupt the <em>ongoing</em>
+ * bcquisition of b lock mby not be bvbilbble in b given {@code Lock}
+ * clbss.  Consequently, bn implementbtion is not required to define
+ * exbctly the sbme gubrbntees or sembntics for bll three forms of
+ * lock bcquisition, nor is it required to support interruption of bn
+ * ongoing lock bcquisition.  An implementbtion is required to clebrly
+ * document the sembntics bnd gubrbntees provided by ebch of the
+ * locking methods. It must blso obey the interruption sembntics bs
+ * defined in this interfbce, to the extent thbt interruption of lock
+ * bcquisition is supported: which is either totblly, or only on
  * method entry.
  *
- * <p>As interruption generally implies cancellation, and checks for
- * interruption are often infrequent, an implementation can favor responding
- * to an interrupt over normal method return. This is true even if it can be
- * shown that the interrupt occurred after another action may have unblocked
- * the thread. An implementation should document this behavior.
+ * <p>As interruption generblly implies cbncellbtion, bnd checks for
+ * interruption bre often infrequent, bn implementbtion cbn fbvor responding
+ * to bn interrupt over normbl method return. This is true even if it cbn be
+ * shown thbt the interrupt occurred bfter bnother bction mby hbve unblocked
+ * the threbd. An implementbtion should document this behbvior.
  *
- * @see ReentrantLock
+ * @see ReentrbntLock
  * @see Condition
- * @see ReadWriteLock
+ * @see RebdWriteLock
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public interface Lock {
+public interfbce Lock {
 
     /**
      * Acquires the lock.
      *
-     * <p>If the lock is not available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until the
-     * lock has been acquired.
+     * <p>If the lock is not bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until the
+     * lock hbs been bcquired.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implementbtion Considerbtions</b>
      *
-     * <p>A {@code Lock} implementation may be able to detect erroneous use
-     * of the lock, such as an invocation that would cause deadlock, and
-     * may throw an (unchecked) exception in such circumstances.  The
-     * circumstances and the exception type must be documented by that
-     * {@code Lock} implementation.
+     * <p>A {@code Lock} implementbtion mby be bble to detect erroneous use
+     * of the lock, such bs bn invocbtion thbt would cbuse debdlock, bnd
+     * mby throw bn (unchecked) exception in such circumstbnces.  The
+     * circumstbnces bnd the exception type must be documented by thbt
+     * {@code Lock} implementbtion.
      */
     void lock();
 
     /**
-     * Acquires the lock unless the current thread is
-     * {@linkplain Thread#interrupt interrupted}.
+     * Acquires the lock unless the current threbd is
+     * {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires the lock if it is available and returns immediately.
+     * <p>Acquires the lock if it is bvbilbble bnd returns immedibtely.
      *
-     * <p>If the lock is not available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
+     * <p>If the lock is not bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * one of two things hbppens:
      *
      * <ul>
-     * <li>The lock is acquired by the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of lock acquisition is supported.
+     * <li>The lock is bcquired by the current threbd; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts} the
+     * current threbd, bnd interruption of lock bcquisition is supported.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while acquiring the
-     * lock, and interruption of lock acquisition is supported,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while bcquiring the
+     * lock, bnd interruption of lock bcquisition is supported,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implementbtion Considerbtions</b>
      *
-     * <p>The ability to interrupt a lock acquisition in some
-     * implementations may not be possible, and if possible may be an
-     * expensive operation.  The programmer should be aware that this
-     * may be the case. An implementation should document when this is
-     * the case.
+     * <p>The bbility to interrupt b lock bcquisition in some
+     * implementbtions mby not be possible, bnd if possible mby be bn
+     * expensive operbtion.  The progrbmmer should be bwbre thbt this
+     * mby be the cbse. An implementbtion should document when this is
+     * the cbse.
      *
-     * <p>An implementation can favor responding to an interrupt over
-     * normal method return.
+     * <p>An implementbtion cbn fbvor responding to bn interrupt over
+     * normbl method return.
      *
-     * <p>A {@code Lock} implementation may be able to detect
-     * erroneous use of the lock, such as an invocation that would
-     * cause deadlock, and may throw an (unchecked) exception in such
-     * circumstances.  The circumstances and the exception type must
-     * be documented by that {@code Lock} implementation.
+     * <p>A {@code Lock} implementbtion mby be bble to detect
+     * erroneous use of the lock, such bs bn invocbtion thbt would
+     * cbuse debdlock, bnd mby throw bn (unchecked) exception in such
+     * circumstbnces.  The circumstbnces bnd the exception type must
+     * be documented by thbt {@code Lock} implementbtion.
      *
-     * @throws InterruptedException if the current thread is
-     *         interrupted while acquiring the lock (and interruption
-     *         of lock acquisition is supported)
+     * @throws InterruptedException if the current threbd is
+     *         interrupted while bcquiring the lock (bnd interruption
+     *         of lock bcquisition is supported)
      */
     void lockInterruptibly() throws InterruptedException;
 
     /**
-     * Acquires the lock only if it is free at the time of invocation.
+     * Acquires the lock only if it is free bt the time of invocbtion.
      *
-     * <p>Acquires the lock if it is available and returns immediately
-     * with the value {@code true}.
-     * If the lock is not available then this method will return
-     * immediately with the value {@code false}.
+     * <p>Acquires the lock if it is bvbilbble bnd returns immedibtely
+     * with the vblue {@code true}.
+     * If the lock is not bvbilbble then this method will return
+     * immedibtely with the vblue {@code fblse}.
      *
-     * <p>A typical usage idiom for this method would be:
+     * <p>A typicbl usbge idiom for this method would be:
      *  <pre> {@code
      * Lock lock = ...;
      * if (lock.tryLock()) {
      *   try {
-     *     // manipulate protected state
-     *   } finally {
+     *     // mbnipulbte protected stbte
+     *   } finblly {
      *     lock.unlock();
      *   }
      * } else {
-     *   // perform alternative actions
+     *   // perform blternbtive bctions
      * }}</pre>
      *
-     * This usage ensures that the lock is unlocked if it was acquired, and
-     * doesn't try to unlock if the lock was not acquired.
+     * This usbge ensures thbt the lock is unlocked if it wbs bcquired, bnd
+     * doesn't try to unlock if the lock wbs not bcquired.
      *
-     * @return {@code true} if the lock was acquired and
-     *         {@code false} otherwise
+     * @return {@code true} if the lock wbs bcquired bnd
+     *         {@code fblse} otherwise
      */
-    boolean tryLock();
+    boolebn tryLock();
 
     /**
-     * Acquires the lock if it is free within the given waiting time and the
-     * current thread has not been {@linkplain Thread#interrupt interrupted}.
+     * Acquires the lock if it is free within the given wbiting time bnd the
+     * current threbd hbs not been {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>If the lock is available this method returns immediately
-     * with the value {@code true}.
-     * If the lock is not available then
-     * the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If the lock is bvbilbble this method returns immedibtely
+     * with the vblue {@code true}.
+     * If the lock is not bvbilbble then
+     * the current threbd becomes disbbled for threbd scheduling
+     * purposes bnd lies dormbnt until one of three things hbppens:
      * <ul>
-     * <li>The lock is acquired by the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of lock acquisition is supported; or
-     * <li>The specified waiting time elapses
+     * <li>The lock is bcquired by the current threbd; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts} the
+     * current threbd, bnd interruption of lock bcquisition is supported; or
+     * <li>The specified wbiting time elbpses
      * </ul>
      *
-     * <p>If the lock is acquired then the value {@code true} is returned.
+     * <p>If the lock is bcquired then the vblue {@code true} is returned.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while acquiring
-     * the lock, and interruption of lock acquisition is supported,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while bcquiring
+     * the lock, bnd interruption of lock bcquisition is supported,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
+     * <p>If the specified wbiting time elbpses then the vblue {@code fblse}
      * is returned.
      * If the time is
-     * less than or equal to zero, the method will not wait at all.
+     * less thbn or equbl to zero, the method will not wbit bt bll.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implementbtion Considerbtions</b>
      *
-     * <p>The ability to interrupt a lock acquisition in some implementations
-     * may not be possible, and if possible may
-     * be an expensive operation.
-     * The programmer should be aware that this may be the case. An
-     * implementation should document when this is the case.
+     * <p>The bbility to interrupt b lock bcquisition in some implementbtions
+     * mby not be possible, bnd if possible mby
+     * be bn expensive operbtion.
+     * The progrbmmer should be bwbre thbt this mby be the cbse. An
+     * implementbtion should document when this is the cbse.
      *
-     * <p>An implementation can favor responding to an interrupt over normal
-     * method return, or reporting a timeout.
+     * <p>An implementbtion cbn fbvor responding to bn interrupt over normbl
+     * method return, or reporting b timeout.
      *
-     * <p>A {@code Lock} implementation may be able to detect
-     * erroneous use of the lock, such as an invocation that would cause
-     * deadlock, and may throw an (unchecked) exception in such circumstances.
-     * The circumstances and the exception type must be documented by that
-     * {@code Lock} implementation.
+     * <p>A {@code Lock} implementbtion mby be bble to detect
+     * erroneous use of the lock, such bs bn invocbtion thbt would cbuse
+     * debdlock, bnd mby throw bn (unchecked) exception in such circumstbnces.
+     * The circumstbnces bnd the exception type must be documented by thbt
+     * {@code Lock} implementbtion.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return {@code true} if the lock was acquired and {@code false}
-     *         if the waiting time elapsed before the lock was acquired
+     * @pbrbm time the mbximum time to wbit for the lock
+     * @pbrbm unit the time unit of the {@code time} brgument
+     * @return {@code true} if the lock wbs bcquired bnd {@code fblse}
+     *         if the wbiting time elbpsed before the lock wbs bcquired
      *
-     * @throws InterruptedException if the current thread is interrupted
-     *         while acquiring the lock (and interruption of lock
-     *         acquisition is supported)
+     * @throws InterruptedException if the current threbd is interrupted
+     *         while bcquiring the lock (bnd interruption of lock
+     *         bcquisition is supported)
      */
-    boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+    boolebn tryLock(long time, TimeUnit unit) throws InterruptedException;
 
     /**
-     * Releases the lock.
+     * Relebses the lock.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implementbtion Considerbtions</b>
      *
-     * <p>A {@code Lock} implementation will usually impose
-     * restrictions on which thread can release a lock (typically only the
-     * holder of the lock can release it) and may throw
-     * an (unchecked) exception if the restriction is violated.
-     * Any restrictions and the exception
-     * type must be documented by that {@code Lock} implementation.
+     * <p>A {@code Lock} implementbtion will usublly impose
+     * restrictions on which threbd cbn relebse b lock (typicblly only the
+     * holder of the lock cbn relebse it) bnd mby throw
+     * bn (unchecked) exception if the restriction is violbted.
+     * Any restrictions bnd the exception
+     * type must be documented by thbt {@code Lock} implementbtion.
      */
     void unlock();
 
     /**
-     * Returns a new {@link Condition} instance that is bound to this
-     * {@code Lock} instance.
+     * Returns b new {@link Condition} instbnce thbt is bound to this
+     * {@code Lock} instbnce.
      *
-     * <p>Before waiting on the condition the lock must be held by the
-     * current thread.
-     * A call to {@link Condition#await()} will atomically release the lock
-     * before waiting and re-acquire the lock before the wait returns.
+     * <p>Before wbiting on the condition the lock must be held by the
+     * current threbd.
+     * A cbll to {@link Condition#bwbit()} will btomicblly relebse the lock
+     * before wbiting bnd re-bcquire the lock before the wbit returns.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implementbtion Considerbtions</b>
      *
-     * <p>The exact operation of the {@link Condition} instance depends on
-     * the {@code Lock} implementation and must be documented by that
-     * implementation.
+     * <p>The exbct operbtion of the {@link Condition} instbnce depends on
+     * the {@code Lock} implementbtion bnd must be documented by thbt
+     * implementbtion.
      *
-     * @return A new {@link Condition} instance for this {@code Lock} instance
-     * @throws UnsupportedOperationException if this {@code Lock}
-     *         implementation does not support conditions
+     * @return A new {@link Condition} instbnce for this {@code Lock} instbnce
+     * @throws UnsupportedOperbtionException if this {@code Lock}
+     *         implementbtion does not support conditions
      */
     Condition newCondition();
 }

@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * InputStream for application data as returned by SSLSocket.getInputStream().
- * It uses an InputRecord as internal buffer that is refilled on demand
- * whenever it runs out of data.
+ * InputStrebm for bpplicbtion dbtb bs returned by SSLSocket.getInputStrebm().
+ * It uses bn InputRecord bs internbl buffer thbt is refilled on dembnd
+ * whenever it runs out of dbtb.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-class AppInputStream extends InputStream {
+clbss AppInputStrebm extends InputStrebm {
 
-    // static dummy array we use to implement skip()
-    private final static byte[] SKIP_ARRAY = new byte[1024];
+    // stbtic dummy brrby we use to implement skip()
+    privbte finbl stbtic byte[] SKIP_ARRAY = new byte[1024];
 
-    private SSLSocketImpl c;
+    privbte SSLSocketImpl c;
     InputRecord r;
 
-    // One element array used to implement the single byte read() method
-    private final byte[] oneByte = new byte[1];
+    // One element brrby used to implement the single byte rebd() method
+    privbte finbl byte[] oneByte = new byte[1];
 
-    AppInputStream(SSLSocketImpl conn) {
+    AppInputStrebm(SSLSocketImpl conn) {
         r = new InputRecord();
         c = conn;
     }
 
     /**
-     * Return the minimum number of bytes that can be read without blocking.
+     * Return the minimum number of bytes thbt cbn be rebd without blocking.
      * Currently not synchronized.
      */
     @Override
-    public int available() throws IOException {
-        if (c.checkEOF() || (r.isAppDataValid() == false)) {
+    public int bvbilbble() throws IOException {
+        if (c.checkEOF() || (r.isAppDbtbVblid() == fblse)) {
             return 0;
         }
-        return r.available();
+        return r.bvbilbble();
     }
 
     /**
-     * Read a single byte, returning -1 on non-fault EOF status.
+     * Rebd b single byte, returning -1 on non-fbult EOF stbtus.
      */
     @Override
-    public synchronized int read() throws IOException {
-        int n = read(oneByte, 0, 1);
+    public synchronized int rebd() throws IOException {
+        int n = rebd(oneByte, 0, 1);
         if (n <= 0) { // EOF
             return -1;
         }
@@ -76,13 +76,13 @@ class AppInputStream extends InputStream {
     }
 
     /**
-     * Read up to "len" bytes into this buffer, starting at "off".
-     * If the layer above needs more data, it asks for more, so we
-     * are responsible only for blocking to fill at most one buffer,
-     * and returning "-1" on non-fault EOF status.
+     * Rebd up to "len" bytes into this buffer, stbrting bt "off".
+     * If the lbyer bbove needs more dbtb, it bsks for more, so we
+     * bre responsible only for blocking to fill bt most one buffer,
+     * bnd returning "-1" on non-fbult EOF stbtus.
      */
     @Override
-    public synchronized int read(byte b[], int off, int len)
+    public synchronized int rebd(byte b[], int off, int len)
             throws IOException {
         if (b == null) {
             throw new NullPointerException();
@@ -97,23 +97,23 @@ class AppInputStream extends InputStream {
         }
         try {
             /*
-             * Read data if needed ... notice that the connection guarantees
-             * that handshake, alert, and change cipher spec data streams are
-             * handled as they arrive, so we never see them here.
+             * Rebd dbtb if needed ... notice thbt the connection gubrbntees
+             * thbt hbndshbke, blert, bnd chbnge cipher spec dbtb strebms bre
+             * hbndled bs they brrive, so we never see them here.
              */
-            while (r.available() == 0) {
-                c.readDataRecord(r);
+            while (r.bvbilbble() == 0) {
+                c.rebdDbtbRecord(r);
                 if (c.checkEOF()) {
                     return -1;
                 }
             }
 
-            int howmany = Math.min(len, r.available());
-            howmany = r.read(b, off, howmany);
-            return howmany;
-        } catch (Exception e) {
-            // shutdown and rethrow (wrapped) exception as appropriate
-            c.handleException(e);
+            int howmbny = Mbth.min(len, r.bvbilbble());
+            howmbny = r.rebd(b, off, howmbny);
+            return howmbny;
+        } cbtch (Exception e) {
+            // shutdown bnd rethrow (wrbpped) exception bs bppropribte
+            c.hbndleException(e);
             // dummy for compiler
             return -1;
         }
@@ -121,20 +121,20 @@ class AppInputStream extends InputStream {
 
 
     /**
-     * Skip n bytes. This implementation is somewhat less efficient
-     * than possible, but not badly so (redundant copy). We reuse
-     * the read() code to keep things simpler. Note that SKIP_ARRAY
-     * is static and may garbled by concurrent use, but we are not interested
-     * in the data anyway.
+     * Skip n bytes. This implementbtion is somewhbt less efficient
+     * thbn possible, but not bbdly so (redundbnt copy). We reuse
+     * the rebd() code to keep things simpler. Note thbt SKIP_ARRAY
+     * is stbtic bnd mby gbrbled by concurrent use, but we bre not interested
+     * in the dbtb bnywby.
      */
     @Override
     public synchronized long skip(long n) throws IOException {
         long skipped = 0;
         while (n > 0) {
-            int len = (int)Math.min(n, SKIP_ARRAY.length);
-            int r = read(SKIP_ARRAY, 0, len);
+            int len = (int)Mbth.min(n, SKIP_ARRAY.length);
+            int r = rebd(SKIP_ARRAY, 0, len);
             if (r <= 0) {
-                break;
+                brebk;
             }
             n -= r;
             skipped += r;
@@ -143,13 +143,13 @@ class AppInputStream extends InputStream {
     }
 
     /*
-     * Socket close is already synchronized, no need to block here.
+     * Socket close is blrebdy synchronized, no need to block here.
      */
     @Override
     public void close() throws IOException {
         c.close();
     }
 
-    // inherit default mark/reset behavior (throw Exceptions) from InputStream
+    // inherit defbult mbrk/reset behbvior (throw Exceptions) from InputStrebm
 
 }

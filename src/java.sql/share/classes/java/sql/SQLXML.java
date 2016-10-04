@@ -1,427 +1,427 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.Writer;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
+import jbvbx.xml.trbnsform.Result;
+import jbvbx.xml.trbnsform.Source;
 
 /**
- * The mapping in the JavaTM programming language for the SQL XML type.
- * XML is a built-in type that stores an XML value
- * as a column value in a row of a database table.
- * By default drivers implement an SQLXML object as
- * a logical pointer to the XML data
- * rather than the data itself.
- * An SQLXML object is valid for the duration of the transaction in which it was created.
+ * The mbpping in the JbvbTM progrbmming lbngubge for the SQL XML type.
+ * XML is b built-in type thbt stores bn XML vblue
+ * bs b column vblue in b row of b dbtbbbse tbble.
+ * By defbult drivers implement bn SQLXML object bs
+ * b logicbl pointer to the XML dbtb
+ * rbther thbn the dbtb itself.
+ * An SQLXML object is vblid for the durbtion of the trbnsbction in which it wbs crebted.
  * <p>
- * The SQLXML interface provides methods for accessing the XML value
- * as a String, a Reader or Writer, or as a Stream.  The XML value
- * may also be accessed through a Source or set as a Result, which
- * are used with XML Parser APIs such as DOM, SAX, and StAX, as
- * well as with XSLT transforms and XPath evaluations.
+ * The SQLXML interfbce provides methods for bccessing the XML vblue
+ * bs b String, b Rebder or Writer, or bs b Strebm.  The XML vblue
+ * mby blso be bccessed through b Source or set bs b Result, which
+ * bre used with XML Pbrser APIs such bs DOM, SAX, bnd StAX, bs
+ * well bs with XSLT trbnsforms bnd XPbth evblubtions.
  * <p>
- * Methods in the interfaces ResultSet, CallableStatement, and PreparedStatement,
- * such as getSQLXML allow a programmer to access an XML value.
- * In addition, this interface has methods for updating an XML value.
+ * Methods in the interfbces ResultSet, CbllbbleStbtement, bnd PrepbredStbtement,
+ * such bs getSQLXML bllow b progrbmmer to bccess bn XML vblue.
+ * In bddition, this interfbce hbs methods for updbting bn XML vblue.
  * <p>
- * The XML value of the SQLXML instance may be obtained as a BinaryStream using
+ * The XML vblue of the SQLXML instbnce mby be obtbined bs b BinbryStrebm using
  * <pre>
  *   SQLXML sqlxml = resultSet.getSQLXML(column);
- *   InputStream binaryStream = sqlxml.getBinaryStream();
+ *   InputStrebm binbryStrebm = sqlxml.getBinbryStrebm();
  * </pre>
- * For example, to parse an XML value with a DOM parser:
+ * For exbmple, to pbrse bn XML vblue with b DOM pbrser:
  * <pre>
- *   DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
- *   Document result = parser.parse(binaryStream);
+ *   DocumentBuilder pbrser = DocumentBuilderFbctory.newInstbnce().newDocumentBuilder();
+ *   Document result = pbrser.pbrse(binbryStrebm);
  * </pre>
- * or to parse an XML value with a SAX parser to your handler:
+ * or to pbrse bn XML vblue with b SAX pbrser to your hbndler:
  * <pre>
- *   SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
- *   parser.parse(binaryStream, myHandler);
+ *   SAXPbrser pbrser = SAXPbrserFbctory.newInstbnce().newSAXPbrser();
+ *   pbrser.pbrse(binbryStrebm, myHbndler);
  * </pre>
- * or to parse an XML value with a StAX parser:
+ * or to pbrse bn XML vblue with b StAX pbrser:
  * <pre>
- *   XMLInputFactory factory = XMLInputFactory.newInstance();
- *   XMLStreamReader streamReader = factory.createXMLStreamReader(binaryStream);
+ *   XMLInputFbctory fbctory = XMLInputFbctory.newInstbnce();
+ *   XMLStrebmRebder strebmRebder = fbctory.crebteXMLStrebmRebder(binbryStrebm);
  * </pre>
  * <p>
- * Because databases may use an optimized representation for the XML,
- * accessing the value through getSource() and
- * setResult() can lead to improved processing performance
- * without serializing to a stream representation and parsing the XML.
+ * Becbuse dbtbbbses mby use bn optimized representbtion for the XML,
+ * bccessing the vblue through getSource() bnd
+ * setResult() cbn lebd to improved processing performbnce
+ * without seriblizing to b strebm representbtion bnd pbrsing the XML.
  * <p>
- * For example, to obtain a DOM Document Node:
+ * For exbmple, to obtbin b DOM Document Node:
  * <pre>
- *   DOMSource domSource = sqlxml.getSource(DOMSource.class);
+ *   DOMSource domSource = sqlxml.getSource(DOMSource.clbss);
  *   Document document = (Document) domSource.getNode();
  * </pre>
- * or to set the value to a DOM Document Node to myNode:
+ * or to set the vblue to b DOM Document Node to myNode:
  * <pre>
- *   DOMResult domResult = sqlxml.setResult(DOMResult.class);
+ *   DOMResult domResult = sqlxml.setResult(DOMResult.clbss);
  *   domResult.setNode(myNode);
  * </pre>
- * or, to send SAX events to your handler:
+ * or, to send SAX events to your hbndler:
  * <pre>
- *   SAXSource saxSource = sqlxml.getSource(SAXSource.class);
- *   XMLReader xmlReader = saxSource.getXMLReader();
- *   xmlReader.setContentHandler(myHandler);
- *   xmlReader.parse(saxSource.getInputSource());
+ *   SAXSource sbxSource = sqlxml.getSource(SAXSource.clbss);
+ *   XMLRebder xmlRebder = sbxSource.getXMLRebder();
+ *   xmlRebder.setContentHbndler(myHbndler);
+ *   xmlRebder.pbrse(sbxSource.getInputSource());
  * </pre>
- * or, to set the result value from SAX events:
+ * or, to set the result vblue from SAX events:
  * <pre>
- *   SAXResult saxResult = sqlxml.setResult(SAXResult.class);
- *   ContentHandler contentHandler = saxResult.getHandler();
- *   contentHandler.startDocument();
- *   // set the XML elements and attributes into the result
- *   contentHandler.endDocument();
+ *   SAXResult sbxResult = sqlxml.setResult(SAXResult.clbss);
+ *   ContentHbndler contentHbndler = sbxResult.getHbndler();
+ *   contentHbndler.stbrtDocument();
+ *   // set the XML elements bnd bttributes into the result
+ *   contentHbndler.endDocument();
  * </pre>
- * or, to obtain StAX events:
+ * or, to obtbin StAX events:
  * <pre>
- *   StAXSource staxSource = sqlxml.getSource(StAXSource.class);
- *   XMLStreamReader streamReader = staxSource.getXMLStreamReader();
+ *   StAXSource stbxSource = sqlxml.getSource(StAXSource.clbss);
+ *   XMLStrebmRebder strebmRebder = stbxSource.getXMLStrebmRebder();
  * </pre>
- * or, to set the result value from StAX events:
+ * or, to set the result vblue from StAX events:
  * <pre>
- *   StAXResult staxResult = sqlxml.setResult(StAXResult.class);
- *   XMLStreamWriter streamWriter = staxResult.getXMLStreamWriter();
+ *   StAXResult stbxResult = sqlxml.setResult(StAXResult.clbss);
+ *   XMLStrebmWriter strebmWriter = stbxResult.getXMLStrebmWriter();
  * </pre>
- * or, to perform XSLT transformations on the XML value using the XSLT in xsltFile
+ * or, to perform XSLT trbnsformbtions on the XML vblue using the XSLT in xsltFile
  * output to file resultFile:
  * <pre>
- *   File xsltFile = new File("a.xslt");
+ *   File xsltFile = new File("b.xslt");
  *   File myFile = new File("result.xml");
- *   Transformer xslt = TransformerFactory.newInstance().newTransformer(new StreamSource(xsltFile));
+ *   Trbnsformer xslt = TrbnsformerFbctory.newInstbnce().newTrbnsformer(new StrebmSource(xsltFile));
  *   Source source = sqlxml.getSource(null);
- *   Result result = new StreamResult(myFile);
- *   xslt.transform(source, result);
+ *   Result result = new StrebmResult(myFile);
+ *   xslt.trbnsform(source, result);
  * </pre>
- * or, to evaluate an XPath expression on the XML value:
+ * or, to evblubte bn XPbth expression on the XML vblue:
  * <pre>
- *   XPath xpath = XPathFactory.newInstance().newXPath();
- *   DOMSource domSource = sqlxml.getSource(DOMSource.class);
+ *   XPbth xpbth = XPbthFbctory.newInstbnce().newXPbth();
+ *   DOMSource domSource = sqlxml.getSource(DOMSource.clbss);
  *   Document document = (Document) domSource.getNode();
- *   String expression = "/foo/@bar";
- *   String barValue = xpath.evaluate(expression, document);
+ *   String expression = "/foo/@bbr";
+ *   String bbrVblue = xpbth.evblubte(expression, document);
  * </pre>
- * To set the XML value to be the result of an XSLT transform:
+ * To set the XML vblue to be the result of bn XSLT trbnsform:
  * <pre>
  *   File sourceFile = new File("source.xml");
- *   Transformer xslt = TransformerFactory.newInstance().newTransformer(new StreamSource(xsltFile));
- *   Source streamSource = new StreamSource(sourceFile);
+ *   Trbnsformer xslt = TrbnsformerFbctory.newInstbnce().newTrbnsformer(new StrebmSource(xsltFile));
+ *   Source strebmSource = new StrebmSource(sourceFile);
  *   Result result = sqlxml.setResult(null);
- *   xslt.transform(streamSource, result);
+ *   xslt.trbnsform(strebmSource, result);
  * </pre>
- * Any Source can be transformed to a Result using the identity transform
- * specified by calling newTransformer():
+ * Any Source cbn be trbnsformed to b Result using the identity trbnsform
+ * specified by cblling newTrbnsformer():
  * <pre>
- *   Transformer identity = TransformerFactory.newInstance().newTransformer();
+ *   Trbnsformer identity = TrbnsformerFbctory.newInstbnce().newTrbnsformer();
  *   Source source = sqlxml.getSource(null);
  *   File myFile = new File("result.xml");
- *   Result result = new StreamResult(myFile);
- *   identity.transform(source, result);
+ *   Result result = new StrebmResult(myFile);
+ *   identity.trbnsform(source, result);
  * </pre>
- * To write the contents of a Source to standard output:
+ * To write the contents of b Source to stbndbrd output:
  * <pre>
- *   Transformer identity = TransformerFactory.newInstance().newTransformer();
+ *   Trbnsformer identity = TrbnsformerFbctory.newInstbnce().newTrbnsformer();
  *   Source source = sqlxml.getSource(null);
- *   Result result = new StreamResult(System.out);
- *   identity.transform(source, result);
+ *   Result result = new StrebmResult(System.out);
+ *   identity.trbnsform(source, result);
  * </pre>
- * To create a DOMSource from a DOMResult:
+ * To crebte b DOMSource from b DOMResult:
  * <pre>
  *    DOMSource domSource = new DOMSource(domResult.getNode());
  * </pre>
  * <p>
- * Incomplete or invalid XML values may cause an SQLException when
- * set or the exception may occur when execute() occurs.  All streams
- * must be closed before execute() occurs or an SQLException will be thrown.
+ * Incomplete or invblid XML vblues mby cbuse bn SQLException when
+ * set or the exception mby occur when execute() occurs.  All strebms
+ * must be closed before execute() occurs or bn SQLException will be thrown.
  * <p>
- * Reading and writing XML values to or from an SQLXML object can happen at most once.
- * The conceptual states of readable and not readable determine if one
- * of the reading APIs will return a value or throw an exception.
- * The conceptual states of writable and not writable determine if one
- * of the writing APIs will set a value or throw an exception.
+ * Rebding bnd writing XML vblues to or from bn SQLXML object cbn hbppen bt most once.
+ * The conceptubl stbtes of rebdbble bnd not rebdbble determine if one
+ * of the rebding APIs will return b vblue or throw bn exception.
+ * The conceptubl stbtes of writbble bnd not writbble determine if one
+ * of the writing APIs will set b vblue or throw bn exception.
  * <p>
- * The state moves from readable to not readable once free() or any of the
- * reading APIs are called: getBinaryStream(), getCharacterStream(), getSource(), and getString().
- * Implementations may also change the state to not writable when this occurs.
+ * The stbte moves from rebdbble to not rebdbble once free() or bny of the
+ * rebding APIs bre cblled: getBinbryStrebm(), getChbrbcterStrebm(), getSource(), bnd getString().
+ * Implementbtions mby blso chbnge the stbte to not writbble when this occurs.
  * <p>
- * The state moves from writable to not writeable once free() or any of the
- * writing APIs are called: setBinaryStream(), setCharacterStream(), setResult(), and setString().
- * Implementations may also change the state to not readable when this occurs.
+ * The stbte moves from writbble to not writebble once free() or bny of the
+ * writing APIs bre cblled: setBinbryStrebm(), setChbrbcterStrebm(), setResult(), bnd setString().
+ * Implementbtions mby blso chbnge the stbte to not rebdbble when this occurs.
  *
  * <p>
- * All methods on the <code>SQLXML</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All methods on the <code>SQLXML</code> interfbce must be fully implemented if the
+ * JDBC driver supports the dbtb type.
  *
- * @see javax.xml.parsers
- * @see javax.xml.stream
- * @see javax.xml.transform
- * @see javax.xml.xpath
+ * @see jbvbx.xml.pbrsers
+ * @see jbvbx.xml.strebm
+ * @see jbvbx.xml.trbnsform
+ * @see jbvbx.xml.xpbth
  * @since 1.6
  */
-public interface SQLXML
+public interfbce SQLXML
 {
   /**
-   * This method closes this object and releases the resources that it held.
-   * The SQL XML object becomes invalid and neither readable or writeable
-   * when this method is called.
+   * This method closes this object bnd relebses the resources thbt it held.
+   * The SQL XML object becomes invblid bnd neither rebdbble or writebble
+   * when this method is cblled.
    *
-   * After <code>free</code> has been called, any attempt to invoke a
-   * method other than <code>free</code> will result in a <code>SQLException</code>
-   * being thrown.  If <code>free</code> is called multiple times, the subsequent
-   * calls to <code>free</code> are treated as a no-op.
-   * @throws SQLException if there is an error freeing the XML value.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * After <code>free</code> hbs been cblled, bny bttempt to invoke b
+   * method other thbn <code>free</code> will result in b <code>SQLException</code>
+   * being thrown.  If <code>free</code> is cblled multiple times, the subsequent
+   * cblls to <code>free</code> bre trebted bs b no-op.
+   * @throws SQLException if there is bn error freeing the XML vblue.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
   void free() throws SQLException;
 
   /**
-   * Retrieves the XML value designated by this SQLXML instance as a stream.
-   * The bytes of the input stream are interpreted according to appendix F of the XML 1.0 specification.
-   * The behavior of this method is the same as ResultSet.getBinaryStream()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * Retrieves the XML vblue designbted by this SQLXML instbnce bs b strebm.
+   * The bytes of the input strebm bre interpreted bccording to bppendix F of the XML 1.0 specificbtion.
+   * The behbvior of this method is the sbme bs ResultSet.getBinbryStrebm()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not readable when this method is called and
-   * may also become not writable depending on implementation.
+   * The SQL XML object becomes not rebdbble when this method is cblled bnd
+   * mby blso become not writbble depending on implementbtion.
    *
-   * @return a stream containing the XML data.
-   * @throws SQLException if there is an error processing the XML value.
-   *   An exception is thrown if the state is not readable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b strebm contbining the XML dbtb.
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   An exception is thrown if the stbte is not rebdbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  InputStream getBinaryStream() throws SQLException;
+  InputStrebm getBinbryStrebm() throws SQLException;
 
   /**
-   * Retrieves a stream that can be used to write the XML value that this SQLXML instance represents.
-   * The stream begins at position 0.
-   * The bytes of the stream are interpreted according to appendix F of the XML 1.0 specification
-   * The behavior of this method is the same as ResultSet.updateBinaryStream()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * Retrieves b strebm thbt cbn be used to write the XML vblue thbt this SQLXML instbnce represents.
+   * The strebm begins bt position 0.
+   * The bytes of the strebm bre interpreted bccording to bppendix F of the XML 1.0 specificbtion
+   * The behbvior of this method is the sbme bs ResultSet.updbteBinbryStrebm()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not writeable when this method is called and
-   * may also become not readable depending on implementation.
+   * The SQL XML object becomes not writebble when this method is cblled bnd
+   * mby blso become not rebdbble depending on implementbtion.
    *
-   * @return a stream to which data can be written.
-   * @throws SQLException if there is an error processing the XML value.
-   *   An exception is thrown if the state is not writable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b strebm to which dbtb cbn be written.
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   An exception is thrown if the stbte is not writbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  OutputStream setBinaryStream() throws SQLException;
+  OutputStrebm setBinbryStrebm() throws SQLException;
 
   /**
-   * Retrieves the XML value designated by this SQLXML instance as a java.io.Reader object.
-   * The format of this stream is defined by org.xml.sax.InputSource,
-   * where the characters in the stream represent the unicode code points for
-   * XML according to section 2 and appendix B of the XML 1.0 specification.
-   * Although an encoding declaration other than unicode may be present,
-   * the encoding of the stream is unicode.
-   * The behavior of this method is the same as ResultSet.getCharacterStream()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * Retrieves the XML vblue designbted by this SQLXML instbnce bs b jbvb.io.Rebder object.
+   * The formbt of this strebm is defined by org.xml.sbx.InputSource,
+   * where the chbrbcters in the strebm represent the unicode code points for
+   * XML bccording to section 2 bnd bppendix B of the XML 1.0 specificbtion.
+   * Although bn encoding declbrbtion other thbn unicode mby be present,
+   * the encoding of the strebm is unicode.
+   * The behbvior of this method is the sbme bs ResultSet.getChbrbcterStrebm()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not readable when this method is called and
-   * may also become not writable depending on implementation.
+   * The SQL XML object becomes not rebdbble when this method is cblled bnd
+   * mby blso become not writbble depending on implementbtion.
    *
-   * @return a stream containing the XML data.
-   * @throws SQLException if there is an error processing the XML value.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if the stream does not contain valid characters.
-   *   An exception is thrown if the state is not readable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b strebm contbining the XML dbtb.
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if the strebm does not contbin vblid chbrbcters.
+   *   An exception is thrown if the stbte is not rebdbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  Reader getCharacterStream() throws SQLException;
+  Rebder getChbrbcterStrebm() throws SQLException;
 
   /**
-   * Retrieves a stream to be used to write the XML value that this SQLXML instance represents.
-   * The format of this stream is defined by org.xml.sax.InputSource,
-   * where the characters in the stream represent the unicode code points for
-   * XML according to section 2 and appendix B of the XML 1.0 specification.
-   * Although an encoding declaration other than unicode may be present,
-   * the encoding of the stream is unicode.
-   * The behavior of this method is the same as ResultSet.updateCharacterStream()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * Retrieves b strebm to be used to write the XML vblue thbt this SQLXML instbnce represents.
+   * The formbt of this strebm is defined by org.xml.sbx.InputSource,
+   * where the chbrbcters in the strebm represent the unicode code points for
+   * XML bccording to section 2 bnd bppendix B of the XML 1.0 specificbtion.
+   * Although bn encoding declbrbtion other thbn unicode mby be present,
+   * the encoding of the strebm is unicode.
+   * The behbvior of this method is the sbme bs ResultSet.updbteChbrbcterStrebm()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not writeable when this method is called and
-   * may also become not readable depending on implementation.
+   * The SQL XML object becomes not writebble when this method is cblled bnd
+   * mby blso become not rebdbble depending on implementbtion.
    *
-   * @return a stream to which data can be written.
-   * @throws SQLException if there is an error processing the XML value.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if the stream does not contain valid characters.
-   *   An exception is thrown if the state is not writable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b strebm to which dbtb cbn be written.
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if the strebm does not contbin vblid chbrbcters.
+   *   An exception is thrown if the stbte is not writbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  Writer setCharacterStream() throws SQLException;
+  Writer setChbrbcterStrebm() throws SQLException;
 
   /**
-   * Returns a string representation of the XML value designated by this SQLXML instance.
-   * The format of this String is defined by org.xml.sax.InputSource,
-   * where the characters in the stream represent the unicode code points for
-   * XML according to section 2 and appendix B of the XML 1.0 specification.
-   * Although an encoding declaration other than unicode may be present,
+   * Returns b string representbtion of the XML vblue designbted by this SQLXML instbnce.
+   * The formbt of this String is defined by org.xml.sbx.InputSource,
+   * where the chbrbcters in the strebm represent the unicode code points for
+   * XML bccording to section 2 bnd bppendix B of the XML 1.0 specificbtion.
+   * Although bn encoding declbrbtion other thbn unicode mby be present,
    * the encoding of the String is unicode.
-   * The behavior of this method is the same as ResultSet.getString()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * The behbvior of this method is the sbme bs ResultSet.getString()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not readable when this method is called and
-   * may also become not writable depending on implementation.
+   * The SQL XML object becomes not rebdbble when this method is cblled bnd
+   * mby blso become not writbble depending on implementbtion.
    *
-   * @return a string representation of the XML value designated by this SQLXML instance.
-   * @throws SQLException if there is an error processing the XML value.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if the stream does not contain valid characters.
-   *   An exception is thrown if the state is not readable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b string representbtion of the XML vblue designbted by this SQLXML instbnce.
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if the strebm does not contbin vblid chbrbcters.
+   *   An exception is thrown if the stbte is not rebdbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
   String getString() throws SQLException;
 
   /**
-   * Sets the XML value designated by this SQLXML instance to the given String representation.
-   * The format of this String is defined by org.xml.sax.InputSource,
-   * where the characters in the stream represent the unicode code points for
-   * XML according to section 2 and appendix B of the XML 1.0 specification.
-   * Although an encoding declaration other than unicode may be present,
+   * Sets the XML vblue designbted by this SQLXML instbnce to the given String representbtion.
+   * The formbt of this String is defined by org.xml.sbx.InputSource,
+   * where the chbrbcters in the strebm represent the unicode code points for
+   * XML bccording to section 2 bnd bppendix B of the XML 1.0 specificbtion.
+   * Although bn encoding declbrbtion other thbn unicode mby be present,
    * the encoding of the String is unicode.
-   * The behavior of this method is the same as ResultSet.updateString()
-   * when the designated column of the ResultSet has a type java.sql.Types of SQLXML.
+   * The behbvior of this method is the sbme bs ResultSet.updbteString()
+   * when the designbted column of the ResultSet hbs b type jbvb.sql.Types of SQLXML.
    * <p>
-   * The SQL XML object becomes not writeable when this method is called and
-   * may also become not readable depending on implementation.
+   * The SQL XML object becomes not writebble when this method is cblled bnd
+   * mby blso become not rebdbble depending on implementbtion.
    *
-   * @param value the XML value
-   * @throws SQLException if there is an error processing the XML value.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if the stream does not contain valid characters.
-   *   An exception is thrown if the state is not writable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm vblue the XML vblue
+   * @throws SQLException if there is bn error processing the XML vblue.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if the strebm does not contbin vblid chbrbcters.
+   *   An exception is thrown if the stbte is not writbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  void setString(String value) throws SQLException;
+  void setString(String vblue) throws SQLException;
 
   /**
-   * Returns a Source for reading the XML value designated by this SQLXML instance.
-   * Sources are used as inputs to XML parsers and XSLT transformers.
+   * Returns b Source for rebding the XML vblue designbted by this SQLXML instbnce.
+   * Sources bre used bs inputs to XML pbrsers bnd XSLT trbnsformers.
    * <p>
-   * Sources for XML parsers will have namespace processing on by default.
-   * The systemID of the Source is implementation dependent.
+   * Sources for XML pbrsers will hbve nbmespbce processing on by defbult.
+   * The systemID of the Source is implementbtion dependent.
    * <p>
-   * The SQL XML object becomes not readable when this method is called and
-   * may also become not writable depending on implementation.
+   * The SQL XML object becomes not rebdbble when this method is cblled bnd
+   * mby blso become not writbble depending on implementbtion.
    * <p>
-   * Note that SAX is a callback architecture, so a returned
-   * SAXSource should then be set with a content handler that will
-   * receive the SAX events from parsing.  The content handler
-   * will receive callbacks based on the contents of the XML.
+   * Note thbt SAX is b cbllbbck brchitecture, so b returned
+   * SAXSource should then be set with b content hbndler thbt will
+   * receive the SAX events from pbrsing.  The content hbndler
+   * will receive cbllbbcks bbsed on the contents of the XML.
    * <pre>
-   *   SAXSource saxSource = sqlxml.getSource(SAXSource.class);
-   *   XMLReader xmlReader = saxSource.getXMLReader();
-   *   xmlReader.setContentHandler(myHandler);
-   *   xmlReader.parse(saxSource.getInputSource());
+   *   SAXSource sbxSource = sqlxml.getSource(SAXSource.clbss);
+   *   XMLRebder xmlRebder = sbxSource.getXMLRebder();
+   *   xmlRebder.setContentHbndler(myHbndler);
+   *   xmlRebder.pbrse(sbxSource.getInputSource());
    * </pre>
    *
-   * @param <T> the type of the class modeled by this Class object
-   * @param sourceClass The class of the source, or null.
-   * If the class is null, a vendor specific Source implementation will be returned.
-   * The following classes are supported at a minimum:
+   * @pbrbm <T> the type of the clbss modeled by this Clbss object
+   * @pbrbm sourceClbss The clbss of the source, or null.
+   * If the clbss is null, b vendor specific Source implementbtion will be returned.
+   * The following clbsses bre supported bt b minimum:
    * <pre>
-   *   javax.xml.transform.dom.DOMSource - returns a DOMSource
-   *   javax.xml.transform.sax.SAXSource - returns a SAXSource
-   *   javax.xml.transform.stax.StAXSource - returns a StAXSource
-   *   javax.xml.transform.stream.StreamSource - returns a StreamSource
+   *   jbvbx.xml.trbnsform.dom.DOMSource - returns b DOMSource
+   *   jbvbx.xml.trbnsform.sbx.SAXSource - returns b SAXSource
+   *   jbvbx.xml.trbnsform.stbx.StAXSource - returns b StAXSource
+   *   jbvbx.xml.trbnsform.strebm.StrebmSource - returns b StrebmSource
    * </pre>
-   * @return a Source for reading the XML value.
-   * @throws SQLException if there is an error processing the XML value
-   *   or if this feature is not supported.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if an XML parser exception occurs.
-   *   An exception is thrown if the state is not readable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b Source for rebding the XML vblue.
+   * @throws SQLException if there is bn error processing the XML vblue
+   *   or if this febture is not supported.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if bn XML pbrser exception occurs.
+   *   An exception is thrown if the stbte is not rebdbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  <T extends Source> T getSource(Class<T> sourceClass) throws SQLException;
+  <T extends Source> T getSource(Clbss<T> sourceClbss) throws SQLException;
 
   /**
-   * Returns a Result for setting the XML value designated by this SQLXML instance.
+   * Returns b Result for setting the XML vblue designbted by this SQLXML instbnce.
    * <p>
-   * The systemID of the Result is implementation dependent.
+   * The systemID of the Result is implementbtion dependent.
    * <p>
-   * The SQL XML object becomes not writeable when this method is called and
-   * may also become not readable depending on implementation.
+   * The SQL XML object becomes not writebble when this method is cblled bnd
+   * mby blso become not rebdbble depending on implementbtion.
    * <p>
-   * Note that SAX is a callback architecture and the returned
-   * SAXResult has a content handler assigned that will receive the
-   * SAX events based on the contents of the XML.  Call the content
-   * handler with the contents of the XML document to assign the values.
+   * Note thbt SAX is b cbllbbck brchitecture bnd the returned
+   * SAXResult hbs b content hbndler bssigned thbt will receive the
+   * SAX events bbsed on the contents of the XML.  Cbll the content
+   * hbndler with the contents of the XML document to bssign the vblues.
    * <pre>
-   *   SAXResult saxResult = sqlxml.setResult(SAXResult.class);
-   *   ContentHandler contentHandler = saxResult.getXMLReader().getContentHandler();
-   *   contentHandler.startDocument();
-   *   // set the XML elements and attributes into the result
-   *   contentHandler.endDocument();
+   *   SAXResult sbxResult = sqlxml.setResult(SAXResult.clbss);
+   *   ContentHbndler contentHbndler = sbxResult.getXMLRebder().getContentHbndler();
+   *   contentHbndler.stbrtDocument();
+   *   // set the XML elements bnd bttributes into the result
+   *   contentHbndler.endDocument();
    * </pre>
    *
-   * @param <T> the type of the class modeled by this Class object
-   * @param resultClass The class of the result, or null.
-   * If resultClass is null, a vendor specific Result implementation will be returned.
-   * The following classes are supported at a minimum:
+   * @pbrbm <T> the type of the clbss modeled by this Clbss object
+   * @pbrbm resultClbss The clbss of the result, or null.
+   * If resultClbss is null, b vendor specific Result implementbtion will be returned.
+   * The following clbsses bre supported bt b minimum:
    * <pre>
-   *   javax.xml.transform.dom.DOMResult - returns a DOMResult
-   *   javax.xml.transform.sax.SAXResult - returns a SAXResult
-   *   javax.xml.transform.stax.StAXResult - returns a StAXResult
-   *   javax.xml.transform.stream.StreamResult - returns a StreamResult
+   *   jbvbx.xml.trbnsform.dom.DOMResult - returns b DOMResult
+   *   jbvbx.xml.trbnsform.sbx.SAXResult - returns b SAXResult
+   *   jbvbx.xml.trbnsform.stbx.StAXResult - returns b StAXResult
+   *   jbvbx.xml.trbnsform.strebm.StrebmResult - returns b StrebmResult
    * </pre>
-   * @return Returns a Result for setting the XML value.
-   * @throws SQLException if there is an error processing the XML value
-   *   or if this feature is not supported.
-   *   The getCause() method of the exception may provide a more detailed exception, for example,
-   *   if an XML parser exception occurs.
-   *   An exception is thrown if the state is not writable.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return Returns b Result for setting the XML vblue.
+   * @throws SQLException if there is bn error processing the XML vblue
+   *   or if this febture is not supported.
+   *   The getCbuse() method of the exception mby provide b more detbiled exception, for exbmple,
+   *   if bn XML pbrser exception occurs.
+   *   An exception is thrown if the stbte is not writbble.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
-  <T extends Result> T setResult(Class<T> resultClass) throws SQLException;
+  <T extends Result> T setResult(Clbss<T> resultClbss) throws SQLException;
 
 }

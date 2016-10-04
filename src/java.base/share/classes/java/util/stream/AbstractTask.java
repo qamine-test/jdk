@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Spliterator;
-import java.util.concurrent.CountedCompleter;
-import java.util.concurrent.ForkJoinPool;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.CountedCompleter;
+import jbvb.util.concurrent.ForkJoinPool;
 
 /**
- * Abstract base class for most fork-join tasks used to implement stream ops.
- * Manages splitting logic, tracking of child tasks, and intermediate results.
- * Each task is associated with a {@link Spliterator} that describes the portion
- * of the input associated with the subtree rooted at this task.
- * Tasks may be leaf nodes (which will traverse the elements of
- * the {@code Spliterator}) or internal nodes (which split the
- * {@code Spliterator} into multiple child tasks).
+ * Abstrbct bbse clbss for most fork-join tbsks used to implement strebm ops.
+ * Mbnbges splitting logic, trbcking of child tbsks, bnd intermedibte results.
+ * Ebch tbsk is bssocibted with b {@link Spliterbtor} thbt describes the portion
+ * of the input bssocibted with the subtree rooted bt this tbsk.
+ * Tbsks mby be lebf nodes (which will trbverse the elements of
+ * the {@code Spliterbtor}) or internbl nodes (which split the
+ * {@code Spliterbtor} into multiple child tbsks).
  *
  * @implNote
- * <p>This class is based on {@link CountedCompleter}, a form of fork-join task
- * where each task has a semaphore-like count of uncompleted children, and the
- * task is implicitly completed and notified when its last child completes.
- * Internal node tasks will likely override the {@code onCompletion} method from
- * {@code CountedCompleter} to merge the results from child tasks into the
- * current task's result.
+ * <p>This clbss is bbsed on {@link CountedCompleter}, b form of fork-join tbsk
+ * where ebch tbsk hbs b sembphore-like count of uncompleted children, bnd the
+ * tbsk is implicitly completed bnd notified when its lbst child completes.
+ * Internbl node tbsks will likely override the {@code onCompletion} method from
+ * {@code CountedCompleter} to merge the results from child tbsks into the
+ * current tbsk's result.
  *
- * <p>Splitting and setting up the child task links is done by {@code compute()}
- * for internal nodes.  At {@code compute()} time for leaf nodes, it is
- * guaranteed that the parent's child-related fields (including sibling links
- * for the parent's children) will be set up for all children.
+ * <p>Splitting bnd setting up the child tbsk links is done by {@code compute()}
+ * for internbl nodes.  At {@code compute()} time for lebf nodes, it is
+ * gubrbnteed thbt the pbrent's child-relbted fields (including sibling links
+ * for the pbrent's children) will be set up for bll children.
  *
- * <p>For example, a task that performs a reduce would override {@code doLeaf()}
- * to perform a reduction on that leaf node's chunk using the
- * {@code Spliterator}, and override {@code onCompletion()} to merge the results
- * of the child tasks for internal nodes:
+ * <p>For exbmple, b tbsk thbt performs b reduce would override {@code doLebf()}
+ * to perform b reduction on thbt lebf node's chunk using the
+ * {@code Spliterbtor}, bnd override {@code onCompletion()} to merge the results
+ * of the child tbsks for internbl nodes:
  *
  * <pre>{@code
- *     protected S doLeaf() {
- *         spliterator.forEach(...);
- *         return localReductionResult;
+ *     protected S doLebf() {
+ *         spliterbtor.forEbch(...);
+ *         return locblReductionResult;
  *     }
  *
- *     public void onCompletion(CountedCompleter caller) {
- *         if (!isLeaf()) {
- *             ReduceTask<P_IN, P_OUT, T, R> child = children;
- *             R result = child.getLocalResult();
+ *     public void onCompletion(CountedCompleter cbller) {
+ *         if (!isLebf()) {
+ *             ReduceTbsk<P_IN, P_OUT, T, R> child = children;
+ *             R result = child.getLocblResult();
  *             child = child.nextSibling;
  *             for (; child != null; child = child.nextSibling)
- *                 result = combine(result, child.getLocalResult());
- *             setLocalResult(result);
+ *                 result = combine(result, child.getLocblResult());
+ *             setLocblResult(result);
  *         }
  *     }
  * }</pre>
  *
- * <p>Serialization is not supported as there is no intention to serialize
- * tasks managed by stream ops.
+ * <p>Seriblizbtion is not supported bs there is no intention to seriblize
+ * tbsks mbnbged by strebm ops.
  *
- * @param <P_IN> Type of elements input to the pipeline
- * @param <P_OUT> Type of elements output from the pipeline
- * @param <R> Type of intermediate result, which may be different from operation
+ * @pbrbm <P_IN> Type of elements input to the pipeline
+ * @pbrbm <P_OUT> Type of elements output from the pipeline
+ * @pbrbm <R> Type of intermedibte result, which mby be different from operbtion
  *        result type
- * @param <K> Type of parent, child and sibling tasks
+ * @pbrbm <K> Type of pbrent, child bnd sibling tbsks
  * @since 1.8
  */
-@SuppressWarnings("serial")
-abstract class AbstractTask<P_IN, P_OUT, R,
-                            K extends AbstractTask<P_IN, P_OUT, R, K>>
+@SuppressWbrnings("seribl")
+bbstrbct clbss AbstrbctTbsk<P_IN, P_OUT, R,
+                            K extends AbstrbctTbsk<P_IN, P_OUT, R, K>>
         extends CountedCompleter<R> {
 
     /**
-     * Default target factor of leaf tasks for parallel decomposition.
-     * To allow load balancing, we over-partition, currently to approximately
-     * four tasks per processor, which enables others to help out
-     * if leaf tasks are uneven or some processors are otherwise busy.
+     * Defbult tbrget fbctor of lebf tbsks for pbrbllel decomposition.
+     * To bllow lobd bblbncing, we over-pbrtition, currently to bpproximbtely
+     * four tbsks per processor, which enbbles others to help out
+     * if lebf tbsks bre uneven or some processors bre otherwise busy.
      */
-    static final int LEAF_TARGET = ForkJoinPool.getCommonPoolParallelism() << 2;
+    stbtic finbl int LEAF_TARGET = ForkJoinPool.getCommonPoolPbrbllelism() << 2;
 
-    /** The pipeline helper, common to all tasks in a computation */
-    protected final PipelineHelper<P_OUT> helper;
+    /** The pipeline helper, common to bll tbsks in b computbtion */
+    protected finbl PipelineHelper<P_OUT> helper;
 
     /**
-     * The spliterator for the portion of the input associated with the subtree
-     * rooted at this task
+     * The spliterbtor for the portion of the input bssocibted with the subtree
+     * rooted bt this tbsk
      */
-    protected Spliterator<P_IN> spliterator;
+    protected Spliterbtor<P_IN> spliterbtor;
 
-    /** Target leaf size, common to all tasks in a computation */
-    protected long targetSize; // may be laziliy initialized
+    /** Tbrget lebf size, common to bll tbsks in b computbtion */
+    protected long tbrgetSize; // mby be lbziliy initiblized
 
     /**
      * The left child.
@@ -123,229 +123,229 @@ abstract class AbstractTask<P_IN, P_OUT, R,
     protected K rightChild;
 
     /** The result of this node, if completed */
-    private R localResult;
+    privbte R locblResult;
 
     /**
      * Constructor for root nodes.
      *
-     * @param helper The {@code PipelineHelper} describing the stream pipeline
-     *               up to this operation
-     * @param spliterator The {@code Spliterator} describing the source for this
+     * @pbrbm helper The {@code PipelineHelper} describing the strebm pipeline
+     *               up to this operbtion
+     * @pbrbm spliterbtor The {@code Spliterbtor} describing the source for this
      *                    pipeline
      */
-    protected AbstractTask(PipelineHelper<P_OUT> helper,
-                           Spliterator<P_IN> spliterator) {
+    protected AbstrbctTbsk(PipelineHelper<P_OUT> helper,
+                           Spliterbtor<P_IN> spliterbtor) {
         super(null);
         this.helper = helper;
-        this.spliterator = spliterator;
-        this.targetSize = 0L;
+        this.spliterbtor = spliterbtor;
+        this.tbrgetSize = 0L;
     }
 
     /**
      * Constructor for non-root nodes.
      *
-     * @param parent this node's parent task
-     * @param spliterator {@code Spliterator} describing the subtree rooted at
-     *        this node, obtained by splitting the parent {@code Spliterator}
+     * @pbrbm pbrent this node's pbrent tbsk
+     * @pbrbm spliterbtor {@code Spliterbtor} describing the subtree rooted bt
+     *        this node, obtbined by splitting the pbrent {@code Spliterbtor}
      */
-    protected AbstractTask(K parent,
-                           Spliterator<P_IN> spliterator) {
-        super(parent);
-        this.spliterator = spliterator;
-        this.helper = parent.helper;
-        this.targetSize = parent.targetSize;
+    protected AbstrbctTbsk(K pbrent,
+                           Spliterbtor<P_IN> spliterbtor) {
+        super(pbrent);
+        this.spliterbtor = spliterbtor;
+        this.helper = pbrent.helper;
+        this.tbrgetSize = pbrent.tbrgetSize;
     }
 
     /**
-     * Constructs a new node of type T whose parent is the receiver; must call
-     * the AbstractTask(T, Spliterator) constructor with the receiver and the
-     * provided Spliterator.
+     * Constructs b new node of type T whose pbrent is the receiver; must cbll
+     * the AbstrbctTbsk(T, Spliterbtor) constructor with the receiver bnd the
+     * provided Spliterbtor.
      *
-     * @param spliterator {@code Spliterator} describing the subtree rooted at
-     *        this node, obtained by splitting the parent {@code Spliterator}
+     * @pbrbm spliterbtor {@code Spliterbtor} describing the subtree rooted bt
+     *        this node, obtbined by splitting the pbrent {@code Spliterbtor}
      * @return newly constructed child node
      */
-    protected abstract K makeChild(Spliterator<P_IN> spliterator);
+    protected bbstrbct K mbkeChild(Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Computes the result associated with a leaf node.  Will be called by
-     * {@code compute()} and the result passed to @{code setLocalResult()}
+     * Computes the result bssocibted with b lebf node.  Will be cblled by
+     * {@code compute()} bnd the result pbssed to @{code setLocblResult()}
      *
-     * @return the computed result of a leaf node
+     * @return the computed result of b lebf node
      */
-    protected abstract R doLeaf();
+    protected bbstrbct R doLebf();
 
     /**
-     * Returns a suggested target leaf size based on the initial size estimate.
+     * Returns b suggested tbrget lebf size bbsed on the initibl size estimbte.
      *
-     * @return suggested target leaf size
+     * @return suggested tbrget lebf size
      */
-    public static long suggestTargetSize(long sizeEstimate) {
-        long est = sizeEstimate / LEAF_TARGET;
+    public stbtic long suggestTbrgetSize(long sizeEstimbte) {
+        long est = sizeEstimbte / LEAF_TARGET;
         return est > 0L ? est : 1L;
     }
 
     /**
-     * Returns the targetSize, initializing it via the supplied
-     * size estimate if not already initialized.
+     * Returns the tbrgetSize, initiblizing it vib the supplied
+     * size estimbte if not blrebdy initiblized.
      */
-    protected final long getTargetSize(long sizeEstimate) {
+    protected finbl long getTbrgetSize(long sizeEstimbte) {
         long s;
-        return ((s = targetSize) != 0 ? s :
-                (targetSize = suggestTargetSize(sizeEstimate)));
+        return ((s = tbrgetSize) != 0 ? s :
+                (tbrgetSize = suggestTbrgetSize(sizeEstimbte)));
     }
 
     /**
-     * Returns the local result, if any. Subclasses should use
-     * {@link #setLocalResult(Object)} and {@link #getLocalResult()} to manage
-     * results.  This returns the local result so that calls from within the
-     * fork-join framework will return the correct result.
+     * Returns the locbl result, if bny. Subclbsses should use
+     * {@link #setLocblResult(Object)} bnd {@link #getLocblResult()} to mbnbge
+     * results.  This returns the locbl result so thbt cblls from within the
+     * fork-join frbmework will return the correct result.
      *
-     * @return local result for this node previously stored with
-     * {@link #setLocalResult}
+     * @return locbl result for this node previously stored with
+     * {@link #setLocblResult}
      */
     @Override
-    public R getRawResult() {
-        return localResult;
+    public R getRbwResult() {
+        return locblResult;
     }
 
     /**
-     * Does nothing; instead, subclasses should use
-     * {@link #setLocalResult(Object)}} to manage results.
+     * Does nothing; instebd, subclbsses should use
+     * {@link #setLocblResult(Object)}} to mbnbge results.
      *
-     * @param result must be null, or an exception is thrown (this is a safety
-     *        tripwire to detect when {@code setRawResult()} is being used
-     *        instead of {@code setLocalResult()}
+     * @pbrbm result must be null, or bn exception is thrown (this is b sbfety
+     *        tripwire to detect when {@code setRbwResult()} is being used
+     *        instebd of {@code setLocblResult()}
      */
     @Override
-    protected void setRawResult(R result) {
+    protected void setRbwResult(R result) {
         if (result != null)
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
     }
 
     /**
-     * Retrieves a result previously stored with {@link #setLocalResult}
+     * Retrieves b result previously stored with {@link #setLocblResult}
      *
-     * @return local result for this node previously stored with
-     * {@link #setLocalResult}
+     * @return locbl result for this node previously stored with
+     * {@link #setLocblResult}
      */
-    protected R getLocalResult() {
-        return localResult;
+    protected R getLocblResult() {
+        return locblResult;
     }
 
     /**
-     * Associates the result with the task, can be retrieved with
-     * {@link #getLocalResult}
+     * Associbtes the result with the tbsk, cbn be retrieved with
+     * {@link #getLocblResult}
      *
-     * @param localResult local result for this node
+     * @pbrbm locblResult locbl result for this node
      */
-    protected void setLocalResult(R localResult) {
-        this.localResult = localResult;
+    protected void setLocblResult(R locblResult) {
+        this.locblResult = locblResult;
     }
 
     /**
-     * Indicates whether this task is a leaf node.  (Only valid after
-     * {@link #compute} has been called on this node).  If the node is not a
-     * leaf node, then children will be non-null and numChildren will be
+     * Indicbtes whether this tbsk is b lebf node.  (Only vblid bfter
+     * {@link #compute} hbs been cblled on this node).  If the node is not b
+     * lebf node, then children will be non-null bnd numChildren will be
      * positive.
      *
-     * @return {@code true} if this task is a leaf node
+     * @return {@code true} if this tbsk is b lebf node
      */
-    protected boolean isLeaf() {
+    protected boolebn isLebf() {
         return leftChild == null;
     }
 
     /**
-     * Indicates whether this task is the root node
+     * Indicbtes whether this tbsk is the root node
      *
-     * @return {@code true} if this task is the root node.
+     * @return {@code true} if this tbsk is the root node.
      */
-    protected boolean isRoot() {
-        return getParent() == null;
+    protected boolebn isRoot() {
+        return getPbrent() == null;
     }
 
     /**
-     * Returns the parent of this task, or null if this task is the root
+     * Returns the pbrent of this tbsk, or null if this tbsk is the root
      *
-     * @return the parent of this task, or null if this task is the root
+     * @return the pbrent of this tbsk, or null if this tbsk is the root
      */
-    @SuppressWarnings("unchecked")
-    protected K getParent() {
+    @SuppressWbrnings("unchecked")
+    protected K getPbrent() {
         return (K) getCompleter();
     }
 
     /**
-     * Decides whether or not to split a task further or compute it
-     * directly. If computing directly, calls {@code doLeaf} and pass
-     * the result to {@code setRawResult}. Otherwise splits off
-     * subtasks, forking one and continuing as the other.
+     * Decides whether or not to split b tbsk further or compute it
+     * directly. If computing directly, cblls {@code doLebf} bnd pbss
+     * the result to {@code setRbwResult}. Otherwise splits off
+     * subtbsks, forking one bnd continuing bs the other.
      *
-     * <p> The method is structured to conserve resources across a
-     * range of uses.  The loop continues with one of the child tasks
-     * when split, to avoid deep recursion. To cope with spliterators
-     * that may be systematically biased toward left-heavy or
-     * right-heavy splits, we alternate which child is forked versus
+     * <p> The method is structured to conserve resources bcross b
+     * rbnge of uses.  The loop continues with one of the child tbsks
+     * when split, to bvoid deep recursion. To cope with spliterbtors
+     * thbt mby be systembticblly bibsed towbrd left-hebvy or
+     * right-hebvy splits, we blternbte which child is forked versus
      * continued in the loop.
      */
     @Override
     public void compute() {
-        Spliterator<P_IN> rs = spliterator, ls; // right, left spliterators
-        long sizeEstimate = rs.estimateSize();
-        long sizeThreshold = getTargetSize(sizeEstimate);
-        boolean forkRight = false;
-        @SuppressWarnings("unchecked") K task = (K) this;
-        while (sizeEstimate > sizeThreshold && (ls = rs.trySplit()) != null) {
-            K leftChild, rightChild, taskToFork;
-            task.leftChild  = leftChild = task.makeChild(ls);
-            task.rightChild = rightChild = task.makeChild(rs);
-            task.setPendingCount(1);
+        Spliterbtor<P_IN> rs = spliterbtor, ls; // right, left spliterbtors
+        long sizeEstimbte = rs.estimbteSize();
+        long sizeThreshold = getTbrgetSize(sizeEstimbte);
+        boolebn forkRight = fblse;
+        @SuppressWbrnings("unchecked") K tbsk = (K) this;
+        while (sizeEstimbte > sizeThreshold && (ls = rs.trySplit()) != null) {
+            K leftChild, rightChild, tbskToFork;
+            tbsk.leftChild  = leftChild = tbsk.mbkeChild(ls);
+            tbsk.rightChild = rightChild = tbsk.mbkeChild(rs);
+            tbsk.setPendingCount(1);
             if (forkRight) {
-                forkRight = false;
+                forkRight = fblse;
                 rs = ls;
-                task = leftChild;
-                taskToFork = rightChild;
+                tbsk = leftChild;
+                tbskToFork = rightChild;
             }
             else {
                 forkRight = true;
-                task = rightChild;
-                taskToFork = leftChild;
+                tbsk = rightChild;
+                tbskToFork = leftChild;
             }
-            taskToFork.fork();
-            sizeEstimate = rs.estimateSize();
+            tbskToFork.fork();
+            sizeEstimbte = rs.estimbteSize();
         }
-        task.setLocalResult(task.doLeaf());
-        task.tryComplete();
+        tbsk.setLocblResult(tbsk.doLebf());
+        tbsk.tryComplete();
     }
 
     /**
      * {@inheritDoc}
      *
      * @implNote
-     * Clears spliterator and children fields.  Overriders MUST call
-     * {@code super.onCompletion} as the last thing they do if they want these
-     * cleared.
+     * Clebrs spliterbtor bnd children fields.  Overriders MUST cbll
+     * {@code super.onCompletion} bs the lbst thing they do if they wbnt these
+     * clebred.
      */
     @Override
-    public void onCompletion(CountedCompleter<?> caller) {
-        spliterator = null;
+    public void onCompletion(CountedCompleter<?> cbller) {
+        spliterbtor = null;
         leftChild = rightChild = null;
     }
 
     /**
-     * Returns whether this node is a "leftmost" node -- whether the path from
-     * the root to this node involves only traversing leftmost child links.  For
-     * a leaf node, this means it is the first leaf node in the encounter order.
+     * Returns whether this node is b "leftmost" node -- whether the pbth from
+     * the root to this node involves only trbversing leftmost child links.  For
+     * b lebf node, this mebns it is the first lebf node in the encounter order.
      *
-     * @return {@code true} if this node is a "leftmost" node
+     * @return {@code true} if this node is b "leftmost" node
      */
-    protected boolean isLeftmostNode() {
-        @SuppressWarnings("unchecked")
+    protected boolebn isLeftmostNode() {
+        @SuppressWbrnings("unchecked")
         K node = (K) this;
         while (node != null) {
-            K parent = node.getParent();
-            if (parent != null && parent.leftChild != node)
-                return false;
-            node = parent;
+            K pbrent = node.getPbrent();
+            if (pbrent != null && pbrent.leftChild != node)
+                return fblse;
+            node = pbrent;
         }
         return true;
     }

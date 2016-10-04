@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbtePbrsingException;
+import jbvb.security.cert.CertificbteExpiredException;
+import jbvb.security.cert.CertificbteNotYetVblidException;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class defines the Private Key Usage Extension.
+ * This clbss defines the Privbte Key Usbge Extension.
  *
- * <p>The Private Key Usage Period extension allows the certificate issuer
- * to specify a different validity period for the private key than the
- * certificate. This extension is intended for use with digital
- * signature keys.  This extension consists of two optional components
- * notBefore and notAfter.  The private key associated with the
- * certificate should not be used to sign objects before or after the
+ * <p>The Privbte Key Usbge Period extension bllows the certificbte issuer
+ * to specify b different vblidity period for the privbte key thbn the
+ * certificbte. This extension is intended for use with digitbl
+ * signbture keys.  This extension consists of two optionbl components
+ * notBefore bnd notAfter.  The privbte key bssocibted with the
+ * certificbte should not be used to sign objects before or bfter the
  * times specified by the two components, respectively.
  *
  * <pre>
- * PrivateKeyUsagePeriod ::= SEQUENCE {
- *     notBefore  [0]  GeneralizedTime OPTIONAL,
- *     notAfter   [1]  GeneralizedTime OPTIONAL }
+ * PrivbteKeyUsbgePeriod ::= SEQUENCE {
+ *     notBefore  [0]  GenerblizedTime OPTIONAL,
+ *     notAfter   [1]  GenerblizedTime OPTIONAL }
  * </pre>
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class PrivateKeyUsageExtension extends Extension
+public clbss PrivbteKeyUsbgeExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.PrivateKeyUsage";
+    public stbtic finbl String IDENT = "x509.info.extensions.PrivbteKeyUsbge";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributes nbme for this CertAttrSet.
      */
-    public static final String NAME = "PrivateKeyUsage";
-    public static final String NOT_BEFORE = "not_before";
-    public static final String NOT_AFTER = "not_after";
+    public stbtic finbl String NAME = "PrivbteKeyUsbge";
+    public stbtic finbl String NOT_BEFORE = "not_before";
+    public stbtic finbl String NOT_AFTER = "not_bfter";
 
-    // Private data members
-    private static final byte TAG_BEFORE = 0;
-    private static final byte TAG_AFTER = 1;
+    // Privbte dbtb members
+    privbte stbtic finbl byte TAG_BEFORE = 0;
+    privbte stbtic finbl byte TAG_AFTER = 1;
 
-    private Date        notBefore = null;
-    private Date        notAfter = null;
+    privbte Dbte        notBefore = null;
+    privbte Dbte        notAfter = null;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
+    // Encode this extension vblue.
+    privbte void encodeThis() throws IOException {
         if (notBefore == null && notAfter == null) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream seq = new DerOutputStream();
+        DerOutputStrebm seq = new DerOutputStrebm();
 
-        DerOutputStream tagged = new DerOutputStream();
+        DerOutputStrebm tbgged = new DerOutputStrebm();
         if (notBefore != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putGeneralizedTime(notBefore);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_BEFORE), tmp);
+            DerOutputStrebm tmp = new DerOutputStrebm();
+            tmp.putGenerblizedTime(notBefore);
+            tbgged.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                 fblse, TAG_BEFORE), tmp);
         }
         if (notAfter != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putGeneralizedTime(notAfter);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_AFTER), tmp);
+            DerOutputStrebm tmp = new DerOutputStrebm();
+            tmp.putGenerblizedTime(notAfter);
+            tbgged.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                 fblse, TAG_AFTER), tmp);
         }
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        seq.write(DerVblue.tbg_Sequence, tbgged);
+        this.extensionVblue = seq.toByteArrby();
     }
 
     /**
-     * The default constructor for PrivateKeyUsageExtension.
+     * The defbult constructor for PrivbteKeyUsbgeExtension.
      *
-     * @param notBefore the date/time before which the private key
+     * @pbrbm notBefore the dbte/time before which the privbte key
      *         should not be used.
-     * @param notAfter the date/time after which the private key
+     * @pbrbm notAfter the dbte/time bfter which the privbte key
      *         should not be used.
      */
-    public PrivateKeyUsageExtension(Date notBefore, Date notAfter)
+    public PrivbteKeyUsbgeExtension(Dbte notBefore, Dbte notAfter)
     throws IOException {
         this.notBefore = notBefore;
         this.notAfter = notAfter;
 
-        this.extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-        this.critical = false;
+        this.extensionId = PKIXExtensions.PrivbteKeyUsbge_Id;
+        this.criticbl = fblse;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crebte the extension from the pbssed DER encoded vblue.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception CertificateException on certificate parsing errors.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
+     * @exception CertificbteException on certificbte pbrsing errors.
      * @exception IOException on error.
      */
-    public PrivateKeyUsageExtension(Boolean critical, Object value)
-    throws CertificateException, IOException {
-        this.extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-        this.critical = critical.booleanValue();
+    public PrivbteKeyUsbgeExtension(Boolebn criticbl, Object vblue)
+    throws CertificbteException, IOException {
+        this.extensionId = PKIXExtensions.PrivbteKeyUsbge_Id;
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerInputStream str = new DerInputStream(this.extensionValue);
-        DerValue[] seq = str.getSequence(2);
+        this.extensionVblue = (byte[]) vblue;
+        DerInputStrebm str = new DerInputStrebm(this.extensionVblue);
+        DerVblue[] seq = str.getSequence(2);
 
-        // NB. this is always encoded with the IMPLICIT tag
-        // The checks only make sense if we assume implicit tagging,
-        // with explicit tagging the form is always constructed.
+        // NB. this is blwbys encoded with the IMPLICIT tbg
+        // The checks only mbke sense if we bssume implicit tbgging,
+        // with explicit tbgging the form is blwbys constructed.
         for (int i = 0; i < seq.length; i++) {
-            DerValue opt = seq[i];
+            DerVblue opt = seq[i];
 
             if (opt.isContextSpecific(TAG_BEFORE) &&
                 !opt.isConstructed()) {
                 if (notBefore != null) {
-                    throw new CertificateParsingException(
-                        "Duplicate notBefore in PrivateKeyUsage.");
+                    throw new CertificbtePbrsingException(
+                        "Duplicbte notBefore in PrivbteKeyUsbge.");
                 }
-                opt.resetTag(DerValue.tag_GeneralizedTime);
-                str = new DerInputStream(opt.toByteArray());
-                notBefore = str.getGeneralizedTime();
+                opt.resetTbg(DerVblue.tbg_GenerblizedTime);
+                str = new DerInputStrebm(opt.toByteArrby());
+                notBefore = str.getGenerblizedTime();
 
             } else if (opt.isContextSpecific(TAG_AFTER) &&
                        !opt.isConstructed()) {
                 if (notAfter != null) {
-                    throw new CertificateParsingException(
-                        "Duplicate notAfter in PrivateKeyUsage.");
+                    throw new CertificbtePbrsingException(
+                        "Duplicbte notAfter in PrivbteKeyUsbge.");
                 }
-                opt.resetTag(DerValue.tag_GeneralizedTime);
-                str = new DerInputStream(opt.toByteArray());
-                notAfter = str.getGeneralizedTime();
+                opt.resetTbg(DerVblue.tbg_GenerblizedTime);
+                str = new DerInputStrebm(opt.toByteArrby());
+                notAfter = str.getGenerblizedTime();
             } else
-                throw new IOException("Invalid encoding of " +
-                                      "PrivateKeyUsageExtension");
+                throw new IOException("Invblid encoding of " +
+                                      "PrivbteKeyUsbgeExtension");
         }
     }
 
     /**
-     * Return the printable string.
+     * Return the printbble string.
      */
     public String toString() {
         return(super.toString() +
-                "PrivateKeyUsage: [\n" +
+                "PrivbteKeyUsbge: [\n" +
                 ((notBefore == null) ? "" : "From: " + notBefore.toString() + ", ")
                 + ((notAfter == null) ? "" : "To: " + notAfter.toString())
                 + "]\n");
     }
 
     /**
-     * Verify that that the current time is within the validity period.
+     * Verify thbt thbt the current time is within the vblidity period.
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid.
+     * @exception CertificbteExpiredException if the certificbte hbs expired.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     * yet vblid.
      */
-    public void valid()
-    throws CertificateNotYetValidException, CertificateExpiredException {
-        Date now = new Date();
-        valid(now);
+    public void vblid()
+    throws CertificbteNotYetVblidException, CertificbteExpiredException {
+        Dbte now = new Dbte();
+        vblid(now);
     }
 
     /**
-     * Verify that that the passed time is within the validity period.
+     * Verify thbt thbt the pbssed time is within the vblidity period.
      *
-     * @exception CertificateExpiredException if the certificate has expired
-     * with respect to the <code>Date</code> supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid with respect to the <code>Date</code> supplied.
+     * @exception CertificbteExpiredException if the certificbte hbs expired
+     * with respect to the <code>Dbte</code> supplied.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     * yet vblid with respect to the <code>Dbte</code> supplied.
      *
      */
-    public void valid(Date now)
-    throws CertificateNotYetValidException, CertificateExpiredException {
+    public void vblid(Dbte now)
+    throws CertificbteNotYetVblidException, CertificbteExpiredException {
         /*
-         * we use the internal Dates rather than the passed in Date
-         * because someone could override the Date methods after()
-         * and before() to do something entirely different.
+         * we use the internbl Dbtes rbther thbn the pbssed in Dbte
+         * becbuse someone could override the Dbte methods bfter()
+         * bnd before() to do something entirely different.
          */
-        if (notBefore.after(now)) {
-            throw new CertificateNotYetValidException("NotBefore: " +
+        if (notBefore.bfter(now)) {
+            throw new CertificbteNotYetVblidException("NotBefore: " +
                                                       notBefore.toString());
         }
         if (notAfter.before(now)) {
-            throw new CertificateExpiredException("NotAfter: " +
+            throw new CertificbteExpiredException("NotAfter: " +
                                                   notAfter.toString());
         }
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to.
+     * @pbrbm out the OutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-            extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-            critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+            extensionId = PKIXExtensions.PrivbteKeyUsbge_Id;
+            criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Set the bttribute vblue.
+     * @exception CertificbteException on bttribute hbndling errors.
      */
-    public void set(String name, Object obj)
-    throws CertificateException, IOException {
-        if (!(obj instanceof Date)) {
-            throw new CertificateException("Attribute must be of type Date.");
+    public void set(String nbme, Object obj)
+    throws CertificbteException, IOException {
+        if (!(obj instbnceof Dbte)) {
+            throw new CertificbteException("Attribute must be of type Dbte.");
         }
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = (Date)obj;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = (Date)obj;
+        if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
+            notBefore = (Dbte)obj;
+        } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
+            notAfter = (Dbte)obj;
         } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+          throw new CertificbteException("Attribute nbme not recognized by"
+                           + " CertAttrSet:PrivbteKeyUsbge.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Get the bttribute vblue.
+     * @exception CertificbteException on bttribute hbndling errors.
      */
-    public Date get(String name) throws CertificateException {
-      if (name.equalsIgnoreCase(NOT_BEFORE)) {
-          return (new Date(notBefore.getTime()));
-      } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-          return (new Date(notAfter.getTime()));
+    public Dbte get(String nbme) throws CertificbteException {
+      if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
+          return (new Dbte(notBefore.getTime()));
+      } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
+          return (new Dbte(notAfter.getTime()));
       } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+          throw new CertificbteException("Attribute nbme not recognized by"
+                           + " CertAttrSet:PrivbteKeyUsbge.");
       }
   }
 
     /**
-     * Delete the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Delete the bttribute vblue.
+     * @exception CertificbteException on bttribute hbndling errors.
      */
-    public void delete(String name) throws CertificateException, IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
+    public void delete(String nbme) throws CertificbteException, IOException {
+        if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
             notBefore = null;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
+        } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
             notAfter = null;
         } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+          throw new CertificbteException("Attribute nbme not recognized by"
+                           + " CertAttrSet:PrivbteKeyUsbge.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NOT_BEFORE);
-        elements.addElement(NOT_AFTER);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(NOT_BEFORE);
+        elements.bddElement(NOT_AFTER);
 
         return(elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
       return(NAME);
     }
 }

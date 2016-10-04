@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,52 +30,52 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-public abstract class Test extends Option.Enable {
-    private DependentLink dependencies;
+public bbstrbct clbss Test extends Option.Enbble {
+    privbte DependentLink dependencies;
 
-    public Test(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description, false);
+    public Test(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description, fblse);
     }
 
-    public void addDependency(Modifier mod) {
-        addDependency(mod, null);
+    public void bddDependency(Modifier mod) {
+        bddDependency(mod, null);
     }
 
-    public void addDependency(Modifier mod, Modifier.Filter filter) {
-        dependencies = DependentLink.add(dependencies, mod, filter);
+    public void bddDependency(Modifier mod, Modifier.Filter filter) {
+        dependencies = DependentLink.bdd(dependencies, mod, filter);
     }
 
-    public void addDependencies(Group g, boolean recursive) {
-        addDependencies(g, recursive, null);
+    public void bddDependencies(Group g, boolebn recursive) {
+        bddDependencies(g, recursive, null);
     }
 
-    public void addDependencies(Group g, boolean recursive,
+    public void bddDependencies(Group g, boolebn recursive,
                                 Modifier.Filter filter)
     {
-        if (g instanceof Modifier) {
-            addDependency((Modifier) g, filter);
+        if (g instbnceof Modifier) {
+            bddDependency((Modifier) g, filter);
         }
         for (Node n = g.getFirstChild(); n != null; n = n.getNext()) {
-            if (n instanceof Modifier) {
-                addDependency((Modifier) n, filter);
-            } else if (recursive && n instanceof Group) {
-                addDependencies((Group) n, recursive, filter);
+            if (n instbnceof Modifier) {
+                bddDependency((Modifier) n, filter);
+            } else if (recursive && n instbnceof Group) {
+                bddDependencies((Group) n, recursive, filter);
             }
         }
     }
 
     public void runTest(TestEnvironment env) {
-        if (!env.isStopped() && isEnabled()) {
+        if (!env.isStopped() && isEnbbled()) {
             dependencies.recurseAndRun(env, this);
         }
     }
@@ -83,32 +83,32 @@ public abstract class Test extends Option.Enable {
     public void runOneTest(TestEnvironment env) {
         if (!env.isStopped()) {
             Result result = new Result(this);
-            env.erase();
+            env.erbse();
             Object ctx = initTest(env, result);
             result.setModifiers(env.getModifiers());
             try {
                 runTestLoop(env, result, ctx);
-            } catch (Throwable t) {
+            } cbtch (Throwbble t) {
                 result.setError(t);
             }
-            cleanupTest(env, ctx);
+            clebnupTest(env, ctx);
             // Skip recording results if we were interrupted before
-            // anything interesting happened...
+            // bnything interesting hbppened...
             if (result.getError() != null || result.getNumRuns() != 0) {
-                if (J2DBench.printresults.isEnabled()) {
-                    result.summarize();
+                if (J2DBench.printresults.isEnbbled()) {
+                    result.summbrize();
                 }
                 env.record(result);
             }
             ctx = null;
             result = null;
-            env.idle();  // Also done after this method returns...
+            env.idle();  // Also done bfter this method returns...
         }
     }
 
-    public abstract Object initTest(TestEnvironment env, Result result);
-    public abstract void runTest(Object context, int numReps);
-    public abstract void cleanupTest(TestEnvironment env, Object context);
+    public bbstrbct Object initTest(TestEnvironment env, Result result);
+    public bbstrbct void runTest(Object context, int numReps);
+    public bbstrbct void clebnupTest(TestEnvironment env, Object context);
 
     public void runTestLoop(TestEnvironment env, Result result, Object ctx) {
         // Prime the pump
@@ -117,52 +117,52 @@ public abstract class Test extends Option.Enable {
         // Determine the number of reps
         int numReps = env.getRepCount();
         if (numReps == 0) {
-            numReps = calibrate(env, ctx);
+            numReps = cblibrbte(env, ctx);
         }
         result.setReps(numReps);
 
         int numRuns = env.getRunCount();
         for (int i = 0; i < numRuns; i++) {
             if (env.idle()) {
-                break;
+                brebk;
             }
 
             env.sync();
-            env.startTiming();
+            env.stbrtTiming();
             runTest(ctx, numReps);
             env.sync();
             env.stopTiming();
-            result.addTime(env.getTimeMillis());
+            result.bddTime(env.getTimeMillis());
 
             env.flushToScreen();
         }
     }
 
-    public int calibrate(TestEnvironment env, Object ctx) {
+    public int cblibrbte(TestEnvironment env, Object ctx) {
         long testTime = env.getTestTime();
         int numReps = 0;
-        int totalReps = 0;
+        int totblReps = 0;
 
-        // First do one at a time until we get to 1 second elapsed
-        // But, if we get to 1000 reps we'll start ramping up our
-        // reps per cycle and throwing sync() calls in to make sure
-        // we aren't spinning our gears queueing up graphics calls
+        // First do one bt b time until we get to 1 second elbpsed
+        // But, if we get to 1000 reps we'll stbrt rbmping up our
+        // reps per cycle bnd throwing sync() cblls in to mbke sure
+        // we bren't spinning our gebrs queueing up grbphics cblls
         env.idle();
         long now = System.currentTimeMillis();
-        long startTime = now;
-        while (numReps < 1000 && now < startTime + 1000) {
+        long stbrtTime = now;
+        while (numReps < 1000 && now < stbrtTime + 1000) {
             runTest(ctx, 1);
             numReps++;
             now = System.currentTimeMillis();
         }
 
-        // Time to shift gears into an exponential number of tests
-        // sync() each time in case batching at a lower level is
-        // causing us to spin our gears
+        // Time to shift gebrs into bn exponentibl number of tests
+        // sync() ebch time in cbse bbtching bt b lower level is
+        // cbusing us to spin our gebrs
         env.sync();
         now = System.currentTimeMillis();
         int reps = 250;
-        while (now < startTime + 1000) {
+        while (now < stbrtTime + 1000) {
             runTest(ctx, reps);
             env.sync();
             numReps += reps;
@@ -170,39 +170,39 @@ public abstract class Test extends Option.Enable {
             now = System.currentTimeMillis();
         }
 
-        // Now keep estimating how many reps it takes to hit our target
-        // time exactly, trying it out, and guessing again.
-        while (now < startTime + testTime) {
-            int estimate = (int) (numReps * testTime / (now - startTime));
-            if (estimate <= numReps) {
-                estimate = numReps+1;
+        // Now keep estimbting how mbny reps it tbkes to hit our tbrget
+        // time exbctly, trying it out, bnd guessing bgbin.
+        while (now < stbrtTime + testTime) {
+            int estimbte = (int) (numReps * testTime / (now - stbrtTime));
+            if (estimbte <= numReps) {
+                estimbte = numReps+1;
             }
-            runTest(ctx, estimate - numReps);
-            numReps = estimate;
+            runTest(ctx, estimbte - numReps);
+            numReps = estimbte;
             env.sync();
             now = System.currentTimeMillis();
         }
 
-        // Now make one last estimate of how many reps it takes to
-        // hit the target exactly in case we overshot.
-        int estimate = (int) (numReps * testTime / (now - startTime));
-        if (estimate < 1) {
-            estimate = 1;
+        // Now mbke one lbst estimbte of how mbny reps it tbkes to
+        // hit the tbrget exbctly in cbse we overshot.
+        int estimbte = (int) (numReps * testTime / (now - stbrtTime));
+        if (estimbte < 1) {
+            estimbte = 1;
         }
-        return estimate;
+        return estimbte;
     }
 
     /*
-     * Finds a new width (w2) such that
+     * Finds b new width (w2) such thbt
      *     (w-2) <= w2 <= w
-     *     and w2 is not a multiple of 3 (the X step size)
-     *     and GCD(w2, h) is as small as possible
+     *     bnd w2 is not b multiple of 3 (the X step size)
+     *     bnd GCD(w2, h) is bs smbll bs possible
      */
-    static int prevw;
-    public static int adjustWidth(int w, int h) {
+    stbtic int prevw;
+    public stbtic int bdjustWidth(int w, int h) {
         int bestv = w;
         int bestw = w;
-        boolean verbose = (prevw != w && J2DBench.verbose.isEnabled());
+        boolebn verbose = (prevw != w && J2DBench.verbose.isEnbbled());
         for (int i = 0; i < 3; i++) {
             int w2 = w-i;
             int u = w2;
@@ -229,31 +229,31 @@ public abstract class Test extends Option.Enable {
     }
 
     public String toString() {
-        return "Test("+getTreeName()+")";
+        return "Test("+getTreeNbme()+")";
     }
 
-    public static class DependentLink {
-        public static DependentLink add(DependentLink d, Modifier mod,
+    public stbtic clbss DependentLink {
+        public stbtic DependentLink bdd(DependentLink d, Modifier mod,
                                         Modifier.Filter filter)
         {
             DependentLink dl = new DependentLink(mod, filter);
             if (d == null) {
                 d = dl;
             } else {
-                DependentLink last = d;
-                while (last.next != null) {
-                    last = last.next;
+                DependentLink lbst = d;
+                while (lbst.next != null) {
+                    lbst = lbst.next;
                 }
-                last.next = dl;
+                lbst.next = dl;
             }
             return d;
         }
 
-        private DependentLink next;
-        private Modifier mod;
-        private Modifier.Filter filter;
+        privbte DependentLink next;
+        privbte Modifier mod;
+        privbte Modifier.Filter filter;
 
-        private DependentLink(Modifier mod, Modifier.Filter filter) {
+        privbte DependentLink(Modifier mod, Modifier.Filter filter) {
             this.mod = mod;
             this.filter = filter;
         }
@@ -271,18 +271,18 @@ public abstract class Test extends Option.Enable {
         }
 
         public void recurseAndRun(TestEnvironment env, Test test) {
-            Modifier.Iterator iter = mod.getIterator(env);
-            while (iter.hasNext()) {
-                Object val = iter.next();
-                if (filter == null || filter.isCompatible(val)) {
-                    mod.modifyTest(env, val);
+            Modifier.Iterbtor iter = mod.getIterbtor(env);
+            while (iter.hbsNext()) {
+                Object vbl = iter.next();
+                if (filter == null || filter.isCompbtible(vbl)) {
+                    mod.modifyTest(env, vbl);
                     if (next == null) {
                         test.runOneTest(env);
                         env.idle();  // One more time outside of runOneTest()
                     } else {
                         next.recurseAndRun(env, test);
                     }
-                    mod.restoreTest(env, val);
+                    mod.restoreTest(env, vbl);
                 }
             }
         }

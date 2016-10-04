@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Pathname canonicalization for Unix file systems
+ * Pbthnbme cbnonicblizbtion for Unix file systems
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <errno.h>
 #include <limits.h>
 #if !defined(_ALLBSD_SOURCE)
-#include <alloca.h>
+#include <bllocb.h>
 #endif
 
 
 /* Note: The comments in this file use the terminology
-         defined in the java.io.File class */
+         defined in the jbvb.io.File clbss */
 
 
-/* Check the given name sequence to see if it can be further collapsed.
-   Return zero if not, otherwise return the number of names in the sequence. */
+/* Check the given nbme sequence to see if it cbn be further collbpsed.
+   Return zero if not, otherwise return the number of nbmes in the sequence. */
 
-static int
-collapsible(char *names)
+stbtic int
+collbpsible(chbr *nbmes)
 {
-    char *p = names;
+    chbr *p = nbmes;
     int dots = 0, n = 0;
 
     while (*p) {
@@ -62,7 +62,7 @@ collapsible(char *names)
         while (*p) {
             if (*p == '/') {
                 p++;
-                break;
+                brebk;
             }
             p++;
         }
@@ -71,13 +71,13 @@ collapsible(char *names)
 }
 
 
-/* Split the names in the given name sequence,
-   replacing slashes with nulls and filling in the given index array */
+/* Split the nbmes in the given nbme sequence,
+   replbcing slbshes with nulls bnd filling in the given index brrby */
 
-static void
-splitNames(char *names, char **ix)
+stbtic void
+splitNbmes(chbr *nbmes, chbr **ix)
 {
-    char *p = names;
+    chbr *p = nbmes;
     int i = 0;
 
     while (*p) {
@@ -85,7 +85,7 @@ splitNames(char *names, char **ix)
         while (*p) {
             if (*p == '/') {
                 *p++ = '\0';
-                break;
+                brebk;
             }
             p++;
         }
@@ -93,16 +93,16 @@ splitNames(char *names, char **ix)
 }
 
 
-/* Join the names in the given name sequence, ignoring names whose index
-   entries have been cleared and replacing nulls with slashes as needed */
+/* Join the nbmes in the given nbme sequence, ignoring nbmes whose index
+   entries hbve been clebred bnd replbcing nulls with slbshes bs needed */
 
-static void
-joinNames(char *names, int nc, char **ix)
+stbtic void
+joinNbmes(chbr *nbmes, int nc, chbr **ix)
 {
     int i;
-    char *p;
+    chbr *p;
 
-    for (i = 0, p = names; i < nc; i++) {
+    for (i = 0, p = nbmes; i < nc; i++) {
         if (!ix[i]) continue;
         if (i > 0) {
             p[-1] = '/';
@@ -110,7 +110,7 @@ joinNames(char *names, int nc, char **ix)
         if (p == ix[i]) {
             p += strlen(p) + 1;
         } else {
-            char *q = ix[i];
+            chbr *q = ix[i];
             while ((*p++ = *q++));
         }
     }
@@ -118,126 +118,126 @@ joinNames(char *names, int nc, char **ix)
 }
 
 
-/* Collapse "." and ".." names in the given path wherever possible.
-   A "." name may always be eliminated; a ".." name may be eliminated if it
-   follows a name that is neither "." nor "..".  This is a syntactic operation
-   that performs no filesystem queries, so it should only be used to cleanup
-   after invoking the realpath() procedure. */
+/* Collbpse "." bnd ".." nbmes in the given pbth wherever possible.
+   A "." nbme mby blwbys be eliminbted; b ".." nbme mby be eliminbted if it
+   follows b nbme thbt is neither "." nor "..".  This is b syntbctic operbtion
+   thbt performs no filesystem queries, so it should only be used to clebnup
+   bfter invoking the reblpbth() procedure. */
 
-static void
-collapse(char *path)
+stbtic void
+collbpse(chbr *pbth)
 {
-    char *names = (path[0] == '/') ? path + 1 : path; /* Preserve first '/' */
+    chbr *nbmes = (pbth[0] == '/') ? pbth + 1 : pbth; /* Preserve first '/' */
     int nc;
-    char **ix;
+    chbr **ix;
     int i, j;
-    char *p, *q;
+    chbr *p, *q;
 
-    nc = collapsible(names);
+    nc = collbpsible(nbmes);
     if (nc < 2) return;         /* Nothing to do */
-    ix = (char **)alloca(nc * sizeof(char *));
-    splitNames(names, ix);
+    ix = (chbr **)bllocb(nc * sizeof(chbr *));
+    splitNbmes(nbmes, ix);
 
     for (i = 0; i < nc; i++) {
         int dots = 0;
 
         /* Find next occurrence of "." or ".." */
         do {
-            char *p = ix[i];
+            chbr *p = ix[i];
             if (p[0] == '.') {
                 if (p[1] == '\0') {
                     dots = 1;
-                    break;
+                    brebk;
                 }
                 if ((p[1] == '.') && (p[2] == '\0')) {
                     dots = 2;
-                    break;
+                    brebk;
                 }
             }
             i++;
         } while (i < nc);
-        if (i >= nc) break;
+        if (i >= nc) brebk;
 
-        /* At this point i is the index of either a "." or a "..", so take the
-           appropriate action and then continue the outer loop */
+        /* At this point i is the index of either b "." or b "..", so tbke the
+           bppropribte bction bnd then continue the outer loop */
         if (dots == 1) {
-            /* Remove this instance of "." */
+            /* Remove this instbnce of "." */
             ix[i] = 0;
         }
         else {
-            /* If there is a preceding name, remove both that name and this
-               instance of ".."; otherwise, leave the ".." as is */
+            /* If there is b preceding nbme, remove both thbt nbme bnd this
+               instbnce of ".."; otherwise, lebve the ".." bs is */
             for (j = i - 1; j >= 0; j--) {
-                if (ix[j]) break;
+                if (ix[j]) brebk;
             }
             if (j < 0) continue;
             ix[j] = 0;
             ix[i] = 0;
         }
-        /* i will be incremented at the top of the loop */
+        /* i will be incremented bt the top of the loop */
     }
 
-    joinNames(names, nc, ix);
+    joinNbmes(nbmes, nc, ix);
 }
 
 
-/* Convert a pathname to canonical form.  The input path is assumed to contain
-   no duplicate slashes.  On Solaris we can use realpath() to do most of the
-   work, though once that's done we still must collapse any remaining "." and
-   ".." names by hand. */
+/* Convert b pbthnbme to cbnonicbl form.  The input pbth is bssumed to contbin
+   no duplicbte slbshes.  On Solbris we cbn use reblpbth() to do most of the
+   work, though once thbt's done we still must collbpse bny rembining "." bnd
+   ".." nbmes by hbnd. */
 
 int
-canonicalize(char *original, char *resolved, int len)
+cbnonicblize(chbr *originbl, chbr *resolved, int len)
 {
     if (len < PATH_MAX) {
         errno = EINVAL;
         return -1;
     }
 
-    if (strlen(original) > PATH_MAX) {
+    if (strlen(originbl) > PATH_MAX) {
         errno = ENAMETOOLONG;
         return -1;
     }
 
-    /* First try realpath() on the entire path */
-    if (realpath(original, resolved)) {
-        /* That worked, so return it */
-        collapse(resolved);
+    /* First try reblpbth() on the entire pbth */
+    if (reblpbth(originbl, resolved)) {
+        /* Thbt worked, so return it */
+        collbpse(resolved);
         return 0;
     }
     else {
-        /* Something's bogus in the original path, so remove names from the end
-           until either some subpath works or we run out of names */
-        char *p, *end, *r = NULL;
-        char path[PATH_MAX + 1];
+        /* Something's bogus in the originbl pbth, so remove nbmes from the end
+           until either some subpbth works or we run out of nbmes */
+        chbr *p, *end, *r = NULL;
+        chbr pbth[PATH_MAX + 1];
 
-        strncpy(path, original, sizeof(path));
-        if (path[PATH_MAX] != '\0') {
+        strncpy(pbth, originbl, sizeof(pbth));
+        if (pbth[PATH_MAX] != '\0') {
             errno = ENAMETOOLONG;
             return -1;
         }
-        end = path + strlen(path);
+        end = pbth + strlen(pbth);
 
-        for (p = end; p > path;) {
+        for (p = end; p > pbth;) {
 
-            /* Skip last element */
-            while ((--p > path) && (*p != '/'));
-            if (p == path) break;
+            /* Skip lbst element */
+            while ((--p > pbth) && (*p != '/'));
+            if (p == pbth) brebk;
 
-            /* Try realpath() on this subpath */
+            /* Try reblpbth() on this subpbth */
             *p = '\0';
-            r = realpath(path, resolved);
+            r = reblpbth(pbth, resolved);
             *p = (p == end) ? '\0' : '/';
 
             if (r != NULL) {
-                /* The subpath has a canonical path */
-                break;
+                /* The subpbth hbs b cbnonicbl pbth */
+                brebk;
             }
             else if (errno == ENOENT || errno == ENOTDIR || errno == EACCES) {
-                /* If the lookup of a particular subpath fails because the file
-                   does not exist, because it is of the wrong type, or because
-                   access is denied, then remove its last name and try again.
-                   Other I/O problems cause an error return. */
+                /* If the lookup of b pbrticulbr subpbth fbils becbuse the file
+                   does not exist, becbuse it is of the wrong type, or becbuse
+                   bccess is denied, then remove its lbst nbme bnd try bgbin.
+                   Other I/O problems cbuse bn error return. */
                 continue;
             }
             else {
@@ -246,7 +246,7 @@ canonicalize(char *original, char *resolved, int len)
         }
 
         if (r != NULL) {
-            /* Append unresolved subpath to resolved subpath */
+            /* Append unresolved subpbth to resolved subpbth */
             int rn = strlen(r);
             if (rn + (int)strlen(p) >= len) {
                 /* Buffer overflow */
@@ -254,17 +254,17 @@ canonicalize(char *original, char *resolved, int len)
                 return -1;
             }
             if ((rn > 0) && (r[rn - 1] == '/') && (*p == '/')) {
-                /* Avoid duplicate slashes */
+                /* Avoid duplicbte slbshes */
                 p++;
             }
             strcpy(r + rn, p);
-            collapse(r);
+            collbpse(r);
             return 0;
         }
         else {
-            /* Nothing resolved, so just return the original path */
-            strcpy(resolved, path);
-            collapse(resolved);
+            /* Nothing resolved, so just return the originbl pbth */
+            strcpy(resolved, pbth);
+            collbpse(resolved);
             return 0;
         }
     }

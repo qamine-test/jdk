@@ -1,77 +1,77 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 6 August 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 6 August 2013
 .\"     SectDesc: Security Tools
 .\"     Title: keytool.1
 .\"
 .if n .pl 99999
 .TH keytool 1 "6 August 2013" "JDK 8" "Security Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-keytool \- Manages a keystore (database) of cryptographic keys, X\&.509 certificate chains, and trusted certificates\&.
+keytool \- Mbnbges b keystore (dbtbbbse) of cryptogrbphic keys, X\&.509 certificbte chbins, bnd trusted certificbtes\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBkeytool\fR [\fIcommands\fR]
+\fBkeytool\fR [\fIcommbnds\fR]
 .fi     
 .sp     
 .TP     
-\fIcommands\fR
-See Commands\&. These commands are categorized by task as follows:
+\fIcommbnds\fR
+See Commbnds\&. These commbnds bre cbtegorized by tbsk bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-Create or Add Data to the Keystore
+Crebte or Add Dbtb to the Keystore
 .RS     
 .TP 0.2i    
 \(bu
 -gencert
 .TP 0.2i    
 \(bu
--genkeypair
+-genkeypbir
 .TP 0.2i    
 \(bu
 -genseckey
@@ -80,7 +80,7 @@ Create or Add Data to the Keystore
 -importcert
 .TP 0.2i    
 \(bu
--importpassword
+-importpbssword
 .RE     
 
 .TP 0.2i    
@@ -94,7 +94,7 @@ Import Contents From Another Keystore
 
 .TP 0.2i    
 \(bu
-Generate Certificate Request
+Generbte Certificbte Request
 .RS     
 .TP 0.2i    
 \(bu
@@ -103,7 +103,7 @@ Generate Certificate Request
 
 .TP 0.2i    
 \(bu
-Export Data
+Export Dbtb
 .RS     
 .TP 0.2i    
 \(bu
@@ -112,7 +112,7 @@ Export Data
 
 .TP 0.2i    
 \(bu
-Display Data
+Displby Dbtb
 .RS     
 .TP 0.2i    
 \(bu
@@ -130,20 +130,20 @@ Display Data
 
 .TP 0.2i    
 \(bu
-Manage the Keystore
+Mbnbge the Keystore
 .RS     
 .TP 0.2i    
 \(bu
--storepasswd
+-storepbsswd
 .TP 0.2i    
 \(bu
--keypasswd
+-keypbsswd
 .TP 0.2i    
 \(bu
 -delete
 .TP 0.2i    
 \(bu
--changealias
+-chbngeblibs
 .RE     
 
 .TP 0.2i    
@@ -158,57 +158,57 @@ Get Help
 .RE     
 
 .SH DESCRIPTION    
-The \f3keytool\fR command is a key and certificate management utility\&. It enables users to administer their own public/private key pairs and associated certificates for use in self-authentication (where the user authenticates himself or herself to other users and services) or data integrity and authentication services, using digital signatures\&. The \f3keytool\fR command also enables users to cache the public keys (in the form of certificates) of their communicating peers\&.
+The \f3keytool\fR commbnd is b key bnd certificbte mbnbgement utility\&. It enbbles users to bdminister their own public/privbte key pbirs bnd bssocibted certificbtes for use in self-buthenticbtion (where the user buthenticbtes himself or herself to other users bnd services) or dbtb integrity bnd buthenticbtion services, using digitbl signbtures\&. The \f3keytool\fR commbnd blso enbbles users to cbche the public keys (in the form of certificbtes) of their communicbting peers\&.
 .PP
-A certificate is a digitally signed statement from one entity (person, company, and so on\&.), that says that the public key (and some other information) of some other entity has a particular value\&. (See Certificate\&.) When data is digitally signed, the signature can be verified to check the data integrity and authenticity\&. Integrity means that the data has not been modified or tampered with, and authenticity means the data comes from whoever claims to have created and signed it\&.
+A certificbte is b digitblly signed stbtement from one entity (person, compbny, bnd so on\&.), thbt sbys thbt the public key (bnd some other informbtion) of some other entity hbs b pbrticulbr vblue\&. (See Certificbte\&.) When dbtb is digitblly signed, the signbture cbn be verified to check the dbtb integrity bnd buthenticity\&. Integrity mebns thbt the dbtb hbs not been modified or tbmpered with, bnd buthenticity mebns the dbtb comes from whoever clbims to hbve crebted bnd signed it\&.
 .PP
-The \f3keytool\fR command also enables users to administer secret keys and passphrases used in symmetric encryption and decryption (DES)\&.
+The \f3keytool\fR commbnd blso enbbles users to bdminister secret keys bnd pbssphrbses used in symmetric encryption bnd decryption (DES)\&.
 .PP
-The \f3keytool\fR command stores the keys and certificates in a keystore\&. See KeyStore aliases\&.
+The \f3keytool\fR commbnd stores the keys bnd certificbtes in b keystore\&. See KeyStore blibses\&.
 .SH COMMAND\ AND\ OPTION\ NOTES    
-See Commands for a listing and description of the various commands\&.
+See Commbnds for b listing bnd description of the vbrious commbnds\&.
 .TP 0.2i    
 \(bu
-All command and option names are preceded by a minus sign (-)\&.
+All commbnd bnd option nbmes bre preceded by b minus sign (-)\&.
 .TP 0.2i    
 \(bu
-The options for each command can be provided in any order\&.
+The options for ebch commbnd cbn be provided in bny order\&.
 .TP 0.2i    
 \(bu
-All items not italicized or in braces or brackets are required to appear as is\&.
+All items not itblicized or in brbces or brbckets bre required to bppebr bs is\&.
 .TP 0.2i    
 \(bu
-Braces surrounding an option signify that a default value will be used when the option is not specified on the command line\&. See Option Defaults\&. Braces are also used around the \f3-v\fR, \f3-rfc\fR, and \f3-J\fR options, which only have meaning when they appear on the command line\&. They do not have any default values other than not existing\&.
+Brbces surrounding bn option signify thbt b defbult vblue will be used when the option is not specified on the commbnd line\&. See Option Defbults\&. Brbces bre blso used bround the \f3-v\fR, \f3-rfc\fR, bnd \f3-J\fR options, which only hbve mebning when they bppebr on the commbnd line\&. They do not hbve bny defbult vblues other thbn not existing\&.
 .TP 0.2i    
 \(bu
-Brackets surrounding an option signify that the user is prompted for the values when the option is not specified on the command line\&. For the \f3-keypass\fR option, if you do not specify the option on the command line, then the \f3keytool\fR command first attempts to use the keystore password to recover the private/secret key\&. If this attempt fails, then the \f3keytool\fR command prompts you for the private/secret key password\&.
+Brbckets surrounding bn option signify thbt the user is prompted for the vblues when the option is not specified on the commbnd line\&. For the \f3-keypbss\fR option, if you do not specify the option on the commbnd line, then the \f3keytool\fR commbnd first bttempts to use the keystore pbssword to recover the privbte/secret key\&. If this bttempt fbils, then the \f3keytool\fR commbnd prompts you for the privbte/secret key pbssword\&.
 .TP 0.2i    
 \(bu
-Items in italics (option values) represent the actual values that must be supplied\&. For example, here is the format of the \f3-printcert\fR command:
+Items in itblics (option vblues) represent the bctubl vblues thbt must be supplied\&. For exbmple, here is the formbt of the \f3-printcert\fR commbnd:
 
 \f3keytool -printcert {-file cert_file} {-v}\fR
 
-When you specify a \f3-printcert\fR command, replace \f3cert_file\fR with the actual file name, as follows: \f3keytool -printcert -file VScert\&.cer\fR
+When you specify b \f3-printcert\fR commbnd, replbce \f3cert_file\fR with the bctubl file nbme, bs follows: \f3keytool -printcert -file VScert\&.cer\fR
 .TP 0.2i    
 \(bu
-Option values must be put in quotation marks when they contain a blank (space)\&.
+Option vblues must be put in quotbtion mbrks when they contbin b blbnk (spbce)\&.
 .TP 0.2i    
 \(bu
-The \f3-help\fR option is the default\&. The \f3keytool\fR command is the same as \f3keytool -help\fR\&.
+The \f3-help\fR option is the defbult\&. The \f3keytool\fR commbnd is the sbme bs \f3keytool -help\fR\&.
 .SH OPTION\ DEFAULTS    
-The following examples show the defaults for various option values\&.
+The following exbmples show the defbults for vbrious option vblues\&.
 .sp     
 .nf     
-\f3\-alias "mykey"\fP
+\f3\-blibs "mykey"\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-keyalg\fP
+\f3\-keyblg\fP
 .fi     
 .nf     
-\f3    "DSA" (when using \-genkeypair)\fP
+\f3    "DSA" (when using \-genkeypbir)\fP
 .fi     
 .nf     
 \f3    "DES" (when using \-genseckey)\fP
@@ -220,43 +220,43 @@ The following examples show the defaults for various option values\&.
 \f3\-keysize\fP
 .fi     
 .nf     
-\f3    2048 (when using \-genkeypair and \-keyalg is "RSA")\fP
+\f3    2048 (when using \-genkeypbir bnd \-keyblg is "RSA")\fP
 .fi     
 .nf     
-\f3    1024 (when using \-genkeypair and \-keyalg is "DSA")\fP
+\f3    1024 (when using \-genkeypbir bnd \-keyblg is "DSA")\fP
 .fi     
 .nf     
-\f3    256 (when using \-genkeypair and \-keyalg is "EC")\fP
+\f3    256 (when using \-genkeypbir bnd \-keyblg is "EC")\fP
 .fi     
 .nf     
-\f3    56 (when using \-genseckey and \-keyalg is "DES")\fP
+\f3    56 (when using \-genseckey bnd \-keyblg is "DES")\fP
 .fi     
 .nf     
-\f3    168 (when using \-genseckey and \-keyalg is "DESede")\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3\-validity 90\fP
+\f3    168 (when using \-genseckey bnd \-keyblg is "DESede")\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-keystore <the file named \&.keystore in the user\&'s home directory>\fP
+\f3\-vblidity 90\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-storetype <the value of the "keystore\&.type" property in the\fP
+\f3\-keystore <the file nbmed \&.keystore in the user\&'s home directory>\fP
 .fi     
 .nf     
-\f3    security properties file, which is returned by the static\fP
+\f3\fP
 .fi     
 .nf     
-\f3    getDefaultType method in java\&.security\&.KeyStore>\fP
+\f3\-storetype <the vblue of the "keystore\&.type" property in the\fP
+.fi     
+.nf     
+\f3    security properties file, which is returned by the stbtic\fP
+.fi     
+.nf     
+\f3    getDefbultType method in jbvb\&.security\&.KeyStore>\fP
 .fi     
 .nf     
 \f3\fP
@@ -265,7 +265,7 @@ The following examples show the defaults for various option values\&.
 \f3\-file\fP
 .fi     
 .nf     
-\f3    stdin (if reading)\fP
+\f3    stdin (if rebding)\fP
 .fi     
 .nf     
 \f3    stdout (if writing)\fP
@@ -274,145 +274,145 @@ The following examples show the defaults for various option values\&.
 \f3\fP
 .fi     
 .nf     
-\f3\-protected false\fP
+\f3\-protected fblse\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-In generating a public/private key pair, the signature algorithm (\f3-sigalg\fR option) is derived from the algorithm of the underlying private key:
+In generbting b public/privbte key pbir, the signbture blgorithm (\f3-sigblg\fR option) is derived from the blgorithm of the underlying privbte key:
 .TP 0.2i    
 \(bu
-If the underlying private key is of type DSA, then the \f3-sigalg\fR option defaults to SHA1withDSA\&.
+If the underlying privbte key is of type DSA, then the \f3-sigblg\fR option defbults to SHA1withDSA\&.
 .TP 0.2i    
 \(bu
-If the underlying private key is of type RSA, then the \f3-sigalg\fR option defaults to SHA256withRSA\&.
+If the underlying privbte key is of type RSA, then the \f3-sigblg\fR option defbults to SHA256withRSA\&.
 .TP 0.2i    
 \(bu
-If the underlying private key is of type EC, then the \f3-sigalg\fR option defaults to SHA256withECDSA\&.
+If the underlying privbte key is of type EC, then the \f3-sigblg\fR option defbults to SHA256withECDSA\&.
 .PP
-For a full list of \f3-keyalg\fR and \f3-sigalg\fR arguments, see Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b full list of \f3-keyblg\fR bnd \f3-sigblg\fR brguments, see Jbvb Cryptogrbphy Architecture (JCA) Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
 .SH COMMON\ OPTIONS    
-The \f3-v\fR option can appear for all commands except \f3-help\fR\&. When the \f3-v\fR option appears, it signifies verbose mode, which means that more information is provided in the output\&.
+The \f3-v\fR option cbn bppebr for bll commbnds except \f3-help\fR\&. When the \f3-v\fR option bppebrs, it signifies verbose mode, which mebns thbt more informbtion is provided in the output\&.
 .PP
-There is also a \f3-Jjavaoption\fR argument that can appear for any command\&. When the \f3-Jjavaoption\fR appears, the specified \f3javaoption\fR string is passed directly to the Java interpreter\&. This option does not contain any spaces\&. It is useful for adjusting the execution environment or memory usage\&. For a list of possible interpreter options, type \f3java -h\fR or \f3java -X\fR at the command line\&.
+There is blso b \f3-Jjbvboption\fR brgument thbt cbn bppebr for bny commbnd\&. When the \f3-Jjbvboption\fR bppebrs, the specified \f3jbvboption\fR string is pbssed directly to the Jbvb interpreter\&. This option does not contbin bny spbces\&. It is useful for bdjusting the execution environment or memory usbge\&. For b list of possible interpreter options, type \f3jbvb -h\fR or \f3jbvb -X\fR bt the commbnd line\&.
 .PP
-These options can appear for all commands operating on a keystore:
+These options cbn bppebr for bll commbnds operbting on b keystore:
 .TP
 -storetype \fIstoretype\fR
 .br
-This qualifier specifies the type of keystore to be instantiated\&.
+This qublifier specifies the type of keystore to be instbntibted\&.
 .TP
 -keystore \fIkeystore\fR
 .br
-The keystore location\&.
+The keystore locbtion\&.
 
-If the JKS \f3storetype\fR is used and a keystore file does not yet exist, then certain \f3keytool\fR commands can result in a new keystore file being created\&. For example, if \f3keytool -genkeypair\fR is called and the \f3-keystore\fR option is not specified, the default keystore file named \f3\&.keystore\fR in the user\&'s home directory is created when it does not already exist\&. Similarly, if the \f3-keystore ks_file\fR option is specified but ks_file does not exist, then it is created\&. For more information on the JKS \f3storetype\fR, see the \fIKeyStore Implementation\fR section in KeyStore aliases\&.
+If the JKS \f3storetype\fR is used bnd b keystore file does not yet exist, then certbin \f3keytool\fR commbnds cbn result in b new keystore file being crebted\&. For exbmple, if \f3keytool -genkeypbir\fR is cblled bnd the \f3-keystore\fR option is not specified, the defbult keystore file nbmed \f3\&.keystore\fR in the user\&'s home directory is crebted when it does not blrebdy exist\&. Similbrly, if the \f3-keystore ks_file\fR option is specified but ks_file does not exist, then it is crebted\&. For more informbtion on the JKS \f3storetype\fR, see the \fIKeyStore Implementbtion\fR section in KeyStore blibses\&.
 
-Note that the input stream from the \f3-keystore\fR option is passed to the \f3KeyStore\&.load\fR method\&. If \f3NONE\fR is specified as the URL, then a null stream is passed to the \f3KeyStore\&.load\fR method\&. \f3NONE\fR should be specified if the keystore is not file-based\&. For example, when it resides on a hardware token device\&.
+Note thbt the input strebm from the \f3-keystore\fR option is pbssed to the \f3KeyStore\&.lobd\fR method\&. If \f3NONE\fR is specified bs the URL, then b null strebm is pbssed to the \f3KeyStore\&.lobd\fR method\&. \f3NONE\fR should be specified if the keystore is not file-bbsed\&. For exbmple, when it resides on b hbrdwbre token device\&.
 .TP
--storepass[:\fIenv\fR| :\fIfile\fR] argument
+-storepbss[:\fIenv\fR| :\fIfile\fR] brgument
 .br
-The password that is used to protect the integrity of the keystore\&.
+The pbssword thbt is used to protect the integrity of the keystore\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the \f3value\fR argument, which must be at least 6 characters long\&. Otherwise, the password is retrieved as follows:
+If the modifier \f3env\fR or \f3file\fR is not specified, then the pbssword hbs the \f3vblue\fR brgument, which must be bt lebst 6 chbrbcters long\&. Otherwise, the pbssword is retrieved bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3env\fR: Retrieve the pbssword from the environment vbribble nbmed \f3brgument\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named argument\&.
+\f3file\fR: Retrieve the pbssword from the file nbmed brgument\&.
 .RE     
 
 
-\fINote:\fR All other options that require passwords, such as \f3-keypass\fR, \f3-srckeypass\fR, -\f3destkeypass\fR, \f3-srcstorepass\fR, and \f3-deststorepass\fR, accept the \fIenv\fR and \fIfile\fR modifiers\&. Remember to separate the password option and the modifier with a colon (:)\&.
+\fINote:\fR All other options thbt require pbsswords, such bs \f3-keypbss\fR, \f3-srckeypbss\fR, -\f3destkeypbss\fR, \f3-srcstorepbss\fR, bnd \f3-deststorepbss\fR, bccept the \fIenv\fR bnd \fIfile\fR modifiers\&. Remember to sepbrbte the pbssword option bnd the modifier with b colon (:)\&.
 
-The password must be provided to all commands that access the keystore contents\&. For such commands, when the \f3-storepass\fR option is not provided at the command line, the user is prompted for it\&.
+The pbssword must be provided to bll commbnds thbt bccess the keystore contents\&. For such commbnds, when the \f3-storepbss\fR option is not provided bt the commbnd line, the user is prompted for it\&.
 
-When retrieving information from the keystore, the password is optional\&. If no password is specified, then the integrity of the retrieved information cannot be verified and a warning is displayed\&.
+When retrieving informbtion from the keystore, the pbssword is optionbl\&. If no pbssword is specified, then the integrity of the retrieved informbtion cbnnot be verified bnd b wbrning is displbyed\&.
 .TP
--providerName \fIprovider_name\fR
+-providerNbme \fIprovider_nbme\fR
 .br
-Used to identify a cryptographic service provider\&'s name when listed in the security properties file\&.
+Used to identify b cryptogrbphic service provider\&'s nbme when listed in the security properties file\&.
 .TP
--providerClass \fIprovider_class_name\fR
+-providerClbss \fIprovider_clbss_nbme\fR
 .br
-Used to specify the name of a cryptographic service provider\&'s master class file when the service provider is not listed in the security properties file\&.
+Used to specify the nbme of b cryptogrbphic service provider\&'s mbster clbss file when the service provider is not listed in the security properties file\&.
 .TP
--providerArg \fIprovider_arg\fR
+-providerArg \fIprovider_brg\fR
 .br
-Used with the \f3-providerClass\fR option to represent an optional string input argument for the constructor of \f3provider_class_name\fR\&.
+Used with the \f3-providerClbss\fR option to represent bn optionbl string input brgument for the constructor of \f3provider_clbss_nbme\fR\&.
 .TP
 -protected
 .br
-Either \f3true\fR or \f3false\fR\&. This value should be specified as \f3true\fR when a password must be specified by way of a protected authentication path such as a dedicated PIN reader\&.Because there are two keystores involved in the \f3-importkeystore\fR command, the following two options \f3-srcprotected\fR and -\f3destprotected\fR are provided for the source keystore and the destination keystore respectively\&.
+Either \f3true\fR or \f3fblse\fR\&. This vblue should be specified bs \f3true\fR when b pbssword must be specified by wby of b protected buthenticbtion pbth such bs b dedicbted PIN rebder\&.Becbuse there bre two keystores involved in the \f3-importkeystore\fR commbnd, the following two options \f3-srcprotected\fR bnd -\f3destprotected\fR bre provided for the source keystore bnd the destinbtion keystore respectively\&.
 .TP
--ext \fI{name{:critical} {=value}}\fR
+-ext \fI{nbme{:criticbl} {=vblue}}\fR
 .br
-Denotes an X\&.509 certificate extension\&. The option can be used in \f3-genkeypair\fR and \f3-gencert\fR to embed extensions into the certificate generated, or in \f3-certreq\fR to show what extensions are requested in the certificate request\&. The option can appear multiple times\&. The \f3name\fR argument can be a supported extension name (see Named Extensions) or an arbitrary OID number\&. The \f3value\fR argument, when provided, denotes the argument for the extension\&. When \fIvalue\fR is omitted, that means that the default value of the extension or the extension requires no argument\&. The \f3:critical\fR modifier, when provided, means the extension\&'s \f3isCritical\fR attribute is \f3true\fR; otherwise, it is \f3false\fR\&. You can use \f3:c\fR in place of \f3:critical\fR\&.
+Denotes bn X\&.509 certificbte extension\&. The option cbn be used in \f3-genkeypbir\fR bnd \f3-gencert\fR to embed extensions into the certificbte generbted, or in \f3-certreq\fR to show whbt extensions bre requested in the certificbte request\&. The option cbn bppebr multiple times\&. The \f3nbme\fR brgument cbn be b supported extension nbme (see Nbmed Extensions) or bn brbitrbry OID number\&. The \f3vblue\fR brgument, when provided, denotes the brgument for the extension\&. When \fIvblue\fR is omitted, thbt mebns thbt the defbult vblue of the extension or the extension requires no brgument\&. The \f3:criticbl\fR modifier, when provided, mebns the extension\&'s \f3isCriticbl\fR bttribute is \f3true\fR; otherwise, it is \f3fblse\fR\&. You cbn use \f3:c\fR in plbce of \f3:criticbl\fR\&.
 .SH NAMED\ EXTENSIONS    
-The \f3keytool\fR command supports these named extensions\&. The names are not case-sensitive)\&.
+The \f3keytool\fR commbnd supports these nbmed extensions\&. The nbmes bre not cbse-sensitive)\&.
 .TP     
-BC or BasicContraints
-\fIValues\fR: The full form is: \f3ca:{true|false}[,pathlen:<len>]\fR or \f3<len>\fR, which is short for \f3ca:true,pathlen:<len>\fR\&. When <\f3len\fR> is omitted, you have \f3ca:true\fR\&.
+BC or BbsicContrbints
+\fIVblues\fR: The full form is: \f3cb:{true|fblse}[,pbthlen:<len>]\fR or \f3<len>\fR, which is short for \f3cb:true,pbthlen:<len>\fR\&. When <\f3len\fR> is omitted, you hbve \f3cb:true\fR\&.
 .TP     
-KU or KeyUsage
-\fIValues\fR: \f3usage\fR(,\f3usage\fR)*, where \fIusage\fR can be one of \f3digitalSignature\fR, \f3nonRepudiation\fR (contentCommitment), \f3keyEncipherment\fR, \f3dataEncipherment\fR, \f3keyAgreement\fR, \f3keyCertSign\fR, \f3cRLSign\fR, \f3encipherOnly\fR, \f3decipherOnly\fR\&. The \fIusage\fR argument can be abbreviated with the first few letters (\f3dig\fR for \f3digitalSignature\fR) or in camel-case style (\f3dS\fR for \f3digitalSignature\fR or \f3cRLS\fR for \f3cRLSign\fR), as long as no ambiguity is found\&. The \f3usage\fR values are case-sensitive\&.
+KU or KeyUsbge
+\fIVblues\fR: \f3usbge\fR(,\f3usbge\fR)*, where \fIusbge\fR cbn be one of \f3digitblSignbture\fR, \f3nonRepudibtion\fR (contentCommitment), \f3keyEncipherment\fR, \f3dbtbEncipherment\fR, \f3keyAgreement\fR, \f3keyCertSign\fR, \f3cRLSign\fR, \f3encipherOnly\fR, \f3decipherOnly\fR\&. The \fIusbge\fR brgument cbn be bbbrevibted with the first few letters (\f3dig\fR for \f3digitblSignbture\fR) or in cbmel-cbse style (\f3dS\fR for \f3digitblSignbture\fR or \f3cRLS\fR for \f3cRLSign\fR), bs long bs no bmbiguity is found\&. The \f3usbge\fR vblues bre cbse-sensitive\&.
 .TP     
-EKU or ExtendedKeyUsage
-\fIValues\fR: \f3usage\fR(,\f3usage\fR)*, where \fIusage\fR can be one of \f3anyExtendedKeyUsage\fR, \f3serverAuth\fR, \f3clientAuth\fR, \f3codeSigning\fR, \f3emailProtection\fR, \f3timeStamping\fR, \f3OCSPSigning\fR, or any \fIOID string\fR\&. The \fIusage\fR argument can be abbreviated with the first few letters or in camel-case style, as long as no ambiguity is found\&. The \f3usage\fR values are case-sensitive\&.
+EKU or ExtendedKeyUsbge
+\fIVblues\fR: \f3usbge\fR(,\f3usbge\fR)*, where \fIusbge\fR cbn be one of \f3bnyExtendedKeyUsbge\fR, \f3serverAuth\fR, \f3clientAuth\fR, \f3codeSigning\fR, \f3embilProtection\fR, \f3timeStbmping\fR, \f3OCSPSigning\fR, or bny \fIOID string\fR\&. The \fIusbge\fR brgument cbn be bbbrevibted with the first few letters or in cbmel-cbse style, bs long bs no bmbiguity is found\&. The \f3usbge\fR vblues bre cbse-sensitive\&.
 .TP     
-SAN or SubjectAlternativeName
-\fIValues\fR: \f3type\fR:\f3value\fR(,t\f3ype:value\fR)*, where \f3type\fR can be \f3EMAIL\fR, \f3URI\fR, \f3DNS\fR, \f3IP\fR, or \f3OID\fR\&. The \f3value\fR argument is the string format value for the \f3type\fR\&.
+SAN or SubjectAlternbtiveNbme
+\fIVblues\fR: \f3type\fR:\f3vblue\fR(,t\f3ype:vblue\fR)*, where \f3type\fR cbn be \f3EMAIL\fR, \f3URI\fR, \f3DNS\fR, \f3IP\fR, or \f3OID\fR\&. The \f3vblue\fR brgument is the string formbt vblue for the \f3type\fR\&.
 .TP     
-IAN or IssuerAlternativeName
-\fIValues\fR: Same as \f3SubjectAlternativeName\fR\&.
+IAN or IssuerAlternbtiveNbme
+\fIVblues\fR: Sbme bs \f3SubjectAlternbtiveNbme\fR\&.
 .TP     
 SIA or SubjectInfoAccess
-\fIValues\fR: \f3method\fR:\f3location-type\fR:\f3location-value\fR (,\f3method:location-type\fR:\f3location-value\fR)*, where \f3method\fR can be \f3timeStamping\fR, \f3caRepository\fR or any OID\&. The \f3location-type\fR and \f3location-value\fR arguments can be any \f3type\fR:\f3value\fR supported by the \f3SubjectAlternativeName\fR extension\&.
+\fIVblues\fR: \f3method\fR:\f3locbtion-type\fR:\f3locbtion-vblue\fR (,\f3method:locbtion-type\fR:\f3locbtion-vblue\fR)*, where \f3method\fR cbn be \f3timeStbmping\fR, \f3cbRepository\fR or bny OID\&. The \f3locbtion-type\fR bnd \f3locbtion-vblue\fR brguments cbn be bny \f3type\fR:\f3vblue\fR supported by the \f3SubjectAlternbtiveNbme\fR extension\&.
 .TP     
 AIA or AuthorityInfoAccess
-\fIValues\fR: Same as \f3SubjectInfoAccess\fR\&. The \f3method\fR argument can be \f3ocsp\fR,\f3caIssuers\fR, or any OID\&.
+\fIVblues\fR: Sbme bs \f3SubjectInfoAccess\fR\&. The \f3method\fR brgument cbn be \f3ocsp\fR,\f3cbIssuers\fR, or bny OID\&.
 .PP
-When \f3name\fR is OID, the value is the hexadecimal dumped DER encoding of the \f3extnValue\fR for the extension excluding the OCTET STRING type and length bytes\&. Any extra character other than standard hexadecimal numbers (0-9, a-f, A-F) are ignored in the HEX string\&. Therefore, both 01:02:03:04 and 01020304 are accepted as identical values\&. When there is no value, the extension has an empty value field\&.
+When \f3nbme\fR is OID, the vblue is the hexbdecimbl dumped DER encoding of the \f3extnVblue\fR for the extension excluding the OCTET STRING type bnd length bytes\&. Any extrb chbrbcter other thbn stbndbrd hexbdecimbl numbers (0-9, b-f, A-F) bre ignored in the HEX string\&. Therefore, both 01:02:03:04 bnd 01020304 bre bccepted bs identicbl vblues\&. When there is no vblue, the extension hbs bn empty vblue field\&.
 .PP
-A special name \f3honored\fR, used in \f3-gencert\fR only, denotes how the extensions included in the certificate request should be honored\&. The value for this name is a comma separated list of \f3all\fR (all requested extensions are honored), \f3name{:[critical|non-critical]}\fR (the named extension is honored, but using a different \f3isCritical\fR attribute) and \f3-name\fR (used with \f3all\fR, denotes an exception)\&. Requested extensions are not honored by default\&.
+A specibl nbme \f3honored\fR, used in \f3-gencert\fR only, denotes how the extensions included in the certificbte request should be honored\&. The vblue for this nbme is b commb sepbrbted list of \f3bll\fR (bll requested extensions bre honored), \f3nbme{:[criticbl|non-criticbl]}\fR (the nbmed extension is honored, but using b different \f3isCriticbl\fR bttribute) bnd \f3-nbme\fR (used with \f3bll\fR, denotes bn exception)\&. Requested extensions bre not honored by defbult\&.
 .PP
-If, besides the\f3-ext honored\fR option, another named or OID \f3-ext\fR option is provided, this extension is added to those already honored\&. However, if this name (or OID) also appears in the honored value, then its value and criticality overrides the one in the request\&.
+If, besides the\f3-ext honored\fR option, bnother nbmed or OID \f3-ext\fR option is provided, this extension is bdded to those blrebdy honored\&. However, if this nbme (or OID) blso bppebrs in the honored vblue, then its vblue bnd criticblity overrides the one in the request\&.
 .PP
-The \f3subjectKeyIdentifier\fR extension is always created\&. For non-self-signed certificates, the \f3authorityKeyIdentifier\fR is created\&.
+The \f3subjectKeyIdentifier\fR extension is blwbys crebted\&. For non-self-signed certificbtes, the \f3buthorityKeyIdentifier\fR is crebted\&.
 .PP
-\fINote:\fR Users should be aware that some combinations of extensions (and other certificate fields) may not conform to the Internet standard\&. See Certificate Conformance Warning\&.
+\fINote:\fR Users should be bwbre thbt some combinbtions of extensions (bnd other certificbte fields) mby not conform to the Internet stbndbrd\&. See Certificbte Conformbnce Wbrning\&.
 .SH COMMANDS    
 .TP
 -gencert
 .br
-\f3{-rfc} {-infile infile} {-outfile outfile} {-alias alias} {-sigalg sigalg} {-dname dname} {-startdate startdate {-ext ext}* {-validity valDays} [-keypass keypass] {-keystore keystore} [-storepass storepass] {-storetype storetype} {-providername provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-rfc} {-infile infile} {-outfile outfile} {-blibs blibs} {-sigblg sigblg} {-dnbme dnbme} {-stbrtdbte stbrtdbte {-ext ext}* {-vblidity vblDbys} [-keypbss keypbss] {-keystore keystore} [-storepbss storepbss] {-storetype storetype} {-providernbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Generates a certificate as a response to a certificate request file (which can be created by the \f3keytool\fR\f3-certreq\fR command)\&. The command reads the request from \fIinfile\fR (if omitted, from the standard input), signs it using alias\&'s private key, and outputs the X\&.509 certificate into \fIoutfile\fR (if omitted, to the standard output)\&. When\f3-rfc\fR is specified, the output format is Base64-encoded PEM; otherwise, a binary DER is created\&.
+Generbtes b certificbte bs b response to b certificbte request file (which cbn be crebted by the \f3keytool\fR\f3-certreq\fR commbnd)\&. The commbnd rebds the request from \fIinfile\fR (if omitted, from the stbndbrd input), signs it using blibs\&'s privbte key, bnd outputs the X\&.509 certificbte into \fIoutfile\fR (if omitted, to the stbndbrd output)\&. When\f3-rfc\fR is specified, the output formbt is Bbse64-encoded PEM; otherwise, b binbry DER is crebted\&.
 
-The \f3sigalg\fR value specifies the algorithm that should be used to sign the certificate\&. The \f3startdate\fR argument is the start time and date that the certificate is valid\&. The \f3valDays\fR argument tells the number of days for which the certificate should be considered valid\&.
+The \f3sigblg\fR vblue specifies the blgorithm thbt should be used to sign the certificbte\&. The \f3stbrtdbte\fR brgument is the stbrt time bnd dbte thbt the certificbte is vblid\&. The \f3vblDbys\fR brgument tells the number of dbys for which the certificbte should be considered vblid\&.
 
-When \f3dname\fR is provided, it is used as the subject of the generated certificate\&. Otherwise, the one from the certificate request is used\&.
+When \f3dnbme\fR is provided, it is used bs the subject of the generbted certificbte\&. Otherwise, the one from the certificbte request is used\&.
 
-The \f3ext\fR value shows what X\&.509 extensions will be embedded in the certificate\&. Read Common Options for the grammar of \f3-ext\fR\&.
+The \f3ext\fR vblue shows whbt X\&.509 extensions will be embedded in the certificbte\&. Rebd Common Options for the grbmmbr of \f3-ext\fR\&.
 
-The \f3-gencert\fR option enables you to create certificate chains\&. The following example creates a certificate, \f3e1\fR, that contains three certificates in its certificate chain\&.
+The \f3-gencert\fR option enbbles you to crebte certificbte chbins\&. The following exbmple crebtes b certificbte, \f3e1\fR, thbt contbins three certificbtes in its certificbte chbin\&.
 
-The following commands creates four key pairs named \f3ca\fR, \f3ca1\fR, \f3ca2\fR, and \f3e1\fR:
+The following commbnds crebtes four key pbirs nbmed \f3cb\fR, \f3cb1\fR, \f3cb2\fR, bnd \f3e1\fR:
 .sp     
 .nf     
-\f3keytool \-alias ca \-dname CN=CA \-genkeypair\fP
+\f3keytool \-blibs cb \-dnbme CN=CA \-genkeypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias ca1 \-dname CN=CA \-genkeypair\fP
+\f3keytool \-blibs cb1 \-dnbme CN=CA \-genkeypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias ca2 \-dname CN=CA \-genkeypair\fP
+\f3keytool \-blibs cb2 \-dnbme CN=CA \-genkeypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias e1 \-dname CN=E1 \-genkeypair\fP
+\f3keytool \-blibs e1 \-dnbme CN=E1 \-genkeypbir\fP
 .fi     
 .nf     
 \f3\fP
@@ -420,28 +420,28 @@ The following commands creates four key pairs named \f3ca\fR, \f3ca1\fR, \f3ca2\
 .sp     
 
 
-The following two commands create a chain of signed certificates; \f3ca\fR signs \f3ca1\fR and \f3ca1\fR signs \f3ca2\fR, all of which are self-issued:
+The following two commbnds crebte b chbin of signed certificbtes; \f3cb\fR signs \f3cb1\fR bnd \f3cb1\fR signs \f3cb2\fR, bll of which bre self-issued:
 .sp     
 .nf     
-\f3keytool \-alias ca1 \-certreq |\fP
+\f3keytool \-blibs cb1 \-certreq |\fP
 .fi     
 .nf     
-\f3    keytool \-alias ca \-gencert \-ext san=dns:ca1 |\fP
+\f3    keytool \-blibs cb \-gencert \-ext sbn=dns:cb1 |\fP
 .fi     
 .nf     
-\f3    keytool \-alias ca1 \-importcert\fP
+\f3    keytool \-blibs cb1 \-importcert\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-alias ca2 \-certreq |\fP
+\f3keytool \-blibs cb2 \-certreq |\fP
 .fi     
 .nf     
-\f3    $KT \-alias ca1 \-gencert \-ext san=dns:ca2 |\fP
+\f3    $KT \-blibs cb1 \-gencert \-ext sbn=dns:cb2 |\fP
 .fi     
 .nf     
-\f3    $KT \-alias ca2 \-importcert\fP
+\f3    $KT \-blibs cb2 \-importcert\fP
 .fi     
 .nf     
 \f3\fP
@@ -449,10 +449,10 @@ The following two commands create a chain of signed certificates; \f3ca\fR signs
 .sp     
 
 
-The following command creates the certificate \f3e1\fR and stores it in the file \f3e1\&.cert\fR, which is signed by \f3ca2\fR\&. As a result, \f3e1\fR should contain \f3ca\fR, \f3ca1\fR, and \f3ca2\fR in its certificate chain:
+The following commbnd crebtes the certificbte \f3e1\fR bnd stores it in the file \f3e1\&.cert\fR, which is signed by \f3cb2\fR\&. As b result, \f3e1\fR should contbin \f3cb\fR, \f3cb1\fR, bnd \f3cb2\fR in its certificbte chbin:
 .sp     
 .nf     
-\f3keytool \-alias e1 \-certreq | keytool \-alias ca2 \-gencert > e1\&.cert\fP
+\f3keytool \-blibs e1 \-certreq | keytool \-blibs cb2 \-gencert > e1\&.cert\fP
 .fi     
 .nf     
 \f3\fP
@@ -460,39 +460,39 @@ The following command creates the certificate \f3e1\fR and stores it in the file
 .sp     
 
 .TP
--genkeypair
+-genkeypbir
 .br
-\f3{-alias alias} {-keyalg keyalg} {-keysize keysize} {-sigalg sigalg} [-dname dname] [-keypass keypass] {-startdate value} {-ext ext}* {-validity valDays} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-keyblg keyblg} {-keysize keysize} {-sigblg sigblg} [-dnbme dnbme] [-keypbss keypbss] {-stbrtdbte vblue} {-ext ext}* {-vblidity vblDbys} {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Generates a key pair (a public key and associated private key)\&. Wraps the public key into an X\&.509 v3 self-signed certificate, which is stored as a single-element certificate chain\&. This certificate chain and the private key are stored in a new keystore entry identified by alias\&.
+Generbtes b key pbir (b public key bnd bssocibted privbte key)\&. Wrbps the public key into bn X\&.509 v3 self-signed certificbte, which is stored bs b single-element certificbte chbin\&. This certificbte chbin bnd the privbte key bre stored in b new keystore entry identified by blibs\&.
 
-The \f3keyalg\fR value specifies the algorithm to be used to generate the key pair, and the \f3keysize\fR value specifies the size of each key to be generated\&. The \f3sigalg\fR value specifies the algorithm that should be used to sign the self-signed certificate\&. This algorithm must be compatible with the \f3keyalg\fR value\&.
+The \f3keyblg\fR vblue specifies the blgorithm to be used to generbte the key pbir, bnd the \f3keysize\fR vblue specifies the size of ebch key to be generbted\&. The \f3sigblg\fR vblue specifies the blgorithm thbt should be used to sign the self-signed certificbte\&. This blgorithm must be compbtible with the \f3keyblg\fR vblue\&.
 
-The \f3dname\fR value specifies the X\&.500 Distinguished Name to be associated with the value of \f3alias\fR, and is used as the issuer and subject fields in the self-signed certificate\&. If no distinguished name is provided at the command line, then the user is prompted for one\&.
+The \f3dnbme\fR vblue specifies the X\&.500 Distinguished Nbme to be bssocibted with the vblue of \f3blibs\fR, bnd is used bs the issuer bnd subject fields in the self-signed certificbte\&. If no distinguished nbme is provided bt the commbnd line, then the user is prompted for one\&.
 
-The value of \f3keypass\fR is a password used to protect the private key of the generated key pair\&. If no password is provided, then the user is prompted for it\&. If you press \fIthe Return key\fR at the prompt, then the key password is set to the same password as the keystore password\&. The \f3keypass\fR value must be at least 6 characters\&.
+The vblue of \f3keypbss\fR is b pbssword used to protect the privbte key of the generbted key pbir\&. If no pbssword is provided, then the user is prompted for it\&. If you press \fIthe Return key\fR bt the prompt, then the key pbssword is set to the sbme pbssword bs the keystore pbssword\&. The \f3keypbss\fR vblue must be bt lebst 6 chbrbcters\&.
 
-The value of \f3startdate\fR specifies the issue time of the certificate, also known as the "Not Before" value of the X\&.509 certificate\&'s Validity field\&.
+The vblue of \f3stbrtdbte\fR specifies the issue time of the certificbte, blso known bs the "Not Before" vblue of the X\&.509 certificbte\&'s Vblidity field\&.
 
-The option value can be set in one of these two forms:
+The option vblue cbn be set in one of these two forms:
 
 \f3([+-]nnn[ymdHMS])+\fR
 
 \f3[yyyy/mm/dd] [HH:MM:SS]\fR
 
-With the first form, the issue time is shifted by the specified value from the current time\&. The value is a concatenation of a sequence of subvalues\&. Inside each subvalue, the plus sign (+) means shift forward, and the minus sign (-) means shift backward\&. The time to be shifted is \f3nnn\fR units of years, months, days, hours, minutes, or seconds (denoted by a single character of \f3y\fR, \f3m\fR, \f3d\fR, \f3H\fR, \f3M\fR, or \f3S\fR respectively)\&. The exact value of the issue time is calculated using the \f3java\&.util\&.GregorianCalendar\&.add(int field, int amount)\fR method on each subvalue, from left to right\&. For example, by specifying, the issue time will be:
+With the first form, the issue time is shifted by the specified vblue from the current time\&. The vblue is b concbtenbtion of b sequence of subvblues\&. Inside ebch subvblue, the plus sign (+) mebns shift forwbrd, bnd the minus sign (-) mebns shift bbckwbrd\&. The time to be shifted is \f3nnn\fR units of yebrs, months, dbys, hours, minutes, or seconds (denoted by b single chbrbcter of \f3y\fR, \f3m\fR, \f3d\fR, \f3H\fR, \f3M\fR, or \f3S\fR respectively)\&. The exbct vblue of the issue time is cblculbted using the \f3jbvb\&.util\&.GregoribnCblendbr\&.bdd(int field, int bmount)\fR method on ebch subvblue, from left to right\&. For exbmple, by specifying, the issue time will be:
 .sp     
 .nf     
-\f3Calendar c = new GregorianCalendar();\fP
+\f3Cblendbr c = new GregoribnCblendbr();\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.YEAR, \-1);\fP
+\f3c\&.bdd(Cblendbr\&.YEAR, \-1);\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.MONTH, 1);\fP
+\f3c\&.bdd(Cblendbr\&.MONTH, 1);\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.DATE, \-1);\fP
+\f3c\&.bdd(Cblendbr\&.DATE, \-1);\fP
 .fi     
 .nf     
 \f3return c\&.getTime()\fP
@@ -503,255 +503,255 @@ With the first form, the issue time is shifted by the specified value from the c
 .sp     
 
 
-With the second form, the user sets the exact issue time in two parts, year/month/day and hour:minute:second (using the local time zone)\&. The user can provide only one part, which means the other part is the same as the current date (or time)\&. The user must provide the exact number of digits as shown in the format definition (padding with 0 when shorter)\&. When both the date and time are provided, there is one (and only one) space character between the two parts\&. The hour should always be provided in 24 hour format\&.
+With the second form, the user sets the exbct issue time in two pbrts, yebr/month/dby bnd hour:minute:second (using the locbl time zone)\&. The user cbn provide only one pbrt, which mebns the other pbrt is the sbme bs the current dbte (or time)\&. The user must provide the exbct number of digits bs shown in the formbt definition (pbdding with 0 when shorter)\&. When both the dbte bnd time bre provided, there is one (bnd only one) spbce chbrbcter between the two pbrts\&. The hour should blwbys be provided in 24 hour formbt\&.
 
-When the option is not provided, the start date is the current time\&. The option can be provided at most once\&.
+When the option is not provided, the stbrt dbte is the current time\&. The option cbn be provided bt most once\&.
 
-The value of \f3valDays\fR specifies the number of days (starting at the date specified by \f3-startdate\fR, or the current date when \f3-startdate\fR is not specified) for which the certificate should be considered valid\&.
+The vblue of \f3vblDbys\fR specifies the number of dbys (stbrting bt the dbte specified by \f3-stbrtdbte\fR, or the current dbte when \f3-stbrtdbte\fR is not specified) for which the certificbte should be considered vblid\&.
 
-This command was named \f3-genkey\fR in earlier releases\&. The old name is still supported in this release\&. The new name, \f3-genkeypair\fR, is preferred going forward\&.
+This commbnd wbs nbmed \f3-genkey\fR in ebrlier relebses\&. The old nbme is still supported in this relebse\&. The new nbme, \f3-genkeypbir\fR, is preferred going forwbrd\&.
 .TP
 -genseckey
 .br
-\f3-genseckey {-alias alias} {-keyalg keyalg} {-keysize keysize} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3-genseckey {-blibs blibs} {-keyblg keyblg} {-keysize keysize} [-keypbss keypbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Generates a secret key and stores it in a new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3alias\fR\&.
+Generbtes b secret key bnd stores it in b new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3blibs\fR\&.
 
-The value of \f3keyalg\fR specifies the algorithm to be used to generate the secret key, and the value of \f3keysize\fR specifies the size of the key to be generated\&. The \f3keypass\fR value is a password that protects the secret key\&. If no password is provided, then the user is prompted for it\&. If you press the Return key at the prompt, then the key password is set to the same password that is used for the \f3keystore\fR\&. The \f3keypass\fR value must be at least 6 characters\&.
+The vblue of \f3keyblg\fR specifies the blgorithm to be used to generbte the secret key, bnd the vblue of \f3keysize\fR specifies the size of the key to be generbted\&. The \f3keypbss\fR vblue is b pbssword thbt protects the secret key\&. If no pbssword is provided, then the user is prompted for it\&. If you press the Return key bt the prompt, then the key pbssword is set to the sbme pbssword thbt is used for the \f3keystore\fR\&. The \f3keypbss\fR vblue must be bt lebst 6 chbrbcters\&.
 .TP
 -importcert
 .br
-\f3-importcert {-alias alias} {-file cert_file} [-keypass keypass] {-noprompt} {-trustcacerts} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3-importcert {-blibs blibs} {-file cert_file} [-keypbss keypbss] {-noprompt} {-trustcbcerts} {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Reads the certificate or certificate chain (where the latter is supplied in a PKCS#7 formatted reply or a sequence of X\&.509 certificates) from the file \f3cert_file\fR, and stores it in the \f3keystore\fR entry identified by \f3alias\fR\&. If no file is specified, then the certificate or certificate chain is read from \f3stdin\fR\&.
+Rebds the certificbte or certificbte chbin (where the lbtter is supplied in b PKCS#7 formbtted reply or b sequence of X\&.509 certificbtes) from the file \f3cert_file\fR, bnd stores it in the \f3keystore\fR entry identified by \f3blibs\fR\&. If no file is specified, then the certificbte or certificbte chbin is rebd from \f3stdin\fR\&.
 
-The \f3keytool\fR command can import X\&.509 v1, v2, and v3 certificates, and PKCS#7 formatted certificate chains consisting of certificates of that type\&. The data to be imported must be provided either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard\&. In the latter case, the encoding must be bounded at the beginning by a string that starts with \f3-\fR\f3----BEGIN\fR, and bounded at the end by a string that starts with \f3-----END\fR\&.
+The \f3keytool\fR commbnd cbn import X\&.509 v1, v2, bnd v3 certificbtes, bnd PKCS#7 formbtted certificbte chbins consisting of certificbtes of thbt type\&. The dbtb to be imported must be provided either in binbry encoding formbt or in printbble encoding formbt (blso known bs Bbse64 encoding) bs defined by the Internet RFC 1421 stbndbrd\&. In the lbtter cbse, the encoding must be bounded bt the beginning by b string thbt stbrts with \f3-\fR\f3----BEGIN\fR, bnd bounded bt the end by b string thbt stbrts with \f3-----END\fR\&.
 
-You import a certificate for two reasons: To add it to the list of trusted certificates, and to import a certificate reply received from a certificate authority (CA) as the result of submitting a Certificate Signing Request to that CA (see the \f3-certreq\fR option in Commands)\&.
+You import b certificbte for two rebsons: To bdd it to the list of trusted certificbtes, bnd to import b certificbte reply received from b certificbte buthority (CA) bs the result of submitting b Certificbte Signing Request to thbt CA (see the \f3-certreq\fR option in Commbnds)\&.
 
-Which type of import is intended is indicated by the value of the \f3-alias\fR option\&. If the alias does not point to a key entry, then the \f3keytool\fR command assumes you are adding a trusted certificate entry\&. In this case, the alias should not already exist in the keystore\&. If the alias does already exist, then the \f3keytool\fR command outputs an error because there is already a trusted certificate for that alias, and does not import the certificate\&. If the alias points to a key entry, then the \f3keytool\fR command assumes you are importing a certificate reply\&.
+Which type of import is intended is indicbted by the vblue of the \f3-blibs\fR option\&. If the blibs does not point to b key entry, then the \f3keytool\fR commbnd bssumes you bre bdding b trusted certificbte entry\&. In this cbse, the blibs should not blrebdy exist in the keystore\&. If the blibs does blrebdy exist, then the \f3keytool\fR commbnd outputs bn error becbuse there is blrebdy b trusted certificbte for thbt blibs, bnd does not import the certificbte\&. If the blibs points to b key entry, then the \f3keytool\fR commbnd bssumes you bre importing b certificbte reply\&.
 .TP
--importpassword
+-importpbssword
 .br
-\f3{-alias alias} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-keypbss keypbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Imports a passphrase and stores it in a new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3alias\fR\&. The passphrase may be supplied via the standard input stream; otherwise the user is prompted for it\&. \f3keypass\fR is a password used to protect the imported passphrase\&. If no password is provided, the user is prompted for it\&. If you press the Return key at the prompt, the key password is set to the same password as that used for the \f3keystore\fR\&. \f3keypass\fR must be at least 6 characters long\&.
+Imports b pbssphrbse bnd stores it in b new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3blibs\fR\&. The pbssphrbse mby be supplied vib the stbndbrd input strebm; otherwise the user is prompted for it\&. \f3keypbss\fR is b pbssword used to protect the imported pbssphrbse\&. If no pbssword is provided, the user is prompted for it\&. If you press the Return key bt the prompt, the key pbssword is set to the sbme pbssword bs thbt used for the \f3keystore\fR\&. \f3keypbss\fR must be bt lebst 6 chbrbcters long\&.
 .TP
 -importkeystore
 .br
-\f3{-srcstoretype srcstoretype} {-deststoretype deststoretype} [-srcstorepass srcstorepass] [-deststorepass deststorepass] {-srcprotected} {-destprotected} {-srcalias srcalias {-destalias destalias} [-srckeypass srckeypass] } [-destkeypass destkeypass] {-noprompt} {-srcProviderName src_provider_name} {-destProviderName dest_provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-srcstoretype srcstoretype} {-deststoretype deststoretype} [-srcstorepbss srcstorepbss] [-deststorepbss deststorepbss] {-srcprotected} {-destprotected} {-srcblibs srcblibs {-destblibs destblibs} [-srckeypbss srckeypbss] } [-destkeypbss destkeypbss] {-noprompt} {-srcProviderNbme src_provider_nbme} {-destProviderNbme dest_provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Imports a single entry or all entries from a source keystore to a destination keystore\&.
+Imports b single entry or bll entries from b source keystore to b destinbtion keystore\&.
 
-When the \f3-srcalias\fR option is provided, the command imports the single entry identified by the alias to the destination keystore\&. If a destination alias is not provided with \f3destalias\fR, then \f3srcalias\fR is used as the destination alias\&. If the source entry is protected by a password, then \f3srckeypass\fR is used to recover the entry\&. If \fIsrckeypass\fR is not provided, then the \f3keytool\fR command attempts to use \f3srcstorepass\fR to recover the entry\&. If \f3srcstorepass\fR is either not provided or is incorrect, then the user is prompted for a password\&. The destination entry is protected with \f3destkeypass\fR\&. If \f3destkeypass\fR is not provided, then the destination entry is protected with the source entry password\&. For example, most third-party tools require \f3storepass\fR and \f3keypass\fR in a PKCS #12 keystore to be the same\&. In order to create a PKCS #12 keystore for these tools, always specify a \f3-destkeypass\fR to be the same as \f3-deststorepass\fR\&.
+When the \f3-srcblibs\fR option is provided, the commbnd imports the single entry identified by the blibs to the destinbtion keystore\&. If b destinbtion blibs is not provided with \f3destblibs\fR, then \f3srcblibs\fR is used bs the destinbtion blibs\&. If the source entry is protected by b pbssword, then \f3srckeypbss\fR is used to recover the entry\&. If \fIsrckeypbss\fR is not provided, then the \f3keytool\fR commbnd bttempts to use \f3srcstorepbss\fR to recover the entry\&. If \f3srcstorepbss\fR is either not provided or is incorrect, then the user is prompted for b pbssword\&. The destinbtion entry is protected with \f3destkeypbss\fR\&. If \f3destkeypbss\fR is not provided, then the destinbtion entry is protected with the source entry pbssword\&. For exbmple, most third-pbrty tools require \f3storepbss\fR bnd \f3keypbss\fR in b PKCS #12 keystore to be the sbme\&. In order to crebte b PKCS #12 keystore for these tools, blwbys specify b \f3-destkeypbss\fR to be the sbme bs \f3-deststorepbss\fR\&.
 
-If the \f3-srcalias\fR option is not provided, then all entries in the source keystore are imported into the destination keystore\&. Each destination entry is stored under the alias from the source entry\&. If the source entry is protected by a password, then \f3srcstorepass\fR is used to recover the entry\&. If \f3srcstorepass\fR is either not provided or is incorrect, then the user is prompted for a password\&. If a source keystore entry type is not supported in the destination keystore, or if an error occurs while storing an entry into the destination keystore, then the user is prompted whether to skip the entry and continue or to quit\&. The destination entry is protected with the source entry password\&.
+If the \f3-srcblibs\fR option is not provided, then bll entries in the source keystore bre imported into the destinbtion keystore\&. Ebch destinbtion entry is stored under the blibs from the source entry\&. If the source entry is protected by b pbssword, then \f3srcstorepbss\fR is used to recover the entry\&. If \f3srcstorepbss\fR is either not provided or is incorrect, then the user is prompted for b pbssword\&. If b source keystore entry type is not supported in the destinbtion keystore, or if bn error occurs while storing bn entry into the destinbtion keystore, then the user is prompted whether to skip the entry bnd continue or to quit\&. The destinbtion entry is protected with the source entry pbssword\&.
 
-If the destination alias already exists in the destination keystore, then the user is prompted to either overwrite the entry or to create a new entry under a different alias name\&.
+If the destinbtion blibs blrebdy exists in the destinbtion keystore, then the user is prompted to either overwrite the entry or to crebte b new entry under b different blibs nbme\&.
 
-If the \f3-noprompt\fR option is provided, then the user is not prompted for a new destination alias\&. Existing entries are overwritten with the destination alias name\&. Entries that cannot be imported are skipped and a warning is displayed\&.
+If the \f3-noprompt\fR option is provided, then the user is not prompted for b new destinbtion blibs\&. Existing entries bre overwritten with the destinbtion blibs nbme\&. Entries thbt cbnnot be imported bre skipped bnd b wbrning is displbyed\&.
 .TP
 -printcertreq
 .br
 \f3{-file file}\fR
 
-Prints the content of a PKCS #10 format certificate request, which can be generated by the \f3keytool\fR\f3-certreq\fR command\&. The command reads the request from file\&. If there is no file, then the request is read from the standard input\&.
+Prints the content of b PKCS #10 formbt certificbte request, which cbn be generbted by the \f3keytool\fR\f3-certreq\fR commbnd\&. The commbnd rebds the request from file\&. If there is no file, then the request is rebd from the stbndbrd input\&.
 .TP
 -certreq
 .br
-\f3{-alias alias} {-dname dname} {-sigalg sigalg} {-file certreq_file} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-dnbme dnbme} {-sigblg sigblg} {-file certreq_file} [-keypbss keypbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Generates a Certificate Signing Request (CSR) using the PKCS #10 format\&.
+Generbtes b Certificbte Signing Request (CSR) using the PKCS #10 formbt\&.
 
-A CSR is intended to be sent to a certificate authority (CA)\&. The CA authenticates the certificate requestor (usually off-line) and will return a certificate or certificate chain, used to replace the existing certificate chain (which initially consists of a self-signed certificate) in the keystore\&.
+A CSR is intended to be sent to b certificbte buthority (CA)\&. The CA buthenticbtes the certificbte requestor (usublly off-line) bnd will return b certificbte or certificbte chbin, used to replbce the existing certificbte chbin (which initiblly consists of b self-signed certificbte) in the keystore\&.
 
-The private key associated with alias is used to create the PKCS #10 certificate request\&. To access the private key, the correct password must be provided\&. If \f3keypass\fR is not provided at the command line and is different from the password used to protect the integrity of the keystore, then the user is prompted for it\&. If \f3dname\fR is provided, then it is used as the subject in the CSR\&. Otherwise, the X\&.500 Distinguished Name associated with alias is used\&.
+The privbte key bssocibted with blibs is used to crebte the PKCS #10 certificbte request\&. To bccess the privbte key, the correct pbssword must be provided\&. If \f3keypbss\fR is not provided bt the commbnd line bnd is different from the pbssword used to protect the integrity of the keystore, then the user is prompted for it\&. If \f3dnbme\fR is provided, then it is used bs the subject in the CSR\&. Otherwise, the X\&.500 Distinguished Nbme bssocibted with blibs is used\&.
 
-The \f3sigalg\fR value specifies the algorithm that should be used to sign the CSR\&.
+The \f3sigblg\fR vblue specifies the blgorithm thbt should be used to sign the CSR\&.
 
 The CSR is stored in the file certreq_file\&. If no file is specified, then the CSR is output to \f3stdout\fR\&.
 
-Use the \f3importcert\fR command to import the response from the CA\&.
+Use the \f3importcert\fR commbnd to import the response from the CA\&.
 .TP
 -exportcert
 .br
-\f3{-alias alias} {-file cert_file} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-rfc} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-file cert_file} {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-rfc} {-v} {-protected} {-Jjbvboption}\fR
 
-Reads from the keystore the certificate associated with \fIalias\fR and stores it in the cert_file file\&. When no file is specified, the certificate is output to \f3stdout\fR\&.
+Rebds from the keystore the certificbte bssocibted with \fIblibs\fR bnd stores it in the cert_file file\&. When no file is specified, the certificbte is output to \f3stdout\fR\&.
 
-The certificate is by default output in binary encoding\&. If the \f3-rfc\fR option is specified, then the output in the printable encoding format defined by the Internet RFC 1421 Certificate Encoding Standard\&.
+The certificbte is by defbult output in binbry encoding\&. If the \f3-rfc\fR option is specified, then the output in the printbble encoding formbt defined by the Internet RFC 1421 Certificbte Encoding Stbndbrd\&.
 
-If \f3alias\fR refers to a trusted certificate, then that certificate is output\&. Otherwise, \f3alias\fR refers to a key entry with an associated certificate chain\&. In that case, the first certificate in the chain is returned\&. This certificate authenticates the public key of the entity addressed by \f3alias\fR\&.
+If \f3blibs\fR refers to b trusted certificbte, then thbt certificbte is output\&. Otherwise, \f3blibs\fR refers to b key entry with bn bssocibted certificbte chbin\&. In thbt cbse, the first certificbte in the chbin is returned\&. This certificbte buthenticbtes the public key of the entity bddressed by \f3blibs\fR\&.
 
-This command was named \f3-export\fR in earlier releases\&. The old name is still supported in this release\&. The new name, \f3-exportcert\fR, is preferred going forward\&.
+This commbnd wbs nbmed \f3-export\fR in ebrlier relebses\&. The old nbme is still supported in this relebse\&. The new nbme, \f3-exportcert\fR, is preferred going forwbrd\&.
 .TP
 -list
 .br
-\f3{-alias alias} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v | -rfc} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v | -rfc} {-protected} {-Jjbvboption}\fR
 
-Prints to \f3stdout\fR the contents of the keystore entry identified by \f3alias\fR\&. If no \f3alias\fR is specified, then the contents of the entire keystore are printed\&.
+Prints to \f3stdout\fR the contents of the keystore entry identified by \f3blibs\fR\&. If no \f3blibs\fR is specified, then the contents of the entire keystore bre printed\&.
 
-This command by default prints the SHA1 fingerprint of a certificate\&. If the \f3-v\fR option is specified, then the certificate is printed in human-readable format, with additional information such as the owner, issuer, serial number, and any extensions\&. If the \f3-rfc\fR option is specified, then the certificate contents are printed using the printable encoding format, as defined by the Internet RFC 1421 Certificate Encoding Standard\&.
+This commbnd by defbult prints the SHA1 fingerprint of b certificbte\&. If the \f3-v\fR option is specified, then the certificbte is printed in humbn-rebdbble formbt, with bdditionbl informbtion such bs the owner, issuer, seribl number, bnd bny extensions\&. If the \f3-rfc\fR option is specified, then the certificbte contents bre printed using the printbble encoding formbt, bs defined by the Internet RFC 1421 Certificbte Encoding Stbndbrd\&.
 
-You cannot specify both \f3-v\fR and \f3-rfc\fR\&.
+You cbnnot specify both \f3-v\fR bnd \f3-rfc\fR\&.
 .TP
 -printcert
 .br
-\f3{-file cert_file | -sslserver host[:port]} {-jarfile JAR_file {-rfc} {-v} {-Jjavaoption}\fR
+\f3{-file cert_file | -sslserver host[:port]} {-jbrfile JAR_file {-rfc} {-v} {-Jjbvboption}\fR
 
-Reads the certificate from the file cert_file, the SSL server located at host:port, or the signed JAR file \f3JAR_file\fR (with the \f3-jarfile\fR option and prints its contents in a human-readable format\&. When no port is specified, the standard HTTPS port 443 is assumed\&. Note that \f3-sslserver\fR and -file options cannot be provided at the same time\&. Otherwise, an error is reported\&. If neither option is specified, then the certificate is read from \f3stdin\fR\&.
+Rebds the certificbte from the file cert_file, the SSL server locbted bt host:port, or the signed JAR file \f3JAR_file\fR (with the \f3-jbrfile\fR option bnd prints its contents in b humbn-rebdbble formbt\&. When no port is specified, the stbndbrd HTTPS port 443 is bssumed\&. Note thbt \f3-sslserver\fR bnd -file options cbnnot be provided bt the sbme time\&. Otherwise, bn error is reported\&. If neither option is specified, then the certificbte is rebd from \f3stdin\fR\&.
 
-When\f3-rfc\fR is specified, the \f3keytool\fR command prints the certificate in PEM mode as defined by the Internet RFC 1421 Certificate Encoding standard\&. See Internet RFC 1421 Certificate Encoding Standard\&.
+When\f3-rfc\fR is specified, the \f3keytool\fR commbnd prints the certificbte in PEM mode bs defined by the Internet RFC 1421 Certificbte Encoding stbndbrd\&. See Internet RFC 1421 Certificbte Encoding Stbndbrd\&.
 
-If the certificate is read from a file or \f3stdin\fR, then it might be either binary encoded or in printable encoding format, as defined by the RFC 1421 Certificate Encoding standard\&.
+If the certificbte is rebd from b file or \f3stdin\fR, then it might be either binbry encoded or in printbble encoding formbt, bs defined by the RFC 1421 Certificbte Encoding stbndbrd\&.
 
-If the SSL server is behind a firewall, then the \f3-J-Dhttps\&.proxyHost=proxyhost\fR and \f3-J-Dhttps\&.proxyPort=proxyport\fR options can be specified on the command line for proxy tunneling\&. See Java Secure Socket Extension (JSSE) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide\&.html
+If the SSL server is behind b firewbll, then the \f3-J-Dhttps\&.proxyHost=proxyhost\fR bnd \f3-J-Dhttps\&.proxyPort=proxyport\fR options cbn be specified on the commbnd line for proxy tunneling\&. See Jbvb Secure Socket Extension (JSSE) Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/jsse/JSSERefGuide\&.html
 
-\fINote:\fR This option can be used independently of a keystore\&.
+\fINote:\fR This option cbn be used independently of b keystore\&.
 .TP
 -printcrl
 .br
 \f3-file crl_ {-v}\fR
 
-Reads the Certificate Revocation List (CRL) from the file \f3crl_\fR\&. A CRL is a list of digital certificates that were revoked by the CA that issued them\&. The CA generates the \f3crl_\fR file\&.
+Rebds the Certificbte Revocbtion List (CRL) from the file \f3crl_\fR\&. A CRL is b list of digitbl certificbtes thbt were revoked by the CA thbt issued them\&. The CA generbtes the \f3crl_\fR file\&.
 
-\fINote:\fR This option can be used independently of a keystore\&.
+\fINote:\fR This option cbn be used independently of b keystore\&.
 .TP
--storepasswd
+-storepbsswd
 .br
-\f3[-new new_storepass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-Jjavaoption}\fR
+\f3[-new new_storepbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-Jjbvboption}\fR
 
-Changes the password used to protect the integrity of the keystore contents\&. The new password is \f3new_storepass\fR, which must be at least 6 characters\&.
+Chbnges the pbssword used to protect the integrity of the keystore contents\&. The new pbssword is \f3new_storepbss\fR, which must be bt lebst 6 chbrbcters\&.
 .TP
--keypasswd
+-keypbsswd
 .br
-\f3{-alias alias} [-keypass old_keypass] [-new new_keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-keypbss old_keypbss] [-new new_keypbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-Jjbvboption}\fR
 
-Changes the password under which the private/secret key identified by \f3alias\fR is protected, from \f3old_keypass\fR to \f3new_keypass\fR, which must be at least 6 characters\&.
+Chbnges the pbssword under which the privbte/secret key identified by \f3blibs\fR is protected, from \f3old_keypbss\fR to \f3new_keypbss\fR, which must be bt lebst 6 chbrbcters\&.
 
-If the \f3-keypass\fR option is not provided at the command line, and the key password is different from the keystore password, then the user is prompted for it\&.
+If the \f3-keypbss\fR option is not provided bt the commbnd line, bnd the key pbssword is different from the keystore pbssword, then the user is prompted for it\&.
 
-If the \f3-new\fR option is not provided at the command line, then the user is prompted for it
+If the \f3-new\fR option is not provided bt the commbnd line, then the user is prompted for it
 .TP
 -delete
 .br
-\f3[-alias alias] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3[-blibs blibs] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Deletes from the keystore the entry identified by \f3alias\fR\&. The user is prompted for the alias, when no alias is provided at the command line\&.
+Deletes from the keystore the entry identified by \f3blibs\fR\&. The user is prompted for the blibs, when no blibs is provided bt the commbnd line\&.
 .TP
--changealias
+-chbngeblibs
 .br
-\f3{-alias alias} [-destalias destalias] [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-destblibs destblibs] [-keypbss keypbss] {-storetype storetype} {-keystore keystore} [-storepbss storepbss] {-providerNbme provider_nbme} {-providerClbss provider_clbss_nbme {-providerArg provider_brg}} {-v} {-protected} {-Jjbvboption}\fR
 
-Move an existing keystore entry from the specified \f3alias\fR to a new alias, \f3destalias\fR\&. If no destination alias is provided, then the command prompts for one\&. If the original entry is protected with an entry password, then the password can be supplied with the \f3-keypass\fR option\&. If no key password is provided, then the \f3storepass\fR (if provided) is attempted first\&. If the attempt fails, then the user is prompted for a password\&.
+Move bn existing keystore entry from the specified \f3blibs\fR to b new blibs, \f3destblibs\fR\&. If no destinbtion blibs is provided, then the commbnd prompts for one\&. If the originbl entry is protected with bn entry pbssword, then the pbssword cbn be supplied with the \f3-keypbss\fR option\&. If no key pbssword is provided, then the \f3storepbss\fR (if provided) is bttempted first\&. If the bttempt fbils, then the user is prompted for b pbssword\&.
 .TP
 -help
 .br
-Lists the basic commands and their options\&.
+Lists the bbsic commbnds bnd their options\&.
 
-For more information about a specific command, enter the following, where \f3command_name\fR is the name of the command: \f3keytool -command_name -help\fR\&.
+For more informbtion bbout b specific commbnd, enter the following, where \f3commbnd_nbme\fR is the nbme of the commbnd: \f3keytool -commbnd_nbme -help\fR\&.
 .SH EXAMPLES    
-This example walks through the sequence of steps to create a keystore for managing public/private key pair and certificates from trusted entities\&.
+This exbmple wblks through the sequence of steps to crebte b keystore for mbnbging public/privbte key pbir bnd certificbtes from trusted entities\&.
 .SS GENERATE\ THE\ KEY\ PAIR    
-First, create a keystore and generate the key pair\&. You can use a command such as the following typed as a single line:
+First, crebte b keystore bnd generbte the key pbir\&. You cbn use b commbnd such bs the following typed bs b single line:
 .sp     
 .nf     
-\f3keytool \-genkeypair \-dname "cn=Mark Jones, ou=Java, o=Oracle, c=US"\fP
+\f3keytool \-genkeypbir \-dnbme "cn=Mbrk Jones, ou=Jbvb, o=Orbcle, c=US"\fP
 .fi     
 .nf     
-\f3    \-alias business \-keypass <new password for private key>\fP
+\f3    \-blibs business \-keypbss <new pbssword for privbte key>\fP
 .fi     
 .nf     
 \f3    \-keystore /working/mykeystore\fP
 .fi     
 .nf     
-\f3    \-storepass <new password for keystore> \-validity 180\fP
+\f3    \-storepbss <new pbssword for keystore> \-vblidity 180\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The command creates the keystore named \f3mykeystore\fR in the working directory (assuming it does not already exist), and assigns it the password specified by \f3<new password for keystore>\fR\&. It generates a public/private key pair for the entity whose distinguished name has a common name of Mark Jones, organizational unit of Java, organization of Oracle and two-letter country code of US\&. It uses the default DSA key generation algorithm to create the keys; both are 1024 bits\&.
+The commbnd crebtes the keystore nbmed \f3mykeystore\fR in the working directory (bssuming it does not blrebdy exist), bnd bssigns it the pbssword specified by \f3<new pbssword for keystore>\fR\&. It generbtes b public/privbte key pbir for the entity whose distinguished nbme hbs b common nbme of Mbrk Jones, orgbnizbtionbl unit of Jbvb, orgbnizbtion of Orbcle bnd two-letter country code of US\&. It uses the defbult DSA key generbtion blgorithm to crebte the keys; both bre 1024 bits\&.
 .PP
-The command uses the default SHA1withDSA signature algorithm to create a self-signed certificate that includes the public key and the distinguished name information\&. The certificate is valid for 180 days, and is associated with the private key in a keystore entry referred to by the alias \f3business\fR\&. The private key is assigned the password specified by \f3<new password for private key>\fR\&.
+The commbnd uses the defbult SHA1withDSA signbture blgorithm to crebte b self-signed certificbte thbt includes the public key bnd the distinguished nbme informbtion\&. The certificbte is vblid for 180 dbys, bnd is bssocibted with the privbte key in b keystore entry referred to by the blibs \f3business\fR\&. The privbte key is bssigned the pbssword specified by \f3<new pbssword for privbte key>\fR\&.
 .PP
-The command is significantly shorter when the option defaults are accepted\&. In this case, no options are required, and the defaults are used for unspecified options that have default values\&. You are prompted for any required values\&. You could have the following:
+The commbnd is significbntly shorter when the option defbults bre bccepted\&. In this cbse, no options bre required, bnd the defbults bre used for unspecified options thbt hbve defbult vblues\&. You bre prompted for bny required vblues\&. You could hbve the following:
 .sp     
 .nf     
-\f3keytool \-genkeypair\fP
+\f3keytool \-genkeypbir\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-In this case, a keystore entry with the alias \f3mykey\fR is created, with a newly generated key pair and a certificate that is valid for 90 days\&. This entry is placed in the keystore named \f3\&.keystore\fR in your home directory\&. The keystore is created when it does not already exist\&. You are prompted for the distinguished name information, the keystore password, and the private key password\&.
+In this cbse, b keystore entry with the blibs \f3mykey\fR is crebted, with b newly generbted key pbir bnd b certificbte thbt is vblid for 90 dbys\&. This entry is plbced in the keystore nbmed \f3\&.keystore\fR in your home directory\&. The keystore is crebted when it does not blrebdy exist\&. You bre prompted for the distinguished nbme informbtion, the keystore pbssword, bnd the privbte key pbssword\&.
 .PP
-The rest of the examples assume you executed the \f3-genkeypair\fR command without options specified, and that you responded to the prompts with values equal to those specified in the first \f3-genkeypair\fR command\&. For example, a distinguished name of \f3cn=Mark Jones\fR, \f3ou=Java\fR, \f3o=Oracle\fR, \f3c=US\fR)\&.
+The rest of the exbmples bssume you executed the \f3-genkeypbir\fR commbnd without options specified, bnd thbt you responded to the prompts with vblues equbl to those specified in the first \f3-genkeypbir\fR commbnd\&. For exbmple, b distinguished nbme of \f3cn=Mbrk Jones\fR, \f3ou=Jbvb\fR, \f3o=Orbcle\fR, \f3c=US\fR)\&.
 .SS REQUEST\ A\ SIGNED\ CERTIFICATE\ FROM\ A\ CA    
-Generating the key pair created a self-signed certificate\&. A certificate is more likely to be trusted by others when it is signed by a Certification Authority (CA)\&. To get a CA signature, first generate a Certificate Signing Request (CSR), as follows:
+Generbting the key pbir crebted b self-signed certificbte\&. A certificbte is more likely to be trusted by others when it is signed by b Certificbtion Authority (CA)\&. To get b CA signbture, first generbte b Certificbte Signing Request (CSR), bs follows:
 .sp     
 .nf     
-\f3keytool \-certreq \-file MarkJ\&.csr\fP
+\f3keytool \-certreq \-file MbrkJ\&.csr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This creates a CSR for the entity identified by the default alias \f3mykey\fR and puts the request in the file named MarkJ\&.csr\&. Submit this file to a CA, such as VeriSign\&. The CA authenticates you, the requestor (usually off-line), and returns a certificate, signed by them, authenticating your public key\&. In some cases, the CA returns a chain of certificates, each one authenticating the public key of the signer of the previous certificate in the chain\&.
+This crebtes b CSR for the entity identified by the defbult blibs \f3mykey\fR bnd puts the request in the file nbmed MbrkJ\&.csr\&. Submit this file to b CA, such bs VeriSign\&. The CA buthenticbtes you, the requestor (usublly off-line), bnd returns b certificbte, signed by them, buthenticbting your public key\&. In some cbses, the CA returns b chbin of certificbtes, ebch one buthenticbting the public key of the signer of the previous certificbte in the chbin\&.
 .SS IMPORT\ A\ CERTIFICATE\ FOR\ THE\ CA    
-You now need to replace the self-signed certificate with a certificate chain, where each certificate in the chain authenticates the public key of the signer of the previous certificate in the chain, up to a root CA\&.
+You now need to replbce the self-signed certificbte with b certificbte chbin, where ebch certificbte in the chbin buthenticbtes the public key of the signer of the previous certificbte in the chbin, up to b root CA\&.
 .PP
-Before you import the certificate reply from a CA, you need one or more trusted certificates in your keystore or in the \f3cacerts\fR keystore file\&. See \f3-importcert\fR in Commands\&.
+Before you import the certificbte reply from b CA, you need one or more trusted certificbtes in your keystore or in the \f3cbcerts\fR keystore file\&. See \f3-importcert\fR in Commbnds\&.
 .TP 0.2i    
 \(bu
-If the certificate reply is a certificate chain, then you need the top certificate of the chain\&. The root CA certificate that authenticates the public key of the CA\&.
+If the certificbte reply is b certificbte chbin, then you need the top certificbte of the chbin\&. The root CA certificbte thbt buthenticbtes the public key of the CA\&.
 .TP 0.2i    
 \(bu
-If the certificate reply is a single certificate, then you need a certificate for the issuing CA (the one that signed it)\&. If that certificate is not self-signed, then you need a certificate for its signer, and so on, up to a self-signed root CA certificate\&.
+If the certificbte reply is b single certificbte, then you need b certificbte for the issuing CA (the one thbt signed it)\&. If thbt certificbte is not self-signed, then you need b certificbte for its signer, bnd so on, up to b self-signed root CA certificbte\&.
 .PP
-The \f3cacerts\fR keystore file ships with several VeriSign root CA certificates, so you probably will not need to import a VeriSign certificate as a trusted certificate in your keystore\&. But if you request a signed certificate from a different CA, and a certificate authenticating that CA\&'s public key was not added to \f3cacerts\fR, then you must import a certificate from the CA as a trusted certificate\&.
+The \f3cbcerts\fR keystore file ships with severbl VeriSign root CA certificbtes, so you probbbly will not need to import b VeriSign certificbte bs b trusted certificbte in your keystore\&. But if you request b signed certificbte from b different CA, bnd b certificbte buthenticbting thbt CA\&'s public key wbs not bdded to \f3cbcerts\fR, then you must import b certificbte from the CA bs b trusted certificbte\&.
 .PP
-A certificate from a CA is usually either self-signed or signed by another CA, in which case you need a certificate that authenticates that CA\&'s public key\&. Suppose company ABC, Inc\&., is a CA, and you obtain a file named A\f3BCCA\&.cer\fR that is supposed to be a self-signed certificate from ABC, that authenticates that CA\&'s public key\&. Be careful to ensure the certificate is valid before you import it as a trusted certificate\&. View it first with the \f3keytool -printcert\fR command or the \f3keytool -importcert\fR command without the \f3-noprompt\fR option, and make sure that the displayed certificate fingerprints match the expected ones\&. You can call the person who sent the certificate, and compare the fingerprints that you see with the ones that they show or that a secure public key repository shows\&. Only when the fingerprints are equal is it guaranteed that the certificate was not replaced in transit with somebody else\&'s (for example, an attacker\&'s) certificate\&. If such an attack takes place, and you did not check the certificate before you imported it, then you would be trusting anything the attacker has signed\&.
+A certificbte from b CA is usublly either self-signed or signed by bnother CA, in which cbse you need b certificbte thbt buthenticbtes thbt CA\&'s public key\&. Suppose compbny ABC, Inc\&., is b CA, bnd you obtbin b file nbmed A\f3BCCA\&.cer\fR thbt is supposed to be b self-signed certificbte from ABC, thbt buthenticbtes thbt CA\&'s public key\&. Be cbreful to ensure the certificbte is vblid before you import it bs b trusted certificbte\&. View it first with the \f3keytool -printcert\fR commbnd or the \f3keytool -importcert\fR commbnd without the \f3-noprompt\fR option, bnd mbke sure thbt the displbyed certificbte fingerprints mbtch the expected ones\&. You cbn cbll the person who sent the certificbte, bnd compbre the fingerprints thbt you see with the ones thbt they show or thbt b secure public key repository shows\&. Only when the fingerprints bre equbl is it gubrbnteed thbt the certificbte wbs not replbced in trbnsit with somebody else\&'s (for exbmple, bn bttbcker\&'s) certificbte\&. If such bn bttbck tbkes plbce, bnd you did not check the certificbte before you imported it, then you would be trusting bnything the bttbcker hbs signed\&.
 .PP
-If you trust that the certificate is valid, then you can add it to your keystore with the following command:
+If you trust thbt the certificbte is vblid, then you cbn bdd it to your keystore with the following commbnd:
 .sp     
 .nf     
-\f3keytool \-importcert \-alias abc \-file ABCCA\&.cer\fP
+\f3keytool \-importcert \-blibs bbc \-file ABCCA\&.cer\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This command creates a trusted certificate entry in the keystore, with the data from the file ABCCA\&.cer, and assigns the alias \f3abc\fR to the entry\&.
+This commbnd crebtes b trusted certificbte entry in the keystore, with the dbtb from the file ABCCA\&.cer, bnd bssigns the blibs \f3bbc\fR to the entry\&.
 .SS IMPORT\ THE\ CERTIFICATE\ REPLY\ FROM\ THE\ CA    
-After you import a certificate that authenticates the public key of the CA you submitted your certificate signing request to (or there is already such a certificate in the cacerts file), you can import the certificate reply and replace your self-signed certificate with a certificate chain\&. This chain is the one returned by the CA in response to your request (when the CA reply is a chain), or one constructed (when the CA reply is a single certificate) using the certificate reply and trusted certificates that are already available in the keystore where you import the reply or in the \f3cacerts\fR keystore file\&.
+After you import b certificbte thbt buthenticbtes the public key of the CA you submitted your certificbte signing request to (or there is blrebdy such b certificbte in the cbcerts file), you cbn import the certificbte reply bnd replbce your self-signed certificbte with b certificbte chbin\&. This chbin is the one returned by the CA in response to your request (when the CA reply is b chbin), or one constructed (when the CA reply is b single certificbte) using the certificbte reply bnd trusted certificbtes thbt bre blrebdy bvbilbble in the keystore where you import the reply or in the \f3cbcerts\fR keystore file\&.
 .PP
-For example, if you sent your certificate signing request to VeriSign, then you can import the reply with the following, which assumes the returned certificate is named VSMarkJ\&.cer:
+For exbmple, if you sent your certificbte signing request to VeriSign, then you cbn import the reply with the following, which bssumes the returned certificbte is nbmed VSMbrkJ\&.cer:
 .sp     
 .nf     
-\f3keytool \-importcert \-trustcacerts \-file VSMarkJ\&.cer\fP
+\f3keytool \-importcert \-trustcbcerts \-file VSMbrkJ\&.cer\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS EXPORT\ A\ CERTIFICATE\ THAT\ AUTHENTICATES\ THE\ PUBLIC\ KEY    
-If you used the \f3jarsigner\fR command to sign a Java Archive (JAR) file, then clients that want to use the file will want to authenticate your signature\&. One way the clients can authenticate you is by first importing your public key certificate into their keystore as a trusted entry\&.
+If you used the \f3jbrsigner\fR commbnd to sign b Jbvb Archive (JAR) file, then clients thbt wbnt to use the file will wbnt to buthenticbte your signbture\&. One wby the clients cbn buthenticbte you is by first importing your public key certificbte into their keystore bs b trusted entry\&.
 .PP
-You can export the certificate and supply it to your clients\&. As an example, you can copy your certificate to a file named MJ\&.cer with the following command that assumes the entry has an alias of \f3mykey\fR:
+You cbn export the certificbte bnd supply it to your clients\&. As bn exbmple, you cbn copy your certificbte to b file nbmed MJ\&.cer with the following commbnd thbt bssumes the entry hbs bn blibs of \f3mykey\fR:
 .sp     
 .nf     
-\f3keytool \-exportcert \-alias mykey \-file MJ\&.cer\fP
+\f3keytool \-exportcert \-blibs mykey \-file MJ\&.cer\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-With the certificate and the signed JAR file, a client can use the \f3jarsigner\fR command to authenticate your signature\&.
+With the certificbte bnd the signed JAR file, b client cbn use the \f3jbrsigner\fR commbnd to buthenticbte your signbture\&.
 .SS IMPORT\ KEYSTORE    
-The command \f3importkeystore\fR is used to import an entire keystore into another keystore, which means all entries from the source keystore, including keys and certificates, are all imported to the destination keystore within a single command\&. You can use this command to import entries from a different type of keystore\&. During the import, all new entries in the destination keystore will have the same alias names and protection passwords (for secret keys and private keys)\&. If the \f3keytool\fR command cannot recover the private keys or secret keys from the source keystore, then it prompts you for a password\&. If it detects alias duplication, then it asks you for a new alias, and you can specify a new alias or simply allow the \f3keytool\fR command to overwrite the existing one\&.
+The commbnd \f3importkeystore\fR is used to import bn entire keystore into bnother keystore, which mebns bll entries from the source keystore, including keys bnd certificbtes, bre bll imported to the destinbtion keystore within b single commbnd\&. You cbn use this commbnd to import entries from b different type of keystore\&. During the import, bll new entries in the destinbtion keystore will hbve the sbme blibs nbmes bnd protection pbsswords (for secret keys bnd privbte keys)\&. If the \f3keytool\fR commbnd cbnnot recover the privbte keys or secret keys from the source keystore, then it prompts you for b pbssword\&. If it detects blibs duplicbtion, then it bsks you for b new blibs, bnd you cbn specify b new blibs or simply bllow the \f3keytool\fR commbnd to overwrite the existing one\&.
 .PP
-For example, to import entries from a typical JKS type keystore key\&.jks into a PKCS #11 type hardware-based keystore, use the command:
+For exbmple, to import entries from b typicbl JKS type keystore key\&.jks into b PKCS #11 type hbrdwbre-bbsed keystore, use the commbnd:
 .sp     
 .nf     
 \f3keytool \-importkeystore\fP
@@ -763,16 +763,16 @@ For example, to import entries from a typical JKS type keystore key\&.jks into a
 \f3    \-srcstoretype JKS \-deststoretype PKCS11\fP
 .fi     
 .nf     
-\f3    \-srcstorepass <src keystore password>\fP
+\f3    \-srcstorepbss <src keystore pbssword>\fP
 .fi     
 .nf     
-\f3    \-deststorepass <destination keystore pwd>\fP
+\f3    \-deststorepbss <destinbtion keystore pwd>\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3importkeystore\fR command can also be used to import a single entry from a source keystore to a destination keystore\&. In this case, besides the options you see in the previous example, you need to specify the alias you want to import\&. With the \f3-srcalias\fR option specified, you can also specify the destination alias name in the command line, as well as protection password for a secret/private key and the destination protection password you want\&. The following command demonstrates this:
+The \f3importkeystore\fR commbnd cbn blso be used to import b single entry from b source keystore to b destinbtion keystore\&. In this cbse, besides the options you see in the previous exbmple, you need to specify the blibs you wbnt to import\&. With the \f3-srcblibs\fR option specified, you cbn blso specify the destinbtion blibs nbme in the commbnd line, bs well bs protection pbssword for b secret/privbte key bnd the destinbtion protection pbssword you wbnt\&. The following commbnd demonstrbtes this:
 .sp     
 .nf     
 \f3keytool \-importkeystore\fP
@@ -784,19 +784,19 @@ The \f3importkeystore\fR command can also be used to import a single entry from 
 \f3    \-srcstoretype JKS \-deststoretype PKCS11\fP
 .fi     
 .nf     
-\f3    \-srcstorepass <src keystore password>\fP
+\f3    \-srcstorepbss <src keystore pbssword>\fP
 .fi     
 .nf     
-\f3    \-deststorepass <destination keystore pwd>\fP
+\f3    \-deststorepbss <destinbtion keystore pwd>\fP
 .fi     
 .nf     
-\f3    \-srcalias myprivatekey \-destalias myoldprivatekey\fP
+\f3    \-srcblibs myprivbtekey \-destblibs myoldprivbtekey\fP
 .fi     
 .nf     
-\f3    \-srckeypass <source entry password>\fP
+\f3    \-srckeypbss <source entry pbssword>\fP
 .fi     
 .nf     
-\f3    \-destkeypass <destination entry password>\fP
+\f3    \-destkeypbss <destinbtion entry pbssword>\fP
 .fi     
 .nf     
 \f3    \-noprompt\fP
@@ -806,55 +806,55 @@ The \f3importkeystore\fR command can also be used to import a single entry from 
 .fi     
 .sp     
 .SS GENERATE\ CERTIFICATES\ FOR\ AN\ SSL\ SERVER    
-The following are \f3keytool\fR commands to generate key pairs and certificates for three entities: Root CA (\f3root\fR), Intermediate CA (\f3ca\fR), and SSL server (\f3server\fR)\&. Ensure that you store all the certificates in the same keystore\&. In these examples, RSA is the recommended the key algorithm\&.
+The following bre \f3keytool\fR commbnds to generbte key pbirs bnd certificbtes for three entities: Root CA (\f3root\fR), Intermedibte CA (\f3cb\fR), bnd SSL server (\f3server\fR)\&. Ensure thbt you store bll the certificbtes in the sbme keystore\&. In these exbmples, RSA is the recommended the key blgorithm\&.
 .sp     
 .nf     
-\f3keytool \-genkeypair \-keystore root\&.jks \-alias root \-ext bc:c\fP
+\f3keytool \-genkeypbir \-keystore root\&.jks \-blibs root \-ext bc:c\fP
 .fi     
 .nf     
-\f3keytool \-genkeypair \-keystore ca\&.jks \-alias ca \-ext bc:c\fP
+\f3keytool \-genkeypbir \-keystore cb\&.jks \-blibs cb \-ext bc:c\fP
 .fi     
 .nf     
-\f3keytool \-genkeypair \-keystore server\&.jks \-alias server\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3keytool \-keystore root\&.jks \-alias root \-exportcert \-rfc > root\&.pem\fP
+\f3keytool \-genkeypbir \-keystore server\&.jks \-blibs server\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-storepass <storepass> \-keystore ca\&.jks \-certreq \-alias ca |\fP
-.fi     
-.nf     
-\f3    keytool \-storepass <storepass> \-keystore root\&.jks\fP
-.fi     
-.nf     
-\f3    \-gencert \-alias root \-ext BC=0 \-rfc > ca\&.pem\fP
-.fi     
-.nf     
-\f3keytool \-keystore ca\&.jks \-importcert \-alias ca \-file ca\&.pem\fP
+\f3keytool \-keystore root\&.jks \-blibs root \-exportcert \-rfc > root\&.pem\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-storepass <storepass> \-keystore server\&.jks \-certreq \-alias server |\fP
+\f3keytool \-storepbss <storepbss> \-keystore cb\&.jks \-certreq \-blibs cb |\fP
 .fi     
 .nf     
-\f3    keytool \-storepass <storepass> \-keystore ca\&.jks \-gencert \-alias ca\fP
+\f3    keytool \-storepbss <storepbss> \-keystore root\&.jks\fP
+.fi     
+.nf     
+\f3    \-gencert \-blibs root \-ext BC=0 \-rfc > cb\&.pem\fP
+.fi     
+.nf     
+\f3keytool \-keystore cb\&.jks \-importcert \-blibs cb \-file cb\&.pem\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3keytool \-storepbss <storepbss> \-keystore server\&.jks \-certreq \-blibs server |\fP
+.fi     
+.nf     
+\f3    keytool \-storepbss <storepbss> \-keystore cb\&.jks \-gencert \-blibs cb\fP
 .fi     
 .nf     
 \f3    \-ext ku:c=dig,kE \-rfc > server\&.pem\fP
 .fi     
 .nf     
-\f3cat root\&.pem ca\&.pem server\&.pem |\fP
+\f3cbt root\&.pem cb\&.pem server\&.pem |\fP
 .fi     
 .nf     
-\f3    keytool \-keystore server\&.jks \-importcert \-alias server\fP
+\f3    keytool \-keystore server\&.jks \-importcert \-blibs server\fP
 .fi     
 .nf     
 \f3\fP
@@ -863,24 +863,24 @@ The following are \f3keytool\fR commands to generate key pairs and certificates 
 .SH TERMS    
 .TP     
 Keystore
-A keystore is a storage facility for cryptographic keys and certificates\&.
+A keystore is b storbge fbcility for cryptogrbphic keys bnd certificbtes\&.
 .TP     
 Keystore entries
-Keystores can have different types of entries\&. The two most applicable entry types for the \f3keytool\fR command include the following:
+Keystores cbn hbve different types of entries\&. The two most bpplicbble entry types for the \f3keytool\fR commbnd include the following:
 
-\fIKey entries\fR: Each entry holds very sensitive cryptographic key information, which is stored in a protected format to prevent unauthorized access\&. Typically, a key stored in this type of entry is a secret key, or a private key accompanied by the certificate chain for the corresponding public key\&. See Certificate Chains\&. The \f3keytool\fR command can handle both types of entries, while the \f3jarsigner\fR tool only handles the latter type of entry, that is private keys and their associated certificate chains\&.
+\fIKey entries\fR: Ebch entry holds very sensitive cryptogrbphic key informbtion, which is stored in b protected formbt to prevent unbuthorized bccess\&. Typicblly, b key stored in this type of entry is b secret key, or b privbte key bccompbnied by the certificbte chbin for the corresponding public key\&. See Certificbte Chbins\&. The \f3keytool\fR commbnd cbn hbndle both types of entries, while the \f3jbrsigner\fR tool only hbndles the lbtter type of entry, thbt is privbte keys bnd their bssocibted certificbte chbins\&.
 
-\fITrusted certificate entries\fR: Each entry contains a single public key certificate that belongs to another party\&. The entry is called a trusted certificate because the keystore owner trusts that the public key in the certificate belongs to the identity identified by the subject (owner) of the certificate\&. The issuer of the certificate vouches for this, by signing the certificate\&.
+\fITrusted certificbte entries\fR: Ebch entry contbins b single public key certificbte thbt belongs to bnother pbrty\&. The entry is cblled b trusted certificbte becbuse the keystore owner trusts thbt the public key in the certificbte belongs to the identity identified by the subject (owner) of the certificbte\&. The issuer of the certificbte vouches for this, by signing the certificbte\&.
 .TP     
-KeyStore aliases
-All keystore entries (key and trusted certificate entries) are accessed by way of unique aliases\&.
+KeyStore blibses
+All keystore entries (key bnd trusted certificbte entries) bre bccessed by wby of unique blibses\&.
 
-An alias is specified when you add an entity to the keystore with the \f3-genseckey\fR command to generate a secret key, the \f3-genkeypair\fR command to generate a key pair (public and private key), or the \f3-importcert\fR command to add a certificate or certificate chain to the list of trusted certificates\&. Subsequent \f3keytool\fR commands must use this same alias to refer to the entity\&.
+An blibs is specified when you bdd bn entity to the keystore with the \f3-genseckey\fR commbnd to generbte b secret key, the \f3-genkeypbir\fR commbnd to generbte b key pbir (public bnd privbte key), or the \f3-importcert\fR commbnd to bdd b certificbte or certificbte chbin to the list of trusted certificbtes\&. Subsequent \f3keytool\fR commbnds must use this sbme blibs to refer to the entity\&.
 
-For example, you can use the alias \f3duke\fR to generate a new public/private key pair and wrap the public key into a self-signed certificate with the following command\&. See Certificate Chains\&.
+For exbmple, you cbn use the blibs \f3duke\fR to generbte b new public/privbte key pbir bnd wrbp the public key into b self-signed certificbte with the following commbnd\&. See Certificbte Chbins\&.
 .sp     
 .nf     
-\f3keytool \-genkeypair \-alias duke \-keypass dukekeypasswd\fP
+\f3keytool \-genkeypbir \-blibs duke \-keypbss dukekeypbsswd\fP
 .fi     
 .nf     
 \f3\fP
@@ -888,10 +888,10 @@ For example, you can use the alias \f3duke\fR to generate a new public/private k
 .sp     
 
 
-This example specifies an initial password of \f3dukekeypasswd\fR required by subsequent commands to access the private key associated with the alias \f3duke\fR\&. If you later want to change Duke\&'s private key password, use a command such as the following:
+This exbmple specifies bn initibl pbssword of \f3dukekeypbsswd\fR required by subsequent commbnds to bccess the privbte key bssocibted with the blibs \f3duke\fR\&. If you lbter wbnt to chbnge Duke\&'s privbte key pbssword, use b commbnd such bs the following:
 .sp     
 .nf     
-\f3keytool \-keypasswd \-alias duke \-keypass dukekeypasswd \-new newpass\fP
+\f3keytool \-keypbsswd \-blibs duke \-keypbss dukekeypbsswd \-new newpbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -899,29 +899,29 @@ This example specifies an initial password of \f3dukekeypasswd\fR required by su
 .sp     
 
 
-This changes the password from \f3dukekeypasswd\fR to \f3newpass\fR\&. A password should not be specified on a command line or in a script unless it is for testing purposes, or you are on a secure system\&. If you do not specify a required password option on a command line, then you are prompted for it\&.
+This chbnges the pbssword from \f3dukekeypbsswd\fR to \f3newpbss\fR\&. A pbssword should not be specified on b commbnd line or in b script unless it is for testing purposes, or you bre on b secure system\&. If you do not specify b required pbssword option on b commbnd line, then you bre prompted for it\&.
 .TP     
-KeyStore implementation
-The \f3KeyStore\fR class provided in the \f3java\&.security\fR package supplies well-defined interfaces to access and modify the information in a keystore\&. It is possible for there to be multiple different concrete implementations, where each implementation is that for a particular type of keystore\&.
+KeyStore implementbtion
+The \f3KeyStore\fR clbss provided in the \f3jbvb\&.security\fR pbckbge supplies well-defined interfbces to bccess bnd modify the informbtion in b keystore\&. It is possible for there to be multiple different concrete implementbtions, where ebch implementbtion is thbt for b pbrticulbr type of keystore\&.
 
-Currently, two command-line tools (\f3keytool\fR and \f3jarsigner\fR) and a GUI-based tool named Policy Tool make use of keystore implementations\&. Because the \f3KeyStore\fR class is \f3public\fR, users can write additional security applications that use it\&.
+Currently, two commbnd-line tools (\f3keytool\fR bnd \f3jbrsigner\fR) bnd b GUI-bbsed tool nbmed Policy Tool mbke use of keystore implementbtions\&. Becbuse the \f3KeyStore\fR clbss is \f3public\fR, users cbn write bdditionbl security bpplicbtions thbt use it\&.
 
-There is a built-in default implementation, provided by Oracle\&. It implements the keystore as a file with a proprietary keystore type (format) named JKS\&. It protects each private key with its individual password, and also protects the integrity of the entire keystore with a (possibly different) password\&.
+There is b built-in defbult implementbtion, provided by Orbcle\&. It implements the keystore bs b file with b proprietbry keystore type (formbt) nbmed JKS\&. It protects ebch privbte key with its individubl pbssword, bnd blso protects the integrity of the entire keystore with b (possibly different) pbssword\&.
 
-Keystore implementations are provider-based\&. More specifically, the application interfaces supplied by \f3KeyStore\fR are implemented in terms of a Service Provider Interface (SPI)\&. That is, there is a corresponding abstract \f3KeystoreSpi\fR class, also in the \f3java\&.security package\fR, which defines the Service Provider Interface methods that providers must implement\&. The term \fIprovider\fR refers to a package or a set of packages that supply a concrete implementation of a subset of services that can be accessed by the Java Security API\&. To provide a keystore implementation, clients must implement a provider and supply a \f3KeystoreSpi\fR subclass implementation, as described in How to Implement a Provider in the Java Cryptography Architecture at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
+Keystore implementbtions bre provider-bbsed\&. More specificblly, the bpplicbtion interfbces supplied by \f3KeyStore\fR bre implemented in terms of b Service Provider Interfbce (SPI)\&. Thbt is, there is b corresponding bbstrbct \f3KeystoreSpi\fR clbss, blso in the \f3jbvb\&.security pbckbge\fR, which defines the Service Provider Interfbce methods thbt providers must implement\&. The term \fIprovider\fR refers to b pbckbge or b set of pbckbges thbt supply b concrete implementbtion of b subset of services thbt cbn be bccessed by the Jbvb Security API\&. To provide b keystore implementbtion, clients must implement b provider bnd supply b \f3KeystoreSpi\fR subclbss implementbtion, bs described in How to Implement b Provider in the Jbvb Cryptogrbphy Architecture bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
 
-Applications can choose different types of keystore implementations from different providers, using the \f3getInstance\fR factory method supplied in the \f3KeyStore\fR class\&. A keystore type defines the storage and data format of the keystore information, and the algorithms used to protect private/secret keys in the keystore and the integrity of the keystore\&. Keystore implementations of different types are not compatible\&.
+Applicbtions cbn choose different types of keystore implementbtions from different providers, using the \f3getInstbnce\fR fbctory method supplied in the \f3KeyStore\fR clbss\&. A keystore type defines the storbge bnd dbtb formbt of the keystore informbtion, bnd the blgorithms used to protect privbte/secret keys in the keystore bnd the integrity of the keystore\&. Keystore implementbtions of different types bre not compbtible\&.
 
-The \f3keytool\fR command works on any file-based keystore implementation\&. It treats the keystore location that is passed to it at the command line as a file name and converts it to a \f3FileInputStream\fR, from which it loads the keystore information\&.)The \f3jarsigner\fR and \f3policytool\fR commands can read a keystore from any location that can be specified with a URL\&.
+The \f3keytool\fR commbnd works on bny file-bbsed keystore implementbtion\&. It trebts the keystore locbtion thbt is pbssed to it bt the commbnd line bs b file nbme bnd converts it to b \f3FileInputStrebm\fR, from which it lobds the keystore informbtion\&.)The \f3jbrsigner\fR bnd \f3policytool\fR commbnds cbn rebd b keystore from bny locbtion thbt cbn be specified with b URL\&.
 
-For \f3keytool\fR and \f3jarsigner\fR, you can specify a keystore type at the command line, with the \f3-storetype\fR option\&. For Policy Tool, you can specify a keystore type with the \fIKeystore\fR menu\&.
+For \f3keytool\fR bnd \f3jbrsigner\fR, you cbn specify b keystore type bt the commbnd line, with the \f3-storetype\fR option\&. For Policy Tool, you cbn specify b keystore type with the \fIKeystore\fR menu\&.
 
-If you do not explicitly specify a keystore type, then the tools choose a keystore implementation based on the value of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is called \f3java\&.security\fR, and resides in the security properties directory, \f3java\&.home\elib\esecurity\fR on Windows and \f3java\&.home/lib/security\fR on Oracle Solaris, where \f3java\&.home\fR is the runtime environment directory\&. The \f3jre\fR directory in the SDK or the top-level directory of the Java Runtime Environment (JRE)\&.
+If you do not explicitly specify b keystore type, then the tools choose b keystore implementbtion bbsed on the vblue of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is cblled \f3jbvb\&.security\fR, bnd resides in the security properties directory, \f3jbvb\&.home\elib\esecurity\fR on Windows bnd \f3jbvb\&.home/lib/security\fR on Orbcle Solbris, where \f3jbvb\&.home\fR is the runtime environment directory\&. The \f3jre\fR directory in the SDK or the top-level directory of the Jbvb Runtime Environment (JRE)\&.
 
-Each tool gets the \f3keystore\&.type\fR value and then examines all the currently installed providers until it finds one that implements a keystores of that type\&. It then uses the keystore implementation from that provider\&.The \f3KeyStore\fR class defines a static method named \f3getDefaultType\fR that lets applications and applets retrieve the value of the \f3keystore\&.type\fR property\&. The following line of code creates an instance of the default keystore type as specified in the \f3keystore\&.type\fR property:
+Ebch tool gets the \f3keystore\&.type\fR vblue bnd then exbmines bll the currently instblled providers until it finds one thbt implements b keystores of thbt type\&. It then uses the keystore implementbtion from thbt provider\&.The \f3KeyStore\fR clbss defines b stbtic method nbmed \f3getDefbultType\fR thbt lets bpplicbtions bnd bpplets retrieve the vblue of the \f3keystore\&.type\fR property\&. The following line of code crebtes bn instbnce of the defbult keystore type bs specified in the \f3keystore\&.type\fR property:
 .sp     
 .nf     
-\f3KeyStore keyStore = KeyStore\&.getInstance(KeyStore\&.getDefaultType());\fP
+\f3KeyStore keyStore = KeyStore\&.getInstbnce(KeyStore\&.getDefbultType());\fP
 .fi     
 .nf     
 \f3\fP
@@ -929,7 +929,7 @@ Each tool gets the \f3keystore\&.type\fR value and then examines all the current
 .sp     
 
 
-The default keystore type is \f3jks\fR, which is the proprietary type of the keystore implementation provided by Oracle\&. This is specified by the following line in the security properties file:
+The defbult keystore type is \f3jks\fR, which is the proprietbry type of the keystore implementbtion provided by Orbcle\&. This is specified by the following line in the security properties file:
 .sp     
 .nf     
 \f3keystore\&.type=jks\fP
@@ -940,7 +940,7 @@ The default keystore type is \f3jks\fR, which is the proprietary type of the key
 .sp     
 
 
-To have the tools utilize a keystore implementation other than the default, you can change that line to specify a different keystore type\&. For example, if you have a provider package that supplies a keystore implementation for a keystore type called \f3pkcs12\fR, then change the line to the following:
+To hbve the tools utilize b keystore implementbtion other thbn the defbult, you cbn chbnge thbt line to specify b different keystore type\&. For exbmple, if you hbve b provider pbckbge thbt supplies b keystore implementbtion for b keystore type cblled \f3pkcs12\fR, then chbnge the line to the following:
 .sp     
 .nf     
 \f3keystore\&.type=pkcs12\fP
@@ -951,54 +951,54 @@ To have the tools utilize a keystore implementation other than the default, you 
 .sp     
 
 
-\fINote:\fR Case does not matter in keystore type designations\&. For example, JKS would be considered the same as jks\&.
+\fINote:\fR Cbse does not mbtter in keystore type designbtions\&. For exbmple, JKS would be considered the sbme bs jks\&.
 .TP     
-Certificate
-A certificate (or public-key certificate) is a digitally signed statement from one entity (the issuer), saying that the public key and some other information of another entity (the subject) has some specific value\&. The following terms are related to certificates:
+Certificbte
+A certificbte (or public-key certificbte) is b digitblly signed stbtement from one entity (the issuer), sbying thbt the public key bnd some other informbtion of bnother entity (the subject) hbs some specific vblue\&. The following terms bre relbted to certificbtes:
 
-\fIPublic Keys\fR: These are numbers associated with a particular entity, and are intended to be known to everyone who needs to have trusted interactions with that entity\&. Public keys are used to verify signatures\&.
+\fIPublic Keys\fR: These bre numbers bssocibted with b pbrticulbr entity, bnd bre intended to be known to everyone who needs to hbve trusted interbctions with thbt entity\&. Public keys bre used to verify signbtures\&.
 
-\fIDigitally Signed\fR: If some data is digitally signed, then it is stored with the identity of an entity and a signature that proves that entity knows about the data\&. The data is rendered unforgeable by signing with the entity\&'s private key\&.
+\fIDigitblly Signed\fR: If some dbtb is digitblly signed, then it is stored with the identity of bn entity bnd b signbture thbt proves thbt entity knows bbout the dbtb\&. The dbtb is rendered unforgebble by signing with the entity\&'s privbte key\&.
 
-\fIIdentity\fR: A known way of addressing an entity\&. In some systems, the identity is the public key, and in others it can be anything from an Oracle Solaris UID to an email address to an X\&.509 distinguished name\&.
+\fIIdentity\fR: A known wby of bddressing bn entity\&. In some systems, the identity is the public key, bnd in others it cbn be bnything from bn Orbcle Solbris UID to bn embil bddress to bn X\&.509 distinguished nbme\&.
 
-\fISignature\fR: A signature is computed over some data using the private key of an entity\&. The signer, which in the case of a certificate is also known as the issuer\&.
+\fISignbture\fR: A signbture is computed over some dbtb using the privbte key of bn entity\&. The signer, which in the cbse of b certificbte is blso known bs the issuer\&.
 
-\fIPrivate Keys\fR: These are numbers, each of which is supposed to be known only to the particular entity whose private key it is (that is, it is supposed to be kept secret)\&. Private and public keys exist in pairs in all public key cryptography systems (also referred to as public key crypto systems)\&. In a typical public key crypto system, such as DSA, a private key corresponds to exactly one public key\&. Private keys are used to compute signatures\&.
+\fIPrivbte Keys\fR: These bre numbers, ebch of which is supposed to be known only to the pbrticulbr entity whose privbte key it is (thbt is, it is supposed to be kept secret)\&. Privbte bnd public keys exist in pbirs in bll public key cryptogrbphy systems (blso referred to bs public key crypto systems)\&. In b typicbl public key crypto system, such bs DSA, b privbte key corresponds to exbctly one public key\&. Privbte keys bre used to compute signbtures\&.
 
-\fIEntity\fR: An entity is a person, organization, program, computer, business, bank, or something else you are trusting to some degree\&.
+\fIEntity\fR: An entity is b person, orgbnizbtion, progrbm, computer, business, bbnk, or something else you bre trusting to some degree\&.
 
-Public key cryptography requires access to users\&' public keys\&. In a large-scale networked environment, it is impossible to guarantee that prior relationships between communicating entities were established or that a trusted repository exists with all used public keys\&. Certificates were invented as a solution to this public key distribution problem\&. Now a Certification Authority (CA) can act as a trusted third party\&. CAs are entities such as businesses that are trusted to sign (issue) certificates for other entities\&. It is assumed that CAs only create valid and reliable certificates because they are bound by legal agreements\&. There are many public Certification Authorities, such as VeriSign, Thawte, Entrust, and so on\&.
+Public key cryptogrbphy requires bccess to users\&' public keys\&. In b lbrge-scble networked environment, it is impossible to gubrbntee thbt prior relbtionships between communicbting entities were estbblished or thbt b trusted repository exists with bll used public keys\&. Certificbtes were invented bs b solution to this public key distribution problem\&. Now b Certificbtion Authority (CA) cbn bct bs b trusted third pbrty\&. CAs bre entities such bs businesses thbt bre trusted to sign (issue) certificbtes for other entities\&. It is bssumed thbt CAs only crebte vblid bnd relibble certificbtes becbuse they bre bound by legbl bgreements\&. There bre mbny public Certificbtion Authorities, such bs VeriSign, Thbwte, Entrust, bnd so on\&.
 
-You can also run your own Certification Authority using products such as Microsoft Certificate Server or the Entrust CA product for your organization\&. With the \f3keytool\fR command, it is possible to display, import, and export certificates\&. It is also possible to generate self-signed certificates\&.
+You cbn blso run your own Certificbtion Authority using products such bs Microsoft Certificbte Server or the Entrust CA product for your orgbnizbtion\&. With the \f3keytool\fR commbnd, it is possible to displby, import, bnd export certificbtes\&. It is blso possible to generbte self-signed certificbtes\&.
 
-The \f3keytool\fR command currently handles X\&.509 certificates\&.
+The \f3keytool\fR commbnd currently hbndles X\&.509 certificbtes\&.
 .TP     
-X\&.509 Certificates
-The X\&.509 standard defines what information can go into a certificate and describes how to write it down (the data format)\&. All the data in a certificate is encoded with two related standards called ASN\&.1/DER\&. Abstract Syntax Notation 1 describes data\&. The Definite Encoding Rules describe a single way to store and transfer that data\&.
+X\&.509 Certificbtes
+The X\&.509 stbndbrd defines whbt informbtion cbn go into b certificbte bnd describes how to write it down (the dbtb formbt)\&. All the dbtb in b certificbte is encoded with two relbted stbndbrds cblled ASN\&.1/DER\&. Abstrbct Syntbx Notbtion 1 describes dbtb\&. The Definite Encoding Rules describe b single wby to store bnd trbnsfer thbt dbtb\&.
 
-All X\&.509 certificates have the following data, in addition to the signature:
+All X\&.509 certificbtes hbve the following dbtb, in bddition to the signbture:
 
-\fIVersion\fR: This identifies which version of the X\&.509 standard applies to this certificate, which affects what information can be specified in it\&. Thus far, three versions are defined\&. The \f3keytool\fR command can import and export v1, v2, and v3 certificates\&. It generates v3 certificates\&.
+\fIVersion\fR: This identifies which version of the X\&.509 stbndbrd bpplies to this certificbte, which bffects whbt informbtion cbn be specified in it\&. Thus fbr, three versions bre defined\&. The \f3keytool\fR commbnd cbn import bnd export v1, v2, bnd v3 certificbtes\&. It generbtes v3 certificbtes\&.
 
-X\&.509 Version 1 has been available since 1988, is widely deployed, and is the most generic\&.
+X\&.509 Version 1 hbs been bvbilbble since 1988, is widely deployed, bnd is the most generic\&.
 
-X\&.509 Version 2 introduced the concept of subject and issuer unique identifiers to handle the possibility of reuse of subject or issuer names over time\&. Most certificate profile documents strongly recommend that names not be reused and that certificates should not make use of unique identifiers\&. Version 2 certificates are not widely used\&.
+X\&.509 Version 2 introduced the concept of subject bnd issuer unique identifiers to hbndle the possibility of reuse of subject or issuer nbmes over time\&. Most certificbte profile documents strongly recommend thbt nbmes not be reused bnd thbt certificbtes should not mbke use of unique identifiers\&. Version 2 certificbtes bre not widely used\&.
 
-X\&.509 Version 3 is the most recent (1996) and supports the notion of extensions where anyone can define an extension and include it in the certificate\&. Some common extensions are: KeyUsage (limits the use of the keys to particular purposes such as \f3signing-only\fR) and AlternativeNames (allows other identities to also be associated with this public key, for example\&. DNS names, email addresses, IP addresses)\&. Extensions can be marked critical to indicate that the extension should be checked and enforced or used\&. For example, if a certificate has the KeyUsage extension marked critical and set to \f3keyCertSign\fR, then when this certificate is presented during SSL communication, it should be rejected because the certificate extension indicates that the associated private key should only be used for signing certificates and not for SSL use\&.
+X\&.509 Version 3 is the most recent (1996) bnd supports the notion of extensions where bnyone cbn define bn extension bnd include it in the certificbte\&. Some common extensions bre: KeyUsbge (limits the use of the keys to pbrticulbr purposes such bs \f3signing-only\fR) bnd AlternbtiveNbmes (bllows other identities to blso be bssocibted with this public key, for exbmple\&. DNS nbmes, embil bddresses, IP bddresses)\&. Extensions cbn be mbrked criticbl to indicbte thbt the extension should be checked bnd enforced or used\&. For exbmple, if b certificbte hbs the KeyUsbge extension mbrked criticbl bnd set to \f3keyCertSign\fR, then when this certificbte is presented during SSL communicbtion, it should be rejected becbuse the certificbte extension indicbtes thbt the bssocibted privbte key should only be used for signing certificbtes bnd not for SSL use\&.
 
-\fISerial number\fR: The entity that created the certificate is responsible for assigning it a serial number to distinguish it from other certificates it issues\&. This information is used in numerous ways\&. For example, when a certificate is revoked its serial number is placed in a Certificate Revocation List (CRL)\&.
+\fISeribl number\fR: The entity thbt crebted the certificbte is responsible for bssigning it b seribl number to distinguish it from other certificbtes it issues\&. This informbtion is used in numerous wbys\&. For exbmple, when b certificbte is revoked its seribl number is plbced in b Certificbte Revocbtion List (CRL)\&.
 
-\fISignature algorithm identifier\fR: This identifies the algorithm used by the CA to sign the certificate\&.
+\fISignbture blgorithm identifier\fR: This identifies the blgorithm used by the CA to sign the certificbte\&.
 
-\fIIssuer name\fR: The X\&.500 Distinguished Name of the entity that signed the certificate\&. See X\&.500 Distinguished Names\&. This is typically a CA\&. Using this certificate implies trusting the entity that signed this certificate\&. In some cases, such as root or top-level CA certificates, the issuer signs its own certificate\&.
+\fIIssuer nbme\fR: The X\&.500 Distinguished Nbme of the entity thbt signed the certificbte\&. See X\&.500 Distinguished Nbmes\&. This is typicblly b CA\&. Using this certificbte implies trusting the entity thbt signed this certificbte\&. In some cbses, such bs root or top-level CA certificbtes, the issuer signs its own certificbte\&.
 
-\fIValidity period\fR: Each certificate is valid only for a limited amount of time\&. This period is described by a start date and time and an end date and time, and can be as short as a few seconds or almost as long as a century\&. The validity period chosen depends on a number of factors, such as the strength of the private key used to sign the certificate, or the amount one is willing to pay for a certificate\&. This is the expected period that entities can rely on the public value, when the associated private key has not been compromised\&.
+\fIVblidity period\fR: Ebch certificbte is vblid only for b limited bmount of time\&. This period is described by b stbrt dbte bnd time bnd bn end dbte bnd time, bnd cbn be bs short bs b few seconds or blmost bs long bs b century\&. The vblidity period chosen depends on b number of fbctors, such bs the strength of the privbte key used to sign the certificbte, or the bmount one is willing to pby for b certificbte\&. This is the expected period thbt entities cbn rely on the public vblue, when the bssocibted privbte key hbs not been compromised\&.
 
-\fISubject name\fR: The name of the entity whose public key the certificate identifies\&. This name uses the X\&.500 standard, so it is intended to be unique across the Internet\&. This is the X\&.500 Distinguished Name (DN) of the entity\&. See X\&.500 Distinguished Names\&. For example,
+\fISubject nbme\fR: The nbme of the entity whose public key the certificbte identifies\&. This nbme uses the X\&.500 stbndbrd, so it is intended to be unique bcross the Internet\&. This is the X\&.500 Distinguished Nbme (DN) of the entity\&. See X\&.500 Distinguished Nbmes\&. For exbmple,
 .sp     
 .nf     
-\f3CN=Java Duke, OU=Java Software Division, O=Oracle Corporation, C=US\fP
+\f3CN=Jbvb Duke, OU=Jbvb Softwbre Division, O=Orbcle Corporbtion, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1006,32 +1006,32 @@ X\&.509 Version 3 is the most recent (1996) and supports the notion of extension
 .sp     
 
 
-These refer to the subject\&'s common name (CN), organizational unit (OU), organization (O), and country (C)\&.
+These refer to the subject\&'s common nbme (CN), orgbnizbtionbl unit (OU), orgbnizbtion (O), bnd country (C)\&.
 
-\fISubject public key information\fR: This is the public key of the entity being named with an algorithm identifier that specifies which public key crypto system this key belongs to and any associated key parameters\&.
+\fISubject public key informbtion\fR: This is the public key of the entity being nbmed with bn blgorithm identifier thbt specifies which public key crypto system this key belongs to bnd bny bssocibted key pbrbmeters\&.
 .TP     
-Certificate Chains
-The \f3keytool\fR command can create and manage keystore key entries that each contain a private key and an associated certificate chain\&. The first certificate in the chain contains the public key that corresponds to the private key\&.
+Certificbte Chbins
+The \f3keytool\fR commbnd cbn crebte bnd mbnbge keystore key entries thbt ebch contbin b privbte key bnd bn bssocibted certificbte chbin\&. The first certificbte in the chbin contbins the public key thbt corresponds to the privbte key\&.
 
-When keys are first generated, the chain starts off containing a single element, a self-signed certificate\&. See \f3-genkeypair\fR in Commands\&. A self-signed certificate is one for which the issuer (signer) is the same as the subject\&. The subject is the entity whose public key is being authenticated by the certificate\&. Whenever the \f3-genkeypair\fR command is called to generate a new public/private key pair, it also wraps the public key into a self-signed certificate\&.
+When keys bre first generbted, the chbin stbrts off contbining b single element, b self-signed certificbte\&. See \f3-genkeypbir\fR in Commbnds\&. A self-signed certificbte is one for which the issuer (signer) is the sbme bs the subject\&. The subject is the entity whose public key is being buthenticbted by the certificbte\&. Whenever the \f3-genkeypbir\fR commbnd is cblled to generbte b new public/privbte key pbir, it blso wrbps the public key into b self-signed certificbte\&.
 
-Later, after a Certificate Signing Request (CSR) was generated with the \f3-certreq\fR command and sent to a Certification Authority (CA), the response from the CA is imported with \f3-importcert\fR, and the self-signed certificate is replaced by a chain of certificates\&. See the \f3-certreq\fR and \f3-importcert\fR options in Commands\&. At the bottom of the chain is the certificate (reply) issued by the CA authenticating the subject\&'s public key\&. The next certificate in the chain is one that authenticates the CA\&'s public key\&.
+Lbter, bfter b Certificbte Signing Request (CSR) wbs generbted with the \f3-certreq\fR commbnd bnd sent to b Certificbtion Authority (CA), the response from the CA is imported with \f3-importcert\fR, bnd the self-signed certificbte is replbced by b chbin of certificbtes\&. See the \f3-certreq\fR bnd \f3-importcert\fR options in Commbnds\&. At the bottom of the chbin is the certificbte (reply) issued by the CA buthenticbting the subject\&'s public key\&. The next certificbte in the chbin is one thbt buthenticbtes the CA\&'s public key\&.
 
-In many cases, this is a self-signed certificate, which is a certificate from the CA authenticating its own public key, and the last certificate in the chain\&. In other cases, the CA might return a chain of certificates\&. In this case, the bottom certificate in the chain is the same (a certificate signed by the CA, authenticating the public key of the key entry), but the second certificate in the chain is a certificate signed by a different CA that authenticates the public key of the CA you sent the CSR to\&. The next certificate in the chain is a certificate that authenticates the second CA\&'s key, and so on, until a self-signed root certificate is reached\&. Each certificate in the chain (after the first) authenticates the public key of the signer of the previous certificate in the chain\&.
+In mbny cbses, this is b self-signed certificbte, which is b certificbte from the CA buthenticbting its own public key, bnd the lbst certificbte in the chbin\&. In other cbses, the CA might return b chbin of certificbtes\&. In this cbse, the bottom certificbte in the chbin is the sbme (b certificbte signed by the CA, buthenticbting the public key of the key entry), but the second certificbte in the chbin is b certificbte signed by b different CA thbt buthenticbtes the public key of the CA you sent the CSR to\&. The next certificbte in the chbin is b certificbte thbt buthenticbtes the second CA\&'s key, bnd so on, until b self-signed root certificbte is rebched\&. Ebch certificbte in the chbin (bfter the first) buthenticbtes the public key of the signer of the previous certificbte in the chbin\&.
 
-Many CAs only return the issued certificate, with no supporting chain, especially when there is a flat hierarchy (no intermediates CAs)\&. In this case, the certificate chain must be established from trusted certificate information already stored in the keystore\&.
+Mbny CAs only return the issued certificbte, with no supporting chbin, especiblly when there is b flbt hierbrchy (no intermedibtes CAs)\&. In this cbse, the certificbte chbin must be estbblished from trusted certificbte informbtion blrebdy stored in the keystore\&.
 
-A different reply format (defined by the PKCS #7 standard) includes the supporting certificate chain in addition to the issued certificate\&. Both reply formats can be handled by the \f3keytool\fR command\&.
+A different reply formbt (defined by the PKCS #7 stbndbrd) includes the supporting certificbte chbin in bddition to the issued certificbte\&. Both reply formbts cbn be hbndled by the \f3keytool\fR commbnd\&.
 
-The top-level (root) CA certificate is self-signed\&. However, the trust into the root\&'s public key does not come from the root certificate itself, but from other sources such as a newspaper\&. This is because anybody could generate a self-signed certificate with the distinguished name of, for example, the VeriSign root CA\&. The root CA public key is widely known\&. The only reason it is stored in a certificate is because this is the format understood by most tools, so the certificate in this case is only used as a vehicle to transport the root CA\&'s public key\&. Before you add the root CA certificate to your keystore, you should view it with the \f3-printcert\fR option and compare the displayed fingerprint with the well-known fingerprint obtained from a newspaper, the root CA\&'s Web page, and so on\&.
+The top-level (root) CA certificbte is self-signed\&. However, the trust into the root\&'s public key does not come from the root certificbte itself, but from other sources such bs b newspbper\&. This is becbuse bnybody could generbte b self-signed certificbte with the distinguished nbme of, for exbmple, the VeriSign root CA\&. The root CA public key is widely known\&. The only rebson it is stored in b certificbte is becbuse this is the formbt understood by most tools, so the certificbte in this cbse is only used bs b vehicle to trbnsport the root CA\&'s public key\&. Before you bdd the root CA certificbte to your keystore, you should view it with the \f3-printcert\fR option bnd compbre the displbyed fingerprint with the well-known fingerprint obtbined from b newspbper, the root CA\&'s Web pbge, bnd so on\&.
 .TP     
-The cacerts Certificates File
-A certificates file named \f3cacerts\fR resides in the security properties directory, \f3java\&.home\elib\esecurity\fR on Windows and \f3java\&.home/lib/security\fR on Oracle Solaris, where \f3java\&.home\fR is the runtime environment\&'s directory, which would be the \f3jre\fR directory in the SDK or the top-level directory of the JRE\&.
+The cbcerts Certificbtes File
+A certificbtes file nbmed \f3cbcerts\fR resides in the security properties directory, \f3jbvb\&.home\elib\esecurity\fR on Windows bnd \f3jbvb\&.home/lib/security\fR on Orbcle Solbris, where \f3jbvb\&.home\fR is the runtime environment\&'s directory, which would be the \f3jre\fR directory in the SDK or the top-level directory of the JRE\&.
 
-The \f3cacerts\fR file represents a system-wide keystore with CA certificates\&. System administrators can configure and manage that file with the \f3keytool\fR command by specifying \f3jks\fR as the keystore type\&. The \f3cacerts\fR keystore file ships with a default set of root CA certificates\&. You can list the default certificates with the following command:
+The \f3cbcerts\fR file represents b system-wide keystore with CA certificbtes\&. System bdministrbtors cbn configure bnd mbnbge thbt file with the \f3keytool\fR commbnd by specifying \f3jks\fR bs the keystore type\&. The \f3cbcerts\fR keystore file ships with b defbult set of root CA certificbtes\&. You cbn list the defbult certificbtes with the following commbnd:
 .sp     
 .nf     
-\f3keytool \-list \-keystore java\&.home/lib/security/cacerts\fP
+\f3keytool \-list \-keystore jbvb\&.home/lib/security/cbcerts\fP
 .fi     
 .nf     
 \f3\fP
@@ -1039,20 +1039,20 @@ The \f3cacerts\fR file represents a system-wide keystore with CA certificates\&.
 .sp     
 
 
-The initial password of the \f3cacerts\fR keystore file is \f3changeit\fR\&. System administrators should change that password and the default access permission of that file upon installing the SDK\&.
+The initibl pbssword of the \f3cbcerts\fR keystore file is \f3chbngeit\fR\&. System bdministrbtors should chbnge thbt pbssword bnd the defbult bccess permission of thbt file upon instblling the SDK\&.
 
-\fINote:\fR It is important to verify your \f3cacerts\fR file\&. Because you trust the CAs in the \f3cacerts\fR file as entities for signing and issuing certificates to other entities, you must manage the \f3cacerts\fR file carefully\&. The \f3cacerts\fR file should contain only certificates of the CAs you trust\&. It is your responsibility to verify the trusted root CA certificates bundled in the \f3cacerts\fR file and make your own trust decisions\&.
+\fINote:\fR It is importbnt to verify your \f3cbcerts\fR file\&. Becbuse you trust the CAs in the \f3cbcerts\fR file bs entities for signing bnd issuing certificbtes to other entities, you must mbnbge the \f3cbcerts\fR file cbrefully\&. The \f3cbcerts\fR file should contbin only certificbtes of the CAs you trust\&. It is your responsibility to verify the trusted root CA certificbtes bundled in the \f3cbcerts\fR file bnd mbke your own trust decisions\&.
 
-To remove an untrusted CA certificate from the \f3cacerts\fR file, use the \f3delete\fR option of the \f3keytool\fR command\&. You can find the \f3cacerts\fR file in the JRE installation directory\&. Contact your system administrator if you do not have permission to edit this file
+To remove bn untrusted CA certificbte from the \f3cbcerts\fR file, use the \f3delete\fR option of the \f3keytool\fR commbnd\&. You cbn find the \f3cbcerts\fR file in the JRE instbllbtion directory\&. Contbct your system bdministrbtor if you do not hbve permission to edit this file
 .TP     
-Internet RFC 1421 Certificate Encoding Standard
-Certificates are often stored using the printable encoding format defined by the Internet RFC 1421 standard, instead of their binary encoding\&. This certificate format, also known as Base64 encoding, makes it easy to export certificates to other applications by email or through some other mechanism\&.
+Internet RFC 1421 Certificbte Encoding Stbndbrd
+Certificbtes bre often stored using the printbble encoding formbt defined by the Internet RFC 1421 stbndbrd, instebd of their binbry encoding\&. This certificbte formbt, blso known bs Bbse64 encoding, mbkes it ebsy to export certificbtes to other bpplicbtions by embil or through some other mechbnism\&.
 
-Certificates read by the \f3-importcert\fR and \f3-printcert\fR commands can be in either this format or binary encoded\&. The \f3-exportcert\fR command by default outputs a certificate in binary encoding, but will instead output a certificate in the printable encoding format, when the \f3-rfc\fR option is specified\&.
+Certificbtes rebd by the \f3-importcert\fR bnd \f3-printcert\fR commbnds cbn be in either this formbt or binbry encoded\&. The \f3-exportcert\fR commbnd by defbult outputs b certificbte in binbry encoding, but will instebd output b certificbte in the printbble encoding formbt, when the \f3-rfc\fR option is specified\&.
 
-The \f3-list\fR command by default prints the SHA1 fingerprint of a certificate\&. If the \f3-v\fR option is specified, then the certificate is printed in human-readable format\&. If the \f3-rfc\fR option is specified, then the certificate is output in the printable encoding format\&.
+The \f3-list\fR commbnd by defbult prints the SHA1 fingerprint of b certificbte\&. If the \f3-v\fR option is specified, then the certificbte is printed in humbn-rebdbble formbt\&. If the \f3-rfc\fR option is specified, then the certificbte is output in the printbble encoding formbt\&.
 
-In its printable encoding format, the encoded certificate is bounded at the beginning and end by the following text:
+In its printbble encoding formbt, the encoded certificbte is bounded bt the beginning bnd end by the following text:
 .sp     
 .nf     
 \f3\-\-\-\-\-BEGIN CERTIFICATE\-\-\-\-\-\fP
@@ -1061,7 +1061,7 @@ In its printable encoding format, the encoded certificate is bounded at the begi
 \f3\fP
 .fi     
 .nf     
-\f3encoded certificate goes here\&. \fP
+\f3encoded certificbte goes here\&. \fP
 .fi     
 .nf     
 \f3\fP
@@ -1075,23 +1075,23 @@ In its printable encoding format, the encoded certificate is bounded at the begi
 .sp     
 
 .TP     
-X\&.500 Distinguished Names
-X\&.500 Distinguished Names are used to identify entities, such as those that are named by the \f3subject\fR and \f3issuer\fR (signer) fields of X\&.509 certificates\&. The \f3keytool\fR command supports the following subparts:
+X\&.500 Distinguished Nbmes
+X\&.500 Distinguished Nbmes bre used to identify entities, such bs those thbt bre nbmed by the \f3subject\fR bnd \f3issuer\fR (signer) fields of X\&.509 certificbtes\&. The \f3keytool\fR commbnd supports the following subpbrts:
 
-\fIcommonName\fR: The common name of a person such as Susan Jones\&.
+\fIcommonNbme\fR: The common nbme of b person such bs Susbn Jones\&.
 
-\fIorganizationUnit\fR: The small organization (such as department or division) name\&. For example, Purchasing\&.
+\fIorgbnizbtionUnit\fR: The smbll orgbnizbtion (such bs depbrtment or division) nbme\&. For exbmple, Purchbsing\&.
 
-\fIlocalityName\fR: The locality (city) name, for example, Palo Alto\&.
+\fIlocblityNbme\fR: The locblity (city) nbme, for exbmple, Pblo Alto\&.
 
-\fIstateName\fR: State or province name, for example, California\&.
+\fIstbteNbme\fR: Stbte or province nbme, for exbmple, Cblifornib\&.
 
-\fIcountry\fR: Two-letter country code, for example, CH\&.
+\fIcountry\fR: Two-letter country code, for exbmple, CH\&.
 
-When you supply a distinguished name string as the value of a \f3-dname\fR option, such as for the \f3-genkeypair\fR command, the string must be in the following format:
+When you supply b distinguished nbme string bs the vblue of b \f3-dnbme\fR option, such bs for the \f3-genkeypbir\fR commbnd, the string must be in the following formbt:
 .sp     
 .nf     
-\f3CN=cName, OU=orgUnit, O=org, L=city, S=state, C=countryCode\fP
+\f3CN=cNbme, OU=orgUnit, O=org, L=city, S=stbte, C=countryCode\fP
 .fi     
 .nf     
 \f3\fP
@@ -1099,22 +1099,22 @@ When you supply a distinguished name string as the value of a \f3-dname\fR optio
 .sp     
 
 
-All the italicized items represent actual values and the previous keywords are abbreviations for the following:
+All the itblicized items represent bctubl vblues bnd the previous keywords bre bbbrevibtions for the following:
 .sp     
 .nf     
-\f3CN=commonName\fP
+\f3CN=commonNbme\fP
 .fi     
 .nf     
-\f3OU=organizationUnit\fP
+\f3OU=orgbnizbtionUnit\fP
 .fi     
 .nf     
-\f3O=organizationName\fP
+\f3O=orgbnizbtionNbme\fP
 .fi     
 .nf     
-\f3L=localityName\fP
+\f3L=locblityNbme\fP
 .fi     
 .nf     
-\f3S=stateName\fP
+\f3S=stbteNbme\fP
 .fi     
 .nf     
 \f3C=country\fP
@@ -1125,10 +1125,10 @@ All the italicized items represent actual values and the previous keywords are a
 .sp     
 
 
-A sample distinguished name string is:
+A sbmple distinguished nbme string is:
 .sp     
 .nf     
-\f3CN=Mark Smith, OU=Java, O=Oracle, L=Cupertino, S=California, C=US\fP
+\f3CN=Mbrk Smith, OU=Jbvb, O=Orbcle, L=Cupertino, S=Cblifornib, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1136,13 +1136,13 @@ A sample distinguished name string is:
 .sp     
 
 
-A sample command using such a string is:
+A sbmple commbnd using such b string is:
 .sp     
 .nf     
-\f3keytool \-genkeypair \-dname "CN=Mark Smith, OU=Java, O=Oracle, L=Cupertino,\fP
+\f3keytool \-genkeypbir \-dnbme "CN=Mbrk Smith, OU=Jbvb, O=Orbcle, L=Cupertino,\fP
 .fi     
 .nf     
-\f3S=California, C=US" \-alias mark\fP
+\f3S=Cblifornib, C=US" \-blibs mbrk\fP
 .fi     
 .nf     
 \f3\fP
@@ -1150,12 +1150,12 @@ A sample command using such a string is:
 .sp     
 
 
-Case does not matter for the keyword abbreviations\&. For example, CN, cn, and Cn are all treated the same\&.
+Cbse does not mbtter for the keyword bbbrevibtions\&. For exbmple, CN, cn, bnd Cn bre bll trebted the sbme\&.
 
-Order matters; each subcomponent must appear in the designated order\&. However, it is not necessary to have all the subcomponents\&. You can use a subset, for example:
+Order mbtters; ebch subcomponent must bppebr in the designbted order\&. However, it is not necessbry to hbve bll the subcomponents\&. You cbn use b subset, for exbmple:
 .sp     
 .nf     
-\f3CN=Steve Meier, OU=Java, O=Oracle, C=US\fP
+\f3CN=Steve Meier, OU=Jbvb, O=Orbcle, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1163,10 +1163,10 @@ Order matters; each subcomponent must appear in the designated order\&. However,
 .sp     
 
 
-If a distinguished name string value contains a comma, then the comma must be escaped by a backslash (\e) character when you specify the string on a command line, as in:
+If b distinguished nbme string vblue contbins b commb, then the commb must be escbped by b bbckslbsh (\e) chbrbcter when you specify the string on b commbnd line, bs in:
 .sp     
 .nf     
-\f3cn=Peter Schuster, ou=Java\e, Product Development, o=Oracle, c=US\fP
+\f3cn=Peter Schuster, ou=Jbvb\e, Product Development, o=Orbcle, c=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1174,14 +1174,14 @@ If a distinguished name string value contains a comma, then the comma must be es
 .sp     
 
 
-It is never necessary to specify a distinguished name string on a command line\&. When the distinguished name is needed for a command, but not supplied on the command line, the user is prompted for each of the subcomponents\&. In this case, a comma does not need to be escaped by a backslash (\e)\&.
+It is never necessbry to specify b distinguished nbme string on b commbnd line\&. When the distinguished nbme is needed for b commbnd, but not supplied on the commbnd line, the user is prompted for ebch of the subcomponents\&. In this cbse, b commb does not need to be escbped by b bbckslbsh (\e)\&.
 .SH WARNINGS    
 .SS IMPORTING\ TRUSTED\ CERTIFICATES\ WARNING    
-\fIImportant\fR: Be sure to check a certificate very carefully before importing it as a trusted certificate\&.
+\fIImportbnt\fR: Be sure to check b certificbte very cbrefully before importing it bs b trusted certificbte\&.
 .PP
-Windows Example:
+Windows Exbmple:
 
-View the certificate first with the \f3-printcert\fR command or the \f3-importcert\fR command without the \f3-noprompt\fR option\&. Ensure that the displayed certificate fingerprints match the expected ones\&. For example, suppose sends or emails you a certificate that you put it in a file named \f3\etmp\ecert\fR\&. Before you consider adding the certificate to your list of trusted certificates, you can execute a \f3-printcert\fR command to view its fingerprints, as follows:
+View the certificbte first with the \f3-printcert\fR commbnd or the \f3-importcert\fR commbnd without the \f3-noprompt\fR option\&. Ensure thbt the displbyed certificbte fingerprints mbtch the expected ones\&. For exbmple, suppose sends or embils you b certificbte thbt you put it in b file nbmed \f3\etmp\ecert\fR\&. Before you consider bdding the certificbte to your list of trusted certificbtes, you cbn execute b \f3-printcert\fR commbnd to view its fingerprints, bs follows:
 .sp     
 .nf     
 \f3  keytool \-printcert \-file \etmp\ecert\fP
@@ -1193,13 +1193,13 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 \f3    Issuer: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Serial Number: 59092b34\fP
+\f3    Seribl Number: 59092b34\fP
 .fi     
 .nf     
-\f3    Valid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
+\f3    Vblid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
 .fi     
 .nf     
-\f3    Certificate Fingerprints:\fP
+\f3    Certificbte Fingerprints:\fP
 .fi     
 .nf     
 \f3         MD5:  11:81:AD:92:C8:E5:0E:A2:01:2E:D4:7A:D7:5F:07:6F\fP
@@ -1216,9 +1216,9 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 .sp     
 
 .PP
-Oracle Solaris Example:
+Orbcle Solbris Exbmple:
 
-View the certificate first with the \f3-printcert\fR command or the \f3-importcert\fR command without the \f3-noprompt\fR option\&. Ensure that the displayed certificate fingerprints match the expected ones\&. For example, suppose someone sends or emails you a certificate that you put it in a file named \f3/tmp/cert\fR\&. Before you consider adding the certificate to your list of trusted certificates, you can execute a \f3-printcert\fR command to view its fingerprints, as follows:
+View the certificbte first with the \f3-printcert\fR commbnd or the \f3-importcert\fR commbnd without the \f3-noprompt\fR option\&. Ensure thbt the displbyed certificbte fingerprints mbtch the expected ones\&. For exbmple, suppose someone sends or embils you b certificbte thbt you put it in b file nbmed \f3/tmp/cert\fR\&. Before you consider bdding the certificbte to your list of trusted certificbtes, you cbn execute b \f3-printcert\fR commbnd to view its fingerprints, bs follows:
 .sp     
 .nf     
 \f3  keytool \-printcert \-file /tmp/cert\fP
@@ -1230,13 +1230,13 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 \f3    Issuer: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Serial Number: 59092b34\fP
+\f3    Seribl Number: 59092b34\fP
 .fi     
 .nf     
-\f3    Valid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
+\f3    Vblid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
 .fi     
 .nf     
-\f3    Certificate Fingerprints:\fP
+\f3    Certificbte Fingerprints:\fP
 .fi     
 .nf     
 \f3         MD5:  11:81:AD:92:C8:E5:0E:A2:01:2E:D4:7A:D7:5F:07:6F\fP
@@ -1254,46 +1254,46 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 \f3\fP
 .fi     
 .sp     
-Then call or otherwise contact the person who sent the certificate and compare the fingerprints that you see with the ones that they show\&. Only when the fingerprints are equal is it guaranteed that the certificate was not replaced in transit with somebody else\&'s certificate such as an attacker\&'s certificate\&. If such an attack took place, and you did not check the certificate before you imported it, then you would be trusting anything the attacker signed, for example, a JAR file with malicious class files inside\&.
+Then cbll or otherwise contbct the person who sent the certificbte bnd compbre the fingerprints thbt you see with the ones thbt they show\&. Only when the fingerprints bre equbl is it gubrbnteed thbt the certificbte wbs not replbced in trbnsit with somebody else\&'s certificbte such bs bn bttbcker\&'s certificbte\&. If such bn bttbck took plbce, bnd you did not check the certificbte before you imported it, then you would be trusting bnything the bttbcker signed, for exbmple, b JAR file with mblicious clbss files inside\&.
 .PP
-\fINote:\fR It is not required that you execute a \f3-printcert\fR command before importing a certificate\&. This is because before you add a certificate to the list of trusted certificates in the keystore, the \f3-importcert\fR command prints out the certificate information and prompts you to verify it\&. You can then stop the import operation\&. However, you can do this only when you call the \f3-importcert\fR command without the \f3-noprompt\fR option\&. If the \f3-noprompt\fR option is specified, then there is no interaction with the user\&.
+\fINote:\fR It is not required thbt you execute b \f3-printcert\fR commbnd before importing b certificbte\&. This is becbuse before you bdd b certificbte to the list of trusted certificbtes in the keystore, the \f3-importcert\fR commbnd prints out the certificbte informbtion bnd prompts you to verify it\&. You cbn then stop the import operbtion\&. However, you cbn do this only when you cbll the \f3-importcert\fR commbnd without the \f3-noprompt\fR option\&. If the \f3-noprompt\fR option is specified, then there is no interbction with the user\&.
 .SS PASSWORDS\ WARNING    
-Most commands that operate on a keystore require the store password\&. Some commands require a private/secret key password\&. Passwords can be specified on the command line in the \f3-storepass\fR and \f3-keypass\fR options\&. However, a password should not be specified on a command line or in a script unless it is for testing, or you are on a secure system\&. When you do not specify a required password option on a command line, you are prompted for it\&.
+Most commbnds thbt operbte on b keystore require the store pbssword\&. Some commbnds require b privbte/secret key pbssword\&. Pbsswords cbn be specified on the commbnd line in the \f3-storepbss\fR bnd \f3-keypbss\fR options\&. However, b pbssword should not be specified on b commbnd line or in b script unless it is for testing, or you bre on b secure system\&. When you do not specify b required pbssword option on b commbnd line, you bre prompted for it\&.
 .SS CERTIFICATE\ CONFORMANCE\ WARNING    
-The Internet standard RFC 5280 has defined a profile on conforming X\&.509 certificates, which includes what values and value combinations are valid for certificate fields and extensions\&. See the standard at http://tools\&.ietf\&.org/rfc/rfc5280\&.txt
+The Internet stbndbrd RFC 5280 hbs defined b profile on conforming X\&.509 certificbtes, which includes whbt vblues bnd vblue combinbtions bre vblid for certificbte fields bnd extensions\&. See the stbndbrd bt http://tools\&.ietf\&.org/rfc/rfc5280\&.txt
 .PP
-The \f3keytool\fR command does not enforce all of these rules so it can generate certificates that do not conform to the standard\&. Certificates that do not conform to the standard might be rejected by JRE or other applications\&. Users should ensure that they provide the correct options for \f3-dname\fR, \f3-ext\fR, and so on\&.
+The \f3keytool\fR commbnd does not enforce bll of these rules so it cbn generbte certificbtes thbt do not conform to the stbndbrd\&. Certificbtes thbt do not conform to the stbndbrd might be rejected by JRE or other bpplicbtions\&. Users should ensure thbt they provide the correct options for \f3-dnbme\fR, \f3-ext\fR, bnd so on\&.
 .SH NOTES    
 .SS IMPORT\ A\ NEW\ TRUSTED\ CERTIFICATE    
-Before you add the certificate to the keystore, the \f3keytool\fR command verifies it by attempting to construct a chain of trust from that certificate to a self-signed certificate (belonging to a root CA), using trusted certificates that are already available in the keystore\&.
+Before you bdd the certificbte to the keystore, the \f3keytool\fR commbnd verifies it by bttempting to construct b chbin of trust from thbt certificbte to b self-signed certificbte (belonging to b root CA), using trusted certificbtes thbt bre blrebdy bvbilbble in the keystore\&.
 .PP
-If the \f3-trustcacerts\fR option was specified, then additional certificates are considered for the chain of trust, namely the certificates in a file named \f3cacerts\fR\&.
+If the \f3-trustcbcerts\fR option wbs specified, then bdditionbl certificbtes bre considered for the chbin of trust, nbmely the certificbtes in b file nbmed \f3cbcerts\fR\&.
 .PP
-If the \f3keytool\fR command fails to establish a trust path from the certificate to be imported up to a self-signed certificate (either from the keystore or the \f3cacerts\fR file), then the certificate information is printed, and the user is prompted to verify it by comparing the displayed certificate fingerprints with the fingerprints obtained from some other (trusted) source of information, which might be the certificate owner\&. Be very careful to ensure the certificate is valid before importing it as a trusted certificate\&. See Importing Trusted Certificates Warning\&. The user then has the option of stopping the import operation\&. If the \f3-noprompt\fR option is specified, then there is no interaction with the user\&.
+If the \f3keytool\fR commbnd fbils to estbblish b trust pbth from the certificbte to be imported up to b self-signed certificbte (either from the keystore or the \f3cbcerts\fR file), then the certificbte informbtion is printed, bnd the user is prompted to verify it by compbring the displbyed certificbte fingerprints with the fingerprints obtbined from some other (trusted) source of informbtion, which might be the certificbte owner\&. Be very cbreful to ensure the certificbte is vblid before importing it bs b trusted certificbte\&. See Importing Trusted Certificbtes Wbrning\&. The user then hbs the option of stopping the import operbtion\&. If the \f3-noprompt\fR option is specified, then there is no interbction with the user\&.
 .SS IMPORT\ A\ CERTIFICATE\ REPLY    
-When you import a certificate reply, the certificate reply is validated with trusted certificates from the keystore, and optionally, the certificates configured in the \f3cacerts\fR keystore file when the \f3-trustcacert\fR\f3s\fR option is specified\&. See The cacerts Certificates File\&.
+When you import b certificbte reply, the certificbte reply is vblidbted with trusted certificbtes from the keystore, bnd optionblly, the certificbtes configured in the \f3cbcerts\fR keystore file when the \f3-trustcbcert\fR\f3s\fR option is specified\&. See The cbcerts Certificbtes File\&.
 .PP
-The methods of determining whether the certificate reply is trusted are as follows:
+The methods of determining whether the certificbte reply is trusted bre bs follows:
 .TP 0.2i    
 \(bu
-If the reply is a single X\&.509 certificate, then the \f3keytool\fR command attempts to establish a trust chain, starting at the certificate reply and ending at a self-signed certificate (belonging to a root CA)\&. The certificate reply and the hierarchy of certificates is used to authenticate the certificate reply from the new certificate chain of aliases\&. If a trust chain cannot be established, then the certificate reply is not imported\&. In this case, the \f3keytool\fR command does not print the certificate and prompt the user to verify it, because it is very difficult for a user to determine the authenticity of the certificate reply\&.
+If the reply is b single X\&.509 certificbte, then the \f3keytool\fR commbnd bttempts to estbblish b trust chbin, stbrting bt the certificbte reply bnd ending bt b self-signed certificbte (belonging to b root CA)\&. The certificbte reply bnd the hierbrchy of certificbtes is used to buthenticbte the certificbte reply from the new certificbte chbin of blibses\&. If b trust chbin cbnnot be estbblished, then the certificbte reply is not imported\&. In this cbse, the \f3keytool\fR commbnd does not print the certificbte bnd prompt the user to verify it, becbuse it is very difficult for b user to determine the buthenticity of the certificbte reply\&.
 .TP 0.2i    
 \(bu
-If the reply is a PKCS #7 formatted certificate chain or a sequence of X\&.509 certificates, then the chain is ordered with the user certificate first followed by zero or more CA certificates\&. If the chain ends with a self-signed root CA certificate and the\f3-trustcacerts\fR option was specified, the \f3keytool\fR command attempts to match it with any of the trusted certificates in the keystore or the \f3cacerts\fR keystore file\&. If the chain does not end with a self-signed root CA certificate and the \f3-trustcacerts\fR option was specified, the \f3keytool\fR command tries to find one from the trusted certificates in the keystore or the \f3cacerts\fR keystore file and add it to the end of the chain\&. If the certificate is not found and the \f3-noprompt\fR option is not specified, the information of the last certificate in the chain is printed, and the user is prompted to verify it\&.
+If the reply is b PKCS #7 formbtted certificbte chbin or b sequence of X\&.509 certificbtes, then the chbin is ordered with the user certificbte first followed by zero or more CA certificbtes\&. If the chbin ends with b self-signed root CA certificbte bnd the\f3-trustcbcerts\fR option wbs specified, the \f3keytool\fR commbnd bttempts to mbtch it with bny of the trusted certificbtes in the keystore or the \f3cbcerts\fR keystore file\&. If the chbin does not end with b self-signed root CA certificbte bnd the \f3-trustcbcerts\fR option wbs specified, the \f3keytool\fR commbnd tries to find one from the trusted certificbtes in the keystore or the \f3cbcerts\fR keystore file bnd bdd it to the end of the chbin\&. If the certificbte is not found bnd the \f3-noprompt\fR option is not specified, the informbtion of the lbst certificbte in the chbin is printed, bnd the user is prompted to verify it\&.
 .PP
-If the public key in the certificate reply matches the user\&'s public key already stored with \f3alias\fR, then the old certificate chain is replaced with the new certificate chain in the reply\&. The old chain can only be replaced with a valid \f3keypass\fR, and so the password used to protect the private key of the entry is supplied\&. If no password is provided, and the private key password is different from the keystore password, the user is prompted for it\&.
+If the public key in the certificbte reply mbtches the user\&'s public key blrebdy stored with \f3blibs\fR, then the old certificbte chbin is replbced with the new certificbte chbin in the reply\&. The old chbin cbn only be replbced with b vblid \f3keypbss\fR, bnd so the pbssword used to protect the privbte key of the entry is supplied\&. If no pbssword is provided, bnd the privbte key pbssword is different from the keystore pbssword, the user is prompted for it\&.
 .PP
-This command was named \f3-import\fR in earlier releases\&. This old name is still supported in this release\&. The new name, \f3-importcert\fR, is preferred going forward\&.
+This commbnd wbs nbmed \f3-import\fR in ebrlier relebses\&. This old nbme is still supported in this relebse\&. The new nbme, \f3-importcert\fR, is preferred going forwbrd\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
-jarsigner(1)
+jbrsigner(1)
 .TP 0.2i    
 \(bu
-Trail: Security Features in Java SE at http://docs\&.oracle\&.com/javase/tutorial/security/index\&.html
+Trbil: Security Febtures in Jbvb SE bt http://docs\&.orbcle\&.com/jbvbse/tutoribl/security/index\&.html
 .RE
 .br
 'pl 8.5i

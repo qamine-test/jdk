@@ -1,1017 +1,1017 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.LongConsumer;
 
 /**
- * Static classes and methods for operating on or creating instances of
- * {@link Spliterator} and its primitive specializations
- * {@link Spliterator.OfInt}, {@link Spliterator.OfLong}, and
- * {@link Spliterator.OfDouble}.
+ * Stbtic clbsses bnd methods for operbting on or crebting instbnces of
+ * {@link Spliterbtor} bnd its primitive speciblizbtions
+ * {@link Spliterbtor.OfInt}, {@link Spliterbtor.OfLong}, bnd
+ * {@link Spliterbtor.OfDouble}.
  *
- * @see Spliterator
+ * @see Spliterbtor
  * @since 1.8
  */
-public final class Spliterators {
+public finbl clbss Spliterbtors {
 
-    // Suppresses default constructor, ensuring non-instantiability.
-    private Spliterators() {}
+    // Suppresses defbult constructor, ensuring non-instbntibbility.
+    privbte Spliterbtors() {}
 
-    // Empty spliterators
+    // Empty spliterbtors
 
     /**
-     * Creates an empty {@code Spliterator}
+     * Crebtes bn empty {@code Spliterbtor}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>The empty spliterbtor reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Spliterbtor#trySplit()} blwbys return {@code null}.
      *
-     * @param <T> Type of elements
-     * @return An empty spliterator
+     * @pbrbm <T> Type of elements
+     * @return An empty spliterbtor
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Spliterator<T> emptySpliterator() {
-        return (Spliterator<T>) EMPTY_SPLITERATOR;
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> Spliterbtor<T> emptySpliterbtor() {
+        return (Spliterbtor<T>) EMPTY_SPLITERATOR;
     }
 
-    private static final Spliterator<Object> EMPTY_SPLITERATOR =
-            new EmptySpliterator.OfRef<>();
+    privbte stbtic finbl Spliterbtor<Object> EMPTY_SPLITERATOR =
+            new EmptySpliterbtor.OfRef<>();
 
     /**
-     * Creates an empty {@code Spliterator.OfInt}
+     * Crebtes bn empty {@code Spliterbtor.OfInt}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>The empty spliterbtor reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Spliterbtor#trySplit()} blwbys return {@code null}.
      *
-     * @return An empty spliterator
+     * @return An empty spliterbtor
      */
-    public static Spliterator.OfInt emptyIntSpliterator() {
+    public stbtic Spliterbtor.OfInt emptyIntSpliterbtor() {
         return EMPTY_INT_SPLITERATOR;
     }
 
-    private static final Spliterator.OfInt EMPTY_INT_SPLITERATOR =
-            new EmptySpliterator.OfInt();
+    privbte stbtic finbl Spliterbtor.OfInt EMPTY_INT_SPLITERATOR =
+            new EmptySpliterbtor.OfInt();
 
     /**
-     * Creates an empty {@code Spliterator.OfLong}
+     * Crebtes bn empty {@code Spliterbtor.OfLong}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>The empty spliterbtor reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Spliterbtor#trySplit()} blwbys return {@code null}.
      *
-     * @return An empty spliterator
+     * @return An empty spliterbtor
      */
-    public static Spliterator.OfLong emptyLongSpliterator() {
+    public stbtic Spliterbtor.OfLong emptyLongSpliterbtor() {
         return EMPTY_LONG_SPLITERATOR;
     }
 
-    private static final Spliterator.OfLong EMPTY_LONG_SPLITERATOR =
-            new EmptySpliterator.OfLong();
+    privbte stbtic finbl Spliterbtor.OfLong EMPTY_LONG_SPLITERATOR =
+            new EmptySpliterbtor.OfLong();
 
     /**
-     * Creates an empty {@code Spliterator.OfDouble}
+     * Crebtes bn empty {@code Spliterbtor.OfDouble}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>The empty spliterbtor reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Spliterbtor#trySplit()} blwbys return {@code null}.
      *
-     * @return An empty spliterator
+     * @return An empty spliterbtor
      */
-    public static Spliterator.OfDouble emptyDoubleSpliterator() {
+    public stbtic Spliterbtor.OfDouble emptyDoubleSpliterbtor() {
         return EMPTY_DOUBLE_SPLITERATOR;
     }
 
-    private static final Spliterator.OfDouble EMPTY_DOUBLE_SPLITERATOR =
-            new EmptySpliterator.OfDouble();
+    privbte stbtic finbl Spliterbtor.OfDouble EMPTY_DOUBLE_SPLITERATOR =
+            new EmptySpliterbtor.OfDouble();
 
-    // Array-based spliterators
+    // Arrby-bbsed spliterbtors
 
     /**
-     * Creates a {@code Spliterator} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor} covering the elements of b given brrby,
+     * using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(Object[])}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(Object[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param <T> Type of elements
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(Object[])
+     * @pbrbm <T> Type of elements
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @see Arrbys#spliterbtor(Object[])
      */
-    public static <T> Spliterator<T> spliterator(Object[] array,
-                                                 int additionalCharacteristics) {
-        return new ArraySpliterator<>(Objects.requireNonNull(array),
-                                      additionalCharacteristics);
+    public stbtic <T> Spliterbtor<T> spliterbtor(Object[] brrby,
+                                                 int bdditionblChbrbcteristics) {
+        return new ArrbySpliterbtor<>(Objects.requireNonNull(brrby),
+                                      bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator} covering a range of elements of a given
-     * array, using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor} covering b rbnge of elements of b given
+     * brrby, using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(Object[])}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(Object[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param <T> Type of elements
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(Object[], int, int)
+     * @pbrbm <T> Type of elements
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm fromIndex The lebst index (inclusive) to cover
+     * @pbrbm toIndex One pbst the grebtest index to cover
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code fromIndex} is negbtive,
+     *         {@code toIndex} is less thbn {@code fromIndex}, or
+     *         {@code toIndex} is grebter thbn the brrby size
+     * @see Arrbys#spliterbtor(Object[], int, int)
      */
-    public static <T> Spliterator<T> spliterator(Object[] array, int fromIndex, int toIndex,
-                                                 int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new ArraySpliterator<>(array, fromIndex, toIndex, additionalCharacteristics);
+    public stbtic <T> Spliterbtor<T> spliterbtor(Object[] brrby, int fromIndex, int toIndex,
+                                                 int bdditionblChbrbcteristics) {
+        checkFromToBounds(Objects.requireNonNull(brrby).length, fromIndex, toIndex);
+        return new ArrbySpliterbtor<>(brrby, fromIndex, toIndex, bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfInt} covering the elements of b given brrby,
+     * using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(int[])}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(int[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(int[])
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @see Arrbys#spliterbtor(int[])
      */
-    public static Spliterator.OfInt spliterator(int[] array,
-                                                int additionalCharacteristics) {
-        return new IntArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    public stbtic Spliterbtor.OfInt spliterbtor(int[] brrby,
+                                                int bdditionblChbrbcteristics) {
+        return new IntArrbySpliterbtor(Objects.requireNonNull(brrby), bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfInt} covering b rbnge of elements of b
+     * given brrby, using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(int[], int, int)}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(int[], int, int)}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(int[], int, int)
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm fromIndex The lebst index (inclusive) to cover
+     * @pbrbm toIndex One pbst the grebtest index to cover
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code fromIndex} is negbtive,
+     *         {@code toIndex} is less thbn {@code fromIndex}, or
+     *         {@code toIndex} is grebter thbn the brrby size
+     * @see Arrbys#spliterbtor(int[], int, int)
      */
-    public static Spliterator.OfInt spliterator(int[] array, int fromIndex, int toIndex,
-                                                int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new IntArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    public stbtic Spliterbtor.OfInt spliterbtor(int[] brrby, int fromIndex, int toIndex,
+                                                int bdditionblChbrbcteristics) {
+        checkFromToBounds(Objects.requireNonNull(brrby).length, fromIndex, toIndex);
+        return new IntArrbySpliterbtor(brrby, fromIndex, toIndex, bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfLong} covering the elements of b given brrby,
+     * using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(long[])}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(long[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(long[])
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @see Arrbys#spliterbtor(long[])
      */
-    public static Spliterator.OfLong spliterator(long[] array,
-                                                 int additionalCharacteristics) {
-        return new LongArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    public stbtic Spliterbtor.OfLong spliterbtor(long[] brrby,
+                                                 int bdditionblChbrbcteristics) {
+        return new LongArrbySpliterbtor(Objects.requireNonNull(brrby), bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfLong} covering b rbnge of elements of b
+     * given brrby, using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(long[], int, int)}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(long[], int, int)}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report.  (For example, if it is
-     * known the array will not be further modified, specify {@code IMMUTABLE};
-     * if the array data is considered to have an an encounter order, specify
-     * {@code ORDERED}).  The method {@link Arrays#spliterator(long[], int, int)} can
-     * often be used instead, which returns a spliterator that reports
-     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report.  (For exbmple, if it is
+     * known the brrby will not be further modified, specify {@code IMMUTABLE};
+     * if the brrby dbtb is considered to hbve bn bn encounter order, specify
+     * {@code ORDERED}).  The method {@link Arrbys#spliterbtor(long[], int, int)} cbn
+     * often be used instebd, which returns b spliterbtor thbt reports
+     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(long[], int, int)
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm fromIndex The lebst index (inclusive) to cover
+     * @pbrbm toIndex One pbst the grebtest index to cover
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code fromIndex} is negbtive,
+     *         {@code toIndex} is less thbn {@code fromIndex}, or
+     *         {@code toIndex} is grebter thbn the brrby size
+     * @see Arrbys#spliterbtor(long[], int, int)
      */
-    public static Spliterator.OfLong spliterator(long[] array, int fromIndex, int toIndex,
-                                                 int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new LongArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    public stbtic Spliterbtor.OfLong spliterbtor(long[] brrby, int fromIndex, int toIndex,
+                                                 int bdditionblChbrbcteristics) {
+        checkFromToBounds(Objects.requireNonNull(brrby).length, fromIndex, toIndex);
+        return new LongArrbySpliterbtor(brrby, fromIndex, toIndex, bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfDouble} covering the elements of b given brrby,
+     * using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(double[])}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(double[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report; it is common to
+     * bdditionblly specify {@code IMMUTABLE} bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(double[])
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @see Arrbys#spliterbtor(double[])
      */
-    public static Spliterator.OfDouble spliterator(double[] array,
-                                                   int additionalCharacteristics) {
-        return new DoubleArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    public stbtic Spliterbtor.OfDouble spliterbtor(double[] brrby,
+                                                   int bdditionblChbrbcteristics) {
+        return new DoubleArrbySpliterbtor(Objects.requireNonNull(brrby), bdditionblChbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crebtes b {@code Spliterbtor.OfDouble} covering b rbnge of elements of b
+     * given brrby, using b customized set of spliterbtor chbrbcteristics.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(double[], int, int)}.
+     * <p>This method is provided bs bn implementbtion convenience for
+     * Spliterbtors which store portions of their elements in brrbys, bnd need
+     * fine control over Spliterbtor chbrbcteristics.  Most other situbtions in
+     * which b Spliterbtor for bn brrby is needed should use
+     * {@link Arrbys#spliterbtor(double[], int, int)}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report.  (For example, if it is
-     * known the array will not be further modified, specify {@code IMMUTABLE};
-     * if the array data is considered to have an an encounter order, specify
-     * {@code ORDERED}).  The method {@link Arrays#spliterator(long[], int, int)} can
-     * often be used instead, which returns a spliterator that reports
-     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, and {@code ORDERED}.
+     * <p>The returned spliterbtor blwbys reports the chbrbcteristics
+     * {@code SIZED} bnd {@code SUBSIZED}.  The cbller mby provide bdditionbl
+     * chbrbcteristics for the spliterbtor to report.  (For exbmple, if it is
+     * known the brrby will not be further modified, specify {@code IMMUTABLE};
+     * if the brrby dbtb is considered to hbve bn bn encounter order, specify
+     * {@code ORDERED}).  The method {@link Arrbys#spliterbtor(long[], int, int)} cbn
+     * often be used instebd, which returns b spliterbtor thbt reports
+     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, bnd {@code ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(double[], int, int)
+     * @pbrbm brrby The brrby, bssumed to be unmodified during use
+     * @pbrbm fromIndex The lebst index (inclusive) to cover
+     * @pbrbm toIndex One pbst the grebtest index to cover
+     * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+     *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+     *        {@code SUBSIZED} which bre bre blwbys reported
+     * @return A spliterbtor for bn brrby
+     * @throws NullPointerException if the given brrby is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code fromIndex} is negbtive,
+     *         {@code toIndex} is less thbn {@code fromIndex}, or
+     *         {@code toIndex} is grebter thbn the brrby size
+     * @see Arrbys#spliterbtor(double[], int, int)
      */
-    public static Spliterator.OfDouble spliterator(double[] array, int fromIndex, int toIndex,
-                                                   int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new DoubleArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    public stbtic Spliterbtor.OfDouble spliterbtor(double[] brrby, int fromIndex, int toIndex,
+                                                   int bdditionblChbrbcteristics) {
+        checkFromToBounds(Objects.requireNonNull(brrby).length, fromIndex, toIndex);
+        return new DoubleArrbySpliterbtor(brrby, fromIndex, toIndex, bdditionblChbrbcteristics);
     }
 
     /**
-     * Validate inclusive start index and exclusive end index against the length
-     * of an array.
-     * @param arrayLength The length of the array
-     * @param origin The inclusive start index
-     * @param fence The exclusive end index
-     * @throws ArrayIndexOutOfBoundsException if the start index is greater than
-     * the end index, if the start index is negative, or the end index is
-     * greater than the array length
+     * Vblidbte inclusive stbrt index bnd exclusive end index bgbinst the length
+     * of bn brrby.
+     * @pbrbm brrbyLength The length of the brrby
+     * @pbrbm origin The inclusive stbrt index
+     * @pbrbm fence The exclusive end index
+     * @throws ArrbyIndexOutOfBoundsException if the stbrt index is grebter thbn
+     * the end index, if the stbrt index is negbtive, or the end index is
+     * grebter thbn the brrby length
      */
-    private static void checkFromToBounds(int arrayLength, int origin, int fence) {
+    privbte stbtic void checkFromToBounds(int brrbyLength, int origin, int fence) {
         if (origin > fence) {
-            throw new ArrayIndexOutOfBoundsException(
+            throw new ArrbyIndexOutOfBoundsException(
                     "origin(" + origin + ") > fence(" + fence + ")");
         }
         if (origin < 0) {
-            throw new ArrayIndexOutOfBoundsException(origin);
+            throw new ArrbyIndexOutOfBoundsException(origin);
         }
-        if (fence > arrayLength) {
-            throw new ArrayIndexOutOfBoundsException(fence);
+        if (fence > brrbyLength) {
+            throw new ArrbyIndexOutOfBoundsException(fence);
         }
     }
 
-    // Iterator-based spliterators
+    // Iterbtor-bbsed spliterbtors
 
     /**
-     * Creates a {@code Spliterator} using the given collection's
-     * {@link java.util.Collection#iterator()} as the source of elements, and
-     * reporting its {@link java.util.Collection#size()} as its initial size.
+     * Crebtes b {@code Spliterbtor} using the given collection's
+     * {@link jbvb.util.Collection#iterbtor()} bs the source of elements, bnd
+     * reporting its {@link jbvb.util.Collection#size()} bs its initibl size.
      *
-     * <p>The spliterator is
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the collection's iterator, and
-     * implements {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the collection's iterbtor, bnd
+     * implements {@code trySplit} to permit limited pbrbllelism.
      *
-     * @param <T> Type of elements
-     * @param c The collection
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
+     * @pbrbm <T> Type of elements
+     * @pbrbm c The collection
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source or
+     *        elements.  The chbrbcteristics {@code SIZED} bnd {@code SUBSIZED}
+     *        bre bdditionblly reported unless {@code CONCURRENT} is supplied.
+     * @return A spliterbtor from bn iterbtor
      * @throws NullPointerException if the given collection is {@code null}
      */
-    public static <T> Spliterator<T> spliterator(Collection<? extends T> c,
-                                                 int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(c),
-                                         characteristics);
+    public stbtic <T> Spliterbtor<T> spliterbtor(Collection<? extends T> c,
+                                                 int chbrbcteristics) {
+        return new IterbtorSpliterbtor<>(Objects.requireNonNull(c),
+                                         chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator} using a given {@code Iterator}
-     * as the source of elements, and with a given initially reported size.
+     * Crebtes b {@code Spliterbtor} using b given {@code Iterbtor}
+     * bs the source of elements, bnd with b given initiblly reported size.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned, or the initiblly reported
+     * size is not equbl to the bctubl number of elements in the source.
      *
-     * @param <T> Type of elements
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm <T> Type of elements
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm size The number of elements in the source, to be reported bs
+     *        initibl {@code estimbteSize}
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source or
+     *        elements.  The chbrbcteristics {@code SIZED} bnd {@code SUBSIZED}
+     *        bre bdditionblly reported unless {@code CONCURRENT} is supplied.
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static <T> Spliterator<T> spliterator(Iterator<? extends T> iterator,
+    public stbtic <T> Spliterbtor<T> spliterbtor(Iterbtor<? extends T> iterbtor,
                                                  long size,
-                                                 int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(iterator), size,
-                                         characteristics);
+                                                 int chbrbcteristics) {
+        return new IterbtorSpliterbtor<>(Objects.requireNonNull(iterbtor), size,
+                                         chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator} using a given {@code Iterator}
-     * as the source of elements, with no initial size estimate.
+     * Crebtes b {@code Spliterbtor} using b given {@code Iterbtor}
+     * bs the source of elements, with no initibl size estimbte.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned.
      *
-     * @param <T> Type of elements
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm <T> Type of elements
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source
+     *        or elements ({@code SIZED} bnd {@code SUBSIZED}, if supplied, bre
+     *        ignored bnd bre not reported.)
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static <T> Spliterator<T> spliteratorUnknownSize(Iterator<? extends T> iterator,
-                                                            int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(iterator), characteristics);
+    public stbtic <T> Spliterbtor<T> spliterbtorUnknownSize(Iterbtor<? extends T> iterbtor,
+                                                            int chbrbcteristics) {
+        return new IterbtorSpliterbtor<>(Objects.requireNonNull(iterbtor), chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} using a given
-     * {@code IntStream.IntIterator} as the source of elements, and with a given
-     * initially reported size.
+     * Crebtes b {@code Spliterbtor.OfInt} using b given
+     * {@code IntStrebm.IntIterbtor} bs the source of elements, bnd with b given
+     * initiblly reported size.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned, or the initiblly reported
+     * size is not equbl to the bctubl number of elements in the source.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}.
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm size The number of elements in the source, to be reported bs
+     *        initibl {@code estimbteSize}.
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source or
+     *        elements.  The chbrbcteristics {@code SIZED} bnd {@code SUBSIZED}
+     *        bre bdditionblly reported unless {@code CONCURRENT} is supplied.
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfInt spliterator(PrimitiveIterator.OfInt iterator,
+    public stbtic Spliterbtor.OfInt spliterbtor(PrimitiveIterbtor.OfInt iterbtor,
                                                 long size,
-                                                int characteristics) {
-        return new IntIteratorSpliterator(Objects.requireNonNull(iterator),
-                                          size, characteristics);
+                                                int chbrbcteristics) {
+        return new IntIterbtorSpliterbtor(Objects.requireNonNull(iterbtor),
+                                          size, chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} using a given
-     * {@code IntStream.IntIterator} as the source of elements, with no initial
-     * size estimate.
+     * Crebtes b {@code Spliterbtor.OfInt} using b given
+     * {@code IntStrebm.IntIterbtor} bs the source of elements, with no initibl
+     * size estimbte.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source
+     *        or elements ({@code SIZED} bnd {@code SUBSIZED}, if supplied, bre
+     *        ignored bnd bre not reported.)
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfInt spliteratorUnknownSize(PrimitiveIterator.OfInt iterator,
-                                                           int characteristics) {
-        return new IntIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    public stbtic Spliterbtor.OfInt spliterbtorUnknownSize(PrimitiveIterbtor.OfInt iterbtor,
+                                                           int chbrbcteristics) {
+        return new IntIterbtorSpliterbtor(Objects.requireNonNull(iterbtor), chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} using a given
-     * {@code LongStream.LongIterator} as the source of elements, and with a
-     * given initially reported size.
+     * Crebtes b {@code Spliterbtor.OfLong} using b given
+     * {@code LongStrebm.LongIterbtor} bs the source of elements, bnd with b
+     * given initiblly reported size.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned, or the initiblly reported
+     * size is not equbl to the bctubl number of elements in the source.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}.
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm size The number of elements in the source, to be reported bs
+     *        initibl {@code estimbteSize}.
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source or
+     *        elements.  The chbrbcteristics {@code SIZED} bnd {@code SUBSIZED}
+     *        bre bdditionblly reported unless {@code CONCURRENT} is supplied.
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfLong spliterator(PrimitiveIterator.OfLong iterator,
+    public stbtic Spliterbtor.OfLong spliterbtor(PrimitiveIterbtor.OfLong iterbtor,
                                                  long size,
-                                                 int characteristics) {
-        return new LongIteratorSpliterator(Objects.requireNonNull(iterator),
-                                           size, characteristics);
+                                                 int chbrbcteristics) {
+        return new LongIterbtorSpliterbtor(Objects.requireNonNull(iterbtor),
+                                           size, chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} using a given
-     * {@code LongStream.LongIterator} as the source of elements, with no
-     * initial size estimate.
+     * Crebtes b {@code Spliterbtor.OfLong} using b given
+     * {@code LongStrebm.LongIterbtor} bs the source of elements, with no
+     * initibl size estimbte.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source
+     *        or elements ({@code SIZED} bnd {@code SUBSIZED}, if supplied, bre
+     *        ignored bnd bre not reported.)
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfLong spliteratorUnknownSize(PrimitiveIterator.OfLong iterator,
-                                                            int characteristics) {
-        return new LongIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    public stbtic Spliterbtor.OfLong spliterbtorUnknownSize(PrimitiveIterbtor.OfLong iterbtor,
+                                                            int chbrbcteristics) {
+        return new LongIterbtorSpliterbtor(Objects.requireNonNull(iterbtor), chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} using a given
-     * {@code DoubleStream.DoubleIterator} as the source of elements, and with a
-     * given initially reported size.
+     * Crebtes b {@code Spliterbtor.OfDouble} using b given
+     * {@code DoubleStrebm.DoubleIterbtor} bs the source of elements, bnd with b
+     * given initiblly reported size.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned, or the initiblly reported
+     * size is not equbl to the bctubl number of elements in the source.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm size The number of elements in the source, to be reported bs
+     *        initibl {@code estimbteSize}
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source or
+     *        elements.  The chbrbcteristics {@code SIZED} bnd {@code SUBSIZED}
+     *        bre bdditionblly reported unless {@code CONCURRENT} is supplied.
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfDouble spliterator(PrimitiveIterator.OfDouble iterator,
+    public stbtic Spliterbtor.OfDouble spliterbtor(PrimitiveIterbtor.OfDouble iterbtor,
                                                    long size,
-                                                   int characteristics) {
-        return new DoubleIteratorSpliterator(Objects.requireNonNull(iterator),
-                                             size, characteristics);
+                                                   int chbrbcteristics) {
+        return new DoubleIterbtorSpliterbtor(Objects.requireNonNull(iterbtor),
+                                             size, chbrbcteristics);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} using a given
-     * {@code DoubleStream.DoubleIterator} as the source of elements, with no
-     * initial size estimate.
+     * Crebtes b {@code Spliterbtor.OfDouble} using b given
+     * {@code DoubleStrebm.DoubleIterbtor} bs the source of elements, with no
+     * initibl size estimbte.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>The spliterbtor is not
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>, inherits
+     * the <em>fbil-fbst</em> properties of the iterbtor, bnd implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the spliterbtor.
+     * The behbviour of splitting bnd trbversbl is undefined if the iterbtor is
+     * operbted on bfter the spliterbtor is returned.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm iterbtor The iterbtor for the source
+     * @pbrbm chbrbcteristics Chbrbcteristics of this spliterbtor's source
+     *        or elements ({@code SIZED} bnd {@code SUBSIZED}, if supplied, bre
+     *        ignored bnd bre not reported.)
+     * @return A spliterbtor from bn iterbtor
+     * @throws NullPointerException if the given iterbtor is {@code null}
      */
-    public static Spliterator.OfDouble spliteratorUnknownSize(PrimitiveIterator.OfDouble iterator,
-                                                              int characteristics) {
-        return new DoubleIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    public stbtic Spliterbtor.OfDouble spliterbtorUnknownSize(PrimitiveIterbtor.OfDouble iterbtor,
+                                                              int chbrbcteristics) {
+        return new DoubleIterbtorSpliterbtor(Objects.requireNonNull(iterbtor), chbrbcteristics);
     }
 
-    // Iterators from Spliterators
+    // Iterbtors from Spliterbtors
 
     /**
-     * Creates an {@code Iterator} from a {@code Spliterator}.
+     * Crebtes bn {@code Iterbtor} from b {@code Spliterbtor}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the iterbtor.
+     * The behbviour of trbversbl is undefined if the spliterbtor is operbted
+     * bfter the iterbtor is returned.
      *
-     * @param <T> Type of elements
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm <T> Type of elements
+     * @pbrbm spliterbtor The spliterbtor
+     * @return An iterbtor
+     * @throws NullPointerException if the given spliterbtor is {@code null}
      */
-    public static<T> Iterator<T> iterator(Spliterator<? extends T> spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements Iterator<T>, Consumer<T> {
-            boolean valueReady = false;
+    public stbtic<T> Iterbtor<T> iterbtor(Spliterbtor<? extends T> spliterbtor) {
+        Objects.requireNonNull(spliterbtor);
+        clbss Adbpter implements Iterbtor<T>, Consumer<T> {
+            boolebn vblueRebdy = fblse;
             T nextElement;
 
             @Override
-            public void accept(T t) {
-                valueReady = true;
+            public void bccept(T t) {
+                vblueRebdy = true;
                 nextElement = t;
             }
 
             @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            public boolebn hbsNext() {
+                if (!vblueRebdy)
+                    spliterbtor.tryAdvbnce(this);
+                return vblueRebdy;
             }
 
             @Override
             public T next() {
-                if (!valueReady && !hasNext())
+                if (!vblueRebdy && !hbsNext())
                     throw new NoSuchElementException();
                 else {
-                    valueReady = false;
+                    vblueRebdy = fblse;
                     return nextElement;
                 }
             }
         }
 
-        return new Adapter();
+        return new Adbpter();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfInt} from a
-     * {@code Spliterator.OfInt}.
+     * Crebtes bn {@code PrimitiveIterbtor.OfInt} from b
+     * {@code Spliterbtor.OfInt}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the iterbtor.
+     * The behbviour of trbversbl is undefined if the spliterbtor is operbted
+     * bfter the iterbtor is returned.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm spliterbtor The spliterbtor
+     * @return An iterbtor
+     * @throws NullPointerException if the given spliterbtor is {@code null}
      */
-    public static PrimitiveIterator.OfInt iterator(Spliterator.OfInt spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfInt, IntConsumer {
-            boolean valueReady = false;
+    public stbtic PrimitiveIterbtor.OfInt iterbtor(Spliterbtor.OfInt spliterbtor) {
+        Objects.requireNonNull(spliterbtor);
+        clbss Adbpter implements PrimitiveIterbtor.OfInt, IntConsumer {
+            boolebn vblueRebdy = fblse;
             int nextElement;
 
             @Override
-            public void accept(int t) {
-                valueReady = true;
+            public void bccept(int t) {
+                vblueRebdy = true;
                 nextElement = t;
             }
 
             @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            public boolebn hbsNext() {
+                if (!vblueRebdy)
+                    spliterbtor.tryAdvbnce(this);
+                return vblueRebdy;
             }
 
             @Override
             public int nextInt() {
-                if (!valueReady && !hasNext())
+                if (!vblueRebdy && !hbsNext())
                     throw new NoSuchElementException();
                 else {
-                    valueReady = false;
+                    vblueRebdy = fblse;
                     return nextElement;
                 }
             }
         }
 
-        return new Adapter();
+        return new Adbpter();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfLong} from a
-     * {@code Spliterator.OfLong}.
+     * Crebtes bn {@code PrimitiveIterbtor.OfLong} from b
+     * {@code Spliterbtor.OfLong}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the iterbtor.
+     * The behbviour of trbversbl is undefined if the spliterbtor is operbted
+     * bfter the iterbtor is returned.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm spliterbtor The spliterbtor
+     * @return An iterbtor
+     * @throws NullPointerException if the given spliterbtor is {@code null}
      */
-    public static PrimitiveIterator.OfLong iterator(Spliterator.OfLong spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfLong, LongConsumer {
-            boolean valueReady = false;
+    public stbtic PrimitiveIterbtor.OfLong iterbtor(Spliterbtor.OfLong spliterbtor) {
+        Objects.requireNonNull(spliterbtor);
+        clbss Adbpter implements PrimitiveIterbtor.OfLong, LongConsumer {
+            boolebn vblueRebdy = fblse;
             long nextElement;
 
             @Override
-            public void accept(long t) {
-                valueReady = true;
+            public void bccept(long t) {
+                vblueRebdy = true;
                 nextElement = t;
             }
 
             @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            public boolebn hbsNext() {
+                if (!vblueRebdy)
+                    spliterbtor.tryAdvbnce(this);
+                return vblueRebdy;
             }
 
             @Override
             public long nextLong() {
-                if (!valueReady && !hasNext())
+                if (!vblueRebdy && !hbsNext())
                     throw new NoSuchElementException();
                 else {
-                    valueReady = false;
+                    vblueRebdy = fblse;
                     return nextElement;
                 }
             }
         }
 
-        return new Adapter();
+        return new Adbpter();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfDouble} from a
-     * {@code Spliterator.OfDouble}.
+     * Crebtes bn {@code PrimitiveIterbtor.OfDouble} from b
+     * {@code Spliterbtor.OfDouble}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbversbl of elements should be bccomplished through the iterbtor.
+     * The behbviour of trbversbl is undefined if the spliterbtor is operbted
+     * bfter the iterbtor is returned.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm spliterbtor The spliterbtor
+     * @return An iterbtor
+     * @throws NullPointerException if the given spliterbtor is {@code null}
      */
-    public static PrimitiveIterator.OfDouble iterator(Spliterator.OfDouble spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfDouble, DoubleConsumer {
-            boolean valueReady = false;
+    public stbtic PrimitiveIterbtor.OfDouble iterbtor(Spliterbtor.OfDouble spliterbtor) {
+        Objects.requireNonNull(spliterbtor);
+        clbss Adbpter implements PrimitiveIterbtor.OfDouble, DoubleConsumer {
+            boolebn vblueRebdy = fblse;
             double nextElement;
 
             @Override
-            public void accept(double t) {
-                valueReady = true;
+            public void bccept(double t) {
+                vblueRebdy = true;
                 nextElement = t;
             }
 
             @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            public boolebn hbsNext() {
+                if (!vblueRebdy)
+                    spliterbtor.tryAdvbnce(this);
+                return vblueRebdy;
             }
 
             @Override
             public double nextDouble() {
-                if (!valueReady && !hasNext())
+                if (!vblueRebdy && !hbsNext())
                     throw new NoSuchElementException();
                 else {
-                    valueReady = false;
+                    vblueRebdy = fblse;
                     return nextElement;
                 }
             }
         }
 
-        return new Adapter();
+        return new Adbpter();
     }
 
-    // Implementations
+    // Implementbtions
 
-    private static abstract class EmptySpliterator<T, S extends Spliterator<T>, C> {
+    privbte stbtic bbstrbct clbss EmptySpliterbtor<T, S extends Spliterbtor<T>, C> {
 
-        EmptySpliterator() { }
+        EmptySpliterbtor() { }
 
         public S trySplit() {
             return null;
         }
 
-        public boolean tryAdvance(C consumer) {
+        public boolebn tryAdvbnce(C consumer) {
             Objects.requireNonNull(consumer);
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(C consumer) {
+        public void forEbchRembining(C consumer) {
             Objects.requireNonNull(consumer);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return 0;
         }
 
-        public int characteristics() {
-            return Spliterator.SIZED | Spliterator.SUBSIZED;
+        public int chbrbcteristics() {
+            return Spliterbtor.SIZED | Spliterbtor.SUBSIZED;
         }
 
-        private static final class OfRef<T>
-                extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>>
-                implements Spliterator<T> {
+        privbte stbtic finbl clbss OfRef<T>
+                extends EmptySpliterbtor<T, Spliterbtor<T>, Consumer<? super T>>
+                implements Spliterbtor<T> {
             OfRef() { }
         }
 
-        private static final class OfInt
-                extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer>
-                implements Spliterator.OfInt {
+        privbte stbtic finbl clbss OfInt
+                extends EmptySpliterbtor<Integer, Spliterbtor.OfInt, IntConsumer>
+                implements Spliterbtor.OfInt {
             OfInt() { }
         }
 
-        private static final class OfLong
-                extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer>
-                implements Spliterator.OfLong {
+        privbte stbtic finbl clbss OfLong
+                extends EmptySpliterbtor<Long, Spliterbtor.OfLong, LongConsumer>
+                implements Spliterbtor.OfLong {
             OfLong() { }
         }
 
-        private static final class OfDouble
-                extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer>
-                implements Spliterator.OfDouble {
+        privbte stbtic finbl clbss OfDouble
+                extends EmptySpliterbtor<Double, Spliterbtor.OfDouble, DoubleConsumer>
+                implements Spliterbtor.OfDouble {
             OfDouble() { }
         }
     }
 
-    // Array-based spliterators
+    // Arrby-bbsed spliterbtors
 
     /**
-     * A Spliterator designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code Object[]} array.
+     * A Spliterbtor designed for use by sources thbt trbverse bnd split
+     * elements mbintbined in bn unmodifibble {@code Object[]} brrby.
      */
-    static final class ArraySpliterator<T> implements Spliterator<T> {
+    stbtic finbl clbss ArrbySpliterbtor<T> implements Spliterbtor<T> {
         /**
-         * The array, explicitly typed as Object[]. Unlike in some other
-         * classes (see for example CR 6260652), we do not need to
-         * screen arguments to ensure they are exactly of type Object[]
-         * so long as no methods write into the array or serialize it,
-         * which we ensure here by defining this class as final.
+         * The brrby, explicitly typed bs Object[]. Unlike in some other
+         * clbsses (see for exbmple CR 6260652), we do not need to
+         * screen brguments to ensure they bre exbctly of type Object[]
+         * so long bs no methods write into the brrby or seriblize it,
+         * which we ensure here by defining this clbss bs finbl.
          */
-        private final Object[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+        privbte finbl Object[] brrby;
+        privbte int index;        // current index, modified on bdvbnce/split
+        privbte finbl int fence;  // one pbst lbst index
+        privbte finbl int chbrbcteristics;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         * of this spliterator's source or elements beyond {@code SIZED} and
-         * {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering bll of the given brrby.
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         * of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         * {@code SUBSIZED} which bre bre blwbys reported
          */
-        public ArraySpliterator(Object[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        public ArrbySpliterbtor(Object[] brrby, int bdditionblChbrbcteristics) {
+            this(brrby, 0, brrby.length, bdditionblChbrbcteristics);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         * of this spliterator's source or elements beyond {@code SIZED} and
-         * {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering the given brrby bnd rbnge
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm origin the lebst index (inclusive) to cover
+         * @pbrbm fence one pbst the grebtest index to cover
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         * of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         * {@code SUBSIZED} which bre bre blwbys reported
          */
-        public ArraySpliterator(Object[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
+        public ArrbySpliterbtor(Object[] brrby, int origin, int fence, int bdditionblChbrbcteristics) {
+            this.brrby = brrby;
             this.index = origin;
             this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+            this.chbrbcteristics = bdditionblChbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED;
         }
 
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterbtor<T> trySplit() {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
-                   : new ArraySpliterator<>(array, lo, index = mid, characteristics);
+                   : new ArrbySpliterbtor<>(brrby, lo, index = mid, chbrbcteristics);
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            Object[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
+        public void forEbchRembining(Consumer<? super T> bction) {
+            Object[] b; int i, hi; // hoist bccesses bnd checks from loop
+            if (bction == null)
                 throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
+            if ((b = brrby).length >= (hi = fence) &&
                 (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept((T)a[i]); } while (++i < hi);
+                do { bction.bccept((T)b[i]); } while (++i < hi);
             }
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            if (action == null)
+        public boolebn tryAdvbnce(Consumer<? super T> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
-                @SuppressWarnings("unchecked") T e = (T) array[index++];
-                action.accept(e);
+                @SuppressWbrnings("unchecked") T e = (T) brrby[index++];
+                bction.bccept(e);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() { return (long)(fence - index); }
+        public long estimbteSize() { return (long)(fence - index); }
 
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
 
         @Override
-        public Comparator<? super T> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super T> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * A Spliterator.OfInt designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
+     * A Spliterbtor.OfInt designed for use by sources thbt trbverse bnd split
+     * elements mbintbined in bn unmodifibble {@code int[]} brrby.
      */
-    static final class IntArraySpliterator implements Spliterator.OfInt {
-        private final int[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+    stbtic finbl clbss IntArrbySpliterbtor implements Spliterbtor.OfInt {
+        privbte finbl int[] brrby;
+        privbte int index;        // current index, modified on bdvbnce/split
+        privbte finbl int fence;  // one pbst lbst index
+        privbte finbl int chbrbcteristics;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering bll of the given brrby.
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public IntArraySpliterator(int[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        public IntArrbySpliterbtor(int[] brrby, int bdditionblChbrbcteristics) {
+            this(brrby, 0, brrby.length, bdditionblChbrbcteristics);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering the given brrby bnd rbnge
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm origin the lebst index (inclusive) to cover
+         * @pbrbm fence one pbst the grebtest index to cover
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public IntArraySpliterator(int[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
+        public IntArrbySpliterbtor(int[] brrby, int origin, int fence, int bdditionblChbrbcteristics) {
+            this.brrby = brrby;
             this.index = origin;
             this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+            this.chbrbcteristics = bdditionblChbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED;
         }
 
         @Override
@@ -1019,82 +1019,82 @@ public final class Spliterators {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
-                   : new IntArraySpliterator(array, lo, index = mid, characteristics);
+                   : new IntArrbySpliterbtor(brrby, lo, index = mid, chbrbcteristics);
         }
 
         @Override
-        public void forEachRemaining(IntConsumer action) {
-            int[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
+        public void forEbchRembining(IntConsumer bction) {
+            int[] b; int i, hi; // hoist bccesses bnd checks from loop
+            if (bction == null)
                 throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
+            if ((b = brrby).length >= (hi = fence) &&
                 (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
+                do { bction.bccept(b[i]); } while (++i < hi);
             }
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer action) {
-            if (action == null)
+        public boolebn tryAdvbnce(IntConsumer bction) {
+            if (bction == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
+                bction.bccept(brrby[index++]);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() { return (long)(fence - index); }
+        public long estimbteSize() { return (long)(fence - index); }
 
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
 
         @Override
-        public Comparator<? super Integer> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Integer> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * A Spliterator.OfLong designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
+     * A Spliterbtor.OfLong designed for use by sources thbt trbverse bnd split
+     * elements mbintbined in bn unmodifibble {@code int[]} brrby.
      */
-    static final class LongArraySpliterator implements Spliterator.OfLong {
-        private final long[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+    stbtic finbl clbss LongArrbySpliterbtor implements Spliterbtor.OfLong {
+        privbte finbl long[] brrby;
+        privbte int index;        // current index, modified on bdvbnce/split
+        privbte finbl int fence;  // one pbst lbst index
+        privbte finbl int chbrbcteristics;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering bll of the given brrby.
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public LongArraySpliterator(long[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        public LongArrbySpliterbtor(long[] brrby, int bdditionblChbrbcteristics) {
+            this(brrby, 0, brrby.length, bdditionblChbrbcteristics);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering the given brrby bnd rbnge
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm origin the lebst index (inclusive) to cover
+         * @pbrbm fence one pbst the grebtest index to cover
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public LongArraySpliterator(long[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
+        public LongArrbySpliterbtor(long[] brrby, int origin, int fence, int bdditionblChbrbcteristics) {
+            this.brrby = brrby;
             this.index = origin;
             this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+            this.chbrbcteristics = bdditionblChbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED;
         }
 
         @Override
@@ -1102,82 +1102,82 @@ public final class Spliterators {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
-                   : new LongArraySpliterator(array, lo, index = mid, characteristics);
+                   : new LongArrbySpliterbtor(brrby, lo, index = mid, chbrbcteristics);
         }
 
         @Override
-        public void forEachRemaining(LongConsumer action) {
-            long[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
+        public void forEbchRembining(LongConsumer bction) {
+            long[] b; int i, hi; // hoist bccesses bnd checks from loop
+            if (bction == null)
                 throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
+            if ((b = brrby).length >= (hi = fence) &&
                 (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
+                do { bction.bccept(b[i]); } while (++i < hi);
             }
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer action) {
-            if (action == null)
+        public boolebn tryAdvbnce(LongConsumer bction) {
+            if (bction == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
+                bction.bccept(brrby[index++]);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() { return (long)(fence - index); }
+        public long estimbteSize() { return (long)(fence - index); }
 
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
 
         @Override
-        public Comparator<? super Long> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Long> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * A Spliterator.OfDouble designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
+     * A Spliterbtor.OfDouble designed for use by sources thbt trbverse bnd split
+     * elements mbintbined in bn unmodifibble {@code int[]} brrby.
      */
-    static final class DoubleArraySpliterator implements Spliterator.OfDouble {
-        private final double[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+    stbtic finbl clbss DoubleArrbySpliterbtor implements Spliterbtor.OfDouble {
+        privbte finbl double[] brrby;
+        privbte int index;        // current index, modified on bdvbnce/split
+        privbte finbl int fence;  // one pbst lbst index
+        privbte finbl int chbrbcteristics;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering bll of the given brrby.
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public DoubleArraySpliterator(double[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        public DoubleArrbySpliterbtor(double[] brrby, int bdditionblChbrbcteristics) {
+            this(brrby, 0, brrby.length, bdditionblChbrbcteristics);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crebtes b spliterbtor covering the given brrby bnd rbnge
+         * @pbrbm brrby the brrby, bssumed to be unmodified during use
+         * @pbrbm origin the lebst index (inclusive) to cover
+         * @pbrbm fence one pbst the grebtest index to cover
+         * @pbrbm bdditionblChbrbcteristics Additionbl spliterbtor chbrbcteristics
+         *        of this spliterbtor's source or elements beyond {@code SIZED} bnd
+         *        {@code SUBSIZED} which bre bre blwbys reported
          */
-        public DoubleArraySpliterator(double[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
+        public DoubleArrbySpliterbtor(double[] brrby, int origin, int fence, int bdditionblChbrbcteristics) {
+            this.brrby = brrby;
             this.index = origin;
             this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+            this.chbrbcteristics = bdditionblChbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED;
         }
 
         @Override
@@ -1185,142 +1185,142 @@ public final class Spliterators {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
-                   : new DoubleArraySpliterator(array, lo, index = mid, characteristics);
+                   : new DoubleArrbySpliterbtor(brrby, lo, index = mid, chbrbcteristics);
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer action) {
-            double[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
+        public void forEbchRembining(DoubleConsumer bction) {
+            double[] b; int i, hi; // hoist bccesses bnd checks from loop
+            if (bction == null)
                 throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
+            if ((b = brrby).length >= (hi = fence) &&
                 (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
+                do { bction.bccept(b[i]); } while (++i < hi);
             }
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer action) {
-            if (action == null)
+        public boolebn tryAdvbnce(DoubleConsumer bction) {
+            if (bction == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
+                bction.bccept(brrby[index++]);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() { return (long)(fence - index); }
+        public long estimbteSize() { return (long)(fence - index); }
 
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
 
         @Override
-        public Comparator<? super Double> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Double> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
     //
 
     /**
-     * An abstract {@code Spliterator} that implements {@code trySplit} to
-     * permit limited parallelism.
+     * An bbstrbct {@code Spliterbtor} thbt implements {@code trySplit} to
+     * permit limited pbrbllelism.
      *
-     * <p>An extending class need only
-     * implement {@link #tryAdvance(java.util.function.Consumer) tryAdvance}.
-     * The extending class should override
-     * {@link #forEachRemaining(java.util.function.Consumer) forEach} if it can
-     * provide a more performant implementation.
+     * <p>An extending clbss need only
+     * implement {@link #tryAdvbnce(jbvb.util.function.Consumer) tryAdvbnce}.
+     * The extending clbss should override
+     * {@link #forEbchRembining(jbvb.util.function.Consumer) forEbch} if it cbn
+     * provide b more performbnt implementbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNote
+     * This clbss is b useful bid for crebting b spliterbtor when it is not
+     * possible or difficult to efficiently pbrtition elements in b mbnner
+     * bllowing bblbnced pbrbllel computbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(Iterator, long, int)}.  Depending on the
-     * circumstances using an iterator may be easier or more convenient than
-     * extending this class, such as when there is already an iterator
-     * available to use.
+     * <p>An blternbtive to using this clbss, thbt blso permits limited
+     * pbrbllelism, is to crebte b spliterbtor from bn iterbtor
+     * (see {@link #spliterbtor(Iterbtor, long, int)}.  Depending on the
+     * circumstbnces using bn iterbtor mby be ebsier or more convenient thbn
+     * extending this clbss, such bs when there is blrebdy bn iterbtor
+     * bvbilbble to use.
      *
-     * @see #spliterator(Iterator, long, int)
+     * @see #spliterbtor(Iterbtor, long, int)
      * @since 1.8
      */
-    public static abstract class AbstractSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    public stbtic bbstrbct clbss AbstrbctSpliterbtor<T> implements Spliterbtor<T> {
+        stbtic finbl int BATCH_UNIT = 1 << 10;  // bbtch brrby size increment
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * additionalCharacteristics.
+         * Crebtes b spliterbtor reporting the given estimbted size bnd
+         * bdditionblChbrbcteristics.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
+         * @pbrbm est the estimbted size of this spliterbtor if known, otherwise
          *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
+         * @pbrbm bdditionblChbrbcteristics properties of this spliterbtor's
          *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         *        spliterbtor will bdditionblly report {@code SUBSIZED}.
          */
-        protected AbstractSpliterator(long est, int additionalCharacteristics) {
+        protected AbstrbctSpliterbtor(long est, int bdditionblChbrbcteristics) {
             this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+            this.chbrbcteristics = ((bdditionblChbrbcteristics & Spliterbtor.SIZED) != 0)
+                                   ? bdditionblChbrbcteristics | Spliterbtor.SUBSIZED
+                                   : bdditionblChbrbcteristics;
         }
 
-        static final class HoldingConsumer<T> implements Consumer<T> {
-            Object value;
+        stbtic finbl clbss HoldingConsumer<T> implements Consumer<T> {
+            Object vblue;
 
             @Override
-            public void accept(T value) {
-                this.value = value;
+            public void bccept(T vblue) {
+                this.vblue = vblue;
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * This implementation permits limited parallelism.
+         * This implementbtion permits limited pbrbllelism.
          */
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterbtor<T> trySplit() {
             /*
-             * Split into arrays of arithmetically increasing batch
-             * sizes.  This will only improve parallel performance if
-             * per-element Consumer actions are more costly than
-             * transferring them into an array.  The use of an
-             * arithmetic progression in split sizes provides overhead
-             * vs parallelism bounds that do not particularly favor or
-             * penalize cases of lightweight vs heavyweight element
-             * operations, across combinations of #elements vs #cores,
-             * whether or not either are known.  We generate
-             * O(sqrt(#elements)) splits, allowing O(sqrt(#cores))
-             * potential speedup.
+             * Split into brrbys of brithmeticblly increbsing bbtch
+             * sizes.  This will only improve pbrbllel performbnce if
+             * per-element Consumer bctions bre more costly thbn
+             * trbnsferring them into bn brrby.  The use of bn
+             * brithmetic progression in split sizes provides overhebd
+             * vs pbrbllelism bounds thbt do not pbrticulbrly fbvor or
+             * penblize cbses of lightweight vs hebvyweight element
+             * operbtions, bcross combinbtions of #elements vs #cores,
+             * whether or not either bre known.  We generbte
+             * O(sqrt(#elements)) splits, bllowing O(sqrt(#cores))
+             * potentibl speedup.
              */
             HoldingConsumer<T> holder = new HoldingConsumer<>();
             long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && tryAdvbnce(holder)) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                Object[] a = new Object[n];
+                Object[] b = new Object[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
+                do { b[j] = holder.vblue; } while (++j < n && tryAdvbnce(holder));
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new ArraySpliterator<>(a, 0, j, characteristics());
+                return new ArrbySpliterbtor<>(b, 0, j, chbrbcteristics());
             }
             return null;
         }
@@ -1329,12 +1329,12 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * This implementbtion returns the estimbted size bs reported when
+         * crebted bnd, if the estimbte size is known, decrebses in size when
          * split.
          */
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
@@ -1342,95 +1342,95 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * This implementbtion returns the chbrbcteristics bs reported when
+         * crebted.
          */
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfInt} that implements {@code trySplit} to
-     * permit limited parallelism.
+     * An bbstrbct {@code Spliterbtor.OfInt} thbt implements {@code trySplit} to
+     * permit limited pbrbllelism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.IntConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.IntConsumer)} forEach} if it
-     * can provide a more performant implementation.
+     * <p>To implement b spliterbtor bn extending clbss need only
+     * implement {@link #tryAdvbnce(jbvb.util.function.IntConsumer)}
+     * tryAdvbnce}.  The extending clbss should override
+     * {@link #forEbchRembining(jbvb.util.function.IntConsumer)} forEbch} if it
+     * cbn provide b more performbnt implementbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNote
+     * This clbss is b useful bid for crebting b spliterbtor when it is not
+     * possible or difficult to efficiently pbrtition elements in b mbnner
+     * bllowing bblbnced pbrbllel computbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfInt, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An blternbtive to using this clbss, thbt blso permits limited
+     * pbrbllelism, is to crebte b spliterbtor from bn iterbtor
+     * (see {@link #spliterbtor(jbvb.util.PrimitiveIterbtor.OfInt, long, int)}.
+     * Depending on the circumstbnces using bn iterbtor mby be ebsier or more
+     * convenient thbn extending this clbss. For exbmple, if there is blrebdy bn
+     * iterbtor bvbilbble to use then there is no need to extend this clbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfInt, long, int)
+     * @see #spliterbtor(jbvb.util.PrimitiveIterbtor.OfInt, long, int)
      * @since 1.8
      */
-    public static abstract class AbstractIntSpliterator implements Spliterator.OfInt {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    public stbtic bbstrbct clbss AbstrbctIntSpliterbtor implements Spliterbtor.OfInt {
+        stbtic finbl int MAX_BATCH = AbstrbctSpliterbtor.MAX_BATCH;
+        stbtic finbl int BATCH_UNIT = AbstrbctSpliterbtor.BATCH_UNIT;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crebtes b spliterbtor reporting the given estimbted size bnd
+         * chbrbcteristics.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
+         * @pbrbm est the estimbted size of this spliterbtor if known, otherwise
          *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
+         * @pbrbm bdditionblChbrbcteristics properties of this spliterbtor's
          *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         *        spliterbtor will bdditionblly report {@code SUBSIZED}.
          */
-        protected AbstractIntSpliterator(long est, int additionalCharacteristics) {
+        protected AbstrbctIntSpliterbtor(long est, int bdditionblChbrbcteristics) {
             this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+            this.chbrbcteristics = ((bdditionblChbrbcteristics & Spliterbtor.SIZED) != 0)
+                                   ? bdditionblChbrbcteristics | Spliterbtor.SUBSIZED
+                                   : bdditionblChbrbcteristics;
         }
 
-        static final class HoldingIntConsumer implements IntConsumer {
-            int value;
+        stbtic finbl clbss HoldingIntConsumer implements IntConsumer {
+            int vblue;
 
             @Override
-            public void accept(int value) {
-                this.value = value;
+            public void bccept(int vblue) {
+                this.vblue = vblue;
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * This implementation permits limited parallelism.
+         * This implementbtion permits limited pbrbllelism.
          */
         @Override
-        public Spliterator.OfInt trySplit() {
+        public Spliterbtor.OfInt trySplit() {
             HoldingIntConsumer holder = new HoldingIntConsumer();
             long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && tryAdvbnce(holder)) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                int[] a = new int[n];
+                int[] b = new int[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
+                do { b[j] = holder.vblue; } while (++j < n && tryAdvbnce(holder));
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new IntArraySpliterator(a, 0, j, characteristics());
+                return new IntArrbySpliterbtor(b, 0, j, chbrbcteristics());
             }
             return null;
         }
@@ -1439,12 +1439,12 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * This implementbtion returns the estimbted size bs reported when
+         * crebted bnd, if the estimbte size is known, decrebses in size when
          * split.
          */
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
@@ -1452,95 +1452,95 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * This implementbtion returns the chbrbcteristics bs reported when
+         * crebted.
          */
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfLong} that implements {@code trySplit}
-     * to permit limited parallelism.
+     * An bbstrbct {@code Spliterbtor.OfLong} thbt implements {@code trySplit}
+     * to permit limited pbrbllelism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.LongConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.LongConsumer)} forEach} if it
-     * can provide a more performant implementation.
+     * <p>To implement b spliterbtor bn extending clbss need only
+     * implement {@link #tryAdvbnce(jbvb.util.function.LongConsumer)}
+     * tryAdvbnce}.  The extending clbss should override
+     * {@link #forEbchRembining(jbvb.util.function.LongConsumer)} forEbch} if it
+     * cbn provide b more performbnt implementbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNote
+     * This clbss is b useful bid for crebting b spliterbtor when it is not
+     * possible or difficult to efficiently pbrtition elements in b mbnner
+     * bllowing bblbnced pbrbllel computbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfLong, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An blternbtive to using this clbss, thbt blso permits limited
+     * pbrbllelism, is to crebte b spliterbtor from bn iterbtor
+     * (see {@link #spliterbtor(jbvb.util.PrimitiveIterbtor.OfLong, long, int)}.
+     * Depending on the circumstbnces using bn iterbtor mby be ebsier or more
+     * convenient thbn extending this clbss. For exbmple, if there is blrebdy bn
+     * iterbtor bvbilbble to use then there is no need to extend this clbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfLong, long, int)
+     * @see #spliterbtor(jbvb.util.PrimitiveIterbtor.OfLong, long, int)
      * @since 1.8
      */
-    public static abstract class AbstractLongSpliterator implements Spliterator.OfLong {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    public stbtic bbstrbct clbss AbstrbctLongSpliterbtor implements Spliterbtor.OfLong {
+        stbtic finbl int MAX_BATCH = AbstrbctSpliterbtor.MAX_BATCH;
+        stbtic finbl int BATCH_UNIT = AbstrbctSpliterbtor.BATCH_UNIT;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crebtes b spliterbtor reporting the given estimbted size bnd
+         * chbrbcteristics.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
+         * @pbrbm est the estimbted size of this spliterbtor if known, otherwise
          *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
+         * @pbrbm bdditionblChbrbcteristics properties of this spliterbtor's
          *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         *        spliterbtor will bdditionblly report {@code SUBSIZED}.
          */
-        protected AbstractLongSpliterator(long est, int additionalCharacteristics) {
+        protected AbstrbctLongSpliterbtor(long est, int bdditionblChbrbcteristics) {
             this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+            this.chbrbcteristics = ((bdditionblChbrbcteristics & Spliterbtor.SIZED) != 0)
+                                   ? bdditionblChbrbcteristics | Spliterbtor.SUBSIZED
+                                   : bdditionblChbrbcteristics;
         }
 
-        static final class HoldingLongConsumer implements LongConsumer {
-            long value;
+        stbtic finbl clbss HoldingLongConsumer implements LongConsumer {
+            long vblue;
 
             @Override
-            public void accept(long value) {
-                this.value = value;
+            public void bccept(long vblue) {
+                this.vblue = vblue;
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * This implementation permits limited parallelism.
+         * This implementbtion permits limited pbrbllelism.
          */
         @Override
-        public Spliterator.OfLong trySplit() {
+        public Spliterbtor.OfLong trySplit() {
             HoldingLongConsumer holder = new HoldingLongConsumer();
             long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && tryAdvbnce(holder)) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                long[] a = new long[n];
+                long[] b = new long[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
+                do { b[j] = holder.vblue; } while (++j < n && tryAdvbnce(holder));
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new LongArraySpliterator(a, 0, j, characteristics());
+                return new LongArrbySpliterbtor(b, 0, j, chbrbcteristics());
             }
             return null;
         }
@@ -1549,12 +1549,12 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * This implementbtion returns the estimbted size bs reported when
+         * crebted bnd, if the estimbte size is known, decrebses in size when
          * split.
          */
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
@@ -1562,95 +1562,95 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * This implementbtion returns the chbrbcteristics bs reported when
+         * crebted.
          */
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfDouble} that implements
-     * {@code trySplit} to permit limited parallelism.
+     * An bbstrbct {@code Spliterbtor.OfDouble} thbt implements
+     * {@code trySplit} to permit limited pbrbllelism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.DoubleConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.DoubleConsumer)} forEach} if
-     * it can provide a more performant implementation.
+     * <p>To implement b spliterbtor bn extending clbss need only
+     * implement {@link #tryAdvbnce(jbvb.util.function.DoubleConsumer)}
+     * tryAdvbnce}.  The extending clbss should override
+     * {@link #forEbchRembining(jbvb.util.function.DoubleConsumer)} forEbch} if
+     * it cbn provide b more performbnt implementbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNote
+     * This clbss is b useful bid for crebting b spliterbtor when it is not
+     * possible or difficult to efficiently pbrtition elements in b mbnner
+     * bllowing bblbnced pbrbllel computbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfDouble, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An blternbtive to using this clbss, thbt blso permits limited
+     * pbrbllelism, is to crebte b spliterbtor from bn iterbtor
+     * (see {@link #spliterbtor(jbvb.util.PrimitiveIterbtor.OfDouble, long, int)}.
+     * Depending on the circumstbnces using bn iterbtor mby be ebsier or more
+     * convenient thbn extending this clbss. For exbmple, if there is blrebdy bn
+     * iterbtor bvbilbble to use then there is no need to extend this clbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfDouble, long, int)
+     * @see #spliterbtor(jbvb.util.PrimitiveIterbtor.OfDouble, long, int)
      * @since 1.8
      */
-    public static abstract class AbstractDoubleSpliterator implements Spliterator.OfDouble {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    public stbtic bbstrbct clbss AbstrbctDoubleSpliterbtor implements Spliterbtor.OfDouble {
+        stbtic finbl int MAX_BATCH = AbstrbctSpliterbtor.MAX_BATCH;
+        stbtic finbl int BATCH_UNIT = AbstrbctSpliterbtor.BATCH_UNIT;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crebtes b spliterbtor reporting the given estimbted size bnd
+         * chbrbcteristics.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
+         * @pbrbm est the estimbted size of this spliterbtor if known, otherwise
          *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
+         * @pbrbm bdditionblChbrbcteristics properties of this spliterbtor's
          *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         *        spliterbtor will bdditionblly report {@code SUBSIZED}.
          */
-        protected AbstractDoubleSpliterator(long est, int additionalCharacteristics) {
+        protected AbstrbctDoubleSpliterbtor(long est, int bdditionblChbrbcteristics) {
             this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+            this.chbrbcteristics = ((bdditionblChbrbcteristics & Spliterbtor.SIZED) != 0)
+                                   ? bdditionblChbrbcteristics | Spliterbtor.SUBSIZED
+                                   : bdditionblChbrbcteristics;
         }
 
-        static final class HoldingDoubleConsumer implements DoubleConsumer {
-            double value;
+        stbtic finbl clbss HoldingDoubleConsumer implements DoubleConsumer {
+            double vblue;
 
             @Override
-            public void accept(double value) {
-                this.value = value;
+            public void bccept(double vblue) {
+                this.vblue = vblue;
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * This implementation permits limited parallelism.
+         * This implementbtion permits limited pbrbllelism.
          */
         @Override
-        public Spliterator.OfDouble trySplit() {
+        public Spliterbtor.OfDouble trySplit() {
             HoldingDoubleConsumer holder = new HoldingDoubleConsumer();
             long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && tryAdvbnce(holder)) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                double[] a = new double[n];
+                double[] b = new double[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
+                do { b[j] = holder.vblue; } while (++j < n && tryAdvbnce(holder));
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new DoubleArraySpliterator(a, 0, j, characteristics());
+                return new DoubleArrbySpliterbtor(b, 0, j, chbrbcteristics());
             }
             return null;
         }
@@ -1659,12 +1659,12 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * This implementbtion returns the estimbted size bs reported when
+         * crebted bnd, if the estimbte size is known, decrebses in size when
          * split.
          */
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
@@ -1672,453 +1672,453 @@ public final class Spliterators {
          * {@inheritDoc}
          *
          * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * This implementbtion returns the chbrbcteristics bs reported when
+         * crebted.
          */
         @Override
-        public int characteristics() {
-            return characteristics;
+        public int chbrbcteristics() {
+            return chbrbcteristics;
         }
     }
 
-    // Iterator-based Spliterators
+    // Iterbtor-bbsed Spliterbtors
 
     /**
-     * A Spliterator using a given Iterator for element
-     * operations. The spliterator implements {@code trySplit} to
-     * permit limited parallelism.
+     * A Spliterbtor using b given Iterbtor for element
+     * operbtions. The spliterbtor implements {@code trySplit} to
+     * permit limited pbrbllelism.
      */
-    static class IteratorSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        private final Collection<? extends T> collection; // null OK
-        private Iterator<? extends T> it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtic clbss IterbtorSpliterbtor<T> implements Spliterbtor<T> {
+        stbtic finbl int BATCH_UNIT = 1 << 10;  // bbtch brrby size increment
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        privbte finbl Collection<? extends T> collection; // null OK
+        privbte Iterbtor<? extends T> it;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator using the given given
-         * collection's {@link java.util.Collection#iterator()) for traversal,
-         * and reporting its {@link java.util.Collection#size()) as its initial
+         * Crebtes b spliterbtor using the given given
+         * collection's {@link jbvb.util.Collection#iterbtor()) for trbversbl,
+         * bnd reporting its {@link jbvb.util.Collection#size()) bs its initibl
          * size.
          *
-         * @param c the collection
-         * @param characteristics properties of this spliterator's
+         * @pbrbm c the collection
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          *        source or elements.
          */
-        public IteratorSpliterator(Collection<? extends T> collection, int characteristics) {
+        public IterbtorSpliterbtor(Collection<? extends T> collection, int chbrbcteristics) {
             this.collection = collection;
             this.it = null;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.chbrbcteristics = (chbrbcteristics & Spliterbtor.CONCURRENT) == 0
+                                   ? chbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED
+                                   : chbrbcteristics;
         }
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crebtes b spliterbtor using the given iterbtor
+         * for trbversbl, bnd reporting the given initibl size
+         * bnd chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm size the number of elements in the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public IteratorSpliterator(Iterator<? extends T> iterator, long size, int characteristics) {
+        public IterbtorSpliterbtor(Iterbtor<? extends T> iterbtor, long size, int chbrbcteristics) {
             this.collection = null;
-            this.it = iterator;
+            this.it = iterbtor;
             this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.chbrbcteristics = (chbrbcteristics & Spliterbtor.CONCURRENT) == 0
+                                   ? chbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED
+                                   : chbrbcteristics;
         }
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crebtes b spliterbtor using the given iterbtor
+         * for trbversbl, bnd reporting the given initibl size
+         * bnd chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public IteratorSpliterator(Iterator<? extends T> iterator, int characteristics) {
+        public IterbtorSpliterbtor(Iterbtor<? extends T> iterbtor, int chbrbcteristics) {
             this.collection = null;
-            this.it = iterator;
+            this.it = iterbtor;
             this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+            this.chbrbcteristics = chbrbcteristics & ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED);
         }
 
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterbtor<T> trySplit() {
             /*
-             * Split into arrays of arithmetically increasing batch
-             * sizes.  This will only improve parallel performance if
-             * per-element Consumer actions are more costly than
-             * transferring them into an array.  The use of an
-             * arithmetic progression in split sizes provides overhead
-             * vs parallelism bounds that do not particularly favor or
-             * penalize cases of lightweight vs heavyweight element
-             * operations, across combinations of #elements vs #cores,
-             * whether or not either are known.  We generate
-             * O(sqrt(#elements)) splits, allowing O(sqrt(#cores))
-             * potential speedup.
+             * Split into brrbys of brithmeticblly increbsing bbtch
+             * sizes.  This will only improve pbrbllel performbnce if
+             * per-element Consumer bctions bre more costly thbn
+             * trbnsferring them into bn brrby.  The use of bn
+             * brithmetic progression in split sizes provides overhebd
+             * vs pbrbllelism bounds thbt do not pbrticulbrly fbvor or
+             * penblize cbses of lightweight vs hebvyweight element
+             * operbtions, bcross combinbtions of #elements vs #cores,
+             * whether or not either bre known.  We generbte
+             * O(sqrt(#elements)) splits, bllowing O(sqrt(#cores))
+             * potentibl speedup.
              */
-            Iterator<? extends T> i;
+            Iterbtor<? extends T> i;
             long s;
             if ((i = it) == null) {
-                i = it = collection.iterator();
+                i = it = collection.iterbtor();
                 s = est = (long) collection.size();
             }
             else
                 s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && i.hbsNext()) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                Object[] a = new Object[n];
+                Object[] b = new Object[n];
                 int j = 0;
-                do { a[j] = i.next(); } while (++j < n && i.hasNext());
-                batch = j;
+                do { b[j] = i.next(); } while (++j < n && i.hbsNext());
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new ArraySpliterator<>(a, 0, j, characteristics);
+                return new ArrbySpliterbtor<>(b, 0, j, chbrbcteristics);
             }
             return null;
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            if (action == null) throw new NullPointerException();
-            Iterator<? extends T> i;
+        public void forEbchRembining(Consumer<? super T> bction) {
+            if (bction == null) throw new NullPointerException();
+            Iterbtor<? extends T> i;
             if ((i = it) == null) {
-                i = it = collection.iterator();
+                i = it = collection.iterbtor();
                 est = (long)collection.size();
             }
-            i.forEachRemaining(action);
+            i.forEbchRembining(bction);
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            if (action == null) throw new NullPointerException();
+        public boolebn tryAdvbnce(Consumer<? super T> bction) {
+            if (bction == null) throw new NullPointerException();
             if (it == null) {
-                it = collection.iterator();
+                it = collection.iterbtor();
                 est = (long) collection.size();
             }
-            if (it.hasNext()) {
-                action.accept(it.next());
+            if (it.hbsNext()) {
+                bction.bccept(it.next());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             if (it == null) {
-                it = collection.iterator();
+                it = collection.iterbtor();
                 return est = (long)collection.size();
             }
             return est;
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int chbrbcteristics() { return chbrbcteristics; }
 
         @Override
-        public Comparator<? super T> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super T> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * A Spliterator.OfInt using a given IntStream.IntIterator for element
-     * operations. The spliterator implements {@code trySplit} to
-     * permit limited parallelism.
+     * A Spliterbtor.OfInt using b given IntStrebm.IntIterbtor for element
+     * operbtions. The spliterbtor implements {@code trySplit} to
+     * permit limited pbrbllelism.
      */
-    static final class IntIteratorSpliterator implements Spliterator.OfInt {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfInt it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtic finbl clbss IntIterbtorSpliterbtor implements Spliterbtor.OfInt {
+        stbtic finbl int BATCH_UNIT = IterbtorSpliterbtor.BATCH_UNIT;
+        stbtic finbl int MAX_BATCH = IterbtorSpliterbtor.MAX_BATCH;
+        privbte PrimitiveIterbtor.OfInt it;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crebtes b spliterbtor using the given iterbtor
+         * for trbversbl, bnd reporting the given initibl size
+         * bnd chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm size the number of elements in the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public IntIteratorSpliterator(PrimitiveIterator.OfInt iterator, long size, int characteristics) {
-            this.it = iterator;
+        public IntIterbtorSpliterbtor(PrimitiveIterbtor.OfInt iterbtor, long size, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.chbrbcteristics = (chbrbcteristics & Spliterbtor.CONCURRENT) == 0
+                                   ? chbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED
+                                   : chbrbcteristics;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
+         * Crebtes b spliterbtor using the given iterbtor for b
          * source of unknown size, reporting the given
-         * characteristics.
+         * chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public IntIteratorSpliterator(PrimitiveIterator.OfInt iterator, int characteristics) {
-            this.it = iterator;
+        public IntIterbtorSpliterbtor(PrimitiveIterbtor.OfInt iterbtor, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+            this.chbrbcteristics = chbrbcteristics & ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED);
         }
 
         @Override
         public OfInt trySplit() {
-            PrimitiveIterator.OfInt i = it;
+            PrimitiveIterbtor.OfInt i = it;
             long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && i.hbsNext()) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                int[] a = new int[n];
+                int[] b = new int[n];
                 int j = 0;
-                do { a[j] = i.nextInt(); } while (++j < n && i.hasNext());
-                batch = j;
+                do { b[j] = i.nextInt(); } while (++j < n && i.hbsNext());
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new IntArraySpliterator(a, 0, j, characteristics);
+                return new IntArrbySpliterbtor(b, 0, j, chbrbcteristics);
             }
             return null;
         }
 
         @Override
-        public void forEachRemaining(IntConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        public void forEbchRembining(IntConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            it.forEbchRembining(bction);
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextInt());
+        public boolebn tryAdvbnce(IntConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            if (it.hbsNext()) {
+                bction.bccept(it.nextInt());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int chbrbcteristics() { return chbrbcteristics; }
 
         @Override
-        public Comparator<? super Integer> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Integer> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
-    static final class LongIteratorSpliterator implements Spliterator.OfLong {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfLong it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtic finbl clbss LongIterbtorSpliterbtor implements Spliterbtor.OfLong {
+        stbtic finbl int BATCH_UNIT = IterbtorSpliterbtor.BATCH_UNIT;
+        stbtic finbl int MAX_BATCH = IterbtorSpliterbtor.MAX_BATCH;
+        privbte PrimitiveIterbtor.OfLong it;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crebtes b spliterbtor using the given iterbtor
+         * for trbversbl, bnd reporting the given initibl size
+         * bnd chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm size the number of elements in the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public LongIteratorSpliterator(PrimitiveIterator.OfLong iterator, long size, int characteristics) {
-            this.it = iterator;
+        public LongIterbtorSpliterbtor(PrimitiveIterbtor.OfLong iterbtor, long size, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.chbrbcteristics = (chbrbcteristics & Spliterbtor.CONCURRENT) == 0
+                                   ? chbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED
+                                   : chbrbcteristics;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
+         * Crebtes b spliterbtor using the given iterbtor for b
          * source of unknown size, reporting the given
-         * characteristics.
+         * chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public LongIteratorSpliterator(PrimitiveIterator.OfLong iterator, int characteristics) {
-            this.it = iterator;
+        public LongIterbtorSpliterbtor(PrimitiveIterbtor.OfLong iterbtor, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+            this.chbrbcteristics = chbrbcteristics & ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED);
         }
 
         @Override
         public OfLong trySplit() {
-            PrimitiveIterator.OfLong i = it;
+            PrimitiveIterbtor.OfLong i = it;
             long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && i.hbsNext()) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                long[] a = new long[n];
+                long[] b = new long[n];
                 int j = 0;
-                do { a[j] = i.nextLong(); } while (++j < n && i.hasNext());
-                batch = j;
+                do { b[j] = i.nextLong(); } while (++j < n && i.hbsNext());
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new LongArraySpliterator(a, 0, j, characteristics);
+                return new LongArrbySpliterbtor(b, 0, j, chbrbcteristics);
             }
             return null;
         }
 
         @Override
-        public void forEachRemaining(LongConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        public void forEbchRembining(LongConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            it.forEbchRembining(bction);
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextLong());
+        public boolebn tryAdvbnce(LongConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            if (it.hbsNext()) {
+                bction.bccept(it.nextLong());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int chbrbcteristics() { return chbrbcteristics; }
 
         @Override
-        public Comparator<? super Long> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Long> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 
-    static final class DoubleIteratorSpliterator implements Spliterator.OfDouble {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfDouble it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtic finbl clbss DoubleIterbtorSpliterbtor implements Spliterbtor.OfDouble {
+        stbtic finbl int BATCH_UNIT = IterbtorSpliterbtor.BATCH_UNIT;
+        stbtic finbl int MAX_BATCH = IterbtorSpliterbtor.MAX_BATCH;
+        privbte PrimitiveIterbtor.OfDouble it;
+        privbte finbl int chbrbcteristics;
+        privbte long est;             // size estimbte
+        privbte int bbtch;            // bbtch size for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crebtes b spliterbtor using the given iterbtor
+         * for trbversbl, bnd reporting the given initibl size
+         * bnd chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm size the number of elements in the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, long size, int characteristics) {
-            this.it = iterator;
+        public DoubleIterbtorSpliterbtor(PrimitiveIterbtor.OfDouble iterbtor, long size, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.chbrbcteristics = (chbrbcteristics & Spliterbtor.CONCURRENT) == 0
+                                   ? chbrbcteristics | Spliterbtor.SIZED | Spliterbtor.SUBSIZED
+                                   : chbrbcteristics;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
+         * Crebtes b spliterbtor using the given iterbtor for b
          * source of unknown size, reporting the given
-         * characteristics.
+         * chbrbcteristics.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
+         * @pbrbm iterbtor the iterbtor for the source
+         * @pbrbm chbrbcteristics properties of this spliterbtor's
          * source or elements.
          */
-        public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, int characteristics) {
-            this.it = iterator;
+        public DoubleIterbtorSpliterbtor(PrimitiveIterbtor.OfDouble iterbtor, int chbrbcteristics) {
+            this.it = iterbtor;
             this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+            this.chbrbcteristics = chbrbcteristics & ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED);
         }
 
         @Override
         public OfDouble trySplit() {
-            PrimitiveIterator.OfDouble i = it;
+            PrimitiveIterbtor.OfDouble i = it;
             long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+            if (s > 1 && i.hbsNext()) {
+                int n = bbtch + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                double[] a = new double[n];
+                double[] b = new double[n];
                 int j = 0;
-                do { a[j] = i.nextDouble(); } while (++j < n && i.hasNext());
-                batch = j;
+                do { b[j] = i.nextDouble(); } while (++j < n && i.hbsNext());
+                bbtch = j;
                 if (est != Long.MAX_VALUE)
                     est -= j;
-                return new DoubleArraySpliterator(a, 0, j, characteristics);
+                return new DoubleArrbySpliterbtor(b, 0, j, chbrbcteristics);
             }
             return null;
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        public void forEbchRembining(DoubleConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            it.forEbchRembining(bction);
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextDouble());
+        public boolebn tryAdvbnce(DoubleConsumer bction) {
+            if (bction == null) throw new NullPointerException();
+            if (it.hbsNext()) {
+                bction.bccept(it.nextDouble());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public long estimateSize() {
+        public long estimbteSize() {
             return est;
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int chbrbcteristics() { return chbrbcteristics; }
 
         @Override
-        public Comparator<? super Double> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
+        public Compbrbtor<? super Double> getCompbrbtor() {
+            if (hbsChbrbcteristics(Spliterbtor.SORTED))
                 return null;
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
         }
     }
 }

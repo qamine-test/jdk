@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.html.HTML;
-import javax.swing.text.ChangedCharSetException;
-import java.io.*;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.net.URL;
+import jbvbx.swing.text.SimpleAttributeSet;
+import jbvbx.swing.text.html.HTML;
+import jbvbx.swing.text.ChbngedChbrSetException;
+import jbvb.io.*;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Properties;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.net.URL;
 
-import sun.misc.MessageUtils;
+import sun.misc.MessbgeUtils;
 
 /**
- * A simple DTD-driven HTML parser. The parser reads an
- * HTML file from an InputStream and calls various methods
- * (which should be overridden in a subclass) when tags and
- * data are encountered.
+ * A simple DTD-driven HTML pbrser. The pbrser rebds bn
+ * HTML file from bn InputStrebm bnd cblls vbrious methods
+ * (which should be overridden in b subclbss) when tbgs bnd
+ * dbtb bre encountered.
  * <p>
- * Unfortunately there are many badly implemented HTML parsers
- * out there, and as a result there are many badly formatted
- * HTML files. This parser attempts to parse most HTML files.
- * This means that the implementation sometimes deviates from
- * the SGML specification in favor of HTML.
+ * Unfortunbtely there bre mbny bbdly implemented HTML pbrsers
+ * out there, bnd bs b result there bre mbny bbdly formbtted
+ * HTML files. This pbrser bttempts to pbrse most HTML files.
+ * This mebns thbt the implementbtion sometimes devibtes from
+ * the SGML specificbtion in fbvor of HTML.
  * <p>
- * The parser treats \r and \r\n as \n. Newlines after starttags
- * and before end tags are ignored just as specified in the SGML/HTML
- * specification.
+ * The pbrser trebts \r bnd \r\n bs \n. Newlines bfter stbrttbgs
+ * bnd before end tbgs bre ignored just bs specified in the SGML/HTML
+ * specificbtion.
  * <p>
- * The html spec does not specify how spaces are to be coalesced very well.
- * Specifically, the following scenarios are not discussed (note that a
- * space should be used here, but I am using &amp;nbsp to force the space to
- * be displayed):
+ * The html spec does not specify how spbces bre to be coblesced very well.
+ * Specificblly, the following scenbrios bre not discussed (note thbt b
+ * spbce should be used here, but I bm using &bmp;nbsp to force the spbce to
+ * be displbyed):
  * <p>
- * '&lt;b&gt;blah&nbsp;&lt;i&gt;&nbsp;&lt;strike&gt;&nbsp;foo' which can be treated as:
- * '&lt;b&gt;blah&nbsp;&lt;i&gt;&lt;strike&gt;foo'
- * <p>as well as:
- * '&lt;p&gt;&lt;a href="xx"&gt;&nbsp;&lt;em&gt;Using&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;'
- * which appears to be treated as:
- * '&lt;p&gt;&lt;a href="xx"&gt;&lt;em&gt;Using&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;'
+ * '&lt;b&gt;blbh&nbsp;&lt;i&gt;&nbsp;&lt;strike&gt;&nbsp;foo' which cbn be trebted bs:
+ * '&lt;b&gt;blbh&nbsp;&lt;i&gt;&lt;strike&gt;foo'
+ * <p>bs well bs:
+ * '&lt;p&gt;&lt;b href="xx"&gt;&nbsp;&lt;em&gt;Using&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;'
+ * which bppebrs to be trebted bs:
+ * '&lt;p&gt;&lt;b href="xx"&gt;&lt;em&gt;Using&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;'
  * <p>
- * If <code>strict</code> is false, when a tag that breaks flow,
- * (<code>TagElement.breaksFlows</code>) or trailing whitespace is
- * encountered, all whitespace will be ignored until a non whitespace
- * character is encountered. This appears to give behavior closer to
- * the popular browsers.
+ * If <code>strict</code> is fblse, when b tbg thbt brebks flow,
+ * (<code>TbgElement.brebksFlows</code>) or trbiling whitespbce is
+ * encountered, bll whitespbce will be ignored until b non whitespbce
+ * chbrbcter is encountered. This bppebrs to give behbvior closer to
+ * the populbr browsers.
  *
  * @see DTD
- * @see TagElement
+ * @see TbgElement
  * @see SimpleAttributeSet
- * @author Arthur van Hoff
- * @author Sunita Mani
+ * @buthor Arthur vbn Hoff
+ * @buthor Sunitb Mbni
  */
 public
-class Parser implements DTDConstants {
+clbss Pbrser implements DTDConstbnts {
 
-    private char text[] = new char[1024];
-    private int textpos = 0;
-    private TagElement last;
-    private boolean space;
+    privbte chbr text[] = new chbr[1024];
+    privbte int textpos = 0;
+    privbte TbgElement lbst;
+    privbte boolebn spbce;
 
-    private char str[] = new char[128];
-    private int strpos = 0;
+    privbte chbr str[] = new chbr[128];
+    privbte int strpos = 0;
 
     /**
      * The dtd.
      */
     protected DTD dtd = null;
 
-    private int ch;
-    private int ln;
-    private Reader in;
+    privbte int ch;
+    privbte int ln;
+    privbte Rebder in;
 
-    private Element recent;
-    private TagStack stack;
-    private boolean skipTag = false;
-    private TagElement lastFormSent = null;
-    private SimpleAttributeSet attributes = new SimpleAttributeSet();
+    privbte Element recent;
+    privbte TbgStbck stbck;
+    privbte boolebn skipTbg = fblse;
+    privbte TbgElement lbstFormSent = null;
+    privbte SimpleAttributeSet bttributes = new SimpleAttributeSet();
 
-    // State for <html>, <head> and <body>.  Since people like to slap
-    // together HTML documents without thinking, occasionally they
-    // have multiple instances of these tags.  These booleans track
-    // the first sightings of these tags so they can be safely ignored
-    // by the parser if repeated.
-    private boolean seenHtml = false;
-    private boolean seenHead = false;
-    private boolean seenBody = false;
+    // Stbte for <html>, <hebd> bnd <body>.  Since people like to slbp
+    // together HTML documents without thinking, occbsionblly they
+    // hbve multiple instbnces of these tbgs.  These boolebns trbck
+    // the first sightings of these tbgs so they cbn be sbfely ignored
+    // by the pbrser if repebted.
+    privbte boolebn seenHtml = fblse;
+    privbte boolebn seenHebd = fblse;
+    privbte boolebn seenBody = fblse;
 
     /**
-     * The html spec does not specify how spaces are coalesced very well.
-     * If strict == false, ignoreSpace is used to try and mimic the behavior
-     * of the popular browsers.
+     * The html spec does not specify how spbces bre coblesced very well.
+     * If strict == fblse, ignoreSpbce is used to try bnd mimic the behbvior
+     * of the populbr browsers.
      * <p>
-     * The problematic scenarios are:
-     * '&lt;b>blah &lt;i> &lt;strike> foo' which can be treated as:
-     * '&lt;b>blah &lt;i>&lt;strike>foo'
-     * as well as:
-     * '&lt;p>&lt;a href="xx"> &lt;em>Using&lt;/em>&lt;/a>&lt;/p>'
-     * which appears to be treated as:
-     * '&lt;p>&lt;a href="xx">&lt;em>Using&lt;/em>&lt;/a>&lt;/p>'
+     * The problembtic scenbrios bre:
+     * '&lt;b>blbh &lt;i> &lt;strike> foo' which cbn be trebted bs:
+     * '&lt;b>blbh &lt;i>&lt;strike>foo'
+     * bs well bs:
+     * '&lt;p>&lt;b href="xx"> &lt;em>Using&lt;/em>&lt;/b>&lt;/p>'
+     * which bppebrs to be trebted bs:
+     * '&lt;p>&lt;b href="xx">&lt;em>Using&lt;/em>&lt;/b>&lt;/p>'
      * <p>
-     * When a tag that breaks flow, or trailing whitespace is encountered
-     * ignoreSpace is set to true. From then on, all whitespace will be
+     * When b tbg thbt brebks flow, or trbiling whitespbce is encountered
+     * ignoreSpbce is set to true. From then on, bll whitespbce will be
      * ignored.
-     * ignoreSpace will be set back to false the first time a
-     * non whitespace character is encountered. This appears to give
-     * behavior closer to the popular browsers.
+     * ignoreSpbce will be set bbck to fblse the first time b
+     * non whitespbce chbrbcter is encountered. This bppebrs to give
+     * behbvior closer to the populbr browsers.
      */
-    private boolean ignoreSpace;
+    privbte boolebn ignoreSpbce;
 
     /**
-     * This flag determines whether or not the Parser will be strict
-     * in enforcing SGML compatibility.  If false, it will be lenient
-     * with certain common classes of erroneous HTML constructs.
-     * Strict or not, in either case an error will be recorded.
+     * This flbg determines whether or not the Pbrser will be strict
+     * in enforcing SGML compbtibility.  If fblse, it will be lenient
+     * with certbin common clbsses of erroneous HTML constructs.
+     * Strict or not, in either cbse bn error will be recorded.
      *
      */
-    protected boolean strict = false;
+    protected boolebn strict = fblse;
 
 
     /** Number of \r\n's encountered. */
-    private int crlfCount;
+    privbte int crlfCount;
     /** Number of \r's encountered. A \r\n will not increment this. */
-    private int crCount;
+    privbte int crCount;
     /** Number of \n's encountered. A \r\n will not increment this. */
-    private int lfCount;
+    privbte int lfCount;
 
     //
-    // To correctly identify the start of a tag/comment/text we need two
-    // ivars. Two are needed as handleText isn't invoked until the tag
-    // after the text has been parsed, that is the parser parses the text,
-    // then a tag, then invokes handleText followed by handleStart.
+    // To correctly identify the stbrt of b tbg/comment/text we need two
+    // ivbrs. Two bre needed bs hbndleText isn't invoked until the tbg
+    // bfter the text hbs been pbrsed, thbt is the pbrser pbrses the text,
+    // then b tbg, then invokes hbndleText followed by hbndleStbrt.
     //
-    /** The start position of the current block. Block is overloaded here,
-     * it really means the current start position for the current comment,
-     * tag, text. Use getBlockStartPosition to access this. */
-    private int currentBlockStartPos;
-    /** Start position of the last block. */
-    private int lastBlockStartPos;
+    /** The stbrt position of the current block. Block is overlobded here,
+     * it reblly mebns the current stbrt position for the current comment,
+     * tbg, text. Use getBlockStbrtPosition to bccess this. */
+    privbte int currentBlockStbrtPos;
+    /** Stbrt position of the lbst block. */
+    privbte int lbstBlockStbrtPos;
 
     /**
-     * array for mapping numeric references in range
-     * 130-159 to displayable Unicode characters.
+     * brrby for mbpping numeric references in rbnge
+     * 130-159 to displbybble Unicode chbrbcters.
      */
-    private static final char[] cp1252Map = {
+    privbte stbtic finbl chbr[] cp1252Mbp = {
         8218,  // &#130;
         402,   // &#131;
         8222,  // &#132;
@@ -202,164 +202,164 @@ class Parser implements DTDConstants {
     };
 
     /**
-     * Creates parser with the specified {@code dtd}.
+     * Crebtes pbrser with the specified {@code dtd}.
      *
-     * @param dtd the dtd.
+     * @pbrbm dtd the dtd.
      */
-    public Parser(DTD dtd) {
+    public Pbrser(DTD dtd) {
         this.dtd = dtd;
     }
 
 
     /**
-     * @return the line number of the line currently being parsed
+     * @return the line number of the line currently being pbrsed
      */
     protected int getCurrentLine() {
         return ln;
     }
 
     /**
-     * Returns the start position of the current block. Block is
-     * overloaded here, it really means the current start position for
-     * the current comment tag, text, block.... This is provided for
-     * subclassers that wish to know the start of the current block when
-     * called with one of the handleXXX methods.
+     * Returns the stbrt position of the current block. Block is
+     * overlobded here, it reblly mebns the current stbrt position for
+     * the current comment tbg, text, block.... This is provided for
+     * subclbssers thbt wish to know the stbrt of the current block when
+     * cblled with one of the hbndleXXX methods.
      *
-     * @return the start position of the current block
+     * @return the stbrt position of the current block
      */
-    int getBlockStartPosition() {
-        return Math.max(0, lastBlockStartPos - 1);
+    int getBlockStbrtPosition() {
+        return Mbth.mbx(0, lbstBlockStbrtPos - 1);
     }
 
     /**
-     * Makes a TagElement.
+     * Mbkes b TbgElement.
      *
-     * @param elem       the element storing the tag definition
-     * @param fictional  the value of the flag "{@code fictional}" to be set for the tag
+     * @pbrbm elem       the element storing the tbg definition
+     * @pbrbm fictionbl  the vblue of the flbg "{@code fictionbl}" to be set for the tbg
      *
-     * @return the created {@code TagElement}
+     * @return the crebted {@code TbgElement}
      */
-    protected TagElement makeTag(Element elem, boolean fictional) {
-        return new TagElement(elem, fictional);
+    protected TbgElement mbkeTbg(Element elem, boolebn fictionbl) {
+        return new TbgElement(elem, fictionbl);
     }
 
     /**
-     * Makes a TagElement.
+     * Mbkes b TbgElement.
      *
-     * @param elem  the element storing the tag definition
+     * @pbrbm elem  the element storing the tbg definition
      *
-     * @return the created {@code TagElement}
+     * @return the crebted {@code TbgElement}
      */
-    protected TagElement makeTag(Element elem) {
-        return makeTag(elem, false);
+    protected TbgElement mbkeTbg(Element elem) {
+        return mbkeTbg(elem, fblse);
     }
 
     /**
-     * Returns attributes for the current tag.
+     * Returns bttributes for the current tbg.
      *
-     * @return {@code SimpleAttributeSet} containing the attributes
+     * @return {@code SimpleAttributeSet} contbining the bttributes
      */
     protected SimpleAttributeSet getAttributes() {
-        return attributes;
+        return bttributes;
     }
 
     /**
-     * Removes the current attributes.
+     * Removes the current bttributes.
      */
     protected void flushAttributes() {
-        attributes.removeAttributes(attributes);
+        bttributes.removeAttributes(bttributes);
     }
 
     /**
-     * Called when PCDATA is encountered.
+     * Cblled when PCDATA is encountered.
      *
-     * @param text  the section text
+     * @pbrbm text  the section text
      */
-    protected void handleText(char text[]) {
+    protected void hbndleText(chbr text[]) {
     }
 
     /**
-     * Called when an HTML title tag is encountered.
+     * Cblled when bn HTML title tbg is encountered.
      *
-     * @param text  the title text
+     * @pbrbm text  the title text
      */
-    protected void handleTitle(char text[]) {
-        // default behavior is to call handleText. Subclasses
-        // can override if necessary.
-        handleText(text);
+    protected void hbndleTitle(chbr text[]) {
+        // defbult behbvior is to cbll hbndleText. Subclbsses
+        // cbn override if necessbry.
+        hbndleText(text);
     }
 
     /**
-     * Called when an HTML comment is encountered.
+     * Cblled when bn HTML comment is encountered.
      *
-     * @param text  the comment being handled
+     * @pbrbm text  the comment being hbndled
      */
-    protected void handleComment(char text[]) {
+    protected void hbndleComment(chbr text[]) {
     }
 
     /**
-     * Called when the content terminates without closing the HTML comment.
+     * Cblled when the content terminbtes without closing the HTML comment.
      */
-    protected void handleEOFInComment() {
-        // We've reached EOF.  Our recovery strategy is to
-        // see if we have more than one line in the comment;
-        // if so, we pretend that the comment was an unterminated
-        // single line comment, and reparse the lines after the
-        // first line as normal HTML content.
+    protected void hbndleEOFInComment() {
+        // We've rebched EOF.  Our recovery strbtegy is to
+        // see if we hbve more thbn one line in the comment;
+        // if so, we pretend thbt the comment wbs bn unterminbted
+        // single line comment, bnd repbrse the lines bfter the
+        // first line bs normbl HTML content.
 
         int commentEndPos = strIndexOf('\n');
         if (commentEndPos >= 0) {
-            handleComment(getChars(0, commentEndPos));
+            hbndleComment(getChbrs(0, commentEndPos));
             try {
                 in.close();
-                in = new CharArrayReader(getChars(commentEndPos + 1));
+                in = new ChbrArrbyRebder(getChbrs(commentEndPos + 1));
                 ch = '>';
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 error("ioexception");
             }
 
             resetStrBuffer();
         } else {
-            // no newline, so signal an error
+            // no newline, so signbl bn error
             error("eof.comment");
         }
     }
 
     /**
-     * Called when an empty tag is encountered.
+     * Cblled when bn empty tbg is encountered.
      *
-     * @param tag  the tag being handled
-     * @throws ChangedCharSetException if the document charset was changed
+     * @pbrbm tbg  the tbg being hbndled
+     * @throws ChbngedChbrSetException if the document chbrset wbs chbnged
      */
-    protected void handleEmptyTag(TagElement tag) throws ChangedCharSetException {
+    protected void hbndleEmptyTbg(TbgElement tbg) throws ChbngedChbrSetException {
     }
 
     /**
-     * Called when a start tag is encountered.
+     * Cblled when b stbrt tbg is encountered.
      *
-     * @param tag  the tag being handled
+     * @pbrbm tbg  the tbg being hbndled
      */
-    protected void handleStartTag(TagElement tag) {
+    protected void hbndleStbrtTbg(TbgElement tbg) {
     }
 
     /**
-     * Called when an end tag is encountered.
+     * Cblled when bn end tbg is encountered.
      *
-     * @param tag  the tag being handled
+     * @pbrbm tbg  the tbg being hbndled
      */
-    protected void handleEndTag(TagElement tag) {
+    protected void hbndleEndTbg(TbgElement tbg) {
     }
 
     /**
-     * An error has occurred.
+     * An error hbs occurred.
      *
-     * @param ln   the number of line containing the error
-     * @param msg  the error message
+     * @pbrbm ln   the number of line contbining the error
+     * @pbrbm msg  the error messbge
      */
-    protected void handleError(int ln, String msg) {
+    protected void hbndleError(int ln, String msg) {
         /*
-        Thread.dumpStack();
-        System.out.println("**** " + stack);
+        Threbd.dumpStbck();
+        System.out.println("**** " + stbck);
         System.out.println("line " + ln + ": error: " + msg);
         System.out.println();
         */
@@ -368,92 +368,92 @@ class Parser implements DTDConstants {
     /**
      * Output text.
      */
-    void handleText(TagElement tag) {
-        if (tag.breaksFlow()) {
-            space = false;
+    void hbndleText(TbgElement tbg) {
+        if (tbg.brebksFlow()) {
+            spbce = fblse;
             if (!strict) {
-                ignoreSpace = true;
+                ignoreSpbce = true;
             }
         }
         if (textpos == 0) {
-            if ((!space) || (stack == null) || last.breaksFlow() ||
-                !stack.advance(dtd.pcdata)) {
-                last = tag;
-                space = false;
-                lastBlockStartPos = currentBlockStartPos;
+            if ((!spbce) || (stbck == null) || lbst.brebksFlow() ||
+                !stbck.bdvbnce(dtd.pcdbtb)) {
+                lbst = tbg;
+                spbce = fblse;
+                lbstBlockStbrtPos = currentBlockStbrtPos;
                 return;
             }
         }
-        if (space) {
-            if (!ignoreSpace) {
-                // enlarge buffer if needed
+        if (spbce) {
+            if (!ignoreSpbce) {
+                // enlbrge buffer if needed
                 if (textpos + 1 > text.length) {
-                    char newtext[] = new char[text.length + 200];
-                    System.arraycopy(text, 0, newtext, 0, text.length);
+                    chbr newtext[] = new chbr[text.length + 200];
+                    System.brrbycopy(text, 0, newtext, 0, text.length);
                     text = newtext;
                 }
 
-                // output pending space
+                // output pending spbce
                 text[textpos++] = ' ';
-                if (!strict && !tag.getElement().isEmpty()) {
-                    ignoreSpace = true;
+                if (!strict && !tbg.getElement().isEmpty()) {
+                    ignoreSpbce = true;
                 }
             }
-            space = false;
+            spbce = fblse;
         }
-        char newtext[] = new char[textpos];
-        System.arraycopy(text, 0, newtext, 0, textpos);
-        // Handles cases of bad html where the title tag
-        // was getting lost when we did error recovery.
-        if (tag.getElement().getName().equals("title")) {
-            handleTitle(newtext);
+        chbr newtext[] = new chbr[textpos];
+        System.brrbycopy(text, 0, newtext, 0, textpos);
+        // Hbndles cbses of bbd html where the title tbg
+        // wbs getting lost when we did error recovery.
+        if (tbg.getElement().getNbme().equbls("title")) {
+            hbndleTitle(newtext);
         } else {
-            handleText(newtext);
+            hbndleText(newtext);
         }
-        lastBlockStartPos = currentBlockStartPos;
+        lbstBlockStbrtPos = currentBlockStbrtPos;
         textpos = 0;
-        last = tag;
-        space = false;
+        lbst = tbg;
+        spbce = fblse;
     }
 
     /**
-     * Invokes the error handler.
+     * Invokes the error hbndler.
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
-     * @param arg2  the 2nd error message argument
-     * @param arg3  the 3rd error message argument
+     * @pbrbm err   the error type
+     * @pbrbm brg1  the 1st error messbge brgument
+     * @pbrbm brg2  the 2nd error messbge brgument
+     * @pbrbm brg3  the 3rd error messbge brgument
      */
-    protected void error(String err, String arg1, String arg2,
-        String arg3) {
-        handleError(ln, err + " " + arg1 + " " + arg2 + " " + arg3);
+    protected void error(String err, String brg1, String brg2,
+        String brg3) {
+        hbndleError(ln, err + " " + brg1 + " " + brg2 + " " + brg3);
     }
 
     /**
-     * Invokes the error handler with the 3rd error message argument "?".
+     * Invokes the error hbndler with the 3rd error messbge brgument "?".
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
-     * @param arg2  the 2nd error message argument
+     * @pbrbm err   the error type
+     * @pbrbm brg1  the 1st error messbge brgument
+     * @pbrbm brg2  the 2nd error messbge brgument
      */
-    protected void error(String err, String arg1, String arg2) {
-        error(err, arg1, arg2, "?");
+    protected void error(String err, String brg1, String brg2) {
+        error(err, brg1, brg2, "?");
     }
 
     /**
-     * Invokes the error handler with the 2nd and 3rd error message argument "?".
+     * Invokes the error hbndler with the 2nd bnd 3rd error messbge brgument "?".
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
+     * @pbrbm err   the error type
+     * @pbrbm brg1  the 1st error messbge brgument
      */
-    protected void error(String err, String arg1) {
-        error(err, arg1, "?", "?");
+    protected void error(String err, String brg1) {
+        error(err, brg1, "?", "?");
     }
 
     /**
-     * Invokes the error handler with the 1st, 2nd and 3rd error message argument "?".
+     * Invokes the error hbndler with the 1st, 2nd bnd 3rd error messbge brgument "?".
      *
-     * @param err   the error type
+     * @pbrbm err   the error type
      */
     protected void error(String err) {
         error(err, "?", "?", "?");
@@ -461,101 +461,101 @@ class Parser implements DTDConstants {
 
 
     /**
-     * Handle a start tag. The new tag is pushed
-     * onto the tag stack. The attribute list is
-     * checked for required attributes.
+     * Hbndle b stbrt tbg. The new tbg is pushed
+     * onto the tbg stbck. The bttribute list is
+     * checked for required bttributes.
      *
-     * @param tag  the tag
-     * @throws ChangedCharSetException if the document charset was changed
+     * @pbrbm tbg  the tbg
+     * @throws ChbngedChbrSetException if the document chbrset wbs chbnged
      */
-    protected void startTag(TagElement tag) throws ChangedCharSetException {
-        Element elem = tag.getElement();
+    protected void stbrtTbg(TbgElement tbg) throws ChbngedChbrSetException {
+        Element elem = tbg.getElement();
 
-        // If the tag is an empty tag and texpos != 0
-        // this implies that there is text before the
-        // start tag that needs to be processed before
-        // handling the tag.
+        // If the tbg is bn empty tbg bnd texpos != 0
+        // this implies thbt there is text before the
+        // stbrt tbg thbt needs to be processed before
+        // hbndling the tbg.
         //
         if (!elem.isEmpty() ||
-                    ((last != null) && !last.breaksFlow()) ||
+                    ((lbst != null) && !lbst.brebksFlow()) ||
                     (textpos != 0)) {
-            handleText(tag);
+            hbndleText(tbg);
         } else {
-            // this variable gets updated in handleText().
-            // Since in this case we do not call handleText()
-            // we need to update it here.
+            // this vbribble gets updbted in hbndleText().
+            // Since in this cbse we do not cbll hbndleText()
+            // we need to updbte it here.
             //
-            last = tag;
-            // Note that we should really check last.breakFlows before
-            // assuming this should be false.
-            space = false;
+            lbst = tbg;
+            // Note thbt we should reblly check lbst.brebkFlows before
+            // bssuming this should be fblse.
+            spbce = fblse;
         }
-        lastBlockStartPos = currentBlockStartPos;
+        lbstBlockStbrtPos = currentBlockStbrtPos;
 
-        // check required attributes
-        for (AttributeList a = elem.atts ; a != null ; a = a.next) {
-            if ((a.modifier == REQUIRED) &&
-                ((attributes.isEmpty()) ||
-                 ((!attributes.isDefined(a.name)) &&
-                  (!attributes.isDefined(HTML.getAttributeKey(a.name)))))) {
-                error("req.att ", a.getName(), elem.getName());
+        // check required bttributes
+        for (AttributeList b = elem.btts ; b != null ; b = b.next) {
+            if ((b.modifier == REQUIRED) &&
+                ((bttributes.isEmpty()) ||
+                 ((!bttributes.isDefined(b.nbme)) &&
+                  (!bttributes.isDefined(HTML.getAttributeKey(b.nbme)))))) {
+                error("req.btt ", b.getNbme(), elem.getNbme());
             }
         }
 
         if (elem.isEmpty()) {
-            handleEmptyTag(tag);
+            hbndleEmptyTbg(tbg);
             /*
-        } else if (elem.getName().equals("form")) {
-            handleStartTag(tag);
+        } else if (elem.getNbme().equbls("form")) {
+            hbndleStbrtTbg(tbg);
             */
         } else {
             recent = elem;
-            stack = new TagStack(tag, stack);
-            handleStartTag(tag);
+            stbck = new TbgStbck(tbg, stbck);
+            hbndleStbrtTbg(tbg);
         }
     }
 
     /**
-     * Handle an end tag. The end tag is popped
-     * from the tag stack.
+     * Hbndle bn end tbg. The end tbg is popped
+     * from the tbg stbck.
      *
-     * @param omitted  {@code true} if the tag is no actually present in the
-     *                 document, but is supposed by the parser
+     * @pbrbm omitted  {@code true} if the tbg is no bctublly present in the
+     *                 document, but is supposed by the pbrser
      */
-    protected void endTag(boolean omitted) {
-        handleText(stack.tag);
+    protected void endTbg(boolebn omitted) {
+        hbndleText(stbck.tbg);
 
-        if (omitted && !stack.elem.omitEnd()) {
-            error("end.missing", stack.elem.getName());
-        } else if (!stack.terminate()) {
-            error("end.unexpected", stack.elem.getName());
+        if (omitted && !stbck.elem.omitEnd()) {
+            error("end.missing", stbck.elem.getNbme());
+        } else if (!stbck.terminbte()) {
+            error("end.unexpected", stbck.elem.getNbme());
         }
 
-        // handle the tag
-        handleEndTag(stack.tag);
-        stack = stack.next;
-        recent = (stack != null) ? stack.elem : null;
+        // hbndle the tbg
+        hbndleEndTbg(stbck.tbg);
+        stbck = stbck.next;
+        recent = (stbck != null) ? stbck.elem : null;
     }
 
 
-    boolean ignoreElement(Element elem) {
+    boolebn ignoreElement(Element elem) {
 
-        String stackElement = stack.elem.getName();
-        String elemName = elem.getName();
-        /* We ignore all elements that are not valid in the context of
-           a table except <td>, <th> (these we handle in
-           legalElementContext()) and #pcdata.  We also ignore the
-           <font> tag in the context of <ul> and <ol> We additonally
-           ignore the <meta> and the <style> tag if the body tag has
+        String stbckElement = stbck.elem.getNbme();
+        String elemNbme = elem.getNbme();
+        /* We ignore bll elements thbt bre not vblid in the context of
+           b tbble except <td>, <th> (these we hbndle in
+           legblElementContext()) bnd #pcdbtb.  We blso ignore the
+           <font> tbg in the context of <ul> bnd <ol> We bdditonblly
+           ignore the <metb> bnd the <style> tbg if the body tbg hbs
            been seen. **/
-        if ((elemName.equals("html") && seenHtml) ||
-            (elemName.equals("head") && seenHead) ||
-            (elemName.equals("body") && seenBody)) {
+        if ((elemNbme.equbls("html") && seenHtml) ||
+            (elemNbme.equbls("hebd") && seenHebd) ||
+            (elemNbme.equbls("body") && seenBody)) {
             return true;
         }
-        if (elemName.equals("dt") || elemName.equals("dd")) {
-            TagStack s = stack;
-            while (s != null && !s.elem.getName().equals("dl")) {
+        if (elemNbme.equbls("dt") || elemNbme.equbls("dd")) {
+            TbgStbck s = stbck;
+            while (s != null && !s.elem.getNbme().equbls("dl")) {
                 s = s.next;
             }
             if (s == null) {
@@ -563,35 +563,35 @@ class Parser implements DTDConstants {
             }
         }
 
-        if (((stackElement.equals("table")) &&
-             (!elemName.equals("#pcdata")) && (!elemName.equals("input"))) ||
-            ((elemName.equals("font")) &&
-             (stackElement.equals("ul") || stackElement.equals("ol"))) ||
-            (elemName.equals("meta") && stack != null) ||
-            (elemName.equals("style") && seenBody) ||
-            (stackElement.equals("table") && elemName.equals("a"))) {
+        if (((stbckElement.equbls("tbble")) &&
+             (!elemNbme.equbls("#pcdbtb")) && (!elemNbme.equbls("input"))) ||
+            ((elemNbme.equbls("font")) &&
+             (stbckElement.equbls("ul") || stbckElement.equbls("ol"))) ||
+            (elemNbme.equbls("metb") && stbck != null) ||
+            (elemNbme.equbls("style") && seenBody) ||
+            (stbckElement.equbls("tbble") && elemNbme.equbls("b"))) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Marks the first time a tag has been seen in a document
+     * Mbrks the first time b tbg hbs been seen in b document
      *
-     * @param elem  the element represented by the tag
+     * @pbrbm elem  the element represented by the tbg
      */
 
-    protected void markFirstTime(Element elem) {
-        String elemName = elem.getName();
-        if (elemName.equals("html")) {
+    protected void mbrkFirstTime(Element elem) {
+        String elemNbme = elem.getNbme();
+        if (elemNbme.equbls("html")) {
             seenHtml = true;
-        } else if (elemName.equals("head")) {
-            seenHead = true;
-        } else if (elemName.equals("body")) {
+        } else if (elemNbme.equbls("hebd")) {
+            seenHebd = true;
+        } else if (elemNbme.equbls("body")) {
             if (buf.length == 1) {
-                // Refer to note in definition of buf for details on this.
-                char[] newBuf = new char[256];
+                // Refer to note in definition of buf for detbils on this.
+                chbr[] newBuf = new chbr[256];
 
                 newBuf[0] = buf[0];
                 buf = newBuf;
@@ -601,156 +601,156 @@ class Parser implements DTDConstants {
     }
 
     /**
-     * Create a legal content for an element.
+     * Crebte b legbl content for bn element.
      */
-    boolean legalElementContext(Element elem) throws ChangedCharSetException {
+    boolebn legblElementContext(Element elem) throws ChbngedChbrSetException {
 
-        // System.out.println("-- legalContext -- " + elem);
+        // System.out.println("-- legblContext -- " + elem);
 
-        // Deal with the empty stack
-        if (stack == null) {
-            // System.out.println("-- stack is empty");
+        // Debl with the empty stbck
+        if (stbck == null) {
+            // System.out.println("-- stbck is empty");
             if (elem != dtd.html) {
                 // System.out.println("-- pushing html");
-                startTag(makeTag(dtd.html, true));
-                return legalElementContext(elem);
+                stbrtTbg(mbkeTbg(dtd.html, true));
+                return legblElementContext(elem);
             }
             return true;
         }
 
-        // Is it allowed in the current context
-        if (stack.advance(elem)) {
-            // System.out.println("-- legal context");
-            markFirstTime(elem);
+        // Is it bllowed in the current context
+        if (stbck.bdvbnce(elem)) {
+            // System.out.println("-- legbl context");
+            mbrkFirstTime(elem);
             return true;
         }
-        boolean insertTag = false;
+        boolebn insertTbg = fblse;
 
-        // The use of all error recovery strategies are contingent
-        // on the value of the strict property.
+        // The use of bll error recovery strbtegies bre contingent
+        // on the vblue of the strict property.
         //
-        // These are commonly occurring errors.  if insertTag is true,
-        // then we want to adopt an error recovery strategy that
-        // involves attempting to insert an additional tag to
-        // legalize the context.  The two errors addressed here
-        // are:
-        // 1) when a <td> or <th> is seen soon after a <table> tag.
-        //    In this case we insert a <tr>.
-        // 2) when any other tag apart from a <tr> is seen
-        //    in the context of a <tr>.  In this case we would
-        //    like to add a <td>.  If a <tr> is seen within a
+        // These bre commonly occurring errors.  if insertTbg is true,
+        // then we wbnt to bdopt bn error recovery strbtegy thbt
+        // involves bttempting to insert bn bdditionbl tbg to
+        // legblize the context.  The two errors bddressed here
+        // bre:
+        // 1) when b <td> or <th> is seen soon bfter b <tbble> tbg.
+        //    In this cbse we insert b <tr>.
+        // 2) when bny other tbg bpbrt from b <tr> is seen
+        //    in the context of b <tr>.  In this cbse we would
+        //    like to bdd b <td>.  If b <tr> is seen within b
         //    <tr> context, then we will close out the current
         //    <tr>.
         //
-        // This insertion strategy is handled later in the method.
-        // The reason for checking this now, is that in other cases
-        // we would like to apply other error recovery strategies for example
-        // ignoring tags.
+        // This insertion strbtegy is hbndled lbter in the method.
+        // The rebson for checking this now, is thbt in other cbses
+        // we would like to bpply other error recovery strbtegies for exbmple
+        // ignoring tbgs.
         //
-        // In certain cases it is better to ignore a tag than try to
-        // fix the situation.  So the first test is to see if this
-        // is what we need to do.
+        // In certbin cbses it is better to ignore b tbg thbn try to
+        // fix the situbtion.  So the first test is to see if this
+        // is whbt we need to do.
         //
-        String stackElemName = stack.elem.getName();
-        String elemName = elem.getName();
+        String stbckElemNbme = stbck.elem.getNbme();
+        String elemNbme = elem.getNbme();
 
 
         if (!strict &&
-            ((stackElemName.equals("table") && elemName.equals("td")) ||
-             (stackElemName.equals("table") && elemName.equals("th")) ||
-             (stackElemName.equals("tr") && !elemName.equals("tr")))){
-             insertTag = true;
+            ((stbckElemNbme.equbls("tbble") && elemNbme.equbls("td")) ||
+             (stbckElemNbme.equbls("tbble") && elemNbme.equbls("th")) ||
+             (stbckElemNbme.equbls("tr") && !elemNbme.equbls("tr")))){
+             insertTbg = true;
         }
 
 
-        if (!strict && !insertTag && (stack.elem.getName() != elem.getName() ||
-                                      elem.getName().equals("body"))) {
-            if (skipTag = ignoreElement(elem)) {
-                error("tag.ignore", elem.getName());
-                return skipTag;
+        if (!strict && !insertTbg && (stbck.elem.getNbme() != elem.getNbme() ||
+                                      elem.getNbme().equbls("body"))) {
+            if (skipTbg = ignoreElement(elem)) {
+                error("tbg.ignore", elem.getNbme());
+                return skipTbg;
             }
         }
 
-        // Check for anything after the start of the table besides tr, td, th
-        // or caption, and if those aren't there, insert the <tr> and call
-        // legalElementContext again.
-        if (!strict && stackElemName.equals("table") &&
-            !elemName.equals("tr") && !elemName.equals("td") &&
-            !elemName.equals("th") && !elemName.equals("caption")) {
+        // Check for bnything bfter the stbrt of the tbble besides tr, td, th
+        // or cbption, bnd if those bren't there, insert the <tr> bnd cbll
+        // legblElementContext bgbin.
+        if (!strict && stbckElemNbme.equbls("tbble") &&
+            !elemNbme.equbls("tr") && !elemNbme.equbls("td") &&
+            !elemNbme.equbls("th") && !elemNbme.equbls("cbption")) {
             Element e = dtd.getElement("tr");
-            TagElement t = makeTag(e, true);
-            legalTagContext(t);
-            startTag(t);
-            error("start.missing", elem.getName());
-            return legalElementContext(elem);
+            TbgElement t = mbkeTbg(e, true);
+            legblTbgContext(t);
+            stbrtTbg(t);
+            error("stbrt.missing", elem.getNbme());
+            return legblElementContext(elem);
         }
 
-        // They try to find a legal context by checking if the current
-        // tag is valid in an enclosing context.  If so
-        // close out the tags by outputing end tags and then
-        // insert the current tag.  If the tags that are
-        // being closed out do not have an optional end tag
-        // specification in the DTD then an html error is
+        // They try to find b legbl context by checking if the current
+        // tbg is vblid in bn enclosing context.  If so
+        // close out the tbgs by outputing end tbgs bnd then
+        // insert the current tbg.  If the tbgs thbt bre
+        // being closed out do not hbve bn optionbl end tbg
+        // specificbtion in the DTD then bn html error is
         // reported.
         //
-        if (!insertTag && stack.terminate() && (!strict || stack.elem.omitEnd())) {
-            for (TagStack s = stack.next ; s != null ; s = s.next) {
-                if (s.advance(elem)) {
-                    while (stack != s) {
-                        endTag(true);
+        if (!insertTbg && stbck.terminbte() && (!strict || stbck.elem.omitEnd())) {
+            for (TbgStbck s = stbck.next ; s != null ; s = s.next) {
+                if (s.bdvbnce(elem)) {
+                    while (stbck != s) {
+                        endTbg(true);
                     }
                     return true;
                 }
-                if (!s.terminate() || (strict && !s.elem.omitEnd())) {
-                    break;
+                if (!s.terminbte() || (strict && !s.elem.omitEnd())) {
+                    brebk;
                 }
             }
         }
 
-        // Check if we know what tag is expected next.
-        // If so insert the tag.  Report an error if the
-        // tag does not have its start tag spec in the DTD as optional.
+        // Check if we know whbt tbg is expected next.
+        // If so insert the tbg.  Report bn error if the
+        // tbg does not hbve its stbrt tbg spec in the DTD bs optionbl.
         //
-        Element next = stack.first();
-        if (next != null && (!strict || next.omitStart()) &&
-           !(next==dtd.head && elem==dtd.pcdata) ) {
-            // System.out.println("-- omitting start tag: " + next);
-            TagElement t = makeTag(next, true);
-            legalTagContext(t);
-            startTag(t);
-            if (!next.omitStart()) {
-                error("start.missing", elem.getName());
+        Element next = stbck.first();
+        if (next != null && (!strict || next.omitStbrt()) &&
+           !(next==dtd.hebd && elem==dtd.pcdbtb) ) {
+            // System.out.println("-- omitting stbrt tbg: " + next);
+            TbgElement t = mbkeTbg(next, true);
+            legblTbgContext(t);
+            stbrtTbg(t);
+            if (!next.omitStbrt()) {
+                error("stbrt.missing", elem.getNbme());
             }
-            return legalElementContext(elem);
+            return legblElementContext(elem);
         }
 
 
-        // Traverse the list of expected elements and determine if adding
-        // any of these elements would make for a legal context.
+        // Trbverse the list of expected elements bnd determine if bdding
+        // bny of these elements would mbke for b legbl context.
         //
 
         if (!strict) {
-            ContentModel content = stack.contentModel();
+            ContentModel content = stbck.contentModel();
             Vector<Element> elemVec = new Vector<Element>();
             if (content != null) {
                 content.getElements(elemVec);
                 for (Element e : elemVec) {
-                    // Ensure that this element has not been included as
-                    // part of the exclusions in the DTD.
+                    // Ensure thbt this element hbs not been included bs
+                    // pbrt of the exclusions in the DTD.
                     //
-                    if (stack.excluded(e.getIndex())) {
+                    if (stbck.excluded(e.getIndex())) {
                         continue;
                     }
 
-                    boolean reqAtts = false;
+                    boolebn reqAtts = fblse;
 
-                    for (AttributeList a = e.getAttributes(); a != null ; a = a.next) {
-                        if (a.modifier == REQUIRED) {
+                    for (AttributeList b = e.getAttributes(); b != null ; b = b.next) {
+                        if (b.modifier == REQUIRED) {
                             reqAtts = true;
-                            break;
+                            brebk;
                         }
                     }
-                    // Ensure that no tag that has required attributes
+                    // Ensure thbt no tbg thbt hbs required bttributes
                     // gets inserted.
                     //
                     if (reqAtts) {
@@ -759,114 +759,114 @@ class Parser implements DTDConstants {
 
                     ContentModel m = e.getContent();
                     if (m != null && m.first(elem)) {
-                        // System.out.println("-- adding a legal tag: " + e);
-                        TagElement t = makeTag(e, true);
-                        legalTagContext(t);
-                        startTag(t);
-                        error("start.missing", e.getName());
-                        return legalElementContext(elem);
+                        // System.out.println("-- bdding b legbl tbg: " + e);
+                        TbgElement t = mbkeTbg(e, true);
+                        legblTbgContext(t);
+                        stbrtTbg(t);
+                        error("stbrt.missing", e.getNbme());
+                        return legblElementContext(elem);
                     }
                 }
             }
         }
 
-        // Check if the stack can be terminated.  If so add the appropriate
-        // end tag.  Report an error if the tag being ended does not have its
-        // end tag spec in the DTD as optional.
+        // Check if the stbck cbn be terminbted.  If so bdd the bppropribte
+        // end tbg.  Report bn error if the tbg being ended does not hbve its
+        // end tbg spec in the DTD bs optionbl.
         //
-        if (stack.terminate() && (stack.elem != dtd.body) && (!strict || stack.elem.omitEnd())) {
-            // System.out.println("-- omitting end tag: " + stack.elem);
-            if (!stack.elem.omitEnd()) {
-                error("end.missing", elem.getName());
+        if (stbck.terminbte() && (stbck.elem != dtd.body) && (!strict || stbck.elem.omitEnd())) {
+            // System.out.println("-- omitting end tbg: " + stbck.elem);
+            if (!stbck.elem.omitEnd()) {
+                error("end.missing", elem.getNbme());
             }
 
-            endTag(true);
-            return legalElementContext(elem);
+            endTbg(true);
+            return legblElementContext(elem);
         }
 
-        // At this point we know that something is screwed up.
-        return false;
+        // At this point we know thbt something is screwed up.
+        return fblse;
     }
 
     /**
-     * Create a legal context for a tag.
+     * Crebte b legbl context for b tbg.
      */
-    void legalTagContext(TagElement tag) throws ChangedCharSetException {
-        if (legalElementContext(tag.getElement())) {
-            markFirstTime(tag.getElement());
+    void legblTbgContext(TbgElement tbg) throws ChbngedChbrSetException {
+        if (legblElementContext(tbg.getElement())) {
+            mbrkFirstTime(tbg.getElement());
             return;
         }
 
-        // Avoid putting a block tag in a flow tag.
-        if (tag.breaksFlow() && (stack != null) && !stack.tag.breaksFlow()) {
-            endTag(true);
-            legalTagContext(tag);
+        // Avoid putting b block tbg in b flow tbg.
+        if (tbg.brebksFlow() && (stbck != null) && !stbck.tbg.brebksFlow()) {
+            endTbg(true);
+            legblTbgContext(tbg);
             return;
         }
 
-        // Avoid putting something wierd in the head of the document.
-        for (TagStack s = stack ; s != null ; s = s.next) {
-            if (s.tag.getElement() == dtd.head) {
-                while (stack != s) {
-                    endTag(true);
+        // Avoid putting something wierd in the hebd of the document.
+        for (TbgStbck s = stbck ; s != null ; s = s.next) {
+            if (s.tbg.getElement() == dtd.hebd) {
+                while (stbck != s) {
+                    endTbg(true);
                 }
-                endTag(true);
-                legalTagContext(tag);
+                endTbg(true);
+                legblTbgContext(tbg);
                 return;
             }
         }
 
-        // Everything failed
-        error("tag.unexpected", tag.getElement().getName());
+        // Everything fbiled
+        error("tbg.unexpected", tbg.getElement().getNbme());
     }
 
     /**
-     * Error context. Something went wrong, make sure we are in
+     * Error context. Something went wrong, mbke sure we bre in
      * the document's body context
      */
-    void errorContext() throws ChangedCharSetException {
-        for (; (stack != null) && (stack.tag.getElement() != dtd.body) ; stack = stack.next) {
-            handleEndTag(stack.tag);
+    void errorContext() throws ChbngedChbrSetException {
+        for (; (stbck != null) && (stbck.tbg.getElement() != dtd.body) ; stbck = stbck.next) {
+            hbndleEndTbg(stbck.tbg);
         }
-        if (stack == null) {
-            legalElementContext(dtd.body);
-            startTag(makeTag(dtd.body, true));
+        if (stbck == null) {
+            legblElementContext(dtd.body);
+            stbrtTbg(mbkeTbg(dtd.body, true));
         }
     }
 
     /**
-     * Add a char to the string buffer.
+     * Add b chbr to the string buffer.
      */
-    void addString(int c) {
+    void bddString(int c) {
         if (strpos  == str.length) {
-            char newstr[] = new char[str.length + 128];
-            System.arraycopy(str, 0, newstr, 0, str.length);
+            chbr newstr[] = new chbr[str.length + 128];
+            System.brrbycopy(str, 0, newstr, 0, str.length);
             str = newstr;
         }
-        str[strpos++] = (char)c;
+        str[strpos++] = (chbr)c;
     }
 
     /**
-     * Get the string that's been accumulated.
+     * Get the string thbt's been bccumulbted.
      */
     String getString(int pos) {
-        char newStr[] = new char[strpos - pos];
-        System.arraycopy(str, pos, newStr, 0, strpos - pos);
+        chbr newStr[] = new chbr[strpos - pos];
+        System.brrbycopy(str, pos, newStr, 0, strpos - pos);
         strpos = pos;
         return new String(newStr);
     }
 
-    char[] getChars(int pos) {
-        char newStr[] = new char[strpos - pos];
-        System.arraycopy(str, pos, newStr, 0, strpos - pos);
+    chbr[] getChbrs(int pos) {
+        chbr newStr[] = new chbr[strpos - pos];
+        System.brrbycopy(str, pos, newStr, 0, strpos - pos);
         strpos = pos;
         return newStr;
     }
 
-    char[] getChars(int pos, int endPos) {
-        char newStr[] = new char[endPos - pos];
-        System.arraycopy(str, pos, newStr, 0, endPos - pos);
-        // REMIND: it's not clear whether this version should set strpos or not
+    chbr[] getChbrs(int pos, int endPos) {
+        chbr newStr[] = new chbr[endPos - pos];
+        System.brrbycopy(str, pos, newStr, 0, endPos - pos);
+        // REMIND: it's not clebr whether this version should set strpos or not
         // strpos = pos;
         return newStr;
     }
@@ -875,9 +875,9 @@ class Parser implements DTDConstants {
         strpos = 0;
     }
 
-    int strIndexOf(char target) {
+    int strIndexOf(chbr tbrget) {
         for (int i = 0; i < strpos; i++) {
-            if (str[i] == target) {
+            if (str[i] == tbrget) {
                 return i;
             }
         }
@@ -886,450 +886,450 @@ class Parser implements DTDConstants {
     }
 
     /**
-     * Skip space.
+     * Skip spbce.
      * [5] 297:5
      */
-    void skipSpace() throws IOException {
+    void skipSpbce() throws IOException {
         while (true) {
             switch (ch) {
-              case '\n':
+              cbse '\n':
                 ln++;
-                ch = readCh();
+                ch = rebdCh();
                 lfCount++;
-                break;
+                brebk;
 
-              case '\r':
+              cbse '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
                     crCount++;
                 }
-                break;
-              case ' ':
-              case '\t':
-                ch = readCh();
-                break;
+                brebk;
+              cbse ' ':
+              cbse '\t':
+                ch = rebdCh();
+                brebk;
 
-              default:
+              defbult:
                 return;
             }
         }
     }
 
     /**
-     * Parse identifier. Uppercase characters are folded
-     * to lowercase when lower is true. Returns falsed if
+     * Pbrse identifier. Uppercbse chbrbcters bre folded
+     * to lowercbse when lower is true. Returns fblsed if
      * no identifier is found. [55] 346:17
      */
-    boolean parseIdentifier(boolean lower) throws IOException {
+    boolebn pbrseIdentifier(boolebn lower) throws IOException {
         switch (ch) {
-          case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-          case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-          case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-          case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-          case 'Y': case 'Z':
+          cbse 'A': cbse 'B': cbse 'C': cbse 'D': cbse 'E': cbse 'F':
+          cbse 'G': cbse 'H': cbse 'I': cbse 'J': cbse 'K': cbse 'L':
+          cbse 'M': cbse 'N': cbse 'O': cbse 'P': cbse 'Q': cbse 'R':
+          cbse 'S': cbse 'T': cbse 'U': cbse 'V': cbse 'W': cbse 'X':
+          cbse 'Y': cbse 'Z':
             if (lower) {
-                ch = 'a' + (ch - 'A');
+                ch = 'b' + (ch - 'A');
             }
-            break;
+            brebk;
 
-          case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-          case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-          case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-          case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-          case 'y': case 'z':
-            break;
+          cbse 'b': cbse 'b': cbse 'c': cbse 'd': cbse 'e': cbse 'f':
+          cbse 'g': cbse 'h': cbse 'i': cbse 'j': cbse 'k': cbse 'l':
+          cbse 'm': cbse 'n': cbse 'o': cbse 'p': cbse 'q': cbse 'r':
+          cbse 's': cbse 't': cbse 'u': cbse 'v': cbse 'w': cbse 'x':
+          cbse 'y': cbse 'z':
+            brebk;
 
-          default:
-            return false;
+          defbult:
+            return fblse;
         }
 
         while (true) {
-            addString(ch);
+            bddString(ch);
 
-            switch (ch = readCh()) {
-              case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-              case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-              case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-              case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-              case 'Y': case 'Z':
+            switch (ch = rebdCh()) {
+              cbse 'A': cbse 'B': cbse 'C': cbse 'D': cbse 'E': cbse 'F':
+              cbse 'G': cbse 'H': cbse 'I': cbse 'J': cbse 'K': cbse 'L':
+              cbse 'M': cbse 'N': cbse 'O': cbse 'P': cbse 'Q': cbse 'R':
+              cbse 'S': cbse 'T': cbse 'U': cbse 'V': cbse 'W': cbse 'X':
+              cbse 'Y': cbse 'Z':
                 if (lower) {
-                    ch = 'a' + (ch - 'A');
+                    ch = 'b' + (ch - 'A');
                 }
-                break;
+                brebk;
 
-              case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-              case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-              case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-              case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-              case 'y': case 'z':
+              cbse 'b': cbse 'b': cbse 'c': cbse 'd': cbse 'e': cbse 'f':
+              cbse 'g': cbse 'h': cbse 'i': cbse 'j': cbse 'k': cbse 'l':
+              cbse 'm': cbse 'n': cbse 'o': cbse 'p': cbse 'q': cbse 'r':
+              cbse 's': cbse 't': cbse 'u': cbse 'v': cbse 'w': cbse 'x':
+              cbse 'y': cbse 'z':
 
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
+              cbse '0': cbse '1': cbse '2': cbse '3': cbse '4':
+              cbse '5': cbse '6': cbse '7': cbse '8': cbse '9':
 
-              case '.': case '-':
+              cbse '.': cbse '-':
 
-              case '_': // not officially allowed
-                break;
+              cbse '_': // not officiblly bllowed
+                brebk;
 
-              default:
+              defbult:
                 return true;
             }
         }
     }
 
     /**
-     * Parse an entity reference. [59] 350:17
+     * Pbrse bn entity reference. [59] 350:17
      */
-    private char[] parseEntityReference() throws IOException {
+    privbte chbr[] pbrseEntityReference() throws IOException {
         int pos = strpos;
 
-        if ((ch = readCh()) == '#') {
+        if ((ch = rebdCh()) == '#') {
             int n = 0;
-            ch = readCh();
+            ch = rebdCh();
             if ((ch >= '0') && (ch <= '9') ||
                     ch == 'x' || ch == 'X') {
 
                 if ((ch >= '0') && (ch <= '9')) {
-                    // parse decimal reference
+                    // pbrse decimbl reference
                     while ((ch >= '0') && (ch <= '9')) {
                         n = (n * 10) + ch - '0';
-                        ch = readCh();
+                        ch = rebdCh();
                     }
                 } else {
-                    // parse hexadecimal reference
-                    ch = readCh();
-                    char lch = (char) Character.toLowerCase(ch);
+                    // pbrse hexbdecimbl reference
+                    ch = rebdCh();
+                    chbr lch = (chbr) Chbrbcter.toLowerCbse(ch);
                     while ((lch >= '0') && (lch <= '9') ||
-                            (lch >= 'a') && (lch <= 'f')) {
+                            (lch >= 'b') && (lch <= 'f')) {
                         if (lch >= '0' && lch <= '9') {
                             n = (n * 16) + lch - '0';
                         } else {
-                            n = (n * 16) + lch - 'a' + 10;
+                            n = (n * 16) + lch - 'b' + 10;
                         }
-                        ch = readCh();
-                        lch = (char) Character.toLowerCase(ch);
+                        ch = rebdCh();
+                        lch = (chbr) Chbrbcter.toLowerCbse(ch);
                     }
                 }
                 switch (ch) {
-                    case '\n':
+                    cbse '\n':
                         ln++;
-                        ch = readCh();
+                        ch = rebdCh();
                         lfCount++;
-                        break;
+                        brebk;
 
-                    case '\r':
+                    cbse '\r':
                         ln++;
-                        if ((ch = readCh()) == '\n') {
-                            ch = readCh();
+                        if ((ch = rebdCh()) == '\n') {
+                            ch = rebdCh();
                             crlfCount++;
                         }
                         else {
                             crCount++;
                         }
-                        break;
+                        brebk;
 
-                    case ';':
-                        ch = readCh();
-                        break;
+                    cbse ';':
+                        ch = rebdCh();
+                        brebk;
                 }
-                char data[] = mapNumericReference(n);
-                return data;
+                chbr dbtb[] = mbpNumericReference(n);
+                return dbtb;
             }
-            addString('#');
-            if (!parseIdentifier(false)) {
+            bddString('#');
+            if (!pbrseIdentifier(fblse)) {
                 error("ident.expected");
                 strpos = pos;
-                char data[] = {'&', '#'};
-                return data;
+                chbr dbtb[] = {'&', '#'};
+                return dbtb;
             }
-        } else if (!parseIdentifier(false)) {
-            char data[] = {'&'};
-            return data;
+        } else if (!pbrseIdentifier(fblse)) {
+            chbr dbtb[] = {'&'};
+            return dbtb;
         }
 
-        boolean semicolon = false;
+        boolebn semicolon = fblse;
 
         switch (ch) {
-          case '\n':
+          cbse '\n':
             ln++;
-            ch = readCh();
+            ch = rebdCh();
             lfCount++;
-            break;
+            brebk;
 
-          case '\r':
+          cbse '\r':
             ln++;
-            if ((ch = readCh()) == '\n') {
-                ch = readCh();
+            if ((ch = rebdCh()) == '\n') {
+                ch = rebdCh();
                 crlfCount++;
             }
             else {
                 crCount++;
             }
-            break;
+            brebk;
 
-          case ';':
+          cbse ';':
             semicolon = true;
 
-            ch = readCh();
-            break;
+            ch = rebdCh();
+            brebk;
         }
 
         String nm = getString(pos);
         Entity ent = dtd.getEntity(nm);
 
-        // entities are case sensitive - however if strict
-        // is false then we will try to make a match by
-        // converting the string to all lowercase.
+        // entities bre cbse sensitive - however if strict
+        // is fblse then we will try to mbke b mbtch by
+        // converting the string to bll lowercbse.
         //
         if (!strict && (ent == null)) {
-            ent = dtd.getEntity(nm.toLowerCase());
+            ent = dtd.getEntity(nm.toLowerCbse());
         }
-        if ((ent == null) || !ent.isGeneral()) {
+        if ((ent == null) || !ent.isGenerbl()) {
 
             if (nm.length() == 0) {
-                error("invalid.entref", nm);
-                return new char[0];
+                error("invblid.entref", nm);
+                return new chbr[0];
             }
-            /* given that there is not a match restore the entity reference */
+            /* given thbt there is not b mbtch restore the entity reference */
             String str = "&" + nm + (semicolon ? ";" : "");
 
-            char b[] = new char[str.length()];
-            str.getChars(0, b.length, b, 0);
+            chbr b[] = new chbr[str.length()];
+            str.getChbrs(0, b.length, b, 0);
             return b;
         }
-        return ent.getData();
+        return ent.getDbtb();
     }
 
     /**
-     * Converts numeric character reference to char array.
+     * Converts numeric chbrbcter reference to chbr brrby.
      *
-     * Normally the code in a reference should be always converted
-     * to the Unicode character with the same code, but due to
-     * wide usage of Cp1252 charset most browsers map numeric references
-     * in the range 130-159 (which are control chars in Unicode set)
-     * to displayable characters with other codes.
+     * Normblly the code in b reference should be blwbys converted
+     * to the Unicode chbrbcter with the sbme code, but due to
+     * wide usbge of Cp1252 chbrset most browsers mbp numeric references
+     * in the rbnge 130-159 (which bre control chbrs in Unicode set)
+     * to displbybble chbrbcters with other codes.
      *
-     * @param c the code of numeric character reference.
-     * @return a char array corresponding to the reference code.
+     * @pbrbm c the code of numeric chbrbcter reference.
+     * @return b chbr brrby corresponding to the reference code.
      */
-    private char[] mapNumericReference(int c) {
-        char[] data;
+    privbte chbr[] mbpNumericReference(int c) {
+        chbr[] dbtb;
         if (c >= 0xffff) { // outside unicode BMP.
             try {
-                data = Character.toChars(c);
-            } catch (IllegalArgumentException e) {
-                data = new char[0];
+                dbtb = Chbrbcter.toChbrs(c);
+            } cbtch (IllegblArgumentException e) {
+                dbtb = new chbr[0];
             }
         } else {
-            data = new char[1];
-            data[0] = (c < 130 || c > 159) ? (char) c : cp1252Map[c - 130];
+            dbtb = new chbr[1];
+            dbtb[0] = (c < 130 || c > 159) ? (chbr) c : cp1252Mbp[c - 130];
         }
-        return data;
+        return dbtb;
     }
 
     /**
-     * Parse a comment. [92] 391:7
+     * Pbrse b comment. [92] 391:7
      */
-    void parseComment() throws IOException {
+    void pbrseComment() throws IOException {
 
         while (true) {
             int c = ch;
             switch (c) {
-              case '-':
-                  /** Presuming that the start string of a comment "<!--" has
-                      already been parsed, the '-' character is valid only as
-                      part of a comment termination and further more it must
+              cbse '-':
+                  /** Presuming thbt the stbrt string of b comment "<!--" hbs
+                      blrebdy been pbrsed, the '-' chbrbcter is vblid only bs
+                      pbrt of b comment terminbtion bnd further more it must
                       be present in even numbers. Hence if strict is true, we
-                      presume the comment has been terminated and return.
-                      However if strict is false, then there is no even number
-                      requirement and this character can appear anywhere in the
-                      comment.  The parser reads on until it sees the following
-                      pattern: "-->" or "--!>".
+                      presume the comment hbs been terminbted bnd return.
+                      However if strict is fblse, then there is no even number
+                      requirement bnd this chbrbcter cbn bppebr bnywhere in the
+                      comment.  The pbrser rebds on until it sees the following
+                      pbttern: "-->" or "--!>".
                    **/
                 if (!strict && (strpos != 0) && (str[strpos - 1] == '-')) {
-                    if ((ch = readCh()) == '>') {
+                    if ((ch = rebdCh()) == '>') {
                         return;
                     }
                     if (ch == '!') {
-                        if ((ch = readCh()) == '>') {
+                        if ((ch = rebdCh()) == '>') {
                             return;
                         } else {
-                            /* to account for extra read()'s that happened */
-                            addString('-');
-                            addString('!');
+                            /* to bccount for extrb rebd()'s thbt hbppened */
+                            bddString('-');
+                            bddString('!');
                             continue;
                         }
                     }
-                    break;
+                    brebk;
                 }
 
-                if ((ch = readCh()) == '-') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '-') {
+                    ch = rebdCh();
                     if (strict || ch == '>') {
                         return;
                     }
                     if (ch == '!') {
-                        if ((ch = readCh()) == '>') {
+                        if ((ch = rebdCh()) == '>') {
                             return;
                         } else {
-                            /* to account for extra read()'s that happened */
-                            addString('-');
-                            addString('!');
+                            /* to bccount for extrb rebd()'s thbt hbppened */
+                            bddString('-');
+                            bddString('!');
                             continue;
                         }
                     }
-                    /* to account for the extra read() */
-                    addString('-');
+                    /* to bccount for the extrb rebd() */
+                    bddString('-');
                 }
-                break;
+                brebk;
 
-              case -1:
-                  handleEOFInComment();
+              cbse -1:
+                  hbndleEOFInComment();
                   return;
 
-              case '\n':
+              cbse '\n':
                 ln++;
-                ch = readCh();
+                ch = rebdCh();
                 lfCount++;
-                break;
+                brebk;
 
-              case '>':
-                ch = readCh();
-                break;
+              cbse '>':
+                ch = rebdCh();
+                brebk;
 
-              case '\r':
+              cbse '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
                     crCount++;
                 }
                 c = '\n';
-                break;
-              default:
-                ch = readCh();
-                break;
+                brebk;
+              defbult:
+                ch = rebdCh();
+                brebk;
             }
 
-            addString(c);
+            bddString(c);
         }
     }
 
     /**
-     * Parse literal content. [46] 343:1 and [47] 344:1
+     * Pbrse literbl content. [46] 343:1 bnd [47] 344:1
      */
-    void parseLiteral(boolean replace) throws IOException {
+    void pbrseLiterbl(boolebn replbce) throws IOException {
         while (true) {
             int c = ch;
             switch (c) {
-              case -1:
-                error("eof.literal", stack.elem.getName());
-                endTag(true);
+              cbse -1:
+                error("eof.literbl", stbck.elem.getNbme());
+                endTbg(true);
                 return;
 
-              case '>':
-                ch = readCh();
-                int i = textpos - (stack.elem.name.length() + 2), j = 0;
+              cbse '>':
+                ch = rebdCh();
+                int i = textpos - (stbck.elem.nbme.length() + 2), j = 0;
 
-                // match end tag
+                // mbtch end tbg
                 if ((i >= 0) && (text[i++] == '<') && (text[i] == '/')) {
                     while ((++i < textpos) &&
-                           (Character.toLowerCase(text[i]) == stack.elem.name.charAt(j++)));
+                           (Chbrbcter.toLowerCbse(text[i]) == stbck.elem.nbme.chbrAt(j++)));
                     if (i == textpos) {
-                        textpos -= (stack.elem.name.length() + 2);
+                        textpos -= (stbck.elem.nbme.length() + 2);
                         if ((textpos > 0) && (text[textpos-1] == '\n')) {
                             textpos--;
                         }
-                        endTag(false);
+                        endTbg(fblse);
                         return;
                     }
                 }
-                break;
+                brebk;
 
-              case '&':
-                char data[] = parseEntityReference();
-                if (textpos + data.length > text.length) {
-                    char newtext[] = new char[Math.max(textpos + data.length + 128, text.length * 2)];
-                    System.arraycopy(text, 0, newtext, 0, text.length);
+              cbse '&':
+                chbr dbtb[] = pbrseEntityReference();
+                if (textpos + dbtb.length > text.length) {
+                    chbr newtext[] = new chbr[Mbth.mbx(textpos + dbtb.length + 128, text.length * 2)];
+                    System.brrbycopy(text, 0, newtext, 0, text.length);
                     text = newtext;
                 }
-                System.arraycopy(data, 0, text, textpos, data.length);
-                textpos += data.length;
+                System.brrbycopy(dbtb, 0, text, textpos, dbtb.length);
+                textpos += dbtb.length;
                 continue;
 
-              case '\n':
+              cbse '\n':
                 ln++;
-                ch = readCh();
+                ch = rebdCh();
                 lfCount++;
-                break;
+                brebk;
 
-              case '\r':
+              cbse '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
                     crCount++;
                 }
                 c = '\n';
-                break;
-              default:
-                ch = readCh();
-                break;
+                brebk;
+              defbult:
+                ch = rebdCh();
+                brebk;
             }
 
-            // output character
+            // output chbrbcter
             if (textpos == text.length) {
-                char newtext[] = new char[text.length + 128];
-                System.arraycopy(text, 0, newtext, 0, text.length);
+                chbr newtext[] = new chbr[text.length + 128];
+                System.brrbycopy(text, 0, newtext, 0, text.length);
                 text = newtext;
             }
-            text[textpos++] = (char)c;
+            text[textpos++] = (chbr)c;
         }
     }
 
     /**
-     * Parse attribute value. [33] 331:1
+     * Pbrse bttribute vblue. [33] 331:1
      */
-    @SuppressWarnings("fallthrough")
-    String parseAttributeValue(boolean lower) throws IOException {
+    @SuppressWbrnings("fbllthrough")
+    String pbrseAttributeVblue(boolebn lower) throws IOException {
         int delim = -1;
 
-        // Check for a delimiter
+        // Check for b delimiter
         switch(ch) {
-          case '\'':
-          case '"':
+          cbse '\'':
+          cbse '"':
             delim = ch;
-            ch = readCh();
-            break;
+            ch = rebdCh();
+            brebk;
         }
 
-        // Parse the rest of the value
+        // Pbrse the rest of the vblue
         while (true) {
             int c = ch;
 
             switch (c) {
-              case '\n':
+              cbse '\n':
                 ln++;
-                ch = readCh();
+                ch = rebdCh();
                 lfCount++;
                 if (delim < 0) {
                     return getString(0);
                 }
-                break;
+                brebk;
 
-              case '\r':
+              cbse '\r':
                 ln++;
 
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
@@ -1338,487 +1338,487 @@ class Parser implements DTDConstants {
                 if (delim < 0) {
                     return getString(0);
                 }
-                break;
+                brebk;
 
-              case '\t':
+              cbse '\t':
                   if (delim < 0)
                       c = ' ';
-                  // Fall through
-              case ' ':
-                ch = readCh();
+                  // Fbll through
+              cbse ' ':
+                ch = rebdCh();
                 if (delim < 0) {
                     return getString(0);
                 }
-                break;
+                brebk;
 
-              case '>':
-              case '<':
+              cbse '>':
+              cbse '<':
                 if (delim < 0) {
                     return getString(0);
                 }
-                ch = readCh();
-                break;
+                ch = rebdCh();
+                brebk;
 
-              case '\'':
-              case '"':
-                ch = readCh();
+              cbse '\'':
+              cbse '"':
+                ch = rebdCh();
                 if (c == delim) {
                     return getString(0);
                 } else if (delim == -1) {
-                    error("attvalerr");
+                    error("bttvblerr");
                     if (strict || ch == ' ') {
                         return getString(0);
                     } else {
                         continue;
                     }
                 }
-                break;
+                brebk;
 
-            case '=':
+            cbse '=':
                 if (delim < 0) {
-                    /* In SGML a construct like <img src=/cgi-bin/foo?x=1>
-                       is considered invalid since an = sign can only be contained
-                       in an attributes value if the string is quoted.
+                    /* In SGML b construct like <img src=/cgi-bin/foo?x=1>
+                       is considered invblid since bn = sign cbn only be contbined
+                       in bn bttributes vblue if the string is quoted.
                        */
-                    error("attvalerr");
-                    /* If strict is true then we return with the string we have thus far.
-                       Otherwise we accept the = sign as part of the attribute's value and
-                       process the rest of the img tag. */
+                    error("bttvblerr");
+                    /* If strict is true then we return with the string we hbve thus fbr.
+                       Otherwise we bccept the = sign bs pbrt of the bttribute's vblue bnd
+                       process the rest of the img tbg. */
                     if (strict) {
                         return getString(0);
                     }
                 }
-                ch = readCh();
-                break;
+                ch = rebdCh();
+                brebk;
 
-              case '&':
+              cbse '&':
                 if (strict && delim < 0) {
-                    ch = readCh();
-                    break;
+                    ch = rebdCh();
+                    brebk;
                 }
 
-                char data[] = parseEntityReference();
-                for (int i = 0 ; i < data.length ; i++) {
-                    c = data[i];
-                    addString((lower && (c >= 'A') && (c <= 'Z')) ? 'a' + c - 'A' : c);
+                chbr dbtb[] = pbrseEntityReference();
+                for (int i = 0 ; i < dbtb.length ; i++) {
+                    c = dbtb[i];
+                    bddString((lower && (c >= 'A') && (c <= 'Z')) ? 'b' + c - 'A' : c);
                 }
                 continue;
 
-              case -1:
+              cbse -1:
                 return getString(0);
 
-              default:
+              defbult:
                 if (lower && (c >= 'A') && (c <= 'Z')) {
-                    c = 'a' + c - 'A';
+                    c = 'b' + c - 'A';
                 }
-                ch = readCh();
-                break;
+                ch = rebdCh();
+                brebk;
             }
-            addString(c);
+            bddString(c);
         }
     }
 
 
     /**
-     * Parse attribute specification List. [31] 327:17
+     * Pbrse bttribute specificbtion List. [31] 327:17
      */
-    void parseAttributeSpecificationList(Element elem) throws IOException {
+    void pbrseAttributeSpecificbtionList(Element elem) throws IOException {
 
         while (true) {
-            skipSpace();
+            skipSpbce();
 
             switch (ch) {
-              case '/':
-              case '>':
-              case '<':
-              case -1:
+              cbse '/':
+              cbse '>':
+              cbse '<':
+              cbse -1:
                 return;
 
-              case '-':
-                if ((ch = readCh()) == '-') {
-                    ch = readCh();
-                    parseComment();
+              cbse '-':
+                if ((ch = rebdCh()) == '-') {
+                    ch = rebdCh();
+                    pbrseComment();
                     strpos = 0;
                 } else {
-                    error("invalid.tagchar", "-", elem.getName());
-                    ch = readCh();
+                    error("invblid.tbgchbr", "-", elem.getNbme());
+                    ch = rebdCh();
                 }
                 continue;
             }
 
-            AttributeList att;
-            String attname;
-            String attvalue;
+            AttributeList btt;
+            String bttnbme;
+            String bttvblue;
 
-            if (parseIdentifier(true)) {
-                attname = getString(0);
-                skipSpace();
+            if (pbrseIdentifier(true)) {
+                bttnbme = getString(0);
+                skipSpbce();
                 if (ch == '=') {
-                    ch = readCh();
-                    skipSpace();
-                    att = elem.getAttribute(attname);
+                    ch = rebdCh();
+                    skipSpbce();
+                    btt = elem.getAttribute(bttnbme);
 //  Bug ID 4102750
-//  Load the NAME of an Attribute Case Sensitive
-//  The case of the NAME  must be intact
+//  Lobd the NAME of bn Attribute Cbse Sensitive
+//  The cbse of the NAME  must be intbct
 //  MG 021898
-                    attvalue = parseAttributeValue((att != null) && (att.type != CDATA) && (att.type != NOTATION) && (att.type != NAME));
-//                  attvalue = parseAttributeValue((att != null) && (att.type != CDATA) && (att.type != NOTATION));
+                    bttvblue = pbrseAttributeVblue((btt != null) && (btt.type != CDATA) && (btt.type != NOTATION) && (btt.type != NAME));
+//                  bttvblue = pbrseAttributeVblue((btt != null) && (btt.type != CDATA) && (btt.type != NOTATION));
                 } else {
-                    attvalue = attname;
-                    att = elem.getAttributeByValue(attvalue);
-                    if (att == null) {
-                        att = elem.getAttribute(attname);
-                        if (att != null) {
-                            attvalue = att.getValue();
+                    bttvblue = bttnbme;
+                    btt = elem.getAttributeByVblue(bttvblue);
+                    if (btt == null) {
+                        btt = elem.getAttribute(bttnbme);
+                        if (btt != null) {
+                            bttvblue = btt.getVblue();
                         }
                         else {
-                            // Make it null so that NULL_ATTRIBUTE_VALUE is
+                            // Mbke it null so thbt NULL_ATTRIBUTE_VALUE is
                             // used
-                            attvalue = null;
+                            bttvblue = null;
                         }
                     }
                 }
-            } else if (!strict && ch == ',') { // allows for comma separated attribute-value pairs
-                ch = readCh();
+            } else if (!strict && ch == ',') { // bllows for commb sepbrbted bttribute-vblue pbirs
+                ch = rebdCh();
                 continue;
-            } else if (!strict && ch == '"') { // allows for quoted attributes
-                ch = readCh();
-                skipSpace();
-                if (parseIdentifier(true)) {
-                    attname = getString(0);
+            } else if (!strict && ch == '"') { // bllows for quoted bttributes
+                ch = rebdCh();
+                skipSpbce();
+                if (pbrseIdentifier(true)) {
+                    bttnbme = getString(0);
                     if (ch == '"') {
-                        ch = readCh();
+                        ch = rebdCh();
                     }
-                    skipSpace();
+                    skipSpbce();
                     if (ch == '=') {
-                        ch = readCh();
-                        skipSpace();
-                        att = elem.getAttribute(attname);
-                        attvalue = parseAttributeValue((att != null) &&
-                                                (att.type != CDATA) &&
-                                                (att.type != NOTATION));
+                        ch = rebdCh();
+                        skipSpbce();
+                        btt = elem.getAttribute(bttnbme);
+                        bttvblue = pbrseAttributeVblue((btt != null) &&
+                                                (btt.type != CDATA) &&
+                                                (btt.type != NOTATION));
                     } else {
-                        attvalue = attname;
-                        att = elem.getAttributeByValue(attvalue);
-                        if (att == null) {
-                            att = elem.getAttribute(attname);
-                            if (att != null) {
-                                attvalue = att.getValue();
+                        bttvblue = bttnbme;
+                        btt = elem.getAttributeByVblue(bttvblue);
+                        if (btt == null) {
+                            btt = elem.getAttribute(bttnbme);
+                            if (btt != null) {
+                                bttvblue = btt.getVblue();
                             }
                         }
                     }
                 } else {
-                    char str[] = {(char)ch};
-                    error("invalid.tagchar", new String(str), elem.getName());
-                    ch = readCh();
+                    chbr str[] = {(chbr)ch};
+                    error("invblid.tbgchbr", new String(str), elem.getNbme());
+                    ch = rebdCh();
                     continue;
                 }
-            } else if (!strict && (attributes.isEmpty()) && (ch == '=')) {
-                ch = readCh();
-                skipSpace();
-                attname = elem.getName();
-                att = elem.getAttribute(attname);
-                attvalue = parseAttributeValue((att != null) &&
-                                               (att.type != CDATA) &&
-                                               (att.type != NOTATION));
+            } else if (!strict && (bttributes.isEmpty()) && (ch == '=')) {
+                ch = rebdCh();
+                skipSpbce();
+                bttnbme = elem.getNbme();
+                btt = elem.getAttribute(bttnbme);
+                bttvblue = pbrseAttributeVblue((btt != null) &&
+                                               (btt.type != CDATA) &&
+                                               (btt.type != NOTATION));
             } else if (!strict && (ch == '=')) {
-                ch = readCh();
-                skipSpace();
-                attvalue = parseAttributeValue(true);
-                error("attvalerr");
+                ch = rebdCh();
+                skipSpbce();
+                bttvblue = pbrseAttributeVblue(true);
+                error("bttvblerr");
                 return;
             } else {
-                char str[] = {(char)ch};
-                error("invalid.tagchar", new String(str), elem.getName());
+                chbr str[] = {(chbr)ch};
+                error("invblid.tbgchbr", new String(str), elem.getNbme());
                 if (!strict) {
-                    ch = readCh();
+                    ch = rebdCh();
                     continue;
                 } else {
                     return;
                 }
             }
 
-            if (att != null) {
-                attname = att.getName();
+            if (btt != null) {
+                bttnbme = btt.getNbme();
             } else {
-                error("invalid.tagatt", attname, elem.getName());
+                error("invblid.tbgbtt", bttnbme, elem.getNbme());
             }
 
-            // Check out the value
-            if (attributes.isDefined(attname)) {
-                error("multi.tagatt", attname, elem.getName());
+            // Check out the vblue
+            if (bttributes.isDefined(bttnbme)) {
+                error("multi.tbgbtt", bttnbme, elem.getNbme());
             }
-            if (attvalue == null) {
-                attvalue = ((att != null) && (att.value != null)) ? att.value :
+            if (bttvblue == null) {
+                bttvblue = ((btt != null) && (btt.vblue != null)) ? btt.vblue :
                     HTML.NULL_ATTRIBUTE_VALUE;
-            } else if ((att != null) && (att.values != null) && !att.values.contains(attvalue)) {
-                error("invalid.tagattval", attname, elem.getName());
+            } else if ((btt != null) && (btt.vblues != null) && !btt.vblues.contbins(bttvblue)) {
+                error("invblid.tbgbttvbl", bttnbme, elem.getNbme());
             }
-            HTML.Attribute attkey = HTML.getAttributeKey(attname);
-            if (attkey == null) {
-                attributes.addAttribute(attname, attvalue);
+            HTML.Attribute bttkey = HTML.getAttributeKey(bttnbme);
+            if (bttkey == null) {
+                bttributes.bddAttribute(bttnbme, bttvblue);
             } else {
-                attributes.addAttribute(attkey, attvalue);
+                bttributes.bddAttribute(bttkey, bttvblue);
             }
         }
     }
 
     /**
-     * Parses the Document Type Declaration markup declaration.
+     * Pbrses the Document Type Declbrbtion mbrkup declbrbtion.
      * Currently ignores it.
      *
-     * @return the string representation of the markup declaration
-     * @throws IOException if an I/O error occurs
+     * @return the string representbtion of the mbrkup declbrbtion
+     * @throws IOException if bn I/O error occurs
      */
-    public String parseDTDMarkup() throws IOException {
+    public String pbrseDTDMbrkup() throws IOException {
 
         StringBuilder strBuff = new StringBuilder();
-        ch = readCh();
+        ch = rebdCh();
         while(true) {
             switch (ch) {
-            case '>':
-                ch = readCh();
+            cbse '>':
+                ch = rebdCh();
                 return strBuff.toString();
-            case -1:
-                error("invalid.markup");
+            cbse -1:
+                error("invblid.mbrkup");
                 return strBuff.toString();
-            case '\n':
+            cbse '\n':
                 ln++;
-                ch = readCh();
+                ch = rebdCh();
                 lfCount++;
-                break;
-            case '"':
-                ch = readCh();
-                break;
-            case '\r':
+                brebk;
+            cbse '"':
+                ch = rebdCh();
+                brebk;
+            cbse '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
                     crCount++;
                 }
-                break;
-            default:
-                strBuff.append((char)(ch & 0xFF));
-                ch = readCh();
-                break;
+                brebk;
+            defbult:
+                strBuff.bppend((chbr)(ch & 0xFF));
+                ch = rebdCh();
+                brebk;
             }
         }
     }
 
     /**
-     * Parse markup declarations.
-     * Currently only handles the Document Type Declaration markup.
-     * Returns true if it is a markup declaration false otherwise.
+     * Pbrse mbrkup declbrbtions.
+     * Currently only hbndles the Document Type Declbrbtion mbrkup.
+     * Returns true if it is b mbrkup declbrbtion fblse otherwise.
      *
-     * @param strBuff  the markup declaration
-     * @return {@code true} if this is a valid markup declaration;
-     *         otherwise {@code false}
-     * @throws IOException if an I/O error occurs
+     * @pbrbm strBuff  the mbrkup declbrbtion
+     * @return {@code true} if this is b vblid mbrkup declbrbtion;
+     *         otherwise {@code fblse}
+     * @throws IOException if bn I/O error occurs
      */
-    protected boolean parseMarkupDeclarations(StringBuffer strBuff) throws IOException {
+    protected boolebn pbrseMbrkupDeclbrbtions(StringBuffer strBuff) throws IOException {
 
-        /* Currently handles only the DOCTYPE */
+        /* Currently hbndles only the DOCTYPE */
         if ((strBuff.length() == "DOCTYPE".length()) &&
-            (strBuff.toString().toUpperCase().equals("DOCTYPE"))) {
-            parseDTDMarkup();
+            (strBuff.toString().toUpperCbse().equbls("DOCTYPE"))) {
+            pbrseDTDMbrkup();
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Parse an invalid tag.
+     * Pbrse bn invblid tbg.
      */
-    void parseInvalidTag() throws IOException {
-        // ignore all data upto the close bracket '>'
+    void pbrseInvblidTbg() throws IOException {
+        // ignore bll dbtb upto the close brbcket '>'
         while (true) {
-            skipSpace();
+            skipSpbce();
             switch (ch) {
-              case '>':
-              case -1:
-                  ch = readCh();
+              cbse '>':
+              cbse -1:
+                  ch = rebdCh();
                 return;
-              case '<':
+              cbse '<':
                   return;
-              default:
-                  ch = readCh();
+              defbult:
+                  ch = rebdCh();
 
             }
         }
     }
 
     /**
-     * Parse a start or end tag.
+     * Pbrse b stbrt or end tbg.
      */
-    @SuppressWarnings("fallthrough")
-    void parseTag() throws IOException {
+    @SuppressWbrnings("fbllthrough")
+    void pbrseTbg() throws IOException {
         Element elem;
-        boolean net = false;
-        boolean warned = false;
-        boolean unknown = false;
+        boolebn net = fblse;
+        boolebn wbrned = fblse;
+        boolebn unknown = fblse;
 
-        switch (ch = readCh()) {
-          case '!':
-            switch (ch = readCh()) {
-              case '-':
-                // Parse comment. [92] 391:7
+        switch (ch = rebdCh()) {
+          cbse '!':
+            switch (ch = rebdCh()) {
+              cbse '-':
+                // Pbrse comment. [92] 391:7
                 while (true) {
                     if (ch == '-') {
-                        if (!strict || ((ch = readCh()) == '-')) {
-                            ch = readCh();
+                        if (!strict || ((ch = rebdCh()) == '-')) {
+                            ch = rebdCh();
                             if (!strict && ch == '-') {
-                                ch = readCh();
+                                ch = rebdCh();
                             }
-                            // send over any text you might see
-                            // before parsing and sending the
+                            // send over bny text you might see
+                            // before pbrsing bnd sending the
                             // comment
                             if (textpos != 0) {
-                                char newtext[] = new char[textpos];
-                                System.arraycopy(text, 0, newtext, 0, textpos);
-                                handleText(newtext);
-                                lastBlockStartPos = currentBlockStartPos;
+                                chbr newtext[] = new chbr[textpos];
+                                System.brrbycopy(text, 0, newtext, 0, textpos);
+                                hbndleText(newtext);
+                                lbstBlockStbrtPos = currentBlockStbrtPos;
                                 textpos = 0;
                             }
-                            parseComment();
-                            last = makeTag(dtd.getElement("comment"), true);
-                            handleComment(getChars(0));
+                            pbrseComment();
+                            lbst = mbkeTbg(dtd.getElement("comment"), true);
+                            hbndleComment(getChbrs(0));
                             continue;
-                        } else if (!warned) {
-                            warned = true;
-                            error("invalid.commentchar", "-");
+                        } else if (!wbrned) {
+                            wbrned = true;
+                            error("invblid.commentchbr", "-");
                         }
                     }
-                    skipSpace();
+                    skipSpbce();
                     switch (ch) {
-                      case '-':
+                      cbse '-':
                         continue;
-                      case '>':
-                        ch = readCh();
+                      cbse '>':
+                        ch = rebdCh();
                         return;
-                      case -1:
+                      cbse -1:
                         return;
-                      default:
-                        ch = readCh();
-                        if (!warned) {
-                            warned = true;
-                            error("invalid.commentchar",
-                                  String.valueOf((char)ch));
+                      defbult:
+                        ch = rebdCh();
+                        if (!wbrned) {
+                            wbrned = true;
+                            error("invblid.commentchbr",
+                                  String.vblueOf((chbr)ch));
                         }
-                        break;
+                        brebk;
                     }
                 }
 
-              default:
-                // deal with marked sections
+              defbult:
+                // debl with mbrked sections
                 StringBuffer strBuff = new StringBuffer();
                 while (true) {
-                    strBuff.append((char)ch);
-                    if (parseMarkupDeclarations(strBuff)) {
+                    strBuff.bppend((chbr)ch);
+                    if (pbrseMbrkupDeclbrbtions(strBuff)) {
                         return;
                     }
                     switch(ch) {
-                      case '>':
-                        ch = readCh();
-                        // Fall through
-                      case -1:
-                        error("invalid.markup");
+                      cbse '>':
+                        ch = rebdCh();
+                        // Fbll through
+                      cbse -1:
+                        error("invblid.mbrkup");
                         return;
-                      case '\n':
+                      cbse '\n':
                         ln++;
-                        ch = readCh();
+                        ch = rebdCh();
                         lfCount++;
-                        break;
-                      case '\r':
+                        brebk;
+                      cbse '\r':
                         ln++;
-                        if ((ch = readCh()) == '\n') {
-                            ch = readCh();
+                        if ((ch = rebdCh()) == '\n') {
+                            ch = rebdCh();
                             crlfCount++;
                         }
                         else {
                             crCount++;
                         }
-                        break;
+                        brebk;
 
-                      default:
-                        ch = readCh();
-                        break;
+                      defbult:
+                        ch = rebdCh();
+                        brebk;
                     }
                 }
             }
 
-          case '/':
-            // parse end tag [19] 317:4
-            switch (ch = readCh()) {
-              case '>':
-                ch = readCh();
-                // Fall through
-              case '<':
-                // empty end tag. either </> or </<
+          cbse '/':
+            // pbrse end tbg [19] 317:4
+            switch (ch = rebdCh()) {
+              cbse '>':
+                ch = rebdCh();
+                // Fbll through
+              cbse '<':
+                // empty end tbg. either </> or </<
                 if (recent == null) {
-                    error("invalid.shortend");
+                    error("invblid.shortend");
                     return;
                 }
                 elem = recent;
-                break;
+                brebk;
 
-              default:
-                if (!parseIdentifier(true)) {
-                    error("expected.endtagname");
+              defbult:
+                if (!pbrseIdentifier(true)) {
+                    error("expected.endtbgnbme");
                     return;
                 }
-                skipSpace();
+                skipSpbce();
                 switch (ch) {
-                  case '>':
-                    ch = readCh();
-                    break;
-                  case '<':
-                    break;
+                  cbse '>':
+                    ch = rebdCh();
+                    brebk;
+                  cbse '<':
+                    brebk;
 
-                  default:
+                  defbult:
                     error("expected", "'>'");
                     while ((ch != -1) && (ch != '\n') && (ch != '>')) {
-                        ch = readCh();
+                        ch = rebdCh();
                     }
                     if (ch == '>') {
-                        ch = readCh();
+                        ch = rebdCh();
                     }
-                    break;
+                    brebk;
                 }
                 String elemStr = getString(0);
                 if (!dtd.elementExists(elemStr)) {
                     error("end.unrecognized", elemStr);
-                    // Ignore RE before end tag
+                    // Ignore RE before end tbg
                     if ((textpos > 0) && (text[textpos-1] == '\n')) {
                         textpos--;
                     }
                     elem = dtd.getElement("unknown");
-                    elem.name = elemStr;
+                    elem.nbme = elemStr;
                     unknown = true;
                 } else {
                     elem = dtd.getElement(elemStr);
                 }
-                break;
+                brebk;
             }
 
 
-            // If the stack is null, we're seeing end tags without any begin
-            // tags.  Ignore them.
+            // If the stbck is null, we're seeing end tbgs without bny begin
+            // tbgs.  Ignore them.
 
-            if (stack == null) {
-                error("end.extra.tag", elem.getName());
+            if (stbck == null) {
+                error("end.extrb.tbg", elem.getNbme());
                 return;
             }
 
-            // Ignore RE before end tag
+            // Ignore RE before end tbg
             if ((textpos > 0) && (text[textpos-1] == '\n')) {
-                // In a pre tag, if there are blank lines
-                // we do not want to remove the newline
-                // before the end tag.  Hence this code.
+                // In b pre tbg, if there bre blbnk lines
+                // we do not wbnt to remove the newline
+                // before the end tbg.  Hence this code.
                 //
-                if (stack.pre) {
+                if (stbck.pre) {
                     if ((textpos > 1) && (text[textpos-2] != '\n')) {
                         textpos--;
                     }
@@ -1827,15 +1827,15 @@ class Parser implements DTDConstants {
                 }
             }
 
-            // If the end tag is a form, since we did not put it
-            // on the tag stack, there is no corresponding start
-            // start tag to find. Hence do not touch the tag stack.
+            // If the end tbg is b form, since we did not put it
+            // on the tbg stbck, there is no corresponding stbrt
+            // stbrt tbg to find. Hence do not touch the tbg stbck.
             //
 
             /*
-            if (!strict && elem.getName().equals("form")) {
-                if (lastFormSent != null) {
-                    handleEndTag(lastFormSent);
+            if (!strict && elem.getNbme().equbls("form")) {
+                if (lbstFormSent != null) {
+                    hbndleEndTbg(lbstFormSent);
                     return;
                 } else {
                     // do nothing.
@@ -1845,166 +1845,166 @@ class Parser implements DTDConstants {
             */
 
             if (unknown) {
-                // we will not see a corresponding start tag
-                // on the the stack.  If we are seeing an
-                // end tag, lets send this on as an empty
-                // tag with the end tag attribute set to
+                // we will not see b corresponding stbrt tbg
+                // on the the stbck.  If we bre seeing bn
+                // end tbg, lets send this on bs bn empty
+                // tbg with the end tbg bttribute set to
                 // true.
-                TagElement t = makeTag(elem);
-                handleText(t);
-                attributes.addAttribute(HTML.Attribute.ENDTAG, "true");
-                handleEmptyTag(makeTag(elem));
-                unknown = false;
+                TbgElement t = mbkeTbg(elem);
+                hbndleText(t);
+                bttributes.bddAttribute(HTML.Attribute.ENDTAG, "true");
+                hbndleEmptyTbg(mbkeTbg(elem));
+                unknown = fblse;
                 return;
             }
 
-            // find the corresponding start tag
+            // find the corresponding stbrt tbg
 
-            // A commonly occurring error appears to be the insertion
-            // of extra end tags in a table.  The intent here is ignore
-            // such extra end tags.
+            // A commonly occurring error bppebrs to be the insertion
+            // of extrb end tbgs in b tbble.  The intent here is ignore
+            // such extrb end tbgs.
             //
             if (!strict) {
-                String stackElem = stack.elem.getName();
+                String stbckElem = stbck.elem.getNbme();
 
-                if (stackElem.equals("table")) {
-                    // If it is not a valid end tag ignore it and return
+                if (stbckElem.equbls("tbble")) {
+                    // If it is not b vblid end tbg ignore it bnd return
                     //
-                    if (!elem.getName().equals(stackElem)) {
-                        error("tag.ignore", elem.getName());
+                    if (!elem.getNbme().equbls(stbckElem)) {
+                        error("tbg.ignore", elem.getNbme());
                         return;
                     }
                 }
 
 
 
-                if (stackElem.equals("tr") ||
-                    stackElem.equals("td")) {
-                    if ((!elem.getName().equals("table")) &&
-                        (!elem.getName().equals(stackElem))) {
-                        error("tag.ignore", elem.getName());
+                if (stbckElem.equbls("tr") ||
+                    stbckElem.equbls("td")) {
+                    if ((!elem.getNbme().equbls("tbble")) &&
+                        (!elem.getNbme().equbls(stbckElem))) {
+                        error("tbg.ignore", elem.getNbme());
                         return;
                     }
                 }
             }
-            TagStack sp = stack;
+            TbgStbck sp = stbck;
 
             while ((sp != null) && (elem != sp.elem)) {
                 sp = sp.next;
             }
             if (sp == null) {
-                error("unmatched.endtag", elem.getName());
+                error("unmbtched.endtbg", elem.getNbme());
                 return;
             }
 
-            // People put font ending tags in the darndest places.
-            // Don't close other contexts based on them being between
-            // a font tag and the corresponding end tag.  Instead,
-            // ignore the end tag like it doesn't exist and allow the end
+            // People put font ending tbgs in the dbrndest plbces.
+            // Don't close other contexts bbsed on them being between
+            // b font tbg bnd the corresponding end tbg.  Instebd,
+            // ignore the end tbg like it doesn't exist bnd bllow the end
             // of the document to close us out.
-            String elemName = elem.getName();
-            if (stack != sp &&
-                (elemName.equals("font") ||
-                 elemName.equals("center"))) {
+            String elemNbme = elem.getNbme();
+            if (stbck != sp &&
+                (elemNbme.equbls("font") ||
+                 elemNbme.equbls("center"))) {
 
-                // Since closing out a center tag can have real wierd
-                // effects on the formatting,  make sure that tags
-                // for which omitting an end tag is legimitate
+                // Since closing out b center tbg cbn hbve rebl wierd
+                // effects on the formbtting,  mbke sure thbt tbgs
+                // for which omitting bn end tbg is legimitbte
                 // get closed out.
                 //
-                if (elemName.equals("center")) {
-                    while(stack.elem.omitEnd() && stack != sp) {
-                        endTag(true);
+                if (elemNbme.equbls("center")) {
+                    while(stbck.elem.omitEnd() && stbck != sp) {
+                        endTbg(true);
                     }
-                    if (stack.elem == elem) {
-                        endTag(false);
+                    if (stbck.elem == elem) {
+                        endTbg(fblse);
                     }
                 }
                 return;
             }
-            // People do the same thing with center tags.  In this
-            // case we would like to close off the center tag but
-            // not necessarily all enclosing tags.
+            // People do the sbme thing with center tbgs.  In this
+            // cbse we would like to close off the center tbg but
+            // not necessbrily bll enclosing tbgs.
 
 
 
-            // end tags
-            while (stack != sp) {
-                endTag(true);
+            // end tbgs
+            while (stbck != sp) {
+                endTbg(true);
             }
 
-            endTag(false);
+            endTbg(fblse);
             return;
 
-          case -1:
+          cbse -1:
             error("eof");
             return;
         }
 
-        // start tag [14] 314:1
-        if (!parseIdentifier(true)) {
+        // stbrt tbg [14] 314:1
+        if (!pbrseIdentifier(true)) {
             elem = recent;
             if ((ch != '>') || (elem == null)) {
-                error("expected.tagname");
+                error("expected.tbgnbme");
                 return;
             }
         } else {
             String elemStr = getString(0);
 
-            if (elemStr.equals("image")) {
+            if (elemStr.equbls("imbge")) {
                 elemStr = "img";
             }
 
-            /* determine if this element is part of the dtd. */
+            /* determine if this element is pbrt of the dtd. */
 
             if (!dtd.elementExists(elemStr)) {
-                //              parseInvalidTag();
-                error("tag.unrecognized ", elemStr);
+                //              pbrseInvblidTbg();
+                error("tbg.unrecognized ", elemStr);
                 elem = dtd.getElement("unknown");
-                elem.name = elemStr;
+                elem.nbme = elemStr;
                 unknown = true;
             } else {
                 elem = dtd.getElement(elemStr);
             }
         }
 
-        // Parse attributes
-        parseAttributeSpecificationList(elem);
+        // Pbrse bttributes
+        pbrseAttributeSpecificbtionList(elem);
 
         switch (ch) {
-          case '/':
+          cbse '/':
             net = true;
-            // Fall through
-          case '>':
-            ch = readCh();
+            // Fbll through
+          cbse '>':
+            ch = rebdCh();
             if (ch == '>' && net) {
-                ch = readCh();
+                ch = rebdCh();
             }
-          case '<':
-            break;
+          cbse '<':
+            brebk;
 
-          default:
+          defbult:
             error("expected", "'>'");
-            break;
+            brebk;
         }
 
         if (!strict) {
-          if (elem.getName().equals("script")) {
-            error("javascript.unsupported");
+          if (elem.getNbme().equbls("script")) {
+            error("jbvbscript.unsupported");
           }
         }
 
-        // ignore RE after start tag
+        // ignore RE bfter stbrt tbg
         //
         if (!elem.isEmpty())  {
             if (ch == '\n') {
                 ln++;
                 lfCount++;
-                ch = readCh();
+                ch = rebdCh();
             } else if (ch == '\r') {
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
+                if ((ch = rebdCh()) == '\n') {
+                    ch = rebdCh();
                     crlfCount++;
                 }
                 else {
@@ -2013,39 +2013,39 @@ class Parser implements DTDConstants {
             }
         }
 
-        // ensure a legal context for the tag
-        TagElement tag = makeTag(elem, false);
+        // ensure b legbl context for the tbg
+        TbgElement tbg = mbkeTbg(elem, fblse);
 
 
-        /** In dealing with forms, we have decided to treat
-            them as legal in any context.  Also, even though
-            they do have a start and an end tag, we will
-            not put this tag on the stack.  This is to deal
-            several pages in the web oasis that choose to
-            start and end forms in any possible location. **/
+        /** In debling with forms, we hbve decided to trebt
+            them bs legbl in bny context.  Also, even though
+            they do hbve b stbrt bnd bn end tbg, we will
+            not put this tbg on the stbck.  This is to debl
+            severbl pbges in the web obsis thbt choose to
+            stbrt bnd end forms in bny possible locbtion. **/
 
         /*
-        if (!strict && elem.getName().equals("form")) {
-            if (lastFormSent == null) {
-                lastFormSent = tag;
+        if (!strict && elem.getNbme().equbls("form")) {
+            if (lbstFormSent == null) {
+                lbstFormSent = tbg;
             } else {
-                handleEndTag(lastFormSent);
-                lastFormSent = tag;
+                hbndleEndTbg(lbstFormSent);
+                lbstFormSent = tbg;
             }
         } else {
         */
-            // Smlly, if a tag is unknown, we will apply
-            // no legalTagContext logic to it.
+            // Smlly, if b tbg is unknown, we will bpply
+            // no legblTbgContext logic to it.
             //
             if (!unknown) {
-                legalTagContext(tag);
+                legblTbgContext(tbg);
 
-                // If skip tag is true,  this implies that
-                // the tag was illegal and that the error
-                // recovery strategy adopted is to ignore
-                // the tag.
-                if (!strict && skipTag) {
-                    skipTag = false;
+                // If skip tbg is true,  this implies thbt
+                // the tbg wbs illegbl bnd thbt the error
+                // recovery strbtegy bdopted is to ignore
+                // the tbg.
+                if (!strict && skipTbg) {
+                    skipTbg = fblse;
                     return;
                 }
             }
@@ -2053,267 +2053,267 @@ class Parser implements DTDConstants {
         }
             */
 
-        startTag(tag);
+        stbrtTbg(tbg);
 
         if (!elem.isEmpty()) {
             switch (elem.getType()) {
-              case CDATA:
-                parseLiteral(false);
-                break;
-              case RCDATA:
-                parseLiteral(true);
-                break;
-              default:
-                if (stack != null) {
-                    stack.net = net;
+              cbse CDATA:
+                pbrseLiterbl(fblse);
+                brebk;
+              cbse RCDATA:
+                pbrseLiterbl(true);
+                brebk;
+              defbult:
+                if (stbck != null) {
+                    stbck.net = net;
                 }
-                break;
+                brebk;
             }
         }
     }
 
-    private static final String START_COMMENT = "<!--";
-    private static final String END_COMMENT = "-->";
-    private static final char[] SCRIPT_END_TAG = "</script>".toCharArray();
-    private static final char[] SCRIPT_END_TAG_UPPER_CASE =
-                                        "</SCRIPT>".toCharArray();
+    privbte stbtic finbl String START_COMMENT = "<!--";
+    privbte stbtic finbl String END_COMMENT = "-->";
+    privbte stbtic finbl chbr[] SCRIPT_END_TAG = "</script>".toChbrArrby();
+    privbte stbtic finbl chbr[] SCRIPT_END_TAG_UPPER_CASE =
+                                        "</SCRIPT>".toChbrArrby();
 
-    void parseScript() throws IOException {
-        char[] charsToAdd = new char[SCRIPT_END_TAG.length];
-        boolean insideComment = false;
+    void pbrseScript() throws IOException {
+        chbr[] chbrsToAdd = new chbr[SCRIPT_END_TAG.length];
+        boolebn insideComment = fblse;
 
-        /* Here, ch should be the first character after <script> */
+        /* Here, ch should be the first chbrbcter bfter <script> */
         while (true) {
             int i = 0;
             while (!insideComment && i < SCRIPT_END_TAG.length
                        && (SCRIPT_END_TAG[i] == ch
                            || SCRIPT_END_TAG_UPPER_CASE[i] == ch)) {
-                charsToAdd[i] = (char) ch;
-                ch = readCh();
+                chbrsToAdd[i] = (chbr) ch;
+                ch = rebdCh();
                 i++;
             }
             if (i == SCRIPT_END_TAG.length) {
 
-                /*  '</script>' tag detected */
-                /* Here, ch == the first character after </script> */
+                /*  '</script>' tbg detected */
+                /* Here, ch == the first chbrbcter bfter </script> */
                 return;
             } else {
 
-                /* To account for extra read()'s that happened */
+                /* To bccount for extrb rebd()'s thbt hbppened */
                 for (int j = 0; j < i; j++) {
-                    addString(charsToAdd[j]);
+                    bddString(chbrsToAdd[j]);
                 }
 
                 switch (ch) {
-                case -1:
+                cbse -1:
                     error("eof.script");
                     return;
-                case '\n':
+                cbse '\n':
                     ln++;
-                    ch = readCh();
+                    ch = rebdCh();
                     lfCount++;
-                    addString('\n');
-                    break;
-                case '\r':
+                    bddString('\n');
+                    brebk;
+                cbse '\r':
                     ln++;
-                    if ((ch = readCh()) == '\n') {
-                        ch = readCh();
+                    if ((ch = rebdCh()) == '\n') {
+                        ch = rebdCh();
                         crlfCount++;
                     } else {
                         crCount++;
                     }
-                    addString('\n');
-                    break;
-                default:
-                    addString(ch);
-                    String str = new String(getChars(0, strpos));
+                    bddString('\n');
+                    brebk;
+                defbult:
+                    bddString(ch);
+                    String str = new String(getChbrs(0, strpos));
                     if (!insideComment && str.endsWith(START_COMMENT)) {
                         insideComment = true;
                     }
                     if (insideComment && str.endsWith(END_COMMENT)) {
-                        insideComment = false;
+                        insideComment = fblse;
                     }
-                    ch = readCh();
-                    break;
+                    ch = rebdCh();
+                    brebk;
                 } // switch
             }
         } // while
     }
 
     /**
-     * Parse Content. [24] 320:1
+     * Pbrse Content. [24] 320:1
      */
-    void parseContent() throws IOException {
-        Thread curThread = Thread.currentThread();
+    void pbrseContent() throws IOException {
+        Threbd curThrebd = Threbd.currentThrebd();
 
         for (;;) {
-            if (curThread.isInterrupted()) {
-                curThread.interrupt(); // resignal the interrupt
-                break;
+            if (curThrebd.isInterrupted()) {
+                curThrebd.interrupt(); // resignbl the interrupt
+                brebk;
             }
 
             int c = ch;
-            currentBlockStartPos = currentPosition;
+            currentBlockStbrtPos = currentPosition;
 
-            if (recent == dtd.script) { // means: if after starting <script> tag
+            if (recent == dtd.script) { // mebns: if bfter stbrting <script> tbg
 
-                /* Here, ch has to be the first character after <script> */
-                parseScript();
-                last = makeTag(dtd.getElement("comment"), true);
+                /* Here, ch hbs to be the first chbrbcter bfter <script> */
+                pbrseScript();
+                lbst = mbkeTbg(dtd.getElement("comment"), true);
 
-                /* Remove leading and trailing HTML comment declarations */
-                String str = new String(getChars(0)).trim();
+                /* Remove lebding bnd trbiling HTML comment declbrbtions */
+                String str = new String(getChbrs(0)).trim();
                 int minLength = START_COMMENT.length() + END_COMMENT.length();
-                if (str.startsWith(START_COMMENT) && str.endsWith(END_COMMENT)
+                if (str.stbrtsWith(START_COMMENT) && str.endsWith(END_COMMENT)
                        && str.length() >= (minLength)) {
                     str = str.substring(START_COMMENT.length(),
                                       str.length() - END_COMMENT.length());
                 }
 
-                /* Handle resulting chars as comment */
-                handleComment(str.toCharArray());
-                endTag(false);
-                lastBlockStartPos = currentPosition;
+                /* Hbndle resulting chbrs bs comment */
+                hbndleComment(str.toChbrArrby());
+                endTbg(fblse);
+                lbstBlockStbrtPos = currentPosition;
 
                 continue;
             } else {
                 switch (c) {
-                  case '<':
-                    parseTag();
-                    lastBlockStartPos = currentPosition;
+                  cbse '<':
+                    pbrseTbg();
+                    lbstBlockStbrtPos = currentPosition;
                     continue;
 
-                  case '/':
-                    ch = readCh();
-                    if ((stack != null) && stack.net) {
-                        // null end tag.
-                        endTag(false);
+                  cbse '/':
+                    ch = rebdCh();
+                    if ((stbck != null) && stbck.net) {
+                        // null end tbg.
+                        endTbg(fblse);
                         continue;
                     } else if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
+                        if (!legblElementContext(dtd.pcdbtb)) {
+                            error("unexpected.pcdbtb");
                         }
-                        if (last.breaksFlow()) {
-                            space = false;
+                        if (lbst.brebksFlow()) {
+                            spbce = fblse;
                         }
                     }
-                    break;
+                    brebk;
 
-                  case -1:
+                  cbse -1:
                     return;
 
-                  case '&':
+                  cbse '&':
                     if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
+                        if (!legblElementContext(dtd.pcdbtb)) {
+                            error("unexpected.pcdbtb");
                         }
-                        if (last.breaksFlow()) {
-                            space = false;
+                        if (lbst.brebksFlow()) {
+                            spbce = fblse;
                         }
                     }
-                    char data[] = parseEntityReference();
-                    if (textpos + data.length + 1 > text.length) {
-                        char newtext[] = new char[Math.max(textpos + data.length + 128, text.length * 2)];
-                        System.arraycopy(text, 0, newtext, 0, text.length);
+                    chbr dbtb[] = pbrseEntityReference();
+                    if (textpos + dbtb.length + 1 > text.length) {
+                        chbr newtext[] = new chbr[Mbth.mbx(textpos + dbtb.length + 128, text.length * 2)];
+                        System.brrbycopy(text, 0, newtext, 0, text.length);
                         text = newtext;
                     }
-                    if (space) {
-                        space = false;
+                    if (spbce) {
+                        spbce = fblse;
                         text[textpos++] = ' ';
                     }
-                    System.arraycopy(data, 0, text, textpos, data.length);
-                    textpos += data.length;
-                    ignoreSpace = false;
+                    System.brrbycopy(dbtb, 0, text, textpos, dbtb.length);
+                    textpos += dbtb.length;
+                    ignoreSpbce = fblse;
                     continue;
 
-                  case '\n':
+                  cbse '\n':
                     ln++;
                     lfCount++;
-                    ch = readCh();
-                    if ((stack != null) && stack.pre) {
-                        break;
+                    ch = rebdCh();
+                    if ((stbck != null) && stbck.pre) {
+                        brebk;
                     }
                     if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                        lbstBlockStbrtPos = currentPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignoreSpbce) {
+                        spbce = true;
                     }
                     continue;
 
-                  case '\r':
+                  cbse '\r':
                     ln++;
                     c = '\n';
-                    if ((ch = readCh()) == '\n') {
-                        ch = readCh();
+                    if ((ch = rebdCh()) == '\n') {
+                        ch = rebdCh();
                         crlfCount++;
                     }
                     else {
                         crCount++;
                     }
-                    if ((stack != null) && stack.pre) {
-                        break;
+                    if ((stbck != null) && stbck.pre) {
+                        brebk;
                     }
                     if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                        lbstBlockStbrtPos = currentPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignoreSpbce) {
+                        spbce = true;
                     }
                     continue;
 
 
-                  case '\t':
-                  case ' ':
-                    ch = readCh();
-                    if ((stack != null) && stack.pre) {
-                        break;
+                  cbse '\t':
+                  cbse ' ':
+                    ch = rebdCh();
+                    if ((stbck != null) && stbck.pre) {
+                        brebk;
                     }
                     if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                        lbstBlockStbrtPos = currentPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignoreSpbce) {
+                        spbce = true;
                     }
                     continue;
 
-                  default:
+                  defbult:
                     if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
+                        if (!legblElementContext(dtd.pcdbtb)) {
+                            error("unexpected.pcdbtb");
                         }
-                        if (last.breaksFlow()) {
-                            space = false;
+                        if (lbst.brebksFlow()) {
+                            spbce = fblse;
                         }
                     }
-                    ch = readCh();
-                    break;
+                    ch = rebdCh();
+                    brebk;
                 }
             }
 
-            // enlarge buffer if needed
+            // enlbrge buffer if needed
             if (textpos + 2 > text.length) {
-                char newtext[] = new char[text.length + 128];
-                System.arraycopy(text, 0, newtext, 0, text.length);
+                chbr newtext[] = new chbr[text.length + 128];
+                System.brrbycopy(text, 0, newtext, 0, text.length);
                 text = newtext;
             }
 
-            // output pending space
-            if (space) {
+            // output pending spbce
+            if (spbce) {
                 if (textpos == 0) {
-                    lastBlockStartPos--;
+                    lbstBlockStbrtPos--;
                 }
                 text[textpos++] = ' ';
-                space = false;
+                spbce = fblse;
             }
-            text[textpos++] = (char)c;
-            ignoreSpace = false;
+            text[textpos++] = (chbr)c;
+            ignoreSpbce = fblse;
         }
     }
 
     /**
      * Returns the end of line string. This will return the end of line
-     * string that has been encountered the most, one of \r, \n or \r\n.
+     * string thbt hbs been encountered the most, one of \r, \n or \r\n.
      */
     String getEndOfLineString() {
         if (crlfCount >= crCount) {
@@ -2335,50 +2335,50 @@ class Parser implements DTDConstants {
     }
 
     /**
-     * Parse an HTML stream, given a DTD.
+     * Pbrse bn HTML strebm, given b DTD.
      *
-     * @param in  the reader to read the source from
-     * @throws IOException if an I/O error occurs
+     * @pbrbm in  the rebder to rebd the source from
+     * @throws IOException if bn I/O error occurs
      */
-    public synchronized void parse(Reader in) throws IOException {
+    public synchronized void pbrse(Rebder in) throws IOException {
         this.in = in;
 
         this.ln = 1;
 
-        seenHtml = false;
-        seenHead = false;
-        seenBody = false;
+        seenHtml = fblse;
+        seenHebd = fblse;
+        seenBody = fblse;
 
         crCount = lfCount = crlfCount = 0;
 
         try {
-            ch = readCh();
-            text = new char[1024];
-            str = new char[128];
+            ch = rebdCh();
+            text = new chbr[1024];
+            str = new chbr[128];
 
-            parseContent();
-            // NOTE: interruption may have occurred.  Control flows out
-            // of here normally.
-            while (stack != null) {
-                endTag(true);
+            pbrseContent();
+            // NOTE: interruption mby hbve occurred.  Control flows out
+            // of here normblly.
+            while (stbck != null) {
+                endTbg(true);
             }
             in.close();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             errorContext();
             error("ioexception");
             throw e;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             errorContext();
-            error("exception", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-        } catch (ThreadDeath e) {
+            error("exception", e.getClbss().getNbme(), e.getMessbge());
+            e.printStbckTrbce();
+        } cbtch (ThrebdDebth e) {
             errorContext();
-            error("terminated");
-            e.printStackTrace();
+            error("terminbted");
+            e.printStbckTrbce();
             throw e;
-        } finally {
-            for (; stack != null ; stack = stack.next) {
-                handleEndTag(stack.tag);
+        } finblly {
+            for (; stbck != null ; stbck = stbck.next) {
+                hbndleEndTbg(stbck.tbg);
             }
 
             text = null;
@@ -2389,37 +2389,37 @@ class Parser implements DTDConstants {
 
 
     /*
-     * Input cache.  This is much faster than calling down to a synchronized
-     * method of BufferedReader for each byte.  Measurements done 5/30/97
-     * show that there's no point in having a bigger buffer:  Increasing
-     * the buffer to 8192 had no measurable impact for a program discarding
-     * one character at a time (reading from an http URL to a local machine).
-     * NOTE: If the current encoding is bogus, and we read too much
-     * (past the content-type) we may suffer a MalformedInputException. For
-     * this reason the initial size is 1 and when the body is encountered the
-     * size is adjusted to 256.
+     * Input cbche.  This is much fbster thbn cblling down to b synchronized
+     * method of BufferedRebder for ebch byte.  Mebsurements done 5/30/97
+     * show thbt there's no point in hbving b bigger buffer:  Increbsing
+     * the buffer to 8192 hbd no mebsurbble impbct for b progrbm discbrding
+     * one chbrbcter bt b time (rebding from bn http URL to b locbl mbchine).
+     * NOTE: If the current encoding is bogus, bnd we rebd too much
+     * (pbst the content-type) we mby suffer b MblformedInputException. For
+     * this rebson the initibl size is 1 bnd when the body is encountered the
+     * size is bdjusted to 256.
      */
-    private char buf[] = new char[1];
-    private int pos;
-    private int len;
+    privbte chbr buf[] = new chbr[1];
+    privbte int pos;
+    privbte int len;
     /*
-        tracks position relative to the beginning of the
+        trbcks position relbtive to the beginning of the
         document.
     */
-    private int currentPosition;
+    privbte int currentPosition;
 
 
-    private final int readCh() throws IOException {
+    privbte finbl int rebdCh() throws IOException {
 
         if (pos >= len) {
 
-            // This loop allows us to ignore interrupts if the flag
-            // says so
+            // This loop bllows us to ignore interrupts if the flbg
+            // sbys so
             for (;;) {
                 try {
-                    len = in.read(buf);
-                    break;
-                } catch (InterruptedIOException ex) {
+                    len = in.rebd(buf);
+                    brebk;
+                } cbtch (InterruptedIOException ex) {
                     throw ex;
                 }
             }

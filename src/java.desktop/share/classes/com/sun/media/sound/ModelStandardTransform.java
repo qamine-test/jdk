@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * A standard transformer used in connection blocks.
- * It expects input values to be between 0 and 1.
+ * A stbndbrd trbnsformer used in connection blocks.
+ * It expects input vblues to be between 0 bnd 1.
  *
- * The result of the transform is
- *   between 0 and 1 if polarity = unipolar and
- *   between -1 and 1 if polarity = bipolar.
+ * The result of the trbnsform is
+ *   between 0 bnd 1 if polbrity = unipolbr bnd
+ *   between -1 bnd 1 if polbrity = bipolbr.
  *
- * These constraints only applies to Concave, Convex and Switch transforms.
+ * These constrbints only bpplies to Concbve, Convex bnd Switch trbnsforms.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class ModelStandardTransform implements ModelTransform {
+public finbl clbss ModelStbndbrdTrbnsform implements ModelTrbnsform {
 
-    public static final boolean DIRECTION_MIN2MAX = false;
-    public static final boolean DIRECTION_MAX2MIN = true;
-    public static final boolean POLARITY_UNIPOLAR = false;
-    public static final boolean POLARITY_BIPOLAR = true;
-    public static final int TRANSFORM_LINEAR = 0;
-    // concave: output = (20*log10(127^2/value^2)) / 96
-    public static final int TRANSFORM_CONCAVE = 1;
-    // convex: same as concave except that start and end point are reversed.
-    public static final int TRANSFORM_CONVEX = 2;
-    // switch: if value > avg(max,min) then max else min
-    public static final int TRANSFORM_SWITCH = 3;
-    public static final int TRANSFORM_ABSOLUTE = 4;
-    private boolean direction = DIRECTION_MIN2MAX;
-    private boolean polarity = POLARITY_UNIPOLAR;
-    private int transform = TRANSFORM_LINEAR;
+    public stbtic finbl boolebn DIRECTION_MIN2MAX = fblse;
+    public stbtic finbl boolebn DIRECTION_MAX2MIN = true;
+    public stbtic finbl boolebn POLARITY_UNIPOLAR = fblse;
+    public stbtic finbl boolebn POLARITY_BIPOLAR = true;
+    public stbtic finbl int TRANSFORM_LINEAR = 0;
+    // concbve: output = (20*log10(127^2/vblue^2)) / 96
+    public stbtic finbl int TRANSFORM_CONCAVE = 1;
+    // convex: sbme bs concbve except thbt stbrt bnd end point bre reversed.
+    public stbtic finbl int TRANSFORM_CONVEX = 2;
+    // switch: if vblue > bvg(mbx,min) then mbx else min
+    public stbtic finbl int TRANSFORM_SWITCH = 3;
+    public stbtic finbl int TRANSFORM_ABSOLUTE = 4;
+    privbte boolebn direction = DIRECTION_MIN2MAX;
+    privbte boolebn polbrity = POLARITY_UNIPOLAR;
+    privbte int trbnsform = TRANSFORM_LINEAR;
 
-    public ModelStandardTransform() {
+    public ModelStbndbrdTrbnsform() {
     }
 
-    public ModelStandardTransform(boolean direction) {
+    public ModelStbndbrdTrbnsform(boolebn direction) {
         this.direction = direction;
     }
 
-    public ModelStandardTransform(boolean direction, boolean polarity) {
+    public ModelStbndbrdTrbnsform(boolebn direction, boolebn polbrity) {
         this.direction = direction;
-        this.polarity = polarity;
+        this.polbrity = polbrity;
     }
 
-    public ModelStandardTransform(boolean direction, boolean polarity,
-            int transform) {
+    public ModelStbndbrdTrbnsform(boolebn direction, boolebn polbrity,
+            int trbnsform) {
         this.direction = direction;
-        this.polarity = polarity;
-        this.transform = transform;
+        this.polbrity = polbrity;
+        this.trbnsform = trbnsform;
     }
 
-    public double transform(double value) {
+    public double trbnsform(double vblue) {
         double s;
-        double a;
+        double b;
         if (direction == DIRECTION_MAX2MIN)
-            value = 1.0 - value;
-        if (polarity == POLARITY_BIPOLAR)
-            value = value * 2.0 - 1.0;
-        switch (transform) {
-            case TRANSFORM_CONCAVE:
-                s = Math.signum(value);
-                a = Math.abs(value);
-                a = -((5.0 / 12.0) / Math.log(10)) * Math.log(1.0 - a);
-                if (a < 0)
-                    a = 0;
-                else if (a > 1)
-                    a = 1;
-                return s * a;
-            case TRANSFORM_CONVEX:
-                s = Math.signum(value);
-                a = Math.abs(value);
-                a = 1.0 + ((5.0 / 12.0) / Math.log(10)) * Math.log(a);
-                if (a < 0)
-                    a = 0;
-                else if (a > 1)
-                    a = 1;
-                return s * a;
-            case TRANSFORM_SWITCH:
-                if (polarity == POLARITY_BIPOLAR)
-                    return (value > 0) ? 1 : -1;
+            vblue = 1.0 - vblue;
+        if (polbrity == POLARITY_BIPOLAR)
+            vblue = vblue * 2.0 - 1.0;
+        switch (trbnsform) {
+            cbse TRANSFORM_CONCAVE:
+                s = Mbth.signum(vblue);
+                b = Mbth.bbs(vblue);
+                b = -((5.0 / 12.0) / Mbth.log(10)) * Mbth.log(1.0 - b);
+                if (b < 0)
+                    b = 0;
+                else if (b > 1)
+                    b = 1;
+                return s * b;
+            cbse TRANSFORM_CONVEX:
+                s = Mbth.signum(vblue);
+                b = Mbth.bbs(vblue);
+                b = 1.0 + ((5.0 / 12.0) / Mbth.log(10)) * Mbth.log(b);
+                if (b < 0)
+                    b = 0;
+                else if (b > 1)
+                    b = 1;
+                return s * b;
+            cbse TRANSFORM_SWITCH:
+                if (polbrity == POLARITY_BIPOLAR)
+                    return (vblue > 0) ? 1 : -1;
                 else
-                    return (value > 0.5) ? 1 : 0;
-            case TRANSFORM_ABSOLUTE:
-                return Math.abs(value);
-            default:
-                break;
+                    return (vblue > 0.5) ? 1 : 0;
+            cbse TRANSFORM_ABSOLUTE:
+                return Mbth.bbs(vblue);
+            defbult:
+                brebk;
         }
 
-        return value;
+        return vblue;
     }
 
-    public boolean getDirection() {
+    public boolebn getDirection() {
         return direction;
     }
 
-    public void setDirection(boolean direction) {
+    public void setDirection(boolebn direction) {
         this.direction = direction;
     }
 
-    public boolean getPolarity() {
-        return polarity;
+    public boolebn getPolbrity() {
+        return polbrity;
     }
 
-    public void setPolarity(boolean polarity) {
-        this.polarity = polarity;
+    public void setPolbrity(boolebn polbrity) {
+        this.polbrity = polbrity;
     }
 
-    public int getTransform() {
-        return transform;
+    public int getTrbnsform() {
+        return trbnsform;
     }
 
-    public void setTransform(int transform) {
-        this.transform = transform;
+    public void setTrbnsform(int trbnsform) {
+        this.trbnsform = trbnsform;
     }
 }

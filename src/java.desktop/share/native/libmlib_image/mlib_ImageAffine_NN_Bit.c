@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      Internal functions for mlib_ImageAffine with Nearest Neighbor filtering.
+ *      Internbl functions for mlib_ImbgeAffine with Nebrest Neighbor filtering.
  */
 
-#include "mlib_ImageAffine.h"
+#include "mlib_ImbgeAffine.h"
 
 /***************************************************************/
 #define DECLAREVAR_BIT()                                        \
@@ -47,24 +47,24 @@
 
 /***************************************************************/
 #define CLIP_BIT()                                              \
-  dstData += dstYStride;                                        \
+  dstDbtb += dstYStride;                                        \
   xLeft  = leftEdges[j]  + d_bitoff;                            \
   xRight = rightEdges[j] + d_bitoff;                            \
-  X = xStarts[j] + (s_bitoff << MLIB_SHIFT);                    \
-  Y = yStarts[j];                                               \
+  X = xStbrts[j] + (s_bitoff << MLIB_SHIFT);                    \
+  Y = yStbrts[j];                                               \
   if (xLeft > xRight) continue
 
 /***************************************************************/
 #define DTYPE mlib_u8
 
-void mlib_ImageAffine_bit_1ch_nn(mlib_affine_param *param,
+void mlib_ImbgeAffine_bit_1ch_nn(mlib_bffine_pbrbm *pbrbm,
                                  mlib_s32          s_bitoff,
                                  mlib_s32          d_bitoff)
 {
   DECLAREVAR_BIT();
   mlib_s32 i, bit, res;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
 
     CLIP_BIT();
     xRight++;
@@ -72,7 +72,7 @@ void mlib_ImageAffine_bit_1ch_nn(mlib_affine_param *param,
     i = xLeft;
 
     if (i & 7) {
-      mlib_u8 *dp = dstData + (i >> 3);
+      mlib_u8 *dp = dstDbtb + (i >> 3);
       mlib_s32 res = dp[0];
       mlib_s32 i_end = i + (8 - (i & 7));
 
@@ -95,7 +95,7 @@ void mlib_ImageAffine_bit_1ch_nn(mlib_affine_param *param,
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; i <= (xRight - 8); i += 8) {
       srcPixelPtr0 = MLIB_POINTER_GET(lineAddr, MLIB_POINTER_SHIFT(Y));
@@ -138,11 +138,11 @@ void mlib_ImageAffine_bit_1ch_nn(mlib_affine_param *param,
       res |= ((srcPixelPtr7[X >> (MLIB_SHIFT + 3)] >> (7 - ((X >> MLIB_SHIFT) & 7))) & 0x0001);
       X += dX;
 
-      dstData[i >> 3] = res | (res >> 8);
+      dstDbtb[i >> 3] = res | (res >> 8);
     }
 
     if (i < xRight) {
-      mlib_u8 *dp = dstData + (i >> 3);
+      mlib_u8 *dp = dstDbtb + (i >> 3);
       mlib_s32 res = dp[0];
 
       for (; i < xRight; i++) {

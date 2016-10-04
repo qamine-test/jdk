@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.event;
+pbckbge com.sun.jdi.event;
 
 import com.sun.jdi.*;
 
-import java.util.Set;
+import jbvb.util.Set;
 
 /**
- * Several {@link Event} objects may be created at a given time by
- * the target {@link VirtualMachine}. For example, there may be
- * more than one {@link com.sun.jdi.request.BreakpointRequest}
- * for a given {@link Location}
- * or you might single step to the same location as a
- * BreakpointRequest.  These {@link Event} objects are delivered
- * together as an EventSet.  For uniformity, an EventSet is always used
- * to deliver {@link Event} objects.  EventSets are delivered by
+ * Severbl {@link Event} objects mby be crebted bt b given time by
+ * the tbrget {@link VirtublMbchine}. For exbmple, there mby be
+ * more thbn one {@link com.sun.jdi.request.BrebkpointRequest}
+ * for b given {@link Locbtion}
+ * or you might single step to the sbme locbtion bs b
+ * BrebkpointRequest.  These {@link Event} objects bre delivered
+ * together bs bn EventSet.  For uniformity, bn EventSet is blwbys used
+ * to deliver {@link Event} objects.  EventSets bre delivered by
  * the {@link EventQueue}.
- * EventSets are unmodifiable.
+ * EventSets bre unmodifibble.
  * <P>
- * Associated with the issuance of an event set, suspensions may
- * have occurred in the target VM.  These suspensions correspond
+ * Associbted with the issubnce of bn event set, suspensions mby
+ * hbve occurred in the tbrget VM.  These suspensions correspond
  * with the {@link #suspendPolicy() suspend policy}.
- * To assure matching resumes occur, it is recommended,
+ * To bssure mbtching resumes occur, it is recommended,
  * where possible,
- * to complete the processing of an event set with
+ * to complete the processing of bn event set with
  * {@link #resume() EventSet.resume()}.
  * <P>
- * The events that are grouped in an EventSet are restricted in the
- * following ways:
+ * The events thbt bre grouped in bn EventSet bre restricted in the
+ * following wbys:
  * <P>
  * <UL>
- * <LI>Always singleton sets:
+ * <LI>Alwbys singleton sets:
  *     <UL>
- *     <LI>{@link VMStartEvent}
+ *     <LI>{@link VMStbrtEvent}
  *     <LI>{@link VMDisconnectEvent}
  *     </UL>
- * <LI>Only with other VMDeathEvents:
+ * <LI>Only with other VMDebthEvents:
  *     <UL>
- *     <LI>{@link VMDeathEvent}
+ *     <LI>{@link VMDebthEvent}
  *     </UL>
- * <LI>Only with other ThreadStartEvents for the same thread:
+ * <LI>Only with other ThrebdStbrtEvents for the sbme threbd:
  *     <UL>
- *     <LI>{@link ThreadStartEvent}
+ *     <LI>{@link ThrebdStbrtEvent}
  *     </UL>
- * <LI>Only with other ThreadDeathEvents for the same thread:
+ * <LI>Only with other ThrebdDebthEvents for the sbme threbd:
  *     <UL>
- *     <LI>{@link ThreadDeathEvent}
+ *     <LI>{@link ThrebdDebthEvent}
  *     </UL>
- * <LI>Only with other ClassPrepareEvents for the same class:
+ * <LI>Only with other ClbssPrepbreEvents for the sbme clbss:
  *     <UL>
- *     <LI>{@link ClassPrepareEvent}
+ *     <LI>{@link ClbssPrepbreEvent}
  *     </UL>
- * <LI>Only with other ClassUnloadEvents for the same class:
+ * <LI>Only with other ClbssUnlobdEvents for the sbme clbss:
  *     <UL>
- *     <LI>{@link ClassUnloadEvent}
+ *     <LI>{@link ClbssUnlobdEvent}
  *     </UL>
- * <LI>Only with other AccessWatchpointEvents for the same field access:
+ * <LI>Only with other AccessWbtchpointEvents for the sbme field bccess:
  *     <UL>
- *     <LI>{@link AccessWatchpointEvent}
+ *     <LI>{@link AccessWbtchpointEvent}
  *     </UL>
- * <LI>Only with other ModificationWatchpointEvents for the same field
- * modification:
+ * <LI>Only with other ModificbtionWbtchpointEvents for the sbme field
+ * modificbtion:
  *     <UL>
- *     <LI>{@link ModificationWatchpointEvent}
+ *     <LI>{@link ModificbtionWbtchpointEvent}
  *     </UL>
- * <LI>Only with other ExceptionEvents for the same exception occurrance:
+ * <LI>Only with other ExceptionEvents for the sbme exception occurrbnce:
  *     <UL>
  *     <LI>{@link ExceptionEvent}
  *     </UL>
- * <LI>Only with other MethodExitEvents for the same method exit:
+ * <LI>Only with other MethodExitEvents for the sbme method exit:
  *     <UL>
  *     <LI>{@link MethodExitEvent}
  *     </UL>
- * <LI>Only with other Monitor contended enter events for the same monitor object:
+ * <LI>Only with other Monitor contended enter events for the sbme monitor object:
  *     <UL>
  *     <LI>Monitor Contended Enter Event
  *     </UL>
- * <LI>Only with other Monitor contended entered events for the same monitor object:
+ * <LI>Only with other Monitor contended entered events for the sbme monitor object:
  *     <UL>
  *     <LI>Monitor Contended Entered Event
  *    </UL>
- * <LI>Only with other Monitor wait events for the same monitor object:
+ * <LI>Only with other Monitor wbit events for the sbme monitor object:
  *     <UL>
- *     <LI>Monitor Wait Event
+ *     <LI>Monitor Wbit Event
  *     </UL>
- * <LI>Only with other Monitor waited events for the same monitor object:
+ * <LI>Only with other Monitor wbited events for the sbme monitor object:
  *     <UL>
- *     <LI>Monitor Waited Event
+ *     <LI>Monitor Wbited Event
  *     </UL>
- * <LI>Only with other members of this group, at the same location
- * and in the same thread:
+ * <LI>Only with other members of this group, bt the sbme locbtion
+ * bnd in the sbme threbd:
  *     <UL>
- *     <LI>{@link BreakpointEvent}
+ *     <LI>{@link BrebkpointEvent}
  *     <LI>{@link StepEvent}
  *     <LI>{@link MethodEntryEvent}
  *     </UL>
@@ -123,27 +123,27 @@ import java.util.Set;
  * @see Event
  * @see EventQueue
  *
- * @author Robert Field
+ * @buthor Robert Field
  * @since  1.3
  */
 
 @jdk.Exported
-public interface EventSet extends Mirror, Set<Event> {
+public interfbce EventSet extends Mirror, Set<Event> {
 
     /**
-     * Returns the policy used to suspend threads in the target VM
+     * Returns the policy used to suspend threbds in the tbrget VM
      * for this event set. This policy is selected from the suspend
-     * policies for each event's request; the target VM chooses the
-     * policy which suspends the most threads.  The target VM
-     * suspends threads according to that policy
-     * and that policy is returned here. See
+     * policies for ebch event's request; the tbrget VM chooses the
+     * policy which suspends the most threbds.  The tbrget VM
+     * suspends threbds bccording to thbt policy
+     * bnd thbt policy is returned here. See
      * {@link com.sun.jdi.request.EventRequest} for the possible
-     * policy values.
+     * policy vblues.
      * <p>
-     * In rare cases, the suspend policy may differ from the requested
-     * value if a {@link ClassPrepareEvent} has occurred in a
-     * debugger system thread. See {@link ClassPrepareEvent#thread}
-     * for details.
+     * In rbre cbses, the suspend policy mby differ from the requested
+     * vblue if b {@link ClbssPrepbreEvent} hbs occurred in b
+     * debugger system threbd. See {@link ClbssPrepbreEvent#threbd}
+     * for detbils.
      *
      * @return the suspendPolicy which is either
      * {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL SUSPEND_ALL},
@@ -153,20 +153,20 @@ public interface EventSet extends Mirror, Set<Event> {
     int suspendPolicy();
 
     /**
-     * Return an iterator specific to {@link Event} objects.
+     * Return bn iterbtor specific to {@link Event} objects.
      */
-    EventIterator eventIterator();
+    EventIterbtor eventIterbtor();
 
     /**
-     * Resumes threads suspended by this event set. If the {@link #suspendPolicy}
-     * is {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL}, a call
-     * to this method is equivalent to
-     * {@link com.sun.jdi.VirtualMachine#resume}. If the
+     * Resumes threbds suspended by this event set. If the {@link #suspendPolicy}
+     * is {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL}, b cbll
+     * to this method is equivblent to
+     * {@link com.sun.jdi.VirtublMbchine#resume}. If the
      * suspend policy is
      * {@link com.sun.jdi.request.EventRequest#SUSPEND_EVENT_THREAD},
-     * a call to this method is equivalent to
-     * {@link com.sun.jdi.ThreadReference#resume} for the event thread.
-     * Otherwise, a call to this method is a no-op.
+     * b cbll to this method is equivblent to
+     * {@link com.sun.jdi.ThrebdReference#resume} for the event threbd.
+     * Otherwise, b cbll to this method is b no-op.
      */
     void resume();
 }

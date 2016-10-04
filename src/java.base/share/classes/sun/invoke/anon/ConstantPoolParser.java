@@ -1,368 +1,368 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.invoke.anon;
+pbckbge sun.invoke.bnon;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.nio.ByteBuffer;
 
-import static sun.invoke.anon.ConstantPoolVisitor.*;
+import stbtic sun.invoke.bnon.ConstbntPoolVisitor.*;
 
-/** A constant pool parser.
+/** A constbnt pool pbrser.
  */
-public class ConstantPoolParser {
-    final byte[] classFile;
-    final byte[] tags;
-    final char[] firstHeader;  // maghi, maglo, minor, major, cplen
+public clbss ConstbntPoolPbrser {
+    finbl byte[] clbssFile;
+    finbl byte[] tbgs;
+    finbl chbr[] firstHebder;  // mbghi, mbglo, minor, mbjor, cplen
 
-    // these are filled in on first parse:
+    // these bre filled in on first pbrse:
     int endOffset;
-    char[] secondHeader;       // flags, this_class, super_class, intlen
+    chbr[] secondHebder;       // flbgs, this_clbss, super_clbss, intlen
 
-    // used to decode UTF8 array
-    private char[] charArray = new char[80];
+    // used to decode UTF8 brrby
+    privbte chbr[] chbrArrby = new chbr[80];
 
-    /** Creates a constant pool parser.
-     * @param classFile an array of bytes containing a class.
-     * @throws InvalidConstantPoolFormatException if the header of the class has errors.
+    /** Crebtes b constbnt pool pbrser.
+     * @pbrbm clbssFile bn brrby of bytes contbining b clbss.
+     * @throws InvblidConstbntPoolFormbtException if the hebder of the clbss hbs errors.
      */
-    public ConstantPoolParser(byte[] classFile) throws InvalidConstantPoolFormatException {
-        this.classFile = classFile;
-        this.firstHeader = parseHeader(classFile);
-        this.tags = new byte[firstHeader[4]];
+    public ConstbntPoolPbrser(byte[] clbssFile) throws InvblidConstbntPoolFormbtException {
+        this.clbssFile = clbssFile;
+        this.firstHebder = pbrseHebder(clbssFile);
+        this.tbgs = new byte[firstHebder[4]];
     }
 
-    /** Create a constant pool parser by loading the bytecodes of the
-     *  class taken as argument.
+    /** Crebte b constbnt pool pbrser by lobding the bytecodes of the
+     *  clbss tbken bs brgument.
      *
-     * @param templateClass the class to parse.
+     * @pbrbm templbteClbss the clbss to pbrse.
      *
-     * @throws IOException raised if an I/O occurs when loading
-     *  the bytecode of the template class.
-     * @throws InvalidConstantPoolFormatException if the header of the class has errors.
+     * @throws IOException rbised if bn I/O occurs when lobding
+     *  the bytecode of the templbte clbss.
+     * @throws InvblidConstbntPoolFormbtException if the hebder of the clbss hbs errors.
      *
-     * @see #ConstantPoolParser(byte[])
-     * @see AnonymousClassLoader#readClassFile(Class)
+     * @see #ConstbntPoolPbrser(byte[])
+     * @see AnonymousClbssLobder#rebdClbssFile(Clbss)
      */
-    public ConstantPoolParser(Class<?> templateClass) throws IOException, InvalidConstantPoolFormatException {
-        this(AnonymousClassLoader.readClassFile(templateClass));
+    public ConstbntPoolPbrser(Clbss<?> templbteClbss) throws IOException, InvblidConstbntPoolFormbtException {
+        this(AnonymousClbssLobder.rebdClbssFile(templbteClbss));
     }
 
-    /** Creates an empty patch to patch the class file
-     *  used by the current parser.
-     * @return a new class patch.
+    /** Crebtes bn empty pbtch to pbtch the clbss file
+     *  used by the current pbrser.
+     * @return b new clbss pbtch.
      */
-    public ConstantPoolPatch createPatch() {
-        return new ConstantPoolPatch(this);
+    public ConstbntPoolPbtch crebtePbtch() {
+        return new ConstbntPoolPbtch(this);
     }
 
-    /** Report the tag of the indicated CP entry.
-     * @param index
-     * @return one of {@link ConstantPoolVisitor#CONSTANT_Utf8}, etc.
+    /** Report the tbg of the indicbted CP entry.
+     * @pbrbm index
+     * @return one of {@link ConstbntPoolVisitor#CONSTANT_Utf8}, etc.
      */
-    public byte getTag(int index) {
-        getEndOffset();  // trigger an exception if we haven't parsed yet
-        return tags[index];
+    public byte getTbg(int index) {
+        getEndOffset();  // trigger bn exception if we hbven't pbrsed yet
+        return tbgs[index];
     }
 
-    /** Report the length of the constant pool. */
+    /** Report the length of the constbnt pool. */
     public int getLength() {
-        return firstHeader[4];
+        return firstHebder[4];
     }
 
-    /** Report the offset, within the class file, of the start of the constant pool. */
-    public int getStartOffset() {
-        return firstHeader.length * 2;
+    /** Report the offset, within the clbss file, of the stbrt of the constbnt pool. */
+    public int getStbrtOffset() {
+        return firstHebder.length * 2;
     }
 
-    /** Report the offset, within the class file, of the end of the constant pool. */
+    /** Report the offset, within the clbss file, of the end of the constbnt pool. */
     public int getEndOffset() {
         if (endOffset == 0)
-            throw new IllegalStateException("class file has not yet been parsed");
+            throw new IllegblStbteException("clbss file hbs not yet been pbrsed");
         return endOffset;
     }
 
-    /** Report the CP index of this class's own name. */
-    public int getThisClassIndex() {
-        getEndOffset();   // provoke exception if not yet parsed
-        return secondHeader[1];
+    /** Report the CP index of this clbss's own nbme. */
+    public int getThisClbssIndex() {
+        getEndOffset();   // provoke exception if not yet pbrsed
+        return secondHebder[1];
     }
 
-    /** Report the total size of the class file. */
-    public int getTailLength() {
-        return classFile.length - getEndOffset();
+    /** Report the totbl size of the clbss file. */
+    public int getTbilLength() {
+        return clbssFile.length - getEndOffset();
     }
 
-    /** Write the head (header plus constant pool)
-     *  of the class file to the indicated stream.
+    /** Write the hebd (hebder plus constbnt pool)
+     *  of the clbss file to the indicbted strebm.
      */
-    public void writeHead(OutputStream out) throws IOException {
-        out.write(classFile, 0, getEndOffset());
+    public void writeHebd(OutputStrebm out) throws IOException {
+        out.write(clbssFile, 0, getEndOffset());
     }
 
-    /** Write the head (header plus constant pool)
-     *  of the class file to the indicated stream,
-     *  incorporating the non-null entries of the given array
-     *  as patches.
+    /** Write the hebd (hebder plus constbnt pool)
+     *  of the clbss file to the indicbted strebm,
+     *  incorporbting the non-null entries of the given brrby
+     *  bs pbtches.
      */
-    void writePatchedHead(OutputStream out, Object[] patchArray) {
-        // this will be useful to partially emulate the class loader on old JVMs
-        throw new UnsupportedOperationException("Not yet implemented");
+    void writePbtchedHebd(OutputStrebm out, Object[] pbtchArrby) {
+        // this will be useful to pbrtiblly emulbte the clbss lobder on old JVMs
+        throw new UnsupportedOperbtionException("Not yet implemented");
     }
 
-    /** Write the tail (everything after the constant pool)
-     *  of the class file to the indicated stream.
+    /** Write the tbil (everything bfter the constbnt pool)
+     *  of the clbss file to the indicbted strebm.
      */
-    public void writeTail(OutputStream out) throws IOException {
-        out.write(classFile, getEndOffset(), getTailLength());
+    public void writeTbil(OutputStrebm out) throws IOException {
+        out.write(clbssFile, getEndOffset(), getTbilLength());
     }
 
-    private static char[] parseHeader(byte[] classFile) throws InvalidConstantPoolFormatException {
-        char[] result = new char[5];
-        ByteBuffer buffer = ByteBuffer.wrap(classFile);
+    privbte stbtic chbr[] pbrseHebder(byte[] clbssFile) throws InvblidConstbntPoolFormbtException {
+        chbr[] result = new chbr[5];
+        ByteBuffer buffer = ByteBuffer.wrbp(clbssFile);
         for (int i = 0; i < result.length; i++)
-            result[i] = (char) getUnsignedShort(buffer);
-        int magic = result[0] << 16 | result[1] << 0;
-        if (magic != 0xCAFEBABE)
-            throw new InvalidConstantPoolFormatException("invalid magic number "+magic);
-        // skip major, minor version
+            result[i] = (chbr) getUnsignedShort(buffer);
+        int mbgic = result[0] << 16 | result[1] << 0;
+        if (mbgic != 0xCAFEBABE)
+            throw new InvblidConstbntPoolFormbtException("invblid mbgic number "+mbgic);
+        // skip mbjor, minor version
         int len = result[4];
         if (len < 1)
-            throw new InvalidConstantPoolFormatException("constant pool length < 1");
+            throw new InvblidConstbntPoolFormbtException("constbnt pool length < 1");
         return result;
     }
 
-    /** Parse the constant pool of the class
-     *  calling a method visit* each time a constant pool entry is parsed.
+    /** Pbrse the constbnt pool of the clbss
+     *  cblling b method visit* ebch time b constbnt pool entry is pbrsed.
      *
-     *  The order of the calls to visit* is not guaranteed to be the same
-     *  than the order of the constant pool entry in the bytecode array.
+     *  The order of the cblls to visit* is not gubrbnteed to be the sbme
+     *  thbn the order of the constbnt pool entry in the bytecode brrby.
      *
-     * @param visitor
-     * @throws InvalidConstantPoolFormatException
+     * @pbrbm visitor
+     * @throws InvblidConstbntPoolFormbtException
      */
-    public void parse(ConstantPoolVisitor visitor) throws InvalidConstantPoolFormatException {
-        ByteBuffer buffer = ByteBuffer.wrap(classFile);
-        buffer.position(getStartOffset()); //skip header
+    public void pbrse(ConstbntPoolVisitor visitor) throws InvblidConstbntPoolFormbtException {
+        ByteBuffer buffer = ByteBuffer.wrbp(clbssFile);
+        buffer.position(getStbrtOffset()); //skip hebder
 
-        Object[] values = new Object[getLength()];
+        Object[] vblues = new Object[getLength()];
         try {
-            parseConstantPool(buffer, values, visitor);
-        } catch(BufferUnderflowException e) {
-            throw new InvalidConstantPoolFormatException(e);
+            pbrseConstbntPool(buffer, vblues, visitor);
+        } cbtch(BufferUnderflowException e) {
+            throw new InvblidConstbntPoolFormbtException(e);
         }
         if (endOffset == 0) {
             endOffset = buffer.position();
-            secondHeader = new char[4];
-            for (int i = 0; i < secondHeader.length; i++) {
-                secondHeader[i] = (char) getUnsignedShort(buffer);
+            secondHebder = new chbr[4];
+            for (int i = 0; i < secondHebder.length; i++) {
+                secondHebder[i] = (chbr) getUnsignedShort(buffer);
             }
         }
-        resolveConstantPool(values, visitor);
+        resolveConstbntPool(vblues, visitor);
     }
 
-    private char[] getCharArray(int utfLength) {
-        if (utfLength <= charArray.length)
-            return charArray;
-        return charArray = new char[utfLength];
+    privbte chbr[] getChbrArrby(int utfLength) {
+        if (utfLength <= chbrArrby.length)
+            return chbrArrby;
+        return chbrArrby = new chbr[utfLength];
     }
 
-    private void parseConstantPool(ByteBuffer buffer, Object[] values, ConstantPoolVisitor visitor) throws InvalidConstantPoolFormatException {
-        for (int i = 1; i < tags.length; ) {
-            byte tag = (byte) getUnsignedByte(buffer);
-            assert(tags[i] == 0 || tags[i] == tag);
-            tags[i] = tag;
-            switch (tag) {
-                case CONSTANT_Utf8:
+    privbte void pbrseConstbntPool(ByteBuffer buffer, Object[] vblues, ConstbntPoolVisitor visitor) throws InvblidConstbntPoolFormbtException {
+        for (int i = 1; i < tbgs.length; ) {
+            byte tbg = (byte) getUnsignedByte(buffer);
+            bssert(tbgs[i] == 0 || tbgs[i] == tbg);
+            tbgs[i] = tbg;
+            switch (tbg) {
+                cbse CONSTANT_Utf8:
                     int utfLen = getUnsignedShort(buffer);
-                    String value = getUTF8(buffer, utfLen, getCharArray(utfLen));
-                    visitor.visitUTF8(i, CONSTANT_Utf8, value);
-                    tags[i] = tag;
-                    values[i++] = value;
-                    break;
-                case CONSTANT_Integer:
-                    visitor.visitConstantValue(i, tag, buffer.getInt());
+                    String vblue = getUTF8(buffer, utfLen, getChbrArrby(utfLen));
+                    visitor.visitUTF8(i, CONSTANT_Utf8, vblue);
+                    tbgs[i] = tbg;
+                    vblues[i++] = vblue;
+                    brebk;
+                cbse CONSTANT_Integer:
+                    visitor.visitConstbntVblue(i, tbg, buffer.getInt());
                     i++;
-                    break;
-                case CONSTANT_Float:
-                    visitor.visitConstantValue(i, tag, buffer.getFloat());
+                    brebk;
+                cbse CONSTANT_Flobt:
+                    visitor.visitConstbntVblue(i, tbg, buffer.getFlobt());
                     i++;
-                    break;
-                case CONSTANT_Long:
-                    visitor.visitConstantValue(i, tag, buffer.getLong());
+                    brebk;
+                cbse CONSTANT_Long:
+                    visitor.visitConstbntVblue(i, tbg, buffer.getLong());
                     i+=2;
-                    break;
-                case CONSTANT_Double:
-                    visitor.visitConstantValue(i, tag, buffer.getDouble());
+                    brebk;
+                cbse CONSTANT_Double:
+                    visitor.visitConstbntVblue(i, tbg, buffer.getDouble());
                     i+=2;
-                    break;
+                    brebk;
 
-                case CONSTANT_Class:    // fall through:
-                case CONSTANT_String:
-                    tags[i] = tag;
-                    values[i++] = new int[] { getUnsignedShort(buffer) };
-                    break;
+                cbse CONSTANT_Clbss:    // fbll through:
+                cbse CONSTANT_String:
+                    tbgs[i] = tbg;
+                    vblues[i++] = new int[] { getUnsignedShort(buffer) };
+                    brebk;
 
-                case CONSTANT_Fieldref:           // fall through:
-                case CONSTANT_Methodref:          // fall through:
-                case CONSTANT_InterfaceMethodref: // fall through:
-                case CONSTANT_NameAndType:
-                    tags[i] = tag;
-                    values[i++] = new int[] { getUnsignedShort(buffer), getUnsignedShort(buffer) };
-                    break;
-                default:
-                    throw new AssertionError("invalid constant "+tag);
+                cbse CONSTANT_Fieldref:           // fbll through:
+                cbse CONSTANT_Methodref:          // fbll through:
+                cbse CONSTANT_InterfbceMethodref: // fbll through:
+                cbse CONSTANT_NbmeAndType:
+                    tbgs[i] = tbg;
+                    vblues[i++] = new int[] { getUnsignedShort(buffer), getUnsignedShort(buffer) };
+                    brebk;
+                defbult:
+                    throw new AssertionError("invblid constbnt "+tbg);
             }
         }
     }
 
-    private void resolveConstantPool(Object[] values, ConstantPoolVisitor visitor) {
-        // clean out the int[] values, which are temporary
-        for (int beg = 1, end = values.length-1, beg2, end2;
+    privbte void resolveConstbntPool(Object[] vblues, ConstbntPoolVisitor visitor) {
+        // clebn out the int[] vblues, which bre temporbry
+        for (int beg = 1, end = vblues.length-1, beg2, end2;
              beg <= end;
              beg = beg2, end = end2) {
              beg2 = end; end2 = beg-1;
-             //System.out.println("CP resolve pass: "+beg+".."+end);
+             //System.out.println("CP resolve pbss: "+beg+".."+end);
              for (int i = beg; i <= end; i++) {
-                  Object value = values[i];
-                  if (!(value instanceof int[]))
+                  Object vblue = vblues[i];
+                  if (!(vblue instbnceof int[]))
                       continue;
-                  int[] array = (int[]) value;
-                  byte tag = tags[i];
-                  switch (tag) {
-                      case CONSTANT_String:
-                          String stringBody = (String) values[array[0]];
-                          visitor.visitConstantString(i, tag, stringBody, array[0]);
-                          values[i] = null;
-                          break;
-                      case CONSTANT_Class: {
-                          String className = (String) values[array[0]];
-                          // use the external form favored by Class.forName:
-                          className = className.replace('/', '.');
-                          visitor.visitConstantString(i, tag, className, array[0]);
-                          values[i] = className;
-                          break;
+                  int[] brrby = (int[]) vblue;
+                  byte tbg = tbgs[i];
+                  switch (tbg) {
+                      cbse CONSTANT_String:
+                          String stringBody = (String) vblues[brrby[0]];
+                          visitor.visitConstbntString(i, tbg, stringBody, brrby[0]);
+                          vblues[i] = null;
+                          brebk;
+                      cbse CONSTANT_Clbss: {
+                          String clbssNbme = (String) vblues[brrby[0]];
+                          // use the externbl form fbvored by Clbss.forNbme:
+                          clbssNbme = clbssNbme.replbce('/', '.');
+                          visitor.visitConstbntString(i, tbg, clbssNbme, brrby[0]);
+                          vblues[i] = clbssNbme;
+                          brebk;
                       }
-                      case CONSTANT_NameAndType: {
-                          String memberName = (String) values[array[0]];
-                          String signature  = (String) values[array[1]];
-                          visitor.visitDescriptor(i, tag, memberName, signature,
-                                                  array[0], array[1]);
-                          values[i] = new String[] {memberName, signature};
-                          break;
+                      cbse CONSTANT_NbmeAndType: {
+                          String memberNbme = (String) vblues[brrby[0]];
+                          String signbture  = (String) vblues[brrby[1]];
+                          visitor.visitDescriptor(i, tbg, memberNbme, signbture,
+                                                  brrby[0], brrby[1]);
+                          vblues[i] = new String[] {memberNbme, signbture};
+                          brebk;
                       }
-                      case CONSTANT_Fieldref:           // fall through:
-                      case CONSTANT_Methodref:          // fall through:
-                      case CONSTANT_InterfaceMethodref: {
-                              Object className   = values[array[0]];
-                              Object nameAndType = values[array[1]];
-                              if (!(className instanceof String) ||
-                                  !(nameAndType instanceof String[])) {
-                                   // one more pass is needed
+                      cbse CONSTANT_Fieldref:           // fbll through:
+                      cbse CONSTANT_Methodref:          // fbll through:
+                      cbse CONSTANT_InterfbceMethodref: {
+                              Object clbssNbme   = vblues[brrby[0]];
+                              Object nbmeAndType = vblues[brrby[1]];
+                              if (!(clbssNbme instbnceof String) ||
+                                  !(nbmeAndType instbnceof String[])) {
+                                   // one more pbss is needed
                                    if (beg2 > i)  beg2 = i;
                                    if (end2 < i)  end2 = i;
                                    continue;
                               }
-                              String[] nameAndTypeArray = (String[]) nameAndType;
-                              visitor.visitMemberRef(i, tag,
-                                  (String)className,
-                                  nameAndTypeArray[0],
-                                  nameAndTypeArray[1],
-                                  array[0], array[1]);
-                              values[i] = null;
+                              String[] nbmeAndTypeArrby = (String[]) nbmeAndType;
+                              visitor.visitMemberRef(i, tbg,
+                                  (String)clbssNbme,
+                                  nbmeAndTypeArrby[0],
+                                  nbmeAndTypeArrby[1],
+                                  brrby[0], brrby[1]);
+                              vblues[i] = null;
                           }
-                          break;
-                      default:
+                          brebk;
+                      defbult:
                           continue;
                 }
             }
         }
     }
 
-    private static int getUnsignedByte(ByteBuffer buffer) {
+    privbte stbtic int getUnsignedByte(ByteBuffer buffer) {
         return buffer.get() & 0xFF;
     }
 
-    private static int getUnsignedShort(ByteBuffer buffer) {
+    privbte stbtic int getUnsignedShort(ByteBuffer buffer) {
         int b1 = getUnsignedByte(buffer);
         int b2 = getUnsignedByte(buffer);
         return (b1 << 8) + (b2 << 0);
     }
 
-    private static String getUTF8(ByteBuffer buffer, int utfLen, char[] charArray) throws InvalidConstantPoolFormatException {
+    privbte stbtic String getUTF8(ByteBuffer buffer, int utfLen, chbr[] chbrArrby) throws InvblidConstbntPoolFormbtException {
       int utfLimit = buffer.position() + utfLen;
       int index = 0;
       while (buffer.position() < utfLimit) {
           int c = buffer.get() & 0xff;
           if (c > 127) {
               buffer.position(buffer.position() - 1);
-              return getUTF8Extended(buffer, utfLimit, charArray, index);
+              return getUTF8Extended(buffer, utfLimit, chbrArrby, index);
           }
-          charArray[index++] = (char)c;
+          chbrArrby[index++] = (chbr)c;
       }
-      return new String(charArray, 0, index);
+      return new String(chbrArrby, 0, index);
     }
 
-    private static String getUTF8Extended(ByteBuffer buffer, int utfLimit, char[] charArray, int index) throws InvalidConstantPoolFormatException {
+    privbte stbtic String getUTF8Extended(ByteBuffer buffer, int utfLimit, chbr[] chbrArrby, int index) throws InvblidConstbntPoolFormbtException {
         int c, c2, c3;
         while (buffer.position() < utfLimit) {
             c = buffer.get() & 0xff;
             switch (c >> 4) {
-                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+                cbse 0: cbse 1: cbse 2: cbse 3: cbse 4: cbse 5: cbse 6: cbse 7:
                     /* 0xxxxxxx*/
-                    charArray[index++] = (char)c;
-                    break;
-                case 12: case 13:
+                    chbrArrby[index++] = (chbr)c;
+                    brebk;
+                cbse 12: cbse 13:
                     /* 110x xxxx   10xx xxxx*/
                     c2 = buffer.get();
                     if ((c2 & 0xC0) != 0x80)
-                        throw new InvalidConstantPoolFormatException(
-                            "malformed input around byte " + buffer.position());
-                     charArray[index++] = (char)(((c  & 0x1F) << 6) |
+                        throw new InvblidConstbntPoolFormbtException(
+                            "mblformed input bround byte " + buffer.position());
+                     chbrArrby[index++] = (chbr)(((c  & 0x1F) << 6) |
                                                   (c2 & 0x3F));
-                    break;
-                case 14:
+                    brebk;
+                cbse 14:
                     /* 1110 xxxx  10xx xxxx  10xx xxxx */
                     c2 = buffer.get();
                     c3 = buffer.get();
                     if (((c2 & 0xC0) != 0x80) || ((c3 & 0xC0) != 0x80))
-                       throw new InvalidConstantPoolFormatException(
-                          "malformed input around byte " + (buffer.position()));
-                    charArray[index++] = (char)(((c  & 0x0F) << 12) |
+                       throw new InvblidConstbntPoolFormbtException(
+                          "mblformed input bround byte " + (buffer.position()));
+                    chbrArrby[index++] = (chbr)(((c  & 0x0F) << 12) |
                                                 ((c2 & 0x3F) << 6)  |
                                                 ((c3 & 0x3F) << 0));
-                    break;
-                default:
+                    brebk;
+                defbult:
                     /* 10xx xxxx,  1111 xxxx */
-                    throw new InvalidConstantPoolFormatException(
-                        "malformed input around byte " + buffer.position());
+                    throw new InvblidConstbntPoolFormbtException(
+                        "mblformed input bround byte " + buffer.position());
             }
         }
-        // The number of chars produced may be less than utflen
-        return new String(charArray, 0, index);
+        // The number of chbrs produced mby be less thbn utflen
+        return new String(chbrArrby, 0, index);
     }
 }

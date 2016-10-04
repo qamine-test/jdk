@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bebns.PropertyVetoException;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 import sun.swing.SwingUtilities2;
 
 /**
- * From MacDockIconUI
+ * From MbcDockIconUI
  *
- * A JRSUI L&F implementation of JInternalFrame.JDesktopIcon
- * @author
+ * A JRSUI L&F implementbtion of JInternblFrbme.JDesktopIcon
+ * @buthor
  * @version
  */
-public class AquaInternalFrameDockIconUI extends DesktopIconUI implements MouseListener, MouseMotionListener, ComponentListener {
-    private static final String CACHED_FRAME_ICON_KEY = "apple.laf.internal.frameIcon";
+public clbss AqubInternblFrbmeDockIconUI extends DesktopIconUI implements MouseListener, MouseMotionListener, ComponentListener {
+    privbte stbtic finbl String CACHED_FRAME_ICON_KEY = "bpple.lbf.internbl.frbmeIcon";
 
-    protected JInternalFrame.JDesktopIcon fDesktopIcon;
-    protected JInternalFrame fFrame;
-    protected ScaledImageLabel fIconPane;
-    protected DockLabel fDockLabel;
-    protected boolean fTrackingIcon = false;
+    protected JInternblFrbme.JDesktopIcon fDesktopIcon;
+    protected JInternblFrbme fFrbme;
+    protected ScbledImbgeLbbel fIconPbne;
+    protected DockLbbel fDockLbbel;
+    protected boolebn fTrbckingIcon = fblse;
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaInternalFrameDockIconUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubInternblFrbmeDockIconUI();
     }
 
-    public void installUI(final JComponent c) {
-        fDesktopIcon = (JInternalFrame.JDesktopIcon)c;
-        installComponents();
-        installListeners();
+    public void instbllUI(finbl JComponent c) {
+        fDesktopIcon = (JInternblFrbme.JDesktopIcon)c;
+        instbllComponents();
+        instbllListeners();
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallComponents();
-        uninstallListeners();
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllComponents();
+        uninstbllListeners();
         fDesktopIcon = null;
-        fFrame = null;
+        fFrbme = null;
     }
 
-    protected void installComponents() {
-        fFrame = fDesktopIcon.getInternalFrame();
-        fIconPane = new ScaledImageLabel();
-        fDesktopIcon.setLayout(new BorderLayout());
-        fDesktopIcon.add(fIconPane, BorderLayout.CENTER);
+    protected void instbllComponents() {
+        fFrbme = fDesktopIcon.getInternblFrbme();
+        fIconPbne = new ScbledImbgeLbbel();
+        fDesktopIcon.setLbyout(new BorderLbyout());
+        fDesktopIcon.bdd(fIconPbne, BorderLbyout.CENTER);
     }
 
-    protected void uninstallComponents() {
-        fDesktopIcon.setLayout(null);
-        fDesktopIcon.remove(fIconPane);
+    protected void uninstbllComponents() {
+        fDesktopIcon.setLbyout(null);
+        fDesktopIcon.remove(fIconPbne);
     }
 
-    protected void installListeners() {
-        fDesktopIcon.addMouseListener(this);
-        fDesktopIcon.addMouseMotionListener(this);
-        fFrame.addComponentListener(this);
+    protected void instbllListeners() {
+        fDesktopIcon.bddMouseListener(this);
+        fDesktopIcon.bddMouseMotionListener(this);
+        fFrbme.bddComponentListener(this);
     }
 
-    protected void uninstallListeners() {
-        fFrame.removeComponentListener(this);
+    protected void uninstbllListeners() {
+        fFrbme.removeComponentListener(this);
         fDesktopIcon.removeMouseMotionListener(this);
         fDesktopIcon.removeMouseListener(this);
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
+    public Dimension getMinimumSize(finbl JComponent c) {
         return new Dimension(32, 32);
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
+    public Dimension getMbximumSize(finbl JComponent c) {
         return new Dimension(128, 128);
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
+    public Dimension getPreferredSize(finbl JComponent c) {
         return new Dimension(64, 64); //$ Dock preferred size
     }
 
-    public Insets getInsets(final JComponent c) {
+    public Insets getInsets(finbl JComponent c) {
         return new Insets(0, 0, 0, 0);
     }
 
-    void updateIcon() {
-        fIconPane.updateIcon();
+    void updbteIcon() {
+        fIconPbne.updbteIcon();
     }
 
-    public void mousePressed(final MouseEvent e) {
-        fTrackingIcon = fIconPane.mouseInIcon(e);
-        if (fTrackingIcon) fIconPane.repaint();
+    public void mousePressed(finbl MouseEvent e) {
+        fTrbckingIcon = fIconPbne.mouseInIcon(e);
+        if (fTrbckingIcon) fIconPbne.repbint();
     }
 
-    public void mouseReleased(final MouseEvent e) {// only when it's actually in the image
-        if (fFrame.isIconifiable() && fFrame.isIcon()) {
-            if (fTrackingIcon) {
-                fTrackingIcon = false;
-                if (fIconPane.mouseInIcon(e)) {
-                    if (fDockLabel != null) fDockLabel.hide();
+    public void mouseRelebsed(finbl MouseEvent e) {// only when it's bctublly in the imbge
+        if (fFrbme.isIconifibble() && fFrbme.isIcon()) {
+            if (fTrbckingIcon) {
+                fTrbckingIcon = fblse;
+                if (fIconPbne.mouseInIcon(e)) {
+                    if (fDockLbbel != null) fDockLbbel.hide();
                     try {
-                        fFrame.setIcon(false);
-                    } catch(final PropertyVetoException e2) {}
+                        fFrbme.setIcon(fblse);
+                    } cbtch(finbl PropertyVetoException e2) {}
                 } else {
-                    fIconPane.repaint();
+                    fIconPbne.repbint();
                 }
             }
         }
 
-        // if the mouse was completely outside fIconPane, hide the label
-        if (fDockLabel != null && !fIconPane.getBounds().contains(e.getX(), e.getY())) fDockLabel.hide();
+        // if the mouse wbs completely outside fIconPbne, hide the lbbel
+        if (fDockLbbel != null && !fIconPbne.getBounds().contbins(e.getX(), e.getY())) fDockLbbel.hide();
     }
 
-    public void mouseEntered(final MouseEvent e) {
+    public void mouseEntered(finbl MouseEvent e) {
         if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) return;
-        String title = fFrame.getTitle();
-        if (title == null || title.equals("")) title = "Untitled";
-        fDockLabel = new DockLabel(title);
-        fDockLabel.show(fDesktopIcon);
+        String title = fFrbme.getTitle();
+        if (title == null || title.equbls("")) title = "Untitled";
+        fDockLbbel = new DockLbbel(title);
+        fDockLbbel.show(fDesktopIcon);
     }
 
-    public void mouseExited(final MouseEvent e) {
-        if (fDockLabel != null && (e.getModifiers() & InputEvent.BUTTON1_MASK) == 0) fDockLabel.hide();
+    public void mouseExited(finbl MouseEvent e) {
+        if (fDockLbbel != null && (e.getModifiers() & InputEvent.BUTTON1_MASK) == 0) fDockLbbel.hide();
     }
 
-    public void mouseClicked(final MouseEvent e) { }
+    public void mouseClicked(finbl MouseEvent e) { }
 
-    public void mouseDragged(final MouseEvent e) { }
+    public void mouseDrbgged(finbl MouseEvent e) { }
 
-    public void mouseMoved(final MouseEvent e) { }
+    public void mouseMoved(finbl MouseEvent e) { }
 
-    public void componentHidden(final ComponentEvent e) { }
+    public void componentHidden(finbl ComponentEvent e) { }
 
-    public void componentMoved(final ComponentEvent e) { }
+    public void componentMoved(finbl ComponentEvent e) { }
 
-    public void componentResized(final ComponentEvent e) {
-        fFrame.putClientProperty(CACHED_FRAME_ICON_KEY, null);
+    public void componentResized(finbl ComponentEvent e) {
+        fFrbme.putClientProperty(CACHED_FRAME_ICON_KEY, null);
     }
 
-    public void componentShown(final ComponentEvent e) {
-        fFrame.putClientProperty(CACHED_FRAME_ICON_KEY, null);
+    public void componentShown(finbl ComponentEvent e) {
+        fFrbme.putClientProperty(CACHED_FRAME_ICON_KEY, null);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class ScaledImageLabel extends JLabel {
-        ScaledImageLabel() {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss ScbledImbgeLbbel extends JLbbel {
+        ScbledImbgeLbbel() {
             super(null, null, CENTER);
         }
 
-        void updateIcon() {
-            final Object priorIcon = fFrame.getClientProperty(CACHED_FRAME_ICON_KEY);
-            if (priorIcon instanceof ImageIcon) {
-                setIcon((ImageIcon)priorIcon);
+        void updbteIcon() {
+            finbl Object priorIcon = fFrbme.getClientProperty(CACHED_FRAME_ICON_KEY);
+            if (priorIcon instbnceof ImbgeIcon) {
+                setIcon((ImbgeIcon)priorIcon);
                 return;
             }
 
-            int width = fFrame.getWidth();
-            int height = fFrame.getHeight();
+            int width = fFrbme.getWidth();
+            int height = fFrbme.getHeight();
 
-            // Protect us from unsized frames, like in JCK test DefaultDesktopManager2008
+            // Protect us from unsized frbmes, like in JCK test DefbultDesktopMbnbger2008
             if (width <= 0 || height <= 0) {
                 width = 128;
                 height = 128;
             }
 
-            final Image fImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
-            final Graphics g = fImage.getGraphics();
-            fFrame.paint(g);
+            finbl Imbge fImbge = new BufferedImbge(width, height, BufferedImbge.TYPE_INT_ARGB_PRE);
+            finbl Grbphics g = fImbge.getGrbphics();
+            fFrbme.pbint(g);
             g.dispose();
 
-            final float scale = (float)fDesktopIcon.getWidth() / (float)Math.max(width, height) * 0.89f;
-            // Sending in -1 for width xor height causes it to maintain aspect ratio
-            final ImageIcon icon = new ImageIcon(fImage.getScaledInstance((int)(width * scale), -1, Image.SCALE_SMOOTH));
-            fFrame.putClientProperty(CACHED_FRAME_ICON_KEY, icon);
+            finbl flobt scble = (flobt)fDesktopIcon.getWidth() / (flobt)Mbth.mbx(width, height) * 0.89f;
+            // Sending in -1 for width xor height cbuses it to mbintbin bspect rbtio
+            finbl ImbgeIcon icon = new ImbgeIcon(fImbge.getScbledInstbnce((int)(width * scble), -1, Imbge.SCALE_SMOOTH));
+            fFrbme.putClientProperty(CACHED_FRAME_ICON_KEY, icon);
             setIcon(icon);
         }
 
-        public void paint(final Graphics g) {
-            if (getIcon() == null) updateIcon();
+        public void pbint(finbl Grbphics g) {
+            if (getIcon() == null) updbteIcon();
 
-            g.translate(0, 2);
+            g.trbnslbte(0, 2);
 
-            if (!fTrackingIcon) {
-                super.paint(g);
+            if (!fTrbckingIcon) {
+                super.pbint(g);
                 return;
             }
 
-            final ImageIcon prev = (ImageIcon)getIcon();
-            final ImageIcon pressedIcon = new ImageIcon(AquaUtils.generateSelectedDarkImage(prev.getImage()));
+            finbl ImbgeIcon prev = (ImbgeIcon)getIcon();
+            finbl ImbgeIcon pressedIcon = new ImbgeIcon(AqubUtils.generbteSelectedDbrkImbge(prev.getImbge()));
             setIcon(pressedIcon);
-            super.paint(g);
+            super.pbint(g);
             setIcon(prev);
         }
 
-        boolean mouseInIcon(final MouseEvent e) {
-            return getBounds().contains(e.getX(), e.getY());
+        boolebn mouseInIcon(finbl MouseEvent e) {
+            return getBounds().contbins(e.getX(), e.getY());
         }
 
         public Dimension getPreferredSize() {
@@ -227,88 +227,88 @@ public class AquaInternalFrameDockIconUI extends DesktopIconUI implements MouseL
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class DockLabel extends JLabel {
-        final static int NUB_HEIGHT = 7;
-        final static int ROUND_ADDITIONAL_HEIGHT = 8;
-        final static int ROUND_ADDITIONAL_WIDTH = 12;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss DockLbbel extends JLbbel {
+        finbl stbtic int NUB_HEIGHT = 7;
+        finbl stbtic int ROUND_ADDITIONAL_HEIGHT = 8;
+        finbl stbtic int ROUND_ADDITIONAL_WIDTH = 12;
 
-        DockLabel(final String text) {
+        DockLbbel(finbl String text) {
             super(text);
             setBorder(null);
-            setOpaque(false);
-            setFont(AquaFonts.getDockIconFont());
+            setOpbque(fblse);
+            setFont(AqubFonts.getDockIconFont());
 
-            final FontMetrics metrics = getFontMetrics(getFont());
+            finbl FontMetrics metrics = getFontMetrics(getFont());
             setSize(SwingUtilities.computeStringWidth(metrics, getText()) + ROUND_ADDITIONAL_WIDTH * 2, metrics.getAscent() + NUB_HEIGHT + ROUND_ADDITIONAL_HEIGHT);
         }
 
-        public void paint(final Graphics g) {
-            final int width = getWidth();
-            final int height = getHeight();
+        public void pbint(finbl Grbphics g) {
+            finbl int width = getWidth();
+            finbl int height = getHeight();
 
-            final Font font = getFont();
-            final FontMetrics metrics = getFontMetrics(font);
+            finbl Font font = getFont();
+            finbl FontMetrics metrics = getFontMetrics(font);
             g.setFont(font);
 
-            final String text = getText().trim();
-            final int ascent = metrics.getAscent();
+            finbl String text = getText().trim();
+            finbl int bscent = metrics.getAscent();
 
-            final Rectangle2D stringBounds = metrics.getStringBounds(text, g);
-            final int halfway = width / 2;
+            finbl Rectbngle2D stringBounds = metrics.getStringBounds(text, g);
+            finbl int hblfwby = width / 2;
 
-            final int x = (halfway - (int)stringBounds.getWidth() / 2);
+            finbl int x = (hblfwby - (int)stringBounds.getWidth() / 2);
 
-            final Graphics2D g2d = g instanceof Graphics2D ? (Graphics2D)g : null;
+            finbl Grbphics2D g2d = g instbnceof Grbphics2D ? (Grbphics2D)g : null;
             if (g2d != null) {
-                g.setColor(UIManager.getColor("DesktopIcon.labelBackground"));
-                final Object origAA = g2d.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+                g.setColor(UIMbnbger.getColor("DesktopIcon.lbbelBbckground"));
+                finbl Object origAA = g2d.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                final int roundHeight = height - ROUND_ADDITIONAL_HEIGHT + 1;
+                finbl int roundHeight = height - ROUND_ADDITIONAL_HEIGHT + 1;
                 g.fillRoundRect(0, 0, width, roundHeight, roundHeight, roundHeight);
 
-                final int[] xpts = { halfway, halfway + NUB_HEIGHT, halfway - NUB_HEIGHT };
-                final int[] ypts = { height, height - NUB_HEIGHT, height - NUB_HEIGHT };
+                finbl int[] xpts = { hblfwby, hblfwby + NUB_HEIGHT, hblfwby - NUB_HEIGHT };
+                finbl int[] ypts = { height, height - NUB_HEIGHT, height - NUB_HEIGHT };
                 g.fillPolygon(xpts, ypts, 3);
 
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, origAA);
             }
 
-            g.setColor(Color.black);
-            SwingUtilities2.drawString(this, g, text, x, 2 + ascent);
+            g.setColor(Color.blbck);
+            SwingUtilities2.drbwString(this, g, text, x, 2 + bscent);
             g.setColor(Color.white);
-            SwingUtilities2.drawString(this, g, text, x, 1 + ascent);
+            SwingUtilities2.drbwString(this, g, text, x, 1 + bscent);
         }
 
-        public void show(final Component invoker) {
-            final int desiredLocationX = (invoker.getWidth() - getWidth()) / 2;
-            final int desiredLocationY = -(getHeight() + 6);
+        public void show(finbl Component invoker) {
+            finbl int desiredLocbtionX = (invoker.getWidth() - getWidth()) / 2;
+            finbl int desiredLocbtionY = -(getHeight() + 6);
 
-            Container parent = invoker.getParent();
+            Contbiner pbrent = invoker.getPbrent();
 
-            for (Container p = parent; p != null; p = p.getParent()) {
-                if (p instanceof JRootPane) {
-                    if (p.getParent() instanceof JInternalFrame) continue;
-                    parent = ((JRootPane)p).getLayeredPane();
-                    for (p = parent.getParent(); p != null && (!(p instanceof java.awt.Window)); p = p.getParent());
-                    break;
+            for (Contbiner p = pbrent; p != null; p = p.getPbrent()) {
+                if (p instbnceof JRootPbne) {
+                    if (p.getPbrent() instbnceof JInternblFrbme) continue;
+                    pbrent = ((JRootPbne)p).getLbyeredPbne();
+                    for (p = pbrent.getPbrent(); p != null && (!(p instbnceof jbvb.bwt.Window)); p = p.getPbrent());
+                    brebk;
                 }
             }
 
-            final Point p = SwingUtilities.convertPoint(invoker, desiredLocationX, desiredLocationY, parent);
-            setLocation(p.x, p.y);
-            if (parent instanceof JLayeredPane) {
-                ((JLayeredPane)parent).add(this, JLayeredPane.POPUP_LAYER, 0);
+            finbl Point p = SwingUtilities.convertPoint(invoker, desiredLocbtionX, desiredLocbtionY, pbrent);
+            setLocbtion(p.x, p.y);
+            if (pbrent instbnceof JLbyeredPbne) {
+                ((JLbyeredPbne)pbrent).bdd(this, JLbyeredPbne.POPUP_LAYER, 0);
             }
         }
 
         public void hide() {
-            final Container parent = getParent();
-            final Rectangle r = this.getBounds();
-            if (parent == null) return;
-            parent.remove(this);
-            parent.repaint(r.x, r.y, r.width, r.height);
+            finbl Contbiner pbrent = getPbrent();
+            finbl Rectbngle r = this.getBounds();
+            if (pbrent == null) return;
+            pbrent.remove(this);
+            pbrent.repbint(r.x, r.y, r.width, r.height);
         }
     }
 }

@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <Accelerate/Accelerate.h> // for vImage_Buffer
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Accelerbte/Accelerbte.h> // for vImbge_Buffer
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "CGGlyphImages.h"
+#import "CGGlyphImbges.h"
 #import "CoreTextSupport.h"
-#import "fontscalerdefs.h" // contains the definition of GlyphInfo struct
+#import "fontscblerdefs.h" // contbins the definition of GlyphInfo struct
 
-#import "sun_awt_SunHints.h"
+#import "sun_bwt_SunHints.h"
 
 //#define USE_IMAGE_ALIGNED_MEMORY 1
 //#define CGGI_DEBUG 1
@@ -38,42 +38,42 @@
 //#define CGGI_DEBUG_HIT_COUNT 1
 
 #define PRINT_TX(x) \
-    NSLog(@"(%f, %f, %f, %f, %f, %f)", x.a, x.b, x.c, x.d, x.tx, x.ty);
+    NSLog(@"(%f, %f, %f, %f, %f, %f)", x.b, x.b, x.c, x.d, x.tx, x.ty);
 
 /*
- * The GlyphCanvas is a global shared CGContext that characters are struck into.
- * For each character, the glyph is struck, copied into a GlyphInfo struct, and
- * the canvas is cleared for the next glyph.
+ * The GlyphCbnvbs is b globbl shbred CGContext thbt chbrbcters bre struck into.
+ * For ebch chbrbcter, the glyph is struck, copied into b GlyphInfo struct, bnd
+ * the cbnvbs is clebred for the next glyph.
  *
- * If the necessary canvas is too large, the shared one will not be used and a
- * temporary one will be provided.
+ * If the necessbry cbnvbs is too lbrge, the shbred one will not be used bnd b
+ * temporbry one will be provided.
  */
-@interface CGGI_GlyphCanvas : NSObject {
+@interfbce CGGI_GlyphCbnvbs : NSObject {
 @public
     CGContextRef context;
-    vImage_Buffer *image;
+    vImbge_Buffer *imbge;
 }
 @end;
 
-@implementation CGGI_GlyphCanvas
+@implementbtion CGGI_GlyphCbnvbs
 @end
 
 
-#pragma mark --- Debugging Helpers ---
+#prbgmb mbrk --- Debugging Helpers ---
 
 /*
- * These debug functions are only compiled when CGGI_DEBUG is activated.
- * They will print out a full UInt8 canvas and any pixels struck (assuming
- * the canvas is not too big).
+ * These debug functions bre only compiled when CGGI_DEBUG is bctivbted.
+ * They will print out b full UInt8 cbnvbs bnd bny pixels struck (bssuming
+ * the cbnvbs is not too big).
  *
- * As another debug feature, the entire canvas will be filled with a light
- * alpha value so it is easy to see where the glyph painting regions are
- * at runtime.
+ * As bnother debug febture, the entire cbnvbs will be filled with b light
+ * blphb vblue so it is ebsy to see where the glyph pbinting regions bre
+ * bt runtime.
  */
 
 #ifdef CGGI_DEBUG_DUMP
-static void
-DUMP_PIXELS(const char msg[], const UInt8 pixels[],
+stbtic void
+DUMP_PIXELS(const chbr msg[], const UInt8 pixels[],
             const size_t bytesPerPixel, const int width, const int height)
 {
     printf("| %s: (%d, %d)\n", msg, width, height);
@@ -120,18 +120,18 @@ DUMP_PIXELS(const char msg[], const UInt8 pixels[],
     }
 }
 
-static void
-DUMP_IMG_PIXELS(const char msg[], const vImage_Buffer *image)
+stbtic void
+DUMP_IMG_PIXELS(const chbr msg[], const vImbge_Buffer *imbge)
 {
-    const void *pixels = image->data;
-    const size_t pixelSize = image->rowBytes / image->width;
-    const size_t width = image->width;
-    const size_t height = image->height;
+    const void *pixels = imbge->dbtb;
+    const size_t pixelSize = imbge->rowBytes / imbge->width;
+    const size_t width = imbge->width;
+    const size_t height = imbge->height;
 
     DUMP_PIXELS(msg, pixels, pixelSize, width, height);
 }
 
-static void
+stbtic void
 PRINT_CGSTATES_INFO(const CGContextRef cgRef)
 {
     // TODO(cpc): lots of SPI use in this method; remove/rewrite?
@@ -140,53 +140,53 @@ PRINT_CGSTATES_INFO(const CGContextRef cgRef)
     fprintf(stderr, "    clip: ((%f, %f), (%f, %f))\n",
             clip.origin.x, clip.origin.y, clip.size.width, clip.size.height);
 
-    CGAffineTransform ctm = CGContextGetCTM(cgRef);
+    CGAffineTrbnsform ctm = CGContextGetCTM(cgRef);
     fprintf(stderr, "    ctm: (%f, %f, %f, %f, %f, %f)\n",
-            ctm.a, ctm.b, ctm.c, ctm.d, ctm.tx, ctm.ty);
+            ctm.b, ctm.b, ctm.c, ctm.d, ctm.tx, ctm.ty);
 
-    CGAffineTransform txtTx = CGContextGetTextMatrix(cgRef);
+    CGAffineTrbnsform txtTx = CGContextGetTextMbtrix(cgRef);
     fprintf(stderr, "    txtTx: (%f, %f, %f, %f, %f, %f)\n",
-            txtTx.a, txtTx.b, txtTx.c, txtTx.d, txtTx.tx, txtTx.ty);
+            txtTx.b, txtTx.b, txtTx.c, txtTx.d, txtTx.tx, txtTx.ty);
 
-    if (CGContextIsPathEmpty(cgRef) == 0) {
-        CGPoint pathpoint = CGContextGetPathCurrentPoint(cgRef);
-        CGRect pathbbox = CGContextGetPathBoundingBox(cgRef);
-        fprintf(stderr, "    [pathpoint: (%f, %f)] [pathbbox: ((%f, %f), (%f, %f))]\n",
-                pathpoint.x, pathpoint.y, pathbbox.origin.x, pathbbox.origin.y,
-                pathbbox.size.width, pathbbox.size.width);
+    if (CGContextIsPbthEmpty(cgRef) == 0) {
+        CGPoint pbthpoint = CGContextGetPbthCurrentPoint(cgRef);
+        CGRect pbthbbox = CGContextGetPbthBoundingBox(cgRef);
+        fprintf(stderr, "    [pbthpoint: (%f, %f)] [pbthbbox: ((%f, %f), (%f, %f))]\n",
+                pbthpoint.x, pbthpoint.y, pbthbbox.origin.x, pbthbbox.origin.y,
+                pbthbbox.size.width, pbthbbox.size.width);
     }
 
-    CGFloat linewidth = CGContextGetLineWidth(cgRef);
-    CGLineCap linecap = CGContextGetLineCap(cgRef);
+    CGFlobt linewidth = CGContextGetLineWidth(cgRef);
+    CGLineCbp linecbp = CGContextGetLineCbp(cgRef);
     CGLineJoin linejoin = CGContextGetLineJoin(cgRef);
-    CGFloat miterlimit = CGContextGetMiterLimit(cgRef);
-    size_t dashcount = CGContextGetLineDashCount(cgRef);
-    fprintf(stderr, "    [linewidth: %f] [linecap: %d] [linejoin: %d] [miterlimit: %f] [dashcount: %lu]\n",
-            linewidth, linecap, linejoin, miterlimit, (unsigned long)dashcount);
+    CGFlobt miterlimit = CGContextGetMiterLimit(cgRef);
+    size_t dbshcount = CGContextGetLineDbshCount(cgRef);
+    fprintf(stderr, "    [linewidth: %f] [linecbp: %d] [linejoin: %d] [miterlimit: %f] [dbshcount: %lu]\n",
+            linewidth, linecbp, linejoin, miterlimit, (unsigned long)dbshcount);
 
-    CGFloat smoothness = CGContextGetSmoothness(cgRef);
-    bool antialias = CGContextGetShouldAntialias(cgRef);
+    CGFlobt smoothness = CGContextGetSmoothness(cgRef);
+    bool bntiblibs = CGContextGetShouldAntiblibs(cgRef);
     bool smoothfont = CGContextGetShouldSmoothFonts(cgRef);
     JRSFontRenderingStyle fRendMode = CGContextGetFontRenderingMode(cgRef);
-    fprintf(stderr, "    [smoothness: %f] [antialias: %d] [smoothfont: %d] [fontrenderingmode: %d]\n",
-            smoothness, antialias, smoothfont, fRendMode);
+    fprintf(stderr, "    [smoothness: %f] [bntiblibs: %d] [smoothfont: %d] [fontrenderingmode: %d]\n",
+            smoothness, bntiblibs, smoothfont, fRendMode);
 #endif
 }
 #endif
 
 #ifdef CGGI_DEBUG
 
-static void
+stbtic void
 DUMP_GLYPHINFO(const GlyphInfo *info)
 {
     printf("size: (%d, %d) pixelSize: %d\n",
            info->width, info->height, info->rowBytes / info->width);
-    printf("adv: (%f, %f) top: (%f, %f)\n",
-           info->advanceX, info->advanceY, info->topLeftX, info->topLeftY);
+    printf("bdv: (%f, %f) top: (%f, %f)\n",
+           info->bdvbnceX, info->bdvbnceY, info->topLeftX, info->topLeftY);
 
 #ifdef CGGI_DEBUG_DUMP
     DUMP_PIXELS("Glyph Info Struct",
-                info->image, info->rowBytes / info->width,
+                info->imbge, info->rowBytes / info->width,
                 info->width, info->height);
 #endif
 }
@@ -194,9 +194,9 @@ DUMP_GLYPHINFO(const GlyphInfo *info)
 #endif
 
 
-#pragma mark --- Font Rendering Mode Descriptors ---
+#prbgmb mbrk --- Font Rendering Mode Descriptors ---
 
-static inline void
+stbtic inline void
 CGGI_CopyARGBPixelToRGBPixel(const UInt32 p, UInt8 *dst)
 {
 #if __LITTLE_ENDIAN__
@@ -210,13 +210,13 @@ CGGI_CopyARGBPixelToRGBPixel(const UInt32 p, UInt8 *dst)
 #endif
 }
 
-static void
-CGGI_CopyImageFromCanvasToRGBInfo(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
+stbtic void
+CGGI_CopyImbgeFromCbnvbsToRGBInfo(CGGI_GlyphCbnvbs *cbnvbs, GlyphInfo *info)
 {
-    UInt32 *src = (UInt32 *)canvas->image->data;
-    size_t srcRowWidth = canvas->image->width;
+    UInt32 *src = (UInt32 *)cbnvbs->imbge->dbtb;
+    size_t srcRowWidth = cbnvbs->imbge->width;
 
-    UInt8 *dest = (UInt8 *)info->image;
+    UInt8 *dest = (UInt8 *)info->imbge;
     size_t destRowWidth = info->width;
 
     size_t height = info->height;
@@ -239,27 +239,27 @@ CGGI_CopyImageFromCanvasToRGBInfo(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
     }
 }
 
-//static void CGGI_copyImageFromCanvasToAlphaInfo
-//(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
+//stbtic void CGGI_copyImbgeFromCbnvbsToAlphbInfo
+//(CGGI_GlyphCbnvbs *cbnvbs, GlyphInfo *info)
 //{
-//    vImage_Buffer infoBuffer;
-//    infoBuffer.data = info->image;
+//    vImbge_Buffer infoBuffer;
+//    infoBuffer.dbtb = info->imbge;
 //    infoBuffer.width = info->width;
 //    infoBuffer.height = info->height;
 //    infoBuffer.rowBytes = info->width; // three bytes per RGB pixel
 //
-//    UInt8 scrapPixel[info->width * info->height];
-//    vImage_Buffer scrapBuffer;
-//    scrapBuffer.data = &scrapPixel;
-//    scrapBuffer.width = info->width;
-//    scrapBuffer.height = info->height;
-//    scrapBuffer.rowBytes = info->width;
+//    UInt8 scrbpPixel[info->width * info->height];
+//    vImbge_Buffer scrbpBuffer;
+//    scrbpBuffer.dbtb = &scrbpPixel;
+//    scrbpBuffer.width = info->width;
+//    scrbpBuffer.height = info->height;
+//    scrbpBuffer.rowBytes = info->width;
 //
-//    vImageConvert_ARGB8888toPlanar8(canvas->image, &infoBuffer,
-//        &scrapBuffer, &scrapBuffer, &scrapBuffer, kvImageNoFlags);
+//    vImbgeConvert_ARGB8888toPlbnbr8(cbnvbs->imbge, &infoBuffer,
+//        &scrbpBuffer, &scrbpBuffer, &scrbpBuffer, kvImbgeNoFlbgs);
 //}
 
-static inline UInt8
+stbtic inline UInt8
 CGGI_ConvertPixelToGreyBit(UInt32 p)
 {
 #ifdef __LITTLE_ENDIAN__
@@ -269,13 +269,13 @@ CGGI_ConvertPixelToGreyBit(UInt32 p)
 #endif
 }
 
-static void
-CGGI_CopyImageFromCanvasToAlphaInfo(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
+stbtic void
+CGGI_CopyImbgeFromCbnvbsToAlphbInfo(CGGI_GlyphCbnvbs *cbnvbs, GlyphInfo *info)
 {
-    UInt32 *src = (UInt32 *)canvas->image->data;
-    size_t srcRowWidth = canvas->image->width;
+    UInt32 *src = (UInt32 *)cbnvbs->imbge->dbtb;
+    size_t srcRowWidth = cbnvbs->imbge->width;
 
-    UInt8 *dest = (UInt8 *)info->image;
+    UInt8 *dest = (UInt8 *)info->imbge;
     size_t destRowWidth = info->width;
 
     size_t height = info->height;
@@ -294,11 +294,11 @@ CGGI_CopyImageFromCanvasToAlphaInfo(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
 }
 
 
-#pragma mark --- Pixel Size, Modes, and Canvas Shaping Helper Functions ---
+#prbgmb mbrk --- Pixel Size, Modes, bnd Cbnvbs Shbping Helper Functions ---
 
 typedef struct CGGI_GlyphInfoDescriptor {
     size_t pixelSize;
-    void (*copyFxnPtr)(CGGI_GlyphCanvas *canvas, GlyphInfo *info);
+    void (*copyFxnPtr)(CGGI_GlyphCbnvbs *cbnvbs, GlyphInfo *info);
 } CGGI_GlyphInfoDescriptor;
 
 typedef struct CGGI_RenderingMode {
@@ -306,197 +306,197 @@ typedef struct CGGI_RenderingMode {
     JRSFontRenderingStyle cgFontMode;
 } CGGI_RenderingMode;
 
-static CGGI_GlyphInfoDescriptor grey =
-    { 1, &CGGI_CopyImageFromCanvasToAlphaInfo };
-static CGGI_GlyphInfoDescriptor rgb =
-    { 3, &CGGI_CopyImageFromCanvasToRGBInfo };
+stbtic CGGI_GlyphInfoDescriptor grey =
+    { 1, &CGGI_CopyImbgeFromCbnvbsToAlphbInfo };
+stbtic CGGI_GlyphInfoDescriptor rgb =
+    { 3, &CGGI_CopyImbgeFromCbnvbsToRGBInfo };
 
-static inline CGGI_RenderingMode
+stbtic inline CGGI_RenderingMode
 CGGI_GetRenderingMode(const AWTStrike *strike)
 {
     CGGI_RenderingMode mode;
     mode.cgFontMode = strike->fStyle;
 
     switch (strike->fAAStyle) {
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_DEFAULT:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_OFF:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_ON:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_GASP:
-    default:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_DEFAULT:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_OFF:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_ON:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_GASP:
+    defbult:
         mode.glyphDescriptor = &grey;
-        break;
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HBGR:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
-    case sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VBGR:
+        brebk;
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HBGR:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+    cbse sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VBGR:
         mode.glyphDescriptor = &rgb;
-        break;
+        brebk;
     }
 
     return mode;
 }
 
 
-#pragma mark --- Canvas Managment ---
+#prbgmb mbrk --- Cbnvbs Mbnbgment ---
 
 /*
- * Creates a new canvas of a fixed size, and initializes the CGContext as
- * an 32-bit ARGB BitmapContext with some generic RGB color space.
+ * Crebtes b new cbnvbs of b fixed size, bnd initiblizes the CGContext bs
+ * bn 32-bit ARGB BitmbpContext with some generic RGB color spbce.
  */
-static inline void
-CGGI_InitCanvas(CGGI_GlyphCanvas *canvas,
-                const vImagePixelCount width, const vImagePixelCount height)
+stbtic inline void
+CGGI_InitCbnvbs(CGGI_GlyphCbnvbs *cbnvbs,
+                const vImbgePixelCount width, const vImbgePixelCount height)
 {
-    // our canvas is *always* 4-byte ARGB
+    // our cbnvbs is *blwbys* 4-byte ARGB
     size_t bytesPerRow = width * sizeof(UInt32);
     size_t byteCount = bytesPerRow * height;
 
-    canvas->image = malloc(sizeof(vImage_Buffer));
-    canvas->image->width = width;
-    canvas->image->height = height;
-    canvas->image->rowBytes = bytesPerRow;
+    cbnvbs->imbge = mblloc(sizeof(vImbge_Buffer));
+    cbnvbs->imbge->width = width;
+    cbnvbs->imbge->height = height;
+    cbnvbs->imbge->rowBytes = bytesPerRow;
 
-    canvas->image->data = (void *)calloc(byteCount, sizeof(UInt32));
-    if (canvas->image->data == NULL) {
-        [[NSException exceptionWithName:NSMallocException
-            reason:@"Failed to allocate memory for the buffer which backs the CGContext for glyph strikes." userInfo:nil] raise];
+    cbnvbs->imbge->dbtb = (void *)cblloc(byteCount, sizeof(UInt32));
+    if (cbnvbs->imbge->dbtb == NULL) {
+        [[NSException exceptionWithNbme:NSMbllocException
+            rebson:@"Fbiled to bllocbte memory for the buffer which bbcks the CGContext for glyph strikes." userInfo:nil] rbise];
     }
 
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    canvas->context = CGBitmapContextCreate(canvas->image->data,
+    CGColorSpbceRef colorSpbce = CGColorSpbceCrebteWithNbme(kCGColorSpbceGenericRGB);
+    cbnvbs->context = CGBitmbpContextCrebte(cbnvbs->imbge->dbtb,
                                             width, height, 8, bytesPerRow,
-                                            colorSpace,
-                                            kCGImageAlphaPremultipliedFirst);
+                                            colorSpbce,
+                                            kCGImbgeAlphbPremultipliedFirst);
 
-    CGContextSetRGBFillColor(canvas->context, 0.0f, 0.0f, 0.0f, 1.0f);
-    CGContextSetFontSize(canvas->context, 1);
-    CGContextSaveGState(canvas->context);
+    CGContextSetRGBFillColor(cbnvbs->context, 0.0f, 0.0f, 0.0f, 1.0f);
+    CGContextSetFontSize(cbnvbs->context, 1);
+    CGContextSbveGStbte(cbnvbs->context);
 
-    CGColorSpaceRelease(colorSpace);
+    CGColorSpbceRelebse(colorSpbce);
 }
 
 /*
- * Releases the BitmapContext and the associated memory backing it.
+ * Relebses the BitmbpContext bnd the bssocibted memory bbcking it.
  */
-static inline void
-CGGI_FreeCanvas(CGGI_GlyphCanvas *canvas)
+stbtic inline void
+CGGI_FreeCbnvbs(CGGI_GlyphCbnvbs *cbnvbs)
 {
-    if (canvas->context != NULL) {
-        CGContextRelease(canvas->context);
+    if (cbnvbs->context != NULL) {
+        CGContextRelebse(cbnvbs->context);
     }
 
-    if (canvas->image != NULL) {
-        if (canvas->image->data != NULL) {
-            free(canvas->image->data);
+    if (cbnvbs->imbge != NULL) {
+        if (cbnvbs->imbge->dbtb != NULL) {
+            free(cbnvbs->imbge->dbtb);
         }
-        free(canvas->image);
+        free(cbnvbs->imbge);
     }
 }
 
 /*
- * This is the slack space that is preallocated for the global GlyphCanvas
- * when it needs to be expanded. It has been set somewhat liberally to
- * avoid re-upsizing frequently.
+ * This is the slbck spbce thbt is prebllocbted for the globbl GlyphCbnvbs
+ * when it needs to be expbnded. It hbs been set somewhbt liberblly to
+ * bvoid re-upsizing frequently.
  */
 #define CGGI_GLYPH_CANVAS_SLACK 2.5
 
 /*
- * Quick and easy inline to check if this canvas is big enough.
+ * Quick bnd ebsy inline to check if this cbnvbs is big enough.
  */
-static inline void
-CGGI_SizeCanvas(CGGI_GlyphCanvas *canvas, const vImagePixelCount width, const vImagePixelCount height, const JRSFontRenderingStyle style)
+stbtic inline void
+CGGI_SizeCbnvbs(CGGI_GlyphCbnvbs *cbnvbs, const vImbgePixelCount width, const vImbgePixelCount height, const JRSFontRenderingStyle style)
 {
-    if (canvas->image != NULL &&
-        width  < canvas->image->width &&
-        height < canvas->image->height)
+    if (cbnvbs->imbge != NULL &&
+        width  < cbnvbs->imbge->width &&
+        height < cbnvbs->imbge->height)
     {
         return;
     }
 
-    // if we don't have enough space to strike the largest glyph in the
-    // run, resize the canvas
-    CGGI_FreeCanvas(canvas);
-    CGGI_InitCanvas(canvas,
+    // if we don't hbve enough spbce to strike the lbrgest glyph in the
+    // run, resize the cbnvbs
+    CGGI_FreeCbnvbs(cbnvbs);
+    CGGI_InitCbnvbs(cbnvbs,
                     width * CGGI_GLYPH_CANVAS_SLACK,
                     height * CGGI_GLYPH_CANVAS_SLACK);
-    JRSFontSetRenderingStyleOnContext(canvas->context, style);
+    JRSFontSetRenderingStyleOnContext(cbnvbs->context, style);
 }
 
 /*
- * Clear the canvas by blitting white only into the region of interest
+ * Clebr the cbnvbs by blitting white only into the region of interest
  * (the rect which we will copy out of once the glyph is struck).
  */
-static inline void
-CGGI_ClearCanvas(CGGI_GlyphCanvas *canvas, GlyphInfo *info)
+stbtic inline void
+CGGI_ClebrCbnvbs(CGGI_GlyphCbnvbs *cbnvbs, GlyphInfo *info)
 {
-    vImage_Buffer canvasRectToClear;
-    canvasRectToClear.data = canvas->image->data;
-    canvasRectToClear.height = info->height;
-    canvasRectToClear.width = info->width;
-    // use the row stride of the canvas, not the info
-    canvasRectToClear.rowBytes = canvas->image->rowBytes;
+    vImbge_Buffer cbnvbsRectToClebr;
+    cbnvbsRectToClebr.dbtb = cbnvbs->imbge->dbtb;
+    cbnvbsRectToClebr.height = info->height;
+    cbnvbsRectToClebr.width = info->width;
+    // use the row stride of the cbnvbs, not the info
+    cbnvbsRectToClebr.rowBytes = cbnvbs->imbge->rowBytes;
 
-    // clean the canvas
+    // clebn the cbnvbs
 #ifdef CGGI_DEBUG
-    Pixel_8888 opaqueWhite = { 0xE0, 0xE0, 0xE0, 0xE0 };
+    Pixel_8888 opbqueWhite = { 0xE0, 0xE0, 0xE0, 0xE0 };
 #else
-    Pixel_8888 opaqueWhite = { 0xFF, 0xFF, 0xFF, 0xFF };
+    Pixel_8888 opbqueWhite = { 0xFF, 0xFF, 0xFF, 0xFF };
 #endif
 
-    vImageBufferFill_ARGB8888(&canvasRectToClear, opaqueWhite, kvImageNoFlags);
+    vImbgeBufferFill_ARGB8888(&cbnvbsRectToClebr, opbqueWhite, kvImbgeNoFlbgs);
 }
 
 
-#pragma mark --- GlyphInfo Creation & Copy Functions ---
+#prbgmb mbrk --- GlyphInfo Crebtion & Copy Functions ---
 
 /*
- * Creates a GlyphInfo with exactly the correct size image and measurements.
+ * Crebtes b GlyphInfo with exbctly the correct size imbge bnd mebsurements.
  */
 #define CGGI_GLYPH_BBOX_PADDING 2.0f
-static inline GlyphInfo *
-CGGI_CreateNewGlyphInfoFrom(CGSize advance, CGRect bbox,
+stbtic inline GlyphInfo *
+CGGI_CrebteNewGlyphInfoFrom(CGSize bdvbnce, CGRect bbox,
                             const AWTStrike *strike,
                             const CGGI_RenderingMode *mode)
 {
     size_t pixelSize = mode->glyphDescriptor->pixelSize;
 
-    // adjust the bounding box to be 1px bigger on each side than what
-    // CGFont-whatever suggests - because it gives a bounding box that
+    // bdjust the bounding box to be 1px bigger on ebch side thbn whbt
+    // CGFont-whbtever suggests - becbuse it gives b bounding box thbt
     // is too tight
     bbox.size.width += CGGI_GLYPH_BBOX_PADDING * 2.0f;
     bbox.size.height += CGGI_GLYPH_BBOX_PADDING * 2.0f;
     bbox.origin.x -= CGGI_GLYPH_BBOX_PADDING;
     bbox.origin.y -= CGGI_GLYPH_BBOX_PADDING;
 
-    vImagePixelCount width = ceilf(bbox.size.width);
-    vImagePixelCount height = ceilf(bbox.size.height);
+    vImbgePixelCount width = ceilf(bbox.size.width);
+    vImbgePixelCount height = ceilf(bbox.size.height);
 
-    // if the glyph is larger than 1MB, don't even try...
-    // the GlyphVector path should have taken over by now
-    // and zero pixels is ok
+    // if the glyph is lbrger thbn 1MB, don't even try...
+    // the GlyphVector pbth should hbve tbken over by now
+    // bnd zero pixels is ok
     if (width * height > 1024 * 1024) {
         width = 1;
         height = 1;
     }
-    advance = CGSizeApplyAffineTransform(advance, strike->fFontTx);
-    if (!JRSFontStyleUsesFractionalMetrics(strike->fStyle)) {
-        advance.width = round(advance.width);
-        advance.height = round(advance.height);
+    bdvbnce = CGSizeApplyAffineTrbnsform(bdvbnce, strike->fFontTx);
+    if (!JRSFontStyleUsesFrbctionblMetrics(strike->fStyle)) {
+        bdvbnce.width = round(bdvbnce.width);
+        bdvbnce.height = round(bdvbnce.height);
     }
-    advance = CGSizeApplyAffineTransform(advance, strike->fDevTx);
+    bdvbnce = CGSizeApplyAffineTrbnsform(bdvbnce, strike->fDevTx);
 
 #ifdef USE_IMAGE_ALIGNED_MEMORY
-    // create separate memory
-    GlyphInfo *glyphInfo = (GlyphInfo *)malloc(sizeof(GlyphInfo));
-    void *image = (void *)malloc(height * width * pixelSize);
+    // crebte sepbrbte memory
+    GlyphInfo *glyphInfo = (GlyphInfo *)mblloc(sizeof(GlyphInfo));
+    void *imbge = (void *)mblloc(height * width * pixelSize);
 #else
-    // create a GlyphInfo struct fused to the image it points to
-    GlyphInfo *glyphInfo = (GlyphInfo *)malloc(sizeof(GlyphInfo) +
+    // crebte b GlyphInfo struct fused to the imbge it points to
+    GlyphInfo *glyphInfo = (GlyphInfo *)mblloc(sizeof(GlyphInfo) +
                                                height * width * pixelSize);
 #endif
 
-    glyphInfo->advanceX = advance.width;
-    glyphInfo->advanceY = advance.height;
+    glyphInfo->bdvbnceX = bdvbnce.width;
+    glyphInfo->bdvbnceY = bdvbnce.height;
     glyphInfo->topLeftX = round(bbox.origin.x);
     glyphInfo->topLeftY = round(bbox.origin.y);
     glyphInfo->width = width;
@@ -505,100 +505,100 @@ CGGI_CreateNewGlyphInfoFrom(CGSize advance, CGRect bbox,
     glyphInfo->cellInfo = NULL;
 
 #ifdef USE_IMAGE_ALIGNED_MEMORY
-    glyphInfo->image = image;
+    glyphInfo->imbge = imbge;
 #else
-    glyphInfo->image = ((void *)glyphInfo) + sizeof(GlyphInfo);
+    glyphInfo->imbge = ((void *)glyphInfo) + sizeof(GlyphInfo);
 #endif
 
     return glyphInfo;
 }
 
 
-#pragma mark --- Glyph Striking onto Canvas ---
+#prbgmb mbrk --- Glyph Striking onto Cbnvbs ---
 
 /*
- * Clears the canvas, strikes the glyph with CoreGraphics, and then
- * copies the struck pixels into the GlyphInfo image.
+ * Clebrs the cbnvbs, strikes the glyph with CoreGrbphics, bnd then
+ * copies the struck pixels into the GlyphInfo imbge.
  */
-static inline void
-CGGI_CreateImageForGlyph
-    (CGGI_GlyphCanvas *canvas, const CGGlyph glyph,
+stbtic inline void
+CGGI_CrebteImbgeForGlyph
+    (CGGI_GlyphCbnvbs *cbnvbs, const CGGlyph glyph,
      GlyphInfo *info, const CGGI_RenderingMode *mode)
 {
-    // clean the canvas
-    CGGI_ClearCanvas(canvas, info);
+    // clebn the cbnvbs
+    CGGI_ClebrCbnvbs(cbnvbs, info);
 
     // strike the glyph in the upper right corner
-    CGContextShowGlyphsAtPoint(canvas->context,
+    CGContextShowGlyphsAtPoint(cbnvbs->context,
                                -info->topLeftX,
-                               canvas->image->height + info->topLeftY,
+                               cbnvbs->imbge->height + info->topLeftY,
                                &glyph, 1);
 
-    // copy the glyph from the canvas into the info
-    (*mode->glyphDescriptor->copyFxnPtr)(canvas, info);
+    // copy the glyph from the cbnvbs into the info
+    (*mode->glyphDescriptor->copyFxnPtr)(cbnvbs, info);
 }
 
 /*
- * CoreText path...
+ * CoreText pbth...
  */
-static inline GlyphInfo *
-CGGI_CreateImageForUnicode
-    (CGGI_GlyphCanvas *canvas, const AWTStrike *strike,
-     const CGGI_RenderingMode *mode, const UniChar uniChar)
+stbtic inline GlyphInfo *
+CGGI_CrebteImbgeForUnicode
+    (CGGI_GlyphCbnvbs *cbnvbs, const AWTStrike *strike,
+     const CGGI_RenderingMode *mode, const UniChbr uniChbr)
 {
-    // save the state of the world
-    CGContextSaveGState(canvas->context);
+    // sbve the stbte of the world
+    CGContextSbveGStbte(cbnvbs->context);
 
-    // get the glyph, measure it using CG
+    // get the glyph, mebsure it using CG
     CGGlyph glyph;
-    CTFontRef fallback;
-    if (uniChar > 0xFFFF) {
-        UTF16Char charRef[2];
-        CTS_BreakupUnicodeIntoSurrogatePairs(uniChar, charRef);
+    CTFontRef fbllbbck;
+    if (uniChbr > 0xFFFF) {
+        UTF16Chbr chbrRef[2];
+        CTS_BrebkupUnicodeIntoSurrogbtePbirs(uniChbr, chbrRef);
         CGGlyph glyphTmp[2];
-        fallback = CTS_CopyCTFallbackFontAndGlyphForUnicode(strike->fAWTFont, (const UTF16Char *)&charRef, (CGGlyph *)&glyphTmp, 2);
+        fbllbbck = CTS_CopyCTFbllbbckFontAndGlyphForUnicode(strike->fAWTFont, (const UTF16Chbr *)&chbrRef, (CGGlyph *)&glyphTmp, 2);
         glyph = glyphTmp[0];
     } else {
-        UTF16Char charRef;
-        charRef = (UTF16Char) uniChar; // truncate.
-        fallback = CTS_CopyCTFallbackFontAndGlyphForUnicode(strike->fAWTFont, (const UTF16Char *)&charRef, &glyph, 1);
+        UTF16Chbr chbrRef;
+        chbrRef = (UTF16Chbr) uniChbr; // truncbte.
+        fbllbbck = CTS_CopyCTFbllbbckFontAndGlyphForUnicode(strike->fAWTFont, (const UTF16Chbr *)&chbrRef, &glyph, 1);
     }
 
-    CGAffineTransform tx = strike->fTx;
-    JRSFontRenderingStyle style = JRSFontAlignStyleForFractionalMeasurement(strike->fStyle);
+    CGAffineTrbnsform tx = strike->fTx;
+    JRSFontRenderingStyle style = JRSFontAlignStyleForFrbctionblMebsurement(strike->fStyle);
 
     CGRect bbox;
-    JRSFontGetBoundingBoxesForGlyphsAndStyle(fallback, &tx, style, &glyph, 1, &bbox);
+    JRSFontGetBoundingBoxesForGlyphsAndStyle(fbllbbck, &tx, style, &glyph, 1, &bbox);
 
-    CGSize advance;
-    CTFontGetAdvancesForGlyphs(fallback, kCTFontDefaultOrientation, &glyph, &advance, 1);
+    CGSize bdvbnce;
+    CTFontGetAdvbncesForGlyphs(fbllbbck, kCTFontDefbultOrientbtion, &glyph, &bdvbnce, 1);
 
-    // create the Sun2D GlyphInfo we are going to strike into
-    GlyphInfo *info = CGGI_CreateNewGlyphInfoFrom(advance, bbox, strike, mode);
+    // crebte the Sun2D GlyphInfo we bre going to strike into
+    GlyphInfo *info = CGGI_CrebteNewGlyphInfoFrom(bdvbnce, bbox, strike, mode);
 
-    // fix the context size, just in case the substituted character is unexpectedly large
-    CGGI_SizeCanvas(canvas, info->width, info->height, mode->cgFontMode);
+    // fix the context size, just in cbse the substituted chbrbcter is unexpectedly lbrge
+    CGGI_SizeCbnvbs(cbnvbs, info->width, info->height, mode->cgFontMode);
 
-    // align the transform for the real CoreText strike
-    CGContextSetTextMatrix(canvas->context, strike->fAltTx);
+    // blign the trbnsform for the rebl CoreText strike
+    CGContextSetTextMbtrix(cbnvbs->context, strike->fAltTx);
 
-    const CGFontRef cgFallback = CTFontCopyGraphicsFont(fallback, NULL);
-    CGContextSetFont(canvas->context, cgFallback);
-    CFRelease(cgFallback);
+    const CGFontRef cgFbllbbck = CTFontCopyGrbphicsFont(fbllbbck, NULL);
+    CGContextSetFont(cbnvbs->context, cgFbllbbck);
+    CFRelebse(cgFbllbbck);
 
-    // clean the canvas - align, strike, and copy the glyph from the canvas into the info
-    CGGI_CreateImageForGlyph(canvas, glyph, info, mode);
+    // clebn the cbnvbs - blign, strike, bnd copy the glyph from the cbnvbs into the info
+    CGGI_CrebteImbgeForGlyph(cbnvbs, glyph, info, mode);
 
-    // restore the state of the world
-    CGContextRestoreGState(canvas->context);
+    // restore the stbte of the world
+    CGContextRestoreGStbte(cbnvbs->context);
 
-    CFRelease(fallback);
+    CFRelebse(fbllbbck);
 #ifdef CGGI_DEBUG
     DUMP_GLYPHINFO(info);
 #endif
 
 #ifdef CGGI_DEBUG_DUMP
-    DUMP_IMG_PIXELS("CGGI Canvas", canvas->image);
+    DUMP_IMG_PIXELS("CGGI Cbnvbs", cbnvbs->imbge);
 #if 0
     PRINT_CGSTATES_INFO(NULL);
 #endif
@@ -608,35 +608,35 @@ CGGI_CreateImageForUnicode
 }
 
 
-#pragma mark --- GlyphInfo Filling and Canvas Managment ---
+#prbgmb mbrk --- GlyphInfo Filling bnd Cbnvbs Mbnbgment ---
 
 /*
- * Sets all the per-run properties for the canvas, and then iterates through
- * the character run, and creates images in the GlyphInfo structs.
+ * Sets bll the per-run properties for the cbnvbs, bnd then iterbtes through
+ * the chbrbcter run, bnd crebtes imbges in the GlyphInfo structs.
  *
- * Not inlined because it would create two copies in the function below
+ * Not inlined becbuse it would crebte two copies in the function below
  */
-static void
-CGGI_FillImagesForGlyphsWithSizedCanvas(CGGI_GlyphCanvas *canvas,
+stbtic void
+CGGI_FillImbgesForGlyphsWithSizedCbnvbs(CGGI_GlyphCbnvbs *cbnvbs,
                                         const AWTStrike *strike,
                                         const CGGI_RenderingMode *mode,
                                         jlong glyphInfos[],
-                                        const UniChar uniChars[],
+                                        const UniChbr uniChbrs[],
                                         const CGGlyph glyphs[],
                                         const CFIndex len)
 {
-    CGContextSetTextMatrix(canvas->context, strike->fAltTx);
+    CGContextSetTextMbtrix(cbnvbs->context, strike->fAltTx);
 
-    CGContextSetFont(canvas->context, strike->fAWTFont->fNativeCGFont);
-    JRSFontSetRenderingStyleOnContext(canvas->context, strike->fStyle);
+    CGContextSetFont(cbnvbs->context, strike->fAWTFont->fNbtiveCGFont);
+    JRSFontSetRenderingStyleOnContext(cbnvbs->context, strike->fStyle);
 
     CFIndex i;
     for (i = 0; i < len; i++) {
         GlyphInfo *info = (GlyphInfo *)jlong_to_ptr(glyphInfos[i]);
         if (info != NULL) {
-            CGGI_CreateImageForGlyph(canvas, glyphs[i], info, mode);
+            CGGI_CrebteImbgeForGlyph(cbnvbs, glyphs[i], info, mode);
         } else {
-            info = CGGI_CreateImageForUnicode(canvas, strike, mode, uniChars[i]);
+            info = CGGI_CrebteImbgeForUnicode(cbnvbs, strike, mode, uniChbrs[i]);
             glyphInfos[i] = ptr_to_jlong(info);
         }
 #ifdef CGGI_DEBUG
@@ -644,194 +644,194 @@ CGGI_FillImagesForGlyphsWithSizedCanvas(CGGI_GlyphCanvas *canvas,
 #endif
 
 #ifdef CGGI_DEBUG_DUMP
-        DUMP_IMG_PIXELS("CGGI Canvas", canvas->image);
+        DUMP_IMG_PIXELS("CGGI Cbnvbs", cbnvbs->imbge);
 #endif
     }
 #ifdef CGGI_DEBUG_DUMP
-    DUMP_IMG_PIXELS("CGGI Canvas", canvas->image);
-    PRINT_CGSTATES_INFO(canvas->context);
+    DUMP_IMG_PIXELS("CGGI Cbnvbs", cbnvbs->imbge);
+    PRINT_CGSTATES_INFO(cbnvbs->context);
 #endif
 }
 
-static NSString *threadLocalCanvasKey =
-    @"Java CoreGraphics Text Renderer Cached Canvas";
+stbtic NSString *threbdLocblCbnvbsKey =
+    @"Jbvb CoreGrbphics Text Renderer Cbched Cbnvbs";
 
 /*
- * This is the maximum length and height times the above slack squared
- * to determine if we go with the global canvas, or malloc one on the spot.
+ * This is the mbximum length bnd height times the bbove slbck squbred
+ * to determine if we go with the globbl cbnvbs, or mblloc one on the spot.
  */
 #define CGGI_GLYPH_CANVAS_MAX 100
 
 /*
- * Based on the space needed to strike the largest character in the run,
- * either use the global shared canvas, or make one up on the spot, strike
- * the glyphs, and destroy it.
+ * Bbsed on the spbce needed to strike the lbrgest chbrbcter in the run,
+ * either use the globbl shbred cbnvbs, or mbke one up on the spot, strike
+ * the glyphs, bnd destroy it.
  */
-static inline void
-CGGI_FillImagesForGlyphs(jlong *glyphInfos, const AWTStrike *strike,
+stbtic inline void
+CGGI_FillImbgesForGlyphs(jlong *glyphInfos, const AWTStrike *strike,
                          const CGGI_RenderingMode *mode,
-                         const UniChar uniChars[], const CGGlyph glyphs[],
-                         const size_t maxWidth, const size_t maxHeight,
+                         const UniChbr uniChbrs[], const CGGlyph glyphs[],
+                         const size_t mbxWidth, const size_t mbxHeight,
                          const CFIndex len)
 {
-    if (maxWidth*maxHeight*CGGI_GLYPH_CANVAS_SLACK*CGGI_GLYPH_CANVAS_SLACK >
+    if (mbxWidth*mbxHeight*CGGI_GLYPH_CANVAS_SLACK*CGGI_GLYPH_CANVAS_SLACK >
         CGGI_GLYPH_CANVAS_MAX*CGGI_GLYPH_CANVAS_MAX*CGGI_GLYPH_CANVAS_SLACK*CGGI_GLYPH_CANVAS_SLACK)
     {
-        CGGI_GlyphCanvas *tmpCanvas = [[CGGI_GlyphCanvas alloc] init];
-        CGGI_InitCanvas(tmpCanvas, maxWidth, maxHeight);
-        CGGI_FillImagesForGlyphsWithSizedCanvas(tmpCanvas, strike,
-                                                mode, glyphInfos, uniChars,
+        CGGI_GlyphCbnvbs *tmpCbnvbs = [[CGGI_GlyphCbnvbs blloc] init];
+        CGGI_InitCbnvbs(tmpCbnvbs, mbxWidth, mbxHeight);
+        CGGI_FillImbgesForGlyphsWithSizedCbnvbs(tmpCbnvbs, strike,
+                                                mode, glyphInfos, uniChbrs,
                                                 glyphs, len);
-        CGGI_FreeCanvas(tmpCanvas);
+        CGGI_FreeCbnvbs(tmpCbnvbs);
 
-        [tmpCanvas release];
+        [tmpCbnvbs relebse];
         return;
     }
 
-    NSMutableDictionary *threadDict =
-        [[NSThread currentThread] threadDictionary];
-    CGGI_GlyphCanvas *canvas = [threadDict objectForKey:threadLocalCanvasKey];
-    if (canvas == nil) {
-        canvas = [[CGGI_GlyphCanvas alloc] init];
-        [threadDict setObject:canvas forKey:threadLocalCanvasKey];
+    NSMutbbleDictionbry *threbdDict =
+        [[NSThrebd currentThrebd] threbdDictionbry];
+    CGGI_GlyphCbnvbs *cbnvbs = [threbdDict objectForKey:threbdLocblCbnvbsKey];
+    if (cbnvbs == nil) {
+        cbnvbs = [[CGGI_GlyphCbnvbs blloc] init];
+        [threbdDict setObject:cbnvbs forKey:threbdLocblCbnvbsKey];
     }
 
-    CGGI_SizeCanvas(canvas, maxWidth, maxHeight, mode->cgFontMode);
-    CGGI_FillImagesForGlyphsWithSizedCanvas(canvas, strike, mode,
-                                            glyphInfos, uniChars, glyphs, len);
+    CGGI_SizeCbnvbs(cbnvbs, mbxWidth, mbxHeight, mode->cgFontMode);
+    CGGI_FillImbgesForGlyphsWithSizedCbnvbs(cbnvbs, strike, mode,
+                                            glyphInfos, uniChbrs, glyphs, len);
 }
 
 /*
- * Finds the advances and bounding boxes of the characters in the run,
- * cycles through all the bounds and calculates the maximum canvas space
- * required by the largest glyph.
+ * Finds the bdvbnces bnd bounding boxes of the chbrbcters in the run,
+ * cycles through bll the bounds bnd cblculbtes the mbximum cbnvbs spbce
+ * required by the lbrgest glyph.
  *
- * Creates a GlyphInfo struct with a malloc that also encapsulates the
- * image the struct points to.  This is done to meet memory layout
- * expectations in the Sun text rasterizer memory managment code.
- * The image immediately follows the struct physically in memory.
+ * Crebtes b GlyphInfo struct with b mblloc thbt blso encbpsulbtes the
+ * imbge the struct points to.  This is done to meet memory lbyout
+ * expectbtions in the Sun text rbsterizer memory mbnbgment code.
+ * The imbge immedibtely follows the struct physicblly in memory.
  */
-static inline void
-CGGI_CreateGlyphInfos(jlong *glyphInfos, const AWTStrike *strike,
+stbtic inline void
+CGGI_CrebteGlyphInfos(jlong *glyphInfos, const AWTStrike *strike,
                       const CGGI_RenderingMode *mode,
-                      const UniChar uniChars[], const CGGlyph glyphs[],
-                      CGSize advances[], CGRect bboxes[], const CFIndex len)
+                      const UniChbr uniChbrs[], const CGGlyph glyphs[],
+                      CGSize bdvbnces[], CGRect bboxes[], const CFIndex len)
 {
     AWTFont *font = strike->fAWTFont;
-    CGAffineTransform tx = strike->fTx;
-    JRSFontRenderingStyle bboxCGMode = JRSFontAlignStyleForFractionalMeasurement(strike->fStyle);
+    CGAffineTrbnsform tx = strike->fTx;
+    JRSFontRenderingStyle bboxCGMode = JRSFontAlignStyleForFrbctionblMebsurement(strike->fStyle);
 
     JRSFontGetBoundingBoxesForGlyphsAndStyle((CTFontRef)font->fFont, &tx, bboxCGMode, glyphs, len, bboxes);
-    CTFontGetAdvancesForGlyphs((CTFontRef)font->fFont, kCTFontDefaultOrientation, glyphs, advances, len);
+    CTFontGetAdvbncesForGlyphs((CTFontRef)font->fFont, kCTFontDefbultOrientbtion, glyphs, bdvbnces, len);
 
-    size_t maxWidth = 1;
-    size_t maxHeight = 1;
+    size_t mbxWidth = 1;
+    size_t mbxHeight = 1;
 
     CFIndex i;
     for (i = 0; i < len; i++)
     {
-        if (uniChars[i] != 0)
+        if (uniChbrs[i] != 0)
         {
             glyphInfos[i] = 0L;
-            continue; // will be handled later
+            continue; // will be hbndled lbter
         }
 
-        CGSize advance = advances[i];
+        CGSize bdvbnce = bdvbnces[i];
         CGRect bbox = bboxes[i];
 
-        GlyphInfo *glyphInfo = CGGI_CreateNewGlyphInfoFrom(advance, bbox, strike, mode);
+        GlyphInfo *glyphInfo = CGGI_CrebteNewGlyphInfoFrom(bdvbnce, bbox, strike, mode);
 
-        if (maxWidth < glyphInfo->width)   maxWidth = glyphInfo->width;
-        if (maxHeight < glyphInfo->height) maxHeight = glyphInfo->height;
+        if (mbxWidth < glyphInfo->width)   mbxWidth = glyphInfo->width;
+        if (mbxHeight < glyphInfo->height) mbxHeight = glyphInfo->height;
 
         glyphInfos[i] = ptr_to_jlong(glyphInfo);
     }
 
-    CGGI_FillImagesForGlyphs(glyphInfos, strike, mode, uniChars,
-                             glyphs, maxWidth, maxHeight, len);
+    CGGI_FillImbgesForGlyphs(glyphInfos, strike, mode, uniChbrs,
+                             glyphs, mbxWidth, mbxHeight, len);
 }
 
 
-#pragma mark --- Temporary Buffer Allocations and Initialization ---
+#prbgmb mbrk --- Temporbry Buffer Allocbtions bnd Initiblizbtion ---
 
 /*
- * This stage separates the already valid glyph codes from the unicode values
- * that need special handling - the rawGlyphCodes array is no longer used
- * after this stage.
+ * This stbge sepbrbtes the blrebdy vblid glyph codes from the unicode vblues
+ * thbt need specibl hbndling - the rbwGlyphCodes brrby is no longer used
+ * bfter this stbge.
  */
-static void
-CGGI_CreateGlyphsAndScanForComplexities(jlong *glyphInfos,
+stbtic void
+CGGI_CrebteGlyphsAndScbnForComplexities(jlong *glyphInfos,
                                         const AWTStrike *strike,
                                         const CGGI_RenderingMode *mode,
-                                        jint rawGlyphCodes[],
-                                        UniChar uniChars[], CGGlyph glyphs[],
-                                        CGSize advances[], CGRect bboxes[],
+                                        jint rbwGlyphCodes[],
+                                        UniChbr uniChbrs[], CGGlyph glyphs[],
+                                        CGSize bdvbnces[], CGRect bboxes[],
                                         const CFIndex len)
 {
     CFIndex i;
     for (i = 0; i < len; i++) {
-        jint code = rawGlyphCodes[i];
+        jint code = rbwGlyphCodes[i];
         if (code < 0) {
             glyphs[i] = 0;
-            uniChars[i] = -code;
+            uniChbrs[i] = -code;
         } else {
             glyphs[i] = code;
-            uniChars[i] = 0;
+            uniChbrs[i] = 0;
         }
     }
 
-    CGGI_CreateGlyphInfos(glyphInfos, strike, mode,
-                          uniChars, glyphs, advances, bboxes, len);
+    CGGI_CrebteGlyphInfos(glyphInfos, strike, mode,
+                          uniChbrs, glyphs, bdvbnces, bboxes, len);
 
 #ifdef CGGI_DEBUG_HIT_COUNT
-    static size_t hitCount = 0;
+    stbtic size_t hitCount = 0;
     hitCount++;
     printf("%d\n", (int)hitCount);
 #endif
 }
 
 /*
- * Conditionally stack allocates buffers for glyphs, bounding boxes,
- * and advances.  Unfortunately to use CG or CT in bulk runs (which is
- * faster than calling them per character), we have to copy into and out
- * of these buffers. Still a net win though.
+ * Conditionblly stbck bllocbtes buffers for glyphs, bounding boxes,
+ * bnd bdvbnces.  Unfortunbtely to use CG or CT in bulk runs (which is
+ * fbster thbn cblling them per chbrbcter), we hbve to copy into bnd out
+ * of these buffers. Still b net win though.
  */
 void
-CGGlyphImages_GetGlyphImagePtrs(jlong glyphInfos[],
+CGGlyphImbges_GetGlyphImbgePtrs(jlong glyphInfos[],
                                 const AWTStrike *strike,
-                                jint rawGlyphCodes[], const CFIndex len)
+                                jint rbwGlyphCodes[], const CFIndex len)
 {
     const CGGI_RenderingMode mode = CGGI_GetRenderingMode(strike);
 
     if (len < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) {
         CGRect bboxes[len];
-        CGSize advances[len];
+        CGSize bdvbnces[len];
         CGGlyph glyphs[len];
-        UniChar uniChars[len];
+        UniChbr uniChbrs[len];
 
-        CGGI_CreateGlyphsAndScanForComplexities(glyphInfos, strike, &mode,
-                                                rawGlyphCodes, uniChars, glyphs,
-                                                advances, bboxes, len);
+        CGGI_CrebteGlyphsAndScbnForComplexities(glyphInfos, strike, &mode,
+                                                rbwGlyphCodes, uniChbrs, glyphs,
+                                                bdvbnces, bboxes, len);
 
         return;
     }
 
-    // just do one malloc, and carve it up for all the buffers
-    void *buffer = malloc(sizeof(CGRect) * sizeof(CGSize) *
-                          sizeof(CGGlyph) * sizeof(UniChar) * len);
+    // just do one mblloc, bnd cbrve it up for bll the buffers
+    void *buffer = mblloc(sizeof(CGRect) * sizeof(CGSize) *
+                          sizeof(CGGlyph) * sizeof(UniChbr) * len);
     if (buffer == NULL) {
-        [[NSException exceptionWithName:NSMallocException
-            reason:@"Failed to allocate memory for the temporary glyph strike and measurement buffers." userInfo:nil] raise];
+        [[NSException exceptionWithNbme:NSMbllocException
+            rebson:@"Fbiled to bllocbte memory for the temporbry glyph strike bnd mebsurement buffers." userInfo:nil] rbise];
     }
 
     CGRect *bboxes = (CGRect *)(buffer);
-    CGSize *advances = (CGSize *)(bboxes + sizeof(CGRect) * len);
-    CGGlyph *glyphs = (CGGlyph *)(advances + sizeof(CGGlyph) * len);
-    UniChar *uniChars = (UniChar *)(glyphs + sizeof(UniChar) * len);
+    CGSize *bdvbnces = (CGSize *)(bboxes + sizeof(CGRect) * len);
+    CGGlyph *glyphs = (CGGlyph *)(bdvbnces + sizeof(CGGlyph) * len);
+    UniChbr *uniChbrs = (UniChbr *)(glyphs + sizeof(UniChbr) * len);
 
-    CGGI_CreateGlyphsAndScanForComplexities(glyphInfos, strike, &mode,
-                                            rawGlyphCodes, uniChars, glyphs,
-                                            advances, bboxes, len);
+    CGGI_CrebteGlyphsAndScbnForComplexities(glyphInfos, strike, &mode,
+                                            rbwGlyphCodes, uniChbrs, glyphs,
+                                            bdvbnces, bboxes, len);
 
     free(buffer);
 }

@@ -3,31 +3,31 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.math.BigInteger;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
+import jbvb.mbth.BigInteger;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,25 +36,25 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 /**
- * This is the base class to all Objects which have a direct 1:1 mapping to an
- * Element in a particular namespace.
+ * This is the bbse clbss to bll Objects which hbve b direct 1:1 mbpping to bn
+ * Element in b pbrticulbr nbmespbce.
  */
-public abstract class ElementProxy {
+public bbstrbct clbss ElementProxy {
 
-    protected static final java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ElementProxy.class.getName());
+    protected stbtic finbl jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(ElementProxy.clbss.getNbme());
 
     /** Field constructionElement */
     protected Element constructionElement = null;
 
-    /** Field baseURI */
-    protected String baseURI = null;
+    /** Field bbseURI */
+    protected String bbseURI = null;
 
     /** Field doc */
     protected Document doc = null;
 
-    /** Field prefixMappings */
-    private static Map<String, String> prefixMappings = new ConcurrentHashMap<String, String>();
+    /** Field prefixMbppings */
+    privbte stbtic Mbp<String, String> prefixMbppings = new ConcurrentHbshMbp<String, String>();
 
     /**
      * Constructor ElementProxy
@@ -66,7 +66,7 @@ public abstract class ElementProxy {
     /**
      * Constructor ElementProxy
      *
-     * @param doc
+     * @pbrbm doc
      */
     public ElementProxy(Document doc) {
         if (doc == null) {
@@ -75,62 +75,62 @@ public abstract class ElementProxy {
 
         this.doc = doc;
         this.constructionElement =
-            createElementForFamilyLocal(this.doc, this.getBaseNamespace(), this.getBaseLocalName());
+            crebteElementForFbmilyLocbl(this.doc, this.getBbseNbmespbce(), this.getBbseLocblNbme());
     }
 
     /**
      * Constructor ElementProxy
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public ElementProxy(Element element, String BaseURI) throws XMLSecurityException {
+    public ElementProxy(Element element, String BbseURI) throws XMLSecurityException {
         if (element == null) {
             throw new XMLSecurityException("ElementProxy.nullElement");
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "setElement(\"" + element.getTagName() + "\", \"" + BaseURI + "\")");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "setElement(\"" + element.getTbgNbme() + "\", \"" + BbseURI + "\")");
         }
 
         this.doc = element.getOwnerDocument();
         this.constructionElement = element;
-        this.baseURI = BaseURI;
+        this.bbseURI = BbseURI;
 
-        this.guaranteeThatElementInCorrectSpace();
+        this.gubrbnteeThbtElementInCorrectSpbce();
     }
 
     /**
-     * Returns the namespace of the Elements of the sub-class.
+     * Returns the nbmespbce of the Elements of the sub-clbss.
      *
-     * @return the namespace of the Elements of the sub-class.
+     * @return the nbmespbce of the Elements of the sub-clbss.
      */
-    public abstract String getBaseNamespace();
+    public bbstrbct String getBbseNbmespbce();
 
     /**
-     * Returns the localname of the Elements of the sub-class.
+     * Returns the locblnbme of the Elements of the sub-clbss.
      *
-     * @return the localname of the Elements of the sub-class.
+     * @return the locblnbme of the Elements of the sub-clbss.
      */
-    public abstract String getBaseLocalName();
+    public bbstrbct String getBbseLocblNbme();
 
 
-    protected Element createElementForFamilyLocal(
-        Document doc, String namespace, String localName
+    protected Element crebteElementForFbmilyLocbl(
+        Document doc, String nbmespbce, String locblNbme
     ) {
         Element result = null;
-        if (namespace == null) {
-            result = doc.createElementNS(null, localName);
+        if (nbmespbce == null) {
+            result = doc.crebteElementNS(null, locblNbme);
         } else {
-            String baseName = this.getBaseNamespace();
-            String prefix = ElementProxy.getDefaultPrefix(baseName);
+            String bbseNbme = this.getBbseNbmespbce();
+            String prefix = ElementProxy.getDefbultPrefix(bbseNbme);
             if ((prefix == null) || (prefix.length() == 0)) {
-                result = doc.createElementNS(namespace, localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", namespace);
+                result = doc.crebteElementNS(nbmespbce, locblNbme);
+                result.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns", nbmespbce);
             } else {
-                result = doc.createElementNS(namespace, prefix + ":" + localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:" + prefix, namespace);
+                result = doc.crebteElementNS(nbmespbce, prefix + ":" + locblNbme);
+                result.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns:" + prefix, nbmespbce);
             }
         }
         return result;
@@ -138,30 +138,30 @@ public abstract class ElementProxy {
 
 
     /**
-     * This method creates an Element in a given namespace with a given localname.
-     * It uses the {@link ElementProxy#getDefaultPrefix} method to decide whether
-     * a particular prefix is bound to that namespace.
+     * This method crebtes bn Element in b given nbmespbce with b given locblnbme.
+     * It uses the {@link ElementProxy#getDefbultPrefix} method to decide whether
+     * b pbrticulbr prefix is bound to thbt nbmespbce.
      * <BR />
-     * This method was refactored out of the constructor.
+     * This method wbs refbctored out of the constructor.
      *
-     * @param doc
-     * @param namespace
-     * @param localName
-     * @return The element created.
+     * @pbrbm doc
+     * @pbrbm nbmespbce
+     * @pbrbm locblNbme
+     * @return The element crebted.
      */
-    public static Element createElementForFamily(Document doc, String namespace, String localName) {
+    public stbtic Element crebteElementForFbmily(Document doc, String nbmespbce, String locblNbme) {
         Element result = null;
-        String prefix = ElementProxy.getDefaultPrefix(namespace);
+        String prefix = ElementProxy.getDefbultPrefix(nbmespbce);
 
-        if (namespace == null) {
-            result = doc.createElementNS(null, localName);
+        if (nbmespbce == null) {
+            result = doc.crebteElementNS(null, locblNbme);
         } else {
             if ((prefix == null) || (prefix.length() == 0)) {
-                result = doc.createElementNS(namespace, localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", namespace);
+                result = doc.crebteElementNS(nbmespbce, locblNbme);
+                result.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns", nbmespbce);
             } else {
-                result = doc.createElementNS(namespace, prefix + ":" + localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:" + prefix, namespace);
+                result = doc.crebteElementNS(nbmespbce, prefix + ":" + locblNbme);
+                result.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns:" + prefix, nbmespbce);
             }
         }
 
@@ -171,46 +171,46 @@ public abstract class ElementProxy {
     /**
      * Method setElement
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public void setElement(Element element, String BaseURI) throws XMLSecurityException {
+    public void setElement(Element element, String BbseURI) throws XMLSecurityException {
         if (element == null) {
             throw new XMLSecurityException("ElementProxy.nullElement");
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "setElement(" + element.getTagName() + ", \"" + BaseURI + "\"");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "setElement(" + element.getTbgNbme() + ", \"" + BbseURI + "\"");
         }
 
         this.doc = element.getOwnerDocument();
         this.constructionElement = element;
-        this.baseURI = BaseURI;
+        this.bbseURI = BbseURI;
     }
 
 
     /**
-     * Returns the Element which was constructed by the Object.
+     * Returns the Element which wbs constructed by the Object.
      *
-     * @return the Element which was constructed by the Object.
+     * @return the Element which wbs constructed by the Object.
      */
-    public final Element getElement() {
+    public finbl Element getElement() {
         return this.constructionElement;
     }
 
     /**
-     * Returns the Element plus a leading and a trailing CarriageReturn Text node.
+     * Returns the Element plus b lebding bnd b trbiling CbrribgeReturn Text node.
      *
-     * @return the Element which was constructed by the Object.
+     * @return the Element which wbs constructed by the Object.
      */
-    public final NodeList getElementPlusReturns() {
+    public finbl NodeList getElementPlusReturns() {
 
         HelperNodeList nl = new HelperNodeList();
 
-        nl.appendChild(this.doc.createTextNode("\n"));
-        nl.appendChild(this.getElement());
-        nl.appendChild(this.doc.createTextNode("\n"));
+        nl.bppendChild(this.doc.crebteTextNode("\n"));
+        nl.bppendChild(this.getElement());
+        nl.bppendChild(this.doc.crebteTextNode("\n"));
 
         return nl;
     }
@@ -218,183 +218,183 @@ public abstract class ElementProxy {
     /**
      * Method getDocument
      *
-     * @return the Document where this element is contained.
+     * @return the Document where this element is contbined.
      */
     public Document getDocument() {
         return this.doc;
     }
 
     /**
-     * Method getBaseURI
+     * Method getBbseURI
      *
-     * @return the base uri of the namespace of this element
+     * @return the bbse uri of the nbmespbce of this element
      */
-    public String getBaseURI() {
-        return this.baseURI;
+    public String getBbseURI() {
+        return this.bbseURI;
     }
 
     /**
-     * Method guaranteeThatElementInCorrectSpace
+     * Method gubrbnteeThbtElementInCorrectSpbce
      *
      * @throws XMLSecurityException
      */
-    void guaranteeThatElementInCorrectSpace() throws XMLSecurityException {
+    void gubrbnteeThbtElementInCorrectSpbce() throws XMLSecurityException {
 
-        String expectedLocalName = this.getBaseLocalName();
-        String expectedNamespaceUri = this.getBaseNamespace();
+        String expectedLocblNbme = this.getBbseLocblNbme();
+        String expectedNbmespbceUri = this.getBbseNbmespbce();
 
-        String actualLocalName = this.constructionElement.getLocalName();
-        String actualNamespaceUri = this.constructionElement.getNamespaceURI();
+        String bctublLocblNbme = this.constructionElement.getLocblNbme();
+        String bctublNbmespbceUri = this.constructionElement.getNbmespbceURI();
 
-        if(!expectedNamespaceUri.equals(actualNamespaceUri)
-            && !expectedLocalName.equals(actualLocalName)) {
-            Object exArgs[] = { actualNamespaceUri + ":" + actualLocalName,
-                                expectedNamespaceUri + ":" + expectedLocalName};
+        if(!expectedNbmespbceUri.equbls(bctublNbmespbceUri)
+            && !expectedLocblNbme.equbls(bctublLocblNbme)) {
+            Object exArgs[] = { bctublNbmespbceUri + ":" + bctublLocblNbme,
+                                expectedNbmespbceUri + ":" + expectedLocblNbme};
             throw new XMLSecurityException("xml.WrongElement", exArgs);
         }
     }
 
     /**
-     * Method addBigIntegerElement
+     * Method bddBigIntegerElement
      *
-     * @param bi
-     * @param localname
+     * @pbrbm bi
+     * @pbrbm locblnbme
      */
-    public void addBigIntegerElement(BigInteger bi, String localname) {
+    public void bddBigIntegerElement(BigInteger bi, String locblnbme) {
         if (bi != null) {
-            Element e = XMLUtils.createElementInSignatureSpace(this.doc, localname);
+            Element e = XMLUtils.crebteElementInSignbtureSpbce(this.doc, locblnbme);
 
-            Base64.fillElementWithBigInteger(e, bi);
-            this.constructionElement.appendChild(e);
-            XMLUtils.addReturnToElement(this.constructionElement);
+            Bbse64.fillElementWithBigInteger(e, bi);
+            this.constructionElement.bppendChild(e);
+            XMLUtils.bddReturnToElement(this.constructionElement);
         }
     }
 
     /**
-     * Method addBase64Element
+     * Method bddBbse64Element
      *
-     * @param bytes
-     * @param localname
+     * @pbrbm bytes
+     * @pbrbm locblnbme
      */
-    public void addBase64Element(byte[] bytes, String localname) {
+    public void bddBbse64Element(byte[] bytes, String locblnbme) {
         if (bytes != null) {
-            Element e = Base64.encodeToElement(this.doc, localname, bytes);
+            Element e = Bbse64.encodeToElement(this.doc, locblnbme, bytes);
 
-            this.constructionElement.appendChild(e);
-            if (!XMLUtils.ignoreLineBreaks()) {
-                this.constructionElement.appendChild(this.doc.createTextNode("\n"));
+            this.constructionElement.bppendChild(e);
+            if (!XMLUtils.ignoreLineBrebks()) {
+                this.constructionElement.bppendChild(this.doc.crebteTextNode("\n"));
             }
         }
     }
 
     /**
-     * Method addTextElement
+     * Method bddTextElement
      *
-     * @param text
-     * @param localname
+     * @pbrbm text
+     * @pbrbm locblnbme
      */
-    public void addTextElement(String text, String localname) {
-        Element e = XMLUtils.createElementInSignatureSpace(this.doc, localname);
-        Text t = this.doc.createTextNode(text);
+    public void bddTextElement(String text, String locblnbme) {
+        Element e = XMLUtils.crebteElementInSignbtureSpbce(this.doc, locblnbme);
+        Text t = this.doc.crebteTextNode(text);
 
-        e.appendChild(t);
-        this.constructionElement.appendChild(e);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        e.bppendChild(t);
+        this.constructionElement.bppendChild(e);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addBase64Text
+     * Method bddBbse64Text
      *
-     * @param bytes
+     * @pbrbm bytes
      */
-    public void addBase64Text(byte[] bytes) {
+    public void bddBbse64Text(byte[] bytes) {
         if (bytes != null) {
-            Text t = XMLUtils.ignoreLineBreaks()
-                ? this.doc.createTextNode(Base64.encode(bytes))
-                : this.doc.createTextNode("\n" + Base64.encode(bytes) + "\n");
-            this.constructionElement.appendChild(t);
+            Text t = XMLUtils.ignoreLineBrebks()
+                ? this.doc.crebteTextNode(Bbse64.encode(bytes))
+                : this.doc.crebteTextNode("\n" + Bbse64.encode(bytes) + "\n");
+            this.constructionElement.bppendChild(t);
         }
     }
 
     /**
-     * Method addText
+     * Method bddText
      *
-     * @param text
+     * @pbrbm text
      */
-    public void addText(String text) {
+    public void bddText(String text) {
         if (text != null) {
-            Text t = this.doc.createTextNode(text);
+            Text t = this.doc.crebteTextNode(text);
 
-            this.constructionElement.appendChild(t);
+            this.constructionElement.bppendChild(t);
         }
     }
 
     /**
-     * Method getVal
+     * Method getVbl
      *
-     * @param localname
-     * @param namespace
-     * @return The biginteger contained in the given element
-     * @throws Base64DecodingException
+     * @pbrbm locblnbme
+     * @pbrbm nbmespbce
+     * @return The biginteger contbined in the given element
+     * @throws Bbse64DecodingException
      */
     public BigInteger getBigIntegerFromChildElement(
-        String localname, String namespace
-    ) throws Base64DecodingException {
-        return Base64.decodeBigIntegerFromText(
+        String locblnbme, String nbmespbce
+    ) throws Bbse64DecodingException {
+        return Bbse64.decodeBigIntegerFromText(
             XMLUtils.selectNodeText(
-                this.constructionElement.getFirstChild(), namespace, localname, 0
+                this.constructionElement.getFirstChild(), nbmespbce, locblnbme, 0
             )
         );
     }
 
     /**
      * Method getBytesFromChildElement
-     * @deprecated
-     * @param localname
-     * @param namespace
+     * @deprecbted
+     * @pbrbm locblnbme
+     * @pbrbm nbmespbce
      * @return the bytes
      * @throws XMLSecurityException
      */
-    @Deprecated
-    public byte[] getBytesFromChildElement(String localname, String namespace)
+    @Deprecbted
+    public byte[] getBytesFromChildElement(String locblnbme, String nbmespbce)
         throws XMLSecurityException {
         Element e =
             XMLUtils.selectNode(
-                this.constructionElement.getFirstChild(), namespace, localname, 0
+                this.constructionElement.getFirstChild(), nbmespbce, locblnbme, 0
             );
 
-        return Base64.decode(e);
+        return Bbse64.decode(e);
     }
 
     /**
      * Method getTextFromChildElement
      *
-     * @param localname
-     * @param namespace
+     * @pbrbm locblnbme
+     * @pbrbm nbmespbce
      * @return the Text of the textNode
      */
-    public String getTextFromChildElement(String localname, String namespace) {
+    public String getTextFromChildElement(String locblnbme, String nbmespbce) {
         return XMLUtils.selectNode(
                 this.constructionElement.getFirstChild(),
-                namespace,
-                localname,
+                nbmespbce,
+                locblnbme,
                 0).getTextContent();
     }
 
     /**
      * Method getBytesFromTextChild
      *
-     * @return The base64 bytes from the text children of this element
+     * @return The bbse64 bytes from the text children of this element
      * @throws XMLSecurityException
      */
     public byte[] getBytesFromTextChild() throws XMLSecurityException {
-        return Base64.decode(XMLUtils.getFullTextChildrenFromElement(this.constructionElement));
+        return Bbse64.decode(XMLUtils.getFullTextChildrenFromElement(this.constructionElement));
     }
 
     /**
      * Method getTextFromTextChild
      *
-     * @return the Text obtained by concatenating all the text nodes of this
+     * @return the Text obtbined by concbtenbting bll the text nodes of this
      *    element
      */
     public String getTextFromTextChild() {
@@ -404,16 +404,16 @@ public abstract class ElementProxy {
     /**
      * Method length
      *
-     * @param namespace
-     * @param localname
-     * @return the number of elements {namespace}:localname under this element
+     * @pbrbm nbmespbce
+     * @pbrbm locblnbme
+     * @return the number of elements {nbmespbce}:locblnbme under this element
      */
-    public int length(String namespace, String localname) {
+    public int length(String nbmespbce, String locblnbme) {
         int number = 0;
         Node sibling = this.constructionElement.getFirstChild();
         while (sibling != null) {
-            if (localname.equals(sibling.getLocalName())
-                && namespace.equals(sibling.getNamespaceURI())) {
+            if (locblnbme.equbls(sibling.getLocblNbme())
+                && nbmespbce.equbls(sibling.getNbmespbceURI())) {
                 number++;
             }
             sibling = sibling.getNextSibling();
@@ -422,97 +422,97 @@ public abstract class ElementProxy {
     }
 
     /**
-     * Adds an xmlns: definition to the Element. This can be called as follows:
+     * Adds bn xmlns: definition to the Element. This cbn be cblled bs follows:
      *
      * <PRE>
-     * // set namespace with ds prefix
-     * xpathContainer.setXPathNamespaceContext("ds", "http://www.w3.org/2000/09/xmldsig#");
-     * xpathContainer.setXPathNamespaceContext("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
+     * // set nbmespbce with ds prefix
+     * xpbthContbiner.setXPbthNbmespbceContext("ds", "http://www.w3.org/2000/09/xmldsig#");
+     * xpbthContbiner.setXPbthNbmespbceContext("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
      * </PRE>
      *
-     * @param prefix
-     * @param uri
+     * @pbrbm prefix
+     * @pbrbm uri
      * @throws XMLSecurityException
      */
-    public void setXPathNamespaceContext(String prefix, String uri)
+    public void setXPbthNbmespbceContext(String prefix, String uri)
         throws XMLSecurityException {
         String ns;
 
         if ((prefix == null) || (prefix.length() == 0)) {
-            throw new XMLSecurityException("defaultNamespaceCannotBeSetHere");
-        } else if (prefix.equals("xmlns")) {
-            throw new XMLSecurityException("defaultNamespaceCannotBeSetHere");
-        } else if (prefix.startsWith("xmlns:")) {
+            throw new XMLSecurityException("defbultNbmespbceCbnnotBeSetHere");
+        } else if (prefix.equbls("xmlns")) {
+            throw new XMLSecurityException("defbultNbmespbceCbnnotBeSetHere");
+        } else if (prefix.stbrtsWith("xmlns:")) {
             ns = prefix;//"xmlns:" + prefix.substring("xmlns:".length());
         } else {
             ns = "xmlns:" + prefix;
         }
 
-        Attr a = this.constructionElement.getAttributeNodeNS(Constants.NamespaceSpecNS, ns);
+        Attr b = this.constructionElement.getAttributeNodeNS(Constbnts.NbmespbceSpecNS, ns);
 
-        if (a != null) {
-            if (!a.getNodeValue().equals(uri)) {
+        if (b != null) {
+            if (!b.getNodeVblue().equbls(uri)) {
                 Object exArgs[] = { ns, this.constructionElement.getAttributeNS(null, ns) };
 
-                throw new XMLSecurityException("namespacePrefixAlreadyUsedByOtherURI", exArgs);
+                throw new XMLSecurityException("nbmespbcePrefixAlrebdyUsedByOtherURI", exArgs);
             }
             return;
         }
 
-        this.constructionElement.setAttributeNS(Constants.NamespaceSpecNS, ns, uri);
+        this.constructionElement.setAttributeNS(Constbnts.NbmespbceSpecNS, ns, uri);
     }
 
     /**
-     * Method setDefaultPrefix
+     * Method setDefbultPrefix
      *
-     * @param namespace
-     * @param prefix
+     * @pbrbm nbmespbce
+     * @pbrbm prefix
      * @throws XMLSecurityException
      */
-    public static void setDefaultPrefix(String namespace, String prefix)
+    public stbtic void setDefbultPrefix(String nbmespbce, String prefix)
         throws XMLSecurityException {
-        if (prefixMappings.containsValue(prefix)) {
-            String storedPrefix = prefixMappings.get(namespace);
-            if (!storedPrefix.equals(prefix)) {
-                Object exArgs[] = { prefix, namespace, storedPrefix };
+        if (prefixMbppings.contbinsVblue(prefix)) {
+            String storedPrefix = prefixMbppings.get(nbmespbce);
+            if (!storedPrefix.equbls(prefix)) {
+                Object exArgs[] = { prefix, nbmespbce, storedPrefix };
 
-                throw new XMLSecurityException("prefix.AlreadyAssigned", exArgs);
+                throw new XMLSecurityException("prefix.AlrebdyAssigned", exArgs);
             }
         }
 
-        if (Constants.SignatureSpecNS.equals(namespace)) {
+        if (Constbnts.SignbtureSpecNS.equbls(nbmespbce)) {
             XMLUtils.setDsPrefix(prefix);
         }
-        if (EncryptionConstants.EncryptionSpecNS.equals(namespace)) {
+        if (EncryptionConstbnts.EncryptionSpecNS.equbls(nbmespbce)) {
             XMLUtils.setXencPrefix(prefix);
         }
-        prefixMappings.put(namespace, prefix);
+        prefixMbppings.put(nbmespbce, prefix);
     }
 
     /**
-     * This method registers the default prefixes.
+     * This method registers the defbult prefixes.
      */
-    public static void registerDefaultPrefixes() throws XMLSecurityException {
-        setDefaultPrefix("http://www.w3.org/2000/09/xmldsig#", "ds");
-        setDefaultPrefix("http://www.w3.org/2001/04/xmlenc#", "xenc");
-        setDefaultPrefix("http://www.w3.org/2009/xmlenc11#", "xenc11");
-        setDefaultPrefix("http://www.xmlsecurity.org/experimental#", "experimental");
-        setDefaultPrefix("http://www.w3.org/2002/04/xmldsig-filter2", "dsig-xpath-old");
-        setDefaultPrefix("http://www.w3.org/2002/06/xmldsig-filter2", "dsig-xpath");
-        setDefaultPrefix("http://www.w3.org/2001/10/xml-exc-c14n#", "ec");
-        setDefaultPrefix(
-            "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmann/#xpathFilter", "xx"
+    public stbtic void registerDefbultPrefixes() throws XMLSecurityException {
+        setDefbultPrefix("http://www.w3.org/2000/09/xmldsig#", "ds");
+        setDefbultPrefix("http://www.w3.org/2001/04/xmlenc#", "xenc");
+        setDefbultPrefix("http://www.w3.org/2009/xmlenc11#", "xenc11");
+        setDefbultPrefix("http://www.xmlsecurity.org/experimentbl#", "experimentbl");
+        setDefbultPrefix("http://www.w3.org/2002/04/xmldsig-filter2", "dsig-xpbth-old");
+        setDefbultPrefix("http://www.w3.org/2002/06/xmldsig-filter2", "dsig-xpbth");
+        setDefbultPrefix("http://www.w3.org/2001/10/xml-exc-c14n#", "ec");
+        setDefbultPrefix(
+            "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmbnn/#xpbthFilter", "xx"
         );
     }
 
     /**
-     * Method getDefaultPrefix
+     * Method getDefbultPrefix
      *
-     * @param namespace
-     * @return the default prefix bind to this element.
+     * @pbrbm nbmespbce
+     * @return the defbult prefix bind to this element.
      */
-    public static String getDefaultPrefix(String namespace) {
-        return prefixMappings.get(namespace);
+    public stbtic String getDefbultPrefix(String nbmespbce) {
+        return prefixMbppings.get(nbmespbce);
     }
 
 }

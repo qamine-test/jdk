@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import sun.security.pkcs11.wrapper.PKCS11Exception;
+import sun.security.pkcs11.wrbpper.PKCS11Exception;
 
 /**
- * KeyFactory base class. Provides common infrastructure for the RSA, DSA,
- * and DH implementations.
+ * KeyFbctory bbse clbss. Provides common infrbstructure for the RSA, DSA,
+ * bnd DH implementbtions.
  *
- * The subclasses support conversion between keys and keyspecs
- * using X.509, PKCS#8, and their individual algorithm specific formats,
- * assuming keys are extractable.
+ * The subclbsses support conversion between keys bnd keyspecs
+ * using X.509, PKCS#8, bnd their individubl blgorithm specific formbts,
+ * bssuming keys bre extrbctbble.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-abstract class P11KeyFactory extends KeyFactorySpi {
+bbstrbct clbss P11KeyFbctory extends KeyFbctorySpi {
 
-    // token instance
-    final Token token;
+    // token instbnce
+    finbl Token token;
 
-    // algorithm name, currently one of RSA, DSA, DH
-    final String algorithm;
+    // blgorithm nbme, currently one of RSA, DSA, DH
+    finbl String blgorithm;
 
-    P11KeyFactory(Token token, String algorithm) {
+    P11KeyFbctory(Token token, String blgorithm) {
         super();
         this.token = token;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Convert an arbitrary key of algorithm into a P11Key of token.
-     * Used by P11Signature.init() and RSACipher.init().
+     * Convert bn brbitrbry key of blgorithm into b P11Key of token.
+     * Used by P11Signbture.init() bnd RSACipher.init().
      */
-    static P11Key convertKey(Token token, Key key, String algorithm)
-            throws InvalidKeyException {
-        return (P11Key)token.getKeyFactory(algorithm).engineTranslateKey(key);
+    stbtic P11Key convertKey(Token token, Key key, String blgorithm)
+            throws InvblidKeyException {
+        return (P11Key)token.getKeyFbctory(blgorithm).engineTrbnslbteKey(key);
     }
 
     // see JCA spec
-    protected final <T extends KeySpec> T engineGetKeySpec(Key key, Class<T> keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
+    protected finbl <T extends KeySpec> T engineGetKeySpec(Key key, Clbss<T> keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
         if ((key == null) || (keySpec == null)) {
-            throw new InvalidKeySpecException
-                ("key and keySpec must not be null");
+            throw new InvblidKeySpecException
+                ("key bnd keySpec must not be null");
         }
-        // delegate to our Java based providers for PKCS#8 and X.509
-        if (PKCS8EncodedKeySpec.class.isAssignableFrom(keySpec)
-                || X509EncodedKeySpec.class.isAssignableFrom(keySpec)) {
+        // delegbte to our Jbvb bbsed providers for PKCS#8 bnd X.509
+        if (PKCS8EncodedKeySpec.clbss.isAssignbbleFrom(keySpec)
+                || X509EncodedKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             try {
-                return implGetSoftwareFactory().getKeySpec(key, keySpec);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException("Could not encode key", e);
+                return implGetSoftwbreFbctory().getKeySpec(key, keySpec);
+            } cbtch (GenerblSecurityException e) {
+                throw new InvblidKeySpecException("Could not encode key", e);
             }
         }
-        // first translate into a key of this token, if it is not already
+        // first trbnslbte into b key of this token, if it is not blrebdy
         P11Key p11Key;
         try {
-            p11Key = (P11Key)engineTranslateKey(key);
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException("Could not convert key", e);
+            p11Key = (P11Key)engineTrbnslbteKey(key);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException("Could not convert key", e);
         }
         Session[] session = new Session[1];
         try {
             if (p11Key.isPublic()) {
                 return implGetPublicKeySpec(p11Key, keySpec, session);
             } else {
-                return implGetPrivateKeySpec(p11Key, keySpec, session);
+                return implGetPrivbteKeySpec(p11Key, keySpec, session);
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException("Could not generate KeySpec", e);
-        } finally {
-            session[0] = token.releaseSession(session[0]);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeySpecException("Could not generbte KeySpec", e);
+        } finblly {
+            session[0] = token.relebseSession(session[0]);
         }
     }
 
     // see JCA spec
-    protected final Key engineTranslateKey(Key key) throws InvalidKeyException {
-        token.ensureValid();
+    protected finbl Key engineTrbnslbteKey(Key key) throws InvblidKeyException {
+        token.ensureVblid();
         if (key == null) {
-            throw new InvalidKeyException("Key must not be null");
+            throw new InvblidKeyException("Key must not be null");
         }
-        if (key.getAlgorithm().equals(this.algorithm) == false) {
-            throw new InvalidKeyException
-                ("Key algorithm must be " + algorithm);
+        if (key.getAlgorithm().equbls(this.blgorithm) == fblse) {
+            throw new InvblidKeyException
+                ("Key blgorithm must be " + blgorithm);
         }
-        if (key instanceof P11Key) {
+        if (key instbnceof P11Key) {
             P11Key p11Key = (P11Key)key;
             if (p11Key.token == token) {
-                // already a key of this token, no need to translate
+                // blrebdy b key of this token, no need to trbnslbte
                 return key;
             }
         }
-        P11Key p11Key = token.privateCache.get(key);
+        P11Key p11Key = token.privbteCbche.get(key);
         if (p11Key != null) {
             return p11Key;
         }
-        if (key instanceof PublicKey) {
-            PublicKey publicKey = implTranslatePublicKey((PublicKey)key);
-            token.privateCache.put(key, (P11Key)publicKey);
+        if (key instbnceof PublicKey) {
+            PublicKey publicKey = implTrbnslbtePublicKey((PublicKey)key);
+            token.privbteCbche.put(key, (P11Key)publicKey);
             return publicKey;
-        } else if (key instanceof PrivateKey) {
-            PrivateKey privateKey = implTranslatePrivateKey((PrivateKey)key);
-            token.privateCache.put(key, (P11Key)privateKey);
-            return privateKey;
+        } else if (key instbnceof PrivbteKey) {
+            PrivbteKey privbteKey = implTrbnslbtePrivbteKey((PrivbteKey)key);
+            token.privbteCbche.put(key, (P11Key)privbteKey);
+            return privbteKey;
         } else {
-            throw new InvalidKeyException
-                ("Key must be instance of PublicKey or PrivateKey");
+            throw new InvblidKeyException
+                ("Key must be instbnce of PublicKey or PrivbteKey");
         }
     }
 
-    abstract <T extends KeySpec> T  implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException;
+    bbstrbct <T extends KeySpec> T  implGetPublicKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException;
 
-    abstract <T extends KeySpec> T  implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException;
+    bbstrbct <T extends KeySpec> T  implGetPrivbteKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException;
 
-    abstract PublicKey implTranslatePublicKey(PublicKey key)
-            throws InvalidKeyException;
+    bbstrbct PublicKey implTrbnslbtePublicKey(PublicKey key)
+            throws InvblidKeyException;
 
-    abstract PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException;
+    bbstrbct PrivbteKey implTrbnslbtePrivbteKey(PrivbteKey key)
+            throws InvblidKeyException;
 
-    abstract KeyFactory implGetSoftwareFactory() throws GeneralSecurityException;
+    bbstrbct KeyFbctory implGetSoftwbreFbctory() throws GenerblSecurityException;
 
 }

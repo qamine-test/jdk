@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.event;
+pbckbge jbvbx.nbming.event;
 
 /**
-  * Specifies the method that a listener of a <tt>NamingEvent</tt>
+  * Specifies the method thbt b listener of b <tt>NbmingEvent</tt>
   * with event type of <tt>OBJECT_CHANGED</tt> must implement.
   *<p>
   * An <tt>OBJECT_CHANGED</tt> event type is fired when (the contents of)
-  * an object has changed. This might mean that its attributes have been modified,
-  * added, or removed, and/or that the object itself has been replaced.
-  * How the object has changed can be determined by examining the
-  * <tt>NamingEvent</tt>'s old and new bindings.
+  * bn object hbs chbnged. This might mebn thbt its bttributes hbve been modified,
+  * bdded, or removed, bnd/or thbt the object itself hbs been replbced.
+  * How the object hbs chbnged cbn be determined by exbmining the
+  * <tt>NbmingEvent</tt>'s old bnd new bindings.
   *<p>
   * A listener interested in <tt>OBJECT_CHANGED</tt> event types must:
   *<ol>
   *
-  *<li>Implement this interface and its method (<tt>objectChanged()</tt>)
-  *<li>Implement <tt>NamingListener.namingExceptionThrown()</tt> so that
-  * it will be notified of exceptions thrown while attempting to
-  * collect information about the events.
-  *<li>Register with the source using the source's <tt>addNamingListener()</tt>
+  *<li>Implement this interfbce bnd its method (<tt>objectChbnged()</tt>)
+  *<li>Implement <tt>NbmingListener.nbmingExceptionThrown()</tt> so thbt
+  * it will be notified of exceptions thrown while bttempting to
+  * collect informbtion bbout the events.
+  *<li>Register with the source using the source's <tt>bddNbmingListener()</tt>
   *    method.
   *</ol>
-  * A listener that wants to be notified of namespace change events
-  * should also implement the <tt>NamespaceChangeListener</tt>
-  * interface.
+  * A listener thbt wbnts to be notified of nbmespbce chbnge events
+  * should blso implement the <tt>NbmespbceChbngeListener</tt>
+  * interfbce.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see NamingEvent
-  * @see NamespaceChangeListener
+  * @see NbmingEvent
+  * @see NbmespbceChbngeListener
   * @see EventContext
   * @see EventDirContext
   * @since 1.3
   */
-public interface ObjectChangeListener extends NamingListener {
+public interfbce ObjectChbngeListener extends NbmingListener {
 
     /**
-     * Called when an object has been changed.
+     * Cblled when bn object hbs been chbnged.
      *<p>
-     * The binding of the changed object can be obtained using
-     * <tt>evt.getNewBinding()</tt>. Its old binding (before the change)
-     * can be obtained using <tt>evt.getOldBinding()</tt>.
-     * @param evt The nonnull naming event.
-     * @see NamingEvent#OBJECT_CHANGED
+     * The binding of the chbnged object cbn be obtbined using
+     * <tt>evt.getNewBinding()</tt>. Its old binding (before the chbnge)
+     * cbn be obtbined using <tt>evt.getOldBinding()</tt>.
+     * @pbrbm evt The nonnull nbming event.
+     * @see NbmingEvent#OBJECT_CHANGED
      */
-    void objectChanged(NamingEvent evt);
+    void objectChbnged(NbmingEvent evt);
 }

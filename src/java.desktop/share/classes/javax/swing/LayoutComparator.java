@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Window;
+import jbvb.util.Compbrbtor;
+import jbvb.util.LinkedList;
+import jbvb.util.ListIterbtor;
+import jbvb.bwt.Component;
+import jbvb.bwt.ComponentOrientbtion;
+import jbvb.bwt.Window;
 
 
 /**
- * Comparator which attempts to sort Components based on their size and
- * position. Code adapted from original javax.swing.DefaultFocusManager
- * implementation.
+ * Compbrbtor which bttempts to sort Components bbsed on their size bnd
+ * position. Code bdbpted from originbl jbvbx.swing.DefbultFocusMbnbger
+ * implementbtion.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class LayoutComparator implements Comparator<Component>, java.io.Serializable {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss LbyoutCompbrbtor implements Compbrbtor<Component>, jbvb.io.Seriblizbble {
 
-    private static final int ROW_TOLERANCE = 10;
+    privbte stbtic finbl int ROW_TOLERANCE = 10;
 
-    private boolean horizontal = true;
-    private boolean leftToRight = true;
+    privbte boolebn horizontbl = true;
+    privbte boolebn leftToRight = true;
 
-    void setComponentOrientation(ComponentOrientation orientation) {
-        horizontal = orientation.isHorizontal();
-        leftToRight = orientation.isLeftToRight();
+    void setComponentOrientbtion(ComponentOrientbtion orientbtion) {
+        horizontbl = orientbtion.isHorizontbl();
+        leftToRight = orientbtion.isLeftToRight();
     }
 
-    public int compare(Component a, Component b) {
-        if (a == b) {
+    public int compbre(Component b, Component b) {
+        if (b == b) {
             return 0;
         }
 
-        // Row/Column algorithm only applies to siblings. If 'a' and 'b'
-        // aren't siblings, then we need to find their most inferior
-        // ancestors which share a parent. Compute the ancestory lists for
-        // each Component and then search from the Window down until the
-        // hierarchy branches.
-        if (a.getParent() != b.getParent()) {
-            LinkedList<Component> aAncestory = new LinkedList<Component>();
+        // Row/Column blgorithm only bpplies to siblings. If 'b' bnd 'b'
+        // bren't siblings, then we need to find their most inferior
+        // bncestors which shbre b pbrent. Compute the bncestory lists for
+        // ebch Component bnd then sebrch from the Window down until the
+        // hierbrchy brbnches.
+        if (b.getPbrent() != b.getPbrent()) {
+            LinkedList<Component> bAncestory = new LinkedList<Component>();
 
-            for(; a != null; a = a.getParent()) {
-                aAncestory.add(a);
-                if (a instanceof Window) {
-                    break;
+            for(; b != null; b = b.getPbrent()) {
+                bAncestory.bdd(b);
+                if (b instbnceof Window) {
+                    brebk;
                 }
             }
-            if (a == null) {
-                // 'a' is not part of a Window hierarchy. Can't cope.
-                throw new ClassCastException();
+            if (b == null) {
+                // 'b' is not pbrt of b Window hierbrchy. Cbn't cope.
+                throw new ClbssCbstException();
             }
 
             LinkedList<Component> bAncestory = new LinkedList<Component>();
 
-            for(; b != null; b = b.getParent()) {
-                bAncestory.add(b);
-                if (b instanceof Window) {
-                    break;
+            for(; b != null; b = b.getPbrent()) {
+                bAncestory.bdd(b);
+                if (b instbnceof Window) {
+                    brebk;
                 }
             }
             if (b == null) {
-                // 'b' is not part of a Window hierarchy. Can't cope.
-                throw new ClassCastException();
+                // 'b' is not pbrt of b Window hierbrchy. Cbn't cope.
+                throw new ClbssCbstException();
             }
 
-            for (ListIterator<Component>
-                     aIter = aAncestory.listIterator(aAncestory.size()),
-                     bIter = bAncestory.listIterator(bAncestory.size()); ;) {
-                if (aIter.hasPrevious()) {
-                    a = aIter.previous();
+            for (ListIterbtor<Component>
+                     bIter = bAncestory.listIterbtor(bAncestory.size()),
+                     bIter = bAncestory.listIterbtor(bAncestory.size()); ;) {
+                if (bIter.hbsPrevious()) {
+                    b = bIter.previous();
                 } else {
-                    // a is an ancestor of b
+                    // b is bn bncestor of b
                     return -1;
                 }
 
-                if (bIter.hasPrevious()) {
+                if (bIter.hbsPrevious()) {
                     b = bIter.previous();
                 } else {
-                    // b is an ancestor of a
+                    // b is bn bncestor of b
                     return 1;
                 }
 
-                if (a != b) {
-                    break;
+                if (b != b) {
+                    brebk;
                 }
             }
         }
 
-        int ax = a.getX(), ay = a.getY(), bx = b.getX(), by = b.getY();
+        int bx = b.getX(), by = b.getY(), bx = b.getX(), by = b.getY();
 
-        int zOrder = a.getParent().getComponentZOrder(a) - b.getParent().getComponentZOrder(b);
-        if (horizontal) {
+        int zOrder = b.getPbrent().getComponentZOrder(b) - b.getPbrent().getComponentZOrder(b);
+        if (horizontbl) {
             if (leftToRight) {
 
-                // LT - Western Europe (optional for Japanese, Chinese, Korean)
+                // LT - Western Europe (optionbl for Jbpbnese, Chinese, Korebn)
 
-                if (Math.abs(ay - by) < ROW_TOLERANCE) {
-                    return (ax < bx) ? -1 : ((ax > bx) ? 1 : zOrder);
+                if (Mbth.bbs(by - by) < ROW_TOLERANCE) {
+                    return (bx < bx) ? -1 : ((bx > bx) ? 1 : zOrder);
                 } else {
-                    return (ay < by) ? -1 : 1;
+                    return (by < by) ? -1 : 1;
                 }
             } else { // !leftToRight
 
-                // RT - Middle East (Arabic, Hebrew)
+                // RT - Middle Ebst (Arbbic, Hebrew)
 
-                if (Math.abs(ay - by) < ROW_TOLERANCE) {
-                    return (ax > bx) ? -1 : ((ax < bx) ? 1 : zOrder);
+                if (Mbth.bbs(by - by) < ROW_TOLERANCE) {
+                    return (bx > bx) ? -1 : ((bx < bx) ? 1 : zOrder);
                 } else {
-                    return (ay < by) ? -1 : 1;
+                    return (by < by) ? -1 : 1;
                 }
             }
-        } else { // !horizontal
+        } else { // !horizontbl
             if (leftToRight) {
 
-                // TL - Mongolian
+                // TL - Mongolibn
 
-                if (Math.abs(ax - bx) < ROW_TOLERANCE) {
-                    return (ay < by) ? -1 : ((ay > by) ? 1 : zOrder);
+                if (Mbth.bbs(bx - bx) < ROW_TOLERANCE) {
+                    return (by < by) ? -1 : ((by > by) ? 1 : zOrder);
                 } else {
-                    return (ax < bx) ? -1 : 1;
+                    return (bx < bx) ? -1 : 1;
                 }
             } else { // !leftToRight
 
-                // TR - Japanese, Chinese, Korean
+                // TR - Jbpbnese, Chinese, Korebn
 
-                if (Math.abs(ax - bx) < ROW_TOLERANCE) {
-                    return (ay < by) ? -1 : ((ay > by) ? 1 : zOrder);
+                if (Mbth.bbs(bx - bx) < ROW_TOLERANCE) {
+                    return (by < by) ? -1 : ((by > by) ? 1 : zOrder);
                 } else {
-                    return (ax > bx) ? -1 : 1;
+                    return (bx > bx) ? -1 : 1;
                 }
             }
         }

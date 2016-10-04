@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import static java.nio.file.StandardOpenOption.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.io.IOException;
-import java.util.*;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import stbtic jbvb.nio.file.StbndbrdOpenOption.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows emulation of NamedAttributeView using Alternative Data Streams
+ * Windows emulbtion of NbmedAttributeView using Alternbtive Dbtb Strebms
  */
 
-class WindowsUserDefinedFileAttributeView
-    extends AbstractUserDefinedFileAttributeView
+clbss WindowsUserDefinedFileAttributeView
+    extends AbstrbctUserDefinedFileAttributeView
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    // syntax to address named streams
-    private String join(String file, String name) {
-        if (name == null)
-            throw new NullPointerException("'name' is null");
-        return file + ":" + name;
+    // syntbx to bddress nbmed strebms
+    privbte String join(String file, String nbme) {
+        if (nbme == null)
+            throw new NullPointerException("'nbme' is null");
+        return file + ":" + nbme;
     }
-    private String join(WindowsPath file, String name) throws WindowsException {
-        return join(file.getPathForWin32Calls(), name);
+    privbte String join(WindowsPbth file, String nbme) throws WindowsException {
+        return join(file.getPbthForWin32Cblls(), nbme);
     }
 
-    private final WindowsPath file;
-    private final boolean followLinks;
+    privbte finbl WindowsPbth file;
+    privbte finbl boolebn followLinks;
 
-    WindowsUserDefinedFileAttributeView(WindowsPath file, boolean followLinks) {
+    WindowsUserDefinedFileAttributeView(WindowsPbth file, boolebn followLinks) {
         this.file = file;
         this.followLinks = followLinks;
     }
 
-    // enumerates the file streams using FindFirstStream/FindNextStream APIs.
-    private List<String> listUsingStreamEnumeration() throws IOException {
-        List<String> list = new ArrayList<>();
+    // enumerbtes the file strebms using FindFirstStrebm/FindNextStrebm APIs.
+    privbte List<String> listUsingStrebmEnumerbtion() throws IOException {
+        List<String> list = new ArrbyList<>();
         try {
-            FirstStream first = FindFirstStream(file.getPathForWin32Calls());
+            FirstStrebm first = FindFirstStrebm(file.getPbthForWin32Cblls());
             if (first != null) {
-                long handle = first.handle();
+                long hbndle = first.hbndle();
                 try {
-                    // first stream is always ::$DATA for files
-                    String name = first.name();
-                    if (!name.equals("::$DATA")) {
-                        String[] segs = name.split(":");
-                        list.add(segs[1]);
+                    // first strebm is blwbys ::$DATA for files
+                    String nbme = first.nbme();
+                    if (!nbme.equbls("::$DATA")) {
+                        String[] segs = nbme.split(":");
+                        list.bdd(segs[1]);
                     }
-                    while ((name = FindNextStream(handle)) != null) {
-                        String[] segs = name.split(":");
-                        list.add(segs[1]);
+                    while ((nbme = FindNextStrebm(hbndle)) != null) {
+                        String[] segs = nbme.split(":");
+                        list.bdd(segs[1]);
                     }
-                } finally {
-                    FindClose(handle);
+                } finblly {
+                    FindClose(hbndle);
                 }
             }
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
         }
-        return Collections.unmodifiableList(list);
+        return Collections.unmodifibbleList(list);
     }
 
-    // enumerates the file streams by reading the stream headers using
-    // BackupRead
-    private List<String> listUsingBackupRead() throws IOException {
-        long handle = -1L;
+    // enumerbtes the file strebms by rebding the strebm hebders using
+    // BbckupRebd
+    privbte List<String> listUsingBbckupRebd() throws IOException {
+        long hbndle = -1L;
         try {
-            int flags = FILE_FLAG_BACKUP_SEMANTICS;
+            int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
             if (!followLinks && file.getFileSystem().supportsLinks())
-                flags |= FILE_FLAG_OPEN_REPARSE_POINT;
+                flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
 
-            handle = CreateFile(file.getPathForWin32Calls(),
+            hbndle = CrebteFile(file.getPbthForWin32Cblls(),
                                 GENERIC_READ,
-                                FILE_SHARE_READ, // no write as we depend on file size
+                                FILE_SHARE_READ, // no write bs we depend on file size
                                 OPEN_EXISTING,
-                                flags);
-        } catch (WindowsException x) {
+                                flbgs);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
         }
 
-        // buffer to read stream header and stream name.
-        final int BUFFER_SIZE = 4096;
-        NativeBuffer buffer = null;
+        // buffer to rebd strebm hebder bnd strebm nbme.
+        finbl int BUFFER_SIZE = 4096;
+        NbtiveBuffer buffer = null;
 
-        // result with names of alternative data streams
-        final List<String> list = new ArrayList<>();
+        // result with nbmes of blternbtive dbtb strebms
+        finbl List<String> list = new ArrbyList<>();
 
         try {
-            buffer = NativeBuffers.getNativeBuffer(BUFFER_SIZE);
-            long address = buffer.address();
+            buffer = NbtiveBuffers.getNbtiveBuffer(BUFFER_SIZE);
+            long bddress = buffer.bddress();
 
             /**
              * typedef struct _WIN32_STREAM_ID {
-             *     DWORD dwStreamId;
-             *     DWORD dwStreamAttributes;
+             *     DWORD dwStrebmId;
+             *     DWORD dwStrebmAttributes;
              *     LARGE_INTEGER Size;
-             *     DWORD dwStreamNameSize;
-             *     WCHAR cStreamName[ANYSIZE_ARRAY];
+             *     DWORD dwStrebmNbmeSize;
+             *     WCHAR cStrebmNbme[ANYSIZE_ARRAY];
              * } WIN32_STREAM_ID;
              */
-            final int SIZEOF_STREAM_HEADER      = 20;
-            final int OFFSETOF_STREAM_ID        = 0;
-            final int OFFSETOF_STREAM_SIZE      = 8;
-            final int OFFSETOF_STREAM_NAME_SIZE = 16;
+            finbl int SIZEOF_STREAM_HEADER      = 20;
+            finbl int OFFSETOF_STREAM_ID        = 0;
+            finbl int OFFSETOF_STREAM_SIZE      = 8;
+            finbl int OFFSETOF_STREAM_NAME_SIZE = 16;
 
             long context = 0L;
             try {
                 for (;;) {
-                    // read stream header
-                    BackupResult result = BackupRead(handle, address,
-                       SIZEOF_STREAM_HEADER, false, context);
+                    // rebd strebm hebder
+                    BbckupResult result = BbckupRebd(hbndle, bddress,
+                       SIZEOF_STREAM_HEADER, fblse, context);
                     context = result.context();
-                    if (result.bytesTransferred() == 0)
-                        break;
+                    if (result.bytesTrbnsferred() == 0)
+                        brebk;
 
-                    int streamId = unsafe.getInt(address + OFFSETOF_STREAM_ID);
-                    long streamSize = unsafe.getLong(address + OFFSETOF_STREAM_SIZE);
-                    int nameSize = unsafe.getInt(address + OFFSETOF_STREAM_NAME_SIZE);
+                    int strebmId = unsbfe.getInt(bddress + OFFSETOF_STREAM_ID);
+                    long strebmSize = unsbfe.getLong(bddress + OFFSETOF_STREAM_SIZE);
+                    int nbmeSize = unsbfe.getInt(bddress + OFFSETOF_STREAM_NAME_SIZE);
 
-                    // read stream name
-                    if (nameSize > 0) {
-                        result = BackupRead(handle, address, nameSize, false, context);
-                        if (result.bytesTransferred() != nameSize)
-                            break;
+                    // rebd strebm nbme
+                    if (nbmeSize > 0) {
+                        result = BbckupRebd(hbndle, bddress, nbmeSize, fblse, context);
+                        if (result.bytesTrbnsferred() != nbmeSize)
+                            brebk;
                     }
 
-                    // check for alternative data stream
-                    if (streamId == BACKUP_ALTERNATE_DATA) {
-                        char[] nameAsArray = new char[nameSize/2];
-                        unsafe.copyMemory(null, address, nameAsArray,
-                            Unsafe.ARRAY_CHAR_BASE_OFFSET, nameSize);
+                    // check for blternbtive dbtb strebm
+                    if (strebmId == BACKUP_ALTERNATE_DATA) {
+                        chbr[] nbmeAsArrby = new chbr[nbmeSize/2];
+                        unsbfe.copyMemory(null, bddress, nbmeAsArrby,
+                            Unsbfe.ARRAY_CHAR_BASE_OFFSET, nbmeSize);
 
-                        String[] segs = new String(nameAsArray).split(":");
+                        String[] segs = new String(nbmeAsArrby).split(":");
                         if (segs.length == 3)
-                            list.add(segs[1]);
+                            list.bdd(segs[1]);
                     }
 
-                    // sparse blocks not currently handled as documentation
-                    // is not sufficient on how the spase block can be skipped.
-                    if (streamId == BACKUP_SPARSE_BLOCK) {
-                        throw new IOException("Spare blocks not handled");
+                    // spbrse blocks not currently hbndled bs documentbtion
+                    // is not sufficient on how the spbse block cbn be skipped.
+                    if (strebmId == BACKUP_SPARSE_BLOCK) {
+                        throw new IOException("Spbre blocks not hbndled");
                     }
 
-                    // seek to end of stream
-                    if (streamSize > 0L) {
-                        BackupSeek(handle, streamSize, context);
+                    // seek to end of strebm
+                    if (strebmSize > 0L) {
+                        BbckupSeek(hbndle, strebmSize, context);
                     }
                 }
-            } catch (WindowsException x) {
-                // failed to read or seek
+            } cbtch (WindowsException x) {
+                // fbiled to rebd or seek
                 throw new IOException(x.errorString());
-            } finally {
-                // release context
+            } finblly {
+                // relebse context
                 if (context != 0L) {
                    try {
-                       BackupRead(handle, 0L, 0, true, context);
-                   } catch (WindowsException ignore) { }
+                       BbckupRebd(hbndle, 0L, 0, true, context);
+                   } cbtch (WindowsException ignore) { }
                 }
             }
-        } finally {
+        } finblly {
             if (buffer != null)
-                buffer.release();
-            CloseHandle(handle);
+                buffer.relebse();
+            CloseHbndle(hbndle);
         }
-        return Collections.unmodifiableList(list);
+        return Collections.unmodifibbleList(list);
     }
 
     @Override
     public List<String> list() throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
-        // use stream APIs on Windows Server 2003 and newer
-        if (file.getFileSystem().supportsStreamEnumeration()) {
-            return listUsingStreamEnumeration();
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
+        // use strebm APIs on Windows Server 2003 bnd newer
+        if (file.getFileSystem().supportsStrebmEnumerbtion()) {
+            return listUsingStrebmEnumerbtion();
         } else {
-            return listUsingBackupRead();
+            return listUsingBbckupRebd();
         }
     }
 
     @Override
-    public int size(String name) throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int size(String nbme) throws IOException  {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
-        // wrap with channel
-        FileChannel fc = null;
+        // wrbp with chbnnel
+        FileChbnnel fc = null;
         try {
-            Set<OpenOption> opts = new HashSet<>();
-            opts.add(READ);
+            Set<OpenOption> opts = new HbshSet<>();
+            opts.bdd(READ);
             if (!followLinks)
-                opts.add(WindowsChannelFactory.OPEN_REPARSE_POINT);
-            fc = WindowsChannelFactory
-                .newFileChannel(join(file, name), null, opts, 0L);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(join(file.getPathForPermissionCheck(), name));
+                opts.bdd(WindowsChbnnelFbctory.OPEN_REPARSE_POINT);
+            fc = WindowsChbnnelFbctory
+                .newFileChbnnel(join(file, nbme), null, opts, 0L);
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(join(file.getPbthForPermissionCheck(), nbme));
         }
         try {
             long size = fc.size();
             if (size > Integer.MAX_VALUE)
-                throw new ArithmeticException("Stream too large");
+                throw new ArithmeticException("Strebm too lbrge");
             return (int)size;
-        } finally {
+        } finblly {
             fc.close();
         }
     }
 
     @Override
-    public int read(String name, ByteBuffer dst) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int rebd(String nbme, ByteBuffer dst) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
-        // wrap with channel
-        FileChannel fc = null;
+        // wrbp with chbnnel
+        FileChbnnel fc = null;
         try {
-            Set<OpenOption> opts = new HashSet<>();
-            opts.add(READ);
+            Set<OpenOption> opts = new HbshSet<>();
+            opts.bdd(READ);
             if (!followLinks)
-                opts.add(WindowsChannelFactory.OPEN_REPARSE_POINT);
-            fc = WindowsChannelFactory
-                .newFileChannel(join(file, name), null, opts, 0L);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(join(file.getPathForPermissionCheck(), name));
+                opts.bdd(WindowsChbnnelFbctory.OPEN_REPARSE_POINT);
+            fc = WindowsChbnnelFbctory
+                .newFileChbnnel(join(file, nbme), null, opts, 0L);
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(join(file.getPbthForPermissionCheck(), nbme));
         }
 
-        // read to EOF (nothing we can do if I/O error occurs)
+        // rebd to EOF (nothing we cbn do if I/O error occurs)
         try {
-            if (fc.size() > dst.remaining())
-                throw new IOException("Stream too large");
-            int total = 0;
-            while (dst.hasRemaining()) {
-                int n = fc.read(dst);
+            if (fc.size() > dst.rembining())
+                throw new IOException("Strebm too lbrge");
+            int totbl = 0;
+            while (dst.hbsRembining()) {
+                int n = fc.rebd(dst);
                 if (n < 0)
-                    break;
-                total += n;
+                    brebk;
+                totbl += n;
             }
-            return total;
-        } finally {
+            return totbl;
+        } finblly {
             fc.close();
         }
     }
 
     @Override
-    public int write(String name, ByteBuffer src) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public int write(String nbme, ByteBuffer src) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
         /**
-         * Creating a named stream will cause the unnamed stream to be created
-         * if it doesn't already exist. To avoid this we open the unnamed stream
-         * for reading and hope it isn't deleted/moved while we create or
-         * replace the named stream. Opening the file without sharing options
-         * may cause sharing violations with other programs that are accessing
-         * the unnamed stream.
+         * Crebting b nbmed strebm will cbuse the unnbmed strebm to be crebted
+         * if it doesn't blrebdy exist. To bvoid this we open the unnbmed strebm
+         * for rebding bnd hope it isn't deleted/moved while we crebte or
+         * replbce the nbmed strebm. Opening the file without shbring options
+         * mby cbuse shbring violbtions with other progrbms thbt bre bccessing
+         * the unnbmed strebm.
          */
-        long handle = -1L;
+        long hbndle = -1L;
         try {
-            int flags = FILE_FLAG_BACKUP_SEMANTICS;
+            int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
             if (!followLinks)
-                flags |= FILE_FLAG_OPEN_REPARSE_POINT;
+                flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
 
-            handle = CreateFile(file.getPathForWin32Calls(),
+            hbndle = CrebteFile(file.getPbthForWin32Cblls(),
                                 GENERIC_READ,
                                 (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                                 OPEN_EXISTING,
-                                flags);
-        } catch (WindowsException x) {
+                                flbgs);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
         }
         try {
-            Set<OpenOption> opts = new HashSet<>();
+            Set<OpenOption> opts = new HbshSet<>();
             if (!followLinks)
-                opts.add(WindowsChannelFactory.OPEN_REPARSE_POINT);
-            opts.add(CREATE);
-            opts.add(WRITE);
-            opts.add(StandardOpenOption.TRUNCATE_EXISTING);
-            FileChannel named = null;
+                opts.bdd(WindowsChbnnelFbctory.OPEN_REPARSE_POINT);
+            opts.bdd(CREATE);
+            opts.bdd(WRITE);
+            opts.bdd(StbndbrdOpenOption.TRUNCATE_EXISTING);
+            FileChbnnel nbmed = null;
             try {
-                named = WindowsChannelFactory
-                    .newFileChannel(join(file, name), null, opts, 0L);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(join(file.getPathForPermissionCheck(), name));
+                nbmed = WindowsChbnnelFbctory
+                    .newFileChbnnel(join(file, nbme), null, opts, 0L);
+            } cbtch (WindowsException x) {
+                x.rethrowAsIOException(join(file.getPbthForPermissionCheck(), nbme));
             }
-            // write value (nothing we can do if I/O error occurs)
+            // write vblue (nothing we cbn do if I/O error occurs)
             try {
-                int rem = src.remaining();
-                while (src.hasRemaining()) {
-                    named.write(src);
+                int rem = src.rembining();
+                while (src.hbsRembining()) {
+                    nbmed.write(src);
                 }
                 return rem;
-            } finally {
-                named.close();
+            } finblly {
+                nbmed.close();
             }
-        } finally {
-            CloseHandle(handle);
+        } finblly {
+            CloseHbndle(hbndle);
         }
     }
 
     @Override
-    public void delete(String name) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public void delete(String nbme) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
-        String toDelete = join(path, name);
+        String pbth = WindowsLinkSupport.getFinblPbth(file, followLinks);
+        String toDelete = join(pbth, nbme);
         try {
             DeleteFile(toDelete);
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(toDelete);
         }
     }

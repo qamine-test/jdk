@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.util.HashMap;
+import jbvb.util.HbshMbp;
 
-public class CCharToGlyphMapper extends CharToGlyphMapper {
-    private static native int countGlyphs(final long nativeFontPtr);
+public clbss CChbrToGlyphMbpper extends ChbrToGlyphMbpper {
+    privbte stbtic nbtive int countGlyphs(finbl long nbtiveFontPtr);
 
-    private Cache cache = new Cache();
+    privbte Cbche cbche = new Cbche();
     CFont fFont;
     int numGlyphs = -1;
 
-    public CCharToGlyphMapper(CFont font) {
+    public CChbrToGlyphMbpper(CFont font) {
         fFont = font;
         missingGlyph = 0; // for getMissingGlyphCode()
     }
 
     public int getNumGlyphs() {
         if (numGlyphs == -1) {
-            numGlyphs = countGlyphs(fFont.getNativeFontPtr());
+            numGlyphs = countGlyphs(fFont.getNbtiveFontPtr());
         }
         return numGlyphs;
     }
 
-    public boolean canDisplay(char ch) {
-        int glyph = charToGlyph(ch);
+    public boolebn cbnDisplby(chbr ch) {
+        int glyph = chbrToGlyph(ch);
         return glyph != missingGlyph;
     }
 
-    public boolean canDisplay(int cp) {
-        int glyph = charToGlyph(cp);
+    public boolebn cbnDisplby(int cp) {
+        int glyph = chbrToGlyph(cp);
         return glyph != missingGlyph;
     }
 
-    public synchronized boolean charsToGlyphsNS(int count,
-                                                char[] unicodes, int[] glyphs)
+    public synchronized boolebn chbrsToGlyphsNS(int count,
+                                                chbr[] unicodes, int[] glyphs)
     {
-        charsToGlyphs(count, unicodes, glyphs);
+        chbrsToGlyphs(count, unicodes, glyphs);
 
-        // The following shaping checks are from either
-        // TrueTypeGlyphMapper or Type1GlyphMapper
+        // The following shbping checks bre from either
+        // TrueTypeGlyphMbpper or Type1GlyphMbpper
         for (int i = 0; i < count; i++) {
             int code = unicodes[i];
 
             if (code >= HI_SURROGATE_START && code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
                     code = (code - HI_SURROGATE_START) * 0x400 + low - LO_SURROGATE_START + 0x10000;
@@ -81,214 +81,214 @@ public class CCharToGlyphMapper extends CharToGlyphMapper {
                 // Hebrew 0x0590->0x05ff
                 return true;
             } else if (code >= 0x0600 && code <= 0x06ff) {
-                // Arabic
+                // Arbbic
                 return true;
             } else if (code >= 0x0900 && code <= 0x0d7f) {
-                // if Indic, assume shaping for conjuncts, reordering:
-                // 0900 - 097F Devanagari
-                // 0980 - 09FF Bengali
+                // if Indic, bssume shbping for conjuncts, reordering:
+                // 0900 - 097F Devbnbgbri
+                // 0980 - 09FF Bengbli
                 // 0A00 - 0A7F Gurmukhi
-                // 0A80 - 0AFF Gujarati
-                // 0B00 - 0B7F Oriya
-                // 0B80 - 0BFF Tamil
+                // 0A80 - 0AFF Gujbrbti
+                // 0B00 - 0B7F Oriyb
+                // 0B80 - 0BFF Tbmil
                 // 0C00 - 0C7F Telugu
-                // 0C80 - 0CFF Kannada
-                // 0D00 - 0D7F Malayalam
+                // 0C80 - 0CFF Kbnnbdb
+                // 0D00 - 0D7F Mblbyblbm
                 return true;
             } else if (code >= 0x0e00 && code <= 0x0e7f) {
-                // if Thai, assume shaping for vowel, tone marks
+                // if Thbi, bssume shbping for vowel, tone mbrks
                 return true;
             } else if (code >= 0x200c && code <= 0x200d) {
                 // zwj or zwnj
                 return true;
-            } else if (code >= 0x202a && code <= 0x202e) {
-                // directional control
+            } else if (code >= 0x202b && code <= 0x202e) {
+                // directionbl control
                 return true;
-            } else if (code >= 0x206a && code <= 0x206f) {
-                // directional control
+            } else if (code >= 0x206b && code <= 0x206f) {
+                // directionbl control
                 return true;
             } else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+                i += 1; // Empty glyph slot bfter surrogbte
                 continue;
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    public synchronized int charToGlyph(char unicode) {
-        final int glyph = cache.get(unicode);
+    public synchronized int chbrToGlyph(chbr unicode) {
+        finbl int glyph = cbche.get(unicode);
         if (glyph != 0) return glyph;
 
-        final char[] unicodeArray = new char[] { unicode };
-        final int[] glyphArray = new int[1];
+        finbl chbr[] unicodeArrby = new chbr[] { unicode };
+        finbl int[] glyphArrby = new int[1];
 
-        nativeCharsToGlyphs(fFont.getNativeFontPtr(), 1, unicodeArray, glyphArray);
-        cache.put(unicode, glyphArray[0]);
+        nbtiveChbrsToGlyphs(fFont.getNbtiveFontPtr(), 1, unicodeArrby, glyphArrby);
+        cbche.put(unicode, glyphArrby[0]);
 
-        return glyphArray[0];
+        return glyphArrby[0];
     }
 
-    public synchronized int charToGlyph(int unicode) {
+    public synchronized int chbrToGlyph(int unicode) {
         if (unicode >= 0x10000) {
             int[] glyphs = new int[2];
-            char[] surrogates = new char[2];
-            int base = unicode - 0x10000;
-            surrogates[0] = (char)((base >>> 10) + HI_SURROGATE_START);
-            surrogates[1] = (char)((base % 0x400) + LO_SURROGATE_START);
-            charsToGlyphs(2, surrogates, glyphs);
+            chbr[] surrogbtes = new chbr[2];
+            int bbse = unicode - 0x10000;
+            surrogbtes[0] = (chbr)((bbse >>> 10) + HI_SURROGATE_START);
+            surrogbtes[1] = (chbr)((bbse % 0x400) + LO_SURROGATE_START);
+            chbrsToGlyphs(2, surrogbtes, glyphs);
             return glyphs[0];
          } else {
-             return charToGlyph((char)unicode);
+             return chbrToGlyph((chbr)unicode);
          }
     }
 
-    public synchronized void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        cache.get(count, unicodes, glyphs);
+    public synchronized void chbrsToGlyphs(int count, chbr[] unicodes, int[] glyphs) {
+        cbche.get(count, unicodes, glyphs);
     }
 
-    public synchronized void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
+    public synchronized void chbrsToGlyphs(int count, int[] unicodes, int[] glyphs) {
         for (int i = 0; i < count; i++) {
-            glyphs[i] = charToGlyph(unicodes[i]);
+            glyphs[i] = chbrToGlyph(unicodes[i]);
         };
     }
 
-    // This mapper returns either the glyph code, or if the character can be
-    // replaced on-the-fly using CoreText substitution; the negative unicode
-    // value. If this "glyph code int" is treated as an opaque code, it will
-    // strike and measure exactly as a real glyph code - whether the character
-    // is present or not. Missing characters for any font on the system will
-    // be returned as 0, as the getMissingGlyphCode() function above indicates.
-    private static native void nativeCharsToGlyphs(final long nativeFontPtr,
-                                                   int count, char[] unicodes,
+    // This mbpper returns either the glyph code, or if the chbrbcter cbn be
+    // replbced on-the-fly using CoreText substitution; the negbtive unicode
+    // vblue. If this "glyph code int" is trebted bs bn opbque code, it will
+    // strike bnd mebsure exbctly bs b rebl glyph code - whether the chbrbcter
+    // is present or not. Missing chbrbcters for bny font on the system will
+    // be returned bs 0, bs the getMissingGlyphCode() function bbove indicbtes.
+    privbte stbtic nbtive void nbtiveChbrsToGlyphs(finbl long nbtiveFontPtr,
+                                                   int count, chbr[] unicodes,
                                                    int[] glyphs);
 
-    private class Cache {
-        private static final int FIRST_LAYER_SIZE = 256;
-        private static final int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
+    privbte clbss Cbche {
+        privbte stbtic finbl int FIRST_LAYER_SIZE = 256;
+        privbte stbtic finbl int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
 
-        private final int[] firstLayerCache = new int[FIRST_LAYER_SIZE];
-        private SparseBitShiftingTwoLayerArray secondLayerCache;
-        private HashMap<Integer, Integer> generalCache;
+        privbte finbl int[] firstLbyerCbche = new int[FIRST_LAYER_SIZE];
+        privbte SpbrseBitShiftingTwoLbyerArrby secondLbyerCbche;
+        privbte HbshMbp<Integer, Integer> generblCbche;
 
-        Cache() {
-            // <rdar://problem/5331678> need to prevent getting '-1' stuck in the cache
-            firstLayerCache[1] = 1;
+        Cbche() {
+            // <rdbr://problem/5331678> need to prevent getting '-1' stuck in the cbche
+            firstLbyerCbche[1] = 1;
         }
 
-        public synchronized int get(final int index) {
+        public synchronized int get(finbl int index) {
             if (index < FIRST_LAYER_SIZE) {
-                // catch common glyphcodes
-                return firstLayerCache[index];
+                // cbtch common glyphcodes
+                return firstLbyerCbche[index];
             }
 
             if (index < SECOND_LAYER_SIZE) {
-                // catch common unicodes
-                if (secondLayerCache == null) return 0;
-                return secondLayerCache.get(index);
+                // cbtch common unicodes
+                if (secondLbyerCbche == null) return 0;
+                return secondLbyerCbche.get(index);
             }
 
-            if (generalCache == null) return 0;
-            final Integer value = generalCache.get(index);
-            if (value == null) return 0;
-            return value.intValue();
+            if (generblCbche == null) return 0;
+            finbl Integer vblue = generblCbche.get(index);
+            if (vblue == null) return 0;
+            return vblue.intVblue();
         }
 
-        public synchronized void put(final int index, final int value) {
+        public synchronized void put(finbl int index, finbl int vblue) {
             if (index < FIRST_LAYER_SIZE) {
-                // catch common glyphcodes
-                firstLayerCache[index] = value;
+                // cbtch common glyphcodes
+                firstLbyerCbche[index] = vblue;
                 return;
             }
 
             if (index < SECOND_LAYER_SIZE) {
-                // catch common unicodes
-                if (secondLayerCache == null) {
-                    secondLayerCache = new SparseBitShiftingTwoLayerArray(SECOND_LAYER_SIZE, 7); // 128x128
+                // cbtch common unicodes
+                if (secondLbyerCbche == null) {
+                    secondLbyerCbche = new SpbrseBitShiftingTwoLbyerArrby(SECOND_LAYER_SIZE, 7); // 128x128
                 }
-                secondLayerCache.put(index, value);
+                secondLbyerCbche.put(index, vblue);
                 return;
             }
 
-            if (generalCache == null) {
-                generalCache = new HashMap<Integer, Integer>();
+            if (generblCbche == null) {
+                generblCbche = new HbshMbp<Integer, Integer>();
             }
 
-            generalCache.put(index, value);
+            generblCbche.put(index, vblue);
         }
 
-        private class SparseBitShiftingTwoLayerArray {
-            final int[][] cache;
-            final int shift;
-            final int secondLayerLength;
+        privbte clbss SpbrseBitShiftingTwoLbyerArrby {
+            finbl int[][] cbche;
+            finbl int shift;
+            finbl int secondLbyerLength;
 
-            public SparseBitShiftingTwoLayerArray(final int size,
-                                                  final int shift)
+            public SpbrseBitShiftingTwoLbyerArrby(finbl int size,
+                                                  finbl int shift)
             {
                 this.shift = shift;
-                this.cache = new int[1 << shift][];
-                this.secondLayerLength = size >> shift;
+                this.cbche = new int[1 << shift][];
+                this.secondLbyerLength = size >> shift;
             }
 
-            public int get(final int index) {
-                final int firstIndex = index >> shift;
-                final int[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) return 0;
-                return firstLayerRow[index - (firstIndex * (1 << shift))];
+            public int get(finbl int index) {
+                finbl int firstIndex = index >> shift;
+                finbl int[] firstLbyerRow = cbche[firstIndex];
+                if (firstLbyerRow == null) return 0;
+                return firstLbyerRow[index - (firstIndex * (1 << shift))];
             }
 
-            public void put(final int index, final int value) {
-                final int firstIndex = index >> shift;
-                int[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) {
-                    cache[firstIndex] = firstLayerRow = new int[secondLayerLength];
+            public void put(finbl int index, finbl int vblue) {
+                finbl int firstIndex = index >> shift;
+                int[] firstLbyerRow = cbche[firstIndex];
+                if (firstLbyerRow == null) {
+                    cbche[firstIndex] = firstLbyerRow = new int[secondLbyerLength];
                 }
-                firstLayerRow[index - (firstIndex * (1 << shift))] = value;
+                firstLbyerRow[index - (firstIndex * (1 << shift))] = vblue;
             }
         }
 
-        public synchronized void get(int count, char[] indicies, int[] values)
+        public synchronized void get(int count, chbr[] indicies, int[] vblues)
         {
-            // "missed" is the count of 'char' that are not mapped.
-            // Surrogates count for 2.
-            // unmappedChars is the unique list of these chars.
-            // unmappedCharIndices is the location in the original array
+            // "missed" is the count of 'chbr' thbt bre not mbpped.
+            // Surrogbtes count for 2.
+            // unmbppedChbrs is the unique list of these chbrs.
+            // unmbppedChbrIndices is the locbtion in the originbl brrby
             int missed = 0;
-            char[] unmappedChars = null;
-            int [] unmappedCharIndices = null;
+            chbr[] unmbppedChbrs = null;
+            int [] unmbppedChbrIndices = null;
 
             for (int i = 0; i < count; i++){
                 int code = indicies[i];
                 if (code >= HI_SURROGATE_START &&
                     code <= HI_SURROGATE_END && i < count - 1)
                 {
-                    char low = indicies[i + 1];
+                    chbr low = indicies[i + 1];
                     if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
                         code = (code - HI_SURROGATE_START) * 0x400 +
                             low - LO_SURROGATE_START + 0x10000;
                     }
                 }
 
-                final int value = get(code);
-                if (value != 0 && value != -1) {
-                    values[i] = value;
+                finbl int vblue = get(code);
+                if (vblue != 0 && vblue != -1) {
+                    vblues[i] = vblue;
                     if (code >= 0x10000) {
-                        values[i+1] = INVISIBLE_GLYPH_ID;
+                        vblues[i+1] = INVISIBLE_GLYPH_ID;
                         i++;
                     }
                 } else {
-                    values[i] = 0;
+                    vblues[i] = 0;
                     put(code, -1);
-                    if (unmappedChars == null) {
-                        // This is likely to be longer than we need,
-                        // but is the simplest and cheapest option.
-                        unmappedChars = new char[indicies.length];
-                        unmappedCharIndices = new int[indicies.length];
+                    if (unmbppedChbrs == null) {
+                        // This is likely to be longer thbn we need,
+                        // but is the simplest bnd chebpest option.
+                        unmbppedChbrs = new chbr[indicies.length];
+                        unmbppedChbrIndices = new int[indicies.length];
                     }
-                    unmappedChars[missed] = indicies[i];
-                    unmappedCharIndices[missed] = i;
-                    if (code >= 0x10000) { // was a surrogate pair
-                        unmappedChars[++missed] = indicies[++i];
+                    unmbppedChbrs[missed] = indicies[i];
+                    unmbppedChbrIndices[missed] = i;
+                    if (code >= 0x10000) { // wbs b surrogbte pbir
+                        unmbppedChbrs[++missed] = indicies[++i];
                     }
                     missed++;
                 }
@@ -298,29 +298,29 @@ public class CCharToGlyphMapper extends CharToGlyphMapper {
                 return;
             }
 
-            final int[] glyphCodes = new int[missed];
+            finbl int[] glyphCodes = new int[missed];
 
-            // bulk call to fill in the unmapped code points.
-            nativeCharsToGlyphs(fFont.getNativeFontPtr(),
-                                missed, unmappedChars, glyphCodes);
+            // bulk cbll to fill in the unmbpped code points.
+            nbtiveChbrsToGlyphs(fFont.getNbtiveFontPtr(),
+                                missed, unmbppedChbrs, glyphCodes);
 
             for (int m = 0; m < missed; m++){
-                int i = unmappedCharIndices[m];
-                int code = unmappedChars[m];
+                int i = unmbppedChbrIndices[m];
+                int code = unmbppedChbrs[m];
                 if (code >= HI_SURROGATE_START &&
                     code <= HI_SURROGATE_END && m < missed - 1)
                 {
-                    char low = indicies[m + 1];
+                    chbr low = indicies[m + 1];
                     if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
                         code = (code - HI_SURROGATE_START) * 0x400 +
                             low - LO_SURROGATE_START + 0x10000;
                     }
                 }
-               values[i] = glyphCodes[m];
-               put(code, values[i]);
+               vblues[i] = glyphCodes[m];
+               put(code, vblues[i]);
                if (code >= 0x10000) {
                    m++;
-                   values[i + 1] = INVISIBLE_GLYPH_ID;
+                   vblues[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
         }

@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * Thrown by methods in {@link Locale} and {@link Locale.Builder} to
- * indicate that an argument is not a well-formed BCP 47 tag.
+ * Thrown by methods in {@link Locble} bnd {@link Locble.Builder} to
+ * indicbte thbt bn brgument is not b well-formed BCP 47 tbg.
  *
- * @see Locale
+ * @see Locble
  * @since 1.7
  */
-public class IllformedLocaleException extends RuntimeException {
+public clbss IllformedLocbleException extends RuntimeException {
 
-    private static final long serialVersionUID = -5245986824925681401L;
+    privbte stbtic finbl long seriblVersionUID = -5245986824925681401L;
 
-    private int _errIdx = -1;
+    privbte int _errIdx = -1;
 
     /**
-     * Constructs a new <code>IllformedLocaleException</code> with no
-     * detail message and -1 as the error index.
+     * Constructs b new <code>IllformedLocbleException</code> with no
+     * detbil messbge bnd -1 bs the error index.
      */
-    public IllformedLocaleException() {
+    public IllformedLocbleException() {
         super();
     }
 
     /**
-     * Constructs a new <code>IllformedLocaleException</code> with the
-     * given message and -1 as the error index.
+     * Constructs b new <code>IllformedLocbleException</code> with the
+     * given messbge bnd -1 bs the error index.
      *
-     * @param message the message
+     * @pbrbm messbge the messbge
      */
-    public IllformedLocaleException(String message) {
-        super(message);
+    public IllformedLocbleException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new <code>IllformedLocaleException</code> with the
-     * given message and the error index.  The error index is the approximate
-     * offset from the start of the ill-formed value to the point where the
-     * parse first detected an error.  A negative error index value indicates
-     * either the error index is not applicable or unknown.
+     * Constructs b new <code>IllformedLocbleException</code> with the
+     * given messbge bnd the error index.  The error index is the bpproximbte
+     * offset from the stbrt of the ill-formed vblue to the point where the
+     * pbrse first detected bn error.  A negbtive error index vblue indicbtes
+     * either the error index is not bpplicbble or unknown.
      *
-     * @param message the message
-     * @param errorIndex the index
+     * @pbrbm messbge the messbge
+     * @pbrbm errorIndex the index
      */
-    public IllformedLocaleException(String message, int errorIndex) {
-        super(message + ((errorIndex < 0) ? "" : " [at index " + errorIndex + "]"));
+    public IllformedLocbleException(String messbge, int errorIndex) {
+        super(messbge + ((errorIndex < 0) ? "" : " [bt index " + errorIndex + "]"));
         _errIdx = errorIndex;
     }
 
     /**
-     * Returns the index where the error was found. A negative value indicates
-     * either the error index is not applicable or unknown.
+     * Returns the index where the error wbs found. A negbtive vblue indicbtes
+     * either the error index is not bpplicbble or unknown.
      *
      * @return the error index
      */

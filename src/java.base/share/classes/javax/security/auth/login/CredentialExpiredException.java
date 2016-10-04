@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.login;
+pbckbge jbvbx.security.buth.login;
 
 /**
- * Signals that a {@code Credential} has expired.
+ * Signbls thbt b {@code Credentibl} hbs expired.
  *
  * <p> This exception is thrown by LoginModules when they determine
- * that a {@code Credential} has expired.
- * For example, a {@code LoginModule} authenticating a user
- * in its {@code login} method may determine that the user's
- * password, although entered correctly, has expired.  In this case
+ * thbt b {@code Credentibl} hbs expired.
+ * For exbmple, b {@code LoginModule} buthenticbting b user
+ * in its {@code login} method mby determine thbt the user's
+ * pbssword, blthough entered correctly, hbs expired.  In this cbse
  * the {@code LoginModule} throws this exception to notify
- * the application.  The application can then take the appropriate
- * steps to assist the user in updating the password.
+ * the bpplicbtion.  The bpplicbtion cbn then tbke the bppropribte
+ * steps to bssist the user in updbting the pbssword.
  *
  */
-public class CredentialExpiredException extends CredentialException {
+public clbss CredentiblExpiredException extends CredentiblException {
 
-    private static final long serialVersionUID = -5344739593859737937L;
+    privbte stbtic finbl long seriblVersionUID = -5344739593859737937L;
 
     /**
-     * Constructs a CredentialExpiredException with no detail message. A detail
-     * message is a String that describes this particular exception.
+     * Constructs b CredentiblExpiredException with no detbil messbge. A detbil
+     * messbge is b String thbt describes this pbrticulbr exception.
      */
-    public CredentialExpiredException() {
+    public CredentiblExpiredException() {
         super();
     }
 
     /**
-     * Constructs a CredentialExpiredException with the specified detail
-     * message.  A detail message is a String that describes this particular
+     * Constructs b CredentiblExpiredException with the specified detbil
+     * messbge.  A detbil messbge is b String thbt describes this pbrticulbr
      * exception.
      *
      * <p>
      *
-     * @param msg the detail message.
+     * @pbrbm msg the detbil messbge.
      */
-    public CredentialExpiredException(String msg) {
+    public CredentiblExpiredException(String msg) {
         super(msg);
     }
 }

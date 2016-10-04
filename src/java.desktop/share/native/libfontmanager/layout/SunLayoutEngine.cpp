@@ -1,197 +1,197 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* Header for class sun_font_SunLayoutEngine */
+/* Hebder for clbss sun_font_SunLbyoutEngine */
 
 #include <jni_util.h>
 #include <stdlib.h>
 
-#include "FontInstanceAdapter.h"
-#include "LayoutEngine.h"
-#include "sun_font_SunLayoutEngine.h"
+#include "FontInstbnceAdbpter.h"
+#include "LbyoutEngine.h"
+#include "sun_font_SunLbyoutEngine.h"
 #include "sunfontids.h"
 
-void getFloat(JNIEnv* env, jobject pt, jfloat &x, jfloat &y) {
-    x = env->GetFloatField(pt, sunFontIDs.xFID);
-    y = env->GetFloatField(pt, sunFontIDs.yFID);
+void getFlobt(JNIEnv* env, jobject pt, jflobt &x, jflobt &y) {
+    x = env->GetFlobtField(pt, sunFontIDs.xFID);
+    y = env->GetFlobtField(pt, sunFontIDs.yFID);
 }
 
-void putFloat(JNIEnv* env, jobject pt, jfloat x, jfloat y) {
-    env->SetFloatField(pt, sunFontIDs.xFID, x);
-    env->SetFloatField(pt, sunFontIDs.yFID, y);
+void putFlobt(JNIEnv* env, jobject pt, jflobt x, jflobt y) {
+    env->SetFlobtField(pt, sunFontIDs.xFID, x);
+    env->SetFlobtField(pt, sunFontIDs.yFID, y);
 }
 
-static jclass gvdClass = 0;
-static const char* gvdClassName = "sun/font/GlyphLayout$GVData";
-static jfieldID gvdCountFID = 0;
-static jfieldID gvdFlagsFID = 0;
-static jfieldID gvdGlyphsFID = 0;
-static jfieldID gvdPositionsFID = 0;
-static jfieldID gvdIndicesFID = 0;
+stbtic jclbss gvdClbss = 0;
+stbtic const chbr* gvdClbssNbme = "sun/font/GlyphLbyout$GVDbtb";
+stbtic jfieldID gvdCountFID = 0;
+stbtic jfieldID gvdFlbgsFID = 0;
+stbtic jfieldID gvdGlyphsFID = 0;
+stbtic jfieldID gvdPositionsFID = 0;
+stbtic jfieldID gvdIndicesFID = 0;
 
 #define TYPO_RTL 0x80000000
 #define TYPO_MASK 0x7
 
 JNIEXPORT void JNICALL
-Java_sun_font_SunLayoutEngine_initGVIDs
-    (JNIEnv *env, jclass cls) {
-    CHECK_NULL(gvdClass = env->FindClass(gvdClassName));
-    CHECK_NULL(gvdClass = (jclass)env->NewGlobalRef(gvdClass));
-    CHECK_NULL(gvdCountFID = env->GetFieldID(gvdClass, "_count", "I"));
-    CHECK_NULL(gvdFlagsFID = env->GetFieldID(gvdClass, "_flags", "I"));
-    CHECK_NULL(gvdGlyphsFID = env->GetFieldID(gvdClass, "_glyphs", "[I"));
-    CHECK_NULL(gvdPositionsFID = env->GetFieldID(gvdClass, "_positions", "[F"));
-    gvdIndicesFID = env->GetFieldID(gvdClass, "_indices", "[I");
+Jbvb_sun_font_SunLbyoutEngine_initGVIDs
+    (JNIEnv *env, jclbss cls) {
+    CHECK_NULL(gvdClbss = env->FindClbss(gvdClbssNbme));
+    CHECK_NULL(gvdClbss = (jclbss)env->NewGlobblRef(gvdClbss));
+    CHECK_NULL(gvdCountFID = env->GetFieldID(gvdClbss, "_count", "I"));
+    CHECK_NULL(gvdFlbgsFID = env->GetFieldID(gvdClbss, "_flbgs", "I"));
+    CHECK_NULL(gvdGlyphsFID = env->GetFieldID(gvdClbss, "_glyphs", "[I"));
+    CHECK_NULL(gvdPositionsFID = env->GetFieldID(gvdClbss, "_positions", "[F"));
+    gvdIndicesFID = env->GetFieldID(gvdClbss, "_indices", "[I");
 }
 
-int putGV(JNIEnv* env, jint gmask, jint baseIndex, jobject gvdata, const LayoutEngine* engine, int glyphCount) {
-    int count = env->GetIntField(gvdata, gvdCountFID);
+int putGV(JNIEnv* env, jint gmbsk, jint bbseIndex, jobject gvdbtb, const LbyoutEngine* engine, int glyphCount) {
+    int count = env->GetIntField(gvdbtb, gvdCountFID);
     if (count < 0) {
-      JNU_ThrowInternalError(env, "count negative");
+      JNU_ThrowInternblError(env, "count negbtive");
       return 0;
     }
 
-    jarray glyphArray = (jarray)env->GetObjectField(gvdata, gvdGlyphsFID);
-    if (IS_NULL(glyphArray)) {
-      JNU_ThrowInternalError(env, "glypharray null");
+    jbrrby glyphArrby = (jbrrby)env->GetObjectField(gvdbtb, gvdGlyphsFID);
+    if (IS_NULL(glyphArrby)) {
+      JNU_ThrowInternblError(env, "glyphbrrby null");
       return 0;
     }
-    jint capacity = env->GetArrayLength(glyphArray);
-    if (count + glyphCount > capacity) {
-      JNU_ThrowArrayIndexOutOfBoundsException(env, "");
-      return 0;
-    }
-
-    jarray posArray = (jarray)env->GetObjectField(gvdata, gvdPositionsFID);
-    if (IS_NULL(glyphArray)) {
-      JNU_ThrowInternalError(env, "positions array null");
-      return 0;
-    }
-    jarray inxArray = (jarray)env->GetObjectField(gvdata, gvdIndicesFID);
-    if (IS_NULL(inxArray)) {
-      JNU_ThrowInternalError(env, "indices array null");
+    jint cbpbcity = env->GetArrbyLength(glyphArrby);
+    if (count + glyphCount > cbpbcity) {
+      JNU_ThrowArrbyIndexOutOfBoundsException(env, "");
       return 0;
     }
 
-    int countDelta = 0;
+    jbrrby posArrby = (jbrrby)env->GetObjectField(gvdbtb, gvdPositionsFID);
+    if (IS_NULL(glyphArrby)) {
+      JNU_ThrowInternblError(env, "positions brrby null");
+      return 0;
+    }
+    jbrrby inxArrby = (jbrrby)env->GetObjectField(gvdbtb, gvdIndicesFID);
+    if (IS_NULL(inxArrby)) {
+      JNU_ThrowInternblError(env, "indices brrby null");
+      return 0;
+    }
 
-    // le_uint32 is the same size as jint... forever, we hope
-    le_uint32* glyphs = (le_uint32*)env->GetPrimitiveArrayCritical(glyphArray, NULL);
+    int countDeltb = 0;
+
+    // le_uint32 is the sbme size bs jint... forever, we hope
+    le_uint32* glyphs = (le_uint32*)env->GetPrimitiveArrbyCriticbl(glyphArrby, NULL);
     if (glyphs) {
-      jfloat* positions = (jfloat*)env->GetPrimitiveArrayCritical(posArray, NULL);
+      jflobt* positions = (jflobt*)env->GetPrimitiveArrbyCriticbl(posArrby, NULL);
       if (positions) {
-        jint* indices = (jint*)env->GetPrimitiveArrayCritical(inxArray, NULL);
+        jint* indices = (jint*)env->GetPrimitiveArrbyCriticbl(inxArrby, NULL);
         if (indices) {
-          LEErrorCode status = (LEErrorCode)0;
-          engine->getGlyphs(glyphs + count, gmask, status);
-          engine->getGlyphPositions(positions + (count * 2), status);
-          engine->getCharIndices((le_int32*)(indices + count), baseIndex, status);
+          LEErrorCode stbtus = (LEErrorCode)0;
+          engine->getGlyphs(glyphs + count, gmbsk, stbtus);
+          engine->getGlyphPositions(positions + (count * 2), stbtus);
+          engine->getChbrIndices((le_int32*)(indices + count), bbseIndex, stbtus);
 
-          countDelta = glyphCount;
+          countDeltb = glyphCount;
 
-          // !!! need engine->getFlags to signal positions, indices data
-          /* "0" arg used instead of JNI_COMMIT as we want the carray
-           * to be freed by any VM that actually passes us a copy.
+          // !!! need engine->getFlbgs to signbl positions, indices dbtb
+          /* "0" brg used instebd of JNI_COMMIT bs we wbnt the cbrrby
+           * to be freed by bny VM thbt bctublly pbsses us b copy.
            */
-          env->ReleasePrimitiveArrayCritical(inxArray, indices, 0);
+          env->RelebsePrimitiveArrbyCriticbl(inxArrby, indices, 0);
         }
-        env->ReleasePrimitiveArrayCritical(posArray, positions, 0);
+        env->RelebsePrimitiveArrbyCriticbl(posArrby, positions, 0);
       }
-      env->ReleasePrimitiveArrayCritical(glyphArray, glyphs, 0);
+      env->RelebsePrimitiveArrbyCriticbl(glyphArrby, glyphs, 0);
     }
 
-    if (countDelta) {
-      count += countDelta;
-      env->SetIntField(gvdata, gvdCountFID, count);
+    if (countDeltb) {
+      count += countDeltb;
+      env->SetIntField(gvdbtb, gvdCountFID, count);
     }
 
   return 1;
 }
 
 /*
- * Class:     sun_font_SunLayoutEngine
- * Method:    nativeLayout
- * Signature: (Lsun/font/FontStrike;[CIIIIZLjava/awt/geom/Point2D$Float;Lsun/font/GlyphLayout$GVData;)V
+ * Clbss:     sun_font_SunLbyoutEngine
+ * Method:    nbtiveLbyout
+ * Signbture: (Lsun/font/FontStrike;[CIIIIZLjbvb/bwt/geom/Point2D$Flobt;Lsun/font/GlyphLbyout$GVDbtb;)V
  */
-JNIEXPORT void JNICALL Java_sun_font_SunLayoutEngine_nativeLayout
-   (JNIEnv *env, jclass cls, jobject font2d, jobject strike, jfloatArray matrix, jint gmask,
-   jint baseIndex, jcharArray text, jint start, jint limit, jint min, jint max,
-   jint script, jint lang, jint typo_flags, jobject pt, jobject gvdata,
-   jlong upem, jlong layoutTables)
+JNIEXPORT void JNICALL Jbvb_sun_font_SunLbyoutEngine_nbtiveLbyout
+   (JNIEnv *env, jclbss cls, jobject font2d, jobject strike, jflobtArrby mbtrix, jint gmbsk,
+   jint bbseIndex, jchbrArrby text, jint stbrt, jint limit, jint min, jint mbx,
+   jint script, jint lbng, jint typo_flbgs, jobject pt, jobject gvdbtb,
+   jlong upem, jlong lbyoutTbbles)
 {
     //  fprintf(stderr, "nl font: %x strike: %x script: %d\n", font2d, strike, script); fflush(stderr);
-  float mat[4];
-  env->GetFloatArrayRegion(matrix, 0, 4, mat);
-  FontInstanceAdapter fia(env, font2d, strike, mat, 72, 72, (le_int32) upem, (TTLayoutTableCache *) layoutTables);
+  flobt mbt[4];
+  env->GetFlobtArrbyRegion(mbtrix, 0, 4, mbt);
+  FontInstbnceAdbpter fib(env, font2d, strike, mbt, 72, 72, (le_int32) upem, (TTLbyoutTbbleCbche *) lbyoutTbbles);
   LEErrorCode success = LE_NO_ERROR;
-  LayoutEngine *engine = LayoutEngine::layoutEngineFactory(&fia, script, lang, typo_flags & TYPO_MASK, success);
+  LbyoutEngine *engine = LbyoutEngine::lbyoutEngineFbctory(&fib, script, lbng, typo_flbgs & TYPO_MASK, success);
   if (engine == NULL) {
-    env->SetIntField(gvdata, gvdCountFID, -1); // flag failure
+    env->SetIntField(gvdbtb, gvdCountFID, -1); // flbg fbilure
     return;
   }
 
-  if (min < 0) min = 0; if (max < min) max = min; /* defensive coding */
-  // have to copy, yuck, since code does upcalls now.  this will be soooo slow
-  jint len = max - min;
-  jchar buffer[256];
-  jchar* chars = buffer;
+  if (min < 0) min = 0; if (mbx < min) mbx = min; /* defensive coding */
+  // hbve to copy, yuck, since code does upcblls now.  this will be soooo slow
+  jint len = mbx - min;
+  jchbr buffer[256];
+  jchbr* chbrs = buffer;
   if (len > 256) {
-    size_t size = len * sizeof(jchar);
-    if (size / sizeof(jchar) != (size_t)len) {
+    size_t size = len * sizeof(jchbr);
+    if (size / sizeof(jchbr) != (size_t)len) {
       return;
     }
-    chars = (jchar*)malloc(size);
-    if (chars == 0) {
+    chbrs = (jchbr*)mblloc(size);
+    if (chbrs == 0) {
       return;
     }
   }
-  //  fprintf(stderr, "nl chars: %x text: %x min %d len %d typo %x\n", chars, text, min, len, typo_flags); fflush(stderr);
+  //  fprintf(stderr, "nl chbrs: %x text: %x min %d len %d typo %x\n", chbrs, text, min, len, typo_flbgs); fflush(stderr);
 
-  env->GetCharArrayRegion(text, min, len, chars);
+  env->GetChbrArrbyRegion(text, min, len, chbrs);
 
-  jfloat x, y;
-  getFloat(env, pt, x, y);
-  jboolean rtl = (typo_flags & TYPO_RTL) != 0;
-  int glyphCount = engine->layoutChars(chars, start - min, limit - start, len, rtl, x, y, success);
+  jflobt x, y;
+  getFlobt(env, pt, x, y);
+  jboolebn rtl = (typo_flbgs & TYPO_RTL) != 0;
+  int glyphCount = engine->lbyoutChbrs(chbrs, stbrt - min, limit - stbrt, len, rtl, x, y, success);
     // fprintf(stderr, "sle nl len %d -> gc: %d\n", len, glyphCount); fflush(stderr);
 
   engine->getGlyphPosition(glyphCount, x, y, success);
 
-   // fprintf(stderr, "layout glyphs: %d x: %g y: %g\n", glyphCount, x, y); fflush(stderr);
+   // fprintf(stderr, "lbyout glyphs: %d x: %g y: %g\n", glyphCount, x, y); fflush(stderr);
    if (LE_FAILURE(success)) {
-       env->SetIntField(gvdata, gvdCountFID, -1); // flag failure
+       env->SetIntField(gvdbtb, gvdCountFID, -1); // flbg fbilure
    } else {
-      if (putGV(env, gmask, baseIndex, gvdata, engine, glyphCount)) {
+      if (putGV(env, gmbsk, bbseIndex, gvdbtb, engine, glyphCount)) {
           if (!(env->ExceptionCheck())) {
-              // !!! hmmm, could use current value in positions array of GVData...
-              putFloat(env, pt, x, y);
+              // !!! hmmm, could use current vblue in positions brrby of GVDbtb...
+              putFlobt(env, pt, x, y);
           }
       }
    }
 
-  if (chars != buffer) {
-    free(chars);
+  if (chbrs != buffer) {
+    free(chbrs);
   }
 
   delete engine;

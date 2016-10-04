@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.util.Date;
+import jbvb.io.*;
+import jbvb.util.Dbte;
 
 /**
- * <p>This is an interface of abstract methods for managing a
- * variety of identity certificates.
- * An identity certificate is a guarantee by a principal that
- * a public key is that of another principal.  (A principal represents
- * an entity such as an individual user, a group, or a corporation.)
+ * <p>This is bn interfbce of bbstrbct methods for mbnbging b
+ * vbriety of identity certificbtes.
+ * An identity certificbte is b gubrbntee by b principbl thbt
+ * b public key is thbt of bnother principbl.  (A principbl represents
+ * bn entity such bs bn individubl user, b group, or b corporbtion.)
  *
- * <p>In particular, this interface is intended to be a common
- * abstraction for constructs that have different formats but
- * important common uses.  For example, different types of
- * certificates, such as X.509 certificates and PGP certificates,
- * share general certificate functionality (the need to encode and
- * decode certificates) and some types of information, such as a
- * public key, the principal whose key it is, and the guarantor
- * guaranteeing that the public key is that of the specified
- * principal. So an implementation of X.509 certificates and an
- * implementation of PGP certificates can both utilize the Certificate
- * interface, even though their formats and additional types and
- * amounts of information stored are different.
+ * <p>In pbrticulbr, this interfbce is intended to be b common
+ * bbstrbction for constructs thbt hbve different formbts but
+ * importbnt common uses.  For exbmple, different types of
+ * certificbtes, such bs X.509 certificbtes bnd PGP certificbtes,
+ * shbre generbl certificbte functionblity (the need to encode bnd
+ * decode certificbtes) bnd some types of informbtion, such bs b
+ * public key, the principbl whose key it is, bnd the gubrbntor
+ * gubrbnteeing thbt the public key is thbt of the specified
+ * principbl. So bn implementbtion of X.509 certificbtes bnd bn
+ * implementbtion of PGP certificbtes cbn both utilize the Certificbte
+ * interfbce, even though their formbts bnd bdditionbl types bnd
+ * bmounts of informbtion stored bre different.
  *
- * <p><b>Important</b>: This interface is useful for cataloging and
- * grouping objects sharing certain common uses. It does not have any
- * semantics of its own. In particular, a Certificate object does not
- * make any statement as to the <i>validity</i> of the binding. It is
- * the duty of the application implementing this interface to verify
- * the certificate and satisfy itself of its validity.
+ * <p><b>Importbnt</b>: This interfbce is useful for cbtbloging bnd
+ * grouping objects shbring certbin common uses. It does not hbve bny
+ * sembntics of its own. In pbrticulbr, b Certificbte object does not
+ * mbke bny stbtement bs to the <i>vblidity</i> of the binding. It is
+ * the duty of the bpplicbtion implementing this interfbce to verify
+ * the certificbte bnd sbtisfy itself of its vblidity.
  *
- * @author Benjamin Renaud
- * @deprecated A new certificate handling package is created in the Java platform.
- *             This Certificate interface is entirely deprecated and
- *             is here to allow for a smooth transition to the new
- *             package.
- * @see java.security.cert.Certificate
+ * @buthor Benjbmin Renbud
+ * @deprecbted A new certificbte hbndling pbckbge is crebted in the Jbvb plbtform.
+ *             This Certificbte interfbce is entirely deprecbted bnd
+ *             is here to bllow for b smooth trbnsition to the new
+ *             pbckbge.
+ * @see jbvb.security.cert.Certificbte
  */
-@Deprecated
-public interface Certificate {
+@Deprecbted
+public interfbce Certificbte {
 
     /**
-     * Returns the guarantor of the certificate, that is, the principal
-     * guaranteeing that the public key associated with this certificate
-     * is that of the principal associated with this certificate. For X.509
-     * certificates, the guarantor will typically be a Certificate Authority
-     * (such as the United States Postal Service or Verisign, Inc.).
+     * Returns the gubrbntor of the certificbte, thbt is, the principbl
+     * gubrbnteeing thbt the public key bssocibted with this certificbte
+     * is thbt of the principbl bssocibted with this certificbte. For X.509
+     * certificbtes, the gubrbntor will typicblly be b Certificbte Authority
+     * (such bs the United Stbtes Postbl Service or Verisign, Inc.).
      *
-     * @return the guarantor which guaranteed the principal-key
+     * @return the gubrbntor which gubrbnteed the principbl-key
      * binding.
      */
-    public abstract Principal getGuarantor();
+    public bbstrbct Principbl getGubrbntor();
 
     /**
-     * Returns the principal of the principal-key pair being guaranteed by
-     * the guarantor.
+     * Returns the principbl of the principbl-key pbir being gubrbnteed by
+     * the gubrbntor.
      *
-     * @return the principal to which this certificate is bound.
+     * @return the principbl to which this certificbte is bound.
      */
-    public abstract Principal getPrincipal();
+    public bbstrbct Principbl getPrincipbl();
 
     /**
-     * Returns the key of the principal-key pair being guaranteed by
-     * the guarantor.
+     * Returns the key of the principbl-key pbir being gubrbnteed by
+     * the gubrbntor.
      *
-     * @return the public key that this certificate certifies belongs
-     * to a particular principal.
+     * @return the public key thbt this certificbte certifies belongs
+     * to b pbrticulbr principbl.
      */
-    public abstract PublicKey getPublicKey();
+    public bbstrbct PublicKey getPublicKey();
 
     /**
-     * Encodes the certificate to an output stream in a format that can
+     * Encodes the certificbte to bn output strebm in b formbt thbt cbn
      * be decoded by the {@code decode} method.
      *
-     * @param stream the output stream to which to encode the
-     * certificate.
+     * @pbrbm strebm the output strebm to which to encode the
+     * certificbte.
      *
-     * @exception KeyException if the certificate is not
-     * properly initialized, or data is missing, etc.
+     * @exception KeyException if the certificbte is not
+     * properly initiblized, or dbtb is missing, etc.
      *
-     * @exception IOException if a stream exception occurs while
-     * trying to output the encoded certificate to the output stream.
+     * @exception IOException if b strebm exception occurs while
+     * trying to output the encoded certificbte to the output strebm.
      *
      * @see #decode
-     * @see #getFormat
+     * @see #getFormbt
      */
-    public abstract void encode(OutputStream stream)
+    public bbstrbct void encode(OutputStrebm strebm)
         throws KeyException, IOException;
 
     /**
-     * Decodes a certificate from an input stream. The format should be
-     * that returned by {@code getFormat} and produced by
+     * Decodes b certificbte from bn input strebm. The formbt should be
+     * thbt returned by {@code getFormbt} bnd produced by
      * {@code encode}.
      *
-     * @param stream the input stream from which to fetch the data
+     * @pbrbm strebm the input strebm from which to fetch the dbtb
      * being decoded.
      *
-     * @exception KeyException if the certificate is not properly initialized,
-     * or data is missing, etc.
+     * @exception KeyException if the certificbte is not properly initiblized,
+     * or dbtb is missing, etc.
      *
-     * @exception IOException if an exception occurs while trying to input
-     * the encoded certificate from the input stream.
+     * @exception IOException if bn exception occurs while trying to input
+     * the encoded certificbte from the input strebm.
      *
      * @see #encode
-     * @see #getFormat
+     * @see #getFormbt
      */
-    public abstract void decode(InputStream stream)
+    public bbstrbct void decode(InputStrebm strebm)
         throws KeyException, IOException;
 
 
     /**
-     * Returns the name of the coding format. This is used as a hint to find
-     * an appropriate parser. It could be "X.509", "PGP", etc. This is
-     * the format produced and understood by the {@code encode}
-     * and {@code decode} methods.
+     * Returns the nbme of the coding formbt. This is used bs b hint to find
+     * bn bppropribte pbrser. It could be "X.509", "PGP", etc. This is
+     * the formbt produced bnd understood by the {@code encode}
+     * bnd {@code decode} methods.
      *
-     * @return the name of the coding format.
+     * @return the nbme of the coding formbt.
      */
-    public abstract String getFormat();
+    public bbstrbct String getFormbt();
 
     /**
-     * Returns a string that represents the contents of the certificate.
+     * Returns b string thbt represents the contents of the certificbte.
      *
-     * @param detailed whether or not to give detailed information
-     * about the certificate
+     * @pbrbm detbiled whether or not to give detbiled informbtion
+     * bbout the certificbte
      *
-     * @return a string representing the contents of the certificate
+     * @return b string representing the contents of the certificbte
      */
-    public String toString(boolean detailed);
+    public String toString(boolebn detbiled);
 }

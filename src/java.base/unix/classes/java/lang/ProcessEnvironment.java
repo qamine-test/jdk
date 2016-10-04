@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* We use APIs that access the standard Unix environ array, which
+/* We use APIs thbt bccess the stbndbrd Unix environ brrby, which
  * is defined by UNIX98 to look like:
  *
- *    char **environ;
+ *    chbr **environ;
  *
- * These are unsorted, case-sensitive, null-terminated arrays of bytes
- * of the form FOO=BAR\000 which are usually encoded in the user's
- * default encoding (file.encoding is an excellent choice for
- * encoding/decoding these).  However, even though the user cannot
- * directly access the underlying byte representation, we take pains
- * to pass on the child the exact byte representation we inherit from
- * the parent process for any environment name or value not created by
- * Javaland.  So we keep track of all the byte representations.
+ * These bre unsorted, cbse-sensitive, null-terminbted brrbys of bytes
+ * of the form FOO=BAR\000 which bre usublly encoded in the user's
+ * defbult encoding (file.encoding is bn excellent choice for
+ * encoding/decoding these).  However, even though the user cbnnot
+ * directly bccess the underlying byte representbtion, we tbke pbins
+ * to pbss on the child the exbct byte representbtion we inherit from
+ * the pbrent process for bny environment nbme or vblue not crebted by
+ * Jbvblbnd.  So we keep trbck of bll the byte representbtions.
  *
- * Internally, we define the types Variable and Value that exhibit
- * String/byteArray duality.  The internal representation of the
- * environment then looks like a Map<Variable,Value>.  But we don't
- * expose this to the user -- we only provide a Map<String,String>
- * view, although we could also provide a Map<byte[],byte[]> view.
+ * Internblly, we define the types Vbribble bnd Vblue thbt exhibit
+ * String/byteArrby dublity.  The internbl representbtion of the
+ * environment then looks like b Mbp<Vbribble,Vblue>.  But we don't
+ * expose this to the user -- we only provide b Mbp<String,String>
+ * view, blthough we could blso provide b Mbp<byte[],byte[]> view.
  *
- * The non-private methods in this class are not for general use even
- * within this package.  Instead, they are the system-dependent parts
- * of the system-independent method of the same name.  Don't even
- * think of using this class unless your method's name appears below.
+ * The non-privbte methods in this clbss bre not for generbl use even
+ * within this pbckbge.  Instebd, they bre the system-dependent pbrts
+ * of the system-independent method of the sbme nbme.  Don't even
+ * think of using this clbss unless your method's nbme bppebrs below.
  *
- * @author  Martin Buchholz
+ * @buthor  Mbrtin Buchholz
  * @since   1.5
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 
-final class ProcessEnvironment
+finbl clbss ProcessEnvironment
 {
-    private static final HashMap<Variable,Value> theEnvironment;
-    private static final Map<String,String> theUnmodifiableEnvironment;
-    static final int MIN_NAME_LENGTH = 0;
+    privbte stbtic finbl HbshMbp<Vbribble,Vblue> theEnvironment;
+    privbte stbtic finbl Mbp<String,String> theUnmodifibbleEnvironment;
+    stbtic finbl int MIN_NAME_LENGTH = 0;
 
-    static {
-        // We cache the C environment.  This means that subsequent calls
-        // to putenv/setenv from C will not be visible from Java code.
+    stbtic {
+        // We cbche the C environment.  This mebns thbt subsequent cblls
+        // to putenv/setenv from C will not be visible from Jbvb code.
         byte[][] environ = environ();
-        theEnvironment = new HashMap<>(environ.length/2 + 3);
-        // Read environment variables back to front,
-        // so that earlier variables override later ones.
+        theEnvironment = new HbshMbp<>(environ.length/2 + 3);
+        // Rebd environment vbribbles bbck to front,
+        // so thbt ebrlier vbribbles override lbter ones.
         for (int i = environ.length-1; i > 0; i-=2)
-            theEnvironment.put(Variable.valueOf(environ[i-1]),
-                               Value.valueOf(environ[i]));
+            theEnvironment.put(Vbribble.vblueOf(environ[i-1]),
+                               Vblue.vblueOf(environ[i]));
 
-        theUnmodifiableEnvironment
-            = Collections.unmodifiableMap
+        theUnmodifibbleEnvironment
+            = Collections.unmodifibbleMbp
             (new StringEnvironment(theEnvironment));
     }
 
     /* Only for use by System.getenv(String) */
-    static String getenv(String name) {
-        return theUnmodifiableEnvironment.get(name);
+    stbtic String getenv(String nbme) {
+        return theUnmodifibbleEnvironment.get(nbme);
     }
 
     /* Only for use by System.getenv() */
-    static Map<String,String> getenv() {
-        return theUnmodifiableEnvironment;
+    stbtic Mbp<String,String> getenv() {
+        return theUnmodifibbleEnvironment;
     }
 
     /* Only for use by ProcessBuilder.environment() */
-    @SuppressWarnings("unchecked")
-    static Map<String,String> environment() {
+    @SuppressWbrnings("unchecked")
+    stbtic Mbp<String,String> environment() {
         return new StringEnvironment
-            ((Map<Variable,Value>)(theEnvironment.clone()));
+            ((Mbp<Vbribble,Vblue>)(theEnvironment.clone()));
     }
 
     /* Only for use by Runtime.exec(...String[]envp...) */
-    static Map<String,String> emptyEnvironment(int capacity) {
-        return new StringEnvironment(new HashMap<Variable,Value>(capacity));
+    stbtic Mbp<String,String> emptyEnvironment(int cbpbcity) {
+        return new StringEnvironment(new HbshMbp<Vbribble,Vblue>(cbpbcity));
     }
 
-    private static native byte[][] environ();
+    privbte stbtic nbtive byte[][] environ();
 
-    // This class is not instantiable.
-    private ProcessEnvironment() {}
+    // This clbss is not instbntibble.
+    privbte ProcessEnvironment() {}
 
-    // Check that name is suitable for insertion into Environment map
-    private static void validateVariable(String name) {
-        if (name.indexOf('=')      != -1 ||
-            name.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable name: \"" + name + "\"");
+    // Check thbt nbme is suitbble for insertion into Environment mbp
+    privbte stbtic void vblidbteVbribble(String nbme) {
+        if (nbme.indexOf('=')      != -1 ||
+            nbme.indexOf('\u0000') != -1)
+            throw new IllegblArgumentException
+                ("Invblid environment vbribble nbme: \"" + nbme + "\"");
     }
 
-    // Check that value is suitable for insertion into Environment map
-    private static void validateValue(String value) {
-        if (value.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable value: \"" + value + "\"");
+    // Check thbt vblue is suitbble for insertion into Environment mbp
+    privbte stbtic void vblidbteVblue(String vblue) {
+        if (vblue.indexOf('\u0000') != -1)
+            throw new IllegblArgumentException
+                ("Invblid environment vbribble vblue: \"" + vblue + "\"");
     }
 
-    // A class hiding the byteArray-String duality of
-    // text data on Unixoid operating systems.
-    private static abstract class ExternalData {
-        protected final String str;
-        protected final byte[] bytes;
+    // A clbss hiding the byteArrby-String dublity of
+    // text dbtb on Unixoid operbting systems.
+    privbte stbtic bbstrbct clbss ExternblDbtb {
+        protected finbl String str;
+        protected finbl byte[] bytes;
 
-        protected ExternalData(String str, byte[] bytes) {
+        protected ExternblDbtb(String str, byte[] bytes) {
             this.str = str;
             this.bytes = bytes;
         }
@@ -141,150 +141,150 @@ final class ProcessEnvironment
             return str;
         }
 
-        public boolean equals(Object o) {
-            return o instanceof ExternalData
-                && arrayEquals(getBytes(), ((ExternalData) o).getBytes());
+        public boolebn equbls(Object o) {
+            return o instbnceof ExternblDbtb
+                && brrbyEqubls(getBytes(), ((ExternblDbtb) o).getBytes());
         }
 
-        public int hashCode() {
-            return arrayHash(getBytes());
+        public int hbshCode() {
+            return brrbyHbsh(getBytes());
         }
     }
 
-    private static class Variable
-        extends ExternalData implements Comparable<Variable>
+    privbte stbtic clbss Vbribble
+        extends ExternblDbtb implements Compbrbble<Vbribble>
     {
-        protected Variable(String str, byte[] bytes) {
+        protected Vbribble(String str, byte[] bytes) {
             super(str, bytes);
         }
 
-        public static Variable valueOfQueryOnly(Object str) {
-            return valueOfQueryOnly((String) str);
+        public stbtic Vbribble vblueOfQueryOnly(Object str) {
+            return vblueOfQueryOnly((String) str);
         }
 
-        public static Variable valueOfQueryOnly(String str) {
-            return new Variable(str, str.getBytes());
+        public stbtic Vbribble vblueOfQueryOnly(String str) {
+            return new Vbribble(str, str.getBytes());
         }
 
-        public static Variable valueOf(String str) {
-            validateVariable(str);
-            return valueOfQueryOnly(str);
+        public stbtic Vbribble vblueOf(String str) {
+            vblidbteVbribble(str);
+            return vblueOfQueryOnly(str);
         }
 
-        public static Variable valueOf(byte[] bytes) {
-            return new Variable(new String(bytes), bytes);
+        public stbtic Vbribble vblueOf(byte[] bytes) {
+            return new Vbribble(new String(bytes), bytes);
         }
 
-        public int compareTo(Variable variable) {
-            return arrayCompare(getBytes(), variable.getBytes());
+        public int compbreTo(Vbribble vbribble) {
+            return brrbyCompbre(getBytes(), vbribble.getBytes());
         }
 
-        public boolean equals(Object o) {
-            return o instanceof Variable && super.equals(o);
+        public boolebn equbls(Object o) {
+            return o instbnceof Vbribble && super.equbls(o);
         }
     }
 
-    private static class Value
-        extends ExternalData implements Comparable<Value>
+    privbte stbtic clbss Vblue
+        extends ExternblDbtb implements Compbrbble<Vblue>
     {
-        protected Value(String str, byte[] bytes) {
+        protected Vblue(String str, byte[] bytes) {
             super(str, bytes);
         }
 
-        public static Value valueOfQueryOnly(Object str) {
-            return valueOfQueryOnly((String) str);
+        public stbtic Vblue vblueOfQueryOnly(Object str) {
+            return vblueOfQueryOnly((String) str);
         }
 
-        public static Value valueOfQueryOnly(String str) {
-            return new Value(str, str.getBytes());
+        public stbtic Vblue vblueOfQueryOnly(String str) {
+            return new Vblue(str, str.getBytes());
         }
 
-        public static Value valueOf(String str) {
-            validateValue(str);
-            return valueOfQueryOnly(str);
+        public stbtic Vblue vblueOf(String str) {
+            vblidbteVblue(str);
+            return vblueOfQueryOnly(str);
         }
 
-        public static Value valueOf(byte[] bytes) {
-            return new Value(new String(bytes), bytes);
+        public stbtic Vblue vblueOf(byte[] bytes) {
+            return new Vblue(new String(bytes), bytes);
         }
 
-        public int compareTo(Value value) {
-            return arrayCompare(getBytes(), value.getBytes());
+        public int compbreTo(Vblue vblue) {
+            return brrbyCompbre(getBytes(), vblue.getBytes());
         }
 
-        public boolean equals(Object o) {
-            return o instanceof Value && super.equals(o);
+        public boolebn equbls(Object o) {
+            return o instbnceof Vblue && super.equbls(o);
         }
     }
 
-    // This implements the String map view the user sees.
-    private static class StringEnvironment
-        extends AbstractMap<String,String>
+    // This implements the String mbp view the user sees.
+    privbte stbtic clbss StringEnvironment
+        extends AbstrbctMbp<String,String>
     {
-        private Map<Variable,Value> m;
-        private static String toString(Value v) {
+        privbte Mbp<Vbribble,Vblue> m;
+        privbte stbtic String toString(Vblue v) {
             return v == null ? null : v.toString();
         }
-        public StringEnvironment(Map<Variable,Value> m) {this.m = m;}
+        public StringEnvironment(Mbp<Vbribble,Vblue> m) {this.m = m;}
         public int size()        {return m.size();}
-        public boolean isEmpty() {return m.isEmpty();}
-        public void clear()      {       m.clear();}
-        public boolean containsKey(Object key) {
-            return m.containsKey(Variable.valueOfQueryOnly(key));
+        public boolebn isEmpty() {return m.isEmpty();}
+        public void clebr()      {       m.clebr();}
+        public boolebn contbinsKey(Object key) {
+            return m.contbinsKey(Vbribble.vblueOfQueryOnly(key));
         }
-        public boolean containsValue(Object value) {
-            return m.containsValue(Value.valueOfQueryOnly(value));
+        public boolebn contbinsVblue(Object vblue) {
+            return m.contbinsVblue(Vblue.vblueOfQueryOnly(vblue));
         }
         public String get(Object key) {
-            return toString(m.get(Variable.valueOfQueryOnly(key)));
+            return toString(m.get(Vbribble.vblueOfQueryOnly(key)));
         }
-        public String put(String key, String value) {
-            return toString(m.put(Variable.valueOf(key),
-                                  Value.valueOf(value)));
+        public String put(String key, String vblue) {
+            return toString(m.put(Vbribble.vblueOf(key),
+                                  Vblue.vblueOf(vblue)));
         }
         public String remove(Object key) {
-            return toString(m.remove(Variable.valueOfQueryOnly(key)));
+            return toString(m.remove(Vbribble.vblueOfQueryOnly(key)));
         }
         public Set<String> keySet() {
             return new StringKeySet(m.keySet());
         }
-        public Set<Map.Entry<String,String>> entrySet() {
+        public Set<Mbp.Entry<String,String>> entrySet() {
             return new StringEntrySet(m.entrySet());
         }
-        public Collection<String> values() {
-            return new StringValues(m.values());
+        public Collection<String> vblues() {
+            return new StringVblues(m.vblues());
         }
 
-        // It is technically feasible to provide a byte-oriented view
-        // as follows:
-        //      public Map<byte[],byte[]> asByteArrayMap() {
-        //          return new ByteArrayEnvironment(m);
+        // It is technicblly febsible to provide b byte-oriented view
+        // bs follows:
+        //      public Mbp<byte[],byte[]> bsByteArrbyMbp() {
+        //          return new ByteArrbyEnvironment(m);
         //      }
 
 
-        // Convert to Unix style environ as a monolithic byte array
+        // Convert to Unix style environ bs b monolithic byte brrby
         // inspired by the Windows Environment Block, except we work
-        // exclusively with bytes instead of chars, and we need only
-        // one trailing NUL on Unix.
-        // This keeps the JNI as simple and efficient as possible.
+        // exclusively with bytes instebd of chbrs, bnd we need only
+        // one trbiling NUL on Unix.
+        // This keeps the JNI bs simple bnd efficient bs possible.
         public byte[] toEnvironmentBlock(int[]envc) {
-            int count = m.size() * 2; // For added '=' and NUL
-            for (Map.Entry<Variable,Value> entry : m.entrySet()) {
+            int count = m.size() * 2; // For bdded '=' bnd NUL
+            for (Mbp.Entry<Vbribble,Vblue> entry : m.entrySet()) {
                 count += entry.getKey().getBytes().length;
-                count += entry.getValue().getBytes().length;
+                count += entry.getVblue().getBytes().length;
             }
 
             byte[] block = new byte[count];
 
             int i = 0;
-            for (Map.Entry<Variable,Value> entry : m.entrySet()) {
+            for (Mbp.Entry<Vbribble,Vblue> entry : m.entrySet()) {
                 byte[] key   = entry.getKey  ().getBytes();
-                byte[] value = entry.getValue().getBytes();
-                System.arraycopy(key, 0, block, i, key.length);
+                byte[] vblue = entry.getVblue().getBytes();
+                System.brrbycopy(key, 0, block, i, key.length);
                 i+=key.length;
                 block[i++] = (byte) '=';
-                System.arraycopy(value, 0, block, i, value.length);
-                i+=value.length + 1;
+                System.brrbycopy(vblue, 0, block, i, vblue.length);
+                i+=vblue.length + 1;
                 // No need to write NUL byte explicitly
                 //block[i++] = (byte) '\u0000';
             }
@@ -293,125 +293,125 @@ final class ProcessEnvironment
         }
     }
 
-    static byte[] toEnvironmentBlock(Map<String,String> map, int[]envc) {
-        return map == null ? null :
-            ((StringEnvironment)map).toEnvironmentBlock(envc);
+    stbtic byte[] toEnvironmentBlock(Mbp<String,String> mbp, int[]envc) {
+        return mbp == null ? null :
+            ((StringEnvironment)mbp).toEnvironmentBlock(envc);
     }
 
 
-    private static class StringEntry
-        implements Map.Entry<String,String>
+    privbte stbtic clbss StringEntry
+        implements Mbp.Entry<String,String>
     {
-        private final Map.Entry<Variable,Value> e;
-        public StringEntry(Map.Entry<Variable,Value> e) {this.e = e;}
+        privbte finbl Mbp.Entry<Vbribble,Vblue> e;
+        public StringEntry(Mbp.Entry<Vbribble,Vblue> e) {this.e = e;}
         public String getKey()   {return e.getKey().toString();}
-        public String getValue() {return e.getValue().toString();}
-        public String setValue(String newValue) {
-            return e.setValue(Value.valueOf(newValue)).toString();
+        public String getVblue() {return e.getVblue().toString();}
+        public String setVblue(String newVblue) {
+            return e.setVblue(Vblue.vblueOf(newVblue)).toString();
         }
-        public String toString() {return getKey() + "=" + getValue();}
-        public boolean equals(Object o) {
-            return o instanceof StringEntry
-                && e.equals(((StringEntry)o).e);
+        public String toString() {return getKey() + "=" + getVblue();}
+        public boolebn equbls(Object o) {
+            return o instbnceof StringEntry
+                && e.equbls(((StringEntry)o).e);
         }
-        public int hashCode()    {return e.hashCode();}
+        public int hbshCode()    {return e.hbshCode();}
     }
 
-    private static class StringEntrySet
-        extends AbstractSet<Map.Entry<String,String>>
+    privbte stbtic clbss StringEntrySet
+        extends AbstrbctSet<Mbp.Entry<String,String>>
     {
-        private final Set<Map.Entry<Variable,Value>> s;
-        public StringEntrySet(Set<Map.Entry<Variable,Value>> s) {this.s = s;}
+        privbte finbl Set<Mbp.Entry<Vbribble,Vblue>> s;
+        public StringEntrySet(Set<Mbp.Entry<Vbribble,Vblue>> s) {this.s = s;}
         public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<Map.Entry<String,String>> iterator() {
-            return new Iterator<Map.Entry<String,String>>() {
-                Iterator<Map.Entry<Variable,Value>> i = s.iterator();
-                public boolean hasNext() {return i.hasNext();}
-                public Map.Entry<String,String> next() {
+        public boolebn isEmpty() {return s.isEmpty();}
+        public void clebr()      {       s.clebr();}
+        public Iterbtor<Mbp.Entry<String,String>> iterbtor() {
+            return new Iterbtor<Mbp.Entry<String,String>>() {
+                Iterbtor<Mbp.Entry<Vbribble,Vblue>> i = s.iterbtor();
+                public boolebn hbsNext() {return i.hbsNext();}
+                public Mbp.Entry<String,String> next() {
                     return new StringEntry(i.next());
                 }
                 public void remove() {i.remove();}
             };
         }
-        private static Map.Entry<Variable,Value> vvEntry(final Object o) {
-            if (o instanceof StringEntry)
+        privbte stbtic Mbp.Entry<Vbribble,Vblue> vvEntry(finbl Object o) {
+            if (o instbnceof StringEntry)
                 return ((StringEntry)o).e;
-            return new Map.Entry<Variable,Value>() {
-                public Variable getKey() {
-                    return Variable.valueOfQueryOnly(((Map.Entry)o).getKey());
+            return new Mbp.Entry<Vbribble,Vblue>() {
+                public Vbribble getKey() {
+                    return Vbribble.vblueOfQueryOnly(((Mbp.Entry)o).getKey());
                 }
-                public Value getValue() {
-                    return Value.valueOfQueryOnly(((Map.Entry)o).getValue());
+                public Vblue getVblue() {
+                    return Vblue.vblueOfQueryOnly(((Mbp.Entry)o).getVblue());
                 }
-                public Value setValue(Value value) {
-                    throw new UnsupportedOperationException();
+                public Vblue setVblue(Vblue vblue) {
+                    throw new UnsupportedOperbtionException();
                 }
             };
         }
-        public boolean contains(Object o) { return s.contains(vvEntry(o)); }
-        public boolean remove(Object o)   { return s.remove(vvEntry(o)); }
-        public boolean equals(Object o) {
-            return o instanceof StringEntrySet
-                && s.equals(((StringEntrySet) o).s);
+        public boolebn contbins(Object o) { return s.contbins(vvEntry(o)); }
+        public boolebn remove(Object o)   { return s.remove(vvEntry(o)); }
+        public boolebn equbls(Object o) {
+            return o instbnceof StringEntrySet
+                && s.equbls(((StringEntrySet) o).s);
         }
-        public int hashCode() {return s.hashCode();}
+        public int hbshCode() {return s.hbshCode();}
     }
 
-    private static class StringValues
-          extends AbstractCollection<String>
+    privbte stbtic clbss StringVblues
+          extends AbstrbctCollection<String>
     {
-        private final Collection<Value> c;
-        public StringValues(Collection<Value> c) {this.c = c;}
+        privbte finbl Collection<Vblue> c;
+        public StringVblues(Collection<Vblue> c) {this.c = c;}
         public int size()        {return c.size();}
-        public boolean isEmpty() {return c.isEmpty();}
-        public void clear()      {       c.clear();}
-        public Iterator<String> iterator() {
-            return new Iterator<String>() {
-                Iterator<Value> i = c.iterator();
-                public boolean hasNext() {return i.hasNext();}
+        public boolebn isEmpty() {return c.isEmpty();}
+        public void clebr()      {       c.clebr();}
+        public Iterbtor<String> iterbtor() {
+            return new Iterbtor<String>() {
+                Iterbtor<Vblue> i = c.iterbtor();
+                public boolebn hbsNext() {return i.hbsNext();}
                 public String next()     {return i.next().toString();}
                 public void remove()     {i.remove();}
             };
         }
-        public boolean contains(Object o) {
-            return c.contains(Value.valueOfQueryOnly(o));
+        public boolebn contbins(Object o) {
+            return c.contbins(Vblue.vblueOfQueryOnly(o));
         }
-        public boolean remove(Object o) {
-            return c.remove(Value.valueOfQueryOnly(o));
+        public boolebn remove(Object o) {
+            return c.remove(Vblue.vblueOfQueryOnly(o));
         }
-        public boolean equals(Object o) {
-            return o instanceof StringValues
-                && c.equals(((StringValues)o).c);
+        public boolebn equbls(Object o) {
+            return o instbnceof StringVblues
+                && c.equbls(((StringVblues)o).c);
         }
-        public int hashCode() {return c.hashCode();}
+        public int hbshCode() {return c.hbshCode();}
     }
 
-    private static class StringKeySet extends AbstractSet<String> {
-        private final Set<Variable> s;
-        public StringKeySet(Set<Variable> s) {this.s = s;}
+    privbte stbtic clbss StringKeySet extends AbstrbctSet<String> {
+        privbte finbl Set<Vbribble> s;
+        public StringKeySet(Set<Vbribble> s) {this.s = s;}
         public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<String> iterator() {
-            return new Iterator<String>() {
-                Iterator<Variable> i = s.iterator();
-                public boolean hasNext() {return i.hasNext();}
+        public boolebn isEmpty() {return s.isEmpty();}
+        public void clebr()      {       s.clebr();}
+        public Iterbtor<String> iterbtor() {
+            return new Iterbtor<String>() {
+                Iterbtor<Vbribble> i = s.iterbtor();
+                public boolebn hbsNext() {return i.hbsNext();}
                 public String next()     {return i.next().toString();}
                 public void remove()     {       i.remove();}
             };
         }
-        public boolean contains(Object o) {
-            return s.contains(Variable.valueOfQueryOnly(o));
+        public boolebn contbins(Object o) {
+            return s.contbins(Vbribble.vblueOfQueryOnly(o));
         }
-        public boolean remove(Object o) {
-            return s.remove(Variable.valueOfQueryOnly(o));
+        public boolebn remove(Object o) {
+            return s.remove(Vbribble.vblueOfQueryOnly(o));
         }
     }
 
-    // Replace with general purpose method someday
-    private static int arrayCompare(byte[]x, byte[] y) {
+    // Replbce with generbl purpose method somedby
+    privbte stbtic int brrbyCompbre(byte[]x, byte[] y) {
         int min = x.length < y.length ? x.length : y.length;
         for (int i = 0; i < min; i++)
             if (x[i] != y[i])
@@ -419,22 +419,22 @@ final class ProcessEnvironment
         return x.length - y.length;
     }
 
-    // Replace with general purpose method someday
-    private static boolean arrayEquals(byte[] x, byte[] y) {
+    // Replbce with generbl purpose method somedby
+    privbte stbtic boolebn brrbyEqubls(byte[] x, byte[] y) {
         if (x.length != y.length)
-            return false;
+            return fblse;
         for (int i = 0; i < x.length; i++)
             if (x[i] != y[i])
-                return false;
+                return fblse;
         return true;
     }
 
-    // Replace with general purpose method someday
-    private static int arrayHash(byte[] x) {
-        int hash = 0;
+    // Replbce with generbl purpose method somedby
+    privbte stbtic int brrbyHbsh(byte[] x) {
+        int hbsh = 0;
         for (int i = 0; i < x.length; i++)
-            hash = 31 * hash + x[i];
-        return hash;
+            hbsh = 31 * hbsh + x[i];
+        return hbsh;
     }
 
 }

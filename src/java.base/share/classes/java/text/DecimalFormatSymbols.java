@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
-import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.text.spi.DecimblFormbtSymbolsProvider;
+import jbvb.util.ArrbyList;
+import jbvb.util.Currency;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleServiceProviderPool;
+import sun.util.locble.provider.ResourceBundleBbsedAdbpter;
 
 /**
- * This class represents the set of symbols (such as the decimal separator,
- * the grouping separator, and so on) needed by <code>DecimalFormat</code>
- * to format numbers. <code>DecimalFormat</code> creates for itself an instance of
- * <code>DecimalFormatSymbols</code> from its locale data.  If you need to change any
- * of these symbols, you can get the <code>DecimalFormatSymbols</code> object from
- * your <code>DecimalFormat</code> and modify it.
+ * This clbss represents the set of symbols (such bs the decimbl sepbrbtor,
+ * the grouping sepbrbtor, bnd so on) needed by <code>DecimblFormbt</code>
+ * to formbt numbers. <code>DecimblFormbt</code> crebtes for itself bn instbnce of
+ * <code>DecimblFormbtSymbols</code> from its locble dbtb.  If you need to chbnge bny
+ * of these symbols, you cbn get the <code>DecimblFormbtSymbols</code> object from
+ * your <code>DecimblFormbt</code> bnd modify it.
  *
- * @see          java.util.Locale
- * @see          DecimalFormat
- * @author       Mark Davis
- * @author       Alan Liu
+ * @see          jbvb.util.Locble
+ * @see          DecimblFormbt
+ * @buthor       Mbrk Dbvis
+ * @buthor       Albn Liu
  */
 
-public class DecimalFormatSymbols implements Cloneable, Serializable {
+public clbss DecimblFormbtSymbols implements Clonebble, Seriblizbble {
 
     /**
-     * Create a DecimalFormatSymbols object for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * This constructor can only construct instances for the locales
-     * supported by the Java runtime environment, not for those
-     * supported by installed
-     * {@link java.text.spi.DecimalFormatSymbolsProvider DecimalFormatSymbolsProvider}
-     * implementations. For full locale coverage, use the
-     * {@link #getInstance(Locale) getInstance} method.
-     * <p>This is equivalent to calling
-     * {@link #DecimalFormatSymbols(Locale)
-     *     DecimalFormatSymbols(Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
+     * Crebte b DecimblFormbtSymbols object for the defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * This constructor cbn only construct instbnces for the locbles
+     * supported by the Jbvb runtime environment, not for those
+     * supported by instblled
+     * {@link jbvb.text.spi.DecimblFormbtSymbolsProvider DecimblFormbtSymbolsProvider}
+     * implementbtions. For full locble coverbge, use the
+     * {@link #getInstbnce(Locble) getInstbnce} method.
+     * <p>This is equivblent to cblling
+     * {@link #DecimblFormbtSymbols(Locble)
+     *     DecimblFormbtSymbols(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
      */
-    public DecimalFormatSymbols() {
-        initialize( Locale.getDefault(Locale.Category.FORMAT) );
+    public DecimblFormbtSymbols() {
+        initiblize( Locble.getDefbult(Locble.Cbtegory.FORMAT) );
     }
 
     /**
-     * Create a DecimalFormatSymbols object for the given locale.
-     * This constructor can only construct instances for the locales
-     * supported by the Java runtime environment, not for those
-     * supported by installed
-     * {@link java.text.spi.DecimalFormatSymbolsProvider DecimalFormatSymbolsProvider}
-     * implementations. For full locale coverage, use the
-     * {@link #getInstance(Locale) getInstance} method.
-     * If the specified locale contains the {@link java.util.Locale#UNICODE_LOCALE_EXTENSION}
-     * for the numbering system, the instance is initialized with the specified numbering
-     * system if the JRE implementation supports it. For example,
+     * Crebte b DecimblFormbtSymbols object for the given locble.
+     * This constructor cbn only construct instbnces for the locbles
+     * supported by the Jbvb runtime environment, not for those
+     * supported by instblled
+     * {@link jbvb.text.spi.DecimblFormbtSymbolsProvider DecimblFormbtSymbolsProvider}
+     * implementbtions. For full locble coverbge, use the
+     * {@link #getInstbnce(Locble) getInstbnce} method.
+     * If the specified locble contbins the {@link jbvb.util.Locble#UNICODE_LOCALE_EXTENSION}
+     * for the numbering system, the instbnce is initiblized with the specified numbering
+     * system if the JRE implementbtion supports it. For exbmple,
      * <pre>
-     * NumberFormat.getNumberInstance(Locale.forLanguageTag("th-TH-u-nu-thai"))
+     * NumberFormbt.getNumberInstbnce(Locble.forLbngubgeTbg("th-TH-u-nu-thbi"))
      * </pre>
-     * This may return a {@code NumberFormat} instance with the Thai numbering system,
-     * instead of the Latin numbering system.
+     * This mby return b {@code NumberFormbt} instbnce with the Thbi numbering system,
+     * instebd of the Lbtin numbering system.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm locble the desired locble
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public DecimalFormatSymbols( Locale locale ) {
-        initialize( locale );
+    public DecimblFormbtSymbols( Locble locble ) {
+        initiblize( locble );
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>getInstance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.DecimalFormatSymbolsProvider DecimalFormatSymbolsProvider}
-     * implementations.  It must contain at least a <code>Locale</code>
-     * instance equal to {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the
+     * <code>getInstbnce</code> methods of this clbss cbn return
+     * locblized instbnces.
+     * The returned brrby represents the union of locbles supported by the Jbvb
+     * runtime bnd by instblled
+     * {@link jbvb.text.spi.DecimblFormbtSymbolsProvider DecimblFormbtSymbolsProvider}
+     * implementbtions.  It must contbin bt lebst b <code>Locble</code>
+     * instbnce equbl to {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return an array of locales for which localized
-     *         <code>DecimalFormatSymbols</code> instances are available.
+     * @return bn brrby of locbles for which locblized
+     *         <code>DecimblFormbtSymbols</code> instbnces bre bvbilbble.
      * @since 1.6
      */
-    public static Locale[] getAvailableLocales() {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(DecimalFormatSymbolsProvider.class);
-        return pool.getAvailableLocales();
+    public stbtic Locble[] getAvbilbbleLocbles() {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(DecimblFormbtSymbolsProvider.clbss);
+        return pool.getAvbilbbleLocbles();
     }
 
     /**
-     * Gets the <code>DecimalFormatSymbols</code> instance for the default
-     * locale.  This method provides access to <code>DecimalFormatSymbols</code>
-     * instances for locales supported by the Java runtime itself as well
-     * as for those supported by installed
-     * {@link java.text.spi.DecimalFormatSymbolsProvider
-     * DecimalFormatSymbolsProvider} implementations.
-     * <p>This is equivalent to calling
-     * {@link #getInstance(Locale)
-     *     getInstance(Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a <code>DecimalFormatSymbols</code> instance.
+     * Gets the <code>DecimblFormbtSymbols</code> instbnce for the defbult
+     * locble.  This method provides bccess to <code>DecimblFormbtSymbols</code>
+     * instbnces for locbles supported by the Jbvb runtime itself bs well
+     * bs for those supported by instblled
+     * {@link jbvb.text.spi.DecimblFormbtSymbolsProvider
+     * DecimblFormbtSymbolsProvider} implementbtions.
+     * <p>This is equivblent to cblling
+     * {@link #getInstbnce(Locble)
+     *     getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return b <code>DecimblFormbtSymbols</code> instbnce.
      * @since 1.6
      */
-    public static final DecimalFormatSymbols getInstance() {
-        return getInstance(Locale.getDefault(Locale.Category.FORMAT));
+    public stbtic finbl DecimblFormbtSymbols getInstbnce() {
+        return getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the <code>DecimalFormatSymbols</code> instance for the specified
-     * locale.  This method provides access to <code>DecimalFormatSymbols</code>
-     * instances for locales supported by the Java runtime itself as well
-     * as for those supported by installed
-     * {@link java.text.spi.DecimalFormatSymbolsProvider
-     * DecimalFormatSymbolsProvider} implementations.
-     * If the specified locale contains the {@link java.util.Locale#UNICODE_LOCALE_EXTENSION}
-     * for the numbering system, the instance is initialized with the specified numbering
-     * system if the JRE implementation supports it. For example,
+     * Gets the <code>DecimblFormbtSymbols</code> instbnce for the specified
+     * locble.  This method provides bccess to <code>DecimblFormbtSymbols</code>
+     * instbnces for locbles supported by the Jbvb runtime itself bs well
+     * bs for those supported by instblled
+     * {@link jbvb.text.spi.DecimblFormbtSymbolsProvider
+     * DecimblFormbtSymbolsProvider} implementbtions.
+     * If the specified locble contbins the {@link jbvb.util.Locble#UNICODE_LOCALE_EXTENSION}
+     * for the numbering system, the instbnce is initiblized with the specified numbering
+     * system if the JRE implementbtion supports it. For exbmple,
      * <pre>
-     * NumberFormat.getNumberInstance(Locale.forLanguageTag("th-TH-u-nu-thai"))
+     * NumberFormbt.getNumberInstbnce(Locble.forLbngubgeTbg("th-TH-u-nu-thbi"))
      * </pre>
-     * This may return a {@code NumberFormat} instance with the Thai numbering system,
-     * instead of the Latin numbering system.
+     * This mby return b {@code NumberFormbt} instbnce with the Thbi numbering system,
+     * instebd of the Lbtin numbering system.
      *
-     * @param locale the desired locale.
-     * @return a <code>DecimalFormatSymbols</code> instance.
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm locble the desired locble.
+     * @return b <code>DecimblFormbtSymbols</code> instbnce.
+     * @exception NullPointerException if <code>locble</code> is null
      * @since 1.6
      */
-    public static final DecimalFormatSymbols getInstance(Locale locale) {
-        LocaleProviderAdapter adapter;
-        adapter = LocaleProviderAdapter.getAdapter(DecimalFormatSymbolsProvider.class, locale);
-        DecimalFormatSymbolsProvider provider = adapter.getDecimalFormatSymbolsProvider();
-        DecimalFormatSymbols dfsyms = provider.getInstance(locale);
+    public stbtic finbl DecimblFormbtSymbols getInstbnce(Locble locble) {
+        LocbleProviderAdbpter bdbpter;
+        bdbpter = LocbleProviderAdbpter.getAdbpter(DecimblFormbtSymbolsProvider.clbss, locble);
+        DecimblFormbtSymbolsProvider provider = bdbpter.getDecimblFormbtSymbolsProvider();
+        DecimblFormbtSymbols dfsyms = provider.getInstbnce(locble);
         if (dfsyms == null) {
-            provider = LocaleProviderAdapter.forJRE().getDecimalFormatSymbolsProvider();
-            dfsyms = provider.getInstance(locale);
+            provider = LocbleProviderAdbpter.forJRE().getDecimblFormbtSymbolsProvider();
+            dfsyms = provider.getInstbnce(locble);
         }
         return dfsyms;
     }
 
     /**
-     * Gets the character used for zero. Different for Arabic, etc.
+     * Gets the chbrbcter used for zero. Different for Arbbic, etc.
      *
-     * @return the character used for zero
+     * @return the chbrbcter used for zero
      */
-    public char getZeroDigit() {
+    public chbr getZeroDigit() {
         return zeroDigit;
     }
 
     /**
-     * Sets the character used for zero. Different for Arabic, etc.
+     * Sets the chbrbcter used for zero. Different for Arbbic, etc.
      *
-     * @param zeroDigit the character used for zero
+     * @pbrbm zeroDigit the chbrbcter used for zero
      */
-    public void setZeroDigit(char zeroDigit) {
+    public void setZeroDigit(chbr zeroDigit) {
         this.zeroDigit = zeroDigit;
     }
 
     /**
-     * Gets the character used for thousands separator. Different for French, etc.
+     * Gets the chbrbcter used for thousbnds sepbrbtor. Different for French, etc.
      *
-     * @return the grouping separator
+     * @return the grouping sepbrbtor
      */
-    public char getGroupingSeparator() {
-        return groupingSeparator;
+    public chbr getGroupingSepbrbtor() {
+        return groupingSepbrbtor;
     }
 
     /**
-     * Sets the character used for thousands separator. Different for French, etc.
+     * Sets the chbrbcter used for thousbnds sepbrbtor. Different for French, etc.
      *
-     * @param groupingSeparator the grouping separator
+     * @pbrbm groupingSepbrbtor the grouping sepbrbtor
      */
-    public void setGroupingSeparator(char groupingSeparator) {
-        this.groupingSeparator = groupingSeparator;
+    public void setGroupingSepbrbtor(chbr groupingSepbrbtor) {
+        this.groupingSepbrbtor = groupingSepbrbtor;
     }
 
     /**
-     * Gets the character used for decimal sign. Different for French, etc.
+     * Gets the chbrbcter used for decimbl sign. Different for French, etc.
      *
-     * @return the character used for decimal sign
+     * @return the chbrbcter used for decimbl sign
      */
-    public char getDecimalSeparator() {
-        return decimalSeparator;
+    public chbr getDecimblSepbrbtor() {
+        return decimblSepbrbtor;
     }
 
     /**
-     * Sets the character used for decimal sign. Different for French, etc.
+     * Sets the chbrbcter used for decimbl sign. Different for French, etc.
      *
-     * @param decimalSeparator the character used for decimal sign
+     * @pbrbm decimblSepbrbtor the chbrbcter used for decimbl sign
      */
-    public void setDecimalSeparator(char decimalSeparator) {
-        this.decimalSeparator = decimalSeparator;
+    public void setDecimblSepbrbtor(chbr decimblSepbrbtor) {
+        this.decimblSepbrbtor = decimblSepbrbtor;
     }
 
     /**
-     * Gets the character used for per mille sign. Different for Arabic, etc.
+     * Gets the chbrbcter used for per mille sign. Different for Arbbic, etc.
      *
-     * @return the character used for per mille sign
+     * @return the chbrbcter used for per mille sign
      */
-    public char getPerMill() {
+    public chbr getPerMill() {
         return perMill;
     }
 
     /**
-     * Sets the character used for per mille sign. Different for Arabic, etc.
+     * Sets the chbrbcter used for per mille sign. Different for Arbbic, etc.
      *
-     * @param perMill the character used for per mille sign
+     * @pbrbm perMill the chbrbcter used for per mille sign
      */
-    public void setPerMill(char perMill) {
+    public void setPerMill(chbr perMill) {
         this.perMill = perMill;
     }
 
     /**
-     * Gets the character used for percent sign. Different for Arabic, etc.
+     * Gets the chbrbcter used for percent sign. Different for Arbbic, etc.
      *
-     * @return the character used for percent sign
+     * @return the chbrbcter used for percent sign
      */
-    public char getPercent() {
+    public chbr getPercent() {
         return percent;
     }
 
     /**
-     * Sets the character used for percent sign. Different for Arabic, etc.
+     * Sets the chbrbcter used for percent sign. Different for Arbbic, etc.
      *
-     * @param percent the character used for percent sign
+     * @pbrbm percent the chbrbcter used for percent sign
      */
-    public void setPercent(char percent) {
+    public void setPercent(chbr percent) {
         this.percent = percent;
     }
 
     /**
-     * Gets the character used for a digit in a pattern.
+     * Gets the chbrbcter used for b digit in b pbttern.
      *
-     * @return the character used for a digit in a pattern
+     * @return the chbrbcter used for b digit in b pbttern
      */
-    public char getDigit() {
+    public chbr getDigit() {
         return digit;
     }
 
     /**
-     * Sets the character used for a digit in a pattern.
+     * Sets the chbrbcter used for b digit in b pbttern.
      *
-     * @param digit the character used for a digit in a pattern
+     * @pbrbm digit the chbrbcter used for b digit in b pbttern
      */
-    public void setDigit(char digit) {
+    public void setDigit(chbr digit) {
         this.digit = digit;
     }
 
     /**
-     * Gets the character used to separate positive and negative subpatterns
-     * in a pattern.
+     * Gets the chbrbcter used to sepbrbte positive bnd negbtive subpbtterns
+     * in b pbttern.
      *
-     * @return the pattern separator
+     * @return the pbttern sepbrbtor
      */
-    public char getPatternSeparator() {
-        return patternSeparator;
+    public chbr getPbtternSepbrbtor() {
+        return pbtternSepbrbtor;
     }
 
     /**
-     * Sets the character used to separate positive and negative subpatterns
-     * in a pattern.
+     * Sets the chbrbcter used to sepbrbte positive bnd negbtive subpbtterns
+     * in b pbttern.
      *
-     * @param patternSeparator the pattern separator
+     * @pbrbm pbtternSepbrbtor the pbttern sepbrbtor
      */
-    public void setPatternSeparator(char patternSeparator) {
-        this.patternSeparator = patternSeparator;
+    public void setPbtternSepbrbtor(chbr pbtternSepbrbtor) {
+        this.pbtternSepbrbtor = pbtternSepbrbtor;
     }
 
     /**
-     * Gets the string used to represent infinity. Almost always left
-     * unchanged.
+     * Gets the string used to represent infinity. Almost blwbys left
+     * unchbnged.
      *
      * @return the string representing infinity
      */
@@ -324,60 +324,60 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the string used to represent infinity. Almost always left
-     * unchanged.
+     * Sets the string used to represent infinity. Almost blwbys left
+     * unchbnged.
      *
-     * @param infinity the string representing infinity
+     * @pbrbm infinity the string representing infinity
      */
     public void setInfinity(String infinity) {
         this.infinity = infinity;
     }
 
     /**
-     * Gets the string used to represent "not a number". Almost always left
-     * unchanged.
+     * Gets the string used to represent "not b number". Almost blwbys left
+     * unchbnged.
      *
-     * @return the string representing "not a number"
+     * @return the string representing "not b number"
      */
-    public String getNaN() {
-        return NaN;
+    public String getNbN() {
+        return NbN;
     }
 
     /**
-     * Sets the string used to represent "not a number". Almost always left
-     * unchanged.
+     * Sets the string used to represent "not b number". Almost blwbys left
+     * unchbnged.
      *
-     * @param NaN the string representing "not a number"
+     * @pbrbm NbN the string representing "not b number"
      */
-    public void setNaN(String NaN) {
-        this.NaN = NaN;
+    public void setNbN(String NbN) {
+        this.NbN = NbN;
     }
 
     /**
-     * Gets the character used to represent minus sign. If no explicit
-     * negative format is specified, one is formed by prefixing
-     * minusSign to the positive format.
+     * Gets the chbrbcter used to represent minus sign. If no explicit
+     * negbtive formbt is specified, one is formed by prefixing
+     * minusSign to the positive formbt.
      *
-     * @return the character representing minus sign
+     * @return the chbrbcter representing minus sign
      */
-    public char getMinusSign() {
+    public chbr getMinusSign() {
         return minusSign;
     }
 
     /**
-     * Sets the character used to represent minus sign. If no explicit
-     * negative format is specified, one is formed by prefixing
-     * minusSign to the positive format.
+     * Sets the chbrbcter used to represent minus sign. If no explicit
+     * negbtive formbt is specified, one is formed by prefixing
+     * minusSign to the positive formbt.
      *
-     * @param minusSign the character representing minus sign
+     * @pbrbm minusSign the chbrbcter representing minus sign
      */
-    public void setMinusSign(char minusSign) {
+    public void setMinusSign(chbr minusSign) {
         this.minusSign = minusSign;
     }
 
     /**
      * Returns the currency symbol for the currency of these
-     * DecimalFormatSymbols in their locale.
+     * DecimblFormbtSymbols in their locble.
      *
      * @return the currency symbol
      * @since 1.2
@@ -389,9 +389,9 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
 
     /**
      * Sets the currency symbol for the currency of these
-     * DecimalFormatSymbols in their locale.
+     * DecimblFormbtSymbols in their locble.
      *
-     * @param currency the currency symbol
+     * @pbrbm currency the currency symbol
      * @since 1.2
      */
     public void setCurrencySymbol(String currency)
@@ -401,49 +401,49 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
 
     /**
      * Returns the ISO 4217 currency code of the currency of these
-     * DecimalFormatSymbols.
+     * DecimblFormbtSymbols.
      *
      * @return the currency code
      * @since 1.2
      */
-    public String getInternationalCurrencySymbol()
+    public String getInternbtionblCurrencySymbol()
     {
         return intlCurrencySymbol;
     }
 
     /**
      * Sets the ISO 4217 currency code of the currency of these
-     * DecimalFormatSymbols.
-     * If the currency code is valid (as defined by
-     * {@link java.util.Currency#getInstance(java.lang.String) Currency.getInstance}),
-     * this also sets the currency attribute to the corresponding Currency
-     * instance and the currency symbol attribute to the currency's symbol
-     * in the DecimalFormatSymbols' locale. If the currency code is not valid,
-     * then the currency attribute is set to null and the currency symbol
-     * attribute is not modified.
+     * DecimblFormbtSymbols.
+     * If the currency code is vblid (bs defined by
+     * {@link jbvb.util.Currency#getInstbnce(jbvb.lbng.String) Currency.getInstbnce}),
+     * this blso sets the currency bttribute to the corresponding Currency
+     * instbnce bnd the currency symbol bttribute to the currency's symbol
+     * in the DecimblFormbtSymbols' locble. If the currency code is not vblid,
+     * then the currency bttribute is set to null bnd the currency symbol
+     * bttribute is not modified.
      *
-     * @param currencyCode the currency code
+     * @pbrbm currencyCode the currency code
      * @see #setCurrency
      * @see #setCurrencySymbol
      * @since 1.2
      */
-    public void setInternationalCurrencySymbol(String currencyCode)
+    public void setInternbtionblCurrencySymbol(String currencyCode)
     {
         intlCurrencySymbol = currencyCode;
         currency = null;
         if (currencyCode != null) {
             try {
-                currency = Currency.getInstance(currencyCode);
+                currency = Currency.getInstbnce(currencyCode);
                 currencySymbol = currency.getSymbol();
-            } catch (IllegalArgumentException e) {
+            } cbtch (IllegblArgumentException e) {
             }
         }
     }
 
     /**
-     * Gets the currency of these DecimalFormatSymbols. May be null if the
-     * currency symbol attribute was previously set to a value that's not
-     * a valid ISO 4217 currency code.
+     * Gets the currency of these DecimblFormbtSymbols. Mby be null if the
+     * currency symbol bttribute wbs previously set to b vblue thbt's not
+     * b vblid ISO 4217 currency code.
      *
      * @return the currency used, or null
      * @since 1.4
@@ -453,16 +453,16 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the currency of these DecimalFormatSymbols.
-     * This also sets the currency symbol attribute to the currency's symbol
-     * in the DecimalFormatSymbols' locale, and the international currency
-     * symbol attribute to the currency's ISO 4217 currency code.
+     * Sets the currency of these DecimblFormbtSymbols.
+     * This blso sets the currency symbol bttribute to the currency's symbol
+     * in the DecimblFormbtSymbols' locble, bnd the internbtionbl currency
+     * symbol bttribute to the currency's ISO 4217 currency code.
      *
-     * @param currency the new currency to be used
+     * @pbrbm currency the new currency to be used
      * @exception NullPointerException if <code>currency</code> is null
      * @since 1.4
      * @see #setCurrencySymbol
-     * @see #setInternationalCurrencySymbol
+     * @see #setInternbtionblCurrencySymbol
      */
     public void setCurrency(Currency currency) {
         if (currency == null) {
@@ -470,409 +470,409 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
         }
         this.currency = currency;
         intlCurrencySymbol = currency.getCurrencyCode();
-        currencySymbol = currency.getSymbol(locale);
+        currencySymbol = currency.getSymbol(locble);
     }
 
 
     /**
-     * Returns the monetary decimal separator.
+     * Returns the monetbry decimbl sepbrbtor.
      *
-     * @return the monetary decimal separator
+     * @return the monetbry decimbl sepbrbtor
      * @since 1.2
      */
-    public char getMonetaryDecimalSeparator()
+    public chbr getMonetbryDecimblSepbrbtor()
     {
-        return monetarySeparator;
+        return monetbrySepbrbtor;
     }
 
     /**
-     * Sets the monetary decimal separator.
+     * Sets the monetbry decimbl sepbrbtor.
      *
-     * @param sep the monetary decimal separator
+     * @pbrbm sep the monetbry decimbl sepbrbtor
      * @since 1.2
      */
-    public void setMonetaryDecimalSeparator(char sep)
+    public void setMonetbryDecimblSepbrbtor(chbr sep)
     {
-        monetarySeparator = sep;
+        monetbrySepbrbtor = sep;
     }
 
     //------------------------------------------------------------
-    // BEGIN   Package Private methods ... to be made public later
+    // BEGIN   Pbckbge Privbte methods ... to be mbde public lbter
     //------------------------------------------------------------
 
     /**
-     * Returns the character used to separate the mantissa from the exponent.
+     * Returns the chbrbcter used to sepbrbte the mbntissb from the exponent.
      */
-    char getExponentialSymbol()
+    chbr getExponentiblSymbol()
     {
-        return exponential;
+        return exponentibl;
     }
   /**
-   * Returns the string used to separate the mantissa from the exponent.
-   * Examples: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   * Returns the string used to sepbrbte the mbntissb from the exponent.
+   * Exbmples: "x10^" for 1.23x10^4, "E" for 1.23E4.
    *
-   * @return the exponent separator string
-   * @see #setExponentSeparator(java.lang.String)
+   * @return the exponent sepbrbtor string
+   * @see #setExponentSepbrbtor(jbvb.lbng.String)
    * @since 1.6
    */
-    public String getExponentSeparator()
+    public String getExponentSepbrbtor()
     {
-        return exponentialSeparator;
+        return exponentiblSepbrbtor;
     }
 
     /**
-     * Sets the character used to separate the mantissa from the exponent.
+     * Sets the chbrbcter used to sepbrbte the mbntissb from the exponent.
      */
-    void setExponentialSymbol(char exp)
+    void setExponentiblSymbol(chbr exp)
     {
-        exponential = exp;
+        exponentibl = exp;
     }
 
   /**
-   * Sets the string used to separate the mantissa from the exponent.
-   * Examples: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   * Sets the string used to sepbrbte the mbntissb from the exponent.
+   * Exbmples: "x10^" for 1.23x10^4, "E" for 1.23E4.
    *
-   * @param exp the exponent separator string
+   * @pbrbm exp the exponent sepbrbtor string
    * @exception NullPointerException if <code>exp</code> is null
-   * @see #getExponentSeparator()
+   * @see #getExponentSepbrbtor()
    * @since 1.6
    */
-    public void setExponentSeparator(String exp)
+    public void setExponentSepbrbtor(String exp)
     {
         if (exp == null) {
             throw new NullPointerException();
         }
-        exponentialSeparator = exp;
+        exponentiblSepbrbtor = exp;
      }
 
 
     //------------------------------------------------------------
-    // END     Package Private methods ... to be made public later
+    // END     Pbckbge Privbte methods ... to be mbde public lbter
     //------------------------------------------------------------
 
     /**
-     * Standard override.
+     * Stbndbrd override.
      */
     @Override
     public Object clone() {
         try {
-            return (DecimalFormatSymbols)super.clone();
-            // other fields are bit-copied
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            return (DecimblFormbtSymbols)super.clone();
+            // other fields bre bit-copied
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Override equals.
+     * Override equbls.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
         if (this == obj) return true;
-        if (getClass() != obj.getClass()) return false;
-        DecimalFormatSymbols other = (DecimalFormatSymbols) obj;
+        if (getClbss() != obj.getClbss()) return fblse;
+        DecimblFormbtSymbols other = (DecimblFormbtSymbols) obj;
         return (zeroDigit == other.zeroDigit &&
-        groupingSeparator == other.groupingSeparator &&
-        decimalSeparator == other.decimalSeparator &&
+        groupingSepbrbtor == other.groupingSepbrbtor &&
+        decimblSepbrbtor == other.decimblSepbrbtor &&
         percent == other.percent &&
         perMill == other.perMill &&
         digit == other.digit &&
         minusSign == other.minusSign &&
-        patternSeparator == other.patternSeparator &&
-        infinity.equals(other.infinity) &&
-        NaN.equals(other.NaN) &&
-        currencySymbol.equals(other.currencySymbol) &&
-        intlCurrencySymbol.equals(other.intlCurrencySymbol) &&
+        pbtternSepbrbtor == other.pbtternSepbrbtor &&
+        infinity.equbls(other.infinity) &&
+        NbN.equbls(other.NbN) &&
+        currencySymbol.equbls(other.currencySymbol) &&
+        intlCurrencySymbol.equbls(other.intlCurrencySymbol) &&
         currency == other.currency &&
-        monetarySeparator == other.monetarySeparator &&
-        exponentialSeparator.equals(other.exponentialSeparator) &&
-        locale.equals(other.locale));
+        monetbrySepbrbtor == other.monetbrySepbrbtor &&
+        exponentiblSepbrbtor.equbls(other.exponentiblSepbrbtor) &&
+        locble.equbls(other.locble));
     }
 
     /**
-     * Override hashCode.
+     * Override hbshCode.
      */
     @Override
-    public int hashCode() {
+    public int hbshCode() {
             int result = zeroDigit;
-            result = result * 37 + groupingSeparator;
-            result = result * 37 + decimalSeparator;
+            result = result * 37 + groupingSepbrbtor;
+            result = result * 37 + decimblSepbrbtor;
             return result;
     }
 
     /**
-     * Initializes the symbols from the FormatData resource bundle.
+     * Initiblizes the symbols from the FormbtDbtb resource bundle.
      */
-    private void initialize( Locale locale ) {
-        this.locale = locale;
+    privbte void initiblize( Locble locble ) {
+        this.locble = locble;
 
-        // get resource bundle data
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(DecimalFormatSymbolsProvider.class, locale);
-        // Avoid potential recursions
-        if (!(adapter instanceof ResourceBundleBasedAdapter)) {
-            adapter = LocaleProviderAdapter.getResourceBundleBased();
+        // get resource bundle dbtb
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(DecimblFormbtSymbolsProvider.clbss, locble);
+        // Avoid potentibl recursions
+        if (!(bdbpter instbnceof ResourceBundleBbsedAdbpter)) {
+            bdbpter = LocbleProviderAdbpter.getResourceBundleBbsed();
         }
-        Object[] data = adapter.getLocaleResources(locale).getDecimalFormatSymbolsData();
-        String[] numberElements = (String[]) data[0];
+        Object[] dbtb = bdbpter.getLocbleResources(locble).getDecimblFormbtSymbolsDbtb();
+        String[] numberElements = (String[]) dbtb[0];
 
-        decimalSeparator = numberElements[0].charAt(0);
-        groupingSeparator = numberElements[1].charAt(0);
-        patternSeparator = numberElements[2].charAt(0);
-        percent = numberElements[3].charAt(0);
-        zeroDigit = numberElements[4].charAt(0); //different for Arabic,etc.
-        digit = numberElements[5].charAt(0);
-        minusSign = numberElements[6].charAt(0);
-        exponential = numberElements[7].charAt(0);
-        exponentialSeparator = numberElements[7]; //string representation new since 1.6
-        perMill = numberElements[8].charAt(0);
+        decimblSepbrbtor = numberElements[0].chbrAt(0);
+        groupingSepbrbtor = numberElements[1].chbrAt(0);
+        pbtternSepbrbtor = numberElements[2].chbrAt(0);
+        percent = numberElements[3].chbrAt(0);
+        zeroDigit = numberElements[4].chbrAt(0); //different for Arbbic,etc.
+        digit = numberElements[5].chbrAt(0);
+        minusSign = numberElements[6].chbrAt(0);
+        exponentibl = numberElements[7].chbrAt(0);
+        exponentiblSepbrbtor = numberElements[7]; //string representbtion new since 1.6
+        perMill = numberElements[8].chbrAt(0);
         infinity  = numberElements[9];
-        NaN = numberElements[10];
+        NbN = numberElements[10];
 
-        // Try to obtain the currency used in the locale's country.
-        // Check for empty country string separately because it's a valid
-        // country ID for Locale (and used for the C locale), but not a valid
-        // ISO 3166 country code, and exceptions are expensive.
-        if (locale.getCountry().length() > 0) {
+        // Try to obtbin the currency used in the locble's country.
+        // Check for empty country string sepbrbtely becbuse it's b vblid
+        // country ID for Locble (bnd used for the C locble), but not b vblid
+        // ISO 3166 country code, bnd exceptions bre expensive.
+        if (locble.getCountry().length() > 0) {
             try {
-                currency = Currency.getInstance(locale);
-            } catch (IllegalArgumentException e) {
-                // use default values below for compatibility
+                currency = Currency.getInstbnce(locble);
+            } cbtch (IllegblArgumentException e) {
+                // use defbult vblues below for compbtibility
             }
         }
         if (currency != null) {
             intlCurrencySymbol = currency.getCurrencyCode();
-            if (data[1] != null && data[1] == intlCurrencySymbol) {
-                currencySymbol = (String) data[2];
+            if (dbtb[1] != null && dbtb[1] == intlCurrencySymbol) {
+                currencySymbol = (String) dbtb[2];
             } else {
-                currencySymbol = currency.getSymbol(locale);
-                data[1] = intlCurrencySymbol;
-                data[2] = currencySymbol;
+                currencySymbol = currency.getSymbol(locble);
+                dbtb[1] = intlCurrencySymbol;
+                dbtb[2] = currencySymbol;
             }
         } else {
-            // default values
+            // defbult vblues
             intlCurrencySymbol = "XXX";
             try {
-                currency = Currency.getInstance(intlCurrencySymbol);
-            } catch (IllegalArgumentException e) {
+                currency = Currency.getInstbnce(intlCurrencySymbol);
+            } cbtch (IllegblArgumentException e) {
             }
             currencySymbol = "\u00A4";
         }
-        // Currently the monetary decimal separator is the same as the
-        // standard decimal separator for all locales that we support.
-        // If that changes, add a new entry to NumberElements.
-        monetarySeparator = decimalSeparator;
+        // Currently the monetbry decimbl sepbrbtor is the sbme bs the
+        // stbndbrd decimbl sepbrbtor for bll locbles thbt we support.
+        // If thbt chbnges, bdd b new entry to NumberElements.
+        monetbrySepbrbtor = decimblSepbrbtor;
     }
 
     /**
-     * Reads the default serializable fields, provides default values for objects
-     * in older serial versions, and initializes non-serializable fields.
-     * If <code>serialVersionOnStream</code>
-     * is less than 1, initializes <code>monetarySeparator</code> to be
-     * the same as <code>decimalSeparator</code> and <code>exponential</code>
+     * Rebds the defbult seriblizbble fields, provides defbult vblues for objects
+     * in older seribl versions, bnd initiblizes non-seriblizbble fields.
+     * If <code>seriblVersionOnStrebm</code>
+     * is less thbn 1, initiblizes <code>monetbrySepbrbtor</code> to be
+     * the sbme bs <code>decimblSepbrbtor</code> bnd <code>exponentibl</code>
      * to be 'E'.
-     * If <code>serialVersionOnStream</code> is less than 2,
-     * initializes <code>locale</code>to the root locale, and initializes
-     * If <code>serialVersionOnStream</code> is less than 3, it initializes
-     * <code>exponentialSeparator</code> using <code>exponential</code>.
-     * Sets <code>serialVersionOnStream</code> back to the maximum allowed value so that
-     * default serialization will work properly if this object is streamed out again.
-     * Initializes the currency from the intlCurrencySymbol field.
+     * If <code>seriblVersionOnStrebm</code> is less thbn 2,
+     * initiblizes <code>locble</code>to the root locble, bnd initiblizes
+     * If <code>seriblVersionOnStrebm</code> is less thbn 3, it initiblizes
+     * <code>exponentiblSepbrbtor</code> using <code>exponentibl</code>.
+     * Sets <code>seriblVersionOnStrebm</code> bbck to the mbximum bllowed vblue so thbt
+     * defbult seriblizbtion will work properly if this object is strebmed out bgbin.
+     * Initiblizes the currency from the intlCurrencySymbol field.
      *
      * @since  1.1.6
      */
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        if (serialVersionOnStream < 1) {
-            // Didn't have monetarySeparator or exponential field;
-            // use defaults.
-            monetarySeparator = decimalSeparator;
-            exponential       = 'E';
+    privbte void rebdObject(ObjectInputStrebm strebm)
+            throws IOException, ClbssNotFoundException {
+        strebm.defbultRebdObject();
+        if (seriblVersionOnStrebm < 1) {
+            // Didn't hbve monetbrySepbrbtor or exponentibl field;
+            // use defbults.
+            monetbrySepbrbtor = decimblSepbrbtor;
+            exponentibl       = 'E';
         }
-        if (serialVersionOnStream < 2) {
-            // didn't have locale; use root locale
-            locale = Locale.ROOT;
+        if (seriblVersionOnStrebm < 2) {
+            // didn't hbve locble; use root locble
+            locble = Locble.ROOT;
         }
-        if (serialVersionOnStream < 3) {
-            // didn't have exponentialSeparator. Create one using exponential
-            exponentialSeparator = Character.toString(exponential);
+        if (seriblVersionOnStrebm < 3) {
+            // didn't hbve exponentiblSepbrbtor. Crebte one using exponentibl
+            exponentiblSepbrbtor = Chbrbcter.toString(exponentibl);
         }
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
 
         if (intlCurrencySymbol != null) {
             try {
-                 currency = Currency.getInstance(intlCurrencySymbol);
-            } catch (IllegalArgumentException e) {
+                 currency = Currency.getInstbnce(intlCurrencySymbol);
+            } cbtch (IllegblArgumentException e) {
             }
         }
     }
 
     /**
-     * Character used for zero.
+     * Chbrbcter used for zero.
      *
-     * @serial
+     * @seribl
      * @see #getZeroDigit
      */
-    private  char    zeroDigit;
+    privbte  chbr    zeroDigit;
 
     /**
-     * Character used for thousands separator.
+     * Chbrbcter used for thousbnds sepbrbtor.
      *
-     * @serial
-     * @see #getGroupingSeparator
+     * @seribl
+     * @see #getGroupingSepbrbtor
      */
-    private  char    groupingSeparator;
+    privbte  chbr    groupingSepbrbtor;
 
     /**
-     * Character used for decimal sign.
+     * Chbrbcter used for decimbl sign.
      *
-     * @serial
-     * @see #getDecimalSeparator
+     * @seribl
+     * @see #getDecimblSepbrbtor
      */
-    private  char    decimalSeparator;
+    privbte  chbr    decimblSepbrbtor;
 
     /**
-     * Character used for per mille sign.
+     * Chbrbcter used for per mille sign.
      *
-     * @serial
+     * @seribl
      * @see #getPerMill
      */
-    private  char    perMill;
+    privbte  chbr    perMill;
 
     /**
-     * Character used for percent sign.
-     * @serial
+     * Chbrbcter used for percent sign.
+     * @seribl
      * @see #getPercent
      */
-    private  char    percent;
+    privbte  chbr    percent;
 
     /**
-     * Character used for a digit in a pattern.
+     * Chbrbcter used for b digit in b pbttern.
      *
-     * @serial
+     * @seribl
      * @see #getDigit
      */
-    private  char    digit;
+    privbte  chbr    digit;
 
     /**
-     * Character used to separate positive and negative subpatterns
-     * in a pattern.
+     * Chbrbcter used to sepbrbte positive bnd negbtive subpbtterns
+     * in b pbttern.
      *
-     * @serial
-     * @see #getPatternSeparator
+     * @seribl
+     * @see #getPbtternSepbrbtor
      */
-    private  char    patternSeparator;
+    privbte  chbr    pbtternSepbrbtor;
 
     /**
      * String used to represent infinity.
-     * @serial
+     * @seribl
      * @see #getInfinity
      */
-    private  String  infinity;
+    privbte  String  infinity;
 
     /**
-     * String used to represent "not a number".
-     * @serial
-     * @see #getNaN
+     * String used to represent "not b number".
+     * @seribl
+     * @see #getNbN
      */
-    private  String  NaN;
+    privbte  String  NbN;
 
     /**
-     * Character used to represent minus sign.
-     * @serial
+     * Chbrbcter used to represent minus sign.
+     * @seribl
      * @see #getMinusSign
      */
-    private  char    minusSign;
+    privbte  chbr    minusSign;
 
     /**
-     * String denoting the local currency, e.g. "$".
-     * @serial
+     * String denoting the locbl currency, e.g. "$".
+     * @seribl
      * @see #getCurrencySymbol
      */
-    private  String  currencySymbol;
+    privbte  String  currencySymbol;
 
     /**
-     * ISO 4217 currency code denoting the local currency, e.g. "USD".
-     * @serial
-     * @see #getInternationalCurrencySymbol
+     * ISO 4217 currency code denoting the locbl currency, e.g. "USD".
+     * @seribl
+     * @see #getInternbtionblCurrencySymbol
      */
-    private  String  intlCurrencySymbol;
+    privbte  String  intlCurrencySymbol;
 
     /**
-     * The decimal separator used when formatting currency values.
-     * @serial
+     * The decimbl sepbrbtor used when formbtting currency vblues.
+     * @seribl
      * @since  1.1.6
-     * @see #getMonetaryDecimalSeparator
+     * @see #getMonetbryDecimblSepbrbtor
      */
-    private  char    monetarySeparator; // Field new in JDK 1.1.6
+    privbte  chbr    monetbrySepbrbtor; // Field new in JDK 1.1.6
 
     /**
-     * The character used to distinguish the exponent in a number formatted
-     * in exponential notation, e.g. 'E' for a number such as "1.23E45".
+     * The chbrbcter used to distinguish the exponent in b number formbtted
+     * in exponentibl notbtion, e.g. 'E' for b number such bs "1.23E45".
      * <p>
-     * Note that the public API provides no way to set this field,
-     * even though it is supported by the implementation and the stream format.
-     * The intent is that this will be added to the API in the future.
+     * Note thbt the public API provides no wby to set this field,
+     * even though it is supported by the implementbtion bnd the strebm formbt.
+     * The intent is thbt this will be bdded to the API in the future.
      *
-     * @serial
+     * @seribl
      * @since  1.1.6
      */
-    private  char    exponential;       // Field new in JDK 1.1.6
+    privbte  chbr    exponentibl;       // Field new in JDK 1.1.6
 
   /**
-   * The string used to separate the mantissa from the exponent.
-   * Examples: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   * The string used to sepbrbte the mbntissb from the exponent.
+   * Exbmples: "x10^" for 1.23x10^4, "E" for 1.23E4.
    * <p>
-   * If both <code>exponential</code> and <code>exponentialSeparator</code>
-   * exist, this <code>exponentialSeparator</code> has the precedence.
+   * If both <code>exponentibl</code> bnd <code>exponentiblSepbrbtor</code>
+   * exist, this <code>exponentiblSepbrbtor</code> hbs the precedence.
    *
-   * @serial
+   * @seribl
    * @since 1.6
    */
-    private  String    exponentialSeparator;       // Field new in JDK 1.6
+    privbte  String    exponentiblSepbrbtor;       // Field new in JDK 1.6
 
     /**
-     * The locale of these currency format symbols.
+     * The locble of these currency formbt symbols.
      *
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private Locale locale;
+    privbte Locble locble;
 
-    // currency; only the ISO code is serialized.
-    private transient Currency currency;
+    // currency; only the ISO code is seriblized.
+    privbte trbnsient Currency currency;
 
-    // Proclaim JDK 1.1 FCS compatibility
-    static final long serialVersionUID = 5772796243397350300L;
+    // Proclbim JDK 1.1 FCS compbtibility
+    stbtic finbl long seriblVersionUID = 5772796243397350300L;
 
-    // The internal serial version which says which version was written
-    // - 0 (default) for version up to JDK 1.1.5
+    // The internbl seribl version which sbys which version wbs written
+    // - 0 (defbult) for version up to JDK 1.1.5
     // - 1 for version from JDK 1.1.6, which includes two new fields:
-    //     monetarySeparator and exponential.
-    // - 2 for version from J2SE 1.4, which includes locale field.
-    // - 3 for version from J2SE 1.6, which includes exponentialSeparator field.
-    private static final int currentSerialVersion = 3;
+    //     monetbrySepbrbtor bnd exponentibl.
+    // - 2 for version from J2SE 1.4, which includes locble field.
+    // - 3 for version from J2SE 1.6, which includes exponentiblSepbrbtor field.
+    privbte stbtic finbl int currentSeriblVersion = 3;
 
     /**
-     * Describes the version of <code>DecimalFormatSymbols</code> present on the stream.
-     * Possible values are:
+     * Describes the version of <code>DecimblFormbtSymbols</code> present on the strebm.
+     * Possible vblues bre:
      * <ul>
-     * <li><b>0</b> (or uninitialized): versions prior to JDK 1.1.6.
+     * <li><b>0</b> (or uninitiblized): versions prior to JDK 1.1.6.
      *
-     * <li><b>1</b>: Versions written by JDK 1.1.6 or later, which include
-     *      two new fields: <code>monetarySeparator</code> and <code>exponential</code>.
-     * <li><b>2</b>: Versions written by J2SE 1.4 or later, which include a
-     *      new <code>locale</code> field.
-     * <li><b>3</b>: Versions written by J2SE 1.6 or later, which include a
-     *      new <code>exponentialSeparator</code> field.
+     * <li><b>1</b>: Versions written by JDK 1.1.6 or lbter, which include
+     *      two new fields: <code>monetbrySepbrbtor</code> bnd <code>exponentibl</code>.
+     * <li><b>2</b>: Versions written by J2SE 1.4 or lbter, which include b
+     *      new <code>locble</code> field.
+     * <li><b>3</b>: Versions written by J2SE 1.6 or lbter, which include b
+     *      new <code>exponentiblSepbrbtor</code> field.
      * </ul>
-     * When streaming out a <code>DecimalFormatSymbols</code>, the most recent format
-     * (corresponding to the highest allowable <code>serialVersionOnStream</code>)
-     * is always written.
+     * When strebming out b <code>DecimblFormbtSymbols</code>, the most recent formbt
+     * (corresponding to the highest bllowbble <code>seriblVersionOnStrebm</code>)
+     * is blwbys written.
      *
-     * @serial
+     * @seribl
      * @since  1.1.6
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 }

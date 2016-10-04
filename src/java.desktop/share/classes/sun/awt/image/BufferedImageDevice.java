@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsConfiguration;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsConfigurbtion;
 
-public class BufferedImageDevice extends GraphicsDevice
+public clbss BufferedImbgeDevice extends GrbphicsDevice
 {
-    GraphicsConfiguration gc;
+    GrbphicsConfigurbtion gc;
 
-    public BufferedImageDevice(BufferedImageGraphicsConfig gc) {
+    public BufferedImbgeDevice(BufferedImbgeGrbphicsConfig gc) {
         this.gc = gc;
     }
 
     /**
-     * Returns the type of this <code>GraphicsDevice</code>.
-     * @return the type of this <code>GraphicsDevice</code>, which can
+     * Returns the type of this <code>GrbphicsDevice</code>.
+     * @return the type of this <code>GrbphicsDevice</code>, which cbn
      * either be TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
      * @see #TYPE_RASTER_SCREEN
      * @see #TYPE_PRINTER
      * @see #TYPE_IMAGE_BUFFER
      */
     public int getType() {
-        return GraphicsDevice.TYPE_IMAGE_BUFFER;
+        return GrbphicsDevice.TYPE_IMAGE_BUFFER;
     }
 
     /**
-     * Returns the identification string associated with this
-     * <code>GraphicsDevice</code>.
-     * @return a <code>String</code> that is the identification
-     * of this <code>GraphicsDevice</code>.
+     * Returns the identificbtion string bssocibted with this
+     * <code>GrbphicsDevice</code>.
+     * @return b <code>String</code> thbt is the identificbtion
+     * of this <code>GrbphicsDevice</code>.
      */
     public String getIDstring() {
-        return ("BufferedImage");
+        return ("BufferedImbge");
     }
 
     /**
-     * Returns all of the <code>GraphicsConfiguration</code>
-     * objects associated with this <code>GraphicsDevice</code>.
-     * @return an array of <code>GraphicsConfiguration</code>
-     * objects that are associated with this
-     * <code>GraphicsDevice</code>.
+     * Returns bll of the <code>GrbphicsConfigurbtion</code>
+     * objects bssocibted with this <code>GrbphicsDevice</code>.
+     * @return bn brrby of <code>GrbphicsConfigurbtion</code>
+     * objects thbt bre bssocibted with this
+     * <code>GrbphicsDevice</code>.
      */
-    public GraphicsConfiguration[] getConfigurations() {
-        return new GraphicsConfiguration[] { gc };
+    public GrbphicsConfigurbtion[] getConfigurbtions() {
+        return new GrbphicsConfigurbtion[] { gc };
     }
 
     /**
-     * Returns the default <code>GraphicsConfiguration</code>
-     * associated with this <code>GraphicsDevice</code>.
-     * @return the default <code>GraphicsConfiguration</code>
-     * of this <code>GraphicsDevice</code>.
+     * Returns the defbult <code>GrbphicsConfigurbtion</code>
+     * bssocibted with this <code>GrbphicsDevice</code>.
+     * @return the defbult <code>GrbphicsConfigurbtion</code>
+     * of this <code>GrbphicsDevice</code>.
      */
-    public GraphicsConfiguration getDefaultConfiguration() {
+    public GrbphicsConfigurbtion getDefbultConfigurbtion() {
         return gc;
     }
 }

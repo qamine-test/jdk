@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
-import java.util.concurrent.atomic.AtomicLong;
-import sun.awt.AppContext;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import jbvb.util.concurrent.locks.*;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import sun.bwt.AppContext;
 
 
 
 /**
- * Internal class to manage all Timers using one thread.
- * TimerQueue manages a queue of Timers. The Timers are chained
- * together in a linked list sorted by the order in which they will expire.
+ * Internbl clbss to mbnbge bll Timers using one threbd.
+ * TimerQueue mbnbges b queue of Timers. The Timers bre chbined
+ * together in b linked list sorted by the order in which they will expire.
  *
- * @author Dave Moore
- * @author Igor Kushnirskiy
+ * @buthor Dbve Moore
+ * @buthor Igor Kushnirskiy
  */
-class TimerQueue implements Runnable
+clbss TimerQueue implements Runnbble
 {
-    private static final Object sharedInstanceKey =
-        new StringBuffer("TimerQueue.sharedInstanceKey");
-    private static final Object expiredTimersKey =
+    privbte stbtic finbl Object shbredInstbnceKey =
+        new StringBuffer("TimerQueue.shbredInstbnceKey");
+    privbte stbtic finbl Object expiredTimersKey =
         new StringBuffer("TimerQueue.expiredTimersKey");
 
-    private final DelayQueue<DelayedTimer> queue;
-    private volatile boolean running;
-    private final Lock runningLock;
+    privbte finbl DelbyQueue<DelbyedTimer> queue;
+    privbte volbtile boolebn running;
+    privbte finbl Lock runningLock;
 
-    /* Lock object used in place of class object for synchronization.
+    /* Lock object used in plbce of clbss object for synchronizbtion.
      * (4187686)
      */
-    private static final Object classLock = new Object();
+    privbte stbtic finbl Object clbssLock = new Object();
 
-    /** Base of nanosecond timings, to avoid wrapping */
-    private static final long NANO_ORIGIN = System.nanoTime();
+    /** Bbse of nbnosecond timings, to bvoid wrbpping */
+    privbte stbtic finbl long NANO_ORIGIN = System.nbnoTime();
 
     /**
      * Constructor for TimerQueue.
      */
     public TimerQueue() {
         super();
-        queue = new DelayQueue<DelayedTimer>();
-        // Now start the TimerQueue thread.
-        runningLock = new ReentrantLock();
-        startIfNeeded();
+        queue = new DelbyQueue<DelbyedTimer>();
+        // Now stbrt the TimerQueue threbd.
+        runningLock = new ReentrbntLock();
+        stbrtIfNeeded();
     }
 
 
-    public static TimerQueue sharedInstance() {
-        synchronized (classLock) {
-            TimerQueue sharedInst = (TimerQueue)
-                                    SwingUtilities.appContextGet(
-                                                        sharedInstanceKey);
-            if (sharedInst == null) {
-                sharedInst = new TimerQueue();
-                SwingUtilities.appContextPut(sharedInstanceKey, sharedInst);
+    public stbtic TimerQueue shbredInstbnce() {
+        synchronized (clbssLock) {
+            TimerQueue shbredInst = (TimerQueue)
+                                    SwingUtilities.bppContextGet(
+                                                        shbredInstbnceKey);
+            if (shbredInst == null) {
+                shbredInst = new TimerQueue();
+                SwingUtilities.bppContextPut(shbredInstbnceKey, shbredInst);
             }
-            return sharedInst;
+            return shbredInst;
         }
     }
 
 
-    void startIfNeeded() {
+    void stbrtIfNeeded() {
         if (! running) {
             runningLock.lock();
             try {
-                final ThreadGroup threadGroup =
-                    AppContext.getAppContext().getThreadGroup();
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
+                finbl ThrebdGroup threbdGroup =
+                    AppContext.getAppContext().getThrebdGroup();
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Object>() {
                     public Object run() {
-                        Thread timerThread = new Thread(threadGroup, TimerQueue.this,
+                        Threbd timerThrebd = new Threbd(threbdGroup, TimerQueue.this,
                                                         "TimerQueue");
-                        timerThread.setDaemon(true);
-                        timerThread.setPriority(Thread.NORM_PRIORITY);
-                        timerThread.start();
+                        timerThrebd.setDbemon(true);
+                        timerThrebd.setPriority(Threbd.NORM_PRIORITY);
+                        timerThrebd.stbrt();
                         return null;
                     }
                 });
                 running = true;
-            } finally {
+            } finblly {
                 runningLock.unlock();
             }
         }
     }
 
-    void addTimer(Timer timer, long delayMillis) {
+    void bddTimer(Timer timer, long delbyMillis) {
         timer.getLock().lock();
         try {
-            // If the Timer is already in the queue, then ignore the add.
-            if (! containsTimer(timer)) {
-                addTimer(new DelayedTimer(timer,
-                                      TimeUnit.MILLISECONDS.toNanos(delayMillis)
+            // If the Timer is blrebdy in the queue, then ignore the bdd.
+            if (! contbinsTimer(timer)) {
+                bddTimer(new DelbyedTimer(timer,
+                                      TimeUnit.MILLISECONDS.toNbnos(delbyMillis)
                                       + now()));
             }
-        } finally {
+        } finblly {
             timer.getLock().unlock();
         }
     }
 
-    private void addTimer(DelayedTimer delayedTimer) {
-        assert delayedTimer != null && ! containsTimer(delayedTimer.getTimer());
+    privbte void bddTimer(DelbyedTimer delbyedTimer) {
+        bssert delbyedTimer != null && ! contbinsTimer(delbyedTimer.getTimer());
 
-        Timer timer = delayedTimer.getTimer();
+        Timer timer = delbyedTimer.getTimer();
         timer.getLock().lock();
         try {
-            timer.delayedTimer = delayedTimer;
-            queue.add(delayedTimer);
-        } finally {
+            timer.delbyedTimer = delbyedTimer;
+            queue.bdd(delbyedTimer);
+        } finblly {
             timer.getLock().unlock();
         }
     }
@@ -144,20 +144,20 @@ class TimerQueue implements Runnable
     void removeTimer(Timer timer) {
         timer.getLock().lock();
         try {
-            if (timer.delayedTimer != null) {
-                queue.remove(timer.delayedTimer);
-                timer.delayedTimer = null;
+            if (timer.delbyedTimer != null) {
+                queue.remove(timer.delbyedTimer);
+                timer.delbyedTimer = null;
             }
-        } finally {
+        } finblly {
             timer.getLock().unlock();
         }
     }
 
-    boolean containsTimer(Timer timer) {
+    boolebn contbinsTimer(Timer timer) {
         timer.getLock().lock();
         try {
-            return timer.delayedTimer != null;
-        } finally {
+            return timer.delbyedTimer != null;
+        } finblly {
             timer.getLock().unlock();
         }
     }
@@ -168,49 +168,49 @@ class TimerQueue implements Runnable
         try {
             while (running) {
                 try {
-                    Timer timer = queue.take().getTimer();
+                    Timer timer = queue.tbke().getTimer();
                     timer.getLock().lock();
                     try {
-                        DelayedTimer delayedTimer = timer.delayedTimer;
-                        if (delayedTimer != null) {
+                        DelbyedTimer delbyedTimer = timer.delbyedTimer;
+                        if (delbyedTimer != null) {
                             /*
-                             * Timer is not removed after we get it from
-                             * the queue and before the lock on the timer is
-                             * acquired
+                             * Timer is not removed bfter we get it from
+                             * the queue bnd before the lock on the timer is
+                             * bcquired
                              */
-                            timer.post(); // have timer post an event
-                            timer.delayedTimer = null;
-                            if (timer.isRepeats()) {
-                                delayedTimer.setTime(now()
-                                    + TimeUnit.MILLISECONDS.toNanos(
-                                          timer.getDelay()));
-                                addTimer(delayedTimer);
+                            timer.post(); // hbve timer post bn event
+                            timer.delbyedTimer = null;
+                            if (timer.isRepebts()) {
+                                delbyedTimer.setTime(now()
+                                    + TimeUnit.MILLISECONDS.toNbnos(
+                                          timer.getDelby()));
+                                bddTimer(delbyedTimer);
                             }
                         }
 
-                        // Allow run other threads on systems without kernel threads
-                        timer.getLock().newCondition().awaitNanos(1);
-                    } catch (SecurityException ignore) {
-                    } finally {
+                        // Allow run other threbds on systems without kernel threbds
+                        timer.getLock().newCondition().bwbitNbnos(1);
+                    } cbtch (SecurityException ignore) {
+                    } finblly {
                         timer.getLock().unlock();
                     }
-                } catch (InterruptedException ie) {
+                } cbtch (InterruptedException ie) {
                     // Shouldn't ignore InterruptedExceptions here, so AppContext
-                    // is disposed gracefully, see 6799345 for details
+                    // is disposed grbcefully, see 6799345 for detbils
                     if (AppContext.getAppContext().isDisposed()) {
-                        break;
+                        brebk;
                     }
                 }
             }
         }
-        catch (ThreadDeath td) {
-            // Mark all the timers we contain as not being queued.
-            for (DelayedTimer delayedTimer : queue) {
-                delayedTimer.getTimer().cancelEvent();
+        cbtch (ThrebdDebth td) {
+            // Mbrk bll the timers we contbin bs not being queued.
+            for (DelbyedTimer delbyedTimer : queue) {
+                delbyedTimer.getTimer().cbncelEvent();
             }
             throw td;
-        } finally {
-            running = false;
+        } finblly {
+            running = fblse;
             runningLock.unlock();
         }
     }
@@ -218,70 +218,70 @@ class TimerQueue implements Runnable
 
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("TimerQueue (");
-        boolean isFirst = true;
-        for (DelayedTimer delayedTimer : queue) {
+        buf.bppend("TimerQueue (");
+        boolebn isFirst = true;
+        for (DelbyedTimer delbyedTimer : queue) {
             if (! isFirst) {
-                buf.append(", ");
+                buf.bppend(", ");
             }
-            buf.append(delayedTimer.getTimer().toString());
-            isFirst = false;
+            buf.bppend(delbyedTimer.getTimer().toString());
+            isFirst = fblse;
         }
-        buf.append(")");
+        buf.bppend(")");
         return buf.toString();
     }
 
     /**
-     * Returns nanosecond time offset by origin
+     * Returns nbnosecond time offset by origin
      */
-    private static long now() {
-        return System.nanoTime() - NANO_ORIGIN;
+    privbte stbtic long now() {
+        return System.nbnoTime() - NANO_ORIGIN;
     }
 
-    static class DelayedTimer implements Delayed {
+    stbtic clbss DelbyedTimer implements Delbyed {
         // most of it copied from
-        // java.util.concurrent.ScheduledThreadPoolExecutor
+        // jbvb.util.concurrent.ScheduledThrebdPoolExecutor
 
         /**
-         * Sequence number to break scheduling ties, and in turn to
-         * guarantee FIFO order among tied entries.
+         * Sequence number to brebk scheduling ties, bnd in turn to
+         * gubrbntee FIFO order bmong tied entries.
          */
-        private static final AtomicLong sequencer = new AtomicLong(0);
+        privbte stbtic finbl AtomicLong sequencer = new AtomicLong(0);
 
-        /** Sequence number to break ties FIFO */
-        private final long sequenceNumber;
+        /** Sequence number to brebk ties FIFO */
+        privbte finbl long sequenceNumber;
 
 
-        /** The time the task is enabled to execute in nanoTime units */
-        private volatile long time;
+        /** The time the tbsk is enbbled to execute in nbnoTime units */
+        privbte volbtile long time;
 
-        private final Timer timer;
+        privbte finbl Timer timer;
 
-        DelayedTimer(Timer timer, long nanos) {
+        DelbyedTimer(Timer timer, long nbnos) {
             this.timer = timer;
-            time = nanos;
+            time = nbnos;
             sequenceNumber = sequencer.getAndIncrement();
         }
 
 
-        final public long getDelay(TimeUnit unit) {
+        finbl public long getDelby(TimeUnit unit) {
             return  unit.convert(time - now(), TimeUnit.NANOSECONDS);
         }
 
-        final void setTime(long nanos) {
-            time = nanos;
+        finbl void setTime(long nbnos) {
+            time = nbnos;
         }
 
-        final Timer getTimer() {
+        finbl Timer getTimer() {
             return timer;
         }
 
-        public int compareTo(Delayed other) {
-            if (other == this) { // compare zero ONLY if same object
+        public int compbreTo(Delbyed other) {
+            if (other == this) { // compbre zero ONLY if sbme object
                 return 0;
             }
-            if (other instanceof DelayedTimer) {
-                DelayedTimer x = (DelayedTimer)other;
+            if (other instbnceof DelbyedTimer) {
+                DelbyedTimer x = (DelbyedTimer)other;
                 long diff = time - x.time;
                 if (diff < 0) {
                     return -1;
@@ -293,8 +293,8 @@ class TimerQueue implements Runnable
                     return 1;
                 }
             }
-            long d = (getDelay(TimeUnit.NANOSECONDS) -
-                      other.getDelay(TimeUnit.NANOSECONDS));
+            long d = (getDelby(TimeUnit.NANOSECONDS) -
+                      other.getDelby(TimeUnit.NANOSECONDS));
             return (d == 0) ? 0 : ((d < 0) ? -1 : 1);
         }
     }

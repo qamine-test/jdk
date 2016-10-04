@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import sun.awt.*;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.pipe.GlyphListPipe;
-import sun.java2d.xr.*;
+import sun.bwt.*;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.pipe.GlyphListPipe;
+import sun.jbvb2d.xr.*;
 
 /**
- * A delegate pipe of SG2D for drawing any text to a XRender surface
+ * A delegbte pipe of SG2D for drbwing bny text to b XRender surfbce
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
-public class XRTextRenderer extends GlyphListPipe {
-    // Workarround for a bug in libXrender.
-    // In case the number of glyphs of an ELT is a multiple of 254,
-    // a few garbage bytes are sent to the XServer causing hangs.
-    static final int MAX_ELT_GLYPH_COUNT = 253;
+public clbss XRTextRenderer extends GlyphListPipe {
+    // Workbrround for b bug in libXrender.
+    // In cbse the number of glyphs of bn ELT is b multiple of 254,
+    // b few gbrbbge bytes bre sent to the XServer cbusing hbngs.
+    stbtic finbl int MAX_ELT_GLYPH_COUNT = 253;
 
-    XRGlyphCache glyphCache;
-    XRCompositeManager maskBuffer;
-    XRBackend backend;
+    XRGlyphCbche glyphCbche;
+    XRCompositeMbnbger mbskBuffer;
+    XRBbckend bbckend;
 
-    GrowableEltArray eltList;
+    GrowbbleEltArrby eltList;
 
-    public XRTextRenderer(XRCompositeManager buffer) {
-        glyphCache = new XRGlyphCache(buffer);
-        maskBuffer = buffer;
-        backend = buffer.getBackend();
-        eltList = new GrowableEltArray(64);
+    public XRTextRenderer(XRCompositeMbnbger buffer) {
+        glyphCbche = new XRGlyphCbche(buffer);
+        mbskBuffer = buffer;
+        bbckend = buffer.getBbckend();
+        eltList = new GrowbbleEltArrby(64);
     }
 
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl) {
+    protected void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl) {
         if (gl.getNumGlyphs() == 0) {
             return;
         }
 
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sd = (XRSurfaceData) sg2d.surfaceData;
-            x11sd.validateAsDestination(null, sg2d.getCompClip());
-            x11sd.maskBuffer.validateCompositeState(sg2d.composite, sg2d.transform, sg2d.paint, sg2d);
+            XRSurfbceDbtb x11sd = (XRSurfbceDbtb) sg2d.surfbceDbtb;
+            x11sd.vblidbteAsDestinbtion(null, sg2d.getCompClip());
+            x11sd.mbskBuffer.vblidbteCompositeStbte(sg2d.composite, sg2d.trbnsform, sg2d.pbint, sg2d);
 
-            float advX = gl.getX();
-            float advY = gl.getY();
+            flobt bdvX = gl.getX();
+            flobt bdvY = gl.getY();
             int oldPosX = 0, oldPosY = 0;
 
             if (gl.isSubPixPos()) {
-                advX += 0.1666667f;
-                advY += 0.1666667f;
+                bdvX += 0.1666667f;
+                bdvY += 0.1666667f;
             } else {
-                advX += 0.5f;
-                advY += 0.5f;
+                bdvX += 0.5f;
+                bdvY += 0.5f;
             }
 
-            XRGlyphCacheEntry[] cachedGlyphs = glyphCache.cacheGlyphs(gl);
-            boolean containsLCDGlyphs = false;
-            int activeGlyphSet = cachedGlyphs[0].getGlyphSet();
+            XRGlyphCbcheEntry[] cbchedGlyphs = glyphCbche.cbcheGlyphs(gl);
+            boolebn contbinsLCDGlyphs = fblse;
+            int bctiveGlyphSet = cbchedGlyphs[0].getGlyphSet();
 
             int eltIndex = -1;
             gl.getBounds();
-            float[] positions = gl.getPositions();
+            flobt[] positions = gl.getPositions();
             for (int i = 0; i < gl.getNumGlyphs(); i++) {
                 gl.setGlyphIndex(i);
-                XRGlyphCacheEntry cacheEntry = cachedGlyphs[i];
+                XRGlyphCbcheEntry cbcheEntry = cbchedGlyphs[i];
 
-                eltList.getGlyphs().addInt(cacheEntry.getGlyphID());
-                int glyphSet = cacheEntry.getGlyphSet();
+                eltList.getGlyphs().bddInt(cbcheEntry.getGlyphID());
+                int glyphSet = cbcheEntry.getGlyphSet();
 
-                containsLCDGlyphs |= (glyphSet == glyphCache.lcdGlyphSet);
+                contbinsLCDGlyphs |= (glyphSet == glyphCbche.lcdGlyphSet);
 
                 int posX = 0, posY = 0;
                 if (gl.usePositions()
-                        || cacheEntry.getXAdvance() != ((float) cacheEntry.getXOff())
-                        || cacheEntry.getYAdvance() != ((float) cacheEntry.getYOff())
-                        || glyphSet != activeGlyphSet
+                        || cbcheEntry.getXAdvbnce() != ((flobt) cbcheEntry.getXOff())
+                        || cbcheEntry.getYAdvbnce() != ((flobt) cbcheEntry.getYOff())
+                        || glyphSet != bctiveGlyphSet
                         || eltIndex < 0
-                        || eltList.getCharCnt(eltIndex) == MAX_ELT_GLYPH_COUNT) {
+                        || eltList.getChbrCnt(eltIndex) == MAX_ELT_GLYPH_COUNT) {
 
                     eltIndex = eltList.getNextIndex();
-                    eltList.setCharCnt(eltIndex, 1);
-                    activeGlyphSet = glyphSet;
+                    eltList.setChbrCnt(eltIndex, 1);
+                    bctiveGlyphSet = glyphSet;
                     eltList.setGlyphSet(eltIndex, glyphSet);
 
                     if (gl.usePositions()) {
-                        // In this case advX only stores rounding errors
-                        float x = positions[i * 2] + advX;
-                        float y = positions[i * 2 + 1] + advY;
-                        posX = (int) Math.floor(x);
-                        posY = (int) Math.floor(y);
-                        advX -= cacheEntry.getXOff();
-                        advY -= cacheEntry.getYOff();
+                        // In this cbse bdvX only stores rounding errors
+                        flobt x = positions[i * 2] + bdvX;
+                        flobt y = positions[i * 2 + 1] + bdvY;
+                        posX = (int) Mbth.floor(x);
+                        posY = (int) Mbth.floor(y);
+                        bdvX -= cbcheEntry.getXOff();
+                        bdvY -= cbcheEntry.getYOff();
                     } else {
                         /*
-                         * Calculate next glyph's position in the case of
-                         * relative positioning. In XRender we can only position
-                         * glyphs using integer coordinates, therefor we sum all
-                         * the advances up as float, and convert them to integer
-                         * later. This way rounding-error can be corrected, and
-                         * is required to be consistent with the software loops.
+                         * Cblculbte next glyph's position in the cbse of
+                         * relbtive positioning. In XRender we cbn only position
+                         * glyphs using integer coordinbtes, therefor we sum bll
+                         * the bdvbnces up bs flobt, bnd convert them to integer
+                         * lbter. This wby rounding-error cbn be corrected, bnd
+                         * is required to be consistent with the softwbre loops.
                          */
-                        posX = (int) Math.floor(advX);
-                        posY = (int) Math.floor(advY);
+                        posX = (int) Mbth.floor(bdvX);
+                        posY = (int) Mbth.floor(bdvY);
 
-                        // Advance of ELT = difference between stored relative
-                        // positioning information and required float.
-                        advX += (cacheEntry.getXAdvance() - cacheEntry.getXOff());
-                        advY += (cacheEntry.getYAdvance() - cacheEntry.getYOff());
+                        // Advbnce of ELT = difference between stored relbtive
+                        // positioning informbtion bnd required flobt.
+                        bdvX += (cbcheEntry.getXAdvbnce() - cbcheEntry.getXOff());
+                        bdvY += (cbcheEntry.getYAdvbnce() - cbcheEntry.getYOff());
                     }
 
                     // Offset of the current glyph is the difference
-                    // to the last glyph and this one
+                    // to the lbst glyph bnd this one
                     eltList.setXOff(eltIndex, (posX - oldPosX));
                     eltList.setYOff(eltIndex, (posY - oldPosY));
 
@@ -142,16 +142,16 @@ public class XRTextRenderer extends GlyphListPipe {
                     oldPosY = posY;
 
                 } else {
-                    eltList.setCharCnt(eltIndex, eltList.getCharCnt(eltIndex) + 1);
+                    eltList.setChbrCnt(eltIndex, eltList.getChbrCnt(eltIndex) + 1);
                 }
             }
 
-            int maskFormat = containsLCDGlyphs ? XRUtils.PictStandardARGB32 : XRUtils.PictStandardA8;
-            maskBuffer.compositeText(x11sd, (int) gl.getX(), (int) gl.getY(), 0, maskFormat, eltList);
+            int mbskFormbt = contbinsLCDGlyphs ? XRUtils.PictStbndbrdARGB32 : XRUtils.PictStbndbrdA8;
+            mbskBuffer.compositeText(x11sd, (int) gl.getX(), (int) gl.getY(), 0, mbskFormbt, eltList);
 
-            eltList.clear();
-        } finally {
-            SunToolkit.awtUnlock();
+            eltList.clebr();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }

@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.spi;
+pbckbge sun.net.spi;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.SocketAddress;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.StringJoiner;
-import java.util.regex.Pattern;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.Proxy;
+import jbvb.net.ProxySelector;
+import jbvb.net.SocketAddress;
+import jbvb.net.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.StringJoiner;
+import jbvb.util.regex.Pbttern;
 import sun.net.NetProperties;
 import sun.net.SocksProxy;
-import static java.util.regex.Pattern.quote;
+import stbtic jbvb.util.regex.Pbttern.quote;
 
 /**
  * Supports proxy settings using system properties This proxy selector
- * provides backward compatibility with the old http protocol handler
- * as far as how proxy is set
+ * provides bbckwbrd compbtibility with the old http protocol hbndler
+ * bs fbr bs how proxy is set
  *
- * Most of the implementation copied from the old http protocol handler
+ * Most of the implementbtion copied from the old http protocol hbndler
  *
  * Supports http/https/ftp.proxyHost, http/https/ftp.proxyPort,
- * proxyHost, proxyPort, and http/https/ftp.nonProxyHost, and socks.
- * NOTE: need to do gopher as well
+ * proxyHost, proxyPort, bnd http/https/ftp.nonProxyHost, bnd socks.
+ * NOTE: need to do gopher bs well
  */
-public class DefaultProxySelector extends ProxySelector {
+public clbss DefbultProxySelector extends ProxySelector {
 
     /**
-     * This is where we define all the valid System Properties we have to
-     * support for each given protocol.
-     * The format of this 2 dimensional array is :
+     * This is where we define bll the vblid System Properties we hbve to
+     * support for ebch given protocol.
+     * The formbt of this 2 dimensionbl brrby is :
      * - 1 row per protocol (http, ftp, ...)
-     * - 1st element of each row is the protocol name
-     * - subsequent elements are prefixes for Host & Port properties
+     * - 1st element of ebch row is the protocol nbme
+     * - subsequent elements bre prefixes for Host & Port properties
      *   listed in order of priority.
-     * Example:
+     * Exbmple:
      * {"ftp", "ftp.proxy", "ftpProxy", "proxy", "socksProxy"},
-     * means for FTP we try in that oder:
+     * mebns for FTP we try in thbt oder:
      *          + ftp.proxyHost & ftp.proxyPort
      *          + ftpProxyHost & ftpProxyPort
      *          + proxyHost & proxyPort
      *          + socksProxyHost & socksProxyPort
      *
-     * Note that the socksProxy should *always* be the last on the list
+     * Note thbt the socksProxy should *blwbys* be the lbst on the list
      */
-    final static String[][] props = {
+    finbl stbtic String[][] props = {
         /*
          * protocol, Property prefix 1, Property prefix 2, ...
          */
@@ -83,127 +83,127 @@ public class DefaultProxySelector extends ProxySelector {
         {"socket", "socksProxy"}
     };
 
-    private static final String SOCKS_PROXY_VERSION = "socksProxyVersion";
+    privbte stbtic finbl String SOCKS_PROXY_VERSION = "socksProxyVersion";
 
-    private static boolean hasSystemProxies = false;
+    privbte stbtic boolebn hbsSystemProxies = fblse;
 
-    static {
-        final String key = "java.net.useSystemProxies";
-        Boolean b = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return NetProperties.getBoolean(key);
+    stbtic {
+        finbl String key = "jbvb.net.useSystemProxies";
+        Boolebn b = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    return NetProperties.getBoolebn(key);
                 }});
-        if (b != null && b.booleanValue()) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
+        if (b != null && b.boolebnVblue()) {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
-                        System.loadLibrary("net");
+                        System.lobdLibrbry("net");
                         return null;
                     }
                 });
-            hasSystemProxies = init();
+            hbsSystemProxies = init();
         }
     }
 
     /**
-     * How to deal with "non proxy hosts":
-     * since we do have to generate a pattern we don't want to do that if
-     * it's not necessary. Therefore we do cache the result, on a per-protocol
-     * basis, and change it only when the "source", i.e. the system property,
-     * did change.
+     * How to debl with "non proxy hosts":
+     * since we do hbve to generbte b pbttern we don't wbnt to do thbt if
+     * it's not necessbry. Therefore we do cbche the result, on b per-protocol
+     * bbsis, bnd chbnge it only when the "source", i.e. the system property,
+     * did chbnge.
      */
 
-    static class NonProxyInfo {
-        // Default value for nonProxyHosts, this provides backward compatibility
-        // by excluding localhost and its litteral notations.
-        static final String defStringVal = "localhost|127.*|[::1]|0.0.0.0|[::0]";
+    stbtic clbss NonProxyInfo {
+        // Defbult vblue for nonProxyHosts, this provides bbckwbrd compbtibility
+        // by excluding locblhost bnd its litterbl notbtions.
+        stbtic finbl String defStringVbl = "locblhost|127.*|[::1]|0.0.0.0|[::0]";
 
         String hostsSource;
-        Pattern pattern;
-        final String property;
-        final String defaultVal;
-        static NonProxyInfo ftpNonProxyInfo = new NonProxyInfo("ftp.nonProxyHosts", null, null, defStringVal);
-        static NonProxyInfo httpNonProxyInfo = new NonProxyInfo("http.nonProxyHosts", null, null, defStringVal);
-        static NonProxyInfo socksNonProxyInfo = new NonProxyInfo("socksNonProxyHosts", null, null, defStringVal);
+        Pbttern pbttern;
+        finbl String property;
+        finbl String defbultVbl;
+        stbtic NonProxyInfo ftpNonProxyInfo = new NonProxyInfo("ftp.nonProxyHosts", null, null, defStringVbl);
+        stbtic NonProxyInfo httpNonProxyInfo = new NonProxyInfo("http.nonProxyHosts", null, null, defStringVbl);
+        stbtic NonProxyInfo socksNonProxyInfo = new NonProxyInfo("socksNonProxyHosts", null, null, defStringVbl);
 
-        NonProxyInfo(String p, String s, Pattern pattern, String d) {
+        NonProxyInfo(String p, String s, Pbttern pbttern, String d) {
             property = p;
             hostsSource = s;
-            this.pattern = pattern;
-            defaultVal = d;
+            this.pbttern = pbttern;
+            defbultVbl = d;
         }
     }
 
 
     /**
-     * select() method. Where all the hard work is done.
-     * Build a list of proxies depending on URI.
-     * Since we're only providing compatibility with the system properties
-     * from previous releases (see list above), that list will always
-     * contain 1 single proxy, default being NO_PROXY.
+     * select() method. Where bll the hbrd work is done.
+     * Build b list of proxies depending on URI.
+     * Since we're only providing compbtibility with the system properties
+     * from previous relebses (see list bbove), thbt list will blwbys
+     * contbin 1 single proxy, defbult being NO_PROXY.
      */
-    public java.util.List<Proxy> select(URI uri) {
+    public jbvb.util.List<Proxy> select(URI uri) {
         if (uri == null) {
-            throw new IllegalArgumentException("URI can't be null.");
+            throw new IllegblArgumentException("URI cbn't be null.");
         }
         String protocol = uri.getScheme();
         String host = uri.getHost();
 
         if (host == null) {
-            // This is a hack to ensure backward compatibility in two
-            // cases: 1. hostnames contain non-ascii characters,
-            // internationalized domain names. in which case, URI will
-            // return null, see BugID 4957669; 2. Some hostnames can
-            // contain '_' chars even though it's not supposed to be
-            // legal, in which case URI will return null for getHost,
+            // This is b hbck to ensure bbckwbrd compbtibility in two
+            // cbses: 1. hostnbmes contbin non-bscii chbrbcters,
+            // internbtionblized dombin nbmes. in which cbse, URI will
+            // return null, see BugID 4957669; 2. Some hostnbmes cbn
+            // contbin '_' chbrs even though it's not supposed to be
+            // legbl, in which cbse URI will return null for getHost,
             // but not for getAuthority() See BugID 4913253
-            String auth = uri.getAuthority();
-            if (auth != null) {
+            String buth = uri.getAuthority();
+            if (buth != null) {
                 int i;
-                i = auth.indexOf('@');
+                i = buth.indexOf('@');
                 if (i >= 0) {
-                    auth = auth.substring(i+1);
+                    buth = buth.substring(i+1);
                 }
-                i = auth.lastIndexOf(':');
+                i = buth.lbstIndexOf(':');
                 if (i >= 0) {
-                    auth = auth.substring(0,i);
+                    buth = buth.substring(0,i);
                 }
-                host = auth;
+                host = buth;
             }
         }
 
         if (protocol == null || host == null) {
-            throw new IllegalArgumentException("protocol = "+protocol+" host = "+host);
+            throw new IllegblArgumentException("protocol = "+protocol+" host = "+host);
         }
-        List<Proxy> proxyl = new ArrayList<Proxy>(1);
+        List<Proxy> proxyl = new ArrbyList<Proxy>(1);
 
         NonProxyInfo pinfo = null;
 
-        if ("http".equalsIgnoreCase(protocol)) {
+        if ("http".equblsIgnoreCbse(protocol)) {
             pinfo = NonProxyInfo.httpNonProxyInfo;
-        } else if ("https".equalsIgnoreCase(protocol)) {
-            // HTTPS uses the same property as HTTP, for backward
-            // compatibility
+        } else if ("https".equblsIgnoreCbse(protocol)) {
+            // HTTPS uses the sbme property bs HTTP, for bbckwbrd
+            // compbtibility
             pinfo = NonProxyInfo.httpNonProxyInfo;
-        } else if ("ftp".equalsIgnoreCase(protocol)) {
+        } else if ("ftp".equblsIgnoreCbse(protocol)) {
             pinfo = NonProxyInfo.ftpNonProxyInfo;
-        } else if ("socket".equalsIgnoreCase(protocol)) {
+        } else if ("socket".equblsIgnoreCbse(protocol)) {
             pinfo = NonProxyInfo.socksNonProxyInfo;
         }
 
         /**
-         * Let's check the System properties for that protocol
+         * Let's check the System properties for thbt protocol
          */
-        final String proto = protocol;
-        final NonProxyInfo nprop = pinfo;
-        final String urlhost = host.toLowerCase();
+        finbl String proto = protocol;
+        finbl NonProxyInfo nprop = pinfo;
+        finbl String urlhost = host.toLowerCbse();
 
         /**
-         * This is one big doPrivileged call, but we're trying to optimize
-         * the code as much as possible. Since we're checking quite a few
-         * System properties it does help having only 1 call to doPrivileged.
-         * Be mindful what you do in here though!
+         * This is one big doPrivileged cbll, but we're trying to optimize
+         * the code bs much bs possible. Since we're checking quite b few
+         * System properties it does help hbving only 1 cbll to doPrivileged.
+         * Be mindful whbt you do in here though!
          */
         Proxy p = AccessController.doPrivileged(
             new PrivilegedAction<Proxy>() {
@@ -212,30 +212,30 @@ public class DefaultProxySelector extends ProxySelector {
                     String phost =  null;
                     int pport = 0;
                     String nphosts =  null;
-                    InetSocketAddress saddr = null;
+                    InetSocketAddress sbddr = null;
 
-                    // Then let's walk the list of protocols in our array
+                    // Then let's wblk the list of protocols in our brrby
                     for (i=0; i<props.length; i++) {
-                        if (props[i][0].equalsIgnoreCase(proto)) {
+                        if (props[i][0].equblsIgnoreCbse(proto)) {
                             for (j = 1; j < props[i].length; j++) {
-                                /* System.getProp() will give us an empty
-                                 * String, "" for a defined but "empty"
+                                /* System.getProp() will give us bn empty
+                                 * String, "" for b defined but "empty"
                                  * property.
                                  */
                                 phost =  NetProperties.get(props[i][j]+"Host");
                                 if (phost != null && phost.length() != 0)
-                                    break;
+                                    brebk;
                             }
                             if (phost == null || phost.length() == 0) {
                                 /**
-                                 * No system property defined for that
+                                 * No system property defined for thbt
                                  * protocol. Let's check System Proxy
                                  * settings (Gnome & Windows) if we were
                                  * instructed to.
                                  */
-                                if (hasSystemProxies) {
+                                if (hbsSystemProxies) {
                                     String sproto;
-                                    if (proto.equalsIgnoreCase("socket"))
+                                    if (proto.equblsIgnoreCbse("socket"))
                                         sproto = "socks";
                                     else
                                         sproto = proto;
@@ -246,144 +246,144 @@ public class DefaultProxySelector extends ProxySelector {
                                 }
                                 return Proxy.NO_PROXY;
                             }
-                            // If a Proxy Host is defined for that protocol
+                            // If b Proxy Host is defined for thbt protocol
                             // Let's get the NonProxyHosts property
                             if (nprop != null) {
                                 nphosts = NetProperties.get(nprop.property);
                                 synchronized (nprop) {
                                     if (nphosts == null) {
-                                        if (nprop.defaultVal != null) {
-                                            nphosts = nprop.defaultVal;
+                                        if (nprop.defbultVbl != null) {
+                                            nphosts = nprop.defbultVbl;
                                         } else {
                                             nprop.hostsSource = null;
-                                            nprop.pattern = null;
+                                            nprop.pbttern = null;
                                         }
                                     } else if (nphosts.length() != 0) {
-                                        // add the required default patterns
+                                        // bdd the required defbult pbtterns
                                         // but only if property no set. If it
-                                        // is empty, leave empty.
+                                        // is empty, lebve empty.
                                         nphosts += "|" + NonProxyInfo
-                                                         .defStringVal;
+                                                         .defStringVbl;
                                     }
                                     if (nphosts != null) {
-                                        if (!nphosts.equals(nprop.hostsSource)) {
-                                            nprop.pattern = toPattern(nphosts);
+                                        if (!nphosts.equbls(nprop.hostsSource)) {
+                                            nprop.pbttern = toPbttern(nphosts);
                                             nprop.hostsSource = nphosts;
                                         }
                                     }
-                                    if (shouldNotUseProxyFor(nprop.pattern, urlhost)) {
+                                    if (shouldNotUseProxyFor(nprop.pbttern, urlhost)) {
                                         return Proxy.NO_PROXY;
                                     }
                                 }
                             }
-                            // We got a host, let's check for port
+                            // We got b host, let's check for port
 
-                            pport = NetProperties.getInteger(props[i][j]+"Port", 0).intValue();
+                            pport = NetProperties.getInteger(props[i][j]+"Port", 0).intVblue();
                             if (pport == 0 && j < (props[i].length - 1)) {
-                                // Can't find a port with same prefix as Host
-                                // AND it's not a SOCKS proxy
-                                // Let's try the other prefixes for that proto
+                                // Cbn't find b port with sbme prefix bs Host
+                                // AND it's not b SOCKS proxy
+                                // Let's try the other prefixes for thbt proto
                                 for (int k = 1; k < (props[i].length - 1); k++) {
                                     if ((k != j) && (pport == 0))
-                                        pport = NetProperties.getInteger(props[i][k]+"Port", 0).intValue();
+                                        pport = NetProperties.getInteger(props[i][k]+"Port", 0).intVblue();
                                 }
                             }
 
-                            // Still couldn't find a port, let's use default
+                            // Still couldn't find b port, let's use defbult
                             if (pport == 0) {
                                 if (j == (props[i].length - 1)) // SOCKS
-                                    pport = defaultPort("socket");
+                                    pport = defbultPort("socket");
                                 else
-                                    pport = defaultPort(proto);
+                                    pport = defbultPort(proto);
                             }
-                            // We did find a proxy definition.
-                            // Let's create the address, but don't resolve it
-                            // as this will be done at connection time
-                            saddr = InetSocketAddress.createUnresolved(phost, pport);
-                            // Socks is *always* the last on the list.
+                            // We did find b proxy definition.
+                            // Let's crebte the bddress, but don't resolve it
+                            // bs this will be done bt connection time
+                            sbddr = InetSocketAddress.crebteUnresolved(phost, pport);
+                            // Socks is *blwbys* the lbst on the list.
                             if (j == (props[i].length - 1)) {
-                                int version = NetProperties.getInteger(SOCKS_PROXY_VERSION, 5).intValue();
-                                return SocksProxy.create(saddr, version);
+                                int version = NetProperties.getInteger(SOCKS_PROXY_VERSION, 5).intVblue();
+                                return SocksProxy.crebte(sbddr, version);
                             } else {
-                                return new Proxy(Proxy.Type.HTTP, saddr);
+                                return new Proxy(Proxy.Type.HTTP, sbddr);
                             }
                         }
                     }
                     return Proxy.NO_PROXY;
                 }});
 
-        proxyl.add(p);
+        proxyl.bdd(p);
 
         /*
-         * If no specific property was set for that URI, we should be
-         * returning an iterator to an empty List.
+         * If no specific property wbs set for thbt URI, we should be
+         * returning bn iterbtor to bn empty List.
          */
         return proxyl;
     }
 
-    public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-        if (uri == null || sa == null || ioe == null) {
-            throw new IllegalArgumentException("Arguments can't be null.");
+    public void connectFbiled(URI uri, SocketAddress sb, IOException ioe) {
+        if (uri == null || sb == null || ioe == null) {
+            throw new IllegblArgumentException("Arguments cbn't be null.");
         }
         // ignored
     }
 
 
-    private int defaultPort(String protocol) {
-        if ("http".equalsIgnoreCase(protocol)) {
+    privbte int defbultPort(String protocol) {
+        if ("http".equblsIgnoreCbse(protocol)) {
             return 80;
-        } else if ("https".equalsIgnoreCase(protocol)) {
+        } else if ("https".equblsIgnoreCbse(protocol)) {
             return 443;
-        } else if ("ftp".equalsIgnoreCase(protocol)) {
+        } else if ("ftp".equblsIgnoreCbse(protocol)) {
             return 80;
-        } else if ("socket".equalsIgnoreCase(protocol)) {
+        } else if ("socket".equblsIgnoreCbse(protocol)) {
             return 1080;
-        } else if ("gopher".equalsIgnoreCase(protocol)) {
+        } else if ("gopher".equblsIgnoreCbse(protocol)) {
             return 80;
         } else {
             return -1;
         }
     }
 
-    private native static boolean init();
-    private synchronized native Proxy getSystemProxy(String protocol, String host);
+    privbte nbtive stbtic boolebn init();
+    privbte synchronized nbtive Proxy getSystemProxy(String protocol, String host);
 
     /**
-     * @return {@code true} if given this pattern for non-proxy hosts and this
-     *         urlhost the proxy should NOT be used to access this urlhost
+     * @return {@code true} if given this pbttern for non-proxy hosts bnd this
+     *         urlhost the proxy should NOT be used to bccess this urlhost
      */
-    static boolean shouldNotUseProxyFor(Pattern pattern, String urlhost) {
-        if (pattern == null || urlhost.isEmpty())
-            return false;
-        boolean matches = pattern.matcher(urlhost).matches();
-        return matches;
+    stbtic boolebn shouldNotUseProxyFor(Pbttern pbttern, String urlhost) {
+        if (pbttern == null || urlhost.isEmpty())
+            return fblse;
+        boolebn mbtches = pbttern.mbtcher(urlhost).mbtches();
+        return mbtches;
     }
 
     /**
-     * @param mask non-null mask
-     * @return {@link java.util.regex.Pattern} corresponding to this mask
-     *         or {@code null} in case mask should not match anything
+     * @pbrbm mbsk non-null mbsk
+     * @return {@link jbvb.util.regex.Pbttern} corresponding to this mbsk
+     *         or {@code null} in cbse mbsk should not mbtch bnything
      */
-    static Pattern toPattern(String mask) {
-        boolean disjunctionEmpty = true;
+    stbtic Pbttern toPbttern(String mbsk) {
+        boolebn disjunctionEmpty = true;
         StringJoiner joiner = new StringJoiner("|");
-        for (String disjunct : mask.split("\\|")) {
+        for (String disjunct : mbsk.split("\\|")) {
             if (disjunct.isEmpty())
                 continue;
-            disjunctionEmpty = false;
-            String regex = disjunctToRegex(disjunct.toLowerCase());
-            joiner.add(regex);
+            disjunctionEmpty = fblse;
+            String regex = disjunctToRegex(disjunct.toLowerCbse());
+            joiner.bdd(regex);
         }
-        return disjunctionEmpty ? null : Pattern.compile(joiner.toString());
+        return disjunctionEmpty ? null : Pbttern.compile(joiner.toString());
     }
 
     /**
-     * @param disjunct non-null mask disjunct
-     * @return java regex string corresponding to this mask
+     * @pbrbm disjunct non-null mbsk disjunct
+     * @return jbvb regex string corresponding to this mbsk
      */
-    static String disjunctToRegex(String disjunct) {
+    stbtic String disjunctToRegex(String disjunct) {
         String regex;
-        if (disjunct.startsWith("*")) {
+        if (disjunct.stbrtsWith("*")) {
             regex = ".*" + quote(disjunct.substring(1));
         } else if (disjunct.endsWith("*")) {
             regex = quote(disjunct.substring(0, disjunct.length() - 1)) + ".*";

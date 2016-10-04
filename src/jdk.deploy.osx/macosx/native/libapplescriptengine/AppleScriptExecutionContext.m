@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "AppleScriptExecutionContext.h"
 
-#import <Carbon/Carbon.h>
+#import <Cbrbon/Cbrbon.h>
 
 #import "AS_NS_ConversionUtils.h"
 
 
-@implementation AppleScriptExecutionContext
+@implementbtion AppleScriptExecutionContext
 
 @synthesize source;
 @synthesize context;
 @synthesize error;
-@synthesize returnValue;
+@synthesize returnVblue;
 
 - (id) init:(NSString *)sourceIn context:(id)contextIn {
     self = [super init];
@@ -43,123 +43,123 @@
 
     self.source = sourceIn;
     self.context = contextIn;
-    self.returnValue = nil;
+    self.returnVblue = nil;
     self.error = nil;
 
     return self;
 }
 
-- (id) initWithSource:(NSString *)sourceIn context:(NSDictionary *)contextIn {
+- (id) initWithSource:(NSString *)sourceIn context:(NSDictionbry *)contextIn {
     self = [self init:sourceIn context:contextIn];
     isFile = NO;
     return self;
 }
 
-- (id) initWithFile:(NSString *)filenameIn context:(NSDictionary *)contextIn {
-    self = [self init:filenameIn context:contextIn];
+- (id) initWithFile:(NSString *)filenbmeIn context:(NSDictionbry *)contextIn {
+    self = [self init:filenbmeIn context:contextIn];
     isFile = YES;
     return self;
 }
 
-- (void) dealloc {
+- (void) deblloc {
     self.source = nil;
     self.context = nil;
-    self.returnValue = nil;
+    self.returnVblue = nil;
     self.error = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
 - (NSAppleScript *) scriptFromURL {
     NSURL *url = [NSURL URLWithString:source];
-    NSDictionary *err = nil;
-    NSAppleScript *script = [[[NSAppleScript alloc] initWithContentsOfURL:url error:(&err)] autorelease];
+    NSDictionbry *err = nil;
+    NSAppleScript *script = [[[NSAppleScript blloc] initWithContentsOfURL:url error:(&err)] butorelebse];
     if (err != nil) self.error = err;
     return script;
 }
 
 - (NSAppleScript *) scriptFromSource {
-    return [[[NSAppleScript alloc] initWithSource:source] autorelease];
+    return [[[NSAppleScript blloc] initWithSource:source] butorelebse];
 }
 
-- (NSAppleEventDescriptor *) functionInvocationEvent {
-    NSString *function = [[context objectForKey:@"javax_script_function"] description];
+- (NSAppleEventDescriptor *) functionInvocbtionEvent {
+    NSString *function = [[context objectForKey:@"jbvbx_script_function"] description];
     if (function == nil) return nil;
 
-    // wrap the arg in an array if it is not already a list
-    id args = [context objectForKey:@"javax_script_argv"];
-    if (![args isKindOfClass:[NSArray class]]) {
-        args = [NSArray arrayWithObjects:args, nil];
+    // wrbp the brg in bn brrby if it is not blrebdy b list
+    id brgs = [context objectForKey:@"jbvbx_script_brgv"];
+    if (![brgs isKindOfClbss:[NSArrby clbss]]) {
+        brgs = [NSArrby brrbyWithObjects:brgs, nil];
     }
 
-    // triangulate our target
+    // tribngulbte our tbrget
     int pid = [[NSProcessInfo processInfo] processIdentifier];
-    NSAppleEventDescriptor* targetAddress = [NSAppleEventDescriptor descriptorWithDescriptorType:typeKernelProcessID
+    NSAppleEventDescriptor* tbrgetAddress = [NSAppleEventDescriptor descriptorWithDescriptorType:typeKernelProcessID
                                                                                            bytes:&pid
                                                                                           length:sizeof(pid)];
 
-    // create the event to call a subroutine in the script
-    NSAppleEventDescriptor* event = [[NSAppleEventDescriptor alloc] initWithEventClass:kASAppleScriptSuite
+    // crebte the event to cbll b subroutine in the script
+    NSAppleEventDescriptor* event = [[NSAppleEventDescriptor blloc] initWithEventClbss:kASAppleScriptSuite
                                                                                eventID:kASSubroutineEvent
-                                                                      targetDescriptor:targetAddress
-                                                                              returnID:kAutoGenerateReturnID
-                                                                         transactionID:kAnyTransactionID];
+                                                                      tbrgetDescriptor:tbrgetAddress
+                                                                              returnID:kAutoGenerbteReturnID
+                                                                         trbnsbctionID:kAnyTrbnsbctionID];
 
-    // set up the handler
-    NSAppleEventDescriptor* subroutineDescriptor = [NSAppleEventDescriptor descriptorWithString:[function lowercaseString]];
-    [event setParamDescriptor:subroutineDescriptor forKeyword:keyASSubroutineName];
+    // set up the hbndler
+    NSAppleEventDescriptor* subroutineDescriptor = [NSAppleEventDescriptor descriptorWithString:[function lowercbseString]];
+    [event setPbrbmDescriptor:subroutineDescriptor forKeyword:keyASSubroutineNbme];
 
-    // set up the arguments
-    [event setParamDescriptor:[args aeDescriptorValue] forKeyword:keyDirectObject];
+    // set up the brguments
+    [event setPbrbmDescriptor:[brgs beDescriptorVblue] forKeyword:keyDirectObject];
 
-    return [event autorelease];
+    return [event butorelebse];
 }
 
 - (void) invoke {
-    // create our script
+    // crebte our script
     NSAppleScript *script = isFile ? [self scriptFromURL] : [self scriptFromSource];
     if (self.error != nil) return;
 
-    // find out if we have a subroutine to call
-    NSAppleEventDescriptor *fxnInvkEvt = [self functionInvocationEvent];
+    // find out if we hbve b subroutine to cbll
+    NSAppleEventDescriptor *fxnInvkEvt = [self functionInvocbtionEvent];
 
     // exec!
     NSAppleEventDescriptor *desc = nil;
-    NSDictionary *err = nil;
+    NSDictionbry *err = nil;
     if (fxnInvkEvt == nil) {
         desc = [script executeAndReturnError:(&err)];
     } else {
         desc = [script executeAppleEvent:fxnInvkEvt error:(&err)];
     }
 
-    // if we encountered an exception, stash and bail
+    // if we encountered bn exception, stbsh bnd bbil
     if (err != nil) {
         self.error = err;
         return;
     }
 
-    // convert to NSObjects, and return in ivar
-    self.returnValue = [desc objCObjectValue];
+    // convert to NSObjects, bnd return in ivbr
+    self.returnVblue = [desc objCObjectVblue];
 }
 
 - (id) invokeWithEnv:(JNIEnv *)env {
-    BOOL useAnyThread = [@"any-thread" isEqual:[context valueForKey:@"javax_script_threading"]];
+    BOOL useAnyThrebd = [@"bny-threbd" isEqubl:[context vblueForKey:@"jbvbx_script_threbding"]];
 
-    // check if we are already on the AppKit thread, if desired
-    if(pthread_main_np() || useAnyThread) {
+    // check if we bre blrebdy on the AppKit threbd, if desired
+    if(pthrebd_mbin_np() || useAnyThrebd) {
         [self invoke];
     } else {
-        [JNFRunLoop performOnMainThread:@selector(invoke) on:self withObject:nil waitUntilDone:YES];
+        [JNFRunLoop performOnMbinThrebd:@selector(invoke) on:self withObject:nil wbitUntilDone:YES];
     }
 
-    // if we have an exception parked in our ivar, snarf the message (if there is one), and toss a ScriptException
+    // if we hbve bn exception pbrked in our ivbr, snbrf the messbge (if there is one), bnd toss b ScriptException
     if (self.error != nil) {
-        NSString *asErrString = [self.error objectForKey:NSAppleScriptErrorMessage];
-        if (!asErrString) asErrString = @"AppleScriptEngine failed to execute script."; // usually when we fail to load a file
-        [JNFException raise:env as:"javax/script/ScriptException" reason:[asErrString UTF8String]];
+        NSString *bsErrString = [self.error objectForKey:NSAppleScriptErrorMessbge];
+        if (!bsErrString) bsErrString = @"AppleScriptEngine fbiled to execute script."; // usublly when we fbil to lobd b file
+        [JNFException rbise:env bs:"jbvbx/script/ScriptException" rebson:[bsErrString UTF8String]];
     }
 
-    return self.returnValue;
+    return self.returnVblue;
 }
 
 @end

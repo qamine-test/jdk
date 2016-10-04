@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5.internal.util;
+pbckbge sun.security.krb5.internbl.util;
 
-import java.io.IOException;
-import java.security.AccessController;
-import sun.security.action.GetBooleanAction;
-import sun.security.util.DerValue;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import sun.security.bction.GetBoolebnAction;
+import sun.security.util.DerVblue;
 
 /**
  * Implements the ASN.1 KerberosString type.
  *
  * <pre>
- * KerberosString  ::= GeneralString (IA5String)
+ * KerberosString  ::= GenerblString (IA5String)
  * </pre>
  *
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public final class KerberosString {
+public finbl clbss KerberosString {
     /**
-     * RFC 4120 defines KerberosString as GeneralString (IA5String), which
-     * only includes ASCII characters. However, other implementations have been
-     * known to use GeneralString to contain UTF-8 encoding. To interop
-     * with these implementations, the following system property is defined.
-     * When set as true, KerberosString is encoded as UTF-8. Note that this
-     * only affects the byte encoding, the tag of the ASN.1 type is still
-     * GeneralString.
+     * RFC 4120 defines KerberosString bs GenerblString (IA5String), which
+     * only includes ASCII chbrbcters. However, other implementbtions hbve been
+     * known to use GenerblString to contbin UTF-8 encoding. To interop
+     * with these implementbtions, the following system property is defined.
+     * When set bs true, KerberosString is encoded bs UTF-8. Note thbt this
+     * only bffects the byte encoding, the tbg of the ASN.1 type is still
+     * GenerblString.
      */
-    public static final boolean MSNAME = AccessController.doPrivileged(
-            new GetBooleanAction("sun.security.krb5.msinterop.kstring"));
+    public stbtic finbl boolebn MSNAME = AccessController.doPrivileged(
+            new GetBoolebnAction("sun.security.krb5.msinterop.kstring"));
 
-    private final String s;
+    privbte finbl String s;
 
     public KerberosString(String s) {
         this.s = s;
     }
 
-    public KerberosString(DerValue der) throws IOException {
-        if (der.tag != DerValue.tag_GeneralString) {
+    public KerberosString(DerVblue der) throws IOException {
+        if (der.tbg != DerVblue.tbg_GenerblString) {
             throw new IOException(
-                "KerberosString's tag is incorrect: " + der.tag);
+                "KerberosString's tbg is incorrect: " + der.tbg);
         }
-        s = new String(der.getDataBytes(), MSNAME?"UTF8":"ASCII");
+        s = new String(der.getDbtbBytes(), MSNAME?"UTF8":"ASCII");
     }
 
     public String toString() {
         return s;
     }
 
-    public DerValue toDerValue() throws IOException {
-        // No need to cache the result since this method is
-        // only called once.
-        return new DerValue(DerValue.tag_GeneralString,
+    public DerVblue toDerVblue() throws IOException {
+        // No need to cbche the result since this method is
+        // only cblled once.
+        return new DerVblue(DerVblue.tbg_GenerblString,
                 s.getBytes(MSNAME?"UTF8":"ASCII"));
     }
 }

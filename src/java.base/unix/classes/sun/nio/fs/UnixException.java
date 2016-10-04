@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
 
 /**
- * Internal exception thrown by native methods when error detected.
+ * Internbl exception thrown by nbtive methods when error detected.
  */
 
-class UnixException extends Exception {
-    static final long serialVersionUID = 7227016794320723218L;
+clbss UnixException extends Exception {
+    stbtic finbl long seriblVersionUID = 7227016794320723218L;
 
-    private int errno;
-    private String msg;
+    privbte int errno;
+    privbte String msg;
 
     UnixException(int errno) {
         this.errno = errno;
@@ -61,53 +61,53 @@ class UnixException extends Exception {
         if (msg != null) {
             return msg;
         } else {
-            return Util.toString(UnixNativeDispatcher.strerror(errno()));
+            return Util.toString(UnixNbtiveDispbtcher.strerror(errno()));
         }
     }
 
     @Override
-    public String getMessage() {
+    public String getMessbge() {
         return errorString();
     }
 
     /**
-     * Map well known errors to specific exceptions where possible; otherwise
-     * return more general FileSystemException.
+     * Mbp well known errors to specific exceptions where possible; otherwise
+     * return more generbl FileSystemException.
      */
-    private IOException translateToIOException(String file, String other) {
-        // created with message rather than errno
+    privbte IOException trbnslbteToIOException(String file, String other) {
+        // crebted with messbge rbther thbn errno
         if (msg != null)
             return new IOException(msg);
 
-        // handle specific cases
-        if (errno() == UnixConstants.EACCES)
+        // hbndle specific cbses
+        if (errno() == UnixConstbnts.EACCES)
             return new AccessDeniedException(file, other, null);
-        if (errno() == UnixConstants.ENOENT)
+        if (errno() == UnixConstbnts.ENOENT)
             return new NoSuchFileException(file, other, null);
-        if (errno() == UnixConstants.EEXIST)
-            return new FileAlreadyExistsException(file, other, null);
+        if (errno() == UnixConstbnts.EEXIST)
+            return new FileAlrebdyExistsException(file, other, null);
 
-        // fallback to the more general exception
+        // fbllbbck to the more generbl exception
         return new FileSystemException(file, other, errorString());
     }
 
     void rethrowAsIOException(String file) throws IOException {
-        IOException x = translateToIOException(file, null);
+        IOException x = trbnslbteToIOException(file, null);
         throw x;
     }
 
-    void rethrowAsIOException(UnixPath file, UnixPath other) throws IOException {
-        String a = (file == null) ? null : file.getPathForExceptionMessage();
-        String b = (other == null) ? null : other.getPathForExceptionMessage();
-        IOException x = translateToIOException(a, b);
+    void rethrowAsIOException(UnixPbth file, UnixPbth other) throws IOException {
+        String b = (file == null) ? null : file.getPbthForExceptionMessbge();
+        String b = (other == null) ? null : other.getPbthForExceptionMessbge();
+        IOException x = trbnslbteToIOException(b, b);
         throw x;
     }
 
-    void rethrowAsIOException(UnixPath file) throws IOException {
+    void rethrowAsIOException(UnixPbth file) throws IOException {
         rethrowAsIOException(file, null);
     }
 
-    IOException asIOException(UnixPath file) {
-        return translateToIOException(file.getPathForExceptionMessage(), null);
+    IOException bsIOException(UnixPbth file) {
+        return trbnslbteToIOException(file.getPbthForExceptionMessbge(), null);
     }
 }

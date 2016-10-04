@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.util.*;
-import java.io.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.ChangeEvent;
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.event.EventListenerList;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.WebkHbshMbp;
 
 import sun.font.FontUtilities;
 
 /**
- * A pool of styles and their associated resources.  This class determines
- * the lifetime of a group of resources by being a container that holds
- * caches for various resources such as font and color that get reused
- * by the various style definitions.  This can be shared by multiple
- * documents if desired to maximize the sharing of related resources.
+ * A pool of styles bnd their bssocibted resources.  This clbss determines
+ * the lifetime of b group of resources by being b contbiner thbt holds
+ * cbches for vbrious resources such bs font bnd color thbt get reused
+ * by the vbrious style definitions.  This cbn be shbred by multiple
+ * documents if desired to mbximize the shbring of relbted resources.
  * <p>
- * This class also provides efficient support for small sets of attributes
- * and compresses them by sharing across uses and taking advantage of
- * their immutable nature.  Since many styles are replicated, the potential
- * for sharing is significant, and copies can be extremely cheap.
- * Larger sets reduce the possibility of sharing, and therefore revert
- * automatically to a less space-efficient implementation.
+ * This clbss blso provides efficient support for smbll sets of bttributes
+ * bnd compresses them by shbring bcross uses bnd tbking bdvbntbge of
+ * their immutbble nbture.  Since mbny styles bre replicbted, the potentibl
+ * for shbring is significbnt, bnd copies cbn be extremely chebp.
+ * Lbrger sets reduce the possibility of shbring, bnd therefore revert
+ * butombticblly to b less spbce-efficient implementbtion.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class StyleContext implements Serializable, AbstractDocument.AttributeContext {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss StyleContext implements Seriblizbble, AbstrbctDocument.AttributeContext {
 
     /**
-     * Returns default AttributeContext shared by all documents that
+     * Returns defbult AttributeContext shbred by bll documents thbt
      * don't bother to define/supply their own context.
      *
      * @return the context
      */
-    public static final StyleContext getDefaultStyleContext() {
-        if (defaultContext == null) {
-            defaultContext = new StyleContext();
+    public stbtic finbl StyleContext getDefbultStyleContext() {
+        if (defbultContext == null) {
+            defbultContext = new StyleContext();
         }
-        return defaultContext;
+        return defbultContext;
     }
 
-    private static StyleContext defaultContext;
+    privbte stbtic StyleContext defbultContext;
 
     /**
-     * Creates a new StyleContext object.
+     * Crebtes b new StyleContext object.
      */
     public StyleContext() {
-        styles = new NamedStyle(null);
-        addStyle(DEFAULT_STYLE, null);
+        styles = new NbmedStyle(null);
+        bddStyle(DEFAULT_STYLE, null);
     }
 
     /**
-     * Adds a new style into the style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b new style into the style hierbrchy.  Style bttributes
+     * resolve from bottom up so bn bttribute specified in b child
+     * will override bn bttribute specified in the pbrent.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles in the document).  The name may
-     *   be null if the style is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   the nbme of the style (must be unique within the
+     *   collection of nbmed styles in the document).  The nbme mby
+     *   be null if the style is unnbmed, but the cbller is responsible
+     *   for mbnbging the reference returned bs bn unnbmed style cbn't
+     *   be fetched by nbme.  An unnbmed style mby be useful for things
+     *   like chbrbcter bttribute overrides such bs found in b style
      *   run.
-     * @param parent the parent style.  This may be null if unspecified
-     *   attributes need not be resolved in some other style.
-     * @return the created style
+     * @pbrbm pbrent the pbrent style.  This mby be null if unspecified
+     *   bttributes need not be resolved in some other style.
+     * @return the crebted style
      */
-    public Style addStyle(String nm, Style parent) {
-        Style style = new NamedStyle(nm, parent);
+    public Style bddStyle(String nm, Style pbrent) {
+        Style style = new NbmedStyle(nm, pbrent);
         if (nm != null) {
-            // add a named style, a class of attributes
-            styles.addAttribute(nm, style);
+            // bdd b nbmed style, b clbss of bttributes
+            styles.bddAttribute(nm, style);
         }
         return style;
     }
 
     /**
-     * Removes a named style previously added to the document.
+     * Removes b nbmed style previously bdded to the document.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  the nbme of the style to remove
      */
     public void removeStyle(String nm) {
         styles.removeAttribute(nm);
     }
 
     /**
-     * Fetches a named style previously added to the document
+     * Fetches b nbmed style previously bdded to the document
      *
-     * @param nm  the name of the style
+     * @pbrbm nm  the nbme of the style
      * @return the style
      */
     public Style getStyle(String nm) {
@@ -133,304 +133,304 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
     }
 
     /**
-     * Fetches the names of the styles defined.
+     * Fetches the nbmes of the styles defined.
      *
-     * @return the list of names as an enumeration
+     * @return the list of nbmes bs bn enumerbtion
      */
-    public Enumeration<?> getStyleNames() {
-        return styles.getAttributeNames();
+    public Enumerbtion<?> getStyleNbmes() {
+        return styles.getAttributeNbmes();
     }
 
     /**
-     * Adds a listener to track when styles are added
+     * Adds b listener to trbck when styles bre bdded
      * or removed.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void addChangeListener(ChangeListener l) {
-        styles.addChangeListener(l);
+    public void bddChbngeListener(ChbngeListener l) {
+        styles.bddChbngeListener(l);
     }
 
     /**
-     * Removes a listener that was tracking styles being
-     * added or removed.
+     * Removes b listener thbt wbs trbcking styles being
+     * bdded or removed.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void removeChangeListener(ChangeListener l) {
-        styles.removeChangeListener(l);
+    public void removeChbngeListener(ChbngeListener l) {
+        styles.removeChbngeListener(l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this StyleContext with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this StyleContext with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return ((NamedStyle)styles).getChangeListeners();
+    public ChbngeListener[] getChbngeListeners() {
+        return ((NbmedStyle)styles).getChbngeListeners();
     }
 
     /**
-     * Gets the font from an attribute set.  This is
-     * implemented to try and fetch a cached font
-     * for the given AttributeSet, and if that fails
-     * the font features are resolved and the
-     * font is fetched from the low-level font cache.
+     * Gets the font from bn bttribute set.  This is
+     * implemented to try bnd fetch b cbched font
+     * for the given AttributeSet, bnd if thbt fbils
+     * the font febtures bre resolved bnd the
+     * font is fetched from the low-level font cbche.
      *
-     * @param attr the attribute set
+     * @pbrbm bttr the bttribute set
      * @return the font
      */
-    public Font getFont(AttributeSet attr) {
-        // PENDING(prinz) add cache behavior
+    public Font getFont(AttributeSet bttr) {
+        // PENDING(prinz) bdd cbche behbvior
         int style = Font.PLAIN;
-        if (StyleConstants.isBold(attr)) {
+        if (StyleConstbnts.isBold(bttr)) {
             style |= Font.BOLD;
         }
-        if (StyleConstants.isItalic(attr)) {
+        if (StyleConstbnts.isItblic(bttr)) {
             style |= Font.ITALIC;
         }
-        String family = StyleConstants.getFontFamily(attr);
-        int size = StyleConstants.getFontSize(attr);
+        String fbmily = StyleConstbnts.getFontFbmily(bttr);
+        int size = StyleConstbnts.getFontSize(bttr);
 
         /**
          * if either superscript or subscript is
          * is set, we need to reduce the font size
          * by 2.
          */
-        if (StyleConstants.isSuperscript(attr) ||
-            StyleConstants.isSubscript(attr)) {
+        if (StyleConstbnts.isSuperscript(bttr) ||
+            StyleConstbnts.isSubscript(bttr)) {
             size -= 2;
         }
 
-        return getFont(family, style, size);
+        return getFont(fbmily, style, size);
     }
 
     /**
-     * Takes a set of attributes and turn it into a foreground color
-     * specification.  This might be used to specify things
-     * like brighter, more hue, etc.  By default it simply returns
-     * the value specified by the StyleConstants.Foreground attribute.
+     * Tbkes b set of bttributes bnd turn it into b foreground color
+     * specificbtion.  This might be used to specify things
+     * like brighter, more hue, etc.  By defbult it simply returns
+     * the vblue specified by the StyleConstbnts.Foreground bttribute.
      *
-     * @param attr the set of attributes
+     * @pbrbm bttr the set of bttributes
      * @return the color
      */
-    public Color getForeground(AttributeSet attr) {
-        return StyleConstants.getForeground(attr);
+    public Color getForeground(AttributeSet bttr) {
+        return StyleConstbnts.getForeground(bttr);
     }
 
     /**
-     * Takes a set of attributes and turn it into a background color
-     * specification.  This might be used to specify things
-     * like brighter, more hue, etc.  By default it simply returns
-     * the value specified by the StyleConstants.Background attribute.
+     * Tbkes b set of bttributes bnd turn it into b bbckground color
+     * specificbtion.  This might be used to specify things
+     * like brighter, more hue, etc.  By defbult it simply returns
+     * the vblue specified by the StyleConstbnts.Bbckground bttribute.
      *
-     * @param attr the set of attributes
+     * @pbrbm bttr the set of bttributes
      * @return the color
      */
-    public Color getBackground(AttributeSet attr) {
-        return StyleConstants.getBackground(attr);
+    public Color getBbckground(AttributeSet bttr) {
+        return StyleConstbnts.getBbckground(bttr);
     }
 
     /**
-     * Gets a new font.  This returns a Font from a cache
-     * if a cached font exists.  If not, a Font is added to
-     * the cache.  This is basically a low-level cache for
-     * 1.1 font features.
+     * Gets b new font.  This returns b Font from b cbche
+     * if b cbched font exists.  If not, b Font is bdded to
+     * the cbche.  This is bbsicblly b low-level cbche for
+     * 1.1 font febtures.
      *
-     * @param family the font family (such as "Monospaced")
-     * @param style the style of the font (such as Font.PLAIN)
-     * @param size the point size &gt;= 1
+     * @pbrbm fbmily the font fbmily (such bs "Monospbced")
+     * @pbrbm style the style of the font (such bs Font.PLAIN)
+     * @pbrbm size the point size &gt;= 1
      * @return the new font
      */
-    public Font getFont(String family, int style, int size) {
-        fontSearch.setValue(family, style, size);
-        Font f = fontTable.get(fontSearch);
+    public Font getFont(String fbmily, int style, int size) {
+        fontSebrch.setVblue(fbmily, style, size);
+        Font f = fontTbble.get(fontSebrch);
         if (f == null) {
-            // haven't seen this one yet.
-            Style defaultStyle =
+            // hbven't seen this one yet.
+            Style defbultStyle =
                 getStyle(StyleContext.DEFAULT_STYLE);
-            if (defaultStyle != null) {
-                final String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
-                Font defaultFont =
-                    (Font) defaultStyle.getAttribute(FONT_ATTRIBUTE_KEY);
-                if (defaultFont != null
-                      && defaultFont.getFamily().equalsIgnoreCase(family)) {
-                    f = defaultFont.deriveFont(style, size);
+            if (defbultStyle != null) {
+                finbl String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
+                Font defbultFont =
+                    (Font) defbultStyle.getAttribute(FONT_ATTRIBUTE_KEY);
+                if (defbultFont != null
+                      && defbultFont.getFbmily().equblsIgnoreCbse(fbmily)) {
+                    f = defbultFont.deriveFont(style, size);
                 }
             }
             if (f == null) {
-                f = new Font(family, style, size);
+                f = new Font(fbmily, style, size);
             }
-            if (! FontUtilities.fontSupportsDefaultEncoding(f)) {
+            if (! FontUtilities.fontSupportsDefbultEncoding(f)) {
                 f = FontUtilities.getCompositeFontUIResource(f);
             }
-            FontKey key = new FontKey(family, style, size);
-            fontTable.put(key, f);
+            FontKey key = new FontKey(fbmily, style, size);
+            fontTbble.put(key, f);
         }
         return f;
     }
 
     /**
-     * Returns font metrics for a font.
+     * Returns font metrics for b font.
      *
-     * @param f the font
+     * @pbrbm f the font
      * @return the metrics
      */
     public FontMetrics getFontMetrics(Font f) {
-        // The Toolkit implementations cache, so we just forward
-        // to the default toolkit.
-        return Toolkit.getDefaultToolkit().getFontMetrics(f);
+        // The Toolkit implementbtions cbche, so we just forwbrd
+        // to the defbult toolkit.
+        return Toolkit.getDefbultToolkit().getFontMetrics(f);
     }
 
     // --- AttributeContext methods --------------------
 
     /**
-     * Adds an attribute to the given set, and returns
-     * the new representative set.
+     * Adds bn bttribute to the given set, bnd returns
+     * the new representbtive set.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param old the old attribute set
-     * @param name the non-null attribute name
-     * @param value the attribute value
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old the old bttribute set
+     * @pbrbm nbme the non-null bttribute nbme
+     * @pbrbm vblue the bttribute vblue
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#bddAttribute
      */
-    public synchronized AttributeSet addAttribute(AttributeSet old, Object name, Object value) {
+    public synchronized AttributeSet bddAttribute(AttributeSet old, Object nbme, Object vblue) {
         if ((old.getAttributeCount() + 1) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
+            // build b sebrch key bnd find/crebte bn immutbble bnd unique
             // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.addAttribute(name, value);
-            reclaim(old);
-            return getImmutableUniqueSet();
+            sebrch.removeAttributes(sebrch);
+            sebrch.bddAttributes(old);
+            sebrch.bddAttribute(nbme, vblue);
+            reclbim(old);
+            return getImmutbbleUniqueSet();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.addAttribute(name, value);
-        return ma;
+        MutbbleAttributeSet mb = getMutbbleAttributeSet(old);
+        mb.bddAttribute(nbme, vblue);
+        return mb;
     }
 
     /**
-     * Adds a set of attributes to the element.
+     * Adds b set of bttributes to the element.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param old the old attribute set
-     * @param attr the attributes to add
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old the old bttribute set
+     * @pbrbm bttr the bttributes to bdd
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#bddAttribute
      */
-    public synchronized AttributeSet addAttributes(AttributeSet old, AttributeSet attr) {
-        if ((old.getAttributeCount() + attr.getAttributeCount()) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
+    public synchronized AttributeSet bddAttributes(AttributeSet old, AttributeSet bttr) {
+        if ((old.getAttributeCount() + bttr.getAttributeCount()) <= getCompressionThreshold()) {
+            // build b sebrch key bnd find/crebte bn immutbble bnd unique
             // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.addAttributes(attr);
-            reclaim(old);
-            return getImmutableUniqueSet();
+            sebrch.removeAttributes(sebrch);
+            sebrch.bddAttributes(old);
+            sebrch.bddAttributes(bttr);
+            reclbim(old);
+            return getImmutbbleUniqueSet();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.addAttributes(attr);
-        return ma;
+        MutbbleAttributeSet mb = getMutbbleAttributeSet(old);
+        mb.bddAttributes(bttr);
+        return mb;
     }
 
     /**
-     * Removes an attribute from the set.
+     * Removes bn bttribute from the set.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param old the old set of attributes
-     * @param name the non-null attribute name
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttribute
+     * @pbrbm old the old set of bttributes
+     * @pbrbm nbme the non-null bttribute nbme
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttribute
      */
-    public synchronized AttributeSet removeAttribute(AttributeSet old, Object name) {
+    public synchronized AttributeSet removeAttribute(AttributeSet old, Object nbme) {
         if ((old.getAttributeCount() - 1) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
+            // build b sebrch key bnd find/crebte bn immutbble bnd unique
             // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttribute(name);
-            reclaim(old);
-            return getImmutableUniqueSet();
+            sebrch.removeAttributes(sebrch);
+            sebrch.bddAttributes(old);
+            sebrch.removeAttribute(nbme);
+            reclbim(old);
+            return getImmutbbleUniqueSet();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttribute(name);
-        return ma;
+        MutbbleAttributeSet mb = getMutbbleAttributeSet(old);
+        mb.removeAttribute(nbme);
+        return mb;
     }
 
     /**
-     * Removes a set of attributes for the element.
+     * Removes b set of bttributes for the element.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param old the old attribute set
-     * @param names the attribute names
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old the old bttribute set
+     * @pbrbm nbmes the bttribute nbmes
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttributes
      */
-    public synchronized AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names) {
+    public synchronized AttributeSet removeAttributes(AttributeSet old, Enumerbtion<?> nbmes) {
         if (old.getAttributeCount() <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
+            // build b sebrch key bnd find/crebte bn immutbble bnd unique
             // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttributes(names);
-            reclaim(old);
-            return getImmutableUniqueSet();
+            sebrch.removeAttributes(sebrch);
+            sebrch.bddAttributes(old);
+            sebrch.removeAttributes(nbmes);
+            reclbim(old);
+            return getImmutbbleUniqueSet();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttributes(names);
-        return ma;
+        MutbbleAttributeSet mb = getMutbbleAttributeSet(old);
+        mb.removeAttributes(nbmes);
+        return mb;
     }
 
     /**
-     * Removes a set of attributes for the element.
+     * Removes b set of bttributes for the element.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param old the old attribute set
-     * @param attrs the attributes
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old the old bttribute set
+     * @pbrbm bttrs the bttributes
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttributes
      */
-    public synchronized AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs) {
+    public synchronized AttributeSet removeAttributes(AttributeSet old, AttributeSet bttrs) {
         if (old.getAttributeCount() <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
+            // build b sebrch key bnd find/crebte bn immutbble bnd unique
             // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttributes(attrs);
-            reclaim(old);
-            return getImmutableUniqueSet();
+            sebrch.removeAttributes(sebrch);
+            sebrch.bddAttributes(old);
+            sebrch.removeAttributes(bttrs);
+            reclbim(old);
+            return getImmutbbleUniqueSet();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttributes(attrs);
-        return ma;
+        MutbbleAttributeSet mb = getMutbbleAttributeSet(old);
+        mb.removeAttributes(bttrs);
+        return mb;
     }
 
     /**
-     * Fetches an empty AttributeSet.
+     * Fetches bn empty AttributeSet.
      *
      * @return the set
      */
@@ -439,32 +439,32 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
     }
 
     /**
-     * Returns a set no longer needed by the MutableAttributeSet implementation.
-     * This is useful for operation under 1.1 where there are no weak
-     * references.  This would typically be called by the finalize method
-     * of the MutableAttributeSet implementation.
+     * Returns b set no longer needed by the MutbbleAttributeSet implementbtion.
+     * This is useful for operbtion under 1.1 where there bre no webk
+     * references.  This would typicblly be cblled by the finblize method
+     * of the MutbbleAttributeSet implementbtion.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param a the set to reclaim
+     * @pbrbm b the set to reclbim
      */
-    public void reclaim(AttributeSet a) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            attributesPool.size(); // force WeakHashMap to expunge stale entries
+    public void reclbim(AttributeSet b) {
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            bttributesPool.size(); // force WebkHbshMbp to expunge stble entries
         }
-        // if current thread is not event dispatching thread
-        // do not bother with expunging stale entries.
+        // if current threbd is not event dispbtching threbd
+        // do not bother with expunging stble entries.
     }
 
-    // --- local methods -----------------------------------------------
+    // --- locbl methods -----------------------------------------------
 
     /**
-     * Returns the maximum number of key/value pairs to try and
-     * compress into unique/immutable sets.  Any sets above this
-     * limit will use hashtables and be a MutableAttributeSet.
+     * Returns the mbximum number of key/vblue pbirs to try bnd
+     * compress into unique/immutbble sets.  Any sets bbove this
+     * limit will use hbshtbbles bnd be b MutbbleAttributeSet.
      *
      * @return the threshold
      */
@@ -473,143 +473,143 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
     }
 
     /**
-     * Create a compact set of attributes that might be shared.
-     * This is a hook for subclasses that want to alter the
-     * behavior of SmallAttributeSet.  This can be reimplemented
-     * to return an AttributeSet that provides some sort of
-     * attribute conversion.
+     * Crebte b compbct set of bttributes thbt might be shbred.
+     * This is b hook for subclbsses thbt wbnt to blter the
+     * behbvior of SmbllAttributeSet.  This cbn be reimplemented
+     * to return bn AttributeSet thbt provides some sort of
+     * bttribute conversion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the compact form.
+     * @pbrbm b The set of bttributes to be represented in the
+     *  the compbct form.
      */
-    protected SmallAttributeSet createSmallAttributeSet(AttributeSet a) {
-        return new SmallAttributeSet(a);
+    protected SmbllAttributeSet crebteSmbllAttributeSet(AttributeSet b) {
+        return new SmbllAttributeSet(b);
     }
 
     /**
-     * Create a large set of attributes that should trade off
-     * space for time.  This set will not be shared.  This is
-     * a hook for subclasses that want to alter the behavior
-     * of the larger attribute storage format (which is
-     * SimpleAttributeSet by default).   This can be reimplemented
-     * to return a MutableAttributeSet that provides some sort of
-     * attribute conversion.
+     * Crebte b lbrge set of bttributes thbt should trbde off
+     * spbce for time.  This set will not be shbred.  This is
+     * b hook for subclbsses thbt wbnt to blter the behbvior
+     * of the lbrger bttribute storbge formbt (which is
+     * SimpleAttributeSet by defbult).   This cbn be reimplemented
+     * to return b MutbbleAttributeSet thbt provides some sort of
+     * bttribute conversion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the larger form.
+     * @pbrbm b The set of bttributes to be represented in the
+     *  the lbrger form.
      */
-    protected MutableAttributeSet createLargeAttributeSet(AttributeSet a) {
-        return new SimpleAttributeSet(a);
+    protected MutbbleAttributeSet crebteLbrgeAttributeSet(AttributeSet b) {
+        return new SimpleAttributeSet(b);
     }
 
     /**
-     * Clean the unused immutable sets out of the hashtable.
+     * Clebn the unused immutbble sets out of the hbshtbble.
      */
     synchronized void removeUnusedSets() {
-        attributesPool.size(); // force WeakHashMap to expunge stale entries
+        bttributesPool.size(); // force WebkHbshMbp to expunge stble entries
     }
 
     /**
-     * Search for an existing attribute set using the current search
-     * parameters.  If a matching set is found, return it.  If a match
-     * is not found, we create a new set and add it to the pool.
+     * Sebrch for bn existing bttribute set using the current sebrch
+     * pbrbmeters.  If b mbtching set is found, return it.  If b mbtch
+     * is not found, we crebte b new set bnd bdd it to the pool.
      */
-    AttributeSet getImmutableUniqueSet() {
-        // PENDING(prinz) should consider finding a alternative to
-        // generating extra garbage on search key.
-        SmallAttributeSet key = createSmallAttributeSet(search);
-        WeakReference<SmallAttributeSet> reference = attributesPool.get(key);
-        SmallAttributeSet a;
-        if (reference == null || (a = reference.get()) == null) {
-            a = key;
-            attributesPool.put(a, new WeakReference<SmallAttributeSet>(a));
+    AttributeSet getImmutbbleUniqueSet() {
+        // PENDING(prinz) should consider finding b blternbtive to
+        // generbting extrb gbrbbge on sebrch key.
+        SmbllAttributeSet key = crebteSmbllAttributeSet(sebrch);
+        WebkReference<SmbllAttributeSet> reference = bttributesPool.get(key);
+        SmbllAttributeSet b;
+        if (reference == null || (b = reference.get()) == null) {
+            b = key;
+            bttributesPool.put(b, new WebkReference<SmbllAttributeSet>(b));
         }
-        return a;
+        return b;
     }
 
     /**
-     * Creates a mutable attribute set to hand out because the current
-     * needs are too big to try and use a shared version.
+     * Crebtes b mutbble bttribute set to hbnd out becbuse the current
+     * needs bre too big to try bnd use b shbred version.
      */
-    MutableAttributeSet getMutableAttributeSet(AttributeSet a) {
-        if (a instanceof MutableAttributeSet &&
-            a != SimpleAttributeSet.EMPTY) {
-            return (MutableAttributeSet) a;
+    MutbbleAttributeSet getMutbbleAttributeSet(AttributeSet b) {
+        if (b instbnceof MutbbleAttributeSet &&
+            b != SimpleAttributeSet.EMPTY) {
+            return (MutbbleAttributeSet) b;
         }
-        return createLargeAttributeSet(a);
+        return crebteLbrgeAttributeSet(b);
     }
 
     /**
-     * Converts a StyleContext to a String.
+     * Converts b StyleContext to b String.
      *
      * @return the string
      */
     public String toString() {
         removeUnusedSets();
         String s = "";
-        for (SmallAttributeSet set : attributesPool.keySet()) {
+        for (SmbllAttributeSet set : bttributesPool.keySet()) {
             s = s + set + "\n";
         }
         return s;
     }
 
-    // --- serialization ---------------------------------------------
+    // --- seriblizbtion ---------------------------------------------
 
     /**
-     * Context-specific handling of writing out attributes
+     * Context-specific hbndling of writing out bttributes
      */
-    public void writeAttributes(ObjectOutputStream out,
-                                  AttributeSet a) throws IOException {
-        writeAttributeSet(out, a);
+    public void writeAttributes(ObjectOutputStrebm out,
+                                  AttributeSet b) throws IOException {
+        writeAttributeSet(out, b);
     }
 
     /**
-     * Context-specific handling of reading in attributes
+     * Context-specific hbndling of rebding in bttributes
      */
-    public void readAttributes(ObjectInputStream in,
-                               MutableAttributeSet a) throws ClassNotFoundException, IOException {
-        readAttributeSet(in, a);
+    public void rebdAttributes(ObjectInputStrebm in,
+                               MutbbleAttributeSet b) throws ClbssNotFoundException, IOException {
+        rebdAttributeSet(in, b);
     }
 
     /**
-     * Writes a set of attributes to the given object stream
-     * for the purpose of serialization.  This will take
-     * special care to deal with static attribute keys that
-     * have been registered wit the
-     * <code>registerStaticAttributeKey</code> method.
-     * Any attribute key not registered as a static key
-     * will be serialized directly.  All values are expected
-     * to be serializable.
+     * Writes b set of bttributes to the given object strebm
+     * for the purpose of seriblizbtion.  This will tbke
+     * specibl cbre to debl with stbtic bttribute keys thbt
+     * hbve been registered wit the
+     * <code>registerStbticAttributeKey</code> method.
+     * Any bttribute key not registered bs b stbtic key
+     * will be seriblized directly.  All vblues bre expected
+     * to be seriblizbble.
      *
-     * @param out the output stream
-     * @param a the attribute set
-     * @exception IOException on any I/O error
+     * @pbrbm out the output strebm
+     * @pbrbm b the bttribute set
+     * @exception IOException on bny I/O error
      */
-    public static void writeAttributeSet(ObjectOutputStream out,
-                                         AttributeSet a) throws IOException {
-        int n = a.getAttributeCount();
+    public stbtic void writeAttributeSet(ObjectOutputStrebm out,
+                                         AttributeSet b) throws IOException {
+        int n = b.getAttributeCount();
         out.writeInt(n);
-        Enumeration<?> keys = a.getAttributeNames();
-        while (keys.hasMoreElements()) {
+        Enumerbtion<?> keys = b.getAttributeNbmes();
+        while (keys.hbsMoreElements()) {
             Object key = keys.nextElement();
-            if (key instanceof Serializable) {
+            if (key instbnceof Seriblizbble) {
                 out.writeObject(key);
             } else {
-                Object ioFmt = freezeKeyMap.get(key);
+                Object ioFmt = freezeKeyMbp.get(key);
                 if (ioFmt == null) {
-                    throw new NotSerializableException(key.getClass().
-                                 getName() + " is not serializable as a key in an AttributeSet");
+                    throw new NotSeriblizbbleException(key.getClbss().
+                                 getNbme() + " is not seriblizbble bs b key in bn AttributeSet");
                 }
                 out.writeObject(ioFmt);
             }
-            Object value = a.getAttribute(key);
-            Object ioFmt = freezeKeyMap.get(value);
-            if (value instanceof Serializable) {
-                out.writeObject((ioFmt != null) ? ioFmt : value);
+            Object vblue = b.getAttribute(key);
+            Object ioFmt = freezeKeyMbp.get(vblue);
+            if (vblue instbnceof Seriblizbble) {
+                out.writeObject((ioFmt != null) ? ioFmt : vblue);
             } else {
                 if (ioFmt == null) {
-                    throw new NotSerializableException(value.getClass().
-                                 getName() + " is not serializable as a value in an AttributeSet");
+                    throw new NotSeriblizbbleException(vblue.getClbss().
+                                 getNbme() + " is not seriblizbble bs b vblue in bn AttributeSet");
                 }
                 out.writeObject(ioFmt);
             }
@@ -617,189 +617,189 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
     }
 
     /**
-     * Reads a set of attributes from the given object input
-     * stream that have been previously written out with
+     * Rebds b set of bttributes from the given object input
+     * strebm thbt hbve been previously written out with
      * <code>writeAttributeSet</code>.  This will try to restore
-     * keys that were static objects to the static objects in
-     * the current virtual machine considering only those keys
-     * that have been registered with the
-     * <code>registerStaticAttributeKey</code> method.
-     * The attributes retrieved from the stream will be placed
-     * into the given mutable set.
+     * keys thbt were stbtic objects to the stbtic objects in
+     * the current virtubl mbchine considering only those keys
+     * thbt hbve been registered with the
+     * <code>registerStbticAttributeKey</code> method.
+     * The bttributes retrieved from the strebm will be plbced
+     * into the given mutbble set.
      *
-     * @param in the object stream to read the attribute data from.
-     * @param a  the attribute set to place the attribute
+     * @pbrbm in the object strebm to rebd the bttribute dbtb from.
+     * @pbrbm b  the bttribute set to plbce the bttribute
      *   definitions in.
-     * @exception ClassNotFoundException passed upward if encountered
-     *  when reading the object stream.
-     * @exception IOException passed upward if encountered when
-     *  reading the object stream.
+     * @exception ClbssNotFoundException pbssed upwbrd if encountered
+     *  when rebding the object strebm.
+     * @exception IOException pbssed upwbrd if encountered when
+     *  rebding the object strebm.
      */
-    public static void readAttributeSet(ObjectInputStream in,
-        MutableAttributeSet a) throws ClassNotFoundException, IOException {
+    public stbtic void rebdAttributeSet(ObjectInputStrebm in,
+        MutbbleAttributeSet b) throws ClbssNotFoundException, IOException {
 
-        int n = in.readInt();
+        int n = in.rebdInt();
         for (int i = 0; i < n; i++) {
-            Object key = in.readObject();
-            Object value = in.readObject();
-            if (thawKeyMap != null) {
-                Object staticKey = thawKeyMap.get(key);
-                if (staticKey != null) {
-                    key = staticKey;
+            Object key = in.rebdObject();
+            Object vblue = in.rebdObject();
+            if (thbwKeyMbp != null) {
+                Object stbticKey = thbwKeyMbp.get(key);
+                if (stbticKey != null) {
+                    key = stbticKey;
                 }
-                Object staticValue = thawKeyMap.get(value);
-                if (staticValue != null) {
-                    value = staticValue;
+                Object stbticVblue = thbwKeyMbp.get(vblue);
+                if (stbticVblue != null) {
+                    vblue = stbticVblue;
                 }
             }
-            a.addAttribute(key, value);
+            b.bddAttribute(key, vblue);
         }
     }
 
     /**
-     * Registers an object as a static object that is being
-     * used as a key in attribute sets.  This allows the key
-     * to be treated specially for serialization.
+     * Registers bn object bs b stbtic object thbt is being
+     * used bs b key in bttribute sets.  This bllows the key
+     * to be trebted speciblly for seriblizbtion.
      * <p>
-     * For operation under a 1.1 virtual machine, this
-     * uses the value returned by <code>toString</code>
-     * concatenated to the classname.  The value returned
-     * by toString should not have the class reference
+     * For operbtion under b 1.1 virtubl mbchine, this
+     * uses the vblue returned by <code>toString</code>
+     * concbtenbted to the clbssnbme.  The vblue returned
+     * by toString should not hbve the clbss reference
      * in it (ie it should be reimplemented from the
-     * definition in Object) in order to be the same when
-     * recomputed later.
+     * definition in Object) in order to be the sbme when
+     * recomputed lbter.
      *
-     * @param key the non-null object key
+     * @pbrbm key the non-null object key
      */
-    public static void registerStaticAttributeKey(Object key) {
-        String ioFmt = key.getClass().getName() + "." + key.toString();
-        if (freezeKeyMap == null) {
-            freezeKeyMap = new Hashtable<Object, String>();
-            thawKeyMap = new Hashtable<String, Object>();
+    public stbtic void registerStbticAttributeKey(Object key) {
+        String ioFmt = key.getClbss().getNbme() + "." + key.toString();
+        if (freezeKeyMbp == null) {
+            freezeKeyMbp = new Hbshtbble<Object, String>();
+            thbwKeyMbp = new Hbshtbble<String, Object>();
         }
-        freezeKeyMap.put(key, ioFmt);
-        thawKeyMap.put(ioFmt, key);
+        freezeKeyMbp.put(key, ioFmt);
+        thbwKeyMbp.put(ioFmt, key);
     }
 
     /**
      * Returns the object previously registered with
-     * <code>registerStaticAttributeKey</code>.
+     * <code>registerStbticAttributeKey</code>.
      */
-    public static Object getStaticAttribute(Object key) {
-        if (thawKeyMap == null || key == null) {
+    public stbtic Object getStbticAttribute(Object key) {
+        if (thbwKeyMbp == null || key == null) {
             return null;
         }
-        return thawKeyMap.get(key);
+        return thbwKeyMbp.get(key);
     }
 
     /**
-     * Returns the String that <code>key</code> will be registered with
-     * @see #getStaticAttribute
-     * @see #registerStaticAttributeKey
+     * Returns the String thbt <code>key</code> will be registered with
+     * @see #getStbticAttribute
+     * @see #registerStbticAttributeKey
      */
-    public static Object getStaticAttributeKey(Object key) {
-        return key.getClass().getName() + "." + key.toString();
+    public stbtic Object getStbticAttributeKey(Object key) {
+        return key.getClbss().getNbme() + "." + key.toString();
     }
 
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        // clean out unused sets before saving
+        // clebn out unused sets before sbving
         removeUnusedSets();
 
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException
     {
-        fontSearch = new FontKey(null, 0, 0);
-        fontTable = new Hashtable<FontKey, Font>();
-        search = new SimpleAttributeSet();
-        attributesPool = Collections.
-                synchronizedMap(new WeakHashMap<SmallAttributeSet, WeakReference<SmallAttributeSet>>());
-        s.defaultReadObject();
+        fontSebrch = new FontKey(null, 0, 0);
+        fontTbble = new Hbshtbble<FontKey, Font>();
+        sebrch = new SimpleAttributeSet();
+        bttributesPool = Collections.
+                synchronizedMbp(new WebkHbshMbp<SmbllAttributeSet, WebkReference<SmbllAttributeSet>>());
+        s.defbultRebdObject();
     }
 
-    // --- variables ---------------------------------------------------
+    // --- vbribbles ---------------------------------------------------
 
     /**
-     * The name given to the default logical style attached
-     * to paragraphs.
+     * The nbme given to the defbult logicbl style bttbched
+     * to pbrbgrbphs.
      */
-    public static final String DEFAULT_STYLE = "default";
+    public stbtic finbl String DEFAULT_STYLE = "defbult";
 
-    private static Hashtable<Object, String> freezeKeyMap;
-    private static Hashtable<String, Object> thawKeyMap;
+    privbte stbtic Hbshtbble<Object, String> freezeKeyMbp;
+    privbte stbtic Hbshtbble<String, Object> thbwKeyMbp;
 
-    private Style styles;
-    private transient FontKey fontSearch = new FontKey(null, 0, 0);
-    private transient Hashtable<FontKey, Font> fontTable = new Hashtable<FontKey, Font>();
+    privbte Style styles;
+    privbte trbnsient FontKey fontSebrch = new FontKey(null, 0, 0);
+    privbte trbnsient Hbshtbble<FontKey, Font> fontTbble = new Hbshtbble<FontKey, Font>();
 
-    private transient Map<SmallAttributeSet, WeakReference<SmallAttributeSet>> attributesPool = Collections.
-            synchronizedMap(new WeakHashMap<SmallAttributeSet, WeakReference<SmallAttributeSet>>());
-    private transient MutableAttributeSet search = new SimpleAttributeSet();
+    privbte trbnsient Mbp<SmbllAttributeSet, WebkReference<SmbllAttributeSet>> bttributesPool = Collections.
+            synchronizedMbp(new WebkHbshMbp<SmbllAttributeSet, WebkReference<SmbllAttributeSet>>());
+    privbte trbnsient MutbbleAttributeSet sebrch = new SimpleAttributeSet();
 
     /**
-     * Number of immutable sets that are not currently
-     * being used.  This helps indicate when the sets need
-     * to be cleaned out of the hashtable they are stored
+     * Number of immutbble sets thbt bre not currently
+     * being used.  This helps indicbte when the sets need
+     * to be clebned out of the hbshtbble they bre stored
      * in.
      */
-    private int unusedSets;
+    privbte int unusedSets;
 
     /**
-     * The threshold for no longer sharing the set of attributes
-     * in an immutable table.
+     * The threshold for no longer shbring the set of bttributes
+     * in bn immutbble tbble.
      */
-    static final int THRESHOLD = 9;
+    stbtic finbl int THRESHOLD = 9;
 
     /**
-     * This class holds a small number of attributes in an array.
-     * The storage format is key, value, key, value, etc.  The size
-     * of the set is the length of the array divided by two.  By
-     * default, this is the class that will be used to store attributes
-     * when held in the compact sharable form.
+     * This clbss holds b smbll number of bttributes in bn brrby.
+     * The storbge formbt is key, vblue, key, vblue, etc.  The size
+     * of the set is the length of the brrby divided by two.  By
+     * defbult, this is the clbss thbt will be used to store bttributes
+     * when held in the compbct shbrbble form.
      */
-    public class SmallAttributeSet implements AttributeSet {
+    public clbss SmbllAttributeSet implements AttributeSet {
 
-        public SmallAttributeSet(Object[] attributes) {
-            this.attributes = attributes;
-            updateResolveParent();
+        public SmbllAttributeSet(Object[] bttributes) {
+            this.bttributes = bttributes;
+            updbteResolvePbrent();
         }
 
-        public SmallAttributeSet(AttributeSet attrs) {
-            int n = attrs.getAttributeCount();
+        public SmbllAttributeSet(AttributeSet bttrs) {
+            int n = bttrs.getAttributeCount();
             Object[] tbl = new Object[2 * n];
-            Enumeration<?> names = attrs.getAttributeNames();
+            Enumerbtion<?> nbmes = bttrs.getAttributeNbmes();
             int i = 0;
-            while (names.hasMoreElements()) {
-                tbl[i] = names.nextElement();
-                tbl[i+1] = attrs.getAttribute(tbl[i]);
+            while (nbmes.hbsMoreElements()) {
+                tbl[i] = nbmes.nextElement();
+                tbl[i+1] = bttrs.getAttribute(tbl[i]);
                 i += 2;
             }
-            attributes = tbl;
-            updateResolveParent();
+            bttributes = tbl;
+            updbteResolvePbrent();
         }
 
-        private void updateResolveParent() {
-            resolveParent = null;
-            Object[] tbl = attributes;
+        privbte void updbteResolvePbrent() {
+            resolvePbrent = null;
+            Object[] tbl = bttributes;
             for (int i = 0; i < tbl.length; i += 2) {
-                if (tbl[i] == StyleConstants.ResolveAttribute) {
-                    resolveParent = (AttributeSet)tbl[i + 1];
-                    break;
+                if (tbl[i] == StyleConstbnts.ResolveAttribute) {
+                    resolvePbrent = (AttributeSet)tbl[i + 1];
+                    brebk;
                 }
             }
         }
 
-        Object getLocalAttribute(Object nm) {
-            if (nm == StyleConstants.ResolveAttribute) {
-                return resolveParent;
+        Object getLocblAttribute(Object nm) {
+            if (nm == StyleConstbnts.ResolveAttribute) {
+                return resolvePbrent;
             }
-            Object[] tbl = attributes;
+            Object[] tbl = bttributes;
             for (int i = 0; i < tbl.length; i += 2) {
-                if (nm.equals(tbl[i])) {
+                if (nm.equbls(tbl[i])) {
                     return tbl[i+1];
                 }
             }
@@ -809,13 +809,13 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         // --- Object methods -------------------------
 
         /**
-         * Returns a string showing the key/value pairs
+         * Returns b string showing the key/vblue pbirs
          */
         public String toString() {
             String s = "{";
-            Object[] tbl = attributes;
+            Object[] tbl = bttributes;
             for (int i = 0; i < tbl.length; i += 2) {
-                if (tbl[i+1] instanceof AttributeSet) {
+                if (tbl[i+1] instbnceof AttributeSet) {
                     // don't recurse
                     s = s + tbl[i] + "=" + "AttributeSet" + ",";
                 } else {
@@ -827,40 +827,40 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         }
 
         /**
-         * Returns a hashcode for this set of attributes.
-         * @return     a hashcode value for this set of attributes.
+         * Returns b hbshcode for this set of bttributes.
+         * @return     b hbshcode vblue for this set of bttributes.
          */
-        public int hashCode() {
+        public int hbshCode() {
             int code = 0;
-            Object[] tbl = attributes;
+            Object[] tbl = bttributes;
             for (int i = 1; i < tbl.length; i += 2) {
-                code ^= tbl[i].hashCode();
+                code ^= tbl[i].hbshCode();
             }
             return code;
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if the object is an equivalent
-         * set of attributes.
-         * @param     obj   the object to compare with.
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise.
+         * Compbres this object to the specified object.
+         * The result is <code>true</code> if the object is bn equivblent
+         * set of bttributes.
+         * @pbrbm     obj   the object to compbre with.
+         * @return    <code>true</code> if the objects bre equbl;
+         *            <code>fblse</code> otherwise.
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof AttributeSet) {
-                AttributeSet attrs = (AttributeSet) obj;
-                return ((getAttributeCount() == attrs.getAttributeCount()) &&
-                        containsAttributes(attrs));
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof AttributeSet) {
+                AttributeSet bttrs = (AttributeSet) obj;
+                return ((getAttributeCount() == bttrs.getAttributeCount()) &&
+                        contbinsAttributes(bttrs));
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Clones a set of attributes.  Since the set is immutable, a
-         * clone is basically the same set.
+         * Clones b set of bttributes.  Since the set is immutbble, b
+         * clone is bbsicblly the sbme set.
          *
-         * @return the set of attributes
+         * @return the set of bttributes
          */
         public Object clone() {
             return this;
@@ -869,50 +869,50 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         //  --- AttributeSet methods ----------------------------
 
         /**
-         * Gets the number of attributes that are defined.
+         * Gets the number of bttributes thbt bre defined.
          *
-         * @return the number of attributes
+         * @return the number of bttributes
          * @see AttributeSet#getAttributeCount
          */
         public int getAttributeCount() {
-            return attributes.length / 2;
+            return bttributes.length / 2;
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          *
-         * @param key the attribute key
-         * @return true if the attribute is defined
+         * @pbrbm key the bttribute key
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object key) {
-            Object[] a = attributes;
-            int n = a.length;
+        public boolebn isDefined(Object key) {
+            Object[] b = bttributes;
+            int n = b.length;
             for (int i = 0; i < n; i += 2) {
-                if (key.equals(a[i])) {
+                if (key.equbls(b[i])) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Checks whether two attribute sets are equal.
+         * Checks whether two bttribute sets bre equbl.
          *
-         * @param attr the attribute set to check against
-         * @return true if the same
-         * @see AttributeSet#isEqual
+         * @pbrbm bttr the bttribute set to check bgbinst
+         * @return true if the sbme
+         * @see AttributeSet#isEqubl
          */
-        public boolean isEqual(AttributeSet attr) {
-            if (attr instanceof SmallAttributeSet) {
-                return attr == this;
+        public boolebn isEqubl(AttributeSet bttr) {
+            if (bttr instbnceof SmbllAttributeSet) {
+                return bttr == this;
             }
-            return ((getAttributeCount() == attr.getAttributeCount()) &&
-                    containsAttributes(attr));
+            return ((getAttributeCount() == bttr.getAttributeCount()) &&
+                    contbinsAttributes(bttr));
         }
 
         /**
-         * Copies a set of attributes.
+         * Copies b set of bttributes.
          *
          * @return the copy
          * @see AttributeSet#copyAttributes
@@ -922,175 +922,175 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gets the vblue of bn bttribute.
          *
-         * @param key the attribute name
-         * @return the attribute value
+         * @pbrbm key the bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
         public Object getAttribute(Object key) {
-            Object value = getLocalAttribute(key);
-            if (value == null) {
-                AttributeSet parent = getResolveParent();
-                if (parent != null)
-                    value = parent.getAttribute(key);
+            Object vblue = getLocblAttribute(key);
+            if (vblue == null) {
+                AttributeSet pbrent = getResolvePbrent();
+                if (pbrent != null)
+                    vblue = pbrent.getAttribute(key);
             }
-            return value;
+            return vblue;
         }
 
         /**
-         * Gets the names of all attributes.
+         * Gets the nbmes of bll bttributes.
          *
-         * @return the attribute names
-         * @see AttributeSet#getAttributeNames
+         * @return the bttribute nbmes
+         * @see AttributeSet#getAttributeNbmes
          */
-        public Enumeration<?> getAttributeNames() {
-            return new KeyEnumeration(attributes);
+        public Enumerbtion<?> getAttributeNbmes() {
+            return new KeyEnumerbtion(bttributes);
         }
 
         /**
-         * Checks whether a given attribute name/value is defined.
+         * Checks whether b given bttribute nbme/vblue is defined.
          *
-         * @param name the attribute name
-         * @param value the attribute value
-         * @return true if the name/value is defined
-         * @see AttributeSet#containsAttribute
+         * @pbrbm nbme the bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @return true if the nbme/vblue is defined
+         * @see AttributeSet#contbinsAttribute
          */
-        public boolean containsAttribute(Object name, Object value) {
-            return value.equals(getAttribute(name));
+        public boolebn contbinsAttribute(Object nbme, Object vblue) {
+            return vblue.equbls(getAttribute(nbme));
         }
 
         /**
-         * Checks whether the attribute set contains all of
-         * the given attributes.
+         * Checks whether the bttribute set contbins bll of
+         * the given bttributes.
          *
-         * @param attrs the attributes to check
-         * @return true if the element contains all the attributes
-         * @see AttributeSet#containsAttributes
+         * @pbrbm bttrs the bttributes to check
+         * @return true if the element contbins bll the bttributes
+         * @see AttributeSet#contbinsAttributes
          */
-        public boolean containsAttributes(AttributeSet attrs) {
-            boolean result = true;
+        public boolebn contbinsAttributes(AttributeSet bttrs) {
+            boolebn result = true;
 
-            Enumeration<?> names = attrs.getAttributeNames();
-            while (result && names.hasMoreElements()) {
-                Object name = names.nextElement();
-                result = attrs.getAttribute(name).equals(getAttribute(name));
+            Enumerbtion<?> nbmes = bttrs.getAttributeNbmes();
+            while (result && nbmes.hbsMoreElements()) {
+                Object nbme = nbmes.nextElement();
+                result = bttrs.getAttribute(nbme).equbls(getAttribute(nbme));
             }
 
             return result;
         }
 
         /**
-         * If not overriden, the resolving parent defaults to
-         * the parent element.
+         * If not overriden, the resolving pbrent defbults to
+         * the pbrent element.
          *
-         * @return the attributes from the parent
-         * @see AttributeSet#getResolveParent
+         * @return the bttributes from the pbrent
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
-            return resolveParent;
+        public AttributeSet getResolvePbrent() {
+            return resolvePbrent;
         }
 
-        // --- variables -----------------------------------------
+        // --- vbribbles -----------------------------------------
 
-        Object[] attributes;
-        // This is also stored in attributes
-        AttributeSet resolveParent;
+        Object[] bttributes;
+        // This is blso stored in bttributes
+        AttributeSet resolvePbrent;
     }
 
     /**
-     * An enumeration of the keys in a SmallAttributeSet.
+     * An enumerbtion of the keys in b SmbllAttributeSet.
      */
-    class KeyEnumeration implements Enumeration<Object> {
+    clbss KeyEnumerbtion implements Enumerbtion<Object> {
 
-        KeyEnumeration(Object[] attr) {
-            this.attr = attr;
+        KeyEnumerbtion(Object[] bttr) {
+            this.bttr = bttr;
             i = 0;
         }
 
         /**
-         * Tests if this enumeration contains more elements.
+         * Tests if this enumerbtion contbins more elements.
          *
-         * @return  <code>true</code> if this enumeration contains more elements;
-         *          <code>false</code> otherwise.
+         * @return  <code>true</code> if this enumerbtion contbins more elements;
+         *          <code>fblse</code> otherwise.
          * @since   1.0
          */
-        public boolean hasMoreElements() {
-            return i < attr.length;
+        public boolebn hbsMoreElements() {
+            return i < bttr.length;
         }
 
         /**
-         * Returns the next element of this enumeration.
+         * Returns the next element of this enumerbtion.
          *
-         * @return     the next element of this enumeration.
+         * @return     the next element of this enumerbtion.
          * @exception  NoSuchElementException  if no more elements exist.
          * @since      1.0
          */
         public Object nextElement() {
-            if (i < attr.length) {
-                Object o = attr[i];
+            if (i < bttr.length) {
+                Object o = bttr[i];
                 i += 2;
                 return o;
             }
             throw new NoSuchElementException();
         }
 
-        Object[] attr;
+        Object[] bttr;
         int i;
     }
 
     /**
-     * Sorts the key strings so that they can be very quickly compared
-     * in the attribute set searches.
+     * Sorts the key strings so thbt they cbn be very quickly compbred
+     * in the bttribute set sebrches.
      */
-    class KeyBuilder {
+    clbss KeyBuilder {
 
-        public void initialize(AttributeSet a) {
-            if (a instanceof SmallAttributeSet) {
-                initialize(((SmallAttributeSet)a).attributes);
+        public void initiblize(AttributeSet b) {
+            if (b instbnceof SmbllAttributeSet) {
+                initiblize(((SmbllAttributeSet)b).bttributes);
             } else {
                 keys.removeAllElements();
-                data.removeAllElements();
-                Enumeration<?> names = a.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
-                    addAttribute(name, a.getAttribute(name));
+                dbtb.removeAllElements();
+                Enumerbtion<?> nbmes = b.getAttributeNbmes();
+                while (nbmes.hbsMoreElements()) {
+                    Object nbme = nbmes.nextElement();
+                    bddAttribute(nbme, b.getAttribute(nbme));
                 }
             }
         }
 
         /**
-         * Initialize with a set of already sorted
-         * keys (data from an existing SmallAttributeSet).
+         * Initiblize with b set of blrebdy sorted
+         * keys (dbtb from bn existing SmbllAttributeSet).
          */
-        private void initialize(Object[] sorted) {
+        privbte void initiblize(Object[] sorted) {
             keys.removeAllElements();
-            data.removeAllElements();
+            dbtb.removeAllElements();
             int n = sorted.length;
             for (int i = 0; i < n; i += 2) {
-                keys.addElement(sorted[i]);
-                data.addElement(sorted[i+1]);
+                keys.bddElement(sorted[i]);
+                dbtb.bddElement(sorted[i+1]);
             }
         }
 
         /**
-         * Creates a table of sorted key/value entries
-         * suitable for creation of an instance of
-         * SmallAttributeSet.
+         * Crebtes b tbble of sorted key/vblue entries
+         * suitbble for crebtion of bn instbnce of
+         * SmbllAttributeSet.
          */
-        public Object[] createTable() {
+        public Object[] crebteTbble() {
             int n = keys.size();
             Object[] tbl = new Object[2 * n];
             for (int i = 0; i < n; i ++) {
                 int offs = 2 * i;
                 tbl[offs] = keys.elementAt(i);
-                tbl[offs + 1] = data.elementAt(i);
+                tbl[offs + 1] = dbtb.elementAt(i);
             }
             return tbl;
         }
 
         /**
-         * The number of key/value pairs contained
+         * The number of key/vblue pbirs contbined
          * in the current key being forged.
          */
         int getCount() {
@@ -1098,42 +1098,42 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         }
 
         /**
-         * Adds a key/value to the set.
+         * Adds b key/vblue to the set.
          */
-        public void addAttribute(Object key, Object value) {
-            keys.addElement(key);
-            data.addElement(value);
+        public void bddAttribute(Object key, Object vblue) {
+            keys.bddElement(key);
+            dbtb.bddElement(vblue);
         }
 
         /**
-         * Adds a set of key/value pairs to the set.
+         * Adds b set of key/vblue pbirs to the set.
          */
-        public void addAttributes(AttributeSet attr) {
-            if (attr instanceof SmallAttributeSet) {
-                // avoid searching the keys, they are already interned.
-                Object[] tbl = ((SmallAttributeSet)attr).attributes;
+        public void bddAttributes(AttributeSet bttr) {
+            if (bttr instbnceof SmbllAttributeSet) {
+                // bvoid sebrching the keys, they bre blrebdy interned.
+                Object[] tbl = ((SmbllAttributeSet)bttr).bttributes;
                 int n = tbl.length;
                 for (int i = 0; i < n; i += 2) {
-                    addAttribute(tbl[i], tbl[i+1]);
+                    bddAttribute(tbl[i], tbl[i+1]);
                 }
             } else {
-                Enumeration<?> names = attr.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
-                    addAttribute(name, attr.getAttribute(name));
+                Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
+                while (nbmes.hbsMoreElements()) {
+                    Object nbme = nbmes.nextElement();
+                    bddAttribute(nbme, bttr.getAttribute(nbme));
                 }
             }
         }
 
         /**
-         * Removes the given name from the set.
+         * Removes the given nbme from the set.
          */
         public void removeAttribute(Object key) {
             int n = keys.size();
             for (int i = 0; i < n; i++) {
-                if (keys.elementAt(i).equals(key)) {
+                if (keys.elementAt(i).equbls(key)) {
                     keys.removeElementAt(i);
-                    data.removeElementAt(i);
+                    dbtb.removeElementAt(i);
                     return;
                 }
             }
@@ -1142,480 +1142,480 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         /**
          * Removes the set of keys from the set.
          */
-        public void removeAttributes(Enumeration<?> names) {
-            while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                removeAttribute(name);
+        public void removeAttributes(Enumerbtion<?> nbmes) {
+            while (nbmes.hbsMoreElements()) {
+                Object nbme = nbmes.nextElement();
+                removeAttribute(nbme);
             }
         }
 
         /**
-         * Removes the set of matching attributes from the set.
+         * Removes the set of mbtching bttributes from the set.
          */
-        public void removeAttributes(AttributeSet attr) {
-            Enumeration<?> names = attr.getAttributeNames();
-            while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                Object value = attr.getAttribute(name);
-                removeSearchAttribute(name, value);
+        public void removeAttributes(AttributeSet bttr) {
+            Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
+            while (nbmes.hbsMoreElements()) {
+                Object nbme = nbmes.nextElement();
+                Object vblue = bttr.getAttribute(nbme);
+                removeSebrchAttribute(nbme, vblue);
             }
         }
 
-        private void removeSearchAttribute(Object ikey, Object value) {
+        privbte void removeSebrchAttribute(Object ikey, Object vblue) {
             int n = keys.size();
             for (int i = 0; i < n; i++) {
-                if (keys.elementAt(i).equals(ikey)) {
-                    if (data.elementAt(i).equals(value)) {
+                if (keys.elementAt(i).equbls(ikey)) {
+                    if (dbtb.elementAt(i).equbls(vblue)) {
                         keys.removeElementAt(i);
-                        data.removeElementAt(i);
+                        dbtb.removeElementAt(i);
                     }
                     return;
                 }
             }
         }
 
-        private Vector<Object> keys = new Vector<Object>();
-        private Vector<Object> data = new Vector<Object>();
+        privbte Vector<Object> keys = new Vector<Object>();
+        privbte Vector<Object> dbtb = new Vector<Object>();
     }
 
     /**
-     * key for a font table
+     * key for b font tbble
      */
-    static class FontKey {
+    stbtic clbss FontKey {
 
-        private String family;
-        private int style;
-        private int size;
+        privbte String fbmily;
+        privbte int style;
+        privbte int size;
 
         /**
-         * Constructs a font key.
+         * Constructs b font key.
          */
-        public FontKey(String family, int style, int size) {
-            setValue(family, style, size);
+        public FontKey(String fbmily, int style, int size) {
+            setVblue(fbmily, style, size);
         }
 
-        public void setValue(String family, int style, int size) {
-            this.family = (family != null) ? family.intern() : null;
+        public void setVblue(String fbmily, int style, int size) {
+            this.fbmily = (fbmily != null) ? fbmily.intern() : null;
             this.style = style;
             this.size = size;
         }
 
         /**
-         * Returns a hashcode for this font.
-         * @return     a hashcode value for this font.
+         * Returns b hbshcode for this font.
+         * @return     b hbshcode vblue for this font.
          */
-        public int hashCode() {
-            int fhash = (family != null) ? family.hashCode() : 0;
-            return fhash ^ style ^ size;
+        public int hbshCode() {
+            int fhbsh = (fbmily != null) ? fbmily.hbshCode() : 0;
+            return fhbsh ^ style ^ size;
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if and only if the argument is not
-         * <code>null</code> and is a <code>Font</code> object with the same
-         * name, style, and point size as this font.
-         * @param     obj   the object to compare this font with.
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise.
+         * Compbres this object to the specified object.
+         * The result is <code>true</code> if bnd only if the brgument is not
+         * <code>null</code> bnd is b <code>Font</code> object with the sbme
+         * nbme, style, bnd point size bs this font.
+         * @pbrbm     obj   the object to compbre this font with.
+         * @return    <code>true</code> if the objects bre equbl;
+         *            <code>fblse</code> otherwise.
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof FontKey) {
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof FontKey) {
                 FontKey font = (FontKey)obj;
-                return (size == font.size) && (style == font.style) && (family == font.family);
+                return (size == font.size) && (style == font.style) && (fbmily == font.fbmily);
             }
-            return false;
+            return fblse;
         }
 
     }
 
     /**
-     * A collection of attributes, typically used to represent
-     * character and paragraph styles.  This is an implementation
-     * of MutableAttributeSet that can be observed if desired.
-     * These styles will take advantage of immutability while
-     * the sets are small enough, and may be substantially more
-     * efficient than something like SimpleAttributeSet.
+     * A collection of bttributes, typicblly used to represent
+     * chbrbcter bnd pbrbgrbph styles.  This is bn implementbtion
+     * of MutbbleAttributeSet thbt cbn be observed if desired.
+     * These styles will tbke bdvbntbge of immutbbility while
+     * the sets bre smbll enough, bnd mby be substbntiblly more
+     * efficient thbn something like SimpleAttributeSet.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class NamedStyle implements Style, Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss NbmedStyle implements Style, Seriblizbble {
 
         /**
-         * Creates a new named style.
+         * Crebtes b new nbmed style.
          *
-         * @param name the style name, null for unnamed
-         * @param parent the parent style, null if none
+         * @pbrbm nbme the style nbme, null for unnbmed
+         * @pbrbm pbrent the pbrent style, null if none
          * @since 1.4
          */
-        public NamedStyle(String name, Style parent) {
-            attributes = getEmptySet();
-            if (name != null) {
-                setName(name);
+        public NbmedStyle(String nbme, Style pbrent) {
+            bttributes = getEmptySet();
+            if (nbme != null) {
+                setNbme(nbme);
             }
-            if (parent != null) {
-                setResolveParent(parent);
+            if (pbrent != null) {
+                setResolvePbrent(pbrent);
             }
         }
 
         /**
-         * Creates a new named style.
+         * Crebtes b new nbmed style.
          *
-         * @param parent the parent style, null if none
+         * @pbrbm pbrent the pbrent style, null if none
          * @since 1.4
          */
-        public NamedStyle(Style parent) {
-            this(null, parent);
+        public NbmedStyle(Style pbrent) {
+            this(null, pbrent);
         }
 
         /**
-         * Creates a new named style, with a null name and parent.
+         * Crebtes b new nbmed style, with b null nbme bnd pbrent.
          */
-        public NamedStyle() {
-            attributes = getEmptySet();
+        public NbmedStyle() {
+            bttributes = getEmptySet();
         }
 
         /**
-         * Converts the style to a string.
+         * Converts the style to b string.
          *
          * @return the string
          */
         public String toString() {
-            return "NamedStyle:" + getName() + " " + attributes;
+            return "NbmedStyle:" + getNbme() + " " + bttributes;
         }
 
         /**
-         * Fetches the name of the style.   A style is not required to be named,
-         * so null is returned if there is no name associated with the style.
+         * Fetches the nbme of the style.   A style is not required to be nbmed,
+         * so null is returned if there is no nbme bssocibted with the style.
          *
-         * @return the name
+         * @return the nbme
          */
-        public String getName() {
-            if (isDefined(StyleConstants.NameAttribute)) {
-                return getAttribute(StyleConstants.NameAttribute).toString();
+        public String getNbme() {
+            if (isDefined(StyleConstbnts.NbmeAttribute)) {
+                return getAttribute(StyleConstbnts.NbmeAttribute).toString();
             }
             return null;
         }
 
         /**
-         * Changes the name of the style.  Does nothing with a null name.
+         * Chbnges the nbme of the style.  Does nothing with b null nbme.
          *
-         * @param name the new name
+         * @pbrbm nbme the new nbme
          */
-        public void setName(String name) {
-            if (name != null) {
-                this.addAttribute(StyleConstants.NameAttribute, name);
+        public void setNbme(String nbme) {
+            if (nbme != null) {
+                this.bddAttribute(StyleConstbnts.NbmeAttribute, nbme);
             }
         }
 
         /**
-         * Adds a change listener.
+         * Adds b chbnge listener.
          *
-         * @param l the change listener
+         * @pbrbm l the chbnge listener
          */
-        public void addChangeListener(ChangeListener l) {
-            listenerList.add(ChangeListener.class, l);
+        public void bddChbngeListener(ChbngeListener l) {
+            listenerList.bdd(ChbngeListener.clbss, l);
         }
 
         /**
-         * Removes a change listener.
+         * Removes b chbnge listener.
          *
-         * @param l the change listener
+         * @pbrbm l the chbnge listener
          */
-        public void removeChangeListener(ChangeListener l) {
-            listenerList.remove(ChangeListener.class, l);
+        public void removeChbngeListener(ChbngeListener l) {
+            listenerList.remove(ChbngeListener.clbss, l);
         }
 
 
         /**
-         * Returns an array of all the <code>ChangeListener</code>s added
-         * to this NamedStyle with addChangeListener().
+         * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+         * to this NbmedStyle with bddChbngeListener().
          *
-         * @return all of the <code>ChangeListener</code>s added or an empty
-         *         array if no listeners have been added
+         * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+         *         brrby if no listeners hbve been bdded
          * @since 1.4
          */
-        public ChangeListener[] getChangeListeners() {
-            return listenerList.getListeners(ChangeListener.class);
+        public ChbngeListener[] getChbngeListeners() {
+            return listenerList.getListeners(ChbngeListener.clbss);
         }
 
 
         /**
-         * Notifies all listeners that have registered interest for
-         * notification on this event type.  The event instance
-         * is lazily created using the parameters passed into
+         * Notifies bll listeners thbt hbve registered interest for
+         * notificbtion on this event type.  The event instbnce
+         * is lbzily crebted using the pbrbmeters pbssed into
          * the fire method.
          *
          * @see EventListenerList
          */
-        protected void fireStateChanged() {
-            // Guaranteed to return a non-null array
+        protected void fireStbteChbnged() {
+            // Gubrbnteed to return b non-null brrby
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners lbst to first, notifying
+            // those thbt bre interested in this event
             for (int i = listeners.length-2; i>=0; i-=2) {
-                if (listeners[i]==ChangeListener.class) {
-                    // Lazily create the event:
-                    if (changeEvent == null)
-                        changeEvent = new ChangeEvent(this);
-                    ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                if (listeners[i]==ChbngeListener.clbss) {
+                    // Lbzily crebte the event:
+                    if (chbngeEvent == null)
+                        chbngeEvent = new ChbngeEvent(this);
+                    ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
                 }
             }
         }
 
         /**
-         * Return an array of all the listeners of the given type that
-         * were added to this model.
+         * Return bn brrby of bll the listeners of the given type thbt
+         * were bdded to this model.
          *
-         * @return all of the objects receiving <em>listenerType</em> notifications
+         * @return bll of the objects receiving <em>listenerType</em> notificbtions
          *          from this model
          *
          * @since 1.3
          */
-        public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+        public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
             return listenerList.getListeners(listenerType);
         }
 
         // --- AttributeSet ----------------------------
-        // delegated to the immutable field "attributes"
+        // delegbted to the immutbble field "bttributes"
 
         /**
-         * Gets the number of attributes that are defined.
+         * Gets the number of bttributes thbt bre defined.
          *
-         * @return the number of attributes &gt;= 0
+         * @return the number of bttributes &gt;= 0
          * @see AttributeSet#getAttributeCount
          */
         public int getAttributeCount() {
-            return attributes.getAttributeCount();
+            return bttributes.getAttributeCount();
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          *
-         * @param attrName the non-null attribute name
-         * @return true if the attribute is defined
+         * @pbrbm bttrNbme the non-null bttribute nbme
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object attrName) {
-            return attributes.isDefined(attrName);
+        public boolebn isDefined(Object bttrNbme) {
+            return bttributes.isDefined(bttrNbme);
         }
 
         /**
-         * Checks whether two attribute sets are equal.
+         * Checks whether two bttribute sets bre equbl.
          *
-         * @param attr the attribute set to check against
-         * @return true if the same
-         * @see AttributeSet#isEqual
+         * @pbrbm bttr the bttribute set to check bgbinst
+         * @return true if the sbme
+         * @see AttributeSet#isEqubl
          */
-        public boolean isEqual(AttributeSet attr) {
-            return attributes.isEqual(attr);
+        public boolebn isEqubl(AttributeSet bttr) {
+            return bttributes.isEqubl(bttr);
         }
 
         /**
-         * Copies a set of attributes.
+         * Copies b set of bttributes.
          *
          * @return the copy
          * @see AttributeSet#copyAttributes
          */
         public AttributeSet copyAttributes() {
-            NamedStyle a = new NamedStyle();
-            a.attributes = attributes.copyAttributes();
-            return a;
+            NbmedStyle b = new NbmedStyle();
+            b.bttributes = bttributes.copyAttributes();
+            return b;
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gets the vblue of bn bttribute.
          *
-         * @param attrName the non-null attribute name
-         * @return the attribute value
+         * @pbrbm bttrNbme the non-null bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
-        public Object getAttribute(Object attrName) {
-            return attributes.getAttribute(attrName);
+        public Object getAttribute(Object bttrNbme) {
+            return bttributes.getAttribute(bttrNbme);
         }
 
         /**
-         * Gets the names of all attributes.
+         * Gets the nbmes of bll bttributes.
          *
-         * @return the attribute names as an enumeration
-         * @see AttributeSet#getAttributeNames
+         * @return the bttribute nbmes bs bn enumerbtion
+         * @see AttributeSet#getAttributeNbmes
          */
-        public Enumeration<?> getAttributeNames() {
-            return attributes.getAttributeNames();
+        public Enumerbtion<?> getAttributeNbmes() {
+            return bttributes.getAttributeNbmes();
         }
 
         /**
-         * Checks whether a given attribute name/value is defined.
+         * Checks whether b given bttribute nbme/vblue is defined.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @return true if the name/value is defined
-         * @see AttributeSet#containsAttribute
+         * @pbrbm nbme the non-null bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @return true if the nbme/vblue is defined
+         * @see AttributeSet#contbinsAttribute
          */
-        public boolean containsAttribute(Object name, Object value) {
-            return attributes.containsAttribute(name, value);
+        public boolebn contbinsAttribute(Object nbme, Object vblue) {
+            return bttributes.contbinsAttribute(nbme, vblue);
         }
 
 
         /**
-         * Checks whether the element contains all the attributes.
+         * Checks whether the element contbins bll the bttributes.
          *
-         * @param attrs the attributes to check
-         * @return true if the element contains all the attributes
-         * @see AttributeSet#containsAttributes
+         * @pbrbm bttrs the bttributes to check
+         * @return true if the element contbins bll the bttributes
+         * @see AttributeSet#contbinsAttributes
          */
-        public boolean containsAttributes(AttributeSet attrs) {
-            return attributes.containsAttributes(attrs);
+        public boolebn contbinsAttributes(AttributeSet bttrs) {
+            return bttributes.contbinsAttributes(bttrs);
         }
 
         /**
-         * Gets attributes from the parent.
-         * If not overriden, the resolving parent defaults to
-         * the parent element.
+         * Gets bttributes from the pbrent.
+         * If not overriden, the resolving pbrent defbults to
+         * the pbrent element.
          *
-         * @return the attributes from the parent
-         * @see AttributeSet#getResolveParent
+         * @return the bttributes from the pbrent
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
-            return attributes.getResolveParent();
+        public AttributeSet getResolvePbrent() {
+            return bttributes.getResolvePbrent();
         }
 
-        // --- MutableAttributeSet ----------------------------------
-        // should fetch a new immutable record for the field
-        // "attributes".
+        // --- MutbbleAttributeSet ----------------------------------
+        // should fetch b new immutbble record for the field
+        // "bttributes".
 
         /**
-         * Adds an attribute.
+         * Adds bn bttribute.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm nbme the non-null bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public void addAttribute(Object name, Object value) {
+        public void bddAttribute(Object nbme, Object vblue) {
             StyleContext context = StyleContext.this;
-            attributes = context.addAttribute(attributes, name, value);
-            fireStateChanged();
+            bttributes = context.bddAttribute(bttributes, nbme, vblue);
+            fireStbteChbnged();
         }
 
         /**
-         * Adds a set of attributes to the element.
+         * Adds b set of bttributes to the element.
          *
-         * @param attr the attributes to add
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm bttr the bttributes to bdd
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public void addAttributes(AttributeSet attr) {
+        public void bddAttributes(AttributeSet bttr) {
             StyleContext context = StyleContext.this;
-            attributes = context.addAttributes(attributes, attr);
-            fireStateChanged();
+            bttributes = context.bddAttributes(bttributes, bttr);
+            fireStbteChbnged();
         }
 
         /**
-         * Removes an attribute from the set.
+         * Removes bn bttribute from the set.
          *
-         * @param name the non-null attribute name
-         * @see MutableAttributeSet#removeAttribute
+         * @pbrbm nbme the non-null bttribute nbme
+         * @see MutbbleAttributeSet#removeAttribute
          */
-        public void removeAttribute(Object name) {
+        public void removeAttribute(Object nbme) {
             StyleContext context = StyleContext.this;
-            attributes = context.removeAttribute(attributes, name);
-            fireStateChanged();
+            bttributes = context.removeAttribute(bttributes, nbme);
+            fireStbteChbnged();
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes b set of bttributes for the element.
          *
-         * @param names the attribute names
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm nbmes the bttribute nbmes
+         * @see MutbbleAttributeSet#removeAttributes
          */
-        public void removeAttributes(Enumeration<?> names) {
+        public void removeAttributes(Enumerbtion<?> nbmes) {
             StyleContext context = StyleContext.this;
-            attributes = context.removeAttributes(attributes, names);
-            fireStateChanged();
+            bttributes = context.removeAttributes(bttributes, nbmes);
+            fireStbteChbnged();
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes b set of bttributes for the element.
          *
-         * @param attrs the attributes
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm bttrs the bttributes
+         * @see MutbbleAttributeSet#removeAttributes
          */
-        public void removeAttributes(AttributeSet attrs) {
+        public void removeAttributes(AttributeSet bttrs) {
             StyleContext context = StyleContext.this;
-            if (attrs == this) {
-                attributes = context.getEmptySet();
+            if (bttrs == this) {
+                bttributes = context.getEmptySet();
             } else {
-                attributes = context.removeAttributes(attributes, attrs);
+                bttributes = context.removeAttributes(bttributes, bttrs);
             }
-            fireStateChanged();
+            fireStbteChbnged();
         }
 
         /**
-         * Sets the resolving parent.
+         * Sets the resolving pbrent.
          *
-         * @param parent the parent, null if none
-         * @see MutableAttributeSet#setResolveParent
+         * @pbrbm pbrent the pbrent, null if none
+         * @see MutbbleAttributeSet#setResolvePbrent
          */
-        public void setResolveParent(AttributeSet parent) {
-            if (parent != null) {
-                addAttribute(StyleConstants.ResolveAttribute, parent);
+        public void setResolvePbrent(AttributeSet pbrent) {
+            if (pbrent != null) {
+                bddAttribute(StyleConstbnts.ResolveAttribute, pbrent);
             } else {
-                removeAttribute(StyleConstants.ResolveAttribute);
+                removeAttribute(StyleConstbnts.ResolveAttribute);
             }
         }
 
-        // --- serialization ---------------------------------------------
+        // --- seriblizbtion ---------------------------------------------
 
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
-            writeAttributeSet(s, attributes);
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            s.defbultWriteObject();
+            writeAttributeSet(s, bttributes);
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException
+        privbte void rebdObject(ObjectInputStrebm s)
+            throws ClbssNotFoundException, IOException
         {
-            s.defaultReadObject();
-            attributes = SimpleAttributeSet.EMPTY;
-            readAttributeSet(s, this);
+            s.defbultRebdObject();
+            bttributes = SimpleAttributeSet.EMPTY;
+            rebdAttributeSet(s, this);
         }
 
-        // --- member variables -----------------------------------------------
+        // --- member vbribbles -----------------------------------------------
 
         /**
-         * The change listeners for the model.
+         * The chbnge listeners for the model.
          */
         protected EventListenerList listenerList = new EventListenerList();
 
         /**
-         * Only one ChangeEvent is needed per model instance since the
-         * event's only (read-only) state is the source property.  The source
-         * of events generated here is always "this".
+         * Only one ChbngeEvent is needed per model instbnce since the
+         * event's only (rebd-only) stbte is the source property.  The source
+         * of events generbted here is blwbys "this".
          */
-        protected transient ChangeEvent changeEvent = null;
+        protected trbnsient ChbngeEvent chbngeEvent = null;
 
         /**
-         * Inner AttributeSet implementation, which may be an
-         * immutable unique set being shared.
+         * Inner AttributeSet implementbtion, which mby be bn
+         * immutbble unique set being shbred.
          */
-        private transient AttributeSet attributes;
+        privbte trbnsient AttributeSet bttributes;
 
     }
 
-    static {
-        // initialize the static key registry with the StyleConstants keys
+    stbtic {
+        // initiblize the stbtic key registry with the StyleConstbnts keys
         try {
-            int n = StyleConstants.keys.length;
+            int n = StyleConstbnts.keys.length;
             for (int i = 0; i < n; i++) {
-                StyleContext.registerStaticAttributeKey(StyleConstants.keys[i]);
+                StyleContext.registerStbticAttributeKey(StyleConstbnts.keys[i]);
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } cbtch (Throwbble e) {
+            e.printStbckTrbce();
         }
     }
 

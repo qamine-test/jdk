@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * <code>CLOB</code> value.
+ * A seriblized mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * <code>CLOB</code> vblue.
  * <P>
- * The <code>SerialClob</code> class provides a constructor for creating
- * an instance from a <code>Clob</code> object.  Note that the <code>Clob</code>
- * object should have brought the SQL <code>CLOB</code> value's data over
- * to the client before a <code>SerialClob</code> object
- * is constructed from it.  The data of an SQL <code>CLOB</code> value can
- * be materialized on the client as a stream of Unicode characters.
+ * The <code>SeriblClob</code> clbss provides b constructor for crebting
+ * bn instbnce from b <code>Clob</code> object.  Note thbt the <code>Clob</code>
+ * object should hbve brought the SQL <code>CLOB</code> vblue's dbtb over
+ * to the client before b <code>SeriblClob</code> object
+ * is constructed from it.  The dbtb of bn SQL <code>CLOB</code> vblue cbn
+ * be mbteriblized on the client bs b strebm of Unicode chbrbcters.
  * <P>
- * <code>SerialClob</code> methods make it possible to get a substring
- * from a <code>SerialClob</code> object or to locate the start of
- * a pattern of characters.
+ * <code>SeriblClob</code> methods mbke it possible to get b substring
+ * from b <code>SeriblClob</code> object or to locbte the stbrt of
+ * b pbttern of chbrbcters.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * <p> A SerialClob is not safe for use by multiple concurrent threads.  If a
- * SerialClob is to be used by more than one thread then access to the SerialClob
- * should be controlled by appropriate synchronization.
+ * <p> A SeriblClob is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblClob is to be used by more thbn one threbd then bccess to the SeriblClob
+ * should be controlled by bppropribte synchronizbtion.
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
-public class SerialClob implements Clob, Serializable, Cloneable {
+public clbss SeriblClob implements Clob, Seriblizbble, Clonebble {
 
     /**
-     * A serialized array of characters containing the data of the SQL
-     * <code>CLOB</code> value that this <code>SerialClob</code> object
+     * A seriblized brrby of chbrbcters contbining the dbtb of the SQL
+     * <code>CLOB</code> vblue thbt this <code>SeriblClob</code> object
      * represents.
      *
-     * @serial
+     * @seribl
      */
-    private char buf[];
+    privbte chbr buf[];
 
     /**
-     * Internal Clob representation if SerialClob is initialized with a
-     * Clob. Null if SerialClob is initialized with a char[].
+     * Internbl Clob representbtion if SeriblClob is initiblized with b
+     * Clob. Null if SeriblClob is initiblized with b chbr[].
      */
-    private Clob clob;
+    privbte Clob clob;
 
     /**
-     * The length in characters of this <code>SerialClob</code> object's
-     * internal array of characters.
+     * The length in chbrbcters of this <code>SeriblClob</code> object's
+     * internbl brrby of chbrbcters.
      *
-     * @serial
+     * @seribl
      */
-    private long len;
+    privbte long len;
 
     /**
-     * The original length in characters of this <code>SerialClob</code>
-     * object's internal array of characters.
+     * The originbl length in chbrbcters of this <code>SeriblClob</code>
+     * object's internbl brrby of chbrbcters.
      *
-     * @serial
+     * @seribl
      */
-    private long origLen;
+    privbte long origLen;
 
     /**
-     * Constructs a <code>SerialClob</code> object that is a serialized version of
-     * the given <code>char</code> array.
+     * Constructs b <code>SeriblClob</code> object thbt is b seriblized version of
+     * the given <code>chbr</code> brrby.
      * <p>
-     * The new <code>SerialClob</code> object is initialized with the data from the
-     * <code>char</code> array, thus allowing disconnected <code>RowSet</code>
-     * objects to establish a serialized <code>Clob</code> object without touching
-     * the data source.
+     * The new <code>SeriblClob</code> object is initiblized with the dbtb from the
+     * <code>chbr</code> brrby, thus bllowing disconnected <code>RowSet</code>
+     * objects to estbblish b seriblized <code>Clob</code> object without touching
+     * the dbtb source.
      *
-     * @param ch the char array representing the <code>Clob</code> object to be
-     *         serialized
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL error occurs
+     * @pbrbm ch the chbr brrby representing the <code>Clob</code> object to be
+     *         seriblized
+     * @throws SeriblException if bn error occurs during seriblizbtion
+     * @throws SQLException if b SQL error occurs
      */
-    public SerialClob(char ch[]) throws SerialException, SQLException {
+    public SeriblClob(chbr ch[]) throws SeriblException, SQLException {
 
-        // %%% JMB. Agreed. Add code here to throw a SQLException if no
-        // support is available for locatorsUpdateCopy=false
-        // Serializing locators is not supported.
+        // %%% JMB. Agreed. Add code here to throw b SQLException if no
+        // support is bvbilbble for locbtorsUpdbteCopy=fblse
+        // Seriblizing locbtors is not supported.
 
         len = ch.length;
-        buf = new char[(int)len];
+        buf = new chbr[(int)len];
         for (int i = 0; i < len ; i++){
            buf[i] = ch[i];
         }
@@ -116,218 +116,218 @@ public class SerialClob implements Clob, Serializable, Cloneable {
     }
 
     /**
-     * Constructs a <code>SerialClob</code> object that is a serialized
+     * Constructs b <code>SeriblClob</code> object thbt is b seriblized
      * version of the given <code>Clob</code> object.
      * <P>
-     * The new <code>SerialClob</code> object is initialized with the
-     * data from the <code>Clob</code> object; therefore, the
-     * <code>Clob</code> object should have previously brought the
-     * SQL <code>CLOB</code> value's data over to the client from
-     * the database. Otherwise, the new <code>SerialClob</code> object
-     * object will contain no data.
+     * The new <code>SeriblClob</code> object is initiblized with the
+     * dbtb from the <code>Clob</code> object; therefore, the
+     * <code>Clob</code> object should hbve previously brought the
+     * SQL <code>CLOB</code> vblue's dbtb over to the client from
+     * the dbtbbbse. Otherwise, the new <code>SeriblClob</code> object
+     * object will contbin no dbtb.
      * <p>
      * Note: The <code>Clob</code> object supplied to this constructor must
-     * return non-null for both the <code>Clob.getCharacterStream()</code>
-     * and <code>Clob.getAsciiStream</code> methods. This <code>SerialClob</code>
-     * constructor cannot serialize a <code>Clob</code> object in this instance
-     * and will throw an <code>SQLException</code> object.
+     * return non-null for both the <code>Clob.getChbrbcterStrebm()</code>
+     * bnd <code>Clob.getAsciiStrebm</code> methods. This <code>SeriblClob</code>
+     * constructor cbnnot seriblize b <code>Clob</code> object in this instbnce
+     * bnd will throw bn <code>SQLException</code> object.
      *
-     * @param  clob the <code>Clob</code> object from which this
-     *     <code>SerialClob</code> object is to be constructed; cannot be null
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL error occurs in capturing the CLOB;
-     *     if the <code>Clob</code> object is a null; or if either of the
-     *     <code>Clob.getCharacterStream()</code> and <code>Clob.getAsciiStream()</code>
-     *     methods on the <code>Clob</code> returns a null
-     * @see java.sql.Clob
+     * @pbrbm  clob the <code>Clob</code> object from which this
+     *     <code>SeriblClob</code> object is to be constructed; cbnnot be null
+     * @throws SeriblException if bn error occurs during seriblizbtion
+     * @throws SQLException if b SQL error occurs in cbpturing the CLOB;
+     *     if the <code>Clob</code> object is b null; or if either of the
+     *     <code>Clob.getChbrbcterStrebm()</code> bnd <code>Clob.getAsciiStrebm()</code>
+     *     methods on the <code>Clob</code> returns b null
+     * @see jbvb.sql.Clob
      */
-    public SerialClob(Clob clob) throws SerialException, SQLException {
+    public SeriblClob(Clob clob) throws SeriblException, SQLException {
 
         if (clob == null) {
-            throw new SQLException("Cannot instantiate a SerialClob " +
-                "object with a null Clob object");
+            throw new SQLException("Cbnnot instbntibte b SeriblClob " +
+                "object with b null Clob object");
         }
         len = clob.length();
         this.clob = clob;
-        buf = new char[(int)len];
-        int read = 0;
+        buf = new chbr[(int)len];
+        int rebd = 0;
         int offset = 0;
 
-        try (Reader charStream = clob.getCharacterStream()) {
-            if (charStream == null) {
-                throw new SQLException("Invalid Clob object. The call to getCharacterStream " +
-                    "returned null which cannot be serialized.");
+        try (Rebder chbrStrebm = clob.getChbrbcterStrebm()) {
+            if (chbrStrebm == null) {
+                throw new SQLException("Invblid Clob object. The cbll to getChbrbcterStrebm " +
+                    "returned null which cbnnot be seriblized.");
             }
 
-            // Note: get an ASCII stream in order to null-check it,
-            // even though we don't do anything with it.
-            try (InputStream asciiStream = clob.getAsciiStream()) {
-                if (asciiStream == null) {
-                    throw new SQLException("Invalid Clob object. The call to getAsciiStream " +
-                        "returned null which cannot be serialized.");
+            // Note: get bn ASCII strebm in order to null-check it,
+            // even though we don't do bnything with it.
+            try (InputStrebm bsciiStrebm = clob.getAsciiStrebm()) {
+                if (bsciiStrebm == null) {
+                    throw new SQLException("Invblid Clob object. The cbll to getAsciiStrebm " +
+                        "returned null which cbnnot be seriblized.");
                 }
             }
 
-            try (Reader reader = new BufferedReader(charStream)) {
+            try (Rebder rebder = new BufferedRebder(chbrStrebm)) {
                 do {
-                    read = reader.read(buf, offset, (int)(len - offset));
-                    offset += read;
-                } while (read > 0);
+                    rebd = rebder.rebd(buf, offset, (int)(len - offset));
+                    offset += rebd;
+                } while (rebd > 0);
             }
-        } catch (java.io.IOException ex) {
-            throw new SerialException("SerialClob: " + ex.getMessage());
+        } cbtch (jbvb.io.IOException ex) {
+            throw new SeriblException("SeriblClob: " + ex.getMessbge());
         }
 
         origLen = len;
     }
 
     /**
-     * Retrieves the number of characters in this <code>SerialClob</code>
-     * object's array of characters.
+     * Retrieves the number of chbrbcters in this <code>SeriblClob</code>
+     * object's brrby of chbrbcters.
      *
-     * @return a <code>long</code> indicating the length in characters of this
-     *         <code>SerialClob</code> object's array of character
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return b <code>long</code> indicbting the length in chbrbcters of this
+     *         <code>SeriblClob</code> object's brrby of chbrbcter
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public long length() throws SerialException {
-        isValid();
+    public long length() throws SeriblException {
+        isVblid();
         return len;
     }
 
     /**
-     * Returns this <code>SerialClob</code> object's data as a stream
-     * of Unicode characters. Unlike the related method, <code>getAsciiStream</code>,
-     * a stream is produced regardless of whether the <code>SerialClob</code> object
-     * was created with a <code>Clob</code> object or a <code>char</code> array.
+     * Returns this <code>SeriblClob</code> object's dbtb bs b strebm
+     * of Unicode chbrbcters. Unlike the relbted method, <code>getAsciiStrebm</code>,
+     * b strebm is produced regbrdless of whether the <code>SeriblClob</code> object
+     * wbs crebted with b <code>Clob</code> object or b <code>chbr</code> brrby.
      *
-     * @return a <code>java.io.Reader</code> object containing this
-     *         <code>SerialClob</code> object's data
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return b <code>jbvb.io.Rebder</code> object contbining this
+     *         <code>SeriblClob</code> object's dbtb
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public java.io.Reader getCharacterStream() throws SerialException {
-        isValid();
-        return (java.io.Reader) new CharArrayReader(buf);
+    public jbvb.io.Rebder getChbrbcterStrebm() throws SeriblException {
+        isVblid();
+        return (jbvb.io.Rebder) new ChbrArrbyRebder(buf);
     }
 
     /**
-     * Retrieves the <code>CLOB</code> value designated by this <code>SerialClob</code>
-     * object as an ascii stream. This method forwards the <code>getAsciiStream</code>
-     * call to the underlying <code>Clob</code> object in the event that this
-     * <code>SerialClob</code> object is instantiated with a <code>Clob</code>
-     * object. If this <code>SerialClob</code> object is instantiated with
-     * a <code>char</code> array, a <code>SerialException</code> object is thrown.
+     * Retrieves the <code>CLOB</code> vblue designbted by this <code>SeriblClob</code>
+     * object bs bn bscii strebm. This method forwbrds the <code>getAsciiStrebm</code>
+     * cbll to the underlying <code>Clob</code> object in the event thbt this
+     * <code>SeriblClob</code> object is instbntibted with b <code>Clob</code>
+     * object. If this <code>SeriblClob</code> object is instbntibted with
+     * b <code>chbr</code> brrby, b <code>SeriblException</code> object is thrown.
      *
-     * @return a <code>java.io.InputStream</code> object containing
-     *     this <code>SerialClob</code> object's data
-     * @throws SerialException if this {@code SerialClob} object was not
-     * instantiated with a <code>Clob</code> object;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the
-     *     <code>CLOB</code> value represented by the <code>Clob</code> object
-     * that was used to create this <code>SerialClob</code> object
+     * @return b <code>jbvb.io.InputStrebm</code> object contbining
+     *     this <code>SeriblClob</code> object's dbtb
+     * @throws SeriblException if this {@code SeriblClob} object wbs not
+     * instbntibted with b <code>Clob</code> object;
+     * if {@code free} hbd previously been cblled on this object
+     * @throws SQLException if there is bn error bccessing the
+     *     <code>CLOB</code> vblue represented by the <code>Clob</code> object
+     * thbt wbs used to crebte this <code>SeriblClob</code> object
      */
-    public java.io.InputStream getAsciiStream() throws SerialException, SQLException {
-        isValid();
+    public jbvb.io.InputStrebm getAsciiStrebm() throws SeriblException, SQLException {
+        isVblid();
         if (this.clob != null) {
-            return this.clob.getAsciiStream();
+            return this.clob.getAsciiStrebm();
         } else {
-            throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a the CLOB value as an ascii stream, unless instantiated " +
-                "with a fully implemented Clob object.");
+            throw new SeriblException("Unsupported operbtion. SeriblClob cbnnot " +
+                "return b the CLOB vblue bs bn bscii strebm, unless instbntibted " +
+                "with b fully implemented Clob object.");
         }
     }
 
     /**
-     * Returns a copy of the substring contained in this
-     * <code>SerialClob</code> object, starting at the given position
-     * and continuing for the specified number or characters.
+     * Returns b copy of the substring contbined in this
+     * <code>SeriblClob</code> object, stbrting bt the given position
+     * bnd continuing for the specified number or chbrbcters.
      *
-     * @param pos the position of the first character in the substring
-     *            to be copied; the first character of the
-     *            <code>SerialClob</code> object is at position
-     *            <code>1</code>; must not be less than <code>1</code>,
-     *            and the sum of the starting position and the length
-     *            of the substring must be less than the length of this
-     *            <code>SerialClob</code> object
-     * @param length the number of characters in the substring to be
-     *               returned; must not be greater than the length of
-     *               this <code>SerialClob</code> object, and the
-     *               sum of the starting position and the length
-     *               of the substring must be less than the length of this
-     *               <code>SerialClob</code> object
-     * @return a <code>String</code> object containing a substring of
-     *         this <code>SerialClob</code> object beginning at the
-     *         given position and containing the specified number of
-     *         consecutive characters
-     * @throws SerialException if either of the arguments is out of bounds;
-     * if {@code free} had previously been called on this object
+     * @pbrbm pos the position of the first chbrbcter in the substring
+     *            to be copied; the first chbrbcter of the
+     *            <code>SeriblClob</code> object is bt position
+     *            <code>1</code>; must not be less thbn <code>1</code>,
+     *            bnd the sum of the stbrting position bnd the length
+     *            of the substring must be less thbn the length of this
+     *            <code>SeriblClob</code> object
+     * @pbrbm length the number of chbrbcters in the substring to be
+     *               returned; must not be grebter thbn the length of
+     *               this <code>SeriblClob</code> object, bnd the
+     *               sum of the stbrting position bnd the length
+     *               of the substring must be less thbn the length of this
+     *               <code>SeriblClob</code> object
+     * @return b <code>String</code> object contbining b substring of
+     *         this <code>SeriblClob</code> object beginning bt the
+     *         given position bnd contbining the specified number of
+     *         consecutive chbrbcters
+     * @throws SeriblException if either of the brguments is out of bounds;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public String getSubString(long pos, int length) throws SerialException {
+    public String getSubString(long pos, int length) throws SeriblException {
 
-        isValid();
+        isVblid();
         if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in SerialClob object set");
+            throw new SeriblException("Invblid position in SeriblClob object set");
         }
 
         if ((pos-1) + length > this.length()) {
-            throw new SerialException("Invalid position and substring length");
+            throw new SeriblException("Invblid position bnd substring length");
         }
 
         try {
             return new String(buf, (int)pos - 1, length);
 
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new SerialException("StringIndexOutOfBoundsException: " +
-                e.getMessage());
+        } cbtch (StringIndexOutOfBoundsException e) {
+            throw new SeriblException("StringIndexOutOfBoundsException: " +
+                e.getMessbge());
         }
 
     }
 
     /**
-     * Returns the position in this <code>SerialClob</code> object
-     * where the given <code>String</code> object begins, starting
-     * the search at the specified position. This method returns
-     * <code>-1</code> if the pattern is not found.
+     * Returns the position in this <code>SeriblClob</code> object
+     * where the given <code>String</code> object begins, stbrting
+     * the sebrch bt the specified position. This method returns
+     * <code>-1</code> if the pbttern is not found.
      *
-     * @param searchStr the <code>String</code> object for which to
-     *                  search
-     * @param start the position in this <code>SerialClob</code> object
-     *         at which to start the search; the first position is
-     *         <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @return the position at which the given <code>String</code> object
-     *         begins, starting the search at the specified position;
+     * @pbrbm sebrchStr the <code>String</code> object for which to
+     *                  sebrch
+     * @pbrbm stbrt the position in this <code>SeriblClob</code> object
+     *         bt which to stbrt the sebrch; the first position is
+     *         <code>1</code>; must not be less thbn <code>1</code> nor
+     *         grebter thbn the length of this <code>SeriblClob</code> object
+     * @return the position bt which the given <code>String</code> object
+     *         begins, stbrting the sebrch bt the specified position;
      *         <code>-1</code> if the given <code>String</code> object is
-     *         not found or the starting position is out of bounds; position
-     *         numbering for the return value starts at <code>1</code>
-     * @throws SerialException  if the {@code free} method had been
-     * previously called on this object
-     * @throws SQLException if there is an error accessing the Clob value
-     *         from the database.
+     *         not found or the stbrting position is out of bounds; position
+     *         numbering for the return vblue stbrts bt <code>1</code>
+     * @throws SeriblException  if the {@code free} method hbd been
+     * previously cblled on this object
+     * @throws SQLException if there is bn error bccessing the Clob vblue
+     *         from the dbtbbbse.
      */
-    public long position(String searchStr, long start)
-        throws SerialException, SQLException {
-        isValid();
-        if (start < 1 || start > len) {
+    public long position(String sebrchStr, long stbrt)
+        throws SeriblException, SQLException {
+        isVblid();
+        if (stbrt < 1 || stbrt > len) {
             return -1;
         }
 
-        char pattern[] = searchStr.toCharArray();
+        chbr pbttern[] = sebrchStr.toChbrArrby();
 
-        int pos = (int)start-1;
+        int pos = (int)stbrt-1;
         int i = 0;
-        long patlen = pattern.length;
+        long pbtlen = pbttern.length;
 
         while (pos < len) {
-            if (pattern[i] == buf[pos]) {
-                if (i + 1 == patlen) {
-                    return (pos + 1) - (patlen - 1);
+            if (pbttern[i] == buf[pos]) {
+                if (i + 1 == pbtlen) {
+                    return (pos + 1) - (pbtlen - 1);
                 }
-                i++; pos++; // increment pos, and i
+                i++; pos++; // increment pos, bnd i
 
-            } else if (pattern[i] != buf[pos]) {
+            } else if (pbttern[i] != buf[pos]) {
                 pos++; // increment pos only
             }
         }
@@ -335,244 +335,244 @@ public class SerialClob implements Clob, Serializable, Cloneable {
     }
 
     /**
-     * Returns the position in this <code>SerialClob</code> object
-     * where the given <code>Clob</code> signature begins, starting
-     * the search at the specified position. This method returns
-     * <code>-1</code> if the pattern is not found.
+     * Returns the position in this <code>SeriblClob</code> object
+     * where the given <code>Clob</code> signbture begins, stbrting
+     * the sebrch bt the specified position. This method returns
+     * <code>-1</code> if the pbttern is not found.
      *
-     * @param searchStr the <code>Clob</code> object for which to search
-     * @param start the position in this <code>SerialClob</code> object
-     *        at which to begin the search; the first position is
-     *         <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @return the position at which the given <code>Clob</code>
-     *         object begins in this <code>SerialClob</code> object,
-     *         at or after the specified starting position
-     * @throws SerialException if an error occurs locating the Clob signature;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the Clob value
-     *         from the database
+     * @pbrbm sebrchStr the <code>Clob</code> object for which to sebrch
+     * @pbrbm stbrt the position in this <code>SeriblClob</code> object
+     *        bt which to begin the sebrch; the first position is
+     *         <code>1</code>; must not be less thbn <code>1</code> nor
+     *         grebter thbn the length of this <code>SeriblClob</code> object
+     * @return the position bt which the given <code>Clob</code>
+     *         object begins in this <code>SeriblClob</code> object,
+     *         bt or bfter the specified stbrting position
+     * @throws SeriblException if bn error occurs locbting the Clob signbture;
+     * if the {@code free} method hbd been previously cblled on this object
+     * @throws SQLException if there is bn error bccessing the Clob vblue
+     *         from the dbtbbbse
      */
-    public long position(Clob searchStr, long start)
-        throws SerialException, SQLException {
-        isValid();
-        return position(searchStr.getSubString(1,(int)searchStr.length()), start);
+    public long position(Clob sebrchStr, long stbrt)
+        throws SeriblException, SQLException {
+        isVblid();
+        return position(sebrchStr.getSubString(1,(int)sebrchStr.length()), stbrt);
     }
 
     /**
-     * Writes the given Java <code>String</code> to the <code>CLOB</code>
-     * value that this <code>SerialClob</code> object represents, at the position
+     * Writes the given Jbvb <code>String</code> to the <code>CLOB</code>
+     * vblue thbt this <code>SeriblClob</code> object represents, bt the position
      * <code>pos</code>.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>SerialClob</code> object represents; the first
-     *         position is <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>SerialClob</code> object represents
-     * @return the number of characters written
-     * @throws SerialException if there is an error accessing the
-     *     <code>CLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialClob</code> length; or the combined
-     *     values of the length and offset is greater than the Clob buffer;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm pos the position bt which to stbrt writing to the <code>CLOB</code>
+     *         vblue thbt this <code>SeriblClob</code> object represents; the first
+     *         position is <code>1</code>; must not be less thbn <code>1</code> nor
+     *         grebter thbn the length of this <code>SeriblClob</code> object
+     * @pbrbm str the string to be written to the <code>CLOB</code>
+     *        vblue thbt this <code>SeriblClob</code> object represents
+     * @return the number of chbrbcters written
+     * @throws SeriblException if there is bn error bccessing the
+     *     <code>CLOB</code> vblue; if bn invblid position is set; if bn
+     *     invblid offset vblue is set; if number of bytes to be written
+     *     is grebter thbn the <code>SeriblClob</code> length; or the combined
+     *     vblues of the length bnd offset is grebter thbn the Clob buffer;
+     * if the {@code free} method hbd been previously cblled on this object
      */
-    public int setString(long pos, String str) throws SerialException {
+    public int setString(long pos, String str) throws SeriblException {
         return (setString(pos, str, 0, str.length()));
     }
 
     /**
-     * Writes <code>len</code> characters of <code>str</code>, starting
-     * at character <code>offset</code>, to the <code>CLOB</code> value
-     * that this <code>Clob</code> represents.
+     * Writes <code>len</code> chbrbcters of <code>str</code>, stbrting
+     * bt chbrbcter <code>offset</code>, to the <code>CLOB</code> vblue
+     * thbt this <code>Clob</code> represents.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>SerialClob</code> object represents; the first
-     *         position is <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> object represents
-     * @param offset the offset into <code>str</code> to start reading
-     *        the characters to be written
-     * @param length the number of characters to be written
-     * @return the number of characters written
-     * @throws SerialException if there is an error accessing the
-     *     <code>CLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialClob</code> length; or the combined
-     *     values of the length and offset is greater than the Clob buffer;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm pos the position bt which to stbrt writing to the <code>CLOB</code>
+     *         vblue thbt this <code>SeriblClob</code> object represents; the first
+     *         position is <code>1</code>; must not be less thbn <code>1</code> nor
+     *         grebter thbn the length of this <code>SeriblClob</code> object
+     * @pbrbm str the string to be written to the <code>CLOB</code>
+     *        vblue thbt this <code>Clob</code> object represents
+     * @pbrbm offset the offset into <code>str</code> to stbrt rebding
+     *        the chbrbcters to be written
+     * @pbrbm length the number of chbrbcters to be written
+     * @return the number of chbrbcters written
+     * @throws SeriblException if there is bn error bccessing the
+     *     <code>CLOB</code> vblue; if bn invblid position is set; if bn
+     *     invblid offset vblue is set; if number of bytes to be written
+     *     is grebter thbn the <code>SeriblClob</code> length; or the combined
+     *     vblues of the length bnd offset is grebter thbn the Clob buffer;
+     * if the {@code free} method hbd been previously cblled on this object
      */
     public int setString(long pos, String str, int offset, int length)
-        throws SerialException {
-        isValid();
+        throws SeriblException {
+        isVblid();
         String temp = str.substring(offset);
-        char cPattern[] = temp.toCharArray();
+        chbr cPbttern[] = temp.toChbrArrby();
 
         if (offset < 0 || offset > str.length()) {
-            throw new SerialException("Invalid offset in byte array set");
+            throw new SeriblException("Invblid offset in byte brrby set");
         }
 
         if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in Clob object set");
+            throw new SeriblException("Invblid position in Clob object set");
         }
 
         if ((long)(length) > origLen) {
-            throw new SerialException("Buffer is not sufficient to hold the value");
+            throw new SeriblException("Buffer is not sufficient to hold the vblue");
         }
 
         if ((length + offset) > str.length()) {
             // need check to ensure length + offset !> bytes.length
-            throw new SerialException("Invalid OffSet. Cannot have combined offset " +
-                " and length that is greater that the Blob buffer");
+            throw new SeriblException("Invblid OffSet. Cbnnot hbve combined offset " +
+                " bnd length thbt is grebter thbt the Blob buffer");
         }
 
         int i = 0;
-        pos--;  //values in the array are at position one less
+        pos--;  //vblues in the brrby bre bt position one less
         while ( i < length || (offset + i +1) < (str.length() - offset ) ) {
-            this.buf[(int)pos + i ] = cPattern[offset + i ];
+            this.buf[(int)pos + i ] = cPbttern[offset + i ];
             i++;
         }
         return i;
     }
 
     /**
-     * Retrieves a stream to be used to write Ascii characters to the
-     * <code>CLOB</code> value that this <code>SerialClob</code> object represents,
-     * starting at position <code>pos</code>. This method forwards the
-     * <code>setAsciiStream()</code> call to the underlying <code>Clob</code> object in
-     * the event that this <code>SerialClob</code> object is instantiated with a
-     * <code>Clob</code> object. If this <code>SerialClob</code> object is instantiated
-     *  with a <code>char</code> array, a <code>SerialException</code> object is thrown.
+     * Retrieves b strebm to be used to write Ascii chbrbcters to the
+     * <code>CLOB</code> vblue thbt this <code>SeriblClob</code> object represents,
+     * stbrting bt position <code>pos</code>. This method forwbrds the
+     * <code>setAsciiStrebm()</code> cbll to the underlying <code>Clob</code> object in
+     * the event thbt this <code>SeriblClob</code> object is instbntibted with b
+     * <code>Clob</code> object. If this <code>SeriblClob</code> object is instbntibted
+     *  with b <code>chbr</code> brrby, b <code>SeriblException</code> object is thrown.
      *
-     * @param pos the position at which to start writing to the
+     * @pbrbm pos the position bt which to stbrt writing to the
      *        <code>CLOB</code> object
-     * @return the stream to which ASCII encoded characters can be written
-     * @throws SerialException if SerialClob is not instantiated with a
+     * @return the strebm to which ASCII encoded chbrbcters cbn be written
+     * @throws SeriblException if SeriblClob is not instbntibted with b
      *     Clob object;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the
-     *     <code>CLOB</code> value
-     * @see #getAsciiStream
+     * if the {@code free} method hbd been previously cblled on this object
+     * @throws SQLException if there is bn error bccessing the
+     *     <code>CLOB</code> vblue
+     * @see #getAsciiStrebm
      */
-    public java.io.OutputStream setAsciiStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
+    public jbvb.io.OutputStrebm setAsciiStrebm(long pos)
+        throws SeriblException, SQLException {
+        isVblid();
          if (this.clob != null) {
-             return this.clob.setAsciiStream(pos);
+             return this.clob.setAsciiStrebm(pos);
          } else {
-             throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a writable ascii stream\n unless instantiated with a Clob object " +
-                "that has a setAsciiStream() implementation");
+             throw new SeriblException("Unsupported operbtion. SeriblClob cbnnot " +
+                "return b writbble bscii strebm\n unless instbntibted with b Clob object " +
+                "thbt hbs b setAsciiStrebm() implementbtion");
          }
     }
 
     /**
-     * Retrieves a stream to be used to write a stream of Unicode characters
-     * to the <code>CLOB</code> value that this <code>SerialClob</code> object
-     * represents, at position <code>pos</code>. This method forwards the
-     * <code>setCharacterStream()</code> call to the underlying <code>Clob</code>
-     * object in the event that this <code>SerialClob</code> object is instantiated with a
-     * <code>Clob</code> object. If this <code>SerialClob</code> object is instantiated with
-     * a <code>char</code> array, a <code>SerialException</code> is thrown.
+     * Retrieves b strebm to be used to write b strebm of Unicode chbrbcters
+     * to the <code>CLOB</code> vblue thbt this <code>SeriblClob</code> object
+     * represents, bt position <code>pos</code>. This method forwbrds the
+     * <code>setChbrbcterStrebm()</code> cbll to the underlying <code>Clob</code>
+     * object in the event thbt this <code>SeriblClob</code> object is instbntibted with b
+     * <code>Clob</code> object. If this <code>SeriblClob</code> object is instbntibted with
+     * b <code>chbr</code> brrby, b <code>SeriblException</code> is thrown.
      *
-     * @param  pos the position at which to start writing to the
-     *        <code>CLOB</code> value
+     * @pbrbm  pos the position bt which to stbrt writing to the
+     *        <code>CLOB</code> vblue
      *
-     * @return a stream to which Unicode encoded characters can be written
-     * @throws SerialException if the SerialClob is not instantiated with
-     *     a Clob object;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the
-     *            <code>CLOB</code> value
-     * @see #getCharacterStream
+     * @return b strebm to which Unicode encoded chbrbcters cbn be written
+     * @throws SeriblException if the SeriblClob is not instbntibted with
+     *     b Clob object;
+     * if the {@code free} method hbd been previously cblled on this object
+     * @throws SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue
+     * @see #getChbrbcterStrebm
      */
-    public java.io.Writer setCharacterStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
+    public jbvb.io.Writer setChbrbcterStrebm(long pos)
+        throws SeriblException, SQLException {
+        isVblid();
         if (this.clob != null) {
-            return this.clob.setCharacterStream(pos);
+            return this.clob.setChbrbcterStrebm(pos);
         } else {
-            throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a writable character stream\n unless instantiated with a Clob object " +
-                "that has a setCharacterStream implementation");
+            throw new SeriblException("Unsupported operbtion. SeriblClob cbnnot " +
+                "return b writbble chbrbcter strebm\n unless instbntibted with b Clob object " +
+                "thbt hbs b setChbrbcterStrebm implementbtion");
         }
     }
 
     /**
-     * Truncates the <code>CLOB</code> value that this <code>SerialClob</code>
-     * object represents so that it has a length of <code>len</code>
-     * characters.
+     * Truncbtes the <code>CLOB</code> vblue thbt this <code>SeriblClob</code>
+     * object represents so thbt it hbs b length of <code>len</code>
+     * chbrbcters.
      * <p>
-     * Truncating a <code>SerialClob</code> object to length 0 has the effect of
-     * clearing its contents.
+     * Truncbting b <code>SeriblClob</code> object to length 0 hbs the effect of
+     * clebring its contents.
      *
-     * @param length the length, in bytes, to which the <code>CLOB</code>
-     *        value should be truncated
-     * @throws SerialException if there is an error accessing the
-     *        <code>CLOB</code> value;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm length the length, in bytes, to which the <code>CLOB</code>
+     *        vblue should be truncbted
+     * @throws SeriblException if there is bn error bccessing the
+     *        <code>CLOB</code> vblue;
+     * if the {@code free} method hbd been previously cblled on this object
      */
-    public void truncate(long length) throws SerialException {
-        isValid();
+    public void truncbte(long length) throws SeriblException {
+        isVblid();
         if (length > len) {
-           throw new SerialException
-              ("Length more than what can be truncated");
+           throw new SeriblException
+              ("Length more thbn whbt cbn be truncbted");
         } else {
              len = length;
              // re-size the buffer
 
              if (len == 0) {
-                buf = new char[] {};
+                buf = new chbr[] {};
              } else {
-                buf = (this.getSubString(1, (int)len)).toCharArray();
+                buf = (this.getSubString(1, (int)len)).toChbrArrby();
              }
         }
     }
 
 
     /**
-     * Returns a {@code Reader} object that contains a partial
-     * {@code SerialClob} value, starting
-     * with the character specified by pos, which is length characters in length.
+     * Returns b {@code Rebder} object thbt contbins b pbrtibl
+     * {@code SeriblClob} vblue, stbrting
+     * with the chbrbcter specified by pos, which is length chbrbcters in length.
      *
-     * @param pos the offset to the first character of the partial value to
-     * be retrieved.  The first character in the {@code SerialClob} is at position 1.
-     * @param length the length in characters of the partial value to be retrieved.
-     * @return {@code Reader} through which the partial {@code SerialClob}
-     * value can be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the
-     * number of characters in the {@code SerialClob} or if pos + length
-     * is greater than the number of characters in the {@code SerialClob};
-     * @throws SerialException if the {@code free} method had been previously
-     * called on this object
+     * @pbrbm pos the offset to the first chbrbcter of the pbrtibl vblue to
+     * be retrieved.  The first chbrbcter in the {@code SeriblClob} is bt position 1.
+     * @pbrbm length the length in chbrbcters of the pbrtibl vblue to be retrieved.
+     * @return {@code Rebder} through which the pbrtibl {@code SeriblClob}
+     * vblue cbn be rebd.
+     * @throws SQLException if pos is less thbn 1 or if pos is grebter thbn the
+     * number of chbrbcters in the {@code SeriblClob} or if pos + length
+     * is grebter thbn the number of chbrbcters in the {@code SeriblClob};
+     * @throws SeriblException if the {@code free} method hbd been previously
+     * cblled on this object
      * @since 1.6
      */
-    public Reader getCharacterStream(long pos, long length) throws SQLException {
-        isValid();
+    public Rebder getChbrbcterStrebm(long pos, long length) throws SQLException {
+        isVblid();
         if (pos < 1 || pos > len) {
-            throw new SerialException("Invalid position in Clob object set");
+            throw new SeriblException("Invblid position in Clob object set");
         }
 
         if ((pos-1) + length > len) {
-            throw new SerialException("Invalid position and substring length");
+            throw new SeriblException("Invblid position bnd substring length");
         }
         if (length <= 0) {
-            throw new SerialException("Invalid length specified");
+            throw new SeriblException("Invblid length specified");
         }
-        return new CharArrayReader(buf, (int)pos, (int)length);
+        return new ChbrArrbyRebder(buf, (int)pos, (int)length);
     }
 
     /**
-     * This method frees the {@code SeriableClob} object and releases the
-     * resources that it holds.
-     * The object is invalid once the {@code free} method is called.
+     * This method frees the {@code SeribbleClob} object bnd relebses the
+     * resources thbt it holds.
+     * The object is invblid once the {@code free} method is cblled.
      * <p>
-     * If {@code free} is called multiple times, the subsequent
-     * calls to {@code free} are treated as a no-op.
+     * If {@code free} is cblled multiple times, the subsequent
+     * cblls to {@code free} bre trebted bs b no-op.
      * </P>
-     * @throws SQLException if an error occurs releasing
+     * @throws SQLException if bn error occurs relebsing
      * the Clob's resources
      * @since 1.6
      */
@@ -587,110 +587,110 @@ public class SerialClob implements Clob, Serializable, Cloneable {
     }
 
     /**
-     * Compares this SerialClob to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialClob} object that represents the same sequence of characters as this
+     * Compbres this SeriblClob to the specified object.  The result is {@code
+     * true} if bnd only if the brgument is not {@code null} bnd is b {@code
+     * SeriblClob} object thbt represents the sbme sequence of chbrbcters bs this
      * object.
      *
-     * @param  obj The object to compare this {@code SerialClob} against
+     * @pbrbm  obj The object to compbre this {@code SeriblClob} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialClob}
-     *          equivalent to this SerialClob, {@code false} otherwise
+     * @return  {@code true} if the given object represents b {@code SeriblClob}
+     *          equivblent to this SeriblClob, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof SerialClob) {
-            SerialClob sc = (SerialClob)obj;
+        if (obj instbnceof SeriblClob) {
+            SeriblClob sc = (SeriblClob)obj;
             if (this.len == sc.len) {
-                return Arrays.equals(buf, sc.buf);
+                return Arrbys.equbls(buf, sc.buf);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this {@code SerialClob}.
-     * @return  a hash code value for this object.
+     * Returns b hbsh code for this {@code SeriblClob}.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-       return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
+    public int hbshCode() {
+       return ((31 + Arrbys.hbshCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
     }
 
     /**
-     * Returns a clone of this {@code SerialClob}. The copy will contain a
-     * reference to a clone of the internal character array, not a reference
-     * to the original internal character array of this {@code SerialClob} object.
+     * Returns b clone of this {@code SeriblClob}. The copy will contbin b
+     * reference to b clone of the internbl chbrbcter brrby, not b reference
+     * to the originbl internbl chbrbcter brrby of this {@code SeriblClob} object.
      * The underlying {@code Clob} object will be set to null.
      *
-     * @return  a clone of this SerialClob
+     * @return  b clone of this SeriblClob
      */
     public Object clone() {
         try {
-            SerialClob sc = (SerialClob) super.clone();
-            sc.buf = (buf != null) ? Arrays.copyOf(buf, (int)len) : null;
+            SeriblClob sc = (SeriblClob) super.clone();
+            sc.buf = (buf != null) ? Arrbys.copyOf(buf, (int)len) : null;
             sc.clob = null;
             return sc;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
     }
 
     /**
-     * readObject is called to restore the state of the SerialClob from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the SeriblClob from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectInputStream.GetField fields = s.readFields();
-       char[] tmp = (char[])fields.get("buf", null);
+        ObjectInputStrebm.GetField fields = s.rebdFields();
+       chbr[] tmp = (chbr[])fields.get("buf", null);
        if (tmp == null)
-           throw new InvalidObjectException("buf is null and should not be!");
+           throw new InvblidObjectException("buf is null bnd should not be!");
        buf = tmp.clone();
        len = fields.get("len", 0L);
        if (buf.length != len)
-           throw new InvalidObjectException("buf is not the expected size");
+           throw new InvblidObjectException("buf is not the expected size");
        origLen = fields.get("origLen", 0L);
        clob = (Clob) fields.get("clob", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialClob
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the SeriblClob
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
+        ObjectOutputStrebm.PutField fields = s.putFields();
         fields.put("buf", buf);
         fields.put("len", len);
         fields.put("origLen", origLen);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("clob", clob instanceof Serializable ? clob : null);
+        // Note: this check to see if it is bn instbnce of Seriblizbble
+        // is for bbckwbrds compbtibiity
+        fields.put("clob", clob instbnceof Seriblizbble ? clob : null);
         s.writeFields();
     }
 
     /**
-     * Check to see if this object had previously had its {@code free} method
-     * called
+     * Check to see if this object hbd previously hbd its {@code free} method
+     * cblled
      *
-     * @throws SerialException
+     * @throws SeriblException
      */
-    private void isValid() throws SerialException {
+    privbte void isVblid() throws SeriblException {
         if (buf == null) {
-            throw new SerialException("Error: You cannot call a method on a "
-                    + "SerialClob instance once free() has been called.");
+            throw new SeriblException("Error: You cbnnot cbll b method on b "
+                    + "SeriblClob instbnce once free() hbs been cblled.");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this {@code SerialClob}
+     * The identifier thbt bssists in the seriblizbtion of this {@code SeriblClob}
      * object.
      */
-    static final long serialVersionUID = -1662519690087375313L;
+    stbtic finbl long seriblVersionUID = -1662519690087375313L;
 }

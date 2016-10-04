@@ -3,140 +3,140 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6450 $"/>
-		<generation date="$Date: 2012-01-26 09:20:54 +0900 (Thu, 26 Jan 2012) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2012-01-26 09:20:54 +0900 (Thu, 26 Jbn 2012) $"/>
+		<lbngubge type="en"/>
 		<territory type="CA"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>yyyy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
-						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
-						<dateFormatItem id="yMd">y-M-d</dateFormatItem>
-						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM-yy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a - h a</greatestDifference>
-							<greatestDifference id="h">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a - h:mm a</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a - h:mm a v</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a - h a v</greatestDifference>
-							<greatestDifference id="h">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">d/M – d/M</greatestDifference>
-							<greatestDifference id="M">d/M – d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, d/M – E, d/M</greatestDifference>
-							<greatestDifference id="M">E, d/M – E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d–d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM – d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">yy-MM - yy-MM</greatestDifference>
-							<greatestDifference id="y">yy-MM - yy-MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="M">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="y">d/M/yy – d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="M">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="y">E, d/M/yy – E, d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d–d MMM, y</greatestDifference>
-							<greatestDifference id="M">d MMM – d MMM, y</greatestDifference>
-							<greatestDifference id="y">d MMM, y – d MMM, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="y">E, d MMM, y – E, d MMM, y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="Newfoundland">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>yyyy-MM-dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yy-MM-dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Md">M-d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M-d</dbteFormbtItem>
+						<dbteFormbtItem id="MMdd">MM-dd</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">y-M-d</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, y-M-d</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d MMM, y</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MMM-yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck>{0} - {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="b">h b - h b</grebtestDifference>
+							<grebtestDifference id="h">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="b">h:mm b - h:mm b</grebtestDifference>
+							<grebtestDifference id="h">h:mm-h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="b">h:mm b - h:mm b v</grebtestDifference>
+							<grebtestDifference id="h">h:mm-h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="b">h b - h b v</grebtestDifference>
+							<grebtestDifference id="h">h-h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M">M-M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">d/M – d/M</grebtestDifference>
+							<grebtestDifference id="M">d/M – d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, d/M – E, d/M</grebtestDifference>
+							<grebtestDifference id="M">E, d/M – E, d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">MMM-MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d–d MMM</grebtestDifference>
+							<grebtestDifference id="M">d MMM – d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">yy-MM - yy-MM</grebtestDifference>
+							<grebtestDifference id="y">yy-MM - yy-MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">d/M/yy – d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">d/M/yy – d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">d/M/yy – d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, d/M/yy – E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">E, d/M/yy – E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">E, d/M/yy – E, d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">MMM-MMM y</grebtestDifference>
+							<grebtestDifference id="y">MMM y - MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d–d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">d MMM – d MMM, y</grebtestDifference>
+							<grebtestDifference id="y">d MMM, y – d MMM, y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="y">E, d MMM, y – E, d MMM, y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<metbzone type="Newfoundlbnd">
 				<short>
 					<generic>NT</generic>
-					<standard>NST</standard>
-					<daylight>NDT</daylight>
+					<stbndbrd>NST</stbndbrd>
+					<dbylight>NDT</dbylight>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
 		<currencies>
 			<currency type="CAD">

@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.*;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.cert.*;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class defines the interval for which the certificate is valid.
+ * This clbss defines the intervbl for which the certificbte is vblid.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see CertAttrSet
  */
-public class CertificateValidity implements CertAttrSet<String> {
+public clbss CertificbteVblidity implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.validity";
+    public stbtic finbl String IDENT = "x509.info.vblidity";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributes nbme for this CertAttrSet.
      */
-    public static final String NAME = "validity";
-    public static final String NOT_BEFORE = "notBefore";
-    public static final String NOT_AFTER = "notAfter";
-    private static final long YR_2050 = 2524636800000L;
+    public stbtic finbl String NAME = "vblidity";
+    public stbtic finbl String NOT_BEFORE = "notBefore";
+    public stbtic finbl String NOT_AFTER = "notAfter";
+    privbte stbtic finbl long YR_2050 = 2524636800000L;
 
-    // Private data members
-    private Date        notBefore;
-    private Date        notAfter;
+    // Privbte dbtb members
+    privbte Dbte        notBefore;
+    privbte Dbte        notAfter;
 
-    // Returns the first time the certificate is valid.
-    private Date getNotBefore() {
-        return (new Date(notBefore.getTime()));
+    // Returns the first time the certificbte is vblid.
+    privbte Dbte getNotBefore() {
+        return (new Dbte(notBefore.getTime()));
     }
 
-    // Returns the last time the certificate is valid.
-    private Date getNotAfter() {
-       return (new Date(notAfter.getTime()));
+    // Returns the lbst time the certificbte is vblid.
+    privbte Dbte getNotAfter() {
+       return (new Dbte(notAfter.getTime()));
     }
 
-    // Construct the class from the DerValue
-    private void construct(DerValue derVal) throws IOException {
-        if (derVal.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoded CertificateValidity, " +
-                                  "starting sequence tag missing.");
+    // Construct the clbss from the DerVblue
+    privbte void construct(DerVblue derVbl) throws IOException {
+        if (derVbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoded CertificbteVblidity, " +
+                                  "stbrting sequence tbg missing.");
         }
-        // check if UTCTime encoded or GeneralizedTime
-        if (derVal.data.available() == 0)
-            throw new IOException("No data encoded for CertificateValidity");
+        // check if UTCTime encoded or GenerblizedTime
+        if (derVbl.dbtb.bvbilbble() == 0)
+            throw new IOException("No dbtb encoded for CertificbteVblidity");
 
-        DerInputStream derIn = new DerInputStream(derVal.toByteArray());
-        DerValue[] seq = derIn.getSequence(2);
+        DerInputStrebm derIn = new DerInputStrebm(derVbl.toByteArrby());
+        DerVblue[] seq = derIn.getSequence(2);
         if (seq.length != 2)
-            throw new IOException("Invalid encoding for CertificateValidity");
+            throw new IOException("Invblid encoding for CertificbteVblidity");
 
-        if (seq[0].tag == DerValue.tag_UtcTime) {
-            notBefore = derVal.data.getUTCTime();
-        } else if (seq[0].tag == DerValue.tag_GeneralizedTime) {
-            notBefore = derVal.data.getGeneralizedTime();
+        if (seq[0].tbg == DerVblue.tbg_UtcTime) {
+            notBefore = derVbl.dbtb.getUTCTime();
+        } else if (seq[0].tbg == DerVblue.tbg_GenerblizedTime) {
+            notBefore = derVbl.dbtb.getGenerblizedTime();
         } else {
-            throw new IOException("Invalid encoding for CertificateValidity");
+            throw new IOException("Invblid encoding for CertificbteVblidity");
         }
 
-        if (seq[1].tag == DerValue.tag_UtcTime) {
-            notAfter = derVal.data.getUTCTime();
-        } else if (seq[1].tag == DerValue.tag_GeneralizedTime) {
-            notAfter = derVal.data.getGeneralizedTime();
+        if (seq[1].tbg == DerVblue.tbg_UtcTime) {
+            notAfter = derVbl.dbtb.getUTCTime();
+        } else if (seq[1].tbg == DerVblue.tbg_GenerblizedTime) {
+            notAfter = derVbl.dbtb.getGenerblizedTime();
         } else {
-            throw new IOException("Invalid encoding for CertificateValidity");
+            throw new IOException("Invblid encoding for CertificbteVblidity");
         }
     }
 
     /**
-     * Default constructor for the class.
+     * Defbult constructor for the clbss.
      */
-    public CertificateValidity() { }
+    public CertificbteVblidity() { }
 
     /**
-     * The default constructor for this class for the specified interval.
+     * The defbult constructor for this clbss for the specified intervbl.
      *
-     * @param notBefore the date and time before which the certificate
-     *                   is not valid.
-     * @param notAfter the date and time after which the certificate is
-     *                  not valid.
+     * @pbrbm notBefore the dbte bnd time before which the certificbte
+     *                   is not vblid.
+     * @pbrbm notAfter the dbte bnd time bfter which the certificbte is
+     *                  not vblid.
      */
-    public CertificateValidity(Date notBefore, Date notAfter) {
+    public CertificbteVblidity(Dbte notBefore, Dbte notAfter) {
         this.notBefore = notBefore;
         this.notAfter = notAfter;
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the CertificateValidity from.
+     * @pbrbm in the DerInputStrebm to rebd the CertificbteVblidity from.
      * @exception IOException on decoding errors.
      */
-    public CertificateValidity(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        construct(derVal);
+    public CertificbteVblidity(DerInputStrebm in) throws IOException {
+        DerVblue derVbl = in.getDerVblue();
+        construct(derVbl);
     }
 
     /**
-     * Return the validity period as user readable string.
+     * Return the vblidity period bs user rebdbble string.
      */
     public String toString() {
         if (notBefore == null || notAfter == null)
             return "";
-        return ("Validity: [From: " + notBefore.toString() +
+        return ("Vblidity: [From: " + notBefore.toString() +
              ",\n               To: " + notAfter.toString() + "]");
     }
 
     /**
-     * Encode the CertificateValidity period in DER form to the stream.
+     * Encode the CertificbteVblidity period in DER form to the strebm.
      *
-     * @param out the OutputStream to marshal the contents to.
+     * @pbrbm out the OutputStrebm to mbrshbl the contents to.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out) throws IOException {
+    public void encode(OutputStrebm out) throws IOException {
 
-        // in cases where default constructor is used check for
-        // null values
+        // in cbses where defbult constructor is used check for
+        // null vblues
         if (notBefore == null || notAfter == null) {
-            throw new IOException("CertAttrSet:CertificateValidity:" +
-                                  " null values to encode.\n");
+            throw new IOException("CertAttrSet:CertificbteVblidity:" +
+                                  " null vblues to encode.\n");
         }
-        DerOutputStream pair = new DerOutputStream();
+        DerOutputStrebm pbir = new DerOutputStrebm();
 
         if (notBefore.getTime() < YR_2050) {
-            pair.putUTCTime(notBefore);
+            pbir.putUTCTime(notBefore);
         } else
-            pair.putGeneralizedTime(notBefore);
+            pbir.putGenerblizedTime(notBefore);
 
         if (notAfter.getTime() < YR_2050) {
-            pair.putUTCTime(notAfter);
+            pbir.putUTCTime(notAfter);
         } else {
-            pair.putGeneralizedTime(notAfter);
+            pbir.putGenerblizedTime(notAfter);
         }
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.tag_Sequence, pair);
+        DerOutputStrebm seq = new DerOutputStrebm();
+        seq.write(DerVblue.tbg_Sequence, pbir);
 
-        out.write(seq.toByteArray());
+        out.write(seq.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Date)) {
-            throw new IOException("Attribute must be of type Date.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Dbte)) {
+            throw new IOException("Attribute must be of type Dbte.");
         }
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = (Date)obj;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = (Date)obj;
+        if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
+            notBefore = (Dbte)obj;
+        } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
+            notAfter = (Dbte)obj;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
+            throw new IOException("Attribute nbme not recognized by " +
+                            "CertAttrSet: CertificbteVblidity.");
         }
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Date get(String name) throws IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
+    public Dbte get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
             return (getNotBefore());
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
+        } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
             return (getNotAfter());
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
+            throw new IOException("Attribute nbme not recognized by " +
+                            "CertAttrSet: CertificbteVblidity.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(NOT_BEFORE)) {
             notBefore = null;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
+        } else if (nbme.equblsIgnoreCbse(NOT_AFTER)) {
             notAfter = null;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
+            throw new IOException("Attribute nbme not recognized by " +
+                            "CertAttrSet: CertificbteVblidity.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NOT_BEFORE);
-        elements.addElement(NOT_AFTER);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(NOT_BEFORE);
+        elements.bddElement(NOT_AFTER);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 
     /**
-     * Verify that the current time is within the validity period.
+     * Verify thbt the current time is within the vblidity period.
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid.
+     * @exception CertificbteExpiredException if the certificbte hbs expired.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     * yet vblid.
      */
-    public void valid()
-    throws CertificateNotYetValidException, CertificateExpiredException {
-        Date now = new Date();
-        valid(now);
+    public void vblid()
+    throws CertificbteNotYetVblidException, CertificbteExpiredException {
+        Dbte now = new Dbte();
+        vblid(now);
     }
 
     /**
-     * Verify that the passed time is within the validity period.
-     * @param now the Date against which to compare the validity
+     * Verify thbt the pbssed time is within the vblidity period.
+     * @pbrbm now the Dbte bgbinst which to compbre the vblidity
      * period.
      *
-     * @exception CertificateExpiredException if the certificate has expired
-     * with respect to the <code>Date</code> supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid with respect to the <code>Date</code> supplied.
+     * @exception CertificbteExpiredException if the certificbte hbs expired
+     * with respect to the <code>Dbte</code> supplied.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     * yet vblid with respect to the <code>Dbte</code> supplied.
      *
      */
-    public void valid(Date now)
-    throws CertificateNotYetValidException, CertificateExpiredException {
+    public void vblid(Dbte now)
+    throws CertificbteNotYetVblidException, CertificbteExpiredException {
         /*
-         * we use the internal Dates rather than the passed in Date
-         * because someone could override the Date methods after()
-         * and before() to do something entirely different.
+         * we use the internbl Dbtes rbther thbn the pbssed in Dbte
+         * becbuse someone could override the Dbte methods bfter()
+         * bnd before() to do something entirely different.
          */
-        if (notBefore.after(now)) {
-            throw new CertificateNotYetValidException("NotBefore: " +
+        if (notBefore.bfter(now)) {
+            throw new CertificbteNotYetVblidException("NotBefore: " +
                                                       notBefore.toString());
         }
         if (notAfter.before(now)) {
-            throw new CertificateExpiredException("NotAfter: " +
+            throw new CertificbteExpiredException("NotAfter: " +
                                                   notAfter.toString());
         }
     }

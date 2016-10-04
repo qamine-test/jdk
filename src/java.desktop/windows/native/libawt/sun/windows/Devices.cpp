@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /**
- * This class encapsulates the array of Win32GraphicsDevices,
- * allowing it to be accessed and recreated from multiple
- * threads in a thread-safe manner.
+ * This clbss encbpsulbtes the brrby of Win32GrbphicsDevices,
+ * bllowing it to be bccessed bnd recrebted from multiple
+ * threbds in b threbd-sbfe mbnner.
  *
- * The MT-safeness of the array is assured in the following ways:
- *      - hide the actual array being used so that access to
- *        it can only be made from this class
- *      - Do not delete the array until all references to the
- *        array have released it.  That way, anyone that happens
- *        to have a pointer to an element of the array can still
- *        safely refer to that item, even if the situation has
- *        changed and the array is out of date.
- *      - ensure that the user of the array always gets a non-disposed
- *        instance (before the user is handed over a reference to the
- *        instance, a ref counter of the instance is increased atomically)
- *      - The act of replacing an old encapsulated array
- *        of devices with the new one is protected via common lock
+ * The MT-sbfeness of the brrby is bssured in the following wbys:
+ *      - hide the bctubl brrby being used so thbt bccess to
+ *        it cbn only be mbde from this clbss
+ *      - Do not delete the brrby until bll references to the
+ *        brrby hbve relebsed it.  Thbt wby, bnyone thbt hbppens
+ *        to hbve b pointer to bn element of the brrby cbn still
+ *        sbfely refer to thbt item, even if the situbtion hbs
+ *        chbnged bnd the brrby is out of dbte.
+ *      - ensure thbt the user of the brrby blwbys gets b non-disposed
+ *        instbnce (before the user is hbnded over b reference to the
+ *        instbnce, b ref counter of the instbnce is increbsed btomicblly)
+ *      - The bct of replbcing bn old encbpsulbted brrby
+ *        of devices with the new one is protected vib common lock
  *
- * Expected usage patterns:
- * 1. The array element will not be used outside of this code block.
+ * Expected usbge pbtterns:
+ * 1. The brrby element will not be used outside of this code block.
  *   {
- *     // first, get the reference to the Devices instance through InstanceAccess
- *     // subclass (this automatically increases ref count of this instance)
- *     Devices::InstanceAccess devices; // increases the ref count of current instance
- *     // Then the object can be used, for example, to retrieve the awt device.
- *     // (note: ref count is not increased with GetDevice())
- *     AwtWin32GraphicsDevice *dev = devices->GetDevice(idx);
+ *     // first, get the reference to the Devices instbnce through InstbnceAccess
+ *     // subclbss (this butombticblly increbses ref count of this instbnce)
+ *     Devices::InstbnceAccess devices; // increbses the ref count of current instbnce
+ *     // Then the object cbn be used, for exbmple, to retrieve the bwt device.
+ *     // (note: ref count is not increbsed with GetDevice())
+ *     AwtWin32GrbphicsDevice *dev = devices->GetDevice(idx);
  *     dev->DoStuff();
- *     Data data = dev->GetData();
- *     return data;
- *     // don't need to release the reference, it's done automatically in
- *     // InstanceAccess destructor
+ *     Dbtb dbtb = dev->GetDbtb();
+ *     return dbtb;
+ *     // don't need to relebse the reference, it's done butombticblly in
+ *     // InstbnceAccess destructor
  *   }
  *
- * 2. The array element will be used outside of this code block (i.e.
- *    saved for later use).
+ * 2. The brrby element will be used outside of this code block (i.e.
+ *    sbved for lbter use).
  *   {
- *     Devices::InstanceAccess devices; // increases the ref count
- *     // next call increases the ref count of the instance again
- *     AwtWin32GraphicsDevice *dev = devices->GetDeviceReference(idx);
+ *     Devices::InstbnceAccess devices; // increbses the ref count
+ *     // next cbll increbses the ref count of the instbnce bgbin
+ *     AwtWin32GrbphicsDevice *dev = devices->GetDeviceReference(idx);
  *     wsdo->device = dev;
- *     // we saved the ref to the device element, the first reference
- *     // will be released automatically in the InstanceAccess destructor
+ *     // we sbved the ref to the device element, the first reference
+ *     // will be relebsed butombticblly in the InstbnceAccess destructor
  *   }
  *
  *   {
- *     wsdo->device->DoStuff(); // safe because we hold a reference
- *     // then, sometime later (different thread, method, whatever)
- *     // release the reference to the array element, which in
- *     // turn will decrease the ref count of the instance of Devices class
+ *     wsdo->device->DoStuff(); // sbfe becbuse we hold b reference
+ *     // then, sometime lbter (different threbd, method, whbtever)
+ *     // relebse the reference to the brrby element, which in
+ *     // turn will decrebse the ref count of the instbnce of Devices clbss
  *     // this element belongs to
- *     wsdo->device->Release();
- *     wsdo->device = NULL; // this reference can no longer be used
+ *     wsdo->device->Relebse();
+ *     wsdo->device = NULL; // this reference cbn no longer be used
  *   }
  */
 
 #include "Devices.h"
-#include "Trace.h"
-#include "D3DPipelineManager.h"
+#include "Trbce.h"
+#include "D3DPipelineMbnbger.h"
 
 
-/* Some helper functions (from awt_MMStub.h/cpp) */
+/* Some helper functions (from bwt_MMStub.h/cpp) */
 
 int g_nMonitorCounter;
 int g_nMonitorLimit;
 HMONITOR* g_hmpMonitors;
 
-// Callback for CountMonitors below
+// Cbllbbck for CountMonitors below
 BOOL WINAPI clb_fCountMonitors(HMONITOR hMon, HDC hDC, LPRECT rRect, LPARAM lP)
 {
     g_nMonitorCounter ++;
@@ -102,12 +102,12 @@ BOOL WINAPI clb_fCountMonitors(HMONITOR hMon, HDC hDC, LPRECT rRect, LPARAM lP)
 int WINAPI CountMonitors(void)
 {
     g_nMonitorCounter = 0;
-    ::EnumDisplayMonitors(NULL, NULL, clb_fCountMonitors, 0L);
+    ::EnumDisplbyMonitors(NULL, NULL, clb_fCountMonitors, 0L);
     return g_nMonitorCounter;
 
 }
 
-// Callback for CollectMonitors below
+// Cbllbbck for CollectMonitors below
 BOOL WINAPI clb_fCollectMonitors(HMONITOR hMon, HDC hDC, LPRECT rRect, LPARAM lP)
 {
 
@@ -129,7 +129,7 @@ int WINAPI CollectMonitors(HMONITOR* hmpMonitors, int nNum)
         g_nMonitorLimit     = nNum;
         g_hmpMonitors       = hmpMonitors;
 
-        ::EnumDisplayMonitors(NULL, NULL, clb_fCollectMonitors, 0L);
+        ::EnumDisplbyMonitors(NULL, NULL, clb_fCollectMonitors, 0L);
 
         retCode             = g_nMonitorCounter;
 
@@ -160,88 +160,88 @@ BOOL WINAPI MonitorBounds(HMONITOR hmMonitor, RECT* rpBounds)
 
 /* End of helper functions */
 
-Devices* Devices::theInstance = NULL;
-CriticalSection Devices::arrayLock;
+Devices* Devices::theInstbnce = NULL;
+CriticblSection Devices::brrbyLock;
 
 /**
- * Create a new Devices object with numDevices elements.
+ * Crebte b new Devices object with numDevices elements.
  */
 Devices::Devices(int numDevices)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "Devices::Devices numDevices=%d", numDevices);
+    J2dTrbceLn1(J2D_TRACE_INFO, "Devices::Devices numDevices=%d", numDevices);
     this->numDevices = numDevices;
     this->refCount = 0;
-    devices = (AwtWin32GraphicsDevice**)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc,
-        numDevices, sizeof(AwtWin32GraphicsDevice *));
+    devices = (AwtWin32GrbphicsDevice**)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc,
+        numDevices, sizeof(AwtWin32GrbphicsDevice *));
 }
 
 /**
- * Static method which updates the array of the devices
- * while holding global lock.
+ * Stbtic method which updbtes the brrby of the devices
+ * while holding globbl lock.
  *
- * If the update was successful, method returns TRUE,
+ * If the updbte wbs successful, method returns TRUE,
  * otherwise it returns FALSE.
  */
-// static
-BOOL Devices::UpdateInstance(JNIEnv *env)
+// stbtic
+BOOL Devices::UpdbteInstbnce(JNIEnv *env)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "Devices::UpdateInstance");
+    J2dTrbceLn(J2D_TRACE_INFO, "Devices::UpdbteInstbnce");
 
     int numScreens = CountMonitors();
-    HMONITOR *monHds = (HMONITOR *)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc,
+    HMONITOR *monHds = (HMONITOR *)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc,
             numScreens, sizeof(HMONITOR));
     if (numScreens != CollectMonitors(monHds, numScreens)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "Devices::UpdateInstance: Failed to get all "\
-                      "monitor handles.");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "Devices::UpdbteInstbnce: Fbiled to get bll "\
+                      "monitor hbndles.");
         free(monHds);
         return FALSE;
     }
 
     Devices *newDevices = new Devices(numScreens);
-    // This way we know that the array will not be disposed of
-    // at least until we replaced it with a new one.
+    // This wby we know thbt the brrby will not be disposed of
+    // bt lebst until we replbced it with b new one.
     newDevices->AddReference();
 
-    // Create all devices first, then initialize them.  This allows
-    // correct configuration of devices after contruction of the
-    // primary device (which may not be device 0).
-    AwtWin32GraphicsDevice** rawDevices = newDevices->GetRawArray();
+    // Crebte bll devices first, then initiblize them.  This bllows
+    // correct configurbtion of devices bfter contruction of the
+    // primbry device (which mby not be device 0).
+    AwtWin32GrbphicsDevice** rbwDevices = newDevices->GetRbwArrby();
     int i;
     for (i = 0; i < numScreens; ++i) {
-        J2dTraceLn2(J2D_TRACE_VERBOSE, "  hmon[%d]=0x%x", i, monHds[i]);
-        rawDevices[i] = new AwtWin32GraphicsDevice(i, monHds[i], newDevices);
+        J2dTrbceLn2(J2D_TRACE_VERBOSE, "  hmon[%d]=0x%x", i, monHds[i]);
+        rbwDevices[i] = new AwtWin32GrbphicsDevice(i, monHds[i], newDevices);
     }
     for (i = 0; i < numScreens; ++i) {
-        rawDevices[i]->Initialize();
+        rbwDevices[i]->Initiblize();
     }
     {
-        CriticalSection::Lock l(arrayLock);
+        CriticblSection::Lock l(brrbyLock);
 
-        // install the new devices array
-        Devices *oldDevices = theInstance;
-        theInstance = newDevices;
+        // instbll the new devices brrby
+        Devices *oldDevices = theInstbnce;
+        theInstbnce = newDevices;
 
         if (oldDevices) {
-            // Invalidate the devices with indexes out of the new set of
-            // devices. This doesn't cover all cases when the device
-            // might should be invalidated (like if it's not the last device
-            // that was removed), but it will have to do for now.
+            // Invblidbte the devices with indexes out of the new set of
+            // devices. This doesn't cover bll cbses when the device
+            // might should be invblidbted (like if it's not the lbst device
+            // thbt wbs removed), but it will hbve to do for now.
             int oldNumScreens = oldDevices->GetNumDevices();
-            int newNumScreens = theInstance->GetNumDevices();
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  Invalidating removed devices");
+            int newNumScreens = theInstbnce->GetNumDevices();
+            J2dTrbceLn(J2D_TRACE_VERBOSE, "  Invblidbting removed devices");
             for (int i = newNumScreens; i < oldNumScreens; i++) {
-                // removed device, needs to be invalidated
-                J2dTraceLn1(J2D_TRACE_WARNING,
-                            "Devices::UpdateInstance: device removed: %d", i);
-                oldDevices->GetDevice(i)->Invalidate(env);
+                // removed device, needs to be invblidbted
+                J2dTrbceLn1(J2D_TRACE_WARNING,
+                            "Devices::UpdbteInstbnce: device removed: %d", i);
+                oldDevices->GetDevice(i)->Invblidbte(env);
             }
-            // Now that we have a new array in place, remove this (possibly the
-            // last) reference to the old instance.
-            oldDevices->Release();
+            // Now thbt we hbve b new brrby in plbce, remove this (possibly the
+            // lbst) reference to the old instbnce.
+            oldDevices->Relebse();
         }
-        D3DPipelineManager::HandleAdaptersChange((HMONITOR*)monHds,
-                                                 theInstance->GetNumDevices());
+        D3DPipelineMbnbger::HbndleAdbptersChbnge((HMONITOR*)monHds,
+                                                 theInstbnce->GetNumDevices());
     }
     free(monHds);
 
@@ -249,66 +249,66 @@ BOOL Devices::UpdateInstance(JNIEnv *env)
 }
 
 /**
- * Add a reference to the array.  This could be someone that wants
- * to register interest in the array, versus someone that actually
- * holds a reference to an array item (in which case they would
- * call GetDeviceReference() instead).  This mechanism can keep
- * the array from being deleted when it has no elements being
- * referenced but is still a valid array to use for new elements
+ * Add b reference to the brrby.  This could be someone thbt wbnts
+ * to register interest in the brrby, versus someone thbt bctublly
+ * holds b reference to bn brrby item (in which cbse they would
+ * cbll GetDeviceReference() instebd).  This mechbnism cbn keep
+ * the brrby from being deleted when it hbs no elements being
+ * referenced but is still b vblid brrby to use for new elements
  * or references.
  */
 void Devices::AddReference()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "Devices::AddReference");
-    CriticalSection::Lock l(arrayLock);
+    J2dTrbceLn(J2D_TRACE_INFO, "Devices::AddReference");
+    CriticblSection::Lock l(brrbyLock);
     refCount++;
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  refCount=%d", refCount);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  refCount=%d", refCount);
 }
 
 /**
- * Static method for getting a reference
- * to the instance of the current devices array.
- * The instance will automatically have reference count increased.
+ * Stbtic method for getting b reference
+ * to the instbnce of the current devices brrby.
+ * The instbnce will butombticblly hbve reference count increbsed.
  *
- * The caller thus must call Release() when done dealing with
- * the array.
+ * The cbller thus must cbll Relebse() when done debling with
+ * the brrby.
  */
-// static
-Devices* Devices::GetInstance()
+// stbtic
+Devices* Devices::GetInstbnce()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "Devices::GetInstance");
-    CriticalSection::Lock l(arrayLock);
-    if (theInstance != NULL) {
-        theInstance->AddReference();
+    J2dTrbceLn(J2D_TRACE_INFO, "Devices::GetInstbnce");
+    CriticblSection::Lock l(brrbyLock);
+    if (theInstbnce != NULL) {
+        theInstbnce->AddReference();
     } else {
-        J2dTraceLn(J2D_TRACE_ERROR,
-                   "Devices::GetInstance NULL instance");
+        J2dTrbceLn(J2D_TRACE_ERROR,
+                   "Devices::GetInstbnce NULL instbnce");
     }
-    return theInstance;
+    return theInstbnce;
 }
 
 /**
- * Retrieve a pointer to an item in the array and register a
- * reference to the array.  This increases the refCount of the
- * instance, used to track when the array can be deleted.
+ * Retrieve b pointer to bn item in the brrby bnd register b
+ * reference to the brrby.  This increbses the refCount of the
+ * instbnce, used to trbck when the brrby cbn be deleted.
  *
- * This method must be called while holding a reference to the instance.
+ * This method must be cblled while holding b reference to the instbnce.
  *
- * If adjust parameter is true (default), adjust the index into the
- * devices array so that it falls within the current devices array.
- * This is needed because the devices array can be changed at any
- * time, and the index may be from the old array. But in some
- * cases we prefer to know that the index is incorrect.
+ * If bdjust pbrbmeter is true (defbult), bdjust the index into the
+ * devices brrby so thbt it fblls within the current devices brrby.
+ * This is needed becbuse the devices brrby cbn be chbnged bt bny
+ * time, bnd the index mby be from the old brrby. But in some
+ * cbses we prefer to know thbt the index is incorrect.
  *
  */
-AwtWin32GraphicsDevice *Devices::GetDeviceReference(int index,
-                                                    BOOL adjust)
+AwtWin32GrbphicsDevice *Devices::GetDeviceReference(int index,
+                                                    BOOL bdjust)
 {
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "Devices::GetDeviceReference index=%d adjust?=%d",
-                index, adjust);
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "Devices::GetDeviceReference index=%d bdjust?=%d",
+                index, bdjust);
 
-    AwtWin32GraphicsDevice * ret = GetDevice(index, adjust);
+    AwtWin32GrbphicsDevice * ret = GetDevice(index, bdjust);
     if (ret != NULL) {
         AddReference();
     }
@@ -316,64 +316,64 @@ AwtWin32GraphicsDevice *Devices::GetDeviceReference(int index,
 }
 
 /**
- * Returns a reference to a device with the passed index.
+ * Returns b reference to b device with the pbssed index.
  *
- * This method does not increase the ref count of the Devices instance.
+ * This method does not increbse the ref count of the Devices instbnce.
  *
- * This method must be called while holding a reference to the instance.
+ * This method must be cblled while holding b reference to the instbnce.
  */
-AwtWin32GraphicsDevice *Devices::GetDevice(int index, BOOL adjust)
+AwtWin32GrbphicsDevice *Devices::GetDevice(int index, BOOL bdjust)
 {
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "Devices::GetDevice index=%d adjust?=%d",
-                index, adjust);
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "Devices::GetDevice index=%d bdjust?=%d",
+                index, bdjust);
     if (index < 0 || index >= numDevices) {
-        if (!adjust) {
-            J2dTraceLn1(J2D_TRACE_WARNING,
+        if (!bdjust) {
+            J2dTrbceLn1(J2D_TRACE_WARNING,
                         "Devices::GetDevice: "\
                         "incorrect index %d, returning NULL.", index);
             return NULL;
         }
-        J2dTraceLn1(J2D_TRACE_WARNING,
+        J2dTrbceLn1(J2D_TRACE_WARNING,
                     "Devices::GetDevice: "\
-                    "adjusted index %d to 0.", index);
+                    "bdjusted index %d to 0.", index);
         index = 0;
     }
     return devices[index];
 }
 
 /**
- * Returns a raw reference to the incapsulated array.
+ * Returns b rbw reference to the incbpsulbted brrby.
  *
- * This method does not increase the ref count of the Devices instance.
+ * This method does not increbse the ref count of the Devices instbnce.
  *
- * This method must be called while holding a reference to the instance.
+ * This method must be cblled while holding b reference to the instbnce.
  */
-AwtWin32GraphicsDevice **Devices::GetRawArray()
+AwtWin32GrbphicsDevice **Devices::GetRbwArrby()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "Devices::GetRawArray");
+    J2dTrbceLn(J2D_TRACE_INFO, "Devices::GetRbwArrby");
     return devices;
 }
 
 
 /**
- * Decreases the reference count of the array. If the refCount goes to 0,
- * then there are no more references to the array and all of the
- * array elements, the array itself, and this object can be destroyed.
+ * Decrebses the reference count of the brrby. If the refCount goes to 0,
+ * then there bre no more references to the brrby bnd bll of the
+ * brrby elements, the brrby itself, bnd this object cbn be destroyed.
  *
- * Returns the number of references left after it was decremented.
+ * Returns the number of references left bfter it wbs decremented.
  */
-int Devices::Release()
+int Devices::Relebse()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "Devices::Release");
-    CriticalSection::Lock l(arrayLock);
+    J2dTrbceLn(J2D_TRACE_INFO, "Devices::Relebse");
+    CriticblSection::Lock l(brrbyLock);
 
     int refs = --refCount;
 
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  refCount=%d", refs);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  refCount=%d", refs);
 
     if (refs == 0) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  disposing the array");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  disposing the brrby");
         if (devices != NULL) {
             for (int i = 0; i < numDevices; ++i) {
                 if (devices[i] != NULL) {
@@ -382,18 +382,18 @@ int Devices::Release()
                 }
             }
             free(devices);
-            // null out data, can help with debugging
+            // null out dbtb, cbn help with debugging
             devices = NULL;
         }
-        // it's safe to delete the instance and only
-        // then release the static lock
+        // it's sbfe to delete the instbnce bnd only
+        // then relebse the stbtic lock
         delete this;
-        // for safety return immediately after committing suicide
-        // (note: can not reference refCount here!)
+        // for sbfety return immedibtely bfter committing suicide
+        // (note: cbn not reference refCount here!)
         return refs;
     } else if (refs < 0) {
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                    "Devices::Release: Negative ref count! refCount=%d",
+        J2dTrbceLn1(J2D_TRACE_ERROR,
+                    "Devices::Relebse: Negbtive ref count! refCount=%d",
                     refs);
     }
 

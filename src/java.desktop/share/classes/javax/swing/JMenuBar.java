@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.beans.Transient;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.*;
+import jbvb.bebns.Trbnsient;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.event.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
 /**
- * An implementation of a menu bar. You add <code>JMenu</code> objects to the
- * menu bar to construct a menu. When the user selects a <code>JMenu</code>
- * object, its associated <code>JPopupMenu</code> is displayed, allowing the
+ * An implementbtion of b menu bbr. You bdd <code>JMenu</code> objects to the
+ * menu bbr to construct b menu. When the user selects b <code>JMenu</code>
+ * object, its bssocibted <code>JPopupMenu</code> is displbyed, bllowing the
  * user to select one of the <code>JMenuItems</code> on it.
  * <p>
- * For information and examples of using menu bars see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For informbtion bnd exbmples of using menu bbrs see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/menu.html">How to Use Menus</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  * <p>
- * <strong>Warning:</strong>
- * By default, pressing the Tab key does not transfer focus from a <code>
- * JMenuBar</code> which is added to a container together with other Swing
- * components, because the <code>focusTraversalKeysEnabled</code> property
- * of <code>JMenuBar</code> is set to <code>false</code>. To resolve this,
- * you should call the <code>JMenuBar.setFocusTraversalKeysEnabled(true)</code>
+ * <strong>Wbrning:</strong>
+ * By defbult, pressing the Tbb key does not trbnsfer focus from b <code>
+ * JMenuBbr</code> which is bdded to b contbiner together with other Swing
+ * components, becbuse the <code>focusTrbversblKeysEnbbled</code> property
+ * of <code>JMenuBbr</code> is set to <code>fblse</code>. To resolve this,
+ * you should cbll the <code>JMenuBbr.setFocusTrbversblKeysEnbbled(true)</code>
  * method.
- * @beaninfo
- *   attribute: isContainer true
- * description: A container for holding and displaying menus.
+ * @bebninfo
+ *   bttribute: isContbiner true
+ * description: A contbiner for holding bnd displbying menus.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
+ * @buthor Arnbud Weber
  * @see JMenu
  * @see JPopupMenu
  * @see JMenuItem
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JMenuBar extends JComponent implements Accessible,MenuElement
+@SuppressWbrnings("seribl")
+public clbss JMenuBbr extends JComponent implements Accessible,MenuElement
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "MenuBarUI";
+    privbte stbtic finbl String uiClbssID = "MenuBbrUI";
 
     /*
      * Model for the selected subcontrol.
      */
-    private transient SingleSelectionModel selectionModel;
+    privbte trbnsient SingleSelectionModel selectionModel;
 
-    private boolean paintBorder           = true;
-    private Insets     margin             = null;
+    privbte boolebn pbintBorder           = true;
+    privbte Insets     mbrgin             = null;
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostic bids -- should be fblse for production builds. */
+    privbte stbtic finbl boolebn TRACE =   fblse; // trbce crebtes bnd disposes
+    privbte stbtic finbl boolebn VERBOSE = fblse; // show reuse hits/misses
+    privbte stbtic finbl boolebn DEBUG =   fblse;  // show bbd pbrbms, misc.
 
     /**
-     * Creates a new menu bar.
+     * Crebtes b new menu bbr.
      */
-    public JMenuBar() {
+    public JMenuBbr() {
         super();
-        setFocusTraversalKeysEnabled(false);
-        setSelectionModel(new DefaultSingleSelectionModel());
-        updateUI();
+        setFocusTrbversblKeysEnbbled(fblse);
+        setSelectionModel(new DefbultSingleSelectionModel());
+        updbteUI();
     }
 
     /**
-     * Returns the menubar's current UI.
+     * Returns the menubbr's current UI.
      *
-     * @return a {@code MenuBarUI} which is the menubar's current L&amp;F object
+     * @return b {@code MenuBbrUI} which is the menubbr's current L&bmp;F object
      * @see #setUI
      */
-    public MenuBarUI getUI() {
-        return (MenuBarUI)ui;
+    public MenuBbrUI getUI() {
+        return (MenuBbrUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui the new MenuBarUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui the new MenuBbrUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(MenuBarUI ui) {
+    public void setUI(MenuBbrUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Resets the UI property with a value from the current look and feel.
+     * Resets the UI property with b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((MenuBarUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((MenuBbrUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "MenuBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "MenuBbrUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * Returns the model object that handles single selections.
+     * Returns the model object thbt hbndles single selections.
      *
      * @return the <code>SingleSelectionModel</code> property
      * @see SingleSelectionModel
@@ -180,88 +180,88 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
     }
 
     /**
-     * Sets the model object to handle single selections.
+     * Sets the model object to hbndle single selections.
      *
-     * @param model the <code>SingleSelectionModel</code> to use
+     * @pbrbm model the <code>SingleSelectionModel</code> to use
      * @see SingleSelectionModel
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      * description: The selection model, recording which child is selected.
      */
     public void setSelectionModel(SingleSelectionModel model) {
-        SingleSelectionModel oldValue = selectionModel;
+        SingleSelectionModel oldVblue = selectionModel;
         this.selectionModel = model;
-        firePropertyChange("selectionModel", oldValue, selectionModel);
+        firePropertyChbnge("selectionModel", oldVblue, selectionModel);
     }
 
 
     /**
-     * Appends the specified menu to the end of the menu bar.
+     * Appends the specified menu to the end of the menu bbr.
      *
-     * @param c the <code>JMenu</code> component to add
+     * @pbrbm c the <code>JMenu</code> component to bdd
      * @return the menu component
      */
-    public JMenu add(JMenu c) {
-        super.add(c);
+    public JMenu bdd(JMenu c) {
+        super.bdd(c);
         return c;
     }
 
     /**
-     * Returns the menu at the specified position in the menu bar.
+     * Returns the menu bt the specified position in the menu bbr.
      *
-     * @param index  an integer giving the position in the menu bar, where
+     * @pbrbm index  bn integer giving the position in the menu bbr, where
      *               0 is the first position
-     * @return the <code>JMenu</code> at that position, or <code>null</code> if
-     *          if there is no <code>JMenu</code> at that position (ie. if
-     *          it is a <code>JMenuItem</code>)
+     * @return the <code>JMenu</code> bt thbt position, or <code>null</code> if
+     *          if there is no <code>JMenu</code> bt thbt position (ie. if
+     *          it is b <code>JMenuItem</code>)
      */
     public JMenu getMenu(int index) {
         Component c = getComponentAtIndex(index);
-        if (c instanceof JMenu)
+        if (c instbnceof JMenu)
             return (JMenu) c;
         return null;
     }
 
     /**
-     * Returns the number of items in the menu bar.
+     * Returns the number of items in the menu bbr.
      *
-     * @return the number of items in the menu bar
+     * @return the number of items in the menu bbr
      */
     public int getMenuCount() {
         return getComponentCount();
     }
 
     /**
-     * Sets the help menu that appears when the user selects the
-     * "help" option in the menu bar. This method is not yet implemented
-     * and will throw an exception.
+     * Sets the help menu thbt bppebrs when the user selects the
+     * "help" option in the menu bbr. This method is not yet implemented
+     * bnd will throw bn exception.
      *
-     * @param menu the JMenu that delivers help to the user
+     * @pbrbm menu the JMenu thbt delivers help to the user
      */
     public void setHelpMenu(JMenu menu) {
         throw new Error("setHelpMenu() not yet implemented.");
     }
 
     /**
-     * Gets the help menu for the menu bar.  This method is not yet
-     * implemented and will throw an exception.
+     * Gets the help menu for the menu bbr.  This method is not yet
+     * implemented bnd will throw bn exception.
      *
-     * @return the <code>JMenu</code> that delivers help to the user
+     * @return the <code>JMenu</code> thbt delivers help to the user
      */
-    @Transient
+    @Trbnsient
     public JMenu getHelpMenu() {
         throw new Error("getHelpMenu() not yet implemented.");
     }
 
     /**
-     * Returns the component at the specified index.
+     * Returns the component bt the specified index.
      *
-     * @param i an integer specifying the position, where 0 is first
-     * @return the <code>Component</code> at the position,
-     *          or <code>null</code> for an invalid index
-     * @deprecated replaced by <code>getComponent(int i)</code>
+     * @pbrbm i bn integer specifying the position, where 0 is first
+     * @return the <code>Component</code> bt the position,
+     *          or <code>null</code> for bn invblid index
+     * @deprecbted replbced by <code>getComponent(int i)</code>
      */
-    @Deprecated
+    @Deprecbted
     public Component getComponentAtIndex(int i) {
         if(i < 0 || i >= getComponentCount()) {
             return null;
@@ -272,9 +272,9 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
     /**
      * Returns the index of the specified component.
      *
-     * @param c  the <code>Component</code> to find
-     * @return an integer giving the component's position, where 0 is first;
-     *          or -1 if it can't be found
+     * @pbrbm c  the <code>Component</code> to find
+     * @return bn integer giving the component's position, where 0 is first;
+     *          or -1 if it cbn't be found
      */
     public int getComponentIndex(Component c) {
         int ncomponents = this.getComponentCount();
@@ -288,10 +288,10 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
     }
 
     /**
-     * Sets the currently selected component, producing a
-     * a change to the selection model.
+     * Sets the currently selected component, producing b
+     * b chbnge to the selection model.
      *
-     * @param sel the <code>Component</code> to select
+     * @pbrbm sel the <code>Component</code> to select
      */
     public void setSelected(Component sel) {
         SingleSelectionModel model = getSelectionModel();
@@ -300,128 +300,128 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
     }
 
     /**
-     * Returns true if the menu bar currently has a component selected.
+     * Returns true if the menu bbr currently hbs b component selected.
      *
-     * @return true if a selection has been made, else false
+     * @return true if b selection hbs been mbde, else fblse
      */
-    public boolean isSelected() {
+    public boolebn isSelected() {
         return selectionModel.isSelected();
     }
 
     /**
-     * Returns true if the menu bars border should be painted.
+     * Returns true if the menu bbrs border should be pbinted.
      *
-     * @return  true if the border should be painted, else false
+     * @return  true if the border should be pbinted, else fblse
      */
-    public boolean isBorderPainted() {
-        return paintBorder;
+    public boolebn isBorderPbinted() {
+        return pbintBorder;
     }
 
     /**
-     * Sets whether the border should be painted.
+     * Sets whether the border should be pbinted.
      *
-     * @param b if true and border property is not <code>null</code>,
-     *          the border is painted.
-     * @see #isBorderPainted
-     * @beaninfo
+     * @pbrbm b if true bnd border property is not <code>null</code>,
+     *          the border is pbinted.
+     * @see #isBorderPbinted
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the border should be painted.
+     *    bttribute: visublUpdbte true
+     *  description: Whether the border should be pbinted.
      */
-    public void setBorderPainted(boolean b) {
-        boolean oldValue = paintBorder;
-        paintBorder = b;
-        firePropertyChange("borderPainted", oldValue, paintBorder);
-        if (b != oldValue) {
-            revalidate();
-            repaint();
+    public void setBorderPbinted(boolebn b) {
+        boolebn oldVblue = pbintBorder;
+        pbintBorder = b;
+        firePropertyChbnge("borderPbinted", oldVblue, pbintBorder);
+        if (b != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Paints the menubar's border if <code>BorderPainted</code>
+     * Pbints the menubbr's border if <code>BorderPbinted</code>
      * property is true.
      *
-     * @param g the <code>Graphics</code> context to use for painting
-     * @see JComponent#paint
+     * @pbrbm g the <code>Grbphics</code> context to use for pbinting
+     * @see JComponent#pbint
      * @see JComponent#setBorder
      */
-    protected void paintBorder(Graphics g) {
-        if (isBorderPainted()) {
-            super.paintBorder(g);
+    protected void pbintBorder(Grbphics g) {
+        if (isBorderPbinted()) {
+            super.pbintBorder(g);
         }
     }
 
     /**
-     * Sets the margin between the menubar's border and
-     * its menus. Setting to <code>null</code> will cause the menubar to
-     * use the default margins.
+     * Sets the mbrgin between the menubbr's border bnd
+     * its menus. Setting to <code>null</code> will cbuse the menubbr to
+     * use the defbult mbrgins.
      *
-     * @param m an Insets object containing the margin values
+     * @pbrbm m bn Insets object contbining the mbrgin vblues
      * @see Insets
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The space between the menubar's border and its contents
+     *    bttribute: visublUpdbte true
+     *  description: The spbce between the menubbr's border bnd its contents
      */
-    public void setMargin(Insets m) {
-        Insets old = margin;
-        this.margin = m;
-        firePropertyChange("margin", old, m);
-        if (old == null || !old.equals(m)) {
-            revalidate();
-            repaint();
+    public void setMbrgin(Insets m) {
+        Insets old = mbrgin;
+        this.mbrgin = m;
+        firePropertyChbnge("mbrgin", old, m);
+        if (old == null || !old.equbls(m)) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Returns the margin between the menubar's border and
-     * its menus.  If there is no previous margin, it will create
-     * a default margin with zero size.
+     * Returns the mbrgin between the menubbr's border bnd
+     * its menus.  If there is no previous mbrgin, it will crebte
+     * b defbult mbrgin with zero size.
      *
-     * @return an <code>Insets</code> object containing the margin values
+     * @return bn <code>Insets</code> object contbining the mbrgin vblues
      * @see Insets
      */
-    public Insets getMargin() {
-        if(margin == null) {
+    public Insets getMbrgin() {
+        if(mbrgin == null) {
             return new Insets(0,0,0,0);
         } else {
-            return margin;
+            return mbrgin;
         }
     }
 
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implemented to be b <code>MenuElement</code> -- does nothing.
      *
      * @see #getSubElements
      */
-    public void processMouseEvent(MouseEvent event,MenuElement path[],MenuSelectionManager manager) {
+    public void processMouseEvent(MouseEvent event,MenuElement pbth[],MenuSelectionMbnbger mbnbger) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implemented to be b <code>MenuElement</code> -- does nothing.
      *
      * @see #getSubElements
      */
-    public void processKeyEvent(KeyEvent e,MenuElement path[],MenuSelectionManager manager) {
+    public void processKeyEvent(KeyEvent e,MenuElement pbth[],MenuSelectionMbnbger mbnbger) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- does nothing.
+     * Implemented to be b <code>MenuElement</code> -- does nothing.
      *
      * @see #getSubElements
      */
-    public void menuSelectionChanged(boolean isIncluded) {
+    public void menuSelectionChbnged(boolebn isIncluded) {
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code> -- returns the
-     * menus in this menu bar.
-     * This is the reason for implementing the <code>MenuElement</code>
-     * interface -- so that the menu bar can be treated the same as
+     * Implemented to be b <code>MenuElement</code> -- returns the
+     * menus in this menu bbr.
+     * This is the rebson for implementing the <code>MenuElement</code>
+     * interfbce -- so thbt the menu bbr cbn be trebted the sbme bs
      * other menu elements.
-     * @return an array of menu items in the menu bar.
+     * @return bn brrby of menu items in the menu bbr.
      */
     public MenuElement[] getSubElements() {
         MenuElement result[];
@@ -432,8 +432,8 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
 
         for(i=0 ; i < c ; i++) {
             m = getComponent(i);
-            if(m instanceof MenuElement)
-                tmp.addElement((MenuElement) m);
+            if(m instbnceof MenuElement)
+                tmp.bddElement((MenuElement) m);
         }
 
         result = new MenuElement[tmp.size()];
@@ -443,7 +443,7 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
     }
 
     /**
-     * Implemented to be a <code>MenuElement</code>. Returns this object.
+     * Implemented to be b <code>MenuElement</code>. Returns this object.
      *
      * @return the current <code>Component</code> (this)
      * @see #getSubElements
@@ -454,24 +454,24 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
 
 
     /**
-     * Returns a string representation of this <code>JMenuBar</code>.
+     * Returns b string representbtion of this <code>JMenuBbr</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JMenuBar</code>
+     * @return  b string representbtion of this <code>JMenuBbr</code>
      */
-    protected String paramString() {
-        String paintBorderString = (paintBorder ?
-                                    "true" : "false");
-        String marginString = (margin != null ?
-                               margin.toString() : "");
+    protected String pbrbmString() {
+        String pbintBorderString = (pbintBorder ?
+                                    "true" : "fblse");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
 
-        return super.paramString() +
-        ",margin=" + marginString +
-        ",paintBorder=" + paintBorderString;
+        return super.pbrbmString() +
+        ",mbrgin=" + mbrginString +
+        ",pbintBorder=" + pbintBorderString;
     }
 
 /////////////////
@@ -479,55 +479,55 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JMenuBar.
-     * For JMenuBars, the AccessibleContext takes the form of an
-     * AccessibleJMenuBar.
-     * A new AccessibleJMenuBar instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JMenuBbr.
+     * For JMenuBbrs, the AccessibleContext tbkes the form of bn
+     * AccessibleJMenuBbr.
+     * A new AccessibleJMenuBbr instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJMenuBar that serves as the
-     *         AccessibleContext of this JMenuBar
+     * @return bn AccessibleJMenuBbr thbt serves bs the
+     *         AccessibleContext of this JMenuBbr
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJMenuBar();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJMenuBbr();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JMenuBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu bar user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JMenuBbr</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to menu bbr user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJMenuBar extends AccessibleJComponent
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJMenuBbr extends AccessibleJComponent
         implements AccessibleSelection {
 
         /**
-         * Get the accessible state set of this object.
+         * Get the bccessible stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          *         of the object
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
@@ -535,10 +535,10 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
         }
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -547,9 +547,9 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
         }
 
         /**
-         * Returns 1 if a menu is currently selected in this menu bar.
+         * Returns 1 if b menu is currently selected in this menu bbr.
          *
-         * @return 1 if a menu is currently selected, else 0
+         * @return 1 if b menu is currently selected, else 0
          */
          public int getAccessibleSelectionCount() {
             if (isSelected()) {
@@ -565,11 +565,11 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
          */
          public Accessible getAccessibleSelection(int i) {
             if (isSelected()) {
-                if (i != 0) {   // single selection model for JMenuBar
+                if (i != 0) {   // single selection model for JMenuBbr
                     return null;
                 }
                 int j = getSelectionModel().getSelectedIndex();
-                if (getComponentAtIndex(j) instanceof Accessible) {
+                if (getComponentAtIndex(j) instbnceof Accessible) {
                     return (Accessible) getComponentAtIndex(j);
                 }
             }
@@ -579,25 +579,25 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
         /**
          * Returns true if the current child of this object is selected.
          *
-         * @param i the zero-based index of the child in this Accessible
+         * @pbrbm i the zero-bbsed index of the child in this Accessible
          * object.
          * @see AccessibleContext#getAccessibleChild
          */
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             return (i == getSelectionModel().getSelectedIndex());
         }
 
         /**
-         * Selects the nth menu in the menu bar, forcing it to
-         * pop up.  If another menu is popped up, this will force
-         * it to close.  If the nth menu is already selected, this
-         * method has no effect.
+         * Selects the nth menu in the menu bbr, forcing it to
+         * pop up.  If bnother menu is popped up, this will force
+         * it to close.  If the nth menu is blrebdy selected, this
+         * method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
-         * @see #getAccessibleStateSet
+         * @pbrbm i the zero-bbsed index of selectbble items
+         * @see #getAccessibleStbteSet
          */
-        public void addAccessibleSelection(int i) {
-            // first close up any open menu
+        public void bddAccessibleSelection(int i) {
+            // first close up bny open menu
             int j = getSelectionModel().getSelectedIndex();
             if (i == j) {
                 return;
@@ -605,8 +605,8 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
             if (j >= 0 && j < getMenuCount()) {
                 JMenu menu = getMenu(j);
                 if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+                    MenuSelectionMbnbger.defbultMbnbger().setSelectedPbth(null);
+//                  menu.setPopupMenuVisible(fblse);
                 }
             }
             // now popup the new menu
@@ -614,10 +614,10 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
             JMenu menu = getMenu(i);
             if (menu != null) {
                 MenuElement me[] = new MenuElement[3];
-                me[0] = JMenuBar.this;
+                me[0] = JMenuBbr.this;
                 me[1] = menu;
                 me[2] = menu.getPopupMenu();
-                MenuSelectionManager.defaultManager().setSelectedPath(me);
+                MenuSelectionMbnbger.defbultMbnbger().setSelectedPbth(me);
 //              menu.setPopupMenuVisible(true);
             }
         }
@@ -625,56 +625,56 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
         /**
          * Removes the nth selected item in the object from the object's
          * selection.  If the nth item isn't currently selected, this
-         * method has no effect.  Otherwise, it closes the popup menu.
+         * method hbs no effect.  Otherwise, it closes the popup menu.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
         public void removeAccessibleSelection(int i) {
             if (i >= 0 && i < getMenuCount()) {
                 JMenu menu = getMenu(i);
                 if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+                    MenuSelectionMbnbger.defbultMbnbger().setSelectedPbth(null);
+//                  menu.setPopupMenuVisible(fblse);
                 }
                 getSelectionModel().setSelectedIndex(-1);
             }
         }
 
         /**
-         * Clears the selection in the object, so that nothing in the
-         * object is selected.  This will close any open menu.
+         * Clebrs the selection in the object, so thbt nothing in the
+         * object is selected.  This will close bny open menu.
          */
-        public void clearAccessibleSelection() {
+        public void clebrAccessibleSelection() {
             int i = getSelectionModel().getSelectedIndex();
             if (i >= 0 && i < getMenuCount()) {
                 JMenu menu = getMenu(i);
                 if (menu != null) {
-                    MenuSelectionManager.defaultManager().setSelectedPath(null);
-//                  menu.setPopupMenuVisible(false);
+                    MenuSelectionMbnbger.defbultMbnbger().setSelectedPbth(null);
+//                  menu.setPopupMenuVisible(fblse);
                 }
             }
             getSelectionModel().setSelectedIndex(-1);
         }
 
         /**
-         * Normally causes every selected item in the object to be selected
+         * Normblly cbuses every selected item in the object to be selected
          * if the object supports multiple selections.  This method
-         * makes no sense in a menu bar, and so does nothing.
+         * mbkes no sense in b menu bbr, bnd so does nothing.
          */
         public void selectAllAccessibleSelection() {
         }
-    } // internal class AccessibleJMenuBar
+    } // internbl clbss AccessibleJMenuBbr
 
 
     /**
-     * Subclassed to check all the child menus.
+     * Subclbssed to check bll the child menus.
      * @since 1.3
      */
-    protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
-                                        int condition, boolean pressed) {
-        // See if we have a local binding.
-        boolean retValue = super.processKeyBinding(ks, e, condition, pressed);
-        if (!retValue) {
+    protected boolebn processKeyBinding(KeyStroke ks, KeyEvent e,
+                                        int condition, boolebn pressed) {
+        // See if we hbve b locbl binding.
+        boolebn retVblue = super.processKeyBinding(ks, e, condition, pressed);
+        if (!retVblue) {
             MenuElement[] subElements = getSubElements();
             for (MenuElement subElement : subElements) {
                 if (processBindingForKeyStrokeRecursive(
@@ -683,22 +683,22 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
                 }
             }
         }
-        return retValue;
+        return retVblue;
     }
 
-    static boolean processBindingForKeyStrokeRecursive(MenuElement elem,
-                                                       KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
+    stbtic boolebn processBindingForKeyStrokeRecursive(MenuElement elem,
+                                                       KeyStroke ks, KeyEvent e, int condition, boolebn pressed) {
         if (elem == null) {
-            return false;
+            return fblse;
         }
 
         Component c = elem.getComponent();
 
-        if ( !(c.isVisible() || (c instanceof JPopupMenu)) || !c.isEnabled() ) {
-            return false;
+        if ( !(c.isVisible() || (c instbnceof JPopupMenu)) || !c.isEnbbled() ) {
+            return fblse;
         }
 
-        if (c != null && c instanceof JComponent &&
+        if (c != null && c instbnceof JComponent &&
             ((JComponent)c).processKeyBinding(ks, e, condition, pressed)) {
 
             return true;
@@ -708,68 +708,68 @@ public class JMenuBar extends JComponent implements Accessible,MenuElement
         for (MenuElement subElement : subElements) {
             if (processBindingForKeyStrokeRecursive(subElement, ks, e, condition, pressed)) {
                 return true;
-                // We don't, pass along to children JMenu's
+                // We don't, pbss blong to children JMenu's
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Overrides <code>JComponent.addNotify</code> to register this
-     * menu bar with the current keyboard manager.
+     * Overrides <code>JComponent.bddNotify</code> to register this
+     * menu bbr with the current keybobrd mbnbger.
      */
-    public void addNotify() {
-        super.addNotify();
-        KeyboardManager.getCurrentManager().registerMenuBar(this);
+    public void bddNotify() {
+        super.bddNotify();
+        KeybobrdMbnbger.getCurrentMbnbger().registerMenuBbr(this);
     }
 
     /**
      * Overrides <code>JComponent.removeNotify</code> to unregister this
-     * menu bar with the current keyboard manager.
+     * menu bbr with the current keybobrd mbnbger.
      */
     public void removeNotify() {
         super.removeNotify();
-        KeyboardManager.getCurrentManager().unregisterMenuBar(this);
+        KeybobrdMbnbger.getCurrentMbnbger().unregisterMenuBbr(this);
     }
 
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
 
-        Object[] kvData = new Object[4];
+        Object[] kvDbtb = new Object[4];
         int n = 0;
 
-        if (selectionModel instanceof Serializable) {
-            kvData[n++] = "selectionModel";
-            kvData[n++] = selectionModel;
+        if (selectionModel instbnceof Seriblizbble) {
+            kvDbtb[n++] = "selectionModel";
+            kvDbtb[n++] = selectionModel;
         }
 
-        s.writeObject(kvData);
+        s.writeObject(kvDbtb);
     }
 
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * See JComponent.rebdObject() for informbtion bbout seriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s) throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        Object[] kvData = (Object[])(s.readObject());
+        s.defbultRebdObject();
+        Object[] kvDbtb = (Object[])(s.rebdObject());
 
-        for(int i = 0; i < kvData.length; i += 2) {
-            if (kvData[i] == null) {
-                break;
+        for(int i = 0; i < kvDbtb.length; i += 2) {
+            if (kvDbtb[i] == null) {
+                brebk;
             }
-            else if (kvData[i].equals("selectionModel")) {
-                selectionModel = (SingleSelectionModel)kvData[i + 1];
+            else if (kvDbtb[i].equbls("selectionModel")) {
+                selectionModel = (SingleSelectionModel)kvDbtb[i + 1];
             }
         }
 

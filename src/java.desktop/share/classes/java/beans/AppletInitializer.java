@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.applet.Applet;
+import jbvb.bpplet.Applet;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bebns.bebncontext.BebnContext;
 
 /**
  * <p>
- * This interface is designed to work in collusion with java.beans.Beans.instantiate.
- * The interface is intended to provide mechanism to allow the proper
- * initialization of JavaBeans that are also Applets, during their
- * instantiation by java.beans.Beans.instantiate().
+ * This interfbce is designed to work in collusion with jbvb.bebns.Bebns.instbntibte.
+ * The interfbce is intended to provide mechbnism to bllow the proper
+ * initiblizbtion of JbvbBebns thbt bre blso Applets, during their
+ * instbntibtion by jbvb.bebns.Bebns.instbntibte().
  * </p>
  *
- * @see java.beans.Beans#instantiate
+ * @see jbvb.bebns.Bebns#instbntibte
  *
  * @since 1.2
  *
  */
 
 
-public interface AppletInitializer {
+public interfbce AppletInitiblizer {
 
     /**
      * <p>
-     * If passed to the appropriate variant of java.beans.Beans.instantiate
-     * this method will be called in order to associate the newly instantiated
-     * Applet (JavaBean) with its AppletContext, AppletStub, and Container.
+     * If pbssed to the bppropribte vbribnt of jbvb.bebns.Bebns.instbntibte
+     * this method will be cblled in order to bssocibte the newly instbntibted
+     * Applet (JbvbBebn) with its AppletContext, AppletStub, bnd Contbiner.
      * </p>
      * <p>
-     * Conformant implementations shall:
+     * Conformbnt implementbtions shbll:
      * <ol>
-     * <li> Associate the newly instantiated Applet with the appropriate
+     * <li> Associbte the newly instbntibted Applet with the bppropribte
      * AppletContext.
      *
-     * <li> Instantiate an AppletStub() and associate that AppletStub with
-     * the Applet via an invocation of setStub().
+     * <li> Instbntibte bn AppletStub() bnd bssocibte thbt AppletStub with
+     * the Applet vib bn invocbtion of setStub().
      *
-     * <li> If BeanContext parameter is null, then it shall associate the
-     * Applet with its appropriate Container by adding that Applet to its
-     * Container via an invocation of add(). If the BeanContext parameter is
-     * non-null, then it is the responsibility of the BeanContext to associate
-     * the Applet with its Container during the subsequent invocation of its
-     * addChildren() method.
+     * <li> If BebnContext pbrbmeter is null, then it shbll bssocibte the
+     * Applet with its bppropribte Contbiner by bdding thbt Applet to its
+     * Contbiner vib bn invocbtion of bdd(). If the BebnContext pbrbmeter is
+     * non-null, then it is the responsibility of the BebnContext to bssocibte
+     * the Applet with its Contbiner during the subsequent invocbtion of its
+     * bddChildren() method.
      * </ol>
      *
-     * @param newAppletBean  The newly instantiated JavaBean
-     * @param bCtxt          The BeanContext intended for this Applet, or
+     * @pbrbm newAppletBebn  The newly instbntibted JbvbBebn
+     * @pbrbm bCtxt          The BebnContext intended for this Applet, or
      *                       null.
      */
 
-    void initialize(Applet newAppletBean, BeanContext bCtxt);
+    void initiblize(Applet newAppletBebn, BebnContext bCtxt);
 
     /**
      * <p>
-     * Activate, and/or mark Applet active. Implementors of this interface
-     * shall mark this Applet as active, and optionally invoke its start()
+     * Activbte, bnd/or mbrk Applet bctive. Implementors of this interfbce
+     * shbll mbrk this Applet bs bctive, bnd optionblly invoke its stbrt()
      * method.
      * </p>
      *
-     * @param newApplet  The newly instantiated JavaBean
+     * @pbrbm newApplet  The newly instbntibted JbvbBebn
      */
 
-    void activate(Applet newApplet);
+    void bctivbte(Applet newApplet);
 }

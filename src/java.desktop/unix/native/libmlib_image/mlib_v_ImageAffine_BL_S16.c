@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
 /*
- *      The functions step along the lines from xLeft to xRight and apply
- *      the bilinear filtering.
+ *      The functions step blong the lines from xLeft to xRight bnd bpply
+ *      the bilinebr filtering.
  *
  */
 
 #include "vis_proto.h"
-#include "mlib_image.h"
-#include "mlib_ImageColormap.h"
-#include "mlib_ImageCopy.h"
-#include "mlib_ImageAffine.h"
-#include "mlib_v_ImageFilters.h"
-#include "mlib_v_ImageChannelExtract.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeColormbp.h"
+#include "mlib_ImbgeCopy.h"
+#include "mlib_ImbgeAffine.h"
+#include "mlib_v_ImbgeFilters.h"
+#include "mlib_v_ImbgeChbnnelExtrbct.h"
 
 /*#define MLIB_VIS2*/
 
 /***************************************************************/
 #define DTYPE mlib_s16
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_s16_##CHAN##_bl
+#define FUN_NAME(CHAN) mlib_ImbgeAffine_s16_##CHAN##_bl
 
 /***************************************************************/
-static mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param);
-static mlib_status FUN_NAME(4ch_na)(mlib_affine_param *param);
+stbtic mlib_stbtus FUN_NAME(2ch_nb)(mlib_bffine_pbrbm *pbrbm);
+stbtic mlib_stbtus FUN_NAME(4ch_nb)(mlib_bffine_pbrbm *pbrbm);
 
 /***************************************************************/
-const mlib_u64 mlib_dmask_arr[] = {
+const mlib_u64 mlib_dmbsk_brr[] = {
   0x0000000000000000, 0x000000000000FFFF, 0x00000000FFFF0000, 0x00000000FFFFFFFF,
   0x0000FFFF00000000, 0x0000FFFF0000FFFF, 0x0000FFFFFFFF0000, 0x0000FFFFFFFFFFFF,
   0xFFFF000000000000, 0xFFFF00000000FFFF, 0xFFFF0000FFFF0000, 0xFFFF0000FFFFFFFF,
@@ -63,30 +63,30 @@ const mlib_u64 mlib_dmask_arr[] = {
 
 /***************************************************************/
 #ifdef MLIB_VIS2
-#define MLIB_WRITE_BMASK(bmask) vis_write_bmask(bmask, 0)
+#define MLIB_WRITE_BMASK(bmbsk) vis_write_bmbsk(bmbsk, 0)
 #else
-#define MLIB_WRITE_BMASK(bmask)
+#define MLIB_WRITE_BMASK(bmbsk)
 #endif
 
 /***************************************************************/
 #undef  DECLAREVAR
 #define DECLAREVAR()                                            \
   DECLAREVAR0();                                                \
-  mlib_s32  *warp_tbl   = param -> warp_tbl;                    \
-  mlib_s32  srcYStride = param -> srcYStride;                   \
+  mlib_s32  *wbrp_tbl   = pbrbm -> wbrp_tbl;                    \
+  mlib_s32  srcYStride = pbrbm -> srcYStride;                   \
   mlib_u8   *dl;                                                \
   mlib_s32  i, size;                                            \
-  /*mlib_d64  mask_8000 = vis_to_double_dup(0x80008000);*/      \
-  mlib_d64  mask_7fff = vis_to_double_dup(0x7FFF7FFF);          \
-  mlib_d64  dx64, dy64, deltax, deltay, delta1_x, delta1_y;     \
+  /*mlib_d64  mbsk_8000 = vis_to_double_dup(0x80008000);*/      \
+  mlib_d64  mbsk_7fff = vis_to_double_dup(0x7FFF7FFF);          \
+  mlib_d64  dx64, dy64, deltbx, deltby, deltb1_x, deltb1_y;     \
   mlib_d64  s0, s1, s2, s3;                                     \
   mlib_d64  d0, d1, d2, d3, dd
 
 /***************************************************************/
 
-/* arguments (x, y) are swapped to prevent overflow */
+/* brguments (x, y) bre swbpped to prevent overflow */
 #define FMUL_16x16(x, y)                        \
-  vis_fpadd16(vis_fmul8sux16(y, x),             \
+  vis_fpbdd16(vis_fmul8sux16(y, x),             \
               vis_fmul8ulx16(y, x))
 
 /***************************************************************/
@@ -104,29 +104,29 @@ const mlib_u64 mlib_dmask_arr[] = {
   XOR_8000(s2);                                                 \
   XOR_8000(s3);                                                 \
                                                                 \
-  delta1_x = vis_fpsub16(mask_7fff, deltax);                    \
-  delta1_y = vis_fpsub16(mask_7fff, deltay);                    \
+  deltb1_x = vis_fpsub16(mbsk_7fff, deltbx);                    \
+  deltb1_y = vis_fpsub16(mbsk_7fff, deltby);                    \
                                                                 \
-  d0 = FMUL_16x16(s0, delta1_x);                                \
-  d1 = FMUL_16x16(s1, deltax);                                  \
-  d0 = vis_fpadd16(d0, d1);                                     \
-  d0 = vis_fpadd16(d0, d0);                                     \
-  d0 = FMUL_16x16(d0, delta1_y);                                \
+  d0 = FMUL_16x16(s0, deltb1_x);                                \
+  d1 = FMUL_16x16(s1, deltbx);                                  \
+  d0 = vis_fpbdd16(d0, d1);                                     \
+  d0 = vis_fpbdd16(d0, d0);                                     \
+  d0 = FMUL_16x16(d0, deltb1_y);                                \
                                                                 \
-  d2 = FMUL_16x16(s2, delta1_x);                                \
-  d3 = FMUL_16x16(s3, deltax);                                  \
-  d2 = vis_fpadd16(d2, d3);                                     \
-  d2 = vis_fpadd16(d2, d2);                                     \
-  d2 = FMUL_16x16(d2, deltay);                                  \
+  d2 = FMUL_16x16(s2, deltb1_x);                                \
+  d3 = FMUL_16x16(s3, deltbx);                                  \
+  d2 = vis_fpbdd16(d2, d3);                                     \
+  d2 = vis_fpbdd16(d2, d2);                                     \
+  d2 = FMUL_16x16(d2, deltby);                                  \
                                                                 \
-  dd = vis_fpadd16(d0, d2);                                     \
-  dd = vis_fpadd16(dd, dd);                                     \
+  dd = vis_fpbdd16(d0, d2);                                     \
+  dd = vis_fpbdd16(dd, dd);                                     \
   XOR_8000(dd);                                                 \
                                                                 \
-  deltax = vis_fpadd16(deltax, dx64);                           \
-  deltay = vis_fpadd16(deltay, dy64);                           \
-  deltax = vis_fand(deltax, mask_7fff);                         \
-  deltay = vis_fand(deltay, mask_7fff)
+  deltbx = vis_fpbdd16(deltbx, dx64);                           \
+  deltby = vis_fpbdd16(deltby, dy64);                           \
+  deltbx = vis_fbnd(deltbx, mbsk_7fff);                         \
+  deltby = vis_fbnd(deltby, mbsk_7fff)
 
 /***************************************************************/
 #define BL_SUM_3CH()                                            \
@@ -135,31 +135,31 @@ const mlib_u64 mlib_dmask_arr[] = {
   XOR_8000(s2);                                                 \
   XOR_8000(s3);                                                 \
                                                                 \
-  delta1_x = vis_fpsub16(mask_7fff, deltax);                    \
-  delta1_y = vis_fpsub16(mask_7fff, deltay);                    \
+  deltb1_x = vis_fpsub16(mbsk_7fff, deltbx);                    \
+  deltb1_y = vis_fpsub16(mbsk_7fff, deltby);                    \
                                                                 \
-  d0 = FMUL_16x16(s0, delta1_y);                                \
-  d2 = FMUL_16x16(s2, deltay);                                  \
-  d0 = vis_fpadd16(d0, d2);                                     \
-  d0 = vis_fpadd16(d0, d0);                                     \
-  d0 = FMUL_16x16(d0, delta1_x);                                \
+  d0 = FMUL_16x16(s0, deltb1_y);                                \
+  d2 = FMUL_16x16(s2, deltby);                                  \
+  d0 = vis_fpbdd16(d0, d2);                                     \
+  d0 = vis_fpbdd16(d0, d0);                                     \
+  d0 = FMUL_16x16(d0, deltb1_x);                                \
                                                                 \
-  d1 = FMUL_16x16(s1, delta1_y);                                \
-  d3 = FMUL_16x16(s3, deltay);                                  \
-  d1 = vis_fpadd16(d1, d3);                                     \
-  d1 = vis_fpadd16(d1, d1);                                     \
-  d1 = FMUL_16x16(d1, deltax);                                  \
+  d1 = FMUL_16x16(s1, deltb1_y);                                \
+  d3 = FMUL_16x16(s3, deltby);                                  \
+  d1 = vis_fpbdd16(d1, d3);                                     \
+  d1 = vis_fpbdd16(d1, d1);                                     \
+  d1 = FMUL_16x16(d1, deltbx);                                  \
                                                                 \
-  vis_alignaddr((void*)0, 2);                                   \
-  d0 = vis_faligndata(d0, d0);                                  \
-  dd = vis_fpadd16(d0, d1);                                     \
-  dd = vis_fpadd16(dd, dd);                                     \
+  vis_blignbddr((void*)0, 2);                                   \
+  d0 = vis_fbligndbtb(d0, d0);                                  \
+  dd = vis_fpbdd16(d0, d1);                                     \
+  dd = vis_fpbdd16(dd, dd);                                     \
   XOR_8000(dd);                                                 \
                                                                 \
-  deltax = vis_fpadd16(deltax, dx64);                           \
-  deltay = vis_fpadd16(deltay, dy64);                           \
-  deltax = vis_fand(deltax, mask_7fff);                         \
-  deltay = vis_fand(deltay, mask_7fff)
+  deltbx = vis_fpbdd16(deltbx, dx64);                           \
+  deltby = vis_fpbdd16(deltby, dy64);                           \
+  deltbx = vis_fbnd(deltbx, mbsk_7fff);                         \
+  deltby = vis_fbnd(deltby, mbsk_7fff)
 
 /***************************************************************/
 #define LD_U16(sp, ind) vis_ld_u16(sp + ind)
@@ -168,25 +168,25 @@ const mlib_u64 mlib_dmask_arr[] = {
 #ifndef MLIB_VIS2
 
 #define LOAD_1CH()                                              \
-  s0 = vis_faligndata(LD_U16(sp3, 0), mask_7fff);               \
-  s1 = vis_faligndata(LD_U16(sp3, 2), mask_7fff);               \
-  s2 = vis_faligndata(LD_U16(sp3, srcYStride), mask_7fff);      \
-  s3 = vis_faligndata(LD_U16(sp3, srcYStride + 2), mask_7fff);  \
+  s0 = vis_fbligndbtb(LD_U16(sp3, 0), mbsk_7fff);               \
+  s1 = vis_fbligndbtb(LD_U16(sp3, 2), mbsk_7fff);               \
+  s2 = vis_fbligndbtb(LD_U16(sp3, srcYStride), mbsk_7fff);      \
+  s3 = vis_fbligndbtb(LD_U16(sp3, srcYStride + 2), mbsk_7fff);  \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp2, 0), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp2, 2), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp2, srcYStride), s2);             \
-  s3 = vis_faligndata(LD_U16(sp2, srcYStride + 2), s3);         \
+  s0 = vis_fbligndbtb(LD_U16(sp2, 0), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp2, 2), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp2, srcYStride), s2);             \
+  s3 = vis_fbligndbtb(LD_U16(sp2, srcYStride + 2), s3);         \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp1, 0), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp1, 2), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp1, srcYStride), s2);             \
-  s3 = vis_faligndata(LD_U16(sp1, srcYStride + 2), s3);         \
+  s0 = vis_fbligndbtb(LD_U16(sp1, 0), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp1, 2), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp1, srcYStride), s2);             \
+  s3 = vis_fbligndbtb(LD_U16(sp1, srcYStride + 2), s3);         \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp0, 0), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp0, 2), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp0, srcYStride), s2);             \
-  s3 = vis_faligndata(LD_U16(sp0, srcYStride + 2), s3)
+  s0 = vis_fbligndbtb(LD_U16(sp0, 0), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp0, 2), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp0, srcYStride), s2);             \
+  s3 = vis_fbligndbtb(LD_U16(sp0, srcYStride + 2), s3)
 
 #else
 
@@ -217,32 +217,32 @@ const mlib_u64 mlib_dmask_arr[] = {
 /***************************************************************/
 #undef  PREPARE_DELTAS
 #define PREPARE_DELTAS                                                             \
-  if (warp_tbl != NULL) {                                                          \
-    dX = warp_tbl[2*j    ];                                                        \
-    dY = warp_tbl[2*j + 1];                                                        \
+  if (wbrp_tbl != NULL) {                                                          \
+    dX = wbrp_tbl[2*j    ];                                                        \
+    dY = wbrp_tbl[2*j + 1];                                                        \
     dx64 = vis_to_double_dup((((dX << 1) & 0xFFFF) << 16) | ((dX << 1) & 0xFFFF)); \
     dy64 = vis_to_double_dup((((dY << 1) & 0xFFFF) << 16) | ((dY << 1) & 0xFFFF)); \
   }
 
 /***************************************************************/
-mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(1ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   mlib_s32 off;
   mlib_s32 x0, x1, x2, x3, y0, y1, y2, y3;
 #ifdef MLIB_VIS2
   mlib_d64 t0, t1, t2, t3;
-  vis_write_bmask(0x45CD67EF, 0);
+  vis_write_bmbsk(0x45CD67EF, 0);
 #else
-  vis_alignaddr((void*)0, 6);
+  vis_blignbddr((void*)0, 6);
 #endif
 
   dx64 = vis_to_double_dup((((dX << 1) & 0xFFFF) << 16) | ((dX << 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY << 1) & 0xFFFF) << 16) | ((dY << 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8  *sp0, *sp1, *sp2, *sp3;
-    mlib_d64 *dp, dmask;
+    mlib_d64 *dp, dmbsk;
 
     NEW_LINE(1);
 
@@ -255,11 +255,11 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
     x2 = x1 + dX;    y2 = y1 + dY;
     x3 = x2 + dX;    y3 = y2 + dY;
 
-    deltax = DOUBLE_4U16(x0, x1, x2, x3);
-    deltay = DOUBLE_4U16(y0, y1, y2, y3);
+    deltbx = DOUBLE_4U16(x0, x1, x2, x3);
+    deltby = DOUBLE_4U16(y0, y1, y2, y3);
 
     if (off) {
-      mlib_s32 emask = vis_edge16((void*)(2*off), (void*)(2*(off + size - 1)));
+      mlib_s32 embsk = vis_edge16((void*)(2*off), (void*)(2*(off + size - 1)));
 
       off = 4 - off;
       GET_POINTER(sp3);
@@ -280,15 +280,15 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
       LOAD_1CH();
       BL_SUM();
 
-      dmask = ((mlib_d64*)mlib_dmask_arr)[emask];
-      *dp++ = vis_for (vis_fand(dmask, dd), vis_fandnot(dmask, dp[0]));
+      dmbsk = ((mlib_d64*)mlib_dmbsk_brr)[embsk];
+      *dp++ = vis_for (vis_fbnd(dmbsk, dd), vis_fbndnot(dmbsk, dp[0]));
 
       size -= off;
 
       if (size < 0) size = 0;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size/4; i++) {
       GET_POINTER(sp0);
       GET_POINTER(sp1);
@@ -318,8 +318,8 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
       LOAD_1CH();
       BL_SUM();
 
-      dmask = ((mlib_d64*)mlib_dmask_arr)[(0xF0 >> off) & 0x0F];
-      dp[i] = vis_for (vis_fand(dmask, dd), vis_fandnot(dmask, dp[i]));
+      dmbsk = ((mlib_d64*)mlib_dmbsk_brr)[(0xF0 >> off) & 0x0F];
+      dp[i] = vis_for (vis_fbnd(dmbsk, dd), vis_fbndnot(dmbsk, dp[i]));
     }
   }
 
@@ -335,30 +335,30 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
 
 /***************************************************************/
 #define LOAD_2CH()                                              \
-  s0 = vis_freg_pair(sp0[0], sp1[0]);                           \
-  s1 = vis_freg_pair(sp0[1], sp1[1]);                           \
-  s2 = vis_freg_pair(sp0[srcYStride], sp1[srcYStride]);         \
-  s3 = vis_freg_pair(sp0[srcYStride + 1], sp1[srcYStride + 1])
+  s0 = vis_freg_pbir(sp0[0], sp1[0]);                           \
+  s1 = vis_freg_pbir(sp0[1], sp1[1]);                           \
+  s2 = vis_freg_pbir(sp0[srcYStride], sp1[srcYStride]);         \
+  s3 = vis_freg_pbir(sp0[srcYStride + 1], sp1[srcYStride + 1])
 
 /***************************************************************/
 #undef  PREPARE_DELTAS
 #define PREPARE_DELTAS                                               \
-  if (warp_tbl != NULL) {                                            \
-    dX = warp_tbl[2*j    ];                                          \
-    dY = warp_tbl[2*j + 1];                                          \
+  if (wbrp_tbl != NULL) {                                            \
+    dX = wbrp_tbl[2*j    ];                                          \
+    dY = wbrp_tbl[2*j + 1];                                          \
     dx64 = vis_to_double_dup(((dX & 0xFFFF) << 16) | (dX & 0xFFFF)); \
     dy64 = vis_to_double_dup(((dY & 0xFFFF) << 16) | (dY & 0xFFFF)); \
   }
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   mlib_s32 off;
   mlib_s32 x0, x1, y0, y1;
 
-  if (((mlib_s32)lineAddr[0] | (mlib_s32)dstData | srcYStride | dstYStride) & 3) {
-    return FUN_NAME(2ch_na)(param);
+  if (((mlib_s32)lineAddr[0] | (mlib_s32)dstDbtb | srcYStride | dstYStride) & 3) {
+    return FUN_NAME(2ch_nb)(pbrbm);
   }
 
   srcYStride >>= 2;
@@ -366,7 +366,7 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
   dx64 = vis_to_double_dup(((dX & 0xFFFF) << 16) | (dX & 0xFFFF));
   dy64 = vis_to_double_dup(((dY & 0xFFFF) << 16) | (dY & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_f32 *sp0, *sp1;
     mlib_d64 *dp;
 
@@ -383,8 +383,8 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
       x1 = X + dX; y1 = Y + dY;
     }
 
-    deltax = DOUBLE_4U16(x0, x0, x1, x1);
-    deltay = DOUBLE_4U16(y0, y0, y1, y1);
+    deltbx = DOUBLE_4U16(x0, x0, x1, x1);
+    deltby = DOUBLE_4U16(y0, y0, y1, y1);
 
     if (off) {
       GET_POINTER(sp1);
@@ -393,12 +393,12 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 
       BL_SUM();
 
-      ((mlib_f32*)dp)[1] = vis_read_lo(dd);
+      ((mlib_f32*)dp)[1] = vis_rebd_lo(dd);
       dp++;
       size--;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size/2; i++) {
       GET_POINTER(sp0);
       GET_POINTER(sp1);
@@ -416,7 +416,7 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 
       BL_SUM();
 
-      ((mlib_f32*)dp)[0] = vis_read_hi(dd);
+      ((mlib_f32*)dp)[0] = vis_rebd_hi(dd);
     }
   }
 
@@ -434,25 +434,25 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 #ifndef MLIB_VIS2
 
 #define LOAD_2CH_NA()                                           \
-  s0 = vis_faligndata(LD_U16(sp1, 2), mask_7fff);               \
-  s1 = vis_faligndata(LD_U16(sp1, 6), mask_7fff);               \
-  s2 = vis_faligndata(LD_U16(sp1, srcYStride + 2), mask_7fff);  \
-  s3 = vis_faligndata(LD_U16(sp1, srcYStride + 6), mask_7fff);  \
+  s0 = vis_fbligndbtb(LD_U16(sp1, 2), mbsk_7fff);               \
+  s1 = vis_fbligndbtb(LD_U16(sp1, 6), mbsk_7fff);               \
+  s2 = vis_fbligndbtb(LD_U16(sp1, srcYStride + 2), mbsk_7fff);  \
+  s3 = vis_fbligndbtb(LD_U16(sp1, srcYStride + 6), mbsk_7fff);  \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp1, 0), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp1, 4), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp1, srcYStride), s2);             \
-  s3 = vis_faligndata(LD_U16(sp1, srcYStride + 4), s3);         \
+  s0 = vis_fbligndbtb(LD_U16(sp1, 0), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp1, 4), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp1, srcYStride), s2);             \
+  s3 = vis_fbligndbtb(LD_U16(sp1, srcYStride + 4), s3);         \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp0, 2), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp0, 6), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp0, srcYStride + 2), s2);         \
-  s3 = vis_faligndata(LD_U16(sp0, srcYStride + 6), s3);         \
+  s0 = vis_fbligndbtb(LD_U16(sp0, 2), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp0, 6), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp0, srcYStride + 2), s2);         \
+  s3 = vis_fbligndbtb(LD_U16(sp0, srcYStride + 6), s3);         \
                                                                 \
-  s0 = vis_faligndata(LD_U16(sp0, 0), s0);                      \
-  s1 = vis_faligndata(LD_U16(sp0, 4), s1);                      \
-  s2 = vis_faligndata(LD_U16(sp0, srcYStride), s2);             \
-  s3 = vis_faligndata(LD_U16(sp0, srcYStride + 4), s3)
+  s0 = vis_fbligndbtb(LD_U16(sp0, 0), s0);                      \
+  s1 = vis_fbligndbtb(LD_U16(sp0, 4), s1);                      \
+  s2 = vis_fbligndbtb(LD_U16(sp0, srcYStride), s2);             \
+  s3 = vis_fbligndbtb(LD_U16(sp0, srcYStride + 4), s3)
 
 #else
 
@@ -475,20 +475,20 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 #endif
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2ch_nb)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  mlib_s32 max_xsize = param -> max_xsize, bsize;
+  mlib_s32 mbx_xsize = pbrbm -> mbx_xsize, bsize;
   mlib_s32 x0, x1, y0, y1;
   mlib_d64 buff[BUF_SIZE], *pbuff = buff;
 #ifdef MLIB_VIS2
   mlib_d64 t0, t1, t2, t3;
 #endif
 
-  bsize = (max_xsize + 1)/2;
+  bsize = (mbx_xsize + 1)/2;
 
   if (bsize > BUF_SIZE) {
-    pbuff = mlib_malloc(bsize*sizeof(mlib_d64));
+    pbuff = mlib_mblloc(bsize*sizeof(mlib_d64));
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -498,11 +498,11 @@ mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param)
   dx64 = vis_to_double_dup(((dX & 0xFFFF) << 16) | (dX & 0xFFFF));
   dy64 = vis_to_double_dup(((dY & 0xFFFF) << 16) | (dY & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8 *sp0, *sp1;
 
 #ifndef MLIB_VIS2
-    vis_alignaddr((void*)0, 6);
+    vis_blignbddr((void*)0, 6);
 #endif
 
     NEW_LINE(2);
@@ -510,10 +510,10 @@ mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param)
     x0 = X;      y0 = Y;
     x1 = X + dX; y1 = Y + dY;
 
-    deltax = DOUBLE_4U16(x0, x0, x1, x1);
-    deltay = DOUBLE_4U16(y0, y0, y1, y1);
+    deltbx = DOUBLE_4U16(x0, x0, x1, x1);
+    deltby = DOUBLE_4U16(y0, y0, y1, y1);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size/2; i++) {
       GET_POINTER(sp0);
       GET_POINTER(sp1);
@@ -534,7 +534,7 @@ mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param)
       pbuff[i] = dd;
     }
 
-    mlib_ImageCopy_na((mlib_u8*)pbuff, dl, 4*size);
+    mlib_ImbgeCopy_nb((mlib_u8*)pbuff, dl, 4*size);
   }
 
   if (pbuff != buff) {
@@ -547,55 +547,55 @@ mlib_status FUN_NAME(2ch_na)(mlib_affine_param *param)
 /***************************************************************/
 #undef  PREPARE_DELTAS
 #define PREPARE_DELTAS                                                             \
-  if (warp_tbl != NULL) {                                                          \
-    dX = warp_tbl[2*j    ];                                                        \
-    dY = warp_tbl[2*j + 1];                                                        \
-    dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */                       \
-    dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */                       \
+  if (wbrp_tbl != NULL) {                                                          \
+    dX = wbrp_tbl[2*j    ];                                                        \
+    dY = wbrp_tbl[2*j + 1];                                                        \
+    dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */                       \
+    dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */                       \
     dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF)); \
     dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF)); \
   }
 
 /***************************************************************/
-mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(3ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  mlib_s32 max_xsize = param -> max_xsize;
+  mlib_s32 mbx_xsize = pbrbm -> mbx_xsize;
   mlib_d64 buff[BUF_SIZE], *pbuff = buff;
 
-  if (max_xsize > BUF_SIZE) {
-    pbuff = mlib_malloc(max_xsize*sizeof(mlib_d64));
+  if (mbx_xsize > BUF_SIZE) {
+    pbuff = mlib_mblloc(mbx_xsize*sizeof(mlib_d64));
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
 
-  dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */
-  dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */
+  dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */
+  dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */
   dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8  *sp;
     mlib_d64 *sp0, *sp1;
 
     NEW_LINE(3);
 
-    deltax = DOUBLE_4U16(X, X, X, X);
-    deltay = DOUBLE_4U16(Y, Y, Y, Y);
+    deltbx = DOUBLE_4U16(X, X, X, X);
+    deltby = DOUBLE_4U16(Y, Y, Y, Y);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       sp = *(mlib_u8**)((mlib_u8*)lineAddr + PTR_SHIFT(Y)) + 6*(X >> MLIB_SHIFT) - 2;
 
-      vis_alignaddr(sp, 0);
+      vis_blignbddr(sp, 0);
       sp0 = AL_ADDR(sp, 0);
-      s0 = vis_faligndata(sp0[0], sp0[1]);
-      s1 = vis_faligndata(sp0[1], sp0[2]);
+      s0 = vis_fbligndbtb(sp0[0], sp0[1]);
+      s1 = vis_fbligndbtb(sp0[1], sp0[2]);
 
-      vis_alignaddr(sp, srcYStride);
+      vis_blignbddr(sp, srcYStride);
       sp1 = AL_ADDR(sp, srcYStride);
-      s2 = vis_faligndata(sp1[0], sp1[1]);
-      s3 = vis_faligndata(sp1[1], sp1[2]);
+      s2 = vis_fbligndbtb(sp1[0], sp1[1]);
+      s3 = vis_fbligndbtb(sp1[1], sp1[2]);
 
       BL_SUM_3CH();
 
@@ -604,7 +604,7 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
       Y += dY;
     }
 
-    mlib_v_ImageChannelExtract_S16_43L_D1((void *)pbuff, (void *)dl, size);
+    mlib_v_ImbgeChbnnelExtrbct_S16_43L_D1((void *)pbuff, (void *)dl, size);
   }
 
   if (pbuff != buff) {
@@ -615,30 +615,30 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
 
-  if (((mlib_s32)lineAddr[0] | (mlib_s32)dstData | srcYStride | dstYStride) & 7) {
-    return FUN_NAME(4ch_na)(param);
+  if (((mlib_s32)lineAddr[0] | (mlib_s32)dstDbtb | srcYStride | dstYStride) & 7) {
+    return FUN_NAME(4ch_nb)(pbrbm);
   }
 
   srcYStride >>= 3;
 
-  dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */
-  dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */
+  dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */
+  dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */
   dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_d64 *sp;
 
     NEW_LINE(4);
 
-    deltax = DOUBLE_4U16(X, X, X, X);
-    deltay = DOUBLE_4U16(Y, Y, Y, Y);
+    deltbx = DOUBLE_4U16(X, X, X, X);
+    deltby = DOUBLE_4U16(Y, Y, Y, Y);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       sp = *(mlib_d64**)((mlib_u8*)lineAddr + PTR_SHIFT(Y)) + (X >> MLIB_SHIFT);
       s0 = sp[0];
@@ -658,45 +658,45 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch_na)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4ch_nb)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  mlib_s32 max_xsize = param -> max_xsize;
+  mlib_s32 mbx_xsize = pbrbm -> mbx_xsize;
   mlib_d64 buff[BUF_SIZE], *pbuff = buff;
 
-  if (max_xsize > BUF_SIZE) {
-    pbuff = mlib_malloc(max_xsize*sizeof(mlib_d64));
+  if (mbx_xsize > BUF_SIZE) {
+    pbuff = mlib_mblloc(mbx_xsize*sizeof(mlib_d64));
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
 
-  dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */
-  dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */
+  dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */
+  dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */
   dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8  *sp;
     mlib_d64 *sp0, *sp1;
 
     NEW_LINE(4);
 
-    deltax = DOUBLE_4U16(X, X, X, X);
-    deltay = DOUBLE_4U16(Y, Y, Y, Y);
+    deltbx = DOUBLE_4U16(X, X, X, X);
+    deltby = DOUBLE_4U16(Y, Y, Y, Y);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       sp = *(mlib_u8**)((mlib_u8*)lineAddr + PTR_SHIFT(Y)) + 8*(X >> MLIB_SHIFT);
 
-      vis_alignaddr(sp, 0);
+      vis_blignbddr(sp, 0);
       sp0 = AL_ADDR(sp, 0);
-      s0 = vis_faligndata(sp0[0], sp0[1]);
-      s1 = vis_faligndata(sp0[1], sp0[2]);
+      s0 = vis_fbligndbtb(sp0[0], sp0[1]);
+      s1 = vis_fbligndbtb(sp0[1], sp0[2]);
 
-      vis_alignaddr(sp, srcYStride);
+      vis_blignbddr(sp, srcYStride);
       sp1 = AL_ADDR(sp, srcYStride);
-      s2 = vis_faligndata(sp1[0], sp1[1]);
-      s3 = vis_faligndata(sp1[1], sp1[2]);
+      s2 = vis_fbligndbtb(sp1[0], sp1[1]);
+      s3 = vis_fbligndbtb(sp1[1], sp1[2]);
 
       BL_SUM();
 
@@ -705,7 +705,7 @@ mlib_status FUN_NAME(4ch_na)(mlib_affine_param *param)
       Y += dY;
     }
 
-    mlib_ImageCopy_na((mlib_u8*)pbuff, dl, 8*size);
+    mlib_ImbgeCopy_nb((mlib_u8*)pbuff, dl, 8*size);
   }
 
   if (pbuff != buff) {
@@ -718,38 +718,38 @@ mlib_status FUN_NAME(4ch_na)(mlib_affine_param *param)
 /***************************************************************/
 #define LUT(x)  plut[x]
 
-mlib_status FUN_NAME(s16_i)(mlib_affine_param *param,
-                            const void        *colormap)
+mlib_stbtus FUN_NAME(s16_i)(mlib_bffine_pbrbm *pbrbm,
+                            const void        *colormbp)
 {
   DECLAREVAR();
-  mlib_s32 nchan   = mlib_ImageGetLutChannels(colormap);
-  mlib_s32 lut_off = mlib_ImageGetLutOffset(colormap);
-  mlib_d64 *plut = (mlib_d64*)mlib_ImageGetLutNormalTable(colormap) - lut_off;
-  mlib_s32 max_xsize = param -> max_xsize;
+  mlib_s32 nchbn   = mlib_ImbgeGetLutChbnnels(colormbp);
+  mlib_s32 lut_off = mlib_ImbgeGetLutOffset(colormbp);
+  mlib_d64 *plut = (mlib_d64*)mlib_ImbgeGetLutNormblTbble(colormbp) - lut_off;
+  mlib_s32 mbx_xsize = pbrbm -> mbx_xsize;
   mlib_d64 buff[BUF_SIZE], *pbuff = buff;
 
   srcYStride /= sizeof(DTYPE);
 
-  if (max_xsize > BUF_SIZE) {
-    pbuff = mlib_malloc(max_xsize*sizeof(mlib_d64));
+  if (mbx_xsize > BUF_SIZE) {
+    pbuff = mlib_mblloc(mbx_xsize*sizeof(mlib_d64));
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
 
-  dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */
-  dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */
+  dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */
+  dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */
   dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE *sp;
 
     NEW_LINE(1);
 
-    deltax = DOUBLE_4U16(X, X, X, X);
-    deltay = DOUBLE_4U16(Y, Y, Y, Y);
+    deltbx = DOUBLE_4U16(X, X, X, X);
+    deltby = DOUBLE_4U16(Y, Y, Y, Y);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       sp = *(DTYPE**)((mlib_u8*)lineAddr + PTR_SHIFT(Y)) + (X >> MLIB_SHIFT);
       s0 = LUT(sp[0]);
@@ -764,10 +764,10 @@ mlib_status FUN_NAME(s16_i)(mlib_affine_param *param,
       Y += dY;
     }
 
-    if (nchan == 3) {
-      mlib_ImageColorTrue2IndexLine_S16_S16_3_in_4((void*)pbuff, (void*)dl, size, colormap);
+    if (nchbn == 3) {
+      mlib_ImbgeColorTrue2IndexLine_S16_S16_3_in_4((void*)pbuff, (void*)dl, size, colormbp);
     } else {
-      mlib_ImageColorTrue2IndexLine_S16_S16_4((void*)pbuff, (void*)dl, size, colormap);
+      mlib_ImbgeColorTrue2IndexLine_S16_S16_4((void*)pbuff, (void*)dl, size, colormbp);
     }
   }
 
@@ -782,36 +782,36 @@ mlib_status FUN_NAME(s16_i)(mlib_affine_param *param,
 #undef  DTYPE
 #define DTYPE mlib_u8
 
-mlib_status FUN_NAME(u8_i)(mlib_affine_param *param,
-                           const void        *colormap)
+mlib_stbtus FUN_NAME(u8_i)(mlib_bffine_pbrbm *pbrbm,
+                           const void        *colormbp)
 {
   DECLAREVAR();
-  mlib_s32 nchan   = mlib_ImageGetLutChannels(colormap);
-  mlib_s32 lut_off = mlib_ImageGetLutOffset(colormap);
-  mlib_d64 *plut = (mlib_d64*)mlib_ImageGetLutNormalTable(colormap) - lut_off;
-  mlib_s32 max_xsize = param -> max_xsize;
+  mlib_s32 nchbn   = mlib_ImbgeGetLutChbnnels(colormbp);
+  mlib_s32 lut_off = mlib_ImbgeGetLutOffset(colormbp);
+  mlib_d64 *plut = (mlib_d64*)mlib_ImbgeGetLutNormblTbble(colormbp) - lut_off;
+  mlib_s32 mbx_xsize = pbrbm -> mbx_xsize;
   mlib_d64 buff[BUF_SIZE], *pbuff = buff;
 
-  if (max_xsize > BUF_SIZE) {
-    pbuff = mlib_malloc(max_xsize*sizeof(mlib_d64));
+  if (mbx_xsize > BUF_SIZE) {
+    pbuff = mlib_mblloc(mbx_xsize*sizeof(mlib_d64));
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
 
-  dX = (dX - (dX >> 31)) &~ 1; /* rounding towards ZERO */
-  dY = (dY - (dY >> 31)) &~ 1; /* rounding towards ZERO */
+  dX = (dX - (dX >> 31)) &~ 1; /* rounding towbrds ZERO */
+  dY = (dY - (dY >> 31)) &~ 1; /* rounding towbrds ZERO */
   dx64 = vis_to_double_dup((((dX >> 1) & 0xFFFF) << 16) | ((dX >> 1) & 0xFFFF));
   dy64 = vis_to_double_dup((((dY >> 1) & 0xFFFF) << 16) | ((dY >> 1) & 0xFFFF));
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE *sp;
 
     NEW_LINE(1);
 
-    deltax = DOUBLE_4U16(X, X, X, X);
-    deltay = DOUBLE_4U16(Y, Y, Y, Y);
+    deltbx = DOUBLE_4U16(X, X, X, X);
+    deltby = DOUBLE_4U16(Y, Y, Y, Y);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       sp = *(DTYPE**)((mlib_u8*)lineAddr + PTR_SHIFT(Y)) + (X >> MLIB_SHIFT);
       s0 = LUT(sp[0]);
@@ -826,10 +826,10 @@ mlib_status FUN_NAME(u8_i)(mlib_affine_param *param,
       Y += dY;
     }
 
-    if (nchan == 3) {
-      mlib_ImageColorTrue2IndexLine_S16_U8_3_in_4((void*)pbuff, (void*)dl, size, colormap);
+    if (nchbn == 3) {
+      mlib_ImbgeColorTrue2IndexLine_S16_U8_3_in_4((void*)pbuff, (void*)dl, size, colormbp);
     } else {
-      mlib_ImageColorTrue2IndexLine_S16_U8_4((void*)pbuff, (void*)dl, size, colormap);
+      mlib_ImbgeColorTrue2IndexLine_S16_U8_4((void*)pbuff, (void*)dl, size, colormbp);
     }
   }
 

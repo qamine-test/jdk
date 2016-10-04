@@ -1,589 +1,589 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 /**
- * A <code>JWindow</code> is a container that can be displayed anywhere on the
- * user's desktop. It does not have the title bar, window-management buttons,
- * or other trimmings associated with a <code>JFrame</code>, but it is still a
- * "first-class citizen" of the user's desktop, and can exist anywhere
+ * A <code>JWindow</code> is b contbiner thbt cbn be displbyed bnywhere on the
+ * user's desktop. It does not hbve the title bbr, window-mbnbgement buttons,
+ * or other trimmings bssocibted with b <code>JFrbme</code>, but it is still b
+ * "first-clbss citizen" of the user's desktop, bnd cbn exist bnywhere
  * on it.
  * <p>
- * The <code>JWindow</code> component contains a <code>JRootPane</code>
- * as its only child.  The <code>contentPane</code> should be the parent
- * of any children of the <code>JWindow</code>.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a window as follows:
+ * The <code>JWindow</code> component contbins b <code>JRootPbne</code>
+ * bs its only child.  The <code>contentPbne</code> should be the pbrent
+ * of bny children of the <code>JWindow</code>.
+ * As b convenience, the {@code bdd}, {@code remove}, bnd {@code setLbyout}
+ * methods of this clbss bre overridden, so thbt they delegbte cblls
+ * to the corresponding methods of the {@code ContentPbne}.
+ * For exbmple, you cbn bdd b child component to b window bs follows:
  * <pre>
- *       window.add(child);
+ *       window.bdd(child);
  * </pre>
- * And the child will be added to the contentPane.
- * The <code>contentPane</code> will always be non-<code>null</code>.
- * Attempting to set it to <code>null</code> will cause the <code>JWindow</code>
- * to throw an exception. The default <code>contentPane</code> will have a
- * <code>BorderLayout</code> manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JWindow</code>.
+ * And the child will be bdded to the contentPbne.
+ * The <code>contentPbne</code> will blwbys be non-<code>null</code>.
+ * Attempting to set it to <code>null</code> will cbuse the <code>JWindow</code>
+ * to throw bn exception. The defbult <code>contentPbne</code> will hbve b
+ * <code>BorderLbyout</code> mbnbger set on it.
+ * Refer to {@link jbvbx.swing.RootPbneContbiner}
+ * for detbils on bdding, removing bnd setting the <code>LbyoutMbnbger</code>
+ * of b <code>JWindow</code>.
  * <p>
- * Please see the {@link JRootPane} documentation for a complete description of
- * the <code>contentPane</code>, <code>glassPane</code>, and
- * <code>layeredPane</code> components.
+ * Plebse see the {@link JRootPbne} documentbtion for b complete description of
+ * the <code>contentPbne</code>, <code>glbssPbne</code>, bnd
+ * <code>lbyeredPbne</code> components.
  * <p>
- * In a multi-screen environment, you can create a <code>JWindow</code>
- * on a different screen device.  See {@link java.awt.Window} for more
- * information.
+ * In b multi-screen environment, you cbn crebte b <code>JWindow</code>
+ * on b different screen device.  See {@link jbvb.bwt.Window} for more
+ * informbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JRootPane
+ * @see JRootPbne
  *
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: A toplevel window which has no system border or controls.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *      bttribute: contbinerDelegbte getContentPbne
+ *    description: A toplevel window which hbs no system border or controls.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JWindow extends Window implements Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+@SuppressWbrnings("seribl")
+public clbss JWindow extends Window implements Accessible,
+                                               RootPbneContbiner,
+                               TrbnsferHbndler.HbsGetTrbnsferHbndler
 {
     /**
-     * The <code>JRootPane</code> instance that manages the
-     * <code>contentPane</code>
-     * and optional <code>menuBar</code> for this frame, as well as the
-     * <code>glassPane</code>.
+     * The <code>JRootPbne</code> instbnce thbt mbnbges the
+     * <code>contentPbne</code>
+     * bnd optionbl <code>menuBbr</code> for this frbme, bs well bs the
+     * <code>glbssPbne</code>.
      *
-     * @see #getRootPane
-     * @see #setRootPane
+     * @see #getRootPbne
+     * @see #setRootPbne
      */
-    protected JRootPane rootPane;
+    protected JRootPbne rootPbne;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JWindow</code> is constructed.
+     * If true then cblls to <code>bdd</code> bnd <code>setLbyout</code>
+     * will be forwbrded to the <code>contentPbne</code>. This is initiblly
+     * fblse, but is set to true when the <code>JWindow</code> is constructed.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #isRootPbneCheckingEnbbled
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protected boolebn rootPbneCheckingEnbbled = fblse;
 
     /**
-     * The <code>TransferHandler</code> for this window.
+     * The <code>TrbnsferHbndler</code> for this window.
      */
-    private TransferHandler transferHandler;
+    privbte TrbnsferHbndler trbnsferHbndler;
 
     /**
-     * Creates a window with no specified owner. This window will not be
-     * focusable.
+     * Crebtes b window with no specified owner. This window will not be
+     * focusbble.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @throws HebdlessException if
+     *         <code>GrbphicsEnvironment.isHebdless()</code> returns true.
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #isFocusbbleWindow
+     * @see JComponent#getDefbultLocble
      */
     public JWindow() {
-        this((Frame)null);
+        this((Frbme)null);
     }
 
     /**
-     * Creates a window with the specified <code>GraphicsConfiguration</code>
-     * of a screen device. This window will not be focusable.
+     * Crebtes b window with the specified <code>GrbphicsConfigurbtion</code>
+     * of b screen device. This window will not be focusbble.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param gc the <code>GraphicsConfiguration</code> that is used
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> thbt is used
      *          to construct the new window with; if gc is <code>null</code>,
-     *          the system default <code>GraphicsConfiguration</code>
-     *          is assumed
-     * @throws HeadlessException If
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @throws IllegalArgumentException if <code>gc</code> is not from
-     *         a screen device.
+     *          the system defbult <code>GrbphicsConfigurbtion</code>
+     *          is bssumed
+     * @throws HebdlessException If
+     *         <code>GrbphicsEnvironment.isHebdless()</code> returns true.
+     * @throws IllegblArgumentException if <code>gc</code> is not from
+     *         b screen device.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #isFocusbbleWindow
+     * @see JComponent#getDefbultLocble
      *
      * @since  1.3
      */
-    public JWindow(GraphicsConfiguration gc) {
+    public JWindow(GrbphicsConfigurbtion gc) {
         this(null, gc);
-        super.setFocusableWindowState(false);
+        super.setFocusbbleWindowStbte(fblse);
     }
 
     /**
-     * Creates a window with the specified owner frame.
-     * If <code>owner</code> is <code>null</code>, the shared owner
-     * will be used and this window will not be focusable. Also,
-     * this window will not be focusable unless its owner is showing
+     * Crebtes b window with the specified owner frbme.
+     * If <code>owner</code> is <code>null</code>, the shbred owner
+     * will be used bnd this window will not be focusbble. Also,
+     * this window will not be focusbble unless its owner is showing
      * on the screen.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param owner the frame from which the window is displayed
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm owner the frbme from which the window is displbyed
+     * @throws HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #isFocusbbleWindow
+     * @see JComponent#getDefbultLocble
      */
-    public JWindow(Frame owner) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner);
+    public JWindow(Frbme owner) {
+        super(owner == null? SwingUtilities.getShbredOwnerFrbme() : owner);
         if (owner == null) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            bddWindowListener(ownerShutdownListener);
         }
         windowInit();
     }
 
     /**
-     * Creates a window with the specified owner window. This window
-     * will not be focusable unless its owner is showing on the screen.
-     * If <code>owner</code> is <code>null</code>, the shared owner
-     * will be used and this window will not be focusable.
+     * Crebtes b window with the specified owner window. This window
+     * will not be focusbble unless its owner is showing on the screen.
+     * If <code>owner</code> is <code>null</code>, the shbred owner
+     * will be used bnd this window will not be focusbble.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param owner the window from which the window is displayed
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @pbrbm owner the window from which the window is displbyed
+     * @throws HebdlessException if
+     *         <code>GrbphicsEnvironment.isHebdless()</code> returns true.
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #isFocusbbleWindow
+     * @see JComponent#getDefbultLocble
      */
     public JWindow(Window owner) {
-        super(owner == null ? (Window)SwingUtilities.getSharedOwnerFrame() :
+        super(owner == null ? (Window)SwingUtilities.getShbredOwnerFrbme() :
               owner);
         if (owner == null) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            bddWindowListener(ownerShutdownListener);
         }
         windowInit();
     }
 
     /**
-     * Creates a window with the specified owner window and
-     * <code>GraphicsConfiguration</code> of a screen device. If
-     * <code>owner</code> is <code>null</code>, the shared owner will be used
-     * and this window will not be focusable.
+     * Crebtes b window with the specified owner window bnd
+     * <code>GrbphicsConfigurbtion</code> of b screen device. If
+     * <code>owner</code> is <code>null</code>, the shbred owner will be used
+     * bnd this window will not be focusbble.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param owner the window from which the window is displayed
-     * @param gc the <code>GraphicsConfiguration</code> that is used
+     * @pbrbm owner the window from which the window is displbyed
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> thbt is used
      *          to construct the new window with; if gc is <code>null</code>,
-     *          the system default <code>GraphicsConfiguration</code>
-     *          is assumed, unless <code>owner</code> is also null, in which
-     *          case the <code>GraphicsConfiguration</code> from the
-     *          shared owner frame will be used.
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @throws IllegalArgumentException if <code>gc</code> is not from
-     *         a screen device.
+     *          the system defbult <code>GrbphicsConfigurbtion</code>
+     *          is bssumed, unless <code>owner</code> is blso null, in which
+     *          cbse the <code>GrbphicsConfigurbtion</code> from the
+     *          shbred owner frbme will be used.
+     * @throws HebdlessException if
+     *         <code>GrbphicsEnvironment.isHebdless()</code> returns true.
+     * @throws IllegblArgumentException if <code>gc</code> is not from
+     *         b screen device.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #isFocusbbleWindow
+     * @see JComponent#getDefbultLocble
      *
      * @since  1.3
      */
-    public JWindow(Window owner, GraphicsConfiguration gc) {
-        super(owner == null ? (Window)SwingUtilities.getSharedOwnerFrame() :
+    public JWindow(Window owner, GrbphicsConfigurbtion gc) {
+        super(owner == null ? (Window)SwingUtilities.getShbredOwnerFrbme() :
               owner, gc);
         if (owner == null) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            bddWindowListener(ownerShutdownListener);
         }
         windowInit();
     }
 
     /**
-     * Called by the constructors to init the <code>JWindow</code> properly.
+     * Cblled by the constructors to init the <code>JWindow</code> properly.
      */
     protected void windowInit() {
-        setLocale( JComponent.getDefaultLocale() );
-        setRootPane(createRootPane());
-        setRootPaneCheckingEnabled(true);
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        setLocble( JComponent.getDefbultLocble() );
+        setRootPbne(crebteRootPbne());
+        setRootPbneCheckingEnbbled(true);
+        sun.bwt.SunToolkit.checkAndSetPolicy(this);
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * <code>rootPane</code>.
+     * Cblled by the constructor methods to crebte the defbult
+     * <code>rootPbne</code>.
      *
-     * @return a new {@code JRootPane}
+     * @return b new {@code JRootPbne}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
+    protected JRootPbne crebteRootPbne() {
+        JRootPbne rp = new JRootPbne();
+        // NOTE: this uses setOpbque vs LookAndFeel.instbllProperty bs there
+        // is NO rebson for the RootPbne not to be opbque. For pbinting to
+        // work the contentPbne must be opbque, therefor the RootPbne cbn
+        // blso be opbque.
+        rp.setOpbque(true);
         return rp;
     }
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Returns whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @return true if <code>bdd</code> bnd <code>setLbyout</code>
+     *         bre forwbrded; fblse otherwise
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protected boolebn isRootPbneCheckingEnbbled() {
+        return rootPbneCheckingEnbbled;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sets the {@code trbnsferHbndler} property, which is b mechbnism to
+     * support trbnsfer of dbtb into this component. Use {@code null}
+     * if the component does not support dbtb trbnsfer operbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If the system property {@code suppressSwingDropSupport} is {@code fblse}
+     * (the defbult) bnd the current drop tbrget on this component is either
+     * {@code null} or not b user-set drop tbrget, this method will chbnge the
+     * drop tbrget bs follows: If {@code newHbndler} is {@code null} it will
+     * clebr the drop tbrget. If not {@code null} it will instbll b new
+     * {@code DropTbrget}.
      * <p>
-     * Note: When used with {@code JWindow}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Note: When used with {@code JWindow}, {@code TrbnsferHbndler} only
+     * provides dbtb import cbpbbility, bs the dbtb export relbted methods
+     * bre currently typed to {@code JComponent}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plebse see
+     * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+     * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>, b section in
+     * <em>The Jbvb Tutoribl</em>, for more informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm newHbndler the new {@code TrbnsferHbndler}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
+     * @see TrbnsferHbndler
+     * @see #getTrbnsferHbndler
+     * @see jbvb.bwt.Component#setDropTbrget
      * @since 1.6
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     *  description: Mechbnism for trbnsfer of dbtb into the component
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+        TrbnsferHbndler oldHbndler = trbnsferHbndler;
+        trbnsferHbndler = newHbndler;
+        SwingUtilities.instbllSwingDropTbrgetAsNecessbry(this, trbnsferHbndler);
+        firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
     }
 
     /**
-     * Gets the <code>transferHandler</code> property.
+     * Gets the <code>trbnsferHbndler</code> property.
      *
-     * @return the value of the <code>transferHandler</code> property
+     * @return the vblue of the <code>trbnsferHbndler</code> property
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
+     * @see TrbnsferHbndler
+     * @see #setTrbnsferHbndler
      * @since 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    public TrbnsferHbndler getTrbnsferHbndler() {
+        return trbnsferHbndler;
     }
 
     /**
-     * Calls <code>paint(g)</code>.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Cblls <code>pbint(g)</code>.  This method wbs overridden to
+     * prevent bn unnecessbry cbll to clebr the bbckground.
      *
-     * @param g  the <code>Graphics</code> context in which to paint
+     * @pbrbm g  the <code>Grbphics</code> context in which to pbint
      */
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sets whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
+     * @pbrbm enbbled  true if <code>bdd</code> bnd <code>setLbyout</code>
+     *        bre forwbrded, fblse if they should operbte directly on the
      *        <code>JWindow</code>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #isRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
+     * @bebninfo
      *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * description: Whether the bdd bnd setLbyout methods bre forwbrded
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protected void setRootPbneCheckingEnbbled(boolebn enbbled) {
+        rootPbneCheckingEnbbled = enbbled;
     }
 
 
     /**
      * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * This method is overridden to conditionblly forwbrd cblls to the
+     * <code>contentPbne</code>.
+     * By defbult, children bre bdded to the <code>contentPbne</code> instebd
+     * of the frbme, refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * detbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
+     * @exception IllegblArgumentException if <code>index</code> is invblid
+     * @exception IllegblArgumentException if bdding the contbiner's pbrent
      *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @exception IllegblArgumentException if bdding b window to b contbiner
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protected void bddImpl(Component comp, Object constrbints, int index)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().bdd(comp, constrbints, index);
         }
         else {
-            super.addImpl(comp, constraints, index);
+            super.bddImpl(comp, constrbints, index);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not the <code>rootPane</code>, this will forward
-     * the call to the <code>contentPane</code>. This will do nothing if
-     * <code>comp</code> is not a child of the <code>JWindow</code> or
-     * <code>contentPane</code>.
+     * Removes the specified component from the contbiner. If
+     * <code>comp</code> is not the <code>rootPbne</code>, this will forwbrd
+     * the cbll to the <code>contentPbne</code>. This will do nothing if
+     * <code>comp</code> is not b child of the <code>JWindow</code> or
+     * <code>contentPbne</code>.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @see #bdd
+     * @see jbvbx.swing.RootPbneContbiner
      */
     public void remove(Component comp) {
-        if (comp == rootPane) {
+        if (comp == rootPbne) {
             super.remove(comp);
         } else {
-            getContentPane().remove(comp);
+            getContentPbne().remove(comp);
         }
     }
 
 
     /**
-     * Sets the <code>LayoutManager</code>.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Sets the <code>LbyoutMbnbger</code>.
+     * Overridden to conditionblly forwbrd the cbll to the
+     * <code>contentPbne</code>.
+     * Refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * more informbtion.
      *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm mbnbger the <code>LbyoutMbnbger</code>
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    public void setLbyout(LbyoutMbnbger mbnbger) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().setLbyout(mbnbger);
         }
         else {
-            super.setLayout(manager);
+            super.setLbyout(mbnbger);
         }
     }
 
 
     /**
-     * Returns the <code>rootPane</code> object for this window.
-     * @return the <code>rootPane</code> property for this window
+     * Returns the <code>rootPbne</code> object for this window.
+     * @return the <code>rootPbne</code> property for this window
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @see #setRootPbne
+     * @see RootPbneContbiner#getRootPbne
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
 
     /**
-     * Sets the new <code>rootPane</code> object for this window.
-     * This method is called by the constructor.
+     * Sets the new <code>rootPbne</code> object for this window.
+     * This method is cblled by the constructor.
      *
-     * @param root the new <code>rootPane</code> property
-     * @see #getRootPane
+     * @pbrbm root the new <code>rootPbne</code> property
+     * @see #getRootPbne
      *
-     * @beaninfo
+     * @bebninfo
      *        hidden: true
-     *   description: the RootPane object for this window.
+     *   description: the RootPbne object for this window.
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    protected void setRootPbne(JRootPbne root) {
+        if(rootPbne != null) {
+            remove(rootPbne);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbne = root;
+        if(rootPbne != null) {
+            boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                setRootPbneCheckingEnbbled(fblse);
+                bdd(rootPbne, BorderLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                setRootPbneCheckingEnbbled(checkingEnbbled);
             }
         }
     }
 
 
     /**
-     * Returns the <code>Container</code> which is the <code>contentPane</code>
+     * Returns the <code>Contbiner</code> which is the <code>contentPbne</code>
      * for this window.
      *
-     * @return the <code>contentPane</code> property
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @return the <code>contentPbne</code> property
+     * @see #setContentPbne
+     * @see RootPbneContbiner#getContentPbne
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    public Contbiner getContentPbne() {
+        return getRootPbne().getContentPbne();
     }
 
     /**
-     * Sets the <code>contentPane</code> property for this window.
-     * This method is called by the constructor.
+     * Sets the <code>contentPbne</code> property for this window.
+     * This method is cblled by the constructor.
      *
-     * @param contentPane the new <code>contentPane</code>
+     * @pbrbm contentPbne the new <code>contentPbne</code>
      *
-     * @exception IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @exception IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is <code>null</code>
+     * @see #getContentPbne
+     * @see RootPbneContbiner#setContentPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The client area of the window where child
-     *                  components are normally inserted.
+     *     description: The client breb of the window where child
+     *                  components bre normblly inserted.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    public void setContentPbne(Contbiner contentPbne) {
+        getRootPbne().setContentPbne(contentPbne);
     }
 
     /**
-     * Returns the <code>layeredPane</code> object for this window.
+     * Returns the <code>lbyeredPbne</code> object for this window.
      *
-     * @return the <code>layeredPane</code> property
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @return the <code>lbyeredPbne</code> property
+     * @see #setLbyeredPbne
+     * @see RootPbneContbiner#getLbyeredPbne
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    public JLbyeredPbne getLbyeredPbne() {
+        return getRootPbne().getLbyeredPbne();
     }
 
     /**
-     * Sets the <code>layeredPane</code> property.
-     * This method is called by the constructor.
+     * Sets the <code>lbyeredPbne</code> property.
+     * This method is cblled by the constructor.
      *
-     * @param layeredPane the new <code>layeredPane</code> object
+     * @pbrbm lbyeredPbne the new <code>lbyeredPbne</code> object
      *
-     * @exception IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @exception IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is <code>null</code>
+     * @see #getLbyeredPbne
+     * @see RootPbneContbiner#setLbyeredPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The pane which holds the various window layers.
+     *     description: The pbne which holds the vbrious window lbyers.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    public void setLbyeredPbne(JLbyeredPbne lbyeredPbne) {
+        getRootPbne().setLbyeredPbne(lbyeredPbne);
     }
 
     /**
-     * Returns the <code>glassPane Component</code> for this window.
+     * Returns the <code>glbssPbne Component</code> for this window.
      *
-     * @return the <code>glassPane</code> property
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @return the <code>glbssPbne</code> property
+     * @see #setGlbssPbne
+     * @see RootPbneContbiner#getGlbssPbne
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    public Component getGlbssPbne() {
+        return getRootPbne().getGlbssPbne();
     }
 
     /**
-     * Sets the <code>glassPane</code> property.
-     * This method is called by the constructor.
-     * @param glassPane the <code>glassPane</code> object for this window
+     * Sets the <code>glbssPbne</code> property.
+     * This method is cblled by the constructor.
+     * @pbrbm glbssPbne the <code>glbssPbne</code> object for this window
      *
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @see #getGlbssPbne
+     * @see RootPbneContbiner#setGlbssPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     *     description: A trbnspbrent pbne used for menu rendering.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    public void setGlbssPbne(Component glbssPbne) {
+        getRootPbne().setGlbssPbne(glbssPbne);
     }
 
     /**
@@ -591,50 +591,50 @@ public class JWindow extends Window implements Accessible,
      *
      * @since 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    public Grbphics getGrbphics() {
+        JComponent.getGrbphicsInvoked(this);
+        return super.getGrbphics();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * <code>time</code> milliseconds.  Refer to <code>RepaintManager</code>
-     * for details on how the repaint is handled.
+     * Repbints the specified rectbngle of this component within
+     * <code>time</code> milliseconds.  Refer to <code>RepbintMbnbger</code>
+     * for detbils on how the repbint is hbndled.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
+     * @pbrbm     time   mbximum time in milliseconds before updbte
+     * @pbrbm     x    the <i>x</i> coordinbte
+     * @pbrbm     y    the <i>y</i> coordinbte
+     * @pbrbm     width    the width
+     * @pbrbm     height   the height
+     * @see       RepbintMbnbger
      * @since     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
+    public void repbint(long time, int x, int y, int width, int height) {
+        if (RepbintMbnbger.HANDLE_TOP_LEVEL_PAINT) {
+            RepbintMbnbger.currentMbnbger(this).bddDirtyRegion(
                               this, x, y, width, height);
         }
         else {
-            super.repaint(time, x, y, width, height);
+            super.repbint(time, x, y, width, height);
         }
     }
 
     /**
-     * Returns a string representation of this <code>JWindow</code>.
+     * Returns b string representbtion of this <code>JWindow</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JWindow</code>
+     * @return  b string representbtion of this <code>JWindow</code>
      */
-    protected String paramString() {
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protected String pbrbmString() {
+        String rootPbneCheckingEnbbledString = (rootPbneCheckingEnbbled ?
+                                                "true" : "fblse");
 
-        return super.paramString() +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        return super.pbrbmString() +
+        ",rootPbneCheckingEnbbled=" + rootPbneCheckingEnbbledString;
     }
 
 
@@ -642,35 +642,35 @@ public class JWindow extends Window implements Accessible,
 // Accessibility support
 ////////////////
 
-    /** The accessible context property. */
-    protected AccessibleContext accessibleContext = null;
+    /** The bccessible context property. */
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JWindow.
-     * For JWindows, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JWindow.
+     * For JWindows, the AccessibleContext tbkes the form of bn
      * AccessibleJWindow.
-     * A new AccessibleJWindow instance is created if necessary.
+     * A new AccessibleJWindow instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJWindow that serves as the
+     * @return bn AccessibleJWindow thbt serves bs the
      *         AccessibleContext of this JWindow
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJWindow();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJWindow();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JWindow</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to window user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JWindow</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to window user-interfbce
      * elements.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJWindow extends AccessibleAWTWindow {
-        // everything is in the new parent, AccessibleAWTWindow
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJWindow extends AccessibleAWTWindow {
+        // everything is in the new pbrent, AccessibleAWTWindow
     }
 
 }

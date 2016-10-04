@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import sun.misc.HexDumpEncoder;
-import sun.security.util.DerValue;
+import sun.security.util.DerVblue;
 
 /**
- * An immutable policy qualifier represented by the ASN.1 PolicyQualifierInfo
+ * An immutbble policy qublifier represented by the ASN.1 PolicyQublifierInfo
  * structure.
  *
- * <p>The ASN.1 definition is as follows:
+ * <p>The ASN.1 definition is bs follows:
  * <pre>
- *   PolicyQualifierInfo ::= SEQUENCE {
- *        policyQualifierId       PolicyQualifierId,
- *        qualifier               ANY DEFINED BY policyQualifierId }
+ *   PolicyQublifierInfo ::= SEQUENCE {
+ *        policyQublifierId       PolicyQublifierId,
+ *        qublifier               ANY DEFINED BY policyQublifierId }
  * </pre>
  * <p>
- * A certificate policies extension, if present in an X.509 version 3
- * certificate, contains a sequence of one or more policy information terms,
- * each of which consists of an object identifier (OID) and optional
- * qualifiers. In an end-entity certificate, these policy information terms
- * indicate the policy under which the certificate has been issued and the
- * purposes for which the certificate may be used. In a CA certificate, these
- * policy information terms limit the set of policies for certification paths
- * which include this certificate.
+ * A certificbte policies extension, if present in bn X.509 version 3
+ * certificbte, contbins b sequence of one or more policy informbtion terms,
+ * ebch of which consists of bn object identifier (OID) bnd optionbl
+ * qublifiers. In bn end-entity certificbte, these policy informbtion terms
+ * indicbte the policy under which the certificbte hbs been issued bnd the
+ * purposes for which the certificbte mby be used. In b CA certificbte, these
+ * policy informbtion terms limit the set of policies for certificbtion pbths
+ * which include this certificbte.
  * <p>
- * A {@code Set} of {@code PolicyQualifierInfo} objects are returned
- * by the {@link PolicyNode#getPolicyQualifiers PolicyNode.getPolicyQualifiers}
- * method. This allows applications with specific policy requirements to
- * process and validate each policy qualifier. Applications that need to
- * process policy qualifiers should explicitly set the
- * {@code policyQualifiersRejected} flag to false (by calling the
- * {@link PKIXParameters#setPolicyQualifiersRejected
- * PKIXParameters.setPolicyQualifiersRejected} method) before validating
- * a certification path.
+ * A {@code Set} of {@code PolicyQublifierInfo} objects bre returned
+ * by the {@link PolicyNode#getPolicyQublifiers PolicyNode.getPolicyQublifiers}
+ * method. This bllows bpplicbtions with specific policy requirements to
+ * process bnd vblidbte ebch policy qublifier. Applicbtions thbt need to
+ * process policy qublifiers should explicitly set the
+ * {@code policyQublifiersRejected} flbg to fblse (by cblling the
+ * {@link PKIXPbrbmeters#setPolicyQublifiersRejected
+ * PKIXPbrbmeters.setPolicyQublifiersRejected} method) before vblidbting
+ * b certificbtion pbth.
  *
- * <p>Note that the PKIX certification path validation algorithm specifies
- * that any policy qualifier in a certificate policies extension that is
- * marked critical must be processed and validated. Otherwise the
- * certification path must be rejected. If the
- * {@code policyQualifiersRejected} flag is set to false, it is up to
- * the application to validate all policy qualifiers in this manner in order
- * to be PKIX compliant.
+ * <p>Note thbt the PKIX certificbtion pbth vblidbtion blgorithm specifies
+ * thbt bny policy qublifier in b certificbte policies extension thbt is
+ * mbrked criticbl must be processed bnd vblidbted. Otherwise the
+ * certificbtion pbth must be rejected. If the
+ * {@code policyQublifiersRejected} flbg is set to fblse, it is up to
+ * the bpplicbtion to vblidbte bll policy qublifiers in this mbnner in order
+ * to be PKIX complibnt.
  *
  * <p><b>Concurrent Access</b>
  *
- * <p>All {@code PolicyQualifierInfo} objects must be immutable and
- * thread-safe. That is, multiple threads may concurrently invoke the
- * methods defined in this class on a single {@code PolicyQualifierInfo}
- * object (or more than one) with no ill effects. Requiring
- * {@code PolicyQualifierInfo} objects to be immutable and thread-safe
- * allows them to be passed around to various pieces of code without
- * worrying about coordinating access.
+ * <p>All {@code PolicyQublifierInfo} objects must be immutbble bnd
+ * threbd-sbfe. Thbt is, multiple threbds mby concurrently invoke the
+ * methods defined in this clbss on b single {@code PolicyQublifierInfo}
+ * object (or more thbn one) with no ill effects. Requiring
+ * {@code PolicyQublifierInfo} objects to be immutbble bnd threbd-sbfe
+ * bllows them to be pbssed bround to vbrious pieces of code without
+ * worrying bbout coordinbting bccess.
  *
- * @author      seth proctor
- * @author      Sean Mullan
+ * @buthor      seth proctor
+ * @buthor      Sebn Mullbn
  * @since       1.4
  */
-public class PolicyQualifierInfo {
+public clbss PolicyQublifierInfo {
 
-    private byte [] mEncoded;
-    private String mId;
-    private byte [] mData;
-    private String pqiString;
+    privbte byte [] mEncoded;
+    privbte String mId;
+    privbte byte [] mDbtb;
+    privbte String pqiString;
 
     /**
-     * Creates an instance of {@code PolicyQualifierInfo} from the
-     * encoded bytes. The encoded byte array is copied on construction.
+     * Crebtes bn instbnce of {@code PolicyQublifierInfo} from the
+     * encoded bytes. The encoded byte brrby is copied on construction.
      *
-     * @param encoded a byte array containing the qualifier in DER encoding
-     * @exception IOException thrown if the byte array does not represent a
-     * valid and parsable policy qualifier
+     * @pbrbm encoded b byte brrby contbining the qublifier in DER encoding
+     * @exception IOException thrown if the byte brrby does not represent b
+     * vblid bnd pbrsbble policy qublifier
      */
-    public PolicyQualifierInfo(byte[] encoded) throws IOException {
+    public PolicyQublifierInfo(byte[] encoded) throws IOException {
         mEncoded = encoded.clone();
 
-        DerValue val = new DerValue(mEncoded);
-        if (val.tag != DerValue.tag_Sequence)
-            throw new IOException("Invalid encoding for PolicyQualifierInfo");
+        DerVblue vbl = new DerVblue(mEncoded);
+        if (vbl.tbg != DerVblue.tbg_Sequence)
+            throw new IOException("Invblid encoding for PolicyQublifierInfo");
 
-        mId = (val.data.getDerValue()).getOID().toString();
-        byte [] tmp = val.data.toByteArray();
+        mId = (vbl.dbtb.getDerVblue()).getOID().toString();
+        byte [] tmp = vbl.dbtb.toByteArrby();
         if (tmp == null) {
-            mData = null;
+            mDbtb = null;
         } else {
-            mData = new byte[tmp.length];
-            System.arraycopy(tmp, 0, mData, 0, tmp.length);
+            mDbtb = new byte[tmp.length];
+            System.brrbycopy(tmp, 0, mDbtb, 0, tmp.length);
         }
     }
 
     /**
-     * Returns the {@code policyQualifierId} field of this
-     * {@code PolicyQualifierInfo}. The {@code policyQualifierId}
-     * is an Object Identifier (OID) represented by a set of nonnegative
-     * integers separated by periods.
+     * Returns the {@code policyQublifierId} field of this
+     * {@code PolicyQublifierInfo}. The {@code policyQublifierId}
+     * is bn Object Identifier (OID) represented by b set of nonnegbtive
+     * integers sepbrbted by periods.
      *
      * @return the OID (never {@code null})
      */
-    public final String getPolicyQualifierId() {
+    public finbl String getPolicyQublifierId() {
         return mId;
     }
 
     /**
      * Returns the ASN.1 DER encoded form of this
-     * {@code PolicyQualifierInfo}.
+     * {@code PolicyQublifierInfo}.
      *
      * @return the ASN.1 DER encoded bytes (never {@code null}).
-     * Note that a copy is returned, so the data is cloned each time
-     * this method is called.
+     * Note thbt b copy is returned, so the dbtb is cloned ebch time
+     * this method is cblled.
      */
-    public final byte[] getEncoded() {
+    public finbl byte[] getEncoded() {
         return mEncoded.clone();
     }
 
     /**
-     * Returns the ASN.1 DER encoded form of the {@code qualifier}
-     * field of this {@code PolicyQualifierInfo}.
+     * Returns the ASN.1 DER encoded form of the {@code qublifier}
+     * field of this {@code PolicyQublifierInfo}.
      *
-     * @return the ASN.1 DER encoded bytes of the {@code qualifier}
-     * field. Note that a copy is returned, so the data is cloned each
-     * time this method is called.
+     * @return the ASN.1 DER encoded bytes of the {@code qublifier}
+     * field. Note thbt b copy is returned, so the dbtb is cloned ebch
+     * time this method is cblled.
      */
-    public final byte[] getPolicyQualifier() {
-        return (mData == null ? null : mData.clone());
+    public finbl byte[] getPolicyQublifier() {
+        return (mDbtb == null ? null : mDbtb.clone());
     }
 
     /**
-     * Return a printable representation of this
-     * {@code PolicyQualifierInfo}.
+     * Return b printbble representbtion of this
+     * {@code PolicyQublifierInfo}.
      *
-     * @return a {@code String} describing the contents of this
-     *         {@code PolicyQualifierInfo}
+     * @return b {@code String} describing the contents of this
+     *         {@code PolicyQublifierInfo}
      */
     public String toString() {
         if (pqiString != null)
             return pqiString;
         HexDumpEncoder enc = new HexDumpEncoder();
         StringBuilder sb = new StringBuilder();
-        sb.append("PolicyQualifierInfo: [\n");
-        sb.append("  qualifierID: " + mId + "\n");
-        sb.append("  qualifier: " +
-            (mData == null ? "null" : enc.encodeBuffer(mData)) + "\n");
-        sb.append("]");
+        sb.bppend("PolicyQublifierInfo: [\n");
+        sb.bppend("  qublifierID: " + mId + "\n");
+        sb.bppend("  qublifier: " +
+            (mDbtb == null ? "null" : enc.encodeBuffer(mDbtb)) + "\n");
+        sb.bppend("]");
         pqiString = sb.toString();
         return pqiString;
     }

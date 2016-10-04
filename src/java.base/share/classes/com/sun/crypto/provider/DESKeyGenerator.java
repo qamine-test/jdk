@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.SecureRandom;
-import java.security.InvalidParameterException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.crypto.KeyGeneratorSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DESKeySpec;
+import jbvb.security.SecureRbndom;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvbx.crypto.KeyGenerbtorSpi;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.DESKeySpec;
 
 /**
- * This class generates a DES key.
+ * This clbss generbtes b DES key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public final class DESKeyGenerator extends KeyGeneratorSpi {
+public finbl clbss DESKeyGenerbtor extends KeyGenerbtorSpi {
 
-    private SecureRandom random = null;
+    privbte SecureRbndom rbndom = null;
 
     /**
      * Empty constructor
      */
-    public DESKeyGenerator() {
+    public DESKeyGenerbtor() {
     }
 
     /**
-     * Initializes this key generator.
+     * Initiblizes this key generbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom the source of rbndomness for this generbtor
      */
-    protected void engineInit(SecureRandom random) {
-        this.random = random;
+    protected void engineInit(SecureRbndom rbndom) {
+        this.rbndom = rbndom;
     }
 
     /**
-     * Initializes this key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizes this key generbtor with the specified pbrbmeter
+     * set bnd b user-provided source of rbndomness.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms the key generbtion pbrbmeters
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @exception InvblidAlgorithmPbrbmeterException if <code>pbrbms</code> is
+     * inbppropribte for this key generbtor
      */
-    protected void engineInit(AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new InvalidAlgorithmParameterException
-                ("DES key generation does not take any parameters");
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("DES key generbtion does not tbke bny pbrbmeters");
     }
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizes this key generbtor for b certbin keysize, using the given
+     * source of rbndomness.
      *
-     * @param keysize the keysize. This is an algorithm-specific
+     * @pbrbm keysize the keysize. This is bn blgorithm-specific
      * metric specified in number of bits.
-     * @param random the source of randomness for this key generator
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      */
-    protected void engineInit(int keysize, SecureRandom random) {
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
         if (keysize != 56) {
-            throw new InvalidParameterException("Wrong keysize: must "
-                                                + "be equal to 56");
+            throw new InvblidPbrbmeterException("Wrong keysize: must "
+                                                + "be equbl to 56");
         }
-        this.engineInit(random);
+        this.engineInit(rbndom);
     }
 
     /**
-     * Generates the DES key.
+     * Generbtes the DES key.
      *
      * @return the new DES key
      */
-    protected SecretKey engineGenerateKey() {
+    protected SecretKey engineGenerbteKey() {
         DESKey desKey = null;
 
-        if (this.random == null) {
-            this.random = SunJCE.getRandom();
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.getRbndom();
         }
 
         try {
             byte[] key = new byte[DESKeySpec.DES_KEY_LEN];
             do {
-                this.random.nextBytes(key);
-                setParityBit(key, 0);
-            } while (DESKeySpec.isWeak(key, 0));
+                this.rbndom.nextBytes(key);
+                setPbrityBit(key, 0);
+            } while (DESKeySpec.isWebk(key, 0));
             desKey = new DESKey(key);
-        } catch (InvalidKeyException e) {
+        } cbtch (InvblidKeyException e) {
             // this is never thrown
         }
 
@@ -120,21 +120,21 @@ public final class DESKeyGenerator extends KeyGeneratorSpi {
     }
 
     /*
-     * Does parity adjustment, using bit in position 8 as the parity bit,
-     * for 8 key bytes, starting at <code>offset</code>.
+     * Does pbrity bdjustment, using bit in position 8 bs the pbrity bit,
+     * for 8 key bytes, stbrting bt <code>offset</code>.
      *
-     * The 8 parity bits of a DES key are only used for sanity-checking
-     * of the key, to see if the key could actually be a key. If you check
-     * the parity of the quantity, and it winds up not having the correct
-     * parity, then you'll know something went wrong.
+     * The 8 pbrity bits of b DES key bre only used for sbnity-checking
+     * of the key, to see if the key could bctublly be b key. If you check
+     * the pbrity of the qubntity, bnd it winds up not hbving the correct
+     * pbrity, then you'll know something went wrong.
      *
-     * A key that is not parity adjusted (e.g. e4e4e4e4e4e4e4e4) produces the
-     * same output as a key that is parity adjusted (e.g. e5e5e5e5e5e5e5e5),
-     * because it is the 56 bits of the DES key that are cryptographically
-     * significant/"effective" -- the other 8 bits are just used for parity
+     * A key thbt is not pbrity bdjusted (e.g. e4e4e4e4e4e4e4e4) produces the
+     * sbme output bs b key thbt is pbrity bdjusted (e.g. e5e5e5e5e5e5e5e5),
+     * becbuse it is the 56 bits of the DES key thbt bre cryptogrbphicblly
+     * significbnt/"effective" -- the other 8 bits bre just used for pbrity
      * checking.
      */
-    static void setParityBit(byte[] key, int offset) {
+    stbtic void setPbrityBit(byte[] key, int offset) {
         if (key == null)
             return;
 

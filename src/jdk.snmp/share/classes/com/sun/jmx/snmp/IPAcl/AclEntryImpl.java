@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-import java.security.acl.Permission;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
-import java.net.UnknownHostException;
+import jbvb.security.bcl.Permission;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.io.Seriblizbble;
+import jbvb.net.UnknownHostException;
 
-import java.security.Principal;
-import java.security.acl.AclEntry;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.AclEntry;
 
 
 /**
  * Represent one entry in the Access Control List (ACL).
- * This ACL entry object contains a permission associated with a particular principal.
- * (A principal represents an entity such as an individual machine or a group).
+ * This ACL entry object contbins b permission bssocibted with b pbrticulbr principbl.
+ * (A principbl represents bn entity such bs bn individubl mbchine or b group).
  *
- * @see java.security.acl.AclEntry
+ * @see jbvb.security.bcl.AclEntry
  */
 
-class AclEntryImpl implements AclEntry, Serializable {
-  private static final long serialVersionUID = -5047185131260073216L;
+clbss AclEntryImpl implements AclEntry, Seriblizbble {
+  privbte stbtic finbl long seriblVersionUID = -5047185131260073216L;
 
-  private AclEntryImpl (AclEntryImpl i) throws UnknownHostException {
-        setPrincipal(i.getPrincipal());
+  privbte AclEntryImpl (AclEntryImpl i) throws UnknownHostException {
+        setPrincipbl(i.getPrincipbl());
         permList = new Vector<Permission>();
         commList = new Vector<String>();
 
-        for (Enumeration<String> en = i.communities(); en.hasMoreElements();){
-          addCommunity(en.nextElement());
+        for (Enumerbtion<String> en = i.communities(); en.hbsMoreElements();){
+          bddCommunity(en.nextElement());
         }
 
-        for (Enumeration<Permission> en = i.permissions(); en.hasMoreElements();){
-          addPermission(en.nextElement());
+        for (Enumerbtion<Permission> en = i.permissions(); en.hbsMoreElements();){
+          bddPermission(en.nextElement());
         }
-        if (i.isNegative()) setNegativePermissions();
+        if (i.isNegbtive()) setNegbtivePermissions();
   }
 
   /**
-   * Contructs an empty ACL entry.
+   * Contructs bn empty ACL entry.
    */
   public AclEntryImpl (){
         princ = null;
@@ -74,11 +74,11 @@ class AclEntryImpl implements AclEntry, Serializable {
   }
 
   /**
-   * Constructs an ACL entry with a specified principal.
+   * Constructs bn ACL entry with b specified principbl.
    *
-   * @param p the principal to be set for this entry.
+   * @pbrbm p the principbl to be set for this entry.
    */
-  public AclEntryImpl (Principal p) throws UnknownHostException {
+  public AclEntryImpl (Principbl p) throws UnknownHostException {
         princ = p;
         permList = new Vector<Permission>();
         commList = new Vector<String>();
@@ -87,177 +87,177 @@ class AclEntryImpl implements AclEntry, Serializable {
   /**
    * Clones this ACL entry.
    *
-   * @return a clone of this ACL entry.
+   * @return b clone of this ACL entry.
    */
   public Object clone() {
         AclEntryImpl i;
         try {
           i = new AclEntryImpl(this);
-        }catch (UnknownHostException e) {
+        }cbtch (UnknownHostException e) {
           i = null;
         }
         return (Object) i;
   }
 
   /**
-   * Returns true if this is a negative ACL entry (one denying the associated principal
-   * the set of permissions in the entry), false otherwise.
+   * Returns true if this is b negbtive ACL entry (one denying the bssocibted principbl
+   * the set of permissions in the entry), fblse otherwise.
    *
-   * @return true if this is a negative ACL entry, false if it's not.
+   * @return true if this is b negbtive ACL entry, fblse if it's not.
    */
-  public boolean isNegative(){
+  public boolebn isNegbtive(){
         return neg;
   }
 
   /**
-   * Adds the specified permission to this ACL entry. Note: An entry can
-   * have multiple permissions.
+   * Adds the specified permission to this ACL entry. Note: An entry cbn
+   * hbve multiple permissions.
    *
-   * @param perm the permission to be associated with the principal in this
+   * @pbrbm perm the permission to be bssocibted with the principbl in this
    *        entry
-   * @return true if the permission is removed, false if the permission was
-   *         not part of this entry's permission set.
+   * @return true if the permission is removed, fblse if the permission wbs
+   *         not pbrt of this entry's permission set.
    *
    */
-  public boolean addPermission(java.security.acl.Permission perm){
-        if (permList.contains(perm)) return false;
-        permList.addElement(perm);
+  public boolebn bddPermission(jbvb.security.bcl.Permission perm){
+        if (permList.contbins(perm)) return fblse;
+        permList.bddElement(perm);
         return true;
   }
 
   /**
    * Removes the specified permission from this ACL entry.
    *
-   * @param perm the permission to be removed from this entry.
-   * @return true if the permission is removed, false if the permission
-   *         was not part of this entry's permission set.
+   * @pbrbm perm the permission to be removed from this entry.
+   * @return true if the permission is removed, fblse if the permission
+   *         wbs not pbrt of this entry's permission set.
    */
-  public boolean removePermission(java.security.acl.Permission perm){
-        if (!permList.contains(perm)) return false;
+  public boolebn removePermission(jbvb.security.bcl.Permission perm){
+        if (!permList.contbins(perm)) return fblse;
         permList.removeElement(perm);
         return true;
   }
 
   /**
-   * Checks if the specified permission is part of the permission set in
+   * Checks if the specified permission is pbrt of the permission set in
    * this entry.
    *
-   * @param perm the permission to be checked for.
-   * @return true if the permission is part of the permission set in this
-   *         entry, false otherwise.
+   * @pbrbm perm the permission to be checked for.
+   * @return true if the permission is pbrt of the permission set in this
+   *         entry, fblse otherwise.
    */
 
-  public boolean checkPermission(java.security.acl.Permission perm){
-        return (permList.contains(perm));
+  public boolebn checkPermission(jbvb.security.bcl.Permission perm){
+        return (permList.contbins(perm));
   }
 
   /**
-   * Returns an enumeration of the permissions in this ACL entry.
+   * Returns bn enumerbtion of the permissions in this ACL entry.
    *
-   * @return an enumeration of the permissions in this ACL entry.
+   * @return bn enumerbtion of the permissions in this ACL entry.
    */
-  public Enumeration<Permission> permissions(){
+  public Enumerbtion<Permission> permissions(){
         return permList.elements();
   }
 
   /**
-   * Sets this ACL entry to be a negative one. That is, the associated principal
-   * (e.g., a user or a group) will be denied the permission set specified in the
-   * entry. Note: ACL entries are by default positive. An entry becomes a negative
-   * entry only if this setNegativePermissions method is called on it.
+   * Sets this ACL entry to be b negbtive one. Thbt is, the bssocibted principbl
+   * (e.g., b user or b group) will be denied the permission set specified in the
+   * entry. Note: ACL entries bre by defbult positive. An entry becomes b negbtive
+   * entry only if this setNegbtivePermissions method is cblled on it.
    *
    * Not Implemented.
    */
-  public void setNegativePermissions(){
+  public void setNegbtivePermissions(){
         neg = true;
   }
 
   /**
-   * Returns the principal for which permissions are granted or denied by this ACL
-   * entry. Returns null if there is no principal set for this entry yet.
+   * Returns the principbl for which permissions bre grbnted or denied by this ACL
+   * entry. Returns null if there is no principbl set for this entry yet.
    *
-   * @return the principal associated with this entry.
+   * @return the principbl bssocibted with this entry.
    */
-  public Principal getPrincipal(){
+  public Principbl getPrincipbl(){
         return princ;
   }
 
   /**
-   * Specifies the principal for which permissions are granted or denied by
-   * this ACL entry. If a principal was already set for this ACL entry,
-   * false is returned, otherwise true is returned.
+   * Specifies the principbl for which permissions bre grbnted or denied by
+   * this ACL entry. If b principbl wbs blrebdy set for this ACL entry,
+   * fblse is returned, otherwise true is returned.
    *
-   * @param p the principal to be set for this entry.
-   * @return true if the principal is set, false if there was already a
-   *         principal set for this entry.
+   * @pbrbm p the principbl to be set for this entry.
+   * @return true if the principbl is set, fblse if there wbs blrebdy b
+   *         principbl set for this entry.
    */
-  public boolean setPrincipal(Principal p) {
+  public boolebn setPrincipbl(Principbl p) {
         if (princ != null )
-          return false;
+          return fblse;
         princ = p;
         return true;
   }
 
   /**
-   * Returns a string representation of the contents of this ACL entry.
+   * Returns b string representbtion of the contents of this ACL entry.
    *
-   * @return a string representation of the contents.
+   * @return b string representbtion of the contents.
    */
   public String toString(){
         return "AclEntry:"+princ.toString();
   }
 
   /**
-   * Returns an enumeration of the communities in this ACL entry.
+   * Returns bn enumerbtion of the communities in this ACL entry.
    *
-   * @return an enumeration of the communities in this ACL entry.
+   * @return bn enumerbtion of the communities in this ACL entry.
    */
-  public Enumeration<String> communities(){
+  public Enumerbtion<String> communities(){
         return commList.elements();
   }
 
   /**
-   * Adds the specified community to this ACL entry. Note: An entry can
-   * have multiple communities.
+   * Adds the specified community to this ACL entry. Note: An entry cbn
+   * hbve multiple communities.
    *
-   * @param comm the community to be associated with the principal
+   * @pbrbm comm the community to be bssocibted with the principbl
    *        in this entry.
-   * @return true if the community was added, false if the community was
-   *         already part of this entry's community set.
+   * @return true if the community wbs bdded, fblse if the community wbs
+   *         blrebdy pbrt of this entry's community set.
    */
-  public boolean addCommunity(String comm){
-        if (commList.contains(comm)) return false;
-        commList.addElement(comm);
+  public boolebn bddCommunity(String comm){
+        if (commList.contbins(comm)) return fblse;
+        commList.bddElement(comm);
         return true;
   }
 
   /**
    * Removes the specified community from this ACL entry.
    *
-   * @param comm the community  to be removed from this entry.
-   * @return true if the community is removed, false if the community was
-   *         not part of this entry's community set.
+   * @pbrbm comm the community  to be removed from this entry.
+   * @return true if the community is removed, fblse if the community wbs
+   *         not pbrt of this entry's community set.
    */
-  public boolean removeCommunity(String comm){
-        if (!commList.contains(comm)) return false;
+  public boolebn removeCommunity(String comm){
+        if (!commList.contbins(comm)) return fblse;
         commList.removeElement(comm);
         return true;
   }
 
   /**
-   * Checks if the specified community is part of the community set in this
+   * Checks if the specified community is pbrt of the community set in this
    * entry.
    *
-   * @param  comm the community to be checked for.
-   * @return true if the community is part of the community set in this
-   *         entry, false otherwise.
+   * @pbrbm  comm the community to be checked for.
+   * @return true if the community is pbrt of the community set in this
+   *         entry, fblse otherwise.
    */
-  public boolean checkCommunity(String comm){
-        return (commList.contains(comm));
+  public boolebn checkCommunity(String comm){
+        return (commList.contbins(comm));
   }
 
-  private Principal princ = null;
-  private boolean neg     = false;
-  private Vector<Permission> permList = null;
-  private Vector<String> commList = null;
+  privbte Principbl princ = null;
+  privbte boolebn neg     = fblse;
+  privbte Vector<Permission> permList = null;
+  privbte Vector<String> commList = null;
 }

@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.datatransfer.FlavorMap;
-import java.awt.datatransfer.SystemFlavorMap;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.util.EventListener;
-import sun.awt.dnd.SunDragSourceContextPeer;
-import sun.security.action.GetIntegerAction;
+import jbvb.bwt.Component;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorMbp;
+import jbvb.bwt.dbtbtrbnsfer.SystemFlbvorMbp;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.util.EventListener;
+import sun.bwt.dnd.SunDrbgSourceContextPeer;
+import sun.security.bction.GetIntegerAction;
 
 
 /**
- * The <code>DragSource</code> is the entity responsible
- * for the initiation of the Drag
- * and Drop operation, and may be used in a number of scenarios:
+ * The <code>DrbgSource</code> is the entity responsible
+ * for the initibtion of the Drbg
+ * bnd Drop operbtion, bnd mby be used in b number of scenbrios:
  * <UL>
- * <LI>1 default instance per JVM for the lifetime of that JVM.
- * <LI>1 instance per class of potential Drag Initiator object (e.g
- * TextField). [implementation dependent]
- * <LI>1 per instance of a particular
- * <code>Component</code>, or application specific
- * object associated with a <code>Component</code>
- * instance in the GUI. [implementation dependent]
- * <LI>Some other arbitrary association. [implementation dependent]
+ * <LI>1 defbult instbnce per JVM for the lifetime of thbt JVM.
+ * <LI>1 instbnce per clbss of potentibl Drbg Initibtor object (e.g
+ * TextField). [implementbtion dependent]
+ * <LI>1 per instbnce of b pbrticulbr
+ * <code>Component</code>, or bpplicbtion specific
+ * object bssocibted with b <code>Component</code>
+ * instbnce in the GUI. [implementbtion dependent]
+ * <LI>Some other brbitrbry bssocibtion. [implementbtion dependent]
  *</UL>
  *
- * Once the <code>DragSource</code> is
- * obtained, a <code>DragGestureRecognizer</code> should
- * also be obtained to associate the <code>DragSource</code>
- * with a particular
+ * Once the <code>DrbgSource</code> is
+ * obtbined, b <code>DrbgGestureRecognizer</code> should
+ * blso be obtbined to bssocibte the <code>DrbgSource</code>
+ * with b pbrticulbr
  * <code>Component</code>.
  * <P>
- * The initial interpretation of the user's gesture,
- * and the subsequent starting of the drag operation
- * are the responsibility of the implementing
- * <code>Component</code>, which is usually
- * implemented by a <code>DragGestureRecognizer</code>.
+ * The initibl interpretbtion of the user's gesture,
+ * bnd the subsequent stbrting of the drbg operbtion
+ * bre the responsibility of the implementing
+ * <code>Component</code>, which is usublly
+ * implemented by b <code>DrbgGestureRecognizer</code>.
  *<P>
- * When a drag gesture occurs, the
- * <code>DragSource</code>'s
- * startDrag() method shall be
- * invoked in order to cause processing
- * of the user's navigational
- * gestures and delivery of Drag and Drop
- * protocol notifications. A
- * <code>DragSource</code> shall only
- * permit a single Drag and Drop operation to be
- * current at any one time, and shall
- * reject any further startDrag() requests
- * by throwing an <code>IllegalDnDOperationException</code>
- * until such time as the extant operation is complete.
+ * When b drbg gesture occurs, the
+ * <code>DrbgSource</code>'s
+ * stbrtDrbg() method shbll be
+ * invoked in order to cbuse processing
+ * of the user's nbvigbtionbl
+ * gestures bnd delivery of Drbg bnd Drop
+ * protocol notificbtions. A
+ * <code>DrbgSource</code> shbll only
+ * permit b single Drbg bnd Drop operbtion to be
+ * current bt bny one time, bnd shbll
+ * reject bny further stbrtDrbg() requests
+ * by throwing bn <code>IllegblDnDOperbtionException</code>
+ * until such time bs the extbnt operbtion is complete.
  * <P>
- * The startDrag() method invokes the
- * createDragSourceContext() method to
- * instantiate an appropriate
- * <code>DragSourceContext</code>
- * and associate the <code>DragSourceContextPeer</code>
- * with that.
+ * The stbrtDrbg() method invokes the
+ * crebteDrbgSourceContext() method to
+ * instbntibte bn bppropribte
+ * <code>DrbgSourceContext</code>
+ * bnd bssocibte the <code>DrbgSourceContextPeer</code>
+ * with thbt.
  * <P>
- * If the Drag and Drop System is
- * unable to initiate a drag operation for
- * some reason, the startDrag() method throws
- * a <code>java.awt.dnd.InvalidDnDOperationException</code>
- * to signal such a condition. Typically this
- * exception is thrown when the underlying platform
- * system is either not in a state to
- * initiate a drag, or the parameters specified are invalid.
+ * If the Drbg bnd Drop System is
+ * unbble to initibte b drbg operbtion for
+ * some rebson, the stbrtDrbg() method throws
+ * b <code>jbvb.bwt.dnd.InvblidDnDOperbtionException</code>
+ * to signbl such b condition. Typicblly this
+ * exception is thrown when the underlying plbtform
+ * system is either not in b stbte to
+ * initibte b drbg, or the pbrbmeters specified bre invblid.
  * <P>
- * Note that during the drag, the
- * set of operations exposed by the source
- * at the start of the drag operation may not change
- * until the operation is complete.
- * The operation(s) are constant for the
- * duration of the operation with respect to the
- * <code>DragSource</code>.
+ * Note thbt during the drbg, the
+ * set of operbtions exposed by the source
+ * bt the stbrt of the drbg operbtion mby not chbnge
+ * until the operbtion is complete.
+ * The operbtion(s) bre constbnt for the
+ * durbtion of the operbtion with respect to the
+ * <code>DrbgSource</code>.
  *
  * @since 1.2
  */
 
-public class DragSource implements Serializable {
+public clbss DrbgSource implements Seriblizbble {
 
-    private static final long serialVersionUID = 6236096958971414066L;
+    privbte stbtic finbl long seriblVersionUID = 6236096958971414066L;
 
     /*
-     * load a system default cursor
+     * lobd b system defbult cursor
      */
 
-    private static Cursor load(String name) {
-        if (GraphicsEnvironment.isHeadless()) {
+    privbte stbtic Cursor lobd(String nbme) {
+        if (GrbphicsEnvironment.isHebdless()) {
             return null;
         }
 
         try {
-            return (Cursor)Toolkit.getDefaultToolkit().getDesktopProperty(name);
-        } catch (Exception e) {
-            e.printStackTrace();
+            return (Cursor)Toolkit.getDefbultToolkit().getDesktopProperty(nbme);
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
 
-            throw new RuntimeException("failed to load system cursor: " + name + " : " + e.getMessage());
+            throw new RuntimeException("fbiled to lobd system cursor: " + nbme + " : " + e.getMessbge());
         }
     }
 
 
     /**
-     * The default <code>Cursor</code> to use with a copy operation indicating
-     * that a drop is currently allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b copy operbtion indicbting
+     * thbt b drop is currently bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultCopyDrop =
-        load("DnD.Cursor.CopyDrop");
+    public stbtic finbl Cursor DefbultCopyDrop =
+        lobd("DnD.Cursor.CopyDrop");
 
     /**
-     * The default <code>Cursor</code> to use with a move operation indicating
-     * that a drop is currently allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b move operbtion indicbting
+     * thbt b drop is currently bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultMoveDrop =
-        load("DnD.Cursor.MoveDrop");
+    public stbtic finbl Cursor DefbultMoveDrop =
+        lobd("DnD.Cursor.MoveDrop");
 
     /**
-     * The default <code>Cursor</code> to use with a link operation indicating
-     * that a drop is currently allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b link operbtion indicbting
+     * thbt b drop is currently bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultLinkDrop =
-        load("DnD.Cursor.LinkDrop");
+    public stbtic finbl Cursor DefbultLinkDrop =
+        lobd("DnD.Cursor.LinkDrop");
 
     /**
-     * The default <code>Cursor</code> to use with a copy operation indicating
-     * that a drop is currently not allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b copy operbtion indicbting
+     * thbt b drop is currently not bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultCopyNoDrop =
-        load("DnD.Cursor.CopyNoDrop");
+    public stbtic finbl Cursor DefbultCopyNoDrop =
+        lobd("DnD.Cursor.CopyNoDrop");
 
     /**
-     * The default <code>Cursor</code> to use with a move operation indicating
-     * that a drop is currently not allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b move operbtion indicbting
+     * thbt b drop is currently not bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultMoveNoDrop =
-        load("DnD.Cursor.MoveNoDrop");
+    public stbtic finbl Cursor DefbultMoveNoDrop =
+        lobd("DnD.Cursor.MoveNoDrop");
 
     /**
-     * The default <code>Cursor</code> to use with a link operation indicating
-     * that a drop is currently not allowed. <code>null</code> if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>.
+     * The defbult <code>Cursor</code> to use with b link operbtion indicbting
+     * thbt b drop is currently not bllowed. <code>null</code> if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static final Cursor DefaultLinkNoDrop =
-        load("DnD.Cursor.LinkNoDrop");
+    public stbtic finbl Cursor DefbultLinkNoDrop =
+        lobd("DnD.Cursor.LinkNoDrop");
 
-    private static final DragSource dflt =
-        (GraphicsEnvironment.isHeadless()) ? null : new DragSource();
+    privbte stbtic finbl DrbgSource dflt =
+        (GrbphicsEnvironment.isHebdless()) ? null : new DrbgSource();
 
     /**
-     * Internal constants for serialization.
+     * Internbl constbnts for seriblizbtion.
      */
-    static final String dragSourceListenerK = "dragSourceL";
-    static final String dragSourceMotionListenerK = "dragSourceMotionL";
+    stbtic finbl String drbgSourceListenerK = "drbgSourceL";
+    stbtic finbl String drbgSourceMotionListenerK = "drbgSourceMotionL";
 
     /**
-     * Gets the <code>DragSource</code> object associated with
-     * the underlying platform.
+     * Gets the <code>DrbgSource</code> object bssocibted with
+     * the underlying plbtform.
      *
-     * @return the platform DragSource
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return the plbtform DrbgSource
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static DragSource getDefaultDragSource() {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public stbtic DrbgSource getDefbultDrbgSource() {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         } else {
             return dflt;
         }
@@ -225,687 +225,687 @@ public class DragSource implements Serializable {
 
     /**
      * Reports
-     * whether or not drag
-     * <code>Image</code> support
-     * is available on the underlying platform.
+     * whether or not drbg
+     * <code>Imbge</code> support
+     * is bvbilbble on the underlying plbtform.
      *
-     * @return if the Drag Image support is available on this platform
+     * @return if the Drbg Imbge support is bvbilbble on this plbtform
      */
 
-    public static boolean isDragImageSupported() {
-        Toolkit t = Toolkit.getDefaultToolkit();
+    public stbtic boolebn isDrbgImbgeSupported() {
+        Toolkit t = Toolkit.getDefbultToolkit();
 
-        Boolean supported;
+        Boolebn supported;
 
         try {
-            supported = (Boolean)Toolkit.getDefaultToolkit().getDesktopProperty("DnD.isDragImageSupported");
+            supported = (Boolebn)Toolkit.getDefbultToolkit().getDesktopProperty("DnD.isDrbgImbgeSupported");
 
-            return supported.booleanValue();
-        } catch (Exception e) {
-            return false;
+            return supported.boolebnVblue();
+        } cbtch (Exception e) {
+            return fblse;
         }
     }
 
     /**
-     * Creates a new <code>DragSource</code>.
+     * Crebtes b new <code>DrbgSource</code>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public DragSource() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public DrbgSource() throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
     }
 
     /**
-     * Start a drag, given the <code>DragGestureEvent</code>
-     * that initiated the drag, the initial
+     * Stbrt b drbg, given the <code>DrbgGestureEvent</code>
+     * thbt initibted the drbg, the initibl
      * <code>Cursor</code> to use,
-     * the <code>Image</code> to drag,
-     * the offset of the <code>Image</code> origin
-     * from the hotspot of the <code>Cursor</code> at
-     * the instant of the trigger,
-     * the <code>Transferable</code> subject data
-     * of the drag, the <code>DragSourceListener</code>,
-     * and the <code>FlavorMap</code>.
+     * the <code>Imbge</code> to drbg,
+     * the offset of the <code>Imbge</code> origin
+     * from the hotspot of the <code>Cursor</code> bt
+     * the instbnt of the trigger,
+     * the <code>Trbnsferbble</code> subject dbtb
+     * of the drbg, the <code>DrbgSourceListener</code>,
+     * bnd the <code>FlbvorMbp</code>.
      *
-     * @param trigger        the <code>DragGestureEvent</code> that initiated the drag
-     * @param dragCursor     the initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism during drag and drop
-     * @param dragImage      the image to drag or {@code null}
-     * @param imageOffset    the offset of the <code>Image</code> origin from the hotspot
-     *                       of the <code>Cursor</code> at the instant of the trigger
-     * @param transferable   the subject data of the drag
-     * @param dsl            the <code>DragSourceListener</code>
-     * @param flavorMap      the <code>FlavorMap</code> to use, or <code>null</code>
+     * @pbrbm trigger        the <code>DrbgGestureEvent</code> thbt initibted the drbg
+     * @pbrbm drbgCursor     the initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
+     *                       see <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism during drbg bnd drop
+     * @pbrbm drbgImbge      the imbge to drbg or {@code null}
+     * @pbrbm imbgeOffset    the offset of the <code>Imbge</code> origin from the hotspot
+     *                       of the <code>Cursor</code> bt the instbnt of the trigger
+     * @pbrbm trbnsferbble   the subject dbtb of the drbg
+     * @pbrbm dsl            the <code>DrbgSourceListener</code>
+     * @pbrbm flbvorMbp      the <code>FlbvorMbp</code> to use, or <code>null</code>
      *
-     * @throws java.awt.dnd.InvalidDnDOperationException
-     *    if the Drag and Drop
-     *    system is unable to initiate a drag operation, or if the user
-     *    attempts to start a drag while an existing drag operation
+     * @throws jbvb.bwt.dnd.InvblidDnDOperbtionException
+     *    if the Drbg bnd Drop
+     *    system is unbble to initibte b drbg operbtion, or if the user
+     *    bttempts to stbrt b drbg while bn existing drbg operbtion
      *    is still executing
      */
 
-    public void startDrag(DragGestureEvent   trigger,
-                          Cursor             dragCursor,
-                          Image              dragImage,
-                          Point              imageOffset,
-                          Transferable       transferable,
-                          DragSourceListener dsl,
-                          FlavorMap          flavorMap) throws InvalidDnDOperationException {
+    public void stbrtDrbg(DrbgGestureEvent   trigger,
+                          Cursor             drbgCursor,
+                          Imbge              drbgImbge,
+                          Point              imbgeOffset,
+                          Trbnsferbble       trbnsferbble,
+                          DrbgSourceListener dsl,
+                          FlbvorMbp          flbvorMbp) throws InvblidDnDOperbtionException {
 
-        SunDragSourceContextPeer.setDragDropInProgress(true);
+        SunDrbgSourceContextPeer.setDrbgDropInProgress(true);
 
         try {
-            if (flavorMap != null) this.flavorMap = flavorMap;
+            if (flbvorMbp != null) this.flbvorMbp = flbvorMbp;
 
-            DragSourceContextPeer dscp = Toolkit.getDefaultToolkit().createDragSourceContextPeer(trigger);
+            DrbgSourceContextPeer dscp = Toolkit.getDefbultToolkit().crebteDrbgSourceContextPeer(trigger);
 
-            DragSourceContext     dsc = createDragSourceContext(dscp,
+            DrbgSourceContext     dsc = crebteDrbgSourceContext(dscp,
                                                                 trigger,
-                                                                dragCursor,
-                                                                dragImage,
-                                                                imageOffset,
-                                                                transferable,
+                                                                drbgCursor,
+                                                                drbgImbge,
+                                                                imbgeOffset,
+                                                                trbnsferbble,
                                                                 dsl
                                                                 );
 
             if (dsc == null) {
-                throw new InvalidDnDOperationException();
+                throw new InvblidDnDOperbtionException();
             }
 
-            dscp.startDrag(dsc, dsc.getCursor(), dragImage, imageOffset); // may throw
-        } catch (RuntimeException e) {
-            SunDragSourceContextPeer.setDragDropInProgress(false);
+            dscp.stbrtDrbg(dsc, dsc.getCursor(), drbgImbge, imbgeOffset); // mby throw
+        } cbtch (RuntimeException e) {
+            SunDrbgSourceContextPeer.setDrbgDropInProgress(fblse);
             throw e;
         }
     }
 
     /**
-     * Start a drag, given the <code>DragGestureEvent</code>
-     * that initiated the drag, the initial
+     * Stbrt b drbg, given the <code>DrbgGestureEvent</code>
+     * thbt initibted the drbg, the initibl
      * <code>Cursor</code> to use,
-     * the <code>Transferable</code> subject data
-     * of the drag, the <code>DragSourceListener</code>,
-     * and the <code>FlavorMap</code>.
+     * the <code>Trbnsferbble</code> subject dbtb
+     * of the drbg, the <code>DrbgSourceListener</code>,
+     * bnd the <code>FlbvorMbp</code>.
      *
-     * @param trigger        the <code>DragGestureEvent</code> that
-     * initiated the drag
-     * @param dragCursor     the initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism during drag and drop
-     * @param transferable   the subject data of the drag
-     * @param dsl            the <code>DragSourceListener</code>
-     * @param flavorMap      the <code>FlavorMap</code> to use or <code>null</code>
+     * @pbrbm trigger        the <code>DrbgGestureEvent</code> thbt
+     * initibted the drbg
+     * @pbrbm drbgCursor     the initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
+     *                       see <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism during drbg bnd drop
+     * @pbrbm trbnsferbble   the subject dbtb of the drbg
+     * @pbrbm dsl            the <code>DrbgSourceListener</code>
+     * @pbrbm flbvorMbp      the <code>FlbvorMbp</code> to use or <code>null</code>
      *
-     * @throws java.awt.dnd.InvalidDnDOperationException
-     *    if the Drag and Drop
-     *    system is unable to initiate a drag operation, or if the user
-     *    attempts to start a drag while an existing drag operation
+     * @throws jbvb.bwt.dnd.InvblidDnDOperbtionException
+     *    if the Drbg bnd Drop
+     *    system is unbble to initibte b drbg operbtion, or if the user
+     *    bttempts to stbrt b drbg while bn existing drbg operbtion
      *    is still executing
      */
 
-    public void startDrag(DragGestureEvent   trigger,
-                          Cursor             dragCursor,
-                          Transferable       transferable,
-                          DragSourceListener dsl,
-                          FlavorMap          flavorMap) throws InvalidDnDOperationException {
-        startDrag(trigger, dragCursor, null, null, transferable, dsl, flavorMap);
+    public void stbrtDrbg(DrbgGestureEvent   trigger,
+                          Cursor             drbgCursor,
+                          Trbnsferbble       trbnsferbble,
+                          DrbgSourceListener dsl,
+                          FlbvorMbp          flbvorMbp) throws InvblidDnDOperbtionException {
+        stbrtDrbg(trigger, drbgCursor, null, null, trbnsferbble, dsl, flbvorMbp);
     }
 
     /**
-     * Start a drag, given the <code>DragGestureEvent</code>
-     * that initiated the drag, the initial <code>Cursor</code>
+     * Stbrt b drbg, given the <code>DrbgGestureEvent</code>
+     * thbt initibted the drbg, the initibl <code>Cursor</code>
      * to use,
-     * the <code>Image</code> to drag,
-     * the offset of the <code>Image</code> origin
+     * the <code>Imbge</code> to drbg,
+     * the offset of the <code>Imbge</code> origin
      * from the hotspot of the <code>Cursor</code>
-     * at the instant of the trigger,
-     * the subject data of the drag, and
-     * the <code>DragSourceListener</code>.
+     * bt the instbnt of the trigger,
+     * the subject dbtb of the drbg, bnd
+     * the <code>DrbgSourceListener</code>.
      *
-     * @param trigger           the <code>DragGestureEvent</code> that initiated the drag
-     * @param dragCursor     the initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism during drag and drop
-     * @param dragImage         the <code>Image</code> to drag or <code>null</code>
-     * @param dragOffset        the offset of the <code>Image</code> origin from the hotspot
-     *                          of the <code>Cursor</code> at the instant of the trigger
-     * @param transferable      the subject data of the drag
-     * @param dsl               the <code>DragSourceListener</code>
+     * @pbrbm trigger           the <code>DrbgGestureEvent</code> thbt initibted the drbg
+     * @pbrbm drbgCursor     the initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
+     *                       see <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b>
+     *                       for more detbils on the cursor hbndling mechbnism during drbg bnd drop
+     * @pbrbm drbgImbge         the <code>Imbge</code> to drbg or <code>null</code>
+     * @pbrbm drbgOffset        the offset of the <code>Imbge</code> origin from the hotspot
+     *                          of the <code>Cursor</code> bt the instbnt of the trigger
+     * @pbrbm trbnsferbble      the subject dbtb of the drbg
+     * @pbrbm dsl               the <code>DrbgSourceListener</code>
      *
-     * @throws java.awt.dnd.InvalidDnDOperationException
-     *    if the Drag and Drop
-     *    system is unable to initiate a drag operation, or if the user
-     *    attempts to start a drag while an existing drag operation
+     * @throws jbvb.bwt.dnd.InvblidDnDOperbtionException
+     *    if the Drbg bnd Drop
+     *    system is unbble to initibte b drbg operbtion, or if the user
+     *    bttempts to stbrt b drbg while bn existing drbg operbtion
      *    is still executing
      */
 
-    public void startDrag(DragGestureEvent   trigger,
-                          Cursor             dragCursor,
-                          Image              dragImage,
-                          Point              dragOffset,
-                          Transferable       transferable,
-                          DragSourceListener dsl) throws InvalidDnDOperationException {
-        startDrag(trigger, dragCursor, dragImage, dragOffset, transferable, dsl, null);
+    public void stbrtDrbg(DrbgGestureEvent   trigger,
+                          Cursor             drbgCursor,
+                          Imbge              drbgImbge,
+                          Point              drbgOffset,
+                          Trbnsferbble       trbnsferbble,
+                          DrbgSourceListener dsl) throws InvblidDnDOperbtionException {
+        stbrtDrbg(trigger, drbgCursor, drbgImbge, drbgOffset, trbnsferbble, dsl, null);
     }
 
     /**
-     * Start a drag, given the <code>DragGestureEvent</code>
-     * that initiated the drag, the initial
+     * Stbrt b drbg, given the <code>DrbgGestureEvent</code>
+     * thbt initibted the drbg, the initibl
      * <code>Cursor</code> to
      * use,
-     * the <code>Transferable</code> subject data
-     * of the drag, and the <code>DragSourceListener</code>.
+     * the <code>Trbnsferbble</code> subject dbtb
+     * of the drbg, bnd the <code>DrbgSourceListener</code>.
      *
-     * @param trigger        the <code>DragGestureEvent</code> that initiated the drag
-     * @param dragCursor     the initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a> class
-     *                       for more details on the cursor handling mechanism during drag and drop
-     * @param transferable      the subject data of the drag
-     * @param dsl               the <code>DragSourceListener</code>
+     * @pbrbm trigger        the <code>DrbgGestureEvent</code> thbt initibted the drbg
+     * @pbrbm drbgCursor     the initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
+     *                       see <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b> clbss
+     *                       for more detbils on the cursor hbndling mechbnism during drbg bnd drop
+     * @pbrbm trbnsferbble      the subject dbtb of the drbg
+     * @pbrbm dsl               the <code>DrbgSourceListener</code>
      *
-     * @throws java.awt.dnd.InvalidDnDOperationException
-     *    if the Drag and Drop
-     *    system is unable to initiate a drag operation, or if the user
-     *    attempts to start a drag while an existing drag operation
+     * @throws jbvb.bwt.dnd.InvblidDnDOperbtionException
+     *    if the Drbg bnd Drop
+     *    system is unbble to initibte b drbg operbtion, or if the user
+     *    bttempts to stbrt b drbg while bn existing drbg operbtion
      *    is still executing
      */
 
-    public void startDrag(DragGestureEvent   trigger,
-                          Cursor             dragCursor,
-                          Transferable       transferable,
-                          DragSourceListener dsl) throws InvalidDnDOperationException {
-        startDrag(trigger, dragCursor, null, null, transferable, dsl, null);
+    public void stbrtDrbg(DrbgGestureEvent   trigger,
+                          Cursor             drbgCursor,
+                          Trbnsferbble       trbnsferbble,
+                          DrbgSourceListener dsl) throws InvblidDnDOperbtionException {
+        stbrtDrbg(trigger, drbgCursor, null, null, trbnsferbble, dsl, null);
     }
 
     /**
-     * Creates the {@code DragSourceContext} to handle the current drag
-     * operation.
+     * Crebtes the {@code DrbgSourceContext} to hbndle the current drbg
+     * operbtion.
      * <p>
-     * To incorporate a new <code>DragSourceContext</code>
-     * subclass, subclass <code>DragSource</code> and
+     * To incorporbte b new <code>DrbgSourceContext</code>
+     * subclbss, subclbss <code>DrbgSource</code> bnd
      * override this method.
      * <p>
-     * If <code>dragImage</code> is <code>null</code>, no image is used
-     * to represent the drag over feedback for this drag operation, but
+     * If <code>drbgImbge</code> is <code>null</code>, no imbge is used
+     * to represent the drbg over feedbbck for this drbg operbtion, but
      * <code>NullPointerException</code> is not thrown.
      * <p>
-     * If <code>dsl</code> is <code>null</code>, no drag source listener
-     * is registered with the created <code>DragSourceContext</code>,
+     * If <code>dsl</code> is <code>null</code>, no drbg source listener
+     * is registered with the crebted <code>DrbgSourceContext</code>,
      * but <code>NullPointerException</code> is not thrown.
      *
-     * @param dscp          The <code>DragSourceContextPeer</code> for this drag
-     * @param dgl           The <code>DragGestureEvent</code> that triggered the
-     *                      drag
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a> class
-     *                       for more details on the cursor handling mechanism during drag and drop
-     * @param dragImage     The <code>Image</code> to drag or <code>null</code>
-     * @param imageOffset   The offset of the <code>Image</code> origin from the
-     *                      hotspot of the cursor at the instant of the trigger
-     * @param t             The subject data of the drag
-     * @param dsl           The <code>DragSourceListener</code>
+     * @pbrbm dscp          The <code>DrbgSourceContextPeer</code> for this drbg
+     * @pbrbm dgl           The <code>DrbgGestureEvent</code> thbt triggered the
+     *                      drbg
+     * @pbrbm drbgCursor     The initibl {@code Cursor} for this drbg operbtion
+     *                       or {@code null} for the defbult cursor hbndling;
+     *                       see <b href="DrbgSourceContext.html#defbultCursor">DrbgSourceContext</b> clbss
+     *                       for more detbils on the cursor hbndling mechbnism during drbg bnd drop
+     * @pbrbm drbgImbge     The <code>Imbge</code> to drbg or <code>null</code>
+     * @pbrbm imbgeOffset   The offset of the <code>Imbge</code> origin from the
+     *                      hotspot of the cursor bt the instbnt of the trigger
+     * @pbrbm t             The subject dbtb of the drbg
+     * @pbrbm dsl           The <code>DrbgSourceListener</code>
      *
-     * @return the <code>DragSourceContext</code>
+     * @return the <code>DrbgSourceContext</code>
      *
      * @throws NullPointerException if <code>dscp</code> is <code>null</code>
      * @throws NullPointerException if <code>dgl</code> is <code>null</code>
-     * @throws NullPointerException if <code>dragImage</code> is not
-     *    <code>null</code> and <code>imageOffset</code> is <code>null</code>
+     * @throws NullPointerException if <code>drbgImbge</code> is not
+     *    <code>null</code> bnd <code>imbgeOffset</code> is <code>null</code>
      * @throws NullPointerException if <code>t</code> is <code>null</code>
-     * @throws IllegalArgumentException if the <code>Component</code>
-     *         associated with the trigger event is <code>null</code>.
-     * @throws IllegalArgumentException if the <code>DragSource</code> for the
+     * @throws IllegblArgumentException if the <code>Component</code>
+     *         bssocibted with the trigger event is <code>null</code>.
+     * @throws IllegblArgumentException if the <code>DrbgSource</code> for the
      *         trigger event is <code>null</code>.
-     * @throws IllegalArgumentException if the drag action for the
-     *         trigger event is <code>DnDConstants.ACTION_NONE</code>.
-     * @throws IllegalArgumentException if the source actions for the
-     *         <code>DragGestureRecognizer</code> associated with the trigger
-     *         event are equal to <code>DnDConstants.ACTION_NONE</code>.
+     * @throws IllegblArgumentException if the drbg bction for the
+     *         trigger event is <code>DnDConstbnts.ACTION_NONE</code>.
+     * @throws IllegblArgumentException if the source bctions for the
+     *         <code>DrbgGestureRecognizer</code> bssocibted with the trigger
+     *         event bre equbl to <code>DnDConstbnts.ACTION_NONE</code>.
      */
 
-    protected DragSourceContext createDragSourceContext(DragSourceContextPeer dscp, DragGestureEvent dgl, Cursor dragCursor, Image dragImage, Point imageOffset, Transferable t, DragSourceListener dsl) {
-        return new DragSourceContext(dscp, dgl, dragCursor, dragImage, imageOffset, t, dsl);
+    protected DrbgSourceContext crebteDrbgSourceContext(DrbgSourceContextPeer dscp, DrbgGestureEvent dgl, Cursor drbgCursor, Imbge drbgImbge, Point imbgeOffset, Trbnsferbble t, DrbgSourceListener dsl) {
+        return new DrbgSourceContext(dscp, dgl, drbgCursor, drbgImbge, imbgeOffset, t, dsl);
     }
 
     /**
      * This method returns the
-     * <code>FlavorMap</code> for this <code>DragSource</code>.
+     * <code>FlbvorMbp</code> for this <code>DrbgSource</code>.
      *
-     * @return the <code>FlavorMap</code> for this <code>DragSource</code>
+     * @return the <code>FlbvorMbp</code> for this <code>DrbgSource</code>
      */
 
-    public FlavorMap getFlavorMap() { return flavorMap; }
+    public FlbvorMbp getFlbvorMbp() { return flbvorMbp; }
 
     /**
-     * Creates a new <code>DragGestureRecognizer</code>
-     * that implements the specified
-     * abstract subclass of
-     * <code>DragGestureRecognizer</code>, and
+     * Crebtes b new <code>DrbgGestureRecognizer</code>
+     * thbt implements the specified
+     * bbstrbct subclbss of
+     * <code>DrbgGestureRecognizer</code>, bnd
      * sets the specified <code>Component</code>
-     * and <code>DragGestureListener</code> on
-     * the newly created object.
+     * bnd <code>DrbgGestureListener</code> on
+     * the newly crebted object.
      *
-     * @param <T> the type of {@code DragGestureRecognizer} to create
-     * @param recognizerAbstractClass the requested abstract type
-     * @param actions                 the permitted source drag actions
-     * @param c                       the <code>Component</code> target
-     * @param dgl        the <code>DragGestureListener</code> to notify
+     * @pbrbm <T> the type of {@code DrbgGestureRecognizer} to crebte
+     * @pbrbm recognizerAbstrbctClbss the requested bbstrbct type
+     * @pbrbm bctions                 the permitted source drbg bctions
+     * @pbrbm c                       the <code>Component</code> tbrget
+     * @pbrbm dgl        the <code>DrbgGestureListener</code> to notify
      *
-     * @return the new <code>DragGestureRecognizer</code> or <code>null</code>
-     *    if the <code>Toolkit.createDragGestureRecognizer</code> method
-     *    has no implementation available for
-     *    the requested <code>DragGestureRecognizer</code>
-     *    subclass and returns <code>null</code>
+     * @return the new <code>DrbgGestureRecognizer</code> or <code>null</code>
+     *    if the <code>Toolkit.crebteDrbgGestureRecognizer</code> method
+     *    hbs no implementbtion bvbilbble for
+     *    the requested <code>DrbgGestureRecognizer</code>
+     *    subclbss bnd returns <code>null</code>
      */
 
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> recognizerAbstractClass,
-                                    Component c, int actions,
-                                    DragGestureListener dgl)
+    public <T extends DrbgGestureRecognizer> T
+        crebteDrbgGestureRecognizer(Clbss<T> recognizerAbstrbctClbss,
+                                    Component c, int bctions,
+                                    DrbgGestureListener dgl)
     {
-        return Toolkit.getDefaultToolkit().createDragGestureRecognizer(recognizerAbstractClass, this, c, actions, dgl);
+        return Toolkit.getDefbultToolkit().crebteDrbgGestureRecognizer(recognizerAbstrbctClbss, this, c, bctions, dgl);
     }
 
 
     /**
-     * Creates a new <code>DragGestureRecognizer</code>
-     * that implements the default
-     * abstract subclass of <code>DragGestureRecognizer</code>
-     * for this <code>DragSource</code>,
-     * and sets the specified <code>Component</code>
-     * and <code>DragGestureListener</code> on the
-     * newly created object.
+     * Crebtes b new <code>DrbgGestureRecognizer</code>
+     * thbt implements the defbult
+     * bbstrbct subclbss of <code>DrbgGestureRecognizer</code>
+     * for this <code>DrbgSource</code>,
+     * bnd sets the specified <code>Component</code>
+     * bnd <code>DrbgGestureListener</code> on the
+     * newly crebted object.
      *
-     * For this <code>DragSource</code>
-     * the default is <code>MouseDragGestureRecognizer</code>.
+     * For this <code>DrbgSource</code>
+     * the defbult is <code>MouseDrbgGestureRecognizer</code>.
      *
-     * @param c       the <code>Component</code> target for the recognizer
-     * @param actions the permitted source actions
-     * @param dgl     the <code>DragGestureListener</code> to notify
+     * @pbrbm c       the <code>Component</code> tbrget for the recognizer
+     * @pbrbm bctions the permitted source bctions
+     * @pbrbm dgl     the <code>DrbgGestureListener</code> to notify
      *
-     * @return the new <code>DragGestureRecognizer</code> or <code>null</code>
-     *    if the <code>Toolkit.createDragGestureRecognizer</code> method
-     *    has no implementation available for
-     *    the requested <code>DragGestureRecognizer</code>
-     *    subclass and returns <code>null</code>
+     * @return the new <code>DrbgGestureRecognizer</code> or <code>null</code>
+     *    if the <code>Toolkit.crebteDrbgGestureRecognizer</code> method
+     *    hbs no implementbtion bvbilbble for
+     *    the requested <code>DrbgGestureRecognizer</code>
+     *    subclbss bnd returns <code>null</code>
      */
 
-    public DragGestureRecognizer createDefaultDragGestureRecognizer(Component c, int actions, DragGestureListener dgl) {
-        return Toolkit.getDefaultToolkit().createDragGestureRecognizer(MouseDragGestureRecognizer.class, this, c, actions, dgl);
+    public DrbgGestureRecognizer crebteDefbultDrbgGestureRecognizer(Component c, int bctions, DrbgGestureListener dgl) {
+        return Toolkit.getDefbultToolkit().crebteDrbgGestureRecognizer(MouseDrbgGestureRecognizer.clbss, this, c, bctions, dgl);
     }
 
     /**
-     * Adds the specified <code>DragSourceListener</code> to this
-     * <code>DragSource</code> to receive drag source events during drag
-     * operations intiated with this <code>DragSource</code>.
-     * If a <code>null</code> listener is specified, no action is taken and no
+     * Adds the specified <code>DrbgSourceListener</code> to this
+     * <code>DrbgSource</code> to receive drbg source events during drbg
+     * operbtions intibted with this <code>DrbgSource</code>.
+     * If b <code>null</code> listener is specified, no bction is tbken bnd no
      * exception is thrown.
      *
-     * @param dsl the <code>DragSourceListener</code> to add
+     * @pbrbm dsl the <code>DrbgSourceListener</code> to bdd
      *
-     * @see      #removeDragSourceListener
-     * @see      #getDragSourceListeners
+     * @see      #removeDrbgSourceListener
+     * @see      #getDrbgSourceListeners
      * @since 1.4
      */
-    public void addDragSourceListener(DragSourceListener dsl) {
+    public void bddDrbgSourceListener(DrbgSourceListener dsl) {
         if (dsl != null) {
             synchronized (this) {
-                listener = DnDEventMulticaster.add(listener, dsl);
+                listener = DnDEventMulticbster.bdd(listener, dsl);
             }
         }
     }
 
     /**
-     * Removes the specified <code>DragSourceListener</code> from this
-     * <code>DragSource</code>.
-     * If a <code>null</code> listener is specified, no action is taken and no
+     * Removes the specified <code>DrbgSourceListener</code> from this
+     * <code>DrbgSource</code>.
+     * If b <code>null</code> listener is specified, no bction is tbken bnd no
      * exception is thrown.
-     * If the listener specified by the argument was not previously added to
-     * this <code>DragSource</code>, no action is taken and no exception
+     * If the listener specified by the brgument wbs not previously bdded to
+     * this <code>DrbgSource</code>, no bction is tbken bnd no exception
      * is thrown.
      *
-     * @param dsl the <code>DragSourceListener</code> to remove
+     * @pbrbm dsl the <code>DrbgSourceListener</code> to remove
      *
-     * @see      #addDragSourceListener
-     * @see      #getDragSourceListeners
+     * @see      #bddDrbgSourceListener
+     * @see      #getDrbgSourceListeners
      * @since 1.4
      */
-    public void removeDragSourceListener(DragSourceListener dsl) {
+    public void removeDrbgSourceListener(DrbgSourceListener dsl) {
         if (dsl != null) {
             synchronized (this) {
-                listener = DnDEventMulticaster.remove(listener, dsl);
+                listener = DnDEventMulticbster.remove(listener, dsl);
             }
         }
     }
 
     /**
-     * Gets all the <code>DragSourceListener</code>s
-     * registered with this <code>DragSource</code>.
+     * Gets bll the <code>DrbgSourceListener</code>s
+     * registered with this <code>DrbgSource</code>.
      *
-     * @return all of this <code>DragSource</code>'s
-     *         <code>DragSourceListener</code>s or an empty array if no
-     *         such listeners are currently registered
+     * @return bll of this <code>DrbgSource</code>'s
+     *         <code>DrbgSourceListener</code>s or bn empty brrby if no
+     *         such listeners bre currently registered
      *
-     * @see      #addDragSourceListener
-     * @see      #removeDragSourceListener
+     * @see      #bddDrbgSourceListener
+     * @see      #removeDrbgSourceListener
      * @since    1.4
      */
-    public DragSourceListener[] getDragSourceListeners() {
-        return getListeners(DragSourceListener.class);
+    public DrbgSourceListener[] getDrbgSourceListeners() {
+        return getListeners(DrbgSourceListener.clbss);
     }
 
     /**
-     * Adds the specified <code>DragSourceMotionListener</code> to this
-     * <code>DragSource</code> to receive drag motion events during drag
-     * operations intiated with this <code>DragSource</code>.
-     * If a <code>null</code> listener is specified, no action is taken and no
+     * Adds the specified <code>DrbgSourceMotionListener</code> to this
+     * <code>DrbgSource</code> to receive drbg motion events during drbg
+     * operbtions intibted with this <code>DrbgSource</code>.
+     * If b <code>null</code> listener is specified, no bction is tbken bnd no
      * exception is thrown.
      *
-     * @param dsml the <code>DragSourceMotionListener</code> to add
+     * @pbrbm dsml the <code>DrbgSourceMotionListener</code> to bdd
      *
-     * @see      #removeDragSourceMotionListener
-     * @see      #getDragSourceMotionListeners
+     * @see      #removeDrbgSourceMotionListener
+     * @see      #getDrbgSourceMotionListeners
      * @since 1.4
      */
-    public void addDragSourceMotionListener(DragSourceMotionListener dsml) {
+    public void bddDrbgSourceMotionListener(DrbgSourceMotionListener dsml) {
         if (dsml != null) {
             synchronized (this) {
-                motionListener = DnDEventMulticaster.add(motionListener, dsml);
+                motionListener = DnDEventMulticbster.bdd(motionListener, dsml);
             }
         }
     }
 
     /**
-     * Removes the specified <code>DragSourceMotionListener</code> from this
-     * <code>DragSource</code>.
-     * If a <code>null</code> listener is specified, no action is taken and no
+     * Removes the specified <code>DrbgSourceMotionListener</code> from this
+     * <code>DrbgSource</code>.
+     * If b <code>null</code> listener is specified, no bction is tbken bnd no
      * exception is thrown.
-     * If the listener specified by the argument was not previously added to
-     * this <code>DragSource</code>, no action is taken and no exception
+     * If the listener specified by the brgument wbs not previously bdded to
+     * this <code>DrbgSource</code>, no bction is tbken bnd no exception
      * is thrown.
      *
-     * @param dsml the <code>DragSourceMotionListener</code> to remove
+     * @pbrbm dsml the <code>DrbgSourceMotionListener</code> to remove
      *
-     * @see      #addDragSourceMotionListener
-     * @see      #getDragSourceMotionListeners
+     * @see      #bddDrbgSourceMotionListener
+     * @see      #getDrbgSourceMotionListeners
      * @since 1.4
      */
-    public void removeDragSourceMotionListener(DragSourceMotionListener dsml) {
+    public void removeDrbgSourceMotionListener(DrbgSourceMotionListener dsml) {
         if (dsml != null) {
             synchronized (this) {
-                motionListener = DnDEventMulticaster.remove(motionListener, dsml);
+                motionListener = DnDEventMulticbster.remove(motionListener, dsml);
             }
         }
     }
 
     /**
-     * Gets all of the  <code>DragSourceMotionListener</code>s
-     * registered with this <code>DragSource</code>.
+     * Gets bll of the  <code>DrbgSourceMotionListener</code>s
+     * registered with this <code>DrbgSource</code>.
      *
-     * @return all of this <code>DragSource</code>'s
-     *         <code>DragSourceMotionListener</code>s or an empty array if no
-     *         such listeners are currently registered
+     * @return bll of this <code>DrbgSource</code>'s
+     *         <code>DrbgSourceMotionListener</code>s or bn empty brrby if no
+     *         such listeners bre currently registered
      *
-     * @see      #addDragSourceMotionListener
-     * @see      #removeDragSourceMotionListener
+     * @see      #bddDrbgSourceMotionListener
+     * @see      #removeDrbgSourceMotionListener
      * @since    1.4
      */
-    public DragSourceMotionListener[] getDragSourceMotionListeners() {
-        return getListeners(DragSourceMotionListener.class);
+    public DrbgSourceMotionListener[] getDrbgSourceMotionListeners() {
+        return getListeners(DrbgSourceMotionListener.clbss);
     }
 
     /**
-     * Gets all the objects currently registered as
-     * <code><em>Foo</em>Listener</code>s upon this <code>DragSource</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Gets bll the objects currently registered bs
+     * <code><em>Foo</em>Listener</code>s upon this <code>DrbgSource</code>.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
-     * @param <T> the type of listener objects
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm <T> the type of listener objects
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this
-     *          <code>DragSource</code>, or an empty array if no such listeners
-     *          have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          <code>DrbgSource</code>, or bn empty brrby if no such listeners
+     *          hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
-     * @see #getDragSourceListeners
-     * @see #getDragSourceMotionListeners
+     * @see #getDrbgSourceListeners
+     * @see #getDrbgSourceMotionListeners
      * @since 1.4
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if (listenerType == DragSourceListener.class) {
+        if (listenerType == DrbgSourceListener.clbss) {
             l = listener;
-        } else if (listenerType == DragSourceMotionListener.class) {
+        } else if (listenerType == DrbgSourceMotionListener.clbss) {
             l = motionListener;
         }
-        return DnDEventMulticaster.getListeners(l, listenerType);
+        return DnDEventMulticbster.getListeners(l, listenerType);
     }
 
     /**
-     * This method calls <code>dragEnter</code> on the
-     * <code>DragSourceListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceDragEvent</code>.
+     * This method cblls <code>drbgEnter</code> on the
+     * <code>DrbgSourceListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceDrbgEvent</code>.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    void processDragEnter(DragSourceDragEvent dsde) {
-        DragSourceListener dsl = listener;
+    void processDrbgEnter(DrbgSourceDrbgEvent dsde) {
+        DrbgSourceListener dsl = listener;
         if (dsl != null) {
-            dsl.dragEnter(dsde);
+            dsl.drbgEnter(dsde);
         }
     }
 
     /**
-     * This method calls <code>dragOver</code> on the
-     * <code>DragSourceListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceDragEvent</code>.
+     * This method cblls <code>drbgOver</code> on the
+     * <code>DrbgSourceListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceDrbgEvent</code>.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    void processDragOver(DragSourceDragEvent dsde) {
-        DragSourceListener dsl = listener;
+    void processDrbgOver(DrbgSourceDrbgEvent dsde) {
+        DrbgSourceListener dsl = listener;
         if (dsl != null) {
-            dsl.dragOver(dsde);
+            dsl.drbgOver(dsde);
         }
     }
 
     /**
-     * This method calls <code>dropActionChanged</code> on the
-     * <code>DragSourceListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceDragEvent</code>.
+     * This method cblls <code>dropActionChbnged</code> on the
+     * <code>DrbgSourceListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceDrbgEvent</code>.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceDrbgEvent</code>
      */
-    void processDropActionChanged(DragSourceDragEvent dsde) {
-        DragSourceListener dsl = listener;
+    void processDropActionChbnged(DrbgSourceDrbgEvent dsde) {
+        DrbgSourceListener dsl = listener;
         if (dsl != null) {
-            dsl.dropActionChanged(dsde);
+            dsl.dropActionChbnged(dsde);
         }
     }
 
     /**
-     * This method calls <code>dragExit</code> on the
-     * <code>DragSourceListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceEvent</code>.
+     * This method cblls <code>drbgExit</code> on the
+     * <code>DrbgSourceListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceEvent</code>.
      *
-     * @param dse the <code>DragSourceEvent</code>
+     * @pbrbm dse the <code>DrbgSourceEvent</code>
      */
-    void processDragExit(DragSourceEvent dse) {
-        DragSourceListener dsl = listener;
+    void processDrbgExit(DrbgSourceEvent dse) {
+        DrbgSourceListener dsl = listener;
         if (dsl != null) {
-            dsl.dragExit(dse);
+            dsl.drbgExit(dse);
         }
     }
 
     /**
-     * This method calls <code>dragDropEnd</code> on the
-     * <code>DragSourceListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceDropEvent</code>.
+     * This method cblls <code>drbgDropEnd</code> on the
+     * <code>DrbgSourceListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceDropEvent</code>.
      *
-     * @param dsde the <code>DragSourceEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceEvent</code>
      */
-    void processDragDropEnd(DragSourceDropEvent dsde) {
-        DragSourceListener dsl = listener;
+    void processDrbgDropEnd(DrbgSourceDropEvent dsde) {
+        DrbgSourceListener dsl = listener;
         if (dsl != null) {
-            dsl.dragDropEnd(dsde);
+            dsl.drbgDropEnd(dsde);
         }
     }
 
     /**
-     * This method calls <code>dragMouseMoved</code> on the
-     * <code>DragSourceMotionListener</code>s registered with this
-     * <code>DragSource</code>, and passes them the specified
-     * <code>DragSourceDragEvent</code>.
+     * This method cblls <code>drbgMouseMoved</code> on the
+     * <code>DrbgSourceMotionListener</code>s registered with this
+     * <code>DrbgSource</code>, bnd pbsses them the specified
+     * <code>DrbgSourceDrbgEvent</code>.
      *
-     * @param dsde the <code>DragSourceEvent</code>
+     * @pbrbm dsde the <code>DrbgSourceEvent</code>
      */
-    void processDragMouseMoved(DragSourceDragEvent dsde) {
-        DragSourceMotionListener dsml = motionListener;
+    void processDrbgMouseMoved(DrbgSourceDrbgEvent dsde) {
+        DrbgSourceMotionListener dsml = motionListener;
         if (dsml != null) {
-            dsml.dragMouseMoved(dsde);
+            dsml.drbgMouseMoved(dsde);
         }
     }
 
     /**
-     * Serializes this <code>DragSource</code>. This method first performs
-     * default serialization. Next, it writes out this object's
-     * <code>FlavorMap</code> if and only if it can be serialized. If not,
-     * <code>null</code> is written instead. Next, it writes out
-     * <code>Serializable</code> listeners registered with this
-     * object. Listeners are written in a <code>null</code>-terminated sequence
-     * of 0 or more pairs. The pair consists of a <code>String</code> and an
-     * <code>Object</code>; the <code>String</code> indicates the type of the
-     * <code>Object</code> and is one of the following:
+     * Seriblizes this <code>DrbgSource</code>. This method first performs
+     * defbult seriblizbtion. Next, it writes out this object's
+     * <code>FlbvorMbp</code> if bnd only if it cbn be seriblized. If not,
+     * <code>null</code> is written instebd. Next, it writes out
+     * <code>Seriblizbble</code> listeners registered with this
+     * object. Listeners bre written in b <code>null</code>-terminbted sequence
+     * of 0 or more pbirs. The pbir consists of b <code>String</code> bnd bn
+     * <code>Object</code>; the <code>String</code> indicbtes the type of the
+     * <code>Object</code> bnd is one of the following:
      * <ul>
-     * <li><code>dragSourceListenerK</code> indicating a
-     *     <code>DragSourceListener</code> object;
-     * <li><code>dragSourceMotionListenerK</code> indicating a
-     *     <code>DragSourceMotionListener</code> object.
+     * <li><code>drbgSourceListenerK</code> indicbting b
+     *     <code>DrbgSourceListener</code> object;
+     * <li><code>drbgSourceMotionListenerK</code> indicbting b
+     *     <code>DrbgSourceMotionListener</code> object.
      * </ul>
      *
-     * @serialData Either a <code>FlavorMap</code> instance, or
-     *      <code>null</code>, followed by a <code>null</code>-terminated
-     *      sequence of 0 or more pairs; the pair consists of a
-     *      <code>String</code> and an <code>Object</code>; the
-     *      <code>String</code> indicates the type of the <code>Object</code>
-     *      and is one of the following:
+     * @seriblDbtb Either b <code>FlbvorMbp</code> instbnce, or
+     *      <code>null</code>, followed by b <code>null</code>-terminbted
+     *      sequence of 0 or more pbirs; the pbir consists of b
+     *      <code>String</code> bnd bn <code>Object</code>; the
+     *      <code>String</code> indicbtes the type of the <code>Object</code>
+     *      bnd is one of the following:
      *      <ul>
-     *      <li><code>dragSourceListenerK</code> indicating a
-     *          <code>DragSourceListener</code> object;
-     *      <li><code>dragSourceMotionListenerK</code> indicating a
-     *          <code>DragSourceMotionListener</code> object.
+     *      <li><code>drbgSourceListenerK</code> indicbting b
+     *          <code>DrbgSourceListener</code> object;
+     *      <li><code>drbgSourceMotionListenerK</code> indicbting b
+     *          <code>DrbgSourceMotionListener</code> object.
      *      </ul>.
      * @since 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
 
-        s.writeObject(SerializationTester.test(flavorMap) ? flavorMap : null);
+        s.writeObject(SeriblizbtionTester.test(flbvorMbp) ? flbvorMbp : null);
 
-        DnDEventMulticaster.save(s, dragSourceListenerK, listener);
-        DnDEventMulticaster.save(s, dragSourceMotionListenerK, motionListener);
+        DnDEventMulticbster.sbve(s, drbgSourceListenerK, listener);
+        DnDEventMulticbster.sbve(s, drbgSourceMotionListenerK, motionListener);
         s.writeObject(null);
     }
 
     /**
-     * Deserializes this <code>DragSource</code>. This method first performs
-     * default deserialization. Next, this object's <code>FlavorMap</code> is
-     * deserialized by using the next object in the stream.
-     * If the resulting <code>FlavorMap</code> is <code>null</code>, this
-     * object's <code>FlavorMap</code> is set to the default FlavorMap for
-     * this thread's <code>ClassLoader</code>.
-     * Next, this object's listeners are deserialized by reading a
-     * <code>null</code>-terminated sequence of 0 or more key/value pairs
-     * from the stream:
+     * Deseriblizes this <code>DrbgSource</code>. This method first performs
+     * defbult deseriblizbtion. Next, this object's <code>FlbvorMbp</code> is
+     * deseriblized by using the next object in the strebm.
+     * If the resulting <code>FlbvorMbp</code> is <code>null</code>, this
+     * object's <code>FlbvorMbp</code> is set to the defbult FlbvorMbp for
+     * this threbd's <code>ClbssLobder</code>.
+     * Next, this object's listeners bre deseriblized by rebding b
+     * <code>null</code>-terminbted sequence of 0 or more key/vblue pbirs
+     * from the strebm:
      * <ul>
-     * <li>If a key object is a <code>String</code> equal to
-     * <code>dragSourceListenerK</code>, a <code>DragSourceListener</code> is
-     * deserialized using the corresponding value object and added to this
-     * <code>DragSource</code>.
-     * <li>If a key object is a <code>String</code> equal to
-     * <code>dragSourceMotionListenerK</code>, a
-     * <code>DragSourceMotionListener</code> is deserialized using the
-     * corresponding value object and added to this <code>DragSource</code>.
-     * <li>Otherwise, the key/value pair is skipped.
+     * <li>If b key object is b <code>String</code> equbl to
+     * <code>drbgSourceListenerK</code>, b <code>DrbgSourceListener</code> is
+     * deseriblized using the corresponding vblue object bnd bdded to this
+     * <code>DrbgSource</code>.
+     * <li>If b key object is b <code>String</code> equbl to
+     * <code>drbgSourceMotionListenerK</code>, b
+     * <code>DrbgSourceMotionListener</code> is deseriblized using the
+     * corresponding vblue object bnd bdded to this <code>DrbgSource</code>.
+     * <li>Otherwise, the key/vblue pbir is skipped.
      * </ul>
      *
-     * @see java.awt.datatransfer.SystemFlavorMap#getDefaultFlavorMap
+     * @see jbvb.bwt.dbtbtrbnsfer.SystemFlbvorMbp#getDefbultFlbvorMbp
      * @since 1.4
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException {
+        s.defbultRebdObject();
 
-        // 'flavorMap' was written explicitly
-        flavorMap = (FlavorMap)s.readObject();
+        // 'flbvorMbp' wbs written explicitly
+        flbvorMbp = (FlbvorMbp)s.rebdObject();
 
-        // Implementation assumes 'flavorMap' is never null.
-        if (flavorMap == null) {
-            flavorMap = SystemFlavorMap.getDefaultFlavorMap();
+        // Implementbtion bssumes 'flbvorMbp' is never null.
+        if (flbvorMbp == null) {
+            flbvorMbp = SystemFlbvorMbp.getDefbultFlbvorMbp();
         }
 
         Object keyOrNull;
-        while (null != (keyOrNull = s.readObject())) {
+        while (null != (keyOrNull = s.rebdObject())) {
             String key = ((String)keyOrNull).intern();
 
-            if (dragSourceListenerK == key) {
-                addDragSourceListener((DragSourceListener)(s.readObject()));
-            } else if (dragSourceMotionListenerK == key) {
-                addDragSourceMotionListener(
-                    (DragSourceMotionListener)(s.readObject()));
+            if (drbgSourceListenerK == key) {
+                bddDrbgSourceListener((DrbgSourceListener)(s.rebdObject()));
+            } else if (drbgSourceMotionListenerK == key) {
+                bddDrbgSourceMotionListener(
+                    (DrbgSourceMotionListener)(s.rebdObject()));
             } else {
-                // skip value for unrecognized key
-                s.readObject();
+                // skip vblue for unrecognized key
+                s.rebdObject();
             }
         }
     }
 
     /**
-     * Returns the drag gesture motion threshold. The drag gesture motion threshold
-     * defines the recommended behavior for {@link MouseDragGestureRecognizer}s.
+     * Returns the drbg gesture motion threshold. The drbg gesture motion threshold
+     * defines the recommended behbvior for {@link MouseDrbgGestureRecognizer}s.
      * <p>
-     * If the system property <code>awt.dnd.drag.threshold</code> is set to
-     * a positive integer, this method returns the value of the system property;
-     * otherwise if a pertinent desktop property is available and supported by
-     * the implementation of the Java platform, this method returns the value of
-     * that property; otherwise this method returns some default value.
-     * The pertinent desktop property can be queried using
-     * <code>java.awt.Toolkit.getDesktopProperty("DnD.gestureMotionThreshold")</code>.
+     * If the system property <code>bwt.dnd.drbg.threshold</code> is set to
+     * b positive integer, this method returns the vblue of the system property;
+     * otherwise if b pertinent desktop property is bvbilbble bnd supported by
+     * the implementbtion of the Jbvb plbtform, this method returns the vblue of
+     * thbt property; otherwise this method returns some defbult vblue.
+     * The pertinent desktop property cbn be queried using
+     * <code>jbvb.bwt.Toolkit.getDesktopProperty("DnD.gestureMotionThreshold")</code>.
      *
-     * @return the drag gesture motion threshold
-     * @see MouseDragGestureRecognizer
+     * @return the drbg gesture motion threshold
+     * @see MouseDrbgGestureRecognizer
      * @since 1.5
      */
-    public static int getDragThreshold() {
+    public stbtic int getDrbgThreshold() {
         int ts = AccessController.doPrivileged(
-                new GetIntegerAction("awt.dnd.drag.threshold", 0)).intValue();
+                new GetIntegerAction("bwt.dnd.drbg.threshold", 0)).intVblue();
         if (ts > 0) {
             return ts;
         } else {
-            Integer td = (Integer)Toolkit.getDefaultToolkit().
+            Integer td = (Integer)Toolkit.getDefbultToolkit().
                     getDesktopProperty("DnD.gestureMotionThreshold");
             if (td != null) {
-                return td.intValue();
+                return td.intVblue();
             }
         }
         return 5;
@@ -915,9 +915,9 @@ public class DragSource implements Serializable {
      * fields
      */
 
-    private transient FlavorMap flavorMap = SystemFlavorMap.getDefaultFlavorMap();
+    privbte trbnsient FlbvorMbp flbvorMbp = SystemFlbvorMbp.getDefbultFlbvorMbp();
 
-    private transient DragSourceListener listener;
+    privbte trbnsient DrbgSourceListener listener;
 
-    private transient DragSourceMotionListener motionListener;
+    privbte trbnsient DrbgSourceMotionListener motionListener;
 }

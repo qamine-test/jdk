@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.KeyStore;
+import jbvb.security.KeyStoreException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Set;
 
 /**
- * Parameters used as input for the PKIX {@code CertPathValidator}
- * algorithm.
+ * Pbrbmeters used bs input for the PKIX {@code CertPbthVblidbtor}
+ * blgorithm.
  * <p>
- * A PKIX {@code CertPathValidator} uses these parameters to
- * validate a {@code CertPath} according to the PKIX certification path
- * validation algorithm.
+ * A PKIX {@code CertPbthVblidbtor} uses these pbrbmeters to
+ * vblidbte b {@code CertPbth} bccording to the PKIX certificbtion pbth
+ * vblidbtion blgorithm.
  *
- * <p>To instantiate a {@code PKIXParameters} object, an
- * application must specify one or more <i>most-trusted CAs</i> as defined by
- * the PKIX certification path validation algorithm. The most-trusted CAs
- * can be specified using one of two constructors. An application
- * can call {@link #PKIXParameters(Set) PKIXParameters(Set)},
- * specifying a {@code Set} of {@code TrustAnchor} objects, each
- * of which identify a most-trusted CA. Alternatively, an application can call
- * {@link #PKIXParameters(KeyStore) PKIXParameters(KeyStore)}, specifying a
- * {@code KeyStore} instance containing trusted certificate entries, each
- * of which will be considered as a most-trusted CA.
+ * <p>To instbntibte b {@code PKIXPbrbmeters} object, bn
+ * bpplicbtion must specify one or more <i>most-trusted CAs</i> bs defined by
+ * the PKIX certificbtion pbth vblidbtion blgorithm. The most-trusted CAs
+ * cbn be specified using one of two constructors. An bpplicbtion
+ * cbn cbll {@link #PKIXPbrbmeters(Set) PKIXPbrbmeters(Set)},
+ * specifying b {@code Set} of {@code TrustAnchor} objects, ebch
+ * of which identify b most-trusted CA. Alternbtively, bn bpplicbtion cbn cbll
+ * {@link #PKIXPbrbmeters(KeyStore) PKIXPbrbmeters(KeyStore)}, specifying b
+ * {@code KeyStore} instbnce contbining trusted certificbte entries, ebch
+ * of which will be considered bs b most-trusted CA.
  * <p>
- * Once a {@code PKIXParameters} object has been created, other parameters
- * can be specified (by calling {@link #setInitialPolicies setInitialPolicies}
- * or {@link #setDate setDate}, for instance) and then the
- * {@code PKIXParameters} is passed along with the {@code CertPath}
- * to be validated to {@link CertPathValidator#validate
- * CertPathValidator.validate}.
+ * Once b {@code PKIXPbrbmeters} object hbs been crebted, other pbrbmeters
+ * cbn be specified (by cblling {@link #setInitiblPolicies setInitiblPolicies}
+ * or {@link #setDbte setDbte}, for instbnce) bnd then the
+ * {@code PKIXPbrbmeters} is pbssed blong with the {@code CertPbth}
+ * to be vblidbted to {@link CertPbthVblidbtor#vblidbte
+ * CertPbthVblidbtor.vblidbte}.
  * <p>
- * Any parameter that is not set (or is set to {@code null}) will
- * be set to the default value for that parameter. The default value for the
- * {@code date} parameter is {@code null}, which indicates
- * the current time when the path is validated. The default for the
- * remaining parameters is the least constrained.
+ * Any pbrbmeter thbt is not set (or is set to {@code null}) will
+ * be set to the defbult vblue for thbt pbrbmeter. The defbult vblue for the
+ * {@code dbte} pbrbmeter is {@code null}, which indicbtes
+ * the current time when the pbth is vblidbted. The defbult for the
+ * rembining pbrbmeters is the lebst constrbined.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see CertPathValidator
+ * @see CertPbthVblidbtor
  *
  * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @buthor      Sebn Mullbn
+ * @buthor      Ybssir Elley
  */
-public class PKIXParameters implements CertPathParameters {
+public clbss PKIXPbrbmeters implements CertPbthPbrbmeters {
 
-    private Set<TrustAnchor> unmodTrustAnchors;
-    private Date date;
-    private List<PKIXCertPathChecker> certPathCheckers;
-    private String sigProvider;
-    private boolean revocationEnabled = true;
-    private Set<String> unmodInitialPolicies;
-    private boolean explicitPolicyRequired = false;
-    private boolean policyMappingInhibited = false;
-    private boolean anyPolicyInhibited = false;
-    private boolean policyQualifiersRejected = true;
-    private List<CertStore> certStores;
-    private CertSelector certSelector;
+    privbte Set<TrustAnchor> unmodTrustAnchors;
+    privbte Dbte dbte;
+    privbte List<PKIXCertPbthChecker> certPbthCheckers;
+    privbte String sigProvider;
+    privbte boolebn revocbtionEnbbled = true;
+    privbte Set<String> unmodInitiblPolicies;
+    privbte boolebn explicitPolicyRequired = fblse;
+    privbte boolebn policyMbppingInhibited = fblse;
+    privbte boolebn bnyPolicyInhibited = fblse;
+    privbte boolebn policyQublifiersRejected = true;
+    privbte List<CertStore> certStores;
+    privbte CertSelector certSelector;
 
     /**
-     * Creates an instance of {@code PKIXParameters} with the specified
-     * {@code Set} of most-trusted CAs. Each element of the
-     * set is a {@link TrustAnchor TrustAnchor}.
+     * Crebtes bn instbnce of {@code PKIXPbrbmeters} with the specified
+     * {@code Set} of most-trusted CAs. Ebch element of the
+     * set is b {@link TrustAnchor TrustAnchor}.
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Set} is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @throws InvalidAlgorithmParameterException if the specified
+     * @pbrbm trustAnchors b {@code Set} of {@code TrustAnchor}s
+     * @throws InvblidAlgorithmPbrbmeterException if the specified
      * {@code Set} is empty {@code (trustAnchors.isEmpty() == true)}
      * @throws NullPointerException if the specified {@code Set} is
      * {@code null}
-     * @throws ClassCastException if any of the elements in the {@code Set}
-     * are not of type {@code java.security.cert.TrustAnchor}
+     * @throws ClbssCbstException if bny of the elements in the {@code Set}
+     * bre not of type {@code jbvb.security.cert.TrustAnchor}
      */
-    public PKIXParameters(Set<TrustAnchor> trustAnchors)
-        throws InvalidAlgorithmParameterException
+    public PKIXPbrbmeters(Set<TrustAnchor> trustAnchors)
+        throws InvblidAlgorithmPbrbmeterException
     {
         setTrustAnchors(trustAnchors);
 
-        this.unmodInitialPolicies = Collections.<String>emptySet();
-        this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
-        this.certStores = new ArrayList<CertStore>();
+        this.unmodInitiblPolicies = Collections.<String>emptySet();
+        this.certPbthCheckers = new ArrbyList<PKIXCertPbthChecker>();
+        this.certStores = new ArrbyList<CertStore>();
     }
 
     /**
-     * Creates an instance of {@code PKIXParameters} that
-     * populates the set of most-trusted CAs from the trusted
-     * certificate entries contained in the specified {@code KeyStore}.
-     * Only keystore entries that contain trusted {@code X509Certificates}
-     * are considered; all other certificate types are ignored.
+     * Crebtes bn instbnce of {@code PKIXPbrbmeters} thbt
+     * populbtes the set of most-trusted CAs from the trusted
+     * certificbte entries contbined in the specified {@code KeyStore}.
+     * Only keystore entries thbt contbin trusted {@code X509Certificbtes}
+     * bre considered; bll other certificbte types bre ignored.
      *
-     * @param keystore a {@code KeyStore} from which the set of
-     * most-trusted CAs will be populated
-     * @throws KeyStoreException if the keystore has not been initialized
-     * @throws InvalidAlgorithmParameterException if the keystore does
-     * not contain at least one trusted certificate entry
+     * @pbrbm keystore b {@code KeyStore} from which the set of
+     * most-trusted CAs will be populbted
+     * @throws KeyStoreException if the keystore hbs not been initiblized
+     * @throws InvblidAlgorithmPbrbmeterException if the keystore does
+     * not contbin bt lebst one trusted certificbte entry
      * @throws NullPointerException if the keystore is {@code null}
      */
-    public PKIXParameters(KeyStore keystore)
-        throws KeyStoreException, InvalidAlgorithmParameterException
+    public PKIXPbrbmeters(KeyStore keystore)
+        throws KeyStoreException, InvblidAlgorithmPbrbmeterException
     {
         if (keystore == null)
-            throw new NullPointerException("the keystore parameter must be " +
+            throw new NullPointerException("the keystore pbrbmeter must be " +
                 "non-null");
-        Set<TrustAnchor> hashSet = new HashSet<TrustAnchor>();
-        Enumeration<String> aliases = keystore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keystore.isCertificateEntry(alias)) {
-                Certificate cert = keystore.getCertificate(alias);
-                if (cert instanceof X509Certificate)
-                    hashSet.add(new TrustAnchor((X509Certificate)cert, null));
+        Set<TrustAnchor> hbshSet = new HbshSet<TrustAnchor>();
+        Enumerbtion<String> blibses = keystore.blibses();
+        while (blibses.hbsMoreElements()) {
+            String blibs = blibses.nextElement();
+            if (keystore.isCertificbteEntry(blibs)) {
+                Certificbte cert = keystore.getCertificbte(blibs);
+                if (cert instbnceof X509Certificbte)
+                    hbshSet.bdd(new TrustAnchor((X509Certificbte)cert, null));
             }
         }
-        setTrustAnchors(hashSet);
-        this.unmodInitialPolicies = Collections.<String>emptySet();
-        this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
-        this.certStores = new ArrayList<CertStore>();
+        setTrustAnchors(hbshSet);
+        this.unmodInitiblPolicies = Collections.<String>emptySet();
+        this.certPbthCheckers = new ArrbyList<PKIXCertPbthChecker>();
+        this.certStores = new ArrbyList<CertStore>();
     }
 
     /**
-     * Returns an immutable {@code Set} of the most-trusted
+     * Returns bn immutbble {@code Set} of the most-trusted
      * CAs.
      *
-     * @return an immutable {@code Set} of {@code TrustAnchor}s
+     * @return bn immutbble {@code Set} of {@code TrustAnchor}s
      * (never {@code null})
      *
      * @see #setTrustAnchors
@@ -176,426 +176,426 @@ public class PKIXParameters implements CertPathParameters {
     /**
      * Sets the {@code Set} of most-trusted CAs.
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Set} is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @throws InvalidAlgorithmParameterException if the specified
+     * @pbrbm trustAnchors b {@code Set} of {@code TrustAnchor}s
+     * @throws InvblidAlgorithmPbrbmeterException if the specified
      * {@code Set} is empty {@code (trustAnchors.isEmpty() == true)}
      * @throws NullPointerException if the specified {@code Set} is
      * {@code null}
-     * @throws ClassCastException if any of the elements in the set
-     * are not of type {@code java.security.cert.TrustAnchor}
+     * @throws ClbssCbstException if bny of the elements in the set
+     * bre not of type {@code jbvb.security.cert.TrustAnchor}
      *
      * @see #getTrustAnchors
      */
     public void setTrustAnchors(Set<TrustAnchor> trustAnchors)
-        throws InvalidAlgorithmParameterException
+        throws InvblidAlgorithmPbrbmeterException
     {
         if (trustAnchors == null) {
-            throw new NullPointerException("the trustAnchors parameters must" +
+            throw new NullPointerException("the trustAnchors pbrbmeters must" +
                 " be non-null");
         }
         if (trustAnchors.isEmpty()) {
-            throw new InvalidAlgorithmParameterException("the trustAnchors " +
-                "parameter must be non-empty");
+            throw new InvblidAlgorithmPbrbmeterException("the trustAnchors " +
+                "pbrbmeter must be non-empty");
         }
-        for (Iterator<TrustAnchor> i = trustAnchors.iterator(); i.hasNext(); ) {
-            if (!(i.next() instanceof TrustAnchor)) {
-                throw new ClassCastException("all elements of set must be "
-                    + "of type java.security.cert.TrustAnchor");
+        for (Iterbtor<TrustAnchor> i = trustAnchors.iterbtor(); i.hbsNext(); ) {
+            if (!(i.next() instbnceof TrustAnchor)) {
+                throw new ClbssCbstException("bll elements of set must be "
+                    + "of type jbvb.security.cert.TrustAnchor");
             }
         }
-        this.unmodTrustAnchors = Collections.unmodifiableSet
-                (new HashSet<TrustAnchor>(trustAnchors));
+        this.unmodTrustAnchors = Collections.unmodifibbleSet
+                (new HbshSet<TrustAnchor>(trustAnchors));
     }
 
     /**
-     * Returns an immutable {@code Set} of initial
-     * policy identifiers (OID strings), indicating that any one of these
-     * policies would be acceptable to the certificate user for the purposes of
-     * certification path processing. The default return value is an empty
-     * {@code Set}, which is interpreted as meaning that any policy would
-     * be acceptable.
+     * Returns bn immutbble {@code Set} of initibl
+     * policy identifiers (OID strings), indicbting thbt bny one of these
+     * policies would be bcceptbble to the certificbte user for the purposes of
+     * certificbtion pbth processing. The defbult return vblue is bn empty
+     * {@code Set}, which is interpreted bs mebning thbt bny policy would
+     * be bcceptbble.
      *
-     * @return an immutable {@code Set} of initial policy OIDs in
-     * {@code String} format, or an empty {@code Set} (implying any
-     * policy is acceptable). Never returns {@code null}.
+     * @return bn immutbble {@code Set} of initibl policy OIDs in
+     * {@code String} formbt, or bn empty {@code Set} (implying bny
+     * policy is bcceptbble). Never returns {@code null}.
      *
-     * @see #setInitialPolicies
+     * @see #setInitiblPolicies
      */
-    public Set<String> getInitialPolicies() {
-        return this.unmodInitialPolicies;
+    public Set<String> getInitiblPolicies() {
+        return this.unmodInitiblPolicies;
     }
 
     /**
-     * Sets the {@code Set} of initial policy identifiers
-     * (OID strings), indicating that any one of these
-     * policies would be acceptable to the certificate user for the purposes of
-     * certification path processing. By default, any policy is acceptable
-     * (i.e. all policies), so a user that wants to allow any policy as
-     * acceptable does not need to call this method, or can call it
-     * with an empty {@code Set} (or {@code null}).
+     * Sets the {@code Set} of initibl policy identifiers
+     * (OID strings), indicbting thbt bny one of these
+     * policies would be bcceptbble to the certificbte user for the purposes of
+     * certificbtion pbth processing. By defbult, bny policy is bcceptbble
+     * (i.e. bll policies), so b user thbt wbnts to bllow bny policy bs
+     * bcceptbble does not need to cbll this method, or cbn cbll it
+     * with bn empty {@code Set} (or {@code null}).
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Set} is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param initialPolicies a {@code Set} of initial policy
-     * OIDs in {@code String} format (or {@code null})
-     * @throws ClassCastException if any of the elements in the set are
+     * @pbrbm initiblPolicies b {@code Set} of initibl policy
+     * OIDs in {@code String} formbt (or {@code null})
+     * @throws ClbssCbstException if bny of the elements in the set bre
      * not of type {@code String}
      *
-     * @see #getInitialPolicies
+     * @see #getInitiblPolicies
      */
-    public void setInitialPolicies(Set<String> initialPolicies) {
-        if (initialPolicies != null) {
-            for (Iterator<String> i = initialPolicies.iterator();
-                        i.hasNext();) {
-                if (!(i.next() instanceof String))
-                    throw new ClassCastException("all elements of set must be "
-                        + "of type java.lang.String");
+    public void setInitiblPolicies(Set<String> initiblPolicies) {
+        if (initiblPolicies != null) {
+            for (Iterbtor<String> i = initiblPolicies.iterbtor();
+                        i.hbsNext();) {
+                if (!(i.next() instbnceof String))
+                    throw new ClbssCbstException("bll elements of set must be "
+                        + "of type jbvb.lbng.String");
             }
-            this.unmodInitialPolicies =
-                Collections.unmodifiableSet(new HashSet<String>(initialPolicies));
+            this.unmodInitiblPolicies =
+                Collections.unmodifibbleSet(new HbshSet<String>(initiblPolicies));
         } else
-            this.unmodInitialPolicies = Collections.<String>emptySet();
+            this.unmodInitiblPolicies = Collections.<String>emptySet();
     }
 
     /**
      * Sets the list of {@code CertStore}s to be used in finding
-     * certificates and CRLs. May be {@code null}, in which case
+     * certificbtes bnd CRLs. Mby be {@code null}, in which cbse
      * no {@code CertStore}s will be used. The first
-     * {@code CertStore}s in the list may be preferred to those that
-     * appear later.
+     * {@code CertStore}s in the list mby be preferred to those thbt
+     * bppebr lbter.
      * <p>
-     * Note that the {@code List} is copied to protect against
-     * subsequent modifications.
+     * Note thbt the {@code List} is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param stores a {@code List} of {@code CertStore}s (or
+     * @pbrbm stores b {@code List} of {@code CertStore}s (or
      * {@code null})
-     * @throws ClassCastException if any of the elements in the list are
-     * not of type {@code java.security.cert.CertStore}
+     * @throws ClbssCbstException if bny of the elements in the list bre
+     * not of type {@code jbvb.security.cert.CertStore}
      *
      * @see #getCertStores
      */
     public void setCertStores(List<CertStore> stores) {
         if (stores == null) {
-            this.certStores = new ArrayList<CertStore>();
+            this.certStores = new ArrbyList<CertStore>();
         } else {
-            for (Iterator<CertStore> i = stores.iterator(); i.hasNext();) {
-                if (!(i.next() instanceof CertStore)) {
-                    throw new ClassCastException("all elements of list must be "
-                        + "of type java.security.cert.CertStore");
+            for (Iterbtor<CertStore> i = stores.iterbtor(); i.hbsNext();) {
+                if (!(i.next() instbnceof CertStore)) {
+                    throw new ClbssCbstException("bll elements of list must be "
+                        + "of type jbvb.security.cert.CertStore");
                 }
             }
-            this.certStores = new ArrayList<CertStore>(stores);
+            this.certStores = new ArrbyList<CertStore>(stores);
         }
     }
 
     /**
-     * Adds a {@code CertStore} to the end of the list of
-     * {@code CertStore}s used in finding certificates and CRLs.
+     * Adds b {@code CertStore} to the end of the list of
+     * {@code CertStore}s used in finding certificbtes bnd CRLs.
      *
-     * @param store the {@code CertStore} to add. If {@code null},
-     * the store is ignored (not added to list).
+     * @pbrbm store the {@code CertStore} to bdd. If {@code null},
+     * the store is ignored (not bdded to list).
      */
-    public void addCertStore(CertStore store) {
+    public void bddCertStore(CertStore store) {
         if (store != null) {
-            this.certStores.add(store);
+            this.certStores.bdd(store);
         }
     }
 
     /**
-     * Returns an immutable {@code List} of {@code CertStore}s that
-     * are used to find certificates and CRLs.
+     * Returns bn immutbble {@code List} of {@code CertStore}s thbt
+     * bre used to find certificbtes bnd CRLs.
      *
-     * @return an immutable {@code List} of {@code CertStore}s
-     * (may be empty, but never {@code null})
+     * @return bn immutbble {@code List} of {@code CertStore}s
+     * (mby be empty, but never {@code null})
      *
      * @see #setCertStores
      */
     public List<CertStore> getCertStores() {
-        return Collections.unmodifiableList
-                (new ArrayList<CertStore>(this.certStores));
+        return Collections.unmodifibbleList
+                (new ArrbyList<CertStore>(this.certStores));
     }
 
     /**
-     * Sets the RevocationEnabled flag. If this flag is true, the default
-     * revocation checking mechanism of the underlying PKIX service provider
-     * will be used. If this flag is false, the default revocation checking
-     * mechanism will be disabled (not used).
+     * Sets the RevocbtionEnbbled flbg. If this flbg is true, the defbult
+     * revocbtion checking mechbnism of the underlying PKIX service provider
+     * will be used. If this flbg is fblse, the defbult revocbtion checking
+     * mechbnism will be disbbled (not used).
      * <p>
-     * When a {@code PKIXParameters} object is created, this flag is set
-     * to true. This setting reflects the most common strategy for checking
-     * revocation, since each service provider must support revocation
-     * checking to be PKIX compliant. Sophisticated applications should set
-     * this flag to false when it is not practical to use a PKIX service
-     * provider's default revocation checking mechanism or when an alternative
-     * revocation checking mechanism is to be substituted (by also calling the
-     * {@link #addCertPathChecker addCertPathChecker} or {@link
-     * #setCertPathCheckers setCertPathCheckers} methods).
+     * When b {@code PKIXPbrbmeters} object is crebted, this flbg is set
+     * to true. This setting reflects the most common strbtegy for checking
+     * revocbtion, since ebch service provider must support revocbtion
+     * checking to be PKIX complibnt. Sophisticbted bpplicbtions should set
+     * this flbg to fblse when it is not prbcticbl to use b PKIX service
+     * provider's defbult revocbtion checking mechbnism or when bn blternbtive
+     * revocbtion checking mechbnism is to be substituted (by blso cblling the
+     * {@link #bddCertPbthChecker bddCertPbthChecker} or {@link
+     * #setCertPbthCheckers setCertPbthCheckers} methods).
      *
-     * @param val the new value of the RevocationEnabled flag
+     * @pbrbm vbl the new vblue of the RevocbtionEnbbled flbg
      */
-    public void setRevocationEnabled(boolean val) {
-        revocationEnabled = val;
+    public void setRevocbtionEnbbled(boolebn vbl) {
+        revocbtionEnbbled = vbl;
     }
 
     /**
-     * Checks the RevocationEnabled flag. If this flag is true, the default
-     * revocation checking mechanism of the underlying PKIX service provider
-     * will be used. If this flag is false, the default revocation checking
-     * mechanism will be disabled (not used). See the {@link
-     * #setRevocationEnabled setRevocationEnabled} method for more details on
-     * setting the value of this flag.
+     * Checks the RevocbtionEnbbled flbg. If this flbg is true, the defbult
+     * revocbtion checking mechbnism of the underlying PKIX service provider
+     * will be used. If this flbg is fblse, the defbult revocbtion checking
+     * mechbnism will be disbbled (not used). See the {@link
+     * #setRevocbtionEnbbled setRevocbtionEnbbled} method for more detbils on
+     * setting the vblue of this flbg.
      *
-     * @return the current value of the RevocationEnabled flag
+     * @return the current vblue of the RevocbtionEnbbled flbg
      */
-    public boolean isRevocationEnabled() {
-        return revocationEnabled;
+    public boolebn isRevocbtionEnbbled() {
+        return revocbtionEnbbled;
     }
 
     /**
-     * Sets the ExplicitPolicyRequired flag. If this flag is true, an
-     * acceptable policy needs to be explicitly identified in every certificate.
-     * By default, the ExplicitPolicyRequired flag is false.
+     * Sets the ExplicitPolicyRequired flbg. If this flbg is true, bn
+     * bcceptbble policy needs to be explicitly identified in every certificbte.
+     * By defbult, the ExplicitPolicyRequired flbg is fblse.
      *
-     * @param val {@code true} if explicit policy is to be required,
-     * {@code false} otherwise
+     * @pbrbm vbl {@code true} if explicit policy is to be required,
+     * {@code fblse} otherwise
      */
-    public void setExplicitPolicyRequired(boolean val) {
-        explicitPolicyRequired = val;
+    public void setExplicitPolicyRequired(boolebn vbl) {
+        explicitPolicyRequired = vbl;
     }
 
     /**
-     * Checks if explicit policy is required. If this flag is true, an
-     * acceptable policy needs to be explicitly identified in every certificate.
-     * By default, the ExplicitPolicyRequired flag is false.
+     * Checks if explicit policy is required. If this flbg is true, bn
+     * bcceptbble policy needs to be explicitly identified in every certificbte.
+     * By defbult, the ExplicitPolicyRequired flbg is fblse.
      *
      * @return {@code true} if explicit policy is required,
-     * {@code false} otherwise
+     * {@code fblse} otherwise
      */
-    public boolean isExplicitPolicyRequired() {
+    public boolebn isExplicitPolicyRequired() {
         return explicitPolicyRequired;
     }
 
     /**
-     * Sets the PolicyMappingInhibited flag. If this flag is true, policy
-     * mapping is inhibited. By default, policy mapping is not inhibited (the
-     * flag is false).
+     * Sets the PolicyMbppingInhibited flbg. If this flbg is true, policy
+     * mbpping is inhibited. By defbult, policy mbpping is not inhibited (the
+     * flbg is fblse).
      *
-     * @param val {@code true} if policy mapping is to be inhibited,
-     * {@code false} otherwise
+     * @pbrbm vbl {@code true} if policy mbpping is to be inhibited,
+     * {@code fblse} otherwise
      */
-    public void setPolicyMappingInhibited(boolean val) {
-        policyMappingInhibited = val;
+    public void setPolicyMbppingInhibited(boolebn vbl) {
+        policyMbppingInhibited = vbl;
     }
 
     /**
-     * Checks if policy mapping is inhibited. If this flag is true, policy
-     * mapping is inhibited. By default, policy mapping is not inhibited (the
-     * flag is false).
+     * Checks if policy mbpping is inhibited. If this flbg is true, policy
+     * mbpping is inhibited. By defbult, policy mbpping is not inhibited (the
+     * flbg is fblse).
      *
-     * @return true if policy mapping is inhibited, false otherwise
+     * @return true if policy mbpping is inhibited, fblse otherwise
      */
-    public boolean isPolicyMappingInhibited() {
-        return policyMappingInhibited;
+    public boolebn isPolicyMbppingInhibited() {
+        return policyMbppingInhibited;
     }
 
     /**
-     * Sets state to determine if the any policy OID should be processed
-     * if it is included in a certificate. By default, the any policy OID
+     * Sets stbte to determine if the bny policy OID should be processed
+     * if it is included in b certificbte. By defbult, the bny policy OID
      * is not inhibited ({@link #isAnyPolicyInhibited isAnyPolicyInhibited()}
-     * returns {@code false}).
+     * returns {@code fblse}).
      *
-     * @param val {@code true} if the any policy OID is to be
-     * inhibited, {@code false} otherwise
+     * @pbrbm vbl {@code true} if the bny policy OID is to be
+     * inhibited, {@code fblse} otherwise
      */
-    public void setAnyPolicyInhibited(boolean val) {
-        anyPolicyInhibited = val;
+    public void setAnyPolicyInhibited(boolebn vbl) {
+        bnyPolicyInhibited = vbl;
     }
 
     /**
-     * Checks whether the any policy OID should be processed if it
-     * is included in a certificate.
+     * Checks whether the bny policy OID should be processed if it
+     * is included in b certificbte.
      *
-     * @return {@code true} if the any policy OID is inhibited,
-     * {@code false} otherwise
+     * @return {@code true} if the bny policy OID is inhibited,
+     * {@code fblse} otherwise
      */
-    public boolean isAnyPolicyInhibited() {
-        return anyPolicyInhibited;
+    public boolebn isAnyPolicyInhibited() {
+        return bnyPolicyInhibited;
     }
 
     /**
-     * Sets the PolicyQualifiersRejected flag. If this flag is true,
-     * certificates that include policy qualifiers in a certificate
-     * policies extension that is marked critical are rejected.
-     * If the flag is false, certificates are not rejected on this basis.
+     * Sets the PolicyQublifiersRejected flbg. If this flbg is true,
+     * certificbtes thbt include policy qublifiers in b certificbte
+     * policies extension thbt is mbrked criticbl bre rejected.
+     * If the flbg is fblse, certificbtes bre not rejected on this bbsis.
      *
-     * <p> When a {@code PKIXParameters} object is created, this flag is
-     * set to true. This setting reflects the most common (and simplest)
-     * strategy for processing policy qualifiers. Applications that want to use
-     * a more sophisticated policy must set this flag to false.
+     * <p> When b {@code PKIXPbrbmeters} object is crebted, this flbg is
+     * set to true. This setting reflects the most common (bnd simplest)
+     * strbtegy for processing policy qublifiers. Applicbtions thbt wbnt to use
+     * b more sophisticbted policy must set this flbg to fblse.
      * <p>
-     * Note that the PKIX certification path validation algorithm specifies
-     * that any policy qualifier in a certificate policies extension that is
-     * marked critical must be processed and validated. Otherwise the
-     * certification path must be rejected. If the policyQualifiersRejected flag
-     * is set to false, it is up to the application to validate all policy
-     * qualifiers in this manner in order to be PKIX compliant.
+     * Note thbt the PKIX certificbtion pbth vblidbtion blgorithm specifies
+     * thbt bny policy qublifier in b certificbte policies extension thbt is
+     * mbrked criticbl must be processed bnd vblidbted. Otherwise the
+     * certificbtion pbth must be rejected. If the policyQublifiersRejected flbg
+     * is set to fblse, it is up to the bpplicbtion to vblidbte bll policy
+     * qublifiers in this mbnner in order to be PKIX complibnt.
      *
-     * @param qualifiersRejected the new value of the PolicyQualifiersRejected
-     * flag
-     * @see #getPolicyQualifiersRejected
-     * @see PolicyQualifierInfo
+     * @pbrbm qublifiersRejected the new vblue of the PolicyQublifiersRejected
+     * flbg
+     * @see #getPolicyQublifiersRejected
+     * @see PolicyQublifierInfo
      */
-    public void setPolicyQualifiersRejected(boolean qualifiersRejected) {
-        policyQualifiersRejected = qualifiersRejected;
+    public void setPolicyQublifiersRejected(boolebn qublifiersRejected) {
+        policyQublifiersRejected = qublifiersRejected;
     }
 
     /**
-     * Gets the PolicyQualifiersRejected flag. If this flag is true,
-     * certificates that include policy qualifiers in a certificate policies
-     * extension that is marked critical are rejected.
-     * If the flag is false, certificates are not rejected on this basis.
+     * Gets the PolicyQublifiersRejected flbg. If this flbg is true,
+     * certificbtes thbt include policy qublifiers in b certificbte policies
+     * extension thbt is mbrked criticbl bre rejected.
+     * If the flbg is fblse, certificbtes bre not rejected on this bbsis.
      *
-     * <p> When a {@code PKIXParameters} object is created, this flag is
-     * set to true. This setting reflects the most common (and simplest)
-     * strategy for processing policy qualifiers. Applications that want to use
-     * a more sophisticated policy must set this flag to false.
+     * <p> When b {@code PKIXPbrbmeters} object is crebted, this flbg is
+     * set to true. This setting reflects the most common (bnd simplest)
+     * strbtegy for processing policy qublifiers. Applicbtions thbt wbnt to use
+     * b more sophisticbted policy must set this flbg to fblse.
      *
-     * @return the current value of the PolicyQualifiersRejected flag
-     * @see #setPolicyQualifiersRejected
+     * @return the current vblue of the PolicyQublifiersRejected flbg
+     * @see #setPolicyQublifiersRejected
      */
-    public boolean getPolicyQualifiersRejected() {
-        return policyQualifiersRejected;
+    public boolebn getPolicyQublifiersRejected() {
+        return policyQublifiersRejected;
     }
 
     /**
-     * Returns the time for which the validity of the certification path
+     * Returns the time for which the vblidity of the certificbtion pbth
      * should be determined. If {@code null}, the current time is used.
      * <p>
-     * Note that the {@code Date} returned is copied to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Dbte} returned is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return the {@code Date}, or {@code null} if not set
-     * @see #setDate
+     * @return the {@code Dbte}, or {@code null} if not set
+     * @see #setDbte
      */
-    public Date getDate() {
-        if (date == null)
+    public Dbte getDbte() {
+        if (dbte == null)
             return null;
         else
-            return (Date) this.date.clone();
+            return (Dbte) this.dbte.clone();
     }
 
     /**
-     * Sets the time for which the validity of the certification path
+     * Sets the time for which the vblidity of the certificbtion pbth
      * should be determined. If {@code null}, the current time is used.
      * <p>
-     * Note that the {@code Date} supplied here is copied to protect
-     * against subsequent modifications.
+     * Note thbt the {@code Dbte} supplied here is copied to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param date the {@code Date}, or {@code null} for the
+     * @pbrbm dbte the {@code Dbte}, or {@code null} for the
      * current time
-     * @see #getDate
+     * @see #getDbte
      */
-    public void setDate(Date date) {
-        if (date != null)
-            this.date = (Date) date.clone();
+    public void setDbte(Dbte dbte) {
+        if (dbte != null)
+            this.dbte = (Dbte) dbte.clone();
         else
-            date = null;
+            dbte = null;
     }
 
     /**
-     * Sets a {@code List} of additional certification path checkers. If
-     * the specified {@code List} contains an object that is not a
-     * {@code PKIXCertPathChecker}, it is ignored.
+     * Sets b {@code List} of bdditionbl certificbtion pbth checkers. If
+     * the specified {@code List} contbins bn object thbt is not b
+     * {@code PKIXCertPbthChecker}, it is ignored.
      * <p>
-     * Each {@code PKIXCertPathChecker} specified implements
-     * additional checks on a certificate. Typically, these are checks to
-     * process and verify private extensions contained in certificates.
-     * Each {@code PKIXCertPathChecker} should be instantiated with any
-     * initialization parameters needed to execute the check.
+     * Ebch {@code PKIXCertPbthChecker} specified implements
+     * bdditionbl checks on b certificbte. Typicblly, these bre checks to
+     * process bnd verify privbte extensions contbined in certificbtes.
+     * Ebch {@code PKIXCertPbthChecker} should be instbntibted with bny
+     * initiblizbtion pbrbmeters needed to execute the check.
      * <p>
-     * This method allows sophisticated applications to extend a PKIX
-     * {@code CertPathValidator} or {@code CertPathBuilder}.
-     * Each of the specified {@code PKIXCertPathChecker}s will be called,
-     * in turn, by a PKIX {@code CertPathValidator} or
-     * {@code CertPathBuilder} for each certificate processed or
-     * validated.
+     * This method bllows sophisticbted bpplicbtions to extend b PKIX
+     * {@code CertPbthVblidbtor} or {@code CertPbthBuilder}.
+     * Ebch of the specified {@code PKIXCertPbthChecker}s will be cblled,
+     * in turn, by b PKIX {@code CertPbthVblidbtor} or
+     * {@code CertPbthBuilder} for ebch certificbte processed or
+     * vblidbted.
      * <p>
-     * Regardless of whether these additional {@code PKIXCertPathChecker}s
-     * are set, a PKIX {@code CertPathValidator} or
-     * {@code CertPathBuilder} must perform all of the required PKIX
-     * checks on each certificate. The one exception to this rule is if the
-     * RevocationEnabled flag is set to false (see the {@link
-     * #setRevocationEnabled setRevocationEnabled} method).
+     * Regbrdless of whether these bdditionbl {@code PKIXCertPbthChecker}s
+     * bre set, b PKIX {@code CertPbthVblidbtor} or
+     * {@code CertPbthBuilder} must perform bll of the required PKIX
+     * checks on ebch certificbte. The one exception to this rule is if the
+     * RevocbtionEnbbled flbg is set to fblse (see the {@link
+     * #setRevocbtionEnbbled setRevocbtionEnbbled} method).
      * <p>
-     * Note that the {@code List} supplied here is copied and each
-     * {@code PKIXCertPathChecker} in the list is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the {@code List} supplied here is copied bnd ebch
+     * {@code PKIXCertPbthChecker} in the list is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param checkers a {@code List} of {@code PKIXCertPathChecker}s.
-     * May be {@code null}, in which case no additional checkers will be
+     * @pbrbm checkers b {@code List} of {@code PKIXCertPbthChecker}s.
+     * Mby be {@code null}, in which cbse no bdditionbl checkers will be
      * used.
-     * @throws ClassCastException if any of the elements in the list
-     * are not of type {@code java.security.cert.PKIXCertPathChecker}
-     * @see #getCertPathCheckers
+     * @throws ClbssCbstException if bny of the elements in the list
+     * bre not of type {@code jbvb.security.cert.PKIXCertPbthChecker}
+     * @see #getCertPbthCheckers
      */
-    public void setCertPathCheckers(List<PKIXCertPathChecker> checkers) {
+    public void setCertPbthCheckers(List<PKIXCertPbthChecker> checkers) {
         if (checkers != null) {
-            List<PKIXCertPathChecker> tmpList =
-                        new ArrayList<PKIXCertPathChecker>();
-            for (PKIXCertPathChecker checker : checkers) {
-                tmpList.add((PKIXCertPathChecker)checker.clone());
+            List<PKIXCertPbthChecker> tmpList =
+                        new ArrbyList<PKIXCertPbthChecker>();
+            for (PKIXCertPbthChecker checker : checkers) {
+                tmpList.bdd((PKIXCertPbthChecker)checker.clone());
             }
-            this.certPathCheckers = tmpList;
+            this.certPbthCheckers = tmpList;
         } else {
-            this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
+            this.certPbthCheckers = new ArrbyList<PKIXCertPbthChecker>();
         }
     }
 
     /**
-     * Returns the {@code List} of certification path checkers.
-     * The returned {@code List} is immutable, and each
-     * {@code PKIXCertPathChecker} in the {@code List} is cloned
-     * to protect against subsequent modifications.
+     * Returns the {@code List} of certificbtion pbth checkers.
+     * The returned {@code List} is immutbble, bnd ebch
+     * {@code PKIXCertPbthChecker} in the {@code List} is cloned
+     * to protect bgbinst subsequent modificbtions.
      *
-     * @return an immutable {@code List} of
-     * {@code PKIXCertPathChecker}s (may be empty, but not
+     * @return bn immutbble {@code List} of
+     * {@code PKIXCertPbthChecker}s (mby be empty, but not
      * {@code null})
-     * @see #setCertPathCheckers
+     * @see #setCertPbthCheckers
      */
-    public List<PKIXCertPathChecker> getCertPathCheckers() {
-        List<PKIXCertPathChecker> tmpList = new ArrayList<PKIXCertPathChecker>();
-        for (PKIXCertPathChecker ck : certPathCheckers) {
-            tmpList.add((PKIXCertPathChecker)ck.clone());
+    public List<PKIXCertPbthChecker> getCertPbthCheckers() {
+        List<PKIXCertPbthChecker> tmpList = new ArrbyList<PKIXCertPbthChecker>();
+        for (PKIXCertPbthChecker ck : certPbthCheckers) {
+            tmpList.bdd((PKIXCertPbthChecker)ck.clone());
         }
-        return Collections.unmodifiableList(tmpList);
+        return Collections.unmodifibbleList(tmpList);
     }
 
     /**
-     * Adds a {@code PKIXCertPathChecker} to the list of certification
-     * path checkers. See the {@link #setCertPathCheckers setCertPathCheckers}
-     * method for more details.
+     * Adds b {@code PKIXCertPbthChecker} to the list of certificbtion
+     * pbth checkers. See the {@link #setCertPbthCheckers setCertPbthCheckers}
+     * method for more detbils.
      * <p>
-     * Note that the {@code PKIXCertPathChecker} is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the {@code PKIXCertPbthChecker} is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param checker a {@code PKIXCertPathChecker} to add to the list of
-     * checks. If {@code null}, the checker is ignored (not added to list).
+     * @pbrbm checker b {@code PKIXCertPbthChecker} to bdd to the list of
+     * checks. If {@code null}, the checker is ignored (not bdded to list).
      */
-    public void addCertPathChecker(PKIXCertPathChecker checker) {
+    public void bddCertPbthChecker(PKIXCertPbthChecker checker) {
         if (checker != null) {
-            certPathCheckers.add((PKIXCertPathChecker)checker.clone());
+            certPbthCheckers.bdd((PKIXCertPbthChecker)checker.clone());
         }
     }
 
     /**
-     * Returns the signature provider's name, or {@code null}
+     * Returns the signbture provider's nbme, or {@code null}
      * if not set.
      *
-     * @return the signature provider's name (or {@code null})
+     * @return the signbture provider's nbme (or {@code null})
      * @see #setSigProvider
      */
     public String getSigProvider() {
@@ -603,12 +603,12 @@ public class PKIXParameters implements CertPathParameters {
     }
 
     /**
-     * Sets the signature provider's name. The specified provider will be
-     * preferred when creating {@link java.security.Signature Signature}
+     * Sets the signbture provider's nbme. The specified provider will be
+     * preferred when crebting {@link jbvb.security.Signbture Signbture}
      * objects. If {@code null} or not set, the first provider found
-     * supporting the algorithm will be used.
+     * supporting the blgorithm will be used.
      *
-     * @param sigProvider the signature provider's name (or {@code null})
+     * @pbrbm sigProvider the signbture provider's nbme (or {@code null})
      * @see #getSigProvider
     */
     public void setSigProvider(String sigProvider) {
@@ -616,18 +616,18 @@ public class PKIXParameters implements CertPathParameters {
     }
 
     /**
-     * Returns the required constraints on the target certificate.
-     * The constraints are returned as an instance of {@code CertSelector}.
-     * If {@code null}, no constraints are defined.
+     * Returns the required constrbints on the tbrget certificbte.
+     * The constrbints bre returned bs bn instbnce of {@code CertSelector}.
+     * If {@code null}, no constrbints bre defined.
      *
-     * <p>Note that the {@code CertSelector} returned is cloned
-     * to protect against subsequent modifications.
+     * <p>Note thbt the {@code CertSelector} returned is cloned
+     * to protect bgbinst subsequent modificbtions.
      *
-     * @return a {@code CertSelector} specifying the constraints
-     * on the target certificate (or {@code null})
-     * @see #setTargetCertConstraints
+     * @return b {@code CertSelector} specifying the constrbints
+     * on the tbrget certificbte (or {@code null})
+     * @see #setTbrgetCertConstrbints
      */
-    public CertSelector getTargetCertConstraints() {
+    public CertSelector getTbrgetCertConstrbints() {
         if (certSelector != null) {
             return (CertSelector) certSelector.clone();
         } else {
@@ -636,19 +636,19 @@ public class PKIXParameters implements CertPathParameters {
     }
 
     /**
-     * Sets the required constraints on the target certificate.
-     * The constraints are specified as an instance of
-     * {@code CertSelector}. If {@code null}, no constraints are
+     * Sets the required constrbints on the tbrget certificbte.
+     * The constrbints bre specified bs bn instbnce of
+     * {@code CertSelector}. If {@code null}, no constrbints bre
      * defined.
      *
-     * <p>Note that the {@code CertSelector} specified is cloned
-     * to protect against subsequent modifications.
+     * <p>Note thbt the {@code CertSelector} specified is cloned
+     * to protect bgbinst subsequent modificbtions.
      *
-     * @param selector a {@code CertSelector} specifying the constraints
-     * on the target certificate (or {@code null})
-     * @see #getTargetCertConstraints
+     * @pbrbm selector b {@code CertSelector} specifying the constrbints
+     * on the tbrget certificbte (or {@code null})
+     * @see #getTbrgetCertConstrbints
      */
-    public void setTargetCertConstraints(CertSelector selector) {
+    public void setTbrgetCertConstrbints(CertSelector selector) {
         if (selector != null)
             certSelector = (CertSelector) selector.clone();
         else
@@ -656,81 +656,81 @@ public class PKIXParameters implements CertPathParameters {
     }
 
     /**
-     * Makes a copy of this {@code PKIXParameters} object. Changes
-     * to the copy will not affect the original and vice versa.
+     * Mbkes b copy of this {@code PKIXPbrbmeters} object. Chbnges
+     * to the copy will not bffect the originbl bnd vice versb.
      *
-     * @return a copy of this {@code PKIXParameters} object
+     * @return b copy of this {@code PKIXPbrbmeters} object
      */
     public Object clone() {
         try {
-            PKIXParameters copy = (PKIXParameters)super.clone();
+            PKIXPbrbmeters copy = (PKIXPbrbmeters)super.clone();
 
-            // must clone these because addCertStore, et al. modify them
+            // must clone these becbuse bddCertStore, et bl. modify them
             if (certStores != null) {
-                copy.certStores = new ArrayList<CertStore>(certStores);
+                copy.certStores = new ArrbyList<CertStore>(certStores);
             }
-            if (certPathCheckers != null) {
-                copy.certPathCheckers =
-                    new ArrayList<PKIXCertPathChecker>(certPathCheckers.size());
-                for (PKIXCertPathChecker checker : certPathCheckers) {
-                    copy.certPathCheckers.add(
-                                    (PKIXCertPathChecker)checker.clone());
+            if (certPbthCheckers != null) {
+                copy.certPbthCheckers =
+                    new ArrbyList<PKIXCertPbthChecker>(certPbthCheckers.size());
+                for (PKIXCertPbthChecker checker : certPbthCheckers) {
+                    copy.certPbthCheckers.bdd(
+                                    (PKIXCertPbthChecker)checker.clone());
                 }
             }
 
-            // other class fields are immutable to public, don't bother
-            // to clone the read-only fields.
+            // other clbss fields bre immutbble to public, don't bother
+            // to clone the rebd-only fields.
             return copy;
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            /* Cbnnot hbppen */
+            throw new InternblError(e.toString(), e);
         }
     }
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      *
-     * @return a formatted string describing the parameters.
+     * @return b formbtted string describing the pbrbmeters.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
+        sb.bppend("[\n");
 
-        /* start with trusted anchor info */
+        /* stbrt with trusted bnchor info */
         if (unmodTrustAnchors != null) {
-            sb.append("  Trust Anchors: " + unmodTrustAnchors.toString()
+            sb.bppend("  Trust Anchors: " + unmodTrustAnchors.toString()
                 + "\n");
         }
 
-        /* now, append initial state information */
-        if (unmodInitialPolicies != null) {
-            if (unmodInitialPolicies.isEmpty()) {
-                sb.append("  Initial Policy OIDs: any\n");
+        /* now, bppend initibl stbte informbtion */
+        if (unmodInitiblPolicies != null) {
+            if (unmodInitiblPolicies.isEmpty()) {
+                sb.bppend("  Initibl Policy OIDs: bny\n");
             } else {
-                sb.append("  Initial Policy OIDs: ["
-                    + unmodInitialPolicies.toString() + "]\n");
+                sb.bppend("  Initibl Policy OIDs: ["
+                    + unmodInitiblPolicies.toString() + "]\n");
             }
         }
 
-        /* now, append constraints on all certificates in the path */
-        sb.append("  Validity Date: " + String.valueOf(date) + "\n");
-        sb.append("  Signature Provider: " + String.valueOf(sigProvider) + "\n");
-        sb.append("  Default Revocation Enabled: " + revocationEnabled + "\n");
-        sb.append("  Explicit Policy Required: " + explicitPolicyRequired + "\n");
-        sb.append("  Policy Mapping Inhibited: " + policyMappingInhibited + "\n");
-        sb.append("  Any Policy Inhibited: " + anyPolicyInhibited + "\n");
-        sb.append("  Policy Qualifiers Rejected: " + policyQualifiersRejected + "\n");
+        /* now, bppend constrbints on bll certificbtes in the pbth */
+        sb.bppend("  Vblidity Dbte: " + String.vblueOf(dbte) + "\n");
+        sb.bppend("  Signbture Provider: " + String.vblueOf(sigProvider) + "\n");
+        sb.bppend("  Defbult Revocbtion Enbbled: " + revocbtionEnbbled + "\n");
+        sb.bppend("  Explicit Policy Required: " + explicitPolicyRequired + "\n");
+        sb.bppend("  Policy Mbpping Inhibited: " + policyMbppingInhibited + "\n");
+        sb.bppend("  Any Policy Inhibited: " + bnyPolicyInhibited + "\n");
+        sb.bppend("  Policy Qublifiers Rejected: " + policyQublifiersRejected + "\n");
 
-        /* now, append target cert requirements */
-        sb.append("  Target Cert Constraints: " + String.valueOf(certSelector) + "\n");
+        /* now, bppend tbrget cert requirements */
+        sb.bppend("  Tbrget Cert Constrbints: " + String.vblueOf(certSelector) + "\n");
 
-        /* finally, append miscellaneous parameters */
-        if (certPathCheckers != null)
-            sb.append("  Certification Path Checkers: ["
-                + certPathCheckers.toString() + "]\n");
+        /* finblly, bppend miscellbneous pbrbmeters */
+        if (certPbthCheckers != null)
+            sb.bppend("  Certificbtion Pbth Checkers: ["
+                + certPbthCheckers.toString() + "]\n");
         if (certStores != null)
-            sb.append("  CertStores: [" + certStores.toString() + "]\n");
-        sb.append("]");
+            sb.bppend("  CertStores: [" + certStores.toString() + "]\n");
+        sb.bppend("]");
         return sb.toString();
     }
 }

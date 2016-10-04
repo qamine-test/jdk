@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import sun.management.counter.Counter;
+import sun.mbnbgement.counter.Counter;
 
 /**
- * Hotspot internal management interface for the compilation system.
+ * Hotspot internbl mbnbgement interfbce for the compilbtion system.
  */
-public interface HotspotCompilationMBean {
+public interfbce HotspotCompilbtionMBebn {
 
     /**
-     * Returns the number of compiler threads.
+     * Returns the number of compiler threbds.
      *
-     * @return the number of compiler threads.
+     * @return the number of compiler threbds.
      */
-    public int getCompilerThreadCount();
+    public int getCompilerThrebdCount();
 
     /**
-     * Returns the statistic of all compiler threads.
+     * Returns the stbtistic of bll compiler threbds.
      *
-     * @return a list of {@link CompilerThreadStat} object containing
-     * the statistic of a compiler thread.
+     * @return b list of {@link CompilerThrebdStbt} object contbining
+     * the stbtistic of b compiler threbd.
      *
      */
-    public java.util.List<CompilerThreadStat> getCompilerThreadStats();
+    public jbvb.util.List<CompilerThrebdStbt> getCompilerThrebdStbts();
 
     /**
-     * Returns the total number of compiles.
+     * Returns the totbl number of compiles.
      *
-     * @return the total number of compiles.
+     * @return the totbl number of compiles.
      */
-    public long getTotalCompileCount();
+    public long getTotblCompileCount();
 
     /**
-     * Returns the number of bailout compiles.
+     * Returns the number of bbilout compiles.
      *
-     * @return the number of bailout compiles.
+     * @return the number of bbilout compiles.
      */
-    public long getBailoutCompileCount();
+    public long getBbiloutCompileCount();
 
     /**
-     * Returns the number of invalidated compiles.
+     * Returns the number of invblidbted compiles.
      *
-     * @return the number of invalidated compiles.
+     * @return the number of invblidbted compiles.
      */
-    public long getInvalidatedCompileCount();
+    public long getInvblidbtedCompileCount();
 
     /**
-     * Returns the method information of the last compiled method.
+     * Returns the method informbtion of the lbst compiled method.
      *
-     * @return a {@link MethodInfo} of the last compiled method.
+     * @return b {@link MethodInfo} of the lbst compiled method.
      */
-    public MethodInfo getLastCompile();
+    public MethodInfo getLbstCompile();
 
     /**
-     * Returns the method information of the last failed compile.
+     * Returns the method informbtion of the lbst fbiled compile.
      *
-     * @return a {@link MethodInfo} of the last failed compile.
+     * @return b {@link MethodInfo} of the lbst fbiled compile.
      */
-    public MethodInfo getFailedCompile();
+    public MethodInfo getFbiledCompile();
 
     /**
-     * Returns the method information of the last invalidated compile.
+     * Returns the method informbtion of the lbst invblidbted compile.
      *
-     * @return a {@link MethodInfo} of the last invalidated compile.
+     * @return b {@link MethodInfo} of the lbst invblidbted compile.
      */
-    public MethodInfo getInvalidatedCompile();
+    public MethodInfo getInvblidbtedCompile();
 
     /**
      * Returns the number of bytes for the code of the
@@ -106,11 +106,11 @@ public interface HotspotCompilationMBean {
     public long getCompiledMethodSize();
 
     /**
-     * Returns a list of internal counters maintained in the Java
-     * virtual machine for the compilation system.
+     * Returns b list of internbl counters mbintbined in the Jbvb
+     * virtubl mbchine for the compilbtion system.
      *
-     * @return a list of internal counters maintained in the VM
-     * for the compilation system.
+     * @return b list of internbl counters mbintbined in the VM
+     * for the compilbtion system.
      */
-    public java.util.List<Counter> getInternalCompilerCounters();
+    public jbvb.util.List<Counter> getInternblCompilerCounters();
 }

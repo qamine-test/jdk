@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,48 +30,48 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #ifndef HPROF_CLASS_H
 #define HPROF_CLASS_H
 
-void            class_init(void);
-ClassIndex      class_find_or_create(const char *sig, LoaderIndex loader);
-ClassIndex      class_create(const char *sig, LoaderIndex loader);
-SerialNumber    class_get_serial_number(ClassIndex index);
-StringIndex     class_get_signature(ClassIndex index);
-ClassStatus     class_get_status(ClassIndex index);
-void            class_add_status(ClassIndex index, ClassStatus status);
-void            class_all_status_remove(ClassStatus status);
-void            class_do_unloads(JNIEnv *env);
-void            class_list(void);
-void            class_delete_global_references(JNIEnv* env);
-void            class_cleanup(void);
-void            class_set_methods(ClassIndex index, const char**name,
-                                const char**descr,  int count);
-jmethodID       class_get_methodID(JNIEnv *env, ClassIndex index,
+void            clbss_init(void);
+ClbssIndex      clbss_find_or_crebte(const chbr *sig, LobderIndex lobder);
+ClbssIndex      clbss_crebte(const chbr *sig, LobderIndex lobder);
+SeriblNumber    clbss_get_seribl_number(ClbssIndex index);
+StringIndex     clbss_get_signbture(ClbssIndex index);
+ClbssStbtus     clbss_get_stbtus(ClbssIndex index);
+void            clbss_bdd_stbtus(ClbssIndex index, ClbssStbtus stbtus);
+void            clbss_bll_stbtus_remove(ClbssStbtus stbtus);
+void            clbss_do_unlobds(JNIEnv *env);
+void            clbss_list(void);
+void            clbss_delete_globbl_references(JNIEnv* env);
+void            clbss_clebnup(void);
+void            clbss_set_methods(ClbssIndex index, const chbr**nbme,
+                                const chbr**descr,  int count);
+jmethodID       clbss_get_methodID(JNIEnv *env, ClbssIndex index,
                                 MethodIndex mnum);
-jclass          class_new_classref(JNIEnv *env, ClassIndex index,
-                                jclass classref);
-void            class_delete_classref(JNIEnv *env, ClassIndex index);
-jclass          class_get_class(JNIEnv *env, ClassIndex index);
-void            class_set_inst_size(ClassIndex index, jint inst_size);
-jint            class_get_inst_size(ClassIndex index);
-void            class_set_object_index(ClassIndex index,
+jclbss          clbss_new_clbssref(JNIEnv *env, ClbssIndex index,
+                                jclbss clbssref);
+void            clbss_delete_clbssref(JNIEnv *env, ClbssIndex index);
+jclbss          clbss_get_clbss(JNIEnv *env, ClbssIndex index);
+void            clbss_set_inst_size(ClbssIndex index, jint inst_size);
+jint            clbss_get_inst_size(ClbssIndex index);
+void            clbss_set_object_index(ClbssIndex index,
                                 ObjectIndex object_index);
-ObjectIndex     class_get_object_index(ClassIndex index);
-ClassIndex      class_get_super(ClassIndex index);
-void            class_set_super(ClassIndex index, ClassIndex super);
-void            class_set_loader(ClassIndex index, LoaderIndex loader);
-LoaderIndex     class_get_loader(ClassIndex index);
-void            class_prime_system_classes(void);
-jint            class_get_all_fields(JNIEnv *env, ClassIndex cnum,
+ObjectIndex     clbss_get_object_index(ClbssIndex index);
+ClbssIndex      clbss_get_super(ClbssIndex index);
+void            clbss_set_super(ClbssIndex index, ClbssIndex super);
+void            clbss_set_lobder(ClbssIndex index, LobderIndex lobder);
+LobderIndex     clbss_get_lobder(ClbssIndex index);
+void            clbss_prime_system_clbsses(void);
+jint            clbss_get_bll_fields(JNIEnv *env, ClbssIndex cnum,
                                      jint *pfield_count, FieldInfo **pfield);
 
 #endif

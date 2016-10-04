@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jni_util.h"
-#include "gtk2_interface.h"
-#include "gnome_interface.h"
+#include "gtk2_interfbce.h"
+#include "gnome_interfbce.h"
 
-static gboolean gtk_has_been_loaded = FALSE;
-static gboolean gnome_has_been_loaded = FALSE;
+stbtic gboolebn gtk_hbs_been_lobded = FALSE;
+stbtic gboolebn gnome_hbs_been_lobded = FALSE;
 
 /*
- * Class:     sun_awt_X11_XDesktopPeer
+ * Clbss:     sun_bwt_X11_XDesktopPeer
  * Method:    init
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XDesktopPeer_init
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11_XDesktopPeer_init
+  (JNIEnv *env, jclbss cls)
 {
 
-    if (gtk_has_been_loaded || gnome_has_been_loaded) {
+    if (gtk_hbs_been_lobded || gnome_hbs_been_lobded) {
         return JNI_TRUE;
     }
 
-    if (gtk2_load(env) && gtk2_show_uri_load(env)) {
-        gtk_has_been_loaded = TRUE;
+    if (gtk2_lobd(env) && gtk2_show_uri_lobd(env)) {
+        gtk_hbs_been_lobded = TRUE;
         return JNI_TRUE;
-    } else if (gnome_load()) {
-        gnome_has_been_loaded = TRUE;
+    } else if (gnome_lobd()) {
+        gnome_hbs_been_lobded = TRUE;
         return JNI_TRUE;
     }
 
@@ -55,17 +55,17 @@ JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XDesktopPeer_init
 }
 
 /*
- * Class:     sun_awt_X11_XDesktopPeer
+ * Clbss:     sun_bwt_X11_XDesktopPeer
  * Method:    gnome_url_show
- * Signature: (Ljava/lang/[B;)Z
+ * Signbture: (Ljbvb/lbng/[B;)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XDesktopPeer_gnome_1url_1show
-  (JNIEnv *env, jobject obj, jbyteArray url_j)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11_XDesktopPeer_gnome_1url_1show
+  (JNIEnv *env, jobject obj, jbyteArrby url_j)
 {
-    gboolean success = FALSE;
-    const gchar* url_c;
+    gboolebn success = FALSE;
+    const gchbr* url_c;
 
-    url_c = (char*)(*env)->GetByteArrayElements(env, url_j, NULL);
+    url_c = (chbr*)(*env)->GetByteArrbyElements(env, url_j, NULL);
     if (url_c == NULL) {
         if (!(*env)->ExceptionCheck(env)) {
             JNU_ThrowOutOfMemoryError(env, 0);
@@ -73,15 +73,15 @@ JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XDesktopPeer_gnome_1url_1show
         return JNI_FALSE;
     }
 
-    if (gtk_has_been_loaded) {
-        fp_gdk_threads_enter();
+    if (gtk_hbs_been_lobded) {
+        fp_gdk_threbds_enter();
         success = fp_gtk_show_uri(NULL, url_c, GDK_CURRENT_TIME, NULL);
-        fp_gdk_threads_leave();
-    } else if (gnome_has_been_loaded) {
+        fp_gdk_threbds_lebve();
+    } else if (gnome_hbs_been_lobded) {
         success = (*gnome_url_show)(url_c, NULL);
     }
 
-    (*env)->ReleaseByteArrayElements(env, url_j, (signed char*)url_c, 0);
+    (*env)->RelebseByteArrbyElements(env, url_j, (signed chbr*)url_c, 0);
 
     return success ? JNI_TRUE : JNI_FALSE;
 }

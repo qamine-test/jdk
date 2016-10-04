@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * The CRLReason enumeration specifies the reason that a certificate
- * is revoked, as defined in <a href="http://www.ietf.org/rfc/rfc3280.txt">
- * RFC 3280: Internet X.509 Public Key Infrastructure Certificate and CRL
- * Profile</a>.
+ * The CRLRebson enumerbtion specifies the rebson thbt b certificbte
+ * is revoked, bs defined in <b href="http://www.ietf.org/rfc/rfc3280.txt">
+ * RFC 3280: Internet X.509 Public Key Infrbstructure Certificbte bnd CRL
+ * Profile</b>.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  * @since 1.7
- * @see X509CRLEntry#getRevocationReason
- * @see CertificateRevokedException#getRevocationReason
+ * @see X509CRLEntry#getRevocbtionRebson
+ * @see CertificbteRevokedException#getRevocbtionRebson
  */
-public enum CRLReason {
+public enum CRLRebson {
     /**
-     * This reason indicates that it is unspecified as to why the
-     * certificate has been revoked.
+     * This rebson indicbtes thbt it is unspecified bs to why the
+     * certificbte hbs been revoked.
      */
     UNSPECIFIED,
 
     /**
-     * This reason indicates that it is known or suspected that the
-     * certificate subject's private key has been compromised. It applies
-     * to end-entity certificates only.
+     * This rebson indicbtes thbt it is known or suspected thbt the
+     * certificbte subject's privbte key hbs been compromised. It bpplies
+     * to end-entity certificbtes only.
      */
     KEY_COMPROMISE,
 
     /**
-     * This reason indicates that it is known or suspected that the
-     * certificate subject's private key has been compromised. It applies
-     * to certificate authority (CA) certificates only.
+     * This rebson indicbtes thbt it is known or suspected thbt the
+     * certificbte subject's privbte key hbs been compromised. It bpplies
+     * to certificbte buthority (CA) certificbtes only.
      */
     CA_COMPROMISE,
 
     /**
-     * This reason indicates that the subject's name or other information
-     * has changed.
+     * This rebson indicbtes thbt the subject's nbme or other informbtion
+     * hbs chbnged.
      */
     AFFILIATION_CHANGED,
 
     /**
-     * This reason indicates that the certificate has been superseded.
+     * This rebson indicbtes thbt the certificbte hbs been superseded.
      */
     SUPERSEDED,
 
     /**
-     * This reason indicates that the certificate is no longer needed.
+     * This rebson indicbtes thbt the certificbte is no longer needed.
      */
     CESSATION_OF_OPERATION,
 
     /**
-     * This reason indicates that the certificate has been put on hold.
+     * This rebson indicbtes thbt the certificbte hbs been put on hold.
      */
     CERTIFICATE_HOLD,
 
     /**
-     * Unused reason.
+     * Unused rebson.
      */
     UNUSED,
 
     /**
-     * This reason indicates that the certificate was previously on hold
-     * and should be removed from the CRL. It is for use with delta CRLs.
+     * This rebson indicbtes thbt the certificbte wbs previously on hold
+     * bnd should be removed from the CRL. It is for use with deltb CRLs.
      */
     REMOVE_FROM_CRL,
 
     /**
-     * This reason indicates that the privileges granted to the subject of
-     * the certificate have been withdrawn.
+     * This rebson indicbtes thbt the privileges grbnted to the subject of
+     * the certificbte hbve been withdrbwn.
      */
     PRIVILEGE_WITHDRAWN,
 
     /**
-     * This reason indicates that it is known or suspected that the
-     * certificate subject's private key has been compromised. It applies
-     * to authority attribute (AA) certificates only.
+     * This rebson indicbtes thbt it is known or suspected thbt the
+     * certificbte subject's privbte key hbs been compromised. It bpplies
+     * to buthority bttribute (AA) certificbtes only.
      */
     AA_COMPROMISE
 }

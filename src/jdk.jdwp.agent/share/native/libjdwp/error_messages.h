@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef JDWP_ERROR_MESSAGES_H
 #define JDWP_ERROR_MESSAGES_H
 
-/* It is assumed that ALL strings are UTF-8 safe on entry */
-#define TTY_MESSAGE(args) ( tty_message args )
-#define ERROR_MESSAGE(args) ( \
-                LOG_ERROR(args), \
-                error_message args )
+/* It is bssumed thbt ALL strings bre UTF-8 sbfe on entry */
+#define TTY_MESSAGE(brgs) ( tty_messbge brgs )
+#define ERROR_MESSAGE(brgs) ( \
+                LOG_ERROR(brgs), \
+                error_messbge brgs )
 
-void print_message(FILE *fp, const char *prefix,  const char *suffix,
-                   const char *format, ...);
-void error_message(const char *, ...);
-void tty_message(const char *, ...);
-void jdiAssertionFailed(char *fileName, int lineNumber, char *msg);
+void print_messbge(FILE *fp, const chbr *prefix,  const chbr *suffix,
+                   const chbr *formbt, ...);
+void error_messbge(const chbr *, ...);
+void tty_messbge(const chbr *, ...);
+void jdiAssertionFbiled(chbr *fileNbme, int lineNumber, chbr *msg);
 
-const char * jvmtiErrorText(jvmtiError);
-const char * eventText(int);
-const char * jdwpErrorText(jdwpError);
+const chbr * jvmtiErrorText(jvmtiError);
+const chbr * eventText(int);
+const chbr * jdwpErrorText(jdwpError);
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
 #define EXIT_ERROR(error,msg) \
         { \
-                print_message(stderr, "JDWP exit error ", "\n", \
+                print_messbge(stderr, "JDWP exit error ", "\n", \
                         "%s(%d): %s [%s:%d]", \
                         jvmtiErrorText((jvmtiError)error), error, (msg==NULL?"":msg), \
                         THIS_FILE, __LINE__); \
@@ -58,21 +58,21 @@ const char * jdwpErrorText(jdwpError);
 
 #define JDI_ASSERT(expression)  \
 do {                            \
-    if (gdata && gdata->assertOn && !(expression)) {            \
-        jdiAssertionFailed(THIS_FILE, __LINE__, #expression); \
+    if (gdbtb && gdbtb->bssertOn && !(expression)) {            \
+        jdiAssertionFbiled(THIS_FILE, __LINE__, #expression); \
     }                                           \
 } while (0)
 
 #define JDI_ASSERT_MSG(expression, msg)  \
 do {                            \
-    if (gdata && gdata->assertOn && !(expression)) {            \
-        jdiAssertionFailed(THIS_FILE, __LINE__, msg); \
+    if (gdbtb && gdbtb->bssertOn && !(expression)) {            \
+        jdiAssertionFbiled(THIS_FILE, __LINE__, msg); \
     }                                           \
 } while (0)
 
 #define JDI_ASSERT_FAILED(msg)  \
-   jdiAssertionFailed(THIS_FILE, __LINE__, msg)
+   jdiAssertionFbiled(THIS_FILE, __LINE__, msg)
 
-void do_pause(void);
+void do_pbuse(void);
 
 #endif

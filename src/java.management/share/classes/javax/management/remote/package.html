@@ -1,164 +1,164 @@
 <html>
-<head>
+<hebd>
     <title>JMX<sup><font size="-2">TM</font></sup> Remote API.</title>
 <!--
-Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
-      <p>Interfaces for remote access to
-	JMX MBean servers.
-	This package defines the essential interfaces for making a JMX
-	MBean server manageable remotely. The specification of this 
-        functionality is completed by Part III of the 
-       <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-	JMX Specification, version 1.4</a> PDF document.</p>
+      <p>Interfbces for remote bccess to
+	JMX MBebn servers.
+	This pbckbge defines the essentibl interfbces for mbking b JMX
+	MBebn server mbnbgebble remotely. The specificbtion of this 
+        functionblity is completed by Pbrt III of the 
+       <b href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specificbtion.pdf">
+	JMX Specificbtion, version 1.4</b> PDF document.</p>
 
-      <p>The JMX specification defines the notion of <b>connectors</b>.
-	A connector is attached to a JMX API MBean server and makes it
-	accessible to remote Java clients. The client end of a
-	connector exports essentially the same interface as the MBean
-	server, specifically the {@link
-	javax.management.MBeanServerConnection MBeanServerConnection}
-	interface.</p>
+      <p>The JMX specificbtion defines the notion of <b>connectors</b>.
+	A connector is bttbched to b JMX API MBebn server bnd mbkes it
+	bccessible to remote Jbvb clients. The client end of b
+	connector exports essentiblly the sbme interfbce bs the MBebn
+	server, specificblly the {@link
+	jbvbx.mbnbgement.MBebnServerConnection MBebnServerConnection}
+	interfbce.</p>
 
-      <p>A connector makes an MBean server remotely accessible through
-	a given protocol. The JMX Remote API allows the use of different 
+      <p>A connector mbkes bn MBebn server remotely bccessible through
+	b given protocol. The JMX Remote API bllows the use of different 
         type of connectors:
 
       <ul>
-       <li>The JMX Remote API defines a standard connector,
-	the <b>RMI Connector</b>, which provides remote access to an
-        MBeanServer through RMI.
+       <li>The JMX Remote API defines b stbndbrd connector,
+	the <b>RMI Connector</b>, which provides remote bccess to bn
+        MBebnServer through RMI.
 
-       <li>The JMX Remote API also defines an optional connector called 
-        <b>JMXMP Connector</b> implementing the JMX Message Protocol 
-	(JMXMP). As it is optional, it is not part of this bundle (see
+       <li>The JMX Remote API blso defines bn optionbl connector cblled 
+        <b>JMXMP Connector</b> implementing the JMX Messbge Protocol 
+	(JMXMP). As it is optionbl, it is not pbrt of this bundle (see
 	note below).
 
-       <li>User-defined connector protocols are also possible using the 
-	{@link javax.management.remote.JMXConnectorFactory
-	JMXConnectorFactory} and, optionally, the Generic Connector
-	(not part of this bundle, see note below).
+       <li>User-defined connector protocols bre blso possible using the 
+	{@link jbvbx.mbnbgement.remote.JMXConnectorFbctory
+	JMXConnectorFbctory} bnd, optionblly, the Generic Connector
+	(not pbrt of this bundle, see note below).
       </ul>
 
-      <p><u>Note</u>: the optional packages implementing
-        the optional part of the <em>JMX Remote API</em>
-        are not included in the <em>Java SE Platform</em> 
-        but are available from the <em>JMX Remote API 
-	<a href="http://java.sun.com/products/JavaManagement/download.html">
-	Reference Implementation</a></em>.</p>
+      <p><u>Note</u>: the optionbl pbckbges implementing
+        the optionbl pbrt of the <em>JMX Remote API</em>
+        bre not included in the <em>Jbvb SE Plbtform</em> 
+        but bre bvbilbble from the <em>JMX Remote API 
+	<b href="http://jbvb.sun.com/products/JbvbMbnbgement/downlobd.html">
+	Reference Implementbtion</b></em>.</p>
 
 
-      <h3>Connector addresses</h3>
+      <h3>Connector bddresses</h3>
 
-      <p>Typically, a connector server has an address, represented by the
-	class {@link javax.management.remote.JMXServiceURL
-	JMXServiceURL}.  An address for the RMI Connector can look
+      <p>Typicblly, b connector server hbs bn bddress, represented by the
+	clbss {@link jbvbx.mbnbgement.remote.JMXServiceURL
+	JMXServiceURL}.  An bddress for the RMI Connector cbn look
 	like this:</p>
 
       <pre>
-      service:jmx:rmi:///jndi/rmi://myhost:1099/myname
+      service:jmx:rmi:///jndi/rmi://myhost:1099/mynbme
       </pre>
 
       <p>In this <code>JMXServiceURL</code>, the first <code>rmi:</code>
         specifies the RMI connector, while the second <code>rmi:</code> 
         specifies the RMI registry into which the RMI connector server 
-        has stored its stub.
+        hbs stored its stub.
 
-      <p>The example above shows only one form of address.
-        An address for the RMI Connector can take several forms,
-	as detailed in the documentation for the package
-	<code>{@link javax.management.remote.rmi}</code>.</p>
+      <p>The exbmple bbove shows only one form of bddress.
+        An bddress for the RMI Connector cbn tbke severbl forms,
+	bs detbiled in the documentbtion for the pbckbge
+	<code>{@link jbvbx.mbnbgement.remote.rmi}</code>.</p>
 
-      <h3>Creating a connector server</h3>
+      <h3>Crebting b connector server</h3>
 
-      <p>A connector server is created by constructing an instance of
-	a subclass of {@link
-	javax.management.remote.JMXConnectorServer
-	JMXConnectorServer}.  Usually, this instance is created
+      <p>A connector server is crebted by constructing bn instbnce of
+	b subclbss of {@link
+	jbvbx.mbnbgement.remote.JMXConnectorServer
+	JMXConnectorServer}.  Usublly, this instbnce is crebted
         using the method {@link
-        javax.management.remote.JMXConnectorServerFactory#newJMXConnectorServer(JMXServiceURL,
-        java.util.Map, javax.management.MBeanServer)
-	JMXConnectorServerFactory.newJMXConnectorServer}.</p>
+        jbvbx.mbnbgement.remote.JMXConnectorServerFbctory#newJMXConnectorServer(JMXServiceURL,
+        jbvb.util.Mbp, jbvbx.mbnbgement.MBebnServer)
+	JMXConnectorServerFbctory.newJMXConnectorServer}.</p>
 
-      <p>Typically, a connector server is associated with an MBean
-	server either by registering it in that MBean server, or by
-	supplying the MBean server as a parameter when creating the
+      <p>Typicblly, b connector server is bssocibted with bn MBebn
+	server either by registering it in thbt MBebn server, or by
+	supplying the MBebn server bs b pbrbmeter when crebting the
 	connector server.</p>
 
-      <h3>Creating a connector client</h3>
+      <h3>Crebting b connector client</h3>
 
-      <p>A connector client is usually created by supplying the
+      <p>A connector client is usublly crebted by supplying the
 	<code>JMXServiceURL</code> of the connector server to connect to 
         to the {@link
-	javax.management.remote.JMXConnectorFactory#connect(JMXServiceURL)
-	JMXConnectorFactory.connect} method.</p>
+	jbvbx.mbnbgement.remote.JMXConnectorFbctory#connect(JMXServiceURL)
+	JMXConnectorFbctory.connect} method.</p>
 
-      <p>For more specialized uses, a connector client can be created
-	by directly instantiating a class that implements the {@link
-	javax.management.remote.JMXConnector JMXConnector} interface,
-	for example the class {@link
-	javax.management.remote.rmi.RMIConnector
+      <p>For more speciblized uses, b connector client cbn be crebted
+	by directly instbntibting b clbss thbt implements the {@link
+	jbvbx.mbnbgement.remote.JMXConnector JMXConnector} interfbce,
+	for exbmple the clbss {@link
+	jbvbx.mbnbgement.remote.rmi.RMIConnector
 	RMIConnector}.</p>
 
-      <h3>Additional client or server parameters</h3>
+      <h3>Additionbl client or server pbrbmeters</h3>
 
-      <p>When creating a connector client or server, it is possible to
-	supply an object of type {@link java.util.Map Map} that defines
-	additional parameters.  Each entry in this Map has a key that is
-	a string and an associated value whose type is appropriate for
-	that key.  The standard keys defined by the JMX Remote API all
+      <p>When crebting b connector client or server, it is possible to
+	supply bn object of type {@link jbvb.util.Mbp Mbp} thbt defines
+	bdditionbl pbrbmeters.  Ebch entry in this Mbp hbs b key thbt is
+	b string bnd bn bssocibted vblue whose type is bppropribte for
+	thbt key.  The stbndbrd keys defined by the JMX Remote API bll
 	begin with the string "<code>jmx.remote.</code>".  The document
-	<em>JMX Remote API</em> lists these standard keys.</p>
+	<em>JMX Remote API</em> lists these stbndbrd keys.</p>
 
       <h3>Connection identifiers</h3>
 
-      <p>Every connection opened by a connector server has a string
-	identifier, called its <b>connection id</b>.  This identifier
-	appears in the {@link
-	javax.management.remote.JMXConnectionNotification
-	JMXConnectionNotification} events emitted by the connector
+      <p>Every connection opened by b connector server hbs b string
+	identifier, cblled its <b>connection id</b>.  This identifier
+	bppebrs in the {@link
+	jbvbx.mbnbgement.remote.JMXConnectionNotificbtion
+	JMXConnectionNotificbtion} events emitted by the connector
 	server, in the list returned by {@link
-	javax.management.remote.JMXConnectorServerMBean#getConnectionIds()
-	getConnectionIds()}, and in the value
+	jbvbx.mbnbgement.remote.JMXConnectorServerMBebn#getConnectionIds()
+	getConnectionIds()}, bnd in the vblue
 	returned by the client's {@link
-	javax.management.remote.JMXConnector#getConnectionId()
+	jbvbx.mbnbgement.remote.JMXConnector#getConnectionId()
 	getConnectionId()} method.</p>
 
-      <p>As an example, a connection ID can look something like this:</p>
+      <p>As bn exbmple, b connection ID cbn look something like this:</p>
 
       <pre>
-rmi://192.18.1.9 username 1
+rmi://192.18.1.9 usernbme 1
       </pre>
 
-      <p>The formal grammar for connection ids that follow this
-         convention is as follows (using the grammar notation from section 2.4 of 
-         <em>The Java&trade; Language Specification</em>):</p>
+      <p>The formbl grbmmbr for connection ids thbt follow this
+         convention is bs follows (using the grbmmbr notbtion from section 2.4 of 
+         <em>The Jbvb&trbde; Lbngubge Specificbtion</em>):</p>
       <pre>
 <em>ConnectionId:</em>
-    <em>Protocol</em> : <em>ClientAddress<sub>opt</sub></em> Space <em>ClientId<sub>opt</sub></em> Space <em>ArbitraryText</em>
+    <em>Protocol</em> : <em>ClientAddress<sub>opt</sub></em> Spbce <em>ClientId<sub>opt</sub></em> Spbce <em>ArbitrbryText</em>
 
 <em>ClientAddress:</em>
     // <em>HostAddress</em> <em>ClientPort<sub>opt</sub></em>
@@ -167,38 +167,38 @@ rmi://192.18.1.9 username 1
     : <em>HostPort</em>
       </pre>
 
-      <p>The <code><em>Protocol</em></code> is a protocol that would
+      <p>The <code><em>Protocol</em></code> is b protocol thbt would
 	be recognized by {@link
-	javax.management.remote.JMXConnectorFactory
-	JMXConnectorFactory}.</p>
+	jbvbx.mbnbgement.remote.JMXConnectorFbctory
+	JMXConnectorFbctory}.</p>
 
       <p>The <code><em>ClientAddress</em></code> is the
-	address and port of the connecting client, if these can be
+	bddress bnd port of the connecting client, if these cbn be
 	determined, otherwise nothing.  The
-	<code><em>HostAddress</em></code> is the Internet address of
-	the host that the client is connecting from, in numeric or DNS
-	form.  Numeric IPv6 addresses are enclosed in square brackets
+	<code><em>HostAddress</em></code> is the Internet bddress of
+	the host thbt the client is connecting from, in numeric or DNS
+	form.  Numeric IPv6 bddresses bre enclosed in squbre brbckets
 	<code>[]</code>.  The <code><em>HostPort</em></code> is the
-	decimal port number that the client is connecting from.</p>
+	decimbl port number thbt the client is connecting from.</p>
 
       <p>The <code><em>ClientId</em></code> is the identity of the
-	client entity, typically a string returned by {@link
-	javax.management.remote.JMXPrincipal#getName()
-	JMXPrincipal.getName()}.  This string must not contain
-	spaces.</p>
+	client entity, typicblly b string returned by {@link
+	jbvbx.mbnbgement.remote.JMXPrincipbl#getNbme()
+	JMXPrincipbl.getNbme()}.  This string must not contbin
+	spbces.</p>
 
-      <p>The <code><em>ArbitraryText</em></code> is any additional
-	text that the connector server adds when creating the client id.
-	At a minimum, it must be enough to distinguish this connection
-	ID from the ID of any other connection currently opened by this
+      <p>The <code><em>ArbitrbryText</em></code> is bny bdditionbl
+	text thbt the connector server bdds when crebting the client id.
+	At b minimum, it must be enough to distinguish this connection
+	ID from the ID of bny other connection currently opened by this
 	connector server.</p>
 
 
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4</a>
+    @see <b href="{@docRoot}/../technotes/guides/jmx/">
+      Jbvb Plbtform documentbtion on JMX technology</b>,
+    in pbrticulbr the 
+    <b href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specificbtion.pdf">
+      JMX Specificbtion, version 1.4</b>
     
     @since 1.5
 

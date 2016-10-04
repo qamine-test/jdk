@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.print;
+pbckbge jbvb.bwt.print;
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
 /**
- * The <code>Book</code> class provides a representation of a document in
- * which pages may have different page formats and page painters. This
- * class uses the {@link Pageable} interface to interact with a
+ * The <code>Book</code> clbss provides b representbtion of b document in
+ * which pbges mby hbve different pbge formbts bnd pbge pbinters. This
+ * clbss uses the {@link Pbgebble} interfbce to interbct with b
  * {@link PrinterJob}.
- * @see Pageable
+ * @see Pbgebble
  * @see PrinterJob
 */
 
-public class Book implements Pageable {
+public clbss Book implements Pbgebble {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
- /* Class Variables */
+ /* Clbss Vbribbles */
 
- /* Instance Variables */
+ /* Instbnce Vbribbles */
 
     /**
-     * The set of pages that make up the Book.
+     * The set of pbges thbt mbke up the Book.
      */
-    private Vector<BookPage> mPages;
+    privbte Vector<BookPbge> mPbges;
 
- /* Instance Methods */
+ /* Instbnce Methods */
 
     /**
-     *  Creates a new, empty <code>Book</code>.
+     *  Crebtes b new, empty <code>Book</code>.
      */
     public Book() {
-        mPages = new Vector<>();
+        mPbges = new Vector<>();
     }
 
     /**
-     * Returns the number of pages in this <code>Book</code>.
-     * @return the number of pages this <code>Book</code> contains.
+     * Returns the number of pbges in this <code>Book</code>.
+     * @return the number of pbges this <code>Book</code> contbins.
      */
-    public int getNumberOfPages(){
-        return mPages.size();
+    public int getNumberOfPbges(){
+        return mPbges.size();
     }
 
     /**
-     * Returns the {@link PageFormat} of the page specified by
-     * <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *            <code>PageFormat</code> is being requested
-     * @return the <code>PageFormat</code> describing the size and
-     *          orientation of the page.
-     * @throws IndexOutOfBoundsException if the <code>Pageable</code>
-     *          does not contain the requested page
+     * Returns the {@link PbgeFormbt} of the pbge specified by
+     * <code>pbgeIndex</code>.
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge whose
+     *            <code>PbgeFormbt</code> is being requested
+     * @return the <code>PbgeFormbt</code> describing the size bnd
+     *          orientbtion of the pbge.
+     * @throws IndexOutOfBoundsException if the <code>Pbgebble</code>
+     *          does not contbin the requested pbge
      */
-    public PageFormat getPageFormat(int pageIndex)
+    public PbgeFormbt getPbgeFormbt(int pbgeIndex)
         throws IndexOutOfBoundsException
     {
-        return getPage(pageIndex).getPageFormat();
+        return getPbge(pbgeIndex).getPbgeFormbt();
     }
 
     /**
-     * Returns the {@link Printable} instance responsible for rendering
-     * the page specified by <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *                  <code>Printable</code> is being requested
-     * @return the <code>Printable</code> that renders the page.
-     * @throws IndexOutOfBoundsException if the <code>Pageable</code>
-     *            does not contain the requested page
+     * Returns the {@link Printbble} instbnce responsible for rendering
+     * the pbge specified by <code>pbgeIndex</code>.
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge whose
+     *                  <code>Printbble</code> is being requested
+     * @return the <code>Printbble</code> thbt renders the pbge.
+     * @throws IndexOutOfBoundsException if the <code>Pbgebble</code>
+     *            does not contbin the requested pbge
      */
-    public Printable getPrintable(int pageIndex)
+    public Printbble getPrintbble(int pbgeIndex)
         throws IndexOutOfBoundsException
     {
-        return getPage(pageIndex).getPrintable();
+        return getPbge(pbgeIndex).getPrintbble();
     }
 
     /**
-     * Sets the <code>PageFormat</code> and the <code>Painter</code> for a
-     * specified page number.
-     * @param pageIndex the zero based index of the page whose
-     *                  painter and format is altered
-     * @param painter   the <code>Printable</code> instance that
-     *                  renders the page
-     * @param page      the size and orientation of the page
+     * Sets the <code>PbgeFormbt</code> bnd the <code>Pbinter</code> for b
+     * specified pbge number.
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge whose
+     *                  pbinter bnd formbt is bltered
+     * @pbrbm pbinter   the <code>Printbble</code> instbnce thbt
+     *                  renders the pbge
+     * @pbrbm pbge      the size bnd orientbtion of the pbge
      * @throws IndexOutOfBoundsException if the specified
-     *          page is not already in this <code>Book</code>
-     * @throws NullPointerException if the <code>painter</code> or
-     *          <code>page</code> argument is <code>null</code>
+     *          pbge is not blrebdy in this <code>Book</code>
+     * @throws NullPointerException if the <code>pbinter</code> or
+     *          <code>pbge</code> brgument is <code>null</code>
      */
-    public void setPage(int pageIndex, Printable painter, PageFormat page)
+    public void setPbge(int pbgeIndex, Printbble pbinter, PbgeFormbt pbge)
         throws IndexOutOfBoundsException
     {
-        if (painter == null) {
-            throw new NullPointerException("painter is null");
+        if (pbinter == null) {
+            throw new NullPointerException("pbinter is null");
         }
 
-        if (page == null) {
-            throw new NullPointerException("page is null");
+        if (pbge == null) {
+            throw new NullPointerException("pbge is null");
         }
 
-        mPages.setElementAt(new BookPage(painter, page), pageIndex);
+        mPbges.setElementAt(new BookPbge(pbinter, pbge), pbgeIndex);
     }
 
     /**
-     * Appends a single page to the end of this <code>Book</code>.
-     * @param painter   the <code>Printable</code> instance that
-     *                  renders the page
-     * @param page      the size and orientation of the page
+     * Appends b single pbge to the end of this <code>Book</code>.
+     * @pbrbm pbinter   the <code>Printbble</code> instbnce thbt
+     *                  renders the pbge
+     * @pbrbm pbge      the size bnd orientbtion of the pbge
      * @throws NullPointerException
-     *          If the <code>painter</code> or <code>page</code>
-     *          argument is <code>null</code>
+     *          If the <code>pbinter</code> or <code>pbge</code>
+     *          brgument is <code>null</code>
      */
-    public void append(Printable painter, PageFormat page) {
-        mPages.addElement(new BookPage(painter, page));
+    public void bppend(Printbble pbinter, PbgeFormbt pbge) {
+        mPbges.bddElement(new BookPbge(pbinter, pbge));
     }
 
     /**
-     * Appends <code>numPages</code> pages to the end of this
-     * <code>Book</code>.  Each of the pages is associated with
-     * <code>page</code>.
-     * @param painter   the <code>Printable</code> instance that renders
-     *                  the page
-     * @param page      the size and orientation of the page
-     * @param numPages  the number of pages to be added to the
+     * Appends <code>numPbges</code> pbges to the end of this
+     * <code>Book</code>.  Ebch of the pbges is bssocibted with
+     * <code>pbge</code>.
+     * @pbrbm pbinter   the <code>Printbble</code> instbnce thbt renders
+     *                  the pbge
+     * @pbrbm pbge      the size bnd orientbtion of the pbge
+     * @pbrbm numPbges  the number of pbges to be bdded to the
      *                  this <code>Book</code>.
      * @throws NullPointerException
-     *          If the <code>painter</code> or <code>page</code>
-     *          argument is <code>null</code>
+     *          If the <code>pbinter</code> or <code>pbge</code>
+     *          brgument is <code>null</code>
      */
-    public void append(Printable painter, PageFormat page, int numPages) {
-        BookPage bookPage = new BookPage(painter, page);
-        int pageIndex = mPages.size();
-        int newSize = pageIndex + numPages;
+    public void bppend(Printbble pbinter, PbgeFormbt pbge, int numPbges) {
+        BookPbge bookPbge = new BookPbge(pbinter, pbge);
+        int pbgeIndex = mPbges.size();
+        int newSize = pbgeIndex + numPbges;
 
-        mPages.setSize(newSize);
-        for(int i = pageIndex; i < newSize; i++){
-            mPages.setElementAt(bookPage, i);
+        mPbges.setSize(newSize);
+        for(int i = pbgeIndex; i < newSize; i++){
+            mPbges.setElementAt(bookPbge, i);
         }
     }
 
     /**
-     * Return the BookPage for the page specified by 'pageIndex'.
+     * Return the BookPbge for the pbge specified by 'pbgeIndex'.
      */
-    private BookPage getPage(int pageIndex)
-        throws ArrayIndexOutOfBoundsException
+    privbte BookPbge getPbge(int pbgeIndex)
+        throws ArrbyIndexOutOfBoundsException
     {
-        return mPages.elementAt(pageIndex);
+        return mPbges.elementAt(pbgeIndex);
     }
 
     /**
-     * The BookPage inner class describes an individual
-     * page in a Book through a PageFormat-Printable pair.
+     * The BookPbge inner clbss describes bn individubl
+     * pbge in b Book through b PbgeFormbt-Printbble pbir.
      */
-    private class BookPage {
+    privbte clbss BookPbge {
         /**
-         *  The size and orientation of the page.
+         *  The size bnd orientbtion of the pbge.
          */
-        private PageFormat mFormat;
+        privbte PbgeFormbt mFormbt;
 
         /**
-         * The instance that will draw the page.
+         * The instbnce thbt will drbw the pbge.
          */
-        private Printable mPainter;
+        privbte Printbble mPbinter;
 
         /**
-         * A new instance where 'format' describes the page's
-         * size and orientation and 'painter' is the instance
-         * that will draw the page's graphics.
+         * A new instbnce where 'formbt' describes the pbge's
+         * size bnd orientbtion bnd 'pbinter' is the instbnce
+         * thbt will drbw the pbge's grbphics.
          * @throws  NullPointerException
-         *          If the <code>painter</code> or <code>format</code>
-         *          argument is <code>null</code>
+         *          If the <code>pbinter</code> or <code>formbt</code>
+         *          brgument is <code>null</code>
          */
-        BookPage(Printable painter, PageFormat format) {
+        BookPbge(Printbble pbinter, PbgeFormbt formbt) {
 
-            if (painter == null || format == null) {
+            if (pbinter == null || formbt == null) {
                 throw new NullPointerException();
             }
 
-            mFormat = format;
-            mPainter = painter;
+            mFormbt = formbt;
+            mPbinter = pbinter;
         }
 
         /**
-         * Return the instance that paints the
-         * page.
+         * Return the instbnce thbt pbints the
+         * pbge.
          */
-        Printable getPrintable() {
-            return mPainter;
+        Printbble getPrintbble() {
+            return mPbinter;
         }
 
         /**
-         * Return the format of the page.
+         * Return the formbt of the pbge.
          */
-        PageFormat getPageFormat() {
-            return mFormat;
+        PbgeFormbt getPbgeFormbt() {
+            return mFormbt;
         }
     }
 }

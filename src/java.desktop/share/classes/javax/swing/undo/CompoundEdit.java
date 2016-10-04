@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.undo;
+pbckbge jbvbx.swing.undo;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A concrete subclass of AbstractUndoableEdit, used to assemble little
- * UndoableEdits into great big ones.
+ * A concrete subclbss of AbstrbctUndobbleEdit, used to bssemble little
+ * UndobbleEdits into grebt big ones.
  *
- * @author Ray Ryan
+ * @buthor Rby Rybn
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class CompoundEdit extends AbstractUndoableEdit {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss CompoundEdit extends AbstrbctUndobbleEdit {
     /**
-     * True if this edit has never received <code>end</code>.
+     * True if this edit hbs never received <code>end</code>.
      */
-    boolean inProgress;
+    boolebn inProgress;
 
     /**
-     * The collection of <code>UndoableEdit</code>s
-     * undone/redone en masse by this <code>CompoundEdit</code>.
+     * The collection of <code>UndobbleEdit</code>s
+     * undone/redone en mbsse by this <code>CompoundEdit</code>.
      */
-    protected Vector<UndoableEdit> edits;
+    protected Vector<UndobbleEdit> edits;
 
     public CompoundEdit() {
         super();
         inProgress = true;
-        edits = new Vector<UndoableEdit>();
+        edits = new Vector<UndobbleEdit>();
     }
 
     /**
-     * Sends <code>undo</code> to all contained
-     * <code>UndoableEdits</code> in the reverse of
-     * the order in which they were added.
+     * Sends <code>undo</code> to bll contbined
+     * <code>UndobbleEdits</code> in the reverse of
+     * the order in which they were bdded.
      */
-    public void undo() throws CannotUndoException {
+    public void undo() throws CbnnotUndoException {
         super.undo();
         int i = edits.size();
         while (i-- > 0) {
-            UndoableEdit e = edits.elementAt(i);
+            UndobbleEdit e = edits.elementAt(i);
             e.undo();
         }
     }
 
     /**
-     * Sends <code>redo</code> to all contained
-     * <code>UndoableEdit</code>s in the order in
-     * which they were added.
+     * Sends <code>redo</code> to bll contbined
+     * <code>UndobbleEdit</code>s in the order in
+     * which they were bdded.
      */
-    public void redo() throws CannotRedoException {
+    public void redo() throws CbnnotRedoException {
         super.redo();
-        Enumeration<UndoableEdit> cursor = edits.elements();
-        while (cursor.hasMoreElements()) {
+        Enumerbtion<UndobbleEdit> cursor = edits.elements();
+        while (cursor.hbsMoreElements()) {
             cursor.nextElement().redo();
         }
     }
 
     /**
-     * Returns the last <code>UndoableEdit</code> in
+     * Returns the lbst <code>UndobbleEdit</code> in
      * <code>edits</code>, or <code>null</code>
      * if <code>edits</code> is empty.
      *
-     * @return the last {@code UndoableEdit} in {@code edits},
+     * @return the lbst {@code UndobbleEdit} in {@code edits},
      *         or {@code null} if {@code edits} is empty.
      */
-    protected UndoableEdit lastEdit() {
+    protected UndobbleEdit lbstEdit() {
         int count = edits.size();
         if (count > 0)
             return edits.elementAt(count-1);
@@ -95,16 +95,16 @@ public class CompoundEdit extends AbstractUndoableEdit {
     }
 
     /**
-     * Sends <code>die</code> to each subedit,
-     * in the reverse of the order that they were added.
+     * Sends <code>die</code> to ebch subedit,
+     * in the reverse of the order thbt they were bdded.
      */
     public void die() {
         int size = edits.size();
         for (int i = size-1; i >= 0; i--)
         {
-            UndoableEdit e = edits.elementAt(i);
-//          System.out.println("CompoundEdit(" + i + "): Discarding " +
-//                             e.getUndoPresentationName());
+            UndobbleEdit e = edits.elementAt(i);
+//          System.out.println("CompoundEdit(" + i + "): Discbrding " +
+//                             e.getUndoPresentbtionNbme());
             e.die();
         }
         super.die();
@@ -112,38 +112,38 @@ public class CompoundEdit extends AbstractUndoableEdit {
 
     /**
      * If this edit is <code>inProgress</code>,
-     * accepts <code>anEdit</code> and returns true.
+     * bccepts <code>bnEdit</code> bnd returns true.
      *
-     * <p>The last edit added to this <code>CompoundEdit</code>
-     * is given a chance to <code>addEdit(anEdit)</code>.
-     * If it refuses (returns false), <code>anEdit</code> is
-     * given a chance to <code>replaceEdit</code> the last edit.
-     * If <code>anEdit</code> returns false here,
-     * it is added to <code>edits</code>.
+     * <p>The lbst edit bdded to this <code>CompoundEdit</code>
+     * is given b chbnce to <code>bddEdit(bnEdit)</code>.
+     * If it refuses (returns fblse), <code>bnEdit</code> is
+     * given b chbnce to <code>replbceEdit</code> the lbst edit.
+     * If <code>bnEdit</code> returns fblse here,
+     * it is bdded to <code>edits</code>.
      *
-     * @param anEdit the edit to be added
+     * @pbrbm bnEdit the edit to be bdded
      * @return true if the edit is <code>inProgress</code>;
-     *  otherwise returns false
+     *  otherwise returns fblse
      */
-    public boolean addEdit(UndoableEdit anEdit) {
+    public boolebn bddEdit(UndobbleEdit bnEdit) {
         if (!inProgress) {
-            return false;
+            return fblse;
         } else {
-            UndoableEdit last = lastEdit();
+            UndobbleEdit lbst = lbstEdit();
 
-            // If this is the first subedit received, just add it.
-            // Otherwise, give the last one a chance to absorb the new
-            // one.  If it won't, give the new one a chance to absorb
-            // the last one.
+            // If this is the first subedit received, just bdd it.
+            // Otherwise, give the lbst one b chbnce to bbsorb the new
+            // one.  If it won't, give the new one b chbnce to bbsorb
+            // the lbst one.
 
-            if (last == null) {
-                edits.addElement(anEdit);
+            if (lbst == null) {
+                edits.bddElement(bnEdit);
             }
-            else if (!last.addEdit(anEdit)) {
-                if (anEdit.replaceEdit(last)) {
+            else if (!lbst.bddEdit(bnEdit)) {
+                if (bnEdit.replbceEdit(lbst)) {
                     edits.removeElementAt(edits.size()-1);
                 }
-                edits.addElement(anEdit);
+                edits.bddElement(bnEdit);
             }
 
             return true;
@@ -151,112 +151,112 @@ public class CompoundEdit extends AbstractUndoableEdit {
     }
 
     /**
-     * Sets <code>inProgress</code> to false.
+     * Sets <code>inProgress</code> to fblse.
      *
-     * @see #canUndo
-     * @see #canRedo
+     * @see #cbnUndo
+     * @see #cbnRedo
      */
     public void end() {
-        inProgress = false;
+        inProgress = fblse;
     }
 
     /**
-     * Returns false if <code>isInProgress</code> or if super
-     * returns false.
+     * Returns fblse if <code>isInProgress</code> or if super
+     * returns fblse.
      *
      * @see     #isInProgress
      */
-    public boolean canUndo() {
-        return !isInProgress() && super.canUndo();
+    public boolebn cbnUndo() {
+        return !isInProgress() && super.cbnUndo();
     }
 
     /**
-     * Returns false if <code>isInProgress</code> or if super
-     * returns false.
+     * Returns fblse if <code>isInProgress</code> or if super
+     * returns fblse.
      *
      * @see     #isInProgress
      */
-    public boolean canRedo() {
-        return !isInProgress() && super.canRedo();
+    public boolebn cbnRedo() {
+        return !isInProgress() && super.cbnRedo();
     }
 
     /**
-     * Returns true if this edit is in progress--that is, it has not
-     * received end. This generally means that edits are still being
-     * added to it.
+     * Returns true if this edit is in progress--thbt is, it hbs not
+     * received end. This generblly mebns thbt edits bre still being
+     * bdded to it.
      *
      * @return  whether this edit is in progress
      * @see     #end
      */
-    public boolean isInProgress() {
+    public boolebn isInProgress() {
         return inProgress;
     }
 
     /**
-     * Returns true if any of the <code>UndoableEdit</code>s
+     * Returns true if bny of the <code>UndobbleEdit</code>s
      * in <code>edits</code> do.
-     * Returns false if they all return false.
+     * Returns fblse if they bll return fblse.
      */
-    public boolean  isSignificant() {
-        Enumeration<UndoableEdit> cursor = edits.elements();
-        while (cursor.hasMoreElements()) {
-            if (cursor.nextElement().isSignificant()) {
+    public boolebn  isSignificbnt() {
+        Enumerbtion<UndobbleEdit> cursor = edits.elements();
+        while (cursor.hbsMoreElements()) {
+            if (cursor.nextElement().isSignificbnt()) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns <code>getPresentationName</code> from the
-     * last <code>UndoableEdit</code> added to
+     * Returns <code>getPresentbtionNbme</code> from the
+     * lbst <code>UndobbleEdit</code> bdded to
      * <code>edits</code>. If <code>edits</code> is empty,
-     * calls super.
+     * cblls super.
      */
-    public String getPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getPresentationName();
+    public String getPresentbtionNbme() {
+        UndobbleEdit lbst = lbstEdit();
+        if (lbst != null) {
+            return lbst.getPresentbtionNbme();
         } else {
-            return super.getPresentationName();
+            return super.getPresentbtionNbme();
         }
     }
 
     /**
-     * Returns <code>getUndoPresentationName</code>
-     * from the last <code>UndoableEdit</code>
-     * added to <code>edits</code>.
-     * If <code>edits</code> is empty, calls super.
+     * Returns <code>getUndoPresentbtionNbme</code>
+     * from the lbst <code>UndobbleEdit</code>
+     * bdded to <code>edits</code>.
+     * If <code>edits</code> is empty, cblls super.
      */
-    public String getUndoPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getUndoPresentationName();
+    public String getUndoPresentbtionNbme() {
+        UndobbleEdit lbst = lbstEdit();
+        if (lbst != null) {
+            return lbst.getUndoPresentbtionNbme();
         } else {
-            return super.getUndoPresentationName();
+            return super.getUndoPresentbtionNbme();
         }
     }
 
     /**
-     * Returns <code>getRedoPresentationName</code>
-     * from the last <code>UndoableEdit</code>
-     * added to <code>edits</code>.
-     * If <code>edits</code> is empty, calls super.
+     * Returns <code>getRedoPresentbtionNbme</code>
+     * from the lbst <code>UndobbleEdit</code>
+     * bdded to <code>edits</code>.
+     * If <code>edits</code> is empty, cblls super.
      */
-    public String getRedoPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getRedoPresentationName();
+    public String getRedoPresentbtionNbme() {
+        UndobbleEdit lbst = lbstEdit();
+        if (lbst != null) {
+            return lbst.getRedoPresentbtionNbme();
         } else {
-            return super.getRedoPresentationName();
+            return super.getRedoPresentbtionNbme();
         }
     }
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString()
     {

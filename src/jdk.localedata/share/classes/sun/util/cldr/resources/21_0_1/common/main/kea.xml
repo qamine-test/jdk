@@ -3,389 +3,389 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="kea"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="keb"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ab">abkaziu</language>
-			<language type="af">afrikaner</language>
-			<language type="ak">akan</language>
-			<language type="am">amariku</language>
-			<language type="ar">arabi</language>
-			<language type="as">asames</language>
-			<language type="ay">aimara</language>
-			<language type="az">azerbaijanu</language>
-			<language type="be">bielorusu</language>
-			<language type="bg">bulgaru</language>
-			<language type="bn">bengali</language>
-			<language type="bo">tibetanu</language>
-			<language type="bs">bosniu</language>
-			<language type="ca">katalãu</language>
-			<language type="cs">txeku</language>
-			<language type="cy">gales</language>
-			<language type="da">dinamarkes</language>
-			<language type="de">alemãu</language>
-			<language type="de_AT">alimãu austriaku</language>
-			<language type="de_CH">altu alimãu suisu</language>
-			<language type="el">gregu</language>
-			<language type="en">ingles</language>
-			<language type="en_AU">ingles australianu</language>
-			<language type="en_CA">ingles kanadianu</language>
-			<language type="en_GB">ingles britanuku</language>
-			<language type="en_US">ingles merkanu</language>
-			<language type="es">spanhol</language>
-			<language type="es_419">spanhol latinu-merkanu</language>
-			<language type="es_ES">spanhol europeu</language>
-			<language type="fa">persa</language>
-			<language type="fr">franses</language>
-			<language type="fr_CA">franses kanadianu</language>
-			<language type="fr_CH">franses suisu</language>
-			<language type="ha">auza</language>
-			<language type="hi">indi</language>
-			<language type="hu">ungaru</language>
-			<language type="id">indoneziu</language>
-			<language type="ig">ibo</language>
-			<language type="it">italianu</language>
-			<language type="ja">japones</language>
-			<language type="jv">javanes</language>
-			<language type="kea">kabuverdianu</language>
-			<language type="km">kmer</language>
-			<language type="ko">kureanu</language>
-			<language type="ms">malaiu</language>
-			<language type="my">birmanes</language>
-			<language type="ne">nepales</language>
-			<language type="nl">olandes</language>
-			<language type="nl_BE">flamengu</language>
-			<language type="pa">pandjabi</language>
-			<language type="pl">pulaku</language>
-			<language type="pt">purtuges</language>
-			<language type="pt_BR">purtuges brazileru</language>
-			<language type="pt_PT">purtuges europeu</language>
-			<language type="ro">rumenu</language>
-			<language type="ru">rusu</language>
-			<language type="rw">kiniaruanda</language>
-			<language type="so">somali</language>
-			<language type="sv">sueku</language>
-			<language type="ta">tamil</language>
-			<language type="th">tailandes</language>
-			<language type="tr">turku</language>
-			<language type="uk">ukranianu</language>
-			<language type="und">lingua diskonxedu</language>
-			<language type="ur">urdu</language>
-			<language type="vi">vietnamita</language>
-			<language type="yo">ioruba</language>
-			<language type="zh">xines</language>
-			<language type="zh_Hans">xines simplifikadu</language>
-			<language type="zh_Hant">xines tradisional</language>
-			<language type="zu">zulu</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb">bbkbziu</lbngubge>
+			<lbngubge type="bf">bfrikbner</lbngubge>
+			<lbngubge type="bk">bkbn</lbngubge>
+			<lbngubge type="bm">bmbriku</lbngubge>
+			<lbngubge type="br">brbbi</lbngubge>
+			<lbngubge type="bs">bsbmes</lbngubge>
+			<lbngubge type="by">bimbrb</lbngubge>
+			<lbngubge type="bz">bzerbbijbnu</lbngubge>
+			<lbngubge type="be">bielorusu</lbngubge>
+			<lbngubge type="bg">bulgbru</lbngubge>
+			<lbngubge type="bn">bengbli</lbngubge>
+			<lbngubge type="bo">tibetbnu</lbngubge>
+			<lbngubge type="bs">bosniu</lbngubge>
+			<lbngubge type="cb">kbtblãu</lbngubge>
+			<lbngubge type="cs">txeku</lbngubge>
+			<lbngubge type="cy">gbles</lbngubge>
+			<lbngubge type="db">dinbmbrkes</lbngubge>
+			<lbngubge type="de">blemãu</lbngubge>
+			<lbngubge type="de_AT">blimãu bustribku</lbngubge>
+			<lbngubge type="de_CH">bltu blimãu suisu</lbngubge>
+			<lbngubge type="el">gregu</lbngubge>
+			<lbngubge type="en">ingles</lbngubge>
+			<lbngubge type="en_AU">ingles bustrblibnu</lbngubge>
+			<lbngubge type="en_CA">ingles kbnbdibnu</lbngubge>
+			<lbngubge type="en_GB">ingles britbnuku</lbngubge>
+			<lbngubge type="en_US">ingles merkbnu</lbngubge>
+			<lbngubge type="es">spbnhol</lbngubge>
+			<lbngubge type="es_419">spbnhol lbtinu-merkbnu</lbngubge>
+			<lbngubge type="es_ES">spbnhol europeu</lbngubge>
+			<lbngubge type="fb">persb</lbngubge>
+			<lbngubge type="fr">frbnses</lbngubge>
+			<lbngubge type="fr_CA">frbnses kbnbdibnu</lbngubge>
+			<lbngubge type="fr_CH">frbnses suisu</lbngubge>
+			<lbngubge type="hb">buzb</lbngubge>
+			<lbngubge type="hi">indi</lbngubge>
+			<lbngubge type="hu">ungbru</lbngubge>
+			<lbngubge type="id">indoneziu</lbngubge>
+			<lbngubge type="ig">ibo</lbngubge>
+			<lbngubge type="it">itblibnu</lbngubge>
+			<lbngubge type="jb">jbpones</lbngubge>
+			<lbngubge type="jv">jbvbnes</lbngubge>
+			<lbngubge type="keb">kbbuverdibnu</lbngubge>
+			<lbngubge type="km">kmer</lbngubge>
+			<lbngubge type="ko">kurebnu</lbngubge>
+			<lbngubge type="ms">mblbiu</lbngubge>
+			<lbngubge type="my">birmbnes</lbngubge>
+			<lbngubge type="ne">nepbles</lbngubge>
+			<lbngubge type="nl">olbndes</lbngubge>
+			<lbngubge type="nl_BE">flbmengu</lbngubge>
+			<lbngubge type="pb">pbndjbbi</lbngubge>
+			<lbngubge type="pl">pulbku</lbngubge>
+			<lbngubge type="pt">purtuges</lbngubge>
+			<lbngubge type="pt_BR">purtuges brbzileru</lbngubge>
+			<lbngubge type="pt_PT">purtuges europeu</lbngubge>
+			<lbngubge type="ro">rumenu</lbngubge>
+			<lbngubge type="ru">rusu</lbngubge>
+			<lbngubge type="rw">kinibrubndb</lbngubge>
+			<lbngubge type="so">sombli</lbngubge>
+			<lbngubge type="sv">sueku</lbngubge>
+			<lbngubge type="tb">tbmil</lbngubge>
+			<lbngubge type="th">tbilbndes</lbngubge>
+			<lbngubge type="tr">turku</lbngubge>
+			<lbngubge type="uk">ukrbnibnu</lbngubge>
+			<lbngubge type="und">lingub diskonxedu</lbngubge>
+			<lbngubge type="ur">urdu</lbngubge>
+			<lbngubge type="vi">vietnbmitb</lbngubge>
+			<lbngubge type="yo">iorubb</lbngubge>
+			<lbngubge type="zh">xines</lbngubge>
+			<lbngubge type="zh_Hbns">xines simplifikbdu</lbngubge>
+			<lbngubge type="zh_Hbnt">xines trbdisionbl</lbngubge>
+			<lbngubge type="zu">zulu</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">arabiku</script>
+			<script type="Arbb">brbbiku</script>
 			<script type="Cyrl">siriliku</script>
-			<script type="Hans">han simplifikadu</script>
-			<script type="Hant">han tradisional</script>
-			<script type="Latn">latinu</script>
+			<script type="Hbns">hbn simplifikbdu</script>
+			<script type="Hbnt">hbn trbdisionbl</script>
+			<script type="Lbtn">lbtinu</script>
 			<script type="Zxxx">nãu skritu</script>
-			<script type="Zzzz">skrita diskonxedu</script>
+			<script type="Zzzz">skritb diskonxedu</script>
 		</scripts>
 		<territories>
 			<territory type="001">Mundu</territory>
-			<territory type="002">Afrika</territory>
-			<territory type="003">Merka di Norti</territory>
-			<territory type="005">Merka di Sul</territory>
-			<territory type="009">Oseania</territory>
-			<territory type="011">Afrika Osidental</territory>
-			<territory type="013">Merka Sentral</territory>
-			<territory type="014">Afrika Oriental</territory>
-			<territory type="015">Norti di Afrika</territory>
-			<territory type="017">Afrika Sentral</territory>
-			<territory type="018">Sul di Afrika</territory>
-			<territory type="019">Merkas</territory>
-			<territory type="021">Norti di Merka</territory>
-			<territory type="029">Karaibas</territory>
-			<territory type="030">Azia Oriental</territory>
-			<territory type="034">Sul di Azia</territory>
-			<territory type="035">Sudesti Aziatiku</territory>
-			<territory type="039">Europa di Sul</territory>
-			<territory type="053">Australia y Nova Zelandia</territory>
-			<territory type="054">Melanezia</territory>
-			<territory type="057">Rejiãu di Mikronezia</territory>
-			<territory type="061">Polinezia</territory>
-			<territory type="142">Azia</territory>
-			<territory type="143">Azia Sentral</territory>
-			<territory type="145">Azia Osidental</territory>
-			<territory type="150">Europa</territory>
-			<territory type="151">Europa Oriental</territory>
-			<territory type="154">Europa di Norti</territory>
-			<territory type="155">Europa Osidental</territory>
-			<territory type="419">Merka Latinu</territory>
-			<territory type="AD">Andora</territory>
-			<territory type="AE">Emiradus Arabi Unidu</territory>
-			<territory type="AF">Afeganistãu</territory>
-			<territory type="AG">Antigua i Barbuda</territory>
-			<territory type="AI">Angila</territory>
-			<territory type="AL">Albania</territory>
-			<territory type="AM">Armenia</territory>
-			<territory type="AN">Antilhas Olandeza</territory>
-			<territory type="AO">Angola</territory>
-			<territory type="AR">Arjentina</territory>
-			<territory type="AS">Samoa Merkanu</territory>
-			<territory type="AT">Austria</territory>
-			<territory type="AU">Australia</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AZ">Azerbaijãu</territory>
-			<territory type="BA">Bosnia-Erzegovina</territory>
-			<territory type="BB">Barbadus</territory>
-			<territory type="BD">Bangladexi</territory>
-			<territory type="BE">Béljika</territory>
-			<territory type="BF">Burkina Fasu</territory>
-			<territory type="BG">Bulgaria</territory>
-			<territory type="BH">Barain</territory>
+			<territory type="002">Afrikb</territory>
+			<territory type="003">Merkb di Norti</territory>
+			<territory type="005">Merkb di Sul</territory>
+			<territory type="009">Osebnib</territory>
+			<territory type="011">Afrikb Osidentbl</territory>
+			<territory type="013">Merkb Sentrbl</territory>
+			<territory type="014">Afrikb Orientbl</territory>
+			<territory type="015">Norti di Afrikb</territory>
+			<territory type="017">Afrikb Sentrbl</territory>
+			<territory type="018">Sul di Afrikb</territory>
+			<territory type="019">Merkbs</territory>
+			<territory type="021">Norti di Merkb</territory>
+			<territory type="029">Kbrbibbs</territory>
+			<territory type="030">Azib Orientbl</territory>
+			<territory type="034">Sul di Azib</territory>
+			<territory type="035">Sudesti Azibtiku</territory>
+			<territory type="039">Europb di Sul</territory>
+			<territory type="053">Austrblib y Novb Zelbndib</territory>
+			<territory type="054">Melbnezib</territory>
+			<territory type="057">Rejiãu di Mikronezib</territory>
+			<territory type="061">Polinezib</territory>
+			<territory type="142">Azib</territory>
+			<territory type="143">Azib Sentrbl</territory>
+			<territory type="145">Azib Osidentbl</territory>
+			<territory type="150">Europb</territory>
+			<territory type="151">Europb Orientbl</territory>
+			<territory type="154">Europb di Norti</territory>
+			<territory type="155">Europb Osidentbl</territory>
+			<territory type="419">Merkb Lbtinu</territory>
+			<territory type="AD">Andorb</territory>
+			<territory type="AE">Emirbdus Arbbi Unidu</territory>
+			<territory type="AF">Afegbnistãu</territory>
+			<territory type="AG">Antigub i Bbrbudb</territory>
+			<territory type="AI">Angilb</territory>
+			<territory type="AL">Albbnib</territory>
+			<territory type="AM">Armenib</territory>
+			<territory type="AN">Antilhbs Olbndezb</territory>
+			<territory type="AO">Angolb</territory>
+			<territory type="AR">Arjentinb</territory>
+			<territory type="AS">Sbmob Merkbnu</territory>
+			<territory type="AT">Austrib</territory>
+			<territory type="AU">Austrblib</territory>
+			<territory type="AW">Arubb</territory>
+			<territory type="AZ">Azerbbijãu</territory>
+			<territory type="BA">Bosnib-Erzegovinb</territory>
+			<territory type="BB">Bbrbbdus</territory>
+			<territory type="BD">Bbnglbdexi</territory>
+			<territory type="BE">Béljikb</territory>
+			<territory type="BF">Burkinb Fbsu</territory>
+			<territory type="BG">Bulgbrib</territory>
+			<territory type="BH">Bbrbin</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Benin</territory>
-			<territory type="BM">Bermudas</territory>
+			<territory type="BM">Bermudbs</territory>
 			<territory type="BN">Brunei</territory>
-			<territory type="BO">Bolivia</territory>
-			<territory type="BR">Brazil</territory>
-			<territory type="BS">Baamas</territory>
+			<territory type="BO">Bolivib</territory>
+			<territory type="BR">Brbzil</territory>
+			<territory type="BS">Bbbmbs</territory>
 			<territory type="BT">Butãu</territory>
-			<territory type="BW">Botsuana</territory>
-			<territory type="BY">Belarus</territory>
+			<territory type="BW">Botsubnb</territory>
+			<territory type="BY">Belbrus</territory>
 			<territory type="BZ">Belizi</territory>
-			<territory type="CA">Kanadá</territory>
-			<territory type="CD">Republika Dimokratika di Kongu</territory>
-			<territory type="CF">Republika Sentru-Afrikanu</territory>
+			<territory type="CA">Kbnbdá</territory>
+			<territory type="CD">Republikb Dimokrbtikb di Kongu</territory>
+			<territory type="CF">Republikb Sentru-Afrikbnu</territory>
 			<territory type="CG">Kongu</territory>
-			<territory type="CH">Suisa</territory>
-			<territory type="CI">Kosta di Marfin</territory>
-			<territory type="CK">Ilhas Kuk</territory>
+			<territory type="CH">Suisb</territory>
+			<territory type="CI">Kostb di Mbrfin</territory>
+			<territory type="CK">Ilhbs Kuk</territory>
 			<territory type="CL">Xili</territory>
-			<territory type="CM">Kamarõis</territory>
-			<territory type="CN">Xina</territory>
-			<territory type="CO">Kulombia</territory>
-			<territory type="CR">Kosta Rika</territory>
-			<territory type="CS">Servia i Montinegru</territory>
-			<territory type="CU">Kuba</territory>
-			<territory type="CV">Kabu Verdi</territory>
+			<territory type="CM">Kbmbrõis</territory>
+			<territory type="CN">Xinb</territory>
+			<territory type="CO">Kulombib</territory>
+			<territory type="CR">Kostb Rikb</territory>
+			<territory type="CS">Servib i Montinegru</territory>
+			<territory type="CU">Kubb</territory>
+			<territory type="CV">Kbbu Verdi</territory>
 			<territory type="CY">Xipri</territory>
-			<territory type="CZ">Republika Txeka</territory>
-			<territory type="DE">Alimanha</territory>
+			<territory type="CZ">Republikb Txekb</territory>
+			<territory type="DE">Alimbnhb</territory>
 			<territory type="DJ">Djibuti</territory>
-			<territory type="DK">Dinamarka</territory>
-			<territory type="DM">Dominika</territory>
-			<territory type="DO">Repúblika Dominikana</territory>
-			<territory type="DZ">Arjelia</territory>
-			<territory type="EC">Ekuador</territory>
-			<territory type="EE">Stonia</territory>
+			<territory type="DK">Dinbmbrkb</territory>
+			<territory type="DM">Dominikb</territory>
+			<territory type="DO">Repúblikb Dominikbnb</territory>
+			<territory type="DZ">Arjelib</territory>
+			<territory type="EC">Ekubdor</territory>
+			<territory type="EE">Stonib</territory>
 			<territory type="EG">Ejitu</territory>
-			<territory type="ER">Iritreia</territory>
-			<territory type="ES">Spanha</territory>
-			<territory type="ET">Itiopia</territory>
-			<territory type="FI">Finlandia</territory>
+			<territory type="ER">Iritreib</territory>
+			<territory type="ES">Spbnhb</territory>
+			<territory type="ET">Itiopib</territory>
+			<territory type="FI">Finlbndib</territory>
 			<territory type="FJ">Fidji</territory>
-			<territory type="FK">Ilhas Malvinas</territory>
-			<territory type="FM">Mikronezia</territory>
-			<territory type="FR">Fransa</territory>
-			<territory type="GA">Gabãu</territory>
+			<territory type="FK">Ilhbs Mblvinbs</territory>
+			<territory type="FM">Mikronezib</territory>
+			<territory type="FR">Frbnsb</territory>
+			<territory type="GA">Gbbãu</territory>
 			<territory type="GB">Reinu Unidu</territory>
-			<territory type="GD">Granada</territory>
-			<territory type="GE">Jiorjia</territory>
-			<territory type="GF">Giana Franseza</territory>
-			<territory type="GH">Gana</territory>
-			<territory type="GI">Jibraltar</territory>
-			<territory type="GL">Gronelandia</territory>
-			<territory type="GM">Gambia</territory>
+			<territory type="GD">Grbnbdb</territory>
+			<territory type="GE">Jiorjib</territory>
+			<territory type="GF">Gibnb Frbnsezb</territory>
+			<territory type="GH">Gbnb</territory>
+			<territory type="GI">Jibrbltbr</territory>
+			<territory type="GL">Gronelbndib</territory>
+			<territory type="GM">Gbmbib</territory>
 			<territory type="GN">Gine</territory>
-			<territory type="GP">Guadalupi</territory>
-			<territory type="GQ">Gine Ekuatorial</territory>
-			<territory type="GR">Gresia</territory>
-			<territory type="GT">Guatimala</territory>
-			<territory type="GU">Guam</territory>
-			<territory type="GW">Gine-Bisau</territory>
-			<territory type="GY">Giana</territory>
+			<territory type="GP">Gubdblupi</territory>
+			<territory type="GQ">Gine Ekubtoribl</territory>
+			<territory type="GR">Gresib</territory>
+			<territory type="GT">Gubtimblb</territory>
+			<territory type="GU">Gubm</territory>
+			<territory type="GW">Gine-Bisbu</territory>
+			<territory type="GY">Gibnb</territory>
 			<territory type="HK">Ong Kong</territory>
-			<territory type="HN">Onduras</territory>
-			<territory type="HR">Kroasia</territory>
+			<territory type="HN">Ondurbs</territory>
+			<territory type="HR">Krobsib</territory>
 			<territory type="HT">Aiti</territory>
-			<territory type="HU">Ungria</territory>
-			<territory type="ID">Indonezia</territory>
-			<territory type="IE">Irlanda</territory>
-			<territory type="IL">Israel</territory>
-			<territory type="IN">India</territory>
-			<territory type="IO">Ilhas Britanika di Indiku</territory>
-			<territory type="IQ">Iraki</territory>
+			<territory type="HU">Ungrib</territory>
+			<territory type="ID">Indonezib</territory>
+			<territory type="IE">Irlbndb</territory>
+			<territory type="IL">Isrbel</territory>
+			<territory type="IN">Indib</territory>
+			<territory type="IO">Ilhbs Britbnikb di Indiku</territory>
+			<territory type="IQ">Irbki</territory>
 			<territory type="IR">Iron</territory>
-			<territory type="IS">Islandia</territory>
-			<territory type="IT">Italia</territory>
-			<territory type="JM">Jamaika</territory>
-			<territory type="JO">Jordania</territory>
-			<territory type="JP">Japãu</territory>
-			<territory type="KE">Kenia</territory>
+			<territory type="IS">Islbndib</territory>
+			<territory type="IT">Itblib</territory>
+			<territory type="JM">Jbmbikb</territory>
+			<territory type="JO">Jordbnib</territory>
+			<territory type="JP">Jbpãu</territory>
+			<territory type="KE">Kenib</territory>
 			<territory type="KG">Kirgiston</territory>
-			<territory type="KH">Kambodja</territory>
-			<territory type="KI">Kiribati</territory>
-			<territory type="KM">Kamoris</territory>
+			<territory type="KH">Kbmbodjb</territory>
+			<territory type="KI">Kiribbti</territory>
+			<territory type="KM">Kbmoris</territory>
 			<territory type="KN">Sãu Kristovãu i Nevis</territory>
-			<territory type="KP">Koreia di Norti</territory>
-			<territory type="KR">Koreia di Sul</territory>
+			<territory type="KP">Koreib di Norti</territory>
+			<territory type="KR">Koreib di Sul</territory>
 			<territory type="KW">Kueiti</territory>
-			<territory type="KY">Ilhas Kaimãu</territory>
-			<territory type="KZ">Kazakistãu</territory>
-			<territory type="LA">Laus</territory>
-			<territory type="LB">Libanu</territory>
-			<territory type="LC">Santa Lúsia</territory>
-			<territory type="LI">Lixenstain</territory>
-			<territory type="LK">Sri Lanka</territory>
-			<territory type="LR">Liberia</territory>
+			<territory type="KY">Ilhbs Kbimãu</territory>
+			<territory type="KZ">Kbzbkistãu</territory>
+			<territory type="LA">Lbus</territory>
+			<territory type="LB">Libbnu</territory>
+			<territory type="LC">Sbntb Lúsib</territory>
+			<territory type="LI">Lixenstbin</territory>
+			<territory type="LK">Sri Lbnkb</territory>
+			<territory type="LR">Liberib</territory>
 			<territory type="LS">Lezotu</territory>
-			<territory type="LT">Lituania</territory>
+			<territory type="LT">Litubnib</territory>
 			<territory type="LU">Luxemburgu</territory>
-			<territory type="LV">Letonia</territory>
-			<territory type="LY">Libia</territory>
-			<territory type="MA">Marokus</territory>
-			<territory type="MC">Monaku</territory>
-			<territory type="MD">Moldavia</territory>
-			<territory type="MG">Madagaskar</territory>
-			<territory type="MH">Ilhas Marxal</territory>
-			<territory type="MK">Masidonia</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Mianmar</territory>
-			<territory type="MN">Mongolia</territory>
-			<territory type="MP">Ilhas Marianas di Norti</territory>
-			<territory type="MQ">Martinika</territory>
-			<territory type="MR">Mauritania</territory>
-			<territory type="MS">Monserat</territory>
-			<territory type="MT">Malta</territory>
-			<territory type="MU">Ilhas Maurisia</territory>
-			<territory type="MV">Maldivas</territory>
-			<territory type="MW">Malaui</territory>
+			<territory type="LV">Letonib</territory>
+			<territory type="LY">Libib</territory>
+			<territory type="MA">Mbrokus</territory>
+			<territory type="MC">Monbku</territory>
+			<territory type="MD">Moldbvib</territory>
+			<territory type="MG">Mbdbgbskbr</territory>
+			<territory type="MH">Ilhbs Mbrxbl</territory>
+			<territory type="MK">Mbsidonib</territory>
+			<territory type="ML">Mbli</territory>
+			<territory type="MM">Mibnmbr</territory>
+			<territory type="MN">Mongolib</territory>
+			<territory type="MP">Ilhbs Mbribnbs di Norti</territory>
+			<territory type="MQ">Mbrtinikb</territory>
+			<territory type="MR">Mburitbnib</territory>
+			<territory type="MS">Monserbt</territory>
+			<territory type="MT">Mbltb</territory>
+			<territory type="MU">Ilhbs Mburisib</territory>
+			<territory type="MV">Mbldivbs</territory>
+			<territory type="MW">Mblbui</territory>
 			<territory type="MX">Mexiku</territory>
-			<territory type="MY">Malazia</territory>
-			<territory type="MZ">Musambiki</territory>
-			<territory type="NA">Namibia</territory>
-			<territory type="NC">Nova Kalidonia</territory>
+			<territory type="MY">Mblbzib</territory>
+			<territory type="MZ">Musbmbiki</territory>
+			<territory type="NA">Nbmibib</territory>
+			<territory type="NC">Novb Kblidonib</territory>
 			<territory type="NE">Nijer</territory>
-			<territory type="NF">Ilhas Norfolk</territory>
-			<territory type="NG">Nijeria</territory>
-			<territory type="NI">Nikaragua</territory>
-			<territory type="NL">Olanda</territory>
-			<territory type="NO">Noruega</territory>
-			<territory type="NP">Nepal</territory>
-			<territory type="NR">Nauru</territory>
+			<territory type="NF">Ilhbs Norfolk</territory>
+			<territory type="NG">Nijerib</territory>
+			<territory type="NI">Nikbrbgub</territory>
+			<territory type="NL">Olbndb</territory>
+			<territory type="NO">Noruegb</territory>
+			<territory type="NP">Nepbl</territory>
+			<territory type="NR">Nburu</territory>
 			<territory type="NU">Niue</territory>
-			<territory type="NZ">Nova Zilandia</territory>
-			<territory type="OM">Oman</territory>
-			<territory type="PA">Panama</territory>
+			<territory type="NZ">Novb Zilbndib</territory>
+			<territory type="OM">Ombn</territory>
+			<territory type="PA">Pbnbmb</territory>
 			<territory type="PE">Peru</territory>
-			<territory type="PF">Polinezia Franseza</territory>
-			<territory type="PG">Papua-Nova Gine</territory>
-			<territory type="PH">Filipinas</territory>
-			<territory type="PK">Pakistãu</territory>
-			<territory type="PL">Pulonia</territory>
-			<territory type="PM">San Piere i Mikelon</territory>
-			<territory type="PN">Pirkairn</territory>
+			<territory type="PF">Polinezib Frbnsezb</territory>
+			<territory type="PG">Pbpub-Novb Gine</territory>
+			<territory type="PH">Filipinbs</territory>
+			<territory type="PK">Pbkistãu</territory>
+			<territory type="PL">Pulonib</territory>
+			<territory type="PM">Sbn Piere i Mikelon</territory>
+			<territory type="PN">Pirkbirn</territory>
 			<territory type="PR">Portu Riku</territory>
-			<territory type="PS">Palistina</territory>
-			<territory type="PT">Purtugal</territory>
-			<territory type="PW">Palau</territory>
-			<territory type="PY">Paraguai</territory>
-			<territory type="QA">Katar</territory>
+			<territory type="PS">Pblistinb</territory>
+			<territory type="PT">Purtugbl</territory>
+			<territory type="PW">Pblbu</territory>
+			<territory type="PY">Pbrbgubi</territory>
+			<territory type="QA">Kbtbr</territory>
 			<territory type="RE">Runion</territory>
-			<territory type="RO">Romenia</territory>
-			<territory type="RU">Rúsia</territory>
-			<territory type="RW">Ruanda</territory>
-			<territory type="SA">Arabia Saudita</territory>
-			<territory type="SB">Ilhas Salumon</territory>
+			<territory type="RO">Romenib</territory>
+			<territory type="RU">Rúsib</territory>
+			<territory type="RW">Rubndb</territory>
+			<territory type="SA">Arbbib Sbuditb</territory>
+			<territory type="SB">Ilhbs Sblumon</territory>
 			<territory type="SC">Seixelis</territory>
 			<territory type="SD">Sudãu</territory>
-			<territory type="SE">Suesia</territory>
-			<territory type="SG">Singapura</territory>
-			<territory type="SH">Santa Ilena</territory>
-			<territory type="SI">Slovenia</territory>
-			<territory type="SK">Slovakia</territory>
-			<territory type="SL">Sera Lioa</territory>
-			<territory type="SM">San Marinu</territory>
-			<territory type="SN">Senegal</territory>
-			<territory type="SO">Sumalia</territory>
-			<territory type="SR">Surinami</territory>
+			<territory type="SE">Suesib</territory>
+			<territory type="SG">Singbpurb</territory>
+			<territory type="SH">Sbntb Ilenb</territory>
+			<territory type="SI">Slovenib</territory>
+			<territory type="SK">Slovbkib</territory>
+			<territory type="SL">Serb Liob</territory>
+			<territory type="SM">Sbn Mbrinu</territory>
+			<territory type="SN">Senegbl</territory>
+			<territory type="SO">Sumblib</territory>
+			<territory type="SR">Surinbmi</territory>
 			<territory type="ST">Sãu Tume i Prinsipi</territory>
-			<territory type="SV">El Salvador</territory>
-			<territory type="SY">Siria</territory>
-			<territory type="SZ">Suazilándia</territory>
-			<territory type="TC">Ilhas Turkas i Kaikus</territory>
-			<territory type="TD">Txadi</territory>
+			<territory type="SV">El Sblvbdor</territory>
+			<territory type="SY">Sirib</territory>
+			<territory type="SZ">Subzilándib</territory>
+			<territory type="TC">Ilhbs Turkbs i Kbikus</territory>
+			<territory type="TD">Txbdi</territory>
 			<territory type="TG">Togu</territory>
-			<territory type="TH">Tailandia</territory>
-			<territory type="TJ">Tadjikistãu</territory>
-			<territory type="TK">Tokelau</territory>
+			<territory type="TH">Tbilbndib</territory>
+			<territory type="TJ">Tbdjikistãu</territory>
+			<territory type="TK">Tokelbu</territory>
 			<territory type="TL">Timor Lesti</territory>
 			<territory type="TM">Turkumenistãu</territory>
-			<territory type="TN">Tunizia</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Turkia</territory>
-			<territory type="TT">Trinidad i Tobagu</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Taiuan</territory>
-			<territory type="TZ">Tanzania</territory>
-			<territory type="UA">Ukrania</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="US">Stadus Unidos di Merka</territory>
-			<territory type="UY">Uruguai</territory>
+			<territory type="TN">Tunizib</territory>
+			<territory type="TO">Tongb</territory>
+			<territory type="TR">Turkib</territory>
+			<territory type="TT">Trinidbd i Tobbgu</territory>
+			<territory type="TV">Tuvblu</territory>
+			<territory type="TW">Tbiubn</territory>
+			<territory type="TZ">Tbnzbnib</territory>
+			<territory type="UA">Ukrbnib</territory>
+			<territory type="UG">Ugbndb</territory>
+			<territory type="US">Stbdus Unidos di Merkb</territory>
+			<territory type="UY">Urugubi</territory>
 			<territory type="UZ">Uzbekistãu</territory>
-			<territory type="VA">Vatikanu</territory>
-			<territory type="VC">Sãu Bisenti i Granadinas</territory>
-			<territory type="VE">Vinizuea</territory>
-			<territory type="VG">Ilhas Virjens Britanikas</territory>
-			<territory type="VI">Ilhas Virjens Merkanu</territory>
-			<territory type="VN">Vietnam</territory>
-			<territory type="VU">Vanuatu</territory>
-			<territory type="WF">Ualis i Futuna</territory>
-			<territory type="WS">Samoa</territory>
+			<territory type="VA">Vbtikbnu</territory>
+			<territory type="VC">Sãu Bisenti i Grbnbdinbs</territory>
+			<territory type="VE">Vinizueb</territory>
+			<territory type="VG">Ilhbs Virjens Britbnikbs</territory>
+			<territory type="VI">Ilhbs Virjens Merkbnu</territory>
+			<territory type="VN">Vietnbm</territory>
+			<territory type="VU">Vbnubtu</territory>
+			<territory type="WF">Ublis i Futunb</territory>
+			<territory type="WS">Sbmob</territory>
 			<territory type="YE">Iemen</territory>
-			<territory type="YT">Maiote</territory>
-			<territory type="ZA">Afrika di Sul</territory>
-			<territory type="ZM">Zambia</territory>
-			<territory type="ZW">Zimbabui</territory>
+			<territory type="YT">Mbiote</territory>
+			<territory type="ZA">Afrikb di Sul</territory>
+			<territory type="ZM">Zbmbib</territory>
+			<territory type="ZW">Zimbbbui</territory>
 			<territory type="ZZ">rejiãu diskonxedu</territory>
 		</territories>
 		<types>
-			<type type="gregorian" key="calendar">Kalendariu Gregorianu</type>
-			<type type="latn" key="numbers">Numerus Arabikus</type>
+			<type type="gregoribn" key="cblendbr">Kblendbriu Gregoribnu</type>
+			<type type="lbtn" key="numbers">Numerus Arbbikus</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Metriku</measurementSystemName>
-			<measurementSystemName type="UK">Ingles</measurementSystemName>
-			<measurementSystemName type="US">Merkanu</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">Lingua: {0}</codePattern>
-			<codePattern type="script">Skrita: {0}</codePattern>
-			<codePattern type="territory">Rejiãu: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b d {dj} e f g i j k l {lh} m n {nh} o p r s t {tx} u v x z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[á à â ã c ç é ê h í ñ ó ô q ú w y]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B D E F G H I J K L M N O P R S T U V X Z]</exemplarCharacters>
-	</characters>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">Metriku</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="UK">Ingles</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">Merkbnu</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge">Lingub: {0}</codePbttern>
+			<codePbttern type="script">Skritb: {0}</codePbttern>
+			<codePbttern type="territory">Rejiãu: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b d {dj} e f g i j k l {lh} m n {nh} o p r s t {tx} u v x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[á à â ã c ç é ê h í ñ ó ô q ú w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B D E F G H I J K L M N O P R S T U V X Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Jbn</month>
 							<month type="2">Fev</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Abr</month>
-							<month type="5">Mai</month>
+							<month type="5">Mbi</month>
 							<month type="6">Jun</month>
 							<month type="7">Jul</month>
 							<month type="8">Ago</month>
@@ -394,7 +394,7 @@
 							<month type="11">Nuv</month>
 							<month type="12">Diz</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="1">J</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -409,11 +409,11 @@
 							<month type="12">D</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Janeru</month>
+							<month type="1">Jbneru</month>
 							<month type="2">Fevereru</month>
-							<month type="3">Marsu</month>
+							<month type="3">Mbrsu</month>
 							<month type="4">Abril</month>
-							<month type="5">Maiu</month>
+							<month type="5">Mbiu</month>
 							<month type="6">Junhu</month>
 							<month type="7">Julhu</month>
 							<month type="8">Agostu</month>
@@ -423,13 +423,13 @@
 							<month type="12">Dizenbru</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
+					<monthContext type="stbnd-blone">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Jbn</month>
 							<month type="2">Fev</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Abr</month>
-							<month type="5">Mai</month>
+							<month type="5">Mbi</month>
 							<month type="6">Jun</month>
 							<month type="7">Jul</month>
 							<month type="8">Ago</month>
@@ -438,7 +438,7 @@
 							<month type="11">Nuv</month>
 							<month type="12">Diz</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="1">J</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -453,11 +453,11 @@
 							<month type="12">D</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Janeru</month>
+							<month type="1">Jbneru</month>
 							<month type="2">Fevereru</month>
-							<month type="3">Marsu</month>
+							<month type="3">Mbrsu</month>
 							<month type="4">Abril</month>
-							<month type="5">Maiu</month>
+							<month type="5">Mbiu</month>
 							<month type="6">Junhu</month>
 							<month type="7">Julhu</month>
 							<month type="8">Agostu</month>
@@ -468,700 +468,700 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">dum</day>
-							<day type="mon">sig</day>
-							<day type="tue">ter</day>
-							<day type="wed">kua</day>
-							<day type="thu">kin</day>
-							<day type="fri">ses</day>
-							<day type="sat">sab</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun">d</day>
-							<day type="mon">s</day>
-							<day type="tue">t</day>
-							<day type="wed">k</day>
-							<day type="thu">k</day>
-							<day type="fri">s</day>
-							<day type="sat">s</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">dumingu</day>
-							<day type="mon">sigunda-fera</day>
-							<day type="tue">tersa-fera</day>
-							<day type="wed">kuarta-fera</day>
-							<day type="thu">kinta-fera</day>
-							<day type="fri">sesta-fera</day>
-							<day type="sat">sabadu</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="sun">dum</day>
-							<day type="mon">sig</day>
-							<day type="tue">ter</day>
-							<day type="wed">kua</day>
-							<day type="thu">kin</day>
-							<day type="fri">ses</day>
-							<day type="sat">sab</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun">d</day>
-							<day type="mon">s</day>
-							<day type="tue">t</day>
-							<day type="wed">k</day>
-							<day type="thu">k</day>
-							<day type="fri">s</day>
-							<day type="sat">s</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">dumingu</day>
-							<day type="mon">sigunda-fera</day>
-							<day type="tue">tersa-fera</day>
-							<day type="wed">kuarta-fera</day>
-							<day type="thu">kinta-fera</day>
-							<day type="fri">sesta-fera</day>
-							<day type="sat">sabadu</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">T1</quarter>
-							<quarter type="2">T2</quarter>
-							<quarter type="3">T3</quarter>
-							<quarter type="4">T4</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Primeru Trimestri</quarter>
-							<quarter type="2">Sigundu Trimestri</quarter>
-							<quarter type="3">Terseru Trimestri</quarter>
-							<quarter type="4">Kuartu Trimestri</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">T1</quarter>
-							<quarter type="2">T2</quarter>
-							<quarter type="3">T3</quarter>
-							<quarter type="4">T4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Primeru Trimestri</quarter>
-							<quarter type="2">Sigundu Trimestri</quarter>
-							<quarter type="3">Terseru Trimestri</quarter>
-							<quarter type="4">Kuartu Trimestri</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">am</dayPeriod>
-							<dayPeriod type="pm">pm</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Antis di Kristu</era>
-						<era type="1">Dispos di Kristu</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">AK</era>
-						<era type="1">DK</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d 'di' MMMM 'di' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d 'di' MMMM 'di' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d 'di' MMM 'di' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">dd/MM</dateFormatItem>
-						<dateFormatItem id="MEd">E, dd/MM</dateFormatItem>
-						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d 'di' MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d 'di' MMMM</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">MM/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd/MM/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM 'di' y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d 'di' MMM 'di' y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM 'di' y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd">d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEd">E, d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMM">MMM 'de' yyyy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">dd/MM – dd/MM</greatestDifference>
-							<greatestDifference id="M">dd/MM – dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, M/d – E, M/d</greatestDifference>
-							<greatestDifference id="M">E, dd/MM – E, dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d–d MMM</greatestDifference>
-							<greatestDifference id="M">dd/MM – dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, dd/MM – E, dd/MM</greatestDifference>
-							<greatestDifference id="M">E, dd/MM – E, dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM/yyyy – MM/yyyy</greatestDifference>
-							<greatestDifference id="y">MM/yyyy – MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd/MM/yyyy – dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="M">dd/MM/yyyy – dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="y">dd/MM/yyyy – dd/MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, dd/MM/yyyy – E, dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="M">E, dd/MM/yyyy – E, dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="y">E, dd/MM/yyyy – E, dd/MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM–MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y – MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d–d MMM y</greatestDifference>
-							<greatestDifference id="M">d MMM – d MMM y</greatestDifference>
-							<greatestDifference id="y">d MMM y – d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM y</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM y</greatestDifference>
-							<greatestDifference id="y">E, d MMM y – E, d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">dum</dby>
+							<dby type="mon">sig</dby>
+							<dby type="tue">ter</dby>
+							<dby type="wed">kub</dby>
+							<dby type="thu">kin</dby>
+							<dby type="fri">ses</dby>
+							<dby type="sbt">sbb</dby>
+						</dbyWidth>
+						<dbyWidth type="nbrrow">
+							<dby type="sun">d</dby>
+							<dby type="mon">s</dby>
+							<dby type="tue">t</dby>
+							<dby type="wed">k</dby>
+							<dby type="thu">k</dby>
+							<dby type="fri">s</dby>
+							<dby type="sbt">s</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">dumingu</dby>
+							<dby type="mon">sigundb-ferb</dby>
+							<dby type="tue">tersb-ferb</dby>
+							<dby type="wed">kubrtb-ferb</dby>
+							<dby type="thu">kintb-ferb</dby>
+							<dby type="fri">sestb-ferb</dby>
+							<dby type="sbt">sbbbdu</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">dum</dby>
+							<dby type="mon">sig</dby>
+							<dby type="tue">ter</dby>
+							<dby type="wed">kub</dby>
+							<dby type="thu">kin</dby>
+							<dby type="fri">ses</dby>
+							<dby type="sbt">sbb</dby>
+						</dbyWidth>
+						<dbyWidth type="nbrrow">
+							<dby type="sun">d</dby>
+							<dby type="mon">s</dby>
+							<dby type="tue">t</dby>
+							<dby type="wed">k</dby>
+							<dby type="thu">k</dby>
+							<dby type="fri">s</dby>
+							<dby type="sbt">s</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">dumingu</dby>
+							<dby type="mon">sigundb-ferb</dby>
+							<dby type="tue">tersb-ferb</dby>
+							<dby type="wed">kubrtb-ferb</dby>
+							<dby type="thu">kintb-ferb</dby>
+							<dby type="fri">sestb-ferb</dby>
+							<dby type="sbt">sbbbdu</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">T1</qubrter>
+							<qubrter type="2">T2</qubrter>
+							<qubrter type="3">T3</qubrter>
+							<qubrter type="4">T4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="nbrrow">
+							<qubrter type="1">1</qubrter>
+							<qubrter type="2">2</qubrter>
+							<qubrter type="3">3</qubrter>
+							<qubrter type="4">4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">Primeru Trimestri</qubrter>
+							<qubrter type="2">Sigundu Trimestri</qubrter>
+							<qubrter type="3">Terseru Trimestri</qubrter>
+							<qubrter type="4">Kubrtu Trimestri</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">T1</qubrter>
+							<qubrter type="2">T2</qubrter>
+							<qubrter type="3">T3</qubrter>
+							<qubrter type="4">T4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">Primeru Trimestri</qubrter>
+							<qubrter type="2">Sigundu Trimestri</qubrter>
+							<qubrter type="3">Terseru Trimestri</qubrter>
+							<qubrter type="4">Kubrtu Trimestri</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">bm</dbyPeriod>
+							<dbyPeriod type="pm">pm</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">Antis di Kristu</erb>
+						<erb type="1">Dispos di Kristu</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">AK</erb>
+						<erb type="1">DK</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d 'di' MMMM 'di' y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d 'di' MMMM 'di' y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d 'di' MMM 'di' y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E, d</dbteFormbtItem>
+						<dbteFormbtItem id="HHmm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="HHmmss">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">dd/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, dd/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMdd">dd/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">d 'di' MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, d 'di' MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="mmss">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">MM/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, dd/MM/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM 'di' y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d 'di' MMM 'di' y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM 'di' y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+						<dbteFormbtItem id="yyMM">MM/yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MMM yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMMd">d 'de' MMM 'de' yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMMEd">E, d 'de' MMM 'de' yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyMM">MM/yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyMMM">MMM 'de' yyyy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">dd/MM – dd/MM</grebtestDifference>
+							<grebtestDifference id="M">dd/MM – dd/MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, M/d – E, M/d</grebtestDifference>
+							<grebtestDifference id="M">E, dd/MM – E, dd/MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d–d MMM</grebtestDifference>
+							<grebtestDifference id="M">dd/MM – dd/MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, dd/MM – E, dd/MM</grebtestDifference>
+							<grebtestDifference id="M">E, dd/MM – E, dd/MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">MM/yyyy – MM/yyyy</grebtestDifference>
+							<grebtestDifference id="y">MM/yyyy – MM/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">dd/MM/yyyy – dd/MM/yyyy</grebtestDifference>
+							<grebtestDifference id="M">dd/MM/yyyy – dd/MM/yyyy</grebtestDifference>
+							<grebtestDifference id="y">dd/MM/yyyy – dd/MM/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, dd/MM/yyyy – E, dd/MM/yyyy</grebtestDifference>
+							<grebtestDifference id="M">E, dd/MM/yyyy – E, dd/MM/yyyy</grebtestDifference>
+							<grebtestDifference id="y">E, dd/MM/yyyy – E, dd/MM/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">MMM–MMM y</grebtestDifference>
+							<grebtestDifference id="y">MMM y – MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d–d MMM y</grebtestDifference>
+							<grebtestDifference id="M">d MMM – d MMM y</grebtestDifference>
+							<grebtestDifference id="y">d MMM y – d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM y</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM y</grebtestDifference>
+							<grebtestDifference id="y">E, d MMM y – E, d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="M">MMMM–MMMM y</grebtestDifference>
+							<grebtestDifference id="y">MMMM y – MMMM y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Era</displayName>
+					<field type="erb">
+						<displbyNbme>Erb</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Anu</displayName>
+					<field type="yebr">
+						<displbyNbme>Anu</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>Mes</displayName>
+						<displbyNbme>Mes</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>Simana</displayName>
+						<displbyNbme>Simbnb</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>Dia</displayName>
-						<relative type="-1">Onti</relative>
-						<relative type="0">Oji</relative>
-						<relative type="1">Manha</relative>
+					<field type="dby">
+						<displbyNbme>Dib</displbyNbme>
+						<relbtive type="-1">Onti</relbtive>
+						<relbtive type="0">Oji</relbtive>
+						<relbtive type="1">Mbnhb</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Dia di simana</displayName>
+					<field type="weekdby">
+						<displbyNbme>Dib di simbnb</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>am/pm</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>bm/pm</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>Ora</displayName>
+						<displbyNbme>Orb</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Minutu</displayName>
+						<displbyNbme>Minutu</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Sigundu</displayName>
+						<displbyNbme>Sigundu</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>Ora lokal</displayName>
+						<displbyNbme>Orb lokbl</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<regionFormat draft="contributed">Ora di {0}</regionFormat>
-			<fallbackRegionFormat>Ora di {1} ({0})</fallbackRegionFormat>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<regionFormbt drbft="contributed">Orb di {0}</regionFormbt>
+			<fbllbbckRegionFormbt>Orb di {1} ({0})</fbllbbckRegionFormbt>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Sidadi Diskonxedu</exemplarCity>
+				<exemplbrCity>Sidbdi Diskonxedu</exemplbrCity>
 			</zone>
-			<metazone type="Africa_Central">
+			<metbzone type="Africb_Centrbl">
 				<long>
-					<standard>Ora di Afrika Sentral</standard>
+					<stbndbrd>Orb di Afrikb Sentrbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</metbzone>
+			<metbzone type="Africb_Ebstern">
 				<long>
-					<standard>Ora di Afrika Oriental</standard>
+					<stbndbrd>Orb di Afrikb Orientbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</metbzone>
+			<metbzone type="Africb_Southern">
 				<long>
-					<standard>Ora di Sul di Afrika</standard>
+					<stbndbrd>Orb di Sul di Afrikb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Western">
+			</metbzone>
+			<metbzone type="Africb_Western">
 				<long>
-					<generic>Ora di Afrika Osidental</generic>
-					<standard>Ora Padrãu di Afrika Osidental</standard>
-					<daylight>Ora di Verão di Afrika Osidental</daylight>
+					<generic>Orb di Afrikb Osidentbl</generic>
+					<stbndbrd>Orb Pbdrãu di Afrikb Osidentbl</stbndbrd>
+					<dbylight>Orb di Verão di Afrikb Osidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Central">
+			</metbzone>
+			<metbzone type="Americb_Centrbl">
 				<long>
-					<generic draft="unconfirmed">Ora Sentral</generic>
-					<standard draft="unconfirmed">Ora Sentral Padrãu</standard>
-					<daylight draft="unconfirmed">Ora Sentral di Verãu</daylight>
+					<generic drbft="unconfirmed">Orb Sentrbl</generic>
+					<stbndbrd drbft="unconfirmed">Orb Sentrbl Pbdrãu</stbndbrd>
+					<dbylight drbft="unconfirmed">Orb Sentrbl di Verãu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<long>
-					<generic draft="unconfirmed">Ora Oriental</generic>
-					<standard draft="unconfirmed">Ora Oriental Padrãu</standard>
-					<daylight draft="unconfirmed">Ora Oriental di Verãu</daylight>
+					<generic drbft="unconfirmed">Orb Orientbl</generic>
+					<stbndbrd drbft="unconfirmed">Orb Orientbl Pbdrãu</stbndbrd>
+					<dbylight drbft="unconfirmed">Orb Orientbl di Verãu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<long>
-					<generic draft="unconfirmed">Ora di Montanha</generic>
-					<standard draft="unconfirmed">Ora di Montanha Padrãu</standard>
-					<daylight draft="unconfirmed">Ora di Verãu di Montanha</daylight>
+					<generic drbft="unconfirmed">Orb di Montbnhb</generic>
+					<stbndbrd drbft="unconfirmed">Orb di Montbnhb Pbdrãu</stbndbrd>
+					<dbylight drbft="unconfirmed">Orb di Verãu di Montbnhb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<long>
-					<generic draft="unconfirmed">Ora di Pasifiku</generic>
-					<standard draft="unconfirmed">Ora di Pasifiku Padrãu</standard>
-					<daylight draft="unconfirmed">Ora di Pasifiku di Verãu</daylight>
+					<generic drbft="unconfirmed">Orb di Pbsifiku</generic>
+					<stbndbrd drbft="unconfirmed">Orb di Pbsifiku Pbdrãu</stbndbrd>
+					<dbylight drbft="unconfirmed">Orb di Pbsifiku di Verãu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
-					<generic>Ora di Atlantiku</generic>
-					<standard>Ora Padrãu di Atlantiku</standard>
-					<daylight>Ora di Verãu di Atlantiku</daylight>
+					<generic>Orb di Atlbntiku</generic>
+					<stbndbrd>Orb Pbdrãu di Atlbntiku</stbndbrd>
+					<dbylight>Orb di Verãu di Atlbntiku</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Central">
+			</metbzone>
+			<metbzone type="Austrblib_Centrbl">
 				<long>
-					<generic>Ora di Australia Sentral</generic>
-					<standard>Ora Padrãu di Australia Sentral</standard>
-					<daylight>Ora di Verãu di Australia Sentral</daylight>
+					<generic>Orb di Austrblib Sentrbl</generic>
+					<stbndbrd>Orb Pbdrãu di Austrblib Sentrbl</stbndbrd>
+					<dbylight>Orb di Verãu di Austrblib Sentrbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
+			</metbzone>
+			<metbzone type="Austrblib_CentrblWestern">
 				<long>
-					<generic>Ora di Autralia Sentru-Osidental</generic>
-					<standard>Ora Padrãu di Australia Sentru-Osidental</standard>
-					<daylight>Ora di Verãu di Australia Sentru-Osidental</daylight>
+					<generic>Orb di Autrblib Sentru-Osidentbl</generic>
+					<stbndbrd>Orb Pbdrãu di Austrblib Sentru-Osidentbl</stbndbrd>
+					<dbylight>Orb di Verãu di Austrblib Sentru-Osidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
+			</metbzone>
+			<metbzone type="Austrblib_Ebstern">
 				<long>
-					<generic>Ora di Australia Oriental</generic>
-					<standard>Ora Padrãu di Australia Oriental</standard>
-					<daylight>Ora di Verãu di Australia Oriental</daylight>
+					<generic>Orb di Austrblib Orientbl</generic>
+					<stbndbrd>Orb Pbdrãu di Austrblib Orientbl</stbndbrd>
+					<dbylight>Orb di Verãu di Austrblib Orientbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Western">
+			</metbzone>
+			<metbzone type="Austrblib_Western">
 				<long>
-					<generic>Ora di Australia Osidental</generic>
-					<standard>Ora Padrãu di Australia Osidental</standard>
-					<daylight>Ora di Verãu di Australia Osidental</daylight>
+					<generic>Orb di Austrblib Osidentbl</generic>
+					<stbndbrd>Orb Pbdrãu di Austrblib Osidentbl</stbndbrd>
+					<dbylight>Orb di Verãu di Austrblib Osidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</metbzone>
+			<metbzone type="Europe_Centrbl">
 				<long>
-					<generic>Ora di Europa Sentral</generic>
-					<standard>Ora Padrãu di Europa Sentral</standard>
-					<daylight>Ora di Verãu di Europa Sentral</daylight>
+					<generic>Orb di Europb Sentrbl</generic>
+					<stbndbrd>Orb Pbdrãu di Europb Sentrbl</stbndbrd>
+					<dbylight>Orb di Verãu di Europb Sentrbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<long>
-					<generic>Ora di Europa Oriental</generic>
-					<standard>Ora Padrãu di Europa Oriental</standard>
-					<daylight>Ora di Verãu di Europa Oriental</daylight>
+					<generic>Orb di Europb Orientbl</generic>
+					<stbndbrd>Orb Pbdrãu di Europb Orientbl</stbndbrd>
+					<dbylight>Orb di Verãu di Europb Orientbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<long>
-					<generic>Ora di Europa Osidental</generic>
-					<standard>Ora Padrãu di Europa Osidental</standard>
-					<daylight>Ora di Verãu di Europa Osidental</daylight>
+					<generic>Orb di Europb Osidentbl</generic>
+					<stbndbrd>Orb Pbdrãu di Europb Osidentbl</stbndbrd>
+					<dbylight>Orb di Verãu di Europb Osidentbl</dbylight>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group>.</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName>Diren di Emiradus Arabi Unidu</displayName>
+				<displbyNbme>Diren di Emirbdus Arbbi Unidu</displbyNbme>
 			</currency>
 			<currency type="AOA">
-				<displayName>Kuanza</displayName>
+				<displbyNbme>Kubnzb</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>Dola australianu</displayName>
+				<displbyNbme>Dolb bustrblibnu</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>Dinar di Barain</displayName>
+				<displbyNbme>Dinbr di Bbrbin</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>Franku borundes</displayName>
+				<displbyNbme>Frbnku borundes</displbyNbme>
 			</currency>
 			<currency type="BRL">
-				<displayName>Rial brazileru</displayName>
+				<displbyNbme>Ribl brbzileru</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>Pula di Botsuana</displayName>
+				<displbyNbme>Pulb di Botsubnb</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>Dola kanadianu</displayName>
+				<displbyNbme>Dolb kbnbdibnu</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>Franku kongoles</displayName>
+				<displbyNbme>Frbnku kongoles</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>Franku suisu</displayName>
+				<displbyNbme>Frbnku suisu</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>Iuan xines</displayName>
+				<displbyNbme>Iubn xines</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>Skudu Kabuverdianu</displayName>
+				<displbyNbme>Skudu Kbbuverdibnu</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>Franku di Djibuti</displayName>
+				<displbyNbme>Frbnku di Djibuti</displbyNbme>
 			</currency>
 			<currency type="DKK">
-				<displayName>Kuroa dinamarkeza</displayName>
+				<displbyNbme>Kurob dinbmbrkezb</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>Dinar arjelinu</displayName>
+				<displbyNbme>Dinbr brjelinu</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>Libra ejipsiu</displayName>
+				<displbyNbme>Librb ejipsiu</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>Nafka di Eritreia</displayName>
+				<displbyNbme>Nbfkb di Eritreib</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>Bir etiopi</displayName>
+				<displbyNbme>Bir etiopi</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>Euro</displayName>
+				<displbyNbme>Euro</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>Libra sterlina britaniku</displayName>
+				<displbyNbme>Librb sterlinb britbniku</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>Sedi di Gana</displayName>
+				<displbyNbme>Sedi di Gbnb</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>Dalasi</displayName>
+				<displbyNbme>Dblbsi</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>Sili</displayName>
+				<displbyNbme>Sili</displbyNbme>
 			</currency>
 			<currency type="HKD">
-				<displayName>Dola di Ong Kong</displayName>
+				<displbyNbme>Dolb di Ong Kong</displbyNbme>
 			</currency>
 			<currency type="IDR">
-				<displayName>Rupia indoneziu</displayName>
+				<displbyNbme>Rupib indoneziu</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>Rupia indianu</displayName>
+				<displbyNbme>Rupib indibnu</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>Ieni japones</displayName>
+				<displbyNbme>Ieni jbpones</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>Xelin kenianu</displayName>
+				<displbyNbme>Xelin kenibnu</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>Franku di Komoris</displayName>
+				<displbyNbme>Frbnku di Komoris</displbyNbme>
 			</currency>
 			<currency type="KRW">
-				<displayName>Won sul-koreanu</displayName>
+				<displbyNbme>Won sul-korebnu</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>Dola liberianu</displayName>
+				<displbyNbme>Dolb liberibnu</displbyNbme>
 			</currency>
 			<currency type="LSL">
-				<displayName>Loti di Lezotu</displayName>
+				<displbyNbme>Loti di Lezotu</displbyNbme>
 			</currency>
 			<currency type="LYD">
-				<displayName>Dinar libiu</displayName>
+				<displbyNbme>Dinbr libiu</displbyNbme>
 			</currency>
 			<currency type="MAD">
-				<displayName>Diren marokinu</displayName>
+				<displbyNbme>Diren mbrokinu</displbyNbme>
 			</currency>
 			<currency type="MGA">
-				<displayName>Ariari di Madagaskar</displayName>
+				<displbyNbme>Aribri di Mbdbgbskbr</displbyNbme>
 			</currency>
 			<currency type="MRO">
-				<displayName>Ougia</displayName>
+				<displbyNbme>Ougib</displbyNbme>
 			</currency>
 			<currency type="MUR">
-				<displayName>Rupia di Maurisias</displayName>
+				<displbyNbme>Rupib di Mburisibs</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName>Kuaxa di Malaui</displayName>
+				<displbyNbme>Kubxb di Mblbui</displbyNbme>
 			</currency>
 			<currency type="MXN">
-				<displayName>Pezu mexikanu</displayName>
+				<displbyNbme>Pezu mexikbnu</displbyNbme>
 			</currency>
 			<currency type="MZM">
-				<displayName>Metikal</displayName>
+				<displbyNbme>Metikbl</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>Dola namibianu</displayName>
+				<displbyNbme>Dolb nbmibibnu</displbyNbme>
 			</currency>
 			<currency type="NGN">
-				<displayName>Naira</displayName>
+				<displbyNbme>Nbirb</displbyNbme>
 			</currency>
 			<currency type="NOK">
-				<displayName>Kuroa norueges</displayName>
+				<displbyNbme>Kurob norueges</displbyNbme>
 			</currency>
 			<currency type="PLN">
-				<displayName>Zloty polaku</displayName>
+				<displbyNbme>Zloty polbku</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName>Rublu rusu</displayName>
+				<displbyNbme>Rublu rusu</displbyNbme>
 			</currency>
 			<currency type="RWF">
-				<displayName>Franku ruandes</displayName>
+				<displbyNbme>Frbnku rubndes</displbyNbme>
 			</currency>
 			<currency type="SAR">
-				<displayName>Rial saudita</displayName>
+				<displbyNbme>Ribl sbuditb</displbyNbme>
 			</currency>
 			<currency type="SCR">
-				<displayName>Rupia di Seixelis</displayName>
+				<displbyNbme>Rupib di Seixelis</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>Libra sudanes</displayName>
+				<displbyNbme>Librb sudbnes</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>Libra sudanes antigu</displayName>
+				<displbyNbme>Librb sudbnes bntigu</displbyNbme>
 			</currency>
 			<currency type="SEK">
-				<displayName>Kuroa sueku</displayName>
+				<displbyNbme>Kurob sueku</displbyNbme>
 			</currency>
 			<currency type="SHP">
-				<displayName>Libra di Santa Ilena</displayName>
+				<displbyNbme>Librb di Sbntb Ilenb</displbyNbme>
 			</currency>
 			<currency type="SLL">
-				<displayName>Leone di Sera Leoa</displayName>
+				<displbyNbme>Leone di Serb Leob</displbyNbme>
 			</currency>
 			<currency type="SOS">
-				<displayName>Xelin somalianu</displayName>
+				<displbyNbme>Xelin somblibnu</displbyNbme>
 			</currency>
 			<currency type="STD">
-				<displayName>Dobra di Sãu Tume i Prinsipi</displayName>
+				<displbyNbme>Dobrb di Sãu Tume i Prinsipi</displbyNbme>
 			</currency>
 			<currency type="SZL">
-				<displayName>Lilanjeni</displayName>
+				<displbyNbme>Lilbnjeni</displbyNbme>
 			</currency>
 			<currency type="THB">
-				<displayName>Baht tailandes</displayName>
+				<displbyNbme>Bbht tbilbndes</displbyNbme>
 			</currency>
 			<currency type="TND">
-				<displayName>Dinar tunizianu</displayName>
+				<displbyNbme>Dinbr tunizibnu</displbyNbme>
 			</currency>
 			<currency type="TRY">
-				<displayName>Lira turku</displayName>
+				<displbyNbme>Lirb turku</displbyNbme>
 			</currency>
 			<currency type="TWD">
-				<displayName>Dola Novu di Taiwan</displayName>
+				<displbyNbme>Dolb Novu di Tbiwbn</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>Xelin di Tanzania</displayName>
+				<displbyNbme>Xelin di Tbnzbnib</displbyNbme>
 			</currency>
 			<currency type="UGX">
-				<displayName>Xelin ugandensi</displayName>
+				<displbyNbme>Xelin ugbndensi</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>Dola merkanu</displayName>
+				<displbyNbme>Dolb merkbnu</displbyNbme>
 			</currency>
 			<currency type="XAF">
-				<displayName>Franku CFA BEAC</displayName>
+				<displbyNbme>Frbnku CFA BEAC</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName>Franku CFA BCEAO</displayName>
+				<displbyNbme>Frbnku CFA BCEAO</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName>mueda diskonxedu</displayName>
+				<displbyNbme>muedb diskonxedu</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName>Rand sulafrikanu</displayName>
+				<displbyNbme>Rbnd sulbfrikbnu</displbyNbme>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Kuaxa zambianu</displayName>
+				<displbyNbme>Kubxb zbmbibnu</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Dola di Zimbabue</displayName>
+				<displbyNbme>Dolb di Zimbbbue</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} dia</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other">{0} dib</unitPbttern>
 		</unit>
-		<unit type="day-future">
-			<unitPattern count="other">di li {0} dia</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="other">di li {0} dib</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="other">a ten {0} dia</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="other">b ten {0} dib</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0} ora</unitPattern>
+			<unitPbttern count="other">{0} orb</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="other">di li {0} ora</unitPattern>
+			<unitPbttern count="other">di li {0} orb</unitPbttern>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="other">a ten {0} ora</unitPattern>
+		<unit type="hour-pbst">
+			<unitPbttern count="other">b ten {0} orb</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other">{0} minutu</unitPattern>
+			<unitPbttern count="other">{0} minutu</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="other">di li {0} minutu</unitPattern>
+			<unitPbttern count="other">di li {0} minutu</unitPbttern>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="other">a ten {0} minutu</unitPattern>
+		<unit type="minute-pbst">
+			<unitPbttern count="other">b ten {0} minutu</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other">{0} mes</unitPattern>
+			<unitPbttern count="other">{0} mes</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="other">di li {0} mes</unitPattern>
+			<unitPbttern count="other">di li {0} mes</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="other">a ten {0} mes</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="other">b ten {0} mes</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other">{0} sigundu</unitPattern>
+			<unitPbttern count="other">{0} sigundu</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="other">di li {0} sigundu</unitPattern>
+			<unitPbttern count="other">di li {0} sigundu</unitPbttern>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="other">a ten {0} sigundu</unitPattern>
+		<unit type="second-pbst">
+			<unitPbttern count="other">b ten {0} sigundu</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0} simana</unitPattern>
+			<unitPbttern count="other">{0} simbnb</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="other">di li {0} simana</unitPattern>
+			<unitPbttern count="other">di li {0} simbnb</unitPbttern>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="other">a ten {0} simana</unitPattern>
+		<unit type="week-pbst">
+			<unitPbttern count="other">b ten {0} simbnb</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} anu</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other">{0} bnu</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="other">di li {0} anu</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="other">di li {0} bnu</unitPbttern>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="other">a ten {0} anu</unitPattern>
+		<unit type="yebr-pbst">
+			<unitPbttern count="other">b ten {0} bnu</unitPbttern>
 		</unit>
 	</units>
-	<listPatterns>
-		<listPattern>
-			<listPatternPart type="2">{0} y {1}</listPatternPart>
-			<listPatternPart type="end">{0} y {1}</listPatternPart>
-		</listPattern>
-	</listPatterns>
+	<listPbtterns>
+		<listPbttern>
+			<listPbtternPbrt type="2">{0} y {1}</listPbtternPbrt>
+			<listPbtternPbrt type="end">{0} y {1}</listPbtternPbrt>
+		</listPbttern>
+	</listPbtterns>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>Sin:S</yesstr>
 			<nostr>Nãu:N</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

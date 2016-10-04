@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
-import java.util.Comparator;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.FocusTrbversblPolicy;
+import jbvb.util.Compbrbtor;
 
 
 /**
- * This class has been obsoleted by the 1.4 focus APIs. While client code may
- * still use this class, developers are strongly encouraged to use
- * <code>java.awt.KeyboardFocusManager</code> and
- * <code>java.awt.DefaultKeyboardFocusManager</code> instead.
+ * This clbss hbs been obsoleted by the 1.4 focus APIs. While client code mby
+ * still use this clbss, developers bre strongly encourbged to use
+ * <code>jbvb.bwt.KeybobrdFocusMbnbger</code> bnd
+ * <code>jbvb.bwt.DefbultKeybobrdFocusMbnbger</code> instebd.
  * <p>
- * Please see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html">
- * How to Use the Focus Subsystem</a>,
- * a section in <em>The Java Tutorial</em>, and the
- * <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
- * for more information.
+ * Plebse see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/focus.html">
+ * How to Use the Focus Subsystem</b>,
+ * b section in <em>The Jbvb Tutoribl</em>, bnd the
+ * <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
+ * for more informbtion.
  *
- * @author Arnaud Weber
- * @author David Mendenhall
+ * @buthor Arnbud Weber
+ * @buthor Dbvid Mendenhbll
  * @since 1.2
  */
-@SuppressWarnings("serial") // Obsolete class
-public class DefaultFocusManager extends FocusManager {
+@SuppressWbrnings("seribl") // Obsolete clbss
+public clbss DefbultFocusMbnbger extends FocusMbnbger {
 
-    final FocusTraversalPolicy gluePolicy =
-        new LegacyGlueFocusTraversalPolicy(this);
-    private final FocusTraversalPolicy layoutPolicy =
-        new LegacyLayoutFocusTraversalPolicy(this);
-    private final LayoutComparator comparator =
-        new LayoutComparator();
+    finbl FocusTrbversblPolicy gluePolicy =
+        new LegbcyGlueFocusTrbversblPolicy(this);
+    privbte finbl FocusTrbversblPolicy lbyoutPolicy =
+        new LegbcyLbyoutFocusTrbversblPolicy(this);
+    privbte finbl LbyoutCompbrbtor compbrbtor =
+        new LbyoutCompbrbtor();
 
-    public DefaultFocusManager() {
-        setDefaultFocusTraversalPolicy(gluePolicy);
+    public DefbultFocusMbnbger() {
+        setDefbultFocusTrbversblPolicy(gluePolicy);
     }
 
-    public Component getComponentAfter(Container aContainer,
-                                       Component aComponent)
+    public Component getComponentAfter(Contbiner bContbiner,
+                                       Component bComponent)
     {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+        Contbiner root = (bContbiner.isFocusCycleRoot())
+            ? bContbiner
+            : bContbiner.getFocusCycleRootAncestor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixed 1.4/pre-1.4 focus APIs. If b pbrticulbr root's
+        // trbversbl policy is non-legbcy, then honor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
+            FocusTrbversblPolicy policy = root.getFocusTrbversblPolicy();
             if (policy != gluePolicy) {
-                return policy.getComponentAfter(root, aComponent);
+                return policy.getComponentAfter(root, bComponent);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getComponentAfter(root, aComponent);
+            compbrbtor.setComponentOrientbtion(root.getComponentOrientbtion());
+            return lbyoutPolicy.getComponentAfter(root, bComponent);
         }
 
         return null;
     }
 
-    public Component getComponentBefore(Container aContainer,
-                                        Component aComponent)
+    public Component getComponentBefore(Contbiner bContbiner,
+                                        Component bComponent)
     {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+        Contbiner root = (bContbiner.isFocusCycleRoot())
+            ? bContbiner
+            : bContbiner.getFocusCycleRootAncestor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixed 1.4/pre-1.4 focus APIs. If b pbrticulbr root's
+        // trbversbl policy is non-legbcy, then honor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
+            FocusTrbversblPolicy policy = root.getFocusTrbversblPolicy();
             if (policy != gluePolicy) {
-                return policy.getComponentBefore(root, aComponent);
+                return policy.getComponentBefore(root, bComponent);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getComponentBefore(root, aComponent);
+            compbrbtor.setComponentOrientbtion(root.getComponentOrientbtion());
+            return lbyoutPolicy.getComponentBefore(root, bComponent);
         }
 
         return null;
     }
 
-    public Component getFirstComponent(Container aContainer) {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+    public Component getFirstComponent(Contbiner bContbiner) {
+        Contbiner root = (bContbiner.isFocusCycleRoot())
+            ? bContbiner
+            : bContbiner.getFocusCycleRootAncestor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixed 1.4/pre-1.4 focus APIs. If b pbrticulbr root's
+        // trbversbl policy is non-legbcy, then honor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
+            FocusTrbversblPolicy policy = root.getFocusTrbversblPolicy();
             if (policy != gluePolicy) {
                 return policy.getFirstComponent(root);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getFirstComponent(root);
+            compbrbtor.setComponentOrientbtion(root.getComponentOrientbtion());
+            return lbyoutPolicy.getFirstComponent(root);
         }
 
         return null;
     }
 
-    public Component getLastComponent(Container aContainer) {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+    public Component getLbstComponent(Contbiner bContbiner) {
+        Contbiner root = (bContbiner.isFocusCycleRoot())
+            ? bContbiner
+            : bContbiner.getFocusCycleRootAncestor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixed 1.4/pre-1.4 focus APIs. If b pbrticulbr root's
+        // trbversbl policy is non-legbcy, then honor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
+            FocusTrbversblPolicy policy = root.getFocusTrbversblPolicy();
             if (policy != gluePolicy) {
-                return policy.getLastComponent(root);
+                return policy.getLbstComponent(root);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getLastComponent(root);
+            compbrbtor.setComponentOrientbtion(root.getComponentOrientbtion());
+            return lbyoutPolicy.getLbstComponent(root);
         }
 
         return null;
     }
 
-    public boolean compareTabOrder(Component a, Component b) {
-        return (comparator.compare(a, b) < 0);
+    public boolebn compbreTbbOrder(Component b, Component b) {
+        return (compbrbtor.compbre(b, b) < 0);
     }
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-final class LegacyLayoutFocusTraversalPolicy
-    extends LayoutFocusTraversalPolicy
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss LegbcyLbyoutFocusTrbversblPolicy
+    extends LbyoutFocusTrbversblPolicy
 {
-    LegacyLayoutFocusTraversalPolicy(DefaultFocusManager defaultFocusManager) {
-        super(new CompareTabOrderComparator(defaultFocusManager));
+    LegbcyLbyoutFocusTrbversblPolicy(DefbultFocusMbnbger defbultFocusMbnbger) {
+        super(new CompbreTbbOrderCompbrbtor(defbultFocusMbnbger));
     }
 }
 
-final class CompareTabOrderComparator implements Comparator<Component> {
-    private final DefaultFocusManager defaultFocusManager;
+finbl clbss CompbreTbbOrderCompbrbtor implements Compbrbtor<Component> {
+    privbte finbl DefbultFocusMbnbger defbultFocusMbnbger;
 
-    CompareTabOrderComparator(DefaultFocusManager defaultFocusManager) {
-        this.defaultFocusManager = defaultFocusManager;
+    CompbreTbbOrderCompbrbtor(DefbultFocusMbnbger defbultFocusMbnbger) {
+        this.defbultFocusMbnbger = defbultFocusMbnbger;
     }
 
-    public int compare(Component o1, Component o2) {
+    public int compbre(Component o1, Component o2) {
         if (o1 == o2) {
             return 0;
         }
-        return (defaultFocusManager.compareTabOrder(o1, o2)) ? -1 : 1;
+        return (defbultFocusMbnbger.compbreTbbOrder(o1, o2)) ? -1 : 1;
     }
 }

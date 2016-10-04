@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef GDIHASHTABLE_H
 #define GDIHASHTABLE_H
 
-#include "Hashtable.h"
+#include "Hbshtbble.h"
 
 /*
- * This class has been created to fix bug #4191297.
+ * This clbss hbs been crebted to fix bug #4191297.
  */
 
 /**
- * GDIHashtable class. Subclasses Hashtable to provide
- * capability of batch destruction of freed GDI resources.
- * Assumes that values are only of AwtGDIObject type.
+ * GDIHbshtbble clbss. Subclbsses Hbshtbble to provide
+ * cbpbbility of bbtch destruction of freed GDI resources.
+ * Assumes thbt vblues bre only of AwtGDIObject type.
  */
-class GDIHashtable : public Hashtable {
+clbss GDIHbshtbble : public Hbshtbble {
     struct ListEntry {
-        GDIHashtable* table;
+        GDIHbshtbble* tbble;
         ListEntry*      next;
     };
 
     /**
-     * GDIHashtable::List class. Designed to store pointers
-     * to all existing GDIHashtables. This is required
-     * to flush all GDIHashtables at once.
+     * GDIHbshtbble::List clbss. Designed to store pointers
+     * to bll existing GDIHbshtbbles. This is required
+     * to flush bll GDIHbshtbbles bt once.
      */
-    class List {
+    clbss List {
     public:
-        List() : m_pHead(NULL) {}
-        ~List() { clear(); }
+        List() : m_pHebd(NULL) {}
+        ~List() { clebr(); }
 
-        void add(GDIHashtable*);
-        void remove(GDIHashtable*);
+        void bdd(GDIHbshtbble*);
+        void remove(GDIHbshtbble*);
         void flushAll();
 
-    private:
-        void clear();
+    privbte:
+        void clebr();
 
-        ListEntry* m_pHead;
+        ListEntry* m_pHebd;
 
-        CriticalSection m_listLock;
+        CriticblSection m_listLock;
     };
 
-    friend class List;
+    friend clbss List;
 
     /**
-     * GDIHashtable::BatchDestructionManager class.
-     * Tracks the amount of remaining space in the GDI
-     * and flushes GDIHashtables when needed.
+     * GDIHbshtbble::BbtchDestructionMbnbger clbss.
+     * Trbcks the bmount of rembining spbce in the GDI
+     * bnd flushes GDIHbshtbbles when needed.
      */
-    class BatchDestructionManager {
-    private:
+    clbss BbtchDestructionMbnbger {
+    privbte:
         int               m_nCounter;
         UINT              m_nFirstThreshold;
         UINT              m_nSecondThreshold;
         UINT              m_nDestroyPeriod;
-        BOOL              m_bBatchingEnabled;
+        BOOL              m_bBbtchingEnbbled;
 
         List              m_list;
 
-        CriticalSection   m_managerLock;
+        CriticblSection   m_mbnbgerLock;
 
     public:
         /**
-         * Constructs a new BatchDestructionManager with the specified parameters.
-         * The care should be taken when non-default values are used, since it
-         * affects performance. They always should satisfy the inequality
+         * Constructs b new BbtchDestructionMbnbger with the specified pbrbmeters.
+         * The cbre should be tbken when non-defbult vblues bre used, since it
+         * bffects performbnce. They blwbys should sbtisfy the inequblity
          * 10 < nSecondThreshold < nFirstThreshold.
          *
-         * @param nFirstThreshold if less than <code>nFirstThreshold</code> percents
-         *        of space in GDI heaps is free all existing GDIHashtables will be
-         *        flushed on the next call of <code>update</code>.
-         * @param nSecondThreshold if less than <code>nSecondThreshold</code>
-         *        percents of space in GDI heaps is free after the flush
-         *        <code>update</code> will return <code>TRUE</code>.
-         * @param nDestroyPeriod specifies how often free space in GDI heaps
-         *        will be rechecked in low-resource situation.
-         *        In detailss: after <code>update</code> prohibit batching by
-         *        setting <code>m_bBatchingEnabled</code> to <code>FALSE</code>
-         *        it won't recheck free GDI space for the next
-         *        <code>nDestroyPeriod<code> calls. So during this time
+         * @pbrbm nFirstThreshold if less thbn <code>nFirstThreshold</code> percents
+         *        of spbce in GDI hebps is free bll existing GDIHbshtbbles will be
+         *        flushed on the next cbll of <code>updbte</code>.
+         * @pbrbm nSecondThreshold if less thbn <code>nSecondThreshold</code>
+         *        percents of spbce in GDI hebps is free bfter the flush
+         *        <code>updbte</code> will return <code>TRUE</code>.
+         * @pbrbm nDestroyPeriod specifies how often free spbce in GDI hebps
+         *        will be rechecked in low-resource situbtion.
+         *        In detbilss: bfter <code>updbte</code> prohibit bbtching by
+         *        setting <code>m_bBbtchingEnbbled</code> to <code>FALSE</code>
+         *        it won't recheck free GDI spbce for the next
+         *        <code>nDestroyPeriod<code> cblls. So during this time
          *        <code>shouldDestroy</code> will return <code>TRUE</code>.
-         *        This is done to reduce performance impact
-         *        caused by calls to <code>GetFreeSystemResourses</code>.
+         *        This is done to reduce performbnce impbct
+         *        cbused by cblls to <code>GetFreeSystemResourses</code>.
          */
-        BatchDestructionManager(UINT nFirstThreshold = 50,
+        BbtchDestructionMbnbger(UINT nFirstThreshold = 50,
                                 UINT nSecondThreshold = 15,
                                 UINT nDestroyPeriod = 200);
 
         /**
-         * Adds the specified GDIHashtable to the internal list.
-         * <code>flushAll</code> flushes all GDIHashtables from this list.
-         * @param table pointer to the GDIHashtable to be added.
+         * Adds the specified GDIHbshtbble to the internbl list.
+         * <code>flushAll</code> flushes bll GDIHbshtbbles from this list.
+         * @pbrbm tbble pointer to the GDIHbshtbble to be bdded.
          */
-        INLINE void add(GDIHashtable* table) { m_list.add(table); }
+        INLINE void bdd(GDIHbshtbble* tbble) { m_list.bdd(tbble); }
 
         /**
-         * Removes the specified GDIHashtable to the internal list.
-         * Does nothing if the specified table doesn't exist.
-         * @param table pointer to the GDIHashtable to be removed.
+         * Removes the specified GDIHbshtbble to the internbl list.
+         * Does nothing if the specified tbble doesn't exist.
+         * @pbrbm tbble pointer to the GDIHbshtbble to be removed.
          */
-        INLINE void remove(GDIHashtable* table) { m_list.remove(table); }
+        INLINE void remove(GDIHbshtbble* tbble) { m_list.remove(tbble); }
 
         /**
          * @return <code>TRUE</code> if unreferenced AwtGDIObjects shouldn't
-         *         be destroyed immediatelly. They will be deleted in
-         *         a batch when needed.
+         *         be destroyed immedibtelly. They will be deleted in
+         *         b bbtch when needed.
          *         <code>FALSE</code> if unreferenced AwtGDIObjects should
-         *         be destroyed as soon as freed.
+         *         be destroyed bs soon bs freed.
          */
-        INLINE BOOL isBatchingEnabled() { return m_bBatchingEnabled; }
+        INLINE BOOL isBbtchingEnbbled() { return m_bBbtchingEnbbled; }
 
         /**
-         * Flushes all the GDIHashtables from the internal list.
+         * Flushes bll the GDIHbshtbbles from the internbl list.
          */
         INLINE void flushAll() { m_list.flushAll(); }
 
         /**
-         * Decrements the internal counter. The initial value
-         * is assigned by <code>update</code> according to
-         * the BatchDestructionManager parameters. When the
-         * counter hits zero the BatchDestructionManager will
-         * recheck the amount of free space in GDI heaps.
-         * This is done to reduce the performance impact caused
-         * by calls to GetFreeSystemResources. Currently this
-         * method is called when a new GDI resource is created.
+         * Decrements the internbl counter. The initibl vblue
+         * is bssigned by <code>updbte</code> bccording to
+         * the BbtchDestructionMbnbger pbrbmeters. When the
+         * counter hits zero the BbtchDestructionMbnbger will
+         * recheck the bmount of free spbce in GDI hebps.
+         * This is done to reduce the performbnce impbct cbused
+         * by cblls to GetFreeSystemResources. Currently this
+         * method is cblled when b new GDI resource is crebted.
          */
         INLINE void decrementCounter() { m_nCounter--; }
 
-        INLINE CriticalSection& getLock() { return m_managerLock; }
+        INLINE CriticblSection& getLock() { return m_mbnbgerLock; }
     };
 
  public:
     /**
-     * Constructs a new, empty GDIHashtable with the specified initial
-     * capacity and the specified load factor.
+     * Constructs b new, empty GDIHbshtbble with the specified initibl
+     * cbpbcity bnd the specified lobd fbctor.
      */
-    GDIHashtable(const char* name, void (*deleteProc)(void*) = NULL,
-                   int initialCapacity = 29, float loadFactor = 0.75) :
-        Hashtable(name, deleteProc, initialCapacity, loadFactor) {
-        manager.add(this);
+    GDIHbshtbble(const chbr* nbme, void (*deleteProc)(void*) = NULL,
+                   int initiblCbpbcity = 29, flobt lobdFbctor = 0.75) :
+        Hbshtbble(nbme, deleteProc, initiblCbpbcity, lobdFbctor) {
+        mbnbger.bdd(this);
     }
 
-    ~GDIHashtable() {
-        manager.remove(this);
+    ~GDIHbshtbble() {
+        mbnbger.remove(this);
     }
 
     /**
-     * Puts the specified element into the hashtable, using the specified
-     * key.  The element may be retrieved by doing a get() with the same key.
-     * The key and the element cannot be null.
+     * Puts the specified element into the hbshtbble, using the specified
+     * key.  The element mby be retrieved by doing b get() with the sbme key.
+     * The key bnd the element cbnnot be null.
      */
-    void* put(void* key, void* value);
+    void* put(void* key, void* vblue);
 
     /**
-     * Depending on the amount of free space in GDI heads destroys
-     * as unreferenced the element corresponding to the key or keeps
-     * it for destruction in batch.
+     * Depending on the bmount of free spbce in GDI hebds destroys
+     * bs unreferenced the element corresponding to the key or keeps
+     * it for destruction in bbtch.
      * Does nothing if the key is not present.
      */
-    void release(void* key);
+    void relebse(void* key);
 
     /**
-     * Removes all unreferenced elements from the hastable.
+     * Removes bll unreferenced elements from the hbstbble.
      */
     void flush();
 
     /**
-     * Flushes all existing GDIHashtable instances.
+     * Flushes bll existing GDIHbshtbble instbnces.
      */
-    INLINE static void flushAll() { manager.flushAll(); }
+    INLINE stbtic void flushAll() { mbnbger.flushAll(); }
 
-    INLINE CriticalSection& getManagerLock() { return manager.getLock(); }
+    INLINE CriticblSection& getMbnbgerLock() { return mbnbger.getLock(); }
 
- private:
+ privbte:
 
-    static BatchDestructionManager manager;
+    stbtic BbtchDestructionMbnbger mbnbger;
 
 };
 

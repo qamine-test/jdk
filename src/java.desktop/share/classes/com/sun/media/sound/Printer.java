@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * Printer allows you to set up global debugging status and print
- * messages accordingly.
+ * Printer bllows you to set up globbl debugging stbtus bnd print
+ * messbges bccordingly.
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
  */
-final class Printer {
+finbl clbss Printer {
 
-    static final boolean err = false;
-    static final boolean debug = false;
-    static final boolean trace = false;
-    static final boolean verbose = false;
-    static final boolean release = false;
+    stbtic finbl boolebn err = fblse;
+    stbtic finbl boolebn debug = fblse;
+    stbtic finbl boolebn trbce = fblse;
+    stbtic finbl boolebn verbose = fblse;
+    stbtic finbl boolebn relebse = fblse;
 
-    static final boolean SHOW_THREADID = false;
-    static final boolean SHOW_TIMESTAMP = false;
+    stbtic finbl boolebn SHOW_THREADID = fblse;
+    stbtic finbl boolebn SHOW_TIMESTAMP = fblse;
 
-    /*static void setErrorPrint(boolean on) {
+    /*stbtic void setErrorPrint(boolebn on) {
 
       err = on;
       }
 
-      static void setDebugPrint(boolean on) {
+      stbtic void setDebugPrint(boolebn on) {
 
       debug = on;
       }
 
-      static void setTracePrint(boolean on) {
+      stbtic void setTrbcePrint(boolebn on) {
 
-      trace = on;
+      trbce = on;
       }
 
-      static void setVerbosePrint(boolean on) {
+      stbtic void setVerbosePrint(boolebn on) {
 
       verbose = on;
       }
 
-      static void setReleasePrint(boolean on) {
+      stbtic void setRelebsePrint(boolebn on) {
 
-      release = on;
+      relebse = on;
       }*/
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Suppresses defbult constructor, ensuring non-instbntibbility.
      */
-    private Printer() {
+    privbte Printer() {
     }
 
-    public static void err(String str) {
+    public stbtic void err(String str) {
 
         if (err)
             println(str);
     }
 
-    public static void debug(String str) {
+    public stbtic void debug(String str) {
 
         if (debug)
             println(str);
     }
 
-    public static void trace(String str) {
+    public stbtic void trbce(String str) {
 
-        if (trace)
+        if (trbce)
             println(str);
     }
 
-    public static void verbose(String str) {
+    public stbtic void verbose(String str) {
 
         if (verbose)
             println(str);
     }
 
-    public static void release(String str) {
+    public stbtic void relebse(String str) {
 
-        if (release)
+        if (relebse)
             println(str);
     }
 
-    private static long startTime = 0;
+    privbte stbtic long stbrtTime = 0;
 
-    public static void println(String s) {
+    public stbtic void println(String s) {
         String prepend = "";
         if (SHOW_THREADID) {
-            prepend = "thread "  + Thread.currentThread().getId() + " " + prepend;
+            prepend = "threbd "  + Threbd.currentThrebd().getId() + " " + prepend;
         }
         if (SHOW_TIMESTAMP) {
-            if (startTime == 0) {
-                startTime = System.nanoTime() / 1000000l;
+            if (stbrtTime == 0) {
+                stbrtTime = System.nbnoTime() / 1000000l;
             }
-            prepend = prepend + ((System.nanoTime()/1000000l) - startTime) + "millis: ";
+            prepend = prepend + ((System.nbnoTime()/1000000l) - stbrtTime) + "millis: ";
         }
         System.out.println(prepend + s);
     }
 
-    public static void println() {
+    public stbtic void println() {
         System.out.println();
     }
 

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import javax.swing.SortOrder;
+import jbvb.text.Collbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.List;
+import jbvbx.swing.SortOrder;
 
 /**
- * An implementation of <code>RowSorter</code> that provides sorting and
- * filtering around a grid-based data model.
- * Beyond creating and installing a <code>RowSorter</code>, you very rarely
- * need to interact with one directly.  Refer to
- * {@link javax.swing.table.TableRowSorter TableRowSorter} for a concrete
- * implementation of <code>RowSorter</code> for <code>JTable</code>.
+ * An implementbtion of <code>RowSorter</code> thbt provides sorting bnd
+ * filtering bround b grid-bbsed dbtb model.
+ * Beyond crebting bnd instblling b <code>RowSorter</code>, you very rbrely
+ * need to interbct with one directly.  Refer to
+ * {@link jbvbx.swing.tbble.TbbleRowSorter TbbleRowSorter} for b concrete
+ * implementbtion of <code>RowSorter</code> for <code>JTbble</code>.
  * <p>
- * Sorting is done based on the current <code>SortKey</code>s, in order.
- * If two objects are equal (the <code>Comparator</code> for the
+ * Sorting is done bbsed on the current <code>SortKey</code>s, in order.
+ * If two objects bre equbl (the <code>Compbrbtor</code> for the
  * column returns 0) the next <code>SortKey</code> is used.  If no
- * <code>SortKey</code>s remain or the order is <code>UNSORTED</code>, then
+ * <code>SortKey</code>s rembin or the order is <code>UNSORTED</code>, then
  * the order of the rows in the model is used.
  * <p>
- * Sorting of each column is done by way of a <code>Comparator</code>
- * that you can specify using the <code>setComparator</code> method.
- * If a <code>Comparator</code> has not been specified, the
- * <code>Comparator</code> returned by
- * <code>Collator.getInstance()</code> is used on the results of
- * calling <code>toString</code> on the underlying objects.  The
- * <code>Comparator</code> is never passed <code>null</code>.  A
- * <code>null</code> value is treated as occurring before a
- * non-<code>null</code> value, and two <code>null</code> values are
- * considered equal.
+ * Sorting of ebch column is done by wby of b <code>Compbrbtor</code>
+ * thbt you cbn specify using the <code>setCompbrbtor</code> method.
+ * If b <code>Compbrbtor</code> hbs not been specified, the
+ * <code>Compbrbtor</code> returned by
+ * <code>Collbtor.getInstbnce()</code> is used on the results of
+ * cblling <code>toString</code> on the underlying objects.  The
+ * <code>Compbrbtor</code> is never pbssed <code>null</code>.  A
+ * <code>null</code> vblue is trebted bs occurring before b
+ * non-<code>null</code> vblue, bnd two <code>null</code> vblues bre
+ * considered equbl.
  * <p>
- * If you specify a <code>Comparator</code> that casts its argument to
- * a type other than that provided by the model, a
- * <code>ClassCastException</code> will be thrown when the data is sorted.
+ * If you specify b <code>Compbrbtor</code> thbt cbsts its brgument to
+ * b type other thbn thbt provided by the model, b
+ * <code>ClbssCbstException</code> will be thrown when the dbtb is sorted.
  * <p>
- * In addition to sorting, <code>DefaultRowSorter</code> provides the
- * ability to filter rows.  Filtering is done by way of a
- * <code>RowFilter</code> that is specified using the
- * <code>setRowFilter</code> method.  If no filter has been specified all
- * rows are included.
+ * In bddition to sorting, <code>DefbultRowSorter</code> provides the
+ * bbility to filter rows.  Filtering is done by wby of b
+ * <code>RowFilter</code> thbt is specified using the
+ * <code>setRowFilter</code> method.  If no filter hbs been specified bll
+ * rows bre included.
  * <p>
- * By default, rows are in unsorted order (the same as the model) and
- * every column is sortable. The default <code>Comparator</code>s are
- * documented in the subclasses (for example, {@link
- * javax.swing.table.TableRowSorter TableRowSorter}).
+ * By defbult, rows bre in unsorted order (the sbme bs the model) bnd
+ * every column is sortbble. The defbult <code>Compbrbtor</code>s bre
+ * documented in the subclbsses (for exbmple, {@link
+ * jbvbx.swing.tbble.TbbleRowSorter TbbleRowSorter}).
  * <p>
- * If the underlying model structure changes (the
- * <code>modelStructureChanged</code> method is invoked) the following
- * are reset to their default values: <code>Comparator</code>s by
- * column, current sort order, and whether each column is sortable. To
- * find the default <code>Comparator</code>s, see the concrete
- * implementation (for example, {@link
- * javax.swing.table.TableRowSorter TableRowSorter}).  The default
- * sort order is unsorted (the same as the model), and columns are
- * sortable by default.
+ * If the underlying model structure chbnges (the
+ * <code>modelStructureChbnged</code> method is invoked) the following
+ * bre reset to their defbult vblues: <code>Compbrbtor</code>s by
+ * column, current sort order, bnd whether ebch column is sortbble. To
+ * find the defbult <code>Compbrbtor</code>s, see the concrete
+ * implementbtion (for exbmple, {@link
+ * jbvbx.swing.tbble.TbbleRowSorter TbbleRowSorter}).  The defbult
+ * sort order is unsorted (the sbme bs the model), bnd columns bre
+ * sortbble by defbult.
  * <p>
- * If the underlying model structure changes (the
- * <code>modelStructureChanged</code> method is invoked) the following
- * are reset to their default values: <code>Comparator</code>s by column,
- * current sort order and whether a column is sortable.
+ * If the underlying model structure chbnges (the
+ * <code>modelStructureChbnged</code> method is invoked) the following
+ * bre reset to their defbult vblues: <code>Compbrbtor</code>s by column,
+ * current sort order bnd whether b column is sortbble.
  * <p>
- * <code>DefaultRowSorter</code> is an abstract class.  Concrete
- * subclasses must provide access to the underlying data by invoking
- * {@code setModelWrapper}. The {@code setModelWrapper} method
- * <b>must</b> be invoked soon after the constructor is
- * called, ideally from within the subclass's constructor.
- * Undefined behavior will result if you use a {@code
- * DefaultRowSorter} without specifying a {@code ModelWrapper}.
+ * <code>DefbultRowSorter</code> is bn bbstrbct clbss.  Concrete
+ * subclbsses must provide bccess to the underlying dbtb by invoking
+ * {@code setModelWrbpper}. The {@code setModelWrbpper} method
+ * <b>must</b> be invoked soon bfter the constructor is
+ * cblled, ideblly from within the subclbss's constructor.
+ * Undefined behbvior will result if you use b {@code
+ * DefbultRowSorter} without specifying b {@code ModelWrbpper}.
  * <p>
- * <code>DefaultRowSorter</code> has two formal type parameters.  The
- * first type parameter corresponds to the class of the model, for example
- * <code>DefaultTableModel</code>.  The second type parameter
- * corresponds to the class of the identifier passed to the
- * <code>RowFilter</code>.  Refer to <code>TableRowSorter</code> and
- * <code>RowFilter</code> for more details on the type parameters.
+ * <code>DefbultRowSorter</code> hbs two formbl type pbrbmeters.  The
+ * first type pbrbmeter corresponds to the clbss of the model, for exbmple
+ * <code>DefbultTbbleModel</code>.  The second type pbrbmeter
+ * corresponds to the clbss of the identifier pbssed to the
+ * <code>RowFilter</code>.  Refer to <code>TbbleRowSorter</code> bnd
+ * <code>RowFilter</code> for more detbils on the type pbrbmeters.
  *
- * @param <M> the type of the model
- * @param <I> the type of the identifier passed to the <code>RowFilter</code>
- * @see javax.swing.table.TableRowSorter
- * @see javax.swing.table.DefaultTableModel
- * @see java.text.Collator
+ * @pbrbm <M> the type of the model
+ * @pbrbm <I> the type of the identifier pbssed to the <code>RowFilter</code>
+ * @see jbvbx.swing.tbble.TbbleRowSorter
+ * @see jbvbx.swing.tbble.DefbultTbbleModel
+ * @see jbvb.text.Collbtor
  * @since 1.6
  */
-public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
+public bbstrbct clbss DefbultRowSorter<M, I> extends RowSorter<M> {
     /**
-     * Whether or not we resort on TableModelEvent.UPDATEs.
+     * Whether or not we resort on TbbleModelEvent.UPDATEs.
      */
-    private boolean sortsOnUpdates;
+    privbte boolebn sortsOnUpdbtes;
 
     /**
-     * View (JTable) -> model.
+     * View (JTbble) -> model.
      */
-    private Row[] viewToModel;
+    privbte Row[] viewToModel;
 
     /**
-     * model -> view (JTable)
+     * model -> view (JTbble)
      */
-    private int[] modelToView;
+    privbte int[] modelToView;
 
     /**
-     * Comparators specified by column.
+     * Compbrbtors specified by column.
      */
-    private Comparator<?>[] comparators;
+    privbte Compbrbtor<?>[] compbrbtors;
 
     /**
-     * Whether or not the specified column is sortable, by column.
+     * Whether or not the specified column is sortbble, by column.
      */
-    private boolean[] isSortable;
+    privbte boolebn[] isSortbble;
 
     /**
-     * Cached SortKeys for the current sort.
+     * Cbched SortKeys for the current sort.
      */
-    private SortKey[] cachedSortKeys;
+    privbte SortKey[] cbchedSortKeys;
 
     /**
-     * Cached comparators for the current sort
+     * Cbched compbrbtors for the current sort
      */
-    private Comparator<?>[] sortComparators;
+    privbte Compbrbtor<?>[] sortCompbrbtors;
 
     /**
      * Developer supplied Filter.
      */
-    private RowFilter<? super M,? super I> filter;
+    privbte RowFilter<? super M,? super I> filter;
 
     /**
-     * Value passed to the filter.  The same instance is passed to the
+     * Vblue pbssed to the filter.  The sbme instbnce is pbssed to the
      * filter for different rows.
      */
-    private FilterEntry filterEntry;
+    privbte FilterEntry filterEntry;
 
     /**
      * The sort keys.
      */
-    private List<SortKey> sortKeys;
+    privbte List<SortKey> sortKeys;
 
     /**
-     * Whether or not to use getStringValueAt.  This is indexed by column.
+     * Whether or not to use getStringVblueAt.  This is indexed by column.
      */
-    private boolean[] useToString;
+    privbte boolebn[] useToString;
 
     /**
-     * Indicates the contents are sorted.  This is used if
-     * getSortsOnUpdates is false and an update event is received.
+     * Indicbtes the contents bre sorted.  This is used if
+     * getSortsOnUpdbtes is fblse bnd bn updbte event is received.
      */
-    private boolean sorted;
+    privbte boolebn sorted;
 
     /**
-     * Maximum number of sort keys.
+     * Mbximum number of sort keys.
      */
-    private int maxSortKeys;
+    privbte int mbxSortKeys;
 
     /**
-     * Provides access to the data we're sorting/filtering.
+     * Provides bccess to the dbtb we're sorting/filtering.
      */
-    private ModelWrapper<M,I> modelWrapper;
+    privbte ModelWrbpper<M,I> modelWrbpper;
 
     /**
      * Size of the model. This is used to enforce error checking within
-     * the table changed notification methods (such as rowsInserted).
+     * the tbble chbnged notificbtion methods (such bs rowsInserted).
      */
-    private int modelRowCount;
+    privbte int modelRowCount;
 
 
     /**
-     * Creates an empty <code>DefaultRowSorter</code>.
+     * Crebtes bn empty <code>DefbultRowSorter</code>.
      */
-    public DefaultRowSorter() {
+    public DefbultRowSorter() {
         sortKeys = Collections.emptyList();
-        maxSortKeys = 3;
+        mbxSortKeys = 3;
     }
 
     /**
-     * Sets the model wrapper providing the data that is being sorted and
+     * Sets the model wrbpper providing the dbtb thbt is being sorted bnd
      * filtered.
      *
-     * @param modelWrapper the model wrapper responsible for providing the
-     *         data that gets sorted and filtered
-     * @throws IllegalArgumentException if {@code modelWrapper} is
+     * @pbrbm modelWrbpper the model wrbpper responsible for providing the
+     *         dbtb thbt gets sorted bnd filtered
+     * @throws IllegblArgumentException if {@code modelWrbpper} is
      *         {@code null}
      */
-    protected final void setModelWrapper(ModelWrapper<M,I> modelWrapper) {
-        if (modelWrapper == null) {
-            throw new IllegalArgumentException(
-                "modelWrapper most be non-null");
+    protected finbl void setModelWrbpper(ModelWrbpper<M,I> modelWrbpper) {
+        if (modelWrbpper == null) {
+            throw new IllegblArgumentException(
+                "modelWrbpper most be non-null");
         }
-        ModelWrapper<M,I> last = this.modelWrapper;
-        this.modelWrapper = modelWrapper;
-        if (last != null) {
-            modelStructureChanged();
+        ModelWrbpper<M,I> lbst = this.modelWrbpper;
+        this.modelWrbpper = modelWrbpper;
+        if (lbst != null) {
+            modelStructureChbnged();
         } else {
-            // If last is null, we're in the constructor. If we're in
-            // the constructor we don't want to call to overridable methods.
-            modelRowCount = getModelWrapper().getRowCount();
+            // If lbst is null, we're in the constructor. If we're in
+            // the constructor we don't wbnt to cbll to overridbble methods.
+            modelRowCount = getModelWrbpper().getRowCount();
         }
     }
 
     /**
-     * Returns the model wrapper providing the data that is being sorted and
+     * Returns the model wrbpper providing the dbtb thbt is being sorted bnd
      * filtered.
      *
-     * @return the model wrapper responsible for providing the data that
-     *         gets sorted and filtered
+     * @return the model wrbpper responsible for providing the dbtb thbt
+     *         gets sorted bnd filtered
      */
-    protected final ModelWrapper<M,I> getModelWrapper() {
-        return modelWrapper;
+    protected finbl ModelWrbpper<M,I> getModelWrbpper() {
+        return modelWrbpper;
     }
 
     /**
@@ -238,96 +238,96 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @return the underlying model
      */
-    public final M getModel() {
-        return getModelWrapper().getModel();
+    public finbl M getModel() {
+        return getModelWrbpper().getModel();
     }
 
     /**
-     * Sets whether or not the specified column is sortable.  The specified
-     * value is only checked when <code>toggleSortOrder</code> is invoked.
-     * It is still possible to sort on a column that has been marked as
-     * unsortable by directly setting the sort keys.  The default is
+     * Sets whether or not the specified column is sortbble.  The specified
+     * vblue is only checked when <code>toggleSortOrder</code> is invoked.
+     * It is still possible to sort on b column thbt hbs been mbrked bs
+     * unsortbble by directly setting the sort keys.  The defbult is
      * true.
      *
-     * @param column the column to enable or disable sorting on, in terms
+     * @pbrbm column the column to enbble or disbble sorting on, in terms
      *        of the underlying model
-     * @param sortable whether or not the specified column is sortable
+     * @pbrbm sortbble whether or not the specified column is sortbble
      * @throws IndexOutOfBoundsException if <code>column</code> is outside
-     *         the range of the model
+     *         the rbnge of the model
      * @see #toggleSortOrder
      * @see #setSortKeys
      */
-    public void setSortable(int column, boolean sortable) {
+    public void setSortbble(int column, boolebn sortbble) {
         checkColumn(column);
-        if (isSortable == null) {
-            isSortable = new boolean[getModelWrapper().getColumnCount()];
-            for (int i = isSortable.length - 1; i >= 0; i--) {
-                isSortable[i] = true;
+        if (isSortbble == null) {
+            isSortbble = new boolebn[getModelWrbpper().getColumnCount()];
+            for (int i = isSortbble.length - 1; i >= 0; i--) {
+                isSortbble[i] = true;
             }
         }
-        isSortable[column] = sortable;
+        isSortbble[column] = sortbble;
     }
 
     /**
-     * Returns true if the specified column is sortable; otherwise, false.
+     * Returns true if the specified column is sortbble; otherwise, fblse.
      *
-     * @param column the column to check sorting for, in terms of the
+     * @pbrbm column the column to check sorting for, in terms of the
      *        underlying model
-     * @return true if the column is sortable
+     * @return true if the column is sortbble
      * @throws IndexOutOfBoundsException if column is outside
-     *         the range of the underlying model
+     *         the rbnge of the underlying model
      */
-    public boolean isSortable(int column) {
+    public boolebn isSortbble(int column) {
         checkColumn(column);
-        return (isSortable == null) ? true : isSortable[column];
+        return (isSortbble == null) ? true : isSortbble[column];
     }
 
     /**
-     * Sets the sort keys. This creates a copy of the supplied
-     * {@code List}; subsequent changes to the supplied
-     * {@code List} do not effect this {@code DefaultRowSorter}.
-     * If the sort keys have changed this triggers a sort.
+     * Sets the sort keys. This crebtes b copy of the supplied
+     * {@code List}; subsequent chbnges to the supplied
+     * {@code List} do not effect this {@code DefbultRowSorter}.
+     * If the sort keys hbve chbnged this triggers b sort.
      *
-     * @param sortKeys the new <code>SortKeys</code>; <code>null</code>
-     *        is a shorthand for specifying an empty list,
-     *        indicating that the view should be unsorted
-     * @throws IllegalArgumentException if any of the values in
-     *         <code>sortKeys</code> are null or have a column index outside
-     *         the range of the model
+     * @pbrbm sortKeys the new <code>SortKeys</code>; <code>null</code>
+     *        is b shorthbnd for specifying bn empty list,
+     *        indicbting thbt the view should be unsorted
+     * @throws IllegblArgumentException if bny of the vblues in
+     *         <code>sortKeys</code> bre null or hbve b column index outside
+     *         the rbnge of the model
      */
     public void setSortKeys(List<? extends SortKey> sortKeys) {
         List<SortKey> old = this.sortKeys;
         if (sortKeys != null && sortKeys.size() > 0) {
-            int max = getModelWrapper().getColumnCount();
+            int mbx = getModelWrbpper().getColumnCount();
             for (SortKey key : sortKeys) {
                 if (key == null || key.getColumn() < 0 ||
-                        key.getColumn() >= max) {
-                    throw new IllegalArgumentException("Invalid SortKey");
+                        key.getColumn() >= mbx) {
+                    throw new IllegblArgumentException("Invblid SortKey");
                 }
             }
-            this.sortKeys = Collections.unmodifiableList(
-                    new ArrayList<SortKey>(sortKeys));
+            this.sortKeys = Collections.unmodifibbleList(
+                    new ArrbyList<SortKey>(sortKeys));
         }
         else {
             this.sortKeys = Collections.emptyList();
         }
-        if (!this.sortKeys.equals(old)) {
-            fireSortOrderChanged();
+        if (!this.sortKeys.equbls(old)) {
+            fireSortOrderChbnged();
             if (viewToModel == null) {
-                // Currently unsorted, use sort so that internal fields
-                // are correctly set.
+                // Currently unsorted, use sort so thbt internbl fields
+                // bre correctly set.
                 sort();
             } else {
-                sortExistingData();
+                sortExistingDbtb();
             }
         }
     }
 
     /**
-     * Returns the current sort keys.  This returns an unmodifiable
-     * {@code non-null List}. If you need to change the sort keys,
-     * make a copy of the returned {@code List}, mutate the copy
-     * and invoke {@code setSortKeys} with the new list.
+     * Returns the current sort keys.  This returns bn unmodifibble
+     * {@code non-null List}. If you need to chbnge the sort keys,
+     * mbke b copy of the returned {@code List}, mutbte the copy
+     * bnd invoke {@code setSortKeys} with the new list.
      *
      * @return the current sort order
      */
@@ -336,87 +336,87 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Sets the maximum number of sort keys.  The number of sort keys
-     * determines how equal values are resolved when sorting.  For
-     * example, assume a table row sorter is created and
-     * <code>setMaxSortKeys(2)</code> is invoked on it. The user
-     * clicks the header for column 1, causing the table rows to be
-     * sorted based on the items in column 1.  Next, the user clicks
-     * the header for column 2, causing the table to be sorted based
-     * on the items in column 2; if any items in column 2 are equal,
-     * then those particular rows are ordered based on the items in
-     * column 1. In this case, we say that the rows are primarily
-     * sorted on column 2, and secondarily on column 1.  If the user
-     * then clicks the header for column 3, then the items are
-     * primarily sorted on column 3 and secondarily sorted on column
-     * 2.  Because the maximum number of sort keys has been set to 2
-     * with <code>setMaxSortKeys</code>, column 1 no longer has an
+     * Sets the mbximum number of sort keys.  The number of sort keys
+     * determines how equbl vblues bre resolved when sorting.  For
+     * exbmple, bssume b tbble row sorter is crebted bnd
+     * <code>setMbxSortKeys(2)</code> is invoked on it. The user
+     * clicks the hebder for column 1, cbusing the tbble rows to be
+     * sorted bbsed on the items in column 1.  Next, the user clicks
+     * the hebder for column 2, cbusing the tbble to be sorted bbsed
+     * on the items in column 2; if bny items in column 2 bre equbl,
+     * then those pbrticulbr rows bre ordered bbsed on the items in
+     * column 1. In this cbse, we sby thbt the rows bre primbrily
+     * sorted on column 2, bnd secondbrily on column 1.  If the user
+     * then clicks the hebder for column 3, then the items bre
+     * primbrily sorted on column 3 bnd secondbrily sorted on column
+     * 2.  Becbuse the mbximum number of sort keys hbs been set to 2
+     * with <code>setMbxSortKeys</code>, column 1 no longer hbs bn
      * effect on the order.
      * <p>
-     * The maximum number of sort keys is enforced by
-     * <code>toggleSortOrder</code>.  You can specify more sort
-     * keys by invoking <code>setSortKeys</code> directly and they will
-     * all be honored.  However if <code>toggleSortOrder</code> is subsequently
-     * invoked the maximum number of sort keys will be enforced.
-     * The default value is 3.
+     * The mbximum number of sort keys is enforced by
+     * <code>toggleSortOrder</code>.  You cbn specify more sort
+     * keys by invoking <code>setSortKeys</code> directly bnd they will
+     * bll be honored.  However if <code>toggleSortOrder</code> is subsequently
+     * invoked the mbximum number of sort keys will be enforced.
+     * The defbult vblue is 3.
      *
-     * @param max the maximum number of sort keys
-     * @throws IllegalArgumentException if <code>max</code> &lt; 1
+     * @pbrbm mbx the mbximum number of sort keys
+     * @throws IllegblArgumentException if <code>mbx</code> &lt; 1
      */
-    public void setMaxSortKeys(int max) {
-        if (max < 1) {
-            throw new IllegalArgumentException("Invalid max");
+    public void setMbxSortKeys(int mbx) {
+        if (mbx < 1) {
+            throw new IllegblArgumentException("Invblid mbx");
         }
-        maxSortKeys = max;
+        mbxSortKeys = mbx;
     }
 
     /**
-     * Returns the maximum number of sort keys.
+     * Returns the mbximum number of sort keys.
      *
-     * @return the maximum number of sort keys
+     * @return the mbximum number of sort keys
      */
-    public int getMaxSortKeys() {
-        return maxSortKeys;
+    public int getMbxSortKeys() {
+        return mbxSortKeys;
     }
 
     /**
-     * If true, specifies that a sort should happen when the underlying
-     * model is updated (<code>rowsUpdated</code> is invoked).  For
-     * example, if this is true and the user edits an entry the
-     * location of that item in the view may change.  The default is
-     * false.
+     * If true, specifies thbt b sort should hbppen when the underlying
+     * model is updbted (<code>rowsUpdbted</code> is invoked).  For
+     * exbmple, if this is true bnd the user edits bn entry the
+     * locbtion of thbt item in the view mby chbnge.  The defbult is
+     * fblse.
      *
-     * @param sortsOnUpdates whether or not to sort on update events
+     * @pbrbm sortsOnUpdbtes whether or not to sort on updbte events
      */
-    public void setSortsOnUpdates(boolean sortsOnUpdates) {
-        this.sortsOnUpdates = sortsOnUpdates;
+    public void setSortsOnUpdbtes(boolebn sortsOnUpdbtes) {
+        this.sortsOnUpdbtes = sortsOnUpdbtes;
     }
 
     /**
-     * Returns true if  a sort should happen when the underlying
-     * model is updated; otherwise, returns false.
+     * Returns true if  b sort should hbppen when the underlying
+     * model is updbted; otherwise, returns fblse.
      *
-     * @return whether or not to sort when the model is updated
+     * @return whether or not to sort when the model is updbted
      */
-    public boolean getSortsOnUpdates() {
-        return sortsOnUpdates;
+    public boolebn getSortsOnUpdbtes() {
+        return sortsOnUpdbtes;
     }
 
     /**
-     * Sets the filter that determines which rows, if any, should be
-     * hidden from the view.  The filter is applied before sorting.  A value
-     * of <code>null</code> indicates all values from the model should be
+     * Sets the filter thbt determines which rows, if bny, should be
+     * hidden from the view.  The filter is bpplied before sorting.  A vblue
+     * of <code>null</code> indicbtes bll vblues from the model should be
      * included.
      * <p>
-     * <code>RowFilter</code>'s <code>include</code> method is passed an
-     * <code>Entry</code> that wraps the underlying model.  The number
+     * <code>RowFilter</code>'s <code>include</code> method is pbssed bn
+     * <code>Entry</code> thbt wrbps the underlying model.  The number
      * of columns in the <code>Entry</code> corresponds to the
-     * number of columns in the <code>ModelWrapper</code>.  The identifier
-     * comes from the <code>ModelWrapper</code> as well.
+     * number of columns in the <code>ModelWrbpper</code>.  The identifier
+     * comes from the <code>ModelWrbpper</code> bs well.
      * <p>
-     * This method triggers a sort.
+     * This method triggers b sort.
      *
-     * @param filter the filter used to determine what entries should be
+     * @pbrbm filter the filter used to determine whbt entries should be
      *        included
      */
     public void setRowFilter(RowFilter<? super M,? super I> filter) {
@@ -425,7 +425,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Returns the filter that determines which rows, if any, should
+     * Returns the filter thbt determines which rows, if bny, should
      * be hidden from view.
      *
      * @return the filter
@@ -435,53 +435,53 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Reverses the sort order from ascending to descending (or
-     * descending to ascending) if the specified column is already the
-     * primary sorted column; otherwise, makes the specified column
-     * the primary sorted column, with an ascending sort order.  If
-     * the specified column is not sortable, this method has no
+     * Reverses the sort order from bscending to descending (or
+     * descending to bscending) if the specified column is blrebdy the
+     * primbry sorted column; otherwise, mbkes the specified column
+     * the primbry sorted column, with bn bscending sort order.  If
+     * the specified column is not sortbble, this method hbs no
      * effect.
      *
-     * @param column index of the column to make the primary sorted column,
+     * @pbrbm column index of the column to mbke the primbry sorted column,
      *        in terms of the underlying model
      * @throws IndexOutOfBoundsException {@inheritDoc}
-     * @see #setSortable(int,boolean)
-     * @see #setMaxSortKeys(int)
+     * @see #setSortbble(int,boolebn)
+     * @see #setMbxSortKeys(int)
      */
     public void toggleSortOrder(int column) {
         checkColumn(column);
-        if (isSortable(column)) {
-            List<SortKey> keys = new ArrayList<SortKey>(getSortKeys());
+        if (isSortbble(column)) {
+            List<SortKey> keys = new ArrbyList<SortKey>(getSortKeys());
             SortKey sortKey;
             int sortIndex;
             for (sortIndex = keys.size() - 1; sortIndex >= 0; sortIndex--) {
                 if (keys.get(sortIndex).getColumn() == column) {
-                    break;
+                    brebk;
                 }
             }
             if (sortIndex == -1) {
                 // Key doesn't exist
                 sortKey = new SortKey(column, SortOrder.ASCENDING);
-                keys.add(0, sortKey);
+                keys.bdd(0, sortKey);
             }
             else if (sortIndex == 0) {
-                // It's the primary sorting key, toggle it
+                // It's the primbry sorting key, toggle it
                 keys.set(0, toggle(keys.get(0)));
             }
             else {
-                // It's not the first, but was sorted on, remove old
-                // entry, insert as first with ascending.
+                // It's not the first, but wbs sorted on, remove old
+                // entry, insert bs first with bscending.
                 keys.remove(sortIndex);
-                keys.add(0, new SortKey(column, SortOrder.ASCENDING));
+                keys.bdd(0, new SortKey(column, SortOrder.ASCENDING));
             }
-            if (keys.size() > getMaxSortKeys()) {
-                keys = keys.subList(0, getMaxSortKeys());
+            if (keys.size() > getMbxSortKeys()) {
+                keys = keys.subList(0, getMbxSortKeys());
             }
             setSortKeys(keys);
         }
     }
 
-    private SortKey toggle(SortKey key) {
+    privbte SortKey toggle(SortKey key) {
         if (key.getSortOrder() == SortOrder.ASCENDING) {
             return new SortKey(key.getColumn(), SortOrder.DESCENDING);
         }
@@ -495,8 +495,8 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      */
     public int convertRowIndexToView(int index) {
         if (modelToView == null) {
-            if (index < 0 || index >= getModelWrapper().getRowCount()) {
-                throw new IndexOutOfBoundsException("Invalid index");
+            if (index < 0 || index >= getModelWrbpper().getRowCount()) {
+                throw new IndexOutOfBoundsException("Invblid index");
             }
             return index;
         }
@@ -510,15 +510,15 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      */
     public int convertRowIndexToModel(int index) {
         if (viewToModel == null) {
-            if (index < 0 || index >= getModelWrapper().getRowCount()) {
-                throw new IndexOutOfBoundsException("Invalid index");
+            if (index < 0 || index >= getModelWrbpper().getRowCount()) {
+                throw new IndexOutOfBoundsException("Invblid index");
             }
             return index;
         }
         return viewToModel[index].modelIndex;
     }
 
-    private boolean isUnsorted() {
+    privbte boolebn isUnsorted() {
         List<? extends SortKey> keys = getSortKeys();
         int keySize = keys.size();
         return (keySize == 0 || keys.get(0).getSortOrder() ==
@@ -526,14 +526,14 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Sorts the existing filtered data.  This should only be used if
-     * the filter hasn't changed.
+     * Sorts the existing filtered dbtb.  This should only be used if
+     * the filter hbsn't chbnged.
      */
-    private void sortExistingData() {
-        int[] lastViewToModel = getViewToModelAsInts(viewToModel);
+    privbte void sortExistingDbtb() {
+        int[] lbstViewToModel = getViewToModelAsInts(viewToModel);
 
-        updateUseToString();
-        cacheSortKeys(getSortKeys());
+        updbteUseToString();
+        cbcheSortKeys(getSortKeys());
 
         if (isUnsorted()) {
             if (getRowFilter() == null) {
@@ -549,31 +549,31 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
                 }
             }
         } else {
-            // sort the data
-            Arrays.sort(viewToModel);
+            // sort the dbtb
+            Arrbys.sort(viewToModel);
 
-            // Update the modelToView array
-            setModelToViewFromViewToModel(false);
+            // Updbte the modelToView brrby
+            setModelToViewFromViewToModel(fblse);
         }
-        fireRowSorterChanged(lastViewToModel);
+        fireRowSorterChbnged(lbstViewToModel);
     }
 
     /**
-     * Sorts and filters the rows in the view based on the sort keys
-     * of the columns currently being sorted and the filter, if any,
-     * associated with this sorter.  An empty <code>sortKeys</code> list
-     * indicates that the view should unsorted, the same as the model.
+     * Sorts bnd filters the rows in the view bbsed on the sort keys
+     * of the columns currently being sorted bnd the filter, if bny,
+     * bssocibted with this sorter.  An empty <code>sortKeys</code> list
+     * indicbtes thbt the view should unsorted, the sbme bs the model.
      *
      * @see #setRowFilter
      * @see #setSortKeys
      */
     public void sort() {
         sorted = true;
-        int[] lastViewToModel = getViewToModelAsInts(viewToModel);
-        updateUseToString();
+        int[] lbstViewToModel = getViewToModelAsInts(viewToModel);
+        updbteUseToString();
         if (isUnsorted()) {
             // Unsorted
-            cachedSortKeys = new SortKey[0];
+            cbchedSortKeys = new SortKey[0];
             if (getRowFilter() == null) {
                 // No filter & unsorted
                 if (viewToModel != null) {
@@ -583,42 +583,42 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
                 }
                 else {
                     // unsorted -> unsorted
-                    // No need to do anything.
+                    // No need to do bnything.
                     return;
                 }
             }
             else {
-                // There is filter, reset mappings
-                initializeFilteredMapping();
+                // There is filter, reset mbppings
+                initiblizeFilteredMbpping();
             }
         }
         else {
-            cacheSortKeys(getSortKeys());
+            cbcheSortKeys(getSortKeys());
 
             if (getRowFilter() != null) {
-                initializeFilteredMapping();
+                initiblizeFilteredMbpping();
             }
             else {
-                createModelToView(getModelWrapper().getRowCount());
-                createViewToModel(getModelWrapper().getRowCount());
+                crebteModelToView(getModelWrbpper().getRowCount());
+                crebteViewToModel(getModelWrbpper().getRowCount());
             }
 
             // sort them
-            Arrays.sort(viewToModel);
+            Arrbys.sort(viewToModel);
 
-            // Update the modelToView array
-            setModelToViewFromViewToModel(false);
+            // Updbte the modelToView brrby
+            setModelToViewFromViewToModel(fblse);
         }
-        fireRowSorterChanged(lastViewToModel);
+        fireRowSorterChbnged(lbstViewToModel);
     }
 
     /**
-     * Updates the useToString mapping before a sort.
+     * Updbtes the useToString mbpping before b sort.
      */
-    private void updateUseToString() {
-        int i = getModelWrapper().getColumnCount();
+    privbte void updbteUseToString() {
+        int i = getModelWrbpper().getColumnCount();
         if (useToString == null || useToString.length != i) {
-            useToString = new boolean[i];
+            useToString = new boolebn[i];
         }
         for (--i; i >= 0; i--) {
             useToString[i] = useToString(i);
@@ -626,16 +626,16 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Resets the viewToModel and modelToView mappings based on
+     * Resets the viewToModel bnd modelToView mbppings bbsed on
      * the current Filter.
      */
-    private void initializeFilteredMapping() {
-        int rowCount = getModelWrapper().getRowCount();
+    privbte void initiblizeFilteredMbpping() {
+        int rowCount = getModelWrbpper().getRowCount();
         int i, j;
         int excludedCount = 0;
 
-        // Update model -> view
-        createModelToView(rowCount);
+        // Updbte model -> view
+        crebteModelToView(rowCount);
         for (i = 0; i < rowCount; i++) {
             if (include(i)) {
                 modelToView[i] = i - excludedCount;
@@ -646,8 +646,8 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
             }
         }
 
-        // Update view -> model
-        createViewToModel(rowCount - excludedCount);
+        // Updbte view -> model
+        crebteViewToModel(rowCount - excludedCount);
         for (i = 0, j = 0; i < rowCount; i++) {
             if (modelToView[i] != -1) {
                 viewToModel[j++].modelIndex = i;
@@ -656,76 +656,76 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Makes sure the modelToView array is of size rowCount.
+     * Mbkes sure the modelToView brrby is of size rowCount.
      */
-    private void createModelToView(int rowCount) {
+    privbte void crebteModelToView(int rowCount) {
         if (modelToView == null || modelToView.length != rowCount) {
             modelToView = new int[rowCount];
         }
     }
 
     /**
-     * Resets the viewToModel array to be of size rowCount.
+     * Resets the viewToModel brrby to be of size rowCount.
      */
-    private void createViewToModel(int rowCount) {
-        int recreateFrom = 0;
+    privbte void crebteViewToModel(int rowCount) {
+        int recrebteFrom = 0;
         if (viewToModel != null) {
-            recreateFrom = Math.min(rowCount, viewToModel.length);
+            recrebteFrom = Mbth.min(rowCount, viewToModel.length);
             if (viewToModel.length != rowCount) {
                 Row[] oldViewToModel = viewToModel;
                 viewToModel = new Row[rowCount];
-                System.arraycopy(oldViewToModel, 0, viewToModel,
-                                 0, recreateFrom);
+                System.brrbycopy(oldViewToModel, 0, viewToModel,
+                                 0, recrebteFrom);
             }
         }
         else {
             viewToModel = new Row[rowCount];
         }
         int i;
-        for (i = 0; i < recreateFrom; i++) {
+        for (i = 0; i < recrebteFrom; i++) {
             viewToModel[i].modelIndex = i;
         }
-        for (i = recreateFrom; i < rowCount; i++) {
+        for (i = recrebteFrom; i < rowCount; i++) {
             viewToModel[i] = new Row(this, i);
         }
     }
 
     /**
-     * Caches the sort keys before a sort.
+     * Cbches the sort keys before b sort.
      */
-    private void cacheSortKeys(List<? extends SortKey> keys) {
+    privbte void cbcheSortKeys(List<? extends SortKey> keys) {
         int keySize = keys.size();
-        sortComparators = new Comparator<?>[keySize];
+        sortCompbrbtors = new Compbrbtor<?>[keySize];
         for (int i = 0; i < keySize; i++) {
-            sortComparators[i] = getComparator0(keys.get(i).getColumn());
+            sortCompbrbtors[i] = getCompbrbtor0(keys.get(i).getColumn());
         }
-        cachedSortKeys = keys.toArray(new SortKey[keySize]);
+        cbchedSortKeys = keys.toArrby(new SortKey[keySize]);
     }
 
     /**
-     * Returns whether or not to convert the value to a string before
-     * doing comparisons when sorting.  If true
-     * <code>ModelWrapper.getStringValueAt</code> will be used, otherwise
-     * <code>ModelWrapper.getValueAt</code> will be used.  It is up to
-     * subclasses, such as <code>TableRowSorter</code>, to honor this value
-     * in their <code>ModelWrapper</code> implementation.
+     * Returns whether or not to convert the vblue to b string before
+     * doing compbrisons when sorting.  If true
+     * <code>ModelWrbpper.getStringVblueAt</code> will be used, otherwise
+     * <code>ModelWrbpper.getVblueAt</code> will be used.  It is up to
+     * subclbsses, such bs <code>TbbleRowSorter</code>, to honor this vblue
+     * in their <code>ModelWrbpper</code> implementbtion.
      *
-     * @param column the index of the column to test, in terms of the
+     * @pbrbm column the index of the column to test, in terms of the
      *        underlying model
-     * @return true if values are to be converted to strings before doing
-     *              comparisons when sorting
-     * @throws IndexOutOfBoundsException if <code>column</code> is not valid
+     * @return true if vblues bre to be converted to strings before doing
+     *              compbrisons when sorting
+     * @throws IndexOutOfBoundsException if <code>column</code> is not vblid
      */
-    protected boolean useToString(int column) {
-        return (getComparator(column) == null);
+    protected boolebn useToString(int column) {
+        return (getCompbrbtor(column) == null);
     }
 
     /**
-     * Refreshes the modelToView mapping from that of viewToModel.
-     * If <code>unsetFirst</code> is true, all indices in modelToView are
+     * Refreshes the modelToView mbpping from thbt of viewToModel.
+     * If <code>unsetFirst</code> is true, bll indices in modelToView bre
      * first set to -1.
      */
-    private void setModelToViewFromViewToModel(boolean unsetFirst) {
+    privbte void setModelToViewFromViewToModel(boolebn unsetFirst) {
         int i;
         if (unsetFirst) {
             for (i = modelToView.length - 1; i >= 0; i--) {
@@ -737,7 +737,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
         }
     }
 
-    private int[] getViewToModelAsInts(Row[] viewToModel) {
+    privbte int[] getViewToModelAsInts(Row[] viewToModel) {
         if (viewToModel != null) {
             int[] viewToModelI = new int[viewToModel.length];
             for (int i = viewToModel.length - 1; i >= 0; i--) {
@@ -749,56 +749,56 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     }
 
     /**
-     * Sets the <code>Comparator</code> to use when sorting the specified
-     * column.  This does not trigger a sort.  If you want to sort after
-     * setting the comparator you need to explicitly invoke <code>sort</code>.
+     * Sets the <code>Compbrbtor</code> to use when sorting the specified
+     * column.  This does not trigger b sort.  If you wbnt to sort bfter
+     * setting the compbrbtor you need to explicitly invoke <code>sort</code>.
      *
-     * @param column the index of the column the <code>Comparator</code> is
+     * @pbrbm column the index of the column the <code>Compbrbtor</code> is
      *        to be used for, in terms of the underlying model
-     * @param comparator the <code>Comparator</code> to use
+     * @pbrbm compbrbtor the <code>Compbrbtor</code> to use
      * @throws IndexOutOfBoundsException if <code>column</code> is outside
-     *         the range of the underlying model
+     *         the rbnge of the underlying model
      */
-    public void setComparator(int column, Comparator<?> comparator) {
+    public void setCompbrbtor(int column, Compbrbtor<?> compbrbtor) {
         checkColumn(column);
-        if (comparators == null) {
-            comparators = new Comparator<?>[getModelWrapper().getColumnCount()];
+        if (compbrbtors == null) {
+            compbrbtors = new Compbrbtor<?>[getModelWrbpper().getColumnCount()];
         }
-        comparators[column] = comparator;
+        compbrbtors[column] = compbrbtor;
     }
 
     /**
-     * Returns the <code>Comparator</code> for the specified
-     * column.  This will return <code>null</code> if a <code>Comparator</code>
-     * has not been specified for the column.
+     * Returns the <code>Compbrbtor</code> for the specified
+     * column.  This will return <code>null</code> if b <code>Compbrbtor</code>
+     * hbs not been specified for the column.
      *
-     * @param column the column to fetch the <code>Comparator</code> for, in
+     * @pbrbm column the column to fetch the <code>Compbrbtor</code> for, in
      *        terms of the underlying model
-     * @return the <code>Comparator</code> for the specified column
+     * @return the <code>Compbrbtor</code> for the specified column
      * @throws IndexOutOfBoundsException if column is outside
-     *         the range of the underlying model
+     *         the rbnge of the underlying model
      */
-    public Comparator<?> getComparator(int column) {
+    public Compbrbtor<?> getCompbrbtor(int column) {
         checkColumn(column);
-        if (comparators != null) {
-            return comparators[column];
+        if (compbrbtors != null) {
+            return compbrbtors[column];
         }
         return null;
     }
 
-    // Returns the Comparator to use during sorting.  Where as
-    // getComparator() may return null, this will never return null.
-    private Comparator<?> getComparator0(int column) {
-        Comparator<?> comparator = getComparator(column);
-        if (comparator != null) {
-            return comparator;
+    // Returns the Compbrbtor to use during sorting.  Where bs
+    // getCompbrbtor() mby return null, this will never return null.
+    privbte Compbrbtor<?> getCompbrbtor0(int column) {
+        Compbrbtor<?> compbrbtor = getCompbrbtor(column);
+        if (compbrbtor != null) {
+            return compbrbtor;
         }
-        // This should be ok as useToString(column) should have returned
-        // true in this case.
-        return Collator.getInstance();
+        // This should be ok bs useToString(column) should hbve returned
+        // true in this cbse.
+        return Collbtor.getInstbnce();
     }
 
-    private RowFilter.Entry<M,I> getFilterEntry(int modelIndex) {
+    privbte RowFilter.Entry<M,I> getFilterEntry(int modelIndex) {
         if (filterEntry == null) {
             filterEntry = new FilterEntry();
         }
@@ -811,27 +811,27 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      */
     public int getViewRowCount() {
         if (viewToModel != null) {
-            // When filtering this may differ from getModelWrapper().getRowCount()
+            // When filtering this mby differ from getModelWrbpper().getRowCount()
             return viewToModel.length;
         }
-        return getModelWrapper().getRowCount();
+        return getModelWrbpper().getRowCount();
     }
 
     /**
      * {@inheritDoc}
      */
     public int getModelRowCount() {
-        return getModelWrapper().getRowCount();
+        return getModelWrbpper().getRowCount();
     }
 
-    private void allChanged() {
+    privbte void bllChbnged() {
         modelToView = null;
         viewToModel = null;
-        comparators = null;
-        isSortable = null;
+        compbrbtors = null;
+        isSortbble = null;
         if (isUnsorted()) {
-            // Keys are already empty, to force a resort we have to
-            // call sort
+            // Keys bre blrebdy empty, to force b resort we hbve to
+            // cbll sort
             sort();
         } else {
             setSortKeys(null);
@@ -841,16 +841,16 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     /**
      * {@inheritDoc}
      */
-    public void modelStructureChanged() {
-        allChanged();
-        modelRowCount = getModelWrapper().getRowCount();
+    public void modelStructureChbnged() {
+        bllChbnged();
+        modelRowCount = getModelWrbpper().getRowCount();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void allRowsChanged() {
-        modelRowCount = getModelWrapper().getRowCount();
+    public void bllRowsChbnged() {
+        modelRowCount = getModelWrbpper().getRowCount();
         sort();
     }
 
@@ -860,13 +860,13 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public void rowsInserted(int firstRow, int endRow) {
-        checkAgainstModel(firstRow, endRow);
-        int newModelRowCount = getModelWrapper().getRowCount();
+        checkAgbinstModel(firstRow, endRow);
+        int newModelRowCount = getModelWrbpper().getRowCount();
         if (endRow >= newModelRowCount) {
-            throw new IndexOutOfBoundsException("Invalid range");
+            throw new IndexOutOfBoundsException("Invblid rbnge");
         }
         modelRowCount = newModelRowCount;
-        if (shouldOptimizeChange(firstRow, endRow)) {
+        if (shouldOptimizeChbnge(firstRow, endRow)) {
             rowsInserted0(firstRow, endRow);
         }
     }
@@ -877,12 +877,12 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public void rowsDeleted(int firstRow, int endRow) {
-        checkAgainstModel(firstRow, endRow);
+        checkAgbinstModel(firstRow, endRow);
         if (firstRow >= modelRowCount || endRow >= modelRowCount) {
-            throw new IndexOutOfBoundsException("Invalid range");
+            throw new IndexOutOfBoundsException("Invblid rbnge");
         }
-        modelRowCount = getModelWrapper().getRowCount();
-        if (shouldOptimizeChange(firstRow, endRow)) {
+        modelRowCount = getModelWrbpper().getRowCount();
+        if (shouldOptimizeChbnge(firstRow, endRow)) {
             rowsDeleted0(firstRow, endRow);
         }
     }
@@ -892,18 +892,18 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public void rowsUpdated(int firstRow, int endRow) {
-        checkAgainstModel(firstRow, endRow);
+    public void rowsUpdbted(int firstRow, int endRow) {
+        checkAgbinstModel(firstRow, endRow);
         if (firstRow >= modelRowCount || endRow >= modelRowCount) {
-            throw new IndexOutOfBoundsException("Invalid range");
+            throw new IndexOutOfBoundsException("Invblid rbnge");
         }
-        if (getSortsOnUpdates()) {
-            if (shouldOptimizeChange(firstRow, endRow)) {
-                rowsUpdated0(firstRow, endRow);
+        if (getSortsOnUpdbtes()) {
+            if (shouldOptimizeChbnge(firstRow, endRow)) {
+                rowsUpdbted0(firstRow, endRow);
             }
         }
         else {
-            sorted = false;
+            sorted = fblse;
         }
     }
 
@@ -912,52 +912,52 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public void rowsUpdated(int firstRow, int endRow, int column) {
+    public void rowsUpdbted(int firstRow, int endRow, int column) {
         checkColumn(column);
-        rowsUpdated(firstRow, endRow);
+        rowsUpdbted(firstRow, endRow);
     }
 
-    private void checkAgainstModel(int firstRow, int endRow) {
+    privbte void checkAgbinstModel(int firstRow, int endRow) {
         if (firstRow > endRow || firstRow < 0 || endRow < 0 ||
                 firstRow > modelRowCount) {
-            throw new IndexOutOfBoundsException("Invalid range");
+            throw new IndexOutOfBoundsException("Invblid rbnge");
         }
     }
 
     /**
      * Returns true if the specified row should be included.
      */
-    private boolean include(int row) {
+    privbte boolebn include(int row) {
         RowFilter<? super M, ? super I> filter = getRowFilter();
         if (filter != null) {
             return filter.include(getFilterEntry(row));
         }
-        // null filter, always include the row.
+        // null filter, blwbys include the row.
         return true;
     }
 
-    @SuppressWarnings("unchecked")
-    private int compare(int model1, int model2) {
+    @SuppressWbrnings("unchecked")
+    privbte int compbre(int model1, int model2) {
         int column;
         SortOrder sortOrder;
         Object v1, v2;
         int result;
 
-        for (int counter = 0; counter < cachedSortKeys.length; counter++) {
-            column = cachedSortKeys[counter].getColumn();
-            sortOrder = cachedSortKeys[counter].getSortOrder();
+        for (int counter = 0; counter < cbchedSortKeys.length; counter++) {
+            column = cbchedSortKeys[counter].getColumn();
+            sortOrder = cbchedSortKeys[counter].getSortOrder();
             if (sortOrder == SortOrder.UNSORTED) {
                 result = model1 - model2;
             } else {
                 // v1 != null && v2 != null
                 if (useToString[column]) {
-                    v1 = getModelWrapper().getStringValueAt(model1, column);
-                    v2 = getModelWrapper().getStringValueAt(model2, column);
+                    v1 = getModelWrbpper().getStringVblueAt(model1, column);
+                    v2 = getModelWrbpper().getStringVblueAt(model2, column);
                 } else {
-                    v1 = getModelWrapper().getValueAt(model1, column);
-                    v2 = getModelWrapper().getValueAt(model2, column);
+                    v1 = getModelWrbpper().getVblueAt(model1, column);
+                    v2 = getModelWrbpper().getVblueAt(model2, column);
                 }
-                // Treat nulls as < then non-null
+                // Trebt nulls bs < then non-null
                 if (v1 == null) {
                     if (v2 == null) {
                         result = 0;
@@ -967,9 +967,9 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
                 } else if (v2 == null) {
                     result = 1;
                 } else {
-                    Comparator<Object> c =
-                        (Comparator<Object>)sortComparators[counter];
-                    result = c.compare(v1, v2);
+                    Compbrbtor<Object> c =
+                        (Compbrbtor<Object>)sortCompbrbtors[counter];
+                    result = c.compbre(v1, v2);
                 }
                 if (sortOrder == SortOrder.DESCENDING) {
                     result *= -1;
@@ -979,105 +979,105 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
                 return result;
             }
         }
-        // If we get here, they're equal. Fallback to model order.
+        // If we get here, they're equbl. Fbllbbck to model order.
         return model1 - model2;
     }
 
     /**
-     * Whether not we are filtering/sorting.
+     * Whether not we bre filtering/sorting.
      */
-    private boolean isTransformed() {
+    privbte boolebn isTrbnsformed() {
         return (viewToModel != null);
     }
 
     /**
      * Insets new set of entries.
      *
-     * @param toAdd the Rows to add, sorted
-     * @param current the array to insert the items into
+     * @pbrbm toAdd the Rows to bdd, sorted
+     * @pbrbm current the brrby to insert the items into
      */
-    private void insertInOrder(List<Row> toAdd, Row[] current) {
-        int last = 0;
+    privbte void insertInOrder(List<Row> toAdd, Row[] current) {
+        int lbst = 0;
         int index;
-        int max = toAdd.size();
-        for (int i = 0; i < max; i++) {
-            index = Arrays.binarySearch(current, toAdd.get(i));
+        int mbx = toAdd.size();
+        for (int i = 0; i < mbx; i++) {
+            index = Arrbys.binbrySebrch(current, toAdd.get(i));
             if (index < 0) {
                 index = -1 - index;
             }
-            System.arraycopy(current, last,
-                             viewToModel, last + i, index - last);
+            System.brrbycopy(current, lbst,
+                             viewToModel, lbst + i, index - lbst);
             viewToModel[index + i] = toAdd.get(i);
-            last = index;
+            lbst = index;
         }
-        System.arraycopy(current, last, viewToModel, last + max,
-                         current.length - last);
+        System.brrbycopy(current, lbst, viewToModel, lbst + mbx,
+                         current.length - lbst);
     }
 
     /**
-     * Returns true if we should try and optimize the processing of the
-     * <code>TableModelEvent</code>.  If this returns false, assume the
-     * event was dealt with and no further processing needs to happen.
+     * Returns true if we should try bnd optimize the processing of the
+     * <code>TbbleModelEvent</code>.  If this returns fblse, bssume the
+     * event wbs deblt with bnd no further processing needs to hbppen.
      */
-    private boolean shouldOptimizeChange(int firstRow, int lastRow) {
-        if (!isTransformed()) {
-            // Not transformed, nothing to do.
-            return false;
+    privbte boolebn shouldOptimizeChbnge(int firstRow, int lbstRow) {
+        if (!isTrbnsformed()) {
+            // Not trbnsformed, nothing to do.
+            return fblse;
         }
-        if (!sorted || (lastRow - firstRow) > viewToModel.length / 10) {
-            // We either weren't sorted, or to much changed, sort it all
+        if (!sorted || (lbstRow - firstRow) > viewToModel.length / 10) {
+            // We either weren't sorted, or to much chbnged, sort it bll
             sort();
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    private void rowsInserted0(int firstRow, int lastRow) {
+    privbte void rowsInserted0(int firstRow, int lbstRow) {
         int[] oldViewToModel = getViewToModelAsInts(viewToModel);
         int i;
-        int delta = (lastRow - firstRow) + 1;
-        List<Row> added = new ArrayList<Row>(delta);
+        int deltb = (lbstRow - firstRow) + 1;
+        List<Row> bdded = new ArrbyList<Row>(deltb);
 
-        // Build the list of Rows to add into added
-        for (i = firstRow; i <= lastRow; i++) {
+        // Build the list of Rows to bdd into bdded
+        for (i = firstRow; i <= lbstRow; i++) {
             if (include(i)) {
-                added.add(new Row(this, i));
+                bdded.bdd(new Row(this, i));
             }
         }
 
-        // Adjust the model index of rows after the effected region
+        // Adjust the model index of rows bfter the effected region
         int viewIndex;
         for (i = modelToView.length - 1; i >= firstRow; i--) {
             viewIndex = modelToView[i];
             if (viewIndex != -1) {
-                viewToModel[viewIndex].modelIndex += delta;
+                viewToModel[viewIndex].modelIndex += deltb;
             }
         }
 
-        // Insert newly added rows into viewToModel
-        if (added.size() > 0) {
-            Collections.sort(added);
-            Row[] lastViewToModel = viewToModel;
-            viewToModel = new Row[viewToModel.length + added.size()];
-            insertInOrder(added, lastViewToModel);
+        // Insert newly bdded rows into viewToModel
+        if (bdded.size() > 0) {
+            Collections.sort(bdded);
+            Row[] lbstViewToModel = viewToModel;
+            viewToModel = new Row[viewToModel.length + bdded.size()];
+            insertInOrder(bdded, lbstViewToModel);
         }
 
-        // Update modelToView
-        createModelToView(getModelWrapper().getRowCount());
+        // Updbte modelToView
+        crebteModelToView(getModelWrbpper().getRowCount());
         setModelToViewFromViewToModel(true);
 
-        // Notify of change
-        fireRowSorterChanged(oldViewToModel);
+        // Notify of chbnge
+        fireRowSorterChbnged(oldViewToModel);
     }
 
-    private void rowsDeleted0(int firstRow, int lastRow) {
+    privbte void rowsDeleted0(int firstRow, int lbstRow) {
         int[] oldViewToModel = getViewToModelAsInts(viewToModel);
         int removedFromView = 0;
         int i;
         int viewIndex;
 
-        // Figure out how many visible rows are going to be effected.
-        for (i = firstRow; i <= lastRow; i++) {
+        // Figure out how mbny visible rows bre going to be effected.
+        for (i = firstRow; i <= lbstRow; i++) {
             viewIndex = modelToView[i];
             if (viewIndex != -1) {
                 removedFromView++;
@@ -1085,224 +1085,224 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
             }
         }
 
-        // Update the model index of rows after the effected region
-        int delta = lastRow - firstRow + 1;
-        for (i = modelToView.length - 1; i > lastRow; i--) {
+        // Updbte the model index of rows bfter the effected region
+        int deltb = lbstRow - firstRow + 1;
+        for (i = modelToView.length - 1; i > lbstRow; i--) {
             viewIndex = modelToView[i];
             if (viewIndex != -1) {
-                viewToModel[viewIndex].modelIndex -= delta;
+                viewToModel[viewIndex].modelIndex -= deltb;
             }
         }
 
-        // Then patch up the viewToModel array
+        // Then pbtch up the viewToModel brrby
         if (removedFromView > 0) {
             Row[] newViewToModel = new Row[viewToModel.length -
                                            removedFromView];
             int newIndex = 0;
-            int last = 0;
+            int lbst = 0;
             for (i = 0; i < viewToModel.length; i++) {
                 if (viewToModel[i] == null) {
-                    System.arraycopy(viewToModel, last,
-                                     newViewToModel, newIndex, i - last);
-                    newIndex += (i - last);
-                    last = i + 1;
+                    System.brrbycopy(viewToModel, lbst,
+                                     newViewToModel, newIndex, i - lbst);
+                    newIndex += (i - lbst);
+                    lbst = i + 1;
                 }
             }
-            System.arraycopy(viewToModel, last,
-                    newViewToModel, newIndex, viewToModel.length - last);
+            System.brrbycopy(viewToModel, lbst,
+                    newViewToModel, newIndex, viewToModel.length - lbst);
             viewToModel = newViewToModel;
         }
 
-        // Update the modelToView mapping
-        createModelToView(getModelWrapper().getRowCount());
+        // Updbte the modelToView mbpping
+        crebteModelToView(getModelWrbpper().getRowCount());
         setModelToViewFromViewToModel(true);
 
-        // And notify of change
-        fireRowSorterChanged(oldViewToModel);
+        // And notify of chbnge
+        fireRowSorterChbnged(oldViewToModel);
     }
 
-    private void rowsUpdated0(int firstRow, int lastRow) {
+    privbte void rowsUpdbted0(int firstRow, int lbstRow) {
         int[] oldViewToModel = getViewToModelAsInts(viewToModel);
         int i, j;
-        int delta = lastRow - firstRow + 1;
+        int deltb = lbstRow - firstRow + 1;
         int modelIndex;
-        int last;
+        int lbst;
         int index;
 
         if (getRowFilter() == null) {
             // Sorting only:
 
             // Remove the effected rows
-            Row[] updated = new Row[delta];
-            for (j = 0, i = firstRow; i <= lastRow; i++, j++) {
-                updated[j] = viewToModel[modelToView[i]];
+            Row[] updbted = new Row[deltb];
+            for (j = 0, i = firstRow; i <= lbstRow; i++, j++) {
+                updbted[j] = viewToModel[modelToView[i]];
             }
 
-            // Sort the update rows
-            Arrays.sort(updated);
+            // Sort the updbte rows
+            Arrbys.sort(updbted);
 
-            // Build the intermediary array: the array of
+            // Build the intermedibry brrby: the brrby of
             // viewToModel without the effected rows.
-            Row[] intermediary = new Row[viewToModel.length - delta];
+            Row[] intermedibry = new Row[viewToModel.length - deltb];
             for (i = 0, j = 0; i < viewToModel.length; i++) {
                 modelIndex = viewToModel[i].modelIndex;
-                if (modelIndex < firstRow || modelIndex > lastRow) {
-                    intermediary[j++] = viewToModel[i];
+                if (modelIndex < firstRow || modelIndex > lbstRow) {
+                    intermedibry[j++] = viewToModel[i];
                 }
             }
 
             // Build the new viewToModel
-            insertInOrder(Arrays.asList(updated), intermediary);
+            insertInOrder(Arrbys.bsList(updbted), intermedibry);
 
-            // Update modelToView
-            setModelToViewFromViewToModel(false);
+            // Updbte modelToView
+            setModelToViewFromViewToModel(fblse);
         }
         else {
             // Sorting & filtering.
 
-            // Remove the effected rows, adding them to updated and setting
-            // modelToView to -2 for any rows that were not filtered out
-            List<Row> updated = new ArrayList<Row>(delta);
+            // Remove the effected rows, bdding them to updbted bnd setting
+            // modelToView to -2 for bny rows thbt were not filtered out
+            List<Row> updbted = new ArrbyList<Row>(deltb);
             int newlyVisible = 0;
             int newlyHidden = 0;
             int effected = 0;
-            for (i = firstRow; i <= lastRow; i++) {
+            for (i = firstRow; i <= lbstRow; i++) {
                 if (modelToView[i] == -1) {
-                    // This row was filtered out
+                    // This row wbs filtered out
                     if (include(i)) {
                         // No longer filtered
-                        updated.add(new Row(this, i));
+                        updbted.bdd(new Row(this, i));
                         newlyVisible++;
                     }
                 }
                 else {
-                    // This row was visible, make sure it should still be
+                    // This row wbs visible, mbke sure it should still be
                     // visible.
                     if (!include(i)) {
                         newlyHidden++;
                     }
                     else {
-                        updated.add(viewToModel[modelToView[i]]);
+                        updbted.bdd(viewToModel[modelToView[i]]);
                     }
                     modelToView[i] = -2;
                     effected++;
                 }
             }
 
-            // Sort the updated rows
-            Collections.sort(updated);
+            // Sort the updbted rows
+            Collections.sort(updbted);
 
-            // Build the intermediary array: the array of
-            // viewToModel without the updated rows.
-            Row[] intermediary = new Row[viewToModel.length - effected];
+            // Build the intermedibry brrby: the brrby of
+            // viewToModel without the updbted rows.
+            Row[] intermedibry = new Row[viewToModel.length - effected];
             for (i = 0, j = 0; i < viewToModel.length; i++) {
                 modelIndex = viewToModel[i].modelIndex;
                 if (modelToView[modelIndex] != -2) {
-                    intermediary[j++] = viewToModel[i];
+                    intermedibry[j++] = viewToModel[i];
                 }
             }
 
-            // Recreate viewToModel, if necessary
+            // Recrebte viewToModel, if necessbry
             if (newlyVisible != newlyHidden) {
                 viewToModel = new Row[viewToModel.length + newlyVisible -
                                       newlyHidden];
             }
 
-            // Rebuild the new viewToModel array
-            insertInOrder(updated, intermediary);
+            // Rebuild the new viewToModel brrby
+            insertInOrder(updbted, intermedibry);
 
-            // Update modelToView
+            // Updbte modelToView
             setModelToViewFromViewToModel(true);
         }
-        // And finally fire a sort event.
-        fireRowSorterChanged(oldViewToModel);
+        // And finblly fire b sort event.
+        fireRowSorterChbnged(oldViewToModel);
     }
 
-    private void checkColumn(int column) {
-        if (column < 0 || column >= getModelWrapper().getColumnCount()) {
+    privbte void checkColumn(int column) {
+        if (column < 0 || column >= getModelWrbpper().getColumnCount()) {
             throw new IndexOutOfBoundsException(
-                    "column beyond range of TableModel");
+                    "column beyond rbnge of TbbleModel");
         }
     }
 
 
     /**
-     * <code>DefaultRowSorter.ModelWrapper</code> is responsible for providing
-     * the data that gets sorted by <code>DefaultRowSorter</code>.  You
-     * normally do not interact directly with <code>ModelWrapper</code>.
-     * Subclasses of <code>DefaultRowSorter</code> provide an
-     * implementation of <code>ModelWrapper</code> wrapping another model.
-     * For example,
-     * <code>TableRowSorter</code> provides a <code>ModelWrapper</code> that
-     * wraps a <code>TableModel</code>.
+     * <code>DefbultRowSorter.ModelWrbpper</code> is responsible for providing
+     * the dbtb thbt gets sorted by <code>DefbultRowSorter</code>.  You
+     * normblly do not interbct directly with <code>ModelWrbpper</code>.
+     * Subclbsses of <code>DefbultRowSorter</code> provide bn
+     * implementbtion of <code>ModelWrbpper</code> wrbpping bnother model.
+     * For exbmple,
+     * <code>TbbleRowSorter</code> provides b <code>ModelWrbpper</code> thbt
+     * wrbps b <code>TbbleModel</code>.
      * <p>
-     * <code>ModelWrapper</code> makes a distinction between values as
-     * <code>Object</code>s and <code>String</code>s.  This allows
-     * implementations to provide a custom string
-     * converter to be used instead of invoking <code>toString</code> on the
+     * <code>ModelWrbpper</code> mbkes b distinction between vblues bs
+     * <code>Object</code>s bnd <code>String</code>s.  This bllows
+     * implementbtions to provide b custom string
+     * converter to be used instebd of invoking <code>toString</code> on the
      * object.
      *
-     * @param <M> the type of the underlying model
-     * @param <I> the identifier supplied to the filter
+     * @pbrbm <M> the type of the underlying model
+     * @pbrbm <I> the identifier supplied to the filter
      * @since 1.6
      * @see RowFilter
      * @see RowFilter.Entry
      */
-    protected abstract static class ModelWrapper<M,I> {
+    protected bbstrbct stbtic clbss ModelWrbpper<M,I> {
         /**
-         * Creates a new <code>ModelWrapper</code>.
+         * Crebtes b new <code>ModelWrbpper</code>.
          */
-        protected ModelWrapper() {
+        protected ModelWrbpper() {
         }
 
         /**
-         * Returns the underlying model that this <code>Model</code> is
-         * wrapping.
+         * Returns the underlying model thbt this <code>Model</code> is
+         * wrbpping.
          *
          * @return the underlying model
          */
-        public abstract M getModel();
+        public bbstrbct M getModel();
 
         /**
          * Returns the number of columns in the model.
          *
          * @return the number of columns in the model
          */
-        public abstract int getColumnCount();
+        public bbstrbct int getColumnCount();
 
         /**
          * Returns the number of rows in the model.
          *
          * @return the number of rows in the model
          */
-        public abstract int getRowCount();
+        public bbstrbct int getRowCount();
 
         /**
-         * Returns the value at the specified index.
+         * Returns the vblue bt the specified index.
          *
-         * @param row the row index
-         * @param column the column index
-         * @return the value at the specified index
-         * @throws IndexOutOfBoundsException if the indices are outside
-         *         the range of the model
+         * @pbrbm row the row index
+         * @pbrbm column the column index
+         * @return the vblue bt the specified index
+         * @throws IndexOutOfBoundsException if the indices bre outside
+         *         the rbnge of the model
          */
-        public abstract Object getValueAt(int row, int column);
+        public bbstrbct Object getVblueAt(int row, int column);
 
         /**
-         * Returns the value as a <code>String</code> at the specified
-         * index.  This implementation uses <code>toString</code> on
-         * the result from <code>getValueAt</code> (making sure
-         * to return an empty string for null values).  Subclasses that
+         * Returns the vblue bs b <code>String</code> bt the specified
+         * index.  This implementbtion uses <code>toString</code> on
+         * the result from <code>getVblueAt</code> (mbking sure
+         * to return bn empty string for null vblues).  Subclbsses thbt
          * override this method should never return null.
          *
-         * @param row the row index
-         * @param column the column index
-         * @return the value at the specified index as a <code>String</code>
-         * @throws IndexOutOfBoundsException if the indices are outside
-         *         the range of the model
+         * @pbrbm row the row index
+         * @pbrbm column the column index
+         * @return the vblue bt the specified index bs b <code>String</code>
+         * @throws IndexOutOfBoundsException if the indices bre outside
+         *         the rbnge of the model
          */
-        public String getStringValueAt(int row, int column) {
-            Object o = getValueAt(row, column);
+        public String getStringVblueAt(int row, int column) {
+            Object o = getVblueAt(row, column);
             if (o == null) {
                 return "";
             }
@@ -1314,70 +1314,70 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
         }
 
         /**
-         * Returns the identifier for the specified row.  The return value
-         * of this is used as the identifier for the
-         * <code>RowFilter.Entry</code> that is passed to the
+         * Returns the identifier for the specified row.  The return vblue
+         * of this is used bs the identifier for the
+         * <code>RowFilter.Entry</code> thbt is pbssed to the
          * <code>RowFilter</code>.
          *
-         * @param row the row to return the identifier for, in terms of
+         * @pbrbm row the row to return the identifier for, in terms of
          *            the underlying model
          * @return the identifier
          * @see RowFilter.Entry#getIdentifier
          */
-        public abstract I getIdentifier(int row);
+        public bbstrbct I getIdentifier(int row);
     }
 
 
     /**
-     * RowFilter.Entry implementation that delegates to the ModelWrapper.
-     * getFilterEntry(int) creates the single instance of this that is
-     * passed to the Filter.  Only call getFilterEntry(int) to get
-     * the instance.
+     * RowFilter.Entry implementbtion thbt delegbtes to the ModelWrbpper.
+     * getFilterEntry(int) crebtes the single instbnce of this thbt is
+     * pbssed to the Filter.  Only cbll getFilterEntry(int) to get
+     * the instbnce.
      */
-    private class FilterEntry extends RowFilter.Entry<M,I> {
+    privbte clbss FilterEntry extends RowFilter.Entry<M,I> {
         /**
          * The index into the model, set in getFilterEntry
          */
         int modelIndex;
 
         public M getModel() {
-            return getModelWrapper().getModel();
+            return getModelWrbpper().getModel();
         }
 
-        public int getValueCount() {
-            return getModelWrapper().getColumnCount();
+        public int getVblueCount() {
+            return getModelWrbpper().getColumnCount();
         }
 
-        public Object getValue(int index) {
-            return getModelWrapper().getValueAt(modelIndex, index);
+        public Object getVblue(int index) {
+            return getModelWrbpper().getVblueAt(modelIndex, index);
         }
 
-        public String getStringValue(int index) {
-            return getModelWrapper().getStringValueAt(modelIndex, index);
+        public String getStringVblue(int index) {
+            return getModelWrbpper().getStringVblueAt(modelIndex, index);
         }
 
         public I getIdentifier() {
-            return getModelWrapper().getIdentifier(modelIndex);
+            return getModelWrbpper().getIdentifier(modelIndex);
         }
     }
 
 
     /**
-     * Row is used to handle the actual sorting by way of Comparable.  It
-     * will use the sortKeys to do the actual comparison.
+     * Row is used to hbndle the bctubl sorting by wby of Compbrbble.  It
+     * will use the sortKeys to do the bctubl compbrison.
      */
-    // NOTE: this class is static so that it can be placed in an array
-    private static class Row implements Comparable<Row> {
-        private DefaultRowSorter<?, ?> sorter;
+    // NOTE: this clbss is stbtic so thbt it cbn be plbced in bn brrby
+    privbte stbtic clbss Row implements Compbrbble<Row> {
+        privbte DefbultRowSorter<?, ?> sorter;
         int modelIndex;
 
-        public Row(DefaultRowSorter<?, ?> sorter, int index) {
+        public Row(DefbultRowSorter<?, ?> sorter, int index) {
             this.sorter = sorter;
             modelIndex = index;
         }
 
-        public int compareTo(Row o) {
-            return sorter.compare(modelIndex, o.modelIndex);
+        public int compbreTo(Row o) {
+            return sorter.compbre(modelIndex, o.modelIndex);
         }
     }
 }

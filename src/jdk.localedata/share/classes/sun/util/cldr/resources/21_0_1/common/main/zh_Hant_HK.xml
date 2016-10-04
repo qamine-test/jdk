@@ -3,408 +3,408 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="zh"/>
-		<script type="Hant"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="zh"/>
+		<script type="Hbnt"/>
 		<territory type="HK"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="az" alt="short" draft="contributed">阿澤里</language>
-			<language type="de_CH" draft="contributed">瑞士德語</language>
-			<language type="it" draft="contributed">意大利文</language>
-			<language type="lol" draft="contributed">蒙古語</language>
-			<language type="pt_BR" draft="contributed">巴西葡萄牙語</language>
-			<language type="ug" alt="variant" draft="contributed">維吾爾語</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bz" blt="short" drbft="contributed">阿澤里</lbngubge>
+			<lbngubge type="de_CH" drbft="contributed">瑞士德語</lbngubge>
+			<lbngubge type="it" drbft="contributed">意大利文</lbngubge>
+			<lbngubge type="lol" drbft="contributed">蒙古語</lbngubge>
+			<lbngubge type="pt_BR" drbft="contributed">巴西葡萄牙語</lbngubge>
+			<lbngubge type="ug" blt="vbribnt" drbft="contributed">維吾爾語</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab" alt="variant" draft="contributed">波斯阿拉伯語</script>
-			<script type="Cyrl" draft="contributed">西里爾語字母</script>
-			<script type="Hang">韓文字母</script>
-			<script type="Hant" alt="stand-alone" draft="contributed">繁體漢字</script>
+			<script type="Arbb" blt="vbribnt" drbft="contributed">波斯阿拉伯語</script>
+			<script type="Cyrl" drbft="contributed">西里爾語字母</script>
+			<script type="Hbng">韓文字母</script>
+			<script type="Hbnt" blt="stbnd-blone" drbft="contributed">繁體漢字</script>
 		</scripts>
 		<territories>
-			<territory type="013" draft="contributed">中美洲</territory>
-			<territory type="019" draft="contributed">美洲地區</territory>
-			<territory type="029" draft="contributed">加勒比</territory>
-			<territory type="EA" draft="contributed">瑟塔與梅利拉</territory>
+			<territory type="013" drbft="contributed">中美洲</territory>
+			<territory type="019" drbft="contributed">美洲地區</territory>
+			<territory type="029" drbft="contributed">加勒比</territory>
+			<territory type="EA" drbft="contributed">瑟塔與梅利拉</territory>
 		</territories>
-		<variants>
-			<variant type="1901" draft="contributed">傳統德國拼字法</variant>
-			<variant type="1996" draft="contributed">1996 德國拼字法</variant>
-			<variant type="BISKE" draft="contributed">San Giorgio/Bila 方言</variant>
-			<variant type="REVISED" draft="contributed">已修訂拼字法</variant>
-			<variant type="SCOTLAND" draft="contributed">蘇格蘭標準英語</variant>
-		</variants>
+		<vbribnts>
+			<vbribnt type="1901" drbft="contributed">傳統德國拼字法</vbribnt>
+			<vbribnt type="1996" drbft="contributed">1996 德國拼字法</vbribnt>
+			<vbribnt type="BISKE" drbft="contributed">Sbn Giorgio/Bilb 方言</vbribnt>
+			<vbribnt type="REVISED" drbft="contributed">已修訂拼字法</vbribnt>
+			<vbribnt type="SCOTLAND" drbft="contributed">蘇格蘭標準英語</vbribnt>
+		</vbribnts>
 		<keys>
-			<key type="x" draft="contributed">專用區</key>
+			<key type="x" drbft="contributed">專用區</key>
 		</keys>
 		<types>
-			<type type="arab" key="numbers" draft="contributed">阿拉伯印度語位數</type>
-			<type type="arabext" key="numbers" draft="contributed">擴展阿拉伯語印度語位數</type>
-			<type type="armnlow" key="numbers" draft="contributed">亞美尼亞小寫數字</type>
-			<type type="beng" key="numbers" draft="contributed">孟加拉語位數</type>
-			<type type="big5han" key="collation">繁體中文順序 (Big5)</type>
-			<type type="deva" key="numbers" draft="contributed">梵文位數</type>
-			<type type="dictionary" key="collation" draft="contributed">詞典排序</type>
-			<type type="ducet" key="collation" draft="contributed">預設統一碼排序</type>
-			<type type="ethi" key="numbers" draft="contributed">埃塞俄比亞數詞</type>
-			<type type="ethiopic" key="calendar" draft="contributed">埃及曆</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">埃塞俄比亞阿美德阿萊姆曆</type>
-			<type type="fullwide" key="numbers" draft="contributed">全寬位數</type>
-			<type type="gb2312han" key="collation">簡體中文順序 (GB2312)</type>
-			<type type="geor" key="numbers" draft="contributed">格魯吉亞數字</type>
-			<type type="grek" key="numbers" draft="contributed">希臘語數字</type>
-			<type type="greklow" key="numbers" draft="contributed">希臘小寫數字</type>
-			<type type="gujr" key="numbers" draft="contributed">古加拉特語位數</type>
-			<type type="guru" key="numbers" draft="contributed">果魯穆奇語位數</type>
-			<type type="hanidec" key="numbers" draft="contributed">中文小數位</type>
-			<type type="hans" key="numbers" draft="contributed">簡體中文數字</type>
-			<type type="hansfin" key="numbers" draft="contributed">簡體中文金融數字</type>
-			<type type="hant" key="numbers" draft="contributed">繁體中文數字</type>
-			<type type="hantfin" key="numbers" draft="contributed">繁體中文金融數字</type>
-			<type type="hebr" key="numbers" draft="contributed">希伯萊語數字</type>
-			<type type="jpan" key="numbers" draft="contributed">日本數字</type>
-			<type type="jpanfin" key="numbers" draft="contributed">日本金融數字</type>
-			<type type="khmr" key="numbers" draft="contributed">高棉位數</type>
-			<type type="knda" key="numbers" draft="contributed">卡納達語位數</type>
-			<type type="laoo" key="numbers" draft="contributed">老撾文位數</type>
-			<type type="latn" key="numbers" draft="contributed">西方位數</type>
-			<type type="mlym" key="numbers" draft="contributed">馬來亞位數</type>
-			<type type="mong" key="numbers" draft="contributed">蒙古文位數</type>
-			<type type="mymr" key="numbers" draft="contributed">緬甸語位數</type>
-			<type type="orya" key="numbers" draft="contributed">奧里亞語位數</type>
-			<type type="reformed" key="collation" draft="contributed">改革版排序</type>
-			<type type="romanlow" key="numbers" draft="contributed">羅馬小寫數字</type>
-			<type type="search" key="collation" draft="contributed">一般用途搜索</type>
-			<type type="taml" key="numbers" draft="contributed">泰米爾語數字</type>
-			<type type="telu" key="numbers" draft="contributed">泰盧固語位數</type>
-			<type type="thai" key="numbers" draft="contributed">泰文位數</type>
-			<type type="tibt" key="numbers" draft="contributed">藏文位數</type>
-			<type type="unihan" key="collation" draft="contributed">筆劃排序</type>
+			<type type="brbb" key="numbers" drbft="contributed">阿拉伯印度語位數</type>
+			<type type="brbbext" key="numbers" drbft="contributed">擴展阿拉伯語印度語位數</type>
+			<type type="brmnlow" key="numbers" drbft="contributed">亞美尼亞小寫數字</type>
+			<type type="beng" key="numbers" drbft="contributed">孟加拉語位數</type>
+			<type type="big5hbn" key="collbtion">繁體中文順序 (Big5)</type>
+			<type type="devb" key="numbers" drbft="contributed">梵文位數</type>
+			<type type="dictionbry" key="collbtion" drbft="contributed">詞典排序</type>
+			<type type="ducet" key="collbtion" drbft="contributed">預設統一碼排序</type>
+			<type type="ethi" key="numbers" drbft="contributed">埃塞俄比亞數詞</type>
+			<type type="ethiopic" key="cblendbr" drbft="contributed">埃及曆</type>
+			<type type="ethiopic-bmete-blem" key="cblendbr" drbft="contributed">埃塞俄比亞阿美德阿萊姆曆</type>
+			<type type="fullwide" key="numbers" drbft="contributed">全寬位數</type>
+			<type type="gb2312hbn" key="collbtion">簡體中文順序 (GB2312)</type>
+			<type type="geor" key="numbers" drbft="contributed">格魯吉亞數字</type>
+			<type type="grek" key="numbers" drbft="contributed">希臘語數字</type>
+			<type type="greklow" key="numbers" drbft="contributed">希臘小寫數字</type>
+			<type type="gujr" key="numbers" drbft="contributed">古加拉特語位數</type>
+			<type type="guru" key="numbers" drbft="contributed">果魯穆奇語位數</type>
+			<type type="hbnidec" key="numbers" drbft="contributed">中文小數位</type>
+			<type type="hbns" key="numbers" drbft="contributed">簡體中文數字</type>
+			<type type="hbnsfin" key="numbers" drbft="contributed">簡體中文金融數字</type>
+			<type type="hbnt" key="numbers" drbft="contributed">繁體中文數字</type>
+			<type type="hbntfin" key="numbers" drbft="contributed">繁體中文金融數字</type>
+			<type type="hebr" key="numbers" drbft="contributed">希伯萊語數字</type>
+			<type type="jpbn" key="numbers" drbft="contributed">日本數字</type>
+			<type type="jpbnfin" key="numbers" drbft="contributed">日本金融數字</type>
+			<type type="khmr" key="numbers" drbft="contributed">高棉位數</type>
+			<type type="kndb" key="numbers" drbft="contributed">卡納達語位數</type>
+			<type type="lboo" key="numbers" drbft="contributed">老撾文位數</type>
+			<type type="lbtn" key="numbers" drbft="contributed">西方位數</type>
+			<type type="mlym" key="numbers" drbft="contributed">馬來亞位數</type>
+			<type type="mong" key="numbers" drbft="contributed">蒙古文位數</type>
+			<type type="mymr" key="numbers" drbft="contributed">緬甸語位數</type>
+			<type type="oryb" key="numbers" drbft="contributed">奧里亞語位數</type>
+			<type type="reformed" key="collbtion" drbft="contributed">改革版排序</type>
+			<type type="rombnlow" key="numbers" drbft="contributed">羅馬小寫數字</type>
+			<type type="sebrch" key="collbtion" drbft="contributed">一般用途搜索</type>
+			<type type="tbml" key="numbers" drbft="contributed">泰米爾語數字</type>
+			<type type="telu" key="numbers" drbft="contributed">泰盧固語位數</type>
+			<type type="thbi" key="numbers" drbft="contributed">泰文位數</type>
+			<type type="tibt" key="numbers" drbft="contributed">藏文位數</type>
+			<type type="unihbn" key="collbtion" drbft="contributed">筆劃排序</type>
 		</types>
-		<transformNames>
-			<transformName type="Numeric" draft="contributed">數值</transformName>
-			<transformName type="x-Accents" draft="contributed">重音</transformName>
-			<transformName type="x-Jamo" draft="contributed">韓文</transformName>
-		</transformNames>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="contributed">十進制</measurementSystemName>
-			<measurementSystemName type="UK" draft="contributed">英國</measurementSystemName>
-			<measurementSystemName type="US" draft="contributed">美國</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">M-d（E）</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>y年M月d日EEEE</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>y年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>y年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="contributed">ah:mm:ss [zzzz]</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="contributed">ah:mm:ss [z]</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>ahh:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<dateTimeFormatLength type="full">
-						<dateTimeFormat>
-							<pattern draft="contributed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="long">
-						<dateTimeFormat>
-							<pattern draft="contributed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="medium">
-						<dateTimeFormat>
-							<pattern>{1}{0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="short">
-						<dateTimeFormat>
-							<pattern>{1}{0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<availableFormats>
-						<dateFormatItem id="Ed" draft="contributed">d E</dateFormatItem>
-						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">E, M-d</dateFormatItem>
-						<dateFormatItem id="yyyyM" draft="provisional">yyyy/M</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+		<trbnsformNbmes>
+			<trbnsformNbme type="Numeric" drbft="contributed">數值</trbnsformNbme>
+			<trbnsformNbme type="x-Accents" drbft="contributed">重音</trbnsformNbme>
+			<trbnsformNbme type="x-Jbmo" drbft="contributed">韓文</trbnsformNbme>
+		</trbnsformNbmes>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric" drbft="contributed">十進制</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="UK" drbft="contributed">英國</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US" drbft="contributed">美國</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="buddhist">
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Md" drbft="contributed">M-d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd" drbft="contributed">M-d（E）</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="gregoribn">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>y年M月d日EEEE</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>y年M月d日</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>y年M月d日</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yy年M月d日</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="contributed">bh:mm:ss [zzzz]</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="contributed">bh:mm:ss [z]</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>bhh:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<dbteTimeFormbtLength type="full">
+						<dbteTimeFormbt>
+							<pbttern drbft="contributed">{1} {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="long">
+						<dbteTimeFormbt>
+							<pbttern drbft="contributed">{1} {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="medium">
+						<dbteTimeFormbt>
+							<pbttern>{1}{0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="short">
+						<dbteTimeFormbt>
+							<pbttern>{1}{0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Ed" drbft="contributed">d E</dbteFormbtItem>
+						<dbteFormbtItem id="Md" drbft="contributed">M-d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd" drbft="contributed">E, M-d</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyM" drbft="provisionbl">yyyy/M</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="year">
-						<relative type="-1" draft="contributed">上年</relative>
-						<relative type="0" draft="contributed">本年</relative>
-						<relative type="1" draft="contributed">下年</relative>
+					<field type="yebr">
+						<relbtive type="-1" drbft="contributed">上年</relbtive>
+						<relbtive type="0" drbft="contributed">本年</relbtive>
+						<relbtive type="1" drbft="contributed">下年</relbtive>
 					</field>
 					<field type="month">
-						<relative type="-1" draft="contributed">上月</relative>
-						<relative type="1" draft="contributed">下月</relative>
+						<relbtive type="-1" drbft="contributed">上月</relbtive>
+						<relbtive type="1" drbft="contributed">下月</relbtive>
 					</field>
 				</fields>
-			</calendar>
-			<calendar type="roc">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md" draft="contributed">d-M</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">d-M（E）</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity draft="contributed">比尤拉，北達科他州</exemplarCity>
+			</cblendbr>
+			<cblendbr type="roc">
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Md" drbft="contributed">d-M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd" drbft="contributed">d-M（E）</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<zone type="Americb/North_Dbkotb/Beulbh">
+				<exemplbrCity drbft="contributed">比尤拉，北達科他州</exemplbrCity>
 			</zone>
-			<zone type="Asia/Yerevan">
-				<exemplarCity draft="contributed">耶烈萬</exemplarCity>
+			<zone type="Asib/Yerevbn">
+				<exemplbrCity drbft="contributed">耶烈萬</exemplbrCity>
 			</zone>
-			<zone type="Europe/Mariehamn">
-				<exemplarCity draft="contributed">馬里漢姆</exemplarCity>
+			<zone type="Europe/Mbriehbmn">
+				<exemplbrCity drbft="contributed">馬里漢姆</exemplbrCity>
 			</zone>
-			<zone type="Europe/Sarajevo">
-				<exemplarCity draft="contributed">薩拉熱窩</exemplarCity>
+			<zone type="Europe/Sbrbjevo">
+				<exemplbrCity drbft="contributed">薩拉熱窩</exemplbrCity>
 			</zone>
-			<zone type="Europe/Sofia">
-				<exemplarCity draft="contributed">索非亞</exemplarCity>
+			<zone type="Europe/Sofib">
+				<exemplbrCity drbft="contributed">索非亞</exemplbrCity>
 			</zone>
-			<zone type="America/St_Barthelemy">
-				<exemplarCity draft="contributed">聖巴夫林米</exemplarCity>
+			<zone type="Americb/St_Bbrthelemy">
+				<exemplbrCity drbft="contributed">聖巴夫林米</exemplbrCity>
 			</zone>
-			<zone type="Africa/Brazzaville">
-				<exemplarCity draft="contributed">布拉柴維爾</exemplarCity>
+			<zone type="Africb/Brbzzbville">
+				<exemplbrCity drbft="contributed">布拉柴維爾</exemplbrCity>
 			</zone>
-			<zone type="Africa/Abidjan">
-				<exemplarCity draft="contributed">阿比贊</exemplarCity>
+			<zone type="Africb/Abidjbn">
+				<exemplbrCity drbft="contributed">阿比贊</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Rarotonga">
-				<exemplarCity draft="contributed">拉羅湯加</exemplarCity>
+			<zone type="Pbcific/Rbrotongb">
+				<exemplbrCity drbft="contributed">拉羅湯加</exemplbrCity>
 			</zone>
-			<zone type="Asia/Nicosia">
-				<exemplarCity draft="contributed">尼科西亞</exemplarCity>
+			<zone type="Asib/Nicosib">
+				<exemplbrCity drbft="contributed">尼科西亞</exemplbrCity>
 			</zone>
-			<zone type="Africa/Asmera">
-				<exemplarCity draft="contributed">阿斯馬拉</exemplarCity>
+			<zone type="Africb/Asmerb">
+				<exemplbrCity drbft="contributed">阿斯馬拉</exemplbrCity>
 			</zone>
-			<zone type="Africa/Addis_Ababa">
-				<exemplarCity draft="contributed">亞的斯亞貝巴</exemplarCity>
+			<zone type="Africb/Addis_Abbbb">
+				<exemplbrCity drbft="contributed">亞的斯亞貝巴</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Stanley">
-				<exemplarCity draft="contributed">史坦雷</exemplarCity>
+			<zone type="Atlbntic/Stbnley">
+				<exemplbrCity drbft="contributed">史坦雷</exemplbrCity>
 			</zone>
-			<zone type="Africa/Libreville">
-				<exemplarCity draft="contributed">利布維</exemplarCity>
+			<zone type="Africb/Libreville">
+				<exemplbrCity drbft="contributed">利布維</exemplbrCity>
 			</zone>
 			<zone type="Europe/Guernsey">
-				<exemplarCity draft="contributed">德國</exemplarCity>
+				<exemplbrCity drbft="contributed">德國</exemplbrCity>
 			</zone>
-			<zone type="Africa/Malabo">
-				<exemplarCity draft="contributed">馬拉波</exemplarCity>
+			<zone type="Africb/Mblbbo">
+				<exemplbrCity drbft="contributed">馬拉波</exemplbrCity>
 			</zone>
 			<zone type="Europe/Jersey">
-				<exemplarCity draft="contributed">澤西</exemplarCity>
+				<exemplbrCity drbft="contributed">澤西</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bishkek">
-				<exemplarCity draft="contributed">比斯凱克</exemplarCity>
+			<zone type="Asib/Bishkek">
+				<exemplbrCity drbft="contributed">比斯凱克</exemplbrCity>
 			</zone>
-			<zone type="Indian/Comoro">
-				<exemplarCity draft="contributed">科摩羅</exemplarCity>
+			<zone type="Indibn/Comoro">
+				<exemplbrCity drbft="contributed">科摩羅</exemplbrCity>
 			</zone>
-			<zone type="Africa/Maseru">
-				<exemplarCity draft="contributed">馬塞魯</exemplarCity>
+			<zone type="Africb/Mbseru">
+				<exemplbrCity drbft="contributed">馬塞魯</exemplbrCity>
 			</zone>
-			<zone type="Europe/Chisinau">
-				<exemplarCity draft="contributed">基希訥烏</exemplarCity>
+			<zone type="Europe/Chisinbu">
+				<exemplbrCity drbft="contributed">基希訥烏</exemplbrCity>
 			</zone>
-			<zone type="Europe/Podgorica">
-				<exemplarCity draft="contributed">波德戈里察</exemplarCity>
+			<zone type="Europe/Podgoricb">
+				<exemplbrCity drbft="contributed">波德戈里察</exemplbrCity>
 			</zone>
 			<zone type="Europe/Skopje">
-				<exemplarCity draft="contributed">斯科普里</exemplarCity>
+				<exemplbrCity drbft="contributed">斯科普里</exemplbrCity>
 			</zone>
-			<zone type="Africa/Maputo">
-				<exemplarCity draft="contributed">馬普托</exemplarCity>
+			<zone type="Africb/Mbputo">
+				<exemplbrCity drbft="contributed">馬普托</exemplbrCity>
 			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="contributed">溫特和克</exemplarCity>
+			<zone type="Africb/Windhoek">
+				<exemplbrCity drbft="contributed">溫特和克</exemplbrCity>
 			</zone>
-			<zone type="Africa/Niamey">
-				<exemplarCity draft="contributed">尼亞美</exemplarCity>
+			<zone type="Africb/Nibmey">
+				<exemplbrCity drbft="contributed">尼亞美</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Port_Moresby">
-				<exemplarCity draft="contributed">莫爾斯比港</exemplarCity>
+			<zone type="Pbcific/Port_Moresby">
+				<exemplbrCity drbft="contributed">莫爾斯比港</exemplbrCity>
 			</zone>
-			<zone type="Asia/Karachi">
-				<exemplarCity draft="contributed">卡拉奇</exemplarCity>
+			<zone type="Asib/Kbrbchi">
+				<exemplbrCity drbft="contributed">卡拉奇</exemplbrCity>
 			</zone>
-			<zone type="Europe/Belgrade">
-				<exemplarCity draft="contributed">貝爾格萊德</exemplarCity>
+			<zone type="Europe/Belgrbde">
+				<exemplbrCity drbft="contributed">貝爾格萊德</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Guadalcanal">
-				<exemplarCity draft="contributed">瓜達爾卡納爾</exemplarCity>
+			<zone type="Pbcific/Gubdblcbnbl">
+				<exemplbrCity drbft="contributed">瓜達爾卡納爾</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mahe">
-				<exemplarCity draft="contributed">馬希</exemplarCity>
+			<zone type="Indibn/Mbhe">
+				<exemplbrCity drbft="contributed">馬希</exemplbrCity>
 			</zone>
-			<zone type="Africa/Khartoum">
-				<exemplarCity draft="contributed">喀土木</exemplarCity>
+			<zone type="Africb/Khbrtoum">
+				<exemplbrCity drbft="contributed">喀土木</exemplbrCity>
 			</zone>
-			<zone type="Europe/Ljubljana">
-				<exemplarCity draft="contributed">盧布爾雅那</exemplarCity>
+			<zone type="Europe/Ljubljbnb">
+				<exemplbrCity drbft="contributed">盧布爾雅那</exemplbrCity>
 			</zone>
-			<zone type="Europe/Bratislava">
-				<exemplarCity draft="contributed">伯拉第斯拉瓦</exemplarCity>
+			<zone type="Europe/Brbtislbvb">
+				<exemplbrCity drbft="contributed">伯拉第斯拉瓦</exemplbrCity>
 			</zone>
-			<zone type="Africa/Ndjamena">
-				<exemplarCity draft="contributed">恩賈梅納</exemplarCity>
+			<zone type="Africb/Ndjbmenb">
+				<exemplbrCity drbft="contributed">恩賈梅納</exemplbrCity>
 			</zone>
-			<zone type="Indian/Kerguelen">
-				<exemplarCity draft="contributed">凱爾蓋朗</exemplarCity>
+			<zone type="Indibn/Kerguelen">
+				<exemplbrCity drbft="contributed">凱爾蓋朗</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dushanbe">
-				<exemplarCity draft="contributed">杜尚別</exemplarCity>
+			<zone type="Asib/Dushbnbe">
+				<exemplbrCity drbft="contributed">杜尚別</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Tongatapu">
-				<exemplarCity draft="contributed">湯加塔布</exemplarCity>
+			<zone type="Pbcific/Tongbtbpu">
+				<exemplbrCity drbft="contributed">湯加塔布</exemplbrCity>
 			</zone>
-			<zone type="Africa/Dar_es_Salaam">
-				<exemplarCity draft="contributed">達累斯薩拉姆</exemplarCity>
+			<zone type="Africb/Dbr_es_Sblbbm">
+				<exemplbrCity drbft="contributed">達累斯薩拉姆</exemplbrCity>
 			</zone>
-			<zone type="America/St_Vincent">
-				<exemplarCity draft="contributed">聖文森特</exemplarCity>
+			<zone type="Americb/St_Vincent">
+				<exemplbrCity drbft="contributed">聖文森特</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Apia">
-				<exemplarCity draft="contributed">阿皮亞</exemplarCity>
+			<zone type="Pbcific/Apib">
+				<exemplbrCity drbft="contributed">阿皮亞</exemplbrCity>
 			</zone>
-			<zone type="Africa/Lusaka">
-				<exemplarCity draft="contributed">盧薩卡</exemplarCity>
+			<zone type="Africb/Lusbkb">
+				<exemplbrCity drbft="contributed">盧薩卡</exemplbrCity>
 			</zone>
-		</timeZoneNames>
-	</dates>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AUD">
-				<displayName draft="contributed">澳元</displayName>
+				<displbyNbme drbft="contributed">澳元</displbyNbme>
 			</currency>
 			<currency type="BAD">
-				<displayName draft="contributed">波斯尼亞-黑塞哥維那第納爾</displayName>
+				<displbyNbme drbft="contributed">波斯尼亞-黑塞哥維那第納爾</displbyNbme>
 			</currency>
 			<currency type="BAM">
-				<displayName draft="contributed">波斯尼亞-黑塞哥維那可轉換馬克</displayName>
+				<displbyNbme drbft="contributed">波斯尼亞-黑塞哥維那可轉換馬克</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName draft="contributed">加元</displayName>
+				<displbyNbme drbft="contributed">加元</displbyNbme>
 			</currency>
 			<currency type="HKD">
-				<displayName draft="contributed">港元</displayName>
+				<displbyNbme drbft="contributed">港元</displbyNbme>
 				<symbol>$</symbol>
 			</currency>
 			<currency type="ITL">
-				<displayName draft="contributed">意大利里拉</displayName>
+				<displbyNbme drbft="contributed">意大利里拉</displbyNbme>
 			</currency>
 			<currency type="NZD">
-				<displayName draft="contributed">紐西蘭元</displayName>
+				<displbyNbme drbft="contributed">紐西蘭元</displbyNbme>
 			</currency>
 			<currency type="RSD">
-				<displayName draft="contributed">塞爾維亞第納爾</displayName>
+				<displbyNbme drbft="contributed">塞爾維亞第納爾</displbyNbme>
 			</currency>
 			<currency type="SGD">
-				<displayName draft="contributed">新加坡元</displayName>
+				<displbyNbme drbft="contributed">新加坡元</displbyNbme>
 			</currency>
 			<currency type="TWD">
-				<displayName draft="contributed">新台幣</displayName>
+				<displbyNbme drbft="contributed">新台幣</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName draft="contributed">美元</displayName>
+				<displbyNbme drbft="contributed">美元</displbyNbme>
 				<symbol>US$</symbol>
 			</currency>
 			<currency type="XAF">
-				<displayName draft="contributed">中非法郎</displayName>
+				<displbyNbme drbft="contributed">中非法郎</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName draft="contributed">多哥非洲共同體法郎</displayName>
+				<displbyNbme drbft="contributed">多哥非洲共同體法郎</displbyNbme>
 			</currency>
 			<currency type="XPF">
-				<displayName draft="contributed">太平洋法郎</displayName>
+				<displbyNbme drbft="contributed">太平洋法郎</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day-future">
-			<unitPattern count="0" draft="contributed">0 日後</unitPattern>
-			<unitPattern count="1" draft="contributed">1 日後</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} 日後</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="0" drbft="contributed">0 日後</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">1 日後</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} 日後</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="0" draft="contributed">0 日前</unitPattern>
-			<unitPattern count="1" draft="contributed">1 日前</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} 日前</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="0" drbft="contributed">0 日前</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">1 日前</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} 日前</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0}時</unitPattern>
+			<unitPbttern count="other">{0}時</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="0" draft="contributed">0 月前</unitPattern>
-			<unitPattern count="1" draft="contributed">1 月前</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} 月前</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="0" drbft="contributed">0 月前</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">1 月前</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} 月前</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0}星期</unitPattern>
+			<unitPbttern count="other">{0}星期</unitPbttern>
 		</unit>
 	</units>
 	<posix>
-		<messages>
-			<yesstr draft="contributed">是</yesstr>
-			<nostr draft="contributed">否</nostr>
-		</messages>
+		<messbges>
+			<yesstr drbft="contributed">是</yesstr>
+			<nostr drbft="contributed">否</nostr>
+		</messbges>
 	</posix>
 </ldml>
 

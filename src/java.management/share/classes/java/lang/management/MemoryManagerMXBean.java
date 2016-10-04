@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for a memory manager.
- * A memory manager manages one or more memory pools of the
- * Java virtual machine.
+ * The mbnbgement interfbce for b memory mbnbger.
+ * A memory mbnbger mbnbges one or more memory pools of the
+ * Jbvb virtubl mbchine.
  *
- * <p> A Java virtual machine has one or more memory managers.
- * An instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getMemoryManagerMXBeans} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbchine hbs one or more memory mbnbgers.
+ * An instbnce implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getMemoryMbnbgerMXBebns} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>} method.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * a memory manager within an MBeanServer is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * b memory mbnbger within bn MBebnServer is:
  * <blockquote>
- *   {@link ManagementFactory#MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE
- *    <tt>java.lang:type=MemoryManager</tt>}<tt>,name=</tt><i>manager's name</i>
+ *   {@link MbnbgementFbctory#MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:type=MemoryMbnbger</tt>}<tt>,nbme=</tt><i>mbnbger's nbme</i>
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see MemoryMXBean
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see MemoryMXBebn
  *
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
-public interface MemoryManagerMXBean extends PlatformManagedObject {
+public interfbce MemoryMbnbgerMXBebn extends PlbtformMbnbgedObject {
     /**
-     * Returns the name representing this memory manager.
+     * Returns the nbme representing this memory mbnbger.
      *
-     * @return the name of this memory manager.
+     * @return the nbme of this memory mbnbger.
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Tests if this memory manager is valid in the Java virtual
-     * machine.  A memory manager becomes invalid once the Java virtual
-     * machine removes it from the memory system.
+     * Tests if this memory mbnbger is vblid in the Jbvb virtubl
+     * mbchine.  A memory mbnbger becomes invblid once the Jbvb virtubl
+     * mbchine removes it from the memory system.
      *
-     * @return <tt>true</tt> if the memory manager is valid in the
-     *               Java virtual machine;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the memory mbnbger is vblid in the
+     *               Jbvb virtubl mbchine;
+     *         <tt>fblse</tt> otherwise.
      */
-    public boolean isValid();
+    public boolebn isVblid();
 
     /**
-     * Returns the name of memory pools that this memory manager manages.
+     * Returns the nbme of memory pools thbt this memory mbnbger mbnbges.
      *
-     * @return an array of <tt>String</tt> objects, each is
-     * the name of a memory pool that this memory manager manages.
+     * @return bn brrby of <tt>String</tt> objects, ebch is
+     * the nbme of b memory pool thbt this memory mbnbger mbnbges.
      */
-    public String[] getMemoryPoolNames();
+    public String[] getMemoryPoolNbmes();
 }

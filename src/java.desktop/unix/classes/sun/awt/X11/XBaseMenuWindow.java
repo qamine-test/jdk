@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.image.ColorModel;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.ColorModel;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-import java.util.ArrayList;
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.java2d.SurfaceData;
-import sun.java2d.SunGraphics2D;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vector;
+import sun.util.logging.PlbtformLogger;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * The abstract class XBaseMenuWindow is the superclass
- * of all menu windows.
+ * The bbstrbct clbss XBbseMenuWindow is the superclbss
+ * of bll menu windows.
  */
-abstract public class XBaseMenuWindow extends XWindow {
+bbstrbct public clbss XBbseMenuWindow extends XWindow {
 
     /************************************************
      *
-     * Data members
+     * Dbtb members
      *
      ************************************************/
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XBaseMenuWindow");
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XBbseMenuWindow");
 
     /*
-     * Colors are calculated using MotifColorUtilities class
-     * from backgroundColor and are contained in these vars.
+     * Colors bre cblculbted using MotifColorUtilities clbss
+     * from bbckgroundColor bnd bre contbined in these vbrs.
      */
-    private Color backgroundColor;
-    private Color foregroundColor;
-    private Color lightShadowColor;
-    private Color darkShadowColor;
-    private Color selectedColor;
-    private Color disabledColor;
+    privbte Color bbckgroundColor;
+    privbte Color foregroundColor;
+    privbte Color lightShbdowColor;
+    privbte Color dbrkShbdowColor;
+    privbte Color selectedColor;
+    privbte Color disbbledColor;
 
     /**
-     * Array of items.
+     * Arrby of items.
      */
-    private ArrayList<XMenuItemPeer> items;
+    privbte ArrbyList<XMenuItemPeer> items;
 
     /**
-     * Index of selected item in array of items
+     * Index of selected item in brrby of items
      */
-    private int selectedIndex = -1;
+    privbte int selectedIndex = -1;
 
     /**
      * Specifies currently showing submenu.
      */
-    private XMenuPeer showingSubmenu = null;
+    privbte XMenuPeer showingSubmenu = null;
 
     /**
-     * Static synchronizational object.
-     * Following operations should be synchronized
+     * Stbtic synchronizbtionbl object.
+     * Following operbtions should be synchronized
      * using this object:
      * 1. Access to items vector
      * 2. Access to selection
      * 3. Access to showing menu window member
      *
      * This is lowest level lock,
-     * no other locks should be taken when
-     * thread own this lock.
+     * no other locks should be tbken when
+     * threbd own this lock.
      */
-    static private Object menuTreeLock = new Object();
+    stbtic privbte Object menuTreeLock = new Object();
 
     /************************************************
      *
@@ -99,67 +99,67 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /**
      * If mouse button is clicked on item showing submenu
-     * we have to hide its submenu.
-     * And if mouse button is pressed on such item and
-     * dragged to another, getShowingSubmenu() is changed.
-     * So this member saves the item that the user
+     * we hbve to hide its submenu.
+     * And if mouse button is pressed on such item bnd
+     * drbgged to bnother, getShowingSubmenu() is chbnged.
+     * So this member sbves the item thbt the user
      * presses mouse button on _only_ if it's showing submenu.
      */
-    private XMenuPeer showingMousePressedSubmenu = null;
+    privbte XMenuPeer showingMousePressedSubmenu = null;
 
     /**
-     * If the PopupMenu is invoked as a result of right button click
-     * first mouse event after grabInput would be MouseReleased.
-     * We need to check if the user has moved mouse after input grab.
+     * If the PopupMenu is invoked bs b result of right button click
+     * first mouse event bfter grbbInput would be MouseRelebsed.
+     * We need to check if the user hbs moved mouse bfter input grbb.
      * If yes - hide the PopupMenu. If no - do nothing
      */
-    protected Point grabInputPoint = null;
-    protected boolean hasPointerMoved = false;
+    protected Point grbbInputPoint = null;
+    protected boolebn hbsPointerMoved = fblse;
 
-    private AppContext disposeAppContext;
+    privbte AppContext disposeAppContext;
 
     /************************************************
      *
-     * Mapping data
+     * Mbpping dbtb
      *
      ************************************************/
 
     /**
-     * Mapping data that is filled in getMappedItems function
-     * and reset in resetSize function. It contains array of
-     * items in order that they appear on screen and may contain
-     * additional data defined by descendants.
+     * Mbpping dbtb thbt is filled in getMbppedItems function
+     * bnd reset in resetSize function. It contbins brrby of
+     * items in order thbt they bppebr on screen bnd mby contbin
+     * bdditionbl dbtb defined by descendbnts.
      */
-    private MappingData mappingData;
+    privbte MbppingDbtb mbppingDbtb;
 
-    static class MappingData implements Cloneable {
+    stbtic clbss MbppingDbtb implements Clonebble {
 
         /**
-         * Array of item in order that they appear on screen
+         * Arrby of item in order thbt they bppebr on screen
          */
-        private XMenuItemPeer[] items;
+        privbte XMenuItemPeer[] items;
 
         /**
-         * Constructs MappingData object with list
+         * Constructs MbppingDbtb object with list
          * of menu items
          */
-        MappingData(XMenuItemPeer[] items) {
+        MbppingDbtb(XMenuItemPeer[] items) {
             this.items = items;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Constructs MbppingDbtb without items
+         * This constructor should be used in cbse of errors
          */
-        MappingData() {
+        MbppingDbtb() {
             this.items = new XMenuItemPeer[0];
         }
 
         public Object clone() {
             try {
                 return super.clone();
-            } catch (CloneNotSupportedException ex) {
-                throw new InternalError(ex);
+            } cbtch (CloneNotSupportedException ex) {
+                throw new InternblError(ex);
             }
         }
 
@@ -173,108 +173,108 @@ abstract public class XBaseMenuWindow extends XWindow {
      * Construction
      *
      ************************************************/
-    XBaseMenuWindow() {
-        super(new XCreateWindowParams(new Object[] {
-            DELAYED, Boolean.TRUE}));
+    XBbseMenuWindow() {
+        super(new XCrebteWindowPbrbms(new Object[] {
+            DELAYED, Boolebn.TRUE}));
 
         disposeAppContext = AppContext.getAppContext();
     }
 
     /************************************************
      *
-     * Abstract methods
+     * Abstrbct methods
      *
      ************************************************/
 
     /**
-     * Returns parent menu window (not the X-hierarchy parent window)
+     * Returns pbrent menu window (not the X-hierbrchy pbrent window)
      */
-    protected abstract XBaseMenuWindow getParentMenuWindow();
+    protected bbstrbct XBbseMenuWindow getPbrentMenuWindow();
 
     /**
-     * Performs mapping of items in window.
-     * This function creates and fills specific
-     * descendant of MappingData
-     * and sets mapping coordinates of items
-     * This function should return default menu data
+     * Performs mbpping of items in window.
+     * This function crebtes bnd fills specific
+     * descendbnt of MbppingDbtb
+     * bnd sets mbpping coordinbtes of items
+     * This function should return defbult menu dbtb
      * if errors occur
      */
-    protected abstract MappingData map();
+    protected bbstrbct MbppingDbtb mbp();
 
     /**
-     * Calculates placement of submenu window
-     * given bounds of item with submenu and
+     * Cblculbtes plbcement of submenu window
+     * given bounds of item with submenu bnd
      * size of submenu window. Returns suggested
-     * rectangle for submenu window in global coordinates
-     * @param itemBounds the bounding rectangle of item
-     * in local coordinates
-     * @param windowSize the desired size of submenu's window
+     * rectbngle for submenu window in globbl coordinbtes
+     * @pbrbm itemBounds the bounding rectbngle of item
+     * in locbl coordinbtes
+     * @pbrbm windowSize the desired size of submenu's window
      */
-    protected abstract Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize);
+    protected bbstrbct Rectbngle getSubmenuBounds(Rectbngle itemBounds, Dimension windowSize);
 
 
     /**
-     * This function is to be called if it's likely that size
-     * of items was changed. It can be called from any thread
-     * in any locked state, so it should not take locks
+     * This function is to be cblled if it's likely thbt size
+     * of items wbs chbnged. It cbn be cblled from bny threbd
+     * in bny locked stbte, so it should not tbke locks
      */
-    protected abstract void updateSize();
+    protected bbstrbct void updbteSize();
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
 
     /**
-     * Overrides XBaseWindow.instantPreInit
+     * Overrides XBbseWindow.instbntPreInit
      */
-    void instantPreInit(XCreateWindowParams params) {
-        super.instantPreInit(params);
-        items = new ArrayList<>();
+    void instbntPreInit(XCrebteWindowPbrbms pbrbms) {
+        super.instbntPreInit(pbrbms);
+        items = new ArrbyList<>();
     }
 
     /************************************************
      *
-     * General-purpose functions
+     * Generbl-purpose functions
      *
      ************************************************/
 
     /**
-     * Returns static lock used for menus
+     * Returns stbtic lock used for menus
      */
-    static Object getMenuTreeLock() {
+    stbtic Object getMenuTreeLock() {
         return menuTreeLock;
     }
 
     /**
-     * This function is called to clear all saved
-     * size data.
+     * This function is cblled to clebr bll sbved
+     * size dbtb.
      */
-    protected void resetMapping() {
-        mappingData = null;
+    protected void resetMbpping() {
+        mbppingDbtb = null;
     }
 
     /**
-     * Invokes repaint procedure on eventHandlerThread
+     * Invokes repbint procedure on eventHbndlerThrebd
      */
-    void postPaintEvent() {
+    void postPbintEvent() {
         if (isShowing()) {
-            PaintEvent pe = new PaintEvent(target, PaintEvent.PAINT,
-                                           new Rectangle(0, 0, width, height));
+            PbintEvent pe = new PbintEvent(tbrget, PbintEvent.PAINT,
+                                           new Rectbngle(0, 0, width, height));
             postEvent(pe);
         }
     }
 
     /************************************************
      *
-     * Utility functions for manipulating items
+     * Utility functions for mbnipulbting items
      *
      ************************************************/
 
     /**
-     * Thread-safely returns item at specified index
-     * @param index the position of the item to be returned.
+     * Threbd-sbfely returns item bt specified index
+     * @pbrbm index the position of the item to be returned.
      */
     XMenuItemPeer getItem(int index) {
         if (index >= 0) {
@@ -288,17 +288,17 @@ abstract public class XBaseMenuWindow extends XWindow {
     }
 
     /**
-     * Thread-safely creates a copy of the items vector
+     * Threbd-sbfely crebtes b copy of the items vector
      */
     XMenuItemPeer[] copyItems() {
         synchronized(getMenuTreeLock()) {
-            return items.toArray(new XMenuItemPeer[] {});
+            return items.toArrby(new XMenuItemPeer[] {});
         }
     }
 
 
     /**
-     * Thread-safely returns selected item
+     * Threbd-sbfely returns selected item
      */
     XMenuItemPeer getSelectedItem() {
         synchronized(getMenuTreeLock()) {
@@ -312,7 +312,7 @@ abstract public class XBaseMenuWindow extends XWindow {
     }
 
     /**
-     * Returns showing submenu, if any
+     * Returns showing submenu, if bny
      */
     XMenuPeer getShowingSubmenu() {
         synchronized(getMenuTreeLock()) {
@@ -322,83 +322,83 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /**
      * Adds item to end of items vector.
-     * Note that this function does not perform
-     * check for adding duplicate items
-     * @param item item to add
+     * Note thbt this function does not perform
+     * check for bdding duplicbte items
+     * @pbrbm item item to bdd
      */
-    public void addItem(MenuItem item) {
+    public void bddItem(MenuItem item) {
         XMenuItemPeer mp = (XMenuItemPeer)item.getPeer();
         if (mp != null) {
-            mp.setContainer(this);
+            mp.setContbiner(this);
             synchronized(getMenuTreeLock()) {
-                items.add(mp);
+                items.bdd(mp);
             }
         } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("WARNING: Attempt to add menu item without a peer");
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("WARNING: Attempt to bdd menu item without b peer");
             }
         }
-        updateSize();
+        updbteSize();
     }
 
     /**
-     * Removes item at the specified index from items vector.
-     * @param index the position of the item to be removed
+     * Removes item bt the specified index from items vector.
+     * @pbrbm index the position of the item to be removed
      */
     public void delItem(int index) {
         synchronized(getMenuTreeLock()) {
             if (selectedIndex == index) {
-                selectItem(null, false);
+                selectItem(null, fblse);
             } else if (selectedIndex > index) {
                 selectedIndex--;
             }
             if (index < items.size()) {
                 items.remove(index);
             } else {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("WARNING: Attempt to remove non-existing menu item, index : " + index + ", item count : " + items.size());
                 }
             }
         }
-        updateSize();
+        updbteSize();
     }
 
     /**
-     * Clears items vector and loads specified vector
-     * @param items vector to be loaded
+     * Clebrs items vector bnd lobds specified vector
+     * @pbrbm items vector to be lobded
      */
-    public void reloadItems(Vector<? extends MenuItem> items) {
+    public void relobdItems(Vector<? extends MenuItem> items) {
         synchronized(getMenuTreeLock()) {
-            this.items.clear();
-            MenuItem[] itemArray = items.toArray(new MenuItem[] {});
-            int itemCnt = itemArray.length;
+            this.items.clebr();
+            MenuItem[] itemArrby = items.toArrby(new MenuItem[] {});
+            int itemCnt = itemArrby.length;
             for(int i = 0; i < itemCnt; i++) {
-                addItem(itemArray[i]);
+                bddItem(itemArrby[i]);
             }
         }
     }
 
     /**
-     * Select specified item and shows/hides submenus if necessary
-     * We can not select by index, so we need to select by ref.
-     * @param item the item to be selected, null to clear selection
-     * @param showWindowIfMenu if the item is XMenuPeer then its
-     * window is shown/hidden according to this param.
+     * Select specified item bnd shows/hides submenus if necessbry
+     * We cbn not select by index, so we need to select by ref.
+     * @pbrbm item the item to be selected, null to clebr selection
+     * @pbrbm showWindowIfMenu if the item is XMenuPeer then its
+     * window is shown/hidden bccording to this pbrbm.
      */
-    void selectItem(XMenuItemPeer item, boolean showWindowIfMenu) {
+    void selectItem(XMenuItemPeer item, boolebn showWindowIfMenu) {
         synchronized(getMenuTreeLock()) {
             XMenuPeer showingSubmenu = getShowingSubmenu();
             int newSelectedIndex = (item != null) ? items.indexOf(item) : -1;
             if (this.selectedIndex != newSelectedIndex) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Selected index changed, was : " + this.selectedIndex + ", new : " + newSelectedIndex);
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("Selected index chbnged, wbs : " + this.selectedIndex + ", new : " + newSelectedIndex);
                 }
                 this.selectedIndex = newSelectedIndex;
-                postPaintEvent();
+                postPbintEvent();
             }
-            final XMenuPeer submenuToShow = (showWindowIfMenu && (item instanceof XMenuPeer)) ? (XMenuPeer)item : null;
+            finbl XMenuPeer submenuToShow = (showWindowIfMenu && (item instbnceof XMenuPeer)) ? (XMenuPeer)item : null;
             if (submenuToShow != showingSubmenu) {
-                XToolkit.executeOnEventHandlerThread(target, new Runnable() {
+                XToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                         public void run() {
                             doShowSubmenu(submenuToShow);
                         }
@@ -409,29 +409,29 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /**
      * Performs hiding of currently showing submenu
-     * and showing of submenuToShow.
-     * This function should be executed on eventHandlerThread
-     * @param submenuToShow submenu to be shown or null
+     * bnd showing of submenuToShow.
+     * This function should be executed on eventHbndlerThrebd
+     * @pbrbm submenuToShow submenu to be shown or null
      * to hide currently showing submenu
      */
-    private void doShowSubmenu(XMenuPeer submenuToShow) {
+    privbte void doShowSubmenu(XMenuPeer submenuToShow) {
         XMenuWindow menuWindowToShow = (submenuToShow != null) ? submenuToShow.getMenuWindow() : null;
         Dimension dim = null;
-        Rectangle bounds = null;
-        //ensureCreated can invoke XWindowPeer.init() ->
-        //XWindowPeer.initGraphicsConfiguration() ->
-        //Window.getGraphicsConfiguration()
-        //that tries to obtain Component.AWTTreeLock.
-        //So it should be called outside awtLock()
+        Rectbngle bounds = null;
+        //ensureCrebted cbn invoke XWindowPeer.init() ->
+        //XWindowPeer.initGrbphicsConfigurbtion() ->
+        //Window.getGrbphicsConfigurbtion()
+        //thbt tries to obtbin Component.AWTTreeLock.
+        //So it should be cblled outside bwtLock()
         if (menuWindowToShow != null) {
-            menuWindowToShow.ensureCreated();
+            menuWindowToShow.ensureCrebted();
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             synchronized(getMenuTreeLock()) {
                 if (showingSubmenu != submenuToShow) {
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("Changing showing submenu");
+                    if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                        log.finest("Chbnging showing submenu");
                     }
                     if (showingSubmenu != null) {
                         XMenuWindow showingSubmenuWindow = showingSubmenu.getMenuWindow();
@@ -441,18 +441,18 @@ abstract public class XBaseMenuWindow extends XWindow {
                     }
                     if (submenuToShow != null) {
                         dim = menuWindowToShow.getDesiredSize();
-                        bounds = menuWindowToShow.getParentMenuWindow().getSubmenuBounds(submenuToShow.getBounds(), dim);
+                        bounds = menuWindowToShow.getPbrentMenuWindow().getSubmenuBounds(submenuToShow.getBounds(), dim);
                         menuWindowToShow.show(bounds);
                     }
                     showingSubmenu = submenuToShow;
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    final void setItemsFont( Font font ) {
+    finbl void setItemsFont( Font font ) {
         XMenuItemPeer[] items = copyItems();
         int itemCnt = items.length;
         for (int i = 0; i < itemCnt; i++) {
@@ -462,36 +462,36 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /************************************************
      *
-     * Utility functions for manipulating mapped items
+     * Utility functions for mbnipulbting mbpped items
      *
      ************************************************/
 
     /**
-     * Returns array of mapped items, null if error
-     * This function has to be not synchronized
-     * and we have to guarantee that we return
-     * some MappingData to user. It's OK if
-     * this.mappingData is replaced meanwhile
+     * Returns brrby of mbpped items, null if error
+     * This function hbs to be not synchronized
+     * bnd we hbve to gubrbntee thbt we return
+     * some MbppingDbtb to user. It's OK if
+     * this.mbppingDbtb is replbced mebnwhile
      */
-    MappingData getMappingData() {
-        MappingData mappingData = this.mappingData;
-        if (mappingData == null) {
-            mappingData = map();
-            this.mappingData = mappingData;
+    MbppingDbtb getMbppingDbtb() {
+        MbppingDbtb mbppingDbtb = this.mbppingDbtb;
+        if (mbppingDbtb == null) {
+            mbppingDbtb = mbp();
+            this.mbppingDbtb = mbppingDbtb;
         }
-        return (MappingData)mappingData.clone();
+        return (MbppingDbtb)mbppingDbtb.clone();
     }
 
     /**
-     * returns item thats mapped coordinates contain
+     * returns item thbts mbpped coordinbtes contbin
      * specified point, null of none.
-     * @param pt the point in this window's coordinate system
+     * @pbrbm pt the point in this window's coordinbte system
      */
     XMenuItemPeer getItemFromPoint(Point pt) {
-        XMenuItemPeer[] items = getMappingData().getItems();
+        XMenuItemPeer[] items = getMbppingDbtb().getItems();
         int cnt = items.length;
         for (int i = 0; i < cnt; i++) {
-            if (items[i].getBounds().contains(pt)) {
+            if (items[i].getBounds().contbins(pt)) {
                 return items[i];
             }
         }
@@ -499,32 +499,32 @@ abstract public class XBaseMenuWindow extends XWindow {
     }
 
     /**
-     * Returns first item after currently selected
-     * item that can be selected according to mapping array.
-     * (no separators and no disabled items).
-     * Currently selected item if it's only selectable,
-     * null if no item can be selected
+     * Returns first item bfter currently selected
+     * item thbt cbn be selected bccording to mbpping brrby.
+     * (no sepbrbtors bnd no disbbled items).
+     * Currently selected item if it's only selectbble,
+     * null if no item cbn be selected
      */
-    XMenuItemPeer getNextSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
+    XMenuItemPeer getNextSelectbbleItem() {
+        XMenuItemPeer[] mbppedItems = getMbppingDbtb().getItems();
         XMenuItemPeer selectedItem = getSelectedItem();
-        int cnt = mappedItems.length;
+        int cnt = mbppedItems.length;
         //Find index of selected item
         int selIdx = -1;
         for (int i = 0; i < cnt; i++) {
-            if (mappedItems[i] == selectedItem) {
+            if (mbppedItems[i] == selectedItem) {
                 selIdx = i;
-                break;
+                brebk;
             }
         }
         int idx = (selIdx == cnt - 1) ? 0 : selIdx + 1;
-        //cycle through mappedItems to find selectable item
-        //beginning from the next item and moving to the
-        //beginning of array when end is reached.
+        //cycle through mbppedItems to find selectbble item
+        //beginning from the next item bnd moving to the
+        //beginning of brrby when end is rebched.
         //Cycle is finished on selected item itself
         for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[idx];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
+            XMenuItemPeer item = mbppedItems[idx];
+            if (!item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
                 return item;
             }
             idx++;
@@ -532,31 +532,31 @@ abstract public class XBaseMenuWindow extends XWindow {
                 idx = 0;
             }
         }
-        //return null if no selectable item was found
+        //return null if no selectbble item wbs found
         return null;
     }
 
     /**
      * Returns first item before currently selected
-     * see getNextSelectableItem() for comments
+     * see getNextSelectbbleItem() for comments
      */
-    XMenuItemPeer getPrevSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
+    XMenuItemPeer getPrevSelectbbleItem() {
+        XMenuItemPeer[] mbppedItems = getMbppingDbtb().getItems();
         XMenuItemPeer selectedItem = getSelectedItem();
-        int cnt = mappedItems.length;
+        int cnt = mbppedItems.length;
         //Find index of selected item
         int selIdx = -1;
         for (int i = 0; i < cnt; i++) {
-            if (mappedItems[i] == selectedItem) {
+            if (mbppedItems[i] == selectedItem) {
                 selIdx = i;
-                break;
+                brebk;
             }
         }
         int idx = (selIdx <= 0) ? cnt - 1 : selIdx - 1;
-        //cycle through mappedItems to find selectable item
+        //cycle through mbppedItems to find selectbble item
         for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[idx];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
+            XMenuItemPeer item = mbppedItems[idx];
+            if (!item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
                 return item;
             }
             idx--;
@@ -564,20 +564,20 @@ abstract public class XBaseMenuWindow extends XWindow {
                 idx = cnt - 1;
             }
         }
-        //return null if no selectable item was found
+        //return null if no selectbble item wbs found
         return null;
     }
 
     /**
-     * Returns first selectable item
-     * This function is intended for clearing selection
+     * Returns first selectbble item
+     * This function is intended for clebring selection
      */
-    XMenuItemPeer getFirstSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
-        int cnt = mappedItems.length;
+    XMenuItemPeer getFirstSelectbbleItem() {
+        XMenuItemPeer[] mbppedItems = getMbppingDbtb().getItems();
+        int cnt = mbppedItems.length;
         for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[i];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
+            XMenuItemPeer item = mbppedItems[i];
+            if (!item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
                 return item;
             }
         }
@@ -587,24 +587,24 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /************************************************
      *
-     * Utility functions for manipulating
-     * hierarchy of windows
+     * Utility functions for mbnipulbting
+     * hierbrchy of windows
      *
      ************************************************/
 
     /**
-     * returns leaf menu window or
-     * this if no children are showing
+     * returns lebf menu window or
+     * this if no children bre showing
      */
-    XBaseMenuWindow getShowingLeaf() {
+    XBbseMenuWindow getShowingLebf() {
         synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow leaf = this;
-            XMenuPeer leafchild = leaf.getShowingSubmenu();
-            while (leafchild != null) {
-                leaf = leafchild.getMenuWindow();
-                leafchild = leaf.getShowingSubmenu();
+            XBbseMenuWindow lebf = this;
+            XMenuPeer lebfchild = lebf.getShowingSubmenu();
+            while (lebfchild != null) {
+                lebf = lebfchild.getMenuWindow();
+                lebfchild = lebf.getShowingSubmenu();
             }
-            return leaf;
+            return lebf;
         }
     }
 
@@ -612,33 +612,33 @@ abstract public class XBaseMenuWindow extends XWindow {
      * returns root menu window
      * or this if this window is topmost
      */
-    XBaseMenuWindow getRootMenuWindow() {
+    XBbseMenuWindow getRootMenuWindow() {
         synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow t = this;
-            XBaseMenuWindow tparent = t.getParentMenuWindow();
-            while (tparent != null) {
-                t = tparent;
-                tparent = t.getParentMenuWindow();
+            XBbseMenuWindow t = this;
+            XBbseMenuWindow tpbrent = t.getPbrentMenuWindow();
+            while (tpbrent != null) {
+                t = tpbrent;
+                tpbrent = t.getPbrentMenuWindow();
             }
             return t;
         }
     }
 
     /**
-     * Returns window that contains pt.
-     * search is started from leaf window
+     * Returns window thbt contbins pt.
+     * sebrch is stbrted from lebf window
      * to return first window in Z-order
-     * @param pt point in global coordinates
+     * @pbrbm pt point in globbl coordinbtes
      */
-    XBaseMenuWindow getMenuWindowFromPoint(Point pt) {
+    XBbseMenuWindow getMenuWindowFromPoint(Point pt) {
         synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow t = getShowingLeaf();
+            XBbseMenuWindow t = getShowingLebf();
             while (t != null) {
-                Rectangle r = new Rectangle(t.toGlobal(new Point(0, 0)), t.getSize());
-                if (r.contains(pt)) {
+                Rectbngle r = new Rectbngle(t.toGlobbl(new Point(0, 0)), t.getSize());
+                if (r.contbins(pt)) {
                     return t;
                 }
-                t = t.getParentMenuWindow();
+                t = t.getPbrentMenuWindow();
             }
             return null;
         }
@@ -648,26 +648,26 @@ abstract public class XBaseMenuWindow extends XWindow {
      *
      * Primitives for getSubmenuBounds
      *
-     * These functions are invoked from getSubmenuBounds
-     * implementations in different order. They check if window
+     * These functions bre invoked from getSubmenuBounds
+     * implementbtions in different order. They check if window
      * of size windowSize fits to the specified edge of
-     * rectangle itemBounds on the screen of screenSize.
-     * Return rectangle that occupies the window if it fits or null.
+     * rectbngle itemBounds on the screen of screenSize.
+     * Return rectbngle thbt occupies the window if it fits or null.
      *
      ************************************************/
 
     /**
      * Checks if window fits below specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * returns rectbngle thbt the window fits to or null.
+     * @pbrbm itemBounds rectbngle of item in globbl coordinbtes
+     * @pbrbm windowSize size of submenu window to fit
+     * @pbrbm screenSize size of screen
      */
-    Rectangle fitWindowBelow(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
+    Rectbngle fitWindowBelow(Rectbngle itemBounds, Dimension windowSize, Dimension screenSize) {
         int width = windowSize.width;
         int height = windowSize.height;
         //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
+        //nebr the periphery of the screen, XToolkit
         //Window should be moved if it's outside top-left screen bounds
         int x = (itemBounds.x > 0) ? itemBounds.x : 0;
         int y = (itemBounds.y + itemBounds.height > 0) ? itemBounds.y + itemBounds.height : 0;
@@ -679,24 +679,24 @@ abstract public class XBaseMenuWindow extends XWindow {
             if (x + width > screenSize.width) {
                 x = screenSize.width - width;
             }
-            return new Rectangle(x, y, width, height);
+            return new Rectbngle(x, y, width, height);
         } else {
             return null;
         }
     }
 
     /**
-     * Checks if window fits above specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Checks if window fits bbove specified item
+     * returns rectbngle thbt the window fits to or null.
+     * @pbrbm itemBounds rectbngle of item in globbl coordinbtes
+     * @pbrbm windowSize size of submenu window to fit
+     * @pbrbm screenSize size of screen
      */
-    Rectangle fitWindowAbove(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
+    Rectbngle fitWindowAbove(Rectbngle itemBounds, Dimension windowSize, Dimension screenSize) {
         int width = windowSize.width;
         int height = windowSize.height;
         //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
+        //nebr the periphery of the screen, XToolkit
         //Window should be moved if it's outside bottom-left screen bounds
         int x = (itemBounds.x > 0) ? itemBounds.x : 0;
         int y = (itemBounds.y > screenSize.height) ? screenSize.height - height : itemBounds.y - height;
@@ -708,7 +708,7 @@ abstract public class XBaseMenuWindow extends XWindow {
             if (x + width > screenSize.width) {
                 x = screenSize.width - width;
             }
-            return new Rectangle(x, y, width, height);
+            return new Rectbngle(x, y, width, height);
         } else {
             return null;
         }
@@ -716,16 +716,16 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /**
      * Checks if window fits to the right specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * returns rectbngle thbt the window fits to or null.
+     * @pbrbm itemBounds rectbngle of item in globbl coordinbtes
+     * @pbrbm windowSize size of submenu window to fit
+     * @pbrbm screenSize size of screen
      */
-    Rectangle fitWindowRight(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
+    Rectbngle fitWindowRight(Rectbngle itemBounds, Dimension windowSize, Dimension screenSize) {
         int width = windowSize.width;
         int height = windowSize.height;
         //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
+        //nebr the periphery of the screen, XToolkit
         //Window should be moved if it's outside top-left screen bounds
         int x = (itemBounds.x + itemBounds.width > 0) ? itemBounds.x + itemBounds.width : 0;
         int y = (itemBounds.y > 0) ? itemBounds.y : 0;
@@ -737,7 +737,7 @@ abstract public class XBaseMenuWindow extends XWindow {
             if (y + height > screenSize.height) {
                 y = screenSize.height - height;
             }
-            return new Rectangle(x, y, width, height);
+            return new Rectbngle(x, y, width, height);
         } else {
             return null;
         }
@@ -745,16 +745,16 @@ abstract public class XBaseMenuWindow extends XWindow {
 
     /**
      * Checks if window fits to the left specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * returns rectbngle thbt the window fits to or null.
+     * @pbrbm itemBounds rectbngle of item in globbl coordinbtes
+     * @pbrbm windowSize size of submenu window to fit
+     * @pbrbm screenSize size of screen
      */
-    Rectangle fitWindowLeft(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
+    Rectbngle fitWindowLeft(Rectbngle itemBounds, Dimension windowSize, Dimension screenSize) {
         int width = windowSize.width;
         int height = windowSize.height;
         //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
+        //nebr the periphery of the screen, XToolkit
         //Window should be moved if it's outside top-right screen bounds
         int x = (itemBounds.x < screenSize.width) ? itemBounds.x - width : screenSize.width - width;
         int y = (itemBounds.y > 0) ? itemBounds.y : 0;
@@ -766,115 +766,115 @@ abstract public class XBaseMenuWindow extends XWindow {
             if (y + height > screenSize.height) {
                 y = screenSize.height - height;
             }
-            return new Rectangle(x, y, width, height);
+            return new Rectbngle(x, y, width, height);
         } else {
             return null;
         }
     }
 
     /**
-     * The last thing we can do with the window
+     * The lbst thing we cbn do with the window
      * to fit it on screen - move it to the
-     * top-left edge and cut by screen dimensions
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * top-left edge bnd cut by screen dimensions
+     * @pbrbm windowSize size of submenu window to fit
+     * @pbrbm screenSize size of screen
      */
-    Rectangle fitWindowToScreen(Dimension windowSize, Dimension screenSize) {
+    Rectbngle fitWindowToScreen(Dimension windowSize, Dimension screenSize) {
         int width = (windowSize.width < screenSize.width) ? windowSize.width : screenSize.width;
         int height = (windowSize.height < screenSize.height) ? windowSize.height : screenSize.height;
-        return new Rectangle(0, 0, width, height);
+        return new Rectbngle(0, 0, width, height);
     }
 
 
     /************************************************
      *
-     * Utility functions for manipulating colors
+     * Utility functions for mbnipulbting colors
      *
      ************************************************/
 
     /**
-     * This function is called before every painting.
-     * TODO:It would be better to add PropertyChangeListener
-     * to target component
-     * TODO:It would be better to access background color
-     * not invoking user-overridable function
+     * This function is cblled before every pbinting.
+     * TODO:It would be better to bdd PropertyChbngeListener
+     * to tbrget component
+     * TODO:It would be better to bccess bbckground color
+     * not invoking user-overridbble function
      */
     void resetColors() {
-        replaceColors((target == null) ? SystemColor.window : target.getBackground());
+        replbceColors((tbrget == null) ? SystemColor.window : tbrget.getBbckground());
     }
 
     /**
-     * Calculates colors of various elements given
-     * background color. Uses MotifColorUtilities
-     * @param backgroundColor the color of menu window's
-     * background.
+     * Cblculbtes colors of vbrious elements given
+     * bbckground color. Uses MotifColorUtilities
+     * @pbrbm bbckgroundColor the color of menu window's
+     * bbckground.
      */
-    void replaceColors(Color backgroundColor) {
-        if (backgroundColor != this.backgroundColor) {
-            this.backgroundColor = backgroundColor;
+    void replbceColors(Color bbckgroundColor) {
+        if (bbckgroundColor != this.bbckgroundColor) {
+            this.bbckgroundColor = bbckgroundColor;
 
-            int red = backgroundColor.getRed();
-            int green = backgroundColor.getGreen();
-            int blue = backgroundColor.getBlue();
+            int red = bbckgroundColor.getRed();
+            int green = bbckgroundColor.getGreen();
+            int blue = bbckgroundColor.getBlue();
 
-            foregroundColor = new Color(MotifColorUtilities.calculateForegroundFromBackground(red,green,blue));
-            lightShadowColor = new Color(MotifColorUtilities.calculateTopShadowFromBackground(red,green,blue));
-            darkShadowColor = new Color(MotifColorUtilities.calculateBottomShadowFromBackground(red,green,blue));
-            selectedColor = new Color(MotifColorUtilities.calculateSelectFromBackground(red,green,blue));
-            disabledColor = (backgroundColor.equals(Color.BLACK)) ? foregroundColor.darker() : backgroundColor.darker();
+            foregroundColor = new Color(MotifColorUtilities.cblculbteForegroundFromBbckground(red,green,blue));
+            lightShbdowColor = new Color(MotifColorUtilities.cblculbteTopShbdowFromBbckground(red,green,blue));
+            dbrkShbdowColor = new Color(MotifColorUtilities.cblculbteBottomShbdowFromBbckground(red,green,blue));
+            selectedColor = new Color(MotifColorUtilities.cblculbteSelectFromBbckground(red,green,blue));
+            disbbledColor = (bbckgroundColor.equbls(Color.BLACK)) ? foregroundColor.dbrker() : bbckgroundColor.dbrker();
         }
     }
 
-    Color getBackgroundColor() {
-        return backgroundColor;
+    Color getBbckgroundColor() {
+        return bbckgroundColor;
     }
 
     Color getForegroundColor() {
         return foregroundColor;
     }
 
-    Color getLightShadowColor() {
-        return lightShadowColor;
+    Color getLightShbdowColor() {
+        return lightShbdowColor;
     }
 
-    Color getDarkShadowColor() {
-        return darkShadowColor;
+    Color getDbrkShbdowColor() {
+        return dbrkShbdowColor;
     }
 
     Color getSelectedColor() {
         return selectedColor;
     }
 
-    Color getDisabledColor() {
-        return disabledColor;
+    Color getDisbbledColor() {
+        return disbbledColor;
     }
 
     /************************************************
      *
-     * Painting utility functions
+     * Pbinting utility functions
      *
      ************************************************/
 
     /**
-     * Draws raised or sunken rectangle on specified graphics
-     * @param g the graphics on which to draw
-     * @param x the coordinate of left edge in coordinates of graphics
-     * @param y the coordinate of top edge in coordinates of graphics
-     * @param width the width of rectangle
-     * @param height the height of rectangle
-     * @param raised true to draw raised rectangle, false to draw sunken
+     * Drbws rbised or sunken rectbngle on specified grbphics
+     * @pbrbm g the grbphics on which to drbw
+     * @pbrbm x the coordinbte of left edge in coordinbtes of grbphics
+     * @pbrbm y the coordinbte of top edge in coordinbtes of grbphics
+     * @pbrbm width the width of rectbngle
+     * @pbrbm height the height of rectbngle
+     * @pbrbm rbised true to drbw rbised rectbngle, fblse to drbw sunken
      */
-    void draw3DRect(Graphics g, int x, int y, int width, int height, boolean raised) {
+    void drbw3DRect(Grbphics g, int x, int y, int width, int height, boolebn rbised) {
         if ((width <= 0) || (height <= 0)) {
             return;
         }
         Color c = g.getColor();
-        g.setColor(raised ? getLightShadowColor() : getDarkShadowColor());
-        g.drawLine(x, y, x, y + height - 1);
-        g.drawLine(x + 1, y, x + width - 1, y);
-        g.setColor(raised ? getDarkShadowColor() : getLightShadowColor());
-        g.drawLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
-        g.drawLine(x + width - 1, y + 1, x + width - 1, y + height - 1);
+        g.setColor(rbised ? getLightShbdowColor() : getDbrkShbdowColor());
+        g.drbwLine(x, y, x, y + height - 1);
+        g.drbwLine(x + 1, y, x + width - 1, y);
+        g.setColor(rbised ? getDbrkShbdowColor() : getLightShbdowColor());
+        g.drbwLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
+        g.drbwLine(x + width - 1, y + 1, x + width - 1, y + height - 1);
         g.setColor(c);
     }
 
@@ -887,29 +887,29 @@ abstract public class XBaseMenuWindow extends XWindow {
     /**
      * Filters X events
      */
-     protected boolean isEventDisabled(XEvent e) {
+     protected boolebn isEventDisbbled(XEvent e) {
         switch (e.get_type()) {
-          case XConstants.Expose :
-          case XConstants.GraphicsExpose :
-          case XConstants.ButtonPress:
-          case XConstants.ButtonRelease:
-          case XConstants.MotionNotify:
-          case XConstants.KeyPress:
-          case XConstants.KeyRelease:
-          case XConstants.DestroyNotify:
-              return super.isEventDisabled(e);
-          default:
+          cbse XConstbnts.Expose :
+          cbse XConstbnts.GrbphicsExpose :
+          cbse XConstbnts.ButtonPress:
+          cbse XConstbnts.ButtonRelebse:
+          cbse XConstbnts.MotionNotify:
+          cbse XConstbnts.KeyPress:
+          cbse XConstbnts.KeyRelebse:
+          cbse XConstbnts.DestroyNotify:
+              return super.isEventDisbbled(e);
+          defbult:
               return true;
         }
     }
 
     /**
-     * Invokes disposal procedure on eventHandlerThread
+     * Invokes disposbl procedure on eventHbndlerThrebd
      */
     public void dispose() {
         setDisposed(true);
 
-        SunToolkit.invokeLaterOnAppContext(disposeAppContext, new Runnable()  {
+        SunToolkit.invokeLbterOnAppContext(disposeAppContext, new Runnbble()  {
             public void run() {
                 doDispose();
             }
@@ -917,317 +917,317 @@ abstract public class XBaseMenuWindow extends XWindow {
     }
 
     /**
-     * Performs disposal of menu window.
-     * Should be called only on eventHandlerThread
+     * Performs disposbl of menu window.
+     * Should be cblled only on eventHbndlerThrebd
      */
     protected void doDispose() {
-        xSetVisible(false);
-        SurfaceData oldData = surfaceData;
-        surfaceData = null;
-        if (oldData != null) {
-            oldData.invalidate();
+        xSetVisible(fblse);
+        SurfbceDbtb oldDbtb = surfbceDbtb;
+        surfbceDbtb = null;
+        if (oldDbtb != null) {
+            oldDbtb.invblidbte();
         }
         destroy();
     }
 
     /**
-     * Invokes event processing on eventHandlerThread
+     * Invokes event processing on eventHbndlerThrebd
      * This function needs to be overriden since
-     * XBaseMenuWindow has no corresponding component
-     * so events can not be processed using standart means
+     * XBbseMenuWindow hbs no corresponding component
+     * so events cbn not be processed using stbndbrt mebns
      */
-    void postEvent(final AWTEvent event) {
-        InvocationEvent ev = new InvocationEvent(event.getSource(), new Runnable() {
+    void postEvent(finbl AWTEvent event) {
+        InvocbtionEvent ev = new InvocbtionEvent(event.getSource(), new Runnbble() {
             public void run() {
-                handleEvent(event);
+                hbndleEvent(event);
             }
         });
         super.postEvent(ev);
     }
 
     /**
-     * The implementation of base window performs processing
-     * of paint events only. This behaviour is changed in
-     * descendants.
+     * The implementbtion of bbse window performs processing
+     * of pbint events only. This behbviour is chbnged in
+     * descendbnts.
      */
-    protected void handleEvent(AWTEvent event) {
+    protected void hbndleEvent(AWTEvent event) {
         switch(event.getID()) {
-        case PaintEvent.PAINT:
-            doHandleJavaPaintEvent((PaintEvent)event);
-            break;
+        cbse PbintEvent.PAINT:
+            doHbndleJbvbPbintEvent((PbintEvent)event);
+            brebk;
         }
     }
 
     /**
-     * Save location of pointer for further use
-     * then invoke superclass
+     * Sbve locbtion of pointer for further use
+     * then invoke superclbss
      */
-    public boolean grabInput() {
+    public boolebn grbbInput() {
         int rootX;
         int rootY;
-        boolean res;
-        XToolkit.awtLock();
+        boolebn res;
+        XToolkit.bwtLock();
         try {
-            long root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
+            long root = XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                     getScreenNumber());
-            res = XlibWrapper.XQueryPointer(XToolkit.getDisplay(), root,
-                                            XlibWrapper.larg1, //root
-                                            XlibWrapper.larg2, //child
-                                            XlibWrapper.larg3, //root_x
-                                            XlibWrapper.larg4, //root_y
-                                            XlibWrapper.larg5, //child_x
-                                            XlibWrapper.larg6, //child_y
-                                            XlibWrapper.larg7);//mask
-            rootX = Native.getInt(XlibWrapper.larg3);
-            rootY = Native.getInt(XlibWrapper.larg4);
-            res &= super.grabInput();
-        } finally {
-            XToolkit.awtUnlock();
+            res = XlibWrbpper.XQueryPointer(XToolkit.getDisplby(), root,
+                                            XlibWrbpper.lbrg1, //root
+                                            XlibWrbpper.lbrg2, //child
+                                            XlibWrbpper.lbrg3, //root_x
+                                            XlibWrbpper.lbrg4, //root_y
+                                            XlibWrbpper.lbrg5, //child_x
+                                            XlibWrbpper.lbrg6, //child_y
+                                            XlibWrbpper.lbrg7);//mbsk
+            rootX = Nbtive.getInt(XlibWrbpper.lbrg3);
+            rootY = Nbtive.getInt(XlibWrbpper.lbrg4);
+            res &= super.grbbInput();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         if (res) {
-            //Mouse pointer is on the same display
-            this.grabInputPoint = new Point(rootX, rootY);
-            this.hasPointerMoved = false;
+            //Mouse pointer is on the sbme displby
+            this.grbbInputPoint = new Point(rootX, rootY);
+            this.hbsPointerMoved = fblse;
         } else {
-            this.grabInputPoint = null;
-            this.hasPointerMoved = true;
+            this.grbbInputPoint = null;
+            this.hbsPointerMoved = true;
         }
         return res;
     }
     /************************************************
      *
-     * Overridable event processing functions
+     * Overridbble event processing functions
      *
      ************************************************/
 
     /**
-     * Performs repainting
+     * Performs repbinting
      */
-    void doHandleJavaPaintEvent(PaintEvent event) {
-        Rectangle rect = event.getUpdateRect();
-        repaint(rect.x, rect.y, rect.width, rect.height);
+    void doHbndleJbvbPbintEvent(PbintEvent event) {
+        Rectbngle rect = event.getUpdbteRect();
+        repbint(rect.x, rect.y, rect.width, rect.height);
     }
 
     /************************************************
      *
-     * User input handling utility functions
+     * User input hbndling utility functions
      *
      ************************************************/
 
     /**
-     * Performs handling of java mouse event
-     * Note that this function should be invoked
-     * only from root of menu window's hierarchy
-     * that grabs input focus
+     * Performs hbndling of jbvb mouse event
+     * Note thbt this function should be invoked
+     * only from root of menu window's hierbrchy
+     * thbt grbbs input focus
      */
-    void doHandleJavaMouseEvent( MouseEvent mouseEvent ) {
+    void doHbndleJbvbMouseEvent( MouseEvent mouseEvent ) {
         if (!XToolkit.isLeftMouseButton(mouseEvent) && !XToolkit.isRightMouseButton(mouseEvent)) {
             return;
         }
-        //Window that owns input
-        XBaseWindow grabWindow = XAwtState.getGrabWindow();
-        //Point of mouse event in global coordinates
-        Point ptGlobal = mouseEvent.getLocationOnScreen();
-        if (!hasPointerMoved) {
-            //Fix for 6301307: NullPointerException while dispatching mouse events, XToolkit
-            if (grabInputPoint == null ||
-                (Math.abs(ptGlobal.x - grabInputPoint.x) > getMouseMovementSmudge()) ||
-                (Math.abs(ptGlobal.y - grabInputPoint.y) > getMouseMovementSmudge())) {
-                hasPointerMoved = true;
+        //Window thbt owns input
+        XBbseWindow grbbWindow = XAwtStbte.getGrbbWindow();
+        //Point of mouse event in globbl coordinbtes
+        Point ptGlobbl = mouseEvent.getLocbtionOnScreen();
+        if (!hbsPointerMoved) {
+            //Fix for 6301307: NullPointerException while dispbtching mouse events, XToolkit
+            if (grbbInputPoint == null ||
+                (Mbth.bbs(ptGlobbl.x - grbbInputPoint.x) > getMouseMovementSmudge()) ||
+                (Mbth.bbs(ptGlobbl.y - grbbInputPoint.y) > getMouseMovementSmudge())) {
+                hbsPointerMoved = true;
             }
         }
-        //Z-order first descendant of current menu window
-        //hierarchy that contain mouse point
-        XBaseMenuWindow wnd = getMenuWindowFromPoint(ptGlobal);
-        //Item in wnd that contains mouse point, if any
-        XMenuItemPeer item = (wnd != null) ? wnd.getItemFromPoint(wnd.toLocal(ptGlobal)) : null;
-        //Currently showing leaf window
-        XBaseMenuWindow cwnd = getShowingLeaf();
+        //Z-order first descendbnt of current menu window
+        //hierbrchy thbt contbin mouse point
+        XBbseMenuWindow wnd = getMenuWindowFromPoint(ptGlobbl);
+        //Item in wnd thbt contbins mouse point, if bny
+        XMenuItemPeer item = (wnd != null) ? wnd.getItemFromPoint(wnd.toLocbl(ptGlobbl)) : null;
+        //Currently showing lebf window
+        XBbseMenuWindow cwnd = getShowingLebf();
         switch (mouseEvent.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               //This line is to get rid of possible problems
-              //That may occur if mouse events are lost
+              //Thbt mby occur if mouse events bre lost
               showingMousePressedSubmenu = null;
-              if ((grabWindow == this) && (wnd == null)) {
-                  //Menus grab input and the user
+              if ((grbbWindow == this) && (wnd == null)) {
+                  //Menus grbb input bnd the user
                   //presses mouse button outside
-                  ungrabInput();
+                  ungrbbInput();
               } else {
-                  //Menus grab input OR mouse is pressed on menu window
-                  grabInput();
-                  if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                      //Button is pressed on enabled item
+                  //Menus grbb input OR mouse is pressed on menu window
+                  grbbInput();
+                  if (item != null && !item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
+                      //Button is pressed on enbbled item
                       if (wnd.getShowingSubmenu() == item) {
-                          //Button is pressed on item that shows
-                          //submenu. We have to hide its submenu
+                          //Button is pressed on item thbt shows
+                          //submenu. We hbve to hide its submenu
                           //if user clicks on it
                           showingMousePressedSubmenu = (XMenuPeer)item;
                       }
                       wnd.selectItem(item, true);
                   } else {
-                      //Button is pressed on disabled item or empty space
+                      //Button is pressed on disbbled item or empty spbce
                       if (wnd != null) {
-                          wnd.selectItem(null, false);
+                          wnd.selectItem(null, fblse);
                       }
                   }
               }
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              //Note that if item is not null, wnd has to be not null
-              if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                  if  (item instanceof XMenuPeer) {
+              brebk;
+          cbse MouseEvent.MOUSE_RELEASED:
+              //Note thbt if item is not null, wnd hbs to be not null
+              if (item != null && !item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
+                  if  (item instbnceof XMenuPeer) {
                       if (showingMousePressedSubmenu == item) {
-                          //User clicks on item that shows submenu.
+                          //User clicks on item thbt shows submenu.
                           //Hide the submenu
-                          if (wnd instanceof XMenuBarPeer) {
-                              ungrabInput();
+                          if (wnd instbnceof XMenuBbrPeer) {
+                              ungrbbInput();
                           } else {
-                              wnd.selectItem(item, false);
+                              wnd.selectItem(item, fblse);
                           }
                       }
                   } else {
-                      //Invoke action event
-                      item.action(mouseEvent.getWhen());
-                      ungrabInput();
+                      //Invoke bction event
+                      item.bction(mouseEvent.getWhen());
+                      ungrbbInput();
                   }
               } else {
-                  //Mouse is released outside menu items
-                  if (hasPointerMoved || (wnd instanceof XMenuBarPeer)) {
-                      ungrabInput();
+                  //Mouse is relebsed outside menu items
+                  if (hbsPointerMoved || (wnd instbnceof XMenuBbrPeer)) {
+                      ungrbbInput();
                   }
               }
               showingMousePressedSubmenu = null;
-              break;
-          case MouseEvent.MOUSE_DRAGGED:
+              brebk;
+          cbse MouseEvent.MOUSE_DRAGGED:
               if (wnd != null) {
-                  //Mouse is dragged over menu window
+                  //Mouse is drbgged over menu window
                   //Move selection to item under cursor
-                  if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                      if (grabWindow == this){
+                  if (item != null && !item.isSepbrbtor() && item.isTbrgetItemEnbbled()) {
+                      if (grbbWindow == this){
                           wnd.selectItem(item, true);
                       }
                   } else {
-                      wnd.selectItem(null, false);
+                      wnd.selectItem(null, fblse);
                   }
               } else {
-                  //Mouse is dragged outside menu windows
-                  //clear selection in leaf to reflect it
+                  //Mouse is drbgged outside menu windows
+                  //clebr selection in lebf to reflect it
                   if (cwnd != null) {
-                      cwnd.selectItem(null, false);
+                      cwnd.selectItem(null, fblse);
                   }
               }
-              break;
+              brebk;
         }
     }
 
     /**
-     * Performs handling of java keyboard event
-     * Note that this function should be invoked
-     * only from root of menu window's hierarchy
-     * that grabs input focus
+     * Performs hbndling of jbvb keybobrd event
+     * Note thbt this function should be invoked
+     * only from root of menu window's hierbrchy
+     * thbt grbbs input focus
      */
-    void doHandleJavaKeyEvent(KeyEvent event) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+    void doHbndleJbvbKeyEvent(KeyEvent event) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer(event.toString());
         }
         if (event.getID() != KeyEvent.KEY_PRESSED) {
             return;
         }
-        final int keyCode = event.getKeyCode();
-        XBaseMenuWindow cwnd = getShowingLeaf();
+        finbl int keyCode = event.getKeyCode();
+        XBbseMenuWindow cwnd = getShowingLebf();
         XMenuItemPeer citem = cwnd.getSelectedItem();
         switch(keyCode) {
-          case KeyEvent.VK_UP:
-          case KeyEvent.VK_KP_UP:
-              if (!(cwnd instanceof XMenuBarPeer)) {
-                  //If active window is not menu bar,
+          cbse KeyEvent.VK_UP:
+          cbse KeyEvent.VK_KP_UP:
+              if (!(cwnd instbnceof XMenuBbrPeer)) {
+                  //If bctive window is not menu bbr,
                   //move selection up
-                  cwnd.selectItem(cwnd.getPrevSelectableItem(), false);
+                  cwnd.selectItem(cwnd.getPrevSelectbbleItem(), fblse);
               }
-              break;
-          case KeyEvent.VK_DOWN:
-          case KeyEvent.VK_KP_DOWN:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //If active window is menu bar show current submenu
+              brebk;
+          cbse KeyEvent.VK_DOWN:
+          cbse KeyEvent.VK_KP_DOWN:
+              if (cwnd instbnceof XMenuBbrPeer) {
+                  //If bctive window is menu bbr show current submenu
                   selectItem(getSelectedItem(), true);
               } else {
                   //move selection down
-                  cwnd.selectItem(cwnd.getNextSelectableItem(), false);
+                  cwnd.selectItem(cwnd.getNextSelectbbleItem(), fblse);
               }
-              break;
-          case KeyEvent.VK_LEFT:
-          case KeyEvent.VK_KP_LEFT:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //leaf window is menu bar
+              brebk;
+          cbse KeyEvent.VK_LEFT:
+          cbse KeyEvent.VK_KP_LEFT:
+              if (cwnd instbnceof XMenuBbrPeer) {
+                  //lebf window is menu bbr
                   //select previous item
-                  selectItem(getPrevSelectableItem(), false);
-              } else if (cwnd.getParentMenuWindow() instanceof XMenuBarPeer) {
-                  //leaf window is direct child of menu bar
-                  //select previous item of menu bar
-                  //and show its submenu
-                  selectItem(getPrevSelectableItem(), true);
+                  selectItem(getPrevSelectbbleItem(), fblse);
+              } else if (cwnd.getPbrentMenuWindow() instbnceof XMenuBbrPeer) {
+                  //lebf window is direct child of menu bbr
+                  //select previous item of menu bbr
+                  //bnd show its submenu
+                  selectItem(getPrevSelectbbleItem(), true);
               } else {
-                  //hide leaf moving focus to its parent
-                  //(equvivalent of pressing ESC)
-                  XBaseMenuWindow pwnd = cwnd.getParentMenuWindow();
-                  //Fix for 6272952: PIT: Pressing LEFT ARROW on a popup menu throws NullPointerException, XToolkit
+                  //hide lebf moving focus to its pbrent
+                  //(equvivblent of pressing ESC)
+                  XBbseMenuWindow pwnd = cwnd.getPbrentMenuWindow();
+                  //Fix for 6272952: PIT: Pressing LEFT ARROW on b popup menu throws NullPointerException, XToolkit
                   if (pwnd != null) {
-                      pwnd.selectItem(pwnd.getSelectedItem(), false);
+                      pwnd.selectItem(pwnd.getSelectedItem(), fblse);
                   }
               }
-              break;
-          case KeyEvent.VK_RIGHT:
-          case KeyEvent.VK_KP_RIGHT:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //leaf window is menu bar
+              brebk;
+          cbse KeyEvent.VK_RIGHT:
+          cbse KeyEvent.VK_KP_RIGHT:
+              if (cwnd instbnceof XMenuBbrPeer) {
+                  //lebf window is menu bbr
                   //select next item
-                  selectItem(getNextSelectableItem(), false);
-              } else if (citem instanceof XMenuPeer) {
+                  selectItem(getNextSelectbbleItem(), fblse);
+              } else if (citem instbnceof XMenuPeer) {
                   //current item is menu, show its window
-                  //(equivalent of ENTER)
+                  //(equivblent of ENTER)
                   cwnd.selectItem(citem, true);
-              } else if (this instanceof XMenuBarPeer) {
-                  //if this is menu bar (not popup menu)
-                  //and the user presses RIGHT on item (not submenu)
+              } else if (this instbnceof XMenuBbrPeer) {
+                  //if this is menu bbr (not popup menu)
+                  //bnd the user presses RIGHT on item (not submenu)
                   //select next top-level menu
-                  selectItem(getNextSelectableItem(), true);
+                  selectItem(getNextSelectbbleItem(), true);
               }
-              break;
-          case KeyEvent.VK_SPACE:
-          case KeyEvent.VK_ENTER:
-              //If the current item has submenu show it
-              //Perform action otherwise
-              if (citem instanceof XMenuPeer) {
+              brebk;
+          cbse KeyEvent.VK_SPACE:
+          cbse KeyEvent.VK_ENTER:
+              //If the current item hbs submenu show it
+              //Perform bction otherwise
+              if (citem instbnceof XMenuPeer) {
                   cwnd.selectItem(citem, true);
               } else if (citem != null) {
-                  citem.action(event.getWhen());
-                  ungrabInput();
+                  citem.bction(event.getWhen());
+                  ungrbbInput();
               }
-              break;
-          case KeyEvent.VK_ESCAPE:
-              //If current window is menu bar or its child - close it
+              brebk;
+          cbse KeyEvent.VK_ESCAPE:
+              //If current window is menu bbr or its child - close it
               //If current window is popup menu - close it
               //go one level up otherwise
 
-              //Fixed 6266513: Incorrect key handling in XAWT popup menu
+              //Fixed 6266513: Incorrect key hbndling in XAWT popup menu
               //Popup menu should be closed on 'ESC'
-              if ((cwnd instanceof XMenuBarPeer) || (cwnd.getParentMenuWindow() instanceof XMenuBarPeer)) {
-                  ungrabInput();
-              } else if (cwnd instanceof XPopupMenuPeer) {
-                  ungrabInput();
+              if ((cwnd instbnceof XMenuBbrPeer) || (cwnd.getPbrentMenuWindow() instbnceof XMenuBbrPeer)) {
+                  ungrbbInput();
+              } else if (cwnd instbnceof XPopupMenuPeer) {
+                  ungrbbInput();
               } else {
-                  XBaseMenuWindow pwnd = cwnd.getParentMenuWindow();
-                  pwnd.selectItem(pwnd.getSelectedItem(), false);
+                  XBbseMenuWindow pwnd = cwnd.getPbrentMenuWindow();
+                  pwnd.selectItem(pwnd.getSelectedItem(), fblse);
               }
-              break;
-          case KeyEvent.VK_F10:
-              //Fixed 6266513: Incorrect key handling in XAWT popup menu
+              brebk;
+          cbse KeyEvent.VK_F10:
+              //Fixed 6266513: Incorrect key hbndling in XAWT popup menu
               //All menus should be closed on 'F10'
-              ungrabInput();
-              break;
-          default:
-              break;
+              ungrbbInput();
+              brebk;
+          defbult:
+              brebk;
         }
     }
 
-} //class XBaseMenuWindow
+} //clbss XBbseMenuWindow

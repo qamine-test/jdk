@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
 
-#include "vis_AlphaMacros.h"
+#include "vis_AlphbMbcros.h"
 
 /***************************************************************/
 
 /* ##############################################################
- * IntArgbPreAlphaMaskFill()
+ * IntArgbPreAlphbMbskFill()
  */
 
 #undef  MASK_FILL
-#define MASK_FILL(rr, pathA, dstA, dstARGB)               \
+#define MASK_FILL(rr, pbthA, dstA, dstARGB)               \
 {                                                         \
     mlib_d64 t0, t1;                                      \
     mlib_s32 srcF, dstF;                                  \
                                                           \
     srcF = ((dstA & ConstAnd) ^ ConstXor) + ConstAdd;     \
-    srcF = MUL8_INT(srcF, pathA);                         \
-    dstF = mul8_cnstF[pathA] + (255 - pathA);             \
+    srcF = MUL8_INT(srcF, pbthA);                         \
+    dstF = mul8_cnstF[pbthA] + (255 - pbthA);             \
                                                           \
     t0 = MUL8_VIS(cnstARGB0, srcF);                       \
     t1 = MUL8_VIS(dstARGB, dstF);                         \
-    rr = vis_fpadd16(t0, t1);                             \
+    rr = vis_fpbdd16(t0, t1);                             \
 }
 
 /***************************************************************/
 
-void IntArgbPreAlphaMaskFill_line(mlib_f32 *dst_ptr,
-                                  mlib_u8  *pMask,
+void IntArgbPreAlphbMbskFill_line(mlib_f32 *dst_ptr,
+                                  mlib_u8  *pMbsk,
                                   mlib_s32 width,
                                   mlib_f32 cnstARGB0,
-                                  mlib_s32 *log_val,
+                                  mlib_s32 *log_vbl,
                                   mlib_u8  *mul8_cnstF,
                                   mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntArgbPreAlphaMaskFill_line)
+#prbgmb no_inline(IntArgbPreAlphbMbskFill_line)
 
-void IntArgbPreAlphaMaskFill_line(mlib_f32 *dst_ptr,
-                                  mlib_u8  *pMask,
+void IntArgbPreAlphbMbskFill_line(mlib_f32 *dst_ptr,
+                                  mlib_u8  *pMbsk,
                                   mlib_s32 width,
                                   mlib_f32 cnstARGB0,
-                                  mlib_s32 *log_val,
+                                  mlib_s32 *log_vbl,
                                   mlib_u8  *mul8_cnstF,
                                   mlib_u8  *mul8_tbl)
 {
     mlib_s32 i, i0;
-    mlib_s32 pathA0, pathA1, dstA0, dstA1, msk;
+    mlib_s32 pbthA0, pbthA1, dstA0, dstA1, msk;
     mlib_d64 res0, res1, dstARGB;
     mlib_f32 dstARGB0;
     mlib_s32 ConstAnd, ConstXor, ConstAdd;
 
-    ConstAnd = log_val[0];
-    ConstXor = log_val[1];
-    ConstAdd = log_val[2];
+    ConstAnd = log_vbl[0];
+    ConstXor = log_vbl[1];
+    ConstAdd = log_vbl[2];
 
     i = i0 = 0;
 
     if ((mlib_s32)dst_ptr & 7) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
-        if (pathA0) {
+        if (pbthA0) {
             dstA0 = *(mlib_u8*)(dst_ptr + i);
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
-        pathA0 = pMask[i];
-        pathA1 = pMask[i + 1];
+        pbthA0 = pMbsk[i];
+        pbthA1 = pMbsk[i + 1];
         dstA0 = *(mlib_u8*)(dst_ptr + i);
         dstA1 = *(mlib_u8*)(dst_ptr + i + 1);
         dstARGB = *(mlib_d64*)(dst_ptr + i);
 
-        MASK_FILL(res0, pathA0, dstA0, vis_read_hi(dstARGB));
-        MASK_FILL(res1, pathA1, dstA1, vis_read_lo(dstARGB));
+        MASK_FILL(res0, pbthA0, dstA0, vis_rebd_hi(dstARGB));
+        MASK_FILL(res1, pbthA1, dstA1, vis_rebd_lo(dstARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
-        msk = (((-pathA0) & (1 << 11)) | ((-pathA1) & (1 << 10))) >> 10;
+        msk = (((-pbthA0) & (1 << 11)) | ((-pbthA1) & (1 << 10))) >> 10;
         vis_pst_32(res0, dst_ptr + i, msk);
     }
 
     if (i < width) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
-        if (pathA0) {
+        if (pbthA0) {
             dstA0 = *(mlib_u8*)(dst_ptr + i);
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
@@ -135,23 +135,23 @@ void IntArgbPreAlphaMaskFill_line(mlib_f32 *dst_ptr,
                                                           \
     t0 = MUL8_VIS(cnstARGB0, srcF);                       \
     t1 = MUL8_VIS(dstARGB, dstF);                         \
-    rr = vis_fpadd16(t0, t1);                             \
+    rr = vis_fpbdd16(t0, t1);                             \
 }
 
 /***************************************************************/
 
-void IntArgPrebAlphaMaskFill_A1_line(mlib_f32 *dst_ptr,
+void IntArgPrebAlphbMbskFill_A1_line(mlib_f32 *dst_ptr,
                                      mlib_s32 width,
                                      mlib_f32 cnstARGB0,
-                                     mlib_s32 *log_val,
+                                     mlib_s32 *log_vbl,
                                      mlib_s32 cnstF);
 
-#pragma no_inline(IntArgPrebAlphaMaskFill_A1_line)
+#prbgmb no_inline(IntArgPrebAlphbMbskFill_A1_line)
 
-void IntArgPrebAlphaMaskFill_A1_line(mlib_f32 *dst_ptr,
+void IntArgPrebAlphbMbskFill_A1_line(mlib_f32 *dst_ptr,
                                      mlib_s32 width,
                                      mlib_f32 cnstARGB0,
-                                     mlib_s32 *log_val,
+                                     mlib_s32 *log_vbl,
                                      mlib_s32 cnstF)
 {
     mlib_s32 i, i0;
@@ -160,9 +160,9 @@ void IntArgPrebAlphaMaskFill_A1_line(mlib_f32 *dst_ptr,
     mlib_f32 dstARGB0;
     mlib_s32 ConstAnd, ConstXor, ConstAdd;
 
-    ConstAnd = log_val[0];
-    ConstXor = log_val[1];
-    ConstAdd = log_val[2];
+    ConstAnd = log_vbl[0];
+    ConstXor = log_vbl[1];
+    ConstAdd = log_vbl[2];
 
     i = i0 = 0;
 
@@ -171,22 +171,22 @@ void IntArgPrebAlphaMaskFill_A1_line(mlib_f32 *dst_ptr,
             dstA0 = *(mlib_u8*)(dst_ptr + i);
             dstARGB0 = dst_ptr[i];
             MASK_FILL(res0, cnstF, dstA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
         dstA0 = *(mlib_u8*)(dst_ptr + i);
         dstA1 = *(mlib_u8*)(dst_ptr + i + 1);
         dstARGB = *(mlib_d64*)(dst_ptr + i);
 
-        MASK_FILL(res0, cnstF, dstA0, vis_read_hi(dstARGB));
-        MASK_FILL(res1, cnstF, dstA1, vis_read_lo(dstARGB));
+        MASK_FILL(res0, cnstF, dstA0, vis_rebd_hi(dstARGB));
+        MASK_FILL(res1, cnstF, dstA1, vis_rebd_lo(dstARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
         *(mlib_d64*)(dst_ptr + i) = res0;
     }
@@ -196,32 +196,32 @@ void IntArgPrebAlphaMaskFill_A1_line(mlib_f32 *dst_ptr,
             dstA0 = *(mlib_u8*)(dst_ptr + i);
             dstARGB0 = dst_ptr[i];
             MASK_FILL(res0, cnstF, dstA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbPreAlphaMaskFill)(void *rasBase,
-                                       jubyte *pMask,
-                                       jint maskOff,
-                                       jint maskScan,
+void ADD_SUFF(IntArgbPreAlphbMbskFill)(void *rbsBbse,
+                                       jubyte *pMbsk,
+                                       jint mbskOff,
+                                       jint mbskScbn,
                                        jint width,
                                        jint height,
                                        jint fgColor,
-                                       SurfaceDataRasInfo *pRasInfo,
-                                       NativePrimitive *pPrim,
+                                       SurfbceDbtbRbsInfo *pRbsInfo,
+                                       NbtivePrimitive *pPrim,
                                        CompositeInfo *pCompInfo)
 {
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_u8  *mul8_cnstF;
     mlib_s32 SrcOpAnd, SrcOpXor, SrcOpAdd;
     mlib_s32 DstOpAnd, DstOpXor, DstOpAdd;
-    mlib_s32 dstFbase;
-    mlib_s32 log_val[3];
+    mlib_s32 dstFbbse;
+    mlib_s32 log_vbl[3];
     mlib_s32 j;
 
     cnstA = (fgColor >> 24) & 0xff;
@@ -230,90 +230,90 @@ void ADD_SUFF(IntArgbPreAlphaMaskFill)(void *rasBase,
     cnstB = (fgColor      ) & 0xff;
 
     if (cnstA != 0xff) {
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
     cnstARGB0 = F32_FROM_U8x4(cnstA, cnstR, cnstG, cnstB);
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    dstFbase = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
+    dstFbbse = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
 
-    mul8_cnstF = mul8table[dstFbase];
+    mul8_cnstF = mul8tbble[dstFbbse];
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        if (rasScan == 4*width && maskScan == width) {
+        if (rbsScbn == 4*width && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbPreAlphaMaskFill_line(rasBase, pMask, width, cnstARGB0,
-                                         log_val, mul8_cnstF,
-                                         (void*)mul8table);
+            IntArgbPreAlphbMbskFill_line(rbsBbse, pMbsk, width, cnstARGB0,
+                                         log_vbl, mul8_cnstF,
+                                         (void*)mul8tbble);
 
-            PTR_ADD(rasBase, rasScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(rbsBbse, rbsScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
-        if (rasScan == 4*width) {
+        if (rbsScbn == 4*width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgPrebAlphaMaskFill_A1_line(rasBase, width, cnstARGB0,
-                                            log_val, dstFbase);
+            IntArgPrebAlphbMbskFill_A1_line(rbsBbse, width, cnstARGB0,
+                                            log_vbl, dstFbbse);
 
-            PTR_ADD(rasBase, rasScan);
+            PTR_ADD(rbsBbse, rbsScbn);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(FourByteAbgrPreAlphaMaskFill)(void *rasBase,
-                                            jubyte *pMask,
-                                            jint maskOff,
-                                            jint maskScan,
+void ADD_SUFF(FourByteAbgrPreAlphbMbskFill)(void *rbsBbse,
+                                            jubyte *pMbsk,
+                                            jint mbskOff,
+                                            jint mbskScbn,
                                             jint width,
                                             jint height,
                                             jint fgColor,
-                                            SurfaceDataRasInfo *pRasInfo,
-                                            NativePrimitive *pPrim,
+                                            SurfbceDbtbRbsInfo *pRbsInfo,
+                                            NbtivePrimitive *pPrim,
                                             CompositeInfo *pCompInfo)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff, *p_dst;
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_u8  *mul8_cnstF;
     mlib_s32 SrcOpAnd, SrcOpXor, SrcOpAdd;
     mlib_s32 DstOpAnd, DstOpXor, DstOpAdd;
-    mlib_s32 dstFbase;
-    mlib_s32 log_val[3];
+    mlib_s32 dstFbbse;
+    mlib_s32 log_vbl[3];
     mlib_s32 j;
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
     cnstA = (fgColor >> 24) & 0xff;
     cnstR = (fgColor >> 16) & 0xff;
@@ -321,72 +321,72 @@ void ADD_SUFF(FourByteAbgrPreAlphaMaskFill)(void *rasBase,
     cnstB = (fgColor      ) & 0xff;
 
     if (cnstA != 0xff) {
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
     cnstARGB0 = F32_FROM_U8x4(cnstA, cnstB, cnstG, cnstR);
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    dstFbase = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
+    dstFbbse = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
 
-    mul8_cnstF = mul8table[dstFbase];
+    mul8_cnstF = mul8tbble[dstFbbse];
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
         for (j = 0; j < height; j++) {
-            if ((mlib_s32)rasBase & 3) {
-                mlib_ImageCopy_na(rasBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)rbsBbse & 3) {
+                mlib_ImbgeCopy_nb(rbsBbse, pbuff, width*sizeof(mlib_s32));
                 p_dst = pbuff;
             } else {
-                p_dst = rasBase;
+                p_dst = rbsBbse;
             }
 
-            IntArgbPreAlphaMaskFill_line(p_dst, pMask, width, cnstARGB0,
-                                         log_val, mul8_cnstF,
-                                         (void*)mul8table);
+            IntArgbPreAlphbMbskFill_line(p_dst, pMbsk, width, cnstARGB0,
+                                         log_vbl, mul8_cnstF,
+                                         (void*)mul8tbble);
 
-            if (p_dst != rasBase) {
-                mlib_ImageCopy_na(p_dst, rasBase, width*sizeof(mlib_s32));
+            if (p_dst != rbsBbse) {
+                mlib_ImbgeCopy_nb(p_dst, rbsBbse, width*sizeof(mlib_s32));
             }
 
-            PTR_ADD(rasBase, rasScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(rbsBbse, rbsScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
         for (j = 0; j < height; j++) {
-            if ((mlib_s32)rasBase & 3) {
-                mlib_ImageCopy_na(rasBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)rbsBbse & 3) {
+                mlib_ImbgeCopy_nb(rbsBbse, pbuff, width*sizeof(mlib_s32));
                 p_dst = pbuff;
             } else {
-                p_dst = rasBase;
+                p_dst = rbsBbse;
             }
 
-            IntArgPrebAlphaMaskFill_A1_line(p_dst, width, cnstARGB0,
-                                            log_val, dstFbase);
+            IntArgPrebAlphbMbskFill_A1_line(p_dst, width, cnstARGB0,
+                                            log_vbl, dstFbbse);
 
-            if (p_dst != rasBase) {
-                mlib_ImageCopy_na(p_dst, rasBase, width*sizeof(mlib_s32));
+            if (p_dst != rbsBbse) {
+                mlib_ImbgeCopy_nb(p_dst, rbsBbse, width*sizeof(mlib_s32));
             }
 
-            PTR_ADD(rasBase, rasScan);
+            PTR_ADD(rbsBbse, rbsScbn);
         }
     }
 
@@ -398,69 +398,69 @@ void ADD_SUFF(FourByteAbgrPreAlphaMaskFill)(void *rasBase,
 /***************************************************************/
 
 /* ##############################################################
- * IntArgbPreSrcMaskFill()
+ * IntArgbPreSrcMbskFill()
  */
 
 #undef MASK_FILL
-#define MASK_FILL(rr, pathA, dstARGB)           \
+#define MASK_FILL(rr, pbthA, dstARGB)           \
 {                                               \
     mlib_d64 t0, t1;                            \
                                                 \
-    t0 = MUL8_VIS(cnstARGB0, pathA);            \
-    t1 = MUL8_VIS(dstARGB, (0xff - pathA));     \
-    rr = vis_fpadd16(t0, t1);                   \
+    t0 = MUL8_VIS(cnstARGB0, pbthA);            \
+    t1 = MUL8_VIS(dstARGB, (0xff - pbthA));     \
+    rr = vis_fpbdd16(t0, t1);                   \
 }
 
 /***************************************************************/
 
-void IntArgbPreSrcMaskFill_line(mlib_f32 *dst_ptr,
-                                mlib_u8  *pMask,
+void IntArgbPreSrcMbskFill_line(mlib_f32 *dst_ptr,
+                                mlib_u8  *pMbsk,
                                 mlib_s32 width,
                                 mlib_d64 fgARGB,
                                 mlib_f32 cnstARGB0);
 
-#pragma no_inline(IntArgbPreSrcMaskFill_line)
+#prbgmb no_inline(IntArgbPreSrcMbskFill_line)
 
-void IntArgbPreSrcMaskFill_line(mlib_f32 *dst_ptr,
-                                mlib_u8  *pMask,
+void IntArgbPreSrcMbskFill_line(mlib_f32 *dst_ptr,
+                                mlib_u8  *pMbsk,
                                 mlib_s32 width,
                                 mlib_d64 fgARGB,
                                 mlib_f32 cnstARGB0)
 {
     mlib_s32 i, i0;
-    mlib_s32 pathA0, pathA1, msk;
+    mlib_s32 pbthA0, pbthA1, msk;
     mlib_d64 res0, res1, dstARGB;
     mlib_f32 dstARGB0;
 
     i = i0 = 0;
 
     if ((mlib_s32)dst_ptr & 7) {
-        pathA0 = pMask[i];
-        if (pathA0 == 0xff) {
-            dst_ptr[i] = vis_read_hi(fgARGB);
-        } else if (pathA0) {
+        pbthA0 = pMbsk[i];
+        if (pbthA0 == 0xff) {
+            dst_ptr[i] = vis_rebd_hi(fgARGB);
+        } else if (pbthA0) {
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
-        pathA0 = pMask[i];
-        pathA1 = pMask[i + 1];
+        pbthA0 = pMbsk[i];
+        pbthA1 = pMbsk[i + 1];
 
         dstARGB = *(mlib_d64*)(dst_ptr + i);
 
-        msk = (((254 - pathA0) & (1 << 11)) |
-               ((254 - pathA1) & (1 << 10))) >> 10;
+        msk = (((254 - pbthA0) & (1 << 11)) |
+               ((254 - pbthA1) & (1 << 10))) >> 10;
 
-        MASK_FILL(res0, pathA0, vis_read_hi(dstARGB));
-        MASK_FILL(res1, pathA1, vis_read_lo(dstARGB));
+        MASK_FILL(res0, pbthA0, vis_rebd_hi(dstARGB));
+        MASK_FILL(res1, pbthA1, vis_rebd_lo(dstARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
         *(mlib_d64*)(dst_ptr + i) = res0;
 
@@ -468,32 +468,32 @@ void IntArgbPreSrcMaskFill_line(mlib_f32 *dst_ptr,
     }
 
     if (i < width) {
-        pathA0 = pMask[i];
-        if (pathA0 == 0xff) {
-            dst_ptr[i] = vis_read_hi(fgARGB);
-        } else if (pathA0) {
+        pbthA0 = pMbsk[i];
+        if (pbthA0 == 0xff) {
+            dst_ptr[i] = vis_rebd_hi(fgARGB);
+        } else if (pbthA0) {
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbPreSrcMaskFill)(void *rasBase,
-                                     jubyte *pMask,
-                                     jint maskOff,
-                                     jint maskScan,
+void ADD_SUFF(IntArgbPreSrcMbskFill)(void *rbsBbse,
+                                     jubyte *pMbsk,
+                                     jint mbskOff,
+                                     jint mbskScbn,
                                      jint width,
                                      jint height,
                                      jint fgColor,
-                                     SurfaceDataRasInfo *pRasInfo,
-                                     NativePrimitive *pPrim,
+                                     SurfbceDbtbRbsInfo *pRbsInfo,
+                                     NbtivePrimitive *pPrim,
                                      CompositeInfo *pCompInfo)
 {
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_d64 fgARGB;
     mlib_s32 j;
@@ -507,25 +507,25 @@ void ADD_SUFF(IntArgbPreSrcMaskFill)(void *rasBase,
 #ifdef LOOPS_OLD_VERSION
         if (cnstA == 0) return;
 #endif
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
-    if (pMask == NULL) {
+    if (pMbsk == NULL) {
 #ifdef LOOPS_OLD_VERSION
-        ADD_SUFF(AnyIntSetRect)(pRasInfo, 0, 0, width, height,
+        ADD_SUFF(AnyIntSetRect)(pRbsInfo, 0, 0, width, height,
                                 fgColor, pPrim, pCompInfo);
 #else
-        void *pBase = pRasInfo->rasBase;
-        pRasInfo->rasBase = rasBase;
+        void *pBbse = pRbsInfo->rbsBbse;
+        pRbsInfo->rbsBbse = rbsBbse;
         if (cnstA != 0xff) {
             fgColor = (cnstA << 24) | (cnstR << 16) | (cnstG << 8) | cnstB;
         }
-        ADD_SUFF(AnyIntSetRect)(pRasInfo,
+        ADD_SUFF(AnyIntSetRect)(pRbsInfo,
                                 0, 0, width, height,
                                 fgColor, pPrim, pCompInfo);
-        pRasInfo->rasBase = pBase;
+        pRbsInfo->rbsBbse = pBbse;
 #endif
         return;
     }
@@ -534,9 +534,9 @@ void ADD_SUFF(IntArgbPreSrcMaskFill)(void *rasBase,
 
     fgARGB = vis_to_double_dup(fgColor);
 
-    pMask += maskOff;
+    pMbsk += mbskOff;
 
-    if (rasScan == 4*width && maskScan == width) {
+    if (rbsScbn == 4*width && mbskScbn == width) {
         width *= height;
         height = 1;
     }
@@ -544,30 +544,30 @@ void ADD_SUFF(IntArgbPreSrcMaskFill)(void *rasBase,
     vis_write_gsr(0 << 3);
 
     for (j = 0; j < height; j++) {
-        IntArgbPreSrcMaskFill_line(rasBase, pMask, width, fgARGB, cnstARGB0);
+        IntArgbPreSrcMbskFill_line(rbsBbse, pMbsk, width, fgARGB, cnstARGB0);
 
-        PTR_ADD(rasBase, rasScan);
-        PTR_ADD(pMask, maskScan);
+        PTR_ADD(rbsBbse, rbsScbn);
+        PTR_ADD(pMbsk, mbskScbn);
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(FourByteAbgrPreSrcMaskFill)(void *rasBase,
-                                          jubyte *pMask,
-                                          jint maskOff,
-                                          jint maskScan,
+void ADD_SUFF(FourByteAbgrPreSrcMbskFill)(void *rbsBbse,
+                                          jubyte *pMbsk,
+                                          jint mbskOff,
+                                          jint mbskScbn,
                                           jint width,
                                           jint height,
                                           jint fgColor,
-                                          SurfaceDataRasInfo *pRasInfo,
-                                          NativePrimitive *pPrim,
+                                          SurfbceDbtbRbsInfo *pRbsInfo,
+                                          NbtivePrimitive *pPrim,
                                           CompositeInfo *pCompInfo)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff, *p_dst;
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_d64 fgARGB;
     mlib_s32 j;
@@ -578,19 +578,19 @@ void ADD_SUFF(FourByteAbgrPreSrcMaskFill)(void *rasBase,
     cnstB = (fgColor      ) & 0xff;
 
     if (cnstA != 0xff) {
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
-    if (pMask == NULL) {
-        void *pBase = pRasInfo->rasBase;
-        pRasInfo->rasBase = rasBase;
+    if (pMbsk == NULL) {
+        void *pBbse = pRbsInfo->rbsBbse;
+        pRbsInfo->rbsBbse = rbsBbse;
         fgColor = (cnstR << 24) | (cnstG << 16) | (cnstB << 8) | cnstA;
-        ADD_SUFF(Any4ByteSetRect)(pRasInfo,
+        ADD_SUFF(Any4ByteSetRect)(pRbsInfo,
                                   0, 0, width, height,
                                   fgColor, pPrim, pCompInfo);
-        pRasInfo->rasBase = pBase;
+        pRbsInfo->rbsBbse = pBbse;
         return;
     }
 
@@ -599,28 +599,28 @@ void ADD_SUFF(FourByteAbgrPreSrcMaskFill)(void *rasBase,
 
     fgARGB = vis_to_double_dup(fgColor);
 
-    pMask += maskOff;
+    pMbsk += mbskOff;
 
     vis_write_gsr(0 << 3);
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
     for (j = 0; j < height; j++) {
-        if ((mlib_s32)rasBase & 3) {
-            mlib_ImageCopy_na(rasBase, pbuff, width*sizeof(mlib_s32));
+        if ((mlib_s32)rbsBbse & 3) {
+            mlib_ImbgeCopy_nb(rbsBbse, pbuff, width*sizeof(mlib_s32));
             p_dst = pbuff;
         } else {
-            p_dst = rasBase;
+            p_dst = rbsBbse;
         }
 
-        IntArgbPreSrcMaskFill_line(p_dst, pMask, width, fgARGB, cnstARGB0);
+        IntArgbPreSrcMbskFill_line(p_dst, pMbsk, width, fgARGB, cnstARGB0);
 
-        if (p_dst != rasBase) {
-            mlib_ImageCopy_na(p_dst, rasBase, width*sizeof(mlib_s32));
+        if (p_dst != rbsBbse) {
+            mlib_ImbgeCopy_nb(p_dst, rbsBbse, width*sizeof(mlib_s32));
         }
 
-        PTR_ADD(rasBase, rasScan);
-        PTR_ADD(pMask, maskScan);
+        PTR_ADD(rbsBbse, rbsScbn);
+        PTR_ADD(pMbsk, mbskScbn);
     }
 
     if (pbuff != buff) {
@@ -631,78 +631,78 @@ void ADD_SUFF(FourByteAbgrPreSrcMaskFill)(void *rasBase,
 /***************************************************************/
 
 /* ##############################################################
- * IntArgbPreSrcOverMaskFill()
+ * IntArgbPreSrcOverMbskFill()
  */
 
 #undef  MASK_FILL
-#define MASK_FILL(rr, pathA, dstARGB)         \
+#define MASK_FILL(rr, pbthA, dstARGB)         \
 {                                             \
     mlib_d64 t0, t1;                          \
     mlib_s32 dstA;                            \
                                               \
-    dstA = 0xff - mul8_cnstA[pathA];          \
+    dstA = 0xff - mul8_cnstA[pbthA];          \
                                               \
-    t0 = MUL8_VIS(cnstARGB0, pathA);          \
+    t0 = MUL8_VIS(cnstARGB0, pbthA);          \
     t1 = MUL8_VIS(dstARGB, dstA);             \
-    rr = vis_fpadd16(t0, t1);                 \
+    rr = vis_fpbdd16(t0, t1);                 \
 }
 
 /***************************************************************/
 
-static void IntArgbPreSrcOverMaskFill_line(mlib_f32 *dst_ptr,
-                                           mlib_u8  *pMask,
+stbtic void IntArgbPreSrcOverMbskFill_line(mlib_f32 *dst_ptr,
+                                           mlib_u8  *pMbsk,
                                            mlib_s32 width,
                                            mlib_f32 cnstARGB0,
                                            mlib_u8  *mul8_cnstA);
 
-#pragma no_inline(IntArgbPreSrcOverMaskFill_line)
+#prbgmb no_inline(IntArgbPreSrcOverMbskFill_line)
 
-static void IntArgbPreSrcOverMaskFill_line(mlib_f32 *dst_ptr,
-                                           mlib_u8  *pMask,
+stbtic void IntArgbPreSrcOverMbskFill_line(mlib_f32 *dst_ptr,
+                                           mlib_u8  *pMbsk,
                                            mlib_s32 width,
                                            mlib_f32 cnstARGB0,
                                            mlib_u8  *mul8_cnstA)
 {
     mlib_s32 i, i0;
-    mlib_s32 pathA0, pathA1;
+    mlib_s32 pbthA0, pbthA1;
     mlib_d64 res0, res1, dstARGB;
     mlib_f32 dstARGB0;
 
     i = i0 = 0;
 
     if ((mlib_s32)dst_ptr & 7) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
-        if (pathA0) {
+        if (pbthA0) {
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
-        pathA0 = pMask[i];
-        pathA1 = pMask[i + 1];
+        pbthA0 = pMbsk[i];
+        pbthA1 = pMbsk[i + 1];
         dstARGB = *(mlib_d64*)(dst_ptr + i);
 
-        MASK_FILL(res0, pathA0, vis_read_hi(dstARGB));
-        MASK_FILL(res1, pathA1, vis_read_lo(dstARGB));
+        MASK_FILL(res0, pbthA0, vis_rebd_hi(dstARGB));
+        MASK_FILL(res1, pbthA1, vis_rebd_lo(dstARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
         *(mlib_d64 *)(dst_ptr + i) = res0;
     }
 
     if (i < width) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
-        if (pathA0) {
+        if (pbthA0) {
             dstARGB0 = dst_ptr[i];
-            MASK_FILL(res0, pathA0, dstARGB0);
-            dst_ptr[i] = vis_fpack16(res0);
+            MASK_FILL(res0, pbthA0, dstARGB0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
@@ -713,19 +713,19 @@ static void IntArgbPreSrcOverMaskFill_line(mlib_f32 *dst_ptr,
 #define MASK_FILL(rr, dstARGB)          \
 {                                       \
     rr = MUL8_VIS(dstARGB, cnstA);      \
-    rr = vis_fpadd16(rr, cnstARGB);     \
+    rr = vis_fpbdd16(rr, cnstARGB);     \
 }
 
 /***************************************************************/
 
-static void IntArgbPreSrcOverMaskFill_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbPreSrcOverMbskFill_A1_line(mlib_f32 *dst_ptr,
                                               mlib_s32 width,
                                               mlib_d64 cnstARGB,
                                               mlib_s32 cnstA);
 
-#pragma no_inline(IntArgbPreSrcOverMaskFill_A1_line)
+#prbgmb no_inline(IntArgbPreSrcOverMbskFill_A1_line)
 
-static void IntArgbPreSrcOverMaskFill_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbPreSrcOverMbskFill_A1_line(mlib_f32 *dst_ptr,
                                               mlib_s32 width,
                                               mlib_d64 cnstARGB,
                                               mlib_s32 cnstA)
@@ -741,18 +741,18 @@ static void IntArgbPreSrcOverMaskFill_A1_line(mlib_f32 *dst_ptr,
     if ((mlib_s32)dst_ptr & 7) {
         dstARGB0 = dst_ptr[i];
         MASK_FILL(res0, dstARGB0);
-        dst_ptr[i] = vis_fpack16(res0);
+        dst_ptr[i] = vis_fpbck16(res0);
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
         dstARGB = *(mlib_d64*)(dst_ptr + i);
 
-        MASK_FILL(res0, vis_read_hi(dstARGB));
-        MASK_FILL(res1, vis_read_lo(dstARGB));
+        MASK_FILL(res0, vis_rebd_hi(dstARGB));
+        MASK_FILL(res1, vis_rebd_lo(dstARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
         *(mlib_d64*)(dst_ptr + i) = res0;
     }
@@ -760,25 +760,25 @@ static void IntArgbPreSrcOverMaskFill_A1_line(mlib_f32 *dst_ptr,
     if (i < width) {
         dstARGB0 = dst_ptr[i];
         MASK_FILL(res0, dstARGB0);
-        dst_ptr[i] = vis_fpack16(res0);
+        dst_ptr[i] = vis_fpbck16(res0);
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbPreSrcOverMaskFill)(void *rasBase,
-                                         jubyte *pMask,
-                                         jint maskOff,
-                                         jint maskScan,
+void ADD_SUFF(IntArgbPreSrcOverMbskFill)(void *rbsBbse,
+                                         jubyte *pMbsk,
+                                         jint mbskOff,
+                                         jint mbskScbn,
                                          jint width,
                                          jint height,
                                          jint fgColor,
-                                         SurfaceDataRasInfo *pRasInfo,
-                                         NativePrimitive *pPrim,
+                                         SurfbceDbtbRbsInfo *pRbsInfo,
+                                         NbtivePrimitive *pPrim,
                                          CompositeInfo *pCompInfo)
 {
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_d64 cnstARGB;
     mlib_u8  *mul8_cnstA;
@@ -792,34 +792,34 @@ void ADD_SUFF(IntArgbPreSrcOverMaskFill)(void *rasBase,
     if (cnstA != 0xff) {
         if (cnstA == 0) return;
 
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        if (rasScan == 4*width && maskScan == width) {
+        if (rbsScbn == 4*width && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
-        mul8_cnstA = mul8table[cnstA];
+        mul8_cnstA = mul8tbble[cnstA];
 
         cnstARGB0 = F32_FROM_U8x4(cnstA, cnstR, cnstG, cnstB);
 
         for (j = 0; j < height; j++) {
-            IntArgbPreSrcOverMaskFill_line(rasBase, pMask, width, cnstARGB0,
+            IntArgbPreSrcOverMbskFill_line(rbsBbse, pMbsk, width, cnstARGB0,
                                            mul8_cnstA);
 
-            PTR_ADD(rasBase, rasScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(rbsBbse, rbsScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
-        if (rasScan == 4*width) {
+        if (rbsScbn == 4*width) {
             width *= height;
             height = 1;
         }
@@ -828,36 +828,36 @@ void ADD_SUFF(IntArgbPreSrcOverMaskFill)(void *rasBase,
                                  (cnstG << 23) | (cnstB << 7));
 
         for (j = 0; j < height; j++) {
-            IntArgbPreSrcOverMaskFill_A1_line(rasBase, width, cnstARGB, cnstA);
+            IntArgbPreSrcOverMbskFill_A1_line(rbsBbse, width, cnstARGB, cnstA);
 
-            PTR_ADD(rasBase, rasScan);
+            PTR_ADD(rbsBbse, rbsScbn);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(FourByteAbgrPreSrcOverMaskFill)(void *rasBase,
-                                              jubyte *pMask,
-                                              jint maskOff,
-                                              jint maskScan,
+void ADD_SUFF(FourByteAbgrPreSrcOverMbskFill)(void *rbsBbse,
+                                              jubyte *pMbsk,
+                                              jint mbskOff,
+                                              jint mbskScbn,
                                               jint width,
                                               jint height,
                                               jint fgColor,
-                                              SurfaceDataRasInfo *pRasInfo,
-                                              NativePrimitive *pPrim,
+                                              SurfbceDbtbRbsInfo *pRbsInfo,
+                                              NbtivePrimitive *pPrim,
                                               CompositeInfo *pCompInfo)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff, *p_dst;
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 rasScan = pRasInfo->scanStride;
+    mlib_s32 rbsScbn = pRbsInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_d64 cnstARGB;
     mlib_u8  *mul8_cnstA;
     mlib_s32 j;
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
     cnstA = (fgColor >> 24) & 0xff;
     cnstR = (fgColor >> 16) & 0xff;
@@ -867,57 +867,57 @@ void ADD_SUFF(FourByteAbgrPreSrcOverMaskFill)(void *rasBase,
     if (cnstA != 0xff) {
         if (cnstA == 0) return;
 
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        mul8_cnstA = mul8table[cnstA];
+        mul8_cnstA = mul8tbble[cnstA];
 
         cnstARGB0 = F32_FROM_U8x4(cnstA, cnstB, cnstG, cnstR);
 
         for (j = 0; j < height; j++) {
-            if ((mlib_s32)rasBase & 3) {
-                mlib_ImageCopy_na(rasBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)rbsBbse & 3) {
+                mlib_ImbgeCopy_nb(rbsBbse, pbuff, width*sizeof(mlib_s32));
                 p_dst = pbuff;
             } else {
-                p_dst = rasBase;
+                p_dst = rbsBbse;
             }
 
-            IntArgbPreSrcOverMaskFill_line(p_dst, pMask, width, cnstARGB0,
+            IntArgbPreSrcOverMbskFill_line(p_dst, pMbsk, width, cnstARGB0,
                                            mul8_cnstA);
 
-            if (p_dst != rasBase) {
-                mlib_ImageCopy_na(p_dst, rasBase, width*sizeof(mlib_s32));
+            if (p_dst != rbsBbse) {
+                mlib_ImbgeCopy_nb(p_dst, rbsBbse, width*sizeof(mlib_s32));
             }
 
-            PTR_ADD(rasBase, rasScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(rbsBbse, rbsScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
         cnstARGB = vis_to_double((cnstA << 23) | (cnstB << 7),
                                  (cnstG << 23) | (cnstR << 7));
 
         for (j = 0; j < height; j++) {
-            if ((mlib_s32)rasBase & 3) {
-                mlib_ImageCopy_na(rasBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)rbsBbse & 3) {
+                mlib_ImbgeCopy_nb(rbsBbse, pbuff, width*sizeof(mlib_s32));
                 p_dst = pbuff;
             } else {
-                p_dst = rasBase;
+                p_dst = rbsBbse;
             }
 
-            IntArgbPreSrcOverMaskFill_A1_line(p_dst, width, cnstARGB, cnstA);
+            IntArgbPreSrcOverMbskFill_A1_line(p_dst, width, cnstARGB, cnstA);
 
-            if (p_dst != rasBase) {
-                mlib_ImageCopy_na(p_dst, rasBase, width*sizeof(mlib_s32));
+            if (p_dst != rbsBbse) {
+                mlib_ImbgeCopy_nb(p_dst, rbsBbse, width*sizeof(mlib_s32));
             }
 
-            PTR_ADD(rasBase, rasScan);
+            PTR_ADD(rbsBbse, rbsScbn);
         }
     }
 
@@ -929,92 +929,92 @@ void ADD_SUFF(FourByteAbgrPreSrcOverMaskFill)(void *rasBase,
 /***************************************************************/
 
 /* ##############################################################
- * IntArgbToIntArgbPreSrcOverMaskBlit()
+ * IntArgbToIntArgbPreSrcOverMbskBlit()
  */
 
 #undef  MASK_FILL
-#define MASK_FILL(rr, pathA, dstARGB, srcA, srcARGB)         \
+#define MASK_FILL(rr, pbthA, dstARGB, srcA, srcARGB)         \
 {                                                            \
     mlib_d64 t0, t1;                                         \
     mlib_s32 dstF;                                           \
                                                              \
-    srcA = MUL8_INT(mul8_extra[pathA], srcA);                \
+    srcA = MUL8_INT(mul8_extrb[pbthA], srcA);                \
     dstF = 0xff - srcA;                                      \
                                                              \
     t0 = MUL8_VIS(srcARGB, srcA);                            \
     t1 = MUL8_VIS(dstARGB, dstF);                            \
-    rr = vis_fpadd16(t0, t1);                                \
+    rr = vis_fpbdd16(t0, t1);                                \
 }
 
 /***************************************************************/
 
-static void IntArgbToIntArgbPreSrcOverMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreSrcOverMbskBlit_line(mlib_f32 *dst_ptr,
                                                     mlib_f32 *src_ptr,
-                                                    mlib_u8  *pMask,
+                                                    mlib_u8  *pMbsk,
                                                     mlib_s32 width,
-                                                    mlib_u8  *mul8_extra,
+                                                    mlib_u8  *mul8_extrb,
                                                     mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntArgbToIntArgbPreSrcOverMaskBlit_line)
+#prbgmb no_inline(IntArgbToIntArgbPreSrcOverMbskBlit_line)
 
-static void IntArgbToIntArgbPreSrcOverMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreSrcOverMbskBlit_line(mlib_f32 *dst_ptr,
                                                     mlib_f32 *src_ptr,
-                                                    mlib_u8  *pMask,
+                                                    mlib_u8  *pMbsk,
                                                     mlib_s32 width,
-                                                    mlib_u8  *mul8_extra,
+                                                    mlib_u8  *mul8_extrb,
                                                     mlib_u8  *mul8_tbl)
 {
     mlib_s32 i, i0;
-    mlib_s32 pathA0, pathA1, srcA0, srcA1;
+    mlib_s32 pbthA0, pbthA1, srcA0, srcA1;
     mlib_d64 res0, res1, dstARGB, srcARGB;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_d64 or_alpha = vis_to_double_dup(0xff000000);
+    mlib_d64 or_blphb = vis_to_double_dup(0xff000000);
 
     i = i0 = 0;
 
     if ((mlib_s32)dst_ptr & 7) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
         srcA0 = *(mlib_u8*)(src_ptr + i);
         dstARGB0 = dst_ptr[i];
         srcARGB0 = src_ptr[i];
-        srcARGB0 = vis_fors(vis_read_hi(or_alpha), srcARGB0);
-        MASK_FILL(res0, pathA0, dstARGB0, srcA0, srcARGB0);
+        srcARGB0 = vis_fors(vis_rebd_hi(or_blphb), srcARGB0);
+        MASK_FILL(res0, pbthA0, dstARGB0, srcA0, srcARGB0);
         if (srcA0) {
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
-        pathA0 = pMask[i];
-        pathA1 = pMask[i + 1];
+        pbthA0 = pMbsk[i];
+        pbthA1 = pMbsk[i + 1];
         dstARGB = *(mlib_d64*)(dst_ptr + i);
         srcA0 = *(mlib_u8*)(src_ptr + i);
         srcA1 = *(mlib_u8*)(src_ptr + i + 1);
-        srcARGB = vis_freg_pair(src_ptr[i], src_ptr[i + 1]);
-        srcARGB = vis_for(or_alpha, srcARGB);
+        srcARGB = vis_freg_pbir(src_ptr[i], src_ptr[i + 1]);
+        srcARGB = vis_for(or_blphb, srcARGB);
 
-        MASK_FILL(res0, pathA0, vis_read_hi(dstARGB),
-                  srcA0, vis_read_hi(srcARGB));
-        MASK_FILL(res1, pathA1, vis_read_lo(dstARGB),
-                  srcA1, vis_read_lo(srcARGB));
+        MASK_FILL(res0, pbthA0, vis_rebd_hi(dstARGB),
+                  srcA0, vis_rebd_hi(srcARGB));
+        MASK_FILL(res1, pbthA1, vis_rebd_lo(dstARGB),
+                  srcA1, vis_rebd_lo(srcARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
 
         *(mlib_d64*)(dst_ptr + i) = res0;
     }
 
     if (i < width) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
         srcA0 = *(mlib_u8*)(src_ptr + i);
         dstARGB0 = dst_ptr[i];
         srcARGB0 = src_ptr[i];
-        srcARGB0 = vis_fors(vis_read_hi(or_alpha), srcARGB0);
-        MASK_FILL(res0, pathA0, dstARGB0, srcA0, srcARGB0);
+        srcARGB0 = vis_fors(vis_rebd_hi(or_blphb), srcARGB0);
+        MASK_FILL(res0, pbthA0, dstARGB0, srcA0, srcARGB0);
         if (srcA0) {
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
@@ -1027,33 +1027,33 @@ static void IntArgbToIntArgbPreSrcOverMaskBlit_line(mlib_f32 *dst_ptr,
     mlib_d64 t0, t1;                                  \
     mlib_s32 dstF;                                    \
                                                       \
-    srcA = mul8_extra[srcA];                          \
+    srcA = mul8_extrb[srcA];                          \
     dstF = 0xff - srcA;                               \
                                                       \
     t0 = MUL8_VIS(srcARGB, srcA);                     \
     t1 = MUL8_VIS(dstARGB, dstF);                     \
-    rr = vis_fpadd16(t0, t1);                         \
+    rr = vis_fpbdd16(t0, t1);                         \
 }
 
 /***************************************************************/
 
-static void IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreSrcOverMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                        mlib_f32 *src_ptr,
                                                        mlib_s32 width,
-                                                       mlib_u8  *mul8_extra);
+                                                       mlib_u8  *mul8_extrb);
 
-#pragma no_inline(IntArgbToIntArgbPreSrcOverMaskBlit_A1_line)
+#prbgmb no_inline(IntArgbToIntArgbPreSrcOverMbskBlit_A1_line)
 
-static void IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreSrcOverMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                        mlib_f32 *src_ptr,
                                                        mlib_s32 width,
-                                                       mlib_u8  *mul8_extra)
+                                                       mlib_u8  *mul8_extrb)
 {
     mlib_s32 i, i0;
     mlib_s32 srcA0, srcA1;
     mlib_d64 res0, res1, dstARGB, srcARGB;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_d64 or_alpha = vis_to_double_dup(0xff000000);
+    mlib_d64 or_blphb = vis_to_double_dup(0xff000000);
 
     i = i0 = 0;
 
@@ -1061,27 +1061,27 @@ static void IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(mlib_f32 *dst_ptr,
         srcA0 = *(mlib_u8*)(src_ptr + i);
         dstARGB0 = dst_ptr[i];
         srcARGB0 = src_ptr[i];
-        srcARGB0 = vis_fors(vis_read_hi(or_alpha), srcARGB0);
+        srcARGB0 = vis_fors(vis_rebd_hi(or_blphb), srcARGB0);
         MASK_FILL(res0, dstARGB0, srcA0, srcARGB0);
         if (srcA0) {
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
 
         i0 = 1;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = i0; i <= width - 2; i += 2) {
         dstARGB = *(mlib_d64*)(dst_ptr + i);
         srcA0 = *(mlib_u8*)(src_ptr + i);
         srcA1 = *(mlib_u8*)(src_ptr + i + 1);
-        srcARGB = vis_freg_pair(src_ptr[i], src_ptr[i + 1]);
-        srcARGB = vis_for(or_alpha, srcARGB);
+        srcARGB = vis_freg_pbir(src_ptr[i], src_ptr[i + 1]);
+        srcARGB = vis_for(or_blphb, srcARGB);
 
-        MASK_FILL(res0, vis_read_hi(dstARGB), srcA0, vis_read_hi(srcARGB));
-        MASK_FILL(res1, vis_read_lo(dstARGB), srcA1, vis_read_lo(srcARGB));
+        MASK_FILL(res0, vis_rebd_hi(dstARGB), srcA0, vis_rebd_hi(srcARGB));
+        MASK_FILL(res1, vis_rebd_lo(dstARGB), srcA1, vis_rebd_lo(srcARGB));
 
-        res0 = vis_fpack16_pair(res0, res1);
+        res0 = vis_fpbck16_pbir(res0, res1);
         *(mlib_d64*)(dst_ptr + i) = res0;
     }
 
@@ -1089,118 +1089,118 @@ static void IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(mlib_f32 *dst_ptr,
         srcA0 = *(mlib_u8*)(src_ptr + i);
         dstARGB0 = dst_ptr[i];
         srcARGB0 = src_ptr[i];
-        srcARGB0 = vis_fors(vis_read_hi(or_alpha), srcARGB0);
+        srcARGB0 = vis_fors(vis_rebd_hi(or_blphb), srcARGB0);
         MASK_FILL(res0, dstARGB0, srcA0, srcARGB0);
         if (srcA0) {
-            dst_ptr[i] = vis_fpack16(res0);
+            dst_ptr[i] = vis_fpbck16(res0);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbToIntArgbPreSrcOverMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntArgbToIntArgbPreSrcOverMbskBlit)(MASKBLIT_PARAMS)
 {
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_u8  *mul8_extra;
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_u8  *mul8_extrb;
     mlib_s32 j;
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    mul8_extra = mul8table[extraA];
+    mul8_extrb = mul8tbble[extrbA];
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        if (dstScan == 4*width && srcScan == dstScan && maskScan == width) {
+        if (dstScbn == 4*width && srcScbn == dstScbn && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbToIntArgbPreSrcOverMaskBlit_line(dstBase, srcBase, pMask,
-                                                    width, mul8_extra,
-                                                    (void*)mul8table);
+            IntArgbToIntArgbPreSrcOverMbskBlit_line(dstBbse, srcBbse, pMbsk,
+                                                    width, mul8_extrb,
+                                                    (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
-        if (dstScan == 4*width && srcScan == dstScan) {
+        if (dstScbn == 4*width && srcScbn == dstScbn) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(dstBase, srcBase, width,
-                                                       mul8_extra);
+            IntArgbToIntArgbPreSrcOverMbskBlit_A1_line(dstBbse, srcBbse, width,
+                                                       mul8_extrb);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbToFourByteAbgrPreSrcOverMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntArgbToFourByteAbgrPreSrcOverMbskBlit)(MASKBLIT_PARAMS)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff;
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_u8  *mul8_extra;
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_u8  *mul8_extrb;
     mlib_s32 j;
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    mul8_extra = mul8table[extraA];
+    mul8_extrb = mul8tbble[extrbA];
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntArgbToIntArgbPreSrcOverMaskBlit_line(pbuff, srcBase, pMask,
-                                                    width, mul8_extra,
-                                                    (void*)mul8table);
+            IntArgbToIntArgbPreSrcOverMbskBlit_line(pbuff, srcBbse, pMbsk,
+                                                    width, mul8_extrb,
+                                                    (void*)mul8tbble);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntArgbToIntArgbPreSrcOverMaskBlit_A1_line(pbuff, srcBase, width,
-                                                       mul8_extra);
+            IntArgbToIntArgbPreSrcOverMbskBlit_A1_line(pbuff, srcBbse, width,
+                                                       mul8_extrb);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 
@@ -1212,77 +1212,77 @@ void ADD_SUFF(IntArgbToFourByteAbgrPreSrcOverMaskBlit)(MASKBLIT_PARAMS)
 /***************************************************************/
 
 /* ##############################################################
- * IntArgbToIntArgbPreAlphaMaskBlit()
+ * IntArgbToIntArgbPreAlphbMbskBlit()
  */
 
 #undef  MASK_FILL
-#define MASK_FILL(rr, pathA, dstA, dstARGB, srcA, srcARGB)         \
+#define MASK_FILL(rr, pbthA, dstA, dstARGB, srcA, srcARGB)         \
 {                                                                  \
     mlib_d64 t0, t1;                                               \
     mlib_s32 srcF, dstF;                                           \
                                                                    \
-    srcA = mul8_extra[srcA];                                       \
+    srcA = mul8_extrb[srcA];                                       \
                                                                    \
     srcF = ((dstA & SrcOpAnd) ^ SrcOpXor) + SrcOpAdd;              \
     dstF = ((srcA & DstOpAnd) ^ DstOpXor) + DstOpAdd;              \
                                                                    \
-    srcF = MUL8_INT(pathA, srcF);                                  \
-    dstF = MUL8_INT(pathA, dstF) + (0xff - pathA);                 \
+    srcF = MUL8_INT(pbthA, srcF);                                  \
+    dstF = MUL8_INT(pbthA, dstF) + (0xff - pbthA);                 \
                                                                    \
     srcA = MUL8_INT(srcF, srcA);                                   \
                                                                    \
     t0 = MUL8_VIS(srcARGB, srcA);                                  \
     t1 = MUL8_VIS(dstARGB, dstF);                                  \
-    rr = vis_fpadd16(t0, t1);                                      \
+    rr = vis_fpbdd16(t0, t1);                                      \
 }
 
 /**************************************************************/
 
-static void IntArgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreAlphbMbskBlit_line(mlib_f32 *dst_ptr,
                                                   mlib_f32 *src_ptr,
-                                                  mlib_u8  *pMask,
+                                                  mlib_u8  *pMbsk,
                                                   mlib_s32 width,
-                                                  mlib_s32 *log_val,
-                                                  mlib_u8  *mul8_extra,
+                                                  mlib_s32 *log_vbl,
+                                                  mlib_u8  *mul8_extrb,
                                                   mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntArgbToIntArgbPreAlphaMaskBlit_line)
+#prbgmb no_inline(IntArgbToIntArgbPreAlphbMbskBlit_line)
 
-static void IntArgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreAlphbMbskBlit_line(mlib_f32 *dst_ptr,
                                                   mlib_f32 *src_ptr,
-                                                  mlib_u8  *pMask,
+                                                  mlib_u8  *pMbsk,
                                                   mlib_s32 width,
-                                                  mlib_s32 *log_val,
-                                                  mlib_u8  *mul8_extra,
+                                                  mlib_s32 *log_vbl,
+                                                  mlib_u8  *mul8_extrb,
                                                   mlib_u8  *mul8_tbl)
 {
     mlib_s32 i;
-    mlib_s32 pathA0, dstA0, srcA0;
+    mlib_s32 pbthA0, dstA0, srcA0;
     mlib_d64 res0;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_s32 SrcOpAnd = log_val[0];
-    mlib_s32 SrcOpXor = log_val[1];
-    mlib_s32 SrcOpAdd = log_val[2];
-    mlib_s32 DstOpAnd = log_val[3];
-    mlib_s32 DstOpXor = log_val[4];
-    mlib_s32 DstOpAdd = log_val[5];
-    mlib_f32 or_alpha = vis_to_float(0xff000000);
+    mlib_s32 SrcOpAnd = log_vbl[0];
+    mlib_s32 SrcOpXor = log_vbl[1];
+    mlib_s32 SrcOpAdd = log_vbl[2];
+    mlib_s32 DstOpAnd = log_vbl[3];
+    mlib_s32 DstOpXor = log_vbl[4];
+    mlib_s32 DstOpAdd = log_vbl[5];
+    mlib_f32 or_blphb = vis_to_flobt(0xff000000);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < width; i++) {
 
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
         dstA0 = *(mlib_u8*)dst_ptr;
 
         dstARGB0 = *dst_ptr;
         srcA0 = *(mlib_u8*)src_ptr;
         srcARGB0 = *src_ptr;
-        srcARGB0 = vis_fors(or_alpha, srcARGB0);
+        srcARGB0 = vis_fors(or_blphb, srcARGB0);
 
-        MASK_FILL(res0, pathA0, dstA0, dstARGB0, srcA0, srcARGB0);
+        MASK_FILL(res0, pbthA0, dstA0, dstARGB0, srcA0, srcARGB0);
 
-        *dst_ptr = vis_fpack16(res0);
+        *dst_ptr = vis_fpbck16(res0);
         dst_ptr++;
         src_ptr++;
     }
@@ -1297,7 +1297,7 @@ static void IntArgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
     mlib_d64 t0, t1;                                        \
     mlib_s32 srcF, dstF;                                    \
                                                             \
-    srcA = mul8_extra[srcA];                                \
+    srcA = mul8_extrb[srcA];                                \
                                                             \
     srcF = ((dstA & SrcOpAnd) ^ SrcOpXor) + SrcOpAdd;       \
     dstF = ((srcA & DstOpAnd) ^ DstOpXor) + DstOpAdd;       \
@@ -1306,61 +1306,61 @@ static void IntArgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
                                                             \
     t0 = MUL8_VIS(srcARGB, srcA);                           \
     t1 = MUL8_VIS(dstARGB, dstF);                           \
-    rr = vis_fpadd16(t0, t1);                               \
+    rr = vis_fpbdd16(t0, t1);                               \
 }
 
 /***************************************************************/
 
-static void IntArgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreAlphbMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                      mlib_f32 *src_ptr,
                                                      mlib_s32 width,
-                                                     mlib_s32 *log_val,
-                                                     mlib_u8  *mul8_extra,
+                                                     mlib_s32 *log_vbl,
+                                                     mlib_u8  *mul8_extrb,
                                                      mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntArgbToIntArgbPreAlphaMaskBlit_A1_line)
+#prbgmb no_inline(IntArgbToIntArgbPreAlphbMbskBlit_A1_line)
 
-static void IntArgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntArgbToIntArgbPreAlphbMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                      mlib_f32 *src_ptr,
                                                      mlib_s32 width,
-                                                     mlib_s32 *log_val,
-                                                     mlib_u8  *mul8_extra,
+                                                     mlib_s32 *log_vbl,
+                                                     mlib_u8  *mul8_extrb,
                                                      mlib_u8  *mul8_tbl)
 {
     mlib_s32 i;
     mlib_s32 dstA0, srcA0;
     mlib_d64 res0;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_s32 SrcOpAnd = log_val[0];
-    mlib_s32 SrcOpXor = log_val[1];
-    mlib_s32 SrcOpAdd = log_val[2];
-    mlib_s32 DstOpAnd = log_val[3];
-    mlib_s32 DstOpXor = log_val[4];
-    mlib_s32 DstOpAdd = log_val[5];
-    mlib_f32 or_alpha = vis_to_float(0xff000000);
+    mlib_s32 SrcOpAnd = log_vbl[0];
+    mlib_s32 SrcOpXor = log_vbl[1];
+    mlib_s32 SrcOpAdd = log_vbl[2];
+    mlib_s32 DstOpAnd = log_vbl[3];
+    mlib_s32 DstOpXor = log_vbl[4];
+    mlib_s32 DstOpAdd = log_vbl[5];
+    mlib_f32 or_blphb = vis_to_flobt(0xff000000);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < width; i++) {
         dstA0 = *(mlib_u8*)(dst_ptr + i);
         srcA0 = *(mlib_u8*)(src_ptr + i);
         dstARGB0 = dst_ptr[i];
         srcARGB0 = src_ptr[i];
-        srcARGB0 = vis_fors(or_alpha, srcARGB0);
+        srcARGB0 = vis_fors(or_blphb, srcARGB0);
 
         MASK_FILL(res0, dstA0, dstARGB0, srcA0, srcARGB0);
 
-        dst_ptr[i] = vis_fpack16(res0);
+        dst_ptr[i] = vis_fpbck16(res0);
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbToIntArgbPreAlphaMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntArgbToIntArgbPreAlphbMbskBlit)(MASKBLIT_PARAMS)
 {
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_s32 log_val[6];
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_s32 log_vbl[6];
     mlib_s32 j;
     mlib_s32 SrcOpAnd;
     mlib_s32 SrcOpXor;
@@ -1368,75 +1368,75 @@ void ADD_SUFF(IntArgbToIntArgbPreAlphaMaskBlit)(MASKBLIT_PARAMS)
     mlib_s32 DstOpAnd;
     mlib_s32 DstOpXor;
     mlib_s32 DstOpAdd;
-    mlib_u8  *mul8_extra;
+    mlib_u8  *mul8_extrb;
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    mul8_extra = mul8table[extraA];
+    mul8_extrb = mul8tbble[extrbA];
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
-    log_val[3] = DstOpAnd;
-    log_val[4] = DstOpXor;
-    log_val[5] = DstOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
+    log_vbl[3] = DstOpAnd;
+    log_vbl[4] = DstOpXor;
+    log_vbl[5] = DstOpAdd;
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        if (dstScan == 4*width && srcScan == dstScan && maskScan == width) {
+        if (dstScbn == 4*width && srcScbn == dstScbn && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbToIntArgbPreAlphaMaskBlit_line(dstBase, srcBase, pMask,
-                                                  width, log_val, mul8_extra,
-                                                  (void*)mul8table);
+            IntArgbToIntArgbPreAlphbMbskBlit_line(dstBbse, srcBbse, pMbsk,
+                                                  width, log_vbl, mul8_extrb,
+                                                  (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
-        if (dstScan == 4*width && srcScan == dstScan) {
+        if (dstScbn == 4*width && srcScbn == dstScbn) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbToIntArgbPreAlphaMaskBlit_A1_line(dstBase, srcBase,
-                                                     width, log_val, mul8_extra,
-                                                     (void*)mul8table);
+            IntArgbToIntArgbPreAlphbMbskBlit_A1_line(dstBbse, srcBbse,
+                                                     width, log_vbl, mul8_extrb,
+                                                     (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntArgbToFourByteAbgrPreAlphaMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntArgbToFourByteAbgrPreAlphbMbskBlit)(MASKBLIT_PARAMS)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff;
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_s32 log_val[6];
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_s32 log_vbl[6];
     mlib_s32 j;
     mlib_s32 SrcOpAnd;
     mlib_s32 SrcOpXor;
@@ -1444,69 +1444,69 @@ void ADD_SUFF(IntArgbToFourByteAbgrPreAlphaMaskBlit)(MASKBLIT_PARAMS)
     mlib_s32 DstOpAnd;
     mlib_s32 DstOpXor;
     mlib_s32 DstOpAdd;
-    mlib_u8  *mul8_extra;
+    mlib_u8  *mul8_extrb;
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    mul8_extra = mul8table[extraA];
+    mul8_extrb = mul8tbble[extrbA];
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
-    log_val[3] = DstOpAnd;
-    log_val[4] = DstOpXor;
-    log_val[5] = DstOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
+    log_vbl[3] = DstOpAnd;
+    log_vbl[4] = DstOpXor;
+    log_vbl[5] = DstOpAdd;
 
     vis_write_gsr(0 << 3);
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntArgbToIntArgbPreAlphaMaskBlit_line(pbuff, srcBase, pMask,
-                                                  width, log_val, mul8_extra,
-                                                  (void*)mul8table);
+            IntArgbToIntArgbPreAlphbMbskBlit_line(pbuff, srcBbse, pMbsk,
+                                                  width, log_vbl, mul8_extrb,
+                                                  (void*)mul8tbble);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntArgbToIntArgbPreAlphaMaskBlit_A1_line(pbuff, srcBase,
-                                                     width, log_val, mul8_extra,
-                                                     (void*)mul8table);
+            IntArgbToIntArgbPreAlphbMbskBlit_A1_line(pbuff, srcBbse,
+                                                     width, log_vbl, mul8_extrb,
+                                                     (void*)mul8tbble);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 
@@ -1518,74 +1518,74 @@ void ADD_SUFF(IntArgbToFourByteAbgrPreAlphaMaskBlit)(MASKBLIT_PARAMS)
 /***************************************************************/
 
 /* ##############################################################
- * IntRgbToIntArgbPreAlphaMaskBlit()
+ * IntRgbToIntArgbPreAlphbMbskBlit()
  */
 
 #undef  MASK_FILL
-#define MASK_FILL(rr, pathA, dstA, dstARGB, srcA, srcARGB)         \
+#define MASK_FILL(rr, pbthA, dstA, dstARGB, srcA, srcARGB)         \
 {                                                                  \
     mlib_d64 t0, t1;                                               \
     mlib_s32 srcF, dstF;                                           \
                                                                    \
     srcF = ((dstA & SrcOpAnd) ^ SrcOpXor) + SrcOpAdd;              \
                                                                    \
-    srcF = MUL8_INT(pathA, srcF);                                  \
-    dstF = mul8_tbl[pathA + dstF_0] + (0xff - pathA);              \
+    srcF = MUL8_INT(pbthA, srcF);                                  \
+    dstF = mul8_tbl[pbthA + dstF_0] + (0xff - pbthA);              \
                                                                    \
     srcF = mul8_tbl[srcF + srcA];                                  \
                                                                    \
     t0 = MUL8_VIS(srcARGB, srcF);                                  \
     t1 = MUL8_VIS(dstARGB, dstF);                                  \
-    rr = vis_fpadd16(t0, t1);                                      \
+    rr = vis_fpbdd16(t0, t1);                                      \
 }
 
 /**************************************************************/
 
-static void IntRgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntRgbToIntArgbPreAlphbMbskBlit_line(mlib_f32 *dst_ptr,
                                                  mlib_f32 *src_ptr,
-                                                 mlib_u8  *pMask,
+                                                 mlib_u8  *pMbsk,
                                                  mlib_s32 width,
-                                                 mlib_s32 *log_val,
-                                                 mlib_s32 extraA,
+                                                 mlib_s32 *log_vbl,
+                                                 mlib_s32 extrbA,
                                                  mlib_s32 dstF_0,
                                                  mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntRgbToIntArgbPreAlphaMaskBlit_line)
+#prbgmb no_inline(IntRgbToIntArgbPreAlphbMbskBlit_line)
 
-static void IntRgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
+stbtic void IntRgbToIntArgbPreAlphbMbskBlit_line(mlib_f32 *dst_ptr,
                                                  mlib_f32 *src_ptr,
-                                                 mlib_u8  *pMask,
+                                                 mlib_u8  *pMbsk,
                                                  mlib_s32 width,
-                                                 mlib_s32 *log_val,
-                                                 mlib_s32 extraA,
+                                                 mlib_s32 *log_vbl,
+                                                 mlib_s32 extrbA,
                                                  mlib_s32 dstF_0,
                                                  mlib_u8  *mul8_tbl)
 {
     mlib_s32 i;
-    mlib_s32 pathA0, dstA0, srcA0;
+    mlib_s32 pbthA0, dstA0, srcA0;
     mlib_d64 res0;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_s32 SrcOpAnd = log_val[0];
-    mlib_s32 SrcOpXor = log_val[1];
-    mlib_s32 SrcOpAdd = log_val[2];
-    mlib_f32 or_alpha = vis_to_float(0xff000000);
+    mlib_s32 SrcOpAnd = log_vbl[0];
+    mlib_s32 SrcOpXor = log_vbl[1];
+    mlib_s32 SrcOpAdd = log_vbl[2];
+    mlib_f32 or_blphb = vis_to_flobt(0xff000000);
 
-    srcA0 = extraA*256;
+    srcA0 = extrbA*256;
     dstF_0 *= 256;
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < width; i++) {
-        pathA0 = pMask[i];
+        pbthA0 = pMbsk[i];
 
         dstA0 = *(mlib_u8*)dst_ptr;
         dstARGB0 = *dst_ptr;
         srcARGB0 = *src_ptr;
 
-        srcARGB0 = vis_fors(or_alpha, srcARGB0);
+        srcARGB0 = vis_fors(or_blphb, srcARGB0);
 
-        MASK_FILL(res0, pathA0, dstA0, dstARGB0, srcA0, srcARGB0);
+        MASK_FILL(res0, pbthA0, dstA0, dstARGB0, srcA0, srcARGB0);
 
-        *dst_ptr = vis_fpack16(res0);
+        *dst_ptr = vis_fpbck16(res0);
         dst_ptr++;
         src_ptr++;
     }
@@ -1605,26 +1605,26 @@ static void IntRgbToIntArgbPreAlphaMaskBlit_line(mlib_f32 *dst_ptr,
                                                             \
     t0 = MUL8_VIS(srcARGB, srcF);                           \
     t1 = MUL8_VIS(dstARGB, dstF_0);                         \
-    rr = vis_fpadd16(t0, t1);                               \
+    rr = vis_fpbdd16(t0, t1);                               \
 }
 
 /***************************************************************/
 
-static void IntRgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntRgbToIntArgbPreAlphbMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                     mlib_f32 *src_ptr,
                                                     mlib_s32 width,
-                                                    mlib_s32 *log_val,
-                                                    mlib_s32 extraA,
+                                                    mlib_s32 *log_vbl,
+                                                    mlib_s32 extrbA,
                                                     mlib_s32 dstF_0,
                                                     mlib_u8  *mul8_tbl);
 
-#pragma no_inline(IntRgbToIntArgbPreAlphaMaskBlit_A1_line)
+#prbgmb no_inline(IntRgbToIntArgbPreAlphbMbskBlit_A1_line)
 
-static void IntRgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
+stbtic void IntRgbToIntArgbPreAlphbMbskBlit_A1_line(mlib_f32 *dst_ptr,
                                                     mlib_f32 *src_ptr,
                                                     mlib_s32 width,
-                                                    mlib_s32 *log_val,
-                                                    mlib_s32 extraA,
+                                                    mlib_s32 *log_vbl,
+                                                    mlib_s32 extrbA,
                                                     mlib_s32 dstF_0,
                                                     mlib_u8  *mul8_tbl)
 {
@@ -1632,24 +1632,24 @@ static void IntRgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
     mlib_s32 dstA0, srcA0;
     mlib_d64 res0;
     mlib_f32 dstARGB0, srcARGB0;
-    mlib_s32 SrcOpAnd = log_val[0];
-    mlib_s32 SrcOpXor = log_val[1];
-    mlib_s32 SrcOpAdd = log_val[2];
-    mlib_f32 or_alpha = vis_to_float(0xff000000);
+    mlib_s32 SrcOpAnd = log_vbl[0];
+    mlib_s32 SrcOpXor = log_vbl[1];
+    mlib_s32 SrcOpAdd = log_vbl[2];
+    mlib_f32 or_blphb = vis_to_flobt(0xff000000);
 
-    srcA0 = extraA*256;
+    srcA0 = extrbA*256;
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < width; i++) {
         dstA0 = *(mlib_u8*)dst_ptr;
 
         dstARGB0 = *dst_ptr;
         srcARGB0 = *src_ptr;
-        srcARGB0 = vis_fors(or_alpha, srcARGB0);
+        srcARGB0 = vis_fors(or_blphb, srcARGB0);
 
         MASK_FILL(res0, dstA0, dstARGB0, srcA0, srcARGB0);
 
-        *dst_ptr = vis_fpack16(res0);
+        *dst_ptr = vis_fpbck16(res0);
 
         dst_ptr++;
         src_ptr++;
@@ -1658,12 +1658,12 @@ static void IntRgbToIntArgbPreAlphaMaskBlit_A1_line(mlib_f32 *dst_ptr,
 
 /***************************************************************/
 
-void ADD_SUFF(IntRgbToIntArgbPreAlphaMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntRgbToIntArgbPreAlphbMbskBlit)(MASKBLIT_PARAMS)
 {
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_s32 log_val[3];
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_s32 log_vbl[3];
     mlib_s32 j;
     mlib_s32 SrcOpAnd;
     mlib_s32 SrcOpXor;
@@ -1673,70 +1673,70 @@ void ADD_SUFF(IntRgbToIntArgbPreAlphaMaskBlit)(MASKBLIT_PARAMS)
     mlib_s32 DstOpAdd;
     mlib_s32 dstF_0;
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
 
     vis_write_gsr(0 << 3);
 
-    dstF_0 = ((extraA & DstOpAnd) ^ DstOpXor) + DstOpAdd;
+    dstF_0 = ((extrbA & DstOpAnd) ^ DstOpXor) + DstOpAdd;
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
-        if (dstScan == 4*width && srcScan == dstScan && maskScan == width) {
+        if (dstScbn == 4*width && srcScbn == dstScbn && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntRgbToIntArgbPreAlphaMaskBlit_line(dstBase, srcBase, pMask,
-                                                 width, log_val, extraA, dstF_0,
-                                                 (void*)mul8table);
+            IntRgbToIntArgbPreAlphbMbskBlit_line(dstBbse, srcBbse, pMbsk,
+                                                 width, log_vbl, extrbA, dstF_0,
+                                                 (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
-        if (dstScan == 4*width && srcScan == dstScan) {
+        if (dstScbn == 4*width && srcScbn == dstScbn) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntRgbToIntArgbPreAlphaMaskBlit_A1_line(dstBase, srcBase, width,
-                                                    log_val, extraA, dstF_0,
-                                                    (void*)mul8table);
+            IntRgbToIntArgbPreAlphbMbskBlit_A1_line(dstBbse, srcBbse, width,
+                                                    log_vbl, extrbA, dstF_0,
+                                                    (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(IntRgbToFourByteAbgrPreAlphaMaskBlit)(MASKBLIT_PARAMS)
+void ADD_SUFF(IntRgbToFourByteAbgrPreAlphbMbskBlit)(MASKBLIT_PARAMS)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff;
-    mlib_s32 extraA;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_s32 log_val[3];
+    mlib_s32 extrbA;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_s32 log_vbl[3];
     mlib_s32 j;
     mlib_s32 SrcOpAnd;
     mlib_s32 SrcOpXor;
@@ -1746,64 +1746,64 @@ void ADD_SUFF(IntRgbToFourByteAbgrPreAlphaMaskBlit)(MASKBLIT_PARAMS)
     mlib_s32 DstOpAdd;
     mlib_s32 dstF_0;
 
-    if (width > BUFF_SIZE) pbuff = mlib_malloc(width*sizeof(mlib_s32));
+    if (width > BUFF_SIZE) pbuff = mlib_mblloc(width*sizeof(mlib_s32));
 
-    extraA = (mlib_s32)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+    extrbA = (mlib_s32)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    log_val[0] = SrcOpAnd;
-    log_val[1] = SrcOpXor;
-    log_val[2] = SrcOpAdd;
+    log_vbl[0] = SrcOpAnd;
+    log_vbl[1] = SrcOpXor;
+    log_vbl[2] = SrcOpAdd;
 
     vis_write_gsr(0 << 3);
 
-    dstF_0 = ((extraA & DstOpAnd) ^ DstOpXor) + DstOpAdd;
+    dstF_0 = ((extrbA & DstOpAnd) ^ DstOpXor) + DstOpAdd;
 
-    if (pMask != NULL) {
-        pMask += maskOff;
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
 
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntRgbToIntArgbPreAlphaMaskBlit_line(pbuff, srcBase, pMask, width,
-                                                 log_val, extraA, dstF_0,
-                                                 (void*)mul8table);
+            IntRgbToIntArgbPreAlphbMbskBlit_line(pbuff, srcBbse, pMbsk, width,
+                                                 log_vbl, extrbA, dstF_0,
+                                                 (void*)mul8tbble);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
+            PTR_ADD(pMbsk, mbskScbn);
         }
     } else {
         for (j = 0; j < height; j++) {
-            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBase, pbuff, width, 1,
+            ADD_SUFF(FourByteAbgrToIntArgbConvert)(dstBbse, pbuff, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            IntRgbToIntArgbPreAlphaMaskBlit_A1_line(pbuff, srcBase, width,
-                                                    log_val, extraA, dstF_0,
-                                                    (void*)mul8table);
+            IntRgbToIntArgbPreAlphbMbskBlit_A1_line(pbuff, srcBbse, width,
+                                                    log_vbl, extrbA, dstF_0,
+                                                    (void*)mul8tbble);
 
-            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBase, width, 1,
+            ADD_SUFF(IntArgbToFourByteAbgrConvert)(pbuff, dstBbse, width, 1,
                                                    pSrcInfo, pDstInfo,
                                                    pPrim, pCompInfo);
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(srcBase, srcScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(srcBbse, srcScbn);
         }
     }
 

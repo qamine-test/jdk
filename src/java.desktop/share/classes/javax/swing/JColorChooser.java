@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.colorchooser.*;
-import javax.swing.plaf.ColorChooserUI;
-import javax.accessibility.*;
+import jbvbx.swing.colorchooser.*;
+import jbvbx.swing.plbf.ColorChooserUI;
+import jbvbx.bccessibility.*;
 
 import sun.swing.SwingUtilities2;
 
 
 /**
- * <code>JColorChooser</code> provides a pane of controls designed to allow
- * a user to manipulate and select a color.
- * For information about using color choosers, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html">How to Use Color Choosers</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <code>JColorChooser</code> provides b pbne of controls designed to bllow
+ * b user to mbnipulbte bnd select b color.
+ * For informbtion bbout using color choosers, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/colorchooser.html">How to Use Color Choosers</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
  *
- * This class provides three levels of API:
+ * This clbss provides three levels of API:
  * <ol>
- * <li>A static convenience method which shows a modal color-chooser
- * dialog and returns the color selected by the user.
- * <li>A static convenience method for creating a color-chooser dialog
- * where <code>ActionListeners</code> can be specified to be invoked when
- * the user presses one of the dialog buttons.
- * <li>The ability to create instances of <code>JColorChooser</code> panes
- * directly (within any container). <code>PropertyChange</code> listeners
- * can be added to detect when the current "color" property changes.
+ * <li>A stbtic convenience method which shows b modbl color-chooser
+ * diblog bnd returns the color selected by the user.
+ * <li>A stbtic convenience method for crebting b color-chooser diblog
+ * where <code>ActionListeners</code> cbn be specified to be invoked when
+ * the user presses one of the diblog buttons.
+ * <li>The bbility to crebte instbnces of <code>JColorChooser</code> pbnes
+ * directly (within bny contbiner). <code>PropertyChbnge</code> listeners
+ * cbn be bdded to detect when the current "color" property chbnges.
  * </ol>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  *
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that supports selecting a Color.
+ * @bebninfo
+ *      bttribute: isContbiner fblse
+ *    description: A component thbt supports selecting b Color.
  *
  *
- * @author James Gosling
- * @author Amy Fowler
- * @author Steve Wilson
+ * @buthor Jbmes Gosling
+ * @buthor Amy Fowler
+ * @buthor Steve Wilson
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JColorChooser extends JComponent implements Accessible {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JColorChooser extends JComponent implements Accessible {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ColorChooserUI";
+    privbte stbtic finbl String uiClbssID = "ColorChooserUI";
 
-    private ColorSelectionModel selectionModel;
+    privbte ColorSelectionModel selectionModel;
 
-    private JComponent previewPanel = ColorChooserComponentFactory.getPreviewPanel();
+    privbte JComponent previewPbnel = ColorChooserComponentFbctory.getPreviewPbnel();
 
-    private AbstractColorChooserPanel[] chooserPanels = new AbstractColorChooserPanel[0];
+    privbte AbstrbctColorChooserPbnel[] chooserPbnels = new AbstrbctColorChooserPbnel[0];
 
-    private boolean dragEnabled;
+    privbte boolebn drbgEnbbled;
 
     /**
-     * The selection model property name.
+     * The selection model property nbme.
      */
-    public static final String      SELECTION_MODEL_PROPERTY = "selectionModel";
+    public stbtic finbl String      SELECTION_MODEL_PROPERTY = "selectionModel";
 
     /**
-     * The preview panel property name.
+     * The preview pbnel property nbme.
      */
-    public static final String      PREVIEW_PANEL_PROPERTY = "previewPanel";
+    public stbtic finbl String      PREVIEW_PANEL_PROPERTY = "previewPbnel";
 
     /**
-     * The chooserPanel array property name.
+     * The chooserPbnel brrby property nbme.
      */
-    public static final String      CHOOSER_PANELS_PROPERTY = "chooserPanels";
+    public stbtic finbl String      CHOOSER_PANELS_PROPERTY = "chooserPbnels";
 
 
     /**
-     * Shows a modal color-chooser dialog and blocks until the
-     * dialog is hidden.  If the user presses the "OK" button, then
-     * this method hides/disposes the dialog and returns the selected color.
-     * If the user presses the "Cancel" button or closes the dialog without
-     * pressing "OK", then this method hides/disposes the dialog and returns
+     * Shows b modbl color-chooser diblog bnd blocks until the
+     * diblog is hidden.  If the user presses the "OK" button, then
+     * this method hides/disposes the diblog bnd returns the selected color.
+     * If the user presses the "Cbncel" button or closes the diblog without
+     * pressing "OK", then this method hides/disposes the diblog bnd returns
      * <code>null</code>.
      *
-     * @param component    the parent <code>Component</code> for the dialog
-     * @param title        the String containing the dialog's title
-     * @param initialColor the initial Color set when the color-chooser is shown
+     * @pbrbm component    the pbrent <code>Component</code> for the diblog
+     * @pbrbm title        the String contbining the diblog's title
+     * @pbrbm initiblColor the initibl Color set when the color-chooser is shown
      * @return the selected color or <code>null</code> if the user opted out
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static Color showDialog(Component component,
-        String title, Color initialColor) throws HeadlessException {
+    public stbtic Color showDiblog(Component component,
+        String title, Color initiblColor) throws HebdlessException {
 
-        final JColorChooser pane = new JColorChooser(initialColor != null?
-                                               initialColor : Color.white);
+        finbl JColorChooser pbne = new JColorChooser(initiblColor != null?
+                                               initiblColor : Color.white);
 
-        ColorTracker ok = new ColorTracker(pane);
-        JDialog dialog = createDialog(component, title, true, pane, ok, null);
+        ColorTrbcker ok = new ColorTrbcker(pbne);
+        JDiblog diblog = crebteDiblog(component, title, true, pbne, ok, null);
 
-        dialog.addComponentListener(new ColorChooserDialog.DisposeOnClose());
+        diblog.bddComponentListener(new ColorChooserDiblog.DisposeOnClose());
 
-        dialog.show(); // blocks until user brings dialog down...
+        diblog.show(); // blocks until user brings diblog down...
 
         return ok.getColor();
     }
 
 
     /**
-     * Creates and returns a new dialog containing the specified
-     * <code>ColorChooser</code> pane along with "OK", "Cancel", and "Reset"
-     * buttons. If the "OK" or "Cancel" buttons are pressed, the dialog is
-     * automatically hidden (but not disposed).  If the "Reset"
+     * Crebtes bnd returns b new diblog contbining the specified
+     * <code>ColorChooser</code> pbne blong with "OK", "Cbncel", bnd "Reset"
+     * buttons. If the "OK" or "Cbncel" buttons bre pressed, the diblog is
+     * butombticblly hidden (but not disposed).  If the "Reset"
      * button is pressed, the color-chooser's color will be reset to the
-     * color which was set the last time <code>show</code> was invoked on the
-     * dialog and the dialog will remain showing.
+     * color which wbs set the lbst time <code>show</code> wbs invoked on the
+     * diblog bnd the diblog will rembin showing.
      *
-     * @param c              the parent component for the dialog
-     * @param title          the title for the dialog
-     * @param modal          a boolean. When true, the remainder of the program
-     *                       is inactive until the dialog is closed.
-     * @param chooserPane    the color-chooser to be placed inside the dialog
-     * @param okListener     the ActionListener invoked when "OK" is pressed
-     * @param cancelListener the ActionListener invoked when "Cancel" is pressed
-     * @return a new dialog containing the color-chooser pane
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm c              the pbrent component for the diblog
+     * @pbrbm title          the title for the diblog
+     * @pbrbm modbl          b boolebn. When true, the rembinder of the progrbm
+     *                       is inbctive until the diblog is closed.
+     * @pbrbm chooserPbne    the color-chooser to be plbced inside the diblog
+     * @pbrbm okListener     the ActionListener invoked when "OK" is pressed
+     * @pbrbm cbncelListener the ActionListener invoked when "Cbncel" is pressed
+     * @return b new diblog contbining the color-chooser pbne
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static JDialog createDialog(Component c, String title, boolean modal,
-        JColorChooser chooserPane, ActionListener okListener,
-        ActionListener cancelListener) throws HeadlessException {
+    public stbtic JDiblog crebteDiblog(Component c, String title, boolebn modbl,
+        JColorChooser chooserPbne, ActionListener okListener,
+        ActionListener cbncelListener) throws HebdlessException {
 
-        Window window = JOptionPane.getWindowForComponent(c);
-        ColorChooserDialog dialog;
-        if (window instanceof Frame) {
-            dialog = new ColorChooserDialog((Frame)window, title, modal, c, chooserPane,
-                                            okListener, cancelListener);
+        Window window = JOptionPbne.getWindowForComponent(c);
+        ColorChooserDiblog diblog;
+        if (window instbnceof Frbme) {
+            diblog = new ColorChooserDiblog((Frbme)window, title, modbl, c, chooserPbne,
+                                            okListener, cbncelListener);
         } else {
-            dialog = new ColorChooserDialog((Dialog)window, title, modal, c, chooserPane,
-                                            okListener, cancelListener);
+            diblog = new ColorChooserDiblog((Diblog)window, title, modbl, c, chooserPbne,
+                                            okListener, cbncelListener);
         }
-        dialog.getAccessibleContext().setAccessibleDescription(title);
-        return dialog;
+        diblog.getAccessibleContext().setAccessibleDescription(title);
+        return diblog;
     }
 
     /**
-     * Creates a color chooser pane with an initial color of white.
+     * Crebtes b color chooser pbne with bn initibl color of white.
      */
     public JColorChooser() {
         this(Color.white);
     }
 
     /**
-     * Creates a color chooser pane with the specified initial color.
+     * Crebtes b color chooser pbne with the specified initibl color.
      *
-     * @param initialColor the initial color set in the chooser
+     * @pbrbm initiblColor the initibl color set in the chooser
      */
-    public JColorChooser(Color initialColor) {
-        this( new DefaultColorSelectionModel(initialColor) );
+    public JColorChooser(Color initiblColor) {
+        this( new DefbultColorSelectionModel(initiblColor) );
 
     }
 
     /**
-     * Creates a color chooser pane with the specified
+     * Crebtes b color chooser pbne with the specified
      * <code>ColorSelectionModel</code>.
      *
-     * @param model the <code>ColorSelectionModel</code> to be used
+     * @pbrbm model the <code>ColorSelectionModel</code> to be used
      */
     public JColorChooser(ColorSelectionModel model) {
         selectionModel = model;
-        updateUI();
-        dragEnabled = false;
+        updbteUI();
+        drbgEnbbled = fblse;
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the <code>ColorChooserUI</code> object that renders
+     * @return the <code>ColorChooserUI</code> object thbt renders
      *          this component
      */
     public ColorChooserUI getUI() {
@@ -228,47 +228,47 @@ public class JColorChooser extends JComponent implements Accessible {
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>ColorChooserUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the <code>ColorChooserUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
      *
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      *      hidden: true
-     * description: The UI object that implements the color chooser's LookAndFeel.
+     * description: The UI object thbt implements the color chooser's LookAndFeel.
      */
     public void setUI(ColorChooserUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the L&bmp;F hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ColorChooserUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ColorChooserUI)UIMbnbger.getUI(this));
     }
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
      * @return the string "ColorChooserUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Gets the current color value from the color chooser.
-     * By default, this delegates to the model.
+     * Gets the current color vblue from the color chooser.
+     * By defbult, this delegbtes to the model.
      *
-     * @return the current color value of the color chooser
+     * @return the current color vblue of the color chooser
      */
     public Color getColor() {
         return selectionModel.getSelectedColor();
@@ -276,14 +276,14 @@ public class JColorChooser extends JComponent implements Accessible {
 
     /**
      * Sets the current color of the color chooser to the specified color.
-     * The <code>ColorSelectionModel</code> will fire a <code>ChangeEvent</code>
-     * @param color the color to be set in the color chooser
-     * @see JComponent#addPropertyChangeListener
+     * The <code>ColorSelectionModel</code> will fire b <code>ChbngeEvent</code>
+     * @pbrbm color the color to be set in the color chooser
+     * @see JComponent#bddPropertyChbngeListener
      *
-     * @beaninfo
-     *       bound: false
-     *      hidden: false
-     * description: The current color the chooser is to display.
+     * @bebninfo
+     *       bound: fblse
+     *      hidden: fblse
+     * description: The current color the chooser is to displby.
      */
     public void setColor(Color color) {
         selectionModel.setSelectedColor(color);
@@ -292,14 +292,14 @@ public class JColorChooser extends JComponent implements Accessible {
 
     /**
      * Sets the current color of the color chooser to the
-     * specified RGB color.  Note that the values of red, green,
-     * and blue should be between the numbers 0 and 255, inclusive.
+     * specified RGB color.  Note thbt the vblues of red, green,
+     * bnd blue should be between the numbers 0 bnd 255, inclusive.
      *
-     * @param r   an int specifying the amount of Red
-     * @param g   an int specifying the amount of Green
-     * @param b   an int specifying the amount of Blue
-     * @exception IllegalArgumentException if r,g,b values are out of range
-     * @see java.awt.Color
+     * @pbrbm r   bn int specifying the bmount of Red
+     * @pbrbm g   bn int specifying the bmount of Green
+     * @pbrbm b   bn int specifying the bmount of Blue
+     * @exception IllegblArgumentException if r,g,b vblues bre out of rbnge
+     * @see jbvb.bwt.Color
      */
     public void setColor(int r, int g, int b) {
         setColor(new Color(r,g,b));
@@ -309,189 +309,189 @@ public class JColorChooser extends JComponent implements Accessible {
      * Sets the current color of the color chooser to the
      * specified color.
      *
-     * @param c an integer value that sets the current color in the chooser
-     *          where the low-order 8 bits specify the Blue value,
-     *          the next 8 bits specify the Green value, and the 8 bits
-     *          above that specify the Red value.
+     * @pbrbm c bn integer vblue thbt sets the current color in the chooser
+     *          where the low-order 8 bits specify the Blue vblue,
+     *          the next 8 bits specify the Green vblue, bnd the 8 bits
+     *          bbove thbt specify the Red vblue.
      */
     public void setColor(int c) {
         setColor((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF);
     }
 
     /**
-     * Sets the <code>dragEnabled</code> property,
-     * which must be <code>true</code> to enable
-     * automatic drag handling (the first part of drag and drop)
+     * Sets the <code>drbgEnbbled</code> property,
+     * which must be <code>true</code> to enbble
+     * butombtic drbg hbndling (the first pbrt of drbg bnd drop)
      * on this component.
-     * The <code>transferHandler</code> property needs to be set
-     * to a non-<code>null</code> value for the drag to do
-     * anything.  The default value of the <code>dragEnabled</code>
+     * The <code>trbnsferHbndler</code> property needs to be set
+     * to b non-<code>null</code> vblue for the drbg to do
+     * bnything.  The defbult vblue of the <code>drbgEnbbled</code>
      * property
-     * is <code>false</code>.
+     * is <code>fblse</code>.
      *
      * <p>
      *
-     * When automatic drag handling is enabled,
-     * most look and feels begin a drag-and-drop operation
-     * when the user presses the mouse button over the preview panel.
-     * Some look and feels might not support automatic drag and drop;
-     * they will ignore this property.  You can work around such
-     * look and feels by modifying the component
-     * to directly call the <code>exportAsDrag</code> method of a
-     * <code>TransferHandler</code>.
+     * When butombtic drbg hbndling is enbbled,
+     * most look bnd feels begin b drbg-bnd-drop operbtion
+     * when the user presses the mouse button over the preview pbnel.
+     * Some look bnd feels might not support butombtic drbg bnd drop;
+     * they will ignore this property.  You cbn work bround such
+     * look bnd feels by modifying the component
+     * to directly cbll the <code>exportAsDrbg</code> method of b
+     * <code>TrbnsferHbndler</code>.
      *
-     * @param b the value to set the <code>dragEnabled</code> property to
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b the vblue to set the <code>drbgEnbbled</code> property to
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
      *
      * @since 1.4
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      *
-     * @beaninfo
-     *  description: Determines whether automatic drag handling is enabled.
-     *        bound: false
+     * @bebninfo
+     *  description: Determines whether butombtic drbg hbndling is enbbled.
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Gets the value of the <code>dragEnabled</code> property.
+     * Gets the vblue of the <code>drbgEnbbled</code> property.
      *
-     * @return  the value of the <code>dragEnabled</code> property
-     * @see #setDragEnabled
+     * @return  the vblue of the <code>drbgEnbbled</code> property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     /**
-     * Sets the current preview panel.
-     * This will fire a <code>PropertyChangeEvent</code> for the property
-     * named "previewPanel".
+     * Sets the current preview pbnel.
+     * This will fire b <code>PropertyChbngeEvent</code> for the property
+     * nbmed "previewPbnel".
      *
-     * @param preview the <code>JComponent</code> which displays the current color
-     * @see JComponent#addPropertyChangeListener
+     * @pbrbm preview the <code>JComponent</code> which displbys the current color
+     * @see JComponent#bddPropertyChbngeListener
      *
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      *      hidden: true
-     * description: The UI component which displays the current color.
+     * description: The UI component which displbys the current color.
      */
-    public void setPreviewPanel(JComponent preview) {
+    public void setPreviewPbnel(JComponent preview) {
 
-        if (previewPanel != preview) {
-            JComponent oldPreview = previewPanel;
-            previewPanel = preview;
-            firePropertyChange(JColorChooser.PREVIEW_PANEL_PROPERTY, oldPreview, preview);
+        if (previewPbnel != preview) {
+            JComponent oldPreview = previewPbnel;
+            previewPbnel = preview;
+            firePropertyChbnge(JColorChooser.PREVIEW_PANEL_PROPERTY, oldPreview, preview);
         }
     }
 
     /**
-     * Returns the preview panel that shows a chosen color.
+     * Returns the preview pbnel thbt shows b chosen color.
      *
-     * @return a <code>JComponent</code> object -- the preview panel
+     * @return b <code>JComponent</code> object -- the preview pbnel
      */
-    public JComponent getPreviewPanel() {
-        return previewPanel;
+    public JComponent getPreviewPbnel() {
+        return previewPbnel;
     }
 
     /**
-     * Adds a color chooser panel to the color chooser.
+     * Adds b color chooser pbnel to the color chooser.
      *
-     * @param panel the <code>AbstractColorChooserPanel</code> to be added
+     * @pbrbm pbnel the <code>AbstrbctColorChooserPbnel</code> to be bdded
      */
-    public void addChooserPanel( AbstractColorChooserPanel panel ) {
-        AbstractColorChooserPanel[] oldPanels = getChooserPanels();
-        AbstractColorChooserPanel[] newPanels = new AbstractColorChooserPanel[oldPanels.length+1];
-        System.arraycopy(oldPanels, 0, newPanels, 0, oldPanels.length);
-        newPanels[newPanels.length-1] = panel;
-        setChooserPanels(newPanels);
+    public void bddChooserPbnel( AbstrbctColorChooserPbnel pbnel ) {
+        AbstrbctColorChooserPbnel[] oldPbnels = getChooserPbnels();
+        AbstrbctColorChooserPbnel[] newPbnels = new AbstrbctColorChooserPbnel[oldPbnels.length+1];
+        System.brrbycopy(oldPbnels, 0, newPbnels, 0, oldPbnels.length);
+        newPbnels[newPbnels.length-1] = pbnel;
+        setChooserPbnels(newPbnels);
     }
 
     /**
-     * Removes the Color Panel specified.
+     * Removes the Color Pbnel specified.
      *
-     * @param panel   a string that specifies the panel to be removed
-     * @return the color panel
-     * @exception IllegalArgumentException if panel is not in list of
-     *                  known chooser panels
+     * @pbrbm pbnel   b string thbt specifies the pbnel to be removed
+     * @return the color pbnel
+     * @exception IllegblArgumentException if pbnel is not in list of
+     *                  known chooser pbnels
      */
-    public AbstractColorChooserPanel removeChooserPanel( AbstractColorChooserPanel panel ) {
+    public AbstrbctColorChooserPbnel removeChooserPbnel( AbstrbctColorChooserPbnel pbnel ) {
 
 
-        int containedAt = -1;
+        int contbinedAt = -1;
 
-        for (int i = 0; i < chooserPanels.length; i++) {
-            if (chooserPanels[i] == panel) {
-                containedAt = i;
-                break;
+        for (int i = 0; i < chooserPbnels.length; i++) {
+            if (chooserPbnels[i] == pbnel) {
+                contbinedAt = i;
+                brebk;
             }
         }
-        if (containedAt == -1) {
-            throw new IllegalArgumentException("chooser panel not in this chooser");
+        if (contbinedAt == -1) {
+            throw new IllegblArgumentException("chooser pbnel not in this chooser");
         }
 
-        AbstractColorChooserPanel[] newArray = new AbstractColorChooserPanel[chooserPanels.length-1];
+        AbstrbctColorChooserPbnel[] newArrby = new AbstrbctColorChooserPbnel[chooserPbnels.length-1];
 
-        if (containedAt == chooserPanels.length-1) {  // at end
-            System.arraycopy(chooserPanels, 0, newArray, 0, newArray.length);
+        if (contbinedAt == chooserPbnels.length-1) {  // bt end
+            System.brrbycopy(chooserPbnels, 0, newArrby, 0, newArrby.length);
         }
-        else if (containedAt == 0) {  // at start
-            System.arraycopy(chooserPanels, 1, newArray, 0, newArray.length);
+        else if (contbinedAt == 0) {  // bt stbrt
+            System.brrbycopy(chooserPbnels, 1, newArrby, 0, newArrby.length);
         }
         else {  // in middle
-            System.arraycopy(chooserPanels, 0, newArray, 0, containedAt);
-            System.arraycopy(chooserPanels, containedAt+1,
-                             newArray, containedAt, (chooserPanels.length - containedAt - 1));
+            System.brrbycopy(chooserPbnels, 0, newArrby, 0, contbinedAt);
+            System.brrbycopy(chooserPbnels, contbinedAt+1,
+                             newArrby, contbinedAt, (chooserPbnels.length - contbinedAt - 1));
         }
 
-        setChooserPanels(newArray);
+        setChooserPbnels(newArrby);
 
-        return panel;
+        return pbnel;
     }
 
 
     /**
-     * Specifies the Color Panels used to choose a color value.
+     * Specifies the Color Pbnels used to choose b color vblue.
      *
-     * @param panels  an array of <code>AbstractColorChooserPanel</code>
+     * @pbrbm pbnels  bn brrby of <code>AbstrbctColorChooserPbnel</code>
      *          objects
      *
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      *      hidden: true
-     * description: An array of different chooser types.
+     * description: An brrby of different chooser types.
      */
-    public void setChooserPanels( AbstractColorChooserPanel[] panels) {
-        AbstractColorChooserPanel[] oldValue = chooserPanels;
-        chooserPanels = panels;
-        firePropertyChange(CHOOSER_PANELS_PROPERTY, oldValue, panels);
+    public void setChooserPbnels( AbstrbctColorChooserPbnel[] pbnels) {
+        AbstrbctColorChooserPbnel[] oldVblue = chooserPbnels;
+        chooserPbnels = pbnels;
+        firePropertyChbnge(CHOOSER_PANELS_PROPERTY, oldVblue, pbnels);
     }
 
     /**
-     * Returns the specified color panels.
+     * Returns the specified color pbnels.
      *
-     * @return an array of <code>AbstractColorChooserPanel</code> objects
+     * @return bn brrby of <code>AbstrbctColorChooserPbnel</code> objects
      */
-    public AbstractColorChooserPanel[] getChooserPanels() {
-        return chooserPanels;
+    public AbstrbctColorChooserPbnel[] getChooserPbnels() {
+        return chooserPbnels;
     }
 
     /**
-     * Returns the data model that handles color selections.
+     * Returns the dbtb model thbt hbndles color selections.
      *
-     * @return a <code>ColorSelectionModel</code> object
+     * @return b <code>ColorSelectionModel</code> object
      */
     public ColorSelectionModel getSelectionModel() {
         return selectionModel;
@@ -499,97 +499,97 @@ public class JColorChooser extends JComponent implements Accessible {
 
 
     /**
-     * Sets the model containing the selected color.
+     * Sets the model contbining the selected color.
      *
-     * @param newModel   the new <code>ColorSelectionModel</code> object
+     * @pbrbm newModel   the new <code>ColorSelectionModel</code> object
      *
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      *      hidden: true
-     * description: The model which contains the currently selected color.
+     * description: The model which contbins the currently selected color.
      */
     public void setSelectionModel(ColorSelectionModel newModel ) {
         ColorSelectionModel oldModel = selectionModel;
         selectionModel = newModel;
-        firePropertyChange(JColorChooser.SELECTION_MODEL_PROPERTY, oldModel, newModel);
+        firePropertyChbnge(JColorChooser.SELECTION_MODEL_PROPERTY, oldModel, newModel);
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JColorChooser</code>.
+     * Returns b string representbtion of this <code>JColorChooser</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JColorChooser</code>
+     * @return  b string representbtion of this <code>JColorChooser</code>
      */
-    protected String paramString() {
-        StringBuilder chooserPanelsString = new StringBuilder("");
-        for (int i=0; i<chooserPanels.length; i++) {
-            chooserPanelsString.append("[" + chooserPanels[i].toString()
+    protected String pbrbmString() {
+        StringBuilder chooserPbnelsString = new StringBuilder("");
+        for (int i=0; i<chooserPbnels.length; i++) {
+            chooserPbnelsString.bppend("[" + chooserPbnels[i].toString()
                                        + "]");
         }
-        String previewPanelString = (previewPanel != null ?
-                                     previewPanel.toString() : "");
+        String previewPbnelString = (previewPbnel != null ?
+                                     previewPbnel.toString() : "");
 
-        return super.paramString() +
-        ",chooserPanels=" + chooserPanelsString.toString() +
-        ",previewPanel=" + previewPanelString;
+        return super.pbrbmString() +
+        ",chooserPbnels=" + chooserPbnelsString.toString() +
+        ",previewPbnel=" + previewPbnelString;
     }
 
 /////////////////
 // Accessibility support
 ////////////////
 
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JColorChooser.
-     * For color choosers, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JColorChooser.
+     * For color choosers, the AccessibleContext tbkes the form of bn
      * AccessibleJColorChooser.
-     * A new AccessibleJColorChooser instance is created if necessary.
+     * A new AccessibleJColorChooser instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJColorChooser that serves as the
+     * @return bn AccessibleJColorChooser thbt serves bs the
      *         AccessibleContext of this JColorChooser
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJColorChooser();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJColorChooser();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JColorChooser</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to color chooser user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JColorChooser</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to color chooser user-interfbce
      * elements.
      */
-    protected class AccessibleJColorChooser extends AccessibleJComponent {
+    protected clbss AccessibleJColorChooser extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -597,152 +597,152 @@ public class JColorChooser extends JComponent implements Accessible {
             return AccessibleRole.COLOR_CHOOSER;
         }
 
-    } // inner class AccessibleJColorChooser
+    } // inner clbss AccessibleJColorChooser
 }
 
 
 /*
- * Class which builds a color chooser dialog consisting of
- * a JColorChooser with "Ok", "Cancel", and "Reset" buttons.
+ * Clbss which builds b color chooser diblog consisting of
+ * b JColorChooser with "Ok", "Cbncel", bnd "Reset" buttons.
  *
- * Note: This needs to be fixed to deal with localization!
+ * Note: This needs to be fixed to debl with locblizbtion!
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class ColorChooserDialog extends JDialog {
-    private Color initialColor;
-    private JColorChooser chooserPane;
-    private JButton cancelButton;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss ColorChooserDiblog extends JDiblog {
+    privbte Color initiblColor;
+    privbte JColorChooser chooserPbne;
+    privbte JButton cbncelButton;
 
-    public ColorChooserDialog(Dialog owner, String title, boolean modal,
-        Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener)
-        throws HeadlessException {
-        super(owner, title, modal);
-        initColorChooserDialog(c, chooserPane, okListener, cancelListener);
+    public ColorChooserDiblog(Diblog owner, String title, boolebn modbl,
+        Component c, JColorChooser chooserPbne,
+        ActionListener okListener, ActionListener cbncelListener)
+        throws HebdlessException {
+        super(owner, title, modbl);
+        initColorChooserDiblog(c, chooserPbne, okListener, cbncelListener);
     }
 
-    public ColorChooserDialog(Frame owner, String title, boolean modal,
-        Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener)
-        throws HeadlessException {
-        super(owner, title, modal);
-        initColorChooserDialog(c, chooserPane, okListener, cancelListener);
+    public ColorChooserDiblog(Frbme owner, String title, boolebn modbl,
+        Component c, JColorChooser chooserPbne,
+        ActionListener okListener, ActionListener cbncelListener)
+        throws HebdlessException {
+        super(owner, title, modbl);
+        initColorChooserDiblog(c, chooserPbne, okListener, cbncelListener);
     }
 
-    protected void initColorChooserDialog(Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener) {
-        //setResizable(false);
+    protected void initColorChooserDiblog(Component c, JColorChooser chooserPbne,
+        ActionListener okListener, ActionListener cbncelListener) {
+        //setResizbble(fblse);
 
-        this.chooserPane = chooserPane;
+        this.chooserPbne = chooserPbne;
 
-        Locale locale = getLocale();
-        String okString = UIManager.getString("ColorChooser.okText", locale);
-        String cancelString = UIManager.getString("ColorChooser.cancelText", locale);
-        String resetString = UIManager.getString("ColorChooser.resetText", locale);
+        Locble locble = getLocble();
+        String okString = UIMbnbger.getString("ColorChooser.okText", locble);
+        String cbncelString = UIMbnbger.getString("ColorChooser.cbncelText", locble);
+        String resetString = UIMbnbger.getString("ColorChooser.resetText", locble);
 
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(chooserPane, BorderLayout.CENTER);
+        Contbiner contentPbne = getContentPbne();
+        contentPbne.setLbyout(new BorderLbyout());
+        contentPbne.bdd(chooserPbne, BorderLbyout.CENTER);
 
         /*
-         * Create Lower button panel
+         * Crebte Lower button pbnel
          */
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JPbnel buttonPbne = new JPbnel();
+        buttonPbne.setLbyout(new FlowLbyout(FlowLbyout.CENTER));
         JButton okButton = new JButton(okString);
-        getRootPane().setDefaultButton(okButton);
+        getRootPbne().setDefbultButton(okButton);
         okButton.getAccessibleContext().setAccessibleDescription(okString);
-        okButton.setActionCommand("OK");
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        okButton.setActionCommbnd("OK");
+        okButton.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
                 hide();
             }
         });
         if (okListener != null) {
-            okButton.addActionListener(okListener);
+            okButton.bddActionListener(okListener);
         }
-        buttonPane.add(okButton);
+        buttonPbne.bdd(okButton);
 
-        cancelButton = new JButton(cancelString);
-        cancelButton.getAccessibleContext().setAccessibleDescription(cancelString);
+        cbncelButton = new JButton(cbncelString);
+        cbncelButton.getAccessibleContext().setAccessibleDescription(cbncelString);
 
-        // The following few lines are used to register esc to close the dialog
-        @SuppressWarnings("serial") // anonymous class
-        Action cancelKeyAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                ((AbstractButton)e.getSource()).fireActionPerformed(e);
+        // The following few lines bre used to register esc to close the diblog
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        Action cbncelKeyAction = new AbstrbctAction() {
+            public void bctionPerformed(ActionEvent e) {
+                ((AbstrbctButton)e.getSource()).fireActionPerformed(e);
             }
         };
-        KeyStroke cancelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-        InputMap inputMap = cancelButton.getInputMap(JComponent.
+        KeyStroke cbncelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        InputMbp inputMbp = cbncelButton.getInputMbp(JComponent.
                                                      WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = cancelButton.getActionMap();
-        if (inputMap != null && actionMap != null) {
-            inputMap.put(cancelKeyStroke, "cancel");
-            actionMap.put("cancel", cancelKeyAction);
+        ActionMbp bctionMbp = cbncelButton.getActionMbp();
+        if (inputMbp != null && bctionMbp != null) {
+            inputMbp.put(cbncelKeyStroke, "cbncel");
+            bctionMbp.put("cbncel", cbncelKeyAction);
         }
-        // end esc handling
+        // end esc hbndling
 
-        cancelButton.setActionCommand("cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        cbncelButton.setActionCommbnd("cbncel");
+        cbncelButton.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
                 hide();
             }
         });
-        if (cancelListener != null) {
-            cancelButton.addActionListener(cancelListener);
+        if (cbncelListener != null) {
+            cbncelButton.bddActionListener(cbncelListener);
         }
-        buttonPane.add(cancelButton);
+        buttonPbne.bdd(cbncelButton);
 
         JButton resetButton = new JButton(resetString);
         resetButton.getAccessibleContext().setAccessibleDescription(resetString);
-        resetButton.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
+        resetButton.bddActionListener(new ActionListener() {
+           public void bctionPerformed(ActionEvent e) {
                reset();
            }
         });
-        int mnemonic = SwingUtilities2.getUIDefaultsInt("ColorChooser.resetMnemonic", locale, -1);
+        int mnemonic = SwingUtilities2.getUIDefbultsInt("ColorChooser.resetMnemonic", locble, -1);
         if (mnemonic != -1) {
             resetButton.setMnemonic(mnemonic);
         }
-        buttonPane.add(resetButton);
-        contentPane.add(buttonPane, BorderLayout.SOUTH);
+        buttonPbne.bdd(resetButton);
+        contentPbne.bdd(buttonPbne, BorderLbyout.SOUTH);
 
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                getRootPane().setWindowDecorationStyle(JRootPane.COLOR_CHOOSER_DIALOG);
+        if (JDiblog.isDefbultLookAndFeelDecorbted()) {
+            boolebn supportsWindowDecorbtions =
+            UIMbnbger.getLookAndFeel().getSupportsWindowDecorbtions();
+            if (supportsWindowDecorbtions) {
+                getRootPbne().setWindowDecorbtionStyle(JRootPbne.COLOR_CHOOSER_DIALOG);
             }
         }
-        applyComponentOrientation(((c == null) ? getRootPane() : c).getComponentOrientation());
+        bpplyComponentOrientbtion(((c == null) ? getRootPbne() : c).getComponentOrientbtion());
 
-        pack();
-        setLocationRelativeTo(c);
+        pbck();
+        setLocbtionRelbtiveTo(c);
 
-        this.addWindowListener(new Closer());
+        this.bddWindowListener(new Closer());
     }
 
     public void show() {
-        initialColor = chooserPane.getColor();
+        initiblColor = chooserPbne.getColor();
         super.show();
     }
 
     public void reset() {
-        chooserPane.setColor(initialColor);
+        chooserPbne.setColor(initiblColor);
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    class Closer extends WindowAdapter implements Serializable{
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss Closer extends WindowAdbpter implements Seriblizbble{
         public void windowClosing(WindowEvent e) {
-            cancelButton.doClick(0);
+            cbncelButton.doClick(0);
             Window w = e.getWindow();
             w.hide();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class DisposeOnClose extends ComponentAdapter implements Serializable{
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss DisposeOnClose extends ComponentAdbpter implements Seriblizbble{
         public void componentHidden(ComponentEvent e) {
             Window w = (Window)e.getComponent();
             w.dispose();
@@ -751,16 +751,16 @@ class ColorChooserDialog extends JDialog {
 
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class ColorTracker implements ActionListener, Serializable {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss ColorTrbcker implements ActionListener, Seriblizbble {
     JColorChooser chooser;
     Color color;
 
-    public ColorTracker(JColorChooser c) {
+    public ColorTrbcker(JColorChooser c) {
         chooser = c;
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         color = chooser.getColor();
     }
 

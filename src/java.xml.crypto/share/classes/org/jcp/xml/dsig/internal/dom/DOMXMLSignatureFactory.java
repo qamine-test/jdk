@@ -3,175 +3,175 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMXMLSignatureFactory.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: DOMXMLSignbtureFbctory.jbvb 1333869 2012-05-04 10:42:44Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.keyinfo.*;
-import javax.xml.crypto.dsig.spec.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.dom.DOMVblidbteContext;
+import jbvbx.xml.crypto.dsig.keyinfo.*;
+import jbvbx.xml.crypto.dsig.spec.*;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * DOM-based implementation of XMLSignatureFactory.
+ * DOM-bbsed implementbtion of XMLSignbtureFbctory.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMXMLSignatureFactory extends XMLSignatureFactory {
+public finbl clbss DOMXMLSignbtureFbctory extends XMLSignbtureFbctory {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    public DOMXMLSignatureFactory() {}
+    public DOMXMLSignbtureFbctory() {}
 
-    public XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki) {
-        return new DOMXMLSignature(si, ki, null, null, null);
+    public XMLSignbture newXMLSignbture(SignedInfo si, KeyInfo ki) {
+        return new DOMXMLSignbture(si, ki, null, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki,
-        List objects, String id, String signatureValueId) {
-        return new DOMXMLSignature(si, ki, objects, id, signatureValueId);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public XMLSignbture newXMLSignbture(SignedInfo si, KeyInfo ki,
+        List objects, String id, String signbtureVblueId) {
+        return new DOMXMLSignbture(si, ki, objects, id, signbtureVblueId);
     }
 
     public Reference newReference(String uri, DigestMethod dm) {
         return newReference(uri, dm, null, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Reference newReference(String uri, DigestMethod dm, List transforms,
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public Reference newReference(String uri, DigestMethod dm, List trbnsforms,
         String type, String id) {
-        return new DOMReference(uri, type, dm, transforms, id, getProvider());
+        return new DOMReference(uri, type, dm, trbnsforms, id, getProvider());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
     public Reference newReference(String uri, DigestMethod dm,
-        List appliedTransforms, Data result, List transforms, String type,
+        List bppliedTrbnsforms, Dbtb result, List trbnsforms, String type,
         String id) {
-        if (appliedTransforms == null) {
-            throw new NullPointerException("appliedTransforms cannot be null");
+        if (bppliedTrbnsforms == null) {
+            throw new NullPointerException("bppliedTrbnsforms cbnnot be null");
         }
-        if (appliedTransforms.isEmpty()) {
-            throw new NullPointerException("appliedTransforms cannot be empty");
+        if (bppliedTrbnsforms.isEmpty()) {
+            throw new NullPointerException("bppliedTrbnsforms cbnnot be empty");
         }
         if (result == null) {
-            throw new NullPointerException("result cannot be null");
+            throw new NullPointerException("result cbnnot be null");
         }
         return new DOMReference
-            (uri, type, dm, appliedTransforms, result, transforms, id, getProvider());
+            (uri, type, dm, bppliedTrbnsforms, result, trbnsforms, id, getProvider());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Reference newReference(String uri, DigestMethod dm, List transforms,
-        String type, String id, byte[] digestValue) {
-        if (digestValue == null) {
-            throw new NullPointerException("digestValue cannot be null");
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public Reference newReference(String uri, DigestMethod dm, List trbnsforms,
+        String type, String id, byte[] digestVblue) {
+        if (digestVblue == null) {
+            throw new NullPointerException("digestVblue cbnnot be null");
         }
         return new DOMReference
-            (uri, type, dm, null, null, transforms, id, digestValue, getProvider());
+            (uri, type, dm, null, null, trbnsforms, id, digestVblue, getProvider());
     }
 
-    @SuppressWarnings("rawtypes")
-    public SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references) {
+    @SuppressWbrnings("rbwtypes")
+    public SignedInfo newSignedInfo(CbnonicblizbtionMethod cm,
+        SignbtureMethod sm, List references) {
         return newSignedInfo(cm, sm, references, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references, String id) {
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public SignedInfo newSignedInfo(CbnonicblizbtionMethod cm,
+        SignbtureMethod sm, List references, String id) {
         return new DOMSignedInfo(cm, sm, references, id);
     }
 
-    // Object factory methods
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    // Object fbctory methods
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
     public XMLObject newXMLObject(List content, String id, String mimeType,
         String encoding) {
         return new DOMXMLObject(content, id, mimeType, encoding);
     }
 
-    @SuppressWarnings("rawtypes")
-    public Manifest newManifest(List references) {
-        return newManifest(references, null);
+    @SuppressWbrnings("rbwtypes")
+    public Mbnifest newMbnifest(List references) {
+        return newMbnifest(references, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Manifest newManifest(List references, String id) {
-        return new DOMManifest(references, id);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public Mbnifest newMbnifest(List references, String id) {
+        return new DOMMbnifest(references, id);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignatureProperties newSignatureProperties(List props, String id) {
-        return new DOMSignatureProperties(props, id);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public SignbtureProperties newSignbtureProperties(List props, String id) {
+        return new DOMSignbtureProperties(props, id);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignatureProperty newSignatureProperty
-        (List info, String target, String id) {
-        return new DOMSignatureProperty(info, target, id);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public SignbtureProperty newSignbtureProperty
+        (List info, String tbrget, String id) {
+        return new DOMSignbtureProperty(info, tbrget, id);
     }
 
-    public XMLSignature unmarshalXMLSignature(XMLValidateContext context)
-        throws MarshalException {
+    public XMLSignbture unmbrshblXMLSignbture(XMLVblidbteContext context)
+        throws MbrshblException {
 
         if (context == null) {
-            throw new NullPointerException("context cannot be null");
+            throw new NullPointerException("context cbnnot be null");
         }
-        return unmarshal(((DOMValidateContext) context).getNode(), context);
+        return unmbrshbl(((DOMVblidbteContext) context).getNode(), context);
     }
 
-    public XMLSignature unmarshalXMLSignature(XMLStructure xmlStructure)
-        throws MarshalException {
+    public XMLSignbture unmbrshblXMLSignbture(XMLStructure xmlStructure)
+        throws MbrshblException {
 
         if (xmlStructure == null) {
-            throw new NullPointerException("xmlStructure cannot be null");
+            throw new NullPointerException("xmlStructure cbnnot be null");
         }
-        if (!(xmlStructure instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("xmlStructure must be of type DOMStructure");
+        if (!(xmlStructure instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("xmlStructure must be of type DOMStructure");
         }
-        return unmarshal
-            (((javax.xml.crypto.dom.DOMStructure) xmlStructure).getNode(),
-             new UnmarshalContext());
+        return unmbrshbl
+            (((jbvbx.xml.crypto.dom.DOMStructure) xmlStructure).getNode(),
+             new UnmbrshblContext());
     }
 
-    private static class UnmarshalContext extends DOMCryptoContext {
-        UnmarshalContext() {}
+    privbte stbtic clbss UnmbrshblContext extends DOMCryptoContext {
+        UnmbrshblContext() {}
     }
 
-    private XMLSignature unmarshal(Node node, XMLCryptoContext context)
-        throws MarshalException {
+    privbte XMLSignbture unmbrshbl(Node node, XMLCryptoContext context)
+        throws MbrshblException {
 
-        node.normalize();
+        node.normblize();
 
         Element element = null;
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
@@ -179,168 +179,168 @@ public final class DOMXMLSignatureFactory extends XMLSignatureFactory {
         } else if (node.getNodeType() == Node.ELEMENT_NODE) {
             element = (Element) node;
         } else {
-            throw new MarshalException
-                ("Signature element is not a proper Node");
+            throw new MbrshblException
+                ("Signbture element is not b proper Node");
         }
 
-        // check tag
-        String tag = element.getLocalName();
-        if (tag == null) {
-            throw new MarshalException("Document implementation must " +
-                "support DOM Level 2 and be namespace aware");
+        // check tbg
+        String tbg = element.getLocblNbme();
+        if (tbg == null) {
+            throw new MbrshblException("Document implementbtion must " +
+                "support DOM Level 2 bnd be nbmespbce bwbre");
         }
-        if (tag.equals("Signature")) {
-            return new DOMXMLSignature(element, context, getProvider());
+        if (tbg.equbls("Signbture")) {
+            return new DOMXMLSignbture(element, context, getProvider());
         } else {
-            throw new MarshalException("invalid Signature tag: " + tag);
+            throw new MbrshblException("invblid Signbture tbg: " + tbg);
         }
     }
 
-    public boolean isFeatureSupported(String feature) {
-        if (feature == null) {
+    public boolebn isFebtureSupported(String febture) {
+        if (febture == null) {
             throw new NullPointerException();
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public DigestMethod newDigestMethod(String algorithm,
-        DigestMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        if (algorithm == null) {
+    public DigestMethod newDigestMethod(String blgorithm,
+        DigestMethodPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
+        if (blgorithm == null) {
             throw new NullPointerException();
         }
-        if (algorithm.equals(DigestMethod.SHA1)) {
-            return new DOMDigestMethod.SHA1(params);
-        } else if (algorithm.equals(DigestMethod.SHA256)) {
-            return new DOMDigestMethod.SHA256(params);
-        } else if (algorithm.equals(DOMDigestMethod.SHA384)) {
-            return new DOMDigestMethod.SHA384(params);
-        } else if (algorithm.equals(DigestMethod.SHA512)) {
-            return new DOMDigestMethod.SHA512(params);
+        if (blgorithm.equbls(DigestMethod.SHA1)) {
+            return new DOMDigestMethod.SHA1(pbrbms);
+        } else if (blgorithm.equbls(DigestMethod.SHA256)) {
+            return new DOMDigestMethod.SHA256(pbrbms);
+        } else if (blgorithm.equbls(DOMDigestMethod.SHA384)) {
+            return new DOMDigestMethod.SHA384(pbrbms);
+        } else if (blgorithm.equbls(DigestMethod.SHA512)) {
+            return new DOMDigestMethod.SHA512(pbrbms);
         } else {
-            throw new NoSuchAlgorithmException("unsupported algorithm");
+            throw new NoSuchAlgorithmException("unsupported blgorithm");
         }
     }
 
-    public SignatureMethod newSignatureMethod(String algorithm,
-        SignatureMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        if (algorithm == null) {
+    public SignbtureMethod newSignbtureMethod(String blgorithm,
+        SignbtureMethodPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
+        if (blgorithm == null) {
             throw new NullPointerException();
         }
-        if (algorithm.equals(SignatureMethod.RSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA384)) {
-            return new DOMSignatureMethod.SHA384withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA512)) {
-            return new DOMSignatureMethod.SHA512withRSA(params);
-        } else if (algorithm.equals(SignatureMethod.DSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.DSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withDSA(params);
-        } else if (algorithm.equals(SignatureMethod.HMAC_SHA1)) {
-            return new DOMHMACSignatureMethod.SHA1(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA256)) {
-            return new DOMHMACSignatureMethod.SHA256(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA384)) {
-            return new DOMHMACSignatureMethod.SHA384(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA512)) {
-            return new DOMHMACSignatureMethod.SHA512(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA384)) {
-            return new DOMSignatureMethod.SHA384withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA512)) {
-            return new DOMSignatureMethod.SHA512withECDSA(params);
+        if (blgorithm.equbls(SignbtureMethod.RSA_SHA1)) {
+            return new DOMSignbtureMethod.SHA1withRSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.RSA_SHA256)) {
+            return new DOMSignbtureMethod.SHA256withRSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.RSA_SHA384)) {
+            return new DOMSignbtureMethod.SHA384withRSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.RSA_SHA512)) {
+            return new DOMSignbtureMethod.SHA512withRSA(pbrbms);
+        } else if (blgorithm.equbls(SignbtureMethod.DSA_SHA1)) {
+            return new DOMSignbtureMethod.SHA1withDSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.DSA_SHA256)) {
+            return new DOMSignbtureMethod.SHA256withDSA(pbrbms);
+        } else if (blgorithm.equbls(SignbtureMethod.HMAC_SHA1)) {
+            return new DOMHMACSignbtureMethod.SHA1(pbrbms);
+        } else if (blgorithm.equbls(DOMHMACSignbtureMethod.HMAC_SHA256)) {
+            return new DOMHMACSignbtureMethod.SHA256(pbrbms);
+        } else if (blgorithm.equbls(DOMHMACSignbtureMethod.HMAC_SHA384)) {
+            return new DOMHMACSignbtureMethod.SHA384(pbrbms);
+        } else if (blgorithm.equbls(DOMHMACSignbtureMethod.HMAC_SHA512)) {
+            return new DOMHMACSignbtureMethod.SHA512(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.ECDSA_SHA1)) {
+            return new DOMSignbtureMethod.SHA1withECDSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.ECDSA_SHA256)) {
+            return new DOMSignbtureMethod.SHA256withECDSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.ECDSA_SHA384)) {
+            return new DOMSignbtureMethod.SHA384withECDSA(pbrbms);
+        } else if (blgorithm.equbls(DOMSignbtureMethod.ECDSA_SHA512)) {
+            return new DOMSignbtureMethod.SHA512withECDSA(pbrbms);
         } else {
-            throw new NoSuchAlgorithmException("unsupported algorithm");
+            throw new NoSuchAlgorithmException("unsupported blgorithm");
         }
     }
 
-    public Transform newTransform(String algorithm,
-        TransformParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
+    public Trbnsform newTrbnsform(String blgorithm,
+        TrbnsformPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
 
-        TransformService spi;
+        TrbnsformService spi;
         if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
+            spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
         } else {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM", getProvider());
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
             }
         }
 
-        spi.init(params);
-        return new DOMTransform(spi);
+        spi.init(pbrbms);
+        return new DOMTrbnsform(spi);
     }
 
-    public Transform newTransform(String algorithm,
-        XMLStructure params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
+    public Trbnsform newTrbnsform(String blgorithm,
+        XMLStructure pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
+        TrbnsformService spi;
         if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
+            spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
         } else {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM", getProvider());
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
             }
         }
 
-        if (params == null) {
+        if (pbrbms == null) {
             spi.init(null);
         } else {
-            spi.init(params, null);
+            spi.init(pbrbms, null);
         }
-        return new DOMTransform(spi);
+        return new DOMTrbnsform(spi);
     }
 
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm,
-        C14NMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
+    public CbnonicblizbtionMethod newCbnonicblizbtionMethod(String blgorithm,
+        C14NMethodPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
+        TrbnsformService spi;
         if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
+            spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
         } else {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM", getProvider());
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
             }
         }
 
-        spi.init(params);
-        return new DOMCanonicalizationMethod(spi);
+        spi.init(pbrbms);
+        return new DOMCbnonicblizbtionMethod(spi);
     }
 
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm,
-        XMLStructure params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
+    public CbnonicblizbtionMethod newCbnonicblizbtionMethod(String blgorithm,
+        XMLStructure pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException {
+        TrbnsformService spi;
         if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
+            spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
         } else {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM", getProvider());
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
             }
         }
-        if (params == null) {
+        if (pbrbms == null) {
             spi.init(null);
         } else {
-            spi.init(params, null);
+            spi.init(pbrbms, null);
         }
 
-        return new DOMCanonicalizationMethod(spi);
+        return new DOMCbnonicblizbtionMethod(spi);
     }
 
     public URIDereferencer getURIDereferencer() {

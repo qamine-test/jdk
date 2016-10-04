@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_FRAME_H
 #define AWT_FRAME_H
 
-#include "awt_Window.h"
-#include "awt_MenuBar.h" //add for multifont
-#include "awt_Toolkit.h"
-#include "Hashtable.h"
+#include "bwt_Window.h"
+#include "bwt_MenuBbr.h" //bdd for multifont
+#include "bwt_Toolkit.h"
+#include "Hbshtbble.h"
 
-#include "java_awt_Frame.h"
-#include "sun_awt_windows_WFramePeer.h"
+#include "jbvb_bwt_Frbme.h"
+#include "sun_bwt_windows_WFrbmePeer.h"
 
 
 /************************************************************************
- * AwtFrame class
+ * AwtFrbme clbss
  */
 
-#define AWT_FRAME_WINDOW_CLASS_NAME TEXT("SunAwtFrame")
+#define AWT_FRAME_WINDOW_CLASS_NAME TEXT("SunAwtFrbme")
 
 
-class AwtFrame : public AwtWindow {
+clbss AwtFrbme : public AwtWindow {
 public:
-    enum FrameExecIds {
+    enum FrbmeExecIds {
         FRAME_SETMENUBAR
     };
 
-    /* java.awt.Frame fields and method IDs */
-    static jfieldID undecoratedID;
+    /* jbvb.bwt.Frbme fields bnd method IDs */
+    stbtic jfieldID undecorbtedID;
 
-    /* sun.awt.windows.WEmbeddedFrame fields and method IDs */
-    static jfieldID handleID;
+    /* sun.bwt.windows.WEmbeddedFrbme fields bnd method IDs */
+    stbtic jfieldID hbndleID;
 
-    static jmethodID setExtendedStateMID;
-    static jmethodID getExtendedStateMID;
+    stbtic jmethodID setExtendedStbteMID;
+    stbtic jmethodID getExtendedStbteMID;
 
-    /* method id for WEmbeddedFrame.requestActivate() method */
-    static jmethodID activateEmbeddingTopLevelMID;
+    /* method id for WEmbeddedFrbme.requestActivbte() method */
+    stbtic jmethodID bctivbteEmbeddingTopLevelMID;
 
-    AwtFrame();
-    virtual ~AwtFrame();
+    AwtFrbme();
+    virtubl ~AwtFrbme();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    /* Create a new AwtFrame.  This must be run on the main thread. */
-    static AwtFrame* Create(jobject self, jobject parent);
+    /* Crebte b new AwtFrbme.  This must be run on the mbin threbd. */
+    stbtic AwtFrbme* Crebte(jobject self, jobject pbrent);
 
-    /* Returns whether this frame is embedded in an external native frame. */
-    INLINE BOOL IsEmbeddedFrame() { return m_isEmbedded; }
-    /* Returns whether this frame is lightweight. */
-    INLINE virtual BOOL IsLightweightFrame() { return m_isLightweight; }
+    /* Returns whether this frbme is embedded in bn externbl nbtive frbme. */
+    INLINE BOOL IsEmbeddedFrbme() { return m_isEmbedded; }
+    /* Returns whether this frbme is lightweight. */
+    INLINE virtubl BOOL IsLightweightFrbme() { return m_isLightweight; }
 
     INLINE BOOL IsSimpleWindow() { return FALSE; }
 
-    /* Returns whether this window is in iconified state. */
+    /* Returns whether this window is in iconified stbte. */
     INLINE BOOL isIconic() { return m_iconic; }
     INLINE void setIconic(BOOL b) { m_iconic = b; }
 
-    /* Returns whether this window is in zoomed state. */
+    /* Returns whether this window is in zoomed stbte. */
     INLINE BOOL isZoomed() { return m_zoomed; }
     INLINE void setZoomed(BOOL b) { m_zoomed = b; }
 
-    void SendWindowStateEvent(int oldState, int newState);
+    void SendWindowStbteEvent(int oldStbte, int newStbte);
 
     void Show();
 
-    INLINE void DrawMenuBar() { VERIFY(::DrawMenuBar(GetHWnd())); }
+    INLINE void DrbwMenuBbr() { VERIFY(::DrbwMenuBbr(GetHWnd())); }
 
-    virtual void DoUpdateIcon();
-    virtual HICON GetEffectiveIcon(int iconType);
+    virtubl void DoUpdbteIcon();
+    virtubl HICON GetEffectiveIcon(int iconType);
 
-    /*for WmDrawItem and WmMeasureItem method */
-    AwtMenuBar* GetMenuBar();
-    void SetMenuBar(AwtMenuBar*);
+    /*for WmDrbwItem bnd WmMebsureItem method */
+    AwtMenuBbr* GetMenuBbr();
+    void SetMenuBbr(AwtMenuBbr*);
 
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtubl LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    MsgRouting WmGetMinMaxInfo(LPMINMAXINFO lpmmi);
+    MsgRouting WmGetMinMbxInfo(LPMINMAXINFO lpmmi);
     MsgRouting WmSize(UINT type, int w, int h);
-    MsgRouting WmActivate(UINT nState, BOOL fMinimized, HWND opposite);
-    MsgRouting WmDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting WmMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
-    MsgRouting WmEnterMenuLoop(BOOL isTrackPopupMenu);
-    MsgRouting WmExitMenuLoop(BOOL isTrackPopupMenu);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseMove(UINT flags, int x, int y);
+    MsgRouting WmActivbte(UINT nStbte, BOOL fMinimized, HWND opposite);
+    MsgRouting WmDrbwItem(UINT ctrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting WmMebsureItem(UINT ctrlId, MEASUREITEMSTRUCT& mebsureInfo);
+    MsgRouting WmEnterMenuLoop(BOOL isTrbckPopupMenu);
+    MsgRouting WmExitMenuLoop(BOOL isTrbckPopupMenu);
+    MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMouseMove(UINT flbgs, int x, int y);
     MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
     MsgRouting WmNcMouseUp(WPARAM hitTest, int x, int y, int button);
-    MsgRouting WmGetIcon(WPARAM iconType, LRESULT& retVal);
-    MsgRouting WmShowWindow(BOOL show, UINT status);
+    MsgRouting WmGetIcon(WPARAM iconType, LRESULT& retVbl);
+    MsgRouting WmShowWindow(BOOL show, UINT stbtus);
 
-    virtual MsgRouting WmSysCommand(UINT uCmdType, int xPos, int yPos);
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdType, int xPos, int yPos);
 
-    LRESULT WinThreadExecProc(ExecuteArgs * args);
+    LRESULT WinThrebdExecProc(ExecuteArgs * brgs);
 
-    INLINE BOOL IsUndecorated() { return m_isUndecorated; }
+    INLINE BOOL IsUndecorbted() { return m_isUndecorbted; }
 
     INLINE HWND GetProxyFocusOwner() {
         return GetHWnd();
     }
 
-    void SetMaximizedBounds(int x, int y, int w, int h);
-    void ClearMaximizedBounds();
+    void SetMbximizedBounds(int x, int y, int w, int h);
+    void ClebrMbximizedBounds();
 
-    // returns true if the frame is inputmethod window
+    // returns true if the frbme is inputmethod window
     INLINE BOOL isInputMethodWindow() { return m_isInputMethodWindow; }
-    // adjusts the IME candidate window position if needed
-    void AdjustCandidateWindowPos();
+    // bdjusts the IME cbndidbte window position if needed
+    void AdjustCbndidbteWindowPos();
 
-    // invoked on Toolkit thread
-    static jobject _GetBoundsPrivate(void *param);
+    // invoked on Toolkit threbd
+    stbtic jobject _GetBoundsPrivbte(void *pbrbm);
 
-    // some methods called on Toolkit thread
-    static void _SetState(void *param);
-    static jint _GetState(void *param);
-    static void _SetMaximizedBounds(void *param);
-    static void _ClearMaximizedBounds(void *param);
-    static void _SetMenuBar(void *param);
-    static void _SetIMMOption(void *param);
-    static void _SynthesizeWmActivate(void *param);
-    static void _NotifyModalBlocked(void *param);
+    // some methods cblled on Toolkit threbd
+    stbtic void _SetStbte(void *pbrbm);
+    stbtic jint _GetStbte(void *pbrbm);
+    stbtic void _SetMbximizedBounds(void *pbrbm);
+    stbtic void _ClebrMbximizedBounds(void *pbrbm);
+    stbtic void _SetMenuBbr(void *pbrbm);
+    stbtic void _SetIMMOption(void *pbrbm);
+    stbtic void _SynthesizeWmActivbte(void *pbrbm);
+    stbtic void _NotifyModblBlocked(void *pbrbm);
 
-    virtual void Reshape(int x, int y, int width, int height);
+    virtubl void Reshbpe(int x, int y, int width, int height);
 
-    virtual BOOL AwtSetActiveWindow(BOOL isMouseEventCause = FALSE, UINT hittest = HTCLIENT);
+    virtubl BOOL AwtSetActiveWindow(BOOL isMouseEventCbuse = FALSE, UINT hittest = HTCLIENT);
 
-    void CheckRetainActualFocusedWindow(HWND activatedOpositeHWnd);
-    BOOL CheckActivateActualFocusedWindow(HWND deactivatedOpositeHWnd);
+    void CheckRetbinActublFocusedWindow(HWND bctivbtedOpositeHWnd);
+    BOOL CheckActivbteActublFocusedWindow(HWND debctivbtedOpositeHWnd);
 
-    INLINE HWND GetImeTargetComponent() { return m_imeTargetComponent; }
-    INLINE void SetImeTargetComponent(HWND hwnd) { m_imeTargetComponent = hwnd; }
+    INLINE HWND GetImeTbrgetComponent() { return m_imeTbrgetComponent; }
+    INLINE void SetImeTbrgetComponent(HWND hwnd) { m_imeTbrgetComponent = hwnd; }
 
 protected:
-    /* The frame is undecorated. */
-    BOOL m_isUndecorated;
+    /* The frbme is undecorbted. */
+    BOOL m_isUndecorbted;
 
-private:
-    LRESULT ProxyWindowProc(UINT message, WPARAM wParam, LPARAM lParam, MsgRouting &mr);
+privbte:
+    LRESULT ProxyWindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm, MsgRouting &mr);
 
-    /* The frame's embedding parent (if any) */
-    HWND m_parentWnd;
+    /* The frbme's embedding pbrent (if bny) */
+    HWND m_pbrentWnd;
 
-    /* The frame's menubar. */
-    AwtMenuBar* menuBar;
+    /* The frbme's menubbr. */
+    AwtMenuBbr* menuBbr;
 
-    /* The frame is an EmbeddedFrame. */
+    /* The frbme is bn EmbeddedFrbme. */
     BOOL m_isEmbedded;
 
-    /* The frame is a LightweightFrame */
+    /* The frbme is b LightweightFrbme */
     BOOL m_isLightweight;
 
-    /* used so that calls to ::MoveWindow in SetMenuBar don't propogate
-       because they are immediately followed by calls to Component.resize */
+    /* used so thbt cblls to ::MoveWindow in SetMenuBbr don't propogbte
+       becbuse they bre immedibtely followed by cblls to Component.resize */
     BOOL m_ignoreWmSize;
 
-    /* tracks whether or not menu on this frame is dropped down */
+    /* trbcks whether or not menu on this frbme is dropped down */
     BOOL m_isMenuDropped;
 
-    /* The frame is an InputMethodWindow */
+    /* The frbme is bn InputMethodWindow */
     BOOL m_isInputMethodWindow;
 
-    // retains the target component for the IME messages
-    HWND m_imeTargetComponent;
+    // retbins the tbrget component for the IME messbges
+    HWND m_imeTbrgetComponent;
 
     /*
      * Fix for 4823903.
-     * Retains a focus proxied window to set the focus correctly
-     * when its owner get activated.
+     * Retbins b focus proxied window to set the focus correctly
+     * when its owner get bctivbted.
      */
-    AwtWindow *m_actualFocusedWindow;
+    AwtWindow *m_bctublFocusedWindow;
 
-    /* The original, default WndProc for m_proxyFocusOwner. */
+    /* The originbl, defbult WndProc for m_proxyFocusOwner. */
     WNDPROC m_proxyDefWindowProc;
 
-    BOOL m_iconic;          /* are we in an iconic state */
-    BOOL m_zoomed;          /* are we in a zoomed state */
+    BOOL m_iconic;          /* bre we in bn iconic stbte */
+    BOOL m_zoomed;          /* bre we in b zoomed stbte */
 
-    /* whether WmSize() must unconditionally reset zoomed state */
+    /* whether WmSize() must unconditionblly reset zoomed stbte */
     BOOL m_forceResetZoomed;
 
-    BOOL  m_maxBoundsSet;
-    POINT m_maxPos;
-    POINT m_maxSize;
+    BOOL  m_mbxBoundsSet;
+    POINT m_mbxPos;
+    POINT m_mbxSize;
 
-    BOOL isInManualMoveOrSize;
-    WPARAM grabbedHitTest;
-    POINT savedMousePos;
+    BOOL isInMbnublMoveOrSize;
+    WPARAM grbbbedHitTest;
+    POINT sbvedMousePos;
 
     /*
-     * Hashtable<Thread, BlockedThreadStruct> - a table that contains all the
-     * information about non-toolkit threads with modal blocked embedded
-     * frames. This information includes: number of blocked embedded frames
-     * created on the the thread, and mouse and modal hooks installed for
-     * that thread. For every thread each hook is installed only once
+     * Hbshtbble<Threbd, BlockedThrebdStruct> - b tbble thbt contbins bll the
+     * informbtion bbout non-toolkit threbds with modbl blocked embedded
+     * frbmes. This informbtion includes: number of blocked embedded frbmes
+     * crebted on the the threbd, bnd mouse bnd modbl hooks instblled for
+     * thbt threbd. For every threbd ebch hook is instblled only once
      */
-    static Hashtable sm_BlockedThreads;
+    stbtic Hbshtbble sm_BlockedThrebds;
 };
 
 #endif /* AWT_FRAME_H */

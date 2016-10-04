@@ -2,95 +2,95 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.Enumeration;
-import javax.crypto.SecretKey;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Certificate;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509IssuerSerial;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SKI;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SubjectName;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import jbvb.security.Key;
+import jbvb.security.KeyStore;
+import jbvb.security.KeyStoreException;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteEncodingException;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Arrbys;
+import jbvb.util.Enumerbtion;
+import jbvbx.crypto.SecretKey;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.X509Dbtb;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509Certificbte;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509IssuerSeribl;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509SKI;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509SubjectNbme;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * Resolves a PrivateKey within a KeyStore based on the KeyInfo hints.
- * For X509Data hints, the certificate associated with the private key entry must match.
- * For a KeyName hint, the KeyName must match the alias of a PrivateKey entry within the KeyStore.
+ * Resolves b PrivbteKey within b KeyStore bbsed on the KeyInfo hints.
+ * For X509Dbtb hints, the certificbte bssocibted with the privbte key entry must mbtch.
+ * For b KeyNbme hint, the KeyNbme must mbtch the blibs of b PrivbteKey entry within the KeyStore.
  */
-public class PrivateKeyResolver extends KeyResolverSpi {
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(PrivateKeyResolver.class.getName());
+public clbss PrivbteKeyResolver extends KeyResolverSpi {
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(PrivbteKeyResolver.clbss.getNbme());
 
-    private KeyStore keyStore;
-    private char[] password;
+    privbte KeyStore keyStore;
+    privbte chbr[] pbssword;
 
     /**
      * Constructor.
      */
-    public PrivateKeyResolver(KeyStore keyStore, char[] password) {
+    public PrivbteKeyResolver(KeyStore keyStore, chbr[] pbssword) {
         this.keyStore = keyStore;
-        this.password = password;
+        this.pbssword = pbssword;
     }
 
     /**
-     * This method returns whether the KeyResolverSpi is able to perform the requested action.
+     * This method returns whether the KeyResolverSpi is bble to perform the requested bction.
      *
-     * @param element
-     * @param BaseURI
-     * @param storage
-     * @return whether the KeyResolverSpi is able to perform the requested action.
+     * @pbrbm element
+     * @pbrbm BbseURI
+     * @pbrbm storbge
+     * @return whether the KeyResolverSpi is bble to perform the requested bction.
      */
-    public boolean engineCanResolve(Element element, String BaseURI, StorageResolver storage) {
-        if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_X509DATA)
-            || XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
+    public boolebn engineCbnResolve(Element element, String BbseURI, StorbgeResolver storbge) {
+        if (XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_X509DATA)
+            || XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_KEYNAME)) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Method engineLookupAndResolvePublicKey
      *
-     * @param element
-     * @param BaseURI
-     * @param storage
-     * @return null if no {@link PublicKey} could be obtained
+     * @pbrbm element
+     * @pbrbm BbseURI
+     * @pbrbm storbge
+     * @return null if no {@link PublicKey} could be obtbined
      * @throws KeyResolverException
      */
     public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String BaseURI, StorageResolver storage
+        Element element, String BbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }
 
     /**
-     * Method engineResolveX509Certificate
+     * Method engineResolveX509Certificbte
      * @inheritDoc
-     * @param element
-     * @param BaseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm BbseURI
+     * @pbrbm storbge
      * @throws KeyResolverException
      */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String BaseURI, StorageResolver storage
+    public X509Certificbte engineLookupResolveX509Certificbte(
+        Element element, String BbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }
@@ -98,134 +98,134 @@ public class PrivateKeyResolver extends KeyResolverSpi {
     /**
      * Method engineResolveSecretKey
      *
-     * @param element
-     * @param BaseURI
-     * @param storage
-     * @return resolved SecretKey key or null if no {@link SecretKey} could be obtained
+     * @pbrbm element
+     * @pbrbm BbseURI
+     * @pbrbm storbge
+     * @return resolved SecretKey key or null if no {@link SecretKey} could be obtbined
      *
      * @throws KeyResolverException
      */
     public SecretKey engineResolveSecretKey(
-        Element element, String BaseURI, StorageResolver storage
+        Element element, String BbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }
 
     /**
-     * Method engineResolvePrivateKey
+     * Method engineResolvePrivbteKey
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved PrivateKey key or null if no {@link PrivateKey} could be obtained
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return resolved PrivbteKey key or null if no {@link PrivbteKey} could be obtbined
      * @throws KeyResolverException
      */
-    public PrivateKey engineLookupAndResolvePrivateKey(
-        Element element, String baseURI, StorageResolver storage
+    public PrivbteKey engineLookupAndResolvePrivbteKey(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme() + "?");
         }
 
-        if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_X509DATA)) {
-            PrivateKey privKey = resolveX509Data(element, baseURI);
+        if (XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_X509DATA)) {
+            PrivbteKey privKey = resolveX509Dbtb(element, bbseURI);
             if (privKey != null) {
                 return privKey;
             }
-        } else if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve KeyName?");
-            String keyName = element.getFirstChild().getNodeValue();
+        } else if (XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_KEYNAME)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve KeyNbme?");
+            String keyNbme = element.getFirstChild().getNodeVblue();
 
             try {
-                Key key = keyStore.getKey(keyName, password);
-                if (key instanceof PrivateKey) {
-                    return (PrivateKey) key;
+                Key key = keyStore.getKey(keyNbme, pbssword);
+                if (key instbnceof PrivbteKey) {
+                    return (PrivbteKey) key;
                 }
-            } catch (Exception e) {
-                log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
+            } cbtch (Exception e) {
+                log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
             }
         }
 
-        log.log(java.util.logging.Level.FINE, "I can't");
+        log.log(jbvb.util.logging.Level.FINE, "I cbn't");
         return null;
     }
 
-    private PrivateKey resolveX509Data(Element element, String baseURI) {
-        log.log(java.util.logging.Level.FINE, "Can I resolve X509Data?");
+    privbte PrivbteKey resolveX509Dbtb(Element element, String bbseURI) {
+        log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve X509Dbtb?");
 
         try {
-            X509Data x509Data = new X509Data(element, baseURI);
+            X509Dbtb x509Dbtb = new X509Dbtb(element, bbseURI);
 
-            int len = x509Data.lengthSKI();
+            int len = x509Dbtb.lengthSKI();
             for (int i = 0; i < len; i++) {
-                XMLX509SKI x509SKI = x509Data.itemSKI(i);
-                PrivateKey privKey = resolveX509SKI(x509SKI);
+                XMLX509SKI x509SKI = x509Dbtb.itemSKI(i);
+                PrivbteKey privKey = resolveX509SKI(x509SKI);
                 if (privKey != null) {
                     return privKey;
                 }
             }
 
-            len = x509Data.lengthIssuerSerial();
+            len = x509Dbtb.lengthIssuerSeribl();
             for (int i = 0; i < len; i++) {
-                XMLX509IssuerSerial x509Serial = x509Data.itemIssuerSerial(i);
-                PrivateKey privKey = resolveX509IssuerSerial(x509Serial);
+                XMLX509IssuerSeribl x509Seribl = x509Dbtb.itemIssuerSeribl(i);
+                PrivbteKey privKey = resolveX509IssuerSeribl(x509Seribl);
                 if (privKey != null) {
                     return privKey;
                 }
             }
 
-            len = x509Data.lengthSubjectName();
+            len = x509Dbtb.lengthSubjectNbme();
             for (int i = 0; i < len; i++) {
-                XMLX509SubjectName x509SubjectName = x509Data.itemSubjectName(i);
-                PrivateKey privKey = resolveX509SubjectName(x509SubjectName);
+                XMLX509SubjectNbme x509SubjectNbme = x509Dbtb.itemSubjectNbme(i);
+                PrivbteKey privKey = resolveX509SubjectNbme(x509SubjectNbme);
                 if (privKey != null) {
                     return privKey;
                 }
             }
 
-            len = x509Data.lengthCertificate();
+            len = x509Dbtb.lengthCertificbte();
             for (int i = 0; i < len; i++) {
-                XMLX509Certificate x509Cert = x509Data.itemCertificate(i);
-                PrivateKey privKey = resolveX509Certificate(x509Cert);
+                XMLX509Certificbte x509Cert = x509Dbtb.itemCertificbte(i);
+                PrivbteKey privKey = resolveX509Certificbte(x509Cert);
                 if (privKey != null) {
                     return privKey;
                 }
             }
-        } catch (XMLSecurityException e) {
-            log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
-        } catch (KeyStoreException e) {
-            log.log(java.util.logging.Level.FINE, "KeyStoreException", e);
+        } cbtch (XMLSecurityException e) {
+            log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
+        } cbtch (KeyStoreException e) {
+            log.log(jbvb.util.logging.Level.FINE, "KeyStoreException", e);
         }
 
         return null;
     }
 
     /*
-     * Search for a private key entry in the KeyStore with the same Subject Key Identifier
+     * Sebrch for b privbte key entry in the KeyStore with the sbme Subject Key Identifier
      */
-    private PrivateKey resolveX509SKI(XMLX509SKI x509SKI) throws XMLSecurityException, KeyStoreException {
-        log.log(java.util.logging.Level.FINE, "Can I resolve X509SKI?");
+    privbte PrivbteKey resolveX509SKI(XMLX509SKI x509SKI) throws XMLSecurityException, KeyStoreException {
+        log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve X509SKI?");
 
-        Enumeration<String> aliases = keyStore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keyStore.isKeyEntry(alias)) {
+        Enumerbtion<String> blibses = keyStore.blibses();
+        while (blibses.hbsMoreElements()) {
+            String blibs = blibses.nextElement();
+            if (keyStore.isKeyEntry(blibs)) {
 
-                Certificate cert = keyStore.getCertificate(alias);
-                if (cert instanceof X509Certificate) {
-                    XMLX509SKI certSKI = new XMLX509SKI(x509SKI.getDocument(), (X509Certificate) cert);
+                Certificbte cert = keyStore.getCertificbte(blibs);
+                if (cert instbnceof X509Certificbte) {
+                    XMLX509SKI certSKI = new XMLX509SKI(x509SKI.getDocument(), (X509Certificbte) cert);
 
-                    if (certSKI.equals(x509SKI)) {
-                        log.log(java.util.logging.Level.FINE, "match !!! ");
+                    if (certSKI.equbls(x509SKI)) {
+                        log.log(jbvb.util.logging.Level.FINE, "mbtch !!! ");
 
                         try {
-                            Key key = keyStore.getKey(alias, password);
-                            if (key instanceof PrivateKey) {
-                                return (PrivateKey) key;
+                            Key key = keyStore.getKey(blibs, pbssword);
+                            if (key instbnceof PrivbteKey) {
+                                return (PrivbteKey) key;
                             }
-                        } catch (Exception e) {
-                            log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
-                            // Keep searching
+                        } cbtch (Exception e) {
+                            log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
+                            // Keep sebrching
                         }
                     }
                 }
@@ -236,32 +236,32 @@ public class PrivateKeyResolver extends KeyResolverSpi {
     }
 
     /*
-     * Search for a private key entry in the KeyStore with the same Issuer/Serial Number pair.
+     * Sebrch for b privbte key entry in the KeyStore with the sbme Issuer/Seribl Number pbir.
      */
-    private PrivateKey resolveX509IssuerSerial(XMLX509IssuerSerial x509Serial) throws KeyStoreException {
-        log.log(java.util.logging.Level.FINE, "Can I resolve X509IssuerSerial?");
+    privbte PrivbteKey resolveX509IssuerSeribl(XMLX509IssuerSeribl x509Seribl) throws KeyStoreException {
+        log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve X509IssuerSeribl?");
 
-        Enumeration<String> aliases = keyStore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keyStore.isKeyEntry(alias)) {
+        Enumerbtion<String> blibses = keyStore.blibses();
+        while (blibses.hbsMoreElements()) {
+            String blibs = blibses.nextElement();
+            if (keyStore.isKeyEntry(blibs)) {
 
-                Certificate cert = keyStore.getCertificate(alias);
-                if (cert instanceof X509Certificate) {
-                    XMLX509IssuerSerial certSerial =
-                        new XMLX509IssuerSerial(x509Serial.getDocument(), (X509Certificate) cert);
+                Certificbte cert = keyStore.getCertificbte(blibs);
+                if (cert instbnceof X509Certificbte) {
+                    XMLX509IssuerSeribl certSeribl =
+                        new XMLX509IssuerSeribl(x509Seribl.getDocument(), (X509Certificbte) cert);
 
-                    if (certSerial.equals(x509Serial)) {
-                        log.log(java.util.logging.Level.FINE, "match !!! ");
+                    if (certSeribl.equbls(x509Seribl)) {
+                        log.log(jbvb.util.logging.Level.FINE, "mbtch !!! ");
 
                         try {
-                            Key key = keyStore.getKey(alias, password);
-                            if (key instanceof PrivateKey) {
-                                return (PrivateKey) key;
+                            Key key = keyStore.getKey(blibs, pbssword);
+                            if (key instbnceof PrivbteKey) {
+                                return (PrivbteKey) key;
                             }
-                        } catch (Exception e) {
-                            log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
-                            // Keep searching
+                        } cbtch (Exception e) {
+                            log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
+                            // Keep sebrching
                         }
                     }
                 }
@@ -272,32 +272,32 @@ public class PrivateKeyResolver extends KeyResolverSpi {
     }
 
     /*
-     * Search for a private key entry in the KeyStore with the same Subject Name.
+     * Sebrch for b privbte key entry in the KeyStore with the sbme Subject Nbme.
      */
-    private PrivateKey resolveX509SubjectName(XMLX509SubjectName x509SubjectName) throws KeyStoreException {
-        log.log(java.util.logging.Level.FINE, "Can I resolve X509SubjectName?");
+    privbte PrivbteKey resolveX509SubjectNbme(XMLX509SubjectNbme x509SubjectNbme) throws KeyStoreException {
+        log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve X509SubjectNbme?");
 
-        Enumeration<String> aliases = keyStore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keyStore.isKeyEntry(alias)) {
+        Enumerbtion<String> blibses = keyStore.blibses();
+        while (blibses.hbsMoreElements()) {
+            String blibs = blibses.nextElement();
+            if (keyStore.isKeyEntry(blibs)) {
 
-                Certificate cert = keyStore.getCertificate(alias);
-                if (cert instanceof X509Certificate) {
-                    XMLX509SubjectName certSN =
-                        new XMLX509SubjectName(x509SubjectName.getDocument(), (X509Certificate) cert);
+                Certificbte cert = keyStore.getCertificbte(blibs);
+                if (cert instbnceof X509Certificbte) {
+                    XMLX509SubjectNbme certSN =
+                        new XMLX509SubjectNbme(x509SubjectNbme.getDocument(), (X509Certificbte) cert);
 
-                    if (certSN.equals(x509SubjectName)) {
-                        log.log(java.util.logging.Level.FINE, "match !!! ");
+                    if (certSN.equbls(x509SubjectNbme)) {
+                        log.log(jbvb.util.logging.Level.FINE, "mbtch !!! ");
 
                         try {
-                            Key key = keyStore.getKey(alias, password);
-                            if (key instanceof PrivateKey) {
-                                return (PrivateKey) key;
+                            Key key = keyStore.getKey(blibs, pbssword);
+                            if (key instbnceof PrivbteKey) {
+                                return (PrivbteKey) key;
                             }
-                        } catch (Exception e) {
-                            log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
-                            // Keep searching
+                        } cbtch (Exception e) {
+                            log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
+                            // Keep sebrching
                         }
                     }
                 }
@@ -308,40 +308,40 @@ public class PrivateKeyResolver extends KeyResolverSpi {
     }
 
     /*
-     * Search for a private key entry in the KeyStore with the same Certificate.
+     * Sebrch for b privbte key entry in the KeyStore with the sbme Certificbte.
      */
-    private PrivateKey resolveX509Certificate(
-        XMLX509Certificate x509Cert
+    privbte PrivbteKey resolveX509Certificbte(
+        XMLX509Certificbte x509Cert
     ) throws XMLSecurityException, KeyStoreException {
-        log.log(java.util.logging.Level.FINE, "Can I resolve X509Certificate?");
-        byte[] x509CertBytes = x509Cert.getCertificateBytes();
+        log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve X509Certificbte?");
+        byte[] x509CertBytes = x509Cert.getCertificbteBytes();
 
-        Enumeration<String> aliases = keyStore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keyStore.isKeyEntry(alias)) {
+        Enumerbtion<String> blibses = keyStore.blibses();
+        while (blibses.hbsMoreElements()) {
+            String blibs = blibses.nextElement();
+            if (keyStore.isKeyEntry(blibs)) {
 
-                Certificate cert = keyStore.getCertificate(alias);
-                if (cert instanceof X509Certificate) {
+                Certificbte cert = keyStore.getCertificbte(blibs);
+                if (cert instbnceof X509Certificbte) {
                     byte[] certBytes = null;
 
                     try {
                         certBytes = cert.getEncoded();
-                    } catch (CertificateEncodingException e1) {
+                    } cbtch (CertificbteEncodingException e1) {
                     }
 
-                    if (certBytes != null && Arrays.equals(certBytes, x509CertBytes)) {
-                        log.log(java.util.logging.Level.FINE, "match !!! ");
+                    if (certBytes != null && Arrbys.equbls(certBytes, x509CertBytes)) {
+                        log.log(jbvb.util.logging.Level.FINE, "mbtch !!! ");
 
                         try {
-                            Key key = keyStore.getKey(alias, password);
-                            if (key instanceof PrivateKey) {
-                                return (PrivateKey) key;
+                            Key key = keyStore.getKey(blibs, pbssword);
+                            if (key instbnceof PrivbteKey) {
+                                return (PrivbteKey) key;
                             }
                         }
-                        catch (Exception e) {
-                            log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
-                            // Keep searching
+                        cbtch (Exception e) {
+                            log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
+                            // Keep sebrching
                         }
                     }
                 }

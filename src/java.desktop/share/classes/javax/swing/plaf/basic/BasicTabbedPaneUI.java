@@ -1,778 +1,778 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 import sun.swing.SwingUtilities2;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.View;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.util.Vector;
-import java.util.Hashtable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * A Basic L&amp;F implementation of TabbedPaneUI.
+ * A Bbsic L&bmp;F implementbtion of TbbbedPbneUI.
  *
- * @author Amy Fowler
- * @author Philip Milne
- * @author Steve Wilson
- * @author Tom Santos
- * @author Dave Moore
+ * @buthor Amy Fowler
+ * @buthor Philip Milne
+ * @buthor Steve Wilson
+ * @buthor Tom Sbntos
+ * @buthor Dbve Moore
  */
-public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
+public clbss BbsicTbbbedPbneUI extends TbbbedPbneUI implements SwingConstbnts {
 
 
-// Instance variables initialized at installation
+// Instbnce vbribbles initiblized bt instbllbtion
 
-    protected JTabbedPane tabPane;
+    protected JTbbbedPbne tbbPbne;
 
     protected Color highlight;
     protected Color lightHighlight;
-    protected Color shadow;
-    protected Color darkShadow;
+    protected Color shbdow;
+    protected Color dbrkShbdow;
     protected Color focus;
-    private   Color selectedColor;
+    privbte   Color selectedColor;
 
-    protected int textIconGap;
+    protected int textIconGbp;
 
-    protected int tabRunOverlay;
+    protected int tbbRunOverlby;
 
-    protected Insets tabInsets;
-    protected Insets selectedTabPadInsets;
-    protected Insets tabAreaInsets;
+    protected Insets tbbInsets;
+    protected Insets selectedTbbPbdInsets;
+    protected Insets tbbArebInsets;
     protected Insets contentBorderInsets;
-    private boolean tabsOverlapBorder;
-    private boolean tabsOpaque = true;
-    private boolean contentOpaque = true;
+    privbte boolebn tbbsOverlbpBorder;
+    privbte boolebn tbbsOpbque = true;
+    privbte boolebn contentOpbque = true;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke upKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke downKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke leftKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke rightKey;
 
 
-// Transient variables (recalculated each time TabbedPane is layed out)
+// Trbnsient vbribbles (recblculbted ebch time TbbbedPbne is lbyed out)
 
-    protected int tabRuns[] = new int[10];
+    protected int tbbRuns[] = new int[10];
     protected int runCount = 0;
     protected int selectedRun = -1;
-    protected Rectangle rects[] = new Rectangle[0];
-    protected int maxTabHeight;
-    protected int maxTabWidth;
+    protected Rectbngle rects[] = new Rectbngle[0];
+    protected int mbxTbbHeight;
+    protected int mbxTbbWidth;
 
 // Listeners
 
-    protected ChangeListener tabChangeListener;
-    protected PropertyChangeListener propertyChangeListener;
+    protected ChbngeListener tbbChbngeListener;
+    protected PropertyChbngeListener propertyChbngeListener;
     protected MouseListener mouseListener;
     protected FocusListener focusListener;
 
-// Private instance data
+// Privbte instbnce dbtb
 
-    private Insets currentPadInsets = new Insets(0,0,0,0);
-    private Insets currentTabAreaInsets = new Insets(0,0,0,0);
+    privbte Insets currentPbdInsets = new Insets(0,0,0,0);
+    privbte Insets currentTbbArebInsets = new Insets(0,0,0,0);
 
-    private Component visibleComponent;
-    // PENDING(api): See comment for ContainerHandler
-    private Vector<View> htmlViews;
+    privbte Component visibleComponent;
+    // PENDING(bpi): See comment for ContbinerHbndler
+    privbte Vector<View> htmlViews;
 
-    private Hashtable<Integer, Integer> mnemonicToIndexMap;
-
-    /**
-     * InputMap used for mnemonics. Only non-null if the JTabbedPane has
-     * mnemonics associated with it. Lazily created in initMnemonics.
-     */
-    private InputMap mnemonicInputMap;
-
-    // For use when tabLayoutPolicy = SCROLL_TAB_LAYOUT
-    private ScrollableTabSupport tabScroller;
-
-    private TabContainer tabContainer;
+    privbte Hbshtbble<Integer, Integer> mnemonicToIndexMbp;
 
     /**
-     * A rectangle used for general layout calculations in order
-     * to avoid constructing many new Rectangles on the fly.
+     * InputMbp used for mnemonics. Only non-null if the JTbbbedPbne hbs
+     * mnemonics bssocibted with it. Lbzily crebted in initMnemonics.
      */
-    protected transient Rectangle calcRect = new Rectangle(0,0,0,0);
+    privbte InputMbp mnemonicInputMbp;
+
+    // For use when tbbLbyoutPolicy = SCROLL_TAB_LAYOUT
+    privbte ScrollbbleTbbSupport tbbScroller;
+
+    privbte TbbContbiner tbbContbiner;
 
     /**
-     * Tab that has focus.
+     * A rectbngle used for generbl lbyout cblculbtions in order
+     * to bvoid constructing mbny new Rectbngles on the fly.
      */
-    private int focusIndex;
+    protected trbnsient Rectbngle cblcRect = new Rectbngle(0,0,0,0);
+
+    /**
+     * Tbb thbt hbs focus.
+     */
+    privbte int focusIndex;
 
     /**
      * Combined listeners.
      */
-    private Handler handler;
+    privbte Hbndler hbndler;
 
     /**
-     * Index of the tab the mouse is over.
+     * Index of the tbb the mouse is over.
      */
-    private int rolloverTabIndex;
+    privbte int rolloverTbbIndex;
 
     /**
-     * This is set to true when a component is added/removed from the tab
-     * pane and set to false when layout happens.  If true it indicates that
-     * tabRuns is not valid and shouldn't be used.
+     * This is set to true when b component is bdded/removed from the tbb
+     * pbne bnd set to fblse when lbyout hbppens.  If true it indicbtes thbt
+     * tbbRuns is not vblid bnd shouldn't be used.
      */
-    private boolean isRunsDirty;
+    privbte boolebn isRunsDirty;
 
-    private boolean calculatedBaseline;
-    private int baseline;
+    privbte boolebn cblculbtedBbseline;
+    privbte int bbseline;
 
-// UI creation
+// UI crebtion
 
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTabbedPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicTbbbedPbneUI();
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.NEXT));
-        map.put(new Actions(Actions.PREVIOUS));
-        map.put(new Actions(Actions.RIGHT));
-        map.put(new Actions(Actions.LEFT));
-        map.put(new Actions(Actions.UP));
-        map.put(new Actions(Actions.DOWN));
-        map.put(new Actions(Actions.PAGE_UP));
-        map.put(new Actions(Actions.PAGE_DOWN));
-        map.put(new Actions(Actions.REQUEST_FOCUS));
-        map.put(new Actions(Actions.REQUEST_FOCUS_FOR_VISIBLE));
-        map.put(new Actions(Actions.SET_SELECTED));
-        map.put(new Actions(Actions.SELECT_FOCUSED));
-        map.put(new Actions(Actions.SCROLL_FORWARD));
-        map.put(new Actions(Actions.SCROLL_BACKWARD));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.NEXT));
+        mbp.put(new Actions(Actions.PREVIOUS));
+        mbp.put(new Actions(Actions.RIGHT));
+        mbp.put(new Actions(Actions.LEFT));
+        mbp.put(new Actions(Actions.UP));
+        mbp.put(new Actions(Actions.DOWN));
+        mbp.put(new Actions(Actions.PAGE_UP));
+        mbp.put(new Actions(Actions.PAGE_DOWN));
+        mbp.put(new Actions(Actions.REQUEST_FOCUS));
+        mbp.put(new Actions(Actions.REQUEST_FOCUS_FOR_VISIBLE));
+        mbp.put(new Actions(Actions.SET_SELECTED));
+        mbp.put(new Actions(Actions.SELECT_FOCUSED));
+        mbp.put(new Actions(Actions.SCROLL_FORWARD));
+        mbp.put(new Actions(Actions.SCROLL_BACKWARD));
     }
 
-// UI Installation/De-installation
+// UI Instbllbtion/De-instbllbtion
 
-    public void installUI(JComponent c) {
-        this.tabPane = (JTabbedPane)c;
+    public void instbllUI(JComponent c) {
+        this.tbbPbne = (JTbbbedPbne)c;
 
-        calculatedBaseline = false;
-        rolloverTabIndex = -1;
+        cblculbtedBbseline = fblse;
+        rolloverTbbIndex = -1;
         focusIndex = -1;
-        c.setLayout(createLayoutManager());
-        installComponents();
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        c.setLbyout(crebteLbyoutMbnbger());
+        instbllComponents();
+        instbllDefbults();
+        instbllListeners();
+        instbllKeybobrdActions();
     }
 
-    public void uninstallUI(JComponent c) {
-        uninstallKeyboardActions();
-        uninstallListeners();
-        uninstallDefaults();
-        uninstallComponents();
-        c.setLayout(null);
+    public void uninstbllUI(JComponent c) {
+        uninstbllKeybobrdActions();
+        uninstbllListeners();
+        uninstbllDefbults();
+        uninstbllComponents();
+        c.setLbyout(null);
 
-        this.tabPane = null;
+        this.tbbPbne = null;
     }
 
     /**
-     * Invoked by <code>installUI</code> to create
-     * a layout manager object to manage
-     * the <code>JTabbedPane</code>.
+     * Invoked by <code>instbllUI</code> to crebte
+     * b lbyout mbnbger object to mbnbge
+     * the <code>JTbbbedPbne</code>.
      *
-     * @return a layout manager object
+     * @return b lbyout mbnbger object
      *
-     * @see TabbedPaneLayout
-     * @see javax.swing.JTabbedPane#getTabLayoutPolicy
+     * @see TbbbedPbneLbyout
+     * @see jbvbx.swing.JTbbbedPbne#getTbbLbyoutPolicy
      */
-    protected LayoutManager createLayoutManager() {
-        if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
-            return new TabbedPaneScrollLayout();
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        if (tbbPbne.getTbbLbyoutPolicy() == JTbbbedPbne.SCROLL_TAB_LAYOUT) {
+            return new TbbbedPbneScrollLbyout();
         } else { /* WRAP_TAB_LAYOUT */
-            return new TabbedPaneLayout();
+            return new TbbbedPbneLbyout();
         }
     }
 
-    /* In an attempt to preserve backward compatibility for programs
-     * which have extended BasicTabbedPaneUI to do their own layout, the
-     * UI uses the installed layoutManager (and not tabLayoutPolicy) to
-     * determine if scrollTabLayout is enabled.
+    /* In bn bttempt to preserve bbckwbrd compbtibility for progrbms
+     * which hbve extended BbsicTbbbedPbneUI to do their own lbyout, the
+     * UI uses the instblled lbyoutMbnbger (bnd not tbbLbyoutPolicy) to
+     * determine if scrollTbbLbyout is enbbled.
      */
-    private boolean scrollableTabLayoutEnabled() {
-        return (tabPane.getLayout() instanceof TabbedPaneScrollLayout);
+    privbte boolebn scrollbbleTbbLbyoutEnbbled() {
+        return (tbbPbne.getLbyout() instbnceof TbbbedPbneScrollLbyout);
     }
 
     /**
-     * Creates and installs any required subcomponents for the JTabbedPane.
-     * Invoked by installUI.
+     * Crebtes bnd instblls bny required subcomponents for the JTbbbedPbne.
+     * Invoked by instbllUI.
      *
      * @since 1.4
      */
-    protected void installComponents() {
-        if (scrollableTabLayoutEnabled()) {
-            if (tabScroller == null) {
-                tabScroller = new ScrollableTabSupport(tabPane.getTabPlacement());
-                tabPane.add(tabScroller.viewport);
+    protected void instbllComponents() {
+        if (scrollbbleTbbLbyoutEnbbled()) {
+            if (tbbScroller == null) {
+                tbbScroller = new ScrollbbleTbbSupport(tbbPbne.getTbbPlbcement());
+                tbbPbne.bdd(tbbScroller.viewport);
             }
         }
-        installTabContainer();
+        instbllTbbContbiner();
     }
 
-    private void installTabContainer() {
-         for (int i = 0; i < tabPane.getTabCount(); i++) {
-             Component tabComponent = tabPane.getTabComponentAt(i);
-             if (tabComponent != null) {
-                 if(tabContainer == null) {
-                     tabContainer = new TabContainer();
+    privbte void instbllTbbContbiner() {
+         for (int i = 0; i < tbbPbne.getTbbCount(); i++) {
+             Component tbbComponent = tbbPbne.getTbbComponentAt(i);
+             if (tbbComponent != null) {
+                 if(tbbContbiner == null) {
+                     tbbContbiner = new TbbContbiner();
                  }
-                 tabContainer.add(tabComponent);
+                 tbbContbiner.bdd(tbbComponent);
              }
          }
-         if(tabContainer == null) {
+         if(tbbContbiner == null) {
              return;
          }
-         if (scrollableTabLayoutEnabled()) {
-             tabScroller.tabPanel.add(tabContainer);
+         if (scrollbbleTbbLbyoutEnbbled()) {
+             tbbScroller.tbbPbnel.bdd(tbbContbiner);
          } else {
-             tabPane.add(tabContainer);
+             tbbPbne.bdd(tbbContbiner);
          }
     }
 
     /**
-     * Creates and returns a JButton that will provide the user
-     * with a way to scroll the tabs in a particular direction. The
-     * returned JButton must be instance of UIResource.
+     * Crebtes bnd returns b JButton thbt will provide the user
+     * with b wby to scroll the tbbs in b pbrticulbr direction. The
+     * returned JButton must be instbnce of UIResource.
      *
-     * @param direction One of the SwingConstants constants:
+     * @pbrbm direction One of the SwingConstbnts constbnts:
      * SOUTH, NORTH, EAST or WEST
      * @return Widget for user to
-     * @see javax.swing.JTabbedPane#setTabPlacement
-     * @see javax.swing.SwingConstants
-     * @throws IllegalArgumentException if direction is not one of
+     * @see jbvbx.swing.JTbbbedPbne#setTbbPlbcement
+     * @see jbvbx.swing.SwingConstbnts
+     * @throws IllegblArgumentException if direction is not one of
      *         NORTH, SOUTH, EAST or WEST
      * @since 1.5
      */
-    protected JButton createScrollButton(int direction) {
+    protected JButton crebteScrollButton(int direction) {
         if (direction != SOUTH && direction != NORTH && direction != EAST &&
                                   direction != WEST) {
-            throw new IllegalArgumentException("Direction must be one of: " +
+            throw new IllegblArgumentException("Direction must be one of: " +
                                                "SOUTH, NORTH, EAST or WEST");
         }
-        return new ScrollableTabButton(direction);
+        return new ScrollbbleTbbButton(direction);
     }
 
     /**
-     * Removes any installed subcomponents from the JTabbedPane.
-     * Invoked by uninstallUI.
+     * Removes bny instblled subcomponents from the JTbbbedPbne.
+     * Invoked by uninstbllUI.
      *
      * @since 1.4
      */
-    protected void uninstallComponents() {
-        uninstallTabContainer();
-        if (scrollableTabLayoutEnabled()) {
-            tabPane.remove(tabScroller.viewport);
-            tabPane.remove(tabScroller.scrollForwardButton);
-            tabPane.remove(tabScroller.scrollBackwardButton);
-            tabScroller = null;
+    protected void uninstbllComponents() {
+        uninstbllTbbContbiner();
+        if (scrollbbleTbbLbyoutEnbbled()) {
+            tbbPbne.remove(tbbScroller.viewport);
+            tbbPbne.remove(tbbScroller.scrollForwbrdButton);
+            tbbPbne.remove(tbbScroller.scrollBbckwbrdButton);
+            tbbScroller = null;
         }
     }
 
-    private void uninstallTabContainer() {
-         if(tabContainer == null) {
+    privbte void uninstbllTbbContbiner() {
+         if(tbbContbiner == null) {
              return;
          }
-         // Remove all the tabComponents, making sure not to notify
-         // the tabbedpane.
-         tabContainer.notifyTabbedPane = false;
-         tabContainer.removeAll();
-         if(scrollableTabLayoutEnabled()) {
-             tabContainer.remove(tabScroller.croppedEdge);
-             tabScroller.tabPanel.remove(tabContainer);
+         // Remove bll the tbbComponents, mbking sure not to notify
+         // the tbbbedpbne.
+         tbbContbiner.notifyTbbbedPbne = fblse;
+         tbbContbiner.removeAll();
+         if(scrollbbleTbbLbyoutEnbbled()) {
+             tbbContbiner.remove(tbbScroller.croppedEdge);
+             tbbScroller.tbbPbnel.remove(tbbContbiner);
          } else {
-           tabPane.remove(tabContainer);
+           tbbPbne.remove(tbbContbiner);
          }
-         tabContainer = null;
+         tbbContbiner = null;
     }
 
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(tabPane, "TabbedPane.background",
-                                    "TabbedPane.foreground", "TabbedPane.font");
-        highlight = UIManager.getColor("TabbedPane.light");
-        lightHighlight = UIManager.getColor("TabbedPane.highlight");
-        shadow = UIManager.getColor("TabbedPane.shadow");
-        darkShadow = UIManager.getColor("TabbedPane.darkShadow");
-        focus = UIManager.getColor("TabbedPane.focus");
-        selectedColor = UIManager.getColor("TabbedPane.selected");
+    protected void instbllDefbults() {
+        LookAndFeel.instbllColorsAndFont(tbbPbne, "TbbbedPbne.bbckground",
+                                    "TbbbedPbne.foreground", "TbbbedPbne.font");
+        highlight = UIMbnbger.getColor("TbbbedPbne.light");
+        lightHighlight = UIMbnbger.getColor("TbbbedPbne.highlight");
+        shbdow = UIMbnbger.getColor("TbbbedPbne.shbdow");
+        dbrkShbdow = UIMbnbger.getColor("TbbbedPbne.dbrkShbdow");
+        focus = UIMbnbger.getColor("TbbbedPbne.focus");
+        selectedColor = UIMbnbger.getColor("TbbbedPbne.selected");
 
-        textIconGap = UIManager.getInt("TabbedPane.textIconGap");
-        tabInsets = UIManager.getInsets("TabbedPane.tabInsets");
-        selectedTabPadInsets = UIManager.getInsets("TabbedPane.selectedTabPadInsets");
-        tabAreaInsets = UIManager.getInsets("TabbedPane.tabAreaInsets");
-        tabsOverlapBorder = UIManager.getBoolean("TabbedPane.tabsOverlapBorder");
-        contentBorderInsets = UIManager.getInsets("TabbedPane.contentBorderInsets");
-        tabRunOverlay = UIManager.getInt("TabbedPane.tabRunOverlay");
-        tabsOpaque = UIManager.getBoolean("TabbedPane.tabsOpaque");
-        contentOpaque = UIManager.getBoolean("TabbedPane.contentOpaque");
-        Object opaque = UIManager.get("TabbedPane.opaque");
-        if (opaque == null) {
-            opaque = Boolean.FALSE;
+        textIconGbp = UIMbnbger.getInt("TbbbedPbne.textIconGbp");
+        tbbInsets = UIMbnbger.getInsets("TbbbedPbne.tbbInsets");
+        selectedTbbPbdInsets = UIMbnbger.getInsets("TbbbedPbne.selectedTbbPbdInsets");
+        tbbArebInsets = UIMbnbger.getInsets("TbbbedPbne.tbbArebInsets");
+        tbbsOverlbpBorder = UIMbnbger.getBoolebn("TbbbedPbne.tbbsOverlbpBorder");
+        contentBorderInsets = UIMbnbger.getInsets("TbbbedPbne.contentBorderInsets");
+        tbbRunOverlby = UIMbnbger.getInt("TbbbedPbne.tbbRunOverlby");
+        tbbsOpbque = UIMbnbger.getBoolebn("TbbbedPbne.tbbsOpbque");
+        contentOpbque = UIMbnbger.getBoolebn("TbbbedPbne.contentOpbque");
+        Object opbque = UIMbnbger.get("TbbbedPbne.opbque");
+        if (opbque == null) {
+            opbque = Boolebn.FALSE;
         }
-        LookAndFeel.installProperty(tabPane, "opaque", opaque);
+        LookAndFeel.instbllProperty(tbbPbne, "opbque", opbque);
 
-        // Fix for 6711145 BasicTabbedPanuUI should not throw a NPE if these
-        // keys are missing. So we are setting them to there default values here
-        // if the keys are missing.
-        if (tabInsets == null) tabInsets = new Insets(0,4,1,4);
-        if (selectedTabPadInsets == null) selectedTabPadInsets = new Insets(2,2,2,1);
-        if (tabAreaInsets == null) tabAreaInsets = new Insets(3,2,0,2);
+        // Fix for 6711145 BbsicTbbbedPbnuUI should not throw b NPE if these
+        // keys bre missing. So we bre setting them to there defbult vblues here
+        // if the keys bre missing.
+        if (tbbInsets == null) tbbInsets = new Insets(0,4,1,4);
+        if (selectedTbbPbdInsets == null) selectedTbbPbdInsets = new Insets(2,2,2,1);
+        if (tbbArebInsets == null) tbbArebInsets = new Insets(3,2,0,2);
         if (contentBorderInsets == null) contentBorderInsets = new Insets(2,2,3,3);
     }
 
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         highlight = null;
         lightHighlight = null;
-        shadow = null;
-        darkShadow = null;
+        shbdow = null;
+        dbrkShbdow = null;
         focus = null;
-        tabInsets = null;
-        selectedTabPadInsets = null;
-        tabAreaInsets = null;
+        tbbInsets = null;
+        selectedTbbPbdInsets = null;
+        tbbArebInsets = null;
         contentBorderInsets = null;
     }
 
-    protected void installListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-            tabPane.addPropertyChangeListener(propertyChangeListener);
+    protected void instbllListeners() {
+        if ((propertyChbngeListener = crebtePropertyChbngeListener()) != null) {
+            tbbPbne.bddPropertyChbngeListener(propertyChbngeListener);
         }
-        if ((tabChangeListener = createChangeListener()) != null) {
-            tabPane.addChangeListener(tabChangeListener);
+        if ((tbbChbngeListener = crebteChbngeListener()) != null) {
+            tbbPbne.bddChbngeListener(tbbChbngeListener);
         }
-        if ((mouseListener = createMouseListener()) != null) {
-            tabPane.addMouseListener(mouseListener);
+        if ((mouseListener = crebteMouseListener()) != null) {
+            tbbPbne.bddMouseListener(mouseListener);
         }
-        tabPane.addMouseMotionListener(getHandler());
-        if ((focusListener = createFocusListener()) != null) {
-            tabPane.addFocusListener(focusListener);
+        tbbPbne.bddMouseMotionListener(getHbndler());
+        if ((focusListener = crebteFocusListener()) != null) {
+            tbbPbne.bddFocusListener(focusListener);
         }
-        tabPane.addContainerListener(getHandler());
-        if (tabPane.getTabCount()>0) {
-            htmlViews = createHTMLVector();
+        tbbPbne.bddContbinerListener(getHbndler());
+        if (tbbPbne.getTbbCount()>0) {
+            htmlViews = crebteHTMLVector();
         }
     }
 
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
         if (mouseListener != null) {
-            tabPane.removeMouseListener(mouseListener);
+            tbbPbne.removeMouseListener(mouseListener);
             mouseListener = null;
         }
-        tabPane.removeMouseMotionListener(getHandler());
+        tbbPbne.removeMouseMotionListener(getHbndler());
         if (focusListener != null) {
-            tabPane.removeFocusListener(focusListener);
+            tbbPbne.removeFocusListener(focusListener);
             focusListener = null;
         }
 
-        tabPane.removeContainerListener(getHandler());
+        tbbPbne.removeContbinerListener(getHbndler());
         if (htmlViews!=null) {
             htmlViews.removeAllElements();
             htmlViews = null;
         }
-        if (tabChangeListener != null) {
-            tabPane.removeChangeListener(tabChangeListener);
-            tabChangeListener = null;
+        if (tbbChbngeListener != null) {
+            tbbPbne.removeChbngeListener(tbbChbngeListener);
+            tbbChbngeListener = null;
         }
-        if (propertyChangeListener != null) {
-            tabPane.removePropertyChangeListener(propertyChangeListener);
-            propertyChangeListener = null;
+        if (propertyChbngeListener != null) {
+            tbbPbne.removePropertyChbngeListener(propertyChbngeListener);
+            propertyChbngeListener = null;
         }
-        handler = null;
+        hbndler = null;
     }
 
-    protected MouseListener createMouseListener() {
-        return getHandler();
+    protected MouseListener crebteMouseListener() {
+        return getHbndler();
     }
 
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protected FocusListener crebteFocusListener() {
+        return getHbndler();
     }
 
-    protected ChangeListener createChangeListener() {
-        return getHandler();
+    protected ChbngeListener crebteChbngeListener() {
+        return getHbndler();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
-    protected void installKeyboardActions() {
-        InputMap km = getInputMap(JComponent.
+    protected void instbllKeybobrdActions() {
+        InputMbp km = getInputMbp(JComponent.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        SwingUtilities.replaceUIInputMap(tabPane, JComponent.
+        SwingUtilities.replbceUIInputMbp(tbbPbne, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          km);
-        km = getInputMap(JComponent.WHEN_FOCUSED);
-        SwingUtilities.replaceUIInputMap(tabPane, JComponent.WHEN_FOCUSED, km);
+        km = getInputMbp(JComponent.WHEN_FOCUSED);
+        SwingUtilities.replbceUIInputMbp(tbbPbne, JComponent.WHEN_FOCUSED, km);
 
-        LazyActionMap.installLazyActionMap(tabPane, BasicTabbedPaneUI.class,
-                                           "TabbedPane.actionMap");
-        updateMnemonics();
+        LbzyActionMbp.instbllLbzyActionMbp(tbbPbne, BbsicTbbbedPbneUI.clbss,
+                                           "TbbbedPbne.bctionMbp");
+        updbteMnemonics();
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(tabPane, this,
-                                               "TabbedPane.ancestorInputMap");
+            return (InputMbp)DefbultLookup.get(tbbPbne, this,
+                                               "TbbbedPbne.bncestorInputMbp");
         }
         else if (condition == JComponent.WHEN_FOCUSED) {
-            return (InputMap)DefaultLookup.get(tabPane, this,
-                                               "TabbedPane.focusInputMap");
+            return (InputMbp)DefbultLookup.get(tbbPbne, this,
+                                               "TbbbedPbne.focusInputMbp");
         }
         return null;
     }
 
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIActionMap(tabPane, null);
-        SwingUtilities.replaceUIInputMap(tabPane, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIActionMbp(tbbPbne, null);
+        SwingUtilities.replbceUIInputMbp(tbbPbne, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          null);
-        SwingUtilities.replaceUIInputMap(tabPane, JComponent.WHEN_FOCUSED,
+        SwingUtilities.replbceUIInputMbp(tbbPbne, JComponent.WHEN_FOCUSED,
                                          null);
-        SwingUtilities.replaceUIInputMap(tabPane,
+        SwingUtilities.replbceUIInputMbp(tbbPbne,
                                          JComponent.WHEN_IN_FOCUSED_WINDOW,
                                          null);
-        mnemonicToIndexMap = null;
-        mnemonicInputMap = null;
+        mnemonicToIndexMbp = null;
+        mnemonicInputMbp = null;
     }
 
     /**
-     * Reloads the mnemonics. This should be invoked when a memonic changes,
-     * when the title of a mnemonic changes, or when tabs are added/removed.
+     * Relobds the mnemonics. This should be invoked when b memonic chbnges,
+     * when the title of b mnemonic chbnges, or when tbbs bre bdded/removed.
      */
-    private void updateMnemonics() {
+    privbte void updbteMnemonics() {
         resetMnemonics();
-        for (int counter = tabPane.getTabCount() - 1; counter >= 0;
+        for (int counter = tbbPbne.getTbbCount() - 1; counter >= 0;
              counter--) {
-            int mnemonic = tabPane.getMnemonicAt(counter);
+            int mnemonic = tbbPbne.getMnemonicAt(counter);
 
             if (mnemonic > 0) {
-                addMnemonic(counter, mnemonic);
+                bddMnemonic(counter, mnemonic);
             }
         }
     }
 
     /**
-     * Resets the mnemonics bindings to an empty state.
+     * Resets the mnemonics bindings to bn empty stbte.
      */
-    private void resetMnemonics() {
-        if (mnemonicToIndexMap != null) {
-            mnemonicToIndexMap.clear();
-            mnemonicInputMap.clear();
+    privbte void resetMnemonics() {
+        if (mnemonicToIndexMbp != null) {
+            mnemonicToIndexMbp.clebr();
+            mnemonicInputMbp.clebr();
         }
     }
 
     /**
-     * Adds the specified mnemonic at the specified index.
+     * Adds the specified mnemonic bt the specified index.
      */
-    private void addMnemonic(int index, int mnemonic) {
-        if (mnemonicToIndexMap == null) {
+    privbte void bddMnemonic(int index, int mnemonic) {
+        if (mnemonicToIndexMbp == null) {
             initMnemonics();
         }
-        mnemonicInputMap.put(KeyStroke.getKeyStroke(mnemonic, BasicLookAndFeel.getFocusAcceleratorKeyMask()),
+        mnemonicInputMbp.put(KeyStroke.getKeyStroke(mnemonic, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk()),
                              "setSelectedIndex");
-        mnemonicToIndexMap.put(Integer.valueOf(mnemonic), Integer.valueOf(index));
+        mnemonicToIndexMbp.put(Integer.vblueOf(mnemonic), Integer.vblueOf(index));
     }
 
     /**
-     * Installs the state needed for mnemonics.
+     * Instblls the stbte needed for mnemonics.
      */
-    private void initMnemonics() {
-        mnemonicToIndexMap = new Hashtable<Integer, Integer>();
-        mnemonicInputMap = new ComponentInputMapUIResource(tabPane);
-        mnemonicInputMap.setParent(SwingUtilities.getUIInputMap(tabPane,
+    privbte void initMnemonics() {
+        mnemonicToIndexMbp = new Hbshtbble<Integer, Integer>();
+        mnemonicInputMbp = new ComponentInputMbpUIResource(tbbPbne);
+        mnemonicInputMbp.setPbrent(SwingUtilities.getUIInputMbp(tbbPbne,
                               JComponent.WHEN_IN_FOCUSED_WINDOW));
-        SwingUtilities.replaceUIInputMap(tabPane,
+        SwingUtilities.replbceUIInputMbp(tbbPbne,
                               JComponent.WHEN_IN_FOCUSED_WINDOW,
-                                         mnemonicInputMap);
+                                         mnemonicInputMbp);
     }
 
     /**
-     * Sets the tab the mouse is over by location. This is a cover method
-     * for <code>setRolloverTab(tabForCoordinate(x, y, false))</code>.
+     * Sets the tbb the mouse is over by locbtion. This is b cover method
+     * for <code>setRolloverTbb(tbbForCoordinbte(x, y, fblse))</code>.
      */
-    private void setRolloverTab(int x, int y) {
+    privbte void setRolloverTbb(int x, int y) {
         // NOTE:
-        // This calls in with false otherwise it could trigger a validate,
-        // which should NOT happen if the user is only dragging the
-        // mouse around.
-        setRolloverTab(tabForCoordinate(tabPane, x, y, false));
+        // This cblls in with fblse otherwise it could trigger b vblidbte,
+        // which should NOT hbppen if the user is only drbgging the
+        // mouse bround.
+        setRolloverTbb(tbbForCoordinbte(tbbPbne, x, y, fblse));
     }
 
     /**
-     * Sets the tab the mouse is currently over to <code>index</code>.
-     * <code>index</code> will be -1 if the mouse is no longer over any
-     * tab. No checking is done to ensure the passed in index identifies a
-     * valid tab.
+     * Sets the tbb the mouse is currently over to <code>index</code>.
+     * <code>index</code> will be -1 if the mouse is no longer over bny
+     * tbb. No checking is done to ensure the pbssed in index identifies b
+     * vblid tbb.
      *
-     * @param index Index of the tab the mouse is over.
+     * @pbrbm index Index of the tbb the mouse is over.
      * @since 1.5
      */
-    protected void setRolloverTab(int index) {
-        rolloverTabIndex = index;
+    protected void setRolloverTbb(int index) {
+        rolloverTbbIndex = index;
     }
 
     /**
-     * Returns the tab the mouse is currently over, or {@code -1} if the mouse is no
-     * longer over any tab.
+     * Returns the tbb the mouse is currently over, or {@code -1} if the mouse is no
+     * longer over bny tbb.
      *
-     * @return the tab the mouse is currently over, or {@code -1} if the mouse is no
-     * longer over any tab
+     * @return the tbb the mouse is currently over, or {@code -1} if the mouse is no
+     * longer over bny tbb
      * @since 1.5
      */
-    protected int getRolloverTab() {
-        return rolloverTabIndex;
+    protected int getRolloverTbb() {
+        return rolloverTbbIndex;
     }
 
     public Dimension getMinimumSize(JComponent c) {
-        // Default to LayoutManager's minimumLayoutSize
+        // Defbult to LbyoutMbnbger's minimumLbyoutSize
         return null;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
-        // Default to LayoutManager's maximumLayoutSize
+    public Dimension getMbximumSize(JComponent c) {
+        // Defbult to LbyoutMbnbger's mbximumLbyoutSize
         return null;
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        int baseline = calculateBaselineIfNecessary();
-        if (baseline != -1) {
-            int placement = tabPane.getTabPlacement();
-            Insets insets = tabPane.getInsets();
-            Insets tabAreaInsets = getTabAreaInsets(placement);
-            switch(placement) {
-            case JTabbedPane.TOP:
-                baseline += insets.top + tabAreaInsets.top;
-                return baseline;
-            case JTabbedPane.BOTTOM:
-                baseline = height - insets.bottom -
-                    tabAreaInsets.bottom - maxTabHeight + baseline;
-                return baseline;
-            case JTabbedPane.LEFT:
-            case JTabbedPane.RIGHT:
-                baseline += insets.top + tabAreaInsets.top;
-                return baseline;
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        int bbseline = cblculbteBbselineIfNecessbry();
+        if (bbseline != -1) {
+            int plbcement = tbbPbne.getTbbPlbcement();
+            Insets insets = tbbPbne.getInsets();
+            Insets tbbArebInsets = getTbbArebInsets(plbcement);
+            switch(plbcement) {
+            cbse JTbbbedPbne.TOP:
+                bbseline += insets.top + tbbArebInsets.top;
+                return bbseline;
+            cbse JTbbbedPbne.BOTTOM:
+                bbseline = height - insets.bottom -
+                    tbbArebInsets.bottom - mbxTbbHeight + bbseline;
+                return bbseline;
+            cbse JTbbbedPbne.LEFT:
+            cbse JTbbbedPbne.RIGHT:
+                bbseline += insets.top + tbbArebInsets.top;
+                return bbseline;
             }
         }
         return -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        switch(tabPane.getTabPlacement()) {
-        case JTabbedPane.LEFT:
-        case JTabbedPane.RIGHT:
-        case JTabbedPane.TOP:
-            return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
-        case JTabbedPane.BOTTOM:
-            return Component.BaselineResizeBehavior.CONSTANT_DESCENT;
+        super.getBbselineResizeBehbvior(c);
+        switch(tbbPbne.getTbbPlbcement()) {
+        cbse JTbbbedPbne.LEFT:
+        cbse JTbbbedPbne.RIGHT:
+        cbse JTbbbedPbne.TOP:
+            return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
+        cbse JTbbbedPbne.BOTTOM:
+            return Component.BbselineResizeBehbvior.CONSTANT_DESCENT;
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        return Component.BbselineResizeBehbvior.OTHER;
     }
 
     /**
-     * Returns the baseline for the specified tab.
+     * Returns the bbseline for the specified tbb.
      *
-     * @param tab index of tab to get baseline for
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            (index &lt; 0 || index &gt;= tab count)
-     * @return baseline or a value &lt; 0 indicating there is no reasonable
-     *                  baseline
+     * @pbrbm tbb index of tbb to get bbseline for
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            (index &lt; 0 || index &gt;= tbb count)
+     * @return bbseline or b vblue &lt; 0 indicbting there is no rebsonbble
+     *                  bbseline
      * @since 1.6
      */
-    protected int getBaseline(int tab) {
-        if (tabPane.getTabComponentAt(tab) != null) {
-            int offset = getBaselineOffset();
+    protected int getBbseline(int tbb) {
+        if (tbbPbne.getTbbComponentAt(tbb) != null) {
+            int offset = getBbselineOffset();
             if (offset != 0) {
-                // The offset is not applied to the tab component, and so
-                // in general we can't get good alignment like with components
-                // in the tab.
+                // The offset is not bpplied to the tbb component, bnd so
+                // in generbl we cbn't get good blignment like with components
+                // in the tbb.
                 return -1;
             }
-            Component c = tabPane.getTabComponentAt(tab);
+            Component c = tbbPbne.getTbbComponentAt(tbb);
             Dimension pref = c.getPreferredSize();
-            Insets tabInsets = getTabInsets(tabPane.getTabPlacement(), tab);
-            int cellHeight = maxTabHeight - tabInsets.top - tabInsets.bottom;
-            return c.getBaseline(pref.width, pref.height) +
-                    (cellHeight - pref.height) / 2 + tabInsets.top;
+            Insets tbbInsets = getTbbInsets(tbbPbne.getTbbPlbcement(), tbb);
+            int cellHeight = mbxTbbHeight - tbbInsets.top - tbbInsets.bottom;
+            return c.getBbseline(pref.width, pref.height) +
+                    (cellHeight - pref.height) / 2 + tbbInsets.top;
         }
         else {
-            View view = getTextViewForTab(tab);
+            View view = getTextViewForTbb(tbb);
             if (view != null) {
-                int viewHeight = (int)view.getPreferredSpan(View.Y_AXIS);
-                int baseline = BasicHTML.getHTMLBaseline(
-                    view, (int)view.getPreferredSpan(View.X_AXIS), viewHeight);
-                if (baseline >= 0) {
-                    return maxTabHeight / 2 - viewHeight / 2 + baseline +
-                        getBaselineOffset();
+                int viewHeight = (int)view.getPreferredSpbn(View.Y_AXIS);
+                int bbseline = BbsicHTML.getHTMLBbseline(
+                    view, (int)view.getPreferredSpbn(View.X_AXIS), viewHeight);
+                if (bbseline >= 0) {
+                    return mbxTbbHeight / 2 - viewHeight / 2 + bbseline +
+                        getBbselineOffset();
                 }
                 return -1;
             }
         }
         FontMetrics metrics = getFontMetrics();
         int fontHeight = metrics.getHeight();
-        int fontBaseline = metrics.getAscent();
-        return maxTabHeight / 2 - fontHeight / 2 + fontBaseline +
-                getBaselineOffset();
+        int fontBbseline = metrics.getAscent();
+        return mbxTbbHeight / 2 - fontHeight / 2 + fontBbseline +
+                getBbselineOffset();
     }
 
     /**
-     * Returns the amount the baseline is offset by.  This is typically
-     * the same as <code>getTabLabelShiftY</code>.
+     * Returns the bmount the bbseline is offset by.  This is typicblly
+     * the sbme bs <code>getTbbLbbelShiftY</code>.
      *
-     * @return amount to offset the baseline by
+     * @return bmount to offset the bbseline by
      * @since 1.6
      */
-    protected int getBaselineOffset() {
-        switch(tabPane.getTabPlacement()) {
-        case JTabbedPane.TOP:
-            if (tabPane.getTabCount() > 1) {
+    protected int getBbselineOffset() {
+        switch(tbbPbne.getTbbPlbcement()) {
+        cbse JTbbbedPbne.TOP:
+            if (tbbPbne.getTbbCount() > 1) {
                 return 1;
             }
             else {
                 return -1;
             }
-        case JTabbedPane.BOTTOM:
-            if (tabPane.getTabCount() > 1) {
+        cbse JTbbbedPbne.BOTTOM:
+            if (tbbPbne.getTbbCount() > 1) {
                 return -1;
             }
             else {
                 return 1;
             }
-        default: // RIGHT|LEFT
-            return (maxTabHeight % 2);
+        defbult: // RIGHT|LEFT
+            return (mbxTbbHeight % 2);
         }
     }
 
-    private int calculateBaselineIfNecessary() {
-        if (!calculatedBaseline) {
-            calculatedBaseline = true;
-            baseline = -1;
-            if (tabPane.getTabCount() > 0) {
-                calculateBaseline();
+    privbte int cblculbteBbselineIfNecessbry() {
+        if (!cblculbtedBbseline) {
+            cblculbtedBbseline = true;
+            bbseline = -1;
+            if (tbbPbne.getTbbCount() > 0) {
+                cblculbteBbseline();
             }
         }
-        return baseline;
+        return bbseline;
     }
 
-    private void calculateBaseline() {
-        int tabCount = tabPane.getTabCount();
-        int tabPlacement = tabPane.getTabPlacement();
-        maxTabHeight = calculateMaxTabHeight(tabPlacement);
-        baseline = getBaseline(0);
-        if (isHorizontalTabPlacement()) {
-            for(int i = 1; i < tabCount; i++) {
-                if (getBaseline(i) != baseline) {
-                    baseline = -1;
-                    break;
+    privbte void cblculbteBbseline() {
+        int tbbCount = tbbPbne.getTbbCount();
+        int tbbPlbcement = tbbPbne.getTbbPlbcement();
+        mbxTbbHeight = cblculbteMbxTbbHeight(tbbPlbcement);
+        bbseline = getBbseline(0);
+        if (isHorizontblTbbPlbcement()) {
+            for(int i = 1; i < tbbCount; i++) {
+                if (getBbseline(i) != bbseline) {
+                    bbseline = -1;
+                    brebk;
                 }
             }
         }
         else {
-            // left/right, tabs may be different sizes.
+            // left/right, tbbs mby be different sizes.
             FontMetrics fontMetrics = getFontMetrics();
             int fontHeight = fontMetrics.getHeight();
-            int height = calculateTabHeight(tabPlacement, 0, fontHeight);
-            for(int i = 1; i < tabCount; i++) {
-                int newHeight = calculateTabHeight(tabPlacement, i,fontHeight);
+            int height = cblculbteTbbHeight(tbbPlbcement, 0, fontHeight);
+            for(int i = 1; i < tbbCount; i++) {
+                int newHeight = cblculbteTbbHeight(tbbPlbcement, i,fontHeight);
                 if (height != newHeight) {
-                    // assume different baseline
-                    baseline = -1;
-                    break;
+                    // bssume different bbseline
+                    bbseline = -1;
+                    brebk;
                 }
             }
         }
@@ -780,121 +780,121 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
 // UI Rendering
 
-    public void paint(Graphics g, JComponent c) {
-        int selectedIndex = tabPane.getSelectedIndex();
-        int tabPlacement = tabPane.getTabPlacement();
+    public void pbint(Grbphics g, JComponent c) {
+        int selectedIndex = tbbPbne.getSelectedIndex();
+        int tbbPlbcement = tbbPbne.getTbbPlbcement();
 
-        ensureCurrentLayout();
+        ensureCurrentLbyout();
 
-        // Paint content border and tab area
-        if (tabsOverlapBorder) {
-            paintContentBorder(g, tabPlacement, selectedIndex);
+        // Pbint content border bnd tbb breb
+        if (tbbsOverlbpBorder) {
+            pbintContentBorder(g, tbbPlbcement, selectedIndex);
         }
-        // If scrollable tabs are enabled, the tab area will be
-        // painted by the scrollable tab panel instead.
+        // If scrollbble tbbs bre enbbled, the tbb breb will be
+        // pbinted by the scrollbble tbb pbnel instebd.
         //
-        if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-            paintTabArea(g, tabPlacement, selectedIndex);
+        if (!scrollbbleTbbLbyoutEnbbled()) { // WRAP_TAB_LAYOUT
+            pbintTbbAreb(g, tbbPlbcement, selectedIndex);
         }
-        if (!tabsOverlapBorder) {
-            paintContentBorder(g, tabPlacement, selectedIndex);
+        if (!tbbsOverlbpBorder) {
+            pbintContentBorder(g, tbbPlbcement, selectedIndex);
         }
     }
 
     /**
-     * Paints the tabs in the tab area.
-     * Invoked by paint().
-     * The graphics parameter must be a valid <code>Graphics</code>
-     * object.  Tab placement may be either:
-     * <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
-     * The selected index must be a valid tabbed pane tab index (0 to
-     * tab count - 1, inclusive) or -1 if no tab is currently selected.
-     * The handling of invalid parameters is unspecified.
+     * Pbints the tbbs in the tbb breb.
+     * Invoked by pbint().
+     * The grbphics pbrbmeter must be b vblid <code>Grbphics</code>
+     * object.  Tbb plbcement mby be either:
+     * <code>JTbbbedPbne.TOP</code>, <code>JTbbbedPbne.BOTTOM</code>,
+     * <code>JTbbbedPbne.LEFT</code>, or <code>JTbbbedPbne.RIGHT</code>.
+     * The selected index must be b vblid tbbbed pbne tbb index (0 to
+     * tbb count - 1, inclusive) or -1 if no tbb is currently selected.
+     * The hbndling of invblid pbrbmeters is unspecified.
      *
-     * @param g the graphics object to use for rendering
-     * @param tabPlacement the placement for the tabs within the JTabbedPane
-     * @param selectedIndex the tab index of the selected component
+     * @pbrbm g the grbphics object to use for rendering
+     * @pbrbm tbbPlbcement the plbcement for the tbbs within the JTbbbedPbne
+     * @pbrbm selectedIndex the tbb index of the selected component
      *
      * @since 1.4
      */
-    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
-        int tabCount = tabPane.getTabCount();
+    protected void pbintTbbAreb(Grbphics g, int tbbPlbcement, int selectedIndex) {
+        int tbbCount = tbbPbne.getTbbCount();
 
-        Rectangle iconRect = new Rectangle(),
-                  textRect = new Rectangle();
-        Rectangle clipRect = g.getClipBounds();
+        Rectbngle iconRect = new Rectbngle(),
+                  textRect = new Rectbngle();
+        Rectbngle clipRect = g.getClipBounds();
 
-        // Paint tabRuns of tabs from back to front
+        // Pbint tbbRuns of tbbs from bbck to front
         for (int i = runCount - 1; i >= 0; i--) {
-            int start = tabRuns[i];
-            int next = tabRuns[(i == runCount - 1)? 0 : i + 1];
-            int end = (next != 0? next - 1: tabCount - 1);
-            for (int j = start; j <= end; j++) {
+            int stbrt = tbbRuns[i];
+            int next = tbbRuns[(i == runCount - 1)? 0 : i + 1];
+            int end = (next != 0? next - 1: tbbCount - 1);
+            for (int j = stbrt; j <= end; j++) {
                 if (j != selectedIndex && rects[j].intersects(clipRect)) {
-                    paintTab(g, tabPlacement, rects, j, iconRect, textRect);
+                    pbintTbb(g, tbbPlbcement, rects, j, iconRect, textRect);
                 }
             }
         }
 
-        // Paint selected tab if its in the front run
-        // since it may overlap other tabs
+        // Pbint selected tbb if its in the front run
+        // since it mby overlbp other tbbs
         if (selectedIndex >= 0 && rects[selectedIndex].intersects(clipRect)) {
-            paintTab(g, tabPlacement, rects, selectedIndex, iconRect, textRect);
+            pbintTbb(g, tbbPlbcement, rects, selectedIndex, iconRect, textRect);
         }
     }
 
-    protected void paintTab(Graphics g, int tabPlacement,
-                            Rectangle[] rects, int tabIndex,
-                            Rectangle iconRect, Rectangle textRect) {
-        Rectangle tabRect = rects[tabIndex];
-        int selectedIndex = tabPane.getSelectedIndex();
-        boolean isSelected = selectedIndex == tabIndex;
+    protected void pbintTbb(Grbphics g, int tbbPlbcement,
+                            Rectbngle[] rects, int tbbIndex,
+                            Rectbngle iconRect, Rectbngle textRect) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        int selectedIndex = tbbPbne.getSelectedIndex();
+        boolebn isSelected = selectedIndex == tbbIndex;
 
-        if (tabsOpaque || tabPane.isOpaque()) {
-            paintTabBackground(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-                    tabRect.width, tabRect.height, isSelected);
+        if (tbbsOpbque || tbbPbne.isOpbque()) {
+            pbintTbbBbckground(g, tbbPlbcement, tbbIndex, tbbRect.x, tbbRect.y,
+                    tbbRect.width, tbbRect.height, isSelected);
         }
 
-        paintTabBorder(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-                       tabRect.width, tabRect.height, isSelected);
+        pbintTbbBorder(g, tbbPlbcement, tbbIndex, tbbRect.x, tbbRect.y,
+                       tbbRect.width, tbbRect.height, isSelected);
 
-        String title = tabPane.getTitleAt(tabIndex);
-        Font font = tabPane.getFont();
-        FontMetrics metrics = SwingUtilities2.getFontMetrics(tabPane, g, font);
-        Icon icon = getIconForTab(tabIndex);
+        String title = tbbPbne.getTitleAt(tbbIndex);
+        Font font = tbbPbne.getFont();
+        FontMetrics metrics = SwingUtilities2.getFontMetrics(tbbPbne, g, font);
+        Icon icon = getIconForTbb(tbbIndex);
 
-        layoutLabel(tabPlacement, metrics, tabIndex, title, icon,
-                    tabRect, iconRect, textRect, isSelected);
+        lbyoutLbbel(tbbPlbcement, metrics, tbbIndex, title, icon,
+                    tbbRect, iconRect, textRect, isSelected);
 
-        if (tabPane.getTabComponentAt(tabIndex) == null) {
+        if (tbbPbne.getTbbComponentAt(tbbIndex) == null) {
             String clippedTitle = title;
 
-            if (scrollableTabLayoutEnabled() && tabScroller.croppedEdge.isParamsSet() &&
-                    tabScroller.croppedEdge.getTabIndex() == tabIndex && isHorizontalTabPlacement()) {
-                int availTextWidth = tabScroller.croppedEdge.getCropline() -
-                        (textRect.x - tabRect.x) - tabScroller.croppedEdge.getCroppedSideWidth();
-                clippedTitle = SwingUtilities2.clipStringIfNecessary(null, metrics, title, availTextWidth);
-            } else if (!scrollableTabLayoutEnabled() && isHorizontalTabPlacement()) {
-                clippedTitle = SwingUtilities2.clipStringIfNecessary(null, metrics, title, textRect.width);
+            if (scrollbbleTbbLbyoutEnbbled() && tbbScroller.croppedEdge.isPbrbmsSet() &&
+                    tbbScroller.croppedEdge.getTbbIndex() == tbbIndex && isHorizontblTbbPlbcement()) {
+                int bvbilTextWidth = tbbScroller.croppedEdge.getCropline() -
+                        (textRect.x - tbbRect.x) - tbbScroller.croppedEdge.getCroppedSideWidth();
+                clippedTitle = SwingUtilities2.clipStringIfNecessbry(null, metrics, title, bvbilTextWidth);
+            } else if (!scrollbbleTbbLbyoutEnbbled() && isHorizontblTbbPlbcement()) {
+                clippedTitle = SwingUtilities2.clipStringIfNecessbry(null, metrics, title, textRect.width);
             }
 
-            paintText(g, tabPlacement, font, metrics,
-                    tabIndex, clippedTitle, textRect, isSelected);
+            pbintText(g, tbbPlbcement, font, metrics,
+                    tbbIndex, clippedTitle, textRect, isSelected);
 
-            paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
+            pbintIcon(g, tbbPlbcement, tbbIndex, icon, iconRect, isSelected);
         }
-        paintFocusIndicator(g, tabPlacement, rects, tabIndex,
+        pbintFocusIndicbtor(g, tbbPlbcement, rects, tbbIndex,
                   iconRect, textRect, isSelected);
     }
 
-    private boolean isHorizontalTabPlacement() {
-        return tabPane.getTabPlacement() == TOP || tabPane.getTabPlacement() == BOTTOM;
+    privbte boolebn isHorizontblTbbPlbcement() {
+        return tbbPbne.getTbbPlbcement() == TOP || tbbPbne.getTbbPlbcement() == BOTTOM;
     }
 
-    /* This method will create and return a polygon shape for the given tab rectangle
-     * which has been cropped at the specified cropline with a torn edge visual.
-     * e.g. A "File" tab which has cropped been cropped just after the "i":
+    /* This method will crebte bnd return b polygon shbpe for the given tbb rectbngle
+     * which hbs been cropped bt the specified cropline with b torn edge visubl.
+     * e.g. A "File" tbb which hbs cropped been cropped just bfter the "i":
      *             -------------
      *             |  .....     |
      *             |  .          |
@@ -904,41 +904,41 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      *             |  .    .     |
      *             --------------
      *
-     * The x, y arrays below define the pattern used to create a "torn" edge
-     * segment which is repeated to fill the edge of the tab.
-     * For tabs placed on TOP and BOTTOM, this righthand torn edge is created by
-     * line segments which are defined by coordinates obtained by
-     * subtracting xCropLen[i] from (tab.x + tab.width) and adding yCroplen[i]
-     * to (tab.y).
-     * For tabs placed on LEFT or RIGHT, the bottom torn edge is created by
-     * subtracting xCropLen[i] from (tab.y + tab.height) and adding yCropLen[i]
-     * to (tab.x).
+     * The x, y brrbys below define the pbttern used to crebte b "torn" edge
+     * segment which is repebted to fill the edge of the tbb.
+     * For tbbs plbced on TOP bnd BOTTOM, this righthbnd torn edge is crebted by
+     * line segments which bre defined by coordinbtes obtbined by
+     * subtrbcting xCropLen[i] from (tbb.x + tbb.width) bnd bdding yCroplen[i]
+     * to (tbb.y).
+     * For tbbs plbced on LEFT or RIGHT, the bottom torn edge is crebted by
+     * subtrbcting xCropLen[i] from (tbb.y + tbb.height) bnd bdding yCropLen[i]
+     * to (tbb.x).
      */
-    private static int xCropLen[] = {1,1,0,0,1,1,2,2};
-    private static int yCropLen[] = {0,3,3,6,6,9,9,12};
-    private static final int CROP_SEGMENT = 12;
+    privbte stbtic int xCropLen[] = {1,1,0,0,1,1,2,2};
+    privbte stbtic int yCropLen[] = {0,3,3,6,6,9,9,12};
+    privbte stbtic finbl int CROP_SEGMENT = 12;
 
-    private static Polygon createCroppedTabShape(int tabPlacement, Rectangle tabRect, int cropline) {
+    privbte stbtic Polygon crebteCroppedTbbShbpe(int tbbPlbcement, Rectbngle tbbRect, int cropline) {
         int rlen;
-        int start;
+        int stbrt;
         int end;
-        int ostart;
+        int ostbrt;
 
-        switch(tabPlacement) {
-          case LEFT:
-          case RIGHT:
-              rlen = tabRect.width;
-              start = tabRect.x;
-              end = tabRect.x + tabRect.width;
-              ostart = tabRect.y + tabRect.height;
-              break;
-          case TOP:
-          case BOTTOM:
-          default:
-             rlen = tabRect.height;
-             start = tabRect.y;
-             end = tabRect.y + tabRect.height;
-             ostart = tabRect.x + tabRect.width;
+        switch(tbbPlbcement) {
+          cbse LEFT:
+          cbse RIGHT:
+              rlen = tbbRect.width;
+              stbrt = tbbRect.x;
+              end = tbbRect.x + tbbRect.width;
+              ostbrt = tbbRect.y + tbbRect.height;
+              brebk;
+          cbse TOP:
+          cbse BOTTOM:
+          defbult:
+             rlen = tbbRect.height;
+             stbrt = tbbRect.y;
+             end = tbbRect.y + tbbRect.height;
+             ostbrt = tbbRect.x + tbbRect.width;
         }
         int rcnt = rlen/CROP_SEGMENT;
         if (rlen%CROP_SEGMENT > 0) {
@@ -949,23 +949,23 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         int yp[] = new int[npts];
         int pcnt = 0;
 
-        xp[pcnt] = ostart;
+        xp[pcnt] = ostbrt;
         yp[pcnt++] = end;
-        xp[pcnt] = ostart;
-        yp[pcnt++] = start;
+        xp[pcnt] = ostbrt;
+        yp[pcnt++] = stbrt;
         for(int i = 0; i < rcnt; i++) {
             for(int j = 0; j < xCropLen.length; j++) {
                 xp[pcnt] = cropline - xCropLen[j];
-                yp[pcnt] = start + (i*CROP_SEGMENT) + yCropLen[j];
+                yp[pcnt] = stbrt + (i*CROP_SEGMENT) + yCropLen[j];
                 if (yp[pcnt] >= end) {
                     yp[pcnt] = end;
                     pcnt++;
-                    break;
+                    brebk;
                 }
                 pcnt++;
             }
         }
-        if (tabPlacement == JTabbedPane.TOP || tabPlacement == JTabbedPane.BOTTOM) {
+        if (tbbPlbcement == JTbbbedPbne.TOP || tbbPlbcement == JTbbbedPbne.BOTTOM) {
            return new Polygon(xp, yp, pcnt);
 
         } else { // LEFT or RIGHT
@@ -973,38 +973,38 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
     }
 
-    /* If tabLayoutPolicy == SCROLL_TAB_LAYOUT, this method will paint an edge
-     * indicating the tab is cropped in the viewport display
+    /* If tbbLbyoutPolicy == SCROLL_TAB_LAYOUT, this method will pbint bn edge
+     * indicbting the tbb is cropped in the viewport displby
      */
-    private void paintCroppedTabEdge(Graphics g) {
-        int tabIndex = tabScroller.croppedEdge.getTabIndex();
-        int cropline = tabScroller.croppedEdge.getCropline();
+    privbte void pbintCroppedTbbEdge(Grbphics g) {
+        int tbbIndex = tbbScroller.croppedEdge.getTbbIndex();
+        int cropline = tbbScroller.croppedEdge.getCropline();
         int x,y;
-        switch(tabPane.getTabPlacement()) {
-          case LEFT:
-          case RIGHT:
-            x = rects[tabIndex].x;
+        switch(tbbPbne.getTbbPlbcement()) {
+          cbse LEFT:
+          cbse RIGHT:
+            x = rects[tbbIndex].x;
             y = cropline;
             int xx = x;
-            g.setColor(shadow);
-            while(xx <= x+rects[tabIndex].width) {
+            g.setColor(shbdow);
+            while(xx <= x+rects[tbbIndex].width) {
                 for (int i=0; i < xCropLen.length; i+=2) {
-                    g.drawLine(xx+yCropLen[i],y-xCropLen[i],
+                    g.drbwLine(xx+yCropLen[i],y-xCropLen[i],
                                xx+yCropLen[i+1]-1,y-xCropLen[i+1]);
                 }
                 xx+=CROP_SEGMENT;
             }
-            break;
-          case TOP:
-          case BOTTOM:
-          default:
+            brebk;
+          cbse TOP:
+          cbse BOTTOM:
+          defbult:
             x = cropline;
-            y = rects[tabIndex].y;
+            y = rects[tbbIndex].y;
             int yy = y;
-            g.setColor(shadow);
-            while(yy <= y+rects[tabIndex].height) {
+            g.setColor(shbdow);
+            while(yy <= y+rects[tbbIndex].height) {
                 for (int i=0; i < xCropLen.length; i+=2) {
-                    g.drawLine(x-xCropLen[i],yy+yCropLen[i],
+                    g.drbwLine(x-xCropLen[i],yy+yCropLen[i],
                                x-xCropLen[i+1],yy+yCropLen[i+1]-1);
                 }
                 yy+=CROP_SEGMENT;
@@ -1012,83 +1012,83 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
     }
 
-    protected void layoutLabel(int tabPlacement,
-                               FontMetrics metrics, int tabIndex,
+    protected void lbyoutLbbel(int tbbPlbcement,
+                               FontMetrics metrics, int tbbIndex,
                                String title, Icon icon,
-                               Rectangle tabRect, Rectangle iconRect,
-                               Rectangle textRect, boolean isSelected ) {
+                               Rectbngle tbbRect, Rectbngle iconRect,
+                               Rectbngle textRect, boolebn isSelected ) {
         textRect.x = textRect.y = iconRect.x = iconRect.y = 0;
 
-        View v = getTextViewForTab(tabIndex);
+        View v = getTextViewForTbb(tbbIndex);
         if (v != null) {
-            tabPane.putClientProperty("html", v);
+            tbbPbne.putClientProperty("html", v);
         }
 
-        SwingUtilities.layoutCompoundLabel(tabPane,
+        SwingUtilities.lbyoutCompoundLbbel(tbbPbne,
                                            metrics, title, icon,
                                            SwingUtilities.CENTER,
                                            SwingUtilities.CENTER,
                                            SwingUtilities.CENTER,
                                            SwingUtilities.TRAILING,
-                                           tabRect,
+                                           tbbRect,
                                            iconRect,
                                            textRect,
-                                           textIconGap);
+                                           textIconGbp);
 
-        tabPane.putClientProperty("html", null);
+        tbbPbne.putClientProperty("html", null);
 
-        int xNudge = getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
-        int yNudge = getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
+        int xNudge = getTbbLbbelShiftX(tbbPlbcement, tbbIndex, isSelected);
+        int yNudge = getTbbLbbelShiftY(tbbPlbcement, tbbIndex, isSelected);
         iconRect.x += xNudge;
         iconRect.y += yNudge;
         textRect.x += xNudge;
         textRect.y += yNudge;
     }
 
-    protected void paintIcon(Graphics g, int tabPlacement,
-                             int tabIndex, Icon icon, Rectangle iconRect,
-                             boolean isSelected ) {
+    protected void pbintIcon(Grbphics g, int tbbPlbcement,
+                             int tbbIndex, Icon icon, Rectbngle iconRect,
+                             boolebn isSelected ) {
         if (icon != null) {
-            icon.paintIcon(tabPane, g, iconRect.x, iconRect.y);
+            icon.pbintIcon(tbbPbne, g, iconRect.x, iconRect.y);
         }
     }
 
-    protected void paintText(Graphics g, int tabPlacement,
-                             Font font, FontMetrics metrics, int tabIndex,
-                             String title, Rectangle textRect,
-                             boolean isSelected) {
+    protected void pbintText(Grbphics g, int tbbPlbcement,
+                             Font font, FontMetrics metrics, int tbbIndex,
+                             String title, Rectbngle textRect,
+                             boolebn isSelected) {
 
         g.setFont(font);
 
-        View v = getTextViewForTab(tabIndex);
+        View v = getTextViewForTbb(tbbIndex);
         if (v != null) {
             // html
-            v.paint(g, textRect);
+            v.pbint(g, textRect);
         } else {
-            // plain text
-            int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
+            // plbin text
+            int mnemIndex = tbbPbne.getDisplbyedMnemonicIndexAt(tbbIndex);
 
-            if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
-                Color fg = tabPane.getForegroundAt(tabIndex);
-                if (isSelected && (fg instanceof UIResource)) {
-                    Color selectedFG = UIManager.getColor(
-                                  "TabbedPane.selectedForeground");
+            if (tbbPbne.isEnbbled() && tbbPbne.isEnbbledAt(tbbIndex)) {
+                Color fg = tbbPbne.getForegroundAt(tbbIndex);
+                if (isSelected && (fg instbnceof UIResource)) {
+                    Color selectedFG = UIMbnbger.getColor(
+                                  "TbbbedPbne.selectedForeground");
                     if (selectedFG != null) {
                         fg = selectedFG;
                     }
                 }
                 g.setColor(fg);
-                SwingUtilities2.drawStringUnderlineCharAt(tabPane, g,
+                SwingUtilities2.drbwStringUnderlineChbrAt(tbbPbne, g,
                              title, mnemIndex,
                              textRect.x, textRect.y + metrics.getAscent());
 
-            } else { // tab disabled
-                g.setColor(tabPane.getBackgroundAt(tabIndex).brighter());
-                SwingUtilities2.drawStringUnderlineCharAt(tabPane, g,
+            } else { // tbb disbbled
+                g.setColor(tbbPbne.getBbckgroundAt(tbbIndex).brighter());
+                SwingUtilities2.drbwStringUnderlineChbrAt(tbbPbne, g,
                              title, mnemIndex,
                              textRect.x, textRect.y + metrics.getAscent());
-                g.setColor(tabPane.getBackgroundAt(tabIndex).darker());
-                SwingUtilities2.drawStringUnderlineCharAt(tabPane, g,
+                g.setColor(tbbPbne.getBbckgroundAt(tbbIndex).dbrker());
+                SwingUtilities2.drbwStringUnderlineChbrAt(tbbPbne, g,
                              title, mnemIndex,
                              textRect.x - 1, textRect.y + metrics.getAscent() - 1);
 
@@ -1097,214 +1097,214 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
 
-    protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected) {
-        Rectangle tabRect = rects[tabIndex];
-        String propKey = (isSelected ? "selectedLabelShift" : "labelShift");
-        int nudge = DefaultLookup.getInt(
-                tabPane, this, "TabbedPane." + propKey, 1);
+    protected int getTbbLbbelShiftX(int tbbPlbcement, int tbbIndex, boolebn isSelected) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        String propKey = (isSelected ? "selectedLbbelShift" : "lbbelShift");
+        int nudge = DefbultLookup.getInt(
+                tbbPbne, this, "TbbbedPbne." + propKey, 1);
 
-        switch (tabPlacement) {
-            case LEFT:
+        switch (tbbPlbcement) {
+            cbse LEFT:
                 return nudge;
-            case RIGHT:
+            cbse RIGHT:
                 return -nudge;
-            case BOTTOM:
-            case TOP:
-            default:
-                return tabRect.width % 2;
+            cbse BOTTOM:
+            cbse TOP:
+            defbult:
+                return tbbRect.width % 2;
         }
     }
 
-    protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected) {
-        Rectangle tabRect = rects[tabIndex];
-        int nudge = (isSelected ? DefaultLookup.getInt(tabPane, this, "TabbedPane.selectedLabelShift", -1) :
-                DefaultLookup.getInt(tabPane, this, "TabbedPane.labelShift", 1));
+    protected int getTbbLbbelShiftY(int tbbPlbcement, int tbbIndex, boolebn isSelected) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        int nudge = (isSelected ? DefbultLookup.getInt(tbbPbne, this, "TbbbedPbne.selectedLbbelShift", -1) :
+                DefbultLookup.getInt(tbbPbne, this, "TbbbedPbne.lbbelShift", 1));
 
-        switch (tabPlacement) {
-            case BOTTOM:
+        switch (tbbPlbcement) {
+            cbse BOTTOM:
                 return -nudge;
-            case LEFT:
-            case RIGHT:
-                return tabRect.height % 2;
-            case TOP:
-            default:
+            cbse LEFT:
+            cbse RIGHT:
+                return tbbRect.height % 2;
+            cbse TOP:
+            defbult:
                 return nudge;
         }
     }
 
-    protected void paintFocusIndicator(Graphics g, int tabPlacement,
-                                       Rectangle[] rects, int tabIndex,
-                                       Rectangle iconRect, Rectangle textRect,
-                                       boolean isSelected) {
-        Rectangle tabRect = rects[tabIndex];
-        if (tabPane.hasFocus() && isSelected) {
+    protected void pbintFocusIndicbtor(Grbphics g, int tbbPlbcement,
+                                       Rectbngle[] rects, int tbbIndex,
+                                       Rectbngle iconRect, Rectbngle textRect,
+                                       boolebn isSelected) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        if (tbbPbne.hbsFocus() && isSelected) {
             int x, y, w, h;
             g.setColor(focus);
-            switch(tabPlacement) {
-              case LEFT:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 5;
-                  h = tabRect.height - 6;
-                  break;
-              case RIGHT:
-                  x = tabRect.x + 2;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 5;
-                  h = tabRect.height - 6;
-                  break;
-              case BOTTOM:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 2;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 5;
-                  break;
-              case TOP:
-              default:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 5;
+            switch(tbbPlbcement) {
+              cbse LEFT:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 5;
+                  h = tbbRect.height - 6;
+                  brebk;
+              cbse RIGHT:
+                  x = tbbRect.x + 2;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 5;
+                  h = tbbRect.height - 6;
+                  brebk;
+              cbse BOTTOM:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 2;
+                  w = tbbRect.width - 6;
+                  h = tbbRect.height - 5;
+                  brebk;
+              cbse TOP:
+              defbult:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 6;
+                  h = tbbRect.height - 5;
             }
-            BasicGraphicsUtils.drawDashedRect(g, x, y, w, h);
+            BbsicGrbphicsUtils.drbwDbshedRect(g, x, y, w, h);
         }
     }
 
     /**
-      * this function draws the border around each tab
-      * note that this function does now draw the background of the tab.
-      * that is done elsewhere
+      * this function drbws the border bround ebch tbb
+      * note thbt this function does now drbw the bbckground of the tbb.
+      * thbt is done elsewhere
       */
-    protected void paintTabBorder(Graphics g, int tabPlacement,
-                                  int tabIndex,
+    protected void pbintTbbBorder(Grbphics g, int tbbPlbcement,
+                                  int tbbIndex,
                                   int x, int y, int w, int h,
-                                  boolean isSelected ) {
+                                  boolebn isSelected ) {
         g.setColor(lightHighlight);
 
-        switch (tabPlacement) {
-          case LEFT:
-              g.drawLine(x+1, y+h-2, x+1, y+h-2); // bottom-left highlight
-              g.drawLine(x, y+2, x, y+h-3); // left highlight
-              g.drawLine(x+1, y+1, x+1, y+1); // top-left highlight
-              g.drawLine(x+2, y, x+w-1, y); // top highlight
+        switch (tbbPlbcement) {
+          cbse LEFT:
+              g.drbwLine(x+1, y+h-2, x+1, y+h-2); // bottom-left highlight
+              g.drbwLine(x, y+2, x, y+h-3); // left highlight
+              g.drbwLine(x+1, y+1, x+1, y+1); // top-left highlight
+              g.drbwLine(x+2, y, x+w-1, y); // top highlight
 
-              g.setColor(shadow);
-              g.drawLine(x+2, y+h-2, x+w-1, y+h-2); // bottom shadow
+              g.setColor(shbdow);
+              g.drbwLine(x+2, y+h-2, x+w-1, y+h-2); // bottom shbdow
 
-              g.setColor(darkShadow);
-              g.drawLine(x+2, y+h-1, x+w-1, y+h-1); // bottom dark shadow
-              break;
-          case RIGHT:
-              g.drawLine(x, y, x+w-3, y); // top highlight
+              g.setColor(dbrkShbdow);
+              g.drbwLine(x+2, y+h-1, x+w-1, y+h-1); // bottom dbrk shbdow
+              brebk;
+          cbse RIGHT:
+              g.drbwLine(x, y, x+w-3, y); // top highlight
 
-              g.setColor(shadow);
-              g.drawLine(x, y+h-2, x+w-3, y+h-2); // bottom shadow
-              g.drawLine(x+w-2, y+2, x+w-2, y+h-3); // right shadow
+              g.setColor(shbdow);
+              g.drbwLine(x, y+h-2, x+w-3, y+h-2); // bottom shbdow
+              g.drbwLine(x+w-2, y+2, x+w-2, y+h-3); // right shbdow
 
-              g.setColor(darkShadow);
-              g.drawLine(x+w-2, y+1, x+w-2, y+1); // top-right dark shadow
-              g.drawLine(x+w-2, y+h-2, x+w-2, y+h-2); // bottom-right dark shadow
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-3); // right dark shadow
-              g.drawLine(x, y+h-1, x+w-3, y+h-1); // bottom dark shadow
-              break;
-          case BOTTOM:
-              g.drawLine(x, y, x, y+h-3); // left highlight
-              g.drawLine(x+1, y+h-2, x+1, y+h-2); // bottom-left highlight
+              g.setColor(dbrkShbdow);
+              g.drbwLine(x+w-2, y+1, x+w-2, y+1); // top-right dbrk shbdow
+              g.drbwLine(x+w-2, y+h-2, x+w-2, y+h-2); // bottom-right dbrk shbdow
+              g.drbwLine(x+w-1, y+2, x+w-1, y+h-3); // right dbrk shbdow
+              g.drbwLine(x, y+h-1, x+w-3, y+h-1); // bottom dbrk shbdow
+              brebk;
+          cbse BOTTOM:
+              g.drbwLine(x, y, x, y+h-3); // left highlight
+              g.drbwLine(x+1, y+h-2, x+1, y+h-2); // bottom-left highlight
 
-              g.setColor(shadow);
-              g.drawLine(x+2, y+h-2, x+w-3, y+h-2); // bottom shadow
-              g.drawLine(x+w-2, y, x+w-2, y+h-3); // right shadow
+              g.setColor(shbdow);
+              g.drbwLine(x+2, y+h-2, x+w-3, y+h-2); // bottom shbdow
+              g.drbwLine(x+w-2, y, x+w-2, y+h-3); // right shbdow
 
-              g.setColor(darkShadow);
-              g.drawLine(x+2, y+h-1, x+w-3, y+h-1); // bottom dark shadow
-              g.drawLine(x+w-2, y+h-2, x+w-2, y+h-2); // bottom-right dark shadow
-              g.drawLine(x+w-1, y, x+w-1, y+h-3); // right dark shadow
-              break;
-          case TOP:
-          default:
-              g.drawLine(x, y+2, x, y+h-1); // left highlight
-              g.drawLine(x+1, y+1, x+1, y+1); // top-left highlight
-              g.drawLine(x+2, y, x+w-3, y); // top highlight
+              g.setColor(dbrkShbdow);
+              g.drbwLine(x+2, y+h-1, x+w-3, y+h-1); // bottom dbrk shbdow
+              g.drbwLine(x+w-2, y+h-2, x+w-2, y+h-2); // bottom-right dbrk shbdow
+              g.drbwLine(x+w-1, y, x+w-1, y+h-3); // right dbrk shbdow
+              brebk;
+          cbse TOP:
+          defbult:
+              g.drbwLine(x, y+2, x, y+h-1); // left highlight
+              g.drbwLine(x+1, y+1, x+1, y+1); // top-left highlight
+              g.drbwLine(x+2, y, x+w-3, y); // top highlight
 
-              g.setColor(shadow);
-              g.drawLine(x+w-2, y+2, x+w-2, y+h-1); // right shadow
+              g.setColor(shbdow);
+              g.drbwLine(x+w-2, y+2, x+w-2, y+h-1); // right shbdow
 
-              g.setColor(darkShadow);
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-1); // right dark-shadow
-              g.drawLine(x+w-2, y+1, x+w-2, y+1); // top-right shadow
+              g.setColor(dbrkShbdow);
+              g.drbwLine(x+w-1, y+2, x+w-1, y+h-1); // right dbrk-shbdow
+              g.drbwLine(x+w-2, y+1, x+w-2, y+1); // top-right shbdow
         }
     }
 
-    protected void paintTabBackground(Graphics g, int tabPlacement,
-                                      int tabIndex,
+    protected void pbintTbbBbckground(Grbphics g, int tbbPlbcement,
+                                      int tbbIndex,
                                       int x, int y, int w, int h,
-                                      boolean isSelected ) {
+                                      boolebn isSelected ) {
         g.setColor(!isSelected || selectedColor == null?
-                   tabPane.getBackgroundAt(tabIndex) : selectedColor);
-        switch(tabPlacement) {
-          case LEFT:
+                   tbbPbne.getBbckgroundAt(tbbIndex) : selectedColor);
+        switch(tbbPlbcement) {
+          cbse LEFT:
               g.fillRect(x+1, y+1, w-1, h-3);
-              break;
-          case RIGHT:
+              brebk;
+          cbse RIGHT:
               g.fillRect(x, y+1, w-2, h-3);
-              break;
-          case BOTTOM:
+              brebk;
+          cbse BOTTOM:
               g.fillRect(x+1, y, w-3, h-1);
-              break;
-          case TOP:
-          default:
+              brebk;
+          cbse TOP:
+          defbult:
               g.fillRect(x+1, y+1, w-3, h-1);
         }
     }
 
-    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
-        int width = tabPane.getWidth();
-        int height = tabPane.getHeight();
-        Insets insets = tabPane.getInsets();
-        Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+    protected void pbintContentBorder(Grbphics g, int tbbPlbcement, int selectedIndex) {
+        int width = tbbPbne.getWidth();
+        int height = tbbPbne.getHeight();
+        Insets insets = tbbPbne.getInsets();
+        Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
 
         int x = insets.left;
         int y = insets.top;
         int w = width - insets.right - insets.left;
         int h = height - insets.top - insets.bottom;
 
-        switch(tabPlacement) {
-          case LEFT:
-              x += calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-              if (tabsOverlapBorder) {
-                  x -= tabAreaInsets.right;
+        switch(tbbPlbcement) {
+          cbse LEFT:
+              x += cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
+              if (tbbsOverlbpBorder) {
+                  x -= tbbArebInsets.right;
               }
               w -= (x - insets.left);
-              break;
-          case RIGHT:
-              w -= calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-              if (tabsOverlapBorder) {
-                  w += tabAreaInsets.left;
+              brebk;
+          cbse RIGHT:
+              w -= cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
+              if (tbbsOverlbpBorder) {
+                  w += tbbArebInsets.left;
               }
-              break;
-          case BOTTOM:
-              h -= calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-              if (tabsOverlapBorder) {
-                  h += tabAreaInsets.top;
+              brebk;
+          cbse BOTTOM:
+              h -= cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
+              if (tbbsOverlbpBorder) {
+                  h += tbbArebInsets.top;
               }
-              break;
-          case TOP:
-          default:
-              y += calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-              if (tabsOverlapBorder) {
-                  y -= tabAreaInsets.bottom;
+              brebk;
+          cbse TOP:
+          defbult:
+              y += cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
+              if (tbbsOverlbpBorder) {
+                  y -= tbbArebInsets.bottom;
               }
               h -= (y - insets.top);
         }
 
-            if ( tabPane.getTabCount() > 0 && (contentOpaque || tabPane.isOpaque()) ) {
-            // Fill region behind content area
-            Color color = UIManager.getColor("TabbedPane.contentAreaColor");
+            if ( tbbPbne.getTbbCount() > 0 && (contentOpbque || tbbPbne.isOpbque()) ) {
+            // Fill region behind content breb
+            Color color = UIMbnbger.getColor("TbbbedPbne.contentArebColor");
             if (color != null) {
                 g.setColor(color);
             }
             else if ( selectedColor == null || selectedIndex == -1 ) {
-                g.setColor(tabPane.getBackground());
+                g.setColor(tbbPbne.getBbckground());
             }
             else {
                 g.setColor(selectedColor);
@@ -1312,198 +1312,198 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             g.fillRect(x,y,w,h);
         }
 
-        paintContentBorderTopEdge(g, tabPlacement, selectedIndex, x, y, w, h);
-        paintContentBorderLeftEdge(g, tabPlacement, selectedIndex, x, y, w, h);
-        paintContentBorderBottomEdge(g, tabPlacement, selectedIndex, x, y, w, h);
-        paintContentBorderRightEdge(g, tabPlacement, selectedIndex, x, y, w, h);
+        pbintContentBorderTopEdge(g, tbbPlbcement, selectedIndex, x, y, w, h);
+        pbintContentBorderLeftEdge(g, tbbPlbcement, selectedIndex, x, y, w, h);
+        pbintContentBorderBottomEdge(g, tbbPlbcement, selectedIndex, x, y, w, h);
+        pbintContentBorderRightEdge(g, tbbPlbcement, selectedIndex, x, y, w, h);
 
     }
 
-    protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderTopEdge(Grbphics g, int tbbPlbcement,
                                          int selectedIndex,
                                          int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
 
         g.setColor(lightHighlight);
 
-        // Draw unbroken line if tabs are not on TOP, OR
-        // selected tab is not in run adjacent to content, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on TOP, OR
+        // selected tbb is not in run bdjbcent to content, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != TOP || selectedIndex < 0 ||
+        if (tbbPlbcement != TOP || selectedIndex < 0 ||
             (selRect.y + selRect.height + 1 < y) ||
             (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x, y, x+w-2, y);
+            g.drbwLine(x, y, x+w-2, y);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x, y, selRect.x - 1, y);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x, y, selRect.x - 1, y);
             if (selRect.x + selRect.width < x + w - 2) {
-                g.drawLine(selRect.x + selRect.width, y,
+                g.drbwLine(selRect.x + selRect.width, y,
                            x+w-2, y);
             } else {
-                g.setColor(shadow);
-                g.drawLine(x+w-2, y, x+w-2, y);
+                g.setColor(shbdow);
+                g.drbwLine(x+w-2, y, x+w-2, y);
             }
         }
     }
 
-    protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderLeftEdge(Grbphics g, int tbbPlbcement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
 
         g.setColor(lightHighlight);
 
-        // Draw unbroken line if tabs are not on LEFT, OR
-        // selected tab is not in run adjacent to content, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on LEFT, OR
+        // selected tbb is not in run bdjbcent to content, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != LEFT || selectedIndex < 0 ||
+        if (tbbPlbcement != LEFT || selectedIndex < 0 ||
             (selRect.x + selRect.width + 1 < x) ||
             (selRect.y < y || selRect.y > y + h)) {
-            g.drawLine(x, y, x, y+h-2);
+            g.drbwLine(x, y, x, y+h-2);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x, y, x, selRect.y - 1);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x, y, x, selRect.y - 1);
             if (selRect.y + selRect.height < y + h - 2) {
-                g.drawLine(x, selRect.y + selRect.height,
+                g.drbwLine(x, selRect.y + selRect.height,
                            x, y+h-2);
             }
         }
     }
 
-    protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderBottomEdge(Grbphics g, int tbbPlbcement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
 
-        g.setColor(shadow);
+        g.setColor(shbdow);
 
-        // Draw unbroken line if tabs are not on BOTTOM, OR
-        // selected tab is not in run adjacent to content, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on BOTTOM, OR
+        // selected tbb is not in run bdjbcent to content, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != BOTTOM || selectedIndex < 0 ||
+        if (tbbPlbcement != BOTTOM || selectedIndex < 0 ||
              (selRect.y - 1 > h) ||
              (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x+1, y+h-2, x+w-2, y+h-2);
-            g.setColor(darkShadow);
-            g.drawLine(x, y+h-1, x+w-1, y+h-1);
+            g.drbwLine(x+1, y+h-2, x+w-2, y+h-2);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(x, y+h-1, x+w-1, y+h-1);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+1, y+h-2, selRect.x - 1, y+h-2);
-            g.setColor(darkShadow);
-            g.drawLine(x, y+h-1, selRect.x - 1, y+h-1);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x+1, y+h-2, selRect.x - 1, y+h-2);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(x, y+h-1, selRect.x - 1, y+h-1);
             if (selRect.x + selRect.width < x + w - 2) {
-                g.setColor(shadow);
-                g.drawLine(selRect.x + selRect.width, y+h-2, x+w-2, y+h-2);
-                g.setColor(darkShadow);
-                g.drawLine(selRect.x + selRect.width, y+h-1, x+w-1, y+h-1);
+                g.setColor(shbdow);
+                g.drbwLine(selRect.x + selRect.width, y+h-2, x+w-2, y+h-2);
+                g.setColor(dbrkShbdow);
+                g.drbwLine(selRect.x + selRect.width, y+h-1, x+w-1, y+h-1);
             }
         }
 
     }
 
-    protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderRightEdge(Grbphics g, int tbbPlbcement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
 
-        g.setColor(shadow);
+        g.setColor(shbdow);
 
-        // Draw unbroken line if tabs are not on RIGHT, OR
-        // selected tab is not in run adjacent to content, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on RIGHT, OR
+        // selected tbb is not in run bdjbcent to content, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != RIGHT || selectedIndex < 0 ||
+        if (tbbPlbcement != RIGHT || selectedIndex < 0 ||
              (selRect.x - 1 > w) ||
              (selRect.y < y || selRect.y > y + h)) {
-            g.drawLine(x+w-2, y+1, x+w-2, y+h-3);
-            g.setColor(darkShadow);
-            g.drawLine(x+w-1, y, x+w-1, y+h-1);
+            g.drbwLine(x+w-2, y+1, x+w-2, y+h-3);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(x+w-1, y, x+w-1, y+h-1);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+w-2, y+1, x+w-2, selRect.y - 1);
-            g.setColor(darkShadow);
-            g.drawLine(x+w-1, y, x+w-1, selRect.y - 1);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x+w-2, y+1, x+w-2, selRect.y - 1);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(x+w-1, y, x+w-1, selRect.y - 1);
 
             if (selRect.y + selRect.height < y + h - 2) {
-                g.setColor(shadow);
-                g.drawLine(x+w-2, selRect.y + selRect.height,
+                g.setColor(shbdow);
+                g.drbwLine(x+w-2, selRect.y + selRect.height,
                            x+w-2, y+h-2);
-                g.setColor(darkShadow);
-                g.drawLine(x+w-1, selRect.y + selRect.height,
+                g.setColor(dbrkShbdow);
+                g.drbwLine(x+w-1, selRect.y + selRect.height,
                            x+w-1, y+h-2);
             }
         }
     }
 
-    private void ensureCurrentLayout() {
-        if (!tabPane.isValid()) {
-            tabPane.validate();
+    privbte void ensureCurrentLbyout() {
+        if (!tbbPbne.isVblid()) {
+            tbbPbne.vblidbte();
         }
-        /* If tabPane doesn't have a peer yet, the validate() call will
-         * silently fail.  We handle that by forcing a layout if tabPane
-         * is still invalid.  See bug 4237677.
+        /* If tbbPbne doesn't hbve b peer yet, the vblidbte() cbll will
+         * silently fbil.  We hbndle thbt by forcing b lbyout if tbbPbne
+         * is still invblid.  See bug 4237677.
          */
-        if (!tabPane.isValid()) {
-            TabbedPaneLayout layout = (TabbedPaneLayout)tabPane.getLayout();
-            layout.calculateLayoutInfo();
+        if (!tbbPbne.isVblid()) {
+            TbbbedPbneLbyout lbyout = (TbbbedPbneLbyout)tbbPbne.getLbyout();
+            lbyout.cblculbteLbyoutInfo();
         }
     }
 
 
-// TabbedPaneUI methods
+// TbbbedPbneUI methods
 
     /**
-     * Returns the bounds of the specified tab index.  The bounds are
-     * with respect to the JTabbedPane's coordinate space.
+     * Returns the bounds of the specified tbb index.  The bounds bre
+     * with respect to the JTbbbedPbne's coordinbte spbce.
      */
-    public Rectangle getTabBounds(JTabbedPane pane, int i) {
-        ensureCurrentLayout();
-        Rectangle tabRect = new Rectangle();
-        return getTabBounds(i, tabRect);
+    public Rectbngle getTbbBounds(JTbbbedPbne pbne, int i) {
+        ensureCurrentLbyout();
+        Rectbngle tbbRect = new Rectbngle();
+        return getTbbBounds(i, tbbRect);
     }
 
-    public int getTabRunCount(JTabbedPane pane) {
-        ensureCurrentLayout();
+    public int getTbbRunCount(JTbbbedPbne pbne) {
+        ensureCurrentLbyout();
         return runCount;
     }
 
     /**
-     * Returns the tab index which intersects the specified point
-     * in the JTabbedPane's coordinate space.
+     * Returns the tbb index which intersects the specified point
+     * in the JTbbbedPbne's coordinbte spbce.
      */
-    public int tabForCoordinate(JTabbedPane pane, int x, int y) {
-        return tabForCoordinate(pane, x, y, true);
+    public int tbbForCoordinbte(JTbbbedPbne pbne, int x, int y) {
+        return tbbForCoordinbte(pbne, x, y, true);
     }
 
-    private int tabForCoordinate(JTabbedPane pane, int x, int y,
-                                 boolean validateIfNecessary) {
-        if (validateIfNecessary) {
-            ensureCurrentLayout();
+    privbte int tbbForCoordinbte(JTbbbedPbne pbne, int x, int y,
+                                 boolebn vblidbteIfNecessbry) {
+        if (vblidbteIfNecessbry) {
+            ensureCurrentLbyout();
         }
         if (isRunsDirty) {
-            // We didn't recalculate the layout, runs and tabCount may not
-            // line up, bail.
+            // We didn't recblculbte the lbyout, runs bnd tbbCount mby not
+            // line up, bbil.
             return -1;
         }
         Point p = new Point(x, y);
 
-        if (scrollableTabLayoutEnabled()) {
-            translatePointToTabPanel(x, y, p);
-            Rectangle viewRect = tabScroller.viewport.getViewRect();
-            if (!viewRect.contains(p)) {
+        if (scrollbbleTbbLbyoutEnbbled()) {
+            trbnslbtePointToTbbPbnel(x, y, p);
+            Rectbngle viewRect = tbbScroller.viewport.getViewRect();
+            if (!viewRect.contbins(p)) {
                 return -1;
             }
         }
-        int tabCount = tabPane.getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            if (rects[i].contains(p.x, p.y)) {
+        int tbbCount = tbbPbne.getTbbCount();
+        for (int i = 0; i < tbbCount; i++) {
+            if (rects[i].contbins(p.x, p.y)) {
                 return i;
             }
         }
@@ -1511,79 +1511,79 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     /**
-     * Returns the bounds of the specified tab in the coordinate space
-     * of the JTabbedPane component.  This is required because the tab rects
-     * are by default defined in the coordinate space of the component where
-     * they are rendered, which could be the JTabbedPane
-     * (for WRAP_TAB_LAYOUT) or a ScrollableTabPanel (SCROLL_TAB_LAYOUT).
-     * This method should be used whenever the tab rectangle must be relative
-     * to the JTabbedPane itself and the result should be placed in a
-     * designated Rectangle object (rather than instantiating and returning
-     * a new Rectangle each time). The tab index parameter must be a valid
-     * tabbed pane tab index (0 to tab count - 1, inclusive).  The destination
-     * rectangle parameter must be a valid <code>Rectangle</code> instance.
-     * The handling of invalid parameters is unspecified.
+     * Returns the bounds of the specified tbb in the coordinbte spbce
+     * of the JTbbbedPbne component.  This is required becbuse the tbb rects
+     * bre by defbult defined in the coordinbte spbce of the component where
+     * they bre rendered, which could be the JTbbbedPbne
+     * (for WRAP_TAB_LAYOUT) or b ScrollbbleTbbPbnel (SCROLL_TAB_LAYOUT).
+     * This method should be used whenever the tbb rectbngle must be relbtive
+     * to the JTbbbedPbne itself bnd the result should be plbced in b
+     * designbted Rectbngle object (rbther thbn instbntibting bnd returning
+     * b new Rectbngle ebch time). The tbb index pbrbmeter must be b vblid
+     * tbbbed pbne tbb index (0 to tbb count - 1, inclusive).  The destinbtion
+     * rectbngle pbrbmeter must be b vblid <code>Rectbngle</code> instbnce.
+     * The hbndling of invblid pbrbmeters is unspecified.
      *
-     * @param tabIndex the index of the tab
-     * @param dest the rectangle where the result should be placed
-     * @return the resulting rectangle
+     * @pbrbm tbbIndex the index of the tbb
+     * @pbrbm dest the rectbngle where the result should be plbced
+     * @return the resulting rectbngle
      *
      * @since 1.4
      */
-    protected Rectangle getTabBounds(int tabIndex, Rectangle dest) {
-        dest.width = rects[tabIndex].width;
-        dest.height = rects[tabIndex].height;
+    protected Rectbngle getTbbBounds(int tbbIndex, Rectbngle dest) {
+        dest.width = rects[tbbIndex].width;
+        dest.height = rects[tbbIndex].height;
 
-        if (scrollableTabLayoutEnabled()) { // SCROLL_TAB_LAYOUT
-            // Need to translate coordinates based on viewport location &
+        if (scrollbbleTbbLbyoutEnbbled()) { // SCROLL_TAB_LAYOUT
+            // Need to trbnslbte coordinbtes bbsed on viewport locbtion &
             // view position
-            Point vpp = tabScroller.viewport.getLocation();
-            Point viewp = tabScroller.viewport.getViewPosition();
-            dest.x = rects[tabIndex].x + vpp.x - viewp.x;
-            dest.y = rects[tabIndex].y + vpp.y - viewp.y;
+            Point vpp = tbbScroller.viewport.getLocbtion();
+            Point viewp = tbbScroller.viewport.getViewPosition();
+            dest.x = rects[tbbIndex].x + vpp.x - viewp.x;
+            dest.y = rects[tbbIndex].y + vpp.y - viewp.y;
 
         } else { // WRAP_TAB_LAYOUT
-            dest.x = rects[tabIndex].x;
-            dest.y = rects[tabIndex].y;
+            dest.x = rects[tbbIndex].x;
+            dest.y = rects[tbbIndex].y;
         }
         return dest;
     }
 
     /**
-     * Returns the index of the tab closest to the passed in location, note
-     * that the returned tab may not contain the location x,y.
+     * Returns the index of the tbb closest to the pbssed in locbtion, note
+     * thbt the returned tbb mby not contbin the locbtion x,y.
      */
-    private int getClosestTab(int x, int y) {
+    privbte int getClosestTbb(int x, int y) {
         int min = 0;
-        int tabCount = Math.min(rects.length, tabPane.getTabCount());
-        int max = tabCount;
-        int tabPlacement = tabPane.getTabPlacement();
-        boolean useX = (tabPlacement == TOP || tabPlacement == BOTTOM);
-        int want = (useX) ? x : y;
+        int tbbCount = Mbth.min(rects.length, tbbPbne.getTbbCount());
+        int mbx = tbbCount;
+        int tbbPlbcement = tbbPbne.getTbbPlbcement();
+        boolebn useX = (tbbPlbcement == TOP || tbbPlbcement == BOTTOM);
+        int wbnt = (useX) ? x : y;
 
-        while (min != max) {
-            int current = (max + min) / 2;
+        while (min != mbx) {
+            int current = (mbx + min) / 2;
             int minLoc;
-            int maxLoc;
+            int mbxLoc;
 
             if (useX) {
                 minLoc = rects[current].x;
-                maxLoc = minLoc + rects[current].width;
+                mbxLoc = minLoc + rects[current].width;
             }
             else {
                 minLoc = rects[current].y;
-                maxLoc = minLoc + rects[current].height;
+                mbxLoc = minLoc + rects[current].height;
             }
-            if (want < minLoc) {
-                max = current;
-                if (min == max) {
-                    return Math.max(0, current - 1);
+            if (wbnt < minLoc) {
+                mbx = current;
+                if (min == mbx) {
+                    return Mbth.mbx(0, current - 1);
                 }
             }
-            else if (want >= maxLoc) {
+            else if (wbnt >= mbxLoc) {
                 min = current;
-                if (max - min <= 1) {
-                    return Math.max(current + 1, tabCount - 1);
+                if (mbx - min <= 1) {
+                    return Mbth.mbx(current + 1, tbbCount - 1);
                 }
             }
             else {
@@ -1594,19 +1594,19 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     /**
-     * Returns a point which is translated from the specified point in the
-     * JTabbedPane's coordinate space to the coordinate space of the
-     * ScrollableTabPanel.  This is used for SCROLL_TAB_LAYOUT ONLY.
+     * Returns b point which is trbnslbted from the specified point in the
+     * JTbbbedPbne's coordinbte spbce to the coordinbte spbce of the
+     * ScrollbbleTbbPbnel.  This is used for SCROLL_TAB_LAYOUT ONLY.
      */
-    private Point translatePointToTabPanel(int srcx, int srcy, Point dest) {
-        Point vpp = tabScroller.viewport.getLocation();
-        Point viewp = tabScroller.viewport.getViewPosition();
+    privbte Point trbnslbtePointToTbbPbnel(int srcx, int srcy, Point dest) {
+        Point vpp = tbbScroller.viewport.getLocbtion();
+        Point viewp = tbbScroller.viewport.getViewPosition();
         dest.x = srcx - vpp.x + viewp.x;
         dest.y = srcy - vpp.y + viewp.y;
         return dest;
     }
 
-// BasicTabbedPaneUI methods
+// BbsicTbbbedPbneUI methods
 
     protected Component getVisibleComponent() {
         return visibleComponent;
@@ -1615,10 +1615,10 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     protected void setVisibleComponent(Component component) {
         if (visibleComponent != null
                 && visibleComponent != component
-                && visibleComponent.getParent() == tabPane
+                && visibleComponent.getPbrent() == tbbPbne
                 && visibleComponent.isVisible()) {
 
-            visibleComponent.setVisible(false);
+            visibleComponent.setVisible(fblse);
         }
         if (component != null && !component.isVisible()) {
             component.setVisible(true);
@@ -1626,360 +1626,360 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         visibleComponent = component;
     }
 
-    protected void assureRectsCreated(int tabCount) {
-        int rectArrayLen = rects.length;
-        if (tabCount != rectArrayLen ) {
-            Rectangle[] tempRectArray = new Rectangle[tabCount];
-            System.arraycopy(rects, 0, tempRectArray, 0,
-                             Math.min(rectArrayLen, tabCount));
-            rects = tempRectArray;
-            for (int rectIndex = rectArrayLen; rectIndex < tabCount; rectIndex++) {
-                rects[rectIndex] = new Rectangle();
+    protected void bssureRectsCrebted(int tbbCount) {
+        int rectArrbyLen = rects.length;
+        if (tbbCount != rectArrbyLen ) {
+            Rectbngle[] tempRectArrby = new Rectbngle[tbbCount];
+            System.brrbycopy(rects, 0, tempRectArrby, 0,
+                             Mbth.min(rectArrbyLen, tbbCount));
+            rects = tempRectArrby;
+            for (int rectIndex = rectArrbyLen; rectIndex < tbbCount; rectIndex++) {
+                rects[rectIndex] = new Rectbngle();
             }
         }
 
     }
 
-    protected void expandTabRunsArray() {
-        int rectLen = tabRuns.length;
-        int[] newArray = new int[rectLen+10];
-        System.arraycopy(tabRuns, 0, newArray, 0, runCount);
-        tabRuns = newArray;
+    protected void expbndTbbRunsArrby() {
+        int rectLen = tbbRuns.length;
+        int[] newArrby = new int[rectLen+10];
+        System.brrbycopy(tbbRuns, 0, newArrby, 0, runCount);
+        tbbRuns = newArrby;
     }
 
-    protected int getRunForTab(int tabCount, int tabIndex) {
+    protected int getRunForTbb(int tbbCount, int tbbIndex) {
         for (int i = 0; i < runCount; i++) {
-            int first = tabRuns[i];
-            int last = lastTabInRun(tabCount, i);
-            if (tabIndex >= first && tabIndex <= last) {
+            int first = tbbRuns[i];
+            int lbst = lbstTbbInRun(tbbCount, i);
+            if (tbbIndex >= first && tbbIndex <= lbst) {
                 return i;
             }
         }
         return 0;
     }
 
-    protected int lastTabInRun(int tabCount, int run) {
+    protected int lbstTbbInRun(int tbbCount, int run) {
         if (runCount == 1) {
-            return tabCount - 1;
+            return tbbCount - 1;
         }
         int nextRun = (run == runCount - 1? 0 : run + 1);
-        if (tabRuns[nextRun] == 0) {
-            return tabCount - 1;
+        if (tbbRuns[nextRun] == 0) {
+            return tbbCount - 1;
         }
-        return tabRuns[nextRun]-1;
+        return tbbRuns[nextRun]-1;
     }
 
-    protected int getTabRunOverlay(int tabPlacement) {
-        return tabRunOverlay;
+    protected int getTbbRunOverlby(int tbbPlbcement) {
+        return tbbRunOverlby;
     }
 
-    protected int getTabRunIndent(int tabPlacement, int run) {
+    protected int getTbbRunIndent(int tbbPlbcement, int run) {
         return 0;
     }
 
-    protected boolean shouldPadTabRun(int tabPlacement, int run) {
+    protected boolebn shouldPbdTbbRun(int tbbPlbcement, int run) {
         return runCount > 1;
     }
 
-    protected boolean shouldRotateTabRuns(int tabPlacement) {
+    protected boolebn shouldRotbteTbbRuns(int tbbPlbcement) {
         return true;
     }
 
-    protected Icon getIconForTab(int tabIndex) {
-        return (!tabPane.isEnabled() || !tabPane.isEnabledAt(tabIndex))?
-                          tabPane.getDisabledIconAt(tabIndex) : tabPane.getIconAt(tabIndex);
+    protected Icon getIconForTbb(int tbbIndex) {
+        return (!tbbPbne.isEnbbled() || !tbbPbne.isEnbbledAt(tbbIndex))?
+                          tbbPbne.getDisbbledIconAt(tbbIndex) : tbbPbne.getIconAt(tbbIndex);
     }
 
     /**
      * Returns the text View object required to render stylized text (HTML) for
-     * the specified tab or null if no specialized text rendering is needed
-     * for this tab. This is provided to support html rendering inside tabs.
+     * the specified tbb or null if no speciblized text rendering is needed
+     * for this tbb. This is provided to support html rendering inside tbbs.
      *
-     * @param tabIndex the index of the tab
-     * @return the text view to render the tab's text or null if no
-     *         specialized rendering is required
+     * @pbrbm tbbIndex the index of the tbb
+     * @return the text view to render the tbb's text or null if no
+     *         speciblized rendering is required
      *
      * @since 1.4
      */
-    protected View getTextViewForTab(int tabIndex) {
+    protected View getTextViewForTbb(int tbbIndex) {
         if (htmlViews != null) {
-            return htmlViews.elementAt(tabIndex);
+            return htmlViews.elementAt(tbbIndex);
         }
         return null;
     }
 
-    protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
+    protected int cblculbteTbbHeight(int tbbPlbcement, int tbbIndex, int fontHeight) {
         int height = 0;
-        Component c = tabPane.getTabComponentAt(tabIndex);
+        Component c = tbbPbne.getTbbComponentAt(tbbIndex);
         if (c != null) {
             height = c.getPreferredSize().height;
         } else {
-            View v = getTextViewForTab(tabIndex);
+            View v = getTextViewForTbb(tbbIndex);
             if (v != null) {
                 // html
-                height += (int) v.getPreferredSpan(View.Y_AXIS);
+                height += (int) v.getPreferredSpbn(View.Y_AXIS);
             } else {
-                // plain text
+                // plbin text
                 height += fontHeight;
             }
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = getIconForTbb(tbbIndex);
 
             if (icon != null) {
-                height = Math.max(height, icon.getIconHeight());
+                height = Mbth.mbx(height, icon.getIconHeight());
             }
         }
-        Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
-        height += tabInsets.top + tabInsets.bottom + 2;
+        Insets tbbInsets = getTbbInsets(tbbPlbcement, tbbIndex);
+        height += tbbInsets.top + tbbInsets.bottom + 2;
         return height;
     }
 
-    protected int calculateMaxTabHeight(int tabPlacement) {
+    protected int cblculbteMbxTbbHeight(int tbbPlbcement) {
         FontMetrics metrics = getFontMetrics();
-        int tabCount = tabPane.getTabCount();
+        int tbbCount = tbbPbne.getTbbCount();
         int result = 0;
         int fontHeight = metrics.getHeight();
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabHeight(tabPlacement, i, fontHeight), result);
+        for(int i = 0; i < tbbCount; i++) {
+            result = Mbth.mbx(cblculbteTbbHeight(tbbPlbcement, i, fontHeight), result);
         }
         return result;
     }
 
-    protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
-        Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
-        int width = tabInsets.left + tabInsets.right + 3;
-        Component tabComponent = tabPane.getTabComponentAt(tabIndex);
-        if (tabComponent != null) {
-            width += tabComponent.getPreferredSize().width;
+    protected int cblculbteTbbWidth(int tbbPlbcement, int tbbIndex, FontMetrics metrics) {
+        Insets tbbInsets = getTbbInsets(tbbPlbcement, tbbIndex);
+        int width = tbbInsets.left + tbbInsets.right + 3;
+        Component tbbComponent = tbbPbne.getTbbComponentAt(tbbIndex);
+        if (tbbComponent != null) {
+            width += tbbComponent.getPreferredSize().width;
         } else {
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = getIconForTbb(tbbIndex);
             if (icon != null) {
-                width += icon.getIconWidth() + textIconGap;
+                width += icon.getIconWidth() + textIconGbp;
             }
-            View v = getTextViewForTab(tabIndex);
+            View v = getTextViewForTbb(tbbIndex);
             if (v != null) {
                 // html
-                width += (int) v.getPreferredSpan(View.X_AXIS);
+                width += (int) v.getPreferredSpbn(View.X_AXIS);
             } else {
-                // plain text
-                String title = tabPane.getTitleAt(tabIndex);
-                width += SwingUtilities2.stringWidth(tabPane, metrics, title);
+                // plbin text
+                String title = tbbPbne.getTitleAt(tbbIndex);
+                width += SwingUtilities2.stringWidth(tbbPbne, metrics, title);
             }
         }
         return width;
     }
 
-    protected int calculateMaxTabWidth(int tabPlacement) {
+    protected int cblculbteMbxTbbWidth(int tbbPlbcement) {
         FontMetrics metrics = getFontMetrics();
-        int tabCount = tabPane.getTabCount();
+        int tbbCount = tbbPbne.getTbbCount();
         int result = 0;
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabWidth(tabPlacement, i, metrics), result);
+        for(int i = 0; i < tbbCount; i++) {
+            result = Mbth.mbx(cblculbteTbbWidth(tbbPlbcement, i, metrics), result);
         }
         return result;
     }
 
-    protected int calculateTabAreaHeight(int tabPlacement, int horizRunCount, int maxTabHeight) {
-        Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-        int tabRunOverlay = getTabRunOverlay(tabPlacement);
+    protected int cblculbteTbbArebHeight(int tbbPlbcement, int horizRunCount, int mbxTbbHeight) {
+        Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
+        int tbbRunOverlby = getTbbRunOverlby(tbbPlbcement);
         return (horizRunCount > 0?
-                horizRunCount * (maxTabHeight-tabRunOverlay) + tabRunOverlay +
-                tabAreaInsets.top + tabAreaInsets.bottom :
+                horizRunCount * (mbxTbbHeight-tbbRunOverlby) + tbbRunOverlby +
+                tbbArebInsets.top + tbbArebInsets.bottom :
                 0);
     }
 
-    protected int calculateTabAreaWidth(int tabPlacement, int vertRunCount, int maxTabWidth) {
-        Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-        int tabRunOverlay = getTabRunOverlay(tabPlacement);
+    protected int cblculbteTbbArebWidth(int tbbPlbcement, int vertRunCount, int mbxTbbWidth) {
+        Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
+        int tbbRunOverlby = getTbbRunOverlby(tbbPlbcement);
         return (vertRunCount > 0?
-                vertRunCount * (maxTabWidth-tabRunOverlay) + tabRunOverlay +
-                tabAreaInsets.left + tabAreaInsets.right :
+                vertRunCount * (mbxTbbWidth-tbbRunOverlby) + tbbRunOverlby +
+                tbbArebInsets.left + tbbArebInsets.right :
                 0);
     }
 
-    protected Insets getTabInsets(int tabPlacement, int tabIndex) {
-        return tabInsets;
+    protected Insets getTbbInsets(int tbbPlbcement, int tbbIndex) {
+        return tbbInsets;
     }
 
-    protected Insets getSelectedTabPadInsets(int tabPlacement) {
-        rotateInsets(selectedTabPadInsets, currentPadInsets, tabPlacement);
-        return currentPadInsets;
+    protected Insets getSelectedTbbPbdInsets(int tbbPlbcement) {
+        rotbteInsets(selectedTbbPbdInsets, currentPbdInsets, tbbPlbcement);
+        return currentPbdInsets;
     }
 
-    protected Insets getTabAreaInsets(int tabPlacement) {
-        rotateInsets(tabAreaInsets, currentTabAreaInsets, tabPlacement);
-        return currentTabAreaInsets;
+    protected Insets getTbbArebInsets(int tbbPlbcement) {
+        rotbteInsets(tbbArebInsets, currentTbbArebInsets, tbbPlbcement);
+        return currentTbbArebInsets;
     }
 
-    protected Insets getContentBorderInsets(int tabPlacement) {
+    protected Insets getContentBorderInsets(int tbbPlbcement) {
         return contentBorderInsets;
     }
 
     protected FontMetrics getFontMetrics() {
-        Font font = tabPane.getFont();
-        return tabPane.getFontMetrics(font);
+        Font font = tbbPbne.getFont();
+        return tbbPbne.getFontMetrics(font);
     }
 
 
-// Tab Navigation methods
+// Tbb Nbvigbtion methods
 
-    protected void navigateSelectedTab(int direction) {
-        int tabPlacement = tabPane.getTabPlacement();
-        int current = DefaultLookup.getBoolean(tabPane, this,
-                             "TabbedPane.selectionFollowsFocus", true) ?
-                             tabPane.getSelectedIndex() : getFocusIndex();
-        int tabCount = tabPane.getTabCount();
-        boolean leftToRight = BasicGraphicsUtils.isLeftToRight(tabPane);
+    protected void nbvigbteSelectedTbb(int direction) {
+        int tbbPlbcement = tbbPbne.getTbbPlbcement();
+        int current = DefbultLookup.getBoolebn(tbbPbne, this,
+                             "TbbbedPbne.selectionFollowsFocus", true) ?
+                             tbbPbne.getSelectedIndex() : getFocusIndex();
+        int tbbCount = tbbPbne.getTbbCount();
+        boolebn leftToRight = BbsicGrbphicsUtils.isLeftToRight(tbbPbne);
 
-        // If we have no tabs then don't navigate.
-        if (tabCount <= 0) {
+        // If we hbve no tbbs then don't nbvigbte.
+        if (tbbCount <= 0) {
             return;
         }
 
         int offset;
-        switch(tabPlacement) {
-          case LEFT:
-          case RIGHT:
+        switch(tbbPlbcement) {
+          cbse LEFT:
+          cbse RIGHT:
               switch(direction) {
-                 case NEXT:
-                     selectNextTab(current);
-                     break;
-                 case PREVIOUS:
-                     selectPreviousTab(current);
-                     break;
-                case NORTH:
-                    selectPreviousTabInRun(current);
-                    break;
-                case SOUTH:
-                    selectNextTabInRun(current);
-                    break;
-                case WEST:
-                    offset = getTabRunOffset(tabPlacement, tabCount, current, false);
-                    selectAdjacentRunTab(tabPlacement, current, offset);
-                    break;
-                case EAST:
-                    offset = getTabRunOffset(tabPlacement, tabCount, current, true);
-                    selectAdjacentRunTab(tabPlacement, current, offset);
-                    break;
-                default:
+                 cbse NEXT:
+                     selectNextTbb(current);
+                     brebk;
+                 cbse PREVIOUS:
+                     selectPreviousTbb(current);
+                     brebk;
+                cbse NORTH:
+                    selectPreviousTbbInRun(current);
+                    brebk;
+                cbse SOUTH:
+                    selectNextTbbInRun(current);
+                    brebk;
+                cbse WEST:
+                    offset = getTbbRunOffset(tbbPlbcement, tbbCount, current, fblse);
+                    selectAdjbcentRunTbb(tbbPlbcement, current, offset);
+                    brebk;
+                cbse EAST:
+                    offset = getTbbRunOffset(tbbPlbcement, tbbCount, current, true);
+                    selectAdjbcentRunTbb(tbbPlbcement, current, offset);
+                    brebk;
+                defbult:
               }
-              break;
-          case BOTTOM:
-          case TOP:
-          default:
+              brebk;
+          cbse BOTTOM:
+          cbse TOP:
+          defbult:
               switch(direction) {
-                case NEXT:
-                    selectNextTab(current);
-                    break;
-                case PREVIOUS:
-                    selectPreviousTab(current);
-                    break;
-                case NORTH:
-                    offset = getTabRunOffset(tabPlacement, tabCount, current, false);
-                    selectAdjacentRunTab(tabPlacement, current, offset);
-                    break;
-                case SOUTH:
-                    offset = getTabRunOffset(tabPlacement, tabCount, current, true);
-                    selectAdjacentRunTab(tabPlacement, current, offset);
-                    break;
-                case EAST:
+                cbse NEXT:
+                    selectNextTbb(current);
+                    brebk;
+                cbse PREVIOUS:
+                    selectPreviousTbb(current);
+                    brebk;
+                cbse NORTH:
+                    offset = getTbbRunOffset(tbbPlbcement, tbbCount, current, fblse);
+                    selectAdjbcentRunTbb(tbbPlbcement, current, offset);
+                    brebk;
+                cbse SOUTH:
+                    offset = getTbbRunOffset(tbbPlbcement, tbbCount, current, true);
+                    selectAdjbcentRunTbb(tbbPlbcement, current, offset);
+                    brebk;
+                cbse EAST:
                     if (leftToRight) {
-                        selectNextTabInRun(current);
+                        selectNextTbbInRun(current);
                     } else {
-                        selectPreviousTabInRun(current);
+                        selectPreviousTbbInRun(current);
                     }
-                    break;
-                case WEST:
+                    brebk;
+                cbse WEST:
                     if (leftToRight) {
-                        selectPreviousTabInRun(current);
+                        selectPreviousTbbInRun(current);
                     } else {
-                        selectNextTabInRun(current);
+                        selectNextTbbInRun(current);
                     }
-                    break;
-                default:
+                    brebk;
+                defbult:
               }
         }
     }
 
-    protected void selectNextTabInRun(int current) {
-        int tabCount = tabPane.getTabCount();
-        int tabIndex = getNextTabIndexInRun(tabCount, current);
+    protected void selectNextTbbInRun(int current) {
+        int tbbCount = tbbPbne.getTbbCount();
+        int tbbIndex = getNextTbbIndexInRun(tbbCount, current);
 
-        while(tabIndex != current && !tabPane.isEnabledAt(tabIndex)) {
-            tabIndex = getNextTabIndexInRun(tabCount, tabIndex);
+        while(tbbIndex != current && !tbbPbne.isEnbbledAt(tbbIndex)) {
+            tbbIndex = getNextTbbIndexInRun(tbbCount, tbbIndex);
         }
-        navigateTo(tabIndex);
+        nbvigbteTo(tbbIndex);
     }
 
-    protected void selectPreviousTabInRun(int current) {
-        int tabCount = tabPane.getTabCount();
-        int tabIndex = getPreviousTabIndexInRun(tabCount, current);
+    protected void selectPreviousTbbInRun(int current) {
+        int tbbCount = tbbPbne.getTbbCount();
+        int tbbIndex = getPreviousTbbIndexInRun(tbbCount, current);
 
-        while(tabIndex != current && !tabPane.isEnabledAt(tabIndex)) {
-            tabIndex = getPreviousTabIndexInRun(tabCount, tabIndex);
+        while(tbbIndex != current && !tbbPbne.isEnbbledAt(tbbIndex)) {
+            tbbIndex = getPreviousTbbIndexInRun(tbbCount, tbbIndex);
         }
-        navigateTo(tabIndex);
+        nbvigbteTo(tbbIndex);
     }
 
-    protected void selectNextTab(int current) {
-        int tabIndex = getNextTabIndex(current);
+    protected void selectNextTbb(int current) {
+        int tbbIndex = getNextTbbIndex(current);
 
-        while (tabIndex != current && !tabPane.isEnabledAt(tabIndex)) {
-            tabIndex = getNextTabIndex(tabIndex);
+        while (tbbIndex != current && !tbbPbne.isEnbbledAt(tbbIndex)) {
+            tbbIndex = getNextTbbIndex(tbbIndex);
         }
-        navigateTo(tabIndex);
+        nbvigbteTo(tbbIndex);
     }
 
-    protected void selectPreviousTab(int current) {
-        int tabIndex = getPreviousTabIndex(current);
+    protected void selectPreviousTbb(int current) {
+        int tbbIndex = getPreviousTbbIndex(current);
 
-        while (tabIndex != current && !tabPane.isEnabledAt(tabIndex)) {
-            tabIndex = getPreviousTabIndex(tabIndex);
+        while (tbbIndex != current && !tbbPbne.isEnbbledAt(tbbIndex)) {
+            tbbIndex = getPreviousTbbIndex(tbbIndex);
         }
-        navigateTo(tabIndex);
+        nbvigbteTo(tbbIndex);
     }
 
-    protected void selectAdjacentRunTab(int tabPlacement,
-                                        int tabIndex, int offset) {
+    protected void selectAdjbcentRunTbb(int tbbPlbcement,
+                                        int tbbIndex, int offset) {
         if ( runCount < 2 ) {
             return;
         }
         int newIndex;
-        Rectangle r = rects[tabIndex];
-        switch(tabPlacement) {
-          case LEFT:
-          case RIGHT:
-              newIndex = tabForCoordinate(tabPane, r.x + r.width/2 + offset,
+        Rectbngle r = rects[tbbIndex];
+        switch(tbbPlbcement) {
+          cbse LEFT:
+          cbse RIGHT:
+              newIndex = tbbForCoordinbte(tbbPbne, r.x + r.width/2 + offset,
                                        r.y + r.height/2);
-              break;
-          case BOTTOM:
-          case TOP:
-          default:
-              newIndex = tabForCoordinate(tabPane, r.x + r.width/2,
+              brebk;
+          cbse BOTTOM:
+          cbse TOP:
+          defbult:
+              newIndex = tbbForCoordinbte(tbbPbne, r.x + r.width/2,
                                        r.y + r.height/2 + offset);
         }
         if (newIndex != -1) {
-            while (!tabPane.isEnabledAt(newIndex) && newIndex != tabIndex) {
-                newIndex = getNextTabIndex(newIndex);
+            while (!tbbPbne.isEnbbledAt(newIndex) && newIndex != tbbIndex) {
+                newIndex = getNextTbbIndex(newIndex);
             }
-            navigateTo(newIndex);
+            nbvigbteTo(newIndex);
         }
     }
 
-    private void navigateTo(int index) {
-        if (DefaultLookup.getBoolean(tabPane, this,
-                             "TabbedPane.selectionFollowsFocus", true)) {
-            tabPane.setSelectedIndex(index);
+    privbte void nbvigbteTo(int index) {
+        if (DefbultLookup.getBoolebn(tbbPbne, this,
+                             "TbbbedPbne.selectionFollowsFocus", true)) {
+            tbbPbne.setSelectedIndex(index);
         } else {
             // Just move focus (not selection)
             setFocusIndex(index, true);
         }
     }
 
-    void setFocusIndex(int index, boolean repaint) {
-        if (repaint && !isRunsDirty) {
-            repaintTab(focusIndex);
+    void setFocusIndex(int index, boolebn repbint) {
+        if (repbint && !isRunsDirty) {
+            repbintTbb(focusIndex);
             focusIndex = index;
-            repaintTab(focusIndex);
+            repbintTbb(focusIndex);
         }
         else {
             focusIndex = index;
@@ -1987,306 +1987,306 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     /**
-     * Repaints the specified tab.
+     * Repbints the specified tbb.
      */
-    private void repaintTab(int index) {
-        // If we're not valid that means we will shortly be validated and
-        // painted, which means we don't have to do anything here.
-        if (!isRunsDirty && index >= 0 && index < tabPane.getTabCount()) {
-            tabPane.repaint(getTabBounds(tabPane, index));
+    privbte void repbintTbb(int index) {
+        // If we're not vblid thbt mebns we will shortly be vblidbted bnd
+        // pbinted, which mebns we don't hbve to do bnything here.
+        if (!isRunsDirty && index >= 0 && index < tbbPbne.getTbbCount()) {
+            tbbPbne.repbint(getTbbBounds(tbbPbne, index));
         }
     }
 
     /**
-     * Makes sure the focusIndex is valid.
+     * Mbkes sure the focusIndex is vblid.
      */
-    private void validateFocusIndex() {
-        if (focusIndex >= tabPane.getTabCount()) {
-            setFocusIndex(tabPane.getSelectedIndex(), false);
+    privbte void vblidbteFocusIndex() {
+        if (focusIndex >= tbbPbne.getTbbCount()) {
+            setFocusIndex(tbbPbne.getSelectedIndex(), fblse);
         }
     }
 
     /**
-     * Returns the index of the tab that has focus.
+     * Returns the index of the tbb thbt hbs focus.
      *
-     * @return index of tab that has focus
+     * @return index of tbb thbt hbs focus
      * @since 1.5
      */
     protected int getFocusIndex() {
         return focusIndex;
     }
 
-    protected int getTabRunOffset(int tabPlacement, int tabCount,
-                                  int tabIndex, boolean forward) {
-        int run = getRunForTab(tabCount, tabIndex);
+    protected int getTbbRunOffset(int tbbPlbcement, int tbbCount,
+                                  int tbbIndex, boolebn forwbrd) {
+        int run = getRunForTbb(tbbCount, tbbIndex);
         int offset;
-        switch(tabPlacement) {
-          case LEFT: {
+        switch(tbbPlbcement) {
+          cbse LEFT: {
               if (run == 0) {
-                  offset = (forward?
-                            -(calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth)-maxTabWidth) :
-                            -maxTabWidth);
+                  offset = (forwbrd?
+                            -(cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth)-mbxTbbWidth) :
+                            -mbxTbbWidth);
 
               } else if (run == runCount - 1) {
-                  offset = (forward?
-                            maxTabWidth :
-                            calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth)-maxTabWidth);
+                  offset = (forwbrd?
+                            mbxTbbWidth :
+                            cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth)-mbxTbbWidth);
               } else {
-                  offset = (forward? maxTabWidth : -maxTabWidth);
+                  offset = (forwbrd? mbxTbbWidth : -mbxTbbWidth);
               }
-              break;
+              brebk;
           }
-          case RIGHT: {
+          cbse RIGHT: {
               if (run == 0) {
-                  offset = (forward?
-                            maxTabWidth :
-                            calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth)-maxTabWidth);
+                  offset = (forwbrd?
+                            mbxTbbWidth :
+                            cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth)-mbxTbbWidth);
               } else if (run == runCount - 1) {
-                  offset = (forward?
-                            -(calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth)-maxTabWidth) :
-                            -maxTabWidth);
+                  offset = (forwbrd?
+                            -(cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth)-mbxTbbWidth) :
+                            -mbxTbbWidth);
               } else {
-                  offset = (forward? maxTabWidth : -maxTabWidth);
+                  offset = (forwbrd? mbxTbbWidth : -mbxTbbWidth);
               }
-              break;
+              brebk;
           }
-          case BOTTOM: {
+          cbse BOTTOM: {
               if (run == 0) {
-                  offset = (forward?
-                            maxTabHeight :
-                            calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight)-maxTabHeight);
+                  offset = (forwbrd?
+                            mbxTbbHeight :
+                            cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight)-mbxTbbHeight);
               } else if (run == runCount - 1) {
-                  offset = (forward?
-                            -(calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight)-maxTabHeight) :
-                            -maxTabHeight);
+                  offset = (forwbrd?
+                            -(cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight)-mbxTbbHeight) :
+                            -mbxTbbHeight);
               } else {
-                  offset = (forward? maxTabHeight : -maxTabHeight);
+                  offset = (forwbrd? mbxTbbHeight : -mbxTbbHeight);
               }
-              break;
+              brebk;
           }
-          case TOP:
-          default: {
+          cbse TOP:
+          defbult: {
               if (run == 0) {
-                  offset = (forward?
-                            -(calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight)-maxTabHeight) :
-                            -maxTabHeight);
+                  offset = (forwbrd?
+                            -(cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight)-mbxTbbHeight) :
+                            -mbxTbbHeight);
               } else if (run == runCount - 1) {
-                  offset = (forward?
-                            maxTabHeight :
-                            calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight)-maxTabHeight);
+                  offset = (forwbrd?
+                            mbxTbbHeight :
+                            cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight)-mbxTbbHeight);
               } else {
-                  offset = (forward? maxTabHeight : -maxTabHeight);
+                  offset = (forwbrd? mbxTbbHeight : -mbxTbbHeight);
               }
           }
         }
         return offset;
     }
 
-    protected int getPreviousTabIndex(int base) {
-        int tabIndex = (base - 1 >= 0? base - 1 : tabPane.getTabCount() - 1);
-        return (tabIndex >= 0? tabIndex : 0);
+    protected int getPreviousTbbIndex(int bbse) {
+        int tbbIndex = (bbse - 1 >= 0? bbse - 1 : tbbPbne.getTbbCount() - 1);
+        return (tbbIndex >= 0? tbbIndex : 0);
     }
 
-    protected int getNextTabIndex(int base) {
-        return (base+1)%tabPane.getTabCount();
+    protected int getNextTbbIndex(int bbse) {
+        return (bbse+1)%tbbPbne.getTbbCount();
     }
 
-    protected int getNextTabIndexInRun(int tabCount, int base) {
+    protected int getNextTbbIndexInRun(int tbbCount, int bbse) {
         if (runCount < 2) {
-            return getNextTabIndex(base);
+            return getNextTbbIndex(bbse);
         }
-        int currentRun = getRunForTab(tabCount, base);
-        int next = getNextTabIndex(base);
-        if (next == tabRuns[getNextTabRun(currentRun)]) {
-            return tabRuns[currentRun];
+        int currentRun = getRunForTbb(tbbCount, bbse);
+        int next = getNextTbbIndex(bbse);
+        if (next == tbbRuns[getNextTbbRun(currentRun)]) {
+            return tbbRuns[currentRun];
         }
         return next;
     }
 
-    protected int getPreviousTabIndexInRun(int tabCount, int base) {
+    protected int getPreviousTbbIndexInRun(int tbbCount, int bbse) {
         if (runCount < 2) {
-            return getPreviousTabIndex(base);
+            return getPreviousTbbIndex(bbse);
         }
-        int currentRun = getRunForTab(tabCount, base);
-        if (base == tabRuns[currentRun]) {
-            int previous = tabRuns[getNextTabRun(currentRun)]-1;
-            return (previous != -1? previous : tabCount-1);
+        int currentRun = getRunForTbb(tbbCount, bbse);
+        if (bbse == tbbRuns[currentRun]) {
+            int previous = tbbRuns[getNextTbbRun(currentRun)]-1;
+            return (previous != -1? previous : tbbCount-1);
         }
-        return getPreviousTabIndex(base);
+        return getPreviousTbbIndex(bbse);
     }
 
-    protected int getPreviousTabRun(int baseRun) {
-        int runIndex = (baseRun - 1 >= 0? baseRun - 1 : runCount - 1);
+    protected int getPreviousTbbRun(int bbseRun) {
+        int runIndex = (bbseRun - 1 >= 0? bbseRun - 1 : runCount - 1);
         return (runIndex >= 0? runIndex : 0);
     }
 
-    protected int getNextTabRun(int baseRun) {
-        return (baseRun+1)%runCount;
+    protected int getNextTbbRun(int bbseRun) {
+        return (bbseRun+1)%runCount;
     }
 
-    protected static void rotateInsets(Insets topInsets, Insets targetInsets, int targetPlacement) {
+    protected stbtic void rotbteInsets(Insets topInsets, Insets tbrgetInsets, int tbrgetPlbcement) {
 
-        switch(targetPlacement) {
-          case LEFT:
-              targetInsets.top = topInsets.left;
-              targetInsets.left = topInsets.top;
-              targetInsets.bottom = topInsets.right;
-              targetInsets.right = topInsets.bottom;
-              break;
-          case BOTTOM:
-              targetInsets.top = topInsets.bottom;
-              targetInsets.left = topInsets.left;
-              targetInsets.bottom = topInsets.top;
-              targetInsets.right = topInsets.right;
-              break;
-          case RIGHT:
-              targetInsets.top = topInsets.left;
-              targetInsets.left = topInsets.bottom;
-              targetInsets.bottom = topInsets.right;
-              targetInsets.right = topInsets.top;
-              break;
-          case TOP:
-          default:
-              targetInsets.top = topInsets.top;
-              targetInsets.left = topInsets.left;
-              targetInsets.bottom = topInsets.bottom;
-              targetInsets.right = topInsets.right;
+        switch(tbrgetPlbcement) {
+          cbse LEFT:
+              tbrgetInsets.top = topInsets.left;
+              tbrgetInsets.left = topInsets.top;
+              tbrgetInsets.bottom = topInsets.right;
+              tbrgetInsets.right = topInsets.bottom;
+              brebk;
+          cbse BOTTOM:
+              tbrgetInsets.top = topInsets.bottom;
+              tbrgetInsets.left = topInsets.left;
+              tbrgetInsets.bottom = topInsets.top;
+              tbrgetInsets.right = topInsets.right;
+              brebk;
+          cbse RIGHT:
+              tbrgetInsets.top = topInsets.left;
+              tbrgetInsets.left = topInsets.bottom;
+              tbrgetInsets.bottom = topInsets.right;
+              tbrgetInsets.right = topInsets.top;
+              brebk;
+          cbse TOP:
+          defbult:
+              tbrgetInsets.top = topInsets.top;
+              tbrgetInsets.left = topInsets.left;
+              tbrgetInsets.bottom = topInsets.bottom;
+              tbrgetInsets.right = topInsets.right;
         }
     }
 
-    // REMIND(aim,7/29/98): This method should be made
-    // protected in the next release where
-    // API changes are allowed
-    boolean requestFocusForVisibleComponent() {
-        return SwingUtilities2.tabbedPaneChangeFocusTo(getVisibleComponent());
+    // REMIND(bim,7/29/98): This method should be mbde
+    // protected in the next relebse where
+    // API chbnges bre bllowed
+    boolebn requestFocusForVisibleComponent() {
+        return SwingUtilities2.tbbbedPbneChbngeFocusTo(getVisibleComponent());
     }
 
-    private static class Actions extends UIAction {
-        final static String NEXT = "navigateNext";
-        final static String PREVIOUS = "navigatePrevious";
-        final static String RIGHT = "navigateRight";
-        final static String LEFT = "navigateLeft";
-        final static String UP = "navigateUp";
-        final static String DOWN = "navigateDown";
-        final static String PAGE_UP = "navigatePageUp";
-        final static String PAGE_DOWN = "navigatePageDown";
-        final static String REQUEST_FOCUS = "requestFocus";
-        final static String REQUEST_FOCUS_FOR_VISIBLE =
+    privbte stbtic clbss Actions extends UIAction {
+        finbl stbtic String NEXT = "nbvigbteNext";
+        finbl stbtic String PREVIOUS = "nbvigbtePrevious";
+        finbl stbtic String RIGHT = "nbvigbteRight";
+        finbl stbtic String LEFT = "nbvigbteLeft";
+        finbl stbtic String UP = "nbvigbteUp";
+        finbl stbtic String DOWN = "nbvigbteDown";
+        finbl stbtic String PAGE_UP = "nbvigbtePbgeUp";
+        finbl stbtic String PAGE_DOWN = "nbvigbtePbgeDown";
+        finbl stbtic String REQUEST_FOCUS = "requestFocus";
+        finbl stbtic String REQUEST_FOCUS_FOR_VISIBLE =
                                     "requestFocusForVisibleComponent";
-        final static String SET_SELECTED = "setSelectedIndex";
-        final static String SELECT_FOCUSED = "selectTabWithFocus";
-        final static String SCROLL_FORWARD = "scrollTabsForwardAction";
-        final static String SCROLL_BACKWARD = "scrollTabsBackwardAction";
+        finbl stbtic String SET_SELECTED = "setSelectedIndex";
+        finbl stbtic String SELECT_FOCUSED = "selectTbbWithFocus";
+        finbl stbtic String SCROLL_FORWARD = "scrollTbbsForwbrdAction";
+        finbl stbtic String SCROLL_BACKWARD = "scrollTbbsBbckwbrdAction";
 
         Actions(String key) {
             super(key);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            String key = getName();
-            JTabbedPane pane = (JTabbedPane)e.getSource();
-            BasicTabbedPaneUI ui = (BasicTabbedPaneUI)BasicLookAndFeel.
-                       getUIOfType(pane.getUI(), BasicTabbedPaneUI.class);
+        public void bctionPerformed(ActionEvent e) {
+            String key = getNbme();
+            JTbbbedPbne pbne = (JTbbbedPbne)e.getSource();
+            BbsicTbbbedPbneUI ui = (BbsicTbbbedPbneUI)BbsicLookAndFeel.
+                       getUIOfType(pbne.getUI(), BbsicTbbbedPbneUI.clbss);
 
             if (ui == null) {
                 return;
             }
             if (key == NEXT) {
-                ui.navigateSelectedTab(SwingConstants.NEXT);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.NEXT);
             }
             else if (key == PREVIOUS) {
-                ui.navigateSelectedTab(SwingConstants.PREVIOUS);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.PREVIOUS);
             }
             else if (key == RIGHT) {
-                ui.navigateSelectedTab(SwingConstants.EAST);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.EAST);
             }
             else if (key == LEFT) {
-                ui.navigateSelectedTab(SwingConstants.WEST);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.WEST);
             }
             else if (key == UP) {
-                ui.navigateSelectedTab(SwingConstants.NORTH);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.NORTH);
             }
             else if (key == DOWN) {
-                ui.navigateSelectedTab(SwingConstants.SOUTH);
+                ui.nbvigbteSelectedTbb(SwingConstbnts.SOUTH);
             }
             else if (key == PAGE_UP) {
-                int tabPlacement = pane.getTabPlacement();
-                if (tabPlacement == TOP|| tabPlacement == BOTTOM) {
-                    ui.navigateSelectedTab(SwingConstants.WEST);
+                int tbbPlbcement = pbne.getTbbPlbcement();
+                if (tbbPlbcement == TOP|| tbbPlbcement == BOTTOM) {
+                    ui.nbvigbteSelectedTbb(SwingConstbnts.WEST);
                 } else {
-                    ui.navigateSelectedTab(SwingConstants.NORTH);
+                    ui.nbvigbteSelectedTbb(SwingConstbnts.NORTH);
                 }
             }
             else if (key == PAGE_DOWN) {
-                int tabPlacement = pane.getTabPlacement();
-                if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                    ui.navigateSelectedTab(SwingConstants.EAST);
+                int tbbPlbcement = pbne.getTbbPlbcement();
+                if (tbbPlbcement == TOP || tbbPlbcement == BOTTOM) {
+                    ui.nbvigbteSelectedTbb(SwingConstbnts.EAST);
                 } else {
-                    ui.navigateSelectedTab(SwingConstants.SOUTH);
+                    ui.nbvigbteSelectedTbb(SwingConstbnts.SOUTH);
                 }
             }
             else if (key == REQUEST_FOCUS) {
-                pane.requestFocus();
+                pbne.requestFocus();
             }
             else if (key == REQUEST_FOCUS_FOR_VISIBLE) {
                 ui.requestFocusForVisibleComponent();
             }
             else if (key == SET_SELECTED) {
-                String command = e.getActionCommand();
+                String commbnd = e.getActionCommbnd();
 
-                if (command != null && command.length() > 0) {
-                    int mnemonic = (int)e.getActionCommand().charAt(0);
-                    if (mnemonic >= 'a' && mnemonic <='z') {
-                        mnemonic  -= ('a' - 'A');
+                if (commbnd != null && commbnd.length() > 0) {
+                    int mnemonic = (int)e.getActionCommbnd().chbrAt(0);
+                    if (mnemonic >= 'b' && mnemonic <='z') {
+                        mnemonic  -= ('b' - 'A');
                     }
-                    Integer index = ui.mnemonicToIndexMap.get(Integer.valueOf(mnemonic));
-                    if (index != null && pane.isEnabledAt(index.intValue())) {
-                        pane.setSelectedIndex(index.intValue());
+                    Integer index = ui.mnemonicToIndexMbp.get(Integer.vblueOf(mnemonic));
+                    if (index != null && pbne.isEnbbledAt(index.intVblue())) {
+                        pbne.setSelectedIndex(index.intVblue());
                     }
                 }
             }
             else if (key == SELECT_FOCUSED) {
                 int focusIndex = ui.getFocusIndex();
                 if (focusIndex != -1) {
-                    pane.setSelectedIndex(focusIndex);
+                    pbne.setSelectedIndex(focusIndex);
                 }
             }
             else if (key == SCROLL_FORWARD) {
-                if (ui.scrollableTabLayoutEnabled()) {
-                    ui.tabScroller.scrollForward(pane.getTabPlacement());
+                if (ui.scrollbbleTbbLbyoutEnbbled()) {
+                    ui.tbbScroller.scrollForwbrd(pbne.getTbbPlbcement());
                 }
             }
             else if (key == SCROLL_BACKWARD) {
-                if (ui.scrollableTabLayoutEnabled()) {
-                    ui.tabScroller.scrollBackward(pane.getTabPlacement());
+                if (ui.scrollbbleTbbLbyoutEnbbled()) {
+                    ui.tbbScroller.scrollBbckwbrd(pbne.getTbbPlbcement());
                 }
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTabbedPaneUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbbedPbneUI.
      */
-    public class TabbedPaneLayout implements LayoutManager {
+    public clbss TbbbedPbneLbyout implements LbyoutMbnbger {
 
-        public void addLayoutComponent(String name, Component comp) {}
+        public void bddLbyoutComponent(String nbme, Component comp) {}
 
-        public void removeLayoutComponent(Component comp) {}
+        public void removeLbyoutComponent(Component comp) {}
 
-        public Dimension preferredLayoutSize(Container parent) {
-            return calculateSize(false);
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
+            return cblculbteSize(fblse);
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return calculateSize(true);
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            return cblculbteSize(true);
         }
 
-        protected Dimension calculateSize(boolean minimum) {
-            int tabPlacement = tabPane.getTabPlacement();
-            Insets insets = tabPane.getInsets();
-            Insets contentInsets = getContentBorderInsets(tabPlacement);
-            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+        protected Dimension cblculbteSize(boolebn minimum) {
+            int tbbPlbcement = tbbPbne.getTbbPlbcement();
+            Insets insets = tbbPbne.getInsets();
+            Insets contentInsets = getContentBorderInsets(tbbPlbcement);
+            Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
 
             Dimension zeroSize = new Dimension(0,0);
             int height = 0;
@@ -2294,371 +2294,371 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             int cWidth = 0;
             int cHeight = 0;
 
-            // Determine minimum size required to display largest
-            // child in each dimension
+            // Determine minimum size required to displby lbrgest
+            // child in ebch dimension
             //
-            for (int i = 0; i < tabPane.getTabCount(); i++) {
-                Component component = tabPane.getComponentAt(i);
+            for (int i = 0; i < tbbPbne.getTbbCount(); i++) {
+                Component component = tbbPbne.getComponentAt(i);
                 if (component != null) {
                     Dimension size = minimum ? component.getMinimumSize() :
                                 component.getPreferredSize();
 
                     if (size != null) {
-                        cHeight = Math.max(size.height, cHeight);
-                        cWidth = Math.max(size.width, cWidth);
+                        cHeight = Mbth.mbx(size.height, cHeight);
+                        cWidth = Mbth.mbx(size.width, cWidth);
                     }
                 }
             }
             // Add content border insets to minimum size
             width += cWidth;
             height += cHeight;
-            int tabExtent;
+            int tbbExtent;
 
-            // Calculate how much space the tabs will need, based on the
-            // minimum size required to display largest child + content border
+            // Cblculbte how much spbce the tbbs will need, bbsed on the
+            // minimum size required to displby lbrgest child + content border
             //
-            switch(tabPlacement) {
-              case LEFT:
-              case RIGHT:
-                  height = Math.max(height, calculateMaxTabHeight(tabPlacement));
-                  tabExtent = preferredTabAreaWidth(tabPlacement, height - tabAreaInsets.top - tabAreaInsets.bottom);
-                  width += tabExtent;
-                  break;
-              case TOP:
-              case BOTTOM:
-              default:
-                  width = Math.max(width, calculateMaxTabWidth(tabPlacement));
-                  tabExtent = preferredTabAreaHeight(tabPlacement, width - tabAreaInsets.left - tabAreaInsets.right);
-                  height += tabExtent;
+            switch(tbbPlbcement) {
+              cbse LEFT:
+              cbse RIGHT:
+                  height = Mbth.mbx(height, cblculbteMbxTbbHeight(tbbPlbcement));
+                  tbbExtent = preferredTbbArebWidth(tbbPlbcement, height - tbbArebInsets.top - tbbArebInsets.bottom);
+                  width += tbbExtent;
+                  brebk;
+              cbse TOP:
+              cbse BOTTOM:
+              defbult:
+                  width = Mbth.mbx(width, cblculbteMbxTbbWidth(tbbPlbcement));
+                  tbbExtent = preferredTbbArebHeight(tbbPlbcement, width - tbbArebInsets.left - tbbArebInsets.right);
+                  height += tbbExtent;
             }
             return new Dimension(width + insets.left + insets.right + contentInsets.left + contentInsets.right,
                              height + insets.bottom + insets.top + contentInsets.top + contentInsets.bottom);
 
         }
 
-        protected int preferredTabAreaHeight(int tabPlacement, int width) {
+        protected int preferredTbbArebHeight(int tbbPlbcement, int width) {
             FontMetrics metrics = getFontMetrics();
-            int tabCount = tabPane.getTabCount();
-            int total = 0;
-            if (tabCount > 0) {
+            int tbbCount = tbbPbne.getTbbCount();
+            int totbl = 0;
+            if (tbbCount > 0) {
                 int rows = 1;
                 int x = 0;
 
-                int maxTabHeight = calculateMaxTabHeight(tabPlacement);
+                int mbxTbbHeight = cblculbteMbxTbbHeight(tbbPlbcement);
 
-                for (int i = 0; i < tabCount; i++) {
-                    int tabWidth = calculateTabWidth(tabPlacement, i, metrics);
+                for (int i = 0; i < tbbCount; i++) {
+                    int tbbWidth = cblculbteTbbWidth(tbbPlbcement, i, metrics);
 
-                    if (x != 0 && x + tabWidth > width) {
+                    if (x != 0 && x + tbbWidth > width) {
                         rows++;
                         x = 0;
                     }
-                    x += tabWidth;
+                    x += tbbWidth;
                 }
-                total = calculateTabAreaHeight(tabPlacement, rows, maxTabHeight);
+                totbl = cblculbteTbbArebHeight(tbbPlbcement, rows, mbxTbbHeight);
             }
-            return total;
+            return totbl;
         }
 
-        protected int preferredTabAreaWidth(int tabPlacement, int height) {
+        protected int preferredTbbArebWidth(int tbbPlbcement, int height) {
             FontMetrics metrics = getFontMetrics();
-            int tabCount = tabPane.getTabCount();
-            int total = 0;
-            if (tabCount > 0) {
+            int tbbCount = tbbPbne.getTbbCount();
+            int totbl = 0;
+            if (tbbCount > 0) {
                 int columns = 1;
                 int y = 0;
                 int fontHeight = metrics.getHeight();
 
-                maxTabWidth = calculateMaxTabWidth(tabPlacement);
+                mbxTbbWidth = cblculbteMbxTbbWidth(tbbPlbcement);
 
-                for (int i = 0; i < tabCount; i++) {
-                    int tabHeight = calculateTabHeight(tabPlacement, i, fontHeight);
+                for (int i = 0; i < tbbCount; i++) {
+                    int tbbHeight = cblculbteTbbHeight(tbbPlbcement, i, fontHeight);
 
-                    if (y != 0 && y + tabHeight > height) {
+                    if (y != 0 && y + tbbHeight > height) {
                         columns++;
                         y = 0;
                     }
-                    y += tabHeight;
+                    y += tbbHeight;
                 }
-                total = calculateTabAreaWidth(tabPlacement, columns, maxTabWidth);
+                totbl = cblculbteTbbArebWidth(tbbPlbcement, columns, mbxTbbWidth);
             }
-            return total;
+            return totbl;
         }
 
-        public void layoutContainer(Container parent) {
-            /* Some of the code in this method deals with changing the
-            * visibility of components to hide and show the contents for the
-            * selected tab. This is older code that has since been duplicated
-            * in JTabbedPane.fireStateChanged(), so as to allow visibility
-            * changes to happen sooner (see the note there). This code remains
-            * for backward compatibility as there are some cases, such as
-            * subclasses that don't fireStateChanged() where it may be used.
-            * Any changes here need to be kept in synch with
-            * JTabbedPane.fireStateChanged().
+        public void lbyoutContbiner(Contbiner pbrent) {
+            /* Some of the code in this method debls with chbnging the
+            * visibility of components to hide bnd show the contents for the
+            * selected tbb. This is older code thbt hbs since been duplicbted
+            * in JTbbbedPbne.fireStbteChbnged(), so bs to bllow visibility
+            * chbnges to hbppen sooner (see the note there). This code rembins
+            * for bbckwbrd compbtibility bs there bre some cbses, such bs
+            * subclbsses thbt don't fireStbteChbnged() where it mby be used.
+            * Any chbnges here need to be kept in synch with
+            * JTbbbedPbne.fireStbteChbnged().
             */
 
-            setRolloverTab(-1);
+            setRolloverTbb(-1);
 
-            int tabPlacement = tabPane.getTabPlacement();
-            Insets insets = tabPane.getInsets();
-            int selectedIndex = tabPane.getSelectedIndex();
+            int tbbPlbcement = tbbPbne.getTbbPlbcement();
+            Insets insets = tbbPbne.getInsets();
+            int selectedIndex = tbbPbne.getSelectedIndex();
             Component visibleComponent = getVisibleComponent();
 
-            calculateLayoutInfo();
+            cblculbteLbyoutInfo();
 
             Component selectedComponent = null;
             if (selectedIndex < 0) {
                 if (visibleComponent != null) {
-                    // The last tab was removed, so remove the component
+                    // The lbst tbb wbs removed, so remove the component
                     setVisibleComponent(null);
                 }
             } else {
-                selectedComponent = tabPane.getComponentAt(selectedIndex);
+                selectedComponent = tbbPbne.getComponentAt(selectedIndex);
             }
             int cx, cy, cw, ch;
-            int totalTabWidth = 0;
-            int totalTabHeight = 0;
-            Insets contentInsets = getContentBorderInsets(tabPlacement);
+            int totblTbbWidth = 0;
+            int totblTbbHeight = 0;
+            Insets contentInsets = getContentBorderInsets(tbbPlbcement);
 
-            boolean shouldChangeFocus = false;
+            boolebn shouldChbngeFocus = fblse;
 
-            // In order to allow programs to use a single component
-            // as the display for multiple tabs, we will not change
-            // the visible compnent if the currently selected tab
-            // has a null component.  This is a bit dicey, as we don't
-            // explicitly state we support this in the spec, but since
-            // programs are now depending on this, we're making it work.
+            // In order to bllow progrbms to use b single component
+            // bs the displby for multiple tbbs, we will not chbnge
+            // the visible compnent if the currently selected tbb
+            // hbs b null component.  This is b bit dicey, bs we don't
+            // explicitly stbte we support this in the spec, but since
+            // progrbms bre now depending on this, we're mbking it work.
             //
             if(selectedComponent != null) {
                 if(selectedComponent != visibleComponent &&
                         visibleComponent != null) {
                     if(SwingUtilities.findFocusOwner(visibleComponent) != null) {
-                        shouldChangeFocus = true;
+                        shouldChbngeFocus = true;
                     }
                 }
                 setVisibleComponent(selectedComponent);
             }
 
-            Rectangle bounds = tabPane.getBounds();
-            int numChildren = tabPane.getComponentCount();
+            Rectbngle bounds = tbbPbne.getBounds();
+            int numChildren = tbbPbne.getComponentCount();
 
             if(numChildren > 0) {
 
-                switch(tabPlacement) {
-                    case LEFT:
-                        totalTabWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                        cx = insets.left + totalTabWidth + contentInsets.left;
+                switch(tbbPlbcement) {
+                    cbse LEFT:
+                        totblTbbWidth = cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
+                        cx = insets.left + totblTbbWidth + contentInsets.left;
                         cy = insets.top + contentInsets.top;
-                        break;
-                    case RIGHT:
-                        totalTabWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+                        brebk;
+                    cbse RIGHT:
+                        totblTbbWidth = cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
                         cx = insets.left + contentInsets.left;
                         cy = insets.top + contentInsets.top;
-                        break;
-                    case BOTTOM:
-                        totalTabHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                        brebk;
+                    cbse BOTTOM:
+                        totblTbbHeight = cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
                         cx = insets.left + contentInsets.left;
                         cy = insets.top + contentInsets.top;
-                        break;
-                    case TOP:
-                    default:
-                        totalTabHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                        brebk;
+                    cbse TOP:
+                    defbult:
+                        totblTbbHeight = cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
                         cx = insets.left + contentInsets.left;
-                        cy = insets.top + totalTabHeight + contentInsets.top;
+                        cy = insets.top + totblTbbHeight + contentInsets.top;
                 }
 
-                cw = bounds.width - totalTabWidth -
+                cw = bounds.width - totblTbbWidth -
                         insets.left - insets.right -
                         contentInsets.left - contentInsets.right;
-                ch = bounds.height - totalTabHeight -
+                ch = bounds.height - totblTbbHeight -
                         insets.top - insets.bottom -
                         contentInsets.top - contentInsets.bottom;
 
                 for(int i = 0; i < numChildren; i++) {
-                    Component child = tabPane.getComponent(i);
-                    if(child == tabContainer) {
+                    Component child = tbbPbne.getComponent(i);
+                    if(child == tbbContbiner) {
 
-                        int tabContainerWidth = totalTabWidth == 0 ? bounds.width :
-                                totalTabWidth + insets.left + insets.right +
+                        int tbbContbinerWidth = totblTbbWidth == 0 ? bounds.width :
+                                totblTbbWidth + insets.left + insets.right +
                                         contentInsets.left + contentInsets.right;
-                        int tabContainerHeight = totalTabHeight == 0 ? bounds.height :
-                                totalTabHeight + insets.top + insets.bottom +
+                        int tbbContbinerHeight = totblTbbHeight == 0 ? bounds.height :
+                                totblTbbHeight + insets.top + insets.bottom +
                                         contentInsets.top + contentInsets.bottom;
 
-                        int tabContainerX = 0;
-                        int tabContainerY = 0;
-                        if(tabPlacement == BOTTOM) {
-                            tabContainerY = bounds.height - tabContainerHeight;
-                        } else if(tabPlacement == RIGHT) {
-                            tabContainerX = bounds.width - tabContainerWidth;
+                        int tbbContbinerX = 0;
+                        int tbbContbinerY = 0;
+                        if(tbbPlbcement == BOTTOM) {
+                            tbbContbinerY = bounds.height - tbbContbinerHeight;
+                        } else if(tbbPlbcement == RIGHT) {
+                            tbbContbinerX = bounds.width - tbbContbinerWidth;
                         }
-                        child.setBounds(tabContainerX, tabContainerY, tabContainerWidth, tabContainerHeight);
+                        child.setBounds(tbbContbinerX, tbbContbinerY, tbbContbinerWidth, tbbContbinerHeight);
                     } else {
                         child.setBounds(cx, cy, cw, ch);
                     }
                 }
             }
-            layoutTabComponents();
-            if(shouldChangeFocus) {
+            lbyoutTbbComponents();
+            if(shouldChbngeFocus) {
                 if(!requestFocusForVisibleComponent()) {
-                    tabPane.requestFocus();
+                    tbbPbne.requestFocus();
                 }
             }
         }
 
-        public void calculateLayoutInfo() {
-            int tabCount = tabPane.getTabCount();
-            assureRectsCreated(tabCount);
-            calculateTabRects(tabPane.getTabPlacement(), tabCount);
-            isRunsDirty = false;
+        public void cblculbteLbyoutInfo() {
+            int tbbCount = tbbPbne.getTbbCount();
+            bssureRectsCrebted(tbbCount);
+            cblculbteTbbRects(tbbPbne.getTbbPlbcement(), tbbCount);
+            isRunsDirty = fblse;
         }
 
-        private void layoutTabComponents() {
-            if (tabContainer == null) {
+        privbte void lbyoutTbbComponents() {
+            if (tbbContbiner == null) {
                 return;
             }
-            Rectangle rect = new Rectangle();
-            Point delta = new Point(-tabContainer.getX(), -tabContainer.getY());
-            if (scrollableTabLayoutEnabled()) {
-                translatePointToTabPanel(0, 0, delta);
+            Rectbngle rect = new Rectbngle();
+            Point deltb = new Point(-tbbContbiner.getX(), -tbbContbiner.getY());
+            if (scrollbbleTbbLbyoutEnbbled()) {
+                trbnslbtePointToTbbPbnel(0, 0, deltb);
             }
-            for (int i = 0; i < tabPane.getTabCount(); i++) {
-                Component c = tabPane.getTabComponentAt(i);
+            for (int i = 0; i < tbbPbne.getTbbCount(); i++) {
+                Component c = tbbPbne.getTbbComponentAt(i);
                 if (c == null) {
                     continue;
                 }
-                getTabBounds(i, rect);
+                getTbbBounds(i, rect);
                 Dimension preferredSize = c.getPreferredSize();
-                Insets insets = getTabInsets(tabPane.getTabPlacement(), i);
-                int outerX = rect.x + insets.left + delta.x;
-                int outerY = rect.y + insets.top + delta.y;
+                Insets insets = getTbbInsets(tbbPbne.getTbbPlbcement(), i);
+                int outerX = rect.x + insets.left + deltb.x;
+                int outerY = rect.y + insets.top + deltb.y;
                 int outerWidth = rect.width - insets.left - insets.right;
                 int outerHeight = rect.height - insets.top - insets.bottom;
-                //centralize component
+                //centrblize component
                 int x = outerX + (outerWidth - preferredSize.width) / 2;
                 int y = outerY + (outerHeight - preferredSize.height) / 2;
-                int tabPlacement = tabPane.getTabPlacement();
-                boolean isSeleceted = i == tabPane.getSelectedIndex();
-                c.setBounds(x + getTabLabelShiftX(tabPlacement, i, isSeleceted),
-                            y + getTabLabelShiftY(tabPlacement, i, isSeleceted),
+                int tbbPlbcement = tbbPbne.getTbbPlbcement();
+                boolebn isSeleceted = i == tbbPbne.getSelectedIndex();
+                c.setBounds(x + getTbbLbbelShiftX(tbbPlbcement, i, isSeleceted),
+                            y + getTbbLbbelShiftY(tbbPlbcement, i, isSeleceted),
                         preferredSize.width, preferredSize.height);
             }
         }
 
-        protected void calculateTabRects(int tabPlacement, int tabCount) {
+        protected void cblculbteTbbRects(int tbbPlbcement, int tbbCount) {
             FontMetrics metrics = getFontMetrics();
-            Dimension size = tabPane.getSize();
-            Insets insets = tabPane.getInsets();
-            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Dimension size = tbbPbne.getSize();
+            Insets insets = tbbPbne.getInsets();
+            Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
             int fontHeight = metrics.getHeight();
-            int selectedIndex = tabPane.getSelectedIndex();
-            int tabRunOverlay;
+            int selectedIndex = tbbPbne.getSelectedIndex();
+            int tbbRunOverlby;
             int i, j;
             int x, y;
             int returnAt;
-            boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
-            boolean leftToRight = BasicGraphicsUtils.isLeftToRight(tabPane);
+            boolebn verticblTbbRuns = (tbbPlbcement == LEFT || tbbPlbcement == RIGHT);
+            boolebn leftToRight = BbsicGrbphicsUtils.isLeftToRight(tbbPbne);
 
             //
-            // Calculate bounds within which a tab run must fit
+            // Cblculbte bounds within which b tbb run must fit
             //
-            switch(tabPlacement) {
-              case LEFT:
-                  maxTabWidth = calculateMaxTabWidth(tabPlacement);
-                  x = insets.left + tabAreaInsets.left;
-                  y = insets.top + tabAreaInsets.top;
-                  returnAt = size.height - (insets.bottom + tabAreaInsets.bottom);
-                  break;
-              case RIGHT:
-                  maxTabWidth = calculateMaxTabWidth(tabPlacement);
-                  x = size.width - insets.right - tabAreaInsets.right - maxTabWidth;
-                  y = insets.top + tabAreaInsets.top;
-                  returnAt = size.height - (insets.bottom + tabAreaInsets.bottom);
-                  break;
-              case BOTTOM:
-                  maxTabHeight = calculateMaxTabHeight(tabPlacement);
-                  x = insets.left + tabAreaInsets.left;
-                  y = size.height - insets.bottom - tabAreaInsets.bottom - maxTabHeight;
-                  returnAt = size.width - (insets.right + tabAreaInsets.right);
-                  break;
-              case TOP:
-              default:
-                  maxTabHeight = calculateMaxTabHeight(tabPlacement);
-                  x = insets.left + tabAreaInsets.left;
-                  y = insets.top + tabAreaInsets.top;
-                  returnAt = size.width - (insets.right + tabAreaInsets.right);
-                  break;
+            switch(tbbPlbcement) {
+              cbse LEFT:
+                  mbxTbbWidth = cblculbteMbxTbbWidth(tbbPlbcement);
+                  x = insets.left + tbbArebInsets.left;
+                  y = insets.top + tbbArebInsets.top;
+                  returnAt = size.height - (insets.bottom + tbbArebInsets.bottom);
+                  brebk;
+              cbse RIGHT:
+                  mbxTbbWidth = cblculbteMbxTbbWidth(tbbPlbcement);
+                  x = size.width - insets.right - tbbArebInsets.right - mbxTbbWidth;
+                  y = insets.top + tbbArebInsets.top;
+                  returnAt = size.height - (insets.bottom + tbbArebInsets.bottom);
+                  brebk;
+              cbse BOTTOM:
+                  mbxTbbHeight = cblculbteMbxTbbHeight(tbbPlbcement);
+                  x = insets.left + tbbArebInsets.left;
+                  y = size.height - insets.bottom - tbbArebInsets.bottom - mbxTbbHeight;
+                  returnAt = size.width - (insets.right + tbbArebInsets.right);
+                  brebk;
+              cbse TOP:
+              defbult:
+                  mbxTbbHeight = cblculbteMbxTbbHeight(tbbPlbcement);
+                  x = insets.left + tbbArebInsets.left;
+                  y = insets.top + tbbArebInsets.top;
+                  returnAt = size.width - (insets.right + tbbArebInsets.right);
+                  brebk;
             }
 
-            tabRunOverlay = getTabRunOverlay(tabPlacement);
+            tbbRunOverlby = getTbbRunOverlby(tbbPlbcement);
 
             runCount = 0;
             selectedRun = -1;
 
-            if (tabCount == 0) {
+            if (tbbCount == 0) {
                 return;
             }
 
-            // Run through tabs and partition them into runs
-            Rectangle rect;
-            for (i = 0; i < tabCount; i++) {
+            // Run through tbbs bnd pbrtition them into runs
+            Rectbngle rect;
+            for (i = 0; i < tbbCount; i++) {
                 rect = rects[i];
 
-                if (!verticalTabRuns) {
-                    // Tabs on TOP or BOTTOM....
+                if (!verticblTbbRuns) {
+                    // Tbbs on TOP or BOTTOM....
                     if (i > 0) {
                         rect.x = rects[i-1].x + rects[i-1].width;
                     } else {
-                        tabRuns[0] = 0;
+                        tbbRuns[0] = 0;
                         runCount = 1;
-                        maxTabWidth = 0;
+                        mbxTbbWidth = 0;
                         rect.x = x;
                     }
-                    rect.width = calculateTabWidth(tabPlacement, i, metrics);
-                    maxTabWidth = Math.max(maxTabWidth, rect.width);
+                    rect.width = cblculbteTbbWidth(tbbPlbcement, i, metrics);
+                    mbxTbbWidth = Mbth.mbx(mbxTbbWidth, rect.width);
 
-                    // Never move a TAB down a run if it is in the first column.
-                    // Even if there isn't enough room, moving it to a fresh
+                    // Never move b TAB down b run if it is in the first column.
+                    // Even if there isn't enough room, moving it to b fresh
                     // line won't help.
                     if (rect.x != x && rect.x + rect.width > returnAt) {
-                        if (runCount > tabRuns.length - 1) {
-                            expandTabRunsArray();
+                        if (runCount > tbbRuns.length - 1) {
+                            expbndTbbRunsArrby();
                         }
-                        tabRuns[runCount] = i;
+                        tbbRuns[runCount] = i;
                         runCount++;
                         rect.x = x;
                     }
-                    // Initialize y position in case there's just one run
+                    // Initiblize y position in cbse there's just one run
                     rect.y = y;
-                    rect.height = maxTabHeight/* - 2*/;
+                    rect.height = mbxTbbHeight/* - 2*/;
 
                 } else {
-                    // Tabs on LEFT or RIGHT...
+                    // Tbbs on LEFT or RIGHT...
                     if (i > 0) {
                         rect.y = rects[i-1].y + rects[i-1].height;
                     } else {
-                        tabRuns[0] = 0;
+                        tbbRuns[0] = 0;
                         runCount = 1;
-                        maxTabHeight = 0;
+                        mbxTbbHeight = 0;
                         rect.y = y;
                     }
-                    rect.height = calculateTabHeight(tabPlacement, i, fontHeight);
-                    maxTabHeight = Math.max(maxTabHeight, rect.height);
+                    rect.height = cblculbteTbbHeight(tbbPlbcement, i, fontHeight);
+                    mbxTbbHeight = Mbth.mbx(mbxTbbHeight, rect.height);
 
-                    // Never move a TAB over a run if it is in the first run.
-                    // Even if there isn't enough room, moving it to a fresh
+                    // Never move b TAB over b run if it is in the first run.
+                    // Even if there isn't enough room, moving it to b fresh
                     // column won't help.
                     if (rect.y != y && rect.y + rect.height > returnAt) {
-                        if (runCount > tabRuns.length - 1) {
-                            expandTabRunsArray();
+                        if (runCount > tbbRuns.length - 1) {
+                            expbndTbbRunsArrby();
                         }
-                        tabRuns[runCount] = i;
+                        tbbRuns[runCount] = i;
                         runCount++;
                         rect.y = y;
                     }
-                    // Initialize x position in case there's just one column
+                    // Initiblize x position in cbse there's just one column
                     rect.x = x;
-                    rect.width = maxTabWidth/* - 2*/;
+                    rect.width = mbxTbbWidth/* - 2*/;
 
                 }
                 if (i == selectedIndex) {
@@ -2667,127 +2667,127 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
 
             if (runCount > 1) {
-                // Re-distribute tabs in case last run has leftover space
-                normalizeTabRuns(tabPlacement, tabCount, verticalTabRuns? y : x, returnAt);
+                // Re-distribute tbbs in cbse lbst run hbs leftover spbce
+                normblizeTbbRuns(tbbPlbcement, tbbCount, verticblTbbRuns? y : x, returnAt);
 
-                selectedRun = getRunForTab(tabCount, selectedIndex);
+                selectedRun = getRunForTbb(tbbCount, selectedIndex);
 
-                // Rotate run array so that selected run is first
-                if (shouldRotateTabRuns(tabPlacement)) {
-                    rotateTabRuns(tabPlacement, selectedRun);
+                // Rotbte run brrby so thbt selected run is first
+                if (shouldRotbteTbbRuns(tbbPlbcement)) {
+                    rotbteTbbRuns(tbbPlbcement, selectedRun);
                 }
             }
 
-            // Step through runs from back to front to calculate
-            // tab y locations and to pad runs appropriately
+            // Step through runs from bbck to front to cblculbte
+            // tbb y locbtions bnd to pbd runs bppropribtely
             for (i = runCount - 1; i >= 0; i--) {
-                int start = tabRuns[i];
-                int next = tabRuns[i == (runCount - 1)? 0 : i + 1];
-                int end = (next != 0? next - 1 : tabCount - 1);
-                if (!verticalTabRuns) {
-                    for (j = start; j <= end; j++) {
+                int stbrt = tbbRuns[i];
+                int next = tbbRuns[i == (runCount - 1)? 0 : i + 1];
+                int end = (next != 0? next - 1 : tbbCount - 1);
+                if (!verticblTbbRuns) {
+                    for (j = stbrt; j <= end; j++) {
                         rect = rects[j];
                         rect.y = y;
-                        rect.x += getTabRunIndent(tabPlacement, i);
+                        rect.x += getTbbRunIndent(tbbPlbcement, i);
                     }
-                    if (shouldPadTabRun(tabPlacement, i)) {
-                        padTabRun(tabPlacement, start, end, returnAt);
+                    if (shouldPbdTbbRun(tbbPlbcement, i)) {
+                        pbdTbbRun(tbbPlbcement, stbrt, end, returnAt);
                     }
-                    if (tabPlacement == BOTTOM) {
-                        y -= (maxTabHeight - tabRunOverlay);
+                    if (tbbPlbcement == BOTTOM) {
+                        y -= (mbxTbbHeight - tbbRunOverlby);
                     } else {
-                        y += (maxTabHeight - tabRunOverlay);
+                        y += (mbxTbbHeight - tbbRunOverlby);
                     }
                 } else {
-                    for (j = start; j <= end; j++) {
+                    for (j = stbrt; j <= end; j++) {
                         rect = rects[j];
                         rect.x = x;
-                        rect.y += getTabRunIndent(tabPlacement, i);
+                        rect.y += getTbbRunIndent(tbbPlbcement, i);
                     }
-                    if (shouldPadTabRun(tabPlacement, i)) {
-                        padTabRun(tabPlacement, start, end, returnAt);
+                    if (shouldPbdTbbRun(tbbPlbcement, i)) {
+                        pbdTbbRun(tbbPlbcement, stbrt, end, returnAt);
                     }
-                    if (tabPlacement == RIGHT) {
-                        x -= (maxTabWidth - tabRunOverlay);
+                    if (tbbPlbcement == RIGHT) {
+                        x -= (mbxTbbWidth - tbbRunOverlby);
                     } else {
-                        x += (maxTabWidth - tabRunOverlay);
+                        x += (mbxTbbWidth - tbbRunOverlby);
                     }
                 }
             }
 
-            // Pad the selected tab so that it appears raised in front
-            padSelectedTab(tabPlacement, selectedIndex);
+            // Pbd the selected tbb so thbt it bppebrs rbised in front
+            pbdSelectedTbb(tbbPlbcement, selectedIndex);
 
-            // if right to left and tab placement on the top or
-            // the bottom, flip x positions and adjust by widths
-            if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width
-                                  - (insets.right + tabAreaInsets.right);
-                for (i = 0; i < tabCount; i++) {
-                    rects[i].x = rightMargin - rects[i].x - rects[i].width;
+            // if right to left bnd tbb plbcement on the top or
+            // the bottom, flip x positions bnd bdjust by widths
+            if (!leftToRight && !verticblTbbRuns) {
+                int rightMbrgin = size.width
+                                  - (insets.right + tbbArebInsets.right);
+                for (i = 0; i < tbbCount; i++) {
+                    rects[i].x = rightMbrgin - rects[i].x - rects[i].width;
                 }
             }
         }
 
 
        /*
-       * Rotates the run-index array so that the selected run is run[0]
+       * Rotbtes the run-index brrby so thbt the selected run is run[0]
        */
-        protected void rotateTabRuns(int tabPlacement, int selectedRun) {
+        protected void rotbteTbbRuns(int tbbPlbcement, int selectedRun) {
             for (int i = 0; i < selectedRun; i++) {
-                int save = tabRuns[0];
+                int sbve = tbbRuns[0];
                 for (int j = 1; j < runCount; j++) {
-                    tabRuns[j - 1] = tabRuns[j];
+                    tbbRuns[j - 1] = tbbRuns[j];
                 }
-                tabRuns[runCount-1] = save;
+                tbbRuns[runCount-1] = sbve;
             }
         }
 
-        protected void normalizeTabRuns(int tabPlacement, int tabCount,
-                                     int start, int max) {
-            boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
+        protected void normblizeTbbRuns(int tbbPlbcement, int tbbCount,
+                                     int stbrt, int mbx) {
+            boolebn verticblTbbRuns = (tbbPlbcement == LEFT || tbbPlbcement == RIGHT);
             int run = runCount - 1;
-            boolean keepAdjusting = true;
+            boolebn keepAdjusting = true;
             double weight = 1.25;
 
-            // At this point the tab runs are packed to fit as many
-            // tabs as possible, which can leave the last run with a lot
-            // of extra space (resulting in very fat tabs on the last run).
-            // So we'll attempt to distribute this extra space more evenly
-            // across the runs in order to make the runs look more consistent.
+            // At this point the tbb runs bre pbcked to fit bs mbny
+            // tbbs bs possible, which cbn lebve the lbst run with b lot
+            // of extrb spbce (resulting in very fbt tbbs on the lbst run).
+            // So we'll bttempt to distribute this extrb spbce more evenly
+            // bcross the runs in order to mbke the runs look more consistent.
             //
-            // Starting with the last run, determine whether the last tab in
+            // Stbrting with the lbst run, determine whether the lbst tbb in
             // the previous run would fit (generously) in this run; if so,
-            // move tab to current run and shift tabs accordingly.  Cycle
-            // through remaining runs using the same algorithm.
+            // move tbb to current run bnd shift tbbs bccordingly.  Cycle
+            // through rembining runs using the sbme blgorithm.
             //
             while (keepAdjusting) {
-                int last = lastTabInRun(tabCount, run);
-                int prevLast = lastTabInRun(tabCount, run-1);
+                int lbst = lbstTbbInRun(tbbCount, run);
+                int prevLbst = lbstTbbInRun(tbbCount, run-1);
                 int end;
-                int prevLastLen;
+                int prevLbstLen;
 
-                if (!verticalTabRuns) {
-                    end = rects[last].x + rects[last].width;
-                    prevLastLen = (int)(maxTabWidth*weight);
+                if (!verticblTbbRuns) {
+                    end = rects[lbst].x + rects[lbst].width;
+                    prevLbstLen = (int)(mbxTbbWidth*weight);
                 } else {
-                    end = rects[last].y + rects[last].height;
-                    prevLastLen = (int)(maxTabHeight*weight*2);
+                    end = rects[lbst].y + rects[lbst].height;
+                    prevLbstLen = (int)(mbxTbbHeight*weight*2);
                 }
 
-                // Check if the run has enough extra space to fit the last tab
+                // Check if the run hbs enough extrb spbce to fit the lbst tbb
                 // from the previous row...
-                if (max - end > prevLastLen) {
+                if (mbx - end > prevLbstLen) {
 
-                    // Insert tab from previous row and shift rest over
-                    tabRuns[run] = prevLast;
-                    if (!verticalTabRuns) {
-                        rects[prevLast].x = start;
+                    // Insert tbb from previous row bnd shift rest over
+                    tbbRuns[run] = prevLbst;
+                    if (!verticblTbbRuns) {
+                        rects[prevLbst].x = stbrt;
                     } else {
-                        rects[prevLast].y = start;
+                        rects[prevLbst].y = stbrt;
                     }
-                    for (int i = prevLast+1; i <= last; i++) {
-                        if (!verticalTabRuns) {
+                    for (int i = prevLbst+1; i <= lbst; i++) {
+                        if (!verticblTbbRuns) {
                             rects[i].x = rects[i-1].x + rects[i-1].width;
                         } else {
                             rects[i].y = rects[i-1].y + rects[i-1].height;
@@ -2795,69 +2795,69 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                     }
 
                 } else if (run == runCount - 1) {
-                    // no more room left in last run, so we're done!
-                    keepAdjusting = false;
+                    // no more room left in lbst run, so we're done!
+                    keepAdjusting = fblse;
                 }
                 if (run - 1 > 0) {
                     // check previous run next...
                     run -= 1;
                 } else {
-                    // check last run again...but require a higher ratio
-                    // of extraspace-to-tabsize because we don't want to
-                    // end up with too many tabs on the last run!
+                    // check lbst run bgbin...but require b higher rbtio
+                    // of extrbspbce-to-tbbsize becbuse we don't wbnt to
+                    // end up with too mbny tbbs on the lbst run!
                     run = runCount - 1;
                     weight += .25;
                 }
             }
         }
 
-        protected void padTabRun(int tabPlacement, int start, int end, int max) {
-            Rectangle lastRect = rects[end];
-            if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                int runWidth = (lastRect.x + lastRect.width) - rects[start].x;
-                int deltaWidth = max - (lastRect.x + lastRect.width);
-                float factor = (float)deltaWidth / (float)runWidth;
+        protected void pbdTbbRun(int tbbPlbcement, int stbrt, int end, int mbx) {
+            Rectbngle lbstRect = rects[end];
+            if (tbbPlbcement == TOP || tbbPlbcement == BOTTOM) {
+                int runWidth = (lbstRect.x + lbstRect.width) - rects[stbrt].x;
+                int deltbWidth = mbx - (lbstRect.x + lbstRect.width);
+                flobt fbctor = (flobt)deltbWidth / (flobt)runWidth;
 
-                for (int j = start; j <= end; j++) {
-                    Rectangle pastRect = rects[j];
-                    if (j > start) {
-                        pastRect.x = rects[j-1].x + rects[j-1].width;
+                for (int j = stbrt; j <= end; j++) {
+                    Rectbngle pbstRect = rects[j];
+                    if (j > stbrt) {
+                        pbstRect.x = rects[j-1].x + rects[j-1].width;
                     }
-                    pastRect.width += Math.round((float)pastRect.width * factor);
+                    pbstRect.width += Mbth.round((flobt)pbstRect.width * fbctor);
                 }
-                lastRect.width = max - lastRect.x;
+                lbstRect.width = mbx - lbstRect.x;
             } else {
-                int runHeight = (lastRect.y + lastRect.height) - rects[start].y;
-                int deltaHeight = max - (lastRect.y + lastRect.height);
-                float factor = (float)deltaHeight / (float)runHeight;
+                int runHeight = (lbstRect.y + lbstRect.height) - rects[stbrt].y;
+                int deltbHeight = mbx - (lbstRect.y + lbstRect.height);
+                flobt fbctor = (flobt)deltbHeight / (flobt)runHeight;
 
-                for (int j = start; j <= end; j++) {
-                    Rectangle pastRect = rects[j];
-                    if (j > start) {
-                        pastRect.y = rects[j-1].y + rects[j-1].height;
+                for (int j = stbrt; j <= end; j++) {
+                    Rectbngle pbstRect = rects[j];
+                    if (j > stbrt) {
+                        pbstRect.y = rects[j-1].y + rects[j-1].height;
                     }
-                    pastRect.height += Math.round((float)pastRect.height * factor);
+                    pbstRect.height += Mbth.round((flobt)pbstRect.height * fbctor);
                 }
-                lastRect.height = max - lastRect.y;
+                lbstRect.height = mbx - lbstRect.y;
             }
         }
 
-        protected void padSelectedTab(int tabPlacement, int selectedIndex) {
+        protected void pbdSelectedTbb(int tbbPlbcement, int selectedIndex) {
 
             if (selectedIndex >= 0) {
-                Rectangle selRect = rects[selectedIndex];
-                Insets padInsets = getSelectedTabPadInsets(tabPlacement);
-                selRect.x -= padInsets.left;
-                selRect.width += (padInsets.left + padInsets.right);
-                selRect.y -= padInsets.top;
-                selRect.height += (padInsets.top + padInsets.bottom);
+                Rectbngle selRect = rects[selectedIndex];
+                Insets pbdInsets = getSelectedTbbPbdInsets(tbbPlbcement);
+                selRect.x -= pbdInsets.left;
+                selRect.width += (pbdInsets.left + pbdInsets.right);
+                selRect.y -= pbdInsets.top;
+                selRect.height += (pbdInsets.top + pbdInsets.bottom);
 
-                if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-                    // do not expand selected tab more then necessary
-                    Dimension size = tabPane.getSize();
-                    Insets insets = tabPane.getInsets();
+                if (!scrollbbleTbbLbyoutEnbbled()) { // WRAP_TAB_LAYOUT
+                    // do not expbnd selected tbb more then necessbry
+                    Dimension size = tbbPbne.getSize();
+                    Insets insets = tbbPbne.getInsets();
 
-                    if ((tabPlacement == LEFT) || (tabPlacement == RIGHT)) {
+                    if ((tbbPlbcement == LEFT) || (tbbPlbcement == RIGHT)) {
                         int top = insets.top - selRect.y;
                         if (top > 0) {
                             selRect.y += top;
@@ -2883,135 +2883,135 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
     }
 
-    private class TabbedPaneScrollLayout extends TabbedPaneLayout {
+    privbte clbss TbbbedPbneScrollLbyout extends TbbbedPbneLbyout {
 
-        protected int preferredTabAreaHeight(int tabPlacement, int width) {
-            return calculateMaxTabHeight(tabPlacement);
+        protected int preferredTbbArebHeight(int tbbPlbcement, int width) {
+            return cblculbteMbxTbbHeight(tbbPlbcement);
         }
 
-        protected int preferredTabAreaWidth(int tabPlacement, int height) {
-            return calculateMaxTabWidth(tabPlacement);
+        protected int preferredTbbArebWidth(int tbbPlbcement, int height) {
+            return cblculbteMbxTbbWidth(tbbPlbcement);
         }
 
-        public void layoutContainer(Container parent) {
-            /* Some of the code in this method deals with changing the
-             * visibility of components to hide and show the contents for the
-             * selected tab. This is older code that has since been duplicated
-             * in JTabbedPane.fireStateChanged(), so as to allow visibility
-             * changes to happen sooner (see the note there). This code remains
-             * for backward compatibility as there are some cases, such as
-             * subclasses that don't fireStateChanged() where it may be used.
-             * Any changes here need to be kept in synch with
-             * JTabbedPane.fireStateChanged().
+        public void lbyoutContbiner(Contbiner pbrent) {
+            /* Some of the code in this method debls with chbnging the
+             * visibility of components to hide bnd show the contents for the
+             * selected tbb. This is older code thbt hbs since been duplicbted
+             * in JTbbbedPbne.fireStbteChbnged(), so bs to bllow visibility
+             * chbnges to hbppen sooner (see the note there). This code rembins
+             * for bbckwbrd compbtibility bs there bre some cbses, such bs
+             * subclbsses thbt don't fireStbteChbnged() where it mby be used.
+             * Any chbnges here need to be kept in synch with
+             * JTbbbedPbne.fireStbteChbnged().
              */
 
-            setRolloverTab(-1);
+            setRolloverTbb(-1);
 
-            int tabPlacement = tabPane.getTabPlacement();
-            int tabCount = tabPane.getTabCount();
-            Insets insets = tabPane.getInsets();
-            int selectedIndex = tabPane.getSelectedIndex();
+            int tbbPlbcement = tbbPbne.getTbbPlbcement();
+            int tbbCount = tbbPbne.getTbbCount();
+            Insets insets = tbbPbne.getInsets();
+            int selectedIndex = tbbPbne.getSelectedIndex();
             Component visibleComponent = getVisibleComponent();
 
-            calculateLayoutInfo();
+            cblculbteLbyoutInfo();
 
             Component selectedComponent = null;
             if (selectedIndex < 0) {
                 if (visibleComponent != null) {
-                    // The last tab was removed, so remove the component
+                    // The lbst tbb wbs removed, so remove the component
                     setVisibleComponent(null);
                 }
             } else {
-                selectedComponent = tabPane.getComponentAt(selectedIndex);
+                selectedComponent = tbbPbne.getComponentAt(selectedIndex);
             }
 
-            if (tabPane.getTabCount() == 0) {
-                tabScroller.croppedEdge.resetParams();
-                tabScroller.scrollForwardButton.setVisible(false);
-                tabScroller.scrollBackwardButton.setVisible(false);
+            if (tbbPbne.getTbbCount() == 0) {
+                tbbScroller.croppedEdge.resetPbrbms();
+                tbbScroller.scrollForwbrdButton.setVisible(fblse);
+                tbbScroller.scrollBbckwbrdButton.setVisible(fblse);
                 return;
             }
 
-            boolean shouldChangeFocus = false;
+            boolebn shouldChbngeFocus = fblse;
 
-            // In order to allow programs to use a single component
-            // as the display for multiple tabs, we will not change
-            // the visible compnent if the currently selected tab
-            // has a null component.  This is a bit dicey, as we don't
-            // explicitly state we support this in the spec, but since
-            // programs are now depending on this, we're making it work.
+            // In order to bllow progrbms to use b single component
+            // bs the displby for multiple tbbs, we will not chbnge
+            // the visible compnent if the currently selected tbb
+            // hbs b null component.  This is b bit dicey, bs we don't
+            // explicitly stbte we support this in the spec, but since
+            // progrbms bre now depending on this, we're mbking it work.
             //
             if(selectedComponent != null) {
                 if(selectedComponent != visibleComponent &&
                         visibleComponent != null) {
                     if(SwingUtilities.findFocusOwner(visibleComponent) != null) {
-                        shouldChangeFocus = true;
+                        shouldChbngeFocus = true;
                     }
                 }
                 setVisibleComponent(selectedComponent);
             }
-            int tx, ty, tw, th; // tab area bounds
-            int cx, cy, cw, ch; // content area bounds
-            Insets contentInsets = getContentBorderInsets(tabPlacement);
-            Rectangle bounds = tabPane.getBounds();
-            int numChildren = tabPane.getComponentCount();
+            int tx, ty, tw, th; // tbb breb bounds
+            int cx, cy, cw, ch; // content breb bounds
+            Insets contentInsets = getContentBorderInsets(tbbPlbcement);
+            Rectbngle bounds = tbbPbne.getBounds();
+            int numChildren = tbbPbne.getComponentCount();
 
             if(numChildren > 0) {
-                switch(tabPlacement) {
-                    case LEFT:
-                        // calculate tab area bounds
-                        tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+                switch(tbbPlbcement) {
+                    cbse LEFT:
+                        // cblculbte tbb breb bounds
+                        tw = cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
                         th = bounds.height - insets.top - insets.bottom;
                         tx = insets.left;
                         ty = insets.top;
 
-                        // calculate content area bounds
+                        // cblculbte content breb bounds
                         cx = tx + tw + contentInsets.left;
                         cy = ty + contentInsets.top;
                         cw = bounds.width - insets.left - insets.right - tw -
                                 contentInsets.left - contentInsets.right;
                         ch = bounds.height - insets.top - insets.bottom -
                                 contentInsets.top - contentInsets.bottom;
-                        break;
-                    case RIGHT:
-                        // calculate tab area bounds
-                        tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+                        brebk;
+                    cbse RIGHT:
+                        // cblculbte tbb breb bounds
+                        tw = cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
                         th = bounds.height - insets.top - insets.bottom;
                         tx = bounds.width - insets.right - tw;
                         ty = insets.top;
 
-                        // calculate content area bounds
+                        // cblculbte content breb bounds
                         cx = insets.left + contentInsets.left;
                         cy = insets.top + contentInsets.top;
                         cw = bounds.width - insets.left - insets.right - tw -
                                 contentInsets.left - contentInsets.right;
                         ch = bounds.height - insets.top - insets.bottom -
                                 contentInsets.top - contentInsets.bottom;
-                        break;
-                    case BOTTOM:
-                        // calculate tab area bounds
+                        brebk;
+                    cbse BOTTOM:
+                        // cblculbte tbb breb bounds
                         tw = bounds.width - insets.left - insets.right;
-                        th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                        th = cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
                         tx = insets.left;
                         ty = bounds.height - insets.bottom - th;
 
-                        // calculate content area bounds
+                        // cblculbte content breb bounds
                         cx = insets.left + contentInsets.left;
                         cy = insets.top + contentInsets.top;
                         cw = bounds.width - insets.left - insets.right -
                                 contentInsets.left - contentInsets.right;
                         ch = bounds.height - insets.top - insets.bottom - th -
                                 contentInsets.top - contentInsets.bottom;
-                        break;
-                    case TOP:
-                    default:
-                        // calculate tab area bounds
+                        brebk;
+                    cbse TOP:
+                    defbult:
+                        // cblculbte tbb breb bounds
                         tw = bounds.width - insets.left - insets.right;
-                        th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+                        th = cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
                         tx = insets.left;
                         ty = insets.top;
 
-                        // calculate content area bounds
+                        // cblculbte content breb bounds
                         cx = tx + contentInsets.left;
                         cy = ty + th + contentInsets.top;
                         cw = bounds.width - insets.left - insets.right -
@@ -3021,79 +3021,79 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                 }
 
                 for(int i = 0; i < numChildren; i++) {
-                    Component child = tabPane.getComponent(i);
+                    Component child = tbbPbne.getComponent(i);
 
-                    if(tabScroller != null && child == tabScroller.viewport) {
+                    if(tbbScroller != null && child == tbbScroller.viewport) {
                         JViewport viewport = (JViewport) child;
-                        Rectangle viewRect = viewport.getViewRect();
+                        Rectbngle viewRect = viewport.getViewRect();
                         int vw = tw;
                         int vh = th;
-                        Dimension butSize = tabScroller.scrollForwardButton.getPreferredSize();
-                        switch(tabPlacement) {
-                            case LEFT:
-                            case RIGHT:
-                                int totalTabHeight = rects[tabCount - 1].y + rects[tabCount - 1].height;
-                                if(totalTabHeight > th) {
-                                    // Allow space for scrollbuttons
+                        Dimension butSize = tbbScroller.scrollForwbrdButton.getPreferredSize();
+                        switch(tbbPlbcement) {
+                            cbse LEFT:
+                            cbse RIGHT:
+                                int totblTbbHeight = rects[tbbCount - 1].y + rects[tbbCount - 1].height;
+                                if(totblTbbHeight > th) {
+                                    // Allow spbce for scrollbuttons
                                     vh = (th > 2 * butSize.height) ? th - 2 * butSize.height : 0;
-                                    if(totalTabHeight - viewRect.y <= vh) {
+                                    if(totblTbbHeight - viewRect.y <= vh) {
                                         // Scrolled to the end, so ensure the viewport size is
-                                        // such that the scroll offset aligns with a tab
-                                        vh = totalTabHeight - viewRect.y;
+                                        // such thbt the scroll offset bligns with b tbb
+                                        vh = totblTbbHeight - viewRect.y;
                                     }
                                 }
-                                break;
-                            case BOTTOM:
-                            case TOP:
-                            default:
-                                int totalTabWidth = rects[tabCount - 1].x + rects[tabCount - 1].width;
-                                if(totalTabWidth > tw) {
-                                    // Need to allow space for scrollbuttons
+                                brebk;
+                            cbse BOTTOM:
+                            cbse TOP:
+                            defbult:
+                                int totblTbbWidth = rects[tbbCount - 1].x + rects[tbbCount - 1].width;
+                                if(totblTbbWidth > tw) {
+                                    // Need to bllow spbce for scrollbuttons
                                     vw = (tw > 2 * butSize.width) ? tw - 2 * butSize.width : 0;
-                                    if(totalTabWidth - viewRect.x <= vw) {
+                                    if(totblTbbWidth - viewRect.x <= vw) {
                                         // Scrolled to the end, so ensure the viewport size is
-                                        // such that the scroll offset aligns with a tab
-                                        vw = totalTabWidth - viewRect.x;
+                                        // such thbt the scroll offset bligns with b tbb
+                                        vw = totblTbbWidth - viewRect.x;
                                     }
                                 }
                         }
                         child.setBounds(tx, ty, vw, vh);
 
-                    } else if(tabScroller != null &&
-                            (child == tabScroller.scrollForwardButton ||
-                            child == tabScroller.scrollBackwardButton)) {
+                    } else if(tbbScroller != null &&
+                            (child == tbbScroller.scrollForwbrdButton ||
+                            child == tbbScroller.scrollBbckwbrdButton)) {
                         Component scrollbutton = child;
                         Dimension bsize = scrollbutton.getPreferredSize();
                         int bx = 0;
                         int by = 0;
                         int bw = bsize.width;
                         int bh = bsize.height;
-                        boolean visible = false;
+                        boolebn visible = fblse;
 
-                        switch(tabPlacement) {
-                            case LEFT:
-                            case RIGHT:
-                                int totalTabHeight = rects[tabCount - 1].y + rects[tabCount - 1].height;
-                                if(totalTabHeight > th) {
+                        switch(tbbPlbcement) {
+                            cbse LEFT:
+                            cbse RIGHT:
+                                int totblTbbHeight = rects[tbbCount - 1].y + rects[tbbCount - 1].height;
+                                if(totblTbbHeight > th) {
                                     visible = true;
-                                    bx = (tabPlacement == LEFT ? tx + tw - bsize.width : tx);
-                                    by = (child == tabScroller.scrollForwardButton) ?
+                                    bx = (tbbPlbcement == LEFT ? tx + tw - bsize.width : tx);
+                                    by = (child == tbbScroller.scrollForwbrdButton) ?
                                             bounds.height - insets.bottom - bsize.height :
                                             bounds.height - insets.bottom - 2 * bsize.height;
                                 }
-                                break;
+                                brebk;
 
-                            case BOTTOM:
-                            case TOP:
-                            default:
-                                int totalTabWidth = rects[tabCount - 1].x + rects[tabCount - 1].width;
+                            cbse BOTTOM:
+                            cbse TOP:
+                            defbult:
+                                int totblTbbWidth = rects[tbbCount - 1].x + rects[tbbCount - 1].width;
 
-                                if(totalTabWidth > tw) {
+                                if(totblTbbWidth > tw) {
                                     visible = true;
-                                    bx = (child == tabScroller.scrollForwardButton) ?
+                                    bx = (child == tbbScroller.scrollForwbrdButton) ?
                                             bounds.width - insets.left - bsize.width :
                                             bounds.width - insets.left - 2 * bsize.width;
-                                    by = (tabPlacement == TOP ? ty + th - bsize.height : ty);
+                                    by = (tbbPlbcement == TOP ? ty + th - bsize.height : ty);
                                 }
                         }
                         child.setVisible(visible);
@@ -3106,311 +3106,311 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                         child.setBounds(cx, cy, cw, ch);
                     }
                 }
-                super.layoutTabComponents();
-                layoutCroppedEdge();
-                if(shouldChangeFocus) {
+                super.lbyoutTbbComponents();
+                lbyoutCroppedEdge();
+                if(shouldChbngeFocus) {
                     if(!requestFocusForVisibleComponent()) {
-                        tabPane.requestFocus();
+                        tbbPbne.requestFocus();
                     }
                 }
             }
         }
 
-        private void layoutCroppedEdge() {
-            tabScroller.croppedEdge.resetParams();
-            Rectangle viewRect = tabScroller.viewport.getViewRect();
+        privbte void lbyoutCroppedEdge() {
+            tbbScroller.croppedEdge.resetPbrbms();
+            Rectbngle viewRect = tbbScroller.viewport.getViewRect();
             int cropline;
             for (int i = 0; i < rects.length; i++) {
-                Rectangle tabRect = rects[i];
-                switch (tabPane.getTabPlacement()) {
-                    case LEFT:
-                    case RIGHT:
+                Rectbngle tbbRect = rects[i];
+                switch (tbbPbne.getTbbPlbcement()) {
+                    cbse LEFT:
+                    cbse RIGHT:
                         cropline = viewRect.y + viewRect.height;
-                        if ((tabRect.y < cropline) && (tabRect.y + tabRect.height > cropline)) {
-                            tabScroller.croppedEdge.setParams(i, cropline - tabRect.y - 1,
-                                    -currentTabAreaInsets.left,  0);
+                        if ((tbbRect.y < cropline) && (tbbRect.y + tbbRect.height > cropline)) {
+                            tbbScroller.croppedEdge.setPbrbms(i, cropline - tbbRect.y - 1,
+                                    -currentTbbArebInsets.left,  0);
                         }
-                        break;
-                    case TOP:
-                    case BOTTOM:
-                    default:
+                        brebk;
+                    cbse TOP:
+                    cbse BOTTOM:
+                    defbult:
                         cropline = viewRect.x + viewRect.width;
-                        if ((tabRect.x < cropline - 1) && (tabRect.x + tabRect.width > cropline)) {
-                            tabScroller.croppedEdge.setParams(i, cropline - tabRect.x - 1,
-                                    0, -currentTabAreaInsets.top);
+                        if ((tbbRect.x < cropline - 1) && (tbbRect.x + tbbRect.width > cropline)) {
+                            tbbScroller.croppedEdge.setPbrbms(i, cropline - tbbRect.x - 1,
+                                    0, -currentTbbArebInsets.top);
                         }
                 }
             }
         }
 
-        protected void calculateTabRects(int tabPlacement, int tabCount) {
+        protected void cblculbteTbbRects(int tbbPlbcement, int tbbCount) {
             FontMetrics metrics = getFontMetrics();
-            Dimension size = tabPane.getSize();
-            Insets insets = tabPane.getInsets();
-            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Dimension size = tbbPbne.getSize();
+            Insets insets = tbbPbne.getInsets();
+            Insets tbbArebInsets = getTbbArebInsets(tbbPlbcement);
             int fontHeight = metrics.getHeight();
-            int selectedIndex = tabPane.getSelectedIndex();
+            int selectedIndex = tbbPbne.getSelectedIndex();
             int i;
-            boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
-            boolean leftToRight = BasicGraphicsUtils.isLeftToRight(tabPane);
-            int x = tabAreaInsets.left;
-            int y = tabAreaInsets.top;
-            int totalWidth = 0;
-            int totalHeight = 0;
+            boolebn verticblTbbRuns = (tbbPlbcement == LEFT || tbbPlbcement == RIGHT);
+            boolebn leftToRight = BbsicGrbphicsUtils.isLeftToRight(tbbPbne);
+            int x = tbbArebInsets.left;
+            int y = tbbArebInsets.top;
+            int totblWidth = 0;
+            int totblHeight = 0;
 
             //
-            // Calculate bounds within which a tab run must fit
+            // Cblculbte bounds within which b tbb run must fit
             //
-            switch(tabPlacement) {
-              case LEFT:
-              case RIGHT:
-                  maxTabWidth = calculateMaxTabWidth(tabPlacement);
-                  break;
-              case BOTTOM:
-              case TOP:
-              default:
-                  maxTabHeight = calculateMaxTabHeight(tabPlacement);
+            switch(tbbPlbcement) {
+              cbse LEFT:
+              cbse RIGHT:
+                  mbxTbbWidth = cblculbteMbxTbbWidth(tbbPlbcement);
+                  brebk;
+              cbse BOTTOM:
+              cbse TOP:
+              defbult:
+                  mbxTbbHeight = cblculbteMbxTbbHeight(tbbPlbcement);
             }
 
             runCount = 0;
             selectedRun = -1;
 
-            if (tabCount == 0) {
+            if (tbbCount == 0) {
                 return;
             }
 
             selectedRun = 0;
             runCount = 1;
 
-            // Run through tabs and lay them out in a single run
-            Rectangle rect;
-            for (i = 0; i < tabCount; i++) {
+            // Run through tbbs bnd lby them out in b single run
+            Rectbngle rect;
+            for (i = 0; i < tbbCount; i++) {
                 rect = rects[i];
 
-                if (!verticalTabRuns) {
-                    // Tabs on TOP or BOTTOM....
+                if (!verticblTbbRuns) {
+                    // Tbbs on TOP or BOTTOM....
                     if (i > 0) {
                         rect.x = rects[i-1].x + rects[i-1].width;
                     } else {
-                        tabRuns[0] = 0;
-                        maxTabWidth = 0;
-                        totalHeight += maxTabHeight;
+                        tbbRuns[0] = 0;
+                        mbxTbbWidth = 0;
+                        totblHeight += mbxTbbHeight;
                         rect.x = x;
                     }
-                    rect.width = calculateTabWidth(tabPlacement, i, metrics);
-                    totalWidth = rect.x + rect.width;
-                    maxTabWidth = Math.max(maxTabWidth, rect.width);
+                    rect.width = cblculbteTbbWidth(tbbPlbcement, i, metrics);
+                    totblWidth = rect.x + rect.width;
+                    mbxTbbWidth = Mbth.mbx(mbxTbbWidth, rect.width);
 
                     rect.y = y;
-                    rect.height = maxTabHeight/* - 2*/;
+                    rect.height = mbxTbbHeight/* - 2*/;
 
                 } else {
-                    // Tabs on LEFT or RIGHT...
+                    // Tbbs on LEFT or RIGHT...
                     if (i > 0) {
                         rect.y = rects[i-1].y + rects[i-1].height;
                     } else {
-                        tabRuns[0] = 0;
-                        maxTabHeight = 0;
-                        totalWidth = maxTabWidth;
+                        tbbRuns[0] = 0;
+                        mbxTbbHeight = 0;
+                        totblWidth = mbxTbbWidth;
                         rect.y = y;
                     }
-                    rect.height = calculateTabHeight(tabPlacement, i, fontHeight);
-                    totalHeight = rect.y + rect.height;
-                    maxTabHeight = Math.max(maxTabHeight, rect.height);
+                    rect.height = cblculbteTbbHeight(tbbPlbcement, i, fontHeight);
+                    totblHeight = rect.y + rect.height;
+                    mbxTbbHeight = Mbth.mbx(mbxTbbHeight, rect.height);
 
                     rect.x = x;
-                    rect.width = maxTabWidth/* - 2*/;
+                    rect.width = mbxTbbWidth/* - 2*/;
 
                 }
             }
 
-            if (tabsOverlapBorder) {
-                // Pad the selected tab so that it appears raised in front
-                padSelectedTab(tabPlacement, selectedIndex);
+            if (tbbsOverlbpBorder) {
+                // Pbd the selected tbb so thbt it bppebrs rbised in front
+                pbdSelectedTbb(tbbPlbcement, selectedIndex);
             }
 
-            // if right to left and tab placement on the top or
-            // the bottom, flip x positions and adjust by widths
-            if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width
-                                  - (insets.right + tabAreaInsets.right);
-                for (i = 0; i < tabCount; i++) {
-                    rects[i].x = rightMargin - rects[i].x - rects[i].width;
+            // if right to left bnd tbb plbcement on the top or
+            // the bottom, flip x positions bnd bdjust by widths
+            if (!leftToRight && !verticblTbbRuns) {
+                int rightMbrgin = size.width
+                                  - (insets.right + tbbArebInsets.right);
+                for (i = 0; i < tbbCount; i++) {
+                    rects[i].x = rightMbrgin - rects[i].x - rects[i].width;
                 }
             }
-            tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
+            tbbScroller.tbbPbnel.setPreferredSize(new Dimension(totblWidth, totblHeight));
         }
     }
 
-    private class ScrollableTabSupport implements ActionListener,
-                            ChangeListener {
-        public ScrollableTabViewport viewport;
-        public ScrollableTabPanel tabPanel;
-        public JButton scrollForwardButton;
-        public JButton scrollBackwardButton;
+    privbte clbss ScrollbbleTbbSupport implements ActionListener,
+                            ChbngeListener {
+        public ScrollbbleTbbViewport viewport;
+        public ScrollbbleTbbPbnel tbbPbnel;
+        public JButton scrollForwbrdButton;
+        public JButton scrollBbckwbrdButton;
         public CroppedEdge croppedEdge;
-        public int leadingTabIndex;
+        public int lebdingTbbIndex;
 
-        private Point tabViewPosition = new Point(0,0);
+        privbte Point tbbViewPosition = new Point(0,0);
 
-        ScrollableTabSupport(int tabPlacement) {
-            viewport = new ScrollableTabViewport();
-            tabPanel = new ScrollableTabPanel();
-            viewport.setView(tabPanel);
-            viewport.addChangeListener(this);
+        ScrollbbleTbbSupport(int tbbPlbcement) {
+            viewport = new ScrollbbleTbbViewport();
+            tbbPbnel = new ScrollbbleTbbPbnel();
+            viewport.setView(tbbPbnel);
+            viewport.bddChbngeListener(this);
             croppedEdge = new CroppedEdge();
-            createButtons();
+            crebteButtons();
         }
 
         /**
-         * Recreates the scroll buttons and adds them to the TabbedPane.
+         * Recrebtes the scroll buttons bnd bdds them to the TbbbedPbne.
          */
-        void createButtons() {
-            if (scrollForwardButton != null) {
-                tabPane.remove(scrollForwardButton);
-                scrollForwardButton.removeActionListener(this);
-                tabPane.remove(scrollBackwardButton);
-                scrollBackwardButton.removeActionListener(this);
+        void crebteButtons() {
+            if (scrollForwbrdButton != null) {
+                tbbPbne.remove(scrollForwbrdButton);
+                scrollForwbrdButton.removeActionListener(this);
+                tbbPbne.remove(scrollBbckwbrdButton);
+                scrollBbckwbrdButton.removeActionListener(this);
             }
-            int tabPlacement = tabPane.getTabPlacement();
-            if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                scrollForwardButton = createScrollButton(EAST);
-                scrollBackwardButton = createScrollButton(WEST);
+            int tbbPlbcement = tbbPbne.getTbbPlbcement();
+            if (tbbPlbcement == TOP || tbbPlbcement == BOTTOM) {
+                scrollForwbrdButton = crebteScrollButton(EAST);
+                scrollBbckwbrdButton = crebteScrollButton(WEST);
 
-            } else { // tabPlacement = LEFT || RIGHT
-                scrollForwardButton = createScrollButton(SOUTH);
-                scrollBackwardButton = createScrollButton(NORTH);
+            } else { // tbbPlbcement = LEFT || RIGHT
+                scrollForwbrdButton = crebteScrollButton(SOUTH);
+                scrollBbckwbrdButton = crebteScrollButton(NORTH);
             }
-            scrollForwardButton.addActionListener(this);
-            scrollBackwardButton.addActionListener(this);
-            tabPane.add(scrollForwardButton);
-            tabPane.add(scrollBackwardButton);
+            scrollForwbrdButton.bddActionListener(this);
+            scrollBbckwbrdButton.bddActionListener(this);
+            tbbPbne.bdd(scrollForwbrdButton);
+            tbbPbne.bdd(scrollBbckwbrdButton);
         }
 
-        public void scrollForward(int tabPlacement) {
+        public void scrollForwbrd(int tbbPlbcement) {
             Dimension viewSize = viewport.getViewSize();
-            Rectangle viewRect = viewport.getViewRect();
+            Rectbngle viewRect = viewport.getViewRect();
 
-            if (tabPlacement == TOP || tabPlacement == BOTTOM) {
+            if (tbbPlbcement == TOP || tbbPlbcement == BOTTOM) {
                 if (viewRect.width >= viewSize.width - viewRect.x) {
                     return; // no room left to scroll
                 }
-            } else { // tabPlacement == LEFT || tabPlacement == RIGHT
+            } else { // tbbPlbcement == LEFT || tbbPlbcement == RIGHT
                 if (viewRect.height >= viewSize.height - viewRect.y) {
                     return;
                 }
             }
-            setLeadingTabIndex(tabPlacement, leadingTabIndex+1);
+            setLebdingTbbIndex(tbbPlbcement, lebdingTbbIndex+1);
         }
 
-        public void scrollBackward(int tabPlacement) {
-            if (leadingTabIndex == 0) {
+        public void scrollBbckwbrd(int tbbPlbcement) {
+            if (lebdingTbbIndex == 0) {
                 return; // no room left to scroll
             }
-            setLeadingTabIndex(tabPlacement, leadingTabIndex-1);
+            setLebdingTbbIndex(tbbPlbcement, lebdingTbbIndex-1);
         }
 
-        public void setLeadingTabIndex(int tabPlacement, int index) {
-            leadingTabIndex = index;
+        public void setLebdingTbbIndex(int tbbPlbcement, int index) {
+            lebdingTbbIndex = index;
             Dimension viewSize = viewport.getViewSize();
-            Rectangle viewRect = viewport.getViewRect();
+            Rectbngle viewRect = viewport.getViewRect();
 
-            switch(tabPlacement) {
-              case TOP:
-              case BOTTOM:
-                tabViewPosition.x = leadingTabIndex == 0? 0 : rects[leadingTabIndex].x;
+            switch(tbbPlbcement) {
+              cbse TOP:
+              cbse BOTTOM:
+                tbbViewPosition.x = lebdingTbbIndex == 0? 0 : rects[lebdingTbbIndex].x;
 
-                if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
-                    // We've scrolled to the end, so adjust the viewport size
-                    // to ensure the view position remains aligned on a tab boundary
-                    Dimension extentSize = new Dimension(viewSize.width - tabViewPosition.x,
+                if ((viewSize.width - tbbViewPosition.x) < viewRect.width) {
+                    // We've scrolled to the end, so bdjust the viewport size
+                    // to ensure the view position rembins bligned on b tbb boundbry
+                    Dimension extentSize = new Dimension(viewSize.width - tbbViewPosition.x,
                                                          viewRect.height);
                     viewport.setExtentSize(extentSize);
                 }
-                break;
-              case LEFT:
-              case RIGHT:
-                tabViewPosition.y = leadingTabIndex == 0? 0 : rects[leadingTabIndex].y;
+                brebk;
+              cbse LEFT:
+              cbse RIGHT:
+                tbbViewPosition.y = lebdingTbbIndex == 0? 0 : rects[lebdingTbbIndex].y;
 
-                if ((viewSize.height - tabViewPosition.y) < viewRect.height) {
-                // We've scrolled to the end, so adjust the viewport size
-                // to ensure the view position remains aligned on a tab boundary
+                if ((viewSize.height - tbbViewPosition.y) < viewRect.height) {
+                // We've scrolled to the end, so bdjust the viewport size
+                // to ensure the view position rembins bligned on b tbb boundbry
                      Dimension extentSize = new Dimension(viewRect.width,
-                                                          viewSize.height - tabViewPosition.y);
+                                                          viewSize.height - tbbViewPosition.y);
                      viewport.setExtentSize(extentSize);
                 }
             }
-            viewport.setViewPosition(tabViewPosition);
+            viewport.setViewPosition(tbbViewPosition);
         }
 
-        public void stateChanged(ChangeEvent e) {
-            updateView();
+        public void stbteChbnged(ChbngeEvent e) {
+            updbteView();
         }
 
-        private void updateView() {
-            int tabPlacement = tabPane.getTabPlacement();
-            int tabCount = tabPane.getTabCount();
-            assureRectsCreated(tabCount);
-            Rectangle vpRect = viewport.getBounds();
+        privbte void updbteView() {
+            int tbbPlbcement = tbbPbne.getTbbPlbcement();
+            int tbbCount = tbbPbne.getTbbCount();
+            bssureRectsCrebted(tbbCount);
+            Rectbngle vpRect = viewport.getBounds();
             Dimension viewSize = viewport.getViewSize();
-            Rectangle viewRect = viewport.getViewRect();
+            Rectbngle viewRect = viewport.getViewRect();
 
-            leadingTabIndex = getClosestTab(viewRect.x, viewRect.y);
+            lebdingTbbIndex = getClosestTbb(viewRect.x, viewRect.y);
 
-            // If the tab isn't right aligned, adjust it.
-            if (leadingTabIndex + 1 < tabCount) {
-                switch (tabPlacement) {
-                case TOP:
-                case BOTTOM:
-                    if (rects[leadingTabIndex].x < viewRect.x) {
-                        leadingTabIndex++;
+            // If the tbb isn't right bligned, bdjust it.
+            if (lebdingTbbIndex + 1 < tbbCount) {
+                switch (tbbPlbcement) {
+                cbse TOP:
+                cbse BOTTOM:
+                    if (rects[lebdingTbbIndex].x < viewRect.x) {
+                        lebdingTbbIndex++;
                     }
-                    break;
-                case LEFT:
-                case RIGHT:
-                    if (rects[leadingTabIndex].y < viewRect.y) {
-                        leadingTabIndex++;
+                    brebk;
+                cbse LEFT:
+                cbse RIGHT:
+                    if (rects[lebdingTbbIndex].y < viewRect.y) {
+                        lebdingTbbIndex++;
                     }
-                    break;
+                    brebk;
                 }
             }
-            Insets contentInsets = getContentBorderInsets(tabPlacement);
-            switch(tabPlacement) {
-              case LEFT:
-                  tabPane.repaint(vpRect.x+vpRect.width, vpRect.y,
+            Insets contentInsets = getContentBorderInsets(tbbPlbcement);
+            switch(tbbPlbcement) {
+              cbse LEFT:
+                  tbbPbne.repbint(vpRect.x+vpRect.width, vpRect.y,
                                   contentInsets.left, vpRect.height);
-                  scrollBackwardButton.setEnabled(
-                          viewRect.y > 0 && leadingTabIndex > 0);
-                  scrollForwardButton.setEnabled(
-                          leadingTabIndex < tabCount-1 &&
+                  scrollBbckwbrdButton.setEnbbled(
+                          viewRect.y > 0 && lebdingTbbIndex > 0);
+                  scrollForwbrdButton.setEnbbled(
+                          lebdingTbbIndex < tbbCount-1 &&
                           viewSize.height-viewRect.y > viewRect.height);
-                  break;
-              case RIGHT:
-                  tabPane.repaint(vpRect.x-contentInsets.right, vpRect.y,
+                  brebk;
+              cbse RIGHT:
+                  tbbPbne.repbint(vpRect.x-contentInsets.right, vpRect.y,
                                   contentInsets.right, vpRect.height);
-                  scrollBackwardButton.setEnabled(
-                          viewRect.y > 0 && leadingTabIndex > 0);
-                  scrollForwardButton.setEnabled(
-                          leadingTabIndex < tabCount-1 &&
+                  scrollBbckwbrdButton.setEnbbled(
+                          viewRect.y > 0 && lebdingTbbIndex > 0);
+                  scrollForwbrdButton.setEnbbled(
+                          lebdingTbbIndex < tbbCount-1 &&
                           viewSize.height-viewRect.y > viewRect.height);
-                  break;
-              case BOTTOM:
-                  tabPane.repaint(vpRect.x, vpRect.y-contentInsets.bottom,
+                  brebk;
+              cbse BOTTOM:
+                  tbbPbne.repbint(vpRect.x, vpRect.y-contentInsets.bottom,
                                   vpRect.width, contentInsets.bottom);
-                  scrollBackwardButton.setEnabled(
-                          viewRect.x > 0 && leadingTabIndex > 0);
-                  scrollForwardButton.setEnabled(
-                          leadingTabIndex < tabCount-1 &&
+                  scrollBbckwbrdButton.setEnbbled(
+                          viewRect.x > 0 && lebdingTbbIndex > 0);
+                  scrollForwbrdButton.setEnbbled(
+                          lebdingTbbIndex < tbbCount-1 &&
                           viewSize.width-viewRect.x > viewRect.width);
-                  break;
-              case TOP:
-              default:
-                  tabPane.repaint(vpRect.x, vpRect.y+vpRect.height,
+                  brebk;
+              cbse TOP:
+              defbult:
+                  tbbPbne.repbint(vpRect.x, vpRect.y+vpRect.height,
                                   vpRect.width, contentInsets.top);
-                  scrollBackwardButton.setEnabled(
-                          viewRect.x > 0 && leadingTabIndex > 0);
-                  scrollForwardButton.setEnabled(
-                          leadingTabIndex < tabCount-1 &&
+                  scrollBbckwbrdButton.setEnbbled(
+                          viewRect.x > 0 && lebdingTbbIndex > 0);
+                  scrollForwbrdButton.setEnbbled(
+                          lebdingTbbIndex < tbbCount-1 &&
                           viewSize.width-viewRect.x > viewRect.width);
             }
         }
@@ -3418,22 +3418,22 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         /**
          * ActionListener for the scroll buttons.
          */
-        public void actionPerformed(ActionEvent e) {
-            ActionMap map = tabPane.getActionMap();
+        public void bctionPerformed(ActionEvent e) {
+            ActionMbp mbp = tbbPbne.getActionMbp();
 
-            if (map != null) {
-                String actionKey;
+            if (mbp != null) {
+                String bctionKey;
 
-                if (e.getSource() == scrollForwardButton) {
-                    actionKey = "scrollTabsForwardAction";
+                if (e.getSource() == scrollForwbrdButton) {
+                    bctionKey = "scrollTbbsForwbrdAction";
                 }
                 else {
-                    actionKey = "scrollTabsBackwardAction";
+                    bctionKey = "scrollTbbsBbckwbrdAction";
                 }
-                Action action = map.get(actionKey);
+                Action bction = mbp.get(bctionKey);
 
-                if (action != null && action.isEnabled()) {
-                    action.actionPerformed(new ActionEvent(tabPane,
+                if (bction != null && bction.isEnbbled()) {
+                    bction.bctionPerformed(new ActionEvent(tbbPbne,
                         ActionEvent.ACTION_PERFORMED, null, e.getWhen(),
                         e.getModifiers()));
                 }
@@ -3442,52 +3442,52 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
         public String toString() {
             return "viewport.viewSize=" + viewport.getViewSize() + "\n" +
-                              "viewport.viewRectangle="+viewport.getViewRect()+"\n"+
-                              "leadingTabIndex="+leadingTabIndex+"\n"+
-                              "tabViewPosition=" + tabViewPosition;
+                              "viewport.viewRectbngle="+viewport.getViewRect()+"\n"+
+                              "lebdingTbbIndex="+lebdingTbbIndex+"\n"+
+                              "tbbViewPosition=" + tbbViewPosition;
         }
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ScrollableTabViewport extends JViewport implements UIResource {
-        public ScrollableTabViewport() {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ScrollbbleTbbViewport extends JViewport implements UIResource {
+        public ScrollbbleTbbViewport() {
             super();
-            setName("TabbedPane.scrollableViewport");
+            setNbme("TbbbedPbne.scrollbbleViewport");
             setScrollMode(SIMPLE_SCROLL_MODE);
-            setOpaque(tabPane.isOpaque());
-            Color bgColor = UIManager.getColor("TabbedPane.tabAreaBackground");
+            setOpbque(tbbPbne.isOpbque());
+            Color bgColor = UIMbnbger.getColor("TbbbedPbne.tbbArebBbckground");
             if (bgColor == null) {
-                bgColor = tabPane.getBackground();
+                bgColor = tbbPbne.getBbckground();
             }
-            setBackground(bgColor);
+            setBbckground(bgColor);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ScrollableTabPanel extends JPanel implements UIResource {
-        public ScrollableTabPanel() {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ScrollbbleTbbPbnel extends JPbnel implements UIResource {
+        public ScrollbbleTbbPbnel() {
             super(null);
-            setOpaque(tabPane.isOpaque());
-            Color bgColor = UIManager.getColor("TabbedPane.tabAreaBackground");
+            setOpbque(tbbPbne.isOpbque());
+            Color bgColor = UIMbnbger.getColor("TbbbedPbne.tbbArebBbckground");
             if (bgColor == null) {
-                bgColor = tabPane.getBackground();
+                bgColor = tbbPbne.getBbckground();
             }
-            setBackground(bgColor);
+            setBbckground(bgColor);
         }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            BasicTabbedPaneUI.this.paintTabArea(g, tabPane.getTabPlacement(),
-                                                tabPane.getSelectedIndex());
-            if (tabScroller.croppedEdge.isParamsSet() && tabContainer == null) {
-                Rectangle croppedRect = rects[tabScroller.croppedEdge.getTabIndex()];
-                g.translate(croppedRect.x, croppedRect.y);
-                tabScroller.croppedEdge.paintComponent(g);
-                g.translate(-croppedRect.x, -croppedRect.y);
+        public void pbintComponent(Grbphics g) {
+            super.pbintComponent(g);
+            BbsicTbbbedPbneUI.this.pbintTbbAreb(g, tbbPbne.getTbbPlbcement(),
+                                                tbbPbne.getSelectedIndex());
+            if (tbbScroller.croppedEdge.isPbrbmsSet() && tbbContbiner == null) {
+                Rectbngle croppedRect = rects[tbbScroller.croppedEdge.getTbbIndex()];
+                g.trbnslbte(croppedRect.x, croppedRect.y);
+                tbbScroller.croppedEdge.pbintComponent(g);
+                g.trbnslbte(-croppedRect.x, -croppedRect.y);
             }
         }
 
-        public void doLayout() {
+        public void doLbyout() {
             if (getComponentCount() > 0) {
                 Component child = getComponent(0);
                 child.setBounds(0, 0, getWidth(), getHeight());
@@ -3495,124 +3495,124 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ScrollableTabButton extends BasicArrowButton implements UIResource,
-                                                                            SwingConstants {
-        public ScrollableTabButton(int direction) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ScrollbbleTbbButton extends BbsicArrowButton implements UIResource,
+                                                                            SwingConstbnts {
+        public ScrollbbleTbbButton(int direction) {
             super(direction,
-                  UIManager.getColor("TabbedPane.selected"),
-                  UIManager.getColor("TabbedPane.shadow"),
-                  UIManager.getColor("TabbedPane.darkShadow"),
-                  UIManager.getColor("TabbedPane.highlight"));
+                  UIMbnbger.getColor("TbbbedPbne.selected"),
+                  UIMbnbger.getColor("TbbbedPbne.shbdow"),
+                  UIMbnbger.getColor("TbbbedPbne.dbrkShbdow"),
+                  UIMbnbger.getColor("TbbbedPbne.highlight"));
         }
     }
 
 
 // Controller: event listeners
 
-    private class Handler implements ChangeListener, ContainerListener,
+    privbte clbss Hbndler implements ChbngeListener, ContbinerListener,
                   FocusListener, MouseListener, MouseMotionListener,
-                  PropertyChangeListener {
+                  PropertyChbngeListener {
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            JTabbedPane pane = (JTabbedPane)e.getSource();
-            String name = e.getPropertyName();
-            boolean isScrollLayout = scrollableTabLayoutEnabled();
-            if (name == "mnemonicAt") {
-                updateMnemonics();
-                pane.repaint();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            JTbbbedPbne pbne = (JTbbbedPbne)e.getSource();
+            String nbme = e.getPropertyNbme();
+            boolebn isScrollLbyout = scrollbbleTbbLbyoutEnbbled();
+            if (nbme == "mnemonicAt") {
+                updbteMnemonics();
+                pbne.repbint();
             }
-            else if (name == "displayedMnemonicIndexAt") {
-                pane.repaint();
+            else if (nbme == "displbyedMnemonicIndexAt") {
+                pbne.repbint();
             }
-            else if (name =="indexForTitle") {
-                calculatedBaseline = false;
-                Integer index = (Integer) e.getNewValue();
+            else if (nbme =="indexForTitle") {
+                cblculbtedBbseline = fblse;
+                Integer index = (Integer) e.getNewVblue();
                 // remove the current index
-                // to let updateHtmlViews() insert the correct one
+                // to let updbteHtmlViews() insert the correct one
                 if (htmlViews != null) {
                     htmlViews.removeElementAt(index);
                 }
-                updateHtmlViews(index);
-            } else if (name == "tabLayoutPolicy") {
-                BasicTabbedPaneUI.this.uninstallUI(pane);
-                BasicTabbedPaneUI.this.installUI(pane);
-                calculatedBaseline = false;
-            } else if (name == "tabPlacement") {
-                if (scrollableTabLayoutEnabled()) {
-                    tabScroller.createButtons();
+                updbteHtmlViews(index);
+            } else if (nbme == "tbbLbyoutPolicy") {
+                BbsicTbbbedPbneUI.this.uninstbllUI(pbne);
+                BbsicTbbbedPbneUI.this.instbllUI(pbne);
+                cblculbtedBbseline = fblse;
+            } else if (nbme == "tbbPlbcement") {
+                if (scrollbbleTbbLbyoutEnbbled()) {
+                    tbbScroller.crebteButtons();
                 }
-                calculatedBaseline = false;
-            } else if (name == "opaque" && isScrollLayout) {
-                boolean newVal = ((Boolean)e.getNewValue()).booleanValue();
-                tabScroller.tabPanel.setOpaque(newVal);
-                tabScroller.viewport.setOpaque(newVal);
-            } else if (name == "background" && isScrollLayout) {
-                Color newVal = (Color)e.getNewValue();
-                tabScroller.tabPanel.setBackground(newVal);
-                tabScroller.viewport.setBackground(newVal);
-                Color newColor = selectedColor == null ? newVal : selectedColor;
-                tabScroller.scrollForwardButton.setBackground(newColor);
-                tabScroller.scrollBackwardButton.setBackground(newColor);
-            } else if (name == "indexForTabComponent") {
-                if (tabContainer != null) {
-                    tabContainer.removeUnusedTabComponents();
+                cblculbtedBbseline = fblse;
+            } else if (nbme == "opbque" && isScrollLbyout) {
+                boolebn newVbl = ((Boolebn)e.getNewVblue()).boolebnVblue();
+                tbbScroller.tbbPbnel.setOpbque(newVbl);
+                tbbScroller.viewport.setOpbque(newVbl);
+            } else if (nbme == "bbckground" && isScrollLbyout) {
+                Color newVbl = (Color)e.getNewVblue();
+                tbbScroller.tbbPbnel.setBbckground(newVbl);
+                tbbScroller.viewport.setBbckground(newVbl);
+                Color newColor = selectedColor == null ? newVbl : selectedColor;
+                tbbScroller.scrollForwbrdButton.setBbckground(newColor);
+                tbbScroller.scrollBbckwbrdButton.setBbckground(newColor);
+            } else if (nbme == "indexForTbbComponent") {
+                if (tbbContbiner != null) {
+                    tbbContbiner.removeUnusedTbbComponents();
                 }
-                Component c = tabPane.getTabComponentAt(
-                        (Integer)e.getNewValue());
+                Component c = tbbPbne.getTbbComponentAt(
+                        (Integer)e.getNewVblue());
                 if (c != null) {
-                    if (tabContainer == null) {
-                        installTabContainer();
+                    if (tbbContbiner == null) {
+                        instbllTbbContbiner();
                     } else {
-                        tabContainer.add(c);
+                        tbbContbiner.bdd(c);
                     }
                 }
-                tabPane.revalidate();
-                tabPane.repaint();
-                calculatedBaseline = false;
-            } else if (name == "indexForNullComponent") {
+                tbbPbne.revblidbte();
+                tbbPbne.repbint();
+                cblculbtedBbseline = fblse;
+            } else if (nbme == "indexForNullComponent") {
                 isRunsDirty = true;
-                updateHtmlViews((Integer)e.getNewValue());
-            } else if (name == "font") {
-                calculatedBaseline = false;
+                updbteHtmlViews((Integer)e.getNewVblue());
+            } else if (nbme == "font") {
+                cblculbtedBbseline = fblse;
             }
         }
 
-        private void updateHtmlViews(int index) {
-            String title = tabPane.getTitleAt(index);
-            boolean isHTML = BasicHTML.isHTMLString(title);
+        privbte void updbteHtmlViews(int index) {
+            String title = tbbPbne.getTitleAt(index);
+            boolebn isHTML = BbsicHTML.isHTMLString(title);
             if (isHTML) {
-                if (htmlViews==null) {    // Initialize vector
-                    htmlViews = createHTMLVector();
-                } else {                  // Vector already exists
-                    View v = BasicHTML.createHTMLView(tabPane, title);
+                if (htmlViews==null) {    // Initiblize vector
+                    htmlViews = crebteHTMLVector();
+                } else {                  // Vector blrebdy exists
+                    View v = BbsicHTML.crebteHTMLView(tbbPbne, title);
                     htmlViews.insertElementAt(v, index);
                 }
             } else {                             // Not HTML
-                if (htmlViews!=null) {           // Add placeholder
+                if (htmlViews!=null) {           // Add plbceholder
                     htmlViews.insertElementAt(null, index);
-                }                                // else nada!
+                }                                // else nbdb!
             }
-            updateMnemonics();
+            updbteMnemonics();
         }
 
         //
-        // ChangeListener
+        // ChbngeListener
         //
-        public void stateChanged(ChangeEvent e) {
-            JTabbedPane tabPane = (JTabbedPane)e.getSource();
-            tabPane.revalidate();
-            tabPane.repaint();
+        public void stbteChbnged(ChbngeEvent e) {
+            JTbbbedPbne tbbPbne = (JTbbbedPbne)e.getSource();
+            tbbPbne.revblidbte();
+            tbbPbne.repbint();
 
-            setFocusIndex(tabPane.getSelectedIndex(), false);
+            setFocusIndex(tbbPbne.getSelectedIndex(), fblse);
 
-            if (scrollableTabLayoutEnabled()) {
-                int index = tabPane.getSelectedIndex();
+            if (scrollbbleTbbLbyoutEnbbled()) {
+                int index = tbbPbne.getSelectedIndex();
                 if (index < rects.length && index != -1) {
-                    tabScroller.tabPanel.scrollRectToVisible(
-                            (Rectangle)rects[index].clone());
+                    tbbScroller.tbbPbnel.scrollRectToVisible(
+                            (Rectbngle)rects[index].clone());
                 }
             }
         }
@@ -3623,34 +3623,34 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         public void mouseClicked(MouseEvent e) {
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
         }
 
         public void mouseEntered(MouseEvent e) {
-            setRolloverTab(e.getX(), e.getY());
+            setRolloverTbb(e.getX(), e.getY());
         }
 
         public void mouseExited(MouseEvent e) {
-            setRolloverTab(-1);
+            setRolloverTbb(-1);
         }
 
         public void mousePressed(MouseEvent e) {
-            if (!tabPane.isEnabled()) {
+            if (!tbbPbne.isEnbbled()) {
                 return;
             }
-            int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
-            if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
-                if (tabIndex != tabPane.getSelectedIndex()) {
-                    // Clicking on unselected tab, change selection, do NOT
+            int tbbIndex = tbbForCoordinbte(tbbPbne, e.getX(), e.getY());
+            if (tbbIndex >= 0 && tbbPbne.isEnbbledAt(tbbIndex)) {
+                if (tbbIndex != tbbPbne.getSelectedIndex()) {
+                    // Clicking on unselected tbb, chbnge selection, do NOT
                     // request focus.
-                    // This will trigger the focusIndex to change by way
-                    // of stateChanged.
-                    tabPane.setSelectedIndex(tabIndex);
+                    // This will trigger the focusIndex to chbnge by wby
+                    // of stbteChbnged.
+                    tbbPbne.setSelectedIndex(tbbIndex);
                 }
-                else if (tabPane.isRequestFocusEnabled()) {
-                    // Clicking on selected tab, try and give the tabbedpane
-                    // focus.  Repaint will occur in focusGained.
-                    tabPane.requestFocus();
+                else if (tbbPbne.isRequestFocusEnbbled()) {
+                    // Clicking on selected tbb, try bnd give the tbbbedpbne
+                    // focus.  Repbint will occur in focusGbined.
+                    tbbPbne.requestFocus();
                 }
             }
         }
@@ -3658,190 +3658,190 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // MouseMotionListener
         //
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
         }
 
         public void mouseMoved(MouseEvent e) {
-            setRolloverTab(e.getX(), e.getY());
+            setRolloverTbb(e.getX(), e.getY());
         }
 
         //
         // FocusListener
         //
-        public void focusGained(FocusEvent e) {
-           setFocusIndex(tabPane.getSelectedIndex(), true);
+        public void focusGbined(FocusEvent e) {
+           setFocusIndex(tbbPbne.getSelectedIndex(), true);
         }
         public void focusLost(FocusEvent e) {
-           repaintTab(focusIndex);
+           repbintTbb(focusIndex);
         }
 
 
         //
-        // ContainerListener
+        // ContbinerListener
         //
     /* GES 2/3/99:
-       The container listener code was added to support HTML
-       rendering of tab titles.
+       The contbiner listener code wbs bdded to support HTML
+       rendering of tbb titles.
 
-       Ideally, we would be able to listen for property changes
-       when a tab is added or its text modified.  At the moment
-       there are no such events because the Beans spec doesn't
-       allow 'indexed' property changes (i.e. tab 2's text changed
+       Ideblly, we would be bble to listen for property chbnges
+       when b tbb is bdded or its text modified.  At the moment
+       there bre no such events becbuse the Bebns spec doesn't
+       bllow 'indexed' property chbnges (i.e. tbb 2's text chbnged
        from A to B).
 
-       In order to get around this, we listen for tabs to be added
-       or removed by listening for the container events.  we then
-       queue up a runnable (so the component has a chance to complete
-       the add) which checks the tab title of the new component to see
+       In order to get bround this, we listen for tbbs to be bdded
+       or removed by listening for the contbiner events.  we then
+       queue up b runnbble (so the component hbs b chbnce to complete
+       the bdd) which checks the tbb title of the new component to see
        if it requires HTML rendering.
 
-       The Views (one per tab title requiring HTML rendering) are
-       stored in the htmlViews Vector, which is only allocated after
-       the first time we run into an HTML tab.  Note that this vector
-       is kept in step with the number of pages, and nulls are added
-       for those pages whose tab title do not require HTML rendering.
+       The Views (one per tbb title requiring HTML rendering) bre
+       stored in the htmlViews Vector, which is only bllocbted bfter
+       the first time we run into bn HTML tbb.  Note thbt this vector
+       is kept in step with the number of pbges, bnd nulls bre bdded
+       for those pbges whose tbb title do not require HTML rendering.
 
-       This makes it easy for the paint and layout code to tell
-       whether to invoke the HTML engine without having to check
-       the string during time-sensitive operations.
+       This mbkes it ebsy for the pbint bnd lbyout code to tell
+       whether to invoke the HTML engine without hbving to check
+       the string during time-sensitive operbtions.
 
-       When we have added a way to listen for tab additions and
-       changes to tab text, this code should be removed and
-       replaced by something which uses that.  */
+       When we hbve bdded b wby to listen for tbb bdditions bnd
+       chbnges to tbb text, this code should be removed bnd
+       replbced by something which uses thbt.  */
 
-        public void componentAdded(ContainerEvent e) {
-            JTabbedPane tp = (JTabbedPane)e.getContainer();
+        public void componentAdded(ContbinerEvent e) {
+            JTbbbedPbne tp = (JTbbbedPbne)e.getContbiner();
             Component child = e.getChild();
-            if (child instanceof UIResource) {
+            if (child instbnceof UIResource) {
                 return;
             }
             isRunsDirty = true;
-            updateHtmlViews(tp.indexOfComponent(child));
+            updbteHtmlViews(tp.indexOfComponent(child));
         }
-        public void componentRemoved(ContainerEvent e) {
-            JTabbedPane tp = (JTabbedPane)e.getContainer();
+        public void componentRemoved(ContbinerEvent e) {
+            JTbbbedPbne tp = (JTbbbedPbne)e.getContbiner();
             Component child = e.getChild();
-            if (child instanceof UIResource) {
+            if (child instbnceof UIResource) {
                 return;
             }
 
-            // NOTE 4/15/2002 (joutwate):
+            // NOTE 4/15/2002 (joutwbte):
             // This fix is implemented using client properties since there is
-            // currently no IndexPropertyChangeEvent.  Once
-            // IndexPropertyChangeEvents have been added this code should be
+            // currently no IndexPropertyChbngeEvent.  Once
+            // IndexPropertyChbngeEvents hbve been bdded this code should be
             // modified to use it.
             Integer indexObj =
                 (Integer)tp.getClientProperty("__index_to_remove__");
             if (indexObj != null) {
-                int index = indexObj.intValue();
+                int index = indexObj.intVblue();
                 if (htmlViews != null && htmlViews.size() > index) {
                     htmlViews.removeElementAt(index);
                 }
                 tp.putClientProperty("__index_to_remove__", null);
             }
             isRunsDirty = true;
-            updateMnemonics();
+            updbteMnemonics();
 
-            validateFocusIndex();
+            vblidbteFocusIndex();
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTabbedPaneUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbbedPbneUI.
      */
-    public class PropertyChangeHandler implements PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+    public clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            getHbndler().propertyChbnge(e);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTabbedPaneUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbbedPbneUI.
      */
-    public class TabSelectionHandler implements ChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void stateChanged(ChangeEvent e) {
-            getHandler().stateChanged(e);
+    public clbss TbbSelectionHbndler implements ChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void stbteChbnged(ChbngeEvent e) {
+            getHbndler().stbteChbnged(e);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTabbedPaneUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbbedPbneUI.
      */
-    public class MouseHandler extends MouseAdapter {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss MouseHbndler extends MouseAdbpter {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTabbedPaneUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbbedPbneUI.
      */
-    public class FocusHandler extends FocusAdapter {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+    public clbss FocusHbndler extends FocusAdbpter {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void focusGbined(FocusEvent e) {
+            getHbndler().focusGbined(e);
         }
         public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
         }
     }
 
-    private Vector<View> createHTMLVector() {
+    privbte Vector<View> crebteHTMLVector() {
         Vector<View> htmlViews = new Vector<View>();
-        int count = tabPane.getTabCount();
+        int count = tbbPbne.getTbbCount();
         if (count>0) {
             for (int i=0 ; i<count; i++) {
-                String title = tabPane.getTitleAt(i);
-                if (BasicHTML.isHTMLString(title)) {
-                    htmlViews.addElement(BasicHTML.createHTMLView(tabPane, title));
+                String title = tbbPbne.getTitleAt(i);
+                if (BbsicHTML.isHTMLString(title)) {
+                    htmlViews.bddElement(BbsicHTML.crebteHTMLView(tbbPbne, title));
                 } else {
-                    htmlViews.addElement(null);
+                    htmlViews.bddElement(null);
                 }
             }
         }
         return htmlViews;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class TabContainer extends JPanel implements UIResource {
-        private boolean notifyTabbedPane = true;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss TbbContbiner extends JPbnel implements UIResource {
+        privbte boolebn notifyTbbbedPbne = true;
 
-        public TabContainer() {
+        public TbbContbiner() {
             super(null);
-            setOpaque(false);
+            setOpbque(fblse);
         }
 
         public void remove(Component comp) {
-            int index = tabPane.indexOfTabComponent(comp);
+            int index = tbbPbne.indexOfTbbComponent(comp);
             super.remove(comp);
-            if (notifyTabbedPane && index != -1) {
-                tabPane.setTabComponentAt(index, null);
+            if (notifyTbbbedPbne && index != -1) {
+                tbbPbne.setTbbComponentAt(index, null);
             }
         }
 
-        private void removeUnusedTabComponents() {
+        privbte void removeUnusedTbbComponents() {
             for (Component c : getComponents()) {
-                if (!(c instanceof UIResource)) {
-                    int index = tabPane.indexOfTabComponent(c);
+                if (!(c instbnceof UIResource)) {
+                    int index = tbbPbne.indexOfTbbComponent(c);
                     if (index == -1) {
                         super.remove(c);
                     }
@@ -3849,60 +3849,60 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
         }
 
-        public boolean isOptimizedDrawingEnabled() {
-            return tabScroller != null && !tabScroller.croppedEdge.isParamsSet();
+        public boolebn isOptimizedDrbwingEnbbled() {
+            return tbbScroller != null && !tbbScroller.croppedEdge.isPbrbmsSet();
         }
 
-        public void doLayout() {
-            // We layout tabComponents in JTabbedPane's layout manager
-            // and use this method as a hook for repainting tabs
-            // to update tabs area e.g. when the size of tabComponent was changed
-            if (scrollableTabLayoutEnabled()) {
-                tabScroller.tabPanel.repaint();
-                tabScroller.updateView();
+        public void doLbyout() {
+            // We lbyout tbbComponents in JTbbbedPbne's lbyout mbnbger
+            // bnd use this method bs b hook for repbinting tbbs
+            // to updbte tbbs breb e.g. when the size of tbbComponent wbs chbnged
+            if (scrollbbleTbbLbyoutEnbbled()) {
+                tbbScroller.tbbPbnel.repbint();
+                tbbScroller.updbteView();
             } else {
-                tabPane.repaint(getBounds());
+                tbbPbne.repbint(getBounds());
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class CroppedEdge extends JPanel implements UIResource {
-        private Shape shape;
-        private int tabIndex;
-        private int cropline;
-        private int cropx, cropy;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss CroppedEdge extends JPbnel implements UIResource {
+        privbte Shbpe shbpe;
+        privbte int tbbIndex;
+        privbte int cropline;
+        privbte int cropx, cropy;
 
         public CroppedEdge() {
-            setOpaque(false);
+            setOpbque(fblse);
         }
 
-        public void setParams(int tabIndex, int cropline, int cropx, int cropy) {
-            this.tabIndex = tabIndex;
+        public void setPbrbms(int tbbIndex, int cropline, int cropx, int cropy) {
+            this.tbbIndex = tbbIndex;
             this.cropline = cropline;
             this.cropx = cropx;
             this.cropy = cropy;
-            Rectangle tabRect = rects[tabIndex];
-            setBounds(tabRect);
-            shape = createCroppedTabShape(tabPane.getTabPlacement(), tabRect, cropline);
-            if (getParent() == null && tabContainer != null) {
-                tabContainer.add(this, 0);
+            Rectbngle tbbRect = rects[tbbIndex];
+            setBounds(tbbRect);
+            shbpe = crebteCroppedTbbShbpe(tbbPbne.getTbbPlbcement(), tbbRect, cropline);
+            if (getPbrent() == null && tbbContbiner != null) {
+                tbbContbiner.bdd(this, 0);
             }
         }
 
-        public void resetParams() {
-            shape = null;
-            if (getParent() == tabContainer && tabContainer != null) {
-                tabContainer.remove(this);
+        public void resetPbrbms() {
+            shbpe = null;
+            if (getPbrent() == tbbContbiner && tbbContbiner != null) {
+                tbbContbiner.remove(this);
             }
         }
 
-        public boolean isParamsSet() {
-            return shape != null;
+        public boolebn isPbrbmsSet() {
+            return shbpe != null;
         }
 
-        public int getTabIndex() {
-            return tabIndex;
+        public int getTbbIndex() {
+            return tbbIndex;
         }
 
         public int getCropline() {
@@ -3913,27 +3913,27 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             return 3;
         }
 
-        private Color getBgColor() {
-            Component parent = tabPane.getParent();
-            if (parent != null) {
-                Color bg = parent.getBackground();
+        privbte Color getBgColor() {
+            Component pbrent = tbbPbne.getPbrent();
+            if (pbrent != null) {
+                Color bg = pbrent.getBbckground();
                 if (bg != null) {
                     return bg;
                 }
             }
-            return UIManager.getColor("control");
+            return UIMbnbger.getColor("control");
         }
 
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (isParamsSet() && g instanceof Graphics2D) {
-                Graphics2D g2 = (Graphics2D) g;
+        protected void pbintComponent(Grbphics g) {
+            super.pbintComponent(g);
+            if (isPbrbmsSet() && g instbnceof Grbphics2D) {
+                Grbphics2D g2 = (Grbphics2D) g;
                 g2.clipRect(0, 0, getWidth(), getHeight());
                 g2.setColor(getBgColor());
-                g2.translate(cropx, cropy);
-                g2.fill(shape);
-                paintCroppedTabEdge(g);
-                g2.translate(-cropx, -cropy);
+                g2.trbnslbte(cropx, cropy);
+                g2.fill(shbpe);
+                pbintCroppedTbbEdge(g);
+                g2.trbnslbte(-cropx, -cropy);
             }
         }
     }

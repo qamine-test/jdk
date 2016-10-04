@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.TrustManagerFactory
+ * NOTE:  this file wbs copied from jbvbx.net.ssl.TrustMbnbgerFbctory
  */
 
-package com.sun.net.ssl;
+pbckbge com.sun.net.ssl;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * This class acts as a factory for trust managers based on a
- * source of trust material. Each trust manager manages a specific
- * type of trust material for use by secure sockets. The trust
- * material is based on a KeyStore and/or provider specific sources.
+ * This clbss bcts bs b fbctory for trust mbnbgers bbsed on b
+ * source of trust mbteribl. Ebch trust mbnbger mbnbges b specific
+ * type of trust mbteribl for use by secure sockets. The trust
+ * mbteribl is bbsed on b KeyStore bnd/or provider specific sources.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.TrustManagerFactory}.
+ * @deprecbted As of JDK 1.4, this implementbtion-specific clbss wbs
+ *      replbced by {@link jbvbx.net.ssl.TrustMbnbgerFbctory}.
  */
-@Deprecated
-public class TrustManagerFactory {
+@Deprecbted
+public clbss TrustMbnbgerFbctory {
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private TrustManagerFactorySpi factorySpi;
+    // The provider implementbtion (delegbte)
+    privbte TrustMbnbgerFbctorySpi fbctorySpi;
 
-    // The name of the trust management algorithm.
-    private String algorithm;
+    // The nbme of the trust mbnbgement blgorithm.
+    privbte String blgorithm;
 
     /**
-     * <p>The default TrustManager can be changed by setting the value of the
-     * {@code sun.ssl.trustmanager.type} security property to the desired name.
+     * <p>The defbult TrustMbnbger cbn be chbnged by setting the vblue of the
+     * {@code sun.ssl.trustmbnbger.type} security property to the desired nbme.
      *
-     * @return the default type as specified by the
-     * {@code sun.ssl.trustmanager.type} security property, or an
-     * implementation-specific default if no such property exists.
+     * @return the defbult type bs specified by the
+     * {@code sun.ssl.trustmbnbger.type} security property, or bn
+     * implementbtion-specific defbult if no such property exists.
      *
-     * @see java.security.Security security properties
+     * @see jbvb.security.Security security properties
      */
-    public final static String getDefaultAlgorithm() {
+    public finbl stbtic String getDefbultAlgorithm() {
         String type;
         type = AccessController.doPrivileged(new PrivilegedAction<String>() {
             public String run() {
-                return Security.getProperty("sun.ssl.trustmanager.type");
+                return Security.getProperty("sun.ssl.trustmbnbger.type");
             }
         });
         if (type == null) {
@@ -76,145 +76,145 @@ public class TrustManagerFactory {
     }
 
     /**
-     * Creates a TrustManagerFactory object.
+     * Crebtes b TrustMbnbgerFbctory object.
      *
-     * @param factorySpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm fbctorySpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
-    protected TrustManagerFactory(TrustManagerFactorySpi factorySpi,
-            Provider provider, String algorithm) {
-        this.factorySpi = factorySpi;
+    protected TrustMbnbgerFbctory(TrustMbnbgerFbctorySpi fbctorySpi,
+            Provider provider, String blgorithm) {
+        this.fbctorySpi = fbctorySpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Returns the algorithm name of this <code>TrustManagerFactory</code>
+     * Returns the blgorithm nbme of this <code>TrustMbnbgerFbctory</code>
      * object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>TrustManagerFactory</code> object.
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
+     * <code>TrustMbnbgerFbctory</code> object.
      *
-     * @return the algorithm name of this <code>TrustManagerFactory</code>
+     * @return the blgorithm nbme of this <code>TrustMbnbgerFbctory</code>
      * object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object that implements the
-     * specified trust management algorithm.
-     * If the default provider package provides an implementation of the
-     * requested trust management algorithm, an instance of
-     * <code>TrustManagerFactory</code> containing that implementation is
-     * returned.  If the algorithm is not available in the default provider
-     * package, other provider packages are searched.
+     * Generbtes b <code>TrustMbnbgerFbctory</code> object thbt implements the
+     * specified trust mbnbgement blgorithm.
+     * If the defbult provider pbckbge provides bn implementbtion of the
+     * requested trust mbnbgement blgorithm, bn instbnce of
+     * <code>TrustMbnbgerFbctory</code> contbining thbt implementbtion is
+     * returned.  If the blgorithm is not bvbilbble in the defbult provider
+     * pbckbge, other provider pbckbges bre sebrched.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested trust mbnbgement
+     * blgorithm.
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @return the new <code>TrustMbnbgerFbctory</code> object
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available in the default provider package or any of the other provider
-     * packages that were searched.
+     * @exception NoSuchAlgorithmException if the specified blgorithm is not
+     * bvbilbble in the defbult provider pbckbge or bny of the other provider
+     * pbckbges thbt were sebrched.
      */
-    public static final TrustManagerFactory getInstance(String algorithm)
+    public stbtic finbl TrustMbnbgerFbctory getInstbnce(String blgorithm)
         throws NoSuchAlgorithmException
     {
         try {
-            Object[] objs = SSLSecurity.getImpl(algorithm,
-                "TrustManagerFactory", (String) null);
-            return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
+            Object[] objs = SSLSecurity.getImpl(blgorithm,
+                "TrustMbnbgerFbctory", (String) null);
+            return new TrustMbnbgerFbctory((TrustMbnbgerFbctorySpi)objs[0],
                                     (Provider)objs[1],
-                                    algorithm);
-        } catch (NoSuchProviderException e) {
-            throw new NoSuchAlgorithmException(algorithm + " not found");
+                                    blgorithm);
+        } cbtch (NoSuchProviderException e) {
+            throw new NoSuchAlgorithmException(blgorithm + " not found");
         }
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object for the specified
-     * trust management algorithm from the specified provider.
+     * Generbtes b <code>TrustMbnbgerFbctory</code> object for the specified
+     * trust mbnbgement blgorithm from the specified provider.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
-     * @param provider the name of the provider
+     * @pbrbm blgorithm the stbndbrd nbme of the requested trust mbnbgement
+     * blgorithm.
+     * @pbrbm provider the nbme of the provider
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @return the new <code>TrustMbnbgerFbctory</code> object
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available from the specified provider.
-     * @exception NoSuchProviderException if the specified provider has not
+     * @exception NoSuchAlgorithmException if the specified blgorithm is not
+     * bvbilbble from the specified provider.
+     * @exception NoSuchProviderException if the specified provider hbs not
      * been configured.
      */
-    public static final TrustManagerFactory getInstance(String algorithm,
+    public stbtic finbl TrustMbnbgerFbctory getInstbnce(String blgorithm,
                                                  String provider)
         throws NoSuchAlgorithmException, NoSuchProviderException
     {
         if (provider == null || provider.length() == 0)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = SSLSecurity.getImpl(algorithm, "TrustManagerFactory",
+            throw new IllegblArgumentException("missing provider");
+        Object[] objs = SSLSecurity.getImpl(blgorithm, "TrustMbnbgerFbctory",
                                             provider);
-        return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
-            (Provider)objs[1], algorithm);
+        return new TrustMbnbgerFbctory((TrustMbnbgerFbctorySpi)objs[0],
+            (Provider)objs[1], blgorithm);
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object for the specified
-     * trust management algorithm from the specified provider.
+     * Generbtes b <code>TrustMbnbgerFbctory</code> object for the specified
+     * trust mbnbgement blgorithm from the specified provider.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
-     * @param provider an instance of the provider
+     * @pbrbm blgorithm the stbndbrd nbme of the requested trust mbnbgement
+     * blgorithm.
+     * @pbrbm provider bn instbnce of the provider
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @return the new <code>TrustMbnbgerFbctory</code> object
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available from the specified provider.
+     * @exception NoSuchAlgorithmException if the specified blgorithm is not
+     * bvbilbble from the specified provider.
      */
-    public static final TrustManagerFactory getInstance(String algorithm,
+    public stbtic finbl TrustMbnbgerFbctory getInstbnce(String blgorithm,
                                                  Provider provider)
         throws NoSuchAlgorithmException
     {
         if (provider == null)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = SSLSecurity.getImpl(algorithm, "TrustManagerFactory",
+            throw new IllegblArgumentException("missing provider");
+        Object[] objs = SSLSecurity.getImpl(blgorithm, "TrustMbnbgerFbctory",
                                             provider);
-        return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
-            (Provider)objs[1], algorithm);
+        return new TrustMbnbgerFbctory((TrustMbnbgerFbctorySpi)objs[0],
+            (Provider)objs[1], blgorithm);
     }
 
     /**
-     * Returns the provider of this <code>TrustManagerFactory</code> object.
+     * Returns the provider of this <code>TrustMbnbgerFbctory</code> object.
      *
-     * @return the provider of this <code>TrustManagerFactory</code> object
+     * @return the provider of this <code>TrustMbnbgerFbctory</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return this.provider;
     }
 
 
     /**
-     * Initializes this factory with a source of certificate
-     * authorities and related trust material. The
-     * provider may also include a provider-specific source
-     * of key material.
+     * Initiblizes this fbctory with b source of certificbte
+     * buthorities bnd relbted trust mbteribl. The
+     * provider mby blso include b provider-specific source
+     * of key mbteribl.
      *
-     * @param ks the key store or null
+     * @pbrbm ks the key store or null
      */
     public void init(KeyStore ks) throws KeyStoreException {
-        factorySpi.engineInit(ks);
+        fbctorySpi.engineInit(ks);
     }
 
     /**
-     * Returns one trust manager for each type of trust material.
-     * @return the trust managers
+     * Returns one trust mbnbger for ebch type of trust mbteribl.
+     * @return the trust mbnbgers
      */
-    public TrustManager[] getTrustManagers() {
-        return factorySpi.engineGetTrustManagers();
+    public TrustMbnbger[] getTrustMbnbgers() {
+        return fbctorySpi.engineGetTrustMbnbgers();
     }
 }

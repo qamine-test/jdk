@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 import sun.nio.ch.DirectBuffer;
 
 /**
- * A class that can be used to compute the Adler-32 checksum of a data
- * stream. An Adler-32 checksum is almost as reliable as a CRC-32 but
- * can be computed much faster.
+ * A clbss thbt cbn be used to compute the Adler-32 checksum of b dbtb
+ * strebm. An Adler-32 checksum is blmost bs relibble bs b CRC-32 but
+ * cbn be computed much fbster.
  *
- * <p> Passing a {@code null} argument to a method in this class will cause
- * a {@link NullPointerException} to be thrown.
+ * <p> Pbssing b {@code null} brgument to b method in this clbss will cbuse
+ * b {@link NullPointerException} to be thrown.
  *
  * @see         Checksum
- * @author      David Connelly
+ * @buthor      Dbvid Connelly
  */
 public
-class Adler32 implements Checksum {
+clbss Adler32 implements Checksum {
 
-    private int adler = 1;
+    privbte int bdler = 1;
 
     /**
-     * Creates a new Adler32 object.
+     * Crebtes b new Adler32 object.
      */
     public Adler32() {
     }
 
     /**
-     * Updates the checksum with the specified byte (the low eight
-     * bits of the argument b).
+     * Updbtes the checksum with the specified byte (the low eight
+     * bits of the brgument b).
      *
-     * @param b the byte to update the checksum with
+     * @pbrbm b the byte to updbte the checksum with
      */
-    public void update(int b) {
-        adler = update(adler, b);
+    public void updbte(int b) {
+        bdler = updbte(bdler, b);
     }
 
     /**
-     * Updates the checksum with the specified array of bytes.
+     * Updbtes the checksum with the specified brrby of bytes.
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if {@code off} is negative, or {@code len} is negative,
-     *          or {@code off+len} is greater than the length of the
-     *          array {@code b}
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if {@code off} is negbtive, or {@code len} is negbtive,
+     *          or {@code off+len} is grebter thbn the length of the
+     *          brrby {@code b}
      */
-    public void update(byte[] b, int off, int len) {
+    public void updbte(byte[] b, int off, int len) {
         if (b == null) {
             throw new NullPointerException();
         }
         if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
-        adler = updateBytes(adler, b, off, len);
+        bdler = updbteBytes(bdler, b, off, len);
     }
 
     /**
-     * Updates the checksum with the specified array of bytes.
+     * Updbtes the checksum with the specified brrby of bytes.
      *
-     * @param b the byte array to update the checksum with
+     * @pbrbm b the byte brrby to updbte the checksum with
      */
-    public void update(byte[] b) {
-        adler = updateBytes(adler, b, 0, b.length);
+    public void updbte(byte[] b) {
+        bdler = updbteBytes(bdler, b, 0, b.length);
     }
 
 
     /**
-     * Updates the checksum with the bytes from the specified buffer.
+     * Updbtes the checksum with the bytes from the specified buffer.
      *
-     * The checksum is updated using
-     * buffer.{@link java.nio.Buffer#remaining() remaining()}
-     * bytes starting at
-     * buffer.{@link java.nio.Buffer#position() position()}
-     * Upon return, the buffer's position will be updated to its
-     * limit; its limit will not have been changed.
+     * The checksum is updbted using
+     * buffer.{@link jbvb.nio.Buffer#rembining() rembining()}
+     * bytes stbrting bt
+     * buffer.{@link jbvb.nio.Buffer#position() position()}
+     * Upon return, the buffer's position will be updbted to its
+     * limit; its limit will not hbve been chbnged.
      *
-     * @param buffer the ByteBuffer to update the checksum with
+     * @pbrbm buffer the ByteBuffer to updbte the checksum with
      * @since 1.8
      */
-    public void update(ByteBuffer buffer) {
+    public void updbte(ByteBuffer buffer) {
         int pos = buffer.position();
         int limit = buffer.limit();
-        assert (pos <= limit);
+        bssert (pos <= limit);
         int rem = limit - pos;
         if (rem <= 0)
             return;
-        if (buffer instanceof DirectBuffer) {
-            adler = updateByteBuffer(adler, ((DirectBuffer)buffer).address(), pos, rem);
-        } else if (buffer.hasArray()) {
-            adler = updateBytes(adler, buffer.array(), pos + buffer.arrayOffset(), rem);
+        if (buffer instbnceof DirectBuffer) {
+            bdler = updbteByteBuffer(bdler, ((DirectBuffer)buffer).bddress(), pos, rem);
+        } else if (buffer.hbsArrby()) {
+            bdler = updbteBytes(bdler, buffer.brrby(), pos + buffer.brrbyOffset(), rem);
         } else {
             byte[] b = new byte[rem];
             buffer.get(b);
-            adler = updateBytes(adler, b, 0, b.length);
+            bdler = updbteBytes(bdler, b, 0, b.length);
         }
         buffer.position(limit);
     }
 
     /**
-     * Resets the checksum to initial value.
+     * Resets the checksum to initibl vblue.
      */
     public void reset() {
-        adler = 1;
+        bdler = 1;
     }
 
     /**
-     * Returns the checksum value.
+     * Returns the checksum vblue.
      */
-    public long getValue() {
-        return (long)adler & 0xffffffffL;
+    public long getVblue() {
+        return (long)bdler & 0xffffffffL;
     }
 
-    private native static int update(int adler, int b);
-    private native static int updateBytes(int adler, byte[] b, int off,
+    privbte nbtive stbtic int updbte(int bdler, int b);
+    privbte nbtive stbtic int updbteBytes(int bdler, byte[] b, int off,
                                           int len);
-    private native static int updateByteBuffer(int adler, long addr,
+    privbte nbtive stbtic int updbteByteBuffer(int bdler, long bddr,
                                                int off, int len);
 }

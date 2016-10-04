@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.lang.annotation.*;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationParser;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.TypeAnnotationParser;
-import sun.reflect.annotation.TypeAnnotation;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import sun.reflect.bnnotbtion.AnnotbtionPbrser;
+import sun.reflect.bnnotbtion.AnnotbtionSupport;
+import sun.reflect.bnnotbtion.TypeAnnotbtionPbrser;
+import sun.reflect.bnnotbtion.TypeAnnotbtion;
 import sun.reflect.generics.repository.ConstructorRepository;
 
 /**
- * A shared superclass for the common functionality of {@link Method}
- * and {@link Constructor}.
+ * A shbred superclbss for the common functionblity of {@link Method}
+ * bnd {@link Constructor}.
  *
  * @since 1.8
  */
-public abstract class Executable extends AccessibleObject
-    implements Member, GenericDeclaration {
+public bbstrbct clbss Executbble extends AccessibleObject
+    implements Member, GenericDeclbrbtion {
     /*
-     * Only grant package-visibility to the constructor.
+     * Only grbnt pbckbge-visibility to the constructor.
      */
-    Executable() {}
+    Executbble() {}
 
     /**
-     * Accessor method to allow code sharing
+     * Accessor method to bllow code shbring
      */
-    abstract byte[] getAnnotationBytes();
+    bbstrbct byte[] getAnnotbtionBytes();
 
     /**
-     * Does the Executable have generic information.
+     * Does the Executbble hbve generic informbtion.
      */
-    abstract boolean hasGenericInformation();
+    bbstrbct boolebn hbsGenericInformbtion();
 
-    abstract ConstructorRepository getGenericInfo();
+    bbstrbct ConstructorRepository getGenericInfo();
 
-    boolean equalParamTypes(Class<?>[] params1, Class<?>[] params2) {
-        /* Avoid unnecessary cloning */
-        if (params1.length == params2.length) {
-            for (int i = 0; i < params1.length; i++) {
-                if (params1[i] != params2[i])
-                    return false;
+    boolebn equblPbrbmTypes(Clbss<?>[] pbrbms1, Clbss<?>[] pbrbms2) {
+        /* Avoid unnecessbry cloning */
+        if (pbrbms1.length == pbrbms2.length) {
+            for (int i = 0; i < pbrbms1.length; i++) {
+                if (pbrbms1[i] != pbrbms2[i])
+                    return fblse;
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    Annotation[][] parseParameterAnnotations(byte[] parameterAnnotations) {
-        return AnnotationParser.parseParameterAnnotations(
-               parameterAnnotations,
-               sun.misc.SharedSecrets.getJavaLangAccess().
-               getConstantPool(getDeclaringClass()),
-               getDeclaringClass());
+    Annotbtion[][] pbrsePbrbmeterAnnotbtions(byte[] pbrbmeterAnnotbtions) {
+        return AnnotbtionPbrser.pbrsePbrbmeterAnnotbtions(
+               pbrbmeterAnnotbtions,
+               sun.misc.ShbredSecrets.getJbvbLbngAccess().
+               getConstbntPool(getDeclbringClbss()),
+               getDeclbringClbss());
     }
 
-    void separateWithCommas(Class<?>[] types, StringBuilder sb) {
+    void sepbrbteWithCommbs(Clbss<?>[] types, StringBuilder sb) {
         for (int j = 0; j < types.length; j++) {
-            sb.append(types[j].getTypeName());
+            sb.bppend(types[j].getTypeNbme());
             if (j < (types.length - 1))
-                sb.append(",");
+                sb.bppend(",");
         }
 
     }
 
-    void printModifiersIfNonzero(StringBuilder sb, int mask, boolean isDefault) {
-        int mod = getModifiers() & mask;
+    void printModifiersIfNonzero(StringBuilder sb, int mbsk, boolebn isDefbult) {
+        int mod = getModifiers() & mbsk;
 
-        if (mod != 0 && !isDefault) {
-            sb.append(Modifier.toString(mod)).append(' ');
+        if (mod != 0 && !isDefbult) {
+            sb.bppend(Modifier.toString(mod)).bppend(' ');
         } else {
-            int access_mod = mod & Modifier.ACCESS_MODIFIERS;
-            if (access_mod != 0)
-                sb.append(Modifier.toString(access_mod)).append(' ');
-            if (isDefault)
-                sb.append("default ");
+            int bccess_mod = mod & Modifier.ACCESS_MODIFIERS;
+            if (bccess_mod != 0)
+                sb.bppend(Modifier.toString(bccess_mod)).bppend(' ');
+            if (isDefbult)
+                sb.bppend("defbult ");
             mod = (mod & ~Modifier.ACCESS_MODIFIERS);
             if (mod != 0)
-                sb.append(Modifier.toString(mod)).append(' ');
+                sb.bppend(Modifier.toString(mod)).bppend(' ');
         }
     }
 
-    String sharedToString(int modifierMask,
-                          boolean isDefault,
-                          Class<?>[] parameterTypes,
-                          Class<?>[] exceptionTypes) {
+    String shbredToString(int modifierMbsk,
+                          boolebn isDefbult,
+                          Clbss<?>[] pbrbmeterTypes,
+                          Clbss<?>[] exceptionTypes) {
         try {
             StringBuilder sb = new StringBuilder();
 
-            printModifiersIfNonzero(sb, modifierMask, isDefault);
-            specificToStringHeader(sb);
+            printModifiersIfNonzero(sb, modifierMbsk, isDefbult);
+            specificToStringHebder(sb);
 
-            sb.append('(');
-            separateWithCommas(parameterTypes, sb);
-            sb.append(')');
+            sb.bppend('(');
+            sepbrbteWithCommbs(pbrbmeterTypes, sb);
+            sb.bppend(')');
             if (exceptionTypes.length > 0) {
-                sb.append(" throws ");
-                separateWithCommas(exceptionTypes, sb);
+                sb.bppend(" throws ");
+                sepbrbteWithCommbs(exceptionTypes, sb);
             }
             return sb.toString();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             return "<" + e + ">";
         }
     }
 
     /**
-     * Generate toString header information specific to a method or
+     * Generbte toString hebder informbtion specific to b method or
      * constructor.
      */
-    abstract void specificToStringHeader(StringBuilder sb);
+    bbstrbct void specificToStringHebder(StringBuilder sb);
 
-    String sharedToGenericString(int modifierMask, boolean isDefault) {
+    String shbredToGenericString(int modifierMbsk, boolebn isDefbult) {
         try {
             StringBuilder sb = new StringBuilder();
 
-            printModifiersIfNonzero(sb, modifierMask, isDefault);
+            printModifiersIfNonzero(sb, modifierMbsk, isDefbult);
 
-            TypeVariable<?>[] typeparms = getTypeParameters();
-            if (typeparms.length > 0) {
-                boolean first = true;
-                sb.append('<');
-                for(TypeVariable<?> typeparm: typeparms) {
+            TypeVbribble<?>[] typepbrms = getTypePbrbmeters();
+            if (typepbrms.length > 0) {
+                boolebn first = true;
+                sb.bppend('<');
+                for(TypeVbribble<?> typepbrm: typepbrms) {
                     if (!first)
-                        sb.append(',');
-                    // Class objects can't occur here; no need to test
-                    // and call Class.getName().
-                    sb.append(typeparm.toString());
-                    first = false;
+                        sb.bppend(',');
+                    // Clbss objects cbn't occur here; no need to test
+                    // bnd cbll Clbss.getNbme().
+                    sb.bppend(typepbrm.toString());
+                    first = fblse;
                 }
-                sb.append("> ");
+                sb.bppend("> ");
             }
 
-            specificToGenericStringHeader(sb);
+            specificToGenericStringHebder(sb);
 
-            sb.append('(');
-            Type[] params = getGenericParameterTypes();
-            for (int j = 0; j < params.length; j++) {
-                String param = params[j].getTypeName();
-                if (isVarArgs() && (j == params.length - 1)) // replace T[] with T...
-                    param = param.replaceFirst("\\[\\]$", "...");
-                sb.append(param);
-                if (j < (params.length - 1))
-                    sb.append(',');
+            sb.bppend('(');
+            Type[] pbrbms = getGenericPbrbmeterTypes();
+            for (int j = 0; j < pbrbms.length; j++) {
+                String pbrbm = pbrbms[j].getTypeNbme();
+                if (isVbrArgs() && (j == pbrbms.length - 1)) // replbce T[] with T...
+                    pbrbm = pbrbm.replbceFirst("\\[\\]$", "...");
+                sb.bppend(pbrbm);
+                if (j < (pbrbms.length - 1))
+                    sb.bppend(',');
             }
-            sb.append(')');
+            sb.bppend(')');
             Type[] exceptions = getGenericExceptionTypes();
             if (exceptions.length > 0) {
-                sb.append(" throws ");
+                sb.bppend(" throws ");
                 for (int k = 0; k < exceptions.length; k++) {
-                    sb.append((exceptions[k] instanceof Class)?
-                              ((Class)exceptions[k]).getName():
+                    sb.bppend((exceptions[k] instbnceof Clbss)?
+                              ((Clbss)exceptions[k]).getNbme():
                               exceptions[k].toString());
                     if (k < (exceptions.length - 1))
-                        sb.append(',');
+                        sb.bppend(',');
                 }
             }
             return sb.toString();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             return "<" + e + ">";
         }
     }
 
     /**
-     * Generate toGenericString header information specific to a
+     * Generbte toGenericString hebder informbtion specific to b
      * method or constructor.
      */
-    abstract void specificToGenericStringHeader(StringBuilder sb);
+    bbstrbct void specificToGenericStringHebder(StringBuilder sb);
 
     /**
-     * Returns the {@code Class} object representing the class or interface
-     * that declares the executable represented by this object.
+     * Returns the {@code Clbss} object representing the clbss or interfbce
+     * thbt declbres the executbble represented by this object.
      */
-    public abstract Class<?> getDeclaringClass();
+    public bbstrbct Clbss<?> getDeclbringClbss();
 
     /**
-     * Returns the name of the executable represented by this object.
+     * Returns the nbme of the executbble represented by this object.
      */
-    public abstract String getName();
+    public bbstrbct String getNbme();
 
     /**
-     * Returns the Java language {@linkplain Modifier modifiers} for
-     * the executable represented by this object.
+     * Returns the Jbvb lbngubge {@linkplbin Modifier modifiers} for
+     * the executbble represented by this object.
      */
-    public abstract int getModifiers();
+    public bbstrbct int getModifiers();
 
     /**
-     * Returns an array of {@code TypeVariable} objects that represent the
-     * type variables declared by the generic declaration represented by this
-     * {@code GenericDeclaration} object, in declaration order.  Returns an
-     * array of length 0 if the underlying generic declaration declares no type
-     * variables.
+     * Returns bn brrby of {@code TypeVbribble} objects thbt represent the
+     * type vbribbles declbred by the generic declbrbtion represented by this
+     * {@code GenericDeclbrbtion} object, in declbrbtion order.  Returns bn
+     * brrby of length 0 if the underlying generic declbrbtion declbres no type
+     * vbribbles.
      *
-     * @return an array of {@code TypeVariable} objects that represent
-     *     the type variables declared by this generic declaration
-     * @throws GenericSignatureFormatError if the generic
-     *     signature of this generic declaration does not conform to
-     *     the format specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
+     * @return bn brrby of {@code TypeVbribble} objects thbt represent
+     *     the type vbribbles declbred by this generic declbrbtion
+     * @throws GenericSignbtureFormbtError if the generic
+     *     signbture of this generic declbrbtion does not conform to
+     *     the formbt specified in
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
      */
-    public abstract TypeVariable<?>[] getTypeParameters();
+    public bbstrbct TypeVbribble<?>[] getTypePbrbmeters();
 
     /**
-     * Returns an array of {@code Class} objects that represent the formal
-     * parameter types, in declaration order, of the executable
-     * represented by this object.  Returns an array of length
-     * 0 if the underlying executable takes no parameters.
+     * Returns bn brrby of {@code Clbss} objects thbt represent the formbl
+     * pbrbmeter types, in declbrbtion order, of the executbble
+     * represented by this object.  Returns bn brrby of length
+     * 0 if the underlying executbble tbkes no pbrbmeters.
      *
-     * @return the parameter types for the executable this object
+     * @return the pbrbmeter types for the executbble this object
      * represents
      */
-    public abstract Class<?>[] getParameterTypes();
+    public bbstrbct Clbss<?>[] getPbrbmeterTypes();
 
     /**
-     * Returns the number of formal parameters (whether explicitly
-     * declared or implicitly declared or neither) for the executable
+     * Returns the number of formbl pbrbmeters (whether explicitly
+     * declbred or implicitly declbred or neither) for the executbble
      * represented by this object.
      *
-     * @return The number of formal parameters for the executable this
+     * @return The number of formbl pbrbmeters for the executbble this
      * object represents
      */
-    public int getParameterCount() {
-        throw new AbstractMethodError();
+    public int getPbrbmeterCount() {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Returns an array of {@code Type} objects that represent the formal
-     * parameter types, in declaration order, of the executable represented by
-     * this object. Returns an array of length 0 if the
-     * underlying executable takes no parameters.
+     * Returns bn brrby of {@code Type} objects thbt represent the formbl
+     * pbrbmeter types, in declbrbtion order, of the executbble represented by
+     * this object. Returns bn brrby of length 0 if the
+     * underlying executbble tbkes no pbrbmeters.
      *
-     * <p>If a formal parameter type is a parameterized type,
-     * the {@code Type} object returned for it must accurately reflect
-     * the actual type parameters used in the source code.
+     * <p>If b formbl pbrbmeter type is b pbrbmeterized type,
+     * the {@code Type} object returned for it must bccurbtely reflect
+     * the bctubl type pbrbmeters used in the source code.
      *
-     * <p>If a formal parameter type is a type variable or a parameterized
-     * type, it is created. Otherwise, it is resolved.
+     * <p>If b formbl pbrbmeter type is b type vbribble or b pbrbmeterized
+     * type, it is crebted. Otherwise, it is resolved.
      *
-     * @return an array of {@code Type}s that represent the formal
-     *     parameter types of the underlying executable, in declaration order
-     * @throws GenericSignatureFormatError
-     *     if the generic method signature does not conform to the format
+     * @return bn brrby of {@code Type}s thbt represent the formbl
+     *     pbrbmeter types of the underlying executbble, in declbrbtion order
+     * @throws GenericSignbtureFormbtError
+     *     if the generic method signbture does not conform to the formbt
      *     specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if any of the parameter
-     *     types of the underlying executable refers to a non-existent type
-     *     declaration
-     * @throws MalformedParameterizedTypeException if any of
-     *     the underlying executable's parameter types refer to a parameterized
-     *     type that cannot be instantiated for any reason
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * @throws TypeNotPresentException if bny of the pbrbmeter
+     *     types of the underlying executbble refers to b non-existent type
+     *     declbrbtion
+     * @throws MblformedPbrbmeterizedTypeException if bny of
+     *     the underlying executbble's pbrbmeter types refer to b pbrbmeterized
+     *     type thbt cbnnot be instbntibted for bny rebson
      */
-    public Type[] getGenericParameterTypes() {
-        if (hasGenericInformation())
-            return getGenericInfo().getParameterTypes();
+    public Type[] getGenericPbrbmeterTypes() {
+        if (hbsGenericInformbtion())
+            return getGenericInfo().getPbrbmeterTypes();
         else
-            return getParameterTypes();
+            return getPbrbmeterTypes();
     }
 
     /**
-     * Returns an array of {@code Parameter} objects that represent
-     * all the parameters to the underlying executable represented by
-     * this object.  Returns an array of length 0 if the executable
-     * has no parameters.
+     * Returns bn brrby of {@code Pbrbmeter} objects thbt represent
+     * bll the pbrbmeters to the underlying executbble represented by
+     * this object.  Returns bn brrby of length 0 if the executbble
+     * hbs no pbrbmeters.
      *
-     * <p>The parameters of the underlying executable do not necessarily
-     * have unique names, or names that are legal identifiers in the
-     * Java programming language (JLS 3.8).
+     * <p>The pbrbmeters of the underlying executbble do not necessbrily
+     * hbve unique nbmes, or nbmes thbt bre legbl identifiers in the
+     * Jbvb progrbmming lbngubge (JLS 3.8).
      *
-     * @throws MalformedParametersException if the class file contains
-     * a MethodParameters attribute that is improperly formatted.
-     * @return an array of {@code Parameter} objects representing all
-     * the parameters to the executable this object represents.
+     * @throws MblformedPbrbmetersException if the clbss file contbins
+     * b MethodPbrbmeters bttribute thbt is improperly formbtted.
+     * @return bn brrby of {@code Pbrbmeter} objects representing bll
+     * the pbrbmeters to the executbble this object represents.
      */
-    public Parameter[] getParameters() {
-        // TODO: This may eventually need to be guarded by security
-        // mechanisms similar to those in Field, Method, etc.
+    public Pbrbmeter[] getPbrbmeters() {
+        // TODO: This mby eventublly need to be gubrded by security
+        // mechbnisms similbr to those in Field, Method, etc.
         //
-        // Need to copy the cached array to prevent users from messing
-        // with it.  Since parameters are immutable, we can
-        // shallow-copy.
-        return privateGetParameters().clone();
+        // Need to copy the cbched brrby to prevent users from messing
+        // with it.  Since pbrbmeters bre immutbble, we cbn
+        // shbllow-copy.
+        return privbteGetPbrbmeters().clone();
     }
 
-    private Parameter[] synthesizeAllParams() {
-        final int realparams = getParameterCount();
-        final Parameter[] out = new Parameter[realparams];
-        for (int i = 0; i < realparams; i++)
-            // TODO: is there a way to synthetically derive the
-            // modifiers?  Probably not in the general case, since
-            // we'd have no way of knowing about them, but there
-            // may be specific cases.
-            out[i] = new Parameter("arg" + i, 0, this, i);
+    privbte Pbrbmeter[] synthesizeAllPbrbms() {
+        finbl int reblpbrbms = getPbrbmeterCount();
+        finbl Pbrbmeter[] out = new Pbrbmeter[reblpbrbms];
+        for (int i = 0; i < reblpbrbms; i++)
+            // TODO: is there b wby to syntheticblly derive the
+            // modifiers?  Probbbly not in the generbl cbse, since
+            // we'd hbve no wby of knowing bbout them, but there
+            // mby be specific cbses.
+            out[i] = new Pbrbmeter("brg" + i, 0, this, i);
         return out;
     }
 
-    private void verifyParameters(final Parameter[] parameters) {
-        final int mask = Modifier.FINAL | Modifier.SYNTHETIC | Modifier.MANDATED;
+    privbte void verifyPbrbmeters(finbl Pbrbmeter[] pbrbmeters) {
+        finbl int mbsk = Modifier.FINAL | Modifier.SYNTHETIC | Modifier.MANDATED;
 
-        if (getParameterTypes().length != parameters.length)
-            throw new MalformedParametersException("Wrong number of parameters in MethodParameters attribute");
+        if (getPbrbmeterTypes().length != pbrbmeters.length)
+            throw new MblformedPbrbmetersException("Wrong number of pbrbmeters in MethodPbrbmeters bttribute");
 
-        for (Parameter parameter : parameters) {
-            final String name = parameter.getRealName();
-            final int mods = parameter.getModifiers();
+        for (Pbrbmeter pbrbmeter : pbrbmeters) {
+            finbl String nbme = pbrbmeter.getReblNbme();
+            finbl int mods = pbrbmeter.getModifiers();
 
-            if (name != null) {
-                if (name.isEmpty() || name.indexOf('.') != -1 ||
-                    name.indexOf(';') != -1 || name.indexOf('[') != -1 ||
-                    name.indexOf('/') != -1) {
-                    throw new MalformedParametersException("Invalid parameter name \"" + name + "\"");
+            if (nbme != null) {
+                if (nbme.isEmpty() || nbme.indexOf('.') != -1 ||
+                    nbme.indexOf(';') != -1 || nbme.indexOf('[') != -1 ||
+                    nbme.indexOf('/') != -1) {
+                    throw new MblformedPbrbmetersException("Invblid pbrbmeter nbme \"" + nbme + "\"");
                 }
             }
 
-            if (mods != (mods & mask)) {
-                throw new MalformedParametersException("Invalid parameter modifiers");
+            if (mods != (mods & mbsk)) {
+                throw new MblformedPbrbmetersException("Invblid pbrbmeter modifiers");
             }
         }
     }
 
-    private Parameter[] privateGetParameters() {
-        // Use tmp to avoid multiple writes to a volatile.
-        Parameter[] tmp = parameters;
+    privbte Pbrbmeter[] privbteGetPbrbmeters() {
+        // Use tmp to bvoid multiple writes to b volbtile.
+        Pbrbmeter[] tmp = pbrbmeters;
 
         if (tmp == null) {
 
             // Otherwise, go to the JVM to get them
             try {
-                tmp = getParameters0();
-            } catch(IllegalArgumentException e) {
-                // Rethrow ClassFormatErrors
-                throw new MalformedParametersException("Invalid constant pool index");
+                tmp = getPbrbmeters0();
+            } cbtch(IllegblArgumentException e) {
+                // Rethrow ClbssFormbtErrors
+                throw new MblformedPbrbmetersException("Invblid constbnt pool index");
             }
 
-            // If we get back nothing, then synthesize parameters
+            // If we get bbck nothing, then synthesize pbrbmeters
             if (tmp == null) {
-                hasRealParameterData = false;
-                tmp = synthesizeAllParams();
+                hbsReblPbrbmeterDbtb = fblse;
+                tmp = synthesizeAllPbrbms();
             } else {
-                hasRealParameterData = true;
-                verifyParameters(tmp);
+                hbsReblPbrbmeterDbtb = true;
+                verifyPbrbmeters(tmp);
             }
 
-            parameters = tmp;
+            pbrbmeters = tmp;
         }
 
         return tmp;
     }
 
-    boolean hasRealParameterData() {
-        // If this somehow gets called before parameters gets
-        // initialized, force it into existence.
-        if (parameters == null) {
-            privateGetParameters();
+    boolebn hbsReblPbrbmeterDbtb() {
+        // If this somehow gets cblled before pbrbmeters gets
+        // initiblized, force it into existence.
+        if (pbrbmeters == null) {
+            privbteGetPbrbmeters();
         }
-        return hasRealParameterData;
+        return hbsReblPbrbmeterDbtb;
     }
 
-    private transient volatile boolean hasRealParameterData;
-    private transient volatile Parameter[] parameters;
+    privbte trbnsient volbtile boolebn hbsReblPbrbmeterDbtb;
+    privbte trbnsient volbtile Pbrbmeter[] pbrbmeters;
 
-    private native Parameter[] getParameters0();
-    native byte[] getTypeAnnotationBytes0();
+    privbte nbtive Pbrbmeter[] getPbrbmeters0();
+    nbtive byte[] getTypeAnnotbtionBytes0();
 
-    // Needed by reflectaccess
-    byte[] getTypeAnnotationBytes() {
-        return getTypeAnnotationBytes0();
+    // Needed by reflectbccess
+    byte[] getTypeAnnotbtionBytes() {
+        return getTypeAnnotbtionBytes0();
     }
 
     /**
-     * Returns an array of {@code Class} objects that represent the
-     * types of exceptions declared to be thrown by the underlying
-     * executable represented by this object.  Returns an array of
-     * length 0 if the executable declares no exceptions in its {@code
-     * throws} clause.
+     * Returns bn brrby of {@code Clbss} objects thbt represent the
+     * types of exceptions declbred to be thrown by the underlying
+     * executbble represented by this object.  Returns bn brrby of
+     * length 0 if the executbble declbres no exceptions in its {@code
+     * throws} clbuse.
      *
-     * @return the exception types declared as being thrown by the
-     * executable this object represents
+     * @return the exception types declbred bs being thrown by the
+     * executbble this object represents
      */
-    public abstract Class<?>[] getExceptionTypes();
+    public bbstrbct Clbss<?>[] getExceptionTypes();
 
     /**
-     * Returns an array of {@code Type} objects that represent the
-     * exceptions declared to be thrown by this executable object.
-     * Returns an array of length 0 if the underlying executable declares
-     * no exceptions in its {@code throws} clause.
+     * Returns bn brrby of {@code Type} objects thbt represent the
+     * exceptions declbred to be thrown by this executbble object.
+     * Returns bn brrby of length 0 if the underlying executbble declbres
+     * no exceptions in its {@code throws} clbuse.
      *
-     * <p>If an exception type is a type variable or a parameterized
-     * type, it is created. Otherwise, it is resolved.
+     * <p>If bn exception type is b type vbribble or b pbrbmeterized
+     * type, it is crebted. Otherwise, it is resolved.
      *
-     * @return an array of Types that represent the exception types
-     *     thrown by the underlying executable
-     * @throws GenericSignatureFormatError
-     *     if the generic method signature does not conform to the format
+     * @return bn brrby of Types thbt represent the exception types
+     *     thrown by the underlying executbble
+     * @throws GenericSignbtureFormbtError
+     *     if the generic method signbture does not conform to the formbt
      *     specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if the underlying executable's
-     *     {@code throws} clause refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if
-     *     the underlying executable's {@code throws} clause refers to a
-     *     parameterized type that cannot be instantiated for any reason
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * @throws TypeNotPresentException if the underlying executbble's
+     *     {@code throws} clbuse refers to b non-existent type declbrbtion
+     * @throws MblformedPbrbmeterizedTypeException if
+     *     the underlying executbble's {@code throws} clbuse refers to b
+     *     pbrbmeterized type thbt cbnnot be instbntibted for bny rebson
      */
     public Type[] getGenericExceptionTypes() {
         Type[] result;
-        if (hasGenericInformation() &&
+        if (hbsGenericInformbtion() &&
             ((result = getGenericInfo().getExceptionTypes()).length > 0))
             return result;
         else
@@ -433,89 +433,89 @@ public abstract class Executable extends AccessibleObject
     }
 
     /**
-     * Returns a string describing this {@code Executable}, including
-     * any type parameters.
-     * @return a string describing this {@code Executable}, including
-     * any type parameters
+     * Returns b string describing this {@code Executbble}, including
+     * bny type pbrbmeters.
+     * @return b string describing this {@code Executbble}, including
+     * bny type pbrbmeters
      */
-    public abstract String toGenericString();
+    public bbstrbct String toGenericString();
 
     /**
-     * Returns {@code true} if this executable was declared to take a
-     * variable number of arguments; returns {@code false} otherwise.
+     * Returns {@code true} if this executbble wbs declbred to tbke b
+     * vbribble number of brguments; returns {@code fblse} otherwise.
      *
-     * @return {@code true} if an only if this executable was declared
-     * to take a variable number of arguments.
+     * @return {@code true} if bn only if this executbble wbs declbred
+     * to tbke b vbribble number of brguments.
      */
-    public boolean isVarArgs()  {
+    public boolebn isVbrArgs()  {
         return (getModifiers() & Modifier.VARARGS) != 0;
     }
 
     /**
-     * Returns {@code true} if this executable is a synthetic
-     * construct; returns {@code false} otherwise.
+     * Returns {@code true} if this executbble is b synthetic
+     * construct; returns {@code fblse} otherwise.
      *
-     * @return true if and only if this executable is a synthetic
-     * construct as defined by
-     * <cite>The Java&trade; Language Specification</cite>.
-     * @jls 13.1 The Form of a Binary
+     * @return true if bnd only if this executbble is b synthetic
+     * construct bs defined by
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
+     * @jls 13.1 The Form of b Binbry
      */
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return Modifier.isSynthetic(getModifiers());
     }
 
     /**
-     * Returns an array of arrays of {@code Annotation}s that
-     * represent the annotations on the formal parameters, in
-     * declaration order, of the {@code Executable} represented by
-     * this object.  Synthetic and mandated parameters (see
-     * explanation below), such as the outer "this" parameter to an
-     * inner class constructor will be represented in the returned
-     * array.  If the executable has no parameters (meaning no formal,
-     * no synthetic, and no mandated parameters), a zero-length array
-     * will be returned.  If the {@code Executable} has one or more
-     * parameters, a nested array of length zero is returned for each
-     * parameter with no annotations. The annotation objects contained
-     * in the returned arrays are serializable.  The caller of this
-     * method is free to modify the returned arrays; it will have no
-     * effect on the arrays returned to other callers.
+     * Returns bn brrby of brrbys of {@code Annotbtion}s thbt
+     * represent the bnnotbtions on the formbl pbrbmeters, in
+     * declbrbtion order, of the {@code Executbble} represented by
+     * this object.  Synthetic bnd mbndbted pbrbmeters (see
+     * explbnbtion below), such bs the outer "this" pbrbmeter to bn
+     * inner clbss constructor will be represented in the returned
+     * brrby.  If the executbble hbs no pbrbmeters (mebning no formbl,
+     * no synthetic, bnd no mbndbted pbrbmeters), b zero-length brrby
+     * will be returned.  If the {@code Executbble} hbs one or more
+     * pbrbmeters, b nested brrby of length zero is returned for ebch
+     * pbrbmeter with no bnnotbtions. The bnnotbtion objects contbined
+     * in the returned brrbys bre seriblizbble.  The cbller of this
+     * method is free to modify the returned brrbys; it will hbve no
+     * effect on the brrbys returned to other cbllers.
      *
-     * A compiler may add extra parameters that are implicitly
-     * declared in source ("mandated"), as well as parameters that
-     * are neither implicitly nor explicitly declared in source
-     * ("synthetic") to the parameter list for a method.  See {@link
-     * java.lang.reflect.Parameter} for more information.
+     * A compiler mby bdd extrb pbrbmeters thbt bre implicitly
+     * declbred in source ("mbndbted"), bs well bs pbrbmeters thbt
+     * bre neither implicitly nor explicitly declbred in source
+     * ("synthetic") to the pbrbmeter list for b method.  See {@link
+     * jbvb.lbng.reflect.Pbrbmeter} for more informbtion.
      *
-     * @see java.lang.reflect.Parameter
-     * @see java.lang.reflect.Parameter#getAnnotations
-     * @return an array of arrays that represent the annotations on
-     *    the formal and implicit parameters, in declaration order, of
-     *    the executable represented by this object
+     * @see jbvb.lbng.reflect.Pbrbmeter
+     * @see jbvb.lbng.reflect.Pbrbmeter#getAnnotbtions
+     * @return bn brrby of brrbys thbt represent the bnnotbtions on
+     *    the formbl bnd implicit pbrbmeters, in declbrbtion order, of
+     *    the executbble represented by this object
      */
-    public abstract Annotation[][] getParameterAnnotations();
+    public bbstrbct Annotbtion[][] getPbrbmeterAnnotbtions();
 
-    Annotation[][] sharedGetParameterAnnotations(Class<?>[] parameterTypes,
-                                                 byte[] parameterAnnotations) {
-        int numParameters = parameterTypes.length;
-        if (parameterAnnotations == null)
-            return new Annotation[numParameters][0];
+    Annotbtion[][] shbredGetPbrbmeterAnnotbtions(Clbss<?>[] pbrbmeterTypes,
+                                                 byte[] pbrbmeterAnnotbtions) {
+        int numPbrbmeters = pbrbmeterTypes.length;
+        if (pbrbmeterAnnotbtions == null)
+            return new Annotbtion[numPbrbmeters][0];
 
-        Annotation[][] result = parseParameterAnnotations(parameterAnnotations);
+        Annotbtion[][] result = pbrsePbrbmeterAnnotbtions(pbrbmeterAnnotbtions);
 
-        if (result.length != numParameters)
-            handleParameterNumberMismatch(result.length, numParameters);
+        if (result.length != numPbrbmeters)
+            hbndlePbrbmeterNumberMismbtch(result.length, numPbrbmeters);
         return result;
     }
 
-    abstract void handleParameterNumberMismatch(int resultLength, int numParameters);
+    bbstrbct void hbndlePbrbmeterNumberMismbtch(int resultLength, int numPbrbmeters);
 
     /**
      * {@inheritDoc}
      * @throws NullPointerException  {@inheritDoc}
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return annotationClass.cast(declaredAnnotations().get(annotationClass));
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return bnnotbtionClbss.cbst(declbredAnnotbtions().get(bnnotbtionClbss));
     }
 
     /**
@@ -523,142 +523,142 @@ public abstract class Executable extends AccessibleObject
      * @throws NullPointerException {@inheritDoc}
      */
     @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    public <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(declaredAnnotations(), annotationClass);
+        return AnnotbtionSupport.getDirectlyAndIndirectlyPresent(declbredAnnotbtions(), bnnotbtionClbss);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return AnnotationParser.toArray(declaredAnnotations());
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        return AnnotbtionPbrser.toArrby(declbredAnnotbtions());
     }
 
-    private transient Map<Class<? extends Annotation>, Annotation> declaredAnnotations;
+    privbte trbnsient Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions;
 
-    private synchronized  Map<Class<? extends Annotation>, Annotation> declaredAnnotations() {
-        if (declaredAnnotations == null) {
-            declaredAnnotations = AnnotationParser.parseAnnotations(
-                getAnnotationBytes(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                getConstantPool(getDeclaringClass()),
-                getDeclaringClass());
+    privbte synchronized  Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions() {
+        if (declbredAnnotbtions == null) {
+            declbredAnnotbtions = AnnotbtionPbrser.pbrseAnnotbtions(
+                getAnnotbtionBytes(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                getConstbntPool(getDeclbringClbss()),
+                getDeclbringClbss());
         }
-        return declaredAnnotations;
+        return declbredAnnotbtions;
     }
 
     /**
-     * Returns an {@code AnnotatedType} object that represents the use of a type to
+     * Returns bn {@code AnnotbtedType} object thbt represents the use of b type to
      * specify the return type of the method/constructor represented by this
-     * Executable.
+     * Executbble.
      *
-     * If this {@code Executable} object represents a constructor, the {@code
-     * AnnotatedType} object represents the type of the constructed object.
+     * If this {@code Executbble} object represents b constructor, the {@code
+     * AnnotbtedType} object represents the type of the constructed object.
      *
-     * If this {@code Executable} object represents a method, the {@code
-     * AnnotatedType} object represents the use of a type to specify the return
+     * If this {@code Executbble} object represents b method, the {@code
+     * AnnotbtedType} object represents the use of b type to specify the return
      * type of the method.
      *
-     * @return an object representing the return type of the method
-     * or constructor represented by this {@code Executable}
+     * @return bn object representing the return type of the method
+     * or constructor represented by this {@code Executbble}
      */
-    public abstract AnnotatedType getAnnotatedReturnType();
+    public bbstrbct AnnotbtedType getAnnotbtedReturnType();
 
-    /* Helper for subclasses of Executable.
+    /* Helper for subclbsses of Executbble.
      *
-     * Returns an AnnotatedType object that represents the use of a type to
+     * Returns bn AnnotbtedType object thbt represents the use of b type to
      * specify the return type of the method/constructor represented by this
-     * Executable.
+     * Executbble.
      */
-    AnnotatedType getAnnotatedReturnType0(Type returnType) {
-        return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
+    AnnotbtedType getAnnotbtedReturnType0(Type returnType) {
+        return TypeAnnotbtionPbrser.buildAnnotbtedType(getTypeAnnotbtionBytes0(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                        getConstbntPool(getDeclbringClbss()),
                 this,
-                getDeclaringClass(),
+                getDeclbringClbss(),
                 returnType,
-                TypeAnnotation.TypeAnnotationTarget.METHOD_RETURN);
+                TypeAnnotbtion.TypeAnnotbtionTbrget.METHOD_RETURN);
     }
 
     /**
-     * Returns an {@code AnnotatedType} object that represents the use of a
+     * Returns bn {@code AnnotbtedType} object thbt represents the use of b
      * type to specify the receiver type of the method/constructor represented
-     * by this Executable object. The receiver type of a method/constructor is
-     * available only if the method/constructor has a <em>receiver
-     * parameter</em> (JLS 8.4.1).
+     * by this Executbble object. The receiver type of b method/constructor is
+     * bvbilbble only if the method/constructor hbs b <em>receiver
+     * pbrbmeter</em> (JLS 8.4.1).
      *
-     * If this {@code Executable} object represents a constructor or instance
-     * method that does not have a receiver parameter, or has a receiver
-     * parameter with no annotations on its type, then the return value is an
-     * {@code AnnotatedType} object representing an element with no
-     * annotations.
+     * If this {@code Executbble} object represents b constructor or instbnce
+     * method thbt does not hbve b receiver pbrbmeter, or hbs b receiver
+     * pbrbmeter with no bnnotbtions on its type, then the return vblue is bn
+     * {@code AnnotbtedType} object representing bn element with no
+     * bnnotbtions.
      *
-     * If this {@code Executable} object represents a static method, then the
-     * return value is null.
+     * If this {@code Executbble} object represents b stbtic method, then the
+     * return vblue is null.
      *
-     * @return an object representing the receiver type of the method or
-     * constructor represented by this {@code Executable}
+     * @return bn object representing the receiver type of the method or
+     * constructor represented by this {@code Executbble}
      */
-    public AnnotatedType getAnnotatedReceiverType() {
-        if (Modifier.isStatic(this.getModifiers()))
+    public AnnotbtedType getAnnotbtedReceiverType() {
+        if (Modifier.isStbtic(this.getModifiers()))
             return null;
-        return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
+        return TypeAnnotbtionPbrser.buildAnnotbtedType(getTypeAnnotbtionBytes0(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                        getConstbntPool(getDeclbringClbss()),
                 this,
-                getDeclaringClass(),
-                getDeclaringClass(),
-                TypeAnnotation.TypeAnnotationTarget.METHOD_RECEIVER);
+                getDeclbringClbss(),
+                getDeclbringClbss(),
+                TypeAnnotbtion.TypeAnnotbtionTbrget.METHOD_RECEIVER);
     }
 
     /**
-     * Returns an array of {@code AnnotatedType} objects that represent the use
-     * of types to specify formal parameter types of the method/constructor
-     * represented by this Executable. The order of the objects in the array
-     * corresponds to the order of the formal parameter types in the
-     * declaration of the method/constructor.
+     * Returns bn brrby of {@code AnnotbtedType} objects thbt represent the use
+     * of types to specify formbl pbrbmeter types of the method/constructor
+     * represented by this Executbble. The order of the objects in the brrby
+     * corresponds to the order of the formbl pbrbmeter types in the
+     * declbrbtion of the method/constructor.
      *
-     * Returns an array of length 0 if the method/constructor declares no
-     * parameters.
+     * Returns bn brrby of length 0 if the method/constructor declbres no
+     * pbrbmeters.
      *
-     * @return an array of objects representing the types of the
-     * formal parameters of the method or constructor represented by this
-     * {@code Executable}
+     * @return bn brrby of objects representing the types of the
+     * formbl pbrbmeters of the method or constructor represented by this
+     * {@code Executbble}
      */
-    public AnnotatedType[] getAnnotatedParameterTypes() {
-        return TypeAnnotationParser.buildAnnotatedTypes(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
+    public AnnotbtedType[] getAnnotbtedPbrbmeterTypes() {
+        return TypeAnnotbtionPbrser.buildAnnotbtedTypes(getTypeAnnotbtionBytes0(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                        getConstbntPool(getDeclbringClbss()),
                 this,
-                getDeclaringClass(),
-                getGenericParameterTypes(),
-                TypeAnnotation.TypeAnnotationTarget.METHOD_FORMAL_PARAMETER);
+                getDeclbringClbss(),
+                getGenericPbrbmeterTypes(),
+                TypeAnnotbtion.TypeAnnotbtionTbrget.METHOD_FORMAL_PARAMETER);
     }
 
     /**
-     * Returns an array of {@code AnnotatedType} objects that represent the use
-     * of types to specify the declared exceptions of the method/constructor
-     * represented by this Executable. The order of the objects in the array
-     * corresponds to the order of the exception types in the declaration of
+     * Returns bn brrby of {@code AnnotbtedType} objects thbt represent the use
+     * of types to specify the declbred exceptions of the method/constructor
+     * represented by this Executbble. The order of the objects in the brrby
+     * corresponds to the order of the exception types in the declbrbtion of
      * the method/constructor.
      *
-     * Returns an array of length 0 if the method/constructor declares no
+     * Returns bn brrby of length 0 if the method/constructor declbres no
      * exceptions.
      *
-     * @return an array of objects representing the declared
+     * @return bn brrby of objects representing the declbred
      * exceptions of the method or constructor represented by this {@code
-     * Executable}
+     * Executbble}
      */
-    public AnnotatedType[] getAnnotatedExceptionTypes() {
-        return TypeAnnotationParser.buildAnnotatedTypes(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
+    public AnnotbtedType[] getAnnotbtedExceptionTypes() {
+        return TypeAnnotbtionPbrser.buildAnnotbtedTypes(getTypeAnnotbtionBytes0(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                        getConstbntPool(getDeclbringClbss()),
                 this,
-                getDeclaringClass(),
+                getDeclbringClbss(),
                 getGenericExceptionTypes(),
-                TypeAnnotation.TypeAnnotationTarget.THROWS);
+                TypeAnnotbtion.TypeAnnotbtionTbrget.THROWS);
     }
 
 }

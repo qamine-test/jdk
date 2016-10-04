@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,126 +30,126 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.io.PrintWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.LineNumberReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.File;
-import java.awt.Frame;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import jbvb.io.PrintWriter;
+import jbvb.io.FileRebder;
+import jbvb.io.FileWriter;
+import jbvb.io.LineNumberRebder;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JFileChooser;
+import jbvbx.swing.JOptionPbne;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.Dbte;
 
-import j2dbench.tests.GraphicsTests;
-import j2dbench.tests.ImageTests;
+import j2dbench.tests.GrbphicsTests;
+import j2dbench.tests.ImbgeTests;
 import j2dbench.tests.MiscTests;
 import j2dbench.tests.RenderTests;
 import j2dbench.tests.PixelTests;
 import j2dbench.tests.iio.IIOTests;
 import j2dbench.tests.cmm.CMMTests;
 import j2dbench.tests.text.TextConstructionTests;
-import j2dbench.tests.text.TextMeasureTests;
+import j2dbench.tests.text.TextMebsureTests;
 import j2dbench.tests.text.TextRenderTests;
 import j2dbench.tests.text.TextTests;
 
-public class J2DBench {
-    static Group progoptroot;
+public clbss J2DBench {
+    stbtic Group progoptroot;
 
-    static Option.Enable verbose;
-    static Option.Enable printresults;
+    stbtic Option.Enbble verbose;
+    stbtic Option.Enbble printresults;
 
-    static boolean looping = false;
+    stbtic boolebn looping = fblse;
 
-    static JFrame guiFrame;
+    stbtic JFrbme guiFrbme;
 
-    static final SimpleDateFormat sdf =
-        new SimpleDateFormat("MM.dd.yyyy 'at' HH:mm aaa z");
+    stbtic finbl SimpleDbteFormbt sdf =
+        new SimpleDbteFormbt("MM.dd.yyyy 'bt' HH:mm bbb z");
 
-    public static void init() {
-        progoptroot = new Group("prog", "Program Options");
+    public stbtic void init() {
+        progoptroot = new Group("prog", "Progrbm Options");
         progoptroot.setHidden();
 
         verbose =
-            new Option.Enable(progoptroot,
-                              "verbose", "Verbose print statements",
-                              false);
+            new Option.Enbble(progoptroot,
+                              "verbose", "Verbose print stbtements",
+                              fblse);
         printresults =
-            new Option.Enable(progoptroot,
-                              "printresults", "Print results after each run",
+            new Option.Enbble(progoptroot,
+                              "printresults", "Print results bfter ebch run",
                               true);
     }
 
-    public static void usage(int exitcode) {
-        System.out.println("usage: java -jar J2DBench.jar "+
-                           "[<optionname>=<value>]");
+    public stbtic void usbge(int exitcode) {
+        System.out.println("usbge: jbvb -jbr J2DBench.jbr "+
+                           "[<optionnbme>=<vblue>]");
         System.out.println("    "+
                            "[-list] "+
-                           "[-gui | -interactive] "+
-                           "[-batch] "+
+                           "[-gui | -interbctive] "+
+                           "[-bbtch] "+
                            "[-noshow] "+
-                           "[-nosave] "+
-                           "[-report:[NMKAUOsmuna/]] "+
-                           "[-usage | -help] "+
+                           "[-nosbve] "+
+                           "[-report:[NMKAUOsmunb/]] "+
+                           "[-usbge | -help] "+
                            "\n    "+
                            "\n    "+
-                           "[-loadopts | -loadoptions] <optfile> "+
-                           "[-saveopts | -saveoptions] <optfile> "+
+                           "[-lobdopts | -lobdoptions] <optfile> "+
+                           "[-sbveopts | -sbveoptions] <optfile> "+
                            "\n    "+
-                           "[-saveres | -saveresults] <resfile> "+
-                           "[-appres | -appendresults] <resfile> "+
+                           "[-sbveres | -sbveresults] <resfile> "+
+                           "[-bppres | -bppendresults] <resfile> "+
                            "\n    "+
                            "[-title] <title> "+
                            "[-desc | -description] <description> "+
                            "\n    "+
-                           "[-loop] <duration> [-loopdef | -loopdefault] "+
+                           "[-loop] <durbtion> [-loopdef | -loopdefbult] "+
                            "");
         System.out.println("        -list      "+
                            "List the option settings on stdout");
         System.out.println("        -gui       "+
-                           "Run the program in interactive mode (launch GUI)");
-        System.out.println("        -batch     "+
-                           "Run the program in batch mode (do not launch GUI)");
+                           "Run the progrbm in interbctive mode (lbunch GUI)");
+        System.out.println("        -bbtch     "+
+                           "Run the progrbm in bbtch mode (do not lbunch GUI)");
         System.out.println("        -noshow    "+
-                           "Do not show output on the screen (batch mode)");
-        System.out.println("        -nosave    "+
-                           "Do not show save results to a file (batch mode)");
+                           "Do not show output on the screen (bbtch mode)");
+        System.out.println("        -nosbve    "+
+                           "Do not show sbve results to b file (bbtch mode)");
         System.out.println("        -report    "+
-                           "Rate format to report 'X per Y' (default u/s)");
+                           "Rbte formbt to report 'X per Y' (defbult u/s)");
         System.out.println("                   "+
                            "  N = report in single units or ops");
         System.out.println("                   "+
                            "  M = report in millions of units or ops");
         System.out.println("                   "+
-                           "  K = report in thousands of units or ops");
+                           "  K = report in thousbnds of units or ops");
         System.out.println("                   "+
-                           "  A = (auto) M or K as needed");
+                           "  A = (buto) M or K bs needed");
         System.out.println("                   "+
-                           "  U = units as defined by the operation");
+                           "  U = units bs defined by the operbtion");
         System.out.println("                   "+
-                           "  O = operations");
+                           "  O = operbtions");
         System.out.println("                   "+
                            "  s = report by whole seconds");
         System.out.println("                   "+
@@ -157,218 +157,218 @@ public class J2DBench {
         System.out.println("                   "+
                            "  u = report by microseconds");
         System.out.println("                   "+
-                           "  n = report by nanoseconds");
+                           "  n = report by nbnoseconds");
         System.out.println("                   "+
-                           "  a = (auto) milli/micro/nanoseconds as needed");
+                           "  b = (buto) milli/micro/nbnoseconds bs needed");
         System.out.println("                   "+
                            "  / = invert (N/sec or secs/N)");
-        System.out.println("        -usage     "+
-                           "Print out this usage message");
-        System.out.println("        -saveres   "+
-                           "Save the results to the indicated file");
-        System.out.println("        -appres    "+
-                           "Append the results to the indicated file");
+        System.out.println("        -usbge     "+
+                           "Print out this usbge messbge");
+        System.out.println("        -sbveres   "+
+                           "Sbve the results to the indicbted file");
+        System.out.println("        -bppres    "+
+                           "Append the results to the indicbted file");
         System.out.println("        -title     "+
-                           "Use the title for the saved results");
+                           "Use the title for the sbved results");
         System.out.println("        -desc      "+
-                           "Use the description for the saved results");
+                           "Use the description for the sbved results");
         System.out.println("        -loop      "+
-                           "Loop for the specified duration"+
+                           "Loop for the specified durbtion"+
                            "\n                   "+
-                           "Duration specified as :"+
+                           "Durbtion specified bs :"+
                            "\n                     "+
-                           "<days>d / <hours>h / <minutes>m / dd:hh:mm");
+                           "<dbys>d / <hours>h / <minutes>m / dd:hh:mm");
         System.out.println("        -loopdef   "+
-                           "Loop for a default duration of 72 hours");
+                           "Loop for b defbult durbtion of 72 hours");
 
         System.exit(exitcode);
     }
 
-    public static void main(String argv[]) {
+    public stbtic void mbin(String brgv[]) {
         init();
         TestEnvironment.init();
         Result.init();
 
-        Destinations.init();
-        GraphicsTests.init();
+        Destinbtions.init();
+        GrbphicsTests.init();
         RenderTests.init();
         PixelTests.init();
-        ImageTests.init();
+        ImbgeTests.init();
         MiscTests.init();
         TextTests.init();
         TextRenderTests.init();
-        TextMeasureTests.init();
+        TextMebsureTests.init();
         TextConstructionTests.init();
         IIOTests.init();
         CMMTests.init();
 
-        boolean gui = true;
-        boolean showresults = true;
-        boolean saveresults = true;
-        String resfilename = null;
+        boolebn gui = true;
+        boolebn showresults = true;
+        boolebn sbveresults = true;
+        String resfilenbme = null;
         String title = null;
         String desc = null;
-        boolean appendres = false;
+        boolebn bppendres = fblse;
         long requiredLoopTime = 259200000; // 72 hrs * 60 * 60 * 1000
-        for (int i = 0; i < argv.length; i++) {
-            String arg = argv[i];
-            if (arg.equalsIgnoreCase("-list")) {
+        for (int i = 0; i < brgv.length; i++) {
+            String brg = brgv[i];
+            if (brg.equblsIgnoreCbse("-list")) {
                 PrintWriter pw = new PrintWriter(System.out);
-                Node.Iterator iter = Group.root.getRecursiveChildIterator();
-                while (iter.hasNext()) {
+                Node.Iterbtor iter = Group.root.getRecursiveChildIterbtor();
+                while (iter.hbsNext()) {
                     Node n = iter.next();
                     n.write(pw);
                 }
                 pw.flush();
-            } else if (arg.equalsIgnoreCase("-gui") ||
-                       arg.equalsIgnoreCase("-interactive"))
+            } else if (brg.equblsIgnoreCbse("-gui") ||
+                       brg.equblsIgnoreCbse("-interbctive"))
             {
                 gui = true;
-            } else if (arg.equalsIgnoreCase("-batch")) {
-                gui = false;
-            } else if (arg.equalsIgnoreCase("-noshow")) {
-                showresults = false;
-            } else if (arg.equalsIgnoreCase("-nosave")) {
-                saveresults = false;
-            } else if (arg.equalsIgnoreCase("-usage") ||
-                       arg.equalsIgnoreCase("-help"))
+            } else if (brg.equblsIgnoreCbse("-bbtch")) {
+                gui = fblse;
+            } else if (brg.equblsIgnoreCbse("-noshow")) {
+                showresults = fblse;
+            } else if (brg.equblsIgnoreCbse("-nosbve")) {
+                sbveresults = fblse;
+            } else if (brg.equblsIgnoreCbse("-usbge") ||
+                       brg.equblsIgnoreCbse("-help"))
             {
-                usage(0);
-            } else if (arg.equalsIgnoreCase("-loadoptions") ||
-                       arg.equalsIgnoreCase("-loadopts"))
+                usbge(0);
+            } else if (brg.equblsIgnoreCbse("-lobdoptions") ||
+                       brg.equblsIgnoreCbse("-lobdopts"))
             {
-                if (++i < argv.length) {
-                    String file = argv[i];
-                    String reason = loadOptions(file);
-                    if (reason != null) {
-                        System.err.println(reason);
+                if (++i < brgv.length) {
+                    String file = brgv[i];
+                    String rebson = lobdOptions(file);
+                    if (rebson != null) {
+                        System.err.println(rebson);
                         System.exit(1);
                     }
                 } else {
-                    usage(1);
+                    usbge(1);
                 }
-            } else if (arg.equalsIgnoreCase("-saveoptions") ||
-                       arg.equalsIgnoreCase("-saveopts"))
+            } else if (brg.equblsIgnoreCbse("-sbveoptions") ||
+                       brg.equblsIgnoreCbse("-sbveopts"))
             {
-                if (++i < argv.length) {
-                    String file = argv[i];
-                    String reason = saveOptions(file);
-                    if (reason != null) {
-                        System.err.println(reason);
+                if (++i < brgv.length) {
+                    String file = brgv[i];
+                    String rebson = sbveOptions(file);
+                    if (rebson != null) {
+                        System.err.println(rebson);
                         System.exit(1);
                     }
                 } else {
-                    usage(1);
+                    usbge(1);
                 }
-            } else if (arg.equalsIgnoreCase("-saveresults") ||
-                       arg.equalsIgnoreCase("-saveres") ||
-                       arg.equalsIgnoreCase("-appendresults") ||
-                       arg.equalsIgnoreCase("-appres"))
+            } else if (brg.equblsIgnoreCbse("-sbveresults") ||
+                       brg.equblsIgnoreCbse("-sbveres") ||
+                       brg.equblsIgnoreCbse("-bppendresults") ||
+                       brg.equblsIgnoreCbse("-bppres"))
             {
-                if (++i < argv.length) {
-                    resfilename = argv[i];
-                    appendres = arg.substring(0, 4).equalsIgnoreCase("-app");
+                if (++i < brgv.length) {
+                    resfilenbme = brgv[i];
+                    bppendres = brg.substring(0, 4).equblsIgnoreCbse("-bpp");
                 } else {
-                    usage(1);
+                    usbge(1);
                 }
-            } else if (arg.equalsIgnoreCase("-title")) {
-                if (++i < argv.length) {
-                    title = argv[i];
+            } else if (brg.equblsIgnoreCbse("-title")) {
+                if (++i < brgv.length) {
+                    title = brgv[i];
                 } else {
-                    usage(1);
+                    usbge(1);
                 }
-            } else if (arg.equalsIgnoreCase("-desc") ||
-                       arg.equalsIgnoreCase("-description"))
+            } else if (brg.equblsIgnoreCbse("-desc") ||
+                       brg.equblsIgnoreCbse("-description"))
             {
-                if (++i < argv.length) {
-                    desc = argv[i];
+                if (++i < brgv.length) {
+                    desc = brgv[i];
                 } else {
-                    usage(1);
+                    usbge(1);
                 }
-            } else if (arg.equalsIgnoreCase("-loopdef") ||
-                       arg.equalsIgnoreCase("-loopdefault"))
+            } else if (brg.equblsIgnoreCbse("-loopdef") ||
+                       brg.equblsIgnoreCbse("-loopdefbult"))
             {
                 requiredLoopTime = 259200000; // 72 hrs * 60 * 60 * 1000
                 J2DBench.looping = true;
-            } else if (arg.equalsIgnoreCase("-loop")) {
+            } else if (brg.equblsIgnoreCbse("-loop")) {
 
-                if (++i >= argv.length) {
-                    usage(1);
+                if (++i >= brgv.length) {
+                    usbge(1);
                 }
 
                 J2DBench.looping = true;
 
                 /*
-                 * d or D    ->  Days
+                 * d or D    ->  Dbys
                  * h or H    ->  Hours
                  * m or M    ->  Minutes
-                 * dd:hh:mm  ->  Days:Hours:Minutes
+                 * dd:hh:mm  ->  Dbys:Hours:Minutes
                  */
 
-                if (argv[i].indexOf(":") >= 0) {
+                if (brgv[i].indexOf(":") >= 0) {
 
-                    String values[] = argv[i].split(":");
-                    int intVals[] = new int[3];
+                    String vblues[] = brgv[i].split(":");
+                    int intVbls[] = new int[3];
 
-                    for(int j=0; j<values.length; j++) {
+                    for(int j=0; j<vblues.length; j++) {
                         try {
-                            intVals[j] = Integer.parseInt(values[j]);
-                        } catch(Exception e) {}
+                            intVbls[j] = Integer.pbrseInt(vblues[j]);
+                        } cbtch(Exception e) {}
                     }
 
-                    System.out.println("\nLoop for " + intVals[0] +
-                                       " days " + intVals[1] +
-                                       " hours and " + intVals[2] + " minutes.\n");
+                    System.out.println("\nLoop for " + intVbls[0] +
+                                       " dbys " + intVbls[1] +
+                                       " hours bnd " + intVbls[2] + " minutes.\n");
 
-                    requiredLoopTime = ((intVals[0] * 24 * 60 * 60) +
-                                        (intVals[1] * 60 * 60) +
-                                        (intVals[2] * 60)) * 1000;
+                    requiredLoopTime = ((intVbls[0] * 24 * 60 * 60) +
+                                        (intVbls[1] * 60 * 60) +
+                                        (intVbls[2] * 60)) * 1000;
 
                 } else {
 
-                    String type = argv[i].substring(argv[i].length() - 1);
+                    String type = brgv[i].substring(brgv[i].length() - 1);
 
                     int multiplyWith = 1;
 
-                    if (type.equalsIgnoreCase("d")) {
+                    if (type.equblsIgnoreCbse("d")) {
                         multiplyWith = 24 * 60 * 60;
-                    } else if (type.equalsIgnoreCase("h")) {
+                    } else if (type.equblsIgnoreCbse("h")) {
                         multiplyWith = 60 * 60;
-                    } else if (type.equalsIgnoreCase("m")) {
+                    } else if (type.equblsIgnoreCbse("m")) {
                         multiplyWith = 60;
                     } else {
-                        System.err.println("Invalid \"-loop\" option specified.");
-                        usage(1);
+                        System.err.println("Invblid \"-loop\" option specified.");
+                        usbge(1);
                     }
 
-                    int val = 1;
+                    int vbl = 1;
                     try {
-                        val = Integer.parseInt(argv[i].substring(0, argv[i].length() - 1));
-                    } catch(Exception e) {
-                        System.err.println("Invalid \"-loop\" option specified.");
-                        usage(1);
+                        vbl = Integer.pbrseInt(brgv[i].substring(0, brgv[i].length() - 1));
+                    } cbtch(Exception e) {
+                        System.err.println("Invblid \"-loop\" option specified.");
+                        usbge(1);
                     }
 
-                    requiredLoopTime = val * multiplyWith * 1000;
+                    requiredLoopTime = vbl * multiplyWith * 1000;
                 }
 
-           } else if (arg.length() > 8 &&
-                        arg.substring(0, 8).equalsIgnoreCase("-report:"))
+           } else if (brg.length() > 8 &&
+                        brg.substring(0, 8).equblsIgnoreCbse("-report:"))
            {
-                String error = Result.parseRateOpt(arg.substring(8));
+                String error = Result.pbrseRbteOpt(brg.substring(8));
                 if (error != null) {
-                     System.err.println("Invalid rate: "+error);
-                     usage(1);
+                     System.err.println("Invblid rbte: "+error);
+                     usbge(1);
                 }
             } else {
-                String reason = Group.root.setOption(arg);
-                if (reason != null) {
-                    System.err.println("Option "+arg+" ignored: "+reason);
+                String rebson = Group.root.setOption(brg);
+                if (rebson != null) {
+                    System.err.println("Option "+brg+" ignored: "+rebson);
                 }
             }
         }
-        if (verbose.isEnabled()) {
-            Group.root.traverse(new Node.Visitor() {
+        if (verbose.isEnbbled()) {
+            Group.root.trbverse(new Node.Visitor() {
                 public void visit(Node node) {
                     System.out.println(node);
                 }
@@ -376,14 +376,14 @@ public class J2DBench {
         }
 
         if (gui) {
-            startGUI();
+            stbrtGUI();
         } else {
 
-            long start = System.currentTimeMillis();
+            long stbrt = System.currentTimeMillis();
 
             int nLoopCount = 1;
 
-            if (saveresults) {
+            if (sbveresults) {
                 if (title == null) {
                     title = inputUserStr("title");
                 }
@@ -399,21 +399,21 @@ public class J2DBench {
                 System.out.println("\nAbout to run tests for : " +
                                    (requiredLoopTime/1000) + " seconds.\n");
 
-                if(resfilename != null) {
+                if(resfilenbme != null) {
 
                     try {
-                        String loopReportFileName =
-                            resfilename.substring(0, resfilename.lastIndexOf(".xml"));
+                        String loopReportFileNbme =
+                            resfilenbme.substring(0, resfilenbme.lbstIndexOf(".xml"));
                         writer = new PrintWriter(
-                            new FileWriter(loopReportFileName + "_Loop.html"));
-                        writer.println("<html><head><title>" + title + "</title></head>");
+                            new FileWriter(loopReportFileNbme + "_Loop.html"));
+                        writer.println("<html><hebd><title>" + title + "</title></hebd>");
                         writer.println("<body bgcolor=\"#ffffff\"><hr size=\"1\">");
                         writer.println("<center><h2>" + title + "</h2>");
                         writer.println("</center><hr size=\"1\"><br>");
                         writer.flush();
-                    } catch(IOException ioe) {
-                        ioe.printStackTrace();
-                        System.err.println("\nERROR : Could not create Loop-Report. Exit");
+                    } cbtch(IOException ioe) {
+                        ioe.printStbckTrbce();
+                        System.err.println("\nERROR : Could not crebte Loop-Report. Exit");
                         System.exit(1);
                     }
                 }
@@ -421,47 +421,47 @@ public class J2DBench {
 
             do {
 
-                Date loopStart = new Date();
+                Dbte loopStbrt = new Dbte();
                 if (J2DBench.looping) {
                     writer.println("<b>Loop # " + nLoopCount + "</b><br>");
-                    writer.println("<b>Start : </b>" + sdf.format(loopStart) + "<br>");
+                    writer.println("<b>Stbrt : </b>" + sdf.formbt(loopStbrt) + "<br>");
                     writer.flush();
                 }
 
                 runTests(showresults);
-                if (saveresults) {
-                    if (resfilename != null) {
-                        lastResults.setTitle(title);
-                        lastResults.setDescription(desc);
-                        String reason = saveResults(resfilename, appendres);
-                        if (reason != null) {
-                            System.err.println(reason);
+                if (sbveresults) {
+                    if (resfilenbme != null) {
+                        lbstResults.setTitle(title);
+                        lbstResults.setDescription(desc);
+                        String rebson = sbveResults(resfilenbme, bppendres);
+                        if (rebson != null) {
+                            System.err.println(rebson);
                         }
                     } else {
-                        saveResults(title, desc);
+                        sbveResults(title, desc);
                     }
                 }
 
                 if (J2DBench.looping) {
 
-                    Date loopEnd = new Date();
+                    Dbte loopEnd = new Dbte();
 
                     System.out.println("\n================================================================");
-                    System.out.println("-- Completed Loop " + nLoopCount + " at " + sdf.format(loopEnd) + " --");
+                    System.out.println("-- Completed Loop " + nLoopCount + " bt " + sdf.formbt(loopEnd) + " --");
                     System.out.println("================================================================\n");
 
-                    writer.println("<b>End : </b>" + sdf.format(loopEnd) + "<br>");
-                    writer.println("<b>Duration </b>: " + (loopEnd.getTime() - loopStart.getTime())/1000 + " Seconds<br>");
-                    writer.println("<b>Total : " + (loopEnd.getTime() - start)/1000 + " Seconds</b><br>");
+                    writer.println("<b>End : </b>" + sdf.formbt(loopEnd) + "<br>");
+                    writer.println("<b>Durbtion </b>: " + (loopEnd.getTime() - loopStbrt.getTime())/1000 + " Seconds<br>");
+                    writer.println("<b>Totbl : " + (loopEnd.getTime() - stbrt)/1000 + " Seconds</b><br>");
                     writer.println("</center><hr size=\"1\">");
                     writer.flush();
 
-                    if ((loopEnd.getTime() - start) > requiredLoopTime) {
-                        break;
+                    if ((loopEnd.getTime() - stbrt) > requiredLoopTime) {
+                        brebk;
                     }
 
                     //Append results for looping - mode
-                    appendres = true;
+                    bppendres = true;
 
                     nLoopCount++;
                 }
@@ -476,70 +476,70 @@ public class J2DBench {
         }
     }
 
-    public static String loadOptions(String filename) {
-        FileReader fr;
+    public stbtic String lobdOptions(String filenbme) {
+        FileRebder fr;
         try {
-            fr = new FileReader(filename);
-        } catch (FileNotFoundException e) {
-            return "file "+filename+" not found";
+            fr = new FileRebder(filenbme);
+        } cbtch (FileNotFoundException e) {
+            return "file "+filenbme+" not found";
         }
-        return loadOptions(fr, filename);
+        return lobdOptions(fr, filenbme);
     }
 
-    public static String loadOptions(File file) {
-        FileReader fr;
+    public stbtic String lobdOptions(File file) {
+        FileRebder fr;
         try {
-            fr = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            return "file "+file.getPath()+" not found";
+            fr = new FileRebder(file);
+        } cbtch (FileNotFoundException e) {
+            return "file "+file.getPbth()+" not found";
         }
-        return loadOptions(fr, file.getPath());
+        return lobdOptions(fr, file.getPbth());
     }
 
-    public static String loadOptions(FileReader fr, String filename) {
-        LineNumberReader lnr = new LineNumberReader(fr);
-        Group.restoreAllDefaults();
+    public stbtic String lobdOptions(FileRebder fr, String filenbme) {
+        LineNumberRebder lnr = new LineNumberRebder(fr);
+        Group.restoreAllDefbults();
         String line;
         try {
-            while ((line = lnr.readLine()) != null) {
-                String reason = Group.root.setOption(line);
-                if (reason != null) {
+            while ((line = lnr.rebdLine()) != null) {
+                String rebson = Group.root.setOption(line);
+                if (rebson != null) {
                     System.err.println("Option "+line+
-                                       " at line "+lnr.getLineNumber()+
-                                       " ignored: "+reason);
+                                       " bt line "+lnr.getLineNumber()+
+                                       " ignored: "+rebson);
                 }
             }
-        } catch (IOException e) {
-            Group.restoreAllDefaults();
-            return ("IO Error reading "+filename+
-                    " at line "+lnr.getLineNumber());
+        } cbtch (IOException e) {
+            Group.restoreAllDefbults();
+            return ("IO Error rebding "+filenbme+
+                    " bt line "+lnr.getLineNumber());
         }
         return null;
     }
 
-    public static String saveOptions(String filename) {
-        return saveOptions(new File(filename));
+    public stbtic String sbveOptions(String filenbme) {
+        return sbveOptions(new File(filenbme));
     }
 
-    public static String saveOptions(File file) {
+    public stbtic String sbveOptions(File file) {
         if (file.exists()) {
             if (!file.isFile()) {
-                return "Cannot save options to a directory!";
+                return "Cbnnot sbve options to b directory!";
             }
-            int ret = JOptionPane.showOptionDialog
-                (guiFrame,
+            int ret = JOptionPbne.showOptionDiblog
+                (guiFrbme,
                  new String[] {
-                     "The file '"+file.getName()+"' already exists!",
+                     "The file '"+file.getNbme()+"' blrebdy exists!",
                      "",
                      "Do you wish to overwrite this file?",
                  },
                  "File exists!",
-                 JOptionPane.DEFAULT_OPTION,
-                 JOptionPane.WARNING_MESSAGE,
+                 JOptionPbne.DEFAULT_OPTION,
+                 JOptionPbne.WARNING_MESSAGE,
                  null, new String[] {
                      "Overwrite",
-                     "Cancel",
-                 }, "Cancel");
+                     "Cbncel",
+                 }, "Cbncel");
             if (ret == 1) {
                 return null;
             }
@@ -547,246 +547,246 @@ public class J2DBench {
         FileWriter fw;
         try {
             fw = new FileWriter(file);
-        } catch (IOException e) {
-            return "Error opening option file "+file.getPath();
+        } cbtch (IOException e) {
+            return "Error opening option file "+file.getPbth();
         }
-        return saveOptions(fw, file.getPath());
+        return sbveOptions(fw, file.getPbth());
     }
 
-    public static String saveOptions(FileWriter fw, String filename) {
+    public stbtic String sbveOptions(FileWriter fw, String filenbme) {
         PrintWriter pw = new PrintWriter(fw);
         Group.writeAll(pw);
         return null;
     }
 
-    public static JFileChooser theFC;
-    public static JFileChooser getFileChooser() {
+    public stbtic JFileChooser theFC;
+    public stbtic JFileChooser getFileChooser() {
         if (theFC == null) {
             theFC = new JFileChooser(System.getProperty("user.dir"));
         }
-        theFC.rescanCurrentDirectory();
+        theFC.rescbnCurrentDirectory();
         return theFC;
     }
 
-    public static ResultSet lastResults;
-    public static boolean saveOrDiscardLastResults() {
-        if (lastResults != null) {
-            int ret = JOptionPane.showConfirmDialog
-                (guiFrame,
-                 "The results of the last test will be "+
-                 "discarded if you continue!  Do you want "+
-                 "to save them?",
-                 "Discard last results?",
-                 JOptionPane.YES_NO_CANCEL_OPTION);
-            if (ret == JOptionPane.CANCEL_OPTION) {
-                return false;
-            } else if (ret == JOptionPane.YES_OPTION) {
-                if (saveResults()) {
-                    lastResults = null;
+    public stbtic ResultSet lbstResults;
+    public stbtic boolebn sbveOrDiscbrdLbstResults() {
+        if (lbstResults != null) {
+            int ret = JOptionPbne.showConfirmDiblog
+                (guiFrbme,
+                 "The results of the lbst test will be "+
+                 "discbrded if you continue!  Do you wbnt "+
+                 "to sbve them?",
+                 "Discbrd lbst results?",
+                 JOptionPbne.YES_NO_CANCEL_OPTION);
+            if (ret == JOptionPbne.CANCEL_OPTION) {
+                return fblse;
+            } else if (ret == JOptionPbne.YES_OPTION) {
+                if (sbveResults()) {
+                    lbstResults = null;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
         }
         return true;
     }
 
-    public static String inputUserStr(String type) {
-        return JOptionPane.showInputDialog("Enter a "+
+    public stbtic String inputUserStr(String type) {
+        return JOptionPbne.showInputDiblog("Enter b "+
                                            type+
                                            " for this result set:");
     }
 
-    public static boolean saveResults() {
-        return saveResults(inputUserStr("title"), inputUserStr("description"));
+    public stbtic boolebn sbveResults() {
+        return sbveResults(inputUserStr("title"), inputUserStr("description"));
     }
 
-    public static boolean saveResults(String title, String desc) {
-        lastResults.setTitle(title);
-        lastResults.setDescription(desc);
+    public stbtic boolebn sbveResults(String title, String desc) {
+        lbstResults.setTitle(title);
+        lbstResults.setDescription(desc);
         JFileChooser fc = getFileChooser();
-        int ret = fc.showSaveDialog(guiFrame);
+        int ret = fc.showSbveDiblog(guiFrbme);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            boolean append = false;
+            boolebn bppend = fblse;
             if (file.exists()) {
                 if (!file.isFile()) {
-                    System.err.println("Cannot save results to a directory!");
-                    return false;
+                    System.err.println("Cbnnot sbve results to b directory!");
+                    return fblse;
                 }
-                ret = JOptionPane.showOptionDialog
-                    (guiFrame,
+                ret = JOptionPbne.showOptionDiblog
+                    (guiFrbme,
                      new String[] {
-                         "The file '"+file.getName()+"' already exists!",
+                         "The file '"+file.getNbme()+"' blrebdy exists!",
                          "",
-                         "Do you wish to overwrite or append to this file?",
+                         "Do you wish to overwrite or bppend to this file?",
                      },
                      "File exists!",
-                     JOptionPane.DEFAULT_OPTION,
-                     JOptionPane.WARNING_MESSAGE,
+                     JOptionPbne.DEFAULT_OPTION,
+                     JOptionPbne.WARNING_MESSAGE,
                      null, new String[] {
                          "Overwrite",
                          "Append",
-                         "Cancel",
-                     }, "Cancel");
+                         "Cbncel",
+                     }, "Cbncel");
                 if (ret == 0) {
-                    append = false;
+                    bppend = fblse;
                 } else if (ret == 1) {
-                    append = true;
+                    bppend = true;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
-            String reason = saveResults(file, append);
-            if (reason == null) {
+            String rebson = sbveResults(file, bppend);
+            if (rebson == null) {
                 return true;
             } else {
-                System.err.println(reason);
+                System.err.println(rebson);
             }
         }
-        return false;
+        return fblse;
     }
 
-    public static String saveResults(String filename, boolean append) {
+    public stbtic String sbveResults(String filenbme, boolebn bppend) {
         FileWriter fw;
         try {
-            fw = new FileWriter(filename, append);
-        } catch (IOException e) {
-            return "Error opening results file "+filename;
+            fw = new FileWriter(filenbme, bppend);
+        } cbtch (IOException e) {
+            return "Error opening results file "+filenbme;
         }
-        return saveResults(fw, filename, append);
+        return sbveResults(fw, filenbme, bppend);
     }
 
-    public static String saveResults(File file, boolean append) {
+    public stbtic String sbveResults(File file, boolebn bppend) {
         FileWriter fw;
         try {
-            fw = new FileWriter(file, append);
-        } catch (IOException e) {
-            return "Error opening results file "+file.getName();
+            fw = new FileWriter(file, bppend);
+        } cbtch (IOException e) {
+            return "Error opening results file "+file.getNbme();
         }
-        return saveResults(fw, file.getName(), append);
+        return sbveResults(fw, file.getNbme(), bppend);
     }
 
-    public static String saveResults(FileWriter fw, String filename,
-                                     boolean append)
+    public stbtic String sbveResults(FileWriter fw, String filenbme,
+                                     boolebn bppend)
     {
         PrintWriter pw = new PrintWriter(fw);
-        if (!append) {
+        if (!bppend) {
             pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            pw.println("<!--For Entertainment Purposes Only-->");
+            pw.println("<!--For Entertbinment Purposes Only-->");
         }
         pw.println();
-        lastResults.write(pw);
+        lbstResults.write(pw);
         pw.flush();
         pw.close();
         return null;
     }
 
-    public static void startGUI() {
-        final JFrame f = new JFrame("J2DBench") {
+    public stbtic void stbrtGUI() {
+        finbl JFrbme f = new JFrbme("J2DBench") {
             public Dimension getPreferredSize() {
                 Dimension pref = super.getPreferredSize();
-                pref.width = Math.max(pref.width, 800);
-                pref.height = Math.max(pref.height, 600);
+                pref.width = Mbth.mbx(pref.width, 800);
+                pref.height = Mbth.mbx(pref.height, 600);
                 return pref;
             }
         };
-        guiFrame = f;
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().setLayout(new BorderLayout());
-        f.getContentPane().add(Group.root.getJComponent(), BorderLayout.CENTER);
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
+        guiFrbme = f;
+        f.setDefbultCloseOperbtion(JFrbme.EXIT_ON_CLOSE);
+        f.getContentPbne().setLbyout(new BorderLbyout());
+        f.getContentPbne().bdd(Group.root.getJComponent(), BorderLbyout.CENTER);
+        JPbnel p = new JPbnel();
+        p.setLbyout(new BoxLbyout(p, BoxLbyout.X_AXIS));
         JButton b = new JButton("Run Tests...");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!saveOrDiscardLastResults()) {
+        b.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
+                if (!sbveOrDiscbrdLbstResults()) {
                     return;
                 }
-                if (verbose.isEnabled()) {
+                if (verbose.isEnbbled()) {
                     System.out.println(e);
                     System.out.println("running tests...");
                 }
-                new Thread(new Runnable() {
+                new Threbd(new Runnbble() {
                     public void run() {
                         runTests(true);
                     }
-                }).start();
-                if (verbose.isEnabled()) {
+                }).stbrt();
+                if (verbose.isEnbbled()) {
                     System.out.println("done");
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Load Options");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        b = new JButton("Lobd Options");
+        b.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
                 JFileChooser fc = getFileChooser();
-                int ret = fc.showOpenDialog(f);
+                int ret = fc.showOpenDiblog(f);
                 if (ret == JFileChooser.APPROVE_OPTION) {
-                    String reason = loadOptions(fc.getSelectedFile());
-                    if (reason != null) {
-                        System.err.println(reason);
+                    String rebson = lobdOptions(fc.getSelectedFile());
+                    if (rebson != null) {
+                        System.err.println(rebson);
                     }
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Save Options");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        b = new JButton("Sbve Options");
+        b.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
                 JFileChooser fc = getFileChooser();
-                int ret = fc.showSaveDialog(f);
+                int ret = fc.showSbveDiblog(f);
                 if (ret == JFileChooser.APPROVE_OPTION) {
-                    String reason = saveOptions(fc.getSelectedFile());
-                    if (reason != null) {
-                        System.err.println(reason);
+                    String rebson = sbveOptions(fc.getSelectedFile());
+                    if (rebson != null) {
+                        System.err.println(rebson);
                     }
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Save Results");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (saveResults()) {
-                    lastResults = null;
+        b = new JButton("Sbve Results");
+        b.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
+                if (sbveResults()) {
+                    lbstResults = null;
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
         b = new JButton("Quit");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!saveOrDiscardLastResults()) {
+        b.bddActionListener(new ActionListener() {
+            public void bctionPerformed(ActionEvent e) {
+                if (!sbveOrDiscbrdLbstResults()) {
                     return;
                 }
                 System.exit(0);
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        f.getContentPane().add(p, BorderLayout.SOUTH);
-        f.pack();
+        f.getContentPbne().bdd(p, BorderLbyout.SOUTH);
+        f.pbck();
         f.show();
     }
 
-    public static void runTests(boolean showresults) {
-        final TestEnvironment env = new TestEnvironment();
-        Frame f = null;
+    public stbtic void runTests(boolebn showresults) {
+        finbl TestEnvironment env = new TestEnvironment();
+        Frbme f = null;
         if (showresults) {
-            f = new Frame("J2DBench test run");
-            f.addWindowListener(new WindowAdapter() {
+            f = new Frbme("J2DBench test run");
+            f.bddWindowListener(new WindowAdbpter() {
                 public void windowClosing(WindowEvent e) {
                     env.stop();
                 }
             });
-            f.add(env.getCanvas());
-            f.pack();
+            f.bdd(env.getCbnvbs());
+            f.pbck();
             f.show();
         }
         for (int i = 0; i < 5; i++) {
@@ -797,12 +797,12 @@ public class J2DBench {
             f.hide();
             f.dispose();
         }
-        lastResults = env.results;
-        if (J2DBench.printresults.isEnabled()) {
+        lbstResults = env.results;
+        if (J2DBench.printresults.isEnbbled()) {
             System.out.println();
         }
         System.out.println("All test results:");
-        env.summarize();
+        env.summbrize();
         System.out.println();
     }
 }

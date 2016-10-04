@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.border;
+pbckbge jbvbx.swing.border;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Component;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bebns.ConstructorProperties;
 
 /**
- * A class which implements a simple two-line bevel border.
+ * A clbss which implements b simple two-line bevel border.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BevelBorder extends AbstractBorder
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BevelBorder extends AbstrbctBorder
 {
-    /** Raised bevel type. */
-    public static final int RAISED  = 0;
+    /** Rbised bevel type. */
+    public stbtic finbl int RAISED  = 0;
     /** Lowered bevel type. */
-    public static final int LOWERED = 1;
+    public stbtic finbl int LOWERED = 1;
 
     protected int bevelType;
     protected Color highlightOuter;
     protected Color highlightInner;
-    protected Color shadowInner;
-    protected Color shadowOuter;
+    protected Color shbdowInner;
+    protected Color shbdowOuter;
 
     /**
-     * Creates a bevel border with the specified type and whose
-     * colors will be derived from the background color of the
-     * component passed into the paintBorder method.
-     * @param bevelType the type of bevel for the border
+     * Crebtes b bevel border with the specified type bnd whose
+     * colors will be derived from the bbckground color of the
+     * component pbssed into the pbintBorder method.
+     * @pbrbm bevelType the type of bevel for the border
      */
     public BevelBorder(int bevelType) {
         this.bevelType = bevelType;
     }
 
     /**
-     * Creates a bevel border with the specified type, highlight and
-     * shadow colors.
-     * @param bevelType the type of bevel for the border
-     * @param highlight the color to use for the bevel highlight
-     * @param shadow the color to use for the bevel shadow
+     * Crebtes b bevel border with the specified type, highlight bnd
+     * shbdow colors.
+     * @pbrbm bevelType the type of bevel for the border
+     * @pbrbm highlight the color to use for the bevel highlight
+     * @pbrbm shbdow the color to use for the bevel shbdow
      */
-    public BevelBorder(int bevelType, Color highlight, Color shadow) {
-        this(bevelType, highlight.brighter(), highlight, shadow, shadow.brighter());
+    public BevelBorder(int bevelType, Color highlight, Color shbdow) {
+        this(bevelType, highlight.brighter(), highlight, shbdow, shbdow.brighter());
     }
 
     /**
-     * Creates a bevel border with the specified type, highlight and
-     * shadow colors.
+     * Crebtes b bevel border with the specified type, highlight bnd
+     * shbdow colors.
      *
-     * @param bevelType the type of bevel for the border
-     * @param highlightOuterColor the color to use for the bevel outer highlight
-     * @param highlightInnerColor the color to use for the bevel inner highlight
-     * @param shadowOuterColor the color to use for the bevel outer shadow
-     * @param shadowInnerColor the color to use for the bevel inner shadow
+     * @pbrbm bevelType the type of bevel for the border
+     * @pbrbm highlightOuterColor the color to use for the bevel outer highlight
+     * @pbrbm highlightInnerColor the color to use for the bevel inner highlight
+     * @pbrbm shbdowOuterColor the color to use for the bevel outer shbdow
+     * @pbrbm shbdowInnerColor the color to use for the bevel inner shbdow
      */
-    @ConstructorProperties({"bevelType", "highlightOuterColor", "highlightInnerColor", "shadowOuterColor", "shadowInnerColor"})
+    @ConstructorProperties({"bevelType", "highlightOuterColor", "highlightInnerColor", "shbdowOuterColor", "shbdowInnerColor"})
     public BevelBorder(int bevelType, Color highlightOuterColor,
-                       Color highlightInnerColor, Color shadowOuterColor,
-                       Color shadowInnerColor) {
+                       Color highlightInnerColor, Color shbdowOuterColor,
+                       Color shbdowInnerColor) {
         this(bevelType);
         this.highlightOuter = highlightOuterColor;
         this.highlightInner = highlightInnerColor;
-        this.shadowOuter = shadowOuterColor;
-        this.shadowInner = shadowInnerColor;
+        this.shbdowOuter = shbdowOuterColor;
+        this.shbdowInner = shbdowInnerColor;
     }
 
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints the border for the specified component with the specified
+     * position bnd size.
+     * @pbrbm c the component for which this border is being pbinted
+     * @pbrbm g the pbint grbphics
+     * @pbrbm x the x position of the pbinted border
+     * @pbrbm y the y position of the pbinted border
+     * @pbrbm width the width of the pbinted border
+     * @pbrbm height the height of the pbinted border
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+    public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
         if (bevelType == RAISED) {
-             paintRaisedBevel(c, g, x, y, width, height);
+             pbintRbisedBevel(c, g, x, y, width, height);
 
         } else if (bevelType == LOWERED) {
-             paintLoweredBevel(c, g, x, y, width, height);
+             pbintLoweredBevel(c, g, x, y, width, height);
         }
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * Reinitiblize the insets pbrbmeter with this Border's current Insets.
+     * @pbrbm c the component for which this border insets vblue bpplies
+     * @pbrbm insets the object to be reinitiblized
      */
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.set(2, 2, 2, 2);
@@ -132,74 +132,74 @@ public class BevelBorder extends AbstractBorder
     /**
      * Returns the outer highlight color of the bevel border
      * when rendered on the specified component.  If no highlight
-     * color was specified at instantiation, the highlight color
-     * is derived from the specified component's background color.
+     * color wbs specified bt instbntibtion, the highlight color
+     * is derived from the specified component's bbckground color.
      *
-     * @param c the component for which the highlight may be derived
+     * @pbrbm c the component for which the highlight mby be derived
      * @return the outer highlight {@code Color}
      * @since 1.3
      */
     public Color getHighlightOuterColor(Component c)   {
         Color highlight = getHighlightOuterColor();
         return highlight != null? highlight :
-                                       c.getBackground().brighter().brighter();
+                                       c.getBbckground().brighter().brighter();
     }
 
     /**
      * Returns the inner highlight color of the bevel border
      * when rendered on the specified component.  If no highlight
-     * color was specified at instantiation, the highlight color
-     * is derived from the specified component's background color.
+     * color wbs specified bt instbntibtion, the highlight color
+     * is derived from the specified component's bbckground color.
      *
-     * @param c the component for which the highlight may be derived
+     * @pbrbm c the component for which the highlight mby be derived
      * @return the inner highlight {@code Color}
      * @since 1.3
      */
     public Color getHighlightInnerColor(Component c)   {
         Color highlight = getHighlightInnerColor();
         return highlight != null? highlight :
-                                       c.getBackground().brighter();
+                                       c.getBbckground().brighter();
     }
 
     /**
-     * Returns the inner shadow color of the bevel border
-     * when rendered on the specified component.  If no shadow
-     * color was specified at instantiation, the shadow color
-     * is derived from the specified component's background color.
+     * Returns the inner shbdow color of the bevel border
+     * when rendered on the specified component.  If no shbdow
+     * color wbs specified bt instbntibtion, the shbdow color
+     * is derived from the specified component's bbckground color.
      *
-     * @param c the component for which the shadow may be derived
-     * @return the inner shadow {@code Color}
+     * @pbrbm c the component for which the shbdow mby be derived
+     * @return the inner shbdow {@code Color}
      * @since 1.3
      */
-    public Color getShadowInnerColor(Component c)      {
-        Color shadow = getShadowInnerColor();
-        return shadow != null? shadow :
-                                    c.getBackground().darker();
+    public Color getShbdowInnerColor(Component c)      {
+        Color shbdow = getShbdowInnerColor();
+        return shbdow != null? shbdow :
+                                    c.getBbckground().dbrker();
     }
 
     /**
-     * Returns the outer shadow color of the bevel border
-     * when rendered on the specified component.  If no shadow
-     * color was specified at instantiation, the shadow color
-     * is derived from the specified component's background color.
+     * Returns the outer shbdow color of the bevel border
+     * when rendered on the specified component.  If no shbdow
+     * color wbs specified bt instbntibtion, the shbdow color
+     * is derived from the specified component's bbckground color.
      *
-     * @param c the component for which the shadow may be derived
-     * @return the outer shadow {@code Color}
+     * @pbrbm c the component for which the shbdow mby be derived
+     * @return the outer shbdow {@code Color}
      * @since 1.3
      */
-    public Color getShadowOuterColor(Component c)      {
-        Color shadow = getShadowOuterColor();
-        return shadow != null? shadow :
-                                    c.getBackground().darker().darker();
+    public Color getShbdowOuterColor(Component c)      {
+        Color shbdow = getShbdowOuterColor();
+        return shbdow != null? shbdow :
+                                    c.getBbckground().dbrker().dbrker();
     }
 
     /**
      * Returns the outer highlight color of the bevel border.
-     * Will return null if no highlight color was specified
-     * at instantiation.
+     * Will return null if no highlight color wbs specified
+     * bt instbntibtion.
      *
      * @return the outer highlight {@code Color} or {@code null} if no highlight
-     *         color was specified
+     *         color wbs specified
      * @since 1.3
      */
     public Color getHighlightOuterColor()   {
@@ -208,11 +208,11 @@ public class BevelBorder extends AbstractBorder
 
     /**
      * Returns the inner highlight color of the bevel border.
-     * Will return null if no highlight color was specified
-     * at instantiation.
+     * Will return null if no highlight color wbs specified
+     * bt instbntibtion.
      *
      * @return the inner highlight {@code Color} or {@code null} if no highlight
-     *         color was specified
+     *         color wbs specified
      * @since 1.3
      */
     public Color getHighlightInnerColor()   {
@@ -220,29 +220,29 @@ public class BevelBorder extends AbstractBorder
     }
 
     /**
-     * Returns the inner shadow color of the bevel border.
-     * Will return null if no shadow color was specified
-     * at instantiation.
+     * Returns the inner shbdow color of the bevel border.
+     * Will return null if no shbdow color wbs specified
+     * bt instbntibtion.
      *
-     * @return the inner shadow {@code Color} or {@code null} if no shadow color
-     *         was specified
+     * @return the inner shbdow {@code Color} or {@code null} if no shbdow color
+     *         wbs specified
      * @since 1.3
      */
-    public Color getShadowInnerColor()      {
-        return shadowInner;
+    public Color getShbdowInnerColor()      {
+        return shbdowInner;
     }
 
     /**
-     * Returns the outer shadow color of the bevel border.
-     * Will return null if no shadow color was specified
-     * at instantiation.
+     * Returns the outer shbdow color of the bevel border.
+     * Will return null if no shbdow color wbs specified
+     * bt instbntibtion.
      *
-     * @return the outer shadow {@code Color} or {@code null} if no shadow color
-     *         was specified
+     * @return the outer shbdow {@code Color} or {@code null} if no shbdow color
+     *         wbs specified
      * @since 1.3
      */
-    public Color getShadowOuterColor()      {
-        return shadowOuter;
+    public Color getShbdowOuterColor()      {
+        return shbdowOuter;
     }
 
     /**
@@ -255,67 +255,67 @@ public class BevelBorder extends AbstractBorder
     }
 
     /**
-     * Returns whether or not the border is opaque. This implementation
+     * Returns whether or not the border is opbque. This implementbtion
      * returns {@code true}.
      *
      * @return true
      */
-    public boolean isBorderOpaque() { return true; }
+    public boolebn isBorderOpbque() { return true; }
 
-    protected void paintRaisedBevel(Component c, Graphics g, int x, int y,
+    protected void pbintRbisedBevel(Component c, Grbphics g, int x, int y,
                                     int width, int height)  {
         Color oldColor = g.getColor();
         int h = height;
         int w = width;
 
-        g.translate(x, y);
+        g.trbnslbte(x, y);
 
         g.setColor(getHighlightOuterColor(c));
-        g.drawLine(0, 0, 0, h-2);
-        g.drawLine(1, 0, w-2, 0);
+        g.drbwLine(0, 0, 0, h-2);
+        g.drbwLine(1, 0, w-2, 0);
 
         g.setColor(getHighlightInnerColor(c));
-        g.drawLine(1, 1, 1, h-3);
-        g.drawLine(2, 1, w-3, 1);
+        g.drbwLine(1, 1, 1, h-3);
+        g.drbwLine(2, 1, w-3, 1);
 
-        g.setColor(getShadowOuterColor(c));
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, 0, w-1, h-2);
+        g.setColor(getShbdowOuterColor(c));
+        g.drbwLine(0, h-1, w-1, h-1);
+        g.drbwLine(w-1, 0, w-1, h-2);
 
-        g.setColor(getShadowInnerColor(c));
-        g.drawLine(1, h-2, w-2, h-2);
-        g.drawLine(w-2, 1, w-2, h-3);
+        g.setColor(getShbdowInnerColor(c));
+        g.drbwLine(1, h-2, w-2, h-2);
+        g.drbwLine(w-2, 1, w-2, h-3);
 
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
 
     }
 
-    protected void paintLoweredBevel(Component c, Graphics g, int x, int y,
+    protected void pbintLoweredBevel(Component c, Grbphics g, int x, int y,
                                         int width, int height)  {
         Color oldColor = g.getColor();
         int h = height;
         int w = width;
 
-        g.translate(x, y);
+        g.trbnslbte(x, y);
 
-        g.setColor(getShadowInnerColor(c));
-        g.drawLine(0, 0, 0, h-1);
-        g.drawLine(1, 0, w-1, 0);
+        g.setColor(getShbdowInnerColor(c));
+        g.drbwLine(0, 0, 0, h-1);
+        g.drbwLine(1, 0, w-1, 0);
 
-        g.setColor(getShadowOuterColor(c));
-        g.drawLine(1, 1, 1, h-2);
-        g.drawLine(2, 1, w-2, 1);
+        g.setColor(getShbdowOuterColor(c));
+        g.drbwLine(1, 1, 1, h-2);
+        g.drbwLine(2, 1, w-2, 1);
 
         g.setColor(getHighlightOuterColor(c));
-        g.drawLine(1, h-1, w-1, h-1);
-        g.drawLine(w-1, 1, w-1, h-2);
+        g.drbwLine(1, h-1, w-1, h-1);
+        g.drbwLine(w-1, 1, w-1, h-2);
 
         g.setColor(getHighlightInnerColor(c));
-        g.drawLine(2, h-2, w-2, h-2);
-        g.drawLine(w-2, 2, w-2, h-3);
+        g.drbwLine(2, h-2, w-2, h-2);
+        g.drbwLine(w-2, 2, w-2, h-3);
 
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
 
     }

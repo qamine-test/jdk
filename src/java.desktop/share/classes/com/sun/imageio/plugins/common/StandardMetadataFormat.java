@@ -1,499 +1,499 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 
-public class StandardMetadataFormat extends IIOMetadataFormatImpl {
+public clbss StbndbrdMetbdbtbFormbt extends IIOMetbdbtbFormbtImpl {
 
-    // Utility method for nodes with a single attribute named "value"
-    private void addSingleAttributeElement(String elementName,
-                                           String parentName,
-                                           int dataType) {
-        addElement(elementName, parentName, CHILD_POLICY_EMPTY);
-        addAttribute(elementName, "value", dataType, true, null);
+    // Utility method for nodes with b single bttribute nbmed "vblue"
+    privbte void bddSingleAttributeElement(String elementNbme,
+                                           String pbrentNbme,
+                                           int dbtbType) {
+        bddElement(elementNbme, pbrentNbme, CHILD_POLICY_EMPTY);
+        bddAttribute(elementNbme, "vblue", dbtbType, true, null);
     }
 
-    public StandardMetadataFormat() {
-        super(standardMetadataFormatName, CHILD_POLICY_SOME);
-        List<String> values;
+    public StbndbrdMetbdbtbFormbt() {
+        super(stbndbrdMetbdbtbFormbtNbme, CHILD_POLICY_SOME);
+        List<String> vblues;
 
-        // root -> Chroma
-        addElement("Chroma", standardMetadataFormatName,
+        // root -> Chromb
+        bddElement("Chromb", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Chroma -> ColorSpaceType
-        addElement("ColorSpaceType", "Chroma",
+        // root -> Chromb -> ColorSpbceType
+        bddElement("ColorSpbceType", "Chromb",
                    CHILD_POLICY_EMPTY);
 
-        values = new ArrayList<>();
-        values.add("XYZ");
-        values.add("Lab");
-        values.add("Luv");
-        values.add("YCbCr");
-        values.add("Yxy");
-        values.add("YCCK");
-        values.add("PhotoYCC");
-        values.add("RGB");
-        values.add("GRAY");
-        values.add("HSV");
-        values.add("HLS");
-        values.add("CMYK");
-        values.add("CMY");
-        values.add("2CLR");
-        values.add("3CLR");
-        values.add("4CLR");
-        values.add("5CLR");
-        values.add("6CLR");
-        values.add("7CLR");
-        values.add("8CLR");
-        values.add("9CLR");
-        values.add("ACLR");
-        values.add("BCLR");
-        values.add("CCLR");
-        values.add("DCLR");
-        values.add("ECLR");
-        values.add("FCLR");
-        addAttribute("ColorSpaceType",
-                     "name",
+        vblues = new ArrbyList<>();
+        vblues.bdd("XYZ");
+        vblues.bdd("Lbb");
+        vblues.bdd("Luv");
+        vblues.bdd("YCbCr");
+        vblues.bdd("Yxy");
+        vblues.bdd("YCCK");
+        vblues.bdd("PhotoYCC");
+        vblues.bdd("RGB");
+        vblues.bdd("GRAY");
+        vblues.bdd("HSV");
+        vblues.bdd("HLS");
+        vblues.bdd("CMYK");
+        vblues.bdd("CMY");
+        vblues.bdd("2CLR");
+        vblues.bdd("3CLR");
+        vblues.bdd("4CLR");
+        vblues.bdd("5CLR");
+        vblues.bdd("6CLR");
+        vblues.bdd("7CLR");
+        vblues.bdd("8CLR");
+        vblues.bdd("9CLR");
+        vblues.bdd("ACLR");
+        vblues.bdd("BCLR");
+        vblues.bdd("CCLR");
+        vblues.bdd("DCLR");
+        vblues.bdd("ECLR");
+        vblues.bdd("FCLR");
+        bddAttribute("ColorSpbceType",
+                     "nbme",
                      DATATYPE_STRING,
                      true,
                      null,
-                     values);
+                     vblues);
 
-        // root -> Chroma -> NumChannels
-        addElement("NumChannels", "Chroma",
+        // root -> Chromb -> NumChbnnels
+        bddElement("NumChbnnels", "Chromb",
                    CHILD_POLICY_EMPTY);
-        addAttribute("NumChannels", "value",
+        bddAttribute("NumChbnnels", "vblue",
                      DATATYPE_INTEGER,
                      true,
                      0, Integer.MAX_VALUE);
 
-        // root -> Chroma -> Gamma
-        addElement("Gamma", "Chroma", CHILD_POLICY_EMPTY);
-        addAttribute("Gamma", "value",
+        // root -> Chromb -> Gbmmb
+        bddElement("Gbmmb", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttribute("Gbmmb", "vblue",
                      DATATYPE_FLOAT, true, null);
 
-        // root -> Chroma -> BlackIsZero
-        addElement("BlackIsZero", "Chroma", CHILD_POLICY_EMPTY);
-        addBooleanAttribute("BlackIsZero", "value", true, true);
+        // root -> Chromb -> BlbckIsZero
+        bddElement("BlbckIsZero", "Chromb", CHILD_POLICY_EMPTY);
+        bddBoolebnAttribute("BlbckIsZero", "vblue", true, true);
 
-        // root -> Chroma -> Palette
-        addElement("Palette", "Chroma", 0, Integer.MAX_VALUE);
+        // root -> Chromb -> Pblette
+        bddElement("Pblette", "Chromb", 0, Integer.MAX_VALUE);
 
-        // root -> Chroma -> PaletteEntry
-        addElement("PaletteEntry", "Palette", CHILD_POLICY_EMPTY);
-        addAttribute("PaletteEntry", "index", DATATYPE_INTEGER,
+        // root -> Chromb -> PbletteEntry
+        bddElement("PbletteEntry", "Pblette", CHILD_POLICY_EMPTY);
+        bddAttribute("PbletteEntry", "index", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("PaletteEntry", "red", DATATYPE_INTEGER,
+        bddAttribute("PbletteEntry", "red", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("PaletteEntry", "green", DATATYPE_INTEGER,
+        bddAttribute("PbletteEntry", "green", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("PaletteEntry", "blue", DATATYPE_INTEGER,
+        bddAttribute("PbletteEntry", "blue", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("PaletteEntry", "alpha", DATATYPE_INTEGER,
-                     false, "255");
+        bddAttribute("PbletteEntry", "blphb", DATATYPE_INTEGER,
+                     fblse, "255");
 
-        // root -> Chroma -> BackgroundIndex
-        addElement("BackgroundIndex", "Chroma", CHILD_POLICY_EMPTY);
-        addAttribute("BackgroundIndex", "value", DATATYPE_INTEGER,
+        // root -> Chromb -> BbckgroundIndex
+        bddElement("BbckgroundIndex", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttribute("BbckgroundIndex", "vblue", DATATYPE_INTEGER,
                      true, null);
 
-        // root -> Chroma -> BackgroundColor
-        addElement("BackgroundColor", "Chroma", CHILD_POLICY_EMPTY);
-        addAttribute("BackgroundColor", "red", DATATYPE_INTEGER,
+        // root -> Chromb -> BbckgroundColor
+        bddElement("BbckgroundColor", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttribute("BbckgroundColor", "red", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("BackgroundColor", "green", DATATYPE_INTEGER,
+        bddAttribute("BbckgroundColor", "green", DATATYPE_INTEGER,
                      true, null);
-        addAttribute("BackgroundColor", "blue", DATATYPE_INTEGER,
+        bddAttribute("BbckgroundColor", "blue", DATATYPE_INTEGER,
                      true, null);
 
         // root -> Compression
-        addElement("Compression", standardMetadataFormatName,
+        bddElement("Compression", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Compression -> CompressionTypeName
-        addSingleAttributeElement("CompressionTypeName",
+        // root -> Compression -> CompressionTypeNbme
+        bddSingleAttributeElement("CompressionTypeNbme",
                                   "Compression",
                                   DATATYPE_STRING);
 
         // root -> Compression -> Lossless
-        addElement("Lossless", "Compression", CHILD_POLICY_EMPTY);
-        addBooleanAttribute("Lossless", "value", true, true);
+        bddElement("Lossless", "Compression", CHILD_POLICY_EMPTY);
+        bddBoolebnAttribute("Lossless", "vblue", true, true);
 
-        // root -> Compression -> NumProgressiveScans
-        addSingleAttributeElement("NumProgressiveScans",
+        // root -> Compression -> NumProgressiveScbns
+        bddSingleAttributeElement("NumProgressiveScbns",
                                   "Compression",
                                   DATATYPE_INTEGER);
 
-        // root -> Compression -> BitRate
-        addSingleAttributeElement("BitRate",
+        // root -> Compression -> BitRbte
+        bddSingleAttributeElement("BitRbte",
                                   "Compression",
                                   DATATYPE_FLOAT);
 
-        // root -> Data
-        addElement("Data", standardMetadataFormatName,
+        // root -> Dbtb
+        bddElement("Dbtb", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Data -> PlanarConfiguration
-        addElement("PlanarConfiguration", "Data", CHILD_POLICY_EMPTY);
+        // root -> Dbtb -> PlbnbrConfigurbtion
+        bddElement("PlbnbrConfigurbtion", "Dbtb", CHILD_POLICY_EMPTY);
 
-        values = new ArrayList<>();
-        values.add("PixelInterleaved");
-        values.add("PlaneInterleaved");
-        values.add("LineInterleaved");
-        values.add("TileInterleaved");
-        addAttribute("PlanarConfiguration", "value",
+        vblues = new ArrbyList<>();
+        vblues.bdd("PixelInterlebved");
+        vblues.bdd("PlbneInterlebved");
+        vblues.bdd("LineInterlebved");
+        vblues.bdd("TileInterlebved");
+        bddAttribute("PlbnbrConfigurbtion", "vblue",
                      DATATYPE_STRING,
                      true,
                      null,
-                     values);
+                     vblues);
 
-        // root -> Data -> SampleFormat
-        addElement("SampleFormat", "Data", CHILD_POLICY_EMPTY);
+        // root -> Dbtb -> SbmpleFormbt
+        bddElement("SbmpleFormbt", "Dbtb", CHILD_POLICY_EMPTY);
 
-        values = new ArrayList<>();
-        values.add("SignedIntegral");
-        values.add("UnsignedIntegral");
-        values.add("Real");
-        values.add("Index");
-        addAttribute("SampleFormat", "value",
+        vblues = new ArrbyList<>();
+        vblues.bdd("SignedIntegrbl");
+        vblues.bdd("UnsignedIntegrbl");
+        vblues.bdd("Rebl");
+        vblues.bdd("Index");
+        bddAttribute("SbmpleFormbt", "vblue",
                      DATATYPE_STRING,
                      true,
                      null,
-                     values);
+                     vblues);
 
-        // root -> Data -> BitsPerSample
-        addElement("BitsPerSample", "Data",
+        // root -> Dbtb -> BitsPerSbmple
+        bddElement("BitsPerSbmple", "Dbtb",
                    CHILD_POLICY_EMPTY);
-        addAttribute("BitsPerSample", "value",
+        bddAttribute("BitsPerSbmple", "vblue",
                      DATATYPE_INTEGER,
                      true,
                      1, Integer.MAX_VALUE);
 
-        // root -> Data -> SignificantBitsPerSample
-        addElement("SignificantBitsPerSample", "Data", CHILD_POLICY_EMPTY);
-        addAttribute("SignificantBitsPerSample", "value",
+        // root -> Dbtb -> SignificbntBitsPerSbmple
+        bddElement("SignificbntBitsPerSbmple", "Dbtb", CHILD_POLICY_EMPTY);
+        bddAttribute("SignificbntBitsPerSbmple", "vblue",
                      DATATYPE_INTEGER,
                      true,
                      1, Integer.MAX_VALUE);
 
-        // root -> Data -> SampleMSB
-        addElement("SampleMSB", "Data",
+        // root -> Dbtb -> SbmpleMSB
+        bddElement("SbmpleMSB", "Dbtb",
                    CHILD_POLICY_EMPTY);
-        addAttribute("SampleMSB", "value",
+        bddAttribute("SbmpleMSB", "vblue",
                      DATATYPE_INTEGER,
                      true,
                      1, Integer.MAX_VALUE);
 
         // root -> Dimension
-        addElement("Dimension", standardMetadataFormatName,
+        bddElement("Dimension", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Dimension -> PixelAspectRatio
-        addSingleAttributeElement("PixelAspectRatio",
+        // root -> Dimension -> PixelAspectRbtio
+        bddSingleAttributeElement("PixelAspectRbtio",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> ImageOrientation
-        addElement("ImageOrientation", "Dimension",
+        // root -> Dimension -> ImbgeOrientbtion
+        bddElement("ImbgeOrientbtion", "Dimension",
                    CHILD_POLICY_EMPTY);
 
-        values = new ArrayList<>();
-        values.add("Normal");
-        values.add("Rotate90");
-        values.add("Rotate180");
-        values.add("Rotate270");
-        values.add("FlipH");
-        values.add("FlipV");
-        values.add("FlipHRotate90");
-        values.add("FlipVRotate90");
-        addAttribute("ImageOrientation", "value",
+        vblues = new ArrbyList<>();
+        vblues.bdd("Normbl");
+        vblues.bdd("Rotbte90");
+        vblues.bdd("Rotbte180");
+        vblues.bdd("Rotbte270");
+        vblues.bdd("FlipH");
+        vblues.bdd("FlipV");
+        vblues.bdd("FlipHRotbte90");
+        vblues.bdd("FlipVRotbte90");
+        bddAttribute("ImbgeOrientbtion", "vblue",
                      DATATYPE_STRING,
                      true,
                      null,
-                     values);
+                     vblues);
 
-        // root -> Dimension -> HorizontalPixelSize
-        addSingleAttributeElement("HorizontalPixelSize",
+        // root -> Dimension -> HorizontblPixelSize
+        bddSingleAttributeElement("HorizontblPixelSize",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> VerticalPixelSize
-        addSingleAttributeElement("VerticalPixelSize",
+        // root -> Dimension -> VerticblPixelSize
+        bddSingleAttributeElement("VerticblPixelSize",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> HorizontalPhysicalPixelSpacing
-        addSingleAttributeElement("HorizontalPhysicalPixelSpacing",
+        // root -> Dimension -> HorizontblPhysicblPixelSpbcing
+        bddSingleAttributeElement("HorizontblPhysicblPixelSpbcing",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> VerticalPhysicalPixelSpacing
-        addSingleAttributeElement("VerticalPhysicalPixelSpacing",
+        // root -> Dimension -> VerticblPhysicblPixelSpbcing
+        bddSingleAttributeElement("VerticblPhysicblPixelSpbcing",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> HorizontalPosition
-        addSingleAttributeElement("HorizontalPosition",
+        // root -> Dimension -> HorizontblPosition
+        bddSingleAttributeElement("HorizontblPosition",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> VerticalPosition
-        addSingleAttributeElement("VerticalPosition",
+        // root -> Dimension -> VerticblPosition
+        bddSingleAttributeElement("VerticblPosition",
                                   "Dimension",
                                   DATATYPE_FLOAT);
 
-        // root -> Dimension -> HorizontalPixelOffset
-        addSingleAttributeElement("HorizontalPixelOffset",
+        // root -> Dimension -> HorizontblPixelOffset
+        bddSingleAttributeElement("HorizontblPixelOffset",
                                   "Dimension",
                                   DATATYPE_INTEGER);
 
-        // root -> Dimension -> VerticalPixelOffset
-        addSingleAttributeElement("VerticalPixelOffset",
+        // root -> Dimension -> VerticblPixelOffset
+        bddSingleAttributeElement("VerticblPixelOffset",
                                   "Dimension",
                                   DATATYPE_INTEGER);
 
-        // root -> Dimension -> HorizontalScreenSize
-        addSingleAttributeElement("HorizontalScreenSize",
+        // root -> Dimension -> HorizontblScreenSize
+        bddSingleAttributeElement("HorizontblScreenSize",
                                   "Dimension",
                                   DATATYPE_INTEGER);
 
-        // root -> Dimension -> VerticalScreenSize
-        addSingleAttributeElement("VerticalScreenSize",
+        // root -> Dimension -> VerticblScreenSize
+        bddSingleAttributeElement("VerticblScreenSize",
                                   "Dimension",
                                   DATATYPE_INTEGER);
 
 
         // root -> Document
-        addElement("Document", standardMetadataFormatName,
+        bddElement("Document", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Document -> FormatVersion
-        addElement("FormatVersion", "Document",
+        // root -> Document -> FormbtVersion
+        bddElement("FormbtVersion", "Document",
                    CHILD_POLICY_EMPTY);
-        addAttribute("FormatVersion", "value",
+        bddAttribute("FormbtVersion", "vblue",
                      DATATYPE_STRING,
                      true,
                      null);
 
-        // root -> Document -> SubimageInterpretation
-        addElement("SubimageInterpretation", "Document",
+        // root -> Document -> SubimbgeInterpretbtion
+        bddElement("SubimbgeInterpretbtion", "Document",
                    CHILD_POLICY_EMPTY);
-        values = new ArrayList<>();
-        values.add("Standalone");
-        values.add("SinglePage");
-        values.add("FullResolution");
-        values.add("ReducedResolution");
-        values.add("PyramidLayer");
-        values.add("Preview");
-        values.add("VolumeSlice");
-        values.add("ObjectView");
-        values.add("Panorama");
-        values.add("AnimationFrame");
-        values.add("TransparencyMask");
-        values.add("CompositingLayer");
-        values.add("SpectralSlice");
-        values.add("Unknown");
-        addAttribute("SubimageInterpretation", "value",
+        vblues = new ArrbyList<>();
+        vblues.bdd("Stbndblone");
+        vblues.bdd("SinglePbge");
+        vblues.bdd("FullResolution");
+        vblues.bdd("ReducedResolution");
+        vblues.bdd("PyrbmidLbyer");
+        vblues.bdd("Preview");
+        vblues.bdd("VolumeSlice");
+        vblues.bdd("ObjectView");
+        vblues.bdd("Pbnorbmb");
+        vblues.bdd("AnimbtionFrbme");
+        vblues.bdd("TrbnspbrencyMbsk");
+        vblues.bdd("CompositingLbyer");
+        vblues.bdd("SpectrblSlice");
+        vblues.bdd("Unknown");
+        bddAttribute("SubimbgeInterpretbtion", "vblue",
                      DATATYPE_STRING,
                      true,
                      null,
-                     values);
+                     vblues);
 
-        // root -> Document -> ImageCreationTime
-        addElement("ImageCreationTime", "Document",
+        // root -> Document -> ImbgeCrebtionTime
+        bddElement("ImbgeCrebtionTime", "Document",
                    CHILD_POLICY_EMPTY);
-        addAttribute("ImageCreationTime", "year",
+        bddAttribute("ImbgeCrebtionTime", "yebr",
                      DATATYPE_INTEGER,
                      true,
                      null);
-        addAttribute("ImageCreationTime", "month",
+        bddAttribute("ImbgeCrebtionTime", "month",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "12", true, true);
-        addAttribute("ImageCreationTime", "day",
+        bddAttribute("ImbgeCrebtionTime", "dby",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "31", true, true);
-        addAttribute("ImageCreationTime", "hour",
+        bddAttribute("ImbgeCrebtionTime", "hour",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "23", true, true);
-        addAttribute("ImageCreationTime", "minute",
+        bddAttribute("ImbgeCrebtionTime", "minute",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "59", true, true);
-        // second = 60 denotes leap second
-        addAttribute("ImageCreationTime", "second",
+        // second = 60 denotes lebp second
+        bddAttribute("ImbgeCrebtionTime", "second",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "60", true, true);
 
-        // root -> Document -> ImageModificationTime
-        addElement("ImageModificationTime", "Document",
+        // root -> Document -> ImbgeModificbtionTime
+        bddElement("ImbgeModificbtionTime", "Document",
                    CHILD_POLICY_EMPTY);
-        addAttribute("ImageModificationTime", "year",
+        bddAttribute("ImbgeModificbtionTime", "yebr",
                      DATATYPE_INTEGER,
                      true,
                      null);
-        addAttribute("ImageModificationTime", "month",
+        bddAttribute("ImbgeModificbtionTime", "month",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "12", true, true);
-        addAttribute("ImageModificationTime", "day",
+        bddAttribute("ImbgeModificbtionTime", "dby",
                      DATATYPE_INTEGER,
                      true,
                      null,
                      "1", "31", true, true);
-        addAttribute("ImageModificationTime", "hour",
+        bddAttribute("ImbgeModificbtionTime", "hour",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "23", true, true);
-        addAttribute("ImageModificationTime", "minute",
+        bddAttribute("ImbgeModificbtionTime", "minute",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "59", true, true);
-        // second = 60 denotes leap second
-        addAttribute("ImageModificationTime", "second",
+        // second = 60 denotes lebp second
+        bddAttribute("ImbgeModificbtionTime", "second",
                      DATATYPE_INTEGER,
-                     false,
+                     fblse,
                      "0",
                      "0", "60", true, true);
 
         // root -> Text
-        addElement("Text", standardMetadataFormatName,
+        bddElement("Text", stbndbrdMetbdbtbFormbtNbme,
                    0, Integer.MAX_VALUE);
 
         // root -> Text -> TextEntry
-        addElement("TextEntry", "Text", CHILD_POLICY_EMPTY);
-        addAttribute("TextEntry", "keyword",
+        bddElement("TextEntry", "Text", CHILD_POLICY_EMPTY);
+        bddAttribute("TextEntry", "keyword",
                      DATATYPE_STRING,
-                     false,
+                     fblse,
                      null);
-        addAttribute("TextEntry", "value",
+        bddAttribute("TextEntry", "vblue",
                      DATATYPE_STRING,
                      true,
                      null);
-        addAttribute("TextEntry", "language",
+        bddAttribute("TextEntry", "lbngubge",
                      DATATYPE_STRING,
-                     false,
+                     fblse,
                      null);
-        addAttribute("TextEntry", "encoding",
+        bddAttribute("TextEntry", "encoding",
                      DATATYPE_STRING,
-                     false,
+                     fblse,
                      null);
 
-        values = new ArrayList<>();
-        values.add("none");
-        values.add("lzw");
-        values.add("zip");
-        values.add("bzip");
-        values.add("other");
-        addAttribute("TextEntry", "compression",
+        vblues = new ArrbyList<>();
+        vblues.bdd("none");
+        vblues.bdd("lzw");
+        vblues.bdd("zip");
+        vblues.bdd("bzip");
+        vblues.bdd("other");
+        bddAttribute("TextEntry", "compression",
                      DATATYPE_STRING,
-                     false,
+                     fblse,
                      "none",
-                     values);
+                     vblues);
 
-        // root -> Transparency
-        addElement("Transparency", standardMetadataFormatName,
+        // root -> Trbnspbrency
+        bddElement("Trbnspbrency", stbndbrdMetbdbtbFormbtNbme,
                    CHILD_POLICY_SOME);
 
-        // root -> Transparency -> Alpha
-        addElement("Alpha", "Transparency", CHILD_POLICY_EMPTY);
+        // root -> Trbnspbrency -> Alphb
+        bddElement("Alphb", "Trbnspbrency", CHILD_POLICY_EMPTY);
 
-        values = new ArrayList<>();
-        values.add("none");
-        values.add("premultiplied");
-        values.add("nonpremultiplied");
-        addAttribute("Alpha", "value",
+        vblues = new ArrbyList<>();
+        vblues.bdd("none");
+        vblues.bdd("premultiplied");
+        vblues.bdd("nonpremultiplied");
+        bddAttribute("Alphb", "vblue",
                      DATATYPE_STRING,
-                     false,
+                     fblse,
                      "none",
-                     values);
+                     vblues);
 
-        // root -> Transparency -> TransparentIndex
-        addSingleAttributeElement("TransparentIndex", "Transparency",
+        // root -> Trbnspbrency -> TrbnspbrentIndex
+        bddSingleAttributeElement("TrbnspbrentIndex", "Trbnspbrency",
                                   DATATYPE_INTEGER);
 
-        // root -> Transparency -> TransparentColor
-        addElement("TransparentColor", "Transparency",
+        // root -> Trbnspbrency -> TrbnspbrentColor
+        bddElement("TrbnspbrentColor", "Trbnspbrency",
                    CHILD_POLICY_EMPTY);
-        addAttribute("TransparentColor", "value",
+        bddAttribute("TrbnspbrentColor", "vblue",
                      DATATYPE_INTEGER,
                      true,
                      0, Integer.MAX_VALUE);
 
-        // root -> Transparency -> TileTransparencies
-        addElement("TileTransparencies", "Transparency",
+        // root -> Trbnspbrency -> TileTrbnspbrencies
+        bddElement("TileTrbnspbrencies", "Trbnspbrency",
                    0, Integer.MAX_VALUE);
 
-        // root -> Transparency -> TileTransparencies -> TransparentTile
-        addElement("TransparentTile", "TileTransparencies",
+        // root -> Trbnspbrency -> TileTrbnspbrencies -> TrbnspbrentTile
+        bddElement("TrbnspbrentTile", "TileTrbnspbrencies",
                    CHILD_POLICY_EMPTY);
-        addAttribute("TransparentTile", "x",
+        bddAttribute("TrbnspbrentTile", "x",
                      DATATYPE_INTEGER,
                      true,
                      null);
-        addAttribute("TransparentTile", "y",
+        bddAttribute("TrbnspbrentTile", "y",
                      DATATYPE_INTEGER,
                      true,
                      null);
 
-        // root -> Transparency -> TileOpacities
-        addElement("TileOpacities", "Transparency",
+        // root -> Trbnspbrency -> TileOpbcities
+        bddElement("TileOpbcities", "Trbnspbrency",
                    0, Integer.MAX_VALUE);
 
-        // root -> Transparency -> TileOpacities -> OpaqueTile
-        addElement("OpaqueTile", "TileOpacities",
+        // root -> Trbnspbrency -> TileOpbcities -> OpbqueTile
+        bddElement("OpbqueTile", "TileOpbcities",
                    CHILD_POLICY_EMPTY);
-        addAttribute("OpaqueTile", "x",
+        bddAttribute("OpbqueTile", "x",
                      DATATYPE_INTEGER,
                      true,
                      null);
-        addAttribute("OpaqueTile", "y",
+        bddAttribute("OpbqueTile", "y",
                      DATATYPE_INTEGER,
                      true,
                      null);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
+    public boolebn cbnNodeAppebr(String elementNbme,
+                                 ImbgeTypeSpecifier imbgeType) {
             return true;
     }
 }

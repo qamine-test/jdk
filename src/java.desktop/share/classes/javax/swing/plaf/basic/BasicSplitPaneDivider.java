@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.border.Border;
-import java.beans.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.Border;
+import jbvb.bebns.*;
+import sun.swing.DefbultLookup;
 
 
 
 /**
- * Divider used by BasicSplitPaneUI. Subclassers may wish to override
- * paint to do something more interesting.
- * The border effect is drawn in BasicSplitPaneUI, so if you don't like
- * that border, reset it there.
- * To conditionally drag from certain areas subclass mousePressed and
- * call super when you wish the dragging to begin.
+ * Divider used by BbsicSplitPbneUI. Subclbssers mby wish to override
+ * pbint to do something more interesting.
+ * The border effect is drbwn in BbsicSplitPbneUI, so if you don't like
+ * thbt border, reset it there.
+ * To conditionblly drbg from certbin brebs subclbss mousePressed bnd
+ * cbll super when you wish the drbgging to begin.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicSplitPaneDivider extends Container
-    implements PropertyChangeListener
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicSplitPbneDivider extends Contbiner
+    implements PropertyChbngeListener
 {
     /**
-     * Width or height of the divider based on orientation
-     * {@code BasicSplitPaneUI} adds two to this.
+     * Width or height of the divider bbsed on orientbtion
+     * {@code BbsicSplitPbneUI} bdds two to this.
      */
-    protected static final int ONE_TOUCH_SIZE = 6;
+    protected stbtic finbl int ONE_TOUCH_SIZE = 6;
 
     /**
      * The offset of the divider.
      */
-    protected static final int ONE_TOUCH_OFFSET = 2;
+    protected stbtic finbl int ONE_TOUCH_OFFSET = 2;
 
     /**
-     * Handles mouse dragging message to do the actual dragging.
+     * Hbndles mouse drbgging messbge to do the bctubl drbgging.
      */
-    protected DragController dragger;
+    protected DrbgController drbgger;
 
     /**
-     * UI this instance was created from.
+     * UI this instbnce wbs crebted from.
      */
-    protected BasicSplitPaneUI splitPaneUI;
+    protected BbsicSplitPbneUI splitPbneUI;
 
     /**
      * Size of the divider.
      */
-    protected int dividerSize = 0; // default - SET TO 0???
+    protected int dividerSize = 0; // defbult - SET TO 0???
 
     /**
-     * Divider that is used for noncontinuous layout mode.
+     * Divider thbt is used for noncontinuous lbyout mode.
      */
     protected Component hiddenDivider;
 
     /**
-     * JSplitPane the receiver is contained in.
+     * JSplitPbne the receiver is contbined in.
      */
-    protected JSplitPane splitPane;
+    protected JSplitPbne splitPbne;
 
     /**
-     * Handles mouse events from both this class, and the split pane.
-     * Mouse events are handled for the splitpane since you want to be able
-     * to drag when clicking on the border of the divider, which is not
-     * drawn by the divider.
+     * Hbndles mouse events from both this clbss, bnd the split pbne.
+     * Mouse events bre hbndled for the splitpbne since you wbnt to be bble
+     * to drbg when clicking on the border of the divider, which is not
+     * drbwn by the divider.
      */
-    protected MouseHandler mouseHandler;
+    protected MouseHbndler mouseHbndler;
 
     /**
-     * Orientation of the JSplitPane.
+     * Orientbtion of the JSplitPbne.
      */
-    protected int orientation;
+    protected int orientbtion;
 
     /**
      * Button for quickly toggling the left component.
@@ -123,104 +123,104 @@ public class BasicSplitPaneDivider extends Container
     protected JButton rightButton;
 
     /** Border. */
-    private Border border;
+    privbte Border border;
 
     /**
      * Is the mouse over the divider?
      */
-    private boolean mouseOver;
+    privbte boolebn mouseOver;
 
-    private int oneTouchSize;
-    private int oneTouchOffset;
+    privbte int oneTouchSize;
+    privbte int oneTouchOffset;
 
     /**
-     * If true the one touch buttons are centered on the divider.
+     * If true the one touch buttons bre centered on the divider.
      */
-    private boolean centerOneTouchButtons;
+    privbte boolebn centerOneTouchButtons;
 
 
     /**
-     * Creates an instance of {@code BasicSplitPaneDivider}. Registers this
-     * instance for mouse events and mouse dragged events.
+     * Crebtes bn instbnce of {@code BbsicSplitPbneDivider}. Registers this
+     * instbnce for mouse events bnd mouse drbgged events.
      *
-     * @param ui an instance of {@code BasicSplitPaneUI}
+     * @pbrbm ui bn instbnce of {@code BbsicSplitPbneUI}
      */
-    public BasicSplitPaneDivider(BasicSplitPaneUI ui) {
-        oneTouchSize = DefaultLookup.getInt(ui.getSplitPane(), ui,
-                "SplitPane.oneTouchButtonSize", ONE_TOUCH_SIZE);
-        oneTouchOffset = DefaultLookup.getInt(ui.getSplitPane(), ui,
-                "SplitPane.oneTouchButtonOffset", ONE_TOUCH_OFFSET);
-        centerOneTouchButtons = DefaultLookup.getBoolean(ui.getSplitPane(),
-                 ui, "SplitPane.centerOneTouchButtons", true);
-        setLayout(new DividerLayout());
-        setBasicSplitPaneUI(ui);
-        orientation = splitPane.getOrientation();
-        setCursor((orientation == JSplitPane.HORIZONTAL_SPLIT) ?
+    public BbsicSplitPbneDivider(BbsicSplitPbneUI ui) {
+        oneTouchSize = DefbultLookup.getInt(ui.getSplitPbne(), ui,
+                "SplitPbne.oneTouchButtonSize", ONE_TOUCH_SIZE);
+        oneTouchOffset = DefbultLookup.getInt(ui.getSplitPbne(), ui,
+                "SplitPbne.oneTouchButtonOffset", ONE_TOUCH_OFFSET);
+        centerOneTouchButtons = DefbultLookup.getBoolebn(ui.getSplitPbne(),
+                 ui, "SplitPbne.centerOneTouchButtons", true);
+        setLbyout(new DividerLbyout());
+        setBbsicSplitPbneUI(ui);
+        orientbtion = splitPbne.getOrientbtion();
+        setCursor((orientbtion == JSplitPbne.HORIZONTAL_SPLIT) ?
                   Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR) :
                   Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
-        setBackground(UIManager.getColor("SplitPane.background"));
+        setBbckground(UIMbnbger.getColor("SplitPbne.bbckground"));
     }
 
-    private void revalidateSplitPane() {
-        invalidate();
-        if (splitPane != null) {
-            splitPane.revalidate();
+    privbte void revblidbteSplitPbne() {
+        invblidbte();
+        if (splitPbne != null) {
+            splitPbne.revblidbte();
         }
     }
 
     /**
-     * Sets the {@code SplitPaneUI} that is using the receiver.
+     * Sets the {@code SplitPbneUI} thbt is using the receiver.
      *
-     * @param newUI the new {@code SplitPaneUI}
+     * @pbrbm newUI the new {@code SplitPbneUI}
      */
-    public void setBasicSplitPaneUI(BasicSplitPaneUI newUI) {
-        if (splitPane != null) {
-            splitPane.removePropertyChangeListener(this);
-           if (mouseHandler != null) {
-               splitPane.removeMouseListener(mouseHandler);
-               splitPane.removeMouseMotionListener(mouseHandler);
-               removeMouseListener(mouseHandler);
-               removeMouseMotionListener(mouseHandler);
-               mouseHandler = null;
+    public void setBbsicSplitPbneUI(BbsicSplitPbneUI newUI) {
+        if (splitPbne != null) {
+            splitPbne.removePropertyChbngeListener(this);
+           if (mouseHbndler != null) {
+               splitPbne.removeMouseListener(mouseHbndler);
+               splitPbne.removeMouseMotionListener(mouseHbndler);
+               removeMouseListener(mouseHbndler);
+               removeMouseMotionListener(mouseHbndler);
+               mouseHbndler = null;
            }
         }
-        splitPaneUI = newUI;
+        splitPbneUI = newUI;
         if (newUI != null) {
-            splitPane = newUI.getSplitPane();
-            if (splitPane != null) {
-                if (mouseHandler == null) mouseHandler = new MouseHandler();
-                splitPane.addMouseListener(mouseHandler);
-                splitPane.addMouseMotionListener(mouseHandler);
-                addMouseListener(mouseHandler);
-                addMouseMotionListener(mouseHandler);
-                splitPane.addPropertyChangeListener(this);
-                if (splitPane.isOneTouchExpandable()) {
-                    oneTouchExpandableChanged();
+            splitPbne = newUI.getSplitPbne();
+            if (splitPbne != null) {
+                if (mouseHbndler == null) mouseHbndler = new MouseHbndler();
+                splitPbne.bddMouseListener(mouseHbndler);
+                splitPbne.bddMouseMotionListener(mouseHbndler);
+                bddMouseListener(mouseHbndler);
+                bddMouseMotionListener(mouseHbndler);
+                splitPbne.bddPropertyChbngeListener(this);
+                if (splitPbne.isOneTouchExpbndbble()) {
+                    oneTouchExpbndbbleChbnged();
                 }
             }
         }
         else {
-            splitPane = null;
+            splitPbne = null;
         }
     }
 
 
     /**
-     * Returns the {@code SplitPaneUI} the receiver is currently in.
+     * Returns the {@code SplitPbneUI} the receiver is currently in.
      *
-     * @return the {@code SplitPaneUI} the receiver is currently in
+     * @return the {@code SplitPbneUI} the receiver is currently in
      */
-    public BasicSplitPaneUI getBasicSplitPaneUI() {
-        return splitPaneUI;
+    public BbsicSplitPbneUI getBbsicSplitPbneUI() {
+        return splitPbneUI;
     }
 
 
     /**
-     * Sets the size of the divider to {@code newSize}. That is
-     * the width if the splitpane is {@code HORIZONTAL_SPLIT}, or
+     * Sets the size of the divider to {@code newSize}. Thbt is
+     * the width if the splitpbne is {@code HORIZONTAL_SPLIT}, or
      * the height of {@code VERTICAL_SPLIT}.
      *
-     * @param newSize a new size
+     * @pbrbm newSize b new size
      */
     public void setDividerSize(int newSize) {
         dividerSize = newSize;
@@ -228,7 +228,7 @@ public class BasicSplitPaneDivider extends Container
 
 
     /**
-     * Returns the size of the divider, that is the width if the splitpane
+     * Returns the size of the divider, thbt is the width if the splitpbne
      * is HORIZONTAL_SPLIT, or the height of VERTICAL_SPLIT.
      *
      * @return the size of the divider
@@ -241,7 +241,7 @@ public class BasicSplitPaneDivider extends Container
     /**
      * Sets the border of this component.
      *
-     * @param border a new border
+     * @pbrbm border b new border
      * @since 1.3
      */
     public void setBorder(Border border) {
@@ -263,10 +263,10 @@ public class BasicSplitPaneDivider extends Container
     }
 
     /**
-     * If a border has been set on this component, returns the
-     * border's insets, else calls super.getInsets.
+     * If b border hbs been set on this component, returns the
+     * border's insets, else cblls super.getInsets.
      *
-     * @return the value of the insets property.
+     * @return the vblue of the insets property.
      * @see #setBorder
      */
     public Insets getInsets() {
@@ -281,10 +281,10 @@ public class BasicSplitPaneDivider extends Container
     /**
      * Sets whether or not the mouse is currently over the divider.
      *
-     * @param mouseOver whether or not the mouse is currently over the divider
+     * @pbrbm mouseOver whether or not the mouse is currently over the divider
      * @since 1.5
      */
-    protected void setMouseOver(boolean mouseOver) {
+    protected void setMouseOver(boolebn mouseOver) {
         this.mouseOver = mouseOver;
     }
 
@@ -294,7 +294,7 @@ public class BasicSplitPaneDivider extends Container
      * @return whether or not the mouse is currently over the divider
      * @since 1.5
      */
-    public boolean isMouseOver() {
+    public boolebn isMouseOver() {
         return mouseOver;
     }
 
@@ -302,11 +302,11 @@ public class BasicSplitPaneDivider extends Container
      * Returns dividerSize x dividerSize
      */
     public Dimension getPreferredSize() {
-        // Ideally this would return the size from the layout manager,
-        // but that could result in the layed out size being different from
-        // the dividerSize, which may break developers as well as
-        // BasicSplitPaneUI.
-        if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
+        // Ideblly this would return the size from the lbyout mbnbger,
+        // but thbt could result in the lbyed out size being different from
+        // the dividerSize, which mby brebk developers bs well bs
+        // BbsicSplitPbneUI.
+        if (orientbtion == JSplitPbne.HORIZONTAL_SPLIT) {
             return new Dimension(getDividerSize(), 1);
         }
         return new Dimension(1, getDividerSize());
@@ -321,116 +321,116 @@ public class BasicSplitPaneDivider extends Container
 
 
     /**
-     * Property change event, presumably from the JSplitPane, will message
-     * updateOrientation if necessary.
+     * Property chbnge event, presumbbly from the JSplitPbne, will messbge
+     * updbteOrientbtion if necessbry.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        if (e.getSource() == splitPane) {
-            if (e.getPropertyName() == JSplitPane.ORIENTATION_PROPERTY) {
-                orientation = splitPane.getOrientation();
-                setCursor((orientation == JSplitPane.HORIZONTAL_SPLIT) ?
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (e.getSource() == splitPbne) {
+            if (e.getPropertyNbme() == JSplitPbne.ORIENTATION_PROPERTY) {
+                orientbtion = splitPbne.getOrientbtion();
+                setCursor((orientbtion == JSplitPbne.HORIZONTAL_SPLIT) ?
                           Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR) :
                           Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
-                revalidateSplitPane();
+                revblidbteSplitPbne();
             }
-            else if (e.getPropertyName() == JSplitPane.
+            else if (e.getPropertyNbme() == JSplitPbne.
                       ONE_TOUCH_EXPANDABLE_PROPERTY) {
-                oneTouchExpandableChanged();
+                oneTouchExpbndbbleChbnged();
             }
         }
     }
 
 
     /**
-     * Paints the divider.
+     * Pbints the divider.
      */
-    public void paint(Graphics g) {
-      super.paint(g);
+    public void pbint(Grbphics g) {
+      super.pbint(g);
 
-      // Paint the border.
+      // Pbint the border.
       Border   border = getBorder();
 
       if (border != null) {
           Dimension     size = getSize();
 
-          border.paintBorder(this, g, 0, 0, size.width, size.height);
+          border.pbintBorder(this, g, 0, 0, size.width, size.height);
       }
     }
 
 
     /**
-     * Messaged when the oneTouchExpandable value of the JSplitPane the
-     * receiver is contained in changes. Will create the
-     * <code>leftButton</code> and <code>rightButton</code> if they
-     * are null. invalidates the receiver as well.
+     * Messbged when the oneTouchExpbndbble vblue of the JSplitPbne the
+     * receiver is contbined in chbnges. Will crebte the
+     * <code>leftButton</code> bnd <code>rightButton</code> if they
+     * bre null. invblidbtes the receiver bs well.
      */
-    protected void oneTouchExpandableChanged() {
-        if (!DefaultLookup.getBoolean(splitPane, splitPaneUI,
-                           "SplitPane.supportsOneTouchButtons", true)) {
-            // Look and feel doesn't want to support one touch buttons, bail.
+    protected void oneTouchExpbndbbleChbnged() {
+        if (!DefbultLookup.getBoolebn(splitPbne, splitPbneUI,
+                           "SplitPbne.supportsOneTouchButtons", true)) {
+            // Look bnd feel doesn't wbnt to support one touch buttons, bbil.
             return;
         }
-        if (splitPane.isOneTouchExpandable() &&
+        if (splitPbne.isOneTouchExpbndbble() &&
             leftButton == null &&
             rightButton == null) {
-            /* Create the left button and add an action listener to
-               expand/collapse it. */
-            leftButton = createLeftOneTouchButton();
+            /* Crebte the left button bnd bdd bn bction listener to
+               expbnd/collbpse it. */
+            leftButton = crebteLeftOneTouchButton();
             if (leftButton != null)
-                leftButton.addActionListener(new OneTouchActionHandler(true));
+                leftButton.bddActionListener(new OneTouchActionHbndler(true));
 
 
-            /* Create the right button and add an action listener to
-               expand/collapse it. */
-            rightButton = createRightOneTouchButton();
+            /* Crebte the right button bnd bdd bn bction listener to
+               expbnd/collbpse it. */
+            rightButton = crebteRightOneTouchButton();
             if (rightButton != null)
-                rightButton.addActionListener(new OneTouchActionHandler
-                    (false));
+                rightButton.bddActionListener(new OneTouchActionHbndler
+                    (fblse));
 
             if (leftButton != null && rightButton != null) {
-                add(leftButton);
-                add(rightButton);
+                bdd(leftButton);
+                bdd(rightButton);
             }
         }
-        revalidateSplitPane();
+        revblidbteSplitPbne();
     }
 
 
     /**
-     * Creates and return an instance of {@code JButton} that can be used to
-     * collapse the left component in the split pane.
+     * Crebtes bnd return bn instbnce of {@code JButton} thbt cbn be used to
+     * collbpse the left component in the split pbne.
      *
-     * @return an instance of {@code JButton}
+     * @return bn instbnce of {@code JButton}
      */
-    protected JButton createLeftOneTouchButton() {
+    protected JButton crebteLeftOneTouchButton() {
         JButton b = new JButton() {
             public void setBorder(Border b) {
             }
-            public void paint(Graphics g) {
-                if (splitPane != null) {
+            public void pbint(Grbphics g) {
+                if (splitPbne != null) {
                     int[]   xs = new int[3];
                     int[]   ys = new int[3];
                     int     blockSize;
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
+                    // Fill the bbckground first ...
+                    g.setColor(this.getBbckground());
                     g.fillRect(0, 0, this.getWidth(),
                                this.getHeight());
 
-                    // ... then draw the arrow.
-                    g.setColor(Color.black);
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        blockSize = Math.min(getHeight(), oneTouchSize);
+                    // ... then drbw the brrow.
+                    g.setColor(Color.blbck);
+                    if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                        blockSize = Mbth.min(getHeight(), oneTouchSize);
                         xs[0] = blockSize;
                         xs[1] = 0;
                         xs[2] = blockSize << 1;
                         ys[0] = 0;
                         ys[1] = ys[2] = blockSize;
-                        g.drawPolygon(xs, ys, 3); // Little trick to make the
-                                                  // arrows of equal size
+                        g.drbwPolygon(xs, ys, 3); // Little trick to mbke the
+                                                  // brrows of equbl size
                     }
                     else {
-                        blockSize = Math.min(getWidth(), oneTouchSize);
+                        blockSize = Mbth.min(getWidth(), oneTouchSize);
                         xs[0] = xs[2] = blockSize;
                         xs[1] = 0;
                         ys[0] = 0;
@@ -440,44 +440,44 @@ public class BasicSplitPaneDivider extends Container
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt the button to pbrticipbte in focus trbversbble.
+            public boolebn isFocusTrbversbble() {
+                return fblse;
             }
         };
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        b.setRequestFocusEnbbled(fblse);
         return b;
     }
 
 
     /**
-     * Creates and return an instance of {@code JButton} that can be used to
-     * collapse the right component in the split pane.
+     * Crebtes bnd return bn instbnce of {@code JButton} thbt cbn be used to
+     * collbpse the right component in the split pbne.
      *
-     * @return an instance of {@code JButton}
+     * @return bn instbnce of {@code JButton}
      */
-    protected JButton createRightOneTouchButton() {
+    protected JButton crebteRightOneTouchButton() {
         JButton b = new JButton() {
             public void setBorder(Border border) {
             }
-            public void paint(Graphics g) {
-                if (splitPane != null) {
+            public void pbint(Grbphics g) {
+                if (splitPbne != null) {
                     int[]          xs = new int[3];
                     int[]          ys = new int[3];
                     int            blockSize;
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
+                    // Fill the bbckground first ...
+                    g.setColor(this.getBbckground());
                     g.fillRect(0, 0, this.getWidth(),
                                this.getHeight());
 
-                    // ... then draw the arrow.
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        blockSize = Math.min(getHeight(), oneTouchSize);
+                    // ... then drbw the brrow.
+                    if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                        blockSize = Mbth.min(getHeight(), oneTouchSize);
                         xs[0] = blockSize;
                         xs[1] = blockSize << 1;
                         xs[2] = 0;
@@ -485,81 +485,81 @@ public class BasicSplitPaneDivider extends Container
                         ys[1] = ys[2] = 0;
                     }
                     else {
-                        blockSize = Math.min(getWidth(), oneTouchSize);
+                        blockSize = Mbth.min(getWidth(), oneTouchSize);
                         xs[0] = xs[2] = 0;
                         xs[1] = blockSize;
                         ys[0] = 0;
                         ys[1] = blockSize;
                         ys[2] = blockSize << 1;
                     }
-                    g.setColor(Color.black);
+                    g.setColor(Color.blbck);
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt the button to pbrticipbte in focus trbversbble.
+            public boolebn isFocusTrbversbble() {
+                return fblse;
             }
         };
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        b.setRequestFocusEnbbled(fblse);
         return b;
     }
 
 
     /**
-     * Message to prepare for dragging. This messages the BasicSplitPaneUI
-     * with startDragging.
+     * Messbge to prepbre for drbgging. This messbges the BbsicSplitPbneUI
+     * with stbrtDrbgging.
      */
-    protected void prepareForDragging() {
-        splitPaneUI.startDragging();
+    protected void prepbreForDrbgging() {
+        splitPbneUI.stbrtDrbgging();
     }
 
 
     /**
-     * Messages the BasicSplitPaneUI with dragDividerTo that this instance
-     * is contained in.
+     * Messbges the BbsicSplitPbneUI with drbgDividerTo thbt this instbnce
+     * is contbined in.
      *
-     * @param location a location
+     * @pbrbm locbtion b locbtion
      */
-    protected void dragDividerTo(int location) {
-        splitPaneUI.dragDividerTo(location);
+    protected void drbgDividerTo(int locbtion) {
+        splitPbneUI.drbgDividerTo(locbtion);
     }
 
 
     /**
-     * Messages the BasicSplitPaneUI with finishDraggingTo that this instance
-     * is contained in.
+     * Messbges the BbsicSplitPbneUI with finishDrbggingTo thbt this instbnce
+     * is contbined in.
      *
-     * @param location a location
+     * @pbrbm locbtion b locbtion
      */
-    protected void finishDraggingTo(int location) {
-        splitPaneUI.finishDraggingTo(location);
+    protected void finishDrbggingTo(int locbtion) {
+        splitPbneUI.finishDrbggingTo(locbtion);
     }
 
 
     /**
-     * MouseHandler is responsible for converting mouse events
-     * (released, dragged...) into the appropriate DragController
+     * MouseHbndler is responsible for converting mouse events
+     * (relebsed, drbgged...) into the bppropribte DrbgController
      * methods.
      *
      */
-    protected class MouseHandler extends MouseAdapter
+    protected clbss MouseHbndler extends MouseAdbpter
             implements MouseMotionListener
     {
         /**
-         * Starts the dragging session by creating the appropriate instance
-         * of DragController.
+         * Stbrts the drbgging session by crebting the bppropribte instbnce
+         * of DrbgController.
          */
         public void mousePressed(MouseEvent e) {
-            if ((e.getSource() == BasicSplitPaneDivider.this ||
-                 e.getSource() == splitPane) &&
-                dragger == null &&splitPane.isEnabled()) {
-                Component            newHiddenDivider = splitPaneUI.
-                                     getNonContinuousLayoutDivider();
+            if ((e.getSource() == BbsicSplitPbneDivider.this ||
+                 e.getSource() == splitPbne) &&
+                drbgger == null &&splitPbne.isEnbbled()) {
+                Component            newHiddenDivider = splitPbneUI.
+                                     getNonContinuousLbyoutDivider();
 
                 if (hiddenDivider != newHiddenDivider) {
                     if (hiddenDivider != null) {
@@ -568,24 +568,24 @@ public class BasicSplitPaneDivider extends Container
                     }
                     hiddenDivider = newHiddenDivider;
                     if (hiddenDivider != null) {
-                        hiddenDivider.addMouseMotionListener(this);
-                        hiddenDivider.addMouseListener(this);
+                        hiddenDivider.bddMouseMotionListener(this);
+                        hiddenDivider.bddMouseListener(this);
                     }
                 }
-                if (splitPane.getLeftComponent() != null &&
-                    splitPane.getRightComponent() != null) {
-                    if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                        dragger = new DragController(e);
+                if (splitPbne.getLeftComponent() != null &&
+                    splitPbne.getRightComponent() != null) {
+                    if (orientbtion == JSplitPbne.HORIZONTAL_SPLIT) {
+                        drbgger = new DrbgController(e);
                     }
                     else {
-                        dragger = new VerticalDragController(e);
+                        drbgger = new VerticblDrbgController(e);
                     }
-                    if (!dragger.isValid()) {
-                        dragger = null;
+                    if (!drbgger.isVblid()) {
+                        drbgger = null;
                     }
                     else {
-                        prepareForDragging();
-                        dragger.continueDrag(e);
+                        prepbreForDrbgging();
+                        drbgger.continueDrbg(e);
                     }
                 }
                 e.consume();
@@ -594,27 +594,27 @@ public class BasicSplitPaneDivider extends Container
 
 
         /**
-         * If dragger is not null it is messaged with completeDrag.
+         * If drbgger is not null it is messbged with completeDrbg.
          */
-        public void mouseReleased(MouseEvent e) {
-            if (dragger != null) {
-                if (e.getSource() == splitPane) {
-                    dragger.completeDrag(e.getX(), e.getY());
+        public void mouseRelebsed(MouseEvent e) {
+            if (drbgger != null) {
+                if (e.getSource() == splitPbne) {
+                    drbgger.completeDrbg(e.getX(), e.getY());
                 }
-                else if (e.getSource() == BasicSplitPaneDivider.this) {
-                    Point   ourLoc = getLocation();
+                else if (e.getSource() == BbsicSplitPbneDivider.this) {
+                    Point   ourLoc = getLocbtion();
 
-                    dragger.completeDrag(e.getX() + ourLoc.x,
+                    drbgger.completeDrbg(e.getX() + ourLoc.x,
                                          e.getY() + ourLoc.y);
                 }
                 else if (e.getSource() == hiddenDivider) {
-                    Point   hDividerLoc = hiddenDivider.getLocation();
+                    Point   hDividerLoc = hiddenDivider.getLocbtion();
                     int     ourX = e.getX() + hDividerLoc.x;
                     int     ourY = e.getY() + hDividerLoc.y;
 
-                    dragger.completeDrag(ourX, ourY);
+                    drbgger.completeDrbg(ourX, ourY);
                 }
-                dragger = null;
+                drbgger = null;
                 e.consume();
             }
         }
@@ -625,25 +625,25 @@ public class BasicSplitPaneDivider extends Container
         //
 
         /**
-         * If dragger is not null it is messaged with continueDrag.
+         * If drbgger is not null it is messbged with continueDrbg.
          */
-        public void mouseDragged(MouseEvent e) {
-            if (dragger != null) {
-                if (e.getSource() == splitPane) {
-                    dragger.continueDrag(e.getX(), e.getY());
+        public void mouseDrbgged(MouseEvent e) {
+            if (drbgger != null) {
+                if (e.getSource() == splitPbne) {
+                    drbgger.continueDrbg(e.getX(), e.getY());
                 }
-                else if (e.getSource() == BasicSplitPaneDivider.this) {
-                    Point   ourLoc = getLocation();
+                else if (e.getSource() == BbsicSplitPbneDivider.this) {
+                    Point   ourLoc = getLocbtion();
 
-                    dragger.continueDrag(e.getX() + ourLoc.x,
+                    drbgger.continueDrbg(e.getX() + ourLoc.x,
                                          e.getY() + ourLoc.y);
                 }
                 else if (e.getSource() == hiddenDivider) {
-                    Point   hDividerLoc = hiddenDivider.getLocation();
+                    Point   hDividerLoc = hiddenDivider.getLocbtion();
                     int     ourX = e.getX() + hDividerLoc.x;
                     int     ourY = e.getY() + hDividerLoc.y;
 
-                    dragger.continueDrag(ourX, ourY);
+                    drbgger.continueDrbg(ourX, ourY);
                 }
                 e.consume();
             }
@@ -651,96 +651,96 @@ public class BasicSplitPaneDivider extends Container
 
 
         /**
-         *  Resets the cursor based on the orientation.
+         *  Resets the cursor bbsed on the orientbtion.
          */
         public void mouseMoved(MouseEvent e) {
         }
 
         /**
-         * Invoked when the mouse enters a component.
+         * Invoked when the mouse enters b component.
          *
-         * @param e MouseEvent describing the details of the enter event.
+         * @pbrbm e MouseEvent describing the detbils of the enter event.
          * @since 1.5
          */
         public void mouseEntered(MouseEvent e) {
-            if (e.getSource() == BasicSplitPaneDivider.this) {
+            if (e.getSource() == BbsicSplitPbneDivider.this) {
                 setMouseOver(true);
             }
         }
 
         /**
-         * Invoked when the mouse exits a component.
+         * Invoked when the mouse exits b component.
          *
-         * @param e MouseEvent describing the details of the exit event.
+         * @pbrbm e MouseEvent describing the detbils of the exit event.
          * @since 1.5
          */
         public void mouseExited(MouseEvent e) {
-            if (e.getSource() == BasicSplitPaneDivider.this) {
-                setMouseOver(false);
+            if (e.getSource() == BbsicSplitPbneDivider.this) {
+                setMouseOver(fblse);
             }
         }
     }
 
 
     /**
-     * Handles the events during a dragging session for a
-     * HORIZONTAL_SPLIT oriented split pane. This continually
-     * messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be
-     * messaged with <code>isValid</code> to insure that dragging can happen
-     * (dragging won't be allowed if the two views can not be resized).
+     * Hbndles the events during b drbgging session for b
+     * HORIZONTAL_SPLIT oriented split pbne. This continublly
+     * messbges <code>drbgDividerTo</code> bnd then when done messbges
+     * <code>finishDrbggingTo</code>. When bn instbnce is crebted it should be
+     * messbged with <code>isVblid</code> to insure thbt drbgging cbn hbppen
+     * (drbgging won't be bllowed if the two views cbn not be resized).
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class DragController
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss DrbgController
     {
         /**
-         * Initial location of the divider.
+         * Initibl locbtion of the divider.
          */
-        int initialX;
+        int initiblX;
 
         /**
-         * Maximum and minimum positions to drag to.
+         * Mbximum bnd minimum positions to drbg to.
          */
-        int maxX, minX;
+        int mbxX, minX;
 
         /**
-         * Initial location the mouse down happened at.
+         * Initibl locbtion the mouse down hbppened bt.
          */
         int offset;
 
         /**
-         * Constructs a new instance of {@code DragController}.
+         * Constructs b new instbnce of {@code DrbgController}.
          *
-         * @param e a mouse event
+         * @pbrbm e b mouse event
          */
-        protected DragController(MouseEvent e) {
-            JSplitPane  splitPane = splitPaneUI.getSplitPane();
-            Component   leftC = splitPane.getLeftComponent();
-            Component   rightC = splitPane.getRightComponent();
+        protected DrbgController(MouseEvent e) {
+            JSplitPbne  splitPbne = splitPbneUI.getSplitPbne();
+            Component   leftC = splitPbne.getLeftComponent();
+            Component   rightC = splitPbne.getRightComponent();
 
-            initialX = getLocation().x;
-            if (e.getSource() == BasicSplitPaneDivider.this) {
+            initiblX = getLocbtion().x;
+            if (e.getSource() == BbsicSplitPbneDivider.this) {
                 offset = e.getX();
             }
-            else { // splitPane
-                offset = e.getX() - initialX;
+            else { // splitPbne
+                offset = e.getX() - initiblX;
             }
             if (leftC == null || rightC == null || offset < -1 ||
                 offset >= getSize().width) {
-                // Don't allow dragging.
-                maxX = -1;
+                // Don't bllow drbgging.
+                mbxX = -1;
             }
             else {
-                Insets      insets = splitPane.getInsets();
+                Insets      insets = splitPbne.getInsets();
 
                 if (leftC.isVisible()) {
                     minX = leftC.getMinimumSize().width;
@@ -753,143 +753,143 @@ public class BasicSplitPaneDivider extends Container
                 }
                 if (rightC.isVisible()) {
                     int right = (insets != null) ? insets.right : 0;
-                    maxX = Math.max(0, splitPane.getSize().width -
+                    mbxX = Mbth.mbx(0, splitPbne.getSize().width -
                                     (getSize().width + right) -
                                     rightC.getMinimumSize().width);
                 }
                 else {
                     int right = (insets != null) ? insets.right : 0;
-                    maxX = Math.max(0, splitPane.getSize().width -
+                    mbxX = Mbth.mbx(0, splitPbne.getSize().width -
                                     (getSize().width + right));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (mbxX < minX) minX = mbxX = 0;
             }
         }
 
 
         /**
-         * Returns {@code true} if the dragging session is valid.
+         * Returns {@code true} if the drbgging session is vblid.
          *
-         * @return {@code true} if the dragging session is valid
+         * @return {@code true} if the drbgging session is vblid
          */
-        protected boolean isValid() {
-            return (maxX > 0);
+        protected boolebn isVblid() {
+            return (mbxX > 0);
         }
 
 
         /**
-         * Returns the new position to put the divider at based on
-         * the passed in MouseEvent.
+         * Returns the new position to put the divider bt bbsed on
+         * the pbssed in MouseEvent.
          *
-         * @param e a mouse event
+         * @pbrbm e b mouse event
          * @return the new position
          */
         protected int positionForMouseEvent(MouseEvent e) {
-            int newX = (e.getSource() == BasicSplitPaneDivider.this) ?
-                        (e.getX() + getLocation().x) : e.getX();
+            int newX = (e.getSource() == BbsicSplitPbneDivider.this) ?
+                        (e.getX() + getLocbtion().x) : e.getX();
 
-            newX = Math.min(maxX, Math.max(minX, newX - offset));
+            newX = Mbth.min(mbxX, Mbth.mbx(minX, newX - offset));
             return newX;
         }
 
 
         /**
-         * Returns the x argument, since this is used for horizontal
+         * Returns the x brgument, since this is used for horizontbl
          * splits.
          *
-         * @param x an X coordinate
-         * @param y an Y coordinate
-         * @return the X argument
+         * @pbrbm x bn X coordinbte
+         * @pbrbm y bn Y coordinbte
+         * @return the X brgument
          */
-        protected int getNeededLocation(int x, int y) {
+        protected int getNeededLocbtion(int x, int y) {
             int newX;
 
-            newX = Math.min(maxX, Math.max(minX, x - offset));
+            newX = Mbth.min(mbxX, Mbth.mbx(minX, x - offset));
             return newX;
         }
 
         /**
-         * Messages dragDividerTo with the new location for the mouse
+         * Messbges drbgDividerTo with the new locbtion for the mouse
          * event.
          *
-         * @param newX an X coordinate
-         * @param newY an Y coordinate
+         * @pbrbm newX bn X coordinbte
+         * @pbrbm newY bn Y coordinbte
          */
-        protected void continueDrag(int newX, int newY) {
-            dragDividerTo(getNeededLocation(newX, newY));
+        protected void continueDrbg(int newX, int newY) {
+            drbgDividerTo(getNeededLocbtion(newX, newY));
         }
 
 
         /**
-         * Messages dragDividerTo with the new location for the mouse
+         * Messbges drbgDividerTo with the new locbtion for the mouse
          * event.
          *
-         * @param e a mouse event
+         * @pbrbm e b mouse event
          */
-        protected void continueDrag(MouseEvent e) {
-            dragDividerTo(positionForMouseEvent(e));
+        protected void continueDrbg(MouseEvent e) {
+            drbgDividerTo(positionForMouseEvent(e));
         }
 
         /**
-         * Messages finishDraggingTo with the new location for the mouse
+         * Messbges finishDrbggingTo with the new locbtion for the mouse
          * event.
          *
-         * @param x an X coordinate
-         * @param y an Y coordinate
+         * @pbrbm x bn X coordinbte
+         * @pbrbm y bn Y coordinbte
          */
-        protected void completeDrag(int x, int y) {
-            finishDraggingTo(getNeededLocation(x, y));
+        protected void completeDrbg(int x, int y) {
+            finishDrbggingTo(getNeededLocbtion(x, y));
         }
 
 
         /**
-         * Messages finishDraggingTo with the new location for the mouse
+         * Messbges finishDrbggingTo with the new locbtion for the mouse
          * event.
          *
-         * @param e a mouse event
+         * @pbrbm e b mouse event
          */
-        protected void completeDrag(MouseEvent e) {
-            finishDraggingTo(positionForMouseEvent(e));
+        protected void completeDrbg(MouseEvent e) {
+            finishDrbggingTo(positionForMouseEvent(e));
         }
-    } // End of BasicSplitPaneDivider.DragController
+    } // End of BbsicSplitPbneDivider.DrbgController
 
 
     /**
-     * Handles the events during a dragging session for a
-     * VERTICAL_SPLIT oriented split pane. This continually
-     * messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be
-     * messaged with <code>isValid</code> to insure that dragging can happen
-     * (dragging won't be allowed if the two views can not be resized).
+     * Hbndles the events during b drbgging session for b
+     * VERTICAL_SPLIT oriented split pbne. This continublly
+     * messbges <code>drbgDividerTo</code> bnd then when done messbges
+     * <code>finishDrbggingTo</code>. When bn instbnce is crebted it should be
+     * messbged with <code>isVblid</code> to insure thbt drbgging cbn hbppen
+     * (drbgging won't be bllowed if the two views cbn not be resized).
      */
-    protected class VerticalDragController extends DragController
+    protected clbss VerticblDrbgController extends DrbgController
     {
-        /* DragControllers ivars are now in terms of y, not x. */
+        /* DrbgControllers ivbrs bre now in terms of y, not x. */
         /**
-         * Constructs a new instance of {@code VerticalDragController}.
+         * Constructs b new instbnce of {@code VerticblDrbgController}.
          *
-         * @param e a mouse event
+         * @pbrbm e b mouse event
          */
-        protected VerticalDragController(MouseEvent e) {
+        protected VerticblDrbgController(MouseEvent e) {
             super(e);
-            JSplitPane splitPane = splitPaneUI.getSplitPane();
-            Component  leftC = splitPane.getLeftComponent();
-            Component  rightC = splitPane.getRightComponent();
+            JSplitPbne splitPbne = splitPbneUI.getSplitPbne();
+            Component  leftC = splitPbne.getLeftComponent();
+            Component  rightC = splitPbne.getRightComponent();
 
-            initialX = getLocation().y;
-            if (e.getSource() == BasicSplitPaneDivider.this) {
+            initiblX = getLocbtion().y;
+            if (e.getSource() == BbsicSplitPbneDivider.this) {
                 offset = e.getY();
             }
             else {
-                offset = e.getY() - initialX;
+                offset = e.getY() - initiblX;
             }
             if (leftC == null || rightC == null || offset < -1 ||
                 offset > getSize().height) {
-                // Don't allow dragging.
-                maxX = -1;
+                // Don't bllow drbgging.
+                mbxX = -1;
             }
             else {
-                Insets     insets = splitPane.getInsets();
+                Insets     insets = splitPbne.getInsets();
 
                 if (leftC.isVisible()) {
                     minX = leftC.getMinimumSize().height;
@@ -903,104 +903,104 @@ public class BasicSplitPaneDivider extends Container
                 if (rightC.isVisible()) {
                     int    bottom = (insets != null) ? insets.bottom : 0;
 
-                    maxX = Math.max(0, splitPane.getSize().height -
+                    mbxX = Mbth.mbx(0, splitPbne.getSize().height -
                                     (getSize().height + bottom) -
                                     rightC.getMinimumSize().height);
                 }
                 else {
                     int    bottom = (insets != null) ? insets.bottom : 0;
 
-                    maxX = Math.max(0, splitPane.getSize().height -
+                    mbxX = Mbth.mbx(0, splitPbne.getSize().height -
                                     (getSize().height + bottom));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (mbxX < minX) minX = mbxX = 0;
             }
         }
 
 
         /**
-         * Returns the y argument, since this is used for vertical
+         * Returns the y brgument, since this is used for verticbl
          * splits.
          */
-        protected int getNeededLocation(int x, int y) {
+        protected int getNeededLocbtion(int x, int y) {
             int newY;
 
-            newY = Math.min(maxX, Math.max(minX, y - offset));
+            newY = Mbth.min(mbxX, Mbth.mbx(minX, y - offset));
             return newY;
         }
 
 
         /**
-         * Returns the new position to put the divider at based on
-         * the passed in MouseEvent.
+         * Returns the new position to put the divider bt bbsed on
+         * the pbssed in MouseEvent.
          */
         protected int positionForMouseEvent(MouseEvent e) {
-            int newY = (e.getSource() == BasicSplitPaneDivider.this) ?
-                        (e.getY() + getLocation().y) : e.getY();
+            int newY = (e.getSource() == BbsicSplitPbneDivider.this) ?
+                        (e.getY() + getLocbtion().y) : e.getY();
 
 
-            newY = Math.min(maxX, Math.max(minX, newY - offset));
+            newY = Mbth.min(mbxX, Mbth.mbx(minX, newY - offset));
             return newY;
         }
-    } // End of BasicSplitPaneDividier.VerticalDragController
+    } // End of BbsicSplitPbneDividier.VerticblDrbgController
 
 
     /**
-     * Used to layout a <code>BasicSplitPaneDivider</code>.
-     * Layout for the divider
-     * involves appropriately moving the left/right buttons around.
+     * Used to lbyout b <code>BbsicSplitPbneDivider</code>.
+     * Lbyout for the divider
+     * involves bppropribtely moving the left/right buttons bround.
      *
      */
-    protected class DividerLayout implements LayoutManager
+    protected clbss DividerLbyout implements LbyoutMbnbger
     {
-        public void layoutContainer(Container c) {
+        public void lbyoutContbiner(Contbiner c) {
             if (leftButton != null && rightButton != null &&
-                c == BasicSplitPaneDivider.this) {
-                if (splitPane.isOneTouchExpandable()) {
+                c == BbsicSplitPbneDivider.this) {
+                if (splitPbne.isOneTouchExpbndbble()) {
                     Insets insets = getInsets();
 
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        int extraX = (insets != null) ? insets.left : 0;
+                    if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                        int extrbX = (insets != null) ? insets.left : 0;
                         int blockSize = getHeight();
 
                         if (insets != null) {
                             blockSize -= (insets.top + insets.bottom);
-                            blockSize = Math.max(blockSize, 0);
+                            blockSize = Mbth.mbx(blockSize, 0);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
+                        blockSize = Mbth.min(blockSize, oneTouchSize);
 
                         int y = (c.getSize().height - blockSize) / 2;
 
                         if (!centerOneTouchButtons) {
                             y = (insets != null) ? insets.top : 0;
-                            extraX = 0;
+                            extrbX = 0;
                         }
-                        leftButton.setBounds(extraX + oneTouchOffset, y,
+                        leftButton.setBounds(extrbX + oneTouchOffset, y,
                                              blockSize * 2, blockSize);
-                        rightButton.setBounds(extraX + oneTouchOffset +
+                        rightButton.setBounds(extrbX + oneTouchOffset +
                                               oneTouchSize * 2, y,
                                               blockSize * 2, blockSize);
                     }
                     else {
-                        int extraY = (insets != null) ? insets.top : 0;
+                        int extrbY = (insets != null) ? insets.top : 0;
                         int blockSize = getWidth();
 
                         if (insets != null) {
                             blockSize -= (insets.left + insets.right);
-                            blockSize = Math.max(blockSize, 0);
+                            blockSize = Mbth.mbx(blockSize, 0);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
+                        blockSize = Mbth.min(blockSize, oneTouchSize);
 
                         int x = (c.getSize().width - blockSize) / 2;
 
                         if (!centerOneTouchButtons) {
                             x = (insets != null) ? insets.left : 0;
-                            extraY = 0;
+                            extrbY = 0;
                         }
 
-                        leftButton.setBounds(x, extraY + oneTouchOffset,
+                        leftButton.setBounds(x, extrbY + oneTouchOffset,
                                              blockSize, blockSize * 2);
-                        rightButton.setBounds(x, extraY + oneTouchOffset +
+                        rightButton.setBounds(x, extrbY + oneTouchOffset +
                                               oneTouchSize * 2, blockSize,
                                               blockSize * 2);
                     }
@@ -1013,16 +1013,16 @@ public class BasicSplitPaneDivider extends Container
         }
 
 
-        public Dimension minimumLayoutSize(Container c) {
-            // NOTE: This isn't really used, refer to
-            // BasicSplitPaneDivider.getPreferredSize for the reason.
-            // I leave it in hopes of having this used at some point.
-            if (c != BasicSplitPaneDivider.this || splitPane == null) {
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            // NOTE: This isn't reblly used, refer to
+            // BbsicSplitPbneDivider.getPreferredSize for the rebson.
+            // I lebve it in hopes of hbving this used bt some point.
+            if (c != BbsicSplitPbneDivider.this || splitPbne == null) {
                 return new Dimension(0,0);
             }
             Dimension buttonMinSize = null;
 
-            if (splitPane.isOneTouchExpandable() && leftButton != null) {
+            if (splitPbne.isOneTouchExpbndbble() && leftButton != null) {
                 buttonMinSize = leftButton.getMinimumSize();
             }
 
@@ -1030,13 +1030,13 @@ public class BasicSplitPaneDivider extends Container
             int width = getDividerSize();
             int height = width;
 
-            if (orientation == JSplitPane.VERTICAL_SPLIT) {
+            if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
                 if (buttonMinSize != null) {
                     int size = buttonMinSize.height;
                     if (insets != null) {
                         size += insets.top + insets.bottom;
                     }
-                    height = Math.max(height, size);
+                    height = Mbth.mbx(height, size);
                 }
                 width = 1;
             }
@@ -1046,7 +1046,7 @@ public class BasicSplitPaneDivider extends Container
                     if (insets != null) {
                         size += insets.left + insets.right;
                     }
-                    width = Math.max(width, size);
+                    width = Mbth.mbx(width, size);
                 }
                 height = 1;
             }
@@ -1054,96 +1054,96 @@ public class BasicSplitPaneDivider extends Container
         }
 
 
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        public Dimension preferredLbyoutSize(Contbiner c) {
+            return minimumLbyoutSize(c);
         }
 
 
-        public void removeLayoutComponent(Component c) {}
+        public void removeLbyoutComponent(Component c) {}
 
-        public void addLayoutComponent(String string, Component c) {}
-    } // End of class BasicSplitPaneDivider.DividerLayout
+        public void bddLbyoutComponent(String string, Component c) {}
+    } // End of clbss BbsicSplitPbneDivider.DividerLbyout
 
 
     /**
-     * Listeners installed on the one touch expandable buttons.
+     * Listeners instblled on the one touch expbndbble buttons.
      */
-    private class OneTouchActionHandler implements ActionListener {
-        /** True indicates the resize should go the minimum (top or left)
-         * vs false which indicates the resize should go to the maximum.
+    privbte clbss OneTouchActionHbndler implements ActionListener {
+        /** True indicbtes the resize should go the minimum (top or left)
+         * vs fblse which indicbtes the resize should go to the mbximum.
          */
-        private boolean toMinimum;
+        privbte boolebn toMinimum;
 
-        OneTouchActionHandler(boolean toMinimum) {
+        OneTouchActionHbndler(boolebn toMinimum) {
             this.toMinimum = toMinimum;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            Insets  insets = splitPane.getInsets();
-            int     lastLoc = splitPane.getLastDividerLocation();
-            int     currentLoc = splitPaneUI.getDividerLocation(splitPane);
+        public void bctionPerformed(ActionEvent e) {
+            Insets  insets = splitPbne.getInsets();
+            int     lbstLoc = splitPbne.getLbstDividerLocbtion();
+            int     currentLoc = splitPbneUI.getDividerLocbtion(splitPbne);
             int     newLoc;
 
-            // We use the location from the UI directly, as the location the
-            // JSplitPane itself maintains is not necessarly correct.
+            // We use the locbtion from the UI directly, bs the locbtion the
+            // JSplitPbne itself mbintbins is not necessbrly correct.
             if (toMinimum) {
-                if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                    if (currentLoc >= (splitPane.getHeight() -
+                if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                    if (currentLoc >= (splitPbne.getHeight() -
                                        insets.bottom - getHeight())) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                        int mbxLoc = splitPbne.getMbximumDividerLocbtion();
+                        newLoc = Mbth.min(lbstLoc, mbxLoc);
+                        splitPbneUI.setKeepHidden(fblse);
                     }
                     else {
                         newLoc = insets.top;
-                        splitPaneUI.setKeepHidden(true);
+                        splitPbneUI.setKeepHidden(true);
                     }
                 }
                 else {
-                    if (currentLoc >= (splitPane.getWidth() -
+                    if (currentLoc >= (splitPbne.getWidth() -
                                        insets.right - getWidth())) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                        int mbxLoc = splitPbne.getMbximumDividerLocbtion();
+                        newLoc = Mbth.min(lbstLoc, mbxLoc);
+                        splitPbneUI.setKeepHidden(fblse);
                     }
                     else {
                         newLoc = insets.left;
-                        splitPaneUI.setKeepHidden(true);
+                        splitPbneUI.setKeepHidden(true);
                     }
                 }
             }
             else {
-                if (orientation == JSplitPane.VERTICAL_SPLIT) {
+                if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
                     if (currentLoc == insets.top) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                        int mbxLoc = splitPbne.getMbximumDividerLocbtion();
+                        newLoc = Mbth.min(lbstLoc, mbxLoc);
+                        splitPbneUI.setKeepHidden(fblse);
                     }
                     else {
-                        newLoc = splitPane.getHeight() - getHeight() -
+                        newLoc = splitPbne.getHeight() - getHeight() -
                                  insets.top;
-                        splitPaneUI.setKeepHidden(true);
+                        splitPbneUI.setKeepHidden(true);
                     }
                 }
                 else {
                     if (currentLoc == insets.left) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                        int mbxLoc = splitPbne.getMbximumDividerLocbtion();
+                        newLoc = Mbth.min(lbstLoc, mbxLoc);
+                        splitPbneUI.setKeepHidden(fblse);
                     }
                     else {
-                        newLoc = splitPane.getWidth() - getWidth() -
+                        newLoc = splitPbne.getWidth() - getWidth() -
                                  insets.left;
-                        splitPaneUI.setKeepHidden(true);
+                        splitPbneUI.setKeepHidden(true);
                     }
                 }
             }
             if (currentLoc != newLoc) {
-                splitPane.setDividerLocation(newLoc);
-                // We do this in case the dividers notion of the location
-                // differs from the real location.
-                splitPane.setLastDividerLocation(currentLoc);
+                splitPbne.setDividerLocbtion(newLoc);
+                // We do this in cbse the dividers notion of the locbtion
+                // differs from the rebl locbtion.
+                splitPbne.setLbstDividerLocbtion(currentLoc);
             }
         }
-    } // End of class BasicSplitPaneDivider.LeftActionListener
+    } // End of clbss BbsicSplitPbneDivider.LeftActionListener
 }

@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.rmi.server.UID;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import jbvb.rmi.server.UID;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.ScheduledExecutorService;
+import jbvb.util.concurrent.TimeUnit;
 import sun.rmi.runtime.RuntimeUtil;
 
 /**
- * Holds strong references to a set of remote objects, or live remote
- * references to remote objects, after they have been marshalled (as
- * remote references) as parts of the arguments or the result of a
- * remote invocation.  The purpose is to prevent remote objects or
- * live remote references that might otherwise be determined to be
- * unreachable in this VM from being locally garbage collected before
- * the receiver has had an opportunity to register the unmarshalled
+ * Holds strong references to b set of remote objects, or live remote
+ * references to remote objects, bfter they hbve been mbrshblled (bs
+ * remote references) bs pbrts of the brguments or the result of b
+ * remote invocbtion.  The purpose is to prevent remote objects or
+ * live remote references thbt might otherwise be determined to be
+ * unrebchbble in this VM from being locblly gbrbbge collected before
+ * the receiver hbs hbd bn opportunity to register the unmbrshblled
  * remote references for DGC.
  *
- * The references are held strongly until an acknowledgment has been
- * received that the receiver has had an opportunity to process the
- * remote references or until a timeout has expired.  For remote
- * references sent as parts of the arguments of a remote invocation,
- * the acknowledgment is the beginning of the response indicating
- * completion of the remote invocation.  For remote references sent as
- * parts of the result of a remote invocation, a UID is included as
- * part of the result, and the acknowledgment is a transport-level
- * "DGCAck" message containing that UID.
+ * The references bre held strongly until bn bcknowledgment hbs been
+ * received thbt the receiver hbs hbd bn opportunity to process the
+ * remote references or until b timeout hbs expired.  For remote
+ * references sent bs pbrts of the brguments of b remote invocbtion,
+ * the bcknowledgment is the beginning of the response indicbting
+ * completion of the remote invocbtion.  For remote references sent bs
+ * pbrts of the result of b remote invocbtion, b UID is included bs
+ * pbrt of the result, bnd the bcknowledgment is b trbnsport-level
+ * "DGCAck" messbge contbining thbt UID.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
+ * @buthor      Ann Wollrbth
+ * @buthor      Peter Jones
  **/
-public class DGCAckHandler {
+public clbss DGCAckHbndler {
 
-    /** timeout for holding references without receiving an acknowledgment */
-    private static final long dgcAckTimeout =           // default 5 minutes
+    /** timeout for holding references without receiving bn bcknowledgment */
+    privbte stbtic finbl long dgcAckTimeout =           // defbult 5 minutes
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.ackTimeout", 300000));
+            Long.getLong("sun.rmi.dgc.bckTimeout", 300000));
 
-    /** thread pool for scheduling delayed tasks */
-    private static final ScheduledExecutorService scheduler =
+    /** threbd pool for scheduling delbyed tbsks */
+    privbte stbtic finbl ScheduledExecutorService scheduler =
         AccessController.doPrivileged(
-            new RuntimeUtil.GetInstanceAction()).getScheduler();
+            new RuntimeUtil.GetInstbnceAction()).getScheduler();
 
-    /** table mapping ack ID to handler */
-    private static final Map<UID,DGCAckHandler> idTable =
-        Collections.synchronizedMap(new HashMap<UID,DGCAckHandler>());
+    /** tbble mbpping bck ID to hbndler */
+    privbte stbtic finbl Mbp<UID,DGCAckHbndler> idTbble =
+        Collections.synchronizedMbp(new HbshMbp<UID,DGCAckHbndler>());
 
-    private final UID id;
-    private List<Object> objList = new ArrayList<>(); // null if released
-    private Future<?> task = null;
+    privbte finbl UID id;
+    privbte List<Object> objList = new ArrbyList<>(); // null if relebsed
+    privbte Future<?> tbsk = null;
 
     /**
-     * Creates a new DGCAckHandler, associated with the specified UID
-     * if the argument is not null.
+     * Crebtes b new DGCAckHbndler, bssocibted with the specified UID
+     * if the brgument is not null.
      *
-     * References added to this DGCAckHandler will be held strongly
-     * until its "release" method is invoked or (after the
-     * "startTimer" method has been invoked) the timeout has expired.
-     * If the argument is not null, then invoking the static
-     * "received" method with the specified UID is equivalent to
-     * invoking this instance's "release" method.
+     * References bdded to this DGCAckHbndler will be held strongly
+     * until its "relebse" method is invoked or (bfter the
+     * "stbrtTimer" method hbs been invoked) the timeout hbs expired.
+     * If the brgument is not null, then invoking the stbtic
+     * "received" method with the specified UID is equivblent to
+     * invoking this instbnce's "relebse" method.
      **/
-    DGCAckHandler(UID id) {
+    DGCAckHbndler(UID id) {
         this.id = id;
         if (id != null) {
-            assert !idTable.containsKey(id);
-            idTable.put(id, this);
+            bssert !idTbble.contbinsKey(id);
+            idTbble.put(id, this);
         }
     }
 
     /**
-     * Adds the specified reference to this DGCAckHandler.
+     * Adds the specified reference to this DGCAckHbndler.
      **/
-    synchronized void add(Object obj) {
+    synchronized void bdd(Object obj) {
         if (objList != null) {
-            objList.add(obj);
+            objList.bdd(obj);
         }
     }
 
     /**
-     * Starts the timer for this DGCAckHandler.  After the timeout has
-     * expired, the references are released even if the acknowledgment
-     * has not been received.
+     * Stbrts the timer for this DGCAckHbndler.  After the timeout hbs
+     * expired, the references bre relebsed even if the bcknowledgment
+     * hbs not been received.
      **/
-    synchronized void startTimer() {
-        if (objList != null && task == null) {
-            task = scheduler.schedule(new Runnable() {
+    synchronized void stbrtTimer() {
+        if (objList != null && tbsk == null) {
+            tbsk = scheduler.schedule(new Runnbble() {
                 public void run() {
-                    release();
+                    relebse();
                 }
             }, dgcAckTimeout, TimeUnit.MILLISECONDS);
         }
     }
 
     /**
-     * Releases the references held by this DGCAckHandler.
+     * Relebses the references held by this DGCAckHbndler.
      **/
-    synchronized void release() {
-        if (task != null) {
-            task.cancel(false);
-            task = null;
+    synchronized void relebse() {
+        if (tbsk != null) {
+            tbsk.cbncel(fblse);
+            tbsk = null;
         }
         objList = null;
     }
 
     /**
-     * Causes the DGCAckHandler associated with the specified UID to
-     * release its references.
+     * Cbuses the DGCAckHbndler bssocibted with the specified UID to
+     * relebse its references.
      **/
-    public static void received(UID id) {
-        DGCAckHandler h = idTable.remove(id);
+    public stbtic void received(UID id) {
+        DGCAckHbndler h = idTbble.remove(id);
         if (h != null) {
-            h.release();
+            h.relebse();
         }
     }
 }

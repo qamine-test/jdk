@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,158 +30,158 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package j2dbench.tests.text;
+pbckbge j2dbench.tests.text;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 
-public abstract class TextRenderTests extends TextTests {
-    static Group renderroot;
-    static Group rendertestroot;
+public bbstrbct clbss TextRenderTests extends TextTests {
+    stbtic Group renderroot;
+    stbtic Group rendertestroot;
 
-    public static void init() {
-        renderroot = new Group(textroot, "Rendering", "Rendering Benchmarks");
+    public stbtic void init() {
+        renderroot = new Group(textroot, "Rendering", "Rendering Benchmbrks");
         rendertestroot = new Group(renderroot, "tests", "Rendering Tests");
 
-        new DrawStrings();
-        new DrawChars();
-        new DrawBytes();
+        new DrbwStrings();
+        new DrbwChbrs();
+        new DrbwBytes();
 
-        if (hasGraphics2D) {
-            new DrawGlyphVectors();
-            new DrawTextLayouts();
+        if (hbsGrbphics2D) {
+            new DrbwGlyphVectors();
+            new DrbwTextLbyouts();
         }
     }
 
-    public TextRenderTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public TextRenderTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    public static class DrawStrings extends TextRenderTests {
-        public DrawStrings() {
-            super(rendertestroot, "drawString", "Drawing Strings");
+    public stbtic clbss DrbwStrings extends TextRenderTests {
+        public DrbwStrings() {
+            super(rendertestroot, "drbwString", "Drbwing Strings");
         }
 
         public void runTest(Object ctx, int numReps) {
             TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
+            Grbphics g = tctx.grbphics;
             g.setFont(tctx.font);
             String text = tctx.text;
             do {
-                g.drawString(text, 40, 40);
+                g.drbwString(text, 40, 40);
             } while (--numReps >= 0);
         }
     }
 
-    public static class DrawChars extends TextRenderTests {
-        public DrawChars() {
-            super(rendertestroot, "drawChars", "Drawing Char Arrays");
+    public stbtic clbss DrbwChbrs extends TextRenderTests {
+        public DrbwChbrs() {
+            super(rendertestroot, "drbwChbrs", "Drbwing Chbr Arrbys");
         }
 
         public void runTest(Object ctx, int numReps) {
             TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
-            char[] chars = tctx.chars;
+            Grbphics g = tctx.grbphics;
+            chbr[] chbrs = tctx.chbrs;
             g.setFont(tctx.font);
             do {
-                g.drawChars(chars, 0, chars.length, 40, 40);
+                g.drbwChbrs(chbrs, 0, chbrs.length, 40, 40);
             } while (--numReps >= 0);
         }
     }
 
-    public static class DrawBytes extends TextRenderTests {
-        public DrawBytes() {
-            super(rendertestroot, "drawBytes", "Drawing Byte Arrays");
+    public stbtic clbss DrbwBytes extends TextRenderTests {
+        public DrbwBytes() {
+            super(rendertestroot, "drbwBytes", "Drbwing Byte Arrbys");
         }
 
         public void runTest(Object ctx, int numReps) {
             TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
+            Grbphics g = tctx.grbphics;
             g.setFont(tctx.font);
             try {
                 byte[] bytes = tctx.text.getBytes("ASCII"); // only good for english
                 do {
-                    g.drawBytes(bytes, 0, bytes.length, 40, 40);
+                    g.drbwBytes(bytes, 0, bytes.length, 40, 40);
                 } while (--numReps >= 0);
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public static class GVContext extends G2DContext {
+    public stbtic clbss GVContext extends G2DContext {
         GlyphVector gv;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
-            gv = font.createGlyphVector(frc, text);
+            gv = font.crebteGlyphVector(frc, text);
         }
     }
 
-    public static class DrawGlyphVectors extends TextRenderTests {
-        public DrawGlyphVectors() {
-            super(rendertestroot, "drawGlyphVectors", "Drawing GlyphVectors");
+    public stbtic clbss DrbwGlyphVectors extends TextRenderTests {
+        public DrbwGlyphVectors() {
+            super(rendertestroot, "drbwGlyphVectors", "Drbwing GlyphVectors");
         }
 
-        public Context createContext() {
+        public Context crebteContext() {
             return new GVContext();
         }
 
         public void runTest(Object ctx, int numReps) {
             GVContext gvctx = (GVContext)ctx;
-            Graphics2D g2d = gvctx.g2d;
+            Grbphics2D g2d = gvctx.g2d;
             GlyphVector gv = gvctx.gv;
             do {
-                g2d.drawGlyphVector(gv, 40, 40);
+                g2d.drbwGlyphVector(gv, 40, 40);
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLContext extends G2DContext {
-        TextLayout tl;
+    public stbtic clbss TLContext extends G2DContext {
+        TextLbyout tl;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
-            tl = new TextLayout(text, font, frc);
+            tl = new TextLbyout(text, font, frc);
         }
     }
 
-    public static class DrawTextLayouts extends TextRenderTests {
-        public DrawTextLayouts() {
-            super(rendertestroot, "drawTextLayout", "Drawing TextLayouts");
+    public stbtic clbss DrbwTextLbyouts extends TextRenderTests {
+        public DrbwTextLbyouts() {
+            super(rendertestroot, "drbwTextLbyout", "Drbwing TextLbyouts");
         }
 
-        public Context createContext() {
+        public Context crebteContext() {
             return new TLContext();
         }
 
         public void runTest(Object ctx, int numReps) {
             TLContext tlctx = (TLContext)ctx;
-            Graphics2D g2d = tlctx.g2d;
-            TextLayout tl = tlctx.tl;
+            Grbphics2D g2d = tlctx.g2d;
+            TextLbyout tl = tlctx.tl;
             do {
-                tl.draw(g2d, 40, 40);
+                tl.drbw(g2d, 40, 40);
             } while (--numReps >= 0);
         }
     }

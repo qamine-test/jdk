@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTIONS
- *      mlib_ImageCopy_bit_na     - BIT, non-aligned
- *      mlib_ImageCopy_bit_na_r   - BIT, non-aligned, reverse
+ *      mlib_ImbgeCopy_bit_nb     - BIT, non-bligned
+ *      mlib_ImbgeCopy_bit_nb_r   - BIT, non-bligned, reverse
  *
  * SYNOPSIS
  *
- *      void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
- *                                 mlib_u8       *da,
+ *      void mlib_ImbgeCopy_bit_nb(const mlib_u8 *sb,
+ *                                 mlib_u8       *db,
  *                                 mlib_s32      size,
  *                                 mlib_s32      s_offset,
  *                                 mlib_s32      d_offset);
- *      void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
- *                                   mlib_u8       *da,
+ *      void mlib_ImbgeCopy_bit_nb_r(const mlib_u8 *sb,
+ *                                   mlib_u8       *db,
  *                                   mlib_s32      size,
  *                                   mlib_s32      s_offset,
  *                                   mlib_s32      d_offset);
  * ARGUMENT
- *      sp       pointer to source image data
- *      dp       pointer to destination image data
+ *      sp       pointer to source imbge dbtb
+ *      dp       pointer to destinbtion imbge dbtb
  *      size     size in 8-bytes, bytes, or SHORTs
- *      width    image width in 8-bytes
- *      height   image height in lines
- *      stride   source image line stride in 8-bytes
- *      dstride  destination image line stride in 8-bytes
- *      s_offset source image line bit offset
- *      d_offset destination image line bit offset
+ *      width    imbge width in 8-bytes
+ *      height   imbge height in lines
+ *      stride   source imbge line stride in 8-bytes
+ *      dstride  destinbtion imbge line stride in 8-bytes
+ *      s_offset source imbge line bit offset
+ *      d_offset destinbtion imbge line bit offset
  *
  * DESCRIPTION
- *      Direct copy from one image to another -- C version low level
+ *      Direct copy from one imbge to bnother -- C version low level
  *      functions.
  */
 
 #include <stdlib.h>
-#include "mlib_image.h"
-#include "mlib_ImageCopy.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeCopy.h"
 
 /***************************************************************/
 /*
- * Bit offsets of source and distination are not the same
+ * Bit offsets of source bnd distinbtion bre not the sbme
  */
 
-void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
-                           mlib_u8       *da,
+void mlib_ImbgeCopy_bit_nb(const mlib_u8 *sb,
+                           mlib_u8       *db,
                            mlib_s32      size,
                            mlib_s32      s_offset,
                            mlib_s32      d_offset)
 {
 #ifdef _NO_LONGLONG
 
-  mlib_u32 *dp;          /* 4-byte aligned start points in dst */
-  mlib_u32 *sp;          /* 4-byte aligned start point in src */
-  mlib_s32 j;            /* offset of address in dst */
-  mlib_u32 mask0 = 0xFFFFFFFF;
-  mlib_u32 dmask;
+  mlib_u32 *dp;          /* 4-byte bligned stbrt points in dst */
+  mlib_u32 *sp;          /* 4-byte bligned stbrt point in src */
+  mlib_s32 j;            /* offset of bddress in dst */
+  mlib_u32 mbsk0 = 0xFFFFFFFF;
+  mlib_u32 dmbsk;
   mlib_u32 src, src0, src1, dst;
   mlib_s32 ls_offset, ld_offset, shift;
 
   if (size <= 0) return;
 
-  /* prepare the destination addresses */
-  dp = (mlib_u32 *)((mlib_addr)da & (~3));
-  sp = (mlib_u32 *)((mlib_addr)sa & (~3));
-  ld_offset = (((mlib_addr)da & 3) << 3) + d_offset;     /* bit d_offset to first mlib_s32 */
-  ls_offset = (((mlib_addr)sa & 3) << 3) + s_offset;     /* bit d_offset to first mlib_s32 */
+  /* prepbre the destinbtion bddresses */
+  dp = (mlib_u32 *)((mlib_bddr)db & (~3));
+  sp = (mlib_u32 *)((mlib_bddr)sb & (~3));
+  ld_offset = (((mlib_bddr)db & 3) << 3) + d_offset;     /* bit d_offset to first mlib_s32 */
+  ls_offset = (((mlib_bddr)sb & 3) << 3) + s_offset;     /* bit d_offset to first mlib_s32 */
 
   if (ld_offset > ls_offset) {
     src0 = sp[0];
     dst = dp[0];
     if (ld_offset + size < 32) {
-      dmask = (mask0 << (32 - size)) >> ld_offset;
+      dmbsk = (mbsk0 << (32 - size)) >> ld_offset;
 #ifdef _LITTLE_ENDIAN
       src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
       src = (src0 >> (ld_offset - ls_offset));
       dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-      dst = (dst & (~dmask)) | (src & dmask);
+      dst = (dst & (~dmbsk)) | (src & dmbsk);
       dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
       src = (src0 >> (ld_offset - ls_offset));
-      dp[0] = (dst & (~dmask)) | (src & dmask);
+      dp[0] = (dst & (~dmbsk)) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
       return;
     }
 
-    dmask = mask0 >> ld_offset;
+    dmbsk = mbsk0 >> ld_offset;
 #ifdef _LITTLE_ENDIAN
     src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
     src = (src0 >> (ld_offset - ls_offset));
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 >> (ld_offset - ls_offset));
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
     j = 32 - ld_offset;
     dp++;
@@ -130,32 +130,32 @@ void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
     dst = dp[0];
 
     if (ld_offset + size < 32) {
-      dmask = (mask0 << (32 - size)) >> ld_offset;
+      dmbsk = (mbsk0 << (32 - size)) >> ld_offset;
 #ifdef _LITTLE_ENDIAN
       src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
       src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
       src = (src0 << shift) | (src1 >> (32 - shift));
       dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-      dst = (dst & ~dmask) | (src & dmask);
+      dst = (dst & ~dmbsk) | (src & dmbsk);
       dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
       src = (src0 << shift) | (src1 >> (32 - shift));
-      dp[0] = (dst & ~dmask) | (src & dmask);
+      dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
       return;
     }
 
-    dmask = mask0 >> ld_offset;
+    dmbsk = mbsk0 >> ld_offset;
 #ifdef _LITTLE_ENDIAN
     src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
     src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
     src = (src0 << shift) | (src1 >> (32 - shift));
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 << shift) | (src1 >> (32 - shift));
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
     j = 32 - ld_offset;
     dp++;
@@ -186,50 +186,50 @@ void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
     src0 = src1;
     if (ls_offset + j > 32) src1 = sp[1];
     dst = dp[0];
-    dmask = mask0 << (32 - j);
+    dmbsk = mbsk0 << (32 - j);
 #ifdef _LITTLE_ENDIAN
     src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
     src = (src0 << ls_offset) | (src1 >> (32 - ls_offset));
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 << ls_offset) | (src1 >> (32 - ls_offset));
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
   }
 
 #else /* _LONGLONG */
 
-  mlib_u64 *dp;          /* 8-byte aligned start points in dst */
-  mlib_u64 *sp;          /* 8-byte aligned start point in src */
-  mlib_s32 j;            /* offset of address in dst */
-  mlib_u64 lmask0 = 0xFFFFFFFFFFFFFFFFULL;
-  mlib_u64 dmask;
+  mlib_u64 *dp;          /* 8-byte bligned stbrt points in dst */
+  mlib_u64 *sp;          /* 8-byte bligned stbrt point in src */
+  mlib_s32 j;            /* offset of bddress in dst */
+  mlib_u64 lmbsk0 = 0xFFFFFFFFFFFFFFFFULL;
+  mlib_u64 dmbsk;
   mlib_u64 lsrc, lsrc0, lsrc1 = 0ULL, ldst;
   mlib_s32 ls_offset, ld_offset, shift;
 
   if (size <= 0) return;
 
-  /* prepare the destination addresses */
-  dp = (mlib_u64 *)((mlib_addr)da & (~7));
-  sp = (mlib_u64 *)((mlib_addr)sa & (~7));
-  /* we can explicitly cast ro mlib_s32 here because value is in [0,64] range */
-  ld_offset = (((mlib_s32) ((mlib_addr)da & 7)) << 3) + d_offset;     /* bit d_offset to first mlib_d64 */
-  ls_offset = (((mlib_s32) ((mlib_addr)sa & 7)) << 3) + s_offset;     /* bit d_offset to first mlib_d64 */
+  /* prepbre the destinbtion bddresses */
+  dp = (mlib_u64 *)((mlib_bddr)db & (~7));
+  sp = (mlib_u64 *)((mlib_bddr)sb & (~7));
+  /* we cbn explicitly cbst ro mlib_s32 here becbuse vblue is in [0,64] rbnge */
+  ld_offset = (((mlib_s32) ((mlib_bddr)db & 7)) << 3) + d_offset;     /* bit d_offset to first mlib_d64 */
+  ls_offset = (((mlib_s32) ((mlib_bddr)sb & 7)) << 3) + s_offset;     /* bit d_offset to first mlib_d64 */
 
   if (ld_offset > ls_offset) {
     lsrc0 = sp[0];
     ldst = dp[0];
     lsrc = (lsrc0 >> (ld_offset - ls_offset));
     if (ld_offset + size < 64) {
-      dmask = (lmask0 << (64 - size)) >> ld_offset;
-      dp[0] = (ldst & (~dmask)) | (lsrc & dmask);
+      dmbsk = (lmbsk0 << (64 - size)) >> ld_offset;
+      dp[0] = (ldst & (~dmbsk)) | (lsrc & dmbsk);
       return;
     }
 
-    dmask = lmask0 >> ld_offset;
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dmbsk = lmbsk0 >> ld_offset;
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
     j = 64 - ld_offset;
     dp++;
     ls_offset += j;
@@ -242,13 +242,13 @@ void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
     lsrc = (lsrc0 << shift) | (lsrc1 >> (64 - shift));
 
     if (ld_offset + size < 64) {
-      dmask = (lmask0 << (64 - size)) >> ld_offset;
-      dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+      dmbsk = (lmbsk0 << (64 - size)) >> ld_offset;
+      dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
       return;
     }
 
-    dmask = lmask0 >> ld_offset;
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dmbsk = lmbsk0 >> ld_offset;
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
     j = 64 - ld_offset;
     dp++;
     sp++;
@@ -257,7 +257,7 @@ void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
 
   if (j < size) lsrc1 = sp[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (; j <= size - 64; j += 64) {
     lsrc0 = lsrc1;
@@ -273,71 +273,71 @@ void mlib_ImageCopy_bit_na(const mlib_u8 *sa,
     lsrc0 = lsrc1;
     if (ls_offset + j > 64) lsrc1 = sp[1];
     ldst = dp[0];
-    dmask = lmask0 << (64 - j);
+    dmbsk = lmbsk0 << (64 - j);
     lsrc = (lsrc0 << ls_offset) | (lsrc1 >> (64 - ls_offset));
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
   }
 #endif /* _NO_LONGLONG */
 }
 
 /***************************************************************/
 /*
- * Bit offsets of source and distination are not the same
- * This function is both for C and VIS version (LONGLONG case)
+ * Bit offsets of source bnd distinbtion bre not the sbme
+ * This function is both for C bnd VIS version (LONGLONG cbse)
  */
 
-void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
-                             mlib_u8       *da,
+void mlib_ImbgeCopy_bit_nb_r(const mlib_u8 *sb,
+                             mlib_u8       *db,
                              mlib_s32      size,
                              mlib_s32      s_offset,
                              mlib_s32      d_offset)
 {
 #ifdef _NO_LONGLONG
 
-  mlib_u32 *dp;          /* 4-byte aligned start points in dst */
-  mlib_u32 *sp;          /* 4-byte aligned start point in src */
-  mlib_s32 j;            /* offset of address in dst */
-  mlib_u32 lmask0 = 0xFFFFFFFF;
-  mlib_u32 dmask;
+  mlib_u32 *dp;          /* 4-byte bligned stbrt points in dst */
+  mlib_u32 *sp;          /* 4-byte bligned stbrt point in src */
+  mlib_s32 j;            /* offset of bddress in dst */
+  mlib_u32 lmbsk0 = 0xFFFFFFFF;
+  mlib_u32 dmbsk;
   mlib_u32 src, src0, src1, dst;
   mlib_s32 ls_offset, ld_offset, shift;
 
   if (size <= 0) return;
 
-  /* prepare the destination addresses */
-  dp = (mlib_u32 *)((mlib_addr)da & (~3));
-  sp = (mlib_u32 *)((mlib_addr)sa & (~3));
-  ld_offset = (((mlib_addr)da & 3) << 3) + d_offset;     /* bit d_offset to first mlib_s32 */
-  ls_offset = (((mlib_addr)sa & 3) << 3) + s_offset;     /* bit d_offset to first mlib_s32 */
+  /* prepbre the destinbtion bddresses */
+  dp = (mlib_u32 *)((mlib_bddr)db & (~3));
+  sp = (mlib_u32 *)((mlib_bddr)sb & (~3));
+  ld_offset = (((mlib_bddr)db & 3) << 3) + d_offset;     /* bit d_offset to first mlib_s32 */
+  ls_offset = (((mlib_bddr)sb & 3) << 3) + s_offset;     /* bit d_offset to first mlib_s32 */
 
   if (ld_offset < ls_offset) {
     src0 = sp[0];
     dst = dp[0];
     if (ld_offset >= size) {
-      dmask = (lmask0 << (32 - size)) >> (ld_offset - size);
+      dmbsk = (lmbsk0 << (32 - size)) >> (ld_offset - size);
 #ifdef _LITTLE_ENDIAN
       src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
       src = (src0 << (ls_offset - ld_offset));
       dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-      dst = (dst & (~dmask)) | (src & dmask);
+      dst = (dst & (~dmbsk)) | (src & dmbsk);
       dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
       src = (src0 << (ls_offset - ld_offset));
-      dp[0] = (dst & (~dmask)) | (src & dmask);
+      dp[0] = (dst & (~dmbsk)) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
       return;
     }
 
-    dmask = lmask0 << (32 - ld_offset);
+    dmbsk = lmbsk0 << (32 - ld_offset);
 #ifdef _LITTLE_ENDIAN
     src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
     src = (src0 << (ls_offset - ld_offset));
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 << (ls_offset - ld_offset));
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
     j = ld_offset;
     dp--;
@@ -350,32 +350,32 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
     dst = dp[0];
 
     if (ld_offset >= size) {
-      dmask = (lmask0 << (32 - size)) >> (ld_offset - size);
+      dmbsk = (lmbsk0 << (32 - size)) >> (ld_offset - size);
 #ifdef _LITTLE_ENDIAN
       src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
       src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
       src = (src0 >> shift) | (src1 << (32 - shift));
       dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-      dst = (dst & ~dmask) | (src & dmask);
+      dst = (dst & ~dmbsk) | (src & dmbsk);
       dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
       src = (src0 >> shift) | (src1 << (32 - shift));
-      dp[0] = (dst & ~dmask) | (src & dmask);
+      dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
       return;
     }
 
-    dmask = lmask0 << (32 - ld_offset);
+    dmbsk = lmbsk0 << (32 - ld_offset);
 #ifdef _LITTLE_ENDIAN
     src0 = (src0 << 24) | ((src0 & 0xFF00) << 8) | ((src0 >> 8) & 0xFF00) | (src0 >> 24);
     src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
     src = (src0 >> shift) | (src1 << (32 - shift));
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 >> shift) | (src1 << (32 - shift));
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
     j = ld_offset;
     dp--;
@@ -388,7 +388,7 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
   src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
 #endif /* _LITTLE_ENDIAN */
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (; j <= size - 32; j += 32) {
     src0 = src1;
@@ -409,50 +409,50 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
     src0 = src1;
     if (ls_offset < j) src1 = sp[-1];
     dst = dp[0];
-    dmask = lmask0 >> (32 - j);
+    dmbsk = lmbsk0 >> (32 - j);
 #ifdef _LITTLE_ENDIAN
     src1 = (src1 << 24) | ((src1 & 0xFF00) << 8) | ((src1 >> 8) & 0xFF00) | (src1 >> 24);
     src = (src0 >> (32 - ls_offset)) | (src1 << ls_offset);
     dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
-    dst = (dst & ~dmask) | (src & dmask);
+    dst = (dst & ~dmbsk) | (src & dmbsk);
     dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
 #else
     src = (src0 >> (32 - ls_offset)) | (src1 << ls_offset);
-    dp[0] = (dst & ~dmask) | (src & dmask);
+    dp[0] = (dst & ~dmbsk) | (src & dmbsk);
 #endif /* _LITTLE_ENDIAN */
   }
 
 #else  /* _LONGLONG */
 
-  mlib_u64 *dp;          /* 8-byte aligned start points in dst */
-  mlib_u64 *sp;          /* 8-byte aligned start point in src */
-  mlib_s32 j;            /* offset of address in dst */
-  mlib_u64 lmask0 = 0xFFFFFFFFFFFFFFFFULL;
-  mlib_u64 dmask;
+  mlib_u64 *dp;          /* 8-byte bligned stbrt points in dst */
+  mlib_u64 *sp;          /* 8-byte bligned stbrt point in src */
+  mlib_s32 j;            /* offset of bddress in dst */
+  mlib_u64 lmbsk0 = 0xFFFFFFFFFFFFFFFFULL;
+  mlib_u64 dmbsk;
   mlib_u64 lsrc, lsrc0, lsrc1 = 0ULL, ldst;
   mlib_s32 ls_offset, ld_offset, shift;
 
   if (size <= 0) return;
 
-  /* prepare the destination addresses */
-  dp = (mlib_u64 *)((mlib_addr)da & (~7));
-  sp = (mlib_u64 *)((mlib_addr)sa & (~7));
-  /* we can explicitly cast ro mlib_s32 here because value is in [0,64] range */
-  ld_offset = (((mlib_s32) ((mlib_addr)da & 7)) << 3) + d_offset;     /* bit d_offset to first mlib_d64 */
-  ls_offset = (((mlib_s32) ((mlib_addr)sa & 7)) << 3) + s_offset;     /* bit d_offset to first mlib_d64 */
+  /* prepbre the destinbtion bddresses */
+  dp = (mlib_u64 *)((mlib_bddr)db & (~7));
+  sp = (mlib_u64 *)((mlib_bddr)sb & (~7));
+  /* we cbn explicitly cbst ro mlib_s32 here becbuse vblue is in [0,64] rbnge */
+  ld_offset = (((mlib_s32) ((mlib_bddr)db & 7)) << 3) + d_offset;     /* bit d_offset to first mlib_d64 */
+  ls_offset = (((mlib_s32) ((mlib_bddr)sb & 7)) << 3) + s_offset;     /* bit d_offset to first mlib_d64 */
 
   if (ld_offset < ls_offset) {
     lsrc0 = sp[0];
     ldst = dp[0];
     lsrc = (lsrc0 << (ls_offset - ld_offset));
     if (ld_offset >= size) {
-      dmask = (lmask0 << (64 - size)) >> (ld_offset - size);
-      dp[0] = (ldst & (~dmask)) | (lsrc & dmask);
+      dmbsk = (lmbsk0 << (64 - size)) >> (ld_offset - size);
+      dp[0] = (ldst & (~dmbsk)) | (lsrc & dmbsk);
       return;
     }
 
-    dmask = lmask0 << (64 - ld_offset);
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dmbsk = lmbsk0 << (64 - ld_offset);
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
     j = ld_offset;
     dp--;
     ls_offset -= j;
@@ -464,13 +464,13 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
     ldst = dp[0];
     lsrc = (lsrc0 >> shift) | (lsrc1 << (64 - shift));
     if (ld_offset >= size) {
-      dmask = (lmask0 << (64 - size)) >> (ld_offset - size);
-      dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+      dmbsk = (lmbsk0 << (64 - size)) >> (ld_offset - size);
+      dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
       return;
     }
 
-    dmask = lmask0 << (64 - ld_offset);
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dmbsk = lmbsk0 << (64 - ld_offset);
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
     j = ld_offset;
     dp--;
     sp--;
@@ -479,7 +479,7 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
 
   if (j < size) lsrc1 = sp[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (; j <= size - 64; j += 64) {
     lsrc0 = lsrc1;
@@ -494,9 +494,9 @@ void mlib_ImageCopy_bit_na_r(const mlib_u8 *sa,
     lsrc0 = lsrc1;
     if (ls_offset < j) lsrc1 = sp[-1];
     ldst = dp[0];
-    dmask = lmask0 >> (64 - j);
+    dmbsk = lmbsk0 >> (64 - j);
     lsrc = (lsrc0 >> (64 - ls_offset)) | (lsrc1 << ls_offset);
-    dp[0] = (ldst & ~dmask) | (lsrc & dmask);
+    dp[0] = (ldst & ~dmbsk) | (lsrc & dmbsk);
   }
 #endif /* _NO_LONGLONG */
 }

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Rectangle;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.Point2D;
 
-public abstract class FontStrike {
+public bbstrbct clbss FontStrike {
 
 
     protected FontStrikeDisposer disposer;
     protected FontStrikeDesc desc;
     protected StrikeMetrics strikeMetrics;
-    protected boolean algoStyle = false;
-    protected float boldness = 1f;
-    protected float italic = 0f;
+    protected boolebn blgoStyle = fblse;
+    protected flobt boldness = 1f;
+    protected flobt itblic = 0f;
     /*
-     * lastLookupTime is updated by Font2D.getStrike and can be used to
-     * choose strikes that have not been newly referenced for purging when
-     * memory usage gets too high. Active strikes will never be purged
-     * because purging is via GC of WeakReferences.
+     * lbstLookupTime is updbted by Font2D.getStrike bnd cbn be used to
+     * choose strikes thbt hbve not been newly referenced for purging when
+     * memory usbge gets too high. Active strikes will never be purged
+     * becbuse purging is vib GC of WebkReferences.
      */
-    //protected long lastlookupTime/* = System.currentTimeMillis()*/;
+    //protected long lbstlookupTime/* = System.currentTimeMillis()*/;
 
-    public abstract int getNumGlyphs();
+    public bbstrbct int getNumGlyphs();
 
-    abstract StrikeMetrics getFontMetrics();
+    bbstrbct StrikeMetrics getFontMetrics();
 
-    abstract void getGlyphImagePtrs(int[] glyphCodes, long[] images,int  len);
+    bbstrbct void getGlyphImbgePtrs(int[] glyphCodes, long[] imbges,int  len);
 
-    abstract long getGlyphImagePtr(int glyphcode);
+    bbstrbct long getGlyphImbgePtr(int glyphcode);
 
-    // pt, result in device space
-    abstract void getGlyphImageBounds(int glyphcode,
-                                      Point2D.Float pt,
-                                      Rectangle result);
+    // pt, result in device spbce
+    bbstrbct void getGlyphImbgeBounds(int glyphcode,
+                                      Point2D.Flobt pt,
+                                      Rectbngle result);
 
-    abstract Point2D.Float getGlyphMetrics(int glyphcode);
+    bbstrbct Point2D.Flobt getGlyphMetrics(int glyphcode);
 
-    abstract Point2D.Float getCharMetrics(char ch);
+    bbstrbct Point2D.Flobt getChbrMetrics(chbr ch);
 
-    abstract float getGlyphAdvance(int glyphCode);
+    bbstrbct flobt getGlyphAdvbnce(int glyphCode);
 
-    abstract float getCodePointAdvance(int cp);
+    bbstrbct flobt getCodePointAdvbnce(int cp);
 
-    abstract Rectangle2D.Float getGlyphOutlineBounds(int glyphCode);
+    bbstrbct Rectbngle2D.Flobt getGlyphOutlineBounds(int glyphCode);
 
-    abstract GeneralPath
-        getGlyphOutline(int glyphCode, float x, float y);
+    bbstrbct GenerblPbth
+        getGlyphOutline(int glyphCode, flobt x, flobt y);
 
-    abstract GeneralPath
-        getGlyphVectorOutline(int[] glyphs, float x, float y);
+    bbstrbct GenerblPbth
+        getGlyphVectorOutline(int[] glyphs, flobt x, flobt y);
 
 
 }

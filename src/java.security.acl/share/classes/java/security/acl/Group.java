@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.acl;
+pbckbge jbvb.security.bcl;
 
-import java.util.Enumeration;
-import java.security.Principal;
+import jbvb.util.Enumerbtion;
+import jbvb.security.Principbl;
 
 /**
- * This interface is used to represent a group of principals. (A principal
- * represents an entity such as an individual user or a company). <p>
+ * This interfbce is used to represent b group of principbls. (A principbl
+ * represents bn entity such bs bn individubl user or b compbny). <p>
  *
- * Note that Group extends Principal. Thus, either a Principal or a Group can
- * be passed as an argument to methods containing a Principal parameter. For
- * example, you can add either a Principal or a Group to a Group object by
- * calling the object's {@code addMember} method, passing it the
- * Principal or Group.
+ * Note thbt Group extends Principbl. Thus, either b Principbl or b Group cbn
+ * be pbssed bs bn brgument to methods contbining b Principbl pbrbmeter. For
+ * exbmple, you cbn bdd either b Principbl or b Group to b Group object by
+ * cblling the object's {@code bddMember} method, pbssing it the
+ * Principbl or Group.
  *
- * @author      Satish Dharmaraj
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public interface Group extends Principal {
+public interfbce Group extends Principbl {
 
     /**
      * Adds the specified member to the group.
      *
-     * @param user the principal to add to this group.
+     * @pbrbm user the principbl to bdd to this group.
      *
-     * @return true if the member was successfully added,
-     * false if the principal was already a member.
+     * @return true if the member wbs successfully bdded,
+     * fblse if the principbl wbs blrebdy b member.
      */
-    public boolean addMember(Principal user);
+    public boolebn bddMember(Principbl user);
 
     /**
      * Removes the specified member from the group.
      *
-     * @param user the principal to remove from this group.
+     * @pbrbm user the principbl to remove from this group.
      *
-     * @return true if the principal was removed, or
-     * false if the principal was not a member.
+     * @return true if the principbl wbs removed, or
+     * fblse if the principbl wbs not b member.
      */
-    public boolean removeMember(Principal user);
+    public boolebn removeMember(Principbl user);
 
     /**
-     * Returns true if the passed principal is a member of the group.
-     * This method does a recursive search, so if a principal belongs to a
-     * group which is a member of this group, true is returned.
+     * Returns true if the pbssed principbl is b member of the group.
+     * This method does b recursive sebrch, so if b principbl belongs to b
+     * group which is b member of this group, true is returned.
      *
-     * @param member the principal whose membership is to be checked.
+     * @pbrbm member the principbl whose membership is to be checked.
      *
-     * @return true if the principal is a member of this group,
-     * false otherwise.
+     * @return true if the principbl is b member of this group,
+     * fblse otherwise.
      */
-    public boolean isMember(Principal member);
+    public boolebn isMember(Principbl member);
 
 
     /**
-     * Returns an enumeration of the members in the group.
-     * The returned objects can be instances of either Principal
-     * or Group (which is a subclass of Principal).
+     * Returns bn enumerbtion of the members in the group.
+     * The returned objects cbn be instbnces of either Principbl
+     * or Group (which is b subclbss of Principbl).
      *
-     * @return an enumeration of the group members.
+     * @return bn enumerbtion of the group members.
      */
-    public Enumeration<? extends Principal> members();
+    public Enumerbtion<? extends Principbl> members();
 
 }

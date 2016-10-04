@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbckbge com.sun.jndi.ldbp.sbsl;
 
-import javax.security.sasl.Sasl;
-import javax.security.sasl.SaslClient;
-import javax.security.sasl.SaslException;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.InputStream;
+import jbvbx.security.sbsl.Sbsl;
+import jbvbx.security.sbsl.SbslClient;
+import jbvbx.security.sbsl.SbslException;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.io.InputStrebm;
 
 /**
- * This class is used by clients of Java SASL that need to create an input stream
- * that uses SaslClient's unwrap() method to decode the SASL buffers
+ * This clbss is used by clients of Jbvb SASL thbt need to crebte bn input strebm
+ * thbt uses SbslClient's unwrbp() method to decode the SASL buffers
  * sent by the SASL server.
  *
- * Extend from InputStream instead of FilterInputStream because
- * we need to override less methods in InputStream. That is, the
- * behavior of the default implementations in InputStream matches
- * more closely with the behavior we want in SaslInputStream.
+ * Extend from InputStrebm instebd of FilterInputStrebm becbuse
+ * we need to override less methods in InputStrebm. Thbt is, the
+ * behbvior of the defbult implementbtions in InputStrebm mbtches
+ * more closely with the behbvior we wbnt in SbslInputStrebm.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-public class SaslInputStream extends InputStream {
-    private static final boolean debug = false;
+public clbss SbslInputStrebm extends InputStrebm {
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private byte[] saslBuffer;  // buffer for storing raw bytes
-    private byte[] lenBuf = new byte[4];  // buffer for storing length
+    privbte byte[] sbslBuffer;  // buffer for storing rbw bytes
+    privbte byte[] lenBuf = new byte[4];  // buffer for storing length
 
-    private byte[] buf = new byte[0];   // buffer for storing processed bytes
-                                        // Initialized to empty buffer
-    private int bufPos = 0;             // read position in buf
-    private InputStream in;             // underlying input stream
-    private SaslClient sc;
-    private int recvMaxBufSize = 65536;
+    privbte byte[] buf = new byte[0];   // buffer for storing processed bytes
+                                        // Initiblized to empty buffer
+    privbte int bufPos = 0;             // rebd position in buf
+    privbte InputStrebm in;             // underlying input strebm
+    privbte SbslClient sc;
+    privbte int recvMbxBufSize = 65536;
 
-    SaslInputStream(SaslClient sc, InputStream in) throws SaslException {
+    SbslInputStrebm(SbslClient sc, InputStrebm in) throws SbslException {
         super();
         this.in = in;
         this.sc = sc;
 
-        String str = (String) sc.getNegotiatedProperty(Sasl.MAX_BUFFER);
+        String str = (String) sc.getNegotibtedProperty(Sbsl.MAX_BUFFER);
         if (str != null) {
             try {
-                recvMaxBufSize = Integer.parseInt(str);
-            } catch (NumberFormatException e) {
-                throw new SaslException(Sasl.MAX_BUFFER +
+                recvMbxBufSize = Integer.pbrseInt(str);
+            } cbtch (NumberFormbtException e) {
+                throw new SbslException(Sbsl.MAX_BUFFER +
                     " property must be numeric string: " + str);
             }
         }
-        saslBuffer = new byte[recvMaxBufSize];
+        sbslBuffer = new byte[recvMbxBufSize];
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         byte[] inBuf = new byte[1];
-        int count = read(inBuf, 0, 1);
+        int count = rebd(inBuf, 0, 1);
         if (count > 0) {
             return inBuf[0];
         } else {
@@ -84,67 +84,67 @@ public class SaslInputStream extends InputStream {
         }
     }
 
-    public int read(byte[] inBuf, int start, int count) throws IOException {
+    public int rebd(byte[] inBuf, int stbrt, int count) throws IOException {
 
         if (bufPos >= buf.length) {
-            int actual = fill();   // read and unwrap next SASL buffer
-            while (actual == 0) {  // ignore zero length content
-                actual = fill();
+            int bctubl = fill();   // rebd bnd unwrbp next SASL buffer
+            while (bctubl == 0) {  // ignore zero length content
+                bctubl = fill();
             }
-            if (actual == -1) {
+            if (bctubl == -1) {
                 return -1;    // EOF
             }
         }
 
-        int avail = buf.length - bufPos;
-        if (count > avail) {
-            // Requesting more that we have stored
-            // Return all that we have; next invocation of read() will
+        int bvbil = buf.length - bufPos;
+        if (count > bvbil) {
+            // Requesting more thbt we hbve stored
+            // Return bll thbt we hbve; next invocbtion of rebd() will
             // trigger fill()
-            System.arraycopy(buf, bufPos, inBuf, start, avail);
+            System.brrbycopy(buf, bufPos, inBuf, stbrt, bvbil);
             bufPos = buf.length;
-            return avail;
+            return bvbil;
         } else {
-            // Requesting less than we have stored
-            // Return all that was requested
-            System.arraycopy(buf, bufPos, inBuf, start, count);
+            // Requesting less thbn we hbve stored
+            // Return bll thbt wbs requested
+            System.brrbycopy(buf, bufPos, inBuf, stbrt, count);
             bufPos += count;
             return count;
         }
     }
 
     /**
-     * Fills the buf with more data by reading a SASL buffer, unwrapping it,
-     * and leaving the bytes in buf for read() to return.
-     * @return The number of unwrapped bytes available
+     * Fills the buf with more dbtb by rebding b SASL buffer, unwrbpping it,
+     * bnd lebving the bytes in buf for rebd() to return.
+     * @return The number of unwrbpped bytes bvbilbble
      */
-    private int fill() throws IOException {
-        // Read in length of buffer
-        int actual = readFully(lenBuf, 4);
-        if (actual != 4) {
+    privbte int fill() throws IOException {
+        // Rebd in length of buffer
+        int bctubl = rebdFully(lenBuf, 4);
+        if (bctubl != 4) {
             return -1;
         }
         int len = networkByteOrderToInt(lenBuf, 0, 4);
 
-        if (len > recvMaxBufSize) {
+        if (len > recvMbxBufSize) {
             throw new IOException(
-                len + "exceeds the negotiated receive buffer size limit:" +
-                recvMaxBufSize);
+                len + "exceeds the negotibted receive buffer size limit:" +
+                recvMbxBufSize);
         }
 
         if (debug) {
-            System.err.println("reading " + len + " bytes from network");
+            System.err.println("rebding " + len + " bytes from network");
         }
 
-        // Read SASL buffer
-        actual = readFully(saslBuffer, len);
-        if (actual != len) {
-            throw new EOFException("Expecting to read " + len +
-                " bytes but got " + actual + " bytes before EOF");
+        // Rebd SASL buffer
+        bctubl = rebdFully(sbslBuffer, len);
+        if (bctubl != len) {
+            throw new EOFException("Expecting to rebd " + len +
+                " bytes but got " + bctubl + " bytes before EOF");
         }
 
-        // Unwrap
-        buf = sc.unwrap(saslBuffer, 0, len);
+        // Unwrbp
+        buf = sc.unwrbp(sbslBuffer, 0, len);
 
         bufPos = 0;
 
@@ -152,67 +152,67 @@ public class SaslInputStream extends InputStream {
     }
 
     /**
-     * Read requested number of bytes before returning.
-     * @return The number of bytes actually read; -1 if none read
+     * Rebd requested number of bytes before returning.
+     * @return The number of bytes bctublly rebd; -1 if none rebd
      */
-    private int readFully(byte[] inBuf, int total) throws IOException {
+    privbte int rebdFully(byte[] inBuf, int totbl) throws IOException {
         int count, pos = 0;
 
         if (debug) {
-            System.err.println("readFully " + total + " from " + in);
+            System.err.println("rebdFully " + totbl + " from " + in);
         }
 
-        while (total > 0) {
-            count = in.read(inBuf, pos, total);
+        while (totbl > 0) {
+            count = in.rebd(inBuf, pos, totbl);
 
             if (debug) {
-                System.err.println("readFully read " + count);
+                System.err.println("rebdFully rebd " + count);
             }
 
             if (count == -1 ) {
                 return (pos == 0? -1 : pos);
             }
             pos += count;
-            total -= count;
+            totbl -= count;
         }
         return pos;
     }
 
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
         return buf.length - bufPos;
     }
 
     public void close() throws IOException {
-        SaslException save = null;
+        SbslException sbve = null;
         try {
-            sc.dispose(); // Dispose of SaslClient's state
-        } catch (SaslException e) {
-            // Save exception for throwing after closing 'in'
-            save = e;
+            sc.dispose(); // Dispose of SbslClient's stbte
+        } cbtch (SbslException e) {
+            // Sbve exception for throwing bfter closing 'in'
+            sbve = e;
         }
 
-        in.close();  // Close underlying input stream
+        in.close();  // Close underlying input strebm
 
-        if (save != null) {
-            throw save;
+        if (sbve != null) {
+            throw sbve;
         }
     }
 
     /**
      * Returns the integer represented by  4 bytes in network byte order.
      */
-    // Copied from com.sun.security.sasl.util.SaslImpl.
-    private static int networkByteOrderToInt(byte[] buf, int start, int count) {
+    // Copied from com.sun.security.sbsl.util.SbslImpl.
+    privbte stbtic int networkByteOrderToInt(byte[] buf, int stbrt, int count) {
         if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+            throw new IllegblArgumentException("Cbnnot hbndle more thbn 4 bytes");
         }
 
-        int answer = 0;
+        int bnswer = 0;
 
         for (int i = 0; i < count; i++) {
-            answer <<= 8;
-            answer |= ((int)buf[start+i] & 0xff);
+            bnswer <<= 8;
+            bnswer |= ((int)buf[stbrt+i] & 0xff);
         }
-        return answer;
+        return bnswer;
     }
 }

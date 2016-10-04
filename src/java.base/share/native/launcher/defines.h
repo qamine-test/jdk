@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef _DEFINES_H
 #define _DEFINES_H
 
-#include "java.h"
+#include "jbvb.h"
 
 /*
- * This file contains commonly defined constants used only by main.c
- * and should not be included by another file.
+ * This file contbins commonly defined constbnts used only by mbin.c
+ * bnd should not be included by bnother file.
  */
 #ifndef FULL_VERSION
-/* make sure the compilation fails */
+/* mbke sure the compilbtion fbils */
 #error "FULL_VERSION must be defined"
 #endif
 
 #if defined(JDK_MAJOR_VERSION) && defined(JDK_MINOR_VERSION)
 #define DOT_VERSION JDK_MAJOR_VERSION "." JDK_MINOR_VERSION
 #else
-/* make sure the compilation fails */
-#error "JDK_MAJOR_VERSION and JDK_MINOR_VERSION must be defined"
+/* mbke sure the compilbtion fbils */
+#error "JDK_MAJOR_VERSION bnd JDK_MINOR_VERSION must be defined"
 #endif
 
 
 #ifdef JAVA_ARGS
-static const char* const_progname = "java";
-static const char* const_jargs[] = JAVA_ARGS;
+stbtic const chbr* const_prognbme = "jbvb";
+stbtic const chbr* const_jbrgs[] = JAVA_ARGS;
 /*
- * ApplicationHome is prepended to each of these entries; the resulting
- * strings are concatenated (separated by PATH_SEPARATOR) and used as the
- * value of -cp option to the launcher.
+ * ApplicbtionHome is prepended to ebch of these entries; the resulting
+ * strings bre concbtenbted (sepbrbted by PATH_SEPARATOR) bnd used bs the
+ * vblue of -cp option to the lbuncher.
  */
 #ifndef APP_CLASSPATH
-#define APP_CLASSPATH        { "/lib/tools.jar", "/classes" }
+#define APP_CLASSPATH        { "/lib/tools.jbr", "/clbsses" }
 #endif /* APP_CLASSPATH */
-static const char* const_appclasspath[] = APP_CLASSPATH;
+stbtic const chbr* const_bppclbsspbth[] = APP_CLASSPATH;
 #else  /* !JAVA_ARGS */
 #ifdef PROGNAME
-static const char* const_progname = PROGNAME;
+stbtic const chbr* const_prognbme = PROGNAME;
 #else
-static char* const_progname = NULL;
+stbtic chbr* const_prognbme = NULL;
 #endif
-static const char** const_jargs = NULL;
-static const char** const_appclasspath = NULL;
+stbtic const chbr** const_jbrgs = NULL;
+stbtic const chbr** const_bppclbsspbth = NULL;
 #endif /* JAVA_ARGS */
 
 #ifdef LAUNCHER_NAME
-static const char* const_launcher = LAUNCHER_NAME;
+stbtic const chbr* const_lbuncher = LAUNCHER_NAME;
 #else  /* LAUNCHER_NAME */
-static char* const_launcher = NULL;
+stbtic chbr* const_lbuncher = NULL;
 #endif /* LAUNCHER_NAME */
 
 #ifdef EXPAND_CLASSPATH_WILDCARDS
-static const jboolean const_cpwildcard = JNI_TRUE;
+stbtic const jboolebn const_cpwildcbrd = JNI_TRUE;
 #else
-static const jboolean const_cpwildcard = JNI_FALSE;
+stbtic const jboolebn const_cpwildcbrd = JNI_FALSE;
 #endif /* EXPAND_CLASSPATH_WILDCARDS */
 
 #if defined(NEVER_ACT_AS_SERVER_CLASS_MACHINE)
-static const jint const_ergo_class = NEVER_SERVER_CLASS;
+stbtic const jint const_ergo_clbss = NEVER_SERVER_CLASS;
 #elif defined(ALWAYS_ACT_AS_SERVER_CLASS_MACHINE)
-static const jint const_ergo_class = ALWAYS_SERVER_CLASS;
+stbtic const jint const_ergo_clbss = ALWAYS_SERVER_CLASS;
 #else
-static const jint const_ergo_class = DEFAULT_POLICY;
+stbtic const jint const_ergo_clbss = DEFAULT_POLICY;
 #endif /* NEVER_ACT_AS_SERVER_CLASS_MACHINE */
 
 #endif /*_DEFINES_H */

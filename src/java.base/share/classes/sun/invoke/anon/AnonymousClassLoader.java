@@ -1,230 +1,230 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.invoke.anon;
+pbckbge sun.invoke.bnon;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
 import sun.misc.IOUtils;
 
 /**
- * Anonymous class loader.  Will load any valid classfile, producing
- * a {@link Class} metaobject, without installing that class in the
- * system dictionary.  Therefore, {@link Class#forName(String)} will never
- * produce a reference to an anonymous class.
+ * Anonymous clbss lobder.  Will lobd bny vblid clbssfile, producing
+ * b {@link Clbss} metbobject, without instblling thbt clbss in the
+ * system dictionbry.  Therefore, {@link Clbss#forNbme(String)} will never
+ * produce b reference to bn bnonymous clbss.
  * <p>
- * The access permissions of the anonymous class are borrowed from
- * a <em>host class</em>.  The new class behaves as if it were an
- * inner class of the host class.  It can access the host's private
- * members, if the creator of the class loader has permission to
- * do so (or to create accessible reflective objects).
+ * The bccess permissions of the bnonymous clbss bre borrowed from
+ * b <em>host clbss</em>.  The new clbss behbves bs if it were bn
+ * inner clbss of the host clbss.  It cbn bccess the host's privbte
+ * members, if the crebtor of the clbss lobder hbs permission to
+ * do so (or to crebte bccessible reflective objects).
  * <p>
- * When the anonymous class is loaded, elements of its constant pool
- * can be patched to new values.  This provides a hook to pre-resolve
- * named classes in the constant pool to other classes, including
- * anonymous ones.  Also, string constants can be pre-resolved to
- * any reference.  (The verifier treats non-string, non-class reference
- * constants as plain objects.)
+ * When the bnonymous clbss is lobded, elements of its constbnt pool
+ * cbn be pbtched to new vblues.  This provides b hook to pre-resolve
+ * nbmed clbsses in the constbnt pool to other clbsses, including
+ * bnonymous ones.  Also, string constbnts cbn be pre-resolved to
+ * bny reference.  (The verifier trebts non-string, non-clbss reference
+ * constbnts bs plbin objects.)
  *  <p>
- * Why include the patching function?  It makes some use cases much easier.
- * Second, the constant pool needed some internal patching anyway,
- * to anonymize the loaded class itself.  Finally, if you are going
- * to use this seriously, you'll want to build anonymous classes
- * on top of pre-existing anonymous classes, and that requires patching.
+ * Why include the pbtching function?  It mbkes some use cbses much ebsier.
+ * Second, the constbnt pool needed some internbl pbtching bnywby,
+ * to bnonymize the lobded clbss itself.  Finblly, if you bre going
+ * to use this seriously, you'll wbnt to build bnonymous clbsses
+ * on top of pre-existing bnonymous clbsses, bnd thbt requires pbtching.
  *
  * <p>%%% TO-DO:
  * <ul>
- * <li>needs better documentation</li>
- * <li>needs more security work (for safe delegation)</li>
- * <li>needs a clearer story about error processing</li>
- * <li>patch member references also (use ';' as delimiter char)</li>
- * <li>patch method references to (conforming) method handles</li>
+ * <li>needs better documentbtion</li>
+ * <li>needs more security work (for sbfe delegbtion)</li>
+ * <li>needs b clebrer story bbout error processing</li>
+ * <li>pbtch member references blso (use ';' bs delimiter chbr)</li>
+ * <li>pbtch method references to (conforming) method hbndles</li>
  * </ul>
  *
- * @author jrose
- * @author Remi Forax
- * @see <a href="http://blogs.sun.com/jrose/entry/anonymous_classes_in_the_vm">
- *      http://blogs.sun.com/jrose/entry/anonymous_classes_in_the_vm</a>
+ * @buthor jrose
+ * @buthor Remi Forbx
+ * @see <b href="http://blogs.sun.com/jrose/entry/bnonymous_clbsses_in_the_vm">
+ *      http://blogs.sun.com/jrose/entry/bnonymous_clbsses_in_the_vm</b>
  */
 
-public class AnonymousClassLoader {
-    final Class<?> hostClass;
+public clbss AnonymousClbssLobder {
+    finbl Clbss<?> hostClbss;
 
     // Privileged constructor.
-    private AnonymousClassLoader(Class<?> hostClass) {
-        this.hostClass = hostClass;
+    privbte AnonymousClbssLobder(Clbss<?> hostClbss) {
+        this.hostClbss = hostClbss;
     }
 
-    public static AnonymousClassLoader make(sun.misc.Unsafe unsafe, Class<?> hostClass) {
-        if (unsafe == null)  throw new NullPointerException();
-        return new AnonymousClassLoader(hostClass);
+    public stbtic AnonymousClbssLobder mbke(sun.misc.Unsbfe unsbfe, Clbss<?> hostClbss) {
+        if (unsbfe == null)  throw new NullPointerException();
+        return new AnonymousClbssLobder(hostClbss);
     }
 
-    public Class<?> loadClass(byte[] classFile) {
-        if (defineAnonymousClass == null) {
-            // no JVM support; try to fake an approximation
+    public Clbss<?> lobdClbss(byte[] clbssFile) {
+        if (defineAnonymousClbss == null) {
+            // no JVM support; try to fbke bn bpproximbtion
             try {
-                return fakeLoadClass(new ConstantPoolParser(classFile).createPatch());
-            } catch (InvalidConstantPoolFormatException ee) {
-                throw new IllegalArgumentException(ee);
+                return fbkeLobdClbss(new ConstbntPoolPbrser(clbssFile).crebtePbtch());
+            } cbtch (InvblidConstbntPoolFormbtException ee) {
+                throw new IllegblArgumentException(ee);
             }
         }
-        return loadClass(classFile, null);
+        return lobdClbss(clbssFile, null);
     }
 
-    public Class<?> loadClass(ConstantPoolPatch classPatch) {
-        if (defineAnonymousClass == null) {
-            // no JVM support; try to fake an approximation
-            return fakeLoadClass(classPatch);
+    public Clbss<?> lobdClbss(ConstbntPoolPbtch clbssPbtch) {
+        if (defineAnonymousClbss == null) {
+            // no JVM support; try to fbke bn bpproximbtion
+            return fbkeLobdClbss(clbssPbtch);
         }
-        Object[] patches = classPatch.patchArray;
-        // Convert class names (this late in the game)
-        // to use slash '/' instead of dot '.'.
-        // Java likes dots, but the JVM likes slashes.
-        for (int i = 0; i < patches.length; i++) {
-            Object value = patches[i];
-            if (value != null) {
-                byte tag = classPatch.getTag(i);
-                switch (tag) {
-                case ConstantPoolVisitor.CONSTANT_Class:
-                    if (value instanceof String) {
-                        if (patches == classPatch.patchArray)
-                            patches = patches.clone();
-                        patches[i] = ((String)value).replace('.', '/');
+        Object[] pbtches = clbssPbtch.pbtchArrby;
+        // Convert clbss nbmes (this lbte in the gbme)
+        // to use slbsh '/' instebd of dot '.'.
+        // Jbvb likes dots, but the JVM likes slbshes.
+        for (int i = 0; i < pbtches.length; i++) {
+            Object vblue = pbtches[i];
+            if (vblue != null) {
+                byte tbg = clbssPbtch.getTbg(i);
+                switch (tbg) {
+                cbse ConstbntPoolVisitor.CONSTANT_Clbss:
+                    if (vblue instbnceof String) {
+                        if (pbtches == clbssPbtch.pbtchArrby)
+                            pbtches = pbtches.clone();
+                        pbtches[i] = ((String)vblue).replbce('.', '/');
                     }
-                    break;
-                case ConstantPoolVisitor.CONSTANT_Fieldref:
-                case ConstantPoolVisitor.CONSTANT_Methodref:
-                case ConstantPoolVisitor.CONSTANT_InterfaceMethodref:
-                case ConstantPoolVisitor.CONSTANT_NameAndType:
-                    // When/if the JVM supports these patches,
-                    // we'll probably need to reformat them also.
-                    // Meanwhile, let the class loader create the error.
-                    break;
+                    brebk;
+                cbse ConstbntPoolVisitor.CONSTANT_Fieldref:
+                cbse ConstbntPoolVisitor.CONSTANT_Methodref:
+                cbse ConstbntPoolVisitor.CONSTANT_InterfbceMethodref:
+                cbse ConstbntPoolVisitor.CONSTANT_NbmeAndType:
+                    // When/if the JVM supports these pbtches,
+                    // we'll probbbly need to reformbt them blso.
+                    // Mebnwhile, let the clbss lobder crebte the error.
+                    brebk;
                 }
             }
         }
-        return loadClass(classPatch.outer.classFile, classPatch.patchArray);
+        return lobdClbss(clbssPbtch.outer.clbssFile, clbssPbtch.pbtchArrby);
     }
 
-    private Class<?> loadClass(byte[] classFile, Object[] patchArray) {
+    privbte Clbss<?> lobdClbss(byte[] clbssFile, Object[] pbtchArrby) {
         try {
-            return (Class<?>)
-                defineAnonymousClass.invoke(unsafe,
-                                            hostClass, classFile, patchArray);
-        } catch (Exception ex) {
+            return (Clbss<?>)
+                defineAnonymousClbss.invoke(unsbfe,
+                                            hostClbss, clbssFile, pbtchArrby);
+        } cbtch (Exception ex) {
             throwReflectedException(ex);
-            throw new RuntimeException("error loading into "+hostClass, ex);
+            throw new RuntimeException("error lobding into "+hostClbss, ex);
         }
     }
 
-    private static void throwReflectedException(Exception ex) {
-        if (ex instanceof InvocationTargetException) {
-            Throwable tex = ((InvocationTargetException)ex).getTargetException();
-            if (tex instanceof Error)
+    privbte stbtic void throwReflectedException(Exception ex) {
+        if (ex instbnceof InvocbtionTbrgetException) {
+            Throwbble tex = ((InvocbtionTbrgetException)ex).getTbrgetException();
+            if (tex instbnceof Error)
                 throw (Error) tex;
             ex = (Exception) tex;
         }
-        if (ex instanceof RuntimeException) {
+        if (ex instbnceof RuntimeException) {
             throw (RuntimeException) ex;
         }
     }
 
-    private Class<?> fakeLoadClass(ConstantPoolPatch classPatch) {
-        // Implementation:
-        // 1. Make up a new name nobody has used yet.
-        // 2. Inspect the tail-header of the class to find the this_class index.
-        // 3. Patch the CONSTANT_Class for this_class to the new name.
-        // 4. Add other CP entries required by (e.g.) string patches.
-        // 5. Flatten Class constants down to their names, making sure that
-        //    the host class loader can pick them up again accurately.
-        // 6. Generate the edited class file bytes.
+    privbte Clbss<?> fbkeLobdClbss(ConstbntPoolPbtch clbssPbtch) {
+        // Implementbtion:
+        // 1. Mbke up b new nbme nobody hbs used yet.
+        // 2. Inspect the tbil-hebder of the clbss to find the this_clbss index.
+        // 3. Pbtch the CONSTANT_Clbss for this_clbss to the new nbme.
+        // 4. Add other CP entries required by (e.g.) string pbtches.
+        // 5. Flbtten Clbss constbnts down to their nbmes, mbking sure thbt
+        //    the host clbss lobder cbn pick them up bgbin bccurbtely.
+        // 6. Generbte the edited clbss file bytes.
         //
-        // Potential limitations:
-        // * The class won't be truly anonymous, and may interfere with others.
-        // * Flattened class constants might not work, because of loader issues.
-        // * Pseudo-string constants will not flatten down to real strings.
-        // * Method handles will (of course) fail to flatten to linkage strings.
-        if (true)  throw new UnsupportedOperationException("NYI");
-        Object[] cpArray;
+        // Potentibl limitbtions:
+        // * The clbss won't be truly bnonymous, bnd mby interfere with others.
+        // * Flbttened clbss constbnts might not work, becbuse of lobder issues.
+        // * Pseudo-string constbnts will not flbtten down to rebl strings.
+        // * Method hbndles will (of course) fbil to flbtten to linkbge strings.
+        if (true)  throw new UnsupportedOperbtionException("NYI");
+        Object[] cpArrby;
         try {
-            cpArray = classPatch.getOriginalCP();
-        } catch (InvalidConstantPoolFormatException ex) {
+            cpArrby = clbssPbtch.getOriginblCP();
+        } cbtch (InvblidConstbntPoolFormbtException ex) {
             throw new RuntimeException(ex);
         }
-        int thisClassIndex = classPatch.getParser().getThisClassIndex();
-        String thisClassName = (String) cpArray[thisClassIndex];
-        synchronized (AnonymousClassLoader.class) {
-            thisClassName = thisClassName+"\\|"+(++fakeNameCounter);
+        int thisClbssIndex = clbssPbtch.getPbrser().getThisClbssIndex();
+        String thisClbssNbme = (String) cpArrby[thisClbssIndex];
+        synchronized (AnonymousClbssLobder.clbss) {
+            thisClbssNbme = thisClbssNbme+"\\|"+(++fbkeNbmeCounter);
         }
-        classPatch.putUTF8(thisClassIndex, thisClassName);
-        byte[] classFile = null;
-        return unsafe.defineClass(null, classFile, 0, classFile.length,
-                                  hostClass.getClassLoader(),
-                                  hostClass.getProtectionDomain());
+        clbssPbtch.putUTF8(thisClbssIndex, thisClbssNbme);
+        byte[] clbssFile = null;
+        return unsbfe.defineClbss(null, clbssFile, 0, clbssFile.length,
+                                  hostClbss.getClbssLobder(),
+                                  hostClbss.getProtectionDombin());
     }
-    private static int fakeNameCounter = 99999;
+    privbte stbtic int fbkeNbmeCounter = 99999;
 
-    // ignore two warnings on this line:
-    private static sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-    // preceding line requires that this class be on the boot class path
+    // ignore two wbrnings on this line:
+    privbte stbtic sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+    // preceding line requires thbt this clbss be on the boot clbss pbth
 
-    static private final Method defineAnonymousClass;
-    static {
-        Method dac = null;
-        Class<? extends sun.misc.Unsafe> unsafeClass = unsafe.getClass();
+    stbtic privbte finbl Method defineAnonymousClbss;
+    stbtic {
+        Method dbc = null;
+        Clbss<? extends sun.misc.Unsbfe> unsbfeClbss = unsbfe.getClbss();
         try {
-            dac = unsafeClass.getMethod("defineAnonymousClass",
-                                        Class.class,
-                                        byte[].class,
-                                        Object[].class);
-        } catch (Exception ee) {
-            dac = null;
+            dbc = unsbfeClbss.getMethod("defineAnonymousClbss",
+                                        Clbss.clbss,
+                                        byte[].clbss,
+                                        Object[].clbss);
+        } cbtch (Exception ee) {
+            dbc = null;
         }
-        defineAnonymousClass = dac;
+        defineAnonymousClbss = dbc;
     }
 
-    private static void noJVMSupport() {
-        throw new UnsupportedOperationException("no JVM support for anonymous classes");
+    privbte stbtic void noJVMSupport() {
+        throw new UnsupportedOperbtionException("no JVM support for bnonymous clbsses");
     }
 
 
-    private static native Class<?> loadClassInternal(Class<?> hostClass,
-                                                     byte[] classFile,
-                                                     Object[] patchArray);
+    privbte stbtic nbtive Clbss<?> lobdClbssInternbl(Clbss<?> hostClbss,
+                                                     byte[] clbssFile,
+                                                     Object[] pbtchArrby);
 
-    public static byte[] readClassFile(Class<?> templateClass) throws IOException {
-        String templateName = templateClass.getName();
-        int lastDot = templateName.lastIndexOf('.');
-        java.net.URL url = templateClass.getResource(templateName.substring(lastDot+1)+".class");
-        java.net.URLConnection connection = url.openConnection();
+    public stbtic byte[] rebdClbssFile(Clbss<?> templbteClbss) throws IOException {
+        String templbteNbme = templbteClbss.getNbme();
+        int lbstDot = templbteNbme.lbstIndexOf('.');
+        jbvb.net.URL url = templbteClbss.getResource(templbteNbme.substring(lbstDot+1)+".clbss");
+        jbvb.net.URLConnection connection = url.openConnection();
         int contentLength = connection.getContentLength();
         if (contentLength < 0)
-            throw new IOException("invalid content length "+contentLength);
+            throw new IOException("invblid content length "+contentLength);
 
-        return IOUtils.readFully(connection.getInputStream(), contentLength, true);
+        return IOUtils.rebdFully(connection.getInputStrebm(), contentLength, true);
     }
 }

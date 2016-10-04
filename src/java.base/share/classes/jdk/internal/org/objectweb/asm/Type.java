@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,132 +56,132 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
 
 /**
- * A Java field or method type. This class can be used to make it easier to
- * manipulate type and method descriptors.
+ * A Jbvb field or method type. This clbss cbn be used to mbke it ebsier to
+ * mbnipulbte type bnd method descriptors.
  *
- * @author Eric Bruneton
- * @author Chris Nokleberg
+ * @buthor Eric Bruneton
+ * @buthor Chris Nokleberg
  */
-public class Type {
+public clbss Type {
 
     /**
      * The sort of the <tt>void</tt> type. See {@link #getSort getSort}.
      */
-    public static final int VOID = 0;
+    public stbtic finbl int VOID = 0;
 
     /**
-     * The sort of the <tt>boolean</tt> type. See {@link #getSort getSort}.
+     * The sort of the <tt>boolebn</tt> type. See {@link #getSort getSort}.
      */
-    public static final int BOOLEAN = 1;
+    public stbtic finbl int BOOLEAN = 1;
 
     /**
-     * The sort of the <tt>char</tt> type. See {@link #getSort getSort}.
+     * The sort of the <tt>chbr</tt> type. See {@link #getSort getSort}.
      */
-    public static final int CHAR = 2;
+    public stbtic finbl int CHAR = 2;
 
     /**
      * The sort of the <tt>byte</tt> type. See {@link #getSort getSort}.
      */
-    public static final int BYTE = 3;
+    public stbtic finbl int BYTE = 3;
 
     /**
      * The sort of the <tt>short</tt> type. See {@link #getSort getSort}.
      */
-    public static final int SHORT = 4;
+    public stbtic finbl int SHORT = 4;
 
     /**
      * The sort of the <tt>int</tt> type. See {@link #getSort getSort}.
      */
-    public static final int INT = 5;
+    public stbtic finbl int INT = 5;
 
     /**
-     * The sort of the <tt>float</tt> type. See {@link #getSort getSort}.
+     * The sort of the <tt>flobt</tt> type. See {@link #getSort getSort}.
      */
-    public static final int FLOAT = 6;
+    public stbtic finbl int FLOAT = 6;
 
     /**
      * The sort of the <tt>long</tt> type. See {@link #getSort getSort}.
      */
-    public static final int LONG = 7;
+    public stbtic finbl int LONG = 7;
 
     /**
      * The sort of the <tt>double</tt> type. See {@link #getSort getSort}.
      */
-    public static final int DOUBLE = 8;
+    public stbtic finbl int DOUBLE = 8;
 
     /**
-     * The sort of array reference types. See {@link #getSort getSort}.
+     * The sort of brrby reference types. See {@link #getSort getSort}.
      */
-    public static final int ARRAY = 9;
+    public stbtic finbl int ARRAY = 9;
 
     /**
      * The sort of object reference types. See {@link #getSort getSort}.
      */
-    public static final int OBJECT = 10;
+    public stbtic finbl int OBJECT = 10;
 
     /**
      * The sort of method types. See {@link #getSort getSort}.
      */
-    public static final int METHOD = 11;
+    public stbtic finbl int METHOD = 11;
 
     /**
      * The <tt>void</tt> type.
      */
-    public static final Type VOID_TYPE = new Type(VOID, null, ('V' << 24)
+    public stbtic finbl Type VOID_TYPE = new Type(VOID, null, ('V' << 24)
             | (5 << 16) | (0 << 8) | 0, 1);
 
     /**
-     * The <tt>boolean</tt> type.
+     * The <tt>boolebn</tt> type.
      */
-    public static final Type BOOLEAN_TYPE = new Type(BOOLEAN, null, ('Z' << 24)
+    public stbtic finbl Type BOOLEAN_TYPE = new Type(BOOLEAN, null, ('Z' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
 
     /**
-     * The <tt>char</tt> type.
+     * The <tt>chbr</tt> type.
      */
-    public static final Type CHAR_TYPE = new Type(CHAR, null, ('C' << 24)
+    public stbtic finbl Type CHAR_TYPE = new Type(CHAR, null, ('C' << 24)
             | (0 << 16) | (6 << 8) | 1, 1);
 
     /**
      * The <tt>byte</tt> type.
      */
-    public static final Type BYTE_TYPE = new Type(BYTE, null, ('B' << 24)
+    public stbtic finbl Type BYTE_TYPE = new Type(BYTE, null, ('B' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
 
     /**
      * The <tt>short</tt> type.
      */
-    public static final Type SHORT_TYPE = new Type(SHORT, null, ('S' << 24)
+    public stbtic finbl Type SHORT_TYPE = new Type(SHORT, null, ('S' << 24)
             | (0 << 16) | (7 << 8) | 1, 1);
 
     /**
      * The <tt>int</tt> type.
      */
-    public static final Type INT_TYPE = new Type(INT, null, ('I' << 24)
+    public stbtic finbl Type INT_TYPE = new Type(INT, null, ('I' << 24)
             | (0 << 16) | (0 << 8) | 1, 1);
 
     /**
-     * The <tt>float</tt> type.
+     * The <tt>flobt</tt> type.
      */
-    public static final Type FLOAT_TYPE = new Type(FLOAT, null, ('F' << 24)
+    public stbtic finbl Type FLOAT_TYPE = new Type(FLOAT, null, ('F' << 24)
             | (2 << 16) | (2 << 8) | 1, 1);
 
     /**
      * The <tt>long</tt> type.
      */
-    public static final Type LONG_TYPE = new Type(LONG, null, ('J' << 24)
+    public stbtic finbl Type LONG_TYPE = new Type(LONG, null, ('J' << 24)
             | (1 << 16) | (1 << 8) | 2, 1);
 
     /**
      * The <tt>double</tt> type.
      */
-    public static final Type DOUBLE_TYPE = new Type(DOUBLE, null, ('D' << 24)
+    public stbtic finbl Type DOUBLE_TYPE = new Type(DOUBLE, null, ('D' << 24)
             | (3 << 16) | (3 << 8) | 2, 1);
 
     // ------------------------------------------------------------------------
@@ -189,46 +189,46 @@ public class Type {
     // ------------------------------------------------------------------------
 
     /**
-     * The sort of this Java type.
+     * The sort of this Jbvb type.
      */
-    private final int sort;
+    privbte finbl int sort;
 
     /**
-     * A buffer containing the internal name of this Java type. This field is
+     * A buffer contbining the internbl nbme of this Jbvb type. This field is
      * only used for reference types.
      */
-    private final char[] buf;
+    privbte finbl chbr[] buf;
 
     /**
-     * The offset of the internal name of this Java type in {@link #buf buf} or,
-     * for primitive types, the size, descriptor and getOpcode offsets for this
-     * type (byte 0 contains the size, byte 1 the descriptor, byte 2 the offset
-     * for IALOAD or IASTORE, byte 3 the offset for all other instructions).
+     * The offset of the internbl nbme of this Jbvb type in {@link #buf buf} or,
+     * for primitive types, the size, descriptor bnd getOpcode offsets for this
+     * type (byte 0 contbins the size, byte 1 the descriptor, byte 2 the offset
+     * for IALOAD or IASTORE, byte 3 the offset for bll other instructions).
      */
-    private final int off;
+    privbte finbl int off;
 
     /**
-     * The length of the internal name of this Java type.
+     * The length of the internbl nbme of this Jbvb type.
      */
-    private final int len;
+    privbte finbl int len;
 
     // ------------------------------------------------------------------------
     // Constructors
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a reference type.
+     * Constructs b reference type.
      *
-     * @param sort
+     * @pbrbm sort
      *            the sort of the reference type to be constructed.
-     * @param buf
-     *            a buffer containing the descriptor of the previous type.
-     * @param off
+     * @pbrbm buf
+     *            b buffer contbining the descriptor of the previous type.
+     * @pbrbm off
      *            the offset of this descriptor in the previous buffer.
-     * @param len
+     * @pbrbm len
      *            the length of this descriptor.
      */
-    private Type(final int sort, final char[] buf, final int off, final int len) {
+    privbte Type(finbl int sort, finbl chbr[] buf, finbl int off, finbl int len) {
         this.sort = sort;
         this.buf = buf;
         this.off = off;
@@ -236,80 +236,80 @@ public class Type {
     }
 
     /**
-     * Returns the Java type corresponding to the given type descriptor.
+     * Returns the Jbvb type corresponding to the given type descriptor.
      *
-     * @param typeDescriptor
-     *            a field or method type descriptor.
-     * @return the Java type corresponding to the given type descriptor.
+     * @pbrbm typeDescriptor
+     *            b field or method type descriptor.
+     * @return the Jbvb type corresponding to the given type descriptor.
      */
-    public static Type getType(final String typeDescriptor) {
-        return getType(typeDescriptor.toCharArray(), 0);
+    public stbtic Type getType(finbl String typeDescriptor) {
+        return getType(typeDescriptor.toChbrArrby(), 0);
     }
 
     /**
-     * Returns the Java type corresponding to the given internal name.
+     * Returns the Jbvb type corresponding to the given internbl nbme.
      *
-     * @param internalName
-     *            an internal name.
-     * @return the Java type corresponding to the given internal name.
+     * @pbrbm internblNbme
+     *            bn internbl nbme.
+     * @return the Jbvb type corresponding to the given internbl nbme.
      */
-    public static Type getObjectType(final String internalName) {
-        char[] buf = internalName.toCharArray();
+    public stbtic Type getObjectType(finbl String internblNbme) {
+        chbr[] buf = internblNbme.toChbrArrby();
         return new Type(buf[0] == '[' ? ARRAY : OBJECT, buf, 0, buf.length);
     }
 
     /**
-     * Returns the Java type corresponding to the given method descriptor.
-     * Equivalent to <code>Type.getType(methodDescriptor)</code>.
+     * Returns the Jbvb type corresponding to the given method descriptor.
+     * Equivblent to <code>Type.getType(methodDescriptor)</code>.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java type corresponding to the given method descriptor.
+     * @pbrbm methodDescriptor
+     *            b method descriptor.
+     * @return the Jbvb type corresponding to the given method descriptor.
      */
-    public static Type getMethodType(final String methodDescriptor) {
-        return getType(methodDescriptor.toCharArray(), 0);
+    public stbtic Type getMethodType(finbl String methodDescriptor) {
+        return getType(methodDescriptor.toChbrArrby(), 0);
     }
 
     /**
-     * Returns the Java method type corresponding to the given argument and
+     * Returns the Jbvb method type corresponding to the given brgument bnd
      * return types.
      *
-     * @param returnType
+     * @pbrbm returnType
      *            the return type of the method.
-     * @param argumentTypes
-     *            the argument types of the method.
-     * @return the Java type corresponding to the given argument and return
+     * @pbrbm brgumentTypes
+     *            the brgument types of the method.
+     * @return the Jbvb type corresponding to the given brgument bnd return
      *         types.
      */
-    public static Type getMethodType(final Type returnType,
-            final Type... argumentTypes) {
-        return getType(getMethodDescriptor(returnType, argumentTypes));
+    public stbtic Type getMethodType(finbl Type returnType,
+            finbl Type... brgumentTypes) {
+        return getType(getMethodDescriptor(returnType, brgumentTypes));
     }
 
     /**
-     * Returns the Java type corresponding to the given class.
+     * Returns the Jbvb type corresponding to the given clbss.
      *
-     * @param c
-     *            a class.
-     * @return the Java type corresponding to the given class.
+     * @pbrbm c
+     *            b clbss.
+     * @return the Jbvb type corresponding to the given clbss.
      */
-    public static Type getType(final Class<?> c) {
+    public stbtic Type getType(finbl Clbss<?> c) {
         if (c.isPrimitive()) {
             if (c == Integer.TYPE) {
                 return INT_TYPE;
             } else if (c == Void.TYPE) {
                 return VOID_TYPE;
-            } else if (c == Boolean.TYPE) {
+            } else if (c == Boolebn.TYPE) {
                 return BOOLEAN_TYPE;
             } else if (c == Byte.TYPE) {
                 return BYTE_TYPE;
-            } else if (c == Character.TYPE) {
+            } else if (c == Chbrbcter.TYPE) {
                 return CHAR_TYPE;
             } else if (c == Short.TYPE) {
                 return SHORT_TYPE;
             } else if (c == Double.TYPE) {
                 return DOUBLE_TYPE;
-            } else if (c == Float.TYPE) {
+            } else if (c == Flobt.TYPE) {
                 return FLOAT_TYPE;
             } else /* if (c == Long.TYPE) */{
                 return LONG_TYPE;
@@ -320,140 +320,140 @@ public class Type {
     }
 
     /**
-     * Returns the Java method type corresponding to the given constructor.
+     * Returns the Jbvb method type corresponding to the given constructor.
      *
-     * @param c
-     *            a {@link Constructor Constructor} object.
-     * @return the Java method type corresponding to the given constructor.
+     * @pbrbm c
+     *            b {@link Constructor Constructor} object.
+     * @return the Jbvb method type corresponding to the given constructor.
      */
-    public static Type getType(final Constructor<?> c) {
+    public stbtic Type getType(finbl Constructor<?> c) {
         return getType(getConstructorDescriptor(c));
     }
 
     /**
-     * Returns the Java method type corresponding to the given method.
+     * Returns the Jbvb method type corresponding to the given method.
      *
-     * @param m
-     *            a {@link Method Method} object.
-     * @return the Java method type corresponding to the given method.
+     * @pbrbm m
+     *            b {@link Method Method} object.
+     * @return the Jbvb method type corresponding to the given method.
      */
-    public static Type getType(final Method m) {
+    public stbtic Type getType(finbl Method m) {
         return getType(getMethodDescriptor(m));
     }
 
     /**
-     * Returns the Java types corresponding to the argument types of the given
+     * Returns the Jbvb types corresponding to the brgument types of the given
      * method descriptor.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java types corresponding to the argument types of the given
+     * @pbrbm methodDescriptor
+     *            b method descriptor.
+     * @return the Jbvb types corresponding to the brgument types of the given
      *         method descriptor.
      */
-    public static Type[] getArgumentTypes(final String methodDescriptor) {
-        char[] buf = methodDescriptor.toCharArray();
+    public stbtic Type[] getArgumentTypes(finbl String methodDescriptor) {
+        chbr[] buf = methodDescriptor.toChbrArrby();
         int off = 1;
         int size = 0;
         while (true) {
-            char car = buf[off++];
-            if (car == ')') {
-                break;
-            } else if (car == 'L') {
+            chbr cbr = buf[off++];
+            if (cbr == ')') {
+                brebk;
+            } else if (cbr == 'L') {
                 while (buf[off++] != ';') {
                 }
                 ++size;
-            } else if (car != '[') {
+            } else if (cbr != '[') {
                 ++size;
             }
         }
-        Type[] args = new Type[size];
+        Type[] brgs = new Type[size];
         off = 1;
         size = 0;
         while (buf[off] != ')') {
-            args[size] = getType(buf, off);
-            off += args[size].len + (args[size].sort == OBJECT ? 2 : 0);
+            brgs[size] = getType(buf, off);
+            off += brgs[size].len + (brgs[size].sort == OBJECT ? 2 : 0);
             size += 1;
         }
-        return args;
+        return brgs;
     }
 
     /**
-     * Returns the Java types corresponding to the argument types of the given
+     * Returns the Jbvb types corresponding to the brgument types of the given
      * method.
      *
-     * @param method
-     *            a method.
-     * @return the Java types corresponding to the argument types of the given
+     * @pbrbm method
+     *            b method.
+     * @return the Jbvb types corresponding to the brgument types of the given
      *         method.
      */
-    public static Type[] getArgumentTypes(final Method method) {
-        Class<?>[] classes = method.getParameterTypes();
-        Type[] types = new Type[classes.length];
-        for (int i = classes.length - 1; i >= 0; --i) {
-            types[i] = getType(classes[i]);
+    public stbtic Type[] getArgumentTypes(finbl Method method) {
+        Clbss<?>[] clbsses = method.getPbrbmeterTypes();
+        Type[] types = new Type[clbsses.length];
+        for (int i = clbsses.length - 1; i >= 0; --i) {
+            types[i] = getType(clbsses[i]);
         }
         return types;
     }
 
     /**
-     * Returns the Java type corresponding to the return type of the given
+     * Returns the Jbvb type corresponding to the return type of the given
      * method descriptor.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java type corresponding to the return type of the given
+     * @pbrbm methodDescriptor
+     *            b method descriptor.
+     * @return the Jbvb type corresponding to the return type of the given
      *         method descriptor.
      */
-    public static Type getReturnType(final String methodDescriptor) {
-        char[] buf = methodDescriptor.toCharArray();
+    public stbtic Type getReturnType(finbl String methodDescriptor) {
+        chbr[] buf = methodDescriptor.toChbrArrby();
         return getType(buf, methodDescriptor.indexOf(')') + 1);
     }
 
     /**
-     * Returns the Java type corresponding to the return type of the given
+     * Returns the Jbvb type corresponding to the return type of the given
      * method.
      *
-     * @param method
-     *            a method.
-     * @return the Java type corresponding to the return type of the given
+     * @pbrbm method
+     *            b method.
+     * @return the Jbvb type corresponding to the return type of the given
      *         method.
      */
-    public static Type getReturnType(final Method method) {
+    public stbtic Type getReturnType(finbl Method method) {
         return getType(method.getReturnType());
     }
 
     /**
-     * Computes the size of the arguments and of the return value of a method.
+     * Computes the size of the brguments bnd of the return vblue of b method.
      *
-     * @param desc
-     *            the descriptor of a method.
-     * @return the size of the arguments of the method (plus one for the
-     *         implicit this argument), argSize, and the size of its return
-     *         value, retSize, packed into a single int i =
-     *         <tt>(argSize &lt;&lt; 2) | retSize</tt> (argSize is therefore equal to
-     *         <tt>i &gt;&gt; 2</tt>, and retSize to <tt>i &amp; 0x03</tt>).
+     * @pbrbm desc
+     *            the descriptor of b method.
+     * @return the size of the brguments of the method (plus one for the
+     *         implicit this brgument), brgSize, bnd the size of its return
+     *         vblue, retSize, pbcked into b single int i =
+     *         <tt>(brgSize &lt;&lt; 2) | retSize</tt> (brgSize is therefore equbl to
+     *         <tt>i &gt;&gt; 2</tt>, bnd retSize to <tt>i &bmp; 0x03</tt>).
      */
-    public static int getArgumentsAndReturnSizes(final String desc) {
+    public stbtic int getArgumentsAndReturnSizes(finbl String desc) {
         int n = 1;
         int c = 1;
         while (true) {
-            char car = desc.charAt(c++);
-            if (car == ')') {
-                car = desc.charAt(c);
+            chbr cbr = desc.chbrAt(c++);
+            if (cbr == ')') {
+                cbr = desc.chbrAt(c);
                 return n << 2
-                        | (car == 'V' ? 0 : (car == 'D' || car == 'J' ? 2 : 1));
-            } else if (car == 'L') {
-                while (desc.charAt(c++) != ';') {
+                        | (cbr == 'V' ? 0 : (cbr == 'D' || cbr == 'J' ? 2 : 1));
+            } else if (cbr == 'L') {
+                while (desc.chbrAt(c++) != ';') {
                 }
                 n += 1;
-            } else if (car == '[') {
-                while ((car = desc.charAt(c)) == '[') {
+            } else if (cbr == '[') {
+                while ((cbr = desc.chbrAt(c)) == '[') {
                     ++c;
                 }
-                if (car == 'D' || car == 'J') {
+                if (cbr == 'D' || cbr == 'J') {
                     n -= 1;
                 }
-            } else if (car == 'D' || car == 'J') {
+            } else if (cbr == 'D' || cbr == 'J') {
                 n += 2;
             } else {
                 n += 1;
@@ -462,38 +462,38 @@ public class Type {
     }
 
     /**
-     * Returns the Java type corresponding to the given type descriptor. For
-     * method descriptors, buf is supposed to contain nothing more than the
+     * Returns the Jbvb type corresponding to the given type descriptor. For
+     * method descriptors, buf is supposed to contbin nothing more thbn the
      * descriptor itself.
      *
-     * @param buf
-     *            a buffer containing a type descriptor.
-     * @param off
+     * @pbrbm buf
+     *            b buffer contbining b type descriptor.
+     * @pbrbm off
      *            the offset of this descriptor in the previous buffer.
-     * @return the Java type corresponding to the given type descriptor.
+     * @return the Jbvb type corresponding to the given type descriptor.
      */
-    private static Type getType(final char[] buf, final int off) {
+    privbte stbtic Type getType(finbl chbr[] buf, finbl int off) {
         int len;
         switch (buf[off]) {
-        case 'V':
+        cbse 'V':
             return VOID_TYPE;
-        case 'Z':
+        cbse 'Z':
             return BOOLEAN_TYPE;
-        case 'C':
+        cbse 'C':
             return CHAR_TYPE;
-        case 'B':
+        cbse 'B':
             return BYTE_TYPE;
-        case 'S':
+        cbse 'S':
             return SHORT_TYPE;
-        case 'I':
+        cbse 'I':
             return INT_TYPE;
-        case 'F':
+        cbse 'F':
             return FLOAT_TYPE;
-        case 'J':
+        cbse 'J':
             return LONG_TYPE;
-        case 'D':
+        cbse 'D':
             return DOUBLE_TYPE;
-        case '[':
+        cbse '[':
             len = 1;
             while (buf[off + len] == '[') {
                 ++len;
@@ -505,14 +505,14 @@ public class Type {
                 }
             }
             return new Type(ARRAY, buf, off, len + 1);
-        case 'L':
+        cbse 'L':
             len = 1;
             while (buf[off + len] != ';') {
                 ++len;
             }
             return new Type(OBJECT, buf, off + 1, len - 1);
-            // case '(':
-        default:
+            // cbse '(':
+        defbult:
             return new Type(METHOD, buf, off, buf.length - off);
         }
     }
@@ -522,7 +522,7 @@ public class Type {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the sort of this Java type.
+     * Returns the sort of this Jbvb type.
      *
      * @return {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR},
      *         {@link #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT},
@@ -535,10 +535,10 @@ public class Type {
     }
 
     /**
-     * Returns the number of dimensions of this array type. This method should
-     * only be used for an array type.
+     * Returns the number of dimensions of this brrby type. This method should
+     * only be used for bn brrby type.
      *
-     * @return the number of dimensions of this array type.
+     * @return the number of dimensions of this brrby type.
      */
     public int getDimensions() {
         int i = 1;
@@ -549,71 +549,71 @@ public class Type {
     }
 
     /**
-     * Returns the type of the elements of this array type. This method should
-     * only be used for an array type.
+     * Returns the type of the elements of this brrby type. This method should
+     * only be used for bn brrby type.
      *
-     * @return Returns the type of the elements of this array type.
+     * @return Returns the type of the elements of this brrby type.
      */
     public Type getElementType() {
         return getType(buf, off + getDimensions());
     }
 
     /**
-     * Returns the binary name of the class corresponding to this type. This
+     * Returns the binbry nbme of the clbss corresponding to this type. This
      * method must not be used on method types.
      *
-     * @return the binary name of the class corresponding to this type.
+     * @return the binbry nbme of the clbss corresponding to this type.
      */
-    public String getClassName() {
+    public String getClbssNbme() {
         switch (sort) {
-        case VOID:
+        cbse VOID:
             return "void";
-        case BOOLEAN:
-            return "boolean";
-        case CHAR:
-            return "char";
-        case BYTE:
+        cbse BOOLEAN:
+            return "boolebn";
+        cbse CHAR:
+            return "chbr";
+        cbse BYTE:
             return "byte";
-        case SHORT:
+        cbse SHORT:
             return "short";
-        case INT:
+        cbse INT:
             return "int";
-        case FLOAT:
-            return "float";
-        case LONG:
+        cbse FLOAT:
+            return "flobt";
+        cbse LONG:
             return "long";
-        case DOUBLE:
+        cbse DOUBLE:
             return "double";
-        case ARRAY:
-            StringBuilder sb = new StringBuilder(getElementType().getClassName());
+        cbse ARRAY:
+            StringBuilder sb = new StringBuilder(getElementType().getClbssNbme());
             for (int i = getDimensions(); i > 0; --i) {
-                sb.append("[]");
+                sb.bppend("[]");
             }
             return sb.toString();
-        case OBJECT:
-            return new String(buf, off, len).replace('/', '.');
-        default:
+        cbse OBJECT:
+            return new String(buf, off, len).replbce('/', '.');
+        defbult:
             return null;
         }
     }
 
     /**
-     * Returns the internal name of the class corresponding to this object or
-     * array type. The internal name of a class is its fully qualified name (as
-     * returned by Class.getName(), where '.' are replaced by '/'. This method
-     * should only be used for an object or array type.
+     * Returns the internbl nbme of the clbss corresponding to this object or
+     * brrby type. The internbl nbme of b clbss is its fully qublified nbme (bs
+     * returned by Clbss.getNbme(), where '.' bre replbced by '/'. This method
+     * should only be used for bn object or brrby type.
      *
-     * @return the internal name of the class corresponding to this object type.
+     * @return the internbl nbme of the clbss corresponding to this object type.
      */
-    public String getInternalName() {
+    public String getInternblNbme() {
         return new String(buf, off, len);
     }
 
     /**
-     * Returns the argument types of methods of this type. This method should
+     * Returns the brgument types of methods of this type. This method should
      * only be used for method types.
      *
-     * @return the argument types of methods of this type.
+     * @return the brgument types of methods of this type.
      */
     public Type[] getArgumentTypes() {
         return getArgumentTypes(getDescriptor());
@@ -630,15 +630,15 @@ public class Type {
     }
 
     /**
-     * Returns the size of the arguments and of the return value of methods of
+     * Returns the size of the brguments bnd of the return vblue of methods of
      * this type. This method should only be used for method types.
      *
-     * @return the size of the arguments (plus one for the implicit this
-     *         argument), argSize, and the size of the return value, retSize,
-     *         packed into a single
-     *         int i = <tt>(argSize &lt;&lt; 2) | retSize</tt>
-     *         (argSize is therefore equal to <tt>i &gt;&gt; 2</tt>,
-     *         and retSize to <tt>i &amp; 0x03</tt>).
+     * @return the size of the brguments (plus one for the implicit this
+     *         brgument), brgSize, bnd the size of the return vblue, retSize,
+     *         pbcked into b single
+     *         int i = <tt>(brgSize &lt;&lt; 2) | retSize</tt>
+     *         (brgSize is therefore equbl to <tt>i &gt;&gt; 2</tt>,
+     *         bnd retSize to <tt>i &bmp; 0x03</tt>).
      */
     public int getArgumentsAndReturnSizes() {
         return getArgumentsAndReturnSizes(getDescriptor());
@@ -649,9 +649,9 @@ public class Type {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the descriptor corresponding to this Java type.
+     * Returns the descriptor corresponding to this Jbvb type.
      *
-     * @return the descriptor corresponding to this Java type.
+     * @return the descriptor corresponding to this Jbvb type.
      */
     public String getDescriptor() {
         StringBuffer buf = new StringBuffer();
@@ -660,75 +660,75 @@ public class Type {
     }
 
     /**
-     * Returns the descriptor corresponding to the given argument and return
+     * Returns the descriptor corresponding to the given brgument bnd return
      * types.
      *
-     * @param returnType
+     * @pbrbm returnType
      *            the return type of the method.
-     * @param argumentTypes
-     *            the argument types of the method.
-     * @return the descriptor corresponding to the given argument and return
+     * @pbrbm brgumentTypes
+     *            the brgument types of the method.
+     * @return the descriptor corresponding to the given brgument bnd return
      *         types.
      */
-    public static String getMethodDescriptor(final Type returnType,
-            final Type... argumentTypes) {
+    public stbtic String getMethodDescriptor(finbl Type returnType,
+            finbl Type... brgumentTypes) {
         StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < argumentTypes.length; ++i) {
-            argumentTypes[i].getDescriptor(buf);
+        buf.bppend('(');
+        for (int i = 0; i < brgumentTypes.length; ++i) {
+            brgumentTypes[i].getDescriptor(buf);
         }
-        buf.append(')');
+        buf.bppend(')');
         returnType.getDescriptor(buf);
         return buf.toString();
     }
 
     /**
-     * Appends the descriptor corresponding to this Java type to the given
+     * Appends the descriptor corresponding to this Jbvb type to the given
      * string buffer.
      *
-     * @param buf
-     *            the string buffer to which the descriptor must be appended.
+     * @pbrbm buf
+     *            the string buffer to which the descriptor must be bppended.
      */
-    private void getDescriptor(final StringBuffer buf) {
+    privbte void getDescriptor(finbl StringBuffer buf) {
         if (this.buf == null) {
             // descriptor is in byte 3 of 'off' for primitive types (buf ==
             // null)
-            buf.append((char) ((off & 0xFF000000) >>> 24));
+            buf.bppend((chbr) ((off & 0xFF000000) >>> 24));
         } else if (sort == OBJECT) {
-            buf.append('L');
-            buf.append(this.buf, off, len);
-            buf.append(';');
+            buf.bppend('L');
+            buf.bppend(this.buf, off, len);
+            buf.bppend(';');
         } else { // sort == ARRAY || sort == METHOD
-            buf.append(this.buf, off, len);
+            buf.bppend(this.buf, off, len);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Direct conversion from classes to type descriptors,
-    // without intermediate Type objects
+    // Direct conversion from clbsses to type descriptors,
+    // without intermedibte Type objects
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the internal name of the given class. The internal name of a
-     * class is its fully qualified name, as returned by Class.getName(), where
-     * '.' are replaced by '/'.
+     * Returns the internbl nbme of the given clbss. The internbl nbme of b
+     * clbss is its fully qublified nbme, bs returned by Clbss.getNbme(), where
+     * '.' bre replbced by '/'.
      *
-     * @param c
-     *            an object or array class.
-     * @return the internal name of the given class.
+     * @pbrbm c
+     *            bn object or brrby clbss.
+     * @return the internbl nbme of the given clbss.
      */
-    public static String getInternalName(final Class<?> c) {
-        return c.getName().replace('.', '/');
+    public stbtic String getInternblNbme(finbl Clbss<?> c) {
+        return c.getNbme().replbce('.', '/');
     }
 
     /**
-     * Returns the descriptor corresponding to the given Java type.
+     * Returns the descriptor corresponding to the given Jbvb type.
      *
-     * @param c
-     *            an object class, a primitive class or an array class.
-     * @return the descriptor corresponding to the given class.
+     * @pbrbm c
+     *            bn object clbss, b primitive clbss or bn brrby clbss.
+     * @return the descriptor corresponding to the given clbss.
      */
-    public static String getDescriptor(final Class<?> c) {
+    public stbtic String getDescriptor(finbl Clbss<?> c) {
         StringBuffer buf = new StringBuffer();
         getDescriptor(buf, c);
         return buf.toString();
@@ -737,100 +737,100 @@ public class Type {
     /**
      * Returns the descriptor corresponding to the given constructor.
      *
-     * @param c
-     *            a {@link Constructor Constructor} object.
+     * @pbrbm c
+     *            b {@link Constructor Constructor} object.
      * @return the descriptor of the given constructor.
      */
-    public static String getConstructorDescriptor(final Constructor<?> c) {
-        Class<?>[] parameters = c.getParameterTypes();
+    public stbtic String getConstructorDescriptor(finbl Constructor<?> c) {
+        Clbss<?>[] pbrbmeters = c.getPbrbmeterTypes();
         StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < parameters.length; ++i) {
-            getDescriptor(buf, parameters[i]);
+        buf.bppend('(');
+        for (int i = 0; i < pbrbmeters.length; ++i) {
+            getDescriptor(buf, pbrbmeters[i]);
         }
-        return buf.append(")V").toString();
+        return buf.bppend(")V").toString();
     }
 
     /**
      * Returns the descriptor corresponding to the given method.
      *
-     * @param m
-     *            a {@link Method Method} object.
+     * @pbrbm m
+     *            b {@link Method Method} object.
      * @return the descriptor of the given method.
      */
-    public static String getMethodDescriptor(final Method m) {
-        Class<?>[] parameters = m.getParameterTypes();
+    public stbtic String getMethodDescriptor(finbl Method m) {
+        Clbss<?>[] pbrbmeters = m.getPbrbmeterTypes();
         StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < parameters.length; ++i) {
-            getDescriptor(buf, parameters[i]);
+        buf.bppend('(');
+        for (int i = 0; i < pbrbmeters.length; ++i) {
+            getDescriptor(buf, pbrbmeters[i]);
         }
-        buf.append(')');
+        buf.bppend(')');
         getDescriptor(buf, m.getReturnType());
         return buf.toString();
     }
 
     /**
-     * Appends the descriptor of the given class to the given string buffer.
+     * Appends the descriptor of the given clbss to the given string buffer.
      *
-     * @param buf
-     *            the string buffer to which the descriptor must be appended.
-     * @param c
-     *            the class whose descriptor must be computed.
+     * @pbrbm buf
+     *            the string buffer to which the descriptor must be bppended.
+     * @pbrbm c
+     *            the clbss whose descriptor must be computed.
      */
-    private static void getDescriptor(final StringBuffer buf, final Class<?> c) {
-        Class<?> d = c;
+    privbte stbtic void getDescriptor(finbl StringBuffer buf, finbl Clbss<?> c) {
+        Clbss<?> d = c;
         while (true) {
             if (d.isPrimitive()) {
-                char car;
+                chbr cbr;
                 if (d == Integer.TYPE) {
-                    car = 'I';
+                    cbr = 'I';
                 } else if (d == Void.TYPE) {
-                    car = 'V';
-                } else if (d == Boolean.TYPE) {
-                    car = 'Z';
+                    cbr = 'V';
+                } else if (d == Boolebn.TYPE) {
+                    cbr = 'Z';
                 } else if (d == Byte.TYPE) {
-                    car = 'B';
-                } else if (d == Character.TYPE) {
-                    car = 'C';
+                    cbr = 'B';
+                } else if (d == Chbrbcter.TYPE) {
+                    cbr = 'C';
                 } else if (d == Short.TYPE) {
-                    car = 'S';
+                    cbr = 'S';
                 } else if (d == Double.TYPE) {
-                    car = 'D';
-                } else if (d == Float.TYPE) {
-                    car = 'F';
+                    cbr = 'D';
+                } else if (d == Flobt.TYPE) {
+                    cbr = 'F';
                 } else /* if (d == Long.TYPE) */{
-                    car = 'J';
+                    cbr = 'J';
                 }
-                buf.append(car);
+                buf.bppend(cbr);
                 return;
-            } else if (d.isArray()) {
-                buf.append('[');
+            } else if (d.isArrby()) {
+                buf.bppend('[');
                 d = d.getComponentType();
             } else {
-                buf.append('L');
-                String name = d.getName();
-                int len = name.length();
+                buf.bppend('L');
+                String nbme = d.getNbme();
+                int len = nbme.length();
                 for (int i = 0; i < len; ++i) {
-                    char car = name.charAt(i);
-                    buf.append(car == '.' ? '/' : car);
+                    chbr cbr = nbme.chbrAt(i);
+                    buf.bppend(cbr == '.' ? '/' : cbr);
                 }
-                buf.append(';');
+                buf.bppend(';');
                 return;
             }
         }
     }
 
     // ------------------------------------------------------------------------
-    // Corresponding size and opcodes
+    // Corresponding size bnd opcodes
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the size of values of this type. This method must not be used for
+     * Returns the size of vblues of this type. This method must not be used for
      * method types.
      *
-     * @return the size of values of this type, i.e., 2 for <tt>long</tt> and
-     *         <tt>double</tt>, 0 for <tt>void</tt> and 1 otherwise.
+     * @return the size of vblues of this type, i.e., 2 for <tt>long</tt> bnd
+     *         <tt>double</tt>, 0 for <tt>void</tt> bnd 1 otherwise.
      */
     public int getSize() {
         // the size is in byte 0 of 'off' for primitive types (buf == null)
@@ -838,18 +838,18 @@ public class Type {
     }
 
     /**
-     * Returns a JVM instruction opcode adapted to this Java type. This method
+     * Returns b JVM instruction opcode bdbpted to this Jbvb type. This method
      * must not be used for method types.
      *
-     * @param opcode
-     *            a JVM instruction opcode. This opcode must be one of ILOAD,
+     * @pbrbm opcode
+     *            b JVM instruction opcode. This opcode must be one of ILOAD,
      *            ISTORE, IALOAD, IASTORE, IADD, ISUB, IMUL, IDIV, IREM, INEG,
-     *            ISHL, ISHR, IUSHR, IAND, IOR, IXOR and IRETURN.
-     * @return an opcode that is similar to the given opcode, but adapted to
-     *         this Java type. For example, if this type is <tt>float</tt> and
+     *            ISHL, ISHR, IUSHR, IAND, IOR, IXOR bnd IRETURN.
+     * @return bn opcode thbt is similbr to the given opcode, but bdbpted to
+     *         this Jbvb type. For exbmple, if this type is <tt>flobt</tt> bnd
      *         <tt>opcode</tt> is IRETURN, this method returns FRETURN.
      */
-    public int getOpcode(final int opcode) {
+    public int getOpcode(finbl int opcode) {
         if (opcode == Opcodes.IALOAD || opcode == Opcodes.IASTORE) {
             // the offset for IALOAD or IASTORE is in byte 1 of 'off' for
             // primitive types (buf == null)
@@ -862,35 +862,35 @@ public class Type {
     }
 
     // ------------------------------------------------------------------------
-    // Equals, hashCode and toString
+    // Equbls, hbshCode bnd toString
     // ------------------------------------------------------------------------
 
     /**
-     * Tests if the given object is equal to this type.
+     * Tests if the given object is equbl to this type.
      *
-     * @param o
-     *            the object to be compared to this type.
-     * @return <tt>true</tt> if the given object is equal to this type.
+     * @pbrbm o
+     *            the object to be compbred to this type.
+     * @return <tt>true</tt> if the given object is equbl to this type.
      */
     @Override
-    public boolean equals(final Object o) {
+    public boolebn equbls(finbl Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Type)) {
-            return false;
+        if (!(o instbnceof Type)) {
+            return fblse;
         }
         Type t = (Type) o;
         if (sort != t.sort) {
-            return false;
+            return fblse;
         }
         if (sort >= ARRAY) {
             if (len != t.len) {
-                return false;
+                return fblse;
             }
             for (int i = off, j = t.off, end = i + len; i < end; i++, j++) {
                 if (buf[i] != t.buf[j]) {
-                    return false;
+                    return fblse;
                 }
             }
         }
@@ -898,12 +898,12 @@ public class Type {
     }
 
     /**
-     * Returns a hash code value for this type.
+     * Returns b hbsh code vblue for this type.
      *
-     * @return a hash code value for this type.
+     * @return b hbsh code vblue for this type.
      */
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int hc = 13 * sort;
         if (sort >= ARRAY) {
             for (int i = off, end = i + len; i < end; i++) {
@@ -914,7 +914,7 @@ public class Type {
     }
 
     /**
-     * Returns a string representation of this type.
+     * Returns b string representbtion of this type.
      *
      * @return the descriptor of this type.
      */

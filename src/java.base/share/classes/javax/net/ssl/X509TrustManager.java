@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.cert.*;
+import jbvb.security.cert.*;
 
 /**
- * Instance of this interface manage which X509 certificates
- * may be used to authenticate the remote side of a secure
- * socket. Decisions may be based on trusted certificate
- * authorities, certificate revocation lists, online
- * status checking or other means.
+ * Instbnce of this interfbce mbnbge which X509 certificbtes
+ * mby be used to buthenticbte the remote side of b secure
+ * socket. Decisions mby be bbsed on trusted certificbte
+ * buthorities, certificbte revocbtion lists, online
+ * stbtus checking or other mebns.
  *
  * @since 1.4
  */
-public interface X509TrustManager extends TrustManager {
+public interfbce X509TrustMbnbger extends TrustMbnbger {
     /**
-     * Given the partial or complete certificate chain provided by the
-     * peer, build a certificate path to a trusted root and return if
-     * it can be validated and is trusted for client SSL
-     * authentication based on the authentication type.
+     * Given the pbrtibl or complete certificbte chbin provided by the
+     * peer, build b certificbte pbth to b trusted root bnd return if
+     * it cbn be vblidbted bnd is trusted for client SSL
+     * buthenticbtion bbsed on the buthenticbtion type.
      * <p>
-     * The authentication type is determined by the actual certificate
-     * used. For instance, if RSAPublicKey is used, the authType
-     * should be "RSA". Checking is case-sensitive.
+     * The buthenticbtion type is determined by the bctubl certificbte
+     * used. For instbnce, if RSAPublicKey is used, the buthType
+     * should be "RSA". Checking is cbse-sensitive.
      *
-     * @param chain the peer certificate chain
-     * @param authType the authentication type based on the client certificate
-     * @throws IllegalArgumentException if null or zero-length chain
-     *         is passed in for the chain parameter or if null or zero-length
-     *         string is passed in for the  authType parameter
-     * @throws CertificateException if the certificate chain is not trusted
-     *         by this TrustManager.
+     * @pbrbm chbin the peer certificbte chbin
+     * @pbrbm buthType the buthenticbtion type bbsed on the client certificbte
+     * @throws IllegblArgumentException if null or zero-length chbin
+     *         is pbssed in for the chbin pbrbmeter or if null or zero-length
+     *         string is pbssed in for the  buthType pbrbmeter
+     * @throws CertificbteException if the certificbte chbin is not trusted
+     *         by this TrustMbnbger.
      */
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException;
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException;
 
     /**
-     * Given the partial or complete certificate chain provided by the
-     * peer, build a certificate path to a trusted root and return if
-     * it can be validated and is trusted for server SSL
-     * authentication based on the authentication type.
+     * Given the pbrtibl or complete certificbte chbin provided by the
+     * peer, build b certificbte pbth to b trusted root bnd return if
+     * it cbn be vblidbted bnd is trusted for server SSL
+     * buthenticbtion bbsed on the buthenticbtion type.
      * <p>
-     * The authentication type is the key exchange algorithm portion
-     * of the cipher suites represented as a String, such as "RSA",
-     * "DHE_DSS". Note: for some exportable cipher suites, the key
-     * exchange algorithm is determined at run time during the
-     * handshake. For instance, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
-     * the authType should be RSA_EXPORT when an ephemeral RSA key is
-     * used for the key exchange, and RSA when the key from the server
-     * certificate is used. Checking is case-sensitive.
+     * The buthenticbtion type is the key exchbnge blgorithm portion
+     * of the cipher suites represented bs b String, such bs "RSA",
+     * "DHE_DSS". Note: for some exportbble cipher suites, the key
+     * exchbnge blgorithm is determined bt run time during the
+     * hbndshbke. For instbnce, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
+     * the buthType should be RSA_EXPORT when bn ephemerbl RSA key is
+     * used for the key exchbnge, bnd RSA when the key from the server
+     * certificbte is used. Checking is cbse-sensitive.
      *
-     * @param chain the peer certificate chain
-     * @param authType the key exchange algorithm used
-     * @throws IllegalArgumentException if null or zero-length chain
-     *         is passed in for the chain parameter or if null or zero-length
-     *         string is passed in for the  authType parameter
-     * @throws CertificateException if the certificate chain is not trusted
-     *         by this TrustManager.
+     * @pbrbm chbin the peer certificbte chbin
+     * @pbrbm buthType the key exchbnge blgorithm used
+     * @throws IllegblArgumentException if null or zero-length chbin
+     *         is pbssed in for the chbin pbrbmeter or if null or zero-length
+     *         string is pbssed in for the  buthType pbrbmeter
+     * @throws CertificbteException if the certificbte chbin is not trusted
+     *         by this TrustMbnbger.
      */
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException;
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException;
 
     /**
-     * Return an array of certificate authority certificates
-     * which are trusted for authenticating peers.
+     * Return bn brrby of certificbte buthority certificbtes
+     * which bre trusted for buthenticbting peers.
      *
-     * @return a non-null (possibly empty) array of acceptable
-     *          CA issuer certificates.
+     * @return b non-null (possibly empty) brrby of bcceptbble
+     *          CA issuer certificbtes.
      */
-    public X509Certificate[] getAcceptedIssuers();
+    public X509Certificbte[] getAcceptedIssuers();
 }

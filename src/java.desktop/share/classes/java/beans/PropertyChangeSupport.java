@@ -1,460 +1,460 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp.Entry;
 
 /**
- * This is a utility class that can be used by beans that support bound
- * properties.  It manages a list of listeners and dispatches
- * {@link PropertyChangeEvent}s to them.  You can use an instance of this class
- * as a member field of your bean and delegate these types of work to it.
- * The {@link PropertyChangeListener} can be registered for all properties
- * or for a property specified by name.
+ * This is b utility clbss thbt cbn be used by bebns thbt support bound
+ * properties.  It mbnbges b list of listeners bnd dispbtches
+ * {@link PropertyChbngeEvent}s to them.  You cbn use bn instbnce of this clbss
+ * bs b member field of your bebn bnd delegbte these types of work to it.
+ * The {@link PropertyChbngeListener} cbn be registered for bll properties
+ * or for b property specified by nbme.
  * <p>
- * Here is an example of {@code PropertyChangeSupport} usage that follows
- * the rules and recommendations laid out in the JavaBeans&trade; specification:
+ * Here is bn exbmple of {@code PropertyChbngeSupport} usbge thbt follows
+ * the rules bnd recommendbtions lbid out in the JbvbBebns&trbde; specificbtion:
  * <pre>
- * public class MyBean {
- *     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+ * public clbss MyBebn {
+ *     privbte finbl PropertyChbngeSupport pcs = new PropertyChbngeSupport(this);
  *
- *     public void addPropertyChangeListener(PropertyChangeListener listener) {
- *         this.pcs.addPropertyChangeListener(listener);
+ *     public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+ *         this.pcs.bddPropertyChbngeListener(listener);
  *     }
  *
- *     public void removePropertyChangeListener(PropertyChangeListener listener) {
- *         this.pcs.removePropertyChangeListener(listener);
+ *     public void removePropertyChbngeListener(PropertyChbngeListener listener) {
+ *         this.pcs.removePropertyChbngeListener(listener);
  *     }
  *
- *     private String value;
+ *     privbte String vblue;
  *
- *     public String getValue() {
- *         return this.value;
+ *     public String getVblue() {
+ *         return this.vblue;
  *     }
  *
- *     public void setValue(String newValue) {
- *         String oldValue = this.value;
- *         this.value = newValue;
- *         this.pcs.firePropertyChange("value", oldValue, newValue);
+ *     public void setVblue(String newVblue) {
+ *         String oldVblue = this.vblue;
+ *         this.vblue = newVblue;
+ *         this.pcs.firePropertyChbnge("vblue", oldVblue, newVblue);
  *     }
  *
  *     [...]
  * }
  * </pre>
  * <p>
- * A {@code PropertyChangeSupport} instance is thread-safe.
+ * A {@code PropertyChbngeSupport} instbnce is threbd-sbfe.
  * <p>
- * This class is serializable.  When it is serialized it will save
- * (and restore) any listeners that are themselves serializable.  Any
- * non-serializable listeners will be skipped during serialization.
+ * This clbss is seriblizbble.  When it is seriblized it will sbve
+ * (bnd restore) bny listeners thbt bre themselves seriblizbble.  Any
+ * non-seriblizbble listeners will be skipped during seriblizbtion.
  *
- * @see VetoableChangeSupport
+ * @see VetobbleChbngeSupport
  * @since 1.1
  */
-public class PropertyChangeSupport implements Serializable {
-    private PropertyChangeListenerMap map = new PropertyChangeListenerMap();
+public clbss PropertyChbngeSupport implements Seriblizbble {
+    privbte PropertyChbngeListenerMbp mbp = new PropertyChbngeListenerMbp();
 
     /**
-     * Constructs a <code>PropertyChangeSupport</code> object.
+     * Constructs b <code>PropertyChbngeSupport</code> object.
      *
-     * @param sourceBean  The bean to be given as the source for any events.
+     * @pbrbm sourceBebn  The bebn to be given bs the source for bny events.
      */
-    public PropertyChangeSupport(Object sourceBean) {
-        if (sourceBean == null) {
+    public PropertyChbngeSupport(Object sourceBebn) {
+        if (sourceBebn == null) {
             throw new NullPointerException();
         }
-        source = sourceBean;
+        source = sourceBebn;
     }
 
     /**
-     * Add a PropertyChangeListener to the listener list.
-     * The listener is registered for all properties.
-     * The same listener object may be added more than once, and will be called
-     * as many times as it is added.
-     * If <code>listener</code> is null, no exception is thrown and no action
-     * is taken.
+     * Add b PropertyChbngeListener to the listener list.
+     * The listener is registered for bll properties.
+     * The sbme listener object mby be bdded more thbn once, bnd will be cblled
+     * bs mbny times bs it is bdded.
+     * If <code>listener</code> is null, no exception is thrown bnd no bction
+     * is tbken.
      *
-     * @param listener  The PropertyChangeListener to be added
+     * @pbrbm listener  The PropertyChbngeListener to be bdded
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
         if (listener == null) {
             return;
         }
-        if (listener instanceof PropertyChangeListenerProxy) {
-            PropertyChangeListenerProxy proxy =
-                   (PropertyChangeListenerProxy)listener;
-            // Call two argument add method.
-            addPropertyChangeListener(proxy.getPropertyName(),
+        if (listener instbnceof PropertyChbngeListenerProxy) {
+            PropertyChbngeListenerProxy proxy =
+                   (PropertyChbngeListenerProxy)listener;
+            // Cbll two brgument bdd method.
+            bddPropertyChbngeListener(proxy.getPropertyNbme(),
                                       proxy.getListener());
         } else {
-            this.map.add(null, listener);
+            this.mbp.bdd(null, listener);
         }
     }
 
     /**
-     * Remove a PropertyChangeListener from the listener list.
-     * This removes a PropertyChangeListener that was registered
-     * for all properties.
-     * If <code>listener</code> was added more than once to the same event
-     * source, it will be notified one less time after being removed.
-     * If <code>listener</code> is null, or was never added, no exception is
-     * thrown and no action is taken.
+     * Remove b PropertyChbngeListener from the listener list.
+     * This removes b PropertyChbngeListener thbt wbs registered
+     * for bll properties.
+     * If <code>listener</code> wbs bdded more thbn once to the sbme event
+     * source, it will be notified one less time bfter being removed.
+     * If <code>listener</code> is null, or wbs never bdded, no exception is
+     * thrown bnd no bction is tbken.
      *
-     * @param listener  The PropertyChangeListener to be removed
+     * @pbrbm listener  The PropertyChbngeListener to be removed
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
+    public void removePropertyChbngeListener(PropertyChbngeListener listener) {
         if (listener == null) {
             return;
         }
-        if (listener instanceof PropertyChangeListenerProxy) {
-            PropertyChangeListenerProxy proxy =
-                    (PropertyChangeListenerProxy)listener;
-            // Call two argument remove method.
-            removePropertyChangeListener(proxy.getPropertyName(),
+        if (listener instbnceof PropertyChbngeListenerProxy) {
+            PropertyChbngeListenerProxy proxy =
+                    (PropertyChbngeListenerProxy)listener;
+            // Cbll two brgument remove method.
+            removePropertyChbngeListener(proxy.getPropertyNbme(),
                                          proxy.getListener());
         } else {
-            this.map.remove(null, listener);
+            this.mbp.remove(null, listener);
         }
     }
 
     /**
-     * Returns an array of all the listeners that were added to the
-     * PropertyChangeSupport object with addPropertyChangeListener().
+     * Returns bn brrby of bll the listeners thbt were bdded to the
+     * PropertyChbngeSupport object with bddPropertyChbngeListener().
      * <p>
-     * If some listeners have been added with a named property, then
-     * the returned array will be a mixture of PropertyChangeListeners
-     * and <code>PropertyChangeListenerProxy</code>s. If the calling
+     * If some listeners hbve been bdded with b nbmed property, then
+     * the returned brrby will be b mixture of PropertyChbngeListeners
+     * bnd <code>PropertyChbngeListenerProxy</code>s. If the cblling
      * method is interested in distinguishing the listeners then it must
-     * test each element to see if it's a
-     * <code>PropertyChangeListenerProxy</code>, perform the cast, and examine
-     * the parameter.
+     * test ebch element to see if it's b
+     * <code>PropertyChbngeListenerProxy</code>, perform the cbst, bnd exbmine
+     * the pbrbmeter.
      *
      * <pre>{@code
-     * PropertyChangeListener[] listeners = bean.getPropertyChangeListeners();
+     * PropertyChbngeListener[] listeners = bebn.getPropertyChbngeListeners();
      * for (int i = 0; i < listeners.length; i++) {
-     *   if (listeners[i] instanceof PropertyChangeListenerProxy) {
-     *     PropertyChangeListenerProxy proxy =
-     *                    (PropertyChangeListenerProxy)listeners[i];
-     *     if (proxy.getPropertyName().equals("foo")) {
-     *       // proxy is a PropertyChangeListener which was associated
-     *       // with the property named "foo"
+     *   if (listeners[i] instbnceof PropertyChbngeListenerProxy) {
+     *     PropertyChbngeListenerProxy proxy =
+     *                    (PropertyChbngeListenerProxy)listeners[i];
+     *     if (proxy.getPropertyNbme().equbls("foo")) {
+     *       // proxy is b PropertyChbngeListener which wbs bssocibted
+     *       // with the property nbmed "foo"
      *     }
      *   }
      * }
      * }</pre>
      *
-     * @see PropertyChangeListenerProxy
-     * @return all of the <code>PropertyChangeListeners</code> added or an
-     *         empty array if no listeners have been added
+     * @see PropertyChbngeListenerProxy
+     * @return bll of the <code>PropertyChbngeListeners</code> bdded or bn
+     *         empty brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public PropertyChangeListener[] getPropertyChangeListeners() {
-        return this.map.getListeners();
+    public PropertyChbngeListener[] getPropertyChbngeListeners() {
+        return this.mbp.getListeners();
     }
 
     /**
-     * Add a PropertyChangeListener for a specific property.  The listener
-     * will be invoked only when a call on firePropertyChange names that
+     * Add b PropertyChbngeListener for b specific property.  The listener
+     * will be invoked only when b cbll on firePropertyChbnge nbmes thbt
      * specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>propertyName</code> or <code>listener</code> is null, no
-     * exception is thrown and no action is taken.
+     * The sbme listener object mby be bdded more thbn once.  For ebch
+     * property,  the listener will be invoked the number of times it wbs bdded
+     * for thbt property.
+     * If <code>propertyNbme</code> or <code>listener</code> is null, no
+     * exception is thrown bnd no bction is tbken.
      *
-     * @param propertyName  The name of the property to listen on.
-     * @param listener  The PropertyChangeListener to be added
+     * @pbrbm propertyNbme  The nbme of the property to listen on.
+     * @pbrbm listener  The PropertyChbngeListener to be bdded
      * @since 1.2
      */
-    public void addPropertyChangeListener(
-                String propertyName,
-                PropertyChangeListener listener) {
-        if (listener == null || propertyName == null) {
+    public void bddPropertyChbngeListener(
+                String propertyNbme,
+                PropertyChbngeListener listener) {
+        if (listener == null || propertyNbme == null) {
             return;
         }
-        listener = this.map.extract(listener);
+        listener = this.mbp.extrbct(listener);
         if (listener != null) {
-            this.map.add(propertyName, listener);
+            this.mbp.bdd(propertyNbme, listener);
         }
     }
 
     /**
-     * Remove a PropertyChangeListener for a specific property.
-     * If <code>listener</code> was added more than once to the same event
+     * Remove b PropertyChbngeListener for b specific property.
+     * If <code>listener</code> wbs bdded more thbn once to the sbme event
      * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>propertyName</code> is null,  no exception is thrown and no
-     * action is taken.
-     * If <code>listener</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
+     * bfter being removed.
+     * If <code>propertyNbme</code> is null,  no exception is thrown bnd no
+     * bction is tbken.
+     * If <code>listener</code> is null, or wbs never bdded for the specified
+     * property, no exception is thrown bnd no bction is tbken.
      *
-     * @param propertyName  The name of the property that was listened on.
-     * @param listener  The PropertyChangeListener to be removed
+     * @pbrbm propertyNbme  The nbme of the property thbt wbs listened on.
+     * @pbrbm listener  The PropertyChbngeListener to be removed
      * @since 1.2
      */
-    public void removePropertyChangeListener(
-                String propertyName,
-                PropertyChangeListener listener) {
-        if (listener == null || propertyName == null) {
+    public void removePropertyChbngeListener(
+                String propertyNbme,
+                PropertyChbngeListener listener) {
+        if (listener == null || propertyNbme == null) {
             return;
         }
-        listener = this.map.extract(listener);
+        listener = this.mbp.extrbct(listener);
         if (listener != null) {
-            this.map.remove(propertyName, listener);
+            this.mbp.remove(propertyNbme, listener);
         }
     }
 
     /**
-     * Returns an array of all the listeners which have been associated
-     * with the named property.
+     * Returns bn brrby of bll the listeners which hbve been bssocibted
+     * with the nbmed property.
      *
-     * @param propertyName  The name of the property being listened to
-     * @return all of the <code>PropertyChangeListeners</code> associated with
-     *         the named property.  If no such listeners have been added,
-     *         or if <code>propertyName</code> is null, an empty array is
+     * @pbrbm propertyNbme  The nbme of the property being listened to
+     * @return bll of the <code>PropertyChbngeListeners</code> bssocibted with
+     *         the nbmed property.  If no such listeners hbve been bdded,
+     *         or if <code>propertyNbme</code> is null, bn empty brrby is
      *         returned.
      * @since 1.4
      */
-    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-        return this.map.getListeners(propertyName);
+    public PropertyChbngeListener[] getPropertyChbngeListeners(String propertyNbme) {
+        return this.mbp.getListeners(propertyNbme);
     }
 
     /**
-     * Reports a bound property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports b bound property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal and non-null.
+     * No event is fired if old bnd new vblues bre equbl bnd non-null.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #firePropertyChange(PropertyChangeEvent)} method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #firePropertyChbnge(PropertyChbngeEvent)} method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      */
-    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (oldValue == null || newValue == null || !oldValue.equals(newValue)) {
-            firePropertyChange(new PropertyChangeEvent(this.source, propertyName, oldValue, newValue));
+    public void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
+        if (oldVblue == null || newVblue == null || !oldVblue.equbls(newVblue)) {
+            firePropertyChbnge(new PropertyChbngeEvent(this.source, propertyNbme, oldVblue, newVblue));
         }
     }
 
     /**
-     * Reports an integer bound property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports bn integer bound property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal.
+     * No event is fired if old bnd new vblues bre equbl.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #firePropertyChange(String, Object, Object)}  method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #firePropertyChbnge(String, Object, Object)}  method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      * @since 1.2
      */
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Integer.valueOf(oldValue), Integer.valueOf(newValue));
+    public void firePropertyChbnge(String propertyNbme, int oldVblue, int newVblue) {
+        if (oldVblue != newVblue) {
+            firePropertyChbnge(propertyNbme, Integer.vblueOf(oldVblue), Integer.vblueOf(newVblue));
         }
     }
 
     /**
-     * Reports a boolean bound property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports b boolebn bound property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal.
+     * No event is fired if old bnd new vblues bre equbl.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #firePropertyChange(String, Object, Object)}  method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #firePropertyChbnge(String, Object, Object)}  method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      * @since 1.2
      */
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+    public void firePropertyChbnge(String propertyNbme, boolebn oldVblue, boolebn newVblue) {
+        if (oldVblue != newVblue) {
+            firePropertyChbnge(propertyNbme, Boolebn.vblueOf(oldVblue), Boolebn.vblueOf(newVblue));
         }
     }
 
     /**
-     * Fires a property change event to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Fires b property chbnge event to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if the given event's old and new values are equal and non-null.
+     * No event is fired if the given event's old bnd new vblues bre equbl bnd non-null.
      *
-     * @param event  the {@code PropertyChangeEvent} to be fired
+     * @pbrbm event  the {@code PropertyChbngeEvent} to be fired
      * @since 1.2
      */
-    public void firePropertyChange(PropertyChangeEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-        if (oldValue == null || newValue == null || !oldValue.equals(newValue)) {
-            String name = event.getPropertyName();
+    public void firePropertyChbnge(PropertyChbngeEvent event) {
+        Object oldVblue = event.getOldVblue();
+        Object newVblue = event.getNewVblue();
+        if (oldVblue == null || newVblue == null || !oldVblue.equbls(newVblue)) {
+            String nbme = event.getPropertyNbme();
 
-            PropertyChangeListener[] common = this.map.get(null);
-            PropertyChangeListener[] named = (name != null)
-                        ? this.map.get(name)
+            PropertyChbngeListener[] common = this.mbp.get(null);
+            PropertyChbngeListener[] nbmed = (nbme != null)
+                        ? this.mbp.get(nbme)
                         : null;
 
             fire(common, event);
-            fire(named, event);
+            fire(nbmed, event);
         }
     }
 
-    private static void fire(PropertyChangeListener[] listeners, PropertyChangeEvent event) {
+    privbte stbtic void fire(PropertyChbngeListener[] listeners, PropertyChbngeEvent event) {
         if (listeners != null) {
-            for (PropertyChangeListener listener : listeners) {
-                listener.propertyChange(event);
+            for (PropertyChbngeListener listener : listeners) {
+                listener.propertyChbnge(event);
             }
         }
     }
 
     /**
-     * Reports a bound indexed property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports b bound indexed property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal and non-null.
+     * No event is fired if old bnd new vblues bre equbl bnd non-null.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #firePropertyChange(PropertyChangeEvent)} method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #firePropertyChbnge(PropertyChbngeEvent)} method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param index         the index of the property element that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm index         the index of the property element thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      * @since 1.5
      */
-    public void fireIndexedPropertyChange(String propertyName, int index, Object oldValue, Object newValue) {
-        if (oldValue == null || newValue == null || !oldValue.equals(newValue)) {
-            firePropertyChange(new IndexedPropertyChangeEvent(source, propertyName, oldValue, newValue, index));
+    public void fireIndexedPropertyChbnge(String propertyNbme, int index, Object oldVblue, Object newVblue) {
+        if (oldVblue == null || newVblue == null || !oldVblue.equbls(newVblue)) {
+            firePropertyChbnge(new IndexedPropertyChbngeEvent(source, propertyNbme, oldVblue, newVblue, index));
         }
     }
 
     /**
-     * Reports an integer bound indexed property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports bn integer bound indexed property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal.
+     * No event is fired if old bnd new vblues bre equbl.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #fireIndexedPropertyChange(String, int, Object, Object)} method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #fireIndexedPropertyChbnge(String, int, Object, Object)} method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param index         the index of the property element that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm index         the index of the property element thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      * @since 1.5
      */
-    public void fireIndexedPropertyChange(String propertyName, int index, int oldValue, int newValue) {
-        if (oldValue != newValue) {
-            fireIndexedPropertyChange(propertyName, index, Integer.valueOf(oldValue), Integer.valueOf(newValue));
+    public void fireIndexedPropertyChbnge(String propertyNbme, int index, int oldVblue, int newVblue) {
+        if (oldVblue != newVblue) {
+            fireIndexedPropertyChbnge(propertyNbme, index, Integer.vblueOf(oldVblue), Integer.vblueOf(newVblue));
         }
     }
 
     /**
-     * Reports a boolean bound indexed property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Reports b boolebn bound indexed property updbte to listeners
+     * thbt hbve been registered to trbck updbtes of
+     * bll properties or b property with the specified nbme.
      * <p>
-     * No event is fired if old and new values are equal.
+     * No event is fired if old bnd new vblues bre equbl.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #fireIndexedPropertyChange(String, int, Object, Object)} method.
+     * This is merely b convenience wrbpper bround the more generbl
+     * {@link #fireIndexedPropertyChbnge(String, int, Object, Object)} method.
      *
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param index         the index of the property element that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm index         the index of the property element thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      * @since 1.5
      */
-    public void fireIndexedPropertyChange(String propertyName, int index, boolean oldValue, boolean newValue) {
-        if (oldValue != newValue) {
-            fireIndexedPropertyChange(propertyName, index, Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+    public void fireIndexedPropertyChbnge(String propertyNbme, int index, boolebn oldVblue, boolebn newVblue) {
+        if (oldVblue != newVblue) {
+            fireIndexedPropertyChbnge(propertyNbme, index, Boolebn.vblueOf(oldVblue), Boolebn.vblueOf(newVblue));
         }
     }
 
     /**
-     * Check if there are any listeners for a specific property, including
-     * those registered on all properties.  If <code>propertyName</code>
-     * is null, only check for listeners registered on all properties.
+     * Check if there bre bny listeners for b specific property, including
+     * those registered on bll properties.  If <code>propertyNbme</code>
+     * is null, only check for listeners registered on bll properties.
      *
-     * @param propertyName  the property name.
-     * @return true if there are one or more listeners for the given property
+     * @pbrbm propertyNbme  the property nbme.
+     * @return true if there bre one or more listeners for the given property
      * @since 1.2
      */
-    public boolean hasListeners(String propertyName) {
-        return this.map.hasListeners(propertyName);
+    public boolebn hbsListeners(String propertyNbme) {
+        return this.mbp.hbsListeners(propertyNbme);
     }
 
     /**
-     * @serialData Null terminated list of <code>PropertyChangeListeners</code>.
+     * @seriblDbtb Null terminbted list of <code>PropertyChbngeListeners</code>.
      * <p>
-     * At serialization time we skip non-serializable listeners and
-     * only serialize the serializable listeners.
+     * At seriblizbtion time we skip non-seriblizbble listeners bnd
+     * only seriblize the seriblizbble listeners.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Hashtable<String, PropertyChangeSupport> children = null;
-        PropertyChangeListener[] listeners = null;
-        synchronized (this.map) {
-            for (Entry<String, PropertyChangeListener[]> entry : this.map.getEntries()) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Hbshtbble<String, PropertyChbngeSupport> children = null;
+        PropertyChbngeListener[] listeners = null;
+        synchronized (this.mbp) {
+            for (Entry<String, PropertyChbngeListener[]> entry : this.mbp.getEntries()) {
                 String property = entry.getKey();
                 if (property == null) {
-                    listeners = entry.getValue();
+                    listeners = entry.getVblue();
                 } else {
                     if (children == null) {
-                        children = new Hashtable<>();
+                        children = new Hbshtbble<>();
                     }
-                    PropertyChangeSupport pcs = new PropertyChangeSupport(this.source);
-                    pcs.map.set(null, entry.getValue());
+                    PropertyChbngeSupport pcs = new PropertyChbngeSupport(this.source);
+                    pcs.mbp.set(null, entry.getVblue());
                     children.put(property, pcs);
                 }
             }
         }
-        ObjectOutputStream.PutField fields = s.putFields();
+        ObjectOutputStrebm.PutField fields = s.putFields();
         fields.put("children", children);
         fields.put("source", this.source);
-        fields.put("propertyChangeSupportSerializedDataVersion", 2);
+        fields.put("propertyChbngeSupportSeriblizedDbtbVersion", 2);
         s.writeFields();
 
         if (listeners != null) {
-            for (PropertyChangeListener l : listeners) {
-                if (l instanceof Serializable) {
+            for (PropertyChbngeListener l : listeners) {
+                if (l instbnceof Seriblizbble) {
                     s.writeObject(l);
                 }
             }
@@ -462,91 +462,91 @@ public class PropertyChangeSupport implements Serializable {
         s.writeObject(null);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
-        this.map = new PropertyChangeListenerMap();
+    privbte void rebdObject(ObjectInputStrebm s) throws ClbssNotFoundException, IOException {
+        this.mbp = new PropertyChbngeListenerMbp();
 
-        ObjectInputStream.GetField fields = s.readFields();
+        ObjectInputStrebm.GetField fields = s.rebdFields();
 
-        @SuppressWarnings("unchecked")
-        Hashtable<String, PropertyChangeSupport> children = (Hashtable<String, PropertyChangeSupport>) fields.get("children", null);
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, PropertyChbngeSupport> children = (Hbshtbble<String, PropertyChbngeSupport>) fields.get("children", null);
         this.source = fields.get("source", null);
-        fields.get("propertyChangeSupportSerializedDataVersion", 2);
+        fields.get("propertyChbngeSupportSeriblizedDbtbVersion", 2);
 
         Object listenerOrNull;
-        while (null != (listenerOrNull = s.readObject())) {
-            this.map.add(null, (PropertyChangeListener)listenerOrNull);
+        while (null != (listenerOrNull = s.rebdObject())) {
+            this.mbp.bdd(null, (PropertyChbngeListener)listenerOrNull);
         }
         if (children != null) {
-            for (Entry<String, PropertyChangeSupport> entry : children.entrySet()) {
-                for (PropertyChangeListener listener : entry.getValue().getPropertyChangeListeners()) {
-                    this.map.add(entry.getKey(), listener);
+            for (Entry<String, PropertyChbngeSupport> entry : children.entrySet()) {
+                for (PropertyChbngeListener listener : entry.getVblue().getPropertyChbngeListeners()) {
+                    this.mbp.bdd(entry.getKey(), listener);
                 }
             }
         }
     }
 
     /**
-     * The object to be provided as the "source" for any generated events.
+     * The object to be provided bs the "source" for bny generbted events.
      */
-    private Object source;
+    privbte Object source;
 
     /**
-     * @serialField children                                   Hashtable
-     * @serialField source                                     Object
-     * @serialField propertyChangeSupportSerializedDataVersion int
+     * @seriblField children                                   Hbshtbble
+     * @seriblField source                                     Object
+     * @seriblField propertyChbngeSupportSeriblizedDbtbVersion int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-            new ObjectStreamField("children", Hashtable.class),
-            new ObjectStreamField("source", Object.class),
-            new ObjectStreamField("propertyChangeSupportSerializedDataVersion", Integer.TYPE)
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+            new ObjectStrebmField("children", Hbshtbble.clbss),
+            new ObjectStrebmField("source", Object.clbss),
+            new ObjectStrebmField("propertyChbngeSupportSeriblizedDbtbVersion", Integer.TYPE)
     };
 
     /**
-     * Serialization version ID, so we're compatible with JDK 1.1
+     * Seriblizbtion version ID, so we're compbtible with JDK 1.1
      */
-    static final long serialVersionUID = 6401253773779951803L;
+    stbtic finbl long seriblVersionUID = 6401253773779951803L;
 
     /**
-     * This is a {@link ChangeListenerMap ChangeListenerMap} implementation
-     * that works with {@link PropertyChangeListener PropertyChangeListener} objects.
+     * This is b {@link ChbngeListenerMbp ChbngeListenerMbp} implementbtion
+     * thbt works with {@link PropertyChbngeListener PropertyChbngeListener} objects.
      */
-    private static final class PropertyChangeListenerMap extends ChangeListenerMap<PropertyChangeListener> {
-        private static final PropertyChangeListener[] EMPTY = {};
+    privbte stbtic finbl clbss PropertyChbngeListenerMbp extends ChbngeListenerMbp<PropertyChbngeListener> {
+        privbte stbtic finbl PropertyChbngeListener[] EMPTY = {};
 
         /**
-         * Creates an array of {@link PropertyChangeListener PropertyChangeListener} objects.
-         * This method uses the same instance of the empty array
-         * when {@code length} equals {@code 0}.
+         * Crebtes bn brrby of {@link PropertyChbngeListener PropertyChbngeListener} objects.
+         * This method uses the sbme instbnce of the empty brrby
+         * when {@code length} equbls {@code 0}.
          *
-         * @param length  the array length
-         * @return        an array with specified length
+         * @pbrbm length  the brrby length
+         * @return        bn brrby with specified length
          */
         @Override
-        protected PropertyChangeListener[] newArray(int length) {
+        protected PropertyChbngeListener[] newArrby(int length) {
             return (0 < length)
-                    ? new PropertyChangeListener[length]
+                    ? new PropertyChbngeListener[length]
                     : EMPTY;
         }
 
         /**
-         * Creates a {@link PropertyChangeListenerProxy PropertyChangeListenerProxy}
+         * Crebtes b {@link PropertyChbngeListenerProxy PropertyChbngeListenerProxy}
          * object for the specified property.
          *
-         * @param name      the name of the property to listen on
-         * @param listener  the listener to process events
-         * @return          a {@code PropertyChangeListenerProxy} object
+         * @pbrbm nbme      the nbme of the property to listen on
+         * @pbrbm listener  the listener to process events
+         * @return          b {@code PropertyChbngeListenerProxy} object
          */
         @Override
-        protected PropertyChangeListener newProxy(String name, PropertyChangeListener listener) {
-            return new PropertyChangeListenerProxy(name, listener);
+        protected PropertyChbngeListener newProxy(String nbme, PropertyChbngeListener listener) {
+            return new PropertyChbngeListenerProxy(nbme, listener);
         }
 
         /**
          * {@inheritDoc}
          */
-        public final PropertyChangeListener extract(PropertyChangeListener listener) {
-            while (listener instanceof PropertyChangeListenerProxy) {
-                listener = ((PropertyChangeListenerProxy) listener).getListener();
+        public finbl PropertyChbngeListener extrbct(PropertyChbngeListener listener) {
+            while (listener instbnceof PropertyChbngeListenerProxy) {
+                listener = ((PropertyChbngeListenerProxy) listener).getListener();
             }
             return listener;
         }

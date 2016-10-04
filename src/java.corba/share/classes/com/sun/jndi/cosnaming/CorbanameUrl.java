@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.Name;
-import javax.naming.NamingException;
+import jbvbx.nbming.Nbme;
+import jbvbx.nbming.NbmingException;
 
-import java.net.MalformedURLException;
+import jbvb.net.MblformedURLException;
 import com.sun.jndi.toolkit.url.UrlUtil;
 
 /**
- * Extract components of a "corbaname" URL.
+ * Extrbct components of b "corbbnbme" URL.
  *
- * The format of an corbaname URL is defined in INS 99-12-03 as follows.
+ * The formbt of bn corbbnbme URL is defined in INS 99-12-03 bs follows.
  *<p>
- * corbaname url = "corbaname:" <corbaloc_obj> ["#" <string_name>]
- * corbaloc_obj  = <obj_addr_list> ["/" <key_string>]
- * obj_addr_list = as defined in a corbaloc URL
- * key_string    = as defined in a corbaloc URL
- * string_name   = stringified COS name | empty_string
+ * corbbnbme url = "corbbnbme:" <corbbloc_obj> ["#" <string_nbme>]
+ * corbbloc_obj  = <obj_bddr_list> ["/" <key_string>]
+ * obj_bddr_list = bs defined in b corbbloc URL
+ * key_string    = bs defined in b corbbloc URL
+ * string_nbme   = stringified COS nbme | empty_string
  *<p>
- * Characters in <string_name> are escaped as follows.
- * US-ASCII alphanumeric characters are not escaped. Any characters outside
- * of this range are escaped except for the following:
+ * Chbrbcters in <string_nbme> bre escbped bs follows.
+ * US-ASCII blphbnumeric chbrbcters bre not escbped. Any chbrbcters outside
+ * of this rbnge bre escbped except for the following:
  *        ; / : ? @ & = + $ , - _ . ! ~ * ; ( )
- * Escaped characters is escaped by using a % followed by its 2 hexadecimal
+ * Escbped chbrbcters is escbped by using b % followed by its 2 hexbdecimbl
  * numbers representing the octet.
  *<p>
- * The corbaname URL is parsed into two parts: a corbaloc URL and a COS name.
- * The corbaloc URL is constructed by concatenation "corbaloc:" with
- * <corbaloc_obj>.
- * The COS name is <string_name> with the escaped characters resolved.
+ * The corbbnbme URL is pbrsed into two pbrts: b corbbloc URL bnd b COS nbme.
+ * The corbbloc URL is constructed by concbtenbtion "corbbloc:" with
+ * <corbbloc_obj>.
+ * The COS nbme is <string_nbme> with the escbped chbrbcters resolved.
  *<p>
- * A corbaname URL is resolved by:
+ * A corbbnbme URL is resolved by:
  *<ol>
- *<li>Construct a corbaloc URL by concatenating "corbaloc:" and <corbaloc_obj>.
- *<li>Resolve the corbaloc URL to a NamingContext by using
- *     nctx = ORB.string_to_object(corbalocUrl);
- *<li>Resolve <string_name> in the NamingContext.
+ *<li>Construct b corbbloc URL by concbtenbting "corbbloc:" bnd <corbbloc_obj>.
+ *<li>Resolve the corbbloc URL to b NbmingContext by using
+ *     nctx = ORB.string_to_object(corbblocUrl);
+ *<li>Resolve <string_nbme> in the NbmingContext.
  *</ol>
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
 
-public final class CorbanameUrl {
-    private String stringName;
-    private String location;
+public finbl clbss CorbbnbmeUrl {
+    privbte String stringNbme;
+    privbte String locbtion;
 
     /**
-     * Returns a possibly empty but non-null string that is the "string_name"
+     * Returns b possibly empty but non-null string thbt is the "string_nbme"
      * portion of the URL.
      */
-    public String getStringName() {
-        return stringName;
+    public String getStringNbme() {
+        return stringNbme;
     }
 
-    public Name getCosName() throws NamingException {
-        return CNCtx.parser.parse(stringName);
+    public Nbme getCosNbme() throws NbmingException {
+        return CNCtx.pbrser.pbrse(stringNbme);
     }
 
-    public String getLocation() {
-        return "corbaloc:" + location;
+    public String getLocbtion() {
+        return "corbbloc:" + locbtion;
     }
 
-    public CorbanameUrl(String url) throws MalformedURLException {
+    public CorbbnbmeUrl(String url) throws MblformedURLException {
 
-        if (!url.startsWith("corbaname:")) {
-            throw new MalformedURLException("Invalid corbaname URL: " + url);
+        if (!url.stbrtsWith("corbbnbme:")) {
+            throw new MblformedURLException("Invblid corbbnbme URL: " + url);
         }
 
-        int addrStart = 10;  // "corbaname:"
+        int bddrStbrt = 10;  // "corbbnbme:"
 
-        int addrEnd = url.indexOf('#', addrStart);
-        if (addrEnd < 0) {
-            addrEnd = url.length();
-            stringName = "";
+        int bddrEnd = url.indexOf('#', bddrStbrt);
+        if (bddrEnd < 0) {
+            bddrEnd = url.length();
+            stringNbme = "";
         } else {
-            stringName = UrlUtil.decode(url.substring(addrEnd+1));
+            stringNbme = UrlUtil.decode(url.substring(bddrEnd+1));
         }
-        location = url.substring(addrStart, addrEnd);
+        locbtion = url.substring(bddrStbrt, bddrEnd);
 
-        int keyStart = location.indexOf('/');
-        if (keyStart >= 0) {
-            // Has key string
-            if (keyStart == (location.length() -1)) {
-                location += "NameService";
+        int keyStbrt = locbtion.indexOf('/');
+        if (keyStbrt >= 0) {
+            // Hbs key string
+            if (keyStbrt == (locbtion.length() -1)) {
+                locbtion += "NbmeService";
             }
         } else {
-            location += "/NameService";
+            locbtion += "/NbmeService";
         }
     }
 /*
     // for testing only
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            CorbanameUrl url = new CorbanameUrl(args[0]);
+            CorbbnbmeUrl url = new CorbbnbmeUrl(brgs[0]);
 
-            System.out.println("location: " + url.getLocation());
-            System.out.println("string name: " + url.getStringName());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.out.println("locbtion: " + url.getLocbtion());
+            System.out.println("string nbme: " + url.getStringNbme());
+        } cbtch (MblformedURLException e) {
+            e.printStbckTrbce();
         }
     }
 */

@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import javax.crypto.*;
-import javax.crypto.spec.RC2ParameterSpec;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.RC2PbrbmeterSpec;
 
 /**
- * JCE CipherSpi for the RC2(tm) algorithm as described in RFC 2268.
- * The real code is in CipherCore and RC2Crypt.
+ * JCE CipherSpi for the RC2(tm) blgorithm bs described in RFC 2268.
+ * The rebl code is in CipherCore bnd RC2Crypt.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class RC2Cipher extends CipherSpi {
+public finbl clbss RC2Cipher extends CipherSpi {
 
-    // internal CipherCore & RC2Crypt objects which do the real work.
-    private final CipherCore core;
-    private final RC2Crypt embeddedCipher;
+    // internbl CipherCore & RC2Crypt objects which do the rebl work.
+    privbte finbl CipherCore core;
+    privbte finbl RC2Crypt embeddedCipher;
 
     public RC2Cipher() {
         embeddedCipher = new RC2Crypt();
@@ -54,9 +54,9 @@ public final class RC2Cipher extends CipherSpi {
         core.setMode(mode);
     }
 
-    protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-        core.setPadding(paddingScheme);
+    protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+        core.setPbdding(pbddingScheme);
     }
 
     protected int engineGetBlockSize() {
@@ -71,81 +71,81 @@ public final class RC2Cipher extends CipherSpi {
         return core.getIV();
     }
 
-    protected AlgorithmParameters engineGetParameters() {
-        return core.getParameters("RC2");
+    protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+        return core.getPbrbmeters("RC2");
     }
 
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
+    protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
         embeddedCipher.initEffectiveKeyBits(0);
-        core.init(opmode, key, random);
+        core.init(opmode, key, rbndom);
     }
 
     protected void engineInit(int opmode, Key key,
-            AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null && params instanceof RC2ParameterSpec) {
+            AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null && pbrbms instbnceof RC2PbrbmeterSpec) {
             embeddedCipher.initEffectiveKeyBits
-                (((RC2ParameterSpec)params).getEffectiveKeyBits());
+                (((RC2PbrbmeterSpec)pbrbms).getEffectiveKeyBits());
         } else {
             embeddedCipher.initEffectiveKeyBits(0);
         }
-        core.init(opmode, key, params, random);
+        core.init(opmode, key, pbrbms, rbndom);
     }
 
     protected void engineInit(int opmode, Key key,
-            AlgorithmParameters params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null && params.getAlgorithm().equals("RC2")) {
+            AlgorithmPbrbmeters pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null && pbrbms.getAlgorithm().equbls("RC2")) {
             try {
-                RC2ParameterSpec rc2Params =
-                        params.getParameterSpec(RC2ParameterSpec.class);
-                engineInit(opmode, key, rc2Params, random);
-            } catch (InvalidParameterSpecException ipse) {
-                throw new InvalidAlgorithmParameterException
-                            ("Wrong parameter type: RC2 expected");
+                RC2PbrbmeterSpec rc2Pbrbms =
+                        pbrbms.getPbrbmeterSpec(RC2PbrbmeterSpec.clbss);
+                engineInit(opmode, key, rc2Pbrbms, rbndom);
+            } cbtch (InvblidPbrbmeterSpecException ipse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                            ("Wrong pbrbmeter type: RC2 expected");
             }
         } else {
             embeddedCipher.initEffectiveKeyBits(0);
-            core.init(opmode, key, params, random);
+            core.init(opmode, key, pbrbms, rbndom);
         }
     }
 
-    protected byte[] engineUpdate(byte[] in, int inOfs, int inLen) {
-        return core.update(in, inOfs, inLen);
+    protected byte[] engineUpdbte(byte[] in, int inOfs, int inLen) {
+        return core.updbte(in, inOfs, inLen);
     }
 
-    protected int engineUpdate(byte[] in, int inOfs, int inLen,
+    protected int engineUpdbte(byte[] in, int inOfs, int inLen,
             byte[] out, int outOfs) throws ShortBufferException {
-        return core.update(in, inOfs, inLen, out, outOfs);
+        return core.updbte(in, inOfs, inLen, out, outOfs);
     }
 
-    protected byte[] engineDoFinal(byte[] in, int inOfs, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-        return core.doFinal(in, inOfs, inLen);
+    protected byte[] engineDoFinbl(byte[] in, int inOfs, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+        return core.doFinbl(in, inOfs, inLen);
     }
 
-    protected int engineDoFinal(byte[] in, int inOfs, int inLen,
-            byte[] out, int outOfs) throws IllegalBlockSizeException,
-            ShortBufferException, BadPaddingException {
-        return core.doFinal(in, inOfs, inLen, out, outOfs);
+    protected int engineDoFinbl(byte[] in, int inOfs, int inLen,
+            byte[] out, int outOfs) throws IllegblBlockSizeException,
+            ShortBufferException, BbdPbddingException {
+        return core.doFinbl(in, inOfs, inLen, out, outOfs);
     }
 
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
+    protected int engineGetKeySize(Key key) throws InvblidKeyException {
         byte[] keyBytes = CipherCore.getKeyBytes(key);
         RC2Crypt.checkKey(key.getAlgorithm(), keyBytes.length);
         return keyBytes.length << 3;
     }
 
-    protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-        return core.wrap(key);
+    protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+        return core.wrbp(key);
     }
 
-    protected Key engineUnwrap(byte[] wrappedKey, String wrappedKeyAlgorithm,
-            int wrappedKeyType) throws InvalidKeyException,
+    protected Key engineUnwrbp(byte[] wrbppedKey, String wrbppedKeyAlgorithm,
+            int wrbppedKeyType) throws InvblidKeyException,
             NoSuchAlgorithmException {
-        return core.unwrap(wrappedKey, wrappedKeyAlgorithm, wrappedKeyType);
+        return core.unwrbp(wrbppedKey, wrbppedKeyAlgorithm, wrbppedKeyType);
     }
 
 }

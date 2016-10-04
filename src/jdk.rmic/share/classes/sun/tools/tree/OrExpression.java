@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class OrExpression extends BinaryLogicalExpression {
+clbss OrExpression extends BinbryLogicblExpression {
     /**
      * constructor
      */
@@ -45,55 +45,55 @@ class OrExpression extends BinaryLogicalExpression {
     }
 
     /*
-     * Check an "or" expression.
+     * Check bn "or" expression.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if
-     *        either the left and right hand side isn true
-     *    cvars.vsFalse indicates variables with a known value if
-     *        both the left or right hand side are false
+     * cvbrs is modified so thbt
+     *    cvbr.vsTrue indicbtes vbribbles with b known vblue if
+     *        either the left bnd right hbnd side isn true
+     *    cvbrs.vsFblse indicbtes vbribbles with b known vblue if
+     *        both the left or right hbnd side bre fblse
      */
     public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars) {
-        // Find out when the left side is true/false
-        left.checkCondition(env, ctx, vset, exp, cvars);
-        left = convert(env, ctx, Type.tBoolean, left);
-        Vset vsTrue = cvars.vsTrue.copy();
-        Vset vsFalse = cvars.vsFalse.copy();
+                               Hbshtbble<Object, Object> exp, ConditionVbrs cvbrs) {
+        // Find out when the left side is true/fblse
+        left.checkCondition(env, ctx, vset, exp, cvbrs);
+        left = convert(env, ctx, Type.tBoolebn, left);
+        Vset vsTrue = cvbrs.vsTrue.copy();
+        Vset vsFblse = cvbrs.vsFblse.copy();
 
-        // Only look at the right side if the left side is false
-        right.checkCondition(env, ctx, vsFalse, exp, cvars);
-        right = convert(env, ctx, Type.tBoolean, right);
+        // Only look bt the right side if the left side is fblse
+        right.checkCondition(env, ctx, vsFblse, exp, cvbrs);
+        right = convert(env, ctx, Type.tBoolebn, right);
 
-        // cvars.vsFalse actually reports that both returned false
-        // cvars.vsTrue must be set back to either left side or the right
-        //     side returning false;
-        cvars.vsTrue = cvars.vsTrue.join(vsTrue);
+        // cvbrs.vsFblse bctublly reports thbt both returned fblse
+        // cvbrs.vsTrue must be set bbck to either left side or the right
+        //     side returning fblse;
+        cvbrs.vsTrue = cvbrs.vsTrue.join(vsTrue);
     }
 
     /**
-     * Evaluate
+     * Evblubte
      */
-    Expression eval(boolean a, boolean b) {
-        return new BooleanExpression(where, a || b);
+    Expression evbl(boolebn b, boolebn b) {
+        return new BoolebnExpression(where, b || b);
     }
 
     /**
      * Simplify
      */
     Expression simplify() {
-        if (right.equals(false)) {
+        if (right.equbls(fblse)) {
             return left;
         }
-        if (left.equals(true)) {
+        if (left.equbls(true)) {
             return left;
         }
-        if (left.equals(false)) {
+        if (left.equbls(fblse)) {
             return right;
         }
-        if (right.equals(true)) {
-            // Preserve effects of left argument.
-            return new CommaExpression(where, left, right).simplify();
+        if (right.equbls(true)) {
+            // Preserve effects of left brgument.
+            return new CommbExpression(where, left, right).simplify();
         }
         return this;
     }
@@ -101,15 +101,15 @@ class OrExpression extends BinaryLogicalExpression {
     /**
      * Code
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
+    void codeBrbnch(Environment env, Context ctx, Assembler bsm, Lbbel lbl, boolebn whenTrue) {
         if (whenTrue) {
-            left.codeBranch(env, ctx, asm, lbl, true);
-            right.codeBranch(env, ctx, asm, lbl, true);
+            left.codeBrbnch(env, ctx, bsm, lbl, true);
+            right.codeBrbnch(env, ctx, bsm, lbl, true);
         } else {
-            Label lbl2 = new Label();
-            left.codeBranch(env, ctx, asm, lbl2, true);
-            right.codeBranch(env, ctx, asm, lbl, false);
-            asm.add(lbl2);
+            Lbbel lbl2 = new Lbbel();
+            left.codeBrbnch(env, ctx, bsm, lbl2, true);
+            right.codeBrbnch(env, ctx, bsm, lbl, fblse);
+            bsm.bdd(lbl2);
         }
     }
 }

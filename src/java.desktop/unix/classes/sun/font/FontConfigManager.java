@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import sun.awt.SunHints;
-import sun.awt.SunToolkit;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.SunHints;
+import sun.bwt.SunToolkit;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Small utility class to manage FontConfig.
+ * Smbll utility clbss to mbnbge FontConfig.
  */
-public class FontConfigManager {
+public clbss FontConfigMbnbger {
 
-    static boolean fontConfigFailed = false;
+    stbtic boolebn fontConfigFbiled = fblse;
 
-    /* This is populated by native */
-    private static final FontConfigInfo fcInfo = new FontConfigInfo();
+    /* This is populbted by nbtive */
+    privbte stbtic finbl FontConfigInfo fcInfo = new FontConfigInfo();
 
-    /* Begin support for GTK Look and Feel - query libfontconfig and
-     * return a composite Font to Swing that uses the desktop font(s).
+    /* Begin support for GTK Look bnd Feel - query libfontconfig bnd
+     * return b composite Font to Swing thbt uses the desktop font(s).
      */
 
-    /* These next three classes are just data structures.
+    /* These next three clbsses bre just dbtb structures.
      */
-    public static class FontConfigFont {
-        public String familyName;        // eg Bitstream Vera Sans
+    public stbtic clbss FontConfigFont {
+        public String fbmilyNbme;        // eg Bitstrebm Verb Sbns
         public String styleStr;          // eg Bold
-        public String fullName;          // eg Bitstream Vera Sans Bold
+        public String fullNbme;          // eg Bitstrebm Verb Sbns Bold
         public String fontFile;          // eg /usr/X11/lib/fonts/foo.ttf
     }
 
-    public static class FcCompFont {
-        public String fcName;            // eg sans
-        public String fcFamily;          // eg sans
-        public String jdkName;           // eg sansserif
+    public stbtic clbss FcCompFont {
+        public String fcNbme;            // eg sbns
+        public String fcFbmily;          // eg sbns
+        public String jdkNbme;           // eg sbnsserif
         public int style;                // eg 0=PLAIN
         public FontConfigFont firstFont;
-        public FontConfigFont[] allFonts;
-        //boolean preferBitmaps;    // if embedded bitmaps preferred over AA
-        public CompositeFont compFont;   // null if not yet created/known.
+        public FontConfigFont[] bllFonts;
+        //boolebn preferBitmbps;    // if embedded bitmbps preferred over AA
+        public CompositeFont compFont;   // null if not yet crebted/known.
     }
 
-    public static class FontConfigInfo {
+    public stbtic clbss FontConfigInfo {
         public int fcVersion;
-        public String[] cacheDirs = new String[4];
+        public String[] cbcheDirs = new String[4];
     }
 
-    /* fontconfig recognises slants roman, italic, as well as oblique,
-     * and a slew of weights, where the ones that matter here are
-     * regular and bold.
-     * To fully qualify what we want, we can for example ask for (eg)
-     * Font.PLAIN             : "serif:regular:roman"
-     * Font.BOLD              : "serif:bold:roman"
-     * Font.ITALIC            : "serif:regular:italic"
-     * Font.BOLD|Font.ITALIC  : "serif:bold:italic"
+    /* fontconfig recognises slbnts rombn, itblic, bs well bs oblique,
+     * bnd b slew of weights, where the ones thbt mbtter here bre
+     * regulbr bnd bold.
+     * To fully qublify whbt we wbnt, we cbn for exbmple bsk for (eg)
+     * Font.PLAIN             : "serif:regulbr:rombn"
+     * Font.BOLD              : "serif:bold:rombn"
+     * Font.ITALIC            : "serif:regulbr:itblic"
+     * Font.BOLD|Font.ITALIC  : "serif:bold:itblic"
      */
-    private static String[] fontConfigNames = {
-        "sans:regular:roman",
-        "sans:bold:roman",
-        "sans:regular:italic",
-        "sans:bold:italic",
+    privbte stbtic String[] fontConfigNbmes = {
+        "sbns:regulbr:rombn",
+        "sbns:bold:rombn",
+        "sbns:regulbr:itblic",
+        "sbns:bold:itblic",
 
-        "serif:regular:roman",
-        "serif:bold:roman",
-        "serif:regular:italic",
-        "serif:bold:italic",
+        "serif:regulbr:rombn",
+        "serif:bold:rombn",
+        "serif:regulbr:itblic",
+        "serif:bold:itblic",
 
-        "monospace:regular:roman",
-        "monospace:bold:roman",
-        "monospace:regular:italic",
-        "monospace:bold:italic",
+        "monospbce:regulbr:rombn",
+        "monospbce:bold:rombn",
+        "monospbce:regulbr:itblic",
+        "monospbce:bold:itblic",
     };
 
-    /* This array has the array elements created in Java code and is
-     * passed down to native to be filled in.
+    /* This brrby hbs the brrby elements crebted in Jbvb code bnd is
+     * pbssed down to nbtive to be filled in.
      */
-    private FcCompFont[] fontConfigFonts;
+    privbte FcCompFont[] fontConfigFonts;
 
     /**
-     * Instantiates a new FontConfigManager getting the default instance
-     * of FontManager from the FontManagerFactory.
+     * Instbntibtes b new FontConfigMbnbger getting the defbult instbnce
+     * of FontMbnbger from the FontMbnbgerFbctory.
      */
-    public FontConfigManager() {
+    public FontConfigMbnbger() {
     }
 
-    /* Called from code that needs to know what are the AA settings
-     * that apps using FC would pick up for the default desktop font.
-     * Note apps can change the default desktop font. etc, so this
-     * isn't certain to be right but its going to correct for most cases.
-     * Native return values map to the text aa values in sun.awt.SunHints.
-     * which is used to look up the renderinghint value object.
+    /* Cblled from code thbt needs to know whbt bre the AA settings
+     * thbt bpps using FC would pick up for the defbult desktop font.
+     * Note bpps cbn chbnge the defbult desktop font. etc, so this
+     * isn't certbin to be right but its going to correct for most cbses.
+     * Nbtive return vblues mbp to the text bb vblues in sun.bwt.SunHints.
+     * which is used to look up the renderinghint vblue object.
      */
-    public static Object getFontConfigAAHint() {
-        return getFontConfigAAHint("sans");
+    public stbtic Object getFontConfigAAHint() {
+        return getFontConfigAAHint("sbns");
     }
 
-    /* This is public solely so that for debugging purposes it can be called
-     * with other names, which might (eg) include a size, eg "sans-24"
-     * The return value is a text aa rendering hint value.
-     * Normally we should call the no-args version.
+    /* This is public solely so thbt for debugging purposes it cbn be cblled
+     * with other nbmes, which might (eg) include b size, eg "sbns-24"
+     * The return vblue is b text bb rendering hint vblue.
+     * Normblly we should cbll the no-brgs version.
      */
-    public static Object getFontConfigAAHint(String fcFamily) {
+    public stbtic Object getFontConfigAAHint(String fcFbmily) {
         if (FontUtilities.isWindows) {
             return null;
         } else {
-            int hint = getFontConfigAASettings(getFCLocaleStr(), fcFamily);
+            int hint = getFontConfigAASettings(getFCLocbleStr(), fcFbmily);
             if (hint < 0) {
                 return null;
             } else {
-                return SunHints.Value.get(SunHints.INTKEY_TEXT_ANTIALIASING,
+                return SunHints.Vblue.get(SunHints.INTKEY_TEXT_ANTIALIASING,
                                           hint);
             }
         }
     }
 
 
-    private static String getFCLocaleStr() {
-        Locale l = SunToolkit.getStartupLocale();
-        String localeStr = l.getLanguage();
+    privbte stbtic String getFCLocbleStr() {
+        Locble l = SunToolkit.getStbrtupLocble();
+        String locbleStr = l.getLbngubge();
         String country = l.getCountry();
-        if (!country.equals("")) {
-            localeStr = localeStr + "-" + country;
+        if (!country.equbls("")) {
+            locbleStr = locbleStr + "-" + country;
         }
-        return localeStr;
+        return locbleStr;
     }
 
-    /* This does cause the native libfontconfig to be loaded and unloaded,
-     * but it does not incur the overhead of initialisation of its
-     * data structures, so shouldn't have a measurable impact.
+    /* This does cbuse the nbtive libfontconfig to be lobded bnd unlobded,
+     * but it does not incur the overhebd of initiblisbtion of its
+     * dbtb structures, so shouldn't hbve b mebsurbble impbct.
      */
-    public static native int getFontConfigVersion();
+    public stbtic nbtive int getFontConfigVersion();
 
-    /* This can be made public if it's needed to force a re-read
-     * rather than using the cached values. The re-read would be needed
-     * only if some event signalled that the fontconfig has changed.
-     * In that event this method would need to return directly the array
-     * to be used by the caller in case it subsequently changed.
+    /* This cbn be mbde public if it's needed to force b re-rebd
+     * rbther thbn using the cbched vblues. The re-rebd would be needed
+     * only if some event signblled thbt the fontconfig hbs chbnged.
+     * In thbt event this method would need to return directly the brrby
+     * to be used by the cbller in cbse it subsequently chbnged.
      */
-    public synchronized void initFontConfigFonts(boolean includeFallbacks) {
+    public synchronized void initFontConfigFonts(boolebn includeFbllbbcks) {
 
         if (fontConfigFonts != null) {
-            if (!includeFallbacks || (fontConfigFonts[0].allFonts != null)) {
+            if (!includeFbllbbcks || (fontConfigFonts[0].bllFonts != null)) {
                 return;
             }
         }
 
-        if (FontUtilities.isWindows || fontConfigFailed) {
+        if (FontUtilities.isWindows || fontConfigFbiled) {
             return;
         }
 
         long t0 = 0;
         if (FontUtilities.isLogging()) {
-            t0 = System.nanoTime();
+            t0 = System.nbnoTime();
         }
 
-        FcCompFont[] fontArr = new FcCompFont[fontConfigNames.length];
+        FcCompFont[] fontArr = new FcCompFont[fontConfigNbmes.length];
 
         for (int i = 0; i< fontArr.length; i++) {
             fontArr[i] = new FcCompFont();
-            fontArr[i].fcName = fontConfigNames[i];
-            int colonPos = fontArr[i].fcName.indexOf(':');
-            fontArr[i].fcFamily = fontArr[i].fcName.substring(0, colonPos);
-            fontArr[i].jdkName = FontUtilities.mapFcName(fontArr[i].fcFamily);
-            fontArr[i].style = i % 4; // depends on array order.
+            fontArr[i].fcNbme = fontConfigNbmes[i];
+            int colonPos = fontArr[i].fcNbme.indexOf(':');
+            fontArr[i].fcFbmily = fontArr[i].fcNbme.substring(0, colonPos);
+            fontArr[i].jdkNbme = FontUtilities.mbpFcNbme(fontArr[i].fcFbmily);
+            fontArr[i].style = i % 4; // depends on brrby order.
         }
-        getFontConfig(getFCLocaleStr(), fcInfo, fontArr, includeFallbacks);
-        FontConfigFont anyFont = null;
-        /* If don't find anything (eg no libfontconfig), then just return */
+        getFontConfig(getFCLocbleStr(), fcInfo, fontArr, includeFbllbbcks);
+        FontConfigFont bnyFont = null;
+        /* If don't find bnything (eg no libfontconfig), then just return */
         for (int i = 0; i< fontArr.length; i++) {
             FcCompFont fci = fontArr[i];
             if (fci.firstFont == null) {
                 if (FontUtilities.isLogging()) {
-                    PlatformLogger logger = FontUtilities.getLogger();
+                    PlbtformLogger logger = FontUtilities.getLogger();
                     logger.info("Fontconfig returned no font for " +
-                                fontArr[i].fcName);
+                                fontArr[i].fcNbme);
                 }
-                fontConfigFailed = true;
-            } else if (anyFont == null) {
-                anyFont = fci.firstFont;
+                fontConfigFbiled = true;
+            } else if (bnyFont == null) {
+                bnyFont = fci.firstFont;
             }
         }
 
-        if (anyFont == null) {
+        if (bnyFont == null) {
             if (FontUtilities.isLogging()) {
-                PlatformLogger logger = FontUtilities.getLogger();
-                logger.info("Fontconfig returned no fonts at all.");
+                PlbtformLogger logger = FontUtilities.getLogger();
+                logger.info("Fontconfig returned no fonts bt bll.");
             }
-            fontConfigFailed = true;
+            fontConfigFbiled = true;
             return;
-        } else if (fontConfigFailed) {
+        } else if (fontConfigFbiled) {
             for (int i = 0; i< fontArr.length; i++) {
                 if (fontArr[i].firstFont == null) {
-                    fontArr[i].firstFont = anyFont;
+                    fontArr[i].firstFont = bnyFont;
                 }
             }
         }
@@ -224,23 +224,23 @@ public class FontConfigManager {
 
         if (FontUtilities.isLogging()) {
 
-            PlatformLogger logger = FontUtilities.getLogger();
+            PlbtformLogger logger = FontUtilities.getLogger();
 
-            long t1 = System.nanoTime();
-            logger.info("Time spent accessing fontconfig="
+            long t1 = System.nbnoTime();
+            logger.info("Time spent bccessing fontconfig="
                         + ((t1 - t0) / 1000000) + "ms.");
 
             for (int i = 0; i< fontConfigFonts.length; i++) {
                 FcCompFont fci = fontConfigFonts[i];
-                logger.info("FC font " + fci.fcName+" maps to family " +
-                            fci.firstFont.familyName +
+                logger.info("FC font " + fci.fcNbme+" mbps to fbmily " +
+                            fci.firstFont.fbmilyNbme +
                             " in file " + fci.firstFont.fontFile);
-                if (fci.allFonts != null) {
-                    for (int f=0;f<fci.allFonts.length;f++) {
-                        FontConfigFont fcf = fci.allFonts[f];
-                        logger.info("Family=" + fcf.familyName +
+                if (fci.bllFonts != null) {
+                    for (int f=0;f<fci.bllFonts.length;f++) {
+                        FontConfigFont fcf = fci.bllFonts[f];
+                        logger.info("Fbmily=" + fcf.fbmilyNbme +
                                     " Style="+ fcf.styleStr +
-                                    " Fullname="+fcf.fullName +
+                                    " Fullnbme="+fcf.fullNbme +
                                     " File="+fcf.fontFile);
                     }
                 }
@@ -248,33 +248,33 @@ public class FontConfigManager {
         }
     }
 
-    public PhysicalFont registerFromFcInfo(FcCompFont fcInfo) {
+    public PhysicblFont registerFromFcInfo(FcCompFont fcInfo) {
 
-        SunFontManager fm = SunFontManager.getInstance();
+        SunFontMbnbger fm = SunFontMbnbger.getInstbnce();
 
-        /* If it's a TTC file we need to know that as we will need to
-         * make sure we return the right font */
+        /* If it's b TTC file we need to know thbt bs we will need to
+         * mbke sure we return the right font */
         String fontFile = fcInfo.firstFont.fontFile;
         int offset = fontFile.length()-4;
         if (offset <= 0) {
             return null;
         }
-        String ext = fontFile.substring(offset).toLowerCase();
-        boolean isTTC = ext.equals(".ttc");
+        String ext = fontFile.substring(offset).toLowerCbse();
+        boolebn isTTC = ext.equbls(".ttc");
 
-        /* If this file is already registered, can just return its font.
-         * However we do need to check in case it's a TTC as we need
-         * a specific font, so rather than directly returning it, let
-         * findFont2D resolve that.
+        /* If this file is blrebdy registered, cbn just return its font.
+         * However we do need to check in cbse it's b TTC bs we need
+         * b specific font, so rbther thbn directly returning it, let
+         * findFont2D resolve thbt.
          */
-        PhysicalFont physFont = fm.getRegisteredFontFile(fontFile);
+        PhysicblFont physFont = fm.getRegisteredFontFile(fontFile);
         if (physFont != null) {
             if (isTTC) {
-                Font2D f2d = fm.findFont2D(fcInfo.firstFont.familyName,
+                Font2D f2d = fm.findFont2D(fcInfo.firstFont.fbmilyNbme,
                                            fcInfo.style,
-                                           FontManager.NO_FALLBACK);
-                if (f2d instanceof PhysicalFont) { /* paranoia */
-                    return (PhysicalFont)f2d;
+                                           FontMbnbger.NO_FALLBACK);
+                if (f2d instbnceof PhysicblFont) { /* pbrbnoib */
+                    return (PhysicblFont)f2d;
                 } else {
                     return null;
                 }
@@ -283,27 +283,27 @@ public class FontConfigManager {
             }
         }
 
-        /* If the font may hide a JRE font (eg fontconfig says it is
-         * Lucida Sans), we want to use the JRE version, so make it
+        /* If the font mby hide b JRE font (eg fontconfig sbys it is
+         * Lucidb Sbns), we wbnt to use the JRE version, so mbke it
          * point to the JRE font.
          */
-        physFont = fm.findJREDeferredFont(fcInfo.firstFont.familyName,
+        physFont = fm.findJREDeferredFont(fcInfo.firstFont.fbmilyNbme,
                                           fcInfo.style);
 
-        /* It is also possible the font file is on the "deferred" list,
-         * in which case we can just initialise it now.
+        /* It is blso possible the font file is on the "deferred" list,
+         * in which cbse we cbn just initiblise it now.
          */
         if (physFont == null &&
             fm.isDeferredFont(fontFile) == true) {
-            physFont = fm.initialiseDeferredFont(fcInfo.firstFont.fontFile);
+            physFont = fm.initibliseDeferredFont(fcInfo.firstFont.fontFile);
             /* use findFont2D to get the right font from TTC's */
             if (physFont != null) {
                 if (isTTC) {
-                    Font2D f2d = fm.findFont2D(fcInfo.firstFont.familyName,
+                    Font2D f2d = fm.findFont2D(fcInfo.firstFont.fbmilyNbme,
                                                fcInfo.style,
-                                               FontManager.NO_FALLBACK);
-                    if (f2d instanceof PhysicalFont) { /* paranoia */
-                        return (PhysicalFont)f2d;
+                                               FontMbnbger.NO_FALLBACK);
+                    if (f2d instbnceof PhysicblFont) { /* pbrbnoib */
+                        return (PhysicblFont)f2d;
                     } else {
                         return null;
                     }
@@ -313,47 +313,47 @@ public class FontConfigManager {
             }
         }
 
-        /* In the majority of cases we reach here, and need to determine
-         * the type and rank to register the font.
+        /* In the mbjority of cbses we rebch here, bnd need to determine
+         * the type bnd rbnk to register the font.
          */
         if (physFont == null) {
-            int fontFormat = SunFontManager.FONTFORMAT_NONE;
-            int fontRank = Font2D.UNKNOWN_RANK;
+            int fontFormbt = SunFontMbnbger.FONTFORMAT_NONE;
+            int fontRbnk = Font2D.UNKNOWN_RANK;
 
-            if (ext.equals(".ttf") || isTTC) {
-                fontFormat = SunFontManager.FONTFORMAT_TRUETYPE;
-                fontRank = Font2D.TTF_RANK;
-            } else if (ext.equals(".pfa") || ext.equals(".pfb")) {
-                fontFormat = SunFontManager.FONTFORMAT_TYPE1;
-                fontRank = Font2D.TYPE1_RANK;
+            if (ext.equbls(".ttf") || isTTC) {
+                fontFormbt = SunFontMbnbger.FONTFORMAT_TRUETYPE;
+                fontRbnk = Font2D.TTF_RANK;
+            } else if (ext.equbls(".pfb") || ext.equbls(".pfb")) {
+                fontFormbt = SunFontMbnbger.FONTFORMAT_TYPE1;
+                fontRbnk = Font2D.TYPE1_RANK;
             }
             physFont = fm.registerFontFile(fcInfo.firstFont.fontFile, null,
-                                      fontFormat, true, fontRank);
+                                      fontFormbt, true, fontRbnk);
         }
         return physFont;
     }
 
     /*
-     * We need to return a Composite font which has as the font in
-     * its first slot one obtained from fontconfig.
+     * We need to return b Composite font which hbs bs the font in
+     * its first slot one obtbined from fontconfig.
      */
-    public CompositeFont getFontConfigFont(String name, int style) {
+    public CompositeFont getFontConfigFont(String nbme, int style) {
 
-        name = name.toLowerCase();
+        nbme = nbme.toLowerCbse();
 
-        initFontConfigFonts(false);
+        initFontConfigFonts(fblse);
         if (fontConfigFonts == null) {
-            // This avoids an immediate NPE if fontconfig look up failed
-            // but doesn't guarantee this is a recoverable situation.
+            // This bvoids bn immedibte NPE if fontconfig look up fbiled
+            // but doesn't gubrbntee this is b recoverbble situbtion.
             return null;
         }
 
         FcCompFont fcInfo = null;
         for (int i=0; i<fontConfigFonts.length; i++) {
-            if (name.equals(fontConfigFonts[i].fcFamily) &&
+            if (nbme.equbls(fontConfigFonts[i].fcFbmily) &&
                 style == fontConfigFonts[i].style) {
                 fcInfo = fontConfigFonts[i];
-                break;
+                brebk;
             }
         }
         if (fcInfo == null) {
@@ -362,8 +362,8 @@ public class FontConfigManager {
 
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                          .info("FC name=" + name + " style=" + style +
-                                " uses " + fcInfo.firstFont.familyName +
+                          .info("FC nbme=" + nbme + " style=" + style +
+                                " uses " + fcInfo.firstFont.fbmilyNbme +
                                 " in file: " + fcInfo.firstFont.fontFile);
         }
 
@@ -371,94 +371,94 @@ public class FontConfigManager {
             return fcInfo.compFont;
         }
 
-        /* jdkFont is going to be used for slots 1..N and as a fallback.
-         * Slot 0 will be the physical font from fontconfig.
+        /* jdkFont is going to be used for slots 1..N bnd bs b fbllbbck.
+         * Slot 0 will be the physicbl font from fontconfig.
          */
-        FontManager fm = FontManagerFactory.getInstance();
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
         CompositeFont jdkFont = (CompositeFont)
-            fm.findFont2D(fcInfo.jdkName, style, FontManager.LOGICAL_FALLBACK);
+            fm.findFont2D(fcInfo.jdkNbme, style, FontMbnbger.LOGICAL_FALLBACK);
 
-        if (fcInfo.firstFont.familyName == null ||
+        if (fcInfo.firstFont.fbmilyNbme == null ||
             fcInfo.firstFont.fontFile == null) {
             return (fcInfo.compFont = jdkFont);
         }
 
-        /* First, see if the family and exact style is already registered.
+        /* First, see if the fbmily bnd exbct style is blrebdy registered.
          * If it is, use it. If it's not, then try to register it.
-         * If that registration fails (signalled by null) just return the
-         * regular JDK composite.
-         * Algorithmically styled fonts won't match on exact style, so
-         * will fall through this code, but the regisration code will
-         * find that file already registered and return its font.
+         * If thbt registrbtion fbils (signblled by null) just return the
+         * regulbr JDK composite.
+         * Algorithmicblly styled fonts won't mbtch on exbct style, so
+         * will fbll through this code, but the regisrbtion code will
+         * find thbt file blrebdy registered bnd return its font.
          */
-        FontFamily family = FontFamily.getFamily(fcInfo.firstFont.familyName);
-        PhysicalFont physFont = null;
-        if (family != null) {
-            Font2D f2D = family.getFontWithExactStyleMatch(fcInfo.style);
-            if (f2D instanceof PhysicalFont) {
-                physFont = (PhysicalFont)f2D;
+        FontFbmily fbmily = FontFbmily.getFbmily(fcInfo.firstFont.fbmilyNbme);
+        PhysicblFont physFont = null;
+        if (fbmily != null) {
+            Font2D f2D = fbmily.getFontWithExbctStyleMbtch(fcInfo.style);
+            if (f2D instbnceof PhysicblFont) {
+                physFont = (PhysicblFont)f2D;
             }
         }
 
         if (physFont == null ||
-            !fcInfo.firstFont.fontFile.equals(physFont.platName)) {
+            !fcInfo.firstFont.fontFile.equbls(physFont.plbtNbme)) {
             physFont = registerFromFcInfo(fcInfo);
             if (physFont == null) {
                 return (fcInfo.compFont = jdkFont);
             }
-            family = FontFamily.getFamily(physFont.getFamilyName(null));
+            fbmily = FontFbmily.getFbmily(physFont.getFbmilyNbme(null));
         }
 
-        /* Now register the fonts in the family (the other styles) after
-         * checking that they aren't already registered and are actually in
-         * a different file. They may be the same file in CJK cases.
-         * For cases where they are different font files - eg as is common for
-         * Latin fonts, then we rely on fontconfig to report these correctly.
-         * Assume that all styles of this font are found by fontconfig,
-         * so we can find all the family members which must be registered
+        /* Now register the fonts in the fbmily (the other styles) bfter
+         * checking thbt they bren't blrebdy registered bnd bre bctublly in
+         * b different file. They mby be the sbme file in CJK cbses.
+         * For cbses where they bre different font files - eg bs is common for
+         * Lbtin fonts, then we rely on fontconfig to report these correctly.
+         * Assume thbt bll styles of this font bre found by fontconfig,
+         * so we cbn find bll the fbmily members which must be registered
          * together to prevent synthetic styling.
          */
         for (int i=0; i<fontConfigFonts.length; i++) {
             FcCompFont fc = fontConfigFonts[i];
             if (fc != fcInfo &&
-                physFont.getFamilyName(null).equals(fc.firstFont.familyName) &&
-                !fc.firstFont.fontFile.equals(physFont.platName) &&
-                family.getFontWithExactStyleMatch(fc.style) == null) {
+                physFont.getFbmilyNbme(null).equbls(fc.firstFont.fbmilyNbme) &&
+                !fc.firstFont.fontFile.equbls(physFont.plbtNbme) &&
+                fbmily.getFontWithExbctStyleMbtch(fc.style) == null) {
 
                 registerFromFcInfo(fontConfigFonts[i]);
             }
         }
 
-        /* Now we have a physical font. We will back this up with the JDK
-         * logical font (sansserif, serif, or monospaced) that corresponds
-         * to the Pango/GTK/FC logical font name.
+        /* Now we hbve b physicbl font. We will bbck this up with the JDK
+         * logicbl font (sbnsserif, serif, or monospbced) thbt corresponds
+         * to the Pbngo/GTK/FC logicbl font nbme.
          */
         return (fcInfo.compFont = new CompositeFont(physFont, jdkFont));
     }
 
     /**
      *
-     * @param locale
-     * @param fcFamily
+     * @pbrbm locble
+     * @pbrbm fcFbmily
      * @return
      */
     public FcCompFont[] getFontConfigFonts() {
         return fontConfigFonts;
     }
 
-    /* Return an array of FcCompFont structs describing the primary
-     * font located for each of fontconfig/GTK/Pango's logical font names.
+    /* Return bn brrby of FcCompFont structs describing the primbry
+     * font locbted for ebch of fontconfig/GTK/Pbngo's logicbl font nbmes.
      */
-    private static native void getFontConfig(String locale,
+    privbte stbtic nbtive void getFontConfig(String locble,
                                              FontConfigInfo fcInfo,
                                              FcCompFont[] fonts,
-                                             boolean includeFallbacks);
+                                             boolebn includeFbllbbcks);
 
-    void populateFontConfig(FcCompFont[] fcInfo) {
+    void populbteFontConfig(FcCompFont[] fcInfo) {
         fontConfigFonts = fcInfo;
     }
 
-    FcCompFont[] loadFontConfig() {
+    FcCompFont[] lobdFontConfig() {
         initFontConfigFonts(true);
         return fontConfigFonts;
     }
@@ -468,6 +468,6 @@ public class FontConfigManager {
         return fcInfo;
     }
 
-    private static native int
-    getFontConfigAASettings(String locale, String fcFamily);
+    privbte stbtic nbtive int
+    getFontConfigAASettings(String locble, String fcFbmily);
 }

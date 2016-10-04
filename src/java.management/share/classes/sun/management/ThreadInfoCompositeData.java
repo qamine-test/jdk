@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.ThreadInfo;
-import java.lang.management.MonitorInfo;
-import java.lang.management.LockInfo;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
+import jbvb.lbng.mbnbgement.ThrebdInfo;
+import jbvb.lbng.mbnbgement.MonitorInfo;
+import jbvb.lbng.mbnbgement.LockInfo;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import jbvbx.mbnbgement.openmbebn.OpenType;
 
 /**
- * A CompositeData for ThreadInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositeDbtb for ThrebdInfo for the locbl mbnbgement support.
+ * This clbss bvoids the performbnce penblty pbid to the
+ * construction of b CompositeDbtb use in the locbl cbse.
  */
-public class ThreadInfoCompositeData extends LazyCompositeData {
-    private final ThreadInfo threadInfo;
-    private final CompositeData cdata;
-    private final boolean currentVersion;
+public clbss ThrebdInfoCompositeDbtb extends LbzyCompositeDbtb {
+    privbte finbl ThrebdInfo threbdInfo;
+    privbte finbl CompositeDbtb cdbtb;
+    privbte finbl boolebn currentVersion;
 
-    private ThreadInfoCompositeData(ThreadInfo ti) {
-        this.threadInfo = ti;
+    privbte ThrebdInfoCompositeDbtb(ThrebdInfo ti) {
+        this.threbdInfo = ti;
         this.currentVersion = true;
-        this.cdata = null;
+        this.cdbtb = null;
     }
 
-    private ThreadInfoCompositeData(CompositeData cd) {
-        this.threadInfo = null;
-        this.currentVersion = ThreadInfoCompositeData.isCurrentVersion(cd);
-        this.cdata = cd;
+    privbte ThrebdInfoCompositeDbtb(CompositeDbtb cd) {
+        this.threbdInfo = null;
+        this.currentVersion = ThrebdInfoCompositeDbtb.isCurrentVersion(cd);
+        this.cdbtb = cd;
     }
 
-    public ThreadInfo getThreadInfo() {
-        return threadInfo;
+    public ThrebdInfo getThrebdInfo() {
+        return threbdInfo;
     }
 
-    public boolean isCurrentVersion() {
+    public boolebn isCurrentVersion() {
         return currentVersion;
     }
 
-    public static ThreadInfoCompositeData getInstance(CompositeData cd) {
-        validateCompositeData(cd);
-        return new ThreadInfoCompositeData(cd);
+    public stbtic ThrebdInfoCompositeDbtb getInstbnce(CompositeDbtb cd) {
+        vblidbteCompositeDbtb(cd);
+        return new ThrebdInfoCompositeDbtb(cd);
     }
 
-    public static CompositeData toCompositeData(ThreadInfo ti) {
-        ThreadInfoCompositeData ticd = new ThreadInfoCompositeData(ti);
-        return ticd.getCompositeData();
+    public stbtic CompositeDbtb toCompositeDbtb(ThrebdInfo ti) {
+        ThrebdInfoCompositeDbtb ticd = new ThrebdInfoCompositeDbtb(ti);
+        return ticd.getCompositeDbtb();
     }
 
-    protected CompositeData getCompositeData() {
-        // Convert StackTraceElement[] to CompositeData[]
-        StackTraceElement[] stackTrace = threadInfo.getStackTrace();
-        CompositeData[] stackTraceData =
-            new CompositeData[stackTrace.length];
-        for (int i = 0; i < stackTrace.length; i++) {
-            StackTraceElement ste = stackTrace[i];
-            stackTraceData[i] = StackTraceElementCompositeData.toCompositeData(ste);
+    protected CompositeDbtb getCompositeDbtb() {
+        // Convert StbckTrbceElement[] to CompositeDbtb[]
+        StbckTrbceElement[] stbckTrbce = threbdInfo.getStbckTrbce();
+        CompositeDbtb[] stbckTrbceDbtb =
+            new CompositeDbtb[stbckTrbce.length];
+        for (int i = 0; i < stbckTrbce.length; i++) {
+            StbckTrbceElement ste = stbckTrbce[i];
+            stbckTrbceDbtb[i] = StbckTrbceElementCompositeDbtb.toCompositeDbtb(ste);
         }
 
-        // Convert MonitorInfo[] and LockInfo[] to CompositeData[]
-        CompositeData lockInfoData =
-            LockInfoCompositeData.toCompositeData(threadInfo.getLockInfo());
+        // Convert MonitorInfo[] bnd LockInfo[] to CompositeDbtb[]
+        CompositeDbtb lockInfoDbtb =
+            LockInfoCompositeDbtb.toCompositeDbtb(threbdInfo.getLockInfo());
 
-        // Convert LockInfo[] and MonitorInfo[] to CompositeData[]
-        LockInfo[] lockedSyncs = threadInfo.getLockedSynchronizers();
-        CompositeData[] lockedSyncsData =
-            new CompositeData[lockedSyncs.length];
+        // Convert LockInfo[] bnd MonitorInfo[] to CompositeDbtb[]
+        LockInfo[] lockedSyncs = threbdInfo.getLockedSynchronizers();
+        CompositeDbtb[] lockedSyncsDbtb =
+            new CompositeDbtb[lockedSyncs.length];
         for (int i = 0; i < lockedSyncs.length; i++) {
             LockInfo li = lockedSyncs[i];
-            lockedSyncsData[i] = LockInfoCompositeData.toCompositeData(li);
+            lockedSyncsDbtb[i] = LockInfoCompositeDbtb.toCompositeDbtb(li);
         }
 
-        MonitorInfo[] lockedMonitors = threadInfo.getLockedMonitors();
-        CompositeData[] lockedMonitorsData =
-            new CompositeData[lockedMonitors.length];
+        MonitorInfo[] lockedMonitors = threbdInfo.getLockedMonitors();
+        CompositeDbtb[] lockedMonitorsDbtb =
+            new CompositeDbtb[lockedMonitors.length];
         for (int i = 0; i < lockedMonitors.length; i++) {
             MonitorInfo mi = lockedMonitors[i];
-            lockedMonitorsData[i] = MonitorInfoCompositeData.toCompositeData(mi);
+            lockedMonitorsDbtb[i] = MonitorInfoCompositeDbtb.toCompositeDbtb(mi);
         }
 
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // threadInfoItemNames!
-        final Object[] threadInfoItemValues = {
-            threadInfo.getThreadId(),
-            threadInfo.getThreadName(),
-            threadInfo.getThreadState().name(),
-            threadInfo.getBlockedTime(),
-            threadInfo.getBlockedCount(),
-            threadInfo.getWaitedTime(),
-            threadInfo.getWaitedCount(),
-            lockInfoData,
-            threadInfo.getLockName(),
-            threadInfo.getLockOwnerId(),
-            threadInfo.getLockOwnerName(),
-            stackTraceData,
-                threadInfo.isSuspended(),
-                threadInfo.isInNative(),
-            lockedMonitorsData,
-            lockedSyncsData,
+        // threbdInfoItemNbmes!
+        finbl Object[] threbdInfoItemVblues = {
+            threbdInfo.getThrebdId(),
+            threbdInfo.getThrebdNbme(),
+            threbdInfo.getThrebdStbte().nbme(),
+            threbdInfo.getBlockedTime(),
+            threbdInfo.getBlockedCount(),
+            threbdInfo.getWbitedTime(),
+            threbdInfo.getWbitedCount(),
+            lockInfoDbtb,
+            threbdInfo.getLockNbme(),
+            threbdInfo.getLockOwnerId(),
+            threbdInfo.getLockOwnerNbme(),
+            stbckTrbceDbtb,
+                threbdInfo.isSuspended(),
+                threbdInfo.isInNbtive(),
+            lockedMonitorsDbtb,
+            lockedSyncsDbtb,
         };
 
         try {
-            return new CompositeDataSupport(threadInfoCompositeType,
-                                            threadInfoItemNames,
-                                            threadInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            return new CompositeDbtbSupport(threbdInfoCompositeType,
+                                            threbdInfoItemNbmes,
+                                            threbdInfoItemVblues);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    // Attribute names
-    private static final String THREAD_ID       = "threadId";
-    private static final String THREAD_NAME     = "threadName";
-    private static final String THREAD_STATE    = "threadState";
-    private static final String BLOCKED_TIME    = "blockedTime";
-    private static final String BLOCKED_COUNT   = "blockedCount";
-    private static final String WAITED_TIME     = "waitedTime";
-    private static final String WAITED_COUNT    = "waitedCount";
-    private static final String LOCK_INFO       = "lockInfo";
-    private static final String LOCK_NAME       = "lockName";
-    private static final String LOCK_OWNER_ID   = "lockOwnerId";
-    private static final String LOCK_OWNER_NAME = "lockOwnerName";
-    private static final String STACK_TRACE     = "stackTrace";
-    private static final String SUSPENDED       = "suspended";
-    private static final String IN_NATIVE       = "inNative";
-    private static final String LOCKED_MONITORS = "lockedMonitors";
-    private static final String LOCKED_SYNCS    = "lockedSynchronizers";
+    // Attribute nbmes
+    privbte stbtic finbl String THREAD_ID       = "threbdId";
+    privbte stbtic finbl String THREAD_NAME     = "threbdNbme";
+    privbte stbtic finbl String THREAD_STATE    = "threbdStbte";
+    privbte stbtic finbl String BLOCKED_TIME    = "blockedTime";
+    privbte stbtic finbl String BLOCKED_COUNT   = "blockedCount";
+    privbte stbtic finbl String WAITED_TIME     = "wbitedTime";
+    privbte stbtic finbl String WAITED_COUNT    = "wbitedCount";
+    privbte stbtic finbl String LOCK_INFO       = "lockInfo";
+    privbte stbtic finbl String LOCK_NAME       = "lockNbme";
+    privbte stbtic finbl String LOCK_OWNER_ID   = "lockOwnerId";
+    privbte stbtic finbl String LOCK_OWNER_NAME = "lockOwnerNbme";
+    privbte stbtic finbl String STACK_TRACE     = "stbckTrbce";
+    privbte stbtic finbl String SUSPENDED       = "suspended";
+    privbte stbtic finbl String IN_NATIVE       = "inNbtive";
+    privbte stbtic finbl String LOCKED_MONITORS = "lockedMonitors";
+    privbte stbtic finbl String LOCKED_SYNCS    = "lockedSynchronizers";
 
-    private static final String[] threadInfoItemNames = {
+    privbte stbtic finbl String[] threbdInfoItemNbmes = {
         THREAD_ID,
         THREAD_NAME,
         THREAD_STATE,
@@ -173,252 +173,252 @@ public class ThreadInfoCompositeData extends LazyCompositeData {
         LOCKED_SYNCS,
     };
 
-    // New attributes added in 6.0 ThreadInfo
-    private static final String[] threadInfoV6Attributes = {
+    // New bttributes bdded in 6.0 ThrebdInfo
+    privbte stbtic finbl String[] threbdInfoV6Attributes = {
         LOCK_INFO,
         LOCKED_MONITORS,
         LOCKED_SYNCS,
     };
 
-    // Current version of ThreadInfo
-    private static final CompositeType threadInfoCompositeType;
-    // Previous version of ThreadInfo
-    private static final CompositeType threadInfoV5CompositeType;
-    private static final CompositeType lockInfoCompositeType;
-    static {
+    // Current version of ThrebdInfo
+    privbte stbtic finbl CompositeType threbdInfoCompositeType;
+    // Previous version of ThrebdInfo
+    privbte stbtic finbl CompositeType threbdInfoV5CompositeType;
+    privbte stbtic finbl CompositeType lockInfoCompositeType;
+    stbtic {
         try {
-            threadInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(ThreadInfo.class);
-            // Form a CompositeType for JDK 5.0 ThreadInfo version
-            String[] itemNames =
-                threadInfoCompositeType.keySet().toArray(new String[0]);
-            int numV5Attributes = threadInfoItemNames.length -
-                                      threadInfoV6Attributes.length;
-            String[] v5ItemNames = new String[numV5Attributes];
+            threbdInfoCompositeType = (CompositeType)
+                MbppedMXBebnType.toOpenType(ThrebdInfo.clbss);
+            // Form b CompositeType for JDK 5.0 ThrebdInfo version
+            String[] itemNbmes =
+                threbdInfoCompositeType.keySet().toArrby(new String[0]);
+            int numV5Attributes = threbdInfoItemNbmes.length -
+                                      threbdInfoV6Attributes.length;
+            String[] v5ItemNbmes = new String[numV5Attributes];
             String[] v5ItemDescs = new String[numV5Attributes];
             OpenType<?>[] v5ItemTypes = new OpenType<?>[numV5Attributes];
             int i = 0;
-            for (String n : itemNames) {
+            for (String n : itemNbmes) {
                 if (isV5Attribute(n)) {
-                    v5ItemNames[i] = n;
-                    v5ItemDescs[i] = threadInfoCompositeType.getDescription(n);
-                    v5ItemTypes[i] = threadInfoCompositeType.getType(n);
+                    v5ItemNbmes[i] = n;
+                    v5ItemDescs[i] = threbdInfoCompositeType.getDescription(n);
+                    v5ItemTypes[i] = threbdInfoCompositeType.getType(n);
                     i++;
                 }
             }
 
-            threadInfoV5CompositeType =
-                new CompositeType("java.lang.management.ThreadInfo",
-                                  "J2SE 5.0 java.lang.management.ThreadInfo",
-                                  v5ItemNames,
+            threbdInfoV5CompositeType =
+                new CompositeType("jbvb.lbng.mbnbgement.ThrebdInfo",
+                                  "J2SE 5.0 jbvb.lbng.mbnbgement.ThrebdInfo",
+                                  v5ItemNbmes,
                                   v5ItemDescs,
                                   v5ItemTypes);
-        } catch (OpenDataException e) {
-            // Should never reach here
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
 
-        // Each CompositeData object has its CompositeType associated
-        // with it.  So we can get the CompositeType representing LockInfo
-        // from a mapped CompositeData for any LockInfo object.
-        // Thus we construct a random LockInfo object and pass it
-        // to LockInfoCompositeData to do the conversion.
+        // Ebch CompositeDbtb object hbs its CompositeType bssocibted
+        // with it.  So we cbn get the CompositeType representing LockInfo
+        // from b mbpped CompositeDbtb for bny LockInfo object.
+        // Thus we construct b rbndom LockInfo object bnd pbss it
+        // to LockInfoCompositeDbtb to do the conversion.
         Object o = new Object();
-        LockInfo li = new LockInfo(o.getClass().getName(),
-                                   System.identityHashCode(o));
-        CompositeData cd = LockInfoCompositeData.toCompositeData(li);
+        LockInfo li = new LockInfo(o.getClbss().getNbme(),
+                                   System.identityHbshCode(o));
+        CompositeDbtb cd = LockInfoCompositeDbtb.toCompositeDbtb(li);
         lockInfoCompositeType = cd.getCompositeType();
     }
 
-    private static boolean isV5Attribute(String itemName) {
-        for (String n : threadInfoV6Attributes) {
-            if (itemName.equals(n)) {
-                return false;
+    privbte stbtic boolebn isV5Attribute(String itemNbme) {
+        for (String n : threbdInfoV6Attributes) {
+            if (itemNbme.equbls(n)) {
+                return fblse;
             }
         }
         return true;
     }
 
-    public static boolean isCurrentVersion(CompositeData cd) {
+    public stbtic boolebn isCurrentVersion(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
-        return isTypeMatched(threadInfoCompositeType, cd.getCompositeType());
+        return isTypeMbtched(threbdInfoCompositeType, cd.getCompositeType());
     }
 
-    public long threadId() {
-        return getLong(cdata, THREAD_ID);
+    public long threbdId() {
+        return getLong(cdbtb, THREAD_ID);
     }
 
-    public String threadName() {
-        // The ThreadName item cannot be null so we check that
-        // it is present with a non-null value.
-        String name = getString(cdata, THREAD_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + THREAD_NAME + " has null value");
+    public String threbdNbme() {
+        // The ThrebdNbme item cbnnot be null so we check thbt
+        // it is present with b non-null vblue.
+        String nbme = getString(cdbtb, THREAD_NAME);
+        if (nbme == null) {
+            throw new IllegblArgumentException("Invblid composite dbtb: " +
+                "Attribute " + THREAD_NAME + " hbs null vblue");
         }
-        return name;
+        return nbme;
     }
 
-    public Thread.State threadState() {
-        return Thread.State.valueOf(getString(cdata, THREAD_STATE));
+    public Threbd.Stbte threbdStbte() {
+        return Threbd.Stbte.vblueOf(getString(cdbtb, THREAD_STATE));
     }
 
     public long blockedTime() {
-        return getLong(cdata, BLOCKED_TIME);
+        return getLong(cdbtb, BLOCKED_TIME);
     }
 
     public long blockedCount() {
-        return getLong(cdata, BLOCKED_COUNT);
+        return getLong(cdbtb, BLOCKED_COUNT);
     }
 
-    public long waitedTime() {
-        return getLong(cdata, WAITED_TIME);
+    public long wbitedTime() {
+        return getLong(cdbtb, WAITED_TIME);
     }
 
-    public long waitedCount() {
-        return getLong(cdata, WAITED_COUNT);
+    public long wbitedCount() {
+        return getLong(cdbtb, WAITED_COUNT);
     }
 
-    public String lockName() {
-        // The LockName and LockOwnerName can legitimately be null,
-        // we don't bother to check the value
-        return getString(cdata, LOCK_NAME);
+    public String lockNbme() {
+        // The LockNbme bnd LockOwnerNbme cbn legitimbtely be null,
+        // we don't bother to check the vblue
+        return getString(cdbtb, LOCK_NAME);
     }
 
     public long lockOwnerId() {
-        return getLong(cdata, LOCK_OWNER_ID);
+        return getLong(cdbtb, LOCK_OWNER_ID);
     }
 
-    public String lockOwnerName() {
-        return getString(cdata, LOCK_OWNER_NAME);
+    public String lockOwnerNbme() {
+        return getString(cdbtb, LOCK_OWNER_NAME);
     }
 
-    public boolean suspended() {
-        return getBoolean(cdata, SUSPENDED);
+    public boolebn suspended() {
+        return getBoolebn(cdbtb, SUSPENDED);
     }
 
-    public boolean inNative() {
-        return getBoolean(cdata, IN_NATIVE);
+    public boolebn inNbtive() {
+        return getBoolebn(cdbtb, IN_NATIVE);
     }
 
-    public StackTraceElement[] stackTrace() {
-        CompositeData[] stackTraceData =
-            (CompositeData[]) cdata.get(STACK_TRACE);
+    public StbckTrbceElement[] stbckTrbce() {
+        CompositeDbtb[] stbckTrbceDbtb =
+            (CompositeDbtb[]) cdbtb.get(STACK_TRACE);
 
-        // The StackTrace item cannot be null, but if it is we will get
-        // a NullPointerException when we ask for its length.
-        StackTraceElement[] stackTrace =
-            new StackTraceElement[stackTraceData.length];
-        for (int i = 0; i < stackTraceData.length; i++) {
-            CompositeData cdi = stackTraceData[i];
-            stackTrace[i] = StackTraceElementCompositeData.from(cdi);
+        // The StbckTrbce item cbnnot be null, but if it is we will get
+        // b NullPointerException when we bsk for its length.
+        StbckTrbceElement[] stbckTrbce =
+            new StbckTrbceElement[stbckTrbceDbtb.length];
+        for (int i = 0; i < stbckTrbceDbtb.length; i++) {
+            CompositeDbtb cdi = stbckTrbceDbtb[i];
+            stbckTrbce[i] = StbckTrbceElementCompositeDbtb.from(cdi);
         }
-        return stackTrace;
+        return stbckTrbce;
     }
 
-    // 6.0 new attributes
+    // 6.0 new bttributes
     public LockInfo lockInfo() {
-        CompositeData lockInfoData = (CompositeData) cdata.get(LOCK_INFO);
-        return LockInfo.from(lockInfoData);
+        CompositeDbtb lockInfoDbtb = (CompositeDbtb) cdbtb.get(LOCK_INFO);
+        return LockInfo.from(lockInfoDbtb);
     }
 
     public MonitorInfo[] lockedMonitors() {
-        CompositeData[] lockedMonitorsData =
-            (CompositeData[]) cdata.get(LOCKED_MONITORS);
+        CompositeDbtb[] lockedMonitorsDbtb =
+            (CompositeDbtb[]) cdbtb.get(LOCKED_MONITORS);
 
-        // The LockedMonitors item cannot be null, but if it is we will get
-        // a NullPointerException when we ask for its length.
+        // The LockedMonitors item cbnnot be null, but if it is we will get
+        // b NullPointerException when we bsk for its length.
         MonitorInfo[] monitors =
-            new MonitorInfo[lockedMonitorsData.length];
-        for (int i = 0; i < lockedMonitorsData.length; i++) {
-            CompositeData cdi = lockedMonitorsData[i];
+            new MonitorInfo[lockedMonitorsDbtb.length];
+        for (int i = 0; i < lockedMonitorsDbtb.length; i++) {
+            CompositeDbtb cdi = lockedMonitorsDbtb[i];
             monitors[i] = MonitorInfo.from(cdi);
         }
         return monitors;
     }
 
     public LockInfo[] lockedSynchronizers() {
-        CompositeData[] lockedSyncsData =
-            (CompositeData[]) cdata.get(LOCKED_SYNCS);
+        CompositeDbtb[] lockedSyncsDbtb =
+            (CompositeDbtb[]) cdbtb.get(LOCKED_SYNCS);
 
-        // The LockedSynchronizers item cannot be null, but if it is we will
-        // get a NullPointerException when we ask for its length.
-        LockInfo[] locks = new LockInfo[lockedSyncsData.length];
-        for (int i = 0; i < lockedSyncsData.length; i++) {
-            CompositeData cdi = lockedSyncsData[i];
+        // The LockedSynchronizers item cbnnot be null, but if it is we will
+        // get b NullPointerException when we bsk for its length.
+        LockInfo[] locks = new LockInfo[lockedSyncsDbtb.length];
+        for (int i = 0; i < lockedSyncsDbtb.length; i++) {
+            CompositeDbtb cdi = lockedSyncsDbtb[i];
             locks[i] = LockInfo.from(cdi);
         }
         return locks;
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbte if the input CompositeDbtb hbs the expected
+     * CompositeType (i.e. contbin bll bttributes with expected
+     * nbmes bnd types).
      */
-    public static void validateCompositeData(CompositeData cd) {
+    public stbtic void vblidbteCompositeDbtb(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
         CompositeType type = cd.getCompositeType();
-        boolean currentVersion = true;
-        if (!isTypeMatched(threadInfoCompositeType, type)) {
-            currentVersion = false;
-            // check if cd is an older version
-            if (!isTypeMatched(threadInfoV5CompositeType, type)) {
-                throw new IllegalArgumentException(
-                    "Unexpected composite type for ThreadInfo");
+        boolebn currentVersion = true;
+        if (!isTypeMbtched(threbdInfoCompositeType, type)) {
+            currentVersion = fblse;
+            // check if cd is bn older version
+            if (!isTypeMbtched(threbdInfoV5CompositeType, type)) {
+                throw new IllegblArgumentException(
+                    "Unexpected composite type for ThrebdInfo");
             }
         }
 
-        CompositeData[] stackTraceData =
-            (CompositeData[]) cd.get(STACK_TRACE);
-        if (stackTraceData == null) {
-            throw new IllegalArgumentException(
-                "StackTraceElement[] is missing");
+        CompositeDbtb[] stbckTrbceDbtb =
+            (CompositeDbtb[]) cd.get(STACK_TRACE);
+        if (stbckTrbceDbtb == null) {
+            throw new IllegblArgumentException(
+                "StbckTrbceElement[] is missing");
         }
-        if (stackTraceData.length > 0) {
-            StackTraceElementCompositeData.validateCompositeData(stackTraceData[0]);
+        if (stbckTrbceDbtb.length > 0) {
+            StbckTrbceElementCompositeDbtb.vblidbteCompositeDbtb(stbckTrbceDbtb[0]);
         }
 
-        // validate v6 attributes
+        // vblidbte v6 bttributes
         if (currentVersion) {
-            CompositeData li = (CompositeData) cd.get(LOCK_INFO);
+            CompositeDbtb li = (CompositeDbtb) cd.get(LOCK_INFO);
             if (li != null) {
-                if (!isTypeMatched(lockInfoCompositeType,
+                if (!isTypeMbtched(lockInfoCompositeType,
                                    li.getCompositeType())) {
-                    throw new IllegalArgumentException(
+                    throw new IllegblArgumentException(
                         "Unexpected composite type for \"" +
-                        LOCK_INFO + "\" attribute.");
+                        LOCK_INFO + "\" bttribute.");
                 }
             }
 
-            CompositeData[] lms = (CompositeData[]) cd.get(LOCKED_MONITORS);
+            CompositeDbtb[] lms = (CompositeDbtb[]) cd.get(LOCKED_MONITORS);
             if (lms == null) {
-                throw new IllegalArgumentException("MonitorInfo[] is null");
+                throw new IllegblArgumentException("MonitorInfo[] is null");
             }
             if (lms.length > 0) {
-                MonitorInfoCompositeData.validateCompositeData(lms[0]);
+                MonitorInfoCompositeDbtb.vblidbteCompositeDbtb(lms[0]);
             }
 
-            CompositeData[] lsyncs = (CompositeData[]) cd.get(LOCKED_SYNCS);
+            CompositeDbtb[] lsyncs = (CompositeDbtb[]) cd.get(LOCKED_SYNCS);
             if (lsyncs == null) {
-                throw new IllegalArgumentException("LockInfo[] is null");
+                throw new IllegblArgumentException("LockInfo[] is null");
             }
             if (lsyncs.length > 0) {
-                if (!isTypeMatched(lockInfoCompositeType,
+                if (!isTypeMbtched(lockInfoCompositeType,
                                    lsyncs[0].getCompositeType())) {
-                    throw new IllegalArgumentException(
+                    throw new IllegblArgumentException(
                         "Unexpected composite type for \"" +
-                        LOCKED_SYNCS + "\" attribute.");
+                        LOCKED_SYNCS + "\" bttribute.");
                 }
             }
 
         }
     }
 
-    private static final long serialVersionUID = 2464378539119753175L;
+    privbte stbtic finbl long seriblVersionUID = 2464378539119753175L;
 }

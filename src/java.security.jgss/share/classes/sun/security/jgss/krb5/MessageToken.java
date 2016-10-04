@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.security.MessageDigest;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.security.MessbgeDigest;
 
 /**
- * This class is a base class for other token definitions that pertain to
- * per-message GSS-API calls. Conceptually GSS-API has two types of
- * per-message tokens: WrapToken and MicToken. They differ in the respect
- * that a WrapToken carries additional plaintext or ciphertext application
- * data besides just the sequence number and checksum. This class
- * encapsulates the commonality in the structure of the WrapToken and the
- * MicToken. This structure can be represented as:
+ * This clbss is b bbse clbss for other token definitions thbt pertbin to
+ * per-messbge GSS-API cblls. Conceptublly GSS-API hbs two types of
+ * per-messbge tokens: WrbpToken bnd MicToken. They differ in the respect
+ * thbt b WrbpToken cbrries bdditionbl plbintext or ciphertext bpplicbtion
+ * dbtb besides just the sequence number bnd checksum. This clbss
+ * encbpsulbtes the commonblity in the structure of the WrbpToken bnd the
+ * MicToken. This structure cbn be represented bs:
  * <p>
  * <pre>
- *     0..1           TOK_ID          Identification field.
+ *     0..1           TOK_ID          Identificbtion field.
  *                                    01 01 - Mic token
- *                                    02 01 - Wrap token
- *     2..3           SGN_ALG         Checksum algorithm indicator.
+ *                                    02 01 - Wrbp token
+ *     2..3           SGN_ALG         Checksum blgorithm indicbtor.
  *                                    00 00 - DES MAC MD5
  *                                    01 00 - MD2.5
  *                                    02 00 - DES MAC
@@ -56,243 +56,243 @@ import java.security.MessageDigest;
  *                                    00 00 - DES
  *                                    02 00 - DES3-KD
  *                                    10 00 - RC4-HMAC
- *     6..7           Filler          Contains ff ff
+ *     6..7           Filler          Contbins ff ff
  *     8..15          SND_SEQ         Encrypted sequence number field.
- *     16..s+15       SGN_CKSUM       Checksum of plaintext padded data,
- *                                   calculated according to algorithm
+ *     16..s+15       SGN_CKSUM       Checksum of plbintext pbdded dbtb,
+ *                                   cblculbted bccording to blgorithm
  *                                  specified in SGN_ALG field.
- *     s+16..last     Data            encrypted or plaintext padded data
+ *     s+16..lbst     Dbtb            encrypted or plbintext pbdded dbtb
  * </pre>
- * Where "s" indicates the size of the checksum.
+ * Where "s" indicbtes the size of the checksum.
  * <p>
- * As always, this is preceeded by a GSSHeader.
+ * As blwbys, this is preceeded by b GSSHebder.
  *
- * @author Mayank Upadhyay
- * @author Ram Marti
- * @see sun.security.jgss.GSSHeader
+ * @buthor Mbybnk Upbdhyby
+ * @buthor Rbm Mbrti
+ * @see sun.security.jgss.GSSHebder
  */
 
-abstract class MessageToken extends Krb5Token {
-    /* Fields in header minus checksum size */
-    private static final int TOKEN_NO_CKSUM_SIZE = 16;
+bbstrbct clbss MessbgeToken extends Krb5Token {
+    /* Fields in hebder minus checksum size */
+    privbte stbtic finbl int TOKEN_NO_CKSUM_SIZE = 16;
 
     /**
-     * Filler data as defined in the specification of the Kerberos v5 GSS-API
-     * Mechanism.
+     * Filler dbtb bs defined in the specificbtion of the Kerberos v5 GSS-API
+     * Mechbnism.
      */
-    private static final int FILLER = 0xffff;
+    privbte stbtic finbl int FILLER = 0xffff;
 
-     // Signing algorithm values (for the SNG_ALG field)
+     // Signing blgorithm vblues (for the SNG_ALG field)
 
      // From RFC 1964
-     /* Use a DES MAC MD5 checksum */
-    static final int SGN_ALG_DES_MAC_MD5 = 0x0000;
+     /* Use b DES MAC MD5 checksum */
+    stbtic finbl int SGN_ALG_DES_MAC_MD5 = 0x0000;
 
      /* Use DES MAC checksum. */
-    static final int SGN_ALG_DES_MAC     = 0x0200;
+    stbtic finbl int SGN_ALG_DES_MAC     = 0x0200;
 
-     // From draft-raeburn-cat-gssapi-krb5-3des-00
-     /* Use a HMAC SHA1 DES3 -KD checksum */
-    static final int SGN_ALG_HMAC_SHA1_DES3_KD = 0x0400;
+     // From drbft-rbeburn-cbt-gssbpi-krb5-3des-00
+     /* Use b HMAC SHA1 DES3 -KD checksum */
+    stbtic finbl int SGN_ALG_HMAC_SHA1_DES3_KD = 0x0400;
 
-     // Sealing algorithm values (for the SEAL_ALG field)
+     // Sebling blgorithm vblues (for the SEAL_ALG field)
 
      // RFC 1964
     /**
-     * A value for the SEAL_ALG field that indicates that no encryption was
+     * A vblue for the SEAL_ALG field thbt indicbtes thbt no encryption wbs
      * used.
      */
-    static final int SEAL_ALG_NONE    = 0xffff;
-     /* Use DES CBC encryption algorithm. */
-    static final int SEAL_ALG_DES = 0x0000;
+    stbtic finbl int SEAL_ALG_NONE    = 0xffff;
+     /* Use DES CBC encryption blgorithm. */
+    stbtic finbl int SEAL_ALG_DES = 0x0000;
 
-    // From draft-raeburn-cat-gssapi-krb5-3des-00
+    // From drbft-rbeburn-cbt-gssbpi-krb5-3des-00
     /**
-     * Use DES3-KD sealing algorithm. (draft-raeburn-cat-gssapi-krb5-3des-00)
-     * This algorithm uses triple-DES with key derivation, with a usage
-     * value KG_USAGE_SEAL.  Padding is still to 8-byte multiples, and the
-     * IV for encrypting application data is zero.
+     * Use DES3-KD sebling blgorithm. (drbft-rbeburn-cbt-gssbpi-krb5-3des-00)
+     * This blgorithm uses triple-DES with key derivbtion, with b usbge
+     * vblue KG_USAGE_SEAL.  Pbdding is still to 8-byte multiples, bnd the
+     * IV for encrypting bpplicbtion dbtb is zero.
      */
-    static final int SEAL_ALG_DES3_KD = 0x0200;
+    stbtic finbl int SEAL_ALG_DES3_KD = 0x0200;
 
-    // draft draft-brezak-win2k-krb-rc4-hmac-04.txt
-    static final int SEAL_ALG_ARCFOUR_HMAC = 0x1000;
-    static final int SGN_ALG_HMAC_MD5_ARCFOUR = 0x1100;
+    // drbft drbft-brezbk-win2k-krb-rc4-hmbc-04.txt
+    stbtic finbl int SEAL_ALG_ARCFOUR_HMAC = 0x1000;
+    stbtic finbl int SGN_ALG_HMAC_MD5_ARCFOUR = 0x1100;
 
-    private static final int TOKEN_ID_POS = 0;
-    private static final int SIGN_ALG_POS = 2;
-    private static final int SEAL_ALG_POS = 4;
+    privbte stbtic finbl int TOKEN_ID_POS = 0;
+    privbte stbtic finbl int SIGN_ALG_POS = 2;
+    privbte stbtic finbl int SEAL_ALG_POS = 4;
 
-    private int seqNumber;
+    privbte int seqNumber;
 
-    private boolean confState = true;
-    private boolean initiator = true;
+    privbte boolebn confStbte = true;
+    privbte boolebn initibtor = true;
 
-    private int tokenId = 0;
-    private GSSHeader gssHeader = null;
-    private MessageTokenHeader tokenHeader = null;
-    private byte[] checksum = null;
-    private byte[] encSeqNumber = null;
-    private byte[] seqNumberData = null;
+    privbte int tokenId = 0;
+    privbte GSSHebder gssHebder = null;
+    privbte MessbgeTokenHebder tokenHebder = null;
+    privbte byte[] checksum = null;
+    privbte byte[] encSeqNumber = null;
+    privbte byte[] seqNumberDbtb = null;
 
-    /* cipher instance used by the corresponding GSSContext */
+    /* cipher instbnce used by the corresponding GSSContext */
     CipherHelper cipherHelper = null;
 
 
     /**
-     * Constructs a MessageToken from a byte array. If there are more bytes
-     * in the array than needed, the extra bytes are simply ignroed.
+     * Constructs b MessbgeToken from b byte brrby. If there bre more bytes
+     * in the brrby thbn needed, the extrb bytes bre simply ignroed.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param tokenBytes the byte array containing the token
-     * @param tokenOffset the offset where the token begins
-     * @param tokenLen the length of the token
-     * @param prop the MessageProp structure in which the properties of the
+     * @pbrbm tokenId the token id thbt should be contbined in this token bs
+     * it is rebd.
+     * @pbrbm context the Kerberos context bssocibted with this token
+     * @pbrbm tokenBytes the byte brrby contbining the token
+     * @pbrbm tokenOffset the offset where the token begins
+     * @pbrbm tokenLen the length of the token
+     * @pbrbm prop the MessbgeProp structure in which the properties of the
      * token should be stored.
-     * @throws GSSException if there is a problem parsing the token
+     * @throws GSSException if there is b problem pbrsing the token
      */
-    MessageToken(int tokenId, Krb5Context context,
+    MessbgeToken(int tokenId, Krb5Context context,
                  byte[] tokenBytes, int tokenOffset, int tokenLen,
-                 MessageProp prop) throws GSSException {
+                 MessbgeProp prop) throws GSSException {
         this(tokenId, context,
-             new ByteArrayInputStream(tokenBytes, tokenOffset, tokenLen),
+             new ByteArrbyInputStrebm(tokenBytes, tokenOffset, tokenLen),
              prop);
     }
 
     /**
-     * Constructs a MessageToken from an InputStream. Bytes will be read on
-     * demand and the thread might block if there are not enough bytes to
+     * Constructs b MessbgeToken from bn InputStrebm. Bytes will be rebd on
+     * dembnd bnd the threbd might block if there bre not enough bytes to
      * complete the token.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param is the InputStream from which to read
-     * @param prop the MessageProp structure in which the properties of the
+     * @pbrbm tokenId the token id thbt should be contbined in this token bs
+     * it is rebd.
+     * @pbrbm context the Kerberos context bssocibted with this token
+     * @pbrbm is the InputStrebm from which to rebd
+     * @pbrbm prop the MessbgeProp structure in which the properties of the
      * token should be stored.
-     * @throws GSSException if there is a problem reading from the
-     * InputStream or parsing the token
+     * @throws GSSException if there is b problem rebding from the
+     * InputStrebm or pbrsing the token
      */
-    MessageToken(int tokenId, Krb5Context context, InputStream is,
-                 MessageProp prop) throws GSSException {
+    MessbgeToken(int tokenId, Krb5Context context, InputStrebm is,
+                 MessbgeProp prop) throws GSSException {
         init(tokenId, context);
 
         try {
-            gssHeader = new GSSHeader(is);
+            gssHebder = new GSSHebder(is);
 
-            if (!gssHeader.getOid().equals((Object)OID)) {
+            if (!gssHebder.getOid().equbls((Object)OID)) {
                 throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                       getTokenName(tokenId));
+                                       getTokenNbme(tokenId));
             }
-            if (!confState) {
-                prop.setPrivacy(false);
+            if (!confStbte) {
+                prop.setPrivbcy(fblse);
             }
 
-            tokenHeader = new MessageTokenHeader(is, prop);
+            tokenHebder = new MessbgeTokenHebder(is, prop);
 
             encSeqNumber = new byte[8];
-            readFully(is, encSeqNumber);
+            rebdFully(is, encSeqNumber);
 
-            // debug("\n\tRead EncSeq#=" +
+            // debug("\n\tRebd EncSeq#=" +
             // getHexBytes(encSeqNumber, encSeqNumber.length));
 
             checksum = new byte[cipherHelper.getChecksumLength()];
-            readFully(is, checksum);
+            rebdFully(is, checksum);
 
-            // debug("\n\tRead checksum=" +
+            // debug("\n\tRebd checksum=" +
             // getHexBytes(checksum, checksum.length));
-            // debug("\nLeaving MessageToken.Cons\n");
+            // debug("\nLebving MessbgeToken.Cons\n");
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                getTokenName(tokenId) + ":" + e.getMessage());
+                getTokenNbme(tokenId) + ":" + e.getMessbge());
         }
     }
 
     /**
-     * Used to obtain the GSSHeader that was at the start of this
+     * Used to obtbin the GSSHebder thbt wbs bt the stbrt of this
      * token.
      */
-    public final GSSHeader getGSSHeader() {
-        return gssHeader;
+    public finbl GSSHebder getGSSHebder() {
+        return gssHebder;
     }
 
     /**
-     * Used to obtain the token id that was contained in this token.
+     * Used to obtbin the token id thbt wbs contbined in this token.
      * @return the token id in the token
      */
-    public final int getTokenId() {
+    public finbl int getTokenId() {
         return tokenId;
     }
 
     /**
-     * Used to obtain the encrypted sequence number in this token.
+     * Used to obtbin the encrypted sequence number in this token.
      * @return the encrypted sequence number in the token
      */
-    public final byte[] getEncSeqNumber() {
+    public finbl byte[] getEncSeqNumber() {
         return encSeqNumber;
     }
 
     /**
-     * Used to obtain the checksum that was contained in this token.
+     * Used to obtbin the checksum thbt wbs contbined in this token.
      * @return the checksum in the token
      */
-    public final byte[] getChecksum() {
+    public finbl byte[] getChecksum() {
         return checksum;
     }
 
     /**
-     * Used to determine if this token contains any encrypted data.
-     * @return true if it contains any encrypted data, false if there is only
-     * plaintext data or if there is no data.
+     * Used to determine if this token contbins bny encrypted dbtb.
+     * @return true if it contbins bny encrypted dbtb, fblse if there is only
+     * plbintext dbtb or if there is no dbtb.
      */
-    public final boolean getConfState() {
-        return confState;
+    public finbl boolebn getConfStbte() {
+        return confStbte;
     }
 
     /**
-     * Generates the checksum field and the encrypted sequence number
+     * Generbtes the checksum field bnd the encrypted sequence number
      * field. The encrypted sequence number uses the 8 bytes of the checksum
-     * as an initial vector in a fixed DesCbc algorithm.
+     * bs bn initibl vector in b fixed DesCbc blgorithm.
      *
-     * @param prop the MessageProp structure that determines what sort of
-     * checksum and sealing algorithm should be used. The lower byte
-     * of qop determines the checksum algorithm while the upper byte
-     * determines the signing algorithm.
-     *       Checksum values are:
-     *           0 - default (DES_MAC)
+     * @pbrbm prop the MessbgeProp structure thbt determines whbt sort of
+     * checksum bnd sebling blgorithm should be used. The lower byte
+     * of qop determines the checksum blgorithm while the upper byte
+     * determines the signing blgorithm.
+     *       Checksum vblues bre:
+     *           0 - defbult (DES_MAC)
      *           1 - MD5
      *           2 - DES_MD5
      *           3 - DES_MAC
      *           4 - HMAC_SHA1
-     *       Sealing values are:
-     *           0 - default (DES)
+     *       Sebling vblues bre:
+     *           0 - defbult (DES)
      *           1 - DES
      *           2 - DES3-KD
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during  checksum calculation
+     * @pbrbm optionblHebder bn optionbl hebder thbt will be processed first
+     * during  checksum cblculbtion
      *
-     * @param data the application data to checksum
-     * @param offset the offset where the data starts
-     * @param len the length of the data
+     * @pbrbm dbtb the bpplicbtion dbtb to checksum
+     * @pbrbm offset the offset where the dbtb stbrts
+     * @pbrbm len the length of the dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed
-     * last during checksum calculation. e.g., padding that should be
-     * appended to the application data
+     * @pbrbm optionblTrbiler bn optionbl trbiler thbt will be processed
+     * lbst during checksum cblculbtion. e.g., pbdding thbt should be
+     * bppended to the bpplicbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation or
-     * encryption sequence number calculation.
+     * @throws GSSException if bn error occurs in the checksum cblculbtion or
+     * encryption sequence number cblculbtion.
      */
-    public void genSignAndSeqNumber(MessageProp prop,
-                                    byte[] optionalHeader,
-                                    byte[] data, int offset, int len,
-                                    byte[] optionalTrailer)
+    public void genSignAndSeqNumber(MessbgeProp prop,
+                                    byte[] optionblHebder,
+                                    byte[] dbtb, int offset, int len,
+                                    byte[] optionblTrbiler)
         throws GSSException {
 
-        //    debug("Inside MessageToken.genSignAndSeqNumber:\n");
+        //    debug("Inside MessbgeToken.genSignAndSeqNumber:\n");
 
         int qop = prop.getQOP();
         if (qop != 0) {
@@ -300,184 +300,184 @@ abstract class MessageToken extends Krb5Token {
             prop.setQOP(qop);
         }
 
-        if (!confState) {
-            prop.setPrivacy(false);
+        if (!confStbte) {
+            prop.setPrivbcy(fblse);
         }
 
-        // Create a token header with the correct sign and seal algorithm
-        // values.
-        tokenHeader =
-            new MessageTokenHeader(tokenId, prop.getPrivacy(), qop);
+        // Crebte b token hebder with the correct sign bnd sebl blgorithm
+        // vblues.
+        tokenHebder =
+            new MessbgeTokenHebder(tokenId, prop.getPrivbcy(), qop);
 
-        // Calculate SGN_CKSUM
+        // Cblculbte SGN_CKSUM
 
         checksum =
-            getChecksum(optionalHeader, data, offset, len, optionalTrailer);
+            getChecksum(optionblHebder, dbtb, offset, len, optionblTrbiler);
 
-        // debug("\n\tCalc checksum=" +
+        // debug("\n\tCblc checksum=" +
         // getHexBytes(checksum, checksum.length));
 
-        // Calculate SND_SEQ
+        // Cblculbte SND_SEQ
 
-        seqNumberData = new byte[8];
+        seqNumberDbtb = new byte[8];
 
-        // When using this RC4 based encryption type, the sequence number is
-        // always sent in big-endian rather than little-endian order.
+        // When using this RC4 bbsed encryption type, the sequence number is
+        // blwbys sent in big-endibn rbther thbn little-endibn order.
         if (cipherHelper.isArcFour()) {
-            writeBigEndian(seqNumber, seqNumberData);
+            writeBigEndibn(seqNumber, seqNumberDbtb);
         } else {
-            // for all other etypes
-            writeLittleEndian(seqNumber, seqNumberData);
+            // for bll other etypes
+            writeLittleEndibn(seqNumber, seqNumberDbtb);
         }
-        if (!initiator) {
-            seqNumberData[4] = (byte)0xff;
-            seqNumberData[5] = (byte)0xff;
-            seqNumberData[6] = (byte)0xff;
-            seqNumberData[7] = (byte)0xff;
+        if (!initibtor) {
+            seqNumberDbtb[4] = (byte)0xff;
+            seqNumberDbtb[5] = (byte)0xff;
+            seqNumberDbtb[6] = (byte)0xff;
+            seqNumberDbtb[7] = (byte)0xff;
         }
 
-        encSeqNumber = cipherHelper.encryptSeq(checksum, seqNumberData, 0, 8);
+        encSeqNumber = cipherHelper.encryptSeq(checksum, seqNumberDbtb, 0, 8);
 
-        // debug("\n\tCalc seqNum=" +
-        //    getHexBytes(seqNumberData, seqNumberData.length));
-        // debug("\n\tCalc encSeqNum=" +
+        // debug("\n\tCblc seqNum=" +
+        //    getHexBytes(seqNumberDbtb, seqNumberDbtb.length));
+        // debug("\n\tCblc encSeqNum=" +
         //    getHexBytes(encSeqNumber, encSeqNumber.length));
     }
 
     /**
-     * Verifies that the checksum field and sequence number direction bytes
-     * are valid and consistent with the application data.
+     * Verifies thbt the checksum field bnd sequence number direction bytes
+     * bre vblid bnd consistent with the bpplicbtion dbtb.
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during checksum calculation.
+     * @pbrbm optionblHebder bn optionbl hebder thbt will be processed first
+     * during checksum cblculbtion.
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb the bpplicbtion dbtb
+     * @pbrbm offset the offset where the dbtb begins
+     * @pbrbm len the length of the bpplicbtion dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed last
-     * during checksum calculation. e.g., padding that should be appended to
-     * the application data
+     * @pbrbm optionblTrbiler bn optionbl trbiler thbt will be processed lbst
+     * during checksum cblculbtion. e.g., pbdding thbt should be bppended to
+     * the bpplicbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation or
-     * encryption sequence number calculation.
+     * @throws GSSException if bn error occurs in the checksum cblculbtion or
+     * encryption sequence number cblculbtion.
      */
-    public final boolean verifySignAndSeqNumber(byte[] optionalHeader,
-                                        byte[] data, int offset, int len,
-                                        byte[] optionalTrailer)
+    public finbl boolebn verifySignAndSeqNumber(byte[] optionblHebder,
+                                        byte[] dbtb, int offset, int len,
+                                        byte[] optionblTrbiler)
         throws GSSException {
          // debug("\tIn verifySign:\n");
 
          // debug("\t\tchecksum:   [" + getHexBytes(checksum) + "]\n");
 
         byte[] myChecksum =
-            getChecksum(optionalHeader, data, offset, len, optionalTrailer);
+            getChecksum(optionblHebder, dbtb, offset, len, optionblTrbiler);
 
         // debug("\t\tmychecksum: [" + getHexBytes(myChecksum) +"]\n");
         // debug("\t\tchecksum:   [" + getHexBytes(checksum) + "]\n");
 
-        if (MessageDigest.isEqual(checksum, myChecksum)) {
+        if (MessbgeDigest.isEqubl(checksum, myChecksum)) {
 
-            seqNumberData = cipherHelper.decryptSeq(
+            seqNumberDbtb = cipherHelper.decryptSeq(
                 checksum, encSeqNumber, 0, 8);
 
             // debug("\t\tencSeqNumber:   [" + getHexBytes(encSeqNumber)
             //  + "]\n");
-            // debug("\t\tseqNumberData:   [" + getHexBytes(seqNumberData)
+            // debug("\t\tseqNumberDbtb:   [" + getHexBytes(seqNumberDbtb)
             //  + "]\n");
 
             /*
-             * The token from the initiator has direction bytes 0x00 and
-             * the token from the acceptor has direction bytes 0xff.
+             * The token from the initibtor hbs direction bytes 0x00 bnd
+             * the token from the bcceptor hbs direction bytes 0xff.
              */
             byte directionByte = 0;
-            if (initiator)
-                directionByte = (byte) 0xff; // Received token from acceptor
+            if (initibtor)
+                directionByte = (byte) 0xff; // Received token from bcceptor
 
-            if ((seqNumberData[4] == directionByte) &&
-                  (seqNumberData[5] == directionByte) &&
-                  (seqNumberData[6] == directionByte) &&
-                  (seqNumberData[7] == directionByte))
+            if ((seqNumberDbtb[4] == directionByte) &&
+                  (seqNumberDbtb[5] == directionByte) &&
+                  (seqNumberDbtb[6] == directionByte) &&
+                  (seqNumberDbtb[7] == directionByte))
                 return true;
         }
 
-        return false;
+        return fblse;
 
     }
 
-    public final int getSequenceNumber() {
+    public finbl int getSequenceNumber() {
         int sequenceNum = 0;
         if (cipherHelper.isArcFour()) {
-            sequenceNum = readBigEndian(seqNumberData, 0, 4);
+            sequenceNum = rebdBigEndibn(seqNumberDbtb, 0, 4);
         } else {
-            sequenceNum = readLittleEndian(seqNumberData, 0, 4);
+            sequenceNum = rebdLittleEndibn(seqNumberDbtb, 0, 4);
         }
         return sequenceNum;
     }
 
     /**
-     * Computes the checksum based on the algorithm stored in the
-     * tokenHeader.
+     * Computes the checksum bbsed on the blgorithm stored in the
+     * tokenHebder.
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during checksum calculation.
+     * @pbrbm optionblHebder bn optionbl hebder thbt will be processed first
+     * during checksum cblculbtion.
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb the bpplicbtion dbtb
+     * @pbrbm offset the offset where the dbtb begins
+     * @pbrbm len the length of the bpplicbtion dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed last
-     * during checksum calculation. e.g., padding that should be appended to
-     * the application data
+     * @pbrbm optionblTrbiler bn optionbl trbiler thbt will be processed lbst
+     * during checksum cblculbtion. e.g., pbdding thbt should be bppended to
+     * the bpplicbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation.
+     * @throws GSSException if bn error occurs in the checksum cblculbtion.
      */
-    private byte[] getChecksum(byte[] optionalHeader,
-                               byte[] data, int offset, int len,
-                               byte[] optionalTrailer)
+    privbte byte[] getChecksum(byte[] optionblHebder,
+                               byte[] dbtb, int offset, int len,
+                               byte[] optionblTrbiler)
         throws GSSException {
 
         //      debug("Will do getChecksum:\n");
 
         /*
-         * For checksum calculation the token header bytes i.e., the first 8
-         * bytes following the GSSHeader, are logically prepended to the
-         * application data to bind the data to this particular token.
+         * For checksum cblculbtion the token hebder bytes i.e., the first 8
+         * bytes following the GSSHebder, bre logicblly prepended to the
+         * bpplicbtion dbtb to bind the dbtb to this pbrticulbr token.
          *
-         * Note: There is no such requirement wrt adding padding to the
-         * application data for checksumming, although the cryptographic
-         * algorithm used might itself apply some padding.
+         * Note: There is no such requirement wrt bdding pbdding to the
+         * bpplicbtion dbtb for checksumming, blthough the cryptogrbphic
+         * blgorithm used might itself bpply some pbdding.
          */
 
-        byte[] tokenHeaderBytes = tokenHeader.getBytes();
-        byte[] existingHeader = optionalHeader;
-        byte[] checksumDataHeader = tokenHeaderBytes;
+        byte[] tokenHebderBytes = tokenHebder.getBytes();
+        byte[] existingHebder = optionblHebder;
+        byte[] checksumDbtbHebder = tokenHebderBytes;
 
-        if (existingHeader != null) {
-            checksumDataHeader = new byte[tokenHeaderBytes.length +
-                                         existingHeader.length];
-            System.arraycopy(tokenHeaderBytes, 0,
-                             checksumDataHeader, 0, tokenHeaderBytes.length);
-            System.arraycopy(existingHeader, 0,
-                             checksumDataHeader, tokenHeaderBytes.length,
-                             existingHeader.length);
+        if (existingHebder != null) {
+            checksumDbtbHebder = new byte[tokenHebderBytes.length +
+                                         existingHebder.length];
+            System.brrbycopy(tokenHebderBytes, 0,
+                             checksumDbtbHebder, 0, tokenHebderBytes.length);
+            System.brrbycopy(existingHebder, 0,
+                             checksumDbtbHebder, tokenHebderBytes.length,
+                             existingHebder.length);
         }
 
-        return cipherHelper.calculateChecksum(tokenHeader.getSignAlg(),
-             checksumDataHeader, optionalTrailer, data, offset, len, tokenId);
+        return cipherHelper.cblculbteChecksum(tokenHebder.getSignAlg(),
+             checksumDbtbHebder, optionblTrbiler, dbtb, offset, len, tokenId);
     }
 
 
     /**
-     * Constructs an empty MessageToken for the local context to send to
-     * the peer. It also increments the local sequence number in the
-     * Krb5Context instance it uses after obtaining the object lock for
+     * Constructs bn empty MessbgeToken for the locbl context to send to
+     * the peer. It blso increments the locbl sequence number in the
+     * Krb5Context instbnce it uses bfter obtbining the object lock for
      * it.
      *
-     * @param tokenId the token id that should be contained in this token
-     * @param context the Kerberos context associated with this token
+     * @pbrbm tokenId the token id thbt should be contbined in this token
+     * @pbrbm context the Kerberos context bssocibted with this token
      */
-    MessageToken(int tokenId, Krb5Context context) throws GSSException {
+    MessbgeToken(int tokenId, Krb5Context context) throws GSSException {
         /*
           debug("\n============================");
           debug("\nMySessionKey=" +
@@ -490,27 +490,27 @@ abstract class MessageToken extends Krb5Token {
         this.seqNumber = context.incrementMySequenceNumber();
     }
 
-    private void init(int tokenId, Krb5Context context) throws GSSException {
+    privbte void init(int tokenId, Krb5Context context) throws GSSException {
         this.tokenId = tokenId;
-        // Just for consistency check in Wrap
-        this.confState = context.getConfState();
+        // Just for consistency check in Wrbp
+        this.confStbte = context.getConfStbte();
 
-        this.initiator = context.isInitiator();
+        this.initibtor = context.isInitibtor();
 
         this.cipherHelper = context.getCipherHelper(null);
-        //    debug("In MessageToken.Cons");
+        //    debug("In MessbgeToken.Cons");
     }
 
     /**
-     * Encodes a GSSHeader and this token onto an OutputStream.
+     * Encodes b GSSHebder bnd this token onto bn OutputStrebm.
      *
-     * @param os the OutputStream to which this should be written
-     * @throws GSSException if an error occurs while writing to the OutputStream
+     * @pbrbm os the OutputStrebm to which this should be written
+     * @throws GSSException if bn error occurs while writing to the OutputStrebm
      */
-    public void encode(OutputStream os) throws IOException, GSSException {
-        gssHeader = new GSSHeader(OID, getKrb5TokenSize());
-        gssHeader.encode(os);
-        tokenHeader.encode(os);
+    public void encode(OutputStrebm os) throws IOException, GSSException {
+        gssHebder = new GSSHebder(OID, getKrb5TokenSize());
+        gssHebder.encode(os);
+        tokenHebder.encode(os);
         // debug("Writing seqNumber: " + getHexBytes(encSeqNumber));
         os.write(encSeqNumber);
         // debug("Writing checksum: " + getHexBytes(checksum));
@@ -518,44 +518,44 @@ abstract class MessageToken extends Krb5Token {
     }
 
     /**
-     * Obtains the size of this token. Note that this excludes the size of
-     * the GSSHeader.
+     * Obtbins the size of this token. Note thbt this excludes the size of
+     * the GSSHebder.
      * @return token size
      */
     protected int getKrb5TokenSize() throws GSSException {
         return getTokenSize();
     }
 
-    protected final int getTokenSize() throws GSSException {
+    protected finbl int getTokenSize() throws GSSException {
         return TOKEN_NO_CKSUM_SIZE + cipherHelper.getChecksumLength();
     }
 
-    protected static final int getTokenSize(CipherHelper ch)
+    protected stbtic finbl int getTokenSize(CipherHelper ch)
         throws GSSException {
          return TOKEN_NO_CKSUM_SIZE + ch.getChecksumLength();
     }
 
     /**
-     * Obtains the conext key that is associated with this token.
+     * Obtbins the conext key thbt is bssocibted with this token.
      * @return the context key
      */
     /*
-    public final byte[] getContextKey() {
+    public finbl byte[] getContextKey() {
         return contextKey;
     }
     */
 
     /**
-     * Obtains the encryption algorithm that should be used in this token
-     * given the state of confidentiality the application requested.
-     * Requested qop must be consistent with negotiated session key.
-     * @param confRequested true if the application desired confidentiality
-     * on this token, false otherwise
-     * @param qop the qop requested by the application
-     * @throws GSSException if qop is incompatible with the negotiated
+     * Obtbins the encryption blgorithm thbt should be used in this token
+     * given the stbte of confidentiblity the bpplicbtion requested.
+     * Requested qop must be consistent with negotibted session key.
+     * @pbrbm confRequested true if the bpplicbtion desired confidentiblity
+     * on this token, fblse otherwise
+     * @pbrbm qop the qop requested by the bpplicbtion
+     * @throws GSSException if qop is incompbtible with the negotibted
      *         session key
      */
-    protected abstract int getSealAlg(boolean confRequested, int qop)
+    protected bbstrbct int getSeblAlg(boolebn confRequested, int qop)
         throws GSSException;
 
     // ******************************************* //
@@ -563,15 +563,15 @@ abstract class MessageToken extends Krb5Token {
     // ******************************************* //
 
     /**
-     * This inner class represents the initial portion of the message token
-     * and contains information about the checksum and encryption algorithms
-     * that are in use. It constitutes the first 8 bytes of the
-     * message token:
+     * This inner clbss represents the initibl portion of the messbge token
+     * bnd contbins informbtion bbout the checksum bnd encryption blgorithms
+     * thbt bre in use. It constitutes the first 8 bytes of the
+     * messbge token:
      * <pre>
-     *     0..1           TOK_ID          Identification field.
+     *     0..1           TOK_ID          Identificbtion field.
      *                                    01 01 - Mic token
-     *                                    02 01 - Wrap token
-     *     2..3           SGN_ALG         Checksum algorithm indicator.
+     *                                    02 01 - Wrbp token
+     *     2..3           SGN_ALG         Checksum blgorithm indicbtor.
      *                                    00 00 - DES MAC MD5
      *                                    01 00 - MD2.5
      *                                    02 00 - DES MAC
@@ -581,35 +581,35 @@ abstract class MessageToken extends Krb5Token {
      *                                    00 00 - DES
      *                                    02 00 - DES3-KD
      *                                    10 00 - RC4-HMAC
-     *     6..7           Filler          Contains ff ff
+     *     6..7           Filler          Contbins ff ff
      * </pre>
      */
-    class MessageTokenHeader {
+    clbss MessbgeTokenHebder {
 
-         private int tokenId;
-         private int signAlg;
-         private int sealAlg;
+         privbte int tokenId;
+         privbte int signAlg;
+         privbte int seblAlg;
 
-         private byte[] bytes = new byte[8];
+         privbte byte[] bytes = new byte[8];
 
         /**
-         * Constructs a MessageTokenHeader for the specified token type with
-         * appropriate checksum and encryption algorithms fields.
+         * Constructs b MessbgeTokenHebder for the specified token type with
+         * bppropribte checksum bnd encryption blgorithms fields.
          *
-         * @param tokenId the token id for this message token
-         * @param conf true if confidentiality will be resuested with this
-         * message token, false otherwise.
-         * @param qop the value of the quality of protection that will be
+         * @pbrbm tokenId the token id for this messbge token
+         * @pbrbm conf true if confidentiblity will be resuested with this
+         * messbge token, fblse otherwise.
+         * @pbrbm qop the vblue of the qublity of protection thbt will be
          * desired.
          */
-        public MessageTokenHeader(int tokenId, boolean conf, int qop)
+        public MessbgeTokenHebder(int tokenId, boolebn conf, int qop)
          throws GSSException {
 
             this.tokenId = tokenId;
 
-            signAlg = MessageToken.this.getSgnAlg(qop);
+            signAlg = MessbgeToken.this.getSgnAlg(qop);
 
-            sealAlg = MessageToken.this.getSealAlg(conf, qop);
+            seblAlg = MessbgeToken.this.getSeblAlg(conf, qop);
 
             bytes[0] = (byte) (tokenId >>> 8);
             bytes[1] = (byte) (tokenId);
@@ -617,102 +617,102 @@ abstract class MessageToken extends Krb5Token {
             bytes[2] = (byte) (signAlg >>> 8);
             bytes[3] = (byte) (signAlg);
 
-            bytes[4] = (byte) (sealAlg >>> 8);
-            bytes[5] = (byte) (sealAlg);
+            bytes[4] = (byte) (seblAlg >>> 8);
+            bytes[5] = (byte) (seblAlg);
 
-            bytes[6] = (byte) (MessageToken.FILLER >>> 8);
-            bytes[7] = (byte) (MessageToken.FILLER);
+            bytes[6] = (byte) (MessbgeToken.FILLER >>> 8);
+            bytes[7] = (byte) (MessbgeToken.FILLER);
         }
 
         /**
-         * Constructs a MessageTokenHeader by reading it from an InputStream
-         * and sets the appropriate confidentiality and quality of protection
-         * values in a MessageProp structure.
+         * Constructs b MessbgeTokenHebder by rebding it from bn InputStrebm
+         * bnd sets the bppropribte confidentiblity bnd qublity of protection
+         * vblues in b MessbgeProp structure.
          *
-         * @param is the InputStream to read from
-         * @param prop the MessageProp to populate
-         * @throws IOException is an error occurs while reading from the
-         * InputStream
+         * @pbrbm is the InputStrebm to rebd from
+         * @pbrbm prop the MessbgeProp to populbte
+         * @throws IOException is bn error occurs while rebding from the
+         * InputStrebm
          */
-        public MessageTokenHeader(InputStream is, MessageProp prop)
+        public MessbgeTokenHebder(InputStrebm is, MessbgeProp prop)
             throws IOException {
-            readFully(is, bytes);
-            tokenId = readInt(bytes, TOKEN_ID_POS);
-            signAlg = readInt(bytes, SIGN_ALG_POS);
-            sealAlg = readInt(bytes, SEAL_ALG_POS);
-            //          debug("\nMessageTokenHeader read tokenId=" +
+            rebdFully(is, bytes);
+            tokenId = rebdInt(bytes, TOKEN_ID_POS);
+            signAlg = rebdInt(bytes, SIGN_ALG_POS);
+            seblAlg = rebdInt(bytes, SEAL_ALG_POS);
+            //          debug("\nMessbgeTokenHebder rebd tokenId=" +
             //                getHexBytes(bytes) + "\n");
-            // XXX compare to FILLER
-            int temp = readInt(bytes, SEAL_ALG_POS + 2);
+            // XXX compbre to FILLER
+            int temp = rebdInt(bytes, SEAL_ALG_POS + 2);
 
             //              debug("SIGN_ALG=" + signAlg);
 
-            switch (sealAlg) {
-            case SEAL_ALG_DES:
-            case SEAL_ALG_DES3_KD:
-            case SEAL_ALG_ARCFOUR_HMAC:
-                prop.setPrivacy(true);
-                break;
+            switch (seblAlg) {
+            cbse SEAL_ALG_DES:
+            cbse SEAL_ALG_DES3_KD:
+            cbse SEAL_ALG_ARCFOUR_HMAC:
+                prop.setPrivbcy(true);
+                brebk;
 
-            default:
-                prop.setPrivacy(false);
+            defbult:
+                prop.setPrivbcy(fblse);
             }
 
-            prop.setQOP(0);  // default
+            prop.setQOP(0);  // defbult
         }
 
         /**
-         * Encodes this MessageTokenHeader onto an OutputStream
-         * @param os the OutputStream to write to
-         * @throws IOException is an error occurs while writing
+         * Encodes this MessbgeTokenHebder onto bn OutputStrebm
+         * @pbrbm os the OutputStrebm to write to
+         * @throws IOException is bn error occurs while writing
          */
-        public final void encode(OutputStream os) throws IOException {
+        public finbl void encode(OutputStrebm os) throws IOException {
             os.write(bytes);
         }
 
 
         /**
-         * Returns the token id for the message token.
+         * Returns the token id for the messbge token.
          * @return the token id
          * @see sun.security.jgss.krb5.Krb5Token#MIC_ID
          * @see sun.security.jgss.krb5.Krb5Token#WRAP_ID
          */
-        public final int getTokenId() {
+        public finbl int getTokenId() {
             return tokenId;
         }
 
         /**
-         * Returns the sign algorithm for the message token.
-         * @return the sign algorithm
-         * @see sun.security.jgss.krb5.MessageToken#SIGN_DES_MAC
-         * @see sun.security.jgss.krb5.MessageToken#SIGN_DES_MAC_MD5
+         * Returns the sign blgorithm for the messbge token.
+         * @return the sign blgorithm
+         * @see sun.security.jgss.krb5.MessbgeToken#SIGN_DES_MAC
+         * @see sun.security.jgss.krb5.MessbgeToken#SIGN_DES_MAC_MD5
          */
-        public final int getSignAlg() {
+        public finbl int getSignAlg() {
             return signAlg;
         }
 
         /**
-         * Returns the seal algorithm for the message token.
-         * @return the seal algorithm
-         * @see sun.security.jgss.krb5.MessageToken#SEAL_ALG_DES
-         * @see sun.security.jgss.krb5.MessageToken#SEAL_ALG_NONE
+         * Returns the sebl blgorithm for the messbge token.
+         * @return the sebl blgorithm
+         * @see sun.security.jgss.krb5.MessbgeToken#SEAL_ALG_DES
+         * @see sun.security.jgss.krb5.MessbgeToken#SEAL_ALG_NONE
          */
-        public final int getSealAlg() {
-            return sealAlg;
+        public finbl int getSeblAlg() {
+            return seblAlg;
         }
 
         /**
-         * Returns the bytes of this header.
-         * @return 8 bytes that form this header
+         * Returns the bytes of this hebder.
+         * @return 8 bytes thbt form this hebder
          */
-        public final byte[] getBytes() {
+        public finbl byte[] getBytes() {
             return bytes;
         }
-    } // end of class MessageTokenHeader
+    } // end of clbss MessbgeTokenHebder
 
 
     /**
-     * Determine signing algorithm based on QOP.
+     * Determine signing blgorithm bbsed on QOP.
      */
     protected int getSgnAlg(int qop) throws GSSException {
          // QOP ignored

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
-import java.io.Closeable;
+import jbvb.io.IOException;
+import jbvb.io.Closebble;
 
 
 /**
- * A nexus for I/O operations.
+ * A nexus for I/O operbtions.
  *
- * <p> A channel represents an open connection to an entity such as a hardware
- * device, a file, a network socket, or a program component that is capable of
- * performing one or more distinct I/O operations, for example reading or
+ * <p> A chbnnel represents bn open connection to bn entity such bs b hbrdwbre
+ * device, b file, b network socket, or b progrbm component thbt is cbpbble of
+ * performing one or more distinct I/O operbtions, for exbmple rebding or
  * writing.
  *
- * <p> A channel is either open or closed.  A channel is open upon creation,
- * and once closed it remains closed.  Once a channel is closed, any attempt to
- * invoke an I/O operation upon it will cause a {@link ClosedChannelException}
- * to be thrown.  Whether or not a channel is open may be tested by invoking
+ * <p> A chbnnel is either open or closed.  A chbnnel is open upon crebtion,
+ * bnd once closed it rembins closed.  Once b chbnnel is closed, bny bttempt to
+ * invoke bn I/O operbtion upon it will cbuse b {@link ClosedChbnnelException}
+ * to be thrown.  Whether or not b chbnnel is open mby be tested by invoking
  * its {@link #isOpen isOpen} method.
  *
- * <p> Channels are, in general, intended to be safe for multithreaded access
- * as described in the specifications of the interfaces and classes that extend
- * and implement this interface.
+ * <p> Chbnnels bre, in generbl, intended to be sbfe for multithrebded bccess
+ * bs described in the specificbtions of the interfbces bnd clbsses thbt extend
+ * bnd implement this interfbce.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public interface Channel extends Closeable {
+public interfbce Chbnnel extends Closebble {
 
     /**
-     * Tells whether or not this channel is open.
+     * Tells whether or not this chbnnel is open.
      *
-     * @return <tt>true</tt> if, and only if, this channel is open
+     * @return <tt>true</tt> if, bnd only if, this chbnnel is open
      */
-    public boolean isOpen();
+    public boolebn isOpen();
 
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
-     * <p> After a channel is closed, any further attempt to invoke I/O
-     * operations upon it will cause a {@link ClosedChannelException} to be
+     * <p> After b chbnnel is closed, bny further bttempt to invoke I/O
+     * operbtions upon it will cbuse b {@link ClosedChbnnelException} to be
      * thrown.
      *
-     * <p> If this channel is already closed then invoking this method has no
+     * <p> If this chbnnel is blrebdy closed then invoking this method hbs no
      * effect.
      *
-     * <p> This method may be invoked at any time.  If some other thread has
-     * already invoked it, however, then another invocation will block until
-     * the first invocation is complete, after which it will return without
+     * <p> This method mby be invoked bt bny time.  If some other threbd hbs
+     * blrebdy invoked it, however, then bnother invocbtion will block until
+     * the first invocbtion is complete, bfter which it will return without
      * effect. </p>
      *
-     * @throws  IOException  If an I/O error occurs
+     * @throws  IOException  If bn I/O error occurs
      */
     public void close() throws IOException;
 

@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.NotSerializableException;
-import java.io.IOException;
+import jbvb.io.NotSeriblizbbleException;
+import jbvb.io.IOException;
 
 /**
- * Thrown to indicate that an operation could not complete because
- * the input did not conform to the appropriate XML document type
- * for a collection of properties, as per the {@link Properties}
- * specification.<p>
+ * Thrown to indicbte thbt bn operbtion could not complete becbuse
+ * the input did not conform to the bppropribte XML document type
+ * for b collection of properties, bs per the {@link Properties}
+ * specificbtion.<p>
  *
- * Note, that although InvalidPropertiesFormatException inherits Serializable
- * interface from Exception, it is not intended to be Serializable. Appropriate
- * serialization methods are implemented to throw NotSerializableException.
+ * Note, thbt blthough InvblidPropertiesFormbtException inherits Seriblizbble
+ * interfbce from Exception, it is not intended to be Seriblizbble. Appropribte
+ * seriblizbtion methods bre implemented to throw NotSeriblizbbleException.
  *
  * @see     Properties
  * @since   1.5
- * @serial exclude
+ * @seribl exclude
  */
 
-public class InvalidPropertiesFormatException extends IOException {
+public clbss InvblidPropertiesFormbtException extends IOException {
 
-    private static final long serialVersionUID = 7763056076009360219L;
+    privbte stbtic finbl long seriblVersionUID = 7763056076009360219L;
 
     /**
-     * Constructs an InvalidPropertiesFormatException with the specified
-     * cause.
+     * Constructs bn InvblidPropertiesFormbtException with the specified
+     * cbuse.
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link Throwbble#getCbuse()} method).
      */
-    public InvalidPropertiesFormatException(Throwable cause) {
-        super(cause==null ? null : cause.toString());
-        this.initCause(cause);
+    public InvblidPropertiesFormbtException(Throwbble cbuse) {
+        super(cbuse==null ? null : cbuse.toString());
+        this.initCbuse(cbuse);
     }
 
    /**
-    * Constructs an InvalidPropertiesFormatException with the specified
-    * detail message.
+    * Constructs bn InvblidPropertiesFormbtException with the specified
+    * detbil messbge.
     *
-    * @param   message   the detail message. The detail message is saved for
-    *          later retrieval by the {@link Throwable#getMessage()} method.
+    * @pbrbm   messbge   the detbil messbge. The detbil messbge is sbved for
+    *          lbter retrievbl by the {@link Throwbble#getMessbge()} method.
     */
-    public InvalidPropertiesFormatException(String message) {
-        super(message);
+    public InvblidPropertiesFormbtException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Throws NotSerializableException, since InvalidPropertiesFormatException
-     * objects are not intended to be serializable.
+     * Throws NotSeriblizbbleException, since InvblidPropertiesFormbtException
+     * objects bre not intended to be seriblizbble.
      */
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws NotSerializableException
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm out)
+        throws NotSeriblizbbleException
     {
-        throw new NotSerializableException("Not serializable.");
+        throw new NotSeriblizbbleException("Not seriblizbble.");
     }
 
     /**
-     * Throws NotSerializableException, since InvalidPropertiesFormatException
-     * objects are not intended to be serializable.
+     * Throws NotSeriblizbbleException, since InvblidPropertiesFormbtException
+     * objects bre not intended to be seriblizbble.
      */
-    private void readObject(java.io.ObjectInputStream in)
-        throws NotSerializableException
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+        throws NotSeriblizbbleException
     {
-        throw new NotSerializableException("Not serializable.");
+        throw new NotSeriblizbbleException("Not seriblizbble.");
     }
 
 }

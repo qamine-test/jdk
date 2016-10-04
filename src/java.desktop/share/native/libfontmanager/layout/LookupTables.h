@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,88 +34,88 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "LayoutTables.h"
-#include "LETableReference.h"
+#include "LbyoutTbbles.h"
+#include "LETbbleReference.h"
 
 U_NAMESPACE_BEGIN
 
-enum LookupTableFormat
+enum LookupTbbleFormbt
 {
-    ltfSimpleArray      = 0,
+    ltfSimpleArrby      = 0,
     ltfSegmentSingle    = 2,
-    ltfSegmentArray     = 4,
-    ltfSingleTable      = 6,
-    ltfTrimmedArray     = 8
+    ltfSegmentArrby     = 4,
+    ltfSingleTbble      = 6,
+    ltfTrimmedArrby     = 8
 };
 
-typedef le_int16 LookupValue;
+typedef le_int16 LookupVblue;
 
-struct LookupTable
+struct LookupTbble
 {
-    le_int16 format;
+    le_int16 formbt;
 };
 
 struct LookupSegment
 {
-    TTGlyphID   lastGlyph;
+    TTGlyphID   lbstGlyph;
     TTGlyphID   firstGlyph;
-    LookupValue value;
+    LookupVblue vblue;
 };
 
 struct LookupSingle
 {
     TTGlyphID   glyph;
-    LookupValue value;
+    LookupVblue vblue;
 };
 
-struct BinarySearchLookupTable : LookupTable
+struct BinbrySebrchLookupTbble : LookupTbble
 {
     le_int16 unitSize;
     le_int16 nUnits;
-    le_int16 searchRange;
+    le_int16 sebrchRbnge;
     le_int16 entrySelector;
-    le_int16 rangeShift;
+    le_int16 rbngeShift;
 
-    const LookupSegment *lookupSegment(const LETableReference &base, const LookupSegment *segments, LEGlyphID glyph, LEErrorCode &success) const;
+    const LookupSegment *lookupSegment(const LETbbleReference &bbse, const LookupSegment *segments, LEGlyphID glyph, LEErrorCode &success) const;
 
-    const LookupSingle *lookupSingle(const LETableReference &base, const LookupSingle *entries, LEGlyphID glyph, LEErrorCode &success) const;
+    const LookupSingle *lookupSingle(const LETbbleReference &bbse, const LookupSingle *entries, LEGlyphID glyph, LEErrorCode &success) const;
 };
 
-struct SimpleArrayLookupTable : LookupTable
+struct SimpleArrbyLookupTbble : LookupTbble
 {
-    LookupValue valueArray[ANY_NUMBER];
+    LookupVblue vblueArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SimpleArrayLookupTable, valueArray)
+LE_VAR_ARRAY(SimpleArrbyLookupTbble, vblueArrby)
 
-struct SegmentSingleLookupTable : BinarySearchLookupTable
-{
-    LookupSegment segments[ANY_NUMBER];
-};
-LE_VAR_ARRAY(SegmentSingleLookupTable, segments)
-
-struct SegmentArrayLookupTable : BinarySearchLookupTable
+struct SegmentSingleLookupTbble : BinbrySebrchLookupTbble
 {
     LookupSegment segments[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SegmentArrayLookupTable, segments)
+LE_VAR_ARRAY(SegmentSingleLookupTbble, segments)
 
-struct SingleTableLookupTable : BinarySearchLookupTable
+struct SegmentArrbyLookupTbble : BinbrySebrchLookupTbble
+{
+    LookupSegment segments[ANY_NUMBER];
+};
+LE_VAR_ARRAY(SegmentArrbyLookupTbble, segments)
+
+struct SingleTbbleLookupTbble : BinbrySebrchLookupTbble
 {
     LookupSingle entries[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SingleTableLookupTable, entries)
+LE_VAR_ARRAY(SingleTbbleLookupTbble, entries)
 
-struct TrimmedArrayLookupTable : LookupTable
+struct TrimmedArrbyLookupTbble : LookupTbble
 {
     TTGlyphID   firstGlyph;
     TTGlyphID   glyphCount;
-    LookupValue valueArray[ANY_NUMBER];
+    LookupVblue vblueArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(TrimmedArrayLookupTable, valueArray)
+LE_VAR_ARRAY(TrimmedArrbyLookupTbble, vblueArrby)
 
 U_NAMESPACE_END
 #endif

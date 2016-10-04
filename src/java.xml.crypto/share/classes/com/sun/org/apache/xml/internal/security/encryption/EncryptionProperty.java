@@ -3,54 +3,54 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 import org.w3c.dom.Element;
 
 /**
- * Additional information items concerning the generation of the
- * <code>EncryptedData</code> or <code>EncryptedKey</code> can be placed in an
- * <code>EncryptionProperty</code> element (e.g., date/time stamp or the serial
- * number of cryptographic hardware used during encryption). The Target
- * attribute identifies the <code>EncryptedType</code> structure being
- * described. anyAttribute permits the inclusion of attributes from the XML
- * namespace to be included (i.e., <code>xml:space</code>,
- * <code>xml:lang</code>, and <code>xml:base</code>).
+ * Additionbl informbtion items concerning the generbtion of the
+ * <code>EncryptedDbtb</code> or <code>EncryptedKey</code> cbn be plbced in bn
+ * <code>EncryptionProperty</code> element (e.g., dbte/time stbmp or the seribl
+ * number of cryptogrbphic hbrdwbre used during encryption). The Tbrget
+ * bttribute identifies the <code>EncryptedType</code> structure being
+ * described. bnyAttribute permits the inclusion of bttributes from the XML
+ * nbmespbce to be included (i.e., <code>xml:spbce</code>,
+ * <code>xml:lbng</code>, bnd <code>xml:bbse</code>).
  * <p>
- * It is defined as follows:
+ * It is defined bs follows:
  * <xmp>
- * <element name='EncryptionProperty' type='xenc:EncryptionPropertyType'/>
- * <complexType name='EncryptionPropertyType' mixed='true'>
- *     <choice maxOccurs='unbounded'>
- *         <any namespace='##other' processContents='lax'/>
+ * <element nbme='EncryptionProperty' type='xenc:EncryptionPropertyType'/>
+ * <complexType nbme='EncryptionPropertyType' mixed='true'>
+ *     <choice mbxOccurs='unbounded'>
+ *         <bny nbmespbce='##other' processContents='lbx'/>
  *     </choice>
- *     <attribute name='Target' type='anyURI' use='optional'/>
- *     <attribute name='Id' type='ID' use='optional'/>
- *     <anyAttribute namespace="http://www.w3.org/XML/1998/namespace"/>
+ *     <bttribute nbme='Tbrget' type='bnyURI' use='optionbl'/>
+ *     <bttribute nbme='Id' type='ID' use='optionbl'/>
+ *     <bnyAttribute nbmespbce="http://www.w3.org/XML/1998/nbmespbce"/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface EncryptionProperty {
+public interfbce EncryptionProperty {
 
     /**
      * Returns the <code>EncryptedType</code> being described.
@@ -58,14 +58,14 @@ public interface EncryptionProperty {
      * @return the <code>EncryptedType</code> being described by this
      *   <code>EncryptionProperty</code>.
      */
-    String getTarget();
+    String getTbrget();
 
     /**
-     * Sets the target.
+     * Sets the tbrget.
      *
-     * @param target
+     * @pbrbm tbrget
      */
-    void setTarget(String target);
+    void setTbrget(String tbrget);
 
     /**
      * Returns the id of the <CODE>EncryptionProperty</CODE>.
@@ -77,45 +77,45 @@ public interface EncryptionProperty {
     /**
      * Sets the id.
      *
-     * @param id
+     * @pbrbm id
      */
     void setId(String id);
 
     /**
-     * Returns the attribute's value in the <code>xml</code> namespace.
+     * Returns the bttribute's vblue in the <code>xml</code> nbmespbce.
      *
-     * @param attribute
-     * @return the attribute's value.
+     * @pbrbm bttribute
+     * @return the bttribute's vblue.
      */
-    String getAttribute(String attribute);
+    String getAttribute(String bttribute);
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      *
-     * @param attribute the attribute's name.
-     * @param value the attribute's value.
+     * @pbrbm bttribute the bttribute's nbme.
+     * @pbrbm vblue the bttribute's vblue.
      */
-    void setAttribute(String attribute, String value);
+    void setAttribute(String bttribute, String vblue);
 
     /**
      * Returns the properties of the <CODE>EncryptionProperty</CODE>.
      *
-     * @return an <code>Iterator</code> over all the additional encryption
-     *   information contained in this class.
+     * @return bn <code>Iterbtor</code> over bll the bdditionbl encryption
+     *   informbtion contbined in this clbss.
      */
-    Iterator<Element> getEncryptionInformation();
+    Iterbtor<Element> getEncryptionInformbtion();
 
     /**
-     * Adds encryption information.
+     * Adds encryption informbtion.
      *
-     * @param information the additional encryption information.
+     * @pbrbm informbtion the bdditionbl encryption informbtion.
      */
-    void addEncryptionInformation(Element information);
+    void bddEncryptionInformbtion(Element informbtion);
 
     /**
-     * Removes encryption information.
+     * Removes encryption informbtion.
      *
-     * @param information the information to remove.
+     * @pbrbm informbtion the informbtion to remove.
      */
-    void removeEncryptionInformation(Element information);
+    void removeEncryptionInformbtion(Element informbtion);
 }

@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.validator;
+pbckbge sun.security.vblidbtor;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.AlgorithmConstraints;
-import java.security.KeyStore;
-import java.security.cert.*;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.KeyStore;
+import jbvb.security.cert.*;
 
 /**
- * Validator abstract base class. Concrete classes are instantiated by calling
- * one of the getInstance() methods. All methods defined in this class
- * must be safe for concurrent use by multiple threads.<p>
+ * Vblidbtor bbstrbct bbse clbss. Concrete clbsses bre instbntibted by cblling
+ * one of the getInstbnce() methods. All methods defined in this clbss
+ * must be sbfe for concurrent use by multiple threbds.<p>
  *
- * The model is that a Validator instance is created specifying validation
- * settings, such as trust anchors or PKIX parameters. Then one or more
- * paths are validated using those parameters. In some cases, additional
- * information can be provided per path validation. This is independent of
- * the validation parameters and currently only used for TLS server validation.
+ * The model is thbt b Vblidbtor instbnce is crebted specifying vblidbtion
+ * settings, such bs trust bnchors or PKIX pbrbmeters. Then one or more
+ * pbths bre vblidbted using those pbrbmeters. In some cbses, bdditionbl
+ * informbtion cbn be provided per pbth vblidbtion. This is independent of
+ * the vblidbtion pbrbmeters bnd currently only used for TLS server vblidbtion.
  * <p>
- * Path validation is performed by calling one of the validate() methods. It
- * specifies a suggested path to be used for validation if available, or only
- * the end entity certificate otherwise. Optionally additional certificates can
- * be specified that the caller believes could be helpful. Implementations are
- * free to make use of this information or validate the path using other means.
- * validate() also checks that the end entity certificate is suitable for the
- * intended purpose as described below.
+ * Pbth vblidbtion is performed by cblling one of the vblidbte() methods. It
+ * specifies b suggested pbth to be used for vblidbtion if bvbilbble, or only
+ * the end entity certificbte otherwise. Optionblly bdditionbl certificbtes cbn
+ * be specified thbt the cbller believes could be helpful. Implementbtions bre
+ * free to mbke use of this informbtion or vblidbte the pbth using other mebns.
+ * vblidbte() blso checks thbt the end entity certificbte is suitbble for the
+ * intended purpose bs described below.
  *
- * <p>There are two orthogonal parameters to select the Validator
- * implementation: type and variant. Type selects the validation algorithm.
- * Currently supported are TYPE_SIMPLE and TYPE_PKIX. See SimpleValidator and
- * PKIXValidator for details.
+ * <p>There bre two orthogonbl pbrbmeters to select the Vblidbtor
+ * implementbtion: type bnd vbribnt. Type selects the vblidbtion blgorithm.
+ * Currently supported bre TYPE_SIMPLE bnd TYPE_PKIX. See SimpleVblidbtor bnd
+ * PKIXVblidbtor for detbils.
  * <p>
- * Variant controls additional extension checks. Currently supported are
- * five variants:
+ * Vbribnt controls bdditionbl extension checks. Currently supported bre
+ * five vbribnts:
  * <ul>
- * <li>VAR_GENERIC (no additional checks),
+ * <li>VAR_GENERIC (no bdditionbl checks),
  * <li>VAR_TLS_CLIENT (TLS client specific checks)
- * <li>VAR_TLS_SERVER (TLS server specific checks), and
+ * <li>VAR_TLS_SERVER (TLS server specific checks), bnd
  * <li>VAR_CODE_SIGNING (code signing specific checks).
  * <li>VAR_JCE_SIGNING (JCE code signing specific checks).
  * <li>VAR_TSA_SERVER (TSA server specific checks).
- * <li>VAR_PLUGIN_CODE_SIGNING (Plugin/WebStart code signing specific checks).
+ * <li>VAR_PLUGIN_CODE_SIGNING (Plugin/WebStbrt code signing specific checks).
  * </ul>
- * See EndEntityChecker for more information.
+ * See EndEntityChecker for more informbtion.
  * <p>
- * Examples:
+ * Exbmples:
  * <pre>
- *   // instantiate validator specifying type, variant, and trust anchors
- *   Validator validator = Validator.getInstance(Validator.TYPE_PKIX,
- *                                               Validator.VAR_TLS_CLIENT,
+ *   // instbntibte vblidbtor specifying type, vbribnt, bnd trust bnchors
+ *   Vblidbtor vblidbtor = Vblidbtor.getInstbnce(Vblidbtor.TYPE_PKIX,
+ *                                               Vblidbtor.VAR_TLS_CLIENT,
  *                                               trustedCerts);
- *   // validate one or more chains using the validator
- *   validator.validate(chain); // throws CertificateException if failed
+ *   // vblidbte one or more chbins using the vblidbtor
+ *   vblidbtor.vblidbte(chbin); // throws CertificbteException if fbiled
  * </pre>
  *
- * @see SimpleValidator
- * @see PKIXValidator
+ * @see SimpleVblidbtor
+ * @see PKIXVblidbtor
  * @see EndEntityChecker
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public abstract class Validator {
+public bbstrbct clbss Vblidbtor {
 
-    final static X509Certificate[] CHAIN0 = {};
-
-    /**
-     * Constant for a validator of type Simple.
-     * @see #getInstance
-     */
-    public final static String TYPE_SIMPLE = "Simple";
+    finbl stbtic X509Certificbte[] CHAIN0 = {};
 
     /**
-     * Constant for a validator of type PKIX.
-     * @see #getInstance
+     * Constbnt for b vblidbtor of type Simple.
+     * @see #getInstbnce
      */
-    public final static String TYPE_PKIX = "PKIX";
+    public finbl stbtic String TYPE_SIMPLE = "Simple";
 
     /**
-     * Constant for a Generic variant of a validator.
-     * @see #getInstance
+     * Constbnt for b vblidbtor of type PKIX.
+     * @see #getInstbnce
      */
-    public final static String VAR_GENERIC = "generic";
+    public finbl stbtic String TYPE_PKIX = "PKIX";
 
     /**
-     * Constant for a Code Signing variant of a validator.
-     * @see #getInstance
+     * Constbnt for b Generic vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_CODE_SIGNING = "code signing";
+    public finbl stbtic String VAR_GENERIC = "generic";
 
     /**
-     * Constant for a JCE Code Signing variant of a validator.
-     * @see #getInstance
+     * Constbnt for b Code Signing vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_JCE_SIGNING = "jce signing";
+    public finbl stbtic String VAR_CODE_SIGNING = "code signing";
 
     /**
-     * Constant for a TLS Client variant of a validator.
-     * @see #getInstance
+     * Constbnt for b JCE Code Signing vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_TLS_CLIENT = "tls client";
+    public finbl stbtic String VAR_JCE_SIGNING = "jce signing";
 
     /**
-     * Constant for a TLS Server variant of a validator.
-     * @see #getInstance
+     * Constbnt for b TLS Client vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_TLS_SERVER = "tls server";
+    public finbl stbtic String VAR_TLS_CLIENT = "tls client";
 
     /**
-     * Constant for a TSA Server variant of a validator.
-     * @see #getInstance
+     * Constbnt for b TLS Server vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_TSA_SERVER = "tsa server";
+    public finbl stbtic String VAR_TLS_SERVER = "tls server";
 
     /**
-     * Constant for a Code Signing variant of a validator for use by
-     * the J2SE Plugin/WebStart code.
-     * @see #getInstance
+     * Constbnt for b TSA Server vbribnt of b vblidbtor.
+     * @see #getInstbnce
      */
-    public final static String VAR_PLUGIN_CODE_SIGNING = "plugin code signing";
-
-    final EndEntityChecker endEntityChecker;
-    final String variant;
+    public finbl stbtic String VAR_TSA_SERVER = "tsb server";
 
     /**
-     * @deprecated
-     * @see #setValidationDate
+     * Constbnt for b Code Signing vbribnt of b vblidbtor for use by
+     * the J2SE Plugin/WebStbrt code.
+     * @see #getInstbnce
      */
-    @Deprecated
-    volatile Date validationDate;
+    public finbl stbtic String VAR_PLUGIN_CODE_SIGNING = "plugin code signing";
 
-    Validator(String type, String variant) {
-        this.variant = variant;
-        endEntityChecker = EndEntityChecker.getInstance(type, variant);
+    finbl EndEntityChecker endEntityChecker;
+    finbl String vbribnt;
+
+    /**
+     * @deprecbted
+     * @see #setVblidbtionDbte
+     */
+    @Deprecbted
+    volbtile Dbte vblidbtionDbte;
+
+    Vblidbtor(String type, String vbribnt) {
+        this.vbribnt = vbribnt;
+        endEntityChecker = EndEntityChecker.getInstbnce(type, vbribnt);
     }
 
     /**
-     * Get a new Validator instance using the trusted certificates from the
-     * specified KeyStore as trust anchors.
+     * Get b new Vblidbtor instbnce using the trusted certificbtes from the
+     * specified KeyStore bs trust bnchors.
      */
-    public static Validator getInstance(String type, String variant,
+    public stbtic Vblidbtor getInstbnce(String type, String vbribnt,
             KeyStore ks) {
-        return getInstance(type, variant, KeyStores.getTrustedCerts(ks));
+        return getInstbnce(type, vbribnt, KeyStores.getTrustedCerts(ks));
     }
 
     /**
-     * Get a new Validator instance using the Set of X509Certificates as trust
-     * anchors.
+     * Get b new Vblidbtor instbnce using the Set of X509Certificbtes bs trust
+     * bnchors.
      */
-    public static Validator getInstance(String type, String variant,
-            Collection<X509Certificate> trustedCerts) {
-        if (type.equals(TYPE_SIMPLE)) {
-            return new SimpleValidator(variant, trustedCerts);
-        } else if (type.equals(TYPE_PKIX)) {
-            return new PKIXValidator(variant, trustedCerts);
+    public stbtic Vblidbtor getInstbnce(String type, String vbribnt,
+            Collection<X509Certificbte> trustedCerts) {
+        if (type.equbls(TYPE_SIMPLE)) {
+            return new SimpleVblidbtor(vbribnt, trustedCerts);
+        } else if (type.equbls(TYPE_PKIX)) {
+            return new PKIXVblidbtor(vbribnt, trustedCerts);
         } else {
-            throw new IllegalArgumentException
-                ("Unknown validator type: " + type);
+            throw new IllegblArgumentException
+                ("Unknown vblidbtor type: " + type);
         }
     }
 
     /**
-     * Get a new Validator instance using the provided PKIXBuilderParameters.
-     * This method can only be used with the PKIX validator.
+     * Get b new Vblidbtor instbnce using the provided PKIXBuilderPbrbmeters.
+     * This method cbn only be used with the PKIX vblidbtor.
      */
-    public static Validator getInstance(String type, String variant,
-            PKIXBuilderParameters params) {
-        if (type.equals(TYPE_PKIX) == false) {
-            throw new IllegalArgumentException
-                ("getInstance(PKIXBuilderParameters) can only be used "
-                + "with PKIX validator");
+    public stbtic Vblidbtor getInstbnce(String type, String vbribnt,
+            PKIXBuilderPbrbmeters pbrbms) {
+        if (type.equbls(TYPE_PKIX) == fblse) {
+            throw new IllegblArgumentException
+                ("getInstbnce(PKIXBuilderPbrbmeters) cbn only be used "
+                + "with PKIX vblidbtor");
         }
-        return new PKIXValidator(variant, params);
+        return new PKIXVblidbtor(vbribnt, pbrbms);
     }
 
     /**
-     * Validate the given certificate chain.
+     * Vblidbte the given certificbte chbin.
      */
-    public final X509Certificate[] validate(X509Certificate[] chain)
-            throws CertificateException {
-        return validate(chain, null, null);
+    public finbl X509Certificbte[] vblidbte(X509Certificbte[] chbin)
+            throws CertificbteException {
+        return vblidbte(chbin, null, null);
     }
 
     /**
-     * Validate the given certificate chain. If otherCerts is non-null, it is
-     * a Collection of additional X509Certificates that could be helpful for
-     * path building.
+     * Vblidbte the given certificbte chbin. If otherCerts is non-null, it is
+     * b Collection of bdditionbl X509Certificbtes thbt could be helpful for
+     * pbth building.
      */
-    public final X509Certificate[] validate(X509Certificate[] chain,
-        Collection<X509Certificate> otherCerts) throws CertificateException {
-        return validate(chain, otherCerts, null);
+    public finbl X509Certificbte[] vblidbte(X509Certificbte[] chbin,
+        Collection<X509Certificbte> otherCerts) throws CertificbteException {
+        return vblidbte(chbin, otherCerts, null);
     }
 
     /**
-     * Validate the given certificate chain. If otherCerts is non-null, it is
-     * a Collection of additional X509Certificates that could be helpful for
-     * path building.
+     * Vblidbte the given certificbte chbin. If otherCerts is non-null, it is
+     * b Collection of bdditionbl X509Certificbtes thbt could be helpful for
+     * pbth building.
      * <p>
-     * Parameter is an additional parameter with variant specific meaning.
-     * Currently, it is only defined for TLS_SERVER variant validators, where
-     * it must be non null and the name of the TLS key exchange algorithm being
-     * used (see JSSE X509TrustManager specification). In the future, it
-     * could be used to pass in a PKCS#7 object for code signing to check time
-     * stamps.
+     * Pbrbmeter is bn bdditionbl pbrbmeter with vbribnt specific mebning.
+     * Currently, it is only defined for TLS_SERVER vbribnt vblidbtors, where
+     * it must be non null bnd the nbme of the TLS key exchbnge blgorithm being
+     * used (see JSSE X509TrustMbnbger specificbtion). In the future, it
+     * could be used to pbss in b PKCS#7 object for code signing to check time
+     * stbmps.
      * <p>
-     * @return a non-empty chain that was used to validate the path. The
-     * end entity cert is at index 0, the trust anchor at index n-1.
+     * @return b non-empty chbin thbt wbs used to vblidbte the pbth. The
+     * end entity cert is bt index 0, the trust bnchor bt index n-1.
      */
-    public final X509Certificate[] validate(X509Certificate[] chain,
-            Collection<X509Certificate> otherCerts, Object parameter)
-            throws CertificateException {
-        return validate(chain, otherCerts, null, parameter);
+    public finbl X509Certificbte[] vblidbte(X509Certificbte[] chbin,
+            Collection<X509Certificbte> otherCerts, Object pbrbmeter)
+            throws CertificbteException {
+        return vblidbte(chbin, otherCerts, null, pbrbmeter);
     }
 
     /**
-     * Validate the given certificate chain.
+     * Vblidbte the given certificbte chbin.
      *
-     * @param chain the target certificate chain
-     * @param otherCerts a Collection of additional X509Certificates that
-     *        could be helpful for path building (or null)
-     * @param constraints algorithm constraints for certification path
+     * @pbrbm chbin the tbrget certificbte chbin
+     * @pbrbm otherCerts b Collection of bdditionbl X509Certificbtes thbt
+     *        could be helpful for pbth building (or null)
+     * @pbrbm constrbints blgorithm constrbints for certificbtion pbth
      *        processing
-     * @param parameter an additional parameter with variant specific meaning.
-     *        Currently, it is only defined for TLS_SERVER variant validators,
-     *        where it must be non null and the name of the TLS key exchange
-     *        algorithm being used (see JSSE X509TrustManager specification).
-     *        In the future, it could be used to pass in a PKCS#7 object for
-     *        code signing to check time stamps.
-     * @return a non-empty chain that was used to validate the path. The
-     *        end entity cert is at index 0, the trust anchor at index n-1.
+     * @pbrbm pbrbmeter bn bdditionbl pbrbmeter with vbribnt specific mebning.
+     *        Currently, it is only defined for TLS_SERVER vbribnt vblidbtors,
+     *        where it must be non null bnd the nbme of the TLS key exchbnge
+     *        blgorithm being used (see JSSE X509TrustMbnbger specificbtion).
+     *        In the future, it could be used to pbss in b PKCS#7 object for
+     *        code signing to check time stbmps.
+     * @return b non-empty chbin thbt wbs used to vblidbte the pbth. The
+     *        end entity cert is bt index 0, the trust bnchor bt index n-1.
      */
-    public final X509Certificate[] validate(X509Certificate[] chain,
-                Collection<X509Certificate> otherCerts,
-                AlgorithmConstraints constraints,
-                Object parameter) throws CertificateException {
-        chain = engineValidate(chain, otherCerts, constraints, parameter);
+    public finbl X509Certificbte[] vblidbte(X509Certificbte[] chbin,
+                Collection<X509Certificbte> otherCerts,
+                AlgorithmConstrbints constrbints,
+                Object pbrbmeter) throws CertificbteException {
+        chbin = engineVblidbte(chbin, otherCerts, constrbints, pbrbmeter);
 
-        // omit EE extension check if EE cert is also trust anchor
-        if (chain.length > 1) {
-            endEntityChecker.check(chain[0], parameter);
+        // omit EE extension check if EE cert is blso trust bnchor
+        if (chbin.length > 1) {
+            endEntityChecker.check(chbin[0], pbrbmeter);
         }
 
-        return chain;
+        return chbin;
     }
 
-    abstract X509Certificate[] engineValidate(X509Certificate[] chain,
-                Collection<X509Certificate> otherCerts,
-                AlgorithmConstraints constraints,
-                Object parameter) throws CertificateException;
+    bbstrbct X509Certificbte[] engineVblidbte(X509Certificbte[] chbin,
+                Collection<X509Certificbte> otherCerts,
+                AlgorithmConstrbints constrbints,
+                Object pbrbmeter) throws CertificbteException;
 
     /**
-     * Returns an immutable Collection of the X509Certificates this instance
-     * uses as trust anchors.
+     * Returns bn immutbble Collection of the X509Certificbtes this instbnce
+     * uses bs trust bnchors.
      */
-    public abstract Collection<X509Certificate> getTrustedCertificates();
+    public bbstrbct Collection<X509Certificbte> getTrustedCertificbtes();
 
     /**
-     * Set the date to be used for subsequent validations. NOTE that
-     * this is not a supported API, it is provided to simplify
+     * Set the dbte to be used for subsequent vblidbtions. NOTE thbt
+     * this is not b supported API, it is provided to simplify
      * writing tests only.
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public void setValidationDate(Date validationDate) {
-        this.validationDate = validationDate;
+    @Deprecbted
+    public void setVblidbtionDbte(Dbte vblidbtionDbte) {
+        this.vblidbtionDbte = vblidbtionDbte;
     }
 
 }

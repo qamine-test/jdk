@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicDesktopPaneUI;
-import java.beans.*;
-import java.awt.event.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicDesktopPbneUI;
+import jbvb.bebns.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.*;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JDesktopPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JDesktopPbne}.
  *
- * @author Joshua Outwater
- * @author Steve Wilson
+ * @buthor Joshub Outwbter
+ * @buthor Steve Wilson
  * @since 1.7
  */
-public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
-                  PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private TaskBar taskBar;
-    private DesktopManager oldDesktopManager;
+public clbss SynthDesktopPbneUI extends BbsicDesktopPbneUI implements
+                  PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
+    privbte TbskBbr tbskBbr;
+    privbte DesktopMbnbger oldDesktopMbnbger;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthDesktopPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthDesktopPbneUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        desktop.addPropertyChangeListener(this);
-        if (taskBar != null) {
+    protected void instbllListeners() {
+        super.instbllListeners();
+        desktop.bddPropertyChbngeListener(this);
+        if (tbskBbr != null) {
             // Listen for desktop being resized
-            desktop.addComponentListener(taskBar);
-            // Listen for frames being added to desktop
-            desktop.addContainerListener(taskBar);
+            desktop.bddComponentListener(tbskBbr);
+            // Listen for frbmes being bdded to desktop
+            desktop.bddContbinerListener(tbskBbr);
         }
     }
 
@@ -76,48 +76,48 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(desktop);
+    protected void instbllDefbults() {
+        updbteStyle(desktop);
 
-        if (UIManager.getBoolean("InternalFrame.useTaskBar")) {
-            taskBar = new TaskBar();
+        if (UIMbnbger.getBoolebn("InternblFrbme.useTbskBbr")) {
+            tbskBbr = new TbskBbr();
 
             for (Component comp : desktop.getComponents()) {
-                JInternalFrame.JDesktopIcon desktopIcon;
+                JInternblFrbme.JDesktopIcon desktopIcon;
 
-                if (comp instanceof JInternalFrame.JDesktopIcon) {
-                    desktopIcon = (JInternalFrame.JDesktopIcon)comp;
-                } else if (comp instanceof JInternalFrame) {
-                    desktopIcon = ((JInternalFrame)comp).getDesktopIcon();
+                if (comp instbnceof JInternblFrbme.JDesktopIcon) {
+                    desktopIcon = (JInternblFrbme.JDesktopIcon)comp;
+                } else if (comp instbnceof JInternblFrbme) {
+                    desktopIcon = ((JInternblFrbme)comp).getDesktopIcon();
                 } else {
                     continue;
                 }
-                // Move desktopIcon from desktop to taskBar
-                if (desktopIcon.getParent() == desktop) {
+                // Move desktopIcon from desktop to tbskBbr
+                if (desktopIcon.getPbrent() == desktop) {
                     desktop.remove(desktopIcon);
                 }
-                if (desktopIcon.getParent() != taskBar) {
-                    taskBar.add(desktopIcon);
-                    desktopIcon.getInternalFrame().addComponentListener(
-                        taskBar);
+                if (desktopIcon.getPbrent() != tbskBbr) {
+                    tbskBbr.bdd(desktopIcon);
+                    desktopIcon.getInternblFrbme().bddComponentListener(
+                        tbskBbr);
                 }
             }
-            taskBar.setBackground(desktop.getBackground());
-            desktop.add(taskBar,
-                Integer.valueOf(JLayeredPane.PALETTE_LAYER.intValue() + 1));
+            tbskBbr.setBbckground(desktop.getBbckground());
+            desktop.bdd(tbskBbr,
+                Integer.vblueOf(JLbyeredPbne.PALETTE_LAYER.intVblue() + 1));
             if (desktop.isShowing()) {
-                taskBar.adjustSize();
+                tbskBbr.bdjustSize();
             }
         }
     }
 
-    private void updateStyle(JDesktopPane c) {
+    privbte void updbteStyle(JDesktopPbne c) {
         SynthStyle oldStyle = style;
         SynthContext context = getContext(c, ENABLED);
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (oldStyle != null) {
-            uninstallKeyboardActions();
-            installKeyboardActions();
+            uninstbllKeybobrdActions();
+            instbllKeybobrdActions();
         }
         context.dispose();
     }
@@ -126,40 +126,40 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        if (taskBar != null) {
-            desktop.removeComponentListener(taskBar);
-            desktop.removeContainerListener(taskBar);
+    protected void uninstbllListeners() {
+        if (tbskBbr != null) {
+            desktop.removeComponentListener(tbskBbr);
+            desktop.removeContbinerListener(tbskBbr);
         }
-        desktop.removePropertyChangeListener(this);
-        super.uninstallListeners();
+        desktop.removePropertyChbngeListener(this);
+        super.uninstbllListeners();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         SynthContext context = getContext(desktop, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
-        if (taskBar != null) {
-            for (Component comp : taskBar.getComponents()) {
-                JInternalFrame.JDesktopIcon desktopIcon =
-                    (JInternalFrame.JDesktopIcon)comp;
-                taskBar.remove(desktopIcon);
+        if (tbskBbr != null) {
+            for (Component comp : tbskBbr.getComponents()) {
+                JInternblFrbme.JDesktopIcon desktopIcon =
+                    (JInternblFrbme.JDesktopIcon)comp;
+                tbskBbr.remove(desktopIcon);
                 desktopIcon.setPreferredSize(null);
-                JInternalFrame f = desktopIcon.getInternalFrame();
+                JInternblFrbme f = desktopIcon.getInternblFrbme();
                 if (f.isIcon()) {
-                    desktop.add(desktopIcon);
+                    desktop.bdd(desktopIcon);
                 }
-                f.removeComponentListener(taskBar);
+                f.removeComponentListener(tbskBbr);
             }
-            desktop.remove(taskBar);
-            taskBar = null;
+            desktop.remove(tbskBbr);
+            tbskBbr = null;
         }
     }
 
@@ -167,15 +167,15 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void installDesktopManager() {
-        if (UIManager.getBoolean("InternalFrame.useTaskBar")) {
-            desktopManager = oldDesktopManager = desktop.getDesktopManager();
-            if (!(desktopManager instanceof SynthDesktopManager)) {
-                desktopManager = new SynthDesktopManager();
-                desktop.setDesktopManager(desktopManager);
+    protected void instbllDesktopMbnbger() {
+        if (UIMbnbger.getBoolebn("InternblFrbme.useTbskBbr")) {
+            desktopMbnbger = oldDesktopMbnbger = desktop.getDesktopMbnbger();
+            if (!(desktopMbnbger instbnceof SynthDesktopMbnbger)) {
+                desktopMbnbger = new SynthDesktopMbnbger();
+                desktop.setDesktopMbnbger(desktopMbnbger);
             }
         } else {
-            super.installDesktopManager();
+            super.instbllDesktopMbnbger();
         }
     }
 
@@ -183,29 +183,29 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDesktopManager() {
-        if (oldDesktopManager != null && !(oldDesktopManager instanceof UIResource)) {
-            desktopManager = desktop.getDesktopManager();
-            if (desktopManager == null || desktopManager instanceof UIResource) {
-                desktop.setDesktopManager(oldDesktopManager);
+    protected void uninstbllDesktopMbnbger() {
+        if (oldDesktopMbnbger != null && !(oldDesktopMbnbger instbnceof UIResource)) {
+            desktopMbnbger = desktop.getDesktopMbnbger();
+            if (desktopMbnbger == null || desktopMbnbger instbnceof UIResource) {
+                desktop.setDesktopMbnbger(oldDesktopMbnbger);
             }
         }
-        oldDesktopManager = null;
-        super.uninstallDesktopManager();
+        oldDesktopMbnbger = null;
+        super.uninstbllDesktopMbnbger();
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only and
-                                // internal anonymous classes
-    static class TaskBar extends JPanel implements ComponentListener, ContainerListener {
-        TaskBar() {
-            setOpaque(true);
-            setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0) {
-                public void layoutContainer(Container target) {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only bnd
+                                // internbl bnonymous clbsses
+    stbtic clbss TbskBbr extends JPbnel implements ComponentListener, ContbinerListener {
+        TbskBbr() {
+            setOpbque(true);
+            setLbyout(new FlowLbyout(FlowLbyout.LEFT, 0, 0) {
+                public void lbyoutContbiner(Contbiner tbrget) {
                     // First shrink buttons to fit
-                    Component[] comps = target.getComponents();
+                    Component[] comps = tbrget.getComponents();
                     int n = comps.length;
                     if (n > 0) {
-                        // Start with the largest preferred width
+                        // Stbrt with the lbrgest preferred width
                         int prefWidth = 0;
                         for (Component c : comps) {
                             c.setPreferredSize(null);
@@ -214,143 +214,143 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
                                 prefWidth = prefSize.width;
                             }
                         }
-                        // Shrink equally to fit if needed
-                        Insets insets = target.getInsets();
-                        int tw = target.getWidth() - insets.left - insets.right;
-                        int w = Math.min(prefWidth, Math.max(10, tw/n));
+                        // Shrink equblly to fit if needed
+                        Insets insets = tbrget.getInsets();
+                        int tw = tbrget.getWidth() - insets.left - insets.right;
+                        int w = Mbth.min(prefWidth, Mbth.mbx(10, tw/n));
                         for (Component c : comps) {
                             Dimension prefSize = c.getPreferredSize();
                             c.setPreferredSize(new Dimension(w, prefSize.height));
                         }
                     }
-                    super.layoutContainer(target);
+                    super.lbyoutContbiner(tbrget);
                 }
             });
 
-            // PENDING: This should be handled by the painter
+            // PENDING: This should be hbndled by the pbinter
             setBorder(new BevelBorder(BevelBorder.RAISED) {
-                protected void paintRaisedBevel(Component c, Graphics g,
+                protected void pbintRbisedBevel(Component c, Grbphics g,
                                                 int x, int y, int w, int h)  {
                     Color oldColor = g.getColor();
-                    g.translate(x, y);
+                    g.trbnslbte(x, y);
                     g.setColor(getHighlightOuterColor(c));
-                    g.drawLine(0, 0, 0, h-2);
-                    g.drawLine(1, 0, w-2, 0);
-                    g.setColor(getShadowOuterColor(c));
-                    g.drawLine(0, h-1, w-1, h-1);
-                    g.drawLine(w-1, 0, w-1, h-2);
-                    g.translate(-x, -y);
+                    g.drbwLine(0, 0, 0, h-2);
+                    g.drbwLine(1, 0, w-2, 0);
+                    g.setColor(getShbdowOuterColor(c));
+                    g.drbwLine(0, h-1, w-1, h-1);
+                    g.drbwLine(w-1, 0, w-1, h-2);
+                    g.trbnslbte(-x, -y);
                     g.setColor(oldColor);
                 }
             });
         }
 
-        void adjustSize() {
-            JDesktopPane desktop = (JDesktopPane)getParent();
+        void bdjustSize() {
+            JDesktopPbne desktop = (JDesktopPbne)getPbrent();
             if (desktop != null) {
                 int height = getPreferredSize().height;
                 Insets insets = getInsets();
                 if (height == insets.top + insets.bottom) {
                     if (getHeight() <= height) {
-                        // Initial size, because we have no buttons yet
+                        // Initibl size, becbuse we hbve no buttons yet
                         height += 21;
                     } else {
-                        // We already have a good height
+                        // We blrebdy hbve b good height
                         height = getHeight();
                     }
                 }
                 setBounds(0, desktop.getHeight() - height, desktop.getWidth(), height);
-                revalidate();
-                repaint();
+                revblidbte();
+                repbint();
             }
         }
 
-        // ComponentListener interface
+        // ComponentListener interfbce
 
         public void componentResized(ComponentEvent e) {
-            if (e.getSource() instanceof JDesktopPane) {
-                adjustSize();
+            if (e.getSource() instbnceof JDesktopPbne) {
+                bdjustSize();
             }
         }
 
         public void componentMoved(ComponentEvent e){}
 
         public void componentShown(ComponentEvent e) {
-            if (e.getSource() instanceof JInternalFrame) {
-                adjustSize();
+            if (e.getSource() instbnceof JInternblFrbme) {
+                bdjustSize();
             }
         }
 
         public void componentHidden(ComponentEvent e) {
-            if (e.getSource() instanceof JInternalFrame) {
-                ((JInternalFrame)e.getSource()).getDesktopIcon().setVisible(false);
-                revalidate();
+            if (e.getSource() instbnceof JInternblFrbme) {
+                ((JInternblFrbme)e.getSource()).getDesktopIcon().setVisible(fblse);
+                revblidbte();
             }
         }
 
-        // ContainerListener interface
+        // ContbinerListener interfbce
 
-        public void componentAdded(ContainerEvent e) {
-            if (e.getChild() instanceof JInternalFrame) {
-                JDesktopPane desktop = (JDesktopPane)e.getSource();
-                JInternalFrame f = (JInternalFrame)e.getChild();
-                JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
+        public void componentAdded(ContbinerEvent e) {
+            if (e.getChild() instbnceof JInternblFrbme) {
+                JDesktopPbne desktop = (JDesktopPbne)e.getSource();
+                JInternblFrbme f = (JInternblFrbme)e.getChild();
+                JInternblFrbme.JDesktopIcon desktopIcon = f.getDesktopIcon();
                 for (Component comp : getComponents()) {
                     if (comp == desktopIcon) {
-                        // We have it already
+                        // We hbve it blrebdy
                         return;
                     }
                 }
-                add(desktopIcon);
-                f.addComponentListener(this);
+                bdd(desktopIcon);
+                f.bddComponentListener(this);
                 if (getComponentCount() == 1) {
-                    adjustSize();
+                    bdjustSize();
                 }
             }
         }
 
-        public void componentRemoved(ContainerEvent e) {
-            if (e.getChild() instanceof JInternalFrame) {
-                JInternalFrame f = (JInternalFrame)e.getChild();
+        public void componentRemoved(ContbinerEvent e) {
+            if (e.getChild() instbnceof JInternblFrbme) {
+                JInternblFrbme f = (JInternblFrbme)e.getChild();
                 if (!f.isIcon()) {
-                    // Frame was removed without using setClosed(true)
+                    // Frbme wbs removed without using setClosed(true)
                     remove(f.getDesktopIcon());
                     f.removeComponentListener(this);
-                    revalidate();
-                    repaint();
+                    revblidbte();
+                    repbint();
                 }
             }
         }
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    class SynthDesktopManager extends DefaultDesktopManager implements UIResource {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    clbss SynthDesktopMbnbger extends DefbultDesktopMbnbger implements UIResource {
 
-        public void maximizeFrame(JInternalFrame f) {
+        public void mbximizeFrbme(JInternblFrbme f) {
             if (f.isIcon()) {
                 try {
-                    f.setIcon(false);
-                } catch (PropertyVetoException e2) {
+                    f.setIcon(fblse);
+                } cbtch (PropertyVetoException e2) {
                 }
             } else {
-                f.setNormalBounds(f.getBounds());
-                Component desktop = f.getParent();
-                setBoundsForFrame(f, 0, 0,
+                f.setNormblBounds(f.getBounds());
+                Component desktop = f.getPbrent();
+                setBoundsForFrbme(f, 0, 0,
                                   desktop.getWidth(),
-                                  desktop.getHeight() - taskBar.getHeight());
+                                  desktop.getHeight() - tbskBbr.getHeight());
             }
 
             try {
                 f.setSelected(true);
-            } catch (PropertyVetoException e2) {
+            } cbtch (PropertyVetoException e2) {
             }
         }
 
-        public void iconifyFrame(JInternalFrame f) {
-            JInternalFrame.JDesktopIcon desktopIcon;
-            Container c = f.getParent();
-            JDesktopPane d = f.getDesktopPane();
-            boolean findNext = f.isSelected();
+        public void iconifyFrbme(JInternblFrbme f) {
+            JInternblFrbme.JDesktopIcon desktopIcon;
+            Contbiner c = f.getPbrent();
+            JDesktopPbne d = f.getDesktopPbne();
+            boolebn findNext = f.isSelected();
 
             if (c == null) {
                 return;
@@ -358,25 +358,25 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
 
             desktopIcon = f.getDesktopIcon();
 
-            if (!f.isMaximum()) {
-                f.setNormalBounds(f.getBounds());
+            if (!f.isMbximum()) {
+                f.setNormblBounds(f.getBounds());
             }
             c.remove(f);
-            c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+            c.repbint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
             try {
-                f.setSelected(false);
-            } catch (PropertyVetoException e2) {
+                f.setSelected(fblse);
+            } cbtch (PropertyVetoException e2) {
             }
 
-            // Get topmost of the remaining frames
+            // Get topmost of the rembining frbmes
             if (findNext) {
                 for (Component comp : c.getComponents()) {
-                    if (comp instanceof JInternalFrame) {
+                    if (comp instbnceof JInternblFrbme) {
                         try {
-                            ((JInternalFrame)comp).setSelected(true);
-                        } catch (PropertyVetoException e2) {
+                            ((JInternblFrbme)comp).setSelected(true);
+                        } cbtch (PropertyVetoException e2) {
                         }
-                        ((JInternalFrame)comp).moveToFront();
+                        ((JInternblFrbme)comp).moveToFront();
                         return;
                     }
                 }
@@ -384,18 +384,18 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
         }
 
 
-        public void deiconifyFrame(JInternalFrame f) {
-            JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-            Container c = desktopIcon.getParent();
+        public void deiconifyFrbme(JInternblFrbme f) {
+            JInternblFrbme.JDesktopIcon desktopIcon = f.getDesktopIcon();
+            Contbiner c = desktopIcon.getPbrent();
             if (c != null) {
-                c = c.getParent();
+                c = c.getPbrent();
                 if (c != null) {
-                    c.add(f);
-                    if (f.isMaximum()) {
+                    c.bdd(f);
+                    if (f.isMbximum()) {
                         int w = c.getWidth();
-                        int h = c.getHeight() - taskBar.getHeight();
+                        int h = c.getHeight() - tbskBbr.getHeight();
                         if (f.getWidth() != w || f.getHeight() != h) {
-                            setBoundsForFrame(f, 0, 0, w, h);
+                            setBoundsForFrbme(f, 0, 0, w, h);
                         }
                     }
                     if (f.isSelected()) {
@@ -403,22 +403,22 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
                     } else {
                         try {
                             f.setSelected(true);
-                        } catch (PropertyVetoException e2) {
+                        } cbtch (PropertyVetoException e2) {
                         }
                     }
                 }
             }
         }
 
-        protected void removeIconFor(JInternalFrame f) {
+        protected void removeIconFor(JInternblFrbme f) {
             super.removeIconFor(f);
-            taskBar.validate();
+            tbskBbr.vblidbte();
         }
 
-        public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
-            super.setBoundsForFrame(f, newX, newY, newWidth, newHeight);
-            if (taskBar != null && newY >= taskBar.getY()) {
-                f.setLocation(f.getX(), taskBar.getY()-f.getInsets().top);
+        public void setBoundsForFrbme(JComponent f, int newX, int newY, int newWidth, int newHeight) {
+            super.setBoundsForFrbme(f, newX, newY, newWidth, newHeight);
+            if (tbskBbr != null && newY >= tbskBbr.getY()) {
+                f.setLocbtion(f.getX(), tbskBbr.getY()-f.getInsets().top);
             }
         }
     }
@@ -428,86 +428,86 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintDesktopPaneBackground(context, g, 0, 0,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintDesktopPbneBbckground(context, g, 0, 0,
                                                   c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protected void pbint(SynthContext context, Grbphics g) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintDesktopPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintDesktopPbneBorder(context, g, x, y, w, h);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JDesktopPane)evt.getSource());
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle((JDesktopPbne)evt.getSource());
         }
-        if (evt.getPropertyName() == "ancestor" && taskBar != null) {
-            taskBar.adjustSize();
+        if (evt.getPropertyNbme() == "bncestor" && tbskBbr != null) {
+            tbskBbr.bdjustSize();
         }
     }
 }

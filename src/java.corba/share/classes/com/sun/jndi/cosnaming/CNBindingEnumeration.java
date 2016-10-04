@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbger;
 
-import java.util.NoSuchElementException;
-import java.util.Hashtable;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Hbshtbble;
 
-import org.omg.CosNaming.*;
+import org.omg.CosNbming.*;
 
 /**
-  * Implements the JNDI NamingEnumeration interface for COS
-  * Naming. Gets hold of a list of bindings from the COS Naming Server
-  * and allows the client to iterate through them.
+  * Implements the JNDI NbmingEnumerbtion interfbce for COS
+  * Nbming. Gets hold of b list of bindings from the COS Nbming Server
+  * bnd bllows the client to iterbte through them.
   *
-  * @author Raj Krishnamurthy
-  * @author Rosanna Lee
+  * @buthor Rbj Krishnbmurthy
+  * @buthor Rosbnnb Lee
   */
 
-final class CNBindingEnumeration
-        implements NamingEnumeration<javax.naming.Binding> {
+finbl clbss CNBindingEnumerbtion
+        implements NbmingEnumerbtion<jbvbx.nbming.Binding> {
 
-    private static final int DEFAULT_BATCHSIZE = 100;
-    private BindingListHolder _bindingList; // list of bindings
-    private BindingIterator _bindingIter;   // iterator for getting list of bindings
-    private int counter;                    // pointer in _bindingList
-    private int batchsize = DEFAULT_BATCHSIZE;  // how many to ask for each time
-    private CNCtx _ctx;                     // ctx to list
-    private Hashtable<?,?> _env;            // environment for getObjectInstance
-    private boolean more = false;           // iterator done?
-    private boolean isLookedUpCtx = false;  // iterating on a context beneath this context ?
+    privbte stbtic finbl int DEFAULT_BATCHSIZE = 100;
+    privbte BindingListHolder _bindingList; // list of bindings
+    privbte BindingIterbtor _bindingIter;   // iterbtor for getting list of bindings
+    privbte int counter;                    // pointer in _bindingList
+    privbte int bbtchsize = DEFAULT_BATCHSIZE;  // how mbny to bsk for ebch time
+    privbte CNCtx _ctx;                     // ctx to list
+    privbte Hbshtbble<?,?> _env;            // environment for getObjectInstbnce
+    privbte boolebn more = fblse;           // iterbtor done?
+    privbte boolebn isLookedUpCtx = fblse;  // iterbting on b context benebth this context ?
 
     /**
-     * Creates a CNBindingEnumeration object.
-     * @param ctx Context to enumerate
+     * Crebtes b CNBindingEnumerbtion object.
+     * @pbrbm ctx Context to enumerbte
      */
-    CNBindingEnumeration(CNCtx ctx, boolean isLookedUpCtx, Hashtable<?,?> env) {
-        // Get batch size to use
-        String batch = (env != null ?
-            (String)env.get(javax.naming.Context.BATCHSIZE) : null);
-        if (batch != null) {
+    CNBindingEnumerbtion(CNCtx ctx, boolebn isLookedUpCtx, Hbshtbble<?,?> env) {
+        // Get bbtch size to use
+        String bbtch = (env != null ?
+            (String)env.get(jbvbx.nbming.Context.BATCHSIZE) : null);
+        if (bbtch != null) {
             try {
-                batchsize = Integer.parseInt(batch);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Batch size not numeric: " + batch);
+                bbtchsize = Integer.pbrseInt(bbtch);
+            } cbtch (NumberFormbtException e) {
+                throw new IllegblArgumentException("Bbtch size not numeric: " + bbtch);
             }
         }
         _ctx = ctx;
@@ -75,36 +75,36 @@ final class CNBindingEnumeration
         this.isLookedUpCtx = isLookedUpCtx;
         _env = env;
         _bindingList = new BindingListHolder();
-        BindingIteratorHolder _bindingIterH = new BindingIteratorHolder();
+        BindingIterbtorHolder _bindingIterH = new BindingIterbtorHolder();
 
-        // Perform listing and request that bindings be returned in _bindingIter
-        // Upon return,_bindingList returns a zero length list
+        // Perform listing bnd request thbt bindings be returned in _bindingIter
+        // Upon return,_bindingList returns b zero length list
         _ctx._nc.list(0, _bindingList, _bindingIterH);
 
-        _bindingIter = _bindingIterH.value;
+        _bindingIter = _bindingIterH.vblue;
 
-        // Get first batch using _bindingIter
+        // Get first bbtch using _bindingIter
         if (_bindingIter != null) {
-            more = _bindingIter.next_n(batchsize, _bindingList);
+            more = _bindingIter.next_n(bbtchsize, _bindingList);
         } else {
-            more = false;
+            more = fblse;
         }
         counter = 0;
     }
 
     /**
      * Returns the next binding in the list.
-     * @exception NamingException any naming exception.
+     * @exception NbmingException bny nbming exception.
      */
 
-    public javax.naming.Binding next() throws NamingException {
-        if (more && counter >= _bindingList.value.length) {
+    public jbvbx.nbming.Binding next() throws NbmingException {
+        if (more && counter >= _bindingList.vblue.length) {
             getMore();
         }
-        if (more && counter < _bindingList.value.length) {
-            org.omg.CosNaming.Binding bndg = _bindingList.value[counter];
+        if (more && counter < _bindingList.vblue.length) {
+            org.omg.CosNbming.Binding bndg = _bindingList.vblue[counter];
             counter++;
-            return mapBinding(bndg);
+            return mbpBinding(bndg);
         } else {
             throw new NoSuchElementException();
         }
@@ -112,47 +112,47 @@ final class CNBindingEnumeration
 
 
     /**
-    * Returns true or false depending on whether there are more bindings.
-    * @return boolean value
+    * Returns true or fblse depending on whether there bre more bindings.
+    * @return boolebn vblue
     */
 
-    public boolean hasMore() throws NamingException {
-        // If there's more, check whether current bindingList has been exhausted,
-        // and if so, try to get more.
-        // If no more, just say so.
-        return more ? (counter < _bindingList.value.length || getMore()) : false;
+    public boolebn hbsMore() throws NbmingException {
+        // If there's more, check whether current bindingList hbs been exhbusted,
+        // bnd if so, try to get more.
+        // If no more, just sby so.
+        return more ? (counter < _bindingList.vblue.length || getMore()) : fblse;
     }
 
     /**
-     * Returns true or false depending on whether there are more bindings.
-     * Need to define this to satisfy the Enumeration api requirement.
-     * @return boolean value
+     * Returns true or fblse depending on whether there bre more bindings.
+     * Need to define this to sbtisfy the Enumerbtion bpi requirement.
+     * @return boolebn vblue
      */
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            return false;
+            return hbsMore();
+        } cbtch (NbmingException e) {
+            return fblse;
         }
     }
 
     /**
     * Returns the next binding in the list.
     * @exception NoSuchElementException Thrown when the end of the
-    * list is reached.
+    * list is rebched.
     */
 
-    public javax.naming.Binding nextElement() {
+    public jbvbx.nbming.Binding nextElement() {
         try {
             return next();
-        } catch (NamingException ne) {
+        } cbtch (NbmingException ne) {
             throw new NoSuchElementException();
         }
     }
 
-    public void close() throws NamingException {
-        more = false;
+    public void close() throws NbmingException {
+        more = fblse;
         if (_bindingIter != null) {
             _bindingIter.destroy();
             _bindingIter = null;
@@ -161,8 +161,8 @@ final class CNBindingEnumeration
             _ctx.decEnumCount();
 
             /**
-             * context was obtained by CNCtx, the user doesn't have a handle to
-             * it, close it as we are done enumerating through the context
+             * context wbs obtbined by CNCtx, the user doesn't hbve b hbndle to
+             * it, close it bs we bre done enumerbting through the context
              */
             if (isLookedUpCtx) {
                 _ctx.close();
@@ -171,65 +171,65 @@ final class CNBindingEnumeration
         }
     }
 
-    protected void finalize() {
+    protected void finblize() {
         try {
             close();
-        } catch (NamingException e) {
-            // ignore failures
+        } cbtch (NbmingException e) {
+            // ignore fbilures
         }
     }
 
     /**
-     * Get the next batch using _bindingIter. Update the 'more' field.
+     * Get the next bbtch using _bindingIter. Updbte the 'more' field.
      */
-    private boolean getMore() throws NamingException {
+    privbte boolebn getMore() throws NbmingException {
         try {
-            more = _bindingIter.next_n(batchsize, _bindingList);
+            more = _bindingIter.next_n(bbtchsize, _bindingList);
             counter = 0; // reset
-        } catch (Exception e) {
-            more = false;
-            NamingException ne = new NamingException(
+        } cbtch (Exception e) {
+            more = fblse;
+            NbmingException ne = new NbmingException(
                 "Problem getting binding list");
-            ne.setRootCause(e);
+            ne.setRootCbuse(e);
             throw ne;
         }
         return more;
     }
 
     /**
-    * Constructs a JNDI Binding object from the COS Naming binding
+    * Constructs b JNDI Binding object from the COS Nbming binding
     * object.
-    * @exception NameNotFound No objects under the name.
-    * @exception CannotProceed Unable to obtain a continuation context
-    * @exception InvalidName Name not understood.
-    * @exception NamingException One of the above.
+    * @exception NbmeNotFound No objects under the nbme.
+    * @exception CbnnotProceed Unbble to obtbin b continubtion context
+    * @exception InvblidNbme Nbme not understood.
+    * @exception NbmingException One of the bbove.
     */
 
-    private javax.naming.Binding mapBinding(org.omg.CosNaming.Binding bndg)
-                throws NamingException {
-        java.lang.Object obj = _ctx.callResolve(bndg.binding_name);
+    privbte jbvbx.nbming.Binding mbpBinding(org.omg.CosNbming.Binding bndg)
+                throws NbmingException {
+        jbvb.lbng.Object obj = _ctx.cbllResolve(bndg.binding_nbme);
 
-        Name cname = CNNameParser.cosNameToName(bndg.binding_name);
+        Nbme cnbme = CNNbmePbrser.cosNbmeToNbme(bndg.binding_nbme);
 
         try {
-            obj = NamingManager.getObjectInstance(obj, cname, _ctx, _env);
-        } catch (NamingException e) {
+            obj = NbmingMbnbger.getObjectInstbnce(obj, cnbme, _ctx, _env);
+        } cbtch (NbmingException e) {
             throw e;
-        } catch (Exception e) {
-            NamingException ne = new NamingException(
-                        "problem generating object using object factory");
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException(
+                        "problem generbting object using object fbctory");
+            ne.setRootCbuse(e);
             throw ne;
         }
 
-        // Use cname.toString() instead of bindingName because the name
-        // in the binding should be a composite name
-        String cnameStr = cname.toString();
-        javax.naming.Binding jbndg = new javax.naming.Binding(cnameStr, obj);
+        // Use cnbme.toString() instebd of bindingNbme becbuse the nbme
+        // in the binding should be b composite nbme
+        String cnbmeStr = cnbme.toString();
+        jbvbx.nbming.Binding jbndg = new jbvbx.nbming.Binding(cnbmeStr, obj);
 
-        NameComponent[] comps = _ctx.makeFullName(bndg.binding_name);
-        String fullName = CNNameParser.cosNameToInsString(comps);
-        jbndg.setNameInNamespace(fullName);
+        NbmeComponent[] comps = _ctx.mbkeFullNbme(bndg.binding_nbme);
+        String fullNbme = CNNbmePbrser.cosNbmeToInsString(comps);
+        jbndg.setNbmeInNbmespbce(fullNbme);
         return jbndg;
     }
 }

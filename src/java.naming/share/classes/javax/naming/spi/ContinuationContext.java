@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Hashtable;
-import javax.naming.*;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.*;
 
 /**
-  * This class is for dealing with federations/continuations.
+  * This clbss is for debling with federbtions/continubtions.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-class ContinuationContext implements Context, Resolver {
-    protected CannotProceedException cpe;
-    protected Hashtable<?,?> env;
+clbss ContinubtionContext implements Context, Resolver {
+    protected CbnnotProceedException cpe;
+    protected Hbshtbble<?,?> env;
     protected Context contCtx = null;
 
-    protected ContinuationContext(CannotProceedException cpe,
-                        Hashtable<?,?> env) {
+    protected ContinubtionContext(CbnnotProceedException cpe,
+                        Hbshtbble<?,?> env) {
         this.cpe = cpe;
         this.env = env;
     }
 
-    protected Context getTargetContext() throws NamingException {
+    protected Context getTbrgetContext() throws NbmingException {
         if (contCtx == null) {
             if (cpe.getResolvedObj() == null)
-                throw (NamingException)cpe.fillInStackTrace();
+                throw (NbmingException)cpe.fillInStbckTrbce();
 
-            contCtx = NamingManager.getContext(cpe.getResolvedObj(),
-                                               cpe.getAltName(),
-                                               cpe.getAltNameCtx(),
+            contCtx = NbmingMbnbger.getContext(cpe.getResolvedObj(),
+                                               cpe.getAltNbme(),
+                                               cpe.getAltNbmeCtx(),
                                                env);
             if (contCtx == null)
-                throw (NamingException)cpe.fillInStackTrace();
+                throw (NbmingException)cpe.fillInStbckTrbce();
         }
         return contCtx;
     }
 
-    public Object lookup(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookup(name);
+    public Object lookup(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.lookup(nbme);
     }
 
-    public Object lookup(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookup(name);
+    public Object lookup(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.lookup(nbme);
     }
 
-    public void bind(Name name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.bind(name, newObj);
+    public void bind(Nbme nbme, Object newObj) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.bind(nbme, newObj);
     }
 
-    public void bind(String name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.bind(name, newObj);
+    public void bind(String nbme, Object newObj) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.bind(nbme, newObj);
     }
 
-    public void rebind(Name name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rebind(name, newObj);
+    public void rebind(Nbme nbme, Object newObj) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.rebind(nbme, newObj);
     }
-    public void rebind(String name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rebind(name, newObj);
-    }
-
-    public void unbind(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.unbind(name);
-    }
-    public void unbind(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.unbind(name);
+    public void rebind(String nbme, Object newObj) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.rebind(nbme, newObj);
     }
 
-    public void rename(Name name, Name newName) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rename(name, newName);
+    public void unbind(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.unbind(nbme);
     }
-    public void rename(String name, String newName) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rename(name, newName);
-    }
-
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.list(name);
-    }
-    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.list(name);
+    public void unbind(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.unbind(nbme);
     }
 
+    public void renbme(Nbme nbme, Nbme newNbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.renbme(nbme, newNbme);
+    }
+    public void renbme(String nbme, String newNbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.renbme(nbme, newNbme);
+    }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-        throws NamingException
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.list(nbme);
+    }
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.list(nbme);
+    }
+
+
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+        throws NbmingException
     {
-        Context ctx = getTargetContext();
-        return ctx.listBindings(name);
+        Context ctx = getTbrgetContext();
+        return ctx.listBindings(nbme);
     }
 
-    public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.listBindings(name);
+    public NbmingEnumerbtion<Binding> listBindings(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.listBindings(nbme);
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.destroySubcontext(name);
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.destroySubcontext(nbme);
     }
-    public void destroySubcontext(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.destroySubcontext(name);
-    }
-
-    public Context createSubcontext(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.createSubcontext(name);
-    }
-    public Context createSubcontext(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.createSubcontext(name);
+    public void destroySubcontext(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        ctx.destroySubcontext(nbme);
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookupLink(name);
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.crebteSubcontext(nbme);
     }
-    public Object lookupLink(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookupLink(name);
-    }
-
-    public NameParser getNameParser(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameParser(name);
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.crebteSubcontext(nbme);
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameParser(name);
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.lookupLink(nbme);
+    }
+    public Object lookupLink(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.lookupLink(nbme);
     }
 
-    public Name composeName(Name name, Name prefix)
-        throws NamingException
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.getNbmePbrser(nbme);
+    }
+
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.getNbmePbrser(nbme);
+    }
+
+    public Nbme composeNbme(Nbme nbme, Nbme prefix)
+        throws NbmingException
     {
-        Context ctx = getTargetContext();
-        return ctx.composeName(name, prefix);
+        Context ctx = getTbrgetContext();
+        return ctx.composeNbme(nbme, prefix);
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.composeName(name, prefix);
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.composeNbme(nbme, prefix);
     }
 
-    public Object addToEnvironment(String propName, Object value)
-        throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.addToEnvironment(propName, value);
+    public Object bddToEnvironment(String propNbme, Object vblue)
+        throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.bddToEnvironment(propNbme, vblue);
     }
 
-    public Object removeFromEnvironment(String propName)
-        throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.removeFromEnvironment(propName);
+    public Object removeFromEnvironment(String propNbme)
+        throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.removeFromEnvironment(propNbme);
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        Context ctx = getTargetContext();
+    public Hbshtbble<?,?> getEnvironment() throws NbmingException {
+        Context ctx = getTbrgetContext();
         return ctx.getEnvironment();
     }
 
-    public String getNameInNamespace() throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameInNamespace();
+    public String getNbmeInNbmespbce() throws NbmingException {
+        Context ctx = getTbrgetContext();
+        return ctx.getNbmeInNbmespbce();
     }
 
     public ResolveResult
-        resolveToClass(Name name, Class<? extends Context> contextType)
-        throws NamingException
+        resolveToClbss(Nbme nbme, Clbss<? extends Context> contextType)
+        throws NbmingException
     {
         if (cpe.getResolvedObj() == null)
-            throw (NamingException)cpe.fillInStackTrace();
+            throw (NbmingException)cpe.fillInStbckTrbce();
 
-        Resolver res = NamingManager.getResolver(cpe.getResolvedObj(),
-                                                 cpe.getAltName(),
-                                                 cpe.getAltNameCtx(),
+        Resolver res = NbmingMbnbger.getResolver(cpe.getResolvedObj(),
+                                                 cpe.getAltNbme(),
+                                                 cpe.getAltNbmeCtx(),
                                                  env);
         if (res == null)
-            throw (NamingException)cpe.fillInStackTrace();
-        return res.resolveToClass(name, contextType);
+            throw (NbmingException)cpe.fillInStbckTrbce();
+        return res.resolveToClbss(nbme, contextType);
     }
 
     public ResolveResult
-        resolveToClass(String name, Class<? extends Context> contextType)
-        throws NamingException
+        resolveToClbss(String nbme, Clbss<? extends Context> contextType)
+        throws NbmingException
     {
         if (cpe.getResolvedObj() == null)
-            throw (NamingException)cpe.fillInStackTrace();
+            throw (NbmingException)cpe.fillInStbckTrbce();
 
-        Resolver res = NamingManager.getResolver(cpe.getResolvedObj(),
-                                                 cpe.getAltName(),
-                                                 cpe.getAltNameCtx(),
+        Resolver res = NbmingMbnbger.getResolver(cpe.getResolvedObj(),
+                                                 cpe.getAltNbme(),
+                                                 cpe.getAltNbmeCtx(),
                                                  env);
         if (res == null)
-            throw (NamingException)cpe.fillInStackTrace();
-        return res.resolveToClass(name, contextType);
+            throw (NbmingException)cpe.fillInStbckTrbce();
+        return res.resolveToClbss(nbme, contextType);
     }
 
-    public void close() throws NamingException {
+    public void close() throws NbmingException {
         cpe = null;
         env = null;
         if (contCtx != null) {

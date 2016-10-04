@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
-import java.awt.image.*;
-import java.awt.Color;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.zip.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.Color;
 
-/** PNG - Portable Network Graphics - image file reader.
-    See <a href=http://www.ietf.org/rfc/rfc2083.txt>RFC2083</a> for details. */
+/** PNG - Portbble Network Grbphics - imbge file rebder.
+    See <b href=http://www.ietf.org/rfc/rfc2083.txt>RFC2083</b> for detbils. */
 
-/* this is changed
-public class PNGImageDecoder extends FilterInputStream implements Runnable
+/* this is chbnged
+public clbss PNGImbgeDecoder extends FilterInputStrebm implements Runnbble
 { */
 
-public class PNGImageDecoder extends ImageDecoder
+public clbss PNGImbgeDecoder extends ImbgeDecoder
 {
-    private static final int GRAY=0;
-    private static final int PALETTE=1;
-    private static final int COLOR=2;
-    private static final int ALPHA=4;
+    privbte stbtic finbl int GRAY=0;
+    privbte stbtic finbl int PALETTE=1;
+    privbte stbtic finbl int COLOR=2;
+    privbte stbtic finbl int ALPHA=4;
 
-    private static final int bKGDChunk = 0x624B4744;
-    private static final int cHRMChunk = 0x6348524D;
-    private static final int gAMAChunk = 0x67414D41;
-    private static final int hISTChunk = 0x68495354;
-    private static final int IDATChunk = 0x49444154;
-    private static final int IENDChunk = 0x49454E44;
-    private static final int IHDRChunk = 0x49484452;
-    private static final int PLTEChunk = 0x504C5445;
-    private static final int pHYsChunk = 0x70485973;
-    private static final int sBITChunk = 0x73424954;
-    private static final int tEXtChunk = 0x74455874;
-    private static final int tIMEChunk = 0x74494D45;
-    private static final int tRNSChunk = 0x74524E53;
-    private static final int zTXtChunk = 0x7A545874;
+    privbte stbtic finbl int bKGDChunk = 0x624B4744;
+    privbte stbtic finbl int cHRMChunk = 0x6348524D;
+    privbte stbtic finbl int gAMAChunk = 0x67414D41;
+    privbte stbtic finbl int hISTChunk = 0x68495354;
+    privbte stbtic finbl int IDATChunk = 0x49444154;
+    privbte stbtic finbl int IENDChunk = 0x49454E44;
+    privbte stbtic finbl int IHDRChunk = 0x49484452;
+    privbte stbtic finbl int PLTEChunk = 0x504C5445;
+    privbte stbtic finbl int pHYsChunk = 0x70485973;
+    privbte stbtic finbl int sBITChunk = 0x73424954;
+    privbte stbtic finbl int tEXtChunk = 0x74455874;
+    privbte stbtic finbl int tIMEChunk = 0x74494D45;
+    privbte stbtic finbl int tRNSChunk = 0x74524E53;
+    privbte stbtic finbl int zTXtChunk = 0x7A545874;
 
-    private int width;
-    private int height;
-    private int bitDepth;
-    private int colorType;
-    private int compressionMethod;
-    private int filterMethod;
-    private int interlaceMethod;
-    private int gamma = 100000;
-    private java.util.Hashtable<String, Object> properties;
+    privbte int width;
+    privbte int height;
+    privbte int bitDepth;
+    privbte int colorType;
+    privbte int compressionMethod;
+    privbte int filterMethod;
+    privbte int interlbceMethod;
+    privbte int gbmmb = 100000;
+    privbte jbvb.util.Hbshtbble<String, Object> properties;
   /* this is not needed
-    ImageConsumer target;
+    ImbgeConsumer tbrget;
     */
-    private ColorModel cm;
-    private byte[] red_map, green_map, blue_map, alpha_map;
-    private int transparentPixel = -1;
-    private byte[]  transparentPixel_16 = null; // we need 6 bytes to store 16bpp value
-    private static ColorModel greyModels[] = new ColorModel[4];
+    privbte ColorModel cm;
+    privbte byte[] red_mbp, green_mbp, blue_mbp, blphb_mbp;
+    privbte int trbnspbrentPixel = -1;
+    privbte byte[]  trbnspbrentPixel_16 = null; // we need 6 bytes to store 16bpp vblue
+    privbte stbtic ColorModel greyModels[] = new ColorModel[4];
   /* this is not needed
-     PNGImageDecoder next;
+     PNGImbgeDecoder next;
      */
 
-    private void property(String key,Object value) {
-        if(value==null) return;
-        if(properties==null) properties=new java.util.Hashtable<>();
-        properties.put(key,value);
+    privbte void property(String key,Object vblue) {
+        if(vblue==null) return;
+        if(properties==null) properties=new jbvb.util.Hbshtbble<>();
+        properties.put(key,vblue);
     }
-    private void property(String key,float value) {
-        property(key,new Float(value));
+    privbte void property(String key,flobt vblue) {
+        property(key,new Flobt(vblue));
     }
-    private final void pngassert(boolean b) throws IOException {
+    privbte finbl void pngbssert(boolebn b) throws IOException {
         if(!b) {
             PNGException e = new PNGException("Broken file");
-            e.printStackTrace();
+            e.printStbckTrbce();
             throw e;
         }
     }
-    protected boolean handleChunk(int key, byte[] buf, int st, int len)
+    protected boolebn hbndleChunk(int key, byte[] buf, int st, int len)
         throws IOException {
         switch(key) {
-            case bKGDChunk:
+            cbse bKGDChunk:
                 Color c = null;
                 switch(colorType) {
-                    case COLOR:
-                    case COLOR|ALPHA:
-                        pngassert(len==6);
+                    cbse COLOR:
+                    cbse COLOR|ALPHA:
+                        pngbssert(len==6);
                         c = new Color(buf[st]&0xff,buf[st+2]&0xff,buf[st+4]&0xff);
-                        break;
-                    case COLOR|PALETTE:
-                    case COLOR|PALETTE|ALPHA:
-                        pngassert(len==1);
+                        brebk;
+                    cbse COLOR|PALETTE:
+                    cbse COLOR|PALETTE|ALPHA:
+                        pngbssert(len==1);
                         int ix = buf[st]&0xFF;
-                        pngassert(red_map!=null && ix<red_map.length);
-                        c = new Color(red_map[ix]&0xff,green_map[ix]&0xff,blue_map[ix]&0xff);
-                        break;
-                    case GRAY:
-                    case GRAY|ALPHA:
-                        pngassert(len==2);
+                        pngbssert(red_mbp!=null && ix<red_mbp.length);
+                        c = new Color(red_mbp[ix]&0xff,green_mbp[ix]&0xff,blue_mbp[ix]&0xff);
+                        brebk;
+                    cbse GRAY:
+                    cbse GRAY|ALPHA:
+                        pngbssert(len==2);
                         int t = buf[st]&0xFF;
                         c = new Color(t,t,t);
-                        break;
+                        brebk;
                 }
-                if(c!=null) property("background",c);
-                break;
-            case cHRMChunk:
-                property("chromaticities",
-                    new Chromaticities(
+                if(c!=null) property("bbckground",c);
+                brebk;
+            cbse cHRMChunk:
+                property("chrombticities",
+                    new Chrombticities(
                         getInt(st),
                         getInt(st+4),
                         getInt(st+8),
@@ -134,16 +134,16 @@ public class PNGImageDecoder extends ImageDecoder
                         getInt(st+20),
                         getInt(st+24),
                         getInt(st+28)));
-                break;
-            case gAMAChunk:
+                brebk;
+            cbse gAMAChunk:
                 if(len!=4) throw new PNGException("bogus gAMA");
-                gamma = getInt(st);
-                if(gamma!=100000) property("gamma",gamma/100000.0f);
-                break;
-            case hISTChunk: break;
-            case IDATChunk: return false;
-            case IENDChunk: break;
-            case IHDRChunk:
+                gbmmb = getInt(st);
+                if(gbmmb!=100000) property("gbmmb",gbmmb/100000.0f);
+                brebk;
+            cbse hISTChunk: brebk;
+            cbse IDATChunk: return fblse;
+            cbse IENDChunk: brebk;
+            cbse IHDRChunk:
                 if(len!=13
                     ||(width = getInt(st))==0
                     ||(height = getInt(st+4))==0
@@ -152,105 +152,105 @@ public class PNGImageDecoder extends ImageDecoder
                 colorType = getByte(st+9);
                 compressionMethod = getByte(st+10);
                 filterMethod = getByte(st+11);
-                interlaceMethod = getByte(st+12);
+                interlbceMethod = getByte(st+12);
                 /* this is not needed
-                  if(target!=null) target.setDimensions(width,height);
+                  if(tbrget!=null) tbrget.setDimensions(width,height);
                   */
-                break;
-            case PLTEChunk:
+                brebk;
+            cbse PLTEChunk:
                 {   int tsize = len/3;
-                    red_map = new byte[tsize];
-                    green_map = new byte[tsize];
-                    blue_map = new byte[tsize];
+                    red_mbp = new byte[tsize];
+                    green_mbp = new byte[tsize];
+                    blue_mbp = new byte[tsize];
                     for(int i=0,j=st; i<tsize; i++, j+=3) {
-                        red_map[i] = buf[j];
-                        green_map[i] = buf[j+1];
-                        blue_map[i] = buf[j+2];
+                        red_mbp[i] = buf[j];
+                        green_mbp[i] = buf[j+1];
+                        blue_mbp[i] = buf[j+2];
                     }
                 }
-                break;
-            case pHYsChunk: break;
-            case sBITChunk: break;
-            case tEXtChunk:
+                brebk;
+            cbse pHYsChunk: brebk;
+            cbse sBITChunk: brebk;
+            cbse tEXtChunk:
                 int klen = 0;
                 while(klen<len && buf[st+klen]!=0) klen++;
                 if(klen<len) {
                     String tkey = new String(buf,st,klen);
-                    String tvalue = new String(buf,st+klen+1,len-klen-1);
-                    property(tkey,tvalue);
+                    String tvblue = new String(buf,st+klen+1,len-klen-1);
+                    property(tkey,tvblue);
                 }
-                break;
-            case tIMEChunk:
-                property("modtime",new GregorianCalendar(
+                brebk;
+            cbse tIMEChunk:
+                property("modtime",new GregoribnCblendbr(
                     getShort(st+0),
                     getByte(st+2)-1,
                     getByte(st+3),
                     getByte(st+4),
                     getByte(st+5),
                     getByte(st+6)).getTime());
-                break;
-            case tRNSChunk:
+                brebk;
+            cbse tRNSChunk:
                 switch(colorType) {
-                    case PALETTE|COLOR:
-                    case PALETTE|COLOR|ALPHA:
-                        int alen = len;
-                        if(red_map!=null) alen = red_map.length;
-                        alpha_map = new byte[alen];
-                        System.arraycopy(buf,st,alpha_map,0,len<alen ? len : alen);
-                        while (--alen>=len) alpha_map[alen] = (byte)0xFF;
-                        break;
-                    case COLOR: // doesn't deal with 16 bit colors properly
-                    case COLOR|ALPHA: // doesn't deal with 16 bit colors properly
-                        pngassert(len==6);
+                    cbse PALETTE|COLOR:
+                    cbse PALETTE|COLOR|ALPHA:
+                        int blen = len;
+                        if(red_mbp!=null) blen = red_mbp.length;
+                        blphb_mbp = new byte[blen];
+                        System.brrbycopy(buf,st,blphb_mbp,0,len<blen ? len : blen);
+                        while (--blen>=len) blphb_mbp[blen] = (byte)0xFF;
+                        brebk;
+                    cbse COLOR: // doesn't debl with 16 bit colors properly
+                    cbse COLOR|ALPHA: // doesn't debl with 16 bit colors properly
+                        pngbssert(len==6);
                         if (bitDepth == 16) {
-                            transparentPixel_16 = new byte[6];
+                            trbnspbrentPixel_16 = new byte[6];
                             for (int i = 0; i < 6; i++) {
-                                transparentPixel_16[i] = (byte)getByte(st + i);
+                                trbnspbrentPixel_16[i] = (byte)getByte(st + i);
                             }
                         } else {
-                            transparentPixel =
+                            trbnspbrentPixel =
                                       ((getShort(st + 0)&0xFF)<<16)
                                     | ((getShort(st + 2)&0xFF)<< 8)
                                     | ((getShort(st + 4)&0xFF)    );
                         }
-                        break;
-                    case GRAY:  // doesn't deal with 16 bit colors properly
-                    case GRAY|ALPHA:  // doesn't deal with 16 bit colors properly
-                        pngassert(len==2);
-                        /* REMIND: Discarding the LSB for 16 bit depth here
-                         * means that the all pixels which match the MSB
-                         * will be treated as transparent.
+                        brebk;
+                    cbse GRAY:  // doesn't debl with 16 bit colors properly
+                    cbse GRAY|ALPHA:  // doesn't debl with 16 bit colors properly
+                        pngbssert(len==2);
+                        /* REMIND: Discbrding the LSB for 16 bit depth here
+                         * mebns thbt the bll pixels which mbtch the MSB
+                         * will be trebted bs trbnspbrent.
                          */
                         int t = getShort(st);
                         t = 0xFF & ((bitDepth == 16) ? (t >> 8) : t);
-                        transparentPixel = (t<<16) | (t<< 8) | t;
-                        break;
+                        trbnspbrentPixel = (t<<16) | (t<< 8) | t;
+                        brebk;
                 }
-                break;
-            case zTXtChunk: break;
+                brebk;
+            cbse zTXtChunk: brebk;
         }
         return true;
     }
-    @SuppressWarnings("serial") // JDK-implementation class
-    public class PNGException extends IOException {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    public clbss PNGException extends IOException {
         PNGException(String s) { super(s); }
     }
-  /* this is changed
+  /* this is chbnged
      public void run() {
      */
-  public void produceImage() throws IOException, ImageFormatException {
+  public void produceImbge() throws IOException, ImbgeFormbtException {
     /* this is not needed
-       ImageConsumer t = target;
+       ImbgeConsumer t = tbrget;
        if(t!=null) try {
        */
     try {
-            for(int i=0; i<signature.length; i++)
-              if((signature[i]&0xFF)!=underlyingInputStream.read())
-                throw new PNGException("Chunk signature mismatch");
+            for(int i=0; i<signbture.length; i++)
+              if((signbture[i]&0xFF)!=underlyingInputStrebm.rebd())
+                throw new PNGException("Chunk signbture mismbtch");
 
-            InputStream is = new BufferedInputStream(new InflaterInputStream(inputStream,new Inflater()));
+            InputStrebm is = new BufferedInputStrebm(new InflbterInputStrebm(inputStrebm,new Inflbter()));
 
-            getData();
+            getDbtb();
 
             byte[] bPixels = null;
             int[] wPixels = null;
@@ -258,112 +258,112 @@ public class PNGImageDecoder extends ImageDecoder
             int rowStride;
             int logDepth = 0;
             switch(bitDepth) {
-                case  1: logDepth = 0; break;
-                case  2: logDepth = 1; break;
-                case  4: logDepth = 2; break;
-                case  8: logDepth = 3; break;
-                case 16: logDepth = 4; break;
-                default: throw new PNGException("invalid depth");
+                cbse  1: logDepth = 0; brebk;
+                cbse  2: logDepth = 1; brebk;
+                cbse  4: logDepth = 2; brebk;
+                cbse  8: logDepth = 3; brebk;
+                cbse 16: logDepth = 4; brebk;
+                defbult: throw new PNGException("invblid depth");
             }
-            if(interlaceMethod!=0) {pixSize *= height;rowStride=width;}
+            if(interlbceMethod!=0) {pixSize *= height;rowStride=width;}
             else rowStride = 0;
             int combinedType = colorType|(bitDepth<<3);
-            int bitMask = (1<<(bitDepth>=8?8:bitDepth))-1;
+            int bitMbsk = (1<<(bitDepth>=8?8:bitDepth))-1;
             //Figure out the color model
             switch(colorType) {
-                case COLOR|PALETTE:
-                case COLOR|PALETTE|ALPHA:
-                    if(red_map==null) throw new PNGException("palette expected");
-                    if(alpha_map==null)
-                        cm = new IndexColorModel(bitDepth,red_map.length,
-                            red_map,green_map,blue_map);
+                cbse COLOR|PALETTE:
+                cbse COLOR|PALETTE|ALPHA:
+                    if(red_mbp==null) throw new PNGException("pblette expected");
+                    if(blphb_mbp==null)
+                        cm = new IndexColorModel(bitDepth,red_mbp.length,
+                            red_mbp,green_mbp,blue_mbp);
                     else
-                        cm = new IndexColorModel(bitDepth,red_map.length,
-                            red_map,green_map,blue_map,alpha_map);
+                        cm = new IndexColorModel(bitDepth,red_mbp.length,
+                            red_mbp,green_mbp,blue_mbp,blphb_mbp);
                     bPixels = new byte[pixSize];
-                    break;
-                case GRAY:
+                    brebk;
+                cbse GRAY:
                     {   int llog = logDepth>=4 ? 3 : logDepth;
                         if((cm=greyModels[llog]) == null) {
                             int size = 1<<(1<<llog);
 
-                            byte ramp[] = new byte[size];
-                            for(int i = 0; i<size; i++) ramp[i] = (byte)(255*i/(size-1));
+                            byte rbmp[] = new byte[size];
+                            for(int i = 0; i<size; i++) rbmp[i] = (byte)(255*i/(size-1));
 
-                            if (transparentPixel == -1) {
-                                cm = new IndexColorModel(bitDepth,ramp.length,ramp,ramp,ramp);
+                            if (trbnspbrentPixel == -1) {
+                                cm = new IndexColorModel(bitDepth,rbmp.length,rbmp,rbmp,rbmp);
                             } else {
-                                cm = new IndexColorModel(bitDepth,ramp.length,ramp,ramp,ramp,
-                                                         (transparentPixel & 0xFF));
+                                cm = new IndexColorModel(bitDepth,rbmp.length,rbmp,rbmp,rbmp,
+                                                         (trbnspbrentPixel & 0xFF));
                             }
                             greyModels[llog] = cm;
                         }
                     }
                     bPixels = new byte[pixSize];
-                    break;
-                case COLOR:
-                case COLOR|ALPHA:
-                case GRAY|ALPHA:
-                    cm = ColorModel.getRGBdefault();
+                    brebk;
+                cbse COLOR:
+                cbse COLOR|ALPHA:
+                cbse GRAY|ALPHA:
+                    cm = ColorModel.getRGBdefbult();
                     wPixels = new int[pixSize];
-                    break;
-                default:
-                    throw new PNGException("invalid color type");
+                    brebk;
+                defbult:
+                    throw new PNGException("invblid color type");
             }
             /* this is going to be set in the pixel store
               t.setColorModel(cm);
-            t.setHints(interlaceMethod !=0
-                       ? ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES
-                       : ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES |
-                         ImageConsumer.SINGLEPASS | ImageConsumer.SINGLEFRAME);
+            t.setHints(interlbceMethod !=0
+                       ? ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES
+                       : ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES |
+                         ImbgeConsumer.SINGLEPASS | ImbgeConsumer.SINGLEFRAME);
                          */
-            // code added to make it work with ImageDecoder architecture
+            // code bdded to mbke it work with ImbgeDecoder brchitecture
             setDimensions(width, height);
             setColorModel(cm);
-            int flags = (interlaceMethod !=0
-                       ? ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES
-                       : ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES |
-                         ImageConsumer.SINGLEPASS | ImageConsumer.SINGLEFRAME);
-            setHints(flags);
-            headerComplete();
-            // end of adding
+            int flbgs = (interlbceMethod !=0
+                       ? ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES
+                       : ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES |
+                         ImbgeConsumer.SINGLEPASS | ImbgeConsumer.SINGLEFRAME);
+            setHints(flbgs);
+            hebderComplete();
+            // end of bdding
 
-            int samplesPerPixel = ((colorType&PALETTE)!=0 ? 1
+            int sbmplesPerPixel = ((colorType&PALETTE)!=0 ? 1
                                  : ((colorType&COLOR)!=0 ? 3 : 1)+((colorType&ALPHA)!=0?1:0));
-            int bitsPerPixel = samplesPerPixel*bitDepth;
+            int bitsPerPixel = sbmplesPerPixel*bitDepth;
             int bytesPerPixel = (bitsPerPixel+7)>>3;
-            int pass, passLimit;
-            if(interlaceMethod==0) { pass = -1; passLimit = 0; }
-            else { pass = 0; passLimit = 7; }
-            // These loops are far from being tuned.  They're this way to make them easy to
-            // debug.  Tuning comes later.
-            /* code changed. target not needed here
-               while(++pass<=passLimit && (t=target)!=null) {
+            int pbss, pbssLimit;
+            if(interlbceMethod==0) { pbss = -1; pbssLimit = 0; }
+            else { pbss = 0; pbssLimit = 7; }
+            // These loops bre fbr from being tuned.  They're this wby to mbke them ebsy to
+            // debug.  Tuning comes lbter.
+            /* code chbnged. tbrget not needed here
+               while(++pbss<=pbssLimit && (t=tbrget)!=null) {
                */
-            while(++pass<=passLimit) {
-                int row = startingRow[pass];
-                int rowInc = rowIncrement[pass];
-                int colInc = colIncrement[pass];
-                int bWidth = blockWidth[pass];
-                int bHeight = blockHeight[pass];
-                int sCol = startingCol[pass];
+            while(++pbss<=pbssLimit) {
+                int row = stbrtingRow[pbss];
+                int rowInc = rowIncrement[pbss];
+                int colInc = colIncrement[pbss];
+                int bWidth = blockWidth[pbss];
+                int bHeight = blockHeight[pbss];
+                int sCol = stbrtingCol[pbss];
                 int rowPixelWidth = (width-sCol+(colInc-1))/colInc;
                 int rowByteWidth = ((rowPixelWidth*bitsPerPixel)+7)>>3;
                 if(rowByteWidth==0) continue;
-                int pixelBufferInc = interlaceMethod==0 ? rowInc*width : 0;
+                int pixelBufferInc = interlbceMethod==0 ? rowInc*width : 0;
                 int rowOffset = rowStride*row;
-                boolean firstRow = true;
+                boolebn firstRow = true;
 
                 byte[] rowByteBuffer = new byte[rowByteWidth];
                 byte[] prevRowByteBuffer = new byte[rowByteWidth];
-                /* code changed. target not needed here
-                   while (row < height && (t=target)!=null) {
+                /* code chbnged. tbrget not needed here
+                   while (row < height && (t=tbrget)!=null) {
                    */
                 while (row < height) {
-                    int rowFilter = is.read();
+                    int rowFilter = is.rebd();
                     for (int rowFillPos=0;rowFillPos<rowByteWidth; ) {
-                        int n = is.read(rowByteBuffer,rowFillPos,rowByteWidth-rowFillPos);
-                        if(n<=0) throw new PNGException("missing data");
+                        int n = is.rebd(rowByteBuffer,rowFillPos,rowByteWidth-rowFillPos);
+                        if(n<=0) throw new PNGException("missing dbtb");
                         rowFillPos+=n;
                     }
                     filterRow(rowByteBuffer,
@@ -375,297 +375,297 @@ public class PNGImageDecoder extends ImageDecoder
                     while (col < width) {
                         if(wPixels !=null) {
                             switch(combinedType) {
-                                case COLOR|ALPHA|(8<<3):
+                                cbse COLOR|ALPHA|(8<<3):
                                     wPixels[col+rowOffset] =
                                           ((rowByteBuffer[spos  ]&0xFF)<<16)
                                         | ((rowByteBuffer[spos+1]&0xFF)<< 8)
                                         | ((rowByteBuffer[spos+2]&0xFF)    )
                                         | ((rowByteBuffer[spos+3]&0xFF)<<24);
                                     spos+=4;
-                                    break;
-                                case COLOR|ALPHA|(16<<3):
+                                    brebk;
+                                cbse COLOR|ALPHA|(16<<3):
                                     wPixels[col+rowOffset] =
                                           ((rowByteBuffer[spos  ]&0xFF)<<16)
                                         | ((rowByteBuffer[spos+2]&0xFF)<< 8)
                                         | ((rowByteBuffer[spos+4]&0xFF)    )
                                         | ((rowByteBuffer[spos+6]&0xFF)<<24);
                                     spos+=8;
-                                    break;
-                                case COLOR|(8<<3):
+                                    brebk;
+                                cbse COLOR|(8<<3):
                                     pixel =
                                           ((rowByteBuffer[spos  ]&0xFF)<<16)
                                         | ((rowByteBuffer[spos+1]&0xFF)<< 8)
                                         | ((rowByteBuffer[spos+2]&0xFF)    );
-                                    if (pixel != transparentPixel) {
+                                    if (pixel != trbnspbrentPixel) {
                                         pixel |= 0xff000000;
                                     }
                                     wPixels[col+rowOffset] = pixel;
                                     spos+=3;
-                                    break;
-                                case COLOR|(16<<3):
+                                    brebk;
+                                cbse COLOR|(16<<3):
                                     pixel =
                                               ((rowByteBuffer[spos  ]&0xFF)<<16)
                                             | ((rowByteBuffer[spos+2]&0xFF)<< 8)
                                             | ((rowByteBuffer[spos+4]&0xFF)    );
 
-                                    boolean isTransparent = (transparentPixel_16 != null);
-                                    for (int i = 0; isTransparent && (i < 6); i++) {
-                                        isTransparent &=
-                                                (rowByteBuffer[spos + i] & 0xFF) == (transparentPixel_16[i] & 0xFF);
+                                    boolebn isTrbnspbrent = (trbnspbrentPixel_16 != null);
+                                    for (int i = 0; isTrbnspbrent && (i < 6); i++) {
+                                        isTrbnspbrent &=
+                                                (rowByteBuffer[spos + i] & 0xFF) == (trbnspbrentPixel_16[i] & 0xFF);
                                     }
-                                    if (!isTransparent)  {
+                                    if (!isTrbnspbrent)  {
                                         pixel |= 0xff000000;
                                     }
                                     wPixels[col+rowOffset] = pixel;
                                     spos+=6;
-                                    break;
-                                case GRAY|ALPHA|(8<<3):
+                                    brebk;
+                                cbse GRAY|ALPHA|(8<<3):
                                     { int tx = rowByteBuffer[spos]&0xFF;
                                       wPixels[col+rowOffset] =
                                           (tx<<16)|(tx<<8)|tx
                                         |((rowByteBuffer[spos+1]&0xFF)<<24); }
                                     spos+=2;
-                                    break;
-                                case GRAY|ALPHA|(16<<3):
+                                    brebk;
+                                cbse GRAY|ALPHA|(16<<3):
                                     { int tx = rowByteBuffer[spos]&0xFF;
                                       wPixels[col+rowOffset] =
                                           (tx<<16)|(tx<<8)|tx
                                         |((rowByteBuffer[spos+2]&0xFF)<<24); }
                                     spos+=4;
-                                    break;
-                                default: throw new PNGException("illegal type/depth");
+                                    brebk;
+                                defbult: throw new PNGException("illegbl type/depth");
                             }
                         } else switch(bitDepth) {
-                            case 1:
+                            cbse 1:
                                 bPixels[col+rowOffset] =
                                     (byte)((rowByteBuffer[spos>>3]>>(7-(spos&7)))&1);
                                 spos++;
-                                break;
-                            case 2:
+                                brebk;
+                            cbse 2:
                                 bPixels[col+rowOffset] =
                                     (byte)((rowByteBuffer[spos>>2]>>((3-(spos&3))*2))&3);
                                 spos++;
-                                break;
-                            case 4:
+                                brebk;
+                            cbse 4:
                                 bPixels[col+rowOffset] =
                                     (byte)((rowByteBuffer[spos>>1]>>((1-(spos&1))*4))&15);
                                 spos++;
-                                break;
-                            case 8: bPixels[col+rowOffset] = rowByteBuffer[spos++];
-                                break;
-                            case 16: bPixels[col+rowOffset] = rowByteBuffer[spos]; spos+=2;
-                                break;
-                            default: throw new PNGException("illegal type/depth");
+                                brebk;
+                            cbse 8: bPixels[col+rowOffset] = rowByteBuffer[spos++];
+                                brebk;
+                            cbse 16: bPixels[col+rowOffset] = rowByteBuffer[spos]; spos+=2;
+                                brebk;
+                            defbult: throw new PNGException("illegbl type/depth");
                         }
                         /*visit (row, col,
                             min (bHeight, height - row),
                             min (bWidth, width - col)); */
                         col += colInc;
                     }
-                    if(interlaceMethod==0)
+                    if(interlbceMethod==0)
                       if(wPixels!=null) {
-                        /* code changed. target not needed here
+                        /* code chbnged. tbrget not needed here
                           t.setPixels(0,row,width,1,cm,wPixels,0,width);
                           */
-                       // code added to make it work with ImageDecoder arch
+                       // code bdded to mbke it work with ImbgeDecoder brch
                         sendPixels(0,row,width,1,wPixels,0,width);
-                        // end of adding
+                        // end of bdding
                       }
                       else {
-                        /* code changed. target not needed here
+                        /* code chbnged. tbrget not needed here
                            t.setPixels(0,row,width,1,cm,bPixels,0,width);
                            */
-                        // code added to make it work with ImageDecoder arch
+                        // code bdded to mbke it work with ImbgeDecoder brch
                         sendPixels(0,row,width,1,bPixels,0,width);
-                        //end of adding
+                        //end of bdding
                       }
                     row += rowInc;
                     rowOffset += rowInc*rowStride;
                     byte[] T = rowByteBuffer;
                     rowByteBuffer = prevRowByteBuffer;
                     prevRowByteBuffer = T;
-                    firstRow = false;
+                    firstRow = fblse;
                 }
-                if(interlaceMethod!=0)
+                if(interlbceMethod!=0)
                   if(wPixels!=null) {
-                    /* code changed. target not needed here
+                    /* code chbnged. tbrget not needed here
                        t.setPixels(0,0,width,height,cm,wPixels,0,width);
                        */
-                    // code added to make it work with ImageDecoder arch
+                    // code bdded to mbke it work with ImbgeDecoder brch
                       sendPixels(0,0,width,height,wPixels,0,width);
-                      //end of adding
+                      //end of bdding
                   }
                   else {
-                     /* code changed. target not needed here
+                     /* code chbnged. tbrget not needed here
                         t.setPixels(0,0,width,height,cm,bPixels,0,width);
                         */
-                    // code added to make it work with ImageDecoder arch
+                    // code bdded to mbke it work with ImbgeDecoder brch
                       sendPixels(0,0,width,height,bPixels,0,width);
-                      //end of adding
+                      //end of bdding
                   }
             }
 
-   /* Here, the function "visit(row,column,height,width)" obtains the
-      next transmitted pixel and paints a rectangle of the specified
-      height and width, whose upper-left corner is at the specified row
-      and column, using the color indicated by the pixel.  Note that row
-      and column are measured from 0,0 at the upper left corner. */
+   /* Here, the function "visit(row,column,height,width)" obtbins the
+      next trbnsmitted pixel bnd pbints b rectbngle of the specified
+      height bnd width, whose upper-left corner is bt the specified row
+      bnd column, using the color indicbted by the pixel.  Note thbt row
+      bnd column bre mebsured from 0,0 bt the upper left corner. */
 
-            /* code not needed, don't deal with target
-             if((t=target)!=null) {
+            /* code not needed, don't debl with tbrget
+             if((t=tbrget)!=null) {
                if(properties!=null) t.setProperties(properties);
-                 t.imageComplete(ImageConsumer.STATICIMAGEDONE);
+                 t.imbgeComplete(ImbgeConsumer.STATICIMAGEDONE);
                  */
 
-              imageComplete(ImageConsumer.STATICIMAGEDONE, true);
+              imbgeComplete(ImbgeConsumer.STATICIMAGEDONE, true);
 
               /* code not needed }
                is.close();
                */
-        } catch(IOException e) {
-            if(!aborted) {
+        } cbtch(IOException e) {
+            if(!bborted) {
                 /* code not needed
-                   if((t=target)!=null) {
+                   if((t=tbrget)!=null) {
                    PNGEncoder.prChunk(e.toString(),inbuf,pos,limit-pos,true);
                 */
                 property("error", e);
                 /* code not needed
                    t.setProperties(properties);
-                   t.imageComplete(ImageConsumer.IMAGEERROR|ImageConsumer.STATICIMAGEDONE);
+                   t.imbgeComplete(ImbgeConsumer.IMAGEERROR|ImbgeConsumer.STATICIMAGEDONE);
                 */
-                imageComplete(ImageConsumer.IMAGEERROR|ImageConsumer.STATICIMAGEDONE, true);
+                imbgeComplete(ImbgeConsumer.IMAGEERROR|ImbgeConsumer.STATICIMAGEDONE, true);
                 throw e;
             }
-        } finally {
-          try { close(); } catch(Throwable e){}
+        } finblly {
+          try { close(); } cbtch(Throwbble e){}
           /* code not needed
-             target = null;
+             tbrget = null;
              endTurn();
              */
         }
     }
 
-    private boolean sendPixels(int x, int y, int w, int h, int[] pixels,
+    privbte boolebn sendPixels(int x, int y, int w, int h, int[] pixels,
                                int offset, int pixlength) {
         int count = setPixels(x, y, w, h, cm,
                               pixels, offset, pixlength);
         if (count <= 0) {
-            aborted = true;
+            bborted = true;
         }
-        return !aborted;
+        return !bborted;
     }
-    private boolean sendPixels(int x, int y, int w, int h, byte[] pixels,
+    privbte boolebn sendPixels(int x, int y, int w, int h, byte[] pixels,
                                int offset, int pixlength) {
         int count = setPixels(x, y, w, h, cm,
                               pixels, offset, pixlength);
         if (count <= 0) {
-            aborted = true;
+            bborted = true;
         }
-        return !aborted;
+        return !bborted;
     }
 
-    private void filterRow(byte rowByteBuffer[], byte[] prevRow,
-                           int rowFilter, int rowByteWidth, int bytesPerSample)
+    privbte void filterRow(byte rowByteBuffer[], byte[] prevRow,
+                           int rowFilter, int rowByteWidth, int bytesPerSbmple)
         throws IOException {
         int x = 0;
         switch (rowFilter) {
-          case 0:
-            break;
-          case 1:
-            for (x = bytesPerSample; x < rowByteWidth; x++)
-                rowByteBuffer[x] += rowByteBuffer[x - bytesPerSample];
-            break;
-          case 2:
+          cbse 0:
+            brebk;
+          cbse 1:
+            for (x = bytesPerSbmple; x < rowByteWidth; x++)
+                rowByteBuffer[x] += rowByteBuffer[x - bytesPerSbmple];
+            brebk;
+          cbse 2:
             if (prevRow != null)
                 for ( ; x < rowByteWidth; x++)
                     rowByteBuffer[x] += prevRow[x];
-            break;
-          case 3:
+            brebk;
+          cbse 3:
             if (prevRow != null) {
-                for ( ; x < bytesPerSample; x++)
+                for ( ; x < bytesPerSbmple; x++)
                     rowByteBuffer[x] += (0xff & prevRow[x])>>1;
                 for ( ; x < rowByteWidth; x++)
-                    rowByteBuffer[x] += ((prevRow[x]&0xFF) + (rowByteBuffer[x - bytesPerSample]&0xFF))>>1;
+                    rowByteBuffer[x] += ((prevRow[x]&0xFF) + (rowByteBuffer[x - bytesPerSbmple]&0xFF))>>1;
             } else
-                for (x = bytesPerSample; x < rowByteWidth; x++)
-                    rowByteBuffer[x] += (rowByteBuffer[x - bytesPerSample]&0xFF)>>1;
-            break;
-          case 4:
+                for (x = bytesPerSbmple; x < rowByteWidth; x++)
+                    rowByteBuffer[x] += (rowByteBuffer[x - bytesPerSbmple]&0xFF)>>1;
+            brebk;
+          cbse 4:
             if (prevRow != null) {
-                for ( ; x < bytesPerSample; x++)
+                for ( ; x < bytesPerSbmple; x++)
                     rowByteBuffer[x] += prevRow[x];
                 for ( ; x < rowByteWidth; x++) {
-                    int a, b, c, p, pa, pb, pc, rval;
-                    a = rowByteBuffer[x - bytesPerSample]&0xFF;
+                    int b, b, c, p, pb, pb, pc, rvbl;
+                    b = rowByteBuffer[x - bytesPerSbmple]&0xFF;
                     b = prevRow[x]&0xFF;
-                    c = prevRow[x - bytesPerSample]&0xFF;
-                    p = a + b - c;
-                    pa = p > a ? p - a : a - p;
+                    c = prevRow[x - bytesPerSbmple]&0xFF;
+                    p = b + b - c;
+                    pb = p > b ? p - b : b - p;
                     pb = p > b ? p - b : b - p;
                     pc = p > c ? p - c : c - p;
-                    rowByteBuffer[x] += (pa <= pb) && (pa <= pc) ? a : pb <= pc ? b : c;
+                    rowByteBuffer[x] += (pb <= pb) && (pb <= pc) ? b : pb <= pc ? b : c;
                 }
             } else
-                for (x = bytesPerSample; x < rowByteWidth; x++)
-                    rowByteBuffer[x] += rowByteBuffer[x - bytesPerSample];
-            break;
-          default:
-            throw new PNGException("Illegal filter");
+                for (x = bytesPerSbmple; x < rowByteWidth; x++)
+                    rowByteBuffer[x] += rowByteBuffer[x - bytesPerSbmple];
+            brebk;
+          defbult:
+            throw new PNGException("Illegbl filter");
         }
     }
-    private static final byte[] startingRow =  { 0, 0, 0, 4, 0, 2, 0, 1 };
-    private static final byte[] startingCol =  { 0, 0, 4, 0, 2, 0, 1, 0 };
-    private static final byte[] rowIncrement = { 1, 8, 8, 8, 4, 4, 2, 2 };
-    private static final byte[] colIncrement = { 1, 8, 8, 4, 4, 2, 2, 1 };
-    private static final byte[] blockHeight =  { 1, 8, 8, 4, 4, 2, 2, 1 };
-    private static final byte[] blockWidth =   { 1, 8, 4, 4, 2, 2, 1, 1 };
+    privbte stbtic finbl byte[] stbrtingRow =  { 0, 0, 0, 4, 0, 2, 0, 1 };
+    privbte stbtic finbl byte[] stbrtingCol =  { 0, 0, 4, 0, 2, 0, 1, 0 };
+    privbte stbtic finbl byte[] rowIncrement = { 1, 8, 8, 8, 4, 4, 2, 2 };
+    privbte stbtic finbl byte[] colIncrement = { 1, 8, 8, 4, 4, 2, 2, 1 };
+    privbte stbtic finbl byte[] blockHeight =  { 1, 8, 8, 4, 4, 2, 2, 1 };
+    privbte stbtic finbl byte[] blockWidth =   { 1, 8, 4, 4, 2, 2, 1, 1 };
 
-    //abstract public class ChunkReader extends FilterInputStream {
+    //bbstrbct public clbss ChunkRebder extends FilterInputStrebm {
   int pos, limit;
-    int chunkStart;
+    int chunkStbrt;
    int chunkKey, chunkLength, chunkCRC;
-    boolean seenEOF;
+    boolebn seenEOF;
 
-    private static final byte[] signature = { (byte) 137, (byte) 80, (byte) 78,
+    privbte stbtic finbl byte[] signbture = { (byte) 137, (byte) 80, (byte) 78,
         (byte) 71, (byte) 13, (byte) 10, (byte) 26, (byte) 10 };
 
-  PNGFilterInputStream inputStream;
-  InputStream underlyingInputStream;
+  PNGFilterInputStrebm inputStrebm;
+  InputStrebm underlyingInputStrebm;
 
-  /* code changed
-    public PNGImageDecoder(InputStream in, ImageConsumer t) throws IOException {
+  /* code chbnged
+    public PNGImbgeDecoder(InputStrebm in, ImbgeConsumer t) throws IOException {
     */
-  public PNGImageDecoder(InputStreamImageSource src, InputStream input) throws IOException {
-    // code added
+  public PNGImbgeDecoder(InputStrebmImbgeSource src, InputStrebm input) throws IOException {
+    // code bdded
     super(src, input);
-    inputStream = new PNGFilterInputStream(this, input);
-    underlyingInputStream = inputStream.underlyingInputStream;
-    // end of adding
-    /* code changed
+    inputStrebm = new PNGFilterInputStrebm(this, input);
+    underlyingInputStrebm = inputStrebm.underlyingInputStrebm;
+    // end of bdding
+    /* code chbnged
        super(in);
-       target = t;
-       waitTurn();
-       new Thread(this).start();
+       tbrget = t;
+       wbitTurn();
+       new Threbd(this).stbrt();
        */
     }
-  /* code changed to make it work with ImageDecoder architecture
-    static int ThreadLimit = 10;
-    private synchronized static void waitTurn() {
+  /* code chbnged to mbke it work with ImbgeDecoder brchitecture
+    stbtic int ThrebdLimit = 10;
+    privbte synchronized stbtic void wbitTurn() {
         try {
-            while(ThreadLimit<=0) PNGImageDecoder.class.wait(1000);
-        } catch(InterruptedException e){}
-        ThreadLimit--;
+            while(ThrebdLimit<=0) PNGImbgeDecoder.clbss.wbit(1000);
+        } cbtch(InterruptedException e){}
+        ThrebdLimit--;
     }
-    private synchronized static void endTurn() {
-        if(ThreadLimit<=0) PNGImageDecoder.class.notify();
-        ThreadLimit++;
+    privbte synchronized stbtic void endTurn() {
+        if(ThrebdLimit<=0) PNGImbgeDecoder.clbss.notify();
+        ThrebdLimit++;
     }
     */
     byte[] inbuf = new byte[4096];
-    private void fill() throws IOException {
+    privbte void fill() throws IOException {
         if(!seenEOF) {
             if(pos>0 && pos<limit) {
-                System.arraycopy(inbuf,pos,inbuf,0,limit-pos);
+                System.brrbycopy(inbuf,pos,inbuf,0,limit-pos);
                 limit = limit-pos;
                 pos = 0;
             } else if(pos>=limit) {
@@ -673,66 +673,66 @@ public class PNGImageDecoder extends ImageDecoder
             }
             int bsize = inbuf.length;
             while(limit<bsize) {
-                int n = underlyingInputStream.read(inbuf,limit,bsize-limit);
-                if(n<=0) { seenEOF=true; break; }
+                int n = underlyingInputStrebm.rebd(inbuf,limit,bsize-limit);
+                if(n<=0) { seenEOF=true; brebk; }
                 limit += n;
             }
         }
     }
-    private boolean need(int n) throws IOException {
+    privbte boolebn need(int n) throws IOException {
         if(limit-pos>=n) return true;
         fill();
         if(limit-pos>=n) return true;
-        if(seenEOF) return false;
+        if(seenEOF) return fblse;
         byte nin[] = new byte[n+100];
-        System.arraycopy(inbuf,pos,nin,0,limit-pos);
+        System.brrbycopy(inbuf,pos,nin,0,limit-pos);
         limit = limit-pos;
         pos = 0;
         inbuf = nin;
         fill();
         return limit-pos>=n;
     }
-    private final int getInt(int pos) {
+    privbte finbl int getInt(int pos) {
         return ((inbuf[pos  ]&0xFF)<<24)
              | ((inbuf[pos+1]&0xFF)<<16)
              | ((inbuf[pos+2]&0xFF)<< 8)
              | ((inbuf[pos+3]&0xFF)    );
     }
-    private final int getShort(int pos) {
+    privbte finbl int getShort(int pos) {
         return (short)(((inbuf[pos  ]&0xFF)<<8)
                      | ((inbuf[pos+1]&0xFF)   ));
     }
-    private final int getByte(int pos) {
+    privbte finbl int getByte(int pos) {
         return inbuf[pos]&0xFF;
     }
-    private final boolean getChunk() throws IOException {
+    privbte finbl boolebn getChunk() throws IOException {
         chunkLength = 0;
-        if (!need(8)) return false;
+        if (!need(8)) return fblse;
         chunkLength = getInt(pos);
         chunkKey = getInt(pos+4);
         if(chunkLength<0) throw new PNGException("bogus length: "+chunkLength);
-        if (!need(chunkLength+12)) return false;
+        if (!need(chunkLength+12)) return fblse;
         chunkCRC = getInt(pos+8+chunkLength);
-        chunkStart = pos+8;
-        int calcCRC = crc(inbuf,pos+4,chunkLength+4);
-        if(chunkCRC!=calcCRC && checkCRC) throw new PNGException("crc corruption");
+        chunkStbrt = pos+8;
+        int cblcCRC = crc(inbuf,pos+4,chunkLength+4);
+        if(chunkCRC!=cblcCRC && checkCRC) throw new PNGException("crc corruption");
         pos+=chunkLength+12;
         return true;
     }
-    private void readAll() throws IOException {
-        while(getChunk()) handleChunk(chunkKey,inbuf,chunkStart,chunkLength);
+    privbte void rebdAll() throws IOException {
+        while(getChunk()) hbndleChunk(chunkKey,inbuf,chunkStbrt,chunkLength);
     }
-    boolean getData() throws IOException {
+    boolebn getDbtb() throws IOException {
         while(chunkLength==0 && getChunk())
-            if(handleChunk(chunkKey,inbuf,chunkStart,chunkLength))
+            if(hbndleChunk(chunkKey,inbuf,chunkStbrt,chunkLength))
                 chunkLength = 0;
         return chunkLength>0;
     }
-    //abstract protected boolean handleChunk(int key, byte[] buf, int st, int len)
+    //bbstrbct protected boolebn hbndleChunk(int key, byte[] buf, int st, int len)
     //    throws IOException;
-    private static boolean checkCRC = true;
-    public static boolean getCheckCRC() { return checkCRC; }
-    public static void setCheckCRC(boolean c) { checkCRC = c; }
+    privbte stbtic boolebn checkCRC = true;
+    public stbtic boolebn getCheckCRC() { return checkCRC; }
+    public stbtic void setCheckCRC(boolebn c) { checkCRC = c; }
 
     protected void wrc(int c) {
         c = c&0xFF;
@@ -750,11 +750,11 @@ public class PNGImageDecoder extends ImageDecoder
         System.out.print(" "+chunkLength+"\n");
     }
 
-    /* Table of CRCs of all 8-bit messages. */
-    private static final int[] crc_table = new int[256];
+    /* Tbble of CRCs of bll 8-bit messbges. */
+    privbte stbtic finbl int[] crc_tbble = new int[256];
 
-    /* Make the table for a fast CRC. */
-    static {
+    /* Mbke the tbble for b fbst CRC. */
+    stbtic {
         for (int n = 0; n < 256; n++) {
             int c = n;
             for (int k = 0; k < 8; k++)
@@ -762,29 +762,29 @@ public class PNGImageDecoder extends ImageDecoder
                     c = 0xedb88320 ^ (c >>> 1);
                 else
                     c = c >>> 1;
-            crc_table[n] = c;
+            crc_tbble[n] = c;
         }
     }
 
-    /* Update a running CRC with the bytes buf[0..len-1]--the CRC
-    should be initialized to all 1's, and the transmitted value
-    is the 1's complement of the final running CRC (see the
+    /* Updbte b running CRC with the bytes buf[0..len-1]--the CRC
+    should be initiblized to bll 1's, bnd the trbnsmitted vblue
+    is the 1's complement of the finbl running CRC (see the
     crc() routine below)). */
 
-    static private int update_crc(int crc, byte[] buf, int offset, int len) {
+    stbtic privbte int updbte_crc(int crc, byte[] buf, int offset, int len) {
         int c = crc;
         while (--len>=0)
-            c = crc_table[(c ^ buf[offset++]) & 0xff] ^ (c >>> 8);
+            c = crc_tbble[(c ^ buf[offset++]) & 0xff] ^ (c >>> 8);
         return c;
     }
 
     /* Return the CRC of the bytes buf[0..len-1]. */
-    static private int crc(byte[] buf, int offset, int len) {
-        return update_crc(0xffffffff, buf, offset, len) ^ 0xffffffff;
+    stbtic privbte int crc(byte[] buf, int offset, int len) {
+        return updbte_crc(0xffffffff, buf, offset, len) ^ 0xffffffff;
     }
-    public static class Chromaticities {
-        public float whiteX, whiteY, redX, redY, greenX, greenY, blueX, blueY;
-        Chromaticities(int wx, int wy, int rx, int ry, int gx, int gy, int bx, int by) {
+    public stbtic clbss Chrombticities {
+        public flobt whiteX, whiteY, redX, redY, greenX, greenY, blueX, blueY;
+        Chrombticities(int wx, int wy, int rx, int ry, int gx, int gy, int bx, int by) {
             whiteX = wx/100000.0f;
             whiteY = wy/100000.0f;
             redX = rx/100000.0f;
@@ -795,7 +795,7 @@ public class PNGImageDecoder extends ImageDecoder
             blueY = by/100000.0f;
         }
         public String toString() {
-            return "Chromaticities(white="+whiteX+","+whiteY+";red="+
+            return "Chrombticities(white="+whiteX+","+whiteY+";red="+
                 redX+","+redY+";green="+
                 greenX+","+greenY+";blue="+
                 blueX+","+blueY+")";
@@ -803,37 +803,37 @@ public class PNGImageDecoder extends ImageDecoder
     }
 }
 
-// the following class are added to make it work with ImageDecoder architecture
+// the following clbss bre bdded to mbke it work with ImbgeDecoder brchitecture
 
-class PNGFilterInputStream extends FilterInputStream {
-  PNGImageDecoder owner;
-  public InputStream underlyingInputStream;
-  public PNGFilterInputStream(PNGImageDecoder owner, InputStream is) {
+clbss PNGFilterInputStrebm extends FilterInputStrebm {
+  PNGImbgeDecoder owner;
+  public InputStrebm underlyingInputStrebm;
+  public PNGFilterInputStrebm(PNGImbgeDecoder owner, InputStrebm is) {
     super(is);
-    underlyingInputStream = in;
+    underlyingInputStrebm = in;
     this.owner = owner;
   }
 
-    public int available() throws IOException {
-        return owner.limit-owner.pos+in.available();}
-    public boolean markSupported() { return false; }
-    public int read() throws IOException {
-        if(owner.chunkLength<=0) if(!owner.getData()) return -1;
+    public int bvbilbble() throws IOException {
+        return owner.limit-owner.pos+in.bvbilbble();}
+    public boolebn mbrkSupported() { return fblse; }
+    public int rebd() throws IOException {
+        if(owner.chunkLength<=0) if(!owner.getDbtb()) return -1;
         owner.chunkLength--;
-        return owner.inbuf[owner.chunkStart++]&0xFF;
+        return owner.inbuf[owner.chunkStbrt++]&0xFF;
     }
-    public int read(byte[] b) throws IOException{return read(b,0,b.length);}
-    public int read(byte[] b, int st, int len) throws IOException {
-        if(owner.chunkLength<=0) if(!owner.getData()) return -1;
+    public int rebd(byte[] b) throws IOException{return rebd(b,0,b.length);}
+    public int rebd(byte[] b, int st, int len) throws IOException {
+        if(owner.chunkLength<=0) if(!owner.getDbtb()) return -1;
         if(owner.chunkLength<len) len = owner.chunkLength;
-        System.arraycopy(owner.inbuf,owner.chunkStart,b,st,len);
+        System.brrbycopy(owner.inbuf,owner.chunkStbrt,b,st,len);
         owner.chunkLength-=len;
-        owner.chunkStart+=len;
+        owner.chunkStbrt+=len;
         return len;
     }
   public long skip(long n) throws IOException {
         int i;
-        for(i = 0; i<n && read()>=0; i++);
+        for(i = 0; i<n && rebd()>=0; i++);
         return i;
     }
 

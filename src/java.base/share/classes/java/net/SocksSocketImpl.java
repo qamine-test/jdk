@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedOutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
+pbckbge jbvb.net;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
 import sun.net.SocksProxy;
-import sun.net.www.ParseUtil;
+import sun.net.www.PbrseUtil;
 /* import org.ietf.jgss.*; */
 
 /**
- * SOCKS (V4 & V5) TCP socket implementation (RFC 1928).
- * This is a subclass of PlainSocketImpl.
- * Note this class should <b>NOT</b> be public.
+ * SOCKS (V4 & V5) TCP socket implementbtion (RFC 1928).
+ * This is b subclbss of PlbinSocketImpl.
+ * Note this clbss should <b>NOT</b> be public.
  */
 
-class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
-    private String server = null;
-    private int serverPort = DEFAULT_PORT;
-    private InetSocketAddress external_address;
-    private boolean useV4 = false;
-    private Socket cmdsock = null;
-    private InputStream cmdIn = null;
-    private OutputStream cmdOut = null;
-    /* true if the Proxy has been set programatically */
-    private boolean applicationSetProxy;  /* false */
+clbss SocksSocketImpl extends PlbinSocketImpl implements SocksConsts {
+    privbte String server = null;
+    privbte int serverPort = DEFAULT_PORT;
+    privbte InetSocketAddress externbl_bddress;
+    privbte boolebn useV4 = fblse;
+    privbte Socket cmdsock = null;
+    privbte InputStrebm cmdIn = null;
+    privbte OutputStrebm cmdOut = null;
+    /* true if the Proxy hbs been set progrbmbticblly */
+    privbte boolebn bpplicbtionSetProxy;  /* fblse */
 
 
     SocksSocketImpl() {
@@ -62,12 +62,12 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
     }
 
     SocksSocketImpl(Proxy proxy) {
-        SocketAddress a = proxy.address();
-        if (a instanceof InetSocketAddress) {
-            InetSocketAddress ad = (InetSocketAddress) a;
-            // Use getHostString() to avoid reverse lookups
-            server = ad.getHostString();
-            serverPort = ad.getPort();
+        SocketAddress b = proxy.bddress();
+        if (b instbnceof InetSocketAddress) {
+            InetSocketAddress bd = (InetSocketAddress) b;
+            // Use getHostString() to bvoid reverse lookups
+            server = bd.getHostString();
+            serverPort = bd.getPort();
         }
     }
 
@@ -75,232 +75,232 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         useV4 = true;
     }
 
-    private synchronized void privilegedConnect(final String host,
-                                              final int port,
-                                              final int timeout)
+    privbte synchronized void privilegedConnect(finbl String host,
+                                              finbl int port,
+                                              finbl int timeout)
          throws IOException
     {
         try {
             AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Void>() {
+                new jbvb.security.PrivilegedExceptionAction<Void>() {
                     public Void run() throws IOException {
                               superConnectServer(host, port, timeout);
-                              cmdIn = getInputStream();
-                              cmdOut = getOutputStream();
+                              cmdIn = getInputStrebm();
+                              cmdOut = getOutputStrebm();
                               return null;
                           }
                       });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException) pae.getException();
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw (IOException) pbe.getException();
         }
     }
 
-    private void superConnectServer(String host, int port,
+    privbte void superConnectServer(String host, int port,
                                     int timeout) throws IOException {
         super.connect(new InetSocketAddress(host, port), timeout);
     }
 
-    private static int remainingMillis(long deadlineMillis) throws IOException {
-        if (deadlineMillis == 0L)
+    privbte stbtic int rembiningMillis(long debdlineMillis) throws IOException {
+        if (debdlineMillis == 0L)
             return 0;
 
-        final long remaining = deadlineMillis - System.currentTimeMillis();
-        if (remaining > 0)
-            return (int) remaining;
+        finbl long rembining = debdlineMillis - System.currentTimeMillis();
+        if (rembining > 0)
+            return (int) rembining;
 
         throw new SocketTimeoutException();
     }
 
-    private int readSocksReply(InputStream in, byte[] data) throws IOException {
-        return readSocksReply(in, data, 0L);
+    privbte int rebdSocksReply(InputStrebm in, byte[] dbtb) throws IOException {
+        return rebdSocksReply(in, dbtb, 0L);
     }
 
-    private int readSocksReply(InputStream in, byte[] data, long deadlineMillis) throws IOException {
-        int len = data.length;
+    privbte int rebdSocksReply(InputStrebm in, byte[] dbtb, long debdlineMillis) throws IOException {
+        int len = dbtb.length;
         int received = 0;
         while (received < len) {
             int count;
             try {
-                count = ((SocketInputStream)in).read(data, received, len - received, remainingMillis(deadlineMillis));
-            } catch (SocketTimeoutException e) {
+                count = ((SocketInputStrebm)in).rebd(dbtb, received, len - received, rembiningMillis(debdlineMillis));
+            } cbtch (SocketTimeoutException e) {
                 throw new SocketTimeoutException("Connect timed out");
             }
             if (count < 0)
-                throw new SocketException("Malformed reply from SOCKS server");
+                throw new SocketException("Mblformed reply from SOCKS server");
             received += count;
         }
         return received;
     }
 
     /**
-     * Provides the authentication machanism required by the proxy.
+     * Provides the buthenticbtion mbchbnism required by the proxy.
      */
-    private boolean authenticate(byte method, InputStream in,
-                                 BufferedOutputStream out) throws IOException {
-        return authenticate(method, in, out, 0L);
+    privbte boolebn buthenticbte(byte method, InputStrebm in,
+                                 BufferedOutputStrebm out) throws IOException {
+        return buthenticbte(method, in, out, 0L);
     }
 
-    private boolean authenticate(byte method, InputStream in,
-                                 BufferedOutputStream out,
-                                 long deadlineMillis) throws IOException {
-        // No Authentication required. We're done then!
+    privbte boolebn buthenticbte(byte method, InputStrebm in,
+                                 BufferedOutputStrebm out,
+                                 long debdlineMillis) throws IOException {
+        // No Authenticbtion required. We're done then!
         if (method == NO_AUTH)
             return true;
         /**
-         * User/Password authentication. Try, in that order :
-         * - The application provided Authenticator, if any
-         * - the user.name & no password (backward compatibility behavior).
+         * User/Pbssword buthenticbtion. Try, in thbt order :
+         * - The bpplicbtion provided Authenticbtor, if bny
+         * - the user.nbme & no pbssword (bbckwbrd compbtibility behbvior).
          */
         if (method == USER_PASSW) {
-            String userName;
-            String password = null;
-            final InetAddress addr = InetAddress.getByName(server);
-            PasswordAuthentication pw =
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<PasswordAuthentication>() {
-                        public PasswordAuthentication run() {
-                                return Authenticator.requestPasswordAuthentication(
-                                       server, addr, serverPort, "SOCKS5", "SOCKS authentication", null);
+            String userNbme;
+            String pbssword = null;
+            finbl InetAddress bddr = InetAddress.getByNbme(server);
+            PbsswordAuthenticbtion pw =
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<PbsswordAuthenticbtion>() {
+                        public PbsswordAuthenticbtion run() {
+                                return Authenticbtor.requestPbsswordAuthenticbtion(
+                                       server, bddr, serverPort, "SOCKS5", "SOCKS buthenticbtion", null);
                             }
                         });
             if (pw != null) {
-                userName = pw.getUserName();
-                password = new String(pw.getPassword());
+                userNbme = pw.getUserNbme();
+                pbssword = new String(pw.getPbssword());
             } else {
-                userName = java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.name"));
+                userNbme = jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.nbme"));
             }
-            if (userName == null)
-                return false;
+            if (userNbme == null)
+                return fblse;
             out.write(1);
-            out.write(userName.length());
+            out.write(userNbme.length());
             try {
-                out.write(userName.getBytes("ISO-8859-1"));
-            } catch (java.io.UnsupportedEncodingException uee) {
-                assert false;
+                out.write(userNbme.getBytes("ISO-8859-1"));
+            } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+                bssert fblse;
             }
-            if (password != null) {
-                out.write(password.length());
+            if (pbssword != null) {
+                out.write(pbssword.length());
                 try {
-                    out.write(password.getBytes("ISO-8859-1"));
-                } catch (java.io.UnsupportedEncodingException uee) {
-                    assert false;
+                    out.write(pbssword.getBytes("ISO-8859-1"));
+                } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+                    bssert fblse;
                 }
             } else
                 out.write(0);
             out.flush();
-            byte[] data = new byte[2];
-            int i = readSocksReply(in, data, deadlineMillis);
-            if (i != 2 || data[1] != 0) {
-                /* RFC 1929 specifies that the connection MUST be closed if
-                   authentication fails */
+            byte[] dbtb = new byte[2];
+            int i = rebdSocksReply(in, dbtb, debdlineMillis);
+            if (i != 2 || dbtb[1] != 0) {
+                /* RFC 1929 specifies thbt the connection MUST be closed if
+                   buthenticbtion fbils */
                 out.close();
                 in.close();
-                return false;
+                return fblse;
             }
-            /* Authentication succeeded */
+            /* Authenticbtion succeeded */
             return true;
         }
         /**
-         * GSSAPI authentication mechanism.
-         * Unfortunately the RFC seems out of sync with the Reference
-         * implementation. I'll leave this in for future completion.
+         * GSSAPI buthenticbtion mechbnism.
+         * Unfortunbtely the RFC seems out of sync with the Reference
+         * implementbtion. I'll lebve this in for future completion.
          */
 //      if (method == GSSAPI) {
 //          try {
-//              GSSManager manager = GSSManager.getInstance();
-//              GSSName name = manager.createName("SERVICE:socks@"+server,
+//              GSSMbnbger mbnbger = GSSMbnbger.getInstbnce();
+//              GSSNbme nbme = mbnbger.crebteNbme("SERVICE:socks@"+server,
 //                                                   null);
-//              GSSContext context = manager.createContext(name, null, null,
+//              GSSContext context = mbnbger.crebteContext(nbme, null, null,
 //                                                         GSSContext.DEFAULT_LIFETIME);
-//              context.requestMutualAuth(true);
-//              context.requestReplayDet(true);
+//              context.requestMutublAuth(true);
+//              context.requestReplbyDet(true);
 //              context.requestSequenceDet(true);
 //              context.requestCredDeleg(true);
 //              byte []inToken = new byte[0];
-//              while (!context.isEstablished()) {
+//              while (!context.isEstbblished()) {
 //                  byte[] outToken
 //                      = context.initSecContext(inToken, 0, inToken.length);
-//                  // send the output token if generated
+//                  // send the output token if generbted
 //                  if (outToken != null) {
 //                      out.write(1);
 //                      out.write(1);
 //                      out.writeShort(outToken.length);
 //                      out.write(outToken);
 //                      out.flush();
-//                      data = new byte[2];
-//                      i = readSocksReply(in, data, deadlineMillis);
-//                      if (i != 2 || data[1] == 0xff) {
+//                      dbtb = new byte[2];
+//                      i = rebdSocksReply(in, dbtb, debdlineMillis);
+//                      if (i != 2 || dbtb[1] == 0xff) {
 //                          in.close();
 //                          out.close();
-//                          return false;
+//                          return fblse;
 //                      }
-//                      i = readSocksReply(in, data, deadlineMillis);
+//                      i = rebdSocksReply(in, dbtb, debdlineMillis);
 //                      int len = 0;
-//                      len = ((int)data[0] & 0xff) << 8;
-//                      len += data[1];
-//                      data = new byte[len];
-//                      i = readSocksReply(in, data, deadlineMillis);
+//                      len = ((int)dbtb[0] & 0xff) << 8;
+//                      len += dbtb[1];
+//                      dbtb = new byte[len];
+//                      i = rebdSocksReply(in, dbtb, debdlineMillis);
 //                      if (i == len)
 //                          return true;
 //                      in.close();
 //                      out.close();
 //                  }
 //              }
-//          } catch (GSSException e) {
-//              /* RFC 1961 states that if Context initialisation fails the connection
+//          } cbtch (GSSException e) {
+//              /* RFC 1961 stbtes thbt if Context initiblisbtion fbils the connection
 //                 MUST be closed */
-//              e.printStackTrace();
+//              e.printStbckTrbce();
 //              in.close();
 //              out.close();
 //          }
 //      }
-        return false;
+        return fblse;
     }
 
-    private void connectV4(InputStream in, OutputStream out,
+    privbte void connectV4(InputStrebm in, OutputStrebm out,
                            InetSocketAddress endpoint,
-                           long deadlineMillis) throws IOException {
-        if (!(endpoint.getAddress() instanceof Inet4Address)) {
-            throw new SocketException("SOCKS V4 requires IPv4 only addresses");
+                           long debdlineMillis) throws IOException {
+        if (!(endpoint.getAddress() instbnceof Inet4Address)) {
+            throw new SocketException("SOCKS V4 requires IPv4 only bddresses");
         }
         out.write(PROTO_VERS4);
         out.write(CONNECT);
         out.write((endpoint.getPort() >> 8) & 0xff);
         out.write((endpoint.getPort() >> 0) & 0xff);
         out.write(endpoint.getAddress().getAddress());
-        String userName = getUserName();
+        String userNbme = getUserNbme();
         try {
-            out.write(userName.getBytes("ISO-8859-1"));
-        } catch (java.io.UnsupportedEncodingException uee) {
-            assert false;
+            out.write(userNbme.getBytes("ISO-8859-1"));
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            bssert fblse;
         }
         out.write(0);
         out.flush();
-        byte[] data = new byte[8];
-        int n = readSocksReply(in, data, deadlineMillis);
+        byte[] dbtb = new byte[8];
+        int n = rebdSocksReply(in, dbtb, debdlineMillis);
         if (n != 8)
-            throw new SocketException("Reply from SOCKS server has bad length: " + n);
-        if (data[0] != 0 && data[0] != 4)
-            throw new SocketException("Reply from SOCKS server has bad version");
+            throw new SocketException("Reply from SOCKS server hbs bbd length: " + n);
+        if (dbtb[0] != 0 && dbtb[0] != 4)
+            throw new SocketException("Reply from SOCKS server hbs bbd version");
         SocketException ex = null;
-        switch (data[1]) {
-        case 90:
+        switch (dbtb[1]) {
+        cbse 90:
             // Success!
-            external_address = endpoint;
-            break;
-        case 91:
+            externbl_bddress = endpoint;
+            brebk;
+        cbse 91:
             ex = new SocketException("SOCKS request rejected");
-            break;
-        case 92:
-            ex = new SocketException("SOCKS server couldn't reach destination");
-            break;
-        case 93:
-            ex = new SocketException("SOCKS authentication failed");
-            break;
-        default:
-            ex = new SocketException("Reply from SOCKS server contains bad status");
-            break;
+            brebk;
+        cbse 92:
+            ex = new SocketException("SOCKS server couldn't rebch destinbtion");
+            brebk;
+        cbse 93:
+            ex = new SocketException("SOCKS buthenticbtion fbiled");
+            brebk;
+        defbult:
+            ex = new SocketException("Reply from SOCKS server contbins bbd stbtus");
+            brebk;
         }
         if (ex != null) {
             in.close();
@@ -311,95 +311,95 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
 
     /**
      * Connects the Socks Socket to the specified endpoint. It will first
-     * connect to the SOCKS proxy and negotiate the access. If the proxy
-     * grants the connections, then the connect is successful and all
-     * further traffic will go to the "real" endpoint.
+     * connect to the SOCKS proxy bnd negotibte the bccess. If the proxy
+     * grbnts the connections, then the connect is successful bnd bll
+     * further trbffic will go to the "rebl" endpoint.
      *
-     * @param   endpoint        the {@code SocketAddress} to connect to.
-     * @param   timeout         the timeout value in milliseconds
-     * @throws  IOException     if the connection can't be established.
-     * @throws  SecurityException if there is a security manager and it
-     *                          doesn't allow the connection
-     * @throws  IllegalArgumentException if endpoint is null or a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm   endpoint        the {@code SocketAddress} to connect to.
+     * @pbrbm   timeout         the timeout vblue in milliseconds
+     * @throws  IOException     if the connection cbn't be estbblished.
+     * @throws  SecurityException if there is b security mbnbger bnd it
+     *                          doesn't bllow the connection
+     * @throws  IllegblArgumentException if endpoint is null or b
+     *          SocketAddress subclbss not supported by this socket
      */
     @Override
     protected void connect(SocketAddress endpoint, int timeout) throws IOException {
-        final long deadlineMillis;
+        finbl long debdlineMillis;
 
         if (timeout == 0) {
-            deadlineMillis = 0L;
+            debdlineMillis = 0L;
         } else {
             long finish = System.currentTimeMillis() + timeout;
-            deadlineMillis = finish < 0 ? Long.MAX_VALUE : finish;
+            debdlineMillis = finish < 0 ? Long.MAX_VALUE : finish;
         }
 
-        SecurityManager security = System.getSecurityManager();
-        if (endpoint == null || !(endpoint instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        SecurityMbnbger security = System.getSecurityMbnbger();
+        if (endpoint == null || !(endpoint instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
         InetSocketAddress epoint = (InetSocketAddress) endpoint;
         if (security != null) {
             if (epoint.isUnresolved())
-                security.checkConnect(epoint.getHostName(),
+                security.checkConnect(epoint.getHostNbme(),
                                       epoint.getPort());
             else
                 security.checkConnect(epoint.getAddress().getHostAddress(),
                                       epoint.getPort());
         }
         if (server == null) {
-            // This is the general case
-            // server is not null only when the socket was created with a
-            // specified proxy in which case it does bypass the ProxySelector
-            ProxySelector sel = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<ProxySelector>() {
+            // This is the generbl cbse
+            // server is not null only when the socket wbs crebted with b
+            // specified proxy in which cbse it does bypbss the ProxySelector
+            ProxySelector sel = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<ProxySelector>() {
                     public ProxySelector run() {
-                            return ProxySelector.getDefault();
+                            return ProxySelector.getDefbult();
                         }
                     });
             if (sel == null) {
                 /*
-                 * No default proxySelector --> direct connection
+                 * No defbult proxySelector --> direct connection
                  */
-                super.connect(epoint, remainingMillis(deadlineMillis));
+                super.connect(epoint, rembiningMillis(debdlineMillis));
                 return;
             }
             URI uri;
-            // Use getHostString() to avoid reverse lookups
+            // Use getHostString() to bvoid reverse lookups
             String host = epoint.getHostString();
-            // IPv6 litteral?
-            if (epoint.getAddress() instanceof Inet6Address &&
-                (!host.startsWith("[")) && (host.indexOf(':') >= 0)) {
+            // IPv6 litterbl?
+            if (epoint.getAddress() instbnceof Inet6Address &&
+                (!host.stbrtsWith("[")) && (host.indexOf(':') >= 0)) {
                 host = "[" + host + "]";
             }
             try {
-                uri = new URI("socket://" + ParseUtil.encodePath(host) + ":"+ epoint.getPort());
-            } catch (URISyntaxException e) {
-                // This shouldn't happen
-                assert false : e;
+                uri = new URI("socket://" + PbrseUtil.encodePbth(host) + ":"+ epoint.getPort());
+            } cbtch (URISyntbxException e) {
+                // This shouldn't hbppen
+                bssert fblse : e;
                 uri = null;
             }
             Proxy p = null;
-            IOException savedExc = null;
-            java.util.Iterator<Proxy> iProxy = null;
-            iProxy = sel.select(uri).iterator();
-            if (iProxy == null || !(iProxy.hasNext())) {
-                super.connect(epoint, remainingMillis(deadlineMillis));
+            IOException sbvedExc = null;
+            jbvb.util.Iterbtor<Proxy> iProxy = null;
+            iProxy = sel.select(uri).iterbtor();
+            if (iProxy == null || !(iProxy.hbsNext())) {
+                super.connect(epoint, rembiningMillis(debdlineMillis));
                 return;
             }
-            while (iProxy.hasNext()) {
+            while (iProxy.hbsNext()) {
                 p = iProxy.next();
                 if (p == null || p == Proxy.NO_PROXY) {
-                    super.connect(epoint, remainingMillis(deadlineMillis));
+                    super.connect(epoint, rembiningMillis(debdlineMillis));
                     return;
                 }
                 if (p.type() != Proxy.Type.SOCKS)
                     throw new SocketException("Unknown proxy type : " + p.type());
-                if (!(p.address() instanceof InetSocketAddress))
-                    throw new SocketException("Unknow address type for proxy: " + p);
-                // Use getHostString() to avoid reverse lookups
-                server = ((InetSocketAddress) p.address()).getHostString();
-                serverPort = ((InetSocketAddress) p.address()).getPort();
-                if (p instanceof SocksProxy) {
+                if (!(p.bddress() instbnceof InetSocketAddress))
+                    throw new SocketException("Unknow bddress type for proxy: " + p);
+                // Use getHostString() to bvoid reverse lookups
+                server = ((InetSocketAddress) p.bddress()).getHostString();
+                serverPort = ((InetSocketAddress) p.bddress()).getPort();
+                if (p instbnceof SocksProxy) {
                     if (((SocksProxy)p).protocolVersion() == 4) {
                         useV4 = true;
                     }
@@ -407,46 +407,46 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
 
                 // Connects to the SOCKS server
                 try {
-                    privilegedConnect(server, serverPort, remainingMillis(deadlineMillis));
-                    // Worked, let's get outta here
-                    break;
-                } catch (IOException e) {
+                    privilegedConnect(server, serverPort, rembiningMillis(debdlineMillis));
+                    // Worked, let's get outtb here
+                    brebk;
+                } cbtch (IOException e) {
                     // Ooops, let's notify the ProxySelector
-                    sel.connectFailed(uri,p.address(),e);
+                    sel.connectFbiled(uri,p.bddress(),e);
                     server = null;
                     serverPort = -1;
-                    savedExc = e;
-                    // Will continue the while loop and try the next proxy
+                    sbvedExc = e;
+                    // Will continue the while loop bnd try the next proxy
                 }
             }
 
             /*
-             * If server is still null at this point, none of the proxy
+             * If server is still null bt this point, none of the proxy
              * worked
              */
             if (server == null) {
-                throw new SocketException("Can't connect to SOCKS proxy:"
-                                          + savedExc.getMessage());
+                throw new SocketException("Cbn't connect to SOCKS proxy:"
+                                          + sbvedExc.getMessbge());
             }
         } else {
             // Connects to the SOCKS server
             try {
-                privilegedConnect(server, serverPort, remainingMillis(deadlineMillis));
-            } catch (IOException e) {
-                throw new SocketException(e.getMessage());
+                privilegedConnect(server, serverPort, rembiningMillis(debdlineMillis));
+            } cbtch (IOException e) {
+                throw new SocketException(e.getMessbge());
             }
         }
 
-        // cmdIn & cmdOut were initialized during the privilegedConnect() call
-        BufferedOutputStream out = new BufferedOutputStream(cmdOut, 512);
-        InputStream in = cmdIn;
+        // cmdIn & cmdOut were initiblized during the privilegedConnect() cbll
+        BufferedOutputStrebm out = new BufferedOutputStrebm(cmdOut, 512);
+        InputStrebm in = cmdIn;
 
         if (useV4) {
-            // SOCKS Protocol version 4 doesn't know how to deal with
-            // DOMAIN type of addresses (unresolved addresses here)
+            // SOCKS Protocol version 4 doesn't know how to debl with
+            // DOMAIN type of bddresses (unresolved bddresses here)
             if (epoint.isUnresolved())
                 throw new UnknownHostException(epoint.toString());
-            connectV4(in, out, epoint, deadlineMillis);
+            connectV4(in, out, epoint, debdlineMillis);
             return;
         }
 
@@ -456,22 +456,22 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         out.write(NO_AUTH);
         out.write(USER_PASSW);
         out.flush();
-        byte[] data = new byte[2];
-        int i = readSocksReply(in, data, deadlineMillis);
-        if (i != 2 || ((int)data[0]) != PROTO_VERS) {
-            // Maybe it's not a V5 sever after all
+        byte[] dbtb = new byte[2];
+        int i = rebdSocksReply(in, dbtb, debdlineMillis);
+        if (i != 2 || ((int)dbtb[0]) != PROTO_VERS) {
+            // Mbybe it's not b V5 sever bfter bll
             // Let's try V4 before we give up
-            // SOCKS Protocol version 4 doesn't know how to deal with
-            // DOMAIN type of addresses (unresolved addresses here)
+            // SOCKS Protocol version 4 doesn't know how to debl with
+            // DOMAIN type of bddresses (unresolved bddresses here)
             if (epoint.isUnresolved())
                 throw new UnknownHostException(epoint.toString());
-            connectV4(in, out, epoint, deadlineMillis);
+            connectV4(in, out, epoint, debdlineMillis);
             return;
         }
-        if (((int)data[1]) == NO_METHODS)
-            throw new SocketException("SOCKS : No acceptable methods");
-        if (!authenticate(data[1], in, out, deadlineMillis)) {
-            throw new SocketException("SOCKS : authentication failed");
+        if (((int)dbtb[1]) == NO_METHODS)
+            throw new SocketException("SOCKS : No bcceptbble methods");
+        if (!buthenticbte(dbtb[1], in, out, debdlineMillis)) {
+            throw new SocketException("SOCKS : buthenticbtion fbiled");
         }
         out.write(PROTO_VERS);
         out.write(CONNECT);
@@ -479,15 +479,15 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         /* Test for IPV4/IPV6/Unresolved */
         if (epoint.isUnresolved()) {
             out.write(DOMAIN_NAME);
-            out.write(epoint.getHostName().length());
+            out.write(epoint.getHostNbme().length());
             try {
-                out.write(epoint.getHostName().getBytes("ISO-8859-1"));
-            } catch (java.io.UnsupportedEncodingException uee) {
-                assert false;
+                out.write(epoint.getHostNbme().getBytes("ISO-8859-1"));
+            } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+                bssert fblse;
             }
             out.write((epoint.getPort() >> 8) & 0xff);
             out.write((epoint.getPort() >> 0) & 0xff);
-        } else if (epoint.getAddress() instanceof Inet6Address) {
+        } else if (epoint.getAddress() instbnceof Inet6Address) {
             out.write(IPV6);
             out.write(epoint.getAddress().getAddress());
             out.write((epoint.getPort() >> 8) & 0xff);
@@ -499,148 +499,148 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
             out.write((epoint.getPort() >> 0) & 0xff);
         }
         out.flush();
-        data = new byte[4];
-        i = readSocksReply(in, data, deadlineMillis);
+        dbtb = new byte[4];
+        i = rebdSocksReply(in, dbtb, debdlineMillis);
         if (i != 4)
-            throw new SocketException("Reply from SOCKS server has bad length");
+            throw new SocketException("Reply from SOCKS server hbs bbd length");
         SocketException ex = null;
         int len;
-        byte[] addr;
-        switch (data[1]) {
-        case REQUEST_OK:
+        byte[] bddr;
+        switch (dbtb[1]) {
+        cbse REQUEST_OK:
             // success!
-            switch(data[3]) {
-            case IPV4:
-                addr = new byte[4];
-                i = readSocksReply(in, addr, deadlineMillis);
+            switch(dbtb[3]) {
+            cbse IPV4:
+                bddr = new byte[4];
+                i = rebdSocksReply(in, bddr, debdlineMillis);
                 if (i != 4)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data, deadlineMillis);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb, debdlineMillis);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                break;
-            case DOMAIN_NAME:
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                brebk;
+            cbse DOMAIN_NAME:
                 byte[] lenByte = new byte[1];
-                i = readSocksReply(in, lenByte, deadlineMillis);
+                i = rebdSocksReply(in, lenByte, debdlineMillis);
                 if (i != 1)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
                 len = lenByte[0] & 0xFF;
                 byte[] host = new byte[len];
-                i = readSocksReply(in, host, deadlineMillis);
+                i = rebdSocksReply(in, host, debdlineMillis);
                 if (i != len)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data, deadlineMillis);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb, debdlineMillis);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                break;
-            case IPV6:
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                brebk;
+            cbse IPV6:
                 len = 16;
-                addr = new byte[len];
-                i = readSocksReply(in, addr, deadlineMillis);
+                bddr = new byte[len];
+                i = rebdSocksReply(in, bddr, debdlineMillis);
                 if (i != len)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data, deadlineMillis);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb, debdlineMillis);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                break;
-            default:
-                ex = new SocketException("Reply from SOCKS server contains wrong code");
-                break;
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                brebk;
+            defbult:
+                ex = new SocketException("Reply from SOCKS server contbins wrong code");
+                brebk;
             }
-            break;
-        case GENERAL_FAILURE:
-            ex = new SocketException("SOCKS server general failure");
-            break;
-        case NOT_ALLOWED:
-            ex = new SocketException("SOCKS: Connection not allowed by ruleset");
-            break;
-        case NET_UNREACHABLE:
-            ex = new SocketException("SOCKS: Network unreachable");
-            break;
-        case HOST_UNREACHABLE:
-            ex = new SocketException("SOCKS: Host unreachable");
-            break;
-        case CONN_REFUSED:
+            brebk;
+        cbse GENERAL_FAILURE:
+            ex = new SocketException("SOCKS server generbl fbilure");
+            brebk;
+        cbse NOT_ALLOWED:
+            ex = new SocketException("SOCKS: Connection not bllowed by ruleset");
+            brebk;
+        cbse NET_UNREACHABLE:
+            ex = new SocketException("SOCKS: Network unrebchbble");
+            brebk;
+        cbse HOST_UNREACHABLE:
+            ex = new SocketException("SOCKS: Host unrebchbble");
+            brebk;
+        cbse CONN_REFUSED:
             ex = new SocketException("SOCKS: Connection refused");
-            break;
-        case TTL_EXPIRED:
+            brebk;
+        cbse TTL_EXPIRED:
             ex =  new SocketException("SOCKS: TTL expired");
-            break;
-        case CMD_NOT_SUPPORTED:
-            ex = new SocketException("SOCKS: Command not supported");
-            break;
-        case ADDR_TYPE_NOT_SUP:
-            ex = new SocketException("SOCKS: address type not supported");
-            break;
+            brebk;
+        cbse CMD_NOT_SUPPORTED:
+            ex = new SocketException("SOCKS: Commbnd not supported");
+            brebk;
+        cbse ADDR_TYPE_NOT_SUP:
+            ex = new SocketException("SOCKS: bddress type not supported");
+            brebk;
         }
         if (ex != null) {
             in.close();
             out.close();
             throw ex;
         }
-        external_address = epoint;
+        externbl_bddress = epoint;
     }
 
-    private void bindV4(InputStream in, OutputStream out,
-                        InetAddress baddr,
+    privbte void bindV4(InputStrebm in, OutputStrebm out,
+                        InetAddress bbddr,
                         int lport) throws IOException {
-        if (!(baddr instanceof Inet4Address)) {
-            throw new SocketException("SOCKS V4 requires IPv4 only addresses");
+        if (!(bbddr instbnceof Inet4Address)) {
+            throw new SocketException("SOCKS V4 requires IPv4 only bddresses");
         }
-        super.bind(baddr, lport);
-        byte[] addr1 = baddr.getAddress();
-        /* Test for AnyLocal */
-        InetAddress naddr = baddr;
-        if (naddr.isAnyLocalAddress()) {
-            naddr = AccessController.doPrivileged(
+        super.bind(bbddr, lport);
+        byte[] bddr1 = bbddr.getAddress();
+        /* Test for AnyLocbl */
+        InetAddress nbddr = bbddr;
+        if (nbddr.isAnyLocblAddress()) {
+            nbddr = AccessController.doPrivileged(
                         new PrivilegedAction<InetAddress>() {
                             public InetAddress run() {
-                                return cmdsock.getLocalAddress();
+                                return cmdsock.getLocblAddress();
 
                             }
                         });
-            addr1 = naddr.getAddress();
+            bddr1 = nbddr.getAddress();
         }
         out.write(PROTO_VERS4);
         out.write(BIND);
-        out.write((super.getLocalPort() >> 8) & 0xff);
-        out.write((super.getLocalPort() >> 0) & 0xff);
-        out.write(addr1);
-        String userName = getUserName();
+        out.write((super.getLocblPort() >> 8) & 0xff);
+        out.write((super.getLocblPort() >> 0) & 0xff);
+        out.write(bddr1);
+        String userNbme = getUserNbme();
         try {
-            out.write(userName.getBytes("ISO-8859-1"));
-        } catch (java.io.UnsupportedEncodingException uee) {
-            assert false;
+            out.write(userNbme.getBytes("ISO-8859-1"));
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            bssert fblse;
         }
         out.write(0);
         out.flush();
-        byte[] data = new byte[8];
-        int n = readSocksReply(in, data);
+        byte[] dbtb = new byte[8];
+        int n = rebdSocksReply(in, dbtb);
         if (n != 8)
-            throw new SocketException("Reply from SOCKS server has bad length: " + n);
-        if (data[0] != 0 && data[0] != 4)
-            throw new SocketException("Reply from SOCKS server has bad version");
+            throw new SocketException("Reply from SOCKS server hbs bbd length: " + n);
+        if (dbtb[0] != 0 && dbtb[0] != 4)
+            throw new SocketException("Reply from SOCKS server hbs bbd version");
         SocketException ex = null;
-        switch (data[1]) {
-        case 90:
+        switch (dbtb[1]) {
+        cbse 90:
             // Success!
-            external_address = new InetSocketAddress(baddr, lport);
-            break;
-        case 91:
+            externbl_bddress = new InetSocketAddress(bbddr, lport);
+            brebk;
+        cbse 91:
             ex = new SocketException("SOCKS request rejected");
-            break;
-        case 92:
-            ex = new SocketException("SOCKS server couldn't reach destination");
-            break;
-        case 93:
-            ex = new SocketException("SOCKS authentication failed");
-            break;
-        default:
-            ex = new SocketException("Reply from SOCKS server contains bad status");
-            break;
+            brebk;
+        cbse 92:
+            ex = new SocketException("SOCKS server couldn't rebch destinbtion");
+            brebk;
+        cbse 93:
+            ex = new SocketException("SOCKS buthenticbtion fbiled");
+            brebk;
+        defbult:
+            ex = new SocketException("Reply from SOCKS server contbins bbd stbtus");
+            brebk;
         }
         if (ex != null) {
             in.close();
@@ -652,72 +652,72 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
 
     /**
      * Sends the Bind request to the SOCKS proxy. In the SOCKS protocol, bind
-     * means "accept incoming connection from", so the SocketAddress is the
-     * the one of the host we do accept connection from.
+     * mebns "bccept incoming connection from", so the SocketAddress is the
+     * the one of the host we do bccept connection from.
      *
-     * @param      saddr   the Socket address of the remote host.
-     * @exception  IOException  if an I/O error occurs when binding this socket.
+     * @pbrbm      sbddr   the Socket bddress of the remote host.
+     * @exception  IOException  if bn I/O error occurs when binding this socket.
      */
-    protected synchronized void socksBind(InetSocketAddress saddr) throws IOException {
+    protected synchronized void socksBind(InetSocketAddress sbddr) throws IOException {
         if (socket != null) {
-            // this is a client socket, not a server socket, don't
-            // call the SOCKS proxy for a bind!
+            // this is b client socket, not b server socket, don't
+            // cbll the SOCKS proxy for b bind!
             return;
         }
 
         // Connects to the SOCKS server
 
         if (server == null) {
-            // This is the general case
-            // server is not null only when the socket was created with a
-            // specified proxy in which case it does bypass the ProxySelector
-            ProxySelector sel = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<ProxySelector>() {
+            // This is the generbl cbse
+            // server is not null only when the socket wbs crebted with b
+            // specified proxy in which cbse it does bypbss the ProxySelector
+            ProxySelector sel = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<ProxySelector>() {
                     public ProxySelector run() {
-                            return ProxySelector.getDefault();
+                            return ProxySelector.getDefbult();
                         }
                     });
             if (sel == null) {
                 /*
-                 * No default proxySelector --> direct connection
+                 * No defbult proxySelector --> direct connection
                  */
                 return;
             }
             URI uri;
-            // Use getHostString() to avoid reverse lookups
-            String host = saddr.getHostString();
-            // IPv6 litteral?
-            if (saddr.getAddress() instanceof Inet6Address &&
-                (!host.startsWith("[")) && (host.indexOf(':') >= 0)) {
+            // Use getHostString() to bvoid reverse lookups
+            String host = sbddr.getHostString();
+            // IPv6 litterbl?
+            if (sbddr.getAddress() instbnceof Inet6Address &&
+                (!host.stbrtsWith("[")) && (host.indexOf(':') >= 0)) {
                 host = "[" + host + "]";
             }
             try {
-                uri = new URI("serversocket://" + ParseUtil.encodePath(host) + ":"+ saddr.getPort());
-            } catch (URISyntaxException e) {
-                // This shouldn't happen
-                assert false : e;
+                uri = new URI("serversocket://" + PbrseUtil.encodePbth(host) + ":"+ sbddr.getPort());
+            } cbtch (URISyntbxException e) {
+                // This shouldn't hbppen
+                bssert fblse : e;
                 uri = null;
             }
             Proxy p = null;
-            Exception savedExc = null;
-            java.util.Iterator<Proxy> iProxy = null;
-            iProxy = sel.select(uri).iterator();
-            if (iProxy == null || !(iProxy.hasNext())) {
+            Exception sbvedExc = null;
+            jbvb.util.Iterbtor<Proxy> iProxy = null;
+            iProxy = sel.select(uri).iterbtor();
+            if (iProxy == null || !(iProxy.hbsNext())) {
                 return;
             }
-            while (iProxy.hasNext()) {
+            while (iProxy.hbsNext()) {
                 p = iProxy.next();
                 if (p == null || p == Proxy.NO_PROXY) {
                     return;
                 }
                 if (p.type() != Proxy.Type.SOCKS)
                     throw new SocketException("Unknown proxy type : " + p.type());
-                if (!(p.address() instanceof InetSocketAddress))
-                    throw new SocketException("Unknow address type for proxy: " + p);
-                // Use getHostString() to avoid reverse lookups
-                server = ((InetSocketAddress) p.address()).getHostString();
-                serverPort = ((InetSocketAddress) p.address()).getPort();
-                if (p instanceof SocksProxy) {
+                if (!(p.bddress() instbnceof InetSocketAddress))
+                    throw new SocketException("Unknow bddress type for proxy: " + p);
+                // Use getHostString() to bvoid reverse lookups
+                server = ((InetSocketAddress) p.bddress()).getHostString();
+                serverPort = ((InetSocketAddress) p.bddress()).getPort();
+                if (p instbnceof SocksProxy) {
                     if (((SocksProxy)p).protocolVersion() == 4) {
                         useV4 = true;
                     }
@@ -728,52 +728,52 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
                     AccessController.doPrivileged(
                         new PrivilegedExceptionAction<Void>() {
                             public Void run() throws Exception {
-                                cmdsock = new Socket(new PlainSocketImpl());
+                                cmdsock = new Socket(new PlbinSocketImpl());
                                 cmdsock.connect(new InetSocketAddress(server, serverPort));
-                                cmdIn = cmdsock.getInputStream();
-                                cmdOut = cmdsock.getOutputStream();
+                                cmdIn = cmdsock.getInputStrebm();
+                                cmdOut = cmdsock.getOutputStrebm();
                                 return null;
                             }
                         });
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     // Ooops, let's notify the ProxySelector
-                    sel.connectFailed(uri,p.address(),new SocketException(e.getMessage()));
+                    sel.connectFbiled(uri,p.bddress(),new SocketException(e.getMessbge()));
                     server = null;
                     serverPort = -1;
                     cmdsock = null;
-                    savedExc = e;
-                    // Will continue the while loop and try the next proxy
+                    sbvedExc = e;
+                    // Will continue the while loop bnd try the next proxy
                 }
             }
 
             /*
-             * If server is still null at this point, none of the proxy
+             * If server is still null bt this point, none of the proxy
              * worked
              */
             if (server == null || cmdsock == null) {
-                throw new SocketException("Can't connect to SOCKS proxy:"
-                                          + savedExc.getMessage());
+                throw new SocketException("Cbn't connect to SOCKS proxy:"
+                                          + sbvedExc.getMessbge());
             }
         } else {
             try {
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Void>() {
                         public Void run() throws Exception {
-                            cmdsock = new Socket(new PlainSocketImpl());
+                            cmdsock = new Socket(new PlbinSocketImpl());
                             cmdsock.connect(new InetSocketAddress(server, serverPort));
-                            cmdIn = cmdsock.getInputStream();
-                            cmdOut = cmdsock.getOutputStream();
+                            cmdIn = cmdsock.getInputStrebm();
+                            cmdOut = cmdsock.getOutputStrebm();
                             return null;
                         }
                     });
-            } catch (Exception e) {
-                throw new SocketException(e.getMessage());
+            } cbtch (Exception e) {
+                throw new SocketException(e.getMessbge());
             }
         }
-        BufferedOutputStream out = new BufferedOutputStream(cmdOut, 512);
-        InputStream in = cmdIn;
+        BufferedOutputStrebm out = new BufferedOutputStrebm(cmdOut, 512);
+        InputStrebm in = cmdIn;
         if (useV4) {
-            bindV4(in, out, saddr.getAddress(), saddr.getPort());
+            bindV4(in, out, sbddr.getAddress(), sbddr.getPort());
             return;
         }
         out.write(PROTO_VERS);
@@ -781,130 +781,130 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         out.write(NO_AUTH);
         out.write(USER_PASSW);
         out.flush();
-        byte[] data = new byte[2];
-        int i = readSocksReply(in, data);
-        if (i != 2 || ((int)data[0]) != PROTO_VERS) {
-            // Maybe it's not a V5 sever after all
+        byte[] dbtb = new byte[2];
+        int i = rebdSocksReply(in, dbtb);
+        if (i != 2 || ((int)dbtb[0]) != PROTO_VERS) {
+            // Mbybe it's not b V5 sever bfter bll
             // Let's try V4 before we give up
-            bindV4(in, out, saddr.getAddress(), saddr.getPort());
+            bindV4(in, out, sbddr.getAddress(), sbddr.getPort());
             return;
         }
-        if (((int)data[1]) == NO_METHODS)
-            throw new SocketException("SOCKS : No acceptable methods");
-        if (!authenticate(data[1], in, out)) {
-            throw new SocketException("SOCKS : authentication failed");
+        if (((int)dbtb[1]) == NO_METHODS)
+            throw new SocketException("SOCKS : No bcceptbble methods");
+        if (!buthenticbte(dbtb[1], in, out)) {
+            throw new SocketException("SOCKS : buthenticbtion fbiled");
         }
-        // We're OK. Let's issue the BIND command.
+        // We're OK. Let's issue the BIND commbnd.
         out.write(PROTO_VERS);
         out.write(BIND);
         out.write(0);
-        int lport = saddr.getPort();
-        if (saddr.isUnresolved()) {
+        int lport = sbddr.getPort();
+        if (sbddr.isUnresolved()) {
             out.write(DOMAIN_NAME);
-            out.write(saddr.getHostName().length());
+            out.write(sbddr.getHostNbme().length());
             try {
-                out.write(saddr.getHostName().getBytes("ISO-8859-1"));
-            } catch (java.io.UnsupportedEncodingException uee) {
-                assert false;
+                out.write(sbddr.getHostNbme().getBytes("ISO-8859-1"));
+            } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+                bssert fblse;
             }
             out.write((lport >> 8) & 0xff);
             out.write((lport >> 0) & 0xff);
-        } else if (saddr.getAddress() instanceof Inet4Address) {
-            byte[] addr1 = saddr.getAddress().getAddress();
+        } else if (sbddr.getAddress() instbnceof Inet4Address) {
+            byte[] bddr1 = sbddr.getAddress().getAddress();
             out.write(IPV4);
-            out.write(addr1);
+            out.write(bddr1);
             out.write((lport >> 8) & 0xff);
             out.write((lport >> 0) & 0xff);
             out.flush();
-        } else if (saddr.getAddress() instanceof Inet6Address) {
-            byte[] addr1 = saddr.getAddress().getAddress();
+        } else if (sbddr.getAddress() instbnceof Inet6Address) {
+            byte[] bddr1 = sbddr.getAddress().getAddress();
             out.write(IPV6);
-            out.write(addr1);
+            out.write(bddr1);
             out.write((lport >> 8) & 0xff);
             out.write((lport >> 0) & 0xff);
             out.flush();
         } else {
             cmdsock.close();
-            throw new SocketException("unsupported address type : " + saddr);
+            throw new SocketException("unsupported bddress type : " + sbddr);
         }
-        data = new byte[4];
-        i = readSocksReply(in, data);
+        dbtb = new byte[4];
+        i = rebdSocksReply(in, dbtb);
         SocketException ex = null;
         int len, nport;
-        byte[] addr;
-        switch (data[1]) {
-        case REQUEST_OK:
+        byte[] bddr;
+        switch (dbtb[1]) {
+        cbse REQUEST_OK:
             // success!
-            switch(data[3]) {
-            case IPV4:
-                addr = new byte[4];
-                i = readSocksReply(in, addr);
+            switch(dbtb[3]) {
+            cbse IPV4:
+                bddr = new byte[4];
+                i = rebdSocksReply(in, bddr);
                 if (i != 4)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                nport = ((int)data[0] & 0xff) << 8;
-                nport += ((int)data[1] & 0xff);
-                external_address =
-                    new InetSocketAddress(new Inet4Address("", addr) , nport);
-                break;
-            case DOMAIN_NAME:
-                len = data[1];
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                externbl_bddress =
+                    new InetSocketAddress(new Inet4Address("", bddr) , nport);
+                brebk;
+            cbse DOMAIN_NAME:
+                len = dbtb[1];
                 byte[] host = new byte[len];
-                i = readSocksReply(in, host);
+                i = rebdSocksReply(in, host);
                 if (i != len)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                nport = ((int)data[0] & 0xff) << 8;
-                nport += ((int)data[1] & 0xff);
-                external_address = new InetSocketAddress(new String(host), nport);
-                break;
-            case IPV6:
-                len = data[1];
-                addr = new byte[len];
-                i = readSocksReply(in, addr);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                externbl_bddress = new InetSocketAddress(new String(host), nport);
+                brebk;
+            cbse IPV6:
+                len = dbtb[1];
+                bddr = new byte[len];
+                i = rebdSocksReply(in, bddr);
                 if (i != len)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                data = new byte[2];
-                i = readSocksReply(in, data);
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                dbtb = new byte[2];
+                i = rebdSocksReply(in, dbtb);
                 if (i != 2)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                nport = ((int)data[0] & 0xff) << 8;
-                nport += ((int)data[1] & 0xff);
-                external_address =
-                    new InetSocketAddress(new Inet6Address("", addr), nport);
-                break;
+                    throw new SocketException("Reply from SOCKS server bbdly formbtted");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                externbl_bddress =
+                    new InetSocketAddress(new Inet6Address("", bddr), nport);
+                brebk;
             }
-            break;
-        case GENERAL_FAILURE:
-            ex = new SocketException("SOCKS server general failure");
-            break;
-        case NOT_ALLOWED:
-            ex = new SocketException("SOCKS: Bind not allowed by ruleset");
-            break;
-        case NET_UNREACHABLE:
-            ex = new SocketException("SOCKS: Network unreachable");
-            break;
-        case HOST_UNREACHABLE:
-            ex = new SocketException("SOCKS: Host unreachable");
-            break;
-        case CONN_REFUSED:
+            brebk;
+        cbse GENERAL_FAILURE:
+            ex = new SocketException("SOCKS server generbl fbilure");
+            brebk;
+        cbse NOT_ALLOWED:
+            ex = new SocketException("SOCKS: Bind not bllowed by ruleset");
+            brebk;
+        cbse NET_UNREACHABLE:
+            ex = new SocketException("SOCKS: Network unrebchbble");
+            brebk;
+        cbse HOST_UNREACHABLE:
+            ex = new SocketException("SOCKS: Host unrebchbble");
+            brebk;
+        cbse CONN_REFUSED:
             ex = new SocketException("SOCKS: Connection refused");
-            break;
-        case TTL_EXPIRED:
+            brebk;
+        cbse TTL_EXPIRED:
             ex =  new SocketException("SOCKS: TTL expired");
-            break;
-        case CMD_NOT_SUPPORTED:
-            ex = new SocketException("SOCKS: Command not supported");
-            break;
-        case ADDR_TYPE_NOT_SUP:
-            ex = new SocketException("SOCKS: address type not supported");
-            break;
+            brebk;
+        cbse CMD_NOT_SUPPORTED:
+            ex = new SocketException("SOCKS: Commbnd not supported");
+            brebk;
+        cbse ADDR_TYPE_NOT_SUP:
+            ex = new SocketException("SOCKS: bddress type not supported");
+            brebk;
         }
         if (ex != null) {
             in.close();
@@ -918,84 +918,84 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
     }
 
     /**
-     * Accepts a connection from a specific host.
+     * Accepts b connection from b specific host.
      *
-     * @param      s   the accepted connection.
-     * @param      saddr the socket address of the host we do accept
+     * @pbrbm      s   the bccepted connection.
+     * @pbrbm      sbddr the socket bddress of the host we do bccept
      *               connection from
-     * @exception  IOException  if an I/O error occurs when accepting the
+     * @exception  IOException  if bn I/O error occurs when bccepting the
      *               connection.
      */
-    protected void acceptFrom(SocketImpl s, InetSocketAddress saddr) throws IOException {
+    protected void bcceptFrom(SocketImpl s, InetSocketAddress sbddr) throws IOException {
         if (cmdsock == null) {
-            // Not a Socks ServerSocket.
+            // Not b Socks ServerSocket.
             return;
         }
-        InputStream in = cmdIn;
+        InputStrebm in = cmdIn;
         // Sends the "SOCKS BIND" request.
-        socksBind(saddr);
-        in.read();
-        int i = in.read();
-        in.read();
+        socksBind(sbddr);
+        in.rebd();
+        int i = in.rebd();
+        in.rebd();
         SocketException ex = null;
         int nport;
-        byte[] addr;
-        InetSocketAddress real_end = null;
+        byte[] bddr;
+        InetSocketAddress rebl_end = null;
         switch (i) {
-        case REQUEST_OK:
+        cbse REQUEST_OK:
             // success!
-            i = in.read();
+            i = in.rebd();
             switch(i) {
-            case IPV4:
-                addr = new byte[4];
-                readSocksReply(in, addr);
-                nport = in.read() << 8;
-                nport += in.read();
-                real_end =
-                    new InetSocketAddress(new Inet4Address("", addr) , nport);
-                break;
-            case DOMAIN_NAME:
-                int len = in.read();
-                addr = new byte[len];
-                readSocksReply(in, addr);
-                nport = in.read() << 8;
-                nport += in.read();
-                real_end = new InetSocketAddress(new String(addr), nport);
-                break;
-            case IPV6:
-                addr = new byte[16];
-                readSocksReply(in, addr);
-                nport = in.read() << 8;
-                nport += in.read();
-                real_end =
-                    new InetSocketAddress(new Inet6Address("", addr), nport);
-                break;
+            cbse IPV4:
+                bddr = new byte[4];
+                rebdSocksReply(in, bddr);
+                nport = in.rebd() << 8;
+                nport += in.rebd();
+                rebl_end =
+                    new InetSocketAddress(new Inet4Address("", bddr) , nport);
+                brebk;
+            cbse DOMAIN_NAME:
+                int len = in.rebd();
+                bddr = new byte[len];
+                rebdSocksReply(in, bddr);
+                nport = in.rebd() << 8;
+                nport += in.rebd();
+                rebl_end = new InetSocketAddress(new String(bddr), nport);
+                brebk;
+            cbse IPV6:
+                bddr = new byte[16];
+                rebdSocksReply(in, bddr);
+                nport = in.rebd() << 8;
+                nport += in.rebd();
+                rebl_end =
+                    new InetSocketAddress(new Inet6Address("", bddr), nport);
+                brebk;
             }
-            break;
-        case GENERAL_FAILURE:
-            ex = new SocketException("SOCKS server general failure");
-            break;
-        case NOT_ALLOWED:
-            ex = new SocketException("SOCKS: Accept not allowed by ruleset");
-            break;
-        case NET_UNREACHABLE:
-            ex = new SocketException("SOCKS: Network unreachable");
-            break;
-        case HOST_UNREACHABLE:
-            ex = new SocketException("SOCKS: Host unreachable");
-            break;
-        case CONN_REFUSED:
+            brebk;
+        cbse GENERAL_FAILURE:
+            ex = new SocketException("SOCKS server generbl fbilure");
+            brebk;
+        cbse NOT_ALLOWED:
+            ex = new SocketException("SOCKS: Accept not bllowed by ruleset");
+            brebk;
+        cbse NET_UNREACHABLE:
+            ex = new SocketException("SOCKS: Network unrebchbble");
+            brebk;
+        cbse HOST_UNREACHABLE:
+            ex = new SocketException("SOCKS: Host unrebchbble");
+            brebk;
+        cbse CONN_REFUSED:
             ex = new SocketException("SOCKS: Connection refused");
-            break;
-        case TTL_EXPIRED:
+            brebk;
+        cbse TTL_EXPIRED:
             ex =  new SocketException("SOCKS: TTL expired");
-            break;
-        case CMD_NOT_SUPPORTED:
-            ex = new SocketException("SOCKS: Command not supported");
-            break;
-        case ADDR_TYPE_NOT_SUP:
-            ex = new SocketException("SOCKS: address type not supported");
-            break;
+            brebk;
+        cbse CMD_NOT_SUPPORTED:
+            ex = new SocketException("SOCKS: Commbnd not supported");
+            brebk;
+        cbse ADDR_TYPE_NOT_SUP:
+            ex = new SocketException("SOCKS: bddress type not supported");
+            brebk;
         }
         if (ex != null) {
             cmdIn.close();
@@ -1006,71 +1006,71 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         }
 
         /**
-         * This is where we have to do some fancy stuff.
-         * The datastream from the socket "accepted" by the proxy will
-         * come through the cmdSocket. So we have to swap the socketImpls
+         * This is where we hbve to do some fbncy stuff.
+         * The dbtbstrebm from the socket "bccepted" by the proxy will
+         * come through the cmdSocket. So we hbve to swbp the socketImpls
          */
-        if (s instanceof SocksSocketImpl) {
-            ((SocksSocketImpl)s).external_address = real_end;
+        if (s instbnceof SocksSocketImpl) {
+            ((SocksSocketImpl)s).externbl_bddress = rebl_end;
         }
-        if (s instanceof PlainSocketImpl) {
-            PlainSocketImpl psi = (PlainSocketImpl) s;
-            psi.setInputStream((SocketInputStream) in);
+        if (s instbnceof PlbinSocketImpl) {
+            PlbinSocketImpl psi = (PlbinSocketImpl) s;
+            psi.setInputStrebm((SocketInputStrebm) in);
             psi.setFileDescriptor(cmdsock.getImpl().getFileDescriptor());
             psi.setAddress(cmdsock.getImpl().getInetAddress());
             psi.setPort(cmdsock.getImpl().getPort());
-            psi.setLocalPort(cmdsock.getImpl().getLocalPort());
+            psi.setLocblPort(cmdsock.getImpl().getLocblPort());
         } else {
             s.fd = cmdsock.getImpl().fd;
-            s.address = cmdsock.getImpl().address;
+            s.bddress = cmdsock.getImpl().bddress;
             s.port = cmdsock.getImpl().port;
-            s.localport = cmdsock.getImpl().localport;
+            s.locblport = cmdsock.getImpl().locblport;
         }
 
-        // Need to do that so that the socket won't be closed
+        // Need to do thbt so thbt the socket won't be closed
         // when the ServerSocket is closed by the user.
-        // It kinds of detaches the Socket because it is now
+        // It kinds of detbches the Socket becbuse it is now
         // used elsewhere.
         cmdsock = null;
     }
 
 
     /**
-     * Returns the value of this socket's {@code address} field.
+     * Returns the vblue of this socket's {@code bddress} field.
      *
-     * @return  the value of this socket's {@code address} field.
-     * @see     java.net.SocketImpl#address
+     * @return  the vblue of this socket's {@code bddress} field.
+     * @see     jbvb.net.SocketImpl#bddress
      */
     @Override
     protected InetAddress getInetAddress() {
-        if (external_address != null)
-            return external_address.getAddress();
+        if (externbl_bddress != null)
+            return externbl_bddress.getAddress();
         else
             return super.getInetAddress();
     }
 
     /**
-     * Returns the value of this socket's {@code port} field.
+     * Returns the vblue of this socket's {@code port} field.
      *
-     * @return  the value of this socket's {@code port} field.
-     * @see     java.net.SocketImpl#port
+     * @return  the vblue of this socket's {@code port} field.
+     * @see     jbvb.net.SocketImpl#port
      */
     @Override
     protected int getPort() {
-        if (external_address != null)
-            return external_address.getPort();
+        if (externbl_bddress != null)
+            return externbl_bddress.getPort();
         else
             return super.getPort();
     }
 
     @Override
-    protected int getLocalPort() {
+    protected int getLocblPort() {
         if (socket != null)
-            return super.getLocalPort();
-        if (external_address != null)
-            return external_address.getPort();
+            return super.getLocblPort();
+        if (externbl_bddress != null)
+            return externbl_bddress.getPort();
         else
-            return super.getLocalPort();
+            return super.getLocblPort();
     }
 
     @Override
@@ -1081,16 +1081,16 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
         super.close();
     }
 
-    private String getUserName() {
-        String userName = "";
-        if (applicationSetProxy) {
+    privbte String getUserNbme() {
+        String userNbme = "";
+        if (bpplicbtionSetProxy) {
             try {
-                userName = System.getProperty("user.name");
-            } catch (SecurityException se) { /* swallow Exception */ }
+                userNbme = System.getProperty("user.nbme");
+            } cbtch (SecurityException se) { /* swbllow Exception */ }
         } else {
-            userName = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("user.name"));
+            userNbme = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("user.nbme"));
         }
-        return userName;
+        return userNbme;
     }
 }

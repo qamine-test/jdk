@@ -3,283 +3,283 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvb.io.IOException;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.helper.C14nHelper;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.helper.C14nHelper;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms.InclusiveNbmespbces;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
  * Implements &quot; <A
  * HREF="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/">Exclusive XML
- * Canonicalization, Version 1.0 </A>&quot; <BR />
- * Credits: During restructuring of the Canonicalizer framework, Ren??
- * Kollmorgen from Software AG submitted an implementation of ExclC14n which
- * fitted into the old architecture and which based heavily on my old (and slow)
- * implementation of "Canonical XML". A big "thank you" to Ren?? for this.
+ * Cbnonicblizbtion, Version 1.0 </A>&quot; <BR />
+ * Credits: During restructuring of the Cbnonicblizer frbmework, Ren??
+ * Kollmorgen from Softwbre AG submitted bn implementbtion of ExclC14n which
+ * fitted into the old brchitecture bnd which bbsed hebvily on my old (bnd slow)
+ * implementbtion of "Cbnonicbl XML". A big "thbnk you" to Ren?? for this.
  * <BR />
- * <i>THIS </i> implementation is a complete rewrite of the algorithm.
+ * <i>THIS </i> implementbtion is b complete rewrite of the blgorithm.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
+ * @buthor Christibn Geuer-Pollmbnn <geuerp@bpbche.org>
  * @version $Revision: 1147448 $
- * @see <a href="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/ Exclusive#">
- *          XML Canonicalization, Version 1.0</a>
+ * @see <b href="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/ Exclusive#">
+ *          XML Cbnonicblizbtion, Version 1.0</b>
  */
-public abstract class Canonicalizer20010315Excl extends CanonicalizerBase {
+public bbstrbct clbss Cbnonicblizer20010315Excl extends CbnonicblizerBbse {
 
-    private static final String XML_LANG_URI = Constants.XML_LANG_SPACE_SpecNS;
-    private static final String XMLNS_URI = Constants.NamespaceSpecNS;
+    privbte stbtic finbl String XML_LANG_URI = Constbnts.XML_LANG_SPACE_SpecNS;
+    privbte stbtic finbl String XMLNS_URI = Constbnts.NbmespbceSpecNS;
 
     /**
-      * This Set contains the names (Strings like "xmlns" or "xmlns:foo") of
-      * the inclusive namespaces.
+      * This Set contbins the nbmes (Strings like "xmlns" or "xmlns:foo") of
+      * the inclusive nbmespbces.
       */
-    private SortedSet<String> inclusiveNSSet;
+    privbte SortedSet<String> inclusiveNSSet;
 
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbte finbl SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
 
     /**
-     * Constructor Canonicalizer20010315Excl
+     * Constructor Cbnonicblizer20010315Excl
      *
-     * @param includeComments
+     * @pbrbm includeComments
      */
-    public Canonicalizer20010315Excl(boolean includeComments) {
+    public Cbnonicblizer20010315Excl(boolebn includeComments) {
         super(includeComments);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
+     * Method engineCbnonicblizeSubTree
      * @inheritDoc
-     * @param rootNode
+     * @pbrbm rootNode
      *
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode)
-        throws CanonicalizationException {
-        return engineCanonicalizeSubTree(rootNode, "", null);
+    public byte[] engineCbnonicblizeSubTree(Node rootNode)
+        throws CbnonicblizbtionException {
+        return engineCbnonicblizeSubTree(rootNode, "", null);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
+     * Method engineCbnonicblizeSubTree
      *  @inheritDoc
-     * @param rootNode
-     * @param inclusiveNamespaces
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
      *
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(
-        Node rootNode, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        return engineCanonicalizeSubTree(rootNode, inclusiveNamespaces, null);
+    public byte[] engineCbnonicblizeSubTree(
+        Node rootNode, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException {
+        return engineCbnonicblizeSubTree(rootNode, inclusiveNbmespbces, null);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @param excl A element to exclude from the c14n process.
+     * Method engineCbnonicblizeSubTree
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
+     * @pbrbm excl A element to exclude from the c14n process.
      * @return the rootNode c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(
-        Node rootNode, String inclusiveNamespaces, Node excl
-    ) throws CanonicalizationException{
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalizeSubTree(rootNode, excl);
+    public byte[] engineCbnonicblizeSubTree(
+        Node rootNode, String inclusiveNbmespbces, Node excl
+    ) throws CbnonicblizbtionException{
+        inclusiveNSSet = InclusiveNbmespbces.prefixStr2Set(inclusiveNbmespbces);
+        return super.engineCbnonicblizeSubTree(rootNode, excl);
     }
 
     /**
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
      * @return the rootNode c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalize(
-        XMLSignatureInput rootNode, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalize(rootNode);
+    public byte[] engineCbnonicblize(
+        XMLSignbtureInput rootNode, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException {
+        inclusiveNSSet = InclusiveNbmespbces.prefixStr2Set(inclusiveNbmespbces);
+        return super.engineCbnonicblize(rootNode);
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Method engineCbnonicblizeXPbthNodeSet
      * @inheritDoc
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @throws CanonicalizationException
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeXPathNodeSet(
-        Set<Node> xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalizeXPathNodeSet(xpathNodeSet);
+    public byte[] engineCbnonicblizeXPbthNodeSet(
+        Set<Node> xpbthNodeSet, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException {
+        inclusiveNSSet = InclusiveNbmespbces.prefixStr2Set(inclusiveNbmespbces);
+        return super.engineCbnonicblizeXPbthNodeSet(xpbthNodeSet);
     }
 
     @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    protected Iterbtor<Attr> hbndleAttributesSubtree(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
+        // result will contbin the bttrs which hbve to be output
+        finbl SortedSet<Attr> result = this.result;
+        result.clebr();
 
-        // The prefix visibly utilized (in the attribute or in the name) in
+        // The prefix visibly utilized (in the bttribute or in the nbme) in
         // the element
         SortedSet<String> visiblyUtilized = new TreeSet<String>();
         if (inclusiveNSSet != null && !inclusiveNSSet.isEmpty()) {
-            visiblyUtilized.addAll(inclusiveNSSet);
+            visiblyUtilized.bddAll(inclusiveNSSet);
         }
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NName = attribute.getLocalName();
-                String NNodeValue = attribute.getNodeValue();
+        if (element.hbsAttributes()) {
+            NbmedNodeMbp bttrs = element.getAttributes();
+            int bttrsLength = bttrs.getLength();
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr bttribute = (Attr) bttrs.item(i);
+                String NNbme = bttribute.getLocblNbme();
+                String NNodeVblue = bttribute.getNodeVblue();
 
-                if (!XMLNS_URI.equals(attribute.getNamespaceURI())) {
-                    // Not a namespace definition.
-                    // The Element is output element, add the prefix (if used) to
+                if (!XMLNS_URI.equbls(bttribute.getNbmespbceURI())) {
+                    // Not b nbmespbce definition.
+                    // The Element is output element, bdd the prefix (if used) to
                     // visiblyUtilized
-                    String prefix = attribute.getPrefix();
-                    if (prefix != null && !(prefix.equals(XML) || prefix.equals(XMLNS))) {
-                        visiblyUtilized.add(prefix);
+                    String prefix = bttribute.getPrefix();
+                    if (prefix != null && !(prefix.equbls(XML) || prefix.equbls(XMLNS))) {
+                        visiblyUtilized.bdd(prefix);
                     }
                     // Add to the result.
-                    result.add(attribute);
-                } else if (!(XML.equals(NName) && XML_LANG_URI.equals(NNodeValue))
-                    && ns.addMapping(NName, NNodeValue, attribute)
-                    && C14nHelper.namespaceIsRelative(NNodeValue)) {
-                    // The default mapping for xml must not be output.
-                    // New definition check if it is relative.
-                    Object exArgs[] = {element.getTagName(), NName, attribute.getNodeValue()};
-                    throw new CanonicalizationException(
-                        "c14n.Canonicalizer.RelativeNamespace", exArgs
+                    result.bdd(bttribute);
+                } else if (!(XML.equbls(NNbme) && XML_LANG_URI.equbls(NNodeVblue))
+                    && ns.bddMbpping(NNbme, NNodeVblue, bttribute)
+                    && C14nHelper.nbmespbceIsRelbtive(NNodeVblue)) {
+                    // The defbult mbpping for xml must not be output.
+                    // New definition check if it is relbtive.
+                    Object exArgs[] = {element.getTbgNbme(), NNbme, bttribute.getNodeVblue()};
+                    throw new CbnonicblizbtionException(
+                        "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
                     );
                 }
             }
         }
         String prefix = null;
-        if (element.getNamespaceURI() != null
+        if (element.getNbmespbceURI() != null
             && !(element.getPrefix() == null || element.getPrefix().length() == 0)) {
             prefix = element.getPrefix();
         } else {
             prefix = XMLNS;
         }
-        visiblyUtilized.add(prefix);
+        visiblyUtilized.bdd(prefix);
 
         for (String s : visiblyUtilized) {
-            Attr key = ns.getMapping(s);
+            Attr key = ns.getMbpping(s);
             if (key != null) {
-                result.add(key);
+                result.bdd(key);
             }
         }
 
-        return result.iterator();
+        return result.iterbtor();
     }
 
     /**
      * @inheritDoc
-     * @param element
-     * @throws CanonicalizationException
+     * @pbrbm element
+     * @throws CbnonicblizbtionException
      */
     @Override
-    protected final Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    protected finbl Iterbtor<Attr> hbndleAttributes(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
+        // result will contbin the bttrs which hbve to be output
+        finbl SortedSet<Attr> result = this.result;
+        result.clebr();
 
-        // The prefix visibly utilized (in the attribute or in the name) in
+        // The prefix visibly utilized (in the bttribute or in the nbme) in
         // the element
         Set<String> visiblyUtilized = null;
         // It's the output selected.
-        boolean isOutputElement = isVisibleDO(element, ns.getLevel()) == 1;
+        boolebn isOutputElement = isVisibleDO(element, ns.getLevel()) == 1;
         if (isOutputElement) {
             visiblyUtilized = new TreeSet<String>();
             if (inclusiveNSSet != null && !inclusiveNSSet.isEmpty()) {
-                visiblyUtilized.addAll(inclusiveNSSet);
+                visiblyUtilized.bddAll(inclusiveNSSet);
             }
         }
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
+        if (element.hbsAttributes()) {
+            NbmedNodeMbp bttrs = element.getAttributes();
+            int bttrsLength = bttrs.getLength();
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr bttribute = (Attr) bttrs.item(i);
 
-                String NName = attribute.getLocalName();
-                String NNodeValue = attribute.getNodeValue();
+                String NNbme = bttribute.getLocblNbme();
+                String NNodeVblue = bttribute.getNodeVblue();
 
-                if (!XMLNS_URI.equals(attribute.getNamespaceURI())) {
-                    if (isVisible(attribute) && isOutputElement) {
-                        // The Element is output element, add the prefix (if used)
+                if (!XMLNS_URI.equbls(bttribute.getNbmespbceURI())) {
+                    if (isVisible(bttribute) && isOutputElement) {
+                        // The Element is output element, bdd the prefix (if used)
                         // to visibyUtilized
-                        String prefix = attribute.getPrefix();
-                        if (prefix != null && !(prefix.equals(XML) || prefix.equals(XMLNS))) {
-                            visiblyUtilized.add(prefix);
+                        String prefix = bttribute.getPrefix();
+                        if (prefix != null && !(prefix.equbls(XML) || prefix.equbls(XMLNS))) {
+                            visiblyUtilized.bdd(prefix);
                         }
                         // Add to the result.
-                        result.add(attribute);
+                        result.bdd(bttribute);
                     }
-                } else if (isOutputElement && !isVisible(attribute) && !XMLNS.equals(NName)) {
-                    ns.removeMappingIfNotRender(NName);
+                } else if (isOutputElement && !isVisible(bttribute) && !XMLNS.equbls(NNbme)) {
+                    ns.removeMbppingIfNotRender(NNbme);
                 } else {
-                    if (!isOutputElement && isVisible(attribute)
-                        && inclusiveNSSet.contains(NName)
-                        && !ns.removeMappingIfRender(NName)) {
-                        Node n = ns.addMappingAndRender(NName, NNodeValue, attribute);
+                    if (!isOutputElement && isVisible(bttribute)
+                        && inclusiveNSSet.contbins(NNbme)
+                        && !ns.removeMbppingIfRender(NNbme)) {
+                        Node n = ns.bddMbppingAndRender(NNbme, NNodeVblue, bttribute);
                         if (n != null) {
-                            result.add((Attr)n);
-                            if (C14nHelper.namespaceIsRelative(attribute)) {
-                                Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                                throw new CanonicalizationException(
-                                    "c14n.Canonicalizer.RelativeNamespace", exArgs
+                            result.bdd((Attr)n);
+                            if (C14nHelper.nbmespbceIsRelbtive(bttribute)) {
+                                Object exArgs[] = { element.getTbgNbme(), NNbme, bttribute.getNodeVblue() };
+                                throw new CbnonicblizbtionException(
+                                    "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
                                 );
                             }
                         }
                     }
 
-                    if (ns.addMapping(NName, NNodeValue, attribute)
-                        && C14nHelper.namespaceIsRelative(NNodeValue)) {
-                        // New definition check if it is relative
-                        Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                        throw new CanonicalizationException(
-                            "c14n.Canonicalizer.RelativeNamespace", exArgs
+                    if (ns.bddMbpping(NNbme, NNodeVblue, bttribute)
+                        && C14nHelper.nbmespbceIsRelbtive(NNodeVblue)) {
+                        // New definition check if it is relbtive
+                        Object exArgs[] = { element.getTbgNbme(), NNbme, bttribute.getNodeVblue() };
+                        throw new CbnonicblizbtionException(
+                            "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
                         );
                     }
                 }
@@ -287,38 +287,38 @@ public abstract class Canonicalizer20010315Excl extends CanonicalizerBase {
         }
 
         if (isOutputElement) {
-            // The element is visible, handle the xmlns definition
+            // The element is visible, hbndle the xmlns definition
             Attr xmlns = element.getAttributeNodeNS(XMLNS_URI, XMLNS);
             if (xmlns != null && !isVisible(xmlns)) {
-                // There is a definition but the xmlns is not selected by the
-                // xpath. then xmlns=""
-                ns.addMapping(XMLNS, "", getNullNode(xmlns.getOwnerDocument()));
+                // There is b definition but the xmlns is not selected by the
+                // xpbth. then xmlns=""
+                ns.bddMbpping(XMLNS, "", getNullNode(xmlns.getOwnerDocument()));
             }
 
             String prefix = null;
-            if (element.getNamespaceURI() != null
+            if (element.getNbmespbceURI() != null
                 && !(element.getPrefix() == null || element.getPrefix().length() == 0)) {
                 prefix = element.getPrefix();
             } else {
                 prefix = XMLNS;
             }
-            visiblyUtilized.add(prefix);
+            visiblyUtilized.bdd(prefix);
 
             for (String s : visiblyUtilized) {
-                Attr key = ns.getMapping(s);
+                Attr key = ns.getMbpping(s);
                 if (key != null) {
-                    result.add(key);
+                    result.bdd(key);
                 }
             }
         }
 
-        return result.iterator();
+        return result.iterbtor();
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException,
+    protected void circumventBugIfNeeded(XMLSignbtureInput input)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException,
                IOException, SAXException {
-        if (!input.isNeedsToBeExpanded() || inclusiveNSSet.isEmpty() || inclusiveNSSet.isEmpty()) {
+        if (!input.isNeedsToBeExpbnded() || inclusiveNSSet.isEmpty() || inclusiveNSSet.isEmpty()) {
             return;
         }
         Document doc = null;

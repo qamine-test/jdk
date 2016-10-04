@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.event;
+pbckbge com.sun.tools.exbmple.debug.event;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-public abstract class AbstractEventSet extends EventObject implements EventSet {
+public bbstrbct clbss AbstrbctEventSet extends EventObject implements EventSet {
 
-    private static final long serialVersionUID = 2772717574222076977L;
-    private final EventSet jdiEventSet;
-    final Event oneEvent;
+    privbte stbtic finbl long seriblVersionUID = 2772717574222076977L;
+    privbte finbl EventSet jdiEventSet;
+    finbl Event oneEvent;
 
     /**
      */
-    AbstractEventSet(EventSet jdiEventSet) {
-        super(jdiEventSet.virtualMachine());
+    AbstrbctEventSet(EventSet jdiEventSet) {
+        super(jdiEventSet.virtublMbchine());
         this.jdiEventSet = jdiEventSet;
-        this.oneEvent = eventIterator().nextEvent();
+        this.oneEvent = eventIterbtor().nextEvent();
     }
 
-    public static AbstractEventSet toSpecificEventSet(EventSet jdiEventSet) {
-        Event evt = jdiEventSet.eventIterator().nextEvent();
-        if (evt instanceof LocatableEvent) {
-            if (evt instanceof ExceptionEvent) {
+    public stbtic AbstrbctEventSet toSpecificEventSet(EventSet jdiEventSet) {
+        Event evt = jdiEventSet.eventIterbtor().nextEvent();
+        if (evt instbnceof LocbtbbleEvent) {
+            if (evt instbnceof ExceptionEvent) {
                 return new ExceptionEventSet(jdiEventSet);
-            } else if (evt instanceof WatchpointEvent) {
-                if (evt instanceof AccessWatchpointEvent) {
-                    return new AccessWatchpointEventSet(jdiEventSet);
+            } else if (evt instbnceof WbtchpointEvent) {
+                if (evt instbnceof AccessWbtchpointEvent) {
+                    return new AccessWbtchpointEventSet(jdiEventSet);
                 } else {
-                    return new ModificationWatchpointEventSet(jdiEventSet);
+                    return new ModificbtionWbtchpointEventSet(jdiEventSet);
                 }
             } else {
-                return new LocationTriggerEventSet(jdiEventSet);
+                return new LocbtionTriggerEventSet(jdiEventSet);
             }
-        } else if (evt instanceof ClassPrepareEvent) {
-            return new ClassPrepareEventSet(jdiEventSet);
-        } else if (evt instanceof ClassUnloadEvent) {
-            return new ClassUnloadEventSet(jdiEventSet);
-        } else if (evt instanceof ThreadDeathEvent) {
-            return new ThreadDeathEventSet(jdiEventSet);
-        } else if (evt instanceof ThreadStartEvent) {
-            return new ThreadStartEventSet(jdiEventSet);
-        } else if (evt instanceof VMDeathEvent) {
-            return new VMDeathEventSet(jdiEventSet);
-        } else if (evt instanceof VMDisconnectEvent) {
+        } else if (evt instbnceof ClbssPrepbreEvent) {
+            return new ClbssPrepbreEventSet(jdiEventSet);
+        } else if (evt instbnceof ClbssUnlobdEvent) {
+            return new ClbssUnlobdEventSet(jdiEventSet);
+        } else if (evt instbnceof ThrebdDebthEvent) {
+            return new ThrebdDebthEventSet(jdiEventSet);
+        } else if (evt instbnceof ThrebdStbrtEvent) {
+            return new ThrebdStbrtEventSet(jdiEventSet);
+        } else if (evt instbnceof VMDebthEvent) {
+            return new VMDebthEventSet(jdiEventSet);
+        } else if (evt instbnceof VMDisconnectEvent) {
             return new VMDisconnectEventSet(jdiEventSet);
-        } else if (evt instanceof VMStartEvent) {
-            return new VMStartEventSet(jdiEventSet);
+        } else if (evt instbnceof VMStbrtEvent) {
+            return new VMStbrtEventSet(jdiEventSet);
         } else {
-            throw new IllegalArgumentException("Unknown event " + evt);
+            throw new IllegblArgumentException("Unknown event " + evt);
         }
     }
 
-    public abstract void notify(JDIListener listener);
+    public bbstrbct void notify(JDIListener listener);
 
     // Implement Mirror
 
     @Override
-    public VirtualMachine virtualMachine() {
-        return jdiEventSet.virtualMachine();
+    public VirtublMbchine virtublMbchine() {
+        return jdiEventSet.virtublMbchine();
     }
 
-    public VirtualMachine getVirtualMachine() {
-        return jdiEventSet.virtualMachine();
+    public VirtublMbchine getVirtublMbchine() {
+        return jdiEventSet.virtublMbchine();
     }
 
     // Implement EventSet
 
     /**
-     * Returns the policy used to suspend threads in the target VM
+     * Returns the policy used to suspend threbds in the tbrget VM
      * for this event set. This policy is selected from the suspend
-     * policies for each event's request. The one that suspends the
-     * most threads is chosen when the event occurs in the target VM
-     * and that policy is returned here. See
-     * com.sun.jdi.request.EventRequest for the possible policy values.
+     * policies for ebch event's request. The one thbt suspends the
+     * most threbds is chosen when the event occurs in the tbrget VM
+     * bnd thbt policy is returned here. See
+     * com.sun.jdi.request.EventRequest for the possible policy vblues.
      *
      * @return the integer suspendPolicy
      */
@@ -126,35 +126,35 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
         return jdiEventSet.suspendPolicy();
     }
 
-    public boolean suspendedAll() {
+    public boolebn suspendedAll() {
         return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_ALL;
     }
 
-    public boolean suspendedEventThread() {
+    public boolebn suspendedEventThrebd() {
         return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_EVENT_THREAD;
     }
 
-    public boolean suspendedNone() {
+    public boolebn suspendedNone() {
         return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_NONE;
     }
 
     /**
-     * Return an iterator specific to {@link Event} objects.
+     * Return bn iterbtor specific to {@link Event} objects.
      */
     @Override
-    public EventIterator eventIterator() {
-        return jdiEventSet.eventIterator();
+    public EventIterbtor eventIterbtor() {
+        return jdiEventSet.eventIterbtor();
     }
 
 
-    // Implement java.util.Set (by pass through)
+    // Implement jbvb.util.Set (by pbss through)
 
     /**
-     * Returns the number of elements in this set (its cardinality).  If this
-     * set contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
+     * Returns the number of elements in this set (its cbrdinblity).  If this
+     * set contbins more thbn <tt>Integer.MAX_VALUE</tt> elements, returns
      * <tt>Integer.MAX_VALUE</tt>.
      *
-     * @return the number of elements in this set (its cardinality).
+     * @return the number of elements in this set (its cbrdinblity).
      */
     @Override
     public int size() {
@@ -162,111 +162,111 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <tt>true</tt> if this set contbins no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements.
+     * @return <tt>true</tt> if this set contbins no elements.
      */
     @Override
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return jdiEventSet.isEmpty();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.  More
-     * formally, returns <tt>true</tt> if and only if this set contains an
-     * element <code>e</code> such that <code>(o==null ? e==null :
-     * o.equals(e))</code>.
+     * Returns <tt>true</tt> if this set contbins the specified element.  More
+     * formblly, returns <tt>true</tt> if bnd only if this set contbins bn
+     * element <code>e</code> such thbt <code>(o==null ? e==null :
+     * o.equbls(e))</code>.
      *
-     * @return <tt>true</tt> if this set contains the specified element.
+     * @return <tt>true</tt> if this set contbins the specified element.
      */
     @Override
-    public boolean contains(Object o) {
-        return jdiEventSet.contains(o);
+    public boolebn contbins(Object o) {
+        return jdiEventSet.contbins(o);
     }
 
     /**
-     * Returns an iterator over the elements in this set.  The elements are
-     * returned in no particular order (unless this set is an instance of some
-     * class that provides a guarantee).
+     * Returns bn iterbtor over the elements in this set.  The elements bre
+     * returned in no pbrticulbr order (unless this set is bn instbnce of some
+     * clbss thbt provides b gubrbntee).
      *
-     * @return an iterator over the elements in this set.
+     * @return bn iterbtor over the elements in this set.
      */
     @Override
-    public Iterator<Event> iterator() {
-        return jdiEventSet.iterator();
+    public Iterbtor<Event> iterbtor() {
+        return jdiEventSet.iterbtor();
     }
 
     /**
-     * Returns an array containing all of the elements in this set.
-     * Obeys the general contract of the <tt>Collection.toArray</tt> method.
+     * Returns bn brrby contbining bll of the elements in this set.
+     * Obeys the generbl contrbct of the <tt>Collection.toArrby</tt> method.
      *
-     * @return an array containing all of the elements in this set.
+     * @return bn brrby contbining bll of the elements in this set.
      */
     @Override
-    public Object[] toArray() {
-        return jdiEventSet.toArray();
+    public Object[] toArrby() {
+        return jdiEventSet.toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this set whose
-     * runtime type is that of the specified array.  Obeys the general
-     * contract of the <tt>Collection.toArray(Object[])</tt> method.
+     * Returns bn brrby contbining bll of the elements in this set whose
+     * runtime type is thbt of the specified brrby.  Obeys the generbl
+     * contrbct of the <tt>Collection.toArrby(Object[])</tt> method.
      *
-     * @param a the array into which the elements of this set are to
+     * @pbrbm b the brrby into which the elements of this set bre to
      *          be stored, if it is big enough {
         return jdiEventSet.XXX();
-    } otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of this set.
-     * @throws    ArrayStoreException the runtime type of a is not a supertype
+    } otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining the elements of this set.
+     * @throws    ArrbyStoreException the runtime type of b is not b supertype
      * of the runtime type of every element in this set.
      */
     @Override
-    public <T> T[] toArray(T a[]) {
-        return jdiEventSet.toArray(a);
+    public <T> T[] toArrby(T b[]) {
+        return jdiEventSet.toArrby(b);
     }
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements of the
-     * specified collection.  If the specified collection is also a set, this
-     * method returns <tt>true</tt> if it is a <i>subset</i> of this set.
+     * Returns <tt>true</tt> if this set contbins bll of the elements of the
+     * specified collection.  If the specified collection is blso b set, this
+     * method returns <tt>true</tt> if it is b <i>subset</i> of this set.
      *
-     * @param c collection to be checked for containment in this set.
-     * @return <tt>true</tt> if this set contains all of the elements of the
+     * @pbrbm c collection to be checked for contbinment in this set.
+     * @return <tt>true</tt> if this set contbins bll of the elements of the
      *         specified collection.
      */
     @Override
-    public boolean containsAll(Collection<?> c) {
-        return jdiEventSet.containsAll(c);
+    public boolebn contbinsAll(Collection<?> c) {
+        return jdiEventSet.contbinsAll(c);
     }
 
 
-    // Make the rest of Set unmodifiable
+    // Mbke the rest of Set unmodifibble
 
     @Override
-    public boolean add(Event e){
-        throw new UnsupportedOperationException();
+    public boolebn bdd(Event e){
+        throw new UnsupportedOperbtionException();
     }
     @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+    public boolebn remove(Object o) {
+        throw new UnsupportedOperbtionException();
     }
     @Override
-    public boolean addAll(Collection<? extends Event> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn bddAll(Collection<? extends Event> coll) {
+        throw new UnsupportedOperbtionException();
     }
     @Override
-    public boolean removeAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn removeAll(Collection<?> coll) {
+        throw new UnsupportedOperbtionException();
     }
     @Override
-    public boolean retainAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn retbinAll(Collection<?> coll) {
+        throw new UnsupportedOperbtionException();
     }
     @Override
-    public void clear() {
-        throw new UnsupportedOperationException();
+    public void clebr() {
+        throw new UnsupportedOperbtionException();
     }
 }

@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
 /**
-  * This class represents a modification item.
-  * It consists of a modification code and an attribute on which to operate.
+  * This clbss represents b modificbtion item.
+  * It consists of b modificbtion code bnd bn bttribute on which to operbte.
   *<p>
-  * A ModificationItem instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single ModificationItem instance should lock the object.
+  * A ModificbtionItem instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * b single ModificbtionItem instbnce should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
 /*
   *<p>
-  * The serialized form of a ModificationItem object consists of the
-  * modification op (and int) and the corresponding Attribute.
+  * The seriblized form of b ModificbtionItem object consists of the
+  * modificbtion op (bnd int) bnd the corresponding Attribute.
 */
 
-public class ModificationItem implements java.io.Serializable {
+public clbss ModificbtionItem implements jbvb.io.Seriblizbble {
     /**
-     * Contains an integer identify the modification
+     * Contbins bn integer identify the modificbtion
      * to be performed.
-     * @serial
+     * @seribl
      */
-    private int mod_op;
+    privbte int mod_op;
     /**
-     * Contains the attribute identifying
-     * the attribute and/or its value to be applied for the modification.
-     * @serial
+     * Contbins the bttribute identifying
+     * the bttribute bnd/or its vblue to be bpplied for the modificbtion.
+     * @seribl
      */
-    private Attribute attr;
+    privbte Attribute bttr;
 
     /**
-      * Creates a new instance of ModificationItem.
-      * @param mod_op Modification to apply.  It must be one of:
+      * Crebtes b new instbnce of ModificbtionItem.
+      * @pbrbm mod_op Modificbtion to bpply.  It must be one of:
       *         DirContext.ADD_ATTRIBUTE
       *         DirContext.REPLACE_ATTRIBUTE
       *         DirContext.REMOVE_ATTRIBUTE
-      * @param attr     The non-null attribute to use for modification.
-      * @exception IllegalArgumentException If attr is null, or if mod_op is
-      *         not one of the ones specified above.
+      * @pbrbm bttr     The non-null bttribute to use for modificbtion.
+      * @exception IllegblArgumentException If bttr is null, or if mod_op is
+      *         not one of the ones specified bbove.
       */
-    public ModificationItem(int mod_op, Attribute attr) {
+    public ModificbtionItem(int mod_op, Attribute bttr) {
         switch (mod_op) {
-        case DirContext.ADD_ATTRIBUTE:
-        case DirContext.REPLACE_ATTRIBUTE:
-        case DirContext.REMOVE_ATTRIBUTE:
-            if (attr == null)
-                throw new IllegalArgumentException("Must specify non-null attribute for modification");
+        cbse DirContext.ADD_ATTRIBUTE:
+        cbse DirContext.REPLACE_ATTRIBUTE:
+        cbse DirContext.REMOVE_ATTRIBUTE:
+            if (bttr == null)
+                throw new IllegblArgumentException("Must specify non-null bttribute for modificbtion");
 
             this.mod_op = mod_op;
-            this.attr = attr;
-            break;
+            this.bttr = bttr;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException("Invalid modification code " + mod_op);
+        defbult:
+            throw new IllegblArgumentException("Invblid modificbtion code " + mod_op);
         }
     }
 
     /**
-      * Retrieves the modification code of this modification item.
-      * @return The modification code.  It is one of:
+      * Retrieves the modificbtion code of this modificbtion item.
+      * @return The modificbtion code.  It is one of:
       *         DirContext.ADD_ATTRIBUTE
       *         DirContext.REPLACE_ATTRIBUTE
       *         DirContext.REMOVE_ATTRIBUTE
       */
-    public int getModificationOp() {
+    public int getModificbtionOp() {
         return mod_op;
     }
 
     /**
-      * Retrieves the attribute associated with this modification item.
-      * @return The non-null attribute to use for the modification.
+      * Retrieves the bttribute bssocibted with this modificbtion item.
+      * @return The non-null bttribute to use for the modificbtion.
       */
     public Attribute getAttribute() {
-        return attr;
+        return bttr;
     }
 
     /**
-      * Generates the string representation of this modification item,
-      * which consists of the modification operation and its related attribute.
-      * The string representation is meant for debugging and not to be
-      * interpreted programmatically.
+      * Generbtes the string representbtion of this modificbtion item,
+      * which consists of the modificbtion operbtion bnd its relbted bttribute.
+      * The string representbtion is mebnt for debugging bnd not to be
+      * interpreted progrbmmbticblly.
       *
-      * @return The non-null string representation of this modification item.
+      * @return The non-null string representbtion of this modificbtion item.
       */
     public String toString() {
         switch (mod_op) {
-        case DirContext.ADD_ATTRIBUTE:
-            return ("Add attribute: " + attr.toString());
+        cbse DirContext.ADD_ATTRIBUTE:
+            return ("Add bttribute: " + bttr.toString());
 
-        case DirContext.REPLACE_ATTRIBUTE:
-            return ("Replace attribute: " + attr.toString());
+        cbse DirContext.REPLACE_ATTRIBUTE:
+            return ("Replbce bttribute: " + bttr.toString());
 
-        case DirContext.REMOVE_ATTRIBUTE:
-            return ("Remove attribute: " + attr.toString());
+        cbse DirContext.REMOVE_ATTRIBUTE:
+            return ("Remove bttribute: " + bttr.toString());
         }
-        return "";      // should never happen
+        return "";      // should never hbppen
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 7573258562534746850L;
+    privbte stbtic finbl long seriblVersionUID = 7573258562534746850L;
 }

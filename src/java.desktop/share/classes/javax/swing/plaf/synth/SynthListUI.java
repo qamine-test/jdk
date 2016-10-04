@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JList}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JList}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthListUI extends BasicListUI
-                         implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private boolean useListColors;
-    private boolean useUIBorder;
+public clbss SynthListUI extends BbsicListUI
+                         implements PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
+    privbte boolebn useListColors;
+    privbte boolebn useUIBorder;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param list component to create UI object for
+     * @pbrbm list component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent list) {
+    public stbtic ComponentUI crebteUI(JComponent list) {
         return new SynthListUI();
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintListBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintListBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
         context.dispose();
-        paint(g, c);
+        pbint(g, c);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintListBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintListBorder(context, g, x, y, w, h);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        list.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        list.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JList)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JList)e.getSource());
         }
     }
 
@@ -111,46 +111,46 @@ public class SynthListUI extends BasicListUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        list.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        list.removePropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
+    protected void instbllDefbults() {
         if (list.getCellRenderer() == null ||
-                 (list.getCellRenderer() instanceof UIResource)) {
+                 (list.getCellRenderer() instbnceof UIResource)) {
             list.setCellRenderer(new SynthListCellRenderer());
         }
-        updateStyle(list);
+        updbteStyle(list);
     }
 
-    private void updateStyle(JComponent c) {
+    privbte void updbteStyle(JComponent c) {
         SynthContext context = getContext(list, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
-            context.setComponentState(SELECTED);
-            Color sbg = list.getSelectionBackground();
-            if (sbg == null || sbg instanceof UIResource) {
-                list.setSelectionBackground(style.getColor(
+            context.setComponentStbte(SELECTED);
+            Color sbg = list.getSelectionBbckground();
+            if (sbg == null || sbg instbnceof UIResource) {
+                list.setSelectionBbckground(style.getColor(
                                  context, ColorType.TEXT_BACKGROUND));
             }
 
             Color sfg = list.getSelectionForeground();
-            if (sfg == null || sfg instanceof UIResource) {
+            if (sfg == null || sfg instbnceof UIResource) {
                 list.setSelectionForeground(style.getColor(
                                  context, ColorType.TEXT_FOREGROUND));
             }
 
-            useListColors = style.getBoolean(context,
+            useListColors = style.getBoolebn(context,
                                   "List.rendererUseListColors", true);
-            useUIBorder = style.getBoolean(context,
+            useUIBorder = style.getBoolebn(context,
                                   "List.rendererUseUIBorder", true);
 
             int height = style.getInt(context, "List.cellHeight", -1);
@@ -158,8 +158,8 @@ public class SynthListUI extends BasicListUI
                 list.setFixedCellHeight(height);
             }
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -169,12 +169,12 @@ public class SynthListUI extends BasicListUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
+    protected void uninstbllDefbults() {
+        super.uninstbllDefbults();
 
         SynthContext context = getContext(list, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -184,47 +184,47 @@ public class SynthListUI extends BasicListUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthListCellRenderer extends DefaultListCellRenderer.UIResource {
-        @Override public String getName() {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SynthListCellRenderer extends DefbultListCellRenderer.UIResource {
+        @Override public String getNbme() {
             return "List.cellRenderer";
         }
 
         @Override public void setBorder(Border b) {
-            if (useUIBorder || b instanceof SynthBorder) {
+            if (useUIBorder || b instbnceof SynthBorder) {
                 super.setBorder(b);
             }
         }
 
-        @Override public Component getListCellRendererComponent(JList<?> list, Object value,
-                  int index, boolean isSelected, boolean cellHasFocus) {
-            if (!useListColors && (isSelected || cellHasFocus)) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                                   isSelected, cellHasFocus, list.isEnabled(), false);
+        @Override public Component getListCellRendererComponent(JList<?> list, Object vblue,
+                  int index, boolebn isSelected, boolebn cellHbsFocus) {
+            if (!useListColors && (isSelected || cellHbsFocus)) {
+                SynthLookAndFeel.setSelectedUI((SynthLbbelUI)SynthLookAndFeel.
+                             getUIOfType(getUI(), SynthLbbelUI.clbss),
+                                   isSelected, cellHbsFocus, list.isEnbbled(), fblse);
             }
             else {
                 SynthLookAndFeel.resetSelectedUI();
             }
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
+            super.getListCellRendererComponent(list, vblue, index,
+                                               isSelected, cellHbsFocus);
             return this;
         }
 
-        @Override public void paint(Graphics g) {
-            super.paint(g);
+        @Override public void pbint(Grbphics g) {
+            super.pbint(g);
             SynthLookAndFeel.resetSelectedUI();
         }
     }

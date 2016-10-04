@@ -3,147 +3,147 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.I18n;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverSpi;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Handles <code>&lt;ds:Manifest&gt;</code> elements.
+ * Hbndles <code>&lt;ds:Mbnifest&gt;</code> elements.
  * <p> This element holds the <code>Reference</code> elements</p>
  */
-public class Manifest extends SignatureElementProxy {
+public clbss Mbnifest extends SignbtureElementProxy {
 
     /**
-     * The maximum number of references per Manifest, if secure validation is enabled.
+     * The mbximum number of references per Mbnifest, if secure vblidbtion is enbbled.
      */
-    public static final int MAXIMUM_REFERENCE_COUNT = 30;
+    public stbtic finbl int MAXIMUM_REFERENCE_COUNT = 30;
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Manifest.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(Mbnifest.clbss.getNbme());
 
     /** Field references */
-    private List<Reference> references;
-    private Element[] referencesEl;
+    privbte List<Reference> references;
+    privbte Element[] referencesEl;
 
-    /** Field verificationResults[] */
-    private boolean verificationResults[] = null;
+    /** Field verificbtionResults[] */
+    privbte boolebn verificbtionResults[] = null;
 
     /** Field resolverProperties */
-    private Map<String, String> resolverProperties = null;
+    privbte Mbp<String, String> resolverProperties = null;
 
-    /** Field perManifestResolvers */
-    private List<ResourceResolver> perManifestResolvers = null;
+    /** Field perMbnifestResolvers */
+    privbte List<ResourceResolver> perMbnifestResolvers = null;
 
-    private boolean secureValidation;
+    privbte boolebn secureVblidbtion;
 
     /**
-     * Constructs {@link Manifest}
+     * Constructs {@link Mbnifest}
      *
-     * @param doc the {@link Document} in which <code>XMLsignature</code> is placed
+     * @pbrbm doc the {@link Document} in which <code>XMLsignbture</code> is plbced
      */
-    public Manifest(Document doc) {
+    public Mbnifest(Document doc) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        this.references = new ArrayList<Reference>();
+        this.references = new ArrbyList<Reference>();
     }
 
     /**
-     * Constructor Manifest
+     * Constructor Mbnifest
      *
-     * @param element
-     * @param baseURI
+     * @pbrbm element
+     * @pbrbm bbseURI
      * @throws XMLSecurityException
      */
-    public Manifest(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    public Mbnifest(Element element, String bbseURI) throws XMLSecurityException {
+        this(element, bbseURI, fblse);
 
     }
     /**
-     * Constructor Manifest
+     * Constructor Mbnifest
      *
-     * @param element
-     * @param baseURI
-     * @param secureValidation
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm secureVblidbtion
      * @throws XMLSecurityException
      */
-    public Manifest(
-        Element element, String baseURI, boolean secureValidation
+    public Mbnifest(
+        Element element, String bbseURI, boolebn secureVblidbtion
     ) throws XMLSecurityException {
-        super(element, baseURI);
+        super(element, bbseURI);
 
-        Attr attr = element.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            element.setIdAttributeNode(attr, true);
+        Attr bttr = element.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            element.setIdAttributeNode(bttr, true);
         }
-        this.secureValidation = secureValidation;
+        this.secureVblidbtion = secureVblidbtion;
 
         // check out Reference children
         this.referencesEl =
             XMLUtils.selectDsNodes(
-                this.constructionElement.getFirstChild(), Constants._TAG_REFERENCE
+                this.constructionElement.getFirstChild(), Constbnts._TAG_REFERENCE
             );
         int le = this.referencesEl.length;
         if (le == 0) {
-            // At least one Reference must be present. Bad.
-            Object exArgs[] = { Constants._TAG_REFERENCE, Constants._TAG_MANIFEST };
+            // At lebst one Reference must be present. Bbd.
+            Object exArgs[] = { Constbnts._TAG_REFERENCE, Constbnts._TAG_MANIFEST };
 
             throw new DOMException(DOMException.WRONG_DOCUMENT_ERR,
-                                   I18n.translate("xml.WrongContent", exArgs));
+                                   I18n.trbnslbte("xml.WrongContent", exArgs));
         }
 
-        if (secureValidation && le > MAXIMUM_REFERENCE_COUNT) {
+        if (secureVblidbtion && le > MAXIMUM_REFERENCE_COUNT) {
             Object exArgs[] = { le, MAXIMUM_REFERENCE_COUNT };
 
-            throw new XMLSecurityException("signature.tooManyReferences", exArgs);
+            throw new XMLSecurityException("signbture.tooMbnyReferences", exArgs);
         }
 
-        // create List
-        this.references = new ArrayList<Reference>(le);
+        // crebte List
+        this.references = new ArrbyList<Reference>(le);
 
         for (int i = 0; i < le; i++) {
             Element refElem = referencesEl[i];
@@ -151,32 +151,32 @@ public class Manifest extends SignatureElementProxy {
             if (refAttr != null) {
                 refElem.setIdAttributeNode(refAttr, true);
             }
-            this.references.add(null);
+            this.references.bdd(null);
         }
     }
 
     /**
-     * This <code>addDocument</code> method is used to add a new resource to the
-     * signed info. A {@link com.sun.org.apache.xml.internal.security.signature.Reference} is built
-     * from the supplied values.
+     * This <code>bddDocument</code> method is used to bdd b new resource to the
+     * signed info. A {@link com.sun.org.bpbche.xml.internbl.security.signbture.Reference} is built
+     * from the supplied vblues.
      *
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param referenceURI <code>URI</code> attribute in <code>Reference</code> for specifying
-     * where data is
-     * @param transforms com.sun.org.apache.xml.internal.security.signature.Transforms object with an ordered
-     * list of transformations to be performed.
-     * @param digestURI The digest algorithm URI to be used.
-     * @param referenceId
-     * @param referenceType
-     * @throws XMLSignatureException
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
+     * @pbrbm referenceURI <code>URI</code> bttribute in <code>Reference</code> for specifying
+     * where dbtb is
+     * @pbrbm trbnsforms com.sun.org.bpbche.xml.internbl.security.signbture.Trbnsforms object with bn ordered
+     * list of trbnsformbtions to be performed.
+     * @pbrbm digestURI The digest blgorithm URI to be used.
+     * @pbrbm referenceId
+     * @pbrbm referenceType
+     * @throws XMLSignbtureException
      */
-    public void addDocument(
-        String baseURI, String referenceURI, Transforms transforms,
+    public void bddDocument(
+        String bbseURI, String referenceURI, Trbnsforms trbnsforms,
         String digestURI, String referenceId, String referenceType
-    ) throws XMLSignatureException {
-        // the this.doc is handed implicitly by the this.getOwnerDocument()
+    ) throws XMLSignbtureException {
+        // the this.doc is hbnded implicitly by the this.getOwnerDocument()
         Reference ref =
-            new Reference(this.doc, baseURI, referenceURI, this, transforms, digestURI);
+            new Reference(this.doc, bbseURI, referenceURI, this, trbnsforms, digestURI);
 
         if (referenceId != null) {
             ref.setId(referenceId);
@@ -186,33 +186,33 @@ public class Manifest extends SignatureElementProxy {
             ref.setType(referenceType);
         }
 
-        // add Reference object to our cache vector
-        this.references.add(ref);
+        // bdd Reference object to our cbche vector
+        this.references.bdd(ref);
 
-        // add the Element of the Reference object to the Manifest/SignedInfo
-        this.constructionElement.appendChild(ref.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        // bdd the Element of the Reference object to the Mbnifest/SignedInfo
+        this.constructionElement.bppendChild(ref.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * The calculation of the DigestValues in the References must be after the
-     * References are already added to the document and during the signing
-     * process. This ensures that all necessary data is in place.
+     * The cblculbtion of the DigestVblues in the References must be bfter the
+     * References bre blrebdy bdded to the document bnd during the signing
+     * process. This ensures thbt bll necessbry dbtb is in plbce.
      *
-     * @throws ReferenceNotInitializedException
-     * @throws XMLSignatureException
+     * @throws ReferenceNotInitiblizedException
+     * @throws XMLSignbtureException
      */
-    public void generateDigestValues()
-        throws XMLSignatureException, ReferenceNotInitializedException {
+    public void generbteDigestVblues()
+        throws XMLSignbtureException, ReferenceNotInitiblizedException {
         for (int i = 0; i < this.getLength(); i++) {
-            // update the cached Reference object, the Element content is automatically updated
+            // updbte the cbched Reference object, the Element content is butombticblly updbted
             Reference currentRef = this.references.get(i);
-            currentRef.generateDigestValue();
+            currentRef.generbteDigestVblue();
         }
     }
 
     /**
-     * Return the nonnegative number of added references.
+     * Return the nonnegbtive number of bdded references.
      *
      * @return the number of references
      */
@@ -221,18 +221,18 @@ public class Manifest extends SignatureElementProxy {
     }
 
     /**
-     * Return the <it>i</it><sup>th</sup> reference. Valid <code>i</code>
-     * values are 0 to <code>{link@ getSize}-1</code>.
+     * Return the <it>i</it><sup>th</sup> reference. Vblid <code>i</code>
+     * vblues bre 0 to <code>{link@ getSize}-1</code>.
      *
-     * @param i Index of the requested {@link Reference}
+     * @pbrbm i Index of the requested {@link Reference}
      * @return the <it>i</it><sup>th</sup> reference
      * @throws XMLSecurityException
      */
     public Reference item(int i) throws XMLSecurityException {
         if (this.references.get(i) == null) {
-            // not yet constructed, so _we_ have to
+            // not yet constructed, so _we_ hbve to
             Reference ref =
-                new Reference(referencesEl[i], this.baseURI, this, secureValidation);
+                new Reference(referencesEl[i], this.bbseURI, this, secureVblidbtion);
 
             this.references.set(i, ref);
         }
@@ -241,182 +241,182 @@ public class Manifest extends SignatureElementProxy {
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sets the <code>Id</code> bttribute
      *
-     * @param Id the <code>Id</code> attribute in <code>ds:Manifest</code>
+     * @pbrbm Id the <code>Id</code> bttribute in <code>ds:Mbnifest</code>
      */
     public void setId(String Id) {
         if (Id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, Id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, Id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Returns the <code>Id</code> bttribute
      *
-     * @return the <code>Id</code> attribute in <code>ds:Manifest</code>
+     * @return the <code>Id</code> bttribute in <code>ds:Mbnifest</code>
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Used to do a <A HREF="http://www.w3.org/TR/xmldsig-core/#def-ValidationReference">reference
-     * validation</A> of all enclosed references using the {@link Reference#verify} method.
+     * Used to do b <A HREF="http://www.w3.org/TR/xmldsig-core/#def-VblidbtionReference">reference
+     * vblidbtion</A> of bll enclosed references using the {@link Reference#verify} method.
      *
-     * <p>This step loops through all {@link Reference}s and does verify the hash
-     * values. If one or more verifications fail, the method returns
-     * <code>false</code>. If <i>all</i> verifications are successful,
-     * it returns <code>true</code>. The results of the individual reference
-     * validations are available by using the {@link #getVerificationResult(int)} method
+     * <p>This step loops through bll {@link Reference}s bnd does verify the hbsh
+     * vblues. If one or more verificbtions fbil, the method returns
+     * <code>fblse</code>. If <i>bll</i> verificbtions bre successful,
+     * it returns <code>true</code>. The results of the individubl reference
+     * vblidbtions bre bvbilbble by using the {@link #getVerificbtionResult(int)} method
      *
-     * @return true if all References verify, false if one or more do not verify.
-     * @throws MissingResourceFailureException if a {@link Reference} does not verify
-     * (throws a {@link com.sun.org.apache.xml.internal.security.signature.ReferenceNotInitializedException}
-     * because of an uninitialized {@link XMLSignatureInput}
-     * @see com.sun.org.apache.xml.internal.security.signature.Reference#verify
-     * @see com.sun.org.apache.xml.internal.security.signature.SignedInfo#verify()
-     * @see com.sun.org.apache.xml.internal.security.signature.MissingResourceFailureException
+     * @return true if bll References verify, fblse if one or more do not verify.
+     * @throws MissingResourceFbilureException if b {@link Reference} does not verify
+     * (throws b {@link com.sun.org.bpbche.xml.internbl.security.signbture.ReferenceNotInitiblizedException}
+     * becbuse of bn uninitiblized {@link XMLSignbtureInput}
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.Reference#verify
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.SignedInfo#verify()
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.MissingResourceFbilureException
      * @throws XMLSecurityException
      */
-    public boolean verifyReferences()
-        throws MissingResourceFailureException, XMLSecurityException {
-        return this.verifyReferences(false);
+    public boolebn verifyReferences()
+        throws MissingResourceFbilureException, XMLSecurityException {
+        return this.verifyReferences(fblse);
     }
 
     /**
-     * Used to do a <A HREF="http://www.w3.org/TR/xmldsig-core/#def-ValidationReference">reference
-     * validation</A> of all enclosed references using the {@link Reference#verify} method.
+     * Used to do b <A HREF="http://www.w3.org/TR/xmldsig-core/#def-VblidbtionReference">reference
+     * vblidbtion</A> of bll enclosed references using the {@link Reference#verify} method.
      *
-     * <p>This step loops through all {@link Reference}s and does verify the hash
-     * values. If one or more verifications fail, the method returns
-     * <code>false</code>. If <i>all</i> verifications are successful,
-     * it returns <code>true</code>. The results of the individual reference
-     * validations are available by using the {@link #getVerificationResult(int)} method
+     * <p>This step loops through bll {@link Reference}s bnd does verify the hbsh
+     * vblues. If one or more verificbtions fbil, the method returns
+     * <code>fblse</code>. If <i>bll</i> verificbtions bre successful,
+     * it returns <code>true</code>. The results of the individubl reference
+     * vblidbtions bre bvbilbble by using the {@link #getVerificbtionResult(int)} method
      *
-     * @param followManifests
-     * @return true if all References verify, false if one or more do not verify.
-     * @throws MissingResourceFailureException if a {@link Reference} does not verify
-     * (throws a {@link com.sun.org.apache.xml.internal.security.signature.ReferenceNotInitializedException}
-     * because of an uninitialized {@link XMLSignatureInput}
-     * @see com.sun.org.apache.xml.internal.security.signature.Reference#verify
-     * @see com.sun.org.apache.xml.internal.security.signature.SignedInfo#verify(boolean)
-     * @see com.sun.org.apache.xml.internal.security.signature.MissingResourceFailureException
+     * @pbrbm followMbnifests
+     * @return true if bll References verify, fblse if one or more do not verify.
+     * @throws MissingResourceFbilureException if b {@link Reference} does not verify
+     * (throws b {@link com.sun.org.bpbche.xml.internbl.security.signbture.ReferenceNotInitiblizedException}
+     * becbuse of bn uninitiblized {@link XMLSignbtureInput}
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.Reference#verify
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.SignedInfo#verify(boolebn)
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.MissingResourceFbilureException
      * @throws XMLSecurityException
      */
-    public boolean verifyReferences(boolean followManifests)
-        throws MissingResourceFailureException, XMLSecurityException {
+    public boolebn verifyReferences(boolebn followMbnifests)
+        throws MissingResourceFbilureException, XMLSecurityException {
         if (referencesEl == null) {
             this.referencesEl =
                 XMLUtils.selectDsNodes(
-                    this.constructionElement.getFirstChild(), Constants._TAG_REFERENCE
+                    this.constructionElement.getFirstChild(), Constbnts._TAG_REFERENCE
                 );
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "verify " + referencesEl.length + " References");
-            log.log(java.util.logging.Level.FINE, "I am " + (followManifests
-                ? "" : "not") + " requested to follow nested Manifests");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "verify " + referencesEl.length + " References");
+            log.log(jbvb.util.logging.Level.FINE, "I bm " + (followMbnifests
+                ? "" : "not") + " requested to follow nested Mbnifests");
         }
         if (referencesEl.length == 0) {
             throw new XMLSecurityException("empty");
         }
-        if (secureValidation && referencesEl.length > MAXIMUM_REFERENCE_COUNT) {
+        if (secureVblidbtion && referencesEl.length > MAXIMUM_REFERENCE_COUNT) {
             Object exArgs[] = { referencesEl.length, MAXIMUM_REFERENCE_COUNT };
 
-            throw new XMLSecurityException("signature.tooManyReferences", exArgs);
+            throw new XMLSecurityException("signbture.tooMbnyReferences", exArgs);
         }
 
-        this.verificationResults = new boolean[referencesEl.length];
-        boolean verify = true;
+        this.verificbtionResults = new boolebn[referencesEl.length];
+        boolebn verify = true;
         for (int i = 0; i < this.referencesEl.length; i++) {
             Reference currentRef =
-                new Reference(referencesEl[i], this.baseURI, this, secureValidation);
+                new Reference(referencesEl[i], this.bbseURI, this, secureVblidbtion);
 
             this.references.set(i, currentRef);
 
-            // if only one item does not verify, the whole verification fails
+            // if only one item does not verify, the whole verificbtion fbils
             try {
-                boolean currentRefVerified = currentRef.verify();
+                boolebn currentRefVerified = currentRef.verify();
 
-                this.setVerificationResult(i, currentRefVerified);
+                this.setVerificbtionResult(i, currentRefVerified);
 
                 if (!currentRefVerified) {
-                    verify = false;
+                    verify = fblse;
                 }
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "The Reference has Type " + currentRef.getType());
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "The Reference hbs Type " + currentRef.getType());
                 }
 
-                // was verification successful till now and do we want to verify the Manifest?
-                if (verify && followManifests && currentRef.typeIsReferenceToManifest()) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "We have to follow a nested Manifest");
+                // wbs verificbtion successful till now bnd do we wbnt to verify the Mbnifest?
+                if (verify && followMbnifests && currentRef.typeIsReferenceToMbnifest()) {
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, "We hbve to follow b nested Mbnifest");
                     }
 
                     try {
-                        XMLSignatureInput signedManifestNodes =
-                            currentRef.dereferenceURIandPerformTransforms(null);
-                        Set<Node> nl = signedManifestNodes.getNodeSet();
-                        Manifest referencedManifest = null;
-                        Iterator<Node> nlIterator = nl.iterator();
+                        XMLSignbtureInput signedMbnifestNodes =
+                            currentRef.dereferenceURIbndPerformTrbnsforms(null);
+                        Set<Node> nl = signedMbnifestNodes.getNodeSet();
+                        Mbnifest referencedMbnifest = null;
+                        Iterbtor<Node> nlIterbtor = nl.iterbtor();
 
-                        findManifest: while (nlIterator.hasNext()) {
-                            Node n = nlIterator.next();
+                        findMbnifest: while (nlIterbtor.hbsNext()) {
+                            Node n = nlIterbtor.next();
 
                             if ((n.getNodeType() == Node.ELEMENT_NODE)
-                                && ((Element) n).getNamespaceURI().equals(Constants.SignatureSpecNS)
-                                && ((Element) n).getLocalName().equals(Constants._TAG_MANIFEST)
+                                && ((Element) n).getNbmespbceURI().equbls(Constbnts.SignbtureSpecNS)
+                                && ((Element) n).getLocblNbme().equbls(Constbnts._TAG_MANIFEST)
                             ) {
                                 try {
-                                    referencedManifest =
-                                        new Manifest(
-                                             (Element)n, signedManifestNodes.getSourceURI(), secureValidation
+                                    referencedMbnifest =
+                                        new Mbnifest(
+                                             (Element)n, signedMbnifestNodes.getSourceURI(), secureVblidbtion
                                         );
-                                    break findManifest;
-                                } catch (XMLSecurityException ex) {
-                                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                        log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                                    brebk findMbnifest;
+                                } cbtch (XMLSecurityException ex) {
+                                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                                        log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
                                     }
-                                    // Hm, seems not to be a ds:Manifest
+                                    // Hm, seems not to be b ds:Mbnifest
                                 }
                             }
                         }
 
-                        if (referencedManifest == null) {
-                            // The Reference stated that it points to a ds:Manifest
-                            // but we did not find a ds:Manifest in the signed area
-                            throw new MissingResourceFailureException("empty", currentRef);
+                        if (referencedMbnifest == null) {
+                            // The Reference stbted thbt it points to b ds:Mbnifest
+                            // but we did not find b ds:Mbnifest in the signed breb
+                            throw new MissingResourceFbilureException("empty", currentRef);
                         }
 
-                        referencedManifest.perManifestResolvers = this.perManifestResolvers;
-                        referencedManifest.resolverProperties = this.resolverProperties;
+                        referencedMbnifest.perMbnifestResolvers = this.perMbnifestResolvers;
+                        referencedMbnifest.resolverProperties = this.resolverProperties;
 
-                        boolean referencedManifestValid =
-                            referencedManifest.verifyReferences(followManifests);
+                        boolebn referencedMbnifestVblid =
+                            referencedMbnifest.verifyReferences(followMbnifests);
 
-                        if (!referencedManifestValid) {
-                            verify = false;
+                        if (!referencedMbnifestVblid) {
+                            verify = fblse;
 
-                            log.log(java.util.logging.Level.WARNING, "The nested Manifest was invalid (bad)");
+                            log.log(jbvb.util.logging.Level.WARNING, "The nested Mbnifest wbs invblid (bbd)");
                         } else {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "The nested Manifest was valid (good)");
+                            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                                log.log(jbvb.util.logging.Level.FINE, "The nested Mbnifest wbs vblid (good)");
                             }
                         }
-                    } catch (IOException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
-                    } catch (ParserConfigurationException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
-                    } catch (SAXException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
+                    } cbtch (IOException ex) {
+                        throw new ReferenceNotInitiblizedException("empty", ex);
+                    } cbtch (PbrserConfigurbtionException ex) {
+                        throw new ReferenceNotInitiblizedException("empty", ex);
+                    } cbtch (SAXException ex) {
+                        throw new ReferenceNotInitiblizedException("empty", ex);
                     }
                 }
-            } catch (ReferenceNotInitializedException ex) {
+            } cbtch (ReferenceNotInitiblizedException ex) {
                 Object exArgs[] = { currentRef.getURI() };
 
-                throw new MissingResourceFailureException(
-                    "signature.Verification.Reference.NoInput", exArgs, ex, currentRef
+                throw new MissingResourceFbilureException(
+                    "signbture.Verificbtion.Reference.NoInput", exArgs, ex, currentRef
                 );
             }
         }
@@ -425,119 +425,119 @@ public class Manifest extends SignatureElementProxy {
     }
 
     /**
-     * Method setVerificationResult
+     * Method setVerificbtionResult
      *
-     * @param index
-     * @param verify
+     * @pbrbm index
+     * @pbrbm verify
      */
-    private void setVerificationResult(int index, boolean verify) {
-        if (this.verificationResults == null) {
-            this.verificationResults = new boolean[this.getLength()];
+    privbte void setVerificbtionResult(int index, boolebn verify) {
+        if (this.verificbtionResults == null) {
+            this.verificbtionResults = new boolebn[this.getLength()];
         }
 
-        this.verificationResults[index] = verify;
+        this.verificbtionResults[index] = verify;
     }
 
     /**
-     * After verifying a {@link Manifest} or a {@link SignedInfo} using the
-     * {@link Manifest#verifyReferences()} or {@link SignedInfo#verify()} methods,
-     * the individual results can be retrieved with this method.
+     * After verifying b {@link Mbnifest} or b {@link SignedInfo} using the
+     * {@link Mbnifest#verifyReferences()} or {@link SignedInfo#verify()} methods,
+     * the individubl results cbn be retrieved with this method.
      *
-     * @param index an index of into a {@link Manifest} or a {@link SignedInfo}
-     * @return the results of reference validation at the specified index
+     * @pbrbm index bn index of into b {@link Mbnifest} or b {@link SignedInfo}
+     * @return the results of reference vblidbtion bt the specified index
      * @throws XMLSecurityException
      */
-    public boolean getVerificationResult(int index) throws XMLSecurityException {
+    public boolebn getVerificbtionResult(int index) throws XMLSecurityException {
         if ((index < 0) || (index > this.getLength() - 1)) {
             Object exArgs[] = { Integer.toString(index), Integer.toString(this.getLength()) };
             Exception e =
                 new IndexOutOfBoundsException(
-                    I18n.translate("signature.Verification.IndexOutOfBounds", exArgs)
+                    I18n.trbnslbte("signbture.Verificbtion.IndexOutOfBounds", exArgs)
                 );
 
-            throw new XMLSecurityException("generic.EmptyMessage", e);
+            throw new XMLSecurityException("generic.EmptyMessbge", e);
         }
 
-        if (this.verificationResults == null) {
+        if (this.verificbtionResults == null) {
             try {
                 this.verifyReferences();
-            } catch (Exception ex) {
-                throw new XMLSecurityException("generic.EmptyMessage", ex);
+            } cbtch (Exception ex) {
+                throw new XMLSecurityException("generic.EmptyMessbge", ex);
             }
         }
 
-        return this.verificationResults[index];
+        return this.verificbtionResults[index];
     }
 
     /**
-     * Adds Resource Resolver for retrieving resources at specified <code>URI</code> attribute
+     * Adds Resource Resolver for retrieving resources bt specified <code>URI</code> bttribute
      * in <code>reference</code> element
      *
-     * @param resolver {@link ResourceResolver} can provide the implemenatin subclass of
+     * @pbrbm resolver {@link ResourceResolver} cbn provide the implemenbtin subclbss of
      * {@link ResourceResolverSpi} for retrieving resource.
      */
-    public void addResourceResolver(ResourceResolver resolver) {
+    public void bddResourceResolver(ResourceResolver resolver) {
         if (resolver == null) {
             return;
         }
-        if (perManifestResolvers == null) {
-            perManifestResolvers = new ArrayList<ResourceResolver>();
+        if (perMbnifestResolvers == null) {
+            perMbnifestResolvers = new ArrbyList<ResourceResolver>();
         }
-        this.perManifestResolvers.add(resolver);
+        this.perMbnifestResolvers.bdd(resolver);
     }
 
     /**
-     * Adds Resource Resolver for retrieving resources at specified <code>URI</code> attribute
+     * Adds Resource Resolver for retrieving resources bt specified <code>URI</code> bttribute
      * in <code>reference</code> element
      *
-     * @param resolverSpi the implementation subclass of {@link ResourceResolverSpi} for
+     * @pbrbm resolverSpi the implementbtion subclbss of {@link ResourceResolverSpi} for
      * retrieving the resource.
      */
-    public void addResourceResolver(ResourceResolverSpi resolverSpi) {
+    public void bddResourceResolver(ResourceResolverSpi resolverSpi) {
         if (resolverSpi == null) {
             return;
         }
-        if (perManifestResolvers == null) {
-            perManifestResolvers = new ArrayList<ResourceResolver>();
+        if (perMbnifestResolvers == null) {
+            perMbnifestResolvers = new ArrbyList<ResourceResolver>();
         }
-        perManifestResolvers.add(new ResourceResolver(resolverSpi));
+        perMbnifestResolvers.bdd(new ResourceResolver(resolverSpi));
     }
 
     /**
-     * Get the Per-Manifest Resolver List
-     * @return the per-manifest Resolver List
+     * Get the Per-Mbnifest Resolver List
+     * @return the per-mbnifest Resolver List
      */
-    public List<ResourceResolver> getPerManifestResolvers() {
-        return perManifestResolvers;
+    public List<ResourceResolver> getPerMbnifestResolvers() {
+        return perMbnifestResolvers;
     }
 
     /**
-     * Get the resolver property map
-     * @return the resolver property map
+     * Get the resolver property mbp
+     * @return the resolver property mbp
      */
-    public Map<String, String> getResolverProperties() {
+    public Mbp<String, String> getResolverProperties() {
         return resolverProperties;
     }
 
     /**
-     * Used to pass parameters like proxy servers etc to the ResourceResolver
-     * implementation.
+     * Used to pbss pbrbmeters like proxy servers etc to the ResourceResolver
+     * implementbtion.
      *
-     * @param key the key
-     * @param value the value
+     * @pbrbm key the key
+     * @pbrbm vblue the vblue
      */
-    public void setResolverProperty(String key, String value) {
+    public void setResolverProperty(String key, String vblue) {
         if (resolverProperties == null) {
-            resolverProperties = new HashMap<String, String>(10);
+            resolverProperties = new HbshMbp<String, String>(10);
         }
-        this.resolverProperties.put(key, value);
+        this.resolverProperties.put(key, vblue);
     }
 
     /**
-     * Returns the value at specified key
+     * Returns the vblue bt specified key
      *
-     * @param key the key
-     * @return the value
+     * @pbrbm key the key
+     * @return the vblue
      */
     public String getResolverProperty(String key) {
         return this.resolverProperties.get(key);
@@ -546,64 +546,64 @@ public class Manifest extends SignatureElementProxy {
     /**
      * Method getSignedContentItem
      *
-     * @param i
+     * @pbrbm i
      * @return The signed content of the i reference.
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public byte[] getSignedContentItem(int i) throws XMLSignatureException {
+    public byte[] getSignedContentItem(int i) throws XMLSignbtureException {
         try {
-            return this.getReferencedContentAfterTransformsItem(i).getBytes();
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return this.getReferencedContentAfterTrbnsformsItem(i).getBytes();
+        } cbtch (IOException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (InvblidCbnonicblizerException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Method getReferencedContentPriorTransformsItem
+     * Method getReferencedContentPriorTrbnsformsItem
      *
-     * @param i
-     * @return The contents before transformation of the reference i.
+     * @pbrbm i
+     * @return The contents before trbnsformbtion of the reference i.
      * @throws XMLSecurityException
      */
-    public XMLSignatureInput getReferencedContentBeforeTransformsItem(int i)
+    public XMLSignbtureInput getReferencedContentBeforeTrbnsformsItem(int i)
         throws XMLSecurityException {
-        return this.item(i).getContentsBeforeTransformation();
+        return this.item(i).getContentsBeforeTrbnsformbtion();
     }
 
     /**
-     * Method getReferencedContentAfterTransformsItem
+     * Method getReferencedContentAfterTrbnsformsItem
      *
-     * @param i
-     * @return The contents after transformation of the reference i.
+     * @pbrbm i
+     * @return The contents bfter trbnsformbtion of the reference i.
      * @throws XMLSecurityException
      */
-    public XMLSignatureInput getReferencedContentAfterTransformsItem(int i)
+    public XMLSignbtureInput getReferencedContentAfterTrbnsformsItem(int i)
         throws XMLSecurityException {
-        return this.item(i).getContentsAfterTransformation();
+        return this.item(i).getContentsAfterTrbnsformbtion();
     }
 
     /**
      * Method getSignedContentLength
      *
-     * @return The number of references contained in this reference.
+     * @return The number of references contbined in this reference.
      */
     public int getSignedContentLength() {
         return this.getLength();
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      *
      * @inheritDoc
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_MANIFEST;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_MANIFEST;
     }
 }

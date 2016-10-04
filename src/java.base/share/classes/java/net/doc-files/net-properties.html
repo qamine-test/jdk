@@ -1,243 +1,243 @@
 <!--
- Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
 <HTML>
 <HEAD>
-	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; chbrset=iso-8859-1">
 	<TITLE>Networking Properties</TITLE>
 </HEAD>
 <BODY LANG="en-US" DIR="LTR">
 <H1 ALIGN=CENTER>Networking Properties</H1>
-<P ALIGN=LEFT>There are a few standard system properties used to
-alter the mechanisms and behavior of the various classes of the
-java.net package. Some are checked only once at startup of the VM,
-and therefore are best set using the -D option of the java command,
-while others have a more dynamic nature and can also be changed using
-the <a href="../../lang/System.html#setProperty(java.lang.String,%20java.lang.String)">System.setProperty()</a> API. 
+<P ALIGN=LEFT>There bre b few stbndbrd system properties used to
+blter the mechbnisms bnd behbvior of the vbrious clbsses of the
+jbvb.net pbckbge. Some bre checked only once bt stbrtup of the VM,
+bnd therefore bre best set using the -D option of the jbvb commbnd,
+while others hbve b more dynbmic nbture bnd cbn blso be chbnged using
+the <b href="../../lbng/System.html#setProperty(jbvb.lbng.String,%20jbvb.lbng.String)">System.setProperty()</b> API. 
 The purpose of this document is to list
-and detail all of these properties.</P>
-<P>If there is no special note, a property value is checked every time it is used.</P>
-<a name="Ipv4IPv6"></a>
+bnd detbil bll of these properties.</P>
+<P>If there is no specibl note, b property vblue is checked every time it is used.</P>
+<b nbme="Ipv4IPv6"></b>
 <H2>IPv4 / IPv6</H2>
 <UL>
-	<LI><P><B>java.net.preferIPv4Stack</B> (default: false)<BR>
-	If IPv6 is available on the operating system the
-	underlying native socket will be, by default, an IPv6 socket which
-	lets applications connect to, and accept connections from, both
-	IPv4 and IPv6 hosts. However, in the case an application would
-	rather use IPv4 only sockets, then this property can be set to <B>true</B>.
-	The implication is that it will not be possible for the application
-	to communicate with IPv6 only hosts.</P>
-	<LI><P><B>java.net.preferIPv6Addresses</B> (default: false)<BR>
-	When dealing with a host which has both IPv4
-	and IPv6 addresses, and if IPv6 is available on the operating
-	system, the default behavior is to prefer using IPv4 addresses over
-	IPv6 ones. This is to ensure backward compatibility, for example
-	applications that depend on the representation of an IPv4 address
-	(e.g. 192.168.1.1). This property can be set to <B>true</B> to
-	change that preference and use IPv6 addresses over IPv4 ones where
+	<LI><P><B>jbvb.net.preferIPv4Stbck</B> (defbult: fblse)<BR>
+	If IPv6 is bvbilbble on the operbting system the
+	underlying nbtive socket will be, by defbult, bn IPv6 socket which
+	lets bpplicbtions connect to, bnd bccept connections from, both
+	IPv4 bnd IPv6 hosts. However, in the cbse bn bpplicbtion would
+	rbther use IPv4 only sockets, then this property cbn be set to <B>true</B>.
+	The implicbtion is thbt it will not be possible for the bpplicbtion
+	to communicbte with IPv6 only hosts.</P>
+	<LI><P><B>jbvb.net.preferIPv6Addresses</B> (defbult: fblse)<BR>
+	When debling with b host which hbs both IPv4
+	bnd IPv6 bddresses, bnd if IPv6 is bvbilbble on the operbting
+	system, the defbult behbvior is to prefer using IPv4 bddresses over
+	IPv6 ones. This is to ensure bbckwbrd compbtibility, for exbmple
+	bpplicbtions thbt depend on the representbtion of bn IPv4 bddress
+	(e.g. 192.168.1.1). This property cbn be set to <B>true</B> to
+	chbnge thbt preference bnd use IPv6 bddresses over IPv4 ones where
 	possible.</P>
 </UL>
-<P>Both of these properties are checked only once, at startup.</P>
-<a name="Proxies"></a>
+<P>Both of these properties bre checked only once, bt stbrtup.</P>
+<b nbme="Proxies"></b>
 <H2>Proxies</H2>
-<P>A proxy server allows indirect connection to network services and
-is used mainly for security (to get through firewalls) and
-performance reasons (proxies often do provide caching mechanisms).
-The following properties allow for configuration of the various type
+<P>A proxy server bllows indirect connection to network services bnd
+is used mbinly for security (to get through firewblls) bnd
+performbnce rebsons (proxies often do provide cbching mechbnisms).
+The following properties bllow for configurbtion of the vbrious type
 of proxies.</P>
 <UL>
 	<LI><P>HTTP</P>
-	<P>The following proxy settings are used by the HTTP protocol handler.</P>
+	<P>The following proxy settings bre used by the HTTP protocol hbndler.</P>
 	<UL>
-		<LI><P><B>http.proxyHost</B> (default: &lt;none&gt;)<BR>
-	        The hostname, or address, of the proxy server 
+		<LI><P><B>http.proxyHost</B> (defbult: &lt;none&gt;)<BR>
+	        The hostnbme, or bddress, of the proxy server 
 		</P>
-		<LI><P><B>http.proxyPort</B> (default: 80)<BR>
+		<LI><P><B>http.proxyPort</B> (defbult: 80)<BR>
 	        The port number of the proxy server.</P>
-		<LI><P><B>http.nonProxyHosts</B> (default:  localhost|127.*|[::1])<BR>
-	        Indicates the hosts that should be accessed without going
-	        through the proxy. Typically this defines internal hosts.
-	        The value of this property is a list of hosts,
-		separated by the '|' character. In addition the wildcard
-	        character '*' can be used for pattern matching. For example
-		<code>-Dhttp.nonProxyHosts=&rdquo;*.foo.com|localhost&rdquo;</code>
-		will indicate that every hosts in the foo.com domain and the
-		localhost should be accessed directly even if a proxy server is
+		<LI><P><B>http.nonProxyHosts</B> (defbult:  locblhost|127.*|[::1])<BR>
+	        Indicbtes the hosts thbt should be bccessed without going
+	        through the proxy. Typicblly this defines internbl hosts.
+	        The vblue of this property is b list of hosts,
+		sepbrbted by the '|' chbrbcter. In bddition the wildcbrd
+	        chbrbcter '*' cbn be used for pbttern mbtching. For exbmple
+		<code>-Dhttp.nonProxyHosts=&rdquo;*.foo.com|locblhost&rdquo;</code>
+		will indicbte thbt every hosts in the foo.com dombin bnd the
+		locblhost should be bccessed directly even if b proxy server is
 		specified.</P>
-                <P>The default value excludes all common variations of the loopback address.</P>
+                <P>The defbult vblue excludes bll common vbribtions of the loopbbck bddress.</P>
         </UL>
-	<LI><P>HTTPS<BR>This is HTTP over SSL, a secure version of HTTP
-	mainly used when confidentiality (like on payment sites) is needed.</P>
-	<P>The following proxy settings are used by the HTTPS protocol handler.</P>
+	<LI><P>HTTPS<BR>This is HTTP over SSL, b secure version of HTTP
+	mbinly used when confidentiblity (like on pbyment sites) is needed.</P>
+	<P>The following proxy settings bre used by the HTTPS protocol hbndler.</P>
 	<UL>
-		<LI><P><B>https.proxyHost</B>(default: &lt;none&gt;)<BR>
-	        The hostname, or address, of the proxy server 
+		<LI><P><B>https.proxyHost</B>(defbult: &lt;none&gt;)<BR>
+	        The hostnbme, or bddress, of the proxy server 
 		</P>
-		<LI><P><B>https.proxyPort</B> (default: 443)<BR>
+		<LI><P><B>https.proxyPort</B> (defbult: 443)<BR>
 	        The port number of the proxy server.</P>
-		<P>The HTTPS protocol handler will use the same nonProxyHosts
-		property as the HTTP protocol.</P>
+		<P>The HTTPS protocol hbndler will use the sbme nonProxyHosts
+		property bs the HTTP protocol.</P>
 	</UL>
 	<LI><P>FTP</P>
-	<P>The following proxy settings are used by the FTP protocol handler.</P>
+	<P>The following proxy settings bre used by the FTP protocol hbndler.</P>
 	<UL>
-		<LI><P><B>ftp.proxyHost</B>(default: &lt;none&gt;)<BR>
-	        The hostname, or address, of the proxy server 
+		<LI><P><B>ftp.proxyHost</B>(defbult: &lt;none&gt;)<BR>
+	        The hostnbme, or bddress, of the proxy server 
 		</P>
-		<LI><P><B>ftp.proxyPort</B> (default: 80)<BR>
+		<LI><P><B>ftp.proxyPort</B> (defbult: 80)<BR>
 	        The port number of the proxy server.</P>
-		<LI><P><B>ftp.nonProxyHosts</B> (default: localhost|127.*|[::1])<BR>
-	        Indicates the hosts that should be accessed without going
-	        through the proxy. Typically this defines internal hosts.
-	        The value of this property is a list of hosts, separated by
-	        the '|' character. In addition the wildcard character
-		'*' can be used for pattern matching. For example
-		<code>-Dhttp.nonProxyHosts=&rdquo;*.foo.com|localhost&rdquo;</code>
-		will indicate that every hosts in the foo.com domain and the
-		localhost should be accessed directly even if a proxy server is
+		<LI><P><B>ftp.nonProxyHosts</B> (defbult: locblhost|127.*|[::1])<BR>
+	        Indicbtes the hosts thbt should be bccessed without going
+	        through the proxy. Typicblly this defines internbl hosts.
+	        The vblue of this property is b list of hosts, sepbrbted by
+	        the '|' chbrbcter. In bddition the wildcbrd chbrbcter
+		'*' cbn be used for pbttern mbtching. For exbmple
+		<code>-Dhttp.nonProxyHosts=&rdquo;*.foo.com|locblhost&rdquo;</code>
+		will indicbte thbt every hosts in the foo.com dombin bnd the
+		locblhost should be bccessed directly even if b proxy server is
 		specified.</P>
-                <P>The default value excludes all common variations of the loopback address.</P>
+                <P>The defbult vblue excludes bll common vbribtions of the loopbbck bddress.</P>
 	</UL>
-	<LI><P>SOCKS<BR>This is another type of proxy. It allows for lower
-	level type of tunneling since it works at the TCP level. In effect,
-	in the Java(tm) platform setting a SOCKS proxy server will result in
-	all TCP connections to go through that proxy, unless other proxies
-	are specified. If SOCKS is supported by a Java SE implementation, the
+	<LI><P>SOCKS<BR>This is bnother type of proxy. It bllows for lower
+	level type of tunneling since it works bt the TCP level. In effect,
+	in the Jbvb(tm) plbtform setting b SOCKS proxy server will result in
+	bll TCP connections to go through thbt proxy, unless other proxies
+	bre specified. If SOCKS is supported by b Jbvb SE implementbtion, the
 	following properties will be used:</P>
 	<UL>
-		<LI><P><B>socksProxyHost</B> (default: &lt;none&gt;)<BR>
-	        The hostname, or address, of the proxy server.</P>
-		<LI><P><B>socksProxyPort</B> (default: 1080)<BR>
+		<LI><P><B>socksProxyHost</B> (defbult: &lt;none&gt;)<BR>
+	        The hostnbme, or bddress, of the proxy server.</P>
+		<LI><P><B>socksProxyPort</B> (defbult: 1080)<BR>
 	        The port number of the proxy server.</P>
-                <LI><P><B>socksProxyVersion</B> (default: 5)<BR>
+                <LI><P><B>socksProxyVersion</B> (defbult: 5)<BR>
                 The version of the SOCKS protocol supported by the server. The
-                default is <code>5</code> indicating SOCKS V5, alternatively
-                <code>4</code> can be specified for SOCKS V4. Setting the property
-                to values other than these leads to unspecified behavior.</P>
-		<LI><P><B>java.net.socks.username</B> (default: &lt;none&gt;)<BR>
-	        Username to use if the SOCKSv5 server asks for authentication
-	        and no java.net.Authenticator instance was found.</P>
-		<LI><P><B>java.net.socks.password</B> (default: &lt;none&gt;)<BR>
-	        Password to use if the SOCKSv5 server asks for authentication
-	        and no java.net.Authenticator instance was found.</P>
-		<P>Note that if no authentication is provided with either the above
-		properties or an Authenticator, and the proxy requires one, then
-		the <B>user.name</B> property will be used with no password.</P>
+                defbult is <code>5</code> indicbting SOCKS V5, blternbtively
+                <code>4</code> cbn be specified for SOCKS V4. Setting the property
+                to vblues other thbn these lebds to unspecified behbvior.</P>
+		<LI><P><B>jbvb.net.socks.usernbme</B> (defbult: &lt;none&gt;)<BR>
+	        Usernbme to use if the SOCKSv5 server bsks for buthenticbtion
+	        bnd no jbvb.net.Authenticbtor instbnce wbs found.</P>
+		<LI><P><B>jbvb.net.socks.pbssword</B> (defbult: &lt;none&gt;)<BR>
+	        Pbssword to use if the SOCKSv5 server bsks for buthenticbtion
+	        bnd no jbvb.net.Authenticbtor instbnce wbs found.</P>
+		<P>Note thbt if no buthenticbtion is provided with either the bbove
+		properties or bn Authenticbtor, bnd the proxy requires one, then
+		the <B>user.nbme</B> property will be used with no pbssword.</P>
 	</UL>
-	<LI><P><B>java.net.useSystemProxies</B> (default: false)<BR>
-	On recent Windows systems and on Gnome 2.x systems it is possible to
-	tell the java.net stack, setting this property to <B>true</B>, to use
+	<LI><P><B>jbvb.net.useSystemProxies</B> (defbult: fblse)<BR>
+	On recent Windows systems bnd on Gnome 2.x systems it is possible to
+	tell the jbvb.net stbck, setting this property to <B>true</B>, to use
 	the system proxy settings (both	these systems let you set proxies
-	globally through their user interface). Note that this property is
-	checked only once at startup.</P>
+	globblly through their user interfbce). Note thbt this property is
+	checked only once bt stbrtup.</P>
 </UL>
-<a name="MiscHTTP"></a>
+<b nbme="MiscHTTP"></b>
 <H2>Misc HTTP properties</H2>
 <UL>
-	<LI><P><B>http.agent</B> (default: &ldquo;Java/&lt;version&gt;&rdquo;)<BR>
-	Defines the string sent in the User-Agent request header in http
-	requests. Note that the string &ldquo;Java/&lt;version&gt;&rdquo; will
-	be appended to the one provided in the property (e.g. if 
-	-Dhttp.agent=&rdquo;foobar&rdquo; is used, the User-Agent header will
-	contain &ldquo;foobar Java/1.5.0&rdquo; if the version of the VM is
-	1.5.0). This property is checked only once at startup.</P>
-	<LI><P><B>http.keepalive</B> (default: true)<BR>
-	Indicates if persistent connections should be supported. They improve
-	performance by allowing the underlying socket connection to be reused
+	<LI><P><B>http.bgent</B> (defbult: &ldquo;Jbvb/&lt;version&gt;&rdquo;)<BR>
+	Defines the string sent in the User-Agent request hebder in http
+	requests. Note thbt the string &ldquo;Jbvb/&lt;version&gt;&rdquo; will
+	be bppended to the one provided in the property (e.g. if 
+	-Dhttp.bgent=&rdquo;foobbr&rdquo; is used, the User-Agent hebder will
+	contbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if the version of the VM is
+	1.5.0). This property is checked only once bt stbrtup.</P>
+	<LI><P><B>http.keepblive</B> (defbult: true)<BR>
+	Indicbtes if persistent connections should be supported. They improve
+	performbnce by bllowing the underlying socket connection to be reused
 	for multiple http requests. If this is set to true then persistent
 	connections will be requested with HTTP 1.1 servers.</P>
-	<LI><P><B>http.maxConnections</B> (default: 5)<BR>
-	If HTTP keepalive is enabled (see above) this value determines the
-	maximum number of idle connections that will be simultaneously kept
-	alive, per destination.</P>
-	<LI><P><B>http.maxRedirects</B> (default: 20)<BR>
-	This integer value determines the maximum number, for a given request,
-	of HTTP redirects that will be automatically followed by the
-	protocol handler.</P>
-	<LI><P><B>http.auth.digest.validateServer</B> (default: false)</P>
-	<LI><P><B>http.auth.digest.validateProxy</B> (default: false)</P>
-	<LI><P><B>http.auth.digest.cnonceRepeat</B> (default: 5)</P>
-	<P>These 3 properties modify the behavior of the HTTP digest
-	authentication mechanism. Digest authentication provides a limited
-	ability for the server  to authenticate itself to the client (i.e.
-	By proving it knows the user's password). However not all HTTP
-	servers support this capability and by default it is turned off. The
-	first two properties can be set to true to enforce this check for
-	authentication with either an origin or proxy server, respectively.</P>
-	<P>It is usually not necessary to change the third property. It
-	determines how many times a cnonce value is re-used. This can be
-	useful when the MD5-sess algorithm is being used. Increasing this
-	value reduces the computational overhead on both client and server
-	by reducing the amount of material that has to be hashed for each
+	<LI><P><B>http.mbxConnections</B> (defbult: 5)<BR>
+	If HTTP keepblive is enbbled (see bbove) this vblue determines the
+	mbximum number of idle connections thbt will be simultbneously kept
+	blive, per destinbtion.</P>
+	<LI><P><B>http.mbxRedirects</B> (defbult: 20)<BR>
+	This integer vblue determines the mbximum number, for b given request,
+	of HTTP redirects thbt will be butombticblly followed by the
+	protocol hbndler.</P>
+	<LI><P><B>http.buth.digest.vblidbteServer</B> (defbult: fblse)</P>
+	<LI><P><B>http.buth.digest.vblidbteProxy</B> (defbult: fblse)</P>
+	<LI><P><B>http.buth.digest.cnonceRepebt</B> (defbult: 5)</P>
+	<P>These 3 properties modify the behbvior of the HTTP digest
+	buthenticbtion mechbnism. Digest buthenticbtion provides b limited
+	bbility for the server  to buthenticbte itself to the client (i.e.
+	By proving it knows the user's pbssword). However not bll HTTP
+	servers support this cbpbbility bnd by defbult it is turned off. The
+	first two properties cbn be set to true to enforce this check for
+	buthenticbtion with either bn origin or proxy server, respectively.</P>
+	<P>It is usublly not necessbry to chbnge the third property. It
+	determines how mbny times b cnonce vblue is re-used. This cbn be
+	useful when the MD5-sess blgorithm is being used. Increbsing this
+	vblue reduces the computbtionbl overhebd on both client bnd server
+	by reducing the bmount of mbteribl thbt hbs to be hbshed for ebch
 	HTTP request.</P>
-	<LI><P><B>http.auth.ntlm.domain</B> (default: &lt;none&gt;)<BR>
-	NTLM is another authentication scheme. It uses the
-	java.net.Authenticator class to acquire usernames and passwords when
-	they are needed. However NTLM also needs the NT domain name. There are
-	3 options for specifying that domain:</P>
+	<LI><P><B>http.buth.ntlm.dombin</B> (defbult: &lt;none&gt;)<BR>
+	NTLM is bnother buthenticbtion scheme. It uses the
+	jbvb.net.Authenticbtor clbss to bcquire usernbmes bnd pbsswords when
+	they bre needed. However NTLM blso needs the NT dombin nbme. There bre
+	3 options for specifying thbt dombin:</P>
 	<OL>
-	  <LI><P>Do not specify it. In some environments the domain is
-	      actually not required and the application does not have to specify
+	  <LI><P>Do not specify it. In some environments the dombin is
+	      bctublly not required bnd the bpplicbtion does not hbve to specify
 	      it.</P>
-	  <LI><P>The domain name can be encoded within the username by
-	      prefixing the domain name, followed by a back-slash '\' before the
-	      username. With this method existing applications that use the
-	      authenticator class do not need to be modified, as long as users
-	      are made aware that this notation must be used.</P>
-	  <LI><P>If a domain name is not specified as in method 2) and these
-	      property is defined, then its value will be used a the domain
-	      name.</P>
+	  <LI><P>The dombin nbme cbn be encoded within the usernbme by
+	      prefixing the dombin nbme, followed by b bbck-slbsh '\' before the
+	      usernbme. With this method existing bpplicbtions thbt use the
+	      buthenticbtor clbss do not need to be modified, bs long bs users
+	      bre mbde bwbre thbt this notbtion must be used.</P>
+	  <LI><P>If b dombin nbme is not specified bs in method 2) bnd these
+	      property is defined, then its vblue will be used b the dombin
+	      nbme.</P>
 	</OL>
 </UL>
-<P>All these properties are checked only once at startup.</P>
-<a name="AddressCache"></a>
-<H2>Address Cache</H2>
-<P>The java.net package, when doing name resolution, uses an address
-cache for both security and performance reasons. Any address
-resolution attempt, be it forward (name to IP address) or reverse (IP
-address to name), will have its result cached, whether it was
-successful or not, so that subsequent identical requests will not
-have to access the naming service. These properties allow for some
-tuning on how the cache is operating.</P>
+<P>All these properties bre checked only once bt stbrtup.</P>
+<b nbme="AddressCbche"></b>
+<H2>Address Cbche</H2>
+<P>The jbvb.net pbckbge, when doing nbme resolution, uses bn bddress
+cbche for both security bnd performbnce rebsons. Any bddress
+resolution bttempt, be it forwbrd (nbme to IP bddress) or reverse (IP
+bddress to nbme), will hbve its result cbched, whether it wbs
+successful or not, so thbt subsequent identicbl requests will not
+hbve to bccess the nbming service. These properties bllow for some
+tuning on how the cbche is operbting.</P>
 <UL>
-	<LI><P><B>networkaddress.cache.ttl</B> (default: see below)<BR>
-	Value is an integer corresponding to the number of seconds successful
-	name lookups will be kept in the cache. A value of -1, or any  other
-	negative value for that matter,	indicates a &ldquo;cache forever&rdquo;
-	policy, while a value of 0 (zero) means no caching. The default value
-	is -1 (forever) if a security manager is installed, and implementation
-	specific when no security manager is installed.</P>
-	<LI><P><B>networkaddress.cache.negative.ttl</B>	(default: 10)<BR>
-	Value is an integer corresponding to the number of seconds an
-	unsuccessful name lookup will be kept in the cache. A value of -1,
-	or any negative value, means &ldquo;cache forever&rdquo;, while a
-	value of 0 (zero) means no caching.</P>
+	<LI><P><B>networkbddress.cbche.ttl</B> (defbult: see below)<BR>
+	Vblue is bn integer corresponding to the number of seconds successful
+	nbme lookups will be kept in the cbche. A vblue of -1, or bny  other
+	negbtive vblue for thbt mbtter,	indicbtes b &ldquo;cbche forever&rdquo;
+	policy, while b vblue of 0 (zero) mebns no cbching. The defbult vblue
+	is -1 (forever) if b security mbnbger is instblled, bnd implementbtion
+	specific when no security mbnbger is instblled.</P>
+	<LI><P><B>networkbddress.cbche.negbtive.ttl</B>	(defbult: 10)<BR>
+	Vblue is bn integer corresponding to the number of seconds bn
+	unsuccessful nbme lookup will be kept in the cbche. A vblue of -1,
+	or bny negbtive vblue, mebns &ldquo;cbche forever&rdquo;, while b
+	vblue of 0 (zero) mebns no cbching.</P>
 </UL>
-<P>Since these 2 properties are part of the security policy, they are
+<P>Since these 2 properties bre pbrt of the security policy, they bre
 not set by either the -D option or the System.setProperty() API,
-instead they are set as security properties.</P>
+instebd they bre set bs security properties.</P>
 </BODY>
 </HTML>

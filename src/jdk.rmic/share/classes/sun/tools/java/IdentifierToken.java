@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
 /**
- * Information about the occurrence of an identifier.
- * The parser produces these to represent name which cannot yet be
+ * Informbtion bbout the occurrence of bn identifier.
+ * The pbrser produces these to represent nbme which cbnnot yet be
  * bound to field definitions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
  * @see
  */
 
 public
-class IdentifierToken {
+clbss IdentifierToken {
     long where;
     int modifiers;
     Identifier id;
@@ -49,7 +49,7 @@ class IdentifierToken {
     }
 
     /** Use this constructor when the identifier is synthesized.
-     * The location will be 0.
+     * The locbtion will be 0.
      */
     public IdentifierToken(Identifier id) {
         this.where = 0;
@@ -62,17 +62,17 @@ class IdentifierToken {
         this.modifiers = modifiers;
     }
 
-    /** The source location of this identifier occurrence. */
+    /** The source locbtion of this identifier occurrence. */
     public long getWhere() {
         return where;
     }
 
-    /** The identifier itself (possibly qualified). */
-    public Identifier getName() {
+    /** The identifier itself (possibly qublified). */
+    public Identifier getNbme() {
         return id;
     }
 
-    /** The modifiers associated with the occurrence, if any. */
+    /** The modifiers bssocibted with the occurrence, if bny. */
     public int getModifiers() {
         return modifiers;
     }
@@ -82,10 +82,10 @@ class IdentifierToken {
     }
 
     /**
-     * Return defaultWhere if id is null or id.where is missing (0).
+     * Return defbultWhere if id is null or id.where is missing (0).
      * Otherwise, return id.where.
      */
-    public static long getWhere(IdentifierToken id, long defaultWhere) {
-        return (id != null && id.where != 0) ? id.where : defaultWhere;
+    public stbtic long getWhere(IdentifierToken id, long defbultWhere) {
+        return (id != null && id.where != 0) ? id.where : defbultWhere;
     }
 }

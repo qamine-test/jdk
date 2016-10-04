@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
 /**
- * This class is the base class for
- * <code>DragSourceDragEvent</code> and
- * <code>DragSourceDropEvent</code>.
+ * This clbss is the bbse clbss for
+ * <code>DrbgSourceDrbgEvent</code> bnd
+ * <code>DrbgSourceDropEvent</code>.
  * <p>
- * <code>DragSourceEvent</code>s are generated whenever the drag enters, moves
- * over, or exits a drop site, when the drop action changes, and when the drag
- * ends. The location for the generated <code>DragSourceEvent</code> specifies
- * the mouse cursor location in screen coordinates at the moment this event
+ * <code>DrbgSourceEvent</code>s bre generbted whenever the drbg enters, moves
+ * over, or exits b drop site, when the drop bction chbnges, bnd when the drbg
+ * ends. The locbtion for the generbted <code>DrbgSourceEvent</code> specifies
+ * the mouse cursor locbtion in screen coordinbtes bt the moment this event
  * occurred.
  * <p>
- * In a multi-screen environment without a virtual device, the cursor location is
- * specified in the coordinate system of the <i>initiator</i>
- * <code>GraphicsConfiguration</code>. The <i>initiator</i>
- * <code>GraphicsConfiguration</code> is the <code>GraphicsConfiguration</code>
- * of the <code>Component</code> on which the drag gesture for the current drag
- * operation was recognized. If the cursor location is outside the bounds of
- * the initiator <code>GraphicsConfiguration</code>, the reported coordinates are
- * clipped to fit within the bounds of that <code>GraphicsConfiguration</code>.
+ * In b multi-screen environment without b virtubl device, the cursor locbtion is
+ * specified in the coordinbte system of the <i>initibtor</i>
+ * <code>GrbphicsConfigurbtion</code>. The <i>initibtor</i>
+ * <code>GrbphicsConfigurbtion</code> is the <code>GrbphicsConfigurbtion</code>
+ * of the <code>Component</code> on which the drbg gesture for the current drbg
+ * operbtion wbs recognized. If the cursor locbtion is outside the bounds of
+ * the initibtor <code>GrbphicsConfigurbtion</code>, the reported coordinbtes bre
+ * clipped to fit within the bounds of thbt <code>GrbphicsConfigurbtion</code>.
  * <p>
- * In a multi-screen environment with a virtual device, the location is specified
- * in the corresponding virtual coordinate system. If the cursor location is
- * outside the bounds of the virtual device the reported coordinates are
- * clipped to fit within the bounds of the virtual device.
+ * In b multi-screen environment with b virtubl device, the locbtion is specified
+ * in the corresponding virtubl coordinbte system. If the cursor locbtion is
+ * outside the bounds of the virtubl device the reported coordinbtes bre
+ * clipped to fit within the bounds of the virtubl device.
  *
  * @since 1.2
  */
 
-public class DragSourceEvent extends EventObject {
+public clbss DrbgSourceEvent extends EventObject {
 
-    private static final long serialVersionUID = -763287114604032641L;
+    privbte stbtic finbl long seriblVersionUID = -763287114604032641L;
 
     /**
-     * The <code>boolean</code> indicating whether the cursor location
+     * The <code>boolebn</code> indicbting whether the cursor locbtion
      * is specified for this event.
      *
-     * @serial
+     * @seribl
      */
-    private final boolean locationSpecified;
+    privbte finbl boolebn locbtionSpecified;
 
     /**
-     * The horizontal coordinate for the cursor location at the moment this
-     * event occurred if the cursor location is specified for this event;
+     * The horizontbl coordinbte for the cursor locbtion bt the moment this
+     * event occurred if the cursor locbtion is specified for this event;
      * otherwise zero.
      *
-     * @serial
+     * @seribl
      */
-    private final int x;
+    privbte finbl int x;
 
     /**
-     * The vertical coordinate for the cursor location at the moment this event
-     * occurred if the cursor location is specified for this event;
+     * The verticbl coordinbte for the cursor locbtion bt the moment this event
+     * occurred if the cursor locbtion is specified for this event;
      * otherwise zero.
      *
-     * @serial
+     * @seribl
      */
-    private final int y;
+    privbte finbl int y;
 
     /**
-     * Construct a <code>DragSourceEvent</code>
-     * given a specified <code>DragSourceContext</code>.
-     * The coordinates for this <code>DragSourceEvent</code>
-     * are not specified, so <code>getLocation</code> will return
+     * Construct b <code>DrbgSourceEvent</code>
+     * given b specified <code>DrbgSourceContext</code>.
+     * The coordinbtes for this <code>DrbgSourceEvent</code>
+     * bre not specified, so <code>getLocbtion</code> will return
      * <code>null</code> for this event.
      *
-     * @param dsc the <code>DragSourceContext</code>
+     * @pbrbm dsc the <code>DrbgSourceContext</code>
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>dsc</code> is <code>null</code>.
      *
-     * @see #getLocation
+     * @see #getLocbtion
      */
 
-    public DragSourceEvent(DragSourceContext dsc) {
+    public DrbgSourceEvent(DrbgSourceContext dsc) {
         super(dsc);
-        locationSpecified = false;
+        locbtionSpecified = fblse;
         this.x = 0;
         this.y = 0;
     }
 
     /**
-     * Construct a <code>DragSourceEvent</code> given a specified
-     * <code>DragSourceContext</code>, and coordinates of the cursor
-     * location.
+     * Construct b <code>DrbgSourceEvent</code> given b specified
+     * <code>DrbgSourceContext</code>, bnd coordinbtes of the cursor
+     * locbtion.
      *
-     * @param dsc the <code>DragSourceContext</code>
-     * @param x   the horizontal coordinate for the cursor location
-     * @param y   the vertical coordinate for the cursor location
+     * @pbrbm dsc the <code>DrbgSourceContext</code>
+     * @pbrbm x   the horizontbl coordinbte for the cursor locbtion
+     * @pbrbm y   the verticbl coordinbte for the cursor locbtion
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>dsc</code> is <code>null</code>.
      *
      * @since 1.4
      */
-    public DragSourceEvent(DragSourceContext dsc, int x, int y) {
+    public DrbgSourceEvent(DrbgSourceContext dsc, int x, int y) {
         super(dsc);
-        locationSpecified = true;
+        locbtionSpecified = true;
         this.x = x;
         this.y = y;
     }
 
     /**
-     * This method returns the <code>DragSourceContext</code> that
-     * originated the event.
+     * This method returns the <code>DrbgSourceContext</code> thbt
+     * originbted the event.
      *
-     * @return the <code>DragSourceContext</code> that originated the event
+     * @return the <code>DrbgSourceContext</code> thbt originbted the event
      */
 
-    public DragSourceContext getDragSourceContext() {
-        return (DragSourceContext)getSource();
+    public DrbgSourceContext getDrbgSourceContext() {
+        return (DrbgSourceContext)getSource();
     }
 
     /**
-     * This method returns a <code>Point</code> indicating the cursor
-     * location in screen coordinates at the moment this event occurred, or
-     * <code>null</code> if the cursor location is not specified for this
+     * This method returns b <code>Point</code> indicbting the cursor
+     * locbtion in screen coordinbtes bt the moment this event occurred, or
+     * <code>null</code> if the cursor locbtion is not specified for this
      * event.
      *
-     * @return the <code>Point</code> indicating the cursor location
-     *         or <code>null</code> if the cursor location is not specified
+     * @return the <code>Point</code> indicbting the cursor locbtion
+     *         or <code>null</code> if the cursor locbtion is not specified
      * @since 1.4
      */
-    public Point getLocation() {
-        if (locationSpecified) {
+    public Point getLocbtion() {
+        if (locbtionSpecified) {
             return new Point(x, y);
         } else {
             return null;
@@ -158,12 +158,12 @@ public class DragSourceEvent extends EventObject {
     }
 
     /**
-     * This method returns the horizontal coordinate of the cursor location in
-     * screen coordinates at the moment this event occurred, or zero if the
-     * cursor location is not specified for this event.
+     * This method returns the horizontbl coordinbte of the cursor locbtion in
+     * screen coordinbtes bt the moment this event occurred, or zero if the
+     * cursor locbtion is not specified for this event.
      *
-     * @return an integer indicating the horizontal coordinate of the cursor
-     *         location or zero if the cursor location is not specified
+     * @return bn integer indicbting the horizontbl coordinbte of the cursor
+     *         locbtion or zero if the cursor locbtion is not specified
      * @since 1.4
      */
     public int getX() {
@@ -171,12 +171,12 @@ public class DragSourceEvent extends EventObject {
     }
 
     /**
-     * This method returns the vertical coordinate of the cursor location in
-     * screen coordinates at the moment this event occurred, or zero if the
-     * cursor location is not specified for this event.
+     * This method returns the verticbl coordinbte of the cursor locbtion in
+     * screen coordinbtes bt the moment this event occurred, or zero if the
+     * cursor locbtion is not specified for this event.
      *
-     * @return an integer indicating the vertical coordinate of the cursor
-     *         location or zero if the cursor location is not specified
+     * @return bn integer indicbting the verticbl coordinbte of the cursor
+     *         locbtion or zero if the cursor locbtion is not specified
      * @since 1.4
      */
     public int getY() {

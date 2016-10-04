@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 /**
- * {@code AudioFormat} is the class that specifies a particular arrangement of
- * data in a sound stream. By examining the information stored in the audio
- * format, you can discover how to interpret the bits in the binary sound data.
+ * {@code AudioFormbt} is the clbss thbt specifies b pbrticulbr brrbngement of
+ * dbtb in b sound strebm. By exbmining the informbtion stored in the budio
+ * formbt, you cbn discover how to interpret the bits in the binbry sound dbtb.
  * <p>
- * Every data line has an audio format associated with its data stream. The
- * audio format of a source (playback) data line indicates what kind of data the
- * data line expects to receive for output. For a target (capture) data line,
- * the audio format specifies the kind of the data that can be read from the
+ * Every dbtb line hbs bn budio formbt bssocibted with its dbtb strebm. The
+ * budio formbt of b source (plbybbck) dbtb line indicbtes whbt kind of dbtb the
+ * dbtb line expects to receive for output. For b tbrget (cbpture) dbtb line,
+ * the budio formbt specifies the kind of the dbtb thbt cbn be rebd from the
  * line.
- * Sound files also have audio formats, of course. The {@link AudioFileFormat}
- * class encapsulates an {@code AudioFormat} in addition to other, file-specific
- * information. Similarly, an {@link AudioInputStream} has an
- * {@code AudioFormat}.
+ * Sound files blso hbve budio formbts, of course. The {@link AudioFileFormbt}
+ * clbss encbpsulbtes bn {@code AudioFormbt} in bddition to other, file-specific
+ * informbtion. Similbrly, bn {@link AudioInputStrebm} hbs bn
+ * {@code AudioFormbt}.
  * <p>
- * The {@code AudioFormat} class accommodates a number of common sound-file
- * encoding techniques, including pulse-code modulation (PCM), mu-law encoding,
- * and a-law encoding. These encoding techniques are predefined, but service
- * providers can create new encoding types. The encoding that a specific format
- * uses is named by its {@code encoding} field.
+ * The {@code AudioFormbt} clbss bccommodbtes b number of common sound-file
+ * encoding techniques, including pulse-code modulbtion (PCM), mu-lbw encoding,
+ * bnd b-lbw encoding. These encoding techniques bre predefined, but service
+ * providers cbn crebte new encoding types. The encoding thbt b specific formbt
+ * uses is nbmed by its {@code encoding} field.
  * <p>
- * In addition to the encoding, the audio format includes other properties that
- * further specify the exact arrangement of the data. These include the number
- * of channels, sample rate, sample size, byte order, frame rate, and frame
- * size. Sounds may have different numbers of audio channels: one for mono, two
- * for stereo. The sample rate measures how many "snapshots" (samples) of the
- * sound pressure are taken per second, per channel. (If the sound is stereo
- * rather than mono, two samples are actually measured at each instant of time:
- * one for the left channel, and another for the right channel; however, the
- * sample rate still measures the number per channel, so the rate is the same
- * regardless of the number of channels. This is the standard use of the term.)
- * The sample size indicates how many bits are used to store each snapshot; 8
- * and 16 are typical values. For 16-bit samples (or any other sample size
- * larger than a byte), byte order is important; the bytes in each sample are
- * arranged in either the "little-endian" or "big-endian" style. For encodings
- * like PCM, a frame consists of the set of samples for all channels at a given
- * point in time, and so the size of a frame (in bytes) is always equal to the
- * size of a sample (in bytes) times the number of channels. However, with some
- * other sorts of encodings a frame can contain a bundle of compressed data for
- * a whole series of samples, as well as additional, non-sample data. For such
- * encodings, the sample rate and sample size refer to the data after it is
- * decoded into PCM, and so they are completely different from the frame rate
- * and frame size.
+ * In bddition to the encoding, the budio formbt includes other properties thbt
+ * further specify the exbct brrbngement of the dbtb. These include the number
+ * of chbnnels, sbmple rbte, sbmple size, byte order, frbme rbte, bnd frbme
+ * size. Sounds mby hbve different numbers of budio chbnnels: one for mono, two
+ * for stereo. The sbmple rbte mebsures how mbny "snbpshots" (sbmples) of the
+ * sound pressure bre tbken per second, per chbnnel. (If the sound is stereo
+ * rbther thbn mono, two sbmples bre bctublly mebsured bt ebch instbnt of time:
+ * one for the left chbnnel, bnd bnother for the right chbnnel; however, the
+ * sbmple rbte still mebsures the number per chbnnel, so the rbte is the sbme
+ * regbrdless of the number of chbnnels. This is the stbndbrd use of the term.)
+ * The sbmple size indicbtes how mbny bits bre used to store ebch snbpshot; 8
+ * bnd 16 bre typicbl vblues. For 16-bit sbmples (or bny other sbmple size
+ * lbrger thbn b byte), byte order is importbnt; the bytes in ebch sbmple bre
+ * brrbnged in either the "little-endibn" or "big-endibn" style. For encodings
+ * like PCM, b frbme consists of the set of sbmples for bll chbnnels bt b given
+ * point in time, bnd so the size of b frbme (in bytes) is blwbys equbl to the
+ * size of b sbmple (in bytes) times the number of chbnnels. However, with some
+ * other sorts of encodings b frbme cbn contbin b bundle of compressed dbtb for
+ * b whole series of sbmples, bs well bs bdditionbl, non-sbmple dbtb. For such
+ * encodings, the sbmple rbte bnd sbmple size refer to the dbtb bfter it is
+ * decoded into PCM, bnd so they bre completely different from the frbme rbte
+ * bnd frbme size.
  * <p>
- * An {@code AudioFormat} object can include a set of properties. A property is
- * a pair of key and value: the key is of type {@code String}, the associated
- * property value is an arbitrary object. Properties specify additional format
- * specifications, like the bit rate for compressed formats. Properties are
- * mainly used as a means to transport additional information of the audio
- * format to and from the service providers. Therefore, properties are ignored
- * in the {@link #matches(AudioFormat)} method. However, methods which rely on
- * the installed service providers, like
- * {@link AudioSystem#isConversionSupported (AudioFormat, AudioFormat)
- * isConversionSupported} may consider properties, depending on the respective
- * service provider implementation.
+ * An {@code AudioFormbt} object cbn include b set of properties. A property is
+ * b pbir of key bnd vblue: the key is of type {@code String}, the bssocibted
+ * property vblue is bn brbitrbry object. Properties specify bdditionbl formbt
+ * specificbtions, like the bit rbte for compressed formbts. Properties bre
+ * mbinly used bs b mebns to trbnsport bdditionbl informbtion of the budio
+ * formbt to bnd from the service providers. Therefore, properties bre ignored
+ * in the {@link #mbtches(AudioFormbt)} method. However, methods which rely on
+ * the instblled service providers, like
+ * {@link AudioSystem#isConversionSupported (AudioFormbt, AudioFormbt)
+ * isConversionSupported} mby consider properties, depending on the respective
+ * service provider implementbtion.
  * <p>
- * The following table lists some common properties which service providers
- * should use, if applicable:
+ * The following tbble lists some common properties which service providers
+ * should use, if bpplicbble:
  *
- * <table border=0>
- *  <caption>Audio Format Properties</caption>
+ * <tbble border=0>
+ *  <cbption>Audio Formbt Properties</cbption>
  *  <tr>
  *   <th>Property key</th>
- *   <th>Value type</th>
+ *   <th>Vblue type</th>
  *   <th>Description</th>
  *  </tr>
  *  <tr>
- *   <td>&quot;bitrate&quot;</td>
- *   <td>{@link java.lang.Integer Integer}</td>
- *   <td>average bit rate in bits per second</td>
+ *   <td>&quot;bitrbte&quot;</td>
+ *   <td>{@link jbvb.lbng.Integer Integer}</td>
+ *   <td>bverbge bit rbte in bits per second</td>
  *  </tr>
  *  <tr>
  *   <td>&quot;vbr&quot;</td>
- *   <td>{@link java.lang.Boolean Boolean}</td>
- *   <td>{@code true}, if the file is encoded in variable bit
- *       rate (VBR)</td>
+ *   <td>{@link jbvb.lbng.Boolebn Boolebn}</td>
+ *   <td>{@code true}, if the file is encoded in vbribble bit
+ *       rbte (VBR)</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;quality&quot;</td>
- *   <td>{@link java.lang.Integer Integer}</td>
- *   <td>encoding/conversion quality, 1..100</td>
+ *   <td>&quot;qublity&quot;</td>
+ *   <td>{@link jbvb.lbng.Integer Integer}</td>
+ *   <td>encoding/conversion qublity, 1..100</td>
  *  </tr>
- * </table>
+ * </tbble>
  * <p>
- * Vendors of service providers (plugins) are encouraged to seek information
- * about other already established properties in third party plugins, and follow
- * the same conventions.
+ * Vendors of service providers (plugins) bre encourbged to seek informbtion
+ * bbout other blrebdy estbblished properties in third pbrty plugins, bnd follow
+ * the sbme conventions.
  *
- * @author Kara Kytle
- * @author Florian Bomers
- * @see DataLine#getFormat
- * @see AudioInputStream#getFormat
- * @see AudioFileFormat
- * @see javax.sound.sampled.spi.FormatConversionProvider
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
+ * @see DbtbLine#getFormbt
+ * @see AudioInputStrebm#getFormbt
+ * @see AudioFileFormbt
+ * @see jbvbx.sound.sbmpled.spi.FormbtConversionProvider
  * @since 1.3
  */
-public class AudioFormat {
+public clbss AudioFormbt {
 
     /**
-     * The audio encoding technique used by this format.
+     * The budio encoding technique used by this formbt.
      */
     protected Encoding encoding;
 
     /**
-     * The number of samples played or recorded per second, for sounds that have
-     * this format.
+     * The number of sbmples plbyed or recorded per second, for sounds thbt hbve
+     * this formbt.
      */
-    protected float sampleRate;
+    protected flobt sbmpleRbte;
 
     /**
-     * The number of bits in each sample of a sound that has this format.
+     * The number of bits in ebch sbmple of b sound thbt hbs this formbt.
      */
-    protected int sampleSizeInBits;
+    protected int sbmpleSizeInBits;
 
     /**
-     * The number of audio channels in this format (1 for mono, 2 for stereo).
+     * The number of budio chbnnels in this formbt (1 for mono, 2 for stereo).
      */
-    protected int channels;
+    protected int chbnnels;
 
     /**
-     * The number of bytes in each frame of a sound that has this format.
+     * The number of bytes in ebch frbme of b sound thbt hbs this formbt.
      */
-    protected int frameSize;
+    protected int frbmeSize;
 
     /**
-     * The number of frames played or recorded per second, for sounds that have
-     * this format.
+     * The number of frbmes plbyed or recorded per second, for sounds thbt hbve
+     * this formbt.
      */
-    protected float frameRate;
+    protected flobt frbmeRbte;
 
     /**
-     * Indicates whether the audio data is stored in big-endian or little-endian
+     * Indicbtes whether the budio dbtb is stored in big-endibn or little-endibn
      * order.
      */
-    protected boolean bigEndian;
+    protected boolebn bigEndibn;
 
     /**
      * The set of properties.
      */
-    private HashMap<String, Object> properties;
+    privbte HbshMbp<String, Object> properties;
 
     /**
-     * Constructs an {@code AudioFormat} with the given parameters. The encoding
-     * specifies the convention used to represent the data. The other parameters
-     * are further explained in the {@link AudioFormat class description}.
+     * Constructs bn {@code AudioFormbt} with the given pbrbmeters. The encoding
+     * specifies the convention used to represent the dbtb. The other pbrbmeters
+     * bre further explbined in the {@link AudioFormbt clbss description}.
      *
-     * @param  encoding the audio encoding technique
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo,
-     *         and so on)
-     * @param  frameSize the number of bytes in each frame
-     * @param  frameRate the number of frames per second
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means
-     *         little-endian)
+     * @pbrbm  encoding the budio encoding technique
+     * @pbrbm  sbmpleRbte the number of sbmples per second
+     * @pbrbm  sbmpleSizeInBits the number of bits in ebch sbmple
+     * @pbrbm  chbnnels the number of chbnnels (1 for mono, 2 for stereo,
+     *         bnd so on)
+     * @pbrbm  frbmeSize the number of bytes in ebch frbme
+     * @pbrbm  frbmeRbte the number of frbmes per second
+     * @pbrbm  bigEndibn indicbtes whether the dbtb for b single sbmple is
+     *         stored in big-endibn byte order ({@code fblse} mebns
+     *         little-endibn)
      */
-    public AudioFormat(Encoding encoding, float sampleRate, int sampleSizeInBits,
-                       int channels, int frameSize, float frameRate, boolean bigEndian) {
+    public AudioFormbt(Encoding encoding, flobt sbmpleRbte, int sbmpleSizeInBits,
+                       int chbnnels, int frbmeSize, flobt frbmeRbte, boolebn bigEndibn) {
 
         this.encoding = encoding;
-        this.sampleRate = sampleRate;
-        this.sampleSizeInBits = sampleSizeInBits;
-        this.channels = channels;
-        this.frameSize = frameSize;
-        this.frameRate = frameRate;
-        this.bigEndian = bigEndian;
+        this.sbmpleRbte = sbmpleRbte;
+        this.sbmpleSizeInBits = sbmpleSizeInBits;
+        this.chbnnels = chbnnels;
+        this.frbmeSize = frbmeSize;
+        this.frbmeRbte = frbmeRbte;
+        this.bigEndibn = bigEndibn;
         this.properties = null;
     }
 
     /**
-     * Constructs an {@code AudioFormat} with the given parameters. The encoding
-     * specifies the convention used to represent the data. The other parameters
-     * are further explained in the {@link AudioFormat class description}.
+     * Constructs bn {@code AudioFormbt} with the given pbrbmeters. The encoding
+     * specifies the convention used to represent the dbtb. The other pbrbmeters
+     * bre further explbined in the {@link AudioFormbt clbss description}.
      *
-     * @param  encoding the audio encoding technique
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo, and so
+     * @pbrbm  encoding the budio encoding technique
+     * @pbrbm  sbmpleRbte the number of sbmples per second
+     * @pbrbm  sbmpleSizeInBits the number of bits in ebch sbmple
+     * @pbrbm  chbnnels the number of chbnnels (1 for mono, 2 for stereo, bnd so
      *         on)
-     * @param  frameSize the number of bytes in each frame
-     * @param  frameRate the number of frames per second
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means little-endian)
-     * @param  properties a {@code Map<String, Object>} object containing format
+     * @pbrbm  frbmeSize the number of bytes in ebch frbme
+     * @pbrbm  frbmeRbte the number of frbmes per second
+     * @pbrbm  bigEndibn indicbtes whether the dbtb for b single sbmple is
+     *         stored in big-endibn byte order ({@code fblse} mebns little-endibn)
+     * @pbrbm  properties b {@code Mbp<String, Object>} object contbining formbt
      *         properties
      * @since 1.5
      */
-    public AudioFormat(Encoding encoding, float sampleRate,
-                       int sampleSizeInBits, int channels,
-                       int frameSize, float frameRate,
-                       boolean bigEndian, Map<String, Object> properties) {
-        this(encoding, sampleRate, sampleSizeInBits, channels,
-             frameSize, frameRate, bigEndian);
-        this.properties = new HashMap<String, Object>(properties);
+    public AudioFormbt(Encoding encoding, flobt sbmpleRbte,
+                       int sbmpleSizeInBits, int chbnnels,
+                       int frbmeSize, flobt frbmeRbte,
+                       boolebn bigEndibn, Mbp<String, Object> properties) {
+        this(encoding, sbmpleRbte, sbmpleSizeInBits, chbnnels,
+             frbmeSize, frbmeRbte, bigEndibn);
+        this.properties = new HbshMbp<String, Object>(properties);
     }
 
     /**
-     * Constructs an {@code AudioFormat} with a linear PCM encoding and the
-     * given parameters. The frame size is set to the number of bytes required
-     * to contain one sample from each channel, and the frame rate is set to the
-     * sample rate.
+     * Constructs bn {@code AudioFormbt} with b linebr PCM encoding bnd the
+     * given pbrbmeters. The frbme size is set to the number of bytes required
+     * to contbin one sbmple from ebch chbnnel, bnd the frbme rbte is set to the
+     * sbmple rbte.
      *
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo, and so
+     * @pbrbm  sbmpleRbte the number of sbmples per second
+     * @pbrbm  sbmpleSizeInBits the number of bits in ebch sbmple
+     * @pbrbm  chbnnels the number of chbnnels (1 for mono, 2 for stereo, bnd so
      *         on)
-     * @param  signed indicates whether the data is signed or unsigned
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means
-     *         little-endian)
+     * @pbrbm  signed indicbtes whether the dbtb is signed or unsigned
+     * @pbrbm  bigEndibn indicbtes whether the dbtb for b single sbmple is
+     *         stored in big-endibn byte order ({@code fblse} mebns
+     *         little-endibn)
      */
-    public AudioFormat(float sampleRate, int sampleSizeInBits,
-                       int channels, boolean signed, boolean bigEndian) {
+    public AudioFormbt(flobt sbmpleRbte, int sbmpleSizeInBits,
+                       int chbnnels, boolebn signed, boolebn bigEndibn) {
 
         this((signed == true ? Encoding.PCM_SIGNED : Encoding.PCM_UNSIGNED),
-             sampleRate,
-             sampleSizeInBits,
-             channels,
-             (channels == AudioSystem.NOT_SPECIFIED || sampleSizeInBits == AudioSystem.NOT_SPECIFIED)?
+             sbmpleRbte,
+             sbmpleSizeInBits,
+             chbnnels,
+             (chbnnels == AudioSystem.NOT_SPECIFIED || sbmpleSizeInBits == AudioSystem.NOT_SPECIFIED)?
              AudioSystem.NOT_SPECIFIED:
-             ((sampleSizeInBits + 7) / 8) * channels,
-             sampleRate,
-             bigEndian);
+             ((sbmpleSizeInBits + 7) / 8) * chbnnels,
+             sbmpleRbte,
+             bigEndibn);
     }
 
     /**
-     * Obtains the type of encoding for sounds in this format.
+     * Obtbins the type of encoding for sounds in this formbt.
      *
      * @return the encoding type
      * @see Encoding#PCM_SIGNED
@@ -270,144 +270,144 @@ public class AudioFormat {
     }
 
     /**
-     * Obtains the sample rate. For compressed formats, the return value is the
-     * sample rate of the uncompressed audio data. When this AudioFormat is used
-     * for queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormat,
-     * AudioFormat) AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a sample rate
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any sample rate is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * sample rate is not defined for this audio format.
+     * Obtbins the sbmple rbte. For compressed formbts, the return vblue is the
+     * sbmple rbte of the uncompressed budio dbtb. When this AudioFormbt is used
+     * for queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormbt,
+     * AudioFormbt) AudioSystem.isConversionSupported}) or cbpbbilities (e.g.
+     * {@link DbtbLine.Info#getFormbts DbtbLine.Info.getFormbts}), b sbmple rbte
+     * of {@code AudioSystem.NOT_SPECIFIED} mebns thbt bny sbmple rbte is
+     * bcceptbble. {@code AudioSystem.NOT_SPECIFIED} is blso returned when the
+     * sbmple rbte is not defined for this budio formbt.
      *
-     * @return the number of samples per second, or
+     * @return the number of sbmples per second, or
      *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getFrameRate()
+     * @see #getFrbmeRbte()
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public float getSampleRate() {
+    public flobt getSbmpleRbte() {
 
-        return sampleRate;
+        return sbmpleRbte;
     }
 
     /**
-     * Obtains the size of a sample. For compressed formats, the return value is
-     * the sample size of the uncompressed audio data. When this AudioFormat is
+     * Obtbins the size of b sbmple. For compressed formbts, the return vblue is
+     * the sbmple size of the uncompressed budio dbtb. When this AudioFormbt is
      * used for queries (e.g. {@link AudioSystem#isConversionSupported(
-     * AudioFormat,AudioFormat) AudioSystem.isConversionSupported}) or
-     * capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a sample size
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any sample size is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * sample size is not defined for this audio format.
+     * AudioFormbt,AudioFormbt) AudioSystem.isConversionSupported}) or
+     * cbpbbilities (e.g.
+     * {@link DbtbLine.Info#getFormbts DbtbLine.Info.getFormbts}), b sbmple size
+     * of {@code AudioSystem.NOT_SPECIFIED} mebns thbt bny sbmple size is
+     * bcceptbble. {@code AudioSystem.NOT_SPECIFIED} is blso returned when the
+     * sbmple size is not defined for this budio formbt.
      *
-     * @return the number of bits in each sample, or
+     * @return the number of bits in ebch sbmple, or
      *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getFrameSize()
+     * @see #getFrbmeSize()
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public int getSampleSizeInBits() {
+    public int getSbmpleSizeInBits() {
 
-        return sampleSizeInBits;
+        return sbmpleSizeInBits;
     }
 
     /**
-     * Obtains the number of channels. When this AudioFormat is used for queries
-     * (e.g. {@link AudioSystem#isConversionSupported(AudioFormat, AudioFormat)
-     * AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a return
-     * value of {@code AudioSystem.NOT_SPECIFIED} means that any (positive)
-     * number of channels is acceptable.
+     * Obtbins the number of chbnnels. When this AudioFormbt is used for queries
+     * (e.g. {@link AudioSystem#isConversionSupported(AudioFormbt, AudioFormbt)
+     * AudioSystem.isConversionSupported}) or cbpbbilities (e.g.
+     * {@link DbtbLine.Info#getFormbts DbtbLine.Info.getFormbts}), b return
+     * vblue of {@code AudioSystem.NOT_SPECIFIED} mebns thbt bny (positive)
+     * number of chbnnels is bcceptbble.
      *
-     * @return The number of channels (1 for mono, 2 for stereo, etc.), or
+     * @return The number of chbnnels (1 for mono, 2 for stereo, etc.), or
      *         {@code AudioSystem.NOT_SPECIFIED}
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public int getChannels() {
+    public int getChbnnels() {
 
-        return channels;
+        return chbnnels;
     }
 
     /**
-     * Obtains the frame size in bytes. When this AudioFormat is used for
-     * queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormat,
-     * AudioFormat) AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a frame size
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any frame size is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * frame size is not defined for this audio format.
+     * Obtbins the frbme size in bytes. When this AudioFormbt is used for
+     * queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormbt,
+     * AudioFormbt) AudioSystem.isConversionSupported}) or cbpbbilities (e.g.
+     * {@link DbtbLine.Info#getFormbts DbtbLine.Info.getFormbts}), b frbme size
+     * of {@code AudioSystem.NOT_SPECIFIED} mebns thbt bny frbme size is
+     * bcceptbble. {@code AudioSystem.NOT_SPECIFIED} is blso returned when the
+     * frbme size is not defined for this budio formbt.
      *
-     * @return the number of bytes per frame, or
+     * @return the number of bytes per frbme, or
      *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getSampleSizeInBits()
+     * @see #getSbmpleSizeInBits()
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public int getFrameSize() {
+    public int getFrbmeSize() {
 
-        return frameSize;
+        return frbmeSize;
     }
 
     /**
-     * Obtains the frame rate in frames per second. When this AudioFormat is
+     * Obtbins the frbme rbte in frbmes per second. When this AudioFormbt is
      * used for queries (e.g. {@link AudioSystem#isConversionSupported(
-     * AudioFormat,AudioFormat) AudioSystem.isConversionSupported}) or
-     * capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a frame rate
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any frame rate is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * frame rate is not defined for this audio format.
+     * AudioFormbt,AudioFormbt) AudioSystem.isConversionSupported}) or
+     * cbpbbilities (e.g.
+     * {@link DbtbLine.Info#getFormbts DbtbLine.Info.getFormbts}), b frbme rbte
+     * of {@code AudioSystem.NOT_SPECIFIED} mebns thbt bny frbme rbte is
+     * bcceptbble. {@code AudioSystem.NOT_SPECIFIED} is blso returned when the
+     * frbme rbte is not defined for this budio formbt.
      *
-     * @return the number of frames per second, or
+     * @return the number of frbmes per second, or
      *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getSampleRate()
+     * @see #getSbmpleRbte()
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public float getFrameRate() {
+    public flobt getFrbmeRbte() {
 
-        return frameRate;
+        return frbmeRbte;
     }
 
     /**
-     * Indicates whether the audio data is stored in big-endian or little-endian
-     * byte order. If the sample size is not more than one byte, the return
-     * value is irrelevant.
+     * Indicbtes whether the budio dbtb is stored in big-endibn or little-endibn
+     * byte order. If the sbmple size is not more thbn one byte, the return
+     * vblue is irrelevbnt.
      *
-     * @return {@code true} if the data is stored in big-endian byte order,
-     *         {@code false} if little-endian
+     * @return {@code true} if the dbtb is stored in big-endibn byte order,
+     *         {@code fblse} if little-endibn
      */
-    public boolean isBigEndian() {
+    public boolebn isBigEndibn() {
 
-        return bigEndian;
+        return bigEndibn;
     }
 
     /**
-     * Obtain an unmodifiable map of properties. The concept of properties is
-     * further explained in the {@link AudioFileFormat class description}.
+     * Obtbin bn unmodifibble mbp of properties. The concept of properties is
+     * further explbined in the {@link AudioFileFormbt clbss description}.
      *
-     * @return a {@code Map<String, Object>} object containing all properties.
-     *         If no properties are recognized, an empty map is returned.
+     * @return b {@code Mbp<String, Object>} object contbining bll properties.
+     *         If no properties bre recognized, bn empty mbp is returned.
      * @see #getProperty(String)
      * @since 1.5
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone.
-    public Map<String,Object> properties() {
-        Map<String,Object> ret;
+    @SuppressWbrnings("unchecked") // Cbst of result of clone.
+    public Mbp<String,Object> properties() {
+        Mbp<String,Object> ret;
         if (properties == null) {
-            ret = new HashMap<>(0);
+            ret = new HbshMbp<>(0);
         } else {
-            ret = (Map<String,Object>) (properties.clone());
+            ret = (Mbp<String,Object>) (properties.clone());
         }
-        return Collections.unmodifiableMap(ret);
+        return Collections.unmodifibbleMbp(ret);
     }
 
     /**
-     * Obtain the property value specified by the key. The concept of properties
-     * is further explained in the {@link AudioFileFormat class description}.
+     * Obtbin the property vblue specified by the key. The concept of properties
+     * is further explbined in the {@link AudioFileFormbt clbss description}.
      * <p>
-     * If the specified property is not defined for a particular file format,
+     * If the specified property is not defined for b pbrticulbr file formbt,
      * this method returns {@code null}.
      *
-     * @param  key the key of the desired property
-     * @return the value of the property with the specified key, or {@code null}
+     * @pbrbm  key the key of the desired property
+     * @return the vblue of the property with the specified key, or {@code null}
      *         if the property does not exist
      * @see #properties()
      * @since 1.5
@@ -420,43 +420,43 @@ public class AudioFormat {
     }
 
     /**
-     * Indicates whether this format matches the one specified. To match, two
-     * formats must have the same encoding, and consistent values of the number
-     * of channels, sample rate, sample size, frame rate, and frame size. The
-     * values of the property are consistent if they are equal or the specified
-     * format has the property value {@code AudioSystem.NOT_SPECIFIED}. The byte
-     * order (big-endian or little-endian) must be the same if the sample size
-     * is greater than one byte.
+     * Indicbtes whether this formbt mbtches the one specified. To mbtch, two
+     * formbts must hbve the sbme encoding, bnd consistent vblues of the number
+     * of chbnnels, sbmple rbte, sbmple size, frbme rbte, bnd frbme size. The
+     * vblues of the property bre consistent if they bre equbl or the specified
+     * formbt hbs the property vblue {@code AudioSystem.NOT_SPECIFIED}. The byte
+     * order (big-endibn or little-endibn) must be the sbme if the sbmple size
+     * is grebter thbn one byte.
      *
-     * @param  format format to test for match
-     * @return {@code true} if this format matches the one specified,
-     *         {@code false} otherwise
+     * @pbrbm  formbt formbt to test for mbtch
+     * @return {@code true} if this formbt mbtches the one specified,
+     *         {@code fblse} otherwise
      */
-    public boolean matches(AudioFormat format) {
-        if (format.getEncoding().equals(getEncoding())
-                && (format.getChannels() == AudioSystem.NOT_SPECIFIED
-                    || format.getChannels() == getChannels())
-                && (format.getSampleRate() == (float)AudioSystem.NOT_SPECIFIED
-                    || format.getSampleRate() == getSampleRate())
-                && (format.getSampleSizeInBits() == AudioSystem.NOT_SPECIFIED
-                    || format.getSampleSizeInBits() == getSampleSizeInBits())
-                && (format.getFrameRate() == (float)AudioSystem.NOT_SPECIFIED
-                    || format.getFrameRate() == getFrameRate())
-                && (format.getFrameSize() == AudioSystem.NOT_SPECIFIED
-                    || format.getFrameSize() == getFrameSize())
-                && (getSampleSizeInBits() <= 8
-                    || format.isBigEndian() == isBigEndian())) {
+    public boolebn mbtches(AudioFormbt formbt) {
+        if (formbt.getEncoding().equbls(getEncoding())
+                && (formbt.getChbnnels() == AudioSystem.NOT_SPECIFIED
+                    || formbt.getChbnnels() == getChbnnels())
+                && (formbt.getSbmpleRbte() == (flobt)AudioSystem.NOT_SPECIFIED
+                    || formbt.getSbmpleRbte() == getSbmpleRbte())
+                && (formbt.getSbmpleSizeInBits() == AudioSystem.NOT_SPECIFIED
+                    || formbt.getSbmpleSizeInBits() == getSbmpleSizeInBits())
+                && (formbt.getFrbmeRbte() == (flobt)AudioSystem.NOT_SPECIFIED
+                    || formbt.getFrbmeRbte() == getFrbmeRbte())
+                && (formbt.getFrbmeSize() == AudioSystem.NOT_SPECIFIED
+                    || formbt.getFrbmeSize() == getFrbmeSize())
+                && (getSbmpleSizeInBits() <= 8
+                    || formbt.isBigEndibn() == isBigEndibn())) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a string that describes the format, such as: "PCM SIGNED 22050 Hz
-     * 16 bit mono big-endian". The contents of the string may vary between
-     * implementations of Java Sound.
+     * Returns b string thbt describes the formbt, such bs: "PCM SIGNED 22050 Hz
+     * 16 bit mono big-endibn". The contents of the string mby vbry between
+     * implementbtions of Jbvb Sound.
      *
-     * @return a string that describes the format parameters
+     * @return b string thbt describes the formbt pbrbmeters
      */
     @Override
     public String toString() {
@@ -465,181 +465,181 @@ public class AudioFormat {
             sEncoding = getEncoding().toString() + " ";
         }
 
-        String sSampleRate;
-        if (getSampleRate() == (float) AudioSystem.NOT_SPECIFIED) {
-            sSampleRate = "unknown sample rate, ";
+        String sSbmpleRbte;
+        if (getSbmpleRbte() == (flobt) AudioSystem.NOT_SPECIFIED) {
+            sSbmpleRbte = "unknown sbmple rbte, ";
         } else {
-            sSampleRate = "" + getSampleRate() + " Hz, ";
+            sSbmpleRbte = "" + getSbmpleRbte() + " Hz, ";
         }
 
-        String sSampleSizeInBits;
-        if (getSampleSizeInBits() == (float) AudioSystem.NOT_SPECIFIED) {
-            sSampleSizeInBits = "unknown bits per sample, ";
+        String sSbmpleSizeInBits;
+        if (getSbmpleSizeInBits() == (flobt) AudioSystem.NOT_SPECIFIED) {
+            sSbmpleSizeInBits = "unknown bits per sbmple, ";
         } else {
-            sSampleSizeInBits = "" + getSampleSizeInBits() + " bit, ";
+            sSbmpleSizeInBits = "" + getSbmpleSizeInBits() + " bit, ";
         }
 
-        String sChannels;
-        if (getChannels() == 1) {
-            sChannels = "mono, ";
+        String sChbnnels;
+        if (getChbnnels() == 1) {
+            sChbnnels = "mono, ";
         } else
-            if (getChannels() == 2) {
-                sChannels = "stereo, ";
+            if (getChbnnels() == 2) {
+                sChbnnels = "stereo, ";
             } else {
-                if (getChannels() == AudioSystem.NOT_SPECIFIED) {
-                    sChannels = " unknown number of channels, ";
+                if (getChbnnels() == AudioSystem.NOT_SPECIFIED) {
+                    sChbnnels = " unknown number of chbnnels, ";
                 } else {
-                    sChannels = ""+getChannels()+" channels, ";
+                    sChbnnels = ""+getChbnnels()+" chbnnels, ";
                 }
             }
 
-        String sFrameSize;
-        if (getFrameSize() == (float) AudioSystem.NOT_SPECIFIED) {
-            sFrameSize = "unknown frame size, ";
+        String sFrbmeSize;
+        if (getFrbmeSize() == (flobt) AudioSystem.NOT_SPECIFIED) {
+            sFrbmeSize = "unknown frbme size, ";
         } else {
-            sFrameSize = "" + getFrameSize()+ " bytes/frame, ";
+            sFrbmeSize = "" + getFrbmeSize()+ " bytes/frbme, ";
         }
 
-        String sFrameRate = "";
-        if (Math.abs(getSampleRate() - getFrameRate()) > 0.00001) {
-            if (getFrameRate() == (float) AudioSystem.NOT_SPECIFIED) {
-                sFrameRate = "unknown frame rate, ";
+        String sFrbmeRbte = "";
+        if (Mbth.bbs(getSbmpleRbte() - getFrbmeRbte()) > 0.00001) {
+            if (getFrbmeRbte() == (flobt) AudioSystem.NOT_SPECIFIED) {
+                sFrbmeRbte = "unknown frbme rbte, ";
             } else {
-                sFrameRate = getFrameRate() + " frames/second, ";
+                sFrbmeRbte = getFrbmeRbte() + " frbmes/second, ";
             }
         }
 
-        String sEndian = "";
-        if ((getEncoding().equals(Encoding.PCM_SIGNED)
-             || getEncoding().equals(Encoding.PCM_UNSIGNED))
-            && ((getSampleSizeInBits() > 8)
-                || (getSampleSizeInBits() == AudioSystem.NOT_SPECIFIED))) {
-            if (isBigEndian()) {
-                sEndian = "big-endian";
+        String sEndibn = "";
+        if ((getEncoding().equbls(Encoding.PCM_SIGNED)
+             || getEncoding().equbls(Encoding.PCM_UNSIGNED))
+            && ((getSbmpleSizeInBits() > 8)
+                || (getSbmpleSizeInBits() == AudioSystem.NOT_SPECIFIED))) {
+            if (isBigEndibn()) {
+                sEndibn = "big-endibn";
             } else {
-                sEndian = "little-endian";
+                sEndibn = "little-endibn";
             }
         }
 
         return sEncoding
-            + sSampleRate
-            + sSampleSizeInBits
-            + sChannels
-            + sFrameSize
-            + sFrameRate
-            + sEndian;
+            + sSbmpleRbte
+            + sSbmpleSizeInBits
+            + sChbnnels
+            + sFrbmeSize
+            + sFrbmeRbte
+            + sEndibn;
 
     }
 
     /**
-     * The {@code Encoding} class names the specific type of data representation
-     * used for an audio stream. The encoding includes aspects of the sound
-     * format other than the number of channels, sample rate, sample size, frame
-     * rate, frame size, and byte order.
+     * The {@code Encoding} clbss nbmes the specific type of dbtb representbtion
+     * used for bn budio strebm. The encoding includes bspects of the sound
+     * formbt other thbn the number of chbnnels, sbmple rbte, sbmple size, frbme
+     * rbte, frbme size, bnd byte order.
      * <p>
-     * One ubiquitous type of audio encoding is pulse-code modulation (PCM),
-     * which is simply a linear (proportional) representation of the sound
-     * waveform. With PCM, the number stored in each sample is proportional to
-     * the instantaneous amplitude of the sound pressure at that point in time.
-     * The numbers may be signed or unsigned integers or floats. Besides PCM,
-     * other encodings include mu-law and a-law, which are nonlinear mappings of
-     * the sound amplitude that are often used for recording speech.
+     * One ubiquitous type of budio encoding is pulse-code modulbtion (PCM),
+     * which is simply b linebr (proportionbl) representbtion of the sound
+     * wbveform. With PCM, the number stored in ebch sbmple is proportionbl to
+     * the instbntbneous bmplitude of the sound pressure bt thbt point in time.
+     * The numbers mby be signed or unsigned integers or flobts. Besides PCM,
+     * other encodings include mu-lbw bnd b-lbw, which bre nonlinebr mbppings of
+     * the sound bmplitude thbt bre often used for recording speech.
      * <p>
-     * You can use a predefined encoding by referring to one of the static
-     * objects created by this class, such as PCM_SIGNED or PCM_UNSIGNED.
-     * Service providers can create new encodings, such as compressed audio
-     * formats, and make these available through the {@link AudioSystem} class.
+     * You cbn use b predefined encoding by referring to one of the stbtic
+     * objects crebted by this clbss, such bs PCM_SIGNED or PCM_UNSIGNED.
+     * Service providers cbn crebte new encodings, such bs compressed budio
+     * formbts, bnd mbke these bvbilbble through the {@link AudioSystem} clbss.
      * <p>
-     * The {@code Encoding} class is static, so that all {@code AudioFormat}
-     * objects that have the same encoding will refer to the same object (rather
-     * than different instances of the same class). This allows matches to be
-     * made by checking that two format's encodings are equal.
+     * The {@code Encoding} clbss is stbtic, so thbt bll {@code AudioFormbt}
+     * objects thbt hbve the sbme encoding will refer to the sbme object (rbther
+     * thbn different instbnces of the sbme clbss). This bllows mbtches to be
+     * mbde by checking thbt two formbt's encodings bre equbl.
      *
-     * @author Kara Kytle
-     * @see AudioFormat
-     * @see javax.sound.sampled.spi.FormatConversionProvider
+     * @buthor Kbrb Kytle
+     * @see AudioFormbt
+     * @see jbvbx.sound.sbmpled.spi.FormbtConversionProvider
      * @since 1.3
      */
-    public static class Encoding {
+    public stbtic clbss Encoding {
 
         /**
-         * Specifies signed, linear PCM data.
+         * Specifies signed, linebr PCM dbtb.
          */
-        public static final Encoding PCM_SIGNED = new Encoding("PCM_SIGNED");
+        public stbtic finbl Encoding PCM_SIGNED = new Encoding("PCM_SIGNED");
 
         /**
-         * Specifies unsigned, linear PCM data.
+         * Specifies unsigned, linebr PCM dbtb.
          */
-        public static final Encoding PCM_UNSIGNED = new Encoding("PCM_UNSIGNED");
+        public stbtic finbl Encoding PCM_UNSIGNED = new Encoding("PCM_UNSIGNED");
 
         /**
-         * Specifies floating-point PCM data.
+         * Specifies flobting-point PCM dbtb.
          *
          * @since 1.7
          */
-        public static final Encoding PCM_FLOAT = new Encoding("PCM_FLOAT");
+        public stbtic finbl Encoding PCM_FLOAT = new Encoding("PCM_FLOAT");
 
         /**
-         * Specifies u-law encoded data.
+         * Specifies u-lbw encoded dbtb.
          */
-        public static final Encoding ULAW = new Encoding("ULAW");
+        public stbtic finbl Encoding ULAW = new Encoding("ULAW");
 
         /**
-         * Specifies a-law encoded data.
+         * Specifies b-lbw encoded dbtb.
          */
-        public static final Encoding ALAW = new Encoding("ALAW");
+        public stbtic finbl Encoding ALAW = new Encoding("ALAW");
 
         /**
-         * Encoding name.
+         * Encoding nbme.
          */
-        private String name;
+        privbte String nbme;
 
         /**
-         * Constructs a new encoding.
+         * Constructs b new encoding.
          *
-         * @param  name the name of the new type of encoding
+         * @pbrbm  nbme the nbme of the new type of encoding
          */
-        public Encoding(String name) {
-            this.name = name;
+        public Encoding(String nbme) {
+            this.nbme = nbme;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizes the equbls method.
          */
         @Override
-        public final boolean equals(Object obj) {
+        public finbl boolebn equbls(Object obj) {
             if (toString() == null) {
                 return (obj != null) && (obj.toString() == null);
             }
-            if (obj instanceof Encoding) {
-                return toString().equals(obj.toString());
+            if (obj instbnceof Encoding) {
+                return toString().equbls(obj.toString());
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizes the hbshCode method.
          */
         @Override
-        public final int hashCode() {
+        public finbl int hbshCode() {
             if (toString() == null) {
                 return 0;
             }
-            return toString().hashCode();
+            return toString().hbshCode();
         }
 
         /**
-         * Provides the {@code String} representation of the encoding. This
-         * {@code String} is the same name that was passed to the constructor.
-         * For the predefined encodings, the name is similar to the encoding's
-         * variable (field) name. For example, {@code PCM_SIGNED.toString()}
-         * returns the name "pcm_signed".
+         * Provides the {@code String} representbtion of the encoding. This
+         * {@code String} is the sbme nbme thbt wbs pbssed to the constructor.
+         * For the predefined encodings, the nbme is similbr to the encoding's
+         * vbribble (field) nbme. For exbmple, {@code PCM_SIGNED.toString()}
+         * returns the nbme "pcm_signed".
          *
-         * @return the encoding name
+         * @return the encoding nbme
          */
         @Override
-        public final String toString() {
-            return name;
+        public finbl String toString() {
+            return nbme;
         }
     }
 }

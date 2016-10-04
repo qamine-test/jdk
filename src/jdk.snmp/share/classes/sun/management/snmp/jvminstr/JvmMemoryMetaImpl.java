@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdObjectServer;
 
-import sun.management.snmp.jvmmib.JvmMemoryMeta;
-import sun.management.snmp.jvmmib.JvmMemManagerTableMeta;
-import sun.management.snmp.jvmmib.JvmMemGCTableMeta;
-import sun.management.snmp.jvmmib.JvmMemPoolTableMeta;
-import sun.management.snmp.jvmmib.JvmMemMgrPoolRelTableMeta;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.jvmmib.JvmMemoryMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmMemMbnbgerTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmMemGCTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmMemPoolTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmMemMgrPoolRelTbbleMetb;
+import sun.mbnbgement.snmp.util.MibLogger;
 
 /**
- * The class is used for representing SNMP metadata for the "JvmMemory" group.
+ * The clbss is used for representing SNMP metbdbtb for the "JvmMemory" group.
  */
-public class JvmMemoryMetaImpl extends JvmMemoryMeta {
+public clbss JvmMemoryMetbImpl extends JvmMemoryMetb {
 
-    static final long serialVersionUID = -6500448253825893071L;
+    stbtic finbl long seriblVersionUID = -6500448253825893071L;
     /**
-     * Constructor for the metadata associated to "JvmMemory".
+     * Constructor for the metbdbtb bssocibted to "JvmMemory".
      */
-    public JvmMemoryMetaImpl(SnmpMib myMib, SnmpStandardObjectServer objserv) {
+    public JvmMemoryMetbImpl(SnmpMib myMib, SnmpStbndbrdObjectServer objserv) {
         super(myMib,objserv);
     }
 
     /**
-     * Factory method for "JvmMemManagerTable" table metadata class.
+     * Fbctory method for "JvmMemMbnbgerTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmMemManagerTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmMemMbnbgerTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemManagerTable" table (JvmMemManagerTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmMemMbnbgerTbble" tbble (JvmMemMbnbgerTbbleMetb)
      *
      **/
-    protected JvmMemManagerTableMeta createJvmMemManagerTableMetaNode(
-        String tableName, String groupName, SnmpMib mib, MBeanServer server)  {
-        return new JvmMemManagerTableMetaImpl(mib, objectserver);
+    protected JvmMemMbnbgerTbbleMetb crebteJvmMemMbnbgerTbbleMetbNode(
+        String tbbleNbme, String groupNbme, SnmpMib mib, MBebnServer server)  {
+        return new JvmMemMbnbgerTbbleMetbImpl(mib, objectserver);
     }
 
 
     /**
-     * Factory method for "JvmMemGCTable" table metadata class.
+     * Fbctory method for "JvmMemGCTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmMemGCTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmMemGCTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemGCTable" table (JvmMemGCTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmMemGCTbble" tbble (JvmMemGCTbbleMetb)
      *
      **/
-    protected JvmMemGCTableMeta createJvmMemGCTableMetaNode(String tableName,
-                      String groupName, SnmpMib mib, MBeanServer server)  {
-        return new JvmMemGCTableMetaImpl(mib, objectserver);
+    protected JvmMemGCTbbleMetb crebteJvmMemGCTbbleMetbNode(String tbbleNbme,
+                      String groupNbme, SnmpMib mib, MBebnServer server)  {
+        return new JvmMemGCTbbleMetbImpl(mib, objectserver);
     }
 
 
     /**
-     * Factory method for "JvmMemPoolTable" table metadata class.
+     * Fbctory method for "JvmMemPoolTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmMemPoolTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmMemPoolTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemPoolTable" table (JvmMemPoolTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmMemPoolTbble" tbble (JvmMemPoolTbbleMetb)
      *
      **/
-    protected JvmMemPoolTableMeta
-        createJvmMemPoolTableMetaNode(String tableName, String groupName,
-                                      SnmpMib mib, MBeanServer server)  {
-        return new JvmMemPoolTableMetaImpl(mib, objectserver);
+    protected JvmMemPoolTbbleMetb
+        crebteJvmMemPoolTbbleMetbNode(String tbbleNbme, String groupNbme,
+                                      SnmpMib mib, MBebnServer server)  {
+        return new JvmMemPoolTbbleMetbImpl(mib, objectserver);
     }
 
     /**
-     * Factory method for "JvmMemMgrPoolRelTable" table metadata class.
+     * Fbctory method for "JvmMemMgrPoolRelTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmMemMgrPoolRelTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmMemMgrPoolRelTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemMgrPoolRelTable" table (JvmMemMgrPoolRelTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmMemMgrPoolRelTbble" tbble (JvmMemMgrPoolRelTbbleMetb)
      *
      **/
-    protected JvmMemMgrPoolRelTableMeta
-        createJvmMemMgrPoolRelTableMetaNode(String tableName,
-                                            String groupName,
-                                            SnmpMib mib, MBeanServer server) {
-        return new JvmMemMgrPoolRelTableMetaImpl(mib, objectserver);
+    protected JvmMemMgrPoolRelTbbleMetb
+        crebteJvmMemMgrPoolRelTbbleMetbNode(String tbbleNbme,
+                                            String groupNbme,
+                                            SnmpMib mib, MBebnServer server) {
+        return new JvmMemMgrPoolRelTbbleMetbImpl(mib, objectserver);
     }
 
 }

@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * An implementation of a check box -- an item that can be selected or
- * deselected, and which displays its state to the user.
- * By convention, any number of check boxes in a group can be selected.
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html">How to Use Buttons, Check Boxes, and Radio Buttons</a>
- * in <em>The Java Tutorial</em>
- * for examples and information on using check boxes.
+ * An implementbtion of b check box -- bn item thbt cbn be selected or
+ * deselected, bnd which displbys its stbte to the user.
+ * By convention, bny number of check boxes in b group cbn be selected.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/button.html">How to Use Buttons, Check Boxes, bnd Rbdio Buttons</b>
+ * in <em>The Jbvb Tutoribl</em>
+ * for exbmples bnd informbtion on using check boxes.
  * <p>
- * Buttons can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a button has many benefits beyond directly
- * configuring a button.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Buttons cbn be configured, bnd to some degree controlled, by
+ * <code><b href="Action.html">Action</b></code>s.  Using bn
+ * <code>Action</code> with b button hbs mbny benefits beyond directly
+ * configuring b button.  Refer to <b href="Action.html#buttonActions">
+ * Swing Components Supporting <code>Action</code></b> for more
+ * detbils, bnd you cbn find more informbtion in <b
+ * href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/bction.html">How
+ * to Use Actions</b>, b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JRadioButton
+ * @see JRbdioButton
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which can be selected or deselected.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component which cbn be selected or deselected.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JCheckBox extends JToggleButton implements Accessible {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JCheckBox extends JToggleButton implements Accessible {
 
-    /** Identifies a change to the flat property. */
-    public static final String BORDER_PAINTED_FLAT_CHANGED_PROPERTY = "borderPaintedFlat";
+    /** Identifies b chbnge to the flbt property. */
+    public stbtic finbl String BORDER_PAINTED_FLAT_CHANGED_PROPERTY = "borderPbintedFlbt";
 
-    private boolean flat = false;
+    privbte boolebn flbt = fblse;
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "CheckBoxUI";
+    privbte stbtic finbl String uiClbssID = "CheckBoxUI";
 
 
     /**
-     * Creates an initially unselected check box button with no text, no icon.
+     * Crebtes bn initiblly unselected check box button with no text, no icon.
      */
     public JCheckBox () {
-        this(null, null, false);
+        this(null, null, fblse);
     }
 
     /**
-     * Creates an initially unselected check box with an icon.
+     * Crebtes bn initiblly unselected check box with bn icon.
      *
-     * @param icon  the Icon image to display
+     * @pbrbm icon  the Icon imbge to displby
      */
     public JCheckBox(Icon icon) {
-        this(null, icon, false);
+        this(null, icon, fblse);
     }
 
     /**
-     * Creates a check box with an icon and specifies whether
-     * or not it is initially selected.
+     * Crebtes b check box with bn icon bnd specifies whether
+     * or not it is initiblly selected.
      *
-     * @param icon  the Icon image to display
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm icon  the Icon imbge to displby
+     * @pbrbm selected b boolebn vblue indicbting the initibl selection
+     *        stbte. If <code>true</code> the check box is selected
      */
-    public JCheckBox(Icon icon, boolean selected) {
+    public JCheckBox(Icon icon, boolebn selected) {
         this(null, icon, selected);
     }
 
     /**
-     * Creates an initially unselected check box with text.
+     * Crebtes bn initiblly unselected check box with text.
      *
-     * @param text the text of the check box.
+     * @pbrbm text the text of the check box.
      */
     public JCheckBox (String text) {
-        this(text, null, false);
+        this(text, null, fblse);
     }
 
     /**
-     * Creates a check box where properties are taken from the
+     * Crebtes b check box where properties bre tbken from the
      * Action supplied.
      *
-     * @param a the {@code Action} used to specify the new check box
+     * @pbrbm b the {@code Action} used to specify the new check box
      * @since 1.3
      */
-    public JCheckBox(Action a) {
+    public JCheckBox(Action b) {
         this();
-        setAction(a);
+        setAction(b);
     }
 
 
     /**
-     * Creates a check box with text and specifies whether
-     * or not it is initially selected.
+     * Crebtes b check box with text bnd specifies whether
+     * or not it is initiblly selected.
      *
-     * @param text the text of the check box.
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm text the text of the check box.
+     * @pbrbm selected b boolebn vblue indicbting the initibl selection
+     *        stbte. If <code>true</code> the check box is selected
      */
-    public JCheckBox (String text, boolean selected) {
+    public JCheckBox (String text, boolebn selected) {
         this(text, null, selected);
     }
 
     /**
-     * Creates an initially unselected check box with
-     * the specified text and icon.
+     * Crebtes bn initiblly unselected check box with
+     * the specified text bnd icon.
      *
-     * @param text the text of the check box.
-     * @param icon  the Icon image to display
+     * @pbrbm text the text of the check box.
+     * @pbrbm icon  the Icon imbge to displby
      */
     public JCheckBox(String text, Icon icon) {
-        this(text, icon, false);
+        this(text, icon, fblse);
     }
 
     /**
-     * Creates a check box with text and icon,
-     * and specifies whether or not it is initially selected.
+     * Crebtes b check box with text bnd icon,
+     * bnd specifies whether or not it is initiblly selected.
      *
-     * @param text the text of the check box.
-     * @param icon  the Icon image to display
-     * @param selected a boolean value indicating the initial selection
-     *        state. If <code>true</code> the check box is selected
+     * @pbrbm text the text of the check box.
+     * @pbrbm icon  the Icon imbge to displby
+     * @pbrbm selected b boolebn vblue indicbting the initibl selection
+     *        stbte. If <code>true</code> the check box is selected
      */
-    public JCheckBox (String text, Icon icon, boolean selected) {
+    public JCheckBox (String text, Icon icon, boolebn selected) {
         super(text, icon, selected);
-        setUIProperty("borderPainted", Boolean.FALSE);
-        setHorizontalAlignment(LEADING);
+        setUIProperty("borderPbinted", Boolebn.FALSE);
+        setHorizontblAlignment(LEADING);
     }
 
     /**
-     * Sets the <code>borderPaintedFlat</code> property,
-     * which gives a hint to the look and feel as to the
-     * appearance of the check box border.
-     * This is usually set to <code>true</code> when a
-     * <code>JCheckBox</code> instance is used as a
-     * renderer in a component such as a <code>JTable</code> or
-     * <code>JTree</code>.  The default value for the
-     * <code>borderPaintedFlat</code> property is <code>false</code>.
-     * This method fires a property changed event.
-     * Some look and feels might not implement flat borders;
+     * Sets the <code>borderPbintedFlbt</code> property,
+     * which gives b hint to the look bnd feel bs to the
+     * bppebrbnce of the check box border.
+     * This is usublly set to <code>true</code> when b
+     * <code>JCheckBox</code> instbnce is used bs b
+     * renderer in b component such bs b <code>JTbble</code> or
+     * <code>JTree</code>.  The defbult vblue for the
+     * <code>borderPbintedFlbt</code> property is <code>fblse</code>.
+     * This method fires b property chbnged event.
+     * Some look bnd feels might not implement flbt borders;
      * they will ignore this property.
      *
-     * @param b <code>true</code> requests that the border be painted flat;
-     *          <code>false</code> requests normal borders
-     * @see #isBorderPaintedFlat
-     * @beaninfo
+     * @pbrbm b <code>true</code> requests thbt the border be pbinted flbt;
+     *          <code>fblse</code> requests normbl borders
+     * @see #isBorderPbintedFlbt
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the border is painted flat.
+     *    bttribute: visublUpdbte true
+     *  description: Whether the border is pbinted flbt.
      * @since 1.3
      */
-    public void setBorderPaintedFlat(boolean b) {
-        boolean oldValue = flat;
-        flat = b;
-        firePropertyChange(BORDER_PAINTED_FLAT_CHANGED_PROPERTY, oldValue, flat);
-        if (b != oldValue) {
-            revalidate();
-            repaint();
+    public void setBorderPbintedFlbt(boolebn b) {
+        boolebn oldVblue = flbt;
+        flbt = b;
+        firePropertyChbnge(BORDER_PAINTED_FLAT_CHANGED_PROPERTY, oldVblue, flbt);
+        if (b != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Gets the value of the <code>borderPaintedFlat</code> property.
+     * Gets the vblue of the <code>borderPbintedFlbt</code> property.
      *
-     * @return the value of the <code>borderPaintedFlat</code> property
-     * @see #setBorderPaintedFlat
+     * @return the vblue of the <code>borderPbintedFlbt</code> property
+     * @see #setBorderPbintedFlbt
      * @since 1.3
      */
-    public boolean isBorderPaintedFlat() {
-        return flat;
+    public boolebn isBorderPbintedFlbt() {
+        return flbt;
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ButtonUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ButtonUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
      * @return the string "CheckBoxUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class
+     *   description: A string thbt specifies the nbme of the L&bmp;F clbss
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * The icon for checkboxs comes from the look and feel,
+     * The icon for checkboxs comes from the look bnd feel,
      * not the Action; this is overriden to do nothing.
      */
-    void setIconFromAction(Action a) {
+    void setIconFromAction(Action b) {
     }
 
      /*
-      * See readObject and writeObject in JComponent for more
-      * information about serialization in Swing.
+      * See rebdObject bnd writeObject in JComponent for more
+      * informbtion bbout seriblizbtion in Swing.
       */
-     private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+     privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
      }
 
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * See JComponent.rebdObject() for informbtion bbout seriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        if (getUIClassID().equals(uiClassID)) {
-            updateUI();
+        s.defbultRebdObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
+            updbteUI();
         }
     }
 
 
     /**
-     * Returns a string representation of this JCheckBox. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JCheckBox. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
-     * specific new aspects of the JFC components.
+     * specific new bspects of the JFC components.
      *
-     * @return  a string representation of this JCheckBox.
+     * @return  b string representbtion of this JCheckBox.
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
 /////////////////
@@ -304,51 +304,51 @@ public class JCheckBox extends JToggleButton implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JCheckBox.
-     * For JCheckBoxes, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JCheckBox.
+     * For JCheckBoxes, the AccessibleContext tbkes the form of bn
      * AccessibleJCheckBox.
-     * A new AccessibleJCheckBox instance is created if necessary.
+     * A new AccessibleJCheckBox instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJCheckBox that serves as the
+     * @return bn AccessibleJCheckBox thbt serves bs the
      *         AccessibleContext of this JCheckBox
-     * @beaninfo
+     * @bebninfo
      *       expert: true
-     *  description: The AccessibleContext associated with this CheckBox.
+     *  description: The AccessibleContext bssocibted with this CheckBox.
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJCheckBox();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJCheckBox();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JCheckBox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to check box user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JCheckBox</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to check box user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJCheckBox extends AccessibleJToggleButton {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJCheckBox extends AccessibleJToggleButton {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }
 
-    } // inner class AccessibleJCheckBox
+    } // inner clbss AccessibleJCheckBox
 }

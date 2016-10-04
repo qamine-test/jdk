@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.SecureRandom;
-import java.util.concurrent.atomic.AtomicLong;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.SecureRbndom;
+import jbvb.util.concurrent.btomic.AtomicLong;
 
 /**
- * An <code>ObjID</code> is used to identify a remote object exported
- * to an RMI runtime.  When a remote object is exported, it is assigned
- * an object identifier either implicitly or explicitly, depending on
+ * An <code>ObjID</code> is used to identify b remote object exported
+ * to bn RMI runtime.  When b remote object is exported, it is bssigned
+ * bn object identifier either implicitly or explicitly, depending on
  * the API used to export.
  *
- * <p>The {@link #ObjID()} constructor can be used to generate a unique
- * object identifier.  Such an <code>ObjID</code> is unique over time
- * with respect to the host it is generated on.
+ * <p>The {@link #ObjID()} constructor cbn be used to generbte b unique
+ * object identifier.  Such bn <code>ObjID</code> is unique over time
+ * with respect to the host it is generbted on.
  *
- * The {@link #ObjID(int)} constructor can be used to create a
- * "well-known" object identifier.  The scope of a well-known
+ * The {@link #ObjID(int)} constructor cbn be used to crebte b
+ * "well-known" object identifier.  The scope of b well-known
  * <code>ObjID</code> depends on the RMI runtime it is exported to.
  *
- * <p>An <code>ObjID</code> instance contains an object number (of type
- * <code>long</code>) and an address space identifier (of type
- * {@link UID}).  In a unique <code>ObjID</code>, the address space
- * identifier is unique with respect to a given host over time.  In a
- * well-known <code>ObjID</code>, the address space identifier is
- * equivalent to one returned by invoking the {@link UID#UID(short)}
- * constructor with the value zero.
+ * <p>An <code>ObjID</code> instbnce contbins bn object number (of type
+ * <code>long</code>) bnd bn bddress spbce identifier (of type
+ * {@link UID}).  In b unique <code>ObjID</code>, the bddress spbce
+ * identifier is unique with respect to b given host over time.  In b
+ * well-known <code>ObjID</code>, the bddress spbce identifier is
+ * equivblent to one returned by invoking the {@link UID#UID(short)}
+ * constructor with the vblue zero.
  *
- * <p>If the system property <code>java.rmi.server.randomIDs</code>
- * is defined to equal the string <code>"true"</code> (case insensitive),
- * then the {@link #ObjID()} constructor will use a cryptographically
- * strong random number generator to choose the object number of the
+ * <p>If the system property <code>jbvb.rmi.server.rbndomIDs</code>
+ * is defined to equbl the string <code>"true"</code> (cbse insensitive),
+ * then the {@link #ObjID()} constructor will use b cryptogrbphicblly
+ * strong rbndom number generbtor to choose the object number of the
  * returned <code>ObjID</code>.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
+ * @buthor      Ann Wollrbth
+ * @buthor      Peter Jones
  * @since       1.1
  */
-public final class ObjID implements Serializable {
+public finbl clbss ObjID implements Seriblizbble {
 
     /** Object number for well-known <code>ObjID</code> of the registry. */
-    public static final int REGISTRY_ID = 0;
+    public stbtic finbl int REGISTRY_ID = 0;
 
-    /** Object number for well-known <code>ObjID</code> of the activator. */
-    public static final int ACTIVATOR_ID = 1;
+    /** Object number for well-known <code>ObjID</code> of the bctivbtor. */
+    public stbtic finbl int ACTIVATOR_ID = 1;
 
     /**
      * Object number for well-known <code>ObjID</code> of
-     * the distributed garbage collector.
+     * the distributed gbrbbge collector.
      */
-    public static final int DGC_ID = 2;
+    public stbtic finbl int DGC_ID = 2;
 
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -6386392263968365220L;
+    /** indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -6386392263968365220L;
 
-    private static final AtomicLong nextObjNum = new AtomicLong(0);
-    private static final UID mySpace = new UID();
-    private static final SecureRandom secureRandom = new SecureRandom();
+    privbte stbtic finbl AtomicLong nextObjNum = new AtomicLong(0);
+    privbte stbtic finbl UID mySpbce = new UID();
+    privbte stbtic finbl SecureRbndom secureRbndom = new SecureRbndom();
 
     /**
-     * @serial object number
-     * @see #hashCode
+     * @seribl object number
+     * @see #hbshCode
      */
-    private final long objNum;
+    privbte finbl long objNum;
 
     /**
-     * @serial address space identifier (unique to host over time)
+     * @seribl bddress spbce identifier (unique to host over time)
      */
-    private final UID space;
+    privbte finbl UID spbce;
 
     /**
-     * Generates a unique object identifier.
+     * Generbtes b unique object identifier.
      *
-     * <p>If the system property <code>java.rmi.server.randomIDs</code>
-     * is defined to equal the string <code>"true"</code> (case insensitive),
-     * then this constructor will use a cryptographically
-     * strong random number generator to choose the object number of the
+     * <p>If the system property <code>jbvb.rmi.server.rbndomIDs</code>
+     * is defined to equbl the string <code>"true"</code> (cbse insensitive),
+     * then this constructor will use b cryptogrbphicblly
+     * strong rbndom number generbtor to choose the object number of the
      * returned <code>ObjID</code>.
      */
     public ObjID() {
         /*
-         * If generating random object numbers, create a new UID to
-         * ensure uniqueness; otherwise, use a shared UID because
-         * sequential object numbers already ensure uniqueness.
+         * If generbting rbndom object numbers, crebte b new UID to
+         * ensure uniqueness; otherwise, use b shbred UID becbuse
+         * sequentibl object numbers blrebdy ensure uniqueness.
          */
-        if (useRandomIDs()) {
-            space = new UID();
-            objNum = secureRandom.nextLong();
+        if (useRbndomIDs()) {
+            spbce = new UID();
+            objNum = secureRbndom.nextLong();
         } else {
-            space = mySpace;
+            spbce = mySpbce;
             objNum = nextObjNum.getAndIncrement();
         }
     }
 
     /**
-     * Creates a "well-known" object identifier.
+     * Crebtes b "well-known" object identifier.
      *
-     * <p>An <code>ObjID</code> created via this constructor will not
-     * clash with any <code>ObjID</code>s generated via the no-arg
+     * <p>An <code>ObjID</code> crebted vib this constructor will not
+     * clbsh with bny <code>ObjID</code>s generbted vib the no-brg
      * constructor.
      *
-     * @param   objNum object number for well-known object identifier
+     * @pbrbm   objNum object number for well-known object identifier
      */
     public ObjID(int objNum) {
-        space = new UID((short) 0);
+        spbce = new UID((short) 0);
         this.objNum = objNum;
     }
 
     /**
-     * Constructs an object identifier given data read from a stream.
+     * Constructs bn object identifier given dbtb rebd from b strebm.
      */
-    private ObjID(long objNum, UID space) {
+    privbte ObjID(long objNum, UID spbce) {
         this.objNum = objNum;
-        this.space = space;
+        this.spbce = spbce;
     }
 
     /**
-     * Marshals a binary representation of this <code>ObjID</code> to
-     * an <code>ObjectOutput</code> instance.
+     * Mbrshbls b binbry representbtion of this <code>ObjID</code> to
+     * bn <code>ObjectOutput</code> instbnce.
      *
-     * <p>Specifically, this method first invokes the given stream's
+     * <p>Specificblly, this method first invokes the given strebm's
      * {@link ObjectOutput#writeLong(long)} method with this object
-     * identifier's object number, and then it writes its address
-     * space identifier by invoking its {@link UID#write(DataOutput)}
-     * method with the stream.
+     * identifier's object number, bnd then it writes its bddress
+     * spbce identifier by invoking its {@link UID#write(DbtbOutput)}
+     * method with the strebm.
      *
-     * @param   out the <code>ObjectOutput</code> instance to write
+     * @pbrbm   out the <code>ObjectOutput</code> instbnce to write
      * this <code>ObjID</code> to
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @throws  IOException if bn I/O error occurs while performing
+     * this operbtion
      */
     public void write(ObjectOutput out) throws IOException {
         out.writeLong(objNum);
-        space.write(out);
+        spbce.write(out);
     }
 
     /**
-     * Constructs and returns a new <code>ObjID</code> instance by
-     * unmarshalling a binary representation from an
-     * <code>ObjectInput</code> instance.
+     * Constructs bnd returns b new <code>ObjID</code> instbnce by
+     * unmbrshblling b binbry representbtion from bn
+     * <code>ObjectInput</code> instbnce.
      *
-     * <p>Specifically, this method first invokes the given stream's
-     * {@link ObjectInput#readLong()} method to read an object number,
-     * then it invokes {@link UID#read(DataInput)} with the
-     * stream to read an address space identifier, and then it
-     * creates and returns a new <code>ObjID</code> instance that
-     * contains the object number and address space identifier that
-     * were read from the stream.
+     * <p>Specificblly, this method first invokes the given strebm's
+     * {@link ObjectInput#rebdLong()} method to rebd bn object number,
+     * then it invokes {@link UID#rebd(DbtbInput)} with the
+     * strebm to rebd bn bddress spbce identifier, bnd then it
+     * crebtes bnd returns b new <code>ObjID</code> instbnce thbt
+     * contbins the object number bnd bddress spbce identifier thbt
+     * were rebd from the strebm.
      *
-     * @param   in the <code>ObjectInput</code> instance to read
+     * @pbrbm   in the <code>ObjectInput</code> instbnce to rebd
      * <code>ObjID</code> from
      *
-     * @return  unmarshalled <code>ObjID</code> instance
+     * @return  unmbrshblled <code>ObjID</code> instbnce
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @throws  IOException if bn I/O error occurs while performing
+     * this operbtion
      */
-    public static ObjID read(ObjectInput in) throws IOException {
-        long num = in.readLong();
-        UID space = UID.read(in);
-        return new ObjID(num, space);
+    public stbtic ObjID rebd(ObjectInput in) throws IOException {
+        long num = in.rebdLong();
+        UID spbce = UID.rebd(in);
+        return new ObjID(num, spbce);
     }
 
     /**
-     * Returns the hash code value for this object identifier, the
+     * Returns the hbsh code vblue for this object identifier, the
      * object number.
      *
-     * @return  the hash code value for this object identifier
+     * @return  the hbsh code vblue for this object identifier
      */
-    public int hashCode() {
+    public int hbshCode() {
         return (int) objNum;
     }
 
     /**
-     * Compares the specified object with this <code>ObjID</code> for
-     * equality.
+     * Compbres the specified object with this <code>ObjID</code> for
+     * equblity.
      *
-     * This method returns <code>true</code> if and only if the
-     * specified object is an <code>ObjID</code> instance with the same
-     * object number and address space identifier as this one.
+     * This method returns <code>true</code> if bnd only if the
+     * specified object is bn <code>ObjID</code> instbnce with the sbme
+     * object number bnd bddress spbce identifier bs this one.
      *
-     * @param   obj the object to compare this <code>ObjID</code> to
+     * @pbrbm   obj the object to compbre this <code>ObjID</code> to
      *
-     * @return  <code>true</code> if the given object is equivalent to
-     * this one, and <code>false</code> otherwise
+     * @return  <code>true</code> if the given object is equivblent to
+     * this one, bnd <code>fblse</code> otherwise
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ObjID) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof ObjID) {
             ObjID id = (ObjID) obj;
-            return objNum == id.objNum && space.equals(id.space);
+            return objNum == id.objNum && spbce.equbls(id.spbce);
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns a string representation of this object identifier.
+     * Returns b string representbtion of this object identifier.
      *
-     * @return  a string representation of this object identifier
+     * @return  b string representbtion of this object identifier
      */
     /*
-     * The address space identifier is only included in the string
-     * representation if it does not denote the local address space
-     * (or if the randomIDs property was set).
+     * The bddress spbce identifier is only included in the string
+     * representbtion if it does not denote the locbl bddress spbce
+     * (or if the rbndomIDs property wbs set).
      */
     public String toString() {
-        return "[" + (space.equals(mySpace) ? "" : space + ", ") +
+        return "[" + (spbce.equbls(mySpbce) ? "" : spbce + ", ") +
             objNum + "]";
     }
 
-    private static boolean useRandomIDs() {
-        String value = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.randomIDs"));
-        return value == null ? true : Boolean.parseBoolean(value);
+    privbte stbtic boolebn useRbndomIDs() {
+        String vblue = AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("jbvb.rmi.server.rbndomIDs"));
+        return vblue == null ? true : Boolebn.pbrseBoolebn(vblue);
     }
 }

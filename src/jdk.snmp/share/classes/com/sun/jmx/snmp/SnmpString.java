@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
 
 /**
- * Represents an SNMP string.
+ * Represents bn SNMP string.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpString extends SnmpValue {
-    private static final long serialVersionUID = -7011986973225194188L;
+public clbss SnmpString extends SnmpVblue {
+    privbte stbtic finbl long seriblVersionUID = -7011986973225194188L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new empty <CODE>SnmpString</CODE>.
+     * Constructs b new empty <CODE>SnmpString</CODE>.
      */
     public SnmpString() {
-        value = new byte[0] ;
+        vblue = new byte[0] ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified bytes array.
-     * @param v The bytes composing the string value.
+     * Constructs b new <CODE>SnmpString</CODE> from the specified bytes brrby.
+     * @pbrbm v The bytes composing the string vblue.
      */
     public SnmpString(byte[] v) {
-        value = v.clone() ;
+        vblue = v.clone() ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE>Bytes</CODE> array.
-     * @param v The <CODE>Bytes</CODE> composing the string value.
+     * Constructs b new <CODE>SnmpString</CODE> from the specified <CODE>Bytes</CODE> brrby.
+     * @pbrbm v The <CODE>Bytes</CODE> composing the string vblue.
      */
     public SnmpString(Byte[] v) {
-        value = new byte[v.length] ;
+        vblue = new byte[v.length] ;
         for (int i = 0 ; i < v.length ; i++) {
-            value[i] = v[i].byteValue() ;
+            vblue[i] = v[i].byteVblue() ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE>String</CODE> value.
-     * @param v The initialization value.
+     * Constructs b new <CODE>SnmpString</CODE> from the specified <CODE>String</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
      */
     public SnmpString(String v) {
-        value = v.getBytes() ;
+        vblue = v.getBytes() ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE> InetAddress </Code>.
-     * @param address The <CODE>InetAddress </CODE>.
+     * Constructs b new <CODE>SnmpString</CODE> from the specified <CODE> InetAddress </Code>.
+     * @pbrbm bddress The <CODE>InetAddress </CODE>.
      *
      * @since 1.5
      */
-    public SnmpString(InetAddress address) {
-        value = address.getAddress();
+    public SnmpString(InetAddress bddress) {
+        vblue = bddress.getAddress();
     }
 
     // PUBLIC METHODS
     //---------------
 
     /**
-     * Converts the string value to its <CODE> InetAddress </CODE> form.
-     * @return an {@link InetAddress} defined by the string value.
-     * @exception UnknownHostException If string value is not a legal address format.
+     * Converts the string vblue to its <CODE> InetAddress </CODE> form.
+     * @return bn {@link InetAddress} defined by the string vblue.
+     * @exception UnknownHostException If string vblue is not b legbl bddress formbt.
      *
      * @since 1.5
      */
-    public InetAddress inetAddressValue() throws UnknownHostException {
-        return InetAddress.getByAddress(value);
+    public InetAddress inetAddressVblue() throws UnknownHostException {
+        return InetAddress.getByAddress(vblue);
     }
 
     /**
-     * Converts the specified binary string into a character string.
-     * @param bin The binary string value to convert.
-     * @return The character string representation.
+     * Converts the specified binbry string into b chbrbcter string.
+     * @pbrbm bin The binbry string vblue to convert.
+     * @return The chbrbcter string representbtion.
      */
-    public static String BinToChar(String bin) {
-        char value[] = new char[bin.length()/8];
-        int binLength = value.length;
+    public stbtic String BinToChbr(String bin) {
+        chbr vblue[] = new chbr[bin.length()/8];
+        int binLength = vblue.length;
         for (int i = 0; i < binLength; i++)
-            value[i] = (char)Integer.parseInt(bin.substring(8*i, 8*i+8), 2);
-        return new String(value);
+            vblue[i] = (chbr)Integer.pbrseInt(bin.substring(8*i, 8*i+8), 2);
+        return new String(vblue);
     }
 
     /**
-     * Converts the specified hexadecimal string into a character string.
-     * @param hex The hexadecimal string value to convert.
-     * @return The character string representation.
+     * Converts the specified hexbdecimbl string into b chbrbcter string.
+     * @pbrbm hex The hexbdecimbl string vblue to convert.
+     * @return The chbrbcter string representbtion.
      */
-    public static String HexToChar(String hex) {
-        char value[] = new char[hex.length()/2];
-        int hexLength = value.length;
+    public stbtic String HexToChbr(String hex) {
+        chbr vblue[] = new chbr[hex.length()/2];
+        int hexLength = vblue.length;
         for (int i = 0; i < hexLength; i++)
-            value[i] = (char)Integer.parseInt(hex.substring(2*i, 2*i+2), 16);
-        return new String(value);
+            vblue[i] = (chbr)Integer.pbrseInt(hex.substring(2*i, 2*i+2), 16);
+        return new String(vblue);
     }
 
     /**
-     * Returns the bytes array of this <CODE>SnmpString</CODE>.
-     * @return The value.
+     * Returns the bytes brrby of this <CODE>SnmpString</CODE>.
+     * @return The vblue.
      */
-    public byte[] byteValue() {
-        return value.clone() ;
+    public byte[] byteVblue() {
+        return vblue.clone() ;
     }
 
     /**
-     * Converts the string value to its array of <CODE>Bytes</CODE> form.
-     * @return The array of <CODE>Bytes</CODE> representation of the value.
+     * Converts the string vblue to its brrby of <CODE>Bytes</CODE> form.
+     * @return The brrby of <CODE>Bytes</CODE> representbtion of the vblue.
      */
     public Byte[] toByte() {
-        Byte[] result = new Byte[value.length] ;
-        for (int i = 0 ; i < value.length ; i++) {
-            result[i] = value[i];
+        Byte[] result = new Byte[vblue.length] ;
+        for (int i = 0 ; i < vblue.length ; i++) {
+            result[i] = vblue[i];
         }
         return result ;
     }
 
     /**
-     * Converts the string value to its <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Converts the string vblue to its <CODE>String</CODE> form.
+     * @return The <CODE>String</CODE> representbtion of the vblue.
      */
     public String toString() {
-        return new String(value) ;
+        return new String(vblue) ;
     }
 
     /**
-     * Converts the string value to its <CODE>SnmpOid</CODE> form.
-     * @return The OID representation of the value.
+     * Converts the string vblue to its <CODE>SnmpOid</CODE> form.
+     * @return The OID representbtion of the vblue.
      */
     public SnmpOid toOid() {
-        long[] ids = new long[value.length] ;
-        for (int i = 0 ; i < value.length ; i++) {
-            ids[i] = (long)(value[i] & 0xFF) ;
+        long[] ids = new long[vblue.length] ;
+        for (int i = 0 ; i < vblue.length ; i++) {
+            ids[i] = (long)(vblue[i] & 0xFF) ;
         }
         return new SnmpOid(ids) ;
     }
 
     /**
-     * Extracts the string from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the string value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Extrbcts the string from bn index OID bnd returns its
+     * vblue converted bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The OID representing the string vblue.
+     * @exception SnmpStbtusException There is no string vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
+    public stbtic SnmpOid toOid(long[] index, int stbrt) throws SnmpStbtusException {
         try {
-            if (index[start] > Integer.MAX_VALUE) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            if (index[stbrt] > Integer.MAX_VALUE) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
             }
-            int strLen = (int)index[start++] ;
+            int strLen = (int)index[stbrt++] ;
             long[] ids = new long[strLen] ;
             for (int i = 0 ; i < strLen ; i++) {
-                ids[i] = index[start + i] ;
+                ids[i] = index[stbrt + i] ;
             }
             return new SnmpOid(ids) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        cbtch(IndexOutOfBoundsException e) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Scans an index OID, skips the string value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Scbns bn index OID, skips the string vblue bnd returns the position
+     * of the next vblue.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The position of the next vblue.
+     * @exception SnmpStbtusException There is no string vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
+    public stbtic int nextOid(long[] index, int stbrt) throws SnmpStbtusException {
         try {
-            if (index[start] > Integer.MAX_VALUE) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            if (index[stbrt] > Integer.MAX_VALUE) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
             }
-            int strLen = (int)index[start++] ;
-            start += strLen ;
-            if (start <= index.length) {
-                return start ;
+            int strLen = (int)index[stbrt++] ;
+            stbrt += strLen ;
+            if (stbrt <= index.length) {
+                return stbrt ;
             }
             else {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
             }
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        cbtch(IndexOutOfBoundsException e) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpString</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpString</CODE> value.
-     * @param dest Where source should be appended.
+     * Appends bn <CODE>SnmpOid</CODE> representing bn <CODE>SnmpString</CODE> to bnother OID.
+     * @pbrbm source An OID representing bn <CODE>SnmpString</CODE> vblue.
+     * @pbrbm dest Where source should be bppended.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
-        dest.append(source.getLength()) ;
-        dest.append(source) ;
+    public stbtic void bppendToOid(SnmpOid source, SnmpOid dest) {
+        dest.bppend(source.getLength()) ;
+        dest.bppend(source) ;
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The SnmpValue clone.
+     * Performs b clone bction. This provides b workbround for the
+     * <CODE>SnmpVblue</CODE> interfbce.
+     * @return The SnmpVblue clone.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue) clone() ;
+    finbl synchronized public SnmpVblue duplicbte() {
+        return (SnmpVblue) clone() ;
     }
 
     /**
-     * Clones the <CODE>SnmpString</CODE> object, making a copy of its data.
+     * Clones the <CODE>SnmpString</CODE> object, mbking b copy of its dbtb.
      * @return The object clone.
      */
     synchronized public Object clone() {
@@ -247,32 +247,32 @@ public class SnmpString extends SnmpValue {
 
         try {
             newclone = (SnmpString) super.clone() ;
-            newclone.value = new byte[value.length] ;
-            System.arraycopy(value, 0, newclone.value, 0, value.length) ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            newclone.vblue = new byte[vblue.length] ;
+            System.brrbycopy(vblue, 0, newclone.vblue, 0, vblue.length) ;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e) ; // vm bug.
         }
         return newclone ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    public String getTypeName() {
-        return name ;
+    public String getTypeNbme() {
+        return nbme ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "String" ;
+    finbl stbtic String nbme = "String" ;
 
     /**
-     * This is the bytes array of the string value.
-     * @serial
+     * This is the bytes brrby of the string vblue.
+     * @seribl
      */
-    protected byte[] value = null ;
+    protected byte[] vblue = null ;
 }

@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.ColorModel;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 /**
- * This class is an implementation of the ImageProducer interface which
- * uses an array to produce pixel values for an Image.  Here is an example
- * which calculates a 100x100 image representing a fade from black to blue
- * along the X axis and a fade from black to red along the Y axis:
+ * This clbss is bn implementbtion of the ImbgeProducer interfbce which
+ * uses bn brrby to produce pixel vblues for bn Imbge.  Here is bn exbmple
+ * which cblculbtes b 100x100 imbge representing b fbde from blbck to blue
+ * blong the X bxis bnd b fbde from blbck to red blong the Y bxis:
  * <pre>{@code
  *
  *      int w = 100;
@@ -50,17 +50,17 @@ import java.util.Enumeration;
  *              pix[index++] = (255 << 24) | (red << 16) | blue;
  *          }
  *      }
- *      Image img = createImage(new MemoryImageSource(w, h, pix, 0, w));
+ *      Imbge img = crebteImbge(new MemoryImbgeSource(w, h, pix, 0, w));
  *
  * }</pre>
- * The MemoryImageSource is also capable of managing a memory image which
- * varies over time to allow animation or custom rendering.  Here is an
- * example showing how to set up the animation source and signal changes
- * in the data (adapted from the MemoryAnimationSourceDemo by Garth Dickie):
+ * The MemoryImbgeSource is blso cbpbble of mbnbging b memory imbge which
+ * vbries over time to bllow bnimbtion or custom rendering.  Here is bn
+ * exbmple showing how to set up the bnimbtion source bnd signbl chbnges
+ * in the dbtb (bdbpted from the MemoryAnimbtionSourceDemo by Gbrth Dickie):
  * <pre>{@code
  *
  *      int pixels[];
- *      MemoryImageSource source;
+ *      MemoryImbgeSource source;
  *
  *      public void init() {
  *          int width = 50;
@@ -68,287 +68,287 @@ import java.util.Enumeration;
  *          int size = width * height;
  *          pixels = new int[size];
  *
- *          int value = getBackground().getRGB();
+ *          int vblue = getBbckground().getRGB();
  *          for (int i = 0; i < size; i++) {
- *              pixels[i] = value;
+ *              pixels[i] = vblue;
  *          }
  *
- *          source = new MemoryImageSource(width, height, pixels, 0, width);
- *          source.setAnimated(true);
- *          image = createImage(source);
+ *          source = new MemoryImbgeSource(width, height, pixels, 0, width);
+ *          source.setAnimbted(true);
+ *          imbge = crebteImbge(source);
  *      }
  *
  *      public void run() {
- *          Thread me = Thread.currentThread( );
- *          me.setPriority(Thread.MIN_PRIORITY);
+ *          Threbd me = Threbd.currentThrebd( );
+ *          me.setPriority(Threbd.MIN_PRIORITY);
  *
  *          while (true) {
  *              try {
- *                  Thread.sleep(10);
- *              } catch( InterruptedException e ) {
+ *                  Threbd.sleep(10);
+ *              } cbtch( InterruptedException e ) {
  *                  return;
  *              }
  *
- *              // Modify the values in the pixels array at (x, y, w, h)
+ *              // Modify the vblues in the pixels brrby bt (x, y, w, h)
  *
- *              // Send the new data to the interested ImageConsumers
+ *              // Send the new dbtb to the interested ImbgeConsumers
  *              source.newPixels(x, y, w, h);
  *          }
  *      }
  *
  * }</pre>
  *
- * @see ImageProducer
+ * @see ImbgeProducer
  *
- * @author      Jim Graham
- * @author      Animation capabilities inspired by the
- *              MemoryAnimationSource class written by Garth Dickie
+ * @buthor      Jim Grbhbm
+ * @buthor      Animbtion cbpbbilities inspired by the
+ *              MemoryAnimbtionSource clbss written by Gbrth Dickie
  */
-public class MemoryImageSource implements ImageProducer {
+public clbss MemoryImbgeSource implements ImbgeProducer {
     int width;
     int height;
     ColorModel model;
     Object pixels;
     int pixeloffset;
-    int pixelscan;
-    Hashtable<?, ?> properties;
-    Vector<ImageConsumer> theConsumers = new Vector<>();
-    boolean animating;
-    boolean fullbuffers;
+    int pixelscbn;
+    Hbshtbble<?, ?> properties;
+    Vector<ImbgeConsumer> theConsumers = new Vector<>();
+    boolebn bnimbting;
+    boolebn fullbuffers;
 
     /**
-     * Constructs an ImageProducer object which uses an array of bytes
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of bytes
+     * to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm cm the specified <code>ColorModel</code>
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @see jbvb.bwt.Component#crebteImbge
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             byte[] pix, int off, int scan) {
-        initialize(w, h, cm, (Object) pix, off, scan, null);
+    public MemoryImbgeSource(int w, int h, ColorModel cm,
+                             byte[] pix, int off, int scbn) {
+        initiblize(w, h, cm, (Object) pix, off, scbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of bytes
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of bytes
+     * to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm cm the specified <code>ColorModel</code>
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @pbrbm props b list of properties thbt the <code>ImbgeProducer</code>
+     *        uses to process bn imbge
+     * @see jbvb.bwt.Component#crebteImbge
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             byte[] pix, int off, int scan,
-                             Hashtable<?,?> props)
+    public MemoryImbgeSource(int w, int h, ColorModel cm,
+                             byte[] pix, int off, int scbn,
+                             Hbshtbble<?,?> props)
     {
-        initialize(w, h, cm, (Object) pix, off, scan, props);
+        initiblize(w, h, cm, (Object) pix, off, scbn, props);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of integers
+     * to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm cm the specified <code>ColorModel</code>
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @see jbvb.bwt.Component#crebteImbge
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             int[] pix, int off, int scan) {
-        initialize(w, h, cm, (Object) pix, off, scan, null);
+    public MemoryImbgeSource(int w, int h, ColorModel cm,
+                             int[] pix, int off, int scbn) {
+        initiblize(w, h, cm, (Object) pix, off, scbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of integers
+     * to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm cm the specified <code>ColorModel</code>
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @pbrbm props b list of properties thbt the <code>ImbgeProducer</code>
+     *        uses to process bn imbge
+     * @see jbvb.bwt.Component#crebteImbge
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             int[] pix, int off, int scan,
-                             Hashtable<?,?> props)
+    public MemoryImbgeSource(int w, int h, ColorModel cm,
+                             int[] pix, int off, int scbn,
+                             Hbshtbble<?,?> props)
     {
-        initialize(w, h, cm, (Object) pix, off, scan, props);
+        initiblize(w, h, cm, (Object) pix, off, scbn, props);
     }
 
-    private void initialize(int w, int h, ColorModel cm,
-                            Object pix, int off, int scan, Hashtable<?,?> props) {
+    privbte void initiblize(int w, int h, ColorModel cm,
+                            Object pix, int off, int scbn, Hbshtbble<?,?> props) {
         width = w;
         height = h;
         model = cm;
         pixels = pix;
         pixeloffset = off;
-        pixelscan = scan;
+        pixelscbn = scbn;
         if (props == null) {
-            props = new Hashtable<>();
+            props = new Hbshtbble<>();
         }
         properties = props;
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * in the default RGB ColorModel to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of integers
+     * in the defbult RGB ColorModel to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
-     * @see ColorModel#getRGBdefault
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @see jbvb.bwt.Component#crebteImbge
+     * @see ColorModel#getRGBdefbult
      */
-    public MemoryImageSource(int w, int h, int pix[], int off, int scan) {
-        initialize(w, h, ColorModel.getRGBdefault(),
-                   (Object) pix, off, scan, null);
+    public MemoryImbgeSource(int w, int h, int pix[], int off, int scbn) {
+        initiblize(w, h, ColorModel.getRGBdefbult(),
+                   (Object) pix, off, scbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * in the default RGB ColorModel to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
+     * Constructs bn ImbgeProducer object which uses bn brrby of integers
+     * in the defbult RGB ColorModel to produce dbtb for bn Imbge object.
+     * @pbrbm w the width of the rectbngle of pixels
+     * @pbrbm h the height of the rectbngle of pixels
+     * @pbrbm pix bn brrby of pixels
+     * @pbrbm off the offset into the brrby of where to store the
      *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
-     * @see ColorModel#getRGBdefault
+     * @pbrbm scbn the distbnce from one row of pixels to the next in
+     *        the brrby
+     * @pbrbm props b list of properties thbt the <code>ImbgeProducer</code>
+     *        uses to process bn imbge
+     * @see jbvb.bwt.Component#crebteImbge
+     * @see ColorModel#getRGBdefbult
      */
-    public MemoryImageSource(int w, int h, int pix[], int off, int scan,
-                             Hashtable<?,?> props)
+    public MemoryImbgeSource(int w, int h, int pix[], int off, int scbn,
+                             Hbshtbble<?,?> props)
     {
-        initialize(w, h, ColorModel.getRGBdefault(),
-                   (Object) pix, off, scan, props);
+        initiblize(w, h, ColorModel.getRGBdefbult(),
+                   (Object) pix, off, scbn, props);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
+     * Adds bn ImbgeConsumer to the list of consumers interested in
+     * dbtb for this imbge.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
      * @throws NullPointerException if the specified
-     *           <code>ImageConsumer</code> is null
-     * @see ImageConsumer
+     *           <code>ImbgeConsumer</code> is null
+     * @see ImbgeConsumer
      */
-    public synchronized void addConsumer(ImageConsumer ic) {
-        if (theConsumers.contains(ic)) {
+    public synchronized void bddConsumer(ImbgeConsumer ic) {
+        if (theConsumers.contbins(ic)) {
             return;
         }
-        theConsumers.addElement(ic);
+        theConsumers.bddElement(ic);
         try {
             initConsumer(ic);
             sendPixels(ic, 0, 0, width, height);
             if (isConsumer(ic)) {
-                ic.imageComplete(animating
-                                 ? ImageConsumer.SINGLEFRAMEDONE
-                                 : ImageConsumer.STATICIMAGEDONE);
-                if (!animating && isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.IMAGEERROR);
+                ic.imbgeComplete(bnimbting
+                                 ? ImbgeConsumer.SINGLEFRAMEDONE
+                                 : ImbgeConsumer.STATICIMAGEDONE);
+                if (!bnimbting && isConsumer(ic)) {
+                    ic.imbgeComplete(ImbgeConsumer.IMAGEERROR);
                     removeConsumer(ic);
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             if (isConsumer(ic)) {
-                ic.imageComplete(ImageConsumer.IMAGEERROR);
+                ic.imbgeComplete(ImbgeConsumer.IMAGEERROR);
             }
         }
     }
 
     /**
-     * Determines if an ImageConsumer is on the list of consumers currently
-     * interested in data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @return <code>true</code> if the <code>ImageConsumer</code>
-     * is on the list; <code>false</code> otherwise.
-     * @see ImageConsumer
+     * Determines if bn ImbgeConsumer is on the list of consumers currently
+     * interested in dbtb for this imbge.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @return <code>true</code> if the <code>ImbgeConsumer</code>
+     * is on the list; <code>fblse</code> otherwise.
+     * @see ImbgeConsumer
      */
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return theConsumers.contains(ic);
+    public synchronized boolebn isConsumer(ImbgeConsumer ic) {
+        return theConsumers.contbins(ic);
     }
 
     /**
-     * Removes an ImageConsumer from the list of consumers interested in
-     * data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer
+     * Removes bn ImbgeConsumer from the list of consumers interested in
+     * dbtb for this imbge.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @see ImbgeConsumer
      */
-    public synchronized void removeConsumer(ImageConsumer ic) {
+    public synchronized void removeConsumer(ImbgeConsumer ic) {
         theConsumers.removeElement(ic);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image and immediately starts delivery of the
-     * image data through the ImageConsumer interface.
-     * @param ic the specified <code>ImageConsumer</code>
-     * image data through the ImageConsumer interface.
-     * @see ImageConsumer
+     * Adds bn ImbgeConsumer to the list of consumers interested in
+     * dbtb for this imbge bnd immedibtely stbrts delivery of the
+     * imbge dbtb through the ImbgeConsumer interfbce.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * imbge dbtb through the ImbgeConsumer interfbce.
+     * @see ImbgeConsumer
      */
-    public void startProduction(ImageConsumer ic) {
-        addConsumer(ic);
+    public void stbrtProduction(ImbgeConsumer ic) {
+        bddConsumer(ic);
     }
 
     /**
-     * Requests that a given ImageConsumer have the image data delivered
+     * Requests thbt b given ImbgeConsumer hbve the imbge dbtb delivered
      * one more time in top-down, left-right order.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @see ImbgeConsumer
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
-        // Ignored.  The data is either single frame and already in TDLR
-        // format or it is multi-frame and TDLR resends aren't critical.
+    public void requestTopDownLeftRightResend(ImbgeConsumer ic) {
+        // Ignored.  The dbtb is either single frbme bnd blrebdy in TDLR
+        // formbt or it is multi-frbme bnd TDLR resends bren't criticbl.
     }
 
     /**
-     * Changes this memory image into a multi-frame animation or a
-     * single-frame static image depending on the animated parameter.
-     * <p>This method should be called immediately after the
-     * MemoryImageSource is constructed and before an image is
-     * created with it to ensure that all ImageConsumers will
-     * receive the correct multi-frame data.  If an ImageConsumer
-     * is added to this ImageProducer before this flag is set then
-     * that ImageConsumer will see only a snapshot of the pixel
-     * data that was available when it connected.
-     * @param animated <code>true</code> if the image is a
-     *       multi-frame animation
+     * Chbnges this memory imbge into b multi-frbme bnimbtion or b
+     * single-frbme stbtic imbge depending on the bnimbted pbrbmeter.
+     * <p>This method should be cblled immedibtely bfter the
+     * MemoryImbgeSource is constructed bnd before bn imbge is
+     * crebted with it to ensure thbt bll ImbgeConsumers will
+     * receive the correct multi-frbme dbtb.  If bn ImbgeConsumer
+     * is bdded to this ImbgeProducer before this flbg is set then
+     * thbt ImbgeConsumer will see only b snbpshot of the pixel
+     * dbtb thbt wbs bvbilbble when it connected.
+     * @pbrbm bnimbted <code>true</code> if the imbge is b
+     *       multi-frbme bnimbtion
      */
-    public synchronized void setAnimated(boolean animated) {
-        this.animating = animated;
-        if (!animating) {
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
-                ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
+    public synchronized void setAnimbted(boolebn bnimbted) {
+        this.bnimbting = bnimbted;
+        if (!bnimbting) {
+            Enumerbtion<ImbgeConsumer> enum_ = theConsumers.elements();
+            while (enum_.hbsMoreElements()) {
+                ImbgeConsumer ic = enum_.nextElement();
+                ic.imbgeComplete(ImbgeConsumer.STATICIMAGEDONE);
                 if (isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.IMAGEERROR);
+                    ic.imbgeComplete(ImbgeConsumer.IMAGEERROR);
                 }
             }
             theConsumers.removeAllElements();
@@ -356,101 +356,101 @@ public class MemoryImageSource implements ImageProducer {
     }
 
     /**
-     * Specifies whether this animated memory image should always be
-     * updated by sending the complete buffer of pixels whenever
-     * there is a change.
-     * This flag is ignored if the animation flag is not turned on
-     * through the setAnimated() method.
-     * <p>This method should be called immediately after the
-     * MemoryImageSource is constructed and before an image is
-     * created with it to ensure that all ImageConsumers will
+     * Specifies whether this bnimbted memory imbge should blwbys be
+     * updbted by sending the complete buffer of pixels whenever
+     * there is b chbnge.
+     * This flbg is ignored if the bnimbtion flbg is not turned on
+     * through the setAnimbted() method.
+     * <p>This method should be cblled immedibtely bfter the
+     * MemoryImbgeSource is constructed bnd before bn imbge is
+     * crebted with it to ensure thbt bll ImbgeConsumers will
      * receive the correct pixel delivery hints.
-     * @param fullbuffers <code>true</code> if the complete pixel
-     *             buffer should always
+     * @pbrbm fullbuffers <code>true</code> if the complete pixel
+     *             buffer should blwbys
      * be sent
-     * @see #setAnimated
+     * @see #setAnimbted
      */
-    public synchronized void setFullBufferUpdates(boolean fullbuffers) {
+    public synchronized void setFullBufferUpdbtes(boolebn fullbuffers) {
         if (this.fullbuffers == fullbuffers) {
             return;
         }
         this.fullbuffers = fullbuffers;
-        if (animating) {
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
+        if (bnimbting) {
+            Enumerbtion<ImbgeConsumer> enum_ = theConsumers.elements();
+            while (enum_.hbsMoreElements()) {
+                ImbgeConsumer ic = enum_.nextElement();
                 ic.setHints(fullbuffers
-                            ? (ImageConsumer.TOPDOWNLEFTRIGHT |
-                               ImageConsumer.COMPLETESCANLINES)
-                            : ImageConsumer.RANDOMPIXELORDER);
+                            ? (ImbgeConsumer.TOPDOWNLEFTRIGHT |
+                               ImbgeConsumer.COMPLETESCANLINES)
+                            : ImbgeConsumer.RANDOMPIXELORDER);
             }
         }
     }
 
     /**
-     * Sends a whole new buffer of pixels to any ImageConsumers that
-     * are currently interested in the data for this image and notify
-     * them that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see ImageConsumer
-     * @see #setAnimated
+     * Sends b whole new buffer of pixels to bny ImbgeConsumers thbt
+     * bre currently interested in the dbtb for this imbge bnd notify
+     * them thbt bn bnimbtion frbme is complete.
+     * This method only hbs effect if the bnimbtion flbg hbs been
+     * turned on through the setAnimbted() method.
+     * @see #newPixels(int, int, int, int, boolebn)
+     * @see ImbgeConsumer
+     * @see #setAnimbted
      */
     public void newPixels() {
         newPixels(0, 0, width, height, true);
     }
 
     /**
-     * Sends a rectangular region of the buffer of pixels to any
-     * ImageConsumers that are currently interested in the data for
-     * this image and notify them that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * If the full buffer update flag was turned on with the
-     * setFullBufferUpdates() method then the rectangle parameters
-     * will be ignored and the entire buffer will always be sent.
-     * @param x the x coordinate of the upper left corner of the rectangle
+     * Sends b rectbngulbr region of the buffer of pixels to bny
+     * ImbgeConsumers thbt bre currently interested in the dbtb for
+     * this imbge bnd notify them thbt bn bnimbtion frbme is complete.
+     * This method only hbs effect if the bnimbtion flbg hbs been
+     * turned on through the setAnimbted() method.
+     * If the full buffer updbte flbg wbs turned on with the
+     * setFullBufferUpdbtes() method then the rectbngle pbrbmeters
+     * will be ignored bnd the entire buffer will blwbys be sent.
+     * @pbrbm x the x coordinbte of the upper left corner of the rectbngle
      * of pixels to be sent
-     * @param y the y coordinate of the upper left corner of the rectangle
+     * @pbrbm y the y coordinbte of the upper left corner of the rectbngle
      * of pixels to be sent
-     * @param w the width of the rectangle of pixels to be sent
-     * @param h the height of the rectangle of pixels to be sent
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see ImageConsumer
-     * @see #setAnimated
-     * @see #setFullBufferUpdates
+     * @pbrbm w the width of the rectbngle of pixels to be sent
+     * @pbrbm h the height of the rectbngle of pixels to be sent
+     * @see #newPixels(int, int, int, int, boolebn)
+     * @see ImbgeConsumer
+     * @see #setAnimbted
+     * @see #setFullBufferUpdbtes
      */
     public synchronized void newPixels(int x, int y, int w, int h) {
         newPixels(x, y, w, h, true);
     }
 
     /**
-     * Sends a rectangular region of the buffer of pixels to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * If the framenotify parameter is true then the consumers are
-     * also notified that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * If the full buffer update flag was turned on with the
-     * setFullBufferUpdates() method then the rectangle parameters
-     * will be ignored and the entire buffer will always be sent.
-     * @param x the x coordinate of the upper left corner of the rectangle
+     * Sends b rectbngulbr region of the buffer of pixels to bny
+     * ImbgeConsumers thbt bre currently interested in the dbtb for
+     * this imbge.
+     * If the frbmenotify pbrbmeter is true then the consumers bre
+     * blso notified thbt bn bnimbtion frbme is complete.
+     * This method only hbs effect if the bnimbtion flbg hbs been
+     * turned on through the setAnimbted() method.
+     * If the full buffer updbte flbg wbs turned on with the
+     * setFullBufferUpdbtes() method then the rectbngle pbrbmeters
+     * will be ignored bnd the entire buffer will blwbys be sent.
+     * @pbrbm x the x coordinbte of the upper left corner of the rectbngle
      * of pixels to be sent
-     * @param y the y coordinate of the upper left corner of the rectangle
+     * @pbrbm y the y coordinbte of the upper left corner of the rectbngle
      * of pixels to be sent
-     * @param w the width of the rectangle of pixels to be sent
-     * @param h the height of the rectangle of pixels to be sent
-     * @param framenotify <code>true</code> if the consumers should be sent a
-     * {@link ImageConsumer#SINGLEFRAMEDONE SINGLEFRAMEDONE} notification
-     * @see ImageConsumer
-     * @see #setAnimated
-     * @see #setFullBufferUpdates
+     * @pbrbm w the width of the rectbngle of pixels to be sent
+     * @pbrbm h the height of the rectbngle of pixels to be sent
+     * @pbrbm frbmenotify <code>true</code> if the consumers should be sent b
+     * {@link ImbgeConsumer#SINGLEFRAMEDONE SINGLEFRAMEDONE} notificbtion
+     * @see ImbgeConsumer
+     * @see #setAnimbted
+     * @see #setFullBufferUpdbtes
      */
     public synchronized void newPixels(int x, int y, int w, int h,
-                                       boolean framenotify) {
-        if (animating) {
+                                       boolebn frbmenotify) {
+        if (bnimbting) {
             if (fullbuffers) {
                 x = y = 0;
                 w = width;
@@ -471,69 +471,69 @@ public class MemoryImageSource implements ImageProducer {
                     h = height - y;
                 }
             }
-            if ((w <= 0 || h <= 0) && !framenotify) {
+            if ((w <= 0 || h <= 0) && !frbmenotify) {
                 return;
             }
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
+            Enumerbtion<ImbgeConsumer> enum_ = theConsumers.elements();
+            while (enum_.hbsMoreElements()) {
+                ImbgeConsumer ic = enum_.nextElement();
                 if (w > 0 && h > 0) {
                     sendPixels(ic, x, y, w, h);
                 }
-                if (framenotify && isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.SINGLEFRAMEDONE);
+                if (frbmenotify && isConsumer(ic)) {
+                    ic.imbgeComplete(ImbgeConsumer.SINGLEFRAMEDONE);
                 }
             }
         }
     }
 
     /**
-     * Changes to a new byte array to hold the pixels for this image.
-     * If the animation flag has been turned on through the setAnimated()
-     * method, then the new pixels will be immediately delivered to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * @param newpix the new pixel array
-     * @param newmodel the specified <code>ColorModel</code>
-     * @param offset the offset into the array
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see #setAnimated
+     * Chbnges to b new byte brrby to hold the pixels for this imbge.
+     * If the bnimbtion flbg hbs been turned on through the setAnimbted()
+     * method, then the new pixels will be immedibtely delivered to bny
+     * ImbgeConsumers thbt bre currently interested in the dbtb for
+     * this imbge.
+     * @pbrbm newpix the new pixel brrby
+     * @pbrbm newmodel the specified <code>ColorModel</code>
+     * @pbrbm offset the offset into the brrby
+     * @pbrbm scbnsize the distbnce from one row of pixels to the next in
+     * the brrby
+     * @see #newPixels(int, int, int, int, boolebn)
+     * @see #setAnimbted
      */
     public synchronized void newPixels(byte[] newpix, ColorModel newmodel,
-                                       int offset, int scansize) {
+                                       int offset, int scbnsize) {
         this.pixels = newpix;
         this.model = newmodel;
         this.pixeloffset = offset;
-        this.pixelscan = scansize;
+        this.pixelscbn = scbnsize;
         newPixels();
     }
 
     /**
-     * Changes to a new int array to hold the pixels for this image.
-     * If the animation flag has been turned on through the setAnimated()
-     * method, then the new pixels will be immediately delivered to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * @param newpix the new pixel array
-     * @param newmodel the specified <code>ColorModel</code>
-     * @param offset the offset into the array
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see #setAnimated
+     * Chbnges to b new int brrby to hold the pixels for this imbge.
+     * If the bnimbtion flbg hbs been turned on through the setAnimbted()
+     * method, then the new pixels will be immedibtely delivered to bny
+     * ImbgeConsumers thbt bre currently interested in the dbtb for
+     * this imbge.
+     * @pbrbm newpix the new pixel brrby
+     * @pbrbm newmodel the specified <code>ColorModel</code>
+     * @pbrbm offset the offset into the brrby
+     * @pbrbm scbnsize the distbnce from one row of pixels to the next in
+     * the brrby
+     * @see #newPixels(int, int, int, int, boolebn)
+     * @see #setAnimbted
      */
     public synchronized void newPixels(int[] newpix, ColorModel newmodel,
-                                       int offset, int scansize) {
+                                       int offset, int scbnsize) {
         this.pixels = newpix;
         this.model = newmodel;
         this.pixeloffset = offset;
-        this.pixelscan = scansize;
+        this.pixelscbn = scbnsize;
         newPixels();
     }
 
-    private void initConsumer(ImageConsumer ic) {
+    privbte void initConsumer(ImbgeConsumer ic) {
         if (isConsumer(ic)) {
             ic.setDimensions(width, height);
         }
@@ -544,27 +544,27 @@ public class MemoryImageSource implements ImageProducer {
             ic.setColorModel(model);
         }
         if (isConsumer(ic)) {
-            ic.setHints(animating
+            ic.setHints(bnimbting
                         ? (fullbuffers
-                           ? (ImageConsumer.TOPDOWNLEFTRIGHT |
-                              ImageConsumer.COMPLETESCANLINES)
-                           : ImageConsumer.RANDOMPIXELORDER)
-                        : (ImageConsumer.TOPDOWNLEFTRIGHT |
-                           ImageConsumer.COMPLETESCANLINES |
-                           ImageConsumer.SINGLEPASS |
-                           ImageConsumer.SINGLEFRAME));
+                           ? (ImbgeConsumer.TOPDOWNLEFTRIGHT |
+                              ImbgeConsumer.COMPLETESCANLINES)
+                           : ImbgeConsumer.RANDOMPIXELORDER)
+                        : (ImbgeConsumer.TOPDOWNLEFTRIGHT |
+                           ImbgeConsumer.COMPLETESCANLINES |
+                           ImbgeConsumer.SINGLEPASS |
+                           ImbgeConsumer.SINGLEFRAME));
         }
     }
 
-    private void sendPixels(ImageConsumer ic, int x, int y, int w, int h) {
-        int off = pixeloffset + pixelscan * y + x;
+    privbte void sendPixels(ImbgeConsumer ic, int x, int y, int w, int h) {
+        int off = pixeloffset + pixelscbn * y + x;
         if (isConsumer(ic)) {
-            if (pixels instanceof byte[]) {
+            if (pixels instbnceof byte[]) {
                 ic.setPixels(x, y, w, h, model,
-                             ((byte[]) pixels), off, pixelscan);
+                             ((byte[]) pixels), off, pixelscbn);
             } else {
                 ic.setPixels(x, y, w, h, model,
-                             ((int[]) pixels), off, pixelscan);
+                             ((int[]) pixels), off, pixelscbn);
             }
         }
     }

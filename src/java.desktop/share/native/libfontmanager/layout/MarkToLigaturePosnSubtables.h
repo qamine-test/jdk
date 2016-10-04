@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,43 +34,43 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphPositioningTables.h"
-#include "AttachmentPosnSubtables.h"
-#include "GlyphIterator.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphPositioningTbbles.h"
+#include "AttbchmentPosnSubtbbles.h"
+#include "GlyphIterbtor.h"
 
 U_NAMESPACE_BEGIN
 
-struct MarkToLigaturePositioningSubtable : AttachmentPositioningSubtable
+struct MbrkToLigbturePositioningSubtbble : AttbchmentPositioningSubtbble
 {
-  le_int32   process(const LETableReference &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const;
-    LEGlyphID  findLigatureGlyph(GlyphIterator *glyphIterator) const;
+  le_int32   process(const LETbbleReference &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const;
+    LEGlyphID  findLigbtureGlyph(GlyphIterbtor *glyphIterbtor) const;
 };
 
 struct ComponentRecord
 {
-    Offset ligatureAnchorTableOffsetArray[ANY_NUMBER];
+    Offset ligbtureAnchorTbbleOffsetArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ComponentRecord, ligatureAnchorTableOffsetArray)
+LE_VAR_ARRAY(ComponentRecord, ligbtureAnchorTbbleOffsetArrby)
 
-struct LigatureAttachTable
+struct LigbtureAttbchTbble
 {
     le_uint16 componentCount;
-    ComponentRecord componentRecordArray[ANY_NUMBER];
+    ComponentRecord componentRecordArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureAttachTable, componentRecordArray)
+LE_VAR_ARRAY(LigbtureAttbchTbble, componentRecordArrby)
 
-struct LigatureArray
+struct LigbtureArrby
 {
-    le_uint16 ligatureCount;
-    Offset ligatureAttachTableOffsetArray[ANY_NUMBER];
+    le_uint16 ligbtureCount;
+    Offset ligbtureAttbchTbbleOffsetArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureArray, ligatureAttachTableOffsetArray)
+LE_VAR_ARRAY(LigbtureArrby, ligbtureAttbchTbbleOffsetArrby)
 
 U_NAMESPACE_END
 #endif

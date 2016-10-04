@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * The Originbl Code is the Netscbpe security librbries.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * The Initibl Developer of the Originbl Code is
+ * Netscbpe Communicbtions Corporbtion.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 1994-2000
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.com>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
 #ifndef _LOGTAB_H
 #define _LOGTAB_H
 
-const float s_logv_2[] = {
+const flobt s_logv_2[] = {
    0.000000000f, 0.000000000f, 1.000000000f, 0.630929754f,  /*  0  1  2  3 */
    0.500000000f, 0.430676558f, 0.386852807f, 0.356207187f,  /*  4  5  6  7 */
    0.333333333f, 0.315464877f, 0.301029996f, 0.289064826f,  /*  8  9 10 11 */

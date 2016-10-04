@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
 /**
- * Diagnostic Command Argument information. It contains the description
- * of one parameter of the diagnostic command. A parameter can either be an
- * option or an argument. Options are identified by the option name while
- * arguments are identified by their position in the command line. The generic
- * syntax of a diagnostic command is:
+ * Dibgnostic Commbnd Argument informbtion. It contbins the description
+ * of one pbrbmeter of the dibgnostic commbnd. A pbrbmeter cbn either be bn
+ * option or bn brgument. Options bre identified by the option nbme while
+ * brguments bre identified by their position in the commbnd line. The generic
+ * syntbx of b dibgnostic commbnd is:
  *  <blockquote>
- *    &lt;command name&gt; [&lt;option&gt;=&lt;value&gt;] [&lt;argument_value&gt;]
+ *    &lt;commbnd nbme&gt; [&lt;option&gt;=&lt;vblue&gt;] [&lt;brgument_vblue&gt;]
  * </blockquote>
- * Example:
+ * Exbmple:
  * <blockquote>
- * command_name option1=value1 option2=value argumentA argumentB argumentC
+ * commbnd_nbme option1=vblue1 option2=vblue brgumentA brgumentB brgumentC
  * </blockquote>
- * In this command line, the diagnostic command receives five parameters, two
- * options named {@code option1} and {@code option2}, and three arguments.
- * argumentA's position is 0, argumentB's position is 1 and argumentC's
+ * In this commbnd line, the dibgnostic commbnd receives five pbrbmeters, two
+ * options nbmed {@code option1} bnd {@code option2}, bnd three brguments.
+ * brgumentA's position is 0, brgumentB's position is 1 bnd brgumentC's
  * position is 2.
  *
  * @since 1.8
  */
 
-class DiagnosticCommandArgumentInfo {
-    private final String name;
-    private final String description;
-    private final String type;
-    private final String defaultValue;
-    private final boolean mandatory;
-    private final boolean option;
-    private final boolean multiple;
-    private final int position;
+clbss DibgnosticCommbndArgumentInfo {
+    privbte finbl String nbme;
+    privbte finbl String description;
+    privbte finbl String type;
+    privbte finbl String defbultVblue;
+    privbte finbl boolebn mbndbtory;
+    privbte finbl boolebn option;
+    privbte finbl boolebn multiple;
+    privbte finbl int position;
 
     /**
-     * Returns the argument name.
+     * Returns the brgument nbme.
      *
-     * @return the argument name
+     * @return the brgument nbme
      */
-    String getName() {
-        return name;
+    String getNbme() {
+        return nbme;
     }
 
    /**
-     * Returns the argument description.
+     * Returns the brgument description.
      *
-     * @return the argument description
+     * @return the brgument description
      */
     String getDescription() {
         return description;
     }
 
     /**
-     * Returns the argument type.
+     * Returns the brgument type.
      *
-     * @return the argument type
+     * @return the brgument type
      */
     String getType() {
         return type;
     }
 
     /**
-     * Returns the default value as a String if a default value
+     * Returns the defbult vblue bs b String if b defbult vblue
      * is defined, null otherwise.
      *
-     * @return the default value as a String if a default value
+     * @return the defbult vblue bs b String if b defbult vblue
      * is defined, null otherwise.
      */
-    String getDefault() {
-        return defaultValue;
+    String getDefbult() {
+        return defbultVblue;
     }
 
     /**
-     * Returns {@code true} if the argument is mandatory,
-     *         {@code false} otherwise.
+     * Returns {@code true} if the brgument is mbndbtory,
+     *         {@code fblse} otherwise.
      *
-     * @return {@code true} if the argument is mandatory,
-     *         {@code false} otherwise
+     * @return {@code true} if the brgument is mbndbtory,
+     *         {@code fblse} otherwise
      */
-    boolean isMandatory() {
-        return mandatory;
+    boolebn isMbndbtory() {
+        return mbndbtory;
     }
 
     /**
-     * Returns {@code true} if the argument is an option,
-     *         {@code false} otherwise. Options have to be specified using the
-     *         &lt;key&gt;=&lt;value&gt; syntax on the command line, while other
-     *         arguments are specified with a single &lt;value&gt; field and are
-     *         identified by their position on command line.
+     * Returns {@code true} if the brgument is bn option,
+     *         {@code fblse} otherwise. Options hbve to be specified using the
+     *         &lt;key&gt;=&lt;vblue&gt; syntbx on the commbnd line, while other
+     *         brguments bre specified with b single &lt;vblue&gt; field bnd bre
+     *         identified by their position on commbnd line.
      *
-     * @return {@code true} if the argument is an option,
-     *         {@code false} otherwise
+     * @return {@code true} if the brgument is bn option,
+     *         {@code fblse} otherwise
      */
-    boolean isOption() {
+    boolebn isOption() {
         return option;
     }
 
     /**
-     * Returns {@code true} if the argument can be specified multiple times,
-     *         {@code false} otherwise.
+     * Returns {@code true} if the brgument cbn be specified multiple times,
+     *         {@code fblse} otherwise.
      *
-     * @return {@code true} if the argument can be specified multiple times,
-     *         {@code false} otherwise
+     * @return {@code true} if the brgument cbn be specified multiple times,
+     *         {@code fblse} otherwise
      */
-    boolean isMultiple() {
+    boolebn isMultiple() {
         return multiple;
     }
 
     /**
-     * Returns the expected position of this argument if it is not an option,
+     * Returns the expected position of this brgument if it is not bn option,
      *         -1 otherwise. Argument position if defined from left to right,
-     *         starting at zero and ignoring the diagnostic command name and
+     *         stbrting bt zero bnd ignoring the dibgnostic commbnd nbme bnd
      *         options.
      *
-     * @return the expected position of this argument if it is not an option,
+     * @return the expected position of this brgument if it is not bn option,
      *         -1 otherwise.
      */
     int getPosition() {
         return position;
     }
 
-    DiagnosticCommandArgumentInfo(String name, String description,
-                                         String type, String defaultValue,
-                                         boolean mandatory, boolean option,
-                                         boolean multiple, int position) {
-        this.name = name;
+    DibgnosticCommbndArgumentInfo(String nbme, String description,
+                                         String type, String defbultVblue,
+                                         boolebn mbndbtory, boolebn option,
+                                         boolebn multiple, int position) {
+        this.nbme = nbme;
         this.description = description;
         this.type = type;
-        this.defaultValue = defaultValue;
-        this.mandatory = mandatory;
+        this.defbultVblue = defbultVblue;
+        this.mbndbtory = mbndbtory;
         this.option = option;
         this.multiple = multiple;
         this.position = position;

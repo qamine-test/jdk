@@ -1,161 +1,161 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A {@link BlockingQueue} in which producers may wait for consumers
- * to receive elements.  A {@code TransferQueue} may be useful for
- * example in message passing applications in which producers
- * sometimes (using method {@link #transfer}) await receipt of
- * elements by consumers invoking {@code take} or {@code poll}, while
- * at other times enqueue elements (via method {@code put}) without
- * waiting for receipt.
- * {@linkplain #tryTransfer(Object) Non-blocking} and
- * {@linkplain #tryTransfer(Object,long,TimeUnit) time-out} versions of
- * {@code tryTransfer} are also available.
- * A {@code TransferQueue} may also be queried, via {@link
- * #hasWaitingConsumer}, whether there are any threads waiting for
- * items, which is a converse analogy to a {@code peek} operation.
+ * A {@link BlockingQueue} in which producers mby wbit for consumers
+ * to receive elements.  A {@code TrbnsferQueue} mby be useful for
+ * exbmple in messbge pbssing bpplicbtions in which producers
+ * sometimes (using method {@link #trbnsfer}) bwbit receipt of
+ * elements by consumers invoking {@code tbke} or {@code poll}, while
+ * bt other times enqueue elements (vib method {@code put}) without
+ * wbiting for receipt.
+ * {@linkplbin #tryTrbnsfer(Object) Non-blocking} bnd
+ * {@linkplbin #tryTrbnsfer(Object,long,TimeUnit) time-out} versions of
+ * {@code tryTrbnsfer} bre blso bvbilbble.
+ * A {@code TrbnsferQueue} mby blso be queried, vib {@link
+ * #hbsWbitingConsumer}, whether there bre bny threbds wbiting for
+ * items, which is b converse bnblogy to b {@code peek} operbtion.
  *
- * <p>Like other blocking queues, a {@code TransferQueue} may be
- * capacity bounded.  If so, an attempted transfer operation may
- * initially block waiting for available space, and/or subsequently
- * block waiting for reception by a consumer.  Note that in a queue
- * with zero capacity, such as {@link SynchronousQueue}, {@code put}
- * and {@code transfer} are effectively synonymous.
+ * <p>Like other blocking queues, b {@code TrbnsferQueue} mby be
+ * cbpbcity bounded.  If so, bn bttempted trbnsfer operbtion mby
+ * initiblly block wbiting for bvbilbble spbce, bnd/or subsequently
+ * block wbiting for reception by b consumer.  Note thbt in b queue
+ * with zero cbpbcity, such bs {@link SynchronousQueue}, {@code put}
+ * bnd {@code trbnsfer} bre effectively synonymous.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.7
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public interface TransferQueue<E> extends BlockingQueue<E> {
+public interfbce TrbnsferQueue<E> extends BlockingQueue<E> {
     /**
-     * Transfers the element to a waiting consumer immediately, if possible.
+     * Trbnsfers the element to b wbiting consumer immedibtely, if possible.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * otherwise returning {@code false} without enqueuing the element.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * otherwise returning {@code fblse} without enqueuing the element.
      *
-     * @param e the element to transfer
-     * @return {@code true} if the element was transferred, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm e the element to trbnsfer
+     * @return {@code true} if the element wbs trbnsferred, else
+     *         {@code fblse}
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    boolean tryTransfer(E e);
+    boolebn tryTrbnsfer(E e);
 
     /**
-     * Transfers the element to a consumer, waiting if necessary to do so.
+     * Trbnsfers the element to b consumer, wbiting if necessbry to do so.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * else waits until the element is received by a consumer.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * else wbits until the element is received by b consumer.
      *
-     * @param e the element to transfer
-     * @throws InterruptedException if interrupted while waiting,
-     *         in which case the element is not left enqueued
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm e the element to trbnsfer
+     * @throws InterruptedException if interrupted while wbiting,
+     *         in which cbse the element is not left enqueued
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    void transfer(E e) throws InterruptedException;
+    void trbnsfer(E e) throws InterruptedException;
 
     /**
-     * Transfers the element to a consumer if it is possible to do so
-     * before the timeout elapses.
+     * Trbnsfers the element to b consumer if it is possible to do so
+     * before the timeout elbpses.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * else waits until the element is received by a consumer,
-     * returning {@code false} if the specified wait time elapses
-     * before the element can be transferred.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * else wbits until the element is received by b consumer,
+     * returning {@code fblse} if the specified wbit time elbpses
+     * before the element cbn be trbnsferred.
      *
-     * @param e the element to transfer
-     * @param timeout how long to wait before giving up, in units of
+     * @pbrbm e the element to trbnsfer
+     * @pbrbm timeout how long to wbit before giving up, in units of
      *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before completion,
-     *         in which case the element is not left enqueued
-     * @throws InterruptedException if interrupted while waiting,
-     *         in which case the element is not left enqueued
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm unit b {@code TimeUnit} determining how to interpret the
+     *        {@code timeout} pbrbmeter
+     * @return {@code true} if successful, or {@code fblse} if
+     *         the specified wbiting time elbpses before completion,
+     *         in which cbse the element is not left enqueued
+     * @throws InterruptedException if interrupted while wbiting,
+     *         in which cbse the element is not left enqueued
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    boolean tryTransfer(E e, long timeout, TimeUnit unit)
+    boolebn tryTrbnsfer(E e, long timeout, TimeUnit unit)
         throws InterruptedException;
 
     /**
-     * Returns {@code true} if there is at least one consumer waiting
-     * to receive an element via {@link #take} or
+     * Returns {@code true} if there is bt lebst one consumer wbiting
+     * to receive bn element vib {@link #tbke} or
      * timed {@link #poll(long,TimeUnit) poll}.
-     * The return value represents a momentary state of affairs.
+     * The return vblue represents b momentbry stbte of bffbirs.
      *
-     * @return {@code true} if there is at least one waiting consumer
+     * @return {@code true} if there is bt lebst one wbiting consumer
      */
-    boolean hasWaitingConsumer();
+    boolebn hbsWbitingConsumer();
 
     /**
-     * Returns an estimate of the number of consumers waiting to
-     * receive elements via {@link #take} or timed
-     * {@link #poll(long,TimeUnit) poll}.  The return value is an
-     * approximation of a momentary state of affairs, that may be
-     * inaccurate if consumers have completed or given up waiting.
-     * The value may be useful for monitoring and heuristics, but
-     * not for synchronization control.  Implementations of this
-     * method are likely to be noticeably slower than those for
-     * {@link #hasWaitingConsumer}.
+     * Returns bn estimbte of the number of consumers wbiting to
+     * receive elements vib {@link #tbke} or timed
+     * {@link #poll(long,TimeUnit) poll}.  The return vblue is bn
+     * bpproximbtion of b momentbry stbte of bffbirs, thbt mby be
+     * inbccurbte if consumers hbve completed or given up wbiting.
+     * The vblue mby be useful for monitoring bnd heuristics, but
+     * not for synchronizbtion control.  Implementbtions of this
+     * method bre likely to be noticebbly slower thbn those for
+     * {@link #hbsWbitingConsumer}.
      *
-     * @return the number of consumers waiting to receive elements
+     * @return the number of consumers wbiting to receive elements
      */
-    int getWaitingConsumerCount();
+    int getWbitingConsumerCount();
 }

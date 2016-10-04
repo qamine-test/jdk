@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
-import org.ietf.jgss.MessageProp;
-import java.util.LinkedList;
+import org.ietf.jgss.MessbgeProp;
+import jbvb.util.LinkedList;
 
 /**
- * A utility class that implements a number list that keeps track of which
- * tokens have arrived by storing their token numbers in the list. It helps
- * detect old tokens, out of sequence tokens, and duplicate tokens.
+ * A utility clbss thbt implements b number list thbt keeps trbck of which
+ * tokens hbve brrived by storing their token numbers in the list. It helps
+ * detect old tokens, out of sequence tokens, bnd duplicbte tokens.
  *
- * Each element of the list is an interval [a, b]. Its existence in the
- * list implies that all token numbers in the range a, a+1, ..., b-1, b
- * have arrived. Gaps in arrived token numbers are represented by the
- * numbers that fall in between two elements of the list. eg. {[a,b],
- * [c,d]} indicates that the token numbers b+1, ..., c-1 have not arrived
+ * Ebch element of the list is bn intervbl [b, b]. Its existence in the
+ * list implies thbt bll token numbers in the rbnge b, b+1, ..., b-1, b
+ * hbve brrived. Gbps in brrived token numbers bre represented by the
+ * numbers thbt fbll in between two elements of the list. eg. {[b,b],
+ * [c,d]} indicbtes thbt the token numbers b+1, ..., c-1 hbve not brrived
  * yet.
  *
- * The maximum number of intervals that we keep track of is
- * MAX_INTERVALS. Thus if there are too many gaps, then some of the older
- * sequence numbers are deleted from the list. The earliest sequence number
- * that exists in the list is the windowStart. The next expected sequence
- * number, or expectedNumber, is one greater than the latest sequence
+ * The mbximum number of intervbls thbt we keep trbck of is
+ * MAX_INTERVALS. Thus if there bre too mbny gbps, then some of the older
+ * sequence numbers bre deleted from the list. The ebrliest sequence number
+ * thbt exists in the list is the windowStbrt. The next expected sequence
+ * number, or expectedNumber, is one grebter thbn the lbtest sequence
  * number in the list.
  *
- * The list keeps track the first token number that should have arrived
- * (initNumber) so that it is able to detect if certain numbers occur after
- * the first valid token number but before windowStart. That would happen
- * if the number of elements (intervals) exceeds MAX_INTERVALS and some
- * initial elements had  to be deleted.
+ * The list keeps trbck the first token number thbt should hbve brrived
+ * (initNumber) so thbt it is bble to detect if certbin numbers occur bfter
+ * the first vblid token number but before windowStbrt. Thbt would hbppen
+ * if the number of elements (intervbls) exceeds MAX_INTERVALS bnd some
+ * initibl elements hbd  to be deleted.
  *
- * The working of the list is optimized for the normal case where the
- * tokens arrive in sequence.
+ * The working of the list is optimized for the normbl cbse where the
+ * tokens brrive in sequence.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class TokenTracker {
+public clbss TokenTrbcker {
 
-    static final int MAX_INTERVALS = 5;
+    stbtic finbl int MAX_INTERVALS = 5;
 
-    private int initNumber;
-    private int windowStart;
-    private int expectedNumber;
+    privbte int initNumber;
+    privbte int windowStbrt;
+    privbte int expectedNumber;
 
-    private int windowStartIndex = 0;
+    privbte int windowStbrtIndex = 0;
 
-    private LinkedList<Entry> list = new LinkedList<Entry>();
+    privbte LinkedList<Entry> list = new LinkedList<Entry>();
 
-    public TokenTracker(int initNumber) {
+    public TokenTrbcker(int initNumber) {
 
         this.initNumber = initNumber;
-        this.windowStart = initNumber;
+        this.windowStbrt = initNumber;
         this.expectedNumber = initNumber;
 
-        // Make an entry with one less than the expected first token
+        // Mbke bn entry with one less thbn the expected first token
         Entry entry = new Entry(initNumber-1);
 
-        list.add(entry);
+        list.bdd(entry);
     }
 
     /**
      * Returns the index for the entry into which this number will fit. If
-     * there is none, it returns the index of the last interval
+     * there is none, it returns the index of the lbst intervbl
      * which precedes this number. It returns -1 if the number needs to be
-     * a in a new interval ahead of the whole list.
+     * b in b new intervbl bhebd of the whole list.
      */
-    private int getIntervalIndex(int number) {
+    privbte int getIntervblIndex(int number) {
         Entry entry = null;
         int i;
-        // Start from the rear to optimize for the normal case
+        // Stbrt from the rebr to optimize for the normbl cbse
         for (i = list.size() - 1; i >= 0; i--) {
             entry = list.get(i);
-            if (entry.compareTo(number) <= 0)
-                break;
+            if (entry.compbreTo(number) <= 0)
+                brebk;
         }
         return i;
     }
 
     /**
-     * Sets the sequencing and replay information for the given token
+     * Sets the sequencing bnd replby informbtion for the given token
      * number.
      *
      * The following represents the number line with positions of
-     * initNumber, windowStart, expectedNumber marked on it. Regions in
-     * between them show the different sequencing and replay state
-     * possibilites for tokens that fall in there.
+     * initNumber, windowStbrt, expectedNumber mbrked on it. Regions in
+     * between them show the different sequencing bnd replby stbte
+     * possibilites for tokens thbt fbll in there.
      *
-     *  (1)      windowStart
+     *  (1)      windowStbrt
      *           initNumber               expectedNumber
      *              |                           |
      *           ---|---------------------------|---
      *          GAP |    DUP/UNSEQ              | GAP
      *
      *
-     *  (2)       initNumber   windowStart   expectedNumber
+     *  (2)       initNumber   windowStbrt   expectedNumber
      *              |               |              |
      *           ---|---------------|--------------|---
      *          GAP |      OLD      |  DUP/UNSEQ   | GAP
      *
      *
-     *  (3)                                windowStart
+     *  (3)                                windowStbrt
      *           expectedNumber            initNumber
      *              |                           |
      *           ---|---------------------------|---
      *    DUP/UNSEQ |           GAP             | DUP/UNSEQ
      *
      *
-     *  (4)      expectedNumber    initNumber   windowStart
+     *  (4)      expectedNumber    initNumber   windowStbrt
      *              |               |              |
      *           ---|---------------|--------------|---
      *    DUP/UNSEQ |        GAP    |    OLD       | DUP/UNSEQ
      *
      *
      *
-     *  (5)      windowStart   expectedNumber    initNumber
+     *  (5)      windowStbrt   expectedNumber    initNumber
      *              |               |              |
      *           ---|---------------|--------------|---
      *          OLD |    DUP/UNSEQ  |     GAP      | OLD
      *
      *
      *
-     * (This analysis leaves out the possibility that expectedNumber passes
-     * initNumber after wrapping around. That may be added later.)
+     * (This bnblysis lebves out the possibility thbt expectedNumber pbsses
+     * initNumber bfter wrbpping bround. Thbt mby be bdded lbter.)
      */
-    synchronized public final void getProps(int number, MessageProp prop) {
+    synchronized public finbl void getProps(int number, MessbgeProp prop) {
 
-        boolean gap = false;
-        boolean old = false;
-        boolean unsequenced = false;
-        boolean duplicate = false;
+        boolebn gbp = fblse;
+        boolebn old = fblse;
+        boolebn unsequenced = fblse;
+        boolebn duplicbte = fblse;
 
         // System.out.println("\n\n==========");
-        // System.out.println("TokenTracker.getProps(): number=" + number);
+        // System.out.println("TokenTrbcker.getProps(): number=" + number);
         // System.out.println(toString());
 
-        int pos = getIntervalIndex(number);
+        int pos = getIntervblIndex(number);
         Entry entry = null;
         if (pos != -1)
             entry = list.get(pos);
 
-        // Optimize for the expected case:
+        // Optimize for the expected cbse:
 
         if (number == expectedNumber) {
             expectedNumber++;
         } else {
 
-            // Next trivial case is to check for duplicate
-            if (entry != null && entry.contains(number))
-                duplicate = true;
+            // Next trivibl cbse is to check for duplicbte
+            if (entry != null && entry.contbins(number))
+                duplicbte = true;
             else {
 
                 if (expectedNumber >= initNumber) {
 
-                    // Cases (1) and (2)
+                    // Cbses (1) bnd (2)
 
                     if (number > expectedNumber) {
-                        gap = true;
-                    } else if (number >= windowStart) {
+                        gbp = true;
+                    } else if (number >= windowStbrt) {
                         unsequenced = true;
                     } else if (number >= initNumber) {
                         old = true;
                     } else {
-                        gap = true;
+                        gbp = true;
                     }
                 } else {
 
-                    // Cases (3), (4) and (5)
+                    // Cbses (3), (4) bnd (5)
 
                     if (number > expectedNumber) {
                         if (number < initNumber) {
-                            gap = true;
-                        } else if (windowStart >= initNumber) {
-                            if (number >= windowStart) {
+                            gbp = true;
+                        } else if (windowStbrt >= initNumber) {
+                            if (number >= windowStbrt) {
                                unsequenced = true;
                             } else
                                 old = true;
                         } else {
                             old = true;
                         }
-                    } else if (windowStart > expectedNumber) {
+                    } else if (windowStbrt > expectedNumber) {
                         unsequenced = true;
-                    } else if (number < windowStart) {
+                    } else if (number < windowStbrt) {
                         old = true;
                     } else
                         unsequenced = true;
@@ -212,167 +212,167 @@ public class TokenTracker {
             }
         }
 
-        if (!duplicate && !old)
-            add(number, pos);
+        if (!duplicbte && !old)
+            bdd(number, pos);
 
-        if (gap)
+        if (gbp)
             expectedNumber = number+1;
 
-        prop.setSupplementaryStates(duplicate, old, unsequenced, gap,
+        prop.setSupplementbryStbtes(duplicbte, old, unsequenced, gbp,
                                     0, null);
 
-        // System.out.println("Leaving with state:");
+        // System.out.println("Lebving with stbte:");
         // System.out.println(toString());
         // System.out.println("==========\n");
     }
 
     /**
-     * Adds the number to the list just after the entry that is currently
-     * at position prevEntryPos. If prevEntryPos is -1, then the number
-     * will begin a new interval at the front of the list.
+     * Adds the number to the list just bfter the entry thbt is currently
+     * bt position prevEntryPos. If prevEntryPos is -1, then the number
+     * will begin b new intervbl bt the front of the list.
      */
-    private void add(int number, int prevEntryPos) {
+    privbte void bdd(int number, int prevEntryPos) {
 
         Entry entry;
         Entry entryBefore = null;
         Entry entryAfter = null;
 
-        boolean appended = false;
-        boolean prepended = false;
+        boolebn bppended = fblse;
+        boolebn prepended = fblse;
 
         if (prevEntryPos != -1) {
             entryBefore = list.get(prevEntryPos);
 
-            // Can this number simply be added to the previous interval?
+            // Cbn this number simply be bdded to the previous intervbl?
             if (number == (entryBefore.getEnd() + 1)) {
                 entryBefore.setEnd(number);
-                appended = true;
+                bppended = true;
             }
         }
 
-        // Now check the interval that follows this number
+        // Now check the intervbl thbt follows this number
 
         int nextEntryPos = prevEntryPos + 1;
         if ((nextEntryPos) < list.size()) {
             entryAfter = list.get(nextEntryPos);
 
-            // Can this number simply be added to the next interval?
-            if (number == (entryAfter.getStart() - 1)) {
-                if (!appended) {
-                    entryAfter.setStart(number);
+            // Cbn this number simply be bdded to the next intervbl?
+            if (number == (entryAfter.getStbrt() - 1)) {
+                if (!bppended) {
+                    entryAfter.setStbrt(number);
                 } else {
                     // Merge the two entries
-                    entryAfter.setStart(entryBefore.getStart());
+                    entryAfter.setStbrt(entryBefore.getStbrt());
                     list.remove(prevEntryPos);
-                    // Index of any entry following this gets decremented
-                    if (windowStartIndex > prevEntryPos)
-                        windowStartIndex--;
+                    // Index of bny entry following this gets decremented
+                    if (windowStbrtIndex > prevEntryPos)
+                        windowStbrtIndex--;
                 }
                 prepended = true;
             }
         }
 
-        if (prepended || appended)
+        if (prepended || bppended)
             return;
 
         /*
-         * At this point we know that the number will start a new interval
-         * which needs to be added to the list. We might have to recyle an
+         * At this point we know thbt the number will stbrt b new intervbl
+         * which needs to be bdded to the list. We might hbve to recyle bn
          * older entry in the list.
          */
 
         if (list.size() < MAX_INTERVALS) {
             entry = new Entry(number);
-            if (prevEntryPos  < windowStartIndex)
-                windowStartIndex++; // due to the insertion which will happen
+            if (prevEntryPos  < windowStbrtIndex)
+                windowStbrtIndex++; // due to the insertion which will hbppen
         } else {
             /*
-             * Delete the entry that marks the start of the current window.
-             * The marker will automatically point to the next entry in the
-             * list when this happens. If the current entry is at the end
-             * of the list then set the marker to the start of the list.
+             * Delete the entry thbt mbrks the stbrt of the current window.
+             * The mbrker will butombticblly point to the next entry in the
+             * list when this hbppens. If the current entry is bt the end
+             * of the list then set the mbrker to the stbrt of the list.
              */
-            int oldWindowStartIndex = windowStartIndex;
-            if (windowStartIndex == (list.size() - 1))
-                windowStartIndex = 0;
+            int oldWindowStbrtIndex = windowStbrtIndex;
+            if (windowStbrtIndex == (list.size() - 1))
+                windowStbrtIndex = 0;
 
-            entry = list.remove(oldWindowStartIndex);
-            windowStart = list.get(windowStartIndex).getStart();
-            entry.setStart(number);
+            entry = list.remove(oldWindowStbrtIndex);
+            windowStbrt = list.get(windowStbrtIndex).getStbrt();
+            entry.setStbrt(number);
             entry.setEnd(number);
 
-            if (prevEntryPos >= oldWindowStartIndex) {
-                prevEntryPos--; // due to the deletion that just happened
+            if (prevEntryPos >= oldWindowStbrtIndex) {
+                prevEntryPos--; // due to the deletion thbt just hbppened
             } else {
                 /*
-                 * If the start of the current window just moved from the
-                 * end of the list to the front of the list, and if the new
-                 * entry will be added to the front of the list, then
-                 * the new entry is the actual window start.
+                 * If the stbrt of the current window just moved from the
+                 * end of the list to the front of the list, bnd if the new
+                 * entry will be bdded to the front of the list, then
+                 * the new entry is the bctubl window stbrt.
                  * eg, Consider { [-10, -8], ..., [-6, -3], [3, 9]}. In
-                 * this list, suppose the element [3, 9] is the start of
-                 * the window and has to be deleted to make place to add
-                 * [-12, -12]. The resultant list will be
-                 * {[-12, -12], [-10, -8], ..., [-6, -3]} and the new start
+                 * this list, suppose the element [3, 9] is the stbrt of
+                 * the window bnd hbs to be deleted to mbke plbce to bdd
+                 * [-12, -12]. The resultbnt list will be
+                 * {[-12, -12], [-10, -8], ..., [-6, -3]} bnd the new stbrt
                  * of the window should be the element [-12, -12], not
                  * [-10, -8] which succeeded [3, 9] in the old list.
                  */
-                if (oldWindowStartIndex != windowStartIndex) {
-                    // windowStartIndex is 0 at this point
+                if (oldWindowStbrtIndex != windowStbrtIndex) {
+                    // windowStbrtIndex is 0 bt this point
                     if (prevEntryPos == -1)
                         // The new entry is going to the front
-                        windowStart = number;
+                        windowStbrt = number;
                 } else {
-                    // due to the insertion which will happen:
-                    windowStartIndex++;
+                    // due to the insertion which will hbppen:
+                    windowStbrtIndex++;
                 }
             }
         }
 
-        // Finally we are ready to actually add to the list at index
+        // Finblly we bre rebdy to bctublly bdd to the list bt index
         // 'prevEntryPos+1'
 
-        list.add(prevEntryPos+1, entry);
+        list.bdd(prevEntryPos+1, entry);
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder("TokenTracker: ");
-        sb.append(" initNumber=").append(initNumber);
-        sb.append(" windowStart=").append(windowStart);
-        sb.append(" expectedNumber=").append(expectedNumber);
-        sb.append(" windowStartIndex=").append(windowStartIndex);
-        sb.append("\n\tIntervals are: {");
+        StringBuilder sb = new StringBuilder("TokenTrbcker: ");
+        sb.bppend(" initNumber=").bppend(initNumber);
+        sb.bppend(" windowStbrt=").bppend(windowStbrt);
+        sb.bppend(" expectedNumber=").bppend(expectedNumber);
+        sb.bppend(" windowStbrtIndex=").bppend(windowStbrtIndex);
+        sb.bppend("\n\tIntervbls bre: {");
         for (int i = 0; i < list.size(); i++) {
             if (i != 0)
-                sb.append(", ");
-            sb.append(list.get(i).toString());
+                sb.bppend(", ");
+            sb.bppend(list.get(i).toString());
         }
-        sb.append('}');
+        sb.bppend('}');
         return sb.toString();
     }
 
     /**
-     * An entry in the list that represents the sequence of received
-     * tokens. Each entry is actaully an interval of numbers, all of which
-     * have been received.
+     * An entry in the list thbt represents the sequence of received
+     * tokens. Ebch entry is bctbully bn intervbl of numbers, bll of which
+     * hbve been received.
      */
-    class Entry {
+    clbss Entry {
 
-        private int start;
-        private int end;
+        privbte int stbrt;
+        privbte int end;
 
         Entry(int number) {
-            start = number;
+            stbrt = number;
             end = number;
         }
 
         /**
-         * Returns -1 if this interval represented by this entry precedes
-         * the number, 0 if the the number is contained in the interval,
-         * and -1 if the interval occurs after the number.
+         * Returns -1 if this intervbl represented by this entry precedes
+         * the number, 0 if the the number is contbined in the intervbl,
+         * bnd -1 if the intervbl occurs bfter the number.
          */
-        final int compareTo(int number) {
-            if (start > number)
+        finbl int compbreTo(int number) {
+            if (stbrt > number)
                 return 1;
             else if (end < number)
                 return -1;
@@ -380,39 +380,39 @@ public class TokenTracker {
                 return 0;
         }
 
-        final boolean contains(int number) {
-            return (number >= start &&
+        finbl boolebn contbins(int number) {
+            return (number >= stbrt &&
                     number <= end);
         }
 
-        final void append(int number) {
+        finbl void bppend(int number) {
             if (number == (end + 1))
                 end = number;
         }
 
-        final void setInterval(int start, int end) {
-            this.start = start;
+        finbl void setIntervbl(int stbrt, int end) {
+            this.stbrt = stbrt;
             this.end = end;
         }
 
-        final void setEnd(int end) {
+        finbl void setEnd(int end) {
             this.end = end;
         }
 
-        final void setStart(int start) {
-            this.start = start;
+        finbl void setStbrt(int stbrt) {
+            this.stbrt = stbrt;
         }
 
-        final int getStart() {
-            return start;
+        finbl int getStbrt() {
+            return stbrt;
         }
 
-        final int getEnd() {
+        finbl int getEnd() {
             return end;
         }
 
         public String toString() {
-            return ("[" + start + ", " + end + "]");
+            return ("[" + stbrt + ", " + end + "]");
         }
 
     }

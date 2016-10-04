@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
 
-import java.beans.ConstructorProperties;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.AWTAccessor;
 
 /**
- * A class to encapsulate the bitmap representation of the mouse cursor.
+ * A clbss to encbpsulbte the bitmbp representbtion of the mouse cursor.
  *
  * @see Component#setCursor
- * @author      Amy Fowler
+ * @buthor      Amy Fowler
  */
-public class Cursor implements java.io.Serializable {
+public clbss Cursor implements jbvb.io.Seriblizbble {
 
     /**
-     * The default cursor type (gets set if no cursor is defined).
+     * The defbult cursor type (gets set if no cursor is defined).
      */
-    public static final int     DEFAULT_CURSOR                  = 0;
+    public stbtic finbl int     DEFAULT_CURSOR                  = 0;
 
     /**
-     * The crosshair cursor type.
+     * The crosshbir cursor type.
      */
-    public static final int     CROSSHAIR_CURSOR                = 1;
+    public stbtic finbl int     CROSSHAIR_CURSOR                = 1;
 
     /**
      * The text cursor type.
      */
-    public static final int     TEXT_CURSOR                     = 2;
+    public stbtic finbl int     TEXT_CURSOR                     = 2;
 
     /**
-     * The wait cursor type.
+     * The wbit cursor type.
      */
-    public static final int     WAIT_CURSOR                     = 3;
+    public stbtic finbl int     WAIT_CURSOR                     = 3;
 
     /**
      * The south-west-resize cursor type.
      */
-    public static final int     SW_RESIZE_CURSOR                = 4;
+    public stbtic finbl int     SW_RESIZE_CURSOR                = 4;
 
     /**
-     * The south-east-resize cursor type.
+     * The south-ebst-resize cursor type.
      */
-    public static final int     SE_RESIZE_CURSOR                = 5;
+    public stbtic finbl int     SE_RESIZE_CURSOR                = 5;
 
     /**
      * The north-west-resize cursor type.
      */
-    public static final int     NW_RESIZE_CURSOR                = 6;
+    public stbtic finbl int     NW_RESIZE_CURSOR                = 6;
 
     /**
-     * The north-east-resize cursor type.
+     * The north-ebst-resize cursor type.
      */
-    public static final int     NE_RESIZE_CURSOR                = 7;
+    public stbtic finbl int     NE_RESIZE_CURSOR                = 7;
 
     /**
      * The north-resize cursor type.
      */
-    public static final int     N_RESIZE_CURSOR                 = 8;
+    public stbtic finbl int     N_RESIZE_CURSOR                 = 8;
 
     /**
      * The south-resize cursor type.
      */
-    public static final int     S_RESIZE_CURSOR                 = 9;
+    public stbtic finbl int     S_RESIZE_CURSOR                 = 9;
 
     /**
      * The west-resize cursor type.
      */
-    public static final int     W_RESIZE_CURSOR                 = 10;
+    public stbtic finbl int     W_RESIZE_CURSOR                 = 10;
 
     /**
-     * The east-resize cursor type.
+     * The ebst-resize cursor type.
      */
-    public static final int     E_RESIZE_CURSOR                 = 11;
+    public stbtic finbl int     E_RESIZE_CURSOR                 = 11;
 
     /**
-     * The hand cursor type.
+     * The hbnd cursor type.
      */
-    public static final int     HAND_CURSOR                     = 12;
+    public stbtic finbl int     HAND_CURSOR                     = 12;
 
     /**
      * The move cursor type.
      */
-    public static final int     MOVE_CURSOR                     = 13;
+    public stbtic finbl int     MOVE_CURSOR                     = 13;
 
     /**
-      * @deprecated As of JDK version 1.7, the {@link #getPredefinedCursor(int)}
-      * method should be used instead.
+      * @deprecbted As of JDK version 1.7, the {@link #getPredefinedCursor(int)}
+      * method should be used instebd.
       */
-    @Deprecated
-    protected static Cursor predefined[] = new Cursor[14];
+    @Deprecbted
+    protected stbtic Cursor predefined[] = new Cursor[14];
 
     /**
-     * This field is a private replacement for 'predefined' array.
+     * This field is b privbte replbcement for 'predefined' brrby.
      */
-    private final static Cursor[] predefinedPrivate = new Cursor[14];
+    privbte finbl stbtic Cursor[] predefinedPrivbte = new Cursor[14];
 
-    /* Localization names and default values */
-    static final String[][] cursorProperties = {
-        { "AWT.DefaultCursor", "Default Cursor" },
-        { "AWT.CrosshairCursor", "Crosshair Cursor" },
+    /* Locblizbtion nbmes bnd defbult vblues */
+    stbtic finbl String[][] cursorProperties = {
+        { "AWT.DefbultCursor", "Defbult Cursor" },
+        { "AWT.CrosshbirCursor", "Crosshbir Cursor" },
         { "AWT.TextCursor", "Text Cursor" },
-        { "AWT.WaitCursor", "Wait Cursor" },
+        { "AWT.WbitCursor", "Wbit Cursor" },
         { "AWT.SWResizeCursor", "Southwest Resize Cursor" },
-        { "AWT.SEResizeCursor", "Southeast Resize Cursor" },
+        { "AWT.SEResizeCursor", "Southebst Resize Cursor" },
         { "AWT.NWResizeCursor", "Northwest Resize Cursor" },
-        { "AWT.NEResizeCursor", "Northeast Resize Cursor" },
+        { "AWT.NEResizeCursor", "Northebst Resize Cursor" },
         { "AWT.NResizeCursor", "North Resize Cursor" },
         { "AWT.SResizeCursor", "South Resize Cursor" },
         { "AWT.WResizeCursor", "West Resize Cursor" },
-        { "AWT.EResizeCursor", "East Resize Cursor" },
-        { "AWT.HandCursor", "Hand Cursor" },
+        { "AWT.EResizeCursor", "Ebst Resize Cursor" },
+        { "AWT.HbndCursor", "Hbnd Cursor" },
         { "AWT.MoveCursor", "Move Cursor" },
     };
 
     /**
-     * The chosen cursor type initially set to
+     * The chosen cursor type initiblly set to
      * the <code>DEFAULT_CURSOR</code>.
      *
-     * @serial
+     * @seribl
      * @see #getType()
      */
     int type = DEFAULT_CURSOR;
 
     /**
-     * The type associated with all custom cursors.
+     * The type bssocibted with bll custom cursors.
      */
-    public static final int     CUSTOM_CURSOR                   = -1;
+    public stbtic finbl int     CUSTOM_CURSOR                   = -1;
 
     /*
-     * hashtable, filesystem dir prefix, filename, and properties for custom cursors support
+     * hbshtbble, filesystem dir prefix, filenbme, bnd properties for custom cursors support
      */
 
-    private static final Hashtable<String,Cursor> systemCustomCursors = new Hashtable<>(1);
-    private static final String systemCustomCursorDirPrefix = initCursorDir();
+    privbte stbtic finbl Hbshtbble<String,Cursor> systemCustomCursors = new Hbshtbble<>(1);
+    privbte stbtic finbl String systemCustomCursorDirPrefix = initCursorDir();
 
-    private static String initCursorDir() {
-        String jhome = java.security.AccessController.doPrivileged(
-               new sun.security.action.GetPropertyAction("java.home"));
+    privbte stbtic String initCursorDir() {
+        String jhome = jbvb.security.AccessController.doPrivileged(
+               new sun.security.bction.GetPropertyAction("jbvb.home"));
         return jhome +
-            File.separator + "lib" + File.separator + "images" +
-            File.separator + "cursors" + File.separator;
+            File.sepbrbtor + "lib" + File.sepbrbtor + "imbges" +
+            File.sepbrbtor + "cursors" + File.sepbrbtor;
     }
 
-    private static final String     systemCustomCursorPropertiesFile = systemCustomCursorDirPrefix + "cursors.properties";
+    privbte stbtic finbl String     systemCustomCursorPropertiesFile = systemCustomCursorDirPrefix + "cursors.properties";
 
-    private static       Properties systemCustomCursorProperties = null;
+    privbte stbtic       Properties systemCustomCursorProperties = null;
 
-    private static final String CursorDotPrefix  = "Cursor.";
-    private static final String DotFileSuffix    = ".File";
-    private static final String DotHotspotSuffix = ".HotSpot";
-    private static final String DotNameSuffix    = ".Name";
+    privbte stbtic finbl String CursorDotPrefix  = "Cursor.";
+    privbte stbtic finbl String DotFileSuffix    = ".File";
+    privbte stbtic finbl String DotHotspotSuffix = ".HotSpot";
+    privbte stbtic finbl String DotNbmeSuffix    = ".Nbme";
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 8028237497568985504L;
+    privbte stbtic finbl long seriblVersionUID = 8028237497568985504L;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.Cursor");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("jbvb.bwt.Cursor");
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
 
         AWTAccessor.setCursorAccessor(
             new AWTAccessor.CursorAccessor() {
-                public long getPData(Cursor cursor) {
-                    return cursor.pData;
+                public long getPDbtb(Cursor cursor) {
+                    return cursor.pDbtb;
                 }
 
-                public void setPData(Cursor cursor, long pData) {
-                    cursor.pData = pData;
+                public void setPDbtb(Cursor cursor, long pDbtb) {
+                    cursor.pDbtb = pDbtb;
                 }
 
                 public int getType(Cursor cursor) {
@@ -214,72 +214,72 @@ public class Cursor implements java.io.Serializable {
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+     * bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * Hook into native data.
+     * Hook into nbtive dbtb.
      */
-    private transient long pData;
+    privbte trbnsient long pDbtb;
 
-    private transient Object anchor = new Object();
+    privbte trbnsient Object bnchor = new Object();
 
-    static class CursorDisposer implements sun.java2d.DisposerRecord {
-        volatile long pData;
-        public CursorDisposer(long pData) {
-            this.pData = pData;
+    stbtic clbss CursorDisposer implements sun.jbvb2d.DisposerRecord {
+        volbtile long pDbtb;
+        public CursorDisposer(long pDbtb) {
+            this.pDbtb = pDbtb;
         }
         public void dispose() {
-            if (pData != 0) {
-                finalizeImpl(pData);
+            if (pDbtb != 0) {
+                finblizeImpl(pDbtb);
             }
         }
     }
-    transient CursorDisposer disposer;
-    private void setPData(long pData) {
-        this.pData = pData;
-        if (GraphicsEnvironment.isHeadless()) {
+    trbnsient CursorDisposer disposer;
+    privbte void setPDbtb(long pDbtb) {
+        this.pDbtb = pDbtb;
+        if (GrbphicsEnvironment.isHebdless()) {
             return;
         }
         if (disposer == null) {
-            disposer = new CursorDisposer(pData);
-            // anchor is null after deserialization
-            if (anchor == null) {
-                anchor = new Object();
+            disposer = new CursorDisposer(pDbtb);
+            // bnchor is null bfter deseriblizbtion
+            if (bnchor == null) {
+                bnchor = new Object();
             }
-            sun.java2d.Disposer.addRecord(anchor, disposer);
+            sun.jbvb2d.Disposer.bddRecord(bnchor, disposer);
         } else {
-            disposer.pData = pData;
+            disposer.pDbtb = pDbtb;
         }
     }
 
     /**
-     * The user-visible name of the cursor.
+     * The user-visible nbme of the cursor.
      *
-     * @serial
-     * @see #getName()
+     * @seribl
+     * @see #getNbme()
      */
-    protected String name;
+    protected String nbme;
 
     /**
-     * Returns a cursor object with the specified predefined type.
+     * Returns b cursor object with the specified predefined type.
      *
-     * @param type the type of predefined cursor
+     * @pbrbm type the type of predefined cursor
      * @return the specified predefined cursor
-     * @throws IllegalArgumentException if the specified cursor type is
-     *         invalid
+     * @throws IllegblArgumentException if the specified cursor type is
+     *         invblid
      */
-    static public Cursor getPredefinedCursor(int type) {
+    stbtic public Cursor getPredefinedCursor(int type) {
         if (type < Cursor.DEFAULT_CURSOR || type > Cursor.MOVE_CURSOR) {
-            throw new IllegalArgumentException("illegal cursor type");
+            throw new IllegblArgumentException("illegbl cursor type");
         }
-        Cursor c = predefinedPrivate[type];
+        Cursor c = predefinedPrivbte[type];
         if (c == null) {
-            predefinedPrivate[type] = c = new Cursor(type);
+            predefinedPrivbte[type] = c = new Cursor(type);
         }
-        // fill 'predefined' array for backwards compatibility.
+        // fill 'predefined' brrby for bbckwbrds compbtibility.
         if (predefined[type] == null) {
             predefined[type] = c;
         }
@@ -287,90 +287,90 @@ public class Cursor implements java.io.Serializable {
     }
 
     /**
-     * Returns a system-specific custom cursor object matching the
-     * specified name.  Cursor names are, for example: "Invalid.16x16"
+     * Returns b system-specific custom cursor object mbtching the
+     * specified nbme.  Cursor nbmes bre, for exbmple: "Invblid.16x16"
      *
-     * @param name a string describing the desired system-specific custom cursor
-     * @return the system specific custom cursor named
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @exception AWTException in case of erroneous retrieving of the cursor
+     * @pbrbm nbme b string describing the desired system-specific custom cursor
+     * @return the system specific custom cursor nbmed
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @exception AWTException in cbse of erroneous retrieving of the cursor
      */
-    static public Cursor getSystemCustomCursor(final String name)
-        throws AWTException, HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        Cursor cursor = systemCustomCursors.get(name);
+    stbtic public Cursor getSystemCustomCursor(finbl String nbme)
+        throws AWTException, HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        Cursor cursor = systemCustomCursors.get(nbme);
 
         if (cursor == null) {
             synchronized(systemCustomCursors) {
                 if (systemCustomCursorProperties == null)
-                    loadSystemCustomCursorProperties();
+                    lobdSystemCustomCursorProperties();
             }
 
-            String prefix = CursorDotPrefix + name;
+            String prefix = CursorDotPrefix + nbme;
             String key    = prefix + DotFileSuffix;
 
-            if (!systemCustomCursorProperties.containsKey(key)) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("Cursor.getSystemCustomCursor(" + name + ") returned null");
+            if (!systemCustomCursorProperties.contbinsKey(key)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    log.finer("Cursor.getSystemCustomCursor(" + nbme + ") returned null");
                 }
                 return null;
             }
 
-            final String fileName =
+            finbl String fileNbme =
                 systemCustomCursorProperties.getProperty(key);
 
-            String localized = systemCustomCursorProperties.getProperty(prefix + DotNameSuffix);
+            String locblized = systemCustomCursorProperties.getProperty(prefix + DotNbmeSuffix);
 
-            if (localized == null) localized = name;
+            if (locblized == null) locblized = nbme;
 
             String hotspot = systemCustomCursorProperties.getProperty(prefix + DotHotspotSuffix);
 
             if (hotspot == null)
-                throw new AWTException("no hotspot property defined for cursor: " + name);
+                throw new AWTException("no hotspot property defined for cursor: " + nbme);
 
             StringTokenizer st = new StringTokenizer(hotspot, ",");
 
             if (st.countTokens() != 2)
-                throw new AWTException("failed to parse hotspot property for cursor: " + name);
+                throw new AWTException("fbiled to pbrse hotspot property for cursor: " + nbme);
 
             int x = 0;
             int y = 0;
 
             try {
-                x = Integer.parseInt(st.nextToken());
-                y = Integer.parseInt(st.nextToken());
-            } catch (NumberFormatException nfe) {
-                throw new AWTException("failed to parse hotspot property for cursor: " + name);
+                x = Integer.pbrseInt(st.nextToken());
+                y = Integer.pbrseInt(st.nextToken());
+            } cbtch (NumberFormbtException nfe) {
+                throw new AWTException("fbiled to pbrse hotspot property for cursor: " + nbme);
             }
 
             try {
-                final int fx = x;
-                final int fy = y;
-                final String flocalized = localized;
+                finbl int fx = x;
+                finbl int fy = y;
+                finbl String flocblized = locblized;
 
-                cursor = java.security.AccessController.<Cursor>doPrivileged(
-                    new java.security.PrivilegedExceptionAction<Cursor>() {
+                cursor = jbvb.security.AccessController.<Cursor>doPrivileged(
+                    new jbvb.security.PrivilegedExceptionAction<Cursor>() {
                     public Cursor run() throws Exception {
-                        Toolkit toolkit = Toolkit.getDefaultToolkit();
-                        Image image = toolkit.getImage(
-                           systemCustomCursorDirPrefix + fileName);
-                        return toolkit.createCustomCursor(
-                                    image, new Point(fx,fy), flocalized);
+                        Toolkit toolkit = Toolkit.getDefbultToolkit();
+                        Imbge imbge = toolkit.getImbge(
+                           systemCustomCursorDirPrefix + fileNbme);
+                        return toolkit.crebteCustomCursor(
+                                    imbge, new Point(fx,fy), flocblized);
                     }
                 });
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new AWTException(
-                    "Exception: " + e.getClass() + " " + e.getMessage() +
-                    " occurred while creating cursor " + name);
+                    "Exception: " + e.getClbss() + " " + e.getMessbge() +
+                    " occurred while crebting cursor " + nbme);
             }
 
             if (cursor == null) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("Cursor.getSystemCustomCursor(" + name + ") returned null");
+                if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    log.finer("Cursor.getSystemCustomCursor(" + nbme + ") returned null");
                 }
             } else {
-                systemCustomCursors.put(name, cursor);
+                systemCustomCursors.put(nbme, cursor);
             }
         }
 
@@ -378,43 +378,43 @@ public class Cursor implements java.io.Serializable {
     }
 
     /**
-     * Return the system default cursor.
+     * Return the system defbult cursor.
      *
-     * @return the default cursor
+     * @return the defbult cursor
      */
-    static public Cursor getDefaultCursor() {
+    stbtic public Cursor getDefbultCursor() {
         return getPredefinedCursor(Cursor.DEFAULT_CURSOR);
     }
 
     /**
-     * Creates a new cursor object with the specified type.
-     * @param type the type of cursor
-     * @throws IllegalArgumentException if the specified cursor type
-     * is invalid
+     * Crebtes b new cursor object with the specified type.
+     * @pbrbm type the type of cursor
+     * @throws IllegblArgumentException if the specified cursor type
+     * is invblid
      */
     @ConstructorProperties({"type"})
     public Cursor(int type) {
         if (type < Cursor.DEFAULT_CURSOR || type > Cursor.MOVE_CURSOR) {
-            throw new IllegalArgumentException("illegal cursor type");
+            throw new IllegblArgumentException("illegbl cursor type");
         }
         this.type = type;
 
-        // Lookup localized name.
-        name = Toolkit.getProperty(cursorProperties[type][0],
+        // Lookup locblized nbme.
+        nbme = Toolkit.getProperty(cursorProperties[type][0],
                                    cursorProperties[type][1]);
     }
 
     /**
-     * Creates a new custom cursor object with the specified name.<p>
-     * Note:  this constructor should only be used by AWT implementations
-     * as part of their support for custom cursors.  Applications should
-     * use Toolkit.createCustomCursor().
-     * @param name the user-visible name of the cursor.
-     * @see java.awt.Toolkit#createCustomCursor
+     * Crebtes b new custom cursor object with the specified nbme.<p>
+     * Note:  this constructor should only be used by AWT implementbtions
+     * bs pbrt of their support for custom cursors.  Applicbtions should
+     * use Toolkit.crebteCustomCursor().
+     * @pbrbm nbme the user-visible nbme of the cursor.
+     * @see jbvb.bwt.Toolkit#crebteCustomCursor
      */
-    protected Cursor(String name) {
+    protected Cursor(String nbme) {
         this.type = Cursor.CUSTOM_CURSOR;
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
@@ -427,54 +427,54 @@ public class Cursor implements java.io.Serializable {
     }
 
     /**
-     * Returns the name of this cursor.
-     * @return    a localized description of this cursor.
+     * Returns the nbme of this cursor.
+     * @return    b locblized description of this cursor.
      * @since     1.2
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns a string representation of this cursor.
-     * @return    a string representation of this cursor.
+     * Returns b string representbtion of this cursor.
+     * @return    b string representbtion of this cursor.
      * @since     1.2
      */
     public String toString() {
-        return getClass().getName() + "[" + getName() + "]";
+        return getClbss().getNbme() + "[" + getNbme() + "]";
     }
 
     /*
-     * load the cursor.properties file
+     * lobd the cursor.properties file
      */
-    private static void loadSystemCustomCursorProperties() throws AWTException {
+    privbte stbtic void lobdSystemCustomCursorProperties() throws AWTException {
         synchronized(systemCustomCursors) {
             systemCustomCursorProperties = new Properties();
 
             try {
                 AccessController.<Object>doPrivileged(
-                      new java.security.PrivilegedExceptionAction<Object>() {
+                      new jbvb.security.PrivilegedExceptionAction<Object>() {
                     public Object run() throws Exception {
-                        FileInputStream fis = null;
+                        FileInputStrebm fis = null;
                         try {
-                            fis = new FileInputStream(
+                            fis = new FileInputStrebm(
                                            systemCustomCursorPropertiesFile);
-                            systemCustomCursorProperties.load(fis);
-                        } finally {
+                            systemCustomCursorProperties.lobd(fis);
+                        } finblly {
                             if (fis != null)
                                 fis.close();
                         }
                         return null;
                     }
                 });
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 systemCustomCursorProperties = null;
-                 throw new AWTException("Exception: " + e.getClass() + " " +
-                   e.getMessage() + " occurred while loading: " +
+                 throw new AWTException("Exception: " + e.getClbss() + " " +
+                   e.getMessbge() + " occurred while lobding: " +
                                         systemCustomCursorPropertiesFile);
             }
         }
     }
 
-    private native static void finalizeImpl(long pData);
+    privbte nbtive stbtic void finblizeImpl(long pDbtb);
 }

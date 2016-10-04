@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.spi.CurrencyNameProvider;
-import sun.util.locale.provider.LocaleServiceProviderPool;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileRebder;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.text.PbrseException;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.spi.CurrencyNbmeProvider;
+import sun.util.locble.provider.LocbleServiceProviderPool;
+import sun.util.logging.PlbtformLogger;
 
 
 /**
- * Represents a currency. Currencies are identified by their ISO 4217 currency
- * codes. Visit the <a href="http://www.iso.org/iso/home/standards/currency_codes.htm">
- * ISO web site</a> for more information.
+ * Represents b currency. Currencies bre identified by their ISO 4217 currency
+ * codes. Visit the <b href="http://www.iso.org/iso/home/stbndbrds/currency_codes.htm">
+ * ISO web site</b> for more informbtion.
  * <p>
- * The class is designed so that there's never more than one
- * <code>Currency</code> instance for any given currency. Therefore, there's
- * no public constructor. You obtain a <code>Currency</code> instance using
- * the <code>getInstance</code> methods.
+ * The clbss is designed so thbt there's never more thbn one
+ * <code>Currency</code> instbnce for bny given currency. Therefore, there's
+ * no public constructor. You obtbin b <code>Currency</code> instbnce using
+ * the <code>getInstbnce</code> methods.
  * <p>
- * Users can supersede the Java runtime currency data by means of the system
- * property {@code java.util.currency.data}. If this system property is
- * defined then its value is the location of a properties file, the contents of
- * which are key/value pairs of the ISO 3166 country codes and the ISO 4217
- * currency data respectively.  The value part consists of three ISO 4217 values
- * of a currency, i.e., an alphabetic code, a numeric code, and a minor unit.
- * Those three ISO 4217 values are separated by commas.
- * The lines which start with '#'s are considered comment lines. An optional UTC
- * timestamp may be specified per currency entry if users need to specify a
- * cutover date indicating when the new data comes into effect. The timestamp is
- * appended to the end of the currency properties and uses a comma as a separator.
- * If a UTC datestamp is present and valid, the JRE will only use the new currency
- * properties if the current UTC date is later than the date specified at class
- * loading time. The format of the timestamp must be of ISO 8601 format :
- * {@code 'yyyy-MM-dd'T'HH:mm:ss'}. For example,
+ * Users cbn supersede the Jbvb runtime currency dbtb by mebns of the system
+ * property {@code jbvb.util.currency.dbtb}. If this system property is
+ * defined then its vblue is the locbtion of b properties file, the contents of
+ * which bre key/vblue pbirs of the ISO 3166 country codes bnd the ISO 4217
+ * currency dbtb respectively.  The vblue pbrt consists of three ISO 4217 vblues
+ * of b currency, i.e., bn blphbbetic code, b numeric code, bnd b minor unit.
+ * Those three ISO 4217 vblues bre sepbrbted by commbs.
+ * The lines which stbrt with '#'s bre considered comment lines. An optionbl UTC
+ * timestbmp mby be specified per currency entry if users need to specify b
+ * cutover dbte indicbting when the new dbtb comes into effect. The timestbmp is
+ * bppended to the end of the currency properties bnd uses b commb bs b sepbrbtor.
+ * If b UTC dbtestbmp is present bnd vblid, the JRE will only use the new currency
+ * properties if the current UTC dbte is lbter thbn the dbte specified bt clbss
+ * lobding time. The formbt of the timestbmp must be of ISO 8601 formbt :
+ * {@code 'yyyy-MM-dd'T'HH:mm:ss'}. For exbmple,
  * <p>
  * <code>
- * #Sample currency properties<br>
+ * #Sbmple currency properties<br>
  * JP=JPZ,999,0
  * </code>
  * <p>
- * will supersede the currency data for Japan.
+ * will supersede the currency dbtb for Jbpbn.
  *
  * <p>
  * <code>
- * #Sample currency properties with cutover date<br>
+ * #Sbmple currency properties with cutover dbte<br>
  * JP=JPZ,999,0,2014-01-01T00:00:00
  * </code>
  * <p>
- * will supersede the currency data for Japan if {@code Currency} class is loaded after
- * 1st January 2014 00:00:00 GMT.
+ * will supersede the currency dbtb for Jbpbn if {@code Currency} clbss is lobded bfter
+ * 1st Jbnubry 2014 00:00:00 GMT.
  * <p>
- * Where syntactically malformed entries are encountered, the entry is ignored
- * and the remainder of entries in file are processed. For instances where duplicate
- * country code entries exist, the behavior of the Currency information for that
- * {@code Currency} is undefined and the remainder of entries in file are processed.
+ * Where syntbcticblly mblformed entries bre encountered, the entry is ignored
+ * bnd the rembinder of entries in file bre processed. For instbnces where duplicbte
+ * country code entries exist, the behbvior of the Currency informbtion for thbt
+ * {@code Currency} is undefined bnd the rembinder of entries in file bre processed.
  *
  * @since 1.4
  */
-public final class Currency implements Serializable {
+public finbl clbss Currency implements Seriblizbble {
 
-    private static final long serialVersionUID = -158308464356906721L;
+    privbte stbtic finbl long seriblVersionUID = -158308464356906721L;
 
     /**
      * ISO 4217 currency code for this currency.
      *
-     * @serial
+     * @seribl
      */
-    private final String currencyCode;
+    privbte finbl String currencyCode;
 
     /**
-     * Default fraction digits for this currency.
-     * Set from currency data tables.
+     * Defbult frbction digits for this currency.
+     * Set from currency dbtb tbbles.
      */
-    transient private final int defaultFractionDigits;
+    trbnsient privbte finbl int defbultFrbctionDigits;
 
     /**
      * ISO 4217 numeric code for this currency.
-     * Set from currency data tables.
+     * Set from currency dbtb tbbles.
      */
-    transient private final int numericCode;
+    trbnsient privbte finbl int numericCode;
 
 
-    // class data: instance map
+    // clbss dbtb: instbnce mbp
 
-    private static ConcurrentMap<String, Currency> instances = new ConcurrentHashMap<>(7);
-    private static HashSet<Currency> available;
+    privbte stbtic ConcurrentMbp<String, Currency> instbnces = new ConcurrentHbshMbp<>(7);
+    privbte stbtic HbshSet<Currency> bvbilbble;
 
-    // Class data: currency data obtained from currency.data file.
+    // Clbss dbtb: currency dbtb obtbined from currency.dbtb file.
     // Purpose:
-    // - determine valid country codes
-    // - determine valid currency codes
-    // - map country codes to currency codes
-    // - obtain default fraction digits for currency codes
+    // - determine vblid country codes
+    // - determine vblid currency codes
+    // - mbp country codes to currency codes
+    // - obtbin defbult frbction digits for currency codes
     //
-    // sc = special case; dfd = default fraction digits
-    // Simple countries are those where the country code is a prefix of the
-    // currency code, and there are no known plans to change the currency.
+    // sc = specibl cbse; dfd = defbult frbction digits
+    // Simple countries bre those where the country code is b prefix of the
+    // currency code, bnd there bre no known plbns to chbnge the currency.
     //
-    // table formats:
-    // - mainTable:
-    //   - maps country code to 32-bit int
+    // tbble formbts:
+    // - mbinTbble:
+    //   - mbps country code to 32-bit int
     //   - 26*26 entries, corresponding to [A-Z]*[A-Z]
-    //   - \u007F -> not valid country
+    //   - \u007F -> not vblid country
     //   - bits 18-31: unused
     //   - bits 8-17: numeric code (0 to 1023)
-    //   - bit 7: 1 - special case, bits 0-4 indicate which one
-    //            0 - simple country, bits 0-4 indicate final char of currency code
-    //   - bits 5-6: fraction digits for simple countries, 0 for special cases
-    //   - bits 0-4: final char for currency code for simple country, or ID of special case
-    // - special case IDs:
-    //   - 0: country has no currency
-    //   - other: index into sc* arrays + 1
-    // - scCutOverTimes: cut-over time in millis as returned by
-    //   System.currentTimeMillis for special case countries that are changing
-    //   currencies; Long.MAX_VALUE for countries that are not changing currencies
-    // - scOldCurrencies: old currencies for special case countries
-    // - scNewCurrencies: new currencies for special case countries that are
-    //   changing currencies; null for others
-    // - scOldCurrenciesDFD: default fraction digits for old currencies
-    // - scNewCurrenciesDFD: default fraction digits for new currencies, 0 for
-    //   countries that are not changing currencies
-    // - otherCurrencies: concatenation of all currency codes that are not the
-    //   main currency of a simple country, separated by "-"
-    // - otherCurrenciesDFD: decimal format digits for currencies in otherCurrencies, same order
+    //   - bit 7: 1 - specibl cbse, bits 0-4 indicbte which one
+    //            0 - simple country, bits 0-4 indicbte finbl chbr of currency code
+    //   - bits 5-6: frbction digits for simple countries, 0 for specibl cbses
+    //   - bits 0-4: finbl chbr for currency code for simple country, or ID of specibl cbse
+    // - specibl cbse IDs:
+    //   - 0: country hbs no currency
+    //   - other: index into sc* brrbys + 1
+    // - scCutOverTimes: cut-over time in millis bs returned by
+    //   System.currentTimeMillis for specibl cbse countries thbt bre chbnging
+    //   currencies; Long.MAX_VALUE for countries thbt bre not chbnging currencies
+    // - scOldCurrencies: old currencies for specibl cbse countries
+    // - scNewCurrencies: new currencies for specibl cbse countries thbt bre
+    //   chbnging currencies; null for others
+    // - scOldCurrenciesDFD: defbult frbction digits for old currencies
+    // - scNewCurrenciesDFD: defbult frbction digits for new currencies, 0 for
+    //   countries thbt bre not chbnging currencies
+    // - otherCurrencies: concbtenbtion of bll currency codes thbt bre not the
+    //   mbin currency of b simple country, sepbrbted by "-"
+    // - otherCurrenciesDFD: decimbl formbt digits for currencies in otherCurrencies, sbme order
 
-    static int formatVersion;
-    static int dataVersion;
-    static int[] mainTable;
-    static long[] scCutOverTimes;
-    static String[] scOldCurrencies;
-    static String[] scNewCurrencies;
-    static int[] scOldCurrenciesDFD;
-    static int[] scNewCurrenciesDFD;
-    static int[] scOldCurrenciesNumericCode;
-    static int[] scNewCurrenciesNumericCode;
-    static String otherCurrencies;
-    static int[] otherCurrenciesDFD;
-    static int[] otherCurrenciesNumericCode;
+    stbtic int formbtVersion;
+    stbtic int dbtbVersion;
+    stbtic int[] mbinTbble;
+    stbtic long[] scCutOverTimes;
+    stbtic String[] scOldCurrencies;
+    stbtic String[] scNewCurrencies;
+    stbtic int[] scOldCurrenciesDFD;
+    stbtic int[] scNewCurrenciesDFD;
+    stbtic int[] scOldCurrenciesNumericCode;
+    stbtic int[] scNewCurrenciesNumericCode;
+    stbtic String otherCurrencies;
+    stbtic int[] otherCurrenciesDFD;
+    stbtic int[] otherCurrenciesNumericCode;
 
-    // handy constants - must match definitions in GenerateCurrencyData
-    // magic number
-    private static final int MAGIC_NUMBER = 0x43757244;
-    // number of characters from A to Z
-    private static final int A_TO_Z = ('Z' - 'A') + 1;
-    // entry for invalid country codes
-    private static final int INVALID_COUNTRY_ENTRY = 0x007F;
+    // hbndy constbnts - must mbtch definitions in GenerbteCurrencyDbtb
+    // mbgic number
+    privbte stbtic finbl int MAGIC_NUMBER = 0x43757244;
+    // number of chbrbcters from A to Z
+    privbte stbtic finbl int A_TO_Z = ('Z' - 'A') + 1;
+    // entry for invblid country codes
+    privbte stbtic finbl int INVALID_COUNTRY_ENTRY = 0x007F;
     // entry for countries without currency
-    private static final int COUNTRY_WITHOUT_CURRENCY_ENTRY = 0x0080;
-    // mask for simple case country entries
-    private static final int SIMPLE_CASE_COUNTRY_MASK = 0x0000;
-    // mask for simple case country entry final character
-    private static final int SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK = 0x001F;
-    // mask for simple case country entry default currency digits
-    private static final int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK = 0x0060;
-    // shift count for simple case country entry default currency digits
-    private static final int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT = 5;
-    // mask for special case country entries
-    private static final int SPECIAL_CASE_COUNTRY_MASK = 0x0080;
-    // mask for special case country index
-    private static final int SPECIAL_CASE_COUNTRY_INDEX_MASK = 0x001F;
-    // delta from entry index component in main table to index into special case tables
-    private static final int SPECIAL_CASE_COUNTRY_INDEX_DELTA = 1;
-    // mask for distinguishing simple and special case countries
-    private static final int COUNTRY_TYPE_MASK = SIMPLE_CASE_COUNTRY_MASK | SPECIAL_CASE_COUNTRY_MASK;
-    // mask for the numeric code of the currency
-    private static final int NUMERIC_CODE_MASK = 0x0003FF00;
+    privbte stbtic finbl int COUNTRY_WITHOUT_CURRENCY_ENTRY = 0x0080;
+    // mbsk for simple cbse country entries
+    privbte stbtic finbl int SIMPLE_CASE_COUNTRY_MASK = 0x0000;
+    // mbsk for simple cbse country entry finbl chbrbcter
+    privbte stbtic finbl int SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK = 0x001F;
+    // mbsk for simple cbse country entry defbult currency digits
+    privbte stbtic finbl int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK = 0x0060;
+    // shift count for simple cbse country entry defbult currency digits
+    privbte stbtic finbl int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT = 5;
+    // mbsk for specibl cbse country entries
+    privbte stbtic finbl int SPECIAL_CASE_COUNTRY_MASK = 0x0080;
+    // mbsk for specibl cbse country index
+    privbte stbtic finbl int SPECIAL_CASE_COUNTRY_INDEX_MASK = 0x001F;
+    // deltb from entry index component in mbin tbble to index into specibl cbse tbbles
+    privbte stbtic finbl int SPECIAL_CASE_COUNTRY_INDEX_DELTA = 1;
+    // mbsk for distinguishing simple bnd specibl cbse countries
+    privbte stbtic finbl int COUNTRY_TYPE_MASK = SIMPLE_CASE_COUNTRY_MASK | SPECIAL_CASE_COUNTRY_MASK;
+    // mbsk for the numeric code of the currency
+    privbte stbtic finbl int NUMERIC_CODE_MASK = 0x0003FF00;
     // shift count for the numeric code of the currency
-    private static final int NUMERIC_CODE_SHIFT = 8;
+    privbte stbtic finbl int NUMERIC_CODE_SHIFT = 8;
 
-    // Currency data format version
-    private static final int VALID_FORMAT_VERSION = 1;
+    // Currency dbtb formbt version
+    privbte stbtic finbl int VALID_FORMAT_VERSION = 1;
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
                 try {
-                    try (DataInputStream dis = new DataInputStream(
-                             new BufferedInputStream(getClass().getResourceAsStream("/java/util/currency.data")))) {
-                        if (dis.readInt() != MAGIC_NUMBER) {
-                            throw new InternalError("Currency data is possibly corrupted");
+                    try (DbtbInputStrebm dis = new DbtbInputStrebm(
+                             new BufferedInputStrebm(getClbss().getResourceAsStrebm("/jbvb/util/currency.dbtb")))) {
+                        if (dis.rebdInt() != MAGIC_NUMBER) {
+                            throw new InternblError("Currency dbtb is possibly corrupted");
                         }
-                        formatVersion = dis.readInt();
-                        if (formatVersion != VALID_FORMAT_VERSION) {
-                            throw new InternalError("Currency data format is incorrect");
+                        formbtVersion = dis.rebdInt();
+                        if (formbtVersion != VALID_FORMAT_VERSION) {
+                            throw new InternblError("Currency dbtb formbt is incorrect");
                         }
-                        dataVersion = dis.readInt();
-                        mainTable = readIntArray(dis, A_TO_Z * A_TO_Z);
-                        int scCount = dis.readInt();
-                        scCutOverTimes = readLongArray(dis, scCount);
-                        scOldCurrencies = readStringArray(dis, scCount);
-                        scNewCurrencies = readStringArray(dis, scCount);
-                        scOldCurrenciesDFD = readIntArray(dis, scCount);
-                        scNewCurrenciesDFD = readIntArray(dis, scCount);
-                        scOldCurrenciesNumericCode = readIntArray(dis, scCount);
-                        scNewCurrenciesNumericCode = readIntArray(dis, scCount);
-                        int ocCount = dis.readInt();
-                        otherCurrencies = dis.readUTF();
-                        otherCurrenciesDFD = readIntArray(dis, ocCount);
-                        otherCurrenciesNumericCode = readIntArray(dis, ocCount);
+                        dbtbVersion = dis.rebdInt();
+                        mbinTbble = rebdIntArrby(dis, A_TO_Z * A_TO_Z);
+                        int scCount = dis.rebdInt();
+                        scCutOverTimes = rebdLongArrby(dis, scCount);
+                        scOldCurrencies = rebdStringArrby(dis, scCount);
+                        scNewCurrencies = rebdStringArrby(dis, scCount);
+                        scOldCurrenciesDFD = rebdIntArrby(dis, scCount);
+                        scNewCurrenciesDFD = rebdIntArrby(dis, scCount);
+                        scOldCurrenciesNumericCode = rebdIntArrby(dis, scCount);
+                        scNewCurrenciesNumericCode = rebdIntArrby(dis, scCount);
+                        int ocCount = dis.rebdInt();
+                        otherCurrencies = dis.rebdUTF();
+                        otherCurrenciesDFD = rebdIntArrby(dis, ocCount);
+                        otherCurrenciesNumericCode = rebdIntArrby(dis, ocCount);
                     }
-                } catch (IOException e) {
-                    throw new InternalError(e);
+                } cbtch (IOException e) {
+                    throw new InternblError(e);
                 }
 
                 // look for the properties file for overrides
-                String propsFile = System.getProperty("java.util.currency.data");
+                String propsFile = System.getProperty("jbvb.util.currency.dbtb");
                 if (propsFile == null) {
-                    propsFile = System.getProperty("java.home") + File.separator + "lib" +
-                        File.separator + "currency.properties";
+                    propsFile = System.getProperty("jbvb.home") + File.sepbrbtor + "lib" +
+                        File.sepbrbtor + "currency.properties";
                 }
                 try {
                     File propFile = new File(propsFile);
                     if (propFile.exists()) {
                         Properties props = new Properties();
-                        try (FileReader fr = new FileReader(propFile)) {
-                            props.load(fr);
+                        try (FileRebder fr = new FileRebder(propFile)) {
+                            props.lobd(fr);
                         }
-                        Set<String> keys = props.stringPropertyNames();
-                        Pattern propertiesPattern =
-                            Pattern.compile("([A-Z]{3})\\s*,\\s*(\\d{3})\\s*,\\s*" +
+                        Set<String> keys = props.stringPropertyNbmes();
+                        Pbttern propertiesPbttern =
+                            Pbttern.compile("([A-Z]{3})\\s*,\\s*(\\d{3})\\s*,\\s*" +
                                 "([0-3])\\s*,?\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:" +
                                 "\\d{2}:\\d{2})?");
                         for (String key : keys) {
-                           replaceCurrencyData(propertiesPattern,
-                               key.toUpperCase(Locale.ROOT),
-                               props.getProperty(key).toUpperCase(Locale.ROOT));
+                           replbceCurrencyDbtb(propertiesPbttern,
+                               key.toUpperCbse(Locble.ROOT),
+                               props.getProperty(key).toUpperCbse(Locble.ROOT));
                         }
                     }
-                } catch (IOException e) {
-                    info("currency.properties is ignored because of an IOException", e);
+                } cbtch (IOException e) {
+                    info("currency.properties is ignored becbuse of bn IOException", e);
                 }
                 return null;
             }
@@ -274,137 +274,137 @@ public final class Currency implements Serializable {
     }
 
     /**
-     * Constants for retrieving localized names from the name providers.
+     * Constbnts for retrieving locblized nbmes from the nbme providers.
      */
-    private static final int SYMBOL = 0;
-    private static final int DISPLAYNAME = 1;
+    privbte stbtic finbl int SYMBOL = 0;
+    privbte stbtic finbl int DISPLAYNAME = 1;
 
 
     /**
-     * Constructs a <code>Currency</code> instance. The constructor is private
-     * so that we can insure that there's never more than one instance for a
+     * Constructs b <code>Currency</code> instbnce. The constructor is privbte
+     * so thbt we cbn insure thbt there's never more thbn one instbnce for b
      * given currency.
      */
-    private Currency(String currencyCode, int defaultFractionDigits, int numericCode) {
+    privbte Currency(String currencyCode, int defbultFrbctionDigits, int numericCode) {
         this.currencyCode = currencyCode;
-        this.defaultFractionDigits = defaultFractionDigits;
+        this.defbultFrbctionDigits = defbultFrbctionDigits;
         this.numericCode = numericCode;
     }
 
     /**
-     * Returns the <code>Currency</code> instance for the given currency code.
+     * Returns the <code>Currency</code> instbnce for the given currency code.
      *
-     * @param currencyCode the ISO 4217 code of the currency
-     * @return the <code>Currency</code> instance for the given currency code
+     * @pbrbm currencyCode the ISO 4217 code of the currency
+     * @return the <code>Currency</code> instbnce for the given currency code
      * @exception NullPointerException if <code>currencyCode</code> is null
-     * @exception IllegalArgumentException if <code>currencyCode</code> is not
-     * a supported ISO 4217 code.
+     * @exception IllegblArgumentException if <code>currencyCode</code> is not
+     * b supported ISO 4217 code.
      */
-    public static Currency getInstance(String currencyCode) {
-        return getInstance(currencyCode, Integer.MIN_VALUE, 0);
+    public stbtic Currency getInstbnce(String currencyCode) {
+        return getInstbnce(currencyCode, Integer.MIN_VALUE, 0);
     }
 
-    private static Currency getInstance(String currencyCode, int defaultFractionDigits,
+    privbte stbtic Currency getInstbnce(String currencyCode, int defbultFrbctionDigits,
         int numericCode) {
-        // Try to look up the currency code in the instances table.
-        // This does the null pointer check as a side effect.
-        // Also, if there already is an entry, the currencyCode must be valid.
-        Currency instance = instances.get(currencyCode);
-        if (instance != null) {
-            return instance;
+        // Try to look up the currency code in the instbnces tbble.
+        // This does the null pointer check bs b side effect.
+        // Also, if there blrebdy is bn entry, the currencyCode must be vblid.
+        Currency instbnce = instbnces.get(currencyCode);
+        if (instbnce != null) {
+            return instbnce;
         }
 
-        if (defaultFractionDigits == Integer.MIN_VALUE) {
-            // Currency code not internally generated, need to verify first
-            // A currency code must have 3 characters and exist in the main table
+        if (defbultFrbctionDigits == Integer.MIN_VALUE) {
+            // Currency code not internblly generbted, need to verify first
+            // A currency code must hbve 3 chbrbcters bnd exist in the mbin tbble
             // or in the list of other currencies.
             if (currencyCode.length() != 3) {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
-            char char1 = currencyCode.charAt(0);
-            char char2 = currencyCode.charAt(1);
-            int tableEntry = getMainTableEntry(char1, char2);
-            if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                    && tableEntry != INVALID_COUNTRY_ENTRY
-                    && currencyCode.charAt(2) - 'A' == (tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK)) {
-                defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-                numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+            chbr chbr1 = currencyCode.chbrAt(0);
+            chbr chbr2 = currencyCode.chbrAt(1);
+            int tbbleEntry = getMbinTbbleEntry(chbr1, chbr2);
+            if ((tbbleEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                    && tbbleEntry != INVALID_COUNTRY_ENTRY
+                    && currencyCode.chbrAt(2) - 'A' == (tbbleEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK)) {
+                defbultFrbctionDigits = (tbbleEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+                numericCode = (tbbleEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
             } else {
-                // Check for '-' separately so we don't get false hits in the table.
-                if (currencyCode.charAt(2) == '-') {
-                    throw new IllegalArgumentException();
+                // Check for '-' sepbrbtely so we don't get fblse hits in the tbble.
+                if (currencyCode.chbrAt(2) == '-') {
+                    throw new IllegblArgumentException();
                 }
                 int index = otherCurrencies.indexOf(currencyCode);
                 if (index == -1) {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                defaultFractionDigits = otherCurrenciesDFD[index / 4];
+                defbultFrbctionDigits = otherCurrenciesDFD[index / 4];
                 numericCode = otherCurrenciesNumericCode[index / 4];
             }
         }
 
-        Currency currencyVal =
-            new Currency(currencyCode, defaultFractionDigits, numericCode);
-        instance = instances.putIfAbsent(currencyCode, currencyVal);
-        return (instance != null ? instance : currencyVal);
+        Currency currencyVbl =
+            new Currency(currencyCode, defbultFrbctionDigits, numericCode);
+        instbnce = instbnces.putIfAbsent(currencyCode, currencyVbl);
+        return (instbnce != null ? instbnce : currencyVbl);
     }
 
     /**
-     * Returns the <code>Currency</code> instance for the country of the
-     * given locale. The language and variant components of the locale
-     * are ignored. The result may vary over time, as countries change their
-     * currencies. For example, for the original member countries of the
-     * European Monetary Union, the method returns the old national currencies
-     * until December 31, 2001, and the Euro from January 1, 2002, local time
+     * Returns the <code>Currency</code> instbnce for the country of the
+     * given locble. The lbngubge bnd vbribnt components of the locble
+     * bre ignored. The result mby vbry over time, bs countries chbnge their
+     * currencies. For exbmple, for the originbl member countries of the
+     * Europebn Monetbry Union, the method returns the old nbtionbl currencies
+     * until December 31, 2001, bnd the Euro from Jbnubry 1, 2002, locbl time
      * of the respective countries.
      * <p>
-     * The method returns <code>null</code> for territories that don't
-     * have a currency, such as Antarctica.
+     * The method returns <code>null</code> for territories thbt don't
+     * hbve b currency, such bs Antbrcticb.
      *
-     * @param locale the locale for whose country a <code>Currency</code>
-     * instance is needed
-     * @return the <code>Currency</code> instance for the country of the given
-     * locale, or {@code null}
-     * @exception NullPointerException if <code>locale</code> or its country
+     * @pbrbm locble the locble for whose country b <code>Currency</code>
+     * instbnce is needed
+     * @return the <code>Currency</code> instbnce for the country of the given
+     * locble, or {@code null}
+     * @exception NullPointerException if <code>locble</code> or its country
      * code is {@code null}
-     * @exception IllegalArgumentException if the country of the given {@code locale}
-     * is not a supported ISO 3166 country code.
+     * @exception IllegblArgumentException if the country of the given {@code locble}
+     * is not b supported ISO 3166 country code.
      */
-    public static Currency getInstance(Locale locale) {
-        String country = locale.getCountry();
+    public stbtic Currency getInstbnce(Locble locble) {
+        String country = locble.getCountry();
         if (country == null) {
             throw new NullPointerException();
         }
 
         if (country.length() != 2) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        char char1 = country.charAt(0);
-        char char2 = country.charAt(1);
-        int tableEntry = getMainTableEntry(char1, char2);
-        if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                    && tableEntry != INVALID_COUNTRY_ENTRY) {
-            char finalChar = (char) ((tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
-            int defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-            int numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+        chbr chbr1 = country.chbrAt(0);
+        chbr chbr2 = country.chbrAt(1);
+        int tbbleEntry = getMbinTbbleEntry(chbr1, chbr2);
+        if ((tbbleEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                    && tbbleEntry != INVALID_COUNTRY_ENTRY) {
+            chbr finblChbr = (chbr) ((tbbleEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
+            int defbultFrbctionDigits = (tbbleEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+            int numericCode = (tbbleEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
             StringBuilder sb = new StringBuilder(country);
-            sb.append(finalChar);
-            return getInstance(sb.toString(), defaultFractionDigits, numericCode);
+            sb.bppend(finblChbr);
+            return getInstbnce(sb.toString(), defbultFrbctionDigits, numericCode);
         } else {
-            // special cases
-            if (tableEntry == INVALID_COUNTRY_ENTRY) {
-                throw new IllegalArgumentException();
+            // specibl cbses
+            if (tbbleEntry == INVALID_COUNTRY_ENTRY) {
+                throw new IllegblArgumentException();
             }
-            if (tableEntry == COUNTRY_WITHOUT_CURRENCY_ENTRY) {
+            if (tbbleEntry == COUNTRY_WITHOUT_CURRENCY_ENTRY) {
                 return null;
             } else {
-                int index = (tableEntry & SPECIAL_CASE_COUNTRY_INDEX_MASK) - SPECIAL_CASE_COUNTRY_INDEX_DELTA;
+                int index = (tbbleEntry & SPECIAL_CASE_COUNTRY_INDEX_MASK) - SPECIAL_CASE_COUNTRY_INDEX_DELTA;
                 if (scCutOverTimes[index] == Long.MAX_VALUE || System.currentTimeMillis() < scCutOverTimes[index]) {
-                    return getInstance(scOldCurrencies[index], scOldCurrenciesDFD[index],
+                    return getInstbnce(scOldCurrencies[index], scOldCurrenciesDFD[index],
                         scOldCurrenciesNumericCode[index]);
                 } else {
-                    return getInstance(scNewCurrencies[index], scNewCurrenciesDFD[index],
+                    return getInstbnce(scNewCurrencies[index], scNewCurrenciesDFD[index],
                         scNewCurrenciesNumericCode[index]);
                 }
             }
@@ -412,48 +412,48 @@ public final class Currency implements Serializable {
     }
 
     /**
-     * Gets the set of available currencies.  The returned set of currencies
-     * contains all of the available currencies, which may include currencies
-     * that represent obsolete ISO 4217 codes.  The set can be modified
-     * without affecting the available currencies in the runtime.
+     * Gets the set of bvbilbble currencies.  The returned set of currencies
+     * contbins bll of the bvbilbble currencies, which mby include currencies
+     * thbt represent obsolete ISO 4217 codes.  The set cbn be modified
+     * without bffecting the bvbilbble currencies in the runtime.
      *
-     * @return the set of available currencies.  If there is no currency
-     *    available in the runtime, the returned set is empty.
+     * @return the set of bvbilbble currencies.  If there is no currency
+     *    bvbilbble in the runtime, the returned set is empty.
      * @since 1.7
      */
-    public static Set<Currency> getAvailableCurrencies() {
-        synchronized(Currency.class) {
-            if (available == null) {
-                available = new HashSet<>(256);
+    public stbtic Set<Currency> getAvbilbbleCurrencies() {
+        synchronized(Currency.clbss) {
+            if (bvbilbble == null) {
+                bvbilbble = new HbshSet<>(256);
 
                 // Add simple currencies first
-                for (char c1 = 'A'; c1 <= 'Z'; c1 ++) {
-                    for (char c2 = 'A'; c2 <= 'Z'; c2 ++) {
-                        int tableEntry = getMainTableEntry(c1, c2);
-                        if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                             && tableEntry != INVALID_COUNTRY_ENTRY) {
-                            char finalChar = (char) ((tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
-                            int defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-                            int numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+                for (chbr c1 = 'A'; c1 <= 'Z'; c1 ++) {
+                    for (chbr c2 = 'A'; c2 <= 'Z'; c2 ++) {
+                        int tbbleEntry = getMbinTbbleEntry(c1, c2);
+                        if ((tbbleEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                             && tbbleEntry != INVALID_COUNTRY_ENTRY) {
+                            chbr finblChbr = (chbr) ((tbbleEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
+                            int defbultFrbctionDigits = (tbbleEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+                            int numericCode = (tbbleEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
                             StringBuilder sb = new StringBuilder();
-                            sb.append(c1);
-                            sb.append(c2);
-                            sb.append(finalChar);
-                            available.add(getInstance(sb.toString(), defaultFractionDigits, numericCode));
+                            sb.bppend(c1);
+                            sb.bppend(c2);
+                            sb.bppend(finblChbr);
+                            bvbilbble.bdd(getInstbnce(sb.toString(), defbultFrbctionDigits, numericCode));
                         }
                     }
                 }
 
-                // Now add other currencies
+                // Now bdd other currencies
                 StringTokenizer st = new StringTokenizer(otherCurrencies, "-");
-                while (st.hasMoreElements()) {
-                    available.add(getInstance((String)st.nextElement()));
+                while (st.hbsMoreElements()) {
+                    bvbilbble.bdd(getInstbnce((String)st.nextElement()));
                 }
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Set<Currency> result = (Set<Currency>) available.clone();
+        @SuppressWbrnings("unchecked")
+        Set<Currency> result = (Set<Currency>) bvbilbble.clone();
         return result;
     }
 
@@ -467,59 +467,59 @@ public final class Currency implements Serializable {
     }
 
     /**
-     * Gets the symbol of this currency for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * For example, for the US Dollar, the symbol is "$" if the default
-     * locale is the US, while for other locales it may be "US$". If no
-     * symbol can be determined, the ISO 4217 currency code is returned.
+     * Gets the symbol of this currency for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.
+     * For exbmple, for the US Dollbr, the symbol is "$" if the defbult
+     * locble is the US, while for other locbles it mby be "US$". If no
+     * symbol cbn be determined, the ISO 4217 currency code is returned.
      * <p>
-     * This is equivalent to calling
-     * {@link #getSymbol(Locale)
-     *     getSymbol(Locale.getDefault(Locale.Category.DISPLAY))}.
+     * This is equivblent to cblling
+     * {@link #getSymbol(Locble)
+     *     getSymbol(Locble.getDefbult(Locble.Cbtegory.DISPLAY))}.
      *
-     * @return the symbol of this currency for the default
-     *     {@link Locale.Category#DISPLAY DISPLAY} locale
+     * @return the symbol of this currency for the defbult
+     *     {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
      */
     public String getSymbol() {
-        return getSymbol(Locale.getDefault(Locale.Category.DISPLAY));
+        return getSymbol(Locble.getDefbult(Locble.Cbtegory.DISPLAY));
     }
 
     /**
-     * Gets the symbol of this currency for the specified locale.
-     * For example, for the US Dollar, the symbol is "$" if the specified
-     * locale is the US, while for other locales it may be "US$". If no
-     * symbol can be determined, the ISO 4217 currency code is returned.
+     * Gets the symbol of this currency for the specified locble.
+     * For exbmple, for the US Dollbr, the symbol is "$" if the specified
+     * locble is the US, while for other locbles it mby be "US$". If no
+     * symbol cbn be determined, the ISO 4217 currency code is returned.
      *
-     * @param locale the locale for which a display name for this currency is
+     * @pbrbm locble the locble for which b displby nbme for this currency is
      * needed
-     * @return the symbol of this currency for the specified locale
-     * @exception NullPointerException if <code>locale</code> is null
+     * @return the symbol of this currency for the specified locble
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public String getSymbol(Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CurrencyNameProvider.class);
-        String symbol = pool.getLocalizedObject(
-                                CurrencyNameGetter.INSTANCE,
-                                locale, currencyCode, SYMBOL);
+    public String getSymbol(Locble locble) {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(CurrencyNbmeProvider.clbss);
+        String symbol = pool.getLocblizedObject(
+                                CurrencyNbmeGetter.INSTANCE,
+                                locble, currencyCode, SYMBOL);
         if (symbol != null) {
             return symbol;
         }
 
-        // use currency code as symbol of last resort
+        // use currency code bs symbol of lbst resort
         return currencyCode;
     }
 
     /**
-     * Gets the default number of fraction digits used with this currency.
-     * For example, the default number of fraction digits for the Euro is 2,
-     * while for the Japanese Yen it's 0.
-     * In the case of pseudo-currencies, such as IMF Special Drawing Rights,
+     * Gets the defbult number of frbction digits used with this currency.
+     * For exbmple, the defbult number of frbction digits for the Euro is 2,
+     * while for the Jbpbnese Yen it's 0.
+     * In the cbse of pseudo-currencies, such bs IMF Specibl Drbwing Rights,
      * -1 is returned.
      *
-     * @return the default number of fraction digits used with this currency
+     * @return the defbult number of frbction digits used with this currency
      */
-    public int getDefaultFractionDigits() {
-        return defaultFractionDigits;
+    public int getDefbultFrbctionDigits() {
+        return defbultFrbctionDigits;
     }
 
     /**
@@ -533,45 +533,45 @@ public final class Currency implements Serializable {
     }
 
     /**
-     * Gets the name that is suitable for displaying this currency for
-     * the default {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * If there is no suitable display name found
-     * for the default locale, the ISO 4217 currency code is returned.
+     * Gets the nbme thbt is suitbble for displbying this currency for
+     * the defbult {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.
+     * If there is no suitbble displby nbme found
+     * for the defbult locble, the ISO 4217 currency code is returned.
      * <p>
-     * This is equivalent to calling
-     * {@link #getDisplayName(Locale)
-     *     getDisplayName(Locale.getDefault(Locale.Category.DISPLAY))}.
+     * This is equivblent to cblling
+     * {@link #getDisplbyNbme(Locble)
+     *     getDisplbyNbme(Locble.getDefbult(Locble.Cbtegory.DISPLAY))}.
      *
-     * @return the display name of this currency for the default
-     *     {@link Locale.Category#DISPLAY DISPLAY} locale
+     * @return the displby nbme of this currency for the defbult
+     *     {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
      * @since 1.7
      */
-    public String getDisplayName() {
-        return getDisplayName(Locale.getDefault(Locale.Category.DISPLAY));
+    public String getDisplbyNbme() {
+        return getDisplbyNbme(Locble.getDefbult(Locble.Cbtegory.DISPLAY));
     }
 
     /**
-     * Gets the name that is suitable for displaying this currency for
-     * the specified locale.  If there is no suitable display name found
-     * for the specified locale, the ISO 4217 currency code is returned.
+     * Gets the nbme thbt is suitbble for displbying this currency for
+     * the specified locble.  If there is no suitbble displby nbme found
+     * for the specified locble, the ISO 4217 currency code is returned.
      *
-     * @param locale the locale for which a display name for this currency is
+     * @pbrbm locble the locble for which b displby nbme for this currency is
      * needed
-     * @return the display name of this currency for the specified locale
-     * @exception NullPointerException if <code>locale</code> is null
+     * @return the displby nbme of this currency for the specified locble
+     * @exception NullPointerException if <code>locble</code> is null
      * @since 1.7
      */
-    public String getDisplayName(Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CurrencyNameProvider.class);
-        String result = pool.getLocalizedObject(
-                                CurrencyNameGetter.INSTANCE,
-                                locale, currencyCode, DISPLAYNAME);
+    public String getDisplbyNbme(Locble locble) {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(CurrencyNbmeProvider.clbss);
+        String result = pool.getLocblizedObject(
+                                CurrencyNbmeGetter.INSTANCE,
+                                locble, currencyCode, DISPLAYNAME);
         if (result != null) {
             return result;
         }
 
-        // use currency code as symbol of last resort
+        // use currency code bs symbol of lbst resort
         return currencyCode;
     }
 
@@ -586,185 +586,185 @@ public final class Currency implements Serializable {
     }
 
     /**
-     * Resolves instances being deserialized to a single instance per currency.
+     * Resolves instbnces being deseriblized to b single instbnce per currency.
      */
-    private Object readResolve() {
-        return getInstance(currencyCode);
+    privbte Object rebdResolve() {
+        return getInstbnce(currencyCode);
     }
 
     /**
-     * Gets the main table entry for the country whose country code consists
-     * of char1 and char2.
+     * Gets the mbin tbble entry for the country whose country code consists
+     * of chbr1 bnd chbr2.
      */
-    private static int getMainTableEntry(char char1, char char2) {
-        if (char1 < 'A' || char1 > 'Z' || char2 < 'A' || char2 > 'Z') {
-            throw new IllegalArgumentException();
+    privbte stbtic int getMbinTbbleEntry(chbr chbr1, chbr chbr2) {
+        if (chbr1 < 'A' || chbr1 > 'Z' || chbr2 < 'A' || chbr2 > 'Z') {
+            throw new IllegblArgumentException();
         }
-        return mainTable[(char1 - 'A') * A_TO_Z + (char2 - 'A')];
+        return mbinTbble[(chbr1 - 'A') * A_TO_Z + (chbr2 - 'A')];
     }
 
     /**
-     * Sets the main table entry for the country whose country code consists
-     * of char1 and char2.
+     * Sets the mbin tbble entry for the country whose country code consists
+     * of chbr1 bnd chbr2.
      */
-    private static void setMainTableEntry(char char1, char char2, int entry) {
-        if (char1 < 'A' || char1 > 'Z' || char2 < 'A' || char2 > 'Z') {
-            throw new IllegalArgumentException();
+    privbte stbtic void setMbinTbbleEntry(chbr chbr1, chbr chbr2, int entry) {
+        if (chbr1 < 'A' || chbr1 > 'Z' || chbr2 < 'A' || chbr2 > 'Z') {
+            throw new IllegblArgumentException();
         }
-        mainTable[(char1 - 'A') * A_TO_Z + (char2 - 'A')] = entry;
+        mbinTbble[(chbr1 - 'A') * A_TO_Z + (chbr2 - 'A')] = entry;
     }
 
     /**
-     * Obtains a localized currency names from a CurrencyNameProvider
-     * implementation.
+     * Obtbins b locblized currency nbmes from b CurrencyNbmeProvider
+     * implementbtion.
      */
-    private static class CurrencyNameGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<CurrencyNameProvider,
+    privbte stbtic clbss CurrencyNbmeGetter
+        implements LocbleServiceProviderPool.LocblizedObjectGetter<CurrencyNbmeProvider,
                                                                    String> {
-        private static final CurrencyNameGetter INSTANCE = new CurrencyNameGetter();
+        privbte stbtic finbl CurrencyNbmeGetter INSTANCE = new CurrencyNbmeGetter();
 
         @Override
-        public String getObject(CurrencyNameProvider currencyNameProvider,
-                                Locale locale,
+        public String getObject(CurrencyNbmeProvider currencyNbmeProvider,
+                                Locble locble,
                                 String key,
-                                Object... params) {
-            assert params.length == 1;
-            int type = (Integer)params[0];
+                                Object... pbrbms) {
+            bssert pbrbms.length == 1;
+            int type = (Integer)pbrbms[0];
 
             switch(type) {
-            case SYMBOL:
-                return currencyNameProvider.getSymbol(key, locale);
-            case DISPLAYNAME:
-                return currencyNameProvider.getDisplayName(key, locale);
-            default:
-                assert false; // shouldn't happen
+            cbse SYMBOL:
+                return currencyNbmeProvider.getSymbol(key, locble);
+            cbse DISPLAYNAME:
+                return currencyNbmeProvider.getDisplbyNbme(key, locble);
+            defbult:
+                bssert fblse; // shouldn't hbppen
             }
 
             return null;
         }
     }
 
-    private static int[] readIntArray(DataInputStream dis, int count) throws IOException {
+    privbte stbtic int[] rebdIntArrby(DbtbInputStrebm dis, int count) throws IOException {
         int[] ret = new int[count];
         for (int i = 0; i < count; i++) {
-            ret[i] = dis.readInt();
+            ret[i] = dis.rebdInt();
         }
 
         return ret;
     }
 
-    private static long[] readLongArray(DataInputStream dis, int count) throws IOException {
+    privbte stbtic long[] rebdLongArrby(DbtbInputStrebm dis, int count) throws IOException {
         long[] ret = new long[count];
         for (int i = 0; i < count; i++) {
-            ret[i] = dis.readLong();
+            ret[i] = dis.rebdLong();
         }
 
         return ret;
     }
 
-    private static String[] readStringArray(DataInputStream dis, int count) throws IOException {
+    privbte stbtic String[] rebdStringArrby(DbtbInputStrebm dis, int count) throws IOException {
         String[] ret = new String[count];
         for (int i = 0; i < count; i++) {
-            ret[i] = dis.readUTF();
+            ret[i] = dis.rebdUTF();
         }
 
         return ret;
     }
 
     /**
-     * Replaces currency data found in the currencydata.properties file
+     * Replbces currency dbtb found in the currencydbtb.properties file
      *
-     * @param pattern regex pattern for the properties
-     * @param ctry country code
-     * @param curdata currency data.  This is a comma separated string that
-     *    consists of "three-letter alphabet code", "three-digit numeric code",
-     *    and "one-digit (0,1,2, or 3) default fraction digit".
-     *    For example, "JPZ,392,0".
-     *    An optional UTC date can be appended to the string (comma separated)
-     *    to allow a currency change take effect after date specified.
-     *    For example, "JP=JPZ,999,0,2014-01-01T00:00:00" has no effect unless
-     *    UTC time is past 1st January 2014 00:00:00 GMT.
+     * @pbrbm pbttern regex pbttern for the properties
+     * @pbrbm ctry country code
+     * @pbrbm curdbtb currency dbtb.  This is b commb sepbrbted string thbt
+     *    consists of "three-letter blphbbet code", "three-digit numeric code",
+     *    bnd "one-digit (0,1,2, or 3) defbult frbction digit".
+     *    For exbmple, "JPZ,392,0".
+     *    An optionbl UTC dbte cbn be bppended to the string (commb sepbrbted)
+     *    to bllow b currency chbnge tbke effect bfter dbte specified.
+     *    For exbmple, "JP=JPZ,999,0,2014-01-01T00:00:00" hbs no effect unless
+     *    UTC time is pbst 1st Jbnubry 2014 00:00:00 GMT.
      */
-    private static void replaceCurrencyData(Pattern pattern, String ctry, String curdata) {
+    privbte stbtic void replbceCurrencyDbtb(Pbttern pbttern, String ctry, String curdbtb) {
 
         if (ctry.length() != 2) {
-            // ignore invalid country code
+            // ignore invblid country code
             info("currency.properties entry for " + ctry +
-                    " is ignored because of the invalid country code.", null);
+                    " is ignored becbuse of the invblid country code.", null);
             return;
         }
 
-        Matcher m = pattern.matcher(curdata);
-        if (!m.find() || (m.group(4) == null && countOccurrences(curdata, ',') >= 3)) {
-            // format is not recognized.  ignore the data
-            // if group(4) date string is null and we've 4 values, bad date value
+        Mbtcher m = pbttern.mbtcher(curdbtb);
+        if (!m.find() || (m.group(4) == null && countOccurrences(curdbtb, ',') >= 3)) {
+            // formbt is not recognized.  ignore the dbtb
+            // if group(4) dbte string is null bnd we've 4 vblues, bbd dbte vblue
             info("currency.properties entry for " + ctry +
-                    " ignored because the value format is not recognized.", null);
+                    " ignored becbuse the vblue formbt is not recognized.", null);
             return;
         }
 
         try {
-            if (m.group(4) != null && !isPastCutoverDate(m.group(4))) {
+            if (m.group(4) != null && !isPbstCutoverDbte(m.group(4))) {
                 info("currency.properties entry for " + ctry +
-                        " ignored since cutover date has not passed :" + curdata, null);
+                        " ignored since cutover dbte hbs not pbssed :" + curdbtb, null);
                 return;
             }
-        } catch (ParseException ex) {
+        } cbtch (PbrseException ex) {
             info("currency.properties entry for " + ctry +
-                        " ignored since exception encountered :" + ex.getMessage(), null);
+                        " ignored since exception encountered :" + ex.getMessbge(), null);
             return;
         }
 
         String code = m.group(1);
-        int numeric = Integer.parseInt(m.group(2));
-        int fraction = Integer.parseInt(m.group(3));
+        int numeric = Integer.pbrseInt(m.group(2));
+        int frbction = Integer.pbrseInt(m.group(3));
         int entry = numeric << NUMERIC_CODE_SHIFT;
 
         int index;
         for (index = 0; index < scOldCurrencies.length; index++) {
-            if (scOldCurrencies[index].equals(code)) {
-                break;
+            if (scOldCurrencies[index].equbls(code)) {
+                brebk;
             }
         }
 
         if (index == scOldCurrencies.length) {
-            // simple case
-            entry |= (fraction << SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT) |
-                     (code.charAt(2) - 'A');
+            // simple cbse
+            entry |= (frbction << SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT) |
+                     (code.chbrAt(2) - 'A');
         } else {
-            // special case
+            // specibl cbse
             entry |= SPECIAL_CASE_COUNTRY_MASK |
                      (index + SPECIAL_CASE_COUNTRY_INDEX_DELTA);
         }
-        setMainTableEntry(ctry.charAt(0), ctry.charAt(1), entry);
+        setMbinTbbleEntry(ctry.chbrAt(0), ctry.chbrAt(1), entry);
     }
 
-    private static boolean isPastCutoverDate(String s) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT);
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        format.setLenient(false);
-        long time = format.parse(s.trim()).getTime();
+    privbte stbtic boolebn isPbstCutoverDbte(String s) throws PbrseException {
+        SimpleDbteFormbt formbt = new SimpleDbteFormbt("yyyy-MM-dd'T'HH:mm:ss", Locble.ROOT);
+        formbt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        formbt.setLenient(fblse);
+        long time = formbt.pbrse(s.trim()).getTime();
         return System.currentTimeMillis() > time;
 
     }
 
-    private static int countOccurrences(String value, char match) {
+    privbte stbtic int countOccurrences(String vblue, chbr mbtch) {
         int count = 0;
-        for (char c : value.toCharArray()) {
-            if (c == match) {
+        for (chbr c : vblue.toChbrArrby()) {
+            if (c == mbtch) {
                ++count;
             }
         }
         return count;
     }
 
-    private static void info(String message, Throwable t) {
-        PlatformLogger logger = PlatformLogger.getLogger("java.util.Currency");
-        if (logger.isLoggable(PlatformLogger.Level.INFO)) {
+    privbte stbtic void info(String messbge, Throwbble t) {
+        PlbtformLogger logger = PlbtformLogger.getLogger("jbvb.util.Currency");
+        if (logger.isLoggbble(PlbtformLogger.Level.INFO)) {
             if (t != null) {
-                logger.info(message, t);
+                logger.info(messbge, t);
             } else {
-                logger.info(message);
+                logger.info(messbge);
             }
         }
     }

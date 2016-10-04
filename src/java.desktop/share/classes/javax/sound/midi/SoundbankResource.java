@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 /**
- * A <code>SoundbankResource</code> represents any audio resource stored
- * in a <code>{@link Soundbank}</code>.  Common soundbank resources include:
+ * A <code>SoundbbnkResource</code> represents bny budio resource stored
+ * in b <code>{@link Soundbbnk}</code>.  Common soundbbnk resources include:
  * <ul>
- * <li>Instruments.  An instrument may be specified in a variety of
- * ways.  However, all soundbanks have some mechanism for defining
- * instruments.  In doing so, they may reference other resources
- * stored in the soundbank.  Each instrument has a <code>Patch</code>
- * which specifies the MIDI program and bank by which it may be
- * referenced in MIDI messages.  Instrument information may be
+ * <li>Instruments.  An instrument mby be specified in b vbriety of
+ * wbys.  However, bll soundbbnks hbve some mechbnism for defining
+ * instruments.  In doing so, they mby reference other resources
+ * stored in the soundbbnk.  Ebch instrument hbs b <code>Pbtch</code>
+ * which specifies the MIDI progrbm bnd bbnk by which it mby be
+ * referenced in MIDI messbges.  Instrument informbtion mby be
  * stored in <code>{@link Instrument}</code> objects.
- * <li>Audio samples.  A sample typically is a sampled audio waveform
- * which contains a short sound recording whose duration is a fraction of
- * a second, or at most a few seconds.  These audio samples may be
- * used by a <code>{@link Synthesizer}</code> to synthesize sound in response to MIDI
- * commands, or extracted for use by an application.
- * (The terminology reflects musicians' use of the word "sample" to refer
- * collectively to a series of contiguous audio samples or frames, rather than
- * to a single, instantaneous sample.)
- * The data class for an audio sample will be an object
- * that encapsulates the audio sample data itself and information
- * about how to interpret it (the format of the audio data), such
- * as an <code>{@link javax.sound.sampled.AudioInputStream}</code>.     </li>
- * <li>Embedded sequences.  A sound bank may contain built-in
- * song data stored in a data object such as a <code>{@link Sequence}</code>.
+ * <li>Audio sbmples.  A sbmple typicblly is b sbmpled budio wbveform
+ * which contbins b short sound recording whose durbtion is b frbction of
+ * b second, or bt most b few seconds.  These budio sbmples mby be
+ * used by b <code>{@link Synthesizer}</code> to synthesize sound in response to MIDI
+ * commbnds, or extrbcted for use by bn bpplicbtion.
+ * (The terminology reflects musicibns' use of the word "sbmple" to refer
+ * collectively to b series of contiguous budio sbmples or frbmes, rbther thbn
+ * to b single, instbntbneous sbmple.)
+ * The dbtb clbss for bn budio sbmple will be bn object
+ * thbt encbpsulbtes the budio sbmple dbtb itself bnd informbtion
+ * bbout how to interpret it (the formbt of the budio dbtb), such
+ * bs bn <code>{@link jbvbx.sound.sbmpled.AudioInputStrebm}</code>.     </li>
+ * <li>Embedded sequences.  A sound bbnk mby contbin built-in
+ * song dbtb stored in b dbtb object such bs b <code>{@link Sequence}</code>.
  * </ul>
  * <p>
- * Synthesizers that use wavetable synthesis or related
- * techniques play back the audio in a sample when
- * synthesizing notes, often when emulating the real-world instrument that
- * was originally recorded.  However, there is not necessarily a one-to-one
- * correspondence between the <code>Instruments</code> and samples
- * in a <code>Soundbank</code>.  A single <code>Instrument</code> can use
- * multiple SoundbankResources (typically for notes of dissimilar pitch or
- * brightness).  Also, more than one <code>Instrument</code> can use the same
- * sample.
+ * Synthesizers thbt use wbvetbble synthesis or relbted
+ * techniques plby bbck the budio in b sbmple when
+ * synthesizing notes, often when emulbting the rebl-world instrument thbt
+ * wbs originblly recorded.  However, there is not necessbrily b one-to-one
+ * correspondence between the <code>Instruments</code> bnd sbmples
+ * in b <code>Soundbbnk</code>.  A single <code>Instrument</code> cbn use
+ * multiple SoundbbnkResources (typicblly for notes of dissimilbr pitch or
+ * brightness).  Also, more thbn one <code>Instrument</code> cbn use the sbme
+ * sbmple.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
 
-public abstract class SoundbankResource {
+public bbstrbct clbss SoundbbnkResource {
 
 
     /**
-     * The sound bank that contains the <code>SoundbankResources</code>
+     * The sound bbnk thbt contbins the <code>SoundbbnkResources</code>
      */
-    private final Soundbank soundBank;
+    privbte finbl Soundbbnk soundBbnk;
 
 
     /**
-     * The name of the <code>SoundbankResource</code>
+     * The nbme of the <code>SoundbbnkResource</code>
      */
-    private final String name;
+    privbte finbl String nbme;
 
 
     /**
-     * The class used to represent the sample's data.
+     * The clbss used to represent the sbmple's dbtb.
      */
-    private final Class<?> dataClass;
+    privbte finbl Clbss<?> dbtbClbss;
 
 
     /**
-     * The wavetable index.
+     * The wbvetbble index.
      */
-    //private final int index;
+    //privbte finbl int index;
 
 
     /**
-     * Constructs a new <code>SoundbankResource</code> from the given sound bank
-     * and wavetable index.  (Setting the <code>SoundbankResource's</code> name,
-     * sampled audio data, and instruments is a subclass responsibility.)
-     * @param soundBank the sound bank containing this <code>SoundbankResource</code>
-     * @param name the name of the sample
-     * @param dataClass the class used to represent the sample's data
+     * Constructs b new <code>SoundbbnkResource</code> from the given sound bbnk
+     * bnd wbvetbble index.  (Setting the <code>SoundbbnkResource's</code> nbme,
+     * sbmpled budio dbtb, bnd instruments is b subclbss responsibility.)
+     * @pbrbm soundBbnk the sound bbnk contbining this <code>SoundbbnkResource</code>
+     * @pbrbm nbme the nbme of the sbmple
+     * @pbrbm dbtbClbss the clbss used to represent the sbmple's dbtb
      *
-     * @see #getSoundbank
-     * @see #getName
-     * @see #getDataClass
-     * @see #getData
+     * @see #getSoundbbnk
+     * @see #getNbme
+     * @see #getDbtbClbss
+     * @see #getDbtb
      */
-    protected SoundbankResource(Soundbank soundBank, String name, Class<?> dataClass) {
+    protected SoundbbnkResource(Soundbbnk soundBbnk, String nbme, Clbss<?> dbtbClbss) {
 
-        this.soundBank = soundBank;
-        this.name = name;
-        this.dataClass = dataClass;
+        this.soundBbnk = soundBbnk;
+        this.nbme = nbme;
+        this.dbtbClbss = dbtbClbss;
     }
 
 
     /**
-     * Obtains the sound bank that contains this <code>SoundbankResource</code>.
-     * @return the sound bank in which this <code>SoundbankResource</code> is stored
+     * Obtbins the sound bbnk thbt contbins this <code>SoundbbnkResource</code>.
+     * @return the sound bbnk in which this <code>SoundbbnkResource</code> is stored
      */
-    public Soundbank getSoundbank() {
-        return soundBank;
+    public Soundbbnk getSoundbbnk() {
+        return soundBbnk;
     }
 
 
     /**
-     * Obtains the name of the resource.  This should generally be a string
+     * Obtbins the nbme of the resource.  This should generblly be b string
      * descriptive of the resource.
-     * @return the instrument's name
+     * @return the instrument's nbme
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
 
     /**
-     * Obtains the class used by this sample to represent its data.
-     * The object returned by <code>getData</code> will be of this
-     * class.  If this <code>SoundbankResource</code> object does not support
-     * direct access to its data, returns <code>null</code>.
-     * @return the class used to represent the sample's data, or
-     * null if the data is not accessible
+     * Obtbins the clbss used by this sbmple to represent its dbtb.
+     * The object returned by <code>getDbtb</code> will be of this
+     * clbss.  If this <code>SoundbbnkResource</code> object does not support
+     * direct bccess to its dbtb, returns <code>null</code>.
+     * @return the clbss used to represent the sbmple's dbtb, or
+     * null if the dbtb is not bccessible
      */
-    public Class<?> getDataClass() {
-        return dataClass;
+    public Clbss<?> getDbtbClbss() {
+        return dbtbClbss;
     }
 
 
     /**
-     * Obtains the sampled audio that is stored in this <code>SoundbankResource</code>.
-     * The type of object returned depends on the implementation of the
-     * concrete class, and may be queried using <code>getDataClass</code>.
-     * @return an object containing the sampled audio data
-     * @see #getDataClass
+     * Obtbins the sbmpled budio thbt is stored in this <code>SoundbbnkResource</code>.
+     * The type of object returned depends on the implementbtion of the
+     * concrete clbss, bnd mby be queried using <code>getDbtbClbss</code>.
+     * @return bn object contbining the sbmpled budio dbtb
+     * @see #getDbtbClbss
      */
-    public abstract Object getData();
+    public bbstrbct Object getDbtb();
 
 
     /**
-     * Obtains the index of this <code>SoundbankResource</code> into the
-     * <code>Soundbank's</code> set of <code>SoundbankResources</code>.
-     * @return the wavetable index
+     * Obtbins the index of this <code>SoundbbnkResource</code> into the
+     * <code>Soundbbnk's</code> set of <code>SoundbbnkResources</code>.
+     * @return the wbvetbble index
      */
     //public int getIndex() {
     //  return index;
@@ -166,12 +166,12 @@ public abstract class SoundbankResource {
 
 
     /**
-     * Obtains a list of the instruments in the sound bank that use the
-     * <code>SoundbankResource</code> for sound synthesis.
-     * @return an array of <code>Instruments</code> that reference this
-     * <code>SoundbankResource</code>
+     * Obtbins b list of the instruments in the sound bbnk thbt use the
+     * <code>SoundbbnkResource</code> for sound synthesis.
+     * @return bn brrby of <code>Instruments</code> thbt reference this
+     * <code>SoundbbnkResource</code>
      *
-     * @see Instrument#getSamples
+     * @see Instrument#getSbmples
      */
-    //public abstract Instrument[] getInstruments();
+    //public bbstrbct Instrument[] getInstruments();
 }

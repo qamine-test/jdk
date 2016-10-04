@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.*;
-import javax.net.ssl.*;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
+import jbvb.util.*;
+import jbvbx.net.ssl.*;
 
 /**
- * This file contains all the classes relevant to TLS Extensions for the
- * ClientHello and ServerHello messages. The extension mechanism and
- * several extensions are defined in RFC 3546. Additional extensions are
+ * This file contbins bll the clbsses relevbnt to TLS Extensions for the
+ * ClientHello bnd ServerHello messbges. The extension mechbnism bnd
+ * severbl extensions bre defined in RFC 3546. Additionbl extensions bre
  * defined in the ECC RFC 4492.
  *
- * Currently, only the two ECC extensions are fully supported.
+ * Currently, only the two ECC extensions bre fully supported.
  *
- * The classes contained in this file are:
- *  . HelloExtensions: a List of extensions as used in the client hello
- *      and server hello messages.
- *  . ExtensionType: an enum style class for the extension type
- *  . HelloExtension: abstract base class for all extensions. All subclasses
- *      must be immutable.
+ * The clbsses contbined in this file bre:
+ *  . HelloExtensions: b List of extensions bs used in the client hello
+ *      bnd server hello messbges.
+ *  . ExtensionType: bn enum style clbss for the extension type
+ *  . HelloExtension: bbstrbct bbse clbss for bll extensions. All subclbsses
+ *      must be immutbble.
  *
- *  . UnknownExtension: used to represent all parsed extensions that we do not
+ *  . UnknownExtension: used to represent bll pbrsed extensions thbt we do not
  *      explicitly support.
- *  . ServerNameExtension: the server_name extension.
- *  . SignatureAlgorithmsExtension: the signature_algorithms extension.
+ *  . ServerNbmeExtension: the server_nbme extension.
+ *  . SignbtureAlgorithmsExtension: the signbture_blgorithms extension.
  *  . SupportedEllipticCurvesExtension: the ECC supported curves extension.
- *  . SupportedEllipticPointFormatsExtension: the ECC supported point formats
+ *  . SupportedEllipticPointFormbtsExtension: the ECC supported point formbts
  *      (compressed/uncompressed) extension.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-final class HelloExtensions {
+finbl clbss HelloExtensions {
 
-    private List<HelloExtension> extensions;
-    private int encodedLength;
+    privbte List<HelloExtension> extensions;
+    privbte int encodedLength;
 
     HelloExtensions() {
         extensions = Collections.emptyList();
     }
 
-    HelloExtensions(HandshakeInStream s) throws IOException {
+    HelloExtensions(HbndshbkeInStrebm s) throws IOException {
         int len = s.getInt16();
-        extensions = new ArrayList<HelloExtension>();
+        extensions = new ArrbyList<HelloExtension>();
         encodedLength = len + 2;
         while (len > 0) {
             int type = s.getInt16();
@@ -75,38 +75,38 @@ final class HelloExtensions {
             ExtensionType extType = ExtensionType.get(type);
             HelloExtension extension;
             if (extType == ExtensionType.EXT_SERVER_NAME) {
-                extension = new ServerNameExtension(s, extlen);
+                extension = new ServerNbmeExtension(s, extlen);
             } else if (extType == ExtensionType.EXT_SIGNATURE_ALGORITHMS) {
-                extension = new SignatureAlgorithmsExtension(s, extlen);
+                extension = new SignbtureAlgorithmsExtension(s, extlen);
             } else if (extType == ExtensionType.EXT_ELLIPTIC_CURVES) {
                 extension = new SupportedEllipticCurvesExtension(s, extlen);
             } else if (extType == ExtensionType.EXT_EC_POINT_FORMATS) {
                 extension =
-                        new SupportedEllipticPointFormatsExtension(s, extlen);
+                        new SupportedEllipticPointFormbtsExtension(s, extlen);
             } else if (extType == ExtensionType.EXT_RENEGOTIATION_INFO) {
-                extension = new RenegotiationInfoExtension(s, extlen);
+                extension = new RenegotibtionInfoExtension(s, extlen);
             } else {
                 extension = new UnknownExtension(s, extlen, extType);
             }
-            extensions.add(extension);
+            extensions.bdd(extension);
             len -= extlen + 4;
         }
         if (len != 0) {
             throw new SSLProtocolException(
-                        "Error parsing extensions: extra data");
+                        "Error pbrsing extensions: extrb dbtb");
         }
     }
 
-    // Return the List of extensions. Must not be modified by the caller.
+    // Return the List of extensions. Must not be modified by the cbller.
     List<HelloExtension> list() {
         return extensions;
     }
 
-    void add(HelloExtension ext) {
+    void bdd(HelloExtension ext) {
         if (extensions.isEmpty()) {
-            extensions = new ArrayList<HelloExtension>();
+            extensions = new ArrbyList<HelloExtension>();
         }
-        extensions.add(ext);
+        extensions.bdd(ext);
         encodedLength = -1;
     }
 
@@ -134,7 +134,7 @@ final class HelloExtensions {
         return encodedLength;
     }
 
-    void send(HandshakeOutStream s) throws IOException {
+    void send(HbndshbkeOutStrebm s) throws IOException {
         int length = length();
         if (length == 0) {
             return;
@@ -145,7 +145,7 @@ final class HelloExtensions {
         }
     }
 
-    void print(PrintStream s) throws IOException {
+    void print(PrintStrebm s) throws IOException {
         for (HelloExtension ext : extensions) {
             s.println(ext.toString());
         }

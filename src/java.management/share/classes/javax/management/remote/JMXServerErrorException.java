@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-// imports for javadoc
-import javax.management.MBeanServer;
+// imports for jbvbdoc
+import jbvbx.mbnbgement.MBebnServer;
 
 /**
- * Exception thrown as the result of a remote {@link MBeanServer}
- * method invocation when an <code>Error</code> is thrown while
- * processing the invocation in the remote MBean server.  A
- * <code>JMXServerErrorException</code> instance contains the original
- * <code>Error</code> that occurred as its cause.
+ * Exception thrown bs the result of b remote {@link MBebnServer}
+ * method invocbtion when bn <code>Error</code> is thrown while
+ * processing the invocbtion in the remote MBebn server.  A
+ * <code>JMXServerErrorException</code> instbnce contbins the originbl
+ * <code>Error</code> thbt occurred bs its cbuse.
  *
- * @see java.rmi.ServerError
+ * @see jbvb.rmi.ServerError
  * @since 1.5
  */
-public class JMXServerErrorException extends IOException {
+public clbss JMXServerErrorException extends IOException {
 
-    private static final long serialVersionUID = 3996732239558744666L;
+    privbte stbtic finbl long seriblVersionUID = 3996732239558744666L;
 
     /**
-     * Constructs a <code>JMXServerErrorException</code> with the specified
-     * detail message and nested error.
+     * Constructs b <code>JMXServerErrorException</code> with the specified
+     * detbil messbge bnd nested error.
      *
-     * @param s the detail message.
-     * @param err the nested error.  An instance of this class can be
-     * constructed where this parameter is null, but the standard
+     * @pbrbm s the detbil messbge.
+     * @pbrbm err the nested error.  An instbnce of this clbss cbn be
+     * constructed where this pbrbmeter is null, but the stbndbrd
      * connectors will never do so.
      */
     public JMXServerErrorException(String s, Error err) {
         super(s);
-        cause = err;
+        cbuse = err;
     }
 
-    public Throwable getCause() {
-        return cause;
+    public Throwbble getCbuse() {
+        return cbuse;
     }
 
     /**
-     * @serial An {@link Error} that caused this exception to be thrown.
-     * @see #getCause()
+     * @seribl An {@link Error} thbt cbused this exception to be thrown.
+     * @see #getCbuse()
      **/
-    private final Error cause;
+    privbte finbl Error cbuse;
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bebns.bebncontext.BebnContext;
 
 /**
  * <p>
- * <code>BeanContextEvent</code> is the abstract root event class
- * for all events emitted
- * from, and pertaining to the semantics of, a <code>BeanContext</code>.
- * This class introduces a mechanism to allow the propagation of
- * <code>BeanContextEvent</code> subclasses through a hierarchy of
- * <code>BeanContext</code>s. The <code>setPropagatedFrom()</code>
- * and <code>getPropagatedFrom()</code> methods allow a
- * <code>BeanContext</code> to identify itself as the source
- * of a propagated event.
+ * <code>BebnContextEvent</code> is the bbstrbct root event clbss
+ * for bll events emitted
+ * from, bnd pertbining to the sembntics of, b <code>BebnContext</code>.
+ * This clbss introduces b mechbnism to bllow the propbgbtion of
+ * <code>BebnContextEvent</code> subclbsses through b hierbrchy of
+ * <code>BebnContext</code>s. The <code>setPropbgbtedFrom()</code>
+ * bnd <code>getPropbgbtedFrom()</code> methods bllow b
+ * <code>BebnContext</code> to identify itself bs the source
+ * of b propbgbted event.
  * </p>
  *
- * @author      Laurence P. G. Cable
+ * @buthor      Lburence P. G. Cbble
  * @since       1.2
- * @see         java.beans.beancontext.BeanContext
+ * @see         jbvb.bebns.bebncontext.BebnContext
  */
 
-public abstract class BeanContextEvent extends EventObject {
-    private static final long serialVersionUID = 7267998073569045052L;
+public bbstrbct clbss BebnContextEvent extends EventObject {
+    privbte stbtic finbl long seriblVersionUID = 7267998073569045052L;
 
     /**
-     * Contruct a BeanContextEvent
+     * Contruct b BebnContextEvent
      *
-     * @param bc        The BeanContext source
+     * @pbrbm bc        The BebnContext source
      */
-    protected BeanContextEvent(BeanContext bc) {
+    protected BebnContextEvent(BebnContext bc) {
         super(bc);
     }
 
     /**
-     * Gets the <code>BeanContext</code> associated with this event.
-     * @return the <code>BeanContext</code> associated with this event.
+     * Gets the <code>BebnContext</code> bssocibted with this event.
+     * @return the <code>BebnContext</code> bssocibted with this event.
      */
-    public BeanContext getBeanContext() { return (BeanContext)getSource(); }
+    public BebnContext getBebnContext() { return (BebnContext)getSource(); }
 
     /**
-     * Sets the <code>BeanContext</code> from which this event was propagated.
-     * @param bc the <code>BeanContext</code> from which this event
-     * was propagated
+     * Sets the <code>BebnContext</code> from which this event wbs propbgbted.
+     * @pbrbm bc the <code>BebnContext</code> from which this event
+     * wbs propbgbted
      */
-    public synchronized void setPropagatedFrom(BeanContext bc) {
-        propagatedFrom = bc;
+    public synchronized void setPropbgbtedFrom(BebnContext bc) {
+        propbgbtedFrom = bc;
     }
 
     /**
-     * Gets the <code>BeanContext</code> from which this event was propagated.
-     * @return the <code>BeanContext</code> from which this
-     * event was propagated
+     * Gets the <code>BebnContext</code> from which this event wbs propbgbted.
+     * @return the <code>BebnContext</code> from which this
+     * event wbs propbgbted
      */
-    public synchronized BeanContext getPropagatedFrom() {
-        return propagatedFrom;
+    public synchronized BebnContext getPropbgbtedFrom() {
+        return propbgbtedFrom;
     }
 
     /**
      * Reports whether or not this event is
-     * propagated from some other <code>BeanContext</code>.
-     * @return <code>true</code> if propagated, <code>false</code>
+     * propbgbted from some other <code>BebnContext</code>.
+     * @return <code>true</code> if propbgbted, <code>fblse</code>
      * if not
      */
-    public synchronized boolean isPropagated() {
-        return propagatedFrom != null;
+    public synchronized boolebn isPropbgbted() {
+        return propbgbtedFrom != null;
     }
 
     /*
@@ -98,7 +98,7 @@ public abstract class BeanContextEvent extends EventObject {
      */
 
     /**
-     * The <code>BeanContext</code> from which this event was propagated
+     * The <code>BebnContext</code> from which this event wbs propbgbted
      */
-    protected BeanContext propagatedFrom;
+    protected BebnContext propbgbtedFrom;
 }

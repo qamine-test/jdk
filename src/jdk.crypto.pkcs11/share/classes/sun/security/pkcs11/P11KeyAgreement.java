@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import javax.crypto.*;
-import javax.crypto.interfaces.*;
-import javax.crypto.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.interfbces.*;
+import jbvbx.crypto.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 import sun.security.util.KeyUtil;
 
 /**
- * KeyAgreement implementation class. This class currently supports
+ * KeyAgreement implementbtion clbss. This clbss currently supports
  * DH.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11KeyAgreement extends KeyAgreementSpi {
+finbl clbss P11KeyAgreement extends KeyAgreementSpi {
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // private key, if initialized
-    private P11Key privateKey;
+    // privbte key, if initiblized
+    privbte P11Key privbteKey;
 
-    // other sides public value ("y"), if doPhase() already called
-    private BigInteger publicValue;
+    // other sides public vblue ("y"), if doPhbse() blrebdy cblled
+    privbte BigInteger publicVblue;
 
     // length of the secret to be derived
-    private int secretLen;
+    privbte int secretLen;
 
-    // KeyAgreement from SunJCE as fallback for > 2 party agreement
-    private KeyAgreement multiPartyAgreement;
+    // KeyAgreement from SunJCE bs fbllbbck for > 2 pbrty bgreement
+    privbte KeyAgreement multiPbrtyAgreement;
 
-    P11KeyAgreement(Token token, String algorithm, long mechanism) {
+    P11KeyAgreement(Token token, String blgorithm, long mechbnism) {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
     }
 
     // see JCE spec
-    protected void engineInit(Key key, SecureRandom random)
-            throws InvalidKeyException {
-        if (key instanceof PrivateKey == false) {
-            throw new InvalidKeyException
-                        ("Key must be instance of PrivateKey");
+    protected void engineInit(Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        if (key instbnceof PrivbteKey == fblse) {
+            throw new InvblidKeyException
+                        ("Key must be instbnce of PrivbteKey");
         }
-        privateKey = P11KeyFactory.convertKey(token, key, algorithm);
-        publicValue = null;
-        multiPartyAgreement = null;
+        privbteKey = P11KeyFbctory.convertKey(token, key, blgorithm);
+        publicVblue = null;
+        multiPbrtyAgreement = null;
     }
 
     // see JCE spec
-    protected void engineInit(Key key, AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                        ("Parameters not supported");
+    protected void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms,
+            SecureRbndom rbndom) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException
+                        ("Pbrbmeters not supported");
         }
-        engineInit(key, random);
+        engineInit(key, rbndom);
     }
 
     // see JCE spec
-    protected Key engineDoPhase(Key key, boolean lastPhase)
-            throws InvalidKeyException, IllegalStateException {
-        if (privateKey == null) {
-            throw new IllegalStateException("Not initialized");
+    protected Key engineDoPhbse(Key key, boolebn lbstPhbse)
+            throws InvblidKeyException, IllegblStbteException {
+        if (privbteKey == null) {
+            throw new IllegblStbteException("Not initiblized");
         }
-        if (publicValue != null) {
-            throw new IllegalStateException("Phase already executed");
+        if (publicVblue != null) {
+            throw new IllegblStbteException("Phbse blrebdy executed");
         }
-        // PKCS#11 only allows key agreement between 2 parties
-        // JCE allows >= 2 parties. To support that case (for compatibility
-        // and to pass JCK), fall back to SunJCE in this case.
-        // NOTE that we initialize using the P11Key, which will fail if it
-        // is sensitive/unextractable. However, this is not an issue in the
-        // compatibility configuration, which is all we are targeting here.
-        if ((multiPartyAgreement != null) || (lastPhase == false)) {
-            if (multiPartyAgreement == null) {
+        // PKCS#11 only bllows key bgreement between 2 pbrties
+        // JCE bllows >= 2 pbrties. To support thbt cbse (for compbtibility
+        // bnd to pbss JCK), fbll bbck to SunJCE in this cbse.
+        // NOTE thbt we initiblize using the P11Key, which will fbil if it
+        // is sensitive/unextrbctbble. However, this is not bn issue in the
+        // compbtibility configurbtion, which is bll we bre tbrgeting here.
+        if ((multiPbrtyAgreement != null) || (lbstPhbse == fblse)) {
+            if (multiPbrtyAgreement == null) {
                 try {
-                    multiPartyAgreement = KeyAgreement.getInstance
+                    multiPbrtyAgreement = KeyAgreement.getInstbnce
                         ("DH", P11Util.getSunJceProvider());
-                    multiPartyAgreement.init(privateKey);
-                } catch (NoSuchAlgorithmException e) {
-                    throw new InvalidKeyException
-                        ("Could not initialize multi party agreement", e);
+                    multiPbrtyAgreement.init(privbteKey);
+                } cbtch (NoSuchAlgorithmException e) {
+                    throw new InvblidKeyException
+                        ("Could not initiblize multi pbrty bgreement", e);
                 }
             }
-            return multiPartyAgreement.doPhase(key, lastPhase);
+            return multiPbrtyAgreement.doPhbse(key, lbstPhbse);
         }
-        if ((key instanceof PublicKey == false)
-                || (key.getAlgorithm().equals(algorithm) == false)) {
-            throw new InvalidKeyException
-                ("Key must be a PublicKey with algorithm DH");
+        if ((key instbnceof PublicKey == fblse)
+                || (key.getAlgorithm().equbls(blgorithm) == fblse)) {
+            throw new InvblidKeyException
+                ("Key must be b PublicKey with blgorithm DH");
         }
         BigInteger p, g, y;
-        if (key instanceof DHPublicKey) {
+        if (key instbnceof DHPublicKey) {
             DHPublicKey dhKey = (DHPublicKey)key;
 
-            // validate the Diffie-Hellman public key
-            KeyUtil.validate(dhKey);
+            // vblidbte the Diffie-Hellmbn public key
+            KeyUtil.vblidbte(dhKey);
 
             y = dhKey.getY();
-            DHParameterSpec params = dhKey.getParams();
-            p = params.getP();
-            g = params.getG();
+            DHPbrbmeterSpec pbrbms = dhKey.getPbrbms();
+            p = pbrbms.getP();
+            g = pbrbms.getG();
         } else {
-            // normally, DH PublicKeys will always implement DHPublicKey
-            // just in case not, attempt conversion
-            P11DHKeyFactory kf = new P11DHKeyFactory(token, "DH");
+            // normblly, DH PublicKeys will blwbys implement DHPublicKey
+            // just in cbse not, bttempt conversion
+            P11DHKeyFbctory kf = new P11DHKeyFbctory(token, "DH");
             try {
                 DHPublicKeySpec spec = kf.engineGetKeySpec(
-                        key, DHPublicKeySpec.class);
+                        key, DHPublicKeySpec.clbss);
 
-                // validate the Diffie-Hellman public key
-                KeyUtil.validate(spec);
+                // vblidbte the Diffie-Hellmbn public key
+                KeyUtil.vblidbte(spec);
 
                 y = spec.getY();
                 p = spec.getP();
                 g = spec.getG();
-            } catch (InvalidKeySpecException e) {
-                throw new InvalidKeyException("Could not obtain key values", e);
+            } cbtch (InvblidKeySpecException e) {
+                throw new InvblidKeyException("Could not obtbin key vblues", e);
             }
         }
-        // if parameters of private key are accessible, verify that
-        // they match parameters of public key
-        // XXX p and g should always be readable, even if the key is sensitive
-        if (privateKey instanceof DHPrivateKey) {
-            DHPrivateKey dhKey = (DHPrivateKey)privateKey;
-            DHParameterSpec params = dhKey.getParams();
-            if ((p.equals(params.getP()) == false)
-                                || (g.equals(params.getG()) == false)) {
-                throw new InvalidKeyException
-                ("PublicKey DH parameters must match PrivateKey DH parameters");
+        // if pbrbmeters of privbte key bre bccessible, verify thbt
+        // they mbtch pbrbmeters of public key
+        // XXX p bnd g should blwbys be rebdbble, even if the key is sensitive
+        if (privbteKey instbnceof DHPrivbteKey) {
+            DHPrivbteKey dhKey = (DHPrivbteKey)privbteKey;
+            DHPbrbmeterSpec pbrbms = dhKey.getPbrbms();
+            if ((p.equbls(pbrbms.getP()) == fblse)
+                                || (g.equbls(pbrbms.getG()) == fblse)) {
+                throw new InvblidKeyException
+                ("PublicKey DH pbrbmeters must mbtch PrivbteKey DH pbrbmeters");
             }
         }
-        publicValue = y;
+        publicVblue = y;
         // length of the secret is length of key
         secretLen = (p.bitLength() + 7) >> 3;
         return null;
     }
 
     // see JCE spec
-    protected byte[] engineGenerateSecret() throws IllegalStateException {
-        if (multiPartyAgreement != null) {
-            byte[] val = multiPartyAgreement.generateSecret();
-            multiPartyAgreement = null;
-            return val;
+    protected byte[] engineGenerbteSecret() throws IllegblStbteException {
+        if (multiPbrtyAgreement != null) {
+            byte[] vbl = multiPbrtyAgreement.generbteSecret();
+            multiPbrtyAgreement = null;
+            return vbl;
         }
-        if ((privateKey == null) || (publicValue == null)) {
-            throw new IllegalStateException("Not initialized correctly");
+        if ((privbteKey == null) || (publicVblue == null)) {
+            throw new IllegblStbteException("Not initiblized correctly");
         }
         Session session = null;
         try {
             session = token.getOpSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                 new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET),
             };
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, CKK_GENERIC_SECRET, attributes);
+            bttributes = token.getAttributes
+                (O_GENERATE, CKO_SECRET_KEY, CKK_GENERIC_SECRET, bttributes);
             long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, publicValue), privateKey.keyID,
-                attributes);
-            attributes = new CK_ATTRIBUTE[] {
+                new CK_MECHANISM(mechbnism, publicVblue), privbteKey.keyID,
+                bttributes);
+            bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE)
             };
-            token.p11.C_GetAttributeValue(session.id(), keyID, attributes);
-            byte[] secret = attributes[0].getByteArray();
+            token.p11.C_GetAttributeVblue(session.id(), keyID, bttributes);
+            byte[] secret = bttributes[0].getByteArrby();
             token.p11.C_DestroyObject(session.id(), keyID);
-            // Some vendors, e.g. NSS, trim off the leading 0x00 byte(s) from
-            // the generated secret. Thus, we need to check the secret length
-            // and trim/pad it so the returned value has the same length as
+            // Some vendors, e.g. NSS, trim off the lebding 0x00 byte(s) from
+            // the generbted secret. Thus, we need to check the secret length
+            // bnd trim/pbd it so the returned vblue hbs the sbme length bs
             // the modulus size
             if (secret.length == secretLen) {
                 return secret;
             } else {
                 if (secret.length > secretLen) {
-                    // Shouldn't happen; but check just in case
-                    throw new ProviderException("generated secret is out-of-range");
+                    // Shouldn't hbppen; but check just in cbse
+                    throw new ProviderException("generbted secret is out-of-rbnge");
                 }
                 byte[] newSecret = new byte[secretLen];
-                System.arraycopy(secret, 0, newSecret, secretLen - secret.length,
+                System.brrbycopy(secret, 0, newSecret, secretLen - secret.length,
                     secret.length);
                 return newSecret;
             }
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             throw new ProviderException("Could not derive key", e);
-        } finally {
-            publicValue = null;
-            token.releaseSession(session);
+        } finblly {
+            publicVblue = null;
+            token.relebseSession(session);
         }
     }
 
     // see JCE spec
-    protected int engineGenerateSecret(byte[] sharedSecret, int
-            offset) throws IllegalStateException, ShortBufferException {
-        if (multiPartyAgreement != null) {
-            int n = multiPartyAgreement.generateSecret(sharedSecret, offset);
-            multiPartyAgreement = null;
+    protected int engineGenerbteSecret(byte[] shbredSecret, int
+            offset) throws IllegblStbteException, ShortBufferException {
+        if (multiPbrtyAgreement != null) {
+            int n = multiPbrtyAgreement.generbteSecret(shbredSecret, offset);
+            multiPbrtyAgreement = null;
             return n;
         }
-        if (offset + secretLen > sharedSecret.length) {
+        if (offset + secretLen > shbredSecret.length) {
             throw new ShortBufferException("Need " + secretLen
-                + " bytes, only " + (sharedSecret.length - offset) + " available");
+                + " bytes, only " + (shbredSecret.length - offset) + " bvbilbble");
         }
-        byte[] secret = engineGenerateSecret();
-        System.arraycopy(secret, 0, sharedSecret, offset, secret.length);
+        byte[] secret = engineGenerbteSecret();
+        System.brrbycopy(secret, 0, shbredSecret, offset, secret.length);
         return secret.length;
     }
 
     // see JCE spec
-    protected SecretKey engineGenerateSecret(String algorithm)
-            throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException {
-        if (multiPartyAgreement != null) {
-            SecretKey key = multiPartyAgreement.generateSecret(algorithm);
-            multiPartyAgreement = null;
+    protected SecretKey engineGenerbteSecret(String blgorithm)
+            throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException {
+        if (multiPbrtyAgreement != null) {
+            SecretKey key = multiPbrtyAgreement.generbteSecret(blgorithm);
+            multiPbrtyAgreement = null;
             return key;
         }
-        if (algorithm == null) {
+        if (blgorithm == null) {
             throw new NoSuchAlgorithmException("Algorithm must not be null");
         }
-        if (algorithm.equals("TlsPremasterSecret")) {
-            // For now, only perform native derivation for TlsPremasterSecret
-            // as that is required for FIPS compliance.
-            // For other algorithms, there are unresolved issues regarding
-            // how this should work in JCE plus a Solaris truncation bug.
+        if (blgorithm.equbls("TlsPrembsterSecret")) {
+            // For now, only perform nbtive derivbtion for TlsPrembsterSecret
+            // bs thbt is required for FIPS complibnce.
+            // For other blgorithms, there bre unresolved issues regbrding
+            // how this should work in JCE plus b Solbris truncbtion bug.
             // (bug not yet filed).
-            return nativeGenerateSecret(algorithm);
+            return nbtiveGenerbteSecret(blgorithm);
         }
-        byte[] secret = engineGenerateSecret();
-        // Maintain compatibility for SunJCE:
-        // verify secret length is sensible for algorithm / truncate
-        // return generated key itself if possible
+        byte[] secret = engineGenerbteSecret();
+        // Mbintbin compbtibility for SunJCE:
+        // verify secret length is sensible for blgorithm / truncbte
+        // return generbted key itself if possible
         int keyLen;
-        if (algorithm.equalsIgnoreCase("DES")) {
+        if (blgorithm.equblsIgnoreCbse("DES")) {
             keyLen = 8;
-        } else if (algorithm.equalsIgnoreCase("DESede")) {
+        } else if (blgorithm.equblsIgnoreCbse("DESede")) {
             keyLen = 24;
-        } else if (algorithm.equalsIgnoreCase("Blowfish")) {
-            keyLen = Math.min(56, secret.length);
-        } else if (algorithm.equalsIgnoreCase("TlsPremasterSecret")) {
+        } else if (blgorithm.equblsIgnoreCbse("Blowfish")) {
+            keyLen = Mbth.min(56, secret.length);
+        } else if (blgorithm.equblsIgnoreCbse("TlsPrembsterSecret")) {
             keyLen = secret.length;
         } else {
             throw new NoSuchAlgorithmException
-                ("Unknown algorithm " + algorithm);
+                ("Unknown blgorithm " + blgorithm);
         }
         if (secret.length < keyLen) {
-            throw new InvalidKeyException("Secret too short");
+            throw new InvblidKeyException("Secret too short");
         }
-        if (algorithm.equalsIgnoreCase("DES") ||
-            algorithm.equalsIgnoreCase("DESede")) {
+        if (blgorithm.equblsIgnoreCbse("DES") ||
+            blgorithm.equblsIgnoreCbse("DESede")) {
                 for (int i = 0; i < keyLen; i+=8) {
-                    P11SecretKeyFactory.fixDESParity(secret, i);
+                    P11SecretKeyFbctory.fixDESPbrity(secret, i);
                 }
         }
-        return new SecretKeySpec(secret, 0, keyLen, algorithm);
+        return new SecretKeySpec(secret, 0, keyLen, blgorithm);
     }
 
-    private SecretKey nativeGenerateSecret(String algorithm)
-            throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException {
-        if ((privateKey == null) || (publicValue == null)) {
-            throw new IllegalStateException("Not initialized correctly");
+    privbte SecretKey nbtiveGenerbteSecret(String blgorithm)
+            throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException {
+        if ((privbteKey == null) || (publicVblue == null)) {
+            throw new IllegblStbteException("Not initiblized correctly");
         }
         long keyType = CKK_GENERIC_SECRET;
         Session session = null;
         try {
             session = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                 new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType),
             };
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, keyType, attributes);
+            bttributes = token.getAttributes
+                (O_GENERATE, CKO_SECRET_KEY, keyType, bttributes);
             long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, publicValue), privateKey.keyID,
-                attributes);
+                new CK_MECHANISM(mechbnism, publicVblue), privbteKey.keyID,
+                bttributes);
             CK_ATTRIBUTE[] lenAttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE_LEN),
             };
-            token.p11.C_GetAttributeValue(session.id(), keyID, lenAttributes);
+            token.p11.C_GetAttributeVblue(session.id(), keyID, lenAttributes);
             int keyLen = (int)lenAttributes[0].getLong();
             SecretKey key = P11Key.secretKey
-                        (session, keyID, algorithm, keyLen << 3, attributes);
-            if ("RAW".equals(key.getFormat())) {
-                // Workaround for Solaris bug 6318543.
-                // Strip leading zeroes ourselves if possible (key not sensitive).
-                // This should be removed once the Solaris fix is available
-                // as here we always retrieve the CKA_VALUE even for tokens
-                // that do not have that bug.
+                        (session, keyID, blgorithm, keyLen << 3, bttributes);
+            if ("RAW".equbls(key.getFormbt())) {
+                // Workbround for Solbris bug 6318543.
+                // Strip lebding zeroes ourselves if possible (key not sensitive).
+                // This should be removed once the Solbris fix is bvbilbble
+                // bs here we blwbys retrieve the CKA_VALUE even for tokens
+                // thbt do not hbve thbt bug.
                 byte[] keyBytes = key.getEncoded();
                 byte[] newBytes = KeyUtil.trimZeroes(keyBytes);
                 if (keyBytes != newBytes) {
-                    key = new SecretKeySpec(newBytes, algorithm);
+                    key = new SecretKeySpec(newBytes, blgorithm);
                 }
             }
             return key;
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not derive key", e);
-        } finally {
-            publicValue = null;
-            token.releaseSession(session);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not derive key", e);
+        } finblly {
+            publicVblue = null;
+            token.relebseSession(session);
         }
     }
 

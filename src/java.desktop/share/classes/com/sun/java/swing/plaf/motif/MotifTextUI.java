@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * Provides the look and feel features that are common across
- * the Motif/CDE text LAF implementations.
+ * Provides the look bnd feel febtures thbt bre common bcross
+ * the Motif/CDE text LAF implementbtions.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class MotifTextUI {
+public clbss MotifTextUI {
 
     /**
-     * Creates the object to use for a caret for all of the Motif
-     * text components.  The caret is rendered as an I-beam on Motif.
+     * Crebtes the object to use for b cbret for bll of the Motif
+     * text components.  The cbret is rendered bs bn I-bebm on Motif.
      *
-     * @return the caret object
+     * @return the cbret object
      */
-    public static Caret createCaret() {
-        return new MotifCaret();
+    public stbtic Cbret crebteCbret() {
+        return new MotifCbret();
     }
 
     /**
-     * The motif caret is rendered as an I beam.
+     * The motif cbret is rendered bs bn I bebm.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MotifCaret extends DefaultCaret implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MotifCbret extends DefbultCbret implements UIResource {
 
         /**
-         * Called when the component containing the caret gains
-         * focus.  This is implemented to repaint the component
-         * so the focus rectangle will be re-rendered, as well
-         * as providing the superclass behavior.
+         * Cblled when the component contbining the cbret gbins
+         * focus.  This is implemented to repbint the component
+         * so the focus rectbngle will be re-rendered, bs well
+         * bs providing the superclbss behbvior.
          *
-         * @param e the focus event
-         * @see FocusListener#focusGained
+         * @pbrbm e the focus event
+         * @see FocusListener#focusGbined
          */
-        public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-            getComponent().repaint();
+        public void focusGbined(FocusEvent e) {
+            super.focusGbined(e);
+            getComponent().repbint();
         }
 
         /**
-         * Called when the component containing the caret loses
-         * focus.  This is implemented to set the caret to visibility
-         * to false.
+         * Cblled when the component contbining the cbret loses
+         * focus.  This is implemented to set the cbret to visibility
+         * to fblse.
          *
-         * @param e the focus event
+         * @pbrbm e the focus event
          * @see FocusListener#focusLost
          */
         public void focusLost(FocusEvent e) {
             super.focusLost(e);
-            getComponent().repaint();
+            getComponent().repbint();
         }
 
         /**
-         * Damages the area surrounding the caret to cause
-         * it to be repainted.  If paint() is reimplemented,
-         * this method should also be reimplemented.
+         * Dbmbges the breb surrounding the cbret to cbuse
+         * it to be repbinted.  If pbint() is reimplemented,
+         * this method should blso be reimplemented.
          *
-         * @param r  the current location of the caret, does nothing if null
-         * @see #paint
+         * @pbrbm r  the current locbtion of the cbret, does nothing if null
+         * @see #pbint
          */
-        protected void damage(Rectangle r) {
+        protected void dbmbge(Rectbngle r) {
             if (r != null) {
-                x = r.x - IBeamOverhang - 1;
+                x = r.x - IBebmOverhbng - 1;
                 y = r.y;
-                width = r.width + (2 * IBeamOverhang) + 3;
+                width = r.width + (2 * IBebmOverhbng) + 3;
                 height = r.height;
-                repaint();
+                repbint();
             }
         }
 
         /**
-         * Renders the caret as a vertical line.  If this is reimplemented
-         * the damage method should also be reimplemented as it assumes the
-         * shape of the caret is a vertical line.  Does nothing if isVisible()
-         * is false.  The caret color is derived from getCaretColor() if
-         * the component has focus, else from getDisabledTextColor().
+         * Renders the cbret bs b verticbl line.  If this is reimplemented
+         * the dbmbge method should blso be reimplemented bs it bssumes the
+         * shbpe of the cbret is b verticbl line.  Does nothing if isVisible()
+         * is fblse.  The cbret color is derived from getCbretColor() if
+         * the component hbs focus, else from getDisbbledTextColor().
          *
-         * @param g the graphics context
-         * @see #damage
+         * @pbrbm g the grbphics context
+         * @see #dbmbge
          */
-        public void paint(Graphics g) {
+        public void pbint(Grbphics g) {
             if(isVisible()) {
                 try {
                     JTextComponent c = getComponent();
-                    Color fg = c.hasFocus() ? c.getCaretColor() :
-                        c.getDisabledTextColor();
-                    TextUI mapper = c.getUI();
+                    Color fg = c.hbsFocus() ? c.getCbretColor() :
+                        c.getDisbbledTextColor();
+                    TextUI mbpper = c.getUI();
                     int dot = getDot();
-                    Rectangle r = mapper.modelToView(c, dot);
-                    int x0 = r.x - IBeamOverhang;
-                    int x1 = r.x + IBeamOverhang;
+                    Rectbngle r = mbpper.modelToView(c, dot);
+                    int x0 = r.x - IBebmOverhbng;
+                    int x1 = r.x + IBebmOverhbng;
                     int y0 = r.y + 1;
                     int y1 = r.y + r.height - 2;
                     g.setColor(fg);
-                    g.drawLine(r.x, y0, r.x, y1);
-                    g.drawLine(x0, y0, x1, y0);
-                    g.drawLine(x0, y1, x1, y1);
-                } catch (BadLocationException e) {
-                    // can't render I guess
-                    //System.err.println("Can't render caret");
+                    g.drbwLine(r.x, y0, r.x, y1);
+                    g.drbwLine(x0, y0, x1, y0);
+                    g.drbwLine(x0, y1, x1, y1);
+                } cbtch (BbdLocbtionException e) {
+                    // cbn't render I guess
+                    //System.err.println("Cbn't render cbret");
                 }
             }
         }
 
-        static final int IBeamOverhang = 2;
+        stbtic finbl int IBebmOverhbng = 2;
     }
 
     /**
-     * Default bindings all keymaps implementing the Motif feel.
+     * Defbult bindings bll keymbps implementing the Motif feel.
      */
-    static final JTextComponent.KeyBinding[] defaultBindings = {
+    stbtic finbl JTextComponent.KeyBinding[] defbultBindings = {
         new JTextComponent.KeyBinding(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,
                                                                     InputEvent.CTRL_MASK),
-                                             DefaultEditorKit.copyAction),
+                                             DefbultEditorKit.copyAction),
         new JTextComponent.KeyBinding(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,
                                                                     InputEvent.SHIFT_MASK),
-                                             DefaultEditorKit.pasteAction),
+                                             DefbultEditorKit.pbsteAction),
         new JTextComponent.KeyBinding(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,
                                                                     InputEvent.SHIFT_MASK),
-                                             DefaultEditorKit.cutAction),
+                                             DefbultEditorKit.cutAction),
         new JTextComponent.KeyBinding(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
                                                                     InputEvent.SHIFT_MASK),
-                                             DefaultEditorKit.selectionBackwardAction),
+                                             DefbultEditorKit.selectionBbckwbrdAction),
         new JTextComponent.KeyBinding(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
                                                                     InputEvent.SHIFT_MASK),
-                                             DefaultEditorKit.selectionForwardAction),
+                                             DefbultEditorKit.selectionForwbrdAction),
     };
 
 

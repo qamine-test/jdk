@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * The Originbl Code is the elliptic curve mbth librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
 #ifndef _ECL_H
 #define _ECL_H
 
-/* Although this is not an exported header file, code which uses elliptic
- * curve point operations will need to include it. */
+/* Although this is not bn exported hebder file, code which uses elliptic
+ * curve point operbtions will need to include it. */
 
 #include "ecl-exp.h"
 #include "mpi.h"
@@ -47,44 +47,44 @@
 struct ECGroupStr;
 typedef struct ECGroupStr ECGroup;
 
-/* Construct ECGroup from hexadecimal representations of parameters. */
-ECGroup *ECGroup_fromHex(const ECCurveParams * params, int kmflag);
+/* Construct ECGroup from hexbdecimbl representbtions of pbrbmeters. */
+ECGroup *ECGroup_fromHex(const ECCurvePbrbms * pbrbms, int kmflbg);
 
-/* Construct ECGroup from named parameters. */
-ECGroup *ECGroup_fromName(const ECCurveName name, int kmflag);
+/* Construct ECGroup from nbmed pbrbmeters. */
+ECGroup *ECGroup_fromNbme(const ECCurveNbme nbme, int kmflbg);
 
-/* Free an allocated ECGroup. */
+/* Free bn bllocbted ECGroup. */
 void ECGroup_free(ECGroup *group);
 
-/* Construct ECCurveParams from an ECCurveName */
-ECCurveParams *EC_GetNamedCurveParams(const ECCurveName name, int kmflag);
+/* Construct ECCurvePbrbms from bn ECCurveNbme */
+ECCurvePbrbms *EC_GetNbmedCurvePbrbms(const ECCurveNbme nbme, int kmflbg);
 
-/* Duplicates an ECCurveParams */
-ECCurveParams *ECCurveParams_dup(const ECCurveParams * params, int kmflag);
+/* Duplicbtes bn ECCurvePbrbms */
+ECCurvePbrbms *ECCurvePbrbms_dup(const ECCurvePbrbms * pbrbms, int kmflbg);
 
-/* Free an allocated ECCurveParams */
-void EC_FreeCurveParams(ECCurveParams * params);
+/* Free bn bllocbted ECCurvePbrbms */
+void EC_FreeCurvePbrbms(ECCurvePbrbms * pbrbms);
 
-/* Elliptic curve scalar-point multiplication. Computes Q(x, y) = k * P(x,
- * y).  If x, y = NULL, then P is assumed to be the generator (base point)
- * of the group of points on the elliptic curve. Input and output values
- * are assumed to be NOT field-encoded. */
+/* Elliptic curve scblbr-point multiplicbtion. Computes Q(x, y) = k * P(x,
+ * y).  If x, y = NULL, then P is bssumed to be the generbtor (bbse point)
+ * of the group of points on the elliptic curve. Input bnd output vblues
+ * bre bssumed to be NOT field-encoded. */
 mp_err ECPoint_mul(const ECGroup *group, const mp_int *k, const mp_int *px,
                                    const mp_int *py, mp_int *qx, mp_int *qy);
 
-/* Elliptic curve scalar-point multiplication. Computes Q(x, y) = k1 * G +
- * k2 * P(x, y), where G is the generator (base point) of the group of
- * points on the elliptic curve. Input and output values are assumed to
+/* Elliptic curve scblbr-point multiplicbtion. Computes Q(x, y) = k1 * G +
+ * k2 * P(x, y), where G is the generbtor (bbse point) of the group of
+ * points on the elliptic curve. Input bnd output vblues bre bssumed to
  * be NOT field-encoded. */
 mp_err ECPoints_mul(const ECGroup *group, const mp_int *k1,
                                         const mp_int *k2, const mp_int *px, const mp_int *py,
                                         mp_int *qx, mp_int *qy);
 
-/* Validates an EC public key as described in Section 5.2.2 of X9.62.
- * Returns MP_YES if the public key is valid, MP_NO if the public key
- * is invalid, or an error code if the validation could not be
+/* Vblidbtes bn EC public key bs described in Section 5.2.2 of X9.62.
+ * Returns MP_YES if the public key is vblid, MP_NO if the public key
+ * is invblid, or bn error code if the vblidbtion could not be
  * performed. */
-mp_err ECPoint_validate(const ECGroup *group, const mp_int *px, const
+mp_err ECPoint_vblidbte(const ECGroup *group, const mp_int *px, const
                                         mp_int *py);
 
 #endif /* _ECL_H */

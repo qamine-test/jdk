@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Font;
-import java.awt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
 
 /**
- * Interface for a generic styled document.
+ * Interfbce for b generic styled document.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface StyledDocument extends Document {
+public interfbce StyledDocument extends Document {
 
     /**
-     * Adds a new style into the logical style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b new style into the logicbl style hierbrchy.  Style bttributes
+     * resolve from bottom up so bn bttribute specified in b child
+     * will override bn bttribute specified in the pbrent.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles).  The name may be null if the style
-     *   is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   the nbme of the style (must be unique within the
+     *   collection of nbmed styles).  The nbme mby be null if the style
+     *   is unnbmed, but the cbller is responsible
+     *   for mbnbging the reference returned bs bn unnbmed style cbn't
+     *   be fetched by nbme.  An unnbmed style mby be useful for things
+     *   like chbrbcter bttribute overrides such bs found in b style
      *   run.
-     * @param parent the parent style.  This may be null if unspecified
-     *   attributes need not be resolved in some other style.
+     * @pbrbm pbrent the pbrent style.  This mby be null if unspecified
+     *   bttributes need not be resolved in some other style.
      * @return the style
      */
-    public Style addStyle(String nm, Style parent);
+    public Style bddStyle(String nm, Style pbrent);
 
     /**
-     * Removes a named style previously added to the document.
+     * Removes b nbmed style previously bdded to the document.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  the nbme of the style to remove
      */
     public void removeStyle(String nm);
 
     /**
-     * Fetches a named style previously added.
+     * Fetches b nbmed style previously bdded.
      *
-     * @param nm  the name of the style
+     * @pbrbm nm  the nbme of the style
      * @return the style
      */
     public Style getStyle(String nm);
 
     /**
-     * Changes the content element attributes used for the given range of
-     * existing content in the document.  All of the attributes
-     * defined in the given Attributes argument are applied to the
-     * given range.  This method can be used to completely remove
-     * all content level attributes for the given range by
-     * giving an Attributes argument that has no attributes defined
-     * and setting replace to true.
+     * Chbnges the content element bttributes used for the given rbnge of
+     * existing content in the document.  All of the bttributes
+     * defined in the given Attributes brgument bre bpplied to the
+     * given rbnge.  This method cbn be used to completely remove
+     * bll content level bttributes for the given rbnge by
+     * giving bn Attributes brgument thbt hbs no bttributes defined
+     * bnd setting replbce to true.
      *
-     * @param offset the start of the change &gt;= 0
-     * @param length the length of the change &gt;= 0
-     * @param s    the non-null attributes to change to.  Any attributes
-     *  defined will be applied to the text for the given range.
-     * @param replace indicates whether or not the previous
-     *  attributes should be cleared before the new attributes
-     *  as set.  If true, the operation will replace the
-     *  previous attributes entirely.  If false, the new
-     *  attributes will be merged with the previous attributes.
+     * @pbrbm offset the stbrt of the chbnge &gt;= 0
+     * @pbrbm length the length of the chbnge &gt;= 0
+     * @pbrbm s    the non-null bttributes to chbnge to.  Any bttributes
+     *  defined will be bpplied to the text for the given rbnge.
+     * @pbrbm replbce indicbtes whether or not the previous
+     *  bttributes should be clebred before the new bttributes
+     *  bs set.  If true, the operbtion will replbce the
+     *  previous bttributes entirely.  If fblse, the new
+     *  bttributes will be merged with the previous bttributes.
      */
-    public void setCharacterAttributes(int offset, int length, AttributeSet s, boolean replace);
+    public void setChbrbcterAttributes(int offset, int length, AttributeSet s, boolebn replbce);
 
     /**
-     * Sets paragraph attributes.
+     * Sets pbrbgrbph bttributes.
      *
-     * @param offset the start of the change &gt;= 0
-     * @param length the length of the change &gt;= 0
-     * @param s    the non-null attributes to change to.  Any attributes
-     *  defined will be applied to the text for the given range.
-     * @param replace indicates whether or not the previous
-     *  attributes should be cleared before the new attributes
-     *  are set.  If true, the operation will replace the
-     *  previous attributes entirely.  If false, the new
-     *  attributes will be merged with the previous attributes.
+     * @pbrbm offset the stbrt of the chbnge &gt;= 0
+     * @pbrbm length the length of the chbnge &gt;= 0
+     * @pbrbm s    the non-null bttributes to chbnge to.  Any bttributes
+     *  defined will be bpplied to the text for the given rbnge.
+     * @pbrbm replbce indicbtes whether or not the previous
+     *  bttributes should be clebred before the new bttributes
+     *  bre set.  If true, the operbtion will replbce the
+     *  previous bttributes entirely.  If fblse, the new
+     *  bttributes will be merged with the previous bttributes.
      */
-    public void setParagraphAttributes(int offset, int length, AttributeSet s, boolean replace);
+    public void setPbrbgrbphAttributes(int offset, int length, AttributeSet s, boolebn replbce);
 
     /**
-     * Sets the logical style to use for the paragraph at the
-     * given position.  If attributes aren't explicitly set
-     * for character and paragraph attributes they will resolve
-     * through the logical style assigned to the paragraph, which
-     * in turn may resolve through some hierarchy completely
-     * independent of the element hierarchy in the document.
+     * Sets the logicbl style to use for the pbrbgrbph bt the
+     * given position.  If bttributes bren't explicitly set
+     * for chbrbcter bnd pbrbgrbph bttributes they will resolve
+     * through the logicbl style bssigned to the pbrbgrbph, which
+     * in turn mby resolve through some hierbrchy completely
+     * independent of the element hierbrchy in the document.
      *
-     * @param pos the starting position &gt;= 0
-     * @param s the style to set
+     * @pbrbm pos the stbrting position &gt;= 0
+     * @pbrbm s the style to set
      */
-    public void setLogicalStyle(int pos, Style s);
+    public void setLogicblStyle(int pos, Style s);
 
     /**
-     * Gets a logical style for a given position in a paragraph.
+     * Gets b logicbl style for b given position in b pbrbgrbph.
      *
-     * @param p the position &gt;= 0
+     * @pbrbm p the position &gt;= 0
      * @return the style
      */
-    public Style getLogicalStyle(int p);
+    public Style getLogicblStyle(int p);
 
     /**
-     * Gets the element that represents the paragraph that
+     * Gets the element thbt represents the pbrbgrbph thbt
      * encloses the given offset within the document.
      *
-     * @param pos the offset &gt;= 0
+     * @pbrbm pos the offset &gt;= 0
      * @return the element
      */
-    public Element getParagraphElement(int pos);
+    public Element getPbrbgrbphElement(int pos);
 
     /**
-     * Gets the element that represents the character that
-     * is at the given offset within the document.
+     * Gets the element thbt represents the chbrbcter thbt
+     * is bt the given offset within the document.
      *
-     * @param pos the offset &gt;= 0
+     * @pbrbm pos the offset &gt;= 0
      * @return the element
      */
-    public Element getCharacterElement(int pos);
+    public Element getChbrbcterElement(int pos);
 
 
     /**
-     * Takes a set of attributes and turn it into a foreground color
-     * specification.  This might be used to specify things
+     * Tbkes b set of bttributes bnd turn it into b foreground color
+     * specificbtion.  This might be used to specify things
      * like brighter, more hue, etc.
      *
-     * @param attr the set of attributes
+     * @pbrbm bttr the set of bttributes
      * @return the color
      */
-    public Color getForeground(AttributeSet attr);
+    public Color getForeground(AttributeSet bttr);
 
     /**
-     * Takes a set of attributes and turn it into a background color
-     * specification.  This might be used to specify things
+     * Tbkes b set of bttributes bnd turn it into b bbckground color
+     * specificbtion.  This might be used to specify things
      * like brighter, more hue, etc.
      *
-     * @param attr the set of attributes
+     * @pbrbm bttr the set of bttributes
      * @return the color
      */
-    public Color getBackground(AttributeSet attr);
+    public Color getBbckground(AttributeSet bttr);
 
     /**
-     * Takes a set of attributes and turn it into a font
-     * specification.  This can be used to turn things like
-     * family, style, size, etc into a font that is available
+     * Tbkes b set of bttributes bnd turn it into b font
+     * specificbtion.  This cbn be used to turn things like
+     * fbmily, style, size, etc into b font thbt is bvbilbble
      * on the system the document is currently being used on.
      *
-     * @param attr the set of attributes
+     * @pbrbm bttr the set of bttributes
      * @return the font
      */
-    public Font getFont(AttributeSet attr);
+    public Font getFont(AttributeSet bttr);
 
 }

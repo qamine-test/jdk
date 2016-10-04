@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Vector;
-import java.awt.peer.SystemTrayPeer;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.HeadlessToolkit;
-import sun.awt.AWTAccessor;
-import sun.awt.AWTPermissions;
+import jbvb.util.Vector;
+import jbvb.bwt.peer.SystemTrbyPeer;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeSupport;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
+import sun.bwt.HebdlessToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AWTPermissions;
 
 /**
- * The <code>SystemTray</code> class represents the system tray for a
- * desktop.  On Microsoft Windows it is referred to as the "Taskbar
- * Status Area", on Gnome it is referred to as the "Notification
- * Area", on KDE it is referred to as the "System Tray".  The system
- * tray is shared by all applications running on the desktop.
+ * The <code>SystemTrby</code> clbss represents the system trby for b
+ * desktop.  On Microsoft Windows it is referred to bs the "Tbskbbr
+ * Stbtus Areb", on Gnome it is referred to bs the "Notificbtion
+ * Areb", on KDE it is referred to bs the "System Trby".  The system
+ * trby is shbred by bll bpplicbtions running on the desktop.
  *
- * <p> On some platforms the system tray may not be present or may not
- * be supported, in this case {@link SystemTray#getSystemTray()}
- * throws {@link UnsupportedOperationException}.  To detect whether the
- * system tray is supported, use {@link SystemTray#isSupported}.
+ * <p> On some plbtforms the system trby mby not be present or mby not
+ * be supported, in this cbse {@link SystemTrby#getSystemTrby()}
+ * throws {@link UnsupportedOperbtionException}.  To detect whether the
+ * system trby is supported, use {@link SystemTrby#isSupported}.
  *
- * <p>The <code>SystemTray</code> may contain one or more {@link
- * TrayIcon TrayIcons}, which are added to the tray using the {@link
- * #add} method, and removed when no longer needed, using the
- * {@link #remove}.  <code>TrayIcon</code> consists of an
- * image, a popup menu and a set of associated listeners.  Please see
- * the {@link TrayIcon} class for details.
+ * <p>The <code>SystemTrby</code> mby contbin one or more {@link
+ * TrbyIcon TrbyIcons}, which bre bdded to the trby using the {@link
+ * #bdd} method, bnd removed when no longer needed, using the
+ * {@link #remove}.  <code>TrbyIcon</code> consists of bn
+ * imbge, b popup menu bnd b set of bssocibted listeners.  Plebse see
+ * the {@link TrbyIcon} clbss for detbils.
  *
- * <p>Every Java application has a single <code>SystemTray</code>
- * instance that allows the app to interface with the system tray of
- * the desktop while the app is running.  The <code>SystemTray</code>
- * instance can be obtained from the {@link #getSystemTray} method.
- * An application may not create its own instance of
- * <code>SystemTray</code>.
+ * <p>Every Jbvb bpplicbtion hbs b single <code>SystemTrby</code>
+ * instbnce thbt bllows the bpp to interfbce with the system trby of
+ * the desktop while the bpp is running.  The <code>SystemTrby</code>
+ * instbnce cbn be obtbined from the {@link #getSystemTrby} method.
+ * An bpplicbtion mby not crebte its own instbnce of
+ * <code>SystemTrby</code>.
  *
- * <p>The following code snippet demonstrates how to access
- * and customize the system tray:
+ * <p>The following code snippet demonstrbtes how to bccess
+ * bnd customize the system trby:
  * <pre>
  * <code>
- *     {@link TrayIcon} trayIcon = null;
- *     if (SystemTray.isSupported()) {
- *         // get the SystemTray instance
- *         SystemTray tray = SystemTray.{@link #getSystemTray};
- *         // load an image
- *         {@link java.awt.Image} image = {@link java.awt.Toolkit#getImage(String) Toolkit.getDefaultToolkit().getImage}(...);
- *         // create a action listener to listen for default action executed on the tray icon
- *         {@link java.awt.event.ActionListener} listener = new {@link java.awt.event.ActionListener ActionListener}() {
- *             public void {@link java.awt.event.ActionListener#actionPerformed actionPerformed}({@link java.awt.event.ActionEvent} e) {
- *                 // execute default action of the application
+ *     {@link TrbyIcon} trbyIcon = null;
+ *     if (SystemTrby.isSupported()) {
+ *         // get the SystemTrby instbnce
+ *         SystemTrby trby = SystemTrby.{@link #getSystemTrby};
+ *         // lobd bn imbge
+ *         {@link jbvb.bwt.Imbge} imbge = {@link jbvb.bwt.Toolkit#getImbge(String) Toolkit.getDefbultToolkit().getImbge}(...);
+ *         // crebte b bction listener to listen for defbult bction executed on the trby icon
+ *         {@link jbvb.bwt.event.ActionListener} listener = new {@link jbvb.bwt.event.ActionListener ActionListener}() {
+ *             public void {@link jbvb.bwt.event.ActionListener#bctionPerformed bctionPerformed}({@link jbvb.bwt.event.ActionEvent} e) {
+ *                 // execute defbult bction of the bpplicbtion
  *                 // ...
  *             }
  *         };
- *         // create a popup menu
- *         {@link java.awt.PopupMenu} popup = new {@link java.awt.PopupMenu#PopupMenu PopupMenu}();
- *         // create menu item for the default action
- *         MenuItem defaultItem = new MenuItem(...);
- *         defaultItem.addActionListener(listener);
- *         popup.add(defaultItem);
- *         /// ... add other items
- *         // construct a TrayIcon
- *         trayIcon = new {@link TrayIcon#TrayIcon(java.awt.Image, String, java.awt.PopupMenu) TrayIcon}(image, "Tray Demo", popup);
- *         // set the TrayIcon properties
- *         trayIcon.{@link TrayIcon#addActionListener(java.awt.event.ActionListener) addActionListener}(listener);
+ *         // crebte b popup menu
+ *         {@link jbvb.bwt.PopupMenu} popup = new {@link jbvb.bwt.PopupMenu#PopupMenu PopupMenu}();
+ *         // crebte menu item for the defbult bction
+ *         MenuItem defbultItem = new MenuItem(...);
+ *         defbultItem.bddActionListener(listener);
+ *         popup.bdd(defbultItem);
+ *         /// ... bdd other items
+ *         // construct b TrbyIcon
+ *         trbyIcon = new {@link TrbyIcon#TrbyIcon(jbvb.bwt.Imbge, String, jbvb.bwt.PopupMenu) TrbyIcon}(imbge, "Trby Demo", popup);
+ *         // set the TrbyIcon properties
+ *         trbyIcon.{@link TrbyIcon#bddActionListener(jbvb.bwt.event.ActionListener) bddActionListener}(listener);
  *         // ...
- *         // add the tray image
+ *         // bdd the trby imbge
  *         try {
- *             tray.{@link SystemTray#add(TrayIcon) add}(trayIcon);
- *         } catch (AWTException e) {
+ *             trby.{@link SystemTrby#bdd(TrbyIcon) bdd}(trbyIcon);
+ *         } cbtch (AWTException e) {
  *             System.err.println(e);
  *         }
  *         // ...
  *     } else {
- *         // disable tray option in your application or
- *         // perform other actions
+ *         // disbble trby option in your bpplicbtion or
+ *         // perform other bctions
  *         ...
  *     }
  *     // ...
- *     // some time later
- *     // the application state has changed - update the image
- *     if (trayIcon != null) {
- *         trayIcon.{@link TrayIcon#setImage(java.awt.Image) setImage}(updatedImage);
+ *     // some time lbter
+ *     // the bpplicbtion stbte hbs chbnged - updbte the imbge
+ *     if (trbyIcon != null) {
+ *         trbyIcon.{@link TrbyIcon#setImbge(jbvb.bwt.Imbge) setImbge}(updbtedImbge);
  *     }
  *     // ...
  * </code>
  * </pre>
  *
  * @since 1.6
- * @see TrayIcon
+ * @see TrbyIcon
  *
- * @author Bino George
- * @author Denis Mikhalkin
- * @author Sharon Zakhour
- * @author Anton Tarasov
+ * @buthor Bino George
+ * @buthor Denis Mikhblkin
+ * @buthor Shbron Zbkhour
+ * @buthor Anton Tbrbsov
  */
-public class SystemTray {
-    private static SystemTray systemTray;
-    private int currentIconID = 0; // each TrayIcon added gets a unique ID
+public clbss SystemTrby {
+    privbte stbtic SystemTrby systemTrby;
+    privbte int currentIconID = 0; // ebch TrbyIcon bdded gets b unique ID
 
-    transient private SystemTrayPeer peer;
+    trbnsient privbte SystemTrbyPeer peer;
 
-    private static final TrayIcon[] EMPTY_TRAY_ARRAY = new TrayIcon[0];
+    privbte stbtic finbl TrbyIcon[] EMPTY_TRAY_ARRAY = new TrbyIcon[0];
 
-    static {
-        AWTAccessor.setSystemTrayAccessor(
-            new AWTAccessor.SystemTrayAccessor() {
-                public void firePropertyChange(SystemTray tray,
-                                               String propertyName,
-                                               Object oldValue,
-                                               Object newValue) {
-                    tray.firePropertyChange(propertyName, oldValue, newValue);
+    stbtic {
+        AWTAccessor.setSystemTrbyAccessor(
+            new AWTAccessor.SystemTrbyAccessor() {
+                public void firePropertyChbnge(SystemTrby trby,
+                                               String propertyNbme,
+                                               Object oldVblue,
+                                               Object newVblue) {
+                    trby.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
                 }
             });
     }
 
     /**
-     * Private <code>SystemTray</code> constructor.
+     * Privbte <code>SystemTrby</code> constructor.
      *
      */
-    private SystemTray() {
-        addNotify();
+    privbte SystemTrby() {
+        bddNotify();
     }
 
     /**
-     * Gets the <code>SystemTray</code> instance that represents the
-     * desktop's tray area.  This always returns the same instance per
-     * application.  On some platforms the system tray may not be
-     * supported.  You may use the {@link #isSupported} method to
-     * check if the system tray is supported.
+     * Gets the <code>SystemTrby</code> instbnce thbt represents the
+     * desktop's trby breb.  This blwbys returns the sbme instbnce per
+     * bpplicbtion.  On some plbtforms the system trby mby not be
+     * supported.  You mby use the {@link #isSupported} method to
+     * check if the system trby is supported.
      *
-     * <p>If a SecurityManager is installed, the AWTPermission
-     * {@code accessSystemTray} must be granted in order to get the
-     * {@code SystemTray} instance. Otherwise this method will throw a
+     * <p>If b SecurityMbnbger is instblled, the AWTPermission
+     * {@code bccessSystemTrby} must be grbnted in order to get the
+     * {@code SystemTrby} instbnce. Otherwise this method will throw b
      * SecurityException.
      *
-     * @return the <code>SystemTray</code> instance that represents
-     * the desktop's tray area
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see #add(TrayIcon)
-     * @see TrayIcon
+     * @return the <code>SystemTrby</code> instbnce thbt represents
+     * the desktop's trby breb
+     * @throws UnsupportedOperbtionException if the system trby isn't
+     * supported by the current plbtform
+     * @throws HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @throws SecurityException if {@code bccessSystemTrby} permission
+     * is not grbnted
+     * @see #bdd(TrbyIcon)
+     * @see TrbyIcon
      * @see #isSupported
-     * @see SecurityManager#checkPermission
+     * @see SecurityMbnbger#checkPermission
      * @see AWTPermission
      */
-    public static SystemTray getSystemTray() {
-        checkSystemTrayAllowed();
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public stbtic SystemTrby getSystemTrby() {
+        checkSystemTrbyAllowed();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        initializeSystemTrayIfNeeded();
+        initiblizeSystemTrbyIfNeeded();
 
         if (!isSupported()) {
-            throw new UnsupportedOperationException(
-                "The system tray is not supported on the current platform.");
+            throw new UnsupportedOperbtionException(
+                "The system trby is not supported on the current plbtform.");
         }
 
-        return systemTray;
+        return systemTrby;
     }
 
     /**
-     * Returns whether the system tray is supported on the current
-     * platform.  In addition to displaying the tray icon, minimal
-     * system tray support includes either a popup menu (see {@link
-     * TrayIcon#setPopupMenu(PopupMenu)}) or an action event (see
-     * {@link TrayIcon#addActionListener(ActionListener)}).
+     * Returns whether the system trby is supported on the current
+     * plbtform.  In bddition to displbying the trby icon, minimbl
+     * system trby support includes either b popup menu (see {@link
+     * TrbyIcon#setPopupMenu(PopupMenu)}) or bn bction event (see
+     * {@link TrbyIcon#bddActionListener(ActionListener)}).
      *
-     * <p>Developers should not assume that all of the system tray
-     * functionality is supported.  To guarantee that the tray icon's
-     * default action is always accessible, add the default action to
-     * both the action listener and the popup menu.  See the {@link
-     * SystemTray example} for an example of how to do this.
+     * <p>Developers should not bssume thbt bll of the system trby
+     * functionblity is supported.  To gubrbntee thbt the trby icon's
+     * defbult bction is blwbys bccessible, bdd the defbult bction to
+     * both the bction listener bnd the popup menu.  See the {@link
+     * SystemTrby exbmple} for bn exbmple of how to do this.
      *
-     * <p><b>Note</b>: When implementing <code>SystemTray</code> and
-     * <code>TrayIcon</code> it is <em>strongly recommended</em> that
-     * you assign different gestures to the popup menu and an action
-     * event.  Overloading a gesture for both purposes is confusing
-     * and may prevent the user from accessing one or the other.
+     * <p><b>Note</b>: When implementing <code>SystemTrby</code> bnd
+     * <code>TrbyIcon</code> it is <em>strongly recommended</em> thbt
+     * you bssign different gestures to the popup menu bnd bn bction
+     * event.  Overlobding b gesture for both purposes is confusing
+     * bnd mby prevent the user from bccessing one or the other.
      *
-     * @see #getSystemTray
-     * @return <code>false</code> if no system tray access is supported; this
-     * method returns <code>true</code> if the minimal system tray access is
-     * supported but does not guarantee that all system tray
-     * functionality is supported for the current platform
+     * @see #getSystemTrby
+     * @return <code>fblse</code> if no system trby bccess is supported; this
+     * method returns <code>true</code> if the minimbl system trby bccess is
+     * supported but does not gubrbntee thbt bll system trby
+     * functionblity is supported for the current plbtform
      */
-    public static boolean isSupported() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof SunToolkit) {
-            // connecting tray to native resource
-            initializeSystemTrayIfNeeded();
-            return ((SunToolkit)toolkit).isTraySupported();
-        } else if (toolkit instanceof HeadlessToolkit) {
-            // skip initialization as the init routine
-            // throws HeadlessException
-            return ((HeadlessToolkit)toolkit).isTraySupported();
+    public stbtic boolebn isSupported() {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (toolkit instbnceof SunToolkit) {
+            // connecting trby to nbtive resource
+            initiblizeSystemTrbyIfNeeded();
+            return ((SunToolkit)toolkit).isTrbySupported();
+        } else if (toolkit instbnceof HebdlessToolkit) {
+            // skip initiblizbtion bs the init routine
+            // throws HebdlessException
+            return ((HebdlessToolkit)toolkit).isTrbySupported();
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Adds a <code>TrayIcon</code> to the <code>SystemTray</code>.
-     * The tray icon becomes visible in the system tray once it is
-     * added.  The order in which icons are displayed in a tray is not
-     * specified - it is platform and implementation-dependent.
+     * Adds b <code>TrbyIcon</code> to the <code>SystemTrby</code>.
+     * The trby icon becomes visible in the system trby once it is
+     * bdded.  The order in which icons bre displbyed in b trby is not
+     * specified - it is plbtform bnd implementbtion-dependent.
      *
-     * <p> All icons added by the application are automatically
-     * removed from the <code>SystemTray</code> upon application exit
-     * and also when the desktop system tray becomes unavailable.
+     * <p> All icons bdded by the bpplicbtion bre butombticblly
+     * removed from the <code>SystemTrby</code> upon bpplicbtion exit
+     * bnd blso when the desktop system trby becomes unbvbilbble.
      *
-     * @param trayIcon the <code>TrayIcon</code> to be added
-     * @throws NullPointerException if <code>trayIcon</code> is
+     * @pbrbm trbyIcon the <code>TrbyIcon</code> to be bdded
+     * @throws NullPointerException if <code>trbyIcon</code> is
      * <code>null</code>
-     * @throws IllegalArgumentException if the same instance of
-     * a <code>TrayIcon</code> is added more than once
-     * @throws AWTException if the desktop system tray is missing
-     * @see #remove(TrayIcon)
-     * @see #getSystemTray
-     * @see TrayIcon
-     * @see java.awt.Image
+     * @throws IllegblArgumentException if the sbme instbnce of
+     * b <code>TrbyIcon</code> is bdded more thbn once
+     * @throws AWTException if the desktop system trby is missing
+     * @see #remove(TrbyIcon)
+     * @see #getSystemTrby
+     * @see TrbyIcon
+     * @see jbvb.bwt.Imbge
      */
-    public void add(TrayIcon trayIcon) throws AWTException {
-        if (trayIcon == null) {
-            throw new NullPointerException("adding null TrayIcon");
+    public void bdd(TrbyIcon trbyIcon) throws AWTException {
+        if (trbyIcon == null) {
+            throw new NullPointerException("bdding null TrbyIcon");
         }
-        TrayIcon[] oldArray = null, newArray = null;
-        Vector<TrayIcon> icons = null;
+        TrbyIcon[] oldArrby = null, newArrby = null;
+        Vector<TrbyIcon> icons = null;
         synchronized (this) {
-            oldArray = systemTray.getTrayIcons();
-            @SuppressWarnings("unchecked")
-            Vector<TrayIcon> tmp = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
+            oldArrby = systemTrby.getTrbyIcons();
+            @SuppressWbrnings("unchecked")
+            Vector<TrbyIcon> tmp = (Vector<TrbyIcon>)AppContext.getAppContext().get(TrbyIcon.clbss);
             icons = tmp;
             if (icons == null) {
-                icons = new Vector<TrayIcon>(3);
-                AppContext.getAppContext().put(TrayIcon.class, icons);
+                icons = new Vector<TrbyIcon>(3);
+                AppContext.getAppContext().put(TrbyIcon.clbss, icons);
 
-            } else if (icons.contains(trayIcon)) {
-                throw new IllegalArgumentException("adding TrayIcon that is already added");
+            } else if (icons.contbins(trbyIcon)) {
+                throw new IllegblArgumentException("bdding TrbyIcon thbt is blrebdy bdded");
             }
-            icons.add(trayIcon);
-            newArray = systemTray.getTrayIcons();
+            icons.bdd(trbyIcon);
+            newArrby = systemTrby.getTrbyIcons();
 
-            trayIcon.setID(++currentIconID);
+            trbyIcon.setID(++currentIconID);
         }
         try {
-            trayIcon.addNotify();
-        } catch (AWTException e) {
-            icons.remove(trayIcon);
+            trbyIcon.bddNotify();
+        } cbtch (AWTException e) {
+            icons.remove(trbyIcon);
             throw e;
         }
-        firePropertyChange("trayIcons", oldArray, newArray);
+        firePropertyChbnge("trbyIcons", oldArrby, newArrby);
     }
 
     /**
-     * Removes the specified <code>TrayIcon</code> from the
-     * <code>SystemTray</code>.
+     * Removes the specified <code>TrbyIcon</code> from the
+     * <code>SystemTrby</code>.
      *
-     * <p> All icons added by the application are automatically
-     * removed from the <code>SystemTray</code> upon application exit
-     * and also when the desktop system tray becomes unavailable.
+     * <p> All icons bdded by the bpplicbtion bre butombticblly
+     * removed from the <code>SystemTrby</code> upon bpplicbtion exit
+     * bnd blso when the desktop system trby becomes unbvbilbble.
      *
-     * <p> If <code>trayIcon</code> is <code>null</code> or was not
-     * added to the system tray, no exception is thrown and no action
+     * <p> If <code>trbyIcon</code> is <code>null</code> or wbs not
+     * bdded to the system trby, no exception is thrown bnd no bction
      * is performed.
      *
-     * @param trayIcon the <code>TrayIcon</code> to be removed
-     * @see #add(TrayIcon)
-     * @see TrayIcon
+     * @pbrbm trbyIcon the <code>TrbyIcon</code> to be removed
+     * @see #bdd(TrbyIcon)
+     * @see TrbyIcon
      */
-    public void remove(TrayIcon trayIcon) {
-        if (trayIcon == null) {
+    public void remove(TrbyIcon trbyIcon) {
+        if (trbyIcon == null) {
             return;
         }
-        TrayIcon[] oldArray = null, newArray = null;
+        TrbyIcon[] oldArrby = null, newArrby = null;
         synchronized (this) {
-            oldArray = systemTray.getTrayIcons();
-            @SuppressWarnings("unchecked")
-            Vector<TrayIcon> icons = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
-            // TrayIcon with no peer is not contained in the array.
-            if (icons == null || !icons.remove(trayIcon)) {
+            oldArrby = systemTrby.getTrbyIcons();
+            @SuppressWbrnings("unchecked")
+            Vector<TrbyIcon> icons = (Vector<TrbyIcon>)AppContext.getAppContext().get(TrbyIcon.clbss);
+            // TrbyIcon with no peer is not contbined in the brrby.
+            if (icons == null || !icons.remove(trbyIcon)) {
                 return;
             }
-            trayIcon.removeNotify();
-            newArray = systemTray.getTrayIcons();
+            trbyIcon.removeNotify();
+            newArrby = systemTrby.getTrbyIcons();
         }
-        firePropertyChange("trayIcons", oldArray, newArray);
+        firePropertyChbnge("trbyIcons", oldArrby, newArrby);
     }
 
     /**
-     * Returns an array of all icons added to the tray by this
-     * application.  You can't access the icons added by another
-     * application.  Some browsers partition applets in different
-     * code bases into separate contexts, and establish walls between
-     * these contexts.  In such a scenario, only the tray icons added
+     * Returns bn brrby of bll icons bdded to the trby by this
+     * bpplicbtion.  You cbn't bccess the icons bdded by bnother
+     * bpplicbtion.  Some browsers pbrtition bpplets in different
+     * code bbses into sepbrbte contexts, bnd estbblish wblls between
+     * these contexts.  In such b scenbrio, only the trby icons bdded
      * from this context will be returned.
      *
-     * <p> The returned array is a copy of the actual array and may be
-     * modified in any way without affecting the system tray.  To
-     * remove a <code>TrayIcon</code> from the
-     * <code>SystemTray</code>, use the {@link
-     * #remove(TrayIcon)} method.
+     * <p> The returned brrby is b copy of the bctubl brrby bnd mby be
+     * modified in bny wby without bffecting the system trby.  To
+     * remove b <code>TrbyIcon</code> from the
+     * <code>SystemTrby</code>, use the {@link
+     * #remove(TrbyIcon)} method.
      *
-     * @return an array of all tray icons added to this tray, or an
-     * empty array if none has been added
-     * @see #add(TrayIcon)
-     * @see TrayIcon
+     * @return bn brrby of bll trby icons bdded to this trby, or bn
+     * empty brrby if none hbs been bdded
+     * @see #bdd(TrbyIcon)
+     * @see TrbyIcon
      */
-    public TrayIcon[] getTrayIcons() {
-        @SuppressWarnings("unchecked")
-        Vector<TrayIcon> icons = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
+    public TrbyIcon[] getTrbyIcons() {
+        @SuppressWbrnings("unchecked")
+        Vector<TrbyIcon> icons = (Vector<TrbyIcon>)AppContext.getAppContext().get(TrbyIcon.clbss);
         if (icons != null) {
-            return icons.toArray(new TrayIcon[icons.size()]);
+            return icons.toArrby(new TrbyIcon[icons.size()]);
         }
         return EMPTY_TRAY_ARRAY;
     }
 
     /**
-     * Returns the size, in pixels, of the space that a tray icon will
-     * occupy in the system tray.  Developers may use this methods to
-     * acquire the preferred size for the image property of a tray icon
-     * before it is created.  For convenience, there is a similar
-     * method {@link TrayIcon#getSize} in the <code>TrayIcon</code> class.
+     * Returns the size, in pixels, of the spbce thbt b trby icon will
+     * occupy in the system trby.  Developers mby use this methods to
+     * bcquire the preferred size for the imbge property of b trby icon
+     * before it is crebted.  For convenience, there is b similbr
+     * method {@link TrbyIcon#getSize} in the <code>TrbyIcon</code> clbss.
      *
-     * @return the default size of a tray icon, in pixels
-     * @see TrayIcon#setImageAutoSize(boolean)
-     * @see java.awt.Image
-     * @see TrayIcon#getSize()
+     * @return the defbult size of b trby icon, in pixels
+     * @see TrbyIcon#setImbgeAutoSize(boolebn)
+     * @see jbvb.bwt.Imbge
+     * @see TrbyIcon#getSize()
      */
-    public Dimension getTrayIconSize() {
-        return peer.getTrayIconSize();
+    public Dimension getTrbyIconSize() {
+        return peer.getTrbyIconSize();
     }
 
     /**
-     * Adds a {@code PropertyChangeListener} to the list of listeners for the
-     * specific property. The following properties are currently supported:
+     * Adds b {@code PropertyChbngeListener} to the list of listeners for the
+     * specific property. The following properties bre currently supported:
      *
-     * <table border=1 summary="SystemTray properties">
+     * <tbble border=1 summbry="SystemTrby properties">
      * <tr>
      *    <th>Property</th>
      *    <th>Description</th>
      * </tr>
      * <tr>
-     *    <td>{@code trayIcons}</td>
-     *    <td>The {@code SystemTray}'s array of {@code TrayIcon} objects.
-     *        The array is accessed via the {@link #getTrayIcons} method.<br>
-     *        This property is changed when a tray icon is added to (or removed
-     *        from) the system tray.<br> For example, this property is changed
-     *        when the system tray becomes unavailable on the desktop<br>
-     *        and the tray icons are automatically removed.</td>
+     *    <td>{@code trbyIcons}</td>
+     *    <td>The {@code SystemTrby}'s brrby of {@code TrbyIcon} objects.
+     *        The brrby is bccessed vib the {@link #getTrbyIcons} method.<br>
+     *        This property is chbnged when b trby icon is bdded to (or removed
+     *        from) the system trby.<br> For exbmple, this property is chbnged
+     *        when the system trby becomes unbvbilbble on the desktop<br>
+     *        bnd the trby icons bre butombticblly removed.</td>
      * </tr>
      * <tr>
-     *    <td>{@code systemTray}</td>
-     *    <td>This property contains {@code SystemTray} instance when the system tray
-     *        is available or <code>null</code> otherwise.<br> This property is changed
-     *        when the system tray becomes available or unavailable on the desktop.<br>
-     *        The property is accessed by the {@link #getSystemTray} method.</td>
+     *    <td>{@code systemTrby}</td>
+     *    <td>This property contbins {@code SystemTrby} instbnce when the system trby
+     *        is bvbilbble or <code>null</code> otherwise.<br> This property is chbnged
+     *        when the system trby becomes bvbilbble or unbvbilbble on the desktop.<br>
+     *        The property is bccessed by the {@link #getSystemTrby} method.</td>
      * </tr>
-     * </table>
+     * </tbble>
      * <p>
-     * The {@code listener} listens to property changes only in this context.
+     * The {@code listener} listens to property chbnges only in this context.
      * <p>
      * If {@code listener} is {@code null}, no exception is thrown
-     * and no action is performed.
+     * bnd no bction is performed.
      *
-     * @param propertyName the specified property
-     * @param listener the property change listener to be added
+     * @pbrbm propertyNbme the specified property
+     * @pbrbm listener the property chbnge listener to be bdded
      *
-     * @see #removePropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @see #removePropertyChbngeListener
+     * @see #getPropertyChbngeListeners
      */
-    public synchronized void addPropertyChangeListener(String propertyName,
-                                                       PropertyChangeListener listener)
+    public synchronized void bddPropertyChbngeListener(String propertyNbme,
+                                                       PropertyChbngeListener listener)
     {
         if (listener == null) {
             return;
         }
-        getCurrentChangeSupport().addPropertyChangeListener(propertyName, listener);
+        getCurrentChbngeSupport().bddPropertyChbngeListener(propertyNbme, listener);
     }
 
     /**
-     * Removes a {@code PropertyChangeListener} from the listener list
-     * for a specific property.
+     * Removes b {@code PropertyChbngeListener} from the listener list
+     * for b specific property.
      * <p>
-     * The {@code PropertyChangeListener} must be from this context.
+     * The {@code PropertyChbngeListener} must be from this context.
      * <p>
-     * If {@code propertyName} or {@code listener} is {@code null} or invalid,
-     * no exception is thrown and no action is taken.
+     * If {@code propertyNbme} or {@code listener} is {@code null} or invblid,
+     * no exception is thrown bnd no bction is tbken.
      *
-     * @param propertyName the specified property
-     * @param listener the PropertyChangeListener to be removed
+     * @pbrbm propertyNbme the specified property
+     * @pbrbm listener the PropertyChbngeListener to be removed
      *
-     * @see #addPropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @see #bddPropertyChbngeListener
+     * @see #getPropertyChbngeListeners
      */
-    public synchronized void removePropertyChangeListener(String propertyName,
-                                                          PropertyChangeListener listener)
+    public synchronized void removePropertyChbngeListener(String propertyNbme,
+                                                          PropertyChbngeListener listener)
     {
         if (listener == null) {
             return;
         }
-        getCurrentChangeSupport().removePropertyChangeListener(propertyName, listener);
+        getCurrentChbngeSupport().removePropertyChbngeListener(propertyNbme, listener);
     }
 
     /**
-     * Returns an array of all the listeners that have been associated
-     * with the named property.
+     * Returns bn brrby of bll the listeners thbt hbve been bssocibted
+     * with the nbmed property.
      * <p>
-     * Only the listeners in this context are returned.
+     * Only the listeners in this context bre returned.
      *
-     * @param propertyName the specified property
-     * @return all of the {@code PropertyChangeListener}s associated with
-     *         the named property; if no such listeners have been added or
-     *         if {@code propertyName} is {@code null} or invalid, an empty
-     *         array is returned
+     * @pbrbm propertyNbme the specified property
+     * @return bll of the {@code PropertyChbngeListener}s bssocibted with
+     *         the nbmed property; if no such listeners hbve been bdded or
+     *         if {@code propertyNbme} is {@code null} or invblid, bn empty
+     *         brrby is returned
      *
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
+     * @see #bddPropertyChbngeListener
+     * @see #removePropertyChbngeListener
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-        return getCurrentChangeSupport().getPropertyChangeListeners(propertyName);
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners(String propertyNbme) {
+        return getCurrentChbngeSupport().getPropertyChbngeListeners(propertyNbme);
     }
 
 
@@ -458,63 +458,63 @@ public class SystemTray {
 
 
     /**
-     * Support for reporting bound property changes for Object properties.
-     * This method can be called when a bound property has changed and it will
-     * send the appropriate PropertyChangeEvent to any registered
-     * PropertyChangeListeners.
+     * Support for reporting bound property chbnges for Object properties.
+     * This method cbn be cblled when b bound property hbs chbnged bnd it will
+     * send the bppropribte PropertyChbngeEvent to bny registered
+     * PropertyChbngeListeners.
      *
-     * @param propertyName the property whose value has changed
-     * @param oldValue the property's previous value
-     * @param newValue the property's new value
+     * @pbrbm propertyNbme the property whose vblue hbs chbnged
+     * @pbrbm oldVblue the property's previous vblue
+     * @pbrbm newVblue the property's new vblue
      */
-    private void firePropertyChange(String propertyName,
-                                    Object oldValue, Object newValue)
+    privbte void firePropertyChbnge(String propertyNbme,
+                                    Object oldVblue, Object newVblue)
     {
-        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+        if (oldVblue != null && newVblue != null && oldVblue.equbls(newVblue)) {
             return;
         }
-        getCurrentChangeSupport().firePropertyChange(propertyName, oldValue, newValue);
+        getCurrentChbngeSupport().firePropertyChbnge(propertyNbme, oldVblue, newVblue);
     }
 
     /**
-     * Returns the current PropertyChangeSupport instance for the
-     * calling thread's context.
+     * Returns the current PropertyChbngeSupport instbnce for the
+     * cblling threbd's context.
      *
-     * @return this thread's context's PropertyChangeSupport
+     * @return this threbd's context's PropertyChbngeSupport
      */
-    private synchronized PropertyChangeSupport getCurrentChangeSupport() {
-        PropertyChangeSupport changeSupport =
-            (PropertyChangeSupport)AppContext.getAppContext().get(SystemTray.class);
+    privbte synchronized PropertyChbngeSupport getCurrentChbngeSupport() {
+        PropertyChbngeSupport chbngeSupport =
+            (PropertyChbngeSupport)AppContext.getAppContext().get(SystemTrby.clbss);
 
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
-            AppContext.getAppContext().put(SystemTray.class, changeSupport);
+        if (chbngeSupport == null) {
+            chbngeSupport = new PropertyChbngeSupport(this);
+            AppContext.getAppContext().put(SystemTrby.clbss, chbngeSupport);
         }
-        return changeSupport;
+        return chbngeSupport;
     }
 
-    synchronized void addNotify() {
+    synchronized void bddNotify() {
         if (peer == null) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            if (toolkit instanceof SunToolkit) {
-                peer = ((SunToolkit)Toolkit.getDefaultToolkit()).createSystemTray(this);
-            } else if (toolkit instanceof HeadlessToolkit) {
-                peer = ((HeadlessToolkit)Toolkit.getDefaultToolkit()).createSystemTray(this);
+            Toolkit toolkit = Toolkit.getDefbultToolkit();
+            if (toolkit instbnceof SunToolkit) {
+                peer = ((SunToolkit)Toolkit.getDefbultToolkit()).crebteSystemTrby(this);
+            } else if (toolkit instbnceof HebdlessToolkit) {
+                peer = ((HebdlessToolkit)Toolkit.getDefbultToolkit()).crebteSystemTrby(this);
             }
         }
     }
 
-    static void checkSystemTrayAllowed() {
-        SecurityManager security = System.getSecurityManager();
+    stbtic void checkSystemTrbyAllowed() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ACCESS_SYSTEM_TRAY_PERMISSION);
         }
     }
 
-    private static void initializeSystemTrayIfNeeded() {
-        synchronized (SystemTray.class) {
-            if (systemTray == null) {
-                systemTray = new SystemTray();
+    privbte stbtic void initiblizeSystemTrbyIfNeeded() {
+        synchronized (SystemTrby.clbss) {
+            if (systemTrby == null) {
+                systemTrby = new SystemTrby();
             }
         }
     }

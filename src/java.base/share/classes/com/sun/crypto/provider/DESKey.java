@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.KeyRep;
-import java.security.InvalidKeyException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DESKeySpec;
+import jbvb.security.KeyRep;
+import jbvb.security.InvblidKeyException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.DESKeySpec;
 
 /**
- * This class represents a DES key.
+ * This clbss represents b DES key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-final class DESKey implements SecretKey {
+finbl clbss DESKey implements SecretKey {
 
-    static final long serialVersionUID = 7724971015953279128L;
+    stbtic finbl long seriblVersionUID = 7724971015953279128L;
 
-    private byte[] key;
+    privbte byte[] key;
 
     /**
-     * Uses the first 8 bytes of the given key as the DES key.
+     * Uses the first 8 bytes of the given key bs the DES key.
      *
-     * @param key the buffer with the DES key bytes.
+     * @pbrbm key the buffer with the DES key bytes.
      *
-     * @exception InvalidKeyException if less than 8 bytes are available for
+     * @exception InvblidKeyException if less thbn 8 bytes bre bvbilbble for
      * the key.
      */
-    DESKey(byte[] key) throws InvalidKeyException {
+    DESKey(byte[] key) throws InvblidKeyException {
         this(key, 0);
     }
 
     /**
-     * Uses the first 8 bytes in <code>key</code>, beginning at
-     * <code>offset</code>, as the DES key
+     * Uses the first 8 bytes in <code>key</code>, beginning bt
+     * <code>offset</code>, bs the DES key
      *
-     * @param key the buffer with the DES key bytes.
-     * @param offset the offset in <code>key</code>, where the DES key bytes
-     * start.
+     * @pbrbm key the buffer with the DES key bytes.
+     * @pbrbm offset the offset in <code>key</code>, where the DES key bytes
+     * stbrt.
      *
-     * @exception InvalidKeyException if less than 8 bytes are available for
+     * @exception InvblidKeyException if less thbn 8 bytes bre bvbilbble for
      * the key.
      */
-    DESKey(byte[] key, int offset) throws InvalidKeyException {
+    DESKey(byte[] key, int offset) throws InvblidKeyException {
         if (key == null || key.length - offset < DESKeySpec.DES_KEY_LEN) {
-            throw new InvalidKeyException("Wrong key size");
+            throw new InvblidKeyException("Wrong key size");
         }
         this.key = new byte[DESKeySpec.DES_KEY_LEN];
-        System.arraycopy(key, offset, this.key, 0, DESKeySpec.DES_KEY_LEN);
-        DESKeyGenerator.setParityBit(this.key, 0);
+        System.brrbycopy(key, offset, this.key, 0, DESKeySpec.DES_KEY_LEN);
+        DESKeyGenerbtor.setPbrityBit(this.key, 0);
     }
 
     public byte[] getEncoded() {
-        // Return a copy of the key, rather than a reference,
-        // so that the key data cannot be modified from outside
+        // Return b copy of the key, rbther thbn b reference,
+        // so thbt the key dbtb cbnnot be modified from outside
         return this.key.clone();
     }
 
@@ -85,77 +85,77 @@ final class DESKey implements SecretKey {
         return "DES";
     }
 
-    public String getFormat() {
+    public String getFormbt() {
         return "RAW";
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         for (int i = 1; i < this.key.length; i++) {
-            retval += this.key[i] * i;
+            retvbl += this.key[i] * i;
         }
-        return(retval ^= "des".hashCode());
+        return(retvbl ^= "des".hbshCode());
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)
             return true;
 
-        if (!(obj instanceof SecretKey))
-            return false;
+        if (!(obj instbnceof SecretKey))
+            return fblse;
 
-        String thatAlg = ((SecretKey)obj).getAlgorithm();
-        if (!(thatAlg.equalsIgnoreCase("DES")))
-            return false;
+        String thbtAlg = ((SecretKey)obj).getAlgorithm();
+        if (!(thbtAlg.equblsIgnoreCbse("DES")))
+            return fblse;
 
-        byte[] thatKey = ((SecretKey)obj).getEncoded();
-        boolean ret = java.util.Arrays.equals(this.key, thatKey);
-        java.util.Arrays.fill(thatKey, (byte)0x00);
+        byte[] thbtKey = ((SecretKey)obj).getEncoded();
+        boolebn ret = jbvb.util.Arrbys.equbls(this.key, thbtKey);
+        jbvb.util.Arrbys.fill(thbtKey, (byte)0x00);
         return ret;
     }
 
     /**
-     * readObject is called to restore the state of this key from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of this key from
+     * b strebm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws java.io.IOException, ClassNotFoundException
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws jbvb.io.IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
+        s.defbultRebdObject();
         key = key.clone();
     }
 
     /**
-     * Replace the DES key to be serialized.
+     * Replbce the DES key to be seriblized.
      *
-     * @return the standard KeyRep object to be serialized
+     * @return the stbndbrd KeyRep object to be seriblized
      *
-     * @throws java.io.ObjectStreamException if a new object representing
-     * this DES key could not be created
+     * @throws jbvb.io.ObjectStrebmException if b new object representing
+     * this DES key could not be crebted
      */
-    private Object writeReplace() throws java.io.ObjectStreamException {
+    privbte Object writeReplbce() throws jbvb.io.ObjectStrebmException {
         return new KeyRep(KeyRep.Type.SECRET,
                         getAlgorithm(),
-                        getFormat(),
+                        getFormbt(),
                         getEncoded());
     }
 
     /**
-     * Ensures that the bytes of this key are
-     * set to zero when there are no more references to it.
+     * Ensures thbt the bytes of this key bre
+     * set to zero when there bre no more references to it.
      */
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         try {
             if (this.key != null) {
-                java.util.Arrays.fill(this.key, (byte)0x00);
+                jbvb.util.Arrbys.fill(this.key, (byte)0x00);
                 this.key = null;
             }
-        } finally {
-            super.finalize();
+        } finblly {
+            super.finblize();
         }
     }
 }

@@ -1,474 +1,474 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-#import "java_awt_print_PageFormat.h"
-#import "java_awt_print_Pageable.h"
-#import "sun_lwawt_macosx_CPrinterJob.h"
-#import "sun_lwawt_macosx_CPrinterPageDialog.h"
+#import "jbvb_bwt_print_PbgeFormbt.h"
+#import "jbvb_bwt_print_Pbgebble.h"
+#import "sun_lwbwt_mbcosx_CPrinterJob.h"
+#import "sun_lwbwt_mbcosx_CPrinterPbgeDiblog.h"
 
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "PrinterView.h"
 #import "PrintModel.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 #import "GeomUtilities.h"
 
-static JNF_CLASS_CACHE(sjc_Paper, "java/awt/print/Paper");
-static JNF_CLASS_CACHE(sjc_PageFormat, "java/awt/print/PageFormat");
-static JNF_CLASS_CACHE(sjc_CPrinterJob, "sun/lwawt/macosx/CPrinterJob");
-static JNF_CLASS_CACHE(sjc_CPrinterDialog, "sun/lwawt/macosx/CPrinterDialog");
-static JNF_MEMBER_CACHE(sjm_getNSPrintInfo, sjc_CPrinterJob, "getNSPrintInfo", "()J");
-static JNF_MEMBER_CACHE(sjm_printerJob, sjc_CPrinterDialog, "fPrinterJob", "Lsun/lwawt/macosx/CPrinterJob;");
+stbtic JNF_CLASS_CACHE(sjc_Pbper, "jbvb/bwt/print/Pbper");
+stbtic JNF_CLASS_CACHE(sjc_PbgeFormbt, "jbvb/bwt/print/PbgeFormbt");
+stbtic JNF_CLASS_CACHE(sjc_CPrinterJob, "sun/lwbwt/mbcosx/CPrinterJob");
+stbtic JNF_CLASS_CACHE(sjc_CPrinterDiblog, "sun/lwbwt/mbcosx/CPrinterDiblog");
+stbtic JNF_MEMBER_CACHE(sjm_getNSPrintInfo, sjc_CPrinterJob, "getNSPrintInfo", "()J");
+stbtic JNF_MEMBER_CACHE(sjm_printerJob, sjc_CPrinterDiblog, "fPrinterJob", "Lsun/lwbwt/mbcosx/CPrinterJob;");
 
-static NSPrintInfo* createDefaultNSPrintInfo();
+stbtic NSPrintInfo* crebteDefbultNSPrintInfo();
 
-static void makeBestFit(NSPrintInfo* src);
+stbtic void mbkeBestFit(NSPrintInfo* src);
 
-static void nsPrintInfoToJavaPaper(JNIEnv* env, NSPrintInfo* src, jobject dst);
-static void javaPaperToNSPrintInfo(JNIEnv* env, jobject src, NSPrintInfo* dst);
+stbtic void nsPrintInfoToJbvbPbper(JNIEnv* env, NSPrintInfo* src, jobject dst);
+stbtic void jbvbPbperToNSPrintInfo(JNIEnv* env, jobject src, NSPrintInfo* dst);
 
-static void nsPrintInfoToJavaPageFormat(JNIEnv* env, NSPrintInfo* src, jobject dst);
-static void javaPageFormatToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPageFormat, NSPrintInfo* dst);
+stbtic void nsPrintInfoToJbvbPbgeFormbt(JNIEnv* env, NSPrintInfo* src, jobject dst);
+stbtic void jbvbPbgeFormbtToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPbgeFormbt, NSPrintInfo* dst);
 
-static void nsPrintInfoToJavaPrinterJob(JNIEnv* env, NSPrintInfo* src, jobject dstPrinterJob, jobject dstPageable);
-static void javaPrinterJobToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPageable, NSPrintInfo* dst);
+stbtic void nsPrintInfoToJbvbPrinterJob(JNIEnv* env, NSPrintInfo* src, jobject dstPrinterJob, jobject dstPbgebble);
+stbtic void jbvbPrinterJobToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPbgebble, NSPrintInfo* dst);
 
 
-static NSPrintInfo* createDefaultNSPrintInfo(JNIEnv* env, jstring printer)
+stbtic NSPrintInfo* crebteDefbultNSPrintInfo(JNIEnv* env, jstring printer)
 {
-    NSPrintInfo* defaultPrintInfo = [[NSPrintInfo sharedPrintInfo] copy];
+    NSPrintInfo* defbultPrintInfo = [[NSPrintInfo shbredPrintInfo] copy];
     if (printer != NULL)
     {
-        NSPrinter* nsPrinter = [NSPrinter printerWithName:JNFJavaToNSString(env, printer)];
+        NSPrinter* nsPrinter = [NSPrinter printerWithNbme:JNFJbvbToNSString(env, printer)];
         if (nsPrinter != nil)
         {
-            [defaultPrintInfo setPrinter:nsPrinter];
+            [defbultPrintInfo setPrinter:nsPrinter];
         }
     }
-    [defaultPrintInfo setUpPrintOperationDefaultValues];
+    [defbultPrintInfo setUpPrintOperbtionDefbultVblues];
 
-    // cmc 05/18/04 radr://3160443 : setUpPrintOperationDefaultValues sets the
-    // page margins to 72, 72, 90, 90 - need to use [NSPrintInfo imageablePageBounds]
-    // to get values from the printer.
-    // NOTE: currently [NSPrintInfo imageablePageBounds] does not update itself when
-    // the user selects a different printer - see radr://3657453. However, rather than
+    // cmc 05/18/04 rbdr://3160443 : setUpPrintOperbtionDefbultVblues sets the
+    // pbge mbrgins to 72, 72, 90, 90 - need to use [NSPrintInfo imbgebblePbgeBounds]
+    // to get vblues from the printer.
+    // NOTE: currently [NSPrintInfo imbgebblePbgeBounds] does not updbte itself when
+    // the user selects b different printer - see rbdr://3657453. However, rbther thbn
     // directly querying the PPD here, we'll let AppKit printing do the work. The AppKit
-    // printing bug above is set to be fixed for Tiger.
-    NSRect imageableRect = [defaultPrintInfo imageablePageBounds];
-    [defaultPrintInfo setLeftMargin: imageableRect.origin.x];
-    [defaultPrintInfo setBottomMargin: imageableRect.origin.y]; //top and bottom are flipped because [NSPrintInfo imageablePageBounds] returns a flipped NSRect (bottom-left to top-right).
-    [defaultPrintInfo setRightMargin: [defaultPrintInfo paperSize].width-imageableRect.origin.x-imageableRect.size.width];
-    [defaultPrintInfo setTopMargin: [defaultPrintInfo paperSize].height-imageableRect.origin.y-imageableRect.size.height];
+    // printing bug bbove is set to be fixed for Tiger.
+    NSRect imbgebbleRect = [defbultPrintInfo imbgebblePbgeBounds];
+    [defbultPrintInfo setLeftMbrgin: imbgebbleRect.origin.x];
+    [defbultPrintInfo setBottomMbrgin: imbgebbleRect.origin.y]; //top bnd bottom bre flipped becbuse [NSPrintInfo imbgebblePbgeBounds] returns b flipped NSRect (bottom-left to top-right).
+    [defbultPrintInfo setRightMbrgin: [defbultPrintInfo pbperSize].width-imbgebbleRect.origin.x-imbgebbleRect.size.width];
+    [defbultPrintInfo setTopMbrgin: [defbultPrintInfo pbperSize].height-imbgebbleRect.origin.y-imbgebbleRect.size.height];
 
-    return defaultPrintInfo;
+    return defbultPrintInfo;
 }
 
-static void makeBestFit(NSPrintInfo* src)
+stbtic void mbkeBestFit(NSPrintInfo* src)
 {
-    // This will look at the NSPrintInfo's margins. If they are out of bounds to the
-    // imageable area of the page, it will set them to the largest possible size.
+    // This will look bt the NSPrintInfo's mbrgins. If they bre out of bounds to the
+    // imbgebble breb of the pbge, it will set them to the lbrgest possible size.
 
-    NSRect imageable = [src imageablePageBounds];
+    NSRect imbgebble = [src imbgebblePbgeBounds];
 
-    NSSize paperSize = [src paperSize];
+    NSSize pbperSize = [src pbperSize];
 
-    CGFloat fullLeftM = imageable.origin.x;
-    CGFloat fullRightM = paperSize.width - (imageable.origin.x + imageable.size.width);
+    CGFlobt fullLeftM = imbgebble.origin.x;
+    CGFlobt fullRightM = pbperSize.width - (imbgebble.origin.x + imbgebble.size.width);
 
-    // These are flipped because [NSPrintInfo imageablePageBounds] returns a flipped
+    // These bre flipped becbuse [NSPrintInfo imbgebblePbgeBounds] returns b flipped
     //  NSRect (bottom-left to top-right).
-    CGFloat fullTopM = paperSize.height - (imageable.origin.y + imageable.size.height);
-    CGFloat fullBottomM = imageable.origin.y;
+    CGFlobt fullTopM = pbperSize.height - (imbgebble.origin.y + imbgebble.size.height);
+    CGFlobt fullBottomM = imbgebble.origin.y;
 
-    if (fullLeftM > [src leftMargin])
+    if (fullLeftM > [src leftMbrgin])
     {
-        [src setLeftMargin:fullLeftM];
+        [src setLeftMbrgin:fullLeftM];
     }
 
-    if (fullRightM > [src rightMargin])
+    if (fullRightM > [src rightMbrgin])
     {
-        [src setRightMargin:fullRightM];
+        [src setRightMbrgin:fullRightM];
     }
 
-    if (fullTopM > [src topMargin])
+    if (fullTopM > [src topMbrgin])
     {
-        [src setTopMargin:fullTopM];
+        [src setTopMbrgin:fullTopM];
     }
 
-    if (fullBottomM > [src bottomMargin])
+    if (fullBottomM > [src bottomMbrgin])
     {
-        [src setBottomMargin:fullBottomM];
+        [src setBottomMbrgin:fullBottomM];
     }
 }
 
-// In AppKit Printing, the rectangle is always oriented. In AppKit Printing, setting
-//  the rectangle will always set the orientation.
-// In java printing, the rectangle is oriented if accessed from PageFormat. It is
-//  not oriented when accessed from Paper.
+// In AppKit Printing, the rectbngle is blwbys oriented. In AppKit Printing, setting
+//  the rectbngle will blwbys set the orientbtion.
+// In jbvb printing, the rectbngle is oriented if bccessed from PbgeFormbt. It is
+//  not oriented when bccessed from Pbper.
 
-static void nsPrintInfoToJavaPaper(JNIEnv* env, NSPrintInfo* src, jobject dst)
+stbtic void nsPrintInfoToJbvbPbper(JNIEnv* env, NSPrintInfo* src, jobject dst)
 {
-    static JNF_MEMBER_CACHE(jm_setSize, sjc_Paper, "setSize", "(DD)V");
-    static JNF_MEMBER_CACHE(jm_setImageableArea, sjc_Paper, "setImageableArea", "(DDDD)V");
+    stbtic JNF_MEMBER_CACHE(jm_setSize, sjc_Pbper, "setSize", "(DD)V");
+    stbtic JNF_MEMBER_CACHE(jm_setImbgebbleAreb, sjc_Pbper, "setImbgebbleAreb", "(DDDD)V");
 
-    jdouble jPaperW, jPaperH;
+    jdouble jPbperW, jPbperH;
 
-    // NSPrintInfo paperSize is oriented. java Paper is not oriented. Take
-    //  the -[NSPrintInfo orientation] into account when setting the Paper
-    //  rectangle.
+    // NSPrintInfo pbperSize is oriented. jbvb Pbper is not oriented. Tbke
+    //  the -[NSPrintInfo orientbtion] into bccount when setting the Pbper
+    //  rectbngle.
 
-    NSSize paperSize = [src paperSize];
-    switch ([src orientation]) {
-        case NSPortraitOrientation:
-            jPaperW = paperSize.width;
-            jPaperH = paperSize.height;
-            break;
+    NSSize pbperSize = [src pbperSize];
+    switch ([src orientbtion]) {
+        cbse NSPortrbitOrientbtion:
+            jPbperW = pbperSize.width;
+            jPbperH = pbperSize.height;
+            brebk;
 
-        case NSLandscapeOrientation:
-            jPaperW = paperSize.height;
-            jPaperH = paperSize.width;
-            break;
+        cbse NSLbndscbpeOrientbtion:
+            jPbperW = pbperSize.height;
+            jPbperH = pbperSize.width;
+            brebk;
 
-        default:
-            jPaperW = paperSize.width;
-            jPaperH = paperSize.height;
-            break;
+        defbult:
+            jPbperW = pbperSize.width;
+            jPbperH = pbperSize.height;
+            brebk;
     }
 
-    JNFCallVoidMethod(env, dst, jm_setSize, jPaperW, jPaperH); // AWT_THREADING Safe (known object - always actual Paper)
+    JNFCbllVoidMethod(env, dst, jm_setSize, jPbperW, jPbperH); // AWT_THREADING Sbfe (known object - blwbys bctubl Pbper)
 
-    // Set the imageable area from the margins
-    CGFloat leftM = [src leftMargin];
-    CGFloat rightM = [src rightMargin];
-    CGFloat topM = [src topMargin];
-    CGFloat bottomM = [src bottomMargin];
+    // Set the imbgebble breb from the mbrgins
+    CGFlobt leftM = [src leftMbrgin];
+    CGFlobt rightM = [src rightMbrgin];
+    CGFlobt topM = [src topMbrgin];
+    CGFlobt bottomM = [src bottomMbrgin];
 
-    jdouble jImageX = leftM;
-    jdouble jImageY = topM;
-    jdouble jImageW = jPaperW - (leftM + rightM);
-    jdouble jImageH = jPaperH - (topM + bottomM);
+    jdouble jImbgeX = leftM;
+    jdouble jImbgeY = topM;
+    jdouble jImbgeW = jPbperW - (leftM + rightM);
+    jdouble jImbgeH = jPbperH - (topM + bottomM);
 
-    JNFCallVoidMethod(env, dst, jm_setImageableArea, jImageX, jImageY, jImageW, jImageH); // AWT_THREADING Safe (known object - always actual Paper)
+    JNFCbllVoidMethod(env, dst, jm_setImbgebbleAreb, jImbgeX, jImbgeY, jImbgeW, jImbgeH); // AWT_THREADING Sbfe (known object - blwbys bctubl Pbper)
 }
 
-static void javaPaperToNSPrintInfo(JNIEnv* env, jobject src, NSPrintInfo* dst)
-{
-    AWT_ASSERT_NOT_APPKIT_THREAD;
-
-    static JNF_MEMBER_CACHE(jm_getWidth, sjc_Paper, "getWidth", "()D");
-    static JNF_MEMBER_CACHE(jm_getHeight, sjc_Paper, "getHeight", "()D");
-    static JNF_MEMBER_CACHE(jm_getImageableX, sjc_Paper, "getImageableX", "()D");
-    static JNF_MEMBER_CACHE(jm_getImageableY, sjc_Paper, "getImageableY", "()D");
-    static JNF_MEMBER_CACHE(jm_getImageableW, sjc_Paper, "getImageableWidth", "()D");
-    static JNF_MEMBER_CACHE(jm_getImageableH, sjc_Paper, "getImageableHeight", "()D");
-
-    // java Paper is always Portrait oriented. Set NSPrintInfo with this
-    //  rectangle, and it's orientation may change. If necessary, be sure to call
-    //  -[NSPrintInfo setOrientation] after this call, which will then
-    //  adjust the -[NSPrintInfo paperSize] as well.
-
-    jdouble jPhysicalWidth = JNFCallDoubleMethod(env, src, jm_getWidth); // AWT_THREADING Safe (!appKit)
-    jdouble jPhysicalHeight = JNFCallDoubleMethod(env, src, jm_getHeight); // AWT_THREADING Safe (!appKit)
-
-    [dst setPaperSize:NSMakeSize(jPhysicalWidth, jPhysicalHeight)];
-
-    // Set the margins from the imageable area
-    jdouble jImageX = JNFCallDoubleMethod(env, src, jm_getImageableX); // AWT_THREADING Safe (!appKit)
-    jdouble jImageY = JNFCallDoubleMethod(env, src, jm_getImageableY); // AWT_THREADING Safe (!appKit)
-    jdouble jImageW = JNFCallDoubleMethod(env, src, jm_getImageableW); // AWT_THREADING Safe (!appKit)
-    jdouble jImageH = JNFCallDoubleMethod(env, src, jm_getImageableH); // AWT_THREADING Safe (!appKit)
-
-    [dst setLeftMargin:(CGFloat)jImageX];
-    [dst setTopMargin:(CGFloat)jImageY];
-    [dst setRightMargin:(CGFloat)(jPhysicalWidth - jImageW - jImageX)];
-    [dst setBottomMargin:(CGFloat)(jPhysicalHeight - jImageH - jImageY)];
-}
-
-static void nsPrintInfoToJavaPageFormat(JNIEnv* env, NSPrintInfo* src, jobject dst)
+stbtic void jbvbPbperToNSPrintInfo(JNIEnv* env, jobject src, NSPrintInfo* dst)
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_setOrientation, sjc_PageFormat, "setOrientation", "(I)V");
-    static JNF_MEMBER_CACHE(jm_setPaper, sjc_PageFormat, "setPaper", "(Ljava/awt/print/Paper;)V");
-    static JNF_CTOR_CACHE(jm_Paper_ctor, sjc_Paper, "()V");
+    stbtic JNF_MEMBER_CACHE(jm_getWidth, sjc_Pbper, "getWidth", "()D");
+    stbtic JNF_MEMBER_CACHE(jm_getHeight, sjc_Pbper, "getHeight", "()D");
+    stbtic JNF_MEMBER_CACHE(jm_getImbgebbleX, sjc_Pbper, "getImbgebbleX", "()D");
+    stbtic JNF_MEMBER_CACHE(jm_getImbgebbleY, sjc_Pbper, "getImbgebbleY", "()D");
+    stbtic JNF_MEMBER_CACHE(jm_getImbgebbleW, sjc_Pbper, "getImbgebbleWidth", "()D");
+    stbtic JNF_MEMBER_CACHE(jm_getImbgebbleH, sjc_Pbper, "getImbgebbleHeight", "()D");
 
-    jint jOrientation;
-    NSPrintingOrientation nsOrientation = [src orientation];
-    switch (nsOrientation) {
-        case NSPortraitOrientation:
-            jOrientation = java_awt_print_PageFormat_PORTRAIT;
-            break;
+    // jbvb Pbper is blwbys Portrbit oriented. Set NSPrintInfo with this
+    //  rectbngle, bnd it's orientbtion mby chbnge. If necessbry, be sure to cbll
+    //  -[NSPrintInfo setOrientbtion] bfter this cbll, which will then
+    //  bdjust the -[NSPrintInfo pbperSize] bs well.
 
-        case NSLandscapeOrientation:
-            jOrientation = java_awt_print_PageFormat_LANDSCAPE; //+++gdb Are LANDSCAPE and REVERSE_LANDSCAPE still inverted?
-            break;
+    jdouble jPhysicblWidth = JNFCbllDoubleMethod(env, src, jm_getWidth); // AWT_THREADING Sbfe (!bppKit)
+    jdouble jPhysicblHeight = JNFCbllDoubleMethod(env, src, jm_getHeight); // AWT_THREADING Sbfe (!bppKit)
+
+    [dst setPbperSize:NSMbkeSize(jPhysicblWidth, jPhysicblHeight)];
+
+    // Set the mbrgins from the imbgebble breb
+    jdouble jImbgeX = JNFCbllDoubleMethod(env, src, jm_getImbgebbleX); // AWT_THREADING Sbfe (!bppKit)
+    jdouble jImbgeY = JNFCbllDoubleMethod(env, src, jm_getImbgebbleY); // AWT_THREADING Sbfe (!bppKit)
+    jdouble jImbgeW = JNFCbllDoubleMethod(env, src, jm_getImbgebbleW); // AWT_THREADING Sbfe (!bppKit)
+    jdouble jImbgeH = JNFCbllDoubleMethod(env, src, jm_getImbgebbleH); // AWT_THREADING Sbfe (!bppKit)
+
+    [dst setLeftMbrgin:(CGFlobt)jImbgeX];
+    [dst setTopMbrgin:(CGFlobt)jImbgeY];
+    [dst setRightMbrgin:(CGFlobt)(jPhysicblWidth - jImbgeW - jImbgeX)];
+    [dst setBottomMbrgin:(CGFlobt)(jPhysicblHeight - jImbgeH - jImbgeY)];
+}
+
+stbtic void nsPrintInfoToJbvbPbgeFormbt(JNIEnv* env, NSPrintInfo* src, jobject dst)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtic JNF_MEMBER_CACHE(jm_setOrientbtion, sjc_PbgeFormbt, "setOrientbtion", "(I)V");
+    stbtic JNF_MEMBER_CACHE(jm_setPbper, sjc_PbgeFormbt, "setPbper", "(Ljbvb/bwt/print/Pbper;)V");
+    stbtic JNF_CTOR_CACHE(jm_Pbper_ctor, sjc_Pbper, "()V");
+
+    jint jOrientbtion;
+    NSPrintingOrientbtion nsOrientbtion = [src orientbtion];
+    switch (nsOrientbtion) {
+        cbse NSPortrbitOrientbtion:
+            jOrientbtion = jbvb_bwt_print_PbgeFormbt_PORTRAIT;
+            brebk;
+
+        cbse NSLbndscbpeOrientbtion:
+            jOrientbtion = jbvb_bwt_print_PbgeFormbt_LANDSCAPE; //+++gdb Are LANDSCAPE bnd REVERSE_LANDSCAPE still inverted?
+            brebk;
 
 /*
-        // AppKit printing doesn't support REVERSE_LANDSCAPE. Radar 2960295.
-        case NSReverseLandscapeOrientation:
-            jOrientation = java_awt_print_PageFormat.REVERSE_LANDSCAPE; //+++gdb Are LANDSCAPE and REVERSE_LANDSCAPE still inverted?
-            break;
+        // AppKit printing doesn't support REVERSE_LANDSCAPE. Rbdbr 2960295.
+        cbse NSReverseLbndscbpeOrientbtion:
+            jOrientbtion = jbvb_bwt_print_PbgeFormbt.REVERSE_LANDSCAPE; //+++gdb Are LANDSCAPE bnd REVERSE_LANDSCAPE still inverted?
+            brebk;
 */
 
-        default:
-            jOrientation = java_awt_print_PageFormat_PORTRAIT;
-            break;
+        defbult:
+            jOrientbtion = jbvb_bwt_print_PbgeFormbt_PORTRAIT;
+            brebk;
     }
 
-    JNFCallVoidMethod(env, dst, jm_setOrientation, jOrientation); // AWT_THREADING Safe (!appKit)
+    JNFCbllVoidMethod(env, dst, jm_setOrientbtion, jOrientbtion); // AWT_THREADING Sbfe (!bppKit)
 
-    // Create a new Paper
-    jobject paper = JNFNewObject(env, jm_Paper_ctor); // AWT_THREADING Safe (known object)
+    // Crebte b new Pbper
+    jobject pbper = JNFNewObject(env, jm_Pbper_ctor); // AWT_THREADING Sbfe (known object)
 
-    nsPrintInfoToJavaPaper(env, src, paper);
+    nsPrintInfoToJbvbPbper(env, src, pbper);
 
-    // Set the Paper in the PageFormat
-    JNFCallVoidMethod(env, dst, jm_setPaper, paper); // AWT_THREADING Safe (!appKit)
+    // Set the Pbper in the PbgeFormbt
+    JNFCbllVoidMethod(env, dst, jm_setPbper, pbper); // AWT_THREADING Sbfe (!bppKit)
 
-    (*env)->DeleteLocalRef(env, paper);
+    (*env)->DeleteLocblRef(env, pbper);
 }
 
-static void javaPageFormatToNSPrintInfo(JNIEnv* env, jobject srcPrintJob, jobject srcPageFormat, NSPrintInfo* dstPrintInfo)
+stbtic void jbvbPbgeFormbtToNSPrintInfo(JNIEnv* env, jobject srcPrintJob, jobject srcPbgeFormbt, NSPrintInfo* dstPrintInfo)
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_getOrientation, sjc_PageFormat, "getOrientation", "()I");
-    static JNF_MEMBER_CACHE(jm_getPaper, sjc_PageFormat, "getPaper", "()Ljava/awt/print/Paper;");
-    static JNF_MEMBER_CACHE(jm_getPrinterName, sjc_CPrinterJob, "getPrinterName", "()Ljava/lang/String;");
+    stbtic JNF_MEMBER_CACHE(jm_getOrientbtion, sjc_PbgeFormbt, "getOrientbtion", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_getPbper, sjc_PbgeFormbt, "getPbper", "()Ljbvb/bwt/print/Pbper;");
+    stbtic JNF_MEMBER_CACHE(jm_getPrinterNbme, sjc_CPrinterJob, "getPrinterNbme", "()Ljbvb/lbng/String;");
 
-    // When setting page information (orientation, size) in NSPrintInfo, set the
-    //  rectangle first. This is because setting the orientation will change the
-    //  rectangle to match.
+    // When setting pbge informbtion (orientbtion, size) in NSPrintInfo, set the
+    //  rectbngle first. This is becbuse setting the orientbtion will chbnge the
+    //  rectbngle to mbtch.
 
-    // Set up the paper. This will force Portrait since java Paper is
-    //  not oriented. Then setting the NSPrintInfo orientation below
-    //  will flip NSPrintInfo's info as necessary.
-    jobject paper = JNFCallObjectMethod(env, srcPageFormat, jm_getPaper); // AWT_THREADING Safe (!appKit)
-    javaPaperToNSPrintInfo(env, paper, dstPrintInfo);
-    (*env)->DeleteLocalRef(env, paper);
+    // Set up the pbper. This will force Portrbit since jbvb Pbper is
+    //  not oriented. Then setting the NSPrintInfo orientbtion below
+    //  will flip NSPrintInfo's info bs necessbry.
+    jobject pbper = JNFCbllObjectMethod(env, srcPbgeFormbt, jm_getPbper); // AWT_THREADING Sbfe (!bppKit)
+    jbvbPbperToNSPrintInfo(env, pbper, dstPrintInfo);
+    (*env)->DeleteLocblRef(env, pbper);
 
-    switch (JNFCallIntMethod(env, srcPageFormat, jm_getOrientation)) { // AWT_THREADING Safe (!appKit)
-        case java_awt_print_PageFormat_PORTRAIT:
-            [dstPrintInfo setOrientation:NSPortraitOrientation];
-            break;
+    switch (JNFCbllIntMethod(env, srcPbgeFormbt, jm_getOrientbtion)) { // AWT_THREADING Sbfe (!bppKit)
+        cbse jbvb_bwt_print_PbgeFormbt_PORTRAIT:
+            [dstPrintInfo setOrientbtion:NSPortrbitOrientbtion];
+            brebk;
 
-        case java_awt_print_PageFormat_LANDSCAPE:
-            [dstPrintInfo setOrientation:NSLandscapeOrientation]; //+++gdb Are LANDSCAPE and REVERSE_LANDSCAPE still inverted?
-            break;
+        cbse jbvb_bwt_print_PbgeFormbt_LANDSCAPE:
+            [dstPrintInfo setOrientbtion:NSLbndscbpeOrientbtion]; //+++gdb Are LANDSCAPE bnd REVERSE_LANDSCAPE still inverted?
+            brebk;
 
-        // AppKit printing doesn't support REVERSE_LANDSCAPE. Radar 2960295.
-        case java_awt_print_PageFormat_REVERSE_LANDSCAPE:
-            [dstPrintInfo setOrientation:NSLandscapeOrientation]; //+++gdb Are LANDSCAPE and REVERSE_LANDSCAPE still inverted?
-            break;
+        // AppKit printing doesn't support REVERSE_LANDSCAPE. Rbdbr 2960295.
+        cbse jbvb_bwt_print_PbgeFormbt_REVERSE_LANDSCAPE:
+            [dstPrintInfo setOrientbtion:NSLbndscbpeOrientbtion]; //+++gdb Are LANDSCAPE bnd REVERSE_LANDSCAPE still inverted?
+            brebk;
 
-        default:
-            [dstPrintInfo setOrientation:NSPortraitOrientation];
-            break;
+        defbult:
+            [dstPrintInfo setOrientbtion:NSPortrbitOrientbtion];
+            brebk;
     }
 
-    // <rdar://problem/4022422> NSPrinterInfo is not correctly set to the selected printer
-    // from the Java side of CPrinterJob. Has always assumed the default printer was the one we wanted.
+    // <rdbr://problem/4022422> NSPrinterInfo is not correctly set to the selected printer
+    // from the Jbvb side of CPrinterJob. Hbs blwbys bssumed the defbult printer wbs the one we wbnted.
     if (srcPrintJob == NULL) return;
-    jobject printerNameObj = JNFCallObjectMethod(env, srcPrintJob, jm_getPrinterName);
-    if (printerNameObj == NULL) return;
-    NSString *printerName = JNFJavaToNSString(env, printerNameObj);
-    if (printerName == nil) return;
-    NSPrinter *printer = [NSPrinter printerWithName:printerName];
+    jobject printerNbmeObj = JNFCbllObjectMethod(env, srcPrintJob, jm_getPrinterNbme);
+    if (printerNbmeObj == NULL) return;
+    NSString *printerNbme = JNFJbvbToNSString(env, printerNbmeObj);
+    if (printerNbme == nil) return;
+    NSPrinter *printer = [NSPrinter printerWithNbme:printerNbme];
     if (printer == nil) return;
     [dstPrintInfo setPrinter:printer];
 }
 
-static void nsPrintInfoToJavaPrinterJob(JNIEnv* env, NSPrintInfo* src, jobject dstPrinterJob, jobject dstPageable)
+stbtic void nsPrintInfoToJbvbPrinterJob(JNIEnv* env, NSPrintInfo* src, jobject dstPrinterJob, jobject dstPbgebble)
 {
-    static JNF_MEMBER_CACHE(jm_setService, sjc_CPrinterJob, "setPrinterServiceFromNative", "(Ljava/lang/String;)V");
-    static JNF_MEMBER_CACHE(jm_setCopies, sjc_CPrinterJob, "setCopies", "(I)V");
-    static JNF_MEMBER_CACHE(jm_setCollated, sjc_CPrinterJob, "setCollated", "(Z)V");
-    static JNF_MEMBER_CACHE(jm_setPageRange, sjc_CPrinterJob, "setPageRange", "(II)V");
+    stbtic JNF_MEMBER_CACHE(jm_setService, sjc_CPrinterJob, "setPrinterServiceFromNbtive", "(Ljbvb/lbng/String;)V");
+    stbtic JNF_MEMBER_CACHE(jm_setCopies, sjc_CPrinterJob, "setCopies", "(I)V");
+    stbtic JNF_MEMBER_CACHE(jm_setCollbted, sjc_CPrinterJob, "setCollbted", "(Z)V");
+    stbtic JNF_MEMBER_CACHE(jm_setPbgeRbnge, sjc_CPrinterJob, "setPbgeRbnge", "(II)V");
 
-    // get the selected printer's name, and set the appropriate PrintService on the Java side
-    NSString *name = [[src printer] name];
-    jstring printerName = JNFNSToJavaString(env, name);
-    JNFCallVoidMethod(env, dstPrinterJob, jm_setService, printerName);
+    // get the selected printer's nbme, bnd set the bppropribte PrintService on the Jbvb side
+    NSString *nbme = [[src printer] nbme];
+    jstring printerNbme = JNFNSToJbvbString(env, nbme);
+    JNFCbllVoidMethod(env, dstPrinterJob, jm_setService, printerNbme);
 
 
-    NSMutableDictionary* printingDictionary = [src dictionary];
+    NSMutbbleDictionbry* printingDictionbry = [src dictionbry];
 
-    NSNumber* nsCopies = [printingDictionary objectForKey:NSPrintCopies];
-    if ([nsCopies respondsToSelector:@selector(integerValue)])
+    NSNumber* nsCopies = [printingDictionbry objectForKey:NSPrintCopies];
+    if ([nsCopies respondsToSelector:@selector(integerVblue)])
     {
-        JNFCallVoidMethod(env, dstPrinterJob, jm_setCopies, [nsCopies integerValue]); // AWT_THREADING Safe (known object)
+        JNFCbllVoidMethod(env, dstPrinterJob, jm_setCopies, [nsCopies integerVblue]); // AWT_THREADING Sbfe (known object)
     }
 
-    NSNumber* nsCollated = [printingDictionary objectForKey:NSPrintMustCollate];
-    if ([nsCollated respondsToSelector:@selector(boolValue)])
+    NSNumber* nsCollbted = [printingDictionbry objectForKey:NSPrintMustCollbte];
+    if ([nsCollbted respondsToSelector:@selector(boolVblue)])
     {
-        JNFCallVoidMethod(env, dstPrinterJob, jm_setCollated, [nsCollated boolValue] ? JNI_TRUE : JNI_FALSE); // AWT_THREADING Safe (known object)
+        JNFCbllVoidMethod(env, dstPrinterJob, jm_setCollbted, [nsCollbted boolVblue] ? JNI_TRUE : JNI_FALSE); // AWT_THREADING Sbfe (known object)
     }
 
-    NSNumber* nsPrintAllPages = [printingDictionary objectForKey:NSPrintAllPages];
-    if ([nsPrintAllPages respondsToSelector:@selector(boolValue)])
+    NSNumber* nsPrintAllPbges = [printingDictionbry objectForKey:NSPrintAllPbges];
+    if ([nsPrintAllPbges respondsToSelector:@selector(boolVblue)])
     {
-        jint jFirstPage = 0, jLastPage = java_awt_print_Pageable_UNKNOWN_NUMBER_OF_PAGES;
-        if (![nsPrintAllPages boolValue])
+        jint jFirstPbge = 0, jLbstPbge = jbvb_bwt_print_Pbgebble_UNKNOWN_NUMBER_OF_PAGES;
+        if (![nsPrintAllPbges boolVblue])
         {
-            NSNumber* nsFirstPage = [printingDictionary objectForKey:NSPrintFirstPage];
-            if ([nsFirstPage respondsToSelector:@selector(integerValue)])
+            NSNumber* nsFirstPbge = [printingDictionbry objectForKey:NSPrintFirstPbge];
+            if ([nsFirstPbge respondsToSelector:@selector(integerVblue)])
             {
-                jFirstPage = [nsFirstPage integerValue] - 1;
+                jFirstPbge = [nsFirstPbge integerVblue] - 1;
             }
 
-            NSNumber* nsLastPage = [printingDictionary objectForKey:NSPrintLastPage];
-            if ([nsLastPage respondsToSelector:@selector(integerValue)])
+            NSNumber* nsLbstPbge = [printingDictionbry objectForKey:NSPrintLbstPbge];
+            if ([nsLbstPbge respondsToSelector:@selector(integerVblue)])
             {
-                jLastPage = [nsLastPage integerValue] - 1;
+                jLbstPbge = [nsLbstPbge integerVblue] - 1;
             }
         }
 
-        JNFCallVoidMethod(env, dstPrinterJob, jm_setPageRange, jFirstPage, jLastPage); // AWT_THREADING Safe (known object)
+        JNFCbllVoidMethod(env, dstPrinterJob, jm_setPbgeRbnge, jFirstPbge, jLbstPbge); // AWT_THREADING Sbfe (known object)
     }
 }
 
-static void javaPrinterJobToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPageable, NSPrintInfo* dst)
+stbtic void jbvbPrinterJobToNSPrintInfo(JNIEnv* env, jobject srcPrinterJob, jobject srcPbgebble, NSPrintInfo* dst)
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_CLASS_CACHE(jc_Pageable, "java/awt/print/Pageable");
-    static JNF_MEMBER_CACHE(jm_getCopies, sjc_CPrinterJob, "getCopiesInt", "()I");
-    static JNF_MEMBER_CACHE(jm_isCollated, sjc_CPrinterJob, "isCollated", "()Z");
-    static JNF_MEMBER_CACHE(jm_getFromPage, sjc_CPrinterJob, "getFromPageAttrib", "()I");
-    static JNF_MEMBER_CACHE(jm_getToPage, sjc_CPrinterJob, "getToPageAttrib", "()I");
-    static JNF_MEMBER_CACHE(jm_getSelectAttrib, sjc_CPrinterJob, "getSelectAttrib", "()I");
-    static JNF_MEMBER_CACHE(jm_getNumberOfPages, jc_Pageable, "getNumberOfPages", "()I");
-    static JNF_MEMBER_CACHE(jm_getPageFormat, sjc_CPrinterJob, "getPageFormatFromAttributes", "()Ljava/awt/print/PageFormat;");
+    stbtic JNF_CLASS_CACHE(jc_Pbgebble, "jbvb/bwt/print/Pbgebble");
+    stbtic JNF_MEMBER_CACHE(jm_getCopies, sjc_CPrinterJob, "getCopiesInt", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_isCollbted, sjc_CPrinterJob, "isCollbted", "()Z");
+    stbtic JNF_MEMBER_CACHE(jm_getFromPbge, sjc_CPrinterJob, "getFromPbgeAttrib", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_getToPbge, sjc_CPrinterJob, "getToPbgeAttrib", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_getSelectAttrib, sjc_CPrinterJob, "getSelectAttrib", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_getNumberOfPbges, jc_Pbgebble, "getNumberOfPbges", "()I");
+    stbtic JNF_MEMBER_CACHE(jm_getPbgeFormbt, sjc_CPrinterJob, "getPbgeFormbtFromAttributes", "()Ljbvb/bwt/print/PbgeFormbt;");
 
-    NSMutableDictionary* printingDictionary = [dst dictionary];
+    NSMutbbleDictionbry* printingDictionbry = [dst dictionbry];
 
-    jint copies = JNFCallIntMethod(env, srcPrinterJob, jm_getCopies); // AWT_THREADING Safe (known object)
-    [printingDictionary setObject:[NSNumber numberWithInteger:copies] forKey:NSPrintCopies];
+    jint copies = JNFCbllIntMethod(env, srcPrinterJob, jm_getCopies); // AWT_THREADING Sbfe (known object)
+    [printingDictionbry setObject:[NSNumber numberWithInteger:copies] forKey:NSPrintCopies];
 
-    jboolean collated = JNFCallBooleanMethod(env, srcPrinterJob, jm_isCollated); // AWT_THREADING Safe (known object)
-    [printingDictionary setObject:[NSNumber numberWithBool:collated ? YES : NO] forKey:NSPrintMustCollate];
-    jint jNumPages = JNFCallIntMethod(env, srcPageable, jm_getNumberOfPages); // AWT_THREADING Safe (!appKit)
-    if (jNumPages != java_awt_print_Pageable_UNKNOWN_NUMBER_OF_PAGES)
+    jboolebn collbted = JNFCbllBoolebnMethod(env, srcPrinterJob, jm_isCollbted); // AWT_THREADING Sbfe (known object)
+    [printingDictionbry setObject:[NSNumber numberWithBool:collbted ? YES : NO] forKey:NSPrintMustCollbte];
+    jint jNumPbges = JNFCbllIntMethod(env, srcPbgebble, jm_getNumberOfPbges); // AWT_THREADING Sbfe (!bppKit)
+    if (jNumPbges != jbvb_bwt_print_Pbgebble_UNKNOWN_NUMBER_OF_PAGES)
     {
-        jint selectID = JNFCallIntMethod(env, srcPrinterJob, jm_getSelectAttrib);
+        jint selectID = JNFCbllIntMethod(env, srcPrinterJob, jm_getSelectAttrib);
         if (selectID ==0) {
-            [printingDictionary setObject:[NSNumber numberWithBool:YES] forKey:NSPrintAllPages];
+            [printingDictionbry setObject:[NSNumber numberWithBool:YES] forKey:NSPrintAllPbges];
         } else if (selectID == 2) {
-            // In Mac 10.7,  Print ALL is deselected if PrintSelection is YES whether
-            // NSPrintAllPages is YES or NO
-            [printingDictionary setObject:[NSNumber numberWithBool:NO] forKey:NSPrintAllPages];
-            [printingDictionary setObject:[NSNumber numberWithBool:YES] forKey:NSPrintSelectionOnly];
+            // In Mbc 10.7,  Print ALL is deselected if PrintSelection is YES whether
+            // NSPrintAllPbges is YES or NO
+            [printingDictionbry setObject:[NSNumber numberWithBool:NO] forKey:NSPrintAllPbges];
+            [printingDictionbry setObject:[NSNumber numberWithBool:YES] forKey:NSPrintSelectionOnly];
         } else {
-            [printingDictionary setObject:[NSNumber numberWithBool:NO] forKey:NSPrintAllPages];
+            [printingDictionbry setObject:[NSNumber numberWithBool:NO] forKey:NSPrintAllPbges];
         }
 
-        jint fromPage = JNFCallIntMethod(env, srcPrinterJob, jm_getFromPage);
-        jint toPage = JNFCallIntMethod(env, srcPrinterJob, jm_getToPage);
-        // setting fromPage and toPage will not be shown in the dialog if printing All pages
-        [printingDictionary setObject:[NSNumber numberWithInteger:fromPage] forKey:NSPrintFirstPage];
-        [printingDictionary setObject:[NSNumber numberWithInteger:toPage] forKey:NSPrintLastPage];
+        jint fromPbge = JNFCbllIntMethod(env, srcPrinterJob, jm_getFromPbge);
+        jint toPbge = JNFCbllIntMethod(env, srcPrinterJob, jm_getToPbge);
+        // setting fromPbge bnd toPbge will not be shown in the diblog if printing All pbges
+        [printingDictionbry setObject:[NSNumber numberWithInteger:fromPbge] forKey:NSPrintFirstPbge];
+        [printingDictionbry setObject:[NSNumber numberWithInteger:toPbge] forKey:NSPrintLbstPbge];
     }
     else
     {
-        [printingDictionary setObject:[NSNumber numberWithBool:YES] forKey:NSPrintAllPages];
+        [printingDictionbry setObject:[NSNumber numberWithBool:YES] forKey:NSPrintAllPbges];
     }
-    jobject page = JNFCallObjectMethod(env, srcPrinterJob, jm_getPageFormat); 
-    if (page != NULL) {
-        javaPageFormatToNSPrintInfo(env, NULL, page, dst);
+    jobject pbge = JNFCbllObjectMethod(env, srcPrinterJob, jm_getPbgeFormbt); 
+    if (pbge != NULL) {
+        jbvbPbgeFormbtToNSPrintInfo(env, NULL, pbge, dst);
     }
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
- * Method:    abortDoc
- * Signature: ()V
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
+ * Method:    bbortDoc
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterJob_abortDoc
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_bbortDoc
   (JNIEnv *env, jobject jthis)
 {
 JNF_COCOA_ENTER(env);
-    // This is only called during the printLoop from the printLoop thread
-    NSPrintOperation* printLoop = [NSPrintOperation currentOperation];
+    // This is only cblled during the printLoop from the printLoop threbd
+    NSPrintOperbtion* printLoop = [NSPrintOperbtion currentOperbtion];
     NSPrintInfo* printInfo = [printLoop printInfo];
-    [printInfo setJobDisposition:NSPrintCancelJob];
+    [printInfo setJobDisposition:NSPrintCbncelJob];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
- * Method:    getDefaultPage
- * Signature: (Ljava/awt/print/PageFormat;)V
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
+ * Method:    getDefbultPbge
+ * Signbture: (Ljbvb/bwt/print/PbgeFormbt;)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterJob_getDefaultPage
-  (JNIEnv *env, jobject jthis, jobject page)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_getDefbultPbge
+  (JNIEnv *env, jobject jthis, jobject pbge)
 {
 JNF_COCOA_ENTER(env);
-    NSPrintInfo* printInfo = createDefaultNSPrintInfo(env, NULL);
+    NSPrintInfo* printInfo = crebteDefbultNSPrintInfo(env, NULL);
 
-    nsPrintInfoToJavaPageFormat(env, printInfo, page);
+    nsPrintInfoToJbvbPbgeFormbt(env, printInfo, pbge);
 
-    [printInfo release];
+    [printInfo relebse];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
- * Method:    validatePaper
- * Signature: (Ljava/awt/print/Paper;Ljava/awt/print/Paper;)V
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
+ * Method:    vblidbtePbper
+ * Signbture: (Ljbvb/bwt/print/Pbper;Ljbvb/bwt/print/Pbper;)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterJob_validatePaper
-  (JNIEnv *env, jobject jthis, jobject origpaper, jobject newpaper)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_vblidbtePbper
+  (JNIEnv *env, jobject jthis, jobject origpbper, jobject newpbper)
 {
 JNF_COCOA_ENTER(env);
 
-    NSPrintInfo* printInfo = createDefaultNSPrintInfo(env, NULL);
-    javaPaperToNSPrintInfo(env, origpaper, printInfo);
-    makeBestFit(printInfo);
-    nsPrintInfoToJavaPaper(env, printInfo, newpaper);
-    [printInfo release];
+    NSPrintInfo* printInfo = crebteDefbultNSPrintInfo(env, NULL);
+    jbvbPbperToNSPrintInfo(env, origpbper, printInfo);
+    mbkeBestFit(printInfo);
+    nsPrintInfoToJbvbPbper(env, printInfo, newpbper);
+    [printInfo relebse];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
- * Method:    createNSPrintInfo
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
+ * Method:    crebteNSPrintInfo
+ * Signbture: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CPrinterJob_createNSPrintInfo
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_crebteNSPrintInfo
   (JNIEnv *env, jobject jthis)
 {
     jlong result = -1;
 JNF_COCOA_ENTER(env);
-    // This is used to create the NSPrintInfo for this PrinterJob. Thread
-    //  safety is assured by the java side of this call.
+    // This is used to crebte the NSPrintInfo for this PrinterJob. Threbd
+    //  sbfety is bssured by the jbvb side of this cbll.
 
-    NSPrintInfo* printInfo = createDefaultNSPrintInfo(env, NULL);
+    NSPrintInfo* printInfo = crebteDefbultNSPrintInfo(env, NULL);
 
     result = ptr_to_jlong(printInfo);
 
@@ -477,133 +477,133 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
  * Method:    dispose
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterJob_dispose
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_dispose
   (JNIEnv *env, jobject jthis, jlong nsPrintInfo)
 {
 JNF_COCOA_ENTER(env);
     if (nsPrintInfo != -1)
     {
         NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(nsPrintInfo);
-        [printInfo release];
+        [printInfo relebse];
     }
 JNF_COCOA_EXIT(env);
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
  * Method:    printLoop
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_CPrinterJob_printLoop
-  (JNIEnv *env, jobject jthis, jboolean blocks, jint firstPage, jint lastPage)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob_printLoop
+  (JNIEnv *env, jobject jthis, jboolebn blocks, jint firstPbge, jint lbstPbge)
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    static JNF_MEMBER_CACHE(jm_getPageFormat, sjc_CPrinterJob, "getPageFormat", "(I)Ljava/awt/print/PageFormat;");
-    static JNF_MEMBER_CACHE(jm_getPageFormatArea, sjc_CPrinterJob, "getPageFormatArea", "(Ljava/awt/print/PageFormat;)Ljava/awt/geom/Rectangle2D;");
-    static JNF_MEMBER_CACHE(jm_getPrinterName, sjc_CPrinterJob, "getPrinterName", "()Ljava/lang/String;");
-    static JNF_MEMBER_CACHE(jm_getPageable, sjc_CPrinterJob, "getPageable", "()Ljava/awt/print/Pageable;");
+    stbtic JNF_MEMBER_CACHE(jm_getPbgeFormbt, sjc_CPrinterJob, "getPbgeFormbt", "(I)Ljbvb/bwt/print/PbgeFormbt;");
+    stbtic JNF_MEMBER_CACHE(jm_getPbgeFormbtAreb, sjc_CPrinterJob, "getPbgeFormbtAreb", "(Ljbvb/bwt/print/PbgeFormbt;)Ljbvb/bwt/geom/Rectbngle2D;");
+    stbtic JNF_MEMBER_CACHE(jm_getPrinterNbme, sjc_CPrinterJob, "getPrinterNbme", "()Ljbvb/lbng/String;");
+    stbtic JNF_MEMBER_CACHE(jm_getPbgebble, sjc_CPrinterJob, "getPbgebble", "()Ljbvb/bwt/print/Pbgebble;");
 
-    jboolean retVal = JNI_FALSE;
+    jboolebn retVbl = JNI_FALSE;
 
 JNF_COCOA_ENTER(env);
-    // Get the first page's PageFormat for setting things up (This introduces
-    //  and is a facet of the same problem in Radar 2818593/2708932).
-    jobject page = JNFCallObjectMethod(env, jthis, jm_getPageFormat, 0); // AWT_THREADING Safe (!appKit)
-    if (page != NULL) {
-        jobject pageFormatArea = JNFCallObjectMethod(env, jthis, jm_getPageFormatArea, page); // AWT_THREADING Safe (!appKit)
+    // Get the first pbge's PbgeFormbt for setting things up (This introduces
+    //  bnd is b fbcet of the sbme problem in Rbdbr 2818593/2708932).
+    jobject pbge = JNFCbllObjectMethod(env, jthis, jm_getPbgeFormbt, 0); // AWT_THREADING Sbfe (!bppKit)
+    if (pbge != NULL) {
+        jobject pbgeFormbtAreb = JNFCbllObjectMethod(env, jthis, jm_getPbgeFormbtAreb, pbge); // AWT_THREADING Sbfe (!bppKit)
 
-        PrinterView* printerView = [[PrinterView alloc] initWithFrame:JavaToNSRect(env, pageFormatArea) withEnv:env withPrinterJob:jthis];
-        [printerView setFirstPage:firstPage lastPage:lastPage];
+        PrinterView* printerView = [[PrinterView blloc] initWithFrbme:JbvbToNSRect(env, pbgeFormbtAreb) withEnv:env withPrinterJob:jthis];
+        [printerView setFirstPbge:firstPbge lbstPbge:lbstPbge];
 
-        NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCallLongMethod(env, jthis, sjm_getNSPrintInfo)); // AWT_THREADING Safe (known object)
+        NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMethod(env, jthis, sjm_getNSPrintInfo)); // AWT_THREADING Sbfe (known object)
 
-        // <rdar://problem/4156975> passing jthis CPrinterJob as well, so we can extract the printer name from the current job
-        javaPageFormatToNSPrintInfo(env, jthis, page, printInfo);
+        // <rdbr://problem/4156975> pbssing jthis CPrinterJob bs well, so we cbn extrbct the printer nbme from the current job
+        jbvbPbgeFormbtToNSPrintInfo(env, jthis, pbge, printInfo);
 
-        // <rdar://problem/4093799> NSPrinterInfo is not correctly set to the selected printer
-        // from the Java side of CPrinterJob. Had always assumed the default printer was the one we wanted.
-        jobject printerNameObj = JNFCallObjectMethod(env, jthis, jm_getPrinterName);
-        if (printerNameObj != NULL) {
-            NSString *printerName = JNFJavaToNSString(env, printerNameObj);
-            if (printerName != nil) {
-                NSPrinter *printer = [NSPrinter printerWithName:printerName];
+        // <rdbr://problem/4093799> NSPrinterInfo is not correctly set to the selected printer
+        // from the Jbvb side of CPrinterJob. Hbd blwbys bssumed the defbult printer wbs the one we wbnted.
+        jobject printerNbmeObj = JNFCbllObjectMethod(env, jthis, jm_getPrinterNbme);
+        if (printerNbmeObj != NULL) {
+            NSString *printerNbme = JNFJbvbToNSString(env, printerNbmeObj);
+            if (printerNbme != nil) {
+                NSPrinter *printer = [NSPrinter printerWithNbme:printerNbme];
                 if (printer != nil) [printInfo setPrinter:printer];
             }
         }
 
-        // <rdar://problem/4367998> JTable.print attributes are ignored
-        jobject pageable = JNFCallObjectMethod(env, jthis, jm_getPageable); // AWT_THREADING Safe (!appKit)
-        javaPrinterJobToNSPrintInfo(env, jthis, pageable, printInfo);
+        // <rdbr://problem/4367998> JTbble.print bttributes bre ignored
+        jobject pbgebble = JNFCbllObjectMethod(env, jthis, jm_getPbgebble); // AWT_THREADING Sbfe (!bppKit)
+        jbvbPrinterJobToNSPrintInfo(env, jthis, pbgebble, printInfo);
 
-        PrintModel* printModel = [[PrintModel alloc] initWithPrintInfo:printInfo];
+        PrintModel* printModel = [[PrintModel blloc] initWithPrintInfo:printInfo];
 
-        (void)[printModel runPrintLoopWithView:printerView waitUntilDone:blocks withEnv:env];
+        (void)[printModel runPrintLoopWithView:printerView wbitUntilDone:blocks withEnv:env];
 
-        // Only set this if we got far enough to call runPrintLoopWithView, or we will spin CPrinterJob.print() forever!
-        retVal = JNI_TRUE;
+        // Only set this if we got fbr enough to cbll runPrintLoopWithView, or we will spin CPrinterJob.print() forever!
+        retVbl = JNI_TRUE;
 
-        [printModel release];
-        [printerView release];
+        [printModel relebse];
+        [printerView relebse];
 
-        if (page != NULL)
+        if (pbge != NULL)
         {
-            (*env)->DeleteLocalRef(env, page);
+            (*env)->DeleteLocblRef(env, pbge);
         }
 
-        if (pageFormatArea != NULL)
+        if (pbgeFormbtAreb != NULL)
         {
-            (*env)->DeleteLocalRef(env, pageFormatArea);
+            (*env)->DeleteLocblRef(env, pbgeFormbtAreb);
         }
     }
 JNF_COCOA_EXIT(env);
-    return retVal;
+    return retVbl;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterPageDialog
- * Method:    showDialog
- * Signature: ()Z
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterPbgeDiblog
+ * Method:    showDiblog
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_CPrinterPageDialog_showDialog
+JNIEXPORT jboolebn JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterPbgeDiblog_showDiblog
   (JNIEnv *env, jobject jthis)
 {
 
-    static JNF_CLASS_CACHE(jc_CPrinterPageDialog, "sun/lwawt/macosx/CPrinterPageDialog");
-    static JNF_MEMBER_CACHE(jm_page, jc_CPrinterPageDialog, "fPage", "Ljava/awt/print/PageFormat;");
+    stbtic JNF_CLASS_CACHE(jc_CPrinterPbgeDiblog, "sun/lwbwt/mbcosx/CPrinterPbgeDiblog");
+    stbtic JNF_MEMBER_CACHE(jm_pbge, jc_CPrinterPbgeDiblog, "fPbge", "Ljbvb/bwt/print/PbgeFormbt;");
 
-    jboolean result = JNI_FALSE;
+    jboolebn result = JNI_FALSE;
 JNF_COCOA_ENTER(env);
     jobject printerJob = JNFGetObjectField(env, jthis, sjm_printerJob);
-    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCallLongMethod(env, printerJob, sjm_getNSPrintInfo)); // AWT_THREADING Safe (known object)
+    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMethod(env, printerJob, sjm_getNSPrintInfo)); // AWT_THREADING Sbfe (known object)
 
-    jobject page = JNFGetObjectField(env, jthis, jm_page);
+    jobject pbge = JNFGetObjectField(env, jthis, jm_pbge);
 
-    // <rdar://problem/4156975> passing NULL, because only a CPrinterJob has a real printer associated with it
-    javaPageFormatToNSPrintInfo(env, NULL, page, printInfo);
+    // <rdbr://problem/4156975> pbssing NULL, becbuse only b CPrinterJob hbs b rebl printer bssocibted with it
+    jbvbPbgeFormbtToNSPrintInfo(env, NULL, pbge, printInfo);
 
-    PrintModel* printModel = [[PrintModel alloc] initWithPrintInfo:printInfo];
-    result = [printModel runPageSetup];
-    [printModel release];
+    PrintModel* printModel = [[PrintModel blloc] initWithPrintInfo:printInfo];
+    result = [printModel runPbgeSetup];
+    [printModel relebse];
 
     if (result)
     {
-        nsPrintInfoToJavaPageFormat(env, printInfo, page);
+        nsPrintInfoToJbvbPbgeFormbt(env, printInfo, pbge);
     }
 
     if (printerJob != NULL)
     {
-        (*env)->DeleteLocalRef(env, printerJob);
+        (*env)->DeleteLocblRef(env, printerJob);
     }
 
-    if (page != NULL)
+    if (pbge != NULL)
     {
-        (*env)->DeleteLocalRef(env, page);
+        (*env)->DeleteLocblRef(env, pbge);
     }
 
 JNF_COCOA_EXIT(env);
@@ -611,42 +611,42 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJobDialog
- * Method:    showDialog
- * Signature: ()Z
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJobDiblog
+ * Method:    showDiblog
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_CPrinterJobDialog_showDialog
+JNIEXPORT jboolebn JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJobDiblog_showDiblog
   (JNIEnv *env, jobject jthis)
 {
-    static JNF_CLASS_CACHE(jc_CPrinterJobDialog, "sun/lwawt/macosx/CPrinterJobDialog");
-    static JNF_MEMBER_CACHE(jm_pageable, jc_CPrinterJobDialog, "fPageable", "Ljava/awt/print/Pageable;");
+    stbtic JNF_CLASS_CACHE(jc_CPrinterJobDiblog, "sun/lwbwt/mbcosx/CPrinterJobDiblog");
+    stbtic JNF_MEMBER_CACHE(jm_pbgebble, jc_CPrinterJobDiblog, "fPbgebble", "Ljbvb/bwt/print/Pbgebble;");
 
-    jboolean result = JNI_FALSE;
+    jboolebn result = JNI_FALSE;
 JNF_COCOA_ENTER(env);
     jobject printerJob = JNFGetObjectField(env, jthis, sjm_printerJob);
-    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCallLongMethod(env, printerJob, sjm_getNSPrintInfo)); // AWT_THREADING Safe (known object)
+    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMethod(env, printerJob, sjm_getNSPrintInfo)); // AWT_THREADING Sbfe (known object)
 
-    jobject pageable = JNFGetObjectField(env, jthis, jm_pageable);
+    jobject pbgebble = JNFGetObjectField(env, jthis, jm_pbgebble);
 
-    javaPrinterJobToNSPrintInfo(env, printerJob, pageable, printInfo);
+    jbvbPrinterJobToNSPrintInfo(env, printerJob, pbgebble, printInfo);
 
-    PrintModel* printModel = [[PrintModel alloc] initWithPrintInfo:printInfo];
+    PrintModel* printModel = [[PrintModel blloc] initWithPrintInfo:printInfo];
     result = [printModel runJobSetup];
-    [printModel release];
+    [printModel relebse];
 
     if (result)
     {
-        nsPrintInfoToJavaPrinterJob(env, printInfo, printerJob, pageable);
+        nsPrintInfoToJbvbPrinterJob(env, printInfo, printerJob, pbgebble);
     }
 
     if (printerJob != NULL)
     {
-        (*env)->DeleteLocalRef(env, printerJob);
+        (*env)->DeleteLocblRef(env, printerJob);
     }
 
-    if (pageable != NULL)
+    if (pbgebble != NULL)
     {
-        (*env)->DeleteLocalRef(env, pageable);
+        (*env)->DeleteLocblRef(env, pbgebble);
     }
 
 JNF_COCOA_EXIT(env);

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,101 +56,101 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
 
 /**
- * A node that represents a bytecode instruction. <i>An instruction can appear
- * at most once in at most one {@link InsnList} at a time</i>.
+ * A node thbt represents b bytecode instruction. <i>An instruction cbn bppebr
+ * bt most once in bt most one {@link InsnList} bt b time</i>.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public abstract class AbstractInsnNode {
+public bbstrbct clbss AbstrbctInsnNode {
 
     /**
      * The type of {@link InsnNode} instructions.
      */
-    public static final int INSN = 0;
+    public stbtic finbl int INSN = 0;
 
     /**
      * The type of {@link IntInsnNode} instructions.
      */
-    public static final int INT_INSN = 1;
+    public stbtic finbl int INT_INSN = 1;
 
     /**
-     * The type of {@link VarInsnNode} instructions.
+     * The type of {@link VbrInsnNode} instructions.
      */
-    public static final int VAR_INSN = 2;
+    public stbtic finbl int VAR_INSN = 2;
 
     /**
      * The type of {@link TypeInsnNode} instructions.
      */
-    public static final int TYPE_INSN = 3;
+    public stbtic finbl int TYPE_INSN = 3;
 
     /**
      * The type of {@link FieldInsnNode} instructions.
      */
-    public static final int FIELD_INSN = 4;
+    public stbtic finbl int FIELD_INSN = 4;
 
     /**
      * The type of {@link MethodInsnNode} instructions.
      */
-    public static final int METHOD_INSN = 5;
+    public stbtic finbl int METHOD_INSN = 5;
 
     /**
-     * The type of {@link InvokeDynamicInsnNode} instructions.
+     * The type of {@link InvokeDynbmicInsnNode} instructions.
      */
-    public static final int INVOKE_DYNAMIC_INSN = 6;
+    public stbtic finbl int INVOKE_DYNAMIC_INSN = 6;
 
     /**
      * The type of {@link JumpInsnNode} instructions.
      */
-    public static final int JUMP_INSN = 7;
+    public stbtic finbl int JUMP_INSN = 7;
 
     /**
-     * The type of {@link LabelNode} "instructions".
+     * The type of {@link LbbelNode} "instructions".
      */
-    public static final int LABEL = 8;
+    public stbtic finbl int LABEL = 8;
 
     /**
      * The type of {@link LdcInsnNode} instructions.
      */
-    public static final int LDC_INSN = 9;
+    public stbtic finbl int LDC_INSN = 9;
 
     /**
      * The type of {@link IincInsnNode} instructions.
      */
-    public static final int IINC_INSN = 10;
+    public stbtic finbl int IINC_INSN = 10;
 
     /**
-     * The type of {@link TableSwitchInsnNode} instructions.
+     * The type of {@link TbbleSwitchInsnNode} instructions.
      */
-    public static final int TABLESWITCH_INSN = 11;
+    public stbtic finbl int TABLESWITCH_INSN = 11;
 
     /**
      * The type of {@link LookupSwitchInsnNode} instructions.
      */
-    public static final int LOOKUPSWITCH_INSN = 12;
+    public stbtic finbl int LOOKUPSWITCH_INSN = 12;
 
     /**
-     * The type of {@link MultiANewArrayInsnNode} instructions.
+     * The type of {@link MultiANewArrbyInsnNode} instructions.
      */
-    public static final int MULTIANEWARRAY_INSN = 13;
+    public stbtic finbl int MULTIANEWARRAY_INSN = 13;
 
     /**
-     * The type of {@link FrameNode} "instructions".
+     * The type of {@link FrbmeNode} "instructions".
      */
-    public static final int FRAME = 14;
+    public stbtic finbl int FRAME = 14;
 
     /**
      * The type of {@link LineNumberNode} "instructions".
      */
-    public static final int LINE = 15;
+    public stbtic finbl int LINE = 15;
 
     /**
      * The opcode of this instruction.
@@ -158,52 +158,52 @@ public abstract class AbstractInsnNode {
     protected int opcode;
 
     /**
-     * The runtime visible type annotations of this instruction. This field is
-     * only used for real instructions (i.e. not for labels, frames, or line
-     * number nodes). This list is a list of {@link TypeAnnotationNode} objects.
-     * May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of this instruction. This field is
+     * only used for rebl instructions (i.e. not for lbbels, frbmes, or line
+     * number nodes). This list is b list of {@link TypeAnnotbtionNode} objects.
+     * Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel visible
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> visibleTypeAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this instruction. This field is
-     * only used for real instructions (i.e. not for labels, frames, or line
-     * number nodes). This list is a list of {@link TypeAnnotationNode} objects.
-     * May be <tt>null</tt>.
+     * The runtime invisible type bnnotbtions of this instruction. This field is
+     * only used for rebl instructions (i.e. not for lbbels, frbmes, or line
+     * number nodes). This list is b list of {@link TypeAnnotbtionNode} objects.
+     * Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel invisible
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> invisibleTypeAnnotbtions;
 
     /**
      * Previous instruction in the list to which this instruction belongs.
      */
-    AbstractInsnNode prev;
+    AbstrbctInsnNode prev;
 
     /**
      * Next instruction in the list to which this instruction belongs.
      */
-    AbstractInsnNode next;
+    AbstrbctInsnNode next;
 
     /**
-     * Index of this instruction in the list to which it belongs. The value of
-     * this field is correct only when {@link InsnList#cache} is not null. A
-     * value of -1 indicates that this instruction does not belong to any
+     * Index of this instruction in the list to which it belongs. The vblue of
+     * this field is correct only when {@link InsnList#cbche} is not null. A
+     * vblue of -1 indicbtes thbt this instruction does not belong to bny
      * {@link InsnList}.
      */
     int index;
 
     /**
-     * Constructs a new {@link AbstractInsnNode}.
+     * Constructs b new {@link AbstrbctInsnNode}.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the opcode of the instruction to be constructed.
      */
-    protected AbstractInsnNode(final int opcode) {
+    protected AbstrbctInsnNode(finbl int opcode) {
         this.opcode = opcode;
         this.index = -1;
     }
@@ -220,134 +220,134 @@ public abstract class AbstractInsnNode {
     /**
      * Returns the type of this instruction.
      *
-     * @return the type of this instruction, i.e. one the constants defined in
-     *         this class.
+     * @return the type of this instruction, i.e. one the constbnts defined in
+     *         this clbss.
      */
-    public abstract int getType();
+    public bbstrbct int getType();
 
     /**
      * Returns the previous instruction in the list to which this instruction
-     * belongs, if any.
+     * belongs, if bny.
      *
      * @return the previous instruction in the list to which this instruction
-     *         belongs, if any. May be <tt>null</tt>.
+     *         belongs, if bny. Mby be <tt>null</tt>.
      */
-    public AbstractInsnNode getPrevious() {
+    public AbstrbctInsnNode getPrevious() {
         return prev;
     }
 
     /**
      * Returns the next instruction in the list to which this instruction
-     * belongs, if any.
+     * belongs, if bny.
      *
      * @return the next instruction in the list to which this instruction
-     *         belongs, if any. May be <tt>null</tt>.
+     *         belongs, if bny. Mby be <tt>null</tt>.
      */
-    public AbstractInsnNode getNext() {
+    public AbstrbctInsnNode getNext() {
         return next;
     }
 
     /**
-     * Makes the given code visitor visit this instruction.
+     * Mbkes the given code visitor visit this instruction.
      *
-     * @param cv
-     *            a code visitor.
+     * @pbrbm cv
+     *            b code visitor.
      */
-    public abstract void accept(final MethodVisitor cv);
+    public bbstrbct void bccept(finbl MethodVisitor cv);
 
     /**
-     * Makes the given visitor visit the annotations of this instruction.
+     * Mbkes the given visitor visit the bnnotbtions of this instruction.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b method visitor.
      */
-    protected final void acceptAnnotations(final MethodVisitor mv) {
-        int n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations
+    protected finbl void bcceptAnnotbtions(finbl MethodVisitor mv) {
+        int n = visibleTypeAnnotbtions == null ? 0 : visibleTypeAnnotbtions
                 .size();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitInsnAnnotation(an.typeRef, an.typePath, an.desc,
+            TypeAnnotbtionNode bn = visibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitInsnAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
                     true));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
+        n = invisibleTypeAnnotbtions == null ? 0 : invisibleTypeAnnotbtions
                 .size();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitInsnAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypeAnnotbtionNode bn = invisibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitInsnAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
+                    fblse));
         }
     }
 
     /**
-     * Returns a copy of this instruction.
+     * Returns b copy of this instruction.
      *
-     * @param labels
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return a copy of this instruction. The returned instruction does not
-     *         belong to any {@link InsnList}.
+     * @pbrbm lbbels
+     *            b mbp from LbbelNodes to cloned LbbelNodes.
+     * @return b copy of this instruction. The returned instruction does not
+     *         belong to bny {@link InsnList}.
      */
-    public abstract AbstractInsnNode clone(
-            final Map<LabelNode, LabelNode> labels);
+    public bbstrbct AbstrbctInsnNode clone(
+            finbl Mbp<LbbelNode, LbbelNode> lbbels);
 
     /**
-     * Returns the clone of the given label.
+     * Returns the clone of the given lbbel.
      *
-     * @param label
-     *            a label.
-     * @param map
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return the clone of the given label.
+     * @pbrbm lbbel
+     *            b lbbel.
+     * @pbrbm mbp
+     *            b mbp from LbbelNodes to cloned LbbelNodes.
+     * @return the clone of the given lbbel.
      */
-    static LabelNode clone(final LabelNode label,
-            final Map<LabelNode, LabelNode> map) {
-        return map.get(label);
+    stbtic LbbelNode clone(finbl LbbelNode lbbel,
+            finbl Mbp<LbbelNode, LbbelNode> mbp) {
+        return mbp.get(lbbel);
     }
 
     /**
-     * Returns the clones of the given labels.
+     * Returns the clones of the given lbbels.
      *
-     * @param labels
-     *            a list of labels.
-     * @param map
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return the clones of the given labels.
+     * @pbrbm lbbels
+     *            b list of lbbels.
+     * @pbrbm mbp
+     *            b mbp from LbbelNodes to cloned LbbelNodes.
+     * @return the clones of the given lbbels.
      */
-    static LabelNode[] clone(final List<LabelNode> labels,
-            final Map<LabelNode, LabelNode> map) {
-        LabelNode[] clones = new LabelNode[labels.size()];
+    stbtic LbbelNode[] clone(finbl List<LbbelNode> lbbels,
+            finbl Mbp<LbbelNode, LbbelNode> mbp) {
+        LbbelNode[] clones = new LbbelNode[lbbels.size()];
         for (int i = 0; i < clones.length; ++i) {
-            clones[i] = map.get(labels.get(i));
+            clones[i] = mbp.get(lbbels.get(i));
         }
         return clones;
     }
 
     /**
-     * Clones the annotations of the given instruction into this instruction.
+     * Clones the bnnotbtions of the given instruction into this instruction.
      *
-     * @param insn
+     * @pbrbm insn
      *            the source instruction.
      * @return this instruction.
      */
-    protected final AbstractInsnNode cloneAnnotations(
-            final AbstractInsnNode insn) {
-        if (insn.visibleTypeAnnotations != null) {
-            this.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>();
-            for (int i = 0; i < insn.visibleTypeAnnotations.size(); ++i) {
-                TypeAnnotationNode src = insn.visibleTypeAnnotations.get(i);
-                TypeAnnotationNode ann = new TypeAnnotationNode(src.typeRef,
-                        src.typePath, src.desc);
-                src.accept(ann);
-                this.visibleTypeAnnotations.add(ann);
+    protected finbl AbstrbctInsnNode cloneAnnotbtions(
+            finbl AbstrbctInsnNode insn) {
+        if (insn.visibleTypeAnnotbtions != null) {
+            this.visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>();
+            for (int i = 0; i < insn.visibleTypeAnnotbtions.size(); ++i) {
+                TypeAnnotbtionNode src = insn.visibleTypeAnnotbtions.get(i);
+                TypeAnnotbtionNode bnn = new TypeAnnotbtionNode(src.typeRef,
+                        src.typePbth, src.desc);
+                src.bccept(bnn);
+                this.visibleTypeAnnotbtions.bdd(bnn);
             }
         }
-        if (insn.invisibleTypeAnnotations != null) {
-            this.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>();
-            for (int i = 0; i < insn.invisibleTypeAnnotations.size(); ++i) {
-                TypeAnnotationNode src = insn.invisibleTypeAnnotations.get(i);
-                TypeAnnotationNode ann = new TypeAnnotationNode(src.typeRef,
-                        src.typePath, src.desc);
-                src.accept(ann);
-                this.invisibleTypeAnnotations.add(ann);
+        if (insn.invisibleTypeAnnotbtions != null) {
+            this.invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>();
+            for (int i = 0; i < insn.invisibleTypeAnnotbtions.size(); ++i) {
+                TypeAnnotbtionNode src = insn.invisibleTypeAnnotbtions.get(i);
+                TypeAnnotbtionNode bnn = new TypeAnnotbtionNode(src.typeRef,
+                        src.typePbth, src.desc);
+                src.bccept(bnn);
+                this.invisibleTypeAnnotbtions.bdd(bnn);
             }
         }
         return this;

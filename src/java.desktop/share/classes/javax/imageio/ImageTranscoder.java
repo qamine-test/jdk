@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
-import javax.imageio.metadata.IIOMetadata;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
 
 /**
- * An interface providing metadata transcoding capability.
+ * An interfbce providing metbdbtb trbnscoding cbpbbility.
  *
- * <p> Any image may be transcoded (written to a different format
- * than the one it was originally stored in) simply by performing
- * a read operation followed by a write operation.  However, loss
- * of data may occur in this process due to format differences.
+ * <p> Any imbge mby be trbnscoded (written to b different formbt
+ * thbn the one it wbs originblly stored in) simply by performing
+ * b rebd operbtion followed by b write operbtion.  However, loss
+ * of dbtb mby occur in this process due to formbt differences.
  *
- * <p> In general, the best results will be achieved when
- * format-specific metadata objects can be created to encapsulate as
- * much information about the image and its associated metadata as
- * possible, in terms that are understood by the specific
- * <code>ImageWriter</code> used to perform the encoding.
+ * <p> In generbl, the best results will be bchieved when
+ * formbt-specific metbdbtb objects cbn be crebted to encbpsulbte bs
+ * much informbtion bbout the imbge bnd its bssocibted metbdbtb bs
+ * possible, in terms thbt bre understood by the specific
+ * <code>ImbgeWriter</code> used to perform the encoding.
  *
- * <p> An <code>ImageTranscoder</code> may be used to convert the
- * <code>IIOMetadata</code> objects supplied by the
- * <code>ImageReader</code> (representing per-stream and per-image
- * metadata) into corresponding objects suitable for encoding by a
- * particular <code>ImageWriter</code>.  In the case where the methods
- * of this interface are being called directly on an
- * <code>ImageWriter</code>, the output will be suitable for that
+ * <p> An <code>ImbgeTrbnscoder</code> mby be used to convert the
+ * <code>IIOMetbdbtb</code> objects supplied by the
+ * <code>ImbgeRebder</code> (representing per-strebm bnd per-imbge
+ * metbdbtb) into corresponding objects suitbble for encoding by b
+ * pbrticulbr <code>ImbgeWriter</code>.  In the cbse where the methods
+ * of this interfbce bre being cblled directly on bn
+ * <code>ImbgeWriter</code>, the output will be suitbble for thbt
  * writer.
  *
- * <p> The internal details of converting an <code>IIOMetadata</code>
- * object into a writer-specific format will vary according to the
- * context of the operation.  Typically, an <code>ImageWriter</code>
- * will inspect the incoming object to see if it implements additional
- * interfaces with which the writer is familiar.  This might be the
- * case, for example, if the object was obtained by means of a read
- * operation on a reader plug-in written by the same vendor as the
- * writer.  In this case, the writer may access the incoming object by
- * means of its plug-in specific interfaces.  In this case, the
- * re-encoding may be close to lossless if the image file format is
- * kept constant.  If the format is changing, the writer may still
- * attempt to preserve as much information as possible.
+ * <p> The internbl detbils of converting bn <code>IIOMetbdbtb</code>
+ * object into b writer-specific formbt will vbry bccording to the
+ * context of the operbtion.  Typicblly, bn <code>ImbgeWriter</code>
+ * will inspect the incoming object to see if it implements bdditionbl
+ * interfbces with which the writer is fbmilibr.  This might be the
+ * cbse, for exbmple, if the object wbs obtbined by mebns of b rebd
+ * operbtion on b rebder plug-in written by the sbme vendor bs the
+ * writer.  In this cbse, the writer mby bccess the incoming object by
+ * mebns of its plug-in specific interfbces.  In this cbse, the
+ * re-encoding mby be close to lossless if the imbge file formbt is
+ * kept constbnt.  If the formbt is chbnging, the writer mby still
+ * bttempt to preserve bs much informbtion bs possible.
  *
- * <p> If the incoming object does not implement any additional
- * interfaces known to the writer, the writer has no choice but to
- * access it via the standard <code>IIOMetadata</code> interfaces such
- * as the tree view provided by <code>IIOMetadata.getAsTree</code>.
- * In this case, there is likely to be significant loss of
- * information.
+ * <p> If the incoming object does not implement bny bdditionbl
+ * interfbces known to the writer, the writer hbs no choice but to
+ * bccess it vib the stbndbrd <code>IIOMetbdbtb</code> interfbces such
+ * bs the tree view provided by <code>IIOMetbdbtb.getAsTree</code>.
+ * In this cbse, there is likely to be significbnt loss of
+ * informbtion.
  *
- * <p> An independent <code>ImageTranscoder</code> essentially takes
- * on the same role as the writer plug-in in the above examples.  It
- * must be familiar with the private interfaces used by both the
- * reader and writer plug-ins, and manually instantiate an object that
- * will be usable by the writer.  The resulting metadata objects may
+ * <p> An independent <code>ImbgeTrbnscoder</code> essentiblly tbkes
+ * on the sbme role bs the writer plug-in in the bbove exbmples.  It
+ * must be fbmilibr with the privbte interfbces used by both the
+ * rebder bnd writer plug-ins, bnd mbnublly instbntibte bn object thbt
+ * will be usbble by the writer.  The resulting metbdbtb objects mby
  * be used by the writer directly.
  *
- * <p> No independent implementations of <code>ImageTranscoder</code>
- * are provided as part of the standard API.  Instead, the intention
- * of this interface is to provide a way for implementations to be
- * created and discovered by applications as the need arises.
+ * <p> No independent implementbtions of <code>ImbgeTrbnscoder</code>
+ * bre provided bs pbrt of the stbndbrd API.  Instebd, the intention
+ * of this interfbce is to provide b wby for implementbtions to be
+ * crebted bnd discovered by bpplicbtions bs the need brises.
  *
  */
-public interface ImageTranscoder {
+public interfbce ImbgeTrbnscoder {
 
     /**
-     * Returns an <code>IIOMetadata</code> object that may be used for
-     * encoding and optionally modified using its document interfaces
-     * or other interfaces specific to the writer plug-in that will be
+     * Returns bn <code>IIOMetbdbtb</code> object thbt mby be used for
+     * encoding bnd optionblly modified using its document interfbces
+     * or other interfbces specific to the writer plug-in thbt will be
      * used for encoding.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the stream
-     * metadata.
+     * <p> An optionbl <code>ImbgeWritePbrbm</code> mby be supplied
+     * for cbses where it mby bffect the structure of the strebm
+     * metbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not understood by this writer or
-     * transcoder, they will be ignored.
+     * <p> If the supplied <code>ImbgeWritePbrbm</code> contbins
+     * optionbl setting vblues not understood by this writer or
+     * trbnscoder, they will be ignored.
      *
-     * @param inData an <code>IIOMetadata</code> object representing
-     * stream metadata, used to initialize the state of the returned
+     * @pbrbm inDbtb bn <code>IIOMetbdbtb</code> object representing
+     * strebm metbdbtb, used to initiblize the stbte of the returned
      * object.
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm pbrbm bn <code>ImbgeWritePbrbm</code> thbt will be used to
+     * encode the imbge, or <code>null</code>.
      *
-     * @return an <code>IIOMetadata</code> object, or
-     * <code>null</code> if the plug-in does not provide metadata
-     * encoding capabilities.
+     * @return bn <code>IIOMetbdbtb</code> object, or
+     * <code>null</code> if the plug-in does not provide metbdbtb
+     * encoding cbpbbilities.
      *
-     * @exception IllegalArgumentException if <code>inData</code> is
+     * @exception IllegblArgumentException if <code>inDbtb</code> is
      * <code>null</code>.
      */
-    IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                      ImageWriteParam param);
+    IIOMetbdbtb convertStrebmMetbdbtb(IIOMetbdbtb inDbtb,
+                                      ImbgeWritePbrbm pbrbm);
 
     /**
-     * Returns an <code>IIOMetadata</code> object that may be used for
-     * encoding and optionally modified using its document interfaces
-     * or other interfaces specific to the writer plug-in that will be
+     * Returns bn <code>IIOMetbdbtb</code> object thbt mby be used for
+     * encoding bnd optionblly modified using its document interfbces
+     * or other interfbces specific to the writer plug-in thbt will be
      * used for encoding.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the image
-     * metadata.
+     * <p> An optionbl <code>ImbgeWritePbrbm</code> mby be supplied
+     * for cbses where it mby bffect the structure of the imbge
+     * metbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not understood by this writer or
-     * transcoder, they will be ignored.
+     * <p> If the supplied <code>ImbgeWritePbrbm</code> contbins
+     * optionbl setting vblues not understood by this writer or
+     * trbnscoder, they will be ignored.
      *
-     * @param inData an <code>IIOMetadata</code> object representing
-     * image metadata, used to initialize the state of the returned
+     * @pbrbm inDbtb bn <code>IIOMetbdbtb</code> object representing
+     * imbge metbdbtb, used to initiblize the stbte of the returned
      * object.
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating
-     * the layout and color information of the image with which the
-     * metadata will be associated.
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm imbgeType bn <code>ImbgeTypeSpecifier</code> indicbting
+     * the lbyout bnd color informbtion of the imbge with which the
+     * metbdbtb will be bssocibted.
+     * @pbrbm pbrbm bn <code>ImbgeWritePbrbm</code> thbt will be used to
+     * encode the imbge, or <code>null</code>.
      *
-     * @return an <code>IIOMetadata</code> object,
+     * @return bn <code>IIOMetbdbtb</code> object,
      * or <code>null</code> if the plug-in does not provide
-     * metadata encoding capabilities.
+     * metbdbtb encoding cbpbbilities.
      *
-     * @exception IllegalArgumentException if either of
-     * <code>inData</code> or <code>imageType</code> is
+     * @exception IllegblArgumentException if either of
+     * <code>inDbtb</code> or <code>imbgeType</code> is
      * <code>null</code>.
      */
-    IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                     ImageTypeSpecifier imageType,
-                                     ImageWriteParam param);
+    IIOMetbdbtb convertImbgeMetbdbtb(IIOMetbdbtb inDbtb,
+                                     ImbgeTypeSpecifier imbgeType,
+                                     ImbgeWritePbrbm pbrbm);
 }

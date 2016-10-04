@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.acl;
+pbckbge sun.security.bcl;
 
-import java.util.*;
-import java.security.*;
-import java.security.acl.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.bcl.*;
 
 /**
- * Class implementing the Owner interface. The
- * initial owner principal is configured as
- * part of the constructor.
- * @author      Satish Dharmaraj
+ * Clbss implementing the Owner interfbce. The
+ * initibl owner principbl is configured bs
+ * pbrt of the constructor.
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public class OwnerImpl implements Owner {
-    private Group ownerGroup;
+public clbss OwnerImpl implements Owner {
+    privbte Group ownerGroup;
 
-    public OwnerImpl(Principal owner) {
+    public OwnerImpl(Principbl owner) {
         ownerGroup = new GroupImpl("AclOwners");
-        ownerGroup.addMember(owner);
+        ownerGroup.bddMember(owner);
     }
 
     /**
-     * Adds an owner. Owners can modify ACL contents and can disassociate
-     * ACLs from the objects they protect in the AclConfig interface.
-     * The caller principal must be a part of the owners list of the ACL in
-     * order to invoke this method. The initial owner is configured
-     * at ACL construction time.
-     * @param caller the principal who is invoking this method.
-     * @param owner The owner that should be added to the owners list.
-     * @return true if success, false if already an owner.
-     * @exception NotOwnerException if the caller principal is not on
+     * Adds bn owner. Owners cbn modify ACL contents bnd cbn disbssocibte
+     * ACLs from the objects they protect in the AclConfig interfbce.
+     * The cbller principbl must be b pbrt of the owners list of the ACL in
+     * order to invoke this method. The initibl owner is configured
+     * bt ACL construction time.
+     * @pbrbm cbller the principbl who is invoking this method.
+     * @pbrbm owner The owner thbt should be bdded to the owners list.
+     * @return true if success, fblse if blrebdy bn owner.
+     * @exception NotOwnerException if the cbller principbl is not on
      * the owners list of the Acl.
      */
-    public synchronized boolean addOwner(Principal caller, Principal owner)
+    public synchronized boolebn bddOwner(Principbl cbller, Principbl owner)
       throws NotOwnerException
     {
-        if (!isOwner(caller))
+        if (!isOwner(cbller))
             throw new NotOwnerException();
 
-        ownerGroup.addMember(owner);
-        return false;
+        ownerGroup.bddMember(owner);
+        return fblse;
     }
 
     /**
-     * Delete owner. If this is the last owner in the ACL, an exception is
-     * raised.
-     * The caller principal must be a part of the owners list of the ACL in
+     * Delete owner. If this is the lbst owner in the ACL, bn exception is
+     * rbised.
+     * The cbller principbl must be b pbrt of the owners list of the ACL in
      * order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param owner The owner to be removed from the owners list.
-     * @return true if the owner is removed, false if the owner is not part
+     * @pbrbm cbller the principbl who is invoking this method.
+     * @pbrbm owner The owner to be removed from the owners list.
+     * @return true if the owner is removed, fblse if the owner is not pbrt
      * of the owners list.
-     * @exception NotOwnerException if the caller principal is not on
+     * @exception NotOwnerException if the cbller principbl is not on
      * the owners list of the Acl.
-     * @exception LastOwnerException if there is only one owner left in the group, then
-     * deleteOwner would leave the ACL owner-less. This exception is raised in such a case.
+     * @exception LbstOwnerException if there is only one owner left in the group, then
+     * deleteOwner would lebve the ACL owner-less. This exception is rbised in such b cbse.
      */
-    public synchronized boolean deleteOwner(Principal caller, Principal owner)
-      throws NotOwnerException, LastOwnerException
+    public synchronized boolebn deleteOwner(Principbl cbller, Principbl owner)
+      throws NotOwnerException, LbstOwnerException
     {
-        if (!isOwner(caller))
+        if (!isOwner(cbller))
             throw new NotOwnerException();
 
-        Enumeration<? extends Principal> e = ownerGroup.members();
+        Enumerbtion<? extends Principbl> e = ownerGroup.members();
         //
-        // check if there is atleast 2 members left.
+        // check if there is btlebst 2 members left.
         //
         Object o = e.nextElement();
-        if (e.hasMoreElements())
+        if (e.hbsMoreElements())
             return ownerGroup.removeMember(owner);
         else
-            throw new LastOwnerException();
+            throw new LbstOwnerException();
 
     }
 
     /**
-     * returns if the given principal belongs to the owner list.
-     * @param owner The owner to check if part of the owners list
-     * @return true if the passed principal is in the owner list, false if not.
+     * returns if the given principbl belongs to the owner list.
+     * @pbrbm owner The owner to check if pbrt of the owners list
+     * @return true if the pbssed principbl is in the owner list, fblse if not.
      */
-    public synchronized boolean isOwner(Principal owner) {
+    public synchronized boolebn isOwner(Principbl owner) {
         return ownerGroup.isMember(owner);
     }
 }

@@ -3,145 +3,145 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
 
 /**
- * The Internationalization (I18N) pack.
+ * The Internbtionblizbtion (I18N) pbck.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class I18n {
+public clbss I18n {
 
     /** Field NOT_INITIALIZED_MSG */
-    public static final String NOT_INITIALIZED_MSG =
-        "You must initialize the xml-security library correctly before you use it. "
-        + "Call the static method \"com.sun.org.apache.xml.internal.security.Init.init();\" to do that "
-        + "before you use any functionality from that library.";
+    public stbtic finbl String NOT_INITIALIZED_MSG =
+        "You must initiblize the xml-security librbry correctly before you use it. "
+        + "Cbll the stbtic method \"com.sun.org.bpbche.xml.internbl.security.Init.init();\" to do thbt "
+        + "before you use bny functionblity from thbt librbry.";
 
     /** Field resourceBundle */
-    private static ResourceBundle resourceBundle;
+    privbte stbtic ResourceBundle resourceBundle;
 
-    /** Field alreadyInitialized */
-    private static boolean alreadyInitialized = false;
+    /** Field blrebdyInitiblized */
+    privbte stbtic boolebn blrebdyInitiblized = fblse;
 
     /**
      * Constructor I18n
      *
      */
-    private I18n() {
-        // we don't allow instantiation
+    privbte I18n() {
+        // we don't bllow instbntibtion
     }
 
     /**
-     * Method translate
+     * Method trbnslbte
      *
-     * translates a message ID into an internationalized String, see alse
-     * <CODE>XMLSecurityException.getExceptionMEssage()</CODE>. The strings are
+     * trbnslbtes b messbge ID into bn internbtionblized String, see blse
+     * <CODE>XMLSecurityException.getExceptionMEssbge()</CODE>. The strings bre
      * stored in the <CODE>ResourceBundle</CODE>, which is identified in
-     * <CODE>exceptionMessagesResourceBundleBase</CODE>
+     * <CODE>exceptionMessbgesResourceBundleBbse</CODE>
      *
-     * @param message
-     * @param args is an <CODE>Object[]</CODE> array of strings which are inserted into
+     * @pbrbm messbge
+     * @pbrbm brgs is bn <CODE>Object[]</CODE> brrby of strings which bre inserted into
      * the String which is retrieved from the <CODE>ResouceBundle</CODE>
-     * @return message translated
+     * @return messbge trbnslbted
      */
-    public static String translate(String message, Object[] args) {
-        return getExceptionMessage(message, args);
+    public stbtic String trbnslbte(String messbge, Object[] brgs) {
+        return getExceptionMessbge(messbge, brgs);
     }
 
     /**
-     * Method translate
+     * Method trbnslbte
      *
-     * translates a message ID into an internationalized String, see also
-     * <CODE>XMLSecurityException.getExceptionMessage()</CODE>
+     * trbnslbtes b messbge ID into bn internbtionblized String, see blso
+     * <CODE>XMLSecurityException.getExceptionMessbge()</CODE>
      *
-     * @param message
-     * @return message translated
+     * @pbrbm messbge
+     * @return messbge trbnslbted
      */
-    public static String translate(String message) {
-        return getExceptionMessage(message);
+    public stbtic String trbnslbte(String messbge) {
+        return getExceptionMessbge(messbge);
     }
 
     /**
-     * Method getExceptionMessage
+     * Method getExceptionMessbge
      *
-     * @param msgID
-     * @return message translated
+     * @pbrbm msgID
+     * @return messbge trbnslbted
      *
      */
-    public static String getExceptionMessage(String msgID) {
+    public stbtic String getExceptionMessbge(String msgID) {
         try {
             return resourceBundle.getString(msgID);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
+        } cbtch (Throwbble t) {
+            if (com.sun.org.bpbche.xml.internbl.security.Init.isInitiblized()) {
+                return "No messbge with ID \"" + msgID
                 + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase + "\"";
+                + Constbnts.exceptionMessbgesResourceBundleBbse + "\"";
             }
             return I18n.NOT_INITIALIZED_MSG;
         }
     }
 
     /**
-     * Method getExceptionMessage
+     * Method getExceptionMessbge
      *
-     * @param msgID
-     * @param originalException
-     * @return message translated
+     * @pbrbm msgID
+     * @pbrbm originblException
+     * @return messbge trbnslbted
      */
-    public static String getExceptionMessage(String msgID, Exception originalException) {
+    public stbtic String getExceptionMessbge(String msgID, Exception originblException) {
         try {
-            Object exArgs[] = { originalException.getMessage() };
-            return MessageFormat.format(resourceBundle.getString(msgID), exArgs);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
+            Object exArgs[] = { originblException.getMessbge() };
+            return MessbgeFormbt.formbt(resourceBundle.getString(msgID), exArgs);
+        } cbtch (Throwbble t) {
+            if (com.sun.org.bpbche.xml.internbl.security.Init.isInitiblized()) {
+                return "No messbge with ID \"" + msgID
                 + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase
-                + "\". Original Exception was a "
-                + originalException.getClass().getName() + " and message "
-                + originalException.getMessage();
+                + Constbnts.exceptionMessbgesResourceBundleBbse
+                + "\". Originbl Exception wbs b "
+                + originblException.getClbss().getNbme() + " bnd messbge "
+                + originblException.getMessbge();
             }
             return I18n.NOT_INITIALIZED_MSG;
         }
     }
 
     /**
-     * Method getExceptionMessage
+     * Method getExceptionMessbge
      *
-     * @param msgID
-     * @param exArgs
-     * @return message translated
+     * @pbrbm msgID
+     * @pbrbm exArgs
+     * @return messbge trbnslbted
      */
-    public static String getExceptionMessage(String msgID, Object exArgs[]) {
+    public stbtic String getExceptionMessbge(String msgID, Object exArgs[]) {
         try {
-            return MessageFormat.format(resourceBundle.getString(msgID), exArgs);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
+            return MessbgeFormbt.formbt(resourceBundle.getString(msgID), exArgs);
+        } cbtch (Throwbble t) {
+            if (com.sun.org.bpbche.xml.internbl.security.Init.isInitiblized()) {
+                return "No messbge with ID \"" + msgID
                 + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase + "\"";
+                + Constbnts.exceptionMessbgesResourceBundleBbse + "\"";
             }
             return I18n.NOT_INITIALIZED_MSG;
         }
@@ -150,19 +150,19 @@ public class I18n {
     /**
      * Method init
      *
-     * @param languageCode
-     * @param countryCode
+     * @pbrbm lbngubgeCode
+     * @pbrbm countryCode
      */
-    public synchronized static void init(String languageCode, String countryCode) {
-        if (alreadyInitialized) {
+    public synchronized stbtic void init(String lbngubgeCode, String countryCode) {
+        if (blrebdyInitiblized) {
             return;
         }
 
         I18n.resourceBundle =
             ResourceBundle.getBundle(
-                Constants.exceptionMessagesResourceBundleBase,
-                new Locale(languageCode, countryCode)
+                Constbnts.exceptionMessbgesResourceBundleBbse,
+                new Locble(lbngubgeCode, countryCode)
             );
-        alreadyInitialized = true;
+        blrebdyInitiblized = true;
     }
 }

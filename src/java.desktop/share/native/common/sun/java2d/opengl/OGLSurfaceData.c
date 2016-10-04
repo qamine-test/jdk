@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,30 +27,30 @@
 
 #include <stdlib.h>
 
-#include "sun_java2d_opengl_OGLSurfaceData.h"
+#include "sun_jbvb2d_opengl_OGLSurfbceDbtb.h"
 
 #include "jlong.h"
 #include "jni_util.h"
-#include "OGLSurfaceData.h"
+#include "OGLSurfbceDbtb.h"
 
 /**
- * The following methods are implemented in the windowing system (i.e. GLX
- * and WGL) source files.
+ * The following methods bre implemented in the windowing system (i.e. GLX
+ * bnd WGL) source files.
  */
-extern jlong OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo);
-extern jboolean OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo);
-extern void OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo);
+extern jlong OGLSD_GetNbtiveConfigInfo(OGLSDOps *oglsdo);
+extern jboolebn OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo);
+extern void OGLSD_DestroyOGLSurfbce(JNIEnv *env, OGLSDOps *oglsdo);
 
-void OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
+void OGLSD_SetNbtiveDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
 
 /**
- * This table contains the "pixel formats" for all system memory surfaces
- * that OpenGL is capable of handling, indexed by the "PF_" constants defined
- * in OGLSurfaceData.java.  These pixel formats contain information that is
- * passed to OpenGL when copying from a system memory ("Sw") surface to
- * an OpenGL "Surface" (via glDrawPixels()) or "Texture" (via glTexImage2D()).
+ * This tbble contbins the "pixel formbts" for bll system memory surfbces
+ * thbt OpenGL is cbpbble of hbndling, indexed by the "PF_" constbnts defined
+ * in OGLSurfbceDbtb.jbvb.  These pixel formbts contbin informbtion thbt is
+ * pbssed to OpenGL when copying from b system memory ("Sw") surfbce to
+ * bn OpenGL "Surfbce" (vib glDrbwPixels()) or "Texture" (vib glTexImbge2D()).
  */
-OGLPixelFormat PixelFormats[] = {
+OGLPixelFormbt PixelFormbts[] = {
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
       4, 1, 0,                                     }, /* 0 - IntArgb      */
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
@@ -70,153 +70,153 @@ OGLPixelFormat PixelFormats[] = {
     { GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
       2, 0, 1,                                     }, /* 8 - Ushort555Rgbx*/
     { GL_LUMINANCE, GL_UNSIGNED_BYTE,
-      1, 0, 1,                                     }, /* 9 - ByteGray     */
+      1, 0, 1,                                     }, /* 9 - ByteGrby     */
     { GL_LUMINANCE, GL_UNSIGNED_SHORT,
-      2, 0, 1,                                     }, /*10 - UshortGray   */
+      2, 0, 1,                                     }, /*10 - UshortGrby   */
     { GL_BGR,  GL_UNSIGNED_BYTE,
       1, 0, 1,                                     }, /*11 - ThreeByteBgr */};
 
 /**
- * Given a starting value and a maximum limit, returns the first power-of-two
- * greater than the starting value.  If the resulting value is greater than
- * the maximum limit, zero is returned.
+ * Given b stbrting vblue bnd b mbximum limit, returns the first power-of-two
+ * grebter thbn the stbrting vblue.  If the resulting vblue is grebter thbn
+ * the mbximum limit, zero is returned.
  */
 jint
-OGLSD_NextPowerOfTwo(jint val, jint max)
+OGLSD_NextPowerOfTwo(jint vbl, jint mbx)
 {
     jint i;
 
-    if (val > max) {
+    if (vbl > mbx) {
         return 0;
     }
 
-    for (i = 1; i < val; i *= 2);
+    for (i = 1; i < vbl; i *= 2);
 
     return i;
 }
 
 /**
- * Returns true if both given dimensions are a power of two.
+ * Returns true if both given dimensions bre b power of two.
  */
-static jboolean
+stbtic jboolebn
 OGLSD_IsPowerOfTwo(jint width, jint height)
 {
     return (((width & (width-1)) | (height & (height-1))) == 0);
 }
 
 /**
- * Initializes an OpenGL texture object.
+ * Initiblizes bn OpenGL texture object.
  *
- * If the isOpaque parameter is JNI_FALSE, then the texture will have a
- * full alpha channel; otherwise, the texture will be opaque (this can
- * help save VRAM when translucency is not needed).
+ * If the isOpbque pbrbmeter is JNI_FALSE, then the texture will hbve b
+ * full blphb chbnnel; otherwise, the texture will be opbque (this cbn
+ * help sbve VRAM when trbnslucency is not needed).
  *
  * If the GL_ARB_texture_non_power_of_two extension is present (texNonPow2
- * is JNI_TRUE), the actual texture is allowed to have non-power-of-two
- * dimensions, and therefore width==textureWidth and height==textureHeight.
+ * is JNI_TRUE), the bctubl texture is bllowed to hbve non-power-of-two
+ * dimensions, bnd therefore width==textureWidth bnd height==textureHeight.
  *
- * Failing that, if the GL_ARB_texture_rectangle extension is present
- * (texRect is JNI_TRUE), the actual texture is allowed to have
- * non-power-of-two dimensions, except that instead of using the usual
- * GL_TEXTURE_2D target, we need to use the GL_TEXTURE_RECTANGLE_ARB target.
- * Note that the GL_REPEAT wrapping mode is not allowed with this target,
- * so if that mode is needed (e.g. as is the case in the TexturePaint code)
- * one should pass JNI_FALSE to avoid using this extension.  Also note that
- * when the texture target is GL_TEXTURE_RECTANGLE_ARB, texture coordinates
- * must be specified in the range [0,width] and [0,height] rather than
- * [0,1] as is the case with the usual GL_TEXTURE_2D target (so take care)!
+ * Fbiling thbt, if the GL_ARB_texture_rectbngle extension is present
+ * (texRect is JNI_TRUE), the bctubl texture is bllowed to hbve
+ * non-power-of-two dimensions, except thbt instebd of using the usubl
+ * GL_TEXTURE_2D tbrget, we need to use the GL_TEXTURE_RECTANGLE_ARB tbrget.
+ * Note thbt the GL_REPEAT wrbpping mode is not bllowed with this tbrget,
+ * so if thbt mode is needed (e.g. bs is the cbse in the TexturePbint code)
+ * one should pbss JNI_FALSE to bvoid using this extension.  Also note thbt
+ * when the texture tbrget is GL_TEXTURE_RECTANGLE_ARB, texture coordinbtes
+ * must be specified in the rbnge [0,width] bnd [0,height] rbther thbn
+ * [0,1] bs is the cbse with the usubl GL_TEXTURE_2D tbrget (so tbke cbre)!
  *
- * Otherwise, the actual texture must have power-of-two dimensions, and
- * therefore the textureWidth and textureHeight will be the next
- * power-of-two greater than (or equal to) the requested width and height.
+ * Otherwise, the bctubl texture must hbve power-of-two dimensions, bnd
+ * therefore the textureWidth bnd textureHeight will be the next
+ * power-of-two grebter thbn (or equbl to) the requested width bnd height.
  */
-static jboolean
+stbtic jboolebn
 OGLSD_InitTextureObject(OGLSDOps *oglsdo,
-                        jboolean isOpaque,
-                        jboolean texNonPow2, jboolean texRect,
+                        jboolebn isOpbque,
+                        jboolebn texNonPow2, jboolebn texRect,
                         jint width, jint height)
 {
-    GLenum texTarget, texProxyTarget;
-    GLint format = GL_RGBA;
+    GLenum texTbrget, texProxyTbrget;
+    GLint formbt = GL_RGBA;
     GLint size = GL_UNSIGNED_INT_8_8_8_8;
     GLuint texID;
-    GLsizei texWidth, texHeight, realWidth, realHeight;
-    GLint texMax;
+    GLsizei texWidth, texHeight, reblWidth, reblHeight;
+    GLint texMbx;
 
-    J2dTraceLn4(J2D_TRACE_INFO,
+    J2dTrbceLn4(J2D_TRACE_INFO,
                 "OGLSD_InitTextureObject: w=%d h=%d opq=%d nonpow2=%d",
-                width, height, isOpaque, texNonPow2);
+                width, height, isOpbque, texNonPow2);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitTextureObject: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitTextureObject: ops bre null");
         return JNI_FALSE;
     }
 
     if (texNonPow2) {
-        // use non-pow2 dimensions with GL_TEXTURE_2D target
-        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMax);
-        texWidth = (width <= texMax) ? width : 0;
-        texHeight = (height <= texMax) ? height : 0;
-        texTarget = GL_TEXTURE_2D;
-        texProxyTarget = GL_PROXY_TEXTURE_2D;
+        // use non-pow2 dimensions with GL_TEXTURE_2D tbrget
+        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMbx);
+        texWidth = (width <= texMbx) ? width : 0;
+        texHeight = (height <= texMbx) ? height : 0;
+        texTbrget = GL_TEXTURE_2D;
+        texProxyTbrget = GL_PROXY_TEXTURE_2D;
     } else if (texRect) {
-        // use non-pow2 dimensions with GL_TEXTURE_RECTANGLE_ARB target
-        j2d_glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB, &texMax);
-        texWidth = (width <= texMax) ? width : 0;
-        texHeight = (height <= texMax) ? height : 0;
-        texTarget = GL_TEXTURE_RECTANGLE_ARB;
-        texProxyTarget = GL_PROXY_TEXTURE_RECTANGLE_ARB;
+        // use non-pow2 dimensions with GL_TEXTURE_RECTANGLE_ARB tbrget
+        j2d_glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB, &texMbx);
+        texWidth = (width <= texMbx) ? width : 0;
+        texHeight = (height <= texMbx) ? height : 0;
+        texTbrget = GL_TEXTURE_RECTANGLE_ARB;
+        texProxyTbrget = GL_PROXY_TEXTURE_RECTANGLE_ARB;
     } else {
-        // find the appropriate power-of-two dimensions
-        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMax);
-        texWidth = OGLSD_NextPowerOfTwo(width, texMax);
-        texHeight = OGLSD_NextPowerOfTwo(height, texMax);
-        texTarget = GL_TEXTURE_2D;
-        texProxyTarget = GL_PROXY_TEXTURE_2D;
+        // find the bppropribte power-of-two dimensions
+        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMbx);
+        texWidth = OGLSD_NextPowerOfTwo(width, texMbx);
+        texHeight = OGLSD_NextPowerOfTwo(height, texMbx);
+        texTbrget = GL_TEXTURE_2D;
+        texProxyTbrget = GL_PROXY_TEXTURE_2D;
     }
 
-    J2dTraceLn3(J2D_TRACE_VERBOSE,
-                "  desired texture dimensions: w=%d h=%d max=%d",
-                texWidth, texHeight, texMax);
+    J2dTrbceLn3(J2D_TRACE_VERBOSE,
+                "  desired texture dimensions: w=%d h=%d mbx=%d",
+                texWidth, texHeight, texMbx);
 
-    // if either dimension is 0, we cannot allocate a texture with the
+    // if either dimension is 0, we cbnnot bllocbte b texture with the
     // requested dimensions
     if ((texWidth == 0) || (texHeight == 0)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSD_InitTextureObject: texture dimensions too large");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSD_InitTextureObject: texture dimensions too lbrge");
         return JNI_FALSE;
     }
 
-    // now use a proxy to determine whether we can create a texture with
-    // the calculated power-of-two dimensions and the given internal format
-    j2d_glTexImage2D(texProxyTarget, 0, format,
+    // now use b proxy to determine whether we cbn crebte b texture with
+    // the cblculbted power-of-two dimensions bnd the given internbl formbt
+    j2d_glTexImbge2D(texProxyTbrget, 0, formbt,
                      texWidth, texHeight, 0,
-                     format, size, NULL);
-    j2d_glGetTexLevelParameteriv(texProxyTarget, 0,
-                                 GL_TEXTURE_WIDTH, &realWidth);
-    j2d_glGetTexLevelParameteriv(texProxyTarget, 0,
-                                 GL_TEXTURE_HEIGHT, &realHeight);
+                     formbt, size, NULL);
+    j2d_glGetTexLevelPbrbmeteriv(texProxyTbrget, 0,
+                                 GL_TEXTURE_WIDTH, &reblWidth);
+    j2d_glGetTexLevelPbrbmeteriv(texProxyTbrget, 0,
+                                 GL_TEXTURE_HEIGHT, &reblHeight);
 
-    // if the requested dimensions and proxy dimensions don't match,
-    // we shouldn't attempt to create the texture
-    if ((realWidth != texWidth) || (realHeight != texHeight)) {
-        J2dRlsTraceLn2(J2D_TRACE_ERROR,
-            "OGLSD_InitTextureObject: actual (w=%d h=%d) != requested",
-                       realWidth, realHeight);
+    // if the requested dimensions bnd proxy dimensions don't mbtch,
+    // we shouldn't bttempt to crebte the texture
+    if ((reblWidth != texWidth) || (reblHeight != texHeight)) {
+        J2dRlsTrbceLn2(J2D_TRACE_ERROR,
+            "OGLSD_InitTextureObject: bctubl (w=%d h=%d) != requested",
+                       reblWidth, reblHeight);
         return JNI_FALSE;
     }
 
-    // initialize the texture with some dummy data (this allows us to create
-    // a texture object once with 2^n dimensions, and then use
-    // glTexSubImage2D() to provide further updates)
+    // initiblize the texture with some dummy dbtb (this bllows us to crebte
+    // b texture object once with 2^n dimensions, bnd then use
+    // glTexSubImbge2D() to provide further updbtes)
     j2d_glGenTextures(1, &texID);
-    j2d_glBindTexture(texTarget, texID);
-    j2d_glTexImage2D(texTarget, 0, format,
+    j2d_glBindTexture(texTbrget, texID);
+    j2d_glTexImbge2D(texTbrget, 0, formbt,
                      texWidth, texHeight, 0,
-                     format, size, NULL);
+                     formbt, size, NULL);
 
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->isOpbque = isOpbque;
     oglsdo->xOffset = 0;
     oglsdo->yOffset = 0;
     oglsdo->width = width;
@@ -224,157 +224,157 @@ OGLSD_InitTextureObject(OGLSDOps *oglsdo,
     oglsdo->textureID = texID;
     oglsdo->textureWidth = texWidth;
     oglsdo->textureHeight = texHeight;
-    oglsdo->textureTarget = texTarget;
+    oglsdo->textureTbrget = texTbrget;
     OGLSD_INIT_TEXTURE_FILTER(oglsdo, GL_NEAREST);
-    OGLSD_RESET_TEXTURE_WRAP(texTarget);
+    OGLSD_RESET_TEXTURE_WRAP(texTbrget);
 
-    J2dTraceLn3(J2D_TRACE_VERBOSE, "  created texture: w=%d h=%d id=%d",
+    J2dTrbceLn3(J2D_TRACE_VERBOSE, "  crebted texture: w=%d h=%d id=%d",
                 width, height, texID);
 
     return JNI_TRUE;
 }
 
 /**
- * Initializes an OpenGL texture, using the given width and height as
- * a guide.  See OGLSD_InitTextureObject() for more information.
+ * Initiblizes bn OpenGL texture, using the given width bnd height bs
+ * b guide.  See OGLSD_InitTextureObject() for more informbtion.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initTexture
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_OGLSurfbceDbtb_initTexture
     (JNIEnv *env, jobject oglsd,
-     jlong pData, jboolean isOpaque,
-     jboolean texNonPow2, jboolean texRect,
+     jlong pDbtb, jboolebn isOpbque,
+     jboolebn texNonPow2, jboolebn texRect,
      jint width, jint height)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn2(J2D_TRACE_INFO, "OGLSurfaceData_initTexture: w=%d h=%d",
+    J2dTrbceLn2(J2D_TRACE_INFO, "OGLSurfbceDbtb_initTexture: w=%d h=%d",
                 width, height);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initTexture: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initTexture: ops bre null");
         return JNI_FALSE;
     }
 
     /*
-     * We only use the GL_ARB_texture_rectangle extension if it is available
-     * and the requested bounds are not pow2 (it is probably faster to use
-     * GL_TEXTURE_2D for pow2 textures, and besides, our TexturePaint
-     * code relies on GL_REPEAT, which is not allowed for
-     * GL_TEXTURE_RECTANGLE_ARB targets).
+     * We only use the GL_ARB_texture_rectbngle extension if it is bvbilbble
+     * bnd the requested bounds bre not pow2 (it is probbbly fbster to use
+     * GL_TEXTURE_2D for pow2 textures, bnd besides, our TexturePbint
+     * code relies on GL_REPEAT, which is not bllowed for
+     * GL_TEXTURE_RECTANGLE_ARB tbrgets).
      */
     texRect = texRect && !OGLSD_IsPowerOfTwo(width, height);
 
-    if (!OGLSD_InitTextureObject(oglsdo, isOpaque, texNonPow2, texRect,
+    if (!OGLSD_InitTextureObject(oglsdo, isOpbque, texNonPow2, texRect,
                                  width, height))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initTexture: could not init texture object");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initTexture: could not init texture object");
         return JNI_FALSE;
     }
 
-    OGLSD_SetNativeDimensions(env, oglsdo,
+    OGLSD_SetNbtiveDimensions(env, oglsdo,
                               oglsdo->textureWidth, oglsdo->textureHeight);
 
-    oglsdo->drawableType = OGLSD_TEXTURE;
-    // other fields (e.g. width, height) are set in OGLSD_InitTextureObject()
+    oglsdo->drbwbbleType = OGLSD_TEXTURE;
+    // other fields (e.g. width, height) bre set in OGLSD_InitTextureObject()
 
     return JNI_TRUE;
 }
 
 /**
- * Initializes a framebuffer object based on the given textureID and its
- * width/height.  This method will iterate through all possible depth formats
- * to find one that is supported by the drivers/hardware.  (Since our use of
- * the depth buffer is fairly simplistic, we hope to find a depth format that
- * uses as little VRAM as possible.)  If an appropriate depth buffer is found
- * and all attachments are successful (i.e. the framebuffer object is
- * "complete"), then this method will return JNI_TRUE and will initialize
- * the values of fbobjectID and depthID using the IDs created by this method.
- * Otherwise, this method returns JNI_FALSE.  Note that the caller is only
- * responsible for deleting the allocated fbobject and depth renderbuffer
+ * Initiblizes b frbmebuffer object bbsed on the given textureID bnd its
+ * width/height.  This method will iterbte through bll possible depth formbts
+ * to find one thbt is supported by the drivers/hbrdwbre.  (Since our use of
+ * the depth buffer is fbirly simplistic, we hope to find b depth formbt thbt
+ * uses bs little VRAM bs possible.)  If bn bppropribte depth buffer is found
+ * bnd bll bttbchments bre successful (i.e. the frbmebuffer object is
+ * "complete"), then this method will return JNI_TRUE bnd will initiblize
+ * the vblues of fbobjectID bnd depthID using the IDs crebted by this method.
+ * Otherwise, this method returns JNI_FALSE.  Note thbt the cbller is only
+ * responsible for deleting the bllocbted fbobject bnd depth renderbuffer
  * resources if this method returned JNI_TRUE.
  */
-jboolean
+jboolebn
 OGLSD_InitFBObject(GLuint *fbobjectID, GLuint *depthID,
-                   GLuint textureID, GLenum textureTarget,
+                   GLuint textureID, GLenum textureTbrget,
                    jint textureWidth, jint textureHeight)
 {
-    GLenum depthFormats[] = {
+    GLenum depthFormbts[] = {
         GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT24, GL_DEPTH_COMPONENT32
     };
     GLuint fboTmpID, depthTmpID;
-    jboolean foundDepth = JNI_FALSE;
+    jboolebn foundDepth = JNI_FALSE;
     int i;
 
-    J2dTraceLn3(J2D_TRACE_INFO, "OGLSD_InitFBObject: w=%d h=%d texid=%d",
+    J2dTrbceLn3(J2D_TRACE_INFO, "OGLSD_InitFBObject: w=%d h=%d texid=%d",
                 textureWidth, textureHeight, textureID);
 
-    // initialize framebuffer object
-    j2d_glGenFramebuffersEXT(1, &fboTmpID);
-    j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fboTmpID);
+    // initiblize frbmebuffer object
+    j2d_glGenFrbmebuffersEXT(1, &fboTmpID);
+    j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, fboTmpID);
 
-    // attach color texture to framebuffer object
-    j2d_glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
+    // bttbch color texture to frbmebuffer object
+    j2d_glFrbmebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
                                   GL_COLOR_ATTACHMENT0_EXT,
-                                  textureTarget, textureID, 0);
+                                  textureTbrget, textureID, 0);
 
-    // attempt to create a depth renderbuffer of a particular format; we
-    // will start with the smallest size and then work our way up
+    // bttempt to crebte b depth renderbuffer of b pbrticulbr formbt; we
+    // will stbrt with the smbllest size bnd then work our wby up
     for (i = 0; i < 3; i++) {
-        GLenum error, status;
-        GLenum depthFormat = depthFormats[i];
+        GLenum error, stbtus;
+        GLenum depthFormbt = depthFormbts[i];
         int depthSize = 16 + (i * 8);
 
-        // initialize depth renderbuffer
+        // initiblize depth renderbuffer
         j2d_glGenRenderbuffersEXT(1, &depthTmpID);
         j2d_glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthTmpID);
-        j2d_glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthFormat,
+        j2d_glRenderbufferStorbgeEXT(GL_RENDERBUFFER_EXT, depthFormbt,
                                      textureWidth, textureHeight);
 
-        // creation of depth buffer could potentially fail, so check for error
+        // crebtion of depth buffer could potentiblly fbil, so check for error
         error = j2d_glGetError();
         if (error != GL_NO_ERROR) {
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
-                "OGLSD_InitFBObject: could not create depth buffer: depth=%d error=%x",
+            J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                "OGLSD_InitFBObject: could not crebte depth buffer: depth=%d error=%x",
                            depthSize, error);
             j2d_glDeleteRenderbuffersEXT(1, &depthTmpID);
             continue;
         }
 
-        // attach depth renderbuffer to framebuffer object
-        j2d_glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,
+        // bttbch depth renderbuffer to frbmebuffer object
+        j2d_glFrbmebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,
                                          GL_DEPTH_ATTACHMENT_EXT,
                                          GL_RENDERBUFFER_EXT, depthTmpID);
 
-        // now check for framebuffer "completeness"
-        status = j2d_glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        // now check for frbmebuffer "completeness"
+        stbtus = j2d_glCheckFrbmebufferStbtusEXT(GL_FRAMEBUFFER_EXT);
 
-        if (status == GL_FRAMEBUFFER_COMPLETE_EXT) {
-            // we found a valid format, so break out of the loop
-            J2dTraceLn1(J2D_TRACE_VERBOSE,
-                        "  framebuffer is complete: depth=%d", depthSize);
+        if (stbtus == GL_FRAMEBUFFER_COMPLETE_EXT) {
+            // we found b vblid formbt, so brebk out of the loop
+            J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                        "  frbmebuffer is complete: depth=%d", depthSize);
             foundDepth = JNI_TRUE;
-            break;
+            brebk;
         } else {
-            // this depth format didn't work, so delete and try another format
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
-                        "  framebuffer is incomplete: depth=%d status=%x",
-                        depthSize, status);
+            // this depth formbt didn't work, so delete bnd try bnother formbt
+            J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                        "  frbmebuffer is incomplete: depth=%d stbtus=%x",
+                        depthSize, stbtus);
             j2d_glDeleteRenderbuffersEXT(1, &depthTmpID);
         }
     }
 
-    // unbind the texture and framebuffer objects (they will be bound again
-    // later as needed)
-    j2d_glBindTexture(textureTarget, 0);
+    // unbind the texture bnd frbmebuffer objects (they will be bound bgbin
+    // lbter bs needed)
+    j2d_glBindTexture(textureTbrget, 0);
     j2d_glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-    j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
     if (!foundDepth) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSD_InitFBObject: could not find valid depth format");
-        j2d_glDeleteFramebuffersEXT(1, &fboTmpID);
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSD_InitFBObject: could not find vblid depth formbt");
+        j2d_glDeleteFrbmebuffersEXT(1, &fboTmpID);
         return JNI_FALSE;
     }
 
@@ -385,142 +385,142 @@ OGLSD_InitFBObject(GLuint *fbobjectID, GLuint *depthID,
 }
 
 /**
- * Initializes a framebuffer object, using the given width and height as
- * a guide.  See OGLSD_InitTextureObject() and OGLSD_InitFBObject()
- * for more information.
+ * Initiblizes b frbmebuffer object, using the given width bnd height bs
+ * b guide.  See OGLSD_InitTextureObject() bnd OGLSD_InitFBObject()
+ * for more informbtion.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initFBObject
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_OGLSurfbceDbtb_initFBObject
     (JNIEnv *env, jobject oglsd,
-     jlong pData, jboolean isOpaque,
-     jboolean texNonPow2, jboolean texRect,
+     jlong pDbtb, jboolebn isOpbque,
+     jboolebn texNonPow2, jboolebn texRect,
      jint width, jint height)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
     GLuint fbobjectID, depthID;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "OGLSurfaceData_initFBObject: w=%d h=%d",
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "OGLSurfbceDbtb_initFBObject: w=%d h=%d",
                 width, height);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initFBObject: ops bre null");
         return JNI_FALSE;
     }
 
-    // initialize color texture object
-    if (!OGLSD_InitTextureObject(oglsdo, isOpaque, texNonPow2, texRect,
+    // initiblize color texture object
+    if (!OGLSD_InitTextureObject(oglsdo, isOpbque, texNonPow2, texRect,
                                  width, height))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: could not init texture object");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initFBObject: could not init texture object");
         return JNI_FALSE;
     }
 
-    // initialize framebuffer object using color texture created above
+    // initiblize frbmebuffer object using color texture crebted bbove
     if (!OGLSD_InitFBObject(&fbobjectID, &depthID,
-                            oglsdo->textureID, oglsdo->textureTarget,
+                            oglsdo->textureID, oglsdo->textureTbrget,
                             oglsdo->textureWidth, oglsdo->textureHeight))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: could not init fbobject");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initFBObject: could not init fbobject");
         j2d_glDeleteTextures(1, &oglsdo->textureID);
         return JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_FBOBJECT;
-    // other fields (e.g. width, height) are set in OGLSD_InitTextureObject()
+    oglsdo->drbwbbleType = OGLSD_FBOBJECT;
+    // other fields (e.g. width, height) bre set in OGLSD_InitTextureObject()
     oglsdo->fbobjectID = fbobjectID;
     oglsdo->depthID = depthID;
 
-    OGLSD_SetNativeDimensions(env, oglsdo,
+    OGLSD_SetNbtiveDimensions(env, oglsdo,
                               oglsdo->textureWidth, oglsdo->textureHeight);
 
-    // framebuffer objects differ from other OpenGL surfaces in that the
-    // value passed to glRead/DrawBuffer() must be GL_COLOR_ATTACHMENTn_EXT,
-    // rather than GL_FRONT (or GL_BACK)
-    oglsdo->activeBuffer = GL_COLOR_ATTACHMENT0_EXT;
+    // frbmebuffer objects differ from other OpenGL surfbces in thbt the
+    // vblue pbssed to glRebd/DrbwBuffer() must be GL_COLOR_ATTACHMENTn_EXT,
+    // rbther thbn GL_FRONT (or GL_BACK)
+    oglsdo->bctiveBuffer = GL_COLOR_ATTACHMENT0_EXT;
 
     return JNI_TRUE;
 }
 
 /**
- * Initializes a surface in the backbuffer of a given double-buffered
- * onscreen window for use in a BufferStrategy.Flip situation.  The bounds of
- * the backbuffer surface should always be kept in sync with the bounds of
- * the underlying native window.
+ * Initiblizes b surfbce in the bbckbuffer of b given double-buffered
+ * onscreen window for use in b BufferStrbtegy.Flip situbtion.  The bounds of
+ * the bbckbuffer surfbce should blwbys be kept in sync with the bounds of
+ * the underlying nbtive window.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initFlipBackbuffer
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_OGLSurfbceDbtb_initFlipBbckbuffer
     (JNIEnv *env, jobject oglsd,
-     jlong pData)
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_initFlipBackbuffer");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSurfbceDbtb_initFlipBbckbuffer");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFlipBackbuffer: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initFlipBbckbuffer: ops bre null");
         return JNI_FALSE;
     }
 
-    if (oglsdo->drawableType == OGLSD_UNDEFINED) {
+    if (oglsdo->drbwbbleType == OGLSD_UNDEFINED) {
         if (!OGLSD_InitOGLWindow(env, oglsdo)) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "OGLSurfaceData_initFlipBackbuffer: could not init window");
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                "OGLSurfbceDbtb_initFlipBbckbuffer: could not init window");
             return JNI_FALSE;
         }
     }
 
-    if (oglsdo->drawableType != OGLSD_WINDOW) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFlipBackbuffer: drawable is not a window");
+    if (oglsdo->drbwbbleType != OGLSD_WINDOW) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_initFlipBbckbuffer: drbwbble is not b window");
         return JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_FLIP_BACKBUFFER;
-    // x/yOffset have already been set in OGLSD_InitOGLWindow()...
-    // REMIND: for some reason, flipping won't work properly on IFB unless we
-    //         explicitly use BACK_LEFT rather than BACK...
-    oglsdo->activeBuffer = GL_BACK_LEFT;
+    oglsdo->drbwbbleType = OGLSD_FLIP_BACKBUFFER;
+    // x/yOffset hbve blrebdy been set in OGLSD_InitOGLWindow()...
+    // REMIND: for some rebson, flipping won't work properly on IFB unless we
+    //         explicitly use BACK_LEFT rbther thbn BACK...
+    oglsdo->bctiveBuffer = GL_BACK_LEFT;
 
-    OGLSD_SetNativeDimensions(env, oglsdo, oglsdo->width, oglsdo->height);
+    OGLSD_SetNbtiveDimensions(env, oglsdo, oglsdo->width, oglsdo->height);
 
     return JNI_TRUE;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_getTextureTarget
+Jbvb_sun_jbvb2d_opengl_OGLSurfbceDbtb_getTextureTbrget
     (JNIEnv *env, jobject oglsd,
-     jlong pData)
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_getTextureTarget");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSurfbceDbtb_getTextureTbrget");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_getTextureTarget: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_getTextureTbrget: ops bre null");
         return 0;
     }
 
-    return (jint)oglsdo->textureTarget;
+    return (jint)oglsdo->textureTbrget;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_getTextureID
+Jbvb_sun_jbvb2d_opengl_OGLSurfbceDbtb_getTextureID
     (JNIEnv *env, jobject oglsd,
-     jlong pData)
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_getTextureID");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSurfbceDbtb_getTextureID");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_getTextureID: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLSurfbceDbtb_getTextureID: ops bre null");
         return 0L;
     }
 
@@ -528,43 +528,43 @@ Java_sun_java2d_opengl_OGLSurfaceData_getTextureID
 }
 
 /**
- * Initializes nativeWidth/Height fields of the surfaceData object with
- * passed arguments.
+ * Initiblizes nbtiveWidth/Height fields of the surfbceDbtb object with
+ * pbssed brguments.
  */
 void
-OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo,
+OGLSD_SetNbtiveDimensions(JNIEnv *env, OGLSDOps *oglsdo,
                           jint width, jint height)
 {
     jobject sdObject;
 
-    sdObject = (*env)->NewLocalRef(env, oglsdo->sdOps.sdObject);
+    sdObject = (*env)->NewLocblRef(env, oglsdo->sdOps.sdObject);
     if (sdObject == NULL) {
         return;
     }
 
-    JNU_SetFieldByName(env, NULL, sdObject, "nativeWidth", "I", width);
+    JNU_SetFieldByNbme(env, NULL, sdObject, "nbtiveWidth", "I", width);
     if (!((*env)->ExceptionOccurred(env))) {
-        JNU_SetFieldByName(env, NULL, sdObject, "nativeHeight", "I", height);
+        JNU_SetFieldByNbme(env, NULL, sdObject, "nbtiveHeight", "I", height);
     }
 
-    (*env)->DeleteLocalRef(env, sdObject);
+    (*env)->DeleteLocblRef(env, sdObject);
 }
 
 /**
- * Deletes native OpenGL resources associated with this surface.
+ * Deletes nbtive OpenGL resources bssocibted with this surfbce.
  */
 void
 OGLSD_Delete(JNIEnv *env, OGLSDOps *oglsdo)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "OGLSD_Delete: type=%d",
-                oglsdo->drawableType);
+    J2dTrbceLn1(J2D_TRACE_INFO, "OGLSD_Delete: type=%d",
+                oglsdo->drbwbbleType);
 
-    if (oglsdo->drawableType == OGLSD_TEXTURE) {
+    if (oglsdo->drbwbbleType == OGLSD_TEXTURE) {
         if (oglsdo->textureID != 0) {
             j2d_glDeleteTextures(1, &oglsdo->textureID);
             oglsdo->textureID = 0;
         }
-    } else if (oglsdo->drawableType == OGLSD_FBOBJECT) {
+    } else if (oglsdo->drbwbbleType == OGLSD_FBOBJECT) {
         if (oglsdo->textureID != 0) {
             j2d_glDeleteTextures(1, &oglsdo->textureID);
             oglsdo->textureID = 0;
@@ -574,68 +574,68 @@ OGLSD_Delete(JNIEnv *env, OGLSDOps *oglsdo)
             oglsdo->depthID = 0;
         }
         if (oglsdo->fbobjectID != 0) {
-            j2d_glDeleteFramebuffersEXT(1, &oglsdo->fbobjectID);
+            j2d_glDeleteFrbmebuffersEXT(1, &oglsdo->fbobjectID);
             oglsdo->fbobjectID = 0;
         }
     } else {
-        // dispose windowing system resources (pbuffer, pixmap, etc)
-        OGLSD_DestroyOGLSurface(env, oglsdo);
+        // dispose windowing system resources (pbuffer, pixmbp, etc)
+        OGLSD_DestroyOGLSurfbce(env, oglsdo);
     }
 }
 
 /**
- * This is the implementation of the general DisposeFunc defined in
- * SurfaceData.h and used by the Disposer mechanism.  It first flushes all
- * native OpenGL resources and then frees any memory allocated within the
- * native OGLSDOps structure.
+ * This is the implementbtion of the generbl DisposeFunc defined in
+ * SurfbceDbtb.h bnd used by the Disposer mechbnism.  It first flushes bll
+ * nbtive OpenGL resources bnd then frees bny memory bllocbted within the
+ * nbtive OGLSDOps structure.
  */
 void
-OGLSD_Dispose(JNIEnv *env, SurfaceDataOps *ops)
+OGLSD_Dispose(JNIEnv *env, SurfbceDbtbOps *ops)
 {
     OGLSDOps *oglsdo = (OGLSDOps *)ops;
-    jlong pConfigInfo = OGLSD_GetNativeConfigInfo(oglsdo);
+    jlong pConfigInfo = OGLSD_GetNbtiveConfigInfo(oglsdo);
 
-    JNU_CallStaticMethodByName(env, NULL, "sun/java2d/opengl/OGLSurfaceData",
+    JNU_CbllStbticMethodByNbme(env, NULL, "sun/jbvb2d/opengl/OGLSurfbceDbtb",
                                "dispose", "(JJ)V",
                                ptr_to_jlong(ops), pConfigInfo);
 }
 
 /**
- * This is the implementation of the general surface LockFunc defined in
- * SurfaceData.h.
+ * This is the implementbtion of the generbl surfbce LockFunc defined in
+ * SurfbceDbtb.h.
  */
 jint
 OGLSD_Lock(JNIEnv *env,
-           SurfaceDataOps *ops,
-           SurfaceDataRasInfo *pRasInfo,
-           jint lockflags)
+           SurfbceDbtbOps *ops,
+           SurfbceDbtbRbsInfo *pRbsInfo,
+           jint lockflbgs)
 {
-    JNU_ThrowInternalError(env, "OGLSD_Lock not implemented!");
+    JNU_ThrowInternblError(env, "OGLSD_Lock not implemented!");
     return SD_FAILURE;
 }
 
 /**
- * This is the implementation of the general GetRasInfoFunc defined in
- * SurfaceData.h.
+ * This is the implementbtion of the generbl GetRbsInfoFunc defined in
+ * SurfbceDbtb.h.
  */
 void
-OGLSD_GetRasInfo(JNIEnv *env,
-                 SurfaceDataOps *ops,
-                 SurfaceDataRasInfo *pRasInfo)
+OGLSD_GetRbsInfo(JNIEnv *env,
+                 SurfbceDbtbOps *ops,
+                 SurfbceDbtbRbsInfo *pRbsInfo)
 {
-    JNU_ThrowInternalError(env, "OGLSD_GetRasInfo not implemented!");
+    JNU_ThrowInternblError(env, "OGLSD_GetRbsInfo not implemented!");
 }
 
 /**
- * This is the implementation of the general surface UnlockFunc defined in
- * SurfaceData.h.
+ * This is the implementbtion of the generbl surfbce UnlockFunc defined in
+ * SurfbceDbtb.h.
  */
 void
 OGLSD_Unlock(JNIEnv *env,
-             SurfaceDataOps *ops,
-             SurfaceDataRasInfo *pRasInfo)
+             SurfbceDbtbOps *ops,
+             SurfbceDbtbRbsInfo *pRbsInfo)
 {
-    JNU_ThrowInternalError(env, "OGLSD_Unlock not implemented!");
+    JNU_ThrowInternblError(env, "OGLSD_Unlock not implemented!");
 }
 
 #endif /* !HEADLESS */

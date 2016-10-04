@@ -1,480 +1,480 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.LongConsumer;
 
 /**
- * An immutable container for describing an ordered sequence of elements of some
+ * An immutbble contbiner for describing bn ordered sequence of elements of some
  * type {@code T}.
  *
- * <p>A {@code Node} contains a fixed number of elements, which can be accessed
- * via the {@link #count}, {@link #spliterator}, {@link #forEach},
- * {@link #asArray}, or {@link #copyInto} methods.  A {@code Node} may have zero
- * or more child {@code Node}s; if it has no children (accessed via
- * {@link #getChildCount} and {@link #getChild(int)}, it is considered <em>flat
- * </em> or a <em>leaf</em>; if it has children, it is considered an
- * <em>internal</em> node.  The size of an internal node is the sum of sizes of
+ * <p>A {@code Node} contbins b fixed number of elements, which cbn be bccessed
+ * vib the {@link #count}, {@link #spliterbtor}, {@link #forEbch},
+ * {@link #bsArrby}, or {@link #copyInto} methods.  A {@code Node} mby hbve zero
+ * or more child {@code Node}s; if it hbs no children (bccessed vib
+ * {@link #getChildCount} bnd {@link #getChild(int)}, it is considered <em>flbt
+ * </em> or b <em>lebf</em>; if it hbs children, it is considered bn
+ * <em>internbl</em> node.  The size of bn internbl node is the sum of sizes of
  * its children.
  *
- * @apiNote
- * <p>A {@code Node} typically does not store the elements directly, but instead
- * mediates access to one or more existing (effectively immutable) data
- * structures such as a {@code Collection}, array, or a set of other
- * {@code Node}s.  Commonly {@code Node}s are formed into a tree whose shape
- * corresponds to the computation tree that produced the elements that are
- * contained in the leaf nodes.  The use of {@code Node} within the stream
- * framework is largely to avoid copying data unnecessarily during parallel
- * operations.
+ * @bpiNote
+ * <p>A {@code Node} typicblly does not store the elements directly, but instebd
+ * medibtes bccess to one or more existing (effectively immutbble) dbtb
+ * structures such bs b {@code Collection}, brrby, or b set of other
+ * {@code Node}s.  Commonly {@code Node}s bre formed into b tree whose shbpe
+ * corresponds to the computbtion tree thbt produced the elements thbt bre
+ * contbined in the lebf nodes.  The use of {@code Node} within the strebm
+ * frbmework is lbrgely to bvoid copying dbtb unnecessbrily during pbrbllel
+ * operbtions.
  *
- * @param <T> the type of elements.
+ * @pbrbm <T> the type of elements.
  * @since 1.8
  */
-interface Node<T> {
+interfbce Node<T> {
 
     /**
-     * Returns a {@link Spliterator} describing the elements contained in this
+     * Returns b {@link Spliterbtor} describing the elements contbined in this
      * {@code Node}.
      *
-     * @return a {@code Spliterator} describing the elements contained in this
+     * @return b {@code Spliterbtor} describing the elements contbined in this
      *         {@code Node}
      */
-    Spliterator<T> spliterator();
+    Spliterbtor<T> spliterbtor();
 
     /**
-     * Traverses the elements of this node, and invoke the provided
-     * {@code Consumer} with each element.  Elements are provided in encounter
-     * order if the source for the {@code Node} has a defined encounter order.
+     * Trbverses the elements of this node, bnd invoke the provided
+     * {@code Consumer} with ebch element.  Elements bre provided in encounter
+     * order if the source for the {@code Node} hbs b defined encounter order.
      *
-     * @param consumer a {@code Consumer} that is to be invoked with each
+     * @pbrbm consumer b {@code Consumer} thbt is to be invoked with ebch
      *        element in this {@code Node}
      */
-    void forEach(Consumer<? super T> consumer);
+    void forEbch(Consumer<? super T> consumer);
 
     /**
      * Returns the number of child nodes of this node.
      *
-     * @implSpec The default implementation returns zero.
+     * @implSpec The defbult implementbtion returns zero.
      *
      * @return the number of child nodes
      */
-    default int getChildCount() {
+    defbult int getChildCount() {
         return 0;
     }
 
     /**
-     * Retrieves the child {@code Node} at a given index.
+     * Retrieves the child {@code Node} bt b given index.
      *
-     * @implSpec The default implementation always throws
+     * @implSpec The defbult implementbtion blwbys throws
      * {@code IndexOutOfBoundsException}.
      *
-     * @param i the index to the child node
+     * @pbrbm i the index to the child node
      * @return the child node
-     * @throws IndexOutOfBoundsException if the index is less than 0 or greater
-     *         than or equal to the number of child nodes
+     * @throws IndexOutOfBoundsException if the index is less thbn 0 or grebter
+     *         thbn or equbl to the number of child nodes
      */
-    default Node<T> getChild(int i) {
+    defbult Node<T> getChild(int i) {
         throw new IndexOutOfBoundsException();
     }
 
     /**
-     * Return a node describing a subsequence of the elements of this node,
-     * starting at the given inclusive start offset and ending at the given
+     * Return b node describing b subsequence of the elements of this node,
+     * stbrting bt the given inclusive stbrt offset bnd ending bt the given
      * exclusive end offset.
      *
-     * @param from The (inclusive) starting offset of elements to include, must
-     *             be in range 0..count().
-     * @param to The (exclusive) end offset of elements to include, must be
-     *           in range 0..count().
-     * @param generator A function to be used to create a new array, if needed,
+     * @pbrbm from The (inclusive) stbrting offset of elements to include, must
+     *             be in rbnge 0..count().
+     * @pbrbm to The (exclusive) end offset of elements to include, must be
+     *           in rbnge 0..count().
+     * @pbrbm generbtor A function to be used to crebte b new brrby, if needed,
      *                  for reference nodes.
-     * @return the truncated node
+     * @return the truncbted node
      */
-    default Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
+    defbult Node<T> truncbte(long from, long to, IntFunction<T[]> generbtor) {
         if (from == 0 && to == count())
             return this;
-        Spliterator<T> spliterator = spliterator();
+        Spliterbtor<T> spliterbtor = spliterbtor();
         long size = to - from;
-        Node.Builder<T> nodeBuilder = Nodes.builder(size, generator);
+        Node.Builder<T> nodeBuilder = Nodes.builder(size, generbtor);
         nodeBuilder.begin(size);
-        for (int i = 0; i < from && spliterator.tryAdvance(e -> { }); i++) { }
-        for (int i = 0; (i < size) && spliterator.tryAdvance(nodeBuilder); i++) { }
+        for (int i = 0; i < from && spliterbtor.tryAdvbnce(e -> { }); i++) { }
+        for (int i = 0; (i < size) && spliterbtor.tryAdvbnce(nodeBuilder); i++) { }
         nodeBuilder.end();
         return nodeBuilder.build();
     }
 
     /**
-     * Provides an array view of the contents of this node.
+     * Provides bn brrby view of the contents of this node.
      *
-     * <p>Depending on the underlying implementation, this may return a
-     * reference to an internal array rather than a copy.  Since the returned
-     * array may be shared, the returned array should not be modified.  The
-     * {@code generator} function may be consulted to create the array if a new
-     * array needs to be created.
+     * <p>Depending on the underlying implementbtion, this mby return b
+     * reference to bn internbl brrby rbther thbn b copy.  Since the returned
+     * brrby mby be shbred, the returned brrby should not be modified.  The
+     * {@code generbtor} function mby be consulted to crebte the brrby if b new
+     * brrby needs to be crebted.
      *
-     * @param generator a factory function which takes an integer parameter and
-     *        returns a new, empty array of that size and of the appropriate
-     *        array type
-     * @return an array containing the contents of this {@code Node}
+     * @pbrbm generbtor b fbctory function which tbkes bn integer pbrbmeter bnd
+     *        returns b new, empty brrby of thbt size bnd of the bppropribte
+     *        brrby type
+     * @return bn brrby contbining the contents of this {@code Node}
      */
-    T[] asArray(IntFunction<T[]> generator);
+    T[] bsArrby(IntFunction<T[]> generbtor);
 
     /**
-     * Copies the content of this {@code Node} into an array, starting at a
-     * given offset into the array.  It is the caller's responsibility to ensure
-     * there is sufficient room in the array, otherwise unspecified behaviour
-     * will occur if the array length is less than the number of elements
-     * contained in this node.
+     * Copies the content of this {@code Node} into bn brrby, stbrting bt b
+     * given offset into the brrby.  It is the cbller's responsibility to ensure
+     * there is sufficient room in the brrby, otherwise unspecified behbviour
+     * will occur if the brrby length is less thbn the number of elements
+     * contbined in this node.
      *
-     * @param array the array into which to copy the contents of this
+     * @pbrbm brrby the brrby into which to copy the contents of this
      *       {@code Node}
-     * @param offset the starting offset within the array
-     * @throws IndexOutOfBoundsException if copying would cause access of data
-     *         outside array bounds
-     * @throws NullPointerException if {@code array} is {@code null}
+     * @pbrbm offset the stbrting offset within the brrby
+     * @throws IndexOutOfBoundsException if copying would cbuse bccess of dbtb
+     *         outside brrby bounds
+     * @throws NullPointerException if {@code brrby} is {@code null}
      */
-    void copyInto(T[] array, int offset);
+    void copyInto(T[] brrby, int offset);
 
     /**
-     * Gets the {@code StreamShape} associated with this {@code Node}.
+     * Gets the {@code StrebmShbpe} bssocibted with this {@code Node}.
      *
-     * @implSpec The default in {@code Node} returns
-     * {@code StreamShape.REFERENCE}
+     * @implSpec The defbult in {@code Node} returns
+     * {@code StrebmShbpe.REFERENCE}
      *
-     * @return the stream shape associated with this node
+     * @return the strebm shbpe bssocibted with this node
      */
-    default StreamShape getShape() {
-        return StreamShape.REFERENCE;
+    defbult StrebmShbpe getShbpe() {
+        return StrebmShbpe.REFERENCE;
     }
 
     /**
-     * Returns the number of elements contained in this node.
+     * Returns the number of elements contbined in this node.
      *
-     * @return the number of elements contained in this node
+     * @return the number of elements contbined in this node
      */
     long count();
 
     /**
-     * A mutable builder for a {@code Node} that implements {@link Sink}, which
-     * builds a flat node containing the elements that have been pushed to it.
+     * A mutbble builder for b {@code Node} thbt implements {@link Sink}, which
+     * builds b flbt node contbining the elements thbt hbve been pushed to it.
      */
-    interface Builder<T> extends Sink<T> {
+    interfbce Builder<T> extends Sink<T> {
 
         /**
-         * Builds the node.  Should be called after all elements have been
-         * pushed and signalled with an invocation of {@link Sink#end()}.
+         * Builds the node.  Should be cblled bfter bll elements hbve been
+         * pushed bnd signblled with bn invocbtion of {@link Sink#end()}.
          *
          * @return the resulting {@code Node}
          */
         Node<T> build();
 
         /**
-         * Specialized @{code Node.Builder} for int elements
+         * Speciblized @{code Node.Builder} for int elements
          */
-        interface OfInt extends Node.Builder<Integer>, Sink.OfInt {
+        interfbce OfInt extends Node.Builder<Integer>, Sink.OfInt {
             @Override
             Node.OfInt build();
         }
 
         /**
-         * Specialized @{code Node.Builder} for long elements
+         * Speciblized @{code Node.Builder} for long elements
          */
-        interface OfLong extends Node.Builder<Long>, Sink.OfLong {
+        interfbce OfLong extends Node.Builder<Long>, Sink.OfLong {
             @Override
             Node.OfLong build();
         }
 
         /**
-         * Specialized @{code Node.Builder} for double elements
+         * Speciblized @{code Node.Builder} for double elements
          */
-        interface OfDouble extends Node.Builder<Double>, Sink.OfDouble {
+        interfbce OfDouble extends Node.Builder<Double>, Sink.OfDouble {
             @Override
             Node.OfDouble build();
         }
     }
 
-    public interface OfPrimitive<T, T_CONS, T_ARR,
-                                 T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>,
+    public interfbce OfPrimitive<T, T_CONS, T_ARR,
+                                 T_SPLITR extends Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR>,
                                  T_NODE extends OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>>
             extends Node<T> {
 
         /**
          * {@inheritDoc}
          *
-         * @return a {@link Spliterator.OfPrimitive} describing the elements of
+         * @return b {@link Spliterbtor.OfPrimitive} describing the elements of
          *         this node
          */
         @Override
-        T_SPLITR spliterator();
+        T_SPLITR spliterbtor();
 
         /**
-         * Traverses the elements of this node, and invoke the provided
-         * {@code action} with each element.
+         * Trbverses the elements of this node, bnd invoke the provided
+         * {@code bction} with ebch element.
          *
-         * @param action a consumer that is to be invoked with each
+         * @pbrbm bction b consumer thbt is to be invoked with ebch
          *        element in this {@code Node.OfPrimitive}
          */
-        @SuppressWarnings("overloads")
-        void forEach(T_CONS action);
+        @SuppressWbrnings("overlobds")
+        void forEbch(T_CONS bction);
 
         @Override
-        default T_NODE getChild(int i) {
+        defbult T_NODE getChild(int i) {
             throw new IndexOutOfBoundsException();
         }
 
-        T_NODE truncate(long from, long to, IntFunction<T[]> generator);
+        T_NODE truncbte(long from, long to, IntFunction<T[]> generbtor);
 
         /**
          * {@inheritDoc}
          *
-         * @implSpec the default implementation invokes the generator to create
-         * an instance of a boxed primitive array with a length of
-         * {@link #count()} and then invokes {@link #copyInto(T[], int)} with
-         * that array at an offset of 0.
+         * @implSpec the defbult implementbtion invokes the generbtor to crebte
+         * bn instbnce of b boxed primitive brrby with b length of
+         * {@link #count()} bnd then invokes {@link #copyInto(T[], int)} with
+         * thbt brrby bt bn offset of 0.
          */
         @Override
-        default T[] asArray(IntFunction<T[]> generator) {
-            if (java.util.stream.Tripwire.ENABLED)
-                java.util.stream.Tripwire.trip(getClass(), "{0} calling Node.OfPrimitive.asArray");
+        defbult T[] bsArrby(IntFunction<T[]> generbtor) {
+            if (jbvb.util.strebm.Tripwire.ENABLED)
+                jbvb.util.strebm.Tripwire.trip(getClbss(), "{0} cblling Node.OfPrimitive.bsArrby");
 
             long size = count();
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            T[] boxed = generator.apply((int) count());
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            T[] boxed = generbtor.bpply((int) count());
             copyInto(boxed, 0);
             return boxed;
         }
 
         /**
-         * Views this node as a primitive array.
+         * Views this node bs b primitive brrby.
          *
-         * <p>Depending on the underlying implementation this may return a
-         * reference to an internal array rather than a copy.  It is the callers
-         * responsibility to decide if either this node or the array is utilized
-         * as the primary reference for the data.</p>
+         * <p>Depending on the underlying implementbtion this mby return b
+         * reference to bn internbl brrby rbther thbn b copy.  It is the cbllers
+         * responsibility to decide if either this node or the brrby is utilized
+         * bs the primbry reference for the dbtb.</p>
          *
-         * @return an array containing the contents of this {@code Node}
+         * @return bn brrby contbining the contents of this {@code Node}
          */
-        T_ARR asPrimitiveArray();
+        T_ARR bsPrimitiveArrby();
 
         /**
-         * Creates a new primitive array.
+         * Crebtes b new primitive brrby.
          *
-         * @param count the length of the primitive array.
-         * @return the new primitive array.
+         * @pbrbm count the length of the primitive brrby.
+         * @return the new primitive brrby.
          */
-        T_ARR newArray(int count);
+        T_ARR newArrby(int count);
 
         /**
-         * Copies the content of this {@code Node} into a primitive array,
-         * starting at a given offset into the array.  It is the caller's
-         * responsibility to ensure there is sufficient room in the array.
+         * Copies the content of this {@code Node} into b primitive brrby,
+         * stbrting bt b given offset into the brrby.  It is the cbller's
+         * responsibility to ensure there is sufficient room in the brrby.
          *
-         * @param array the array into which to copy the contents of this
+         * @pbrbm brrby the brrby into which to copy the contents of this
          *              {@code Node}
-         * @param offset the starting offset within the array
-         * @throws IndexOutOfBoundsException if copying would cause access of
-         *         data outside array bounds
-         * @throws NullPointerException if {@code array} is {@code null}
+         * @pbrbm offset the stbrting offset within the brrby
+         * @throws IndexOutOfBoundsException if copying would cbuse bccess of
+         *         dbtb outside brrby bounds
+         * @throws NullPointerException if {@code brrby} is {@code null}
          */
-        void copyInto(T_ARR array, int offset);
+        void copyInto(T_ARR brrby, int offset);
     }
 
     /**
-     * Specialized {@code Node} for int elements
+     * Speciblized {@code Node} for int elements
      */
-    interface OfInt extends OfPrimitive<Integer, IntConsumer, int[], Spliterator.OfInt, OfInt> {
+    interfbce OfInt extends OfPrimitive<Integer, IntConsumer, int[], Spliterbtor.OfInt, OfInt> {
 
         /**
          * {@inheritDoc}
          *
-         * @param consumer a {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code IntConsumer}, it is cast to {@code IntConsumer} so the
-         *        elements may be processed without boxing.
+         * @pbrbm consumer b {@code Consumer} thbt is to be invoked with ebch
+         *        element in this {@code Node}.  If this is bn
+         *        {@code IntConsumer}, it is cbst to {@code IntConsumer} so the
+         *        elements mby be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Integer> consumer) {
-            if (consumer instanceof IntConsumer) {
-                forEach((IntConsumer) consumer);
+        defbult void forEbch(Consumer<? super Integer> consumer) {
+            if (consumer instbnceof IntConsumer) {
+                forEbch((IntConsumer) consumer);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                    Tripwire.trip(getClbss(), "{0} cblling Node.OfInt.forEbchRembining(Consumer)");
+                spliterbtor().forEbchRembining(consumer);
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * @implSpec the default implementation invokes {@link #asPrimitiveArray()} to
-         * obtain an int[] array then and copies the elements from that int[]
-         * array into the boxed Integer[] array.  This is not efficient and it
+         * @implSpec the defbult implementbtion invokes {@link #bsPrimitiveArrby()} to
+         * obtbin bn int[] brrby then bnd copies the elements from thbt int[]
+         * brrby into the boxed Integer[] brrby.  This is not efficient bnd it
          * is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        default void copyInto(Integer[] boxed, int offset) {
+        defbult void copyInto(Integer[] boxed, int offset) {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Node.OfInt.copyInto(Integer[], int)");
+                Tripwire.trip(getClbss(), "{0} cblling Node.OfInt.copyInto(Integer[], int)");
 
-            int[] array = asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
+            int[] brrby = bsPrimitiveArrby();
+            for (int i = 0; i < brrby.length; i++) {
+                boxed[offset + i] = brrby[i];
             }
         }
 
         @Override
-        default Node.OfInt truncate(long from, long to, IntFunction<Integer[]> generator) {
+        defbult Node.OfInt truncbte(long from, long to, IntFunction<Integer[]> generbtor) {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfInt spliterator = spliterator();
+            Spliterbtor.OfInt spliterbtor = spliterbtor();
             Node.Builder.OfInt nodeBuilder = Nodes.intBuilder(size);
             nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((IntConsumer) e -> { }); i++) { }
-            for (int i = 0; (i < size) && spliterator.tryAdvance((IntConsumer) nodeBuilder); i++) { }
+            for (int i = 0; i < from && spliterbtor.tryAdvbnce((IntConsumer) e -> { }); i++) { }
+            for (int i = 0; (i < size) && spliterbtor.tryAdvbnce((IntConsumer) nodeBuilder); i++) { }
             nodeBuilder.end();
             return nodeBuilder.build();
         }
 
         @Override
-        default int[] newArray(int count) {
+        defbult int[] newArrby(int count) {
             return new int[count];
         }
 
         /**
          * {@inheritDoc}
-         * @implSpec The default in {@code Node.OfInt} returns
-         * {@code StreamShape.INT_VALUE}
+         * @implSpec The defbult in {@code Node.OfInt} returns
+         * {@code StrebmShbpe.INT_VALUE}
          */
-        default StreamShape getShape() {
-            return StreamShape.INT_VALUE;
+        defbult StrebmShbpe getShbpe() {
+            return StrebmShbpe.INT_VALUE;
         }
     }
 
     /**
-     * Specialized {@code Node} for long elements
+     * Speciblized {@code Node} for long elements
      */
-    interface OfLong extends OfPrimitive<Long, LongConsumer, long[], Spliterator.OfLong, OfLong> {
+    interfbce OfLong extends OfPrimitive<Long, LongConsumer, long[], Spliterbtor.OfLong, OfLong> {
 
         /**
          * {@inheritDoc}
          *
-         * @param consumer A {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code LongConsumer}, it is cast to {@code LongConsumer} so
-         *        the elements may be processed without boxing.
+         * @pbrbm consumer A {@code Consumer} thbt is to be invoked with ebch
+         *        element in this {@code Node}.  If this is bn
+         *        {@code LongConsumer}, it is cbst to {@code LongConsumer} so
+         *        the elements mby be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Long> consumer) {
-            if (consumer instanceof LongConsumer) {
-                forEach((LongConsumer) consumer);
+        defbult void forEbch(Consumer<? super Long> consumer) {
+            if (consumer instbnceof LongConsumer) {
+                forEbch((LongConsumer) consumer);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                    Tripwire.trip(getClbss(), "{0} cblling Node.OfLong.forEbchRembining(Consumer)");
+                spliterbtor().forEbchRembining(consumer);
             }
         }
 
         /**
          * {@inheritDoc}
          *
-         * @implSpec the default implementation invokes {@link #asPrimitiveArray()}
-         * to obtain a long[] array then and copies the elements from that
-         * long[] array into the boxed Long[] array.  This is not efficient and
+         * @implSpec the defbult implementbtion invokes {@link #bsPrimitiveArrby()}
+         * to obtbin b long[] brrby then bnd copies the elements from thbt
+         * long[] brrby into the boxed Long[] brrby.  This is not efficient bnd
          * it is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        default void copyInto(Long[] boxed, int offset) {
+        defbult void copyInto(Long[] boxed, int offset) {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Node.OfInt.copyInto(Long[], int)");
+                Tripwire.trip(getClbss(), "{0} cblling Node.OfInt.copyInto(Long[], int)");
 
-            long[] array = asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
+            long[] brrby = bsPrimitiveArrby();
+            for (int i = 0; i < brrby.length; i++) {
+                boxed[offset + i] = brrby[i];
             }
         }
 
         @Override
-        default Node.OfLong truncate(long from, long to, IntFunction<Long[]> generator) {
+        defbult Node.OfLong truncbte(long from, long to, IntFunction<Long[]> generbtor) {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfLong spliterator = spliterator();
+            Spliterbtor.OfLong spliterbtor = spliterbtor();
             Node.Builder.OfLong nodeBuilder = Nodes.longBuilder(size);
             nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((LongConsumer) e -> { }); i++) { }
-            for (int i = 0; (i < size) && spliterator.tryAdvance((LongConsumer) nodeBuilder); i++) { }
+            for (int i = 0; i < from && spliterbtor.tryAdvbnce((LongConsumer) e -> { }); i++) { }
+            for (int i = 0; (i < size) && spliterbtor.tryAdvbnce((LongConsumer) nodeBuilder); i++) { }
             nodeBuilder.end();
             return nodeBuilder.build();
         }
 
         @Override
-        default long[] newArray(int count) {
+        defbult long[] newArrby(int count) {
             return new long[count];
         }
 
         /**
          * {@inheritDoc}
-         * @implSpec The default in {@code Node.OfLong} returns
-         * {@code StreamShape.LONG_VALUE}
+         * @implSpec The defbult in {@code Node.OfLong} returns
+         * {@code StrebmShbpe.LONG_VALUE}
          */
-        default StreamShape getShape() {
-            return StreamShape.LONG_VALUE;
+        defbult StrebmShbpe getShbpe() {
+            return StrebmShbpe.LONG_VALUE;
         }
     }
 
     /**
-     * Specialized {@code Node} for double elements
+     * Speciblized {@code Node} for double elements
      */
-    interface OfDouble extends OfPrimitive<Double, DoubleConsumer, double[], Spliterator.OfDouble, OfDouble> {
+    interfbce OfDouble extends OfPrimitive<Double, DoubleConsumer, double[], Spliterbtor.OfDouble, OfDouble> {
 
         /**
          * {@inheritDoc}
          *
-         * @param consumer A {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code DoubleConsumer}, it is cast to {@code DoubleConsumer}
-         *        so the elements may be processed without boxing.
+         * @pbrbm consumer A {@code Consumer} thbt is to be invoked with ebch
+         *        element in this {@code Node}.  If this is bn
+         *        {@code DoubleConsumer}, it is cbst to {@code DoubleConsumer}
+         *        so the elements mby be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Double> consumer) {
-            if (consumer instanceof DoubleConsumer) {
-                forEach((DoubleConsumer) consumer);
+        defbult void forEbch(Consumer<? super Double> consumer) {
+            if (consumer instbnceof DoubleConsumer) {
+                forEbch((DoubleConsumer) consumer);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                    Tripwire.trip(getClbss(), "{0} cblling Node.OfLong.forEbchRembining(Consumer)");
+                spliterbtor().forEbchRembining(consumer);
             }
         }
 
@@ -483,49 +483,49 @@ interface Node<T> {
         /**
          * {@inheritDoc}
          *
-         * @implSpec the default implementation invokes {@link #asPrimitiveArray()}
-         * to obtain a double[] array then and copies the elements from that
-         * double[] array into the boxed Double[] array.  This is not efficient
-         * and it is recommended to invoke {@link #copyInto(Object, int)}.
+         * @implSpec the defbult implementbtion invokes {@link #bsPrimitiveArrby()}
+         * to obtbin b double[] brrby then bnd copies the elements from thbt
+         * double[] brrby into the boxed Double[] brrby.  This is not efficient
+         * bnd it is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        default void copyInto(Double[] boxed, int offset) {
+        defbult void copyInto(Double[] boxed, int offset) {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Node.OfDouble.copyInto(Double[], int)");
+                Tripwire.trip(getClbss(), "{0} cblling Node.OfDouble.copyInto(Double[], int)");
 
-            double[] array = asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
+            double[] brrby = bsPrimitiveArrby();
+            for (int i = 0; i < brrby.length; i++) {
+                boxed[offset + i] = brrby[i];
             }
         }
 
         @Override
-        default Node.OfDouble truncate(long from, long to, IntFunction<Double[]> generator) {
+        defbult Node.OfDouble truncbte(long from, long to, IntFunction<Double[]> generbtor) {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfDouble spliterator = spliterator();
+            Spliterbtor.OfDouble spliterbtor = spliterbtor();
             Node.Builder.OfDouble nodeBuilder = Nodes.doubleBuilder(size);
             nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((DoubleConsumer) e -> { }); i++) { }
-            for (int i = 0; (i < size) && spliterator.tryAdvance((DoubleConsumer) nodeBuilder); i++) { }
+            for (int i = 0; i < from && spliterbtor.tryAdvbnce((DoubleConsumer) e -> { }); i++) { }
+            for (int i = 0; (i < size) && spliterbtor.tryAdvbnce((DoubleConsumer) nodeBuilder); i++) { }
             nodeBuilder.end();
             return nodeBuilder.build();
         }
 
         @Override
-        default double[] newArray(int count) {
+        defbult double[] newArrby(int count) {
             return new double[count];
         }
 
         /**
          * {@inheritDoc}
          *
-         * @implSpec The default in {@code Node.OfDouble} returns
-         * {@code StreamShape.DOUBLE_VALUE}
+         * @implSpec The defbult in {@code Node.OfDouble} returns
+         * {@code StrebmShbpe.DOUBLE_VALUE}
          */
-        default StreamShape getShape() {
-            return StreamShape.DOUBLE_VALUE;
+        defbult StrebmShbpe getShbpe() {
+            return StrebmShbpe.DOUBLE_VALUE;
         }
     }
 }

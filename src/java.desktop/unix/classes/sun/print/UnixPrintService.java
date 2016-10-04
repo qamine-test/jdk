@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Locale;
+import jbvb.io.File;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Locble;
 
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.ServiceUIFactory;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.HashAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.standard.PrinterName;
-import javax.print.attribute.standard.PrinterIsAcceptingJobs;
-import javax.print.attribute.standard.QueuedJobCount;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.JobSheets;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.ColorSupported;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.CopiesSupported;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.PageRanges;
-import javax.print.attribute.standard.PrinterState;
-import javax.print.attribute.standard.PrinterStateReason;
-import javax.print.attribute.standard.PrinterStateReasons;
-import javax.print.attribute.standard.Severity;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Sides;
-import javax.print.event.PrintServiceAttributeListener;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.DocPrintJob;
+import jbvbx.print.PrintService;
+import jbvbx.print.ServiceUIFbctory;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.AttributeSetUtilities;
+import jbvbx.print.bttribute.HbshAttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.HbshPrintServiceAttributeSet;
+import jbvbx.print.bttribute.Size2DSyntbx;
+import jbvbx.print.bttribute.stbndbrd.PrinterNbme;
+import jbvbx.print.bttribute.stbndbrd.PrinterIsAcceptingJobs;
+import jbvbx.print.bttribute.stbndbrd.QueuedJobCount;
+import jbvbx.print.bttribute.stbndbrd.JobNbme;
+import jbvbx.print.bttribute.stbndbrd.JobSheets;
+import jbvbx.print.bttribute.stbndbrd.RequestingUserNbme;
+import jbvbx.print.bttribute.stbndbrd.Chrombticity;
+import jbvbx.print.bttribute.stbndbrd.ColorSupported;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.CopiesSupported;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.Fidelity;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibPrintbbleAreb;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.OrientbtionRequested;
+import jbvbx.print.bttribute.stbndbrd.PbgeRbnges;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbte;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebson;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebsons;
+import jbvbx.print.bttribute.stbndbrd.Severity;
+import jbvbx.print.bttribute.stbndbrd.SheetCollbte;
+import jbvbx.print.bttribute.stbndbrd.Sides;
+import jbvbx.print.event.PrintServiceAttributeListener;
 
 
-public class UnixPrintService implements PrintService, AttributeUpdater,
+public clbss UnixPrintService implements PrintService, AttributeUpdbter,
                                          SunPrinterJobService {
 
-    /* define doc flavors for text types in the default encoding of
-     * this platform since we can always read those.
+    /* define doc flbvors for text types in the defbult encoding of
+     * this plbtform since we cbn blwbys rebd those.
      */
-    private static String encoding = "ISO8859_1";
-    private static DocFlavor textByteFlavor;
+    privbte stbtic String encoding = "ISO8859_1";
+    privbte stbtic DocFlbvor textByteFlbvor;
 
-    private static DocFlavor[] supportedDocFlavors = null;
-    private static final DocFlavor[] supportedDocFlavorsInit = {
-         DocFlavor.BYTE_ARRAY.POSTSCRIPT,
-         DocFlavor.INPUT_STREAM.POSTSCRIPT,
-         DocFlavor.URL.POSTSCRIPT,
-         DocFlavor.BYTE_ARRAY.GIF,
-         DocFlavor.INPUT_STREAM.GIF,
-         DocFlavor.URL.GIF,
-         DocFlavor.BYTE_ARRAY.JPEG,
-         DocFlavor.INPUT_STREAM.JPEG,
-         DocFlavor.URL.JPEG,
-         DocFlavor.BYTE_ARRAY.PNG,
-         DocFlavor.INPUT_STREAM.PNG,
-         DocFlavor.URL.PNG,
+    privbte stbtic DocFlbvor[] supportedDocFlbvors = null;
+    privbte stbtic finbl DocFlbvor[] supportedDocFlbvorsInit = {
+         DocFlbvor.BYTE_ARRAY.POSTSCRIPT,
+         DocFlbvor.INPUT_STREAM.POSTSCRIPT,
+         DocFlbvor.URL.POSTSCRIPT,
+         DocFlbvor.BYTE_ARRAY.GIF,
+         DocFlbvor.INPUT_STREAM.GIF,
+         DocFlbvor.URL.GIF,
+         DocFlbvor.BYTE_ARRAY.JPEG,
+         DocFlbvor.INPUT_STREAM.JPEG,
+         DocFlbvor.URL.JPEG,
+         DocFlbvor.BYTE_ARRAY.PNG,
+         DocFlbvor.INPUT_STREAM.PNG,
+         DocFlbvor.URL.PNG,
 
-         DocFlavor.CHAR_ARRAY.TEXT_PLAIN,
-         DocFlavor.READER.TEXT_PLAIN,
-         DocFlavor.STRING.TEXT_PLAIN,
+         DocFlbvor.CHAR_ARRAY.TEXT_PLAIN,
+         DocFlbvor.READER.TEXT_PLAIN,
+         DocFlbvor.STRING.TEXT_PLAIN,
 
-         DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_8,
-         DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_16,
-         DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_16BE,
-         DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_16LE,
-         DocFlavor.BYTE_ARRAY.TEXT_PLAIN_US_ASCII,
-
-
-         DocFlavor.INPUT_STREAM.TEXT_PLAIN_UTF_8,
-         DocFlavor.INPUT_STREAM.TEXT_PLAIN_UTF_16,
-         DocFlavor.INPUT_STREAM.TEXT_PLAIN_UTF_16BE,
-         DocFlavor.INPUT_STREAM.TEXT_PLAIN_UTF_16LE,
-         DocFlavor.INPUT_STREAM.TEXT_PLAIN_US_ASCII,
+         DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_UTF_8,
+         DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_UTF_16,
+         DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_UTF_16BE,
+         DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_UTF_16LE,
+         DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_US_ASCII,
 
 
-         DocFlavor.URL.TEXT_PLAIN_UTF_8,
-         DocFlavor.URL.TEXT_PLAIN_UTF_16,
-         DocFlavor.URL.TEXT_PLAIN_UTF_16BE,
-         DocFlavor.URL.TEXT_PLAIN_UTF_16LE,
-         DocFlavor.URL.TEXT_PLAIN_US_ASCII,
+         DocFlbvor.INPUT_STREAM.TEXT_PLAIN_UTF_8,
+         DocFlbvor.INPUT_STREAM.TEXT_PLAIN_UTF_16,
+         DocFlbvor.INPUT_STREAM.TEXT_PLAIN_UTF_16BE,
+         DocFlbvor.INPUT_STREAM.TEXT_PLAIN_UTF_16LE,
+         DocFlbvor.INPUT_STREAM.TEXT_PLAIN_US_ASCII,
 
-         DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-         DocFlavor.SERVICE_FORMATTED.PRINTABLE,
 
-         DocFlavor.BYTE_ARRAY.AUTOSENSE,
-         DocFlavor.URL.AUTOSENSE,
-         DocFlavor.INPUT_STREAM.AUTOSENSE
+         DocFlbvor.URL.TEXT_PLAIN_UTF_8,
+         DocFlbvor.URL.TEXT_PLAIN_UTF_16,
+         DocFlbvor.URL.TEXT_PLAIN_UTF_16BE,
+         DocFlbvor.URL.TEXT_PLAIN_UTF_16LE,
+         DocFlbvor.URL.TEXT_PLAIN_US_ASCII,
+
+         DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+         DocFlbvor.SERVICE_FORMATTED.PRINTABLE,
+
+         DocFlbvor.BYTE_ARRAY.AUTOSENSE,
+         DocFlbvor.URL.AUTOSENSE,
+         DocFlbvor.INPUT_STREAM.AUTOSENSE
     };
 
-    private static final DocFlavor[] supportedHostDocFlavors = {
-        DocFlavor.BYTE_ARRAY.TEXT_PLAIN_HOST,
-        DocFlavor.INPUT_STREAM.TEXT_PLAIN_HOST,
-        DocFlavor.URL.TEXT_PLAIN_HOST
+    privbte stbtic finbl DocFlbvor[] supportedHostDocFlbvors = {
+        DocFlbvor.BYTE_ARRAY.TEXT_PLAIN_HOST,
+        DocFlbvor.INPUT_STREAM.TEXT_PLAIN_HOST,
+        DocFlbvor.URL.TEXT_PLAIN_HOST
     };
 
-    String[] lpcStatusCom = {
+    String[] lpcStbtusCom = {
       "",
-      "| grep -E '^[ 0-9a-zA-Z_-]*@' | awk '{print $2, $3}'"
+      "| grep -E '^[ 0-9b-zA-Z_-]*@' | bwk '{print $2, $3}'"
     };
 
     String[] lpcQueueCom = {
       "",
-      "| grep -E '^[ 0-9a-zA-Z_-]*@' | awk '{print $4}'"
+      "| grep -E '^[ 0-9b-zA-Z_-]*@' | bwk '{print $4}'"
     };
 
-    static {
-        encoding = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("file.encoding"));
+    stbtic {
+        encoding = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("file.encoding"));
     }
 
-    /* let's try to support a few of these */
-    private static final Class<?>[] serviceAttrCats = {
-        PrinterName.class,
-        PrinterIsAcceptingJobs.class,
-        QueuedJobCount.class,
+    /* let's try to support b few of these */
+    privbte stbtic finbl Clbss<?>[] serviceAttrCbts = {
+        PrinterNbme.clbss,
+        PrinterIsAcceptingJobs.clbss,
+        QueuedJobCount.clbss,
     };
 
-    /*  it turns out to be inconvenient to store the other categories
-     *  separately because many attributes are in multiple categories.
+    /*  it turns out to be inconvenient to store the other cbtegories
+     *  sepbrbtely becbuse mbny bttributes bre in multiple cbtegories.
      */
-    private static final Class<?>[] otherAttrCats = {
-        Chromaticity.class,
-        Copies.class,
-        Destination.class,
-        Fidelity.class,
-        JobName.class,
-        JobSheets.class,
-        Media.class, /* have to support this somehow ... */
-        MediaPrintableArea.class,
-        OrientationRequested.class,
-        PageRanges.class,
-        RequestingUserName.class,
-        SheetCollate.class,
-        Sides.class,
+    privbte stbtic finbl Clbss<?>[] otherAttrCbts = {
+        Chrombticity.clbss,
+        Copies.clbss,
+        Destinbtion.clbss,
+        Fidelity.clbss,
+        JobNbme.clbss,
+        JobSheets.clbss,
+        Medib.clbss, /* hbve to support this somehow ... */
+        MedibPrintbbleAreb.clbss,
+        OrientbtionRequested.clbss,
+        PbgeRbnges.clbss,
+        RequestingUserNbme.clbss,
+        SheetCollbte.clbss,
+        Sides.clbss,
     };
 
-    private static int MAXCOPIES = 1000;
+    privbte stbtic int MAXCOPIES = 1000;
 
-    private static final MediaSizeName mediaSizes[] = {
-        MediaSizeName.NA_LETTER,
-        MediaSizeName.TABLOID,
-        MediaSizeName.LEDGER,
-        MediaSizeName.NA_LEGAL,
-        MediaSizeName.EXECUTIVE,
-        MediaSizeName.ISO_A3,
-        MediaSizeName.ISO_A4,
-        MediaSizeName.ISO_A5,
-        MediaSizeName.ISO_B4,
-        MediaSizeName.ISO_B5,
+    privbte stbtic finbl MedibSizeNbme medibSizes[] = {
+        MedibSizeNbme.NA_LETTER,
+        MedibSizeNbme.TABLOID,
+        MedibSizeNbme.LEDGER,
+        MedibSizeNbme.NA_LEGAL,
+        MedibSizeNbme.EXECUTIVE,
+        MedibSizeNbme.ISO_A3,
+        MedibSizeNbme.ISO_A4,
+        MedibSizeNbme.ISO_A5,
+        MedibSizeNbme.ISO_B4,
+        MedibSizeNbme.ISO_B5,
     };
 
-    private String printer;
-    private PrinterName name;
-    private boolean isInvalid;
+    privbte String printer;
+    privbte PrinterNbme nbme;
+    privbte boolebn isInvblid;
 
-    transient private PrintServiceAttributeSet lastSet;
-    transient private ServiceNotifier notifier = null;
+    trbnsient privbte PrintServiceAttributeSet lbstSet;
+    trbnsient privbte ServiceNotifier notifier = null;
 
-    UnixPrintService(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("null printer name");
+    UnixPrintService(String nbme) {
+        if (nbme == null) {
+            throw new IllegblArgumentException("null printer nbme");
         }
-        printer = name;
-        isInvalid = false;
+        printer = nbme;
+        isInvblid = fblse;
     }
 
-    public void invalidateService() {
-        isInvalid = true;
+    public void invblidbteService() {
+        isInvblid = true;
     }
 
-    public String getName() {
+    public String getNbme() {
         return printer;
     }
 
-    private PrinterName getPrinterName() {
-        if (name == null) {
-            name = new PrinterName(printer, null);
+    privbte PrinterNbme getPrinterNbme() {
+        if (nbme == null) {
+            nbme = new PrinterNbme(printer, null);
         }
-        return name;
+        return nbme;
     }
 
-    private PrinterIsAcceptingJobs getPrinterIsAcceptingJobsSysV() {
-        String command = "/usr/bin/lpstat -a " + printer;
-        String results[]= UnixPrintServiceLookup.execCmd(command);
+    privbte PrinterIsAcceptingJobs getPrinterIsAcceptingJobsSysV() {
+        String commbnd = "/usr/bin/lpstbt -b " + printer;
+        String results[]= UnixPrintServiceLookup.execCmd(commbnd);
 
         if (results != null && results.length > 0) {
-            if (results[0].startsWith(printer + " accepting requests")) {
+            if (results[0].stbrtsWith(printer + " bccepting requests")) {
                 return PrinterIsAcceptingJobs.ACCEPTING_JOBS;
             }
-            else if (results[0].startsWith(printer)) {
-                /* As well as "myprinter accepting requests", look for
-                 * "myprinter@somehost accepting requests".
+            else if (results[0].stbrtsWith(printer)) {
+                /* As well bs "myprinter bccepting requests", look for
+                 * "myprinter@somehost bccepting requests".
                  */
                 int index = printer.length();
                 String str = results[0];
                 if (str.length() > index &&
-                    str.charAt(index) == '@' &&
-                    str.indexOf(" accepting requests", index) > 0 &&
-                    str.indexOf(" not accepting requests", index) == -1) {
+                    str.chbrAt(index) == '@' &&
+                    str.indexOf(" bccepting requests", index) > 0 &&
+                    str.indexOf(" not bccepting requests", index) == -1) {
                    return PrinterIsAcceptingJobs.ACCEPTING_JOBS;
                 }
             }
@@ -243,30 +243,30 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         return PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS ;
     }
 
-    private PrinterIsAcceptingJobs getPrinterIsAcceptingJobsBSD() {
+    privbte PrinterIsAcceptingJobs getPrinterIsAcceptingJobsBSD() {
         if (UnixPrintServiceLookup.cmdIndex ==
             UnixPrintServiceLookup.UNINITIALIZED) {
 
             UnixPrintServiceLookup.cmdIndex =
-                UnixPrintServiceLookup.getBSDCommandIndex();
+                UnixPrintServiceLookup.getBSDCommbndIndex();
         }
 
-        String command = "/usr/sbin/lpc status " + printer
-            + lpcStatusCom[UnixPrintServiceLookup.cmdIndex];
-        String results[]= UnixPrintServiceLookup.execCmd(command);
+        String commbnd = "/usr/sbin/lpc stbtus " + printer
+            + lpcStbtusCom[UnixPrintServiceLookup.cmdIndex];
+        String results[]= UnixPrintServiceLookup.execCmd(commbnd);
 
         if (results != null && results.length > 0) {
             if (UnixPrintServiceLookup.cmdIndex ==
                 UnixPrintServiceLookup.BSD_LPD_NG) {
-                if (results[0].startsWith("enabled enabled")) {
+                if (results[0].stbrtsWith("enbbled enbbled")) {
                     return PrinterIsAcceptingJobs.ACCEPTING_JOBS ;
                 }
             } else {
-                if ((results[1].trim().startsWith("queuing is enabled") &&
-                    results[2].trim().startsWith("printing is enabled")) ||
+                if ((results[1].trim().stbrtsWith("queuing is enbbled") &&
+                    results[2].trim().stbrtsWith("printing is enbbled")) ||
                     (results.length >= 4 &&
-                     results[2].trim().startsWith("queuing is enabled") &&
-                     results[3].trim().startsWith("printing is enabled"))) {
+                     results[2].trim().stbrtsWith("queuing is enbbled") &&
+                     results[3].trim().stbrtsWith("printing is enbbled"))) {
                     return PrinterIsAcceptingJobs.ACCEPTING_JOBS ;
                 }
             }
@@ -274,42 +274,42 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         return PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS ;
     }
 
-    // Filter the list of possible AIX Printers and remove header lines
-    // and extra lines which have been added for remote printers.
-    // 'protected' because this method is also used from UnixPrintServiceLookup.
-    protected static String[] filterPrinterNamesAIX(String[] posPrinters) {
-        ArrayList<String> printers = new ArrayList<>();
-        String [] splitPart;
+    // Filter the list of possible AIX Printers bnd remove hebder lines
+    // bnd extrb lines which hbve been bdded for remote printers.
+    // 'protected' becbuse this method is blso used from UnixPrintServiceLookup.
+    protected stbtic String[] filterPrinterNbmesAIX(String[] posPrinters) {
+        ArrbyList<String> printers = new ArrbyList<>();
+        String [] splitPbrt;
 
         for(int i = 0; i < posPrinters.length; i++) {
-            // Remove the header lines
-            if (posPrinters[i].startsWith("---") ||
-                posPrinters[i].startsWith("Queue") ||
-                posPrinters[i].equals("")) continue;
+            // Remove the hebder lines
+            if (posPrinters[i].stbrtsWith("---") ||
+                posPrinters[i].stbrtsWith("Queue") ||
+                posPrinters[i].equbls("")) continue;
 
-            // Check if there is a ":" in the end of the first colomn.
-            // This means that it is not a valid printer definition.
-            splitPart = posPrinters[i].split(" ");
-            if(splitPart.length >= 1 && !splitPart[0].trim().endsWith(":")) {
-                printers.add(posPrinters[i]);
+            // Check if there is b ":" in the end of the first colomn.
+            // This mebns thbt it is not b vblid printer definition.
+            splitPbrt = posPrinters[i].split(" ");
+            if(splitPbrt.length >= 1 && !splitPbrt[0].trim().endsWith(":")) {
+                printers.bdd(posPrinters[i]);
             }
         }
 
-        return printers.toArray(new String[printers.size()]);
+        return printers.toArrby(new String[printers.size()]);
     }
 
-    private PrinterIsAcceptingJobs getPrinterIsAcceptingJobsAIX() {
-        // On AIX there should not be a blank after '-a'.
-        String command = "/usr/bin/lpstat -a" + printer;
-        String results[]= UnixPrintServiceLookup.execCmd(command);
+    privbte PrinterIsAcceptingJobs getPrinterIsAcceptingJobsAIX() {
+        // On AIX there should not be b blbnk bfter '-b'.
+        String commbnd = "/usr/bin/lpstbt -b" + printer;
+        String results[]= UnixPrintServiceLookup.execCmd(commbnd);
 
-        // Remove headers and bogus entries added by remote printers.
-        results = filterPrinterNamesAIX(results);
+        // Remove hebders bnd bogus entries bdded by remote printers.
+        results = filterPrinterNbmesAIX(results);
 
         if (results != null && results.length > 0) {
             for (int i = 0; i < results.length; i++) {
-                if (results[i].contains("READY") ||
-                    results[i].contains("RUNNING")) {
+                if (results[i].contbins("READY") ||
+                    results[i].contbins("RUNNING")) {
                     return PrinterIsAcceptingJobs.ACCEPTING_JOBS;
                 }
             }
@@ -319,7 +319,7 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
 
     }
 
-    private PrinterIsAcceptingJobs getPrinterIsAcceptingJobs() {
+    privbte PrinterIsAcceptingJobs getPrinterIsAcceptingJobs() {
         if (UnixPrintServiceLookup.isSysV()) {
             return getPrinterIsAcceptingJobsSysV();
         } else if (UnixPrintServiceLookup.isBSD()) {
@@ -331,44 +331,44 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    private PrinterState getPrinterState() {
-        if (isInvalid) {
-            return PrinterState.STOPPED;
+    privbte PrinterStbte getPrinterStbte() {
+        if (isInvblid) {
+            return PrinterStbte.STOPPED;
         } else {
             return null;
         }
     }
 
-    private PrinterStateReasons getPrinterStateReasons() {
-        if (isInvalid) {
-            PrinterStateReasons psr = new PrinterStateReasons();
-            psr.put(PrinterStateReason.SHUTDOWN, Severity.ERROR);
+    privbte PrinterStbteRebsons getPrinterStbteRebsons() {
+        if (isInvblid) {
+            PrinterStbteRebsons psr = new PrinterStbteRebsons();
+            psr.put(PrinterStbteRebson.SHUTDOWN, Severity.ERROR);
             return psr;
         } else {
             return null;
         }
     }
 
-    private QueuedJobCount getQueuedJobCountSysV() {
-        String command = "/usr/bin/lpstat -R " + printer;
-        String results[]= UnixPrintServiceLookup.execCmd(command);
+    privbte QueuedJobCount getQueuedJobCountSysV() {
+        String commbnd = "/usr/bin/lpstbt -R " + printer;
+        String results[]= UnixPrintServiceLookup.execCmd(commbnd);
         int qlen = (results == null) ? 0 : results.length;
 
         return new QueuedJobCount(qlen);
     }
 
-    private QueuedJobCount getQueuedJobCountBSD() {
+    privbte QueuedJobCount getQueuedJobCountBSD() {
         if (UnixPrintServiceLookup.cmdIndex ==
             UnixPrintServiceLookup.UNINITIALIZED) {
 
             UnixPrintServiceLookup.cmdIndex =
-                UnixPrintServiceLookup.getBSDCommandIndex();
+                UnixPrintServiceLookup.getBSDCommbndIndex();
         }
 
         int qlen = 0;
-        String command = "/usr/sbin/lpc status " + printer
+        String commbnd = "/usr/sbin/lpc stbtus " + printer
             + lpcQueueCom[UnixPrintServiceLookup.cmdIndex];
-        String results[] = UnixPrintServiceLookup.execCmd(command);
+        String results[] = UnixPrintServiceLookup.execCmd(commbnd);
 
         if (results != null && results.length > 0) {
             String queued;
@@ -377,7 +377,7 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
                 queued = results[0];
             } else {
                 queued = results[3].trim();
-                if (queued.startsWith("no")) {
+                if (queued.stbrtsWith("no")) {
                     return new QueuedJobCount(0);
                 } else {
                     queued = queued.substring(0, queued.indexOf(' '));
@@ -385,26 +385,26 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
             }
 
             try {
-                qlen = Integer.parseInt(queued);
-            } catch (NumberFormatException e) {
+                qlen = Integer.pbrseInt(queued);
+            } cbtch (NumberFormbtException e) {
             }
         }
 
         return new QueuedJobCount(qlen);
     }
 
-    private QueuedJobCount getQueuedJobCountAIX() {
-        // On AIX there should not be a blank after '-a'.
-        String command = "/usr/bin/lpstat -a" + printer;
-        String results[]=  UnixPrintServiceLookup.execCmd(command);
+    privbte QueuedJobCount getQueuedJobCountAIX() {
+        // On AIX there should not be b blbnk bfter '-b'.
+        String commbnd = "/usr/bin/lpstbt -b" + printer;
+        String results[]=  UnixPrintServiceLookup.execCmd(commbnd);
 
-        // Remove headers and bogus entries added by remote printers.
-        results = filterPrinterNamesAIX(results);
+        // Remove hebders bnd bogus entries bdded by remote printers.
+        results = filterPrinterNbmesAIX(results);
 
         int qlen = 0;
         if (results != null && results.length > 0){
             for (int i = 0; i < results.length; i++) {
-                if (results[i].contains("QUEUED")){
+                if (results[i].contbins("QUEUED")){
                     qlen ++;
                 }
             }
@@ -412,7 +412,7 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         return new QueuedJobCount(qlen);
     }
 
-    private QueuedJobCount getQueuedJobCount() {
+    privbte QueuedJobCount getQueuedJobCount() {
         if (UnixPrintServiceLookup.isSysV()) {
             return getQueuedJobCountSysV();
         } else if (UnixPrintServiceLookup.isBSD()) {
@@ -424,50 +424,50 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    private PrintServiceAttributeSet getSysVServiceAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(getQueuedJobCountSysV());
-        attrs.add(getPrinterIsAcceptingJobsSysV());
-        return attrs;
+    privbte PrintServiceAttributeSet getSysVServiceAttributes() {
+        PrintServiceAttributeSet bttrs = new HbshPrintServiceAttributeSet();
+        bttrs.bdd(getQueuedJobCountSysV());
+        bttrs.bdd(getPrinterIsAcceptingJobsSysV());
+        return bttrs;
     }
 
-    private PrintServiceAttributeSet getBSDServiceAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(getQueuedJobCountBSD());
-        attrs.add(getPrinterIsAcceptingJobsBSD());
-        return attrs;
+    privbte PrintServiceAttributeSet getBSDServiceAttributes() {
+        PrintServiceAttributeSet bttrs = new HbshPrintServiceAttributeSet();
+        bttrs.bdd(getQueuedJobCountBSD());
+        bttrs.bdd(getPrinterIsAcceptingJobsBSD());
+        return bttrs;
     }
 
-    private PrintServiceAttributeSet getAIXServiceAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(getQueuedJobCountAIX());
-        attrs.add(getPrinterIsAcceptingJobsAIX());
-        return attrs;
+    privbte PrintServiceAttributeSet getAIXServiceAttributes() {
+        PrintServiceAttributeSet bttrs = new HbshPrintServiceAttributeSet();
+        bttrs.bdd(getQueuedJobCountAIX());
+        bttrs.bdd(getPrinterIsAcceptingJobsAIX());
+        return bttrs;
     }
 
-    private boolean isSupportedCopies(Copies copies) {
-        int numCopies = copies.getValue();
+    privbte boolebn isSupportedCopies(Copies copies) {
+        int numCopies = copies.getVblue();
         return (numCopies > 0 && numCopies < MAXCOPIES);
     }
 
-    private boolean isSupportedMedia(MediaSizeName msn) {
-        for (int i=0; i<mediaSizes.length; i++) {
-            if (msn.equals(mediaSizes[i])) {
+    privbte boolebn isSupportedMedib(MedibSizeNbme msn) {
+        for (int i=0; i<medibSizes.length; i++) {
+            if (msn.equbls(medibSizes[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public DocPrintJob createPrintJob() {
-      SecurityManager security = System.getSecurityManager();
+    public DocPrintJob crebtePrintJob() {
+      SecurityMbnbger security = System.getSecurityMbnbger();
       if (security != null) {
         security.checkPrintJobAccess();
       }
         return new UnixPrintJob(this);
     }
 
-    private PrintServiceAttributeSet getDynamicAttributes() {
+    privbte PrintServiceAttributeSet getDynbmicAttributes() {
         if (UnixPrintServiceLookup.isSysV()) {
             return getSysVServiceAttributes();
         } else if (UnixPrintServiceLookup.isAIX()) {
@@ -477,36 +477,36 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    public PrintServiceAttributeSet getUpdatedAttributes() {
-        PrintServiceAttributeSet currSet = getDynamicAttributes();
-        if (lastSet == null) {
-            lastSet = currSet;
-            return AttributeSetUtilities.unmodifiableView(currSet);
+    public PrintServiceAttributeSet getUpdbtedAttributes() {
+        PrintServiceAttributeSet currSet = getDynbmicAttributes();
+        if (lbstSet == null) {
+            lbstSet = currSet;
+            return AttributeSetUtilities.unmodifibbleView(currSet);
         } else {
-            PrintServiceAttributeSet updates =
-                new HashPrintServiceAttributeSet();
-            Attribute []attrs = currSet.toArray();
-            Attribute attr;
-            for (int i=0; i<attrs.length; i++) {
-                attr = attrs[i];
-                if (!lastSet.containsValue(attr)) {
-                    updates.add(attr);
+            PrintServiceAttributeSet updbtes =
+                new HbshPrintServiceAttributeSet();
+            Attribute []bttrs = currSet.toArrby();
+            Attribute bttr;
+            for (int i=0; i<bttrs.length; i++) {
+                bttr = bttrs[i];
+                if (!lbstSet.contbinsVblue(bttr)) {
+                    updbtes.bdd(bttr);
                 }
             }
-            lastSet = currSet;
-            return AttributeSetUtilities.unmodifiableView(updates);
+            lbstSet = currSet;
+            return AttributeSetUtilities.unmodifibbleView(updbtes);
         }
     }
 
-    public void wakeNotifier() {
+    public void wbkeNotifier() {
         synchronized (this) {
             if (notifier != null) {
-                notifier.wake();
+                notifier.wbke();
             }
         }
     }
 
-    public void addPrintServiceAttributeListener(
+    public void bddPrintServiceAttributeListener(
                                  PrintServiceAttributeListener listener) {
         synchronized (this) {
             if (listener == null) {
@@ -515,7 +515,7 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
             if (notifier == null) {
                 notifier = new ServiceNotifier(this);
             }
-            notifier.addListener(listener);
+            notifier.bddListener(listener);
         }
     }
 
@@ -533,26 +533,26 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public <T extends PrintServiceAttribute>
-        T getAttribute(Class<T> category)
+        T getAttribute(Clbss<T> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("category");
+        if (cbtegory == null) {
+            throw new NullPointerException("cbtegory");
         }
-        if (!(PrintServiceAttribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException("Not a PrintServiceAttribute");
+        if (!(PrintServiceAttribute.clbss.isAssignbbleFrom(cbtegory))) {
+            throw new IllegblArgumentException("Not b PrintServiceAttribute");
         }
 
-        if (category == PrinterName.class) {
-            return (T)getPrinterName();
-        } else if (category == PrinterState.class) {
-            return (T)getPrinterState();
-        } else if (category == PrinterStateReasons.class) {
-            return (T)getPrinterStateReasons();
-        } else if (category == QueuedJobCount.class) {
+        if (cbtegory == PrinterNbme.clbss) {
+            return (T)getPrinterNbme();
+        } else if (cbtegory == PrinterStbte.clbss) {
+            return (T)getPrinterStbte();
+        } else if (cbtegory == PrinterStbteRebsons.clbss) {
+            return (T)getPrinterStbteRebsons();
+        } else if (cbtegory == QueuedJobCount.clbss) {
             return (T)getQueuedJobCount();
-        } else if (category == PrinterIsAcceptingJobs.class) {
+        } else if (cbtegory == PrinterIsAcceptingJobs.clbss) {
             return (T)getPrinterIsAcceptingJobs();
         } else {
             return null;
@@ -560,346 +560,346 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
     }
 
     public PrintServiceAttributeSet getAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(getPrinterName());
-        attrs.add(getPrinterIsAcceptingJobs());
-        PrinterState prnState = getPrinterState();
-        if (prnState != null) {
-            attrs.add(prnState);
+        PrintServiceAttributeSet bttrs = new HbshPrintServiceAttributeSet();
+        bttrs.bdd(getPrinterNbme());
+        bttrs.bdd(getPrinterIsAcceptingJobs());
+        PrinterStbte prnStbte = getPrinterStbte();
+        if (prnStbte != null) {
+            bttrs.bdd(prnStbte);
         }
-        PrinterStateReasons prnStateReasons = getPrinterStateReasons();
-        if (prnStateReasons != null) {
-            attrs.add(prnStateReasons);
+        PrinterStbteRebsons prnStbteRebsons = getPrinterStbteRebsons();
+        if (prnStbteRebsons != null) {
+            bttrs.bdd(prnStbteRebsons);
         }
-        attrs.add(getQueuedJobCount());
-        return AttributeSetUtilities.unmodifiableView(attrs);
+        bttrs.bdd(getQueuedJobCount());
+        return AttributeSetUtilities.unmodifibbleView(bttrs);
     }
 
-    private void initSupportedDocFlavors() {
-        String hostEnc = DocFlavor.hostEncoding.toLowerCase(Locale.ENGLISH);
-        if (!hostEnc.equals("utf-8") && !hostEnc.equals("utf-16") &&
-            !hostEnc.equals("utf-16be") && !hostEnc.equals("utf-16le") &&
-            !hostEnc.equals("us-ascii")) {
+    privbte void initSupportedDocFlbvors() {
+        String hostEnc = DocFlbvor.hostEncoding.toLowerCbse(Locble.ENGLISH);
+        if (!hostEnc.equbls("utf-8") && !hostEnc.equbls("utf-16") &&
+            !hostEnc.equbls("utf-16be") && !hostEnc.equbls("utf-16le") &&
+            !hostEnc.equbls("us-bscii")) {
 
-            int len = supportedDocFlavorsInit.length;
-            DocFlavor[] flavors =
-                new DocFlavor[len + supportedHostDocFlavors.length];
-            // copy host encoding flavors
-            System.arraycopy(supportedHostDocFlavors, 0, flavors,
-                             len, supportedHostDocFlavors.length);
-            System.arraycopy(supportedDocFlavorsInit, 0, flavors, 0, len);
+            int len = supportedDocFlbvorsInit.length;
+            DocFlbvor[] flbvors =
+                new DocFlbvor[len + supportedHostDocFlbvors.length];
+            // copy host encoding flbvors
+            System.brrbycopy(supportedHostDocFlbvors, 0, flbvors,
+                             len, supportedHostDocFlbvors.length);
+            System.brrbycopy(supportedDocFlbvorsInit, 0, flbvors, 0, len);
 
-            supportedDocFlavors = flavors;
+            supportedDocFlbvors = flbvors;
         } else {
-            supportedDocFlavors = supportedDocFlavorsInit;
+            supportedDocFlbvors = supportedDocFlbvorsInit;
         }
     }
 
-    public DocFlavor[] getSupportedDocFlavors() {
-        if (supportedDocFlavors == null) {
-            initSupportedDocFlavors();
+    public DocFlbvor[] getSupportedDocFlbvors() {
+        if (supportedDocFlbvors == null) {
+            initSupportedDocFlbvors();
         }
-        int len = supportedDocFlavors.length;
-        DocFlavor[] flavors = new DocFlavor[len];
-        System.arraycopy(supportedDocFlavors, 0, flavors, 0, len);
+        int len = supportedDocFlbvors.length;
+        DocFlbvor[] flbvors = new DocFlbvor[len];
+        System.brrbycopy(supportedDocFlbvors, 0, flbvors, 0, len);
 
-        return flavors;
+        return flbvors;
     }
 
-    public boolean isDocFlavorSupported(DocFlavor flavor) {
-        if (supportedDocFlavors == null) {
-            initSupportedDocFlavors();
+    public boolebn isDocFlbvorSupported(DocFlbvor flbvor) {
+        if (supportedDocFlbvors == null) {
+            initSupportedDocFlbvors();
         }
-        for (int f=0; f<supportedDocFlavors.length; f++) {
-            if (flavor.equals(supportedDocFlavors[f])) {
+        for (int f=0; f<supportedDocFlbvors.length; f++) {
+            if (flbvor.equbls(supportedDocFlbvors[f])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public Class<?>[] getSupportedAttributeCategories() {
-        int totalCats = otherAttrCats.length;
-        Class<?>[] cats = new Class<?>[totalCats];
-        System.arraycopy(otherAttrCats, 0, cats, 0, otherAttrCats.length);
-        return cats;
+    public Clbss<?>[] getSupportedAttributeCbtegories() {
+        int totblCbts = otherAttrCbts.length;
+        Clbss<?>[] cbts = new Clbss<?>[totblCbts];
+        System.brrbycopy(otherAttrCbts, 0, cbts, 0, otherAttrCbts.length);
+        return cbts;
     }
 
-    public boolean
-        isAttributeCategorySupported(Class<? extends Attribute> category)
+    public boolebn
+        isAttributeCbtegorySupported(Clbss<? extends Attribute> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!(Attribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
+        if (!(Attribute.clbss.isAssignbbleFrom(cbtegory))) {
+            throw new IllegblArgumentException(cbtegory +
+                                             " is not bn Attribute");
         }
 
-        for (int i=0;i<otherAttrCats.length;i++) {
-            if (category == otherAttrCats[i]) {
+        for (int i=0;i<otherAttrCbts.length;i++) {
+            if (cbtegory == otherAttrCbts[i]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    /* return defaults for all attributes for which there is a default
-     * value
+    /* return defbults for bll bttributes for which there is b defbult
+     * vblue
      */
     public Object
-        getDefaultAttributeValue(Class<? extends Attribute> category)
+        getDefbultAttributeVblue(Clbss<? extends Attribute> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
+        if (!Attribute.clbss.isAssignbbleFrom(cbtegory)) {
+            throw new IllegblArgumentException(cbtegory +
+                                             " is not bn Attribute");
         }
 
-        if (!isAttributeCategorySupported(category)) {
+        if (!isAttributeCbtegorySupported(cbtegory)) {
             return null;
         }
 
-        if (category == Copies.class) {
+        if (cbtegory == Copies.clbss) {
             return new Copies(1);
-        } else if (category == Chromaticity.class) {
-            return Chromaticity.COLOR;
-        } else if (category == Destination.class) {
+        } else if (cbtegory == Chrombticity.clbss) {
+            return Chrombticity.COLOR;
+        } else if (cbtegory == Destinbtion.clbss) {
             try {
-                return new Destination((new File("out.ps")).toURI());
-            } catch (SecurityException se) {
+                return new Destinbtion((new File("out.ps")).toURI());
+            } cbtch (SecurityException se) {
                 try {
-                    return new Destination(new URI("file:out.ps"));
-                } catch (URISyntaxException e) {
+                    return new Destinbtion(new URI("file:out.ps"));
+                } cbtch (URISyntbxException e) {
                     return null;
                 }
             }
-        } else if (category == Fidelity.class) {
+        } else if (cbtegory == Fidelity.clbss) {
             return Fidelity.FIDELITY_FALSE;
-        } else if (category == JobName.class) {
-            return new JobName("Java Printing", null);
-        } else if (category == JobSheets.class) {
+        } else if (cbtegory == JobNbme.clbss) {
+            return new JobNbme("Jbvb Printing", null);
+        } else if (cbtegory == JobSheets.clbss) {
             return JobSheets.STANDARD;
-        } else if (category == Media.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                return MediaSizeName.NA_LETTER;
+        } else if (cbtegory == Medib.clbss) {
+            String defbultCountry = Locble.getDefbult().getCountry();
+            if (defbultCountry != null &&
+                (defbultCountry.equbls("") ||
+                 defbultCountry.equbls(Locble.US.getCountry()) ||
+                 defbultCountry.equbls(Locble.CANADA.getCountry()))) {
+                return MedibSizeNbme.NA_LETTER;
             } else {
-                 return MediaSizeName.ISO_A4;
+                 return MedibSizeNbme.ISO_A4;
             }
-        } else if (category == MediaPrintableArea.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            float iw, ih;
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                iw = MediaSize.NA.LETTER.getX(Size2DSyntax.INCH) - 0.5f;
-                ih = MediaSize.NA.LETTER.getY(Size2DSyntax.INCH) - 0.5f;
+        } else if (cbtegory == MedibPrintbbleAreb.clbss) {
+            String defbultCountry = Locble.getDefbult().getCountry();
+            flobt iw, ih;
+            if (defbultCountry != null &&
+                (defbultCountry.equbls("") ||
+                 defbultCountry.equbls(Locble.US.getCountry()) ||
+                 defbultCountry.equbls(Locble.CANADA.getCountry()))) {
+                iw = MedibSize.NA.LETTER.getX(Size2DSyntbx.INCH) - 0.5f;
+                ih = MedibSize.NA.LETTER.getY(Size2DSyntbx.INCH) - 0.5f;
             } else {
-                iw = MediaSize.ISO.A4.getX(Size2DSyntax.INCH) - 0.5f;
-                ih = MediaSize.ISO.A4.getY(Size2DSyntax.INCH) - 0.5f;
+                iw = MedibSize.ISO.A4.getX(Size2DSyntbx.INCH) - 0.5f;
+                ih = MedibSize.ISO.A4.getY(Size2DSyntbx.INCH) - 0.5f;
             }
-            return new MediaPrintableArea(0.25f, 0.25f, iw, ih,
-                                          MediaPrintableArea.INCH);
-        } else if (category == OrientationRequested.class) {
-            return OrientationRequested.PORTRAIT;
-        } else if (category == PageRanges.class) {
-            return new PageRanges(1, Integer.MAX_VALUE);
-        } else if (category == RequestingUserName.class) {
-            String userName = "";
+            return new MedibPrintbbleAreb(0.25f, 0.25f, iw, ih,
+                                          MedibPrintbbleAreb.INCH);
+        } else if (cbtegory == OrientbtionRequested.clbss) {
+            return OrientbtionRequested.PORTRAIT;
+        } else if (cbtegory == PbgeRbnges.clbss) {
+            return new PbgeRbnges(1, Integer.MAX_VALUE);
+        } else if (cbtegory == RequestingUserNbme.clbss) {
+            String userNbme = "";
             try {
-              userName = System.getProperty("user.name", "");
-            } catch (SecurityException se) {
+              userNbme = System.getProperty("user.nbme", "");
+            } cbtch (SecurityException se) {
             }
-            return new RequestingUserName(userName, null);
-        } else if (category == SheetCollate.class) {
-            return SheetCollate.UNCOLLATED;
-        } else if (category == Sides.class) {
+            return new RequestingUserNbme(userNbme, null);
+        } else if (cbtegory == SheetCollbte.clbss) {
+            return SheetCollbte.UNCOLLATED;
+        } else if (cbtegory == Sides.clbss) {
             return Sides.ONE_SIDED;
         } else
             return null;
     }
 
 
-    private boolean isAutoSense(DocFlavor flavor) {
-        if (flavor.equals(DocFlavor.BYTE_ARRAY.AUTOSENSE) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.AUTOSENSE) ||
-            flavor.equals(DocFlavor.URL.AUTOSENSE)) {
+    privbte boolebn isAutoSense(DocFlbvor flbvor) {
+        if (flbvor.equbls(DocFlbvor.BYTE_ARRAY.AUTOSENSE) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.AUTOSENSE) ||
+            flbvor.equbls(DocFlbvor.URL.AUTOSENSE)) {
             return true;
         }
         else {
-            return false;
+            return fblse;
         }
     }
 
     public Object
-        getSupportedAttributeValues(Class<? extends Attribute> category,
-                                    DocFlavor flavor,
-                                    AttributeSet attributes)
+        getSupportedAttributeVblues(Clbss<? extends Attribute> cbtegory,
+                                    DocFlbvor flbvor,
+                                    AttributeSet bttributes)
     {
 
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
+        if (!Attribute.clbss.isAssignbbleFrom(cbtegory)) {
+            throw new IllegblArgumentException(cbtegory +
                                              " does not implement Attribute");
         }
-        if (flavor != null) {
-            if (!isDocFlavorSupported(flavor)) {
-                throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
-            } else if (isAutoSense(flavor)) {
+        if (flbvor != null) {
+            if (!isDocFlbvorSupported(flbvor)) {
+                throw new IllegblArgumentException(flbvor +
+                                               " is bn unsupported flbvor");
+            } else if (isAutoSense(flbvor)) {
                 return null;
             }
         }
 
-        if (!isAttributeCategorySupported(category)) {
+        if (!isAttributeCbtegorySupported(cbtegory)) {
             return null;
         }
 
-        if (category == Chromaticity.class) {
-            if (flavor == null || isServiceFormattedFlavor(flavor)) {
-                Chromaticity[]arr = new Chromaticity[1];
-                arr[0] = Chromaticity.COLOR;
-                return (arr);
+        if (cbtegory == Chrombticity.clbss) {
+            if (flbvor == null || isServiceFormbttedFlbvor(flbvor)) {
+                Chrombticity[]brr = new Chrombticity[1];
+                brr[0] = Chrombticity.COLOR;
+                return (brr);
             } else {
                 return null;
             }
-        } else if (category == Destination.class) {
+        } else if (cbtegory == Destinbtion.clbss) {
             try {
-                return new Destination((new File("out.ps")).toURI());
-            } catch (SecurityException se) {
+                return new Destinbtion((new File("out.ps")).toURI());
+            } cbtch (SecurityException se) {
                 try {
-                    return new Destination(new URI("file:out.ps"));
-                } catch (URISyntaxException e) {
+                    return new Destinbtion(new URI("file:out.ps"));
+                } cbtch (URISyntbxException e) {
                     return null;
                 }
             }
-        } else if (category == JobName.class) {
-            return new JobName("Java Printing", null);
-        } else if (category == JobSheets.class) {
-            JobSheets arr[] = new JobSheets[2];
-            arr[0] = JobSheets.NONE;
-            arr[1] = JobSheets.STANDARD;
-            return arr;
-        } else if (category == RequestingUserName.class) {
-            String userName = "";
+        } else if (cbtegory == JobNbme.clbss) {
+            return new JobNbme("Jbvb Printing", null);
+        } else if (cbtegory == JobSheets.clbss) {
+            JobSheets brr[] = new JobSheets[2];
+            brr[0] = JobSheets.NONE;
+            brr[1] = JobSheets.STANDARD;
+            return brr;
+        } else if (cbtegory == RequestingUserNbme.clbss) {
+            String userNbme = "";
             try {
-              userName = System.getProperty("user.name", "");
-            } catch (SecurityException se) {
+              userNbme = System.getProperty("user.nbme", "");
+            } cbtch (SecurityException se) {
             }
-            return new RequestingUserName(userName, null);
-        } else if (category == OrientationRequested.class) {
-            if (flavor == null || isServiceFormattedFlavor(flavor)) {
-                OrientationRequested []arr = new OrientationRequested[3];
-                arr[0] = OrientationRequested.PORTRAIT;
-                arr[1] = OrientationRequested.LANDSCAPE;
-                arr[2] = OrientationRequested.REVERSE_LANDSCAPE;
-                return arr;
+            return new RequestingUserNbme(userNbme, null);
+        } else if (cbtegory == OrientbtionRequested.clbss) {
+            if (flbvor == null || isServiceFormbttedFlbvor(flbvor)) {
+                OrientbtionRequested []brr = new OrientbtionRequested[3];
+                brr[0] = OrientbtionRequested.PORTRAIT;
+                brr[1] = OrientbtionRequested.LANDSCAPE;
+                brr[2] = OrientbtionRequested.REVERSE_LANDSCAPE;
+                return brr;
             } else {
                 return null;
             }
-        } else if ((category == Copies.class) ||
-                   (category == CopiesSupported.class)) {
-            if (flavor == null ||
-                !(flavor.equals(DocFlavor.INPUT_STREAM.POSTSCRIPT) ||
-                  flavor.equals(DocFlavor.URL.POSTSCRIPT) ||
-                  flavor.equals(DocFlavor.BYTE_ARRAY.POSTSCRIPT))) {
+        } else if ((cbtegory == Copies.clbss) ||
+                   (cbtegory == CopiesSupported.clbss)) {
+            if (flbvor == null ||
+                !(flbvor.equbls(DocFlbvor.INPUT_STREAM.POSTSCRIPT) ||
+                  flbvor.equbls(DocFlbvor.URL.POSTSCRIPT) ||
+                  flbvor.equbls(DocFlbvor.BYTE_ARRAY.POSTSCRIPT))) {
                 return new CopiesSupported(1, MAXCOPIES);
             } else {
                 return null;
             }
-        } else if (category == Media.class) {
-            Media []arr = new Media[mediaSizes.length];
-            System.arraycopy(mediaSizes, 0, arr, 0, mediaSizes.length);
-            return arr;
-        } else if (category == Fidelity.class) {
-            Fidelity []arr = new Fidelity[2];
-            arr[0] = Fidelity.FIDELITY_FALSE;
-            arr[1] = Fidelity.FIDELITY_TRUE;
-            return arr;
-        } else if (category == MediaPrintableArea.class) {
-            /* The code below implements the behaviour that if no Media or
-             * MediaSize attribute is specified, return an array of
-             * MediaPrintableArea, one for each supported Media.
-             * If a MediaSize is specified, return a MPA consistent for that,
-             * and if a Media is specified locate its MediaSize and return
-             * its MPA, and if none is found, return an MPA for the default
-             * Media for this service.
+        } else if (cbtegory == Medib.clbss) {
+            Medib []brr = new Medib[medibSizes.length];
+            System.brrbycopy(medibSizes, 0, brr, 0, medibSizes.length);
+            return brr;
+        } else if (cbtegory == Fidelity.clbss) {
+            Fidelity []brr = new Fidelity[2];
+            brr[0] = Fidelity.FIDELITY_FALSE;
+            brr[1] = Fidelity.FIDELITY_TRUE;
+            return brr;
+        } else if (cbtegory == MedibPrintbbleAreb.clbss) {
+            /* The code below implements the behbviour thbt if no Medib or
+             * MedibSize bttribute is specified, return bn brrby of
+             * MedibPrintbbleAreb, one for ebch supported Medib.
+             * If b MedibSize is specified, return b MPA consistent for thbt,
+             * bnd if b Medib is specified locbte its MedibSize bnd return
+             * its MPA, bnd if none is found, return bn MPA for the defbult
+             * Medib for this service.
              */
-            if (attributes == null) {
-                return getAllPrintableAreas();
+            if (bttributes == null) {
+                return getAllPrintbbleArebs();
             }
-            MediaSize mediaSize = (MediaSize)attributes.get(MediaSize.class);
-            Media media = (Media)attributes.get(Media.class);
-            MediaPrintableArea []arr = new MediaPrintableArea[1];
-            if (mediaSize == null) {
-                if (media instanceof MediaSizeName) {
-                    MediaSizeName msn = (MediaSizeName)media;
-                    mediaSize = MediaSize.getMediaSizeForName(msn);
-                    if (mediaSize == null) {
-                        /* try to get a size from the default media */
-                        media = (Media)getDefaultAttributeValue(Media.class);
-                        if (media instanceof MediaSizeName) {
-                            msn = (MediaSizeName)media;
-                            mediaSize = MediaSize.getMediaSizeForName(msn);
+            MedibSize medibSize = (MedibSize)bttributes.get(MedibSize.clbss);
+            Medib medib = (Medib)bttributes.get(Medib.clbss);
+            MedibPrintbbleAreb []brr = new MedibPrintbbleAreb[1];
+            if (medibSize == null) {
+                if (medib instbnceof MedibSizeNbme) {
+                    MedibSizeNbme msn = (MedibSizeNbme)medib;
+                    medibSize = MedibSize.getMedibSizeForNbme(msn);
+                    if (medibSize == null) {
+                        /* try to get b size from the defbult medib */
+                        medib = (Medib)getDefbultAttributeVblue(Medib.clbss);
+                        if (medib instbnceof MedibSizeNbme) {
+                            msn = (MedibSizeNbme)medib;
+                            medibSize = MedibSize.getMedibSizeForNbme(msn);
                         }
-                        if (mediaSize == null) {
-                            /* shouldn't happen, return a default */
-                            arr[0] = new MediaPrintableArea(0.25f, 0.25f,
+                        if (medibSize == null) {
+                            /* shouldn't hbppen, return b defbult */
+                            brr[0] = new MedibPrintbbleAreb(0.25f, 0.25f,
                                                             8f, 10.5f,
-                                                            MediaSize.INCH);
-                            return arr;
+                                                            MedibSize.INCH);
+                            return brr;
                         }
                     }
                 } else {
-                    return getAllPrintableAreas();
+                    return getAllPrintbbleArebs();
                 }
             }
-            /* If reach here MediaSize is non-null */
-            assert mediaSize != null;
-            arr[0] = new MediaPrintableArea(0.25f, 0.25f,
-                                mediaSize.getX(MediaSize.INCH)-0.5f,
-                                mediaSize.getY(MediaSize.INCH)-0.5f,
-                                MediaSize.INCH);
-            return arr;
-        } else if (category == PageRanges.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                PageRanges []arr = new PageRanges[1];
-                arr[0] = new PageRanges(1, Integer.MAX_VALUE);
-                return arr;
+            /* If rebch here MedibSize is non-null */
+            bssert medibSize != null;
+            brr[0] = new MedibPrintbbleAreb(0.25f, 0.25f,
+                                medibSize.getX(MedibSize.INCH)-0.5f,
+                                medibSize.getY(MedibSize.INCH)-0.5f,
+                                MedibSize.INCH);
+            return brr;
+        } else if (cbtegory == PbgeRbnges.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                PbgeRbnges []brr = new PbgeRbnges[1];
+                brr[0] = new PbgeRbnges(1, Integer.MAX_VALUE);
+                return brr;
             } else {
                 return null;
             }
-        } else if (category == SheetCollate.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                SheetCollate []arr = new SheetCollate[2];
-                arr[0] = SheetCollate.UNCOLLATED;
-                arr[1] = SheetCollate.COLLATED;
-                return arr;
+        } else if (cbtegory == SheetCollbte.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                SheetCollbte []brr = new SheetCollbte[2];
+                brr[0] = SheetCollbte.UNCOLLATED;
+                brr[1] = SheetCollbte.COLLATED;
+                return brr;
             } else {
                 return null;
             }
-        } else if (category == Sides.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                Sides []arr = new Sides[3];
-                arr[0] = Sides.ONE_SIDED;
-                arr[1] = Sides.TWO_SIDED_LONG_EDGE;
-                arr[2] = Sides.TWO_SIDED_SHORT_EDGE;
-                return arr;
+        } else if (cbtegory == Sides.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                Sides []brr = new Sides[3];
+                brr[0] = Sides.ONE_SIDED;
+                brr[1] = Sides.TWO_SIDED_LONG_EDGE;
+                brr[2] = Sides.TWO_SIDED_SHORT_EDGE;
+                return brr;
             } else {
                 return null;
             }
@@ -908,150 +908,150 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    private static MediaPrintableArea[] mpas = null;
-    private MediaPrintableArea[] getAllPrintableAreas() {
+    privbte stbtic MedibPrintbbleAreb[] mpbs = null;
+    privbte MedibPrintbbleAreb[] getAllPrintbbleArebs() {
 
-        if (mpas == null) {
-            Media[] media = (Media[])getSupportedAttributeValues(Media.class,
+        if (mpbs == null) {
+            Medib[] medib = (Medib[])getSupportedAttributeVblues(Medib.clbss,
                                                                  null, null);
-            mpas = new MediaPrintableArea[media.length];
-            for (int i=0; i< mpas.length; i++) {
-                if (media[i] instanceof MediaSizeName) {
-                    MediaSizeName msn = (MediaSizeName)media[i];
-                    MediaSize mediaSize = MediaSize.getMediaSizeForName(msn);
-                    if (mediaSize == null) {
-                        mpas[i] = (MediaPrintableArea)
-                            getDefaultAttributeValue(MediaPrintableArea.class);
+            mpbs = new MedibPrintbbleAreb[medib.length];
+            for (int i=0; i< mpbs.length; i++) {
+                if (medib[i] instbnceof MedibSizeNbme) {
+                    MedibSizeNbme msn = (MedibSizeNbme)medib[i];
+                    MedibSize medibSize = MedibSize.getMedibSizeForNbme(msn);
+                    if (medibSize == null) {
+                        mpbs[i] = (MedibPrintbbleAreb)
+                            getDefbultAttributeVblue(MedibPrintbbleAreb.clbss);
                     } else {
-                        mpas[i] = new MediaPrintableArea(0.25f, 0.25f,
-                                        mediaSize.getX(MediaSize.INCH)-0.5f,
-                                        mediaSize.getY(MediaSize.INCH)-0.5f,
-                                        MediaSize.INCH);
+                        mpbs[i] = new MedibPrintbbleAreb(0.25f, 0.25f,
+                                        medibSize.getX(MedibSize.INCH)-0.5f,
+                                        medibSize.getY(MedibSize.INCH)-0.5f,
+                                        MedibSize.INCH);
                     }
                 }
             }
         }
-        MediaPrintableArea[] mpasCopy = new MediaPrintableArea[mpas.length];
-        System.arraycopy(mpas, 0, mpasCopy, 0, mpas.length);
-        return mpasCopy;
+        MedibPrintbbleAreb[] mpbsCopy = new MedibPrintbbleAreb[mpbs.length];
+        System.brrbycopy(mpbs, 0, mpbsCopy, 0, mpbs.length);
+        return mpbsCopy;
     }
 
-    /* Is this one of the flavors that this service explicitly
-     * generates postscript for, and so can control how it is rendered?
+    /* Is this one of the flbvors thbt this service explicitly
+     * generbtes postscript for, bnd so cbn control how it is rendered?
      */
-    private boolean isServiceFormattedFlavor(DocFlavor flavor) {
+    privbte boolebn isServiceFormbttedFlbvor(DocFlbvor flbvor) {
         return
-            flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-            flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.GIF) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.GIF) ||
-            flavor.equals(DocFlavor.URL.GIF) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.JPEG) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.JPEG) ||
-            flavor.equals(DocFlavor.URL.JPEG) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.PNG) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.PNG) ||
-            flavor.equals(DocFlavor.URL.PNG);
+            flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+            flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.GIF) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.GIF) ||
+            flbvor.equbls(DocFlbvor.URL.GIF) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.JPEG) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.JPEG) ||
+            flbvor.equbls(DocFlbvor.URL.JPEG) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.PNG) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.PNG) ||
+            flbvor.equbls(DocFlbvor.URL.PNG);
     }
 
-    public boolean isAttributeValueSupported(Attribute attr,
-                                             DocFlavor flavor,
-                                             AttributeSet attributes) {
-        if (attr == null) {
-            throw new NullPointerException("null attribute");
+    public boolebn isAttributeVblueSupported(Attribute bttr,
+                                             DocFlbvor flbvor,
+                                             AttributeSet bttributes) {
+        if (bttr == null) {
+            throw new NullPointerException("null bttribute");
         }
-        if (flavor != null) {
-            if (!isDocFlavorSupported(flavor)) {
-                throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
-            } else if (isAutoSense(flavor)) {
-                return false;
+        if (flbvor != null) {
+            if (!isDocFlbvorSupported(flbvor)) {
+                throw new IllegblArgumentException(flbvor +
+                                               " is bn unsupported flbvor");
+            } else if (isAutoSense(flbvor)) {
+                return fblse;
             }
         }
-        Class<? extends Attribute> category = attr.getCategory();
-        if (!isAttributeCategorySupported(category)) {
-            return false;
+        Clbss<? extends Attribute> cbtegory = bttr.getCbtegory();
+        if (!isAttributeCbtegorySupported(cbtegory)) {
+            return fblse;
         }
-        else if (attr.getCategory() == Chromaticity.class) {
-            if (flavor == null || isServiceFormattedFlavor(flavor)) {
-                return attr == Chromaticity.COLOR;
+        else if (bttr.getCbtegory() == Chrombticity.clbss) {
+            if (flbvor == null || isServiceFormbttedFlbvor(flbvor)) {
+                return bttr == Chrombticity.COLOR;
             } else {
-                return false;
+                return fblse;
             }
         }
-        else if (attr.getCategory() == Copies.class) {
-            return (flavor == null ||
-                   !(flavor.equals(DocFlavor.INPUT_STREAM.POSTSCRIPT) ||
-                     flavor.equals(DocFlavor.URL.POSTSCRIPT) ||
-                     flavor.equals(DocFlavor.BYTE_ARRAY.POSTSCRIPT))) &&
-                isSupportedCopies((Copies)attr);
-        } else if (attr.getCategory() == Destination.class) {
-            URI uri = ((Destination)attr).getURI();
-                if ("file".equals(uri.getScheme()) &&
-                    !(uri.getSchemeSpecificPart().equals(""))) {
+        else if (bttr.getCbtegory() == Copies.clbss) {
+            return (flbvor == null ||
+                   !(flbvor.equbls(DocFlbvor.INPUT_STREAM.POSTSCRIPT) ||
+                     flbvor.equbls(DocFlbvor.URL.POSTSCRIPT) ||
+                     flbvor.equbls(DocFlbvor.BYTE_ARRAY.POSTSCRIPT))) &&
+                isSupportedCopies((Copies)bttr);
+        } else if (bttr.getCbtegory() == Destinbtion.clbss) {
+            URI uri = ((Destinbtion)bttr).getURI();
+                if ("file".equbls(uri.getScheme()) &&
+                    !(uri.getSchemeSpecificPbrt().equbls(""))) {
                 return true;
             } else {
-            return false;
+            return fblse;
             }
-        } else if (attr.getCategory() == Media.class) {
-            if (attr instanceof MediaSizeName) {
-                return isSupportedMedia((MediaSizeName)attr);
+        } else if (bttr.getCbtegory() == Medib.clbss) {
+            if (bttr instbnceof MedibSizeNbme) {
+                return isSupportedMedib((MedibSizeNbme)bttr);
             } else {
-                return false;
+                return fblse;
             }
-        } else if (attr.getCategory() == OrientationRequested.class) {
-            if (attr == OrientationRequested.REVERSE_PORTRAIT ||
-                (flavor != null) &&
-                !isServiceFormattedFlavor(flavor)) {
-                return false;
+        } else if (bttr.getCbtegory() == OrientbtionRequested.clbss) {
+            if (bttr == OrientbtionRequested.REVERSE_PORTRAIT ||
+                (flbvor != null) &&
+                !isServiceFormbttedFlbvor(flbvor)) {
+                return fblse;
             }
-        } else if (attr.getCategory() == PageRanges.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == PbgeRbnges.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
-        } else if (attr.getCategory() == SheetCollate.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == SheetCollbte.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
-        } else if (attr.getCategory() == Sides.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == Sides.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
         }
         return true;
     }
 
-    public AttributeSet getUnsupportedAttributes(DocFlavor flavor,
-                                                 AttributeSet attributes) {
+    public AttributeSet getUnsupportedAttributes(DocFlbvor flbvor,
+                                                 AttributeSet bttributes) {
 
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException("flavor " + flavor +
+        if (flbvor != null && !isDocFlbvorSupported(flbvor)) {
+            throw new IllegblArgumentException("flbvor " + flbvor +
                                                "is not supported");
         }
 
-        if (attributes == null) {
+        if (bttributes == null) {
             return null;
         }
 
-        Attribute attr;
-        AttributeSet unsupp = new HashAttributeSet();
-        Attribute []attrs = attributes.toArray();
-        for (int i=0; i<attrs.length; i++) {
+        Attribute bttr;
+        AttributeSet unsupp = new HbshAttributeSet();
+        Attribute []bttrs = bttributes.toArrby();
+        for (int i=0; i<bttrs.length; i++) {
             try {
-                attr = attrs[i];
-                if (!isAttributeCategorySupported(attr.getCategory())) {
-                    unsupp.add(attr);
-                } else if (!isAttributeValueSupported(attr, flavor,
-                                                      attributes)) {
-                    unsupp.add(attr);
+                bttr = bttrs[i];
+                if (!isAttributeCbtegorySupported(bttr.getCbtegory())) {
+                    unsupp.bdd(bttr);
+                } else if (!isAttributeVblueSupported(bttr, flbvor,
+                                                      bttributes)) {
+                    unsupp.bdd(bttr);
                 }
-            } catch (ClassCastException e) {
+            } cbtch (ClbssCbstException e) {
             }
         }
         if (unsupp.isEmpty()) {
@@ -1061,26 +1061,26 @@ public class UnixPrintService implements PrintService, AttributeUpdater,
         }
     }
 
-    public ServiceUIFactory getServiceUIFactory() {
+    public ServiceUIFbctory getServiceUIFbctory() {
         return null;
     }
 
     public String toString() {
-        return "Unix Printer : " + getName();
+        return "Unix Printer : " + getNbme();
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return  (obj == this ||
-                 (obj instanceof UnixPrintService &&
-                  ((UnixPrintService)obj).getName().equals(getName())));
+                 (obj instbnceof UnixPrintService &&
+                  ((UnixPrintService)obj).getNbme().equbls(getNbme())));
     }
 
-    public int hashCode() {
-        return this.getClass().hashCode()+getName().hashCode();
+    public int hbshCode() {
+        return this.getClbss().hbshCode()+getNbme().hbshCode();
     }
 
-    public boolean usesClass(Class<?> c) {
-        return (c == sun.print.PSPrinterJob.class);
+    public boolebn usesClbss(Clbss<?> c) {
+        return (c == sun.print.PSPrinterJob.clbss);
     }
 
 }

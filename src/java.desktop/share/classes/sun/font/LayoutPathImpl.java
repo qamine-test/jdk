@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  * (C) Copyright IBM Corp. 2005, All Rights Reserved.
  */
-package sun.font;
+pbckbge sun.font;
 
 //
-// This is the 'simple' mapping implementation.  It does things the most
-// straightforward way even if that is a bit slow.  It won't
-// handle complex paths efficiently, and doesn't handle closed paths.
+// This is the 'simple' mbpping implementbtion.  It does things the most
+// strbightforwbrd wby even if thbt is b bit slow.  It won't
+// hbndle complex pbths efficiently, bnd doesn't hbndle closed pbths.
 //
 
-import java.awt.Shape;
-import java.awt.font.LayoutPath;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.util.Formatter;
-import java.util.ArrayList;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.LbyoutPbth;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.Point2D;
+import jbvb.util.Formbtter;
+import jbvb.util.ArrbyList;
 
-import static java.awt.geom.PathIterator.*;
-import static java.lang.Math.abs;
-import static java.lang.Math.sqrt;
+import stbtic jbvb.bwt.geom.PbthIterbtor.*;
+import stbtic jbvb.lbng.Mbth.bbs;
+import stbtic jbvb.lbng.Mbth.sqrt;
 
-public abstract class LayoutPathImpl extends LayoutPath {
+public bbstrbct clbss LbyoutPbthImpl extends LbyoutPbth {
 
     //
     // Convenience APIs
     //
 
-    public Point2D pointToPath(double x, double y) {
+    public Point2D pointToPbth(double x, double y) {
         Point2D.Double pt = new Point2D.Double(x, y);
-        pointToPath(pt, pt);
+        pointToPbth(pt, pt);
         return pt;
     }
 
-    public Point2D pathToPoint(double a, double o, boolean preceding) {
-        Point2D.Double pt = new Point2D.Double(a, o);
-        pathToPoint(pt, preceding, pt);
+    public Point2D pbthToPoint(double b, double o, boolebn preceding) {
+        Point2D.Double pt = new Point2D.Double(b, o);
+        pbthToPoint(pt, preceding, pt);
         return pt;
     }
 
-    public void pointToPath(double x, double y, Point2D pt) {
-        pt.setLocation(x, y);
-        pointToPath(pt, pt);
+    public void pointToPbth(double x, double y, Point2D pt) {
+        pt.setLocbtion(x, y);
+        pointToPbth(pt, pt);
     }
 
-    public void pathToPoint(double a, double o, boolean preceding, Point2D pt) {
-        pt.setLocation(a, o);
-        pathToPoint(pt, preceding, pt);
+    public void pbthToPoint(double b, double o, boolebn preceding, Point2D pt) {
+        pt.setLocbtion(b, o);
+        pbthToPoint(pt, preceding, pt);
     }
 
     //
-    // extra utility APIs
+    // extrb utility APIs
     //
 
-    public abstract double start();
-    public abstract double end();
-    public abstract double length();
-    public abstract Shape mapShape(Shape s);
+    public bbstrbct double stbrt();
+    public bbstrbct double end();
+    public bbstrbct double length();
+    public bbstrbct Shbpe mbpShbpe(Shbpe s);
 
     //
-    // debugging flags
+    // debugging flbgs
     //
 
-    private static final boolean LOGMAP = false;
-    private static final Formatter LOG = new Formatter(System.out);
+    privbte stbtic finbl boolebn LOGMAP = fblse;
+    privbte stbtic finbl Formbtter LOG = new Formbtter(System.out);
 
     /**
-     * Indicate how positions past the start and limit of the
-     * path are treated.  PINNED adjusts these positions so
-     * as to be within start and limit.  EXTENDED ignores the
-     * start and limit and effectively extends the first and
-     * last segments of the path 'infinitely'.  CLOSED wraps
-     * positions around the ends of the path.
+     * Indicbte how positions pbst the stbrt bnd limit of the
+     * pbth bre trebted.  PINNED bdjusts these positions so
+     * bs to be within stbrt bnd limit.  EXTENDED ignores the
+     * stbrt bnd limit bnd effectively extends the first bnd
+     * lbst segments of the pbth 'infinitely'.  CLOSED wrbps
+     * positions bround the ends of the pbth.
      */
-    public static enum EndType {
+    public stbtic enum EndType {
         PINNED, EXTENDED, CLOSED;
-        public boolean isPinned() { return this == PINNED; }
-        public boolean isExtended() { return this == EXTENDED; }
-        public boolean isClosed() { return this == CLOSED; }
+        public boolebn isPinned() { return this == PINNED; }
+        public boolebn isExtended() { return this == EXTENDED; }
+        public boolebn isClosed() { return this == CLOSED; }
     };
 
     //
@@ -111,59 +111,59 @@ public abstract class LayoutPathImpl extends LayoutPath {
     //
 
     /**
-     * Return a path representing the path from the origin through the points in order.
+     * Return b pbth representing the pbth from the origin through the points in order.
      */
-    public static LayoutPathImpl getPath(EndType etype, double ... coords) {
+    public stbtic LbyoutPbthImpl getPbth(EndType etype, double ... coords) {
         if ((coords.length & 0x1) != 0) {
-            throw new IllegalArgumentException("odd number of points not allowed");
+            throw new IllegblArgumentException("odd number of points not bllowed");
         }
 
-        return SegmentPath.get(etype, coords);
+        return SegmentPbth.get(etype, coords);
     }
 
     /**
-     * Use to build a SegmentPath.  This takes the data and preanalyzes it for
-     * information that the SegmentPath needs, then constructs a SegmentPath
-     * from that.  Mainly, this lets SegmentPath cache the lengths along
-     * the path to each line segment, and so avoid calculating them over and over.
+     * Use to build b SegmentPbth.  This tbkes the dbtb bnd prebnblyzes it for
+     * informbtion thbt the SegmentPbth needs, then constructs b SegmentPbth
+     * from thbt.  Mbinly, this lets SegmentPbth cbche the lengths blong
+     * the pbth to ebch line segment, bnd so bvoid cblculbting them over bnd over.
      */
-    public static final class SegmentPathBuilder {
-        private double[] data;
-        private int w;
-        private double px;
-        private double py;
-        private double a;
-        private boolean pconnect;
+    public stbtic finbl clbss SegmentPbthBuilder {
+        privbte double[] dbtb;
+        privbte int w;
+        privbte double px;
+        privbte double py;
+        privbte double b;
+        privbte boolebn pconnect;
 
         /**
-         * Construct a SegmentPathBuilder.
+         * Construct b SegmentPbthBuilder.
          */
-        public SegmentPathBuilder() {
+        public SegmentPbthBuilder() {
         }
 
         /**
-         * Reset the builder for a new path.  Datalen is a hint of how many
-         * points will be in the path, and the working buffer will be sized
-         * to accommodate at least this number of points.  If datalen is zero,
-         * the working buffer is freed (it will be allocated on first use).
+         * Reset the builder for b new pbth.  Dbtblen is b hint of how mbny
+         * points will be in the pbth, bnd the working buffer will be sized
+         * to bccommodbte bt lebst this number of points.  If dbtblen is zero,
+         * the working buffer is freed (it will be bllocbted on first use).
          */
-        public void reset(int datalen) {
-            if (data == null || datalen > data.length) {
-                data = new double[datalen];
-            } else if (datalen == 0) {
-                data = null;
+        public void reset(int dbtblen) {
+            if (dbtb == null || dbtblen > dbtb.length) {
+                dbtb = new double[dbtblen];
+            } else if (dbtblen == 0) {
+                dbtb = null;
             }
             w = 0;
             px = py = 0;
-            pconnect = false;
+            pconnect = fblse;
         }
 
         /**
-         * Automatically build from a list of points represented by pairs of
-         * doubles.  Initial advance is zero.
+         * Autombticblly build from b list of points represented by pbirs of
+         * doubles.  Initibl bdvbnce is zero.
          */
-        public SegmentPath build(EndType etype, double... pts) {
-            assert(pts.length % 2 == 0);
+        public SegmentPbth build(EndType etype, double... pts) {
+            bssert(pts.length % 2 == 0);
 
             reset(pts.length / 2 * 3);
 
@@ -175,107 +175,107 @@ public abstract class LayoutPathImpl extends LayoutPath {
         }
 
         /**
-         * Move to a new point.  If there is no data, this will become the
-         * first point.  If there is data, and the previous call was a lineTo, this
-         * point is checked against the previous point, and if different, this
-         * starts a new segment at the same advance as the end of the last
-         * segment.  If there is data, and the previous call was a moveTo, this
-         * replaces the point used for that previous call.
+         * Move to b new point.  If there is no dbtb, this will become the
+         * first point.  If there is dbtb, bnd the previous cbll wbs b lineTo, this
+         * point is checked bgbinst the previous point, bnd if different, this
+         * stbrts b new segment bt the sbme bdvbnce bs the end of the lbst
+         * segment.  If there is dbtb, bnd the previous cbll wbs b moveTo, this
+         * replbces the point used for thbt previous cbll.
          *
-         * Calling this is optional, lineTo will suffice and the initial point
+         * Cblling this is optionbl, lineTo will suffice bnd the initibl point
          * will be set to 0, 0.
          */
         public void moveTo(double x, double y) {
-            nextPoint(x, y, false);
+            nextPoint(x, y, fblse);
         }
 
         /**
-         * Connect to a new point.  If there is no data, the previous point
-         * is presumed to be 0, 0.  This point is checked against
-         * the previous point, and if different, this point is added to
-         * the path and the advance extended.  If this point is the same as the
-         * previous point, the path remains unchanged.
+         * Connect to b new point.  If there is no dbtb, the previous point
+         * is presumed to be 0, 0.  This point is checked bgbinst
+         * the previous point, bnd if different, this point is bdded to
+         * the pbth bnd the bdvbnce extended.  If this point is the sbme bs the
+         * previous point, the pbth rembins unchbnged.
          */
         public void lineTo(double x, double y) {
             nextPoint(x, y, true);
         }
 
         /**
-         * Add a new point, and increment advance if connect is true.
+         * Add b new point, bnd increment bdvbnce if connect is true.
          *
-         * This automatically rejects duplicate points and multiple disconnected points.
+         * This butombticblly rejects duplicbte points bnd multiple disconnected points.
          */
-        private void nextPoint(double x, double y, boolean connect) {
+        privbte void nextPoint(double x, double y, boolebn connect) {
 
             // if zero length move or line, ignore
             if (x == px && y == py) {
                 return;
             }
 
-            if (w == 0) { // this is the first point, make sure we have space
-                if (data == null) {
-                    data = new double[6];
+            if (w == 0) { // this is the first point, mbke sure we hbve spbce
+                if (dbtb == null) {
+                    dbtb = new double[6];
                 }
                 if (connect) {
-                    w = 3; // default first point to 0, 0
+                    w = 3; // defbult first point to 0, 0
                 }
             }
 
-            // if multiple disconnected move, just update position, leave advance alone
+            // if multiple disconnected move, just updbte position, lebve bdvbnce blone
             if (w != 0 && !connect && !pconnect) {
-                data[w-3] = px = x;
-                data[w-2] = py = y;
+                dbtb[w-3] = px = x;
+                dbtb[w-2] = py = y;
                 return;
             }
 
-            // grow data to deal with new point
-            if (w == data.length) {
+            // grow dbtb to debl with new point
+            if (w == dbtb.length) {
                 double[] t = new double[w * 2];
-                System.arraycopy(data, 0, t, 0, w);
-                data = t;
+                System.brrbycopy(dbtb, 0, t, 0, w);
+                dbtb = t;
             }
 
             if (connect) {
                 double dx = x - px;
                 double dy = y - py;
-                a += sqrt(dx * dx + dy * dy);
+                b += sqrt(dx * dx + dy * dy);
             }
 
-            // update data
-            data[w++] = x;
-            data[w++] = y;
-            data[w++] = a;
+            // updbte dbtb
+            dbtb[w++] = x;
+            dbtb[w++] = y;
+            dbtb[w++] = b;
 
-            // update state
+            // updbte stbte
             px = x;
             py = y;
             pconnect = connect;
         }
 
-        public SegmentPath complete() {
+        public SegmentPbth complete() {
             return complete(EndType.EXTENDED);
         }
 
         /**
-         * Complete building a SegmentPath.  Once this is called, the builder is restored
-         * to its initial state and information about the previous path is released.  The
-         * end type indicates whether to treat the path as closed, extended, or pinned.
+         * Complete building b SegmentPbth.  Once this is cblled, the builder is restored
+         * to its initibl stbte bnd informbtion bbout the previous pbth is relebsed.  The
+         * end type indicbtes whether to trebt the pbth bs closed, extended, or pinned.
          */
-        public SegmentPath complete(EndType etype) {
-            SegmentPath result;
+        public SegmentPbth complete(EndType etype) {
+            SegmentPbth result;
 
-            if (data == null || w < 6) {
+            if (dbtb == null || w < 6) {
                 return null;
             }
 
-            if (w == data.length) {
-                result = new SegmentPath(data, etype);
-                reset(0); // releases pointer to data
+            if (w == dbtb.length) {
+                result = new SegmentPbth(dbtb, etype);
+                reset(0); // relebses pointer to dbtb
             } else {
-                double[] dataToAdopt = new double[w];
-                System.arraycopy(data, 0, dataToAdopt, 0, w);
-                result = new SegmentPath(dataToAdopt, etype);
-                reset(2); // reuses data, since we held on to it
+                double[] dbtbToAdopt = new double[w];
+                System.brrbycopy(dbtb, 0, dbtbToAdopt, 0, w);
+                result = new SegmentPbth(dbtbToAdopt, etype);
+                reset(2); // reuses dbtb, since we held on to it
             }
 
             return result;
@@ -283,135 +283,135 @@ public abstract class LayoutPathImpl extends LayoutPath {
     }
 
     /**
-     * Represents a path built from segments.  Each segment is
-     * represented by a triple: x, y, and cumulative advance.
-     * These represent the end point of the segment.  The start
+     * Represents b pbth built from segments.  Ebch segment is
+     * represented by b triple: x, y, bnd cumulbtive bdvbnce.
+     * These represent the end point of the segment.  The stbrt
      * point of the first segment is represented by the triple
-     * at position 0.
+     * bt position 0.
      *
-     * The path might have breaks in it, e.g. it is not connected.
-     * These will be represented by pairs of triplets that share the
-     * same advance.
+     * The pbth might hbve brebks in it, e.g. it is not connected.
+     * These will be represented by pbirs of triplets thbt shbre the
+     * sbme bdvbnce.
      *
-     * The path might be extended, pinned, or closed.  If extended,
-     * the initial and final segments are considered to extend
-     * 'indefinitely' past the bounds of the advance.  If pinned,
-     * they end at the bounds of the advance.  If closed,
-     * advances before the start or after the end 'wrap around' the
-     * path.
+     * The pbth might be extended, pinned, or closed.  If extended,
+     * the initibl bnd finbl segments bre considered to extend
+     * 'indefinitely' pbst the bounds of the bdvbnce.  If pinned,
+     * they end bt the bounds of the bdvbnce.  If closed,
+     * bdvbnces before the stbrt or bfter the end 'wrbp bround' the
+     * pbth.
      *
-     * The start of the path is the initial triple.  This provides
-     * the nominal advance at the given x, y position (typically
-     * zero).  The end of the path is the final triple.  This provides
-     * the advance at the end, the total length of the path is
-     * thus the ending advance minus the starting advance.
+     * The stbrt of the pbth is the initibl triple.  This provides
+     * the nominbl bdvbnce bt the given x, y position (typicblly
+     * zero).  The end of the pbth is the finbl triple.  This provides
+     * the bdvbnce bt the end, the totbl length of the pbth is
+     * thus the ending bdvbnce minus the stbrting bdvbnce.
      *
-     * Note: We might want to cache more auxiliary data than the
-     * advance, but this seems adequate for now.
+     * Note: We might wbnt to cbche more buxilibry dbtb thbn the
+     * bdvbnce, but this seems bdequbte for now.
      */
-    public static final class SegmentPath extends LayoutPathImpl {
-        private double[] data; // triplets x, y, a
+    public stbtic finbl clbss SegmentPbth extends LbyoutPbthImpl {
+        privbte double[] dbtb; // triplets x, y, b
         EndType etype;
 
-        public static SegmentPath get(EndType etype, double... pts) {
-            return new SegmentPathBuilder().build(etype, pts);
+        public stbtic SegmentPbth get(EndType etype, double... pts) {
+            return new SegmentPbthBuilder().build(etype, pts);
         }
 
         /**
-         * Internal, use SegmentPathBuilder or one of the static
-         * helper functions to construct a SegmentPath.
+         * Internbl, use SegmentPbthBuilder or one of the stbtic
+         * helper functions to construct b SegmentPbth.
          */
-        SegmentPath(double[] data, EndType etype) {
-            this.data = data;
+        SegmentPbth(double[] dbtb, EndType etype) {
+            this.dbtb = dbtb;
             this.etype = etype;
         }
 
         //
-        // LayoutPath API
+        // LbyoutPbth API
         //
 
-        public void pathToPoint(Point2D location, boolean preceding, Point2D point) {
-            locateAndGetIndex(location, preceding, point);
+        public void pbthToPoint(Point2D locbtion, boolebn preceding, Point2D point) {
+            locbteAndGetIndex(locbtion, preceding, point);
         }
 
-        // the path consists of line segments, which i'll call
-        // 'path vectors'.  call each run of path vectors a 'path segment'.
-        // no path vector in a path segment is zero length (in the
-        // data, such vectors start a new path segment).
+        // the pbth consists of line segments, which i'll cbll
+        // 'pbth vectors'.  cbll ebch run of pbth vectors b 'pbth segment'.
+        // no pbth vector in b pbth segment is zero length (in the
+        // dbtb, such vectors stbrt b new pbth segment).
         //
-        // for each path segment...
+        // for ebch pbth segment...
         //
-        // for each path vector...
+        // for ebch pbth vector...
         //
-        // we look at the dot product of the path vector and the vector from the
-        // origin of the path vector to the test point.  if <0 (case
-        // A), the projection of the test point is before the start of
-        // the path vector.  if > the square of the length of the path vector
-        // (case B), the projection is past the end point of the
-        // path vector.  otherwise (case C), it lies on the path vector.
-        // determine the closeset point on the path vector.  if case A, it
-        // is the start of the path vector.  if case B and this is the last
-        // path vector in the path segment, it is the end of the path vector.  If
-        // case C, it is the projection onto the path vector.  Otherwise
+        // we look bt the dot product of the pbth vector bnd the vector from the
+        // origin of the pbth vector to the test point.  if <0 (cbse
+        // A), the projection of the test point is before the stbrt of
+        // the pbth vector.  if > the squbre of the length of the pbth vector
+        // (cbse B), the projection is pbst the end point of the
+        // pbth vector.  otherwise (cbse C), it lies on the pbth vector.
+        // determine the closeset point on the pbth vector.  if cbse A, it
+        // is the stbrt of the pbth vector.  if cbse B bnd this is the lbst
+        // pbth vector in the pbth segment, it is the end of the pbth vector.  If
+        // cbse C, it is the projection onto the pbth vector.  Otherwise
         // there is no closest point.
         //
-        // if we have a closest point, compare the distance from it to
-        // the test point against our current closest distance.
-        // (culling should be fast, currently i am using distance
-        // squared, but there's probably better ways).  if we're
-        // closer, save the new point as the current closest point,
-        // and record the path vector index so we can determine the final
+        // if we hbve b closest point, compbre the distbnce from it to
+        // the test point bgbinst our current closest distbnce.
+        // (culling should be fbst, currently i bm using distbnce
+        // squbred, but there's probbbly better wbys).  if we're
+        // closer, sbve the new point bs the current closest point,
+        // bnd record the pbth vector index so we cbn determine the finbl
         // info if this turns out to be the closest point in the end.
         //
-        // after we have processed all the segments we will have
-        // tested each path vector and each endpoint.  if our point is not on
-        // an endpoint, we're done; we can compute the position and
-        // offset again, or if we saved it off we can just use it.  if
-        // we're on an endpoint we need to see which path vector we should
-        // associate with.  if we're at the start or end of a path segment,
-        // we're done-- the first or last vector of the segment is the
-        // one we associate with.  we project against that vector to
-        // get the offset, and pin to that vector to get the length.
+        // bfter we hbve processed bll the segments we will hbve
+        // tested ebch pbth vector bnd ebch endpoint.  if our point is not on
+        // bn endpoint, we're done; we cbn compute the position bnd
+        // offset bgbin, or if we sbved it off we cbn just use it.  if
+        // we're on bn endpoint we need to see which pbth vector we should
+        // bssocibte with.  if we're bt the stbrt or end of b pbth segment,
+        // we're done-- the first or lbst vector of the segment is the
+        // one we bssocibte with.  we project bgbinst thbt vector to
+        // get the offset, bnd pin to thbt vector to get the length.
         //
-        // otherwise, we compute the information as follows.  if the
-        // dot product (see above) with the following vector is zero,
-        // we associate with that vector.  otherwise, if the dot
-        // product with the previous vector is zero, we associate with
-        // that vector.  otherwise we're beyond the end of the
-        // previous vector and before the start of the current vector.
-        // we project against both vectors and get the distance from
+        // otherwise, we compute the informbtion bs follows.  if the
+        // dot product (see bbove) with the following vector is zero,
+        // we bssocibte with thbt vector.  otherwise, if the dot
+        // product with the previous vector is zero, we bssocibte with
+        // thbt vector.  otherwise we're beyond the end of the
+        // previous vector bnd before the stbrt of the current vector.
+        // we project bgbinst both vectors bnd get the distbnce from
         // the test point to the projection (this will be the offset).
-        // if they are the same, we take the following vector.
+        // if they bre the sbme, we tbke the following vector.
         // otherwise use the vector from which the test point is the
-        // _farthest_ (this is because the point lies most clearly in
-        // the half of the plane defined by extending that vector).
+        // _fbrthest_ (this is becbuse the point lies most clebrly in
+        // the hblf of the plbne defined by extending thbt vector).
         //
-        // the returned position is the path length to the (possibly
+        // the returned position is the pbth length to the (possibly
         // pinned) point, the offset is the projection onto the line
-        // along the vector, and we have a boolean flag which if false
-        // indicates that we associate with the previous vector at a
-        // junction (which is necessary when projecting such a
-        // location back to a point).
+        // blong the vector, bnd we hbve b boolebn flbg which if fblse
+        // indicbtes thbt we bssocibte with the previous vector bt b
+        // junction (which is necessbry when projecting such b
+        // locbtion bbck to b point).
 
-        public boolean pointToPath(Point2D pt, Point2D result) {
+        public boolebn pointToPbth(Point2D pt, Point2D result) {
             double x = pt.getX();               // test point
             double y = pt.getY();
 
-            double bx = data[0];                // previous point
-            double by = data[1];
-            double bl = data[2];
+            double bx = dbtb[0];                // previous point
+            double by = dbtb[1];
+            double bl = dbtb[2];
 
-            // start with defaults
-            double cd2 = Double.MAX_VALUE;       // current best distance from path, squared
+            // stbrt with defbults
+            double cd2 = Double.MAX_VALUE;       // current best distbnce from pbth, squbred
             double cx = 0;                       // current best x
             double cy = 0;                       // current best y
-            double cl = 0;                       // current best position along path
-            int ci = 0;                          // current best index into data
+            double cl = 0;                       // current best position blong pbth
+            int ci = 0;                          // current best index into dbtb
 
-            for (int i = 3; i < data.length; i += 3) {
-                double nx = data[i];             // current end point
-                double ny = data[i+1];
-                double nl = data[i+2];
+            for (int i = 3; i < dbtb.length; i += 3) {
+                double nx = dbtb[i];             // current end point
+                double ny = dbtb[i+1];
+                double nl = dbtb[i+2];
 
                 double dx = nx - bx;             // vector from previous to current
                 double dy = ny - by;
@@ -421,43 +421,43 @@ public abstract class LayoutPathImpl extends LayoutPath {
                 double py = y - by;
 
                 // determine sign of dot product of vectors from bx, by
-                // if < 0, we're before the start of this vector
+                // if < 0, we're before the stbrt of this vector
 
                 double dot = dx * px + dy * py;      // dot product
-                double vcx, vcy, vcl;                // hold closest point on vector as x, y, l
-                int vi;                              // hold index of line, is data.length if last point on path
-                do {                                 // use break below, lets us avoid initializing vcx, vcy...
+                double vcx, vcy, vcl;                // hold closest point on vector bs x, y, l
+                int vi;                              // hold index of line, is dbtb.length if lbst point on pbth
+                do {                                 // use brebk below, lets us bvoid initiblizing vcx, vcy...
                     if (dl == 0 ||                   // moveto, or
-                        (dot < 0 &&                  // before path vector and
+                        (dot < 0 &&                  // before pbth vector bnd
                          (!etype.isExtended() ||
-                          i != 3))) {                // closest point is start of vector
+                          i != 3))) {                // closest point is stbrt of vector
                         vcx = bx;
                         vcy = by;
                         vcl = bl;
                         vi = i;
                     } else {
-                        double l2 = dl * dl;         // aka dx * dx + dy * dy, square of length
-                        if (dot <= l2 ||             // closest point is not past end of vector, or
-                            (etype.isExtended() &&   // we're extended and at the last segment
-                             i == data.length - 3)) {
-                            double p = dot / l2;     // get parametric along segment
+                        double l2 = dl * dl;         // bkb dx * dx + dy * dy, squbre of length
+                        if (dot <= l2 ||             // closest point is not pbst end of vector, or
+                            (etype.isExtended() &&   // we're extended bnd bt the lbst segment
+                             i == dbtb.length - 3)) {
+                            double p = dot / l2;     // get pbrbmetric blong segment
                             vcx = bx + p * dx;       // compute closest point
                             vcy = by + p * dy;
                             vcl = bl + p * dl;
                             vi = i;
                         } else {
-                            if (i == data.length - 3) {
-                                vcx = nx;            // special case, always test last point
+                            if (i == dbtb.length - 3) {
+                                vcx = nx;            // specibl cbse, blwbys test lbst point
                                 vcy = ny;
                                 vcl = nl;
-                                vi = data.length;
+                                vi = dbtb.length;
                             } else {
-                                break;               // typical case, skip point, we'll pick it up next iteration
+                                brebk;               // typicbl cbse, skip point, we'll pick it up next iterbtion
                             }
                         }
                     }
 
-                    double tdx = x - vcx;        // compute distance from (usually pinned) projection to test point
+                    double tdx = x - vcx;        // compute distbnce from (usublly pinned) projection to test point
                     double tdy = y - vcy;
                     double td2 = tdx * tdx + tdy * tdy;
                     if (td2 <= cd2) {            // new closest point, record info on it
@@ -467,68 +467,68 @@ public abstract class LayoutPathImpl extends LayoutPath {
                         cl = vcl;
                         ci = vi;
                     }
-                } while (false);
+                } while (fblse);
 
                 bx = nx;
                 by = ny;
                 bl = nl;
             }
 
-            // we have our closest point, get the info
-            bx = data[ci-3];
-            by = data[ci-2];
+            // we hbve our closest point, get the info
+            bx = dbtb[ci-3];
+            by = dbtb[ci-2];
             if (cx != bx || cy != by) {     // not on endpoint, no need to resolve
-                double nx = data[ci];
-                double ny = data[ci+1];
-                double co = sqrt(cd2);     // have a true perpendicular, so can use distance
+                double nx = dbtb[ci];
+                double ny = dbtb[ci+1];
+                double co = sqrt(cd2);     // hbve b true perpendiculbr, so cbn use distbnce
                 if ((x-cx)*(ny-by) > (y-cy)*(nx-bx)) {
                     co = -co;              // determine sign of offset
                 }
-                result.setLocation(cl, co);
-                return false;
+                result.setLocbtion(cl, co);
+                return fblse;
             } else {                        // on endpoint, we need to resolve which segment
-                boolean havePrev = ci != 3 && data[ci-1] != data[ci-4];
-                boolean haveFoll = ci != data.length && data[ci-1] != data[ci+2];
-                boolean doExtend = etype.isExtended() && (ci == 3 || ci == data.length);
-                if (havePrev && haveFoll) {
+                boolebn hbvePrev = ci != 3 && dbtb[ci-1] != dbtb[ci-4];
+                boolebn hbveFoll = ci != dbtb.length && dbtb[ci-1] != dbtb[ci+2];
+                boolebn doExtend = etype.isExtended() && (ci == 3 || ci == dbtb.length);
+                if (hbvePrev && hbveFoll) {
                     Point2D.Double pp = new Point2D.Double(x, y);
-                    calcoffset(ci - 3, doExtend, pp);
+                    cblcoffset(ci - 3, doExtend, pp);
                     Point2D.Double fp = new Point2D.Double(x, y);
-                    calcoffset(ci, doExtend, fp);
-                    if (abs(pp.y) > abs(fp.y)) {
-                        result.setLocation(pp);
-                        return true; // associate with previous
+                    cblcoffset(ci, doExtend, fp);
+                    if (bbs(pp.y) > bbs(fp.y)) {
+                        result.setLocbtion(pp);
+                        return true; // bssocibte with previous
                     } else {
-                        result.setLocation(fp);
-                        return false; // associate with following
+                        result.setLocbtion(fp);
+                        return fblse; // bssocibte with following
                     }
-                } else if (havePrev) {
-                    result.setLocation(x, y);
-                    calcoffset(ci - 3, doExtend, result);
+                } else if (hbvePrev) {
+                    result.setLocbtion(x, y);
+                    cblcoffset(ci - 3, doExtend, result);
                     return true;
                 } else {
-                    result.setLocation(x, y);
-                    calcoffset(ci, doExtend, result);
-                    return false;
+                    result.setLocbtion(x, y);
+                    cblcoffset(ci, doExtend, result);
+                    return fblse;
                 }
             }
         }
 
         /**
-         * Return the location of the point passed in result as mapped to the
-         * line indicated by index.  If doExtend is true, extend the
-         * x value without pinning to the ends of the line.
-         * this assumes that index is valid and references a line that has
+         * Return the locbtion of the point pbssed in result bs mbpped to the
+         * line indicbted by index.  If doExtend is true, extend the
+         * x vblue without pinning to the ends of the line.
+         * this bssumes thbt index is vblid bnd references b line thbt hbs
          * non-zero length.
          */
-        private void calcoffset(int index, boolean doExtend, Point2D result) {
-            double bx = data[index-3];
-            double by = data[index-2];
+        privbte void cblcoffset(int index, boolebn doExtend, Point2D result) {
+            double bx = dbtb[index-3];
+            double by = dbtb[index-2];
             double px = result.getX() - bx;
             double py = result.getY() - by;
-            double dx = data[index] - bx;
-            double dy = data[index+1] - by;
-            double l = data[index+2] - data[index - 1];
+            double dx = dbtb[index] - bx;
+            double dy = dbtb[index+1] - by;
+            double l = dbtb[index+2] - dbtb[index - 1];
 
             // rx = A dot B / |B|
             // ry = A dot invB / |B|
@@ -538,28 +538,28 @@ public abstract class LayoutPathImpl extends LayoutPath {
                 if (rx < 0) rx = 0;
                 else if (rx > l) rx = l;
             }
-            rx += data[index-1];
-            result.setLocation(rx, ry);
+            rx += dbtb[index-1];
+            result.setLocbtion(rx, ry);
         }
 
         //
-        // LayoutPathImpl API
+        // LbyoutPbthImpl API
         //
 
-        public Shape mapShape(Shape s) {
-            return new Mapper().mapShape(s);
+        public Shbpe mbpShbpe(Shbpe s) {
+            return new Mbpper().mbpShbpe(s);
         }
 
-        public double start() {
-            return data[2];
+        public double stbrt() {
+            return dbtb[2];
         }
 
         public double end() {
-            return data[data.length - 1];
+            return dbtb[dbtb.length - 1];
         }
 
         public double length() {
-            return data[data.length-1] - data[2];
+            return dbtb[dbtb.length-1] - dbtb[2];
         }
 
         //
@@ -567,100 +567,100 @@ public abstract class LayoutPathImpl extends LayoutPath {
         //
 
         /**
-         * Get the 'modulus' of an advance on a closed path.
+         * Get the 'modulus' of bn bdvbnce on b closed pbth.
          */
-        private double getClosedAdvance(double a, boolean preceding) {
+        privbte double getClosedAdvbnce(double b, boolebn preceding) {
             if (etype.isClosed()) {
-                a -= data[2];
-                int count = (int)(a/length());
-                a -= count * length();
-                if (a < 0 || (a == 0 && preceding)) {
-                    a += length();
+                b -= dbtb[2];
+                int count = (int)(b/length());
+                b -= count * length();
+                if (b < 0 || (b == 0 && preceding)) {
+                    b += length();
 
                 }
-                a += data[2];
+                b += dbtb[2];
             }
-            return a;
+            return b;
         }
 
         /**
-         * Return the index of the segment associated with advance. This
-         * points to the start of the triple and is a multiple of 3 between
-         * 3 and data.length-3 inclusive.  It never points to a 'moveto' triple.
+         * Return the index of the segment bssocibted with bdvbnce. This
+         * points to the stbrt of the triple bnd is b multiple of 3 between
+         * 3 bnd dbtb.length-3 inclusive.  It never points to b 'moveto' triple.
          *
-         * If the path is closed, 'a' is mapped to
-         * a value between the start and end of the path, inclusive.
-         * If preceding is true, and 'a' lies on a segment boundary,
+         * If the pbth is closed, 'b' is mbpped to
+         * b vblue between the stbrt bnd end of the pbth, inclusive.
+         * If preceding is true, bnd 'b' lies on b segment boundbry,
          * return the index of the preceding segment, else return the index
-         * of the current segment (if it is not a moveto segment) otherwise
-         * the following segment (which is never a moveto segment).
+         * of the current segment (if it is not b moveto segment) otherwise
+         * the following segment (which is never b moveto segment).
          *
-         * Note: if the path is not closed, the advance might not actually
+         * Note: if the pbth is not closed, the bdvbnce might not bctublly
          * lie on the returned segment-- it might be before the first, or
-         * after the last.  The first or last segment (as appropriate)
-         * will be returned in this case.
+         * bfter the lbst.  The first or lbst segment (bs bppropribte)
+         * will be returned in this cbse.
          */
-        private int getSegmentIndexForAdvance(double a, boolean preceding) {
-            // must have local advance
-            a = getClosedAdvance(a, preceding);
+        privbte int getSegmentIndexForAdvbnce(double b, boolebn preceding) {
+            // must hbve locbl bdvbnce
+            b = getClosedAdvbnce(b, preceding);
 
-            // note we must avoid 'moveto' segments.  the first segment is
-            // always a moveto segment, so we always skip it.
+            // note we must bvoid 'moveto' segments.  the first segment is
+            // blwbys b moveto segment, so we blwbys skip it.
             int i, lim;
-            for (i = 5, lim = data.length-1; i < lim; i += 3) {
-                double v = data[i];
-                if (a < v || (a == v && preceding)) {
-                    break;
+            for (i = 5, lim = dbtb.length-1; i < lim; i += 3) {
+                double v = dbtb[i];
+                if (b < v || (b == v && preceding)) {
+                    brebk;
                 }
             }
-            return i-2; // adjust to start of segment
+            return i-2; // bdjust to stbrt of segment
         }
 
         /**
-         * Map a location based on the provided segment, returning in pt.
-         * Seg must be a valid 'lineto' segment.  Note: if the path is
-         * closed, x must be within the start and end of the path.
+         * Mbp b locbtion bbsed on the provided segment, returning in pt.
+         * Seg must be b vblid 'lineto' segment.  Note: if the pbth is
+         * closed, x must be within the stbrt bnd end of the pbth.
          */
-        private void map(int seg, double a, double o, Point2D pt) {
-            double dx = data[seg] - data[seg-3];
-            double dy = data[seg+1] - data[seg-2];
-            double dl = data[seg+2] - data[seg-1];
+        privbte void mbp(int seg, double b, double o, Point2D pt) {
+            double dx = dbtb[seg] - dbtb[seg-3];
+            double dy = dbtb[seg+1] - dbtb[seg-2];
+            double dl = dbtb[seg+2] - dbtb[seg-1];
 
-            double ux = dx/dl; // could cache these, but is it worth it?
+            double ux = dx/dl; // could cbche these, but is it worth it?
             double uy = dy/dl;
 
-            a -= data[seg-1];
+            b -= dbtb[seg-1];
 
-            pt.setLocation(data[seg-3] + a * ux - o * uy,
-                           data[seg-2] + a * uy + o * ux);
+            pt.setLocbtion(dbtb[seg-3] + b * ux - o * uy,
+                           dbtb[seg-2] + b * uy + o * ux);
         }
 
         /**
-         * Map the point, and return the segment index.
+         * Mbp the point, bnd return the segment index.
          */
-        private int locateAndGetIndex(Point2D loc, boolean preceding, Point2D result) {
-            double a = loc.getX();
+        privbte int locbteAndGetIndex(Point2D loc, boolebn preceding, Point2D result) {
+            double b = loc.getX();
             double o = loc.getY();
-            int seg = getSegmentIndexForAdvance(a, preceding);
-            map(seg, a, o, result);
+            int seg = getSegmentIndexForAdvbnce(b, preceding);
+            mbp(seg, b, o, result);
 
             return seg;
         }
 
         //
-        // Mapping classes.
-        // Map the path onto each path segment.
-        // Record points where the advance 'enters' and 'exits' the path segment, and connect successive
-        // points when appropriate.
+        // Mbpping clbsses.
+        // Mbp the pbth onto ebch pbth segment.
+        // Record points where the bdvbnce 'enters' bnd 'exits' the pbth segment, bnd connect successive
+        // points when bppropribte.
         //
 
         /**
-         * This represents a line segment from the iterator.  Each target segment will
-         * interpret it, and since this process needs slope along the line
-         * segment, this lets us compute it once and pass it around easily.
+         * This represents b line segment from the iterbtor.  Ebch tbrget segment will
+         * interpret it, bnd since this process needs slope blong the line
+         * segment, this lets us compute it once bnd pbss it bround ebsily.
          */
-        class LineInfo {
-            double sx, sy; // start
+        clbss LineInfo {
+            double sx, sy; // stbrt
             double lx, ly; // limit
             double m;      // slope dy/dx
 
@@ -690,11 +690,11 @@ public abstract class LayoutPathImpl extends LayoutPath {
             }
 
             /**
-             * Return true if we intersect the infinitely tall rectangle with
-             * lo <= x < hi.  If we do, also return the pinned portion of ourselves in
+             * Return true if we intersect the infinitely tbll rectbngle with
+             * lo <= x < hi.  If we do, blso return the pinned portion of ourselves in
              * result.
              */
-            boolean pin(double lo, double hi, LineInfo result) {
+            boolebn pin(double lo, double hi, LineInfo result) {
                 result.set(this);
                 if (lx >= sx) {
                     if (sx < hi && lx >= lo) {
@@ -721,27 +721,27 @@ public abstract class LayoutPathImpl extends LayoutPath {
                         return true;
                     }
                 }
-                return false;
+                return fblse;
             }
 
             /**
-             * Return true if we intersect the segment at ix.  This takes
-             * the path end type into account and computes the relevant
-             * parameters to pass to pin(double, double, LineInfo).
+             * Return true if we intersect the segment bt ix.  This tbkes
+             * the pbth end type into bccount bnd computes the relevbnt
+             * pbrbmeters to pbss to pin(double, double, LineInfo).
              */
-            boolean pin(int ix, LineInfo result) {
-                double lo = data[ix-1];
-                double hi = data[ix+2];
-                switch (SegmentPath.this.etype) {
-                case PINNED:
-                    break;
-                case EXTENDED:
+            boolebn pin(int ix, LineInfo result) {
+                double lo = dbtb[ix-1];
+                double hi = dbtb[ix+2];
+                switch (SegmentPbth.this.etype) {
+                cbse PINNED:
+                    brebk;
+                cbse EXTENDED:
                     if (ix == 3) lo = Double.NEGATIVE_INFINITY;
-                    if (ix == data.length - 3) hi = Double.POSITIVE_INFINITY;
-                    break;
-                case CLOSED:
+                    if (ix == dbtb.length - 3) hi = Double.POSITIVE_INFINITY;
+                    brebk;
+                cbse CLOSED:
                     // not implemented
-                    break;
+                    brebk;
                 }
 
                 return pin(lo, hi, result);
@@ -749,93 +749,93 @@ public abstract class LayoutPathImpl extends LayoutPath {
         }
 
         /**
-         * Each segment will construct its own general path, mapping the provided lines
-         * into its own simple space.
+         * Ebch segment will construct its own generbl pbth, mbpping the provided lines
+         * into its own simple spbce.
          */
-        class Segment {
-            final int ix;        // index into data array for this segment
-            final double ux, uy; // unit vector
+        clbss Segment {
+            finbl int ix;        // index into dbtb brrby for this segment
+            finbl double ux, uy; // unit vector
 
-            final LineInfo temp; // working line info
+            finbl LineInfo temp; // working line info
 
-            boolean broken;      // true if a moveto has occurred since we last added to our path
-            double cx, cy;       // last point in gp
-            GeneralPath gp;      // path built for this segment
+            boolebn broken;      // true if b moveto hbs occurred since we lbst bdded to our pbth
+            double cx, cy;       // lbst point in gp
+            GenerblPbth gp;      // pbth built for this segment
 
             Segment(int ix) {
                 this.ix = ix;
-                double len = data[ix+2] - data[ix-1];
-                this.ux = (data[ix] - data[ix-3]) / len;
-                this.uy = (data[ix+1] - data[ix-2]) / len;
+                double len = dbtb[ix+2] - dbtb[ix-1];
+                this.ux = (dbtb[ix] - dbtb[ix-3]) / len;
+                this.uy = (dbtb[ix+1] - dbtb[ix-2]) / len;
                 this.temp = new LineInfo();
             }
 
             void init() {
-                if (LOGMAP) LOG.format("s(%d) init\n", ix);
+                if (LOGMAP) LOG.formbt("s(%d) init\n", ix);
                 broken = true;
                 cx = cy = Double.MIN_VALUE;
-                this.gp = new GeneralPath();
+                this.gp = new GenerblPbth();
             }
 
             void move() {
-                if (LOGMAP) LOG.format("s(%d) move\n", ix);
+                if (LOGMAP) LOG.formbt("s(%d) move\n", ix);
                 broken = true;
             }
 
             void close() {
                 if (!broken) {
-                    if (LOGMAP) LOG.format("s(%d) close\n[cp]\n", ix);
-                    gp.closePath();
+                    if (LOGMAP) LOG.formbt("s(%d) close\n[cp]\n", ix);
+                    gp.closePbth();
                 }
             }
 
             void line(LineInfo li) {
-                if (LOGMAP) LOG.format("s(%d) line %g, %g to %g, %g\n", ix, li.sx, li.sy, li.lx, li.ly);
+                if (LOGMAP) LOG.formbt("s(%d) line %g, %g to %g, %g\n", ix, li.sx, li.sy, li.lx, li.ly);
 
                 if (li.pin(ix, temp)) {
-                    if (LOGMAP) LOG.format("pin: %g, %g to %g, %g\n", temp.sx, temp.sy, temp.lx, temp.ly);
+                    if (LOGMAP) LOG.formbt("pin: %g, %g to %g, %g\n", temp.sx, temp.sy, temp.lx, temp.ly);
 
-                    temp.sx -= data[ix-1];
-                    double sx = data[ix-3] + temp.sx * ux - temp.sy * uy;
-                    double sy = data[ix-2] + temp.sx * uy + temp.sy * ux;
-                    temp.lx -= data[ix-1];
-                    double lx = data[ix-3] + temp.lx * ux - temp.ly * uy;
-                    double ly = data[ix-2] + temp.lx * uy + temp.ly * ux;
+                    temp.sx -= dbtb[ix-1];
+                    double sx = dbtb[ix-3] + temp.sx * ux - temp.sy * uy;
+                    double sy = dbtb[ix-2] + temp.sx * uy + temp.sy * ux;
+                    temp.lx -= dbtb[ix-1];
+                    double lx = dbtb[ix-3] + temp.lx * ux - temp.ly * uy;
+                    double ly = dbtb[ix-2] + temp.lx * uy + temp.ly * ux;
 
-                    if (LOGMAP) LOG.format("points: %g, %g to %g, %g\n", sx, sy, lx, ly);
+                    if (LOGMAP) LOG.formbt("points: %g, %g to %g, %g\n", sx, sy, lx, ly);
 
                     if (sx != cx || sy != cy) {
                         if (broken) {
-                            if (LOGMAP) LOG.format("[mt %g, %g]\n", sx, sy);
-                            gp.moveTo((float)sx, (float)sy);
+                            if (LOGMAP) LOG.formbt("[mt %g, %g]\n", sx, sy);
+                            gp.moveTo((flobt)sx, (flobt)sy);
                         } else {
-                            if (LOGMAP) LOG.format("[lt %g, %g]\n", sx, sy);
-                            gp.lineTo((float)sx, (float)sy);
+                            if (LOGMAP) LOG.formbt("[lt %g, %g]\n", sx, sy);
+                            gp.lineTo((flobt)sx, (flobt)sy);
                         }
                     }
-                    if (LOGMAP) LOG.format("[lt %g, %g]\n", lx, ly);
-                    gp.lineTo((float)lx, (float)ly);
+                    if (LOGMAP) LOG.formbt("[lt %g, %g]\n", lx, ly);
+                    gp.lineTo((flobt)lx, (flobt)ly);
 
-                    broken = false;
+                    broken = fblse;
                     cx = lx;
                     cy = ly;
                 }
             }
         }
 
-        class Mapper {
-            final LineInfo li;                 // working line info
-            final ArrayList<Segment> segments; // cache additional data on segments, working objects
-            final Point2D.Double mpt;          // last moveto source point
-            final Point2D.Double cpt;          // current source point
-            boolean haveMT;                    // true when last op was a moveto
+        clbss Mbpper {
+            finbl LineInfo li;                 // working line info
+            finbl ArrbyList<Segment> segments; // cbche bdditionbl dbtb on segments, working objects
+            finbl Point2D.Double mpt;          // lbst moveto source point
+            finbl Point2D.Double cpt;          // current source point
+            boolebn hbveMT;                    // true when lbst op wbs b moveto
 
-            Mapper() {
+            Mbpper() {
                 li = new LineInfo();
-                segments = new ArrayList<Segment>();
-                for (int i = 3; i < data.length; i += 3) {
-                    if (data[i+2] != data[i-1]) { // a new segment
-                        segments.add(new Segment(i));
+                segments = new ArrbyList<Segment>();
+                for (int i = 3; i < dbtb.length; i += 3) {
+                    if (dbtb[i+2] != dbtb[i-1]) { // b new segment
+                        segments.bdd(new Segment(i));
                     }
                 }
 
@@ -844,37 +844,37 @@ public abstract class LayoutPathImpl extends LayoutPath {
             }
 
             void init() {
-                if (LOGMAP) LOG.format("init\n");
-                haveMT = false;
+                if (LOGMAP) LOG.formbt("init\n");
+                hbveMT = fblse;
                 for (Segment s: segments) {
                     s.init();
                 }
             }
 
             void moveTo(double x, double y) {
-                if (LOGMAP) LOG.format("moveto %g, %g\n", x, y);
+                if (LOGMAP) LOG.formbt("moveto %g, %g\n", x, y);
                 mpt.x = x;
                 mpt.y = y;
-                haveMT = true;
+                hbveMT = true;
             }
 
             void lineTo(double x, double y) {
-                if (LOGMAP) LOG.format("lineto %g, %g\n", x, y);
+                if (LOGMAP) LOG.formbt("lineto %g, %g\n", x, y);
 
-                if (haveMT) {
-                    // prepare previous point for no-op check
+                if (hbveMT) {
+                    // prepbre previous point for no-op check
                     cpt.x = mpt.x;
                     cpt.y = mpt.y;
                 }
 
                 if (x == cpt.x && y == cpt.y) {
-                    // lineto is a no-op
+                    // lineto is b no-op
                     return;
                 }
 
-                if (haveMT) {
+                if (hbveMT) {
                     // current point is the most recent moveto point
-                    haveMT = false;
+                    hbveMT = fblse;
                     for (Segment s: segments) {
                         s.move();
                     }
@@ -890,36 +890,36 @@ public abstract class LayoutPathImpl extends LayoutPath {
             }
 
             void close() {
-                if (LOGMAP) LOG.format("close\n");
+                if (LOGMAP) LOG.formbt("close\n");
                 lineTo(mpt.x, mpt.y);
                 for (Segment s: segments) {
                     s.close();
                 }
             }
 
-            public Shape mapShape(Shape s) {
-                if (LOGMAP) LOG.format("mapshape on path: %s\n", LayoutPathImpl.SegmentPath.this);
-                PathIterator pi = s.getPathIterator(null, 1); // cheap way to handle curves.
+            public Shbpe mbpShbpe(Shbpe s) {
+                if (LOGMAP) LOG.formbt("mbpshbpe on pbth: %s\n", LbyoutPbthImpl.SegmentPbth.this);
+                PbthIterbtor pi = s.getPbthIterbtor(null, 1); // chebp wby to hbndle curves.
 
-                if (LOGMAP) LOG.format("start\n");
+                if (LOGMAP) LOG.formbt("stbrt\n");
                 init();
 
-                final double[] coords = new double[2];
+                finbl double[] coords = new double[2];
                 while (!pi.isDone()) {
                     switch (pi.currentSegment(coords)) {
-                    case SEG_CLOSE: close(); break;
-                    case SEG_MOVETO: moveTo(coords[0], coords[1]); break;
-                    case SEG_LINETO: lineTo(coords[0], coords[1]); break;
-                    default: break;
+                    cbse SEG_CLOSE: close(); brebk;
+                    cbse SEG_MOVETO: moveTo(coords[0], coords[1]); brebk;
+                    cbse SEG_LINETO: lineTo(coords[0], coords[1]); brebk;
+                    defbult: brebk;
                     }
 
                     pi.next();
                 }
-                if (LOGMAP) LOG.format("finish\n\n");
+                if (LOGMAP) LOG.formbt("finish\n\n");
 
-                GeneralPath gp = new GeneralPath();
+                GenerblPbth gp = new GenerblPbth();
                 for (Segment seg: segments) {
-                    gp.append(seg.gp, false);
+                    gp.bppend(seg.gp, fblse);
                 }
                 return gp;
             }
@@ -931,66 +931,66 @@ public abstract class LayoutPathImpl extends LayoutPath {
 
         public String toString() {
             StringBuilder b = new StringBuilder();
-            b.append("{");
-            b.append(etype.toString());
-            b.append(" ");
-            for (int i = 0; i < data.length; i += 3) {
+            b.bppend("{");
+            b.bppend(etype.toString());
+            b.bppend(" ");
+            for (int i = 0; i < dbtb.length; i += 3) {
                 if (i > 0) {
-                    b.append(",");
+                    b.bppend(",");
                 }
-                float x = ((int)(data[i] * 100))/100.0f;
-                float y = ((int)(data[i+1] * 100))/100.0f;
-                float l = ((int)(data[i+2] * 10))/10.0f;
-                b.append("{");
-                b.append(x);
-                b.append(",");
-                b.append(y);
-                b.append(",");
-                b.append(l);
-                b.append("}");
+                flobt x = ((int)(dbtb[i] * 100))/100.0f;
+                flobt y = ((int)(dbtb[i+1] * 100))/100.0f;
+                flobt l = ((int)(dbtb[i+2] * 10))/10.0f;
+                b.bppend("{");
+                b.bppend(x);
+                b.bppend(",");
+                b.bppend(y);
+                b.bppend(",");
+                b.bppend(l);
+                b.bppend("}");
             }
-            b.append("}");
+            b.bppend("}");
             return b.toString();
         }
     }
 
 
-    public static class EmptyPath extends LayoutPathImpl {
-        private AffineTransform tx;
+    public stbtic clbss EmptyPbth extends LbyoutPbthImpl {
+        privbte AffineTrbnsform tx;
 
-        public EmptyPath(AffineTransform tx) {
+        public EmptyPbth(AffineTrbnsform tx) {
             this.tx = tx;
         }
 
-        public void pathToPoint(Point2D location, boolean preceding, Point2D point) {
+        public void pbthToPoint(Point2D locbtion, boolebn preceding, Point2D point) {
             if (tx != null) {
-                tx.transform(location, point);
+                tx.trbnsform(locbtion, point);
             } else {
-                point.setLocation(location);
+                point.setLocbtion(locbtion);
             }
         }
 
-        public boolean pointToPath(Point2D pt, Point2D result) {
-            result.setLocation(pt);
+        public boolebn pointToPbth(Point2D pt, Point2D result) {
+            result.setLocbtion(pt);
             if (tx != null) {
                 try {
-                    tx.inverseTransform(pt, result);
+                    tx.inverseTrbnsform(pt, result);
                 }
-                catch (NoninvertibleTransformException ex) {
+                cbtch (NoninvertibleTrbnsformException ex) {
                 }
             }
             return result.getX() > 0;
         }
 
-        public double start() { return 0; }
+        public double stbrt() { return 0; }
 
         public double end() { return 0; }
 
         public double length() { return 0; }
 
-        public Shape mapShape(Shape s) {
+        public Shbpe mbpShbpe(Shbpe s) {
             if (tx != null) {
-                return tx.createTransformedShape(s);
+                return tx.crebteTrbnsformedShbpe(s);
             }
             return s;
         }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,39 +30,39 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Canvas;
-import java.awt.Choice;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.LayoutManager;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.TextEvent;
-import java.awt.image.ColorModel;
-import java.awt.image.MemoryImageSource;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Button;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Choice;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Lbbel;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Pbnel;
+import jbvb.bwt.TextField;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.TextEvent;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.MemoryImbgeSource;
 
 
 enum DitherMethod {
@@ -71,35 +71,35 @@ enum DitherMethod {
 };
 
 
-@SuppressWarnings("serial")
-public class DitherTest extends Applet implements Runnable {
+@SuppressWbrnings("seribl")
+public clbss DitherTest extends Applet implements Runnbble {
 
-    private Thread runner;
-    private DitherControls XControls;
-    private DitherControls YControls;
-    private DitherCanvas canvas;
+    privbte Threbd runner;
+    privbte DitherControls XControls;
+    privbte DitherControls YControls;
+    privbte DitherCbnvbs cbnvbs;
 
-    public static void main(String args[]) {
-        Frame f = new Frame("DitherTest");
+    public stbtic void mbin(String brgs[]) {
+        Frbme f = new Frbme("DitherTest");
         DitherTest ditherTest = new DitherTest();
         ditherTest.init();
-        f.add("Center", ditherTest);
-        f.pack();
+        f.bdd("Center", ditherTest);
+        f.pbck();
         f.setVisible(true);
-        ditherTest.start();
+        ditherTest.stbrt();
     }
 
     @Override
     public void init() {
         String xspec = null, yspec = null;
-        int xvals[] = new int[2];
-        int yvals[] = new int[2];
+        int xvbls[] = new int[2];
+        int yvbls[] = new int[2];
 
         try {
-            xspec = getParameter("xaxis");
-            yspec = getParameter("yaxis");
-        } catch (NullPointerException ignored) {
-            //only occurs if run as application
+            xspec = getPbrbmeter("xbxis");
+            yspec = getPbrbmeter("ybxis");
+        } cbtch (NullPointerException ignored) {
+            //only occurs if run bs bpplicbtion
         }
 
         if (xspec == null) {
@@ -108,94 +108,94 @@ public class DitherTest extends Applet implements Runnable {
         if (yspec == null) {
             yspec = "blue";
         }
-        DitherMethod xmethod = colorMethod(xspec, xvals);
-        DitherMethod ymethod = colorMethod(yspec, yvals);
+        DitherMethod xmethod = colorMethod(xspec, xvbls);
+        DitherMethod ymethod = colorMethod(yspec, yvbls);
 
-        setLayout(new BorderLayout());
-        XControls = new DitherControls(this, xvals[0], xvals[1],
-                xmethod, false);
-        YControls = new DitherControls(this, yvals[0], yvals[1],
+        setLbyout(new BorderLbyout());
+        XControls = new DitherControls(this, xvbls[0], xvbls[1],
+                xmethod, fblse);
+        YControls = new DitherControls(this, yvbls[0], yvbls[1],
                 ymethod, true);
-        YControls.addRenderButton();
-        add("North", XControls);
-        add("South", YControls);
-        add("Center", canvas = new DitherCanvas());
+        YControls.bddRenderButton();
+        bdd("North", XControls);
+        bdd("South", YControls);
+        bdd("Center", cbnvbs = new DitherCbnvbs());
     }
 
-    private DitherMethod colorMethod(String s, int vals[]) {
+    privbte DitherMethod colorMethod(String s, int vbls[]) {
         DitherMethod method = DitherMethod.NOOP;
         if (s == null) {
             s = "";
         }
-        String lower = s.toLowerCase();
+        String lower = s.toLowerCbse();
 
-        for (DitherMethod m : DitherMethod.values()) {
-            if (lower.startsWith(m.toString().toLowerCase())) {
+        for (DitherMethod m : DitherMethod.vblues()) {
+            if (lower.stbrtsWith(m.toString().toLowerCbse())) {
                 method = m;
                 lower = lower.substring(m.toString().length());
             }
         }
         if (method == DitherMethod.NOOP) {
-            vals[0] = 0;
-            vals[1] = 0;
+            vbls[0] = 0;
+            vbls[1] = 0;
             return method;
         }
-        int begval = 0;
-        int endval = 255;
+        int begvbl = 0;
+        int endvbl = 255;
         try {
-            int dash = lower.indexOf('-');
-            if (dash < 0) {
-                endval = Integer.parseInt(lower);
+            int dbsh = lower.indexOf('-');
+            if (dbsh < 0) {
+                endvbl = Integer.pbrseInt(lower);
             } else {
-                begval = Integer.parseInt(lower.substring(0, dash));
-                endval = Integer.parseInt(lower.substring(dash + 1));
+                begvbl = Integer.pbrseInt(lower.substring(0, dbsh));
+                endvbl = Integer.pbrseInt(lower.substring(dbsh + 1));
             }
-        } catch (NumberFormatException ignored) {
+        } cbtch (NumberFormbtException ignored) {
         }
 
-        if (begval < 0) {
-            begval = 0;
-        } else if (begval > 255) {
-            begval = 255;
+        if (begvbl < 0) {
+            begvbl = 0;
+        } else if (begvbl > 255) {
+            begvbl = 255;
         }
 
-        if (endval < 0) {
-            endval = 0;
-        } else if (endval > 255) {
-            endval = 255;
+        if (endvbl < 0) {
+            endvbl = 0;
+        } else if (endvbl > 255) {
+            endvbl = 255;
         }
 
-        vals[0] = begval;
-        vals[1] = endval;
+        vbls[0] = begvbl;
+        vbls[1] = endvbl;
         return method;
     }
 
     /**
-     * Calculates and returns the image.  Halts the calculation and returns
-     * null if the Applet is stopped during the calculation.
+     * Cblculbtes bnd returns the imbge.  Hblts the cblculbtion bnd returns
+     * null if the Applet is stopped during the cblculbtion.
      */
-    private Image calculateImage() {
-        Thread me = Thread.currentThread();
+    privbte Imbge cblculbteImbge() {
+        Threbd me = Threbd.currentThrebd();
 
-        int width = canvas.getSize().width;
-        int height = canvas.getSize().height;
-        int xvals[] = new int[2];
-        int yvals[] = new int[2];
-        int xmethod = XControls.getParams(xvals);
-        int ymethod = YControls.getParams(yvals);
+        int width = cbnvbs.getSize().width;
+        int height = cbnvbs.getSize().height;
+        int xvbls[] = new int[2];
+        int yvbls[] = new int[2];
+        int xmethod = XControls.getPbrbms(xvbls);
+        int ymethod = YControls.getPbrbms(yvbls);
         int pixels[] = new int[width * height];
-        int c[] = new int[4];   //temporarily holds R,G,B,A information
+        int c[] = new int[4];   //temporbrily holds R,G,B,A informbtion
         int index = 0;
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 c[0] = c[1] = c[2] = 0;
                 c[3] = 255;
                 if (xmethod < ymethod) {
-                    applyMethod(c, xmethod, i, width, xvals);
-                    applyMethod(c, ymethod, j, height, yvals);
+                    bpplyMethod(c, xmethod, i, width, xvbls);
+                    bpplyMethod(c, ymethod, j, height, yvbls);
                 } else {
-                    applyMethod(c, ymethod, j, height, yvals);
-                    applyMethod(c, xmethod, i, width, xvals);
+                    bpplyMethod(c, ymethod, j, height, yvbls);
+                    bpplyMethod(c, xmethod, i, width, xvbls);
                 }
                 pixels[index++] = ((c[3] << 24) | (c[0] << 16) | (c[1] << 8)
                         | c[2]);
@@ -206,35 +206,35 @@ public class DitherTest extends Applet implements Runnable {
                 return null;
             }
         }
-        return createImage(new MemoryImageSource(width, height,
-                ColorModel.getRGBdefault(), pixels, 0, width));
+        return crebteImbge(new MemoryImbgeSource(width, height,
+                ColorModel.getRGBdefbult(), pixels, 0, width));
     }
 
-    private void applyMethod(int c[], int methodIndex, int step,
-            int total, int vals[]) {
-        DitherMethod method = DitherMethod.values()[methodIndex];
+    privbte void bpplyMethod(int c[], int methodIndex, int step,
+            int totbl, int vbls[]) {
+        DitherMethod method = DitherMethod.vblues()[methodIndex];
         if (method == DitherMethod.NOOP) {
             return;
         }
-        int val = ((total < 2)
-                ? vals[0]
-                : vals[0] + ((vals[1] - vals[0]) * step / (total - 1)));
+        int vbl = ((totbl < 2)
+                ? vbls[0]
+                : vbls[0] + ((vbls[1] - vbls[0]) * step / (totbl - 1)));
         switch (method) {
-            case RED:
-                c[0] = val;
-                break;
-            case GREEN:
-                c[1] = val;
-                break;
-            case BLUE:
-                c[2] = val;
-                break;
-            case ALPHA:
-                c[3] = val;
-                break;
-            case SATURATION:
-                int max = Math.max(Math.max(c[0], c[1]), c[2]);
-                int min = max * (255 - val) / 255;
+            cbse RED:
+                c[0] = vbl;
+                brebk;
+            cbse GREEN:
+                c[1] = vbl;
+                brebk;
+            cbse BLUE:
+                c[2] = vbl;
+                brebk;
+            cbse ALPHA:
+                c[3] = vbl;
+                brebk;
+            cbse SATURATION:
+                int mbx = Mbth.mbx(Mbth.mbx(c[0], c[1]), c[2]);
+                int min = mbx * (255 - vbl) / 255;
                 if (c[0] == 0) {
                     c[0] = min;
                 }
@@ -244,22 +244,22 @@ public class DitherTest extends Applet implements Runnable {
                 if (c[2] == 0) {
                     c[2] = min;
                 }
-                break;
+                brebk;
         }
     }
 
     @Override
-    public void start() {
-        runner = new Thread(this);
-        runner.start();
+    public void stbrt() {
+        runner = new Threbd(this);
+        runner.stbrt();
     }
 
     @Override
     public void run() {
-        canvas.setImage(null);  // Wipe previous image
-        Image img = calculateImage();
-        if (img != null && runner == Thread.currentThread()) {
-            canvas.setImage(img);
+        cbnvbs.setImbge(null);  // Wipe previous imbge
+        Imbge img = cblculbteImbge();
+        if (img != null && runner == Threbd.currentThrebd()) {
+            cbnvbs.setImbge(img);
         }
     }
 
@@ -272,52 +272,52 @@ public class DitherTest extends Applet implements Runnable {
     public void destroy() {
         remove(XControls);
         remove(YControls);
-        remove(canvas);
+        remove(cbnvbs);
     }
 
     @Override
     public String getAppletInfo() {
-        return "An interactive demonstration of dithering.";
+        return "An interbctive demonstrbtion of dithering.";
     }
 
     @Override
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         String[][] info = {
-            { "xaxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
-                "The color of the Y axis.  Default is RED." },
-            { "yaxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
-                "The color of the X axis.  Default is BLUE." }
+            { "xbxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "The color of the Y bxis.  Defbult is RED." },
+            { "ybxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "The color of the X bxis.  Defbult is BLUE." }
         };
         return info;
     }
 }
 
 
-@SuppressWarnings("serial")
-class DitherCanvas extends Canvas {
+@SuppressWbrnings("seribl")
+clbss DitherCbnvbs extends Cbnvbs {
 
-    private Image img;
-    private static String calcString = "Calculating...";
+    privbte Imbge img;
+    privbte stbtic String cblcString = "Cblculbting...";
 
     @Override
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
         int w = getSize().width;
         int h = getSize().height;
         if (img == null) {
-            super.paint(g);
-            g.setColor(Color.black);
+            super.pbint(g);
+            g.setColor(Color.blbck);
             FontMetrics fm = g.getFontMetrics();
-            int x = (w - fm.stringWidth(calcString)) / 2;
+            int x = (w - fm.stringWidth(cblcString)) / 2;
             int y = h / 2;
-            g.drawString(calcString, x, y);
+            g.drbwString(cblcString, x, y);
         } else {
-            g.drawImage(img, 0, 0, w, h, this);
+            g.drbwImbge(img, 0, 0, w, h, this);
         }
     }
 
     @Override
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
     @Override
@@ -330,66 +330,66 @@ class DitherCanvas extends Canvas {
         return new Dimension(200, 200);
     }
 
-    public Image getImage() {
+    public Imbge getImbge() {
         return img;
     }
 
-    public void setImage(Image img) {
+    public void setImbge(Imbge img) {
         this.img = img;
-        repaint();
+        repbint();
     }
 }
 
 
-@SuppressWarnings("serial")
-class DitherControls extends Panel implements ActionListener {
+@SuppressWbrnings("seribl")
+clbss DitherControls extends Pbnel implements ActionListener {
 
-    private CardinalTextField start;
-    private CardinalTextField end;
-    private Button button;
-    private Choice choice;
-    private DitherTest applet;
-    private static LayoutManager dcLayout = new FlowLayout(FlowLayout.CENTER,
+    privbte CbrdinblTextField stbrt;
+    privbte CbrdinblTextField end;
+    privbte Button button;
+    privbte Choice choice;
+    privbte DitherTest bpplet;
+    privbte stbtic LbyoutMbnbger dcLbyout = new FlowLbyout(FlowLbyout.CENTER,
             10, 5);
 
-    public DitherControls(DitherTest app, int s, int e, DitherMethod type,
-            boolean vertical) {
-        applet = app;
-        setLayout(dcLayout);
-        add(new Label(vertical ? "Vertical" : "Horizontal"));
-        add(choice = new Choice());
-        for (DitherMethod m : DitherMethod.values()) {
-            choice.addItem(m.toString().substring(0, 1)
-                    + m.toString().substring(1).toLowerCase());
+    public DitherControls(DitherTest bpp, int s, int e, DitherMethod type,
+            boolebn verticbl) {
+        bpplet = bpp;
+        setLbyout(dcLbyout);
+        bdd(new Lbbel(verticbl ? "Verticbl" : "Horizontbl"));
+        bdd(choice = new Choice());
+        for (DitherMethod m : DitherMethod.vblues()) {
+            choice.bddItem(m.toString().substring(0, 1)
+                    + m.toString().substring(1).toLowerCbse());
         }
-        choice.select(type.ordinal());
-        add(start = new CardinalTextField(Integer.toString(s), 4));
-        add(end = new CardinalTextField(Integer.toString(e), 4));
+        choice.select(type.ordinbl());
+        bdd(stbrt = new CbrdinblTextField(Integer.toString(s), 4));
+        bdd(end = new CbrdinblTextField(Integer.toString(e), 4));
     }
 
     /* puts on the button */
-    public void addRenderButton() {
-        add(button = new Button("New Image"));
-        button.addActionListener(this);
+    public void bddRenderButton() {
+        bdd(button = new Button("New Imbge"));
+        button.bddActionListener(this);
     }
 
-    /* retrieves data from the user input fields */
-    public int getParams(int vals[]) {
+    /* retrieves dbtb from the user input fields */
+    public int getPbrbms(int vbls[]) {
         try {
-            vals[0] = scale(Integer.parseInt(start.getText()));
-        } catch (NumberFormatException nfe) {
-            vals[0] = 0;
+            vbls[0] = scble(Integer.pbrseInt(stbrt.getText()));
+        } cbtch (NumberFormbtException nfe) {
+            vbls[0] = 0;
         }
         try {
-            vals[1] = scale(Integer.parseInt(end.getText()));
-        } catch (NumberFormatException nfe) {
-            vals[1] = 255;
+            vbls[1] = scble(Integer.pbrseInt(end.getText()));
+        } cbtch (NumberFormbtException nfe) {
+            vbls[1] = 255;
         }
         return choice.getSelectedIndex();
     }
 
-    /* fits the number between 0 and 255 inclusive */
-    private int scale(int number) {
+    /* fits the number between 0 bnd 255 inclusive */
+    privbte int scble(int number) {
         if (number < 0) {
             number = 0;
         } else if (number > 255) {
@@ -398,31 +398,31 @@ class DitherControls extends Panel implements ActionListener {
         return number;
     }
 
-    /* called when user clicks the button */
+    /* cblled when user clicks the button */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
-            applet.start();
+            bpplet.stbrt();
         }
     }
 }
 
 
-@SuppressWarnings("serial")
-class CardinalTextField extends TextField {
+@SuppressWbrnings("seribl")
+clbss CbrdinblTextField extends TextField {
 
     String oldText = null;
 
-    public CardinalTextField(String text, int columns) {
+    public CbrdinblTextField(String text, int columns) {
         super(text, columns);
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
         oldText = getText();
     }
 
     // Consume non-digit KeyTyped events
-    // Note that processTextEvent kind of eliminates the need for this
-    // function, but this is neater, since ideally, it would prevent
-    // the text from appearing at all.  Sigh.  See bugid 4100317/4114565.
+    // Note thbt processTextEvent kind of eliminbtes the need for this
+    // function, but this is nebter, since ideblly, it would prevent
+    // the text from bppebring bt bll.  Sigh.  See bugid 4100317/4114565.
     //
     @Override
     protected void processEvent(AWTEvent evt) {
@@ -433,48 +433,48 @@ class CardinalTextField extends TextField {
         }
 
         KeyEvent kevt = (KeyEvent) evt;
-        char c = kevt.getKeyChar();
+        chbr c = kevt.getKeyChbr();
 
-        // Digits, backspace, and delete are okay
-        // Note that the minus sign is not allowed (neither is decimal)
-        if (Character.isDigit(c) || (c == '\b') || (c == '\u007f')) {
+        // Digits, bbckspbce, bnd delete bre okby
+        // Note thbt the minus sign is not bllowed (neither is decimbl)
+        if (Chbrbcter.isDigit(c) || (c == '\b') || (c == '\u007f')) {
             super.processEvent(evt);
             return;
         }
 
-        Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefbultToolkit().beep();
         kevt.consume();
     }
 
     // Should consume TextEvents for non-integer Strings
-    // Store away the text in the tf for every TextEvent
-    // so we can revert to it on a TextEvent (paste, or
-    // legal key in the wrong location) with bad text
+    // Store bwby the text in the tf for every TextEvent
+    // so we cbn revert to it on b TextEvent (pbste, or
+    // legbl key in the wrong locbtion) with bbd text
     //
-    // Note: it would be easy to extend this to an eight-bit
-    // TextField (range 0-255), but I'll leave it as-is.
+    // Note: it would be ebsy to extend this to bn eight-bit
+    // TextField (rbnge 0-255), but I'll lebve it bs-is.
     //
     @Override
     protected void processTextEvent(TextEvent te) {
-        // The empty string is okay, too
+        // The empty string is okby, too
         String newText = getText();
-        if (newText.equals("") || textIsCardinal(newText)) {
+        if (newText.equbls("") || textIsCbrdinbl(newText)) {
             oldText = newText;
             super.processTextEvent(te);
             return;
         }
 
-        Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefbultToolkit().beep();
         setText(oldText);
     }
 
-    // Returns true for Cardinal (non-negative) numbers
-    // Note that the empty string is not allowed
-    private boolean textIsCardinal(String textToCheck) {
+    // Returns true for Cbrdinbl (non-negbtive) numbers
+    // Note thbt the empty string is not bllowed
+    privbte boolebn textIsCbrdinbl(String textToCheck) {
         try {
-            return Integer.parseInt(textToCheck, 10) >= 0;
-        } catch (NumberFormatException nfe) {
-            return false;
+            return Integer.pbrseInt(textToCheck, 10) >= 0;
+        } cbtch (NumberFormbtException nfe) {
+            return fblse;
         }
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,92 +30,92 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
 
 /**
- * Example code to list/set/get/delete the user-defined attributes of a file.
+ * Exbmple code to list/set/get/delete the user-defined bttributes of b file.
  */
 
-public class Xdd {
+public clbss Xdd {
 
-    static void usage() {
-        System.out.println("Usage: java Xdd <file>");
-        System.out.println("       java Xdd -set <name>=<value> <file>");
-        System.out.println("       java Xdd -get <name> <file>");
-        System.out.println("       java Xdd -del <name> <file>");
+    stbtic void usbge() {
+        System.out.println("Usbge: jbvb Xdd <file>");
+        System.out.println("       jbvb Xdd -set <nbme>=<vblue> <file>");
+        System.out.println("       jbvb Xdd -get <nbme> <file>");
+        System.out.println("       jbvb Xdd -del <nbme> <file>");
         System.exit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        // one or three parameters
-        if (args.length != 1 && args.length != 3)
-            usage();
+    public stbtic void mbin(String[] brgs) throws IOException {
+        // one or three pbrbmeters
+        if (brgs.length != 1 && brgs.length != 3)
+            usbge();
 
-        Path file = (args.length == 1) ?
-            Paths.get(args[0]) : Paths.get(args[2]);
+        Pbth file = (brgs.length == 1) ?
+            Pbths.get(brgs[0]) : Pbths.get(brgs[2]);
 
-        // check that user defined attributes are supported by the file store
+        // check thbt user defined bttributes bre supported by the file store
         FileStore store = Files.getFileStore(file);
-        if (!store.supportsFileAttributeView(UserDefinedFileAttributeView.class)) {
-            System.err.format("UserDefinedFileAttributeView not supported on %s\n", store);
+        if (!store.supportsFileAttributeView(UserDefinedFileAttributeView.clbss)) {
+            System.err.formbt("UserDefinedFileAttributeView not supported on %s\n", store);
             System.exit(-1);
 
         }
         UserDefinedFileAttributeView view =
-            Files.getFileAttributeView(file, UserDefinedFileAttributeView.class);
+            Files.getFileAttributeView(file, UserDefinedFileAttributeView.clbss);
 
-        // list user defined attributes
-        if (args.length == 1) {
-            System.out.println("    Size  Name");
+        // list user defined bttributes
+        if (brgs.length == 1) {
+            System.out.println("    Size  Nbme");
             System.out.println("--------  --------------------------------------");
-            for (String name: view.list()) {
-                System.out.format("%8d  %s\n", view.size(name), name);
+            for (String nbme: view.list()) {
+                System.out.formbt("%8d  %s\n", view.size(nbme), nbme);
             }
             return;
         }
 
-        // Add/replace a file's user defined attribute
-        if (args[0].equals("-set")) {
-            // name=value
-            String[] s = args[1].split("=");
+        // Add/replbce b file's user defined bttribute
+        if (brgs[0].equbls("-set")) {
+            // nbme=vblue
+            String[] s = brgs[1].split("=");
             if (s.length != 2)
-                usage();
-            String name = s[0];
-            String value = s[1];
-            view.write(name, Charset.defaultCharset().encode(value));
+                usbge();
+            String nbme = s[0];
+            String vblue = s[1];
+            view.write(nbme, Chbrset.defbultChbrset().encode(vblue));
             return;
         }
 
-        // Print out the value of a file's user defined attribute
-        if (args[0].equals("-get")) {
-            String name = args[1];
-            int size = view.size(name);
-            ByteBuffer buf = ByteBuffer.allocateDirect(size);
-            view.read(name, buf);
+        // Print out the vblue of b file's user defined bttribute
+        if (brgs[0].equbls("-get")) {
+            String nbme = brgs[1];
+            int size = view.size(nbme);
+            ByteBuffer buf = ByteBuffer.bllocbteDirect(size);
+            view.rebd(nbme, buf);
             buf.flip();
-            System.out.println(Charset.defaultCharset().decode(buf).toString());
+            System.out.println(Chbrset.defbultChbrset().decode(buf).toString());
             return;
         }
 
-        // Delete a file's user defined attribute
-        if (args[0].equals("-del")) {
-            view.delete(args[1]);
+        // Delete b file's user defined bttribute
+        if (brgs[0].equbls("-del")) {
+            view.delete(brgs[1]);
             return;
         }
 
         // option not recognized
-        usage();
+        usbge();
     }
  }

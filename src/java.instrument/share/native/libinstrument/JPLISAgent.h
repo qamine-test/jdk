@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -38,15 +38,15 @@ extern "C" {
 #endif
 
 /*
- *  The JPLISAgent manages the initialization all of the Java programming language Agents.
- *  It also supports the native method bridge between the JPLIS and the JVMTI.
- *  It maintains a single JVMTI Env that all JPL agents share.
- *  It parses command line requests and creates individual Java agents.
+ *  The JPLISAgent mbnbges the initiblizbtion bll of the Jbvb progrbmming lbngubge Agents.
+ *  It blso supports the nbtive method bridge between the JPLIS bnd the JVMTI.
+ *  It mbintbins b single JVMTI Env thbt bll JPL bgents shbre.
+ *  It pbrses commbnd line requests bnd crebtes individubl Jbvb bgents.
  */
 
 
 /*
- *  Forward definitions
+ *  Forwbrd definitions
  */
 struct  _JPLISAgent;
 
@@ -54,29 +54,29 @@ typedef struct _JPLISAgent        JPLISAgent;
 typedef struct _JPLISEnvironment  JPLISEnvironment;
 
 
-/* constants for class names and methods names and such
-    these all must stay in sync with Java code & interfaces
+/* constbnts for clbss nbmes bnd methods nbmes bnd such
+    these bll must stby in sync with Jbvb code & interfbces
 */
-#define JPLIS_INSTRUMENTIMPL_CLASSNAME                      "sun/instrument/InstrumentationImpl"
+#define JPLIS_INSTRUMENTIMPL_CLASSNAME                      "sun/instrument/InstrumentbtionImpl"
 #define JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODNAME         "<init>"
 #define JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODSIGNATURE    "(JZZ)V"
-#define JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODNAME      "loadClassAndCallPremain"
-#define JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODSIGNATURE "(Ljava/lang/String;Ljava/lang/String;)V"
-#define JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODNAME      "loadClassAndCallAgentmain"
-#define JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODSIGNATURE "(Ljava/lang/String;Ljava/lang/String;)V"
-#define JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODNAME           "transform"
+#define JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODNAME      "lobdClbssAndCbllPrembin"
+#define JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODSIGNATURE "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"
+#define JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODNAME      "lobdClbssAndCbllAgentmbin"
+#define JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODSIGNATURE "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"
+#define JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODNAME           "trbnsform"
 #define JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODSIGNATURE      \
-    "(Ljava/lang/ClassLoader;Ljava/lang/String;Ljava/lang/Class;Ljava/security/ProtectionDomain;[BZ)[B"
+    "(Ljbvb/lbng/ClbssLobder;Ljbvb/lbng/String;Ljbvb/lbng/Clbss;Ljbvb/security/ProtectionDombin;[BZ)[B"
 
 
 /*
- *  Error messages
+ *  Error messbges
  */
-#define JPLIS_ERRORMESSAGE_CANNOTSTART              "processing of -javaagent failed"
+#define JPLIS_ERRORMESSAGE_CANNOTSTART              "processing of -jbvbbgent fbiled"
 
 
 /*
- *  Our initialization errors
+ *  Our initiblizbtion errors
  */
 typedef enum {
   JPLIS_INIT_ERROR_NONE,
@@ -84,228 +84,228 @@ typedef enum {
   JPLIS_INIT_ERROR_FAILURE,
   JPLIS_INIT_ERROR_ALLOCATION_FAILURE,
   JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED
-} JPLISInitializationError;
+} JPLISInitiblizbtionError;
 
 
 struct _JPLISEnvironment {
     jvmtiEnv *              mJVMTIEnv;              /* the JVM TI environment */
-    JPLISAgent *            mAgent;                 /* corresponding agent */
-    jboolean                mIsRetransformer;       /* indicates if special environment */
+    JPLISAgent *            mAgent;                 /* corresponding bgent */
+    jboolebn                mIsRetrbnsformer;       /* indicbtes if specibl environment */
 };
 
 struct _JPLISAgent {
-    JavaVM *                mJVM;                   /* handle to the JVM */
-    JPLISEnvironment        mNormalEnvironment;     /* for every thing but retransform stuff */
-    JPLISEnvironment        mRetransformEnvironment;/* for retransform stuff only */
-    jobject                 mInstrumentationImpl;   /* handle to the Instrumentation instance */
-    jmethodID               mPremainCaller;         /* method on the InstrumentationImpl that does the premain stuff (cached to save lots of lookups) */
-    jmethodID               mAgentmainCaller;       /* method on the InstrumentationImpl for agents loaded via attach mechanism */
-    jmethodID               mTransform;             /* method on the InstrumentationImpl that does the class file transform */
-    jboolean                mRedefineAvailable;     /* cached answer to "does this agent support redefine" */
-    jboolean                mRedefineAdded;         /* indicates if can_redefine_classes capability has been added */
-    jboolean                mNativeMethodPrefixAvailable; /* cached answer to "does this agent support prefixing" */
-    jboolean                mNativeMethodPrefixAdded;     /* indicates if can_set_native_method_prefix capability has been added */
-    char const *            mAgentClassName;        /* agent class name */
-    char const *            mOptionsString;         /* -javaagent options string */
+    JbvbVM *                mJVM;                   /* hbndle to the JVM */
+    JPLISEnvironment        mNormblEnvironment;     /* for every thing but retrbnsform stuff */
+    JPLISEnvironment        mRetrbnsformEnvironment;/* for retrbnsform stuff only */
+    jobject                 mInstrumentbtionImpl;   /* hbndle to the Instrumentbtion instbnce */
+    jmethodID               mPrembinCbller;         /* method on the InstrumentbtionImpl thbt does the prembin stuff (cbched to sbve lots of lookups) */
+    jmethodID               mAgentmbinCbller;       /* method on the InstrumentbtionImpl for bgents lobded vib bttbch mechbnism */
+    jmethodID               mTrbnsform;             /* method on the InstrumentbtionImpl thbt does the clbss file trbnsform */
+    jboolebn                mRedefineAvbilbble;     /* cbched bnswer to "does this bgent support redefine" */
+    jboolebn                mRedefineAdded;         /* indicbtes if cbn_redefine_clbsses cbpbbility hbs been bdded */
+    jboolebn                mNbtiveMethodPrefixAvbilbble; /* cbched bnswer to "does this bgent support prefixing" */
+    jboolebn                mNbtiveMethodPrefixAdded;     /* indicbtes if cbn_set_nbtive_method_prefix cbpbbility hbs been bdded */
+    chbr const *            mAgentClbssNbme;        /* bgent clbss nbme */
+    chbr const *            mOptionsString;         /* -jbvbbgent options string */
 };
 
 /*
- * JVMTI event handlers
+ * JVMTI event hbndlers
  */
 
-/* VMInit event handler. Installed during OnLoad, then removed during VMInit. */
+/* VMInit event hbndler. Instblled during OnLobd, then removed during VMInit. */
 extern void JNICALL
-eventHandlerVMInit( jvmtiEnv *      jvmtienv,
+eventHbndlerVMInit( jvmtiEnv *      jvmtienv,
                     JNIEnv *        jnienv,
-                    jthread         thread);
+                    jthrebd         threbd);
 
-/* ClassFileLoadHook event handler. Installed during VMInit, then left in place forever. */
+/* ClbssFileLobdHook event hbndler. Instblled during VMInit, then left in plbce forever. */
 extern void JNICALL
-eventHandlerClassFileLoadHook(  jvmtiEnv *              jvmtienv,
+eventHbndlerClbssFileLobdHook(  jvmtiEnv *              jvmtienv,
                                 JNIEnv *                jnienv,
-                                jclass                  class_being_redefined,
-                                jobject                 loader,
-                                const char*             name,
-                                jobject                 protectionDomain,
-                                jint                    class_data_len,
-                                const unsigned char*    class_data,
-                                jint*                   new_class_data_len,
-                                unsigned char**         new_class_data);
+                                jclbss                  clbss_being_redefined,
+                                jobject                 lobder,
+                                const chbr*             nbme,
+                                jobject                 protectionDombin,
+                                jint                    clbss_dbtb_len,
+                                const unsigned chbr*    clbss_dbtb,
+                                jint*                   new_clbss_dbtb_len,
+                                unsigned chbr**         new_clbss_dbtb);
 
 /*
- * Main entry points for the JPLIS JVMTI agent code
+ * Mbin entry points for the JPLIS JVMTI bgent code
  */
 
-/* looks up the  environment instance. returns null if there isn't one */
+/* looks up the  environment instbnce. returns null if there isn't one */
 extern JPLISEnvironment *
 getJPLISEnvironment(jvmtiEnv * jvmtienv);
 
-/*  Creates a new JPLIS agent.
- *  Returns error if the agent cannot be created and initialized.
- *  The JPLISAgent* pointed to by agent_ptr is set to the new broker,
- *  or NULL if an error has occurred.
+/*  Crebtes b new JPLIS bgent.
+ *  Returns error if the bgent cbnnot be crebted bnd initiblized.
+ *  The JPLISAgent* pointed to by bgent_ptr is set to the new broker,
+ *  or NULL if bn error hbs occurred.
  */
-extern JPLISInitializationError
-createNewJPLISAgent(JavaVM * vm, JPLISAgent **agent_ptr);
+extern JPLISInitiblizbtionError
+crebteNewJPLISAgent(JbvbVM * vm, JPLISAgent **bgent_ptr);
 
-/* Adds can_redefine_classes capability */
+/* Adds cbn_redefine_clbsses cbpbbility */
 extern void
-addRedefineClassesCapability(JPLISAgent * agent);
+bddRedefineClbssesCbpbbility(JPLISAgent * bgent);
 
-/* Add the can_set_native_method_prefix capability */
+/* Add the cbn_set_nbtive_method_prefix cbpbbility */
 extern void
-addNativeMethodPrefixCapability(JPLISAgent * agent);
+bddNbtiveMethodPrefixCbpbbility(JPLISAgent * bgent);
 
-/* Add the can_maintain_original_method_order capability (for testing) */
+/* Add the cbn_mbintbin_originbl_method_order cbpbbility (for testing) */
 extern void
-addOriginalMethodOrderCapability(JPLISAgent * agent);
+bddOriginblMethodOrderCbpbbility(JPLISAgent * bgent);
 
 
-/* Our JPLIS agent is paralleled by a Java InstrumentationImpl instance.
- * This routine uses JNI to create and initialized the Java instance.
- * Returns true if it succeeds, false otherwise.
+/* Our JPLIS bgent is pbrblleled by b Jbvb InstrumentbtionImpl instbnce.
+ * This routine uses JNI to crebte bnd initiblized the Jbvb instbnce.
+ * Returns true if it succeeds, fblse otherwise.
  */
-extern jboolean
-createInstrumentationImpl( JNIEnv *        jnienv,
-                           JPLISAgent *    agent);
+extern jboolebn
+crebteInstrumentbtionImpl( JNIEnv *        jnienv,
+                           JPLISAgent *    bgent);
 
 
-/* during OnLoad phase (command line parsing)
- *  record the parameters of -javaagent
+/* during OnLobd phbse (commbnd line pbrsing)
+ *  record the pbrbmeters of -jbvbbgent
  */
-extern JPLISInitializationError
-recordCommandLineData(  JPLISAgent *    agent,
-                        const char *    agentClass,
-                        const char *    optionsString );
+extern JPLISInitiblizbtionError
+recordCommbndLineDbtb(  JPLISAgent *    bgent,
+                        const chbr *    bgentClbss,
+                        const chbr *    optionsString );
 
-/* Swaps the start phase event handlers out and the live phase event handlers in.
- * Also used in attach to enabled live phase event handlers.
- * Returns true if it succeeds, false otherwise.
+/* Swbps the stbrt phbse event hbndlers out bnd the live phbse event hbndlers in.
+ * Also used in bttbch to enbbled live phbse event hbndlers.
+ * Returns true if it succeeds, fblse otherwise.
  */
-extern jboolean
-setLivePhaseEventHandlers(  JPLISAgent * agent);
+extern jboolebn
+setLivePhbseEventHbndlers(  JPLISAgent * bgent);
 
-/* Loads the Java agent according to the already processed command line. For each,
- * loads the Java agent class, then calls the premain method.
- * Returns true if all Java agent classes are loaded and all premain methods complete with no exceptions,
- * false otherwise.
+/* Lobds the Jbvb bgent bccording to the blrebdy processed commbnd line. For ebch,
+ * lobds the Jbvb bgent clbss, then cblls the prembin method.
+ * Returns true if bll Jbvb bgent clbsses bre lobded bnd bll prembin methods complete with no exceptions,
+ * fblse otherwise.
  */
-extern jboolean
-startJavaAgent( JPLISAgent *    agent,
+extern jboolebn
+stbrtJbvbAgent( JPLISAgent *    bgent,
                 JNIEnv *        jnienv,
-                const char *    classname,
-                const char *    optionsString,
-                jmethodID       agentMainMethod);
+                const chbr *    clbssnbme,
+                const chbr *    optionsString,
+                jmethodID       bgentMbinMethod);
 
 
 /* during VMInit processing
- *  this is how the invocation engine (callback wrapper) tells us to start up all the javaagents
+ *  this is how the invocbtion engine (cbllbbck wrbpper) tells us to stbrt up bll the jbvbbgents
  */
-extern jboolean
-processJavaStart(   JPLISAgent *    agent,
+extern jboolebn
+processJbvbStbrt(   JPLISAgent *    bgent,
                     JNIEnv *        jnienv);
 
-/* on an ongoing basis,
- *  this is how the invocation engine (callback wrapper) tells us to process a class file
+/* on bn ongoing bbsis,
+ *  this is how the invocbtion engine (cbllbbck wrbpper) tells us to process b clbss file
  */
 extern void
-transformClassFile(             JPLISAgent *            agent,
+trbnsformClbssFile(             JPLISAgent *            bgent,
                                 JNIEnv *                jnienv,
-                                jobject                 loader,
-                                const char*             name,
-                                jclass                  classBeingRedefined,
-                                jobject                 protectionDomain,
-                                jint                    class_data_len,
-                                const unsigned char*    class_data,
-                                jint*                   new_class_data_len,
-                                unsigned char**         new_class_data,
-                                jboolean                is_retransformer);
+                                jobject                 lobder,
+                                const chbr*             nbme,
+                                jclbss                  clbssBeingRedefined,
+                                jobject                 protectionDombin,
+                                jint                    clbss_dbtb_len,
+                                const unsigned chbr*    clbss_dbtb,
+                                jint*                   new_clbss_dbtb_len,
+                                unsigned chbr**         new_clbss_dbtb,
+                                jboolebn                is_retrbnsformer);
 
-/* on an ongoing basis,
- *  Return the environment with the retransformation capability.
- *  Create it if it doesn't exist.
+/* on bn ongoing bbsis,
+ *  Return the environment with the retrbnsformbtion cbpbbility.
+ *  Crebte it if it doesn't exist.
  */
 extern jvmtiEnv *
-retransformableEnvironment(JPLISAgent * agent);
+retrbnsformbbleEnvironment(JPLISAgent * bgent);
 
-/* on an ongoing basis,
- *  these are implementations of the Instrumentation services.
- *  Most are simple covers for JVMTI access services. These are the guts of the InstrumentationImpl
- *  native methods.
+/* on bn ongoing bbsis,
+ *  these bre implementbtions of the Instrumentbtion services.
+ *  Most bre simple covers for JVMTI bccess services. These bre the guts of the InstrumentbtionImpl
+ *  nbtive methods.
  */
-extern jboolean
-isModifiableClass(JNIEnv * jnienv, JPLISAgent * agent, jclass clazz);
+extern jboolebn
+isModifibbleClbss(JNIEnv * jnienv, JPLISAgent * bgent, jclbss clbzz);
 
-extern jboolean
-isRetransformClassesSupported(JNIEnv * jnienv, JPLISAgent * agent);
-
-extern void
-setHasRetransformableTransformers(JNIEnv * jnienv, JPLISAgent * agent, jboolean has);
+extern jboolebn
+isRetrbnsformClbssesSupported(JNIEnv * jnienv, JPLISAgent * bgent);
 
 extern void
-retransformClasses(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray classes);
+setHbsRetrbnsformbbleTrbnsformers(JNIEnv * jnienv, JPLISAgent * bgent, jboolebn hbs);
 
 extern void
-redefineClasses(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray classDefinitions);
+retrbnsformClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby clbsses);
 
-extern jobjectArray
-getAllLoadedClasses(JNIEnv * jnienv, JPLISAgent * agent);
+extern void
+redefineClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby clbssDefinitions);
 
-extern jobjectArray
-getInitiatedClasses(JNIEnv * jnienv, JPLISAgent * agent, jobject classLoader);
+extern jobjectArrby
+getAllLobdedClbsses(JNIEnv * jnienv, JPLISAgent * bgent);
+
+extern jobjectArrby
+getInitibtedClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobject clbssLobder);
 
 extern jlong
-getObjectSize(JNIEnv * jnienv, JPLISAgent * agent, jobject objectToSize);
+getObjectSize(JNIEnv * jnienv, JPLISAgent * bgent, jobject objectToSize);
 
 extern void
-appendToClassLoaderSearch(JNIEnv * jnienv, JPLISAgent * agent, jstring jarFile, jboolean isBootLoader);
+bppendToClbssLobderSebrch(JNIEnv * jnienv, JPLISAgent * bgent, jstring jbrFile, jboolebn isBootLobder);
 
 extern void
-setNativeMethodPrefixes(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray prefixArray,
-                        jboolean isRetransformable);
+setNbtiveMethodPrefixes(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby prefixArrby,
+                        jboolebn isRetrbnsformbble);
 
-#define jvmti(a) a->mNormalEnvironment.mJVMTIEnv
+#define jvmti(b) b->mNormblEnvironment.mJVMTIEnv
 
 /*
- * A set of macros for insulating the JLI method callers from
+ * A set of mbcros for insulbting the JLI method cbllers from
  * JVMTI_ERROR_WRONG_PHASE return codes.
  */
 
-/* for a JLI method where "blob" is executed before simply returning */
-#define check_phase_blob_ret(ret, blob)      \
+/* for b JLI method where "blob" is executed before simply returning */
+#define check_phbse_blob_ret(ret, blob)      \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
         blob;                                \
         return;                              \
     }
 
-/* for a JLI method where simply returning is benign */
-#define check_phase_ret(ret)                 \
+/* for b JLI method where simply returning is benign */
+#define check_phbse_ret(ret)                 \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
         return;                              \
     }
 
-/* for a JLI method where returning zero (0) is benign */
-#define check_phase_ret_0(ret)               \
+/* for b JLI method where returning zero (0) is benign */
+#define check_phbse_ret_0(ret)               \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
         return 0;                            \
     }
 
-/* for a JLI method where returning one (1) is benign */
-#define check_phase_ret_1(ret)               \
+/* for b JLI method where returning one (1) is benign */
+#define check_phbse_ret_1(ret)               \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
         return 1;                            \
     }
 
-/* for a case where a specific "blob" must be returned */
-#define check_phase_ret_blob(ret, blob)      \
+/* for b cbse where b specific "blob" must be returned */
+#define check_phbse_ret_blob(ret, blob)      \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
         return (blob);                       \
     }
 
-/* for a JLI method where returning false is benign */
-#define check_phase_ret_false(ret)           \
+/* for b JLI method where returning fblse is benign */
+#define check_phbse_ret_fblse(ret)           \
     if ((ret) == JVMTI_ERROR_WRONG_PHASE) {  \
-        return (jboolean) 0;                 \
+        return (jboolebn) 0;                 \
     }
 
 #ifdef __cplusplus

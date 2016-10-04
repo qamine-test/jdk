@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1994, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www;
-import java.net.URL;
-import java.io.*;
-import java.util.StringTokenizer;
+pbckbge sun.net.www;
+import jbvb.net.URL;
+import jbvb.io.*;
+import jbvb.util.StringTokenizer;
 
-public class MimeEntry implements Cloneable {
-    private String typeName;    // of the form: "type/subtype"
-    private String tempFileNameTemplate;
+public clbss MimeEntry implements Clonebble {
+    privbte String typeNbme;    // of the form: "type/subtype"
+    privbte String tempFileNbmeTemplbte;
 
-    private int action;
-    private String command;
-    private String description;
-    private String imageFileName;
-    private String fileExtensions[];
+    privbte int bction;
+    privbte String commbnd;
+    privbte String description;
+    privbte String imbgeFileNbme;
+    privbte String fileExtensions[];
 
-    boolean starred;
+    boolebn stbrred;
 
     // Actions
-    public static final int             UNKNOWN                 = 0;
-    public static final int             LOAD_INTO_BROWSER       = 1;
-    public static final int             SAVE_TO_FILE            = 2;
-    public static final int             LAUNCH_APPLICATION      = 3;
+    public stbtic finbl int             UNKNOWN                 = 0;
+    public stbtic finbl int             LOAD_INTO_BROWSER       = 1;
+    public stbtic finbl int             SAVE_TO_FILE            = 2;
+    public stbtic finbl int             LAUNCH_APPLICATION      = 3;
 
-    static final String[] actionKeywords = {
+    stbtic finbl String[] bctionKeywords = {
         "unknown",
         "browser",
-        "save",
-        "application",
+        "sbve",
+        "bpplicbtion",
     };
 
     /**
-     * Construct an empty entry of the given type and subtype.
+     * Construct bn empty entry of the given type bnd subtype.
      */
     public MimeEntry(String type) {
-        // Default action is UNKNOWN so clients can decide what the default
-        // should be, typically save to file or ask user.
+        // Defbult bction is UNKNOWN so clients cbn decide whbt the defbult
+        // should be, typicblly sbve to file or bsk user.
         this(type, UNKNOWN, null, null, null);
     }
 
     //
-    // The next two constructors are used only by the deprecated
-    // PlatformMimeTable classes or, in last case, is called by the public
-    // constructor.  They are kept here anticipating putting support for
-    // mailcap formatted config files back in (so BOTH the properties format
-    // and the mailcap formats are supported).
+    // The next two constructors bre used only by the deprecbted
+    // PlbtformMimeTbble clbsses or, in lbst cbse, is cblled by the public
+    // constructor.  They bre kept here bnticipbting putting support for
+    // mbilcbp formbtted config files bbck in (so BOTH the properties formbt
+    // bnd the mbilcbp formbts bre supported).
     //
-    MimeEntry(String type, String imageFileName, String extensionString) {
-        typeName = type.toLowerCase();
-        action = UNKNOWN;
-        command = null;
-        this.imageFileName = imageFileName;
+    MimeEntry(String type, String imbgeFileNbme, String extensionString) {
+        typeNbme = type.toLowerCbse();
+        bction = UNKNOWN;
+        commbnd = null;
+        this.imbgeFileNbme = imbgeFileNbme;
         setExtensions(extensionString);
-        starred = isStarred(typeName);
+        stbrred = isStbrred(typeNbme);
     }
 
-    // For use with MimeTable::parseMailCap
-    MimeEntry(String typeName, int action, String command,
-              String tempFileNameTemplate) {
-        this.typeName = typeName.toLowerCase();
-        this.action = action;
-        this.command = command;
-        this.imageFileName = null;
+    // For use with MimeTbble::pbrseMbilCbp
+    MimeEntry(String typeNbme, int bction, String commbnd,
+              String tempFileNbmeTemplbte) {
+        this.typeNbme = typeNbme.toLowerCbse();
+        this.bction = bction;
+        this.commbnd = commbnd;
+        this.imbgeFileNbme = null;
         this.fileExtensions = null;
 
-        this.tempFileNameTemplate = tempFileNameTemplate;
+        this.tempFileNbmeTemplbte = tempFileNbmeTemplbte;
     }
 
-    // This is the one called by the public constructor.
-    MimeEntry(String typeName, int action, String command,
-              String imageFileName, String fileExtensions[]) {
+    // This is the one cblled by the public constructor.
+    MimeEntry(String typeNbme, int bction, String commbnd,
+              String imbgeFileNbme, String fileExtensions[]) {
 
-        this.typeName = typeName.toLowerCase();
-        this.action = action;
-        this.command = command;
-        this.imageFileName = imageFileName;
+        this.typeNbme = typeNbme.toLowerCbse();
+        this.bction = bction;
+        this.commbnd = commbnd;
+        this.imbgeFileNbme = imbgeFileNbme;
         this.fileExtensions = fileExtensions;
 
-        starred = isStarred(typeName);
+        stbrred = isStbrred(typeNbme);
 
     }
 
     public synchronized String getType() {
-        return typeName;
+        return typeNbme;
     }
 
     public synchronized void setType(String type) {
-        typeName = type.toLowerCase();
+        typeNbme = type.toLowerCbse();
     }
 
     public synchronized int getAction() {
-        return action;
+        return bction;
     }
 
-    public synchronized void setAction(int action, String command) {
-        this.action = action;
-        this.command = command;
+    public synchronized void setAction(int bction, String commbnd) {
+        this.bction = bction;
+        this.commbnd = commbnd;
     }
 
-    public synchronized void setAction(int action) {
-        this.action = action;
+    public synchronized void setAction(int bction) {
+        this.bction = bction;
     }
 
-    public synchronized String getLaunchString() {
-        return command;
+    public synchronized String getLbunchString() {
+        return commbnd;
     }
 
-    public synchronized void setCommand(String command) {
-        this.command = command;
+    public synchronized void setCommbnd(String commbnd) {
+        this.commbnd = commbnd;
     }
 
     public synchronized String getDescription() {
-        return (description != null ? description : typeName);
+        return (description != null ? description : typeNbme);
     }
 
     public synchronized void setDescription(String description) {
         this.description = description;
     }
 
-    // ??? what to return for the image -- the file name or should this return
-    // something more advanced like an image source or something?
-    // returning the name has the least policy associated with it.
-    // pro tempore, we'll use the name
-    public String getImageFileName() {
-        return imageFileName;
+    // ??? whbt to return for the imbge -- the file nbme or should this return
+    // something more bdvbnced like bn imbge source or something?
+    // returning the nbme hbs the lebst policy bssocibted with it.
+    // pro tempore, we'll use the nbme
+    public String getImbgeFileNbme() {
+        return imbgeFileNbme;
     }
 
-    public synchronized void setImageFileName(String filename) {
-        File file = new File(filename);
-        if (file.getParent() == null) {
-            imageFileName = System.getProperty(
-                                     "java.net.ftp.imagepath."+filename);
+    public synchronized void setImbgeFileNbme(String filenbme) {
+        File file = new File(filenbme);
+        if (file.getPbrent() == null) {
+            imbgeFileNbme = System.getProperty(
+                                     "jbvb.net.ftp.imbgepbth."+filenbme);
         }
         else {
-            imageFileName = filename;
+            imbgeFileNbme = filenbme;
         }
 
-        if (filename.lastIndexOf('.') < 0) {
-            imageFileName = imageFileName + ".gif";
+        if (filenbme.lbstIndexOf('.') < 0) {
+            imbgeFileNbme = imbgeFileNbme + ".gif";
         }
     }
 
-    public String getTempFileTemplate() {
-        return tempFileNameTemplate;
+    public String getTempFileTemplbte() {
+        return tempFileNbmeTemplbte;
     }
 
     public synchronized String[] getExtensions() {
@@ -199,82 +199,82 @@ public class MimeEntry implements Cloneable {
         fileExtensions = extensionStrings;
     }
 
-    private boolean isStarred(String typeName) {
-        return (typeName != null)
-            && (typeName.length() > 0)
-            && (typeName.endsWith("/*"));
+    privbte boolebn isStbrred(String typeNbme) {
+        return (typeNbme != null)
+            && (typeNbme.length() > 0)
+            && (typeNbme.endsWith("/*"));
     }
 
     /**
-     * Invoke the MIME type specific behavior for this MIME type.
-     * Returned value can be one of several types:
+     * Invoke the MIME type specific behbvior for this MIME type.
+     * Returned vblue cbn be one of severbl types:
      * <ol>
-     * <li>A thread -- the caller can choose when to launch this thread.
-     * <li>A string -- the string is loaded into the browser directly.
-     * <li>An input stream -- the caller can read from this byte stream and
-     *     will typically store the results in a file.
+     * <li>A threbd -- the cbller cbn choose when to lbunch this threbd.
+     * <li>A string -- the string is lobded into the browser directly.
+     * <li>An input strebm -- the cbller cbn rebd from this byte strebm bnd
+     *     will typicblly store the results in b file.
      * <li>A document (?) --
      * </ol>
      */
-    public Object launch(java.net.URLConnection urlc, InputStream is, MimeTable mt) throws ApplicationLaunchException {
-        switch (action) {
-        case SAVE_TO_FILE:
-            // REMIND: is this really the right thing to do?
+    public Object lbunch(jbvb.net.URLConnection urlc, InputStrebm is, MimeTbble mt) throws ApplicbtionLbunchException {
+        switch (bction) {
+        cbse SAVE_TO_FILE:
+            // REMIND: is this reblly the right thing to do?
             try {
                 return is;
-            } catch(Exception e) {
+            } cbtch(Exception e) {
                 // I18N
-                return "Load to file failed:\n" + e;
+                return "Lobd to file fbiled:\n" + e;
             }
 
-        case LOAD_INTO_BROWSER:
-            // REMIND: invoke the content handler?
-            // may be the right thing to do, may not be -- short term
-            // where docs are not loaded asynch, loading and returning
+        cbse LOAD_INTO_BROWSER:
+            // REMIND: invoke the content hbndler?
+            // mby be the right thing to do, mby not be -- short term
+            // where docs bre not lobded bsynch, lobding bnd returning
             // the content is the right thing to do.
             try {
                 return urlc.getContent();
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 return null;
             }
 
-        case LAUNCH_APPLICATION:
+        cbse LAUNCH_APPLICATION:
             {
-                String threadName = command;
-                int fst = threadName.indexOf(' ');
+                String threbdNbme = commbnd;
+                int fst = threbdNbme.indexOf(' ');
                 if (fst > 0) {
-                    threadName = threadName.substring(0, fst);
+                    threbdNbme = threbdNbme.substring(0, fst);
                 }
 
-                return new MimeLauncher(this, urlc, is,
-                                        mt.getTempFileTemplate(), threadName);
+                return new MimeLbuncher(this, urlc, is,
+                                        mt.getTempFileTemplbte(), threbdNbme);
             }
 
-        case UNKNOWN:
-            // REMIND: What do do here?
+        cbse UNKNOWN:
+            // REMIND: Whbt do do here?
             return null;
         }
 
         return null;
     }
 
-    public boolean matches(String type) {
-        if (starred) {
+    public boolebn mbtches(String type) {
+        if (stbrred) {
           // REMIND: is this the right thing or not?
-          return type.startsWith(typeName);
+          return type.stbrtsWith(typeNbme);
         } else {
-            return type.equals(typeName);
+            return type.equbls(typeNbme);
         }
     }
 
     public Object clone() {
-        // return a shallow copy of this.
-        MimeEntry theClone = new MimeEntry(typeName);
-        theClone.action = action;
-        theClone.command = command;
+        // return b shbllow copy of this.
+        MimeEntry theClone = new MimeEntry(typeNbme);
+        theClone.bction = bction;
+        theClone.commbnd = commbnd;
         theClone.description = description;
-        theClone.imageFileName = imageFileName;
-        theClone.tempFileNameTemplate = tempFileNameTemplate;
+        theClone.imbgeFileNbme = imbgeFileNbme;
+        theClone.tempFileNbmeTemplbte = tempFileNbmeTemplbte;
         theClone.fileExtensions = fileExtensions;
 
         return theClone;
@@ -283,57 +283,57 @@ public class MimeEntry implements Cloneable {
     public synchronized String toProperty() {
         StringBuilder sb = new StringBuilder();
 
-        String separator = "; ";
-        boolean needSeparator = false;
+        String sepbrbtor = "; ";
+        boolebn needSepbrbtor = fblse;
 
-        int action = getAction();
-        if (action != MimeEntry.UNKNOWN) {
-            sb.append("action=" + actionKeywords[action]);
-            needSeparator = true;
+        int bction = getAction();
+        if (bction != MimeEntry.UNKNOWN) {
+            sb.bppend("bction=" + bctionKeywords[bction]);
+            needSepbrbtor = true;
         }
 
-        String command = getLaunchString();
-        if (command != null && command.length() > 0) {
-            if (needSeparator) {
-                sb.append(separator);
+        String commbnd = getLbunchString();
+        if (commbnd != null && commbnd.length() > 0) {
+            if (needSepbrbtor) {
+                sb.bppend(sepbrbtor);
             }
-            sb.append("application=" + command);
-            needSeparator = true;
+            sb.bppend("bpplicbtion=" + commbnd);
+            needSepbrbtor = true;
         }
 
-        if (getImageFileName() != null) {
-            if (needSeparator) {
-                sb.append(separator);
+        if (getImbgeFileNbme() != null) {
+            if (needSepbrbtor) {
+                sb.bppend(sepbrbtor);
             }
-            sb.append("icon=" + getImageFileName());
-            needSeparator = true;
+            sb.bppend("icon=" + getImbgeFileNbme());
+            needSepbrbtor = true;
         }
 
         String extensions = getExtensionsAsList();
         if (extensions.length() > 0) {
-            if (needSeparator) {
-                sb.append(separator);
+            if (needSepbrbtor) {
+                sb.bppend(sepbrbtor);
             }
-            sb.append("file_extensions=" + extensions);
-            needSeparator = true;
+            sb.bppend("file_extensions=" + extensions);
+            needSepbrbtor = true;
         }
 
         String description = getDescription();
-        if (description != null && !description.equals(getType())) {
-            if (needSeparator) {
-                sb.append(separator);
+        if (description != null && !description.equbls(getType())) {
+            if (needSepbrbtor) {
+                sb.bppend(sepbrbtor);
             }
-            sb.append("description=" + description);
+            sb.bppend("description=" + description);
         }
 
         return sb.toString();
     }
 
     public String toString() {
-        return "MimeEntry[contentType=" + typeName
-            + ", image=" + imageFileName
-            + ", action=" + action
-            + ", command=" + command
+        return "MimeEntry[contentType=" + typeNbme
+            + ", imbge=" + imbgeFileNbme
+            + ", bction=" + bction
+            + ", commbnd=" + commbnd
             + ", extensions=" + getExtensionsAsList()
             + "]";
     }

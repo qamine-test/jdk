@@ -1,533 +1,533 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
 
-import com.sun.jmx.remote.security.MBeanServerFileAccessController;
-import com.sun.jmx.remote.internal.IIOPHelper;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.security.MBebnServerFileAccessController;
+import com.sun.jmx.remote.internbl.IIOPHelper;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.net.MblformedURLException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnServer;
 
-import javax.management.remote.JMXConnectionNotification;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorServer;
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.MBeanServerForwarder;
+import jbvbx.mbnbgement.remote.JMXConnectionNotificbtion;
+import jbvbx.mbnbgement.remote.JMXConnector;
+import jbvbx.mbnbgement.remote.JMXConnectorServer;
+import jbvbx.mbnbgement.remote.JMXServiceURL;
+import jbvbx.mbnbgement.remote.MBebnServerForwbrder;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import jbvbx.nbming.InitiblContext;
+import jbvbx.nbming.NbmingException;
 
 /**
- * <p>A JMX API connector server that creates RMI-based connections
- * from remote clients.  Usually, such connector servers are made
- * using {@link javax.management.remote.JMXConnectorServerFactory
- * JMXConnectorServerFactory}.  However, specialized applications can
- * use this class directly, for example with an {@link RMIServerImpl}
+ * <p>A JMX API connector server thbt crebtes RMI-bbsed connections
+ * from remote clients.  Usublly, such connector servers bre mbde
+ * using {@link jbvbx.mbnbgement.remote.JMXConnectorServerFbctory
+ * JMXConnectorServerFbctory}.  However, speciblized bpplicbtions cbn
+ * use this clbss directly, for exbmple with bn {@link RMIServerImpl}
  * object.</p>
  *
  * @since 1.5
  */
-public class RMIConnectorServer extends JMXConnectorServer {
+public clbss RMIConnectorServer extends JMXConnectorServer {
     /**
-     * <p>Name of the attribute that specifies whether the {@link
-     * RMIServer} stub that represents an RMI connector server should
-     * override an existing stub at the same address.  The value
-     * associated with this attribute, if any, should be a string that
-     * is equal, ignoring case, to <code>"true"</code> or
-     * <code>"false"</code>.  The default value is false.</p>
+     * <p>Nbme of the bttribute thbt specifies whether the {@link
+     * RMIServer} stub thbt represents bn RMI connector server should
+     * override bn existing stub bt the sbme bddress.  The vblue
+     * bssocibted with this bttribute, if bny, should be b string thbt
+     * is equbl, ignoring cbse, to <code>"true"</code> or
+     * <code>"fblse"</code>.  The defbult vblue is fblse.</p>
      */
-    public static final String JNDI_REBIND_ATTRIBUTE =
+    public stbtic finbl String JNDI_REBIND_ATTRIBUTE =
         "jmx.remote.jndi.rebind";
 
     /**
-     * <p>Name of the attribute that specifies the {@link
-     * RMIClientSocketFactory} for the RMI objects created in
-     * conjunction with this connector. The value associated with this
-     * attribute must be of type <code>RMIClientSocketFactory</code> and can
-     * only be specified in the <code>Map</code> argument supplied when
-     * creating a connector server.</p>
+     * <p>Nbme of the bttribute thbt specifies the {@link
+     * RMIClientSocketFbctory} for the RMI objects crebted in
+     * conjunction with this connector. The vblue bssocibted with this
+     * bttribute must be of type <code>RMIClientSocketFbctory</code> bnd cbn
+     * only be specified in the <code>Mbp</code> brgument supplied when
+     * crebting b connector server.</p>
      */
-    public static final String RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE =
-        "jmx.remote.rmi.client.socket.factory";
+    public stbtic finbl String RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.remote.rmi.client.socket.fbctory";
 
     /**
-     * <p>Name of the attribute that specifies the {@link
-     * RMIServerSocketFactory} for the RMI objects created in
-     * conjunction with this connector. The value associated with this
-     * attribute must be of type <code>RMIServerSocketFactory</code> and can
-     * only be specified in the <code>Map</code> argument supplied when
-     * creating a connector server.</p>
+     * <p>Nbme of the bttribute thbt specifies the {@link
+     * RMIServerSocketFbctory} for the RMI objects crebted in
+     * conjunction with this connector. The vblue bssocibted with this
+     * bttribute must be of type <code>RMIServerSocketFbctory</code> bnd cbn
+     * only be specified in the <code>Mbp</code> brgument supplied when
+     * crebting b connector server.</p>
      */
-    public static final String RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE =
-        "jmx.remote.rmi.server.socket.factory";
+    public stbtic finbl String RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.remote.rmi.server.socket.fbctory";
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code>.
-     * This is equivalent to calling {@link #RMIConnectorServer(
-     * JMXServiceURL,Map,RMIServerImpl,MBeanServer)
+     * <p>Mbkes bn <code>RMIConnectorServer</code>.
+     * This is equivblent to cblling {@link #RMIConnectorServer(
+     * JMXServiceURL,Mbp,RMIServerImpl,MBebnServer)
      * RMIConnectorServer(directoryURL,environment,null,null)}</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url the URL defining how to crebte the connector server.
+     * Cbnnot be null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm environment bttributes governing the crebtion bnd
+     * storing of the RMI object.  Cbn be null, which is equivblent to
+     * bn empty Mbp.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @exception IllegblArgumentException if <code>url</code> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are valid when this constructor is used.
+     * @exception MblformedURLException if <code>url</code> does not
+     * conform to the syntbx for bn RMI connector, or if its protocol
+     * is not recognized by this implementbtion. Only "rmi" bnd "iiop"
+     * bre vblid when this constructor is used.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @exception IOException if the connector server cbnnot be crebted
+     * for some rebson or if it is inevitbble thbt its {@link #stbrt()
+     * stbrt} method will fbil.
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment)
+    public RMIConnectorServer(JMXServiceURL url, Mbp<String,?> environment)
             throws IOException {
-        this(url, environment, (MBeanServer) null);
+        this(url, environment, (MBebnServer) null);
     }
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code> for the given MBean
+     * <p>Mbkes bn <code>RMIConnectorServer</code> for the given MBebn
      * server.
-     * This is equivalent to calling {@link #RMIConnectorServer(
-     * JMXServiceURL,Map,RMIServerImpl,MBeanServer)
-     * RMIConnectorServer(directoryURL,environment,null,mbeanServer)}</p>
+     * This is equivblent to cblling {@link #RMIConnectorServer(
+     * JMXServiceURL,Mbp,RMIServerImpl,MBebnServer)
+     * RMIConnectorServer(directoryURL,environment,null,mbebnServer)}</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url the URL defining how to crebte the connector server.
+     * Cbnnot be null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm environment bttributes governing the crebtion bnd
+     * storing of the RMI object.  Cbn be null, which is equivblent to
+     * bn empty Mbp.
      *
-     * @param mbeanServer the MBean server to which the new connector
-     * server is attached, or null if it will be attached by being
-     * registered as an MBean in the MBean server.
+     * @pbrbm mbebnServer the MBebn server to which the new connector
+     * server is bttbched, or null if it will be bttbched by being
+     * registered bs bn MBebn in the MBebn server.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @exception IllegblArgumentException if <code>url</code> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are valid when this constructor is used.
+     * @exception MblformedURLException if <code>url</code> does not
+     * conform to the syntbx for bn RMI connector, or if its protocol
+     * is not recognized by this implementbtion. Only "rmi" bnd "iiop"
+     * bre vblid when this constructor is used.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @exception IOException if the connector server cbnnot be crebted
+     * for some rebson or if it is inevitbble thbt its {@link #stbrt()
+     * stbrt} method will fbil.
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment,
-                              MBeanServer mbeanServer)
+    public RMIConnectorServer(JMXServiceURL url, Mbp<String,?> environment,
+                              MBebnServer mbebnServer)
             throws IOException {
-        this(url, environment, (RMIServerImpl) null, mbeanServer);
+        this(url, environment, (RMIServerImpl) null, mbebnServer);
     }
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code> for the given MBean
+     * <p>Mbkes bn <code>RMIConnectorServer</code> for the given MBebn
      * server.</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url the URL defining how to crebte the connector server.
+     * Cbnnot be null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm environment bttributes governing the crebtion bnd
+     * storing of the RMI object.  Cbn be null, which is equivblent to
+     * bn empty Mbp.
      *
-     * @param rmiServerImpl An implementation of the RMIServer interface,
-     *  consistent with the protocol type specified in <var>url</var>.
-     *  If this parameter is non null, the protocol type specified by
-     *  <var>url</var> is not constrained, and is assumed to be valid.
-     *  Otherwise, only "rmi" and "iiop" will be recognized.
+     * @pbrbm rmiServerImpl An implementbtion of the RMIServer interfbce,
+     *  consistent with the protocol type specified in <vbr>url</vbr>.
+     *  If this pbrbmeter is non null, the protocol type specified by
+     *  <vbr>url</vbr> is not constrbined, bnd is bssumed to be vblid.
+     *  Otherwise, only "rmi" bnd "iiop" will be recognized.
      *
-     * @param mbeanServer the MBean server to which the new connector
-     * server is attached, or null if it will be attached by being
-     * registered as an MBean in the MBean server.
+     * @pbrbm mbebnServer the MBebn server to which the new connector
+     * server is bttbched, or null if it will be bttbched by being
+     * registered bs bn MBebn in the MBebn server.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @exception IllegblArgumentException if <code>url</code> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are recognized when <var>rmiServerImpl</var> is null.
+     * @exception MblformedURLException if <code>url</code> does not
+     * conform to the syntbx for bn RMI connector, or if its protocol
+     * is not recognized by this implementbtion. Only "rmi" bnd "iiop"
+     * bre recognized when <vbr>rmiServerImpl</vbr> is null.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @exception IOException if the connector server cbnnot be crebted
+     * for some rebson or if it is inevitbble thbt its {@link #stbrt()
+     * stbrt} method will fbil.
      *
-     * @see #start
+     * @see #stbrt
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment,
+    public RMIConnectorServer(JMXServiceURL url, Mbp<String,?> environment,
                               RMIServerImpl rmiServerImpl,
-                              MBeanServer mbeanServer)
+                              MBebnServer mbebnServer)
             throws IOException {
-        super(mbeanServer);
+        super(mbebnServer);
 
         if (url == null) throw new
-            IllegalArgumentException("Null JMXServiceURL");
+            IllegblArgumentException("Null JMXServiceURL");
         if (rmiServerImpl == null) {
-            final String prt = url.getProtocol();
-            if (prt == null || !(prt.equals("rmi") || prt.equals("iiop"))) {
-                final String msg = "Invalid protocol type: " + prt;
-                throw new MalformedURLException(msg);
+            finbl String prt = url.getProtocol();
+            if (prt == null || !(prt.equbls("rmi") || prt.equbls("iiop"))) {
+                finbl String msg = "Invblid protocol type: " + prt;
+                throw new MblformedURLException(msg);
             }
-            final String urlPath = url.getURLPath();
-            if (!urlPath.equals("")
-                && !urlPath.equals("/")
-                && !urlPath.startsWith("/jndi/")) {
-                final String msg = "URL path must be empty or start with " +
+            finbl String urlPbth = url.getURLPbth();
+            if (!urlPbth.equbls("")
+                && !urlPbth.equbls("/")
+                && !urlPbth.stbrtsWith("/jndi/")) {
+                finbl String msg = "URL pbth must be empty or stbrt with " +
                     "/jndi/";
-                throw new MalformedURLException(msg);
+                throw new MblformedURLException(msg);
             }
         }
 
         if (environment == null)
-            this.attributes = Collections.emptyMap();
+            this.bttributes = Collections.emptyMbp();
         else {
             EnvHelp.checkAttributes(environment);
-            this.attributes = Collections.unmodifiableMap(environment);
+            this.bttributes = Collections.unmodifibbleMbp(environment);
         }
 
-        this.address = url;
+        this.bddress = url;
         this.rmiServerImpl = rmiServerImpl;
     }
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
+     * <p>Returns b client stub for this connector server.  A client
+     * stub is b seriblizbble object whose {@link
+     * JMXConnector#connect(Mbp) connect} method cbn be used to mbke
      * one new connection to this connector server.</p>
      *
-     * @param env client connection parameters of the same sort that
-     * could be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm env client connection pbrbmeters of the sbme sort thbt
+     * could be provided to {@link JMXConnector#connect(Mbp)
+     * JMXConnector.connect(Mbp)}.  Cbn be null, which is equivblent
+     * to bn empty mbp.
      *
-     * @return a client stub that can be used to make a new connection
+     * @return b client stub thbt cbn be used to mbke b new connection
      * to this connector server.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @exception UnsupportedOperbtionException if this connector
+     * server does not support the generbtion of client stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link #isActive()}).
+     * @exception IllegblStbteException if the JMXConnectorServer is
+     * not stbrted (see {@link #isActive()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @exception IOException if b communicbtions problem mebns thbt b
+     * stub cbnnot be crebted.
      **/
-    public JMXConnector toJMXConnector(Map<String,?> env) throws IOException {
-        // The serialized for of rmiServerImpl is automatically
-        // a RMI server stub.
+    public JMXConnector toJMXConnector(Mbp<String,?> env) throws IOException {
+        // The seriblized for of rmiServerImpl is butombticblly
+        // b RMI server stub.
         if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
+            IllegblStbteException("Connector is not bctive");
 
-        // Merge maps
-        Map<String, Object> usemap = new HashMap<String, Object>(
-                (this.attributes==null)?Collections.<String, Object>emptyMap():
-                    this.attributes);
+        // Merge mbps
+        Mbp<String, Object> usembp = new HbshMbp<String, Object>(
+                (this.bttributes==null)?Collections.<String, Object>emptyMbp():
+                    this.bttributes);
 
         if (env != null) {
             EnvHelp.checkAttributes(env);
-            usemap.putAll(env);
+            usembp.putAll(env);
         }
 
-        usemap = EnvHelp.filterAttributes(usemap);
+        usembp = EnvHelp.filterAttributes(usembp);
 
-        final RMIServer stub=(RMIServer)rmiServerImpl.toStub();
+        finbl RMIServer stub=(RMIServer)rmiServerImpl.toStub();
 
-        return new RMIConnector(stub, usemap);
+        return new RMIConnector(stub, usembp);
     }
 
     /**
-     * <p>Activates the connector server, that is starts listening for
-     * client connections.  Calling this method when the connector
-     * server is already active has no effect.  Calling this method
-     * when the connector server has been stopped will generate an
+     * <p>Activbtes the connector server, thbt is stbrts listening for
+     * client connections.  Cblling this method when the connector
+     * server is blrebdy bctive hbs no effect.  Cblling this method
+     * when the connector server hbs been stopped will generbte bn
      * <code>IOException</code>.</p>
      *
-     * <p>The behavior of this method when called for the first time
-     * depends on the parameters that were supplied at construction,
-     * as described below.</p>
+     * <p>The behbvior of this method when cblled for the first time
+     * depends on the pbrbmeters thbt were supplied bt construction,
+     * bs described below.</p>
      *
-     * <p>First, an object of a subclass of {@link RMIServerImpl} is
+     * <p>First, bn object of b subclbss of {@link RMIServerImpl} is
      * required, to export the connector server through RMI:</p>
      *
      * <ul>
      *
-     * <li>If an <code>RMIServerImpl</code> was supplied to the
+     * <li>If bn <code>RMIServerImpl</code> wbs supplied to the
      * constructor, it is used.
      *
-     * <li>Otherwise, if the protocol part of the
-     * <code>JMXServiceURL</code> supplied to the constructor was
-     * <code>iiop</code>, an object of type {@link RMIIIOPServerImpl}
-     * is created.
+     * <li>Otherwise, if the protocol pbrt of the
+     * <code>JMXServiceURL</code> supplied to the constructor wbs
+     * <code>iiop</code>, bn object of type {@link RMIIIOPServerImpl}
+     * is crebted.
      *
      * <li>Otherwise, if the <code>JMXServiceURL</code>
-     * was null, or its protocol part was <code>rmi</code>, an object
-     * of type {@link RMIJRMPServerImpl} is created.
+     * wbs null, or its protocol pbrt wbs <code>rmi</code>, bn object
+     * of type {@link RMIJRMPServerImpl} is crebted.
      *
-     * <li>Otherwise, the implementation can create an
-     * implementation-specific {@link RMIServerImpl} or it can throw
-     * {@link MalformedURLException}.
+     * <li>Otherwise, the implementbtion cbn crebte bn
+     * implementbtion-specific {@link RMIServerImpl} or it cbn throw
+     * {@link MblformedURLException}.
      *
      * </ul>
      *
-     * <p>If the given address includes a JNDI directory URL as
-     * specified in the package documentation for {@link
-     * javax.management.remote.rmi}, then this
-     * <code>RMIConnectorServer</code> will bootstrap by binding the
-     * <code>RMIServerImpl</code> to the given address.</p>
+     * <p>If the given bddress includes b JNDI directory URL bs
+     * specified in the pbckbge documentbtion for {@link
+     * jbvbx.mbnbgement.remote.rmi}, then this
+     * <code>RMIConnectorServer</code> will bootstrbp by binding the
+     * <code>RMIServerImpl</code> to the given bddress.</p>
      *
-     * <p>If the URL path part of the <code>JMXServiceURL</code> was
-     * empty or a single slash (<code>/</code>), then the RMI object
-     * will not be bound to a directory.  Instead, a reference to it
-     * will be encoded in the URL path of the RMIConnectorServer
-     * address (returned by {@link #getAddress()}).  The encodings for
-     * <code>rmi</code> and <code>iiop</code> are described in the
-     * package documentation for {@link
-     * javax.management.remote.rmi}.</p>
+     * <p>If the URL pbth pbrt of the <code>JMXServiceURL</code> wbs
+     * empty or b single slbsh (<code>/</code>), then the RMI object
+     * will not be bound to b directory.  Instebd, b reference to it
+     * will be encoded in the URL pbth of the RMIConnectorServer
+     * bddress (returned by {@link #getAddress()}).  The encodings for
+     * <code>rmi</code> bnd <code>iiop</code> bre described in the
+     * pbckbge documentbtion for {@link
+     * jbvbx.mbnbgement.remote.rmi}.</p>
      *
-     * <p>The behavior when the URL path is neither empty nor a JNDI
+     * <p>The behbvior when the URL pbth is neither empty nor b JNDI
      * directory URL, or when the protocol is neither <code>rmi</code>
-     * nor <code>iiop</code>, is implementation defined, and may
-     * include throwing {@link MalformedURLException} when the
-     * connector server is created or when it is started.</p>
+     * nor <code>iiop</code>, is implementbtion defined, bnd mby
+     * include throwing {@link MblformedURLException} when the
+     * connector server is crebted or when it is stbrted.</p>
      *
-     * @exception IllegalStateException if the connector server has
-     * not been attached to an MBean server.
-     * @exception IOException if the connector server cannot be
-     * started, or in the case of the {@code iiop} protocol, that
+     * @exception IllegblStbteException if the connector server hbs
+     * not been bttbched to bn MBebn server.
+     * @exception IOException if the connector server cbnnot be
+     * stbrted, or in the cbse of the {@code iiop} protocol, thbt
      * RMI/IIOP is not supported.
      */
-    public synchronized void start() throws IOException {
-        final boolean tracing = logger.traceOn();
+    public synchronized void stbrt() throws IOException {
+        finbl boolebn trbcing = logger.trbceOn();
 
-        if (state == STARTED) {
-            if (tracing) logger.trace("start", "already started");
+        if (stbte == STARTED) {
+            if (trbcing) logger.trbce("stbrt", "blrebdy stbrted");
             return;
-        } else if (state == STOPPED) {
-            if (tracing) logger.trace("start", "already stopped");
-            throw new IOException("The server has been stopped.");
+        } else if (stbte == STOPPED) {
+            if (trbcing) logger.trbce("stbrt", "blrebdy stopped");
+            throw new IOException("The server hbs been stopped.");
         }
 
-        if (getMBeanServer() == null)
-            throw new IllegalStateException("This connector server is not " +
-                                            "attached to an MBean server");
+        if (getMBebnServer() == null)
+            throw new IllegblStbteException("This connector server is not " +
+                                            "bttbched to bn MBebn server");
 
-        // Check the internal access file property to see
-        // if an MBeanServerForwarder is to be provided
+        // Check the internbl bccess file property to see
+        // if bn MBebnServerForwbrder is to be provided
         //
-        if (attributes != null) {
-            // Check if access file property is specified
+        if (bttributes != null) {
+            // Check if bccess file property is specified
             //
-            String accessFile =
-                (String) attributes.get("jmx.remote.x.access.file");
-            if (accessFile != null) {
-                // Access file property specified, create an instance
-                // of the MBeanServerFileAccessController class
+            String bccessFile =
+                (String) bttributes.get("jmx.remote.x.bccess.file");
+            if (bccessFile != null) {
+                // Access file property specified, crebte bn instbnce
+                // of the MBebnServerFileAccessController clbss
                 //
-                MBeanServerForwarder mbsf;
+                MBebnServerForwbrder mbsf;
                 try {
-                    mbsf = new MBeanServerFileAccessController(accessFile);
-                } catch (IOException e) {
-                    throw EnvHelp.initCause(
-                        new IllegalArgumentException(e.getMessage()), e);
+                    mbsf = new MBebnServerFileAccessController(bccessFile);
+                } cbtch (IOException e) {
+                    throw EnvHelp.initCbuse(
+                        new IllegblArgumentException(e.getMessbge()), e);
                 }
-                // Set the MBeanServerForwarder
+                // Set the MBebnServerForwbrder
                 //
-                setMBeanServerForwarder(mbsf);
+                setMBebnServerForwbrder(mbsf);
             }
         }
 
         try {
-            if (tracing) logger.trace("start", "setting default class loader");
-            defaultClassLoader = EnvHelp.resolveServerClassLoader(
-                    attributes, getMBeanServer());
-        } catch (InstanceNotFoundException infc) {
-            IllegalArgumentException x = new
-                IllegalArgumentException("ClassLoader not found: "+infc);
-            throw EnvHelp.initCause(x,infc);
+            if (trbcing) logger.trbce("stbrt", "setting defbult clbss lobder");
+            defbultClbssLobder = EnvHelp.resolveServerClbssLobder(
+                    bttributes, getMBebnServer());
+        } cbtch (InstbnceNotFoundException infc) {
+            IllegblArgumentException x = new
+                IllegblArgumentException("ClbssLobder not found: "+infc);
+            throw EnvHelp.initCbuse(x,infc);
         }
 
-        if (tracing) logger.trace("start", "setting RMIServer object");
-        final RMIServerImpl rmiServer;
+        if (trbcing) logger.trbce("stbrt", "setting RMIServer object");
+        finbl RMIServerImpl rmiServer;
 
         if (rmiServerImpl != null)
             rmiServer = rmiServerImpl;
         else
             rmiServer = newServer();
 
-        rmiServer.setMBeanServer(getMBeanServer());
-        rmiServer.setDefaultClassLoader(defaultClassLoader);
+        rmiServer.setMBebnServer(getMBebnServer());
+        rmiServer.setDefbultClbssLobder(defbultClbssLobder);
         rmiServer.setRMIConnectorServer(this);
         rmiServer.export();
 
         try {
-            if (tracing) logger.trace("start", "getting RMIServer object to export");
-            final RMIServer objref = objectToBind(rmiServer, attributes);
+            if (trbcing) logger.trbce("stbrt", "getting RMIServer object to export");
+            finbl RMIServer objref = objectToBind(rmiServer, bttributes);
 
-            if (address != null && address.getURLPath().startsWith("/jndi/")) {
-                final String jndiUrl = address.getURLPath().substring(6);
+            if (bddress != null && bddress.getURLPbth().stbrtsWith("/jndi/")) {
+                finbl String jndiUrl = bddress.getURLPbth().substring(6);
 
-                if (tracing)
-                    logger.trace("start", "Using external directory: " + jndiUrl);
+                if (trbcing)
+                    logger.trbce("stbrt", "Using externbl directory: " + jndiUrl);
 
-                String stringBoolean = (String) attributes.get(JNDI_REBIND_ATTRIBUTE);
-                final boolean rebind = EnvHelp.computeBooleanFromString( stringBoolean );
+                String stringBoolebn = (String) bttributes.get(JNDI_REBIND_ATTRIBUTE);
+                finbl boolebn rebind = EnvHelp.computeBoolebnFromString( stringBoolebn );
 
-                if (tracing)
-                    logger.trace("start", JNDI_REBIND_ATTRIBUTE + "=" + rebind);
+                if (trbcing)
+                    logger.trbce("stbrt", JNDI_REBIND_ATTRIBUTE + "=" + rebind);
 
                 try {
-                    if (tracing) logger.trace("start", "binding to " + jndiUrl);
+                    if (trbcing) logger.trbce("stbrt", "binding to " + jndiUrl);
 
-                    final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
+                    finbl Hbshtbble<?, ?> usembp = EnvHelp.mbpToHbshtbble(bttributes);
 
-                    bind(jndiUrl, usemap, objref, rebind);
+                    bind(jndiUrl, usembp, objref, rebind);
 
                     boundJndiUrl = jndiUrl;
-                } catch (NamingException e) {
-                    // fit e in the nested exception if we are on 1.4
-                    throw newIOException("Cannot bind to URL ["+jndiUrl+"]: "
+                } cbtch (NbmingException e) {
+                    // fit e in the nested exception if we bre on 1.4
+                    throw newIOException("Cbnnot bind to URL ["+jndiUrl+"]: "
                                          + e, e);
                 }
             } else {
                 // if jndiURL is null, we must encode the stub into the URL.
-                if (tracing) logger.trace("start", "Encoding URL");
+                if (trbcing) logger.trbce("stbrt", "Encoding URL");
 
-                encodeStubInAddress(objref, attributes);
+                encodeStubInAddress(objref, bttributes);
 
-                if (tracing) logger.trace("start", "Encoded URL: " + this.address);
+                if (trbcing) logger.trbce("stbrt", "Encoded URL: " + this.bddress);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             try {
                 rmiServer.close();
-            } catch (Exception x) {
-                // OK: we are already throwing another exception
+            } cbtch (Exception x) {
+                // OK: we bre blrebdy throwing bnother exception
             }
-            if (e instanceof RuntimeException)
+            if (e instbnceof RuntimeException)
                 throw (RuntimeException) e;
-            else if (e instanceof IOException)
+            else if (e instbnceof IOException)
                 throw (IOException) e;
             else
                 throw newIOException("Got unexpected exception while " +
-                                     "starting the connector server: "
+                                     "stbrting the connector server: "
                                      + e, e);
         }
 
         rmiServerImpl = rmiServer;
 
         synchronized(openedServers) {
-            openedServers.add(this);
+            openedServers.bdd(this);
         }
 
-        state = STARTED;
+        stbte = STARTED;
 
-        if (tracing) {
-            logger.trace("start", "Connector Server Address = " + address);
-            logger.trace("start", "started.");
+        if (trbcing) {
+            logger.trbce("stbrt", "Connector Server Address = " + bddress);
+            logger.trbce("stbrt", "stbrted.");
         }
     }
 
     /**
-     * <p>Deactivates the connector server, that is, stops listening for
-     * client connections.  Calling this method will also close all
-     * client connections that were made by this server.  After this
-     * method returns, whether normally or with an exception, the
-     * connector server will not create any new client
+     * <p>Debctivbtes the connector server, thbt is, stops listening for
+     * client connections.  Cblling this method will blso close bll
+     * client connections thbt were mbde by this server.  After this
+     * method returns, whether normblly or with bn exception, the
+     * connector server will not crebte bny new client
      * connections.</p>
      *
-     * <p>Once a connector server has been stopped, it cannot be started
-     * again.</p>
+     * <p>Once b connector server hbs been stopped, it cbnnot be stbrted
+     * bgbin.</p>
      *
-     * <p>Calling this method when the connector server has already
-     * been stopped has no effect.  Calling this method when the
-     * connector server has not yet been started will disable the
-     * connector server object permanently.</p>
+     * <p>Cblling this method when the connector server hbs blrebdy
+     * been stopped hbs no effect.  Cblling this method when the
+     * connector server hbs not yet been stbrted will disbble the
+     * connector server object permbnently.</p>
      *
-     * <p>If closing a client connection produces an exception, that
+     * <p>If closing b client connection produces bn exception, thbt
      * exception is not thrown from this method.  A {@link
-     * JMXConnectionNotification} is emitted from this MBean with the
-     * connection ID of the connection that could not be closed.</p>
+     * JMXConnectionNotificbtion} is emitted from this MBebn with the
+     * connection ID of the connection thbt could not be closed.</p>
      *
-     * <p>Closing a connector server is a potentially slow operation.
-     * For example, if a client machine with an open connection has
-     * crashed, the close operation might have to wait for a network
-     * protocol timeout.  Callers that do not want to block in a close
-     * operation should do it in a separate thread.</p>
+     * <p>Closing b connector server is b potentiblly slow operbtion.
+     * For exbmple, if b client mbchine with bn open connection hbs
+     * crbshed, the close operbtion might hbve to wbit for b network
+     * protocol timeout.  Cbllers thbt do not wbnt to block in b close
+     * operbtion should do it in b sepbrbte threbd.</p>
      *
-     * <p>This method calls the method {@link RMIServerImpl#close()
+     * <p>This method cblls the method {@link RMIServerImpl#close()
      * close} on the connector server's <code>RMIServerImpl</code>
      * object.</p>
      *
-     * <p>If the <code>RMIServerImpl</code> was bound to a JNDI
-     * directory by the {@link #start() start} method, it is unbound
+     * <p>If the <code>RMIServerImpl</code> wbs bound to b JNDI
+     * directory by the {@link #stbrt() stbrt} method, it is unbound
      * from the directory by this method.</p>
      *
-     * @exception IOException if the server cannot be closed cleanly,
-     * or if the <code>RMIServerImpl</code> cannot be unbound from the
-     * directory.  When this exception is thrown, the server has
-     * already attempted to close all client connections, if
-     * appropriate; to call {@link RMIServerImpl#close()}; and to
+     * @exception IOException if the server cbnnot be closed clebnly,
+     * or if the <code>RMIServerImpl</code> cbnnot be unbound from the
+     * directory.  When this exception is thrown, the server hbs
+     * blrebdy bttempted to close bll client connections, if
+     * bppropribte; to cbll {@link RMIServerImpl#close()}; bnd to
      * unbind the <code>RMIServerImpl</code> from its directory, if
-     * appropriate.  All client connections are closed except possibly
-     * those that generated exceptions when the server attempted to
+     * bppropribte.  All client connections bre closed except possibly
+     * those thbt generbted exceptions when the server bttempted to
      * close them.
      */
     public void stop() throws IOException {
-        final boolean tracing = logger.traceOn();
+        finbl boolebn trbcing = logger.trbceOn();
 
         synchronized (this) {
-            if (state == STOPPED) {
-                if (tracing) logger.trace("stop","already stopped.");
+            if (stbte == STOPPED) {
+                if (trbcing) logger.trbce("stop","blrebdy stopped.");
                 return;
-            } else if (state == CREATED) {
-                if (tracing) logger.trace("stop","not started yet.");
+            } else if (stbte == CREATED) {
+                if (trbcing) logger.trbce("stop","not stbrted yet.");
             }
 
-            if (tracing) logger.trace("stop", "stopping.");
-            state = STOPPED;
+            if (trbcing) logger.trbce("stop", "stopping.");
+            stbte = STOPPED;
         }
 
         synchronized(openedServers) {
@@ -536,13 +536,13 @@ public class RMIConnectorServer extends JMXConnectorServer {
 
         IOException exception = null;
 
-        // rmiServerImpl can be null if stop() called without start()
+        // rmiServerImpl cbn be null if stop() cblled without stbrt()
         if (rmiServerImpl != null) {
             try {
-                if (tracing) logger.trace("stop", "closing RMI server.");
+                if (trbcing) logger.trbce("stop", "closing RMI server.");
                 rmiServerImpl.close();
-            } catch (IOException e) {
-                if (tracing) logger.trace("stop", "failed to close RMI server: " + e);
+            } cbtch (IOException e) {
+                if (trbcing) logger.trbce("stop", "fbiled to close RMI server: " + e);
                 if (logger.debugOn()) logger.debug("stop",e);
                 exception = e;
             }
@@ -550,93 +550,93 @@ public class RMIConnectorServer extends JMXConnectorServer {
 
         if (boundJndiUrl != null) {
             try {
-                if (tracing)
-                    logger.trace("stop",
-                          "unbind from external directory: " + boundJndiUrl);
+                if (trbcing)
+                    logger.trbce("stop",
+                          "unbind from externbl directory: " + boundJndiUrl);
 
-                final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
+                finbl Hbshtbble<?, ?> usembp = EnvHelp.mbpToHbshtbble(bttributes);
 
-                InitialContext ctx =
-                    new InitialContext(usemap);
+                InitiblContext ctx =
+                    new InitiblContext(usembp);
 
                 ctx.unbind(boundJndiUrl);
 
                 ctx.close();
-            } catch (NamingException e) {
-                if (tracing) logger.trace("stop", "failed to unbind RMI server: "+e);
+            } cbtch (NbmingException e) {
+                if (trbcing) logger.trbce("stop", "fbiled to unbind RMI server: "+e);
                 if (logger.debugOn()) logger.debug("stop",e);
-                // fit e in as the nested exception if we are on 1.4
+                // fit e in bs the nested exception if we bre on 1.4
                 if (exception == null)
-                    exception = newIOException("Cannot bind to URL: " + e, e);
+                    exception = newIOException("Cbnnot bind to URL: " + e, e);
             }
         }
 
         if (exception != null) throw exception;
 
-        if (tracing) logger.trace("stop", "stopped");
+        if (trbcing) logger.trbce("stop", "stopped");
     }
 
-    public synchronized boolean isActive() {
-        return (state == STARTED);
+    public synchronized boolebn isActive() {
+        return (stbte == STARTED);
     }
 
     public JMXServiceURL getAddress() {
         if (!isActive())
             return null;
-        return address;
+        return bddress;
     }
 
-    public Map<String,?> getAttributes() {
-        Map<String, ?> map = EnvHelp.filterAttributes(attributes);
-        return Collections.unmodifiableMap(map);
+    public Mbp<String,?> getAttributes() {
+        Mbp<String, ?> mbp = EnvHelp.filterAttributes(bttributes);
+        return Collections.unmodifibbleMbp(mbp);
     }
 
     @Override
     public synchronized
-        void setMBeanServerForwarder(MBeanServerForwarder mbsf) {
-        super.setMBeanServerForwarder(mbsf);
+        void setMBebnServerForwbrder(MBebnServerForwbrder mbsf) {
+        super.setMBebnServerForwbrder(mbsf);
         if (rmiServerImpl != null)
-            rmiServerImpl.setMBeanServer(getMBeanServer());
+            rmiServerImpl.setMBebnServer(getMBebnServer());
     }
 
-    /* We repeat the definitions of connection{Opened,Closed,Failed}
-       here so that they are accessible to other classes in this package
-       even though they have protected access.  */
+    /* We repebt the definitions of connection{Opened,Closed,Fbiled}
+       here so thbt they bre bccessible to other clbsses in this pbckbge
+       even though they hbve protected bccess.  */
 
     @Override
-    protected void connectionOpened(String connectionId, String message,
-                                    Object userData) {
-        super.connectionOpened(connectionId, message, userData);
-    }
-
-    @Override
-    protected void connectionClosed(String connectionId, String message,
-                                    Object userData) {
-        super.connectionClosed(connectionId, message, userData);
+    protected void connectionOpened(String connectionId, String messbge,
+                                    Object userDbtb) {
+        super.connectionOpened(connectionId, messbge, userDbtb);
     }
 
     @Override
-    protected void connectionFailed(String connectionId, String message,
-                                    Object userData) {
-        super.connectionFailed(connectionId, message, userData);
+    protected void connectionClosed(String connectionId, String messbge,
+                                    Object userDbtb) {
+        super.connectionClosed(connectionId, messbge, userDbtb);
+    }
+
+    @Override
+    protected void connectionFbiled(String connectionId, String messbge,
+                                    Object userDbtb) {
+        super.connectionFbiled(connectionId, messbge, userDbtb);
     }
 
     /**
-     * Bind a stub to a registry.
-     * @param jndiUrl URL of the stub in the registry, extracted
+     * Bind b stub to b registry.
+     * @pbrbm jndiUrl URL of the stub in the registry, extrbcted
      *        from the <code>JMXServiceURL</code>.
-     * @param attributes A Hashtable containing environment parameters,
-     *        built from the Map specified at this object creation.
-     * @param rmiServer The object to bind in the registry
-     * @param rebind true if the object must be rebound.
+     * @pbrbm bttributes A Hbshtbble contbining environment pbrbmeters,
+     *        built from the Mbp specified bt this object crebtion.
+     * @pbrbm rmiServer The object to bind in the registry
+     * @pbrbm rebind true if the object must be rebound.
      **/
-    void bind(String jndiUrl, Hashtable<?, ?> attributes,
-              RMIServer rmiServer, boolean rebind)
-        throws NamingException, MalformedURLException {
-        // if jndiURL is not null, we nust bind the stub to a
+    void bind(String jndiUrl, Hbshtbble<?, ?> bttributes,
+              RMIServer rmiServer, boolebn rebind)
+        throws NbmingException, MblformedURLException {
+        // if jndiURL is not null, we nust bind the stub to b
         // directory.
-        InitialContext ctx =
-            new InitialContext(attributes);
+        InitiblContext ctx =
+            new InitiblContext(bttributes);
 
         if (rebind)
             ctx.rebind(jndiUrl, rmiServer);
@@ -646,208 +646,208 @@ public class RMIConnectorServer extends JMXConnectorServer {
     }
 
     /**
-     * Creates a new RMIServerImpl.
+     * Crebtes b new RMIServerImpl.
      **/
     RMIServerImpl newServer() throws IOException {
-        final boolean iiop = isIiopURL(address,true);
-        final int port;
-        if (address == null)
+        finbl boolebn iiop = isIiopURL(bddress,true);
+        finbl int port;
+        if (bddress == null)
             port = 0;
         else
-            port = address.getPort();
+            port = bddress.getPort();
         if (iiop)
-            return newIIOPServer(attributes);
+            return newIIOPServer(bttributes);
         else
-            return newJRMPServer(attributes, port);
+            return newJRMPServer(bttributes, port);
     }
 
     /**
-     * Encode a stub into the JMXServiceURL.
-     * @param rmiServer The stub object to encode in the URL
-     * @param attributes A Map containing environment parameters,
-     *        built from the Map specified at this object creation.
+     * Encode b stub into the JMXServiceURL.
+     * @pbrbm rmiServer The stub object to encode in the URL
+     * @pbrbm bttributes A Mbp contbining environment pbrbmeters,
+     *        built from the Mbp specified bt this object crebtion.
      **/
-    private void encodeStubInAddress(
-            RMIServer rmiServer, Map<String, ?> attributes)
+    privbte void encodeStubInAddress(
+            RMIServer rmiServer, Mbp<String, ?> bttributes)
             throws IOException {
 
-        final String protocol, host;
-        final int port;
+        finbl String protocol, host;
+        finbl int port;
 
-        if (address == null) {
+        if (bddress == null) {
             if (IIOPHelper.isStub(rmiServer))
                 protocol = "iiop";
             else
                 protocol = "rmi";
-            host = null; // will default to local host name
+            host = null; // will defbult to locbl host nbme
             port = 0;
         } else {
-            protocol = address.getProtocol();
-            host = (address.getHost().equals("")) ? null : address.getHost();
-            port = address.getPort();
+            protocol = bddress.getProtocol();
+            host = (bddress.getHost().equbls("")) ? null : bddress.getHost();
+            port = bddress.getPort();
         }
 
-        final String urlPath = encodeStub(rmiServer, attributes);
+        finbl String urlPbth = encodeStub(rmiServer, bttributes);
 
-        address = new JMXServiceURL(protocol, host, port, urlPath);
+        bddress = new JMXServiceURL(protocol, host, port, urlPbth);
     }
 
-    static boolean isIiopURL(JMXServiceURL directoryURL, boolean strict)
-        throws MalformedURLException {
+    stbtic boolebn isIiopURL(JMXServiceURL directoryURL, boolebn strict)
+        throws MblformedURLException {
         String protocol = directoryURL.getProtocol();
-        if (protocol.equals("rmi"))
-            return false;
-        else if (protocol.equals("iiop"))
+        if (protocol.equbls("rmi"))
+            return fblse;
+        else if (protocol.equbls("iiop"))
             return true;
         else if (strict) {
 
-            throw new MalformedURLException("URL must have protocol " +
+            throw new MblformedURLException("URL must hbve protocol " +
                                             "\"rmi\" or \"iiop\": \"" +
                                             protocol + "\"");
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Returns the IOR of the given rmiServer.
      **/
-    static String encodeStub(
-            RMIServer rmiServer, Map<String, ?> env) throws IOException {
+    stbtic String encodeStub(
+            RMIServer rmiServer, Mbp<String, ?> env) throws IOException {
         if (IIOPHelper.isStub(rmiServer))
             return "/ior/" + encodeIIOPStub(rmiServer, env);
         else
             return "/stub/" + encodeJRMPStub(rmiServer, env);
     }
 
-    static String encodeJRMPStub(
-            RMIServer rmiServer, Map<String, ?> env)
+    stbtic String encodeJRMPStub(
+            RMIServer rmiServer, Mbp<String, ?> env)
             throws IOException {
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        ObjectOutputStream oout = new ObjectOutputStream(bout);
+        ByteArrbyOutputStrebm bout = new ByteArrbyOutputStrebm();
+        ObjectOutputStrebm oout = new ObjectOutputStrebm(bout);
         oout.writeObject(rmiServer);
         oout.close();
-        byte[] bytes = bout.toByteArray();
-        return byteArrayToBase64(bytes);
+        byte[] bytes = bout.toByteArrby();
+        return byteArrbyToBbse64(bytes);
     }
 
-    static String encodeIIOPStub(
-            RMIServer rmiServer, Map<String, ?> env)
+    stbtic String encodeIIOPStub(
+            RMIServer rmiServer, Mbp<String, ?> env)
             throws IOException {
         try {
             Object orb = IIOPHelper.getOrb(rmiServer);
             return IIOPHelper.objectToString(orb, rmiServer);
-        } catch (RuntimeException x) {
-            throw newIOException(x.getMessage(), x);
+        } cbtch (RuntimeException x) {
+            throw newIOException(x.getMessbge(), x);
         }
     }
 
     /**
-     * Object that we will bind to the registry.
-     * This object is a stub connected to our RMIServerImpl.
+     * Object thbt we will bind to the registry.
+     * This object is b stub connected to our RMIServerImpl.
      **/
-    private static RMIServer objectToBind(
-            RMIServerImpl rmiServer, Map<String, ?> env)
+    privbte stbtic RMIServer objectToBind(
+            RMIServerImpl rmiServer, Mbp<String, ?> env)
         throws IOException {
         return RMIConnector.
             connectStub((RMIServer)rmiServer.toStub(),env);
     }
 
-    private static RMIServerImpl newJRMPServer(Map<String, ?> env, int port)
+    privbte stbtic RMIServerImpl newJRMPServer(Mbp<String, ?> env, int port)
             throws IOException {
-        RMIClientSocketFactory csf = (RMIClientSocketFactory)
+        RMIClientSocketFbctory csf = (RMIClientSocketFbctory)
             env.get(RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE);
-        RMIServerSocketFactory ssf = (RMIServerSocketFactory)
+        RMIServerSocketFbctory ssf = (RMIServerSocketFbctory)
             env.get(RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE);
         return new RMIJRMPServerImpl(port, csf, ssf, env);
     }
 
-    private static RMIServerImpl newIIOPServer(Map<String, ?> env)
+    privbte stbtic RMIServerImpl newIIOPServer(Mbp<String, ?> env)
             throws IOException {
         return new RMIIIOPServerImpl(env);
     }
 
-    private static String byteArrayToBase64(byte[] a) {
-        int aLen = a.length;
-        int numFullGroups = aLen/3;
-        int numBytesInPartialGroup = aLen - 3*numFullGroups;
-        int resultLen = 4*((aLen + 2)/3);
-        final StringBuilder result = new StringBuilder(resultLen);
+    privbte stbtic String byteArrbyToBbse64(byte[] b) {
+        int bLen = b.length;
+        int numFullGroups = bLen/3;
+        int numBytesInPbrtiblGroup = bLen - 3*numFullGroups;
+        int resultLen = 4*((bLen + 2)/3);
+        finbl StringBuilder result = new StringBuilder(resultLen);
 
-        // Translate all full groups from byte array elements to Base64
+        // Trbnslbte bll full groups from byte brrby elements to Bbse64
         int inCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int byte0 = a[inCursor++] & 0xff;
-            int byte1 = a[inCursor++] & 0xff;
-            int byte2 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-            result.append(intToAlpha[(byte1 << 2)&0x3f | (byte2 >> 6)]);
-            result.append(intToAlpha[byte2 & 0x3f]);
+            int byte0 = b[inCursor++] & 0xff;
+            int byte1 = b[inCursor++] & 0xff;
+            int byte2 = b[inCursor++] & 0xff;
+            result.bppend(intToAlphb[byte0 >> 2]);
+            result.bppend(intToAlphb[(byte0 << 4)&0x3f | (byte1 >> 4)]);
+            result.bppend(intToAlphb[(byte1 << 2)&0x3f | (byte2 >> 6)]);
+            result.bppend(intToAlphb[byte2 & 0x3f]);
         }
 
-        // Translate partial group if present
-        if (numBytesInPartialGroup != 0) {
-            int byte0 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            if (numBytesInPartialGroup == 1) {
-                result.append(intToAlpha[(byte0 << 4) & 0x3f]);
-                result.append("==");
+        // Trbnslbte pbrtibl group if present
+        if (numBytesInPbrtiblGroup != 0) {
+            int byte0 = b[inCursor++] & 0xff;
+            result.bppend(intToAlphb[byte0 >> 2]);
+            if (numBytesInPbrtiblGroup == 1) {
+                result.bppend(intToAlphb[(byte0 << 4) & 0x3f]);
+                result.bppend("==");
             } else {
-                // assert numBytesInPartialGroup == 2;
-                int byte1 = a[inCursor++] & 0xff;
-                result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-                result.append(intToAlpha[(byte1 << 2)&0x3f]);
-                result.append('=');
+                // bssert numBytesInPbrtiblGroup == 2;
+                int byte1 = b[inCursor++] & 0xff;
+                result.bppend(intToAlphb[(byte0 << 4)&0x3f | (byte1 >> 4)]);
+                result.bppend(intToAlphb[(byte1 << 2)&0x3f]);
+                result.bppend('=');
             }
         }
-        // assert inCursor == a.length;
-        // assert result.length() == resultLen;
+        // bssert inCursor == b.length;
+        // bssert result.length() == resultLen;
         return result.toString();
     }
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Base64 Alphabet" equivalents as specified
-     * in Table 1 of RFC 2045.
+     * This brrby is b lookup tbble thbt trbnslbtes 6-bit positive integer
+     * index vblues into their "Bbse64 Alphbbet" equivblents bs specified
+     * in Tbble 1 of RFC 2045.
      */
-    private static final char intToAlpha[] = {
+    privbte stbtic finbl chbr intToAlphb[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
     /**
-     * Construct a new IOException with a nested exception.
-     * The nested exception is set only if JDK {@literal >= 1.4}
+     * Construct b new IOException with b nested exception.
+     * The nested exception is set only if JDK {@literbl >= 1.4}
      */
-    private static IOException newIOException(String message,
-                                              Throwable cause) {
-        final IOException x = new IOException(message);
-        return EnvHelp.initCause(x,cause);
+    privbte stbtic IOException newIOException(String messbge,
+                                              Throwbble cbuse) {
+        finbl IOException x = new IOException(messbge);
+        return EnvHelp.initCbuse(x,cbuse);
     }
 
 
-    // Private variables
+    // Privbte vbribbles
     // -----------------
 
-    private static ClassLogger logger =
-        new ClassLogger("javax.management.remote.rmi", "RMIConnectorServer");
+    privbte stbtic ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.rmi", "RMIConnectorServer");
 
-    private JMXServiceURL address;
-    private RMIServerImpl rmiServerImpl;
-    private final Map<String, ?> attributes;
-    private ClassLoader defaultClassLoader = null;
+    privbte JMXServiceURL bddress;
+    privbte RMIServerImpl rmiServerImpl;
+    privbte finbl Mbp<String, ?> bttributes;
+    privbte ClbssLobder defbultClbssLobder = null;
 
-    private String boundJndiUrl;
+    privbte String boundJndiUrl;
 
-    // state
-    private static final int CREATED = 0;
-    private static final int STARTED = 1;
-    private static final int STOPPED = 2;
+    // stbte
+    privbte stbtic finbl int CREATED = 0;
+    privbte stbtic finbl int STARTED = 1;
+    privbte stbtic finbl int STOPPED = 2;
 
-    private int state = CREATED;
-    private final static Set<RMIConnectorServer> openedServers =
-            new HashSet<RMIConnectorServer>();
+    privbte int stbte = CREATED;
+    privbte finbl stbtic Set<RMIConnectorServer> openedServers =
+            new HbshSet<RMIConnectorServer>();
 }

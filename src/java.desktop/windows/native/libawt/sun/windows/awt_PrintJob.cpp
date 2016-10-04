@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include <math.h>
+#include "bwt.h"
+#include <mbth.h>
 #include <windef.h>
 #include <wtypes.h>
 #include <winuser.h>
 #include <commdlg.h>
 #include <winspool.h>
 
-#include "awt_Toolkit.h"
-#include "awt_Component.h"
-#include "awt_Dialog.h"
-#include "awt_Font.h"
-#include "awt_PrintDialog.h"
-#include "awt_PrintControl.h"
-#include "awt_Window.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Component.h"
+#include "bwt_Diblog.h"
+#include "bwt_Font.h"
+#include "bwt_PrintDiblog.h"
+#include "bwt_PrintControl.h"
+#include "bwt_Window.h"
 #include "ComCtl32Util.h"
 
-#include <sun_awt_windows_WPrinterJob.h>
+#include <sun_bwt_windows_WPrinterJob.h>
 #include <jlong_md.h>
-#include <float.h>
+#include <flobt.h>
 
 #define DEBUG_PRINTING  0
 
-/* Round 'num' to the nearest integer and return
- * the result as a long.
+/* Round 'num' to the nebrest integer bnd return
+ * the result bs b long.
  */
 #define ROUND_TO_LONG(num)    ((long) floor((num) + 0.5))
 
-/* Round 'num' to the nearest integer and return
- * the result as an int.
+/* Round 'num' to the nebrest integer bnd return
+ * the result bs bn int.
  */
 #define ROUND_TO_INT(num)     ((int) floor((num) + 0.5))
 
 /************************************************************************
- * WPrintJob native methods
+ * WPrintJob nbtive methods
  */
 
 extern "C" {
 
-/*** Private Constants ***/
+/*** Privbte Constbnts ***/
 
-static char *kJavaIntStr = "I";
-static char *kJavaLongStr = "J";
+stbtic chbr *kJbvbIntStr = "I";
+stbtic chbr *kJbvbLongStr = "J";
 
-/* 2D printing uses 3 byte BGR pixels in Raster printing */
-static int J2DRasterBPP = 3;
+/* 2D printing uses 3 byte BGR pixels in Rbster printing */
+stbtic int J2DRbsterBPP = 3;
 
 /*
- * Class Names
+ * Clbss Nbmes
  */
-static const char *PRINTEREXCEPTION_STR = "java/awt/print/PrinterException";
+stbtic const chbr *PRINTEREXCEPTION_STR = "jbvb/bwt/print/PrinterException";
 
 /*
- * The following strings are the names of instance variables in WPrintJob2D.
+ * The following strings bre the nbmes of instbnce vbribbles in WPrintJob2D.
  */
-static const char *PRINTPAPERSIZE_STR = "mPrintPaperSize"; // The paper size
-static const char *XRES_STR = "mPrintXRes";     // The x dpi.
-static const char *YRES_STR = "mPrintYRes";     // The y dpi.
-static const char *PHYSX_STR = "mPrintPhysX";   // pixel x of printable area
-static const char *PHYSY_STR = "mPrintPhysY";   // pixel y of printable area
-static const char *PHYSW_STR = "mPrintWidth";   // pixel wid of printable area
-static const char *PHYSH_STR = "mPrintHeight";  // pixel hgt of printable area
-static const char *PAGEW_STR = "mPageWidth";    // pixel wid of page
-static const char *PAGEH_STR = "mPageHeight";   // pixel hgt of page
+stbtic const chbr *PRINTPAPERSIZE_STR = "mPrintPbperSize"; // The pbper size
+stbtic const chbr *XRES_STR = "mPrintXRes";     // The x dpi.
+stbtic const chbr *YRES_STR = "mPrintYRes";     // The y dpi.
+stbtic const chbr *PHYSX_STR = "mPrintPhysX";   // pixel x of printbble breb
+stbtic const chbr *PHYSY_STR = "mPrintPhysY";   // pixel y of printbble breb
+stbtic const chbr *PHYSW_STR = "mPrintWidth";   // pixel wid of printbble breb
+stbtic const chbr *PHYSH_STR = "mPrintHeight";  // pixel hgt of printbble breb
+stbtic const chbr *PAGEW_STR = "mPbgeWidth";    // pixel wid of pbge
+stbtic const chbr *PAGEH_STR = "mPbgeHeight";   // pixel hgt of pbge
 
-static const char *DRIVER_COPIES_STR = "driverDoesMultipleCopies";
-static const char *DRIVER_COLLATE_STR = "driverDoesCollation";
-static const char *USER_COLLATE_STR = "userRequestedCollation";
-static const char *NO_DEFAULTPRINTER_STR = "noDefaultPrinter";
-static const char *LANDSCAPE_270_STR = "landscapeRotates270";
+stbtic const chbr *DRIVER_COPIES_STR = "driverDoesMultipleCopies";
+stbtic const chbr *DRIVER_COLLATE_STR = "driverDoesCollbtion";
+stbtic const chbr *USER_COLLATE_STR = "userRequestedCollbtion";
+stbtic const chbr *NO_DEFAULTPRINTER_STR = "noDefbultPrinter";
+stbtic const chbr *LANDSCAPE_270_STR = "lbndscbpeRotbtes270";
 
 
-// public int java.awt.print.PrinterJob.getCopies()
+// public int jbvb.bwt.print.PrinterJob.getCopies()
 
-static const char *GETCOPIES_STR = "getCopies";
-static const char *GETCOPIES_SIG = "()I";
+stbtic const chbr *GETCOPIES_STR = "getCopies";
+stbtic const chbr *GETCOPIES_SIG = "()I";
 
 /*
- * Methods and fields in awt.print.PageFormat.
+ * Methods bnd fields in bwt.print.PbgeFormbt.
  */
 
-// public Paper getPaper()
-static const char *GETPAPER_STR = "getPaper";
-static const char *GETPAPER_SIG = "()Ljava/awt/print/Paper;";
+// public Pbper getPbper()
+stbtic const chbr *GETPAPER_STR = "getPbper";
+stbtic const chbr *GETPAPER_SIG = "()Ljbvb/bwt/print/Pbper;";
 
-// public void setPaper(Paper paper)
-static const char *SETPAPER_STR = "setPaper";
-static const char *SETPAPER_SIG = "(Ljava/awt/print/Paper;)V";
+// public void setPbper(Pbper pbper)
+stbtic const chbr *SETPAPER_STR = "setPbper";
+stbtic const chbr *SETPAPER_SIG = "(Ljbvb/bwt/print/Pbper;)V";
 
-// public int getOrientation()
-static const char *GETORIENT_STR = "getOrientation";
-static const char *GETORIENT_SIG = "()I";
+// public int getOrientbtion()
+stbtic const chbr *GETORIENT_STR = "getOrientbtion";
+stbtic const chbr *GETORIENT_SIG = "()I";
 
-// public void setOrientation(int orientation)
-static const char *SETORIENT_STR = "setOrientation";
-static const char *SETORIENT_SIG = "(I)V";
+// public void setOrientbtion(int orientbtion)
+stbtic const chbr *SETORIENT_STR = "setOrientbtion";
+stbtic const chbr *SETORIENT_SIG = "(I)V";
 
-static const int PAGEFORMAT_LANDSCAPE = 0;
-static const int PAGEFORMAT_PORTRAIT = 1;
-//static const int PAGEFORMAT_REVERSELANDSCAPE = 2;
+stbtic const int PAGEFORMAT_LANDSCAPE = 0;
+stbtic const int PAGEFORMAT_PORTRAIT = 1;
+//stbtic const int PAGEFORMAT_REVERSELANDSCAPE = 2;
 
-// instance variables for PrintRequestAttribute settings
-static const char *ATTSIDES_STR = "mAttSides";
-static const char *ATTCHROMATICITY_STR = "mAttChromaticity";
-static const char *ATTXRES_STR = "mAttXRes";
-static const char *ATTYRES_STR = "mAttYRes";
-static const char *ATTQUALITY_STR = "mAttQuality";
-static const char *ATTCOLLATE_STR = "mAttCollate";
-static const char *ATTCOPIES_STR = "mAttCopies";
-static const char *ATTMEDIASZNAME_STR = "mAttMediaSizeName";
-static const char *ATTMEDIATRAY_STR = "mAttMediaTray";
+// instbnce vbribbles for PrintRequestAttribute settings
+stbtic const chbr *ATTSIDES_STR = "mAttSides";
+stbtic const chbr *ATTCHROMATICITY_STR = "mAttChrombticity";
+stbtic const chbr *ATTXRES_STR = "mAttXRes";
+stbtic const chbr *ATTYRES_STR = "mAttYRes";
+stbtic const chbr *ATTQUALITY_STR = "mAttQublity";
+stbtic const chbr *ATTCOLLATE_STR = "mAttCollbte";
+stbtic const chbr *ATTCOPIES_STR = "mAttCopies";
+stbtic const chbr *ATTMEDIASZNAME_STR = "mAttMedibSizeNbme";
+stbtic const chbr *ATTMEDIATRAY_STR = "mAttMedibTrby";
 
 /*
- * Methods in awt.print.Paper.
+ * Methods in bwt.print.Pbper.
  */
 
 // public void setSize(double width, double height)
-static const char *SETSIZE_STR = "setSize";
-static const char *SETSIZE_SIG = "(DD)V";
+stbtic const chbr *SETSIZE_STR = "setSize";
+stbtic const chbr *SETSIZE_SIG = "(DD)V";
 
-// protected void setImageableArea(double x, double y, double width,
+// protected void setImbgebbleAreb(double x, double y, double width,
 //                                                  double height)
-static const char *SETIMAGEABLE_STR = "setImageableArea";
-static const char *SETIMAGEABLE_SIG = "(DDDD)V";
+stbtic const chbr *SETIMAGEABLE_STR = "setImbgebbleAreb";
+stbtic const chbr *SETIMAGEABLE_SIG = "(DDDD)V";
 
 // public double getWidth()
-static const char *GETWIDTH_STR = "getWidth";
-static const char *GETWIDTH_SIG = "()D";
+stbtic const chbr *GETWIDTH_STR = "getWidth";
+stbtic const chbr *GETWIDTH_SIG = "()D";
 
 // public double getHeight()
-static const char *GETHEIGHT_STR = "getHeight";
-static const char *GETHEIGHT_SIG = "()D";
+stbtic const chbr *GETHEIGHT_STR = "getHeight";
+stbtic const chbr *GETHEIGHT_SIG = "()D";
 
-// public double getImageableX()
-static const char *GETIMG_X_STR = "getImageableX";
-static const char *GETIMG_X_SIG = "()D";
+// public double getImbgebbleX()
+stbtic const chbr *GETIMG_X_STR = "getImbgebbleX";
+stbtic const chbr *GETIMG_X_SIG = "()D";
 
-// public double getImageableY()
-static const char *GETIMG_Y_STR = "getImageableY";
-static const char *GETIMG_Y_SIG = "()D";
+// public double getImbgebbleY()
+stbtic const chbr *GETIMG_Y_STR = "getImbgebbleY";
+stbtic const chbr *GETIMG_Y_SIG = "()D";
 
-// public double getImageableWidth()
-static const char *GETIMG_W_STR = "getImageableWidth";
-static const char *GETIMG_W_SIG = "()D";
+// public double getImbgebbleWidth()
+stbtic const chbr *GETIMG_W_STR = "getImbgebbleWidth";
+stbtic const chbr *GETIMG_W_SIG = "()D";
 
-// public double getImageableHeight()
-static const char *GETIMG_H_STR = "getImageableHeight";
-static const char *GETIMG_H_SIG = "()D";
+// public double getImbgebbleHeight()
+stbtic const chbr *GETIMG_H_STR = "getImbgebbleHeight";
+stbtic const chbr *GETIMG_H_SIG = "()D";
 
-/* Multiply a Window's MM_HIENGLISH value
- * (1000th of an inch) by this number to
- * get a value in 72nds of an inch.
+/* Multiply b Window's MM_HIENGLISH vblue
+ * (1000th of bn inch) by this number to
+ * get b vblue in 72nds of bn inch.
  */
-static const double HIENGLISH_TO_POINTS = (72.0 / 1000.0);
+stbtic const double HIENGLISH_TO_POINTS = (72.0 / 1000.0);
 
-/* Multiply a Window's MM_HIMETRIC value
- * (100ths of a millimeter) by this
- * number to get a value in 72nds of an inch.
+/* Multiply b Window's MM_HIMETRIC vblue
+ * (100ths of b millimeter) by this
+ * number to get b vblue in 72nds of bn inch.
  */
-static const double HIMETRIC_TO_POINTS = (72.0 / 2540.0);
+stbtic const double HIMETRIC_TO_POINTS = (72.0 / 2540.0);
 
-/* Multiply a Window's MM_LOMETRIC value
- * (10ths of a millimeter) by this
- * number to get a value in 72nds of an inch.
+/* Multiply b Window's MM_LOMETRIC vblue
+ * (10ths of b millimeter) by this
+ * number to get b vblue in 72nds of bn inch.
  */
-static const double LOMETRIC_TO_POINTS = (72.0 / 254.0);
+stbtic const double LOMETRIC_TO_POINTS = (72.0 / 254.0);
 
-/* Multiply a measurement in 1/72's of an inch by this
- * value to convert it to Window's MM_HIENGLISH
- * (1000th of an inch) units.
+/* Multiply b mebsurement in 1/72's of bn inch by this
+ * vblue to convert it to Window's MM_HIENGLISH
+ * (1000th of bn inch) units.
  */
-static const double POINTS_TO_HIENGLISH = (1000.0 / 72.0);
+stbtic const double POINTS_TO_HIENGLISH = (1000.0 / 72.0);
 
-/* Multiply a measurement in 1/72's of an inch by this
- * value to convert it to Window's MM_HIMETRIC
- * (100th of an millimeter) units.
+/* Multiply b mebsurement in 1/72's of bn inch by this
+ * vblue to convert it to Window's MM_HIMETRIC
+ * (100th of bn millimeter) units.
  */
-static const double POINTS_TO_HIMETRIC = (2540.0 / 72.0);
+stbtic const double POINTS_TO_HIMETRIC = (2540.0 / 72.0);
 
-/* Multiply a measurement in 1/72's of an inch by this
- * value to convert it to Window's MM_LOMETRIC
- * (10th of an millimeter) units.
+/* Multiply b mebsurement in 1/72's of bn inch by this
+ * vblue to convert it to Window's MM_LOMETRIC
+ * (10th of bn millimeter) units.
  */
-static const double POINTS_TO_LOMETRIC = (254.0 / 72.0);
+stbtic const double POINTS_TO_LOMETRIC = (254.0 / 72.0);
 
-jfieldID AwtPrintDialog::pageID;
+jfieldID AwtPrintDiblog::pbgeID;
 
 
-/*** Private Macros ***/
+/*** Privbte Mbcros ***/
 
-/* A Page Setup paint hook passes a word describing the
-   orientation and type of page being displayed in the
-   dialog. These macros break the word down into meaningful
-   values.
+/* A Pbge Setup pbint hook pbsses b word describing the
+   orientbtion bnd type of pbge being displbyed in the
+   diblog. These mbcros brebk the word down into mebningful
+   vblues.
 */
 #define PRINTER_TYPE_MASK   (0x0003)
 #define PORTRAIT_MASK       (0x0004)
 #define ENVELOPE_MASK       (0x0008)
 
-#define IS_ENVELOPE(param)  (((param) & ENVELOPE_MASK) != 0)
-#define IS_PORTRAIT(param)  (((param) & PORTRAIT_MASK) != 0)
+#define IS_ENVELOPE(pbrbm)  (((pbrbm) & ENVELOPE_MASK) != 0)
+#define IS_PORTRAIT(pbrbm)  (((pbrbm) & PORTRAIT_MASK) != 0)
 
-/*      If the Pagable does not know the number of pages in the document,
-        then we limit the print dialog to this number of pages.
+/*      If the Pbgbble does not know the number of pbges in the document,
+        then we limit the print diblog to this number of pbges.
 */
 #define MAX_UNKNOWN_PAGES 9999
 
-/* When making a font that is already at least bold,
- * bolder then we increase the LOGFONT lfWeight field
- * by this amount.
+/* When mbking b font thbt is blrebdy bt lebst bold,
+ * bolder then we increbse the LOGFONT lfWeight field
+ * by this bmount.
  */
 #define EMBOLDEN_WEIGHT   (100)
 
-/* The lfWeight field of a GDI LOGFONT structure should not
- * exceed this value.
+/* The lfWeight field of b GDI LOGFONT structure should not
+ * exceed this vblue.
  */
 #define MAX_FONT_WEIGHT   (1000)
 
-/*** Private Variable Types ***/
+/*** Privbte Vbribble Types ***/
 
 typedef struct {
     jdouble x;
@@ -250,222 +250,222 @@ typedef struct {
     jdouble height;
 } RectDouble;
 
-/*** Private Prototypes ***/
+/*** Privbte Prototypes ***/
 
-static UINT CALLBACK pageDlgHook(HWND hDlg, UINT msg,
-                                 WPARAM wParam, LPARAM lParam);
-static void initPrinter(JNIEnv *env, jobject self);
-static HDC getDefaultPrinterDC(JNIEnv *env, jobject printerJob);
-static void pageFormatToSetup(JNIEnv *env, jobject job, jobject page,
+stbtic UINT CALLBACK pbgeDlgHook(HWND hDlg, UINT msg,
+                                 WPARAM wPbrbm, LPARAM lPbrbm);
+stbtic void initPrinter(JNIEnv *env, jobject self);
+stbtic HDC getDefbultPrinterDC(JNIEnv *env, jobject printerJob);
+stbtic void pbgeFormbtToSetup(JNIEnv *env, jobject job, jobject pbge,
                               PAGESETUPDLG *setup, HDC hDC);
-static WORD getOrientationFromDevMode2(HGLOBAL hDevMode);
-static WORD getOrientationFromDevMode(JNIEnv *env, jobject self);
-static void setOrientationInDevMode(HGLOBAL hDevMode, jboolean isPortrait);
-static void doPrintBand(JNIEnv *env, jboolean browserPrinting,
-                        HDC printDC, jbyteArray imageArray,
+stbtic WORD getOrientbtionFromDevMode2(HGLOBAL hDevMode);
+stbtic WORD getOrientbtionFromDevMode(JNIEnv *env, jobject self);
+stbtic void setOrientbtionInDevMode(HGLOBAL hDevMode, jboolebn isPortrbit);
+stbtic void doPrintBbnd(JNIEnv *env, jboolebn browserPrinting,
+                        HDC printDC, jbyteArrby imbgeArrby,
                         jint x, jint y, jint width, jint height);
-static int bitsToDevice(HDC printDC, jbyte *image, long destX, long destY,
+stbtic int bitsToDevice(HDC printDC, jbyte *imbge, long destX, long destY,
                         long width, long height);
-static void retrievePaperInfo(const PAGESETUPDLG *setup, POINT *paperSize,
-                              RECT *margins, jint *orientation,
+stbtic void retrievePbperInfo(const PAGESETUPDLG *setup, POINT *pbperSize,
+                              RECT *mbrgins, jint *orientbtion,
                               HDC hdc);
-static jint getCopies(JNIEnv *env, jobject printerJob);
-static jobject getPaper(JNIEnv *env, jobject page);
-static void setPaper(JNIEnv *env, jobject page, jobject paper);
-static jint getPageFormatOrientation(JNIEnv *env, jobject page);
-static void setPageFormatOrientation(JNIEnv *env, jobject page, jint orient);
-static void getPaperValues(JNIEnv *env, jobject paper, RectDouble *paperSize,
-                          RectDouble *margins, BOOL widthAsMargin=TRUE);
-static void setPaperValues(JNIEnv *env, jobject paper, const POINT *paperSize,
-                            const RECT *margins, int units);
-static long convertFromPoints(double value, int units);
-static double convertToPoints(long value, int units);
-void setCapabilities(JNIEnv *env, jobject self, HDC printDC);
-static inline WORD getPrintPaperSize(JNIEnv *env, jboolean* err, jobject self);
-static inline jboolean setPrintPaperSize(JNIEnv *env, jobject self, WORD sz);
-static jint getIntField(JNIEnv *env, jboolean* err, jobject self, const char *fieldName);
-static jboolean setIntField(JNIEnv *env, jobject self,
-                        const char *fieldName, jint value);
-static jboolean getBooleanField(JNIEnv *env, jboolean* err, jobject self,
-                            const char *fieldName);
-static jboolean setBooleanField(JNIEnv *env, jobject self,
-                            const char *fieldName, jboolean value);
-static jbyte *findNonWhite(jbyte *image, long sy, long width, long height,
-                           long scanLineStride, long *numLinesP);
-static jbyte *findWhite(jbyte *image, long sy, long width, long height,
-                           long scanLineStride, long *numLines);
-static void dumpDevMode(HGLOBAL hDevMode);
-static void dumpPrinterCaps(HANDLE hDevNames);
-static void throwPrinterException(JNIEnv *env, DWORD err);
-static void matchPaperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNames,
+stbtic jint getCopies(JNIEnv *env, jobject printerJob);
+stbtic jobject getPbper(JNIEnv *env, jobject pbge);
+stbtic void setPbper(JNIEnv *env, jobject pbge, jobject pbper);
+stbtic jint getPbgeFormbtOrientbtion(JNIEnv *env, jobject pbge);
+stbtic void setPbgeFormbtOrientbtion(JNIEnv *env, jobject pbge, jint orient);
+stbtic void getPbperVblues(JNIEnv *env, jobject pbper, RectDouble *pbperSize,
+                          RectDouble *mbrgins, BOOL widthAsMbrgin=TRUE);
+stbtic void setPbperVblues(JNIEnv *env, jobject pbper, const POINT *pbperSize,
+                            const RECT *mbrgins, int units);
+stbtic long convertFromPoints(double vblue, int units);
+stbtic double convertToPoints(long vblue, int units);
+void setCbpbbilities(JNIEnv *env, jobject self, HDC printDC);
+stbtic inline WORD getPrintPbperSize(JNIEnv *env, jboolebn* err, jobject self);
+stbtic inline jboolebn setPrintPbperSize(JNIEnv *env, jobject self, WORD sz);
+stbtic jint getIntField(JNIEnv *env, jboolebn* err, jobject self, const chbr *fieldNbme);
+stbtic jboolebn setIntField(JNIEnv *env, jobject self,
+                        const chbr *fieldNbme, jint vblue);
+stbtic jboolebn getBoolebnField(JNIEnv *env, jboolebn* err, jobject self,
+                            const chbr *fieldNbme);
+stbtic jboolebn setBoolebnField(JNIEnv *env, jobject self,
+                            const chbr *fieldNbme, jboolebn vblue);
+stbtic jbyte *findNonWhite(jbyte *imbge, long sy, long width, long height,
+                           long scbnLineStride, long *numLinesP);
+stbtic jbyte *findWhite(jbyte *imbge, long sy, long width, long height,
+                           long scbnLineStride, long *numLines);
+stbtic void dumpDevMode(HGLOBAL hDevMode);
+stbtic void dumpPrinterCbps(HANDLE hDevNbmes);
+stbtic void throwPrinterException(JNIEnv *env, DWORD err);
+stbtic void mbtchPbperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNbmes,
                            double origWid, double origHgt,
                            double* newHgt, double *newWid,
-                           WORD* paperSize);
+                           WORD* pbperSize);
 
 /***********************************************************************/
 
-static jboolean jFontToWFontW(JNIEnv *env, HDC printDC, jstring fontName,
-                        jfloat fontSize, jboolean isBold, jboolean isItalic,
-                        jint rotation, jfloat awScale);
-static jboolean jFontToWFontA(JNIEnv *env, HDC printDC, jstring fontName,
-                        jfloat fontSize, jboolean isBold, jboolean isItalic,
-                        jint rotation, jfloat awScale);
+stbtic jboolebn jFontToWFontW(JNIEnv *env, HDC printDC, jstring fontNbme,
+                        jflobt fontSize, jboolebn isBold, jboolebn isItblic,
+                        jint rotbtion, jflobt bwScble);
+stbtic jboolebn jFontToWFontA(JNIEnv *env, HDC printDC, jstring fontNbme,
+                        jflobt fontSize, jboolebn isBold, jboolebn isItblic,
+                        jint rotbtion, jflobt bwScble);
 
-static int CALLBACK fontEnumProcW(ENUMLOGFONTEXW  *lpelfe,
+stbtic int CALLBACK fontEnumProcW(ENUMLOGFONTEXW  *lpelfe,
                                  NEWTEXTMETRICEX *lpntme,
                                  int FontType,
-                                 LPARAM lParam);
-static int CALLBACK fontEnumProcA(ENUMLOGFONTEXA  *logfont,
+                                 LPARAM lPbrbm);
+stbtic int CALLBACK fontEnumProcA(ENUMLOGFONTEXA  *logfont,
                                   NEWTEXTMETRICEX  *lpntme,
                                   int FontType,
-                                  LPARAM lParam);
+                                  LPARAM lPbrbm);
 
-static int embolden(int currentWeight);
-static BOOL getPrintableArea(HDC pdc, HANDLE hDevMode, RectDouble *margin);
+stbtic int embolden(int currentWeight);
+stbtic BOOL getPrintbbleAreb(HDC pdc, HANDLE hDevMode, RectDouble *mbrgin);
 
 
 
 /************************************************************************
- * DocumentProperties native support
+ * DocumentProperties nbtive support
  */
 
-/* Values must match those defined in WPrinterJob.java */
-static const DWORD SET_COLOR = 0x00000200;
-static const DWORD SET_ORIENTATION = 0x00004000;
-static const DWORD SET_COLLATED    = 0x00008000;
-static const DWORD SET_DUP_VERTICAL = 0x00000010;
-static const DWORD SET_DUP_HORIZONTAL = 0x00000020;
-static const DWORD SET_RES_HIGH = 0x00000040;
-static const DWORD SET_RES_LOW = 0x00000080;
+/* Vblues must mbtch those defined in WPrinterJob.jbvb */
+stbtic const DWORD SET_COLOR = 0x00000200;
+stbtic const DWORD SET_ORIENTATION = 0x00004000;
+stbtic const DWORD SET_COLLATED    = 0x00008000;
+stbtic const DWORD SET_DUP_VERTICAL = 0x00000010;
+stbtic const DWORD SET_DUP_HORIZONTAL = 0x00000020;
+stbtic const DWORD SET_RES_HIGH = 0x00000040;
+stbtic const DWORD SET_RES_LOW = 0x00000080;
 
 /*
- * Copy DEVMODE state back into JobAttributes.
+ * Copy DEVMODE stbte bbck into JobAttributes.
  */
 
-static void UpdateJobAttributes(JNIEnv *env,
+stbtic void UpdbteJobAttributes(JNIEnv *env,
                                 jobject wJob,
-                                jobject attrSet,
+                                jobject bttrSet,
                                 DEVMODE *devmode) {
 
-    DWORD dmValues = 0;
+    DWORD dmVblues = 0;
     int xRes = 0, yRes = 0;
 
     if (devmode->dmFields & DM_COLOR) {
         if (devmode->dmColor == DMCOLOR_COLOR) {
-            dmValues |= SET_COLOR;
+            dmVblues |= SET_COLOR;
         }
     }
 
     if (devmode->dmFields & DM_ORIENTATION) {
-        if (devmode->dmOrientation == DMORIENT_LANDSCAPE) {
-            dmValues |= SET_ORIENTATION;
+        if (devmode->dmOrientbtion == DMORIENT_LANDSCAPE) {
+            dmVblues |= SET_ORIENTATION;
         }
     }
 
     if (devmode->dmFields & DM_COLLATE &&
-        devmode->dmCollate == DMCOLLATE_TRUE) {
-            dmValues |= SET_COLLATED;
+        devmode->dmCollbte == DMCOLLATE_TRUE) {
+            dmVblues |= SET_COLLATED;
     }
 
     if (devmode->dmFields & DM_PRINTQUALITY) {
-        /* value < 0 indicates quality setting.
-         * value > 0 indicates X resolution. In that case
-         * hopefully we will also find y-resolution specified.
-         * If its not, assume its the same as x-res.
-         * Maybe Java code should try to reconcile this against
-          * the printers claimed set of supported resolutions.
+        /* vblue < 0 indicbtes qublity setting.
+         * vblue > 0 indicbtes X resolution. In thbt cbse
+         * hopefully we will blso find y-resolution specified.
+         * If its not, bssume its the sbme bs x-res.
+         * Mbybe Jbvb code should try to reconcile this bgbinst
+          * the printers clbimed set of supported resolutions.
          */
-        if (devmode->dmPrintQuality < 0) {
-            if (devmode->dmPrintQuality == DMRES_HIGH) {
-                dmValues |= SET_RES_HIGH;
-            } else if ((devmode->dmPrintQuality == DMRES_LOW) ||
-                       (devmode->dmPrintQuality == DMRES_DRAFT)) {
-                dmValues |= SET_RES_LOW;
+        if (devmode->dmPrintQublity < 0) {
+            if (devmode->dmPrintQublity == DMRES_HIGH) {
+                dmVblues |= SET_RES_HIGH;
+            } else if ((devmode->dmPrintQublity == DMRES_LOW) ||
+                       (devmode->dmPrintQublity == DMRES_DRAFT)) {
+                dmVblues |= SET_RES_LOW;
             }
-            /* else if (devmode->dmPrintQuality == DMRES_MEDIUM)
+            /* else if (devmode->dmPrintQublity == DMRES_MEDIUM)
              * will set to NORMAL.
              */
         } else {
-            xRes = devmode->dmPrintQuality;
+            xRes = devmode->dmPrintQublity;
             yRes = (devmode->dmFields & DM_YRESOLUTION) ?
-                devmode->dmYResolution : devmode->dmPrintQuality;
+                devmode->dmYResolution : devmode->dmPrintQublity;
         }
     }
 
     if (devmode->dmFields & DM_DUPLEX) {
         if (devmode->dmDuplex == DMDUP_HORIZONTAL) {
-            dmValues |= SET_DUP_HORIZONTAL;
+            dmVblues |= SET_DUP_HORIZONTAL;
         } else if (devmode->dmDuplex == DMDUP_VERTICAL) {
-            dmValues |= SET_DUP_VERTICAL;
+            dmVblues |= SET_DUP_VERTICAL;
         }
     }
 
-    env->CallVoidMethod(wJob, AwtPrintControl::setJobAttributesID, attrSet,
-                        devmode->dmFields, dmValues, devmode->dmCopies,
-                        devmode->dmPaperSize, devmode->dmPaperWidth,
-                        devmode->dmPaperLength, devmode->dmDefaultSource,
+    env->CbllVoidMethod(wJob, AwtPrintControl::setJobAttributesID, bttrSet,
+                        devmode->dmFields, dmVblues, devmode->dmCopies,
+                        devmode->dmPbperSize, devmode->dmPbperWidth,
+                        devmode->dmPbperLength, devmode->dmDefbultSource,
                         xRes, yRes);
 
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WPrinterJob_showDocProperties(JNIEnv *env,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WPrinterJob_showDocProperties(JNIEnv *env,
                                                    jobject wJob,
-                                                   jlong hWndParent,
-                                                   jobject attrSet,
+                                                   jlong hWndPbrent,
+                                                   jobject bttrSet,
                                                    jint dmFields,
                                                    jshort copies,
-                                                   jshort collate,
+                                                   jshort collbte,
                                                    jshort color,
                                                    jshort duplex,
                                                    jshort orient,
-                                                   jshort paper,
+                                                   jshort pbper,
                                                    jshort bin,
-                                                   jshort xres_quality,
+                                                   jshort xres_qublity,
                                                    jshort yres)
 {
     TRY;
 
     HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, wJob);
-    HGLOBAL hDevNames = AwtPrintControl::getPrintHDName(env, wJob);
+    HGLOBAL hDevNbmes = AwtPrintControl::getPrintHDNbme(env, wJob);
     DEVMODE *devmode = NULL;
-    DEVNAMES *devnames = NULL;
-    LONG rval = IDCANCEL;
-    jboolean ret = JNI_FALSE;
+    DEVNAMES *devnbmes = NULL;
+    LONG rvbl = IDCANCEL;
+    jboolebn ret = JNI_FALSE;
 
-    if (hDevMode != NULL && hDevNames != NULL) {
-        devmode = (DEVMODE *)::GlobalLock(hDevMode);
-        devnames = (DEVNAMES *)::GlobalLock(hDevNames);
+    if (hDevMode != NULL && hDevNbmes != NULL) {
+        devmode = (DEVMODE *)::GlobblLock(hDevMode);
+        devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
 
-        LPTSTR lpdevnames = (LPTSTR)devnames;
-        // No need to call _tcsdup as we won't unlock until we are done.
-        LPTSTR printerName = lpdevnames+devnames->wDeviceOffset;
-        LPTSTR portName = lpdevnames+devnames->wOutputOffset;
+        LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+        // No need to cbll _tcsdup bs we won't unlock until we bre done.
+        LPTSTR printerNbme = lpdevnbmes+devnbmes->wDeviceOffset;
+        LPTSTR portNbme = lpdevnbmes+devnbmes->wOutputOffset;
 
         HANDLE hPrinter;
-        if (::OpenPrinter(printerName, &hPrinter, NULL) == TRUE) {
+        if (::OpenPrinter(printerNbme, &hPrinter, NULL) == TRUE) {
             devmode->dmFields |= dmFields;
             devmode->dmCopies = copies;
-            devmode->dmCollate = collate;
+            devmode->dmCollbte = collbte;
             devmode->dmColor = color;
             devmode->dmDuplex = duplex;
-            devmode->dmOrientation = orient;
-            devmode->dmPrintQuality = xres_quality;
+            devmode->dmOrientbtion = orient;
+            devmode->dmPrintQublity = xres_qublity;
             devmode->dmYResolution = yres;
-            devmode->dmPaperSize = paper;
-            devmode->dmDefaultSource = bin;
+            devmode->dmPbperSize = pbper;
+            devmode->dmDefbultSource = bin;
 
-            rval = ::DocumentProperties((HWND)hWndParent,
-                           hPrinter, printerName, devmode, devmode,
+            rvbl = ::DocumentProperties((HWND)hWndPbrent,
+                           hPrinter, printerNbme, devmode, devmode,
                            DM_IN_BUFFER | DM_OUT_BUFFER | DM_IN_PROMPT);
-            if (rval == IDOK) {
-                UpdateJobAttributes(env, wJob, attrSet, devmode);
+            if (rvbl == IDOK) {
+                UpdbteJobAttributes(env, wJob, bttrSet, devmode);
                 ret = JNI_TRUE;
             }
             VERIFY(::ClosePrinter(hPrinter));
         }
-        ::GlobalUnlock(hDevNames);
-        ::GlobalUnlock(hDevMode);
+        ::GlobblUnlock(hDevNbmes);
+        ::GlobblUnlock(hDevMode);
     }
 
     return ret;
@@ -474,54 +474,54 @@ Java_sun_awt_windows_WPrinterJob_showDocProperties(JNIEnv *env,
 }
 
 /************************************************************************
- * WPageDialog native methods
+ * WPbgeDiblog nbtive methods
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPageDialog_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WPbgeDiblog_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtPrintDialog::pageID =
-        env->GetFieldID(cls, "page", "Ljava/awt/print/PageFormat;");
+    AwtPrintDiblog::pbgeID =
+        env->GetFieldID(cls, "pbge", "Ljbvb/bwt/print/PbgeFormbt;");
 
-    DASSERT(AwtPrintDialog::pageID != NULL);
+    DASSERT(AwtPrintDiblog::pbgeID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 /************************************************************************
- * WPageDialogPeer native methods
+ * WPbgeDiblogPeer nbtive methods
  */
 
 /*
- * Class:     sun_awt_windows_WPageDialogPeer
+ * Clbss:     sun_bwt_windows_WPbgeDiblogPeer
  * Method:    show
- * Signature: ()Z
+ * Signbture: ()Z
  *
  */
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WPageDialogPeer__1show(JNIEnv *env, jobject peer)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WPbgeDiblogPeer__1show(JNIEnv *env, jobject peer)
 {
     TRY;
 
-    // as peer object is used later on another thread, create global ref here
-    jobject peerGlobalRef = env->NewGlobalRef(peer);
-    DASSERT(peerGlobalRef != NULL);
-    jobject target = env->GetObjectField(peerGlobalRef, AwtObject::targetID);
+    // bs peer object is used lbter on bnother threbd, crebte globbl ref here
+    jobject peerGlobblRef = env->NewGlobblRef(peer);
+    DASSERT(peerGlobblRef != NULL);
+    jobject tbrget = env->GetObjectField(peerGlobblRef, AwtObject::tbrgetID);
 
-    jobject parent = env->GetObjectField(peerGlobalRef, AwtPrintDialog::parentID);
+    jobject pbrent = env->GetObjectField(peerGlobblRef, AwtPrintDiblog::pbrentID);
 
-    jobject page = env->GetObjectField(target, AwtPrintDialog::pageID);
-    DASSERT(page != NULL);
+    jobject pbge = env->GetObjectField(tbrget, AwtPrintDiblog::pbgeID);
+    DASSERT(pbge != NULL);
 
-    jobject self = env->GetObjectField(target, AwtPrintDialog::controlID);
+    jobject self = env->GetObjectField(tbrget, AwtPrintDiblog::controlID);
     DASSERT(self != NULL);
 
-    AwtComponent *awtParent = (parent != NULL) ? (AwtComponent *)JNI_GET_PDATA(parent) : NULL;
-    HWND hwndOwner = awtParent ? awtParent->GetHWnd() : NULL;
+    AwtComponent *bwtPbrent = (pbrent != NULL) ? (AwtComponent *)JNI_GET_PDATA(pbrent) : NULL;
+    HWND hwndOwner = bwtPbrent ? bwtPbrent->GetHWnd() : NULL;
 
-    jboolean doIt = JNI_FALSE; // Assume the user will cancel the dialog.
+    jboolebn doIt = JNI_FALSE; // Assume the user will cbncel the diblog.
     PAGESETUPDLG setup;
     memset(&setup, 0, sizeof(setup));
 
@@ -529,14 +529,14 @@ Java_sun_awt_windows_WPageDialogPeer__1show(JNIEnv *env, jobject peer)
 
     /*
       Fix for 6488834.
-      To disable Win32 native parent modality we have to set
+      To disbble Win32 nbtive pbrent modblity we hbve to set
       hwndOwner field to either NULL or some hidden window. For
-      parentless dialogs we use NULL to show them in the taskbar,
-      and for all other dialogs AwtToolkit's HWND is used.
+      pbrentless diblogs we use NULL to show them in the tbskbbr,
+      bnd for bll other diblogs AwtToolkit's HWND is used.
     */
-    if (awtParent != NULL)
+    if (bwtPbrent != NULL)
     {
-        setup.hwndOwner = AwtToolkit::GetInstance().GetHWnd();
+        setup.hwndOwner = AwtToolkit::GetInstbnce().GetHWnd();
     }
     else
     {
@@ -544,95 +544,95 @@ Java_sun_awt_windows_WPageDialogPeer__1show(JNIEnv *env, jobject peer)
     }
 
     setup.hDevMode = NULL;
-    setup.hDevNames = NULL;
-    setup.Flags = PSD_RETURNDEFAULT | PSD_DEFAULTMINMARGINS;
-    // setup.ptPaperSize =
-    // setup.rtMinMargin =
-    // setup.rtMargin =
-    setup.hInstance = NULL;
-    setup.lCustData = (LPARAM)peerGlobalRef;
-    setup.lpfnPageSetupHook = reinterpret_cast<LPPAGESETUPHOOK>(pageDlgHook);
-    setup.lpfnPagePaintHook = NULL;
-    setup.lpPageSetupTemplateName = NULL;
-    setup.hPageSetupTemplate = NULL;
+    setup.hDevNbmes = NULL;
+    setup.Flbgs = PSD_RETURNDEFAULT | PSD_DEFAULTMINMARGINS;
+    // setup.ptPbperSize =
+    // setup.rtMinMbrgin =
+    // setup.rtMbrgin =
+    setup.hInstbnce = NULL;
+    setup.lCustDbtb = (LPARAM)peerGlobblRef;
+    setup.lpfnPbgeSetupHook = reinterpret_cbst<LPPAGESETUPHOOK>(pbgeDlgHook);
+    setup.lpfnPbgePbintHook = NULL;
+    setup.lpPbgeSetupTemplbteNbme = NULL;
+    setup.hPbgeSetupTemplbte = NULL;
 
 
-    /* Because the return default flag is set, this first call
-     * will not display the dialog but will return default values, inc
-     * including hDevMode, hDevName, ptPaperSize, and rtMargin values.
-     * We can use the devmode to set the orientation of the page
-     * and the size of the page.
-     * The units used by the user is also needed.
+    /* Becbuse the return defbult flbg is set, this first cbll
+     * will not displby the diblog but will return defbult vblues, inc
+     * including hDevMode, hDevNbme, ptPbperSize, bnd rtMbrgin vblues.
+     * We cbn use the devmode to set the orientbtion of the pbge
+     * bnd the size of the pbge.
+     * The units used by the user is blso needed.
      */
     if (AwtPrintControl::getPrintHDMode(env, self) == NULL ||
-        AwtPrintControl::getPrintHDName(env,self) == NULL) {
-        (void)::PageSetupDlg(&setup);
-        /* check if hDevMode and hDevNames are set.
-         * If both are null, then there is no default printer.
+        AwtPrintControl::getPrintHDNbme(env,self) == NULL) {
+        (void)::PbgeSetupDlg(&setup);
+        /* check if hDevMode bnd hDevNbmes bre set.
+         * If both bre null, then there is no defbult printer.
          */
-        if ((setup.hDevMode == NULL) && (setup.hDevNames == NULL)) {
+        if ((setup.hDevMode == NULL) && (setup.hDevNbmes == NULL)) {
             doIt = JNI_FALSE;
             goto done;
         }
     } else {
-        int measure = PSD_INTHOUSANDTHSOFINCHES;
-        int sz = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, NULL, 0);
+        int mebsure = PSD_INTHOUSANDTHSOFINCHES;
+        int sz = GetLocbleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, NULL, 0);
         if (sz > 0) {
-          LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(TCHAR), sz);
+          LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(TCHAR), sz);
           if (str != NULL) {
-            sz = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, str, sz);
+            sz = GetLocbleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, str, sz);
             if (sz > 0) {
               if (_tcscmp(TEXT("0"), str) == 0) {
-                measure = PSD_INHUNDREDTHSOFMILLIMETERS;
+                mebsure = PSD_INHUNDREDTHSOFMILLIMETERS;
               }
             }
             free((LPTSTR)str);
           }
         }
-        setup.Flags |= measure;
+        setup.Flbgs |= mebsure;
         setup.hDevMode = AwtPrintControl::getPrintHDMode(env, self);
-        setup.hDevNames = AwtPrintControl::getPrintHDName(env, self);
+        setup.hDevNbmes = AwtPrintControl::getPrintHDNbme(env, self);
     }
-    /* Move page size and orientation from the PageFormat object
-     * into the Windows setup structure so that the format can
-     * be displayed in the dialog.
+    /* Move pbge size bnd orientbtion from the PbgeFormbt object
+     * into the Windows setup structure so thbt the formbt cbn
+     * be displbyed in the diblog.
      */
-    pageFormatToSetup(env, self, page, &setup, AwtPrintControl::getPrintDC(env, self));
+    pbgeFormbtToSetup(env, self, pbge, &setup, AwtPrintControl::getPrintDC(env, self));
     if (env->ExceptionCheck()) {
         doIt = JNI_FALSE;
         goto done;
     }
 
-    setup.lpfnPageSetupHook = reinterpret_cast<LPPAGESETUPHOOK>(pageDlgHook);
-    setup.Flags = PSD_ENABLEPAGESETUPHOOK | PSD_MARGINS;
+    setup.lpfnPbgeSetupHook = reinterpret_cbst<LPPAGESETUPHOOK>(pbgeDlgHook);
+    setup.Flbgs = PSD_ENABLEPAGESETUPHOOK | PSD_MARGINS;
 
-    AwtDialog::CheckInstallModalHook();
+    AwtDiblog::CheckInstbllModblHook();
 
-    BOOL ret = ::PageSetupDlg(&setup);
+    BOOL ret = ::PbgeSetupDlg(&setup);
     if (ret) {
 
-        jobject paper = getPaper(env, page);
-        if (paper == NULL) {
+        jobject pbper = getPbper(env, pbge);
+        if (pbper == NULL) {
             doIt = JNI_FALSE;
             goto done;
         }
-        int units = setup.Flags & PSD_INTHOUSANDTHSOFINCHES ?
+        int units = setup.Flbgs & PSD_INTHOUSANDTHSOFINCHES ?
                                                 MM_HIENGLISH :
                                                 MM_HIMETRIC;
-        POINT paperSize;
-        RECT margins;
-        jint orientation;
+        POINT pbperSize;
+        RECT mbrgins;
+        jint orientbtion;
 
-        /* The printer may have been changed, and we track that change,
-         * but then need to get a new DC for the current printer so that
-         * we validate the paper size correctly
+        /* The printer mby hbve been chbnged, bnd we trbck thbt chbnge,
+         * but then need to get b new DC for the current printer so thbt
+         * we vblidbte the pbper size correctly
          */
-        if (setup.hDevNames != NULL) {
-            DEVNAMES* names = (DEVNAMES*)::GlobalLock(setup.hDevNames);
-            if (names != NULL) {
-                LPTSTR printer = (LPTSTR)names+names->wDeviceOffset;
+        if (setup.hDevNbmes != NULL) {
+            DEVNAMES* nbmes = (DEVNAMES*)::GlobblLock(setup.hDevNbmes);
+            if (nbmes != NULL) {
+                LPTSTR printer = (LPTSTR)nbmes+nbmes->wDeviceOffset;
                 SAVE_CONTROLWORD
-                HDC newDC = ::CreateDC(TEXT("WINSPOOL"), printer, NULL, NULL);
+                HDC newDC = ::CrebteDC(TEXT("WINSPOOL"), printer, NULL, NULL);
                 RESTORE_CONTROLWORD
                 if (newDC != NULL) {
                     HDC oldDC = AwtPrintControl::getPrintDC(env, self);
@@ -642,76 +642,76 @@ Java_sun_awt_windows_WPageDialogPeer__1show(JNIEnv *env, jobject peer)
                 }
                 AwtPrintControl::setPrintDC(env, self, newDC);
             }
-            ::GlobalUnlock(setup.hDevNames);
+            ::GlobblUnlock(setup.hDevNbmes);
         }
 
-        /* Get the Windows paper and margins description.
+        /* Get the Windows pbper bnd mbrgins description.
         */
-        retrievePaperInfo(&setup, &paperSize, &margins, &orientation,
+        retrievePbperInfo(&setup, &pbperSize, &mbrgins, &orientbtion,
                           AwtPrintControl::getPrintDC(env, self));
 
-        /* Convert the Windows' paper and margins description
-         * and place them into a Paper instance.
+        /* Convert the Windows' pbper bnd mbrgins description
+         * bnd plbce them into b Pbper instbnce.
          */
-        setPaperValues(env, paper, &paperSize, &margins, units);
+        setPbperVblues(env, pbper, &pbperSize, &mbrgins, units);
          if (env->ExceptionCheck()) {
              doIt = JNI_FALSE;
              goto done;
          }
         /*
-         * Put the updated Paper instance and the orientation into
-         * the PageFormat.
+         * Put the updbted Pbper instbnce bnd the orientbtion into
+         * the PbgeFormbt.
          */
-        setPaper(env, page, paper);
+        setPbper(env, pbge, pbper);
         if (env->ExceptionCheck()) {
              doIt = JNI_FALSE;
              goto done;
         }
-        setPageFormatOrientation(env, page, orientation);
+        setPbgeFormbtOrientbtion(env, pbge, orientbtion);
         if (env->ExceptionCheck()) {
              doIt = JNI_FALSE;
              goto done;
         }
         if (setup.hDevMode != NULL) {
-            DEVMODE *devmode = (DEVMODE *)::GlobalLock(setup.hDevMode);
+            DEVMODE *devmode = (DEVMODE *)::GlobblLock(setup.hDevMode);
             if (devmode != NULL) {
                 if (devmode->dmFields & DM_PAPERSIZE) {
-                    jboolean err = setPrintPaperSize(env, self, devmode->dmPaperSize);
+                    jboolebn err = setPrintPbperSize(env, self, devmode->dmPbperSize);
                     if (err) {
                         doIt = JNI_FALSE;
                         goto done;
                     }
                 }
             }
-            ::GlobalUnlock(setup.hDevMode);
+            ::GlobblUnlock(setup.hDevMode);
         }
         doIt = JNI_TRUE;
     }
 
-    AwtDialog::CheckUninstallModalHook();
+    AwtDiblog::CheckUninstbllModblHook();
 
-    AwtDialog::ModalActivateNextWindow(NULL, target, peer);
+    AwtDiblog::ModblActivbteNextWindow(NULL, tbrget, peer);
 
     HGLOBAL oldG = AwtPrintControl::getPrintHDMode(env, self);
     if (setup.hDevMode != oldG) {
         AwtPrintControl::setPrintHDMode(env, self, setup.hDevMode);
     }
 
-    oldG = AwtPrintControl::getPrintHDName(env, self);
-    if (setup.hDevNames != oldG) {
-        AwtPrintControl::setPrintHDName(env, self, setup.hDevNames);
+    oldG = AwtPrintControl::getPrintHDNbme(env, self);
+    if (setup.hDevNbmes != oldG) {
+        AwtPrintControl::setPrintHDNbme(env, self, setup.hDevNbmes);
     }
 
 done:
-    env->DeleteGlobalRef(peerGlobalRef);
-    if (target != NULL) {
-        env->DeleteLocalRef(target);
+    env->DeleteGlobblRef(peerGlobblRef);
+    if (tbrget != NULL) {
+        env->DeleteLocblRef(tbrget);
     }
-    if (parent != NULL) {
-        env->DeleteLocalRef(parent);
+    if (pbrent != NULL) {
+        env->DeleteLocblRef(pbrent);
     }
-    env->DeleteLocalRef(page);
-    env->DeleteLocalRef(self);
+    env->DeleteLocblRef(pbge);
+    env->DeleteLocblRef(self);
 
     return doIt;
 
@@ -719,99 +719,99 @@ done:
 }
 
 /************************************************************************
- * WPrinterJob native methods
+ * WPrinterJob nbtive methods
  */
 
 /*
- * Class:   sun_awt_windows_WPrinterJob
+ * Clbss:   sun_bwt_windows_WPrinterJob
  * Method:  setCopies
- * Signature: (I)V
+ * Signbture: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_setNativeCopies(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WPrinterJob_setNbtiveCopies(JNIEnv *env, jobject self,
                                            jint copies) {
     HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, self);
     if (hDevMode != NULL) {
-      DEVMODE *devmode = (DEVMODE *)::GlobalLock(hDevMode);
+      DEVMODE *devmode = (DEVMODE *)::GlobblLock(hDevMode);
       if (devmode != NULL) {
         short nCopies = (copies < (jint)SHRT_MAX)
-          ? static_cast<short>(copies) : SHRT_MAX;
+          ? stbtic_cbst<short>(copies) : SHRT_MAX;
         devmode->dmCopies = nCopies;
         devmode->dmFields |= DM_COPIES;
       }
-      ::GlobalUnlock(hDevMode);
+      ::GlobblUnlock(hDevMode);
     }
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    getDefaultPage
- * Signature: (Ljava/awt/print/PageFormat;)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    getDefbultPbge
+ * Signbture: (Ljbvb/bwt/print/PbgeFormbt;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_getDefaultPage(JNIEnv *env, jobject self,
-                                                jobject page) {
+Jbvb_sun_bwt_windows_WPrinterJob_getDefbultPbge(JNIEnv *env, jobject self,
+                                                jobject pbge) {
 
   TRY;
 
-  // devnames and dc are initialized at setting of Print Service,
-  // through print dialog or start of printing
-  // None of those may have happened yet, so call initPrinter()
+  // devnbmes bnd dc bre initiblized bt setting of Print Service,
+  // through print diblog or stbrt of printing
+  // None of those mby hbve hbppened yet, so cbll initPrinter()
   initPrinter(env, self);
-  HANDLE hDevNames = AwtPrintControl::getPrintHDName(env, self);
+  HANDLE hDevNbmes = AwtPrintControl::getPrintHDNbme(env, self);
   HDC hdc = AwtPrintControl::getPrintDC(env, self);
 
-  if ((hDevNames == NULL) || (hdc == NULL)) {
+  if ((hDevNbmes == NULL) || (hdc == NULL)) {
       return;
   }
 
-  DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(hDevNames);
+  DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
 
-  if (devnames != NULL) {
+  if (devnbmes != NULL) {
 
-    LPTSTR lpdevnames = (LPTSTR)devnames;
-    LPTSTR printerName = _tcsdup(lpdevnames+devnames->wDeviceOffset);
+    LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+    LPTSTR printerNbme = _tcsdup(lpdevnbmes+devnbmes->wDeviceOffset);
 
     HANDLE      hPrinter = NULL;
     LPDEVMODE   pDevMode;
 
-    /* Start by opening the printer */
-    if (!::OpenPrinter(printerName, &hPrinter, NULL)) {
+    /* Stbrt by opening the printer */
+    if (!::OpenPrinter(printerNbme, &hPrinter, NULL)) {
       if (hPrinter != NULL) {
         ::ClosePrinter(hPrinter);
       }
-      ::GlobalUnlock(hDevNames);
-      free ((LPTSTR) printerName);
+      ::GlobblUnlock(hDevNbmes);
+      free ((LPTSTR) printerNbme);
       return;
     }
 
-    if (!AwtPrintControl::getDevmode(hPrinter, printerName, &pDevMode)) {
-        /* if failure, cleanup and return failure */
+    if (!AwtPrintControl::getDevmode(hPrinter, printerNbme, &pDevMode)) {
+        /* if fbilure, clebnup bnd return fbilure */
         if (pDevMode != NULL) {
-            ::GlobalFree(pDevMode);
+            ::GlobblFree(pDevMode);
         }
         ::ClosePrinter(hPrinter);
-        ::GlobalUnlock(hDevNames);
-        free ((LPTSTR) printerName);
+        ::GlobblUnlock(hDevNbmes);
+        free ((LPTSTR) printerNbme);
         return ;
     }
 
     if ((pDevMode->dmFields & DM_PAPERSIZE) ||
           (pDevMode->dmFields & DM_PAPERWIDTH) ||
           (pDevMode->dmFields & DM_PAPERLENGTH)) {
-        POINT paperSize;
-        RECT margins;
-        jint orientation = PAGEFORMAT_PORTRAIT;
+        POINT pbperSize;
+        RECT mbrgins;
+        jint orientbtion = PAGEFORMAT_PORTRAIT;
 
         if (hdc != NULL) {
 
           int units = MM_HIENGLISH;
-          int sz = GetLocaleInfo(LOCALE_USER_DEFAULT,
+          int sz = GetLocbleInfo(LOCALE_USER_DEFAULT,
                                  LOCALE_IMEASURE, NULL, 0);
           if (sz > 0) {
-            LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(TCHAR), sz);
+            LPTSTR str = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(TCHAR), sz);
             if (str != NULL) {
-              sz = GetLocaleInfo(LOCALE_USER_DEFAULT,
+              sz = GetLocbleInfo(LOCALE_USER_DEFAULT,
                                  LOCALE_IMEASURE, str, sz);
               if (sz > 0) {
                 if (_tcscmp(TEXT("0"), str) == 0) {
@@ -822,166 +822,166 @@ Java_sun_awt_windows_WPrinterJob_getDefaultPage(JNIEnv *env, jobject self,
             }
           }
 
-          int width = ::GetDeviceCaps(hdc, PHYSICALWIDTH);
-          int height = ::GetDeviceCaps(hdc, PHYSICALHEIGHT);
-          int resx = ::GetDeviceCaps(hdc, LOGPIXELSX);
-          int resy = ::GetDeviceCaps(hdc, LOGPIXELSY);
+          int width = ::GetDeviceCbps(hdc, PHYSICALWIDTH);
+          int height = ::GetDeviceCbps(hdc, PHYSICALHEIGHT);
+          int resx = ::GetDeviceCbps(hdc, LOGPIXELSX);
+          int resy = ::GetDeviceCbps(hdc, LOGPIXELSY);
 
           double w = (double)width/resx;
           double h = (double)height/resy;
 
-          paperSize.x = convertFromPoints(w*72, units);
-          paperSize.y = convertFromPoints(h*72, units);
+          pbperSize.x = convertFromPoints(w*72, units);
+          pbperSize.y = convertFromPoints(h*72, units);
 
-          // set margins to 1"
-          margins.left = convertFromPoints(72, units);
-          margins.top = convertFromPoints(72, units);;
-          margins.right = convertFromPoints(72, units);;
-          margins.bottom = convertFromPoints(72, units);;
+          // set mbrgins to 1"
+          mbrgins.left = convertFromPoints(72, units);
+          mbrgins.top = convertFromPoints(72, units);;
+          mbrgins.right = convertFromPoints(72, units);;
+          mbrgins.bottom = convertFromPoints(72, units);;
 
-          jobject paper = getPaper(env, page);
-          if (paper == NULL) {
+          jobject pbper = getPbper(env, pbge);
+          if (pbper == NULL) {
             goto done;
           }
 
-          setPaperValues(env, paper, &paperSize, &margins, units);
+          setPbperVblues(env, pbper, &pbperSize, &mbrgins, units);
           if (env->ExceptionCheck()) goto done;
-          setPaper(env, page, paper);
+          setPbper(env, pbge, pbper);
           if (env->ExceptionCheck()) goto done;
 
           if ((pDevMode->dmFields & DM_ORIENTATION) &&
-              (pDevMode->dmOrientation == DMORIENT_LANDSCAPE)) {
-              orientation = PAGEFORMAT_LANDSCAPE;
+              (pDevMode->dmOrientbtion == DMORIENT_LANDSCAPE)) {
+              orientbtion = PAGEFORMAT_LANDSCAPE;
           }
-          setPageFormatOrientation(env, page, orientation);
+          setPbgeFormbtOrientbtion(env, pbge, orientbtion);
         }
 
     } else {
-         setBooleanField(env, self, NO_DEFAULTPRINTER_STR, (jint)JNI_TRUE);
+         setBoolebnField(env, self, NO_DEFAULTPRINTER_STR, (jint)JNI_TRUE);
     }
 
 done:
-    ::GlobalFree(pDevMode);
+    ::GlobblFree(pDevMode);
 
-    free ((LPTSTR) printerName);
+    free ((LPTSTR) printerNbme);
 
     ::ClosePrinter(hPrinter);
 
   }
-  ::GlobalUnlock(hDevNames);
+  ::GlobblUnlock(hDevNbmes);
 
   CATCH_BAD_ALLOC;
 
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    validatePaper
- * Signature: (Ljava/awt/print/Paper;Ljava/awt/print/Paper;)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    vblidbtePbper
+ * Signbture: (Ljbvb/bwt/print/Pbper;Ljbvb/bwt/print/Pbper;)V
  *
- * Query the current or default printer to find all paper sizes it
- * supports and find the closest matching to the origPaper.
- * For the matching size, validate the margins and printable area
- * against the printer's capabilities.
+ * Query the current or defbult printer to find bll pbper sizes it
+ * supports bnd find the closest mbtching to the origPbper.
+ * For the mbtching size, vblidbte the mbrgins bnd printbble breb
+ * bgbinst the printer's cbpbbilities.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_validatePaper(JNIEnv *env, jobject self,
-                                         jobject origPaper, jobject newPaper) {
+Jbvb_sun_bwt_windows_WPrinterJob_vblidbtePbper(JNIEnv *env, jobject self,
+                                         jobject origPbper, jobject newPbper) {
     TRY;
 
-    /* If the print dialog has been displayed or a DC has otherwise
-     * been created, use that. Else get a DC for the default printer
-     * which we discard before returning.
+    /* If the print diblog hbs been displbyed or b DC hbs otherwise
+     * been crebted, use thbt. Else get b DC for the defbult printer
+     * which we discbrd before returning.
      */
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
     HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, self);
-    HGLOBAL hDevNames = AwtPrintControl::getPrintHDName(env, self);
-    BOOL privateDC = FALSE;
+    HGLOBAL hDevNbmes = AwtPrintControl::getPrintHDNbme(env, self);
+    BOOL privbteDC = FALSE;
 
     if (printDC == NULL) {
         PRINTDLG pd;
         memset(&pd, 0, sizeof(PRINTDLG));
         pd.lStructSize = sizeof(PRINTDLG);
-        pd.Flags = PD_RETURNDEFAULT | PD_RETURNDC;
+        pd.Flbgs = PD_RETURNDEFAULT | PD_RETURNDC;
         if (::PrintDlg(&pd)) {
             printDC = pd.hDC;
             hDevMode = pd.hDevMode;
-            hDevNames = pd.hDevNames;
-            privateDC = TRUE;
+            hDevNbmes = pd.hDevNbmes;
+            privbteDC = TRUE;
         }
     }
 
-    JNI_CHECK_NULL_GOTO(printDC, "Invalid printDC", done);
+    JNI_CHECK_NULL_GOTO(printDC, "Invblid printDC", done);
 
-    /* We try to mitigate the effects of floating point rounding errors
-     * by only setting a value if it would differ from the value in the
-     * target by at least 0.10 points = 1/720 inches.
-     * eg if the values present in the target are close to the calculated
-     * values then we accept the target.
+    /* We try to mitigbte the effects of flobting point rounding errors
+     * by only setting b vblue if it would differ from the vblue in the
+     * tbrget by bt lebst 0.10 points = 1/720 inches.
+     * eg if the vblues present in the tbrget bre close to the cblculbted
+     * vblues then we bccept the tbrget.
      */
     const double epsilon = 0.10;
 
-    jdouble paperWidth, paperHeight;
-    jboolean err;
-    WORD dmPaperSize = getPrintPaperSize(env, &err, self);
+    jdouble pbperWidth, pbperHeight;
+    jboolebn err;
+    WORD dmPbperSize = getPrintPbperSize(env, &err, self);
     if (err) goto done;
 
     double ix, iy, iw, ih, pw, ph;
 
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
     jmethodID getID;
 
-    jclass paperClass = env->GetObjectClass(origPaper);
-    JNI_CHECK_NULL_GOTO(paperClass, "paper class not found", done);
-    getID = env->GetMethodID(paperClass, GETWIDTH_STR, GETWIDTH_SIG);
+    jclbss pbperClbss = env->GetObjectClbss(origPbper);
+    JNI_CHECK_NULL_GOTO(pbperClbss, "pbper clbss not found", done);
+    getID = env->GetMethodID(pbperClbss, GETWIDTH_STR, GETWIDTH_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getWidth method", done);
-    pw = env->CallDoubleMethod(origPaper, getID);
-    getID = env->GetMethodID(paperClass, GETHEIGHT_STR, GETHEIGHT_SIG);
+    pw = env->CbllDoubleMethod(origPbper, getID);
+    getID = env->GetMethodID(pbperClbss, GETHEIGHT_STR, GETHEIGHT_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getHeight method", done);
-    ph = env->CallDoubleMethod(origPaper, getID);
-    getID = env->GetMethodID(paperClass, GETIMG_X_STR, GETIMG_X_SIG);
+    ph = env->CbllDoubleMethod(origPbper, getID);
+    getID = env->GetMethodID(pbperClbss, GETIMG_X_STR, GETIMG_X_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getX method", done);
-    ix = env->CallDoubleMethod(origPaper, getID);
-    getID = env->GetMethodID(paperClass, GETIMG_Y_STR, GETIMG_Y_SIG);
+    ix = env->CbllDoubleMethod(origPbper, getID);
+    getID = env->GetMethodID(pbperClbss, GETIMG_Y_STR, GETIMG_Y_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getY method", done);
-    iy = env->CallDoubleMethod(origPaper, getID);
-    getID = env->GetMethodID(paperClass, GETIMG_W_STR, GETIMG_W_SIG);
+    iy = env->CbllDoubleMethod(origPbper, getID);
+    getID = env->GetMethodID(pbperClbss, GETIMG_W_STR, GETIMG_W_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getW method", done);
-    iw = env->CallDoubleMethod(origPaper, getID);
-    getID = env->GetMethodID(paperClass, GETIMG_H_STR, GETIMG_H_SIG);
+    iw = env->CbllDoubleMethod(origPbper, getID);
+    getID = env->GetMethodID(pbperClbss, GETIMG_H_STR, GETIMG_H_SIG);
     JNI_CHECK_NULL_GOTO(getID, "no getH method", done);
-    ih = env->CallDoubleMethod(origPaper, getID);
+    ih = env->CbllDoubleMethod(origPbper, getID);
 
-    matchPaperSize(printDC, hDevMode, hDevNames, pw, ph,
-                   &paperWidth, &paperHeight, &dmPaperSize);
+    mbtchPbperSize(printDC, hDevMode, hDevNbmes, pw, ph,
+                   &pbperWidth, &pbperHeight, &dmPbperSize);
 
-    /* Validate margins and imageable area */
+    /* Vblidbte mbrgins bnd imbgebble breb */
 
-    // pixels per inch in x and y direction
-    jint xPixelRes = GetDeviceCaps(printDC, LOGPIXELSX);
-    jint yPixelRes = GetDeviceCaps(printDC, LOGPIXELSY);
+    // pixels per inch in x bnd y direction
+    jint xPixelRes = GetDeviceCbps(printDC, LOGPIXELSX);
+    jint yPixelRes = GetDeviceCbps(printDC, LOGPIXELSY);
 
-    // x & y coord of printable area in pixels
-    jint xPixelOrg = GetDeviceCaps(printDC, PHYSICALOFFSETX);
-    jint yPixelOrg = GetDeviceCaps(printDC, PHYSICALOFFSETY);
+    // x & y coord of printbble breb in pixels
+    jint xPixelOrg = GetDeviceCbps(printDC, PHYSICALOFFSETX);
+    jint yPixelOrg = GetDeviceCbps(printDC, PHYSICALOFFSETY);
 
-    // width & height of printable area in pixels
-    jint imgPixelWid = GetDeviceCaps(printDC, HORZRES);
-    jint imgPixelHgt = GetDeviceCaps(printDC, VERTRES);
+    // width & height of printbble breb in pixels
+    jint imgPixelWid = GetDeviceCbps(printDC, HORZRES);
+    jint imgPixelHgt = GetDeviceCbps(printDC, VERTRES);
 
-    // The DC may be obtained when we first selected the printer as a
-    // result of a call to setNativePrintService.
-    // If the Devmode was obtained later on from the DocumentProperties dialog
-    // the DC won't have been updated and its settings may be for PORTRAIT.
-    // This may happen in other cases too, but was observed for the above.
-    // To get a DC compatible with this devmode we should really call
-    // CreateDC() again to get a DC for the devmode we are using.
-    // The changes for that are a lot more risk, so to minimize that
-    // risk, assume its not LANDSCAPE unless width > height, even if the
-    // devmode says its LANDSCAPE.
-    // if the values were obtained from a rotated device, swap.
-    if ((getOrientationFromDevMode2(hDevMode) == DMORIENT_LANDSCAPE) &&
+    // The DC mby be obtbined when we first selected the printer bs b
+    // result of b cbll to setNbtivePrintService.
+    // If the Devmode wbs obtbined lbter on from the DocumentProperties diblog
+    // the DC won't hbve been updbted bnd its settings mby be for PORTRAIT.
+    // This mby hbppen in other cbses too, but wbs observed for the bbove.
+    // To get b DC compbtible with this devmode we should reblly cbll
+    // CrebteDC() bgbin to get b DC for the devmode we bre using.
+    // The chbnges for thbt bre b lot more risk, so to minimize thbt
+    // risk, bssume its not LANDSCAPE unless width > height, even if the
+    // devmode sbys its LANDSCAPE.
+    // if the vblues were obtbined from b rotbted device, swbp.
+    if ((getOrientbtionFromDevMode2(hDevMode) == DMORIENT_LANDSCAPE) &&
         (imgPixelWid > imgPixelHgt)) {
       jint tmp;
       tmp = xPixelRes;
@@ -997,15 +997,15 @@ Java_sun_awt_windows_WPrinterJob_validatePaper(JNIEnv *env, jobject self,
       imgPixelHgt = tmp;
     }
 
-    // page imageable area in 1/72"
+    // pbge imbgebble breb in 1/72"
     jdouble imgX = (jdouble)((xPixelOrg * 72)/(jdouble)xPixelRes);
     jdouble imgY = (jdouble)((yPixelOrg * 72)/(jdouble)yPixelRes);
     jdouble imgWid = (jdouble)((imgPixelWid * 72)/(jdouble)xPixelRes);
     jdouble imgHgt = (jdouble)((imgPixelHgt * 72)/(jdouble)yPixelRes);
 
-    /* Check each of the individual values is within range.
-     * Then make sure imageable area is placed within imageable area.
-     * Allow for a small floating point error in the comparisons
+    /* Check ebch of the individubl vblues is within rbnge.
+     * Then mbke sure imbgebble breb is plbced within imbgebble breb.
+     * Allow for b smbll flobting point error in the compbrisons
      */
 
     if (ix < 0.0 ) {
@@ -1039,106 +1039,106 @@ Java_sun_awt_windows_WPrinterJob_validatePaper(JNIEnv *env, jobject self,
         iy = (imgY+imgHgt) - ih;
     }
 
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
-    jmethodID setSizeID = env->GetMethodID(paperClass,
+    jmethodID setSizeID = env->GetMethodID(pbperClbss,
                                         SETSIZE_STR, SETSIZE_SIG);
     JNI_CHECK_NULL_GOTO(setSizeID, "no setSize method", done);
 
-    jmethodID setImageableID = env->GetMethodID(paperClass,
+    jmethodID setImbgebbleID = env->GetMethodID(pbperClbss,
                                         SETIMAGEABLE_STR, SETIMAGEABLE_SIG);
-    JNI_CHECK_NULL_GOTO(setImageableID, "no setImageable method", done);
+    JNI_CHECK_NULL_GOTO(setImbgebbleID, "no setImbgebble method", done);
 
-    env->CallVoidMethod(newPaper, setSizeID, paperWidth, paperHeight);
-    env->CallVoidMethod(newPaper, setImageableID, ix, iy, iw, ih);
+    env->CbllVoidMethod(newPbper, setSizeID, pbperWidth, pbperHeight);
+    env->CbllVoidMethod(newPbper, setImbgebbleID, ix, iy, iw, ih);
 
 done:
-    /* Free any resources allocated */
-    if (privateDC == TRUE) {
+    /* Free bny resources bllocbted */
+    if (privbteDC == TRUE) {
         if (printDC != NULL) {
-            /* In this case we know that this DC has no GDI objects to free */
+            /* In this cbse we know thbt this DC hbs no GDI objects to free */
              ::DeleteDC(printDC);
         }
         if (hDevMode != NULL) {
-            ::GlobalFree(hDevMode);
+            ::GlobblFree(hDevMode);
         }
-        if (hDevNames != NULL) {
-            ::GlobalFree(hDevNames);
+        if (hDevNbmes != NULL) {
+            ::GlobblFree(hDevNbmes);
         }
     }
 
     CATCH_BAD_ALLOC;
 }
 
-static void initPrinter(JNIEnv *env, jobject self) {
+stbtic void initPrinter(JNIEnv *env, jobject self) {
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
 
     /*
      * The print device context will be NULL if the
-     * user never okayed a print dialog. This
-     * will happen most often when the java application
-     * decides not to present a print dialog to the user.
-     * We create a device context for the default printer.
+     * user never okbyed b print diblog. This
+     * will hbppen most often when the jbvb bpplicbtion
+     * decides not to present b print diblog to the user.
+     * We crebte b device context for the defbult printer.
      */
     if (printDC == NULL) {
-        printDC = getDefaultPrinterDC(env, self);
+        printDC = getDefbultPrinterDC(env, self);
         if (printDC){
             AwtPrintControl::setPrintDC(env, self, printDC);
-            setCapabilities(env, self, printDC);
+            setCbpbbilities(env, self, printDC);
         }
     }
 }
 
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    initPrinter
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_initPrinter(JNIEnv *env, jobject self) {
+Jbvb_sun_bwt_windows_WPrinterJob_initPrinter(JNIEnv *env, jobject self) {
     TRY;
-    jboolean err;
+    jboolebn err;
 
     initPrinter(env, self);
 
-    // check for collation
-    HGLOBAL hDevNames = AwtPrintControl::getPrintHDName(env, self);
-    if (hDevNames != NULL) {
+    // check for collbtion
+    HGLOBAL hDevNbmes = AwtPrintControl::getPrintHDNbme(env, self);
+    if (hDevNbmes != NULL) {
         DWORD dmFields;
-        DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(hDevNames);
+        DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
 
-        if (devnames != NULL) {
-            LPTSTR lpdevnames = (LPTSTR)devnames;
-            LPTSTR printername = lpdevnames+devnames->wDeviceOffset;
-            LPTSTR port = lpdevnames+devnames->wOutputOffset;
+        if (devnbmes != NULL) {
+            LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+            LPTSTR printernbme = lpdevnbmes+devnbmes->wDeviceOffset;
+            LPTSTR port = lpdevnbmes+devnbmes->wOutputOffset;
 
             SAVE_CONTROLWORD
-            dmFields = ::DeviceCapabilities(printername, port,
+            dmFields = ::DeviceCbpbbilities(printernbme, port,
                                             DC_FIELDS, NULL, NULL);
-            int devLandRotation = (int)DeviceCapabilities(printername, port,
+            int devLbndRotbtion = (int)DeviceCbpbbilities(printernbme, port,
                                         DC_ORIENTATION, NULL, NULL);
             RESTORE_CONTROLWORD
-            ::GlobalUnlock(devnames);
+            ::GlobblUnlock(devnbmes);
 
-            if (devLandRotation == 270) {
-                err = setBooleanField(env, self, LANDSCAPE_270_STR, JNI_TRUE);
+            if (devLbndRotbtion == 270) {
+                err = setBoolebnField(env, self, LANDSCAPE_270_STR, JNI_TRUE);
             } else {
-                err = setBooleanField(env, self, LANDSCAPE_270_STR, JNI_FALSE);
+                err = setBoolebnField(env, self, LANDSCAPE_270_STR, JNI_FALSE);
             }
             if (err) return;
         }
 
         if (dmFields & DM_COLLATE) {
-            err = setBooleanField(env, self, DRIVER_COLLATE_STR, JNI_TRUE);
+            err = setBoolebnField(env, self, DRIVER_COLLATE_STR, JNI_TRUE);
         } else {
-            err = setBooleanField(env, self, DRIVER_COLLATE_STR, JNI_FALSE);
+            err = setBoolebnField(env, self, DRIVER_COLLATE_STR, JNI_FALSE);
         }
         if (err) return;
 
         if (dmFields & DM_COPIES) {
-            setBooleanField(env, self, DRIVER_COPIES_STR, JNI_TRUE);
+            setBoolebnField(env, self, DRIVER_COPIES_STR, JNI_TRUE);
         }
     }
 
@@ -1147,58 +1147,58 @@ Java_sun_awt_windows_WPrinterJob_initPrinter(JNIEnv *env, jobject self) {
 
 
 /*
- *   returns 0 if print capabilities has been changed
- *           1 if print capabilities has not been changed
- *          -1 in case of error
+ *   returns 0 if print cbpbbilities hbs been chbnged
+ *           1 if print cbpbbilities hbs not been chbnged
+ *          -1 in cbse of error
  */
-static int setPrintReqAttribute(JNIEnv *env, jobject self, DEVMODE* devmode) {
+stbtic int setPrintReqAttribute(JNIEnv *env, jobject self, DEVMODE* devmode) {
 
-    /* The xRes/yRes fields are only initialised if there is a resolution
-     * attribute. Otherwise they both will be zero, in which case default
-     * resolution should be fine. Consider calling getXRes()/getResY()
-     * rather than accessing the fields directly
+    /* The xRes/yRes fields bre only initiblised if there is b resolution
+     * bttribute. Otherwise they both will be zero, in which cbse defbult
+     * resolution should be fine. Consider cblling getXRes()/getResY()
+     * rbther thbn bccessing the fields directly
      */
-    jboolean err;
+    jboolebn err;
     int xRes=getIntField(env, &err, self, ATTXRES_STR);
     if (err) return -1;
     int yRes=getIntField(env, &err, self, ATTYRES_STR);
     if (err) return -1;
-    int quality=getIntField(env, &err, self, ATTQUALITY_STR);
+    int qublity=getIntField(env, &err, self, ATTQUALITY_STR);
     if (err) return -1;
     int printColor = getIntField(env, &err, self, ATTCHROMATICITY_STR);
     if (err) return -1;
     int sides = getIntField(env, &err, self, ATTSIDES_STR);
     if (err) return -1;
-    int collate = getIntField(env, &err, self, ATTCOLLATE_STR);
+    int collbte = getIntField(env, &err, self, ATTCOLLATE_STR);
     if (err) return -1;
     int copies = 1;
-    // There may be cases when driver reports it cannot handle
-    // multiple copies although it actually can .  So this modification
-    // handles that, to make sure that we report copies = 1 because
-    // we already emulated multiple copies.
-    jboolean driverHandlesCopies = getBooleanField(env, &err, self, DRIVER_COPIES_STR);
+    // There mby be cbses when driver reports it cbnnot hbndle
+    // multiple copies blthough it bctublly cbn .  So this modificbtion
+    // hbndles thbt, to mbke sure thbt we report copies = 1 becbuse
+    // we blrebdy emulbted multiple copies.
+    jboolebn driverHbndlesCopies = getBoolebnField(env, &err, self, DRIVER_COPIES_STR);
     if (err) return -1;
-    if (driverHandlesCopies) {
+    if (driverHbndlesCopies) {
        copies = getIntField(env, &err, self, ATTCOPIES_STR);
       if (err) return -1;
-    } // else "driverDoesMultipleCopies" is false, copies should be 1 (default)
-    int mediatray = getIntField(env, &err, self, ATTMEDIATRAY_STR);
+    } // else "driverDoesMultipleCopies" is fblse, copies should be 1 (defbult)
+    int medibtrby = getIntField(env, &err, self, ATTMEDIATRAY_STR);
     if (err) return -1;
-    int mediaszname = getIntField(env, &err, self, ATTMEDIASZNAME_STR);
+    int medibsznbme = getIntField(env, &err, self, ATTMEDIASZNAME_STR);
     if (err) return -1;
     int ret = 1;
 
-    if (quality && quality < 0) {
-        if (quality != devmode->dmPrintQuality) {
-            devmode->dmPrintQuality = quality;
+    if (qublity && qublity < 0) {
+        if (qublity != devmode->dmPrintQublity) {
+            devmode->dmPrintQublity = qublity;
             devmode->dmFields |= DM_PRINTQUALITY;
-            // ret of 0 means that setCapabilities needs to be called
+            // ret of 0 mebns thbt setCbpbbilities needs to be cblled
             ret = 0;
         }
     } else {
-        /* If we didn't set quality, maybe we have resolution settings. */
-        if (xRes && (xRes != devmode->dmPrintQuality)) {
-            devmode->dmPrintQuality = xRes;
+        /* If we didn't set qublity, mbybe we hbve resolution settings. */
+        if (xRes && (xRes != devmode->dmPrintQublity)) {
+            devmode->dmPrintQublity = xRes;
             devmode->dmFields |= DM_PRINTQUALITY;
         }
 
@@ -1218,8 +1218,8 @@ static int setPrintReqAttribute(JNIEnv *env, jobject self, DEVMODE* devmode) {
         devmode->dmFields |= DM_DUPLEX;
     }
 
-    if ((collate != -1) && (collate != devmode->dmCollate)) {
-        devmode->dmCollate = collate;
+    if ((collbte != -1) && (collbte != devmode->dmCollbte)) {
+        devmode->dmCollbte = collbte;
         devmode->dmFields |= DM_COLLATE;
     }
 
@@ -1228,20 +1228,20 @@ static int setPrintReqAttribute(JNIEnv *env, jobject self, DEVMODE* devmode) {
         devmode->dmFields |= DM_COPIES;
     }
 
-    if (mediatray && (mediatray != devmode->dmDefaultSource)) {
-        devmode->dmDefaultSource = mediatray;
+    if (medibtrby && (medibtrby != devmode->dmDefbultSource)) {
+        devmode->dmDefbultSource = medibtrby;
         devmode->dmFields |= DM_DEFAULTSOURCE;
     }
 
-    if (mediaszname && (mediaszname != devmode->dmPaperSize)) {
-        devmode->dmPaperSize = mediaszname;
+    if (medibsznbme && (medibsznbme != devmode->dmPbperSize)) {
+        devmode->dmPbperSize = medibsznbme;
         devmode->dmFields |= DM_PAPERSIZE;
     }
 
     return ret;
 }
 
-static LPTSTR GetPrinterPort(JNIEnv *env, LPTSTR printer) {
+stbtic LPTSTR GetPrinterPort(JNIEnv *env, LPTSTR printer) {
 
   HANDLE hPrinter;
   if (::OpenPrinter(printer, &hPrinter, NULL) == FALSE) {
@@ -1250,7 +1250,7 @@ static LPTSTR GetPrinterPort(JNIEnv *env, LPTSTR printer) {
 
   DWORD bytesReturned, bytesNeeded;
   ::GetPrinter(hPrinter, 2, NULL, 0, &bytesNeeded);
-  PRINTER_INFO_2* info2 = (PRINTER_INFO_2*)::GlobalAlloc(GPTR, bytesNeeded);
+  PRINTER_INFO_2* info2 = (PRINTER_INFO_2*)::GlobblAlloc(GPTR, bytesNeeded);
   if (info2 == NULL) {
       ::ClosePrinter(hPrinter);
       return NULL;
@@ -1260,59 +1260,59 @@ static LPTSTR GetPrinterPort(JNIEnv *env, LPTSTR printer) {
                          bytesNeeded, &bytesReturned);
   ::ClosePrinter(hPrinter);
   if (!ret) {
-    ::GlobalFree(info2);
+    ::GlobblFree(info2);
     return NULL;
   }
 
-  LPTSTR port = _wcsdup(info2->pPortName);
-  ::GlobalFree(info2);
+  LPTSTR port = _wcsdup(info2->pPortNbme);
+  ::GlobblFree(info2);
   return port;
 }
 
-static jboolean isFilePort(LPTSTR port) {
+stbtic jboolebn isFilePort(LPTSTR port) {
     return wcscmp(port, TEXT("FILE:")) == 0;
 }
 
 /*
- * This is called when printing is about to start and we have not specified
- * a file destination - which is in fact the 99.99% case.
- * We can discover from the DEVNAMES if the DC is actually associated
+ * This is cblled when printing is bbout to stbrt bnd we hbve not specified
+ * b file destinbtion - which is in fbct the 99.99% cbse.
+ * We cbn discover from the DEVNAMES if the DC is bctublly bssocibted
  * with "FILE:", which is going to occur
- * 1) if the native print dialog was used and print to file was selected, or
+ * 1) if the nbtive print diblog wbs used bnd print to file wbs selected, or
  * 2) the printer driver is configured to print to file.
- * In that former case we have a conflict since if the destination is a
- * file, JDK will normally supply that destination to StartDoc, so what
- * must have happened is the app de-associated the job from the file, but
+ * In thbt former cbse we hbve b conflict since if the destinbtion is b
+ * file, JDK will normblly supply thbt destinbtion to StbrtDoc, so whbt
+ * must hbve hbppened is the bpp de-bssocibted the job from the file, but
  * the printer DC etc is still hooked up to the file. If we find
  * the DEVNAMES specified is set to "FILE:"
- * First find out if the DC was associated with a FILE. If it is,
- * then unless that is its normal configuration, we'll get a new DC.
- * If the default destination ends with ":", this is sufficient clue
- * to windows it must be a device. Otherwise we need to create a new DC.
+ * First find out if the DC wbs bssocibted with b FILE. If it is,
+ * then unless thbt is its normbl configurbtion, we'll get b new DC.
+ * If the defbult destinbtion ends with ":", this is sufficient clue
+ * to windows it must be b device. Otherwise we need to crebte b new DC.
  */
-LPTSTR VerifyDestination(JNIEnv *env, jobject wPrinterJob) {
+LPTSTR VerifyDestinbtion(JNIEnv *env, jobject wPrinterJob) {
 
     LPTSTR dest = NULL;
     HDC printDC = AwtPrintControl::getPrintDC(env, wPrinterJob);
-    HGLOBAL hDevNames = AwtPrintControl::getPrintHDName(env, wPrinterJob);
-    if (hDevNames == NULL || printDC == NULL) {
+    HGLOBAL hDevNbmes = AwtPrintControl::getPrintHDNbme(env, wPrinterJob);
+    if (hDevNbmes == NULL || printDC == NULL) {
         return NULL;
     }
 
-    DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(hDevNames);
-    if (devnames != NULL) {
-        LPTSTR lpdevnames = (LPTSTR)devnames;
-        LPTSTR printer = lpdevnames+devnames->wDeviceOffset;
-        LPTSTR port = lpdevnames+devnames->wOutputOffset;
+    DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
+    if (devnbmes != NULL) {
+        LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+        LPTSTR printer = lpdevnbmes+devnbmes->wDeviceOffset;
+        LPTSTR port = lpdevnbmes+devnbmes->wOutputOffset;
         if (port != NULL && isFilePort(port)) {
             LPTSTR defPort = GetPrinterPort(env, printer);
-            if (!isFilePort(defPort)) { // not a FILE: port by default
+            if (!isFilePort(defPort)) { // not b FILE: port by defbult
                 size_t len = wcslen(defPort);
-                if (len > 0 && port[len-1] == L':') { // is a device port
+                if (len > 0 && port[len-1] == L':') { // is b device port
                     dest = defPort;
                 } else {
-                    /* We need to create a new DC */
-                    HDC newDC = ::CreateDC(TEXT("WINSPOOL"),
+                    /* We need to crebte b new DC */
+                    HDC newDC = ::CrebteDC(TEXT("WINSPOOL"),
                                            printer, NULL, NULL);
                     AwtPrintControl::setPrintDC(env, wPrinterJob, newDC);
                     DeleteDC(printDC);
@@ -1322,83 +1322,83 @@ LPTSTR VerifyDestination(JNIEnv *env, jobject wPrinterJob) {
                 free(defPort);
             }
         }
-        ::GlobalUnlock(hDevNames);
+        ::GlobblUnlock(hDevNbmes);
     }
     return dest;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    startDoc
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    stbrtDoc
+ * Signbture: ()V
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WPrinterJob__1startDoc(JNIEnv *env, jobject self,
-                                            jstring dest, jstring jobname) {
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WPrinterJob__1stbrtDoc(JNIEnv *env, jobject self,
+                                            jstring dest, jstring jobnbme) {
     TRY;
 
     int err = 0;
 
-    LPTSTR destination = NULL;
+    LPTSTR destinbtion = NULL;
     if (dest != NULL) {
-        destination = (LPTSTR)JNU_GetStringPlatformChars(env, dest, NULL);
-        CHECK_NULL_RETURN(destination, JNI_FALSE);
+        destinbtion = (LPTSTR)JNU_GetStringPlbtformChbrs(env, dest, NULL);
+        CHECK_NULL_RETURN(destinbtion, JNI_FALSE);
     } else {
-        destination = VerifyDestination(env, self);
+        destinbtion = VerifyDestinbtion(env, self);
     }
-    LPTSTR docname = NULL;
-    if (jobname != NULL) {
-        LPTSTR tmp = (LPTSTR)JNU_GetStringPlatformChars(env, jobname, NULL);
+    LPTSTR docnbme = NULL;
+    if (jobnbme != NULL) {
+        LPTSTR tmp = (LPTSTR)JNU_GetStringPlbtformChbrs(env, jobnbme, NULL);
         if (tmp == NULL) {
             if (dest != NULL) {
-                JNU_ReleaseStringPlatformChars(env, dest, destination);
+                JNU_RelebseStringPlbtformChbrs(env, dest, destinbtion);
             }
             return JNI_FALSE;
         }
-        docname = _tcsdup(tmp);
-        JNU_ReleaseStringPlatformChars(env, jobname, tmp);
+        docnbme = _tcsdup(tmp);
+        JNU_RelebseStringPlbtformChbrs(env, jobnbme, tmp);
     } else {
-        docname = TEXT("Java Printing");
+        docnbme = TEXT("Jbvb Printing");
     }
 
     initPrinter(env, self);
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
 
     SAVE_CONTROLWORD
-    /* We do our own rotation, so device must be in portrait mode.
-     * This should be in effect only whilst we are printing, so that
-     * if the app displays the native dialog again for the same printerjob
-     * instance, it shows the setting the user expects.
-     * So in EndDoc, and AbortDoc or if we fail out of this function,
+    /* We do our own rotbtion, so device must be in portrbit mode.
+     * This should be in effect only whilst we bre printing, so thbt
+     * if the bpp displbys the nbtive diblog bgbin for the sbme printerjob
+     * instbnce, it shows the setting the user expects.
+     * So in EndDoc, bnd AbortDoc or if we fbil out of this function,
      * we need to restore this.
      */
     HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, self);
     if (printDC != NULL && hDevMode != NULL) {
-        DEVMODE *devmode = (DEVMODE *)::GlobalLock(hDevMode);
+        DEVMODE *devmode = (DEVMODE *)::GlobblLock(hDevMode);
         bool success = true;
         if (devmode != NULL) {
                 devmode->dmFields |= DM_ORIENTATION;
-                devmode->dmOrientation = DMORIENT_PORTRAIT;
-                /* set attribute values into devmode */
+                devmode->dmOrientbtion = DMORIENT_PORTRAIT;
+                /* set bttribute vblues into devmode */
                 int ret = setPrintReqAttribute(env, self, devmode);
                 ::ResetDC(printDC, devmode);
                 RESTORE_CONTROLWORD
 
                 if (ret == 0) {
                     /*
-                      Need to read in updated device capabilities because
-                      print quality has been changed.
+                      Need to rebd in updbted device cbpbbilities becbuse
+                      print qublity hbs been chbnged.
                     */
-                    setCapabilities(env, self, printDC);
-                    if (env->ExceptionCheck()) success = false;
+                    setCbpbbilities(env, self, printDC);
+                    if (env->ExceptionCheck()) success = fblse;
                 } else if (ret < 0) {
-                    success = false;
+                    success = fblse;
                 }
         }
-        ::GlobalUnlock(hDevMode);
+        ::GlobblUnlock(hDevMode);
         if (!success) {
             if (dest != NULL) {
-                JNU_ReleaseStringPlatformChars(env, dest, destination);
+                JNU_RelebseStringPlbtformChbrs(env, dest, destinbtion);
             }
             return JNI_FALSE;
         }
@@ -1408,31 +1408,31 @@ Java_sun_awt_windows_WPrinterJob__1startDoc(JNIEnv *env, jobject self,
         DOCINFO docInfo;
         memset(&docInfo, 0, sizeof(DOCINFO));
         docInfo.cbSize = sizeof (DOCINFO);
-        docInfo.lpszDocName = docname;
+        docInfo.lpszDocNbme = docnbme;
 
-        TCHAR fullPath[_MAX_PATH];
-        if (destination != NULL) {
-            _tfullpath(fullPath, destination, _MAX_PATH);
-            docInfo.lpszOutput = fullPath;
+        TCHAR fullPbth[_MAX_PATH];
+        if (destinbtion != NULL) {
+            _tfullpbth(fullPbth, destinbtion, _MAX_PATH);
+            docInfo.lpszOutput = fullPbth;
         }
 
         docInfo.fwType = 0;
 
-        err = ::StartDoc(printDC, &docInfo);
+        err = ::StbrtDoc(printDC, &docInfo);
         RESTORE_CONTROLWORD
-        free((void*)docInfo.lpszDocName);
+        free((void*)docInfo.lpszDocNbme);
         if (err <= 0) {
-            err = GetLastError();
+            err = GetLbstError();
         } else {
             err = 0;
         }
     }
     else {
-        JNU_ThrowByName(env, PRINTEREXCEPTION_STR, "No printer found.");
+        JNU_ThrowByNbme(env, PRINTEREXCEPTION_STR, "No printer found.");
     }
 
     if (dest != NULL) {
-        JNU_ReleaseStringPlatformChars(env, dest, destination);
+        JNU_RelebseStringPlbtformChbrs(env, dest, destinbtion);
     }
 
     if (err && err != ERROR_CANCELLED) {
@@ -1448,12 +1448,12 @@ Java_sun_awt_windows_WPrinterJob__1startDoc(JNIEnv *env, jobject self,
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    endDoc
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_endDoc(JNIEnv *env, jobject self) {
+Jbvb_sun_bwt_windows_WPrinterJob_endDoc(JNIEnv *env, jobject self) {
     TRY;
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
@@ -1468,12 +1468,12 @@ Java_sun_awt_windows_WPrinterJob_endDoc(JNIEnv *env, jobject self) {
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    abortDoc
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    bbortDoc
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_abortDoc(JNIEnv *env, jobject self) {
+Jbvb_sun_bwt_windows_WPrinterJob_bbortDoc(JNIEnv *env, jobject self) {
     TRY;
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
@@ -1485,13 +1485,13 @@ Java_sun_awt_windows_WPrinterJob_abortDoc(JNIEnv *env, jobject self) {
     CATCH_BAD_ALLOC;
 }
 
-static void DeletePrintDC(HDC printDC) {
+stbtic void DeletePrintDC(HDC printDC) {
     if (printDC==NULL) {
         return;
     }
-    /* Free any GDI objects we may have selected into the DC.
-     * It is not harmful to call DeleteObject if the retrieved objects
-     * happen to be stock objects.
+    /* Free bny GDI objects we mby hbve selected into the DC.
+     * It is not hbrmful to cbll DeleteObject if the retrieved objects
+     * hbppen to be stock objects.
      */
     HBRUSH hbrush = (HBRUSH)::SelectObject(printDC,
                                            ::GetStockObject(BLACK_BRUSH));
@@ -1510,129 +1510,129 @@ static void DeletePrintDC(HDC printDC) {
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    deleteDC
- * Signature: ()V
- * Called after WPrinterJob has been GCed, not before.
+ * Signbture: ()V
+ * Cblled bfter WPrinterJob hbs been GCed, not before.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_deleteDC
-(JNIEnv *env, jclass wpjClass, jlong dc, jlong devmode, jlong devnames) {
+Jbvb_sun_bwt_windows_WPrinterJob_deleteDC
+(JNIEnv *env, jclbss wpjClbss, jlong dc, jlong devmode, jlong devnbmes) {
 
     TRY_NO_VERIFY;
 
     DeletePrintDC((HDC)dc);
 
     if ((HGLOBAL)devmode != NULL){
-         ::GlobalFree((HGLOBAL)devmode);
+         ::GlobblFree((HGLOBAL)devmode);
     }
-    if ((HGLOBAL)devnames != NULL){
-         ::GlobalFree((HGLOBAL)devnames);
+    if ((HGLOBAL)devnbmes != NULL){
+         ::GlobblFree((HGLOBAL)devnbmes);
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    deviceStartPage
- * Signature: (Ljava/awt/print/PageFormat;Ljava/awt/print/Printable;I)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    deviceStbrtPbge
+ * Signbture: (Ljbvb/bwt/print/PbgeFormbt;Ljbvb/bwt/print/Printbble;I)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_deviceStartPage
-(JNIEnv *env, jobject self, jobject format, jobject painter, jint pageIndex,
- jboolean pageChanged) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_deviceStbrtPbge
+(JNIEnv *env, jobject self, jobject formbt, jobject pbinter, jint pbgeIndex,
+ jboolebn pbgeChbnged) {
     TRY;
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
 
     if (printDC != NULL){
-        LONG retval = 0;
+        LONG retvbl = 0;
         HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, self);
-        HGLOBAL hDevNames = AwtPrintControl::getPrintHDName(env, self);
-        jboolean err;
-        WORD dmPaperSize = getPrintPaperSize(env, &err, self);
+        HGLOBAL hDevNbmes = AwtPrintControl::getPrintHDNbme(env, self);
+        jboolebn err;
+        WORD dmPbperSize = getPrintPbperSize(env, &err, self);
         if (err) return;
         SAVE_CONTROLWORD
-          // Unless the PageFormat has been changed, do not set the paper
-          // size for a new page. Doing so is unnecessary, perhaps expensive,
-          // and can lead some printers to emit the paper prematurely in
+          // Unless the PbgeFormbt hbs been chbnged, do not set the pbper
+          // size for b new pbge. Doing so is unnecessbry, perhbps expensive,
+          // bnd cbn lebd some printers to emit the pbper prembturely in
           // duplex mode.
-        if (hDevMode != NULL && hDevNames != NULL && pageChanged) {
+        if (hDevMode != NULL && hDevNbmes != NULL && pbgeChbnged) {
 
-            RectDouble paperSize;
-            RectDouble margins;
-            jobject paper = getPaper(env, format);
-            CHECK_NULL(paper);
-            getPaperValues(env, paper, &paperSize, &margins);
+            RectDouble pbperSize;
+            RectDouble mbrgins;
+            jobject pbper = getPbper(env, formbt);
+            CHECK_NULL(pbper);
+            getPbperVblues(env, pbper, &pbperSize, &mbrgins);
             JNU_CHECK_EXCEPTION(env);
-            double paperWidth, paperHeight;
-            matchPaperSize(printDC, hDevMode, hDevNames,
-                           paperSize.width,  paperSize.height,
-                           &paperWidth, &paperHeight, &dmPaperSize);
+            double pbperWidth, pbperHeight;
+            mbtchPbperSize(printDC, hDevMode, hDevNbmes,
+                           pbperSize.width,  pbperSize.height,
+                           &pbperWidth, &pbperHeight, &dmPbperSize);
 
-            DEVMODE *devmode = (DEVMODE *)::GlobalLock(hDevMode);
+            DEVMODE *devmode = (DEVMODE *)::GlobblLock(hDevMode);
             if (devmode != NULL) {
-                if (dmPaperSize == 0) {
+                if (dmPbperSize == 0) {
                   devmode->dmFields |= DM_PAPERLENGTH | DM_PAPERWIDTH
                     | DM_PAPERSIZE;
-                  devmode->dmPaperSize = DMPAPER_USER;
-                  devmode->dmPaperWidth =
-                    (short)(convertFromPoints(paperSize.width, MM_LOMETRIC));
-                  devmode->dmPaperLength =
-                    (short)(convertFromPoints(paperSize.height, MM_LOMETRIC));
+                  devmode->dmPbperSize = DMPAPER_USER;
+                  devmode->dmPbperWidth =
+                    (short)(convertFromPoints(pbperSize.width, MM_LOMETRIC));
+                  devmode->dmPbperLength =
+                    (short)(convertFromPoints(pbperSize.height, MM_LOMETRIC));
                   // sync with public devmode settings
                   {
-                    DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(hDevNames);
-                    if (devnames != NULL) {
+                    DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
+                    if (devnbmes != NULL) {
 
-                      LPTSTR lpdevnames = (LPTSTR)devnames;
-                      LPTSTR printerName = _tcsdup(lpdevnames+devnames->wDeviceOffset);
+                      LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+                      LPTSTR printerNbme = _tcsdup(lpdevnbmes+devnbmes->wDeviceOffset);
 
                       HANDLE hPrinter;
-                      if (::OpenPrinter(printerName, &hPrinter, NULL)== TRUE) {
+                      if (::OpenPrinter(printerNbme, &hPrinter, NULL)== TRUE) {
 
-                        // Need to call DocumentProperties to update change
-                        // in paper setting because some drivers do not update
-                        // it with a simple call to ResetDC.
-                        retval = ::DocumentProperties(NULL, hPrinter,printerName,
+                        // Need to cbll DocumentProperties to updbte chbnge
+                        // in pbper setting becbuse some drivers do not updbte
+                        // it with b simple cbll to ResetDC.
+                        retvbl = ::DocumentProperties(NULL, hPrinter,printerNbme,
                                              devmode, devmode,
                                              DM_IN_BUFFER|DM_OUT_BUFFER);
                         RESTORE_CONTROLWORD
 
                         ::ClosePrinter(hPrinter);
-                        free ((char*)printerName);
+                        free ((chbr*)printerNbme);
                       }
                     }
 
-                    ::GlobalUnlock(hDevNames);
+                    ::GlobblUnlock(hDevNbmes);
                   } // sync
                   HDC res = ::ResetDC(printDC, devmode);
                   RESTORE_CONTROLWORD
-                }  // if (dmPaperSize == 0)
-                // if DocumentProperties() fail
-               if (retval < 0) {
-                  ::GlobalUnlock(hDevMode);
+                }  // if (dmPbperSize == 0)
+                // if DocumentProperties() fbil
+               if (retvbl < 0) {
+                  ::GlobblUnlock(hDevMode);
                   return;
                }
             }
-            ::GlobalUnlock(hDevMode);
+            ::GlobblUnlock(hDevMode);
         }
 
-        ::StartPage(printDC);
+        ::StbrtPbge(printDC);
         RESTORE_CONTROLWORD
 
-        /* The origin for a glyph will be along the left
-         * edge of its bnounding box at the base line.
-         * The coincides with the Java text glyph origin.
+        /* The origin for b glyph will be blong the left
+         * edge of its bnounding box bt the bbse line.
+         * The coincides with the Jbvb text glyph origin.
          */
         ::SetTextAlign(printDC, TA_LEFT | TA_BASELINE);
 
-        /* The background mode is used when GDI draws text,
-         * hatched brushes and poen that are not solid.
-         * We set the mode to transparentso that when
-         * drawing text only the glyphs themselves are
-         * drawn. The boundingbox of the string is not
-         * erased to the background color.
+        /* The bbckground mode is used when GDI drbws text,
+         * hbtched brushes bnd poen thbt bre not solid.
+         * We set the mode to trbnspbrentso thbt when
+         * drbwing text only the glyphs themselves bre
+         * drbwn. The boundingbox of the string is not
+         * erbsed to the bbckground color.
          */
         ::SetBkMode(printDC, TRANSPARENT);
     }
@@ -1641,19 +1641,19 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_deviceStartPage
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    deviceEndPage
- * Signature: (Ljava/awt/print/PageFormat;Ljava/awt/print/Printable;I)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    deviceEndPbge
+ * Signbture: (Ljbvb/bwt/print/PbgeFormbt;Ljbvb/bwt/print/Printbble;I)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_deviceEndPage
-(JNIEnv *env, jobject self, jobject format, jobject painter, jint pageIndex) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_deviceEndPbge
+(JNIEnv *env, jobject self, jobject formbt, jobject pbinter, jint pbgeIndex) {
     TRY;
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
 
     if (printDC != NULL){
         SAVE_CONTROLWORD
-        ::EndPage(printDC);
+        ::EndPbge(printDC);
         RESTORE_CONTROLWORD
     }
 
@@ -1661,86 +1661,86 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_deviceEndPage
 }
 
 /*
- * Class:     sun_awt_windows_WEmbeddedFrame
+ * Clbss:     sun_bwt_windows_WEmbeddedFrbme
  * Method:    isPrinterDC
- * Signature: (J)Z
+ * Signbture: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WEmbeddedFrame_isPrinterDC
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_windows_WEmbeddedFrbme_isPrinterDC
     (JNIEnv *env, jobject self, jlong hdc) {
 
-    HDC realHDC = (HDC)hdc;
-    if (realHDC == NULL) {
+    HDC reblHDC = (HDC)hdc;
+    if (reblHDC == NULL) {
         return JNI_FALSE;
     }
 
-    int technology = GetDeviceCaps(realHDC, TECHNOLOGY);
+    int technology = GetDeviceCbps(reblHDC, TECHNOLOGY);
 #if DEBUG_PRINTING
-     FILE *file = fopen("c:\\plog.txt", "a");
+     FILE *file = fopen("c:\\plog.txt", "b");
      fprintf(file,"tech is %d\n", technology);
      fclose(file);
 #endif //DEBUG_PRINTING
-    switch (GetDeviceCaps(realHDC, TECHNOLOGY)) {
-    case DT_RASPRINTER :
+    switch (GetDeviceCbps(reblHDC, TECHNOLOGY)) {
+    cbse DT_RASPRINTER :
         return JNI_TRUE;
-    case DT_RASDISPLAY :
-    case DT_METAFILE   :
-        if (GetObjectType(realHDC) == OBJ_ENHMETADC) {
+    cbse DT_RASDISPLAY :
+    cbse DT_METAFILE   :
+        if (GetObjectType(reblHDC) == OBJ_ENHMETADC) {
             return JNI_TRUE;
         }
-    default : return JNI_FALSE;
+    defbult : return JNI_FALSE;
     }
 }
 
 /*
- * Class:     sun_awt_windows_WEmbeddedFrame
- * Method:    printBand
- * Signature: (J[BIIIIIIIII)V
+ * Clbss:     sun_bwt_windows_WEmbeddedFrbme
+ * Method:    printBbnd
+ * Signbture: (J[BIIIIIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WEmbeddedFrame_printBand
-  (JNIEnv *env, jobject self, jlong theHDC, jbyteArray imageArray,
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WEmbeddedFrbme_printBbnd
+  (JNIEnv *env, jobject self, jlong theHDC, jbyteArrby imbgeArrby,
    jint offset, jint srcX,  jint srcY,  jint srcWidth,  jint srcHeight,
    jint destX, jint destY, jint destWidth, jint destHeight) {
 
-    if (theHDC == NULL || imageArray == NULL ||
+    if (theHDC == NULL || imbgeArrby == NULL ||
         srcWidth <= 0 || srcHeight == 0 || destWidth == 0 || destHeight <=0) {
         return;
     }
 
     HDC hDC = (HDC)theHDC;
 
-    /* The code below is commented out until its proven necessary. In its
-     * original form of PatBlit(hDC, destX,destY,destWidth, destHeight ..)
-     * it resulted in the PS driver showing a white fringe, perhaps because
-     * the PS driver enclosed the specified area rather than filling its
-     * interior. The code is believed to have been there to prevent such
-     * artefacts rather than cause them. This may have been related to
-     * the earlier implementation using findNonWhite(..) and breaking the
-     * image blit up into multiple blit calls. This currently looks as if
-     * its unnecessary as the driver performs adequate compression where
-     * such all white spans exist
+    /* The code below is commented out until its proven necessbry. In its
+     * originbl form of PbtBlit(hDC, destX,destY,destWidth, destHeight ..)
+     * it resulted in the PS driver showing b white fringe, perhbps becbuse
+     * the PS driver enclosed the specified breb rbther thbn filling its
+     * interior. The code is believed to hbve been there to prevent such
+     * brtefbcts rbther thbn cbuse them. This mby hbve been relbted to
+     * the ebrlier implementbtion using findNonWhite(..) bnd brebking the
+     * imbge blit up into multiple blit cblls. This currently looks bs if
+     * its unnecessbry bs the driver performs bdequbte compression where
+     * such bll white spbns exist
      */
 //     HGDIOBJ oldBrush =
-//      ::SelectObject(hDC, AwtBrush::Get(RGB(0xff, 0xff, 0xff))->GetHandle());
-//     ::PatBlt(hDC, destX+1, destY+1, destWidth-2, destHeight-2, PATCOPY);
+//      ::SelectObject(hDC, AwtBrush::Get(RGB(0xff, 0xff, 0xff))->GetHbndle());
+//     ::PbtBlt(hDC, destX+1, destY+1, destWidth-2, destHeight-2, PATCOPY);
 //     ::SelectObject(hDC, oldBrush);
 
     TRY;
-    jbyte *image = NULL;
+    jbyte *imbge = NULL;
     try {
-        image = (jbyte *)env->GetPrimitiveArrayCritical(imageArray, 0);
-        CHECK_NULL(image);
+        imbge = (jbyte *)env->GetPrimitiveArrbyCriticbl(imbgeArrby, 0);
+        CHECK_NULL(imbge);
         struct {
-            BITMAPINFOHEADER bmiHeader;
+            BITMAPINFOHEADER bmiHebder;
             DWORD*                 bmiColors;
-        } bitMapHeader;
+        } bitMbpHebder;
 
-        memset(&bitMapHeader,0,sizeof(bitMapHeader));
-        bitMapHeader.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        bitMapHeader.bmiHeader.biWidth = srcWidth;
-        bitMapHeader.bmiHeader.biHeight = srcHeight;
-        bitMapHeader.bmiHeader.biPlanes = 1;
-        bitMapHeader.bmiHeader.biBitCount = 24;
-        bitMapHeader.bmiHeader.biCompression = BI_RGB;
+        memset(&bitMbpHebder,0,sizeof(bitMbpHebder));
+        bitMbpHebder.bmiHebder.biSize = sizeof(BITMAPINFOHEADER);
+        bitMbpHebder.bmiHebder.biWidth = srcWidth;
+        bitMbpHebder.bmiHebder.biHeight = srcHeight;
+        bitMbpHebder.bmiHebder.biPlbnes = 1;
+        bitMbpHebder.bmiHebder.biBitCount = 24;
+        bitMbpHebder.bmiHebder.biCompression = BI_RGB;
 
         int result =
             ::StretchDIBits(hDC,
@@ -1750,90 +1750,90 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WEmbeddedFrame_printBand
                             destHeight,    // height of dest rect
                             srcX,          // left of source rect
                             srcY,          // top of source rect
-                            srcWidth,      // number of 1st source scan line
-                            srcHeight,     // number of source scan lines
-                            image+offset,  // points to the DIB
-                            (BITMAPINFO *)&bitMapHeader,
+                            srcWidth,      // number of 1st source scbn line
+                            srcHeight,     // number of source scbn lines
+                            imbge+offset,  // points to the DIB
+                            (BITMAPINFO *)&bitMbpHebder,
                             DIB_RGB_COLORS,
                             SRCCOPY);
 #if DEBUG_PRINTING
-     FILE *file = fopen("c:\\plog.txt", "a");
+     FILE *file = fopen("c:\\plog.txt", "b");
      fprintf(file,"sh=%d dh=%d sy=%d dy=%d result=%d\n", srcHeight, destHeight, srcY, destY, result);
      fclose(file);
 #endif //DEBUG_PRINTING
-    } catch (...) {
-        if (image != NULL) {
-            env->ReleasePrimitiveArrayCritical(imageArray, image, 0);
+    } cbtch (...) {
+        if (imbge != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(imbgeArrby, imbge, 0);
         }
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(imageArray, image, 0);
+    env->RelebsePrimitiveArrbyCriticbl(imbgeArrby, imbge, 0);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    printBand
- * Signature: ([BIIII)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    printBbnd
+ * Signbture: ([BIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_printBand
-  (JNIEnv *env, jobject self, jbyteArray imageArray, jint x, jint y,
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_printBbnd
+  (JNIEnv *env, jobject self, jbyteArrby imbgeArrby, jint x, jint y,
    jint width, jint height) {
 
     HDC printDC = AwtPrintControl::getPrintDC(env, self);
-    doPrintBand(env, JNI_FALSE, printDC, imageArray, x, y, width, height);
+    doPrintBbnd(env, JNI_FALSE, printDC, imbgeArrby, x, y, width, height);
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    beginPath
- * Signature: (J)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    beginPbth
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_beginPath
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_beginPbth
 (JNIEnv *env , jobject self, jlong printDC) {
     TRY;
 
-    (void) ::BeginPath((HDC)printDC);
+    (void) ::BeginPbth((HDC)printDC);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    endPath
- * Signature: (J)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    endPbth
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_endPath
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_endPbth
 (JNIEnv *env, jobject self, jlong printDC) {
     TRY;
 
-    (void) ::EndPath((HDC)printDC);
+    (void) ::EndPbth((HDC)printDC);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    fillPath
- * Signature: (J)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    fillPbth
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_fillPath
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_fillPbth
 (JNIEnv *env, jobject self, jlong printDC) {
     TRY;
 
-    (void) ::FillPath((HDC)printDC);
+    (void) ::FillPbth((HDC)printDC);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    closeFigure
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_closeFigure
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_closeFigure
 (JNIEnv *env, jobject self, jlong printDC) {
     TRY;
 
@@ -1843,12 +1843,12 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_closeFigure
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    lineTo
- * Signature: (JFF)V
+ * Signbture: (JFF)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_lineTo
-(JNIEnv *env, jobject self, jlong printDC, jfloat x, jfloat y) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_lineTo
+(JNIEnv *env, jobject self, jlong printDC, jflobt x, jflobt y) {
     TRY;
 
     (void) ::LineTo((HDC)printDC, ROUND_TO_LONG(x), ROUND_TO_LONG(y));
@@ -1858,12 +1858,12 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_lineTo
 
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    moveTo
- * Signature: (JFF)V
+ * Signbture: (JFF)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_moveTo
-(JNIEnv *env, jobject self, jlong printDC, jfloat x, jfloat y) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_moveTo
+(JNIEnv *env, jobject self, jlong printDC, jflobt x, jflobt y) {
     TRY;
 
     (void) ::MoveToEx((HDC)printDC, ROUND_TO_LONG(x), ROUND_TO_LONG(y), NULL);
@@ -1872,15 +1872,15 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_moveTo
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    polyBezierTo
- * Signature: (JFFFFFF)V
+ * Signbture: (JFFFFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_polyBezierTo
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_polyBezierTo
 (JNIEnv *env, jobject self, jlong printDC,
- jfloat control1x, jfloat control1y,
- jfloat control2x, jfloat control2y,
- jfloat endX, jfloat endY) {
+ jflobt control1x, jflobt control1y,
+ jflobt control2x, jflobt control2y,
+ jflobt endX, jflobt endY) {
 
     TRY;
 
@@ -1899,11 +1899,11 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_polyBezierTo
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    setPolyFillMode
- * Signature: (JI)V
+ * Signbture: (JI)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_setPolyFillMode
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_setPolyFillMode
 (JNIEnv *env, jobject self, jlong printDC, jint fillRule) {
     TRY;
 
@@ -1913,16 +1913,16 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_setPolyFillMode
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    selectSolidBrush
- * Signature: (JIII)V
+ * Signbture: (JIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_selectSolidBrush
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_selectSolidBrush
 (JNIEnv *env, jobject self, jlong printDC, jint red, jint green, jint blue) {
 
     TRY;
 
-    HBRUSH colorBrush = ::CreateSolidBrush(RGB(red, green, blue));
+    HBRUSH colorBrush = ::CrebteSolidBrush(RGB(red, green, blue));
     HBRUSH oldBrush = (HBRUSH)::SelectObject((HDC)printDC, colorBrush);
     DeleteObject(oldBrush);
 
@@ -1930,11 +1930,11 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_selectSolidBrush
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    getPenX
- * Signature: (J)I
+ * Signbture: (J)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WPrinterJob_getPenX
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrinterJob_getPenX
 (JNIEnv *env, jobject self, jlong printDC) {
 
     TRY;
@@ -1948,11 +1948,11 @@ JNIEXPORT jint JNICALL Java_sun_awt_windows_WPrinterJob_getPenX
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    getPenY
- * Signature: (J)I
+ * Signbture: (J)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WPrinterJob_getPenY
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrinterJob_getPenY
 (JNIEnv *env, jobject self, jlong printDC) {
 
     TRY;
@@ -1966,29 +1966,29 @@ JNIEXPORT jint JNICALL Java_sun_awt_windows_WPrinterJob_getPenY
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    selectClipPath
- * Signature: (J)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    selectClipPbth
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_selectClipPath
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_selectClipPbth
 (JNIEnv *env, jobject self, jlong printDC) {
 
     TRY;
 
-    ::SelectClipPath((HDC)printDC, RGN_COPY);
+    ::SelectClipPbth((HDC)printDC, RGN_COPY);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    frameRect
- * Signature: (JFFFF)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    frbmeRect
+ * Signbture: (JFFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_frameRect
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_frbmeRect
 (JNIEnv *env, jobject self, jlong printDC,
- jfloat x, jfloat y, jfloat width, jfloat height) {
+ jflobt x, jflobt y, jflobt width, jflobt height) {
 
   TRY;
 
@@ -2011,13 +2011,13 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_frameRect
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    fillRect
- * Signature: (JFFFFIII)V
+ * Signbture: (JFFFFIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_fillRect
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_fillRect
 (JNIEnv *env, jobject self, jlong printDC,
- jfloat x, jfloat y, jfloat width, jfloat height,
+ jflobt x, jflobt y, jflobt width, jflobt height,
  jint red, jint green, jint blue) {
 
   TRY;
@@ -2028,7 +2028,7 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_fillRect
   rect.right = ROUND_TO_LONG(x+width);
   rect.bottom = ROUND_TO_LONG(y+height);
 
-  HBRUSH brush = ::CreateSolidBrush(RGB(red, green, blue));
+  HBRUSH brush = ::CrebteSolidBrush(RGB(red, green, blue));
 
   if (brush != NULL) {
     ::FillRect((HDC)printDC, (LPRECT) &rect, brush);
@@ -2040,17 +2040,17 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_fillRect
 
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    selectPen
- * Signature: (JFIII)V
+ * Signbture: (JFIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_selectPen
-(JNIEnv *env, jobject self, jlong printDC, jfloat width,
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_selectPen
+(JNIEnv *env, jobject self, jlong printDC, jflobt width,
  jint red, jint green, jint blue) {
 
   TRY;
 
-  HPEN hpen =  ::CreatePen(PS_SOLID, ROUND_TO_LONG(width),
+  HPEN hpen =  ::CrebtePen(PS_SOLID, ROUND_TO_LONG(width),
                            RGB(red, green, blue));
 
   if (hpen != NULL) {
@@ -2066,12 +2066,12 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_selectPen
 
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    selectStylePen
- * Signature: (JJJFIII)Z
+ * Signbture: (JJJFIII)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WPrinterJob_selectStylePen
-(JNIEnv *env, jobject self, jlong printDC, jlong cap, jlong join, jfloat width,
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_windows_WPrinterJob_selectStylePen
+(JNIEnv *env, jobject self, jlong printDC, jlong cbp, jlong join, jflobt width,
  jint red, jint green, jint blue) {
 
   TRY;
@@ -2080,9 +2080,9 @@ JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WPrinterJob_selectStylePen
 
   logBrush.lbStyle = PS_SOLID ;
   logBrush.lbColor = RGB(red, green, blue);
-  logBrush.lbHatch = 0 ;
+  logBrush.lbHbtch = 0 ;
 
-  HPEN hpen =  ::ExtCreatePen(PS_GEOMETRIC | PS_SOLID | (DWORD)cap
+  HPEN hpen =  ::ExtCrebtePen(PS_GEOMETRIC | PS_SOLID | (DWORD)cbp
                               | (DWORD)join, ROUND_TO_LONG(width),
                               &logBrush, 0, NULL);
 
@@ -2100,256 +2100,256 @@ JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WPrinterJob_selectStylePen
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    setFont
- * Signature: (JLjava/lang/String;FZZIF)Z
+ * Signbture: (JLjbvb/lbng/String;FZZIF)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WPrinterJob_setFont
-  (JNIEnv *env, jobject self, jlong printDC, jstring fontName,
-   jfloat fontSize, jboolean isBold, jboolean isItalic, jint rotation,
-   jfloat awScale)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_windows_WPrinterJob_setFont
+  (JNIEnv *env, jobject self, jlong printDC, jstring fontNbme,
+   jflobt fontSize, jboolebn isBold, jboolebn isItblic, jint rotbtion,
+   jflobt bwScble)
 {
-    jboolean didSetFont = JNI_FALSE;
+    jboolebn didSetFont = JNI_FALSE;
 
     didSetFont = jFontToWFontW(env, (HDC)printDC,
-                               fontName,
+                               fontNbme,
                                fontSize,
                                isBold,
-                               isItalic,
-                               rotation,
-                               awScale);
+                               isItblic,
+                               rotbtion,
+                               bwScble);
 
     return didSetFont;
 }
 
 /**
- * Try to convert a java font to a GDI font. On entry, 'printDC',
- * is the device context we want to draw into. 'fontName' is
- * the name of the font to be matched and 'fontSize' is the
- * size of the font in device coordinates. If there is an
- * equivalent GDI font then this function sets that font
- * into 'printDC' and returns a 'true'. If there is no equivalent
- * font then 'false' is returned.
+ * Try to convert b jbvb font to b GDI font. On entry, 'printDC',
+ * is the device context we wbnt to drbw into. 'fontNbme' is
+ * the nbme of the font to be mbtched bnd 'fontSize' is the
+ * size of the font in device coordinbtes. If there is bn
+ * equivblent GDI font then this function sets thbt font
+ * into 'printDC' bnd returns b 'true'. If there is no equivblent
+ * font then 'fblse' is returned.
  */
-static jboolean jFontToWFontA(JNIEnv *env, HDC printDC, jstring fontName,
-                        jfloat fontSize, jboolean isBold, jboolean isItalic,
-                        jint rotation, jfloat awScale)
+stbtic jboolebn jFontToWFontA(JNIEnv *env, HDC printDC, jstring fontNbme,
+                        jflobt fontSize, jboolebn isBold, jboolebn isItblic,
+                        jint rotbtion, jflobt bwScble)
 {
     LOGFONTA lf;
-    LOGFONTA matchedLogFont;
-    BOOL foundFont = false;     // Assume we didn't find a matching GDI font.
+    LOGFONTA mbtchedLogFont;
+    BOOL foundFont = fblse;     // Assume we didn't find b mbtching GDI font.
 
-    memset(&matchedLogFont, 0, sizeof(matchedLogFont));
+    memset(&mbtchedLogFont, 0, sizeof(mbtchedLogFont));
 
-    LPCWSTR fontNameW = JNU_GetStringPlatformChars(env, fontName, NULL);
+    LPCWSTR fontNbmeW = JNU_GetStringPlbtformChbrs(env, fontNbme, NULL);
 
 
-    /* Some fontnames of Non-ASCII fonts like 'MS Minchou' are themselves
-     * Non-ASCII.  They are assumed to be written in Unicode.
-     * Hereby, they are converted into platform codeset.
+    /* Some fontnbmes of Non-ASCII fonts like 'MS Minchou' bre themselves
+     * Non-ASCII.  They bre bssumed to be written in Unicode.
+     * Hereby, they bre converted into plbtform codeset.
      */
-    int maxlen = static_cast<int>(sizeof(lf.lfFaceName)) - 1;
-    // maxlen is int due to cbMultiByte parameter is int
-    int destLen = WideCharToMultiByte(CP_ACP,        // convert to ASCII code page
-                                      0,             // flags
-                                      fontNameW,     // Unicode string
-                                      -1,            // Unicode length is calculated automatically
-                                      lf.lfFaceName, // Put ASCII string here
-                                      maxlen,        // max len
-                                      NULL,          // default handling of unmappables
-                                      NULL);         // do not care if def char is used
+    int mbxlen = stbtic_cbst<int>(sizeof(lf.lfFbceNbme)) - 1;
+    // mbxlen is int due to cbMultiByte pbrbmeter is int
+    int destLen = WideChbrToMultiByte(CP_ACP,        // convert to ASCII code pbge
+                                      0,             // flbgs
+                                      fontNbmeW,     // Unicode string
+                                      -1,            // Unicode length is cblculbted butombticblly
+                                      lf.lfFbceNbme, // Put ASCII string here
+                                      mbxlen,        // mbx len
+                                      NULL,          // defbult hbndling of unmbppbbles
+                                      NULL);         // do not cbre if def chbr is used
 
-    /* If WideCharToMultiByte succeeded then the number
-     * of bytes it copied into the face name buffer will
-     * be creater than zero and we just need to NULL terminate
-     * the string. If there was an error then the number of
-     * bytes copied is zero and we can not match the font.
+    /* If WideChbrToMultiByte succeeded then the number
+     * of bytes it copied into the fbce nbme buffer will
+     * be crebter thbn zero bnd we just need to NULL terminbte
+     * the string. If there wbs bn error then the number of
+     * bytes copied is zero bnd we cbn not mbtch the font.
      */
     if (destLen > 0) {
 
-        DASSERT(destLen < sizeof(lf.lfFaceName));
-        lf.lfFaceName[destLen] = '\0';
-        lf.lfCharSet = DEFAULT_CHARSET;
-        lf.lfPitchAndFamily = 0;
+        DASSERT(destLen < sizeof(lf.lfFbceNbme));
+        lf.lfFbceNbme[destLen] = '\0';
+        lf.lfChbrSet = DEFAULT_CHARSET;
+        lf.lfPitchAndFbmily = 0;
 
-        foundFont = !EnumFontFamiliesExA((HDC)printDC, &lf,
+        foundFont = !EnumFontFbmiliesExA((HDC)printDC, &lf,
                                         (FONTENUMPROCA) fontEnumProcA,
-                                        (LPARAM) &matchedLogFont, 0);
+                                        (LPARAM) &mbtchedLogFont, 0);
     }
 
 
     if (foundFont) {
 
-        /* Build a font of the requested size with no
-         * width modifications. A negative font height
-         * tells GDI that we want that values absolute
-         * value as the font's point size. If the font
-         * is successfully built then set it as the current
+        /* Build b font of the requested size with no
+         * width modificbtions. A negbtive font height
+         * tells GDI thbt we wbnt thbt vblues bbsolute
+         * vblue bs the font's point size. If the font
+         * is successfully built then set it bs the current
          * GDI font.
          */
-        matchedLogFont.lfHeight = -ROUND_TO_LONG(fontSize);
-        matchedLogFont.lfWidth = 0;
-        matchedLogFont.lfEscapement = rotation;
-        matchedLogFont.lfOrientation = rotation;
-        matchedLogFont.lfUnderline = 0;
-        matchedLogFont.lfStrikeOut = 0;
+        mbtchedLogFont.lfHeight = -ROUND_TO_LONG(fontSize);
+        mbtchedLogFont.lfWidth = 0;
+        mbtchedLogFont.lfEscbpement = rotbtion;
+        mbtchedLogFont.lfOrientbtion = rotbtion;
+        mbtchedLogFont.lfUnderline = 0;
+        mbtchedLogFont.lfStrikeOut = 0;
 
-        /* Force bold or italic if requested. The font name
-           such as Arial Bold may have already set a weight
-           so here we just try to increase it.
+        /* Force bold or itblic if requested. The font nbme
+           such bs Aribl Bold mby hbve blrebdy set b weight
+           so here we just try to increbse it.
         */
         if (isBold) {
-            matchedLogFont.lfWeight = embolden(matchedLogFont.lfWeight);
+            mbtchedLogFont.lfWeight = embolden(mbtchedLogFont.lfWeight);
         } else {
-            matchedLogFont.lfWeight = FW_REGULAR;
+            mbtchedLogFont.lfWeight = FW_REGULAR;
         }
 
-        if (isItalic) {
-            matchedLogFont.lfItalic = 0xff;     // TRUE
+        if (isItblic) {
+            mbtchedLogFont.lfItblic = 0xff;     // TRUE
         }  else {
-            matchedLogFont.lfItalic = FALSE;
+            mbtchedLogFont.lfItblic = FALSE;
         }
 
-        HFONT font = CreateFontIndirectA(&matchedLogFont);
+        HFONT font = CrebteFontIndirectA(&mbtchedLogFont);
         if (font) {
             HFONT oldFont = (HFONT)::SelectObject(printDC, font);
             if (oldFont != NULL) {
                 ::DeleteObject(oldFont);
-                if (awScale != 1.0) {
+                if (bwScble != 1.0) {
                     TEXTMETRIC tm;
-                    DWORD avgWidth;
+                    DWORD bvgWidth;
                     GetTextMetrics(printDC, &tm);
-                    avgWidth = tm.tmAveCharWidth;
-                    matchedLogFont.lfWidth = (LONG)((fabs)(avgWidth*awScale));
-                    font = CreateFontIndirectA(&matchedLogFont);
+                    bvgWidth = tm.tmAveChbrWidth;
+                    mbtchedLogFont.lfWidth = (LONG)((fbbs)(bvgWidth*bwScble));
+                    font = CrebteFontIndirectA(&mbtchedLogFont);
                     if (font) {
                         oldFont = (HFONT)::SelectObject(printDC, font);
                         if (oldFont != NULL) {
                             ::DeleteObject(oldFont);
                             GetTextMetrics(printDC, &tm);
                         } else {
-                            foundFont = false;
+                            foundFont = fblse;
                         }
                     } else {
-                        foundFont = false;
+                        foundFont = fblse;
                     }
                 }
             } else {
-                foundFont = false;
+                foundFont = fblse;
             }
         } else {
-            foundFont = false;
+            foundFont = fblse;
         }
     }
 
-    JNU_ReleaseStringPlatformChars(env, fontName, fontNameW);
+    JNU_RelebseStringPlbtformChbrs(env, fontNbme, fontNbmeW);
 
     return foundFont ? JNI_TRUE : JNI_FALSE;
 }
 
 /**
- * Try to convert a java font to a GDI font. On entry, 'printDC',
- * is the device context we want to draw into. 'fontName' is
- * the name of the font to be matched and 'fontSize' is the
- * size of the font in device coordinates. If there is an
- * equivalent GDI font then this function sets that font
- * into 'printDC' and returns a 'true'. If there is no equivalent
- * font then 'false' is returned.
+ * Try to convert b jbvb font to b GDI font. On entry, 'printDC',
+ * is the device context we wbnt to drbw into. 'fontNbme' is
+ * the nbme of the font to be mbtched bnd 'fontSize' is the
+ * size of the font in device coordinbtes. If there is bn
+ * equivblent GDI font then this function sets thbt font
+ * into 'printDC' bnd returns b 'true'. If there is no equivblent
+ * font then 'fblse' is returned.
  */
-static jboolean jFontToWFontW(JNIEnv *env, HDC printDC, jstring fontName,
-                        jfloat fontSize, jboolean isBold, jboolean isItalic,
-                        jint rotation, jfloat awScale)
+stbtic jboolebn jFontToWFontW(JNIEnv *env, HDC printDC, jstring fontNbme,
+                        jflobt fontSize, jboolebn isBold, jboolebn isItblic,
+                        jint rotbtion, jflobt bwScble)
 {
     LOGFONTW lf;
-    LOGFONTW matchedLogFont;
-    BOOL foundFont = false;     // Assume we didn't find a matching GDI font.
+    LOGFONTW mbtchedLogFont;
+    BOOL foundFont = fblse;     // Assume we didn't find b mbtching GDI font.
 
-    memset(&matchedLogFont, 0, sizeof(matchedLogFont));
+    memset(&mbtchedLogFont, 0, sizeof(mbtchedLogFont));
 
-    LPCWSTR fontNameW = JNU_GetStringPlatformChars(env, fontName, NULL);
-    CHECK_NULL_RETURN(fontNameW, JNI_FALSE);
+    LPCWSTR fontNbmeW = JNU_GetStringPlbtformChbrs(env, fontNbme, NULL);
+    CHECK_NULL_RETURN(fontNbmeW, JNI_FALSE);
 
-    /* Describe the GDI fonts we want enumerated. We
-     * simply supply the java font name and let GDI
-     * do the matching. If the java font name is
-     * longer than the GDI maximum font lenght then
-     * we can't convert the font.
+    /* Describe the GDI fonts we wbnt enumerbted. We
+     * simply supply the jbvb font nbme bnd let GDI
+     * do the mbtching. If the jbvb font nbme is
+     * longer thbn the GDI mbximum font lenght then
+     * we cbn't convert the font.
      */
-    size_t nameLen = wcslen(fontNameW);
-    if (nameLen < (sizeof(lf.lfFaceName) / sizeof(lf.lfFaceName[0]))) {
+    size_t nbmeLen = wcslen(fontNbmeW);
+    if (nbmeLen < (sizeof(lf.lfFbceNbme) / sizeof(lf.lfFbceNbme[0]))) {
 
-        wcscpy(lf.lfFaceName, fontNameW);
+        wcscpy(lf.lfFbceNbme, fontNbmeW);
 
-        lf.lfCharSet = DEFAULT_CHARSET;
-        lf.lfPitchAndFamily = 0;
+        lf.lfChbrSet = DEFAULT_CHARSET;
+        lf.lfPitchAndFbmily = 0;
 
-        foundFont = !::EnumFontFamiliesEx((HDC)printDC, &lf,
+        foundFont = !::EnumFontFbmiliesEx((HDC)printDC, &lf,
                                         (FONTENUMPROCW) fontEnumProcW,
-                                        (LPARAM) &matchedLogFont, 0);
+                                        (LPARAM) &mbtchedLogFont, 0);
     }
 
-    JNU_ReleaseStringPlatformChars(env, fontName, fontNameW);
+    JNU_RelebseStringPlbtformChbrs(env, fontNbme, fontNbmeW);
 
     if (!foundFont) {
         return JNI_FALSE;
     }
 
-    /* Build a font of the requested size with no
-     * width modifications. A negative font height
-     * tells GDI that we want that values absolute
-     * value as the font's point size. If the font
-     * is successfully built then set it as the current
+    /* Build b font of the requested size with no
+     * width modificbtions. A negbtive font height
+     * tells GDI thbt we wbnt thbt vblues bbsolute
+     * vblue bs the font's point size. If the font
+     * is successfully built then set it bs the current
      * GDI font.
      */
-    matchedLogFont.lfHeight = -ROUND_TO_LONG(fontSize);
-    matchedLogFont.lfWidth = 0;
-    matchedLogFont.lfEscapement = rotation;
-    matchedLogFont.lfOrientation = rotation;
-    matchedLogFont.lfUnderline = 0;
-    matchedLogFont.lfStrikeOut = 0;
+    mbtchedLogFont.lfHeight = -ROUND_TO_LONG(fontSize);
+    mbtchedLogFont.lfWidth = 0;
+    mbtchedLogFont.lfEscbpement = rotbtion;
+    mbtchedLogFont.lfOrientbtion = rotbtion;
+    mbtchedLogFont.lfUnderline = 0;
+    mbtchedLogFont.lfStrikeOut = 0;
 
-    /* Force bold or italic if requested. The font name
-     * such as Arial Bold may have already set a weight
-     * so here we just try to increase it.
+    /* Force bold or itblic if requested. The font nbme
+     * such bs Aribl Bold mby hbve blrebdy set b weight
+     * so here we just try to increbse it.
      */
     if (isBold) {
-        matchedLogFont.lfWeight = embolden(matchedLogFont.lfWeight);
+        mbtchedLogFont.lfWeight = embolden(mbtchedLogFont.lfWeight);
     } else {
-        matchedLogFont.lfWeight = FW_REGULAR;
+        mbtchedLogFont.lfWeight = FW_REGULAR;
     }
 
-    if (isItalic) {
-        matchedLogFont.lfItalic = 0xff;     // TRUE
+    if (isItblic) {
+        mbtchedLogFont.lfItblic = 0xff;     // TRUE
     } else {
-        matchedLogFont.lfItalic = FALSE;
+        mbtchedLogFont.lfItblic = FALSE;
     }
 
-    //Debug: dumpLogFont(&matchedLogFont);
+    //Debug: dumpLogFont(&mbtchedLogFont);
 
-    HFONT font = ::CreateFontIndirect(&matchedLogFont);
+    HFONT font = ::CrebteFontIndirect(&mbtchedLogFont);
     if (font == NULL) {
         return JNI_FALSE;
     }
 
     HFONT oldFont = (HFONT)::SelectObject(printDC, font);
-    if (oldFont == NULL) { // select failed.
+    if (oldFont == NULL) { // select fbiled.
         ::DeleteObject(font);
         return JNI_FALSE;
     }
     ::DeleteObject(oldFont); // no longer needed.
 
-    /* If there is a non-uniform scale then get a new version
-     * of the font with an average width that is condensed or
-     * expanded to match the average width scaling factor.
-     * This is not valid for shearing transforms.
+    /* If there is b non-uniform scble then get b new version
+     * of the font with bn bverbge width thbt is condensed or
+     * expbnded to mbtch the bverbge width scbling fbctor.
+     * This is not vblid for shebring trbnsforms.
      */
-    if (awScale != 1.0) {
+    if (bwScble != 1.0) {
         TEXTMETRIC tm;
-        DWORD avgWidth;
+        DWORD bvgWidth;
         GetTextMetrics(printDC, &tm);
-        avgWidth = tm.tmAveCharWidth;
-        matchedLogFont.lfWidth = (LONG)((fabs)(avgWidth*awScale));
-        font = ::CreateFontIndirect(&matchedLogFont);
+        bvgWidth = tm.tmAveChbrWidth;
+        mbtchedLogFont.lfWidth = (LONG)((fbbs)(bvgWidth*bwScble));
+        font = ::CrebteFontIndirect(&mbtchedLogFont);
         if (font == NULL) {
             return JNI_FALSE;
         }
@@ -2366,68 +2366,68 @@ static jboolean jFontToWFontW(JNIEnv *env, HDC printDC, jstring fontName,
 }
 
 /**
- * Invoked by GDI as a result of the EnumFontFamiliesExW
- * call this routine choses a GDI font that matches
- * a Java font. When a match is found then function
- * returns a zero result to terminate the EnumFontFamiliesExW
- * call. The information about the chosen font is copied into
- * the LOGFONTW structure pointed to by 'lParam'.
+ * Invoked by GDI bs b result of the EnumFontFbmiliesExW
+ * cbll this routine choses b GDI font thbt mbtches
+ * b Jbvb font. When b mbtch is found then function
+ * returns b zero result to terminbte the EnumFontFbmiliesExW
+ * cbll. The informbtion bbout the chosen font is copied into
+ * the LOGFONTW structure pointed to by 'lPbrbm'.
  */
-static int CALLBACK fontEnumProcW(ENUMLOGFONTEXW *logfont,// logical-font data
-                    NEWTEXTMETRICEX *lpntme,              // physical-font data
+stbtic int CALLBACK fontEnumProcW(ENUMLOGFONTEXW *logfont,// logicbl-font dbtb
+                    NEWTEXTMETRICEX *lpntme,              // physicbl-font dbtb
                     int FontType,                         // type of font
-                    LPARAM lParam)
+                    LPARAM lPbrbm)
 {
-    LOGFONTW *matchedLogFont = (LOGFONTW *) lParam;
-    int stop = 0;          // Take the first style found.
+    LOGFONTW *mbtchedLogFont = (LOGFONTW *) lPbrbm;
+    int stop = 0;          // Tbke the first style found.
 
-    if (matchedLogFont != NULL) {
-        *matchedLogFont = logfont->elfLogFont;
+    if (mbtchedLogFont != NULL) {
+        *mbtchedLogFont = logfont->elfLogFont;
     }
 
     return stop;
 }
 
 /**
- * Invoked by GDI as a result of the EnumFontFamiliesExA
- * call this routine choses a GDI font that matches
- * a Java font. When a match is found then function
- * returns a zero result to terminate the EnumFontFamiliesExA
- * call. The information about the chosen font is copied into
- * the LOGFONTA structure pointed to by 'lParam'.
+ * Invoked by GDI bs b result of the EnumFontFbmiliesExA
+ * cbll this routine choses b GDI font thbt mbtches
+ * b Jbvb font. When b mbtch is found then function
+ * returns b zero result to terminbte the EnumFontFbmiliesExA
+ * cbll. The informbtion bbout the chosen font is copied into
+ * the LOGFONTA structure pointed to by 'lPbrbm'.
  */
-static int CALLBACK fontEnumProcA(ENUMLOGFONTEXA *logfont,// logical-font data
-                    NEWTEXTMETRICEX *lpntme,              // physical-font data
+stbtic int CALLBACK fontEnumProcA(ENUMLOGFONTEXA *logfont,// logicbl-font dbtb
+                    NEWTEXTMETRICEX *lpntme,              // physicbl-font dbtb
                     int FontType,                         // type of font
-                    LPARAM lParam)
+                    LPARAM lPbrbm)
 {
-    LOGFONTA *matchedLogFont = (LOGFONTA *) lParam;
-    int stop = 0;          // Take the first style found.
+    LOGFONTA *mbtchedLogFont = (LOGFONTA *) lPbrbm;
+    int stop = 0;          // Tbke the first style found.
 
-    if (matchedLogFont != NULL) {
-        *matchedLogFont = logfont->elfLogFont;
+    if (mbtchedLogFont != NULL) {
+        *mbtchedLogFont = logfont->elfLogFont;
     }
 
     return stop;
 }
 
 /**
- * Given the weight of a font from a GDI LOGFONT
- * structure, return a new weight indicating a
+ * Given the weight of b font from b GDI LOGFONT
+ * structure, return b new weight indicbting b
  * bolder font.
  */
-static int embolden(int currentWeight)
+stbtic int embolden(int currentWeight)
 {
 
-    /* If the font is less than bold then make
-     * it bold. In real life this will mean making
-     * a FW_NORMAL font bold.
+    /* If the font is less thbn bold then mbke
+     * it bold. In rebl life this will mebn mbking
+     * b FW_NORMAL font bold.
      */
     if (currentWeight < FW_BOLD) {
         currentWeight = FW_BOLD;
 
-    /* If the font is already bold or bolder
-     * then just increase the weight. This will
+    /* If the font is blrebdy bold or bolder
+     * then just increbse the weight. This will
      * not be visible with GDI in Win95 or NT4.
      */
     } else {
@@ -2441,349 +2441,349 @@ static int embolden(int currentWeight)
 }
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    setTextColor
- * Signature: (JIII)V
+ * Signbture: (JIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_setTextColor
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_setTextColor
 (JNIEnv *env, jobject self, jlong printDC, jint red, jint green, jint blue) {
 
     (void) ::SetTextColor( (HDC)printDC, RGB(red, green, blue));
 
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WPrinterJob_getGDIAdvance
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WPrinterJob_getGDIAdvbnce
     (JNIEnv *env, jobject self, jlong printDC, jstring text)
 {
     SIZE size;
-    LPCWSTR wText = JNU_GetStringPlatformChars(env, text, NULL);
+    LPCWSTR wText = JNU_GetStringPlbtformChbrs(env, text, NULL);
     CHECK_NULL_RETURN(wText, 0);
     size_t strLen = wcslen(wText);
     BOOL ok = GetTextExtentPoint32((HDC)printDC, wText, (int)strLen, &size);
-    JNU_ReleaseStringPlatformChars(env, text, wText);
+    JNU_RelebseStringPlbtformChbrs(env, text, wText);
     return ok ? size.cx : 0;
 }
 
 
 
 /*
- * ETO_PDY is conditionally defined in wingdi.h as it is available
- * only on Windows 2000 and later. ie it requires the application
- * define that it is targeting these APIS by placing
+ * ETO_PDY is conditionblly defined in wingdi.h bs it is bvbilbble
+ * only on Windows 2000 bnd lbter. ie it requires the bpplicbtion
+ * define thbt it is tbrgeting these APIS by plbcing
  * #define _WIN32_WINNT 0x0500
- * and perhaps
+ * bnd perhbps
  * #define WINVER 0x5000
- * before including the headers
- * But this causes many problems for AWT headers subsequently included.
- * So instead hard code the value of the flag as our own macro
- * If for any reason this code is executed on Win 9x then this will
- * not be understood and the advances array will be misinterpreted.
- * So we don't use that it in that case and restrict ourselves to x advances.
- * Its possible in some cases that text would then not print as expected.
- * However we will not normally supply y advances so this is a less likely
- * code path and its not worth worrying about in we will not in future
- * support win9x - and definitely not to this extent.
+ * before including the hebders
+ * But this cbuses mbny problems for AWT hebders subsequently included.
+ * So instebd hbrd code the vblue of the flbg bs our own mbcro
+ * If for bny rebson this code is executed on Win 9x then this will
+ * not be understood bnd the bdvbnces brrby will be misinterpreted.
+ * So we don't use thbt it in thbt cbse bnd restrict ourselves to x bdvbnces.
+ * Its possible in some cbses thbt text would then not print bs expected.
+ * However we will not normblly supply y bdvbnces so this is b less likely
+ * code pbth bnd its not worth worrying bbout in we will not in future
+ * support win9x - bnd definitely not to this extent.
  */
 #define J2D_ETO_PDY 0x2000
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
+ * Clbss:     sun_bwt_windows_WPrinterJob
  * Method:    textOut
- * Signature: (JLjava/lang/String;BFF[F)V
+ * Signbture: (JLjbvb/lbng/String;BFF[F)V
  *
- * Generate GDI text calls for the unicode string
+ * Generbte GDI text cblls for the unicode string
  * <code>text</code> into the device context
  * <code>printDC</code>. The text string is
- * positioned at <code>x</code>, <code>y</code>.
- * The positioning of each glyph in the string
+ * positioned bt <code>x</code>, <code>y</code>.
+ * The positioning of ebch glyph in the string
  * is determined by windows.
  * If 'glyphCodes' is true then the string is 16 bit glyph indices
- * into the font, not character codes.
- * strLen needs to be passed in for the glyphCodes case since its possible
- * the missing glyph code may be present, and that is always zero, which
- * would be misinterpreted by GDI and the string functions as null termination
+ * into the font, not chbrbcter codes.
+ * strLen needs to be pbssed in for the glyphCodes cbse since its possible
+ * the missing glyph code mby be present, bnd thbt is blwbys zero, which
+ * would be misinterpreted by GDI bnd the string functions bs null terminbtion
  * of the string.
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_textOut
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_textOut
 (JNIEnv *env, jobject self, jlong printDC, jstring text, jint strLen,
-     boolean glyphCodes, jfloat x, jfloat y, jfloatArray positions)
+     boolebn glyphCodes, jflobt x, jflobt y, jflobtArrby positions)
 {
 
     long posX = ROUND_TO_LONG(x);
     long posY = ROUND_TO_LONG(y);
-    int flags = (glyphCodes !=0) ? ETO_GLYPH_INDEX : 0;
-    LPCWSTR wText = JNU_GetStringPlatformChars(env, text, NULL);
+    int flbgs = (glyphCodes !=0) ? ETO_GLYPH_INDEX : 0;
+    LPCWSTR wText = JNU_GetStringPlbtformChbrs(env, text, NULL);
     CHECK_NULL(wText);
 
-    int *advances = NULL, *xadvances = NULL, *xyadvances = NULL;
-    BOOL useYAdvances = FALSE;
-    jfloat *glyphPos = NULL;
+    int *bdvbnces = NULL, *xbdvbnces = NULL, *xybdvbnces = NULL;
+    BOOL useYAdvbnces = FALSE;
+    jflobt *glyphPos = NULL;
     if (positions != NULL) {
-        glyphPos = env->GetFloatArrayElements(positions, NULL);
+        glyphPos = env->GetFlobtArrbyElements(positions, NULL);
     }
 
-    /* We need to convert positions relative to the origin of the text
-     * into advances relative to the previous glyph.
-     * We expect to be able to allocate these small arrays.
-     * If we fail then we'll print the glyphs using their built-in advances.
-     * Because the array is of inter-character advances we only need
-     * strLen - 1 entries but Windows looks at the advance between
-     * the last character and the non-existent character we allocate
-     * space for that as well.
-     * We supply only the advances that are needed
-     * - Default advances (ie none) if GDI advances are what we want
-     * - Only X advances if the Y advances are all zero.
-     * We allocate two arrays so we can figure out on the fly which
+    /* We need to convert positions relbtive to the origin of the text
+     * into bdvbnces relbtive to the previous glyph.
+     * We expect to be bble to bllocbte these smbll brrbys.
+     * If we fbil then we'll print the glyphs using their built-in bdvbnces.
+     * Becbuse the brrby is of inter-chbrbcter bdvbnces we only need
+     * strLen - 1 entries but Windows looks bt the bdvbnce between
+     * the lbst chbrbcter bnd the non-existent chbrbcter we bllocbte
+     * spbce for thbt bs well.
+     * We supply only the bdvbnces thbt bre needed
+     * - Defbult bdvbnces (ie none) if GDI bdvbnces bre whbt we wbnt
+     * - Only X bdvbnces if the Y bdvbnces bre bll zero.
+     * We bllocbte two brrbys so we cbn figure out on the fly which
      * we need.
-     * Note that we have to add the 'error' or difference between the
-     * rounded advance and the floating point advance back into the
-     * calculation of the next advance else the sum of the integer-
-     * rounded advances will drift away from the true advance.
+     * Note thbt we hbve to bdd the 'error' or difference between the
+     * rounded bdvbnce bnd the flobting point bdvbnce bbck into the
+     * cblculbtion of the next bdvbnce else the sum of the integer-
+     * rounded bdvbnces will drift bwby from the true bdvbnce.
      */
     if (glyphPos != NULL && strLen > 0) {
         try {
-            xadvances = (int*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc,
+            xbdvbnces = (int*)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc,
                     strLen, sizeof(int));
-            xyadvances = (int*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, strLen,
+            xybdvbnces = (int*)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, strLen,
                     sizeof(int) * 2);
-        } catch (std::bad_alloc&) {
-            if (xadvances != NULL) {
-                free(xadvances);
-                xadvances = NULL;
+        } cbtch (std::bbd_blloc&) {
+            if (xbdvbnces != NULL) {
+                free(xbdvbnces);
+                xbdvbnces = NULL;
             }
-            if (xyadvances != NULL) {
-                free(xyadvances);
-                xyadvances = NULL;
+            if (xybdvbnces != NULL) {
+                free(xybdvbnces);
+                xybdvbnces = NULL;
             }
         }
     }
-    if (xadvances != NULL && xyadvances != NULL) {
-        int *inxAdvances = xadvances;
-        int *inxyAdvances = xyadvances;
-        jfloat *inGlyphPos = glyphPos;
-        jfloat lastX = *inGlyphPos++;
-        jfloat lastY = *inGlyphPos++;
-        jfloat errorX = 0, errorY = 0;
+    if (xbdvbnces != NULL && xybdvbnces != NULL) {
+        int *inxAdvbnces = xbdvbnces;
+        int *inxyAdvbnces = xybdvbnces;
+        jflobt *inGlyphPos = glyphPos;
+        jflobt lbstX = *inGlyphPos++;
+        jflobt lbstY = *inGlyphPos++;
+        jflobt errorX = 0, errorY = 0;
         for (int i = 1; i < strLen; i++) {
 
-            jfloat thisX = *inGlyphPos++;
-            jfloat thisY = *inGlyphPos++;
+            jflobt thisX = *inGlyphPos++;
+            jflobt thisY = *inGlyphPos++;
 
-            jfloat xAdvance = thisX - lastX + errorX;
-            jfloat yAdvance = thisY - lastY + errorY;
+            jflobt xAdvbnce = thisX - lbstX + errorX;
+            jflobt yAdvbnce = thisY - lbstY + errorY;
 
-            int xadv = ROUND_TO_INT(xAdvance);
-            errorX = xAdvance - xadv;
-            int yadv = ROUND_TO_INT(yAdvance);
-            errorY = yAdvance - yadv;
-            if (yadv != 0) {
-                useYAdvances = TRUE;
+            int xbdv = ROUND_TO_INT(xAdvbnce);
+            errorX = xAdvbnce - xbdv;
+            int ybdv = ROUND_TO_INT(yAdvbnce);
+            errorY = yAdvbnce - ybdv;
+            if (ybdv != 0) {
+                useYAdvbnces = TRUE;
             }
-            *inxAdvances++ = xadv;
-            *inxyAdvances++ = xadv;
-            *inxyAdvances++ = yadv;
+            *inxAdvbnces++ = xbdv;
+            *inxyAdvbnces++ = xbdv;
+            *inxyAdvbnces++ = ybdv;
 
-            lastX = thisX;
-            lastY = thisY;
+            lbstX = thisX;
+            lbstY = thisY;
         }
-        /* This is the advance from the last character.
-         * It is not technically needed, but the raster
-         * drivers, as opposed to the PostScript driver
-         * will fail to print the entire string if this
-         * value is absurdly large or absurdly negative.
+        /* This is the bdvbnce from the lbst chbrbcter.
+         * It is not technicblly needed, but the rbster
+         * drivers, bs opposed to the PostScript driver
+         * will fbil to print the entire string if this
+         * vblue is bbsurdly lbrge or bbsurdly negbtive.
          */
-        *inxAdvances = 0;
-        *inxyAdvances++ = 0;
-        *inxyAdvances = 0;
+        *inxAdvbnces = 0;
+        *inxyAdvbnces++ = 0;
+        *inxyAdvbnces = 0;
     }
 
-    if (useYAdvances) {
-        advances = xyadvances;
-        flags |= J2D_ETO_PDY;
+    if (useYAdvbnces) {
+        bdvbnces = xybdvbnces;
+        flbgs |= J2D_ETO_PDY;
     } else {
-        advances = xadvances;
+        bdvbnces = xbdvbnces;
     }
 
-    /* Done with the float array parameter, so release it. */
+    /* Done with the flobt brrby pbrbmeter, so relebse it. */
     if (glyphPos != NULL) {
-        env->ReleaseFloatArrayElements(positions, glyphPos, JNI_ABORT);
+        env->RelebseFlobtArrbyElements(positions, glyphPos, JNI_ABORT);
     }
 
-    BOOL drawn = ::ExtTextOut((HDC)printDC,
-                    posX, posY,     // starting position for the text
-                    flags,          // glyphCodes?, y advances?
-                    NULL,           // optional clipping-opaquing rectangle
-                    wText,          // the Unicode text to draw
-                    static_cast<UINT>(strLen),
-                    advances);      // intercharacter advances or NULL
+    BOOL drbwn = ::ExtTextOut((HDC)printDC,
+                    posX, posY,     // stbrting position for the text
+                    flbgs,          // glyphCodes?, y bdvbnces?
+                    NULL,           // optionbl clipping-opbquing rectbngle
+                    wText,          // the Unicode text to drbw
+                    stbtic_cbst<UINT>(strLen),
+                    bdvbnces);      // interchbrbcter bdvbnces or NULL
 
-    if (xadvances != NULL) {
-        free(xadvances);
+    if (xbdvbnces != NULL) {
+        free(xbdvbnces);
     }
-    if (xyadvances != NULL) {
-        free(xyadvances);
+    if (xybdvbnces != NULL) {
+        free(xybdvbnces);
     }
 
-    JNU_ReleaseStringPlatformChars(env, text, wText);
+    JNU_RelebseStringPlbtformChbrs(env, text, wText);
 }
 
 /**
- * Scans a 24 bit RGB DIB image looking for the first non-white line.
- * On entry, if scanLineStride is negative, 'image' points at the
- * bottom of the DIB, which is where the first scan line is.
- * Alternatively, if scanLineStride is positive, it's a top-down
- * DIB and 'image'  points to the top scan line.
- * 'numLinesP', on entry, is the number of scan lines in the image while
- * 'width' is the number of 24 bit pixels on each line. If a non-white
- * line is found in the DIB, then a pointer to the first,
- * working from the bottom, non-white scan line is returned.
- * and the number of remaining scan lines is returned in  *'numLinesP'.
- * Pixels are 3 byte BGR triples, so any byte that is not 0xff indicates
- * its a component of a non-white pixel. So we don't need to combine bytes
- * into pixels. Simply scan the image looking for any byte that is not 0xff
+ * Scbns b 24 bit RGB DIB imbge looking for the first non-white line.
+ * On entry, if scbnLineStride is negbtive, 'imbge' points bt the
+ * bottom of the DIB, which is where the first scbn line is.
+ * Alternbtively, if scbnLineStride is positive, it's b top-down
+ * DIB bnd 'imbge'  points to the top scbn line.
+ * 'numLinesP', on entry, is the number of scbn lines in the imbge while
+ * 'width' is the number of 24 bit pixels on ebch line. If b non-white
+ * line is found in the DIB, then b pointer to the first,
+ * working from the bottom, non-white scbn line is returned.
+ * bnd the number of rembining scbn lines is returned in  *'numLinesP'.
+ * Pixels bre 3 byte BGR triples, so bny byte thbt is not 0xff indicbtes
+ * its b component of b non-white pixel. So we don't need to combine bytes
+ * into pixels. Simply scbn the imbge looking for bny byte thbt is not 0xff
  */
-static jbyte *findNonWhite(jbyte *image, long sy, long width, long height,
-                          long scanLineStride, long *numLinesP) {
+stbtic jbyte *findNonWhite(jbyte *imbge, long sy, long width, long height,
+                          long scbnLineStride, long *numLinesP) {
 
     long found = -1;
     long numLines = 0;
-    jbyte *startLine = image;
-    unsigned char *inLine;
-    const unsigned char cc = (unsigned char)0xff;
+    jbyte *stbrtLine = imbge;
+    unsigned chbr *inLine;
+    const unsigned chbr cc = (unsigned chbr)0xff;
 
-    assert(image != NULL);
-    assert(0 <= sy && sy < height);
-    assert(0 < width);
-    assert(0 < height);
-    assert(numLinesP != NULL);
+    bssert(imbge != NULL);
+    bssert(0 <= sy && sy < height);
+    bssert(0 < width);
+    bssert(0 < height);
+    bssert(numLinesP != NULL);
 
     for (numLines = 0; sy < height; numLines++, sy++) {
 
-        inLine = (unsigned char*)startLine;
+        inLine = (unsigned chbr*)stbrtLine;
 
-        for (long colcomp = 0; colcomp < abs(scanLineStride); colcomp++) {
+        for (long colcomp = 0; colcomp < bbs(scbnLineStride); colcomp++) {
             if (*inLine++ != cc) {
                 found = sy;
-                break;
+                brebk;
             }
         }
 
         if(found != -1) {
-            break;
+            brebk;
         }
 
-        startLine += scanLineStride;
+        stbrtLine += scbnLineStride;
     }
 
     *numLinesP = numLines;
 
-    return found == -1 ? NULL : startLine;
+    return found == -1 ? NULL : stbrtLine;
 }
 
-/* Find the 1st scanline that's entirely white.
- * The starting scanline pointed to by 'image' may be part way through the DIB.
- * If an all white scanline is found, the return value points to the beginning
- * of the last scanline with a non-white pixel. If no all white scanlines
- * are found, the starting scanline is returned.
- * '*numLinesP' returns the number of non-white scan lines.
- * Skip the 1st scanline as its always non-white.
- * If passed scanLineStride is negative, the DIB is bottom-up,
+/* Find the 1st scbnline thbt's entirely white.
+ * The stbrting scbnline pointed to by 'imbge' mby be pbrt wby through the DIB.
+ * If bn bll white scbnline is found, the return vblue points to the beginning
+ * of the lbst scbnline with b non-white pixel. If no bll white scbnlines
+ * bre found, the stbrting scbnline is returned.
+ * '*numLinesP' returns the number of non-white scbn lines.
+ * Skip the 1st scbnline bs its blwbys non-white.
+ * If pbssed scbnLineStride is negbtive, the DIB is bottom-up,
  * otherwise it's top-down.
  */
-static jbyte *findWhite(jbyte *image, long sy, long width, long height,
-                        long scanLineStride, long *numLinesP) {
+stbtic jbyte *findWhite(jbyte *imbge, long sy, long width, long height,
+                        long scbnLineStride, long *numLinesP) {
 
     long numLines;
-    jbyte *startLine = image;
-    unsigned char *inLine;
+    jbyte *stbrtLine = imbge;
+    unsigned chbr *inLine;
     jbyte *found = NULL;
     long white;
-    const unsigned char cc = (unsigned char)0xff;
+    const unsigned chbr cc = (unsigned chbr)0xff;
 
-    assert(image != NULL);
-    assert(0 <= sy);
-    assert(0 < width);
-    assert(0 < height);
-    assert(numLinesP != NULL);
+    bssert(imbge != NULL);
+    bssert(0 <= sy);
+    bssert(0 < width);
+    bssert(0 < height);
+    bssert(numLinesP != NULL);
 
     ++sy;
     for(numLines = 1; sy < height; numLines++, sy++) {
 
-        startLine += scanLineStride;
-        inLine = (unsigned char*)startLine;
+        stbrtLine += scbnLineStride;
+        inLine = (unsigned chbr*)stbrtLine;
         white = 1;
 
-        for (long colcomp = 0; colcomp < abs(scanLineStride); colcomp++) {
+        for (long colcomp = 0; colcomp < bbs(scbnLineStride); colcomp++) {
             if (*inLine++ != cc) {
                 white = 0;
-                break;
+                brebk;
             }
         }
 
         if (white != 0) {
-           found = startLine - scanLineStride;
-           break;
+           found = stbrtLine - scbnLineStride;
+           brebk;
         }
     }
 
     *numLinesP = numLines;
 
-    return found == NULL ? startLine : found;
+    return found == NULL ? stbrtLine : found;
 
 }
 
 /*
- * Reverses the bitmap.
- * Returns pointer to reversed bitmap (DWORD aligned).
+ * Reverses the bitmbp.
+ * Returns pointer to reversed bitmbp (DWORD bligned).
  * Returns NULL if unsuccessful.
- * NOTE: Caller must free the pointer returned by calling free.
+ * NOTE: Cbller must free the pointer returned by cblling free.
  */
-static jbyte* reverseDIB(jbyte* imageBits, long srcWidth, long srcHeight,
+stbtic jbyte* reverseDIB(jbyte* imbgeBits, long srcWidth, long srcHeight,
                           int bitsperpixel) {
 
     /* get width in bytes.
-     * If the image is 24bpp, its srcWidth*3
-     * If the image is 8bpp, its just srcWidth
-     * If the image is 1bpp or 4bpp one then its rounded up to the next byte.
+     * If the imbge is 24bpp, its srcWidth*3
+     * If the imbge is 8bpp, its just srcWidth
+     * If the imbge is 1bpp or 4bpp one then its rounded up to the next byte.
      */
     long imgWidthByteSz;
     switch (bitsperpixel) {
-    case 24 : imgWidthByteSz = srcWidth * 3;
-        break;
-    case 8 :  imgWidthByteSz = srcWidth;
-        break;
-    case 1 :  imgWidthByteSz = (srcWidth + 7) / 8 ;
-        break;
-    case 4 :  imgWidthByteSz = (srcWidth + 1) / 2 ;
-        break;
-    default : /* not expected but this is OK for any exact multiple of 8 */
+    cbse 24 : imgWidthByteSz = srcWidth * 3;
+        brebk;
+    cbse 8 :  imgWidthByteSz = srcWidth;
+        brebk;
+    cbse 1 :  imgWidthByteSz = (srcWidth + 7) / 8 ;
+        brebk;
+    cbse 4 :  imgWidthByteSz = (srcWidth + 1) / 2 ;
+        brebk;
+    defbult : /* not expected but this is OK for bny exbct multiple of 8 */
         imgWidthByteSz = srcWidth * bitsperpixel / 8;
     }
 
-    int padBytes = 0;
-    /* make it DWORD aligned */
+    int pbdBytes = 0;
+    /* mbke it DWORD bligned */
     if ((imgWidthByteSz % sizeof(DWORD)) != 0)
-        padBytes = sizeof(DWORD) - (imgWidthByteSz % sizeof(DWORD));
+        pbdBytes = sizeof(DWORD) - (imgWidthByteSz % sizeof(DWORD));
 
-    jbyte* alignedImage = NULL;
+    jbyte* blignedImbge = NULL;
     try {
-        alignedImage = (jbyte*) SAFE_SIZE_ARRAY_ALLOC(safe_Malloc,
-            imgWidthByteSz+padBytes, ROUND_TO_LONG(srcHeight));
-    } catch (std::bad_alloc&) {
+        blignedImbge = (jbyte*) SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc,
+            imgWidthByteSz+pbdBytes, ROUND_TO_LONG(srcHeight));
+    } cbtch (std::bbd_blloc&) {
     }
-    long newImgSize = (imgWidthByteSz+padBytes) * ROUND_TO_LONG(srcHeight);
+    long newImgSize = (imgWidthByteSz+pbdBytes) * ROUND_TO_LONG(srcHeight);
 
-    if (alignedImage != NULL) {
-        memset(alignedImage, 0xff, newImgSize);
+    if (blignedImbge != NULL) {
+        memset(blignedImbge, 0xff, newImgSize);
 
-        jbyte* imgLinePtr = alignedImage;
+        jbyte* imgLinePtr = blignedImbge;
         for (long i=ROUND_TO_LONG(srcHeight)-1; i>=0; i--) {
-            memcpy(imgLinePtr, imageBits+(i*imgWidthByteSz),
+            memcpy(imgLinePtr, imbgeBits+(i*imgWidthByteSz),
                    imgWidthByteSz);
-            imgLinePtr += (imgWidthByteSz + padBytes);
+            imgLinePtr += (imgWidthByteSz + pbdBytes);
         }
 
-        return alignedImage;
+        return blignedImbge;
     }
     return NULL;
 }
@@ -2791,68 +2791,68 @@ static jbyte* reverseDIB(jbyte* imageBits, long srcWidth, long srcHeight,
 #if 0
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    drawImageIntRGB
- * Signature: (J[IFFFFFFFFII)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    drbwImbgeIntRGB
+ * Signbture: (J[IFFFFFFFFII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_drawImageIntRGB
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_drbwImbgeIntRGB
   (JNIEnv *env, jobject self,
-   jlong printDC, jintArray image,
-   jfloat destX, jfloat destY,
-   jfloat destWidth, jfloat destHeight,
-   jfloat srcX, jfloat srcY,
-   jfloat srcWidth, jfloat srcHeight,
-   jint srcBitMapWidth, jint srcBitMapHeight) {
+   jlong printDC, jintArrby imbge,
+   jflobt destX, jflobt destY,
+   jflobt destWidth, jflobt destHeight,
+   jflobt srcX, jflobt srcY,
+   jflobt srcWidth, jflobt srcHeight,
+   jint srcBitMbpWidth, jint srcBitMbpHeight) {
 
     int result = 0;
 
-    assert(printDC != NULL);
-    assert(image != NULL);
-    assert(srcX >= 0);
-    assert(srcY >= 0);
-    assert(srcWidth > 0);
-    assert(srcHeight > 0);
-    assert(srcBitMapWidth > 0);
-    assert(srcBitMapHeight > 0);
+    bssert(printDC != NULL);
+    bssert(imbge != NULL);
+    bssert(srcX >= 0);
+    bssert(srcY >= 0);
+    bssert(srcWidth > 0);
+    bssert(srcHeight > 0);
+    bssert(srcBitMbpWidth > 0);
+    bssert(srcBitMbpHeight > 0);
 
 
-    static int alphaMask =  0xff000000;
-    static int redMask =    0x00ff0000;
-    static int greenMask =  0x0000ff00;
-    static int blueMask =   0x000000ff;
+    stbtic int blphbMbsk =  0xff000000;
+    stbtic int redMbsk =    0x00ff0000;
+    stbtic int greenMbsk =  0x0000ff00;
+    stbtic int blueMbsk =   0x000000ff;
 
     struct {
-        BITMAPV4HEADER header;
-        DWORD          masks[256];
+        BITMAPV4HEADER hebder;
+        DWORD          mbsks[256];
     } dib;
 
 
 
     memset(&dib,0,sizeof(dib));
-    dib.header.bV4Size = sizeof(dib.header);
-    dib.header.bV4Width = srcBitMapWidth;
-    dib.header.bV4Height = -srcBitMapHeight;    // Top down DIB
-    dib.header.bV4Planes = 1;
-    dib.header.bV4BitCount = 32;
-    dib.header.bV4V4Compression = BI_BITFIELDS;
-    dib.header.bV4SizeImage = 0;        // It's the default size.
-    dib.header.bV4XPelsPerMeter = 0;
-    dib.header.bV4YPelsPerMeter = 0;
-    dib.header.bV4ClrUsed = 0;
-    dib.header.bV4ClrImportant = 0;
-    dib.header.bV4RedMask = redMask;
-    dib.header.bV4GreenMask = greenMask;
-    dib.header.bV4BlueMask = blueMask;
-    dib.header.bV4AlphaMask = alphaMask;
-    dib.masks[0] = redMask;
-    dib.masks[1] = greenMask;
-    dib.masks[2] = blueMask;
-    dib.masks[3] = alphaMask;
+    dib.hebder.bV4Size = sizeof(dib.hebder);
+    dib.hebder.bV4Width = srcBitMbpWidth;
+    dib.hebder.bV4Height = -srcBitMbpHeight;    // Top down DIB
+    dib.hebder.bV4Plbnes = 1;
+    dib.hebder.bV4BitCount = 32;
+    dib.hebder.bV4V4Compression = BI_BITFIELDS;
+    dib.hebder.bV4SizeImbge = 0;        // It's the defbult size.
+    dib.hebder.bV4XPelsPerMeter = 0;
+    dib.hebder.bV4YPelsPerMeter = 0;
+    dib.hebder.bV4ClrUsed = 0;
+    dib.hebder.bV4ClrImportbnt = 0;
+    dib.hebder.bV4RedMbsk = redMbsk;
+    dib.hebder.bV4GreenMbsk = greenMbsk;
+    dib.hebder.bV4BlueMbsk = blueMbsk;
+    dib.hebder.bV4AlphbMbsk = blphbMbsk;
+    dib.mbsks[0] = redMbsk;
+    dib.mbsks[1] = greenMbsk;
+    dib.mbsks[2] = blueMbsk;
+    dib.mbsks[3] = blphbMbsk;
 
-    jint *imageBits = NULL;
+    jint *imbgeBits = NULL;
 
     try {
-        imageBits = (jint *)env->GetPrimitiveArrayCritical(image, 0);
+        imbgeBits = (jint *)env->GetPrimitiveArrbyCriticbl(imbge, 0);
 
         if (printDC){
             result = ::StretchDIBits( (HDC)printDC,
@@ -2864,90 +2864,90 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_drawImageIntRGB
                                       ROUND_TO_LONG(srcY),
                                       ROUND_TO_LONG(srcWidth),
                                       ROUND_TO_LONG(srcHeight),
-                                      imageBits,
+                                      imbgeBits,
                                       (BITMAPINFO *)&dib,
                                       DIB_RGB_COLORS,
                                       SRCCOPY);
 
         }
-    } catch (...) {
-        if (imageBits != NULL) {
-            env->ReleasePrimitiveArrayCritical(image, imageBits, 0);
+    } cbtch (...) {
+        if (imbgeBits != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(imbge, imbgeBits, 0);
         }
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(image, imageBits, 0);
+    env->RelebsePrimitiveArrbyCriticbl(imbge, imbgeBits, 0);
 
 }
 #else
 
 /*
- * Class:     sun_awt_windows_WPrinterJob
- * Method:    drawDIBImage
- * Signature: (J[BFFFFFFFFI[B)V
+ * Clbss:     sun_bwt_windows_WPrinterJob
+ * Method:    drbwDIBImbge
+ * Signbture: (J[BFFFFFFFFI[B)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_drawDIBImage
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WPrinterJob_drbwDIBImbge
   (JNIEnv *env, jobject self,
-   jlong printDC, jbyteArray image,
-   jfloat destX, jfloat destY,
-   jfloat destWidth, jfloat destHeight,
-   jfloat srcX, jfloat srcY,
-   jfloat srcWidth, jfloat srcHeight,
-   jint bitCount, jbyteArray bmiColorsArray) {
+   jlong printDC, jbyteArrby imbge,
+   jflobt destX, jflobt destY,
+   jflobt destWidth, jflobt destHeight,
+   jflobt srcX, jflobt srcY,
+   jflobt srcWidth, jflobt srcHeight,
+   jint bitCount, jbyteArrby bmiColorsArrby) {
 
     int result = 0;
 
-    assert(printDC != NULL);
-    assert(image != NULL);
-    assert(srcX >= 0);
-    assert(srcY >= 0);
-    assert(srcWidth > 0);
-    assert(srcHeight > 0);
+    bssert(printDC != NULL);
+    bssert(imbge != NULL);
+    bssert(srcX >= 0);
+    bssert(srcY >= 0);
+    bssert(srcWidth > 0);
+    bssert(srcHeight > 0);
 
 #define MAXCOLS 256
     struct {
-        BITMAPINFOHEADER bmiHeader;
+        BITMAPINFOHEADER bmiHebder;
         RGBQUAD         bmiColors[MAXCOLS];
     } bmi;
 
     memset(&bmi, 0, sizeof(bmi));
-    bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-    bmi.bmiHeader.biWidth = ROUND_TO_LONG(srcWidth);
-    bmi.bmiHeader.biHeight = ROUND_TO_LONG(srcHeight);
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount = (WORD)bitCount;
-    bmi.bmiHeader.biCompression = BI_RGB;
-    bmi.bmiHeader.biSizeImage = 0;        // It's the default size.
-    bmi.bmiHeader.biXPelsPerMeter = 0;
-    bmi.bmiHeader.biYPelsPerMeter = 0;
-    bmi.bmiHeader.biClrUsed = 0;
-    bmi.bmiHeader.biClrImportant = 0;
+    bmi.bmiHebder.biSize = sizeof(bmi.bmiHebder);
+    bmi.bmiHebder.biWidth = ROUND_TO_LONG(srcWidth);
+    bmi.bmiHebder.biHeight = ROUND_TO_LONG(srcHeight);
+    bmi.bmiHebder.biPlbnes = 1;
+    bmi.bmiHebder.biBitCount = (WORD)bitCount;
+    bmi.bmiHebder.biCompression = BI_RGB;
+    bmi.bmiHebder.biSizeImbge = 0;        // It's the defbult size.
+    bmi.bmiHebder.biXPelsPerMeter = 0;
+    bmi.bmiHebder.biYPelsPerMeter = 0;
+    bmi.bmiHebder.biClrUsed = 0;
+    bmi.bmiHebder.biClrImportbnt = 0;
 
-    jint *imageBits = NULL;
+    jint *imbgeBits = NULL;
     try {
 
-        if (bmiColorsArray != NULL) {
+        if (bmiColorsArrby != NULL) {
             BYTE* bmiCols;
             int numCols = 1<<bitCount;
             if (numCols > MAXCOLS) {
-                numCols = MAXCOLS; /* don't write past end of struct */
+                numCols = MAXCOLS; /* don't write pbst end of struct */
             }
-            bmiCols = (BYTE*)env->GetPrimitiveArrayCritical(bmiColorsArray, 0);
+            bmiCols = (BYTE*)env->GetPrimitiveArrbyCriticbl(bmiColorsArrby, 0);
             CHECK_NULL(bmiCols);
             memcpy(&(bmi.bmiColors[0]), bmiCols, (numCols*4));
-            env->ReleasePrimitiveArrayCritical(bmiColorsArray, bmiCols, 0);
+            env->RelebsePrimitiveArrbyCriticbl(bmiColorsArrby, bmiCols, 0);
         }
-        imageBits = (jint *)env->GetPrimitiveArrayCritical(image, 0);
-        CHECK_NULL(imageBits);
+        imbgeBits = (jint *)env->GetPrimitiveArrbyCriticbl(imbge, 0);
+        CHECK_NULL(imbgeBits);
 
-        // Workaround for drivers/apps that do not support top-down.
-        // Because we don't know if they support or not,
-        // always send bottom-up DIBs.
-        jbyte *dibImage = reverseDIB((jbyte*)imageBits,
+        // Workbround for drivers/bpps thbt do not support top-down.
+        // Becbuse we don't know if they support or not,
+        // blwbys send bottom-up DIBs.
+        jbyte *dibImbge = reverseDIB((jbyte*)imbgeBits,
                                      (long)srcWidth, (long)srcHeight,
                                      bitCount);
-        if (dibImage != NULL) {
+        if (dibImbge != NULL) {
           if (printDC){
             result = ::StretchDIBits( (HDC)printDC,
                                       ROUND_TO_LONG(destX),
@@ -2958,134 +2958,134 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WPrinterJob_drawDIBImage
                                       ROUND_TO_LONG(srcY),
                                       ROUND_TO_LONG(srcWidth),
                                       ROUND_TO_LONG(srcHeight),
-                                      dibImage,
+                                      dibImbge,
                                       (BITMAPINFO*)(&bmi),
                                       DIB_RGB_COLORS,
                                       SRCCOPY);
           }
 
-          free(dibImage);
-        } /* if (dibImage != NULL) */
-    } catch (...) {
-        if (imageBits != NULL) {
-            env->ReleasePrimitiveArrayCritical(image, imageBits, 0);
+          free(dibImbge);
+        } /* if (dibImbge != NULL) */
+    } cbtch (...) {
+        if (imbgeBits != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(imbge, imbgeBits, 0);
         }
-        JNU_ThrowInternalError(env, "Problem in WPrinterJob_drawDIBImage");
+        JNU_ThrowInternblError(env, "Problem in WPrinterJob_drbwDIBImbge");
         return;
     }
-    env->ReleasePrimitiveArrayCritical(image, imageBits, 0);
+    env->RelebsePrimitiveArrbyCriticbl(imbge, imbgeBits, 0);
 
 }
 #endif
 
 /*
- * An utility function to print passed image byte array to
+ * An utility function to print pbssed imbge byte brrby to
  * the printDC.
- * browserPrinting flag controls whether the image array
- * used as top-down (browserPrinting == JNI_TRUE) or
+ * browserPrinting flbg controls whether the imbge brrby
+ * used bs top-down (browserPrinting == JNI_TRUE) or
  * bottom-up (browserPrinting == JNI_FALSE) DIB.
  */
-static void doPrintBand(JNIEnv *env, jboolean browserPrinting,
-                        HDC printDC, jbyteArray imageArray,
+stbtic void doPrintBbnd(JNIEnv *env, jboolebn browserPrinting,
+                        HDC printDC, jbyteArrby imbgeArrby,
                         jint x, jint y, jint width, jint height) {
 
     TRY;
 
-    jbyte *image = NULL;
+    jbyte *imbge = NULL;
     try {
-        long scanLineStride = J2DRasterBPP * width;
-        image = (jbyte *)env->GetPrimitiveArrayCritical(imageArray, 0);
-        CHECK_NULL(image);
-        jbyte *startImage;
-        jbyte *endImage = NULL;
-        long startY = 0;
+        long scbnLineStride = J2DRbsterBPP * width;
+        imbge = (jbyte *)env->GetPrimitiveArrbyCriticbl(imbgeArrby, 0);
+        CHECK_NULL(imbge);
+        jbyte *stbrtImbge;
+        jbyte *endImbge = NULL;
+        long stbrtY = 0;
         long numLines = 0;
 
         if (browserPrinting) {
-            /* for browser printing use top-down approach */
-            startImage =  image;
+            /* for browser printing use top-down bpprobch */
+            stbrtImbge =  imbge;
         } else {
-            /* when printing to a real printer dc, the dib
+            /* when printing to b rebl printer dc, the dib
                should bottom-up */
-            startImage =  image + (scanLineStride * (height - 1));
-            scanLineStride = -scanLineStride;
+            stbrtImbge =  imbge + (scbnLineStride * (height - 1));
+            scbnLineStride = -scbnLineStride;
         }
         do {
-            startImage = findNonWhite(startImage, startY, width, height,
-                                      scanLineStride, &numLines);
+            stbrtImbge = findNonWhite(stbrtImbge, stbrtY, width, height,
+                                      scbnLineStride, &numLines);
 
-            if (startImage != NULL) {
-                startY += numLines;
-                endImage = findWhite(startImage, startY, width, height,
-                                     scanLineStride, &numLines);
+            if (stbrtImbge != NULL) {
+                stbrtY += numLines;
+                endImbge = findWhite(stbrtImbge, stbrtY, width, height,
+                                     scbnLineStride, &numLines);
                 if (browserPrinting) {
-                    /* passing -numLines as height to indicate that
-                       we treat the image as a top-down DIB */
-                    bitsToDevice(printDC, startImage, x, y + startY, width,
+                    /* pbssing -numLines bs height to indicbte thbt
+                       we trebt the imbge bs b top-down DIB */
+                    bitsToDevice(printDC, stbrtImbge, x, y + stbrtY, width,
                                  -numLines);
                 } else {
-                    bitsToDevice(printDC, endImage, x, y + startY, width,
+                    bitsToDevice(printDC, endImbge, x, y + stbrtY, width,
                                  numLines);
                 }
-                startImage = endImage + scanLineStride;
-                startY += numLines;
+                stbrtImbge = endImbge + scbnLineStride;
+                stbrtY += numLines;
             }
-        } while (startY < height && startImage != NULL);
+        } while (stbrtY < height && stbrtImbge != NULL);
 
-    } catch (...) {
-        if (image != NULL) {
-            env->ReleasePrimitiveArrayCritical(imageArray, image, 0);
+    } cbtch (...) {
+        if (imbge != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(imbgeArrby, imbge, 0);
         }
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(imageArray, image, 0);
+    env->RelebsePrimitiveArrbyCriticbl(imbgeArrby, imbge, 0);
 
     CATCH_BAD_ALLOC;
 
 }
-static FILE* outfile = NULL;
-static int bitsToDevice(HDC printDC, jbyte *image, long destX, long destY,
+stbtic FILE* outfile = NULL;
+stbtic int bitsToDevice(HDC printDC, jbyte *imbge, long destX, long destY,
                         long width, long height) {
     int result = 0;
 
-    assert(printDC != NULL);
-    assert(image != NULL);
-    assert(destX >= 0);
-    assert(destY >= 0);
-    assert(width > 0);
-    /* height could be negative to indicate that this is a top-down DIB */
-//      assert(height > 0);
+    bssert(printDC != NULL);
+    bssert(imbge != NULL);
+    bssert(destX >= 0);
+    bssert(destY >= 0);
+    bssert(width > 0);
+    /* height could be negbtive to indicbte thbt this is b top-down DIB */
+//      bssert(height > 0);
 
     struct {
-        BITMAPINFOHEADER bmiHeader;
+        BITMAPINFOHEADER bmiHebder;
         DWORD*             bmiColors;
-    } bitMapHeader;
+    } bitMbpHebder;
 
-    memset(&bitMapHeader,0,sizeof(bitMapHeader));
-    bitMapHeader.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bitMapHeader.bmiHeader.biWidth = width;
-    bitMapHeader.bmiHeader.biHeight = height; // does -height work ever?
-    bitMapHeader.bmiHeader.biPlanes = 1;
-    bitMapHeader.bmiHeader.biBitCount = 24;
-    bitMapHeader.bmiHeader.biCompression = BI_RGB;
-    bitMapHeader.bmiHeader.biSizeImage = 0;     // It's the default size.
-    bitMapHeader.bmiHeader.biXPelsPerMeter = 0;
-    bitMapHeader.bmiHeader.biYPelsPerMeter = 0;
-    bitMapHeader.bmiHeader.biClrUsed = 0;
-    bitMapHeader.bmiHeader.biClrImportant = 0;
-    bitMapHeader.bmiColors = NULL;
+    memset(&bitMbpHebder,0,sizeof(bitMbpHebder));
+    bitMbpHebder.bmiHebder.biSize = sizeof(BITMAPINFOHEADER);
+    bitMbpHebder.bmiHebder.biWidth = width;
+    bitMbpHebder.bmiHebder.biHeight = height; // does -height work ever?
+    bitMbpHebder.bmiHebder.biPlbnes = 1;
+    bitMbpHebder.bmiHebder.biBitCount = 24;
+    bitMbpHebder.bmiHebder.biCompression = BI_RGB;
+    bitMbpHebder.bmiHebder.biSizeImbge = 0;     // It's the defbult size.
+    bitMbpHebder.bmiHebder.biXPelsPerMeter = 0;
+    bitMbpHebder.bmiHebder.biYPelsPerMeter = 0;
+    bitMbpHebder.bmiHebder.biClrUsed = 0;
+    bitMbpHebder.bmiHebder.biClrImportbnt = 0;
+    bitMbpHebder.bmiColors = NULL;
 
-    height = abs(height);
+    height = bbs(height);
 
-    // Workaround for drivers/apps that do not support top-down.
-    // Because we don't know if they support or not,
-    // always send bottom-up DIBs
-    if (bitMapHeader.bmiHeader.biHeight < 0) {
-      jbyte *dibImage = reverseDIB(image, width, height, 24);
-      if (dibImage != NULL) {
-        bitMapHeader.bmiHeader.biWidth = ROUND_TO_LONG(width);
-        bitMapHeader.bmiHeader.biHeight = ROUND_TO_LONG(height);
+    // Workbround for drivers/bpps thbt do not support top-down.
+    // Becbuse we don't know if they support or not,
+    // blwbys send bottom-up DIBs
+    if (bitMbpHebder.bmiHebder.biHeight < 0) {
+      jbyte *dibImbge = reverseDIB(imbge, width, height, 24);
+      if (dibImbge != NULL) {
+        bitMbpHebder.bmiHebder.biWidth = ROUND_TO_LONG(width);
+        bitMbpHebder.bmiHebder.biHeight = ROUND_TO_LONG(height);
 
         if (printDC){
           result = ::SetDIBitsToDevice(printDC,
@@ -3095,14 +3095,14 @@ static int bitsToDevice(HDC printDC, jbyte *image, long destX, long destY,
                                 ROUND_TO_LONG(height),  // height of dest rect
                                 0,      // left of source rect
                                 0,      // top of source rect
-                                0,      // line number of 1st source scan line
-                                ROUND_TO_LONG(height),  // number of scan lines
-                                dibImage,       // points to the DIB
-                                (BITMAPINFO *)&bitMapHeader,
+                                0,      // line number of 1st source scbn line
+                                ROUND_TO_LONG(height),  // number of scbn lines
+                                dibImbge,       // points to the DIB
+                                (BITMAPINFO *)&bitMbpHebder,
                                 DIB_RGB_COLORS);
         }
 
-        free (dibImage);
+        free (dibImbge);
       }
     } else {
       if (printDC){
@@ -3113,10 +3113,10 @@ static int bitsToDevice(HDC printDC, jbyte *image, long destX, long destY,
                                 height, // height of dest rect
                                 0,      // left of source rect
                                 0,      // top of source rect
-                                0,      // line number of 1st source scan line
-                                height, // number of source scan lines
-                                image,  // points to the DIB
-                                (BITMAPINFO *)&bitMapHeader,
+                                0,      // line number of 1st source scbn line
+                                height, // number of source scbn lines
+                                imbge,  // points to the DIB
+                                (BITMAPINFO *)&bitMbpHebder,
                                 DIB_RGB_COLORS);
       }
     }
@@ -3124,76 +3124,76 @@ static int bitsToDevice(HDC printDC, jbyte *image, long destX, long destY,
     return result;
 }
 
-LRESULT CALLBACK PageDialogWndProc(HWND hWnd, UINT message,
-                                   WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PbgeDiblogWndProc(HWND hWnd, UINT messbge,
+                                   WPARAM wPbrbm, LPARAM lPbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    switch (message) {
-        case WM_COMMAND: {
-            if ((LOWORD(wParam) == IDOK) ||
-                (LOWORD(wParam) == IDCANCEL))
+    switch (messbge) {
+        cbse WM_COMMAND: {
+            if ((LOWORD(wPbrbm) == IDOK) ||
+                (LOWORD(wPbrbm) == IDCANCEL))
             {
-                // If we recieve on of these two notifications, the dialog
-                // is about to be closed. It's time to unblock all the
-                // windows blocked by this dialog, as doing so from the
-                // WM_DESTROY handler is too late
-                jobject peer = (jobject)(::GetProp(hWnd, ModalDialogPeerProp));
-                env->CallVoidMethod(peer, AwtPrintDialog::setHWndMID, (jlong)0);
+                // If we recieve on of these two notificbtions, the diblog
+                // is bbout to be closed. It's time to unblock bll the
+                // windows blocked by this diblog, bs doing so from the
+                // WM_DESTROY hbndler is too lbte
+                jobject peer = (jobject)(::GetProp(hWnd, ModblDiblogPeerProp));
+                env->CbllVoidMethod(peer, AwtPrintDiblog::setHWndMID, (jlong)0);
             }
-            break;
+            brebk;
         }
     }
 
-    WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(hWnd, NativeDialogWndProcProp));
-    return ComCtl32Util::GetInstance().DefWindowProc(lpfnWndProc, hWnd, message, wParam, lParam);
+    WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(hWnd, NbtiveDiblogWndProcProp));
+    return ComCtl32Util::GetInstbnce().DefWindowProc(lpfnWndProc, hWnd, messbge, wPbrbm, lPbrbm);
 }
 
 /**
- * Called by the Page Setup dialog this routine makes sure the
- * print dialog becomes the front most window.
+ * Cblled by the Pbge Setup diblog this routine mbkes sure the
+ * print diblog becomes the front most window.
  */
-static UINT CALLBACK pageDlgHook(HWND hDlg, UINT msg,
-                                 WPARAM wParam, LPARAM lParam)
+stbtic UINT CALLBACK pbgeDlgHook(HWND hDlg, UINT msg,
+                                 WPARAM wPbrbm, LPARAM lPbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
     TRY;
 
     switch(msg) {
-        case WM_INITDIALOG: {
-            PAGESETUPDLG *psd = (PAGESETUPDLG *)lParam;
-            jobject peer = (jobject)(psd->lCustData);
-            env->CallVoidMethod(peer, AwtPrintDialog::setHWndMID,
+        cbse WM_INITDIALOG: {
+            PAGESETUPDLG *psd = (PAGESETUPDLG *)lPbrbm;
+            jobject peer = (jobject)(psd->lCustDbtb);
+            env->CbllVoidMethod(peer, AwtPrintDiblog::setHWndMID,
                                 (jlong)hDlg);
-            ::SetProp(hDlg, ModalDialogPeerProp, reinterpret_cast<HANDLE>(peer));
+            ::SetProp(hDlg, ModblDiblogPeerProp, reinterpret_cbst<HANDLE>(peer));
 
             SetForegroundWindow(hDlg);
 
-            // set appropriate icon for parentless dialogs
-            jobject awtParent = env->GetObjectField(peer, AwtPrintDialog::parentID);
-            if (awtParent == NULL) {
-                ::SendMessage(hDlg, WM_SETICON, (WPARAM)ICON_BIG,
-                              (LPARAM)AwtToolkit::GetInstance().GetAwtIcon());
+            // set bppropribte icon for pbrentless diblogs
+            jobject bwtPbrent = env->GetObjectField(peer, AwtPrintDiblog::pbrentID);
+            if (bwtPbrent == NULL) {
+                ::SendMessbge(hDlg, WM_SETICON, (WPARAM)ICON_BIG,
+                              (LPARAM)AwtToolkit::GetInstbnce().GetAwtIcon());
             } else {
-                env->DeleteLocalRef(awtParent);
+                env->DeleteLocblRef(bwtPbrent);
             }
 
-            // subclass dialog's parent to receive additional messages
-            WNDPROC lpfnWndProc = ComCtl32Util::GetInstance().SubclassHWND(hDlg,
-                                                                           PageDialogWndProc);
-            ::SetProp(hDlg, NativeDialogWndProcProp, reinterpret_cast<HANDLE>(lpfnWndProc));
+            // subclbss diblog's pbrent to receive bdditionbl messbges
+            WNDPROC lpfnWndProc = ComCtl32Util::GetInstbnce().SubclbssHWND(hDlg,
+                                                                           PbgeDiblogWndProc);
+            ::SetProp(hDlg, NbtiveDiblogWndProcProp, reinterpret_cbst<HANDLE>(lpfnWndProc));
 
-            break;
+            brebk;
         }
-        case WM_DESTROY: {
-            WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(hDlg, NativeDialogWndProcProp));
-            ComCtl32Util::GetInstance().UnsubclassHWND(hDlg,
-                                                       PageDialogWndProc,
+        cbse WM_DESTROY: {
+            WNDPROC lpfnWndProc = (WNDPROC)(::GetProp(hDlg, NbtiveDiblogWndProcProp));
+            ComCtl32Util::GetInstbnce().UnsubclbssHWND(hDlg,
+                                                       PbgeDiblogWndProc,
                                                        lpfnWndProc);
-            ::RemoveProp(hDlg, ModalDialogPeerProp);
-            ::RemoveProp(hDlg, NativeDialogWndProcProp);
-            break;
+            ::RemoveProp(hDlg, ModblDiblogPeerProp);
+            ::RemoveProp(hDlg, NbtiveDiblogWndProcProp);
+            brebk;
         }
     }
 
@@ -3203,55 +3203,55 @@ static UINT CALLBACK pageDlgHook(HWND hDlg, UINT msg,
 }
 
 /**
- *      Create and return a printer device context for the
- *      default printer. If there is no default printer then
+ *      Crebte bnd return b printer device context for the
+ *      defbult printer. If there is no defbult printer then
  *      return NULL. This fn is used when printing is invoked
- *      and no user dialog was created. So despite its name, it
- *      needs to return a DC which reflects all the applications
+ *      bnd no user diblog wbs crebted. So despite its nbme, it
+ *      needs to return b DC which reflects bll the bpplicbtions
  *      settings which the driver might support.
- *      The number of copies is the most important setting.
+ *      The number of copies is the most importbnt setting.
  */
-static HDC getDefaultPrinterDC(JNIEnv *env, jobject printerJob) {
+stbtic HDC getDefbultPrinterDC(JNIEnv *env, jobject printerJob) {
     HDC printDC = NULL;
 
     int devWillDoCopies = FALSE;
     PRINTDLG pd;
     memset(&pd, 0, sizeof(PRINTDLG));
     pd.lStructSize = sizeof(PRINTDLG);
-    pd.Flags = PD_RETURNDEFAULT | PD_RETURNDC;
+    pd.Flbgs = PD_RETURNDEFAULT | PD_RETURNDC;
 
     if (::PrintDlg(&pd)) {
         printDC = pd.hDC;
 
-        /* Find out how many copies the driver can do, and use driver's
-         * dmCopies if requested number is within that limit
+        /* Find out how mbny copies the driver cbn do, bnd use driver's
+         * dmCopies if requested number is within thbt limit
          */
-        int maxCopies = 1;
+        int mbxCopies = 1;
         int nCopies = getCopies(env, printerJob);
         if (nCopies < 0) {
             return NULL;
         }
         SAVE_CONTROLWORD
-        if (pd.hDevNames != NULL) {
-            DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(pd.hDevNames);
+        if (pd.hDevNbmes != NULL) {
+            DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(pd.hDevNbmes);
 
-            if (devnames != NULL) {
-                LPTSTR lpdevnames = (LPTSTR)devnames;
-                LPTSTR printer = lpdevnames+devnames->wDeviceOffset;
-                LPTSTR port = lpdevnames+devnames->wOutputOffset;
-                // if DeviceCapabilities fails, return value is -1
-                maxCopies = (int)::DeviceCapabilities(printer, port, DC_COPIES,
+            if (devnbmes != NULL) {
+                LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+                LPTSTR printer = lpdevnbmes+devnbmes->wDeviceOffset;
+                LPTSTR port = lpdevnbmes+devnbmes->wOutputOffset;
+                // if DeviceCbpbbilities fbils, return vblue is -1
+                mbxCopies = (int)::DeviceCbpbbilities(printer, port, DC_COPIES,
                                                       NULL, NULL);
                 RESTORE_CONTROLWORD
-                if (maxCopies > 1) {
+                if (mbxCopies > 1) {
                     devWillDoCopies = TRUE;
                 }
             }
-            ::GlobalUnlock(pd.hDevNames);
+            ::GlobblUnlock(pd.hDevNbmes);
         }
 
-        if ((maxCopies >= nCopies) && (pd.hDevMode != NULL)) {
-            DEVMODE *devmode = (DEVMODE *)::GlobalLock(pd.hDevMode);
+        if ((mbxCopies >= nCopies) && (pd.hDevMode != NULL)) {
+            DEVMODE *devmode = (DEVMODE *)::GlobblLock(pd.hDevMode);
 
             if (devmode != NULL) {
 
@@ -3264,24 +3264,24 @@ static HDC getDefaultPrinterDC(JNIEnv *env, jobject printerJob) {
                     }
                 }
             }
-            ::GlobalUnlock(pd.hDevMode);
+            ::GlobblUnlock(pd.hDevMode);
         }
 
-        /* Not pretty that this is set in a separate place then the DC */
+        /* Not pretty thbt this is set in b sepbrbte plbce then the DC */
         if (pd.hDevMode != NULL) {
             AwtPrintControl::setPrintHDMode(env, printerJob, pd.hDevMode);
         }
-        if (pd.hDevNames != NULL) {
-            AwtPrintControl::setPrintHDName(env, printerJob, pd.hDevNames);
+        if (pd.hDevNbmes != NULL) {
+            AwtPrintControl::setPrintHDNbme(env, printerJob, pd.hDevNbmes);
         }
 
-        jboolean err;
-        err = setBooleanField(env, printerJob, DRIVER_COPIES_STR,
+        jboolebn err;
+        err = setBoolebnField(env, printerJob, DRIVER_COPIES_STR,
                               (devWillDoCopies ? JNI_TRUE : JNI_FALSE));
         if (err) return NULL;
-        err = setBooleanField(env, printerJob, DRIVER_COLLATE_STR, JNI_FALSE);
+        err = setBoolebnField(env, printerJob, DRIVER_COLLATE_STR, JNI_FALSE);
         if (err) return NULL;
-        err = setBooleanField(env, printerJob, USER_COLLATE_STR, JNI_FALSE);
+        err = setBoolebnField(env, printerJob, USER_COLLATE_STR, JNI_FALSE);
         if (err) return NULL;
     }
 
@@ -3290,596 +3290,596 @@ static HDC getDefaultPrinterDC(JNIEnv *env, jobject printerJob) {
 
 
 /**
- * Move the description of the page's size and orientation
- * from the PageFormat object 'page' into the structure,
- * 'setup' used by Windows to display the Page Setup dialog.
+ * Move the description of the pbge's size bnd orientbtion
+ * from the PbgeFormbt object 'pbge' into the structure,
+ * 'setup' used by Windows to displby the Pbge Setup diblog.
  */
-static void pageFormatToSetup(JNIEnv *env, jobject job,
-                              jobject page, PAGESETUPDLG *setup, HDC hDC) {
-    RectDouble paperSize;
-    RectDouble margins;
+stbtic void pbgeFormbtToSetup(JNIEnv *env, jobject job,
+                              jobject pbge, PAGESETUPDLG *setup, HDC hDC) {
+    RectDouble pbperSize;
+    RectDouble mbrgins;
 
-    /* Move the orientation from PageFormat to Windows.
+    /* Move the orientbtion from PbgeFormbt to Windows.
      */
-    jint orient = getPageFormatOrientation(env, page);
+    jint orient = getPbgeFormbtOrientbtion(env, pbge);
     if (orient < 0) return;
-    int gdiOrientation = (orient == PAGEFORMAT_PORTRAIT) ?
+    int gdiOrientbtion = (orient == PAGEFORMAT_PORTRAIT) ?
         DMORIENT_PORTRAIT : DMORIENT_LANDSCAPE;
-    setOrientationInDevMode(setup->hDevMode, orient == PAGEFORMAT_PORTRAIT);
+    setOrientbtionInDevMode(setup->hDevMode, orient == PAGEFORMAT_PORTRAIT);
 
-    int units = (setup->Flags & PSD_INTHOUSANDTHSOFINCHES)
+    int units = (setup->Flbgs & PSD_INTHOUSANDTHSOFINCHES)
                                                 ? MM_HIENGLISH
                                                 : MM_HIMETRIC;
-    jobject paper = getPaper(env, page);
-    CHECK_NULL(paper);
-    getPaperValues(env, paper, &paperSize, &margins);
+    jobject pbper = getPbper(env, pbge);
+    CHECK_NULL(pbper);
+    getPbperVblues(env, pbper, &pbperSize, &mbrgins);
     JNU_CHECK_EXCEPTION(env);
-    // Setting the paper size appears to be a futile exercise, as its not one
-    // of the values you can initialise - its an out-only arg. Margins are OK.
+    // Setting the pbper size bppebrs to be b futile exercise, bs its not one
+    // of the vblues you cbn initiblise - its bn out-only brg. Mbrgins bre OK.
     // set it into the DEVMODE if there is one ..
-    setup->ptPaperSize.x = convertFromPoints(paperSize.width, units);
-    setup->ptPaperSize.y = convertFromPoints(paperSize.height, units);
+    setup->ptPbperSize.x = convertFromPoints(pbperSize.width, units);
+    setup->ptPbperSize.y = convertFromPoints(pbperSize.height, units);
 
     if (setup->hDevMode != NULL) {
 
-        double paperWidth, paperHeight;
-        jboolean err;
-        WORD dmPaperSize = getPrintPaperSize(env, &err, job);
+        double pbperWidth, pbperHeight;
+        jboolebn err;
+        WORD dmPbperSize = getPrintPbperSize(env, &err, job);
         if (err) return;
-        matchPaperSize(hDC, setup->hDevMode, setup->hDevNames,
-                       paperSize.width,  paperSize.height,
-                       &paperWidth, &paperHeight, &dmPaperSize);
+        mbtchPbperSize(hDC, setup->hDevMode, setup->hDevNbmes,
+                       pbperSize.width,  pbperSize.height,
+                       &pbperWidth, &pbperHeight, &dmPbperSize);
 
-        DEVMODE *devmode = (DEVMODE *)::GlobalLock(setup->hDevMode);
+        DEVMODE *devmode = (DEVMODE *)::GlobblLock(setup->hDevMode);
         if (devmode != NULL) {
-          if (dmPaperSize != 0) {
+          if (dmPbperSize != 0) {
             devmode->dmFields |= DM_PAPERSIZE;
-            devmode->dmPaperSize = dmPaperSize;
+            devmode->dmPbperSize = dmPbperSize;
           }
           else {
             devmode->dmFields |= DM_PAPERLENGTH | DM_PAPERWIDTH
               | DM_PAPERSIZE;
-            devmode->dmPaperSize = DMPAPER_USER;
-            devmode->dmPaperWidth =
-              (short)(convertFromPoints(paperSize.width, MM_LOMETRIC));
-            devmode->dmPaperLength =
-              (short)(convertFromPoints(paperSize.height, MM_LOMETRIC));
+            devmode->dmPbperSize = DMPAPER_USER;
+            devmode->dmPbperWidth =
+              (short)(convertFromPoints(pbperSize.width, MM_LOMETRIC));
+            devmode->dmPbperLength =
+              (short)(convertFromPoints(pbperSize.height, MM_LOMETRIC));
           }
         }
-        ::GlobalUnlock(setup->hDevMode);
+        ::GlobblUnlock(setup->hDevMode);
     }
 
-    // When setting up these values, account for the orientation of the Paper
-    // in the PageFormat. In the margins Rect when in portrait mode,
-    // width is really right margin, height is really bottom margin.
+    // When setting up these vblues, bccount for the orientbtion of the Pbper
+    // in the PbgeFormbt. In the mbrgins Rect when in portrbit mode,
+    // width is reblly right mbrgin, height is reblly bottom mbrgin.
     if (orient == PAGEFORMAT_PORTRAIT) {
-        setup->rtMargin.left = convertFromPoints(margins.x, units);
-        setup->rtMargin.top  = convertFromPoints(margins.y, units);
-        setup->rtMargin.right = convertFromPoints(margins.width, units);
-        setup->rtMargin.bottom = convertFromPoints(margins.height, units);
+        setup->rtMbrgin.left = convertFromPoints(mbrgins.x, units);
+        setup->rtMbrgin.top  = convertFromPoints(mbrgins.y, units);
+        setup->rtMbrgin.right = convertFromPoints(mbrgins.width, units);
+        setup->rtMbrgin.bottom = convertFromPoints(mbrgins.height, units);
     } else if (orient == PAGEFORMAT_LANDSCAPE) {
-        setup->rtMargin.left = convertFromPoints(margins.height, units);
-        setup->rtMargin.top  = convertFromPoints(margins.x, units);
-        setup->rtMargin.right = convertFromPoints(margins.y, units);
-        setup->rtMargin.bottom = convertFromPoints(margins.width, units);
-    } else { // reverse landscape
-        setup->rtMargin.left = convertFromPoints(margins.y, units);
-        setup->rtMargin.top  = convertFromPoints(margins.width, units);
-        setup->rtMargin.right = convertFromPoints(margins.height, units);
-        setup->rtMargin.bottom = convertFromPoints(margins.x, units);
+        setup->rtMbrgin.left = convertFromPoints(mbrgins.height, units);
+        setup->rtMbrgin.top  = convertFromPoints(mbrgins.x, units);
+        setup->rtMbrgin.right = convertFromPoints(mbrgins.y, units);
+        setup->rtMbrgin.bottom = convertFromPoints(mbrgins.width, units);
+    } else { // reverse lbndscbpe
+        setup->rtMbrgin.left = convertFromPoints(mbrgins.y, units);
+        setup->rtMbrgin.top  = convertFromPoints(mbrgins.width, units);
+        setup->rtMbrgin.right = convertFromPoints(mbrgins.height, units);
+        setup->rtMbrgin.bottom = convertFromPoints(mbrgins.x, units);
     }
 
-    // Set page size here.
+    // Set pbge size here.
 }
 
-static WORD getOrientationFromDevMode2(HGLOBAL hDevMode) {
+stbtic WORD getOrientbtionFromDevMode2(HGLOBAL hDevMode) {
 
     WORD orient = DMORIENT_PORTRAIT;
 
     if (hDevMode != NULL) {
-        LPDEVMODE devMode = (LPDEVMODE) GlobalLock(hDevMode);
+        LPDEVMODE devMode = (LPDEVMODE) GlobblLock(hDevMode);
         if ((devMode != NULL) && (devMode->dmFields & DM_ORIENTATION)) {
-            orient = devMode->dmOrientation;
+            orient = devMode->dmOrientbtion;
         }
-        GlobalUnlock(hDevMode);
+        GlobblUnlock(hDevMode);
     }
     return orient;
 }
 
 /**
- * Get the orientation of the paper described by the printer
- * handle to a device mode structure 'hDevMode'.
+ * Get the orientbtion of the pbper described by the printer
+ * hbndle to b device mode structure 'hDevMode'.
  */
-static WORD getOrientationFromDevMode(JNIEnv *env, jobject self) {
-    return getOrientationFromDevMode2(AwtPrintControl::getPrintHDMode(env, self));
+stbtic WORD getOrientbtionFromDevMode(JNIEnv *env, jobject self) {
+    return getOrientbtionFromDevMode2(AwtPrintControl::getPrintHDMode(env, self));
 }
 
 /**
- * Set the orientation of the paper described by the printer
- * handle to a device mode structure 'hDevMode'.
+ * Set the orientbtion of the pbper described by the printer
+ * hbndle to b device mode structure 'hDevMode'.
  */
-static void setOrientationInDevMode(HGLOBAL hDevMode, jboolean isPortrait) {
+stbtic void setOrientbtionInDevMode(HGLOBAL hDevMode, jboolebn isPortrbit) {
 
     if (hDevMode != NULL) {
-        LPDEVMODE devMode = (LPDEVMODE) GlobalLock(hDevMode);
+        LPDEVMODE devMode = (LPDEVMODE) GlobblLock(hDevMode);
         if (devMode != NULL) {
-            devMode->dmOrientation = isPortrait
+            devMode->dmOrientbtion = isPortrbit
                                     ? DMORIENT_PORTRAIT
                                     : DMORIENT_LANDSCAPE;
             devMode->dmFields |= DM_ORIENTATION;
         }
-        GlobalUnlock(hDevMode);
+        GlobblUnlock(hDevMode);
     }
 }
 
 /**
- * Return the paper size and margins for the page
- * adjusted to take into account the portrait or
- * landscape orientation of the page. On entry,
- * 'setup' is a filled in structure as returned
- * by PageSetupDlg(). 'paperSize', 'margins',
- * and 'orientation' all point to caller allocated
- * space while will be filled in by this routine
+ * Return the pbper size bnd mbrgins for the pbge
+ * bdjusted to tbke into bccount the portrbit or
+ * lbndscbpe orientbtion of the pbge. On entry,
+ * 'setup' is b filled in structure bs returned
+ * by PbgeSetupDlg(). 'pbperSize', 'mbrgins',
+ * bnd 'orientbtion' bll point to cbller bllocbted
+ * spbce while will be filled in by this routine
  * with the size, in unknown Windows units, of
- * the paper, of the margins, and an indicator
- * whether the page is in portrait or landscape
- * orientation, respectively.
+ * the pbper, of the mbrgins, bnd bn indicbtor
+ * whether the pbge is in portrbit or lbndscbpe
+ * orientbtion, respectively.
  */
-static void retrievePaperInfo(const PAGESETUPDLG *setup, POINT *paperSize,
-                              RECT *margins, jint *orientation, HDC hdc) {
-    int orientationKnown = FALSE;
+stbtic void retrievePbperInfo(const PAGESETUPDLG *setup, POINT *pbperSize,
+                              RECT *mbrgins, jint *orientbtion, HDC hdc) {
+    int orientbtionKnown = FALSE;
 
-    *paperSize = setup->ptPaperSize;
-    int gdiOrientation = DMORIENT_PORTRAIT;
+    *pbperSize = setup->ptPbperSize;
+    int gdiOrientbtion = DMORIENT_PORTRAIT;
 
-    /* Usually the setup dialog will tell us the
-     * orientation of the page, but it may not.
+    /* Usublly the setup diblog will tell us the
+     * orientbtion of the pbge, but it mby not.
      */
     if (setup->hDevMode != NULL) {
-        gdiOrientation = getOrientationFromDevMode2(setup->hDevMode);
-        orientationKnown = TRUE;
+        gdiOrientbtion = getOrientbtionFromDevMode2(setup->hDevMode);
+        orientbtionKnown = TRUE;
     }
 
-    /* The driver didn't tell us the paper orientation
-     * so we declare it landscape if the paper
-     * is wider than it is long. Square paper is
-     * declared to be portait.
+    /* The driver didn't tell us the pbper orientbtion
+     * so we declbre it lbndscbpe if the pbper
+     * is wider thbn it is long. Squbre pbper is
+     * declbred to be portbit.
      */
-    if (orientationKnown == FALSE && paperSize->x > paperSize->y) {
-        gdiOrientation = DMORIENT_LANDSCAPE;
+    if (orientbtionKnown == FALSE && pbperSize->x > pbperSize->y) {
+        gdiOrientbtion = DMORIENT_LANDSCAPE;
     }
 
-    *margins = setup->rtMargin;
+    *mbrgins = setup->rtMbrgin;
 
-    // compare margin from page setup dialog with our device printable area
-    RectDouble deviceMargin;
+    // compbre mbrgin from pbge setup diblog with our device printbble breb
+    RectDouble deviceMbrgin;
 
-    if (getPrintableArea(hdc, setup->hDevMode, &deviceMargin) == TRUE) {
-        RECT devMargin;
+    if (getPrintbbleAreb(hdc, setup->hDevMode, &deviceMbrgin) == TRUE) {
+        RECT devMbrgin;
 
-        int units = (setup->Flags & PSD_INTHOUSANDTHSOFINCHES)
+        int units = (setup->Flbgs & PSD_INTHOUSANDTHSOFINCHES)
           ? MM_HIENGLISH : MM_HIMETRIC;
 
-        devMargin.left = convertFromPoints(deviceMargin.x*72, units);
-        devMargin.top = convertFromPoints(deviceMargin.y*72, units);
-        devMargin.bottom = paperSize->y
-          - convertFromPoints(deviceMargin.height*72, units)
-          - devMargin.top;
-        devMargin.right = paperSize->x
-          - convertFromPoints(deviceMargin.width*72, units)
-          - devMargin.left;
+        devMbrgin.left = convertFromPoints(deviceMbrgin.x*72, units);
+        devMbrgin.top = convertFromPoints(deviceMbrgin.y*72, units);
+        devMbrgin.bottom = pbperSize->y
+          - convertFromPoints(deviceMbrgin.height*72, units)
+          - devMbrgin.top;
+        devMbrgin.right = pbperSize->x
+          - convertFromPoints(deviceMbrgin.width*72, units)
+          - devMbrgin.left;
 
-        if (margins->left < devMargin.left) {
-            margins->left = devMargin.left;
+        if (mbrgins->left < devMbrgin.left) {
+            mbrgins->left = devMbrgin.left;
         }
-        if (margins->top < devMargin.top) {
-            margins->top = devMargin.top;
+        if (mbrgins->top < devMbrgin.top) {
+            mbrgins->top = devMbrgin.top;
         }
-        if (margins->bottom < devMargin.bottom) {
-            margins->bottom = devMargin.bottom;
+        if (mbrgins->bottom < devMbrgin.bottom) {
+            mbrgins->bottom = devMbrgin.bottom;
         }
-        if (margins->right < devMargin.right) {
-            margins->right = devMargin.right;
+        if (mbrgins->right < devMbrgin.right) {
+            mbrgins->right = devMbrgin.right;
         }
     }
 
-    /* The Paper class expresses the page size in
-     * portait mode while Windows returns the paper
-     * size adjusted for the orientation. If the
-     * orientation is landscape then we want to
-     * flip the width and height to get a portait
-     * description of the page.
+    /* The Pbper clbss expresses the pbge size in
+     * portbit mode while Windows returns the pbper
+     * size bdjusted for the orientbtion. If the
+     * orientbtion is lbndscbpe then we wbnt to
+     * flip the width bnd height to get b portbit
+     * description of the pbge.
      */
-    if (gdiOrientation != DMORIENT_PORTRAIT) {
-        long hold = paperSize->x;
-        paperSize->x = paperSize->y;
-        paperSize->y = hold;
+    if (gdiOrientbtion != DMORIENT_PORTRAIT) {
+        long hold = pbperSize->x;
+        pbperSize->x = pbperSize->y;
+        pbperSize->y = hold;
 
-        margins->left = setup->rtMargin.top;
-        margins->right = setup->rtMargin.bottom;
-        margins->top = setup->rtMargin.right;
-        margins->bottom = setup->rtMargin.left;
+        mbrgins->left = setup->rtMbrgin.top;
+        mbrgins->right = setup->rtMbrgin.bottom;
+        mbrgins->top = setup->rtMbrgin.right;
+        mbrgins->bottom = setup->rtMbrgin.left;
     }
 
-    if (gdiOrientation == DMORIENT_PORTRAIT) {
-        *orientation = PAGEFORMAT_PORTRAIT;
+    if (gdiOrientbtion == DMORIENT_PORTRAIT) {
+        *orientbtion = PAGEFORMAT_PORTRAIT;
     } else {
-        *orientation = PAGEFORMAT_LANDSCAPE;
+        *orientbtion = PAGEFORMAT_LANDSCAPE;
     }
 }
 
 /**
- * Return the number of copies to be printed for a printerJob.
+ * Return the number of copies to be printed for b printerJob.
  */
-static jint getCopies(JNIEnv *env, jobject printerJob)
+stbtic jint getCopies(JNIEnv *env, jobject printerJob)
 {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
 
-    jclass printerJobClass = env->GetObjectClass(printerJob);
-    jmethodID getCopiesID = env->GetMethodID(printerJobClass, GETCOPIES_STR,
+    jclbss printerJobClbss = env->GetObjectClbss(printerJob);
+    jmethodID getCopiesID = env->GetMethodID(printerJobClbss, GETCOPIES_STR,
                                              GETCOPIES_SIG);
     CHECK_NULL_RETURN(getCopiesID, -1);
-    jint copies = env->CallIntMethod(printerJob, getCopiesID);
+    jint copies = env->CbllIntMethod(printerJob, getCopiesID);
 
     return copies;
 }
 
 /**
- * Return a copy of the Paper object attached to the
- * PageFormat object 'page.'
+ * Return b copy of the Pbper object bttbched to the
+ * PbgeFormbt object 'pbge.'
  */
-static jobject getPaper(JNIEnv *env, jobject page) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic jobject getPbper(JNIEnv *env, jobject pbge) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
 
-    jclass pageClass = env->GetObjectClass(page);
-    jmethodID getPaperID = env->GetMethodID(pageClass, GETPAPER_STR,
+    jclbss pbgeClbss = env->GetObjectClbss(pbge);
+    jmethodID getPbperID = env->GetMethodID(pbgeClbss, GETPAPER_STR,
                                                         GETPAPER_SIG);
-    CHECK_NULL_RETURN(getPaperID, NULL);
+    CHECK_NULL_RETURN(getPbperID, NULL);
 
-    return env->CallObjectMethod(page, getPaperID);
+    return env->CbllObjectMethod(pbge, getPbperID);
 }
 
 /**
- * Set the Paper object for a PageFormat instance.
- * 'paper' is the new Paper object that must be
- * set into 'page'.
+ * Set the Pbper object for b PbgeFormbt instbnce.
+ * 'pbper' is the new Pbper object thbt must be
+ * set into 'pbge'.
  */
-static void setPaper(JNIEnv *env, jobject page, jobject paper) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic void setPbper(JNIEnv *env, jobject pbge, jobject pbper) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
-    jclass pageClass = env->GetObjectClass(page);
-    jmethodID setPaperID = env->GetMethodID(pageClass, SETPAPER_STR,
+    jclbss pbgeClbss = env->GetObjectClbss(pbge);
+    jmethodID setPbperID = env->GetMethodID(pbgeClbss, SETPAPER_STR,
                                                         SETPAPER_SIG);
-    CHECK_NULL(setPaperID);
-    env->CallVoidMethod(page, setPaperID, paper);
+    CHECK_NULL(setPbperID);
+    env->CbllVoidMethod(pbge, setPbperID, pbper);
 }
 
 /**
- * Return the integer ID for the orientation in the PageFormat.
- * Caution: this is the Java spec ID, not the GDI ID.
- * In case of error returns -1
+ * Return the integer ID for the orientbtion in the PbgeFormbt.
+ * Cbution: this is the Jbvb spec ID, not the GDI ID.
+ * In cbse of error returns -1
  */
-static jint getPageFormatOrientation(JNIEnv *env, jobject page) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic jint getPbgeFormbtOrientbtion(JNIEnv *env, jobject pbge) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
-    jclass pageClass = env->GetObjectClass(page);
-    jmethodID getOrientID = env->GetMethodID(pageClass, GETORIENT_STR,
+    jclbss pbgeClbss = env->GetObjectClbss(pbge);
+    jmethodID getOrientID = env->GetMethodID(pbgeClbss, GETORIENT_STR,
                                                         GETORIENT_SIG);
     CHECK_NULL_RETURN(getOrientID, -1);
-    return env->CallIntMethod(page, getOrientID);
+    return env->CbllIntMethod(pbge, getOrientID);
 }
 
-static void setPageFormatOrientation(JNIEnv *env,
-                                     jobject page, jint orientation) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic void setPbgeFormbtOrientbtion(JNIEnv *env,
+                                     jobject pbge, jint orientbtion) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
-    jclass pageClass = env->GetObjectClass(page);
-    jmethodID setOrientID = env->GetMethodID(pageClass, SETORIENT_STR,
+    jclbss pbgeClbss = env->GetObjectClbss(pbge);
+    jmethodID setOrientID = env->GetMethodID(pbgeClbss, SETORIENT_STR,
                                                         SETORIENT_SIG);
     CHECK_NULL(setOrientID);
-    env->CallVoidMethod(page, setOrientID, orientation);
+    env->CbllVoidMethod(pbge, setOrientID, orientbtion);
 }
 
 /**
- * Pull the paper size and margins out of the paper object and
+ * Pull the pbper size bnd mbrgins out of the pbper object bnd
  * return them in points.
  */
-static void getPaperValues(JNIEnv *env, jobject paper, RectDouble *paperSize,
-                          RectDouble *margins, BOOL widthAsMargin) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic void getPbperVblues(JNIEnv *env, jobject pbper, RectDouble *pbperSize,
+                          RectDouble *mbrgins, BOOL widthAsMbrgin) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
     jmethodID getID;
 
-    paperSize->x = 0;
-    paperSize->y = 0;
+    pbperSize->x = 0;
+    pbperSize->y = 0;
 
-    jclass paperClass = env->GetObjectClass(paper);
+    jclbss pbperClbss = env->GetObjectClbss(pbper);
 
-    getID = env->GetMethodID(paperClass, GETWIDTH_STR, GETWIDTH_SIG);
+    getID = env->GetMethodID(pbperClbss, GETWIDTH_STR, GETWIDTH_SIG);
     CHECK_NULL(getID);
-    paperSize->width = env->CallDoubleMethod(paper, getID);
+    pbperSize->width = env->CbllDoubleMethod(pbper, getID);
 
-    getID = env->GetMethodID(paperClass, GETHEIGHT_STR, GETHEIGHT_SIG);
+    getID = env->GetMethodID(pbperClbss, GETHEIGHT_STR, GETHEIGHT_SIG);
     CHECK_NULL(getID);
-    paperSize->height = env->CallDoubleMethod(paper, getID);
+    pbperSize->height = env->CbllDoubleMethod(pbper, getID);
 
-    getID = env->GetMethodID(paperClass, GETIMG_X_STR, GETIMG_X_SIG);
+    getID = env->GetMethodID(pbperClbss, GETIMG_X_STR, GETIMG_X_SIG);
     CHECK_NULL(getID);
-    margins->x = env->CallDoubleMethod(paper, getID);
-    if (margins-> x < 0 ) {
-        margins-> x = 0;
+    mbrgins->x = env->CbllDoubleMethod(pbper, getID);
+    if (mbrgins-> x < 0 ) {
+        mbrgins-> x = 0;
     }
 
-    getID = env->GetMethodID(paperClass, GETIMG_Y_STR, GETIMG_Y_SIG);
+    getID = env->GetMethodID(pbperClbss, GETIMG_Y_STR, GETIMG_Y_SIG);
     CHECK_NULL(getID);
-    margins->y = env->CallDoubleMethod(paper, getID);
-    if (margins-> y < 0 ) {
-        margins-> y = 0;
+    mbrgins->y = env->CbllDoubleMethod(pbper, getID);
+    if (mbrgins-> y < 0 ) {
+        mbrgins-> y = 0;
     }
 
-    getID = env->GetMethodID(paperClass, GETIMG_W_STR, GETIMG_W_SIG);
+    getID = env->GetMethodID(pbperClbss, GETIMG_W_STR, GETIMG_W_SIG);
     CHECK_NULL(getID);
-    if (widthAsMargin) {
-        margins->width = paperSize->width - margins->x
-                                      - env->CallDoubleMethod(paper, getID);
+    if (widthAsMbrgin) {
+        mbrgins->width = pbperSize->width - mbrgins->x
+                                      - env->CbllDoubleMethod(pbper, getID);
     } else {
-        margins->width = env->CallDoubleMethod(paper, getID);
+        mbrgins->width = env->CbllDoubleMethod(pbper, getID);
     }
 
-    if (margins->width < 0) {
-        margins->width = 0;
+    if (mbrgins->width < 0) {
+        mbrgins->width = 0;
     }
 
-    getID = env->GetMethodID(paperClass, GETIMG_H_STR, GETIMG_H_SIG);
+    getID = env->GetMethodID(pbperClbss, GETIMG_H_STR, GETIMG_H_SIG);
     CHECK_NULL(getID);
-    if (widthAsMargin) {
-        margins->height = paperSize->height - margins->y
-                                        - env->CallDoubleMethod(paper, getID);
+    if (widthAsMbrgin) {
+        mbrgins->height = pbperSize->height - mbrgins->y
+                                        - env->CbllDoubleMethod(pbper, getID);
     } else {
-        margins->height = env->CallDoubleMethod(paper, getID);
+        mbrgins->height = env->CbllDoubleMethod(pbper, getID);
     }
 
-    if (margins->height < 0) {
-        margins->height = 0;
+    if (mbrgins->height < 0) {
+        mbrgins->height = 0;
     }
 }
 
 /**
- * Given a RECT specifying the margins
- * for the page and an indication of whether
- * the units are 1000ths of an inch (MM_HIENGLISH)
- * or 100ths of a millimeter (MM_HIMETRIC),
- * convert the margins to 72nds of an inch
- * and set them into the PageFormat insance provided.
+ * Given b RECT specifying the mbrgins
+ * for the pbge bnd bn indicbtion of whether
+ * the units bre 1000ths of bn inch (MM_HIENGLISH)
+ * or 100ths of b millimeter (MM_HIMETRIC),
+ * convert the mbrgins to 72nds of bn inch
+ * bnd set them into the PbgeFormbt insbnce provided.
  */
-static void setPaperValues(JNIEnv *env, jobject paper, const POINT *paperSize,
-                                         const RECT *margins, int units) {
-    // Because this function may call client Java code,
-    // we can't run it on the toolkit thread.
-    DASSERT(AwtToolkit::MainThread() != ::GetCurrentThreadId());
+stbtic void setPbperVblues(JNIEnv *env, jobject pbper, const POINT *pbperSize,
+                                         const RECT *mbrgins, int units) {
+    // Becbuse this function mby cbll client Jbvb code,
+    // we cbn't run it on the toolkit threbd.
+    DASSERT(AwtToolkit::MbinThrebd() != ::GetCurrentThrebdId());
 
-    jclass paperClass = env->GetObjectClass(paper);
-    jmethodID setSizeID = env->GetMethodID(paperClass,
+    jclbss pbperClbss = env->GetObjectClbss(pbper);
+    jmethodID setSizeID = env->GetMethodID(pbperClbss,
                                         SETSIZE_STR, SETSIZE_SIG);
     CHECK_NULL(setSizeID);
-    jmethodID setImageableID = env->GetMethodID(paperClass,
+    jmethodID setImbgebbleID = env->GetMethodID(pbperClbss,
                                         SETIMAGEABLE_STR, SETIMAGEABLE_SIG);
-    CHECK_NULL(setImageableID);
+    CHECK_NULL(setImbgebbleID);
 
-    /* Set the physical size of the paper.
+    /* Set the physicbl size of the pbper.
      */
-    jdouble paperWidth = convertToPoints(paperSize->x, units);
-    jdouble paperHeight = convertToPoints(paperSize->y, units);
-    env->CallVoidMethod(paper, setSizeID, paperWidth, paperHeight);
+    jdouble pbperWidth = convertToPoints(pbperSize->x, units);
+    jdouble pbperHeight = convertToPoints(pbperSize->y, units);
+    env->CbllVoidMethod(pbper, setSizeID, pbperWidth, pbperHeight);
 
-    /* Set the margins of the paper. In Windows' margin RECT,
-     * the right and bottom parts of the structure are not
-     * really the right and bottom of the imageable rectangle,
-     * but rather the right and bottom margins.
+    /* Set the mbrgins of the pbper. In Windows' mbrgin RECT,
+     * the right bnd bottom pbrts of the structure bre not
+     * reblly the right bnd bottom of the imbgebble rectbngle,
+     * but rbther the right bnd bottom mbrgins.
      */
-    jdouble x = convertToPoints(margins->left, units);
-    jdouble y = convertToPoints(margins->top, units);
-    long intWidth = paperSize->x - margins->left - margins->right;
-    long intHeight = paperSize->y - margins->top - margins->bottom;
+    jdouble x = convertToPoints(mbrgins->left, units);
+    jdouble y = convertToPoints(mbrgins->top, units);
+    long intWidth = pbperSize->x - mbrgins->left - mbrgins->right;
+    long intHeight = pbperSize->y - mbrgins->top - mbrgins->bottom;
     jdouble width = convertToPoints(intWidth, units);
     jdouble height = convertToPoints(intHeight, units);
-    env->CallVoidMethod(paper, setImageableID, x, y, width, height);
+    env->CbllVoidMethod(pbper, setImbgebbleID, x, y, width, height);
 }
 
 /**
- * Convert 'value' a measurement in 1/72's of an inch to
+ * Convert 'vblue' b mebsurement in 1/72's of bn inch to
  * the units specified by 'units' - either MM_HIENGLISH
- * MM_HIMETRIC, or MM_LOMETRIC. The converted value is returned as
- * a long.
+ * MM_HIMETRIC, or MM_LOMETRIC. The converted vblue is returned bs
+ * b long.
  */
-static long convertFromPoints(double value, int units) {
+stbtic long convertFromPoints(double vblue, int units) {
     double conversion = 0;
 
     switch (units){
-     case MM_HIENGLISH:
+     cbse MM_HIENGLISH:
         conversion = POINTS_TO_HIENGLISH;
-        break;
+        brebk;
 
-     case MM_HIMETRIC:
+     cbse MM_HIMETRIC:
         conversion = POINTS_TO_HIMETRIC;
-        break;
+        brebk;
 
-     case MM_LOMETRIC:
+     cbse MM_LOMETRIC:
         conversion = POINTS_TO_LOMETRIC;
-        break;
+        brebk;
 
-     default:
-        assert(FALSE);  // Unsupported unit.
+     defbult:
+        bssert(FALSE);  // Unsupported unit.
     }
 
-    // Adding 0.5 ensures that the integer portion has the expected magnitude
-    // before truncation occurs as result of converting from double to long.
-    return (long) ((value * conversion) + 0.5);
+    // Adding 0.5 ensures thbt the integer portion hbs the expected mbgnitude
+    // before truncbtion occurs bs result of converting from double to long.
+    return (long) ((vblue * conversion) + 0.5);
 }
 
 /**
- * Convert a measurement, 'value', from the units
+ * Convert b mebsurement, 'vblue', from the units
  * specified by 'units', either MM_HIENGLISH or
- * MM_HIMETRIC to 1/72's of an inch and returned
- * as a double.
+ * MM_HIMETRIC to 1/72's of bn inch bnd returned
+ * bs b double.
  */
-static double convertToPoints(long value, int units) {
-    double convertedValue = (double)value;
+stbtic double convertToPoints(long vblue, int units) {
+    double convertedVblue = (double)vblue;
 
     switch (units){
-    case MM_HIENGLISH:
-        //convertedValue *= HIENGLISH_TO_POINTS;
-        // this order of calculation is for bug 4191615
-        convertedValue = (convertedValue*72.0) / 1000.0;
-        break;
+    cbse MM_HIENGLISH:
+        //convertedVblue *= HIENGLISH_TO_POINTS;
+        // this order of cblculbtion is for bug 4191615
+        convertedVblue = (convertedVblue*72.0) / 1000.0;
+        brebk;
 
-    case MM_HIMETRIC:
-        convertedValue *= HIMETRIC_TO_POINTS;
-        break;
+    cbse MM_HIMETRIC:
+        convertedVblue *= HIMETRIC_TO_POINTS;
+        brebk;
 
-    case MM_LOMETRIC:
-        convertedValue *= LOMETRIC_TO_POINTS;
-        break;
+    cbse MM_LOMETRIC:
+        convertedVblue *= LOMETRIC_TO_POINTS;
+        brebk;
 
-    default:
-        assert(FALSE);  // Unsupported unit.
+    defbult:
+        bssert(FALSE);  // Unsupported unit.
     }
 
-    //Need to round off to the precision of the initial value. FIX.
+    //Need to round off to the precision of the initibl vblue. FIX.
 
-    return convertedValue;
+    return convertedVblue;
 }
 
 /**
- *      Ask the printer device context, 'printDC' about
- *      its capabilities and set these into the WPrintJob2D
+ *      Ask the printer device context, 'printDC' bbout
+ *      its cbpbbilities bnd set these into the WPrintJob2D
  *      object 'self'.
  */
-void setCapabilities(JNIEnv *env, jobject self, HDC printDC) {
+void setCbpbbilities(JNIEnv *env, jobject self, HDC printDC) {
 
-    jboolean err;
-    // width of page in pixels
-    jint pageWid = GetDeviceCaps(printDC, PHYSICALWIDTH);
-    err = setIntField(env, self, PAGEW_STR, pageWid);
+    jboolebn err;
+    // width of pbge in pixels
+    jint pbgeWid = GetDeviceCbps(printDC, PHYSICALWIDTH);
+    err = setIntField(env, self, PAGEW_STR, pbgeWid);
     if (err) return;
 
-    // height of page in pixels
-    jint pageHgt = GetDeviceCaps(printDC, PHYSICALHEIGHT);
-    err = setIntField(env, self, PAGEH_STR, pageHgt);
+    // height of pbge in pixels
+    jint pbgeHgt = GetDeviceCbps(printDC, PHYSICALHEIGHT);
+    err = setIntField(env, self, PAGEH_STR, pbgeHgt);
     if (err) return;
 
-    // x scaling factor of printer
-    jint xsf = GetDeviceCaps(printDC, SCALINGFACTORX);
+    // x scbling fbctor of printer
+    jint xsf = GetDeviceCbps(printDC, SCALINGFACTORX);
 
-    // x scaling factor of printer
-    jint ysf = GetDeviceCaps(printDC, SCALINGFACTORY);
+    // x scbling fbctor of printer
+    jint ysf = GetDeviceCbps(printDC, SCALINGFACTORY);
 
-    if (getOrientationFromDevMode(env, self) == DMORIENT_LANDSCAPE) {
-        // because we do our own rotation, we should force
-        // orientation to portrait so we will get correct page dimensions.
+    if (getOrientbtionFromDevMode(env, self) == DMORIENT_LANDSCAPE) {
+        // becbuse we do our own rotbtion, we should force
+        // orientbtion to portrbit so we will get correct pbge dimensions.
 
         HGLOBAL hDevMode = AwtPrintControl::getPrintHDMode(env, self);
         if (hDevMode != NULL) {
-            DEVMODE *devmode = (DEVMODE*)::GlobalLock(hDevMode);
+            DEVMODE *devmode = (DEVMODE*)::GlobblLock(hDevMode);
             if (devmode != NULL) {
                 devmode->dmFields |= DM_ORIENTATION;
-                devmode->dmOrientation = DMORIENT_PORTRAIT;
+                devmode->dmOrientbtion = DMORIENT_PORTRAIT;
                 SAVE_CONTROLWORD
                 ::ResetDC(printDC, devmode);
                 RESTORE_CONTROLWORD
             }
-            GlobalUnlock(hDevMode);
+            GlobblUnlock(hDevMode);
         }
     }
 
     // pixels per inch in x direction
-    jint xRes = GetDeviceCaps(printDC, LOGPIXELSX);
+    jint xRes = GetDeviceCbps(printDC, LOGPIXELSX);
     err = setIntField(env, self, XRES_STR, xRes);
     if (err) return;
 
     // pixels per inch in y direction
-    jint yRes = GetDeviceCaps(printDC, LOGPIXELSY);
+    jint yRes = GetDeviceCbps(printDC, LOGPIXELSY);
     err = setIntField(env, self, YRES_STR, yRes);
 
-    // x coord of printable area in pixels
-    jint xOrg = GetDeviceCaps(printDC, PHYSICALOFFSETX);
+    // x coord of printbble breb in pixels
+    jint xOrg = GetDeviceCbps(printDC, PHYSICALOFFSETX);
     err = setIntField(env, self, PHYSX_STR, xOrg);
     if (err) return;
 
-    // y coord of printable area in pixels
-    jint yOrg = GetDeviceCaps(printDC, PHYSICALOFFSETY);
+    // y coord of printbble breb in pixels
+    jint yOrg = GetDeviceCbps(printDC, PHYSICALOFFSETY);
     err = setIntField(env, self, PHYSY_STR, yOrg);
     if (err) return;
 
-    // width of printable area in pixels
-    jint printWid = GetDeviceCaps(printDC, HORZRES);
+    // width of printbble breb in pixels
+    jint printWid = GetDeviceCbps(printDC, HORZRES);
     err = setIntField(env, self, PHYSW_STR, printWid);
     if (err) return;
 
-    // height of printable area in pixels
-    jint printHgt = GetDeviceCaps(printDC, VERTRES);
+    // height of printbble breb in pixels
+    jint printHgt = GetDeviceCbps(printDC, VERTRES);
     setIntField(env, self, PHYSH_STR, printHgt);
 }
 
-static inline WORD getPrintPaperSize(JNIEnv *env, jboolean* err, jobject self) {
+stbtic inline WORD getPrintPbperSize(JNIEnv *env, jboolebn* err, jobject self) {
     return (WORD)getIntField(env, err, self, PRINTPAPERSIZE_STR);
 }
 
-static inline jboolean setPrintPaperSize(JNIEnv *env, jobject self, WORD sz) {
+stbtic inline jboolebn setPrintPbperSize(JNIEnv *env, jobject self, WORD sz) {
     return setIntField(env, self, PRINTPAPERSIZE_STR, (jint)sz);
 }
 
 /**
- *      Return the java int value of the field 'fieldName' in the
- *      java instance 'self'.
+ *      Return the jbvb int vblue of the field 'fieldNbme' in the
+ *      jbvb instbnce 'self'.
  */
-static jint getIntField(JNIEnv *env, jboolean* err, jobject self, const char *fieldName) {
-    return JNU_GetFieldByName(env, err, self, fieldName, "I").i;
+stbtic jint getIntField(JNIEnv *env, jboolebn* err, jobject self, const chbr *fieldNbme) {
+    return JNU_GetFieldByNbme(env, err, self, fieldNbme, "I").i;
 }
 
 /**
- *      Set the int field named 'fieldName' of the java instance
- *      'self' to the value 'value'.
+ *      Set the int field nbmed 'fieldNbme' of the jbvb instbnce
+ *      'self' to the vblue 'vblue'.
  */
-static jboolean setIntField(JNIEnv *env, jobject self, const char *fieldName, jint value) {
-    jboolean err;
-    JNU_SetFieldByName(env, &err, self, fieldName, "I", value);
+stbtic jboolebn setIntField(JNIEnv *env, jobject self, const chbr *fieldNbme, jint vblue) {
+    jboolebn err;
+    JNU_SetFieldByNbme(env, &err, self, fieldNbme, "I", vblue);
     return err;
 }
 
-static jboolean getBooleanField(JNIEnv *env, jboolean* err, jobject self, const char *fieldName) {
-    return JNU_GetFieldByName(env, err, self, fieldName, "Z").z;
+stbtic jboolebn getBoolebnField(JNIEnv *env, jboolebn* err, jobject self, const chbr *fieldNbme) {
+    return JNU_GetFieldByNbme(env, err, self, fieldNbme, "Z").z;
 }
 
-static jboolean setBooleanField(JNIEnv *env, jobject self, const char *fieldName, jboolean value) {
-    jboolean err;
-    JNU_SetFieldByName(env, &err, self, fieldName, "Z", value);
+stbtic jboolebn setBoolebnField(JNIEnv *env, jobject self, const chbr *fieldNbme, jboolebn vblue) {
+    jboolebn err;
+    JNU_SetFieldByNbme(env, &err, self, fieldNbme, "Z", vblue);
     return err;
 }
 
 /**
- *  Throw a PrinterException with a string describing
+ *  Throw b PrinterException with b string describing
  *  the Window's system error 'err'.
  */
-static void throwPrinterException(JNIEnv *env, DWORD err) {
-    char errStr[256];
+stbtic void throwPrinterException(JNIEnv *env, DWORD err) {
+    chbr errStr[256];
     TCHAR t_errStr[256];
     errStr[0] = '\0';
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+    FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                   NULL,
                   err,
                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -3887,121 +3887,121 @@ static void throwPrinterException(JNIEnv *env, DWORD err) {
                   sizeof(t_errStr),
                   NULL );
 
-    WideCharToMultiByte(CP_UTF8, 0, t_errStr, -1,
+    WideChbrToMultiByte(CP_UTF8, 0, t_errStr, -1,
                         errStr, sizeof(errStr), NULL, NULL);
-    JNU_ThrowByName(env, PRINTEREXCEPTION_STR, errStr);
+    JNU_ThrowByNbme(env, PRINTEREXCEPTION_STR, errStr);
 }
 
 
 /*
- * Finds the closest matching paper size for the printer.
- * Parameters are in 72ndths of an inch.
- * paperSize is the win32 integer identifier for a paper size.
- * Requires an initialised set of printer device structures.
- * Updates the printDC to specify the matched paper size.
- * If the passed in paper size is non-zero, its taken to be a windows
- * paper size "name", and we check that paper size against the paper
- * we are matching and prefer that name over other names which also match
+ * Finds the closest mbtching pbper size for the printer.
+ * Pbrbmeters bre in 72ndths of bn inch.
+ * pbperSize is the win32 integer identifier for b pbper size.
+ * Requires bn initiblised set of printer device structures.
+ * Updbtes the printDC to specify the mbtched pbper size.
+ * If the pbssed in pbper size is non-zero, its tbken to be b windows
+ * pbper size "nbme", bnd we check thbt pbper size bgbinst the pbper
+ * we bre mbtching bnd prefer thbt nbme over other nbmes which blso mbtch
  * the size.
  */
-static void matchPaperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNames,
+stbtic void mbtchPbperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNbmes,
                            double origWid, double origHgt,
                            double* newWid, double *newHgt,
-                           WORD* paperSize) {
+                           WORD* pbperSize) {
 
-    // Tolerated differences in comparing page dimensions between passed in
-    // "orig" media with that of Windows' device.
-    const double epsilon = 3.6; // (1/72) of an inch
-    const double tolerance = (1.0 * 72.0);  // # inches * 72
+    // Tolerbted differences in compbring pbge dimensions between pbssed in
+    // "orig" medib with thbt of Windows' device.
+    const double epsilon = 3.6; // (1/72) of bn inch
+    const double tolerbnce = (1.0 * 72.0);  // # inches * 72
 
     *newWid = origWid;
     *newHgt = origHgt;
 
-   /* 1st check if the DC/Devmode has as its current papersize a paper
-    * which matches the paper specified. If yes, then we can skip hunting
-    * for the match and in the process we avoid finding a "name" for
-    * the paper size which isn't the one the user specified in the page
-    * setup dialog. For example "11x17" is also "Ledger".
+   /* 1st check if the DC/Devmode hbs bs its current pbpersize b pbper
+    * which mbtches the pbper specified. If yes, then we cbn skip hunting
+    * for the mbtch bnd in the process we bvoid finding b "nbme" for
+    * the pbper size which isn't the one the user specified in the pbge
+    * setup diblog. For exbmple "11x17" is blso "Ledger".
     */
     if (printDC != NULL) {
-      // pixels per inch in x and y direction
-      jint xPixelRes = GetDeviceCaps(printDC, LOGPIXELSX);
-      jint yPixelRes = GetDeviceCaps(printDC, LOGPIXELSY);
+      // pixels per inch in x bnd y direction
+      jint xPixelRes = GetDeviceCbps(printDC, LOGPIXELSX);
+      jint yPixelRes = GetDeviceCbps(printDC, LOGPIXELSY);
 
-      // width and height of page in pixels
-      jint pagePixelWid = GetDeviceCaps(printDC, PHYSICALWIDTH);
-      jint pagePixelHgt = GetDeviceCaps(printDC, PHYSICALHEIGHT);
+      // width bnd height of pbge in pixels
+      jint pbgePixelWid = GetDeviceCbps(printDC, PHYSICALWIDTH);
+      jint pbgePixelHgt = GetDeviceCbps(printDC, PHYSICALHEIGHT);
 
-      // page size in 1/72"
-      jdouble paperWidth = (jdouble)((pagePixelWid * 72)/(jdouble)xPixelRes);
-      jdouble paperHeight = (jdouble)((pagePixelHgt * 72)/(jdouble)yPixelRes);
+      // pbge size in 1/72"
+      jdouble pbperWidth = (jdouble)((pbgePixelWid * 72)/(jdouble)xPixelRes);
+      jdouble pbperHeight = (jdouble)((pbgePixelHgt * 72)/(jdouble)yPixelRes);
 
-      if ((fabs(origWid - paperWidth) < epsilon) &&
-          (fabs(origHgt - paperHeight) < epsilon) &&
-          (*paperSize == 0)) {
+      if ((fbbs(origWid - pbperWidth) < epsilon) &&
+          (fbbs(origHgt - pbperHeight) < epsilon) &&
+          (*pbperSize == 0)) {
 
         *newWid = origWid;
         *newHgt = origHgt;
 
         if (hDevMode != NULL) {
-          DEVMODE *devmode = (DEVMODE *)::GlobalLock(hDevMode);
+          DEVMODE *devmode = (DEVMODE *)::GlobblLock(hDevMode);
           if (devmode != NULL && (devmode->dmFields & DM_PAPERSIZE)) {
-            *paperSize = devmode->dmPaperSize;
+            *pbperSize = devmode->dmPbperSize;
           }
-          ::GlobalUnlock(hDevMode);
+          ::GlobblUnlock(hDevMode);
         }
         return;
       }
     }
 
-    /* begin trying to match papers */
+    /* begin trying to mbtch pbpers */
 
     LPTSTR printer = NULL, port = NULL;
-    if (hDevNames != NULL) {
-        DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(hDevNames);
-        if (devnames != NULL) {
-            LPTSTR lpdevnames = (LPTSTR)devnames;
-            printer = _tcsdup(lpdevnames+devnames->wDeviceOffset);
-            port = _tcsdup(lpdevnames+devnames->wOutputOffset);
+    if (hDevNbmes != NULL) {
+        DEVNAMES *devnbmes = (DEVNAMES *)::GlobblLock(hDevNbmes);
+        if (devnbmes != NULL) {
+            LPTSTR lpdevnbmes = (LPTSTR)devnbmes;
+            printer = _tcsdup(lpdevnbmes+devnbmes->wDeviceOffset);
+            port = _tcsdup(lpdevnbmes+devnbmes->wOutputOffset);
         }
-        ::GlobalUnlock(hDevNames);
+        ::GlobblUnlock(hDevNbmes);
     }
 
-    //REMIND: code duplicated in AwtPrintControl::getNearestMatchingPaper
-    int numPaperSizes = 0;
-    WORD *papers = NULL;
-    POINT *paperSizes = NULL;
+    //REMIND: code duplicbted in AwtPrintControl::getNebrestMbtchingPbper
+    int numPbperSizes = 0;
+    WORD *pbpers = NULL;
+    POINT *pbperSizes = NULL;
 
     SAVE_CONTROLWORD
-    numPaperSizes = (int)DeviceCapabilities(printer, port, DC_PAPERSIZE,
+    numPbperSizes = (int)DeviceCbpbbilities(printer, port, DC_PAPERSIZE,
                                             NULL, NULL);
-    if (numPaperSizes > 0) {
+    if (numPbperSizes > 0) {
         try {
-            papers = (WORD*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(WORD), numPaperSizes);
-            paperSizes = (POINT *)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(*paperSizes), numPaperSizes);
-        } catch (std::bad_alloc&) {
-            if (papers != NULL) {
-                free((char*)papers);
-                papers = NULL;
+            pbpers = (WORD*)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(WORD), numPbperSizes);
+            pbperSizes = (POINT *)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(*pbperSizes), numPbperSizes);
+        } cbtch (std::bbd_blloc&) {
+            if (pbpers != NULL) {
+                free((chbr*)pbpers);
+                pbpers = NULL;
             }
-            if (paperSizes != NULL) {
-               free((char *)paperSizes);
-               paperSizes = NULL;
+            if (pbperSizes != NULL) {
+               free((chbr *)pbperSizes);
+               pbperSizes = NULL;
             }
         }
 
-        if (papers != NULL && paperSizes != NULL) {
-             DWORD result1 = DeviceCapabilities(printer, port,
-                                                DC_PAPERS, (LPTSTR) papers, NULL);
-            DWORD result2 = DeviceCapabilities(printer, port,
-                                               DC_PAPERSIZE, (LPTSTR) paperSizes,
+        if (pbpers != NULL && pbperSizes != NULL) {
+             DWORD result1 = DeviceCbpbbilities(printer, port,
+                                                DC_PAPERS, (LPTSTR) pbpers, NULL);
+            DWORD result2 = DeviceCbpbbilities(printer, port,
+                                               DC_PAPERSIZE, (LPTSTR) pbperSizes,
                                                NULL);
 
             if (result1 == -1 || result2 == -1 ) {
-                free((char *) papers);
-                papers = NULL;
-                free((char *) paperSizes);
-                paperSizes = NULL;
+                free((chbr *) pbpers);
+                pbpers = NULL;
+                free((chbr *) pbperSizes);
+                pbperSizes = NULL;
             }
         }
     }
@@ -4009,46 +4009,46 @@ static void matchPaperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNames,
     RESTORE_CONTROLWORD
     double closestWid = 0.0;
     double closestHgt = 0.0;
-    WORD   closestMatch = 0;
+    WORD   closestMbtch = 0;
 
-    if (paperSizes != NULL) {
+    if (pbperSizes != NULL) {
 
-        /* Paper sizes are in 0.1mm units. Convert to 1/72"
-         * For each paper size, compute the difference from the paper size
-         * passed in. Use a least-squares difference, so paper much different
+        /* Pbper sizes bre in 0.1mm units. Convert to 1/72"
+         * For ebch pbper size, compute the difference from the pbper size
+         * pbssed in. Use b lebst-squbres difference, so pbper much different
          * in x or y should score poorly
          */
         double diffw = origWid;
         double diffh = origHgt;
-        double least_square = diffw * diffw + diffh * diffh;
+        double lebst_squbre = diffw * diffw + diffh * diffh;
         double tmp_ls;
         double widpts, hgtpts;
 
-        for (int i=0;i<numPaperSizes;i++) {
-            widpts = paperSizes[i].x * LOMETRIC_TO_POINTS;
-            hgtpts = paperSizes[i].y * LOMETRIC_TO_POINTS;
+        for (int i=0;i<numPbperSizes;i++) {
+            widpts = pbperSizes[i].x * LOMETRIC_TO_POINTS;
+            hgtpts = pbperSizes[i].y * LOMETRIC_TO_POINTS;
 
-            if ((fabs(origWid - widpts) < epsilon) &&
-                (fabs(origHgt - hgtpts) < epsilon)) {
+            if ((fbbs(origWid - widpts) < epsilon) &&
+                (fbbs(origHgt - hgtpts) < epsilon)) {
 
-              if ((*paperSize == 0) || ((*paperSize !=0) &&
-                                        (papers[i]==*paperSize))) {
+              if ((*pbperSize == 0) || ((*pbperSize !=0) &&
+                                        (pbpers[i]==*pbperSize))) {
                 closestWid = origWid;
                 closestHgt = origHgt;
-                closestMatch = papers[i];
-                break;
+                closestMbtch = pbpers[i];
+                brebk;
               }
             }
 
-            diffw = fabs(widpts - origWid);
-            diffh = fabs(hgtpts - origHgt);
+            diffw = fbbs(widpts - origWid);
+            diffh = fbbs(hgtpts - origHgt);
             tmp_ls = diffw * diffw + diffh * diffh;
-            if ((diffw < tolerance) && (diffh < tolerance) &&
-                (tmp_ls < least_square)) {
-              least_square = tmp_ls;
+            if ((diffw < tolerbnce) && (diffh < tolerbnce) &&
+                (tmp_ls < lebst_squbre)) {
+              lebst_squbre = tmp_ls;
               closestWid = widpts;
               closestHgt = hgtpts;
-              closestMatch = papers[i];
+              closestMbtch = pbpers[i];
             }
         }
     }
@@ -4060,51 +4060,51 @@ static void matchPaperSize(HDC printDC, HGLOBAL hDevMode, HGLOBAL hDevNames,
         *newHgt = closestHgt;
     }
 
-    *paperSize = closestMatch;
+    *pbperSize = closestMbtch;
 
-    /* At this point we have the paper which is the closest match
-     * We now need to select the paper into the DEVMODE, and
-     * get a DC which matches so we can get the margins.
+    /* At this point we hbve the pbper which is the closest mbtch
+     * We now need to select the pbper into the DEVMODE, bnd
+     * get b DC which mbtches so we cbn get the mbrgins.
      */
 
-    if ((printDC != NULL) && (hDevMode != NULL) && (closestMatch != 0)) {
-        DEVMODE *devmode = (DEVMODE *)::GlobalLock(hDevMode);
-        if ((devmode != NULL) && (closestMatch != devmode->dmPaperSize)) {
+    if ((printDC != NULL) && (hDevMode != NULL) && (closestMbtch != 0)) {
+        DEVMODE *devmode = (DEVMODE *)::GlobblLock(hDevMode);
+        if ((devmode != NULL) && (closestMbtch != devmode->dmPbperSize)) {
             devmode->dmFields |= DM_PAPERSIZE;
-            devmode->dmPaperSize = closestMatch;
+            devmode->dmPbperSize = closestMbtch;
             ::ResetDC(printDC, devmode);
             RESTORE_CONTROLWORD
         }
-        ::GlobalUnlock(hDevMode);
+        ::GlobblUnlock(hDevMode);
     }
 
     if (printer != NULL) {
-        free((char *)printer);
+        free((chbr *)printer);
     }
     if (port != NULL) {
-        free((char *)port);
+        free((chbr *)port);
     }
-    if (papers != NULL) {
-        free((char *)papers);
+    if (pbpers != NULL) {
+        free((chbr *)pbpers);
     }
-    if (paperSizes != NULL) {
-        free((char *)paperSizes);
+    if (pbperSizes != NULL) {
+        free((chbr *)pbperSizes);
     }
 
 }
 
 
-static BOOL SetPrinterDevice(LPTSTR pszDeviceName, HGLOBAL* p_hDevMode,
-                             HGLOBAL* p_hDevNames)
+stbtic BOOL SetPrinterDevice(LPTSTR pszDeviceNbme, HGLOBAL* p_hDevMode,
+                             HGLOBAL* p_hDevNbmes)
 {
-  // Open printer and obtain PRINTER_INFO_2 structure.
+  // Open printer bnd obtbin PRINTER_INFO_2 structure.
   HANDLE hPrinter;
-  if (::OpenPrinter(pszDeviceName, &hPrinter, NULL) == FALSE)
+  if (::OpenPrinter(pszDeviceNbme, &hPrinter, NULL) == FALSE)
     return FALSE;
 
   DWORD dwBytesReturned, dwBytesNeeded;
   ::GetPrinter(hPrinter, 2, NULL, 0, &dwBytesNeeded);
-  PRINTER_INFO_2* p2 = (PRINTER_INFO_2*)::GlobalAlloc(GPTR,
+  PRINTER_INFO_2* p2 = (PRINTER_INFO_2*)::GlobblAlloc(GPTR,
                                                     dwBytesNeeded);
   if (p2 == NULL) {
     ::ClosePrinter(hPrinter);
@@ -4113,227 +4113,227 @@ static BOOL SetPrinterDevice(LPTSTR pszDeviceName, HGLOBAL* p_hDevMode,
 
   if (::GetPrinter(hPrinter, 2, (LPBYTE)p2, dwBytesNeeded,
                    &dwBytesReturned) == 0) {
-    ::GlobalFree(p2);
+    ::GlobblFree(p2);
     ::ClosePrinter(hPrinter);
     return FALSE;
   }
 
   DEVMODE *pDevMode = NULL;
   HGLOBAL  hDevMode = NULL;
-  /* If GetPrinter didn't fill in the DEVMODE, try to get it by calling
+  /* If GetPrinter didn't fill in the DEVMODE, try to get it by cblling
      DocumentProperties...
      */
   if (p2->pDevMode == NULL){
     SAVE_CONTROLWORD
     LONG bytesNeeded = ::DocumentProperties(NULL, hPrinter,
-                                          pszDeviceName,
+                                          pszDeviceNbme,
                                           NULL, NULL, 0);
     RESTORE_CONTROLWORD
 
    if (bytesNeeded <= 0) {
-      ::GlobalFree(p2);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
-    hDevMode = ::GlobalAlloc(GHND, bytesNeeded);
+    hDevMode = ::GlobblAlloc(GHND, bytesNeeded);
     if (hDevMode == NULL) {
-      ::GlobalFree(p2);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
-    pDevMode = (DEVMODE*)::GlobalLock(hDevMode);
+    pDevMode = (DEVMODE*)::GlobblLock(hDevMode);
     if (pDevMode == NULL) {
-      ::GlobalFree(hDevMode);
-      ::GlobalFree(p2);
+      ::GlobblFree(hDevMode);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
-    LONG lFlag = ::DocumentProperties(NULL, hPrinter,
-                                    pszDeviceName,
+    LONG lFlbg = ::DocumentProperties(NULL, hPrinter,
+                                    pszDeviceNbme,
                                     pDevMode, NULL,
                                     DM_OUT_BUFFER);
     RESTORE_CONTROLWORD
-    if (lFlag != IDOK) {
-      ::GlobalUnlock(hDevMode);
-      ::GlobalFree(hDevMode);
-      ::GlobalFree(p2);
+    if (lFlbg != IDOK) {
+      ::GlobblUnlock(hDevMode);
+      ::GlobblFree(hDevMode);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
   } else {
-    // Allocate a global handle for DEVMODE and copy DEVMODE data.
-    hDevMode = ::GlobalAlloc(GHND,
-                             (sizeof(*p2->pDevMode) + p2->pDevMode->dmDriverExtra));
+    // Allocbte b globbl hbndle for DEVMODE bnd copy DEVMODE dbtb.
+    hDevMode = ::GlobblAlloc(GHND,
+                             (sizeof(*p2->pDevMode) + p2->pDevMode->dmDriverExtrb));
     if (hDevMode == NULL) {
-      ::GlobalFree(p2);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
-    pDevMode = (DEVMODE*)::GlobalLock(hDevMode);
+    pDevMode = (DEVMODE*)::GlobblLock(hDevMode);
     if (pDevMode == NULL) {
-      ::GlobalFree(hDevMode);
-      ::GlobalFree(p2);
+      ::GlobblFree(hDevMode);
+      ::GlobblFree(p2);
       ::ClosePrinter(hPrinter);
       return FALSE;
     }
 
     memcpy(pDevMode, p2->pDevMode,
-           sizeof(*p2->pDevMode) + p2->pDevMode->dmDriverExtra);
+           sizeof(*p2->pDevMode) + p2->pDevMode->dmDriverExtrb);
   }
 
-  ::GlobalUnlock(hDevMode);
+  ::GlobblUnlock(hDevMode);
   ::ClosePrinter(hPrinter);
 
   // Compute size of DEVNAMES structure you'll need.
-  // All sizes are WORD as in DEVNAMES structure
-  // All offsets are in characters, not in bytes
-  WORD drvNameLen = static_cast<WORD>(_tcslen(p2->pDriverName));  // driver name
-  WORD ptrNameLen = static_cast<WORD>(_tcslen(p2->pPrinterName)); // printer name
-  WORD porNameLen = static_cast<WORD>(_tcslen(p2->pPortName));    // port name
-  WORD devNameSize = static_cast<WORD>(sizeof(DEVNAMES)) +
-    (ptrNameLen + porNameLen + drvNameLen + 3)*sizeof(TCHAR);
+  // All sizes bre WORD bs in DEVNAMES structure
+  // All offsets bre in chbrbcters, not in bytes
+  WORD drvNbmeLen = stbtic_cbst<WORD>(_tcslen(p2->pDriverNbme));  // driver nbme
+  WORD ptrNbmeLen = stbtic_cbst<WORD>(_tcslen(p2->pPrinterNbme)); // printer nbme
+  WORD porNbmeLen = stbtic_cbst<WORD>(_tcslen(p2->pPortNbme));    // port nbme
+  WORD devNbmeSize = stbtic_cbst<WORD>(sizeof(DEVNAMES)) +
+    (ptrNbmeLen + porNbmeLen + drvNbmeLen + 3)*sizeof(TCHAR);
 
-  // Allocate a global handle big enough to hold DEVNAMES.
-  HGLOBAL   hDevNames = ::GlobalAlloc(GHND, devNameSize);
-  DEVNAMES* pDevNames = (DEVNAMES*)::GlobalLock(hDevNames);
+  // Allocbte b globbl hbndle big enough to hold DEVNAMES.
+  HGLOBAL   hDevNbmes = ::GlobblAlloc(GHND, devNbmeSize);
+  DEVNAMES* pDevNbmes = (DEVNAMES*)::GlobblLock(hDevNbmes);
 
-  // Copy the DEVNAMES information from PRINTER_INFO_2 structure.
-  pDevNames->wDriverOffset = sizeof(DEVNAMES)/sizeof(TCHAR);
-  memcpy((LPTSTR)pDevNames + pDevNames->wDriverOffset,
-         p2->pDriverName, drvNameLen*sizeof(TCHAR));
+  // Copy the DEVNAMES informbtion from PRINTER_INFO_2 structure.
+  pDevNbmes->wDriverOffset = sizeof(DEVNAMES)/sizeof(TCHAR);
+  memcpy((LPTSTR)pDevNbmes + pDevNbmes->wDriverOffset,
+         p2->pDriverNbme, drvNbmeLen*sizeof(TCHAR));
 
-   pDevNames->wDeviceOffset = static_cast<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR)) +
-   drvNameLen + 1;
-   memcpy((LPTSTR)pDevNames + pDevNames->wDeviceOffset,
-       p2->pPrinterName, ptrNameLen*sizeof(TCHAR));
+   pDevNbmes->wDeviceOffset = stbtic_cbst<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR)) +
+   drvNbmeLen + 1;
+   memcpy((LPTSTR)pDevNbmes + pDevNbmes->wDeviceOffset,
+       p2->pPrinterNbme, ptrNbmeLen*sizeof(TCHAR));
 
-   pDevNames->wOutputOffset = static_cast<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR)) +
-     drvNameLen + ptrNameLen + 2;
-   memcpy((LPTSTR)pDevNames + pDevNames->wOutputOffset,
-          p2->pPortName, porNameLen*sizeof(TCHAR));
+   pDevNbmes->wOutputOffset = stbtic_cbst<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR)) +
+     drvNbmeLen + ptrNbmeLen + 2;
+   memcpy((LPTSTR)pDevNbmes + pDevNbmes->wOutputOffset,
+          p2->pPortNbme, porNbmeLen*sizeof(TCHAR));
 
-   pDevNames->wDefault = 0;
+   pDevNbmes->wDefbult = 0;
 
-   ::GlobalUnlock(hDevNames);
-   ::GlobalFree(p2);   // free PRINTER_INFO_2
+   ::GlobblUnlock(hDevNbmes);
+   ::GlobblFree(p2);   // free PRINTER_INFO_2
 
    *p_hDevMode = hDevMode;
-   *p_hDevNames = hDevNames;
+   *p_hDevNbmes = hDevNbmes;
 
    return TRUE;
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_setNativePrintService(JNIEnv *env,
-                                                       jobject name,
+Jbvb_sun_bwt_windows_WPrinterJob_setNbtivePrintService(JNIEnv *env,
+                                                       jobject nbme,
                                                        jstring printer)
 {
     TRY;
-    LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-    CHECK_NULL(printerName);
+    LPTSTR printerNbme = (LPTSTR)JNU_GetStringPlbtformChbrs(env, printer, NULL);
+    CHECK_NULL(printerNbme);
 
-    HDC hDC = AwtPrintControl::getPrintDC(env, name);
+    HDC hDC = AwtPrintControl::getPrintDC(env, nbme);
     if (hDC != NULL) {
         DeletePrintDC(hDC);
       hDC = NULL;
     }
 
     SAVE_CONTROLWORD
-    hDC = ::CreateDC(TEXT("WINSPOOL"), printerName, NULL, NULL);
+    hDC = ::CrebteDC(TEXT("WINSPOOL"), printerNbme, NULL, NULL);
     RESTORE_CONTROLWORD
     if (hDC == NULL) {
-        JNU_ThrowByName(env, PRINTEREXCEPTION_STR, "Invalid name of PrintService.");
-        JNU_ReleaseStringPlatformChars(env, printer, printerName);
+        JNU_ThrowByNbme(env, PRINTEREXCEPTION_STR, "Invblid nbme of PrintService.");
+        JNU_RelebseStringPlbtformChbrs(env, printer, printerNbme);
         return;
     }
-    AwtPrintControl::setPrintDC(env, name, hDC);
+    AwtPrintControl::setPrintDC(env, nbme, hDC);
 
-    HANDLE hDevMode = AwtPrintControl::getPrintHDMode(env, name);
+    HANDLE hDevMode = AwtPrintControl::getPrintHDMode(env, nbme);
     if (hDevMode != NULL) {
-      ::GlobalFree(hDevMode);
+      ::GlobblFree(hDevMode);
       hDevMode = NULL;
     }
 
-    HANDLE hDevNames = AwtPrintControl::getPrintHDName(env, name);;
-    if (hDevNames != NULL) {
-      ::GlobalFree(hDevNames);
-      hDevNames = NULL;
+    HANDLE hDevNbmes = AwtPrintControl::getPrintHDNbme(env, nbme);;
+    if (hDevNbmes != NULL) {
+      ::GlobblFree(hDevNbmes);
+      hDevNbmes = NULL;
     }
 
-    SetPrinterDevice(printerName, &hDevMode, &hDevNames);
+    SetPrinterDevice(printerNbme, &hDevMode, &hDevNbmes);
 
-    AwtPrintControl::setPrintHDMode(env, name, hDevMode);
-    AwtPrintControl::setPrintHDName(env, name, hDevNames);
+    AwtPrintControl::setPrintHDMode(env, nbme, hDevMode);
+    AwtPrintControl::setPrintHDNbme(env, nbme, hDevNbmes);
 
-    // Driver capability for copies & collation are not set
-    // when printDialog and getDefaultPrinterDC are not called.
-    // set DRIVER_COPIES_STR and DRIVER_COLLATE_STR
+    // Driver cbpbbility for copies & collbtion bre not set
+    // when printDiblog bnd getDefbultPrinterDC bre not cblled.
+    // set DRIVER_COPIES_STR bnd DRIVER_COLLATE_STR
     DEVMODE *devmode = NULL;
     if (hDevMode != NULL) {
-        devmode = (DEVMODE *)::GlobalLock(hDevMode);
-        DASSERT(!IsBadReadPtr(devmode, sizeof(DEVMODE)));
+        devmode = (DEVMODE *)::GlobblLock(hDevMode);
+        DASSERT(!IsBbdRebdPtr(devmode, sizeof(DEVMODE)));
     }
 
     if (devmode != NULL) {
         if (devmode->dmFields & DM_COPIES) {
-            jboolean err = setBooleanField(env, name, DRIVER_COPIES_STR, JNI_TRUE);
+            jboolebn err = setBoolebnField(env, nbme, DRIVER_COPIES_STR, JNI_TRUE);
             if (err) {
-                JNU_ReleaseStringPlatformChars(env, printer, printerName);
+                JNU_RelebseStringPlbtformChbrs(env, printer, printerNbme);
                 return;
             }
         }
 
         if (devmode->dmFields & DM_COLLATE) {
-            jboolean err = setBooleanField(env, name, DRIVER_COLLATE_STR, JNI_TRUE);
+            jboolebn err = setBoolebnField(env, nbme, DRIVER_COLLATE_STR, JNI_TRUE);
             if (err) {
-                JNU_ReleaseStringPlatformChars(env, printer, printerName);
+                JNU_RelebseStringPlbtformChbrs(env, printer, printerNbme);
                 return;
             }
         }
 
-        ::GlobalUnlock(hDevMode);
+        ::GlobblUnlock(hDevMode);
     }
 
-    setCapabilities(env, name, hDC);
+    setCbpbbilities(env, nbme, hDC);
 
-    JNU_ReleaseStringPlatformChars(env, printer, printerName);
+    JNU_RelebseStringPlbtformChbrs(env, printer, printerNbme);
     CATCH_BAD_ALLOC;
 }
 
 
 JNIEXPORT jstring JNICALL
-Java_sun_awt_windows_WPrinterJob_getNativePrintService(JNIEnv *env,
-                                                       jobject name)
+Jbvb_sun_bwt_windows_WPrinterJob_getNbtivePrintService(JNIEnv *env,
+                                                       jobject nbme)
 {
     TRY;
     jstring printer;
-    HANDLE hDevNames = AwtPrintControl::getPrintHDName(env, name);
-    if (hDevNames == NULL) {
+    HANDLE hDevNbmes = AwtPrintControl::getPrintHDNbme(env, nbme);
+    if (hDevNbmes == NULL) {
         return NULL;
     }
-    DEVNAMES* pDevNames = (DEVNAMES*)::GlobalLock(hDevNames);
+    DEVNAMES* pDevNbmes = (DEVNAMES*)::GlobblLock(hDevNbmes);
 
-    printer = JNU_NewStringPlatform(env,
-                                    (LPTSTR)pDevNames+pDevNames->wDeviceOffset);
-    ::GlobalUnlock(hDevNames);
+    printer = JNU_NewStringPlbtform(env,
+                                    (LPTSTR)pDevNbmes+pDevNbmes->wDeviceOffset);
+    ::GlobblUnlock(hDevNbmes);
     return printer;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
-static BOOL getPrintableArea(HDC pdc, HANDLE hDevMode, RectDouble *margin)
+stbtic BOOL getPrintbbleAreb(HDC pdc, HANDLE hDevMode, RectDouble *mbrgin)
 {
     if (pdc == NULL) {
       return FALSE;
     }
 
-    DEVMODE *pDevMode = (DEVMODE*)::GlobalLock(hDevMode);
+    DEVMODE *pDevMode = (DEVMODE*)::GlobblLock(hDevMode);
     if (pDevMode == NULL) {
         return FALSE;
     }
@@ -4342,38 +4342,38 @@ static BOOL getPrintableArea(HDC pdc, HANDLE hDevMode, RectDouble *margin)
     ::ResetDC(pdc, pDevMode);
     RESTORE_CONTROLWORD
 
-    int left = GetDeviceCaps(pdc, PHYSICALOFFSETX);
-    int top = GetDeviceCaps(pdc, PHYSICALOFFSETY);
-    int width = GetDeviceCaps(pdc, HORZRES);
-    int height = GetDeviceCaps(pdc, VERTRES);
-    int resx = GetDeviceCaps(pdc, LOGPIXELSX);
-    int resy = GetDeviceCaps(pdc, LOGPIXELSY);
+    int left = GetDeviceCbps(pdc, PHYSICALOFFSETX);
+    int top = GetDeviceCbps(pdc, PHYSICALOFFSETY);
+    int width = GetDeviceCbps(pdc, HORZRES);
+    int height = GetDeviceCbps(pdc, VERTRES);
+    int resx = GetDeviceCbps(pdc, LOGPIXELSX);
+    int resy = GetDeviceCbps(pdc, LOGPIXELSY);
 
 
-    margin->x = (jdouble)left/resx;
-    margin->y =(jdouble)top/resy;
-    margin->width = (jdouble)width/resx;
-    margin->height = (jdouble)height/resy;
+    mbrgin->x = (jdouble)left/resx;
+    mbrgin->y =(jdouble)top/resy;
+    mbrgin->width = (jdouble)width/resx;
+    mbrgin->height = (jdouble)height/resy;
 
-    ::GlobalUnlock(hDevMode);
+    ::GlobblUnlock(hDevMode);
 
     return TRUE;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WPrinterJob_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WPrinterJob_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtPrintDialog::controlID = env->GetFieldID(cls, "pjob", "Ljava/awt/print/PrinterJob;");
-    DASSERT(AwtPrintDialog::controlID != NULL);
-    CHECK_NULL(AwtPrintDialog::controlID);
+    AwtPrintDiblog::controlID = env->GetFieldID(cls, "pjob", "Ljbvb/bwt/print/PrinterJob;");
+    DASSERT(AwtPrintDiblog::controlID != NULL);
+    CHECK_NULL(AwtPrintDiblog::controlID);
 
-    jclass printDialogPeerClass = env->FindClass("sun/awt/windows/WPrintDialogPeer");
-    CHECK_NULL(printDialogPeerClass);
-    AwtPrintDialog::setHWndMID = env->GetMethodID(printDialogPeerClass, "setHWnd", "(J)V");
-    DASSERT(AwtPrintDialog::setHWndMID != NULL);
-    CHECK_NULL(AwtPrintDialog::setHWndMID);
+    jclbss printDiblogPeerClbss = env->FindClbss("sun/bwt/windows/WPrintDiblogPeer");
+    CHECK_NULL(printDiblogPeerClbss);
+    AwtPrintDiblog::setHWndMID = env->GetMethodID(printDiblogPeerClbss, "setHWnd", "(J)V");
+    DASSERT(AwtPrintDiblog::setHWndMID != NULL);
+    CHECK_NULL(AwtPrintDiblog::setHWndMID);
 
     AwtPrintControl::initIDs(env, cls);
     CATCH_BAD_ALLOC;

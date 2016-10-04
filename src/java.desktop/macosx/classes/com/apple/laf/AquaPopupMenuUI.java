@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicPopupMenuUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicPopupMenuUI;
 
-public class AquaPopupMenuUI extends BasicPopupMenuUI {
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaPopupMenuUI();
+public clbss AqubPopupMenuUI extends BbsicPopupMenuUI {
+    public stbtic ComponentUI crebteUI(finbl JComponent x) {
+        return new AqubPopupMenuUI();
     }
 
-    public boolean isPopupTrigger(final MouseEvent e) {
-        // Use the awt popup trigger code since this only runs on our OS!
+    public boolebn isPopupTrigger(finbl MouseEvent e) {
+        // Use the bwt popup trigger code since this only runs on our OS!
         return e.isPopupTrigger();
     }
 
     @Override
-    public void paint(final Graphics g, final JComponent c) {
-        if (!(g instanceof Graphics2D)) {
-            super.paint(g, c);
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        if (!(g instbnceof Grbphics2D)) {
+            super.pbint(g, c);
             return;
         }
 
-        if (!(PopupFactory.getSharedInstance() instanceof ScreenPopupFactory)) {
-            super.paint(g, c);
+        if (!(PopupFbctory.getShbredInstbnce() instbnceof ScreenPopupFbctory)) {
+            super.pbint(g, c);
             return;
         }
 
-        // round off and put back edges in a new Graphics
-        final Graphics2D g2d = (Graphics2D)g.create();
-        final Rectangle popupBounds = popupMenu.getBounds(); // NB: origin is still at 0,0
-        paintRoundRect(g2d, popupBounds);
+        // round off bnd put bbck edges in b new Grbphics
+        finbl Grbphics2D g2d = (Grbphics2D)g.crebte();
+        finbl Rectbngle popupBounds = popupMenu.getBounds(); // NB: origin is still bt 0,0
+        pbintRoundRect(g2d, popupBounds);
         clipEdges(g2d, popupBounds);
         g2d.dispose();
 
-        // if any subsequent drawing occurs over these corners, the window is square again
-        super.paint(g, c);
+        // if bny subsequent drbwing occurs over these corners, the window is squbre bgbin
+        super.pbint(g, c);
     }
 
-    protected void paintRoundRect(final Graphics2D g2d, final Rectangle popupBounds) {
-        // setup the graphics context to blast alpha for every primitive we draw
+    protected void pbintRoundRect(finbl Grbphics2D g2d, finbl Rectbngle popupBounds) {
+        // setup the grbphics context to blbst blphb for every primitive we drbw
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setComposite(AlphaComposite.Clear);
+        g2d.setComposite(AlphbComposite.Clebr);
 
-        // draw the 3px round-rect line around the outer bounds of the window,
-        // this gives the appearance of rounded corners
-        g2d.setStroke(new BasicStroke(3.0f));
-        g2d.drawRoundRect(-2, -2, popupBounds.width + 3, popupBounds.height + 3, 12, 12);
+        // drbw the 3px round-rect line bround the outer bounds of the window,
+        // this gives the bppebrbnce of rounded corners
+        g2d.setStroke(new BbsicStroke(3.0f));
+        g2d.drbwRoundRect(-2, -2, popupBounds.width + 3, popupBounds.height + 3, 12, 12);
     }
 
-    static final int OVERLAP_SLACK = 10;
-    protected void clipEdges(final Graphics2D g2d, final Rectangle popupBounds) {
-        final Component invoker = popupMenu.getInvoker();
-        if (!(invoker instanceof JMenu)) return; // only point corners originating from menu items
+    stbtic finbl int OVERLAP_SLACK = 10;
+    protected void clipEdges(finbl Grbphics2D g2d, finbl Rectbngle popupBounds) {
+        finbl Component invoker = popupMenu.getInvoker();
+        if (!(invoker instbnceof JMenu)) return; // only point corners originbting from menu items
 
-        final Rectangle invokerBounds = invoker.getBounds();
+        finbl Rectbngle invokerBounds = invoker.getBounds();
 
-        // only get location on screen when necessary
-        invokerBounds.setLocation(invoker.getLocationOnScreen());
-        popupBounds.setLocation(popupMenu.getLocationOnScreen());
+        // only get locbtion on screen when necessbry
+        invokerBounds.setLocbtion(invoker.getLocbtionOnScreen());
+        popupBounds.setLocbtion(popupMenu.getLocbtionOnScreen());
 
-        final Point invokerCenter = new Point((int)invokerBounds.getCenterX(), (int)invokerBounds.getCenterY());
-        if (popupBounds.contains(invokerCenter)) {
+        finbl Point invokerCenter = new Point((int)invokerBounds.getCenterX(), (int)invokerBounds.getCenterY());
+        if (popupBounds.contbins(invokerCenter)) {
             // invoker is "behind" the popup, no corners should be pointed
             return;
         }
 
-        // blast opaque background over the corners we want to "put back"
-        g2d.setComposite(AlphaComposite.SrcOver);
-        g2d.setColor(popupMenu.getBackground());
+        // blbst opbque bbckground over the corners we wbnt to "put bbck"
+        g2d.setComposite(AlphbComposite.SrcOver);
+        g2d.setColor(popupMenu.getBbckground());
 
-        final Point popupCenter = new Point((int)popupBounds.getCenterX(), (int)popupBounds.getCenterY());
-        final boolean invokerMidpointAbovePopupMidpoint = invokerCenter.y <= popupCenter.y;
+        finbl Point popupCenter = new Point((int)popupBounds.getCenterX(), (int)popupBounds.getCenterY());
+        finbl boolebn invokerMidpointAbovePopupMidpoint = invokerCenter.y <= popupCenter.y;
 
         if (invokerBounds.x + invokerBounds.width < popupBounds.x + OVERLAP_SLACK) {
-            // popup is far right of invoker
+            // popup is fbr right of invoker
             if (invokerMidpointAbovePopupMidpoint) {
-                // point upper left corner, most common case
+                // point upper left corner, most common cbse
                 g2d.fillRect(-2, -2, 8, 8);
                 return;
             }
@@ -113,7 +113,7 @@ public class AquaPopupMenuUI extends BasicPopupMenuUI {
         }
 
         if (popupBounds.x + popupBounds.width < invokerBounds.x + OVERLAP_SLACK) {
-            // popup is far left of invoker
+            // popup is fbr left of invoker
             if (invokerMidpointAbovePopupMidpoint) {
                 // point upper right corner
                 g2d.fillRect(popupBounds.width - 6, -2, 8, 8);
@@ -124,14 +124,14 @@ public class AquaPopupMenuUI extends BasicPopupMenuUI {
             return;
         }
 
-        // popup is neither "far right" or "far left" of it's invoker
+        // popup is neither "fbr right" or "fbr left" of it's invoker
         if (invokerBounds.y + invokerBounds.height < popupBounds.y + OVERLAP_SLACK) {
             // popup is "middle" below it's invoker,
-            // this is probably the "connected" case where both upper corners should touch
+            // this is probbbly the "connected" cbse where both upper corners should touch
             g2d.fillRect(-2, -2, popupBounds.width + 4, 8);
             return;
         }
 
-        // if none of these cases match...don't make any corners pointed
+        // if none of these cbses mbtch...don't mbke bny corners pointed
     }
 }

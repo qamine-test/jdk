@@ -1,757 +1,757 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
-import  java.io.*;
-import  java.util.*;
+pbckbge jbvb.lbng;
+import  jbvb.io.*;
+import  jbvb.util.*;
 
 /**
- * The {@code Throwable} class is the superclass of all errors and
- * exceptions in the Java language. Only objects that are instances of this
- * class (or one of its subclasses) are thrown by the Java Virtual Machine or
- * can be thrown by the Java {@code throw} statement. Similarly, only
- * this class or one of its subclasses can be the argument type in a
- * {@code catch} clause.
+ * The {@code Throwbble} clbss is the superclbss of bll errors bnd
+ * exceptions in the Jbvb lbngubge. Only objects thbt bre instbnces of this
+ * clbss (or one of its subclbsses) bre thrown by the Jbvb Virtubl Mbchine or
+ * cbn be thrown by the Jbvb {@code throw} stbtement. Similbrly, only
+ * this clbss or one of its subclbsses cbn be the brgument type in b
+ * {@code cbtch} clbuse.
  *
  * For the purposes of compile-time checking of exceptions, {@code
- * Throwable} and any subclass of {@code Throwable} that is not also a
- * subclass of either {@link RuntimeException} or {@link Error} are
- * regarded as checked exceptions.
+ * Throwbble} bnd bny subclbss of {@code Throwbble} thbt is not blso b
+ * subclbss of either {@link RuntimeException} or {@link Error} bre
+ * regbrded bs checked exceptions.
  *
- * <p>Instances of two subclasses, {@link java.lang.Error} and
- * {@link java.lang.Exception}, are conventionally used to indicate
- * that exceptional situations have occurred. Typically, these instances
- * are freshly created in the context of the exceptional situation so
- * as to include relevant information (such as stack trace data).
+ * <p>Instbnces of two subclbsses, {@link jbvb.lbng.Error} bnd
+ * {@link jbvb.lbng.Exception}, bre conventionblly used to indicbte
+ * thbt exceptionbl situbtions hbve occurred. Typicblly, these instbnces
+ * bre freshly crebted in the context of the exceptionbl situbtion so
+ * bs to include relevbnt informbtion (such bs stbck trbce dbtb).
  *
- * <p>A throwable contains a snapshot of the execution stack of its
- * thread at the time it was created. It can also contain a message
- * string that gives more information about the error. Over time, a
- * throwable can {@linkplain Throwable#addSuppressed suppress} other
- * throwables from being propagated.  Finally, the throwable can also
- * contain a <i>cause</i>: another throwable that caused this
- * throwable to be constructed.  The recording of this causal information
- * is referred to as the <i>chained exception</i> facility, as the
- * cause can, itself, have a cause, and so on, leading to a "chain" of
- * exceptions, each caused by another.
+ * <p>A throwbble contbins b snbpshot of the execution stbck of its
+ * threbd bt the time it wbs crebted. It cbn blso contbin b messbge
+ * string thbt gives more informbtion bbout the error. Over time, b
+ * throwbble cbn {@linkplbin Throwbble#bddSuppressed suppress} other
+ * throwbbles from being propbgbted.  Finblly, the throwbble cbn blso
+ * contbin b <i>cbuse</i>: bnother throwbble thbt cbused this
+ * throwbble to be constructed.  The recording of this cbusbl informbtion
+ * is referred to bs the <i>chbined exception</i> fbcility, bs the
+ * cbuse cbn, itself, hbve b cbuse, bnd so on, lebding to b "chbin" of
+ * exceptions, ebch cbused by bnother.
  *
- * <p>One reason that a throwable may have a cause is that the class that
- * throws it is built atop a lower layered abstraction, and an operation on
- * the upper layer fails due to a failure in the lower layer.  It would be bad
- * design to let the throwable thrown by the lower layer propagate outward, as
- * it is generally unrelated to the abstraction provided by the upper layer.
- * Further, doing so would tie the API of the upper layer to the details of
- * its implementation, assuming the lower layer's exception was a checked
- * exception.  Throwing a "wrapped exception" (i.e., an exception containing a
- * cause) allows the upper layer to communicate the details of the failure to
- * its caller without incurring either of these shortcomings.  It preserves
- * the flexibility to change the implementation of the upper layer without
- * changing its API (in particular, the set of exceptions thrown by its
+ * <p>One rebson thbt b throwbble mby hbve b cbuse is thbt the clbss thbt
+ * throws it is built btop b lower lbyered bbstrbction, bnd bn operbtion on
+ * the upper lbyer fbils due to b fbilure in the lower lbyer.  It would be bbd
+ * design to let the throwbble thrown by the lower lbyer propbgbte outwbrd, bs
+ * it is generblly unrelbted to the bbstrbction provided by the upper lbyer.
+ * Further, doing so would tie the API of the upper lbyer to the detbils of
+ * its implementbtion, bssuming the lower lbyer's exception wbs b checked
+ * exception.  Throwing b "wrbpped exception" (i.e., bn exception contbining b
+ * cbuse) bllows the upper lbyer to communicbte the detbils of the fbilure to
+ * its cbller without incurring either of these shortcomings.  It preserves
+ * the flexibility to chbnge the implementbtion of the upper lbyer without
+ * chbnging its API (in pbrticulbr, the set of exceptions thrown by its
  * methods).
  *
- * <p>A second reason that a throwable may have a cause is that the method
- * that throws it must conform to a general-purpose interface that does not
- * permit the method to throw the cause directly.  For example, suppose
- * a persistent collection conforms to the {@link java.util.Collection
- * Collection} interface, and that its persistence is implemented atop
- * {@code java.io}.  Suppose the internals of the {@code add} method
- * can throw an {@link java.io.IOException IOException}.  The implementation
- * can communicate the details of the {@code IOException} to its caller
- * while conforming to the {@code Collection} interface by wrapping the
- * {@code IOException} in an appropriate unchecked exception.  (The
- * specification for the persistent collection should indicate that it is
- * capable of throwing such exceptions.)
+ * <p>A second rebson thbt b throwbble mby hbve b cbuse is thbt the method
+ * thbt throws it must conform to b generbl-purpose interfbce thbt does not
+ * permit the method to throw the cbuse directly.  For exbmple, suppose
+ * b persistent collection conforms to the {@link jbvb.util.Collection
+ * Collection} interfbce, bnd thbt its persistence is implemented btop
+ * {@code jbvb.io}.  Suppose the internbls of the {@code bdd} method
+ * cbn throw bn {@link jbvb.io.IOException IOException}.  The implementbtion
+ * cbn communicbte the detbils of the {@code IOException} to its cbller
+ * while conforming to the {@code Collection} interfbce by wrbpping the
+ * {@code IOException} in bn bppropribte unchecked exception.  (The
+ * specificbtion for the persistent collection should indicbte thbt it is
+ * cbpbble of throwing such exceptions.)
  *
- * <p>A cause can be associated with a throwable in two ways: via a
- * constructor that takes the cause as an argument, or via the
- * {@link #initCause(Throwable)} method.  New throwable classes that
- * wish to allow causes to be associated with them should provide constructors
- * that take a cause and delegate (perhaps indirectly) to one of the
- * {@code Throwable} constructors that takes a cause.
+ * <p>A cbuse cbn be bssocibted with b throwbble in two wbys: vib b
+ * constructor thbt tbkes the cbuse bs bn brgument, or vib the
+ * {@link #initCbuse(Throwbble)} method.  New throwbble clbsses thbt
+ * wish to bllow cbuses to be bssocibted with them should provide constructors
+ * thbt tbke b cbuse bnd delegbte (perhbps indirectly) to one of the
+ * {@code Throwbble} constructors thbt tbkes b cbuse.
  *
- * Because the {@code initCause} method is public, it allows a cause to be
- * associated with any throwable, even a "legacy throwable" whose
- * implementation predates the addition of the exception chaining mechanism to
- * {@code Throwable}.
+ * Becbuse the {@code initCbuse} method is public, it bllows b cbuse to be
+ * bssocibted with bny throwbble, even b "legbcy throwbble" whose
+ * implementbtion predbtes the bddition of the exception chbining mechbnism to
+ * {@code Throwbble}.
  *
- * <p>By convention, class {@code Throwable} and its subclasses have two
- * constructors, one that takes no arguments and one that takes a
- * {@code String} argument that can be used to produce a detail message.
- * Further, those subclasses that might likely have a cause associated with
- * them should have two more constructors, one that takes a
- * {@code Throwable} (the cause), and one that takes a
- * {@code String} (the detail message) and a {@code Throwable} (the
- * cause).
+ * <p>By convention, clbss {@code Throwbble} bnd its subclbsses hbve two
+ * constructors, one thbt tbkes no brguments bnd one thbt tbkes b
+ * {@code String} brgument thbt cbn be used to produce b detbil messbge.
+ * Further, those subclbsses thbt might likely hbve b cbuse bssocibted with
+ * them should hbve two more constructors, one thbt tbkes b
+ * {@code Throwbble} (the cbuse), bnd one thbt tbkes b
+ * {@code String} (the detbil messbge) bnd b {@code Throwbble} (the
+ * cbuse).
  *
- * @author  unascribed
- * @author  Josh Bloch (Added exception chaining and programmatic access to
- *          stack trace in 1.4.)
+ * @buthor  unbscribed
+ * @buthor  Josh Bloch (Added exception chbining bnd progrbmmbtic bccess to
+ *          stbck trbce in 1.4.)
  * @jls 11.2 Compile-Time Checking of Exceptions
  * @since 1.0
  */
-public class Throwable implements Serializable {
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -3042686055658047285L;
+public clbss Throwbble implements Seriblizbble {
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -3042686055658047285L;
 
     /**
-     * Native code saves some indication of the stack backtrace in this slot.
+     * Nbtive code sbves some indicbtion of the stbck bbcktrbce in this slot.
      */
-    private transient Object backtrace;
+    privbte trbnsient Object bbcktrbce;
 
     /**
-     * Specific details about the Throwable.  For example, for
-     * {@code FileNotFoundException}, this contains the name of
-     * the file that could not be found.
+     * Specific detbils bbout the Throwbble.  For exbmple, for
+     * {@code FileNotFoundException}, this contbins the nbme of
+     * the file thbt could not be found.
      *
-     * @serial
+     * @seribl
      */
-    private String detailMessage;
+    privbte String detbilMessbge;
 
 
     /**
-     * Holder class to defer initializing sentinel objects only used
-     * for serialization.
+     * Holder clbss to defer initiblizing sentinel objects only used
+     * for seriblizbtion.
      */
-    private static class SentinelHolder {
+    privbte stbtic clbss SentinelHolder {
         /**
-         * {@linkplain #setStackTrace(StackTraceElement[]) Setting the
-         * stack trace} to a one-element array containing this sentinel
-         * value indicates future attempts to set the stack trace will be
-         * ignored.  The sentinal is equal to the result of calling:<br>
-         * {@code new StackTraceElement("", "", null, Integer.MIN_VALUE)}
+         * {@linkplbin #setStbckTrbce(StbckTrbceElement[]) Setting the
+         * stbck trbce} to b one-element brrby contbining this sentinel
+         * vblue indicbtes future bttempts to set the stbck trbce will be
+         * ignored.  The sentinbl is equbl to the result of cblling:<br>
+         * {@code new StbckTrbceElement("", "", null, Integer.MIN_VALUE)}
          */
-        public static final StackTraceElement STACK_TRACE_ELEMENT_SENTINEL =
-            new StackTraceElement("", "", null, Integer.MIN_VALUE);
+        public stbtic finbl StbckTrbceElement STACK_TRACE_ELEMENT_SENTINEL =
+            new StbckTrbceElement("", "", null, Integer.MIN_VALUE);
 
         /**
-         * Sentinel value used in the serial form to indicate an immutable
-         * stack trace.
+         * Sentinel vblue used in the seribl form to indicbte bn immutbble
+         * stbck trbce.
          */
-        public static final StackTraceElement[] STACK_TRACE_SENTINEL =
-            new StackTraceElement[] {STACK_TRACE_ELEMENT_SENTINEL};
+        public stbtic finbl StbckTrbceElement[] STACK_TRACE_SENTINEL =
+            new StbckTrbceElement[] {STACK_TRACE_ELEMENT_SENTINEL};
     }
 
     /**
-     * A shared value for an empty stack.
+     * A shbred vblue for bn empty stbck.
      */
-    private static final StackTraceElement[] UNASSIGNED_STACK = new StackTraceElement[0];
+    privbte stbtic finbl StbckTrbceElement[] UNASSIGNED_STACK = new StbckTrbceElement[0];
 
     /*
-     * To allow Throwable objects to be made immutable and safely
-     * reused by the JVM, such as OutOfMemoryErrors, fields of
-     * Throwable that are writable in response to user actions, cause,
-     * stackTrace, and suppressedExceptions obey the following
+     * To bllow Throwbble objects to be mbde immutbble bnd sbfely
+     * reused by the JVM, such bs OutOfMemoryErrors, fields of
+     * Throwbble thbt bre writbble in response to user bctions, cbuse,
+     * stbckTrbce, bnd suppressedExceptions obey the following
      * protocol:
      *
-     * 1) The fields are initialized to a non-null sentinel value
-     * which indicates the value has logically not been set.
+     * 1) The fields bre initiblized to b non-null sentinel vblue
+     * which indicbtes the vblue hbs logicblly not been set.
      *
-     * 2) Writing a null to the field indicates further writes
-     * are forbidden
+     * 2) Writing b null to the field indicbtes further writes
+     * bre forbidden
      *
-     * 3) The sentinel value may be replaced with another non-null
-     * value.
+     * 3) The sentinel vblue mby be replbced with bnother non-null
+     * vblue.
      *
-     * For example, implementations of the HotSpot JVM have
-     * preallocated OutOfMemoryError objects to provide for better
-     * diagnosability of that situation.  These objects are created
-     * without calling the constructor for that class and the fields
-     * in question are initialized to null.  To support this
-     * capability, any new fields added to Throwable that require
-     * being initialized to a non-null value require a coordinated JVM
-     * change.
+     * For exbmple, implementbtions of the HotSpot JVM hbve
+     * prebllocbted OutOfMemoryError objects to provide for better
+     * dibgnosbbility of thbt situbtion.  These objects bre crebted
+     * without cblling the constructor for thbt clbss bnd the fields
+     * in question bre initiblized to null.  To support this
+     * cbpbbility, bny new fields bdded to Throwbble thbt require
+     * being initiblized to b non-null vblue require b coordinbted JVM
+     * chbnge.
      */
 
     /**
-     * The throwable that caused this throwable to get thrown, or null if this
-     * throwable was not caused by another throwable, or if the causative
-     * throwable is unknown.  If this field is equal to this throwable itself,
-     * it indicates that the cause of this throwable has not yet been
-     * initialized.
+     * The throwbble thbt cbused this throwbble to get thrown, or null if this
+     * throwbble wbs not cbused by bnother throwbble, or if the cbusbtive
+     * throwbble is unknown.  If this field is equbl to this throwbble itself,
+     * it indicbtes thbt the cbuse of this throwbble hbs not yet been
+     * initiblized.
      *
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private Throwable cause = this;
+    privbte Throwbble cbuse = this;
 
     /**
-     * The stack trace, as returned by {@link #getStackTrace()}.
+     * The stbck trbce, bs returned by {@link #getStbckTrbce()}.
      *
-     * The field is initialized to a zero-length array.  A {@code
-     * null} value of this field indicates subsequent calls to {@link
-     * #setStackTrace(StackTraceElement[])} and {@link
-     * #fillInStackTrace()} will be be no-ops.
+     * The field is initiblized to b zero-length brrby.  A {@code
+     * null} vblue of this field indicbtes subsequent cblls to {@link
+     * #setStbckTrbce(StbckTrbceElement[])} bnd {@link
+     * #fillInStbckTrbce()} will be be no-ops.
      *
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private StackTraceElement[] stackTrace = UNASSIGNED_STACK;
+    privbte StbckTrbceElement[] stbckTrbce = UNASSIGNED_STACK;
 
-    // Setting this static field introduces an acceptable
-    // initialization dependency on a few java.util classes.
-    private static final List<Throwable> SUPPRESSED_SENTINEL =
-        Collections.unmodifiableList(new ArrayList<Throwable>(0));
+    // Setting this stbtic field introduces bn bcceptbble
+    // initiblizbtion dependency on b few jbvb.util clbsses.
+    privbte stbtic finbl List<Throwbble> SUPPRESSED_SENTINEL =
+        Collections.unmodifibbleList(new ArrbyList<Throwbble>(0));
 
     /**
-     * The list of suppressed exceptions, as returned by {@link
-     * #getSuppressed()}.  The list is initialized to a zero-element
-     * unmodifiable sentinel list.  When a serialized Throwable is
-     * read in, if the {@code suppressedExceptions} field points to a
-     * zero-element list, the field is reset to the sentinel value.
+     * The list of suppressed exceptions, bs returned by {@link
+     * #getSuppressed()}.  The list is initiblized to b zero-element
+     * unmodifibble sentinel list.  When b seriblized Throwbble is
+     * rebd in, if the {@code suppressedExceptions} field points to b
+     * zero-element list, the field is reset to the sentinel vblue.
      *
-     * @serial
+     * @seribl
      * @since 1.7
      */
-    private List<Throwable> suppressedExceptions = SUPPRESSED_SENTINEL;
+    privbte List<Throwbble> suppressedExceptions = SUPPRESSED_SENTINEL;
 
-    /** Message for trying to suppress a null exception. */
-    private static final String NULL_CAUSE_MESSAGE = "Cannot suppress a null exception.";
+    /** Messbge for trying to suppress b null exception. */
+    privbte stbtic finbl String NULL_CAUSE_MESSAGE = "Cbnnot suppress b null exception.";
 
-    /** Message for trying to suppress oneself. */
-    private static final String SELF_SUPPRESSION_MESSAGE = "Self-suppression not permitted";
+    /** Messbge for trying to suppress oneself. */
+    privbte stbtic finbl String SELF_SUPPRESSION_MESSAGE = "Self-suppression not permitted";
 
-    /** Caption  for labeling causative exception stack traces */
-    private static final String CAUSE_CAPTION = "Caused by: ";
+    /** Cbption  for lbbeling cbusbtive exception stbck trbces */
+    privbte stbtic finbl String CAUSE_CAPTION = "Cbused by: ";
 
-    /** Caption for labeling suppressed exception stack traces */
-    private static final String SUPPRESSED_CAPTION = "Suppressed: ";
+    /** Cbption for lbbeling suppressed exception stbck trbces */
+    privbte stbtic finbl String SUPPRESSED_CAPTION = "Suppressed: ";
 
     /**
-     * Constructs a new throwable with {@code null} as its detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
+     * Constructs b new throwbble with {@code null} bs its detbil messbge.
+     * The cbuse is not initiblized, bnd mby subsequently be initiblized by b
+     * cbll to {@link #initCbuse}.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>The {@link #fillInStbckTrbce()} method is cblled to initiblize
+     * the stbck trbce dbtb in the newly crebted throwbble.
      */
-    public Throwable() {
-        fillInStackTrace();
+    public Throwbble() {
+        fillInStbckTrbce();
     }
 
     /**
-     * Constructs a new throwable with the specified detail message.  The
-     * cause is not initialized, and may subsequently be initialized by
-     * a call to {@link #initCause}.
+     * Constructs b new throwbble with the specified detbil messbge.  The
+     * cbuse is not initiblized, bnd mby subsequently be initiblized by
+     * b cbll to {@link #initCbuse}.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>The {@link #fillInStbckTrbce()} method is cblled to initiblize
+     * the stbck trbce dbtb in the newly crebted throwbble.
      *
-     * @param   message   the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
+     * @pbrbm   messbge   the detbil messbge. The detbil messbge is sbved for
+     *          lbter retrievbl by the {@link #getMessbge()} method.
      */
-    public Throwable(String message) {
-        fillInStackTrace();
-        detailMessage = message;
+    public Throwbble(String messbge) {
+        fillInStbckTrbce();
+        detbilMessbge = messbge;
     }
 
     /**
-     * Constructs a new throwable with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this throwable's detail message.
+     * Constructs b new throwbble with the specified detbil messbge bnd
+     * cbuse.  <p>Note thbt the detbil messbge bssocibted with
+     * {@code cbuse} is <i>not</i> butombticblly incorporbted in
+     * this throwbble's detbil messbge.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>The {@link #fillInStbckTrbce()} method is cblled to initiblize
+     * the stbck trbce dbtb in the newly crebted throwbble.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  messbge the detbil messbge (which is sbved for lbter retrievbl
+     *         by the {@link #getMessbge()} method).
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A {@code null} vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public Throwable(String message, Throwable cause) {
-        fillInStackTrace();
-        detailMessage = message;
-        this.cause = cause;
+    public Throwbble(String messbge, Throwbble cbuse) {
+        fillInStbckTrbce();
+        detbilMessbge = messbge;
+        this.cbuse = cbuse;
     }
 
     /**
-     * Constructs a new throwable with the specified cause and a detail
-     * message of {@code (cause==null ? null : cause.toString())} (which
-     * typically contains the class and detail message of {@code cause}).
-     * This constructor is useful for throwables that are little more than
-     * wrappers for other throwables (for example, {@link
-     * java.security.PrivilegedActionException}).
+     * Constructs b new throwbble with the specified cbuse bnd b detbil
+     * messbge of {@code (cbuse==null ? null : cbuse.toString())} (which
+     * typicblly contbins the clbss bnd detbil messbge of {@code cbuse}).
+     * This constructor is useful for throwbbles thbt bre little more thbn
+     * wrbppers for other throwbbles (for exbmple, {@link
+     * jbvb.security.PrivilegedActionException}).
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>The {@link #fillInStbckTrbce()} method is cblled to initiblize
+     * the stbck trbce dbtb in the newly crebted throwbble.
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A {@code null} vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public Throwable(Throwable cause) {
-        fillInStackTrace();
-        detailMessage = (cause==null ? null : cause.toString());
-        this.cause = cause;
+    public Throwbble(Throwbble cbuse) {
+        fillInStbckTrbce();
+        detbilMessbge = (cbuse==null ? null : cbuse.toString());
+        this.cbuse = cbuse;
     }
 
     /**
-     * Constructs a new throwable with the specified detail message,
-     * cause, {@linkplain #addSuppressed suppression} enabled or
-     * disabled, and writable stack trace enabled or disabled.  If
-     * suppression is disabled, {@link #getSuppressed} for this object
-     * will return a zero-length array and calls to {@link
-     * #addSuppressed} that would otherwise append an exception to the
-     * suppressed list will have no effect.  If the writable stack
-     * trace is false, this constructor will not call {@link
-     * #fillInStackTrace()}, a {@code null} will be written to the
-     * {@code stackTrace} field, and subsequent calls to {@code
-     * fillInStackTrace} and {@link
-     * #setStackTrace(StackTraceElement[])} will not set the stack
-     * trace.  If the writable stack trace is false, {@link
-     * #getStackTrace} will return a zero length array.
+     * Constructs b new throwbble with the specified detbil messbge,
+     * cbuse, {@linkplbin #bddSuppressed suppression} enbbled or
+     * disbbled, bnd writbble stbck trbce enbbled or disbbled.  If
+     * suppression is disbbled, {@link #getSuppressed} for this object
+     * will return b zero-length brrby bnd cblls to {@link
+     * #bddSuppressed} thbt would otherwise bppend bn exception to the
+     * suppressed list will hbve no effect.  If the writbble stbck
+     * trbce is fblse, this constructor will not cbll {@link
+     * #fillInStbckTrbce()}, b {@code null} will be written to the
+     * {@code stbckTrbce} field, bnd subsequent cblls to {@code
+     * fillInStbckTrbce} bnd {@link
+     * #setStbckTrbce(StbckTrbceElement[])} will not set the stbck
+     * trbce.  If the writbble stbck trbce is fblse, {@link
+     * #getStbckTrbce} will return b zero length brrby.
      *
-     * <p>Note that the other constructors of {@code Throwable} treat
-     * suppression as being enabled and the stack trace as being
-     * writable.  Subclasses of {@code Throwable} should document any
-     * conditions under which suppression is disabled and document
-     * conditions under which the stack trace is not writable.
-     * Disabling of suppression should only occur in exceptional
-     * circumstances where special requirements exist, such as a
-     * virtual machine reusing exception objects under low-memory
-     * situations.  Circumstances where a given exception object is
-     * repeatedly caught and rethrown, such as to implement control
-     * flow between two sub-systems, is another situation where
-     * immutable throwable objects would be appropriate.
+     * <p>Note thbt the other constructors of {@code Throwbble} trebt
+     * suppression bs being enbbled bnd the stbck trbce bs being
+     * writbble.  Subclbsses of {@code Throwbble} should document bny
+     * conditions under which suppression is disbbled bnd document
+     * conditions under which the stbck trbce is not writbble.
+     * Disbbling of suppression should only occur in exceptionbl
+     * circumstbnces where specibl requirements exist, such bs b
+     * virtubl mbchine reusing exception objects under low-memory
+     * situbtions.  Circumstbnces where b given exception object is
+     * repebtedly cbught bnd rethrown, such bs to implement control
+     * flow between two sub-systems, is bnother situbtion where
+     * immutbble throwbble objects would be bppropribte.
      *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled or disabled
-     * @param writableStackTrace whether or not the stack trace should be
-     *                           writable
+     * @pbrbm  messbge the detbil messbge.
+     * @pbrbm cbuse the cbuse.  (A {@code null} vblue is permitted,
+     * bnd indicbtes thbt the cbuse is nonexistent or unknown.)
+     * @pbrbm enbbleSuppression whether or not suppression is enbbled or disbbled
+     * @pbrbm writbbleStbckTrbce whether or not the stbck trbce should be
+     *                           writbble
      *
      * @see OutOfMemoryError
      * @see NullPointerException
      * @see ArithmeticException
      * @since 1.7
      */
-    protected Throwable(String message, Throwable cause,
-                        boolean enableSuppression,
-                        boolean writableStackTrace) {
-        if (writableStackTrace) {
-            fillInStackTrace();
+    protected Throwbble(String messbge, Throwbble cbuse,
+                        boolebn enbbleSuppression,
+                        boolebn writbbleStbckTrbce) {
+        if (writbbleStbckTrbce) {
+            fillInStbckTrbce();
         } else {
-            stackTrace = null;
+            stbckTrbce = null;
         }
-        detailMessage = message;
-        this.cause = cause;
-        if (!enableSuppression)
+        detbilMessbge = messbge;
+        this.cbuse = cbuse;
+        if (!enbbleSuppression)
             suppressedExceptions = null;
     }
 
     /**
-     * Returns the detail message string of this throwable.
+     * Returns the detbil messbge string of this throwbble.
      *
-     * @return  the detail message string of this {@code Throwable} instance
-     *          (which may be {@code null}).
+     * @return  the detbil messbge string of this {@code Throwbble} instbnce
+     *          (which mby be {@code null}).
      */
-    public String getMessage() {
-        return detailMessage;
+    public String getMessbge() {
+        return detbilMessbge;
     }
 
     /**
-     * Creates a localized description of this throwable.
-     * Subclasses may override this method in order to produce a
-     * locale-specific message.  For subclasses that do not override this
-     * method, the default implementation returns the same result as
-     * {@code getMessage()}.
+     * Crebtes b locblized description of this throwbble.
+     * Subclbsses mby override this method in order to produce b
+     * locble-specific messbge.  For subclbsses thbt do not override this
+     * method, the defbult implementbtion returns the sbme result bs
+     * {@code getMessbge()}.
      *
-     * @return  The localized description of this throwable.
+     * @return  The locblized description of this throwbble.
      * @since   1.1
      */
-    public String getLocalizedMessage() {
-        return getMessage();
+    public String getLocblizedMessbge() {
+        return getMessbge();
     }
 
     /**
-     * Returns the cause of this throwable or {@code null} if the
-     * cause is nonexistent or unknown.  (The cause is the throwable that
-     * caused this throwable to get thrown.)
+     * Returns the cbuse of this throwbble or {@code null} if the
+     * cbuse is nonexistent or unknown.  (The cbuse is the throwbble thbt
+     * cbused this throwbble to get thrown.)
      *
-     * <p>This implementation returns the cause that was supplied via one of
-     * the constructors requiring a {@code Throwable}, or that was set after
-     * creation with the {@link #initCause(Throwable)} method.  While it is
-     * typically unnecessary to override this method, a subclass can override
-     * it to return a cause set by some other means.  This is appropriate for
-     * a "legacy chained throwable" that predates the addition of chained
-     * exceptions to {@code Throwable}.  Note that it is <i>not</i>
-     * necessary to override any of the {@code PrintStackTrace} methods,
-     * all of which invoke the {@code getCause} method to determine the
-     * cause of a throwable.
+     * <p>This implementbtion returns the cbuse thbt wbs supplied vib one of
+     * the constructors requiring b {@code Throwbble}, or thbt wbs set bfter
+     * crebtion with the {@link #initCbuse(Throwbble)} method.  While it is
+     * typicblly unnecessbry to override this method, b subclbss cbn override
+     * it to return b cbuse set by some other mebns.  This is bppropribte for
+     * b "legbcy chbined throwbble" thbt predbtes the bddition of chbined
+     * exceptions to {@code Throwbble}.  Note thbt it is <i>not</i>
+     * necessbry to override bny of the {@code PrintStbckTrbce} methods,
+     * bll of which invoke the {@code getCbuse} method to determine the
+     * cbuse of b throwbble.
      *
-     * @return  the cause of this throwable or {@code null} if the
-     *          cause is nonexistent or unknown.
+     * @return  the cbuse of this throwbble or {@code null} if the
+     *          cbuse is nonexistent or unknown.
      * @since 1.4
      */
-    public synchronized Throwable getCause() {
-        return (cause==this ? null : cause);
+    public synchronized Throwbble getCbuse() {
+        return (cbuse==this ? null : cbuse);
     }
 
     /**
-     * Initializes the <i>cause</i> of this throwable to the specified value.
-     * (The cause is the throwable that caused this throwable to get thrown.)
+     * Initiblizes the <i>cbuse</i> of this throwbble to the specified vblue.
+     * (The cbuse is the throwbble thbt cbused this throwbble to get thrown.)
      *
-     * <p>This method can be called at most once.  It is generally called from
-     * within the constructor, or immediately after creating the
-     * throwable.  If this throwable was created
-     * with {@link #Throwable(Throwable)} or
-     * {@link #Throwable(String,Throwable)}, this method cannot be called
+     * <p>This method cbn be cblled bt most once.  It is generblly cblled from
+     * within the constructor, or immedibtely bfter crebting the
+     * throwbble.  If this throwbble wbs crebted
+     * with {@link #Throwbble(Throwbble)} or
+     * {@link #Throwbble(String,Throwbble)}, this method cbnnot be cblled
      * even once.
      *
-     * <p>An example of using this method on a legacy throwable type
-     * without other support for setting the cause is:
+     * <p>An exbmple of using this method on b legbcy throwbble type
+     * without other support for setting the cbuse is:
      *
      * <pre>
      * try {
      *     lowLevelOp();
-     * } catch (LowLevelException le) {
+     * } cbtch (LowLevelException le) {
      *     throw (HighLevelException)
-     *           new HighLevelException().initCause(le); // Legacy constructor
+     *           new HighLevelException().initCbuse(le); // Legbcy constructor
      * }
      * </pre>
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A {@code null} vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
-     * @return  a reference to this {@code Throwable} instance.
-     * @throws IllegalArgumentException if {@code cause} is this
-     *         throwable.  (A throwable cannot be its own cause.)
-     * @throws IllegalStateException if this throwable was
-     *         created with {@link #Throwable(Throwable)} or
-     *         {@link #Throwable(String,Throwable)}, or this method has already
-     *         been called on this throwable.
+     * @return  b reference to this {@code Throwbble} instbnce.
+     * @throws IllegblArgumentException if {@code cbuse} is this
+     *         throwbble.  (A throwbble cbnnot be its own cbuse.)
+     * @throws IllegblStbteException if this throwbble wbs
+     *         crebted with {@link #Throwbble(Throwbble)} or
+     *         {@link #Throwbble(String,Throwbble)}, or this method hbs blrebdy
+     *         been cblled on this throwbble.
      * @since  1.4
      */
-    public synchronized Throwable initCause(Throwable cause) {
-        if (this.cause != this)
-            throw new IllegalStateException("Can't overwrite cause with " +
-                                            Objects.toString(cause, "a null"), this);
-        if (cause == this)
-            throw new IllegalArgumentException("Self-causation not permitted", this);
-        this.cause = cause;
+    public synchronized Throwbble initCbuse(Throwbble cbuse) {
+        if (this.cbuse != this)
+            throw new IllegblStbteException("Cbn't overwrite cbuse with " +
+                                            Objects.toString(cbuse, "b null"), this);
+        if (cbuse == this)
+            throw new IllegblArgumentException("Self-cbusbtion not permitted", this);
+        this.cbuse = cbuse;
         return this;
     }
 
     /**
-     * Returns a short description of this throwable.
-     * The result is the concatenation of:
+     * Returns b short description of this throwbble.
+     * The result is the concbtenbtion of:
      * <ul>
-     * <li> the {@linkplain Class#getName() name} of the class of this object
-     * <li> ": " (a colon and a space)
-     * <li> the result of invoking this object's {@link #getLocalizedMessage}
+     * <li> the {@linkplbin Clbss#getNbme() nbme} of the clbss of this object
+     * <li> ": " (b colon bnd b spbce)
+     * <li> the result of invoking this object's {@link #getLocblizedMessbge}
      *      method
      * </ul>
-     * If {@code getLocalizedMessage} returns {@code null}, then just
-     * the class name is returned.
+     * If {@code getLocblizedMessbge} returns {@code null}, then just
+     * the clbss nbme is returned.
      *
-     * @return a string representation of this throwable.
+     * @return b string representbtion of this throwbble.
      */
     public String toString() {
-        String s = getClass().getName();
-        String message = getLocalizedMessage();
-        return (message != null) ? (s + ": " + message) : s;
+        String s = getClbss().getNbme();
+        String messbge = getLocblizedMessbge();
+        return (messbge != null) ? (s + ": " + messbge) : s;
     }
 
     /**
-     * Prints this throwable and its backtrace to the
-     * standard error stream. This method prints a stack trace for this
-     * {@code Throwable} object on the error output stream that is
-     * the value of the field {@code System.err}. The first line of
-     * output contains the result of the {@link #toString()} method for
-     * this object.  Remaining lines represent data previously recorded by
-     * the method {@link #fillInStackTrace()}. The format of this
-     * information depends on the implementation, but the following
-     * example may be regarded as typical:
+     * Prints this throwbble bnd its bbcktrbce to the
+     * stbndbrd error strebm. This method prints b stbck trbce for this
+     * {@code Throwbble} object on the error output strebm thbt is
+     * the vblue of the field {@code System.err}. The first line of
+     * output contbins the result of the {@link #toString()} method for
+     * this object.  Rembining lines represent dbtb previously recorded by
+     * the method {@link #fillInStbckTrbce()}. The formbt of this
+     * informbtion depends on the implementbtion, but the following
+     * exbmple mby be regbrded bs typicbl:
      * <blockquote><pre>
-     * java.lang.NullPointerException
-     *         at MyClass.mash(MyClass.java:9)
-     *         at MyClass.crunch(MyClass.java:6)
-     *         at MyClass.main(MyClass.java:3)
+     * jbvb.lbng.NullPointerException
+     *         bt MyClbss.mbsh(MyClbss.jbvb:9)
+     *         bt MyClbss.crunch(MyClbss.jbvb:6)
+     *         bt MyClbss.mbin(MyClbss.jbvb:3)
      * </pre></blockquote>
-     * This example was produced by running the program:
+     * This exbmple wbs produced by running the progrbm:
      * <pre>
-     * class MyClass {
-     *     public static void main(String[] args) {
+     * clbss MyClbss {
+     *     public stbtic void mbin(String[] brgs) {
      *         crunch(null);
      *     }
-     *     static void crunch(int[] a) {
-     *         mash(a);
+     *     stbtic void crunch(int[] b) {
+     *         mbsh(b);
      *     }
-     *     static void mash(int[] b) {
+     *     stbtic void mbsh(int[] b) {
      *         System.out.println(b[0]);
      *     }
      * }
      * </pre>
-     * The backtrace for a throwable with an initialized, non-null cause
-     * should generally include the backtrace for the cause.  The format
-     * of this information depends on the implementation, but the following
-     * example may be regarded as typical:
+     * The bbcktrbce for b throwbble with bn initiblized, non-null cbuse
+     * should generblly include the bbcktrbce for the cbuse.  The formbt
+     * of this informbtion depends on the implementbtion, but the following
+     * exbmple mby be regbrded bs typicbl:
      * <pre>
      * HighLevelException: MidLevelException: LowLevelException
-     *         at Junk.a(Junk.java:13)
-     *         at Junk.main(Junk.java:4)
-     * Caused by: MidLevelException: LowLevelException
-     *         at Junk.c(Junk.java:23)
-     *         at Junk.b(Junk.java:17)
-     *         at Junk.a(Junk.java:11)
+     *         bt Junk.b(Junk.jbvb:13)
+     *         bt Junk.mbin(Junk.jbvb:4)
+     * Cbused by: MidLevelException: LowLevelException
+     *         bt Junk.c(Junk.jbvb:23)
+     *         bt Junk.b(Junk.jbvb:17)
+     *         bt Junk.b(Junk.jbvb:11)
      *         ... 1 more
-     * Caused by: LowLevelException
-     *         at Junk.e(Junk.java:30)
-     *         at Junk.d(Junk.java:27)
-     *         at Junk.c(Junk.java:21)
+     * Cbused by: LowLevelException
+     *         bt Junk.e(Junk.jbvb:30)
+     *         bt Junk.d(Junk.jbvb:27)
+     *         bt Junk.c(Junk.jbvb:21)
      *         ... 3 more
      * </pre>
-     * Note the presence of lines containing the characters {@code "..."}.
-     * These lines indicate that the remainder of the stack trace for this
-     * exception matches the indicated number of frames from the bottom of the
-     * stack trace of the exception that was caused by this exception (the
-     * "enclosing" exception).  This shorthand can greatly reduce the length
-     * of the output in the common case where a wrapped exception is thrown
-     * from same method as the "causative exception" is caught.  The above
-     * example was produced by running the program:
+     * Note the presence of lines contbining the chbrbcters {@code "..."}.
+     * These lines indicbte thbt the rembinder of the stbck trbce for this
+     * exception mbtches the indicbted number of frbmes from the bottom of the
+     * stbck trbce of the exception thbt wbs cbused by this exception (the
+     * "enclosing" exception).  This shorthbnd cbn grebtly reduce the length
+     * of the output in the common cbse where b wrbpped exception is thrown
+     * from sbme method bs the "cbusbtive exception" is cbught.  The bbove
+     * exbmple wbs produced by running the progrbm:
      * <pre>
-     * public class Junk {
-     *     public static void main(String args[]) {
-     *         try {
-     *             a();
-     *         } catch(HighLevelException e) {
-     *             e.printStackTrace();
-     *         }
-     *     }
-     *     static void a() throws HighLevelException {
+     * public clbss Junk {
+     *     public stbtic void mbin(String brgs[]) {
      *         try {
      *             b();
-     *         } catch(MidLevelException e) {
+     *         } cbtch(HighLevelException e) {
+     *             e.printStbckTrbce();
+     *         }
+     *     }
+     *     stbtic void b() throws HighLevelException {
+     *         try {
+     *             b();
+     *         } cbtch(MidLevelException e) {
      *             throw new HighLevelException(e);
      *         }
      *     }
-     *     static void b() throws MidLevelException {
+     *     stbtic void b() throws MidLevelException {
      *         c();
      *     }
-     *     static void c() throws MidLevelException {
+     *     stbtic void c() throws MidLevelException {
      *         try {
      *             d();
-     *         } catch(LowLevelException e) {
+     *         } cbtch(LowLevelException e) {
      *             throw new MidLevelException(e);
      *         }
      *     }
-     *     static void d() throws LowLevelException {
+     *     stbtic void d() throws LowLevelException {
      *        e();
      *     }
-     *     static void e() throws LowLevelException {
+     *     stbtic void e() throws LowLevelException {
      *         throw new LowLevelException();
      *     }
      * }
      *
-     * class HighLevelException extends Exception {
-     *     HighLevelException(Throwable cause) { super(cause); }
+     * clbss HighLevelException extends Exception {
+     *     HighLevelException(Throwbble cbuse) { super(cbuse); }
      * }
      *
-     * class MidLevelException extends Exception {
-     *     MidLevelException(Throwable cause)  { super(cause); }
+     * clbss MidLevelException extends Exception {
+     *     MidLevelException(Throwbble cbuse)  { super(cbuse); }
      * }
      *
-     * class LowLevelException extends Exception {
+     * clbss LowLevelException extends Exception {
      * }
      * </pre>
-     * As of release 7, the platform supports the notion of
+     * As of relebse 7, the plbtform supports the notion of
      * <i>suppressed exceptions</i> (in conjunction with the {@code
-     * try}-with-resources statement). Any exceptions that were
-     * suppressed in order to deliver an exception are printed out
-     * beneath the stack trace.  The format of this information
-     * depends on the implementation, but the following example may be
-     * regarded as typical:
+     * try}-with-resources stbtement). Any exceptions thbt were
+     * suppressed in order to deliver bn exception bre printed out
+     * benebth the stbck trbce.  The formbt of this informbtion
+     * depends on the implementbtion, but the following exbmple mby be
+     * regbrded bs typicbl:
      *
      * <pre>
-     * Exception in thread "main" java.lang.Exception: Something happened
-     *  at Foo.bar(Foo.java:10)
-     *  at Foo.main(Foo.java:5)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 0
-     *          at Resource.close(Resource.java:26)
-     *          at Foo.bar(Foo.java:9)
+     * Exception in threbd "mbin" jbvb.lbng.Exception: Something hbppened
+     *  bt Foo.bbr(Foo.jbvb:10)
+     *  bt Foo.mbin(Foo.jbvb:5)
+     *  Suppressed: Resource$CloseFbilException: Resource ID = 0
+     *          bt Resource.close(Resource.jbvb:26)
+     *          bt Foo.bbr(Foo.jbvb:9)
      *          ... 1 more
      * </pre>
-     * Note that the "... n more" notation is used on suppressed exceptions
-     * just at it is used on causes. Unlike causes, suppressed exceptions are
-     * indented beyond their "containing exceptions."
+     * Note thbt the "... n more" notbtion is used on suppressed exceptions
+     * just bt it is used on cbuses. Unlike cbuses, suppressed exceptions bre
+     * indented beyond their "contbining exceptions."
      *
-     * <p>An exception can have both a cause and one or more suppressed
+     * <p>An exception cbn hbve both b cbuse bnd one or more suppressed
      * exceptions:
      * <pre>
-     * Exception in thread "main" java.lang.Exception: Main block
-     *  at Foo3.main(Foo3.java:7)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 2
-     *          at Resource.close(Resource.java:26)
-     *          at Foo3.main(Foo3.java:5)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 1
-     *          at Resource.close(Resource.java:26)
-     *          at Foo3.main(Foo3.java:5)
-     * Caused by: java.lang.Exception: I did it
-     *  at Foo3.main(Foo3.java:8)
+     * Exception in threbd "mbin" jbvb.lbng.Exception: Mbin block
+     *  bt Foo3.mbin(Foo3.jbvb:7)
+     *  Suppressed: Resource$CloseFbilException: Resource ID = 2
+     *          bt Resource.close(Resource.jbvb:26)
+     *          bt Foo3.mbin(Foo3.jbvb:5)
+     *  Suppressed: Resource$CloseFbilException: Resource ID = 1
+     *          bt Resource.close(Resource.jbvb:26)
+     *          bt Foo3.mbin(Foo3.jbvb:5)
+     * Cbused by: jbvb.lbng.Exception: I did it
+     *  bt Foo3.mbin(Foo3.jbvb:8)
      * </pre>
-     * Likewise, a suppressed exception can have a cause:
+     * Likewise, b suppressed exception cbn hbve b cbuse:
      * <pre>
-     * Exception in thread "main" java.lang.Exception: Main block
-     *  at Foo4.main(Foo4.java:6)
-     *  Suppressed: Resource2$CloseFailException: Resource ID = 1
-     *          at Resource2.close(Resource2.java:20)
-     *          at Foo4.main(Foo4.java:5)
-     *  Caused by: java.lang.Exception: Rats, you caught me
-     *          at Resource2$CloseFailException.&lt;init&gt;(Resource2.java:45)
+     * Exception in threbd "mbin" jbvb.lbng.Exception: Mbin block
+     *  bt Foo4.mbin(Foo4.jbvb:6)
+     *  Suppressed: Resource2$CloseFbilException: Resource ID = 1
+     *          bt Resource2.close(Resource2.jbvb:20)
+     *          bt Foo4.mbin(Foo4.jbvb:5)
+     *  Cbused by: jbvb.lbng.Exception: Rbts, you cbught me
+     *          bt Resource2$CloseFbilException.&lt;init&gt;(Resource2.jbvb:45)
      *          ... 2 more
      * </pre>
      */
-    public void printStackTrace() {
-        printStackTrace(System.err);
+    public void printStbckTrbce() {
+        printStbckTrbce(System.err);
     }
 
     /**
-     * Prints this throwable and its backtrace to the specified print stream.
+     * Prints this throwbble bnd its bbcktrbce to the specified print strebm.
      *
-     * @param s {@code PrintStream} to use for output
+     * @pbrbm s {@code PrintStrebm} to use for output
      */
-    public void printStackTrace(PrintStream s) {
-        printStackTrace(new WrappedPrintStream(s));
+    public void printStbckTrbce(PrintStrebm s) {
+        printStbckTrbce(new WrbppedPrintStrebm(s));
     }
 
-    private void printStackTrace(PrintStreamOrWriter s) {
-        // Guard against malicious overrides of Throwable.equals by
-        // using a Set with identity equality semantics.
-        Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<>());
-        dejaVu.add(this);
+    privbte void printStbckTrbce(PrintStrebmOrWriter s) {
+        // Gubrd bgbinst mblicious overrides of Throwbble.equbls by
+        // using b Set with identity equblity sembntics.
+        Set<Throwbble> dejbVu = Collections.newSetFromMbp(new IdentityHbshMbp<>());
+        dejbVu.bdd(this);
 
         synchronized (s.lock()) {
-            // Print our stack trace
+            // Print our stbck trbce
             s.println(this);
-            StackTraceElement[] trace = getOurStackTrace();
-            for (StackTraceElement traceElement : trace)
-                s.println("\tat " + traceElement);
+            StbckTrbceElement[] trbce = getOurStbckTrbce();
+            for (StbckTrbceElement trbceElement : trbce)
+                s.println("\tbt " + trbceElement);
 
-            // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
-                se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION, "\t", dejaVu);
+            // Print suppressed exceptions, if bny
+            for (Throwbble se : getSuppressed())
+                se.printEnclosedStbckTrbce(s, trbce, SUPPRESSED_CAPTION, "\t", dejbVu);
 
-            // Print cause, if any
-            Throwable ourCause = getCause();
-            if (ourCause != null)
-                ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, "", dejaVu);
+            // Print cbuse, if bny
+            Throwbble ourCbuse = getCbuse();
+            if (ourCbuse != null)
+                ourCbuse.printEnclosedStbckTrbce(s, trbce, CAUSE_CAPTION, "", dejbVu);
         }
     }
 
     /**
-     * Print our stack trace as an enclosed exception for the specified
-     * stack trace.
+     * Print our stbck trbce bs bn enclosed exception for the specified
+     * stbck trbce.
      */
-    private void printEnclosedStackTrace(PrintStreamOrWriter s,
-                                         StackTraceElement[] enclosingTrace,
-                                         String caption,
+    privbte void printEnclosedStbckTrbce(PrintStrebmOrWriter s,
+                                         StbckTrbceElement[] enclosingTrbce,
+                                         String cbption,
                                          String prefix,
-                                         Set<Throwable> dejaVu) {
-        assert Thread.holdsLock(s.lock());
-        if (dejaVu.contains(this)) {
+                                         Set<Throwbble> dejbVu) {
+        bssert Threbd.holdsLock(s.lock());
+        if (dejbVu.contbins(this)) {
             s.println("\t[CIRCULAR REFERENCE:" + this + "]");
         } else {
-            dejaVu.add(this);
-            // Compute number of frames in common between this and enclosing trace
-            StackTraceElement[] trace = getOurStackTrace();
-            int m = trace.length - 1;
-            int n = enclosingTrace.length - 1;
-            while (m >= 0 && n >=0 && trace[m].equals(enclosingTrace[n])) {
+            dejbVu.bdd(this);
+            // Compute number of frbmes in common between this bnd enclosing trbce
+            StbckTrbceElement[] trbce = getOurStbckTrbce();
+            int m = trbce.length - 1;
+            int n = enclosingTrbce.length - 1;
+            while (m >= 0 && n >=0 && trbce[m].equbls(enclosingTrbce[n])) {
                 m--; n--;
             }
-            int framesInCommon = trace.length - 1 - m;
+            int frbmesInCommon = trbce.length - 1 - m;
 
-            // Print our stack trace
-            s.println(prefix + caption + this);
+            // Print our stbck trbce
+            s.println(prefix + cbption + this);
             for (int i = 0; i <= m; i++)
-                s.println(prefix + "\tat " + trace[i]);
-            if (framesInCommon != 0)
-                s.println(prefix + "\t... " + framesInCommon + " more");
+                s.println(prefix + "\tbt " + trbce[i]);
+            if (frbmesInCommon != 0)
+                s.println(prefix + "\t... " + frbmesInCommon + " more");
 
-            // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
-                se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION,
-                                           prefix +"\t", dejaVu);
+            // Print suppressed exceptions, if bny
+            for (Throwbble se : getSuppressed())
+                se.printEnclosedStbckTrbce(s, trbce, SUPPRESSED_CAPTION,
+                                           prefix +"\t", dejbVu);
 
-            // Print cause, if any
-            Throwable ourCause = getCause();
-            if (ourCause != null)
-                ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, prefix, dejaVu);
+            // Print cbuse, if bny
+            Throwbble ourCbuse = getCbuse();
+            if (ourCbuse != null)
+                ourCbuse.printEnclosedStbckTrbce(s, trbce, CAUSE_CAPTION, prefix, dejbVu);
         }
     }
 
     /**
-     * Prints this throwable and its backtrace to the specified
+     * Prints this throwbble bnd its bbcktrbce to the specified
      * print writer.
      *
-     * @param s {@code PrintWriter} to use for output
+     * @pbrbm s {@code PrintWriter} to use for output
      * @since   1.1
      */
-    public void printStackTrace(PrintWriter s) {
-        printStackTrace(new WrappedPrintWriter(s));
+    public void printStbckTrbce(PrintWriter s) {
+        printStbckTrbce(new WrbppedPrintWriter(s));
     }
 
     /**
-     * Wrapper class for PrintStream and PrintWriter to enable a single
-     * implementation of printStackTrace.
+     * Wrbpper clbss for PrintStrebm bnd PrintWriter to enbble b single
+     * implementbtion of printStbckTrbce.
      */
-    private abstract static class PrintStreamOrWriter {
-        /** Returns the object to be locked when using this StreamOrWriter */
-        abstract Object lock();
+    privbte bbstrbct stbtic clbss PrintStrebmOrWriter {
+        /** Returns the object to be locked when using this StrebmOrWriter */
+        bbstrbct Object lock();
 
-        /** Prints the specified string as a line on this StreamOrWriter */
-        abstract void println(Object o);
+        /** Prints the specified string bs b line on this StrebmOrWriter */
+        bbstrbct void println(Object o);
     }
 
-    private static class WrappedPrintStream extends PrintStreamOrWriter {
-        private final PrintStream printStream;
+    privbte stbtic clbss WrbppedPrintStrebm extends PrintStrebmOrWriter {
+        privbte finbl PrintStrebm printStrebm;
 
-        WrappedPrintStream(PrintStream printStream) {
-            this.printStream = printStream;
+        WrbppedPrintStrebm(PrintStrebm printStrebm) {
+            this.printStrebm = printStrebm;
         }
 
         Object lock() {
-            return printStream;
+            return printStrebm;
         }
 
         void println(Object o) {
-            printStream.println(o);
+            printStrebm.println(o);
         }
     }
 
-    private static class WrappedPrintWriter extends PrintStreamOrWriter {
-        private final PrintWriter printWriter;
+    privbte stbtic clbss WrbppedPrintWriter extends PrintStrebmOrWriter {
+        privbte finbl PrintWriter printWriter;
 
-        WrappedPrintWriter(PrintWriter printWriter) {
+        WrbppedPrintWriter(PrintWriter printWriter) {
             this.printWriter = printWriter;
         }
 
@@ -765,281 +765,281 @@ public class Throwable implements Serializable {
     }
 
     /**
-     * Fills in the execution stack trace. This method records within this
-     * {@code Throwable} object information about the current state of
-     * the stack frames for the current thread.
+     * Fills in the execution stbck trbce. This method records within this
+     * {@code Throwbble} object informbtion bbout the current stbte of
+     * the stbck frbmes for the current threbd.
      *
-     * <p>If the stack trace of this {@code Throwable} {@linkplain
-     * Throwable#Throwable(String, Throwable, boolean, boolean) is not
-     * writable}, calling this method has no effect.
+     * <p>If the stbck trbce of this {@code Throwbble} {@linkplbin
+     * Throwbble#Throwbble(String, Throwbble, boolebn, boolebn) is not
+     * writbble}, cblling this method hbs no effect.
      *
-     * @return  a reference to this {@code Throwable} instance.
-     * @see     java.lang.Throwable#printStackTrace()
+     * @return  b reference to this {@code Throwbble} instbnce.
+     * @see     jbvb.lbng.Throwbble#printStbckTrbce()
      */
-    public synchronized Throwable fillInStackTrace() {
-        if (stackTrace != null ||
-            backtrace != null /* Out of protocol state */ ) {
-            fillInStackTrace(0);
-            stackTrace = UNASSIGNED_STACK;
+    public synchronized Throwbble fillInStbckTrbce() {
+        if (stbckTrbce != null ||
+            bbcktrbce != null /* Out of protocol stbte */ ) {
+            fillInStbckTrbce(0);
+            stbckTrbce = UNASSIGNED_STACK;
         }
         return this;
     }
 
-    private native Throwable fillInStackTrace(int dummy);
+    privbte nbtive Throwbble fillInStbckTrbce(int dummy);
 
     /**
-     * Provides programmatic access to the stack trace information printed by
-     * {@link #printStackTrace()}.  Returns an array of stack trace elements,
-     * each representing one stack frame.  The zeroth element of the array
-     * (assuming the array's length is non-zero) represents the top of the
-     * stack, which is the last method invocation in the sequence.  Typically,
-     * this is the point at which this throwable was created and thrown.
-     * The last element of the array (assuming the array's length is non-zero)
-     * represents the bottom of the stack, which is the first method invocation
+     * Provides progrbmmbtic bccess to the stbck trbce informbtion printed by
+     * {@link #printStbckTrbce()}.  Returns bn brrby of stbck trbce elements,
+     * ebch representing one stbck frbme.  The zeroth element of the brrby
+     * (bssuming the brrby's length is non-zero) represents the top of the
+     * stbck, which is the lbst method invocbtion in the sequence.  Typicblly,
+     * this is the point bt which this throwbble wbs crebted bnd thrown.
+     * The lbst element of the brrby (bssuming the brrby's length is non-zero)
+     * represents the bottom of the stbck, which is the first method invocbtion
      * in the sequence.
      *
-     * <p>Some virtual machines may, under some circumstances, omit one
-     * or more stack frames from the stack trace.  In the extreme case,
-     * a virtual machine that has no stack trace information concerning
-     * this throwable is permitted to return a zero-length array from this
-     * method.  Generally speaking, the array returned by this method will
-     * contain one element for every frame that would be printed by
-     * {@code printStackTrace}.  Writes to the returned array do not
-     * affect future calls to this method.
+     * <p>Some virtubl mbchines mby, under some circumstbnces, omit one
+     * or more stbck frbmes from the stbck trbce.  In the extreme cbse,
+     * b virtubl mbchine thbt hbs no stbck trbce informbtion concerning
+     * this throwbble is permitted to return b zero-length brrby from this
+     * method.  Generblly spebking, the brrby returned by this method will
+     * contbin one element for every frbme thbt would be printed by
+     * {@code printStbckTrbce}.  Writes to the returned brrby do not
+     * bffect future cblls to this method.
      *
-     * @return an array of stack trace elements representing the stack trace
-     *         pertaining to this throwable.
+     * @return bn brrby of stbck trbce elements representing the stbck trbce
+     *         pertbining to this throwbble.
      * @since  1.4
      */
-    public StackTraceElement[] getStackTrace() {
-        return getOurStackTrace().clone();
+    public StbckTrbceElement[] getStbckTrbce() {
+        return getOurStbckTrbce().clone();
     }
 
-    private synchronized StackTraceElement[] getOurStackTrace() {
-        // Initialize stack trace field with information from
-        // backtrace if this is the first call to this method
-        if (stackTrace == UNASSIGNED_STACK ||
-            (stackTrace == null && backtrace != null) /* Out of protocol state */) {
-            int depth = getStackTraceDepth();
-            stackTrace = new StackTraceElement[depth];
+    privbte synchronized StbckTrbceElement[] getOurStbckTrbce() {
+        // Initiblize stbck trbce field with informbtion from
+        // bbcktrbce if this is the first cbll to this method
+        if (stbckTrbce == UNASSIGNED_STACK ||
+            (stbckTrbce == null && bbcktrbce != null) /* Out of protocol stbte */) {
+            int depth = getStbckTrbceDepth();
+            stbckTrbce = new StbckTrbceElement[depth];
             for (int i=0; i < depth; i++)
-                stackTrace[i] = getStackTraceElement(i);
-        } else if (stackTrace == null) {
+                stbckTrbce[i] = getStbckTrbceElement(i);
+        } else if (stbckTrbce == null) {
             return UNASSIGNED_STACK;
         }
-        return stackTrace;
+        return stbckTrbce;
     }
 
     /**
-     * Sets the stack trace elements that will be returned by
-     * {@link #getStackTrace()} and printed by {@link #printStackTrace()}
-     * and related methods.
+     * Sets the stbck trbce elements thbt will be returned by
+     * {@link #getStbckTrbce()} bnd printed by {@link #printStbckTrbce()}
+     * bnd relbted methods.
      *
-     * This method, which is designed for use by RPC frameworks and other
-     * advanced systems, allows the client to override the default
-     * stack trace that is either generated by {@link #fillInStackTrace()}
-     * when a throwable is constructed or deserialized when a throwable is
-     * read from a serialization stream.
+     * This method, which is designed for use by RPC frbmeworks bnd other
+     * bdvbnced systems, bllows the client to override the defbult
+     * stbck trbce thbt is either generbted by {@link #fillInStbckTrbce()}
+     * when b throwbble is constructed or deseriblized when b throwbble is
+     * rebd from b seriblizbtion strebm.
      *
-     * <p>If the stack trace of this {@code Throwable} {@linkplain
-     * Throwable#Throwable(String, Throwable, boolean, boolean) is not
-     * writable}, calling this method has no effect other than
-     * validating its argument.
+     * <p>If the stbck trbce of this {@code Throwbble} {@linkplbin
+     * Throwbble#Throwbble(String, Throwbble, boolebn, boolebn) is not
+     * writbble}, cblling this method hbs no effect other thbn
+     * vblidbting its brgument.
      *
-     * @param   stackTrace the stack trace elements to be associated with
-     * this {@code Throwable}.  The specified array is copied by this
-     * call; changes in the specified array after the method invocation
-     * returns will have no affect on this {@code Throwable}'s stack
-     * trace.
+     * @pbrbm   stbckTrbce the stbck trbce elements to be bssocibted with
+     * this {@code Throwbble}.  The specified brrby is copied by this
+     * cbll; chbnges in the specified brrby bfter the method invocbtion
+     * returns will hbve no bffect on this {@code Throwbble}'s stbck
+     * trbce.
      *
-     * @throws NullPointerException if {@code stackTrace} is
-     *         {@code null} or if any of the elements of
-     *         {@code stackTrace} are {@code null}
+     * @throws NullPointerException if {@code stbckTrbce} is
+     *         {@code null} or if bny of the elements of
+     *         {@code stbckTrbce} bre {@code null}
      *
      * @since  1.4
      */
-    public void setStackTrace(StackTraceElement[] stackTrace) {
-        // Validate argument
-        StackTraceElement[] defensiveCopy = stackTrace.clone();
+    public void setStbckTrbce(StbckTrbceElement[] stbckTrbce) {
+        // Vblidbte brgument
+        StbckTrbceElement[] defensiveCopy = stbckTrbce.clone();
         for (int i = 0; i < defensiveCopy.length; i++) {
             if (defensiveCopy[i] == null)
-                throw new NullPointerException("stackTrace[" + i + "]");
+                throw new NullPointerException("stbckTrbce[" + i + "]");
         }
 
         synchronized (this) {
-            if (this.stackTrace == null && // Immutable stack
-                backtrace == null) // Test for out of protocol state
+            if (this.stbckTrbce == null && // Immutbble stbck
+                bbcktrbce == null) // Test for out of protocol stbte
                 return;
-            this.stackTrace = defensiveCopy;
+            this.stbckTrbce = defensiveCopy;
         }
     }
 
     /**
-     * Returns the number of elements in the stack trace (or 0 if the stack
-     * trace is unavailable).
+     * Returns the number of elements in the stbck trbce (or 0 if the stbck
+     * trbce is unbvbilbble).
      *
-     * package-protection for use by SharedSecrets.
+     * pbckbge-protection for use by ShbredSecrets.
      */
-    native int getStackTraceDepth();
+    nbtive int getStbckTrbceDepth();
 
     /**
-     * Returns the specified element of the stack trace.
+     * Returns the specified element of the stbck trbce.
      *
-     * package-protection for use by SharedSecrets.
+     * pbckbge-protection for use by ShbredSecrets.
      *
-     * @param index index of the element to return.
+     * @pbrbm index index of the element to return.
      * @throws IndexOutOfBoundsException if {@code index < 0 ||
-     *         index >= getStackTraceDepth() }
+     *         index >= getStbckTrbceDepth() }
      */
-    native StackTraceElement getStackTraceElement(int index);
+    nbtive StbckTrbceElement getStbckTrbceElement(int index);
 
     /**
-     * Reads a {@code Throwable} from a stream, enforcing
-     * well-formedness constraints on fields.  Null entries and
-     * self-pointers are not allowed in the list of {@code
-     * suppressedExceptions}.  Null entries are not allowed for stack
-     * trace elements.  A null stack trace in the serial form results
-     * in a zero-length stack element array. A single-element stack
-     * trace whose entry is equal to {@code new StackTraceElement("",
-     * "", null, Integer.MIN_VALUE)} results in a {@code null} {@code
-     * stackTrace} field.
+     * Rebds b {@code Throwbble} from b strebm, enforcing
+     * well-formedness constrbints on fields.  Null entries bnd
+     * self-pointers bre not bllowed in the list of {@code
+     * suppressedExceptions}.  Null entries bre not bllowed for stbck
+     * trbce elements.  A null stbck trbce in the seribl form results
+     * in b zero-length stbck element brrby. A single-element stbck
+     * trbce whose entry is equbl to {@code new StbckTrbceElement("",
+     * "", null, Integer.MIN_VALUE)} results in b {@code null} {@code
+     * stbckTrbce} field.
      *
-     * Note that there are no constraints on the value the {@code
-     * cause} field can hold; both {@code null} and {@code this} are
-     * valid values for the field.
+     * Note thbt there bre no constrbints on the vblue the {@code
+     * cbuse} field cbn hold; both {@code null} bnd {@code this} bre
+     * vblid vblues for the field.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();     // read in all fields
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();     // rebd in bll fields
         if (suppressedExceptions != null) {
-            List<Throwable> suppressed = null;
+            List<Throwbble> suppressed = null;
             if (suppressedExceptions.isEmpty()) {
-                // Use the sentinel for a zero-length list
+                // Use the sentinel for b zero-length list
                 suppressed = SUPPRESSED_SENTINEL;
-            } else { // Copy Throwables to new list
-                suppressed = new ArrayList<>(1);
-                for (Throwable t : suppressedExceptions) {
-                    // Enforce constraints on suppressed exceptions in
-                    // case of corrupt or malicious stream.
+            } else { // Copy Throwbbles to new list
+                suppressed = new ArrbyList<>(1);
+                for (Throwbble t : suppressedExceptions) {
+                    // Enforce constrbints on suppressed exceptions in
+                    // cbse of corrupt or mblicious strebm.
                     if (t == null)
                         throw new NullPointerException(NULL_CAUSE_MESSAGE);
                     if (t == this)
-                        throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE);
-                    suppressed.add(t);
+                        throw new IllegblArgumentException(SELF_SUPPRESSION_MESSAGE);
+                    suppressed.bdd(t);
                 }
             }
             suppressedExceptions = suppressed;
-        } // else a null suppressedExceptions field remains null
+        } // else b null suppressedExceptions field rembins null
 
         /*
-         * For zero-length stack traces, use a clone of
-         * UNASSIGNED_STACK rather than UNASSIGNED_STACK itself to
-         * allow identity comparison against UNASSIGNED_STACK in
-         * getOurStackTrace.  The identity of UNASSIGNED_STACK in
-         * stackTrace indicates to the getOurStackTrace method that
-         * the stackTrace needs to be constructed from the information
-         * in backtrace.
+         * For zero-length stbck trbces, use b clone of
+         * UNASSIGNED_STACK rbther thbn UNASSIGNED_STACK itself to
+         * bllow identity compbrison bgbinst UNASSIGNED_STACK in
+         * getOurStbckTrbce.  The identity of UNASSIGNED_STACK in
+         * stbckTrbce indicbtes to the getOurStbckTrbce method thbt
+         * the stbckTrbce needs to be constructed from the informbtion
+         * in bbcktrbce.
          */
-        if (stackTrace != null) {
-            if (stackTrace.length == 0) {
-                stackTrace = UNASSIGNED_STACK.clone();
-            }  else if (stackTrace.length == 1 &&
-                        // Check for the marker of an immutable stack trace
-                        SentinelHolder.STACK_TRACE_ELEMENT_SENTINEL.equals(stackTrace[0])) {
-                stackTrace = null;
-            } else { // Verify stack trace elements are non-null.
-                for(StackTraceElement ste : stackTrace) {
+        if (stbckTrbce != null) {
+            if (stbckTrbce.length == 0) {
+                stbckTrbce = UNASSIGNED_STACK.clone();
+            }  else if (stbckTrbce.length == 1 &&
+                        // Check for the mbrker of bn immutbble stbck trbce
+                        SentinelHolder.STACK_TRACE_ELEMENT_SENTINEL.equbls(stbckTrbce[0])) {
+                stbckTrbce = null;
+            } else { // Verify stbck trbce elements bre non-null.
+                for(StbckTrbceElement ste : stbckTrbce) {
                     if (ste == null)
-                        throw new NullPointerException("null StackTraceElement in serial stream. ");
+                        throw new NullPointerException("null StbckTrbceElement in seribl strebm. ");
                 }
             }
         } else {
-            // A null stackTrace field in the serial form can result
-            // from an exception serialized without that field in
-            // older JDK releases; treat such exceptions as having
-            // empty stack traces.
-            stackTrace = UNASSIGNED_STACK.clone();
+            // A null stbckTrbce field in the seribl form cbn result
+            // from bn exception seriblized without thbt field in
+            // older JDK relebses; trebt such exceptions bs hbving
+            // empty stbck trbces.
+            stbckTrbce = UNASSIGNED_STACK.clone();
         }
     }
 
     /**
-     * Write a {@code Throwable} object to a stream.
+     * Write b {@code Throwbble} object to b strebm.
      *
-     * A {@code null} stack trace field is represented in the serial
-     * form as a one-element array whose element is equal to {@code
-     * new StackTraceElement("", "", null, Integer.MIN_VALUE)}.
+     * A {@code null} stbck trbce field is represented in the seribl
+     * form bs b one-element brrby whose element is equbl to {@code
+     * new StbckTrbceElement("", "", null, Integer.MIN_VALUE)}.
      */
-    private synchronized void writeObject(ObjectOutputStream s)
+    privbte synchronized void writeObject(ObjectOutputStrebm s)
         throws IOException {
-        // Ensure that the stackTrace field is initialized to a
-        // non-null value, if appropriate.  As of JDK 7, a null stack
-        // trace field is a valid value indicating the stack trace
+        // Ensure thbt the stbckTrbce field is initiblized to b
+        // non-null vblue, if bppropribte.  As of JDK 7, b null stbck
+        // trbce field is b vblid vblue indicbting the stbck trbce
         // should not be set.
-        getOurStackTrace();
+        getOurStbckTrbce();
 
-        StackTraceElement[] oldStackTrace = stackTrace;
+        StbckTrbceElement[] oldStbckTrbce = stbckTrbce;
         try {
-            if (stackTrace == null)
-                stackTrace = SentinelHolder.STACK_TRACE_SENTINEL;
-            s.defaultWriteObject();
-        } finally {
-            stackTrace = oldStackTrace;
+            if (stbckTrbce == null)
+                stbckTrbce = SentinelHolder.STACK_TRACE_SENTINEL;
+            s.defbultWriteObject();
+        } finblly {
+            stbckTrbce = oldStbckTrbce;
         }
     }
 
     /**
-     * Appends the specified exception to the exceptions that were
+     * Appends the specified exception to the exceptions thbt were
      * suppressed in order to deliver this exception. This method is
-     * thread-safe and typically called (automatically and implicitly)
-     * by the {@code try}-with-resources statement.
+     * threbd-sbfe bnd typicblly cblled (butombticblly bnd implicitly)
+     * by the {@code try}-with-resources stbtement.
      *
-     * <p>The suppression behavior is enabled <em>unless</em> disabled
-     * {@linkplain #Throwable(String, Throwable, boolean, boolean) via
-     * a constructor}.  When suppression is disabled, this method does
-     * nothing other than to validate its argument.
+     * <p>The suppression behbvior is enbbled <em>unless</em> disbbled
+     * {@linkplbin #Throwbble(String, Throwbble, boolebn, boolebn) vib
+     * b constructor}.  When suppression is disbbled, this method does
+     * nothing other thbn to vblidbte its brgument.
      *
-     * <p>Note that when one exception {@linkplain
-     * #initCause(Throwable) causes} another exception, the first
-     * exception is usually caught and then the second exception is
-     * thrown in response.  In other words, there is a causal
+     * <p>Note thbt when one exception {@linkplbin
+     * #initCbuse(Throwbble) cbuses} bnother exception, the first
+     * exception is usublly cbught bnd then the second exception is
+     * thrown in response.  In other words, there is b cbusbl
      * connection between the two exceptions.
      *
-     * In contrast, there are situations where two independent
-     * exceptions can be thrown in sibling code blocks, in particular
-     * in the {@code try} block of a {@code try}-with-resources
-     * statement and the compiler-generated {@code finally} block
+     * In contrbst, there bre situbtions where two independent
+     * exceptions cbn be thrown in sibling code blocks, in pbrticulbr
+     * in the {@code try} block of b {@code try}-with-resources
+     * stbtement bnd the compiler-generbted {@code finblly} block
      * which closes the resource.
      *
-     * In these situations, only one of the thrown exceptions can be
-     * propagated.  In the {@code try}-with-resources statement, when
-     * there are two such exceptions, the exception originating from
-     * the {@code try} block is propagated and the exception from the
-     * {@code finally} block is added to the list of exceptions
-     * suppressed by the exception from the {@code try} block.  As an
-     * exception unwinds the stack, it can accumulate multiple
+     * In these situbtions, only one of the thrown exceptions cbn be
+     * propbgbted.  In the {@code try}-with-resources stbtement, when
+     * there bre two such exceptions, the exception originbting from
+     * the {@code try} block is propbgbted bnd the exception from the
+     * {@code finblly} block is bdded to the list of exceptions
+     * suppressed by the exception from the {@code try} block.  As bn
+     * exception unwinds the stbck, it cbn bccumulbte multiple
      * suppressed exceptions.
      *
-     * <p>An exception may have suppressed exceptions while also being
-     * caused by another exception.  Whether or not an exception has a
-     * cause is semantically known at the time of its creation, unlike
-     * whether or not an exception will suppress other exceptions
-     * which is typically only determined after an exception is
+     * <p>An exception mby hbve suppressed exceptions while blso being
+     * cbused by bnother exception.  Whether or not bn exception hbs b
+     * cbuse is sembnticblly known bt the time of its crebtion, unlike
+     * whether or not bn exception will suppress other exceptions
+     * which is typicblly only determined bfter bn exception is
      * thrown.
      *
-     * <p>Note that programmer written code is also able to take
-     * advantage of calling this method in situations where there are
-     * multiple sibling exceptions and only one can be propagated.
+     * <p>Note thbt progrbmmer written code is blso bble to tbke
+     * bdvbntbge of cblling this method in situbtions where there bre
+     * multiple sibling exceptions bnd only one cbn be propbgbted.
      *
-     * @param exception the exception to be added to the list of
+     * @pbrbm exception the exception to be bdded to the list of
      *        suppressed exceptions
-     * @throws IllegalArgumentException if {@code exception} is this
-     *         throwable; a throwable cannot suppress itself.
+     * @throws IllegblArgumentException if {@code exception} is this
+     *         throwbble; b throwbble cbnnot suppress itself.
      * @throws NullPointerException if {@code exception} is {@code null}
      * @since 1.7
      */
-    public final synchronized void addSuppressed(Throwable exception) {
+    public finbl synchronized void bddSuppressed(Throwbble exception) {
         if (exception == this)
-            throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE, exception);
+            throw new IllegblArgumentException(SELF_SUPPRESSION_MESSAGE, exception);
 
         if (exception == null)
             throw new NullPointerException(NULL_CAUSE_MESSAGE);
@@ -1048,33 +1048,33 @@ public class Throwable implements Serializable {
             return;
 
         if (suppressedExceptions == SUPPRESSED_SENTINEL)
-            suppressedExceptions = new ArrayList<>(1);
+            suppressedExceptions = new ArrbyList<>(1);
 
-        suppressedExceptions.add(exception);
+        suppressedExceptions.bdd(exception);
     }
 
-    private static final Throwable[] EMPTY_THROWABLE_ARRAY = new Throwable[0];
+    privbte stbtic finbl Throwbble[] EMPTY_THROWABLE_ARRAY = new Throwbble[0];
 
     /**
-     * Returns an array containing all of the exceptions that were
-     * suppressed, typically by the {@code try}-with-resources
-     * statement, in order to deliver this exception.
+     * Returns bn brrby contbining bll of the exceptions thbt were
+     * suppressed, typicblly by the {@code try}-with-resources
+     * stbtement, in order to deliver this exception.
      *
-     * If no exceptions were suppressed or {@linkplain
-     * #Throwable(String, Throwable, boolean, boolean) suppression is
-     * disabled}, an empty array is returned.  This method is
-     * thread-safe.  Writes to the returned array do not affect future
-     * calls to this method.
+     * If no exceptions were suppressed or {@linkplbin
+     * #Throwbble(String, Throwbble, boolebn, boolebn) suppression is
+     * disbbled}, bn empty brrby is returned.  This method is
+     * threbd-sbfe.  Writes to the returned brrby do not bffect future
+     * cblls to this method.
      *
-     * @return an array containing all of the exceptions that were
+     * @return bn brrby contbining bll of the exceptions thbt were
      *         suppressed to deliver this exception.
      * @since 1.7
      */
-    public final synchronized Throwable[] getSuppressed() {
+    public finbl synchronized Throwbble[] getSuppressed() {
         if (suppressedExceptions == SUPPRESSED_SENTINEL ||
             suppressedExceptions == null)
             return EMPTY_THROWABLE_ARRAY;
         else
-            return suppressedExceptions.toArray(EMPTY_THROWABLE_ARRAY);
+            return suppressedExceptions.toArrby(EMPTY_THROWABLE_ARRAY);
     }
 }

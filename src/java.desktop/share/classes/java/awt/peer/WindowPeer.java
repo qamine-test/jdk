@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * The peer interface for {@link Window}.
+ * The peer interfbce for {@link Window}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface WindowPeer extends ContainerPeer {
+public interfbce WindowPeer extends ContbinerPeer {
 
     /**
-     * Makes this window the topmost window on the desktop.
+     * Mbkes this window the topmost window on the desktop.
      *
      * @see Window#toFront()
      */
     void toFront();
 
     /**
-     * Makes this window the bottommost window on the desktop.
+     * Mbkes this window the bottommost window on the desktop.
      *
-     * @see Window#toBack()
+     * @see Window#toBbck()
      */
-    void toBack();
+    void toBbck();
 
     /**
-     * Updates the window's always-on-top state.
-     * Sets if the window should always stay
-     * on top of all other windows or not.
+     * Updbtes the window's blwbys-on-top stbte.
+     * Sets if the window should blwbys stby
+     * on top of bll other windows or not.
      *
-     * @see Window#isAlwaysOnTop()
-     * @see Window#setAlwaysOnTop(boolean)
+     * @see Window#isAlwbysOnTop()
+     * @see Window#setAlwbysOnTop(boolebn)
      */
-    void updateAlwaysOnTopState();
+    void updbteAlwbysOnTopStbte();
 
     /**
-     * Updates the window's focusable state.
+     * Updbtes the window's focusbble stbte.
      *
-     * @see Window#setFocusableWindowState(boolean)
+     * @see Window#setFocusbbleWindowStbte(boolebn)
      */
-    void updateFocusableWindowState();
+    void updbteFocusbbleWindowStbte();
 
     /**
-     * Sets if this window is blocked by a modal dialog or not.
+     * Sets if this window is blocked by b modbl diblog or not.
      *
-     * @param blocker the blocking modal dialog
-     * @param blocked {@code true} to block the window, {@code false}
+     * @pbrbm blocker the blocking modbl diblog
+     * @pbrbm blocked {@code true} to block the window, {@code fblse}
      *        to unblock it
      */
-    void setModalBlocked(Dialog blocker, boolean blocked);
+    void setModblBlocked(Diblog blocker, boolebn blocked);
 
     /**
-     * Updates the minimum size on the peer.
+     * Updbtes the minimum size on the peer.
      *
      * @see Window#setMinimumSize(Dimension)
      */
-    void updateMinimumSize();
+    void updbteMinimumSize();
 
     /**
-     * Updates the icons for the window.
+     * Updbtes the icons for the window.
      *
-     * @see Window#setIconImages(java.util.List)
+     * @see Window#setIconImbges(jbvb.util.List)
      */
-    void updateIconImages();
+    void updbteIconImbges();
 
     /**
-     * Sets the level of opacity for the window.
-     * @param opacity the level of opacity
-     * @see Window#setOpacity(float)
+     * Sets the level of opbcity for the window.
+     * @pbrbm opbcity the level of opbcity
+     * @see Window#setOpbcity(flobt)
      */
-    void setOpacity(float opacity);
+    void setOpbcity(flobt opbcity);
 
     /**
-     * Enables the per-pixel alpha support for the window.
-     * @param isOpaque whether or not per-pixel alpha support is
-     * enabled
-     * @see Window#setBackground(Color)
+     * Enbbles the per-pixel blphb support for the window.
+     * @pbrbm isOpbque whether or not per-pixel blphb support is
+     * enbbled
+     * @see Window#setBbckground(Color)
      */
-    void setOpaque(boolean isOpaque);
+    void setOpbque(boolebn isOpbque);
 
     /**
-     * Updates the native part of non-opaque window.
+     * Updbtes the nbtive pbrt of non-opbque window.
      *
-     * @see Window#setBackground(Color)
+     * @see Window#setBbckground(Color)
      */
-    void updateWindow();
+    void updbteWindow();
 
     /**
-     * Instructs the peer to update the position of the security warning.
+     * Instructs the peer to updbte the position of the security wbrning.
      */
-    void repositionSecurityWarning();
+    void repositionSecurityWbrning();
 }

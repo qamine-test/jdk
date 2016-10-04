@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import javax.management.Descriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.RuntimeOperationsException;
-import javax.management.MBeanException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
 
 /**
- * This interface is implemented by the ModelMBeanInfo for every ModelMBean. An implementation of this interface
+ * This interfbce is implemented by the ModelMBebnInfo for every ModelMBebn. An implementbtion of this interfbce
  * must be shipped with every JMX Agent.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the MBeanServer's
- * createMBean method.  The resource then sets the ModelMBeanInfo and Descriptors for the ModelMBean
- * instance. The attributes, operations, and notifications exposed via the ModelMBeanInfo for the
- * ModelMBean comprise the management interface and are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the Descriptors, values and methods in
- * the managed application can be defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined during development in a file or dynamically and
- * programmatically at runtime.
+ * Jbvb resources wishing to be mbnbgebble instbntibte the ModelMBebn using the MBebnServer's
+ * crebteMBebn method.  The resource then sets the ModelMBebnInfo bnd Descriptors for the ModelMBebn
+ * instbnce. The bttributes, operbtions, bnd notificbtions exposed vib the ModelMBebnInfo for the
+ * ModelMBebn comprise the mbnbgement interfbce bnd bre bccessible
+ * from MBebns, connectors/bdbptors like other MBebns. Through the Descriptors, vblues bnd methods in
+ * the mbnbged bpplicbtion cbn be defined bnd mbpped to bttributes bnd operbtions of the ModelMBebn.
+ * This mbpping cbn be defined during development in b file or dynbmicblly bnd
+ * progrbmmbticblly bt runtime.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes, operations, and notifications
- * become remotely accessible through the connectors/adaptors connected to that MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is valid.
+ * Every ModelMBebn which is instbntibted in the MBebnServer becomes mbnbgebble:
+ * its bttributes, operbtions, bnd notificbtions
+ * become remotely bccessible through the connectors/bdbptors connected to thbt MBebnServer.
+ * A Jbvb object cbnnot be registered in the MBebnServer unless it is b JMX complibnt MBebn.
+ * By instbntibting b ModelMBebn, resources bre gubrbnteed thbt the MBebn is vblid.
  *
- * MBeanException and RuntimeOperationsException must be thrown on every public method.  This allows
- *  for wrapping exceptions from distributed communications (RMI, EJB, etc.)
+ * MBebnException bnd RuntimeOperbtionsException must be thrown on every public method.  This bllows
+ *  for wrbpping exceptions from distributed communicbtions (RMI, EJB, etc.)
  *
  * @since 1.5
  */
 
-public interface ModelMBeanInfo
+public interfbce ModelMBebnInfo
 {
 
 
     /**
-     * Returns a Descriptor array consisting of all
-     * Descriptors for the ModelMBeanInfo of type inDescriptorType.
+     * Returns b Descriptor brrby consisting of bll
+     * Descriptors for the ModelMBebnInfo of type inDescriptorType.
      *
-     * @param inDescriptorType value of descriptorType field that must be set for the descriptor
-     * to be returned.  Must be "mbean", "attribute", "operation", "constructor" or "notification".
-     * If it is null or empty then all types will be returned.
+     * @pbrbm inDescriptorType vblue of descriptorType field thbt must be set for the descriptor
+     * to be returned.  Must be "mbebn", "bttribute", "operbtion", "constructor" or "notificbtion".
+     * If it is null or empty then bll types will be returned.
      *
-     * @return Descriptor array containing all descriptors for the ModelMBean if type inDescriptorType.
+     * @return Descriptor brrby contbining bll descriptors for the ModelMBebn if type inDescriptorType.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException when the descriptorType in parameter is
-     * not one of: "mbean", "attribute", "operation", "constructor", "notification", empty or null.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException when the descriptorType in pbrbmeter is
+     * not one of: "mbebn", "bttribute", "operbtion", "constructor", "notificbtion", empty or null.
      *
      * @see #setDescriptors
      */
     public Descriptor[] getDescriptors(String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+            throws MBebnException, RuntimeOperbtionsException;
 
     /**
-     * Adds or replaces descriptors in the ModelMBeanInfo.
+     * Adds or replbces descriptors in the ModelMBebnInfo.
      *
-     * @param inDescriptors The descriptors to be set in the ModelMBeanInfo. Null
-     * elements of the list will be ignored.  All descriptors must have name and descriptorType fields.
+     * @pbrbm inDescriptors The descriptors to be set in the ModelMBebnInfo. Null
+     * elements of the list will be ignored.  All descriptors must hbve nbme bnd descriptorType fields.
      *
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null or invalid descriptor.
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException for b null or invblid descriptor.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
      *
      * @see #getDescriptors
      */
     public void setDescriptors(Descriptor[] inDescriptors)
-            throws MBeanException, RuntimeOperationsException;
+            throws MBebnException, RuntimeOperbtionsException;
 
     /**
-     * Returns a Descriptor requested by name and descriptorType.
+     * Returns b Descriptor requested by nbme bnd descriptorType.
      *
-     * @param inDescriptorName The name of the descriptor.
-     * @param inDescriptorType The type of the descriptor being
-     * requested.  If this is null or empty then all types are
-     * searched. Valid types are 'mbean', 'attribute', 'constructor'
-     * 'operation', and 'notification'. This value will be equal to
-     * the 'descriptorType' field in the descriptor that is returned.
+     * @pbrbm inDescriptorNbme The nbme of the descriptor.
+     * @pbrbm inDescriptorType The type of the descriptor being
+     * requested.  If this is null or empty then bll types bre
+     * sebrched. Vblid types bre 'mbebn', 'bttribute', 'constructor'
+     * 'operbtion', bnd 'notificbtion'. This vblue will be equbl to
+     * the 'descriptorType' field in the descriptor thbt is returned.
      *
-     * @return Descriptor containing the descriptor for the ModelMBean
-     * with the same name and descriptorType.  If no descriptor is
+     * @return Descriptor contbining the descriptor for the ModelMBebn
+     * with the sbme nbme bnd descriptorType.  If no descriptor is
      * found, null is returned.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null descriptor name or null or invalid type.
-     * The type must be "mbean","attribute", "constructor", "operation", or "notification".
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException for b null descriptor nbme or null or invblid type.
+     * The type must be "mbebn","bttribute", "constructor", "operbtion", or "notificbtion".
      *
      * @see #setDescriptor
      */
 
-    public Descriptor getDescriptor(String inDescriptorName, String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+    public Descriptor getDescriptor(String inDescriptorNbme, String inDescriptorType)
+            throws MBebnException, RuntimeOperbtionsException;
 
     /**
-     * Sets descriptors in the info array of type inDescriptorType
-     * for the ModelMBean.  The setDescriptor method of the
-     * corresponding ModelMBean*Info will be called to set the
+     * Sets descriptors in the info brrby of type inDescriptorType
+     * for the ModelMBebn.  The setDescriptor method of the
+     * corresponding ModelMBebn*Info will be cblled to set the
      * specified descriptor.
      *
-     * @param inDescriptor The descriptor to be set in the
-     * ModelMBean. It must NOT be null.  All descriptors must have
-     * name and descriptorType fields.
-     * @param inDescriptorType The type of the descriptor being
+     * @pbrbm inDescriptor The descriptor to be set in the
+     * ModelMBebn. It must NOT be null.  All descriptors must hbve
+     * nbme bnd descriptorType fields.
+     * @pbrbm inDescriptorType The type of the descriptor being
      * set. If this is null then the descriptorType field in the
-     * descriptor is used. If specified this value must be set in
+     * descriptor is used. If specified this vblue must be set in
      * the descriptorType field in the descriptor. Must be
-     * "mbean","attribute", "constructor", "operation", or
-     * "notification".
+     * "mbebn","bttribute", "constructor", "operbtion", or
+     * "notificbtion".
      *
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for illegal or null arguments or
-     * if the name field of the descriptor is not found in the
-     * corresponding MBeanAttributeInfo or MBeanConstructorInfo or
-     * MBeanNotificationInfo or MBeanOperationInfo.
-     * @exception MBeanException Wraps a distributed communication
+     * @exception RuntimeOperbtionsException Wrbps bn
+     * IllegblArgumentException for illegbl or null brguments or
+     * if the nbme field of the descriptor is not found in the
+     * corresponding MBebnAttributeInfo or MBebnConstructorInfo or
+     * MBebnNotificbtionInfo or MBebnOperbtionInfo.
+     * @exception MBebnException Wrbps b distributed communicbtion
      * Exception.
      *
      * @see #getDescriptor
      */
 
     public void setDescriptor(Descriptor inDescriptor, String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+            throws MBebnException, RuntimeOperbtionsException;
 
 
     /**
-     * <p>Returns the ModelMBean's descriptor which contains MBean wide
-     * policies.  This descriptor contains metadata about the MBean and default
-     * policies for persistence and caching.</p>
+     * <p>Returns the ModelMBebn's descriptor which contbins MBebn wide
+     * policies.  This descriptor contbins metbdbtb bbout the MBebn bnd defbult
+     * policies for persistence bnd cbching.</p>
      *
      * <P id="descriptor">
-     * The fields in the descriptor are defined, but not limited to, the
-     * following.  Note that when the Type in this table is Number, a String
-     * that is the decimal representation of a Long can also be used.</P>
+     * The fields in the descriptor bre defined, but not limited to, the
+     * following.  Note thbt when the Type in this tbble is Number, b String
+     * thbt is the decimbl representbtion of b Long cbn blso be used.</P>
      *
-     * <table border="1" cellpadding="5" summary="ModelMBean Fields">
-     * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
-     * <tr><td>name</td><td>String</td>
-     *     <td>MBean name.</td></tr>
+     * <tbble border="1" cellpbdding="5" summbry="ModelMBebn Fields">
+     * <tr><th>Nbme</th><th>Type</th><th>Mebning</th></tr>
+     * <tr><td>nbme</td><td>String</td>
+     *     <td>MBebn nbme.</td></tr>
      * <tr><td>descriptorType</td><td>String</td>
-     *     <td>Must be "mbean".</td></tr>
-     * <tr><td>displayName</td><td>String</td>
-     *     <td>Name of MBean to be used in displays.</td></tr>
+     *     <td>Must be "mbebn".</td></tr>
+     * <tr><td>displbyNbme</td><td>String</td>
+     *     <td>Nbme of MBebn to be used in displbys.</td></tr>
      * <tr><td>persistPolicy</td><td>String</td>
-     *     <td>One of: OnUpdate|OnTimer|NoMoreOftenThan|OnUnregister|Always|Never.
-     *         See the section "MBean Descriptor Fields" in the JMX specification
+     *     <td>One of: OnUpdbte|OnTimer|NoMoreOftenThbn|OnUnregister|Alwbys|Never.
+     *         See the section "MBebn Descriptor Fields" in the JMX specificbtion
      *         document.</td></tr>
-     * <tr><td>persistLocation</td><td>String</td>
-     *     <td>The fully qualified directory name where the MBean should be
-     *         persisted (if appropriate).</td></tr>
+     * <tr><td>persistLocbtion</td><td>String</td>
+     *     <td>The fully qublified directory nbme where the MBebn should be
+     *         persisted (if bppropribte).</td></tr>
      * <tr><td>persistFile</td><td>String</td>
-     *     <td>File name into which the MBean should be persisted.</td></tr>
+     *     <td>File nbme into which the MBebn should be persisted.</td></tr>
      * <tr><td>persistPeriod</td><td>Number</td>
-     *     <td>Frequency of persist cycle in seconds, for OnTime and
-     *         NoMoreOftenThan PersistPolicy</td></tr>
+     *     <td>Frequency of persist cycle in seconds, for OnTime bnd
+     *         NoMoreOftenThbn PersistPolicy</td></tr>
      * <tr><td>currencyTimeLimit</td><td>Number</td>
-     *     <td>How long cached value is valid: &lt;0 never, =0 always,
+     *     <td>How long cbched vblue is vblid: &lt;0 never, =0 blwbys,
      *         &gt;0 seconds.</td></tr>
      * <tr><td>log</td><td>String</td>
-     *     <td>t: log all notifications, f: log no notifications.</td></tr>
+     *     <td>t: log bll notificbtions, f: log no notificbtions.</td></tr>
      * <tr><td>logfile</td><td>String</td>
-     *     <td>Fully qualified filename to log events to.</td></tr>
+     *     <td>Fully qublified filenbme to log events to.</td></tr>
      * <tr><td>visibility</td><td>Number</td>
-     *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
+     *     <td>1-4 where 1: blwbys visible 4: rbrely visible.</td></tr>
      * <tr><td>export</td><td>String</td>
-     *     <td>Name to be used to export/expose this MBean so that it is
-     *         findable by other JMX Agents.</td></tr>
-     * <tr><td>presentationString</td><td>String</td>
-     *     <td>XML formatted string to allow presentation of data to be
-     *         associated with the MBean.</td></tr>
-     * </table>
+     *     <td>Nbme to be used to export/expose this MBebn so thbt it is
+     *         findbble by other JMX Agents.</td></tr>
+     * <tr><td>presentbtionString</td><td>String</td>
+     *     <td>XML formbtted string to bllow presentbtion of dbtb to be
+     *         bssocibted with the MBebn.</td></tr>
+     * </tbble>
      *
      * <P>
-     * The default descriptor is: name=className,descriptorType="mbean", displayName=className,
+     * The defbult descriptor is: nbme=clbssNbme,descriptorType="mbebn", displbyNbme=clbssNbme,
      *  persistPolicy="never",log="F",visibility="1"
-     * If the descriptor does not contain all these fields, they will be added with these default values.
+     * If the descriptor does not contbin bll these fields, they will be bdded with these defbult vblues.
      *
-     * <p><b>Note:</b> because of inconsistencies in previous versions of
-     * this specification, it is recommended not to use negative or zero
-     * values for <code>currencyTimeLimit</code>.  To indicate that a
-     * cached value is never valid, omit the
-     * <code>currencyTimeLimit</code> field.  To indicate that it is
-     * always valid, use a very large number for this field.</p>
+     * <p><b>Note:</b> becbuse of inconsistencies in previous versions of
+     * this specificbtion, it is recommended not to use negbtive or zero
+     * vblues for <code>currencyTimeLimit</code>.  To indicbte thbt b
+     * cbched vblue is never vblid, omit the
+     * <code>currencyTimeLimit</code> field.  To indicbte thbt it is
+     * blwbys vblid, use b very lbrge number for this field.</p>
      *
-     * @return the MBean descriptor.
+     * @return the MBebn descriptor.
      *
-     * @exception MBeanException Wraps a distributed communication
+     * @exception MBebnException Wrbps b distributed communicbtion
      * Exception.
      *
-     * @exception RuntimeOperationsException a {@link
+     * @exception RuntimeOperbtionsException b {@link
      * RuntimeException} occurred while getting the descriptor.
      *
-     * @see #setMBeanDescriptor
+     * @see #setMBebnDescriptor
      */
-    public Descriptor getMBeanDescriptor()
-            throws MBeanException, RuntimeOperationsException;
+    public Descriptor getMBebnDescriptor()
+            throws MBebnException, RuntimeOperbtionsException;
 
     /**
-     * Sets the ModelMBean's descriptor.  This descriptor contains default, MBean wide
-     * metadata about the MBean and default policies for persistence and caching. This operation
-     * does a complete replacement of the descriptor, no merging is done. If the descriptor to
-     * set to is null then the default descriptor will be created.
-     * The default descriptor is: name=className,descriptorType="mbean", displayName=className,
+     * Sets the ModelMBebn's descriptor.  This descriptor contbins defbult, MBebn wide
+     * metbdbtb bbout the MBebn bnd defbult policies for persistence bnd cbching. This operbtion
+     * does b complete replbcement of the descriptor, no merging is done. If the descriptor to
+     * set to is null then the defbult descriptor will be crebted.
+     * The defbult descriptor is: nbme=clbssNbme,descriptorType="mbebn", displbyNbme=clbssNbme,
      *  persistPolicy="never",log="F",visibility="1"
-     * If the descriptor does not contain all these fields, they will be added with these default values.
+     * If the descriptor does not contbin bll these fields, they will be bdded with these defbult vblues.
      *
-     * See {@link #getMBeanDescriptor getMBeanDescriptor} method javadoc for description of valid field names.
+     * See {@link #getMBebnDescriptor getMBebnDescriptor} method jbvbdoc for description of vblid field nbmes.
      *
-     * @param inDescriptor the descriptor to set.
+     * @pbrbm inDescriptor the descriptor to set.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException  for invalid descriptor.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException  for invblid descriptor.
      *
      *
-     * @see #getMBeanDescriptor
+     * @see #getMBebnDescriptor
      */
 
-    public void setMBeanDescriptor(Descriptor inDescriptor)
-            throws MBeanException, RuntimeOperationsException;
+    public void setMBebnDescriptor(Descriptor inDescriptor)
+            throws MBebnException, RuntimeOperbtionsException;
 
 
     /**
-     * Returns a ModelMBeanAttributeInfo requested by name.
+     * Returns b ModelMBebnAttributeInfo requested by nbme.
      *
-     * @param inName The name of the ModelMBeanAttributeInfo to get.
-     * If no ModelMBeanAttributeInfo exists for this name null is returned.
+     * @pbrbm inNbme The nbme of the ModelMBebnAttributeInfo to get.
+     * If no ModelMBebnAttributeInfo exists for this nbme null is returned.
      *
-     * @return the attribute info for the named attribute, or null
+     * @return the bttribute info for the nbmed bttribute, or null
      * if there is none.
      *
-     * @exception MBeanException Wraps a distributed communication
+     * @exception MBebnException Wrbps b distributed communicbtion
      * Exception.
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for a null attribute name.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     * IllegblArgumentException for b null bttribute nbme.
      *
      */
 
-    public ModelMBeanAttributeInfo getAttribute(String inName)
-            throws MBeanException, RuntimeOperationsException;
+    public ModelMBebnAttributeInfo getAttribute(String inNbme)
+            throws MBebnException, RuntimeOperbtionsException;
 
 
     /**
-     * Returns a ModelMBeanOperationInfo requested by name.
+     * Returns b ModelMBebnOperbtionInfo requested by nbme.
      *
-     * @param inName The name of the ModelMBeanOperationInfo to get.
-     * If no ModelMBeanOperationInfo exists for this name null is returned.
+     * @pbrbm inNbme The nbme of the ModelMBebnOperbtionInfo to get.
+     * If no ModelMBebnOperbtionInfo exists for this nbme null is returned.
      *
-     * @return the operation info for the named operation, or null
+     * @return the operbtion info for the nbmed operbtion, or null
      * if there is none.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null operation name.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException for b null operbtion nbme.
      *
      */
 
-    public ModelMBeanOperationInfo getOperation(String inName)
-            throws MBeanException, RuntimeOperationsException;
+    public ModelMBebnOperbtionInfo getOperbtion(String inNbme)
+            throws MBebnException, RuntimeOperbtionsException;
 
 
     /**
-     * Returns a ModelMBeanNotificationInfo requested by name.
+     * Returns b ModelMBebnNotificbtionInfo requested by nbme.
      *
-     * @param inName The name of the ModelMBeanNotificationInfo to get.
-     * If no ModelMBeanNotificationInfo exists for this name null is returned.
+     * @pbrbm inNbme The nbme of the ModelMBebnNotificbtionInfo to get.
+     * If no ModelMBebnNotificbtionInfo exists for this nbme null is returned.
      *
-     * @return the info for the named notification, or null if there
+     * @return the info for the nbmed notificbtion, or null if there
      * is none.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null notification name.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException for b null notificbtion nbme.
      *
      */
-    public ModelMBeanNotificationInfo getNotification(String inName)
-            throws MBeanException, RuntimeOperationsException;
+    public ModelMBebnNotificbtionInfo getNotificbtion(String inNbme)
+            throws MBebnException, RuntimeOperbtionsException;
 
     /**
-     * Creates and returns a copy of this object.
+     * Crebtes bnd returns b copy of this object.
      */
-    public java.lang.Object clone();
+    public jbvb.lbng.Object clone();
 
     /**
-     * Returns the list of attributes exposed for management.
-     * Each attribute is described by an <CODE>MBeanAttributeInfo</CODE> object.
+     * Returns the list of bttributes exposed for mbnbgement.
+     * Ebch bttribute is described by bn <CODE>MBebnAttributeInfo</CODE> object.
      *
-     * @return  An array of <CODE>MBeanAttributeInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnAttributeInfo</CODE> objects.
      */
-    public MBeanAttributeInfo[] getAttributes();
+    public MBebnAttributeInfo[] getAttributes();
 
     /**
-     * Returns the name of the Java class of the MBean described by
-     * this <CODE>MBeanInfo</CODE>.
+     * Returns the nbme of the Jbvb clbss of the MBebn described by
+     * this <CODE>MBebnInfo</CODE>.
      *
-     * @return the Java class name.
+     * @return the Jbvb clbss nbme.
      */
-    public java.lang.String getClassName();
+    public jbvb.lbng.String getClbssNbme();
 
     /**
-     * Returns the list of the public constructors  of the MBean.
-     * Each constructor is described by an <CODE>MBeanConstructorInfo</CODE> object.
+     * Returns the list of the public constructors  of the MBebn.
+     * Ebch constructor is described by bn <CODE>MBebnConstructorInfo</CODE> object.
      *
-     * @return  An array of <CODE>MBeanConstructorInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnConstructorInfo</CODE> objects.
      */
-    public MBeanConstructorInfo[] getConstructors();
+    public MBebnConstructorInfo[] getConstructors();
 
     /**
-     * Returns a human readable description of the MBean.
+     * Returns b humbn rebdbble description of the MBebn.
      *
      * @return the description.
      */
-    public java.lang.String getDescription();
+    public jbvb.lbng.String getDescription();
 
     /**
-     * Returns the list of the notifications emitted by the MBean.
-     * Each notification is described by an <CODE>MBeanNotificationInfo</CODE> object.
+     * Returns the list of the notificbtions emitted by the MBebn.
+     * Ebch notificbtion is described by bn <CODE>MBebnNotificbtionInfo</CODE> object.
      * <P>
-     * In addition to any notification specified by the application,
-     * a ModelMBean may always send also two additional notifications:
+     * In bddition to bny notificbtion specified by the bpplicbtion,
+     * b ModelMBebn mby blwbys send blso two bdditionbl notificbtions:
      * <UL>
-     * <LI> One with descriptor name "GENERIC" and displayName "jmx.modelmbean.generic"
-     * <LI> Second is a standard attribute change notification
-     *      with descriptor name "ATTRIBUTE_CHANGE" and displayName "jmx.attribute.change"
+     * <LI> One with descriptor nbme "GENERIC" bnd displbyNbme "jmx.modelmbebn.generic"
+     * <LI> Second is b stbndbrd bttribute chbnge notificbtion
+     *      with descriptor nbme "ATTRIBUTE_CHANGE" bnd displbyNbme "jmx.bttribute.chbnge"
      * </UL>
-     * Thus any implementation of ModelMBeanInfo should always add those two notifications
-     * in addition to those specified by the application.
+     * Thus bny implementbtion of ModelMBebnInfo should blwbys bdd those two notificbtions
+     * in bddition to those specified by the bpplicbtion.
      *
-     * @return  An array of <CODE>MBeanNotificationInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnNotificbtionInfo</CODE> objects.
      */
-    public MBeanNotificationInfo[] getNotifications();
+    public MBebnNotificbtionInfo[] getNotificbtions();
 
     /**
-     * Returns the list of operations  of the MBean.
-     * Each operation is described by an <CODE>MBeanOperationInfo</CODE> object.
+     * Returns the list of operbtions  of the MBebn.
+     * Ebch operbtion is described by bn <CODE>MBebnOperbtionInfo</CODE> object.
      *
-     * @return  An array of <CODE>MBeanOperationInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnOperbtionInfo</CODE> objects.
      */
-    public MBeanOperationInfo[] getOperations();
+    public MBebnOperbtionInfo[] getOperbtions();
 
 }

@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
 /**
- * The PropertyEditorManager can be used to locate a property editor for
- * any given type name.  This property editor must support the
- * java.beans.PropertyEditor interface for editing a given object.
+ * The PropertyEditorMbnbger cbn be used to locbte b property editor for
+ * bny given type nbme.  This property editor must support the
+ * jbvb.bebns.PropertyEditor interfbce for editing b given object.
  * <P>
- * The PropertyEditorManager uses three techniques for locating an editor
- * for a given type.  First, it provides a registerEditor method to allow
- * an editor to be specifically registered for a given type.  Second it
- * tries to locate a suitable class by adding "Editor" to the full
- * qualified classname of the given type (e.g. "foo.bah.FozEditor").
- * Finally it takes the simple classname (without the package name) adds
- * "Editor" to it and looks in a search-path of packages for a matching
- * class.
+ * The PropertyEditorMbnbger uses three techniques for locbting bn editor
+ * for b given type.  First, it provides b registerEditor method to bllow
+ * bn editor to be specificblly registered for b given type.  Second it
+ * tries to locbte b suitbble clbss by bdding "Editor" to the full
+ * qublified clbssnbme of the given type (e.g. "foo.bbh.FozEditor").
+ * Finblly it tbkes the simple clbssnbme (without the pbckbge nbme) bdds
+ * "Editor" to it bnd looks in b sebrch-pbth of pbckbges for b mbtching
+ * clbss.
  * <P>
- * So for an input class foo.bah.Fred, the PropertyEditorManager would
- * first look in its tables to see if an editor had been registered for
- * foo.bah.Fred and if so use that.  Then it will look for a
- * foo.bah.FredEditor class.  Then it will look for (say)
- * standardEditorsPackage.FredEditor class.
+ * So for bn input clbss foo.bbh.Fred, the PropertyEditorMbnbger would
+ * first look in its tbbles to see if bn editor hbd been registered for
+ * foo.bbh.Fred bnd if so use thbt.  Then it will look for b
+ * foo.bbh.FredEditor clbss.  Then it will look for (sby)
+ * stbndbrdEditorsPbckbge.FredEditor clbss.
  * <p>
- * Default PropertyEditors will be provided for the Java primitive types
- * "boolean", "byte", "short", "int", "long", "float", and "double"; and
- * for the classes java.lang.String. java.awt.Color, and java.awt.Font.
+ * Defbult PropertyEditors will be provided for the Jbvb primitive types
+ * "boolebn", "byte", "short", "int", "long", "flobt", bnd "double"; bnd
+ * for the clbsses jbvb.lbng.String. jbvb.bwt.Color, bnd jbvb.bwt.Font.
  *
  * @since 1.1
  */
 
-public class PropertyEditorManager {
+public clbss PropertyEditorMbnbger {
 
     /**
-     * Registers an editor class to edit values of the given target class.
-     * If the editor class is {@code null},
-     * then any existing definition will be removed.
-     * Thus this method can be used to cancel the registration.
-     * The registration is canceled automatically
-     * if either the target or editor class is unloaded.
+     * Registers bn editor clbss to edit vblues of the given tbrget clbss.
+     * If the editor clbss is {@code null},
+     * then bny existing definition will be removed.
+     * Thus this method cbn be used to cbncel the registrbtion.
+     * The registrbtion is cbnceled butombticblly
+     * if either the tbrget or editor clbss is unlobded.
      * <p>
-     * If there is a security manager, its {@code checkPropertiesAccess}
-     * method is called. This could result in a {@linkplain SecurityException}.
+     * If there is b security mbnbger, its {@code checkPropertiesAccess}
+     * method is cblled. This could result in b {@linkplbin SecurityException}.
      *
-     * @param targetType   the class object of the type to be edited
-     * @param editorClass  the class object of the editor class
-     * @throws SecurityException  if a security manager exists and
+     * @pbrbm tbrgetType   the clbss object of the type to be edited
+     * @pbrbm editorClbss  the clbss object of the editor clbss
+     * @throws SecurityException  if b security mbnbger exists bnd
      *                            its {@code checkPropertiesAccess} method
-     *                            doesn't allow setting of system properties
+     *                            doesn't bllow setting of system properties
      *
-     * @see SecurityManager#checkPropertiesAccess
+     * @see SecurityMbnbger#checkPropertiesAccess
      */
-    public static void registerEditor(Class<?> targetType, Class<?> editorClass) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void registerEditor(Clbss<?> tbrgetType, Clbss<?> editorClbss) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
-        ThreadGroupContext.getContext().getPropertyEditorFinder().register(targetType, editorClass);
+        ThrebdGroupContext.getContext().getPropertyEditorFinder().register(tbrgetType, editorClbss);
     }
 
     /**
-     * Locate a value editor for a given target type.
+     * Locbte b vblue editor for b given tbrget type.
      *
-     * @param targetType  The Class object for the type to be edited
-     * @return An editor object for the given target class.
-     * The result is null if no suitable editor can be found.
+     * @pbrbm tbrgetType  The Clbss object for the type to be edited
+     * @return An editor object for the given tbrget clbss.
+     * The result is null if no suitbble editor cbn be found.
      */
-    public static PropertyEditor findEditor(Class<?> targetType) {
-        return ThreadGroupContext.getContext().getPropertyEditorFinder().find(targetType);
+    public stbtic PropertyEditor findEditor(Clbss<?> tbrgetType) {
+        return ThrebdGroupContext.getContext().getPropertyEditorFinder().find(tbrgetType);
     }
 
     /**
-     * Gets the package names that will be searched for property editors.
+     * Gets the pbckbge nbmes thbt will be sebrched for property editors.
      *
-     * @return  The array of package names that will be searched in
+     * @return  The brrby of pbckbge nbmes thbt will be sebrched in
      *          order to find property editors.
-     * <p>     The default value for this array is implementation-dependent,
-     *         e.g. Sun implementation initially sets to  {"sun.beans.editors"}.
+     * <p>     The defbult vblue for this brrby is implementbtion-dependent,
+     *         e.g. Sun implementbtion initiblly sets to  {"sun.bebns.editors"}.
      */
-    public static String[] getEditorSearchPath() {
-        return ThreadGroupContext.getContext().getPropertyEditorFinder().getPackages();
+    public stbtic String[] getEditorSebrchPbth() {
+        return ThrebdGroupContext.getContext().getPropertyEditorFinder().getPbckbges();
     }
 
     /**
-     * Change the list of package names that will be used for
+     * Chbnge the list of pbckbge nbmes thbt will be used for
      *          finding property editors.
      *
-     * <p>First, if there is a security manager, its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>First, if there is b security mbnbger, its <code>checkPropertiesAccess</code>
+     * method is cblled. This could result in b SecurityException.
      *
-     * @param path  Array of package names.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
+     * @pbrbm pbth  Arrby of pbckbge nbmes.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow setting
      *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @see SecurityMbnbger#checkPropertiesAccess
      */
-    public static void setEditorSearchPath(String[] path) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void setEditorSebrchPbth(String[] pbth) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
-        ThreadGroupContext.getContext().getPropertyEditorFinder().setPackages(path);
+        ThrebdGroupContext.getContext().getPropertyEditorFinder().setPbckbges(pbth);
     }
 }

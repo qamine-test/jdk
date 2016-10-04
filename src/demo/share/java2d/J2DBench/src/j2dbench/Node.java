@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.io.PrintWriter;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
+import jbvb.io.PrintWriter;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JComponent;
 
-public abstract class Node {
-    private String nodeName;
-    private String description;
-    private Group parent;
-    private Node next;
+public bbstrbct clbss Node {
+    privbte String nodeNbme;
+    privbte String description;
+    privbte Group pbrent;
+    privbte Node next;
 
     protected Node() {
     }
 
-    public Node(Group parent, String nodeName, String description) {
-        this.parent = parent;
-        this.nodeName = nodeName;
+    public Node(Group pbrent, String nodeNbme, String description) {
+        this.pbrent = pbrent;
+        this.nodeNbme = nodeNbme;
         this.description = description;
-        parent.addChild(this);
+        pbrent.bddChild(this);
     }
 
-    public Group getParent() {
-        return parent;
+    public Group getPbrent() {
+        return pbrent;
     }
 
-    public String getNodeName() {
-        return nodeName;
+    public String getNodeNbme() {
+        return nodeNbme;
     }
 
-    public String getTreeName() {
-        String name = nodeName;
-        if (parent != null) {
-            String pname = parent.getTreeName();
-            if (pname != null) {
-                name = pname + "." + name;
+    public String getTreeNbme() {
+        String nbme = nodeNbme;
+        if (pbrent != null) {
+            String pnbme = pbrent.getTreeNbme();
+            if (pnbme != null) {
+                nbme = pnbme + "." + nbme;
             }
         }
-        return name;
+        return nbme;
     }
 
     public String getDescription() {
@@ -84,7 +84,7 @@ public abstract class Node {
     }
 
     public JComponent getJComponent() {
-        return (nodeName != null) ? new JLabel(description) : null;
+        return (nodeNbme != null) ? new JLbbel(description) : null;
     }
 
     public Node getNext() {
@@ -95,22 +95,22 @@ public abstract class Node {
         this.next = node;
     }
 
-    public void traverse(Visitor v) {
+    public void trbverse(Visitor v) {
         v.visit(this);
     }
 
-    public abstract void restoreDefault();
+    public bbstrbct void restoreDefbult();
 
-    public abstract void write(PrintWriter pw);
+    public bbstrbct void write(PrintWriter pw);
 
-    public abstract String setOption(String key, String value);
+    public bbstrbct String setOption(String key, String vblue);
 
-    public static interface Visitor {
+    public stbtic interfbce Visitor {
         public void visit(Node node);
     }
 
-    public static interface Iterator {
-        public boolean hasNext();
+    public stbtic interfbce Iterbtor {
+        public boolebn hbsNext();
         public Node next();
     }
 }

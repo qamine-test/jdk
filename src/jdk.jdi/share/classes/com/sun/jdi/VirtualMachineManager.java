@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.Connection;
-import java.util.List;
-import java.io.IOException;
+import jbvb.util.List;
+import jbvb.io.IOException;
 
 /**
- * A manager of connections to target virtual machines. The
- * VirtualMachineManager allows one application to debug
- * multiple target VMs. (Note that the converse is not
- * supported; a target VM can be debugged by only one
- * debugger application.) This interface
- * contains methods to manage connections
- * to remote target VMs and to obtain the {@link VirtualMachine}
- * mirror for available target VMs.
+ * A mbnbger of connections to tbrget virtubl mbchines. The
+ * VirtublMbchineMbnbger bllows one bpplicbtion to debug
+ * multiple tbrget VMs. (Note thbt the converse is not
+ * supported; b tbrget VM cbn be debugged by only one
+ * debugger bpplicbtion.) This interfbce
+ * contbins methods to mbnbge connections
+ * to remote tbrget VMs bnd to obtbin the {@link VirtublMbchine}
+ * mirror for bvbilbble tbrget VMs.
  * <p>
- * Connections can be made using one of several different
- * {@link com.sun.jdi.connect.Connector} objects. Each connector encapsulates
- * a different way of connecting the debugger with a target VM.
+ * Connections cbn be mbde using one of severbl different
+ * {@link com.sun.jdi.connect.Connector} objects. Ebch connector encbpsulbtes
+ * b different wby of connecting the debugger with b tbrget VM.
  * <p>
- * The VirtualMachineManager supports many different scenarios for
- * connecting a debugger to a virtual machine. Four examples
- * are presented in the table below. The
- * examples use the command line syntax in Sun's implementation.
- * Some {@link com.sun.jdi.connect.Connector} implementations may require slightly
- * different handling than presented below.
+ * The VirtublMbchineMbnbger supports mbny different scenbrios for
+ * connecting b debugger to b virtubl mbchine. Four exbmples
+ * bre presented in the tbble below. The
+ * exbmples use the commbnd line syntbx in Sun's implementbtion.
+ * Some {@link com.sun.jdi.connect.Connector} implementbtions mby require slightly
+ * different hbndling thbn presented below.
  * <p>
- * <TABLE BORDER WIDTH="75%" SUMMARY="Four scenarios for connecting a debugger
- *  to a virtual machine">
+ * <TABLE BORDER WIDTH="75%" SUMMARY="Four scenbrios for connecting b debugger
+ *  to b virtubl mbchine">
  * <TR>
- * <TH scope=col>Scenario</TH>
+ * <TH scope=col>Scenbrio</TH>
  * <TH scope=col>Description</TH>
  * <TR>
- * <TD>Debugger launches target VM (simplest, most-common scenario)</TD>
+ * <TD>Debugger lbunches tbrget VM (simplest, most-common scenbrio)</TD>
  *
- * <TD>Debugger calls the
- * {@link com.sun.jdi.connect.LaunchingConnector#launch(java.util.Map)}
- * method of the default connector, obtained with {@link #defaultConnector}. The
- * target VM is launched, and a connection between that VM and the
- * debugger is established. A {@link VirtualMachine} mirror is returned.
+ * <TD>Debugger cblls the
+ * {@link com.sun.jdi.connect.LbunchingConnector#lbunch(jbvb.util.Mbp)}
+ * method of the defbult connector, obtbined with {@link #defbultConnector}. The
+ * tbrget VM is lbunched, bnd b connection between thbt VM bnd the
+ * debugger is estbblished. A {@link VirtublMbchine} mirror is returned.
  * <P>Or, for more control
  * <UL>
  * <LI>
- * Debugger selects a connector from the list returned by
- * {@link #launchingConnectors} with desired characteristics
- * (for example, transport type, etc.).
+ * Debugger selects b connector from the list returned by
+ * {@link #lbunchingConnectors} with desired chbrbcteristics
+ * (for exbmple, trbnsport type, etc.).
  * <LI>
- * Debugger calls the
- * {@link com.sun.jdi.connect.LaunchingConnector#launch(java.util.Map)}
+ * Debugger cblls the
+ * {@link com.sun.jdi.connect.LbunchingConnector#lbunch(jbvb.util.Mbp)}
  * method of the selected connector. The
- * target VM is launched, and a connection between that VM and the
- * debugger is established. A {@link VirtualMachine} mirror is returned.
+ * tbrget VM is lbunched, bnd b connection between thbt VM bnd the
+ * debugger is estbblished. A {@link VirtublMbchine} mirror is returned.
  * </UL>
  * </TD>
  * </TR>
  * <TR>
- * <TD>Debugger attaches to previously-running VM</TD>
+ * <TD>Debugger bttbches to previously-running VM</TD>
  * <TD>
  * <UL>
  * <LI>
- * Target VM is launched using the options
- * <code>-agentlib:jdwp=transport=xxx,server=y</code>
+ * Tbrget VM is lbunched using the options
+ * <code>-bgentlib:jdwp=trbnsport=xxx,server=y</code>
  * </LI>
  * <LI>
- * Target VM generates and outputs the tranport-specific address at which it will
- * listen for a connection.</LI>
+ * Tbrget VM generbtes bnd outputs the trbnport-specific bddress bt which it will
+ * listen for b connection.</LI>
  * <LI>
- * Debugger is launched. Debugger selects a connector in the list
- * returned by {@link #attachingConnectors} matching the transport with
- * the name "xxx".
+ * Debugger is lbunched. Debugger selects b connector in the list
+ * returned by {@link #bttbchingConnectors} mbtching the trbnsport with
+ * the nbme "xxx".
  * <LI>
- * Debugger presents the default connector parameters (obtained through
- * {@link com.sun.jdi.connect.Connector#defaultArguments()}) to the end user,
- * allowing the user to
- * fill in the transport-specific address generated by the target VM.
+ * Debugger presents the defbult connector pbrbmeters (obtbined through
+ * {@link com.sun.jdi.connect.Connector#defbultArguments()}) to the end user,
+ * bllowing the user to
+ * fill in the trbnsport-specific bddress generbted by the tbrget VM.
  * <LI>
- * Debugger calls the {@link com.sun.jdi.connect.AttachingConnector#attach(java.util.Map)} method
- * of the selected to attach to the target VM. A {@link VirtualMachine}
+ * Debugger cblls the {@link com.sun.jdi.connect.AttbchingConnector#bttbch(jbvb.util.Mbp)} method
+ * of the selected to bttbch to the tbrget VM. A {@link VirtublMbchine}
  * mirror is returned.
  * </UL>
  * </TD>
  * </TR>
  *
  * <TR>
- * <TD>Target VM attaches to previously-running debugger</TD>
+ * <TD>Tbrget VM bttbches to previously-running debugger</TD>
  * <TD>
  * <LI>
- * At startup, debugger selects one or more connectors from
+ * At stbrtup, debugger selects one or more connectors from
  * the list returned by {@link #listeningConnectors} for one or more
- * transports.</LI>
+ * trbnsports.</LI>
  * <LI>
- * Debugger calls the {@link com.sun.jdi.connect.ListeningConnector#startListening(java.util.Map)} method for each selected
- * connector. For each call, a transport-specific address string is
- * generated and returned. The debugger makes the transport names and
- * corresponding address strings available to the end user.
+ * Debugger cblls the {@link com.sun.jdi.connect.ListeningConnector#stbrtListening(jbvb.util.Mbp)} method for ebch selected
+ * connector. For ebch cbll, b trbnsport-specific bddress string is
+ * generbted bnd returned. The debugger mbkes the trbnsport nbmes bnd
+ * corresponding bddress strings bvbilbble to the end user.
  * <LI>
- * Debugger calls
- * {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)}
- * for each selected connector to wait for
- * a target VM to connect.</LI>
+ * Debugger cblls
+ * {@link com.sun.jdi.connect.ListeningConnector#bccept(jbvb.util.Mbp)}
+ * for ebch selected connector to wbit for
+ * b tbrget VM to connect.</LI>
  * <LI>
- * Later, target VM is launched by end user with the options
- * <code>-agentlib:jdwp=transport=xxx,address=yyy</code>
- * where "xxx" the transport for one of the connectors selected by the
- * the debugger and "yyy"
- * is the address generated by
- * {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)} for that
- * transport.</LI>
+ * Lbter, tbrget VM is lbunched by end user with the options
+ * <code>-bgentlib:jdwp=trbnsport=xxx,bddress=yyy</code>
+ * where "xxx" the trbnsport for one of the connectors selected by the
+ * the debugger bnd "yyy"
+ * is the bddress generbted by
+ * {@link com.sun.jdi.connect.ListeningConnector#bccept(jbvb.util.Mbp)} for thbt
+ * trbnsport.</LI>
  * <LI>
- * Debugger's call to {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)} returns
- * a {@link VirtualMachine} mirror.</LI>
+ * Debugger's cbll to {@link com.sun.jdi.connect.ListeningConnector#bccept(jbvb.util.Mbp)} returns
+ * b {@link VirtublMbchine} mirror.</LI>
  * </TD>
  * </TR>
  *
  * <TR>
- * <TD>Target VM launches debugger (sometimes called "Just-In-Time" debugging)</TD>
+ * <TD>Tbrget VM lbunches debugger (sometimes cblled "Just-In-Time" debugging)</TD>
  * <TD>
  * <LI>
- * Target VM is launched with the options
- * <code>-agentlib:jdwp=launch=cmdline,onuncaught=y,transport=xxx,server=y</code>
+ * Tbrget VM is lbunched with the options
+ * <code>-bgentlib:jdwp=lbunch=cmdline,onuncbught=y,trbnsport=xxx,server=y</code>
  * </LI>
  * <LI>
- * Later, an uncaught exception is thrown in the target VM. The target
- * VM generates the tranport-specific address at which it will
- * listen for a connection.
- * <LI>Target VM launches the debugger with the following items concatenated
- * together (separated by spaces) to form the command line:
+ * Lbter, bn uncbught exception is thrown in the tbrget VM. The tbrget
+ * VM generbtes the trbnport-specific bddress bt which it will
+ * listen for b connection.
+ * <LI>Tbrget VM lbunches the debugger with the following items concbtenbted
+ * together (sepbrbted by spbces) to form the commbnd line:
  * <UL>
- * <LI> The launch= value
- * <LI> The transport= value
- * <LI> The generated transport-specific address at which VM is listening for
+ * <LI> The lbunch= vblue
+ * <LI> The trbnsport= vblue
+ * <LI> The generbted trbnsport-specific bddress bt which VM is listening for
  * debugger connection.
  * </UL>
  * <LI>
- * Upon launch, debugger selects a connector in the list
- * returned by {@link #attachingConnectors} matching the transport with
- * the name "xxx".
+ * Upon lbunch, debugger selects b connector in the list
+ * returned by {@link #bttbchingConnectors} mbtching the trbnsport with
+ * the nbme "xxx".
  * <LI>
- * Debugger changes the default connector parameters (obtained through
- * {@link com.sun.jdi.connect.Connector#defaultArguments()}) to specify
- * the transport specific address at which the VM is listenig. Optionally,
- * other connector arguments can be presented to the user.
+ * Debugger chbnges the defbult connector pbrbmeters (obtbined through
+ * {@link com.sun.jdi.connect.Connector#defbultArguments()}) to specify
+ * the trbnsport specific bddress bt which the VM is listenig. Optionblly,
+ * other connector brguments cbn be presented to the user.
  * <LI>
- * Debugger calls the
- * {@link com.sun.jdi.connect.AttachingConnector#attach(java.util.Map)} method
- * of the selected to attach to the target VM. A {@link VirtualMachine}
+ * Debugger cblls the
+ * {@link com.sun.jdi.connect.AttbchingConnector#bttbch(jbvb.util.Mbp)} method
+ * of the selected to bttbch to the tbrget VM. A {@link VirtublMbchine}
  * mirror is returned.
  * </TD>
  * </TR>
  * </TABLE>
  *
- * <p> Connectors are created at start-up time. That is, they
- * are created the first time that {@link
- * com.sun.jdi.Bootstrap#virtualMachineManager()} is invoked.
- * The list of all Connectors created at start-up time can be
- * obtained from the VirtualMachineManager by invoking the
- * {@link #allConnectors allConnectors} method.
+ * <p> Connectors bre crebted bt stbrt-up time. Thbt is, they
+ * bre crebted the first time thbt {@link
+ * com.sun.jdi.Bootstrbp#virtublMbchineMbnbger()} is invoked.
+ * The list of bll Connectors crebted bt stbrt-up time cbn be
+ * obtbined from the VirtublMbchineMbnbger by invoking the
+ * {@link #bllConnectors bllConnectors} method.
  *
- * <p> Connectors are created at start-up time if they are
- * installed on the platform. In addition, Connectors are created
- * automatically by the VirtualMachineManager to encapsulate any
- * {@link com.sun.jdi.connect.spi.TransportService} implementations
- * that are installed on the platform. These two mechanisms for
- * creating Connectors are described here.
+ * <p> Connectors bre crebted bt stbrt-up time if they bre
+ * instblled on the plbtform. In bddition, Connectors bre crebted
+ * butombticblly by the VirtublMbchineMbnbger to encbpsulbte bny
+ * {@link com.sun.jdi.connect.spi.TrbnsportService} implementbtions
+ * thbt bre instblled on the plbtform. These two mechbnisms for
+ * crebting Connectors bre described here.
  *
- * <p> A Connector is installed on the platform if it is installed
- * in a jar file that is visible to the defining class loader of
+ * <p> A Connector is instblled on the plbtform if it is instblled
+ * in b jbr file thbt is visible to the defining clbss lobder of
  * the {@link com.sun.jdi.connect.Connector} type,
- * and that jar file contains a provider configuration file named
+ * bnd thbt jbr file contbins b provider configurbtion file nbmed
  * <tt>com.sun.jdi.connect.Connector</tt> in the resource directory
- * <tt>META-INF/services</tt>, and the provider configuration file
- * lists the full-qualified class name of the Connector
- * implementation. A Connector is a class that implements the
- * {@link com.sun.jdi.connect.Connector Connector} interface. More
- * appropriately the class implements one of the specific Connector
- * types, namely {@link com.sun.jdi.connect.AttachingConnector
- * AttachingConnector}, {@link com.sun.jdi.connect.ListeningConnector
- * ListeningConnector}, or {@link com.sun.jdi.connect.LaunchingConnector
- * LaunchingConnector}. The format of the provider configuration file
- * is one fully-qualified class name per line. Space and tab characters
- * surrounding each class, as well as blank lines are ignored. The
- * comment character is <tt>'#'</tt> (<tt>0x23</tt>), and on each
- * line all characters following the first comment character are
+ * <tt>META-INF/services</tt>, bnd the provider configurbtion file
+ * lists the full-qublified clbss nbme of the Connector
+ * implementbtion. A Connector is b clbss thbt implements the
+ * {@link com.sun.jdi.connect.Connector Connector} interfbce. More
+ * bppropribtely the clbss implements one of the specific Connector
+ * types, nbmely {@link com.sun.jdi.connect.AttbchingConnector
+ * AttbchingConnector}, {@link com.sun.jdi.connect.ListeningConnector
+ * ListeningConnector}, or {@link com.sun.jdi.connect.LbunchingConnector
+ * LbunchingConnector}. The formbt of the provider configurbtion file
+ * is one fully-qublified clbss nbme per line. Spbce bnd tbb chbrbcters
+ * surrounding ebch clbss, bs well bs blbnk lines bre ignored. The
+ * comment chbrbcter is <tt>'#'</tt> (<tt>0x23</tt>), bnd on ebch
+ * line bll chbrbcters following the first comment chbrbcter bre
  * ignored. The file must be encoded in UTF-8.
  *
- * <p> At start-up time the VirtualMachineManager attempts to load
- * and instantiate (using the no-arg constructor) each class listed
- * in the provider configuration file. Exceptions thrown when loading
- * or creating the Connector are caught and ignored. In other words,
- * the start-up process continues despite of errors.
+ * <p> At stbrt-up time the VirtublMbchineMbnbger bttempts to lobd
+ * bnd instbntibte (using the no-brg constructor) ebch clbss listed
+ * in the provider configurbtion file. Exceptions thrown when lobding
+ * or crebting the Connector bre cbught bnd ignored. In other words,
+ * the stbrt-up process continues despite of errors.
  *
- * <p> In addition to Connectors installed on the platform the
- * VirtualMachineManager will also create Connectors to encapsulate
- * any {@link com.sun.jdi.connect.spi.TransportService} implementations
- * that are installed on the platform. A TransportService is
- * installed on the platform if it installed in a jar file that is
- * visible to the defining class loader for the
- * {@link com.sun.jdi.connect.spi.TransportService} type, and that jar
- * file contains a provider configuration file named
- * <tt>com.sun.jdi.connect.spi.TransportService</tt> in the resource
- * directory <tt>META-INF/services</tt>, and the provider
- * configuration file lists the the full-qualified class name of the
- * TransportService implementation. A TransportService is a concrete
- * sub-class of {@link com.sun.jdi.connect.spi.TransportService
- * TransportService}. The format of the provider configuration file
- * is the same as the provider configuration file for Connectors
- * except that each class listed must be the fully-qualified class
- * name of a class that implements the TransportService interface.
+ * <p> In bddition to Connectors instblled on the plbtform the
+ * VirtublMbchineMbnbger will blso crebte Connectors to encbpsulbte
+ * bny {@link com.sun.jdi.connect.spi.TrbnsportService} implementbtions
+ * thbt bre instblled on the plbtform. A TrbnsportService is
+ * instblled on the plbtform if it instblled in b jbr file thbt is
+ * visible to the defining clbss lobder for the
+ * {@link com.sun.jdi.connect.spi.TrbnsportService} type, bnd thbt jbr
+ * file contbins b provider configurbtion file nbmed
+ * <tt>com.sun.jdi.connect.spi.TrbnsportService</tt> in the resource
+ * directory <tt>META-INF/services</tt>, bnd the provider
+ * configurbtion file lists the the full-qublified clbss nbme of the
+ * TrbnsportService implementbtion. A TrbnsportService is b concrete
+ * sub-clbss of {@link com.sun.jdi.connect.spi.TrbnsportService
+ * TrbnsportService}. The formbt of the provider configurbtion file
+ * is the sbme bs the provider configurbtion file for Connectors
+ * except thbt ebch clbss listed must be the fully-qublified clbss
+ * nbme of b clbss thbt implements the TrbnsportService interfbce.
  *
- * <p> For each TransportService installed on the platform, the
- * VirtualMachineManager creates a corresponding
- * {@link com.sun.jdi.connect.AttachingConnector} and
+ * <p> For ebch TrbnsportService instblled on the plbtform, the
+ * VirtublMbchineMbnbger crebtes b corresponding
+ * {@link com.sun.jdi.connect.AttbchingConnector} bnd
  * {@link com.sun.jdi.connect.ListeningConnector}. These
- * Connectors are created to encapsulate a {@link
- * com.sun.jdi.connect.Transport Transport} that in turn
- * encapsulates the TransportService.
- * The AttachingConnector will be named based on the name of the
- * transport service concatenated with the string <tt>Attach</tt>.
- * For example, if the transport service {@link
- * com.sun.jdi.connect.spi.TransportService#name() name()} method
- * returns <tt>telepathic</tt> then the AttachingConnector will
- * be named <tt>telepathicAttach</tt>. Similiarly the ListeningConnector
- * will be named with the string <tt>Listen</tt> tagged onto the
- * name of the transport service. The {@link
+ * Connectors bre crebted to encbpsulbte b {@link
+ * com.sun.jdi.connect.Trbnsport Trbnsport} thbt in turn
+ * encbpsulbtes the TrbnsportService.
+ * The AttbchingConnector will be nbmed bbsed on the nbme of the
+ * trbnsport service concbtenbted with the string <tt>Attbch</tt>.
+ * For exbmple, if the trbnsport service {@link
+ * com.sun.jdi.connect.spi.TrbnsportService#nbme() nbme()} method
+ * returns <tt>telepbthic</tt> then the AttbchingConnector will
+ * be nbmed <tt>telepbthicAttbch</tt>. Similibrly the ListeningConnector
+ * will be nbmed with the string <tt>Listen</tt> tbgged onto the
+ * nbme of the trbnsport service. The {@link
  * com.sun.jdi.connect.Connector#description() description()} method
- * of both the AttachingConnector, and the ListeningConnector, will
- * delegate to the {@link com.sun.jdi.connect.spi.TransportService#description()
- * description()} method of the underlying transport service. Both
- * the AttachingConnector and the ListeningConnector will have two
+ * of both the AttbchingConnector, bnd the ListeningConnector, will
+ * delegbte to the {@link com.sun.jdi.connect.spi.TrbnsportService#description()
+ * description()} method of the underlying trbnsport service. Both
+ * the AttbchingConnector bnd the ListeningConnector will hbve two
  * Connector {@link com.sun.jdi.connect.Connector$Argument Arguments}.
  * A {@link com.sun.jdi.connect.Connector$StringArgument StringArgument}
- * named <tt>address</tt> is the connector argument to specify the
- * address to attach too, or to listen on. A
+ * nbmed <tt>bddress</tt> is the connector brgument to specify the
+ * bddress to bttbch too, or to listen on. A
  * {@link com.sun.jdi.connect.Connector$IntegerArgument IntegerArgument}
- * named <tt>timeout</tt> is the connector argument to specify the
- * timeout when attaching, or accepting. The timeout connector may be
- * ignored depending on if the transport service supports an attach
- * timeout or accept timeout.
+ * nbmed <tt>timeout</tt> is the connector brgument to specify the
+ * timeout when bttbching, or bccepting. The timeout connector mby be
+ * ignored depending on if the trbnsport service supports bn bttbch
+ * timeout or bccept timeout.
  *
- * <p> Initialization of the virtual machine manager will fail, that is
- * {@link com.sun.jdi.Bootstrap#virtualMachineManager()} will throw an
- * error if the virtual machine manager is unable to create any
+ * <p> Initiblizbtion of the virtubl mbchine mbnbger will fbil, thbt is
+ * {@link com.sun.jdi.Bootstrbp#virtublMbchineMbnbger()} will throw bn
+ * error if the virtubl mbchine mbnbger is unbble to crebte bny
  * connectors.
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public interface VirtualMachineManager {
+public interfbce VirtublMbchineMbnbger {
 
     /**
-     * Identifies the default connector. This connector should
-     * be used as the launching connector when selection of a
-     * connector with specific characteristics is unnecessary.
+     * Identifies the defbult connector. This connector should
+     * be used bs the lbunching connector when selection of b
+     * connector with specific chbrbcteristics is unnecessbry.
      *
-     * @return the default {@link com.sun.jdi.connect.LaunchingConnector}
+     * @return the defbult {@link com.sun.jdi.connect.LbunchingConnector}
      */
-    LaunchingConnector defaultConnector();
+    LbunchingConnector defbultConnector();
 
     /**
-     * Returns the list of known {@link com.sun.jdi.connect.LaunchingConnector} objects.
-     * Any of the returned objects can be used to launch a new target
-     * VM and immediately create a {@link VirtualMachine} mirror for it.
+     * Returns the list of known {@link com.sun.jdi.connect.LbunchingConnector} objects.
+     * Any of the returned objects cbn be used to lbunch b new tbrget
+     * VM bnd immedibtely crebte b {@link VirtublMbchine} mirror for it.
      *
-     * Note that a target VM launched by a launching connector is not
-     * guaranteed to be stable until after the {@link com.sun.jdi.event.VMStartEvent} has been
+     * Note thbt b tbrget VM lbunched by b lbunching connector is not
+     * gubrbnteed to be stbble until bfter the {@link com.sun.jdi.event.VMStbrtEvent} hbs been
      * received.
-     * @return a list of {@link com.sun.jdi.connect.LaunchingConnector} objects.
+     * @return b list of {@link com.sun.jdi.connect.LbunchingConnector} objects.
      */
-    List<LaunchingConnector> launchingConnectors();
+    List<LbunchingConnector> lbunchingConnectors();
 
     /**
-     * Returns the list of known {@link com.sun.jdi.connect.AttachingConnector} objects.
-     * Any of the returned objects can be used to attach to an existing target
-     * VM and create a {@link VirtualMachine} mirror for it.
+     * Returns the list of known {@link com.sun.jdi.connect.AttbchingConnector} objects.
+     * Any of the returned objects cbn be used to bttbch to bn existing tbrget
+     * VM bnd crebte b {@link VirtublMbchine} mirror for it.
      *
-     * @return a list of {@link com.sun.jdi.connect.AttachingConnector} objects.
+     * @return b list of {@link com.sun.jdi.connect.AttbchingConnector} objects.
      */
-    List<AttachingConnector> attachingConnectors();
+    List<AttbchingConnector> bttbchingConnectors();
 
     /**
      * Returns the list of known {@link com.sun.jdi.connect.ListeningConnector} objects.
-     * Any of the returned objects can be used to listen for a
-     * connection initiated by a target VM
-     * and create a {@link VirtualMachine} mirror for it.
+     * Any of the returned objects cbn be used to listen for b
+     * connection initibted by b tbrget VM
+     * bnd crebte b {@link VirtublMbchine} mirror for it.
      *
-     * @return a list of {@link com.sun.jdi.connect.ListeningConnector} objects.
+     * @return b list of {@link com.sun.jdi.connect.ListeningConnector} objects.
      */
     List<ListeningConnector> listeningConnectors();
 
     /**
-     * Returns the list of all known {@link com.sun.jdi.connect.Connector} objects.
+     * Returns the list of bll known {@link com.sun.jdi.connect.Connector} objects.
      *
-     * @return a list of {@link com.sun.jdi.connect.Connector} objects.
+     * @return b list of {@link com.sun.jdi.connect.Connector} objects.
      */
-     List<Connector> allConnectors();
+     List<Connector> bllConnectors();
 
     /**
-     * Lists all target VMs which are connected to the debugger.
-     * The list includes {@link VirtualMachine} instances for
-     * any target VMs which initiated a connection
-     * and any
-     * target VMs to which this manager has initiated a connection.
-     * A target VM will remain in this list
+     * Lists bll tbrget VMs which bre connected to the debugger.
+     * The list includes {@link VirtublMbchine} instbnces for
+     * bny tbrget VMs which initibted b connection
+     * bnd bny
+     * tbrget VMs to which this mbnbger hbs initibted b connection.
+     * A tbrget VM will rembin in this list
      * until the VM is disconnected.
-     * {@link com.sun.jdi.event.VMDisconnectEvent} is placed in the event queue
-     * after the VM is removed from the list.
+     * {@link com.sun.jdi.event.VMDisconnectEvent} is plbced in the event queue
+     * bfter the VM is removed from the list.
      *
-     * @return a list of {@link VirtualMachine} objects, each mirroring
-     * a target VM.
+     * @return b list of {@link VirtublMbchine} objects, ebch mirroring
+     * b tbrget VM.
      */
-     List<VirtualMachine> connectedVirtualMachines();
+     List<VirtublMbchine> connectedVirtublMbchines();
 
      /**
-      * Returns the major version number of the JDI interface.
-      * See {@link VirtualMachine#version} target VM version and
-      * information and
-      * {@link VirtualMachine#description} more version information.
+      * Returns the mbjor version number of the JDI interfbce.
+      * See {@link VirtublMbchine#version} tbrget VM version bnd
+      * informbtion bnd
+      * {@link VirtublMbchine#description} more version informbtion.
       *
-      * @return the integer major version number.
+      * @return the integer mbjor version number.
       */
-     int majorInterfaceVersion();
+     int mbjorInterfbceVersion();
 
      /**
-      * Returns the minor version number of the JDI interface.
-      * See {@link VirtualMachine#version} target VM version and
-      * information and
-      * {@link VirtualMachine#description} more version information.
+      * Returns the minor version number of the JDI interfbce.
+      * See {@link VirtublMbchine#version} tbrget VM version bnd
+      * informbtion bnd
+      * {@link VirtublMbchine#description} more version informbtion.
       *
       * @return the integer minor version number
       */
-     int minorInterfaceVersion();
+     int minorInterfbceVersion();
 
      /**
-      * Create a virtual machine mirror for a target VM.
+      * Crebte b virtubl mbchine mirror for b tbrget VM.
       *
-      * <p> Creates a virtual machine mirror for a target VM
-      * for which a {@link com.sun.jdi.connect.spi.Connection Connection}
-      * already exists. A Connection is created when a {@link
-      * com.sun.jdi.connect.Connector Connector} establishes
-      * a connection and successfully handshakes with a target VM.
-      * A Connector can then use this method to create a virtual machine
-      * mirror to represent the composite state of the target VM.
+      * <p> Crebtes b virtubl mbchine mirror for b tbrget VM
+      * for which b {@link com.sun.jdi.connect.spi.Connection Connection}
+      * blrebdy exists. A Connection is crebted when b {@link
+      * com.sun.jdi.connect.Connector Connector} estbblishes
+      * b connection bnd successfully hbndshbkes with b tbrget VM.
+      * A Connector cbn then use this method to crebte b virtubl mbchine
+      * mirror to represent the composite stbte of the tbrget VM.
       *
-      * <p> The <tt>process</tt> argument specifies the
-      * {@link java.lang.Process} object for the taget VM. It may be
-      * specified as <tt>null</tt>. If the target VM is launched
-      * by a {@link com.sun.jdi.connect.LaunchingConnector
-      * LaunchingConnector} the <tt>process</tt> argument should be
-      * specified, otherwise calling {@link com.sun.jdi.VirtualMachine#process()}
-      * on the created virtual machine will return <tt>null</tt>.
+      * <p> The <tt>process</tt> brgument specifies the
+      * {@link jbvb.lbng.Process} object for the tbget VM. It mby be
+      * specified bs <tt>null</tt>. If the tbrget VM is lbunched
+      * by b {@link com.sun.jdi.connect.LbunchingConnector
+      * LbunchingConnector} the <tt>process</tt> brgument should be
+      * specified, otherwise cblling {@link com.sun.jdi.VirtublMbchine#process()}
+      * on the crebted virtubl mbchine will return <tt>null</tt>.
       *
-      * <p> This method exists so that Connectors may create
-      * a virtual machine mirror when a connection is established
-      * to a target VM. Only developers creating new Connector
-      * implementations should need to make direct use of this
+      * <p> This method exists so thbt Connectors mby crebte
+      * b virtubl mbchine mirror when b connection is estbblished
+      * to b tbrget VM. Only developers crebting new Connector
+      * implementbtions should need to mbke direct use of this
       * method. </p>
       *
-      * @param  connection
-      *         The open connection to the target VM.
+      * @pbrbm  connection
+      *         The open connection to the tbrget VM.
       *
-      * @param  process
-      *         If launched, the {@link java.lang.Process} object for
-      *         the target VM. <tt>null</tt> if not launched.
+      * @pbrbm  process
+      *         If lbunched, the {@link jbvb.lbng.Process} object for
+      *         the tbrget VM. <tt>null</tt> if not lbunched.
       *
-      * @return new virtual machine representing the target VM.
+      * @return new virtubl mbchine representing the tbrget VM.
       *
       * @throws IOException
-      *         if an I/O error occurs
+      *         if bn I/O error occurs
       *
-      * @throws IllegalStateException
+      * @throws IllegblStbteException
       *         if the connection is not open
       *
       * @see com.sun.jdi.connect.spi.Connection#isOpen()
-      * @see com.sun.jdi.VirtualMachine#process()
+      * @see com.sun.jdi.VirtublMbchine#process()
       *
       * @since 1.5
       */
-     VirtualMachine createVirtualMachine(Connection connection, Process process) throws IOException;
+     VirtublMbchine crebteVirtublMbchine(Connection connection, Process process) throws IOException;
 
      /**
-      * Creates a new virtual machine.
+      * Crebtes b new virtubl mbchine.
       *
-      * <p> This convenience method works as if by invoking {@link
-      * #createVirtualMachine(Connection, Process)} method and
-      * specifying <tt>null</tt> as the <tt>process</tt> argument.
+      * <p> This convenience method works bs if by invoking {@link
+      * #crebteVirtublMbchine(Connection, Process)} method bnd
+      * specifying <tt>null</tt> bs the <tt>process</tt> brgument.
       *
-      * <p> This method exists so that Connectors may create
-      * a virtual machine mirror when a connection is established
-      * to a target VM. Only developers creating new Connector
-      * implementations should need to make direct use of this
+      * <p> This method exists so thbt Connectors mby crebte
+      * b virtubl mbchine mirror when b connection is estbblished
+      * to b tbrget VM. Only developers crebting new Connector
+      * implementbtions should need to mbke direct use of this
       * method. </p>
       *
-      * @return the new virtual machine
+      * @return the new virtubl mbchine
       *
       * @throws IOException
-      *         if an I/O error occurs
+      *         if bn I/O error occurs
       *
-      * @throws IllegalStateException
+      * @throws IllegblStbteException
       *         if the connection is not open
       *
       * @since 1.5
       */
-     VirtualMachine createVirtualMachine(Connection connection) throws IOException;
+     VirtublMbchine crebteVirtublMbchine(Connection connection) throws IOException;
 }

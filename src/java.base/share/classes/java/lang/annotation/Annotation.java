@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.annotation;
+pbckbge jbvb.lbng.bnnotbtion;
 
 /**
- * The common interface extended by all annotation types.  Note that an
- * interface that manually extends this one does <i>not</i> define
- * an annotation type.  Also note that this interface does not itself
- * define an annotation type.
+ * The common interfbce extended by bll bnnotbtion types.  Note thbt bn
+ * interfbce thbt mbnublly extends this one does <i>not</i> define
+ * bn bnnotbtion type.  Also note thbt this interfbce does not itself
+ * define bn bnnotbtion type.
  *
- * More information about annotation types can be found in section 9.6 of
- * <cite>The Java&trade; Language Specification</cite>.
+ * More informbtion bbout bnnotbtion types cbn be found in section 9.6 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
  *
- * The {@link java.lang.reflect.AnnotatedElement} interface discusses
- * compatibility concerns when evolving an annotation type from being
- * non-repeatable to being repeatable.
+ * The {@link jbvb.lbng.reflect.AnnotbtedElement} interfbce discusses
+ * compbtibility concerns when evolving bn bnnotbtion type from being
+ * non-repebtbble to being repebtbble.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @since   1.5
  */
-public interface Annotation {
+public interfbce Annotbtion {
     /**
-     * Returns true if the specified object represents an annotation
-     * that is logically equivalent to this one.  In other words,
-     * returns true if the specified object is an instance of the same
-     * annotation type as this instance, all of whose members are equal
-     * to the corresponding member of this annotation, as defined below:
+     * Returns true if the specified object represents bn bnnotbtion
+     * thbt is logicblly equivblent to this one.  In other words,
+     * returns true if the specified object is bn instbnce of the sbme
+     * bnnotbtion type bs this instbnce, bll of whose members bre equbl
+     * to the corresponding member of this bnnotbtion, bs defined below:
      * <ul>
-     *    <li>Two corresponding primitive typed members whose values are
-     *    <tt>x</tt> and <tt>y</tt> are considered equal if <tt>x == y</tt>,
-     *    unless their type is <tt>float</tt> or <tt>double</tt>.
+     *    <li>Two corresponding primitive typed members whose vblues bre
+     *    <tt>x</tt> bnd <tt>y</tt> bre considered equbl if <tt>x == y</tt>,
+     *    unless their type is <tt>flobt</tt> or <tt>double</tt>.
      *
-     *    <li>Two corresponding <tt>float</tt> members whose values
-     *    are <tt>x</tt> and <tt>y</tt> are considered equal if
-     *    <tt>Float.valueOf(x).equals(Float.valueOf(y))</tt>.
-     *    (Unlike the <tt>==</tt> operator, NaN is considered equal
-     *    to itself, and <tt>0.0f</tt> unequal to <tt>-0.0f</tt>.)
+     *    <li>Two corresponding <tt>flobt</tt> members whose vblues
+     *    bre <tt>x</tt> bnd <tt>y</tt> bre considered equbl if
+     *    <tt>Flobt.vblueOf(x).equbls(Flobt.vblueOf(y))</tt>.
+     *    (Unlike the <tt>==</tt> operbtor, NbN is considered equbl
+     *    to itself, bnd <tt>0.0f</tt> unequbl to <tt>-0.0f</tt>.)
      *
-     *    <li>Two corresponding <tt>double</tt> members whose values
-     *    are <tt>x</tt> and <tt>y</tt> are considered equal if
-     *    <tt>Double.valueOf(x).equals(Double.valueOf(y))</tt>.
-     *    (Unlike the <tt>==</tt> operator, NaN is considered equal
-     *    to itself, and <tt>0.0</tt> unequal to <tt>-0.0</tt>.)
+     *    <li>Two corresponding <tt>double</tt> members whose vblues
+     *    bre <tt>x</tt> bnd <tt>y</tt> bre considered equbl if
+     *    <tt>Double.vblueOf(x).equbls(Double.vblueOf(y))</tt>.
+     *    (Unlike the <tt>==</tt> operbtor, NbN is considered equbl
+     *    to itself, bnd <tt>0.0</tt> unequbl to <tt>-0.0</tt>.)
      *
-     *    <li>Two corresponding <tt>String</tt>, <tt>Class</tt>, enum, or
-     *    annotation typed members whose values are <tt>x</tt> and <tt>y</tt>
-     *    are considered equal if <tt>x.equals(y)</tt>.  (Note that this
-     *    definition is recursive for annotation typed members.)
+     *    <li>Two corresponding <tt>String</tt>, <tt>Clbss</tt>, enum, or
+     *    bnnotbtion typed members whose vblues bre <tt>x</tt> bnd <tt>y</tt>
+     *    bre considered equbl if <tt>x.equbls(y)</tt>.  (Note thbt this
+     *    definition is recursive for bnnotbtion typed members.)
      *
-     *    <li>Two corresponding array typed members <tt>x</tt> and <tt>y</tt>
-     *    are considered equal if <tt>Arrays.equals(x, y)</tt>, for the
-     *    appropriate overloading of {@link java.util.Arrays#equals}.
+     *    <li>Two corresponding brrby typed members <tt>x</tt> bnd <tt>y</tt>
+     *    bre considered equbl if <tt>Arrbys.equbls(x, y)</tt>, for the
+     *    bppropribte overlobding of {@link jbvb.util.Arrbys#equbls}.
      * </ul>
      *
-     * @return true if the specified object represents an annotation
-     *     that is logically equivalent to this one, otherwise false
+     * @return true if the specified object represents bn bnnotbtion
+     *     thbt is logicblly equivblent to this one, otherwise fblse
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code of this annotation, as defined below:
+     * Returns the hbsh code of this bnnotbtion, bs defined below:
      *
-     * <p>The hash code of an annotation is the sum of the hash codes
-     * of its members (including those with default values), as defined
+     * <p>The hbsh code of bn bnnotbtion is the sum of the hbsh codes
+     * of its members (including those with defbult vblues), bs defined
      * below:
      *
-     * The hash code of an annotation member is (127 times the hash code
-     * of the member-name as computed by {@link String#hashCode()}) XOR
-     * the hash code of the member-value, as defined below:
+     * The hbsh code of bn bnnotbtion member is (127 times the hbsh code
+     * of the member-nbme bs computed by {@link String#hbshCode()}) XOR
+     * the hbsh code of the member-vblue, bs defined below:
      *
-     * <p>The hash code of a member-value depends on its type:
+     * <p>The hbsh code of b member-vblue depends on its type:
      * <ul>
-     * <li>The hash code of a primitive value <tt><i>v</i></tt> is equal to
-     *     <tt><i>WrapperType</i>.valueOf(<i>v</i>).hashCode()</tt>, where
-     *     <tt><i>WrapperType</i></tt> is the wrapper type corresponding
+     * <li>The hbsh code of b primitive vblue <tt><i>v</i></tt> is equbl to
+     *     <tt><i>WrbpperType</i>.vblueOf(<i>v</i>).hbshCode()</tt>, where
+     *     <tt><i>WrbpperType</i></tt> is the wrbpper type corresponding
      *     to the primitive type of <tt><i>v</i></tt> ({@link Byte},
-     *     {@link Character}, {@link Double}, {@link Float}, {@link Integer},
-     *     {@link Long}, {@link Short}, or {@link Boolean}).
+     *     {@link Chbrbcter}, {@link Double}, {@link Flobt}, {@link Integer},
+     *     {@link Long}, {@link Short}, or {@link Boolebn}).
      *
-     * <li>The hash code of a string, enum, class, or annotation member-value
-     I     <tt><i>v</i></tt> is computed as by calling
-     *     <tt><i>v</i>.hashCode()</tt>.  (In the case of annotation
-     *     member values, this is a recursive definition.)
+     * <li>The hbsh code of b string, enum, clbss, or bnnotbtion member-vblue
+     I     <tt><i>v</i></tt> is computed bs by cblling
+     *     <tt><i>v</i>.hbshCode()</tt>.  (In the cbse of bnnotbtion
+     *     member vblues, this is b recursive definition.)
      *
-     * <li>The hash code of an array member-value is computed by calling
-     *     the appropriate overloading of
-     *     {@link java.util.Arrays#hashCode(long[]) Arrays.hashCode}
-     *     on the value.  (There is one overloading for each primitive
-     *     type, and one for object reference types.)
+     * <li>The hbsh code of bn brrby member-vblue is computed by cblling
+     *     the bppropribte overlobding of
+     *     {@link jbvb.util.Arrbys#hbshCode(long[]) Arrbys.hbshCode}
+     *     on the vblue.  (There is one overlobding for ebch primitive
+     *     type, bnd one for object reference types.)
      * </ul>
      *
-     * @return the hash code of this annotation
+     * @return the hbsh code of this bnnotbtion
      */
-    int hashCode();
+    int hbshCode();
 
     /**
-     * Returns a string representation of this annotation.  The details
-     * of the representation are implementation-dependent, but the following
-     * may be regarded as typical:
+     * Returns b string representbtion of this bnnotbtion.  The detbils
+     * of the representbtion bre implementbtion-dependent, but the following
+     * mby be regbrded bs typicbl:
      * <pre>
-     *   &#064;com.acme.util.Name(first=Alfred, middle=E., last=Neuman)
+     *   &#064;com.bcme.util.Nbme(first=Alfred, middle=E., lbst=Neumbn)
      * </pre>
      *
-     * @return a string representation of this annotation
+     * @return b string representbtion of this bnnotbtion
      */
     String toString();
 
     /**
-     * Returns the annotation type of this annotation.
-     * @return the annotation type of this annotation
+     * Returns the bnnotbtion type of this bnnotbtion.
+     * @return the bnnotbtion type of this bnnotbtion
      */
-    Class<? extends Annotation> annotationType();
+    Clbss<? extends Annotbtion> bnnotbtionType();
 }

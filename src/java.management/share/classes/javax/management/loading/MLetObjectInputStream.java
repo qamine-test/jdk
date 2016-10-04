@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
 
-// java import
+// jbvb import
 
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Arrby;
 
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing MLetClassLoader.
+ * This subclbss of ObjectInputStrebm delegbtes lobding of clbsses to
+ * bn existing MLetClbssLobder.
  *
  * @since 1.5
  */
-class MLetObjectInputStream extends ObjectInputStream {
+clbss MLetObjectInputStrebm extends ObjectInputStrebm {
 
-    private MLet loader;
+    privbte MLet lobder;
 
     /**
-     * Loader must be non-null;
+     * Lobder must be non-null;
      */
-    public MLetObjectInputStream(InputStream in, MLet loader)
-        throws IOException, StreamCorruptedException {
+    public MLetObjectInputStrebm(InputStrebm in, MLet lobder)
+        throws IOException, StrebmCorruptedException {
 
         super(in);
-        if (loader == null) {
-            throw new IllegalArgumentException("Illegal null argument to MLetObjectInputStream");
+        if (lobder == null) {
+            throw new IllegblArgumentException("Illegbl null brgument to MLetObjectInputStrebm");
         }
-        this.loader = loader;
+        this.lobder = lobder;
     }
 
-    private Class<?> primitiveType(char c) {
+    privbte Clbss<?> primitiveType(chbr c) {
         switch(c) {
-        case 'B':
+        cbse 'B':
             return Byte.TYPE;
 
-        case 'C':
-            return Character.TYPE;
+        cbse 'C':
+            return Chbrbcter.TYPE;
 
-        case 'D':
+        cbse 'D':
             return Double.TYPE;
 
-        case 'F':
-            return Float.TYPE;
+        cbse 'F':
+            return Flobt.TYPE;
 
-        case 'I':
+        cbse 'I':
             return Integer.TYPE;
 
-        case 'J':
+        cbse 'J':
             return Long.TYPE;
 
-        case 'S':
+        cbse 'S':
             return Short.TYPE;
 
-        case 'Z':
-            return Boolean.TYPE;
+        cbse 'Z':
+            return Boolebn.TYPE;
         }
         return null;
     }
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Use the given ClbssLobder rbther thbn using the system clbss
      */
     @Override
-    protected Class<?> resolveClass(ObjectStreamClass objectstreamclass)
-        throws IOException, ClassNotFoundException {
+    protected Clbss<?> resolveClbss(ObjectStrebmClbss objectstrebmclbss)
+        throws IOException, ClbssNotFoundException {
 
-        String s = objectstreamclass.getName();
-        if (s.startsWith("[")) {
+        String s = objectstrebmclbss.getNbme();
+        if (s.stbrtsWith("[")) {
             int i;
-            for (i = 1; s.charAt(i) == '['; i++);
-            Class<?> class1;
-            if (s.charAt(i) == 'L') {
-                class1 = loader.loadClass(s.substring(i + 1, s.length() - 1));
+            for (i = 1; s.chbrAt(i) == '['; i++);
+            Clbss<?> clbss1;
+            if (s.chbrAt(i) == 'L') {
+                clbss1 = lobder.lobdClbss(s.substring(i + 1, s.length() - 1));
             } else {
                 if (s.length() != i + 1)
-                    throw new ClassNotFoundException(s);
-                class1 = primitiveType(s.charAt(i));
+                    throw new ClbssNotFoundException(s);
+                clbss1 = primitiveType(s.chbrAt(i));
             }
-            int ai[] = new int[i];
+            int bi[] = new int[i];
             for (int j = 0; j < i; j++)
-                ai[j] = 0;
+                bi[j] = 0;
 
-            return Array.newInstance(class1, ai).getClass();
+            return Arrby.newInstbnce(clbss1, bi).getClbss();
         } else {
-            return loader.loadClass(s);
+            return lobder.lobdClbss(s);
         }
     }
 
     /**
-     * Returns the ClassLoader being used
+     * Returns the ClbssLobder being used
      */
-    public ClassLoader getClassLoader() {
-        return loader;
+    public ClbssLobder getClbssLobder() {
+        return lobder;
     }
 }

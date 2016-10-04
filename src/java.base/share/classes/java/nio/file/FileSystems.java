@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.spi.FileSystemProvider;
-import java.net.URI;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.lang.reflect.Constructor;
+import jbvb.nio.file.spi.FileSystemProvider;
+import jbvb.net.URI;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.lbng.reflect.Constructor;
 
 /**
- * Factory methods for file systems. This class defines the {@link #getDefault
- * getDefault} method to get the default file system and factory methods to
+ * Fbctory methods for file systems. This clbss defines the {@link #getDefbult
+ * getDefbult} method to get the defbult file system bnd fbctory methods to
  * construct other types of file systems.
  *
- * <p> The first invocation of any of the methods defined by this class causes
- * the default {@link FileSystemProvider provider} to be loaded. The default
- * provider, identified by the URI scheme "file", creates the {@link FileSystem}
- * that provides access to the file systems accessible to the Java virtual
- * machine. If the process of loading or initializing the default provider fails
- * then an unspecified error is thrown.
+ * <p> The first invocbtion of bny of the methods defined by this clbss cbuses
+ * the defbult {@link FileSystemProvider provider} to be lobded. The defbult
+ * provider, identified by the URI scheme "file", crebtes the {@link FileSystem}
+ * thbt provides bccess to the file systems bccessible to the Jbvb virtubl
+ * mbchine. If the process of lobding or initiblizing the defbult provider fbils
+ * then bn unspecified error is thrown.
  *
- * <p> The first invocation of the {@link FileSystemProvider#installedProviders
- * installedProviders} method, by way of invoking any of the {@code
- * newFileSystem} methods defined by this class, locates and loads all
- * installed file system providers. Installed providers are loaded using the
- * service-provider loading facility defined by the {@link ServiceLoader} class.
- * Installed providers are loaded using the system class loader. If the
- * system class loader cannot be found then the extension class loader is used;
- * if there is no extension class loader then the bootstrap class loader is used.
- * Providers are typically installed by placing them in a JAR file on the
- * application class path or in the extension directory, the JAR file contains a
- * provider-configuration file named {@code java.nio.file.spi.FileSystemProvider}
- * in the resource directory {@code META-INF/services}, and the file lists one or
- * more fully-qualified names of concrete subclass of {@link FileSystemProvider}
- * that have a zero argument constructor.
- * The ordering that installed providers are located is implementation specific.
- * If a provider is instantiated and its {@link FileSystemProvider#getScheme()
- * getScheme} returns the same URI scheme of a provider that was previously
- * instantiated then the most recently instantiated duplicate is discarded. URI
- * schemes are compared without regard to case. During construction a provider
- * may safely access files associated with the default provider but care needs
- * to be taken to avoid circular loading of other installed providers. If
- * circular loading of installed providers is detected then an unspecified error
+ * <p> The first invocbtion of the {@link FileSystemProvider#instblledProviders
+ * instblledProviders} method, by wby of invoking bny of the {@code
+ * newFileSystem} methods defined by this clbss, locbtes bnd lobds bll
+ * instblled file system providers. Instblled providers bre lobded using the
+ * service-provider lobding fbcility defined by the {@link ServiceLobder} clbss.
+ * Instblled providers bre lobded using the system clbss lobder. If the
+ * system clbss lobder cbnnot be found then the extension clbss lobder is used;
+ * if there is no extension clbss lobder then the bootstrbp clbss lobder is used.
+ * Providers bre typicblly instblled by plbcing them in b JAR file on the
+ * bpplicbtion clbss pbth or in the extension directory, the JAR file contbins b
+ * provider-configurbtion file nbmed {@code jbvb.nio.file.spi.FileSystemProvider}
+ * in the resource directory {@code META-INF/services}, bnd the file lists one or
+ * more fully-qublified nbmes of concrete subclbss of {@link FileSystemProvider}
+ * thbt hbve b zero brgument constructor.
+ * The ordering thbt instblled providers bre locbted is implementbtion specific.
+ * If b provider is instbntibted bnd its {@link FileSystemProvider#getScheme()
+ * getScheme} returns the sbme URI scheme of b provider thbt wbs previously
+ * instbntibted then the most recently instbntibted duplicbte is discbrded. URI
+ * schemes bre compbred without regbrd to cbse. During construction b provider
+ * mby sbfely bccess files bssocibted with the defbult provider but cbre needs
+ * to be tbken to bvoid circulbr lobding of other instblled providers. If
+ * circulbr lobding of instblled providers is detected then bn unspecified error
  * is thrown.
  *
- * <p> This class also defines factory methods that allow a {@link ClassLoader}
- * to be specified when locating a provider. As with installed providers, the
- * provider classes are identified by placing the provider configuration file
+ * <p> This clbss blso defines fbctory methods thbt bllow b {@link ClbssLobder}
+ * to be specified when locbting b provider. As with instblled providers, the
+ * provider clbsses bre identified by plbcing the provider configurbtion file
  * in the resource directory {@code META-INF/services}.
  *
- * <p> If a thread initiates the loading of the installed file system providers
- * and another thread invokes a method that also attempts to load the providers
- * then the method will block until the loading completes.
+ * <p> If b threbd initibtes the lobding of the instblled file system providers
+ * bnd bnother threbd invokes b method thbt blso bttempts to lobd the providers
+ * then the method will block until the lobding completes.
  *
  * @since 1.7
  */
 
-public final class FileSystems {
-    private FileSystems() {
+public finbl clbss FileSystems {
+    privbte FileSystems() {
     }
 
-    // lazy initialization of default file system
-    private static class DefaultFileSystemHolder {
-        static final FileSystem defaultFileSystem = defaultFileSystem();
+    // lbzy initiblizbtion of defbult file system
+    privbte stbtic clbss DefbultFileSystemHolder {
+        stbtic finbl FileSystem defbultFileSystem = defbultFileSystem();
 
-        // returns default file system
-        private static FileSystem defaultFileSystem() {
-            // load default provider
+        // returns defbult file system
+        privbte stbtic FileSystem defbultFileSystem() {
+            // lobd defbult provider
             FileSystemProvider provider = AccessController
                 .doPrivileged(new PrivilegedAction<FileSystemProvider>() {
                     public FileSystemProvider run() {
-                        return getDefaultProvider();
+                        return getDefbultProvider();
                     }
                 });
 
             // return file system
-            return provider.getFileSystem(URI.create("file:///"));
+            return provider.getFileSystem(URI.crebte("file:///"));
         }
 
-        // returns default provider
-        private static FileSystemProvider getDefaultProvider() {
-            FileSystemProvider provider = sun.nio.fs.DefaultFileSystemProvider.create();
+        // returns defbult provider
+        privbte stbtic FileSystemProvider getDefbultProvider() {
+            FileSystemProvider provider = sun.nio.fs.DefbultFileSystemProvider.crebte();
 
-            // if the property java.nio.file.spi.DefaultFileSystemProvider is
-            // set then its value is the name of the default provider (or a list)
-            String propValue = System
-                .getProperty("java.nio.file.spi.DefaultFileSystemProvider");
-            if (propValue != null) {
-                for (String cn: propValue.split(",")) {
+            // if the property jbvb.nio.file.spi.DefbultFileSystemProvider is
+            // set then its vblue is the nbme of the defbult provider (or b list)
+            String propVblue = System
+                .getProperty("jbvb.nio.file.spi.DefbultFileSystemProvider");
+            if (propVblue != null) {
+                for (String cn: propVblue.split(",")) {
                     try {
-                        Class<?> c = Class
-                            .forName(cn, true, ClassLoader.getSystemClassLoader());
+                        Clbss<?> c = Clbss
+                            .forNbme(cn, true, ClbssLobder.getSystemClbssLobder());
                         Constructor<?> ctor = c
-                            .getDeclaredConstructor(FileSystemProvider.class);
-                        provider = (FileSystemProvider)ctor.newInstance(provider);
+                            .getDeclbredConstructor(FileSystemProvider.clbss);
+                        provider = (FileSystemProvider)ctor.newInstbnce(provider);
 
                         // must be "file"
-                        if (!provider.getScheme().equals("file"))
-                            throw new Error("Default provider must use scheme 'file'");
+                        if (!provider.getScheme().equbls("file"))
+                            throw new Error("Defbult provider must use scheme 'file'");
 
-                    } catch (Exception x) {
+                    } cbtch (Exception x) {
                         throw new Error(x);
                     }
                 }
@@ -134,90 +134,90 @@ public final class FileSystems {
     }
 
     /**
-     * Returns the default {@code FileSystem}. The default file system creates
-     * objects that provide access to the file systems accessible to the Java
-     * virtual machine. The <em>working directory</em> of the file system is
-     * the current user directory, named by the system property {@code user.dir}.
-     * This allows for interoperability with the {@link java.io.File java.io.File}
-     * class.
+     * Returns the defbult {@code FileSystem}. The defbult file system crebtes
+     * objects thbt provide bccess to the file systems bccessible to the Jbvb
+     * virtubl mbchine. The <em>working directory</em> of the file system is
+     * the current user directory, nbmed by the system property {@code user.dir}.
+     * This bllows for interoperbbility with the {@link jbvb.io.File jbvb.io.File}
+     * clbss.
      *
-     * <p> The first invocation of any of the methods defined by this class
-     * locates the default {@link FileSystemProvider provider} object. Where the
-     * system property {@code java.nio.file.spi.DefaultFileSystemProvider} is
-     * not defined then the default provider is a system-default provider that
-     * is invoked to create the default file system.
+     * <p> The first invocbtion of bny of the methods defined by this clbss
+     * locbtes the defbult {@link FileSystemProvider provider} object. Where the
+     * system property {@code jbvb.nio.file.spi.DefbultFileSystemProvider} is
+     * not defined then the defbult provider is b system-defbult provider thbt
+     * is invoked to crebte the defbult file system.
      *
-     * <p> If the system property {@code java.nio.file.spi.DefaultFileSystemProvider}
-     * is defined then it is taken to be a list of one or more fully-qualified
-     * names of concrete provider classes identified by the URI scheme
-     * {@code "file"}. Where the property is a list of more than one name then
-     * the names are separated by a comma. Each class is loaded, using the system
-     * class loader, and instantiated by invoking a one argument constructor
-     * whose formal parameter type is {@code FileSystemProvider}. The providers
-     * are loaded and instantiated in the order they are listed in the property.
-     * If this process fails or a provider's scheme is not equal to {@code "file"}
-     * then an unspecified error is thrown. URI schemes are normally compared
-     * without regard to case but for the default provider, the scheme is
-     * required to be {@code "file"}. The first provider class is instantiated
-     * by invoking it with a reference to the system-default provider.
-     * The second provider class is instantiated by invoking it with a reference
-     * to the first provider instance. The third provider class is instantiated
-     * by invoking it with a reference to the second instance, and so on. The
-     * last provider to be instantiated becomes the default provider; its {@code
+     * <p> If the system property {@code jbvb.nio.file.spi.DefbultFileSystemProvider}
+     * is defined then it is tbken to be b list of one or more fully-qublified
+     * nbmes of concrete provider clbsses identified by the URI scheme
+     * {@code "file"}. Where the property is b list of more thbn one nbme then
+     * the nbmes bre sepbrbted by b commb. Ebch clbss is lobded, using the system
+     * clbss lobder, bnd instbntibted by invoking b one brgument constructor
+     * whose formbl pbrbmeter type is {@code FileSystemProvider}. The providers
+     * bre lobded bnd instbntibted in the order they bre listed in the property.
+     * If this process fbils or b provider's scheme is not equbl to {@code "file"}
+     * then bn unspecified error is thrown. URI schemes bre normblly compbred
+     * without regbrd to cbse but for the defbult provider, the scheme is
+     * required to be {@code "file"}. The first provider clbss is instbntibted
+     * by invoking it with b reference to the system-defbult provider.
+     * The second provider clbss is instbntibted by invoking it with b reference
+     * to the first provider instbnce. The third provider clbss is instbntibted
+     * by invoking it with b reference to the second instbnce, bnd so on. The
+     * lbst provider to be instbntibted becomes the defbult provider; its {@code
      * getFileSystem} method is invoked with the URI {@code "file:///"} to
-     * get a reference to the default file system.
+     * get b reference to the defbult file system.
      *
-     * <p> Subsequent invocations of this method return the file system that was
-     * returned by the first invocation.
+     * <p> Subsequent invocbtions of this method return the file system thbt wbs
+     * returned by the first invocbtion.
      *
-     * @return  the default file system
+     * @return  the defbult file system
      */
-    public static FileSystem getDefault() {
-        return DefaultFileSystemHolder.defaultFileSystem;
+    public stbtic FileSystem getDefbult() {
+        return DefbultFileSystemHolder.defbultFileSystem;
     }
 
     /**
-     * Returns a reference to an existing {@code FileSystem}.
+     * Returns b reference to bn existing {@code FileSystem}.
      *
-     * <p> This method iterates over the {@link FileSystemProvider#installedProviders()
-     * installed} providers to locate the provider that is identified by the URI
-     * {@link URI#getScheme scheme} of the given URI. URI schemes are compared
-     * without regard to case. The exact form of the URI is highly provider
+     * <p> This method iterbtes over the {@link FileSystemProvider#instblledProviders()
+     * instblled} providers to locbte the provider thbt is identified by the URI
+     * {@link URI#getScheme scheme} of the given URI. URI schemes bre compbred
+     * without regbrd to cbse. The exbct form of the URI is highly provider
      * dependent. If found, the provider's {@link FileSystemProvider#getFileSystem
-     * getFileSystem} method is invoked to obtain a reference to the {@code
+     * getFileSystem} method is invoked to obtbin b reference to the {@code
      * FileSystem}.
      *
-     * <p> Once a file system created by this provider is {@link FileSystem#close
-     * closed} it is provider-dependent if this method returns a reference to
+     * <p> Once b file system crebted by this provider is {@link FileSystem#close
+     * closed} it is provider-dependent if this method returns b reference to
      * the closed file system or throws {@link FileSystemNotFoundException}.
-     * If the provider allows a new file system to be created with the same URI
-     * as a file system it previously created then this method throws the
-     * exception if invoked after the file system is closed (and before a new
-     * instance is created by the {@link #newFileSystem newFileSystem} method).
+     * If the provider bllows b new file system to be crebted with the sbme URI
+     * bs b file system it previously crebted then this method throws the
+     * exception if invoked bfter the file system is closed (bnd before b new
+     * instbnce is crebted by the {@link #newFileSystem newFileSystem} method).
      *
-     * <p> If a security manager is installed then a provider implementation
-     * may require to check a permission before returning a reference to an
-     * existing file system. In the case of the {@link FileSystems#getDefault
-     * default} file system, no permission check is required.
+     * <p> If b security mbnbger is instblled then b provider implementbtion
+     * mby require to check b permission before returning b reference to bn
+     * existing file system. In the cbse of the {@link FileSystems#getDefbult
+     * defbult} file system, no permission check is required.
      *
-     * @param   uri  the URI to locate the file system
+     * @pbrbm   uri  the URI to locbte the file system
      *
      * @return  the reference to the file system
      *
-     * @throws  IllegalArgumentException
-     *          if the pre-conditions for the {@code uri} parameter are not met
+     * @throws  IllegblArgumentException
+     *          if the pre-conditions for the {@code uri} pbrbmeter bre not met
      * @throws  FileSystemNotFoundException
      *          if the file system, identified by the URI, does not exist
      * @throws  ProviderNotFoundException
-     *          if a provider supporting the URI scheme is not installed
+     *          if b provider supporting the URI scheme is not instblled
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
      *          permission
      */
-    public static FileSystem getFileSystem(URI uri) {
+    public stbtic FileSystem getFileSystem(URI uri) {
         String scheme = uri.getScheme();
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
-            if (scheme.equalsIgnoreCase(provider.getScheme())) {
+        for (FileSystemProvider provider: FileSystemProvider.instblledProviders()) {
+            if (scheme.equblsIgnoreCbse(provider.getScheme())) {
                 return provider.getFileSystem(uri);
             }
         }
@@ -225,114 +225,114 @@ public final class FileSystems {
     }
 
     /**
-     * Constructs a new file system that is identified by a {@link URI}
+     * Constructs b new file system thbt is identified by b {@link URI}
      *
-     * <p> This method iterates over the {@link FileSystemProvider#installedProviders()
-     * installed} providers to locate the provider that is identified by the URI
-     * {@link URI#getScheme scheme} of the given URI. URI schemes are compared
-     * without regard to case. The exact form of the URI is highly provider
-     * dependent. If found, the provider's {@link FileSystemProvider#newFileSystem(URI,Map)
-     * newFileSystem(URI,Map)} method is invoked to construct the new file system.
+     * <p> This method iterbtes over the {@link FileSystemProvider#instblledProviders()
+     * instblled} providers to locbte the provider thbt is identified by the URI
+     * {@link URI#getScheme scheme} of the given URI. URI schemes bre compbred
+     * without regbrd to cbse. The exbct form of the URI is highly provider
+     * dependent. If found, the provider's {@link FileSystemProvider#newFileSystem(URI,Mbp)
+     * newFileSystem(URI,Mbp)} method is invoked to construct the new file system.
      *
-     * <p> Once a file system is {@link FileSystem#close closed} it is
-     * provider-dependent if the provider allows a new file system to be created
-     * with the same URI as a file system it previously created.
+     * <p> Once b file system is {@link FileSystem#close closed} it is
+     * provider-dependent if the provider bllows b new file system to be crebted
+     * with the sbme URI bs b file system it previously crebted.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose there is a provider identified by the scheme {@code "memory"}
-     * installed:
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose there is b provider identified by the scheme {@code "memory"}
+     * instblled:
      * <pre>
-     *   Map&lt;String,String&gt; env = new HashMap&lt;&gt;();
-     *   env.put("capacity", "16G");
+     *   Mbp&lt;String,String&gt; env = new HbshMbp&lt;&gt;();
+     *   env.put("cbpbcity", "16G");
      *   env.put("blockSize", "4k");
-     *   FileSystem fs = FileSystems.newFileSystem(URI.create("memory:///?name=logfs"), env);
+     *   FileSystem fs = FileSystems.newFileSystem(URI.crebte("memory:///?nbme=logfs"), env);
      * </pre>
      *
-     * @param   uri
+     * @pbrbm   uri
      *          the URI identifying the file system
-     * @param   env
-     *          a map of provider specific properties to configure the file system;
-     *          may be empty
+     * @pbrbm   env
+     *          b mbp of provider specific properties to configure the file system;
+     *          mby be empty
      *
-     * @return  a new file system
+     * @return  b new file system
      *
-     * @throws  IllegalArgumentException
-     *          if the pre-conditions for the {@code uri} parameter are not met,
-     *          or the {@code env} parameter does not contain properties required
-     *          by the provider, or a property value is invalid
-     * @throws  FileSystemAlreadyExistsException
-     *          if the file system has already been created
+     * @throws  IllegblArgumentException
+     *          if the pre-conditions for the {@code uri} pbrbmeter bre not met,
+     *          or the {@code env} pbrbmeter does not contbin properties required
+     *          by the provider, or b property vblue is invblid
+     * @throws  FileSystemAlrebdyExistsException
+     *          if the file system hbs blrebdy been crebted
      * @throws  ProviderNotFoundException
-     *          if a provider supporting the URI scheme is not installed
+     *          if b provider supporting the URI scheme is not instblled
      * @throws  IOException
-     *          if an I/O error occurs creating the file system
+     *          if bn I/O error occurs crebting the file system
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required by the file system provider implementation
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission required by the file system provider implementbtion
      */
-    public static FileSystem newFileSystem(URI uri, Map<String,?> env)
+    public stbtic FileSystem newFileSystem(URI uri, Mbp<String,?> env)
         throws IOException
     {
         return newFileSystem(uri, env, null);
     }
 
     /**
-     * Constructs a new file system that is identified by a {@link URI}
+     * Constructs b new file system thbt is identified by b {@link URI}
      *
-     * <p> This method first attempts to locate an installed provider in exactly
-     * the same manner as the {@link #newFileSystem(URI,Map) newFileSystem(URI,Map)}
-     * method. If none of the installed providers support the URI scheme then an
-     * attempt is made to locate the provider using the given class loader. If a
-     * provider supporting the URI scheme is located then its {@link
-     * FileSystemProvider#newFileSystem(URI,Map) newFileSystem(URI,Map)} is
+     * <p> This method first bttempts to locbte bn instblled provider in exbctly
+     * the sbme mbnner bs the {@link #newFileSystem(URI,Mbp) newFileSystem(URI,Mbp)}
+     * method. If none of the instblled providers support the URI scheme then bn
+     * bttempt is mbde to locbte the provider using the given clbss lobder. If b
+     * provider supporting the URI scheme is locbted then its {@link
+     * FileSystemProvider#newFileSystem(URI,Mbp) newFileSystem(URI,Mbp)} is
      * invoked to construct the new file system.
      *
-     * @param   uri
+     * @pbrbm   uri
      *          the URI identifying the file system
-     * @param   env
-     *          a map of provider specific properties to configure the file system;
-     *          may be empty
-     * @param   loader
-     *          the class loader to locate the provider or {@code null} to only
-     *          attempt to locate an installed provider
+     * @pbrbm   env
+     *          b mbp of provider specific properties to configure the file system;
+     *          mby be empty
+     * @pbrbm   lobder
+     *          the clbss lobder to locbte the provider or {@code null} to only
+     *          bttempt to locbte bn instblled provider
      *
-     * @return  a new file system
+     * @return  b new file system
      *
-     * @throws  IllegalArgumentException
-     *          if the pre-conditions for the {@code uri} parameter are not met,
-     *          or the {@code env} parameter does not contain properties required
-     *          by the provider, or a property value is invalid
-     * @throws  FileSystemAlreadyExistsException
-     *          if the URI scheme identifies an installed provider and the file
-     *          system has already been created
+     * @throws  IllegblArgumentException
+     *          if the pre-conditions for the {@code uri} pbrbmeter bre not met,
+     *          or the {@code env} pbrbmeter does not contbin properties required
+     *          by the provider, or b property vblue is invblid
+     * @throws  FileSystemAlrebdyExistsException
+     *          if the URI scheme identifies bn instblled provider bnd the file
+     *          system hbs blrebdy been crebted
      * @throws  ProviderNotFoundException
-     *          if a provider supporting the URI scheme is not found
-     * @throws  ServiceConfigurationError
-     *          when an error occurs while loading a service provider
+     *          if b provider supporting the URI scheme is not found
+     * @throws  ServiceConfigurbtionError
+     *          when bn error occurs while lobding b service provider
      * @throws  IOException
-     *          an I/O error occurs creating the file system
+     *          bn I/O error occurs crebting the file system
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required by the file system provider implementation
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission required by the file system provider implementbtion
      */
-    public static FileSystem newFileSystem(URI uri, Map<String,?> env, ClassLoader loader)
+    public stbtic FileSystem newFileSystem(URI uri, Mbp<String,?> env, ClbssLobder lobder)
         throws IOException
     {
         String scheme = uri.getScheme();
 
-        // check installed providers
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
-            if (scheme.equalsIgnoreCase(provider.getScheme())) {
+        // check instblled providers
+        for (FileSystemProvider provider: FileSystemProvider.instblledProviders()) {
+            if (scheme.equblsIgnoreCbse(provider.getScheme())) {
                 return provider.newFileSystem(uri, env);
             }
         }
 
-        // if not found, use service-provider loading facility
-        if (loader != null) {
-            ServiceLoader<FileSystemProvider> sl = ServiceLoader
-                .load(FileSystemProvider.class, loader);
+        // if not found, use service-provider lobding fbcility
+        if (lobder != null) {
+            ServiceLobder<FileSystemProvider> sl = ServiceLobder
+                .lobd(FileSystemProvider.clbss, lobder);
             for (FileSystemProvider provider: sl) {
-                if (scheme.equalsIgnoreCase(provider.getScheme())) {
+                if (scheme.equblsIgnoreCbse(provider.getScheme())) {
                     return provider.newFileSystem(uri, env);
                 }
             }
@@ -342,64 +342,64 @@ public final class FileSystems {
     }
 
     /**
-     * Constructs a new {@code FileSystem} to access the contents of a file as a
+     * Constructs b new {@code FileSystem} to bccess the contents of b file bs b
      * file system.
      *
-     * <p> This method makes use of specialized providers that create pseudo file
-     * systems where the contents of one or more files is treated as a file
+     * <p> This method mbkes use of speciblized providers thbt crebte pseudo file
+     * systems where the contents of one or more files is trebted bs b file
      * system.
      *
-     * <p> This method iterates over the {@link FileSystemProvider#installedProviders()
-     * installed} providers. It invokes, in turn, each provider's {@link
-     * FileSystemProvider#newFileSystem(Path,Map) newFileSystem(Path,Map)} method
-     * with an empty map. If a provider returns a file system then the iteration
-     * terminates and the file system is returned. If none of the installed
-     * providers return a {@code FileSystem} then an attempt is made to locate
-     * the provider using the given class loader. If a provider returns a file
-     * system then the lookup terminates and the file system is returned.
+     * <p> This method iterbtes over the {@link FileSystemProvider#instblledProviders()
+     * instblled} providers. It invokes, in turn, ebch provider's {@link
+     * FileSystemProvider#newFileSystem(Pbth,Mbp) newFileSystem(Pbth,Mbp)} method
+     * with bn empty mbp. If b provider returns b file system then the iterbtion
+     * terminbtes bnd the file system is returned. If none of the instblled
+     * providers return b {@code FileSystem} then bn bttempt is mbde to locbte
+     * the provider using the given clbss lobder. If b provider returns b file
+     * system then the lookup terminbtes bnd the file system is returned.
      *
-     * @param   path
-     *          the path to the file
-     * @param   loader
-     *          the class loader to locate the provider or {@code null} to only
-     *          attempt to locate an installed provider
+     * @pbrbm   pbth
+     *          the pbth to the file
+     * @pbrbm   lobder
+     *          the clbss lobder to locbte the provider or {@code null} to only
+     *          bttempt to locbte bn instblled provider
      *
-     * @return  a new file system
+     * @return  b new file system
      *
      * @throws  ProviderNotFoundException
-     *          if a provider supporting this file type cannot be located
-     * @throws  ServiceConfigurationError
-     *          when an error occurs while loading a service provider
+     *          if b provider supporting this file type cbnnot be locbted
+     * @throws  ServiceConfigurbtionError
+     *          when bn error occurs while lobding b service provider
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
      *          permission
      */
-    public static FileSystem newFileSystem(Path path,
-                                           ClassLoader loader)
+    public stbtic FileSystem newFileSystem(Pbth pbth,
+                                           ClbssLobder lobder)
         throws IOException
     {
-        if (path == null)
+        if (pbth == null)
             throw new NullPointerException();
-        Map<String,?> env = Collections.emptyMap();
+        Mbp<String,?> env = Collections.emptyMbp();
 
-        // check installed providers
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
+        // check instblled providers
+        for (FileSystemProvider provider: FileSystemProvider.instblledProviders()) {
             try {
-                return provider.newFileSystem(path, env);
-            } catch (UnsupportedOperationException uoe) {
+                return provider.newFileSystem(pbth, env);
+            } cbtch (UnsupportedOperbtionException uoe) {
             }
         }
 
-        // if not found, use service-provider loading facility
-        if (loader != null) {
-            ServiceLoader<FileSystemProvider> sl = ServiceLoader
-                .load(FileSystemProvider.class, loader);
+        // if not found, use service-provider lobding fbcility
+        if (lobder != null) {
+            ServiceLobder<FileSystemProvider> sl = ServiceLobder
+                .lobd(FileSystemProvider.clbss, lobder);
             for (FileSystemProvider provider: sl) {
                 try {
-                    return provider.newFileSystem(path, env);
-                } catch (UnsupportedOperationException uoe) {
+                    return provider.newFileSystem(pbth, env);
+                } cbtch (UnsupportedOperbtionException uoe) {
                 }
             }
         }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 /**
- * This class is a registry for the supported drag and drop protocols.
+ * This clbss is b registry for the supported drbg bnd drop protocols.
  *
  * @since 1.5
  */
-final class XDragAndDropProtocols {
-    private final static List<XDragSourceProtocol> dragProtocols;
-    private final static List<XDropTargetProtocol> dropProtocols;
+finbl clbss XDrbgAndDropProtocols {
+    privbte finbl stbtic List<XDrbgSourceProtocol> drbgProtocols;
+    privbte finbl stbtic List<XDropTbrgetProtocol> dropProtocols;
 
-    public static final String XDnD = "XDnD";
-    public static final String MotifDnD = "MotifDnD";
+    public stbtic finbl String XDnD = "XDnD";
+    public stbtic finbl String MotifDnD = "MotifDnD";
 
-    static {
-        // Singleton listener for all drag source protocols.
-        XDragSourceProtocolListener dragSourceProtocolListener =
-            XDragSourceContextPeer.getXDragSourceProtocolListener();
-        // Singleton listener for all drop target protocols.
-        XDropTargetProtocolListener dropTargetProtocolListener =
-            XDropTargetContextPeer.getXDropTargetProtocolListener();
+    stbtic {
+        // Singleton listener for bll drbg source protocols.
+        XDrbgSourceProtocolListener drbgSourceProtocolListener =
+            XDrbgSourceContextPeer.getXDrbgSourceProtocolListener();
+        // Singleton listener for bll drop tbrget protocols.
+        XDropTbrgetProtocolListener dropTbrgetProtocolListener =
+            XDropTbrgetContextPeer.getXDropTbrgetProtocolListener();
 
-        List<XDragSourceProtocol> tDragSourceProtocols = new ArrayList<>();
-        XDragSourceProtocol xdndDragSourceProtocol =
-            XDnDDragSourceProtocol.createInstance(dragSourceProtocolListener);
-        tDragSourceProtocols.add(xdndDragSourceProtocol);
-        XDragSourceProtocol motifdndDragSourceProtocol =
-            MotifDnDDragSourceProtocol.createInstance(dragSourceProtocolListener);
-        tDragSourceProtocols.add(motifdndDragSourceProtocol);
+        List<XDrbgSourceProtocol> tDrbgSourceProtocols = new ArrbyList<>();
+        XDrbgSourceProtocol xdndDrbgSourceProtocol =
+            XDnDDrbgSourceProtocol.crebteInstbnce(drbgSourceProtocolListener);
+        tDrbgSourceProtocols.bdd(xdndDrbgSourceProtocol);
+        XDrbgSourceProtocol motifdndDrbgSourceProtocol =
+            MotifDnDDrbgSourceProtocol.crebteInstbnce(drbgSourceProtocolListener);
+        tDrbgSourceProtocols.bdd(motifdndDrbgSourceProtocol);
 
-        List<XDropTargetProtocol> tDropTargetProtocols = new ArrayList<>();
-        XDropTargetProtocol xdndDropTargetProtocol =
-            XDnDDropTargetProtocol.createInstance(dropTargetProtocolListener);
-        tDropTargetProtocols.add(xdndDropTargetProtocol);
-        XDropTargetProtocol motifdndDropTargetProtocol =
-            MotifDnDDropTargetProtocol.createInstance(dropTargetProtocolListener);
-        tDropTargetProtocols.add(motifdndDropTargetProtocol);
+        List<XDropTbrgetProtocol> tDropTbrgetProtocols = new ArrbyList<>();
+        XDropTbrgetProtocol xdndDropTbrgetProtocol =
+            XDnDDropTbrgetProtocol.crebteInstbnce(dropTbrgetProtocolListener);
+        tDropTbrgetProtocols.bdd(xdndDropTbrgetProtocol);
+        XDropTbrgetProtocol motifdndDropTbrgetProtocol =
+            MotifDnDDropTbrgetProtocol.crebteInstbnce(dropTbrgetProtocolListener);
+        tDropTbrgetProtocols.bdd(motifdndDropTbrgetProtocol);
 
-        dragProtocols = Collections.unmodifiableList(tDragSourceProtocols);
-        dropProtocols = Collections.unmodifiableList(tDropTargetProtocols);
+        drbgProtocols = Collections.unmodifibbleList(tDrbgSourceProtocols);
+        dropProtocols = Collections.unmodifibbleList(tDropTbrgetProtocols);
     }
 
-    static Iterator<XDragSourceProtocol> getDragSourceProtocols() {
-        return dragProtocols.iterator();
+    stbtic Iterbtor<XDrbgSourceProtocol> getDrbgSourceProtocols() {
+        return drbgProtocols.iterbtor();
     }
 
-    static Iterator<XDropTargetProtocol> getDropTargetProtocols() {
-        return dropProtocols.iterator();
+    stbtic Iterbtor<XDropTbrgetProtocol> getDropTbrgetProtocols() {
+        return dropProtocols.iterbtor();
     }
 
     /*
-     * Returns a XDragSourceProtocol whose name equals to the specified string
+     * Returns b XDrbgSourceProtocol whose nbme equbls to the specified string
      * or null if no such protocol is registered.
      */
-    public static XDragSourceProtocol getDragSourceProtocol(String name) {
-        // Protocol name cannot be null.
-        if (name == null) {
+    public stbtic XDrbgSourceProtocol getDrbgSourceProtocol(String nbme) {
+        // Protocol nbme cbnnot be null.
+        if (nbme == null) {
             return null;
         }
 
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
-            if (dragProtocol.getProtocolName().equals(name)) {
-                return dragProtocol;
+        Iterbtor<XDrbgSourceProtocol> drbgProtocols =
+            XDrbgAndDropProtocols.getDrbgSourceProtocols();
+        while (drbgProtocols.hbsNext()) {
+            XDrbgSourceProtocol drbgProtocol = drbgProtocols.next();
+            if (drbgProtocol.getProtocolNbme().equbls(nbme)) {
+                return drbgProtocol;
             }
         }
 
@@ -101,20 +101,20 @@ final class XDragAndDropProtocols {
     }
 
     /*
-     * Returns a XDropTargetProtocol which name equals to the specified string
+     * Returns b XDropTbrgetProtocol which nbme equbls to the specified string
      * or null if no such protocol is registered.
      */
-    public static XDropTargetProtocol getDropTargetProtocol(String name) {
-        // Protocol name cannot be null.
-        if (name == null) {
+    public stbtic XDropTbrgetProtocol getDropTbrgetProtocol(String nbme) {
+        // Protocol nbme cbnnot be null.
+        if (nbme == null) {
             return null;
         }
 
-        Iterator<XDropTargetProtocol> dropProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
-        while (dropProtocols.hasNext()) {
-            XDropTargetProtocol dropProtocol = dropProtocols.next();
-            if (dropProtocol.getProtocolName().equals(name)) {
+        Iterbtor<XDropTbrgetProtocol> dropProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
+        while (dropProtocols.hbsNext()) {
+            XDropTbrgetProtocol dropProtocol = dropProtocols.next();
+            if (dropProtocol.getProtocolNbme().equbls(nbme)) {
                 return dropProtocol;
             }
         }

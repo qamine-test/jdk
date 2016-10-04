@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 /**
- * Wraps an {@link IOException} with an unchecked exception.
+ * Wrbps bn {@link IOException} with bn unchecked exception.
  *
  * @since   1.8
  */
-public class UncheckedIOException extends RuntimeException {
-    private static final long serialVersionUID = -8134305061645241065L;
+public clbss UncheckedIOException extends RuntimeException {
+    privbte stbtic finbl long seriblVersionUID = -8134305061645241065L;
 
     /**
-     * Constructs an instance of this class.
+     * Constructs bn instbnce of this clbss.
      *
-     * @param   message
-     *          the detail message, can be null
-     * @param   cause
+     * @pbrbm   messbge
+     *          the detbil messbge, cbn be null
+     * @pbrbm   cbuse
      *          the {@code IOException}
      *
      * @throws  NullPointerException
-     *          if the cause is {@code null}
+     *          if the cbuse is {@code null}
      */
-    public UncheckedIOException(String message, IOException cause) {
-        super(message, Objects.requireNonNull(cause));
+    public UncheckedIOException(String messbge, IOException cbuse) {
+        super(messbge, Objects.requireNonNull(cbuse));
     }
 
     /**
-     * Constructs an instance of this class.
+     * Constructs bn instbnce of this clbss.
      *
-     * @param   cause
+     * @pbrbm   cbuse
      *          the {@code IOException}
      *
      * @throws  NullPointerException
-     *          if the cause is {@code null}
+     *          if the cbuse is {@code null}
      */
-    public UncheckedIOException(IOException cause) {
-        super(Objects.requireNonNull(cause));
+    public UncheckedIOException(IOException cbuse) {
+        super(Objects.requireNonNull(cbuse));
     }
 
     /**
-     * Returns the cause of this exception.
+     * Returns the cbuse of this exception.
      *
-     * @return  the {@code IOException} which is the cause of this exception.
+     * @return  the {@code IOException} which is the cbuse of this exception.
      */
     @Override
-    public IOException getCause() {
-        return (IOException) super.getCause();
+    public IOException getCbuse() {
+        return (IOException) super.getCbuse();
     }
 
     /**
-     * Called to read the object from a stream.
+     * Cblled to rebd the object from b strebm.
      *
-     * @throws  InvalidObjectException
-     *          if the object is invalid or has a cause that is not
-     *          an {@code IOException}
+     * @throws  InvblidObjectException
+     *          if the object is invblid or hbs b cbuse thbt is not
+     *          bn {@code IOException}
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        Throwable cause = super.getCause();
-        if (!(cause instanceof IOException))
-            throw new InvalidObjectException("Cause must be an IOException");
+        s.defbultRebdObject();
+        Throwbble cbuse = super.getCbuse();
+        if (!(cbuse instbnceof IOException))
+            throw new InvblidObjectException("Cbuse must be bn IOException");
     }
 }

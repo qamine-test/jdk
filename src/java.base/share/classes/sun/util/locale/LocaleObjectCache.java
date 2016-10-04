@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
-public abstract class LocaleObjectCache<K, V> {
-    private ConcurrentMap<K, CacheEntry<K, V>> map;
-    private ReferenceQueue<V> queue = new ReferenceQueue<>();
+public bbstrbct clbss LocbleObjectCbche<K, V> {
+    privbte ConcurrentMbp<K, CbcheEntry<K, V>> mbp;
+    privbte ReferenceQueue<V> queue = new ReferenceQueue<>();
 
-    public LocaleObjectCache() {
+    public LocbleObjectCbche() {
         this(16, 0.75f, 16);
     }
 
-    public LocaleObjectCache(int initialCapacity, float loadFactor, int concurrencyLevel) {
-        map = new ConcurrentHashMap<>(initialCapacity, loadFactor, concurrencyLevel);
+    public LocbleObjectCbche(int initiblCbpbcity, flobt lobdFbctor, int concurrencyLevel) {
+        mbp = new ConcurrentHbshMbp<>(initiblCbpbcity, lobdFbctor, concurrencyLevel);
     }
 
     public V get(K key) {
-        V value = null;
+        V vblue = null;
 
-        cleanStaleEntries();
-        CacheEntry<K, V> entry = map.get(key);
+        clebnStbleEntries();
+        CbcheEntry<K, V> entry = mbp.get(key);
         if (entry != null) {
-            value = entry.get();
+            vblue = entry.get();
         }
-        if (value == null) {
-            key = normalizeKey(key);
-            V newVal = createObject(key);
-            if (key == null || newVal == null) {
-                // subclass must return non-null key/value object
+        if (vblue == null) {
+            key = normblizeKey(key);
+            V newVbl = crebteObject(key);
+            if (key == null || newVbl == null) {
+                // subclbss must return non-null key/vblue object
                 return null;
             }
 
-            CacheEntry<K, V> newEntry = new CacheEntry<>(key, newVal, queue);
+            CbcheEntry<K, V> newEntry = new CbcheEntry<>(key, newVbl, queue);
 
-            entry = map.putIfAbsent(key, newEntry);
+            entry = mbp.putIfAbsent(key, newEntry);
             if (entry == null) {
-                value = newVal;
+                vblue = newVbl;
             } else {
-                value = entry.get();
-                if (value == null) {
-                    map.put(key, newEntry);
-                    value = newVal;
+                vblue = entry.get();
+                if (vblue == null) {
+                    mbp.put(key, newEntry);
+                    vblue = newVbl;
                 }
             }
         }
-        return value;
+        return vblue;
     }
 
-    protected V put(K key, V value) {
-        CacheEntry<K, V> entry = new CacheEntry<>(key, value, queue);
-        CacheEntry<K, V> oldEntry = map.put(key, entry);
+    protected V put(K key, V vblue) {
+        CbcheEntry<K, V> entry = new CbcheEntry<>(key, vblue, queue);
+        CbcheEntry<K, V> oldEntry = mbp.put(key, entry);
         return (oldEntry == null) ? null : oldEntry.get();
     }
 
-    @SuppressWarnings("unchecked")
-    private void cleanStaleEntries() {
-        CacheEntry<K, V> entry;
-        while ((entry = (CacheEntry<K, V>)queue.poll()) != null) {
-            map.remove(entry.getKey());
+    @SuppressWbrnings("unchecked")
+    privbte void clebnStbleEntries() {
+        CbcheEntry<K, V> entry;
+        while ((entry = (CbcheEntry<K, V>)queue.poll()) != null) {
+            mbp.remove(entry.getKey());
         }
     }
 
-    protected abstract V createObject(K key);
+    protected bbstrbct V crebteObject(K key);
 
-    protected K normalizeKey(K key) {
+    protected K normblizeKey(K key) {
         return key;
     }
 
-    private static class CacheEntry<K, V> extends SoftReference<V> {
-        private K key;
+    privbte stbtic clbss CbcheEntry<K, V> extends SoftReference<V> {
+        privbte K key;
 
-        CacheEntry(K key, V value, ReferenceQueue<V> queue) {
-            super(value, queue);
+        CbcheEntry(K key, V vblue, ReferenceQueue<V> queue) {
+            super(vblue, queue);
             this.key = key;
         }
 

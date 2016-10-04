@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl.ntlm;
+pbckbge com.sun.security.sbsl.ntlm;
 
 import com.sun.security.ntlm.NTLMException;
 import com.sun.security.ntlm.Server;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Map;
-import java.util.Random;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.sasl.*;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.util.Mbp;
+import jbvb.util.Rbndom;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.buth.cbllbbck.NbmeCbllbbck;
+import jbvbx.security.buth.cbllbbck.PbsswordCbllbbck;
+import jbvbx.security.buth.cbllbbck.UnsupportedCbllbbckException;
+import jbvbx.security.sbsl.*;
 
 /**
-  * Required callbacks:
-  * - RealmCallback
-  *      used as key by handler to fetch password, optional
-  * - NameCallback
-  *      used as key by handler to fetch password
-  * - PasswordCallback
-  *      handler must enter password for username/realm supplied
+  * Required cbllbbcks:
+  * - ReblmCbllbbck
+  *      used bs key by hbndler to fetch pbssword, optionbl
+  * - NbmeCbllbbck
+  *      used bs key by hbndler to fetch pbssword
+  * - PbsswordCbllbbck
+  *      hbndler must enter pbssword for usernbme/reblm supplied
   *
-  * Environment properties that affect the implementation:
+  * Environment properties thbt bffect the implementbtion:
   *
-  * javax.security.sasl.qop
-  *    String, quality of protection; only "auth" is accepted, default "auth"
+  * jbvbx.security.sbsl.qop
+  *    String, qublity of protection; only "buth" is bccepted, defbult "buth"
   *
-  * com.sun.security.sasl.ntlm.version
-  *    String, name a specific version to accept:
-  *      LM/NTLM: Original NTLM v1
-  *      LM: Original NTLM v1, LM only
-  *      NTLM: Original NTLM v1, NTLM only
-  *      NTLM2: NTLM v1 with Client Challenge
+  * com.sun.security.sbsl.ntlm.version
+  *    String, nbme b specific version to bccept:
+  *      LM/NTLM: Originbl NTLM v1
+  *      LM: Originbl NTLM v1, LM only
+  *      NTLM: Originbl NTLM v1, NTLM only
+  *      NTLM2: NTLM v1 with Client Chbllenge
   *      LMv2/NTLMv2: NTLM v2
   *      LMv2: NTLM v2, LM only
   *      NTLMv2: NTLM v2, NTLM only
-  *    If not specified, use system property "ntlm.version". If also
-  *    not specified, all versions are accepted.
+  *    If not specified, use system property "ntlm.version". If blso
+  *    not specified, bll versions bre bccepted.
   *
-  * com.sun.security.sasl.ntlm.domain
-  *    String, the domain of the server, default is server name (fqdn parameter)
+  * com.sun.security.sbsl.ntlm.dombin
+  *    String, the dombin of the server, defbult is server nbme (fqdn pbrbmeter)
   *
-  * com.sun.security.sasl.ntlm.random
-  *    java.util.Random, the nonce source. Default null, an internal
-  *    java.util.Random object will be used
+  * com.sun.security.sbsl.ntlm.rbndom
+  *    jbvb.util.Rbndom, the nonce source. Defbult null, bn internbl
+  *    jbvb.util.Rbndom object will be used
   *
-  * Negotiated Properties:
+  * Negotibted Properties:
   *
-  * javax.security.sasl.qop
-  *    Always "auth"
+  * jbvbx.security.sbsl.qop
+  *    Alwbys "buth"
   *
-  * com.sun.security.sasl.ntlm.hostname
-  *    The hostname for the user, provided by the client
+  * com.sun.security.sbsl.ntlm.hostnbme
+  *    The hostnbme for the user, provided by the client
   *
   */
 
-final class NTLMServer implements SaslServer {
+finbl clbss NTLMServer implements SbslServer {
 
-    private final static String NTLM_VERSION =
-            "com.sun.security.sasl.ntlm.version";
-    private final static String NTLM_DOMAIN =
-            "com.sun.security.sasl.ntlm.domain";
-    private final static String NTLM_HOSTNAME =
-            "com.sun.security.sasl.ntlm.hostname";
-    private static final String NTLM_RANDOM =
-            "com.sun.security.sasl.ntlm.random";
+    privbte finbl stbtic String NTLM_VERSION =
+            "com.sun.security.sbsl.ntlm.version";
+    privbte finbl stbtic String NTLM_DOMAIN =
+            "com.sun.security.sbsl.ntlm.dombin";
+    privbte finbl stbtic String NTLM_HOSTNAME =
+            "com.sun.security.sbsl.ntlm.hostnbme";
+    privbte stbtic finbl String NTLM_RANDOM =
+            "com.sun.security.sbsl.ntlm.rbndom";
 
-    private final Random random;
-    private final Server server;
-    private byte[] nonce;
-    private int step = 0;
-    private String authzId;
-    private final String mech;
-    private String hostname;
-    private String target;
+    privbte finbl Rbndom rbndom;
+    privbte finbl Server server;
+    privbte byte[] nonce;
+    privbte int step = 0;
+    privbte String buthzId;
+    privbte finbl String mech;
+    privbte String hostnbme;
+    privbte String tbrget;
 
     /**
-     * @param mech not null
-     * @param protocol not null for Sasl, ignored in NTLM
-     * @param serverName not null for Sasl, can be null in NTLM. If non-null,
-     * might be used as domain if not provided in props
-     * @param props can be null
-     * @param cbh can be null for Sasl, already null-checked in factory
-     * @throws SaslException
+     * @pbrbm mech not null
+     * @pbrbm protocol not null for Sbsl, ignored in NTLM
+     * @pbrbm serverNbme not null for Sbsl, cbn be null in NTLM. If non-null,
+     * might be used bs dombin if not provided in props
+     * @pbrbm props cbn be null
+     * @pbrbm cbh cbn be null for Sbsl, blrebdy null-checked in fbctory
+     * @throws SbslException
      */
-    NTLMServer(String mech, String protocol, String serverName,
-            Map<String, ?> props, final CallbackHandler cbh)
-            throws SaslException {
+    NTLMServer(String mech, String protocol, String serverNbme,
+            Mbp<String, ?> props, finbl CbllbbckHbndler cbh)
+            throws SbslException {
 
         this.mech = mech;
         String version = null;
-        String domain = null;
-        Random rtmp = null;
+        String dombin = null;
+        Rbndom rtmp = null;
 
         if (props != null) {
-            domain = (String) props.get(NTLM_DOMAIN);
+            dombin = (String) props.get(NTLM_DOMAIN);
             version = (String)props.get(NTLM_VERSION);
-            rtmp = (Random)props.get(NTLM_RANDOM);
+            rtmp = (Rbndom)props.get(NTLM_RANDOM);
         }
-        random = rtmp != null ? rtmp : new Random();
+        rbndom = rtmp != null ? rtmp : new Rbndom();
 
         if (version == null) {
             version = System.getProperty("ntlm.version");
         }
-        if (domain == null) {
-            domain = serverName;
+        if (dombin == null) {
+            dombin = serverNbme;
         }
-        if (domain == null) {
-            throw new SaslException("Domain must be provided as"
-                    + " the serverName argument or in props");
+        if (dombin == null) {
+            throw new SbslException("Dombin must be provided bs"
+                    + " the serverNbme brgument or in props");
         }
 
         try {
-            server = new Server(version, domain) {
-                public char[] getPassword(String ntdomain, String username) {
+            server = new Server(version, dombin) {
+                public chbr[] getPbssword(String ntdombin, String usernbme) {
                     try {
-                        RealmCallback rcb =
-                                (ntdomain == null || ntdomain.isEmpty())
-                                    ? new RealmCallback("Domain: ")
-                                    : new RealmCallback("Domain: ", ntdomain);
-                        NameCallback ncb = new NameCallback(
-                                "Name: ", username);
-                        PasswordCallback pcb = new PasswordCallback(
-                                "Password: ", false);
-                        cbh.handle(new Callback[] { rcb, ncb, pcb });
-                        char[] passwd = pcb.getPassword();
-                        pcb.clearPassword();
-                        return passwd;
-                    } catch (IOException ioe) {
+                        ReblmCbllbbck rcb =
+                                (ntdombin == null || ntdombin.isEmpty())
+                                    ? new ReblmCbllbbck("Dombin: ")
+                                    : new ReblmCbllbbck("Dombin: ", ntdombin);
+                        NbmeCbllbbck ncb = new NbmeCbllbbck(
+                                "Nbme: ", usernbme);
+                        PbsswordCbllbbck pcb = new PbsswordCbllbbck(
+                                "Pbssword: ", fblse);
+                        cbh.hbndle(new Cbllbbck[] { rcb, ncb, pcb });
+                        chbr[] pbsswd = pcb.getPbssword();
+                        pcb.clebrPbssword();
+                        return pbsswd;
+                    } cbtch (IOException ioe) {
                         return null;
-                    } catch (UnsupportedCallbackException uce) {
+                    } cbtch (UnsupportedCbllbbckException uce) {
                         return null;
                     }
                 }
             };
-        } catch (NTLMException ne) {
-            throw new SaslException(
-                    "NTLM: server creation failure", ne);
+        } cbtch (NTLMException ne) {
+            throw new SbslException(
+                    "NTLM: server crebtion fbilure", ne);
         }
         nonce = new byte[8];
     }
 
     @Override
-    public String getMechanismName() {
+    public String getMechbnismNbme() {
         return mech;
     }
 
     @Override
-    public byte[] evaluateResponse(byte[] response) throws SaslException {
+    public byte[] evblubteResponse(byte[] response) throws SbslException {
         try {
             step++;
             if (step == 1) {
-                random.nextBytes(nonce);
+                rbndom.nextBytes(nonce);
                 return server.type2(response, nonce);
             } else {
                 String[] out = server.verify(response, nonce);
-                authzId = out[0];
-                hostname = out[1];
-                target = out[2];
+                buthzId = out[0];
+                hostnbme = out[1];
+                tbrget = out[2];
                 return null;
             }
-        } catch (NTLMException ex) {
-            throw new SaslException("NTLM: generate response failure", ex);
+        } cbtch (NTLMException ex) {
+            throw new SbslException("NTLM: generbte response fbilure", ex);
         }
     }
 
     @Override
-    public boolean isComplete() {
+    public boolebn isComplete() {
         return step >= 2;
     }
 
     @Override
-    public String getAuthorizationID() {
+    public String getAuthorizbtionID() {
         if (!isComplete()) {
-            throw new IllegalStateException("authentication not complete");
+            throw new IllegblStbteException("buthenticbtion not complete");
         }
-        return authzId;
+        return buthzId;
     }
 
     @Override
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-            throws SaslException {
-        throw new IllegalStateException("Not supported yet.");
+    public byte[] unwrbp(byte[] incoming, int offset, int len)
+            throws SbslException {
+        throw new IllegblStbteException("Not supported yet.");
     }
 
     @Override
-    public byte[] wrap(byte[] outgoing, int offset, int len)
-            throws SaslException {
-        throw new IllegalStateException("Not supported yet.");
+    public byte[] wrbp(byte[] outgoing, int offset, int len)
+            throws SbslException {
+        throw new IllegblStbteException("Not supported yet.");
     }
 
     @Override
-    public Object getNegotiatedProperty(String propName) {
+    public Object getNegotibtedProperty(String propNbme) {
         if (!isComplete()) {
-            throw new IllegalStateException("authentication not complete");
+            throw new IllegblStbteException("buthenticbtion not complete");
         }
-        switch (propName) {
-            case Sasl.QOP:
-                return "auth";
-            case Sasl.BOUND_SERVER_NAME:
-                return target;
-            case NTLM_HOSTNAME:
-                return hostname;
-            default:
+        switch (propNbme) {
+            cbse Sbsl.QOP:
+                return "buth";
+            cbse Sbsl.BOUND_SERVER_NAME:
+                return tbrget;
+            cbse NTLM_HOSTNAME:
+                return hostnbme;
+            defbult:
                 return null;
         }
     }
 
     @Override
-    public void dispose() throws SaslException {
+    public void dispose() throws SbslException {
         return;
     }
 }

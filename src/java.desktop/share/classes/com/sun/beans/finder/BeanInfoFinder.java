@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
-import java.beans.BeanDescriptor;
-import java.beans.BeanInfo;
-import java.beans.MethodDescriptor;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
+import jbvb.bebns.BebnDescriptor;
+import jbvb.bebns.BebnInfo;
+import jbvb.bebns.MethodDescriptor;
+import jbvb.bebns.PropertyDescriptor;
+import jbvb.lbng.reflect.Method;
 
 /**
- * This is utility class that provides functionality
- * to find a {@link BeanInfo} for a JavaBean specified by its type.
+ * This is utility clbss thbt provides functionblity
+ * to find b {@link BebnInfo} for b JbvbBebn specified by its type.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class BeanInfoFinder
-        extends InstanceFinder<BeanInfo> {
+public finbl clbss BebnInfoFinder
+        extends InstbnceFinder<BebnInfo> {
 
-    private static final String DEFAULT = "sun.beans.infos";
-    private static final String DEFAULT_NEW = "com.sun.beans.infos";
+    privbte stbtic finbl String DEFAULT = "sun.bebns.infos";
+    privbte stbtic finbl String DEFAULT_NEW = "com.sun.bebns.infos";
 
-    public BeanInfoFinder() {
-        super(BeanInfo.class, true, "BeanInfo", DEFAULT);
+    public BebnInfoFinder() {
+        super(BebnInfo.clbss, true, "BebnInfo", DEFAULT);
     }
 
-    private static boolean isValid(Class<?> type, Method method) {
-        return (method != null) && method.getDeclaringClass().isAssignableFrom(type);
+    privbte stbtic boolebn isVblid(Clbss<?> type, Method method) {
+        return (method != null) && method.getDeclbringClbss().isAssignbbleFrom(type);
     }
 
     @Override
-    protected BeanInfo instantiate(Class<?> type, String prefix, String name) {
-        if (DEFAULT.equals(prefix)) {
+    protected BebnInfo instbntibte(Clbss<?> type, String prefix, String nbme) {
+        if (DEFAULT.equbls(prefix)) {
             prefix = DEFAULT_NEW;
         }
-        // this optimization will only use the BeanInfo search path
-        // if is has changed from the original
-        // or trying to get the ComponentBeanInfo
-        BeanInfo info = !DEFAULT_NEW.equals(prefix) || "ComponentBeanInfo".equals(name)
-                ? super.instantiate(type, prefix, name)
+        // this optimizbtion will only use the BebnInfo sebrch pbth
+        // if is hbs chbnged from the originbl
+        // or trying to get the ComponentBebnInfo
+        BebnInfo info = !DEFAULT_NEW.equbls(prefix) || "ComponentBebnInfo".equbls(nbme)
+                ? super.instbntibte(type, prefix, nbme)
                 : null;
 
         if (info != null) {
-            // make sure that the returned BeanInfo matches the class
-            BeanDescriptor bd = info.getBeanDescriptor();
+            // mbke sure thbt the returned BebnInfo mbtches the clbss
+            BebnDescriptor bd = info.getBebnDescriptor();
             if (bd != null) {
-                if (type.equals(bd.getBeanClass())) {
+                if (type.equbls(bd.getBebnClbss())) {
                     return info;
                 }
             }
@@ -76,11 +76,11 @@ public final class BeanInfoFinder
                 PropertyDescriptor[] pds = info.getPropertyDescriptors();
                 if (pds != null) {
                     for (PropertyDescriptor pd : pds) {
-                        Method method = pd.getReadMethod();
+                        Method method = pd.getRebdMethod();
                         if (method == null) {
                             method = pd.getWriteMethod();
                         }
-                        if (isValid(type, method)) {
+                        if (isVblid(type, method)) {
                             return info;
                         }
                     }
@@ -89,7 +89,7 @@ public final class BeanInfoFinder
                     MethodDescriptor[] mds = info.getMethodDescriptors();
                     if (mds != null) {
                         for (MethodDescriptor md : mds) {
-                            if (isValid(type, md.getMethod())) {
+                            if (isVblid(type, md.getMethod())) {
                                 return info;
                             }
                         }

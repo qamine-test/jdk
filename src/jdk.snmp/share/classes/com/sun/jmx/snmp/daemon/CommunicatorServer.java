@@ -1,679 +1,679 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.logging.Level;
-import java.util.Vector;
-import java.util.NoSuchElementException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
+import jbvb.util.NoSuchElementException;
 
 // jmx import
 //
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistration;
-import javax.management.ObjectName;
-import javax.management.NotificationListener;
-import javax.management.NotificationFilter;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.MBeanNotificationInfo;
-import javax.management.AttributeChangeNotification;
-import javax.management.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.ListenerNotFoundException;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
 
 // JSR 160 import
 //
 // XXX Revisit:
-//   used to import com.sun.jmx.snmp.MBeanServerForwarder
-// Now using JSR 160 instead. => this is an additional
+//   used to import com.sun.jmx.snmp.MBebnServerForwbrder
+// Now using JSR 160 instebd. => this is bn bdditionbl
 // dependency to JSR 160.
 //
-import javax.management.remote.MBeanServerForwarder;
+import jbvbx.mbnbgement.remote.MBebnServerForwbrder;
 
 /**
- * Defines generic behavior for the server part of a connector or an adaptor.
- * Most connectors or adaptors extend <CODE>CommunicatorServer</CODE>
- * and inherit this behavior. Connectors or adaptors that do not fit into
- * this model do not extend <CODE>CommunicatorServer</CODE>.
+ * Defines generic behbvior for the server pbrt of b connector or bn bdbptor.
+ * Most connectors or bdbptors extend <CODE>CommunicbtorServer</CODE>
+ * bnd inherit this behbvior. Connectors or bdbptors thbt do not fit into
+ * this model do not extend <CODE>CommunicbtorServer</CODE>.
  * <p>
- * A <CODE>CommunicatorServer</CODE> is an active object, it listens for
- * client requests  and processes them in its own thread. When necessary, a
- * <CODE>CommunicatorServer</CODE> creates other threads to process multiple
+ * A <CODE>CommunicbtorServer</CODE> is bn bctive object, it listens for
+ * client requests  bnd processes them in its own threbd. When necessbry, b
+ * <CODE>CommunicbtorServer</CODE> crebtes other threbds to process multiple
  * requests concurrently.
  * <p>
- * A <CODE>CommunicatorServer</CODE> object can be stopped by calling the
+ * A <CODE>CommunicbtorServer</CODE> object cbn be stopped by cblling the
  * <CODE>stop</CODE> method. When it is stopped, the
- * <CODE>CommunicatorServer</CODE> no longer listens to client requests and
- * no longer holds any thread or communication resources.
- * It can be started again by calling the <CODE>start</CODE> method.
+ * <CODE>CommunicbtorServer</CODE> no longer listens to client requests bnd
+ * no longer holds bny threbd or communicbtion resources.
+ * It cbn be stbrted bgbin by cblling the <CODE>stbrt</CODE> method.
  * <p>
- * A <CODE>CommunicatorServer</CODE> has a <CODE>State</CODE> attribute
- * which reflects its  activity.
+ * A <CODE>CommunicbtorServer</CODE> hbs b <CODE>Stbte</CODE> bttribute
+ * which reflects its  bctivity.
  * <p>
  * <TABLE>
- * <TR><TH>CommunicatorServer</TH>      <TH>State</TH></TR>
+ * <TR><TH>CommunicbtorServer</TH>      <TH>Stbte</TH></TR>
  * <TR><TD><CODE>stopped</CODE></TD>    <TD><CODE>OFFLINE</CODE></TD></TR>
- * <TR><TD><CODE>starting</CODE></TD>    <TD><CODE>STARTING</CODE></TD></TR>
+ * <TR><TD><CODE>stbrting</CODE></TD>    <TD><CODE>STARTING</CODE></TD></TR>
  * <TR><TD><CODE>running</CODE></TD>     <TD><CODE>ONLINE</CODE></TD></TR>
  * <TR><TD><CODE>stopping</CODE></TD>     <TD><CODE>STOPPING</CODE></TD></TR>
  * </TABLE>
  * <p>
- * The <CODE>STARTING</CODE> state marks the transition
+ * The <CODE>STARTING</CODE> stbte mbrks the trbnsition
  * from <CODE>OFFLINE</CODE> to <CODE>ONLINE</CODE>.
  * <p>
- * The <CODE>STOPPING</CODE> state marks the transition from
+ * The <CODE>STOPPING</CODE> stbte mbrks the trbnsition from
  * <CODE>ONLINE</CODE> to <CODE>OFFLINE</CODE>. This occurs when the
- * <CODE>CommunicatorServer</CODE> is finishing or interrupting active
+ * <CODE>CommunicbtorServer</CODE> is finishing or interrupting bctive
  * requests.
  * <p>
- * When a <CODE>CommunicatorServer</CODE> is unregistered from the MBeanServer,
- * it is stopped automatically.
+ * When b <CODE>CommunicbtorServer</CODE> is unregistered from the MBebnServer,
+ * it is stopped butombticblly.
  * <p>
- * When the value of the <CODE>State</CODE> attribute changes the
- * <CODE>CommunicatorServer</CODE> sends a
- * <tt>{@link javax.management.AttributeChangeNotification}</tt> to the
- * registered listeners, if any.
+ * When the vblue of the <CODE>Stbte</CODE> bttribute chbnges the
+ * <CODE>CommunicbtorServer</CODE> sends b
+ * <tt>{@link jbvbx.mbnbgement.AttributeChbngeNotificbtion}</tt> to the
+ * registered listeners, if bny.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public abstract class CommunicatorServer
-    implements Runnable, MBeanRegistration, NotificationBroadcaster,
-               CommunicatorServerMBean {
+public bbstrbct clbss CommunicbtorServer
+    implements Runnbble, MBebnRegistrbtion, NotificbtionBrobdcbster,
+               CommunicbtorServerMBebn {
 
     //
-    // States of a CommunicatorServer
+    // Stbtes of b CommunicbtorServer
     //
 
     /**
-     * Represents an <CODE>ONLINE</CODE> state.
+     * Represents bn <CODE>ONLINE</CODE> stbte.
      */
-    public static final int ONLINE = 0 ;
+    public stbtic finbl int ONLINE = 0 ;
 
     /**
-     * Represents an <CODE>OFFLINE</CODE> state.
+     * Represents bn <CODE>OFFLINE</CODE> stbte.
      */
-    public static final int OFFLINE = 1 ;
+    public stbtic finbl int OFFLINE = 1 ;
 
     /**
-     * Represents a <CODE>STOPPING</CODE> state.
+     * Represents b <CODE>STOPPING</CODE> stbte.
      */
-    public static final int STOPPING = 2 ;
+    public stbtic finbl int STOPPING = 2 ;
 
     /**
-     * Represents a <CODE>STARTING</CODE> state.
+     * Represents b <CODE>STARTING</CODE> stbte.
      */
-    public static final int STARTING = 3 ;
+    public stbtic finbl int STARTING = 3 ;
 
     //
     // Types of connectors.
     //
 
     /**
-     * Indicates that it is an RMI connector type.
+     * Indicbtes thbt it is bn RMI connector type.
      */
-    //public static final int RMI_TYPE = 1 ;
+    //public stbtic finbl int RMI_TYPE = 1 ;
 
     /**
-     * Indicates that it is an HTTP connector type.
+     * Indicbtes thbt it is bn HTTP connector type.
      */
-    //public static final int HTTP_TYPE = 2 ;
+    //public stbtic finbl int HTTP_TYPE = 2 ;
 
     /**
-     * Indicates that it is an HTML connector type.
+     * Indicbtes thbt it is bn HTML connector type.
      */
-    //public static final int HTML_TYPE = 3 ;
+    //public stbtic finbl int HTML_TYPE = 3 ;
 
     /**
-     * Indicates that it is an SNMP connector type.
+     * Indicbtes thbt it is bn SNMP connector type.
      */
-    public static final int SNMP_TYPE = 4 ;
+    public stbtic finbl int SNMP_TYPE = 4 ;
 
     /**
-     * Indicates that it is an HTTPS connector type.
+     * Indicbtes thbt it is bn HTTPS connector type.
      */
-    //public static final int HTTPS_TYPE = 5 ;
+    //public stbtic finbl int HTTPS_TYPE = 5 ;
 
     //
-    // Package variables
+    // Pbckbge vbribbles
     //
 
     /**
-     * The state of the connector server.
+     * The stbte of the connector server.
      */
-     transient volatile int state = OFFLINE ;
+     trbnsient volbtile int stbte = OFFLINE ;
 
     /**
-     * The object name of the connector server.
-     * @serial
+     * The object nbme of the connector server.
+     * @seribl
      */
-    ObjectName objectName ;
+    ObjectNbme objectNbme ;
 
-    MBeanServer topMBS;
-    MBeanServer bottomMBS;
+    MBebnServer topMBS;
+    MBebnServer bottomMBS;
 
     /**
      */
-    transient String dbgTag = null ;
+    trbnsient String dbgTbg = null ;
 
     /**
-     * The maximum number of clients that the CommunicatorServer can
+     * The mbximum number of clients thbt the CommunicbtorServer cbn
      * process concurrently.
-     * @serial
+     * @seribl
      */
-    int maxActiveClientCount = 1 ;
+    int mbxActiveClientCount = 1 ;
 
     /**
      */
-    transient int servedClientCount = 0 ;
+    trbnsient int servedClientCount = 0 ;
 
     /**
-     * The host name used by this CommunicatorServer.
-     * @serial
+     * The host nbme used by this CommunicbtorServer.
+     * @seribl
      */
     String host = null ;
 
     /**
-     * The port number used by this CommunicatorServer.
-     * @serial
+     * The port number used by this CommunicbtorServer.
+     * @seribl
      */
     int port = -1 ;
 
 
     //
-    // Private fields
+    // Privbte fields
     //
 
-    /* This object controls access to the "state" and "interrupted" variables.
-       If held at the same time as the lock on "this", the "this" lock must
-       be taken first.  */
-    private transient Object stateLock = new Object();
+    /* This object controls bccess to the "stbte" bnd "interrupted" vbribbles.
+       If held bt the sbme time bs the lock on "this", the "this" lock must
+       be tbken first.  */
+    privbte trbnsient Object stbteLock = new Object();
 
-    private transient Vector<ClientHandler>
-            clientHandlerVector = new Vector<>() ;
+    privbte trbnsient Vector<ClientHbndler>
+            clientHbndlerVector = new Vector<>() ;
 
-    private transient Thread mainThread = null ;
+    privbte trbnsient Threbd mbinThrebd = null ;
 
-    private volatile boolean stopRequested = false ;
-    private boolean interrupted = false;
-    private transient Exception startException = null;
+    privbte volbtile boolebn stopRequested = fblse ;
+    privbte boolebn interrupted = fblse;
+    privbte trbnsient Exception stbrtException = null;
 
-    // Notifs count, broadcaster and info
-    private transient long notifCount = 0;
-    private transient NotificationBroadcasterSupport notifBroadcaster =
-        new NotificationBroadcasterSupport();
-    private transient MBeanNotificationInfo[] notifInfos = null;
+    // Notifs count, brobdcbster bnd info
+    privbte trbnsient long notifCount = 0;
+    privbte trbnsient NotificbtionBrobdcbsterSupport notifBrobdcbster =
+        new NotificbtionBrobdcbsterSupport();
+    privbte trbnsient MBebnNotificbtionInfo[] notifInfos = null;
 
 
     /**
-     * Instantiates a <CODE>CommunicatorServer</CODE>.
+     * Instbntibtes b <CODE>CommunicbtorServer</CODE>.
      *
-     * @param connectorType Indicates the connector type. Possible values are:
+     * @pbrbm connectorType Indicbtes the connector type. Possible vblues bre:
      * SNMP_TYPE.
      *
-     * @exception <CODE>java.lang.IllegalArgumentException</CODE>
+     * @exception <CODE>jbvb.lbng.IllegblArgumentException</CODE>
      *            This connector type is not correct.
      */
-    public CommunicatorServer(int connectorType)
-        throws IllegalArgumentException {
+    public CommunicbtorServer(int connectorType)
+        throws IllegblArgumentException {
         switch (connectorType) {
-        case SNMP_TYPE :
+        cbse SNMP_TYPE :
             //No op. int Type deciding debugging removed.
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid connector Type") ;
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Invblid connector Type") ;
         }
-        dbgTag = makeDebugTag() ;
+        dbgTbg = mbkeDebugTbg() ;
     }
 
-    protected Thread createMainThread() {
-        return new Thread (this, makeThreadName());
+    protected Threbd crebteMbinThrebd() {
+        return new Threbd (this, mbkeThrebdNbme());
     }
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts this <CODE>CommunicbtorServer</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no effect if this <CODE>CommunicbtorServer</CODE> is
      * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
-     * @param timeout Time in ms to wait for the connector to start.
-     *        If <code>timeout</code> is positive, wait for at most
-     *        the specified time. An infinite timeout can be specified
-     *        by passing a <code>timeout</code> value equals
-     *        <code>Long.MAX_VALUE</code>. In that case the method
-     *        will wait until the connector starts or fails to start.
-     *        If timeout is negative or zero, returns as soon as possible
-     *        without waiting.
-     * @exception CommunicationException if the connectors fails to start.
-     * @exception InterruptedException if the thread is interrupted or the
+     * @pbrbm timeout Time in ms to wbit for the connector to stbrt.
+     *        If <code>timeout</code> is positive, wbit for bt most
+     *        the specified time. An infinite timeout cbn be specified
+     *        by pbssing b <code>timeout</code> vblue equbls
+     *        <code>Long.MAX_VALUE</code>. In thbt cbse the method
+     *        will wbit until the connector stbrts or fbils to stbrt.
+     *        If timeout is negbtive or zero, returns bs soon bs possible
+     *        without wbiting.
+     * @exception CommunicbtionException if the connectors fbils to stbrt.
+     * @exception InterruptedException if the threbd is interrupted or the
      *            timeout expires.
      */
-    public void start(long timeout)
-        throws CommunicationException, InterruptedException {
-        boolean start;
+    public void stbrt(long timeout)
+        throws CommunicbtionException, InterruptedException {
+        boolebn stbrt;
 
-        synchronized (stateLock) {
-            if (state == STOPPING) {
+        synchronized (stbteLock) {
+            if (stbte == STOPPING) {
                 // Fix for bug 4352451:
-                //     "java.net.BindException: Address in use".
-                waitState(OFFLINE, 60000);
+                //     "jbvb.net.BindException: Address in use".
+                wbitStbte(OFFLINE, 60000);
             }
-            start = (state == OFFLINE);
-            if (start) {
-                changeState(STARTING);
-                stopRequested = false;
-                interrupted = false;
-                startException = null;
+            stbrt = (stbte == OFFLINE);
+            if (stbrt) {
+                chbngeStbte(STARTING);
+                stopRequested = fblse;
+                interrupted = fblse;
+                stbrtException = null;
             }
         }
 
-        if (!start) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "start","Connector is not OFFLINE");
+        if (!stbrt) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "stbrt","Connector is not OFFLINE");
             }
             return;
         }
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "start","--> Start connector ");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                "stbrt","--> Stbrt connector ");
         }
 
-        mainThread = createMainThread();
+        mbinThrebd = crebteMbinThrebd();
 
-        mainThread.start() ;
+        mbinThrebd.stbrt() ;
 
-        if (timeout > 0) waitForStart(timeout);
+        if (timeout > 0) wbitForStbrt(timeout);
     }
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts this <CODE>CommunicbtorServer</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no effect if this <CODE>CommunicbtorServer</CODE> is
      * <CODE>ONLINE</CODE> or <CODE>STOPPING</CODE>.
      */
     @Override
-    public void start() {
+    public void stbrt() {
         try {
-            start(0);
-        } catch (InterruptedException x) {
-            // cannot happen because of `0'
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "start","interrupted", x);
+            stbrt(0);
+        } cbtch (InterruptedException x) {
+            // cbnnot hbppen becbuse of `0'
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "stbrt","interrupted", x);
             }
         }
     }
 
     /**
-     * Stops this <CODE>CommunicatorServer</CODE>.
+     * Stops this <CODE>CommunicbtorServer</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is
+     * Hbs no effect if this <CODE>CommunicbtorServer</CODE> is
      * <CODE>OFFLINE</CODE> or  <CODE>STOPPING</CODE>.
      */
     @Override
     public void stop() {
-        synchronized (stateLock) {
-            if (state == OFFLINE || state == STOPPING) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
+        synchronized (stbteLock) {
+            if (stbte == OFFLINE || stbte == STOPPING) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
                         "stop","Connector is not ONLINE");
                 }
                 return;
             }
-            changeState(STOPPING);
+            chbngeStbte(STOPPING);
             //
-            // Stop the connector thread
+            // Stop the connector threbd
             //
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "stop","Interrupt main thread");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "stop","Interrupt mbin threbd");
             }
             stopRequested = true ;
             if (!interrupted) {
                 interrupted = true;
-                mainThread.interrupt();
+                mbinThrebd.interrupt();
             }
         }
 
         //
-        // Call terminate on each active client handler
+        // Cbll terminbte on ebch bctive client hbndler
         //
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "stop","terminateAllClient");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                "stop","terminbteAllClient");
         }
-        terminateAllClient() ;
+        terminbteAllClient() ;
 
         // ----------------------
-        // changeState
+        // chbngeStbte
         // ----------------------
-        synchronized (stateLock) {
-            if (state == STARTING)
-                changeState(OFFLINE);
+        synchronized (stbteLock) {
+            if (stbte == STARTING)
+                chbngeStbte(OFFLINE);
         }
     }
 
     /**
-     * Tests whether the <CODE>CommunicatorServer</CODE> is active.
+     * Tests whether the <CODE>CommunicbtorServer</CODE> is bctive.
      *
-     * @return True if connector is <CODE>ONLINE</CODE>; false otherwise.
+     * @return True if connector is <CODE>ONLINE</CODE>; fblse otherwise.
      */
     @Override
-    public boolean isActive() {
-        synchronized (stateLock) {
-            return (state == ONLINE);
+    public boolebn isActive() {
+        synchronized (stbteLock) {
+            return (stbte == ONLINE);
         }
     }
 
     /**
-     * <p>Waits until either the State attribute of this MBean equals the
-     * specified <VAR>wantedState</VAR> parameter,
-     * or the specified  <VAR>timeOut</VAR> has elapsed.
-     * The method <CODE>waitState</CODE> returns with a boolean value
-     * indicating whether the specified <VAR>wantedState</VAR> parameter
-     * equals the value of this MBean's State attribute at the time the method
-     * terminates.</p>
+     * <p>Wbits until either the Stbte bttribute of this MBebn equbls the
+     * specified <VAR>wbntedStbte</VAR> pbrbmeter,
+     * or the specified  <VAR>timeOut</VAR> hbs elbpsed.
+     * The method <CODE>wbitStbte</CODE> returns with b boolebn vblue
+     * indicbting whether the specified <VAR>wbntedStbte</VAR> pbrbmeter
+     * equbls the vblue of this MBebn's Stbte bttribute bt the time the method
+     * terminbtes.</p>
      *
-     * <p>Two special cases for the <VAR>timeOut</VAR> parameter value are:</p>
-     * <UL><LI> if <VAR>timeOut</VAR> is negative then <CODE>waitState</CODE>
-     *     returns immediately (i.e. does not wait at all),</LI>
-     * <LI> if <VAR>timeOut</VAR> equals zero then <CODE>waitState</CODE>
-     *     waits untill the value of this MBean's State attribute
-     *     is the same as the <VAR>wantedState</VAR> parameter (i.e. will wait
+     * <p>Two specibl cbses for the <VAR>timeOut</VAR> pbrbmeter vblue bre:</p>
+     * <UL><LI> if <VAR>timeOut</VAR> is negbtive then <CODE>wbitStbte</CODE>
+     *     returns immedibtely (i.e. does not wbit bt bll),</LI>
+     * <LI> if <VAR>timeOut</VAR> equbls zero then <CODE>wbitStbte</CODE>
+     *     wbits untill the vblue of this MBebn's Stbte bttribute
+     *     is the sbme bs the <VAR>wbntedStbte</VAR> pbrbmeter (i.e. will wbit
      *     indefinitely if this condition is never met).</LI></UL>
      *
-     * @param wantedState The value of this MBean's State attribute to wait
-     *        for. <VAR>wantedState</VAR> can be one of:
+     * @pbrbm wbntedStbte The vblue of this MBebn's Stbte bttribute to wbit
+     *        for. <VAR>wbntedStbte</VAR> cbn be one of:
      * <ul>
-     * <li><CODE>CommunicatorServer.OFFLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.ONLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STARTING</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STOPPING</CODE>.</li>
+     * <li><CODE>CommunicbtorServer.OFFLINE</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.ONLINE</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.STARTING</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.STOPPING</CODE>.</li>
      * </ul>
-     * @param timeOut The maximum time to wait for, in milliseconds,
+     * @pbrbm timeOut The mbximum time to wbit for, in milliseconds,
      *        if positive.
-     * Infinite time out if 0, or no waiting at all if negative.
+     * Infinite time out if 0, or no wbiting bt bll if negbtive.
      *
-     * @return true if the value of this MBean's State attribute is the
-     *      same as the <VAR>wantedState</VAR> parameter; false otherwise.
+     * @return true if the vblue of this MBebn's Stbte bttribute is the
+     *      sbme bs the <VAR>wbntedStbte</VAR> pbrbmeter; fblse otherwise.
      */
     @Override
-    public boolean waitState(int wantedState, long timeOut) {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitState", wantedState + "(0on,1off,2st) TO=" + timeOut +
-                  " ; current state = " + getStateString());
+    public boolebn wbitStbte(int wbntedStbte, long timeOut) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                "wbitStbte", wbntedStbte + "(0on,1off,2st) TO=" + timeOut +
+                  " ; current stbte = " + getStbteString());
         }
 
         long endTime = 0;
         if (timeOut > 0)
             endTime = System.currentTimeMillis() + timeOut;
 
-        synchronized (stateLock) {
-            while (state != wantedState) {
+        synchronized (stbteLock) {
+            while (stbte != wbntedStbte) {
                 if (timeOut < 0) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitState", "timeOut < 0, return without wait");
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                            "wbitStbte", "timeOut < 0, return without wbit");
                     }
-                    return false;
+                    return fblse;
                 } else {
                     try {
                         if (timeOut > 0) {
-                            long toWait = endTime - System.currentTimeMillis();
-                            if (toWait <= 0) {
-                                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                                        "waitState", "timed out");
+                            long toWbit = endTime - System.currentTimeMillis();
+                            if (toWbit <= 0) {
+                                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                                        "wbitStbte", "timed out");
                                 }
-                                return false;
+                                return fblse;
                             }
-                            stateLock.wait(toWait);
+                            stbteLock.wbit(toWbit);
                         } else {  // timeOut == 0
-                            stateLock.wait();
+                            stbteLock.wbit();
                         }
-                    } catch (InterruptedException e) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                                "waitState", "wait interrupted");
+                    } cbtch (InterruptedException e) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                                "wbitStbte", "wbit interrupted");
                         }
-                        return (state == wantedState);
+                        return (stbte == wbntedStbte);
                     }
                 }
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitState","returning in desired state");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "wbitStbte","returning in desired stbte");
             }
             return true;
         }
     }
 
     /**
-     * <p>Waits until the communicator is started or timeout expires.
+     * <p>Wbits until the communicbtor is stbrted or timeout expires.
      *
-     * @param timeout Time in ms to wait for the connector to start.
-     *        If <code>timeout</code> is positive, wait for at most
-     *        the specified time. An infinite timeout can be specified
-     *        by passing a <code>timeout</code> value equals
-     *        <code>Long.MAX_VALUE</code>. In that case the method
-     *        will wait until the connector starts or fails to start.
-     *        If timeout is negative or zero, returns as soon as possible
-     *        without waiting.
+     * @pbrbm timeout Time in ms to wbit for the connector to stbrt.
+     *        If <code>timeout</code> is positive, wbit for bt most
+     *        the specified time. An infinite timeout cbn be specified
+     *        by pbssing b <code>timeout</code> vblue equbls
+     *        <code>Long.MAX_VALUE</code>. In thbt cbse the method
+     *        will wbit until the connector stbrts or fbils to stbrt.
+     *        If timeout is negbtive or zero, returns bs soon bs possible
+     *        without wbiting.
      *
-     * @exception CommunicationException if the connectors fails to start.
-     * @exception InterruptedException if the thread is interrupted or the
+     * @exception CommunicbtionException if the connectors fbils to stbrt.
+     * @exception InterruptedException if the threbd is interrupted or the
      *            timeout expires.
      *
      */
-    private void waitForStart(long timeout)
-        throws CommunicationException, InterruptedException {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitForStart", "Timeout=" + timeout +
-                 " ; current state = " + getStateString());
+    privbte void wbitForStbrt(long timeout)
+        throws CommunicbtionException, InterruptedException {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                "wbitForStbrt", "Timeout=" + timeout +
+                 " ; current stbte = " + getStbteString());
         }
 
-        final long startTime = System.currentTimeMillis();
+        finbl long stbrtTime = System.currentTimeMillis();
 
-        synchronized (stateLock) {
-            while (state == STARTING) {
-                // Time elapsed since startTime...
+        synchronized (stbteLock) {
+            while (stbte == STARTING) {
+                // Time elbpsed since stbrtTime...
                 //
-                final long elapsed = System.currentTimeMillis() - startTime;
+                finbl long elbpsed = System.currentTimeMillis() - stbrtTime;
 
-                // wait for timeout - elapsed.
-                // A timeout of Long.MAX_VALUE is equivalent to something
-                // like 292271023 years - which is pretty close to
-                // forever as far as we are concerned ;-)
+                // wbit for timeout - elbpsed.
+                // A timeout of Long.MAX_VALUE is equivblent to something
+                // like 292271023 yebrs - which is pretty close to
+                // forever bs fbr bs we bre concerned ;-)
                 //
-                final long remainingTime = timeout-elapsed;
+                finbl long rembiningTime = timeout-elbpsed;
 
-                // If remainingTime is negative, the timeout has elapsed.
+                // If rembiningTime is negbtive, the timeout hbs elbpsed.
                 //
-                if (remainingTime < 0) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitForStart", "timeout < 0, return without wait");
+                if (rembiningTime < 0) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                            "wbitForStbrt", "timeout < 0, return without wbit");
                     }
                     throw new InterruptedException("Timeout expired");
                 }
 
-                // We're going to wait until someone notifies on the
-                // the stateLock object, or until the timeout expires,
-                // or until the thread is interrupted.
+                // We're going to wbit until someone notifies on the
+                // the stbteLock object, or until the timeout expires,
+                // or until the threbd is interrupted.
                 //
                 try {
-                    stateLock.wait(remainingTime);
-                } catch (InterruptedException e) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "waitForStart", "wait interrupted");
+                    stbteLock.wbit(rembiningTime);
+                } cbtch (InterruptedException e) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                            "wbitForStbrt", "wbit interrupted");
                     }
 
-                    // If we are now ONLINE, then no need to rethrow the
+                    // If we bre now ONLINE, then no need to rethrow the
                     // exception... we're simply going to exit the while
                     // loop. Otherwise, throw the InterruptedException.
                     //
-                    if (state != ONLINE) throw e;
+                    if (stbte != ONLINE) throw e;
                 }
             }
 
-            // We're no longer in STARTING state
+            // We're no longer in STARTING stbte
             //
-            if (state == ONLINE) {
-                // OK, we're started, everything went fine, just return
+            if (stbte == ONLINE) {
+                // OK, we're stbrted, everything went fine, just return
                 //
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "waitForStart", "started");
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                        "wbitForStbrt", "stbrted");
                 }
                 return;
-            } else if (startException instanceof CommunicationException) {
-                // There was some exception during the starting phase.
-                // Cast and throw...
+            } else if (stbrtException instbnceof CommunicbtionException) {
+                // There wbs some exception during the stbrting phbse.
+                // Cbst bnd throw...
                 //
-                throw (CommunicationException)startException;
-            } else if (startException instanceof InterruptedException) {
-                // There was some exception during the starting phase.
-                // Cast and throw...
+                throw (CommunicbtionException)stbrtException;
+            } else if (stbrtException instbnceof InterruptedException) {
+                // There wbs some exception during the stbrting phbse.
+                // Cbst bnd throw...
                 //
-                throw (InterruptedException)startException;
-            } else if (startException != null) {
-                // There was some exception during the starting phase.
-                // Wrap and throw...
+                throw (InterruptedException)stbrtException;
+            } else if (stbrtException != null) {
+                // There wbs some exception during the stbrting phbse.
+                // Wrbp bnd throw...
                 //
-                throw new CommunicationException(startException,
-                                                 "Failed to start: "+
-                                                 startException);
+                throw new CommunicbtionException(stbrtException,
+                                                 "Fbiled to stbrt: "+
+                                                 stbrtException);
             } else {
-                // We're not ONLINE, and there's no exception...
-                // Something went wrong but we don't know what...
+                // We're not ONLINE, bnd there's no exception...
+                // Something went wrong but we don't know whbt...
                 //
-                throw new CommunicationException("Failed to start: state is "+
-                                                 getStringForState(state));
+                throw new CommunicbtionException("Fbiled to stbrt: stbte is "+
+                                                 getStringForStbte(stbte));
             }
         }
     }
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as an integer.
+     * Gets the stbte of this <CODE>CommunicbtorServer</CODE> bs bn integer.
      *
      * @return <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>,
      *         <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
      */
     @Override
-    public int getState() {
-        synchronized (stateLock) {
-            return state ;
+    public int getStbte() {
+        synchronized (stbteLock) {
+            return stbte ;
         }
     }
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as a string.
+     * Gets the stbte of this <CODE>CommunicbtorServer</CODE> bs b string.
      *
      * @return One of the strings "ONLINE", "OFFLINE", "STARTING" or
      *         "STOPPING".
      */
     @Override
-    public String getStateString() {
-        return getStringForState(state) ;
+    public String getStbteString() {
+        return getStringForStbte(stbte) ;
     }
 
     /**
-     * Gets the host name used by this <CODE>CommunicatorServer</CODE>.
+     * Gets the host nbme used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @return The host name used by this <CODE>CommunicatorServer</CODE>.
+     * @return The host nbme used by this <CODE>CommunicbtorServer</CODE>.
      */
     @Override
     public String getHost() {
         try {
-            host = InetAddress.getLocalHost().getHostName();
-        } catch (Exception e) {
+            host = InetAddress.getLocblHost().getHostNbme();
+        } cbtch (Exception e) {
             host = "Unknown host";
         }
         return host ;
     }
 
     /**
-     * Gets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Gets the port number used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @return The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @return The port number used by this <CODE>CommunicbtorServer</CODE>.
      */
     @Override
     public int getPort() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             return port ;
         }
     }
 
     /**
-     * Sets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Sets the port number used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @param port The port number used by this
-     *             <CODE>CommunicatorServer</CODE>.
+     * @pbrbm port The port number used by this
+     *             <CODE>CommunicbtorServer</CODE>.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @exception jbvb.lbng.IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs ONLINE or STARTING.
      */
     @Override
-    public void setPort(int port) throws java.lang.IllegalStateException {
-        synchronized (stateLock) {
-            if ((state == ONLINE) || (state == STARTING))
-                throw new IllegalStateException("Stop server before " +
-                                                "carrying out this operation");
+    public void setPort(int port) throws jbvb.lbng.IllegblStbteException {
+        synchronized (stbteLock) {
+            if ((stbte == ONLINE) || (stbte == STARTING))
+                throw new IllegblStbteException("Stop server before " +
+                                                "cbrrying out this operbtion");
             this.port = port;
-            dbgTag = makeDebugTag();
+            dbgTbg = mbkeDebugTbg();
         }
     }
 
     /**
-     * Gets the protocol being used by this <CODE>CommunicatorServer</CODE>.
-     * @return The protocol as a string.
+     * Gets the protocol being used by this <CODE>CommunicbtorServer</CODE>.
+     * @return The protocol bs b string.
      */
     @Override
-    public abstract String getProtocol();
+    public bbstrbct String getProtocol();
 
     /**
-     * Gets the number of clients that have been processed by this
-     * <CODE>CommunicatorServer</CODE>  since its creation.
+     * Gets the number of clients thbt hbve been processed by this
+     * <CODE>CommunicbtorServer</CODE>  since its crebtion.
      *
-     * @return The number of clients handled by this
-     *         <CODE>CommunicatorServer</CODE>
-     *         since its creation. This counter is not reset by the
+     * @return The number of clients hbndled by this
+     *         <CODE>CommunicbtorServer</CODE>
+     *         since its crebtion. This counter is not reset by the
      *         <CODE>stop</CODE> method.
      */
     int getServedClientCount() {
@@ -682,65 +682,65 @@ public abstract class CommunicatorServer
 
     /**
      * Gets the number of clients currently being processed by this
-     * <CODE>CommunicatorServer</CODE>.
+     * <CODE>CommunicbtorServer</CODE>.
      *
      * @return The number of clients currently being processed by this
-     *         <CODE>CommunicatorServer</CODE>.
+     *         <CODE>CommunicbtorServer</CODE>.
      */
     int getActiveClientCount() {
-        int result = clientHandlerVector.size() ;
+        int result = clientHbndlerVector.size() ;
         return result ;
     }
 
     /**
-     * Gets the maximum number of clients that this
-     * <CODE>CommunicatorServer</CODE> can  process concurrently.
+     * Gets the mbximum number of clients thbt this
+     * <CODE>CommunicbtorServer</CODE> cbn  process concurrently.
      *
-     * @return The maximum number of clients that this
-     *         <CODE>CommunicatorServer</CODE> can
+     * @return The mbximum number of clients thbt this
+     *         <CODE>CommunicbtorServer</CODE> cbn
      *         process concurrently.
      */
-    int getMaxActiveClientCount() {
-        return maxActiveClientCount ;
+    int getMbxActiveClientCount() {
+        return mbxActiveClientCount ;
     }
 
     /**
-     * Sets the maximum number of clients this
-     * <CODE>CommunicatorServer</CODE> can process concurrently.
+     * Sets the mbximum number of clients this
+     * <CODE>CommunicbtorServer</CODE> cbn process concurrently.
      *
-     * @param c The number of clients.
+     * @pbrbm c The number of clients.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @exception jbvb.lbng.IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs ONLINE or STARTING.
      */
-    void setMaxActiveClientCount(int c)
-        throws java.lang.IllegalStateException {
-        synchronized (stateLock) {
-            if ((state == ONLINE) || (state == STARTING)) {
-                throw new IllegalStateException(
-                          "Stop server before carrying out this operation");
+    void setMbxActiveClientCount(int c)
+        throws jbvb.lbng.IllegblStbteException {
+        synchronized (stbteLock) {
+            if ((stbte == ONLINE) || (stbte == STARTING)) {
+                throw new IllegblStbteException(
+                          "Stop server before cbrrying out this operbtion");
             }
-            maxActiveClientCount = c ;
+            mbxActiveClientCount = c ;
         }
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtime internbl use only.
      */
-    void notifyClientHandlerCreated(ClientHandler h) {
-        clientHandlerVector.addElement(h) ;
+    void notifyClientHbndlerCrebted(ClientHbndler h) {
+        clientHbndlerVector.bddElement(h) ;
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtime internbl use only.
      */
-    synchronized void notifyClientHandlerDeleted(ClientHandler h) {
-        clientHandlerVector.removeElement(h);
+    synchronized void notifyClientHbndlerDeleted(ClientHbndler h) {
+        clientHbndlerVector.removeElement(h);
         notifyAll();
     }
 
     /**
-     * The number of times the communicator server will attempt
+     * The number of times the communicbtor server will bttempt
      * to bind before giving up.
      **/
     protected int getBindTries() {
@@ -748,53 +748,53 @@ public abstract class CommunicatorServer
     }
 
     /**
-     * The delay, in ms, during which the communicator server will sleep before
-     * attempting to bind again.
+     * The delby, in ms, during which the communicbtor server will sleep before
+     * bttempting to bind bgbin.
      **/
     protected long getBindSleepTime() {
         return 100;
     }
 
     /**
-     * For SNMP Runtime internal use only.
+     * For SNMP Runtime internbl use only.
      * <p>
-     * The <CODE>run</CODE> method executed by this connector's main thread.
+     * The <CODE>run</CODE> method executed by this connector's mbin threbd.
      */
     @Override
     public void run() {
 
-        // Fix jaw.00667.B
-        // It seems that the init of "i" and "success"
-        // need to be done outside the "try" clause...
-        // A bug in Java 2 production release ?
+        // Fix jbw.00667.B
+        // It seems thbt the init of "i" bnd "success"
+        // need to be done outside the "try" clbuse...
+        // A bug in Jbvb 2 production relebse ?
         //
         int i = 0;
-        boolean success = false;
+        boolebn success = fblse;
 
         // ----------------------
         // Bind
         // ----------------------
         try {
-            // Fix for bug 4352451: "java.net.BindException: Address in use".
+            // Fix for bug 4352451: "jbvb.net.BindException: Address in use".
             //
-            final int  bindRetries = getBindTries();
-            final long sleepTime   = getBindSleepTime();
+            finbl int  bindRetries = getBindTries();
+            finbl long sleepTime   = getBindSleepTime();
             while (i < bindRetries && !success) {
                 try {
                     // Try socket connection.
                     //
                     doBind();
                     success = true;
-                } catch (CommunicationException ce) {
+                } cbtch (CommunicbtionException ce) {
                     i++;
                     try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ie) {
+                        Threbd.sleep(sleepTime);
+                    } cbtch (InterruptedException ie) {
                         throw ie;
                     }
                 }
             }
-            // Retry last time to get correct exception.
+            // Retry lbst time to get correct exception.
             //
             if (!success) {
                 // Try socket connection.
@@ -802,18 +802,18 @@ public abstract class CommunicatorServer
                 doBind();
             }
 
-        } catch(Exception x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
+        } cbtch(Exception x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
                     "run", "Got unexpected exception", x);
             }
-            synchronized(stateLock) {
-                startException = x;
-                changeState(OFFLINE);
+            synchronized(stbteLock) {
+                stbrtException = x;
+                chbngeStbte(OFFLINE);
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","State is OFFLINE");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "run","Stbte is OFFLINE");
             }
             doError(x);
             return;
@@ -821,44 +821,44 @@ public abstract class CommunicatorServer
 
         try {
             // ----------------------
-            // State change
+            // Stbte chbnge
             // ----------------------
-            changeState(ONLINE) ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","State is ONLINE");
+            chbngeStbte(ONLINE) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "run","Stbte is ONLINE");
             }
 
             // ----------------------
-            // Main loop
+            // Mbin loop
             // ----------------------
             while (!stopRequested) {
                 servedClientCount++;
                 doReceive() ;
-                waitIfTooManyClients() ;
+                wbitIfTooMbnyClients() ;
                 doProcess() ;
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "run","Stop has been requested");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "run","Stop hbs been requested");
             }
 
-        } catch(InterruptedException x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "run","Interrupt caught");
+        } cbtch(InterruptedException x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
+                    "run","Interrupt cbught");
             }
-            changeState(STOPPING);
-        } catch(Exception x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
+            chbngeStbte(STOPPING);
+        } cbtch(Exception x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
                     "run","Got unexpected exception", x);
             }
-            changeState(STOPPING);
-        } finally {
-            synchronized (stateLock) {
+            chbngeStbte(STOPPING);
+        } finblly {
+            synchronized (stbteLock) {
                 interrupted = true;
-                Thread.interrupted();
+                Threbd.interrupted();
             }
 
             // ----------------------
@@ -866,18 +866,18 @@ public abstract class CommunicatorServer
             // ----------------------
             try {
                 doUnbind() ;
-                waitClientTermination() ;
-                changeState(OFFLINE);
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "run","State is OFFLINE");
+                wbitClientTerminbtion() ;
+                chbngeStbte(OFFLINE);
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                        "run","Stbte is OFFLINE");
                 }
-            } catch(Exception x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
+            } cbtch(Exception x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
                         "run","Got unexpected exception", x);
                 }
-                changeState(OFFLINE);
+                chbngeStbte(OFFLINE);
             }
 
         }
@@ -885,257 +885,257 @@ public abstract class CommunicatorServer
 
     /**
      */
-    protected abstract void doError(Exception e) throws CommunicationException;
+    protected bbstrbct void doError(Exception e) throws CommunicbtionException;
 
     //
-    // To be defined by the subclass.
+    // To be defined by the subclbss.
     //
-    // Each method below is called by run() and must be subclassed.
-    // If the method sends an exception (Communication or Interrupt), this
-    // will end up the run() method and switch the connector offline.
+    // Ebch method below is cblled by run() bnd must be subclbssed.
+    // If the method sends bn exception (Communicbtion or Interrupt), this
+    // will end up the run() method bnd switch the connector offline.
     //
-    // If it is a CommunicationException, run() will call
+    // If it is b CommunicbtionException, run() will cbll
     //       Debug.printException().
     //
-    // All these methods should propagate the InterruptedException to inform
-    // run() that the connector must be switch OFFLINE.
+    // All these methods should propbgbte the InterruptedException to inform
+    // run() thbt the connector must be switch OFFLINE.
     //
     //
     //
-    // doBind() should do all what is needed before calling doReceive().
-    // If doBind() throws an exception, doUnbind() is not to be called
-    // and run() ends up.
+    // doBind() should do bll whbt is needed before cblling doReceive().
+    // If doBind() throws bn exception, doUnbind() is not to be cblled
+    // bnd run() ends up.
     //
 
     /**
      */
-    protected abstract void doBind()
-        throws CommunicationException, InterruptedException ;
+    protected bbstrbct void doBind()
+        throws CommunicbtionException, InterruptedException ;
 
     /**
-     * <CODE>doReceive()</CODE> should block until a client is available.
-     * If this method throws an exception, <CODE>doProcess()</CODE> is not
-     * called but <CODE>doUnbind()</CODE> is called then <CODE>run()</CODE>
+     * <CODE>doReceive()</CODE> should block until b client is bvbilbble.
+     * If this method throws bn exception, <CODE>doProcess()</CODE> is not
+     * cblled but <CODE>doUnbind()</CODE> is cblled then <CODE>run()</CODE>
      * stops.
      */
-    protected abstract void doReceive()
-        throws CommunicationException, InterruptedException ;
+    protected bbstrbct void doReceive()
+        throws CommunicbtionException, InterruptedException ;
 
     /**
-     * <CODE>doProcess()</CODE> is called after <CODE>doReceive()</CODE>:
+     * <CODE>doProcess()</CODE> is cblled bfter <CODE>doReceive()</CODE>:
      * it should process the requests of the incoming client.
-     * If it throws an exception, <CODE>doUnbind()</CODE> is called and
+     * If it throws bn exception, <CODE>doUnbind()</CODE> is cblled bnd
      * <CODE>run()</CODE> stops.
      */
-    protected abstract void doProcess()
-        throws CommunicationException, InterruptedException ;
+    protected bbstrbct void doProcess()
+        throws CommunicbtionException, InterruptedException ;
 
     /**
-     * <CODE>doUnbind()</CODE> is called whenever the connector goes
-     * <CODE>OFFLINE</CODE>, except if <CODE>doBind()</CODE> has thrown an
+     * <CODE>doUnbind()</CODE> is cblled whenever the connector goes
+     * <CODE>OFFLINE</CODE>, except if <CODE>doBind()</CODE> hbs thrown bn
      * exception.
      */
-    protected abstract void doUnbind()
-        throws CommunicationException, InterruptedException ;
+    protected bbstrbct void doUnbind()
+        throws CommunicbtionException, InterruptedException ;
 
     /**
-     * Get the <code>MBeanServer</code> object to which incoming requests are
-     * sent.  This is either the MBean server in which this connector is
-     * registered, or an <code>MBeanServerForwarder</code> leading to that
+     * Get the <code>MBebnServer</code> object to which incoming requests bre
+     * sent.  This is either the MBebn server in which this connector is
+     * registered, or bn <code>MBebnServerForwbrder</code> lebding to thbt
      * server.
      */
-    public synchronized MBeanServer getMBeanServer() {
+    public synchronized MBebnServer getMBebnServer() {
         return topMBS;
     }
 
     /**
-     * Set the <code>MBeanServer</code> object to which incoming
-     * requests are sent.  This must be either the MBean server in
-     * which this connector is registered, or an
-     * <code>MBeanServerForwarder</code> leading to that server.  An
-     * <code>MBeanServerForwarder</code> <code>mbsf</code> leads to an
-     * MBean server <code>mbs</code> if
-     * <code>mbsf.getMBeanServer()</code> is either <code>mbs</code>
-     * or an <code>MBeanServerForwarder</code> leading to
+     * Set the <code>MBebnServer</code> object to which incoming
+     * requests bre sent.  This must be either the MBebn server in
+     * which this connector is registered, or bn
+     * <code>MBebnServerForwbrder</code> lebding to thbt server.  An
+     * <code>MBebnServerForwbrder</code> <code>mbsf</code> lebds to bn
+     * MBebn server <code>mbs</code> if
+     * <code>mbsf.getMBebnServer()</code> is either <code>mbs</code>
+     * or bn <code>MBebnServerForwbrder</code> lebding to
      * <code>mbs</code>.
      *
-     * @exception IllegalArgumentException if <code>newMBS</code> is neither
-     * the MBean server in which this connector is registered nor an
-     * <code>MBeanServerForwarder</code> leading to that server.
+     * @exception IllegblArgumentException if <code>newMBS</code> is neither
+     * the MBebn server in which this connector is registered nor bn
+     * <code>MBebnServerForwbrder</code> lebding to thbt server.
      *
-     * @exception IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @exception IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs ONLINE or STARTING.
      */
-    public synchronized void setMBeanServer(MBeanServer newMBS)
-            throws IllegalArgumentException, IllegalStateException {
-        synchronized (stateLock) {
-            if (state == ONLINE || state == STARTING)
-                throw new IllegalStateException("Stop server before " +
-                                                "carrying out this operation");
+    public synchronized void setMBebnServer(MBebnServer newMBS)
+            throws IllegblArgumentException, IllegblStbteException {
+        synchronized (stbteLock) {
+            if (stbte == ONLINE || stbte == STARTING)
+                throw new IllegblStbteException("Stop server before " +
+                                                "cbrrying out this operbtion");
         }
-        final String error =
-            "MBeanServer argument must be MBean server where this " +
-            "server is registered, or an MBeanServerForwarder " +
-            "leading to that server";
-        Vector<MBeanServer> seenMBS = new Vector<>();
-        for (MBeanServer mbs = newMBS;
+        finbl String error =
+            "MBebnServer brgument must be MBebn server where this " +
+            "server is registered, or bn MBebnServerForwbrder " +
+            "lebding to thbt server";
+        Vector<MBebnServer> seenMBS = new Vector<>();
+        for (MBebnServer mbs = newMBS;
              mbs != bottomMBS;
-             mbs = ((MBeanServerForwarder) mbs).getMBeanServer()) {
-            if (!(mbs instanceof MBeanServerForwarder))
-                throw new IllegalArgumentException(error);
-            if (seenMBS.contains(mbs))
-                throw new IllegalArgumentException("MBeanServerForwarder " +
+             mbs = ((MBebnServerForwbrder) mbs).getMBebnServer()) {
+            if (!(mbs instbnceof MBebnServerForwbrder))
+                throw new IllegblArgumentException(error);
+            if (seenMBS.contbins(mbs))
+                throw new IllegblArgumentException("MBebnServerForwbrder " +
                                                    "loop");
-            seenMBS.addElement(mbs);
+            seenMBS.bddElement(mbs);
         }
         topMBS = newMBS;
     }
 
     //
-    // To be called by the subclass if needed
+    // To be cblled by the subclbss if needed
     //
     /**
-     * For internal use only.
+     * For internbl use only.
      */
-    ObjectName getObjectName() {
-        return objectName ;
+    ObjectNbme getObjectNbme() {
+        return objectNbme ;
     }
 
     /**
-     * For internal use only.
+     * For internbl use only.
      */
-    void changeState(int newState) {
-        int oldState;
-        synchronized (stateLock) {
-            if (state == newState)
+    void chbngeStbte(int newStbte) {
+        int oldStbte;
+        synchronized (stbteLock) {
+            if (stbte == newStbte)
                 return;
-            oldState = state;
-            state = newState;
-            stateLock.notifyAll();
+            oldStbte = stbte;
+            stbte = newStbte;
+            stbteLock.notifyAll();
         }
-        sendStateChangeNotification(oldState, newState);
+        sendStbteChbngeNotificbtion(oldStbte, newStbte);
     }
 
     /**
-     * Returns the string used in debug traces.
+     * Returns the string used in debug trbces.
      */
-    String makeDebugTag() {
-        return "CommunicatorServer["+ getProtocol() + ":" + getPort() + "]" ;
+    String mbkeDebugTbg() {
+        return "CommunicbtorServer["+ getProtocol() + ":" + getPort() + "]" ;
     }
 
     /**
-     * Returns the string used to name the connector thread.
+     * Returns the string used to nbme the connector threbd.
      */
-    String makeThreadName() {
+    String mbkeThrebdNbme() {
         String result ;
 
-        if (objectName == null)
-            result = "CommunicatorServer" ;
+        if (objectNbme == null)
+            result = "CommunicbtorServer" ;
         else
-            result = objectName.toString() ;
+            result = objectNbme.toString() ;
 
         return result ;
     }
 
     /**
-     * This method blocks if there are too many active clients.
-     * Call to <CODE>wait()</CODE> is terminated when a client handler
-     * thread calls <CODE>notifyClientHandlerDeleted(this)</CODE> ;
+     * This method blocks if there bre too mbny bctive clients.
+     * Cbll to <CODE>wbit()</CODE> is terminbted when b client hbndler
+     * threbd cblls <CODE>notifyClientHbndlerDeleted(this)</CODE> ;
      */
-    private synchronized void waitIfTooManyClients()
+    privbte synchronized void wbitIfTooMbnyClients()
         throws InterruptedException {
-        while (getActiveClientCount() >= maxActiveClientCount) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitIfTooManyClients","Waiting for a client to terminate");
+        while (getActiveClientCount() >= mbxActiveClientCount) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "wbitIfTooMbnyClients","Wbiting for b client to terminbte");
             }
-            wait();
+            wbit();
         }
     }
 
     /**
-     * This method blocks until there is no more active client.
+     * This method blocks until there is no more bctive client.
      */
-    private void waitClientTermination() {
-        int s = clientHandlerVector.size() ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+    privbte void wbitClientTerminbtion() {
+        int s = clientHbndlerVector.size() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "waitClientTermination","waiting for " +
-                      s + " clients to terminate");
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                "wbitClientTerminbtion","wbiting for " +
+                      s + " clients to terminbte");
             }
         }
 
-        // The ClientHandler will remove themselves from the
-        // clientHandlerVector at the end of their run() method, by
-        // calling notifyClientHandlerDeleted().
-        // Since the clientHandlerVector is modified by the ClientHandler
-        // threads we must avoid using Enumeration or Iterator to loop
-        // over this array. We must also take care of NoSuchElementException
-        // which could be thrown if the last ClientHandler removes itself
-        // between the call to clientHandlerVector.isEmpty() and the call
-        // to clientHandlerVector.firstElement().
-        // What we *MUST NOT DO* is locking the clientHandlerVector, because
-        // this would most probably cause a deadlock.
+        // The ClientHbndler will remove themselves from the
+        // clientHbndlerVector bt the end of their run() method, by
+        // cblling notifyClientHbndlerDeleted().
+        // Since the clientHbndlerVector is modified by the ClientHbndler
+        // threbds we must bvoid using Enumerbtion or Iterbtor to loop
+        // over this brrby. We must blso tbke cbre of NoSuchElementException
+        // which could be thrown if the lbst ClientHbndler removes itself
+        // between the cbll to clientHbndlerVector.isEmpty() bnd the cbll
+        // to clientHbndlerVector.firstElement().
+        // Whbt we *MUST NOT DO* is locking the clientHbndlerVector, becbuse
+        // this would most probbbly cbuse b debdlock.
         //
-        while (! clientHandlerVector.isEmpty()) {
+        while (! clientHbndlerVector.isEmpty()) {
             try {
-                clientHandlerVector.firstElement().join();
-            } catch (NoSuchElementException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "waitClientTermination","No elements left",  x);
+                clientHbndlerVector.firstElement().join();
+            } cbtch (NoSuchElementException x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                        "wbitClientTerminbtion","No elements left",  x);
                 }
             }
         }
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "waitClientTermination","Ok, let's go...");
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "wbitClientTerminbtion","Ok, let's go...");
             }
         }
     }
 
     /**
-     * Call <CODE>interrupt()</CODE> on each pending client.
+     * Cbll <CODE>interrupt()</CODE> on ebch pending client.
      */
-    private void terminateAllClient() {
-        final int s = clientHandlerVector.size() ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
+    privbte void terminbteAllClient() {
+        finbl int s = clientHbndlerVector.size() ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
             if (s >= 1) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "terminateAllClient","Interrupting " + s + " clients");
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                    "terminbteAllClient","Interrupting " + s + " clients");
             }
         }
 
-        // The ClientHandler will remove themselves from the
-        // clientHandlerVector at the end of their run() method, by
-        // calling notifyClientHandlerDeleted().
-        // Since the clientHandlerVector is modified by the ClientHandler
-        // threads we must avoid using Enumeration or Iterator to loop
-        // over this array.
-        // We cannot use the same logic here than in waitClientTermination()
-        // because there is no guarantee that calling interrupt() on the
-        // ClientHandler will actually terminate the ClientHandler.
-        // Since we do not want to wait for the actual ClientHandler
-        // termination, we cannot simply loop over the array until it is
-        // empty (this might result in calling interrupt() endlessly on
-        // the same client handler. So what we do is simply take a snapshot
-        // copy of the vector and loop over the copy.
-        // What we *MUST NOT DO* is locking the clientHandlerVector, because
-        // this would most probably cause a deadlock.
+        // The ClientHbndler will remove themselves from the
+        // clientHbndlerVector bt the end of their run() method, by
+        // cblling notifyClientHbndlerDeleted().
+        // Since the clientHbndlerVector is modified by the ClientHbndler
+        // threbds we must bvoid using Enumerbtion or Iterbtor to loop
+        // over this brrby.
+        // We cbnnot use the sbme logic here thbn in wbitClientTerminbtion()
+        // becbuse there is no gubrbntee thbt cblling interrupt() on the
+        // ClientHbndler will bctublly terminbte the ClientHbndler.
+        // Since we do not wbnt to wbit for the bctubl ClientHbndler
+        // terminbtion, we cbnnot simply loop over the brrby until it is
+        // empty (this might result in cblling interrupt() endlessly on
+        // the sbme client hbndler. So whbt we do is simply tbke b snbpshot
+        // copy of the vector bnd loop over the copy.
+        // Whbt we *MUST NOT DO* is locking the clientHbndlerVector, becbuse
+        // this would most probbbly cbuse b debdlock.
         //
-        final  ClientHandler[] handlers =
-                clientHandlerVector.toArray(new ClientHandler[0]);
-         for (ClientHandler h : handlers) {
+        finbl  ClientHbndler[] hbndlers =
+                clientHbndlerVector.toArrby(new ClientHbndler[0]);
+         for (ClientHbndler h : hbndlers) {
              try {
                  h.interrupt() ;
-             } catch (Exception x) {
-                 if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                     SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                             "terminateAllClient",
-                             "Failed to interrupt pending request. " +
+             } cbtch (Exception x) {
+                 if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                     SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTbg,
+                             "terminbteAllClient",
+                             "Fbiled to interrupt pending request. " +
                              "Ignore the exception.", x);
                  }
             }
@@ -1143,109 +1143,109 @@ public abstract class CommunicatorServer
     }
 
     /**
-     * Controls the way the CommunicatorServer service is deserialized.
+     * Controls the wby the CommunicbtorServer service is deseriblized.
      */
-    private void readObject(ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm strebm)
+        throws IOException, ClbssNotFoundException {
 
-        // Call the default deserialization of the object.
+        // Cbll the defbult deseriblizbtion of the object.
         //
-        stream.defaultReadObject();
+        strebm.defbultRebdObject();
 
-        // Call the specific initialization for the CommunicatorServer service.
-        // This is for transient structures to be initialized to specific
-        // default values.
+        // Cbll the specific initiblizbtion for the CommunicbtorServer service.
+        // This is for trbnsient structures to be initiblized to specific
+        // defbult vblues.
         //
-        stateLock = new Object();
-        state = OFFLINE;
-        stopRequested = false;
+        stbteLock = new Object();
+        stbte = OFFLINE;
+        stopRequested = fblse;
         servedClientCount = 0;
-        clientHandlerVector = new Vector<>();
-        mainThread = null;
+        clientHbndlerVector = new Vector<>();
+        mbinThrebd = null;
         notifCount = 0;
         notifInfos = null;
-        notifBroadcaster = new NotificationBroadcasterSupport();
-        dbgTag = makeDebugTag();
+        notifBrobdcbster = new NotificbtionBrobdcbsterSupport();
+        dbgTbg = mbkeDebugTbg();
     }
 
 
     //
-    // NotificationBroadcaster
+    // NotificbtionBrobdcbster
     //
 
     /**
-     * Adds a listener for the notifications emitted by this
-     * CommunicatorServer.
-     * There is only one type of notifications sent by the CommunicatorServer:
-     * they are <tt>{@link javax.management.AttributeChangeNotification}</tt>,
-     * sent when the <tt>State</tt> attribute of this CommunicatorServer
-     * changes.
+     * Adds b listener for the notificbtions emitted by this
+     * CommunicbtorServer.
+     * There is only one type of notificbtions sent by the CommunicbtorServer:
+     * they bre <tt>{@link jbvbx.mbnbgement.AttributeChbngeNotificbtion}</tt>,
+     * sent when the <tt>Stbte</tt> bttribute of this CommunicbtorServer
+     * chbnges.
      *
-     * @param listener The listener object which will handle the emitted
-     *        notifications.
-     * @param filter The filter object. If filter is null, no filtering
-     *        will be performed before handling notifications.
-     * @param handback An object which will be sent back unchanged to the
-     *        listener when a notification is emitted.
+     * @pbrbm listener The listener object which will hbndle the emitted
+     *        notificbtions.
+     * @pbrbm filter The filter object. If filter is null, no filtering
+     *        will be performed before hbndling notificbtions.
+     * @pbrbm hbndbbck An object which will be sent bbck unchbnged to the
+     *        listener when b notificbtion is emitted.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @exception IllegblArgumentException Listener pbrbmeter is null.
      */
     @Override
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-        throws java.lang.IllegalArgumentException {
+    public void bddNotificbtionListener(NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+        throws jbvb.lbng.IllegblArgumentException {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "addNotificationListener","Adding listener "+ listener +
-                  " with filter "+ filter + " and handback "+ handback);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
+                "bddNotificbtionListener","Adding listener "+ listener +
+                  " with filter "+ filter + " bnd hbndbbck "+ hbndbbck);
         }
-        notifBroadcaster.addNotificationListener(listener, filter, handback);
+        notifBrobdcbster.bddNotificbtionListener(listener, filter, hbndbbck);
     }
 
     /**
-     * Removes the specified listener from this CommunicatorServer.
-     * Note that if the listener has been registered with different
-     * handback objects or notification filters, all entries corresponding
+     * Removes the specified listener from this CommunicbtorServer.
+     * Note thbt if the listener hbs been registered with different
+     * hbndbbck objects or notificbtion filters, bll entries corresponding
      * to the listener will be removed.
      *
-     * @param listener The listener object to be removed.
+     * @pbrbm listener The listener object to be removed.
      *
      * @exception ListenerNotFoundException The listener is not registered.
      */
     @Override
-    public void removeNotificationListener(NotificationListener listener)
+    public void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "removeNotificationListener","Removing listener "+ listener);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
+                "removeNotificbtionListener","Removing listener "+ listener);
         }
-        notifBroadcaster.removeNotificationListener(listener);
+        notifBrobdcbster.removeNotificbtionListener(listener);
     }
 
     /**
-     * Returns an array of MBeanNotificationInfo objects describing
-     * the notification types sent by this CommunicatorServer.
-     * There is only one type of notifications sent by the CommunicatorServer:
-     * it is <tt>{@link javax.management.AttributeChangeNotification}</tt>,
-     * sent when the <tt>State</tt> attribute of this CommunicatorServer
-     * changes.
+     * Returns bn brrby of MBebnNotificbtionInfo objects describing
+     * the notificbtion types sent by this CommunicbtorServer.
+     * There is only one type of notificbtions sent by the CommunicbtorServer:
+     * it is <tt>{@link jbvbx.mbnbgement.AttributeChbngeNotificbtion}</tt>,
+     * sent when the <tt>Stbte</tt> bttribute of this CommunicbtorServer
+     * chbnges.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
 
-        // Initialize notifInfos on first call to getNotificationInfo()
+        // Initiblize notifInfos on first cbll to getNotificbtionInfo()
         //
         if (notifInfos == null) {
-            notifInfos = new MBeanNotificationInfo[1];
+            notifInfos = new MBebnNotificbtionInfo[1];
             String[] notifTypes = {
-                AttributeChangeNotification.ATTRIBUTE_CHANGE};
-            notifInfos[0] = new MBeanNotificationInfo( notifTypes,
-                     AttributeChangeNotification.class.getName(),
-                     "Sent to notify that the value of the State attribute "+
-                     "of this CommunicatorServer instance has changed.");
+                AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE};
+            notifInfos[0] = new MBebnNotificbtionInfo( notifTypes,
+                     AttributeChbngeNotificbtion.clbss.getNbme(),
+                     "Sent to notify thbt the vblue of the Stbte bttribute "+
+                     "of this CommunicbtorServer instbnce hbs chbnged.");
         }
 
         return notifInfos.clone();
@@ -1254,90 +1254,90 @@ public abstract class CommunicatorServer
     /**
      *
      */
-    private void sendStateChangeNotification(int oldState, int newState) {
+    privbte void sendStbteChbngeNotificbtion(int oldStbte, int newStbte) {
 
-        String oldStateString = getStringForState(oldState);
-        String newStateString = getStringForState(newState);
-        String message = new StringBuffer().append(dbgTag)
-            .append(" The value of attribute State has changed from ")
-            .append(oldState).append(" (").append(oldStateString)
-            .append(") to ").append(newState).append(" (")
-            .append(newStateString).append(").").toString();
+        String oldStbteString = getStringForStbte(oldStbte);
+        String newStbteString = getStringForStbte(newStbte);
+        String messbge = new StringBuffer().bppend(dbgTbg)
+            .bppend(" The vblue of bttribute Stbte hbs chbnged from ")
+            .bppend(oldStbte).bppend(" (").bppend(oldStbteString)
+            .bppend(") to ").bppend(newStbte).bppend(" (")
+            .bppend(newStbteString).bppend(").").toString();
 
         notifCount++;
-        AttributeChangeNotification notif =
-            new AttributeChangeNotification(this,    // source
+        AttributeChbngeNotificbtion notif =
+            new AttributeChbngeNotificbtion(this,    // source
                          notifCount,                 // sequence number
-                         System.currentTimeMillis(), // time stamp
-                         message,                    // message
-                         "State",                    // attribute name
-                         "int",                      // attribute type
-                         oldState,                   // old value
-                         newState );                 // new value
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                "sendStateChangeNotification","Sending AttributeChangeNotification #"
-                    + notifCount + " with message: "+ message);
+                         System.currentTimeMillis(), // time stbmp
+                         messbge,                    // messbge
+                         "Stbte",                    // bttribute nbme
+                         "int",                      // bttribute type
+                         oldStbte,                   // old vblue
+                         newStbte );                 // new vblue
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTbg,
+                "sendStbteChbngeNotificbtion","Sending AttributeChbngeNotificbtion #"
+                    + notifCount + " with messbge: "+ messbge);
         }
-        notifBroadcaster.sendNotification(notif);
+        notifBrobdcbster.sendNotificbtion(notif);
     }
 
     /**
      *
      */
-    private static String getStringForState(int s) {
+    privbte stbtic String getStringForStbte(int s) {
         switch (s) {
-        case ONLINE:   return "ONLINE";
-        case STARTING: return "STARTING";
-        case OFFLINE:  return "OFFLINE";
-        case STOPPING: return "STOPPING";
-        default:       return "UNDEFINED";
+        cbse ONLINE:   return "ONLINE";
+        cbse STARTING: return "STARTING";
+        cbse OFFLINE:  return "OFFLINE";
+        cbse STOPPING: return "STOPPING";
+        defbult:       return "UNDEFINED";
         }
     }
 
 
     //
-    // MBeanRegistration
+    // MBebnRegistrbtion
     //
 
     /**
      * Preregister method of connector.
      *
-     *@param server The <CODE>MBeanServer</CODE> in which the MBean will
+     *@pbrbm server The <CODE>MBebnServer</CODE> in which the MBebn will
      *       be registered.
-     *@param name The object name of the MBean.
+     *@pbrbm nbme The object nbme of the MBebn.
      *
-     *@return  The name of the MBean registered.
+     *@return  The nbme of the MBebn registered.
      *
-     *@exception java.langException This exception should be caught by
-     *           the <CODE>MBeanServer</CODE> and re-thrown
-     *           as an <CODE>MBeanRegistrationException</CODE>.
+     *@exception jbvb.lbngException This exception should be cbught by
+     *           the <CODE>MBebnServer</CODE> bnd re-thrown
+     *           bs bn <CODE>MBebnRegistrbtionException</CODE>.
      */
     @Override
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-            throws java.lang.Exception {
-        objectName = name;
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
+            throws jbvb.lbng.Exception {
+        objectNbme = nbme;
         synchronized (this) {
             if (bottomMBS != null) {
-                throw new IllegalArgumentException("connector already " +
-                                                   "registered in an MBean " +
+                throw new IllegblArgumentException("connector blrebdy " +
+                                                   "registered in bn MBebn " +
                                                    "server");
             }
             topMBS = bottomMBS = server;
         }
-        dbgTag = makeDebugTag();
-        return name;
+        dbgTbg = mbkeDebugTbg();
+        return nbme;
     }
 
     /**
      *
-     *@param registrationDone Indicates whether or not the MBean has been
-     *       successfully registered in the <CODE>MBeanServer</CODE>.
-     *       The value false means that the registration phase has failed.
+     *@pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs been
+     *       successfully registered in the <CODE>MBebnServer</CODE>.
+     *       The vblue fblse mebns thbt the registrbtion phbse hbs fbiled.
      */
     @Override
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone.booleanValue()) {
+    public void postRegister(Boolebn registrbtionDone) {
+        if (!registrbtionDone.boolebnVblue()) {
             synchronized (this) {
                 topMBS = bottomMBS = null;
             }
@@ -1347,18 +1347,18 @@ public abstract class CommunicatorServer
     /**
      * Stop the connector.
      *
-     * @exception java.langException This exception should be caught by
-     *            the <CODE>MBeanServer</CODE> and re-thrown
-     *            as an <CODE>MBeanRegistrationException</CODE>.
+     * @exception jbvb.lbngException This exception should be cbught by
+     *            the <CODE>MBebnServer</CODE> bnd re-thrown
+     *            bs bn <CODE>MBebnRegistrbtionException</CODE>.
      */
     @Override
-    public void preDeregister() throws java.lang.Exception {
+    public void preDeregister() throws jbvb.lbng.Exception {
         synchronized (this) {
             topMBS = bottomMBS = null;
         }
-        objectName = null ;
-        final int cstate = getState();
-        if ((cstate == ONLINE) || ( cstate == STARTING)) {
+        objectNbme = null ;
+        finbl int cstbte = getStbte();
+        if ((cstbte == ONLINE) || ( cstbte == STARTING)) {
             stop() ;
         }
     }

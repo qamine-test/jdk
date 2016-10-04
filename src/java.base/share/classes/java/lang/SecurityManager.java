@@ -1,579 +1,579 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.security.*;
-import java.io.FileDescriptor;
-import java.io.File;
-import java.io.FilePermission;
-import java.util.PropertyPermission;
-import java.lang.RuntimePermission;
-import java.net.SocketPermission;
-import java.net.NetPermission;
-import java.util.Hashtable;
-import java.net.InetAddress;
-import java.lang.reflect.*;
-import java.net.URL;
+import jbvb.security.*;
+import jbvb.io.FileDescriptor;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.util.PropertyPermission;
+import jbvb.lbng.RuntimePermission;
+import jbvb.net.SocketPermission;
+import jbvb.net.NetPermission;
+import jbvb.util.Hbshtbble;
+import jbvb.net.InetAddress;
+import jbvb.lbng.reflect.*;
+import jbvb.net.URL;
 
-import sun.reflect.CallerSensitive;
-import sun.security.util.SecurityConstants;
+import sun.reflect.CbllerSensitive;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * The security manager is a class that allows
- * applications to implement a security policy. It allows an
- * application to determine, before performing a possibly unsafe or
- * sensitive operation, what the operation is and whether
- * it is being attempted in a security context that allows the
- * operation to be performed. The
- * application can allow or disallow the operation.
+ * The security mbnbger is b clbss thbt bllows
+ * bpplicbtions to implement b security policy. It bllows bn
+ * bpplicbtion to determine, before performing b possibly unsbfe or
+ * sensitive operbtion, whbt the operbtion is bnd whether
+ * it is being bttempted in b security context thbt bllows the
+ * operbtion to be performed. The
+ * bpplicbtion cbn bllow or disbllow the operbtion.
  * <p>
- * The <code>SecurityManager</code> class contains many methods with
- * names that begin with the word <code>check</code>. These methods
- * are called by various methods in the Java libraries before those
- * methods perform certain potentially sensitive operations. The
- * invocation of such a <code>check</code> method typically looks like this:
+ * The <code>SecurityMbnbger</code> clbss contbins mbny methods with
+ * nbmes thbt begin with the word <code>check</code>. These methods
+ * bre cblled by vbrious methods in the Jbvb librbries before those
+ * methods perform certbin potentiblly sensitive operbtions. The
+ * invocbtion of such b <code>check</code> method typicblly looks like this:
  * <blockquote><pre>
- *     SecurityManager security = System.getSecurityManager();
+ *     SecurityMbnbger security = System.getSecurityMbnbger();
  *     if (security != null) {
- *         security.check<i>XXX</i>(argument, &nbsp;.&nbsp;.&nbsp;.&nbsp;);
+ *         security.check<i>XXX</i>(brgument, &nbsp;.&nbsp;.&nbsp;.&nbsp;);
  *     }
  * </pre></blockquote>
  * <p>
- * The security manager is thereby given an opportunity to prevent
- * completion of the operation by throwing an exception. A security
- * manager routine simply returns if the operation is permitted, but
- * throws a <code>SecurityException</code> if the operation is not
+ * The security mbnbger is thereby given bn opportunity to prevent
+ * completion of the operbtion by throwing bn exception. A security
+ * mbnbger routine simply returns if the operbtion is permitted, but
+ * throws b <code>SecurityException</code> if the operbtion is not
  * permitted.
  * <p>
- * The current security manager is set by the
- * <code>setSecurityManager</code> method in class
- * <code>System</code>. The current security manager is obtained
- * by the <code>getSecurityManager</code> method.
+ * The current security mbnbger is set by the
+ * <code>setSecurityMbnbger</code> method in clbss
+ * <code>System</code>. The current security mbnbger is obtbined
+ * by the <code>getSecurityMbnbger</code> method.
  * <p>
- * The special method
- * {@link SecurityManager#checkPermission(java.security.Permission)}
- * determines whether an access request indicated by a specified
- * permission should be granted or denied. The
- * default implementation calls
+ * The specibl method
+ * {@link SecurityMbnbger#checkPermission(jbvb.security.Permission)}
+ * determines whether bn bccess request indicbted by b specified
+ * permission should be grbnted or denied. The
+ * defbult implementbtion cblls
  *
  * <pre>
  *   AccessController.checkPermission(perm);
  * </pre>
  *
  * <p>
- * If a requested access is allowed,
- * <code>checkPermission</code> returns quietly. If denied, a
+ * If b requested bccess is bllowed,
+ * <code>checkPermission</code> returns quietly. If denied, b
  * <code>SecurityException</code> is thrown.
  * <p>
- * As of Java 2 SDK v1.2, the default implementation of each of the other
- * <code>check</code> methods in <code>SecurityManager</code> is to
- * call the <code>SecurityManager checkPermission</code> method
- * to determine if the calling thread has permission to perform the requested
- * operation.
+ * As of Jbvb 2 SDK v1.2, the defbult implementbtion of ebch of the other
+ * <code>check</code> methods in <code>SecurityMbnbger</code> is to
+ * cbll the <code>SecurityMbnbger checkPermission</code> method
+ * to determine if the cblling threbd hbs permission to perform the requested
+ * operbtion.
  * <p>
- * Note that the <code>checkPermission</code> method with
- * just a single permission argument always performs security checks
- * within the context of the currently executing thread.
- * Sometimes a security check that should be made within a given context
- * will actually need to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
- * The {@link SecurityManager#getSecurityContext getSecurityContext} method
- * and the {@link SecurityManager#checkPermission(java.security.Permission,
- * java.lang.Object) checkPermission}
- * method that includes a context argument are provided
- * for this situation. The
- * <code>getSecurityContext</code> method returns a "snapshot"
- * of the current calling context. (The default implementation
- * returns an AccessControlContext object.) A sample call is
+ * Note thbt the <code>checkPermission</code> method with
+ * just b single permission brgument blwbys performs security checks
+ * within the context of the currently executing threbd.
+ * Sometimes b security check thbt should be mbde within b given context
+ * will bctublly need to be done from within b
+ * <i>different</i> context (for exbmple, from within b worker threbd).
+ * The {@link SecurityMbnbger#getSecurityContext getSecurityContext} method
+ * bnd the {@link SecurityMbnbger#checkPermission(jbvb.security.Permission,
+ * jbvb.lbng.Object) checkPermission}
+ * method thbt includes b context brgument bre provided
+ * for this situbtion. The
+ * <code>getSecurityContext</code> method returns b "snbpshot"
+ * of the current cblling context. (The defbult implementbtion
+ * returns bn AccessControlContext object.) A sbmple cbll is
  * the following:
  *
  * <pre>
  *   Object context = null;
- *   SecurityManager sm = System.getSecurityManager();
+ *   SecurityMbnbger sm = System.getSecurityMbnbger();
  *   if (sm != null) context = sm.getSecurityContext();
  * </pre>
  *
  * <p>
  * The <code>checkPermission</code> method
- * that takes a context object in addition to a permission
- * makes access decisions based on that context,
- * rather than on that of the current execution thread.
- * Code within a different context can thus call that method,
- * passing the permission and the
- * previously-saved context object. A sample call, using the
- * SecurityManager <code>sm</code> obtained as in the previous example,
+ * thbt tbkes b context object in bddition to b permission
+ * mbkes bccess decisions bbsed on thbt context,
+ * rbther thbn on thbt of the current execution threbd.
+ * Code within b different context cbn thus cbll thbt method,
+ * pbssing the permission bnd the
+ * previously-sbved context object. A sbmple cbll, using the
+ * SecurityMbnbger <code>sm</code> obtbined bs in the previous exbmple,
  * is the following:
  *
  * <pre>
  *   if (sm != null) sm.checkPermission(permission, context);
  * </pre>
  *
- * <p>Permissions fall into these categories: File, Socket, Net,
- * Security, Runtime, Property, AWT, Reflect, and Serializable.
- * The classes managing these various
- * permission categories are <code>java.io.FilePermission</code>,
- * <code>java.net.SocketPermission</code>,
- * <code>java.net.NetPermission</code>,
- * <code>java.security.SecurityPermission</code>,
- * <code>java.lang.RuntimePermission</code>,
- * <code>java.util.PropertyPermission</code>,
- * <code>java.awt.AWTPermission</code>,
- * <code>java.lang.reflect.ReflectPermission</code>, and
- * <code>java.io.SerializablePermission</code>.
+ * <p>Permissions fbll into these cbtegories: File, Socket, Net,
+ * Security, Runtime, Property, AWT, Reflect, bnd Seriblizbble.
+ * The clbsses mbnbging these vbrious
+ * permission cbtegories bre <code>jbvb.io.FilePermission</code>,
+ * <code>jbvb.net.SocketPermission</code>,
+ * <code>jbvb.net.NetPermission</code>,
+ * <code>jbvb.security.SecurityPermission</code>,
+ * <code>jbvb.lbng.RuntimePermission</code>,
+ * <code>jbvb.util.PropertyPermission</code>,
+ * <code>jbvb.bwt.AWTPermission</code>,
+ * <code>jbvb.lbng.reflect.ReflectPermission</code>, bnd
+ * <code>jbvb.io.SeriblizbblePermission</code>.
  *
- * <p>All but the first two (FilePermission and SocketPermission) are
- * subclasses of <code>java.security.BasicPermission</code>, which itself
- * is an abstract subclass of the
- * top-level class for permissions, which is
- * <code>java.security.Permission</code>. BasicPermission defines the
- * functionality needed for all permissions that contain a name
- * that follows the hierarchical property naming convention
- * (for example, "exitVM", "setFactory", "queuePrintJob", etc).
- * An asterisk
- * may appear at the end of the name, following a ".", or by itself, to
- * signify a wildcard match. For example: "a.*" or "*" is valid,
- * "*a" or "a*b" is not valid.
+ * <p>All but the first two (FilePermission bnd SocketPermission) bre
+ * subclbsses of <code>jbvb.security.BbsicPermission</code>, which itself
+ * is bn bbstrbct subclbss of the
+ * top-level clbss for permissions, which is
+ * <code>jbvb.security.Permission</code>. BbsicPermission defines the
+ * functionblity needed for bll permissions thbt contbin b nbme
+ * thbt follows the hierbrchicbl property nbming convention
+ * (for exbmple, "exitVM", "setFbctory", "queuePrintJob", etc).
+ * An bsterisk
+ * mby bppebr bt the end of the nbme, following b ".", or by itself, to
+ * signify b wildcbrd mbtch. For exbmple: "b.*" or "*" is vblid,
+ * "*b" or "b*b" is not vblid.
  *
- * <p>FilePermission and SocketPermission are subclasses of the
- * top-level class for permissions
- * (<code>java.security.Permission</code>). Classes like these
- * that have a more complicated name syntax than that used by
- * BasicPermission subclass directly from Permission rather than from
- * BasicPermission. For example,
- * for a <code>java.io.FilePermission</code> object, the permission name is
- * the path name of a file (or directory).
+ * <p>FilePermission bnd SocketPermission bre subclbsses of the
+ * top-level clbss for permissions
+ * (<code>jbvb.security.Permission</code>). Clbsses like these
+ * thbt hbve b more complicbted nbme syntbx thbn thbt used by
+ * BbsicPermission subclbss directly from Permission rbther thbn from
+ * BbsicPermission. For exbmple,
+ * for b <code>jbvb.io.FilePermission</code> object, the permission nbme is
+ * the pbth nbme of b file (or directory).
  *
- * <p>Some of the permission classes have an "actions" list that tells
- * the actions that are permitted for the object.  For example,
- * for a <code>java.io.FilePermission</code> object, the actions list
- * (such as "read, write") specifies which actions are granted for the
+ * <p>Some of the permission clbsses hbve bn "bctions" list thbt tells
+ * the bctions thbt bre permitted for the object.  For exbmple,
+ * for b <code>jbvb.io.FilePermission</code> object, the bctions list
+ * (such bs "rebd, write") specifies which bctions bre grbnted for the
  * specified file (or for files in the specified directory).
  *
- * <p>Other permission classes are for "named" permissions -
- * ones that contain a name but no actions list; you either have the
- * named permission or you don't.
+ * <p>Other permission clbsses bre for "nbmed" permissions -
+ * ones thbt contbin b nbme but no bctions list; you either hbve the
+ * nbmed permission or you don't.
  *
- * <p>Note: There is also a <code>java.security.AllPermission</code>
- * permission that implies all permissions. It exists to simplify the work
- * of system administrators who might need to perform multiple
- * tasks that require all (or numerous) permissions.
+ * <p>Note: There is blso b <code>jbvb.security.AllPermission</code>
+ * permission thbt implies bll permissions. It exists to simplify the work
+ * of system bdministrbtors who might need to perform multiple
+ * tbsks thbt require bll (or numerous) permissions.
  * <p>
- * See <a href ="../../../technotes/guides/security/permissions.html">
- * Permissions in the JDK</a> for permission-related information.
- * This document includes, for example, a table listing the various SecurityManager
- * <code>check</code> methods and the permission(s) the default
- * implementation of each such method requires.
- * It also contains a table of all the version 1.2 methods
- * that require permissions, and for each such method tells
+ * See <b href ="../../../technotes/guides/security/permissions.html">
+ * Permissions in the JDK</b> for permission-relbted informbtion.
+ * This document includes, for exbmple, b tbble listing the vbrious SecurityMbnbger
+ * <code>check</code> methods bnd the permission(s) the defbult
+ * implementbtion of ebch such method requires.
+ * It blso contbins b tbble of bll the version 1.2 methods
+ * thbt require permissions, bnd for ebch such method tells
  * which permission it requires.
  * <p>
- * For more information about <code>SecurityManager</code> changes made in
- * the JDK and advice regarding porting of 1.1-style security managers,
- * see the <a href="../../../technotes/guides/security/index.html">security documentation</a>.
+ * For more informbtion bbout <code>SecurityMbnbger</code> chbnges mbde in
+ * the JDK bnd bdvice regbrding porting of 1.1-style security mbnbgers,
+ * see the <b href="../../../technotes/guides/security/index.html">security documentbtion</b>.
  *
- * @author  Arthur van Hoff
- * @author  Roland Schemers
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Rolbnd Schemers
  *
- * @see     java.lang.ClassLoader
- * @see     java.lang.SecurityException
- * @see     java.lang.System#getSecurityManager() getSecurityManager
- * @see     java.lang.System#setSecurityManager(java.lang.SecurityManager)
- *  setSecurityManager
- * @see     java.security.AccessController AccessController
- * @see     java.security.AccessControlContext AccessControlContext
- * @see     java.security.AccessControlException AccessControlException
- * @see     java.security.Permission
- * @see     java.security.BasicPermission
- * @see     java.io.FilePermission
- * @see     java.net.SocketPermission
- * @see     java.util.PropertyPermission
- * @see     java.lang.RuntimePermission
- * @see     java.awt.AWTPermission
- * @see     java.security.Policy Policy
- * @see     java.security.SecurityPermission SecurityPermission
- * @see     java.security.ProtectionDomain
+ * @see     jbvb.lbng.ClbssLobder
+ * @see     jbvb.lbng.SecurityException
+ * @see     jbvb.lbng.System#getSecurityMbnbger() getSecurityMbnbger
+ * @see     jbvb.lbng.System#setSecurityMbnbger(jbvb.lbng.SecurityMbnbger)
+ *  setSecurityMbnbger
+ * @see     jbvb.security.AccessController AccessController
+ * @see     jbvb.security.AccessControlContext AccessControlContext
+ * @see     jbvb.security.AccessControlException AccessControlException
+ * @see     jbvb.security.Permission
+ * @see     jbvb.security.BbsicPermission
+ * @see     jbvb.io.FilePermission
+ * @see     jbvb.net.SocketPermission
+ * @see     jbvb.util.PropertyPermission
+ * @see     jbvb.lbng.RuntimePermission
+ * @see     jbvb.bwt.AWTPermission
+ * @see     jbvb.security.Policy Policy
+ * @see     jbvb.security.SecurityPermission SecurityPermission
+ * @see     jbvb.security.ProtectionDombin
  *
  * @since   1.0
  */
 public
-class SecurityManager {
+clbss SecurityMbnbger {
 
     /**
-     * This field is <code>true</code> if there is a security check in
-     * progress; <code>false</code> otherwise.
+     * This field is <code>true</code> if there is b security check in
+     * progress; <code>fblse</code> otherwise.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      */
-    @Deprecated
-    protected boolean inCheck;
+    @Deprecbted
+    protected boolebn inCheck;
 
     /*
-     * Have we been initialized. Effective against finalizer attacks.
+     * Hbve we been initiblized. Effective bgbinst finblizer bttbcks.
      */
-    private boolean initialized = false;
+    privbte boolebn initiblized = fblse;
 
 
     /**
-     * returns true if the current context has been granted AllPermission
+     * returns true if the current context hbs been grbnted AllPermission
      */
-    private boolean hasAllPermission() {
+    privbte boolebn hbsAllPermission() {
         try {
-            checkPermission(SecurityConstants.ALL_PERMISSION);
+            checkPermission(SecurityConstbnts.ALL_PERMISSION);
             return true;
-        } catch (SecurityException se) {
-            return false;
+        } cbtch (SecurityException se) {
+            return fblse;
         }
     }
 
     /**
-     * Tests if there is a security check in progress.
+     * Tests if there is b security check in progress.
      *
-     * @return the value of the <code>inCheck</code> field. This field
-     *          should contain <code>true</code> if a security check is
+     * @return the vblue of the <code>inCheck</code> field. This field
+     *          should contbin <code>true</code> if b security check is
      *          in progress,
-     *          <code>false</code> otherwise.
-     * @see     java.lang.SecurityManager#inCheck
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     *          <code>fblse</code> otherwise.
+     * @see     jbvb.lbng.SecurityMbnbger#inCheck
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      */
-    @Deprecated
-    public boolean getInCheck() {
+    @Deprecbted
+    public boolebn getInCheck() {
         return inCheck;
     }
 
     /**
-     * Constructs a new <code>SecurityManager</code>.
+     * Constructs b new <code>SecurityMbnbger</code>.
      *
-     * <p> If there is a security manager already installed, this method first
-     * calls the security manager's <code>checkPermission</code> method
-     * with the <code>RuntimePermission("createSecurityManager")</code>
-     * permission to ensure the calling thread has permission to create a new
-     * security manager.
-     * This may result in throwing a <code>SecurityException</code>.
+     * <p> If there is b security mbnbger blrebdy instblled, this method first
+     * cblls the security mbnbger's <code>checkPermission</code> method
+     * with the <code>RuntimePermission("crebteSecurityMbnbger")</code>
+     * permission to ensure the cblling threbd hbs permission to crebte b new
+     * security mbnbger.
+     * This mby result in throwing b <code>SecurityException</code>.
      *
-     * @exception  java.lang.SecurityException if a security manager already
-     *             exists and its <code>checkPermission</code> method
-     *             doesn't allow creation of a new security manager.
-     * @see        java.lang.System#getSecurityManager()
-     * @see        #checkPermission(java.security.Permission) checkPermission
-     * @see java.lang.RuntimePermission
+     * @exception  jbvb.lbng.SecurityException if b security mbnbger blrebdy
+     *             exists bnd its <code>checkPermission</code> method
+     *             doesn't bllow crebtion of b new security mbnbger.
+     * @see        jbvb.lbng.System#getSecurityMbnbger()
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
+     * @see jbvb.lbng.RuntimePermission
      */
-    public SecurityManager() {
-        synchronized(SecurityManager.class) {
-            SecurityManager sm = System.getSecurityManager();
+    public SecurityMbnbger() {
+        synchronized(SecurityMbnbger.clbss) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                // ask the currently installed security manager if we
-                // can create a new one.
+                // bsk the currently instblled security mbnbger if we
+                // cbn crebte b new one.
                 sm.checkPermission(new RuntimePermission
-                                   ("createSecurityManager"));
+                                   ("crebteSecurityMbnbger"));
             }
-            initialized = true;
+            initiblized = true;
         }
     }
 
     /**
-     * Returns the current execution stack as an array of classes.
+     * Returns the current execution stbck bs bn brrby of clbsses.
      * <p>
-     * The length of the array is the number of methods on the execution
-     * stack. The element at index <code>0</code> is the class of the
-     * currently executing method, the element at index <code>1</code> is
-     * the class of that method's caller, and so on.
+     * The length of the brrby is the number of methods on the execution
+     * stbck. The element bt index <code>0</code> is the clbss of the
+     * currently executing method, the element bt index <code>1</code> is
+     * the clbss of thbt method's cbller, bnd so on.
      *
-     * @return  the execution stack.
+     * @return  the execution stbck.
      */
-    protected native Class<?>[] getClassContext();
+    protected nbtive Clbss<?>[] getClbssContext();
 
     /**
-     * Returns the class loader of the most recently executing method from
-     * a class defined using a non-system class loader. A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Returns the clbss lobder of the most recently executing method from
+     * b clbss defined using b non-system clbss lobder. A non-system
+     * clbss lobder is defined bs being b clbss lobder thbt is not equbl to
+     * the system clbss lobder (bs returned
+     * by {@link ClbssLobder#getSystemClbssLobder}) or one of its bncestors.
      * <p>
      * This method will return
-     * <code>null</code> in the following three cases:
+     * <code>null</code> in the following three cbses:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck up to the first
+     *   "privileged" cbller
+     *   (see {@link jbvb.security.AccessController#doPrivileged})
+     *   bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A cbll to <code>checkPermission</code> with
+     *   <code>jbvb.security.AllPermission</code> does not
+     *   result in b SecurityException.
      *
      * </ol>
      *
-     * @return  the class loader of the most recent occurrence on the stack
-     *          of a method from a class defined using a non-system class
-     *          loader.
+     * @return  the clbss lobder of the most recent occurrence on the stbck
+     *          of b method from b clbss defined using b non-system clbss
+     *          lobder.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      *
-     * @see  java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see  #checkPermission(java.security.Permission) checkPermission
+     * @see  jbvb.lbng.ClbssLobder#getSystemClbssLobder() getSystemClbssLobder
+     * @see  #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    protected ClassLoader currentClassLoader() {
-        ClassLoader cl = currentClassLoader0();
-        if ((cl != null) && hasAllPermission())
+    @Deprecbted
+    protected ClbssLobder currentClbssLobder() {
+        ClbssLobder cl = currentClbssLobder0();
+        if ((cl != null) && hbsAllPermission())
             cl = null;
         return cl;
     }
 
-    private native ClassLoader currentClassLoader0();
+    privbte nbtive ClbssLobder currentClbssLobder0();
 
     /**
-     * Returns the class of the most recently executing method from
-     * a class defined using a non-system class loader. A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Returns the clbss of the most recently executing method from
+     * b clbss defined using b non-system clbss lobder. A non-system
+     * clbss lobder is defined bs being b clbss lobder thbt is not equbl to
+     * the system clbss lobder (bs returned
+     * by {@link ClbssLobder#getSystemClbssLobder}) or one of its bncestors.
      * <p>
      * This method will return
-     * <code>null</code> in the following three cases:
+     * <code>null</code> in the following three cbses:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck up to the first
+     *   "privileged" cbller
+     *   (see {@link jbvb.security.AccessController#doPrivileged})
+     *   bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A cbll to <code>checkPermission</code> with
+     *   <code>jbvb.security.AllPermission</code> does not
+     *   result in b SecurityException.
      *
      * </ol>
      *
-     * @return  the class  of the most recent occurrence on the stack
-     *          of a method from a class defined using a non-system class
-     *          loader.
+     * @return  the clbss  of the most recent occurrence on the stbck
+     *          of b method from b clbss defined using b non-system clbss
+     *          lobder.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      *
-     * @see  java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see  #checkPermission(java.security.Permission) checkPermission
+     * @see  jbvb.lbng.ClbssLobder#getSystemClbssLobder() getSystemClbssLobder
+     * @see  #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    protected Class<?> currentLoadedClass() {
-        Class<?> c = currentLoadedClass0();
-        if ((c != null) && hasAllPermission())
+    @Deprecbted
+    protected Clbss<?> currentLobdedClbss() {
+        Clbss<?> c = currentLobdedClbss0();
+        if ((c != null) && hbsAllPermission())
             c = null;
         return c;
     }
 
     /**
-     * Returns the stack depth of the specified class.
+     * Returns the stbck depth of the specified clbss.
      *
-     * @param   name   the fully qualified name of the class to search for.
-     * @return  the depth on the stack frame of the first occurrence of a
-     *          method from a class with the specified name;
-     *          <code>-1</code> if such a frame cannot be found.
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @pbrbm   nbme   the fully qublified nbme of the clbss to sebrch for.
+     * @return  the depth on the stbck frbme of the first occurrence of b
+     *          method from b clbss with the specified nbme;
+     *          <code>-1</code> if such b frbme cbnnot be found.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      *
      */
-    @Deprecated
-    protected native int classDepth(String name);
+    @Deprecbted
+    protected nbtive int clbssDepth(String nbme);
 
     /**
-     * Returns the stack depth of the most recently executing method
-     * from a class defined using a non-system class loader.  A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Returns the stbck depth of the most recently executing method
+     * from b clbss defined using b non-system clbss lobder.  A non-system
+     * clbss lobder is defined bs being b clbss lobder thbt is not equbl to
+     * the system clbss lobder (bs returned
+     * by {@link ClbssLobder#getSystemClbssLobder}) or one of its bncestors.
      * <p>
      * This method will return
-     * -1 in the following three cases:
+     * -1 in the following three cbses:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All methods on the execution stbck up to the first
+     *   "privileged" cbller
+     *   (see {@link jbvb.security.AccessController#doPrivileged})
+     *   bre from clbsses
+     *   defined using the system clbss lobder or one of its bncestors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A cbll to <code>checkPermission</code> with
+     *   <code>jbvb.security.AllPermission</code> does not
+     *   result in b SecurityException.
      *
      * </ol>
      *
-     * @return the depth on the stack frame of the most recent occurrence of
-     *          a method from a class defined using a non-system class loader.
+     * @return the depth on the stbck frbme of the most recent occurrence of
+     *          b method from b clbss defined using b non-system clbss lobder.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      *
-     * @see   java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see   #checkPermission(java.security.Permission) checkPermission
+     * @see   jbvb.lbng.ClbssLobder#getSystemClbssLobder() getSystemClbssLobder
+     * @see   #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    protected int classLoaderDepth() {
-        int depth = classLoaderDepth0();
+    @Deprecbted
+    protected int clbssLobderDepth() {
+        int depth = clbssLobderDepth0();
         if (depth != -1) {
-            if (hasAllPermission())
+            if (hbsAllPermission())
                 depth = -1;
             else
-                depth--; // make sure we don't include ourself
+                depth--; // mbke sure we don't include ourself
         }
         return depth;
     }
 
-    private native int classLoaderDepth0();
+    privbte nbtive int clbssLobderDepth0();
 
     /**
-     * Tests if a method from a class with the specified
-     *         name is on the execution stack.
+     * Tests if b method from b clbss with the specified
+     *         nbme is on the execution stbck.
      *
-     * @param  name   the fully qualified name of the class.
-     * @return <code>true</code> if a method from a class with the specified
-     *         name is on the execution stack; <code>false</code> otherwise.
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @pbrbm  nbme   the fully qublified nbme of the clbss.
+     * @return <code>true</code> if b method from b clbss with the specified
+     *         nbme is on the execution stbck; <code>fblse</code> otherwise.
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
      */
-    @Deprecated
-    protected boolean inClass(String name) {
-        return classDepth(name) >= 0;
+    @Deprecbted
+    protected boolebn inClbss(String nbme) {
+        return clbssDepth(nbme) >= 0;
     }
 
     /**
-     * Basically, tests if a method from a class defined using a
-     *          class loader is on the execution stack.
+     * Bbsicblly, tests if b method from b clbss defined using b
+     *          clbss lobder is on the execution stbck.
      *
-     * @return  <code>true</code> if a call to <code>currentClassLoader</code>
-     *          has a non-null return value.
+     * @return  <code>true</code> if b cbll to <code>currentClbssLobder</code>
+     *          hbs b non-null return vblue.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
-     * @see        #currentClassLoader() currentClassLoader
+     * @deprecbted This type of security checking is not recommended.
+     *  It is recommended thbt the <code>checkPermission</code>
+     *  cbll be used instebd.
+     * @see        #currentClbssLobder() currentClbssLobder
      */
-    @Deprecated
-    protected boolean inClassLoader() {
-        return currentClassLoader() != null;
+    @Deprecbted
+    protected boolebn inClbssLobder() {
+        return currentClbssLobder() != null;
     }
 
     /**
-     * Creates an object that encapsulates the current execution
-     * environment. The result of this method is used, for example, by the
-     * three-argument <code>checkConnect</code> method and by the
-     * two-argument <code>checkRead</code> method.
-     * These methods are needed because a trusted method may be called
-     * on to read a file or open a socket on behalf of another method.
+     * Crebtes bn object thbt encbpsulbtes the current execution
+     * environment. The result of this method is used, for exbmple, by the
+     * three-brgument <code>checkConnect</code> method bnd by the
+     * two-brgument <code>checkRebd</code> method.
+     * These methods bre needed becbuse b trusted method mby be cblled
+     * on to rebd b file or open b socket on behblf of bnother method.
      * The trusted method needs to determine if the other (possibly
-     * untrusted) method would be allowed to perform the operation on its
+     * untrusted) method would be bllowed to perform the operbtion on its
      * own.
-     * <p> The default implementation of this method is to return
-     * an <code>AccessControlContext</code> object.
+     * <p> The defbult implementbtion of this method is to return
+     * bn <code>AccessControlContext</code> object.
      *
-     * @return  an implementation-dependent object that encapsulates
-     *          sufficient information about the current execution environment
-     *          to perform some security checks later.
-     * @see     java.lang.SecurityManager#checkConnect(java.lang.String, int,
-     *   java.lang.Object) checkConnect
-     * @see     java.lang.SecurityManager#checkRead(java.lang.String,
-     *   java.lang.Object) checkRead
-     * @see     java.security.AccessControlContext AccessControlContext
+     * @return  bn implementbtion-dependent object thbt encbpsulbtes
+     *          sufficient informbtion bbout the current execution environment
+     *          to perform some security checks lbter.
+     * @see     jbvb.lbng.SecurityMbnbger#checkConnect(jbvb.lbng.String, int,
+     *   jbvb.lbng.Object) checkConnect
+     * @see     jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String,
+     *   jbvb.lbng.Object) checkRebd
+     * @see     jbvb.security.AccessControlContext AccessControlContext
      */
     public Object getSecurityContext() {
         return AccessController.getContext();
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the requested
-     * access, specified by the given permission, is not permitted based
+     * Throws b <code>SecurityException</code> if the requested
+     * bccess, specified by the given permission, is not permitted bbsed
      * on the security policy currently in effect.
      * <p>
-     * This method calls <code>AccessController.checkPermission</code>
+     * This method cblls <code>AccessController.checkPermission</code>
      * with the given permission.
      *
-     * @param     perm   the requested permission.
-     * @exception SecurityException if access is not permitted based on
+     * @pbrbm     perm   the requested permission.
+     * @exception SecurityException if bccess is not permitted bbsed on
      *            the current security policy.
-     * @exception NullPointerException if the permission argument is
+     * @exception NullPointerException if the permission brgument is
      *            <code>null</code>.
      * @since     1.2
      */
     public void checkPermission(Permission perm) {
-        java.security.AccessController.checkPermission(perm);
+        jbvb.security.AccessController.checkPermission(perm);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is denied access to the resource
+     * Throws b <code>SecurityException</code> if the
+     * specified security context is denied bccess to the resource
      * specified by the given permission.
-     * The context must be a security
-     * context returned by a previous call to
-     * <code>getSecurityContext</code> and the access control
-     * decision is based upon the configured security policy for
-     * that security context.
+     * The context must be b security
+     * context returned by b previous cbll to
+     * <code>getSecurityContext</code> bnd the bccess control
+     * decision is bbsed upon the configured security policy for
+     * thbt security context.
      * <p>
-     * If <code>context</code> is an instance of
+     * If <code>context</code> is bn instbnce of
      * <code>AccessControlContext</code> then the
      * <code>AccessControlContext.checkPermission</code> method is
      * invoked with the specified permission.
      * <p>
-     * If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
+     * If <code>context</code> is not bn instbnce of
+     * <code>AccessControlContext</code> then b
      * <code>SecurityException</code> is thrown.
      *
-     * @param      perm      the specified permission
-     * @param      context   a system-dependent security context.
+     * @pbrbm      perm      the specified permission
+     * @pbrbm      context   b system-dependent security context.
      * @exception  SecurityException  if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or is denied access to the
+     *             is not bn instbnce of <code>AccessControlContext</code>
+     *             (e.g., is <code>null</code>), or is denied bccess to the
      *             resource specified by the given permission.
-     * @exception  NullPointerException if the permission argument is
+     * @exception  NullPointerException if the permission brgument is
      *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see java.security.AccessControlContext#checkPermission(java.security.Permission)
+     * @see        jbvb.lbng.SecurityMbnbger#getSecurityContext()
+     * @see jbvb.security.AccessControlContext#checkPermission(jbvb.security.Permission)
      * @since      1.2
      */
     public void checkPermission(Permission perm, Object context) {
-        if (context instanceof AccessControlContext) {
+        if (context instbnceof AccessControlContext) {
             ((AccessControlContext)context).checkPermission(perm);
         } else {
             throw new SecurityException();
@@ -581,1113 +581,1113 @@ class SecurityManager {
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to create a new class loader.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to crebte b new clbss lobder.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("createClassLoader")</code>
+     * This method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("crebteClbssLobder")</code>
      * permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkCreateClassLoader</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkCrebteClbssLobder</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @exception SecurityException if the calling thread does not
-     *             have permission
-     *             to create a new class loader.
-     * @see        java.lang.ClassLoader#ClassLoader()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @exception SecurityException if the cblling threbd does not
+     *             hbve permission
+     *             to crebte b new clbss lobder.
+     * @see        jbvb.lbng.ClbssLobder#ClbssLobder()
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkCreateClassLoader() {
-        checkPermission(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+    public void checkCrebteClbssLobder() {
+        checkPermission(SecurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
     }
 
     /**
-     * reference to the root thread group, used for the checkAccess
+     * reference to the root threbd group, used for the checkAccess
      * methods.
      */
 
-    private static ThreadGroup rootGroup = getRootGroup();
+    privbte stbtic ThrebdGroup rootGroup = getRootGroup();
 
-    private static ThreadGroup getRootGroup() {
-        ThreadGroup root =  Thread.currentThread().getThreadGroup();
-        while (root.getParent() != null) {
-            root = root.getParent();
+    privbte stbtic ThrebdGroup getRootGroup() {
+        ThrebdGroup root =  Threbd.currentThrebd().getThrebdGroup();
+        while (root.getPbrent() != null) {
+            root = root.getPbrent();
         }
         return root;
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to modify the thread argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to modify the threbd brgument.
      * <p>
-     * This method is invoked for the current security manager by the
+     * This method is invoked for the current security mbnbger by the
      * <code>stop</code>, <code>suspend</code>, <code>resume</code>,
-     * <code>setPriority</code>, <code>setName</code>, and
-     * <code>setDaemon</code> methods of class <code>Thread</code>.
+     * <code>setPriority</code>, <code>setNbme</code>, bnd
+     * <code>setDbemon</code> methods of clbss <code>Threbd</code>.
      * <p>
-     * If the thread argument is a system thread (belongs to
-     * the thread group with a <code>null</code> parent) then
-     * this method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("modifyThread")</code> permission.
-     * If the thread argument is <i>not</i> a system thread,
+     * If the threbd brgument is b system threbd (belongs to
+     * the threbd group with b <code>null</code> pbrent) then
+     * this method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("modifyThrebd")</code> permission.
+     * If the threbd brgument is <i>not</i> b system threbd,
      * this method just returns silently.
      * <p>
-     * Applications that want a stricter policy should override this
-     * method. If this method is overridden, the method that overrides
-     * it should additionally check to see if the calling thread has the
-     * <code>RuntimePermission("modifyThread")</code> permission, and
-     * if so, return silently. This is to ensure that code granted
-     * that permission (such as the JDK itself) is allowed to
-     * manipulate any thread.
+     * Applicbtions thbt wbnt b stricter policy should override this
+     * method. If this method is overridden, the method thbt overrides
+     * it should bdditionblly check to see if the cblling threbd hbs the
+     * <code>RuntimePermission("modifyThrebd")</code> permission, bnd
+     * if so, return silently. This is to ensure thbt code grbnted
+     * thbt permission (such bs the JDK itself) is bllowed to
+     * mbnipulbte bny threbd.
      * <p>
      * If this method is overridden, then
      * <code>super.checkAccess</code> should
-     * be called by the first statement in the overridden method, or the
-     * equivalent security check should be placed in the overridden method.
+     * be cblled by the first stbtement in the overridden method, or the
+     * equivblent security check should be plbced in the overridden method.
      *
-     * @param      t   the thread to be checked.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to modify the thread.
-     * @exception  NullPointerException if the thread argument is
+     * @pbrbm      t   the threbd to be checked.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to modify the threbd.
+     * @exception  NullPointerException if the threbd brgument is
      *             <code>null</code>.
-     * @see        java.lang.Thread#resume() resume
-     * @see        java.lang.Thread#setDaemon(boolean) setDaemon
-     * @see        java.lang.Thread#setName(java.lang.String) setName
-     * @see        java.lang.Thread#setPriority(int) setPriority
-     * @see        java.lang.Thread#stop() stop
-     * @see        java.lang.Thread#suspend() suspend
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.lbng.Threbd#resume() resume
+     * @see        jbvb.lbng.Threbd#setDbemon(boolebn) setDbemon
+     * @see        jbvb.lbng.Threbd#setNbme(jbvb.lbng.String) setNbme
+     * @see        jbvb.lbng.Threbd#setPriority(int) setPriority
+     * @see        jbvb.lbng.Threbd#stop() stop
+     * @see        jbvb.lbng.Threbd#suspend() suspend
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkAccess(Thread t) {
+    public void checkAccess(Threbd t) {
         if (t == null) {
-            throw new NullPointerException("thread can't be null");
+            throw new NullPointerException("threbd cbn't be null");
         }
-        if (t.getThreadGroup() == rootGroup) {
-            checkPermission(SecurityConstants.MODIFY_THREAD_PERMISSION);
+        if (t.getThrebdGroup() == rootGroup) {
+            checkPermission(SecurityConstbnts.MODIFY_THREAD_PERMISSION);
         } else {
             // just return
         }
     }
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to modify the thread group argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to modify the threbd group brgument.
      * <p>
-     * This method is invoked for the current security manager when a
-     * new child thread or child thread group is created, and by the
-     * <code>setDaemon</code>, <code>setMaxPriority</code>,
-     * <code>stop</code>, <code>suspend</code>, <code>resume</code>, and
-     * <code>destroy</code> methods of class <code>ThreadGroup</code>.
+     * This method is invoked for the current security mbnbger when b
+     * new child threbd or child threbd group is crebted, bnd by the
+     * <code>setDbemon</code>, <code>setMbxPriority</code>,
+     * <code>stop</code>, <code>suspend</code>, <code>resume</code>, bnd
+     * <code>destroy</code> methods of clbss <code>ThrebdGroup</code>.
      * <p>
-     * If the thread group argument is the system thread group (
-     * has a <code>null</code> parent) then
-     * this method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("modifyThreadGroup")</code> permission.
-     * If the thread group argument is <i>not</i> the system thread group,
+     * If the threbd group brgument is the system threbd group (
+     * hbs b <code>null</code> pbrent) then
+     * this method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("modifyThrebdGroup")</code> permission.
+     * If the threbd group brgument is <i>not</i> the system threbd group,
      * this method just returns silently.
      * <p>
-     * Applications that want a stricter policy should override this
-     * method. If this method is overridden, the method that overrides
-     * it should additionally check to see if the calling thread has the
-     * <code>RuntimePermission("modifyThreadGroup")</code> permission, and
-     * if so, return silently. This is to ensure that code granted
-     * that permission (such as the JDK itself) is allowed to
-     * manipulate any thread.
+     * Applicbtions thbt wbnt b stricter policy should override this
+     * method. If this method is overridden, the method thbt overrides
+     * it should bdditionblly check to see if the cblling threbd hbs the
+     * <code>RuntimePermission("modifyThrebdGroup")</code> permission, bnd
+     * if so, return silently. This is to ensure thbt code grbnted
+     * thbt permission (such bs the JDK itself) is bllowed to
+     * mbnipulbte bny threbd.
      * <p>
      * If this method is overridden, then
      * <code>super.checkAccess</code> should
-     * be called by the first statement in the overridden method, or the
-     * equivalent security check should be placed in the overridden method.
+     * be cblled by the first stbtement in the overridden method, or the
+     * equivblent security check should be plbced in the overridden method.
      *
-     * @param      g   the thread group to be checked.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to modify the thread group.
-     * @exception  NullPointerException if the thread group argument is
+     * @pbrbm      g   the threbd group to be checked.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to modify the threbd group.
+     * @exception  NullPointerException if the threbd group brgument is
      *             <code>null</code>.
-     * @see        java.lang.ThreadGroup#destroy() destroy
-     * @see        java.lang.ThreadGroup#resume() resume
-     * @see        java.lang.ThreadGroup#setDaemon(boolean) setDaemon
-     * @see        java.lang.ThreadGroup#setMaxPriority(int) setMaxPriority
-     * @see        java.lang.ThreadGroup#stop() stop
-     * @see        java.lang.ThreadGroup#suspend() suspend
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.lbng.ThrebdGroup#destroy() destroy
+     * @see        jbvb.lbng.ThrebdGroup#resume() resume
+     * @see        jbvb.lbng.ThrebdGroup#setDbemon(boolebn) setDbemon
+     * @see        jbvb.lbng.ThrebdGroup#setMbxPriority(int) setMbxPriority
+     * @see        jbvb.lbng.ThrebdGroup#stop() stop
+     * @see        jbvb.lbng.ThrebdGroup#suspend() suspend
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkAccess(ThreadGroup g) {
+    public void checkAccess(ThrebdGroup g) {
         if (g == null) {
-            throw new NullPointerException("thread group can't be null");
+            throw new NullPointerException("threbd group cbn't be null");
         }
         if (g == rootGroup) {
-            checkPermission(SecurityConstants.MODIFY_THREADGROUP_PERMISSION);
+            checkPermission(SecurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
         } else {
             // just return
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to cause the Java Virtual Machine to
-     * halt with the specified status code.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to cbuse the Jbvb Virtubl Mbchine to
+     * hblt with the specified stbtus code.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>exit</code> method of class <code>Runtime</code>. A status
-     * of <code>0</code> indicates success; other values indicate various
+     * This method is invoked for the current security mbnbger by the
+     * <code>exit</code> method of clbss <code>Runtime</code>. A stbtus
+     * of <code>0</code> indicbtes success; other vblues indicbte vbrious
      * errors.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("exitVM."+status)</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("exitVM."+stbtus)</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkExit</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      status   the exit status.
-     * @exception SecurityException if the calling thread does not have
-     *              permission to halt the Java Virtual Machine with
-     *              the specified status.
-     * @see        java.lang.Runtime#exit(int) exit
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      stbtus   the exit stbtus.
+     * @exception SecurityException if the cblling threbd does not hbve
+     *              permission to hblt the Jbvb Virtubl Mbchine with
+     *              the specified stbtus.
+     * @see        jbvb.lbng.Runtime#exit(int) exit
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkExit(int status) {
-        checkPermission(new RuntimePermission("exitVM."+status));
+    public void checkExit(int stbtus) {
+        checkPermission(new RuntimePermission("exitVM."+stbtus));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to create a subprocess.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to crebte b subprocess.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>exec</code> methods of class <code>Runtime</code>.
+     * This method is invoked for the current security mbnbger by the
+     * <code>exec</code> methods of clbss <code>Runtime</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
+     * This method cblls <code>checkPermission</code> with the
      * <code>FilePermission(cmd,"execute")</code> permission
-     * if cmd is an absolute path, otherwise it calls
+     * if cmd is bn bbsolute pbth, otherwise it cblls
      * <code>checkPermission</code> with
      * <code>FilePermission("&lt;&lt;ALL FILES&gt;&gt;","execute")</code>.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkExec</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      cmd   the specified system command.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to create a subprocess.
-     * @exception  NullPointerException if the <code>cmd</code> argument is
+     * @pbrbm      cmd   the specified system commbnd.
+     * @exception  SecurityException if the cblling threbd does not hbve
+     *             permission to crebte b subprocess.
+     * @exception  NullPointerException if the <code>cmd</code> brgument is
      *             <code>null</code>.
-     * @see     java.lang.Runtime#exec(java.lang.String)
-     * @see     java.lang.Runtime#exec(java.lang.String, java.lang.String[])
-     * @see     java.lang.Runtime#exec(java.lang.String[])
-     * @see     java.lang.Runtime#exec(java.lang.String[], java.lang.String[])
-     * @see     #checkPermission(java.security.Permission) checkPermission
+     * @see     jbvb.lbng.Runtime#exec(jbvb.lbng.String)
+     * @see     jbvb.lbng.Runtime#exec(jbvb.lbng.String, jbvb.lbng.String[])
+     * @see     jbvb.lbng.Runtime#exec(jbvb.lbng.String[])
+     * @see     jbvb.lbng.Runtime#exec(jbvb.lbng.String[], jbvb.lbng.String[])
+     * @see     #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkExec(String cmd) {
         File f = new File(cmd);
         if (f.isAbsolute()) {
             checkPermission(new FilePermission(cmd,
-                SecurityConstants.FILE_EXECUTE_ACTION));
+                SecurityConstbnts.FILE_EXECUTE_ACTION));
         } else {
             checkPermission(new FilePermission("<<ALL FILES>>",
-                SecurityConstants.FILE_EXECUTE_ACTION));
+                SecurityConstbnts.FILE_EXECUTE_ACTION));
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to dynamic link the library code
-     * specified by the string argument file. The argument is either a
-     * simple library name or a complete filename.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to dynbmic link the librbry code
+     * specified by the string brgument file. The brgument is either b
+     * simple librbry nbme or b complete filenbme.
      * <p>
-     * This method is invoked for the current security manager by
-     * methods <code>load</code> and <code>loadLibrary</code> of class
+     * This method is invoked for the current security mbnbger by
+     * methods <code>lobd</code> bnd <code>lobdLibrbry</code> of clbss
      * <code>Runtime</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("loadLibrary."+lib)</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("lobdLibrbry."+lib)</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkLink</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      lib   the name of the library.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to dynamically link the library.
-     * @exception  NullPointerException if the <code>lib</code> argument is
+     * @pbrbm      lib   the nbme of the librbry.
+     * @exception  SecurityException if the cblling threbd does not hbve
+     *             permission to dynbmicblly link the librbry.
+     * @exception  NullPointerException if the <code>lib</code> brgument is
      *             <code>null</code>.
-     * @see        java.lang.Runtime#load(java.lang.String)
-     * @see        java.lang.Runtime#loadLibrary(java.lang.String)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.lbng.Runtime#lobd(jbvb.lbng.String)
+     * @see        jbvb.lbng.Runtime#lobdLibrbry(jbvb.lbng.String)
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkLink(String lib) {
         if (lib == null) {
-            throw new NullPointerException("library can't be null");
+            throw new NullPointerException("librbry cbn't be null");
         }
-        checkPermission(new RuntimePermission("loadLibrary."+lib));
+        checkPermission(new RuntimePermission("lobdLibrbry."+lib));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to read from the specified file
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to rebd from the specified file
      * descriptor.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("readFileDescriptor")</code>
+     * This method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("rebdFileDescriptor")</code>
      * permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkRebd</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      fd   the system-dependent file descriptor.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified file descriptor.
-     * @exception  NullPointerException if the file descriptor argument is
+     * @pbrbm      fd   the system-dependent file descriptor.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to bccess the specified file descriptor.
+     * @exception  NullPointerException if the file descriptor brgument is
      *             <code>null</code>.
-     * @see        java.io.FileDescriptor
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.io.FileDescriptor
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkRead(FileDescriptor fd) {
+    public void checkRebd(FileDescriptor fd) {
         if (fd == null) {
-            throw new NullPointerException("file descriptor can't be null");
+            throw new NullPointerException("file descriptor cbn't be null");
         }
-        checkPermission(new RuntimePermission("readFileDescriptor"));
+        checkPermission(new RuntimePermission("rebdFileDescriptor"));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to read the file specified by the
-     * string argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to rebd the file specified by the
+     * string brgument.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>FilePermission(file,"read")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>FilePermission(file,"rebd")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkRebd</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      file   the system-dependent file name.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to access the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
+     * @pbrbm      file   the system-dependent file nbme.
+     * @exception  SecurityException if the cblling threbd does not hbve
+     *             permission to bccess the specified file.
+     * @exception  NullPointerException if the <code>file</code> brgument is
      *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkRead(String file) {
+    public void checkRebd(String file) {
         checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_READ_ACTION));
+            SecurityConstbnts.FILE_READ_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is not allowed to read the file
-     * specified by the string argument. The context must be a security
-     * context returned by a previous call to
+     * Throws b <code>SecurityException</code> if the
+     * specified security context is not bllowed to rebd the file
+     * specified by the string brgument. The context must be b security
+     * context returned by b previous cbll to
      * <code>getSecurityContext</code>.
-     * <p> If <code>context</code> is an instance of
+     * <p> If <code>context</code> is bn instbnce of
      * <code>AccessControlContext</code> then the
      * <code>AccessControlContext.checkPermission</code> method will
-     * be invoked with the <code>FilePermission(file,"read")</code> permission.
-     * <p> If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
+     * be invoked with the <code>FilePermission(file,"rebd")</code> permission.
+     * <p> If <code>context</code> is not bn instbnce of
+     * <code>AccessControlContext</code> then b
      * <code>SecurityException</code> is thrown.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkRebd</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      file      the system-dependent filename.
-     * @param      context   a system-dependent security context.
+     * @pbrbm      file      the system-dependent filenbme.
+     * @pbrbm      context   b system-dependent security context.
      * @exception  SecurityException  if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or does not have permission
-     *             to read the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
+     *             is not bn instbnce of <code>AccessControlContext</code>
+     *             (e.g., is <code>null</code>), or does not hbve permission
+     *             to rebd the specified file.
+     * @exception  NullPointerException if the <code>file</code> brgument is
      *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see        java.security.AccessControlContext#checkPermission(java.security.Permission)
+     * @see        jbvb.lbng.SecurityMbnbger#getSecurityContext()
+     * @see        jbvb.security.AccessControlContext#checkPermission(jbvb.security.Permission)
      */
-    public void checkRead(String file, Object context) {
+    public void checkRebd(String file, Object context) {
         checkPermission(
-            new FilePermission(file, SecurityConstants.FILE_READ_ACTION),
+            new FilePermission(file, SecurityConstbnts.FILE_READ_ACTION),
             context);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to write to the specified file
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to write to the specified file
      * descriptor.
      * <p>
-     * This method calls <code>checkPermission</code> with the
+     * This method cblls <code>checkPermission</code> with the
      * <code>RuntimePermission("writeFileDescriptor")</code>
      * permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkWrite</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      fd   the system-dependent file descriptor.
-     * @exception SecurityException  if the calling thread does not have
-     *             permission to access the specified file descriptor.
-     * @exception  NullPointerException if the file descriptor argument is
+     * @pbrbm      fd   the system-dependent file descriptor.
+     * @exception SecurityException  if the cblling threbd does not hbve
+     *             permission to bccess the specified file descriptor.
+     * @exception  NullPointerException if the file descriptor brgument is
      *             <code>null</code>.
-     * @see        java.io.FileDescriptor
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.io.FileDescriptor
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkWrite(FileDescriptor fd) {
         if (fd == null) {
-            throw new NullPointerException("file descriptor can't be null");
+            throw new NullPointerException("file descriptor cbn't be null");
         }
         checkPermission(new RuntimePermission("writeFileDescriptor"));
 
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to write to the file specified by
-     * the string argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to write to the file specified by
+     * the string brgument.
      * <p>
-     * This method calls <code>checkPermission</code> with the
+     * This method cblls <code>checkPermission</code> with the
      * <code>FilePermission(file,"write")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkWrite</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      file   the system-dependent filename.
-     * @exception  SecurityException  if the calling thread does not
-     *             have permission to access the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
+     * @pbrbm      file   the system-dependent filenbme.
+     * @exception  SecurityException  if the cblling threbd does not
+     *             hbve permission to bccess the specified file.
+     * @exception  NullPointerException if the <code>file</code> brgument is
      *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkWrite(String file) {
         checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_WRITE_ACTION));
+            SecurityConstbnts.FILE_WRITE_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to delete the specified file.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to delete the specified file.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>delete</code> method of class <code>File</code>.
+     * This method is invoked for the current security mbnbger by the
+     * <code>delete</code> method of clbss <code>File</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
+     * This method cblls <code>checkPermission</code> with the
      * <code>FilePermission(file,"delete")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkDelete</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      file   the system-dependent filename.
-     * @exception  SecurityException if the calling thread does not
-     *             have permission to delete the file.
-     * @exception  NullPointerException if the <code>file</code> argument is
+     * @pbrbm      file   the system-dependent filenbme.
+     * @exception  SecurityException if the cblling threbd does not
+     *             hbve permission to delete the file.
+     * @exception  NullPointerException if the <code>file</code> brgument is
      *             <code>null</code>.
-     * @see        java.io.File#delete()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.io.File#delete()
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkDelete(String file) {
         checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_DELETE_ACTION));
+            SecurityConstbnts.FILE_DELETE_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to open a socket connection to the
-     * specified host and port number.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to open b socket connection to the
+     * specified host bnd port number.
      * <p>
-     * A port number of <code>-1</code> indicates that the calling
-     * method is attempting to determine the IP address of the specified
-     * host name.
+     * A port number of <code>-1</code> indicbtes thbt the cblling
+     * method is bttempting to determine the IP bddress of the specified
+     * host nbme.
      * <p>
-     * This method calls <code>checkPermission</code> with the
+     * This method cblls <code>checkPermission</code> with the
      * <code>SocketPermission(host+":"+port,"connect")</code> permission if
-     * the port is not equal to -1. If the port is equal to -1, then
-     * it calls <code>checkPermission</code> with the
+     * the port is not equbl to -1. If the port is equbl to -1, then
+     * it cblls <code>checkPermission</code> with the
      * <code>SocketPermission(host,"resolve")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkConnect</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      host   the host name port to connect to.
-     * @param      port   the protocol port to connect to.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to open a socket connection to the specified
-     *               <code>host</code> and <code>port</code>.
-     * @exception  NullPointerException if the <code>host</code> argument is
+     * @pbrbm      host   the host nbme port to connect to.
+     * @pbrbm      port   the protocol port to connect to.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to open b socket connection to the specified
+     *               <code>host</code> bnd <code>port</code>.
+     * @exception  NullPointerException if the <code>host</code> brgument is
      *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkConnect(String host, int port) {
         if (host == null) {
-            throw new NullPointerException("host can't be null");
+            throw new NullPointerException("host cbn't be null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
+        if (!host.stbrtsWith("[") && host.indexOf(':') != -1) {
             host = "[" + host + "]";
         }
         if (port == -1) {
             checkPermission(new SocketPermission(host,
-                SecurityConstants.SOCKET_RESOLVE_ACTION));
+                SecurityConstbnts.SOCKET_RESOLVE_ACTION));
         } else {
             checkPermission(new SocketPermission(host+":"+port,
-                SecurityConstants.SOCKET_CONNECT_ACTION));
+                SecurityConstbnts.SOCKET_CONNECT_ACTION));
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is not allowed to open a socket
-     * connection to the specified host and port number.
+     * Throws b <code>SecurityException</code> if the
+     * specified security context is not bllowed to open b socket
+     * connection to the specified host bnd port number.
      * <p>
-     * A port number of <code>-1</code> indicates that the calling
-     * method is attempting to determine the IP address of the specified
-     * host name.
-     * <p> If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
+     * A port number of <code>-1</code> indicbtes thbt the cblling
+     * method is bttempting to determine the IP bddress of the specified
+     * host nbme.
+     * <p> If <code>context</code> is not bn instbnce of
+     * <code>AccessControlContext</code> then b
      * <code>SecurityException</code> is thrown.
      * <p>
-     * Otherwise, the port number is checked. If it is not equal
+     * Otherwise, the port number is checked. If it is not equbl
      * to -1, the <code>context</code>'s <code>checkPermission</code>
-     * method is called with a
+     * method is cblled with b
      * <code>SocketPermission(host+":"+port,"connect")</code> permission.
-     * If the port is equal to -1, then
+     * If the port is equbl to -1, then
      * the <code>context</code>'s <code>checkPermission</code> method
-     * is called with a
+     * is cblled with b
      * <code>SocketPermission(host,"resolve")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkConnect</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      host      the host name port to connect to.
-     * @param      port      the protocol port to connect to.
-     * @param      context   a system-dependent security context.
+     * @pbrbm      host      the host nbme port to connect to.
+     * @pbrbm      port      the protocol port to connect to.
+     * @pbrbm      context   b system-dependent security context.
      * @exception  SecurityException if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or does not have permission
-     *             to open a socket connection to the specified
-     *             <code>host</code> and <code>port</code>.
-     * @exception  NullPointerException if the <code>host</code> argument is
+     *             is not bn instbnce of <code>AccessControlContext</code>
+     *             (e.g., is <code>null</code>), or does not hbve permission
+     *             to open b socket connection to the specified
+     *             <code>host</code> bnd <code>port</code>.
+     * @exception  NullPointerException if the <code>host</code> brgument is
      *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see        java.security.AccessControlContext#checkPermission(java.security.Permission)
+     * @see        jbvb.lbng.SecurityMbnbger#getSecurityContext()
+     * @see        jbvb.security.AccessControlContext#checkPermission(jbvb.security.Permission)
      */
     public void checkConnect(String host, int port, Object context) {
         if (host == null) {
-            throw new NullPointerException("host can't be null");
+            throw new NullPointerException("host cbn't be null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
+        if (!host.stbrtsWith("[") && host.indexOf(':') != -1) {
             host = "[" + host + "]";
         }
         if (port == -1)
             checkPermission(new SocketPermission(host,
-                SecurityConstants.SOCKET_RESOLVE_ACTION),
+                SecurityConstbnts.SOCKET_RESOLVE_ACTION),
                 context);
         else
             checkPermission(new SocketPermission(host+":"+port,
-                SecurityConstants.SOCKET_CONNECT_ACTION),
+                SecurityConstbnts.SOCKET_CONNECT_ACTION),
                 context);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to wait for a connection request on
-     * the specified local port number.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to wbit for b connection request on
+     * the specified locbl port number.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>SocketPermission("localhost:"+port,"listen")</code>.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>SocketPermission("locblhost:"+port,"listen")</code>.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkListen</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      port   the local port.
-     * @exception  SecurityException  if the calling thread does not have
+     * @pbrbm      port   the locbl port.
+     * @exception  SecurityException  if the cblling threbd does not hbve
      *             permission to listen on the specified port.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkListen(int port) {
-        checkPermission(new SocketPermission("localhost:"+port,
-            SecurityConstants.SOCKET_LISTEN_ACTION));
+        checkPermission(new SocketPermission("locblhost:"+port,
+            SecurityConstbnts.SOCKET_LISTEN_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not permitted to accept a socket connection from
-     * the specified host and port number.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not permitted to bccept b socket connection from
+     * the specified host bnd port number.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>accept</code> method of class <code>ServerSocket</code>.
+     * This method is invoked for the current security mbnbger by the
+     * <code>bccept</code> method of clbss <code>ServerSocket</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>SocketPermission(host+":"+port,"accept")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>SocketPermission(host+":"+port,"bccept")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkAccept</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      host   the host name of the socket connection.
-     * @param      port   the port number of the socket connection.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to accept the connection.
-     * @exception  NullPointerException if the <code>host</code> argument is
+     * @pbrbm      host   the host nbme of the socket connection.
+     * @pbrbm      port   the port number of the socket connection.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to bccept the connection.
+     * @exception  NullPointerException if the <code>host</code> brgument is
      *             <code>null</code>.
-     * @see        java.net.ServerSocket#accept()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.net.ServerSocket#bccept()
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkAccept(String host, int port) {
         if (host == null) {
-            throw new NullPointerException("host can't be null");
+            throw new NullPointerException("host cbn't be null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
+        if (!host.stbrtsWith("[") && host.indexOf(':') != -1) {
             host = "[" + host + "]";
         }
         checkPermission(new SocketPermission(host+":"+port,
-            SecurityConstants.SOCKET_ACCEPT_ACTION));
+            SecurityConstbnts.SOCKET_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to use
-     * (join/leave/send/receive) IP multicast.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to use
+     * (join/lebve/send/receive) IP multicbst.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>java.net.SocketPermission(maddr.getHostAddress(),
-     * "accept,connect")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>jbvb.net.SocketPermission(mbddr.getHostAddress(),
+     * "bccept,connect")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkMulticast</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkMulticbst</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      maddr  Internet group address to be used.
-     * @exception  SecurityException  if the calling thread is not allowed to
-     *  use (join/leave/send/receive) IP multicast.
-     * @exception  NullPointerException if the address argument is
+     * @pbrbm      mbddr  Internet group bddress to be used.
+     * @exception  SecurityException  if the cblling threbd is not bllowed to
+     *  use (join/lebve/send/receive) IP multicbst.
+     * @exception  NullPointerException if the bddress brgument is
      *             <code>null</code>.
      * @since      1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkMulticast(InetAddress maddr) {
-        String host = maddr.getHostAddress();
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
+    public void checkMulticbst(InetAddress mbddr) {
+        String host = mbddr.getHostAddress();
+        if (!host.stbrtsWith("[") && host.indexOf(':') != -1) {
             host = "[" + host + "]";
         }
         checkPermission(new SocketPermission(host,
-            SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+            SecurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to use
-     * (join/leave/send/receive) IP multicast.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to use
+     * (join/lebve/send/receive) IP multicbst.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>java.net.SocketPermission(maddr.getHostAddress(),
-     * "accept,connect")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>jbvb.net.SocketPermission(mbddr.getHostAddress(),
+     * "bccept,connect")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkMulticast</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkMulticbst</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      maddr  Internet group address to be used.
-     * @param      ttl        value in use, if it is multicast send.
-     * Note: this particular implementation does not use the ttl
-     * parameter.
-     * @exception  SecurityException  if the calling thread is not allowed to
-     *  use (join/leave/send/receive) IP multicast.
-     * @exception  NullPointerException if the address argument is
+     * @pbrbm      mbddr  Internet group bddress to be used.
+     * @pbrbm      ttl        vblue in use, if it is multicbst send.
+     * Note: this pbrticulbr implementbtion does not use the ttl
+     * pbrbmeter.
+     * @exception  SecurityException  if the cblling threbd is not bllowed to
+     *  use (join/lebve/send/receive) IP multicbst.
+     * @exception  NullPointerException if the bddress brgument is
      *             <code>null</code>.
      * @since      1.1
-     * @deprecated Use #checkPermission(java.security.Permission) instead
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @deprecbted Use #checkPermission(jbvb.security.Permission) instebd
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    public void checkMulticast(InetAddress maddr, byte ttl) {
-        String host = maddr.getHostAddress();
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
+    @Deprecbted
+    public void checkMulticbst(InetAddress mbddr, byte ttl) {
+        String host = mbddr.getHostAddress();
+        if (!host.stbrtsWith("[") && host.indexOf(':') != -1) {
             host = "[" + host + "]";
         }
         checkPermission(new SocketPermission(host,
-            SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+            SecurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access or modify the system
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to bccess or modify the system
      * properties.
      * <p>
-     * This method is used by the <code>getProperties</code> and
-     * <code>setProperties</code> methods of class <code>System</code>.
+     * This method is used by the <code>getProperties</code> bnd
+     * <code>setProperties</code> methods of clbss <code>System</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>PropertyPermission("*", "read,write")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>PropertyPermission("*", "rebd,write")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkPropertiesAccess</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access or modify the system properties.
-     * @see        java.lang.System#getProperties()
-     * @see        java.lang.System#setProperties(java.util.Properties)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to bccess or modify the system properties.
+     * @see        jbvb.lbng.System#getProperties()
+     * @see        jbvb.lbng.System#setProperties(jbvb.util.Properties)
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkPropertiesAccess() {
         checkPermission(new PropertyPermission("*",
-            SecurityConstants.PROPERTY_RW_ACTION));
+            SecurityConstbnts.PROPERTY_RW_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access the system property with
-     * the specified <code>key</code> name.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to bccess the system property with
+     * the specified <code>key</code> nbme.
      * <p>
      * This method is used by the <code>getProperty</code> method of
-     * class <code>System</code>.
+     * clbss <code>System</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>PropertyPermission(key, "read")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>PropertyPermission(key, "rebd")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkPropertyAccess</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param      key   a system property key.
+     * @pbrbm      key   b system property key.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified system property.
-     * @exception  NullPointerException if the <code>key</code> argument is
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to bccess the specified system property.
+     * @exception  NullPointerException if the <code>key</code> brgument is
      *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     * @exception  IllegblArgumentException if <code>key</code> is empty.
      *
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkPropertyAccess(String key) {
         checkPermission(new PropertyPermission(key,
-            SecurityConstants.PROPERTY_READ_ACTION));
+            SecurityConstbnts.PROPERTY_READ_ACTION));
     }
 
     /**
-     * Returns {@code true} if the calling thread has {@code AllPermission}.
+     * Returns {@code true} if the cblling threbd hbs {@code AllPermission}.
      *
-     * @param      window   not used except to check if it is {@code null}.
-     * @return     {@code true} if the calling thread has {@code AllPermission}.
-     * @exception  NullPointerException if the {@code window} argument is
+     * @pbrbm      window   not used except to check if it is {@code null}.
+     * @return     {@code true} if the cblling threbd hbs {@code AllPermission}.
+     * @exception  NullPointerException if the {@code window} brgument is
      *             {@code null}.
-     * @deprecated This method was originally used to check if the calling thread
-     *             was trusted to bring up a top-level window. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("showWindowWithoutWarningBanner")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @deprecbted This method wbs originblly used to check if the cblling threbd
+     *             wbs trusted to bring up b top-level window. The method hbs been
+     *             obsoleted bnd code should instebd use {@link #checkPermission}
+     *             to check {@code AWTPermission("showWindowWithoutWbrningBbnner")}.
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    public boolean checkTopLevelWindow(Object window) {
+    @Deprecbted
+    public boolebn checkTopLevelWindow(Object window) {
         if (window == null) {
-            throw new NullPointerException("window can't be null");
+            throw new NullPointerException("window cbn't be null");
         }
-        return hasAllPermission();
+        return hbsAllPermission();
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to initiate a print job request.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to initibte b print job request.
      * <p>
-     * This method calls
+     * This method cblls
      * <code>checkPermission</code> with the
      * <code>RuntimePermission("queuePrintJob")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
+     * If you override this method, then you should mbke b cbll to
      * <code>super.checkPrintJobAccess</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to initiate a print job request.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to initibte b print job request.
      * @since   1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
     public void checkPrintJobAccess() {
         checkPermission(new RuntimePermission("queuePrintJob"));
     }
 
     /**
-     * Throws {@code SecurityException} if the calling thread does
-     * not have {@code AllPermission}.
+     * Throws {@code SecurityException} if the cblling threbd does
+     * not hbve {@code AllPermission}.
      *
      * @since   1.1
-     * @exception  SecurityException  if the calling thread does not have
+     * @exception  SecurityException  if the cblling threbd does not hbve
      *             {@code AllPermission}
-     * @deprecated This method was originally used to check if the calling
-     *             thread could access the system clipboard. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("accessClipboard")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @deprecbted This method wbs originblly used to check if the cblling
+     *             threbd could bccess the system clipbobrd. The method hbs been
+     *             obsoleted bnd code should instebd use {@link #checkPermission}
+     *             to check {@code AWTPermission("bccessClipbobrd")}.
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    public void checkSystemClipboardAccess() {
-        checkPermission(SecurityConstants.ALL_PERMISSION);
+    @Deprecbted
+    public void checkSystemClipbobrdAccess() {
+        checkPermission(SecurityConstbnts.ALL_PERMISSION);
     }
 
     /**
-     * Throws {@code SecurityException} if the calling thread does
-     * not have {@code AllPermission}.
+     * Throws {@code SecurityException} if the cblling threbd does
+     * not hbve {@code AllPermission}.
      *
      * @since   1.1
-     * @exception  SecurityException  if the calling thread does not have
+     * @exception  SecurityException  if the cblling threbd does not hbve
      *             {@code AllPermission}
-     * @deprecated This method was originally used to check if the calling
-     *             thread could access the AWT event queue. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("accessEventQueue")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @deprecbted This method wbs originblly used to check if the cblling
+     *             threbd could bccess the AWT event queue. The method hbs been
+     *             obsoleted bnd code should instebd use {@link #checkPermission}
+     *             to check {@code AWTPermission("bccessEventQueue")}.
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
+    @Deprecbted
     public void checkAwtEventQueueAccess() {
-        checkPermission(SecurityConstants.ALL_PERMISSION);
+        checkPermission(SecurityConstbnts.ALL_PERMISSION);
     }
 
     /*
-     * We have an initial invalid bit (initially false) for the class
-     * variables which tell if the cache is valid.  If the underlying
-     * java.security.Security property changes via setProperty(), the
-     * Security class uses reflection to change the variable and thus
-     * invalidate the cache.
+     * We hbve bn initibl invblid bit (initiblly fblse) for the clbss
+     * vbribbles which tell if the cbche is vblid.  If the underlying
+     * jbvb.security.Security property chbnges vib setProperty(), the
+     * Security clbss uses reflection to chbnge the vbribble bnd thus
+     * invblidbte the cbche.
      *
-     * Locking is handled by synchronization to the
-     * packageAccessLock/packageDefinitionLock objects.  They are only
-     * used in this class.
+     * Locking is hbndled by synchronizbtion to the
+     * pbckbgeAccessLock/pbckbgeDefinitionLock objects.  They bre only
+     * used in this clbss.
      *
-     * Note that cache invalidation as a result of the property change
-     * happens without using these locks, so there may be a delay between
-     * when a thread updates the property and when other threads updates
-     * the cache.
+     * Note thbt cbche invblidbtion bs b result of the property chbnge
+     * hbppens without using these locks, so there mby be b delby between
+     * when b threbd updbtes the property bnd when other threbds updbtes
+     * the cbche.
      */
-    private static boolean packageAccessValid = false;
-    private static String[] packageAccess;
-    private static final Object packageAccessLock = new Object();
+    privbte stbtic boolebn pbckbgeAccessVblid = fblse;
+    privbte stbtic String[] pbckbgeAccess;
+    privbte stbtic finbl Object pbckbgeAccessLock = new Object();
 
-    private static boolean packageDefinitionValid = false;
-    private static String[] packageDefinition;
-    private static final Object packageDefinitionLock = new Object();
+    privbte stbtic boolebn pbckbgeDefinitionVblid = fblse;
+    privbte stbtic String[] pbckbgeDefinition;
+    privbte stbtic finbl Object pbckbgeDefinitionLock = new Object();
 
-    private static String[] getPackages(String p) {
-        String packages[] = null;
-        if (p != null && !p.equals("")) {
-            java.util.StringTokenizer tok =
-                new java.util.StringTokenizer(p, ",");
+    privbte stbtic String[] getPbckbges(String p) {
+        String pbckbges[] = null;
+        if (p != null && !p.equbls("")) {
+            jbvb.util.StringTokenizer tok =
+                new jbvb.util.StringTokenizer(p, ",");
             int n = tok.countTokens();
             if (n > 0) {
-                packages = new String[n];
+                pbckbges = new String[n];
                 int i = 0;
-                while (tok.hasMoreElements()) {
+                while (tok.hbsMoreElements()) {
                     String s = tok.nextToken().trim();
-                    packages[i++] = s;
+                    pbckbges[i++] = s;
                 }
             }
         }
 
-        if (packages == null)
-            packages = new String[0];
-        return packages;
+        if (pbckbges == null)
+            pbckbges = new String[0];
+        return pbckbges;
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access the package specified by
-     * the argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to bccess the pbckbge specified by
+     * the brgument.
      * <p>
-     * This method is used by the <code>loadClass</code> method of class
-     * loaders.
+     * This method is used by the <code>lobdClbss</code> method of clbss
+     * lobders.
      * <p>
-     * This method first gets a list of
-     * restricted packages by obtaining a comma-separated list from
-     * a call to
-     * <code>java.security.Security.getProperty("package.access")</code>,
-     * and checks to see if <code>pkg</code> starts with or equals
-     * any of the restricted packages. If it does, then
-     * <code>checkPermission</code> gets called with the
-     * <code>RuntimePermission("accessClassInPackage."+pkg)</code>
+     * This method first gets b list of
+     * restricted pbckbges by obtbining b commb-sepbrbted list from
+     * b cbll to
+     * <code>jbvb.security.Security.getProperty("pbckbge.bccess")</code>,
+     * bnd checks to see if <code>pkg</code> stbrts with or equbls
+     * bny of the restricted pbckbges. If it does, then
+     * <code>checkPermission</code> gets cblled with the
+     * <code>RuntimePermission("bccessClbssInPbckbge."+pkg)</code>
      * permission.
      * <p>
      * If this method is overridden, then
-     * <code>super.checkPackageAccess</code> should be called
-     * as the first line in the overridden method.
+     * <code>super.checkPbckbgeAccess</code> should be cblled
+     * bs the first line in the overridden method.
      *
-     * @param      pkg   the package name.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified package.
-     * @exception  NullPointerException if the package name argument is
+     * @pbrbm      pkg   the pbckbge nbme.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to bccess the specified pbckbge.
+     * @exception  NullPointerException if the pbckbge nbme brgument is
      *             <code>null</code>.
-     * @see        java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-     *  loadClass
-     * @see        java.security.Security#getProperty getProperty
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.lbng.ClbssLobder#lobdClbss(jbvb.lbng.String, boolebn)
+     *  lobdClbss
+     * @see        jbvb.security.Security#getProperty getProperty
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkPackageAccess(String pkg) {
+    public void checkPbckbgeAccess(String pkg) {
         if (pkg == null) {
-            throw new NullPointerException("package name can't be null");
+            throw new NullPointerException("pbckbge nbme cbn't be null");
         }
 
         String[] pkgs;
-        synchronized (packageAccessLock) {
+        synchronized (pbckbgeAccessLock) {
             /*
-             * Do we need to update our property array?
+             * Do we need to updbte our property brrby?
              */
-            if (!packageAccessValid) {
+            if (!pbckbgeAccessVblid) {
                 String tmpPropertyStr =
                     AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
                             public String run() {
-                                return java.security.Security.getProperty(
-                                    "package.access");
+                                return jbvb.security.Security.getProperty(
+                                    "pbckbge.bccess");
                             }
                         }
                     );
-                packageAccess = getPackages(tmpPropertyStr);
-                packageAccessValid = true;
+                pbckbgeAccess = getPbckbges(tmpPropertyStr);
+                pbckbgeAccessVblid = true;
             }
 
-            // Using a snapshot of packageAccess -- don't care if static field
-            // changes afterwards; array contents won't change.
-            pkgs = packageAccess;
+            // Using b snbpshot of pbckbgeAccess -- don't cbre if stbtic field
+            // chbnges bfterwbrds; brrby contents won't chbnge.
+            pkgs = pbckbgeAccess;
         }
 
         /*
-         * Traverse the list of packages, check for any matches.
+         * Trbverse the list of pbckbges, check for bny mbtches.
          */
         for (String restrictedPkg : pkgs) {
-            if (pkg.startsWith(restrictedPkg) || restrictedPkg.equals(pkg + ".")) {
+            if (pkg.stbrtsWith(restrictedPkg) || restrictedPkg.equbls(pkg + ".")) {
                 checkPermission(
-                    new RuntimePermission("accessClassInPackage." + pkg));
-                break;  // No need to continue; only need to check this once
+                    new RuntimePermission("bccessClbssInPbckbge." + pkg));
+                brebk;  // No need to continue; only need to check this once
             }
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to define classes in the package
-     * specified by the argument.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to define clbsses in the pbckbge
+     * specified by the brgument.
      * <p>
-     * This method is used by the <code>loadClass</code> method of some
-     * class loaders.
+     * This method is used by the <code>lobdClbss</code> method of some
+     * clbss lobders.
      * <p>
-     * This method first gets a list of restricted packages by
-     * obtaining a comma-separated list from a call to
-     * <code>java.security.Security.getProperty("package.definition")</code>,
-     * and checks to see if <code>pkg</code> starts with or equals
-     * any of the restricted packages. If it does, then
-     * <code>checkPermission</code> gets called with the
-     * <code>RuntimePermission("defineClassInPackage."+pkg)</code>
+     * This method first gets b list of restricted pbckbges by
+     * obtbining b commb-sepbrbted list from b cbll to
+     * <code>jbvb.security.Security.getProperty("pbckbge.definition")</code>,
+     * bnd checks to see if <code>pkg</code> stbrts with or equbls
+     * bny of the restricted pbckbges. If it does, then
+     * <code>checkPermission</code> gets cblled with the
+     * <code>RuntimePermission("defineClbssInPbckbge."+pkg)</code>
      * permission.
      * <p>
      * If this method is overridden, then
-     * <code>super.checkPackageDefinition</code> should be called
-     * as the first line in the overridden method.
+     * <code>super.checkPbckbgeDefinition</code> should be cblled
+     * bs the first line in the overridden method.
      *
-     * @param      pkg   the package name.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to define classes in the specified package.
-     * @see        java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-     * @see        java.security.Security#getProperty getProperty
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      pkg   the pbckbge nbme.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to define clbsses in the specified pbckbge.
+     * @see        jbvb.lbng.ClbssLobder#lobdClbss(jbvb.lbng.String, boolebn)
+     * @see        jbvb.security.Security#getProperty getProperty
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkPackageDefinition(String pkg) {
+    public void checkPbckbgeDefinition(String pkg) {
         if (pkg == null) {
-            throw new NullPointerException("package name can't be null");
+            throw new NullPointerException("pbckbge nbme cbn't be null");
         }
 
         String[] pkgs;
-        synchronized (packageDefinitionLock) {
+        synchronized (pbckbgeDefinitionLock) {
             /*
-             * Do we need to update our property array?
+             * Do we need to updbte our property brrby?
              */
-            if (!packageDefinitionValid) {
+            if (!pbckbgeDefinitionVblid) {
                 String tmpPropertyStr =
                     AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
                             public String run() {
-                                return java.security.Security.getProperty(
-                                    "package.definition");
+                                return jbvb.security.Security.getProperty(
+                                    "pbckbge.definition");
                             }
                         }
                     );
-                packageDefinition = getPackages(tmpPropertyStr);
-                packageDefinitionValid = true;
+                pbckbgeDefinition = getPbckbges(tmpPropertyStr);
+                pbckbgeDefinitionVblid = true;
             }
-            // Using a snapshot of packageDefinition -- don't care if static
-            // field changes afterwards; array contents won't change.
-            pkgs = packageDefinition;
+            // Using b snbpshot of pbckbgeDefinition -- don't cbre if stbtic
+            // field chbnges bfterwbrds; brrby contents won't chbnge.
+            pkgs = pbckbgeDefinition;
         }
 
         /*
-         * Traverse the list of packages, check for any matches.
+         * Trbverse the list of pbckbges, check for bny mbtches.
          */
         for (String restrictedPkg : pkgs) {
-            if (pkg.startsWith(restrictedPkg) || restrictedPkg.equals(pkg + ".")) {
+            if (pkg.stbrtsWith(restrictedPkg) || restrictedPkg.equbls(pkg + ".")) {
                 checkPermission(
-                    new RuntimePermission("defineClassInPackage." + pkg));
-                break; // No need to continue; only need to check this once
+                    new RuntimePermission("defineClbssInPbckbge." + pkg));
+                brebk; // No need to continue; only need to check this once
             }
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to set the socket factory used by
-     * <code>ServerSocket</code> or <code>Socket</code>, or the stream
-     * handler factory used by <code>URL</code>.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to set the socket fbctory used by
+     * <code>ServerSocket</code> or <code>Socket</code>, or the strebm
+     * hbndler fbctory used by <code>URL</code>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("setFactory")</code> permission.
+     * This method cblls <code>checkPermission</code> with the
+     * <code>RuntimePermission("setFbctory")</code> permission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkSetFactory</code>
-     * at the point the overridden method would normally throw an
+     * If you override this method, then you should mbke b cbll to
+     * <code>super.checkSetFbctory</code>
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to specify a socket factory or a stream
-     *             handler factory.
+     * @exception  SecurityException  if the cblling threbd does not hbve
+     *             permission to specify b socket fbctory or b strebm
+     *             hbndler fbctory.
      *
-     * @see        java.net.ServerSocket#setSocketFactory(java.net.SocketImplFactory) setSocketFactory
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory) setSocketImplFactory
-     * @see        java.net.URL#setURLStreamHandlerFactory(java.net.URLStreamHandlerFactory) setURLStreamHandlerFactory
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        jbvb.net.ServerSocket#setSocketFbctory(jbvb.net.SocketImplFbctory) setSocketFbctory
+     * @see        jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory) setSocketImplFbctory
+     * @see        jbvb.net.URL#setURLStrebmHbndlerFbctory(jbvb.net.URLStrebmHbndlerFbctory) setURLStrebmHbndlerFbctory
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkSetFactory() {
-        checkPermission(new RuntimePermission("setFactory"));
+    public void checkSetFbctory() {
+        checkPermission(new RuntimePermission("setFbctory"));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access members.
+     * Throws b <code>SecurityException</code> if the
+     * cblling threbd is not bllowed to bccess members.
      * <p>
-     * The default policy is to allow access to PUBLIC members, as well
-     * as access to classes that have the same class loader as the caller.
-     * In all other cases, this method calls <code>checkPermission</code>
-     * with the <code>RuntimePermission("accessDeclaredMembers")
+     * The defbult policy is to bllow bccess to PUBLIC members, bs well
+     * bs bccess to clbsses thbt hbve the sbme clbss lobder bs the cbller.
+     * In bll other cbses, this method cblls <code>checkPermission</code>
+     * with the <code>RuntimePermission("bccessDeclbredMembers")
      * </code> permission.
      * <p>
-     * If this method is overridden, then a call to
-     * <code>super.checkMemberAccess</code> cannot be made,
-     * as the default implementation of <code>checkMemberAccess</code>
-     * relies on the code being checked being at a stack depth of
+     * If this method is overridden, then b cbll to
+     * <code>super.checkMemberAccess</code> cbnnot be mbde,
+     * bs the defbult implementbtion of <code>checkMemberAccess</code>
+     * relies on the code being checked being bt b stbck depth of
      * 4.
      *
-     * @param clazz the class that reflection is to be performed on.
+     * @pbrbm clbzz the clbss thbt reflection is to be performed on.
      *
-     * @param which type of access, PUBLIC or DECLARED.
+     * @pbrbm which type of bccess, PUBLIC or DECLARED.
      *
-     * @exception  SecurityException if the caller does not have
-     *             permission to access members.
-     * @exception  NullPointerException if the <code>clazz</code> argument is
+     * @exception  SecurityException if the cbller does not hbve
+     *             permission to bccess members.
+     * @exception  NullPointerException if the <code>clbzz</code> brgument is
      *             <code>null</code>.
      *
-     * @deprecated This method relies on the caller being at a stack depth
-     *             of 4 which is error-prone and cannot be enforced by the runtime.
-     *             Users of this method should instead invoke {@link #checkPermission}
-     *             directly.  This method will be changed in a future release
-     *             to check the permission {@code java.security.AllPermission}.
+     * @deprecbted This method relies on the cbller being bt b stbck depth
+     *             of 4 which is error-prone bnd cbnnot be enforced by the runtime.
+     *             Users of this method should instebd invoke {@link #checkPermission}
+     *             directly.  This method will be chbnged in b future relebse
+     *             to check the permission {@code jbvb.security.AllPermission}.
      *
-     * @see java.lang.reflect.Member
+     * @see jbvb.lbng.reflect.Member
      * @since 1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    @Deprecated
-    @CallerSensitive
-    public void checkMemberAccess(Class<?> clazz, int which) {
-        if (clazz == null) {
-            throw new NullPointerException("class can't be null");
+    @Deprecbted
+    @CbllerSensitive
+    public void checkMemberAccess(Clbss<?> clbzz, int which) {
+        if (clbzz == null) {
+            throw new NullPointerException("clbss cbn't be null");
         }
         if (which != Member.PUBLIC) {
-            Class<?> stack[] = getClassContext();
+            Clbss<?> stbck[] = getClbssContext();
             /*
-             * stack depth of 4 should be the caller of one of the
-             * methods in java.lang.Class that invoke checkMember
-             * access. The stack should look like:
+             * stbck depth of 4 should be the cbller of one of the
+             * methods in jbvb.lbng.Clbss thbt invoke checkMember
+             * bccess. The stbck should look like:
              *
-             * someCaller                        [3]
-             * java.lang.Class.someReflectionAPI [2]
-             * java.lang.Class.checkMemberAccess [1]
-             * SecurityManager.checkMemberAccess [0]
+             * someCbller                        [3]
+             * jbvb.lbng.Clbss.someReflectionAPI [2]
+             * jbvb.lbng.Clbss.checkMemberAccess [1]
+             * SecurityMbnbger.checkMemberAccess [0]
              *
              */
-            if ((stack.length<4) ||
-                (stack[3].getClassLoader() != clazz.getClassLoader())) {
-                checkPermission(SecurityConstants.CHECK_MEMBER_ACCESS_PERMISSION);
+            if ((stbck.length<4) ||
+                (stbck[3].getClbssLobder() != clbzz.getClbssLobder())) {
+                checkPermission(SecurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
             }
         }
     }
 
     /**
-     * Determines whether the permission with the specified permission target
-     * name should be granted or denied.
+     * Determines whether the permission with the specified permission tbrget
+     * nbme should be grbnted or denied.
      *
-     * <p> If the requested permission is allowed, this method returns
-     * quietly. If denied, a SecurityException is raised.
+     * <p> If the requested permission is bllowed, this method returns
+     * quietly. If denied, b SecurityException is rbised.
      *
-     * <p> This method creates a <code>SecurityPermission</code> object for
-     * the given permission target name and calls <code>checkPermission</code>
+     * <p> This method crebtes b <code>SecurityPermission</code> object for
+     * the given permission tbrget nbme bnd cblls <code>checkPermission</code>
      * with it.
      *
-     * <p> See the documentation for
-     * <code>{@link java.security.SecurityPermission}</code> for
-     * a list of possible permission target names.
+     * <p> See the documentbtion for
+     * <code>{@link jbvb.security.SecurityPermission}</code> for
+     * b list of possible permission tbrget nbmes.
      *
-     * <p> If you override this method, then you should make a call to
+     * <p> If you override this method, then you should mbke b cbll to
      * <code>super.checkSecurityAccess</code>
-     * at the point the overridden method would normally throw an
+     * bt the point the overridden method would normblly throw bn
      * exception.
      *
-     * @param target the target name of the <code>SecurityPermission</code>.
+     * @pbrbm tbrget the tbrget nbme of the <code>SecurityPermission</code>.
      *
-     * @exception SecurityException if the calling thread does not have
-     * permission for the requested access.
-     * @exception NullPointerException if <code>target</code> is null.
-     * @exception IllegalArgumentException if <code>target</code> is empty.
+     * @exception SecurityException if the cblling threbd does not hbve
+     * permission for the requested bccess.
+     * @exception NullPointerException if <code>tbrget</code> is null.
+     * @exception IllegblArgumentException if <code>tbrget</code> is empty.
      *
      * @since   1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @see        #checkPermission(jbvb.security.Permission) checkPermission
      */
-    public void checkSecurityAccess(String target) {
-        checkPermission(new SecurityPermission(target));
+    public void checkSecurityAccess(String tbrget) {
+        checkPermission(new SecurityPermission(tbrget));
     }
 
-    private native Class<?> currentLoadedClass0();
+    privbte nbtive Clbss<?> currentLobdedClbss0();
 
     /**
-     * Returns the thread group into which to instantiate any new
-     * thread being created at the time this is being called.
-     * By default, it returns the thread group of the current
-     * thread. This should be overridden by a specific security
-     * manager to return the appropriate thread group.
+     * Returns the threbd group into which to instbntibte bny new
+     * threbd being crebted bt the time this is being cblled.
+     * By defbult, it returns the threbd group of the current
+     * threbd. This should be overridden by b specific security
+     * mbnbger to return the bppropribte threbd group.
      *
-     * @return  ThreadGroup that new threads are instantiated into
+     * @return  ThrebdGroup thbt new threbds bre instbntibted into
      * @since   1.1
-     * @see     java.lang.ThreadGroup
+     * @see     jbvb.lbng.ThrebdGroup
      */
-    public ThreadGroup getThreadGroup() {
-        return Thread.currentThread().getThreadGroup();
+    public ThrebdGroup getThrebdGroup() {
+        return Threbd.currentThrebd().getThrebdGroup();
     }
 
 }

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
 
 
 // jmx imports
 //
-import javax.management.Notification;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Represents a notification emitted when an
- * entry is added or deleted from an SNMP table.
+ * Represents b notificbtion emitted when bn
+ * entry is bdded or deleted from bn SNMP tbble.
  * <P>
- * The <CODE>SnmpTableEntryNotification</CODE> object contains
- * the reference to the entry added or removed from the table.
+ * The <CODE>SnmpTbbleEntryNotificbtion</CODE> object contbins
+ * the reference to the entry bdded or removed from the tbble.
  * <P>
- * The list of notifications fired by the <CODE>SnmpMibTable</CODE> is
+ * The list of notificbtions fired by the <CODE>SnmpMibTbble</CODE> is
  * the following:
  * <UL>
- * <LI>A new entry has been added to the SNMP table.
- * <LI>An existing entry has been removed from the SNMP table.
+ * <LI>A new entry hbs been bdded to the SNMP tbble.
+ * <LI>An existing entry hbs been removed from the SNMP tbble.
   </UL>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpTableEntryNotification extends Notification {
+public clbss SnmpTbbleEntryNotificbtion extends Notificbtion {
 
     /**
-     * Creates and initializes a table entry notification object.
+     * Crebtes bnd initiblizes b tbble entry notificbtion object.
      *
-     * @param type The notification type.
-     * @param source The notification producer.
-     * @param sequenceNumber The notification sequence number within the
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion producer.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the
      *                  source object.
-     * @param timeStamp The notification emission date.
-     * @param entry     The entry object (may be null if the entry is
-     *                  registered in the MBeanServer).
-     * @param entryName The ObjectName entry object (may be null if the
-     *                  entry is not registered in the MBeanServer).
+     * @pbrbm timeStbmp The notificbtion emission dbte.
+     * @pbrbm entry     The entry object (mby be null if the entry is
+     *                  registered in the MBebnServer).
+     * @pbrbm entryNbme The ObjectNbme entry object (mby be null if the
+     *                  entry is not registered in the MBebnServer).
      * @since 1.5
      */
-    SnmpTableEntryNotification(String type, Object source,
-                               long sequenceNumber, long timeStamp,
-                               Object entry, ObjectName entryName) {
+    SnmpTbbleEntryNotificbtion(String type, Object source,
+                               long sequenceNumber, long timeStbmp,
+                               Object entry, ObjectNbme entryNbme) {
 
-        super(type, source, sequenceNumber, timeStamp);
+        super(type, source, sequenceNumber, timeStbmp);
         this.entry = entry;
-        this.name  = entryName;
+        this.nbme  = entryNbme;
     }
 
     /**
      * Gets the entry object.
-     * May be null if the entry is registered in the MBeanServer, and the
-     * MIB is using the generic MetaData (see mibgen).
+     * Mby be null if the entry is registered in the MBebnServer, bnd the
+     * MIB is using the generic MetbDbtb (see mibgen).
      *
      * @return The entry.
      */
@@ -88,54 +88,54 @@ public class SnmpTableEntryNotification extends Notification {
     }
 
     /**
-     * Gets the ObjectName of the entry.
-     * May be null if the entry is not registered in the MBeanServer.
+     * Gets the ObjectNbme of the entry.
+     * Mby be null if the entry is not registered in the MBebnServer.
      *
-     * @return The ObjectName of the entry.
+     * @return The ObjectNbme of the entry.
      * @since 1.5
      */
-    public ObjectName getEntryName() {
-        return name;
+    public ObjectNbme getEntryNbme() {
+        return nbme;
     }
 
     // PUBLIC VARIABLES
     //-----------------
 
     /**
-     * Notification type denoting that a new entry has been added to the
-     * SNMP table.
-     * <BR>The value of this notification type is
-     * <CODE>jmx.snmp.table.entry.added</CODE>.
+     * Notificbtion type denoting thbt b new entry hbs been bdded to the
+     * SNMP tbble.
+     * <BR>The vblue of this notificbtion type is
+     * <CODE>jmx.snmp.tbble.entry.bdded</CODE>.
      */
-    public static final String SNMP_ENTRY_ADDED =
-        "jmx.snmp.table.entry.added";
+    public stbtic finbl String SNMP_ENTRY_ADDED =
+        "jmx.snmp.tbble.entry.bdded";
 
     /**
-     * Notification type denoting that an entry has been removed from the
-     * SNMP table.
-     * <BR>The value of this notification type is
-     * <CODE>jmx.snmp.table.entry.removed</CODE>.
+     * Notificbtion type denoting thbt bn entry hbs been removed from the
+     * SNMP tbble.
+     * <BR>The vblue of this notificbtion type is
+     * <CODE>jmx.snmp.tbble.entry.removed</CODE>.
      */
-    public static final String SNMP_ENTRY_REMOVED =
-        "jmx.snmp.table.entry.removed";
+    public stbtic finbl String SNMP_ENTRY_REMOVED =
+        "jmx.snmp.tbble.entry.removed";
 
     // PRIVATE VARIABLES
     //------------------
 
     /**
      * The entry object.
-     * @serial
+     * @seribl
      */
-    private final Object entry;
+    privbte finbl Object entry;
 
     /**
-     * The entry name.
-     * @serial
+     * The entry nbme.
+     * @seribl
      * @since 1.5
      */
-    private final ObjectName name;
+    privbte finbl ObjectNbme nbme;
 
-    // Ensure compatibility
+    // Ensure compbtibility
     //
-    private static final long serialVersionUID = 5832592016227890252L;
+    privbte stbtic finbl long seriblVersionUID = 5832592016227890252L;
 }

@@ -3,77 +3,77 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="pa"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="pb"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ab" draft="contributed">ਅਬਖਾਜ਼ੀਅਨ</language>
-			<language type="ace" draft="contributed">ਅਚੀਨੀ</language>
-			<language type="ach" draft="contributed">ਅਕੋਲੀ</language>
-			<language type="af" draft="contributed">ਅਫ਼ਰੀਕੀ</language>
-			<language type="apa" draft="contributed">ਅਪਾਚੇ ਭਾਸ਼ਾ</language>
-			<language type="ar" draft="contributed">ਅਰਬੀ</language>
-			<language type="as" draft="contributed">ਅਸਾਮੀ</language>
-			<language type="aus" draft="contributed">ਆਸਟਰੇਲੀਅਨ ਭਾਸ਼ਾ</language>
-			<language type="az" draft="contributed">ਅਜ਼ੇਰਬੈਜਨਿ</language>
-			<language type="bat" draft="contributed">ਬੈਲਟਿਕ ਭਾਸ਼ਾ</language>
-			<language type="be" draft="contributed">ਬੇਲਾਰੂਸੀਅਨ</language>
-			<language type="bn" draft="contributed">ਬੰਗਾਲੀ</language>
-			<language type="da" draft="contributed">ਡੈਨਿਸ਼</language>
-			<language type="de" draft="contributed">ਜਰਮਨ</language>
-			<language type="en" draft="contributed">ਅੰਗਰੇਜ਼ੀ</language>
-			<language type="eo" draft="contributed">ਏਸਪਰੇਂਟੋ</language>
-			<language type="es" draft="contributed">ਸਪੇਨਿਸ਼</language>
-			<language type="fi" draft="contributed">ਫਿਨਿਸ਼</language>
-			<language type="fr" draft="contributed">ਫਰੈਂਚ</language>
-			<language type="gu" draft="contributed">ਗੁਜਰਾਤੀ</language>
-			<language type="hi" draft="contributed">ਹਿੰਦੀ</language>
-			<language type="id" draft="contributed">ਇੰਡੋਨੇਸ਼ੀਆਈ</language>
-			<language type="it" draft="contributed">ਇਤਾਲਵੀ</language>
-			<language type="ja" draft="unconfirmed">ਜਾਪਾਨੀ</language>
-			<language type="mk" draft="contributed">ਮੈਕੇਡੋਨੀਅਨ</language>
-			<language type="nl" draft="contributed">ਡੱਚ</language>
-			<language type="no" draft="contributed">ਨਾਰਵੇਜੀਅਨ</language>
-			<language type="pa">ਪੰਜਾਬੀ</language>
-			<language type="pt" draft="contributed">ਪੋਰਤੂਗੂਈਸ</language>
-			<language type="sv" draft="contributed">ਸਵੈਡਿਸ਼</language>
-			<language type="ta" draft="contributed">ਤਾਮਿਲ</language>
-			<language type="te" draft="contributed">ਤੇਲਗੂ</language>
-			<language type="th" draft="contributed">ਥਾਈ</language>
-			<language type="tw" draft="contributed">ਤ੍ਵਿ</language>
-			<language type="ug" draft="contributed">ਉਇਘੁਰ</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb" drbft="contributed">ਅਬਖਾਜ਼ੀਅਨ</lbngubge>
+			<lbngubge type="bce" drbft="contributed">ਅਚੀਨੀ</lbngubge>
+			<lbngubge type="bch" drbft="contributed">ਅਕੋਲੀ</lbngubge>
+			<lbngubge type="bf" drbft="contributed">ਅਫ਼ਰੀਕੀ</lbngubge>
+			<lbngubge type="bpb" drbft="contributed">ਅਪਾਚੇ ਭਾਸ਼ਾ</lbngubge>
+			<lbngubge type="br" drbft="contributed">ਅਰਬੀ</lbngubge>
+			<lbngubge type="bs" drbft="contributed">ਅਸਾਮੀ</lbngubge>
+			<lbngubge type="bus" drbft="contributed">ਆਸਟਰੇਲੀਅਨ ਭਾਸ਼ਾ</lbngubge>
+			<lbngubge type="bz" drbft="contributed">ਅਜ਼ੇਰਬੈਜਨਿ</lbngubge>
+			<lbngubge type="bbt" drbft="contributed">ਬੈਲਟਿਕ ਭਾਸ਼ਾ</lbngubge>
+			<lbngubge type="be" drbft="contributed">ਬੇਲਾਰੂਸੀਅਨ</lbngubge>
+			<lbngubge type="bn" drbft="contributed">ਬੰਗਾਲੀ</lbngubge>
+			<lbngubge type="db" drbft="contributed">ਡੈਨਿਸ਼</lbngubge>
+			<lbngubge type="de" drbft="contributed">ਜਰਮਨ</lbngubge>
+			<lbngubge type="en" drbft="contributed">ਅੰਗਰੇਜ਼ੀ</lbngubge>
+			<lbngubge type="eo" drbft="contributed">ਏਸਪਰੇਂਟੋ</lbngubge>
+			<lbngubge type="es" drbft="contributed">ਸਪੇਨਿਸ਼</lbngubge>
+			<lbngubge type="fi" drbft="contributed">ਫਿਨਿਸ਼</lbngubge>
+			<lbngubge type="fr" drbft="contributed">ਫਰੈਂਚ</lbngubge>
+			<lbngubge type="gu" drbft="contributed">ਗੁਜਰਾਤੀ</lbngubge>
+			<lbngubge type="hi" drbft="contributed">ਹਿੰਦੀ</lbngubge>
+			<lbngubge type="id" drbft="contributed">ਇੰਡੋਨੇਸ਼ੀਆਈ</lbngubge>
+			<lbngubge type="it" drbft="contributed">ਇਤਾਲਵੀ</lbngubge>
+			<lbngubge type="jb" drbft="unconfirmed">ਜਾਪਾਨੀ</lbngubge>
+			<lbngubge type="mk" drbft="contributed">ਮੈਕੇਡੋਨੀਅਨ</lbngubge>
+			<lbngubge type="nl" drbft="contributed">ਡੱਚ</lbngubge>
+			<lbngubge type="no" drbft="contributed">ਨਾਰਵੇਜੀਅਨ</lbngubge>
+			<lbngubge type="pb">ਪੰਜਾਬੀ</lbngubge>
+			<lbngubge type="pt" drbft="contributed">ਪੋਰਤੂਗੂਈਸ</lbngubge>
+			<lbngubge type="sv" drbft="contributed">ਸਵੈਡਿਸ਼</lbngubge>
+			<lbngubge type="tb" drbft="contributed">ਤਾਮਿਲ</lbngubge>
+			<lbngubge type="te" drbft="contributed">ਤੇਲਗੂ</lbngubge>
+			<lbngubge type="th" drbft="contributed">ਥਾਈ</lbngubge>
+			<lbngubge type="tw" drbft="contributed">ਤ੍ਵਿ</lbngubge>
+			<lbngubge type="ug" drbft="contributed">ਉਇਘੁਰ</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Deva" draft="unconfirmed">ਦੇਵਨਾਗਰੀ</script>
-			<script type="Guru" draft="unconfirmed">ਗੁਰਮੁਖੀ</script>
+			<script type="Devb" drbft="unconfirmed">ਦੇਵਨਾਗਰੀ</script>
+			<script type="Guru" drbft="unconfirmed">ਗੁਰਮੁਖੀ</script>
 		</scripts>
 		<territories>
 			<territory type="IN">ਭਾਰਤ</territory>
-			<territory type="ZZ" draft="unconfirmed">ਅਣਜਾਣ</territory>
+			<territory type="ZZ" drbft="unconfirmed">ਅਣਜਾਣ</territory>
 		</territories>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">ਮੀਟਰਿਕ</measurementSystemName>
-			<measurementSystemName type="US">ਯੂ. ਐੱਸ.</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[\u0A71 \u0A70 \u0A3C ੦ ੧ ੨ ੩ ੪ ੫ ੬ ੭ ੮ ੯ ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ {ਸ\u0A3C} ਹ ਕ ਖ {ਖ\u0A3C} ਗ {ਗ\u0A3C} ਘ ਙ ਚ ਛ ਜ {ਜ\u0A3C} ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ {ਫ\u0A3C} ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ \u0A4D ਾ ਿ ੀ \u0A41 \u0A42 \u0A47 \u0A48 \u0A4B \u0A4C]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u200C\u200D ਃ \u0A02 \u0A01 {ਲ\u0A3C}]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ ਹ ਕ ਖ ਗ ਘ ਙ ਚ ਛ ਜ ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ]</exemplarCharacters>
-	</characters>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">ਮੀਟਰਿਕ</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">ਯੂ. ਐੱਸ.</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[\u0A71 \u0A70 \u0A3C ੦ ੧ ੨ ੩ ੪ ੫ ੬ ੭ ੮ ੯ ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ {ਸ\u0A3C} ਹ ਕ ਖ {ਖ\u0A3C} ਗ {ਗ\u0A3C} ਘ ਙ ਚ ਛ ਜ {ਜ\u0A3C} ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ {ਫ\u0A3C} ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ \u0A4D ਾ ਿ ੀ \u0A41 \u0A42 \u0A47 \u0A48 \u0A4B \u0A4C]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[\u200C\u200D ਃ \u0A02 \u0A01 {ਲ\u0A3C}]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ ਹ ਕ ਖ ਗ ਘ ਙ ਚ ਛ ਜ ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">'</quotationStart>
-		<quotationEnd draft="unconfirmed">'</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">&quot;</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">&quot;</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">'</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">'</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">&quot;</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">&quot;</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="5">ਮਈ</month>
 						</monthWidth>
 						<monthWidth type="wide">
@@ -91,11 +91,11 @@
 							<month type="12">ਦਸੰਬਰ</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="bbbrevibted">
 							<month type="5">ਮਈ</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="1">ਜ</month>
 							<month type="2">ਫ</month>
 							<month type="3">ਮਾ</month>
@@ -125,226 +125,226 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ਐਤ.</day>
-							<day type="mon">ਸੋਮ.</day>
-							<day type="tue">ਮੰਗਲ.</day>
-							<day type="wed">ਬੁਧ.</day>
-							<day type="thu">ਵੀਰ.</day>
-							<day type="fri">ਸ਼ੁਕਰ.</day>
-							<day type="sat">ਸ਼ਨੀ.</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">ਐਤਵਾਰ</day>
-							<day type="mon">ਸੋਮਵਾਰ</day>
-							<day type="tue">ਮੰਗਲਵਾਰ</day>
-							<day type="wed">ਬੁਧਵਾਰ</day>
-							<day type="thu">ਵੀਰਵਾਰ</day>
-							<day type="fri">ਸ਼ੁੱਕਰਵਾਰ</day>
-							<day type="sat">ਸ਼ਨੀਚਰਵਾਰ</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">ਐ</day>
-							<day type="mon">ਸੋ</day>
-							<day type="tue">ਮੰ</day>
-							<day type="wed">ਬੁੱ</day>
-							<day type="thu">ਵੀ</day>
-							<day type="fri">ਸ਼ੁੱ</day>
-							<day type="sat">ਸ਼</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">ਐਤਵਾਰ</day>
-							<day type="mon">ਸੋਮਵਾਰ</day>
-							<day type="tue">ਮੰਗਲਵਾਰ</day>
-							<day type="wed">ਬੁਧਵਾਰ</day>
-							<day type="thu">ਵੀਰਵਾਰ</day>
-							<day type="fri">ਸ਼ੁੱਕਰਵਾਰ</day>
-							<day type="sat">ਸ਼ਨੀਚਰਵਾਰ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">ਇਕ ਚੌਥਾਈ</quarter>
-							<quarter type="2">ਅੱਧਾ</quarter>
-							<quarter type="3">ਪੌਣਾ</quarter>
-							<quarter type="4">ਪੂਰਾ</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="wide">
-							<quarter type="1">ਇਕ ਚੌਥਾਈ</quarter>
-							<quarter type="2">ਅੱਧਾ</quarter>
-							<quarter type="3">ਪੌਣਾ</quarter>
-							<quarter type="4">ਪੂਰਾ</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">ਪੂਰਵ ਦੁਪਹਿਰ</dayPeriod>
-							<dayPeriod type="pm">ਬਾਅਦ ਦੁਪਹਿਰ</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0">ਈ. ਪੂ.</era>
-						<era type="1">ਸਾਲ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">ਐਤ.</dby>
+							<dby type="mon">ਸੋਮ.</dby>
+							<dby type="tue">ਮੰਗਲ.</dby>
+							<dby type="wed">ਬੁਧ.</dby>
+							<dby type="thu">ਵੀਰ.</dby>
+							<dby type="fri">ਸ਼ੁਕਰ.</dby>
+							<dby type="sbt">ਸ਼ਨੀ.</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">ਐਤਵਾਰ</dby>
+							<dby type="mon">ਸੋਮਵਾਰ</dby>
+							<dby type="tue">ਮੰਗਲਵਾਰ</dby>
+							<dby type="wed">ਬੁਧਵਾਰ</dby>
+							<dby type="thu">ਵੀਰਵਾਰ</dby>
+							<dby type="fri">ਸ਼ੁੱਕਰਵਾਰ</dby>
+							<dby type="sbt">ਸ਼ਨੀਚਰਵਾਰ</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">ਐ</dby>
+							<dby type="mon">ਸੋ</dby>
+							<dby type="tue">ਮੰ</dby>
+							<dby type="wed">ਬੁੱ</dby>
+							<dby type="thu">ਵੀ</dby>
+							<dby type="fri">ਸ਼ੁੱ</dby>
+							<dby type="sbt">ਸ਼</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">ਐਤਵਾਰ</dby>
+							<dby type="mon">ਸੋਮਵਾਰ</dby>
+							<dby type="tue">ਮੰਗਲਵਾਰ</dby>
+							<dby type="wed">ਬੁਧਵਾਰ</dby>
+							<dby type="thu">ਵੀਰਵਾਰ</dby>
+							<dby type="fri">ਸ਼ੁੱਕਰਵਾਰ</dby>
+							<dby type="sbt">ਸ਼ਨੀਚਰਵਾਰ</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="wide">
+							<qubrter type="1">ਇਕ ਚੌਥਾਈ</qubrter>
+							<qubrter type="2">ਅੱਧਾ</qubrter>
+							<qubrter type="3">ਪੌਣਾ</qubrter>
+							<qubrter type="4">ਪੂਰਾ</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="wide">
+							<qubrter type="1">ਇਕ ਚੌਥਾਈ</qubrter>
+							<qubrter type="2">ਅੱਧਾ</qubrter>
+							<qubrter type="3">ਪੌਣਾ</qubrter>
+							<qubrter type="4">ਪੂਰਾ</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">ਪੂਰਵ ਦੁਪਹਿਰ</dbyPeriod>
+							<dbyPeriod type="pm">ਬਾਅਦ ਦੁਪਹਿਰ</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbAbbr>
+						<erb type="0">ਈ. ਪੂ.</erb>
+						<erb type="1">ਸਾਲ</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="HHmmss">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="mmss">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MMM yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>ਯੁੱਗ</displayName>
+					<field type="erb">
+						<displbyNbme>ਯੁੱਗ</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>ਸਾਲ</displayName>
+					<field type="yebr">
+						<displbyNbme>ਸਾਲ</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>ਮਹੀਨਾ</displayName>
+						<displbyNbme>ਮਹੀਨਾ</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>ਹਫ਼ਤਾ</displayName>
+						<displbyNbme>ਹਫ਼ਤਾ</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>ਦਿਨ</displayName>
-						<relative type="-2">ਪਰਸੋਂ</relative>
-						<relative type="-1">ਲੰਘਿਆਂ ਕੱਲ</relative>
-						<relative type="0">ਅੱਜ</relative>
-						<relative type="1">ਭਲਕੇ</relative>
-						<relative type="2">ਪਰਸੋਂ</relative>
+					<field type="dby">
+						<displbyNbme>ਦਿਨ</displbyNbme>
+						<relbtive type="-2">ਪਰਸੋਂ</relbtive>
+						<relbtive type="-1">ਲੰਘਿਆਂ ਕੱਲ</relbtive>
+						<relbtive type="0">ਅੱਜ</relbtive>
+						<relbtive type="1">ਭਲਕੇ</relbtive>
+						<relbtive type="2">ਪਰਸੋਂ</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>ਹਫ਼ਤੇ ਦਾ ਦਿਨ</displayName>
+					<field type="weekdby">
+						<displbyNbme>ਹਫ਼ਤੇ ਦਾ ਦਿਨ</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>ਘੰਟਾ</displayName>
+						<displbyNbme>ਘੰਟਾ</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>ਮਿੰਟ</displayName>
+						<displbyNbme>ਮਿੰਟ</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>ਸਕਿੰਡ</displayName>
+						<displbyNbme>ਸਕਿੰਡ</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>ਖੇਤਰ</displayName>
+						<displbyNbme>ਖੇਤਰ</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="India">
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<metbzone type="Indib">
 				<short>
-					<standard>IST</standard>
+					<stbndbrd>IST</stbndbrd>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defbultNumberingSystem>lbtn</defbultNumberingSystem>
 		<otherNumberingSystems>
-			<native>guru</native>
+			<nbtive>guru</nbtive>
 		</otherNumberingSystems>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #,##,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤ #,##,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AFN">
-				<displayName draft="unconfirmed">ਅਫ਼ਗਾਨੀ</displayName>
+				<displbyNbme drbft="unconfirmed">ਅਫ਼ਗਾਨੀ</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName draft="unconfirmed">ਯੂਰੋ</displayName>
+				<displbyNbme drbft="unconfirmed">ਯੂਰੋ</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>ਰੁਪਿਯ</displayName>
+				<displbyNbme>ਰੁਪਿਯ</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName draft="unconfirmed">ਅਣਜਾਣ</displayName>
+				<displbyNbme drbft="unconfirmed">ਅਣਜਾਣ</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
-			<yesstr draft="unconfirmed">ਹਾਂ</yesstr>
-			<nostr draft="unconfirmed">ਨਹੀਂ</nostr>
-		</messages>
+		<messbges>
+			<yesstr drbft="unconfirmed">ਹਾਂ</yesstr>
+			<nostr drbft="unconfirmed">ਨਹੀਂ</nostr>
+		</messbges>
 	</posix>
 </ldml>
 

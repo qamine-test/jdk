@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  *  DESCRIPTION
- *    Calculates cliping boundary for Affine functions.
+ *    Cblculbtes cliping boundbry for Affine functions.
  *
  */
 
-#include "mlib_image.h"
-#include "mlib_SysMath.h"
-#include "mlib_ImageAffine.h"
+#include "mlib_imbge.h"
+#include "mlib_SysMbth.h"
+#include "mlib_ImbgeAffine.h"
 
 /***************************************************************/
-mlib_status mlib_AffineEdges(mlib_affine_param *param,
-                             const mlib_image  *dst,
-                             const mlib_image  *src,
+mlib_stbtus mlib_AffineEdges(mlib_bffine_pbrbm *pbrbm,
+                             const mlib_imbge  *dst,
+                             const mlib_imbge  *src,
                              void              *buff_lcl,
                              mlib_s32          buff_size,
                              mlib_s32          kw,
@@ -50,44 +50,44 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
                              mlib_s32          shifty)
 {
   mlib_u8 *buff = buff_lcl;
-  mlib_u8 **lineAddr = param->lineAddr;
+  mlib_u8 **lineAddr = pbrbm->lineAddr;
   mlib_s32 srcWidth, dstWidth, srcHeight, dstHeight, srcYStride, dstYStride;
-  mlib_s32 *leftEdges, *rightEdges, *xStarts, *yStarts, bsize0, bsize1 = 0;
-  mlib_u8 *srcData, *dstData;
-  mlib_u8 *paddings;
-  void *warp_tbl = NULL;
-  mlib_s32 yStart = 0, yFinish = -1, dX, dY;
+  mlib_s32 *leftEdges, *rightEdges, *xStbrts, *yStbrts, bsize0, bsize1 = 0;
+  mlib_u8 *srcDbtb, *dstDbtb;
+  mlib_u8 *pbddings;
+  void *wbrp_tbl = NULL;
+  mlib_s32 yStbrt = 0, yFinish = -1, dX, dY;
 
   mlib_d64 xClip, yClip, wClip, hClip;
-  mlib_d64 delta = 0.;
-  mlib_d64 minX, minY, maxX, maxY;
+  mlib_d64 deltb = 0.;
+  mlib_d64 minX, minY, mbxX, mbxY;
 
   mlib_d64 coords[4][2];
-  mlib_d64 a = mtx[0], b = mtx[1], tx = mtx[2], c = mtx[3], d = mtx[4], ty = mtx[5];
-  mlib_d64 a2, b2, tx2, c2, d2, ty2;
+  mlib_d64 b = mtx[0], b = mtx[1], tx = mtx[2], c = mtx[3], d = mtx[4], ty = mtx[5];
+  mlib_d64 b2, b2, tx2, c2, d2, ty2;
   mlib_d64 dx, dy, div;
   mlib_s32 sdx, sdy;
   mlib_d64 dTop;
-  mlib_d64 val0;
+  mlib_d64 vbl0;
   mlib_s32 top, bot;
-  mlib_s32 topIdx, max_xsize = 0;
+  mlib_s32 topIdx, mbx_xsize = 0;
   mlib_s32 i, j, t;
 
-  srcData = mlib_ImageGetData(src);
-  dstData = mlib_ImageGetData(dst);
-  srcWidth = mlib_ImageGetWidth(src);
-  srcHeight = mlib_ImageGetHeight(src);
-  dstWidth = mlib_ImageGetWidth(dst);
-  dstHeight = mlib_ImageGetHeight(dst);
-  srcYStride = mlib_ImageGetStride(src);
-  dstYStride = mlib_ImageGetStride(dst);
-  paddings = mlib_ImageGetPaddings(src);
+  srcDbtb = mlib_ImbgeGetDbtb(src);
+  dstDbtb = mlib_ImbgeGetDbtb(dst);
+  srcWidth = mlib_ImbgeGetWidth(src);
+  srcHeight = mlib_ImbgeGetHeight(src);
+  dstWidth = mlib_ImbgeGetWidth(dst);
+  dstHeight = mlib_ImbgeGetHeight(dst);
+  srcYStride = mlib_ImbgeGetStride(src);
+  dstYStride = mlib_ImbgeGetStride(dst);
+  pbddings = mlib_ImbgeGetPbddings(src);
 
   if (srcWidth >= (1 << 15) || srcHeight >= (1 << 15)) {
     return MLIB_FAILURE;
   }
 
-  div = a * d - b * c;
+  div = b * d - b * c;
 
   if (div == 0.0) {
     return MLIB_FAILURE;
@@ -99,10 +99,10 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
     bsize1 = ((srcHeight + 4 * kh) * sizeof(mlib_u8 *) + 7) & ~7;
   }
 
-  param->buff_malloc = NULL;
+  pbrbm->buff_mblloc = NULL;
 
   if ((4 * bsize0 + bsize1) > buff_size) {
-    buff = param->buff_malloc = mlib_malloc(4 * bsize0 + bsize1);
+    buff = pbrbm->buff_mblloc = mlib_mblloc(4 * bsize0 + bsize1);
 
     if (buff == NULL)
       return MLIB_FAILURE;
@@ -110,11 +110,11 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
   leftEdges = (mlib_s32 *) (buff);
   rightEdges = (mlib_s32 *) (buff += bsize0);
-  xStarts = (mlib_s32 *) (buff += bsize0);
-  yStarts = (mlib_s32 *) (buff += bsize0);
+  xStbrts = (mlib_s32 *) (buff += bsize0);
+  yStbrts = (mlib_s32 *) (buff += bsize0);
 
   if (lineAddr == NULL) {
-    mlib_u8 *srcLinePtr = srcData;
+    mlib_u8 *srcLinePtr = srcDbtb;
     lineAddr = (mlib_u8 **) (buff += bsize0);
     for (i = 0; i < 2 * kh; i++)
       lineAddr[i] = srcLinePtr;
@@ -131,93 +131,93 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
   if ((mlib_s32) edge < 0) {                               /* process edges */
     minX = 0;
     minY = 0;
-    maxX = srcWidth;
-    maxY = srcHeight;
+    mbxX = srcWidth;
+    mbxY = srcHeight;
   }
   else {
 
     if (kw > 1)
-      delta = -0.5;                                        /* for MLIB_NEAREST filter delta = 0. */
+      deltb = -0.5;                                        /* for MLIB_NEAREST filter deltb = 0. */
 
-    minX = (kw1 - delta);
-    minY = (kh1 - delta);
-    maxX = srcWidth - ((kw - 1) - (kw1 - delta));
-    maxY = srcHeight - ((kh - 1) - (kh1 - delta));
+    minX = (kw1 - deltb);
+    minY = (kh1 - deltb);
+    mbxX = srcWidth - ((kw - 1) - (kw1 - deltb));
+    mbxY = srcHeight - ((kh - 1) - (kh1 - deltb));
 
     if (edge == MLIB_EDGE_SRC_PADDED) {
-      if (minX < paddings[0])
-        minX = paddings[0];
+      if (minX < pbddings[0])
+        minX = pbddings[0];
 
-      if (minY < paddings[1])
-        minY = paddings[1];
+      if (minY < pbddings[1])
+        minY = pbddings[1];
 
-      if (maxX > (srcWidth - paddings[2]))
-        maxX = srcWidth - paddings[2];
+      if (mbxX > (srcWidth - pbddings[2]))
+        mbxX = srcWidth - pbddings[2];
 
-      if (maxY > (srcHeight - paddings[3]))
-        maxY = srcHeight - paddings[3];
+      if (mbxY > (srcHeight - pbddings[3]))
+        mbxY = srcHeight - pbddings[3];
     }
   }
 
   xClip = minX;
   yClip = minY;
-  wClip = maxX;
-  hClip = maxY;
+  wClip = mbxX;
+  hClip = mbxY;
 
 /*
- *   STORE_PARAM(param, src);
- *   STORE_PARAM(param, dst);
+ *   STORE_PARAM(pbrbm, src);
+ *   STORE_PARAM(pbrbm, dst);
  */
-  param->src = (void *)src;
-  param->dst = (void *)dst;
-  STORE_PARAM(param, lineAddr);
-  STORE_PARAM(param, dstData);
-  STORE_PARAM(param, srcYStride);
-  STORE_PARAM(param, dstYStride);
-  STORE_PARAM(param, leftEdges);
-  STORE_PARAM(param, rightEdges);
-  STORE_PARAM(param, xStarts);
-  STORE_PARAM(param, yStarts);
-  STORE_PARAM(param, max_xsize);
-  STORE_PARAM(param, yStart);
-  STORE_PARAM(param, yFinish);
-  STORE_PARAM(param, warp_tbl);
+  pbrbm->src = (void *)src;
+  pbrbm->dst = (void *)dst;
+  STORE_PARAM(pbrbm, lineAddr);
+  STORE_PARAM(pbrbm, dstDbtb);
+  STORE_PARAM(pbrbm, srcYStride);
+  STORE_PARAM(pbrbm, dstYStride);
+  STORE_PARAM(pbrbm, leftEdges);
+  STORE_PARAM(pbrbm, rightEdges);
+  STORE_PARAM(pbrbm, xStbrts);
+  STORE_PARAM(pbrbm, yStbrts);
+  STORE_PARAM(pbrbm, mbx_xsize);
+  STORE_PARAM(pbrbm, yStbrt);
+  STORE_PARAM(pbrbm, yFinish);
+  STORE_PARAM(pbrbm, wbrp_tbl);
 
   if ((xClip >= wClip) || (yClip >= hClip)) {
     return MLIB_SUCCESS;
   }
 
-  a2 = d;
+  b2 = d;
   b2 = -b;
   tx2 = (-d * tx + b * ty);
   c2 = -c;
-  d2 = a;
-  ty2 = (c * tx - a * ty);
+  d2 = b;
+  ty2 = (c * tx - b * ty);
 
-  dx = a2;
+  dx = b2;
   dy = c2;
 
   tx -= 0.5;
   ty -= 0.5;
 
-  coords[0][0] = xClip * a + yClip * b + tx;
+  coords[0][0] = xClip * b + yClip * b + tx;
   coords[0][1] = xClip * c + yClip * d + ty;
 
-  coords[2][0] = wClip * a + hClip * b + tx;
+  coords[2][0] = wClip * b + hClip * b + tx;
   coords[2][1] = wClip * c + hClip * d + ty;
 
   if (div > 0) {
-    coords[1][0] = wClip * a + yClip * b + tx;
+    coords[1][0] = wClip * b + yClip * b + tx;
     coords[1][1] = wClip * c + yClip * d + ty;
 
-    coords[3][0] = xClip * a + hClip * b + tx;
+    coords[3][0] = xClip * b + hClip * b + tx;
     coords[3][1] = xClip * c + hClip * d + ty;
   }
   else {
-    coords[3][0] = wClip * a + yClip * b + tx;
+    coords[3][0] = wClip * b + yClip * b + tx;
     coords[3][1] = wClip * c + yClip * d + ty;
 
-    coords[1][0] = xClip * a + hClip * b + tx;
+    coords[1][0] = xClip * b + hClip * b + tx;
     coords[1][1] = xClip * c + hClip * d + ty;
   }
 
@@ -229,7 +229,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
   }
 
   dTop = coords[topIdx][1];
-  val0 = dTop;
+  vbl0 = dTop;
   SAT32(top);
   bot = -1;
 
@@ -260,14 +260,14 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
         xRight = (xRight >= x) ? xRight : x;
       }
 
-      val0 = xLeft;
+      vbl0 = xLeft;
       SAT32(t);
       leftEdges[top] = (t >= xLeft) ? t : ++t;
 
       if (xLeft >= MLIB_S32_MAX)
         leftEdges[top] = MLIB_S32_MAX;
 
-      val0 = xRight;
+      vbl0 = xRight;
       SAT32(rightEdges[top]);
     }
     else
@@ -291,11 +291,11 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
     if (dY1 < 0.0)
       y1 = 0;
     else {
-      val0 = dY1 + 1;
+      vbl0 = dY1 + 1;
       SAT32(y1);
     }
 
-    val0 = dY2;
+    vbl0 = dY2;
     SAT32(y2);
 
     if (y2 >= dstHeight)
@@ -303,10 +303,10 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
     x += slope * (y1 - dY1);
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = y1; j <= y2; j++) {
-      val0 = x;
+      vbl0 = x;
       SAT32(t);
       leftEdges[j] = (t >= x) ? t : ++t;
 
@@ -331,11 +331,11 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
     if (dY1 < 0.0)
       y1 = 0;
     else {
-      val0 = dY1 + 1;
+      vbl0 = dY1 + 1;
       SAT32(y1);
     }
 
-    val0 = dY2;
+    vbl0 = dY2;
     SAT32(y2);
 
     if (y2 >= dstHeight)
@@ -343,10 +343,10 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
     x += slope * (y1 - dY1);
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = y1; j <= y2; j++) {
-      val0 = x;
+      vbl0 = x;
       SAT32(rightEdges[j]);
       x += slope;
     }
@@ -360,14 +360,14 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
     mlib_d64 dwCl = wClip * div;
     mlib_d64 dhCl = hClip * div;
 
-    mlib_s32 xCl = (mlib_s32) (xClip + delta);
-    mlib_s32 yCl = (mlib_s32) (yClip + delta);
-    mlib_s32 wCl = (mlib_s32) (wClip + delta);
-    mlib_s32 hCl = (mlib_s32) (hClip + delta);
+    mlib_s32 xCl = (mlib_s32) (xClip + deltb);
+    mlib_s32 yCl = (mlib_s32) (yClip + deltb);
+    mlib_s32 wCl = (mlib_s32) (wClip + deltb);
+    mlib_s32 hCl = (mlib_s32) (hClip + deltb);
 
     /*
-     * mlib_s32 xCl = (mlib_s32)(xClip + delta);
-     * mlib_s32 yCl = (mlib_s32)(yClip + delta);
+     * mlib_s32 xCl = (mlib_s32)(xClip + deltb);
+     * mlib_s32 yCl = (mlib_s32)(yClip + deltb);
      * mlib_s32 wCl = (mlib_s32)(wClip);
      * mlib_s32 hCl = (mlib_s32)(hClip);
      */
@@ -381,13 +381,13 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
     div = 1.0 / div;
 
-    sdx = (mlib_s32) (a2 * div * (1 << shiftx));
+    sdx = (mlib_s32) (b2 * div * (1 << shiftx));
     sdy = (mlib_s32) (c2 * div * (1 << shifty));
 
     if (div > 0) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = top; i <= bot; i++) {
         mlib_s32 xLeft = leftEdges[i];
@@ -402,7 +402,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
         xl = xLeft + 0.5;
         ii = i + 0.5;
         xr = xRight + 0.5;
-        dxs = xl * a2 + ii * b2 + tx2;
+        dxs = xl * b2 + ii * b2 + tx2;
         dys = xl * c2 + ii * d2 + ty2;
 
         if ((dxs < dxCl) || (dxs >= dwCl) || (dys < dyCl) || (dys >= dhCl)) {
@@ -414,7 +414,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
             xRight = -1;
         }
 
-        dxe = xr * a2 + ii * b2 + tx2;
+        dxe = xr * b2 + ii * b2 + tx2;
         dye = xr * c2 + ii * d2 + ty2;
 
         if ((dxe < dxCl) || (dxe >= dwCl) || (dye < dyCl) || (dye >= dhCl)) {
@@ -426,10 +426,10 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
             xRight = -1;
         }
 
-        xs = (mlib_s32) ((dxs * div + delta) * (1 << shiftx));
+        xs = (mlib_s32) ((dxs * div + deltb) * (1 << shiftx));
         x_s = xs >> shiftx;
 
-        ys = (mlib_s32) ((dys * div + delta) * (1 << shifty));
+        ys = (mlib_s32) ((dys * div + deltb) * (1 << shifty));
         y_s = ys >> shifty;
 
         if (x_s < xCl)
@@ -463,17 +463,17 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
         leftEdges[i] = xLeft;
         rightEdges[i] = xRight;
-        xStarts[i] = xs;
-        yStarts[i] = ys;
+        xStbrts[i] = xs;
+        yStbrts[i] = ys;
 
-        if ((xRight - xLeft + 1) > max_xsize)
-          max_xsize = (xRight - xLeft + 1);
+        if ((xRight - xLeft + 1) > mbx_xsize)
+          mbx_xsize = (xRight - xLeft + 1);
       }
     }
     else {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = top; i <= bot; i++) {
         mlib_s32 xLeft = leftEdges[i];
@@ -488,7 +488,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
         xl = xLeft + 0.5;
         ii = i + 0.5;
         xr = xRight + 0.5;
-        dxs = xl * a2 + ii * b2 + tx2;
+        dxs = xl * b2 + ii * b2 + tx2;
         dys = xl * c2 + ii * d2 + ty2;
 
         if ((dxs > dxCl) || (dxs <= dwCl) || (dys > dyCl) || (dys <= dhCl)) {
@@ -500,7 +500,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
             xRight = -1;
         }
 
-        dxe = xr * a2 + ii * b2 + tx2;
+        dxe = xr * b2 + ii * b2 + tx2;
         dye = xr * c2 + ii * d2 + ty2;
 
         if ((dxe > dxCl) || (dxe <= dwCl) || (dye > dyCl) || (dye <= dhCl)) {
@@ -512,7 +512,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
             xRight = -1;
         }
 
-        xs = (mlib_s32) ((dxs * div + delta) * (1 << shiftx));
+        xs = (mlib_s32) ((dxs * div + deltb) * (1 << shiftx));
         x_s = xs >> shiftx;
 
         if (x_s < xCl)
@@ -520,7 +520,7 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
         else if (x_s >= wCl)
           xs = ((wCl << shiftx) - 1);
 
-        ys = (mlib_s32) ((dys * div + delta) * (1 << shifty));
+        ys = (mlib_s32) ((dys * div + deltb) * (1 << shifty));
         y_s = ys >> shifty;
 
         if (y_s < yCl)
@@ -549,11 +549,11 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
 
         leftEdges[i] = xLeft;
         rightEdges[i] = xRight;
-        xStarts[i] = xs;
-        yStarts[i] = ys;
+        xStbrts[i] = xs;
+        yStbrts[i] = ys;
 
-        if ((xRight - xLeft + 1) > max_xsize)
-          max_xsize = (xRight - xLeft + 1);
+        if ((xRight - xLeft + 1) > mbx_xsize)
+          mbx_xsize = (xRight - xLeft + 1);
       }
     }
   }
@@ -565,19 +565,19 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
     while (leftEdges[bot] > rightEdges[bot])
       bot--;
 
-  yStart = top;
+  yStbrt = top;
   yFinish = bot;
   dX = sdx;
   dY = sdy;
 
-  dstData += (yStart - 1) * dstYStride;
+  dstDbtb += (yStbrt - 1) * dstYStride;
 
-  STORE_PARAM(param, dstData);
-  STORE_PARAM(param, yStart);
-  STORE_PARAM(param, yFinish);
-  STORE_PARAM(param, max_xsize);
-  STORE_PARAM(param, dX);
-  STORE_PARAM(param, dY);
+  STORE_PARAM(pbrbm, dstDbtb);
+  STORE_PARAM(pbrbm, yStbrt);
+  STORE_PARAM(pbrbm, yFinish);
+  STORE_PARAM(pbrbm, mbx_xsize);
+  STORE_PARAM(pbrbm, dX);
+  STORE_PARAM(pbrbm, dY);
 
   return MLIB_SUCCESS;
 }

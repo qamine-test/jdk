@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "CSystemColors.h"
 
-#import "java_awt_SystemColor.h"
-#import "sun_lwawt_macosx_LWCToolkit.h"
+#import "jbvb_bwt_SystemColor.h"
+#import "sun_lwbwt_mbcosx_LWCToolkit.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <JbvbRuntimeSupport/JbvbRuntimeSupport.h>
 
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
 NSColor **sColors = nil;
-NSColor **appleColors = nil;
+NSColor **bppleColors = nil;
 
-@implementation CSystemColors
+@implementbtion CSystemColors
 
-+ (void)initialize {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
++ (void)initiblize {
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
-    [CSystemColors reloadColors];
-    [[NSNotificationCenter defaultCenter] addObserver:[CSystemColors class] selector:@selector(systemColorsDidChange:) name:NSSystemColorsDidChangeNotification object:nil];
+    [CSystemColors relobdColors];
+    [[NSNotificbtionCenter defbultCenter] bddObserver:[CSystemColors clbss] selector:@selector(systemColorsDidChbnge:) nbme:NSSystemColorsDidChbngeNotificbtion object:nil];
 JNF_COCOA_EXIT(env);
 }
 
-static JNF_CLASS_CACHE(jc_LWCToolkit, "sun/lwawt/macosx/LWCToolkit");
-static JNF_STATIC_MEMBER_CACHE(jm_systemColorsChanged, jc_LWCToolkit, "systemColorsChanged", "()V");
+stbtic JNF_CLASS_CACHE(jc_LWCToolkit, "sun/lwbwt/mbcosx/LWCToolkit");
+stbtic JNF_STATIC_MEMBER_CACHE(jm_systemColorsChbnged, jc_LWCToolkit, "systemColorsChbnged", "()V");
 
-+ (void)systemColorsDidChange:(NSNotification *)notification {
++ (void)systemColorsDidChbnge:(NSNotificbtion *)notificbtion {
     AWT_ASSERT_APPKIT_THREAD;
 
-    [CSystemColors reloadColors];
+    [CSystemColors relobdColors];
 
-    // Call LWCToolkit with the news. LWCToolkit makes certain to do its duties
-    // from a new thread.
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    JNFCallStaticVoidMethod(env, jm_systemColorsChanged); // AWT_THREADING Safe (event)
+    // Cbll LWCToolkit with the news. LWCToolkit mbkes certbin to do its duties
+    // from b new threbd.
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    JNFCbllStbticVoidMethod(env, jm_systemColorsChbnged); // AWT_THREADING Sbfe (event)
 }
 
 
-+ (void)reloadColors {
-    // NOTE: <rdar://problem/3447825> was filed to make this code even lazier. Each
-    //  color below could be set lazily when it was first accessed. This way the
-    //  arrays would be sparse, and filled in as SystemColors were used.
++ (void)relobdColors {
+    // NOTE: <rdbr://problem/3447825> wbs filed to mbke this code even lbzier. Ebch
+    //  color below could be set lbzily when it wbs first bccessed. This wby the
+    //  brrbys would be spbrse, bnd filled in bs SystemColors were used.
     int i;
     if (sColors == nil) {
-        sColors = (NSColor**)malloc(sizeof(NSColor*) * java_awt_SystemColor_NUM_COLORS);
+        sColors = (NSColor**)mblloc(sizeof(NSColor*) * jbvb_bwt_SystemColor_NUM_COLORS);
     } else {
-        for (i = 0; i < java_awt_SystemColor_NUM_COLORS; i++) {
-            if (sColors[i] != NULL) [sColors[i] release];
+        for (i = 0; i < jbvb_bwt_SystemColor_NUM_COLORS; i++) {
+            if (sColors[i] != NULL) [sColors[i] relebse];
         }
     }
 
-    sColors[java_awt_SystemColor_DESKTOP] =                    [NSColor greenColor];
-    sColors[java_awt_SystemColor_ACTIVE_CAPTION] =            [NSColor whiteColor];
-    sColors[java_awt_SystemColor_ACTIVE_CAPTION_TEXT] =        [NSColor blackColor];
-    sColors[java_awt_SystemColor_ACTIVE_CAPTION_BORDER] =    [NSColor whiteColor];
-    sColors[java_awt_SystemColor_INACTIVE_CAPTION] =        [NSColor grayColor];
-    sColors[java_awt_SystemColor_INACTIVE_CAPTION_TEXT] =    [NSColor grayColor];
-    sColors[java_awt_SystemColor_INACTIVE_CAPTION_BORDER] =    [NSColor grayColor];
-    const CGFloat color = (CGFloat)0xEE/(CGFloat)0xFF;
-    sColors[java_awt_SystemColor_WINDOW] = [NSColor colorWithCalibratedRed:color green:color blue:color alpha:1.0f];
-    sColors[java_awt_SystemColor_WINDOW_BORDER] =            [NSColor windowFrameColor];
-    sColors[java_awt_SystemColor_WINDOW_TEXT] =                [NSColor windowFrameTextColor];
-    sColors[java_awt_SystemColor_MENU] =                    [NSColor controlBackgroundColor];
-    sColors[java_awt_SystemColor_MENU_TEXT] =                [NSColor controlTextColor];
-    sColors[java_awt_SystemColor_TEXT] =                    [NSColor textBackgroundColor];
-    sColors[java_awt_SystemColor_TEXT_TEXT] =                [NSColor textColor];
-    sColors[java_awt_SystemColor_TEXT_HIGHLIGHT] =            [NSColor selectedTextBackgroundColor];
-    sColors[java_awt_SystemColor_TEXT_HIGHLIGHT_TEXT] =        [NSColor selectedTextColor];
-    sColors[java_awt_SystemColor_TEXT_INACTIVE_TEXT] =        [NSColor disabledControlTextColor];
-    sColors[java_awt_SystemColor_CONTROL] =                    [NSColor controlColor];
-    sColors[java_awt_SystemColor_CONTROL_TEXT] =            [NSColor controlTextColor];
-    sColors[java_awt_SystemColor_CONTROL_HIGHLIGHT] =        [NSColor alternateSelectedControlColor];
-    sColors[java_awt_SystemColor_CONTROL_LT_HIGHLIGHT] =    [NSColor alternateSelectedControlTextColor];
-    sColors[java_awt_SystemColor_CONTROL_SHADOW] =            [NSColor controlShadowColor];
-    sColors[java_awt_SystemColor_CONTROL_DK_SHADOW] =        [NSColor controlDarkShadowColor];
-    sColors[java_awt_SystemColor_SCROLLBAR] =                [NSColor scrollBarColor];
-    sColors[java_awt_SystemColor_INFO] =                    [NSColor textBackgroundColor];
-    sColors[java_awt_SystemColor_INFO_TEXT] =                [NSColor textColor];
+    sColors[jbvb_bwt_SystemColor_DESKTOP] =                    [NSColor greenColor];
+    sColors[jbvb_bwt_SystemColor_ACTIVE_CAPTION] =            [NSColor whiteColor];
+    sColors[jbvb_bwt_SystemColor_ACTIVE_CAPTION_TEXT] =        [NSColor blbckColor];
+    sColors[jbvb_bwt_SystemColor_ACTIVE_CAPTION_BORDER] =    [NSColor whiteColor];
+    sColors[jbvb_bwt_SystemColor_INACTIVE_CAPTION] =        [NSColor grbyColor];
+    sColors[jbvb_bwt_SystemColor_INACTIVE_CAPTION_TEXT] =    [NSColor grbyColor];
+    sColors[jbvb_bwt_SystemColor_INACTIVE_CAPTION_BORDER] =    [NSColor grbyColor];
+    const CGFlobt color = (CGFlobt)0xEE/(CGFlobt)0xFF;
+    sColors[jbvb_bwt_SystemColor_WINDOW] = [NSColor colorWithCblibrbtedRed:color green:color blue:color blphb:1.0f];
+    sColors[jbvb_bwt_SystemColor_WINDOW_BORDER] =            [NSColor windowFrbmeColor];
+    sColors[jbvb_bwt_SystemColor_WINDOW_TEXT] =                [NSColor windowFrbmeTextColor];
+    sColors[jbvb_bwt_SystemColor_MENU] =                    [NSColor controlBbckgroundColor];
+    sColors[jbvb_bwt_SystemColor_MENU_TEXT] =                [NSColor controlTextColor];
+    sColors[jbvb_bwt_SystemColor_TEXT] =                    [NSColor textBbckgroundColor];
+    sColors[jbvb_bwt_SystemColor_TEXT_TEXT] =                [NSColor textColor];
+    sColors[jbvb_bwt_SystemColor_TEXT_HIGHLIGHT] =            [NSColor selectedTextBbckgroundColor];
+    sColors[jbvb_bwt_SystemColor_TEXT_HIGHLIGHT_TEXT] =        [NSColor selectedTextColor];
+    sColors[jbvb_bwt_SystemColor_TEXT_INACTIVE_TEXT] =        [NSColor disbbledControlTextColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL] =                    [NSColor controlColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL_TEXT] =            [NSColor controlTextColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL_HIGHLIGHT] =        [NSColor blternbteSelectedControlColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL_LT_HIGHLIGHT] =    [NSColor blternbteSelectedControlTextColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL_SHADOW] =            [NSColor controlShbdowColor];
+    sColors[jbvb_bwt_SystemColor_CONTROL_DK_SHADOW] =        [NSColor controlDbrkShbdowColor];
+    sColors[jbvb_bwt_SystemColor_SCROLLBAR] =                [NSColor scrollBbrColor];
+    sColors[jbvb_bwt_SystemColor_INFO] =                    [NSColor textBbckgroundColor];
+    sColors[jbvb_bwt_SystemColor_INFO_TEXT] =                [NSColor textColor];
 
-    for (i = 0; i < java_awt_SystemColor_NUM_COLORS; i++) {
-        [sColors[i] retain];
+    for (i = 0; i < jbvb_bwt_SystemColor_NUM_COLORS; i++) {
+        [sColors[i] retbin];
     }
 
-    if (appleColors == nil) {
-        appleColors = (NSColor**)malloc(sizeof(NSColor*) * sun_lwawt_macosx_LWCToolkit_NUM_APPLE_COLORS);
+    if (bppleColors == nil) {
+        bppleColors = (NSColor**)mblloc(sizeof(NSColor*) * sun_lwbwt_mbcosx_LWCToolkit_NUM_APPLE_COLORS);
     } else {
-        for (i = 0; i < sun_lwawt_macosx_LWCToolkit_NUM_APPLE_COLORS; i++) {
-            if (appleColors[i] != NULL) [appleColors[i] release];
+        for (i = 0; i < sun_lwbwt_mbcosx_LWCToolkit_NUM_APPLE_COLORS; i++) {
+            if (bppleColors[i] != NULL) [bppleColors[i] relebse];
         }
     }
 
-    appleColors[sun_lwawt_macosx_LWCToolkit_KEYBOARD_FOCUS_COLOR] =                    [NSColor keyboardFocusIndicatorColor];
-    appleColors[sun_lwawt_macosx_LWCToolkit_INACTIVE_SELECTION_BACKGROUND_COLOR] =    [NSColor secondarySelectedControlColor];
-    appleColors[sun_lwawt_macosx_LWCToolkit_INACTIVE_SELECTION_FOREGROUND_COLOR] =    [NSColor controlDarkShadowColor];
+    bppleColors[sun_lwbwt_mbcosx_LWCToolkit_KEYBOARD_FOCUS_COLOR] =                    [NSColor keybobrdFocusIndicbtorColor];
+    bppleColors[sun_lwbwt_mbcosx_LWCToolkit_INACTIVE_SELECTION_BACKGROUND_COLOR] =    [NSColor secondbrySelectedControlColor];
+    bppleColors[sun_lwbwt_mbcosx_LWCToolkit_INACTIVE_SELECTION_FOREGROUND_COLOR] =    [NSColor controlDbrkShbdowColor];
 
-    for (i = 0; i < sun_lwawt_macosx_LWCToolkit_NUM_APPLE_COLORS; i++) {
-        [appleColors[i] retain];
+    for (i = 0; i < sun_lwbwt_mbcosx_LWCToolkit_NUM_APPLE_COLORS; i++) {
+        [bppleColors[i] retbin];
     }
 }
 
 + (NSColor*)getColor:(NSUInteger)colorIndex useAppleColor:(BOOL)useAppleColor {
     NSColor* result = nil;
 
-    if (colorIndex < (useAppleColor) ? sun_lwawt_macosx_LWCToolkit_NUM_APPLE_COLORS : java_awt_SystemColor_NUM_COLORS) {
-        result = (useAppleColor ? appleColors : sColors)[colorIndex];
+    if (colorIndex < (useAppleColor) ? sun_lwbwt_mbcosx_LWCToolkit_NUM_APPLE_COLORS : jbvb_bwt_SystemColor_NUM_COLORS) {
+        result = (useAppleColor ? bppleColors : sColors)[colorIndex];
     }
     else {
-        NSLog(@"%s: %s %sColor: %ld not found, returning black.", THIS_FILE, __FUNCTION__, (useAppleColor) ? "Apple" : "System", colorIndex);
-        result = [NSColor blackColor];
+        NSLog(@"%s: %s %sColor: %ld not found, returning blbck.", THIS_FILE, __FUNCTION__, (useAppleColor) ? "Apple" : "System", colorIndex);
+        result = [NSColor blbckColor];
     }
 
     return result;

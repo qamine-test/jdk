@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains the code to link the Java Image I/O JPEG plug-in
- * to the IJG library used to read and write JPEG files.  Much of it has
- * been copied, updated, and annotated from the jpegdecoder.c AWT JPEG
- * decoder.  Where that code was unclear, the present author has either
- * rewritten the relevant section or commented it for the sake of future
- * maintainers.
+ * This file contbins the code to link the Jbvb Imbge I/O JPEG plug-in
+ * to the IJG librbry used to rebd bnd write JPEG files.  Much of it hbs
+ * been copied, updbted, bnd bnnotbted from the jpegdecoder.c AWT JPEG
+ * decoder.  Where thbt code wbs unclebr, the present buthor hbs either
+ * rewritten the relevbnt section or commented it for the sbke of future
+ * mbintbiners.
  *
- * In particular, the way the AWT code handled progressive JPEGs seems
- * to me to be only accidentally correct and somewhat inefficient.  The
- * scheme used here represents the way I think it should work. (REV 11/00)
+ * In pbrticulbr, the wby the AWT code hbndled progressive JPEGs seems
+ * to me to be only bccidentblly correct bnd somewhbt inefficient.  The
+ * scheme used here represents the wby I think it should work. (REV 11/00)
  */
 
 #include <stdlib.h>
 #include <setjmp.h>
-#include <assert.h>
+#include <bssert.h>
 #include <string.h>
 #include <limits.h>
 
-/* java native interface headers */
+/* jbvb nbtive interfbce hebders */
 #include "jni.h"
 #include "jni_util.h"
 
-#include "com_sun_imageio_plugins_jpeg_JPEGImageReader.h"
-#include "com_sun_imageio_plugins_jpeg_JPEGImageWriter.h"
+#include "com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder.h"
+#include "com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter.h"
 
-/* headers from the JPEG library */
+/* hebders from the JPEG librbry */
 #include <jpeglib.h>
 #include <jerror.h>
 
 #undef MAX
-#define MAX(a,b)        ((a) > (b) ? (a) : (b))
+#define MAX(b,b)        ((b) > (b) ? (b) : (b))
 
 #ifdef __APPLE__
-/* use setjmp/longjmp versions that do not save/restore the signal mask */
+/* use setjmp/longjmp versions thbt do not sbve/restore the signbl mbsk */
 #define setjmp _setjmp
 #define longjmp _longjmp
 #endif
 
-/* Cached Java method ids */
-static jmethodID JPEGImageReader_readInputDataID;
-static jmethodID JPEGImageReader_skipInputBytesID;
-static jmethodID JPEGImageReader_warningOccurredID;
-static jmethodID JPEGImageReader_warningWithMessageID;
-static jmethodID JPEGImageReader_setImageDataID;
-static jmethodID JPEGImageReader_acceptPixelsID;
-static jmethodID JPEGImageReader_pushBackID;
-static jmethodID JPEGImageReader_passStartedID;
-static jmethodID JPEGImageReader_passCompleteID;
-static jmethodID JPEGImageWriter_writeOutputDataID;
-static jmethodID JPEGImageWriter_warningOccurredID;
-static jmethodID JPEGImageWriter_warningWithMessageID;
-static jmethodID JPEGImageWriter_writeMetadataID;
-static jmethodID JPEGImageWriter_grabPixelsID;
-static jfieldID JPEGQTable_tableID;
-static jfieldID JPEGHuffmanTable_lengthsID;
-static jfieldID JPEGHuffmanTable_valuesID;
+/* Cbched Jbvb method ids */
+stbtic jmethodID JPEGImbgeRebder_rebdInputDbtbID;
+stbtic jmethodID JPEGImbgeRebder_skipInputBytesID;
+stbtic jmethodID JPEGImbgeRebder_wbrningOccurredID;
+stbtic jmethodID JPEGImbgeRebder_wbrningWithMessbgeID;
+stbtic jmethodID JPEGImbgeRebder_setImbgeDbtbID;
+stbtic jmethodID JPEGImbgeRebder_bcceptPixelsID;
+stbtic jmethodID JPEGImbgeRebder_pushBbckID;
+stbtic jmethodID JPEGImbgeRebder_pbssStbrtedID;
+stbtic jmethodID JPEGImbgeRebder_pbssCompleteID;
+stbtic jmethodID JPEGImbgeWriter_writeOutputDbtbID;
+stbtic jmethodID JPEGImbgeWriter_wbrningOccurredID;
+stbtic jmethodID JPEGImbgeWriter_wbrningWithMessbgeID;
+stbtic jmethodID JPEGImbgeWriter_writeMetbdbtbID;
+stbtic jmethodID JPEGImbgeWriter_grbbPixelsID;
+stbtic jfieldID JPEGQTbble_tbbleID;
+stbtic jfieldID JPEGHuffmbnTbble_lengthsID;
+stbtic jfieldID JPEGHuffmbnTbble_vbluesID;
 
 /*
- * Defined in jpegdecoder.c.  Copy code from there if and
- * when that disappears. */
-extern JavaVM *jvm;
+ * Defined in jpegdecoder.c.  Copy code from there if bnd
+ * when thbt disbppebrs. */
+extern JbvbVM *jvm;
 
 /*
- * The following sets of defines must match the warning messages in the
- * Java code.
+ * The following sets of defines must mbtch the wbrning messbges in the
+ * Jbvb code.
  */
 
-/* Reader warnings */
+/* Rebder wbrnings */
 #define READ_NO_EOI          0
 
-/* Writer warnings */
+/* Writer wbrnings */
 
-/* Return codes for various ops */
+/* Return codes for vbrious ops */
 #define OK     1
 #define NOT_OK 0
 
 /*
- * First we define two objects, one for the stream and buffer and one
- * for pixels.  Both contain references to Java objects and pointers to
- * pinned arrays.  These objects can be used for either input or
- * output.  Pixels can be accessed as either INT32s or bytes.
- * Every I/O operation will have one of each these objects, one for
- * the stream and the other to hold pixels, regardless of the I/O direction.
+ * First we define two objects, one for the strebm bnd buffer bnd one
+ * for pixels.  Both contbin references to Jbvb objects bnd pointers to
+ * pinned brrbys.  These objects cbn be used for either input or
+ * output.  Pixels cbn be bccessed bs either INT32s or bytes.
+ * Every I/O operbtion will hbve one of ebch these objects, one for
+ * the strebm bnd the other to hold pixels, regbrdless of the I/O direction.
  */
 
-/******************** StreamBuffer definition ************************/
+/******************** StrebmBuffer definition ************************/
 
-typedef struct streamBufferStruct {
-    jweak ioRef;               // weak reference to a provider of I/O routines
-    jbyteArray hstreamBuffer;  // Handle to a Java buffer for the stream
+typedef struct strebmBufferStruct {
+    jwebk ioRef;               // webk reference to b provider of I/O routines
+    jbyteArrby hstrebmBuffer;  // Hbndle to b Jbvb buffer for the strebm
     JOCTET *buf;               // Pinned buffer pointer */
-    size_t bufferOffset;          // holds offset between unpin and the next pin
-    size_t bufferLength;          // Allocated, nut just used
-    int suspendable;           // Set to true to suspend input
-    long remaining_skip;       // Used only on input
-} streamBuffer, *streamBufferPtr;
+    size_t bufferOffset;          // holds offset between unpin bnd the next pin
+    size_t bufferLength;          // Allocbted, nut just used
+    int suspendbble;           // Set to true to suspend input
+    long rembining_skip;       // Used only on input
+} strebmBuffer, *strebmBufferPtr;
 
 /*
- * This buffer size was set to 64K in the old classes, 4K by default in the
- * IJG library, with the comment "an efficiently freadable size", and 1K
+ * This buffer size wbs set to 64K in the old clbsses, 4K by defbult in the
+ * IJG librbry, with the comment "bn efficiently frebdbble size", bnd 1K
  * in AWT.
- * Unlike in the other Java designs, these objects will persist, so 64K
- * seems too big and 1K seems too small.  If 4K was good enough for the
+ * Unlike in the other Jbvb designs, these objects will persist, so 64K
+ * seems too big bnd 1K seems too smbll.  If 4K wbs good enough for the
  * IJG folks, it's good enough for me.
  */
 #define STREAMBUF_SIZE 4096
 
-#define GET_IO_REF(io_name)                                            \
+#define GET_IO_REF(io_nbme)                                            \
     do {                                                               \
-        if ((*env)->IsSameObject(env, sb->ioRef, NULL) ||              \
-            ((io_name) = (*env)->NewLocalRef(env, sb->ioRef)) == NULL) \
+        if ((*env)->IsSbmeObject(env, sb->ioRef, NULL) ||              \
+            ((io_nbme) = (*env)->NewLocblRef(env, sb->ioRef)) == NULL) \
         {                                                              \
             cinfo->err->error_exit((j_common_ptr) cinfo);              \
         }                                                              \
     } while (0)                                                        \
 
 /*
- * Used to signal that no data need be restored from an unpin to a pin.
+ * Used to signbl thbt no dbtb need be restored from bn unpin to b pin.
  * I.e. the buffer is empty.
  */
 #define NO_DATA ((size_t)-1)
 
-// Forward reference
-static void resetStreamBuffer(JNIEnv *env, streamBufferPtr sb);
+// Forwbrd reference
+stbtic void resetStrebmBuffer(JNIEnv *env, strebmBufferPtr sb);
 
 /*
- * Initialize a freshly allocated StreamBuffer object.  The stream is left
- * null, as it will be set from Java by setSource, but the buffer object
- * is created and a global reference kept.  Returns OK on success, NOT_OK
- * if allocating the buffer or getting a global reference for it failed.
+ * Initiblize b freshly bllocbted StrebmBuffer object.  The strebm is left
+ * null, bs it will be set from Jbvb by setSource, but the buffer object
+ * is crebted bnd b globbl reference kept.  Returns OK on success, NOT_OK
+ * if bllocbting the buffer or getting b globbl reference for it fbiled.
  */
-static int initStreamBuffer(JNIEnv *env, streamBufferPtr sb) {
-    /* Initialize a new buffer */
-    jbyteArray hInputBuffer = (*env)->NewByteArray(env, STREAMBUF_SIZE);
+stbtic int initStrebmBuffer(JNIEnv *env, strebmBufferPtr sb) {
+    /* Initiblize b new buffer */
+    jbyteArrby hInputBuffer = (*env)->NewByteArrby(env, STREAMBUF_SIZE);
     if (hInputBuffer == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Reader");
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Rebder");
         return NOT_OK;
     }
-    sb->bufferLength = (*env)->GetArrayLength(env, hInputBuffer);
-    sb->hstreamBuffer = (*env)->NewGlobalRef(env, hInputBuffer);
-    if (sb->hstreamBuffer == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Reader");
+    sb->bufferLength = (*env)->GetArrbyLength(env, hInputBuffer);
+    sb->hstrebmBuffer = (*env)->NewGlobblRef(env, hInputBuffer);
+    if (sb->hstrebmBuffer == NULL) {
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Rebder");
         return NOT_OK;
     }
 
@@ -179,56 +179,56 @@ static int initStreamBuffer(JNIEnv *env, streamBufferPtr sb) {
 
     sb->buf = NULL;
 
-    resetStreamBuffer(env, sb);
+    resetStrebmBuffer(env, sb);
 
     return OK;
 }
 
 /*
- * Free all resources associated with this streamBuffer.  This must
- * be called to dispose the object to avoid leaking global references, as
- * resetStreamBuffer does not release the buffer reference.
+ * Free bll resources bssocibted with this strebmBuffer.  This must
+ * be cblled to dispose the object to bvoid lebking globbl references, bs
+ * resetStrebmBuffer does not relebse the buffer reference.
  */
-static void destroyStreamBuffer(JNIEnv *env, streamBufferPtr sb) {
-    resetStreamBuffer(env, sb);
-    if (sb->hstreamBuffer != NULL) {
-        (*env)->DeleteGlobalRef(env, sb->hstreamBuffer);
+stbtic void destroyStrebmBuffer(JNIEnv *env, strebmBufferPtr sb) {
+    resetStrebmBuffer(env, sb);
+    if (sb->hstrebmBuffer != NULL) {
+        (*env)->DeleteGlobblRef(env, sb->hstrebmBuffer);
     }
 }
 
-// Forward reference
-static void unpinStreamBuffer(JNIEnv *env,
-                              streamBufferPtr sb,
+// Forwbrd reference
+stbtic void unpinStrebmBuffer(JNIEnv *env,
+                              strebmBufferPtr sb,
                               const JOCTET *next_byte);
 /*
- * Resets the state of a streamBuffer object that has been in use.
- * The global reference to the stream is released, but the reference
- * to the buffer is retained.  The buffer is unpinned if it was pinned.
- * All other state is reset.
+ * Resets the stbte of b strebmBuffer object thbt hbs been in use.
+ * The globbl reference to the strebm is relebsed, but the reference
+ * to the buffer is retbined.  The buffer is unpinned if it wbs pinned.
+ * All other stbte is reset.
  */
-static void resetStreamBuffer(JNIEnv *env, streamBufferPtr sb) {
+stbtic void resetStrebmBuffer(JNIEnv *env, strebmBufferPtr sb) {
     if (sb->ioRef != NULL) {
-        (*env)->DeleteWeakGlobalRef(env, sb->ioRef);
+        (*env)->DeleteWebkGlobblRef(env, sb->ioRef);
         sb->ioRef = NULL;
     }
-    unpinStreamBuffer(env, sb, NULL);
+    unpinStrebmBuffer(env, sb, NULL);
     sb->bufferOffset = NO_DATA;
-    sb->suspendable = FALSE;
-    sb->remaining_skip = 0;
+    sb->suspendbble = FALSE;
+    sb->rembining_skip = 0;
 }
 
 /*
- * Pins the data buffer associated with this stream.  Returns OK on
- * success, NOT_OK on failure, as GetPrimitiveArrayCritical may fail.
+ * Pins the dbtb buffer bssocibted with this strebm.  Returns OK on
+ * success, NOT_OK on fbilure, bs GetPrimitiveArrbyCriticbl mby fbil.
  */
-static int pinStreamBuffer(JNIEnv *env,
-                           streamBufferPtr sb,
+stbtic int pinStrebmBuffer(JNIEnv *env,
+                           strebmBufferPtr sb,
                            const JOCTET **next_byte) {
-    if (sb->hstreamBuffer != NULL) {
-        assert(sb->buf == NULL);
+    if (sb->hstrebmBuffer != NULL) {
+        bssert(sb->buf == NULL);
         sb->buf =
-            (JOCTET *)(*env)->GetPrimitiveArrayCritical(env,
-                                                        sb->hstreamBuffer,
+            (JOCTET *)(*env)->GetPrimitiveArrbyCriticbl(env,
+                                                        sb->hstrebmBuffer,
                                                         NULL);
         if (sb->buf == NULL) {
             return NOT_OK;
@@ -241,20 +241,20 @@ static int pinStreamBuffer(JNIEnv *env,
 }
 
 /*
- * Unpins the data buffer associated with this stream.
+ * Unpins the dbtb buffer bssocibted with this strebm.
  */
-static void unpinStreamBuffer(JNIEnv *env,
-                              streamBufferPtr sb,
+stbtic void unpinStrebmBuffer(JNIEnv *env,
+                              strebmBufferPtr sb,
                               const JOCTET *next_byte) {
     if (sb->buf != NULL) {
-        assert(sb->hstreamBuffer != NULL);
+        bssert(sb->hstrebmBuffer != NULL);
         if (next_byte == NULL) {
             sb->bufferOffset = NO_DATA;
         } else {
             sb->bufferOffset = next_byte - sb->buf;
         }
-        (*env)->ReleasePrimitiveArrayCritical(env,
-                                              sb->hstreamBuffer,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                              sb->hstrebmBuffer,
                                               sb->buf,
                                               0);
         sb->buf = NULL;
@@ -262,75 +262,75 @@ static void unpinStreamBuffer(JNIEnv *env,
 }
 
 /*
- * Clear out the streamBuffer.  This just invalidates the data in the buffer.
+ * Clebr out the strebmBuffer.  This just invblidbtes the dbtb in the buffer.
  */
-static void clearStreamBuffer(streamBufferPtr sb) {
+stbtic void clebrStrebmBuffer(strebmBufferPtr sb) {
     sb->bufferOffset = NO_DATA;
 }
 
-/*************************** end StreamBuffer definition *************/
+/*************************** end StrebmBuffer definition *************/
 
 /*************************** Pixel Buffer definition ******************/
 
 typedef struct pixelBufferStruct {
-    jobject hpixelObject;   // Usually a DataBuffer bank as a byte array
+    jobject hpixelObject;   // Usublly b DbtbBuffer bbnk bs b byte brrby
     unsigned int byteBufferLength;
     union pixptr {
-        INT32         *ip;  // Pinned buffer pointer, as 32-bit ints
-        unsigned char *bp;  // Pinned buffer pointer, as bytes
+        INT32         *ip;  // Pinned buffer pointer, bs 32-bit ints
+        unsigned chbr *bp;  // Pinned buffer pointer, bs bytes
     } buf;
 } pixelBuffer, *pixelBufferPtr;
 
 /*
- * Initialize a freshly allocated PixelBuffer.  All fields are simply
- * set to NULL, as we have no idea what size buffer we will need.
+ * Initiblize b freshly bllocbted PixelBuffer.  All fields bre simply
+ * set to NULL, bs we hbve no ideb whbt size buffer we will need.
  */
-static void initPixelBuffer(pixelBufferPtr pb) {
+stbtic void initPixelBuffer(pixelBufferPtr pb) {
     pb->hpixelObject = NULL;
     pb->byteBufferLength = 0;
     pb->buf.ip = NULL;
 }
 
 /*
- * Set the pixelBuffer to use the given buffer, acquiring a new global
- * reference for it.  Returns OK on success, NOT_OK on failure.
+ * Set the pixelBuffer to use the given buffer, bcquiring b new globbl
+ * reference for it.  Returns OK on success, NOT_OK on fbilure.
  */
-static int setPixelBuffer(JNIEnv *env, pixelBufferPtr pb, jobject obj) {
-    pb->hpixelObject = (*env)->NewGlobalRef(env, obj);
+stbtic int setPixelBuffer(JNIEnv *env, pixelBufferPtr pb, jobject obj) {
+    pb->hpixelObject = (*env)->NewGlobblRef(env, obj);
     if (pb->hpixelObject == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
                          "Setting Pixel Buffer");
         return NOT_OK;
     }
-    pb->byteBufferLength = (*env)->GetArrayLength(env, pb->hpixelObject);
+    pb->byteBufferLength = (*env)->GetArrbyLength(env, pb->hpixelObject);
     return OK;
 }
 
-// Forward reference
-static void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb);
+// Forwbrd reference
+stbtic void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb);
 
 /*
- * Resets a pixel buffer to its initial state.  Unpins any pixel buffer,
- * releases the global reference, and resets fields to NULL.  Use this
- * method to dispose the object as well (there is no destroyPixelBuffer).
+ * Resets b pixel buffer to its initibl stbte.  Unpins bny pixel buffer,
+ * relebses the globbl reference, bnd resets fields to NULL.  Use this
+ * method to dispose the object bs well (there is no destroyPixelBuffer).
  */
-static void resetPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
+stbtic void resetPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
     if (pb->hpixelObject != NULL) {
         unpinPixelBuffer(env, pb);
-        (*env)->DeleteGlobalRef(env, pb->hpixelObject);
+        (*env)->DeleteGlobblRef(env, pb->hpixelObject);
         pb->hpixelObject = NULL;
         pb->byteBufferLength = 0;
     }
 }
 
 /*
- * Pins the data buffer.  Returns OK on success, NOT_OK on failure.
+ * Pins the dbtb buffer.  Returns OK on success, NOT_OK on fbilure.
  */
-static int pinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
+stbtic int pinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
     if (pb->hpixelObject != NULL) {
-        assert(pb->buf.ip == NULL);
-        pb->buf.bp = (unsigned char *)(*env)->GetPrimitiveArrayCritical
+        bssert(pb->buf.ip == NULL);
+        pb->buf.bp = (unsigned chbr *)(*env)->GetPrimitiveArrbyCriticbl
             (env, pb->hpixelObject, NULL);
         if (pb->buf.bp == NULL) {
             return NOT_OK;
@@ -340,13 +340,13 @@ static int pinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
 }
 
 /*
- * Unpins the data buffer.
+ * Unpins the dbtb buffer.
  */
-static void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
+stbtic void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
 
     if (pb->buf.ip != NULL) {
-        assert(pb->hpixelObject != NULL);
-        (*env)->ReleasePrimitiveArrayCritical(env,
+        bssert(pb->hpixelObject != NULL);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,
                                               pb->hpixelObject,
                                               pb->buf.ip,
                                               0);
@@ -356,7 +356,7 @@ static void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
 
 /********************* end PixelBuffer definition *******************/
 
-/********************* ImageIOData definition ***********************/
+/********************* ImbgeIODbtb definition ***********************/
 
 #define MAX_BANDS 4
 #define JPEG_BAND_SIZE 8
@@ -364,292 +364,292 @@ static void unpinPixelBuffer(JNIEnv *env, pixelBufferPtr pb) {
 #define MAX_JPEG_BAND_VALUE (NUM_BAND_VALUES-1)
 #define HALF_MAX_JPEG_BAND_VALUE (MAX_JPEG_BAND_VALUE>>1)
 
-/* The number of possible incoming values to be scaled. */
+/* The number of possible incoming vblues to be scbled. */
 #define NUM_INPUT_VALUES (1 << 16)
 
 /*
- * The principal imageioData object, opaque to I/O direction.
- * Each JPEGImageReader will have associated with it a
- * jpeg_decompress_struct, and similarly each JPEGImageWriter will
- * have associated with it a jpeg_compress_struct.  In order to
- * ensure that these associations persist from one native call to
- * the next, and to provide a central locus of imageio-specific
- * data, we define an imageioData struct containing references
- * to the Java object and the IJG structs.  The functions
- * that manipulate these objects know whether input or output is being
- * performed and therefore know how to manipulate the contents correctly.
- * If for some reason they don't, the direction can be determined by
+ * The principbl imbgeioDbtb object, opbque to I/O direction.
+ * Ebch JPEGImbgeRebder will hbve bssocibted with it b
+ * jpeg_decompress_struct, bnd similbrly ebch JPEGImbgeWriter will
+ * hbve bssocibted with it b jpeg_compress_struct.  In order to
+ * ensure thbt these bssocibtions persist from one nbtive cbll to
+ * the next, bnd to provide b centrbl locus of imbgeio-specific
+ * dbtb, we define bn imbgeioDbtb struct contbining references
+ * to the Jbvb object bnd the IJG structs.  The functions
+ * thbt mbnipulbte these objects know whether input or output is being
+ * performed bnd therefore know how to mbnipulbte the contents correctly.
+ * If for some rebson they don't, the direction cbn be determined by
  * checking the is_decompressor field of the jpegObj.
- * In order for lower level code to determine a
- * Java object given an IJG struct, such as for dispatching warnings,
- * we use the client_data field of the jpeg object to store a pointer
- * to the imageIOData object.  Maintenance of this pointer is performed
- * exclusively within the following access functions.  If you
- * change that, you run the risk of dangling pointers.
+ * In order for lower level code to determine b
+ * Jbvb object given bn IJG struct, such bs for dispbtching wbrnings,
+ * we use the client_dbtb field of the jpeg object to store b pointer
+ * to the imbgeIODbtb object.  Mbintenbnce of this pointer is performed
+ * exclusively within the following bccess functions.  If you
+ * chbnge thbt, you run the risk of dbngling pointers.
  */
-typedef struct imageIODataStruct {
+typedef struct imbgeIODbtbStruct {
     j_common_ptr jpegObj;     // Either struct is fine
-    jobject imageIOobj;       // A JPEGImageReader or a JPEGImageWriter
+    jobject imbgeIOobj;       // A JPEGImbgeRebder or b JPEGImbgeWriter
 
-    streamBuffer streamBuf;   // Buffer for the stream
+    strebmBuffer strebmBuf;   // Buffer for the strebm
     pixelBuffer pixelBuf;     // Buffer for pixels
 
-    jboolean abortFlag;       // Passed down from Java abort method
-} imageIOData, *imageIODataPtr;
+    jboolebn bbortFlbg;       // Pbssed down from Jbvb bbort method
+} imbgeIODbtb, *imbgeIODbtbPtr;
 
 /*
- * Allocate and initialize a new imageIOData object to associate the
- * jpeg object and the Java object.  Returns a pointer to the new object
- * on success, NULL on failure.
+ * Allocbte bnd initiblize b new imbgeIODbtb object to bssocibte the
+ * jpeg object bnd the Jbvb object.  Returns b pointer to the new object
+ * on success, NULL on fbilure.
  */
-static imageIODataPtr initImageioData (JNIEnv *env,
+stbtic imbgeIODbtbPtr initImbgeioDbtb (JNIEnv *env,
                                        j_common_ptr cinfo,
                                        jobject obj) {
 
-    imageIODataPtr data = (imageIODataPtr) malloc (sizeof(imageIOData));
-    if (data == NULL) {
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) mblloc (sizeof(imbgeIODbtb));
+    if (dbtb == NULL) {
         return NULL;
     }
 
-    data->jpegObj = cinfo;
-    cinfo->client_data = data;
+    dbtb->jpegObj = cinfo;
+    cinfo->client_dbtb = dbtb;
 
 #ifdef DEBUG_IIO_JPEG
-    printf("new structures: data is %p, cinfo is %p\n", data, cinfo);
+    printf("new structures: dbtb is %p, cinfo is %p\n", dbtb, cinfo);
 #endif
 
-    data->imageIOobj = (*env)->NewWeakGlobalRef(env, obj);
-    if (data->imageIOobj == NULL) {
-        free (data);
+    dbtb->imbgeIOobj = (*env)->NewWebkGlobblRef(env, obj);
+    if (dbtb->imbgeIOobj == NULL) {
+        free (dbtb);
         return NULL;
     }
-    if (initStreamBuffer(env, &data->streamBuf) == NOT_OK) {
-        (*env)->DeleteWeakGlobalRef(env, data->imageIOobj);
-        free (data);
+    if (initStrebmBuffer(env, &dbtb->strebmBuf) == NOT_OK) {
+        (*env)->DeleteWebkGlobblRef(env, dbtb->imbgeIOobj);
+        free (dbtb);
         return NULL;
     }
-    initPixelBuffer(&data->pixelBuf);
+    initPixelBuffer(&dbtb->pixelBuf);
 
-    data->abortFlag = JNI_FALSE;
+    dbtb->bbortFlbg = JNI_FALSE;
 
-    return data;
+    return dbtb;
 }
 
 /*
- * Resets the imageIOData object to its initial state, as though
- * it had just been allocated and initialized.
+ * Resets the imbgeIODbtb object to its initibl stbte, bs though
+ * it hbd just been bllocbted bnd initiblized.
  */
-static void resetImageIOData(JNIEnv *env, imageIODataPtr data) {
-    resetStreamBuffer(env, &data->streamBuf);
-    resetPixelBuffer(env, &data->pixelBuf);
-    data->abortFlag = JNI_FALSE;
+stbtic void resetImbgeIODbtb(JNIEnv *env, imbgeIODbtbPtr dbtb) {
+    resetStrebmBuffer(env, &dbtb->strebmBuf);
+    resetPixelBuffer(env, &dbtb->pixelBuf);
+    dbtb->bbortFlbg = JNI_FALSE;
 }
 
 /*
- * Releases all resources held by this object and its subobjects,
- * frees the object, and returns the jpeg object.  This method must
- * be called to avoid leaking global references.
- * Note that the jpeg object is not freed or destroyed, as that is
- * the client's responsibility, although the client_data field is
- * cleared.
+ * Relebses bll resources held by this object bnd its subobjects,
+ * frees the object, bnd returns the jpeg object.  This method must
+ * be cblled to bvoid lebking globbl references.
+ * Note thbt the jpeg object is not freed or destroyed, bs thbt is
+ * the client's responsibility, blthough the client_dbtb field is
+ * clebred.
  */
-static j_common_ptr destroyImageioData(JNIEnv *env, imageIODataPtr data) {
-    j_common_ptr ret = data->jpegObj;
-    (*env)->DeleteWeakGlobalRef(env, data->imageIOobj);
-    destroyStreamBuffer(env, &data->streamBuf);
-    resetPixelBuffer(env, &data->pixelBuf);
-    ret->client_data = NULL;
-    free(data);
+stbtic j_common_ptr destroyImbgeioDbtb(JNIEnv *env, imbgeIODbtbPtr dbtb) {
+    j_common_ptr ret = dbtb->jpegObj;
+    (*env)->DeleteWebkGlobblRef(env, dbtb->imbgeIOobj);
+    destroyStrebmBuffer(env, &dbtb->strebmBuf);
+    resetPixelBuffer(env, &dbtb->pixelBuf);
+    ret->client_dbtb = NULL;
+    free(dbtb);
     return ret;
 }
 
-/******************** end ImageIOData definition ***********************/
+/******************** end ImbgeIODbtb definition ***********************/
 
-/******************** Java array pinning and unpinning *****************/
+/******************** Jbvb brrby pinning bnd unpinning *****************/
 
-/* We use Get/ReleasePrimitiveArrayCritical functions to avoid
- * the need to copy array elements for the above two objects.
+/* We use Get/RelebsePrimitiveArrbyCriticbl functions to bvoid
+ * the need to copy brrby elements for the bbove two objects.
  *
  * MAKE SURE TO:
  *
- * - carefully insert pairs of RELEASE_ARRAYS and GET_ARRAYS around
- *   callbacks to Java.
- * - call RELEASE_ARRAYS before returning to Java.
+ * - cbrefully insert pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   cbllbbcks to Jbvb.
+ * - cbll RELEASE_ARRAYS before returning to Jbvb.
  *
- * Otherwise things will go horribly wrong. There may be memory leaks,
- * excessive pinning, or even VM crashes!
+ * Otherwise things will go horribly wrong. There mby be memory lebks,
+ * excessive pinning, or even VM crbshes!
  *
- * Note that GetPrimitiveArrayCritical may fail!
+ * Note thbt GetPrimitiveArrbyCriticbl mby fbil!
  */
 
 /*
- * Release (unpin) all the arrays in use during a read.
+ * Relebse (unpin) bll the brrbys in use during b rebd.
  */
-static void RELEASE_ARRAYS(JNIEnv *env, imageIODataPtr data, const JOCTET *next_byte)
+stbtic void RELEASE_ARRAYS(JNIEnv *env, imbgeIODbtbPtr dbtb, const JOCTET *next_byte)
 {
-    unpinStreamBuffer(env, &data->streamBuf, next_byte);
+    unpinStrebmBuffer(env, &dbtb->strebmBuf, next_byte);
 
-    unpinPixelBuffer(env, &data->pixelBuf);
+    unpinPixelBuffer(env, &dbtb->pixelBuf);
 
 }
 
 /*
- * Get (pin) all the arrays in use during a read.
+ * Get (pin) bll the brrbys in use during b rebd.
  */
-static int GET_ARRAYS(JNIEnv *env, imageIODataPtr data, const JOCTET **next_byte) {
-    if (pinStreamBuffer(env, &data->streamBuf, next_byte) == NOT_OK) {
+stbtic int GET_ARRAYS(JNIEnv *env, imbgeIODbtbPtr dbtb, const JOCTET **next_byte) {
+    if (pinStrebmBuffer(env, &dbtb->strebmBuf, next_byte) == NOT_OK) {
         return NOT_OK;
     }
 
-    if (pinPixelBuffer(env, &data->pixelBuf) == NOT_OK) {
-        RELEASE_ARRAYS(env, data, *next_byte);
+    if (pinPixelBuffer(env, &dbtb->pixelBuf) == NOT_OK) {
+        RELEASE_ARRAYS(env, dbtb, *next_byte);
         return NOT_OK;
     }
     return OK;
 }
 
-/****** end of Java array pinning and unpinning ***********/
+/****** end of Jbvb brrby pinning bnd unpinning ***********/
 
-/****** Error Handling *******/
+/****** Error Hbndling *******/
 
 /*
- * Set up error handling to use setjmp/longjmp.  This is the third such
- * setup, as both the AWT jpeg decoder and the com.sun... JPEG classes
- * setup thier own.  Ultimately these should be integrated, as they all
- * do pretty much the same thing.
+ * Set up error hbndling to use setjmp/longjmp.  This is the third such
+ * setup, bs both the AWT jpeg decoder bnd the com.sun... JPEG clbsses
+ * setup thier own.  Ultimbtely these should be integrbted, bs they bll
+ * do pretty much the sbme thing.
  */
 
 struct sun_jpeg_error_mgr {
   struct jpeg_error_mgr pub;    /* "public" fields */
 
-  jmp_buf setjmp_buffer;        /* for return to caller */
+  jmp_buf setjmp_buffer;        /* for return to cbller */
 };
 
 typedef struct sun_jpeg_error_mgr * sun_jpeg_error_ptr;
 
 /*
- * Here's the routine that will replace the standard error_exit method:
+ * Here's the routine thbt will replbce the stbndbrd error_exit method:
  */
 
 METHODDEF(void)
 sun_jpeg_error_exit (j_common_ptr cinfo)
 {
-  /* cinfo->err really points to a sun_jpeg_error_mgr struct */
+  /* cinfo->err reblly points to b sun_jpeg_error_mgr struct */
   sun_jpeg_error_ptr myerr = (sun_jpeg_error_ptr) cinfo->err;
 
-  /* For Java, we will format the message and put it in the error we throw. */
+  /* For Jbvb, we will formbt the messbge bnd put it in the error we throw. */
 
   /* Return control to the setjmp point */
   longjmp(myerr->setjmp_buffer, 1);
 }
 
 /*
- * Error Message handling
+ * Error Messbge hbndling
  *
- * This overrides the output_message method to send JPEG messages
+ * This overrides the output_messbge method to send JPEG messbges
  *
  */
 
 METHODDEF(void)
-sun_jpeg_output_message (j_common_ptr cinfo)
+sun_jpeg_output_messbge (j_common_ptr cinfo)
 {
-  char buffer[JMSG_LENGTH_MAX];
+  chbr buffer[JMSG_LENGTH_MAX];
   jstring string;
-  imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
+  imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
   JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
   jobject theObject;
 
-  /* Create the message */
-  (*cinfo->err->format_message) (cinfo, buffer);
+  /* Crebte the messbge */
+  (*cinfo->err->formbt_messbge) (cinfo, buffer);
 
-  // Create a new java string from the message
+  // Crebte b new jbvb string from the messbge
   string = (*env)->NewStringUTF(env, buffer);
   CHECK_NULL(string);
 
-  theObject = data->imageIOobj;
+  theObject = dbtb->imbgeIOobj;
 
   if (cinfo->is_decompressor) {
-      (*env)->CallVoidMethod(env, theObject,
-                             JPEGImageReader_warningWithMessageID,
+      (*env)->CbllVoidMethod(env, theObject,
+                             JPEGImbgeRebder_wbrningWithMessbgeID,
                              string);
   } else {
-      (*env)->CallVoidMethod(env, theObject,
-                             JPEGImageWriter_warningWithMessageID,
+      (*env)->CbllVoidMethod(env, theObject,
+                             JPEGImbgeWriter_wbrningWithMessbgeID,
                              string);
   }
 }
 
-/* End of verbatim copy from jpegdecoder.c */
+/* End of verbbtim copy from jpegdecoder.c */
 
-/*************** end of error handling *********************/
+/*************** end of error hbndling *********************/
 
-/*************** Shared utility code ***********************/
+/*************** Shbred utility code ***********************/
 
-static void imageio_set_stream(JNIEnv *env,
+stbtic void imbgeio_set_strebm(JNIEnv *env,
                                j_common_ptr cinfo,
-                               imageIODataPtr data,
+                               imbgeIODbtbPtr dbtb,
                                jobject io){
-    streamBufferPtr sb;
+    strebmBufferPtr sb;
     sun_jpeg_error_ptr jerr;
 
-    sb = &data->streamBuf;
+    sb = &dbtb->strebmBuf;
 
-    resetStreamBuffer(env, sb);  // Removes any old stream
+    resetStrebmBuffer(env, sb);  // Removes bny old strebm
 
-    /* Now we need a new weak global reference for the I/O provider */
+    /* Now we need b new webk globbl reference for the I/O provider */
     if (io != NULL) { // Fix for 4411955
-        sb->ioRef = (*env)->NewWeakGlobalRef(env, io);
+        sb->ioRef = (*env)->NewWebkGlobblRef(env, io);
         CHECK_NULL(sb->ioRef);
     }
 
-    /* And finally reset state */
-    data->abortFlag = JNI_FALSE;
+    /* And finblly reset stbte */
+    dbtb->bbortFlbg = JNI_FALSE;
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
-           while aborting. */
+        /* If we get here, the JPEG code hbs signbled bn error
+           while bborting. */
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) (cinfo,
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) (cinfo,
                                            buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
         return;
     }
 
-    jpeg_abort(cinfo);  // Frees any markers, but not tables
+    jpeg_bbort(cinfo);  // Frees bny mbrkers, but not tbbles
 
 }
 
-static void imageio_reset(JNIEnv *env,
+stbtic void imbgeio_reset(JNIEnv *env,
                           j_common_ptr cinfo,
-                          imageIODataPtr data) {
+                          imbgeIODbtbPtr dbtb) {
     sun_jpeg_error_ptr jerr;
 
-    resetImageIOData(env, data);  // Mapping to jpeg object is retained.
+    resetImbgeIODbtb(env, dbtb);  // Mbpping to jpeg object is retbined.
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
-           while aborting. */
+        /* If we get here, the JPEG code hbs signbled bn error
+           while bborting. */
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) (cinfo, buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) (cinfo, buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
         return;
     }
 
-    jpeg_abort(cinfo);  // Does not reset tables
+    jpeg_bbort(cinfo);  // Does not reset tbbles
 
 }
 
-static void imageio_dispose(j_common_ptr info) {
+stbtic void imbgeio_dispose(j_common_ptr info) {
 
     if (info != NULL) {
         free(info->err);
@@ -668,137 +668,137 @@ static void imageio_dispose(j_common_ptr info) {
     }
 }
 
-static void imageio_abort(JNIEnv *env, jobject this,
-                          imageIODataPtr data) {
-    data->abortFlag = JNI_TRUE;
+stbtic void imbgeio_bbort(JNIEnv *env, jobject this,
+                          imbgeIODbtbPtr dbtb) {
+    dbtb->bbortFlbg = JNI_TRUE;
 }
 
-static int setQTables(JNIEnv *env,
+stbtic int setQTbbles(JNIEnv *env,
                       j_common_ptr cinfo,
-                      jobjectArray qtables,
-                      boolean write) {
+                      jobjectArrby qtbbles,
+                      boolebn write) {
     jsize qlen;
-    jobject table;
-    jintArray qdata;
-    jint *qdataBody;
-    JQUANT_TBL *quant_ptr;
+    jobject tbble;
+    jintArrby qdbtb;
+    jint *qdbtbBody;
+    JQUANT_TBL *qubnt_ptr;
     int i, j;
     j_compress_ptr comp;
     j_decompress_ptr decomp;
 
-    qlen = (*env)->GetArrayLength(env, qtables);
+    qlen = (*env)->GetArrbyLength(env, qtbbles);
 #ifdef DEBUG_IIO_JPEG
-    printf("in setQTables, qlen = %d, write is %d\n", qlen, write);
+    printf("in setQTbbles, qlen = %d, write is %d\n", qlen, write);
 #endif
     if (qlen > NUM_QUANT_TBLS) {
-        /* Ignore extra qunterization tables. */
+        /* Ignore extrb qunterizbtion tbbles. */
         qlen = NUM_QUANT_TBLS;
     }
     for (i = 0; i < qlen; i++) {
-        table = (*env)->GetObjectArrayElement(env, qtables, i);
-        CHECK_NULL_RETURN(table, 0);
-        qdata = (*env)->GetObjectField(env, table, JPEGQTable_tableID);
-        qdataBody = (*env)->GetPrimitiveArrayCritical(env, qdata, NULL);
+        tbble = (*env)->GetObjectArrbyElement(env, qtbbles, i);
+        CHECK_NULL_RETURN(tbble, 0);
+        qdbtb = (*env)->GetObjectField(env, tbble, JPEGQTbble_tbbleID);
+        qdbtbBody = (*env)->GetPrimitiveArrbyCriticbl(env, qdbtb, NULL);
 
         if (cinfo->is_decompressor) {
             decomp = (j_decompress_ptr) cinfo;
-            if (decomp->quant_tbl_ptrs[i] == NULL) {
-                decomp->quant_tbl_ptrs[i] =
-                    jpeg_alloc_quant_table(cinfo);
+            if (decomp->qubnt_tbl_ptrs[i] == NULL) {
+                decomp->qubnt_tbl_ptrs[i] =
+                    jpeg_blloc_qubnt_tbble(cinfo);
             }
-            quant_ptr = decomp->quant_tbl_ptrs[i];
+            qubnt_ptr = decomp->qubnt_tbl_ptrs[i];
         } else {
             comp = (j_compress_ptr) cinfo;
-            if (comp->quant_tbl_ptrs[i] == NULL) {
-                comp->quant_tbl_ptrs[i] =
-                    jpeg_alloc_quant_table(cinfo);
+            if (comp->qubnt_tbl_ptrs[i] == NULL) {
+                comp->qubnt_tbl_ptrs[i] =
+                    jpeg_blloc_qubnt_tbble(cinfo);
             }
-            quant_ptr = comp->quant_tbl_ptrs[i];
+            qubnt_ptr = comp->qubnt_tbl_ptrs[i];
         }
 
         for (j = 0; j < 64; j++) {
-            quant_ptr->quantval[j] = (UINT16)qdataBody[j];
+            qubnt_ptr->qubntvbl[j] = (UINT16)qdbtbBody[j];
         }
-        quant_ptr->sent_table = !write;
-        (*env)->ReleasePrimitiveArrayCritical(env,
-                                              qdata,
-                                              qdataBody,
+        qubnt_ptr->sent_tbble = !write;
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                              qdbtb,
+                                              qdbtbBody,
                                               0);
     }
     return qlen;
 }
 
-static boolean setHuffTable(JNIEnv *env,
+stbtic boolebn setHuffTbble(JNIEnv *env,
                          JHUFF_TBL *huff_ptr,
-                         jobject table) {
+                         jobject tbble) {
 
-    jshortArray huffLens;
-    jshortArray huffValues;
-    jshort *hlensBody, *hvalsBody;
-    jsize hlensLen, hvalsLen;
+    jshortArrby huffLens;
+    jshortArrby huffVblues;
+    jshort *hlensBody, *hvblsBody;
+    jsize hlensLen, hvblsLen;
     int i;
 
     // lengths
     huffLens = (*env)->GetObjectField(env,
-                                      table,
-                                      JPEGHuffmanTable_lengthsID);
-    hlensLen = (*env)->GetArrayLength(env, huffLens);
-    hlensBody = (*env)->GetShortArrayElements(env,
+                                      tbble,
+                                      JPEGHuffmbnTbble_lengthsID);
+    hlensLen = (*env)->GetArrbyLength(env, huffLens);
+    hlensBody = (*env)->GetShortArrbyElements(env,
                                               huffLens,
                                               NULL);
     CHECK_NULL_RETURN(hlensBody, FALSE);
 
     if (hlensLen > 16) {
-        /* Ignore extra elements of bits array. Only 16 elements can be
+        /* Ignore extrb elements of bits brrby. Only 16 elements cbn be
            stored. 0-th element is not used. (see jpeglib.h, line 107)  */
         hlensLen = 16;
     }
     for (i = 1; i <= hlensLen; i++) {
         huff_ptr->bits[i] = (UINT8)hlensBody[i-1];
     }
-    (*env)->ReleaseShortArrayElements(env,
+    (*env)->RelebseShortArrbyElements(env,
                                       huffLens,
                                       hlensBody,
                                       JNI_ABORT);
-    // values
-    huffValues = (*env)->GetObjectField(env,
-                                        table,
-                                        JPEGHuffmanTable_valuesID);
-    hvalsLen = (*env)->GetArrayLength(env, huffValues);
-    hvalsBody = (*env)->GetShortArrayElements(env,
-                                              huffValues,
+    // vblues
+    huffVblues = (*env)->GetObjectField(env,
+                                        tbble,
+                                        JPEGHuffmbnTbble_vbluesID);
+    hvblsLen = (*env)->GetArrbyLength(env, huffVblues);
+    hvblsBody = (*env)->GetShortArrbyElements(env,
+                                              huffVblues,
                                               NULL);
-    CHECK_NULL_RETURN(hvalsBody, FALSE);
+    CHECK_NULL_RETURN(hvblsBody, FALSE);
 
-    if (hvalsLen > 256) {
-        /* Ignore extra elements of hufval array. Only 256 elements
-           can be stored. (see jpeglib.h, line 109)                  */
+    if (hvblsLen > 256) {
+        /* Ignore extrb elements of hufvbl brrby. Only 256 elements
+           cbn be stored. (see jpeglib.h, line 109)                  */
         hlensLen = 256;
     }
-    for (i = 0; i < hvalsLen; i++) {
-        huff_ptr->huffval[i] = (UINT8)hvalsBody[i];
+    for (i = 0; i < hvblsLen; i++) {
+        huff_ptr->huffvbl[i] = (UINT8)hvblsBody[i];
     }
-    (*env)->ReleaseShortArrayElements(env,
-                                      huffValues,
-                                      hvalsBody,
+    (*env)->RelebseShortArrbyElements(env,
+                                      huffVblues,
+                                      hvblsBody,
                                       JNI_ABORT);
     return TRUE;
 }
 
-static int setHTables(JNIEnv *env,
+stbtic int setHTbbles(JNIEnv *env,
                       j_common_ptr cinfo,
-                      jobjectArray DCHuffmanTables,
-                      jobjectArray ACHuffmanTables,
-                      boolean write) {
+                      jobjectArrby DCHuffmbnTbbles,
+                      jobjectArrby ACHuffmbnTbbles,
+                      boolebn write) {
     int i;
-    jobject table;
+    jobject tbble;
     JHUFF_TBL *huff_ptr;
     j_compress_ptr comp;
     j_decompress_ptr decomp;
-    jsize hlen = (*env)->GetArrayLength(env, DCHuffmanTables);
+    jsize hlen = (*env)->GetArrbyLength(env, DCHuffmbnTbbles);
 
     if (hlen > NUM_HUFF_TBLS) {
-        /* Ignore extra DC huffman tables. */
+        /* Ignore extrb DC huffmbn tbbles. */
         hlen = NUM_HUFF_TBLS;
     }
     for (i = 0; i < hlen; i++) {
@@ -806,82 +806,82 @@ static int setHTables(JNIEnv *env,
             decomp = (j_decompress_ptr) cinfo;
             if (decomp->dc_huff_tbl_ptrs[i] == NULL) {
                 decomp->dc_huff_tbl_ptrs[i] =
-                    jpeg_alloc_huff_table(cinfo);
+                    jpeg_blloc_huff_tbble(cinfo);
             }
             huff_ptr = decomp->dc_huff_tbl_ptrs[i];
         } else {
             comp = (j_compress_ptr) cinfo;
             if (comp->dc_huff_tbl_ptrs[i] == NULL) {
                 comp->dc_huff_tbl_ptrs[i] =
-                    jpeg_alloc_huff_table(cinfo);
+                    jpeg_blloc_huff_tbble(cinfo);
             }
             huff_ptr = comp->dc_huff_tbl_ptrs[i];
         }
-        table = (*env)->GetObjectArrayElement(env, DCHuffmanTables, i);
-        if (table == NULL || !setHuffTable(env, huff_ptr, table)) {
+        tbble = (*env)->GetObjectArrbyElement(env, DCHuffmbnTbbles, i);
+        if (tbble == NULL || !setHuffTbble(env, huff_ptr, tbble)) {
             return 0;
         }
-        huff_ptr->sent_table = !write;
+        huff_ptr->sent_tbble = !write;
     }
-    hlen = (*env)->GetArrayLength(env, ACHuffmanTables);
+    hlen = (*env)->GetArrbyLength(env, ACHuffmbnTbbles);
     if (hlen > NUM_HUFF_TBLS) {
-        /* Ignore extra AC huffman tables. */
+        /* Ignore extrb AC huffmbn tbbles. */
         hlen = NUM_HUFF_TBLS;
     }
     for (i = 0; i < hlen; i++) {
         if (cinfo->is_decompressor) {
             decomp = (j_decompress_ptr) cinfo;
-            if (decomp->ac_huff_tbl_ptrs[i] == NULL) {
-                decomp->ac_huff_tbl_ptrs[i] =
-                    jpeg_alloc_huff_table(cinfo);
+            if (decomp->bc_huff_tbl_ptrs[i] == NULL) {
+                decomp->bc_huff_tbl_ptrs[i] =
+                    jpeg_blloc_huff_tbble(cinfo);
             }
-            huff_ptr = decomp->ac_huff_tbl_ptrs[i];
+            huff_ptr = decomp->bc_huff_tbl_ptrs[i];
         } else {
             comp = (j_compress_ptr) cinfo;
-            if (comp->ac_huff_tbl_ptrs[i] == NULL) {
-                comp->ac_huff_tbl_ptrs[i] =
-                    jpeg_alloc_huff_table(cinfo);
+            if (comp->bc_huff_tbl_ptrs[i] == NULL) {
+                comp->bc_huff_tbl_ptrs[i] =
+                    jpeg_blloc_huff_tbble(cinfo);
             }
-            huff_ptr = comp->ac_huff_tbl_ptrs[i];
+            huff_ptr = comp->bc_huff_tbl_ptrs[i];
         }
-        table = (*env)->GetObjectArrayElement(env, ACHuffmanTables, i);
-        if(table == NULL || !setHuffTable(env, huff_ptr, table)) {
+        tbble = (*env)->GetObjectArrbyElement(env, ACHuffmbnTbbles, i);
+        if(tbble == NULL || !setHuffTbble(env, huff_ptr, tbble)) {
             return 0;
         }
-        huff_ptr->sent_table = !write;
+        huff_ptr->sent_tbble = !write;
     }
     return hlen;
 }
 
 
-/*************** end of shared utility code ****************/
+/*************** end of shbred utility code ****************/
 
-/********************** Reader Support **************************/
+/********************** Rebder Support **************************/
 
-/********************** Source Management ***********************/
+/********************** Source Mbnbgement ***********************/
 
 /*
  * INPUT HANDLING:
  *
- * The JPEG library's input management is defined by the jpeg_source_mgr
- * structure which contains two fields to convey the information in the
- * buffer and 5 methods which perform all buffer management.  The library
- * defines a standard input manager that uses stdio for obtaining compressed
- * jpeg data, but here we need to use Java to get our data.
+ * The JPEG librbry's input mbnbgement is defined by the jpeg_source_mgr
+ * structure which contbins two fields to convey the informbtion in the
+ * buffer bnd 5 methods which perform bll buffer mbnbgement.  The librbry
+ * defines b stbndbrd input mbnbger thbt uses stdio for obtbining compressed
+ * jpeg dbtb, but here we need to use Jbvb to get our dbtb.
  *
- * We use the library jpeg_source_mgr but our own routines that access
- * imageio-specific information in the imageIOData structure.
+ * We use the librbry jpeg_source_mgr but our own routines thbt bccess
+ * imbgeio-specific informbtion in the imbgeIODbtb structure.
  */
 
 /*
- * Initialize source.  This is called by jpeg_read_header() before any
- * data is actually read.  Unlike init_destination(), it may leave
- * bytes_in_buffer set to 0 (in which case a fill_input_buffer() call
- * will occur immediately).
+ * Initiblize source.  This is cblled by jpeg_rebd_hebder() before bny
+ * dbtb is bctublly rebd.  Unlike init_destinbtion(), it mby lebve
+ * bytes_in_buffer set to 0 (in which cbse b fill_input_buffer() cbll
+ * will occur immedibtely).
  */
 
 GLOBAL(void)
-imageio_init_source(j_decompress_ptr cinfo)
+imbgeio_init_source(j_decompress_ptr cinfo)
 {
     struct jpeg_source_mgr *src = cinfo->src;
     src->next_input_byte = NULL;
@@ -889,73 +889,73 @@ imageio_init_source(j_decompress_ptr cinfo)
 }
 
 /*
- * This is called whenever bytes_in_buffer has reached zero and more
- * data is wanted.  In typical applications, it should read fresh data
- * into the buffer (ignoring the current state of next_input_byte and
- * bytes_in_buffer), reset the pointer & count to the start of the
- * buffer, and return TRUE indicating that the buffer has been reloaded.
- * It is not necessary to fill the buffer entirely, only to obtain at
- * least one more byte.  bytes_in_buffer MUST be set to a positive value
+ * This is cblled whenever bytes_in_buffer hbs rebched zero bnd more
+ * dbtb is wbnted.  In typicbl bpplicbtions, it should rebd fresh dbtb
+ * into the buffer (ignoring the current stbte of next_input_byte bnd
+ * bytes_in_buffer), reset the pointer & count to the stbrt of the
+ * buffer, bnd return TRUE indicbting thbt the buffer hbs been relobded.
+ * It is not necessbry to fill the buffer entirely, only to obtbin bt
+ * lebst one more byte.  bytes_in_buffer MUST be set to b positive vblue
  * if TRUE is returned.  A FALSE return should only be used when I/O
  * suspension is desired (this mode is discussed in the next section).
  */
 /*
- * Note that with I/O suspension turned on, this procedure should not
- * do any work since the JPEG library has a very simple backtracking
- * mechanism which relies on the fact that the buffer will be filled
- * only when it has backed out to the top application level.  When
- * suspendable is turned on, imageio_fill_suspended_buffer will
- * do the actual work of filling the buffer.
+ * Note thbt with I/O suspension turned on, this procedure should not
+ * do bny work since the JPEG librbry hbs b very simple bbcktrbcking
+ * mechbnism which relies on the fbct thbt the buffer will be filled
+ * only when it hbs bbcked out to the top bpplicbtion level.  When
+ * suspendbble is turned on, imbgeio_fill_suspended_buffer will
+ * do the bctubl work of filling the buffer.
  */
 
-GLOBAL(boolean)
-imageio_fill_input_buffer(j_decompress_ptr cinfo)
+GLOBAL(boolebn)
+imbgeio_fill_input_buffer(j_decompress_ptr cinfo)
 {
     struct jpeg_source_mgr *src = cinfo->src;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     int ret;
     jobject input = NULL;
 
     /* This is where input suspends */
-    if (sb->suspendable) {
+    if (sb->suspendbble) {
         return FALSE;
     }
 
 #ifdef DEBUG_IIO_JPEG
-    printf("Filling input buffer, remaining skip is %ld, ",
-           sb->remaining_skip);
+    printf("Filling input buffer, rembining skip is %ld, ",
+           sb->rembining_skip);
     printf("Buffer length is %d\n", sb->bufferLength);
 #endif
 
     /*
      * Definitively skips.  Could be left over if we tried to skip
-     * more than a buffer's worth but suspended when getting the next
-     * buffer.  Now we aren't suspended, so we can catch up.
+     * more thbn b buffer's worth but suspended when getting the next
+     * buffer.  Now we bren't suspended, so we cbn cbtch up.
      */
-    if (sb->remaining_skip) {
-        src->skip_input_data(cinfo, 0);
+    if (sb->rembining_skip) {
+        src->skip_input_dbtb(cinfo, 0);
     }
 
     /*
-     * Now fill a complete buffer, or as much of one as the stream
-     * will give us if we are near the end.
+     * Now fill b complete buffer, or bs much of one bs the strebm
+     * will give us if we bre nebr the end.
      */
-    RELEASE_ARRAYS(env, data, src->next_input_byte);
+    RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
 
     GET_IO_REF(input);
 
-    ret = (*env)->CallIntMethod(env,
+    ret = (*env)->CbllIntMethod(env,
                                 input,
-                                JPEGImageReader_readInputDataID,
-                                sb->hstreamBuffer, 0,
+                                JPEGImbgeRebder_rebdInputDbtbID,
+                                sb->hstrebmBuffer, 0,
                                 sb->bufferLength);
     if ((ret > 0) && ((unsigned int)ret > sb->bufferLength)) {
          ret = sb->bufferLength;
     }
     if ((*env)->ExceptionOccurred(env)
-        || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+        || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
     }
 
@@ -963,22 +963,22 @@ imageio_fill_input_buffer(j_decompress_ptr cinfo)
       printf("Buffer filled. ret = %d\n", ret);
 #endif
     /*
-     * If we have reached the end of the stream, then the EOI marker
-     * is missing.  We accept such streams but generate a warning.
-     * The image is likely to be corrupted, though everything through
-     * the end of the last complete MCU should be usable.
+     * If we hbve rebched the end of the strebm, then the EOI mbrker
+     * is missing.  We bccept such strebms but generbte b wbrning.
+     * The imbge is likely to be corrupted, though everything through
+     * the end of the lbst complete MCU should be usbble.
      */
     if (ret <= 0) {
-        jobject reader = data->imageIOobj;
+        jobject rebder = dbtb->imbgeIOobj;
 #ifdef DEBUG_IIO_JPEG
-      printf("YO! Early EOI! ret = %d\n", ret);
+      printf("YO! Ebrly EOI! ret = %d\n", ret);
 #endif
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
-        (*env)->CallVoidMethod(env, reader,
-                               JPEGImageReader_warningOccurredID,
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+        (*env)->CbllVoidMethod(env, rebder,
+                               JPEGImbgeRebder_wbrningOccurredID,
                                READ_NO_EOI);
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+            || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
         }
 
@@ -994,81 +994,81 @@ imageio_fill_input_buffer(j_decompress_ptr cinfo)
 }
 
 /*
- * With I/O suspension turned on, the JPEG library requires that all
- * buffer filling be done at the top application level, using this
- * function.  Due to the way that backtracking works, this procedure
- * saves all of the data that was left in the buffer when suspension
- * occurred and read new data only at the end.
+ * With I/O suspension turned on, the JPEG librbry requires thbt bll
+ * buffer filling be done bt the top bpplicbtion level, using this
+ * function.  Due to the wby thbt bbcktrbcking works, this procedure
+ * sbves bll of the dbtb thbt wbs left in the buffer when suspension
+ * occurred bnd rebd new dbtb only bt the end.
  */
 
 GLOBAL(void)
-imageio_fill_suspended_buffer(j_decompress_ptr cinfo)
+imbgeio_fill_suspended_buffer(j_decompress_ptr cinfo)
 {
     struct jpeg_source_mgr *src = cinfo->src;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     jint ret;
     size_t offset, buflen;
     jobject input = NULL;
 
     /*
-     * The original (jpegdecoder.c) had code here that called
-     * InputStream.available and just returned if the number of bytes
-     * available was less than any remaining skip.  Presumably this was
-     * to avoid blocking, although the benefit was unclear, as no more
-     * decompression can take place until more data is available, so
-     * the code would block on input a little further along anyway.
-     * ImageInputStreams don't have an available method, so we'll just
-     * block in the skip if we have to.
+     * The originbl (jpegdecoder.c) hbd code here thbt cblled
+     * InputStrebm.bvbilbble bnd just returned if the number of bytes
+     * bvbilbble wbs less thbn bny rembining skip.  Presumbbly this wbs
+     * to bvoid blocking, blthough the benefit wbs unclebr, bs no more
+     * decompression cbn tbke plbce until more dbtb is bvbilbble, so
+     * the code would block on input b little further blong bnywby.
+     * ImbgeInputStrebms don't hbve bn bvbilbble method, so we'll just
+     * block in the skip if we hbve to.
      */
 
-    if (sb->remaining_skip) {
-        src->skip_input_data(cinfo, 0);
+    if (sb->rembining_skip) {
+        src->skip_input_dbtb(cinfo, 0);
     }
 
-    /* Save the data currently in the buffer */
+    /* Sbve the dbtb currently in the buffer */
     offset = src->bytes_in_buffer;
     if (src->next_input_byte > sb->buf) {
         memcpy(sb->buf, src->next_input_byte, offset);
     }
 
 
-    RELEASE_ARRAYS(env, data, src->next_input_byte);
+    RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
 
     GET_IO_REF(input);
 
     buflen = sb->bufferLength - offset;
     if (buflen <= 0) {
-        if (!GET_ARRAYS(env, data, &(src->next_input_byte))) {
+        if (!GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
         }
         return;
     }
 
-    ret = (*env)->CallIntMethod(env, input,
-                                JPEGImageReader_readInputDataID,
-                                sb->hstreamBuffer,
+    ret = (*env)->CbllIntMethod(env, input,
+                                JPEGImbgeRebder_rebdInputDbtbID,
+                                sb->hstrebmBuffer,
                                 offset, buflen);
     if ((ret > 0) && ((unsigned int)ret > buflen)) ret = buflen;
     if ((*env)->ExceptionOccurred(env)
-        || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+        || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
         cinfo->err->error_exit((j_common_ptr) cinfo);
     }
     /*
-     * If we have reached the end of the stream, then the EOI marker
-     * is missing.  We accept such streams but generate a warning.
-     * The image is likely to be corrupted, though everything through
-     * the end of the last complete MCU should be usable.
+     * If we hbve rebched the end of the strebm, then the EOI mbrker
+     * is missing.  We bccept such strebms but generbte b wbrning.
+     * The imbge is likely to be corrupted, though everything through
+     * the end of the lbst complete MCU should be usbble.
      */
     if (ret <= 0) {
-        jobject reader = data->imageIOobj;
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
-        (*env)->CallVoidMethod(env, reader,
-                               JPEGImageReader_warningOccurredID,
+        jobject rebder = dbtb->imbgeIOobj;
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+        (*env)->CbllVoidMethod(env, rebder,
+                               JPEGImbgeRebder_wbrningOccurredID,
                                READ_NO_EOI);
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+            || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
         }
 
@@ -1084,41 +1084,41 @@ imageio_fill_suspended_buffer(j_decompress_ptr cinfo)
 }
 
 /*
- * Skip num_bytes worth of data.  The buffer pointer and count are
- * advanced over num_bytes input bytes, using the input stream
- * skipBytes method if the skip is greater than the number of bytes
- * in the buffer.  This is used to skip over a potentially large amount of
- * uninteresting data (such as an APPn marker).  bytes_in_buffer will be
- * zero on return if the skip is larger than the current contents of the
+ * Skip num_bytes worth of dbtb.  The buffer pointer bnd count bre
+ * bdvbnced over num_bytes input bytes, using the input strebm
+ * skipBytes method if the skip is grebter thbn the number of bytes
+ * in the buffer.  This is used to skip over b potentiblly lbrge bmount of
+ * uninteresting dbtb (such bs bn APPn mbrker).  bytes_in_buffer will be
+ * zero on return if the skip is lbrger thbn the current contents of the
  * buffer.
  *
- * A negative skip count is treated as a no-op.  A zero skip count
- * skips any remaining skip from a previous skip while suspended.
+ * A negbtive skip count is trebted bs b no-op.  A zero skip count
+ * skips bny rembining skip from b previous skip while suspended.
  *
- * Note that with I/O suspension turned on, this procedure does not
- * call skipBytes since the JPEG library has a very simple backtracking
- * mechanism which relies on the fact that the application level has
- * exclusive control over actual I/O.
+ * Note thbt with I/O suspension turned on, this procedure does not
+ * cbll skipBytes since the JPEG librbry hbs b very simple bbcktrbcking
+ * mechbnism which relies on the fbct thbt the bpplicbtion level hbs
+ * exclusive control over bctubl I/O.
  */
 
 GLOBAL(void)
-imageio_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+imbgeio_skip_input_dbtb(j_decompress_ptr cinfo, long num_bytes)
 {
     struct jpeg_source_mgr *src = cinfo->src;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     jlong ret;
-    jobject reader;
+    jobject rebder;
     jobject input = NULL;
 
     if (num_bytes < 0) {
         return;
     }
-    num_bytes += sb->remaining_skip;
-    sb->remaining_skip = 0;
+    num_bytes += sb->rembining_skip;
+    sb->rembining_skip = 0;
 
-    /* First the easy case where we are skipping <= the current contents. */
+    /* First the ebsy cbse where we bre skipping <= the current contents. */
     ret = src->bytes_in_buffer;
     if (ret >= num_bytes) {
         src->next_input_byte += num_bytes;
@@ -1127,48 +1127,48 @@ imageio_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
     }
 
     /*
-     * We are skipping more than is in the buffer.  We empty the buffer and,
-     * if we aren't suspended, call the Java skipBytes method.  We always
-     * leave the buffer empty, to be filled by either fill method above.
+     * We bre skipping more thbn is in the buffer.  We empty the buffer bnd,
+     * if we bren't suspended, cbll the Jbvb skipBytes method.  We blwbys
+     * lebve the buffer empty, to be filled by either fill method bbove.
      */
     src->bytes_in_buffer = 0;
     src->next_input_byte = sb->buf;
 
     num_bytes -= (long)ret;
-    if (sb->suspendable) {
-        sb->remaining_skip = num_bytes;
+    if (sb->suspendbble) {
+        sb->rembining_skip = num_bytes;
         return;
     }
 
-    RELEASE_ARRAYS(env, data, src->next_input_byte);
+    RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
 
     GET_IO_REF(input);
 
-    ret = (*env)->CallLongMethod(env,
+    ret = (*env)->CbllLongMethod(env,
                                  input,
-                                 JPEGImageReader_skipInputBytesID,
+                                 JPEGImbgeRebder_skipInputBytesID,
                                  (jlong) num_bytes);
     if ((*env)->ExceptionOccurred(env)
-        || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+        || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
     }
 
     /*
-     * If we have reached the end of the stream, then the EOI marker
-     * is missing.  We accept such streams but generate a warning.
-     * The image is likely to be corrupted, though everything through
-     * the end of the last complete MCU should be usable.
+     * If we hbve rebched the end of the strebm, then the EOI mbrker
+     * is missing.  We bccept such strebms but generbte b wbrning.
+     * The imbge is likely to be corrupted, though everything through
+     * the end of the lbst complete MCU should be usbble.
      */
     if (ret <= 0) {
-        reader = data->imageIOobj;
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
-        (*env)->CallVoidMethod(env,
-                               reader,
-                               JPEGImageReader_warningOccurredID,
+        rebder = dbtb->imbgeIOobj;
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+        (*env)->CbllVoidMethod(env,
+                               rebder,
+                               JPEGImbgeRebder_wbrningOccurredID,
                                READ_NO_EOI);
 
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+            || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
                 cinfo->err->error_exit((j_common_ptr) cinfo);
         }
         sb->buf[0] = (JOCTET) 0xFF;
@@ -1179,30 +1179,30 @@ imageio_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 }
 
 /*
- * Terminate source --- called by jpeg_finish_decompress() after all
- * data for an image has been read.  In our case pushes back any
- * remaining data, as it will be for another image and must be available
- * for java to find out that there is another image.  Also called if
- * reseting state after reading a tables-only image.
+ * Terminbte source --- cblled by jpeg_finish_decompress() bfter bll
+ * dbtb for bn imbge hbs been rebd.  In our cbse pushes bbck bny
+ * rembining dbtb, bs it will be for bnother imbge bnd must be bvbilbble
+ * for jbvb to find out thbt there is bnother imbge.  Also cblled if
+ * reseting stbte bfter rebding b tbbles-only imbge.
  */
 
 GLOBAL(void)
-imageio_term_source(j_decompress_ptr cinfo)
+imbgeio_term_source(j_decompress_ptr cinfo)
 {
-    // To pushback, just seek back by src->bytes_in_buffer
+    // To pushbbck, just seek bbck by src->bytes_in_buffer
     struct jpeg_source_mgr *src = cinfo->src;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject reader = data->imageIOobj;
+    jobject rebder = dbtb->imbgeIOobj;
     if (src->bytes_in_buffer > 0) {
-         RELEASE_ARRAYS(env, data, src->next_input_byte);
-         (*env)->CallVoidMethod(env,
-                                reader,
-                                JPEGImageReader_pushBackID,
+         RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+         (*env)->CbllVoidMethod(env,
+                                rebder,
+                                JPEGImbgeRebder_pushBbckID,
                                 src->bytes_in_buffer);
 
          if ((*env)->ExceptionOccurred(env)
-             || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+             || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
              cinfo->err->error_exit((j_common_ptr) cinfo);
          }
          src->bytes_in_buffer = 0;
@@ -1210,1058 +1210,1058 @@ imageio_term_source(j_decompress_ptr cinfo)
     }
 }
 
-/********************* end of source manager ******************/
+/********************* end of source mbnbger ******************/
 
 /********************* ICC profile support ********************/
 /*
- * The following routines are modified versions of the ICC
- * profile support routines available from the IJG website.
- * The originals were written by Todd Newman
- * <tdn@eccentric.esd.sgi.com> and modified by Tom Lane for
- * the IJG.  They are further modified to fit in the context
- * of the imageio JPEG plug-in.
+ * The following routines bre modified versions of the ICC
+ * profile support routines bvbilbble from the IJG website.
+ * The originbls were written by Todd Newmbn
+ * <tdn@eccentric.esd.sgi.com> bnd modified by Tom Lbne for
+ * the IJG.  They bre further modified to fit in the context
+ * of the imbgeio JPEG plug-in.
  */
 
 /*
- * Since an ICC profile can be larger than the maximum size of a JPEG marker
- * (64K), we need provisions to split it into multiple markers.  The format
- * defined by the ICC specifies one or more APP2 markers containing the
- * following data:
+ * Since bn ICC profile cbn be lbrger thbn the mbximum size of b JPEG mbrker
+ * (64K), we need provisions to split it into multiple mbrkers.  The formbt
+ * defined by the ICC specifies one or more APP2 mbrkers contbining the
+ * following dbtb:
  *      Identifying string      ASCII "ICC_PROFILE\0"  (12 bytes)
- *      Marker sequence number  1 for first APP2, 2 for next, etc (1 byte)
- *      Number of markers       Total number of APP2's used (1 byte)
- *      Profile data            (remainder of APP2 data)
- * Decoders should use the marker sequence numbers to reassemble the profile,
- * rather than assuming that the APP2 markers appear in the correct sequence.
+ *      Mbrker sequence number  1 for first APP2, 2 for next, etc (1 byte)
+ *      Number of mbrkers       Totbl number of APP2's used (1 byte)
+ *      Profile dbtb            (rembinder of APP2 dbtb)
+ * Decoders should use the mbrker sequence numbers to rebssemble the profile,
+ * rbther thbn bssuming thbt the APP2 mbrkers bppebr in the correct sequence.
  */
 
-#define ICC_MARKER  (JPEG_APP0 + 2)     /* JPEG marker code for ICC */
-#define ICC_OVERHEAD_LEN  14            /* size of non-profile data in APP2 */
-#define MAX_BYTES_IN_MARKER  65533      /* maximum data len of a JPEG marker */
+#define ICC_MARKER  (JPEG_APP0 + 2)     /* JPEG mbrker code for ICC */
+#define ICC_OVERHEAD_LEN  14            /* size of non-profile dbtb in APP2 */
+#define MAX_BYTES_IN_MARKER  65533      /* mbximum dbtb len of b JPEG mbrker */
 #define MAX_DATA_BYTES_IN_ICC_MARKER  (MAX_BYTES_IN_MARKER - ICC_OVERHEAD_LEN)
 
 
 /*
- * Handy subroutine to test whether a saved marker is an ICC profile marker.
+ * Hbndy subroutine to test whether b sbved mbrker is bn ICC profile mbrker.
  */
 
-static boolean
-marker_is_icc (jpeg_saved_marker_ptr marker)
+stbtic boolebn
+mbrker_is_icc (jpeg_sbved_mbrker_ptr mbrker)
 {
   return
-    marker->marker == ICC_MARKER &&
-    marker->data_length >= ICC_OVERHEAD_LEN &&
+    mbrker->mbrker == ICC_MARKER &&
+    mbrker->dbtb_length >= ICC_OVERHEAD_LEN &&
     /* verify the identifying string */
-    GETJOCTET(marker->data[0]) == 0x49 &&
-    GETJOCTET(marker->data[1]) == 0x43 &&
-    GETJOCTET(marker->data[2]) == 0x43 &&
-    GETJOCTET(marker->data[3]) == 0x5F &&
-    GETJOCTET(marker->data[4]) == 0x50 &&
-    GETJOCTET(marker->data[5]) == 0x52 &&
-    GETJOCTET(marker->data[6]) == 0x4F &&
-    GETJOCTET(marker->data[7]) == 0x46 &&
-    GETJOCTET(marker->data[8]) == 0x49 &&
-    GETJOCTET(marker->data[9]) == 0x4C &&
-    GETJOCTET(marker->data[10]) == 0x45 &&
-    GETJOCTET(marker->data[11]) == 0x0;
+    GETJOCTET(mbrker->dbtb[0]) == 0x49 &&
+    GETJOCTET(mbrker->dbtb[1]) == 0x43 &&
+    GETJOCTET(mbrker->dbtb[2]) == 0x43 &&
+    GETJOCTET(mbrker->dbtb[3]) == 0x5F &&
+    GETJOCTET(mbrker->dbtb[4]) == 0x50 &&
+    GETJOCTET(mbrker->dbtb[5]) == 0x52 &&
+    GETJOCTET(mbrker->dbtb[6]) == 0x4F &&
+    GETJOCTET(mbrker->dbtb[7]) == 0x46 &&
+    GETJOCTET(mbrker->dbtb[8]) == 0x49 &&
+    GETJOCTET(mbrker->dbtb[9]) == 0x4C &&
+    GETJOCTET(mbrker->dbtb[10]) == 0x45 &&
+    GETJOCTET(mbrker->dbtb[11]) == 0x0;
 }
 
 /*
- * See if there was an ICC profile in the JPEG file being read;
- * if so, reassemble and return the profile data as a new Java byte array.
- * If there was no ICC profile, return NULL.
+ * See if there wbs bn ICC profile in the JPEG file being rebd;
+ * if so, rebssemble bnd return the profile dbtb bs b new Jbvb byte brrby.
+ * If there wbs no ICC profile, return NULL.
  *
- * If the file contains invalid ICC APP2 markers, we throw an IIOException
- * with an appropriate message.
+ * If the file contbins invblid ICC APP2 mbrkers, we throw bn IIOException
+ * with bn bppropribte messbge.
  */
 
-jbyteArray
-read_icc_profile (JNIEnv *env, j_decompress_ptr cinfo)
+jbyteArrby
+rebd_icc_profile (JNIEnv *env, j_decompress_ptr cinfo)
 {
-    jpeg_saved_marker_ptr marker;
-    int num_markers = 0;
-    int num_found_markers = 0;
+    jpeg_sbved_mbrker_ptr mbrker;
+    int num_mbrkers = 0;
+    int num_found_mbrkers = 0;
     int seq_no;
-    JOCTET *icc_data;
+    JOCTET *icc_dbtb;
     JOCTET *dst_ptr;
-    unsigned int total_length;
-#define MAX_SEQ_NO  255         // sufficient since marker numbers are bytes
-    jpeg_saved_marker_ptr icc_markers[MAX_SEQ_NO + 1];
-    int first;         // index of the first marker in the icc_markers array
-    int last;          // index of the last marker in the icc_markers array
-    jbyteArray data = NULL;
+    unsigned int totbl_length;
+#define MAX_SEQ_NO  255         // sufficient since mbrker numbers bre bytes
+    jpeg_sbved_mbrker_ptr icc_mbrkers[MAX_SEQ_NO + 1];
+    int first;         // index of the first mbrker in the icc_mbrkers brrby
+    int lbst;          // index of the lbst mbrker in the icc_mbrkers brrby
+    jbyteArrby dbtb = NULL;
 
-    /* This first pass over the saved markers discovers whether there are
-     * any ICC markers and verifies the consistency of the marker numbering.
+    /* This first pbss over the sbved mbrkers discovers whether there bre
+     * bny ICC mbrkers bnd verifies the consistency of the mbrker numbering.
      */
 
     for (seq_no = 0; seq_no <= MAX_SEQ_NO; seq_no++)
-        icc_markers[seq_no] = NULL;
+        icc_mbrkers[seq_no] = NULL;
 
 
-    for (marker = cinfo->marker_list; marker != NULL; marker = marker->next) {
-        if (marker_is_icc(marker)) {
-            if (num_markers == 0)
-                num_markers = GETJOCTET(marker->data[13]);
-            else if (num_markers != GETJOCTET(marker->data[13])) {
-                JNU_ThrowByName(env, "javax/imageio/IIOException",
-                     "Invalid icc profile: inconsistent num_markers fields");
+    for (mbrker = cinfo->mbrker_list; mbrker != NULL; mbrker = mbrker->next) {
+        if (mbrker_is_icc(mbrker)) {
+            if (num_mbrkers == 0)
+                num_mbrkers = GETJOCTET(mbrker->dbtb[13]);
+            else if (num_mbrkers != GETJOCTET(mbrker->dbtb[13])) {
+                JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                     "Invblid icc profile: inconsistent num_mbrkers fields");
                 return NULL;
             }
-            seq_no = GETJOCTET(marker->data[12]);
+            seq_no = GETJOCTET(mbrker->dbtb[12]);
 
-            /* Some third-party tools produce images with profile chunk
-             * numeration started from zero. It is inconsistent with ICC
-             * spec, but seems to be recognized by majority of image
-             * processing tools, so we should be more tolerant to this
-             * departure from the spec.
+            /* Some third-pbrty tools produce imbges with profile chunk
+             * numerbtion stbrted from zero. It is inconsistent with ICC
+             * spec, but seems to be recognized by mbjority of imbge
+             * processing tools, so we should be more tolerbnt to this
+             * depbrture from the spec.
              */
-            if (seq_no < 0 || seq_no > num_markers) {
-                JNU_ThrowByName(env, "javax/imageio/IIOException",
-                     "Invalid icc profile: bad sequence number");
+            if (seq_no < 0 || seq_no > num_mbrkers) {
+                JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                     "Invblid icc profile: bbd sequence number");
                 return NULL;
             }
-            if (icc_markers[seq_no] != NULL) {
-                JNU_ThrowByName(env, "javax/imageio/IIOException",
-                     "Invalid icc profile: duplicate sequence numbers");
+            if (icc_mbrkers[seq_no] != NULL) {
+                JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                     "Invblid icc profile: duplicbte sequence numbers");
                 return NULL;
             }
-            icc_markers[seq_no] = marker;
-            num_found_markers ++;
+            icc_mbrkers[seq_no] = mbrker;
+            num_found_mbrkers ++;
         }
     }
 
-    if (num_markers == 0)
+    if (num_mbrkers == 0)
         return NULL;  // There is no profile
 
-    if (num_markers != num_found_markers) {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Invalid icc profile: invalid number of icc markers");
+    if (num_mbrkers != num_found_mbrkers) {
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Invblid icc profile: invblid number of icc mbrkers");
         return NULL;
     }
 
-    first = icc_markers[0] ? 0 : 1;
-    last = num_found_markers + first;
+    first = icc_mbrkers[0] ? 0 : 1;
+    lbst = num_found_mbrkers + first;
 
-    /* Check for missing markers, count total space needed.
+    /* Check for missing mbrkers, count totbl spbce needed.
      */
-    total_length = 0;
-    for (seq_no = first; seq_no < last; seq_no++) {
+    totbl_length = 0;
+    for (seq_no = first; seq_no < lbst; seq_no++) {
         unsigned int length;
-        if (icc_markers[seq_no] == NULL) {
-            JNU_ThrowByName(env, "javax/imageio/IIOException",
-                 "Invalid icc profile: missing sequence number");
+        if (icc_mbrkers[seq_no] == NULL) {
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                 "Invblid icc profile: missing sequence number");
             return NULL;
         }
-        /* check the data length correctness */
-        length = icc_markers[seq_no]->data_length;
+        /* check the dbtb length correctness */
+        length = icc_mbrkers[seq_no]->dbtb_length;
         if (ICC_OVERHEAD_LEN > length || length > MAX_BYTES_IN_MARKER) {
-            JNU_ThrowByName(env, "javax/imageio/IIOException",
-                 "Invalid icc profile: invalid data length");
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                 "Invblid icc profile: invblid dbtb length");
             return NULL;
         }
-        total_length += (length - ICC_OVERHEAD_LEN);
+        totbl_length += (length - ICC_OVERHEAD_LEN);
     }
 
-    if (total_length <= 0) {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-              "Invalid icc profile: found only empty markers");
+    if (totbl_length <= 0) {
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+              "Invblid icc profile: found only empty mbrkers");
         return NULL;
     }
 
-    /* Allocate a Java byte array for assembled data */
+    /* Allocbte b Jbvb byte brrby for bssembled dbtb */
 
-    data = (*env)->NewByteArray(env, total_length);
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/OutOfMemoryError",
-                        "Reading ICC profile");
+    dbtb = (*env)->NewByteArrby(env, totbl_length);
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/OutOfMemoryError",
+                        "Rebding ICC profile");
         return NULL;
     }
 
-    icc_data = (JOCTET *)(*env)->GetPrimitiveArrayCritical(env,
-                                                           data,
+    icc_dbtb = (JOCTET *)(*env)->GetPrimitiveArrbyCriticbl(env,
+                                                           dbtb,
                                                            NULL);
-    if (icc_data == NULL) {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Unable to pin icc profile data array");
+    if (icc_dbtb == NULL) {
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Unbble to pin icc profile dbtb brrby");
         return NULL;
     }
 
-    /* and fill it in */
-    dst_ptr = icc_data;
-    for (seq_no = first; seq_no < last; seq_no++) {
-        JOCTET FAR *src_ptr = icc_markers[seq_no]->data + ICC_OVERHEAD_LEN;
+    /* bnd fill it in */
+    dst_ptr = icc_dbtb;
+    for (seq_no = first; seq_no < lbst; seq_no++) {
+        JOCTET FAR *src_ptr = icc_mbrkers[seq_no]->dbtb + ICC_OVERHEAD_LEN;
         unsigned int length =
-            icc_markers[seq_no]->data_length - ICC_OVERHEAD_LEN;
+            icc_mbrkers[seq_no]->dbtb_length - ICC_OVERHEAD_LEN;
 
         memcpy(dst_ptr, src_ptr, length);
         dst_ptr += length;
     }
 
-    /* finally, unpin the array */
-    (*env)->ReleasePrimitiveArrayCritical(env,
-                                          data,
-                                          icc_data,
+    /* finblly, unpin the brrby */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                          dbtb,
+                                          icc_dbtb,
                                           0);
 
 
-    return data;
+    return dbtb;
 }
 
 /********************* end of ICC profile support *************/
 
-/********************* Reader JNI calls ***********************/
+/********************* Rebder JNI cblls ***********************/
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_initReaderIDs
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_initRebderIDs
     (JNIEnv *env,
-     jclass cls,
-     jclass ImageInputStreamClass,
-     jclass qTableClass,
-     jclass huffClass) {
+     jclbss cls,
+     jclbss ImbgeInputStrebmClbss,
+     jclbss qTbbleClbss,
+     jclbss huffClbss) {
 
-    CHECK_NULL(JPEGImageReader_readInputDataID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_rebdInputDbtbID = (*env)->GetMethodID(env,
                                                   cls,
-                                                  "readInputData",
+                                                  "rebdInputDbtb",
                                                   "([BII)I"));
-    CHECK_NULL(JPEGImageReader_skipInputBytesID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_skipInputBytesID = (*env)->GetMethodID(env,
                                                        cls,
                                                        "skipInputBytes",
                                                        "(J)J"));
-    CHECK_NULL(JPEGImageReader_warningOccurredID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_wbrningOccurredID = (*env)->GetMethodID(env,
                                                             cls,
-                                                            "warningOccurred",
+                                                            "wbrningOccurred",
                                                             "(I)V"));
-    CHECK_NULL(JPEGImageReader_warningWithMessageID =
+    CHECK_NULL(JPEGImbgeRebder_wbrningWithMessbgeID =
         (*env)->GetMethodID(env,
                             cls,
-                            "warningWithMessage",
-                            "(Ljava/lang/String;)V"));
-    CHECK_NULL(JPEGImageReader_setImageDataID = (*env)->GetMethodID(env,
+                            "wbrningWithMessbge",
+                            "(Ljbvb/lbng/String;)V"));
+    CHECK_NULL(JPEGImbgeRebder_setImbgeDbtbID = (*env)->GetMethodID(env,
                                                          cls,
-                                                         "setImageData",
+                                                         "setImbgeDbtb",
                                                          "(IIIII[B)V"));
-    CHECK_NULL(JPEGImageReader_acceptPixelsID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_bcceptPixelsID = (*env)->GetMethodID(env,
                                                          cls,
-                                                         "acceptPixels",
+                                                         "bcceptPixels",
                                                          "(IZ)V"));
-    CHECK_NULL(JPEGImageReader_passStartedID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_pbssStbrtedID = (*env)->GetMethodID(env,
                                                         cls,
-                                                        "passStarted",
+                                                        "pbssStbrted",
                                                         "(I)V"));
-    CHECK_NULL(JPEGImageReader_passCompleteID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_pbssCompleteID = (*env)->GetMethodID(env,
                                                          cls,
-                                                         "passComplete",
+                                                         "pbssComplete",
                                                          "()V"));
-    CHECK_NULL(JPEGImageReader_pushBackID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeRebder_pushBbckID = (*env)->GetMethodID(env,
                                                      cls,
-                                                     "pushBack",
+                                                     "pushBbck",
                                                      "(I)V"));
-    CHECK_NULL(JPEGQTable_tableID = (*env)->GetFieldID(env,
-                                            qTableClass,
-                                            "qTable",
+    CHECK_NULL(JPEGQTbble_tbbleID = (*env)->GetFieldID(env,
+                                            qTbbleClbss,
+                                            "qTbble",
                                             "[I"));
 
-    CHECK_NULL(JPEGHuffmanTable_lengthsID = (*env)->GetFieldID(env,
-                                                    huffClass,
+    CHECK_NULL(JPEGHuffmbnTbble_lengthsID = (*env)->GetFieldID(env,
+                                                    huffClbss,
                                                     "lengths",
                                                     "[S"));
 
-    CHECK_NULL(JPEGHuffmanTable_valuesID = (*env)->GetFieldID(env,
-                                                    huffClass,
-                                                    "values",
+    CHECK_NULL(JPEGHuffmbnTbble_vbluesID = (*env)->GetFieldID(env,
+                                                    huffClbss,
+                                                    "vblues",
                                                     "[S"));
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_initJPEGImageReader
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_initJPEGImbgeRebder
     (JNIEnv *env,
      jobject this) {
 
-    imageIODataPtr ret;
+    imbgeIODbtbPtr ret;
     struct sun_jpeg_error_mgr *jerr;
 
-    /* This struct contains the JPEG decompression parameters and pointers to
-     * working space (which is allocated as needed by the JPEG library).
+    /* This struct contbins the JPEG decompression pbrbmeters bnd pointers to
+     * working spbce (which is bllocbted bs needed by the JPEG librbry).
      */
     struct jpeg_decompress_struct *cinfo =
-        malloc(sizeof(struct jpeg_decompress_struct));
+        mblloc(sizeof(struct jpeg_decompress_struct));
     if (cinfo == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Reader");
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Rebder");
         return 0;
     }
 
-    /* We use our private extension JPEG error handler.
+    /* We use our privbte extension JPEG error hbndler.
      */
-    jerr = malloc (sizeof(struct sun_jpeg_error_mgr));
+    jerr = mblloc (sizeof(struct sun_jpeg_error_mgr));
     if (jerr == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Reader");
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Rebder");
         free(cinfo);
         return 0;
     }
 
-    /* We set up the normal JPEG error routines, then override error_exit. */
+    /* We set up the normbl JPEG error routines, then override error_exit. */
     cinfo->err = jpeg_std_error(&(jerr->pub));
     jerr->pub.error_exit = sun_jpeg_error_exit;
     /* We need to setup our own print routines */
-    jerr->pub.output_message = sun_jpeg_output_message;
-    /* Now we can setjmp before every call to the library */
+    jerr->pub.output_messbge = sun_jpeg_output_messbge;
+    /* Now we cbn setjmp before every cbll to the librbry */
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error. */
-        char buffer[JMSG_LENGTH_MAX];
-        (*cinfo->err->format_message) ((struct jpeg_common_struct *) cinfo,
+        /* If we get here, the JPEG code hbs signbled bn error. */
+        chbr buffer[JMSG_LENGTH_MAX];
+        (*cinfo->err->formbt_messbge) ((struct jpeg_common_struct *) cinfo,
                                       buffer);
-        JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         return 0;
     }
 
-    /* Perform library initialization */
-    jpeg_create_decompress(cinfo);
+    /* Perform librbry initiblizbtion */
+    jpeg_crebte_decompress(cinfo);
 
-    // Set up to keep any APP2 markers, as these might contain ICC profile
-    // data
-    jpeg_save_markers(cinfo, ICC_MARKER, 0xFFFF);
+    // Set up to keep bny APP2 mbrkers, bs these might contbin ICC profile
+    // dbtb
+    jpeg_sbve_mbrkers(cinfo, ICC_MARKER, 0xFFFF);
 
     /*
      * Now set up our source.
      */
     cinfo->src =
-        (struct jpeg_source_mgr *) malloc (sizeof(struct jpeg_source_mgr));
+        (struct jpeg_source_mgr *) mblloc (sizeof(struct jpeg_source_mgr));
     if (cinfo->src == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/OutOfMemoryError",
-                        "Initializing Reader");
-        imageio_dispose((j_common_ptr)cinfo);
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/OutOfMemoryError",
+                        "Initiblizing Rebder");
+        imbgeio_dispose((j_common_ptr)cinfo);
         return 0;
     }
     cinfo->src->bytes_in_buffer = 0;
     cinfo->src->next_input_byte = NULL;
-    cinfo->src->init_source = imageio_init_source;
-    cinfo->src->fill_input_buffer = imageio_fill_input_buffer;
-    cinfo->src->skip_input_data = imageio_skip_input_data;
-    cinfo->src->resync_to_restart = jpeg_resync_to_restart; // use default
-    cinfo->src->term_source = imageio_term_source;
+    cinfo->src->init_source = imbgeio_init_source;
+    cinfo->src->fill_input_buffer = imbgeio_fill_input_buffer;
+    cinfo->src->skip_input_dbtb = imbgeio_skip_input_dbtb;
+    cinfo->src->resync_to_restbrt = jpeg_resync_to_restbrt; // use defbult
+    cinfo->src->term_source = imbgeio_term_source;
 
-    /* set up the association to persist for future calls */
-    ret = initImageioData(env, (j_common_ptr) cinfo, this);
+    /* set up the bssocibtion to persist for future cblls */
+    ret = initImbgeioDbtb(env, (j_common_ptr) cinfo, this);
     if (ret == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName(env, "java/lang/OutOfMemoryError",
-                        "Initializing Reader");
-        imageio_dispose((j_common_ptr)cinfo);
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme(env, "jbvb/lbng/OutOfMemoryError",
+                        "Initiblizing Rebder");
+        imbgeio_dispose((j_common_ptr)cinfo);
         return 0;
     }
     return ptr_to_jlong(ret);
 }
 
 /*
- * When we set a source from Java, we set up the stream in the streamBuf
- * object.  If there was an old one, it is released first.
+ * When we set b source from Jbvb, we set up the strebm in the strebmBuf
+ * object.  If there wbs bn old one, it is relebsed first.
  */
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_setSource
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_setSource
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_common_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return;
     }
 
-    cinfo = data->jpegObj;
+    cinfo = dbtb->jpegObj;
 
-    imageio_set_stream(env, cinfo, data, this);
+    imbgeio_set_strebm(env, cinfo, dbtb, this);
 
-    imageio_init_source((j_decompress_ptr) cinfo);
+    imbgeio_init_source((j_decompress_ptr) cinfo);
 }
 
-#define JPEG_APP1  (JPEG_APP0 + 1)  /* EXIF APP1 marker code  */
+#define JPEG_APP1  (JPEG_APP0 + 1)  /* EXIF APP1 mbrker code  */
 
 /*
- * For EXIF images, the APP1 will appear immediately after the SOI,
- * so it's safe to only look at the first marker in the list.
- * (see http://www.exif.org/Exif2-2.PDF, section 4.7, page 58)
+ * For EXIF imbges, the APP1 will bppebr immedibtely bfter the SOI,
+ * so it's sbfe to only look bt the first mbrker in the list.
+ * (see http://www.exif.org/Exif2-2.PDF, section 4.7, pbge 58)
  */
 #define IS_EXIF(c) \
-    (((c)->marker_list != NULL) && ((c)->marker_list->marker == JPEG_APP1))
+    (((c)->mbrker_list != NULL) && ((c)->mbrker_list->mbrker == JPEG_APP1))
 
-JNIEXPORT jboolean JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_readImageHeader
+JNIEXPORT jboolebn JNICALL
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_rebdImbgeHebder
     (JNIEnv *env,
      jobject this,
      jlong ptr,
-     jboolean clearFirst,
-     jboolean reset) {
+     jboolebn clebrFirst,
+     jboolebn reset) {
 
     int ret;
-    int h_samp0, h_samp1, h_samp2;
-    int v_samp0, v_samp1, v_samp2;
-    jboolean retval = JNI_FALSE;
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    int h_sbmp0, h_sbmp1, h_sbmp2;
+    int v_sbmp0, v_sbmp1, v_sbmp2;
+    jboolebn retvbl = JNI_FALSE;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_decompress_ptr cinfo;
     struct jpeg_source_mgr *src;
     sun_jpeg_error_ptr jerr;
-    jbyteArray profileData = NULL;
+    jbyteArrby profileDbtb = NULL;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return JNI_FALSE;
     }
 
-    cinfo = (j_decompress_ptr) data->jpegObj;
+    cinfo = (j_decompress_ptr) dbtb->jpegObj;
     src = cinfo->src;
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
-           while reading the header. */
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
+        /* If we get here, the JPEG code hbs signbled bn error
+           while rebding the hebder. */
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) ((struct jpeg_common_struct *) cinfo,
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) ((struct jpeg_common_struct *) cinfo,
                                           buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
-        return retval;
+        return retvbl;
     }
 
 #ifdef DEBUG_IIO_JPEG
-    printf("In readImageHeader, data is %p cinfo is %p\n", data, cinfo);
-    printf("clearFirst is %d\n", clearFirst);
+    printf("In rebdImbgeHebder, dbtb is %p cinfo is %p\n", dbtb, cinfo);
+    printf("clebrFirst is %d\n", clebrFirst);
 #endif
 
-    if (GET_ARRAYS(env, data, &src->next_input_byte) == NOT_OK) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName(env,
-                        "javax/imageio/IIOException",
-                        "Array pin failed");
-        return retval;
+    if (GET_ARRAYS(env, dbtb, &src->next_input_byte) == NOT_OK) {
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme(env,
+                        "jbvbx/imbgeio/IIOException",
+                        "Arrby pin fbiled");
+        return retvbl;
     }
 
     /*
-     * Now clear the input buffer if the Java code has done a seek
-     * on the stream since the last call, invalidating any buffer contents.
+     * Now clebr the input buffer if the Jbvb code hbs done b seek
+     * on the strebm since the lbst cbll, invblidbting bny buffer contents.
      */
-    if (clearFirst) {
-        clearStreamBuffer(&data->streamBuf);
+    if (clebrFirst) {
+        clebrStrebmBuffer(&dbtb->strebmBuf);
         src->next_input_byte = NULL;
         src->bytes_in_buffer = 0;
     }
 
-    ret = jpeg_read_header(cinfo, FALSE);
+    ret = jpeg_rebd_hebder(cinfo, FALSE);
 
     if (ret == JPEG_HEADER_TABLES_ONLY) {
-        retval = JNI_TRUE;
-        imageio_term_source(cinfo);  // Pushback remaining buffer contents
+        retvbl = JNI_TRUE;
+        imbgeio_term_source(cinfo);  // Pushbbck rembining buffer contents
 #ifdef DEBUG_IIO_JPEG
-        printf("just read tables-only image; q table 0 at %p\n",
-               cinfo->quant_tbl_ptrs[0]);
+        printf("just rebd tbbles-only imbge; q tbble 0 bt %p\n",
+               cinfo->qubnt_tbl_ptrs[0]);
 #endif
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
     } else {
         /*
-         * Now adjust the jpeg_color_space variable, which was set in
-         * default_decompress_parms, to reflect our differences from IJG
+         * Now bdjust the jpeg_color_spbce vbribble, which wbs set in
+         * defbult_decompress_pbrms, to reflect our differences from IJG
          */
 
-        switch (cinfo->jpeg_color_space) {
-        default :
-          break;
-        case JCS_YCbCr:
+        switch (cinfo->jpeg_color_spbce) {
+        defbult :
+          brebk;
+        cbse JCS_YCbCr:
 
             /*
-             * There are several possibilities:
-             *  - we got image with embeded colorspace
-             *     Use it. User knows what he is doing.
-             *  - we got JFIF image
-             *     Must be YCbCr (see http://www.w3.org/Graphics/JPEG/jfif3.pdf, page 2)
-             *  - we got EXIF image
-             *     Must be YCbCr (see http://www.exif.org/Exif2-2.PDF, section 4.7, page 63)
+             * There bre severbl possibilities:
+             *  - we got imbge with embeded colorspbce
+             *     Use it. User knows whbt he is doing.
+             *  - we got JFIF imbge
+             *     Must be YCbCr (see http://www.w3.org/Grbphics/JPEG/jfif3.pdf, pbge 2)
+             *  - we got EXIF imbge
+             *     Must be YCbCr (see http://www.exif.org/Exif2-2.PDF, section 4.7, pbge 63)
              *  - something else
-             *     Apply heuristical rules to identify actual colorspace.
+             *     Apply heuristicbl rules to identify bctubl colorspbce.
              */
 
-            if (cinfo->saw_Adobe_marker) {
-                if (cinfo->Adobe_transform != 1) {
+            if (cinfo->sbw_Adobe_mbrker) {
+                if (cinfo->Adobe_trbnsform != 1) {
                     /*
-                     * IJG guesses this is YCbCr and emits a warning
-                     * We would rather not guess.  Then the user knows
-                     * To read this as a Raster if at all
+                     * IJG guesses this is YCbCr bnd emits b wbrning
+                     * We would rbther not guess.  Then the user knows
+                     * To rebd this bs b Rbster if bt bll
                      */
-                    cinfo->jpeg_color_space = JCS_UNKNOWN;
-                    cinfo->out_color_space = JCS_UNKNOWN;
+                    cinfo->jpeg_color_spbce = JCS_UNKNOWN;
+                    cinfo->out_color_spbce = JCS_UNKNOWN;
                 }
-            } else if (!cinfo->saw_JFIF_marker && !IS_EXIF(cinfo)) {
+            } else if (!cinfo->sbw_JFIF_mbrker && !IS_EXIF(cinfo)) {
                 /*
-                 * IJG assumes all unidentified 3-channels are YCbCr.
-                 * We assume that only if the second two channels are
-                 * subsampled (either horizontally or vertically).  If not,
-                 * we assume RGB.
+                 * IJG bssumes bll unidentified 3-chbnnels bre YCbCr.
+                 * We bssume thbt only if the second two chbnnels bre
+                 * subsbmpled (either horizontblly or verticblly).  If not,
+                 * we bssume RGB.
                  *
-                 * 4776576: Some digital cameras output YCbCr JPEG images
-                 * that do not contain a JFIF APP0 marker but are only
-                 * vertically subsampled (no horizontal subsampling).
-                 * We should only assume this is RGB data if the subsampling
-                 * factors for the second two channels are the same as the
-                 * first (check both horizontal and vertical factors).
+                 * 4776576: Some digitbl cbmerbs output YCbCr JPEG imbges
+                 * thbt do not contbin b JFIF APP0 mbrker but bre only
+                 * verticblly subsbmpled (no horizontbl subsbmpling).
+                 * We should only bssume this is RGB dbtb if the subsbmpling
+                 * fbctors for the second two chbnnels bre the sbme bs the
+                 * first (check both horizontbl bnd verticbl fbctors).
                  */
-                h_samp0 = cinfo->comp_info[0].h_samp_factor;
-                h_samp1 = cinfo->comp_info[1].h_samp_factor;
-                h_samp2 = cinfo->comp_info[2].h_samp_factor;
+                h_sbmp0 = cinfo->comp_info[0].h_sbmp_fbctor;
+                h_sbmp1 = cinfo->comp_info[1].h_sbmp_fbctor;
+                h_sbmp2 = cinfo->comp_info[2].h_sbmp_fbctor;
 
-                v_samp0 = cinfo->comp_info[0].v_samp_factor;
-                v_samp1 = cinfo->comp_info[1].v_samp_factor;
-                v_samp2 = cinfo->comp_info[2].v_samp_factor;
+                v_sbmp0 = cinfo->comp_info[0].v_sbmp_fbctor;
+                v_sbmp1 = cinfo->comp_info[1].v_sbmp_fbctor;
+                v_sbmp2 = cinfo->comp_info[2].v_sbmp_fbctor;
 
-                if ((h_samp1 == h_samp0) && (h_samp2 == h_samp0) &&
-                    (v_samp1 == v_samp0) && (v_samp2 == v_samp0))
+                if ((h_sbmp1 == h_sbmp0) && (h_sbmp2 == h_sbmp0) &&
+                    (v_sbmp1 == v_sbmp0) && (v_sbmp2 == v_sbmp0))
                 {
-                    cinfo->jpeg_color_space = JCS_RGB;
-                    /* output is already RGB, so it stays the same */
+                    cinfo->jpeg_color_spbce = JCS_RGB;
+                    /* output is blrebdy RGB, so it stbys the sbme */
                 }
             }
-            break;
+            brebk;
 #ifdef YCCALPHA
-        case JCS_YCC:
-            cinfo->out_color_space = JCS_YCC;
-            break;
+        cbse JCS_YCC:
+            cinfo->out_color_spbce = JCS_YCC;
+            brebk;
 #endif
-        case JCS_YCCK:
-            if ((cinfo->saw_Adobe_marker) && (cinfo->Adobe_transform != 2)) {
+        cbse JCS_YCCK:
+            if ((cinfo->sbw_Adobe_mbrker) && (cinfo->Adobe_trbnsform != 2)) {
                 /*
-                 * IJG guesses this is YCCK and emits a warning
-                 * We would rather not guess.  Then the user knows
-                 * To read this as a Raster if at all
+                 * IJG guesses this is YCCK bnd emits b wbrning
+                 * We would rbther not guess.  Then the user knows
+                 * To rebd this bs b Rbster if bt bll
                  */
-                cinfo->jpeg_color_space = JCS_UNKNOWN;
-                cinfo->out_color_space = JCS_UNKNOWN;
+                cinfo->jpeg_color_spbce = JCS_UNKNOWN;
+                cinfo->out_color_spbce = JCS_UNKNOWN;
             }
-            break;
-        case JCS_CMYK:
+            brebk;
+        cbse JCS_CMYK:
             /*
-             * IJG assumes all unidentified 4-channels are CMYK.
-             * We assume that only if the second two channels are
-             * not subsampled (either horizontally or vertically).
-             * If they are, we assume YCCK.
+             * IJG bssumes bll unidentified 4-chbnnels bre CMYK.
+             * We bssume thbt only if the second two chbnnels bre
+             * not subsbmpled (either horizontblly or verticblly).
+             * If they bre, we bssume YCCK.
              */
-            h_samp0 = cinfo->comp_info[0].h_samp_factor;
-            h_samp1 = cinfo->comp_info[1].h_samp_factor;
-            h_samp2 = cinfo->comp_info[2].h_samp_factor;
+            h_sbmp0 = cinfo->comp_info[0].h_sbmp_fbctor;
+            h_sbmp1 = cinfo->comp_info[1].h_sbmp_fbctor;
+            h_sbmp2 = cinfo->comp_info[2].h_sbmp_fbctor;
 
-            v_samp0 = cinfo->comp_info[0].v_samp_factor;
-            v_samp1 = cinfo->comp_info[1].v_samp_factor;
-            v_samp2 = cinfo->comp_info[2].v_samp_factor;
+            v_sbmp0 = cinfo->comp_info[0].v_sbmp_fbctor;
+            v_sbmp1 = cinfo->comp_info[1].v_sbmp_fbctor;
+            v_sbmp2 = cinfo->comp_info[2].v_sbmp_fbctor;
 
-            if ((h_samp1 > h_samp0) && (h_samp2 > h_samp0) ||
-                (v_samp1 > v_samp0) && (v_samp2 > v_samp0))
+            if ((h_sbmp1 > h_sbmp0) && (h_sbmp2 > h_sbmp0) ||
+                (v_sbmp1 > v_sbmp0) && (v_sbmp2 > v_sbmp0))
             {
-                cinfo->jpeg_color_space = JCS_YCCK;
-                /* Leave the output space as CMYK */
+                cinfo->jpeg_color_spbce = JCS_YCCK;
+                /* Lebve the output spbce bs CMYK */
             }
         }
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
 
-        /* read icc profile data */
-        profileData = read_icc_profile(env, cinfo);
+        /* rebd icc profile dbtb */
+        profileDbtb = rebd_icc_profile(env, cinfo);
 
         if ((*env)->ExceptionCheck(env)) {
-            return retval;
+            return retvbl;
         }
 
-        (*env)->CallVoidMethod(env, this,
-                               JPEGImageReader_setImageDataID,
-                               cinfo->image_width,
-                               cinfo->image_height,
-                               cinfo->jpeg_color_space,
-                               cinfo->out_color_space,
+        (*env)->CbllVoidMethod(env, this,
+                               JPEGImbgeRebder_setImbgeDbtbID,
+                               cinfo->imbge_width,
+                               cinfo->imbge_height,
+                               cinfo->jpeg_color_spbce,
+                               cinfo->out_color_spbce,
                                cinfo->num_components,
-                               profileData);
+                               profileDbtb);
         if (reset) {
-            jpeg_abort_decompress(cinfo);
+            jpeg_bbort_decompress(cinfo);
         }
     }
 
-    return retval;
+    return retvbl;
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_setOutColorSpace
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_setOutColorSpbce
     (JNIEnv *env,
      jobject this,
      jlong ptr,
      jint code) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_decompress_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return;
     }
 
-    cinfo = (j_decompress_ptr) data->jpegObj;
+    cinfo = (j_decompress_ptr) dbtb->jpegObj;
 
-    cinfo->out_color_space = code;
+    cinfo->out_color_spbce = code;
 
 }
 
-JNIEXPORT jboolean JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_readImage
+JNIEXPORT jboolebn JNICALL
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_rebdImbge
     (JNIEnv *env,
      jobject this,
      jlong ptr,
-     jbyteArray buffer,
-     jint numBands,
-     jintArray srcBands,
-     jintArray bandSizes,
-     jint sourceXStart,
-     jint sourceYStart,
+     jbyteArrby buffer,
+     jint numBbnds,
+     jintArrby srcBbnds,
+     jintArrby bbndSizes,
+     jint sourceXStbrt,
+     jint sourceYStbrt,
      jint sourceWidth,
      jint sourceHeight,
      jint stepX,
      jint stepY,
-     jobjectArray qtables,
-     jobjectArray DCHuffmanTables,
-     jobjectArray ACHuffmanTables,
-     jint minProgressivePass,  // Counts from 0
-     jint maxProgressivePass,
-     jboolean wantUpdates) {
+     jobjectArrby qtbbles,
+     jobjectArrby DCHuffmbnTbbles,
+     jobjectArrby ACHuffmbnTbbles,
+     jint minProgressivePbss,  // Counts from 0
+     jint mbxProgressivePbss,
+     jboolebn wbntUpdbtes) {
 
 
     struct jpeg_source_mgr *src;
-    JSAMPROW scanLinePtr = NULL;
-    jint bands[MAX_BANDS];
+    JSAMPROW scbnLinePtr = NULL;
+    jint bbnds[MAX_BANDS];
     int i;
     jint *body;
-    int scanlineLimit;
+    int scbnlineLimit;
     int pixelStride;
-    unsigned char *in, *out, *pixelLimit;
-    int targetLine;
+    unsigned chbr *in, *out, *pixelLimit;
+    int tbrgetLine;
     int skipLines, linesLeft;
     pixelBufferPtr pb;
     sun_jpeg_error_ptr jerr;
-    boolean done;
-    boolean mustScale = FALSE;
-    boolean progressive = FALSE;
-    boolean orderedBands = TRUE;
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    boolebn done;
+    boolebn mustScble = FALSE;
+    boolebn progressive = FALSE;
+    boolebn orderedBbnds = TRUE;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_decompress_ptr cinfo;
     size_t numBytes;
 
     /* verify the inputs */
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return JNI_FALSE;
     }
 
-    if ((buffer == NULL) || (srcBands == NULL))  {
+    if ((buffer == NULL) || (srcBbnds == NULL))  {
         JNU_ThrowNullPointerException(env, 0);
         return JNI_FALSE;
     }
 
-    cinfo = (j_decompress_ptr) data->jpegObj;
+    cinfo = (j_decompress_ptr) dbtb->jpegObj;
 
-    if ((numBands < 1) || (numBands > MAX_BANDS) ||
-        (sourceXStart < 0) || (sourceXStart >= (jint)cinfo->image_width) ||
-        (sourceYStart < 0) || (sourceYStart >= (jint)cinfo->image_height) ||
-        (sourceWidth < 1) || (sourceWidth > (jint)cinfo->image_width) ||
-        (sourceHeight < 1) || (sourceHeight > (jint)cinfo->image_height) ||
+    if ((numBbnds < 1) || (numBbnds > MAX_BANDS) ||
+        (sourceXStbrt < 0) || (sourceXStbrt >= (jint)cinfo->imbge_width) ||
+        (sourceYStbrt < 0) || (sourceYStbrt >= (jint)cinfo->imbge_height) ||
+        (sourceWidth < 1) || (sourceWidth > (jint)cinfo->imbge_width) ||
+        (sourceHeight < 1) || (sourceHeight > (jint)cinfo->imbge_height) ||
         (stepX < 1) || (stepY < 1) ||
-        (minProgressivePass < 0) ||
-        (maxProgressivePass < minProgressivePass))
+        (minProgressivePbss < 0) ||
+        (mbxProgressivePbss < minProgressivePbss))
     {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Invalid argument to native readImage");
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Invblid brgument to nbtive rebdImbge");
         return JNI_FALSE;
     }
 
-    if (stepX > (jint)cinfo->image_width) {
-        stepX = cinfo->image_width;
+    if (stepX > (jint)cinfo->imbge_width) {
+        stepX = cinfo->imbge_width;
     }
-    if (stepY > (jint)cinfo->image_height) {
-        stepY = cinfo->image_height;
+    if (stepY > (jint)cinfo->imbge_height) {
+        stepY = cinfo->imbge_height;
     }
 
     /*
-     * First get the source bands array and copy it to our local array
-     * so we don't have to worry about pinning and unpinning it again.
+     * First get the source bbnds brrby bnd copy it to our locbl brrby
+     * so we don't hbve to worry bbout pinning bnd unpinning it bgbin.
      */
 
-    body = (*env)->GetIntArrayElements(env, srcBands, NULL);
+    body = (*env)->GetIntArrbyElements(env, srcBbnds, NULL);
     if (body == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Read");
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Rebd");
         return JNI_FALSE;
     }
 
-    for (i = 0; i < numBands; i++) {
-        bands[i] = body[i];
-        if (orderedBands && (bands[i] != i)) {
-            orderedBands = FALSE;
+    for (i = 0; i < numBbnds; i++) {
+        bbnds[i] = body[i];
+        if (orderedBbnds && (bbnds[i] != i)) {
+            orderedBbnds = FALSE;
         }
     }
 
-    (*env)->ReleaseIntArrayElements(env, srcBands, body, JNI_ABORT);
+    (*env)->RelebseIntArrbyElements(env, srcBbnds, body, JNI_ABORT);
 
 #ifdef DEBUG_IIO_JPEG
-    printf("---- in reader.read ----\n");
-    printf("numBands is %d\n", numBands);
-    printf("bands array: ");
-    for (i = 0; i < numBands; i++) {
-        printf("%d ", bands[i]);
+    printf("---- in rebder.rebd ----\n");
+    printf("numBbnds is %d\n", numBbnds);
+    printf("bbnds brrby: ");
+    for (i = 0; i < numBbnds; i++) {
+        printf("%d ", bbnds[i]);
     }
     printf("\n");
-    printf("jq table 0 at %p\n",
-               cinfo->quant_tbl_ptrs[0]);
+    printf("jq tbble 0 bt %p\n",
+               cinfo->qubnt_tbl_ptrs[0]);
 #endif
 
-    data = (imageIODataPtr) cinfo->client_data;
+    dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
     src = cinfo->src;
 
-    /* Set the buffer as our PixelBuffer */
-    pb = &data->pixelBuf;
+    /* Set the buffer bs our PixelBuffer */
+    pb = &dbtb->pixelBuf;
 
     if (setPixelBuffer(env, pb, buffer) == NOT_OK) {
-        return data->abortFlag;  // We already threw an out of memory exception
+        return dbtb->bbortFlbg;  // We blrebdy threw bn out of memory exception
     }
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
-           while reading. */
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
+        /* If we get here, the JPEG code hbs signbled bn error
+           while rebding. */
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) ((struct jpeg_common_struct *) cinfo,
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) ((struct jpeg_common_struct *) cinfo,
                                           buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
-        if (scanLinePtr != NULL) {
-            free(scanLinePtr);
-            scanLinePtr = NULL;
+        if (scbnLinePtr != NULL) {
+            free(scbnLinePtr);
+            scbnLinePtr = NULL;
         }
-        return data->abortFlag;
+        return dbtb->bbortFlbg;
     }
 
-    if (GET_ARRAYS(env, data, &src->next_input_byte) == NOT_OK) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName(env,
-                        "javax/imageio/IIOException",
-                        "Array pin failed");
-        return data->abortFlag;
+    if (GET_ARRAYS(env, dbtb, &src->next_input_byte) == NOT_OK) {
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme(env,
+                        "jbvbx/imbgeio/IIOException",
+                        "Arrby pin fbiled");
+        return dbtb->bbortFlbg;
     }
 
-    // If there are no tables in our structure and table arguments aren't
-    // NULL, use the table arguments.
-    if ((qtables != NULL) && (cinfo->quant_tbl_ptrs[0] == NULL)) {
-        (void) setQTables(env, (j_common_ptr) cinfo, qtables, TRUE);
+    // If there bre no tbbles in our structure bnd tbble brguments bren't
+    // NULL, use the tbble brguments.
+    if ((qtbbles != NULL) && (cinfo->qubnt_tbl_ptrs[0] == NULL)) {
+        (void) setQTbbles(env, (j_common_ptr) cinfo, qtbbles, TRUE);
     }
 
-    if ((DCHuffmanTables != NULL) && (cinfo->dc_huff_tbl_ptrs[0] == NULL)) {
-        setHTables(env, (j_common_ptr) cinfo,
-                   DCHuffmanTables,
-                   ACHuffmanTables,
+    if ((DCHuffmbnTbbles != NULL) && (cinfo->dc_huff_tbl_ptrs[0] == NULL)) {
+        setHTbbles(env, (j_common_ptr) cinfo,
+                   DCHuffmbnTbbles,
+                   ACHuffmbnTbbles,
                    TRUE);
     }
 
-    progressive = jpeg_has_multiple_scans(cinfo);
+    progressive = jpeg_hbs_multiple_scbns(cinfo);
     if (progressive) {
-        cinfo->buffered_image = TRUE;
-        cinfo->input_scan_number = minProgressivePass+1; // Java count from 0
+        cinfo->buffered_imbge = TRUE;
+        cinfo->input_scbn_number = minProgressivePbss+1; // Jbvb count from 0
 #define MAX_JAVA_INT 2147483647 // XXX Is this defined in JNI somewhere?
-        if (maxProgressivePass < MAX_JAVA_INT) {
-            maxProgressivePass++; // For testing
+        if (mbxProgressivePbss < MAX_JAVA_INT) {
+            mbxProgressivePbss++; // For testing
         }
     }
 
-    data->streamBuf.suspendable = FALSE;
+    dbtb->strebmBuf.suspendbble = FALSE;
 
-    jpeg_start_decompress(cinfo);
+    jpeg_stbrt_decompress(cinfo);
 
-    if (numBands !=  cinfo->output_components) {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Invalid argument to native readImage");
-        return data->abortFlag;
+    if (numBbnds !=  cinfo->output_components) {
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Invblid brgument to nbtive rebdImbge");
+        return dbtb->bbortFlbg;
     }
 
     if (cinfo->output_components <= 0 ||
-        cinfo->image_width > (0xffffffffu / (unsigned int)cinfo->output_components))
+        cinfo->imbge_width > (0xffffffffu / (unsigned int)cinfo->output_components))
     {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Invalid number of output components");
-        return data->abortFlag;
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Invblid number of output components");
+        return dbtb->bbortFlbg;
     }
 
-    // Allocate a 1-scanline buffer
-    scanLinePtr = (JSAMPROW)malloc(cinfo->image_width*cinfo->output_components);
-    if (scanLinePtr == NULL) {
-        RELEASE_ARRAYS(env, data, src->next_input_byte);
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Reading JPEG Stream");
-        return data->abortFlag;
+    // Allocbte b 1-scbnline buffer
+    scbnLinePtr = (JSAMPROW)mblloc(cinfo->imbge_width*cinfo->output_components);
+    if (scbnLinePtr == NULL) {
+        RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Rebding JPEG Strebm");
+        return dbtb->bbortFlbg;
     }
 
-    // loop over progressive passes
+    // loop over progressive pbsses
     done = FALSE;
     while (!done) {
         if (progressive) {
-            // initialize the next pass.  Note that this skips up to
-            // the first interesting pass.
-            jpeg_start_output(cinfo, cinfo->input_scan_number);
-            if (wantUpdates) {
-                (*env)->CallVoidMethod(env, this,
-                                       JPEGImageReader_passStartedID,
-                                       cinfo->input_scan_number-1);
+            // initiblize the next pbss.  Note thbt this skips up to
+            // the first interesting pbss.
+            jpeg_stbrt_output(cinfo, cinfo->input_scbn_number);
+            if (wbntUpdbtes) {
+                (*env)->CbllVoidMethod(env, this,
+                                       JPEGImbgeRebder_pbssStbrtedID,
+                                       cinfo->input_scbn_number-1);
             }
-        } else if (wantUpdates) {
-            (*env)->CallVoidMethod(env, this,
-                                   JPEGImageReader_passStartedID,
+        } else if (wbntUpdbtes) {
+            (*env)->CbllVoidMethod(env, this,
+                                   JPEGImbgeRebder_pbssStbrtedID,
                                    0);
 
         }
 
         // Skip until the first interesting line
-        while ((data->abortFlag == JNI_FALSE)
-               && ((jint)cinfo->output_scanline < sourceYStart)) {
-            jpeg_read_scanlines(cinfo, &scanLinePtr, 1);
+        while ((dbtb->bbortFlbg == JNI_FALSE)
+               && ((jint)cinfo->output_scbnline < sourceYStbrt)) {
+            jpeg_rebd_scbnlines(cinfo, &scbnLinePtr, 1);
         }
 
-        scanlineLimit = sourceYStart+sourceHeight;
-        pixelLimit = scanLinePtr
-            +(sourceXStart+sourceWidth)*cinfo->output_components;
+        scbnlineLimit = sourceYStbrt+sourceHeight;
+        pixelLimit = scbnLinePtr
+            +(sourceXStbrt+sourceWidth)*cinfo->output_components;
 
         pixelStride = stepX*cinfo->output_components;
-        targetLine = 0;
+        tbrgetLine = 0;
 
-        while ((data->abortFlag == JNI_FALSE)
-               && ((jint)cinfo->output_scanline < scanlineLimit)) {
+        while ((dbtb->bbortFlbg == JNI_FALSE)
+               && ((jint)cinfo->output_scbnline < scbnlineLimit)) {
 
-            jpeg_read_scanlines(cinfo, &scanLinePtr, 1);
+            jpeg_rebd_scbnlines(cinfo, &scbnLinePtr, 1);
 
-            // Now mangle it into our buffer
-            out = data->pixelBuf.buf.bp;
+            // Now mbngle it into our buffer
+            out = dbtb->pixelBuf.buf.bp;
 
-            if (orderedBands && (pixelStride == numBands)) {
-                // Optimization: The component bands are ordered sequentially,
-                // so we can simply use memcpy() to copy the intermediate
-                // scanline buffer into the raster.
-                in = scanLinePtr + (sourceXStart * cinfo->output_components);
+            if (orderedBbnds && (pixelStride == numBbnds)) {
+                // Optimizbtion: The component bbnds bre ordered sequentiblly,
+                // so we cbn simply use memcpy() to copy the intermedibte
+                // scbnline buffer into the rbster.
+                in = scbnLinePtr + (sourceXStbrt * cinfo->output_components);
                 if (pixelLimit > in) {
                     numBytes = pixelLimit - in;
-                    if (numBytes > data->pixelBuf.byteBufferLength) {
-                        numBytes = data->pixelBuf.byteBufferLength;
+                    if (numBytes > dbtb->pixelBuf.byteBufferLength) {
+                        numBytes = dbtb->pixelBuf.byteBufferLength;
                     }
                     memcpy(out, in, numBytes);
                 }
             } else {
-                numBytes = numBands;
-                for (in = scanLinePtr+sourceXStart*cinfo->output_components;
+                numBytes = numBbnds;
+                for (in = scbnLinePtr+sourceXStbrt*cinfo->output_components;
                      in < pixelLimit &&
-                       numBytes <= data->pixelBuf.byteBufferLength;
+                       numBytes <= dbtb->pixelBuf.byteBufferLength;
                      in += pixelStride) {
-                    for (i = 0; i < numBands; i++) {
-                        *out++ = *(in+bands[i]);
+                    for (i = 0; i < numBbnds; i++) {
+                        *out++ = *(in+bbnds[i]);
                     }
-                    numBytes += numBands;
+                    numBytes += numBbnds;
                 }
             }
 
-            // And call it back to Java
-            RELEASE_ARRAYS(env, data, src->next_input_byte);
-            (*env)->CallVoidMethod(env,
+            // And cbll it bbck to Jbvb
+            RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
+            (*env)->CbllVoidMethod(env,
                                    this,
-                                   JPEGImageReader_acceptPixelsID,
-                                   targetLine++,
+                                   JPEGImbgeRebder_bcceptPixelsID,
+                                   tbrgetLine++,
                                    progressive);
 
             if ((*env)->ExceptionOccurred(env)
-                || !GET_ARRAYS(env, data, &(src->next_input_byte))) {
+                || !GET_ARRAYS(env, dbtb, &(src->next_input_byte))) {
                 cinfo->err->error_exit((j_common_ptr) cinfo);
             }
 
-            // And skip over uninteresting lines to the next subsampled line
-            // Ensure we don't go past the end of the image
+            // And skip over uninteresting lines to the next subsbmpled line
+            // Ensure we don't go pbst the end of the imbge
 
-            // Lines to skip based on subsampling
+            // Lines to skip bbsed on subsbmpling
             skipLines = stepY - 1;
-            // Lines left in the image
-            linesLeft =  scanlineLimit - cinfo->output_scanline;
-            // Take the minimum
+            // Lines left in the imbge
+            linesLeft =  scbnlineLimit - cinfo->output_scbnline;
+            // Tbke the minimum
             if (skipLines > linesLeft) {
                 skipLines = linesLeft;
             }
             for(i = 0; i < skipLines; i++) {
-                jpeg_read_scanlines(cinfo, &scanLinePtr, 1);
+                jpeg_rebd_scbnlines(cinfo, &scbnLinePtr, 1);
             }
         }
         if (progressive) {
-            jpeg_finish_output(cinfo); // Increments pass counter
-            // Call Java to notify pass complete
+            jpeg_finish_output(cinfo); // Increments pbss counter
+            // Cbll Jbvb to notify pbss complete
             if (jpeg_input_complete(cinfo)
-                || (cinfo->input_scan_number > maxProgressivePass)) {
+                || (cinfo->input_scbn_number > mbxProgressivePbss)) {
                 done = TRUE;
             }
         } else {
             done = TRUE;
         }
-        if (wantUpdates) {
-            (*env)->CallVoidMethod(env, this,
-                                   JPEGImageReader_passCompleteID);
+        if (wbntUpdbtes) {
+            (*env)->CbllVoidMethod(env, this,
+                                   JPEGImbgeRebder_pbssCompleteID);
         }
 
     }
     /*
-     * We are done, but we might not have read all the lines, or all
-     * the passes, so use jpeg_abort instead of jpeg_finish_decompress.
+     * We bre done, but we might not hbve rebd bll the lines, or bll
+     * the pbsses, so use jpeg_bbort instebd of jpeg_finish_decompress.
      */
-    if (cinfo->output_scanline == cinfo->output_height) {
-        //    if ((cinfo->output_scanline == cinfo->output_height) &&
-        //(jpeg_input_complete(cinfo))) {  // We read the whole file
+    if (cinfo->output_scbnline == cinfo->output_height) {
+        //    if ((cinfo->output_scbnline == cinfo->output_height) &&
+        //(jpeg_input_complete(cinfo))) {  // We rebd the whole file
         jpeg_finish_decompress(cinfo);
     } else {
-        jpeg_abort_decompress(cinfo);
+        jpeg_bbort_decompress(cinfo);
     }
 
-    free(scanLinePtr);
+    free(scbnLinePtr);
 
-    RELEASE_ARRAYS(env, data, src->next_input_byte);
+    RELEASE_ARRAYS(env, dbtb, src->next_input_byte);
 
-    return data->abortFlag;
+    return dbtb->bbortFlbg;
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_abortRead
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_bbortRebd
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return;
     }
 
-    imageio_abort(env, this, data);
+    imbgeio_bbort(env, this, dbtb);
 
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_resetLibraryState
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_resetLibrbryStbte
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_decompress_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return;
     }
 
-    cinfo = (j_decompress_ptr) data->jpegObj;
+    cinfo = (j_decompress_ptr) dbtb->jpegObj;
 
-    jpeg_abort_decompress(cinfo);
+    jpeg_bbort_decompress(cinfo);
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_resetReader
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_resetRebder
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_decompress_ptr cinfo;
     sun_jpeg_error_ptr jerr;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use reader after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use rebder bfter dispose()");
         return;
     }
 
-    cinfo = (j_decompress_ptr) data->jpegObj;
+    cinfo = (j_decompress_ptr) dbtb->jpegObj;
 
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
-    imageio_reset(env, (j_common_ptr) cinfo, data);
+    imbgeio_reset(env, (j_common_ptr) cinfo, dbtb);
 
     /*
-     * The tables have not been reset, and there is no way to do so
-     * in IJG without leaking memory.  The only situation in which
-     * this will cause a problem is if an image-only stream is read
-     * with this object without initializing the correct tables first.
-     * This situation, which should cause an error, might work but
-     * produce garbage instead.  If the huffman tables are wrong,
-     * it will fail during the decode.  If the q tables are wrong, it
-     * will look strange.  This is very unlikely, so don't worry about
-     * it.  To be really robust, we would keep a flag for table state
-     * and consult it to catch exceptional situations.
+     * The tbbles hbve not been reset, bnd there is no wby to do so
+     * in IJG without lebking memory.  The only situbtion in which
+     * this will cbuse b problem is if bn imbge-only strebm is rebd
+     * with this object without initiblizing the correct tbbles first.
+     * This situbtion, which should cbuse bn error, might work but
+     * produce gbrbbge instebd.  If the huffmbn tbbles bre wrong,
+     * it will fbil during the decode.  If the q tbbles bre wrong, it
+     * will look strbnge.  This is very unlikely, so don't worry bbout
+     * it.  To be reblly robust, we would keep b flbg for tbble stbte
+     * bnd consult it to cbtch exceptionbl situbtions.
      */
 
-    /* above does not clean up the source, so we have to */
+    /* bbove does not clebn up the source, so we hbve to */
 
     /*
-      We need to explicitly initialize exception handler or we may
-       longjump to random address from the term_source()
+      We need to explicitly initiblize exception hbndler or we mby
+       longjump to rbndom bddress from the term_source()
      */
 
     if (setjmp(jerr->setjmp_buffer)) {
 
         /*
-          We may get IOException from pushBack() here.
+          We mby get IOException from pushBbck() here.
 
-          However it could be legal if original input stream was closed
-          earlier (for example because network connection was closed).
-          Unfortunately, image inputstream API has no way to check whether
-          stream is already closed or IOException was thrown because of some
+          However it could be legbl if originbl input strebm wbs closed
+          ebrlier (for exbmple becbuse network connection wbs closed).
+          Unfortunbtely, imbge inputstrebm API hbs no wby to check whether
+          strebm is blrebdy closed or IOException wbs thrown becbuse of some
           other IO problem,
-          And we can not avoid call to pushBack() on closed stream for the
-          same reason.
+          And we cbn not bvoid cbll to pushBbck() on closed strebm for the
+          sbme rebson.
 
-          So, for now we will silently eat this exception.
+          So, for now we will silently ebt this exception.
 
-          NB: this may be changed in future when ImageInputStream API will
+          NB: this mby be chbnged in future when ImbgeInputStrebm API will
           become more flexible.
         */
 
         if ((*env)->ExceptionOccurred(env)) {
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
         }
     } else {
         cinfo->src->term_source(cinfo);
@@ -2272,39 +2272,39 @@ Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_resetReader
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageReader_disposeReader
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeRebder_disposeRebder
     (JNIEnv *env,
-     jclass reader,
+     jclbss rebder,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
-    j_common_ptr info = destroyImageioData(env, data);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
+    j_common_ptr info = destroyImbgeioDbtb(env, dbtb);
 
-    imageio_dispose(info);
+    imbgeio_dispose(info);
 }
 
-/********************** end of Reader *************************/
+/********************** end of Rebder *************************/
 
 /********************** Writer Support ************************/
 
-/********************** Destination Manager *******************/
+/********************** Destinbtion Mbnbger *******************/
 
 METHODDEF(void)
 /*
- * Initialize destination --- called by jpeg_start_compress
- * before any data is actually written.  The data arrays
- * must be pinned before this is called.
+ * Initiblize destinbtion --- cblled by jpeg_stbrt_compress
+ * before bny dbtb is bctublly written.  The dbtb brrbys
+ * must be pinned before this is cblled.
  */
-imageio_init_destination (j_compress_ptr cinfo)
+imbgeio_init_destinbtion (j_compress_ptr cinfo)
 {
-    struct jpeg_destination_mgr *dest = cinfo->dest;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    struct jpeg_destinbtion_mgr *dest = cinfo->dest;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
     if (sb->buf == NULL) {
-        // We forgot to pin the array
-        (*env)->FatalError(env, "Output buffer not pinned!");
+        // We forgot to pin the brrby
+        (*env)->FbtblError(env, "Output buffer not pinned!");
     }
 
     dest->next_output_byte = sb->buf;
@@ -2312,35 +2312,35 @@ imageio_init_destination (j_compress_ptr cinfo)
 }
 
 /*
- * Empty the output buffer --- called whenever buffer fills up.
+ * Empty the output buffer --- cblled whenever buffer fills up.
  *
  * This routine writes the entire output buffer
- * (ignoring the current state of next_output_byte & free_in_buffer),
- * resets the pointer & count to the start of the buffer, and returns TRUE
- * indicating that the buffer has been dumped.
+ * (ignoring the current stbte of next_output_byte & free_in_buffer),
+ * resets the pointer & count to the stbrt of the buffer, bnd returns TRUE
+ * indicbting thbt the buffer hbs been dumped.
  */
 
-METHODDEF(boolean)
-imageio_empty_output_buffer (j_compress_ptr cinfo)
+METHODDEF(boolebn)
+imbgeio_empty_output_buffer (j_compress_ptr cinfo)
 {
-    struct jpeg_destination_mgr *dest = cinfo->dest;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    struct jpeg_destinbtion_mgr *dest = cinfo->dest;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     jobject output = NULL;
 
-    RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
+    RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
 
     GET_IO_REF(output);
 
-    (*env)->CallVoidMethod(env,
+    (*env)->CbllVoidMethod(env,
                            output,
-                           JPEGImageWriter_writeOutputDataID,
-                           sb->hstreamBuffer,
+                           JPEGImbgeWriter_writeOutputDbtbID,
+                           sb->hstrebmBuffer,
                            0,
                            sb->bufferLength);
     if ((*env)->ExceptionOccurred(env)
-        || !GET_ARRAYS(env, data,
+        || !GET_ARRAYS(env, dbtb,
                        (const JOCTET **)(&dest->next_output_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
     }
@@ -2352,38 +2352,38 @@ imageio_empty_output_buffer (j_compress_ptr cinfo)
 }
 
 /*
- * After all of the data has been encoded there may still be some
+ * After bll of the dbtb hbs been encoded there mby still be some
  * more left over in some of the working buffers.  Now is the
- * time to clear them out.
+ * time to clebr them out.
  */
 METHODDEF(void)
-imageio_term_destination (j_compress_ptr cinfo)
+imbgeio_term_destinbtion (j_compress_ptr cinfo)
 {
-    struct jpeg_destination_mgr *dest = cinfo->dest;
-    imageIODataPtr data = (imageIODataPtr) cinfo->client_data;
-    streamBufferPtr sb = &data->streamBuf;
+    struct jpeg_destinbtion_mgr *dest = cinfo->dest;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr) cinfo->client_dbtb;
+    strebmBufferPtr sb = &dbtb->strebmBuf;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
     /* find out how much needs to be written */
-    /* this conversion from size_t to jint is safe, because the lenght of the buffer is limited by jint */
-    jint datacount = (jint)(sb->bufferLength - dest->free_in_buffer);
+    /* this conversion from size_t to jint is sbfe, becbuse the lenght of the buffer is limited by jint */
+    jint dbtbcount = (jint)(sb->bufferLength - dest->free_in_buffer);
 
-    if (datacount != 0) {
+    if (dbtbcount != 0) {
         jobject output = NULL;
 
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
 
         GET_IO_REF(output);
 
-        (*env)->CallVoidMethod(env,
+        (*env)->CbllVoidMethod(env,
                                output,
-                               JPEGImageWriter_writeOutputDataID,
-                               sb->hstreamBuffer,
+                               JPEGImbgeWriter_writeOutputDbtbID,
+                               sb->hstrebmBuffer,
                                0,
-                               datacount);
+                               dbtbcount);
 
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data,
+            || !GET_ARRAYS(env, dbtb,
                            (const JOCTET **)(&dest->next_output_byte))) {
             cinfo->err->error_exit((j_common_ptr) cinfo);
         }
@@ -2395,324 +2395,324 @@ imageio_term_destination (j_compress_ptr cinfo)
 }
 
 /*
- * Flush the destination buffer.  This is not called by the library,
- * but by our code below.  This is the simplest implementation, though
- * certainly not the most efficient.
+ * Flush the destinbtion buffer.  This is not cblled by the librbry,
+ * but by our code below.  This is the simplest implementbtion, though
+ * certbinly not the most efficient.
  */
 METHODDEF(void)
-imageio_flush_destination(j_compress_ptr cinfo)
+imbgeio_flush_destinbtion(j_compress_ptr cinfo)
 {
-    imageio_term_destination(cinfo);
-    imageio_init_destination(cinfo);
+    imbgeio_term_destinbtion(cinfo);
+    imbgeio_init_destinbtion(cinfo);
 }
 
-/********************** end of destination manager ************/
+/********************** end of destinbtion mbnbger ************/
 
-/********************** Writer JNI calls **********************/
+/********************** Writer JNI cblls **********************/
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_initWriterIDs
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_initWriterIDs
     (JNIEnv *env,
-     jclass cls,
-     jclass qTableClass,
-     jclass huffClass) {
+     jclbss cls,
+     jclbss qTbbleClbss,
+     jclbss huffClbss) {
 
-    CHECK_NULL(JPEGImageWriter_writeOutputDataID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeWriter_writeOutputDbtbID = (*env)->GetMethodID(env,
                                                     cls,
-                                                    "writeOutputData",
+                                                    "writeOutputDbtb",
                                                     "([BII)V"));
-    CHECK_NULL(JPEGImageWriter_warningOccurredID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeWriter_wbrningOccurredID = (*env)->GetMethodID(env,
                                                             cls,
-                                                            "warningOccurred",
+                                                            "wbrningOccurred",
                                                             "(I)V"));
-    CHECK_NULL(JPEGImageWriter_warningWithMessageID =
+    CHECK_NULL(JPEGImbgeWriter_wbrningWithMessbgeID =
                                         (*env)->GetMethodID(env,
                                                             cls,
-                                                            "warningWithMessage",
-                                                            "(Ljava/lang/String;)V"));
-    CHECK_NULL(JPEGImageWriter_writeMetadataID = (*env)->GetMethodID(env,
+                                                            "wbrningWithMessbge",
+                                                            "(Ljbvb/lbng/String;)V"));
+    CHECK_NULL(JPEGImbgeWriter_writeMetbdbtbID = (*env)->GetMethodID(env,
                                                           cls,
-                                                          "writeMetadata",
+                                                          "writeMetbdbtb",
                                                           "()V"));
-    CHECK_NULL(JPEGImageWriter_grabPixelsID = (*env)->GetMethodID(env,
+    CHECK_NULL(JPEGImbgeWriter_grbbPixelsID = (*env)->GetMethodID(env,
                                                        cls,
-                                                       "grabPixels",
+                                                       "grbbPixels",
                                                        "(I)V"));
-    CHECK_NULL(JPEGQTable_tableID = (*env)->GetFieldID(env,
-                                            qTableClass,
-                                            "qTable",
+    CHECK_NULL(JPEGQTbble_tbbleID = (*env)->GetFieldID(env,
+                                            qTbbleClbss,
+                                            "qTbble",
                                             "[I"));
-    CHECK_NULL(JPEGHuffmanTable_lengthsID = (*env)->GetFieldID(env,
-                                                    huffClass,
+    CHECK_NULL(JPEGHuffmbnTbble_lengthsID = (*env)->GetFieldID(env,
+                                                    huffClbss,
                                                     "lengths",
                                                     "[S"));
-    CHECK_NULL(JPEGHuffmanTable_valuesID = (*env)->GetFieldID(env,
-                                                    huffClass,
-                                                    "values",
+    CHECK_NULL(JPEGHuffmbnTbble_vbluesID = (*env)->GetFieldID(env,
+                                                    huffClbss,
+                                                    "vblues",
                                                     "[S"));
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_initJPEGImageWriter
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_initJPEGImbgeWriter
     (JNIEnv *env,
      jobject this) {
 
-    imageIODataPtr ret;
+    imbgeIODbtbPtr ret;
     struct sun_jpeg_error_mgr *jerr;
-    struct jpeg_destination_mgr *dest;
+    struct jpeg_destinbtion_mgr *dest;
 
-    /* This struct contains the JPEG compression parameters and pointers to
-     * working space (which is allocated as needed by the JPEG library).
+    /* This struct contbins the JPEG compression pbrbmeters bnd pointers to
+     * working spbce (which is bllocbted bs needed by the JPEG librbry).
      */
     struct jpeg_compress_struct *cinfo =
-        malloc(sizeof(struct jpeg_compress_struct));
+        mblloc(sizeof(struct jpeg_compress_struct));
     if (cinfo == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Writer");
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Writer");
         return 0;
     }
 
-    /* We use our private extension JPEG error handler.
+    /* We use our privbte extension JPEG error hbndler.
      */
-    jerr = malloc (sizeof(struct sun_jpeg_error_mgr));
+    jerr = mblloc (sizeof(struct sun_jpeg_error_mgr));
     if (jerr == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Writer");
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Writer");
         free(cinfo);
         return 0;
     }
 
-    /* We set up the normal JPEG error routines, then override error_exit. */
+    /* We set up the normbl JPEG error routines, then override error_exit. */
     cinfo->err = jpeg_std_error(&(jerr->pub));
     jerr->pub.error_exit = sun_jpeg_error_exit;
     /* We need to setup our own print routines */
-    jerr->pub.output_message = sun_jpeg_output_message;
-    /* Now we can setjmp before every call to the library */
+    jerr->pub.output_messbge = sun_jpeg_output_messbge;
+    /* Now we cbn setjmp before every cbll to the librbry */
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error. */
-        char buffer[JMSG_LENGTH_MAX];
-        (*cinfo->err->format_message) ((struct jpeg_common_struct *) cinfo,
+        /* If we get here, the JPEG code hbs signbled bn error. */
+        chbr buffer[JMSG_LENGTH_MAX];
+        (*cinfo->err->formbt_messbge) ((struct jpeg_common_struct *) cinfo,
                                       buffer);
-        JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         return 0;
     }
 
-    /* Perform library initialization */
-    jpeg_create_compress(cinfo);
+    /* Perform librbry initiblizbtion */
+    jpeg_crebte_compress(cinfo);
 
-    /* Now set up the destination  */
-    dest = malloc(sizeof(struct jpeg_destination_mgr));
+    /* Now set up the destinbtion  */
+    dest = mblloc(sizeof(struct jpeg_destinbtion_mgr));
     if (dest == NULL) {
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Writer");
-        imageio_dispose((j_common_ptr)cinfo);
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Writer");
+        imbgeio_dispose((j_common_ptr)cinfo);
         return 0;
     }
 
-    dest->init_destination = imageio_init_destination;
-    dest->empty_output_buffer = imageio_empty_output_buffer;
-    dest->term_destination = imageio_term_destination;
+    dest->init_destinbtion = imbgeio_init_destinbtion;
+    dest->empty_output_buffer = imbgeio_empty_output_buffer;
+    dest->term_destinbtion = imbgeio_term_destinbtion;
     dest->next_output_byte = NULL;
     dest->free_in_buffer = 0;
 
     cinfo->dest = dest;
 
-    /* set up the association to persist for future calls */
-    ret = initImageioData(env, (j_common_ptr) cinfo, this);
+    /* set up the bssocibtion to persist for future cblls */
+    ret = initImbgeioDbtb(env, (j_common_ptr) cinfo, this);
     if (ret == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Initializing Writer");
-        imageio_dispose((j_common_ptr)cinfo);
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Initiblizing Writer");
+        imbgeio_dispose((j_common_ptr)cinfo);
         return 0;
     }
     return ptr_to_jlong(ret);
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_setDest
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_setDest
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_compress_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use writer after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use writer bfter dispose()");
         return;
     }
 
-    cinfo = (j_compress_ptr) data->jpegObj;
+    cinfo = (j_compress_ptr) dbtb->jpegObj;
 
-    imageio_set_stream(env, data->jpegObj, data, this);
+    imbgeio_set_strebm(env, dbtb->jpegObj, dbtb, this);
 
 
-    // Don't call the init method, as that depends on pinned arrays
+    // Don't cbll the init method, bs thbt depends on pinned brrbys
     cinfo->dest->next_output_byte = NULL;
     cinfo->dest->free_in_buffer = 0;
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_writeTables
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_writeTbbles
     (JNIEnv *env,
      jobject this,
      jlong ptr,
-     jobjectArray qtables,
-     jobjectArray DCHuffmanTables,
-     jobjectArray ACHuffmanTables) {
+     jobjectArrby qtbbles,
+     jobjectArrby DCHuffmbnTbbles,
+     jobjectArrby ACHuffmbnTbbles) {
 
-    struct jpeg_destination_mgr *dest;
+    struct jpeg_destinbtion_mgr *dest;
     sun_jpeg_error_ptr jerr;
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_compress_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use writer after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use writer bfter dispose()");
         return;
     }
 
-    cinfo = (j_compress_ptr) data->jpegObj;
+    cinfo = (j_compress_ptr) dbtb->jpegObj;
     dest = cinfo->dest;
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
+        /* If we get here, the JPEG code hbs signbled bn error
            while writing. */
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) ((j_common_ptr) cinfo,
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) ((j_common_ptr) cinfo,
                                           buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
         return;
     }
 
-    if (GET_ARRAYS(env, data,
+    if (GET_ARRAYS(env, dbtb,
                    (const JOCTET **)(&dest->next_output_byte)) == NOT_OK) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName(env,
-                        "javax/imageio/IIOException",
-                        "Array pin failed");
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme(env,
+                        "jbvbx/imbgeio/IIOException",
+                        "Arrby pin fbiled");
         return;
     }
 
-    jpeg_suppress_tables(cinfo, TRUE);  // Suppress writing of any current
+    jpeg_suppress_tbbles(cinfo, TRUE);  // Suppress writing of bny current
 
-    data->streamBuf.suspendable = FALSE;
-    if (qtables != NULL) {
+    dbtb->strebmBuf.suspendbble = FALSE;
+    if (qtbbles != NULL) {
 #ifdef DEBUG_IIO_JPEG
-        printf("in writeTables: qtables not NULL\n");
+        printf("in writeTbbles: qtbbles not NULL\n");
 #endif
-        setQTables(env, (j_common_ptr) cinfo, qtables, TRUE);
+        setQTbbles(env, (j_common_ptr) cinfo, qtbbles, TRUE);
     }
 
-    if (DCHuffmanTables != NULL) {
-        setHTables(env, (j_common_ptr) cinfo,
-                   DCHuffmanTables, ACHuffmanTables, TRUE);
+    if (DCHuffmbnTbbles != NULL) {
+        setHTbbles(env, (j_common_ptr) cinfo,
+                   DCHuffmbnTbbles, ACHuffmbnTbbles, TRUE);
     }
 
-    jpeg_write_tables(cinfo); // Flushes the buffer for you
-    RELEASE_ARRAYS(env, data, NULL);
+    jpeg_write_tbbles(cinfo); // Flushes the buffer for you
+    RELEASE_ARRAYS(env, dbtb, NULL);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_writeImage
+JNIEXPORT jboolebn JNICALL
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_writeImbge
     (JNIEnv *env,
      jobject this,
      jlong ptr,
-     jbyteArray buffer,
+     jbyteArrby buffer,
      jint inCs, jint outCs,
-     jint numBands,
-     jintArray bandSizes,
+     jint numBbnds,
+     jintArrby bbndSizes,
      jint srcWidth,
      jint destWidth, jint destHeight,
      jint stepX, jint stepY,
-     jobjectArray qtables,
-     jboolean writeDQT,
-     jobjectArray DCHuffmanTables,
-     jobjectArray ACHuffmanTables,
-     jboolean writeDHT,
-     jboolean optimize,
-     jboolean progressive,
-     jint numScans,
-     jintArray scanInfo,
-     jintArray componentIds,
-     jintArray HsamplingFactors,
-     jintArray VsamplingFactors,
-     jintArray QtableSelectors,
-     jboolean haveMetadata,
-     jint restartInterval) {
+     jobjectArrby qtbbles,
+     jboolebn writeDQT,
+     jobjectArrby DCHuffmbnTbbles,
+     jobjectArrby ACHuffmbnTbbles,
+     jboolebn writeDHT,
+     jboolebn optimize,
+     jboolebn progressive,
+     jint numScbns,
+     jintArrby scbnInfo,
+     jintArrby componentIds,
+     jintArrby HsbmplingFbctors,
+     jintArrby VsbmplingFbctors,
+     jintArrby QtbbleSelectors,
+     jboolebn hbveMetbdbtb,
+     jint restbrtIntervbl) {
 
-    struct jpeg_destination_mgr *dest;
-    JSAMPROW scanLinePtr;
+    struct jpeg_destinbtion_mgr *dest;
+    JSAMPROW scbnLinePtr;
     int i, j;
     int pixelStride;
-    unsigned char *in, *out, *pixelLimit, *scanLineLimit;
-    unsigned int scanLineSize, pixelBufferSize;
-    int targetLine;
+    unsigned chbr *in, *out, *pixelLimit, *scbnLineLimit;
+    unsigned int scbnLineSize, pixelBufferSize;
+    int tbrgetLine;
     pixelBufferPtr pb;
     sun_jpeg_error_ptr jerr;
-    jint *ids, *hfactors, *vfactors, *qsels;
+    jint *ids, *hfbctors, *vfbctors, *qsels;
     jsize qlen, hlen;
-    int *scanptr;
-    jint *scanData;
-    jint *bandSize;
-    int maxBandValue, halfMaxBandValue;
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    int *scbnptr;
+    jint *scbnDbtb;
+    jint *bbndSize;
+    int mbxBbndVblue, hblfMbxBbndVblue;
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_compress_ptr cinfo;
-    UINT8** scale = NULL;
-    boolean success = TRUE;
+    UINT8** scble = NULL;
+    boolebn success = TRUE;
 
 
     /* verify the inputs */
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use writer after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use writer bfter dispose()");
         return JNI_FALSE;
     }
 
     if ((buffer == NULL) ||
-        (qtables == NULL) ||
-        // H tables can be null if optimizing
+        (qtbbles == NULL) ||
+        // H tbbles cbn be null if optimizing
         (componentIds == NULL) ||
-        (HsamplingFactors == NULL) || (VsamplingFactors == NULL) ||
-        (QtableSelectors == NULL) ||
-        ((numScans != 0) && (scanInfo != NULL))) {
+        (HsbmplingFbctors == NULL) || (VsbmplingFbctors == NULL) ||
+        (QtbbleSelectors == NULL) ||
+        ((numScbns != 0) && (scbnInfo != NULL))) {
 
         JNU_ThrowNullPointerException(env, 0);
         return JNI_FALSE;
 
     }
 
-    scanLineSize = destWidth * numBands;
+    scbnLineSize = destWidth * numBbnds;
     if ((inCs < 0) || (inCs > JCS_YCCK) ||
         (outCs < 0) || (outCs > JCS_YCCK) ||
-        (numBands < 1) || (numBands > MAX_BANDS) ||
+        (numBbnds < 1) || (numBbnds > MAX_BANDS) ||
         (srcWidth < 0) ||
         (destWidth < 0) || (destWidth > srcWidth) ||
         (destHeight < 0) ||
         (stepX < 0) || (stepY < 0) ||
-        ((INT_MAX / numBands) < destWidth))  /* destWidth causes an integer overflow */
+        ((INT_MAX / numBbnds) < destWidth))  /* destWidth cbuses bn integer overflow */
     {
-        JNU_ThrowByName(env, "javax/imageio/IIOException",
-                        "Invalid argument to native writeImage");
+        JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException",
+                        "Invblid brgument to nbtive writeImbge");
         return JNI_FALSE;
     }
 
@@ -2720,273 +2720,273 @@ Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_writeImage
         stepX = srcWidth;
     }
 
-    bandSize = (*env)->GetIntArrayElements(env, bandSizes, NULL);
-    CHECK_NULL_RETURN(bandSize, JNI_FALSE);
+    bbndSize = (*env)->GetIntArrbyElements(env, bbndSizes, NULL);
+    CHECK_NULL_RETURN(bbndSize, JNI_FALSE);
 
-    for (i = 0; i < numBands; i++) {
-        if (bandSize[i] <= 0 || bandSize[i] > JPEG_BAND_SIZE) {
-            (*env)->ReleaseIntArrayElements(env, bandSizes,
-                                            bandSize, JNI_ABORT);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", "Invalid Image");
+    for (i = 0; i < numBbnds; i++) {
+        if (bbndSize[i] <= 0 || bbndSize[i] > JPEG_BAND_SIZE) {
+            (*env)->RelebseIntArrbyElements(env, bbndSizes,
+                                            bbndSize, JNI_ABORT);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", "Invblid Imbge");
             return JNI_FALSE;
         }
     }
 
-    for (i = 0; i < numBands; i++) {
-        if (bandSize[i] != JPEG_BAND_SIZE) {
-            if (scale == NULL) {
-                scale = (UINT8**) calloc(numBands, sizeof(UINT8*));
+    for (i = 0; i < numBbnds; i++) {
+        if (bbndSize[i] != JPEG_BAND_SIZE) {
+            if (scble == NULL) {
+                scble = (UINT8**) cblloc(numBbnds, sizeof(UINT8*));
 
-                if (scale == NULL) {
-                    JNU_ThrowByName( env, "java/lang/OutOfMemoryError",
-                                     "Writing JPEG Stream");
+                if (scble == NULL) {
+                    JNU_ThrowByNbme( env, "jbvb/lbng/OutOfMemoryError",
+                                     "Writing JPEG Strebm");
                     return JNI_FALSE;
                 }
             }
 
-            maxBandValue = (1 << bandSize[i]) - 1;
+            mbxBbndVblue = (1 << bbndSize[i]) - 1;
 
-            scale[i] = (UINT8*) malloc((maxBandValue + 1) * sizeof(UINT8));
+            scble[i] = (UINT8*) mblloc((mbxBbndVblue + 1) * sizeof(UINT8));
 
-            if (scale[i] == NULL) {
-                // Cleanup before throwing an out of memory exception
+            if (scble[i] == NULL) {
+                // Clebnup before throwing bn out of memory exception
                 for (j = 0; j < i; j++) {
-                    free(scale[j]);
+                    free(scble[j]);
                 }
-                free(scale);
-                JNU_ThrowByName( env, "java/lang/OutOfMemoryError",
-                                 "Writing JPEG Stream");
+                free(scble);
+                JNU_ThrowByNbme( env, "jbvb/lbng/OutOfMemoryError",
+                                 "Writing JPEG Strebm");
                 return JNI_FALSE;
             }
 
-            halfMaxBandValue = maxBandValue >> 1;
+            hblfMbxBbndVblue = mbxBbndVblue >> 1;
 
-            for (j = 0; j <= maxBandValue; j++) {
-                scale[i][j] = (UINT8)
-                    ((j*MAX_JPEG_BAND_VALUE + halfMaxBandValue)/maxBandValue);
+            for (j = 0; j <= mbxBbndVblue; j++) {
+                scble[i][j] = (UINT8)
+                    ((j*MAX_JPEG_BAND_VALUE + hblfMbxBbndVblue)/mbxBbndVblue);
             }
         }
     }
 
-    (*env)->ReleaseIntArrayElements(env, bandSizes,
-                                    bandSize, JNI_ABORT);
+    (*env)->RelebseIntArrbyElements(env, bbndSizes,
+                                    bbndSize, JNI_ABORT);
 
-    cinfo = (j_compress_ptr) data->jpegObj;
+    cinfo = (j_compress_ptr) dbtb->jpegObj;
     dest = cinfo->dest;
 
-    /* Set the buffer as our PixelBuffer */
-    pb = &data->pixelBuf;
+    /* Set the buffer bs our PixelBuffer */
+    pb = &dbtb->pixelBuf;
 
     if (setPixelBuffer(env, pb, buffer) == NOT_OK) {
-        return data->abortFlag;  // We already threw an out of memory exception
+        return dbtb->bbortFlbg;  // We blrebdy threw bn out of memory exception
     }
 
-    // Allocate a 1-scanline buffer
-    scanLinePtr = (JSAMPROW)malloc(scanLineSize);
-    if (scanLinePtr == NULL) {
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
-        JNU_ThrowByName( env,
-                         "java/lang/OutOfMemoryError",
-                         "Writing JPEG Stream");
-        return data->abortFlag;
+    // Allocbte b 1-scbnline buffer
+    scbnLinePtr = (JSAMPROW)mblloc(scbnLineSize);
+    if (scbnLinePtr == NULL) {
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
+        JNU_ThrowByNbme( env,
+                         "jbvb/lbng/OutOfMemoryError",
+                         "Writing JPEG Strebm");
+        return dbtb->bbortFlbg;
     }
-    scanLineLimit = scanLinePtr + scanLineSize;
+    scbnLineLimit = scbnLinePtr + scbnLineSize;
 
-    /* Establish the setjmp return context for sun_jpeg_error_exit to use. */
+    /* Estbblish the setjmp return context for sun_jpeg_error_exit to use. */
     jerr = (sun_jpeg_error_ptr) cinfo->err;
 
     if (setjmp(jerr->setjmp_buffer)) {
-        /* If we get here, the JPEG code has signaled an error
+        /* If we get here, the JPEG code hbs signbled bn error
            while writing. */
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
         if (!(*env)->ExceptionOccurred(env)) {
-            char buffer[JMSG_LENGTH_MAX];
-            (*cinfo->err->format_message) ((j_common_ptr) cinfo,
+            chbr buffer[JMSG_LENGTH_MAX];
+            (*cinfo->err->formbt_messbge) ((j_common_ptr) cinfo,
                                           buffer);
-            JNU_ThrowByName(env, "javax/imageio/IIOException", buffer);
+            JNU_ThrowByNbme(env, "jbvbx/imbgeio/IIOException", buffer);
         }
 
-        if (scale != NULL) {
-            for (i = 0; i < numBands; i++) {
-                if (scale[i] != NULL) {
-                    free(scale[i]);
+        if (scble != NULL) {
+            for (i = 0; i < numBbnds; i++) {
+                if (scble[i] != NULL) {
+                    free(scble[i]);
                 }
             }
-            free(scale);
+            free(scble);
         }
 
-        free(scanLinePtr);
-        return data->abortFlag;
+        free(scbnLinePtr);
+        return dbtb->bbortFlbg;
     }
 
-    // set up parameters
-    cinfo->image_width = destWidth;
-    cinfo->image_height = destHeight;
-    cinfo->input_components = numBands;
-    cinfo->in_color_space = inCs;
+    // set up pbrbmeters
+    cinfo->imbge_width = destWidth;
+    cinfo->imbge_height = destHeight;
+    cinfo->input_components = numBbnds;
+    cinfo->in_color_spbce = inCs;
 
-    jpeg_set_defaults(cinfo);
+    jpeg_set_defbults(cinfo);
 
-    jpeg_set_colorspace(cinfo, outCs);
+    jpeg_set_colorspbce(cinfo, outCs);
 
     cinfo->optimize_coding = optimize;
 
-    cinfo->write_JFIF_header = FALSE;
-    cinfo->write_Adobe_marker = FALSE;
+    cinfo->write_JFIF_hebder = FALSE;
+    cinfo->write_Adobe_mbrker = FALSE;
     // copy componentIds
-    ids = (*env)->GetIntArrayElements(env, componentIds, NULL);
-    hfactors = (*env)->GetIntArrayElements(env, HsamplingFactors, NULL);
-    vfactors = (*env)->GetIntArrayElements(env, VsamplingFactors, NULL);
-    qsels = (*env)->GetIntArrayElements(env, QtableSelectors, NULL);
+    ids = (*env)->GetIntArrbyElements(env, componentIds, NULL);
+    hfbctors = (*env)->GetIntArrbyElements(env, HsbmplingFbctors, NULL);
+    vfbctors = (*env)->GetIntArrbyElements(env, VsbmplingFbctors, NULL);
+    qsels = (*env)->GetIntArrbyElements(env, QtbbleSelectors, NULL);
 
-    if (ids && hfactors && vfactors && qsels) {
-        for (i = 0; i < numBands; i++) {
+    if (ids && hfbctors && vfbctors && qsels) {
+        for (i = 0; i < numBbnds; i++) {
             cinfo->comp_info[i].component_id = ids[i];
-            cinfo->comp_info[i].h_samp_factor = hfactors[i];
-            cinfo->comp_info[i].v_samp_factor = vfactors[i];
-            cinfo->comp_info[i].quant_tbl_no = qsels[i];
+            cinfo->comp_info[i].h_sbmp_fbctor = hfbctors[i];
+            cinfo->comp_info[i].v_sbmp_fbctor = vfbctors[i];
+            cinfo->comp_info[i].qubnt_tbl_no = qsels[i];
         }
     } else {
         success = FALSE;
     }
 
     if (ids) {
-        (*env)->ReleaseIntArrayElements(env, componentIds, ids, JNI_ABORT);
+        (*env)->RelebseIntArrbyElements(env, componentIds, ids, JNI_ABORT);
     }
-    if (hfactors) {
-        (*env)->ReleaseIntArrayElements(env, HsamplingFactors, hfactors, JNI_ABORT);
+    if (hfbctors) {
+        (*env)->RelebseIntArrbyElements(env, HsbmplingFbctors, hfbctors, JNI_ABORT);
     }
-    if (vfactors) {
-        (*env)->ReleaseIntArrayElements(env, VsamplingFactors, vfactors, JNI_ABORT);
+    if (vfbctors) {
+        (*env)->RelebseIntArrbyElements(env, VsbmplingFbctors, vfbctors, JNI_ABORT);
     }
     if (qsels) {
-        (*env)->ReleaseIntArrayElements(env, QtableSelectors, qsels, JNI_ABORT);
+        (*env)->RelebseIntArrbyElements(env, QtbbleSelectors, qsels, JNI_ABORT);
     }
-    if (!success) return data->abortFlag;
+    if (!success) return dbtb->bbortFlbg;
 
-    jpeg_suppress_tables(cinfo, TRUE);  // Disable writing any current
+    jpeg_suppress_tbbles(cinfo, TRUE);  // Disbble writing bny current
 
-    qlen = setQTables(env, (j_common_ptr) cinfo, qtables, writeDQT);
+    qlen = setQTbbles(env, (j_common_ptr) cinfo, qtbbles, writeDQT);
 
     if (!optimize) {
-        // Set the h tables
-        hlen = setHTables(env,
+        // Set the h tbbles
+        hlen = setHTbbles(env,
                           (j_common_ptr) cinfo,
-                          DCHuffmanTables,
-                          ACHuffmanTables,
+                          DCHuffmbnTbbles,
+                          ACHuffmbnTbbles,
                           writeDHT);
     }
 
-    if (GET_ARRAYS(env, data,
+    if (GET_ARRAYS(env, dbtb,
                    (const JOCTET **)(&dest->next_output_byte)) == NOT_OK) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowByName(env,
-                        "javax/imageio/IIOException",
-                        "Array pin failed");
-        return data->abortFlag;
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowByNbme(env,
+                        "jbvbx/imbgeio/IIOException",
+                        "Arrby pin fbiled");
+        return dbtb->bbortFlbg;
     }
 
-    data->streamBuf.suspendable = FALSE;
+    dbtb->strebmBuf.suspendbble = FALSE;
 
     if (progressive) {
-        if (numScans == 0) { // then use default scans
+        if (numScbns == 0) { // then use defbult scbns
             jpeg_simple_progression(cinfo);
         } else {
-            cinfo->num_scans = numScans;
-            // Copy the scanInfo to a local array
+            cinfo->num_scbns = numScbns;
+            // Copy the scbnInfo to b locbl brrby
             // The following is copied from jpeg_simple_progression:
-  /* Allocate space for script.
-   * We need to put it in the permanent pool in case the application performs
-   * multiple compressions without changing the settings.  To avoid a memory
-   * leak if jpeg_simple_progression is called repeatedly for the same JPEG
-   * object, we try to re-use previously allocated space, and we allocate
-   * enough space to handle YCbCr even if initially asked for grayscale.
+  /* Allocbte spbce for script.
+   * We need to put it in the permbnent pool in cbse the bpplicbtion performs
+   * multiple compressions without chbnging the settings.  To bvoid b memory
+   * lebk if jpeg_simple_progression is cblled repebtedly for the sbme JPEG
+   * object, we try to re-use previously bllocbted spbce, bnd we bllocbte
+   * enough spbce to hbndle YCbCr even if initiblly bsked for grbyscble.
    */
-            if (cinfo->script_space == NULL
-                || cinfo->script_space_size < numScans) {
-                cinfo->script_space_size = MAX(numScans, 10);
-                cinfo->script_space = (jpeg_scan_info *)
-                    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
+            if (cinfo->script_spbce == NULL
+                || cinfo->script_spbce_size < numScbns) {
+                cinfo->script_spbce_size = MAX(numScbns, 10);
+                cinfo->script_spbce = (jpeg_scbn_info *)
+                    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo,
                                                 JPOOL_PERMANENT,
-                                                cinfo->script_space_size
-                                                * sizeof(jpeg_scan_info));
+                                                cinfo->script_spbce_size
+                                                * sizeof(jpeg_scbn_info));
             }
-            cinfo->scan_info = cinfo->script_space;
-            scanptr = (int *) cinfo->script_space;
-            scanData = (*env)->GetIntArrayElements(env, scanInfo, NULL);
-            CHECK_NULL_RETURN(scanData, data->abortFlag);
-            // number of jints per scan is 9
-            // We avoid a memcpy to handle different size ints
-            for (i = 0; i < numScans*9; i++) {
-                scanptr[i] = scanData[i];
+            cinfo->scbn_info = cinfo->script_spbce;
+            scbnptr = (int *) cinfo->script_spbce;
+            scbnDbtb = (*env)->GetIntArrbyElements(env, scbnInfo, NULL);
+            CHECK_NULL_RETURN(scbnDbtb, dbtb->bbortFlbg);
+            // number of jints per scbn is 9
+            // We bvoid b memcpy to hbndle different size ints
+            for (i = 0; i < numScbns*9; i++) {
+                scbnptr[i] = scbnDbtb[i];
             }
-            (*env)->ReleaseIntArrayElements(env, scanInfo,
-                                            scanData, JNI_ABORT);
+            (*env)->RelebseIntArrbyElements(env, scbnInfo,
+                                            scbnDbtb, JNI_ABORT);
 
         }
     }
 
-    cinfo->restart_interval = restartInterval;
+    cinfo->restbrt_intervbl = restbrtIntervbl;
 
 #ifdef DEBUG_IIO_JPEG
-    printf("writer setup complete, starting compressor\n");
+    printf("writer setup complete, stbrting compressor\n");
 #endif
 
-    // start the compressor; tables must already be set
-    jpeg_start_compress(cinfo, FALSE); // Leaves sent_table alone
+    // stbrt the compressor; tbbles must blrebdy be set
+    jpeg_stbrt_compress(cinfo, FALSE); // Lebves sent_tbble blone
 
-    if (haveMetadata) {
+    if (hbveMetbdbtb) {
         // Flush the buffer
-        imageio_flush_destination(cinfo);
-        // Call Java to write the metadata
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
-        (*env)->CallVoidMethod(env,
+        imbgeio_flush_destinbtion(cinfo);
+        // Cbll Jbvb to write the metbdbtb
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
+        (*env)->CbllVoidMethod(env,
                                this,
-                               JPEGImageWriter_writeMetadataID);
+                               JPEGImbgeWriter_writeMetbdbtbID);
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data,
+            || !GET_ARRAYS(env, dbtb,
                            (const JOCTET **)(&dest->next_output_byte))) {
                 cinfo->err->error_exit((j_common_ptr) cinfo);
          }
     }
 
-    targetLine = 0;
-    pixelBufferSize = srcWidth * numBands;
-    pixelStride = numBands * stepX;
+    tbrgetLine = 0;
+    pixelBufferSize = srcWidth * numBbnds;
+    pixelStride = numBbnds * stepX;
 
-    // for each line in destHeight
-    while ((data->abortFlag == JNI_FALSE)
-           && (cinfo->next_scanline < cinfo->image_height)) {
-        // get the line from Java
-        RELEASE_ARRAYS(env, data, (const JOCTET *)(dest->next_output_byte));
-        (*env)->CallVoidMethod(env,
+    // for ebch line in destHeight
+    while ((dbtb->bbortFlbg == JNI_FALSE)
+           && (cinfo->next_scbnline < cinfo->imbge_height)) {
+        // get the line from Jbvb
+        RELEASE_ARRAYS(env, dbtb, (const JOCTET *)(dest->next_output_byte));
+        (*env)->CbllVoidMethod(env,
                                this,
-                               JPEGImageWriter_grabPixelsID,
-                               targetLine);
+                               JPEGImbgeWriter_grbbPixelsID,
+                               tbrgetLine);
         if ((*env)->ExceptionOccurred(env)
-            || !GET_ARRAYS(env, data,
+            || !GET_ARRAYS(env, dbtb,
                            (const JOCTET **)(&dest->next_output_byte))) {
                 cinfo->err->error_exit((j_common_ptr) cinfo);
          }
 
-        // subsample it into our buffer
+        // subsbmple it into our buffer
 
-        in = data->pixelBuf.buf.bp;
-        out = scanLinePtr;
-        pixelLimit = in + ((pixelBufferSize > data->pixelBuf.byteBufferLength) ?
-                           data->pixelBuf.byteBufferLength : pixelBufferSize);
-        for (; (in < pixelLimit) && (out < scanLineLimit); in += pixelStride) {
-            for (i = 0; i < numBands; i++) {
-                if (scale !=NULL && scale[i] != NULL) {
-                    *out++ = scale[i][*(in+i)];
+        in = dbtb->pixelBuf.buf.bp;
+        out = scbnLinePtr;
+        pixelLimit = in + ((pixelBufferSize > dbtb->pixelBuf.byteBufferLength) ?
+                           dbtb->pixelBuf.byteBufferLength : pixelBufferSize);
+        for (; (in < pixelLimit) && (out < scbnLineLimit); in += pixelStride) {
+            for (i = 0; i < numBbnds; i++) {
+                if (scble !=NULL && scble[i] != NULL) {
+                    *out++ = scble[i][*(in+i)];
 #ifdef DEBUG_IIO_JPEG
-                    if (in == data->pixelBuf.buf.bp){ // Just the first pixel
+                    if (in == dbtb->pixelBuf.buf.bp){ // Just the first pixel
                         printf("in %d -> out %d, ", *(in+i), *(out-i-1));
                     }
 #endif
 
 #ifdef DEBUG_IIO_JPEG
-                    if (in == data->pixelBuf.buf.bp){ // Just the first pixel
+                    if (in == dbtb->pixelBuf.buf.bp){ // Just the first pixel
                         printf("\n");
                     }
 #endif
@@ -2996,76 +2996,76 @@ Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_writeImage
             }
         }
         // write it out
-        jpeg_write_scanlines(cinfo, (JSAMPARRAY)&scanLinePtr, 1);
-        targetLine += stepY;
+        jpeg_write_scbnlines(cinfo, (JSAMPARRAY)&scbnLinePtr, 1);
+        tbrgetLine += stepY;
     }
 
     /*
-     * We are done, but we might not have done all the lines,
-     * so use jpeg_abort instead of jpeg_finish_compress.
+     * We bre done, but we might not hbve done bll the lines,
+     * so use jpeg_bbort instebd of jpeg_finish_compress.
      */
-    if (cinfo->next_scanline == cinfo->image_height) {
+    if (cinfo->next_scbnline == cinfo->imbge_height) {
         jpeg_finish_compress(cinfo);  // Flushes buffer with term_dest
     } else {
-        jpeg_abort((j_common_ptr)cinfo);
+        jpeg_bbort((j_common_ptr)cinfo);
     }
 
-    if (scale != NULL) {
-        for (i = 0; i < numBands; i++) {
-            if (scale[i] != NULL) {
-                free(scale[i]);
+    if (scble != NULL) {
+        for (i = 0; i < numBbnds; i++) {
+            if (scble[i] != NULL) {
+                free(scble[i]);
             }
         }
-        free(scale);
+        free(scble);
     }
 
-    free(scanLinePtr);
-    RELEASE_ARRAYS(env, data, NULL);
-    return data->abortFlag;
+    free(scbnLinePtr);
+    RELEASE_ARRAYS(env, dbtb, NULL);
+    return dbtb->bbortFlbg;
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_abortWrite
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_bbortWrite
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use writer after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use writer bfter dispose()");
         return;
     }
 
-    imageio_abort(env, this, data);
+    imbgeio_bbort(env, this, dbtb);
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_resetWriter
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_resetWriter
     (JNIEnv *env,
      jobject this,
      jlong ptr) {
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
     j_compress_ptr cinfo;
 
-    if (data == NULL) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException",
-                        "Attempting to use writer after dispose()");
+    if (dbtb == NULL) {
+        JNU_ThrowByNbme(env,
+                        "jbvb/lbng/IllegblStbteException",
+                        "Attempting to use writer bfter dispose()");
         return;
     }
 
-    cinfo = (j_compress_ptr) data->jpegObj;
+    cinfo = (j_compress_ptr) dbtb->jpegObj;
 
-    imageio_reset(env, (j_common_ptr) cinfo, data);
+    imbgeio_reset(env, (j_common_ptr) cinfo, dbtb);
 
     /*
-     * The tables have not been reset, and there is no way to do so
-     * in IJG without leaking memory.  The only situation in which
-     * this will cause a problem is if an image-only stream is written
-     * with this object without initializing the correct tables first,
+     * The tbbles hbve not been reset, bnd there is no wby to do so
+     * in IJG without lebking memory.  The only situbtion in which
+     * this will cbuse b problem is if bn imbge-only strebm is written
+     * with this object without initiblizing the correct tbbles first,
      * which should not be possible.
      */
 
@@ -3074,13 +3074,13 @@ Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_resetWriter
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_imageio_plugins_jpeg_JPEGImageWriter_disposeWriter
+Jbvb_com_sun_imbgeio_plugins_jpeg_JPEGImbgeWriter_disposeWriter
     (JNIEnv *env,
-     jclass writer,
+     jclbss writer,
      jlong ptr) {
 
-    imageIODataPtr data = (imageIODataPtr)jlong_to_ptr(ptr);
-    j_common_ptr info = destroyImageioData(env, data);
+    imbgeIODbtbPtr dbtb = (imbgeIODbtbPtr)jlong_to_ptr(ptr);
+    j_common_ptr info = destroyImbgeioDbtb(env, dbtb);
 
-    imageio_dispose(info);
+    imbgeio_dispose(info);
 }

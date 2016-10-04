@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.util.*;
+import jbvb.util.*;
 import com.sun.net.httpserver.*;
 
-class UnmodifiableHeaders extends Headers {
+clbss UnmodifibbleHebders extends Hebders {
 
-        Headers map;
+        Hebders mbp;
 
-        UnmodifiableHeaders(Headers map) {
-            this.map = map;
+        UnmodifibbleHebders(Hebders mbp) {
+            this.mbp = mbp;
         }
 
-        public int size() {return map.size();}
+        public int size() {return mbp.size();}
 
-        public boolean isEmpty() {return map.isEmpty();}
+        public boolebn isEmpty() {return mbp.isEmpty();}
 
-        public boolean containsKey(Object key) {
-            return map.containsKey (key);
+        public boolebn contbinsKey(Object key) {
+            return mbp.contbinsKey (key);
         }
 
-        public boolean containsValue(Object value) {
-            return map.containsValue(value);
+        public boolebn contbinsVblue(Object vblue) {
+            return mbp.contbinsVblue(vblue);
         }
 
         public List<String> get(Object key) {
-            return map.get(key);
+            return mbp.get(key);
         }
 
         public String getFirst (String key) {
-            return map.getFirst(key);
+            return mbp.getFirst(key);
         }
 
 
-        public List<String> put(String key, List<String> value) {
-            return map.put (key, value);
+        public List<String> put(String key, List<String> vblue) {
+            return mbp.put (key, vblue);
         }
 
-        public void add (String key, String value) {
-            throw new UnsupportedOperationException ("unsupported operation");
+        public void bdd (String key, String vblue) {
+            throw new UnsupportedOperbtionException ("unsupported operbtion");
         }
 
-        public void set (String key, String value) {
-            throw new UnsupportedOperationException ("unsupported operation");
+        public void set (String key, String vblue) {
+            throw new UnsupportedOperbtionException ("unsupported operbtion");
         }
 
         public List<String> remove(Object key) {
-            throw new UnsupportedOperationException ("unsupported operation");
+            throw new UnsupportedOperbtionException ("unsupported operbtion");
         }
 
-        public void putAll(Map<? extends String,? extends List<String>> t)  {
-            throw new UnsupportedOperationException ("unsupported operation");
+        public void putAll(Mbp<? extends String,? extends List<String>> t)  {
+            throw new UnsupportedOperbtionException ("unsupported operbtion");
         }
 
-        public void clear() {
-            throw new UnsupportedOperationException ("unsupported operation");
+        public void clebr() {
+            throw new UnsupportedOperbtionException ("unsupported operbtion");
         }
 
         public Set<String> keySet() {
-            return Collections.unmodifiableSet (map.keySet());
+            return Collections.unmodifibbleSet (mbp.keySet());
         }
 
-        public Collection<List<String>> values() {
-            return Collections.unmodifiableCollection(map.values());
+        public Collection<List<String>> vblues() {
+            return Collections.unmodifibbleCollection(mbp.vblues());
         }
 
-        /* TODO check that contents of set are not modifable : security */
+        /* TODO check thbt contents of set bre not modifbble : security */
 
-        public Set<Map.Entry<String, List<String>>> entrySet() {
-            return Collections.unmodifiableSet (map.entrySet());
+        public Set<Mbp.Entry<String, List<String>>> entrySet() {
+            return Collections.unmodifibbleSet (mbp.entrySet());
         }
 
-        public boolean equals(Object o) {return map.equals(o);}
+        public boolebn equbls(Object o) {return mbp.equbls(o);}
 
-        public int hashCode() {return map.hashCode();}
+        public int hbshCode() {return mbp.hbshCode();}
     }

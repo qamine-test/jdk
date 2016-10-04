@@ -1,294 +1,294 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * <p>These classes are designed to be used while the
- * corresponding <code>LookAndFeel</code> class has been installed
- * (<code>UIManager.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
- * Using them while a different <code>LookAndFeel</code> is installed
- * may produce unexpected results, including exceptions.
- * Additionally, changing the <code>LookAndFeel</code>
- * maintained by the <code>UIManager</code> without updating the
- * corresponding <code>ComponentUI</code> of any
- * <code>JComponent</code>s may also produce unexpected results,
- * such as the wrong colors showing up, and is generally not
- * encouraged.
+ * <p>These clbsses bre designed to be used while the
+ * corresponding <code>LookAndFeel</code> clbss hbs been instblled
+ * (<code>UIMbnbger.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
+ * Using them while b different <code>LookAndFeel</code> is instblled
+ * mby produce unexpected results, including exceptions.
+ * Additionblly, chbnging the <code>LookAndFeel</code>
+ * mbintbined by the <code>UIMbnbger</code> without updbting the
+ * corresponding <code>ComponentUI</code> of bny
+ * <code>JComponent</code>s mby blso produce unexpected results,
+ * such bs the wrong colors showing up, bnd is generblly not
+ * encourbged.
  *
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.security.AccessController;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.security.AccessController;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.JTextComponent;
 
-import sun.awt.image.SunWritableRaster;
-import sun.awt.windows.ThemeReader;
-import sun.security.action.GetPropertyAction;
-import sun.swing.CachedPainter;
+import sun.bwt.imbge.SunWritbbleRbster;
+import sun.bwt.windows.ThemeRebder;
+import sun.security.bction.GetPropertyAction;
+import sun.swing.CbchedPbinter;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
 
 
 /**
- * Implements Windows XP Styles for the Windows Look and Feel.
+ * Implements Windows XP Styles for the Windows Look bnd Feel.
  *
- * @author Leif Samuelsson
+ * @buthor Leif Sbmuelsson
  */
-class XPStyle {
-    // Singleton instance of this class
-    private static XPStyle xp;
+clbss XPStyle {
+    // Singleton instbnce of this clbss
+    privbte stbtic XPStyle xp;
 
-    // Singleton instance of SkinPainter
-    private static SkinPainter skinPainter = new SkinPainter();
+    // Singleton instbnce of SkinPbinter
+    privbte stbtic SkinPbinter skinPbinter = new SkinPbinter();
 
-    private static Boolean themeActive = null;
+    privbte stbtic Boolebn themeActive = null;
 
-    private HashMap<String, Border> borderMap;
-    private HashMap<String, Color>  colorMap;
+    privbte HbshMbp<String, Border> borderMbp;
+    privbte HbshMbp<String, Color>  colorMbp;
 
-    private boolean flatMenus;
+    privbte boolebn flbtMenus;
 
-    static {
-        invalidateStyle();
+    stbtic {
+        invblidbteStyle();
     }
 
-    /** Static method for clearing the hashmap and loading the
-     * current XP style and theme
+    /** Stbtic method for clebring the hbshmbp bnd lobding the
+     * current XP style bnd theme
      */
-    static synchronized void invalidateStyle() {
+    stbtic synchronized void invblidbteStyle() {
         xp = null;
         themeActive = null;
-        skinPainter.flush();
+        skinPbinter.flush();
     }
 
-    /** Get the singleton instance of this class
+    /** Get the singleton instbnce of this clbss
      *
-     * @return the singleton instance of this class or null if XP styles
-     * are not active or if this is not Windows XP
+     * @return the singleton instbnce of this clbss or null if XP styles
+     * bre not bctive or if this is not Windows XP
      */
-    static synchronized XPStyle getXP() {
+    stbtic synchronized XPStyle getXP() {
         if (themeActive == null) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Toolkit toolkit = Toolkit.getDefbultToolkit();
             themeActive =
-                (Boolean)toolkit.getDesktopProperty("win.xpstyle.themeActive");
+                (Boolebn)toolkit.getDesktopProperty("win.xpstyle.themeActive");
             if (themeActive == null) {
-                themeActive = Boolean.FALSE;
+                themeActive = Boolebn.FALSE;
             }
-            if (themeActive.booleanValue()) {
+            if (themeActive.boolebnVblue()) {
                 GetPropertyAction propertyAction =
                     new GetPropertyAction("swing.noxp");
                 if (AccessController.doPrivileged(propertyAction) == null &&
-                    ThemeReader.isThemed() &&
-                    !(UIManager.getLookAndFeel()
-                      instanceof WindowsClassicLookAndFeel)) {
+                    ThemeRebder.isThemed() &&
+                    !(UIMbnbger.getLookAndFeel()
+                      instbnceof WindowsClbssicLookAndFeel)) {
 
                     xp = new XPStyle();
                 }
             }
         }
-        return ThemeReader.isXPStyleEnabled() ? xp : null;
+        return ThemeRebder.isXPStyleEnbbled() ? xp : null;
     }
 
-    static boolean isVista() {
+    stbtic boolebn isVistb() {
         XPStyle xp = XPStyle.getXP();
-        return (xp != null && xp.isSkinDefined(null, Part.CP_DROPDOWNBUTTONRIGHT));
+        return (xp != null && xp.isSkinDefined(null, Pbrt.CP_DROPDOWNBUTTONRIGHT));
     }
 
-    /** Get a named <code>String</code> value from the current style
+    /** Get b nbmed <code>String</code> vblue from the current style
      *
-     * @param part a <code>Part</code>
-     * @param state a <code>String</code>
-     * @param attributeKey a <code>String</code>
-     * @return a <code>String</code> or null if key is not found
+     * @pbrbm pbrt b <code>Pbrt</code>
+     * @pbrbm stbte b <code>String</code>
+     * @pbrbm bttributeKey b <code>String</code>
+     * @return b <code>String</code> or null if key is not found
      *    in the current style
      *
-     * This is currently only used by WindowsInternalFrameTitlePane for painting
-     * title foregound and can be removed when no longer needed
+     * This is currently only used by WindowsInternblFrbmeTitlePbne for pbinting
+     * title foregound bnd cbn be removed when no longer needed
      */
-    String getString(Component c, Part part, State state, Prop prop) {
-        return getTypeEnumName(c, part, state, prop);
+    String getString(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        return getTypeEnumNbme(c, pbrt, stbte, prop);
     }
 
-    TypeEnum getTypeEnum(Component c, Part part, State state, Prop prop) {
-        int enumValue = ThemeReader.getEnum(part.getControlName(c), part.getValue(),
-                                            State.getValue(part, state),
-                                            prop.getValue());
-        return TypeEnum.getTypeEnum(prop, enumValue);
+    TypeEnum getTypeEnum(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        int enumVblue = ThemeRebder.getEnum(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                            Stbte.getVblue(pbrt, stbte),
+                                            prop.getVblue());
+        return TypeEnum.getTypeEnum(prop, enumVblue);
     }
 
-    private static String getTypeEnumName(Component c, Part part, State state, Prop prop) {
-        int enumValue = ThemeReader.getEnum(part.getControlName(c), part.getValue(),
-                                            State.getValue(part, state),
-                                            prop.getValue());
-        if (enumValue == -1) {
+    privbte stbtic String getTypeEnumNbme(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        int enumVblue = ThemeRebder.getEnum(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                            Stbte.getVblue(pbrt, stbte),
+                                            prop.getVblue());
+        if (enumVblue == -1) {
             return null;
         }
-        return TypeEnum.getTypeEnum(prop, enumValue).getName();
+        return TypeEnum.getTypeEnum(prop, enumVblue).getNbme();
     }
 
 
 
 
-    /** Get a named <code>int</code> value from the current style
+    /** Get b nbmed <code>int</code> vblue from the current style
      *
-     * @param part a <code>Part</code>
-     * @return an <code>int</code> or null if key is not found
+     * @pbrbm pbrt b <code>Pbrt</code>
+     * @return bn <code>int</code> or null if key is not found
      *    in the current style
      */
-    int getInt(Component c, Part part, State state, Prop prop, int fallback) {
-        return ThemeReader.getInt(part.getControlName(c), part.getValue(),
-                                  State.getValue(part, state),
-                                  prop.getValue());
+    int getInt(Component c, Pbrt pbrt, Stbte stbte, Prop prop, int fbllbbck) {
+        return ThemeRebder.getInt(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                  Stbte.getVblue(pbrt, stbte),
+                                  prop.getVblue());
     }
 
-    /** Get a named <code>Dimension</code> value from the current style
+    /** Get b nbmed <code>Dimension</code> vblue from the current style
      *
-     * @param key a <code>String</code>
-     * @return a <code>Dimension</code> or null if key is not found
+     * @pbrbm key b <code>String</code>
+     * @return b <code>Dimension</code> or null if key is not found
      *    in the current style
      *
-     * This is currently only used by WindowsProgressBarUI and the value
-     * should probably be cached there instead of here.
+     * This is currently only used by WindowsProgressBbrUI bnd the vblue
+     * should probbbly be cbched there instebd of here.
      */
-    Dimension getDimension(Component c, Part part, State state, Prop prop) {
-        Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
-                                              State.getValue(part, state),
-                                              prop.getValue());
+    Dimension getDimension(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        Dimension d = ThemeRebder.getPosition(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                              Stbte.getVblue(pbrt, stbte),
+                                              prop.getVblue());
         return (d != null) ? d : new Dimension();
     }
 
-    /** Get a named <code>Point</code> (e.g. a location or an offset) value
+    /** Get b nbmed <code>Point</code> (e.g. b locbtion or bn offset) vblue
      *  from the current style
      *
-     * @param key a <code>String</code>
-     * @return a <code>Point</code> or null if key is not found
+     * @pbrbm key b <code>String</code>
+     * @return b <code>Point</code> or null if key is not found
      *    in the current style
      *
-     * This is currently only used by WindowsInternalFrameTitlePane for painting
-     * title foregound and can be removed when no longer needed
+     * This is currently only used by WindowsInternblFrbmeTitlePbne for pbinting
+     * title foregound bnd cbn be removed when no longer needed
      */
-    Point getPoint(Component c, Part part, State state, Prop prop) {
-        Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
-                                              State.getValue(part, state),
-                                              prop.getValue());
+    Point getPoint(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        Dimension d = ThemeRebder.getPosition(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                              Stbte.getVblue(pbrt, stbte),
+                                              prop.getVblue());
         return (d != null) ? new Point(d.width, d.height) : new Point();
     }
 
-    /** Get a named <code>Insets</code> value from the current style
+    /** Get b nbmed <code>Insets</code> vblue from the current style
      *
-     * @param key a <code>String</code>
-     * @return an <code>Insets</code> object or null if key is not found
+     * @pbrbm key b <code>String</code>
+     * @return bn <code>Insets</code> object or null if key is not found
      *    in the current style
      *
-     * This is currently only used to create borders and by
-     * WindowsInternalFrameTitlePane for painting title foregound.
-     * The return value is already cached in those places.
+     * This is currently only used to crebte borders bnd by
+     * WindowsInternblFrbmeTitlePbne for pbinting title foregound.
+     * The return vblue is blrebdy cbched in those plbces.
      */
-    Insets getMargin(Component c, Part part, State state, Prop prop) {
-        Insets insets = ThemeReader.getThemeMargins(part.getControlName(c), part.getValue(),
-                                                    State.getValue(part, state),
-                                                    prop.getValue());
+    Insets getMbrgin(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        Insets insets = ThemeRebder.getThemeMbrgins(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                                    Stbte.getVblue(pbrt, stbte),
+                                                    prop.getVblue());
         return (insets != null) ? insets : new Insets(0, 0, 0, 0);
     }
 
 
-    /** Get a named <code>Color</code> value from the current style
+    /** Get b nbmed <code>Color</code> vblue from the current style
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Color</code> or null if key is not found
+     * @pbrbm pbrt b <code>Pbrt</code>
+     * @return b <code>Color</code> or null if key is not found
      *    in the current style
      */
-    synchronized Color getColor(Skin skin, Prop prop, Color fallback) {
-        String key = skin.toString() + "." + prop.name();
-        Part part = skin.part;
-        Color color = colorMap.get(key);
+    synchronized Color getColor(Skin skin, Prop prop, Color fbllbbck) {
+        String key = skin.toString() + "." + prop.nbme();
+        Pbrt pbrt = skin.pbrt;
+        Color color = colorMbp.get(key);
         if (color == null) {
-            color = ThemeReader.getColor(part.getControlName(null), part.getValue(),
-                                         State.getValue(part, skin.state),
-                                         prop.getValue());
+            color = ThemeRebder.getColor(pbrt.getControlNbme(null), pbrt.getVblue(),
+                                         Stbte.getVblue(pbrt, skin.stbte),
+                                         prop.getVblue());
             if (color != null) {
                 color = new ColorUIResource(color);
-                colorMap.put(key, color);
+                colorMbp.put(key, color);
             }
         }
-        return (color != null) ? color : fallback;
+        return (color != null) ? color : fbllbbck;
     }
 
-    Color getColor(Component c, Part part, State state, Prop prop, Color fallback) {
-        return getColor(new Skin(c, part, state), prop, fallback);
+    Color getColor(Component c, Pbrt pbrt, Stbte stbte, Prop prop, Color fbllbbck) {
+        return getColor(new Skin(c, pbrt, stbte), prop, fbllbbck);
     }
 
 
 
-    /** Get a named <code>Border</code> value from the current style
+    /** Get b nbmed <code>Border</code> vblue from the current style
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Border</code> or null if key is not found
-     *    in the current style or if the style for the particular
-     *    part is not defined as "borderfill".
+     * @pbrbm pbrt b <code>Pbrt</code>
+     * @return b <code>Border</code> or null if key is not found
+     *    in the current style or if the style for the pbrticulbr
+     *    pbrt is not defined bs "borderfill".
      */
-    synchronized Border getBorder(Component c, Part part) {
-        if (part == Part.MENU) {
-            // Special case because XP has no skin for menus
-            if (flatMenus) {
-                // TODO: The classic border uses this color, but we should
-                // create a new UI property called "PopupMenu.borderColor"
-                // instead.
-                return new XPFillBorder(UIManager.getColor("InternalFrame.borderShadow"),
+    synchronized Border getBorder(Component c, Pbrt pbrt) {
+        if (pbrt == Pbrt.MENU) {
+            // Specibl cbse becbuse XP hbs no skin for menus
+            if (flbtMenus) {
+                // TODO: The clbssic border uses this color, but we should
+                // crebte b new UI property cblled "PopupMenu.borderColor"
+                // instebd.
+                return new XPFillBorder(UIMbnbger.getColor("InternblFrbme.borderShbdow"),
                                         1);
             } else {
-                return null;    // Will cause L&F to use classic border
+                return null;    // Will cbuse L&F to use clbssic border
             }
         }
-        Skin skin = new Skin(c, part, null);
-        Border border = borderMap.get(skin.string);
+        Skin skin = new Skin(c, pbrt, null);
+        Border border = borderMbp.get(skin.string);
         if (border == null) {
-            String bgType = getTypeEnumName(c, part, null, Prop.BGTYPE);
-            if ("borderfill".equalsIgnoreCase(bgType)) {
-                int thickness = getInt(c, part, null, Prop.BORDERSIZE, 1);
-                Color color = getColor(skin, Prop.BORDERCOLOR, Color.black);
+            String bgType = getTypeEnumNbme(c, pbrt, null, Prop.BGTYPE);
+            if ("borderfill".equblsIgnoreCbse(bgType)) {
+                int thickness = getInt(c, pbrt, null, Prop.BORDERSIZE, 1);
+                Color color = getColor(skin, Prop.BORDERCOLOR, Color.blbck);
                 border = new XPFillBorder(color, thickness);
-                if (part == Part.CP_COMBOBOX) {
-                    border = new XPStatefulFillBorder(color, thickness, part, Prop.BORDERCOLOR);
+                if (pbrt == Pbrt.CP_COMBOBOX) {
+                    border = new XPStbtefulFillBorder(color, thickness, pbrt, Prop.BORDERCOLOR);
                 }
-            } else if ("imagefile".equalsIgnoreCase(bgType)) {
-                Insets m = getMargin(c, part, null, Prop.SIZINGMARGINS);
+            } else if ("imbgefile".equblsIgnoreCbse(bgType)) {
+                Insets m = getMbrgin(c, pbrt, null, Prop.SIZINGMARGINS);
                 if (m != null) {
-                    if (getBoolean(c, part, null, Prop.BORDERONLY)) {
-                        border = new XPImageBorder(c, part);
-                    } else if (part == Part.CP_COMBOBOX) {
+                    if (getBoolebn(c, pbrt, null, Prop.BORDERONLY)) {
+                        border = new XPImbgeBorder(c, pbrt);
+                    } else if (pbrt == Pbrt.CP_COMBOBOX) {
                         border = new EmptyBorder(1, 1, 1, 1);
                     } else {
-                        if(part == Part.TP_BUTTON) {
+                        if(pbrt == Pbrt.TP_BUTTON) {
                             border = new XPEmptyBorder(new Insets(3,3,3,3));
                         } else {
                             border = new XPEmptyBorder(m);
@@ -297,111 +297,111 @@ class XPStyle {
                 }
             }
             if (border != null) {
-                borderMap.put(skin.string, border);
+                borderMbp.put(skin.string, border);
             }
         }
         return border;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPFillBorder extends LineBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss XPFillBorder extends LineBorder implements UIResource {
         XPFillBorder(Color color, int thickness) {
             super(color, thickness);
         }
 
         public Insets getBorderInsets(Component c, Insets insets)       {
-            Insets margin = null;
+            Insets mbrgin = null;
             //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
+            // Ideblly we'd hbve bn interfbce defined for clbsses which
+            // support mbrgins (to bvoid this hbckery), but we've
+            // decided bgbinst it for simplicity
             //
-           if (c instanceof AbstractButton) {
-               margin = ((AbstractButton)c).getMargin();
-           } else if (c instanceof JToolBar) {
-               margin = ((JToolBar)c).getMargin();
-           } else if (c instanceof JTextComponent) {
-               margin = ((JTextComponent)c).getMargin();
+           if (c instbnceof AbstrbctButton) {
+               mbrgin = ((AbstrbctButton)c).getMbrgin();
+           } else if (c instbnceof JToolBbr) {
+               mbrgin = ((JToolBbr)c).getMbrgin();
+           } else if (c instbnceof JTextComponent) {
+               mbrgin = ((JTextComponent)c).getMbrgin();
            }
-           insets.top    = (margin != null? margin.top : 0)    + thickness;
-           insets.left   = (margin != null? margin.left : 0)   + thickness;
-           insets.bottom = (margin != null? margin.bottom : 0) + thickness;
-           insets.right =  (margin != null? margin.right : 0)  + thickness;
+           insets.top    = (mbrgin != null? mbrgin.top : 0)    + thickness;
+           insets.left   = (mbrgin != null? mbrgin.left : 0)   + thickness;
+           insets.bottom = (mbrgin != null? mbrgin.bottom : 0) + thickness;
+           insets.right =  (mbrgin != null? mbrgin.right : 0)  + thickness;
 
            return insets;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPStatefulFillBorder extends XPFillBorder {
-        private final Part part;
-        private final Prop prop;
-        XPStatefulFillBorder(Color color, int thickness, Part part, Prop prop) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss XPStbtefulFillBorder extends XPFillBorder {
+        privbte finbl Pbrt pbrt;
+        privbte finbl Prop prop;
+        XPStbtefulFillBorder(Color color, int thickness, Pbrt pbrt, Prop prop) {
             super(color, thickness);
-            this.part = part;
+            this.pbrt = pbrt;
             this.prop = prop;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            State state = State.NORMAL;
-            // special casing for comboboxes.
-            // there may be more special cases in the future
-            if(c instanceof JComboBox) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
+            Stbte stbte = Stbte.NORMAL;
+            // specibl cbsing for comboboxes.
+            // there mby be more specibl cbses in the future
+            if(c instbnceof JComboBox) {
                 JComboBox<?> cb = (JComboBox)c;
-                // note. in the future this should be replaced with a call
-                // to BasicLookAndFeel.getUIOfType()
-                if(cb.getUI() instanceof WindowsComboBoxUI) {
+                // note. in the future this should be replbced with b cbll
+                // to BbsicLookAndFeel.getUIOfType()
+                if(cb.getUI() instbnceof WindowsComboBoxUI) {
                     WindowsComboBoxUI wcb = (WindowsComboBoxUI)cb.getUI();
-                    state = wcb.getXPComboBoxState(cb);
+                    stbte = wcb.getXPComboBoxStbte(cb);
                 }
             }
-            lineColor = getColor(c, part, state, prop, Color.black);
-            super.paintBorder(c, g, x, y, width, height);
+            lineColor = getColor(c, pbrt, stbte, prop, Color.blbck);
+            super.pbintBorder(c, g, x, y, width, height);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPImageBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss XPImbgeBorder extends AbstrbctBorder implements UIResource {
         Skin skin;
 
-        XPImageBorder(Component c, Part part) {
-            this.skin = getSkin(c, part);
+        XPImbgeBorder(Component c, Pbrt pbrt) {
+            this.skin = getSkin(c, pbrt);
         }
 
-        public void paintBorder(Component c, Graphics g,
+        public void pbintBorder(Component c, Grbphics g,
                                 int x, int y, int width, int height) {
-            skin.paintSkin(g, x, y, width, height, null);
+            skin.pbintSkin(g, x, y, width, height, null);
         }
 
         public Insets getBorderInsets(Component c, Insets insets)       {
-            Insets margin = null;
-            Insets borderInsets = skin.getContentMargin();
+            Insets mbrgin = null;
+            Insets borderInsets = skin.getContentMbrgin();
             if(borderInsets == null) {
                 borderInsets = new Insets(0, 0, 0, 0);
             }
             //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
+            // Ideblly we'd hbve bn interfbce defined for clbsses which
+            // support mbrgins (to bvoid this hbckery), but we've
+            // decided bgbinst it for simplicity
             //
-           if (c instanceof AbstractButton) {
-               margin = ((AbstractButton)c).getMargin();
-           } else if (c instanceof JToolBar) {
-               margin = ((JToolBar)c).getMargin();
-           } else if (c instanceof JTextComponent) {
-               margin = ((JTextComponent)c).getMargin();
+           if (c instbnceof AbstrbctButton) {
+               mbrgin = ((AbstrbctButton)c).getMbrgin();
+           } else if (c instbnceof JToolBbr) {
+               mbrgin = ((JToolBbr)c).getMbrgin();
+           } else if (c instbnceof JTextComponent) {
+               mbrgin = ((JTextComponent)c).getMbrgin();
            }
-           insets.top    = (margin != null? margin.top : 0)    + borderInsets.top;
-           insets.left   = (margin != null? margin.left : 0)   + borderInsets.left;
-           insets.bottom = (margin != null? margin.bottom : 0) + borderInsets.bottom;
-           insets.right  = (margin != null? margin.right : 0)  + borderInsets.right;
+           insets.top    = (mbrgin != null? mbrgin.top : 0)    + borderInsets.top;
+           insets.left   = (mbrgin != null? mbrgin.left : 0)   + borderInsets.left;
+           insets.bottom = (mbrgin != null? mbrgin.bottom : 0) + borderInsets.bottom;
+           insets.right  = (mbrgin != null? mbrgin.right : 0)  + borderInsets.right;
 
            return insets;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPEmptyBorder extends EmptyBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss XPEmptyBorder extends EmptyBorder implements UIResource {
         XPEmptyBorder(Insets m) {
             super(m.top+2, m.left+2, m.bottom+2, m.right+2);
         }
@@ -409,244 +409,244 @@ class XPStyle {
         public Insets getBorderInsets(Component c, Insets insets)       {
             insets = super.getBorderInsets(c, insets);
 
-            Insets margin = null;
-            if (c instanceof AbstractButton) {
-                Insets m = ((AbstractButton)c).getMargin();
-                // if this is a toolbar button then ignore getMargin()
-                // and subtract the padding added by the constructor
-                if(c.getParent() instanceof JToolBar
-                   && ! (c instanceof JRadioButton)
-                   && ! (c instanceof JCheckBox)
-                   && m instanceof InsetsUIResource) {
+            Insets mbrgin = null;
+            if (c instbnceof AbstrbctButton) {
+                Insets m = ((AbstrbctButton)c).getMbrgin();
+                // if this is b toolbbr button then ignore getMbrgin()
+                // bnd subtrbct the pbdding bdded by the constructor
+                if(c.getPbrent() instbnceof JToolBbr
+                   && ! (c instbnceof JRbdioButton)
+                   && ! (c instbnceof JCheckBox)
+                   && m instbnceof InsetsUIResource) {
                     insets.top -= 2;
                     insets.left -= 2;
                     insets.bottom -= 2;
                     insets.right -= 2;
                 } else {
-                    margin = m;
+                    mbrgin = m;
                 }
-            } else if (c instanceof JToolBar) {
-                margin = ((JToolBar)c).getMargin();
-            } else if (c instanceof JTextComponent) {
-                margin = ((JTextComponent)c).getMargin();
+            } else if (c instbnceof JToolBbr) {
+                mbrgin = ((JToolBbr)c).getMbrgin();
+            } else if (c instbnceof JTextComponent) {
+                mbrgin = ((JTextComponent)c).getMbrgin();
             }
-            if (margin != null) {
-                insets.top    = margin.top + 2;
-                insets.left   = margin.left + 2;
-                insets.bottom = margin.bottom + 2;
-                insets.right  = margin.right + 2;
+            if (mbrgin != null) {
+                insets.top    = mbrgin.top + 2;
+                insets.left   = mbrgin.left + 2;
+                insets.bottom = mbrgin.bottom + 2;
+                insets.right  = mbrgin.right + 2;
             }
             return insets;
         }
     }
-    boolean isSkinDefined(Component c, Part part) {
-        return (part.getValue() == 0)
-            || ThemeReader.isThemePartDefined(
-                   part.getControlName(c), part.getValue(), 0);
+    boolebn isSkinDefined(Component c, Pbrt pbrt) {
+        return (pbrt.getVblue() == 0)
+            || ThemeRebder.isThemePbrtDefined(
+                   pbrt.getControlNbme(c), pbrt.getVblue(), 0);
     }
 
 
-    /** Get a <code>Skin</code> object from the current style
-     * for a named part (component type)
+    /** Get b <code>Skin</code> object from the current style
+     * for b nbmed pbrt (component type)
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Skin</code> object
+     * @pbrbm pbrt b <code>Pbrt</code>
+     * @return b <code>Skin</code> object
      */
-    synchronized Skin getSkin(Component c, Part part) {
-        assert isSkinDefined(c, part) : "part " + part + " is not defined";
-        return new Skin(c, part, null);
+    synchronized Skin getSkin(Component c, Pbrt pbrt) {
+        bssert isSkinDefined(c, pbrt) : "pbrt " + pbrt + " is not defined";
+        return new Skin(c, pbrt, null);
     }
 
 
-    long getThemeTransitionDuration(Component c, Part part, State stateFrom,
-                                    State stateTo, Prop prop) {
-         return ThemeReader.getThemeTransitionDuration(part.getControlName(c),
-                                          part.getValue(),
-                                          State.getValue(part, stateFrom),
-                                          State.getValue(part, stateTo),
-                                          (prop != null) ? prop.getValue() : 0);
+    long getThemeTrbnsitionDurbtion(Component c, Pbrt pbrt, Stbte stbteFrom,
+                                    Stbte stbteTo, Prop prop) {
+         return ThemeRebder.getThemeTrbnsitionDurbtion(pbrt.getControlNbme(c),
+                                          pbrt.getVblue(),
+                                          Stbte.getVblue(pbrt, stbteFrom),
+                                          Stbte.getVblue(pbrt, stbteTo),
+                                          (prop != null) ? prop.getVblue() : 0);
     }
 
 
-    /** A class which encapsulates attributes for a given part
-     * (component type) and which provides methods for painting backgrounds
-     * and glyphs
+    /** A clbss which encbpsulbtes bttributes for b given pbrt
+     * (component type) bnd which provides methods for pbinting bbckgrounds
+     * bnd glyphs
      */
-    static class Skin {
-        final Component component;
-        final Part part;
-        final State state;
+    stbtic clbss Skin {
+        finbl Component component;
+        finbl Pbrt pbrt;
+        finbl Stbte stbte;
 
-        private final String string;
-        private Dimension size = null;
+        privbte finbl String string;
+        privbte Dimension size = null;
 
-        Skin(Component component, Part part) {
-            this(component, part, null);
+        Skin(Component component, Pbrt pbrt) {
+            this(component, pbrt, null);
         }
 
-        Skin(Part part, State state) {
-            this(null, part, state);
+        Skin(Pbrt pbrt, Stbte stbte) {
+            this(null, pbrt, stbte);
         }
 
-        Skin(Component component, Part part, State state) {
+        Skin(Component component, Pbrt pbrt, Stbte stbte) {
             this.component = component;
-            this.part  = part;
-            this.state = state;
+            this.pbrt  = pbrt;
+            this.stbte = stbte;
 
-            String str = part.getControlName(component) +"." + part.name();
-            if (state != null) {
-                str += "("+state.name()+")";
+            String str = pbrt.getControlNbme(component) +"." + pbrt.nbme();
+            if (stbte != null) {
+                str += "("+stbte.nbme()+")";
             }
             string = str;
         }
 
-        Insets getContentMargin() {
-            /* idk: it seems margins are the same for all 'big enough'
-             * bounding rectangles.
+        Insets getContentMbrgin() {
+            /* idk: it seems mbrgins bre the sbme for bll 'big enough'
+             * bounding rectbngles.
              */
             int boundingWidth = 100;
             int boundingHeight = 100;
 
-            Insets insets = ThemeReader.getThemeBackgroundContentMargins(
-                part.getControlName(null), part.getValue(),
+            Insets insets = ThemeRebder.getThemeBbckgroundContentMbrgins(
+                pbrt.getControlNbme(null), pbrt.getVblue(),
                 0, boundingWidth, boundingHeight);
             return (insets != null) ? insets : new Insets(0, 0, 0, 0);
         }
 
-        private int getWidth(State state) {
+        privbte int getWidth(Stbte stbte) {
             if (size == null) {
-                size = getPartSize(part, state);
+                size = getPbrtSize(pbrt, stbte);
             }
             return (size != null) ? size.width : 0;
         }
 
         int getWidth() {
-            return getWidth((state != null) ? state : State.NORMAL);
+            return getWidth((stbte != null) ? stbte : Stbte.NORMAL);
         }
 
-        private int getHeight(State state) {
+        privbte int getHeight(Stbte stbte) {
             if (size == null) {
-                size = getPartSize(part, state);
+                size = getPbrtSize(pbrt, stbte);
             }
             return (size != null) ? size.height : 0;
         }
 
         int getHeight() {
-            return getHeight((state != null) ? state : State.NORMAL);
+            return getHeight((stbte != null) ? stbte : Stbte.NORMAL);
         }
 
         public String toString() {
             return string;
         }
 
-        public boolean equals(Object obj) {
-            return (obj instanceof Skin && ((Skin)obj).string.equals(string));
+        public boolebn equbls(Object obj) {
+            return (obj instbnceof Skin && ((Skin)obj).string.equbls(string));
         }
 
-        public int hashCode() {
-            return string.hashCode();
+        public int hbshCode() {
+            return string.hbshCode();
         }
 
-        /** Paint a skin at x, y.
+        /** Pbint b skin bt x, y.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param state which state to paint
+         * @pbrbm g   the grbphics context to use for pbinting
+         * @pbrbm dx  the destinbtion <i>x</i> coordinbte
+         * @pbrbm dy  the destinbtion <i>y</i> coordinbte
+         * @pbrbm stbte which stbte to pbint
          */
-        void paintSkin(Graphics g, int dx, int dy, State state) {
-            if (state == null) {
-                state = this.state;
+        void pbintSkin(Grbphics g, int dx, int dy, Stbte stbte) {
+            if (stbte == null) {
+                stbte = this.stbte;
             }
-            paintSkin(g, dx, dy, getWidth(state), getHeight(state), state);
+            pbintSkin(g, dx, dy, getWidth(stbte), getHeight(stbte), stbte);
         }
 
-        /** Paint a skin in an area defined by a rectangle.
+        /** Pbint b skin in bn breb defined by b rectbngle.
          *
-         * @param g the graphics context to use for painting
-         * @param r     a <code>Rectangle</code> defining the area to fill,
-         *                     may cause the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g the grbphics context to use for pbinting
+         * @pbrbm r     b <code>Rectbngle</code> defining the breb to fill,
+         *                     mby cbuse the imbge to be stretched or tiled
+         * @pbrbm stbte which stbte to pbint
          */
-        void paintSkin(Graphics g, Rectangle r, State state) {
-            paintSkin(g, r.x, r.y, r.width, r.height, state);
+        void pbintSkin(Grbphics g, Rectbngle r, Stbte stbte) {
+            pbintSkin(g, r.x, r.y, r.width, r.height, stbte);
         }
 
-        /** Paint a skin at a defined position and size
-         *  This method supports animation.
+        /** Pbint b skin bt b defined position bnd size
+         *  This method supports bnimbtion.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g   the grbphics context to use for pbinting
+         * @pbrbm dx  the destinbtion <i>x</i> coordinbte
+         * @pbrbm dy  the destinbtion <i>y</i> coordinbte
+         * @pbrbm dw  the width of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm dh  the height of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm stbte which stbte to pbint
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state) {
+        void pbintSkin(Grbphics g, int dx, int dy, int dw, int dh, Stbte stbte) {
             if (XPStyle.getXP() == null) {
                 return;
             }
-            if (ThemeReader.isGetThemeTransitionDurationDefined()
-                  && component instanceof JComponent
-                  && SwingUtilities.getAncestorOfClass(CellRendererPane.class,
+            if (ThemeRebder.isGetThemeTrbnsitionDurbtionDefined()
+                  && component instbnceof JComponent
+                  && SwingUtilities.getAncestorOfClbss(CellRendererPbne.clbss,
                                                        component) == null) {
-                AnimationController.paintSkin((JComponent) component, this,
-                                              g, dx, dy, dw, dh, state);
+                AnimbtionController.pbintSkin((JComponent) component, this,
+                                              g, dx, dy, dw, dh, stbte);
             } else {
-                paintSkinRaw(g, dx, dy, dw, dh, state);
+                pbintSkinRbw(g, dx, dy, dw, dh, stbte);
             }
         }
 
-        /** Paint a skin at a defined position and size. This method
-         *  does not trigger animation. It is needed for the animation
+        /** Pbint b skin bt b defined position bnd size. This method
+         *  does not trigger bnimbtion. It is needed for the bnimbtion
          *  support.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate.
-         * @param dy  the destination <i>y</i> coordinate.
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g   the grbphics context to use for pbinting
+         * @pbrbm dx  the destinbtion <i>x</i> coordinbte.
+         * @pbrbm dy  the destinbtion <i>y</i> coordinbte.
+         * @pbrbm dw  the width of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm dh  the height of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm stbte which stbte to pbint
          */
-        void paintSkinRaw(Graphics g, int dx, int dy, int dw, int dh, State state) {
+        void pbintSkinRbw(Grbphics g, int dx, int dy, int dw, int dh, Stbte stbte) {
             if (XPStyle.getXP() == null) {
                 return;
             }
-            skinPainter.paint(null, g, dx, dy, dw, dh, this, state);
+            skinPbinter.pbint(null, g, dx, dy, dw, dh, this, stbte);
         }
 
-        /** Paint a skin at a defined position and size
+        /** Pbint b skin bt b defined position bnd size
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
-         * @param borderFill should test if the component uses a border fill
-                            and skip painting if it is
+         * @pbrbm g   the grbphics context to use for pbinting
+         * @pbrbm dx  the destinbtion <i>x</i> coordinbte
+         * @pbrbm dy  the destinbtion <i>y</i> coordinbte
+         * @pbrbm dw  the width of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm dh  the height of the breb to fill, mby cbuse
+         *                  the imbge to be stretched or tiled
+         * @pbrbm stbte which stbte to pbint
+         * @pbrbm borderFill should test if the component uses b border fill
+                            bnd skip pbinting if it is
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state,
-                boolean borderFill) {
+        void pbintSkin(Grbphics g, int dx, int dy, int dw, int dh, Stbte stbte,
+                boolebn borderFill) {
             if (XPStyle.getXP() == null) {
                 return;
             }
-            if(borderFill && "borderfill".equals(getTypeEnumName(component, part,
-                    state, Prop.BGTYPE))) {
+            if(borderFill && "borderfill".equbls(getTypeEnumNbme(component, pbrt,
+                    stbte, Prop.BGTYPE))) {
                 return;
             }
-            skinPainter.paint(null, g, dx, dy, dw, dh, this, state);
+            skinPbinter.pbint(null, g, dx, dy, dw, dh, this, stbte);
         }
     }
 
-    private static class SkinPainter extends CachedPainter {
-        SkinPainter() {
+    privbte stbtic clbss SkinPbinter extends CbchedPbinter {
+        SkinPbinter() {
             super(30);
             flush();
         }
@@ -655,113 +655,113 @@ class XPStyle {
             super.flush();
         }
 
-        protected void paintToImage(Component c, Image image, Graphics g,
-                                    int w, int h, Object[] args) {
-            boolean accEnabled = false;
-            Skin skin = (Skin)args[0];
-            Part part = skin.part;
-            State state = (State)args[1];
-            if (state == null) {
-                state = skin.state;
+        protected void pbintToImbge(Component c, Imbge imbge, Grbphics g,
+                                    int w, int h, Object[] brgs) {
+            boolebn bccEnbbled = fblse;
+            Skin skin = (Skin)brgs[0];
+            Pbrt pbrt = skin.pbrt;
+            Stbte stbte = (Stbte)brgs[1];
+            if (stbte == null) {
+                stbte = skin.stbte;
             }
             if (c == null) {
                 c = skin.component;
             }
-            BufferedImage bi = (BufferedImage)image;
+            BufferedImbge bi = (BufferedImbge)imbge;
 
-            WritableRaster raster = bi.getRaster();
-            DataBufferInt dbi = (DataBufferInt)raster.getDataBuffer();
-            // Note that stealData() requires a markDirty() afterwards
-            // since we modify the data in it.
-            ThemeReader.paintBackground(SunWritableRaster.stealData(dbi, 0),
-                                        part.getControlName(c), part.getValue(),
-                                        State.getValue(part, state),
+            WritbbleRbster rbster = bi.getRbster();
+            DbtbBufferInt dbi = (DbtbBufferInt)rbster.getDbtbBuffer();
+            // Note thbt steblDbtb() requires b mbrkDirty() bfterwbrds
+            // since we modify the dbtb in it.
+            ThemeRebder.pbintBbckground(SunWritbbleRbster.steblDbtb(dbi, 0),
+                                        pbrt.getControlNbme(c), pbrt.getVblue(),
+                                        Stbte.getVblue(pbrt, stbte),
                                         0, 0, w, h, w);
-            SunWritableRaster.markDirty(dbi);
+            SunWritbbleRbster.mbrkDirty(dbi);
         }
 
-        protected Image createImage(Component c, int w, int h,
-                                    GraphicsConfiguration config, Object[] args) {
-            return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        protected Imbge crebteImbge(Component c, int w, int h,
+                                    GrbphicsConfigurbtion config, Object[] brgs) {
+            return new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class GlyphButton extends JButton {
-        private Skin skin;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss GlyphButton extends JButton {
+        privbte Skin skin;
 
-        public GlyphButton(Component parent, Part part) {
+        public GlyphButton(Component pbrent, Pbrt pbrt) {
             XPStyle xp = getXP();
-            skin = xp != null ? xp.getSkin(parent, part) : null;
+            skin = xp != null ? xp.getSkin(pbrent, pbrt) : null;
             setBorder(null);
-            setContentAreaFilled(false);
+            setContentArebFilled(fblse);
             setMinimumSize(new Dimension(5, 5));
             setPreferredSize(new Dimension(16, 16));
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+            setMbximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        public boolebn isFocusTrbversbble() {
+            return fblse;
         }
 
-        protected State getState() {
-            State state = State.NORMAL;
-            if (!isEnabled()) {
-                state = State.DISABLED;
+        protected Stbte getStbte() {
+            Stbte stbte = Stbte.NORMAL;
+            if (!isEnbbled()) {
+                stbte = Stbte.DISABLED;
             } else if (getModel().isPressed()) {
-                state = State.PRESSED;
+                stbte = Stbte.PRESSED;
             } else if (getModel().isRollover()) {
-                state = State.HOT;
+                stbte = Stbte.HOT;
             }
-            return state;
+            return stbte;
         }
 
-        public void paintComponent(Graphics g) {
+        public void pbintComponent(Grbphics g) {
             if (XPStyle.getXP() == null || skin == null) {
                 return;
             }
             Dimension d = getSize();
-            skin.paintSkin(g, 0, 0, d.width, d.height, getState());
+            skin.pbintSkin(g, 0, 0, d.width, d.height, getStbte());
         }
 
-        public void setPart(Component parent, Part part) {
+        public void setPbrt(Component pbrent, Pbrt pbrt) {
             XPStyle xp = getXP();
-            skin = xp != null ? xp.getSkin(parent, part) : null;
-            revalidate();
-            repaint();
+            skin = xp != null ? xp.getSkin(pbrent, pbrt) : null;
+            revblidbte();
+            repbint();
         }
 
-        protected void paintBorder(Graphics g) {
+        protected void pbintBorder(Grbphics g) {
         }
 
 
     }
 
-    // Private constructor
-    private XPStyle() {
-        flatMenus = getSysBoolean(Prop.FLATMENUS);
+    // Privbte constructor
+    privbte XPStyle() {
+        flbtMenus = getSysBoolebn(Prop.FLATMENUS);
 
-        colorMap  = new HashMap<String, Color>();
-        borderMap = new HashMap<String, Border>();
-        // Note: All further access to the maps must be synchronized
+        colorMbp  = new HbshMbp<String, Color>();
+        borderMbp = new HbshMbp<String, Border>();
+        // Note: All further bccess to the mbps must be synchronized
     }
 
 
-    private boolean getBoolean(Component c, Part part, State state, Prop prop) {
-        return ThemeReader.getBoolean(part.getControlName(c), part.getValue(),
-                                      State.getValue(part, state),
-                                      prop.getValue());
+    privbte boolebn getBoolebn(Component c, Pbrt pbrt, Stbte stbte, Prop prop) {
+        return ThemeRebder.getBoolebn(pbrt.getControlNbme(c), pbrt.getVblue(),
+                                      Stbte.getVblue(pbrt, stbte),
+                                      prop.getVblue());
     }
 
 
 
-    static Dimension getPartSize(Part part, State state) {
-        return ThemeReader.getPartSize(part.getControlName(null), part.getValue(),
-                                       State.getValue(part, state));
+    stbtic Dimension getPbrtSize(Pbrt pbrt, Stbte stbte) {
+        return ThemeRebder.getPbrtSize(pbrt.getControlNbme(null), pbrt.getVblue(),
+                                       Stbte.getVblue(pbrt, stbte));
     }
 
-    private static boolean getSysBoolean(Prop prop) {
-        // We can use any widget name here, I guess.
-        return ThemeReader.getSysBoolean("window", prop.getValue());
+    privbte stbtic boolebn getSysBoolebn(Prop prop) {
+        // We cbn use bny widget nbme here, I guess.
+        return ThemeRebder.getSysBoolebn("window", prop.getVblue());
     }
 }

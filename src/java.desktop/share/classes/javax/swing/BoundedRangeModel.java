@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 
 /**
- * Defines the data model used by components like <code>Slider</code>s
- * and <code>ProgressBar</code>s.
- * Defines four interrelated integer properties: minimum, maximum, extent
- * and value.  These four integers define two nested ranges like this:
+ * Defines the dbtb model used by components like <code>Slider</code>s
+ * bnd <code>ProgressBbr</code>s.
+ * Defines four interrelbted integer properties: minimum, mbximum, extent
+ * bnd vblue.  These four integers define two nested rbnges like this:
  * <pre>
- * minimum &lt;= value &lt;= value+extent &lt;= maximum
+ * minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
  * </pre>
- * The outer range is <code>minimum,maximum</code> and the inner
- * range is <code>value,value+extent</code>.  The inner range
- * must lie within the outer one, i.e. <code>value</code> must be
- * less than or equal to <code>maximum</code> and <code>value+extent</code>
- * must greater than or equal to <code>minimum</code>, and <code>maximum</code>
- * must be greater than or equal to <code>minimum</code>.
- * There are a few features of this model that one might find a little
+ * The outer rbnge is <code>minimum,mbximum</code> bnd the inner
+ * rbnge is <code>vblue,vblue+extent</code>.  The inner rbnge
+ * must lie within the outer one, i.e. <code>vblue</code> must be
+ * less thbn or equbl to <code>mbximum</code> bnd <code>vblue+extent</code>
+ * must grebter thbn or equbl to <code>minimum</code>, bnd <code>mbximum</code>
+ * must be grebter thbn or equbl to <code>minimum</code>.
+ * There bre b few febtures of this model thbt one might find b little
  * surprising.  These quirks exist for the convenience of the
- * Swing BoundedRangeModel clients, such as <code>Slider</code> and
- * <code>ScrollBar</code>.
+ * Swing BoundedRbngeModel clients, such bs <code>Slider</code> bnd
+ * <code>ScrollBbr</code>.
  * <ul>
  * <li>
- *   The minimum and maximum set methods "correct" the other
- *   three properties to accommodate their new value argument.  For
- *   example setting the model's minimum may change its maximum, value,
- *   and extent properties (in that order), to maintain the constraints
- *   specified above.
+ *   The minimum bnd mbximum set methods "correct" the other
+ *   three properties to bccommodbte their new vblue brgument.  For
+ *   exbmple setting the model's minimum mby chbnge its mbximum, vblue,
+ *   bnd extent properties (in thbt order), to mbintbin the constrbints
+ *   specified bbove.
  *
  * <li>
- *   The value and extent set methods "correct" their argument to
+ *   The vblue bnd extent set methods "correct" their brgument to
  *   fit within the limits defined by the other three properties.
- *   For example if <code>value == maximum</code>, <code>setExtent(10)</code>
- *   would change the extent (back) to zero.
+ *   For exbmple if <code>vblue == mbximum</code>, <code>setExtent(10)</code>
+ *   would chbnge the extent (bbck) to zero.
  *
  * <li>
- *   The four BoundedRangeModel values are defined as Java Beans properties
- *   however Swing ChangeEvents are used to notify clients of changes rather
- *   than PropertyChangeEvents. This was done to keep the overhead of monitoring
- *   a BoundedRangeModel low. Changes are often reported at MouseDragged rates.
+ *   The four BoundedRbngeModel vblues bre defined bs Jbvb Bebns properties
+ *   however Swing ChbngeEvents bre used to notify clients of chbnges rbther
+ *   thbn PropertyChbngeEvents. This wbs done to keep the overhebd of monitoring
+ *   b BoundedRbngeModel low. Chbnges bre often reported bt MouseDrbgged rbtes.
  * </ul>
  *
  * <p>
  *
- * For an example of specifying custom bounded range models used by sliders,
- * see <a
- href="http://www.oracle.com/technetwork/java/architecture-142923.html#separable">Separable model architecture</a>
+ * For bn exbmple of specifying custom bounded rbnge models used by sliders,
+ * see <b
+ href="http://www.orbcle.com/technetwork/jbvb/brchitecture-142923.html#sepbrbble">Sepbrbble model brchitecture</b>
  * in <em>A Swing Architecture Overview.</em>
  *
- * @author Hans Muller
- * @see DefaultBoundedRangeModel
+ * @buthor Hbns Muller
+ * @see DefbultBoundedRbngeModel
  * @since 1.2
  */
-public interface BoundedRangeModel
+public interfbce BoundedRbngeModel
 {
     /**
-     * Returns the minimum acceptable value.
+     * Returns the minimum bcceptbble vblue.
      *
-     * @return the value of the minimum property
+     * @return the vblue of the minimum property
      * @see #setMinimum
      */
     int getMinimum();
@@ -91,179 +91,179 @@ public interface BoundedRangeModel
 
     /**
      * Sets the model's minimum to <I>newMinimum</I>.   The
-     * other three properties may be changed as well, to ensure
-     * that:
+     * other three properties mby be chbnged bs well, to ensure
+     * thbt:
      * <pre>
-     * minimum &lt;= value &lt;= value+extent &lt;= maximum
+     * minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
      * <p>
-     * Notifies any listeners if the model changes.
+     * Notifies bny listeners if the model chbnges.
      *
-     * @param newMinimum the model's new minimum
+     * @pbrbm newMinimum the model's new minimum
      * @see #getMinimum
-     * @see #addChangeListener
+     * @see #bddChbngeListener
      */
     void setMinimum(int newMinimum);
 
 
     /**
-     * Returns the model's maximum.  Note that the upper
-     * limit on the model's value is (maximum - extent).
+     * Returns the model's mbximum.  Note thbt the upper
+     * limit on the model's vblue is (mbximum - extent).
      *
-     * @return the value of the maximum property.
-     * @see #setMaximum
+     * @return the vblue of the mbximum property.
+     * @see #setMbximum
      * @see #setExtent
      */
-    int getMaximum();
+    int getMbximum();
 
 
     /**
-     * Sets the model's maximum to <I>newMaximum</I>. The other
-     * three properties may be changed as well, to ensure that
+     * Sets the model's mbximum to <I>newMbximum</I>. The other
+     * three properties mby be chbnged bs well, to ensure thbt
      * <pre>
-     * minimum &lt;= value &lt;= value+extent &lt;= maximum
+     * minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
      * <p>
-     * Notifies any listeners if the model changes.
+     * Notifies bny listeners if the model chbnges.
      *
-     * @param newMaximum the model's new maximum
-     * @see #getMaximum
-     * @see #addChangeListener
+     * @pbrbm newMbximum the model's new mbximum
+     * @see #getMbximum
+     * @see #bddChbngeListener
      */
-    void setMaximum(int newMaximum);
+    void setMbximum(int newMbximum);
 
 
     /**
-     * Returns the model's current value.  Note that the upper
-     * limit on the model's value is <code>maximum - extent</code>
-     * and the lower limit is <code>minimum</code>.
+     * Returns the model's current vblue.  Note thbt the upper
+     * limit on the model's vblue is <code>mbximum - extent</code>
+     * bnd the lower limit is <code>minimum</code>.
      *
-     * @return  the model's value
-     * @see     #setValue
+     * @return  the model's vblue
+     * @see     #setVblue
      */
-    int getValue();
+    int getVblue();
 
 
     /**
-     * Sets the model's current value to <code>newValue</code> if <code>newValue</code>
-     * satisfies the model's constraints. Those constraints are:
+     * Sets the model's current vblue to <code>newVblue</code> if <code>newVblue</code>
+     * sbtisfies the model's constrbints. Those constrbints bre:
      * <pre>
-     * minimum &lt;= value &lt;= value+extent &lt;= maximum
+     * minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
-     * Otherwise, if <code>newValue</code> is less than <code>minimum</code>
-     * it's set to <code>minimum</code>, if its greater than
-     * <code>maximum</code> then it's set to <code>maximum</code>, and
-     * if it's greater than <code>value+extent</code> then it's set to
-     * <code>value+extent</code>.
+     * Otherwise, if <code>newVblue</code> is less thbn <code>minimum</code>
+     * it's set to <code>minimum</code>, if its grebter thbn
+     * <code>mbximum</code> then it's set to <code>mbximum</code>, bnd
+     * if it's grebter thbn <code>vblue+extent</code> then it's set to
+     * <code>vblue+extent</code>.
      * <p>
-     * When a BoundedRange model is used with a scrollbar the value
-     * specifies the origin of the scrollbar knob (aka the "thumb" or
-     * "elevator").  The value usually represents the origin of the
-     * visible part of the object being scrolled.
+     * When b BoundedRbnge model is used with b scrollbbr the vblue
+     * specifies the origin of the scrollbbr knob (bkb the "thumb" or
+     * "elevbtor").  The vblue usublly represents the origin of the
+     * visible pbrt of the object being scrolled.
      * <p>
-     * Notifies any listeners if the model changes.
+     * Notifies bny listeners if the model chbnges.
      *
-     * @param newValue the model's new value
-     * @see #getValue
+     * @pbrbm newVblue the model's new vblue
+     * @see #getVblue
      */
-    void setValue(int newValue);
+    void setVblue(int newVblue);
 
 
     /**
-     * This attribute indicates that any upcoming changes to the value
-     * of the model should be considered a single event. This attribute
-     * will be set to true at the start of a series of changes to the value,
-     * and will be set to false when the value has finished changing.  Normally
-     * this allows a listener to only take action when the final value change in
-     * committed, instead of having to do updates for all intermediate values.
+     * This bttribute indicbtes thbt bny upcoming chbnges to the vblue
+     * of the model should be considered b single event. This bttribute
+     * will be set to true bt the stbrt of b series of chbnges to the vblue,
+     * bnd will be set to fblse when the vblue hbs finished chbnging.  Normblly
+     * this bllows b listener to only tbke bction when the finbl vblue chbnge in
+     * committed, instebd of hbving to do updbtes for bll intermedibte vblues.
      * <p>
-     * Sliders and scrollbars use this property when a drag is underway.
+     * Sliders bnd scrollbbrs use this property when b drbg is underwby.
      *
-     * @param b true if the upcoming changes to the value property are part of a series
+     * @pbrbm b true if the upcoming chbnges to the vblue property bre pbrt of b series
      */
-    void setValueIsAdjusting(boolean b);
+    void setVblueIsAdjusting(boolebn b);
 
 
     /**
-     * Returns true if the current changes to the value property are part
-     * of a series of changes.
+     * Returns true if the current chbnges to the vblue property bre pbrt
+     * of b series of chbnges.
      *
-     * @return the valueIsAdjustingProperty.
-     * @see #setValueIsAdjusting
+     * @return the vblueIsAdjustingProperty.
+     * @see #setVblueIsAdjusting
      */
-    boolean getValueIsAdjusting();
+    boolebn getVblueIsAdjusting();
 
 
     /**
-     * Returns the model's extent, the length of the inner range that
-     * begins at the model's value.
+     * Returns the model's extent, the length of the inner rbnge thbt
+     * begins bt the model's vblue.
      *
-     * @return  the value of the model's extent property
+     * @return  the vblue of the model's extent property
      * @see     #setExtent
-     * @see     #setValue
+     * @see     #setVblue
      */
     int getExtent();
 
 
     /**
      * Sets the model's extent.  The <I>newExtent</I> is forced to
-     * be greater than or equal to zero and less than or equal to
-     * maximum - value.
+     * be grebter thbn or equbl to zero bnd less thbn or equbl to
+     * mbximum - vblue.
      * <p>
-     * When a BoundedRange model is used with a scrollbar the extent
-     * defines the length of the scrollbar knob (aka the "thumb" or
-     * "elevator").  The extent usually represents how much of the
-     * object being scrolled is visible. When used with a slider,
-     * the extent determines how much the value can "jump", for
-     * example when the user presses PgUp or PgDn.
+     * When b BoundedRbnge model is used with b scrollbbr the extent
+     * defines the length of the scrollbbr knob (bkb the "thumb" or
+     * "elevbtor").  The extent usublly represents how much of the
+     * object being scrolled is visible. When used with b slider,
+     * the extent determines how much the vblue cbn "jump", for
+     * exbmple when the user presses PgUp or PgDn.
      * <p>
-     * Notifies any listeners if the model changes.
+     * Notifies bny listeners if the model chbnges.
      *
-     * @param  newExtent the model's new extent
+     * @pbrbm  newExtent the model's new extent
      * @see #getExtent
-     * @see #setValue
+     * @see #setVblue
      */
     void setExtent(int newExtent);
 
 
 
     /**
-     * This method sets all of the model's data with a single method call.
-     * The method results in a single change event being generated. This is
-     * convenient when you need to adjust all the model data simultaneously and
-     * do not want individual change events to occur.
+     * This method sets bll of the model's dbtb with b single method cbll.
+     * The method results in b single chbnge event being generbted. This is
+     * convenient when you need to bdjust bll the model dbtb simultbneously bnd
+     * do not wbnt individubl chbnge events to occur.
      *
-     * @param value  an int giving the current value
-     * @param extent an int giving the amount by which the value can "jump"
-     * @param min    an int giving the minimum value
-     * @param max    an int giving the maximum value
-     * @param adjusting a boolean, true if a series of changes are in
+     * @pbrbm vblue  bn int giving the current vblue
+     * @pbrbm extent bn int giving the bmount by which the vblue cbn "jump"
+     * @pbrbm min    bn int giving the minimum vblue
+     * @pbrbm mbx    bn int giving the mbximum vblue
+     * @pbrbm bdjusting b boolebn, true if b series of chbnges bre in
      *                    progress
      *
-     * @see #setValue
+     * @see #setVblue
      * @see #setExtent
      * @see #setMinimum
-     * @see #setMaximum
-     * @see #setValueIsAdjusting
+     * @see #setMbximum
+     * @see #setVblueIsAdjusting
      */
-    void setRangeProperties(int value, int extent, int min, int max, boolean adjusting);
+    void setRbngeProperties(int vblue, int extent, int min, int mbx, boolebn bdjusting);
 
 
     /**
-     * Adds a ChangeListener to the model's listener list.
+     * Adds b ChbngeListener to the model's listener list.
      *
-     * @param x the ChangeListener to add
-     * @see #removeChangeListener
+     * @pbrbm x the ChbngeListener to bdd
+     * @see #removeChbngeListener
      */
-    void addChangeListener(ChangeListener x);
+    void bddChbngeListener(ChbngeListener x);
 
 
     /**
-     * Removes a ChangeListener from the model's listener list.
+     * Removes b ChbngeListener from the model's listener list.
      *
-     * @param x the ChangeListener to remove
-     * @see #addChangeListener
+     * @pbrbm x the ChbngeListener to remove
+     * @see #bddChbngeListener
      */
-    void removeChangeListener(ChangeListener x);
+    void removeChbngeListener(ChbngeListener x);
 
 }

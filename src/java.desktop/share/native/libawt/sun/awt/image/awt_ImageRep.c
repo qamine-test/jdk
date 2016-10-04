@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,15 +27,15 @@
 
 #include "jni.h"
 #include "jni_util.h"
-#include "awt_parseImage.h"
-#include "imageInitIDs.h"
-#include "sun_awt_image_ImageRepresentation.h"
+#include "bwt_pbrseImbge.h"
+#include "imbgeInitIDs.h"
+#include "sun_bwt_imbge_ImbgeRepresentbtion.h"
 
-static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
-                       unsigned int *lut2, int numLut2, unsigned char *cvtLut,
-                       int *retNumLut1, int *retTransIdx, int *jniFlagP);
+stbtic int compbreLUTs(unsigned int *lut1, int numLut1, int trbnsIdx,
+                       unsigned int *lut2, int numLut2, unsigned chbr *cvtLut,
+                       int *retNumLut1, int *retTrbnsIdx, int *jniFlbgP);
 
-static int findIdx(unsigned int rgb, unsigned int *lut, int numLut1);
+stbtic int findIdx(unsigned int rgb, unsigned int *lut, int numLut1);
 
 #define ALPHA_MASK    0xff000000
 #ifndef FALSE
@@ -57,13 +57,13 @@ static int findIdx(unsigned int rgb, unsigned int *lut, int numLut1);
 #define CHECK_SRC()                                      \
     do {                                                 \
         int pixeloffset;                                 \
-        if (off < 0 || off >= srcDataLength) {           \
+        if (off < 0 || off >= srcDbtbLength) {           \
             return JNI_FALSE;                            \
         }                                                \
-        CHECK_STRIDE(0, h, scansize);                    \
+        CHECK_STRIDE(0, h, scbnsize);                    \
                                                          \
-        /* check scansize */                             \
-        pixeloffset = scansize * (h - 1);                \
+        /* check scbnsize */                             \
+        pixeloffset = scbnsize * (h - 1);                \
         if ((w - 1) > (0x7fffffff - pixeloffset)) {      \
             return JNI_FALSE;                            \
         }                                                \
@@ -82,51 +82,51 @@ static int findIdx(unsigned int rgb, unsigned int *lut, int numLut1);
             return JNI_FALSE;                            \
         }                                                \
         poffset += soffset;                              \
-        if (dstDataOff > (0x7fffffff - poffset)) {       \
+        if (dstDbtbOff > (0x7fffffff - poffset)) {       \
             return JNI_FALSE;                            \
         }                                                \
-        poffset += dstDataOff;                           \
+        poffset += dstDbtbOff;                           \
                                                          \
-        if (poffset < 0 || poffset >= dstDataLength) {   \
+        if (poffset < 0 || poffset >= dstDbtbLength) {   \
             return JNI_FALSE;                            \
         }                                                \
     } while (0)                                          \
 
-static jfieldID s_JnumSrcLUTID;
-static jfieldID s_JsrcLUTtransIndexID;
+stbtic jfieldID s_JnumSrcLUTID;
+stbtic jfieldID s_JsrcLUTtrbnsIndexID;
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_ImageRepresentation_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_sun_bwt_imbge_ImbgeRepresentbtion_initIDs(JNIEnv *env, jclbss cls) {
     CHECK_NULL(s_JnumSrcLUTID = (*env)->GetFieldID(env, cls, "numSrcLUT", "I"));
-    CHECK_NULL(s_JsrcLUTtransIndexID = (*env)->GetFieldID(env, cls,
-                                                          "srcLUTtransIndex", "I"));
+    CHECK_NULL(s_JsrcLUTtrbnsIndexID = (*env)->GetFieldID(env, cls,
+                                                          "srcLUTtrbnsIndex", "I"));
 }
 
 /*
- * This routine is used to draw ICM pixels into a default color model
+ * This routine is used to drbw ICM pixels into b defbult color model
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_ImageRepresentation_setICMpixels(JNIEnv *env, jclass cls,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_imbge_ImbgeRepresentbtion_setICMpixels(JNIEnv *env, jclbss cls,
                                                     jint x, jint y, jint w,
-                                                    jint h, jintArray jlut,
-                                                    jbyteArray jpix, jint off,
-                                                    jint scansize,
+                                                    jint h, jintArrby jlut,
+                                                    jbyteArrby jpix, jint off,
+                                                    jint scbnsize,
                                                     jobject jict)
 {
-    unsigned char *srcData = NULL;
-    jint srcDataLength;
-    int *dstData;
-    jint dstDataLength;
-    jint dstDataOff;
+    unsigned chbr *srcDbtb = NULL;
+    jint srcDbtbLength;
+    int *dstDbtb;
+    jint dstDbtbLength;
+    jint dstDbtbOff;
     int *dstP, *dstyP;
-    unsigned char *srcyP, *srcP;
+    unsigned chbr *srcyP, *srcP;
     int *srcLUT = NULL;
     int yIdx, xIdx;
     int sStride;
     int *cOffs;
     int pixelStride;
     jobject joffs = NULL;
-    jobject jdata = NULL;
+    jobject jdbtb = NULL;
 
     if (JNU_IsNull(env, jlut)) {
         JNU_ThrowNullPointerException(env, "NullPointerException");
@@ -146,77 +146,77 @@ Java_sun_awt_image_ImageRepresentation_setICMpixels(JNIEnv *env, jclass cls,
         return JNI_FALSE;
     }
 
-    sStride = (*env)->GetIntField(env, jict, g_ICRscanstrID);
+    sStride = (*env)->GetIntField(env, jict, g_ICRscbnstrID);
     pixelStride = (*env)->GetIntField(env, jict, g_ICRpixstrID);
-    joffs = (*env)->GetObjectField(env, jict, g_ICRdataOffsetsID);
-    jdata = (*env)->GetObjectField(env, jict, g_ICRdataID);
+    joffs = (*env)->GetObjectField(env, jict, g_ICRdbtbOffsetsID);
+    jdbtb = (*env)->GetObjectField(env, jict, g_ICRdbtbID);
 
-    if (JNU_IsNull(env, jdata)) {
-        /* no destination buffer */
+    if (JNU_IsNull(env, jdbtb)) {
+        /* no destinbtion buffer */
         return JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, joffs) || (*env)->GetArrayLength(env, joffs) < 1) {
-        /* invalid data offstes in raster */
+    if (JNU_IsNull(env, joffs) || (*env)->GetArrbyLength(env, joffs) < 1) {
+        /* invblid dbtb offstes in rbster */
         return JNI_FALSE;
     }
 
-    srcDataLength = (*env)->GetArrayLength(env, jpix);
-    dstDataLength = (*env)->GetArrayLength(env, jdata);
+    srcDbtbLength = (*env)->GetArrbyLength(env, jpix);
+    dstDbtbLength = (*env)->GetArrbyLength(env, jdbtb);
 
-    cOffs = (int *) (*env)->GetPrimitiveArrayCritical(env, joffs, NULL);
+    cOffs = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, joffs, NULL);
     if (cOffs == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null channel offset array");
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowNullPointerException(env, "Null chbnnel offset brrby");
         return JNI_FALSE;
     }
 
-    dstDataOff = cOffs[0];
+    dstDbtbOff = cOffs[0];
 
-    /* the offset array is not needed anymore and can be released */
-    (*env)->ReleasePrimitiveArrayCritical(env, joffs, cOffs, JNI_ABORT);
+    /* the offset brrby is not needed bnymore bnd cbn be relebsed */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, joffs, cOffs, JNI_ABORT);
     joffs = NULL;
     cOffs = NULL;
 
-    /* do basic validation: make sure that offsets for
-    * first pixel and for last pixel are safe to calculate and use */
+    /* do bbsic vblidbtion: mbke sure thbt offsets for
+    * first pixel bnd for lbst pixel bre sbfe to cblculbte bnd use */
     CHECK_STRIDE(y, h, sStride);
     CHECK_STRIDE(x, w, pixelStride);
 
     CHECK_DST(x, y);
     CHECK_DST(x + w -1, y + h - 1);
 
-    /* check source array */
+    /* check source brrby */
     CHECK_SRC();
 
-    srcLUT = (int *) (*env)->GetPrimitiveArrayCritical(env, jlut, NULL);
+    srcLUT = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, jlut, NULL);
     if (srcLUT == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         JNU_ThrowNullPointerException(env, "Null IndexColorModel LUT");
         return JNI_FALSE;
     }
 
-    srcData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jpix,
+    srcDbtb = (unsigned chbr *) (*env)->GetPrimitiveArrbyCriticbl(env, jpix,
                                                                   NULL);
-    if (srcData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, JNI_ABORT);
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null data array");
+    if (srcDbtb == NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT, JNI_ABORT);
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowNullPointerException(env, "Null dbtb brrby");
         return JNI_FALSE;
     }
 
-    dstData = (int *) (*env)->GetPrimitiveArrayCritical(env, jdata, NULL);
-    if (dstData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null tile data array");
+    dstDbtb = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb, NULL);
+    if (dstDbtb == NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jpix, srcDbtb, JNI_ABORT);
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowNullPointerException(env, "Null tile dbtb brrby");
         return JNI_FALSE;
     }
 
-    dstyP = dstData + dstDataOff + y*sStride + x*pixelStride;
-    srcyP = srcData + off;
-    for (yIdx = 0; yIdx < h; yIdx++, srcyP += scansize, dstyP+=sStride) {
+    dstyP = dstDbtb + dstDbtbOff + y*sStride + x*pixelStride;
+    srcyP = srcDbtb + off;
+    for (yIdx = 0; yIdx < h; yIdx++, srcyP += scbnsize, dstyP+=sStride) {
         srcP = srcyP;
         dstP = dstyP;
         for (xIdx = 0; xIdx < w; xIdx++, dstP+=pixelStride) {
@@ -224,45 +224,45 @@ Java_sun_awt_image_ImageRepresentation_setICMpixels(JNIEnv *env, jclass cls,
         }
     }
 
-    /* Release the locked arrays */
-    (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,  JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, dstData, JNI_ABORT);
+    /* Relebse the locked brrbys */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT,  JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jpix, srcDbtb, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, dstDbtb, JNI_ABORT);
 
     return JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_ImageRepresentation_setDiffICM(JNIEnv *env, jclass cls,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_imbge_ImbgeRepresentbtion_setDiffICM(JNIEnv *env, jclbss cls,
                                                   jint x, jint y, jint w,
-                                                  jint h, jintArray jlut,
-                                                  jint transIdx, jint numLut,
+                                                  jint h, jintArrby jlut,
+                                                  jint trbnsIdx, jint numLut,
                                                   jobject jicm,
-                                                  jbyteArray jpix, jint off,
-                                                  jint scansize,
-                                                  jobject jbct, jint dstDataOff)
+                                                  jbyteArrby jpix, jint off,
+                                                  jint scbnsize,
+                                                  jobject jbct, jint dstDbtbOff)
 {
     unsigned int *srcLUT = NULL;
     unsigned int *newLUT = NULL;
     int sStride;
     int pixelStride;
-    int mapSize;
-    jobject jdata = NULL;
+    int mbpSize;
+    jobject jdbtb = NULL;
     jobject jnewlut = NULL;
-    jint srcDataLength;
-    jint dstDataLength;
-    unsigned char *srcData;
-    unsigned char *dstData;
-    unsigned char *dataP;
-    unsigned char *pixP;
+    jint srcDbtbLength;
+    jint dstDbtbLength;
+    unsigned chbr *srcDbtb;
+    unsigned chbr *dstDbtb;
+    unsigned chbr *dbtbP;
+    unsigned chbr *pixP;
     int i;
     int j;
     int newNumLut;
-    int newTransIdx;
-    int jniFlag = JNI_ABORT;
-    unsigned char *ydataP;
-    unsigned char *ypixP;
-    unsigned char cvtLut[256];
+    int newTrbnsIdx;
+    int jniFlbg = JNI_ABORT;
+    unsigned chbr *ydbtbP;
+    unsigned chbr *ypixP;
+    unsigned chbr cvtLut[256];
 
     if (JNU_IsNull(env, jlut)) {
         JNU_ThrowNullPointerException(env, "NullPointerException");
@@ -283,27 +283,27 @@ Java_sun_awt_image_ImageRepresentation_setDiffICM(JNIEnv *env, jclass cls,
     }
 
 
-    sStride = (*env)->GetIntField(env, jbct, g_BCRscanstrID);
+    sStride = (*env)->GetIntField(env, jbct, g_BCRscbnstrID);
     pixelStride =(*env)->GetIntField(env, jbct, g_BCRpixstrID);
-    jdata = (*env)->GetObjectField(env, jbct, g_BCRdataID);
+    jdbtb = (*env)->GetObjectField(env, jbct, g_BCRdbtbID);
     jnewlut = (*env)->GetObjectField(env, jicm, g_ICMrgbID);
-    mapSize = (*env)->GetIntField(env, jicm, g_ICMmapSizeID);
+    mbpSize = (*env)->GetIntField(env, jicm, g_ICMmbpSizeID);
 
-    if (numLut < 0 || numLut > 256 || mapSize < 0 || mapSize > 256) {
-        /* Ether old or new ICM has a palette that exceeds capacity
-           of byte data type, so we have to convert the image data
-           to default representation.
+    if (numLut < 0 || numLut > 256 || mbpSize < 0 || mbpSize > 256) {
+        /* Ether old or new ICM hbs b pblette thbt exceeds cbpbcity
+           of byte dbtb type, so we hbve to convert the imbge dbtb
+           to defbult representbtion.
         */
         return JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, jdata)) {
-        /* no destination buffer */
+    if (JNU_IsNull(env, jdbtb)) {
+        /* no destinbtion buffer */
         return JNI_FALSE;
     }
 
-    srcDataLength = (*env)->GetArrayLength(env, jpix);
-    dstDataLength = (*env)->GetArrayLength(env, jdata);
+    srcDbtbLength = (*env)->GetArrbyLength(env, jpix);
+    dstDbtbLength = (*env)->GetArrbyLength(env, jdbtb);
 
     CHECK_STRIDE(y, h, sStride);
     CHECK_STRIDE(x, w, pixelStride);
@@ -311,127 +311,127 @@ Java_sun_awt_image_ImageRepresentation_setDiffICM(JNIEnv *env, jclass cls,
     CHECK_DST(x, y);
     CHECK_DST(x + w -1, y + h - 1);
 
-    /* check source array */
+    /* check source brrby */
     CHECK_SRC();
 
-    srcLUT = (unsigned int *) (*env)->GetPrimitiveArrayCritical(env, jlut,
+    srcLUT = (unsigned int *) (*env)->GetPrimitiveArrbyCriticbl(env, jlut,
                                                                 NULL);
     if (srcLUT == NULL) {
-        /* out of memory error already thrown */
+        /* out of memory error blrebdy thrown */
         return JNI_FALSE;
     }
 
-    newLUT = (unsigned int *) (*env)->GetPrimitiveArrayCritical(env, jnewlut,
+    newLUT = (unsigned int *) (*env)->GetPrimitiveArrbyCriticbl(env, jnewlut,
                                                                 NULL);
     if (newLUT == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT,
                                               JNI_ABORT);
-        /* out of memory error already thrown */
+        /* out of memory error blrebdy thrown */
         return JNI_FALSE;
     }
 
     newNumLut = numLut;
-    newTransIdx = transIdx;
-    if (compareLUTs(srcLUT, numLut, transIdx, newLUT, mapSize,
-                    cvtLut, &newNumLut, &newTransIdx, &jniFlag) == FALSE) {
+    newTrbnsIdx = trbnsIdx;
+    if (compbreLUTs(srcLUT, numLut, trbnsIdx, newLUT, mbpSize,
+                    cvtLut, &newNumLut, &newTrbnsIdx, &jniFlbg) == FALSE) {
         /* Need to convert to ICR */
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT,
                                               JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, jnewlut, newLUT, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jnewlut, newLUT, JNI_ABORT);
         return JNI_FALSE;
     }
 
-    /* Don't need these any more */
-    (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, jniFlag);
-    (*env)->ReleasePrimitiveArrayCritical(env, jnewlut, newLUT, JNI_ABORT);
+    /* Don't need these bny more */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jlut, srcLUT, jniFlbg);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jnewlut, newLUT, JNI_ABORT);
 
     if (newNumLut != numLut) {
-        /* Need to write back new number of entries in lut */
+        /* Need to write bbck new number of entries in lut */
         (*env)->SetIntField(env, cls, s_JnumSrcLUTID, newNumLut);
     }
 
-    if (newTransIdx != transIdx) {
-        (*env)->SetIntField(env, cls, s_JsrcLUTtransIndexID, newTransIdx);
+    if (newTrbnsIdx != trbnsIdx) {
+        (*env)->SetIntField(env, cls, s_JsrcLUTtrbnsIndexID, newTrbnsIdx);
     }
 
-    srcData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jpix,
+    srcDbtb = (unsigned chbr *) (*env)->GetPrimitiveArrbyCriticbl(env, jpix,
                                                                   NULL);
-    if (srcData == NULL) {
-        /* out of memory error already thrown */
+    if (srcDbtb == NULL) {
+        /* out of memory error blrebdy thrown */
         return JNI_FALSE;
     }
 
-    dstData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jdata,
+    dstDbtb = (unsigned chbr *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb,
                                                                   NULL);
-    if (dstData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-        /* out of memory error already thrown */
+    if (dstDbtb == NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jpix, srcDbtb, JNI_ABORT);
+        /* out of memory error blrebdy thrown */
         return JNI_FALSE;
     }
 
-    ydataP = dstData + dstDataOff + y*sStride + x*pixelStride;
-    ypixP  = srcData + off;
+    ydbtbP = dstDbtb + dstDbtbOff + y*sStride + x*pixelStride;
+    ypixP  = srcDbtb + off;
 
     for (i=0; i < h; i++) {
-        dataP = ydataP;
+        dbtbP = ydbtbP;
         pixP = ypixP;
         for (j=0; j < w; j++) {
-            *dataP = cvtLut[*pixP];
-            dataP += pixelStride;
+            *dbtbP = cvtLut[*pixP];
+            dbtbP += pixelStride;
             pixP++;
         }
-        ydataP += sStride;
-        ypixP  += scansize;
+        ydbtbP += sStride;
+        ypixP  += scbnsize;
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, dstData, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jpix, srcDbtb, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, dstDbtb, JNI_ABORT);
 
     return JNI_TRUE;
 }
 
-static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
-                       unsigned int *lut2, int numLut2, unsigned char *cvtLut,
-                       int *retNumLut1, int *retTransIdx, int *jniFlagP)
+stbtic int compbreLUTs(unsigned int *lut1, int numLut1, int trbnsIdx,
+                       unsigned int *lut2, int numLut2, unsigned chbr *cvtLut,
+                       int *retNumLut1, int *retTrbnsIdx, int *jniFlbgP)
 {
     int i;
     int idx;
-    int newTransIdx = -1;
+    int newTrbnsIdx = -1;
     unsigned int rgb;
-    int changed = FALSE;
-    int maxSize = (numLut1 > numLut2 ? numLut1 : numLut2);
+    int chbnged = FALSE;
+    int mbxSize = (numLut1 > numLut2 ? numLut1 : numLut2);
 
-    *jniFlagP = JNI_ABORT;
+    *jniFlbgP = JNI_ABORT;
 
-    for (i=0; i < maxSize; i++) {
+    for (i=0; i < mbxSize; i++) {
         cvtLut[i] = i;
     }
 
     for (i=0; i < numLut2; i++) {
-        /* If this slot in new palette is different from the
-         * same slot in current palette, then we try to find
-         * this color in other slots. On failure, add this color
-         * to current palette.
+        /* If this slot in new pblette is different from the
+         * sbme slot in current pblette, then we try to find
+         * this color in other slots. On fbilure, bdd this color
+         * to current pblette.
          */
         if ((i >= numLut1) ||
             (lut1[i] != lut2[i]))
         {
             rgb = lut2[i];
-            /* Transparent */
+            /* Trbnspbrent */
             if ((rgb & ALPHA_MASK) == 0) {
-                if (transIdx == -1) {
+                if (trbnsIdx == -1) {
                     if (numLut1 < 256) {
                         cvtLut[i] = numLut1;
-                        newTransIdx = i;
-                        transIdx = i;
+                        newTrbnsIdx = i;
+                        trbnsIdx = i;
                         numLut1++;
-                        changed = TRUE;
+                        chbnged = TRUE;
                     }
                     else {
                         return FALSE;
                     }
                 }
-                cvtLut[i] = transIdx;
+                cvtLut[i] = trbnsIdx;
             }
             else {
                 if ((idx = findIdx(rgb, lut1, numLut1)) == -1) {
@@ -439,10 +439,10 @@ static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
                         lut1[numLut1] = rgb;
                         cvtLut[i] = numLut1;
                         numLut1++;
-                        changed = TRUE;
+                        chbnged = TRUE;
                     }
                     else {
-                        /* Bad news...  need to convert image */
+                        /* Bbd news...  need to convert imbge */
                         return FALSE;
                     }
                 } else {
@@ -452,17 +452,17 @@ static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
         }
     }
 
-    if (changed) {
-        *jniFlagP = 0;
+    if (chbnged) {
+        *jniFlbgP = 0;
         *retNumLut1 = numLut1;
-        if (newTransIdx != -1) {
-            *retTransIdx = newTransIdx;
+        if (newTrbnsIdx != -1) {
+            *retTrbnsIdx = newTrbnsIdx;
         }
     }
     return TRUE;
 }
 
-static int findIdx(unsigned int rgb, unsigned int *lut, int numLut) {
+stbtic int findIdx(unsigned int rgb, unsigned int *lut, int numLut) {
     int i;
 
     if ((rgb&0xff000000)==0) {

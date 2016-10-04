@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.smtp;
+pbckbge sun.net.smtp;
 
-import java.util.StringTokenizer;
-import java.io.*;
-import java.net.*;
-import sun.net.TransferProtocolClient;
+import jbvb.util.StringTokenizer;
+import jbvb.io.*;
+import jbvb.net.*;
+import sun.net.TrbnsferProtocolClient;
 
 /**
- * This class implements the SMTP client.
- * You can send a piece of mail by creating a new SmtpClient, calling
- * the "to" method to add destinations, calling "from" to name the
- * sender, calling startMessage to return a stream to which you write
- * the message (with RFC733 headers) and then you finally close the Smtp
+ * This clbss implements the SMTP client.
+ * You cbn send b piece of mbil by crebting b new SmtpClient, cblling
+ * the "to" method to bdd destinbtions, cblling "from" to nbme the
+ * sender, cblling stbrtMessbge to return b strebm to which you write
+ * the messbge (with RFC733 hebders) bnd then you finblly close the Smtp
  * Client.
  *
- * @author      James Gosling
+ * @buthor      Jbmes Gosling
  */
 
-public class SmtpClient extends TransferProtocolClient {
+public clbss SmtpClient extends TrbnsferProtocolClient {
 
-    String mailhost;
-    SmtpPrintStream message;
+    String mbilhost;
+    SmtpPrintStrebm messbge;
 
     /**
-     * issue the QUIT command to the SMTP server and close the connection.
+     * issue the QUIT commbnd to the SMTP server bnd close the connection.
      */
     public void closeServer() throws IOException {
         if (serverIsOpen()) {
-            closeMessage();
-            issueCommand("QUIT\r\n", 221);
+            closeMessbge();
+            issueCommbnd("QUIT\r\n", 221);
             super.closeServer();
         }
     }
 
-    void issueCommand(String cmd, int expect) throws IOException {
+    void issueCommbnd(String cmd, int expect) throws IOException {
         sendServer(cmd);
         int reply;
-        while ((reply = readServerResponse()) != expect)
+        while ((reply = rebdServerResponse()) != expect)
             if (reply != 220) {
                 throw new SmtpProtocolException(getResponseString());
             }
     }
 
-    private void toCanonical(String s) throws IOException {
-        if (s.startsWith("<"))
-            issueCommand("rcpt to: " + s + "\r\n", 250);
+    privbte void toCbnonicbl(String s) throws IOException {
+        if (s.stbrtsWith("<"))
+            issueCommbnd("rcpt to: " + s + "\r\n", 250);
         else
-            issueCommand("rcpt to: <" + s + ">\r\n", 250);
+            issueCommbnd("rcpt to: <" + s + ">\r\n", 250);
     }
 
     public void to(String s) throws IOException {
         int st = 0;
         int limit = s.length();
         int pos = 0;
-        int lastnonsp = 0;
-        int parendepth = 0;
-        boolean ignore = false;
+        int lbstnonsp = 0;
+        int pbrendepth = 0;
+        boolebn ignore = fblse;
         while (pos < limit) {
-            int c = s.charAt(pos);
-            if (parendepth > 0) {
+            int c = s.chbrAt(pos);
+            if (pbrendepth > 0) {
                 if (c == '(')
-                    parendepth++;
+                    pbrendepth++;
                 else if (c == ')')
-                    parendepth--;
-                if (parendepth == 0)
-                    if (lastnonsp > st)
+                    pbrendepth--;
+                if (pbrendepth == 0)
+                    if (lbstnonsp > st)
                         ignore = true;
                     else
                         st = pos + 1;
             } else if (c == '(')
-                parendepth++;
+                pbrendepth++;
             else if (c == '<')
-                st = lastnonsp = pos + 1;
+                st = lbstnonsp = pos + 1;
             else if (c == '>')
                 ignore = true;
             else if (c == ',') {
-                if (lastnonsp > st)
-                    toCanonical(s.substring(st, lastnonsp));
+                if (lbstnonsp > st)
+                    toCbnonicbl(s.substring(st, lbstnonsp));
                 st = pos + 1;
-                ignore = false;
+                ignore = fblse;
             } else {
                 if (c > ' ' && !ignore)
-                    lastnonsp = pos + 1;
+                    lbstnonsp = pos + 1;
                 else if (st == pos)
                     st++;
             }
             pos++;
         }
-        if (lastnonsp > st)
-            toCanonical(s.substring(st, lastnonsp));
+        if (lbstnonsp > st)
+            toCbnonicbl(s.substring(st, lbstnonsp));
     }
 
     public void from(String s) throws IOException {
-        if (s.startsWith("<"))
-            issueCommand("mail from: " + s + "\r\n", 250);
+        if (s.stbrtsWith("<"))
+            issueCommbnd("mbil from: " + s + "\r\n", 250);
         else
-            issueCommand("mail from: <" + s + ">\r\n", 250);
+            issueCommbnd("mbil from: <" + s + ">\r\n", 250);
     }
 
-    /** open a SMTP connection to host <i>host</i>. */
-    private void openServer(String host) throws IOException {
-        mailhost = host;
-        openServer(mailhost, 25);
-        issueCommand("helo "+InetAddress.getLocalHost().getHostName()+"\r\n", 250);
+    /** open b SMTP connection to host <i>host</i>. */
+    privbte void openServer(String host) throws IOException {
+        mbilhost = host;
+        openServer(mbilhost, 25);
+        issueCommbnd("helo "+InetAddress.getLocblHost().getHostNbme()+"\r\n", 250);
     }
 
-    public PrintStream startMessage() throws IOException {
-        issueCommand("data\r\n", 354);
+    public PrintStrebm stbrtMessbge() throws IOException {
+        issueCommbnd("dbtb\r\n", 354);
         try {
-            message = new SmtpPrintStream(serverOutput, this);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding+" encoding not found", e);
+            messbge = new SmtpPrintStrebm(serverOutput, this);
+        } cbtch (UnsupportedEncodingException e) {
+            throw new InternblError(encoding+" encoding not found", e);
         }
-        return message;
+        return messbge;
     }
 
-    void closeMessage() throws IOException {
-        if (message != null)
-            message.close();
+    void closeMessbge() throws IOException {
+        if (messbge != null)
+            messbge.close();
     }
 
     /** New SMTP client connected to host <i>host</i>. */
@@ -150,31 +150,31 @@ public class SmtpClient extends TransferProtocolClient {
         if (host != null) {
             try {
                 openServer(host);
-                mailhost = host;
+                mbilhost = host;
                 return;
-            } catch(Exception e) {
+            } cbtch(Exception e) {
             }
         }
         try {
             String s;
-            mailhost = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("mail.host"));
-            if (mailhost != null) {
-                openServer(mailhost);
+            mbilhost = jbvb.security.AccessController.doPrivileged(
+                    new sun.security.bction.GetPropertyAction("mbil.host"));
+            if (mbilhost != null) {
+                openServer(mbilhost);
                 return;
             }
-        } catch(Exception e) {
+        } cbtch(Exception e) {
         }
         try {
-            mailhost = "localhost";
-            openServer(mailhost);
-        } catch(Exception e) {
-            mailhost = "mailhost";
-            openServer(mailhost);
+            mbilhost = "locblhost";
+            openServer(mbilhost);
+        } cbtch(Exception e) {
+            mbilhost = "mbilhost";
+            openServer(mbilhost);
         }
     }
 
-    /** Create an uninitialized SMTP client. */
+    /** Crebte bn uninitiblized SMTP client. */
     public SmtpClient () throws IOException {
         this(null);
     }
@@ -184,25 +184,25 @@ public class SmtpClient extends TransferProtocolClient {
         setConnectTimeout(to);
         try {
             String s;
-            mailhost = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("mail.host"));
-            if (mailhost != null) {
-                openServer(mailhost);
+            mbilhost = jbvb.security.AccessController.doPrivileged(
+                    new sun.security.bction.GetPropertyAction("mbil.host"));
+            if (mbilhost != null) {
+                openServer(mbilhost);
                 return;
             }
-        } catch(Exception e) {
+        } cbtch(Exception e) {
         }
         try {
-            mailhost = "localhost";
-            openServer(mailhost);
-        } catch(Exception e) {
-            mailhost = "mailhost";
-            openServer(mailhost);
+            mbilhost = "locblhost";
+            openServer(mbilhost);
+        } cbtch(Exception e) {
+            mbilhost = "mbilhost";
+            openServer(mbilhost);
         }
     }
 
-    public String getMailHost() {
-        return mailhost;
+    public String getMbilHost() {
+        return mbilhost;
     }
 
     String getEncoding () {
@@ -210,72 +210,72 @@ public class SmtpClient extends TransferProtocolClient {
     }
 }
 
-class SmtpPrintStream extends java.io.PrintStream {
-    private SmtpClient target;
-    private int lastc = '\n';
+clbss SmtpPrintStrebm extends jbvb.io.PrintStrebm {
+    privbte SmtpClient tbrget;
+    privbte int lbstc = '\n';
 
-    SmtpPrintStream (OutputStream fos, SmtpClient cl) throws UnsupportedEncodingException {
-        super(fos, false, cl.getEncoding());
-        target = cl;
+    SmtpPrintStrebm (OutputStrebm fos, SmtpClient cl) throws UnsupportedEncodingException {
+        super(fos, fblse, cl.getEncoding());
+        tbrget = cl;
     }
 
     public void close() {
-        if (target == null)
+        if (tbrget == null)
             return;
-        if (lastc != '\n') {
+        if (lbstc != '\n') {
             write('\n');
         }
         try {
-            target.issueCommand(".\r\n", 250);
-            target.message = null;
+            tbrget.issueCommbnd(".\r\n", 250);
+            tbrget.messbge = null;
             out = null;
-            target = null;
-        } catch (IOException e) {
+            tbrget = null;
+        } cbtch (IOException e) {
         }
     }
 
     public void write(int b) {
         try {
-            // quote a dot at the beginning of a line
-            if (lastc == '\n' && b == '.') {
+            // quote b dot bt the beginning of b line
+            if (lbstc == '\n' && b == '.') {
                 out.write('.');
             }
 
-            // translate NL to CRLF
-            if (b == '\n' && lastc != '\r') {
+            // trbnslbte NL to CRLF
+            if (b == '\n' && lbstc != '\r') {
                 out.write('\r');
             }
             out.write(b);
-            lastc = b;
-        } catch (IOException e) {
+            lbstc = b;
+        } cbtch (IOException e) {
         }
     }
 
     public void write(byte b[], int off, int len) {
         try {
-            int lc = lastc;
+            int lc = lbstc;
             while (--len >= 0) {
                 int c = b[off++];
 
-                // quote a dot at the beginning of a line
+                // quote b dot bt the beginning of b line
                 if (lc == '\n' && c == '.')
                     out.write('.');
 
-                // translate NL to CRLF
+                // trbnslbte NL to CRLF
                 if (c == '\n' && lc != '\r') {
                     out.write('\r');
                 }
                 out.write(c);
                 lc = c;
             }
-            lastc = lc;
-        } catch (IOException e) {
+            lbstc = lc;
+        } cbtch (IOException e) {
         }
     }
     public void print(String s) {
         int len = s.length();
         for (int i = 0; i < len; i++) {
-            write(s.charAt(i));
+            write(s.chbrAt(i));
         }
     }
 }

@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import javax.swing.text.html.HTML;
+import jbvbx.swing.text.html.HTML;
 /**
- * A generic HTML TagElement class. The methods define how white
- * space is interpreted around the tag.
+ * A generic HTML TbgElement clbss. The methods define how white
+ * spbce is interpreted bround the tbg.
  *
- * @author      Sunita Mani
+ * @buthor      Sunitb Mbni
  */
 
-public class TagElement {
+public clbss TbgElement {
 
     Element elem;
-    HTML.Tag htmlTag;
-    boolean insertedByErrorRecovery;
+    HTML.Tbg htmlTbg;
+    boolebn insertedByErrorRecovery;
 
     /**
-     * Creates a generic HTML TagElement class with {@code fictional} equals to {@code false}.
+     * Crebtes b generic HTML TbgElement clbss with {@code fictionbl} equbls to {@code fblse}.
      *
-     * @param elem an element
+     * @pbrbm elem bn element
      */
-    public TagElement(Element elem) {
-        this(elem, false);
+    public TbgElement(Element elem) {
+        this(elem, fblse);
     }
 
     /**
-     * Creates a generic HTML TagElement class.
+     * Crebtes b generic HTML TbgElement clbss.
      *
-     * @param elem an element
-     * @param fictional if {@code true} the tag is inserted by error recovery.
+     * @pbrbm elem bn element
+     * @pbrbm fictionbl if {@code true} the tbg is inserted by error recovery.
      */
-    public TagElement (Element elem, boolean fictional) {
+    public TbgElement (Element elem, boolebn fictionbl) {
         this.elem = elem;
-        htmlTag = HTML.getTag(elem.getName());
-        if (htmlTag == null) {
-            htmlTag = new HTML.UnknownTag(elem.getName());
+        htmlTbg = HTML.getTbg(elem.getNbme());
+        if (htmlTbg == null) {
+            htmlTbg = new HTML.UnknownTbg(elem.getNbme());
         }
-        insertedByErrorRecovery = fictional;
+        insertedByErrorRecovery = fictionbl;
     }
 
     /**
-     * Returns {@code true} if this tag causes a
-     * line break to the flow of data, otherwise returns
-     * {@code false}.
+     * Returns {@code true} if this tbg cbuses b
+     * line brebk to the flow of dbtb, otherwise returns
+     * {@code fblse}.
      *
-     * @return {@code true} if this tag causes a
-     *   line break to the flow of data, otherwise returns
-     *   {@code false}
+     * @return {@code true} if this tbg cbuses b
+     *   line brebk to the flow of dbtb, otherwise returns
+     *   {@code fblse}
      */
-    public boolean breaksFlow() {
-        return htmlTag.breaksFlow();
+    public boolebn brebksFlow() {
+        return htmlTbg.brebksFlow();
     }
 
     /**
-     * Returns {@code true} if this tag is pre-formatted.
+     * Returns {@code true} if this tbg is pre-formbtted.
      *
-     * @return {@code true} if this tag is pre-formatted,
-     *   otherwise returns {@code false}
+     * @return {@code true} if this tbg is pre-formbtted,
+     *   otherwise returns {@code fblse}
      */
-    public boolean isPreformatted() {
-        return htmlTag.isPreformatted();
+    public boolebn isPreformbtted() {
+        return htmlTbg.isPreformbtted();
     }
 
     /**
@@ -96,20 +96,20 @@ public class TagElement {
     }
 
     /**
-     * Returns the tag constant corresponding to the name of the {@code element}
+     * Returns the tbg constbnt corresponding to the nbme of the {@code element}
      *
-     * @return the tag constant corresponding to the name of the {@code element}
+     * @return the tbg constbnt corresponding to the nbme of the {@code element}
      */
-    public HTML.Tag getHTMLTag() {
-        return htmlTag;
+    public HTML.Tbg getHTMLTbg() {
+        return htmlTbg;
     }
 
     /**
-     * Returns {@code true} if the tag is fictional.
+     * Returns {@code true} if the tbg is fictionbl.
      *
-     * @return {@code true} if the tag is fictional.
+     * @return {@code true} if the tbg is fictionbl.
      */
-    public boolean fictional() {
+    public boolebn fictionbl() {
         return insertedByErrorRecovery;
     }
 }

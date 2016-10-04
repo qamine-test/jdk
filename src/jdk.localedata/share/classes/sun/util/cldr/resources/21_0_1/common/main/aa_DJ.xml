@@ -3,23 +3,23 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5717 $"/>
-		<generation date="$Date: 2011-04-28 12:37:06 +0900 (Thu, 28 Apr 2011) $"/>
-		<language type="aa"/>
+		<generbtion dbte="$Dbte: 2011-04-28 12:37:06 +0900 (Thu, 28 Apr 2011) $"/>
+		<lbngubge type="bb"/>
 		<territory type="DJ"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
-							<month type="8" draft="unconfirmed">Leqeeni</month>
+							<month type="8" drbft="unconfirmed">Leqeeni</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
 		<currencies>
 			<currency type="DJF">

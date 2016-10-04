@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * An interface for the EventQueue delegate.
- * This class is added to support JavaFX/AWT interop single threaded mode
- * The delegate should be set in EventQueue by {@link EventQueue#setFwDispatcher(FwDispatcher)}
- * If the delegate is not null, than it handles supported methods instead of the
- * event queue. If it is null than the behaviour of an event queue does not change.
+ * An interfbce for the EventQueue delegbte.
+ * This clbss is bdded to support JbvbFX/AWT interop single threbded mode
+ * The delegbte should be set in EventQueue by {@link EventQueue#setFwDispbtcher(FwDispbtcher)}
+ * If the delegbte is not null, thbn it hbndles supported methods instebd of the
+ * event queue. If it is null thbn the behbviour of bn event queue does not chbnge.
  *
  * @see EventQueue
  *
- * @author Petr Pchelko
+ * @buthor Petr Pchelko
  *
  * @since 1.8
  */
-public interface FwDispatcher {
+public interfbce FwDispbtcher {
     /**
-     * Delegates the {@link EventQueue#isDispatchThread()} method
+     * Delegbtes the {@link EventQueue#isDispbtchThrebd()} method
      */
-    boolean isDispatchThread();
+    boolebn isDispbtchThrebd();
 
     /**
-     * Forwards a runnable to the delegate, which executes it on an appropriate thread.
-     * @param r - a runnable calling {@link EventQueue#dispatchEventImpl(java.awt.AWTEvent, Object)}
+     * Forwbrds b runnbble to the delegbte, which executes it on bn bppropribte threbd.
+     * @pbrbm r - b runnbble cblling {@link EventQueue#dispbtchEventImpl(jbvb.bwt.AWTEvent, Object)}
      */
-    void scheduleDispatch(Runnable r);
+    void scheduleDispbtch(Runnbble r);
 
     /**
-     * Delegates the {@link java.awt.EventQueue#createSecondaryLoop()} method
+     * Delegbtes the {@link jbvb.bwt.EventQueue#crebteSecondbryLoop()} method
      */
-    SecondaryLoop createSecondaryLoop();
+    SecondbryLoop crebteSecondbryLoop();
 }

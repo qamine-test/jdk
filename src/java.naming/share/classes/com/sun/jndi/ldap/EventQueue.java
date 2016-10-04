@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Vector;
-import java.util.EventObject;
+import jbvb.util.Vector;
+import jbvb.util.EventObject;
 
-import javax.naming.event.NamingEvent;
-import javax.naming.event.NamingExceptionEvent;
-import javax.naming.event.NamingListener;
-import javax.naming.ldap.UnsolicitedNotificationEvent;
-import javax.naming.ldap.UnsolicitedNotificationListener;
+import jbvbx.nbming.event.NbmingEvent;
+import jbvbx.nbming.event.NbmingExceptionEvent;
+import jbvbx.nbming.event.NbmingListener;
+import jbvbx.nbming.ldbp.UnsolicitedNotificbtionEvent;
+import jbvbx.nbming.ldbp.UnsolicitedNotificbtionListener;
 
 /**
- * Package private class used by EventSupport to dispatch events.
- * This class implements an event queue, and a dispatcher thread that
- * dequeues and dispatches events from the queue.
+ * Pbckbge privbte clbss used by EventSupport to dispbtch events.
+ * This clbss implements bn event queue, bnd b dispbtcher threbd thbt
+ * dequeues bnd dispbtches events from the queue.
  *
  * Pieces stolen from sun.misc.Queue.
  *
- * @author      Bill Shannon (from javax.mail.event)
- * @author      Rosanna Lee (modified for JNDI-related events)
+ * @buthor      Bill Shbnnon (from jbvbx.mbil.event)
+ * @buthor      Rosbnnb Lee (modified for JNDI-relbted events)
  */
-final class EventQueue implements Runnable {
-    final static private boolean debug = false;
+finbl clbss EventQueue implements Runnbble {
+    finbl stbtic privbte boolebn debug = fblse;
 
-    private static class QueueElement {
+    privbte stbtic clbss QueueElement {
         QueueElement next = null;
         QueueElement prev = null;
         EventObject event = null;
-        Vector<NamingListener> vector = null;
+        Vector<NbmingListener> vector = null;
 
-        QueueElement(EventObject event, Vector<NamingListener> vector) {
+        QueueElement(EventObject event, Vector<NbmingListener> vector) {
             this.event = event;
             this.vector = vector;
         }
     }
 
-    private QueueElement head = null;
-    private QueueElement tail = null;
-    private Thread qThread;
+    privbte QueueElement hebd = null;
+    privbte QueueElement tbil = null;
+    privbte Threbd qThrebd;
 
-    // package private
+    // pbckbge privbte
     EventQueue() {
-        qThread = Obj.helper.createThread(this);
-        qThread.setDaemon(true);  // not a user thread
-        qThread.start();
+        qThrebd = Obj.helper.crebteThrebd(this);
+        qThrebd.setDbemon(true);  // not b user threbd
+        qThrebd.stbrt();
     }
 
-    // package private;
+    // pbckbge privbte;
     /**
-     * Enqueue an event.
-     * @param event Either a <tt>NamingExceptionEvent</tt> or a subclass
-     *              of <tt>NamingEvent</tt> or
-     * <tt>UnsolicitedNotificationEvent</tt>.
-     * If it is a subclass of <tt>NamingEvent</tt>, all listeners must implement
-     * the corresponding subinterface of <tt>NamingListener</tt>.
-     * For example, for a <tt>ObjectAddedEvent</tt>, all listeners <em>must</em>
-     * implement the <tt>ObjectAddedListener</tt> interface.
-     * <em>The current implementation does not check this before dispatching
+     * Enqueue bn event.
+     * @pbrbm event Either b <tt>NbmingExceptionEvent</tt> or b subclbss
+     *              of <tt>NbmingEvent</tt> or
+     * <tt>UnsolicitedNotificbtionEvent</tt>.
+     * If it is b subclbss of <tt>NbmingEvent</tt>, bll listeners must implement
+     * the corresponding subinterfbce of <tt>NbmingListener</tt>.
+     * For exbmple, for b <tt>ObjectAddedEvent</tt>, bll listeners <em>must</em>
+     * implement the <tt>ObjectAddedListener</tt> interfbce.
+     * <em>The current implementbtion does not check this before dispbtching
      * the event.</em>
-     * If the event is a <tt>NamingExceptionEvent</tt>, then all listeners
-     * are notified.
-     * @param vector List of NamingListeners that will be notified of event.
+     * If the event is b <tt>NbmingExceptionEvent</tt>, then bll listeners
+     * bre notified.
+     * @pbrbm vector List of NbmingListeners thbt will be notified of event.
      */
-    synchronized void enqueue(EventObject event, Vector<NamingListener> vector) {
+    synchronized void enqueue(EventObject event, Vector<NbmingListener> vector) {
         QueueElement newElt = new QueueElement(event, vector);
 
-        if (head == null) {
-            head = newElt;
-            tail = newElt;
+        if (hebd == null) {
+            hebd = newElt;
+            tbil = newElt;
         } else {
-            newElt.next = head;
-            head.prev = newElt;
-            head = newElt;
+            newElt.next = hebd;
+            hebd.prev = newElt;
+            hebd = newElt;
         }
         notify();
     }
@@ -105,26 +105,26 @@ final class EventQueue implements Runnable {
      * Used only by the run() method.
      *
      * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @exception jbvb.lbng.InterruptedException if bny threbd hbs
+     *              interrupted this threbd.
      */
-    private synchronized QueueElement dequeue()
+    privbte synchronized QueueElement dequeue()
                                 throws InterruptedException {
-        while (tail == null)
-            wait();
-        QueueElement elt = tail;
-        tail = elt.prev;
-        if (tail == null) {
-            head = null;
+        while (tbil == null)
+            wbit();
+        QueueElement elt = tbil;
+        tbil = elt.prev;
+        if (tbil == null) {
+            hebd = null;
         } else {
-            tail.next = null;
+            tbil.next = null;
         }
         elt.prev = elt.next = null;
         return elt;
     }
 
     /**
-     * Pull events off the queue and dispatch them.
+     * Pull events off the queue bnd dispbtch them.
      */
     public void run() {
         QueueElement qe;
@@ -132,45 +132,45 @@ final class EventQueue implements Runnable {
         try {
             while ((qe = dequeue()) != null) {
                 EventObject e = qe.event;
-                Vector<NamingListener> v = qe.vector;
+                Vector<NbmingListener> v = qe.vector;
 
                 for (int i = 0; i < v.size(); i++) {
 
-                    // Dispatch to corresponding NamingListener
-                    // The listener should only be getting the event that
-                    // it is interested in. (No need to check mask or
-                    // instanceof subinterfaces.)
+                    // Dispbtch to corresponding NbmingListener
+                    // The listener should only be getting the event thbt
+                    // it is interested in. (No need to check mbsk or
+                    // instbnceof subinterfbces.)
                     // It is the responsibility of the enqueuer to
                     // only enqueue events with listeners of the correct type.
 
-                    if (e instanceof NamingEvent) {
-                        ((NamingEvent)e).dispatch(v.elementAt(i));
+                    if (e instbnceof NbmingEvent) {
+                        ((NbmingEvent)e).dispbtch(v.elementAt(i));
 
-                    // An exception occurred: if notify all naming listeners
-                    } else if (e instanceof NamingExceptionEvent) {
-                        ((NamingExceptionEvent)e).dispatch(v.elementAt(i));
-                    } else if (e instanceof UnsolicitedNotificationEvent) {
-                        ((UnsolicitedNotificationEvent)e).dispatch(
-                            (UnsolicitedNotificationListener)v.elementAt(i));
+                    // An exception occurred: if notify bll nbming listeners
+                    } else if (e instbnceof NbmingExceptionEvent) {
+                        ((NbmingExceptionEvent)e).dispbtch(v.elementAt(i));
+                    } else if (e instbnceof UnsolicitedNotificbtionEvent) {
+                        ((UnsolicitedNotificbtionEvent)e).dispbtch(
+                            (UnsolicitedNotificbtionListener)v.elementAt(i));
                     }
                 }
 
                 qe = null; e = null; v = null;
             }
-        } catch (InterruptedException e) {
+        } cbtch (InterruptedException e) {
             // just die
         }
     }
 
-    // package private; used by EventSupport;
+    // pbckbge privbte; used by EventSupport;
     /**
-     * Stop the dispatcher so we can be destroyed.
+     * Stop the dispbtcher so we cbn be destroyed.
      */
     void stop() {
         if (debug) System.err.println("EventQueue stopping");
-        if (qThread != null) {
-            qThread.interrupt();        // kill our thread
-            qThread = null;
+        if (qThrebd != null) {
+            qThrebd.interrupt();        // kill our threbd
+            qThrebd = null;
         }
     }
 }

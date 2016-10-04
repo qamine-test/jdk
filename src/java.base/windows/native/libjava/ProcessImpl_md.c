@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <assert.h>
-#include "java_lang_ProcessImpl.h"
+#include <bssert.h>
+#include "jbvb_lbng_ProcessImpl.h"
 
 #include "jni.h"
 #include "jvm.h"
@@ -33,33 +33,33 @@
 #include <windows.h>
 #include <io.h>
 
-/* We try to make sure that we can read and write 4095 bytes (the
- * fixed limit on Linux) to the pipe on all operating systems without
- * deadlock.  Windows 2000 inexplicably appears to need an extra 24
- * bytes of slop to avoid deadlock.
+/* We try to mbke sure thbt we cbn rebd bnd write 4095 bytes (the
+ * fixed limit on Linux) to the pipe on bll operbting systems without
+ * debdlock.  Windows 2000 inexplicbbly bppebrs to need bn extrb 24
+ * bytes of slop to bvoid debdlock.
  */
 #define PIPE_SIZE (4096+24)
 
-/* We have THREE locales in action:
- * 1. Thread default locale - dictates UNICODE-to-8bit conversion
- * 2. System locale that defines the message localization
- * 3. The file name locale
- * Each locale could be an extended locale, that means that text cannot be
- * mapped to 8bit sequence without multibyte encoding.
- * VM is ready for that, if text is UTF-8.
- * Here we make the work right from the beginning.
+/* We hbve THREE locbles in bction:
+ * 1. Threbd defbult locble - dictbtes UNICODE-to-8bit conversion
+ * 2. System locble thbt defines the messbge locblizbtion
+ * 3. The file nbme locble
+ * Ebch locble could be bn extended locble, thbt mebns thbt text cbnnot be
+ * mbpped to 8bit sequence without multibyte encoding.
+ * VM is rebdy for thbt, if text is UTF-8.
+ * Here we mbke the work right from the beginning.
  */
-size_t os_error_message(int errnum, WCHAR* utf16_OSErrorMsg, size_t maxMsgLength) {
-    size_t n = (size_t)FormatMessageW(
+size_t os_error_messbge(int errnum, WCHAR* utf16_OSErrorMsg, size_t mbxMsgLength) {
+    size_t n = (size_t)FormbtMessbgeW(
             FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
             (DWORD)errnum,
             0,
             utf16_OSErrorMsg,
-            (DWORD)maxMsgLength,
+            (DWORD)mbxMsgLength,
             NULL);
     if (n > 3) {
-        // Drop final '.', CR, LF
+        // Drop finbl '.', CR, LF
         if (utf16_OSErrorMsg[n - 1] == L'\n') --n;
         if (utf16_OSErrorMsg[n - 1] == L'\r') --n;
         if (utf16_OSErrorMsg[n - 1] == L'.') --n;
@@ -71,53 +71,53 @@ size_t os_error_message(int errnum, WCHAR* utf16_OSErrorMsg, size_t maxMsgLength
 #define MESSAGE_LENGTH (256 + 100)
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(*x))
 
-static void
-win32Error(JNIEnv *env, const WCHAR *functionName)
+stbtic void
+win32Error(JNIEnv *env, const WCHAR *functionNbme)
 {
     WCHAR utf16_OSErrorMsg[MESSAGE_LENGTH - 100];
-    WCHAR utf16_javaMessage[MESSAGE_LENGTH];
-    /*Good suggestion about 2-bytes-per-symbol in localized error reports*/
-    char  utf8_javaMessage[MESSAGE_LENGTH*2];
-    const int errnum = (int)GetLastError();
-    size_t n = os_error_message(errnum, utf16_OSErrorMsg, ARRAY_SIZE(utf16_OSErrorMsg));
+    WCHAR utf16_jbvbMessbge[MESSAGE_LENGTH];
+    /*Good suggestion bbout 2-bytes-per-symbol in locblized error reports*/
+    chbr  utf8_jbvbMessbge[MESSAGE_LENGTH*2];
+    const int errnum = (int)GetLbstError();
+    size_t n = os_error_messbge(errnum, utf16_OSErrorMsg, ARRAY_SIZE(utf16_OSErrorMsg));
     n = (n > 0)
-        ? swprintf(utf16_javaMessage, MESSAGE_LENGTH, L"%s error=%d, %s", functionName, errnum, utf16_OSErrorMsg)
-        : swprintf(utf16_javaMessage, MESSAGE_LENGTH, L"%s failed, error=%d", functionName, errnum);
+        ? swprintf(utf16_jbvbMessbge, MESSAGE_LENGTH, L"%s error=%d, %s", functionNbme, errnum, utf16_OSErrorMsg)
+        : swprintf(utf16_jbvbMessbge, MESSAGE_LENGTH, L"%s fbiled, error=%d", functionNbme, errnum);
 
-    if (n > 0) /*terminate '\0' is not a part of conversion procedure*/
-        n = WideCharToMultiByte(
+    if (n > 0) /*terminbte '\0' is not b pbrt of conversion procedure*/
+        n = WideChbrToMultiByte(
             CP_UTF8,
             0,
-            utf16_javaMessage,
-            n, /*by creation n <= MESSAGE_LENGTH*/
-            utf8_javaMessage,
+            utf16_jbvbMessbge,
+            n, /*by crebtion n <= MESSAGE_LENGTH*/
+            utf8_jbvbMessbge,
             MESSAGE_LENGTH*2,
             NULL,
             NULL);
 
-    /*no way to die*/
+    /*no wby to die*/
     {
-        const char *errorMessage = "Secondary error while OS message extraction";
+        const chbr *errorMessbge = "Secondbry error while OS messbge extrbction";
         if (n > 0) {
-            utf8_javaMessage[min(MESSAGE_LENGTH*2 - 1, n)] = '\0';
-            errorMessage = utf8_javaMessage;
+            utf8_jbvbMessbge[min(MESSAGE_LENGTH*2 - 1, n)] = '\0';
+            errorMessbge = utf8_jbvbMessbge;
         }
-        JNU_ThrowIOException(env, errorMessage);
+        JNU_ThrowIOException(env, errorMessbge);
     }
 }
 
-static void
-closeSafely(HANDLE handle)
+stbtic void
+closeSbfely(HANDLE hbndle)
 {
-    if (handle != INVALID_HANDLE_VALUE)
-        CloseHandle(handle);
+    if (hbndle != INVALID_HANDLE_VALUE)
+        CloseHbndle(hbndle);
 }
 
-static BOOL hasInheritFlag(HANDLE handle)
+stbtic BOOL hbsInheritFlbg(HANDLE hbndle)
 {
-    DWORD mask;
-    if (GetHandleInformation(handle, &mask)) {
-        return mask & HANDLE_FLAG_INHERIT;
+    DWORD mbsk;
+    if (GetHbndleInformbtion(hbndle, &mbsk)) {
+        return mbsk & HANDLE_FLAG_INHERIT;
     }
     return FALSE;
 }
@@ -135,381 +135,381 @@ typedef struct _STDHOLDER {
     int     offset;
 } STDHOLDER;
 
-/* Responsible for correct initialization of the [pHolder] structure
-   (that is used for handles recycling) if needs,
-   and appropriate setup of IOE handle [phStd] for child process based
-   on created pipe or Java handle. */
-static BOOL initHolder(
+/* Responsible for correct initiblizbtion of the [pHolder] structure
+   (thbt is used for hbndles recycling) if needs,
+   bnd bppropribte setup of IOE hbndle [phStd] for child process bbsed
+   on crebted pipe or Jbvb hbndle. */
+stbtic BOOL initHolder(
     JNIEnv *env,
-    jlong *pjhandles,   /* IN OUT - the handle form Java,
-                                    that can be a file, console or undefined */
-    STDHOLDER *pHolder, /* OUT    - initialized structure that holds pipe
-                                    handles */
-    HANDLE *phStd       /* OUT    - initialized handle for child process */
+    jlong *pjhbndles,   /* IN OUT - the hbndle form Jbvb,
+                                    thbt cbn be b file, console or undefined */
+    STDHOLDER *pHolder, /* OUT    - initiblized structure thbt holds pipe
+                                    hbndles */
+    HANDLE *phStd       /* OUT    - initiblized hbndle for child process */
 ) {
-    /* Here we test the value from Java against invalid
-       handle value. We are not using INVALID_HANDLE_VALUE macro
-       due to double signed/unsigned and 32/64bit ambiguity.
-       Otherwise it will be easy to get the wrong
-       value   0x00000000FFFFFFFF
-       instead 0xFFFFFFFFFFFFFFFF. */
-    if (*pjhandles != JAVA_INVALID_HANDLE_VALUE) {
-        /* Java file or console redirection */
-        *phStd = (HANDLE) *pjhandles;
-        /* Here we set the related Java stream (Process.getXXXXStream())
-           to [ProcessBuilder.NullXXXXStream.INSTANCE] value.
-           The initial Java handle [*pjhandles] will be closed in
-           ANY case. It is not a handle leak. */
-        *pjhandles = JAVA_INVALID_HANDLE_VALUE;
+    /* Here we test the vblue from Jbvb bgbinst invblid
+       hbndle vblue. We bre not using INVALID_HANDLE_VALUE mbcro
+       due to double signed/unsigned bnd 32/64bit bmbiguity.
+       Otherwise it will be ebsy to get the wrong
+       vblue   0x00000000FFFFFFFF
+       instebd 0xFFFFFFFFFFFFFFFF. */
+    if (*pjhbndles != JAVA_INVALID_HANDLE_VALUE) {
+        /* Jbvb file or console redirection */
+        *phStd = (HANDLE) *pjhbndles;
+        /* Here we set the relbted Jbvb strebm (Process.getXXXXStrebm())
+           to [ProcessBuilder.NullXXXXStrebm.INSTANCE] vblue.
+           The initibl Jbvb hbndle [*pjhbndles] will be closed in
+           ANY cbse. It is not b hbndle lebk. */
+        *pjhbndles = JAVA_INVALID_HANDLE_VALUE;
     } else {
-        /* Creation of parent-child pipe */
-        if (!CreatePipe(
+        /* Crebtion of pbrent-child pipe */
+        if (!CrebtePipe(
             &pHolder->pipe[OFFSET_READ],
             &pHolder->pipe[OFFSET_WRITE],
             NULL, /* we would like to inherit
-                     default process access,
-                     instead of 'Everybody' access */
+                     defbult process bccess,
+                     instebd of 'Everybody' bccess */
             PIPE_SIZE))
         {
-            win32Error(env, L"CreatePipe");
+            win32Error(env, L"CrebtePipe");
             return FALSE;
         } else {
-            /* [thisProcessEnd] has no the inherit flag because
-               the [lpPipeAttributes] param of [CreatePipe]
-               had the NULL value. */
+            /* [thisProcessEnd] hbs no the inherit flbg becbuse
+               the [lpPipeAttributes] pbrbm of [CrebtePipe]
+               hbd the NULL vblue. */
             HANDLE thisProcessEnd = pHolder->pipe[OPPOSITE_END(pHolder->offset)];
             *phStd = pHolder->pipe[pHolder->offset];
-            *pjhandles = (jlong) thisProcessEnd;
+            *pjhbndles = (jlong) thisProcessEnd;
         }
     }
-    /* Pipe handle will be closed in the [releaseHolder] call,
-       file handle will be closed in Java.
-       The long-live handle need to restore the inherit flag,
-       we do it later in the [prepareIOEHandleState] call. */
-    SetHandleInformation(
+    /* Pipe hbndle will be closed in the [relebseHolder] cbll,
+       file hbndle will be closed in Jbvb.
+       The long-live hbndle need to restore the inherit flbg,
+       we do it lbter in the [prepbreIOEHbndleStbte] cbll. */
+    SetHbndleInformbtion(
         *phStd,
         HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
     return TRUE;
 }
 
-/* Smart recycling of pipe handles in [pHolder]. For the failed
-   create process attempts, both ends of pipe need to be released.
-   The [complete] has the [TRUE] value in the failed attempt. */
-static void releaseHolder(BOOL complete, STDHOLDER *pHolder) {
-    closeSafely(pHolder->pipe[pHolder->offset]);
+/* Smbrt recycling of pipe hbndles in [pHolder]. For the fbiled
+   crebte process bttempts, both ends of pipe need to be relebsed.
+   The [complete] hbs the [TRUE] vblue in the fbiled bttempt. */
+stbtic void relebseHolder(BOOL complete, STDHOLDER *pHolder) {
+    closeSbfely(pHolder->pipe[pHolder->offset]);
     if (complete) {
         /* Error occur, close this process pipe end */
-        closeSafely(pHolder->pipe[OPPOSITE_END(pHolder->offset)]);
+        closeSbfely(pHolder->pipe[OPPOSITE_END(pHolder->offset)]);
     }
 }
 
-/* Stores and drops the inherit flag of handles that should not
-   be shared with the child process by default, but can hold the
-   inherit flag due to MS process birth specific. */
-static void prepareIOEHandleState(
+/* Stores bnd drops the inherit flbg of hbndles thbt should not
+   be shbred with the child process by defbult, but cbn hold the
+   inherit flbg due to MS process birth specific. */
+stbtic void prepbreIOEHbndleStbte(
     HANDLE *stdIOE,
     BOOL *inherit)
 {
     int i;
     for (i = 0; i < HANDLE_STORAGE_SIZE; ++i) {
         HANDLE hstd = stdIOE[i];
-        if (INVALID_HANDLE_VALUE != hstd && hasInheritFlag(hstd)) {
-            /* FALSE by default */
+        if (INVALID_HANDLE_VALUE != hstd && hbsInheritFlbg(hstd)) {
+            /* FALSE by defbult */
             inherit[i] = TRUE;
-            /* Java does not need implicit inheritance for IOE handles,
-               so we drop inherit flag that probably was installed by
-               previous CreateProcess call that launched current process.
-               We will return the handle state back after CreateProcess call.
-               By clearing inherit flag we prevent "greedy grandchild" birth.
-               The explicit inheritance for child process IOE handles is
-               implemented in the [initHolder] call. */
-            SetHandleInformation(hstd, HANDLE_FLAG_INHERIT, 0);
+            /* Jbvb does not need implicit inheritbnce for IOE hbndles,
+               so we drop inherit flbg thbt probbbly wbs instblled by
+               previous CrebteProcess cbll thbt lbunched current process.
+               We will return the hbndle stbte bbck bfter CrebteProcess cbll.
+               By clebring inherit flbg we prevent "greedy grbndchild" birth.
+               The explicit inheritbnce for child process IOE hbndles is
+               implemented in the [initHolder] cbll. */
+            SetHbndleInformbtion(hstd, HANDLE_FLAG_INHERIT, 0);
         }
     }
 }
 
-/* Restores the inheritance flag of handles from stored values. */
-static void restoreIOEHandleState(
+/* Restores the inheritbnce flbg of hbndles from stored vblues. */
+stbtic void restoreIOEHbndleStbte(
     const HANDLE *stdIOE,
     const BOOL *inherit)
 {
-    /* The set of current process standard IOE handles and
-       the set of child process IOE handles can intersect.
-       To restore the inherit flag right, we use backward
-       array iteration. */
+    /* The set of current process stbndbrd IOE hbndles bnd
+       the set of child process IOE hbndles cbn intersect.
+       To restore the inherit flbg right, we use bbckwbrd
+       brrby iterbtion. */
     int i;
     for (i = HANDLE_STORAGE_SIZE - 1; i >= 0; --i)
         if (INVALID_HANDLE_VALUE != stdIOE[i]) {
-           /* Restore inherit flag for any case.
-              The handle can be changed by explicit inheritance.*/
-            SetHandleInformation(stdIOE[i],
+           /* Restore inherit flbg for bny cbse.
+              The hbndle cbn be chbnged by explicit inheritbnce.*/
+            SetHbndleInformbtion(stdIOE[i],
                 HANDLE_FLAG_INHERIT,
                 inherit[i] ? HANDLE_FLAG_INHERIT : 0);
         }
 }
 
 /*
- * Class:     java_lang_ProcessImpl
+ * Clbss:     jbvb_lbng_ProcessImpl
  * Method:    getProcessId0
- * Signature: (J)I
+ * Signbture: (J)I
  */
-JNIEXPORT jint JNICALL Java_java_lang_ProcessImpl_getProcessId0
-  (JNIEnv *env, jclass clazz, jlong handle) {
-    DWORD pid = GetProcessId((HANDLE) jlong_to_ptr(handle));
+JNIEXPORT jint JNICALL Jbvb_jbvb_lbng_ProcessImpl_getProcessId0
+  (JNIEnv *env, jclbss clbzz, jlong hbndle) {
+    DWORD pid = GetProcessId((HANDLE) jlong_to_ptr(hbndle));
     return (jint)pid;
 }
 
-/* Please, read about the MS inheritance problem
+/* Plebse, rebd bbout the MS inheritbnce problem
    http://support.microsoft.com/kb/315939
-   and critical section/synchronized block solution. */
-static jlong processCreate(
+   bnd criticbl section/synchronized block solution. */
+stbtic jlong processCrebte(
     JNIEnv *env,
-    const jchar *pcmd,
-    const jchar *penvBlock,
-    const jchar *pdir,
-    jlong *handles,
-    jboolean redirectErrorStream)
+    const jchbr *pcmd,
+    const jchbr *penvBlock,
+    const jchbr *pdir,
+    jlong *hbndles,
+    jboolebn redirectErrorStrebm)
 {
     jlong ret = 0L;
     STARTUPINFOW si = {sizeof(si)};
 
-    /* Handles for which the inheritance flag must be restored. */
+    /* Hbndles for which the inheritbnce flbg must be restored. */
     HANDLE stdIOE[HANDLE_STORAGE_SIZE] = {
-        /* Current process standard IOE handles: JDK-7147084 */
+        /* Current process stbndbrd IOE hbndles: JDK-7147084 */
         INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE,
-        /* Child process IOE handles: JDK-6921885 */
-        (HANDLE)handles[0], (HANDLE)handles[1], (HANDLE)handles[2]};
+        /* Child process IOE hbndles: JDK-6921885 */
+        (HANDLE)hbndles[0], (HANDLE)hbndles[1], (HANDLE)hbndles[2]};
     BOOL inherit[HANDLE_STORAGE_SIZE] = {
         FALSE, FALSE, FALSE,
         FALSE, FALSE, FALSE};
 
     {
-        /* Extraction of current process standard IOE handles */
+        /* Extrbction of current process stbndbrd IOE hbndles */
         DWORD idsIOE[3] = {STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, STD_ERROR_HANDLE};
         int i;
         for (i = 0; i < 3; ++i)
-            /* Should not be closed by CloseHandle! */
-            stdIOE[i] = GetStdHandle(idsIOE[i]);
+            /* Should not be closed by CloseHbndle! */
+            stdIOE[i] = GetStdHbndle(idsIOE[i]);
     }
 
-    prepareIOEHandleState(stdIOE, inherit);
+    prepbreIOEHbndleStbte(stdIOE, inherit);
     {
         /* Input */
         STDHOLDER holderIn = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_READ};
-        if (initHolder(env, &handles[0], &holderIn, &si.hStdInput)) {
+        if (initHolder(env, &hbndles[0], &holderIn, &si.hStdInput)) {
 
             /* Output */
             STDHOLDER holderOut = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
-            if (initHolder(env, &handles[1], &holderOut, &si.hStdOutput)) {
+            if (initHolder(env, &hbndles[1], &holderOut, &si.hStdOutput)) {
 
                 /* Error */
                 STDHOLDER holderErr = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
                 BOOL success;
-                if (redirectErrorStream) {
+                if (redirectErrorStrebm) {
                     si.hStdError = si.hStdOutput;
-                    /* Here we set the error stream to [ProcessBuilder.NullInputStream.INSTANCE]
-                       value. That is in accordance with Java Doc for the redirection case.
-                       The Java file for the [ handles[2] ] will be closed in ANY case. It is not
-                       a handle leak. */
-                    handles[2] = JAVA_INVALID_HANDLE_VALUE;
+                    /* Here we set the error strebm to [ProcessBuilder.NullInputStrebm.INSTANCE]
+                       vblue. Thbt is in bccordbnce with Jbvb Doc for the redirection cbse.
+                       The Jbvb file for the [ hbndles[2] ] will be closed in ANY cbse. It is not
+                       b hbndle lebk. */
+                    hbndles[2] = JAVA_INVALID_HANDLE_VALUE;
                     success = TRUE;
                 } else {
-                    success = initHolder(env, &handles[2], &holderErr, &si.hStdError);
+                    success = initHolder(env, &hbndles[2], &holderErr, &si.hStdError);
                 }
 
                 if (success) {
                     PROCESS_INFORMATION pi;
-                    DWORD processFlag = CREATE_UNICODE_ENVIRONMENT;
+                    DWORD processFlbg = CREATE_UNICODE_ENVIRONMENT;
 
-                    /* Suppress popping-up of a console window for non-console applications */
+                    /* Suppress popping-up of b console window for non-console bpplicbtions */
                     if (GetConsoleWindow() == NULL)
-                        processFlag |= CREATE_NO_WINDOW;
+                        processFlbg |= CREATE_NO_WINDOW;
 
-                    si.dwFlags = STARTF_USESTDHANDLES;
-                    if (!CreateProcessW(
-                        NULL,             /* executable name */
-                        (LPWSTR)pcmd,     /* command line */
-                        NULL,             /* process security attribute */
-                        NULL,             /* thread security attribute */
-                        TRUE,             /* inherits system handles */
-                        processFlag,      /* selected based on exe type */
+                    si.dwFlbgs = STARTF_USESTDHANDLES;
+                    if (!CrebteProcessW(
+                        NULL,             /* executbble nbme */
+                        (LPWSTR)pcmd,     /* commbnd line */
+                        NULL,             /* process security bttribute */
+                        NULL,             /* threbd security bttribute */
+                        TRUE,             /* inherits system hbndles */
+                        processFlbg,      /* selected bbsed on exe type */
                         (LPVOID)penvBlock,/* environment block */
-                        (LPCWSTR)pdir,    /* change to the new current directory */
-                        &si,              /* (in)  startup information */
-                        &pi))             /* (out) process information */
+                        (LPCWSTR)pdir,    /* chbnge to the new current directory */
+                        &si,              /* (in)  stbrtup informbtion */
+                        &pi))             /* (out) process informbtion */
                     {
-                        win32Error(env, L"CreateProcess");
+                        win32Error(env, L"CrebteProcess");
                     } else {
-                        closeSafely(pi.hThread);
+                        closeSbfely(pi.hThrebd);
                         ret = (jlong)pi.hProcess;
                     }
                 }
-                releaseHolder(ret == 0, &holderErr);
-                releaseHolder(ret == 0, &holderOut);
+                relebseHolder(ret == 0, &holderErr);
+                relebseHolder(ret == 0, &holderOut);
             }
-            releaseHolder(ret == 0, &holderIn);
+            relebseHolder(ret == 0, &holderIn);
         }
     }
-    restoreIOEHandleState(stdIOE, inherit);
+    restoreIOEHbndleStbte(stdIOE, inherit);
 
     return ret;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_ProcessImpl_create(JNIEnv *env, jclass ignored,
+Jbvb_jbvb_lbng_ProcessImpl_crebte(JNIEnv *env, jclbss ignored,
                                   jstring cmd,
                                   jstring envBlock,
                                   jstring dir,
-                                  jlongArray stdHandles,
-                                  jboolean redirectErrorStream)
+                                  jlongArrby stdHbndles,
+                                  jboolebn redirectErrorStrebm)
 {
     jlong ret = 0;
-    if (cmd != NULL && stdHandles != NULL) {
-        const jchar *pcmd = (*env)->GetStringChars(env, cmd, NULL);
+    if (cmd != NULL && stdHbndles != NULL) {
+        const jchbr *pcmd = (*env)->GetStringChbrs(env, cmd, NULL);
         if (pcmd != NULL) {
-            const jchar *penvBlock = (envBlock != NULL)
-                ? (*env)->GetStringChars(env, envBlock, NULL)
+            const jchbr *penvBlock = (envBlock != NULL)
+                ? (*env)->GetStringChbrs(env, envBlock, NULL)
                 : NULL;
             if (!(*env)->ExceptionCheck(env)) {
-                const jchar *pdir = (dir != NULL)
-                    ? (*env)->GetStringChars(env, dir, NULL)
+                const jchbr *pdir = (dir != NULL)
+                    ? (*env)->GetStringChbrs(env, dir, NULL)
                     : NULL;
                 if (!(*env)->ExceptionCheck(env)) {
-                    jlong *handles = (*env)->GetLongArrayElements(env, stdHandles, NULL);
-                    if (handles != NULL) {
-                        ret = processCreate(
+                    jlong *hbndles = (*env)->GetLongArrbyElements(env, stdHbndles, NULL);
+                    if (hbndles != NULL) {
+                        ret = processCrebte(
                             env,
                             pcmd,
                             penvBlock,
                             pdir,
-                            handles,
-                            redirectErrorStream);
-                        (*env)->ReleaseLongArrayElements(env, stdHandles, handles, 0);
+                            hbndles,
+                            redirectErrorStrebm);
+                        (*env)->RelebseLongArrbyElements(env, stdHbndles, hbndles, 0);
                     }
                     if (pdir != NULL)
-                        (*env)->ReleaseStringChars(env, dir, pdir);
+                        (*env)->RelebseStringChbrs(env, dir, pdir);
                 }
                 if (penvBlock != NULL)
-                    (*env)->ReleaseStringChars(env, envBlock, penvBlock);
+                    (*env)->RelebseStringChbrs(env, envBlock, penvBlock);
             }
-            (*env)->ReleaseStringChars(env, cmd, pcmd);
+            (*env)->RelebseStringChbrs(env, cmd, pcmd);
         }
     }
     return ret;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_ProcessImpl_getExitCodeProcess(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProcessImpl_getExitCodeProcess(JNIEnv *env, jclbss ignored, jlong hbndle)
 {
     DWORD exit_code;
-    if (GetExitCodeProcess((HANDLE) handle, &exit_code) == 0)
+    if (GetExitCodeProcess((HANDLE) hbndle, &exit_code) == 0)
         win32Error(env, L"GetExitCodeProcess");
     return exit_code;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_ProcessImpl_getStillActive(JNIEnv *env, jclass ignored)
+Jbvb_jbvb_lbng_ProcessImpl_getStillActive(JNIEnv *env, jclbss ignored)
 {
     return STILL_ACTIVE;
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_waitForInterruptibly(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProcessImpl_wbitForInterruptibly(JNIEnv *env, jclbss ignored, jlong hbndle)
 {
     HANDLE events[2];
-    events[0] = (HANDLE) handle;
-    events[1] = JVM_GetThreadInterruptEvent();
+    events[0] = (HANDLE) hbndle;
+    events[1] = JVM_GetThrebdInterruptEvent();
 
-    if (WaitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
-                               FALSE,    /* Wait for ANY event */
-                               INFINITE)  /* Wait forever */
+    if (WbitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
+                               FALSE,    /* Wbit for ANY event */
+                               INFINITE)  /* Wbit forever */
         == WAIT_FAILED)
-        win32Error(env, L"WaitForMultipleObjects");
+        win32Error(env, L"WbitForMultipleObjects");
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_waitForTimeoutInterruptibly(JNIEnv *env,
-                                                       jclass ignored,
-                                                       jlong handle,
+Jbvb_jbvb_lbng_ProcessImpl_wbitForTimeoutInterruptibly(JNIEnv *env,
+                                                       jclbss ignored,
+                                                       jlong hbndle,
                                                        jlong timeout)
 {
     HANDLE events[2];
     DWORD dwTimeout = (DWORD)timeout;
     DWORD result;
-    events[0] = (HANDLE) handle;
-    events[1] = JVM_GetThreadInterruptEvent();
-    result = WaitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
-                                    FALSE,    /* Wait for ANY event */
-                                    dwTimeout);  /* Wait for dwTimeout */
+    events[0] = (HANDLE) hbndle;
+    events[1] = JVM_GetThrebdInterruptEvent();
+    result = WbitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
+                                    FALSE,    /* Wbit for ANY event */
+                                    dwTimeout);  /* Wbit for dwTimeout */
 
     if (result == WAIT_FAILED)
-        win32Error(env, L"WaitForMultipleObjects");
+        win32Error(env, L"WbitForMultipleObjects");
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_terminateProcess(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProcessImpl_terminbteProcess(JNIEnv *env, jclbss ignored, jlong hbndle)
 {
-    TerminateProcess((HANDLE) handle, 1);
+    TerminbteProcess((HANDLE) hbndle, 1);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_lang_ProcessImpl_isProcessAlive(JNIEnv *env, jclass ignored, jlong handle)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_lbng_ProcessImpl_isProcessAlive(JNIEnv *env, jclbss ignored, jlong hbndle)
 {
-    DWORD dwExitStatus;
-    GetExitCodeProcess((HANDLE) handle, &dwExitStatus);
-    return dwExitStatus == STILL_ACTIVE;
+    DWORD dwExitStbtus;
+    GetExitCodeProcess((HANDLE) hbndle, &dwExitStbtus);
+    return dwExitStbtus == STILL_ACTIVE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_lang_ProcessImpl_closeHandle(JNIEnv *env, jclass ignored, jlong handle)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_lbng_ProcessImpl_closeHbndle(JNIEnv *env, jclbss ignored, jlong hbndle)
 {
-    return (jboolean) CloseHandle((HANDLE) handle);
+    return (jboolebn) CloseHbndle((HANDLE) hbndle);
 }
 
 /**
- * Returns a copy of the Unicode characters of a string. Fow now this
- * function doesn't handle long path names and other issues.
+ * Returns b copy of the Unicode chbrbcters of b string. Fow now this
+ * function doesn't hbndle long pbth nbmes bnd other issues.
  */
-static WCHAR* getPath(JNIEnv *env, jstring ps) {
-    WCHAR *pathbuf = NULL;
-    const jchar *chars = (*(env))->GetStringChars(env, ps, NULL);
-    if (chars != NULL) {
-        size_t pathlen = wcslen(chars);
-        pathbuf = (WCHAR*)malloc((pathlen + 6) * sizeof(WCHAR));
-        if (pathbuf == NULL) {
+stbtic WCHAR* getPbth(JNIEnv *env, jstring ps) {
+    WCHAR *pbthbuf = NULL;
+    const jchbr *chbrs = (*(env))->GetStringChbrs(env, ps, NULL);
+    if (chbrs != NULL) {
+        size_t pbthlen = wcslen(chbrs);
+        pbthbuf = (WCHAR*)mblloc((pbthlen + 6) * sizeof(WCHAR));
+        if (pbthbuf == NULL) {
             JNU_ThrowOutOfMemoryError(env, NULL);
         } else {
-            wcscpy(pathbuf, chars);
+            wcscpy(pbthbuf, chbrs);
         }
-        (*env)->ReleaseStringChars(env, ps, chars);
+        (*env)->RelebseStringChbrs(env, ps, chbrs);
     }
-    return pathbuf;
+    return pbthbuf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_ProcessImpl_openForAtomicAppend(JNIEnv *env, jclass ignored, jstring path)
+Jbvb_jbvb_lbng_ProcessImpl_openForAtomicAppend(JNIEnv *env, jclbss ignored, jstring pbth)
 {
-    const DWORD access = (FILE_GENERIC_WRITE & ~FILE_WRITE_DATA);
-    const DWORD sharing = FILE_SHARE_READ | FILE_SHARE_WRITE;
+    const DWORD bccess = (FILE_GENERIC_WRITE & ~FILE_WRITE_DATA);
+    const DWORD shbring = FILE_SHARE_READ | FILE_SHARE_WRITE;
     const DWORD disposition = OPEN_ALWAYS;
-    const DWORD flagsAndAttributes = FILE_ATTRIBUTE_NORMAL;
+    const DWORD flbgsAndAttributes = FILE_ATTRIBUTE_NORMAL;
     HANDLE h;
-    WCHAR *pathbuf = getPath(env, path);
-    if (pathbuf == NULL) {
-        /* Exception already pending */
+    WCHAR *pbthbuf = getPbth(env, pbth);
+    if (pbthbuf == NULL) {
+        /* Exception blrebdy pending */
         return -1;
     }
-    h = CreateFileW(
-        pathbuf,            /* Wide char path name */
-        access,             /* Read and/or write permission */
-        sharing,            /* File sharing flags */
-        NULL,               /* Security attributes */
-        disposition,        /* creation disposition */
-        flagsAndAttributes, /* flags and attributes */
+    h = CrebteFileW(
+        pbthbuf,            /* Wide chbr pbth nbme */
+        bccess,             /* Rebd bnd/or write permission */
+        shbring,            /* File shbring flbgs */
+        NULL,               /* Security bttributes */
+        disposition,        /* crebtion disposition */
+        flbgsAndAttributes, /* flbgs bnd bttributes */
         NULL);
-    free(pathbuf);
+    free(pbthbuf);
     if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "CreateFileW");
+        JNU_ThrowIOExceptionWithLbstError(env, "CrebteFileW");
     }
     return ptr_to_jlong(h);
 }

@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 
-#include "SurfaceData.h"
-#include "sun_awt_image_DataBufferNative.h"
+#include "SurfbceDbtb.h"
+#include "sun_bwt_imbge_DbtbBufferNbtive.h"
 
 #include "jni_util.h"
-#include "debug_trace.h"
+#include "debug_trbce.h"
 #include <stdio.h>
 
-unsigned char *DBN_GetPixelPointer(JNIEnv *env, jint x, int y,
-                                   SurfaceDataRasInfo *lockInfo,
-                                   SurfaceDataOps *ops, int lockFlag)
+unsigned chbr *DBN_GetPixelPointer(JNIEnv *env, jint x, int y,
+                                   SurfbceDbtbRbsInfo *lockInfo,
+                                   SurfbceDbtbOps *ops, int lockFlbg)
 {
     if (ops == NULL) {
         return NULL;
@@ -44,78 +44,78 @@ unsigned char *DBN_GetPixelPointer(JNIEnv *env, jint x, int y,
     lockInfo->bounds.y1 = y;
     lockInfo->bounds.x2 = x + 1;
     lockInfo->bounds.y2 = y + 1;
-    if (ops->Lock(env, ops, lockInfo, lockFlag) != SD_SUCCESS) {
+    if (ops->Lock(env, ops, lockInfo, lockFlbg) != SD_SUCCESS) {
         return NULL;
     }
-    ops->GetRasInfo(env, ops, lockInfo);
-    if (lockInfo->rasBase) {
-        unsigned char *pixelPtr = (
-            (unsigned char*)lockInfo->rasBase +
-            (x * lockInfo->pixelStride + y * lockInfo->scanStride));
+    ops->GetRbsInfo(env, ops, lockInfo);
+    if (lockInfo->rbsBbse) {
+        unsigned chbr *pixelPtr = (
+            (unsigned chbr*)lockInfo->rbsBbse +
+            (x * lockInfo->pixelStride + y * lockInfo->scbnStride));
         return pixelPtr;
     }
-    SurfaceData_InvokeRelease(env, ops, lockInfo);
-    SurfaceData_InvokeUnlock(env, ops, lockInfo);
+    SurfbceDbtb_InvokeRelebse(env, ops, lockInfo);
+    SurfbceDbtb_InvokeUnlock(env, ops, lockInfo);
     return NULL;
 }
 
 /*
- * Class:     sun_awt_image_DataBufferNative
+ * Clbss:     sun_bwt_imbge_DbtbBufferNbtive
  * Method:    getElem
- * Signature:
+ * Signbture:
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_DataBufferNative_getElem(JNIEnv *env, jobject dbn,
+Jbvb_sun_bwt_imbge_DbtbBufferNbtive_getElem(JNIEnv *env, jobject dbn,
                                             jint x, jint y, jobject sd)
 {
-    jint returnVal = -1;
-    unsigned char *pixelPtr;
-    SurfaceDataRasInfo lockInfo;
-    SurfaceDataOps *ops;
+    jint returnVbl = -1;
+    unsigned chbr *pixelPtr;
+    SurfbceDbtbRbsInfo lockInfo;
+    SurfbceDbtbOps *ops;
 
-    ops = SurfaceData_GetOps(env, sd);
+    ops = SurfbceDbtb_GetOps(env, sd);
     JNU_CHECK_EXCEPTION_RETURN(env, -1);
 
     if (!(pixelPtr = DBN_GetPixelPointer(env, x, y, &lockInfo,
                                          ops, SD_LOCK_READ)))
     {
-        return returnVal;
+        return returnVbl;
     }
     switch (lockInfo.pixelStride) {
-    case 4:
-        returnVal = *(int *)pixelPtr;
-        break;
-    /* REMIND: do we need a 3-byte case (for 24-bit) here? */
-    case 2:
-        returnVal = *(unsigned short *)pixelPtr;
-        break;
-    case 1:
-        returnVal = *pixelPtr;
-        break;
-    default:
-        break;
+    cbse 4:
+        returnVbl = *(int *)pixelPtr;
+        brebk;
+    /* REMIND: do we need b 3-byte cbse (for 24-bit) here? */
+    cbse 2:
+        returnVbl = *(unsigned short *)pixelPtr;
+        brebk;
+    cbse 1:
+        returnVbl = *pixelPtr;
+        brebk;
+    defbult:
+        brebk;
     }
-    SurfaceData_InvokeRelease(env, ops, &lockInfo);
-    SurfaceData_InvokeUnlock(env, ops, &lockInfo);
-    return returnVal;
+    SurfbceDbtb_InvokeRelebse(env, ops, &lockInfo);
+    SurfbceDbtb_InvokeUnlock(env, ops, &lockInfo);
+    return returnVbl;
 }
 
 
 /*
- * Class:     sun_awt_image_DataBufferNative
+ * Clbss:     sun_bwt_imbge_DbtbBufferNbtive
  * Method:    setElem
- * Signature:
+ * Signbture:
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_image_DataBufferNative_setElem(JNIEnv *env, jobject dbn,
-                                            jint x, jint y, jint val, jobject sd)
+Jbvb_sun_bwt_imbge_DbtbBufferNbtive_setElem(JNIEnv *env, jobject dbn,
+                                            jint x, jint y, jint vbl, jobject sd)
 {
-    SurfaceDataRasInfo lockInfo;
-    SurfaceDataOps *ops;
-    unsigned char *pixelPtr;
+    SurfbceDbtbRbsInfo lockInfo;
+    SurfbceDbtbOps *ops;
+    unsigned chbr *pixelPtr;
 
 
-    ops = SurfaceData_GetOps(env, sd);
+    ops = SurfbceDbtb_GetOps(env, sd);
     JNU_CHECK_EXCEPTION(env);
 
     if (!(pixelPtr = DBN_GetPixelPointer(env, x, y, &lockInfo,
@@ -125,19 +125,19 @@ Java_sun_awt_image_DataBufferNative_setElem(JNIEnv *env, jobject dbn,
     }
 
     switch (lockInfo.pixelStride) {
-    case 4:
-        *(int *)pixelPtr = val;
-        break;
-    /* REMIND: do we need a 3-byte case (for 24-bit) here? */
-    case 2:
-        *(unsigned short *)pixelPtr = (unsigned short)val;
-        break;
-    case 1:
-        *pixelPtr = (unsigned char)val;
-        break;
-    default:
-        break;
+    cbse 4:
+        *(int *)pixelPtr = vbl;
+        brebk;
+    /* REMIND: do we need b 3-byte cbse (for 24-bit) here? */
+    cbse 2:
+        *(unsigned short *)pixelPtr = (unsigned short)vbl;
+        brebk;
+    cbse 1:
+        *pixelPtr = (unsigned chbr)vbl;
+        brebk;
+    defbult:
+        brebk;
     }
-    SurfaceData_InvokeRelease(env, ops, &lockInfo);
-    SurfaceData_InvokeUnlock(env, ops, &lockInfo);
+    SurfbceDbtb_InvokeRelebse(env, ops, &lockInfo);
+    SurfbceDbtb_InvokeUnlock(env, ops, &lockInfo);
 }

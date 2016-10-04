@@ -1,30 +1,30 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* inftrees.c -- generate Huffman trees for efficient decoding
- * Copyright (C) 1995-2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* inftrees.c -- generbte Huffmbn trees for efficient decoding
+ * Copyright (C) 1995-2013 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 #include "zutil.h"
@@ -32,102 +32,102 @@
 
 #define MAXBITS 15
 
-const char inflate_copyright[] =
-   " inflate 1.2.8 Copyright 1995-2013 Mark Adler ";
+const chbr inflbte_copyright[] =
+   " inflbte 1.2.8 Copyright 1995-2013 Mbrk Adler ";
 /*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
+  If you use the zlib librbry in b product, bn bcknowledgment is welcome
+  in the documentbtion of your product. If for some rebson you cbnnot
+  include such bn bcknowledgment, I would bpprecibte thbt you keep this
+  copyright string in the executbble of your product.
  */
 
 /*
-   Build a set of tables to decode the provided canonical Huffman code.
-   The code lengths are lens[0..codes-1].  The result starts at *table,
-   whose indices are 0..2^bits-1.  work is a writable array of at least
-   lens shorts, which is used as a work area.  type is the type of code
-   to be generated, CODES, LENS, or DISTS.  On return, zero is success,
-   -1 is an invalid code, and +1 means that ENOUGH isn't enough.  table
-   on return points to the next available entry's address.  bits is the
-   requested root table index bits, and on return it is the actual root
-   table index bits.  It will differ if the request is greater than the
-   longest code or if it is less than the shortest code.
+   Build b set of tbbles to decode the provided cbnonicbl Huffmbn code.
+   The code lengths bre lens[0..codes-1].  The result stbrts bt *tbble,
+   whose indices bre 0..2^bits-1.  work is b writbble brrby of bt lebst
+   lens shorts, which is used bs b work breb.  type is the type of code
+   to be generbted, CODES, LENS, or DISTS.  On return, zero is success,
+   -1 is bn invblid code, bnd +1 mebns thbt ENOUGH isn't enough.  tbble
+   on return points to the next bvbilbble entry's bddress.  bits is the
+   requested root tbble index bits, bnd on return it is the bctubl root
+   tbble index bits.  It will differ if the request is grebter thbn the
+   longest code or if it is less thbn the shortest code.
  */
-int ZLIB_INTERNAL inflate_table(type, lens, codes, table, bits, work)
+int ZLIB_INTERNAL inflbte_tbble(type, lens, codes, tbble, bits, work)
 codetype type;
 unsigned short FAR *lens;
 unsigned codes;
-code FAR * FAR *table;
+code FAR * FAR *tbble;
 unsigned FAR *bits;
 unsigned short FAR *work;
 {
-    unsigned len;               /* a code's length in bits */
+    unsigned len;               /* b code's length in bits */
     unsigned sym;               /* index of code symbols */
-    unsigned min, max;          /* minimum and maximum code lengths */
-    unsigned root;              /* number of index bits for root table */
-    unsigned curr;              /* number of index bits for current table */
-    unsigned drop;              /* code bits to drop for sub-table */
-    int left;                   /* number of prefix codes available */
-    unsigned used;              /* code entries in table used */
-    unsigned huff;              /* Huffman code */
+    unsigned min, mbx;          /* minimum bnd mbximum code lengths */
+    unsigned root;              /* number of index bits for root tbble */
+    unsigned curr;              /* number of index bits for current tbble */
+    unsigned drop;              /* code bits to drop for sub-tbble */
+    int left;                   /* number of prefix codes bvbilbble */
+    unsigned used;              /* code entries in tbble used */
+    unsigned huff;              /* Huffmbn code */
     unsigned incr;              /* for incrementing code, index */
-    unsigned fill;              /* index for replicating entries */
+    unsigned fill;              /* index for replicbting entries */
     unsigned low;               /* low bits for current root entry */
-    unsigned mask;              /* mask for low root bits */
-    code here;                  /* table entry for duplication */
-    code FAR *next;             /* next available space in table */
-    const unsigned short FAR *base;     /* base value table to use */
-    const unsigned short FAR *extra;    /* extra bits table to use */
-    int end;                    /* use base and extra for symbol > end */
-    unsigned short count[MAXBITS+1];    /* number of codes of each length */
-    unsigned short offs[MAXBITS+1];     /* offsets in table for each length */
-    static const unsigned short lbase[31] = { /* Length codes 257..285 base */
+    unsigned mbsk;              /* mbsk for low root bits */
+    code here;                  /* tbble entry for duplicbtion */
+    code FAR *next;             /* next bvbilbble spbce in tbble */
+    const unsigned short FAR *bbse;     /* bbse vblue tbble to use */
+    const unsigned short FAR *extrb;    /* extrb bits tbble to use */
+    int end;                    /* use bbse bnd extrb for symbol > end */
+    unsigned short count[MAXBITS+1];    /* number of codes of ebch length */
+    unsigned short offs[MAXBITS+1];     /* offsets in tbble for ebch length */
+    stbtic const unsigned short lbbse[31] = { /* Length codes 257..285 bbse */
         3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
         35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0};
-    static const unsigned short lext[31] = { /* Length codes 257..285 extra */
+    stbtic const unsigned short lext[31] = { /* Length codes 257..285 extrb */
         16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
         19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78};
-    static const unsigned short dbase[32] = { /* Distance codes 0..29 base */
+    stbtic const unsigned short dbbse[32] = { /* Distbnce codes 0..29 bbse */
         1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
         257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
         8193, 12289, 16385, 24577, 0, 0};
-    static const unsigned short dext[32] = { /* Distance codes 0..29 extra */
+    stbtic const unsigned short dext[32] = { /* Distbnce codes 0..29 extrb */
         16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
         23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
         28, 28, 29, 29, 64, 64};
 
     /*
-       Process a set of code lengths to create a canonical Huffman code.  The
-       code lengths are lens[0..codes-1].  Each length corresponds to the
-       symbols 0..codes-1.  The Huffman code is generated by first sorting the
-       symbols by length from short to long, and retaining the symbol order
-       for codes with equal lengths.  Then the code starts with all zero bits
-       for the first code of the shortest length, and the codes are integer
-       increments for the same length, and zeros are appended as the length
-       increases.  For the deflate format, these bits are stored backwards
-       from their more natural integer increment ordering, and so when the
-       decoding tables are built in the large loop below, the integer codes
-       are incremented backwards.
+       Process b set of code lengths to crebte b cbnonicbl Huffmbn code.  The
+       code lengths bre lens[0..codes-1].  Ebch length corresponds to the
+       symbols 0..codes-1.  The Huffmbn code is generbted by first sorting the
+       symbols by length from short to long, bnd retbining the symbol order
+       for codes with equbl lengths.  Then the code stbrts with bll zero bits
+       for the first code of the shortest length, bnd the codes bre integer
+       increments for the sbme length, bnd zeros bre bppended bs the length
+       increbses.  For the deflbte formbt, these bits bre stored bbckwbrds
+       from their more nbturbl integer increment ordering, bnd so when the
+       decoding tbbles bre built in the lbrge loop below, the integer codes
+       bre incremented bbckwbrds.
 
-       This routine assumes, but does not check, that all of the entries in
-       lens[] are in the range 0..MAXBITS.  The caller must assure this.
-       1..MAXBITS is interpreted as that code length.  zero means that that
+       This routine bssumes, but does not check, thbt bll of the entries in
+       lens[] bre in the rbnge 0..MAXBITS.  The cbller must bssure this.
+       1..MAXBITS is interpreted bs thbt code length.  zero mebns thbt thbt
        symbol does not occur in this code.
 
-       The codes are sorted by computing a count of codes for each length,
-       creating from that a table of starting indices for each length in the
-       sorted table, and then entering the symbols in order in the sorted
-       table.  The sorted table is work[], with that space being provided by
-       the caller.
+       The codes bre sorted by computing b count of codes for ebch length,
+       crebting from thbt b tbble of stbrting indices for ebch length in the
+       sorted tbble, bnd then entering the symbols in order in the sorted
+       tbble.  The sorted tbble is work[], with thbt spbce being provided by
+       the cbller.
 
-       The length counts are used for other purposes as well, i.e. finding
-       the minimum and maximum length codes, determining if there are any
-       codes at all, checking for a valid set of lengths, and looking ahead
-       at length counts to determine sub-table sizes when building the
-       decoding tables.
+       The length counts bre used for other purposes bs well, i.e. finding
+       the minimum bnd mbximum length codes, determining if there bre bny
+       codes bt bll, checking for b vblid set of lengths, bnd looking bhebd
+       bt length counts to determine sub-tbble sizes when building the
+       decoding tbbles.
      */
 
-    /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
+    /* bccumulbte lengths for codes (bssumes lens[] bll in 0..MAXBITS) */
     for (len = 0; len <= MAXBITS; len++)
         count[len] = 0;
     for (sym = 0; sym < codes; sym++)
@@ -135,134 +135,134 @@ unsigned short FAR *work;
 
     /* bound code lengths, force root to be within code lengths */
     root = *bits;
-    for (max = MAXBITS; max >= 1; max--)
-        if (count[max] != 0) break;
-    if (root > max) root = max;
-    if (max == 0) {                     /* no symbols to code at all */
-        here.op = (unsigned char)64;    /* invalid code marker */
-        here.bits = (unsigned char)1;
-        here.val = (unsigned short)0;
-        *(*table)++ = here;             /* make a table to force an error */
-        *(*table)++ = here;
+    for (mbx = MAXBITS; mbx >= 1; mbx--)
+        if (count[mbx] != 0) brebk;
+    if (root > mbx) root = mbx;
+    if (mbx == 0) {                     /* no symbols to code bt bll */
+        here.op = (unsigned chbr)64;    /* invblid code mbrker */
+        here.bits = (unsigned chbr)1;
+        here.vbl = (unsigned short)0;
+        *(*tbble)++ = here;             /* mbke b tbble to force bn error */
+        *(*tbble)++ = here;
         *bits = 1;
-        return 0;     /* no symbols, but wait for decoding to report error */
+        return 0;     /* no symbols, but wbit for decoding to report error */
     }
-    for (min = 1; min < max; min++)
-        if (count[min] != 0) break;
+    for (min = 1; min < mbx; min++)
+        if (count[min] != 0) brebk;
     if (root < min) root = min;
 
-    /* check for an over-subscribed or incomplete set of lengths */
+    /* check for bn over-subscribed or incomplete set of lengths */
     left = 1;
     for (len = 1; len <= MAXBITS; len++) {
         left <<= 1;
         left -= count[len];
         if (left < 0) return -1;        /* over-subscribed */
     }
-    if (left > 0 && (type == CODES || max != 1))
+    if (left > 0 && (type == CODES || mbx != 1))
         return -1;                      /* incomplete set */
 
-    /* generate offsets into symbol table for each length for sorting */
+    /* generbte offsets into symbol tbble for ebch length for sorting */
     offs[1] = 0;
     for (len = 1; len < MAXBITS; len++)
         offs[len + 1] = offs[len] + count[len];
 
-    /* sort symbols by length, by symbol order within each length */
+    /* sort symbols by length, by symbol order within ebch length */
     for (sym = 0; sym < codes; sym++)
         if (lens[sym] != 0) work[offs[lens[sym]]++] = (unsigned short)sym;
 
     /*
-       Create and fill in decoding tables.  In this loop, the table being
-       filled is at next and has curr index bits.  The code being used is huff
-       with length len.  That code is converted to an index by dropping drop
-       bits off of the bottom.  For codes where len is less than drop + curr,
-       those top drop + curr - len bits are incremented through all values to
-       fill the table with replicated entries.
+       Crebte bnd fill in decoding tbbles.  In this loop, the tbble being
+       filled is bt next bnd hbs curr index bits.  The code being used is huff
+       with length len.  Thbt code is converted to bn index by dropping drop
+       bits off of the bottom.  For codes where len is less thbn drop + curr,
+       those top drop + curr - len bits bre incremented through bll vblues to
+       fill the tbble with replicbted entries.
 
-       root is the number of index bits for the root table.  When len exceeds
-       root, sub-tables are created pointed to by the root entry with an index
-       of the low root bits of huff.  This is saved in low to check for when a
-       new sub-table should be started.  drop is zero when the root table is
-       being filled, and drop is root when sub-tables are being filled.
+       root is the number of index bits for the root tbble.  When len exceeds
+       root, sub-tbbles bre crebted pointed to by the root entry with bn index
+       of the low root bits of huff.  This is sbved in low to check for when b
+       new sub-tbble should be stbrted.  drop is zero when the root tbble is
+       being filled, bnd drop is root when sub-tbbles bre being filled.
 
-       When a new sub-table is needed, it is necessary to look ahead in the
-       code lengths to determine what size sub-table is needed.  The length
-       counts are used for this, and so count[] is decremented as codes are
-       entered in the tables.
+       When b new sub-tbble is needed, it is necessbry to look bhebd in the
+       code lengths to determine whbt size sub-tbble is needed.  The length
+       counts bre used for this, bnd so count[] is decremented bs codes bre
+       entered in the tbbles.
 
-       used keeps track of how many table entries have been allocated from the
-       provided *table space.  It is checked for LENS and DIST tables against
-       the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
-       the initial root table size constants.  See the comments in inftrees.h
-       for more information.
+       used keeps trbck of how mbny tbble entries hbve been bllocbted from the
+       provided *tbble spbce.  It is checked for LENS bnd DIST tbbles bgbinst
+       the constbnts ENOUGH_LENS bnd ENOUGH_DISTS to gubrd bgbinst chbnges in
+       the initibl root tbble size constbnts.  See the comments in inftrees.h
+       for more informbtion.
 
-       sym increments through all symbols, and the loop terminates when
-       all codes of length max, i.e. all codes, have been processed.  This
-       routine permits incomplete codes, so another loop after this one fills
-       in the rest of the decoding tables with invalid code markers.
+       sym increments through bll symbols, bnd the loop terminbtes when
+       bll codes of length mbx, i.e. bll codes, hbve been processed.  This
+       routine permits incomplete codes, so bnother loop bfter this one fills
+       in the rest of the decoding tbbles with invblid code mbrkers.
      */
 
     /* set up for code type */
     switch (type) {
-    case CODES:
-        base = extra = work;    /* dummy value--not used */
+    cbse CODES:
+        bbse = extrb = work;    /* dummy vblue--not used */
         end = 19;
-        break;
-    case LENS:
-        base = lbase;
-        base -= 257;
-        extra = lext;
-        extra -= 257;
+        brebk;
+    cbse LENS:
+        bbse = lbbse;
+        bbse -= 257;
+        extrb = lext;
+        extrb -= 257;
         end = 256;
-        break;
-    default:            /* DISTS */
-        base = dbase;
-        extra = dext;
+        brebk;
+    defbult:            /* DISTS */
+        bbse = dbbse;
+        extrb = dext;
         end = -1;
     }
 
-    /* initialize state for loop */
-    huff = 0;                   /* starting code */
-    sym = 0;                    /* starting code symbol */
-    len = min;                  /* starting code length */
-    next = *table;              /* current table to fill in */
-    curr = root;                /* current table index bits */
+    /* initiblize stbte for loop */
+    huff = 0;                   /* stbrting code */
+    sym = 0;                    /* stbrting code symbol */
+    len = min;                  /* stbrting code length */
+    next = *tbble;              /* current tbble to fill in */
+    curr = root;                /* current tbble index bits */
     drop = 0;                   /* current bits to drop from code for index */
-    low = (unsigned)(-1);       /* trigger new sub-table when len > root */
-    used = 1U << root;          /* use root table entries */
-    mask = used - 1;            /* mask for comparing low */
+    low = (unsigned)(-1);       /* trigger new sub-tbble when len > root */
+    used = 1U << root;          /* use root tbble entries */
+    mbsk = used - 1;            /* mbsk for compbring low */
 
-    /* check available table space */
+    /* check bvbilbble tbble spbce */
     if ((type == LENS && used > ENOUGH_LENS) ||
         (type == DISTS && used > ENOUGH_DISTS))
         return 1;
 
-    /* process all codes and make table entries */
+    /* process bll codes bnd mbke tbble entries */
     for (;;) {
-        /* create table entry */
-        here.bits = (unsigned char)(len - drop);
+        /* crebte tbble entry */
+        here.bits = (unsigned chbr)(len - drop);
         if ((int)(work[sym]) < end) {
-            here.op = (unsigned char)0;
-            here.val = work[sym];
+            here.op = (unsigned chbr)0;
+            here.vbl = work[sym];
         }
         else if ((int)(work[sym]) > end) {
-            here.op = (unsigned char)(extra[work[sym]]);
-            here.val = base[work[sym]];
+            here.op = (unsigned chbr)(extrb[work[sym]]);
+            here.vbl = bbse[work[sym]];
         }
         else {
-            here.op = (unsigned char)(32 + 64);         /* end of block */
-            here.val = 0;
+            here.op = (unsigned chbr)(32 + 64);         /* end of block */
+            here.vbl = 0;
         }
 
-        /* replicate for those indices with low len bits equal to huff */
+        /* replicbte for those indices with low len bits equbl to huff */
         incr = 1U << (len - drop);
         fill = 1U << curr;
-        min = fill;                 /* save offset to next table */
+        min = fill;                 /* sbve offset to next tbble */
         do {
             fill -= incr;
             next[(huff >> drop) + fill] = here;
         } while (fill != 0);
 
-        /* backwards increment the len-bit code huff */
+        /* bbckwbrds increment the len-bit code huff */
         incr = 1U << (len - 1);
         while (huff & incr)
             incr >>= 1;
@@ -273,58 +273,58 @@ unsigned short FAR *work;
         else
             huff = 0;
 
-        /* go to next symbol, update count, len */
+        /* go to next symbol, updbte count, len */
         sym++;
         if (--(count[len]) == 0) {
-            if (len == max) break;
+            if (len == mbx) brebk;
             len = lens[work[sym]];
         }
 
-        /* create new sub-table if needed */
-        if (len > root && (huff & mask) != low) {
-            /* if first time, transition to sub-tables */
+        /* crebte new sub-tbble if needed */
+        if (len > root && (huff & mbsk) != low) {
+            /* if first time, trbnsition to sub-tbbles */
             if (drop == 0)
                 drop = root;
 
-            /* increment past last table */
+            /* increment pbst lbst tbble */
             next += min;            /* here min is 1 << curr */
 
-            /* determine length of next table */
+            /* determine length of next tbble */
             curr = len - drop;
             left = (int)(1 << curr);
-            while (curr + drop < max) {
+            while (curr + drop < mbx) {
                 left -= count[curr + drop];
-                if (left <= 0) break;
+                if (left <= 0) brebk;
                 curr++;
                 left <<= 1;
             }
 
-            /* check for enough space */
+            /* check for enough spbce */
             used += 1U << curr;
             if ((type == LENS && used > ENOUGH_LENS) ||
                 (type == DISTS && used > ENOUGH_DISTS))
                 return 1;
 
-            /* point entry in root table to sub-table */
-            low = huff & mask;
-            (*table)[low].op = (unsigned char)curr;
-            (*table)[low].bits = (unsigned char)root;
-            (*table)[low].val = (unsigned short)(next - *table);
+            /* point entry in root tbble to sub-tbble */
+            low = huff & mbsk;
+            (*tbble)[low].op = (unsigned chbr)curr;
+            (*tbble)[low].bits = (unsigned chbr)root;
+            (*tbble)[low].vbl = (unsigned short)(next - *tbble);
         }
     }
 
-    /* fill in remaining table entry if code is incomplete (guaranteed to have
-       at most one remaining entry, since if the code is incomplete, the
-       maximum code length that was allowed to get this far is one bit) */
+    /* fill in rembining tbble entry if code is incomplete (gubrbnteed to hbve
+       bt most one rembining entry, since if the code is incomplete, the
+       mbximum code length thbt wbs bllowed to get this fbr is one bit) */
     if (huff != 0) {
-        here.op = (unsigned char)64;            /* invalid code marker */
-        here.bits = (unsigned char)(len - drop);
-        here.val = (unsigned short)0;
+        here.op = (unsigned chbr)64;            /* invblid code mbrker */
+        here.bits = (unsigned chbr)(len - drop);
+        here.vbl = (unsigned short)0;
         next[huff] = here;
     }
 
-    /* set return parameters */
-    *table += used;
+    /* set return pbrbmeters */
+    *tbble += used;
     *bits = root;
     return 0;
 }

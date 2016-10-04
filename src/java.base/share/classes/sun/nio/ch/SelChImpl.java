@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.Channel;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.chbnnels.Chbnnel;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
 
 
 /**
- * An interface that allows translation (and more!).
+ * An interfbce thbt bllows trbnslbtion (bnd more!).
  *
  * @since 1.4
  */
 
-public interface SelChImpl extends Channel {
+public interfbce SelChImpl extends Chbnnel {
 
     FileDescriptor getFD();
 
-    int getFDVal();
+    int getFDVbl();
 
     /**
      * Adds the specified ops if present in interestOps. The specified
-     * ops are turned on without affecting the other ops.
+     * ops bre turned on without bffecting the other ops.
      *
-     * @return  true iff the new value of sk.readyOps() set by this method
-     *          contains at least one bit that the previous value did not
-     *          contain
+     * @return  true iff the new vblue of sk.rebdyOps() set by this method
+     *          contbins bt lebst one bit thbt the previous vblue did not
+     *          contbin
      */
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk);
+    public boolebn trbnslbteAndUpdbteRebdyOps(int ops, SelectionKeyImpl sk);
 
     /**
      * Sets the specified ops if present in interestOps. The specified
-     * ops are turned on, and all other ops are turned off.
+     * ops bre turned on, bnd bll other ops bre turned off.
      *
-     * @return  true iff the new value of sk.readyOps() set by this method
-     *          contains at least one bit that the previous value did not
-     *          contain
+     * @return  true iff the new vblue of sk.rebdyOps() set by this method
+     *          contbins bt lebst one bit thbt the previous vblue did not
+     *          contbin
      */
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk);
+    public boolebn trbnslbteAndSetRebdyOps(int ops, SelectionKeyImpl sk);
 
-    void translateAndSetInterestOps(int ops, SelectionKeyImpl sk);
+    void trbnslbteAndSetInterestOps(int ops, SelectionKeyImpl sk);
 
-    int validOps();
+    int vblidOps();
 
     void kill() throws IOException;
 

@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1995, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.BufferStrategy;
-import java.awt.peer.CanvasPeer;
-import javax.accessibility.*;
+import jbvb.bwt.imbge.BufferStrbtegy;
+import jbvb.bwt.peer.CbnvbsPeer;
+import jbvbx.bccessibility.*;
 
 /**
- * A <code>Canvas</code> component represents a blank rectangular
- * area of the screen onto which the application can draw or from
- * which the application can trap input events from the user.
+ * A <code>Cbnvbs</code> component represents b blbnk rectbngulbr
+ * breb of the screen onto which the bpplicbtion cbn drbw or from
+ * which the bpplicbtion cbn trbp input events from the user.
  * <p>
- * An application must subclass the <code>Canvas</code> class in
- * order to get useful functionality such as creating a custom
- * component. The <code>paint</code> method must be overridden
- * in order to perform custom graphics on the canvas.
+ * An bpplicbtion must subclbss the <code>Cbnvbs</code> clbss in
+ * order to get useful functionblity such bs crebting b custom
+ * component. The <code>pbint</code> method must be overridden
+ * in order to perform custom grbphics on the cbnvbs.
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @since       1.0
  */
-public class Canvas extends Component implements Accessible {
+public clbss Cbnvbs extends Component implements Accessible {
 
-    private static final String base = "canvas";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "cbnvbs";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -2284879212465893870L;
+     privbte stbtic finbl long seriblVersionUID = -2284879212465893870L;
 
     /**
-     * Constructs a new Canvas.
+     * Constructs b new Cbnvbs.
      */
-    public Canvas() {
+    public Cbnvbs() {
     }
 
     /**
-     * Constructs a new Canvas given a GraphicsConfiguration object.
+     * Constructs b new Cbnvbs given b GrbphicsConfigurbtion object.
      *
-     * @param config a reference to a GraphicsConfiguration object.
+     * @pbrbm config b reference to b GrbphicsConfigurbtion object.
      *
-     * @see GraphicsConfiguration
+     * @see GrbphicsConfigurbtion
      */
-    public Canvas(GraphicsConfiguration config) {
+    public Cbnvbs(GrbphicsConfigurbtion config) {
         this();
-        setGraphicsConfiguration(config);
+        setGrbphicsConfigurbtion(config);
     }
 
     @Override
-    void setGraphicsConfiguration(GraphicsConfiguration gc) {
+    void setGrbphicsConfigurbtion(GrbphicsConfigurbtion gc) {
         synchronized(getTreeLock()) {
-            CanvasPeer peer = (CanvasPeer)getPeer();
+            CbnvbsPeer peer = (CbnvbsPeer)getPeer();
             if (peer != null) {
-                gc = peer.getAppropriateGraphicsConfiguration(gc);
+                gc = peer.getAppropribteGrbphicsConfigurbtion(gc);
             }
-            super.setGraphicsConfiguration(gc);
+            super.setGrbphicsConfigurbtion(gc);
         }
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (Canvas.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Cbnvbs.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the peer of the canvas.  This peer allows you to change the
-     * user interface of the canvas without changing its functionality.
-     * @see     java.awt.Toolkit#createCanvas(java.awt.Canvas)
-     * @see     java.awt.Component#getToolkit()
+     * Crebtes the peer of the cbnvbs.  This peer bllows you to chbnge the
+     * user interfbce of the cbnvbs without chbnging its functionblity.
+     * @see     jbvb.bwt.Toolkit#crebteCbnvbs(jbvb.bwt.Cbnvbs)
+     * @see     jbvb.bwt.Component#getToolkit()
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createCanvas(this);
-            super.addNotify();
+                peer = getToolkit().crebteCbnvbs(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Paints this canvas.
+     * Pbints this cbnvbs.
      * <p>
-     * Most applications that subclass <code>Canvas</code> should
-     * override this method in order to perform some useful operation
-     * (typically, custom painting of the canvas).
-     * The default operation is simply to clear the canvas.
-     * Applications that override this method need not call
-     * super.paint(g).
+     * Most bpplicbtions thbt subclbss <code>Cbnvbs</code> should
+     * override this method in order to perform some useful operbtion
+     * (typicblly, custom pbinting of the cbnvbs).
+     * The defbult operbtion is simply to clebr the cbnvbs.
+     * Applicbtions thbt override this method need not cbll
+     * super.pbint(g).
      *
-     * @param      g   the specified Graphics context
-     * @see        #update(Graphics)
-     * @see        Component#paint(Graphics)
+     * @pbrbm      g   the specified Grbphics context
+     * @see        #updbte(Grbphics)
+     * @see        Component#pbint(Grbphics)
      */
-    public void paint(Graphics g) {
-        g.clearRect(0, 0, width, height);
+    public void pbint(Grbphics g) {
+        g.clebrRect(0, 0, width, height);
     }
 
     /**
-     * Updates this canvas.
+     * Updbtes this cbnvbs.
      * <p>
-     * This method is called in response to a call to <code>repaint</code>.
-     * The canvas is first cleared by filling it with the background
-     * color, and then completely redrawn by calling this canvas's
-     * <code>paint</code> method.
-     * Note: applications that override this method should either call
-     * super.update(g) or incorporate the functionality described
-     * above into their own code.
+     * This method is cblled in response to b cbll to <code>repbint</code>.
+     * The cbnvbs is first clebred by filling it with the bbckground
+     * color, bnd then completely redrbwn by cblling this cbnvbs's
+     * <code>pbint</code> method.
+     * Note: bpplicbtions thbt override this method should either cbll
+     * super.updbte(g) or incorporbte the functionblity described
+     * bbove into their own code.
      *
-     * @param g the specified Graphics context
-     * @see   #paint(Graphics)
-     * @see   Component#update(Graphics)
+     * @pbrbm g the specified Grbphics context
+     * @see   #pbint(Grbphics)
+     * @see   Component#updbte(Grbphics)
      */
-    public void update(Graphics g) {
-        g.clearRect(0, 0, width, height);
-        paint(g);
+    public void updbte(Grbphics g) {
+        g.clebrRect(0, 0, width, height);
+        pbint(g);
     }
 
-    boolean postsOldMouseEvents() {
+    boolebn postsOldMouseEvents() {
         return true;
     }
 
     /**
-     * Creates a new strategy for multi-buffering on this component.
-     * Multi-buffering is useful for rendering performance.  This method
-     * attempts to create the best strategy available with the number of
-     * buffers supplied.  It will always create a <code>BufferStrategy</code>
-     * with that number of buffers.
-     * A page-flipping strategy is attempted first, then a blitting strategy
-     * using accelerated buffers.  Finally, an unaccelerated blitting
-     * strategy is used.
+     * Crebtes b new strbtegy for multi-buffering on this component.
+     * Multi-buffering is useful for rendering performbnce.  This method
+     * bttempts to crebte the best strbtegy bvbilbble with the number of
+     * buffers supplied.  It will blwbys crebte b <code>BufferStrbtegy</code>
+     * with thbt number of buffers.
+     * A pbge-flipping strbtegy is bttempted first, then b blitting strbtegy
+     * using bccelerbted buffers.  Finblly, bn unbccelerbted blitting
+     * strbtegy is used.
      * <p>
-     * Each time this method is called,
-     * the existing buffer strategy for this component is discarded.
-     * @param numBuffers number of buffers to create, including the front buffer
-     * @exception IllegalArgumentException if numBuffers is less than 1.
-     * @exception IllegalStateException if the component is not displayable
-     * @see #isDisplayable
-     * @see #getBufferStrategy
+     * Ebch time this method is cblled,
+     * the existing buffer strbtegy for this component is discbrded.
+     * @pbrbm numBuffers number of buffers to crebte, including the front buffer
+     * @exception IllegblArgumentException if numBuffers is less thbn 1.
+     * @exception IllegblStbteException if the component is not displbybble
+     * @see #isDisplbybble
+     * @see #getBufferStrbtegy
      * @since 1.4
      */
-    public void createBufferStrategy(int numBuffers) {
-        super.createBufferStrategy(numBuffers);
+    public void crebteBufferStrbtegy(int numBuffers) {
+        super.crebteBufferStrbtegy(numBuffers);
     }
 
     /**
-     * Creates a new strategy for multi-buffering on this component with the
-     * required buffer capabilities.  This is useful, for example, if only
-     * accelerated memory or page flipping is desired (as specified by the
-     * buffer capabilities).
+     * Crebtes b new strbtegy for multi-buffering on this component with the
+     * required buffer cbpbbilities.  This is useful, for exbmple, if only
+     * bccelerbted memory or pbge flipping is desired (bs specified by the
+     * buffer cbpbbilities).
      * <p>
-     * Each time this method
-     * is called, the existing buffer strategy for this component is discarded.
-     * @param numBuffers number of buffers to create
-     * @param caps the required capabilities for creating the buffer strategy;
-     * cannot be <code>null</code>
-     * @exception AWTException if the capabilities supplied could not be
-     * supported or met; this may happen, for example, if there is not enough
-     * accelerated memory currently available, or if page flipping is specified
+     * Ebch time this method
+     * is cblled, the existing buffer strbtegy for this component is discbrded.
+     * @pbrbm numBuffers number of buffers to crebte
+     * @pbrbm cbps the required cbpbbilities for crebting the buffer strbtegy;
+     * cbnnot be <code>null</code>
+     * @exception AWTException if the cbpbbilities supplied could not be
+     * supported or met; this mby hbppen, for exbmple, if there is not enough
+     * bccelerbted memory currently bvbilbble, or if pbge flipping is specified
      * but not possible.
-     * @exception IllegalArgumentException if numBuffers is less than 1, or if
-     * caps is <code>null</code>
-     * @see #getBufferStrategy
+     * @exception IllegblArgumentException if numBuffers is less thbn 1, or if
+     * cbps is <code>null</code>
+     * @see #getBufferStrbtegy
      * @since 1.4
      */
-    public void createBufferStrategy(int numBuffers,
-        BufferCapabilities caps) throws AWTException {
-        super.createBufferStrategy(numBuffers, caps);
+    public void crebteBufferStrbtegy(int numBuffers,
+        BufferCbpbbilities cbps) throws AWTException {
+        super.crebteBufferStrbtegy(numBuffers, cbps);
     }
 
     /**
-     * Returns the <code>BufferStrategy</code> used by this component.  This
-     * method will return null if a <code>BufferStrategy</code> has not yet
-     * been created or has been disposed.
+     * Returns the <code>BufferStrbtegy</code> used by this component.  This
+     * method will return null if b <code>BufferStrbtegy</code> hbs not yet
+     * been crebted or hbs been disposed.
      *
-     * @return the buffer strategy used by this component
-     * @see #createBufferStrategy
+     * @return the buffer strbtegy used by this component
+     * @see #crebteBufferStrbtegy
      * @since 1.4
      */
-    public BufferStrategy getBufferStrategy() {
-        return super.getBufferStrategy();
+    public BufferStrbtegy getBufferStrbtegy() {
+        return super.getBufferStrbtegy();
     }
 
     /*
@@ -213,36 +213,36 @@ public class Canvas extends Component implements Accessible {
      */
 
     /**
-     * Gets the AccessibleContext associated with this Canvas.
-     * For canvases, the AccessibleContext takes the form of an
-     * AccessibleAWTCanvas.
-     * A new AccessibleAWTCanvas instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this Cbnvbs.
+     * For cbnvbses, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTCbnvbs.
+     * A new AccessibleAWTCbnvbs instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTCanvas that serves as the
-     *         AccessibleContext of this Canvas
+     * @return bn AccessibleAWTCbnvbs thbt serves bs the
+     *         AccessibleContext of this Cbnvbs
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTCanvas();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTCbnvbs();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Canvas</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to canvas user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Cbnvbs</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to cbnvbs user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTCanvas extends AccessibleAWTComponent
+    protected clbss AccessibleAWTCbnvbs extends AccessibleAWTComponent
     {
-        private static final long serialVersionUID = -6325592262103146699L;
+        privbte stbtic finbl long seriblVersionUID = -6325592262103146699L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -250,5 +250,5 @@ public class Canvas extends Component implements Accessible {
             return AccessibleRole.CANVAS;
         }
 
-    } // inner class AccessibleAWTCanvas
+    } // inner clbss AccessibleAWTCbnvbs
 }

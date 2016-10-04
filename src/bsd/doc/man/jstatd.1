@@ -1,101 +1,101 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Monitoring Tools
-.\"     Title: jstatd.1
+.\"     Title: jstbtd.1
 .\"
 .if n .pl 99999
-.TH jstatd 1 "21 November 2013" "JDK 8" "Monitoring Tools"
+.TH jstbtd 1 "21 November 2013" "JDK 8" "Monitoring Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jstatd \- Monitors Java Virtual Machines (JVMs) and enables remote monitoring tools to attach to JVMs\&. This command is experimental and unsupported\&.
+jstbtd \- Monitors Jbvb Virtubl Mbchines (JVMs) bnd enbbles remote monitoring tools to bttbch to JVMs\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjstatd\fR [ \fIoptions\fR ]
+\fBjstbtd\fR [ \fIoptions\fR ]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .SH DESCRIPTION    
-The \f3jstatd\fR command is an RMI server application that monitors for the creation and termination of instrumented Java HotSpot VMs and provides an interface to enable remote monitoring tools to attach to JVMs that are running on the local host\&.
+The \f3jstbtd\fR commbnd is bn RMI server bpplicbtion thbt monitors for the crebtion bnd terminbtion of instrumented Jbvb HotSpot VMs bnd provides bn interfbce to enbble remote monitoring tools to bttbch to JVMs thbt bre running on the locbl host\&.
 .PP
-The \f3jstatd\fR server requires an RMI registry on the local host\&. The \f3jstatd\fR server attempts to attach to the RMI registry on the default port, or on the port you specify with the \f3-p\fR\f3port\fR option\&. If an RMI registry is not found, then one is created within the \f3jstatd\fR application that is bound to the port that is indicated by the \f3-p\fR\f3port\fR option or to the default RMI registry port when the \f3-p\fR\f3port\fR option is omitted\&. You can stop the creation of an internal RMI registry by specifying the \f3-nr\fR option\&.
+The \f3jstbtd\fR server requires bn RMI registry on the locbl host\&. The \f3jstbtd\fR server bttempts to bttbch to the RMI registry on the defbult port, or on the port you specify with the \f3-p\fR\f3port\fR option\&. If bn RMI registry is not found, then one is crebted within the \f3jstbtd\fR bpplicbtion thbt is bound to the port thbt is indicbted by the \f3-p\fR\f3port\fR option or to the defbult RMI registry port when the \f3-p\fR\f3port\fR option is omitted\&. You cbn stop the crebtion of bn internbl RMI registry by specifying the \f3-nr\fR option\&.
 .SH OPTIONS    
 .TP
 -nr
 .br
-Does not attempt to create an internal RMI registry within the \f3jstatd\fR process when an existing RMI registry is not found\&.
+Does not bttempt to crebte bn internbl RMI registry within the \f3jstbtd\fR process when bn existing RMI registry is not found\&.
 .TP
 -p \fIport\fR
 .br
-The port number where the RMI registry is expected to be found, or when not found, created if the \f3-nr\fR option is not specified\&.
+The port number where the RMI registry is expected to be found, or when not found, crebted if the \f3-nr\fR option is not specified\&.
 .TP
--n \fIrminame\fR
+-n \fIrminbme\fR
 .br
-Name to which the remote RMI object is bound in the RMI registry\&. The default name is \f3JStatRemoteHost\fR\&. If multiple \f3jstatd\fR servers are started on the same host, then the name of the exported RMI object for each server can be made unique by specifying this option\&. However, doing so requires that the unique server name be included in the monitoring client\&'s \f3hostid\fR and \f3vmid\fR strings\&.
+Nbme to which the remote RMI object is bound in the RMI registry\&. The defbult nbme is \f3JStbtRemoteHost\fR\&. If multiple \f3jstbtd\fR servers bre stbrted on the sbme host, then the nbme of the exported RMI object for ebch server cbn be mbde unique by specifying this option\&. However, doing so requires thbt the unique server nbme be included in the monitoring client\&'s \f3hostid\fR bnd \f3vmid\fR strings\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SH SECURITY    
-The \f3jstatd\fR server can only monitor JVMs for which it has the appropriate native access permissions\&. Therefore, the \f3jstatd\fR process must be running with the same user credentials as the target JVMs\&. Some user credentials, such as the root user in UNIX-based systems, have permission to access the instrumentation exported by any JVM on the system\&. A \f3jstatd\fR process running with such credentials can monitor any JVM on the system, but introduces additional security concerns\&.
+The \f3jstbtd\fR server cbn only monitor JVMs for which it hbs the bppropribte nbtive bccess permissions\&. Therefore, the \f3jstbtd\fR process must be running with the sbme user credentibls bs the tbrget JVMs\&. Some user credentibls, such bs the root user in UNIX-bbsed systems, hbve permission to bccess the instrumentbtion exported by bny JVM on the system\&. A \f3jstbtd\fR process running with such credentibls cbn monitor bny JVM on the system, but introduces bdditionbl security concerns\&.
 .PP
-The \f3jstatd\fR server does not provide any authentication of remote clients\&. Therefore, running a \f3jstatd\fR server process exposes the instrumentation export by all JVMs for which the \f3jstatd\fR process has access permissions to any user on the network\&. This exposure might be undesirable in your environment, and therefore, local security policies should be considered before you start the \f3jstatd\fR process, particularly in production environments or on networks that are not secure\&.
+The \f3jstbtd\fR server does not provide bny buthenticbtion of remote clients\&. Therefore, running b \f3jstbtd\fR server process exposes the instrumentbtion export by bll JVMs for which the \f3jstbtd\fR process hbs bccess permissions to bny user on the network\&. This exposure might be undesirbble in your environment, bnd therefore, locbl security policies should be considered before you stbrt the \f3jstbtd\fR process, pbrticulbrly in production environments or on networks thbt bre not secure\&.
 .PP
-The \f3jstatd\fR server installs an instance of \f3RMISecurityPolicy\fR when no other security manager is installed, and therefore, requires a security policy file to be specified\&. The policy file must conform to Default Policy Implementation and Policy File Syntax at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html
+The \f3jstbtd\fR server instblls bn instbnce of \f3RMISecurityPolicy\fR when no other security mbnbger is instblled, bnd therefore, requires b security policy file to be specified\&. The policy file must conform to Defbult Policy Implementbtion bnd Policy File Syntbx bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html
 .PP
-The following policy file allows the \f3jstatd\fR server to run without any security exceptions\&. This policy is less liberal than granting all permissions to all code bases, but is more liberal than a policy that grants the minimal permissions to run the \f3jstatd\fR server\&.
+The following policy file bllows the \f3jstbtd\fR server to run without bny security exceptions\&. This policy is less liberbl thbn grbnting bll permissions to bll code bbses, but is more liberbl thbn b policy thbt grbnts the minimbl permissions to run the \f3jstbtd\fR server\&.
 .sp     
 .nf     
-\f3grant codebase "file:${java\&.home}/\&.\&./lib/tools\&.jar" {   \fP
+\f3grbnt codebbse "file:${jbvb\&.home}/\&.\&./lib/tools\&.jbr" {   \fP
 .fi     
 .nf     
-\f3    permission java\&.security\&.AllPermission;\fP
+\f3    permission jbvb\&.security\&.AllPermission;\fP
 .fi     
 .nf     
 \f3};\fP
@@ -104,88 +104,88 @@ The following policy file allows the \f3jstatd\fR server to run without any secu
 \f3\fP
 .fi     
 .sp     
-To use this policy setting, copy the text into a file called \f3jstatd\&.all\&.policy\fR and run the \f3jstatd\fR server as follows:
+To use this policy setting, copy the text into b file cblled \f3jstbtd\&.bll\&.policy\fR bnd run the \f3jstbtd\fR server bs follows:
 .sp     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=jstatd\&.all\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=jstbtd\&.bll\&.policy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-For sites with more restrictive security practices, it is possible to use a custom policy file to limit access to specific trusted hosts or networks, though such techniques are subject to IP address spoofing attacks\&. If your security concerns cannot be addressed with a customized policy file, then the safest action is to not run the \f3jstatd\fR server and use the \f3jstat\fR and \f3jps\fR tools locally\&.
+For sites with more restrictive security prbctices, it is possible to use b custom policy file to limit bccess to specific trusted hosts or networks, though such techniques bre subject to IP bddress spoofing bttbcks\&. If your security concerns cbnnot be bddressed with b customized policy file, then the sbfest bction is to not run the \f3jstbtd\fR server bnd use the \f3jstbt\fR bnd \f3jps\fR tools locblly\&.
 .SH REMOTE\ INTERFACE    
-The interface exported by the \f3jstatd\fR process is proprietary and guaranteed to change\&. Users and developers are discouraged from writing to this interface\&.
+The interfbce exported by the \f3jstbtd\fR process is proprietbry bnd gubrbnteed to chbnge\&. Users bnd developers bre discourbged from writing to this interfbce\&.
 .SH EXAMPLES    
-The following are examples of the \f3jstatd\fR command\&. The \f3jstatd\fR scripts automatically start the server in the background
+The following bre exbmples of the \f3jstbtd\fR commbnd\&. The \f3jstbtd\fR scripts butombticblly stbrt the server in the bbckground
 .SS INTERNAL\ RMI\ REGISTRY    
-This example shows hos to start a \f3jstatd\fR session with an internal RMI registry\&. This example assumes that no other server is bound to the default RMI registry port (port 1099)\&.
+This exbmple shows hos to stbrt b \f3jstbtd\fR session with bn internbl RMI registry\&. This exbmple bssumes thbt no other server is bound to the defbult RMI registry port (port 1099)\&.
 .sp     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS EXTERNAL\ RMI\ REGISTRY    
-This example starts a \f3jstatd\fR session with a external RMI registry\&.
+This exbmple stbrts b \f3jstbtd\fR session with b externbl RMI registry\&.
 .sp     
 .nf     
 \f3rmiregistry&\fP
 .fi     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This example starts a \f3jstatd\fR session with an external RMI registry server on port 2020\&.
+This exbmple stbrts b \f3jstbtd\fR session with bn externbl RMI registry server on port 2020\&.
 .sp     
 .nf     
 \f3jrmiregistry 2020&\fP
 .fi     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy \-p 2020\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-p 2020\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This example starts a \f3jstatd\fR session with an external RMI registry on port 2020 that is bound to \f3AlternateJstatdServerName\fR\&.
+This exbmple stbrts b \f3jstbtd\fR session with bn externbl RMI registry on port 2020 thbt is bound to \f3AlternbteJstbtdServerNbme\fR\&.
 .sp     
 .nf     
 \f3rmiregistry 2020&\fP
 .fi     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy \-p 2020\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-p 2020\fP
 .fi     
 .nf     
-\f3    \-n AlternateJstatdServerName\fP
+\f3    \-n AlternbteJstbtdServerNbme\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS STOP\ THE\ CREATION\ OF\ AN\ IN-PROCESS\ RMI\ REGISTRY    
-This example starts a \f3jstatd\fR session that does not create an RMI registry when one is not found\&. This example assumes an RMI registry is already running\&. If an RMI registry is not running, then an error message is displayed\&.
+This exbmple stbrts b \f3jstbtd\fR session thbt does not crebte bn RMI registry when one is not found\&. This exbmple bssumes bn RMI registry is blrebdy running\&. If bn RMI registry is not running, then bn error messbge is displbyed\&.
 .sp     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy \-nr\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-nr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS ENABLE\ RMI\ LOGGING    
-This example starts a \f3jstatd\fR session with RMI logging capabilities enabled\&. This technique is useful as a troubleshooting aid or for monitoring server activities\&.
+This exbmple stbrts b \f3jstbtd\fR session with RMI logging cbpbbilities enbbled\&. This technique is useful bs b troubleshooting bid or for monitoring server bctivities\&.
 .sp     
 .nf     
-\f3jstatd \-J\-Djava\&.security\&.policy=all\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
 .fi     
 .nf     
-\f3    \-J\-Djava\&.rmi\&.server\&.logCalls=true\fP
+\f3    \-J\-Djbvb\&.rmi\&.server\&.logCblls=true\fP
 .fi     
 .nf     
 \f3\fP
@@ -194,13 +194,13 @@ This example starts a \f3jstatd\fR session with RMI logging capabilities enabled
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jstat(1)
+jstbt(1)
 .TP 0.2i    
 \(bu
 rmiregistry(1)

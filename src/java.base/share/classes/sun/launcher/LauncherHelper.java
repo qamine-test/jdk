@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.launcher;
+pbckbge sun.lbuncher;
 
 /*
  *
- *  <p><b>This is NOT part of any API supported by Sun Microsystems.
- *  If you write code that depends on this, you do so at your own
- *  risk.  This code and its internal interfaces are subject to change
+ *  <p><b>This is NOT pbrt of bny API supported by Sun Microsystems.
+ *  If you write code thbt depends on this, you do so bt your own
+ *  risk.  This code bnd its internbl interfbces bre subject to chbnge
  *  or deletion without notice.</b>
  *
  */
 
 /**
- * A utility package for the java(1), javaw(1) launchers.
- * The following are helper methods that the native launcher uses
- * to perform checks etc. using JNI, see src/share/bin/java.c
+ * A utility pbckbge for the jbvb(1), jbvbw(1) lbunchers.
+ * The following bre helper methods thbt the nbtive lbuncher uses
+ * to perform checks etc. using JNI, see src/shbre/bin/jbvb.c
  */
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.nio.charset.Charset;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.Normalizer;
-import java.util.ResourceBundle;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Locale.Category;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.RoundingMode;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.file.DirectoryStrebm;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.text.Normblizer;
+import jbvb.util.ResourceBundle;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Locble.Cbtegory;
+import jbvb.util.Properties;
+import jbvb.util.Set;
+import jbvb.util.TreeSet;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.Mbnifest;
 
-public enum LauncherHelper {
+public enum LbuncherHelper {
     INSTANCE;
 
-    // used to identify JavaFX applications
-    private static final String JAVAFX_APPLICATION_MARKER =
-            "JavaFX-Application-Class";
-    private static final String JAVAFX_APPLICATION_CLASS_NAME =
-            "javafx.application.Application";
-    private static final String JAVAFX_FXHELPER_CLASS_NAME_SUFFIX =
-            "sun.launcher.LauncherHelper$FXHelper";
-    private static final String MAIN_CLASS = "Main-Class";
+    // used to identify JbvbFX bpplicbtions
+    privbte stbtic finbl String JAVAFX_APPLICATION_MARKER =
+            "JbvbFX-Applicbtion-Clbss";
+    privbte stbtic finbl String JAVAFX_APPLICATION_CLASS_NAME =
+            "jbvbfx.bpplicbtion.Applicbtion";
+    privbte stbtic finbl String JAVAFX_FXHELPER_CLASS_NAME_SUFFIX =
+            "sun.lbuncher.LbuncherHelper$FXHelper";
+    privbte stbtic finbl String MAIN_CLASS = "Mbin-Clbss";
 
-    private static StringBuilder outBuf = new StringBuilder();
+    privbte stbtic StringBuilder outBuf = new StringBuilder();
 
-    private static final String INDENT = "    ";
-    private static final String VM_SETTINGS     = "VM settings:";
-    private static final String PROP_SETTINGS   = "Property settings:";
-    private static final String LOCALE_SETTINGS = "Locale settings:";
+    privbte stbtic finbl String INDENT = "    ";
+    privbte stbtic finbl String VM_SETTINGS     = "VM settings:";
+    privbte stbtic finbl String PROP_SETTINGS   = "Property settings:";
+    privbte stbtic finbl String LOCALE_SETTINGS = "Locble settings:";
 
-    // sync with java.c and sun.misc.VM
-    private static final String diagprop = "sun.java.launcher.diag";
-    final static boolean trace = sun.misc.VM.getSavedProperty(diagprop) != null;
+    // sync with jbvb.c bnd sun.misc.VM
+    privbte stbtic finbl String dibgprop = "sun.jbvb.lbuncher.dibg";
+    finbl stbtic boolebn trbce = sun.misc.VM.getSbvedProperty(dibgprop) != null;
 
-    private static final String defaultBundleName =
-            "sun.launcher.resources.launcher";
-    private static class ResourceBundleHolder {
-        private static final ResourceBundle RB =
-                ResourceBundle.getBundle(defaultBundleName);
+    privbte stbtic finbl String defbultBundleNbme =
+            "sun.lbuncher.resources.lbuncher";
+    privbte stbtic clbss ResourceBundleHolder {
+        privbte stbtic finbl ResourceBundle RB =
+                ResourceBundle.getBundle(defbultBundleNbme);
     }
-    private static PrintStream ostream;
-    private static final ClassLoader scloader = ClassLoader.getSystemClassLoader();
-    private static Class<?> appClass; // application class, for GUI/reporting purposes
+    privbte stbtic PrintStrebm ostrebm;
+    privbte stbtic finbl ClbssLobder sclobder = ClbssLobder.getSystemClbssLobder();
+    privbte stbtic Clbss<?> bppClbss; // bpplicbtion clbss, for GUI/reporting purposes
 
     /*
-     * A method called by the launcher to print out the standard settings,
-     * by default -XshowSettings is equivalent to -XshowSettings:all,
-     * Specific information may be gotten by using suboptions with possible
-     * values vm, properties and locale.
+     * A method cblled by the lbuncher to print out the stbndbrd settings,
+     * by defbult -XshowSettings is equivblent to -XshowSettings:bll,
+     * Specific informbtion mby be gotten by using suboptions with possible
+     * vblues vm, properties bnd locble.
      *
-     * printToStderr: choose between stdout and stderr
+     * printToStderr: choose between stdout bnd stderr
      *
-     * optionFlag: specifies which options to print default is all other
-     *    possible values are vm, properties, locale.
+     * optionFlbg: specifies which options to print defbult is bll other
+     *    possible vblues bre vm, properties, locble.
      *
-     * initialHeapSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code should determine this value, using a suitable method or
+     * initiblHebpSize: in bytes, bs set by the lbuncher, b zero-vblue indicbtes
+     *    this code should determine this vblue, using b suitbble method or
      *    the line could be omitted.
      *
-     * maxHeapSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code should determine this value, using a suitable method.
+     * mbxHebpSize: in bytes, bs set by the lbuncher, b zero-vblue indicbtes
+     *    this code should determine this vblue, using b suitbble method.
      *
-     * stackSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code determine this value, using a suitable method or omit the
+     * stbckSize: in bytes, bs set by the lbuncher, b zero-vblue indicbtes
+     *    this code determine this vblue, using b suitbble method or omit the
      *    line entirely.
      */
-    static void showSettings(boolean printToStderr, String optionFlag,
-            long initialHeapSize, long maxHeapSize, long stackSize,
-            boolean isServer) {
+    stbtic void showSettings(boolebn printToStderr, String optionFlbg,
+            long initiblHebpSize, long mbxHebpSize, long stbckSize,
+            boolebn isServer) {
 
         initOutput(printToStderr);
-        String opts[] = optionFlag.split(":");
+        String opts[] = optionFlbg.split(":");
         String optStr = (opts.length > 1 && opts[1] != null)
                 ? opts[1].trim()
-                : "all";
+                : "bll";
         switch (optStr) {
-            case "vm":
-                printVmSettings(initialHeapSize, maxHeapSize,
-                                stackSize, isServer);
-                break;
-            case "properties":
+            cbse "vm":
+                printVmSettings(initiblHebpSize, mbxHebpSize,
+                                stbckSize, isServer);
+                brebk;
+            cbse "properties":
                 printProperties();
-                break;
-            case "locale":
-                printLocale();
-                break;
-            default:
-                printVmSettings(initialHeapSize, maxHeapSize, stackSize,
+                brebk;
+            cbse "locble":
+                printLocble();
+                brebk;
+            defbult:
+                printVmSettings(initiblHebpSize, mbxHebpSize, stbckSize,
                                 isServer);
                 printProperties();
-                printLocale();
-                break;
+                printLocble();
+                brebk;
         }
     }
 
     /*
-     * prints the main vm settings subopt/section
+     * prints the mbin vm settings subopt/section
      */
-    private static void printVmSettings(
-            long initialHeapSize, long maxHeapSize,
-            long stackSize, boolean isServer) {
+    privbte stbtic void printVmSettings(
+            long initiblHebpSize, long mbxHebpSize,
+            long stbckSize, boolebn isServer) {
 
-        ostream.println(VM_SETTINGS);
-        if (stackSize != 0L) {
-            ostream.println(INDENT + "Stack Size: " +
-                    SizePrefix.scaleValue(stackSize));
+        ostrebm.println(VM_SETTINGS);
+        if (stbckSize != 0L) {
+            ostrebm.println(INDENT + "Stbck Size: " +
+                    SizePrefix.scbleVblue(stbckSize));
         }
-        if (initialHeapSize != 0L) {
-             ostream.println(INDENT + "Min. Heap Size: " +
-                    SizePrefix.scaleValue(initialHeapSize));
+        if (initiblHebpSize != 0L) {
+             ostrebm.println(INDENT + "Min. Hebp Size: " +
+                    SizePrefix.scbleVblue(initiblHebpSize));
         }
-        if (maxHeapSize != 0L) {
-            ostream.println(INDENT + "Max. Heap Size: " +
-                    SizePrefix.scaleValue(maxHeapSize));
+        if (mbxHebpSize != 0L) {
+            ostrebm.println(INDENT + "Mbx. Hebp Size: " +
+                    SizePrefix.scbleVblue(mbxHebpSize));
         } else {
-            ostream.println(INDENT + "Max. Heap Size (Estimated): "
-                    + SizePrefix.scaleValue(Runtime.getRuntime().maxMemory()));
+            ostrebm.println(INDENT + "Mbx. Hebp Size (Estimbted): "
+                    + SizePrefix.scbleVblue(Runtime.getRuntime().mbxMemory()));
         }
-        ostream.println(INDENT + "Ergonomics Machine Class: "
+        ostrebm.println(INDENT + "Ergonomics Mbchine Clbss: "
                 + ((isServer) ? "server" : "client"));
-        ostream.println(INDENT + "Using VM: "
-                + System.getProperty("java.vm.name"));
-        ostream.println();
+        ostrebm.println(INDENT + "Using VM: "
+                + System.getProperty("jbvb.vm.nbme"));
+        ostrebm.println();
     }
 
     /*
      * prints the properties subopt/section
      */
-    private static void printProperties() {
+    privbte stbtic void printProperties() {
         Properties p = System.getProperties();
-        ostream.println(PROP_SETTINGS);
-        List<String> sortedPropertyKeys = new ArrayList<>();
-        sortedPropertyKeys.addAll(p.stringPropertyNames());
+        ostrebm.println(PROP_SETTINGS);
+        List<String> sortedPropertyKeys = new ArrbyList<>();
+        sortedPropertyKeys.bddAll(p.stringPropertyNbmes());
         Collections.sort(sortedPropertyKeys);
         for (String x : sortedPropertyKeys) {
-            printPropertyValue(x, p.getProperty(x));
+            printPropertyVblue(x, p.getProperty(x));
         }
-        ostream.println();
+        ostrebm.println();
     }
 
-    private static boolean isPath(String key) {
-        return key.endsWith(".dirs") || key.endsWith(".path");
+    privbte stbtic boolebn isPbth(String key) {
+        return key.endsWith(".dirs") || key.endsWith(".pbth");
     }
 
-    private static void printPropertyValue(String key, String value) {
-        ostream.print(INDENT + key + " = ");
-        if (key.equals("line.separator")) {
-            for (byte b : value.getBytes()) {
+    privbte stbtic void printPropertyVblue(String key, String vblue) {
+        ostrebm.print(INDENT + key + " = ");
+        if (key.equbls("line.sepbrbtor")) {
+            for (byte b : vblue.getBytes()) {
                 switch (b) {
-                    case 0xd:
-                        ostream.print("\\r ");
-                        break;
-                    case 0xa:
-                        ostream.print("\\n ");
-                        break;
-                    default:
-                        // print any bizzare line separators in hex, but really
-                        // shouldn't happen.
-                        ostream.printf("0x%02X", b & 0xff);
-                        break;
+                    cbse 0xd:
+                        ostrebm.print("\\r ");
+                        brebk;
+                    cbse 0xb:
+                        ostrebm.print("\\n ");
+                        brebk;
+                    defbult:
+                        // print bny bizzbre line sepbrbtors in hex, but reblly
+                        // shouldn't hbppen.
+                        ostrebm.printf("0x%02X", b & 0xff);
+                        brebk;
                 }
             }
-            ostream.println();
+            ostrebm.println();
             return;
         }
-        if (!isPath(key)) {
-            ostream.println(value);
+        if (!isPbth(key)) {
+            ostrebm.println(vblue);
             return;
         }
-        String[] values = value.split(System.getProperty("path.separator"));
-        boolean first = true;
-        for (String s : values) {
-            if (first) { // first line treated specially
-                ostream.println(s);
-                first = false;
+        String[] vblues = vblue.split(System.getProperty("pbth.sepbrbtor"));
+        boolebn first = true;
+        for (String s : vblues) {
+            if (first) { // first line trebted speciblly
+                ostrebm.println(s);
+                first = fblse;
             } else { // following lines prefix with indents
-                ostream.println(INDENT + INDENT + s);
+                ostrebm.println(INDENT + INDENT + s);
             }
         }
     }
 
     /*
-     * prints the locale subopt/section
+     * prints the locble subopt/section
      */
-    private static void printLocale() {
-        Locale locale = Locale.getDefault();
-        ostream.println(LOCALE_SETTINGS);
-        ostream.println(INDENT + "default locale = " +
-                locale.getDisplayLanguage());
-        ostream.println(INDENT + "default display locale = " +
-                Locale.getDefault(Category.DISPLAY).getDisplayName());
-        ostream.println(INDENT + "default format locale = " +
-                Locale.getDefault(Category.FORMAT).getDisplayName());
-        printLocales();
-        ostream.println();
+    privbte stbtic void printLocble() {
+        Locble locble = Locble.getDefbult();
+        ostrebm.println(LOCALE_SETTINGS);
+        ostrebm.println(INDENT + "defbult locble = " +
+                locble.getDisplbyLbngubge());
+        ostrebm.println(INDENT + "defbult displby locble = " +
+                Locble.getDefbult(Cbtegory.DISPLAY).getDisplbyNbme());
+        ostrebm.println(INDENT + "defbult formbt locble = " +
+                Locble.getDefbult(Cbtegory.FORMAT).getDisplbyNbme());
+        printLocbles();
+        ostrebm.println();
     }
 
-    private static void printLocales() {
-        Locale[] tlocales = Locale.getAvailableLocales();
-        final int len = tlocales == null ? 0 : tlocales.length;
+    privbte stbtic void printLocbles() {
+        Locble[] tlocbles = Locble.getAvbilbbleLocbles();
+        finbl int len = tlocbles == null ? 0 : tlocbles.length;
         if (len < 1 ) {
             return;
         }
-        // Locale does not implement Comparable so we convert it to String
-        // and sort it for pretty printing.
+        // Locble does not implement Compbrbble so we convert it to String
+        // bnd sort it for pretty printing.
         Set<String> sortedSet = new TreeSet<>();
-        for (Locale l : tlocales) {
-            sortedSet.add(l.toString());
+        for (Locble l : tlocbles) {
+            sortedSet.bdd(l.toString());
         }
 
-        ostream.print(INDENT + "available locales = ");
-        Iterator<String> iter = sortedSet.iterator();
-        final int last = len - 1;
-        for (int i = 0 ; iter.hasNext() ; i++) {
+        ostrebm.print(INDENT + "bvbilbble locbles = ");
+        Iterbtor<String> iter = sortedSet.iterbtor();
+        finbl int lbst = len - 1;
+        for (int i = 0 ; iter.hbsNext() ; i++) {
             String s = iter.next();
-            ostream.print(s);
-            if (i != last) {
-                ostream.print(", ");
+            ostrebm.print(s);
+            if (i != lbst) {
+                ostrebm.print(", ");
             }
             // print columns of 8
             if ((i + 1) % 8 == 0) {
-                ostream.println();
-                ostream.print(INDENT + INDENT);
+                ostrebm.println();
+                ostrebm.print(INDENT + INDENT);
             }
         }
     }
 
-    private enum SizePrefix {
+    privbte enum SizePrefix {
 
         KILO(1024, "K"),
         MEGA(1024 * 1024, "M"),
         GIGA(1024 * 1024 * 1024, "G"),
         TERA(1024L * 1024L * 1024L * 1024L, "T");
         long size;
-        String abbrev;
+        String bbbrev;
 
-        SizePrefix(long size, String abbrev) {
+        SizePrefix(long size, String bbbrev) {
             this.size = size;
-            this.abbrev = abbrev;
+            this.bbbrev = bbbrev;
         }
 
-        private static String scale(long v, SizePrefix prefix) {
-            return BigDecimal.valueOf(v).divide(BigDecimal.valueOf(prefix.size),
-                    2, RoundingMode.HALF_EVEN).toPlainString() + prefix.abbrev;
+        privbte stbtic String scble(long v, SizePrefix prefix) {
+            return BigDecimbl.vblueOf(v).divide(BigDecimbl.vblueOf(prefix.size),
+                    2, RoundingMode.HALF_EVEN).toPlbinString() + prefix.bbbrev;
         }
         /*
-         * scale the incoming values to a human readable form, represented as
-         * K, M, G and T, see java.c parse_size for the scaled values and
-         * suffixes. The lowest possible scaled value is Kilo.
+         * scble the incoming vblues to b humbn rebdbble form, represented bs
+         * K, M, G bnd T, see jbvb.c pbrse_size for the scbled vblues bnd
+         * suffixes. The lowest possible scbled vblue is Kilo.
          */
-        static String scaleValue(long v) {
+        stbtic String scbleVblue(long v) {
             if (v < MEGA.size) {
-                return scale(v, KILO);
+                return scble(v, KILO);
             } else if (v < GIGA.size) {
-                return scale(v, MEGA);
+                return scble(v, MEGA);
             } else if (v < TERA.size) {
-                return scale(v, GIGA);
+                return scble(v, GIGA);
             } else {
-                return scale(v, TERA);
+                return scble(v, TERA);
             }
         }
     }
 
     /**
-     * A private helper method to get a localized message and also
-     * apply any arguments that we might pass.
+     * A privbte helper method to get b locblized messbge bnd blso
+     * bpply bny brguments thbt we might pbss.
      */
-    private static String getLocalizedMessage(String key, Object... args) {
+    privbte stbtic String getLocblizedMessbge(String key, Object... brgs) {
         String msg = ResourceBundleHolder.RB.getString(key);
-        return (args != null) ? MessageFormat.format(msg, args) : msg;
+        return (brgs != null) ? MessbgeFormbt.formbt(msg, brgs) : msg;
     }
 
     /**
-     * The java -help message is split into 3 parts, an invariant, followed
-     * by a set of platform dependent variant messages, finally an invariant
+     * The jbvb -help messbge is split into 3 pbrts, bn invbribnt, followed
+     * by b set of plbtform dependent vbribnt messbges, finblly bn invbribnt
      * set of lines.
-     * This method initializes the help message for the first time, and also
-     * assembles the invariant header part of the message.
+     * This method initiblizes the help messbge for the first time, bnd blso
+     * bssembles the invbribnt hebder pbrt of the messbge.
      */
-    static void initHelpMessage(String progname) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.header",
-                (progname == null) ? "java" : progname ));
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.datamodel",
+    stbtic void initHelpMessbge(String prognbme) {
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.hebder",
+                (prognbme == null) ? "jbvb" : prognbme ));
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.dbtbmodel",
                 32));
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.datamodel",
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.dbtbmodel",
                 64));
     }
 
     /**
-     * Appends the vm selection messages to the header, already created.
-     * initHelpSystem must already be called.
+     * Appends the vm selection messbges to the hebder, blrebdy crebted.
+     * initHelpSystem must blrebdy be cblled.
      */
-    static void appendVmSelectMessage(String vm1, String vm2) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.vmselect",
+    stbtic void bppendVmSelectMessbge(String vm1, String vm2) {
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.vmselect",
                 vm1, vm2));
     }
 
     /**
-     * Appends the vm synoym message to the header, already created.
-     * initHelpSystem must be called before using this method.
+     * Appends the vm synoym messbge to the hebder, blrebdy crebted.
+     * initHelpSystem must be cblled before using this method.
      */
-    static void appendVmSynonymMessage(String vm1, String vm2) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.hotspot",
+    stbtic void bppendVmSynonymMessbge(String vm1, String vm2) {
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.hotspot",
                 vm1, vm2));
     }
 
     /**
-     * Appends the vm Ergo message to the header, already created.
-     * initHelpSystem must be called before using this method.
+     * Appends the vm Ergo messbge to the hebder, blrebdy crebted.
+     * initHelpSystem must be cblled before using this method.
      */
-    static void appendVmErgoMessage(boolean isServerClass, String vm) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.ergo.message1",
+    stbtic void bppendVmErgoMessbge(boolebn isServerClbss, String vm) {
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.ergo.messbge1",
                 vm));
-        outBuf = (isServerClass)
-             ? outBuf.append(",\n" +
-                getLocalizedMessage("java.launcher.ergo.message2") + "\n\n")
-             : outBuf.append(".\n\n");
+        outBuf = (isServerClbss)
+             ? outBuf.bppend(",\n" +
+                getLocblizedMessbge("jbvb.lbuncher.ergo.messbge2") + "\n\n")
+             : outBuf.bppend(".\n\n");
     }
 
     /**
-     * Appends the last invariant part to the previously created messages,
-     * and finishes up the printing to the desired output stream.
-     * initHelpSystem must be called before using this method.
+     * Appends the lbst invbribnt pbrt to the previously crebted messbges,
+     * bnd finishes up the printing to the desired output strebm.
+     * initHelpSystem must be cblled before using this method.
      */
-    static void printHelpMessage(boolean printToStderr) {
+    stbtic void printHelpMessbge(boolebn printToStderr) {
         initOutput(printToStderr);
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.footer",
-                File.pathSeparator));
-        ostream.println(outBuf.toString());
+        outBuf = outBuf.bppend(getLocblizedMessbge("jbvb.lbuncher.opt.footer",
+                File.pbthSepbrbtor));
+        ostrebm.println(outBuf.toString());
     }
 
     /**
-     * Prints the Xusage text to the desired output stream.
+     * Prints the Xusbge text to the desired output strebm.
      */
-    static void printXUsageMessage(boolean printToStderr) {
+    stbtic void printXUsbgeMessbge(boolebn printToStderr) {
         initOutput(printToStderr);
-        ostream.println(getLocalizedMessage("java.launcher.X.usage",
-                File.pathSeparator));
-        if (System.getProperty("os.name").contains("OS X")) {
-            ostream.println(getLocalizedMessage("java.launcher.X.macosx.usage",
-                        File.pathSeparator));
+        ostrebm.println(getLocblizedMessbge("jbvb.lbuncher.X.usbge",
+                File.pbthSepbrbtor));
+        if (System.getProperty("os.nbme").contbins("OS X")) {
+            ostrebm.println(getLocblizedMessbge("jbvb.lbuncher.X.mbcosx.usbge",
+                        File.pbthSepbrbtor));
         }
     }
 
-    static void initOutput(boolean printToStderr) {
-        ostream =  (printToStderr) ? System.err : System.out;
+    stbtic void initOutput(boolebn printToStderr) {
+        ostrebm =  (printToStderr) ? System.err : System.out;
     }
 
-    static String getMainClassFromJar(String jarname) {
-        String mainValue = null;
-        try (JarFile jarFile = new JarFile(jarname)) {
-            Manifest manifest = jarFile.getManifest();
-            if (manifest == null) {
-                abort(null, "java.launcher.jar.error2", jarname);
+    stbtic String getMbinClbssFromJbr(String jbrnbme) {
+        String mbinVblue = null;
+        try (JbrFile jbrFile = new JbrFile(jbrnbme)) {
+            Mbnifest mbnifest = jbrFile.getMbnifest();
+            if (mbnifest == null) {
+                bbort(null, "jbvb.lbuncher.jbr.error2", jbrnbme);
             }
-            Attributes mainAttrs = manifest.getMainAttributes();
-            if (mainAttrs == null) {
-                abort(null, "java.launcher.jar.error3", jarname);
+            Attributes mbinAttrs = mbnifest.getMbinAttributes();
+            if (mbinAttrs == null) {
+                bbort(null, "jbvb.lbuncher.jbr.error3", jbrnbme);
             }
-            mainValue = mainAttrs.getValue(MAIN_CLASS);
-            if (mainValue == null) {
-                abort(null, "java.launcher.jar.error3", jarname);
+            mbinVblue = mbinAttrs.getVblue(MAIN_CLASS);
+            if (mbinVblue == null) {
+                bbort(null, "jbvb.lbuncher.jbr.error3", jbrnbme);
             }
 
             /*
-             * Hand off to FXHelper if it detects a JavaFX application
-             * This must be done after ensuring a Main-Class entry
-             * exists to enforce compliance with the jar specification
+             * Hbnd off to FXHelper if it detects b JbvbFX bpplicbtion
+             * This must be done bfter ensuring b Mbin-Clbss entry
+             * exists to enforce complibnce with the jbr specificbtion
              */
-            if (mainAttrs.containsKey(
-                    new Attributes.Name(JAVAFX_APPLICATION_MARKER))) {
-                FXHelper.setFXLaunchParameters(jarname, LM_JAR);
-                return FXHelper.class.getName();
+            if (mbinAttrs.contbinsKey(
+                    new Attributes.Nbme(JAVAFX_APPLICATION_MARKER))) {
+                FXHelper.setFXLbunchPbrbmeters(jbrnbme, LM_JAR);
+                return FXHelper.clbss.getNbme();
             }
 
-            return mainValue.trim();
-        } catch (IOException ioe) {
-            abort(ioe, "java.launcher.jar.error1", jarname);
+            return mbinVblue.trim();
+        } cbtch (IOException ioe) {
+            bbort(ioe, "jbvb.lbuncher.jbr.error1", jbrnbme);
         }
         return null;
     }
 
-    // From src/share/bin/java.c:
-    //   enum LaunchMode { LM_UNKNOWN = 0, LM_CLASS, LM_JAR };
+    // From src/shbre/bin/jbvb.c:
+    //   enum LbunchMode { LM_UNKNOWN = 0, LM_CLASS, LM_JAR };
 
-    private static final int LM_UNKNOWN = 0;
-    private static final int LM_CLASS   = 1;
-    private static final int LM_JAR     = 2;
+    privbte stbtic finbl int LM_UNKNOWN = 0;
+    privbte stbtic finbl int LM_CLASS   = 1;
+    privbte stbtic finbl int LM_JAR     = 2;
 
-    static void abort(Throwable t, String msgKey, Object... args) {
+    stbtic void bbort(Throwbble t, String msgKey, Object... brgs) {
         if (msgKey != null) {
-            ostream.println(getLocalizedMessage(msgKey, args));
+            ostrebm.println(getLocblizedMessbge(msgKey, brgs));
         }
-        if (trace) {
+        if (trbce) {
             if (t != null) {
-                t.printStackTrace();
+                t.printStbckTrbce();
             } else {
-                Thread.dumpStack();
+                Threbd.dumpStbck();
             }
         }
         System.exit(1);
@@ -461,316 +461,316 @@ public enum LauncherHelper {
 
     /**
      * This method does the following:
-     * 1. gets the classname from a Jar's manifest, if necessary
-     * 2. loads the class using the System ClassLoader
-     * 3. ensures the availability and accessibility of the main method,
-     *    using signatureDiagnostic method.
-     *    a. does the class exist
-     *    b. is there a main
-     *    c. is the main public
-     *    d. is the main static
-     *    e. does the main take a String array for args
-     * 4. if no main method and if the class extends FX Application, then call
-     *    on FXHelper to determine the main class to launch
-     * 5. and off we go......
+     * 1. gets the clbssnbme from b Jbr's mbnifest, if necessbry
+     * 2. lobds the clbss using the System ClbssLobder
+     * 3. ensures the bvbilbbility bnd bccessibility of the mbin method,
+     *    using signbtureDibgnostic method.
+     *    b. does the clbss exist
+     *    b. is there b mbin
+     *    c. is the mbin public
+     *    d. is the mbin stbtic
+     *    e. does the mbin tbke b String brrby for brgs
+     * 4. if no mbin method bnd if the clbss extends FX Applicbtion, then cbll
+     *    on FXHelper to determine the mbin clbss to lbunch
+     * 5. bnd off we go......
      *
-     * @param printToStderr if set, all output will be routed to stderr
-     * @param mode LaunchMode as determined by the arguments passed on the
-     * command line
-     * @param what either the jar file to launch or the main class when using
+     * @pbrbm printToStderr if set, bll output will be routed to stderr
+     * @pbrbm mode LbunchMode bs determined by the brguments pbssed on the
+     * commbnd line
+     * @pbrbm whbt either the jbr file to lbunch or the mbin clbss when using
      * LM_CLASS mode
-     * @return the application's main class
+     * @return the bpplicbtion's mbin clbss
      */
-    public static Class<?> checkAndLoadMain(boolean printToStderr,
+    public stbtic Clbss<?> checkAndLobdMbin(boolebn printToStderr,
                                             int mode,
-                                            String what) {
+                                            String whbt) {
         initOutput(printToStderr);
-        // get the class name
+        // get the clbss nbme
         String cn = null;
         switch (mode) {
-            case LM_CLASS:
-                cn = what;
-                break;
-            case LM_JAR:
-                cn = getMainClassFromJar(what);
-                break;
-            default:
-                // should never happen
-                throw new InternalError("" + mode + ": Unknown launch mode");
+            cbse LM_CLASS:
+                cn = whbt;
+                brebk;
+            cbse LM_JAR:
+                cn = getMbinClbssFromJbr(whbt);
+                brebk;
+            defbult:
+                // should never hbppen
+                throw new InternblError("" + mode + ": Unknown lbunch mode");
         }
-        cn = cn.replace('/', '.');
-        Class<?> mainClass = null;
+        cn = cn.replbce('/', '.');
+        Clbss<?> mbinClbss = null;
         try {
-            mainClass = scloader.loadClass(cn);
-        } catch (NoClassDefFoundError | ClassNotFoundException cnfe) {
-            if (System.getProperty("os.name", "").contains("OS X")
-                && Normalizer.isNormalized(cn, Normalizer.Form.NFD)) {
+            mbinClbss = sclobder.lobdClbss(cn);
+        } cbtch (NoClbssDefFoundError | ClbssNotFoundException cnfe) {
+            if (System.getProperty("os.nbme", "").contbins("OS X")
+                && Normblizer.isNormblized(cn, Normblizer.Form.NFD)) {
                 try {
-                    // On Mac OS X since all names with diacretic symbols are given as decomposed it
-                    // is possible that main class name comes incorrectly from the command line
-                    // and we have to re-compose it
-                    mainClass = scloader.loadClass(Normalizer.normalize(cn, Normalizer.Form.NFC));
-                } catch (NoClassDefFoundError | ClassNotFoundException cnfe1) {
-                    abort(cnfe, "java.launcher.cls.error1", cn);
+                    // On Mbc OS X since bll nbmes with dibcretic symbols bre given bs decomposed it
+                    // is possible thbt mbin clbss nbme comes incorrectly from the commbnd line
+                    // bnd we hbve to re-compose it
+                    mbinClbss = sclobder.lobdClbss(Normblizer.normblize(cn, Normblizer.Form.NFC));
+                } cbtch (NoClbssDefFoundError | ClbssNotFoundException cnfe1) {
+                    bbort(cnfe, "jbvb.lbuncher.cls.error1", cn);
                 }
             } else {
-                abort(cnfe, "java.launcher.cls.error1", cn);
+                bbort(cnfe, "jbvb.lbuncher.cls.error1", cn);
             }
         }
-        // set to mainClass
-        appClass = mainClass;
+        // set to mbinClbss
+        bppClbss = mbinClbss;
 
         /*
-         * Check if FXHelper can launch it using the FX launcher. In an FX app,
-         * the main class may or may not have a main method, so do this before
-         * validating the main class.
+         * Check if FXHelper cbn lbunch it using the FX lbuncher. In bn FX bpp,
+         * the mbin clbss mby or mby not hbve b mbin method, so do this before
+         * vblidbting the mbin clbss.
          */
-        if (JAVAFX_FXHELPER_CLASS_NAME_SUFFIX.equals(mainClass.getName()) ||
-            doesExtendFXApplication(mainClass)) {
-            // Will abort() if there are problems with FX runtime
-            FXHelper.setFXLaunchParameters(what, mode);
-            return FXHelper.class;
+        if (JAVAFX_FXHELPER_CLASS_NAME_SUFFIX.equbls(mbinClbss.getNbme()) ||
+            doesExtendFXApplicbtion(mbinClbss)) {
+            // Will bbort() if there bre problems with FX runtime
+            FXHelper.setFXLbunchPbrbmeters(whbt, mode);
+            return FXHelper.clbss;
         }
 
-        validateMainClass(mainClass);
-        return mainClass;
+        vblidbteMbinClbss(mbinClbss);
+        return mbinClbss;
     }
 
     /*
-     * Accessor method called by the launcher after getting the main class via
-     * checkAndLoadMain(). The "application class" is the class that is finally
-     * executed to start the application and in this case is used to report
-     * the correct application name, typically for UI purposes.
+     * Accessor method cblled by the lbuncher bfter getting the mbin clbss vib
+     * checkAndLobdMbin(). The "bpplicbtion clbss" is the clbss thbt is finblly
+     * executed to stbrt the bpplicbtion bnd in this cbse is used to report
+     * the correct bpplicbtion nbme, typicblly for UI purposes.
      */
-    public static Class<?> getApplicationClass() {
-        return appClass;
+    public stbtic Clbss<?> getApplicbtionClbss() {
+        return bppClbss;
     }
 
     /*
-     * Check if the given class is a JavaFX Application class. This is done
-     * in a way that does not cause the Application class to load or throw
-     * ClassNotFoundException if the JavaFX runtime is not available.
+     * Check if the given clbss is b JbvbFX Applicbtion clbss. This is done
+     * in b wby thbt does not cbuse the Applicbtion clbss to lobd or throw
+     * ClbssNotFoundException if the JbvbFX runtime is not bvbilbble.
      */
-    private static boolean doesExtendFXApplication(Class<?> mainClass) {
-        for (Class<?> sc = mainClass.getSuperclass(); sc != null;
-                sc = sc.getSuperclass()) {
-            if (sc.getName().equals(JAVAFX_APPLICATION_CLASS_NAME)) {
+    privbte stbtic boolebn doesExtendFXApplicbtion(Clbss<?> mbinClbss) {
+        for (Clbss<?> sc = mbinClbss.getSuperclbss(); sc != null;
+                sc = sc.getSuperclbss()) {
+            if (sc.getNbme().equbls(JAVAFX_APPLICATION_CLASS_NAME)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    // Check the existence and signature of main and abort if incorrect
-    static void validateMainClass(Class<?> mainClass) {
-        Method mainMethod;
+    // Check the existence bnd signbture of mbin bnd bbort if incorrect
+    stbtic void vblidbteMbinClbss(Clbss<?> mbinClbss) {
+        Method mbinMethod;
         try {
-            mainMethod = mainClass.getMethod("main", String[].class);
-        } catch (NoSuchMethodException nsme) {
-            // invalid main or not FX application, abort with an error
-            abort(null, "java.launcher.cls.error4", mainClass.getName(),
+            mbinMethod = mbinClbss.getMethod("mbin", String[].clbss);
+        } cbtch (NoSuchMethodException nsme) {
+            // invblid mbin or not FX bpplicbtion, bbort with bn error
+            bbort(null, "jbvb.lbuncher.cls.error4", mbinClbss.getNbme(),
                   JAVAFX_APPLICATION_CLASS_NAME);
             return; // Avoid compiler issues
         }
 
         /*
-         * getMethod (above) will choose the correct method, based
-         * on its name and parameter type, however, we still have to
-         * ensure that the method is static and returns a void.
+         * getMethod (bbove) will choose the correct method, bbsed
+         * on its nbme bnd pbrbmeter type, however, we still hbve to
+         * ensure thbt the method is stbtic bnd returns b void.
          */
-        int mod = mainMethod.getModifiers();
-        if (!Modifier.isStatic(mod)) {
-            abort(null, "java.launcher.cls.error2", "static",
-                  mainMethod.getDeclaringClass().getName());
+        int mod = mbinMethod.getModifiers();
+        if (!Modifier.isStbtic(mod)) {
+            bbort(null, "jbvb.lbuncher.cls.error2", "stbtic",
+                  mbinMethod.getDeclbringClbss().getNbme());
         }
-        if (mainMethod.getReturnType() != java.lang.Void.TYPE) {
-            abort(null, "java.launcher.cls.error3",
-                  mainMethod.getDeclaringClass().getName());
+        if (mbinMethod.getReturnType() != jbvb.lbng.Void.TYPE) {
+            bbort(null, "jbvb.lbuncher.cls.error3",
+                  mbinMethod.getDeclbringClbss().getNbme());
         }
     }
 
-    private static final String encprop = "sun.jnu.encoding";
-    private static String encoding = null;
-    private static boolean isCharsetSupported = false;
+    privbte stbtic finbl String encprop = "sun.jnu.encoding";
+    privbte stbtic String encoding = null;
+    privbte stbtic boolebn isChbrsetSupported = fblse;
 
     /*
-     * converts a c or a byte array to a platform specific string,
-     * previously implemented as a native method in the launcher.
+     * converts b c or b byte brrby to b plbtform specific string,
+     * previously implemented bs b nbtive method in the lbuncher.
      */
-    static String makePlatformString(boolean printToStderr, byte[] inArray) {
+    stbtic String mbkePlbtformString(boolebn printToStderr, byte[] inArrby) {
         initOutput(printToStderr);
         if (encoding == null) {
             encoding = System.getProperty(encprop);
-            isCharsetSupported = Charset.isSupported(encoding);
+            isChbrsetSupported = Chbrset.isSupported(encoding);
         }
         try {
-            String out = isCharsetSupported
-                    ? new String(inArray, encoding)
-                    : new String(inArray);
+            String out = isChbrsetSupported
+                    ? new String(inArrby, encoding)
+                    : new String(inArrby);
             return out;
-        } catch (UnsupportedEncodingException uee) {
-            abort(uee, null);
+        } cbtch (UnsupportedEncodingException uee) {
+            bbort(uee, null);
         }
-        return null; // keep the compiler happy
+        return null; // keep the compiler hbppy
     }
 
-    static String[] expandArgs(String[] argArray) {
-        List<StdArg> aList = new ArrayList<>();
-        for (String x : argArray) {
-            aList.add(new StdArg(x));
+    stbtic String[] expbndArgs(String[] brgArrby) {
+        List<StdArg> bList = new ArrbyList<>();
+        for (String x : brgArrby) {
+            bList.bdd(new StdArg(x));
         }
-        return expandArgs(aList);
+        return expbndArgs(bList);
     }
 
-    static String[] expandArgs(List<StdArg> argList) {
-        ArrayList<String> out = new ArrayList<>();
-        if (trace) {
-            System.err.println("Incoming arguments:");
+    stbtic String[] expbndArgs(List<StdArg> brgList) {
+        ArrbyList<String> out = new ArrbyList<>();
+        if (trbce) {
+            System.err.println("Incoming brguments:");
         }
-        for (StdArg a : argList) {
-            if (trace) {
-                System.err.println(a);
+        for (StdArg b : brgList) {
+            if (trbce) {
+                System.err.println(b);
             }
-            if (a.needsExpansion) {
-                File x = new File(a.arg);
-                File parent = x.getParentFile();
-                String glob = x.getName();
-                if (parent == null) {
-                    parent = new File(".");
+            if (b.needsExpbnsion) {
+                File x = new File(b.brg);
+                File pbrent = x.getPbrentFile();
+                String glob = x.getNbme();
+                if (pbrent == null) {
+                    pbrent = new File(".");
                 }
-                try (DirectoryStream<Path> dstream =
-                        Files.newDirectoryStream(parent.toPath(), glob)) {
+                try (DirectoryStrebm<Pbth> dstrebm =
+                        Files.newDirectoryStrebm(pbrent.toPbth(), glob)) {
                     int entries = 0;
-                    for (Path p : dstream) {
-                        out.add(p.normalize().toString());
+                    for (Pbth p : dstrebm) {
+                        out.bdd(p.normblize().toString());
                         entries++;
                     }
                     if (entries == 0) {
-                        out.add(a.arg);
+                        out.bdd(b.brg);
                     }
-                } catch (Exception e) {
-                    out.add(a.arg);
-                    if (trace) {
-                        System.err.println("Warning: passing argument as-is " + a);
+                } cbtch (Exception e) {
+                    out.bdd(b.brg);
+                    if (trbce) {
+                        System.err.println("Wbrning: pbssing brgument bs-is " + b);
                         System.err.print(e);
                     }
                 }
             } else {
-                out.add(a.arg);
+                out.bdd(b.brg);
             }
         }
-        String[] oarray = new String[out.size()];
-        out.toArray(oarray);
+        String[] obrrby = new String[out.size()];
+        out.toArrby(obrrby);
 
-        if (trace) {
-            System.err.println("Expanded arguments:");
-            for (String x : oarray) {
+        if (trbce) {
+            System.err.println("Expbnded brguments:");
+            for (String x : obrrby) {
                 System.err.println(x);
             }
         }
-        return oarray;
+        return obrrby;
     }
 
-    /* duplicate of the native StdArg struct */
-    private static class StdArg {
-        final String arg;
-        final boolean needsExpansion;
-        StdArg(String arg, boolean expand) {
-            this.arg = arg;
-            this.needsExpansion = expand;
+    /* duplicbte of the nbtive StdArg struct */
+    privbte stbtic clbss StdArg {
+        finbl String brg;
+        finbl boolebn needsExpbnsion;
+        StdArg(String brg, boolebn expbnd) {
+            this.brg = brg;
+            this.needsExpbnsion = expbnd;
         }
-        // protocol: first char indicates whether expansion is required
-        // 'T' = true ; needs expansion
-        // 'F' = false; needs no expansion
+        // protocol: first chbr indicbtes whether expbnsion is required
+        // 'T' = true ; needs expbnsion
+        // 'F' = fblse; needs no expbnsion
         StdArg(String in) {
-            this.arg = in.substring(1);
-            needsExpansion = in.charAt(0) == 'T';
+            this.brg = in.substring(1);
+            needsExpbnsion = in.chbrAt(0) == 'T';
         }
         public String toString() {
-            return "StdArg{" + "arg=" + arg + ", needsExpansion=" + needsExpansion + '}';
+            return "StdArg{" + "brg=" + brg + ", needsExpbnsion=" + needsExpbnsion + '}';
         }
     }
 
-    static final class FXHelper {
+    stbtic finbl clbss FXHelper {
 
-        private static final String JAVAFX_LAUNCHER_CLASS_NAME =
-                "com.sun.javafx.application.LauncherImpl";
+        privbte stbtic finbl String JAVAFX_LAUNCHER_CLASS_NAME =
+                "com.sun.jbvbfx.bpplicbtion.LbuncherImpl";
 
         /*
-         * The launch method used to invoke the JavaFX launcher. These must
-         * match the strings used in the launchApplication method.
+         * The lbunch method used to invoke the JbvbFX lbuncher. These must
+         * mbtch the strings used in the lbunchApplicbtion method.
          *
-         * Command line                 JavaFX-App-Class  Launch mode  FX Launch mode
-         * java -cp fxapp.jar FXClass   N/A               LM_CLASS     "LM_CLASS"
-         * java -cp somedir FXClass     N/A               LM_CLASS     "LM_CLASS"
-         * java -jar fxapp.jar          Present           LM_JAR       "LM_JAR"
-         * java -jar fxapp.jar          Not Present       LM_JAR       "LM_JAR"
+         * Commbnd line                 JbvbFX-App-Clbss  Lbunch mode  FX Lbunch mode
+         * jbvb -cp fxbpp.jbr FXClbss   N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -cp somedir FXClbss     N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -jbr fxbpp.jbr          Present           LM_JAR       "LM_JAR"
+         * jbvb -jbr fxbpp.jbr          Not Present       LM_JAR       "LM_JAR"
          */
-        private static final String JAVAFX_LAUNCH_MODE_CLASS = "LM_CLASS";
-        private static final String JAVAFX_LAUNCH_MODE_JAR = "LM_JAR";
+        privbte stbtic finbl String JAVAFX_LAUNCH_MODE_CLASS = "LM_CLASS";
+        privbte stbtic finbl String JAVAFX_LAUNCH_MODE_JAR = "LM_JAR";
 
         /*
-         * FX application launcher and launch method, so we can launch
-         * applications with no main method.
+         * FX bpplicbtion lbuncher bnd lbunch method, so we cbn lbunch
+         * bpplicbtions with no mbin method.
          */
-        private static String fxLaunchName = null;
-        private static String fxLaunchMode = null;
+        privbte stbtic String fxLbunchNbme = null;
+        privbte stbtic String fxLbunchMode = null;
 
-        private static Class<?> fxLauncherClass    = null;
-        private static Method   fxLauncherMethod   = null;
+        privbte stbtic Clbss<?> fxLbuncherClbss    = null;
+        privbte stbtic Method   fxLbuncherMethod   = null;
 
         /*
-         * Set the launch params according to what was passed to LauncherHelper
-         * so we can use the same launch mode for FX. Abort if there is any
-         * issue with loading the FX runtime or with the launcher method.
+         * Set the lbunch pbrbms bccording to whbt wbs pbssed to LbuncherHelper
+         * so we cbn use the sbme lbunch mode for FX. Abort if there is bny
+         * issue with lobding the FX runtime or with the lbuncher method.
          */
-        private static void setFXLaunchParameters(String what, int mode) {
-            // Check for the FX launcher classes
+        privbte stbtic void setFXLbunchPbrbmeters(String whbt, int mode) {
+            // Check for the FX lbuncher clbsses
             try {
-                fxLauncherClass = scloader.loadClass(JAVAFX_LAUNCHER_CLASS_NAME);
+                fxLbuncherClbss = sclobder.lobdClbss(JAVAFX_LAUNCHER_CLASS_NAME);
                 /*
-                 * signature must be:
-                 * public static void launchApplication(String launchName,
-                 *     String launchMode, String[] args);
+                 * signbture must be:
+                 * public stbtic void lbunchApplicbtion(String lbunchNbme,
+                 *     String lbunchMode, String[] brgs);
                  */
-                fxLauncherMethod = fxLauncherClass.getMethod("launchApplication",
-                        String.class, String.class, String[].class);
+                fxLbuncherMethod = fxLbuncherClbss.getMethod("lbunchApplicbtion",
+                        String.clbss, String.clbss, String[].clbss);
 
-                // verify launcher signature as we do when validating the main method
-                int mod = fxLauncherMethod.getModifiers();
-                if (!Modifier.isStatic(mod)) {
-                    abort(null, "java.launcher.javafx.error1");
+                // verify lbuncher signbture bs we do when vblidbting the mbin method
+                int mod = fxLbuncherMethod.getModifiers();
+                if (!Modifier.isStbtic(mod)) {
+                    bbort(null, "jbvb.lbuncher.jbvbfx.error1");
                 }
-                if (fxLauncherMethod.getReturnType() != java.lang.Void.TYPE) {
-                    abort(null, "java.launcher.javafx.error1");
+                if (fxLbuncherMethod.getReturnType() != jbvb.lbng.Void.TYPE) {
+                    bbort(null, "jbvb.lbuncher.jbvbfx.error1");
                 }
-            } catch (ClassNotFoundException | NoSuchMethodException ex) {
-                abort(ex, "java.launcher.cls.error5", ex);
+            } cbtch (ClbssNotFoundException | NoSuchMethodException ex) {
+                bbort(ex, "jbvb.lbuncher.cls.error5", ex);
             }
 
-            fxLaunchName = what;
+            fxLbunchNbme = whbt;
             switch (mode) {
-                case LM_CLASS:
-                    fxLaunchMode = JAVAFX_LAUNCH_MODE_CLASS;
-                    break;
-                case LM_JAR:
-                    fxLaunchMode = JAVAFX_LAUNCH_MODE_JAR;
-                    break;
-                default:
-                    // should not have gotten this far...
-                    throw new InternalError(mode + ": Unknown launch mode");
+                cbse LM_CLASS:
+                    fxLbunchMode = JAVAFX_LAUNCH_MODE_CLASS;
+                    brebk;
+                cbse LM_JAR:
+                    fxLbunchMode = JAVAFX_LAUNCH_MODE_JAR;
+                    brebk;
+                defbult:
+                    // should not hbve gotten this fbr...
+                    throw new InternblError(mode + ": Unknown lbunch mode");
             }
         }
 
-        public static void main(String... args) throws Exception {
-            if (fxLauncherMethod == null
-                    || fxLaunchMode == null
-                    || fxLaunchName == null) {
-                throw new RuntimeException("Invalid JavaFX launch parameters");
+        public stbtic void mbin(String... brgs) throws Exception {
+            if (fxLbuncherMethod == null
+                    || fxLbunchMode == null
+                    || fxLbunchNbme == null) {
+                throw new RuntimeException("Invblid JbvbFX lbunch pbrbmeters");
             }
-            // launch appClass via fxLauncherMethod
-            fxLauncherMethod.invoke(null,
-                    new Object[] {fxLaunchName, fxLaunchMode, args});
+            // lbunch bppClbss vib fxLbuncherMethod
+            fxLbuncherMethod.invoke(null,
+                    new Object[] {fxLbunchNbme, fxLbunchMode, brgs});
         }
     }
 }

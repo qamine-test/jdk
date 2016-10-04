@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.introspect;
+pbckbge com.sun.bebns.introspect;
 
-import com.sun.beans.TypeResolver;
-import com.sun.beans.finder.MethodFinder;
+import com.sun.bebns.TypeResolver;
+import com.sun.bebns.finder.MethodFinder;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
 
-final class MethodInfo {
-    final Method method;
-    final Class<?> type;
+finbl clbss MethodInfo {
+    finbl Method method;
+    finbl Clbss<?> type;
 
-    MethodInfo(Method method, Class<?> type) {
+    MethodInfo(Method method, Clbss<?> type) {
         this.method = method;
         this.type = type;
     }
@@ -48,47 +48,47 @@ final class MethodInfo {
         this.type = resolve(method, type);
     }
 
-    boolean isThrow(Class<?> exception) {
-        for (Class<?> type : this.method.getExceptionTypes()) {
+    boolebn isThrow(Clbss<?> exception) {
+        for (Clbss<?> type : this.method.getExceptionTypes()) {
             if (type == exception) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    static Class<?> resolve(Method method, Type type) {
-        return TypeResolver.erase(TypeResolver.resolveInClass(method.getDeclaringClass(), type));
+    stbtic Clbss<?> resolve(Method method, Type type) {
+        return TypeResolver.erbse(TypeResolver.resolveInClbss(method.getDeclbringClbss(), type));
     }
 
-    static List<Method> get(Class<?> type) {
+    stbtic List<Method> get(Clbss<?> type) {
         List<Method> list = null;
         if (type != null) {
-            boolean inaccessible = !Modifier.isPublic(type.getModifiers());
+            boolebn inbccessible = !Modifier.isPublic(type.getModifiers());
             for (Method method : type.getMethods()) {
-                if (method.getDeclaringClass().equals(type)) {
-                    if (inaccessible) {
+                if (method.getDeclbringClbss().equbls(type)) {
+                    if (inbccessible) {
                         try {
                             method = MethodFinder.findAccessibleMethod(method);
-                            if (!method.getDeclaringClass().isInterface()) {
-                                method = null; // ignore methods from superclasses
+                            if (!method.getDeclbringClbss().isInterfbce()) {
+                                method = null; // ignore methods from superclbsses
                             }
-                        } catch (NoSuchMethodException exception) {
-                            // commented out because of 6976577
-                            // method = null; // ignore inaccessible methods
+                        } cbtch (NoSuchMethodException exception) {
+                            // commented out becbuse of 6976577
+                            // method = null; // ignore inbccessible methods
                         }
                     }
                     if (method != null) {
                         if (list == null) {
-                            list = new ArrayList<>();
+                            list = new ArrbyList<>();
                         }
-                        list.add(method);
+                        list.bdd(method);
                     }
                 }
             }
         }
         return (list != null)
-                ? Collections.unmodifiableList(list)
+                ? Collections.unmodifibbleList(list)
                 : Collections.emptyList();
     }
 }

@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.LongBuffer;
-import java.security.AccessController;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ByteOrder;
+import jbvb.nio.LongBuffer;
+import jbvb.security.AccessController;
 
 /**
- * Performance counter support for internal JRE classes.
- * This class defines a fixed list of counters for the platform
- * to use as an interim solution until RFE# 6209222 is implemented.
- * The perf counters will be created in the jvmstat perf buffer
- * that the HotSpot VM creates. The default size is 32K and thus
- * the number of counters is bounded.  You can alter the size
- * with -XX:PerfDataMemorySize=<bytes> option. If there is
- * insufficient memory in the jvmstat perf buffer, the C heap memory
- * will be used and thus the application will continue to run if
- * the counters added exceeds the buffer size but the counters
+ * Performbnce counter support for internbl JRE clbsses.
+ * This clbss defines b fixed list of counters for the plbtform
+ * to use bs bn interim solution until RFE# 6209222 is implemented.
+ * The perf counters will be crebted in the jvmstbt perf buffer
+ * thbt the HotSpot VM crebtes. The defbult size is 32K bnd thus
+ * the number of counters is bounded.  You cbn blter the size
+ * with -XX:PerfDbtbMemorySize=<bytes> option. If there is
+ * insufficient memory in the jvmstbt perf buffer, the C hebp memory
+ * will be used bnd thus the bpplicbtion will continue to run if
+ * the counters bdded exceeds the buffer size but the counters
  * will be missing.
  *
- * See HotSpot jvmstat implementation for certain circumstances
- * that the jvmstat perf buffer is not supported.
+ * See HotSpot jvmstbt implementbtion for certbin circumstbnces
+ * thbt the jvmstbt perf buffer is not supported.
  *
  */
-public class PerfCounter {
-    private static final Perf perf =
+public clbss PerfCounter {
+    privbte stbtic finbl Perf perf =
         AccessController.doPrivileged(new Perf.GetPerfAction());
 
-    // Must match values defined in hotspot/src/share/vm/runtime/perfdata.hpp
-    private final static int V_Constant  = 1;
-    private final static int V_Monotonic = 2;
-    private final static int V_Variable  = 3;
-    private final static int U_None      = 1;
+    // Must mbtch vblues defined in hotspot/src/shbre/vm/runtime/perfdbtb.hpp
+    privbte finbl stbtic int V_Constbnt  = 1;
+    privbte finbl stbtic int V_Monotonic = 2;
+    privbte finbl stbtic int V_Vbribble  = 3;
+    privbte finbl stbtic int U_None      = 1;
 
-    private final String name;
-    private final LongBuffer lb;
+    privbte finbl String nbme;
+    privbte finbl LongBuffer lb;
 
-    private PerfCounter(String name, int type) {
-        this.name = name;
-        ByteBuffer bb = perf.createLong(name, type, U_None, 0L);
-        bb.order(ByteOrder.nativeOrder());
-        this.lb = bb.asLongBuffer();
+    privbte PerfCounter(String nbme, int type) {
+        this.nbme = nbme;
+        ByteBuffer bb = perf.crebteLong(nbme, type, U_None, 0L);
+        bb.order(ByteOrder.nbtiveOrder());
+        this.lb = bb.bsLongBuffer();
     }
 
-    static PerfCounter newPerfCounter(String name) {
-        return new PerfCounter(name, V_Variable);
+    stbtic PerfCounter newPerfCounter(String nbme) {
+        return new PerfCounter(nbme, V_Vbribble);
     }
 
-    static PerfCounter newConstantPerfCounter(String name) {
-        PerfCounter c = new PerfCounter(name, V_Constant);
+    stbtic PerfCounter newConstbntPerfCounter(String nbme) {
+        PerfCounter c = new PerfCounter(nbme, V_Constbnt);
         return c;
     }
 
     /**
-     * Returns the current value of the perf counter.
+     * Returns the current vblue of the perf counter.
      */
     public synchronized long get() {
         return lb.get(0);
     }
 
     /**
-     * Sets the value of the perf counter to the given newValue.
+     * Sets the vblue of the perf counter to the given newVblue.
      */
-    public synchronized void set(long newValue) {
-        lb.put(0, newValue);
+    public synchronized void set(long newVblue) {
+        lb.put(0, newVblue);
     }
 
     /**
-     * Adds the given value to the perf counter.
+     * Adds the given vblue to the perf counter.
      */
-    public synchronized void add(long value) {
-        long res = get() + value;
+    public synchronized void bdd(long vblue) {
+        long res = get() + vblue;
         lb.put(0, res);
     }
 
@@ -102,90 +102,90 @@ public class PerfCounter {
      * Increments the perf counter with 1.
      */
     public void increment() {
-        add(1);
+        bdd(1);
     }
 
     /**
-     * Adds the given interval to the perf counter.
+     * Adds the given intervbl to the perf counter.
      */
-    public void addTime(long interval) {
-        add(interval);
+    public void bddTime(long intervbl) {
+        bdd(intervbl);
     }
 
     /**
-     * Adds the elapsed time from the given start time (ns) to the perf counter.
+     * Adds the elbpsed time from the given stbrt time (ns) to the perf counter.
      */
-    public void addElapsedTimeFrom(long startTime) {
-        add(System.nanoTime() - startTime);
+    public void bddElbpsedTimeFrom(long stbrtTime) {
+        bdd(System.nbnoTime() - stbrtTime);
     }
 
     @Override
     public String toString() {
-        return name + " = " + get();
+        return nbme + " = " + get();
     }
 
-    static class CoreCounters {
-        static final PerfCounter pdt   = newPerfCounter("sun.classloader.parentDelegationTime");
-        static final PerfCounter lc    = newPerfCounter("sun.classloader.findClasses");
-        static final PerfCounter lct   = newPerfCounter("sun.classloader.findClassTime");
-        static final PerfCounter rcbt  = newPerfCounter("sun.urlClassLoader.readClassBytesTime");
-        static final PerfCounter zfc   = newPerfCounter("sun.zip.zipFiles");
-        static final PerfCounter zfot  = newPerfCounter("sun.zip.zipFile.openTime");
+    stbtic clbss CoreCounters {
+        stbtic finbl PerfCounter pdt   = newPerfCounter("sun.clbsslobder.pbrentDelegbtionTime");
+        stbtic finbl PerfCounter lc    = newPerfCounter("sun.clbsslobder.findClbsses");
+        stbtic finbl PerfCounter lct   = newPerfCounter("sun.clbsslobder.findClbssTime");
+        stbtic finbl PerfCounter rcbt  = newPerfCounter("sun.urlClbssLobder.rebdClbssBytesTime");
+        stbtic finbl PerfCounter zfc   = newPerfCounter("sun.zip.zipFiles");
+        stbtic finbl PerfCounter zfot  = newPerfCounter("sun.zip.zipFile.openTime");
     }
 
-    static class WindowsClientCounters {
-        static final PerfCounter d3dAvailable = newConstantPerfCounter("sun.java2d.d3d.available");
+    stbtic clbss WindowsClientCounters {
+        stbtic finbl PerfCounter d3dAvbilbble = newConstbntPerfCounter("sun.jbvb2d.d3d.bvbilbble");
     }
 
     /**
-     * Number of findClass calls
+     * Number of findClbss cblls
      */
-    public static PerfCounter getFindClasses() {
+    public stbtic PerfCounter getFindClbsses() {
         return CoreCounters.lc;
     }
 
     /**
-     * Time (ns) spent in finding classes that includes
-     * lookup and read class bytes and defineClass
+     * Time (ns) spent in finding clbsses thbt includes
+     * lookup bnd rebd clbss bytes bnd defineClbss
      */
-    public static PerfCounter getFindClassTime() {
+    public stbtic PerfCounter getFindClbssTime() {
         return CoreCounters.lct;
     }
 
     /**
-     * Time (ns) spent in finding classes
+     * Time (ns) spent in finding clbsses
      */
-    public static PerfCounter getReadClassBytesTime() {
+    public stbtic PerfCounter getRebdClbssBytesTime() {
         return CoreCounters.rcbt;
     }
 
     /**
-     * Time (ns) spent in the parent delegation to
-     * the parent of the defining class loader
+     * Time (ns) spent in the pbrent delegbtion to
+     * the pbrent of the defining clbss lobder
      */
-    public static PerfCounter getParentDelegationTime() {
+    public stbtic PerfCounter getPbrentDelegbtionTime() {
         return CoreCounters.pdt;
     }
 
     /**
      * Number of zip files opened.
      */
-    public static PerfCounter getZipFileCount() {
+    public stbtic PerfCounter getZipFileCount() {
         return CoreCounters.zfc;
     }
 
     /**
-     * Time (ns) spent in opening the zip files that
-     * includes building the entries hash table
+     * Time (ns) spent in opening the zip files thbt
+     * includes building the entries hbsh tbble
      */
-    public static PerfCounter getZipFileOpenTime() {
+    public stbtic PerfCounter getZipFileOpenTime() {
         return CoreCounters.zfot;
     }
 
     /**
-     * D3D graphic pipeline available
+     * D3D grbphic pipeline bvbilbble
      */
-    public static PerfCounter getD3DAvailable() {
-        return WindowsClientCounters.d3dAvailable;
+    public stbtic PerfCounter getD3DAvbilbble() {
+        return WindowsClientCounters.d3dAvbilbble;
     }
 }

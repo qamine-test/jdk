@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.proxy;
+pbckbge sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.*;
-import java.util.Hashtable;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.Hbshtbble;
 
 /**
- * CGIClientException is thrown when an error is detected
- * in a client's request.
+ * CGIClientException is thrown when bn error is detected
+ * in b client's request.
  */
-class CGIClientException extends Exception {
-    private static final long serialVersionUID = 8147981687059865216L;
+clbss CGIClientException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 8147981687059865216L;
 
     public CGIClientException(String s) {
         super(s);
     }
 
-    public CGIClientException(String s, Throwable cause) {
-        super(s, cause);
+    public CGIClientException(String s, Throwbble cbuse) {
+        super(s, cbuse);
     }
 }
 
 /**
- * CGIServerException is thrown when an error occurs here on the server.
+ * CGIServerException is thrown when bn error occurs here on the server.
  */
-class CGIServerException extends Exception {
+clbss CGIServerException extends Exception {
 
-    private static final long serialVersionUID = 6928425456704527017L;
+    privbte stbtic finbl long seriblVersionUID = 6928425456704527017L;
 
     public CGIServerException(String s) {
         super(s);
     }
 
-    public CGIServerException(String s, Throwable cause) {
-        super(s, cause);
+    public CGIServerException(String s, Throwbble cbuse) {
+        super(s, cbuse);
     }
 }
 
 /**
- * CGICommandHandler is the interface to an object that handles a
- * particular supported command.
+ * CGICommbndHbndler is the interfbce to bn object thbt hbndles b
+ * pbrticulbr supported commbnd.
  */
-interface CGICommandHandler {
+interfbce CGICommbndHbndler {
 
     /**
-     * Return the string form of the command
+     * Return the string form of the commbnd
      * to be recognized in the query string.
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Execute the command with the given string as parameter.
+     * Execute the commbnd with the given string bs pbrbmeter.
      */
-    public void execute(String param) throws CGIClientException, CGIServerException;
+    public void execute(String pbrbm) throws CGIClientException, CGIServerException;
 }
 
 /**
- * The CGIHandler class contains methods for executing as a CGI program.
- * The main function interprets the query string as a command of the form
- * "<command>=<parameters>".
+ * The CGIHbndler clbss contbins methods for executing bs b CGI progrbm.
+ * The mbin function interprets the query string bs b commbnd of the form
+ * "<commbnd>=<pbrbmeters>".
  *
- * This class depends on the CGI 1.0 environment variables being set as
- * properties of the same name in this Java VM.
+ * This clbss depends on the CGI 1.0 environment vbribbles being set bs
+ * properties of the sbme nbme in this Jbvb VM.
  *
- * All data and methods of this class are static because they are specific
- * to this particular CGI process.
+ * All dbtb bnd methods of this clbss bre stbtic becbuse they bre specific
+ * to this pbrticulbr CGI process.
  */
-public final class CGIHandler {
+public finbl clbss CGIHbndler {
 
-    /* get CGI parameters that we need */
-    static int ContentLength;
-    static String QueryString;
-    static String RequestMethod;
-    static String ServerName;
-    static int ServerPort;
+    /* get CGI pbrbmeters thbt we need */
+    stbtic int ContentLength;
+    stbtic String QueryString;
+    stbtic String RequestMethod;
+    stbtic String ServerNbme;
+    stbtic int ServerPort;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
             public Void run() {
                 ContentLength =
-                    Integer.getInteger("CONTENT_LENGTH", 0).intValue();
+                    Integer.getInteger("CONTENT_LENGTH", 0).intVblue();
                 QueryString = System.getProperty("QUERY_STRING", "");
                 RequestMethod = System.getProperty("REQUEST_METHOD", "");
-                ServerName = System.getProperty("SERVER_NAME", "");
-                ServerPort = Integer.getInteger("SERVER_PORT", 0).intValue();
+                ServerNbme = System.getProperty("SERVER_NAME", "");
+                ServerPort = Integer.getInteger("SERVER_PORT", 0).intVblue();
                 return null;
             }
         });
     }
 
-    /* list of handlers for supported commands */
-    private static CGICommandHandler commands[] = {
-        new CGIForwardCommand(),
-        new CGIGethostnameCommand(),
-        new CGIPingCommand(),
-        new CGITryHostnameCommand()
+    /* list of hbndlers for supported commbnds */
+    privbte stbtic CGICommbndHbndler commbnds[] = {
+        new CGIForwbrdCommbnd(),
+        new CGIGethostnbmeCommbnd(),
+        new CGIPingCommbnd(),
+        new CGITryHostnbmeCommbnd()
     };
 
-    /* construct table mapping command strings to handlers */
-    private static Hashtable<String, CGICommandHandler> commandLookup;
-    static {
-        commandLookup = new Hashtable<>();
-        for (int i = 0; i < commands.length; ++ i)
-            commandLookup.put(commands[i].getName(), commands[i]);
+    /* construct tbble mbpping commbnd strings to hbndlers */
+    privbte stbtic Hbshtbble<String, CGICommbndHbndler> commbndLookup;
+    stbtic {
+        commbndLookup = new Hbshtbble<>();
+        for (int i = 0; i < commbnds.length; ++ i)
+            commbndLookup.put(commbnds[i].getNbme(), commbnds[i]);
     }
 
-    /* prevent instantiation of this class */
-    private CGIHandler() {}
+    /* prevent instbntibtion of this clbss */
+    privbte CGIHbndler() {}
 
     /**
-     * Execute command given in query string on URL.  The string before
-     * the first '=' is interpreted as the command name, and the string
-     * after the first '=' is the parameters to the command.
+     * Execute commbnd given in query string on URL.  The string before
+     * the first '=' is interpreted bs the commbnd nbme, bnd the string
+     * bfter the first '=' is the pbrbmeters to the commbnd.
      */
-    public static void main(String args[])
+    public stbtic void mbin(String brgs[])
     {
         try {
-            String command, param;
+            String commbnd, pbrbm;
             int delim = QueryString.indexOf('=');
             if (delim == -1) {
-                command = QueryString;
-                param = "";
+                commbnd = QueryString;
+                pbrbm = "";
             }
             else {
-                command = QueryString.substring(0, delim);
-                param = QueryString.substring(delim + 1);
+                commbnd = QueryString.substring(0, delim);
+                pbrbm = QueryString.substring(delim + 1);
             }
-            CGICommandHandler handler =
-                commandLookup.get(command);
-            if (handler != null)
+            CGICommbndHbndler hbndler =
+                commbndLookup.get(commbnd);
+            if (hbndler != null)
                 try {
-                    handler.execute(param);
-                } catch (CGIClientException e) {
-                    e.printStackTrace();
-                    returnClientError(e.getMessage());
-                } catch (CGIServerException e) {
-                    e.printStackTrace();
-                    returnServerError(e.getMessage());
+                    hbndler.execute(pbrbm);
+                } cbtch (CGIClientException e) {
+                    e.printStbckTrbce();
+                    returnClientError(e.getMessbge());
+                } cbtch (CGIServerException e) {
+                    e.printStbckTrbce();
+                    returnServerError(e.getMessbge());
                 }
             else
-                returnClientError("invalid command.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            returnServerError("internal error: " + e.getMessage());
+                returnClientError("invblid commbnd.");
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
+            returnServerError("internbl error: " + e.getMessbge());
         }
         System.exit(0);
     }
 
     /**
-     * Return an HTML error message indicating there was error in
+     * Return bn HTML error messbge indicbting there wbs error in
      * the client's request.
      */
-    private static void returnClientError(String message)
+    privbte stbtic void returnClientError(String messbge)
     {
-        System.out.println("Status: 400 Bad Request: " + message);
+        System.out.println("Stbtus: 400 Bbd Request: " + messbge);
         System.out.println("Content-type: text/html");
         System.out.println("");
         System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Client Error" +
+                           "<HEAD><TITLE>Jbvb RMI Client Error" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Client Error</H1>");
+        System.out.println("<H1>Jbvb RMI Client Error</H1>");
         System.out.println("");
-        System.out.println(message);
+        System.out.println(messbge);
         System.out.println("</BODY></HTML>");
         System.exit(1);
     }
 
     /**
-     * Return an HTML error message indicating an error occurred
+     * Return bn HTML error messbge indicbting bn error occurred
      * here on the server.
      */
-    private static void returnServerError(String message)
+    privbte stbtic void returnServerError(String messbge)
     {
-        System.out.println("Status: 500 Server Error: " + message);
+        System.out.println("Stbtus: 500 Server Error: " + messbge);
         System.out.println("Content-type: text/html");
         System.out.println("");
         System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Server Error" +
+                           "<HEAD><TITLE>Jbvb RMI Server Error" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Server Error</H1>");
+        System.out.println("<H1>Jbvb RMI Server Error</H1>");
         System.out.println("");
-        System.out.println(message);
+        System.out.println(messbge);
         System.out.println("</BODY></HTML>");
         System.exit(1);
     }
 }
 
 /**
- * "forward" command: Forward request body to local port on the server,
- * and send response back to client.
+ * "forwbrd" commbnd: Forwbrd request body to locbl port on the server,
+ * bnd send response bbck to client.
  */
-final class CGIForwardCommand implements CGICommandHandler {
+finbl clbss CGIForwbrdCommbnd implements CGICommbndHbndler {
 
-    public String getName() {
-        return "forward";
+    public String getNbme() {
+        return "forwbrd";
     }
 
-    @SuppressWarnings("deprecation")
-    private String getLine (DataInputStream socketIn) throws IOException {
-        return socketIn.readLine();
+    @SuppressWbrnings("deprecbtion")
+    privbte String getLine (DbtbInputStrebm socketIn) throws IOException {
+        return socketIn.rebdLine();
     }
 
-    public void execute(String param) throws CGIClientException, CGIServerException
+    public void execute(String pbrbm) throws CGIClientException, CGIServerException
     {
-        if (!CGIHandler.RequestMethod.equals("POST"))
-            throw new CGIClientException("can only forward POST requests");
+        if (!CGIHbndler.RequestMethod.equbls("POST"))
+            throw new CGIClientException("cbn only forwbrd POST requests");
 
         int port;
         try {
-            port = Integer.parseInt(param);
-        } catch (NumberFormatException e) {
-            throw new CGIClientException("invalid port number.", e);
+            port = Integer.pbrseInt(pbrbm);
+        } cbtch (NumberFormbtException e) {
+            throw new CGIClientException("invblid port number.", e);
         }
         if (port <= 0 || port > 0xFFFF)
-            throw new CGIClientException("invalid port: " + port);
+            throw new CGIClientException("invblid port: " + port);
         if (port < 1024)
             throw new CGIClientException("permission denied for port: " +
                                          port);
@@ -247,97 +247,97 @@ final class CGIForwardCommand implements CGICommandHandler {
         byte buffer[];
         Socket socket;
         try {
-            socket = new Socket(InetAddress.getLocalHost(), port);
-        } catch (IOException e) {
-            throw new CGIServerException("could not connect to local port", e);
+            socket = new Socket(InetAddress.getLocblHost(), port);
+        } cbtch (IOException e) {
+            throw new CGIServerException("could not connect to locbl port", e);
         }
 
         /*
-         * read client's request body
+         * rebd client's request body
          */
-        DataInputStream clientIn = new DataInputStream(System.in);
-        buffer = new byte[CGIHandler.ContentLength];
+        DbtbInputStrebm clientIn = new DbtbInputStrebm(System.in);
+        buffer = new byte[CGIHbndler.ContentLength];
         try {
-            clientIn.readFully(buffer);
-        } catch (EOFException e) {
-            throw new CGIClientException("unexpected EOF reading request body", e);
-        } catch (IOException e) {
-            throw new CGIClientException("error reading request body", e);
+            clientIn.rebdFully(buffer);
+        } cbtch (EOFException e) {
+            throw new CGIClientException("unexpected EOF rebding request body", e);
+        } cbtch (IOException e) {
+            throw new CGIClientException("error rebding request body", e);
         }
 
         /*
-         * send to local server in HTTP
+         * send to locbl server in HTTP
          */
         try {
-            DataOutputStream socketOut =
-                new DataOutputStream(socket.getOutputStream());
+            DbtbOutputStrebm socketOut =
+                new DbtbOutputStrebm(socket.getOutputStrebm());
             socketOut.writeBytes("POST / HTTP/1.0\r\n");
             socketOut.writeBytes("Content-length: " +
-                                 CGIHandler.ContentLength + "\r\n\r\n");
+                                 CGIHbndler.ContentLength + "\r\n\r\n");
             socketOut.write(buffer);
             socketOut.flush();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new CGIServerException("error writing to server", e);
         }
 
         /*
-         * read response
+         * rebd response
          */
-        DataInputStream socketIn;
+        DbtbInputStrebm socketIn;
         try {
-            socketIn = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new CGIServerException("error reading from server", e);
+            socketIn = new DbtbInputStrebm(socket.getInputStrebm());
+        } cbtch (IOException e) {
+            throw new CGIServerException("error rebding from server", e);
         }
-        String key = "Content-length:".toLowerCase();
-        boolean contentLengthFound = false;
+        String key = "Content-length:".toLowerCbse();
+        boolebn contentLengthFound = fblse;
         String line;
         int responseContentLength = -1;
         do {
             try {
                 line = getLine(socketIn);
-            } catch (IOException e) {
-                throw new CGIServerException("error reading from server", e);
+            } cbtch (IOException e) {
+                throw new CGIServerException("error rebding from server", e);
             }
             if (line == null)
                 throw new CGIServerException(
-                    "unexpected EOF reading server response");
+                    "unexpected EOF rebding server response");
 
-            if (line.toLowerCase().startsWith(key)) {
+            if (line.toLowerCbse().stbrtsWith(key)) {
                 if (contentLengthFound) {
                     throw new CGIServerException(
                             "Multiple Content-length entries found.");
                 } else {
                     responseContentLength =
-                        Integer.parseInt(line.substring(key.length()).trim());
+                        Integer.pbrseInt(line.substring(key.length()).trim());
                     contentLengthFound = true;
                 }
             }
         } while ((line.length() != 0) &&
-                 (line.charAt(0) != '\r') && (line.charAt(0) != '\n'));
+                 (line.chbrAt(0) != '\r') && (line.chbrAt(0) != '\n'));
 
         if (!contentLengthFound || responseContentLength < 0)
             throw new CGIServerException(
-                "missing or invalid content length in server response");
+                "missing or invblid content length in server response");
         buffer = new byte[responseContentLength];
         try {
-            socketIn.readFully(buffer);
-        } catch (EOFException e) {
+            socketIn.rebdFully(buffer);
+        } cbtch (EOFException e) {
             throw new CGIServerException(
-                "unexpected EOF reading server response", e);
-        } catch (IOException e) {
-            throw new CGIServerException("error reading from server", e);
+                "unexpected EOF rebding server response", e);
+        } cbtch (IOException e) {
+            throw new CGIServerException("error rebding from server", e);
         }
 
         /*
-         * send response back to client
+         * send response bbck to client
          */
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
+        System.out.println("Stbtus: 200 OK");
+        System.out.println("Content-type: bpplicbtion/octet-strebm");
         System.out.println("");
         try {
             System.out.write(buffer);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new CGIServerException("error writing response", e);
         }
         System.out.flush();
@@ -345,79 +345,79 @@ final class CGIForwardCommand implements CGICommandHandler {
 }
 
 /**
- * "gethostname" command: Return the host name of the server as the
+ * "gethostnbme" commbnd: Return the host nbme of the server bs the
  * response body
  */
-final class CGIGethostnameCommand implements CGICommandHandler {
+finbl clbss CGIGethostnbmeCommbnd implements CGICommbndHbndler {
 
-    public String getName() {
-        return "gethostname";
+    public String getNbme() {
+        return "gethostnbme";
     }
 
-    public void execute(String param)
+    public void execute(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
+        System.out.println("Stbtus: 200 OK");
+        System.out.println("Content-type: bpplicbtion/octet-strebm");
         System.out.println("Content-length: " +
-                           CGIHandler.ServerName.length());
+                           CGIHbndler.ServerNbme.length());
         System.out.println("");
-        System.out.print(CGIHandler.ServerName);
+        System.out.print(CGIHbndler.ServerNbme);
         System.out.flush();
     }
 }
 
 /**
- * "ping" command: Return an OK status to indicate that connection
- * was successful.
+ * "ping" commbnd: Return bn OK stbtus to indicbte thbt connection
+ * wbs successful.
  */
-final class CGIPingCommand implements CGICommandHandler {
+finbl clbss CGIPingCommbnd implements CGICommbndHbndler {
 
-    public String getName() {
+    public String getNbme() {
         return "ping";
     }
 
-    public void execute(String param)
+    public void execute(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
+        System.out.println("Stbtus: 200 OK");
+        System.out.println("Content-type: bpplicbtion/octet-strebm");
         System.out.println("Content-length: 0");
         System.out.println("");
     }
 }
 
 /**
- * "tryhostname" command: Return a human readable message describing
- * what host name is available to local Java VMs.
+ * "tryhostnbme" commbnd: Return b humbn rebdbble messbge describing
+ * whbt host nbme is bvbilbble to locbl Jbvb VMs.
  */
-final class CGITryHostnameCommand implements CGICommandHandler {
+finbl clbss CGITryHostnbmeCommbnd implements CGICommbndHbndler {
 
-    public String getName() {
-        return "tryhostname";
+    public String getNbme() {
+        return "tryhostnbme";
     }
 
-    public void execute(String param)
+    public void execute(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
+        System.out.println("Stbtus: 200 OK");
         System.out.println("Content-type: text/html");
         System.out.println("");
         System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Server Hostname Info" +
+                           "<HEAD><TITLE>Jbvb RMI Server Hostnbme Info" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Server Hostname Info</H1>");
-        System.out.println("<H2>Local host name available to Java VM:</H2>");
-        System.out.print("<P>InetAddress.getLocalHost().getHostName()");
+        System.out.println("<H1>Jbvb RMI Server Hostnbme Info</H1>");
+        System.out.println("<H2>Locbl host nbme bvbilbble to Jbvb VM:</H2>");
+        System.out.print("<P>InetAddress.getLocblHost().getHostNbme()");
         try {
-            String localHostName = InetAddress.getLocalHost().getHostName();
+            String locblHostNbme = InetAddress.getLocblHost().getHostNbme();
 
-            System.out.println(" = " + localHostName);
-        } catch (UnknownHostException e) {
-            System.out.println(" threw java.net.UnknownHostException");
+            System.out.println(" = " + locblHostNbme);
+        } cbtch (UnknownHostException e) {
+            System.out.println(" threw jbvb.net.UnknownHostException");
         }
 
-        System.out.println("<H2>Server host information obtained through CGI interface from HTTP server:</H2>");
-        System.out.println("<P>SERVER_NAME = " + CGIHandler.ServerName);
-        System.out.println("<P>SERVER_PORT = " + CGIHandler.ServerPort);
+        System.out.println("<H2>Server host informbtion obtbined through CGI interfbce from HTTP server:</H2>");
+        System.out.println("<P>SERVER_NAME = " + CGIHbndler.ServerNbme);
+        System.out.println("<P>SERVER_PORT = " + CGIHbndler.ServerPort);
         System.out.println("</BODY></HTML>");
     }
 }

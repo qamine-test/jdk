@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "ArrayTypeImpl.h"
+#include "ArrbyTypeImpl.h"
 #include "util.h"
-#include "inStream.h"
-#include "outStream.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
 
 /*
- * Determine the component class by looking thru all classes for
- * one that has the signature of the component and the same class loadeer
- * as the array.  See JVM spec 5.3.3:
- *     If the component type is a reference type, C is marked as having
- *     been defined by the defining class loader of the component type.
+ * Determine the component clbss by looking thru bll clbsses for
+ * one thbt hbs the signbture of the component bnd the sbme clbss lobdeer
+ * bs the brrby.  See JVM spec 5.3.3:
+ *     If the component type is b reference type, C is mbrked bs hbving
+ *     been defined by the defining clbss lobder of the component type.
  */
-static jdwpError
-getComponentClass(JNIEnv *env, jclass arrayClass, char *componentSignature,
-                jclass *componentClassPtr)
+stbtic jdwpError
+getComponentClbss(JNIEnv *env, jclbss brrbyClbss, chbr *componentSignbture,
+                jclbss *componentClbssPtr)
 {
-    jobject arrayClassLoader;
-    jclass *classes;
+    jobject brrbyClbssLobder;
+    jclbss *clbsses;
     jint count;
-    jclass componentClass = NULL;
+    jclbss componentClbss = NULL;
     jdwpError serror;
     jvmtiError error;
 
     serror = JDWP_ERROR(NONE);
 
-    error = classLoader(arrayClass, &arrayClassLoader);
+    error = clbssLobder(brrbyClbss, &brrbyClbssLobder);
     if (error != JVMTI_ERROR_NONE) {
-        return map2jdwpError(error);
+        return mbp2jdwpError(error);
     }
 
-    error = allLoadedClasses(&classes, &count);
+    error = bllLobdedClbsses(&clbsses, &count);
     if (error != JVMTI_ERROR_NONE) {
-        serror = map2jdwpError(error);
+        serror = mbp2jdwpError(error);
     } else {
         int i;
-        for (i = 0; (i < count) && (componentClass == NULL); i++) {
-            char *signature = NULL;
-            jclass clazz = classes[i];
-            jboolean match;
+        for (i = 0; (i < count) && (componentClbss == NULL); i++) {
+            chbr *signbture = NULL;
+            jclbss clbzz = clbsses[i];
+            jboolebn mbtch;
             jvmtiError error;
 
-            /* signature must match */
-            error = classSignature(clazz, &signature, NULL);
+            /* signbture must mbtch */
+            error = clbssSignbture(clbzz, &signbture, NULL);
             if (error != JVMTI_ERROR_NONE) {
-                serror = map2jdwpError(error);
-                break;
+                serror = mbp2jdwpError(error);
+                brebk;
             }
-            match = strcmp(signature, componentSignature) == 0;
-            jvmtiDeallocate(signature);
+            mbtch = strcmp(signbture, componentSignbture) == 0;
+            jvmtiDebllocbte(signbture);
 
-            /* if signature matches, get class loader to check if
-             * it matches
+            /* if signbture mbtches, get clbss lobder to check if
+             * it mbtches
              */
-            if (match) {
-                jobject loader;
-                error = classLoader(clazz, &loader);
+            if (mbtch) {
+                jobject lobder;
+                error = clbssLobder(clbzz, &lobder);
                 if (error != JVMTI_ERROR_NONE) {
-                    return map2jdwpError(error);
+                    return mbp2jdwpError(error);
                 }
-                match = isSameObject(env, loader, arrayClassLoader);
+                mbtch = isSbmeObject(env, lobder, brrbyClbssLobder);
             }
 
-            if (match) {
-                componentClass = clazz;
+            if (mbtch) {
+                componentClbss = clbzz;
             }
         }
-        jvmtiDeallocate(classes);
+        jvmtiDebllocbte(clbsses);
 
-        *componentClassPtr = componentClass;
+        *componentClbssPtr = componentClbss;
     }
 
-    if (serror == JDWP_ERROR(NONE) && componentClass == NULL) {
-        /* per JVM spec, component class is always loaded
-         * before array class, so this should never occur.
+    if (serror == JDWP_ERROR(NONE) && componentClbss == NULL) {
+        /* per JVM spec, component clbss is blwbys lobded
+         * before brrby clbss, so this should never occur.
          */
         serror = JDWP_ERROR(NOT_FOUND);
     }
@@ -104,34 +104,34 @@ getComponentClass(JNIEnv *env, jclass arrayClass, char *componentSignature,
     return serror;
 }
 
-static void
-writeNewObjectArray(JNIEnv *env, PacketOutputStream *out,
-                 jclass arrayClass, jint size, char *componentSignature)
+stbtic void
+writeNewObjectArrby(JNIEnv *env, PbcketOutputStrebm *out,
+                 jclbss brrbyClbss, jint size, chbr *componentSignbture)
 {
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jarray array;
-        jclass componentClass = NULL;
+        jbrrby brrby;
+        jclbss componentClbss = NULL;
         jdwpError serror;
 
-        serror = getComponentClass(env, arrayClass,
-                                       componentSignature, &componentClass);
+        serror = getComponentClbss(env, brrbyClbss,
+                                       componentSignbture, &componentClbss);
         if (serror != JDWP_ERROR(NONE)) {
-            outStream_setError(out, serror);
+            outStrebm_setError(out, serror);
         } else {
 
-            array = JNI_FUNC_PTR(env,NewObjectArray)(env, size, componentClass, 0);
+            brrby = JNI_FUNC_PTR(env,NewObjectArrby)(env, size, componentClbss, 0);
             if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-                JNI_FUNC_PTR(env,ExceptionClear)(env);
-                array = NULL;
+                JNI_FUNC_PTR(env,ExceptionClebr)(env);
+                brrby = NULL;
             }
 
-            if (array == NULL) {
-                outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+            if (brrby == NULL) {
+                outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
             } else {
-                (void)outStream_writeByte(out, specificTypeKey(env, array));
-                (void)outStream_writeObjectRef(env, out, array);
+                (void)outStrebm_writeByte(out, specificTypeKey(env, brrby));
+                (void)outStrebm_writeObjectRef(env, out, brrby);
             }
 
         }
@@ -139,106 +139,106 @@ writeNewObjectArray(JNIEnv *env, PacketOutputStream *out,
     } END_WITH_LOCAL_REFS(env);
 }
 
-static void
-writeNewPrimitiveArray(JNIEnv *env, PacketOutputStream *out,
-                       jclass arrayClass, jint size, char *componentSignature)
+stbtic void
+writeNewPrimitiveArrby(JNIEnv *env, PbcketOutputStrebm *out,
+                       jclbss brrbyClbss, jint size, chbr *componentSignbture)
 {
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jarray array = NULL;
+        jbrrby brrby = NULL;
 
-        switch (componentSignature[0]) {
-            case JDWP_TAG(BYTE):
-                array = JNI_FUNC_PTR(env,NewByteArray)(env, size);
-                break;
+        switch (componentSignbture[0]) {
+            cbse JDWP_TAG(BYTE):
+                brrby = JNI_FUNC_PTR(env,NewByteArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(CHAR):
-                array = JNI_FUNC_PTR(env,NewCharArray)(env, size);
-                break;
+            cbse JDWP_TAG(CHAR):
+                brrby = JNI_FUNC_PTR(env,NewChbrArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(FLOAT):
-                array = JNI_FUNC_PTR(env,NewFloatArray)(env, size);
-                break;
+            cbse JDWP_TAG(FLOAT):
+                brrby = JNI_FUNC_PTR(env,NewFlobtArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(DOUBLE):
-                array = JNI_FUNC_PTR(env,NewDoubleArray)(env, size);
-                break;
+            cbse JDWP_TAG(DOUBLE):
+                brrby = JNI_FUNC_PTR(env,NewDoubleArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(INT):
-                array = JNI_FUNC_PTR(env,NewIntArray)(env, size);
-                break;
+            cbse JDWP_TAG(INT):
+                brrby = JNI_FUNC_PTR(env,NewIntArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(LONG):
-                array = JNI_FUNC_PTR(env,NewLongArray)(env, size);
-                break;
+            cbse JDWP_TAG(LONG):
+                brrby = JNI_FUNC_PTR(env,NewLongArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(SHORT):
-                array = JNI_FUNC_PTR(env,NewShortArray)(env, size);
-                break;
+            cbse JDWP_TAG(SHORT):
+                brrby = JNI_FUNC_PTR(env,NewShortArrby)(env, size);
+                brebk;
 
-            case JDWP_TAG(BOOLEAN):
-                array = JNI_FUNC_PTR(env,NewBooleanArray)(env, size);
-                break;
+            cbse JDWP_TAG(BOOLEAN):
+                brrby = JNI_FUNC_PTR(env,NewBoolebnArrby)(env, size);
+                brebk;
 
-            default:
-                outStream_setError(out, JDWP_ERROR(TYPE_MISMATCH));
-                break;
+            defbult:
+                outStrebm_setError(out, JDWP_ERROR(TYPE_MISMATCH));
+                brebk;
         }
 
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
-            array = NULL;
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
+            brrby = NULL;
         }
 
-        if (array == NULL) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        if (brrby == NULL) {
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
         } else {
-            (void)outStream_writeByte(out, specificTypeKey(env, array));
-            (void)outStream_writeObjectRef(env, out, array);
+            (void)outStrebm_writeByte(out, specificTypeKey(env, brrby));
+            (void)outStrebm_writeObjectRef(env, out, brrby);
         }
 
     } END_WITH_LOCAL_REFS(env);
 }
 
-static jboolean
-newInstance(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+newInstbnce(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
-    char *signature = NULL;
-    char *componentSignature;
-    jclass arrayClass;
+    chbr *signbture = NULL;
+    chbr *componentSignbture;
+    jclbss brrbyClbss;
     jint size;
     jvmtiError error;
 
     env = getEnv();
 
-    arrayClass = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
+    brrbyClbss = inStrebm_rebdClbssRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    size = inStream_readInt(in);
-    if (inStream_error(in)) {
+    size = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    error = classSignature(arrayClass, &signature, NULL);
+    error = clbssSignbture(brrbyClbss, &signbture, NULL);
     if ( error != JVMTI_ERROR_NONE ) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return JNI_FALSE;
     }
-    componentSignature = &signature[1];
+    componentSignbture = &signbture[1];
 
-    if ((componentSignature[0] == JDWP_TAG(OBJECT)) ||
-        (componentSignature[0] == JDWP_TAG(ARRAY))) {
-        writeNewObjectArray(env, out, arrayClass, size, componentSignature);
+    if ((componentSignbture[0] == JDWP_TAG(OBJECT)) ||
+        (componentSignbture[0] == JDWP_TAG(ARRAY))) {
+        writeNewObjectArrby(env, out, brrbyClbss, size, componentSignbture);
     } else {
-        writeNewPrimitiveArray(env, out, arrayClass, size, componentSignature);
+        writeNewPrimitiveArrby(env, out, brrbyClbss, size, componentSignbture);
     }
 
-    jvmtiDeallocate(signature);
+    jvmtiDebllocbte(signbture);
     return JNI_TRUE;
 }
 
-void *ArrayType_Cmds[] = { (void *)0x1
-                          ,(void *)newInstance};
+void *ArrbyType_Cmds[] = { (void *)0x1
+                          ,(void *)newInstbnce};

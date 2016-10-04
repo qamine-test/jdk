@@ -1,1114 +1,1114 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.bccessibility.*;
 
 /**
- * The main class for creating a dialog window. You can use this class
- * to create a custom dialog, or invoke the many class methods
- * in {@link JOptionPane} to create a variety of standard dialogs.
- * For information about creating dialogs, see
- * <em>The Java Tutorial</em> section
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html">How
- * to Make Dialogs</a>.
+ * The mbin clbss for crebting b diblog window. You cbn use this clbss
+ * to crebte b custom diblog, or invoke the mbny clbss methods
+ * in {@link JOptionPbne} to crebte b vbriety of stbndbrd diblogs.
+ * For informbtion bbout crebting diblogs, see
+ * <em>The Jbvb Tutoribl</em> section
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/diblog.html">How
+ * to Mbke Diblogs</b>.
  *
  * <p>
  *
- * The {@code JDialog} component contains a {@code JRootPane}
- * as its only child.
- * The {@code contentPane} should be the parent of any children of the
- * {@code JDialog}.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a dialog as follows:
+ * The {@code JDiblog} component contbins b {@code JRootPbne}
+ * bs its only child.
+ * The {@code contentPbne} should be the pbrent of bny children of the
+ * {@code JDiblog}.
+ * As b convenience, the {@code bdd}, {@code remove}, bnd {@code setLbyout}
+ * methods of this clbss bre overridden, so thbt they delegbte cblls
+ * to the corresponding methods of the {@code ContentPbne}.
+ * For exbmple, you cbn bdd b child component to b diblog bs follows:
  * <pre>
- *       dialog.add(child);
+ *       diblog.bdd(child);
  * </pre>
- * And the child will be added to the contentPane.
- * The {@code contentPane} is always non-{@code null}.
- * Attempting to set it to {@code null} generates an exception.
- * The default {@code contentPane} has a {@code BorderLayout}
- * manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the {@code LayoutManager}
- * of a {@code JDialog}.
+ * And the child will be bdded to the contentPbne.
+ * The {@code contentPbne} is blwbys non-{@code null}.
+ * Attempting to set it to {@code null} generbtes bn exception.
+ * The defbult {@code contentPbne} hbs b {@code BorderLbyout}
+ * mbnbger set on it.
+ * Refer to {@link jbvbx.swing.RootPbneContbiner}
+ * for detbils on bdding, removing bnd setting the {@code LbyoutMbnbger}
+ * of b {@code JDiblog}.
  * <p>
- * Please see the {@code JRootPane} documentation for a complete
- * description of the {@code contentPane}, {@code glassPane},
- * and {@code layeredPane} components.
+ * Plebse see the {@code JRootPbne} documentbtion for b complete
+ * description of the {@code contentPbne}, {@code glbssPbne},
+ * bnd {@code lbyeredPbne} components.
  * <p>
- * In a multi-screen environment, you can create a {@code JDialog}
- * on a different screen device than its owner.  See {@link java.awt.Frame} for
- * more information.
+ * In b multi-screen environment, you cbn crebte b {@code JDiblog}
+ * on b different screen device thbn its owner.  See {@link jbvb.bwt.Frbme} for
+ * more informbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the {@code java.beans} package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the {@code jbvb.bebns} pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JOptionPane
- * @see JRootPane
- * @see javax.swing.RootPaneContainer
+ * @see JOptionPbne
+ * @see JRootPbne
+ * @see jbvbx.swing.RootPbneContbiner
  *
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: A toplevel window for creating dialog boxes.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *      bttribute: contbinerDelegbte getContentPbne
+ *    description: A toplevel window for crebting diblog boxes.
  *
- * @author David Kloba
- * @author James Gosling
- * @author Scott Violet
+ * @buthor Dbvid Klobb
+ * @buthor Jbmes Gosling
+ * @buthor Scott Violet
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JDialog extends Dialog implements WindowConstants,
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JDiblog extends Diblog implements WindowConstbnts,
                                                Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+                                               RootPbneContbiner,
+                               TrbnsferHbndler.HbsGetTrbnsferHbndler
 {
     /**
-     * Key into the AppContext, used to check if should provide decorations
-     * by default.
+     * Key into the AppContext, used to check if should provide decorbtions
+     * by defbult.
      */
-    private static final Object defaultLookAndFeelDecoratedKey =
-            new StringBuffer("JDialog.defaultLookAndFeelDecorated");
+    privbte stbtic finbl Object defbultLookAndFeelDecorbtedKey =
+            new StringBuffer("JDiblog.defbultLookAndFeelDecorbted");
 
-    private int defaultCloseOperation = HIDE_ON_CLOSE;
+    privbte int defbultCloseOperbtion = HIDE_ON_CLOSE;
 
     /**
-     * @see #getRootPane
-     * @see #setRootPane
+     * @see #getRootPbne
+     * @see #setRootPbne
      */
-    protected JRootPane rootPane;
+    protected JRootPbne rootPbne;
 
     /**
-     * If true then calls to {@code add} and {@code setLayout}
-     * will be forwarded to the {@code contentPane}. This is initially
-     * false, but is set to true when the {@code JDialog} is constructed.
+     * If true then cblls to {@code bdd} bnd {@code setLbyout}
+     * will be forwbrded to the {@code contentPbne}. This is initiblly
+     * fblse, but is set to true when the {@code JDiblog} is constructed.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #isRootPbneCheckingEnbbled
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protected boolebn rootPbneCheckingEnbbled = fblse;
 
     /**
-     * The {@code TransferHandler} for this dialog.
+     * The {@code TrbnsferHbndler} for this diblog.
      */
-    private TransferHandler transferHandler;
+    privbte TrbnsferHbndler trbnsferHbndler;
 
     /**
-     * Creates a modeless dialog without a title and without a specified
-     * {@code Frame} owner.  A shared, hidden frame will be
-     * set as the owner of the dialog.
+     * Crebtes b modeless diblog without b title bnd without b specified
+     * {@code Frbme} owner.  A shbred, hidden frbme will be
+     * set bs the owner of the diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog() {
-        this((Frame)null, false);
+    public JDiblog() {
+        this((Frbme)null, fblse);
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Frame}
-     * as its owner and an empty title. If {@code owner}
-     * is {@code null}, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Crebtes b modeless diblog with the specified {@code Frbme}
+     * bs its owner bnd bn empty title. If {@code owner}
+     * is {@code null}, b shbred, hidden frbme will be set bs the
+     * owner of the diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the {@code Frbme} from which the diblog is displbyed
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Frame owner) {
-        this(owner, false);
+    public JDiblog(Frbme owner) {
+        this(owner, fblse);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Frame} as its owner. If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of the dialog.
+     * Crebtes b diblog with bn empty title bnd the specified modblity bnd
+     * {@code Frbme} bs its owner. If {@code owner} is {@code null},
+     * b shbred, hidden frbme will be set bs the owner of the diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the {@code Frbme} from which the diblog is displbyed
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the diblog is modeless.
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Frame owner, boolean modal) {
-        this(owner, "", modal);
+    public JDiblog(Frbme owner, boolebn modbl) {
+        this(owner, "", modbl);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and
-     * with the specified owner frame.  If {@code owner}
-     * is {@code null}, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Crebtes b modeless diblog with the specified title bnd
+     * with the specified owner frbme.  If {@code owner}
+     * is {@code null}, b shbred, hidden frbme will be set bs the
+     * owner of the diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *                  title bar
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the {@code Frbme} from which the diblog is displbyed
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *                  title bbr
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Frame owner, String title) {
-        this(owner, title, false);
+    public JDiblog(Frbme owner, String title) {
+        this(owner, title, fblse);
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Frame}
-     * and modality. If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of this dialog.
+     * Crebtes b diblog with the specified title, owner {@code Frbme}
+     * bnd modblity. If {@code owner} is {@code null},
+     * b shbred, hidden frbme will be set bs the owner of this diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
      * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * {@code JPopupMenu}, {@code JMenuBbr})
+     * crebted within b modbl diblog will be forced to be lightweight.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE} otherwise the dialog is modeless
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the {@code Frbme} from which the diblog is displbyed
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *     title bbr
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE} otherwise the diblog is modeless
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Frame owner, String title, boolean modal) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner,
-              title, modal);
+    public JDiblog(Frbme owner, String title, boolebn modbl) {
+        super(owner == null? SwingUtilities.getShbredOwnerFrbme() : owner,
+              title, modbl);
         if (owner == null) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            bddWindowListener(ownerShutdownListener);
         }
-        dialogInit();
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title,
-     * owner {@code Frame}, modality and {@code GraphicsConfiguration}.
+     * Crebtes b diblog with the specified title,
+     * owner {@code Frbme}, modblity bnd {@code GrbphicsConfigurbtion}.
      * If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of this dialog.
+     * b shbred, hidden frbme will be set bs the owner of this diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      * <p>
      * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * {@code JPopupMenu}, {@code JMenuBbr})
+     * crebted within b modbl diblog will be forced to be lightweight.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
+     * NOTE: This constructor does not bllow you to crebte bn unowned
+     * {@code JDiblog}. To crebte bn unowned {@code JDiblog}
+     * you must use either the {@code JDiblog(Window)} or
+     * {@code JDiblog(Diblog)} constructor with bn brgument of
      * {@code null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the {@code Frbme} from which the diblog is displbyed
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *     title bbr
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the diblog is modeless.
+     * @pbrbm gc the {@code GrbphicsConfigurbtion} of the tbrget screen device;
+     *     if {@code null}, the defbult system {@code GrbphicsConfigurbtion}
+     *     is bssumed
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      * @since 1.4
      */
-    public JDialog(Frame owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner,
-              title, modal, gc);
+    public JDiblog(Frbme owner, String title, boolebn modbl,
+                   GrbphicsConfigurbtion gc) {
+        super(owner == null? SwingUtilities.getShbredOwnerFrbme() : owner,
+              title, modbl, gc);
         if (owner == null) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            bddWindowListener(ownerShutdownListener);
         }
-        dialogInit();
+        diblogInit();
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Dialog}
-     * as its owner and an empty title.
+     * Crebtes b modeless diblog with the specified {@code Diblog}
+     * bs its owner bnd bn empty title.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @throws HeadlessException {@code if GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the owner {@code Diblog} from which the diblog is displbyed
+     *     or {@code null} if this diblog hbs no owner
+     * @throws HebdlessException {@code if GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Dialog owner) {
-        this(owner, false);
+    public JDiblog(Diblog owner) {
+        this(owner, fblse);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Dialog} as its owner.
+     * Crebtes b diblog with bn empty title bnd the specified modblity bnd
+     * {@code Diblog} bs its owner.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the owner {@code Diblog} from which the diblog is displbyed
+     *     or {@code null} if this diblog hbs no owner
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the diblog is modeless.
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Dialog owner, boolean modal) {
-        this(owner, "", modal);
+    public JDiblog(Diblog owner, boolebn modbl) {
+        this(owner, "", modbl);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and
-     * with the specified owner dialog.
+     * Crebtes b modeless diblog with the specified title bnd
+     * with the specified owner diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *                  title bar
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the owner {@code Diblog} from which the diblog is displbyed
+     *     or {@code null} if this diblog hbs no owner
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *                  title bbr
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Dialog owner, String title) {
-        this(owner, title, false);
+    public JDiblog(Diblog owner, String title) {
+        this(owner, title, fblse);
     }
 
     /**
-     * Creates a dialog with the specified title, modality
-     * and the specified owner {@code Dialog}.
+     * Crebtes b diblog with the specified title, modblity
+     * bnd the specified owner {@code Diblog}.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the owner {@code Diblog} from which the diblog is displbyed
+     *     or {@code null} if this diblog hbs no owner
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *     title bbr
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the diblog is modeless
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JDialog(Dialog owner, String title, boolean modal) {
-        super(owner, title, modal);
-        dialogInit();
+    public JDiblog(Diblog owner, String title, boolebn modbl) {
+        super(owner, title, modbl);
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Dialog},
-     * modality and {@code GraphicsConfiguration}.
+     * Crebtes b diblog with the specified title, owner {@code Diblog},
+     * modblity bnd {@code GrbphicsConfigurbtion}.
      *
      * <p>
      * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * {@code JPopupMenu}, {@code JMenuBbr})
+     * crebted within b modbl diblog will be forced to be lightweight.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @pbrbm owner the owner {@code Diblog} from which the diblog is displbyed
+     *     or {@code null} if this diblog hbs no owner
+     * @pbrbm title  the {@code String} to displby in the diblog's
+     *     title bbr
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If {@code true}, the modblity type property is set to
+     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the diblog is modeless
+     * @pbrbm gc the {@code GrbphicsConfigurbtion} of the tbrget screen device;
+     *     if {@code null}, the defbult system {@code GrbphicsConfigurbtion}
+     *     is bssumed
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      * @since 1.4
      */
-    public JDialog(Dialog owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-        super(owner, title, modal, gc);
-        dialogInit();
+    public JDiblog(Diblog owner, String title, boolebn modbl,
+                   GrbphicsConfigurbtion gc) {
+        super(owner, title, modbl, gc);
+        diblogInit();
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Window}
-     * as its owner and an empty title.
+     * Crebtes b modeless diblog with the specified {@code Window}
+     * bs its owner bnd bn empty title.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
+     * @pbrbm owner the {@code Window} from which the diblog is displbyed or
+     *     {@code null} if this diblog hbs no owner
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @throws IllegblArgumentException
+     *     if the {@code owner} is not bn instbnce of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbme Frbme}
+     * @throws IllegblArgumentException
+     *     if the {@code owner}'s {@code GrbphicsConfigurbtion} is not from b screen device
+     * @throws HebdlessException
+     *     when {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      *
      * @since 1.6
      */
-    public JDialog(Window owner) {
-        this(owner, Dialog.ModalityType.MODELESS);
+    public JDiblog(Window owner) {
+        this(owner, Diblog.ModblityType.MODELESS);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Window} as its owner.
+     * Crebtes b diblog with bn empty title bnd the specified modblity bnd
+     * {@code Window} bs its owner.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
+     * @pbrbm owner the {@code Window} from which the diblog is displbyed or
+     *     {@code null} if this diblog hbs no owner
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *     windows when shown. {@code null} vblue bnd unsupported modblity
+     *     types bre equivblent to {@code MODELESS}
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @throws IllegblArgumentException
+     *     if the {@code owner} is not bn instbnce of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbme Frbme}
+     * @throws IllegblArgumentException
+     *     if the {@code owner}'s {@code GrbphicsConfigurbtion} is not from b screen device
+     * @throws HebdlessException
+     *     when {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
      * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     *     if the cblling threbd does not hbve permission to crebte modbl diblogs
+     *     with the given {@code modblityType}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      *
      * @since 1.6
      */
-    public JDialog(Window owner, ModalityType modalityType) {
-        this(owner, "", modalityType);
+    public JDiblog(Window owner, ModblityType modblityType) {
+        this(owner, "", modblityType);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and owner
+     * Crebtes b modeless diblog with the specified title bnd owner
      * {@code Window}.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
+     * @pbrbm owner the {@code Window} from which the diblog is displbyed or
+     *     {@code null} if this diblog hbs no owner
+     * @pbrbm title the {@code String} to displby in the diblog's
+     *     title bbr or {@code null} if the diblog hbs no title
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @throws IllegblArgumentException
+     *     if the {@code owner} is not bn instbnce of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbme Frbme}
+     * @throws IllegblArgumentException
+     *     if the {@code owner}'s {@code GrbphicsConfigurbtion} is not from b screen device
+     * @throws HebdlessException
+     *     when {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      *
      * @since 1.6
      */
-    public JDialog(Window owner, String title) {
-        this(owner, title, Dialog.ModalityType.MODELESS);
+    public JDiblog(Window owner, String title) {
+        this(owner, title, Diblog.ModblityType.MODELESS);
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Window} and
-     * modality.
+     * Crebtes b diblog with the specified title, owner {@code Window} bnd
+     * modblity.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
+     * @pbrbm owner the {@code Window} from which the diblog is displbyed or
+     *     {@code null} if this diblog hbs no owner
+     * @pbrbm title the {@code String} to displby in the diblog's
+     *     title bbr or {@code null} if the diblog hbs no title
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *     windows when shown. {@code null} vblue bnd unsupported modblity
+     *     types bre equivblent to {@code MODELESS}
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @throws IllegblArgumentException
+     *     if the {@code owner} is not bn instbnce of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbme Frbme}
+     * @throws IllegblArgumentException
+     *     if the {@code owner}'s {@code GrbphicsConfigurbtion} is not from b screen device
+     * @throws HebdlessException
+     *     when {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
      * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     *     if the cblling threbd does not hbve permission to crebte modbl diblogs
+     *     with the given {@code modblityType}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      *
      * @since 1.6
      */
-    public JDialog(Window owner, String title, Dialog.ModalityType modalityType) {
-        super(owner, title, modalityType);
-        dialogInit();
+    public JDiblog(Window owner, String title, Diblog.ModblityType modblityType) {
+        super(owner, title, modblityType);
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Window},
-     * modality and {@code GraphicsConfiguration}.
+     * Crebtes b diblog with the specified title, owner {@code Window},
+     * modblity bnd {@code GrbphicsConfigurbtion}.
      * <p>
      * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * {@code JPopupMenu}, {@code JMenuBbr})
+     * crebted within b modbl diblog will be forced to be lightweight.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * This constructor sets the component's locble property to the vblue
+     * returned by {@code JComponent.getDefbultLocble}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @pbrbm owner the {@code Window} from which the diblog is displbyed or
+     *     {@code null} if this diblog hbs no owner
+     * @pbrbm title the {@code String} to displby in the diblog's
+     *     title bbr or {@code null} if the diblog hbs no title
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *     windows when shown. {@code null} vblue bnd unsupported modblity
+     *     types bre equivblent to {@code MODELESS}
+     * @pbrbm gc the {@code GrbphicsConfigurbtion} of the tbrget screen device;
+     *     if {@code null}, the defbult system {@code GrbphicsConfigurbtion}
+     *     is bssumed
+     * @throws IllegblArgumentException
+     *     if the {@code owner} is not bn instbnce of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbme Frbme}
+     * @throws IllegblArgumentException
+     *     if the {@code owner}'s {@code GrbphicsConfigurbtion} is not from b screen device
+     * @throws HebdlessException
+     *     when {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
      * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     *     if the cblling threbd does not hbve permission to crebte modbl diblogs
+     *     with the given {@code modblityType}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      *
      * @since 1.6
      */
-    public JDialog(Window owner, String title, Dialog.ModalityType modalityType,
-                   GraphicsConfiguration gc) {
-        super(owner, title, modalityType, gc);
-        dialogInit();
+    public JDiblog(Window owner, String title, Diblog.ModblityType modblityType,
+                   GrbphicsConfigurbtion gc) {
+        super(owner, title, modblityType, gc);
+        diblogInit();
     }
 
     /**
-     * Called by the constructors to init the {@code JDialog} properly.
+     * Cblled by the constructors to init the {@code JDiblog} properly.
      */
-    protected void dialogInit() {
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK);
-        setLocale( JComponent.getDefaultLocale() );
-        setRootPane(createRootPane());
-        setBackground(UIManager.getColor("control"));
-        setRootPaneCheckingEnabled(true);
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                setUndecorated(true);
-                getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+    protected void diblogInit() {
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK);
+        setLocble( JComponent.getDefbultLocble() );
+        setRootPbne(crebteRootPbne());
+        setBbckground(UIMbnbger.getColor("control"));
+        setRootPbneCheckingEnbbled(true);
+        if (JDiblog.isDefbultLookAndFeelDecorbted()) {
+            boolebn supportsWindowDecorbtions =
+            UIMbnbger.getLookAndFeel().getSupportsWindowDecorbtions();
+            if (supportsWindowDecorbtions) {
+                setUndecorbted(true);
+                getRootPbne().setWindowDecorbtionStyle(JRootPbne.PLAIN_DIALOG);
             }
         }
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        sun.bwt.SunToolkit.checkAndSetPolicy(this);
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * {@code rootPane}.
+     * Cblled by the constructor methods to crebte the defbult
+     * {@code rootPbne}.
      *
-     * @return  a new {@code JRootPane}
+     * @return  b new {@code JRootPbne}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
+    protected JRootPbne crebteRootPbne() {
+        JRootPbne rp = new JRootPbne();
+        // NOTE: this uses setOpbque vs LookAndFeel.instbllProperty bs there
+        // is NO rebson for the RootPbne not to be opbque. For pbinting to
+        // work the contentPbne must be opbque, therefor the RootPbne cbn
+        // blso be opbque.
+        rp.setOpbque(true);
         return rp;
     }
 
     /**
-     * Handles window events depending on the state of the
-     * {@code defaultCloseOperation} property.
+     * Hbndles window events depending on the stbte of the
+     * {@code defbultCloseOperbtion} property.
      *
-     * @see #setDefaultCloseOperation
+     * @see #setDefbultCloseOperbtion
      */
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);
 
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            switch(defaultCloseOperation) {
-              case HIDE_ON_CLOSE:
-                 setVisible(false);
-                 break;
-              case DISPOSE_ON_CLOSE:
+            switch(defbultCloseOperbtion) {
+              cbse HIDE_ON_CLOSE:
+                 setVisible(fblse);
+                 brebk;
+              cbse DISPOSE_ON_CLOSE:
                  dispose();
-                 break;
-              case DO_NOTHING_ON_CLOSE:
-                 default:
-                 break;
+                 brebk;
+              cbse DO_NOTHING_ON_CLOSE:
+                 defbult:
+                 brebk;
             }
         }
     }
 
 
     /**
-     * Sets the operation that will happen by default when
-     * the user initiates a "close" on this dialog.
+     * Sets the operbtion thbt will hbppen by defbult when
+     * the user initibtes b "close" on this diblog.
      * You must specify one of the following choices:
      * <br><br>
      * <ul>
      * <li>{@code DO_NOTHING_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Don't do anything; require the
-     * program to handle the operation in the {@code windowClosing}
-     * method of a registered {@code WindowListener} object.
+     * (defined in {@code WindowConstbnts}):
+     * Don't do bnything; require the
+     * progrbm to hbndle the operbtion in the {@code windowClosing}
+     * method of b registered {@code WindowListener} object.
      *
      * <li>{@code HIDE_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Automatically hide the dialog after
-     * invoking any registered {@code WindowListener}
+     * (defined in {@code WindowConstbnts}):
+     * Autombticblly hide the diblog bfter
+     * invoking bny registered {@code WindowListener}
      * objects.
      *
      * <li>{@code DISPOSE_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Automatically hide and dispose the
-     * dialog after invoking any registered {@code WindowListener}
+     * (defined in {@code WindowConstbnts}):
+     * Autombticblly hide bnd dispose the
+     * diblog bfter invoking bny registered {@code WindowListener}
      * objects.
      * </ul>
      * <p>
-     * The value is set to {@code HIDE_ON_CLOSE} by default. Changes
-     * to the value of this property cause the firing of a property
-     * change event, with property name "defaultCloseOperation".
+     * The vblue is set to {@code HIDE_ON_CLOSE} by defbult. Chbnges
+     * to the vblue of this property cbuse the firing of b property
+     * chbnge event, with property nbme "defbultCloseOperbtion".
      * <p>
-     * <b>Note</b>: When the last displayable window within the
-     * Java virtual machine (VM) is disposed of, the VM may
-     * terminate.  See <a href="../../java/awt/doc-files/AWTThreadIssues.html">
-     * AWT Threading Issues</a> for more information.
+     * <b>Note</b>: When the lbst displbybble window within the
+     * Jbvb virtubl mbchine (VM) is disposed of, the VM mby
+     * terminbte.  See <b href="../../jbvb/bwt/doc-files/AWTThrebdIssues.html">
+     * AWT Threbding Issues</b> for more informbtion.
      *
-     * @param operation the operation which should be performed when the
-     *        user closes the dialog
-     * @throws IllegalArgumentException if defaultCloseOperation value
-     *         isn't one of the above valid values
-     * @see #addWindowListener
-     * @see #getDefaultCloseOperation
-     * @see WindowConstants
+     * @pbrbm operbtion the operbtion which should be performed when the
+     *        user closes the diblog
+     * @throws IllegblArgumentException if defbultCloseOperbtion vblue
+     *         isn't one of the bbove vblid vblues
+     * @see #bddWindowListener
+     * @see #getDefbultCloseOperbtion
+     * @see WindowConstbnts
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     *        enum: DO_NOTHING_ON_CLOSE WindowConstants.DO_NOTHING_ON_CLOSE
-     *              HIDE_ON_CLOSE       WindowConstants.HIDE_ON_CLOSE
-     *              DISPOSE_ON_CLOSE    WindowConstants.DISPOSE_ON_CLOSE
-     * description: The dialog's default close operation.
+     *        enum: DO_NOTHING_ON_CLOSE WindowConstbnts.DO_NOTHING_ON_CLOSE
+     *              HIDE_ON_CLOSE       WindowConstbnts.HIDE_ON_CLOSE
+     *              DISPOSE_ON_CLOSE    WindowConstbnts.DISPOSE_ON_CLOSE
+     * description: The diblog's defbult close operbtion.
      */
-    public void setDefaultCloseOperation(int operation) {
-        if (operation != DO_NOTHING_ON_CLOSE &&
-            operation != HIDE_ON_CLOSE &&
-            operation != DISPOSE_ON_CLOSE) {
-            throw new IllegalArgumentException("defaultCloseOperation must be one of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, or DISPOSE_ON_CLOSE");
+    public void setDefbultCloseOperbtion(int operbtion) {
+        if (operbtion != DO_NOTHING_ON_CLOSE &&
+            operbtion != HIDE_ON_CLOSE &&
+            operbtion != DISPOSE_ON_CLOSE) {
+            throw new IllegblArgumentException("defbultCloseOperbtion must be one of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, or DISPOSE_ON_CLOSE");
         }
 
-        int oldValue = this.defaultCloseOperation;
-        this.defaultCloseOperation = operation;
-        firePropertyChange("defaultCloseOperation", oldValue, operation);
+        int oldVblue = this.defbultCloseOperbtion;
+        this.defbultCloseOperbtion = operbtion;
+        firePropertyChbnge("defbultCloseOperbtion", oldVblue, operbtion);
     }
 
    /**
-    * Returns the operation which occurs when the user
-    * initiates a "close" on this dialog.
+    * Returns the operbtion which occurs when the user
+    * initibtes b "close" on this diblog.
     *
-    * @return an integer indicating the window-close operation
-    * @see #setDefaultCloseOperation
+    * @return bn integer indicbting the window-close operbtion
+    * @see #setDefbultCloseOperbtion
     */
-    public int getDefaultCloseOperation() {
-        return defaultCloseOperation;
+    public int getDefbultCloseOperbtion() {
+        return defbultCloseOperbtion;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sets the {@code trbnsferHbndler} property, which is b mechbnism to
+     * support trbnsfer of dbtb into this component. Use {@code null}
+     * if the component does not support dbtb trbnsfer operbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If the system property {@code suppressSwingDropSupport} is {@code fblse}
+     * (the defbult) bnd the current drop tbrget on this component is either
+     * {@code null} or not b user-set drop tbrget, this method will chbnge the
+     * drop tbrget bs follows: If {@code newHbndler} is {@code null} it will
+     * clebr the drop tbrget. If not {@code null} it will instbll b new
+     * {@code DropTbrget}.
      * <p>
-     * Note: When used with {@code JDialog}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Note: When used with {@code JDiblog}, {@code TrbnsferHbndler} only
+     * provides dbtb import cbpbbility, bs the dbtb export relbted methods
+     * bre currently typed to {@code JComponent}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plebse see
+     * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+     * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>, b section in
+     * <em>The Jbvb Tutoribl</em>, for more informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm newHbndler the new {@code TrbnsferHbndler}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
+     * @see TrbnsferHbndler
+     * @see #getTrbnsferHbndler
+     * @see jbvb.bwt.Component#setDropTbrget
      * @since 1.6
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     *  description: Mechbnism for trbnsfer of dbtb into the component
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+        TrbnsferHbndler oldHbndler = trbnsferHbndler;
+        trbnsferHbndler = newHbndler;
+        SwingUtilities.instbllSwingDropTbrgetAsNecessbry(this, trbnsferHbndler);
+        firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
     }
 
     /**
-     * Gets the {@code transferHandler} property.
+     * Gets the {@code trbnsferHbndler} property.
      *
-     * @return the value of the {@code transferHandler} property
+     * @return the vblue of the {@code trbnsferHbndler} property
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
+     * @see TrbnsferHbndler
+     * @see #setTrbnsferHbndler
      * @since 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    public TrbnsferHbndler getTrbnsferHbndler() {
+        return trbnsferHbndler;
     }
 
     /**
-     * Calls {@code paint(g)}.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Cblls {@code pbint(g)}.  This method wbs overridden to
+     * prevent bn unnecessbry cbll to clebr the bbckground.
      *
-     * @param g  the {@code Graphics} context in which to paint
+     * @pbrbm g  the {@code Grbphics} context in which to pbint
      */
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
    /**
-    * Sets the menubar for this dialog.
+    * Sets the menubbr for this diblog.
     *
-    * @param menu the menubar being placed in the dialog
+    * @pbrbm menu the menubbr being plbced in the diblog
     *
-    * @see #getJMenuBar
+    * @see #getJMenuBbr
     *
-    * @beaninfo
+    * @bebninfo
     *      hidden: true
-    * description: The menubar for accessing pulldown menus from this dialog.
+    * description: The menubbr for bccessing pulldown menus from this diblog.
     */
-    public void setJMenuBar(JMenuBar menu) {
-        getRootPane().setMenuBar(menu);
+    public void setJMenuBbr(JMenuBbr menu) {
+        getRootPbne().setMenuBbr(menu);
     }
 
    /**
-    * Returns the menubar set on this dialog.
+    * Returns the menubbr set on this diblog.
     *
-    * @return the menubar set on this dialog
-    * @see #setJMenuBar
+    * @return the menubbr set on this diblog
+    * @see #setJMenuBbr
     */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getMenuBar();
+    public JMenuBbr getJMenuBbr() {
+        return getRootPbne().getMenuBbr();
     }
 
 
     /**
-     * Returns whether calls to {@code add} and
-     * {@code setLayout} are forwarded to the {@code contentPane}.
+     * Returns whether cblls to {@code bdd} bnd
+     * {@code setLbyout} bre forwbrded to the {@code contentPbne}.
      *
-     * @return true if {@code add} and {@code setLayout}
-     *         are forwarded; false otherwise
+     * @return true if {@code bdd} bnd {@code setLbyout}
+     *         bre forwbrded; fblse otherwise
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protected boolebn isRootPbneCheckingEnbbled() {
+        return rootPbneCheckingEnbbled;
     }
 
 
     /**
-     * Sets whether calls to {@code add} and
-     * {@code setLayout} are forwarded to the {@code contentPane}.
+     * Sets whether cblls to {@code bdd} bnd
+     * {@code setLbyout} bre forwbrded to the {@code contentPbne}.
      *
-     * @param enabled  true if {@code add} and {@code setLayout}
-     *        are forwarded, false if they should operate directly on the
-     *        {@code JDialog}.
+     * @pbrbm enbbled  true if {@code bdd} bnd {@code setLbyout}
+     *        bre forwbrded, fblse if they should operbte directly on the
+     *        {@code JDiblog}.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #isRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
+     * @bebninfo
      *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * description: Whether the bdd bnd setLbyout methods bre forwbrded
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protected void setRootPbneCheckingEnbbled(boolebn enbbled) {
+        rootPbneCheckingEnbbled = enbbled;
     }
 
     /**
      * Adds the specified child {@code Component}.
-     * This method is overridden to conditionally forward calls to the
-     * {@code contentPane}.
-     * By default, children are added to the {@code contentPane} instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * This method is overridden to conditionblly forwbrd cblls to the
+     * {@code contentPbne}.
+     * By defbult, children bre bdded to the {@code contentPbne} instebd
+     * of the frbme, refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * detbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @throws IllegalArgumentException if {@code index} is invalid
-     * @throws IllegalArgumentException if adding the container's parent
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
+     * @throws IllegblArgumentException if {@code index} is invblid
+     * @throws IllegblArgumentException if bdding the contbiner's pbrent
      *                  to itself
-     * @throws IllegalArgumentException if adding a window to a container
+     * @throws IllegblArgumentException if bdding b window to b contbiner
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protected void bddImpl(Component comp, Object constrbints, int index)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().bdd(comp, constrbints, index);
         }
         else {
-            super.addImpl(comp, constraints, index);
+            super.bddImpl(comp, constrbints, index);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * {@code comp} is not the {@code rootPane}, this will forward
-     * the call to the {@code contentPane}. This will do nothing if
-     * {@code comp} is not a child of the {@code JDialog} or
-     * {@code contentPane}.
+     * Removes the specified component from the contbiner. If
+     * {@code comp} is not the {@code rootPbne}, this will forwbrd
+     * the cbll to the {@code contentPbne}. This will do nothing if
+     * {@code comp} is not b child of the {@code JDiblog} or
+     * {@code contentPbne}.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if {@code comp} is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @see #bdd
+     * @see jbvbx.swing.RootPbneContbiner
      */
     public void remove(Component comp) {
-        if (comp == rootPane) {
+        if (comp == rootPbne) {
             super.remove(comp);
         } else {
-            getContentPane().remove(comp);
+            getContentPbne().remove(comp);
         }
     }
 
 
     /**
-     * Sets the {@code LayoutManager}.
-     * Overridden to conditionally forward the call to the
-     * {@code contentPane}.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Sets the {@code LbyoutMbnbger}.
+     * Overridden to conditionblly forwbrd the cbll to the
+     * {@code contentPbne}.
+     * Refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * more informbtion.
      *
-     * @param manager the {@code LayoutManager}
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm mbnbger the {@code LbyoutMbnbger}
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    public void setLbyout(LbyoutMbnbger mbnbger) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().setLbyout(mbnbger);
         }
         else {
-            super.setLayout(manager);
+            super.setLbyout(mbnbger);
         }
     }
 
 
     /**
-     * Returns the {@code rootPane} object for this dialog.
+     * Returns the {@code rootPbne} object for this diblog.
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @see #setRootPbne
+     * @see RootPbneContbiner#getRootPbne
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
 
     /**
-     * Sets the {@code rootPane} property.
-     * This method is called by the constructor.
+     * Sets the {@code rootPbne} property.
+     * This method is cblled by the constructor.
      *
-     * @param root the {@code rootPane} object for this dialog
+     * @pbrbm root the {@code rootPbne} object for this diblog
      *
-     * @see #getRootPane
+     * @see #getRootPbne
      *
-     * @beaninfo
+     * @bebninfo
      *   hidden: true
-     * description: the RootPane object for this dialog.
+     * description: the RootPbne object for this diblog.
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    protected void setRootPbne(JRootPbne root) {
+        if(rootPbne != null) {
+            remove(rootPbne);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbne = root;
+        if(rootPbne != null) {
+            boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                setRootPbneCheckingEnbbled(fblse);
+                bdd(rootPbne, BorderLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                setRootPbneCheckingEnbbled(checkingEnbbled);
             }
         }
     }
 
 
     /**
-     * Returns the {@code contentPane} object for this dialog.
+     * Returns the {@code contentPbne} object for this diblog.
      *
-     * @return the {@code contentPane} property
+     * @return the {@code contentPbne} property
      *
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @see #setContentPbne
+     * @see RootPbneContbiner#getContentPbne
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    public Contbiner getContentPbne() {
+        return getRootPbne().getContentPbne();
     }
 
 
    /**
-     * Sets the {@code contentPane} property.
-     * This method is called by the constructor.
+     * Sets the {@code contentPbne} property.
+     * This method is cblled by the constructor.
      * <p>
-     * Swing's painting architecture requires an opaque {@code JComponent}
-     * in the containment hierarchy. This is typically provided by the
-     * content pane. If you replace the content pane it is recommended you
-     * replace it with an opaque {@code JComponent}.
-     * @see JRootPane
+     * Swing's pbinting brchitecture requires bn opbque {@code JComponent}
+     * in the contbinment hierbrchy. This is typicblly provided by the
+     * content pbne. If you replbce the content pbne it is recommended you
+     * replbce it with bn opbque {@code JComponent}.
+     * @see JRootPbne
      *
-     * @param contentPane the {@code contentPane} object for this dialog
+     * @pbrbm contentPbne the {@code contentPbne} object for this diblog
      *
-     * @throws java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is {@code null}
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @throws jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is {@code null}
+     * @see #getContentPbne
+     * @see RootPbneContbiner#setContentPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The client area of the dialog where child
-     *                  components are normally inserted.
+     *     description: The client breb of the diblog where child
+     *                  components bre normblly inserted.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    public void setContentPbne(Contbiner contentPbne) {
+        getRootPbne().setContentPbne(contentPbne);
     }
 
     /**
-     * Returns the {@code layeredPane} object for this dialog.
+     * Returns the {@code lbyeredPbne} object for this diblog.
      *
-     * @return the {@code layeredPane} property
+     * @return the {@code lbyeredPbne} property
      *
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @see #setLbyeredPbne
+     * @see RootPbneContbiner#getLbyeredPbne
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    public JLbyeredPbne getLbyeredPbne() {
+        return getRootPbne().getLbyeredPbne();
     }
 
     /**
-     * Sets the {@code layeredPane} property.
-     * This method is called by the constructor.
+     * Sets the {@code lbyeredPbne} property.
+     * This method is cblled by the constructor.
      *
-     * @param layeredPane the new {@code layeredPane} property
+     * @pbrbm lbyeredPbne the new {@code lbyeredPbne} property
      *
-     * @throws java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is null
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @throws jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the lbyered pbne pbrbmeter is null
+     * @see #getLbyeredPbne
+     * @see RootPbneContbiner#setLbyeredPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The pane which holds the various dialog layers.
+     *     description: The pbne which holds the vbrious diblog lbyers.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    public void setLbyeredPbne(JLbyeredPbne lbyeredPbne) {
+        getRootPbne().setLbyeredPbne(lbyeredPbne);
     }
 
     /**
-     * Returns the {@code glassPane} object for this dialog.
+     * Returns the {@code glbssPbne} object for this diblog.
      *
-     * @return the {@code glassPane} property
+     * @return the {@code glbssPbne} property
      *
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @see #setGlbssPbne
+     * @see RootPbneContbiner#getGlbssPbne
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    public Component getGlbssPbne() {
+        return getRootPbne().getGlbssPbne();
     }
 
     /**
-     * Sets the {@code glassPane} property.
-     * This method is called by the constructor.
+     * Sets the {@code glbssPbne} property.
+     * This method is cblled by the constructor.
      *
-     * @param glassPane the {@code glassPane} object for this dialog
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @pbrbm glbssPbne the {@code glbssPbne} object for this diblog
+     * @see #getGlbssPbne
+     * @see RootPbneContbiner#setGlbssPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     *     description: A trbnspbrent pbne used for menu rendering.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    public void setGlbssPbne(Component glbssPbne) {
+        getRootPbne().setGlbssPbne(glbssPbne);
     }
 
     /**
@@ -1116,111 +1116,111 @@ public class JDialog extends Dialog implements WindowConstants,
      *
      * @since 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    public Grbphics getGrbphics() {
+        JComponent.getGrbphicsInvoked(this);
+        return super.getGrbphics();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * {@code time} milliseconds.  Refer to {@code RepaintManager}
-     * for details on how the repaint is handled.
+     * Repbints the specified rectbngle of this component within
+     * {@code time} milliseconds.  Refer to {@code RepbintMbnbger}
+     * for detbils on how the repbint is hbndled.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
+     * @pbrbm     time   mbximum time in milliseconds before updbte
+     * @pbrbm     x    the <i>x</i> coordinbte
+     * @pbrbm     y    the <i>y</i> coordinbte
+     * @pbrbm     width    the width
+     * @pbrbm     height   the height
+     * @see       RepbintMbnbger
      * @since     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
+    public void repbint(long time, int x, int y, int width, int height) {
+        if (RepbintMbnbger.HANDLE_TOP_LEVEL_PAINT) {
+            RepbintMbnbger.currentMbnbger(this).bddDirtyRegion(
                               this, x, y, width, height);
         }
         else {
-            super.repaint(time, x, y, width, height);
+            super.repbint(time, x, y, width, height);
         }
     }
 
     /**
-     * Provides a hint as to whether or not newly created {@code JDialog}s
-     * should have their Window decorations (such as borders, widgets to
+     * Provides b hint bs to whether or not newly crebted {@code JDiblog}s
+     * should hbve their Window decorbtions (such bs borders, widgets to
      * close the window, title...) provided by the current look
-     * and feel. If {@code defaultLookAndFeelDecorated} is true,
+     * bnd feel. If {@code defbultLookAndFeelDecorbted} is true,
      * the current {@code LookAndFeel} supports providing window
-     * decorations, and the current window manager supports undecorated
-     * windows, then newly created {@code JDialog}s will have their
-     * Window decorations provided by the current {@code LookAndFeel}.
-     * Otherwise, newly created {@code JDialog}s will have their
-     * Window decorations provided by the current window manager.
+     * decorbtions, bnd the current window mbnbger supports undecorbted
+     * windows, then newly crebted {@code JDiblog}s will hbve their
+     * Window decorbtions provided by the current {@code LookAndFeel}.
+     * Otherwise, newly crebted {@code JDiblog}s will hbve their
+     * Window decorbtions provided by the current window mbnbger.
      * <p>
-     * You can get the same effect on a single JDialog by doing the following:
+     * You cbn get the sbme effect on b single JDiblog by doing the following:
      * <pre>
-     *    JDialog dialog = new JDialog();
-     *    dialog.setUndecorated(true);
-     *    dialog.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+     *    JDiblog diblog = new JDiblog();
+     *    diblog.setUndecorbted(true);
+     *    diblog.getRootPbne().setWindowDecorbtionStyle(JRootPbne.PLAIN_DIALOG);
      * </pre>
      *
-     * @param defaultLookAndFeelDecorated A hint as to whether or not current
-     *        look and feel should provide window decorations
-     * @see javax.swing.LookAndFeel#getSupportsWindowDecorations
+     * @pbrbm defbultLookAndFeelDecorbted A hint bs to whether or not current
+     *        look bnd feel should provide window decorbtions
+     * @see jbvbx.swing.LookAndFeel#getSupportsWindowDecorbtions
      * @since 1.4
      */
-    public static void setDefaultLookAndFeelDecorated(boolean defaultLookAndFeelDecorated) {
-        if (defaultLookAndFeelDecorated) {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.TRUE);
+    public stbtic void setDefbultLookAndFeelDecorbted(boolebn defbultLookAndFeelDecorbted) {
+        if (defbultLookAndFeelDecorbted) {
+            SwingUtilities.bppContextPut(defbultLookAndFeelDecorbtedKey, Boolebn.TRUE);
         } else {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.FALSE);
+            SwingUtilities.bppContextPut(defbultLookAndFeelDecorbtedKey, Boolebn.FALSE);
         }
     }
 
     /**
-     * Returns true if newly created {@code JDialog}s should have their
-     * Window decorations provided by the current look and feel. This is only
-     * a hint, as certain look and feels may not support this feature.
+     * Returns true if newly crebted {@code JDiblog}s should hbve their
+     * Window decorbtions provided by the current look bnd feel. This is only
+     * b hint, bs certbin look bnd feels mby not support this febture.
      *
-     * @return true if look and feel should provide Window decorations.
+     * @return true if look bnd feel should provide Window decorbtions.
      * @since 1.4
      */
-    public static boolean isDefaultLookAndFeelDecorated() {
-        Boolean defaultLookAndFeelDecorated =
-            (Boolean) SwingUtilities.appContextGet(defaultLookAndFeelDecoratedKey);
-        if (defaultLookAndFeelDecorated == null) {
-            defaultLookAndFeelDecorated = Boolean.FALSE;
+    public stbtic boolebn isDefbultLookAndFeelDecorbted() {
+        Boolebn defbultLookAndFeelDecorbted =
+            (Boolebn) SwingUtilities.bppContextGet(defbultLookAndFeelDecorbtedKey);
+        if (defbultLookAndFeelDecorbted == null) {
+            defbultLookAndFeelDecorbted = Boolebn.FALSE;
         }
-        return defaultLookAndFeelDecorated.booleanValue();
+        return defbultLookAndFeelDecorbted.boolebnVblue();
     }
 
     /**
-     * Returns a string representation of this {@code JDialog}.
+     * Returns b string representbtion of this {@code JDiblog}.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be {@code null}.
      *
-     * @return  a string representation of this {@code JDialog}.
+     * @return  b string representbtion of this {@code JDiblog}.
      */
-    protected String paramString() {
-        String defaultCloseOperationString;
-        if (defaultCloseOperation == HIDE_ON_CLOSE) {
-            defaultCloseOperationString = "HIDE_ON_CLOSE";
-        } else if (defaultCloseOperation == DISPOSE_ON_CLOSE) {
-            defaultCloseOperationString = "DISPOSE_ON_CLOSE";
-        } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
-            defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protected String pbrbmString() {
+        String defbultCloseOperbtionString;
+        if (defbultCloseOperbtion == HIDE_ON_CLOSE) {
+            defbultCloseOperbtionString = "HIDE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DISPOSE_ON_CLOSE) {
+            defbultCloseOperbtionString = "DISPOSE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DO_NOTHING_ON_CLOSE) {
+            defbultCloseOperbtionString = "DO_NOTHING_ON_CLOSE";
+        } else defbultCloseOperbtionString = "";
+        String rootPbneString = (rootPbne != null ?
+                                 rootPbne.toString() : "");
+        String rootPbneCheckingEnbbledString = (rootPbneCheckingEnbbled ?
+                                                "true" : "fblse");
 
-        return super.paramString() +
-        ",defaultCloseOperation=" + defaultCloseOperationString +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        return super.pbrbmString() +
+        ",defbultCloseOperbtion=" + defbultCloseOperbtionString +
+        ",rootPbne=" + rootPbneString +
+        ",rootPbneCheckingEnbbled=" + rootPbneCheckingEnbbledString;
     }
 
 
@@ -1229,48 +1229,48 @@ public class JDialog extends Dialog implements WindowConstants,
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JDialog}
+     * {@code AccessibleContext} bssocibted with this {@code JDiblog}
      */
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JDialog.
-     * For JDialogs, the AccessibleContext takes the form of an
-     * AccessibleJDialog.
-     * A new AccessibleJDialog instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JDiblog.
+     * For JDiblogs, the AccessibleContext tbkes the form of bn
+     * AccessibleJDiblog.
+     * A new AccessibleJDiblog instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJDialog that serves as the
-     *         AccessibleContext of this JDialog
+     * @return bn AccessibleJDiblog thbt serves bs the
+     *         AccessibleContext of this JDiblog
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJDialog();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJDiblog();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * {@code JDialog} class.  It provides an implementation of the
-     * Java Accessibility API appropriate to dialog user-interface
+     * This clbss implements bccessibility support for the
+     * {@code JDiblog} clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to diblog user-interfbce
      * elements.
      */
-    protected class AccessibleJDialog extends AccessibleAWTDialog {
+    protected clbss AccessibleJDiblog extends AccessibleAWTDiblog {
 
         // AccessibleContext methods
         //
         /**
-         * Get the accessible name of this object.
+         * Get the bccessible nbme of this object.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
+         * @return the locblized nbme of the object -- cbn be null if this
+         * object does not hbve b nbme
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) {
+                return bccessibleNbme;
             } else {
                 if (getTitle() == null) {
-                    return super.getAccessibleName();
+                    return super.getAccessibleNbme();
                 } else {
                     return getTitle();
                 }
@@ -1278,26 +1278,26 @@ public class JDialog extends Dialog implements WindowConstants,
         }
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
 
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isResizbble()) {
+                stbtes.bdd(AccessibleStbte.RESIZABLE);
             }
             if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+                stbtes.bdd(AccessibleStbte.ACTIVE);
             }
-            if (isModal()) {
-                states.add(AccessibleState.MODAL);
+            if (isModbl()) {
+                stbtes.bdd(AccessibleStbte.MODAL);
             }
-            return states;
+            return stbtes;
         }
 
-    } // inner class AccessibleJDialog
+    } // inner clbss AccessibleJDiblog
 }

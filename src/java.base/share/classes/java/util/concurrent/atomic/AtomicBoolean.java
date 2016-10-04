@@ -1,164 +1,164 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import sun.misc.Unsafe;
+pbckbge jbvb.util.concurrent.btomic;
+import sun.misc.Unsbfe;
 
 /**
- * A {@code boolean} value that may be updated atomically. See the
- * {@link java.util.concurrent.atomic} package specification for
- * description of the properties of atomic variables. An
- * {@code AtomicBoolean} is used in applications such as atomically
- * updated flags, and cannot be used as a replacement for a
- * {@link java.lang.Boolean}.
+ * A {@code boolebn} vblue thbt mby be updbted btomicblly. See the
+ * {@link jbvb.util.concurrent.btomic} pbckbge specificbtion for
+ * description of the properties of btomic vbribbles. An
+ * {@code AtomicBoolebn} is used in bpplicbtions such bs btomicblly
+ * updbted flbgs, bnd cbnnot be used bs b replbcement for b
+ * {@link jbvb.lbng.Boolebn}.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class AtomicBoolean implements java.io.Serializable {
-    private static final long serialVersionUID = 4654671469794556979L;
-    // setup to use Unsafe.compareAndSwapInt for updates
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long valueOffset;
+public clbss AtomicBoolebn implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 4654671469794556979L;
+    // setup to use Unsbfe.compbreAndSwbpInt for updbtes
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long vblueOffset;
 
-    static {
+    stbtic {
         try {
-            valueOffset = unsafe.objectFieldOffset
-                (AtomicBoolean.class.getDeclaredField("value"));
-        } catch (Exception ex) { throw new Error(ex); }
+            vblueOffset = unsbfe.objectFieldOffset
+                (AtomicBoolebn.clbss.getDeclbredField("vblue"));
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
 
-    private volatile int value;
+    privbte volbtile int vblue;
 
     /**
-     * Creates a new {@code AtomicBoolean} with the given initial value.
+     * Crebtes b new {@code AtomicBoolebn} with the given initibl vblue.
      *
-     * @param initialValue the initial value
+     * @pbrbm initiblVblue the initibl vblue
      */
-    public AtomicBoolean(boolean initialValue) {
-        value = initialValue ? 1 : 0;
+    public AtomicBoolebn(boolebn initiblVblue) {
+        vblue = initiblVblue ? 1 : 0;
     }
 
     /**
-     * Creates a new {@code AtomicBoolean} with initial value {@code false}.
+     * Crebtes b new {@code AtomicBoolebn} with initibl vblue {@code fblse}.
      */
-    public AtomicBoolean() {
+    public AtomicBoolebn() {
     }
 
     /**
-     * Returns the current value.
+     * Returns the current vblue.
      *
-     * @return the current value
+     * @return the current vblue
      */
-    public final boolean get() {
-        return value != 0;
+    public finbl boolebn get() {
+        return vblue != 0;
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
      *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
+     * @return {@code true} if successful. Fblse return indicbtes thbt
+     * the bctubl vblue wbs not equbl to the expected vblue.
      */
-    public final boolean compareAndSet(boolean expect, boolean update) {
+    public finbl boolebn compbreAndSet(boolebn expect, boolebn updbte) {
         int e = expect ? 1 : 0;
-        int u = update ? 1 : 0;
-        return unsafe.compareAndSwapInt(this, valueOffset, e, u);
+        int u = updbte ? 1 : 0;
+        return unsbfe.compbreAndSwbpInt(this, vblueOffset, e, u);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b href="pbckbge-summbry.html#webkCompbreAndSet">Mby fbil
+     * spuriously bnd does not provide ordering gubrbntees</b>, so is
+     * only rbrely bn bppropribte blternbtive to {@code compbreAndSet}.
      *
-     * @param expect the expected value
-     * @param update the new value
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
      * @return {@code true} if successful
      */
-    public boolean weakCompareAndSet(boolean expect, boolean update) {
+    public boolebn webkCompbreAndSet(boolebn expect, boolebn updbte) {
         int e = expect ? 1 : 0;
-        int u = update ? 1 : 0;
-        return unsafe.compareAndSwapInt(this, valueOffset, e, u);
+        int u = updbte ? 1 : 0;
+        return unsbfe.compbreAndSwbpInt(this, vblueOffset, e, u);
     }
 
     /**
-     * Unconditionally sets to the given value.
+     * Unconditionblly sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    public final void set(boolean newValue) {
-        value = newValue ? 1 : 0;
+    public finbl void set(boolebn newVblue) {
+        vblue = newVblue ? 1 : 0;
     }
 
     /**
-     * Eventually sets to the given value.
+     * Eventublly sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      * @since 1.6
      */
-    public final void lazySet(boolean newValue) {
-        int v = newValue ? 1 : 0;
-        unsafe.putOrderedInt(this, valueOffset, v);
+    public finbl void lbzySet(boolebn newVblue) {
+        int v = newVblue ? 1 : 0;
+        unsbfe.putOrderedInt(this, vblueOffset, v);
     }
 
     /**
-     * Atomically sets to the given value and returns the previous value.
+     * Atomicblly sets to the given vblue bnd returns the previous vblue.
      *
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm newVblue the new vblue
+     * @return the previous vblue
      */
-    public final boolean getAndSet(boolean newValue) {
-        boolean prev;
+    public finbl boolebn getAndSet(boolebn newVblue) {
+        boolebn prev;
         do {
             prev = get();
-        } while (!compareAndSet(prev, newValue));
+        } while (!compbreAndSet(prev, newVblue));
         return prev;
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * Returns the String representbtion of the current vblue.
+     * @return the String representbtion of the current vblue
      */
     public String toString() {
-        return Boolean.toString(get());
+        return Boolebn.toString(get());
     }
 
 }

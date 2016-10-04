@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.net.URL;
+import jbvb.lbng.reflect.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.io.*;
+import jbvb.net.URL;
 import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
+import sun.security.util.PropertyExpbnder;
 
-import sun.security.jca.*;
+import sun.security.jcb.*;
 
 /**
- * <p>This class centralizes all security properties and common security
- * methods. One of its primary uses is to manage providers.
+ * <p>This clbss centrblizes bll security properties bnd common security
+ * methods. One of its primbry uses is to mbnbge providers.
  *
- * <p>The default values of security properties are read from an
- * implementation-specific location, which is typically the properties file
- * {@code lib/security/java.security} in the Java installation directory.
+ * <p>The defbult vblues of security properties bre rebd from bn
+ * implementbtion-specific locbtion, which is typicblly the properties file
+ * {@code lib/security/jbvb.security} in the Jbvb instbllbtion directory.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
 
-public final class Security {
+public finbl clbss Security {
 
     /* Are we debugging? -- for developers */
-    private static final Debug sdebug =
-                        Debug.getInstance("properties");
+    privbte stbtic finbl Debug sdebug =
+                        Debug.getInstbnce("properties");
 
-    /* The java.security properties */
-    private static Properties props;
+    /* The jbvb.security properties */
+    privbte stbtic Properties props;
 
-    // An element in the cache
-    private static class ProviderProperty {
-        String className;
+    // An element in the cbche
+    privbte stbtic clbss ProviderProperty {
+        String clbssNbme;
         Provider provider;
     }
 
-    static {
-        // doPrivileged here because there are multiple
-        // things in initialize that might require privs.
-        // (the FileInputStream call and the File.exists call,
-        // the securityPropFile call, etc)
+    stbtic {
+        // doPrivileged here becbuse there bre multiple
+        // things in initiblize thbt might require privs.
+        // (the FileInputStrebm cbll bnd the File.exists cbll,
+        // the securityPropFile cbll, etc)
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                initialize();
+                initiblize();
                 return null;
             }
         });
     }
 
-    private static void initialize() {
+    privbte stbtic void initiblize() {
         props = new Properties();
-        boolean loadedProps = false;
-        boolean overrideAll = false;
+        boolebn lobdedProps = fblse;
+        boolebn overrideAll = fblse;
 
-        // first load the system properties file
-        // to determine the value of security.overridePropertiesFile
-        File propFile = securityPropFile("java.security");
+        // first lobd the system properties file
+        // to determine the vblue of security.overridePropertiesFile
+        File propFile = securityPropFile("jbvb.security");
         if (propFile.exists()) {
-            InputStream is = null;
+            InputStrebm is = null;
             try {
-                FileInputStream fis = new FileInputStream(propFile);
-                is = new BufferedInputStream(fis);
-                props.load(is);
-                loadedProps = true;
+                FileInputStrebm fis = new FileInputStrebm(propFile);
+                is = new BufferedInputStrebm(fis);
+                props.lobd(is);
+                lobdedProps = true;
 
                 if (sdebug != null) {
-                    sdebug.println("reading security properties file: " +
+                    sdebug.println("rebding security properties file: " +
                                 propFile);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 if (sdebug != null) {
-                    sdebug.println("unable to load security properties from " +
+                    sdebug.println("unbble to lobd security properties from " +
                                 propFile);
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
-            } finally {
+            } finblly {
                 if (is != null) {
                     try {
                         is.close();
-                    } catch (IOException ioe) {
+                    } cbtch (IOException ioe) {
                         if (sdebug != null) {
-                            sdebug.println("unable to close input stream");
+                            sdebug.println("unbble to close input strebm");
                         }
                     }
                 }
             }
         }
 
-        if ("true".equalsIgnoreCase(props.getProperty
+        if ("true".equblsIgnoreCbse(props.getProperty
                 ("security.overridePropertiesFile"))) {
 
-            String extraPropFile = System.getProperty
-                                        ("java.security.properties");
-            if (extraPropFile != null && extraPropFile.startsWith("=")) {
+            String extrbPropFile = System.getProperty
+                                        ("jbvb.security.properties");
+            if (extrbPropFile != null && extrbPropFile.stbrtsWith("=")) {
                 overrideAll = true;
-                extraPropFile = extraPropFile.substring(1);
+                extrbPropFile = extrbPropFile.substring(1);
             }
 
             if (overrideAll) {
@@ -131,47 +131,47 @@ public final class Security {
                 }
             }
 
-            // now load the user-specified file so its values
-            // will win if they conflict with the earlier values
-            if (extraPropFile != null) {
-                BufferedInputStream bis = null;
+            // now lobd the user-specified file so its vblues
+            // will win if they conflict with the ebrlier vblues
+            if (extrbPropFile != null) {
+                BufferedInputStrebm bis = null;
                 try {
                     URL propURL;
 
-                    extraPropFile = PropertyExpander.expand(extraPropFile);
-                    propFile = new File(extraPropFile);
+                    extrbPropFile = PropertyExpbnder.expbnd(extrbPropFile);
+                    propFile = new File(extrbPropFile);
                     if (propFile.exists()) {
                         propURL = new URL
-                                ("file:" + propFile.getCanonicalPath());
+                                ("file:" + propFile.getCbnonicblPbth());
                     } else {
-                        propURL = new URL(extraPropFile);
+                        propURL = new URL(extrbPropFile);
                     }
-                    bis = new BufferedInputStream(propURL.openStream());
-                    props.load(bis);
-                    loadedProps = true;
+                    bis = new BufferedInputStrebm(propURL.openStrebm());
+                    props.lobd(bis);
+                    lobdedProps = true;
 
                     if (sdebug != null) {
-                        sdebug.println("reading security properties file: " +
+                        sdebug.println("rebding security properties file: " +
                                         propURL);
                         if (overrideAll) {
                             sdebug.println
                                 ("overriding other security properties files!");
                         }
                     }
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     if (sdebug != null) {
                         sdebug.println
-                                ("unable to load security properties from " +
-                                extraPropFile);
-                        e.printStackTrace();
+                                ("unbble to lobd security properties from " +
+                                extrbPropFile);
+                        e.printStbckTrbce();
                     }
-                } finally {
+                } finblly {
                     if (bis != null) {
                         try {
                             bis.close();
-                        } catch (IOException ioe) {
+                        } cbtch (IOException ioe) {
                             if (sdebug != null) {
-                                sdebug.println("unable to close input stream");
+                                sdebug.println("unbble to close input strebm");
                             }
                         }
                     }
@@ -179,76 +179,76 @@ public final class Security {
             }
         }
 
-        if (!loadedProps) {
-            initializeStatic();
+        if (!lobdedProps) {
+            initiblizeStbtic();
             if (sdebug != null) {
-                sdebug.println("unable to load security properties " +
-                        "-- using defaults");
+                sdebug.println("unbble to lobd security properties " +
+                        "-- using defbults");
             }
         }
 
     }
 
     /*
-     * Initialize to default values, if <java.home>/lib/java.security
+     * Initiblize to defbult vblues, if <jbvb.home>/lib/jbvb.security
      * is not found.
      */
-    private static void initializeStatic() {
+    privbte stbtic void initiblizeStbtic() {
         props.put("security.provider.1", "sun.security.provider.Sun");
-        props.put("security.provider.2", "sun.security.rsa.SunRsaSign");
-        props.put("security.provider.3", "com.sun.net.ssl.internal.ssl.Provider");
+        props.put("security.provider.2", "sun.security.rsb.SunRsbSign");
+        props.put("security.provider.3", "com.sun.net.ssl.internbl.ssl.Provider");
         props.put("security.provider.4", "com.sun.crypto.provider.SunJCE");
         props.put("security.provider.5", "sun.security.jgss.SunProvider");
-        props.put("security.provider.6", "com.sun.security.sasl.Provider");
+        props.put("security.provider.6", "com.sun.security.sbsl.Provider");
     }
 
     /**
-     * Don't let anyone instantiate this.
+     * Don't let bnyone instbntibte this.
      */
-    private Security() {
+    privbte Security() {
     }
 
-    private static File securityPropFile(String filename) {
-        // maybe check for a system property which will specify where to
-        // look. Someday.
-        String sep = File.separator;
-        return new File(System.getProperty("java.home") + sep + "lib" + sep +
-                        "security" + sep + filename);
+    privbte stbtic File securityPropFile(String filenbme) {
+        // mbybe check for b system property which will specify where to
+        // look. Somedby.
+        String sep = File.sepbrbtor;
+        return new File(System.getProperty("jbvb.home") + sep + "lib" + sep +
+                        "security" + sep + filenbme);
     }
 
     /**
-     * Looks up providers, and returns the property (and its associated
-     * provider) mapping the key, if any.
-     * The order in which the providers are looked up is the
-     * provider-preference order, as specificed in the security
+     * Looks up providers, bnd returns the property (bnd its bssocibted
+     * provider) mbpping the key, if bny.
+     * The order in which the providers bre looked up is the
+     * provider-preference order, bs specificed in the security
      * properties file.
      */
-    private static ProviderProperty getProviderProperty(String key) {
+    privbte stbtic ProviderProperty getProviderProperty(String key) {
         ProviderProperty entry = null;
 
         List<Provider> providers = Providers.getProviderList().providers();
         for (int i = 0; i < providers.size(); i++) {
 
-            String matchKey = null;
+            String mbtchKey = null;
             Provider prov = providers.get(i);
             String prop = prov.getProperty(key);
 
             if (prop == null) {
-                // Is there a match if we do a case-insensitive property name
-                // comparison? Let's try ...
-                for (Enumeration<Object> e = prov.keys();
-                                e.hasMoreElements() && prop == null; ) {
-                    matchKey = (String)e.nextElement();
-                    if (key.equalsIgnoreCase(matchKey)) {
-                        prop = prov.getProperty(matchKey);
-                        break;
+                // Is there b mbtch if we do b cbse-insensitive property nbme
+                // compbrison? Let's try ...
+                for (Enumerbtion<Object> e = prov.keys();
+                                e.hbsMoreElements() && prop == null; ) {
+                    mbtchKey = (String)e.nextElement();
+                    if (key.equblsIgnoreCbse(mbtchKey)) {
+                        prop = prov.getProperty(mbtchKey);
+                        brebk;
                     }
                 }
             }
 
             if (prop != null) {
                 ProviderProperty newEntry = new ProviderProperty();
-                newEntry.className = prop;
+                newEntry.clbssNbme = prop;
                 newEntry.provider = prov;
                 return newEntry;
             }
@@ -258,19 +258,19 @@ public final class Security {
     }
 
     /**
-     * Returns the property (if any) mapping the key for the given provider.
+     * Returns the property (if bny) mbpping the key for the given provider.
      */
-    private static String getProviderProperty(String key, Provider provider) {
+    privbte stbtic String getProviderProperty(String key, Provider provider) {
         String prop = provider.getProperty(key);
         if (prop == null) {
-            // Is there a match if we do a case-insensitive property name
-            // comparison? Let's try ...
-            for (Enumeration<Object> e = provider.keys();
-                                e.hasMoreElements() && prop == null; ) {
-                String matchKey = (String)e.nextElement();
-                if (key.equalsIgnoreCase(matchKey)) {
-                    prop = provider.getProperty(matchKey);
-                    break;
+            // Is there b mbtch if we do b cbse-insensitive property nbme
+            // compbrison? Let's try ...
+            for (Enumerbtion<Object> e = provider.keys();
+                                e.hbsMoreElements() && prop == null; ) {
+                String mbtchKey = (String)e.nextElement();
+                if (key.equblsIgnoreCbse(mbtchKey)) {
+                    prop = provider.getProperty(mbtchKey);
+                    brebk;
                 }
             }
         }
@@ -278,568 +278,568 @@ public final class Security {
     }
 
     /**
-     * Gets a specified property for an algorithm. The algorithm name
-     * should be a standard name. See the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * Gets b specified property for bn blgorithm. The blgorithm nbme
+     * should be b stbndbrd nbme. See the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * One possible use is by specialized algorithm parsers, which may map
-     * classes to algorithms which they understand (much like Key parsers
+     * One possible use is by speciblized blgorithm pbrsers, which mby mbp
+     * clbsses to blgorithms which they understbnd (much like Key pbrsers
      * do).
      *
-     * @param algName the algorithm name.
+     * @pbrbm blgNbme the blgorithm nbme.
      *
-     * @param propName the name of the property to get.
+     * @pbrbm propNbme the nbme of the property to get.
      *
-     * @return the value of the specified property.
+     * @return the vblue of the specified property.
      *
-     * @deprecated This method used to return the value of a proprietary
-     * property in the master file of the "SUN" Cryptographic Service
-     * Provider in order to determine how to parse algorithm-specific
-     * parameters. Use the new provider-based and algorithm-independent
-     * {@code AlgorithmParameters} and {@code KeyFactory} engine
-     * classes (introduced in the J2SE version 1.2 platform) instead.
+     * @deprecbted This method used to return the vblue of b proprietbry
+     * property in the mbster file of the "SUN" Cryptogrbphic Service
+     * Provider in order to determine how to pbrse blgorithm-specific
+     * pbrbmeters. Use the new provider-bbsed bnd blgorithm-independent
+     * {@code AlgorithmPbrbmeters} bnd {@code KeyFbctory} engine
+     * clbsses (introduced in the J2SE version 1.2 plbtform) instebd.
      */
-    @Deprecated
-    public static String getAlgorithmProperty(String algName,
-                                              String propName) {
-        ProviderProperty entry = getProviderProperty("Alg." + propName
-                                                     + "." + algName);
+    @Deprecbted
+    public stbtic String getAlgorithmProperty(String blgNbme,
+                                              String propNbme) {
+        ProviderProperty entry = getProviderProperty("Alg." + propNbme
+                                                     + "." + blgNbme);
         if (entry != null) {
-            return entry.className;
+            return entry.clbssNbme;
         } else {
             return null;
         }
     }
 
     /**
-     * Adds a new provider, at a specified position. The position is
-     * the preference order in which providers are searched for
-     * requested algorithms.  The position is 1-based, that is,
-     * 1 is most preferred, followed by 2, and so on.
+     * Adds b new provider, bt b specified position. The position is
+     * the preference order in which providers bre sebrched for
+     * requested blgorithms.  The position is 1-bbsed, thbt is,
+     * 1 is most preferred, followed by 2, bnd so on.
      *
-     * <p>If the given provider is installed at the requested position,
-     * the provider that used to be at that position, and all providers
-     * with a position greater than {@code position}, are shifted up
-     * one position (towards the end of the list of installed providers).
+     * <p>If the given provider is instblled bt the requested position,
+     * the provider thbt used to be bt thbt position, bnd bll providers
+     * with b position grebter thbn {@code position}, bre shifted up
+     * one position (towbrds the end of the list of instblled providers).
      *
-     * <p>A provider cannot be added if it is already installed.
+     * <p>A provider cbnnot be bdded if it is blrebdy instblled.
      *
-     * <p>If there is a security manager, the
-     * {@link java.lang.SecurityManager#checkSecurityAccess} method is called
-     * with the {@code "insertProvider"} permission target name to see if
-     * it's ok to add a new provider. If this permission check is denied,
-     * {@code checkSecurityAccess} is called again with the
-     * {@code "insertProvider."+provider.getName()} permission target name. If
-     * both checks are denied, a {@code SecurityException} is thrown.
+     * <p>If there is b security mbnbger, the
+     * {@link jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method is cblled
+     * with the {@code "insertProvider"} permission tbrget nbme to see if
+     * it's ok to bdd b new provider. If this permission check is denied,
+     * {@code checkSecurityAccess} is cblled bgbin with the
+     * {@code "insertProvider."+provider.getNbme()} permission tbrget nbme. If
+     * both checks bre denied, b {@code SecurityException} is thrown.
      *
-     * @param provider the provider to be added.
+     * @pbrbm provider the provider to be bdded.
      *
-     * @param position the preference position that the caller would
+     * @pbrbm position the preference position thbt the cbller would
      * like for this provider.
      *
-     * @return the actual preference position in which the provider was
-     * added, or -1 if the provider was not added because it is
-     * already installed.
+     * @return the bctubl preference position in which the provider wbs
+     * bdded, or -1 if the provider wbs not bdded becbuse it is
+     * blrebdy instblled.
      *
      * @throws  NullPointerException if provider is null
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to add a new provider
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to bdd b new provider
      *
      * @see #getProvider
      * @see #removeProvider
-     * @see java.security.SecurityPermission
+     * @see jbvb.security.SecurityPermission
      */
-    public static synchronized int insertProviderAt(Provider provider,
+    public stbtic synchronized int insertProviderAt(Provider provider,
             int position) {
-        String providerName = provider.getName();
-        checkInsertProvider(providerName);
+        String providerNbme = provider.getNbme();
+        checkInsertProvider(providerNbme);
         ProviderList list = Providers.getFullProviderList();
         ProviderList newList = ProviderList.insertAt(list, provider, position - 1);
         if (list == newList) {
             return -1;
         }
         Providers.setProviderList(newList);
-        return newList.getIndex(providerName) + 1;
+        return newList.getIndex(providerNbme) + 1;
     }
 
     /**
-     * Adds a provider to the next position available.
+     * Adds b provider to the next position bvbilbble.
      *
-     * <p>If there is a security manager, the
-     * {@link java.lang.SecurityManager#checkSecurityAccess} method is called
-     * with the {@code "insertProvider"} permission target name to see if
-     * it's ok to add a new provider. If this permission check is denied,
-     * {@code checkSecurityAccess} is called again with the
-     * {@code "insertProvider."+provider.getName()} permission target name. If
-     * both checks are denied, a {@code SecurityException} is thrown.
+     * <p>If there is b security mbnbger, the
+     * {@link jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method is cblled
+     * with the {@code "insertProvider"} permission tbrget nbme to see if
+     * it's ok to bdd b new provider. If this permission check is denied,
+     * {@code checkSecurityAccess} is cblled bgbin with the
+     * {@code "insertProvider."+provider.getNbme()} permission tbrget nbme. If
+     * both checks bre denied, b {@code SecurityException} is thrown.
      *
-     * @param provider the provider to be added.
+     * @pbrbm provider the provider to be bdded.
      *
-     * @return the preference position in which the provider was
-     * added, or -1 if the provider was not added because it is
-     * already installed.
+     * @return the preference position in which the provider wbs
+     * bdded, or -1 if the provider wbs not bdded becbuse it is
+     * blrebdy instblled.
      *
      * @throws  NullPointerException if provider is null
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to add a new provider
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to bdd b new provider
      *
      * @see #getProvider
      * @see #removeProvider
-     * @see java.security.SecurityPermission
+     * @see jbvb.security.SecurityPermission
      */
-    public static int addProvider(Provider provider) {
+    public stbtic int bddProvider(Provider provider) {
         /*
-         * We can't assign a position here because the statically
-         * registered providers may not have been installed yet.
-         * insertProviderAt() will fix that value after it has
-         * loaded the static providers.
+         * We cbn't bssign b position here becbuse the stbticblly
+         * registered providers mby not hbve been instblled yet.
+         * insertProviderAt() will fix thbt vblue bfter it hbs
+         * lobded the stbtic providers.
          */
         return insertProviderAt(provider, 0);
     }
 
     /**
-     * Removes the provider with the specified name.
+     * Removes the provider with the specified nbme.
      *
-     * <p>When the specified provider is removed, all providers located
-     * at a position greater than where the specified provider was are shifted
-     * down one position (towards the head of the list of installed
+     * <p>When the specified provider is removed, bll providers locbted
+     * bt b position grebter thbn where the specified provider wbs bre shifted
+     * down one position (towbrds the hebd of the list of instblled
      * providers).
      *
-     * <p>This method returns silently if the provider is not installed or
-     * if name is null.
+     * <p>This method returns silently if the provider is not instblled or
+     * if nbme is null.
      *
-     * <p>First, if there is a security manager, its
+     * <p>First, if there is b security mbnbger, its
      * {@code checkSecurityAccess}
-     * method is called with the string {@code "removeProvider."+name}
+     * method is cblled with the string {@code "removeProvider."+nbme}
      * to see if it's ok to remove the provider.
-     * If the default implementation of {@code checkSecurityAccess}
-     * is used (i.e., that method is not overriden), then this will result in
-     * a call to the security manager's {@code checkPermission} method
-     * with a {@code SecurityPermission("removeProvider."+name)}
+     * If the defbult implementbtion of {@code checkSecurityAccess}
+     * is used (i.e., thbt method is not overriden), then this will result in
+     * b cbll to the security mbnbger's {@code checkPermission} method
+     * with b {@code SecurityPermission("removeProvider."+nbme)}
      * permission.
      *
-     * @param name the name of the provider to remove.
+     * @pbrbm nbme the nbme of the provider to remove.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
      *          denies
-     *          access to remove the provider
+     *          bccess to remove the provider
      *
      * @see #getProvider
-     * @see #addProvider
+     * @see #bddProvider
      */
-    public static synchronized void removeProvider(String name) {
-        check("removeProvider." + name);
+    public stbtic synchronized void removeProvider(String nbme) {
+        check("removeProvider." + nbme);
         ProviderList list = Providers.getFullProviderList();
-        ProviderList newList = ProviderList.remove(list, name);
+        ProviderList newList = ProviderList.remove(list, nbme);
         Providers.setProviderList(newList);
     }
 
     /**
-     * Returns an array containing all the installed providers. The order of
-     * the providers in the array is their preference order.
+     * Returns bn brrby contbining bll the instblled providers. The order of
+     * the providers in the brrby is their preference order.
      *
-     * @return an array of all the installed providers.
+     * @return bn brrby of bll the instblled providers.
      */
-    public static Provider[] getProviders() {
-        return Providers.getFullProviderList().toArray();
+    public stbtic Provider[] getProviders() {
+        return Providers.getFullProviderList().toArrby();
     }
 
     /**
-     * Returns the provider installed with the specified name, if
-     * any. Returns null if no provider with the specified name is
-     * installed or if name is null.
+     * Returns the provider instblled with the specified nbme, if
+     * bny. Returns null if no provider with the specified nbme is
+     * instblled or if nbme is null.
      *
-     * @param name the name of the provider to get.
+     * @pbrbm nbme the nbme of the provider to get.
      *
-     * @return the provider of the specified name.
+     * @return the provider of the specified nbme.
      *
      * @see #removeProvider
-     * @see #addProvider
+     * @see #bddProvider
      */
-    public static Provider getProvider(String name) {
-        return Providers.getProviderList().getProvider(name);
+    public stbtic Provider getProvider(String nbme) {
+        return Providers.getProviderList().getProvider(nbme);
     }
 
     /**
-     * Returns an array containing all installed providers that satisfy the
-     * specified selection criterion, or null if no such providers have been
-     * installed. The returned providers are ordered
-     * according to their
-     * {@linkplain #insertProviderAt(java.security.Provider, int) preference order}.
+     * Returns bn brrby contbining bll instblled providers thbt sbtisfy the
+     * specified selection criterion, or null if no such providers hbve been
+     * instblled. The returned providers bre ordered
+     * bccording to their
+     * {@linkplbin #insertProviderAt(jbvb.security.Provider, int) preference order}.
      *
-     * <p> A cryptographic service is always associated with a particular
-     * algorithm or type. For example, a digital signature service is
-     * always associated with a particular algorithm (e.g., DSA),
-     * and a CertificateFactory service is always associated with
-     * a particular certificate type (e.g., X.509).
+     * <p> A cryptogrbphic service is blwbys bssocibted with b pbrticulbr
+     * blgorithm or type. For exbmple, b digitbl signbture service is
+     * blwbys bssocibted with b pbrticulbr blgorithm (e.g., DSA),
+     * bnd b CertificbteFbctory service is blwbys bssocibted with
+     * b pbrticulbr certificbte type (e.g., X.509).
      *
      * <p>The selection criterion must be specified in one of the following two
-     * formats:
+     * formbts:
      * <ul>
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>}</i>
-     * <p> The cryptographic service name must not contain any dots.
+     * <li> <i>{@literbl <crypto_service>.<blgorithm_or_type>}</i>
+     * <p> The cryptogrbphic service nbme must not contbin bny dots.
      * <p> A
-     * provider satisfies the specified selection criterion iff the provider
+     * provider sbtisfies the specified selection criterion iff the provider
      * implements the
-     * specified algorithm or type for the specified cryptographic service.
-     * <p> For example, "CertificateFactory.X.509"
-     * would be satisfied by any provider that supplied
-     * a CertificateFactory implementation for X.509 certificates.
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>
-     * <attribute_name>:<attribute_value>}</i>
-     * <p> The cryptographic service name must not contain any dots. There
-     * must be one or more space characters between the
-     * <i>{@literal <algorithm_or_type>}</i> and the
-     * <i>{@literal <attribute_name>}</i>.
-     *  <p> A provider satisfies this selection criterion iff the
-     * provider implements the specified algorithm or type for the specified
-     * cryptographic service and its implementation meets the
-     * constraint expressed by the specified attribute name/value pair.
-     * <p> For example, "Signature.SHA1withDSA KeySize:1024" would be
-     * satisfied by any provider that implemented
-     * the SHA1withDSA signature algorithm with a keysize of 1024 (or larger).
+     * specified blgorithm or type for the specified cryptogrbphic service.
+     * <p> For exbmple, "CertificbteFbctory.X.509"
+     * would be sbtisfied by bny provider thbt supplied
+     * b CertificbteFbctory implementbtion for X.509 certificbtes.
+     * <li> <i>{@literbl <crypto_service>.<blgorithm_or_type>
+     * <bttribute_nbme>:<bttribute_vblue>}</i>
+     * <p> The cryptogrbphic service nbme must not contbin bny dots. There
+     * must be one or more spbce chbrbcters between the
+     * <i>{@literbl <blgorithm_or_type>}</i> bnd the
+     * <i>{@literbl <bttribute_nbme>}</i>.
+     *  <p> A provider sbtisfies this selection criterion iff the
+     * provider implements the specified blgorithm or type for the specified
+     * cryptogrbphic service bnd its implementbtion meets the
+     * constrbint expressed by the specified bttribute nbme/vblue pbir.
+     * <p> For exbmple, "Signbture.SHA1withDSA KeySize:1024" would be
+     * sbtisfied by bny provider thbt implemented
+     * the SHA1withDSA signbture blgorithm with b keysize of 1024 (or lbrger).
      *
      * </ul>
      *
-     * <p> See the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard cryptographic service names, standard
-     * algorithm names and standard attribute names.
+     * <p> See the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd cryptogrbphic service nbmes, stbndbrd
+     * blgorithm nbmes bnd stbndbrd bttribute nbmes.
      *
-     * @param filter the criterion for selecting
-     * providers. The filter is case-insensitive.
+     * @pbrbm filter the criterion for selecting
+     * providers. The filter is cbse-insensitive.
      *
-     * @return all the installed providers that satisfy the selection
-     * criterion, or null if no such providers have been installed.
+     * @return bll the instblled providers thbt sbtisfy the selection
+     * criterion, or null if no such providers hbve been instblled.
      *
-     * @throws InvalidParameterException
-     *         if the filter is not in the required format
+     * @throws InvblidPbrbmeterException
+     *         if the filter is not in the required formbt
      * @throws NullPointerException if filter is null
      *
-     * @see #getProviders(java.util.Map)
+     * @see #getProviders(jbvb.util.Mbp)
      * @since 1.3
      */
-    public static Provider[] getProviders(String filter) {
+    public stbtic Provider[] getProviders(String filter) {
         String key = null;
-        String value = null;
+        String vblue = null;
         int index = filter.indexOf(':');
 
         if (index == -1) {
             key = filter;
-            value = "";
+            vblue = "";
         } else {
             key = filter.substring(0, index);
-            value = filter.substring(index + 1);
+            vblue = filter.substring(index + 1);
         }
 
-        Hashtable<String, String> hashtableFilter = new Hashtable<>(1);
-        hashtableFilter.put(key, value);
+        Hbshtbble<String, String> hbshtbbleFilter = new Hbshtbble<>(1);
+        hbshtbbleFilter.put(key, vblue);
 
-        return (getProviders(hashtableFilter));
+        return (getProviders(hbshtbbleFilter));
     }
 
     /**
-     * Returns an array containing all installed providers that satisfy the
-     * specified* selection criteria, or null if no such providers have been
-     * installed. The returned providers are ordered
-     * according to their
-     * {@linkplain #insertProviderAt(java.security.Provider, int)
+     * Returns bn brrby contbining bll instblled providers thbt sbtisfy the
+     * specified* selection criterib, or null if no such providers hbve been
+     * instblled. The returned providers bre ordered
+     * bccording to their
+     * {@linkplbin #insertProviderAt(jbvb.security.Provider, int)
      * preference order}.
      *
-     * <p>The selection criteria are represented by a map.
-     * Each map entry represents a selection criterion.
-     * A provider is selected iff it satisfies all selection
-     * criteria. The key for any entry in such a map must be in one of the
-     * following two formats:
+     * <p>The selection criterib bre represented by b mbp.
+     * Ebch mbp entry represents b selection criterion.
+     * A provider is selected iff it sbtisfies bll selection
+     * criterib. The key for bny entry in such b mbp must be in one of the
+     * following two formbts:
      * <ul>
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>}</i>
-     * <p> The cryptographic service name must not contain any dots.
-     * <p> The value associated with the key must be an empty string.
+     * <li> <i>{@literbl <crypto_service>.<blgorithm_or_type>}</i>
+     * <p> The cryptogrbphic service nbme must not contbin bny dots.
+     * <p> The vblue bssocibted with the key must be bn empty string.
      * <p> A provider
-     * satisfies this selection criterion iff the provider implements the
-     * specified algorithm or type for the specified cryptographic service.
-     * <li>  <i>{@literal <crypto_service>}.
-     * {@literal <algorithm_or_type> <attribute_name>}</i>
-     * <p> The cryptographic service name must not contain any dots. There
-     * must be one or more space characters between the
-     * <i>{@literal <algorithm_or_type>}</i>
-     * and the <i>{@literal <attribute_name>}</i>.
-     * <p> The value associated with the key must be a non-empty string.
-     * A provider satisfies this selection criterion iff the
-     * provider implements the specified algorithm or type for the specified
-     * cryptographic service and its implementation meets the
-     * constraint expressed by the specified attribute name/value pair.
+     * sbtisfies this selection criterion iff the provider implements the
+     * specified blgorithm or type for the specified cryptogrbphic service.
+     * <li>  <i>{@literbl <crypto_service>}.
+     * {@literbl <blgorithm_or_type> <bttribute_nbme>}</i>
+     * <p> The cryptogrbphic service nbme must not contbin bny dots. There
+     * must be one or more spbce chbrbcters between the
+     * <i>{@literbl <blgorithm_or_type>}</i>
+     * bnd the <i>{@literbl <bttribute_nbme>}</i>.
+     * <p> The vblue bssocibted with the key must be b non-empty string.
+     * A provider sbtisfies this selection criterion iff the
+     * provider implements the specified blgorithm or type for the specified
+     * cryptogrbphic service bnd its implementbtion meets the
+     * constrbint expressed by the specified bttribute nbme/vblue pbir.
      * </ul>
      *
-     * <p> See the <a href=
-     * "../../../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard cryptographic service names, standard
-     * algorithm names and standard attribute names.
+     * <p> See the <b href=
+     * "../../../technotes/guides/security/StbndbrdNbmes.html">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd cryptogrbphic service nbmes, stbndbrd
+     * blgorithm nbmes bnd stbndbrd bttribute nbmes.
      *
-     * @param filter the criteria for selecting
-     * providers. The filter is case-insensitive.
+     * @pbrbm filter the criterib for selecting
+     * providers. The filter is cbse-insensitive.
      *
-     * @return all the installed providers that satisfy the selection
-     * criteria, or null if no such providers have been installed.
+     * @return bll the instblled providers thbt sbtisfy the selection
+     * criterib, or null if no such providers hbve been instblled.
      *
-     * @throws InvalidParameterException
-     *         if the filter is not in the required format
+     * @throws InvblidPbrbmeterException
+     *         if the filter is not in the required formbt
      * @throws NullPointerException if filter is null
      *
-     * @see #getProviders(java.lang.String)
+     * @see #getProviders(jbvb.lbng.String)
      * @since 1.3
      */
-    public static Provider[] getProviders(Map<String,String> filter) {
-        // Get all installed providers first.
-        // Then only return those providers who satisfy the selection criteria.
-        Provider[] allProviders = Security.getProviders();
+    public stbtic Provider[] getProviders(Mbp<String,String> filter) {
+        // Get bll instblled providers first.
+        // Then only return those providers who sbtisfy the selection criterib.
+        Provider[] bllProviders = Security.getProviders();
         Set<String> keySet = filter.keySet();
-        LinkedHashSet<Provider> candidates = new LinkedHashSet<>(5);
+        LinkedHbshSet<Provider> cbndidbtes = new LinkedHbshSet<>(5);
 
-        // Returns all installed providers
-        // if the selection criteria is null.
-        if ((keySet == null) || (allProviders == null)) {
-            return allProviders;
+        // Returns bll instblled providers
+        // if the selection criterib is null.
+        if ((keySet == null) || (bllProviders == null)) {
+            return bllProviders;
         }
 
-        boolean firstSearch = true;
+        boolebn firstSebrch = true;
 
-        // For each selection criterion, remove providers
-        // which don't satisfy the criterion from the candidate set.
-        for (Iterator<String> ite = keySet.iterator(); ite.hasNext(); ) {
+        // For ebch selection criterion, remove providers
+        // which don't sbtisfy the criterion from the cbndidbte set.
+        for (Iterbtor<String> ite = keySet.iterbtor(); ite.hbsNext(); ) {
             String key = ite.next();
-            String value = filter.get(key);
+            String vblue = filter.get(key);
 
-            LinkedHashSet<Provider> newCandidates = getAllQualifyingCandidates(key, value,
-                                                               allProviders);
-            if (firstSearch) {
-                candidates = newCandidates;
-                firstSearch = false;
+            LinkedHbshSet<Provider> newCbndidbtes = getAllQublifyingCbndidbtes(key, vblue,
+                                                               bllProviders);
+            if (firstSebrch) {
+                cbndidbtes = newCbndidbtes;
+                firstSebrch = fblse;
             }
 
-            if ((newCandidates != null) && !newCandidates.isEmpty()) {
-                // For each provider in the candidates set, if it
-                // isn't in the newCandidate set, we should remove
-                // it from the candidate set.
-                for (Iterator<Provider> cansIte = candidates.iterator();
-                     cansIte.hasNext(); ) {
-                    Provider prov = cansIte.next();
-                    if (!newCandidates.contains(prov)) {
-                        cansIte.remove();
+            if ((newCbndidbtes != null) && !newCbndidbtes.isEmpty()) {
+                // For ebch provider in the cbndidbtes set, if it
+                // isn't in the newCbndidbte set, we should remove
+                // it from the cbndidbte set.
+                for (Iterbtor<Provider> cbnsIte = cbndidbtes.iterbtor();
+                     cbnsIte.hbsNext(); ) {
+                    Provider prov = cbnsIte.next();
+                    if (!newCbndidbtes.contbins(prov)) {
+                        cbnsIte.remove();
                     }
                 }
             } else {
-                candidates = null;
-                break;
+                cbndidbtes = null;
+                brebk;
             }
         }
 
-        if ((candidates == null) || (candidates.isEmpty()))
+        if ((cbndidbtes == null) || (cbndidbtes.isEmpty()))
             return null;
 
-        Object[] candidatesArray = candidates.toArray();
-        Provider[] result = new Provider[candidatesArray.length];
+        Object[] cbndidbtesArrby = cbndidbtes.toArrby();
+        Provider[] result = new Provider[cbndidbtesArrby.length];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = (Provider)candidatesArray[i];
+            result[i] = (Provider)cbndidbtesArrby[i];
         }
 
         return result;
     }
 
-    // Map containing cached Spi Class objects of the specified type
-    private static final Map<String, Class<?>> spiMap =
-            new ConcurrentHashMap<>();
+    // Mbp contbining cbched Spi Clbss objects of the specified type
+    privbte stbtic finbl Mbp<String, Clbss<?>> spiMbp =
+            new ConcurrentHbshMbp<>();
 
     /**
-     * Return the Class object for the given engine type
-     * (e.g. "MessageDigest"). Works for Spis in the java.security package
+     * Return the Clbss object for the given engine type
+     * (e.g. "MessbgeDigest"). Works for Spis in the jbvb.security pbckbge
      * only.
      */
-    private static Class<?> getSpiClass(String type) {
-        Class<?> clazz = spiMap.get(type);
-        if (clazz != null) {
-            return clazz;
+    privbte stbtic Clbss<?> getSpiClbss(String type) {
+        Clbss<?> clbzz = spiMbp.get(type);
+        if (clbzz != null) {
+            return clbzz;
         }
         try {
-            clazz = Class.forName("java.security." + type + "Spi");
-            spiMap.put(type, clazz);
-            return clazz;
-        } catch (ClassNotFoundException e) {
-            throw new AssertionError("Spi class not found", e);
+            clbzz = Clbss.forNbme("jbvb.security." + type + "Spi");
+            spiMbp.put(type, clbzz);
+            return clbzz;
+        } cbtch (ClbssNotFoundException e) {
+            throw new AssertionError("Spi clbss not found", e);
         }
     }
 
     /*
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The {@code provider} argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Returns bn brrby of objects: the first object in the brrby is
+     * bn instbnce of bn implementbtion of the requested blgorithm
+     * bnd type, bnd the second object in the brrby identifies the provider
+     * of thbt implementbtion.
+     * The {@code provider} brgument cbn be null, in which cbse bll
+     * configured providers will be sebrched in order of preference.
      */
-    static Object[] getImpl(String algorithm, String type, String provider)
+    stbtic Object[] getImpl(String blgorithm, String type, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
         if (provider == null) {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm).toArray();
+            return GetInstbnce.getInstbnce
+                (type, getSpiClbss(type), blgorithm).toArrby();
         } else {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, provider).toArray();
+            return GetInstbnce.getInstbnce
+                (type, getSpiClbss(type), blgorithm, provider).toArrby();
         }
     }
 
-    static Object[] getImpl(String algorithm, String type, String provider,
-            Object params) throws NoSuchAlgorithmException,
-            NoSuchProviderException, InvalidAlgorithmParameterException {
+    stbtic Object[] getImpl(String blgorithm, String type, String provider,
+            Object pbrbms) throws NoSuchAlgorithmException,
+            NoSuchProviderException, InvblidAlgorithmPbrbmeterException {
         if (provider == null) {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, params).toArray();
+            return GetInstbnce.getInstbnce
+                (type, getSpiClbss(type), blgorithm, pbrbms).toArrby();
         } else {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, params, provider).toArray();
+            return GetInstbnce.getInstbnce
+                (type, getSpiClbss(type), blgorithm, pbrbms, provider).toArrby();
         }
     }
 
     /*
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The {@code provider} argument cannot be null.
+     * Returns bn brrby of objects: the first object in the brrby is
+     * bn instbnce of bn implementbtion of the requested blgorithm
+     * bnd type, bnd the second object in the brrby identifies the provider
+     * of thbt implementbtion.
+     * The {@code provider} brgument cbnnot be null.
      */
-    static Object[] getImpl(String algorithm, String type, Provider provider)
+    stbtic Object[] getImpl(String blgorithm, String type, Provider provider)
             throws NoSuchAlgorithmException {
-        return GetInstance.getInstance
-            (type, getSpiClass(type), algorithm, provider).toArray();
+        return GetInstbnce.getInstbnce
+            (type, getSpiClbss(type), blgorithm, provider).toArrby();
     }
 
-    static Object[] getImpl(String algorithm, String type, Provider provider,
-            Object params) throws NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException {
-        return GetInstance.getInstance
-            (type, getSpiClass(type), algorithm, params, provider).toArray();
+    stbtic Object[] getImpl(String blgorithm, String type, Provider provider,
+            Object pbrbms) throws NoSuchAlgorithmException,
+            InvblidAlgorithmPbrbmeterException {
+        return GetInstbnce.getInstbnce
+            (type, getSpiClbss(type), blgorithm, pbrbms, provider).toArrby();
     }
 
     /**
-     * Gets a security property value.
+     * Gets b security property vblue.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission}  method is called with a
-     * {@code java.security.SecurityPermission("getProperty."+key)}
+     * <p>First, if there is b security mbnbger, its
+     * {@code checkPermission}  method is cblled with b
+     * {@code jbvb.security.SecurityPermission("getProperty."+key)}
      * permission to see if it's ok to retrieve the specified
-     * security property value..
+     * security property vblue..
      *
-     * @param key the key of the property being retrieved.
+     * @pbrbm key the key of the property being retrieved.
      *
-     * @return the value of the security property corresponding to key.
+     * @return the vblue of the security property corresponding to key.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkPermission} method
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkPermission} method
      *          denies
-     *          access to retrieve the specified security property value
+     *          bccess to retrieve the specified security property vblue
      * @throws  NullPointerException is key is null
      *
      * @see #setProperty
-     * @see java.security.SecurityPermission
+     * @see jbvb.security.SecurityPermission
      */
-    public static String getProperty(String key) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic String getProperty(String key) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new SecurityPermission("getProperty."+
                                                       key));
         }
-        String name = props.getProperty(key);
-        if (name != null)
-            name = name.trim(); // could be a class name with trailing ws
-        return name;
+        String nbme = props.getProperty(key);
+        if (nbme != null)
+            nbme = nbme.trim(); // could be b clbss nbme with trbiling ws
+        return nbme;
     }
 
     /**
-     * Sets a security property value.
+     * Sets b security property vblue.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
-     * {@code java.security.SecurityPermission("setProperty."+key)}
+     * <p>First, if there is b security mbnbger, its
+     * {@code checkPermission} method is cblled with b
+     * {@code jbvb.security.SecurityPermission("setProperty."+key)}
      * permission to see if it's ok to set the specified
-     * security property value.
+     * security property vblue.
      *
-     * @param key the name of the property to be set.
+     * @pbrbm key the nbme of the property to be set.
      *
-     * @param datum the value of the property to be set.
+     * @pbrbm dbtum the vblue of the property to be set.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkPermission} method
-     *          denies access to set the specified security property value
-     * @throws  NullPointerException if key or datum is null
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkPermission} method
+     *          denies bccess to set the specified security property vblue
+     * @throws  NullPointerException if key or dbtum is null
      *
      * @see #getProperty
-     * @see java.security.SecurityPermission
+     * @see jbvb.security.SecurityPermission
      */
-    public static void setProperty(String key, String datum) {
+    public stbtic void setProperty(String key, String dbtum) {
         check("setProperty."+key);
-        props.put(key, datum);
-        invalidateSMCache(key);  /* See below. */
+        props.put(key, dbtum);
+        invblidbteSMCbche(key);  /* See below. */
     }
 
     /*
-     * Implementation detail:  If the property we just set in
-     * setProperty() was either "package.access" or
-     * "package.definition", we need to signal to the SecurityManager
-     * class that the value has just changed, and that it should
-     * invalidate it's local cache values.
+     * Implementbtion detbil:  If the property we just set in
+     * setProperty() wbs either "pbckbge.bccess" or
+     * "pbckbge.definition", we need to signbl to the SecurityMbnbger
+     * clbss thbt the vblue hbs just chbnged, bnd thbt it should
+     * invblidbte it's locbl cbche vblues.
      *
-     * Rather than create a new API entry for this function,
-     * we use reflection to set a private variable.
+     * Rbther thbn crebte b new API entry for this function,
+     * we use reflection to set b privbte vbribble.
      */
-    private static void invalidateSMCache(String key) {
+    privbte stbtic void invblidbteSMCbche(String key) {
 
-        final boolean pa = key.equals("package.access");
-        final boolean pd = key.equals("package.definition");
+        finbl boolebn pb = key.equbls("pbckbge.bccess");
+        finbl boolebn pd = key.equbls("pbckbge.definition");
 
-        if (pa || pd) {
+        if (pb || pd) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
                     try {
-                        /* Get the class via the bootstrap class loader. */
-                        Class<?> cl = Class.forName(
-                            "java.lang.SecurityManager", false, null);
+                        /* Get the clbss vib the bootstrbp clbss lobder. */
+                        Clbss<?> cl = Clbss.forNbme(
+                            "jbvb.lbng.SecurityMbnbger", fblse, null);
                         Field f = null;
-                        boolean accessible = false;
+                        boolebn bccessible = fblse;
 
-                        if (pa) {
-                            f = cl.getDeclaredField("packageAccessValid");
-                            accessible = f.isAccessible();
+                        if (pb) {
+                            f = cl.getDeclbredField("pbckbgeAccessVblid");
+                            bccessible = f.isAccessible();
                             f.setAccessible(true);
                         } else {
-                            f = cl.getDeclaredField("packageDefinitionValid");
-                            accessible = f.isAccessible();
+                            f = cl.getDeclbredField("pbckbgeDefinitionVblid");
+                            bccessible = f.isAccessible();
                             f.setAccessible(true);
                         }
-                        f.setBoolean(f, false);
-                        f.setAccessible(accessible);
+                        f.setBoolebn(f, fblse);
+                        f.setAccessible(bccessible);
                     }
-                    catch (Exception e1) {
-                        /* If we couldn't get the class, it hasn't
-                         * been loaded yet.  If there is no such
+                    cbtch (Exception e1) {
+                        /* If we couldn't get the clbss, it hbsn't
+                         * been lobded yet.  If there is no such
                          * field, we shouldn't try to set it.  There
-                         * shouldn't be a security execption, as we
-                         * are loaded by boot class loader, and we
-                         * are inside a doPrivileged() here.
+                         * shouldn't be b security execption, bs we
+                         * bre lobded by boot clbss lobder, bnd we
+                         * bre inside b doPrivileged() here.
                          *
-                         * NOOP: don't do anything...
+                         * NOOP: don't do bnything...
                          */
                     }
                     return null;
@@ -848,24 +848,24 @@ public final class Security {
         }  /* if */
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void check(String directive) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkSecurityAccess(directive);
         }
     }
 
-    private static void checkInsertProvider(String name) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void checkInsertProvider(String nbme) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             try {
                 security.checkSecurityAccess("insertProvider");
-            } catch (SecurityException se1) {
+            } cbtch (SecurityException se1) {
                 try {
-                    security.checkSecurityAccess("insertProvider." + name);
-                } catch (SecurityException se2) {
-                    // throw first exception, but add second to suppressed
-                    se1.addSuppressed(se2);
+                    security.checkSecurityAccess("insertProvider." + nbme);
+                } cbtch (SecurityException se2) {
+                    // throw first exception, but bdd second to suppressed
+                    se1.bddSuppressed(se2);
                     throw se1;
                 }
             }
@@ -873,254 +873,254 @@ public final class Security {
     }
 
     /*
-    * Returns all providers who satisfy the specified
+    * Returns bll providers who sbtisfy the specified
     * criterion.
     */
-    private static LinkedHashSet<Provider> getAllQualifyingCandidates(
+    privbte stbtic LinkedHbshSet<Provider> getAllQublifyingCbndidbtes(
                                                 String filterKey,
-                                                String filterValue,
-                                                Provider[] allProviders) {
+                                                String filterVblue,
+                                                Provider[] bllProviders) {
         String[] filterComponents = getFilterComponents(filterKey,
-                                                        filterValue);
+                                                        filterVblue);
 
-        // The first component is the service name.
-        // The second is the algorithm name.
-        // If the third isn't null, that is the attrinute name.
-        String serviceName = filterComponents[0];
-        String algName = filterComponents[1];
-        String attrName = filterComponents[2];
+        // The first component is the service nbme.
+        // The second is the blgorithm nbme.
+        // If the third isn't null, thbt is the bttrinute nbme.
+        String serviceNbme = filterComponents[0];
+        String blgNbme = filterComponents[1];
+        String bttrNbme = filterComponents[2];
 
-        return getProvidersNotUsingCache(serviceName, algName, attrName,
-                                         filterValue, allProviders);
+        return getProvidersNotUsingCbche(serviceNbme, blgNbme, bttrNbme,
+                                         filterVblue, bllProviders);
     }
 
-    private static LinkedHashSet<Provider> getProvidersNotUsingCache(
-                                                String serviceName,
-                                                String algName,
-                                                String attrName,
-                                                String filterValue,
-                                                Provider[] allProviders) {
-        LinkedHashSet<Provider> candidates = new LinkedHashSet<>(5);
-        for (int i = 0; i < allProviders.length; i++) {
-            if (isCriterionSatisfied(allProviders[i], serviceName,
-                                     algName,
-                                     attrName, filterValue)) {
-                candidates.add(allProviders[i]);
+    privbte stbtic LinkedHbshSet<Provider> getProvidersNotUsingCbche(
+                                                String serviceNbme,
+                                                String blgNbme,
+                                                String bttrNbme,
+                                                String filterVblue,
+                                                Provider[] bllProviders) {
+        LinkedHbshSet<Provider> cbndidbtes = new LinkedHbshSet<>(5);
+        for (int i = 0; i < bllProviders.length; i++) {
+            if (isCriterionSbtisfied(bllProviders[i], serviceNbme,
+                                     blgNbme,
+                                     bttrNbme, filterVblue)) {
+                cbndidbtes.bdd(bllProviders[i]);
             }
         }
-        return candidates;
+        return cbndidbtes;
     }
 
     /*
-     * Returns true if the given provider satisfies
-     * the selection criterion key:value.
+     * Returns true if the given provider sbtisfies
+     * the selection criterion key:vblue.
      */
-    private static boolean isCriterionSatisfied(Provider prov,
-                                                String serviceName,
-                                                String algName,
-                                                String attrName,
-                                                String filterValue) {
-        String key = serviceName + '.' + algName;
+    privbte stbtic boolebn isCriterionSbtisfied(Provider prov,
+                                                String serviceNbme,
+                                                String blgNbme,
+                                                String bttrNbme,
+                                                String filterVblue) {
+        String key = serviceNbme + '.' + blgNbme;
 
-        if (attrName != null) {
-            key += ' ' + attrName;
+        if (bttrNbme != null) {
+            key += ' ' + bttrNbme;
         }
-        // Check whether the provider has a property
-        // whose key is the same as the given key.
-        String propValue = getProviderProperty(key, prov);
+        // Check whether the provider hbs b property
+        // whose key is the sbme bs the given key.
+        String propVblue = getProviderProperty(key, prov);
 
-        if (propValue == null) {
-            // Check whether we have an alias instead
-            // of a standard name in the key.
-            String standardName = getProviderProperty("Alg.Alias." +
-                                                      serviceName + "." +
-                                                      algName,
+        if (propVblue == null) {
+            // Check whether we hbve bn blibs instebd
+            // of b stbndbrd nbme in the key.
+            String stbndbrdNbme = getProviderProperty("Alg.Alibs." +
+                                                      serviceNbme + "." +
+                                                      blgNbme,
                                                       prov);
-            if (standardName != null) {
-                key = serviceName + "." + standardName;
+            if (stbndbrdNbme != null) {
+                key = serviceNbme + "." + stbndbrdNbme;
 
-                if (attrName != null) {
-                    key += ' ' + attrName;
+                if (bttrNbme != null) {
+                    key += ' ' + bttrNbme;
                 }
 
-                propValue = getProviderProperty(key, prov);
+                propVblue = getProviderProperty(key, prov);
             }
 
-            if (propValue == null) {
-                // The provider doesn't have the given
+            if (propVblue == null) {
+                // The provider doesn't hbve the given
                 // key in its property list.
-                return false;
+                return fblse;
             }
         }
 
-        // If the key is in the format of:
-        // <crypto_service>.<algorithm_or_type>,
-        // there is no need to check the value.
+        // If the key is in the formbt of:
+        // <crypto_service>.<blgorithm_or_type>,
+        // there is no need to check the vblue.
 
-        if (attrName == null) {
+        if (bttrNbme == null) {
             return true;
         }
 
         // If we get here, the key must be in the
-        // format of <crypto_service>.<algorithm_or_provider> <attribute_name>.
-        if (isStandardAttr(attrName)) {
-            return isConstraintSatisfied(attrName, filterValue, propValue);
+        // formbt of <crypto_service>.<blgorithm_or_provider> <bttribute_nbme>.
+        if (isStbndbrdAttr(bttrNbme)) {
+            return isConstrbintSbtisfied(bttrNbme, filterVblue, propVblue);
         } else {
-            return filterValue.equalsIgnoreCase(propValue);
+            return filterVblue.equblsIgnoreCbse(propVblue);
         }
     }
 
     /*
-     * Returns true if the attribute is a standard attribute;
-     * otherwise, returns false.
+     * Returns true if the bttribute is b stbndbrd bttribute;
+     * otherwise, returns fblse.
      */
-    private static boolean isStandardAttr(String attribute) {
-        // For now, we just have two standard attributes:
-        // KeySize and ImplementedIn.
-        if (attribute.equalsIgnoreCase("KeySize"))
+    privbte stbtic boolebn isStbndbrdAttr(String bttribute) {
+        // For now, we just hbve two stbndbrd bttributes:
+        // KeySize bnd ImplementedIn.
+        if (bttribute.equblsIgnoreCbse("KeySize"))
             return true;
 
-        if (attribute.equalsIgnoreCase("ImplementedIn"))
+        if (bttribute.equblsIgnoreCbse("ImplementedIn"))
             return true;
 
-        return false;
+        return fblse;
     }
 
     /*
-     * Returns true if the requested attribute value is supported;
-     * otherwise, returns false.
+     * Returns true if the requested bttribute vblue is supported;
+     * otherwise, returns fblse.
      */
-    private static boolean isConstraintSatisfied(String attribute,
-                                                 String value,
+    privbte stbtic boolebn isConstrbintSbtisfied(String bttribute,
+                                                 String vblue,
                                                  String prop) {
-        // For KeySize, prop is the max key size the
-        // provider supports for a specific <crypto_service>.<algorithm>.
-        if (attribute.equalsIgnoreCase("KeySize")) {
-            int requestedSize = Integer.parseInt(value);
-            int maxSize = Integer.parseInt(prop);
-            if (requestedSize <= maxSize) {
+        // For KeySize, prop is the mbx key size the
+        // provider supports for b specific <crypto_service>.<blgorithm>.
+        if (bttribute.equblsIgnoreCbse("KeySize")) {
+            int requestedSize = Integer.pbrseInt(vblue);
+            int mbxSize = Integer.pbrseInt(prop);
+            if (requestedSize <= mbxSize) {
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
 
-        // For Type, prop is the type of the implementation
-        // for a specific <crypto service>.<algorithm>.
-        if (attribute.equalsIgnoreCase("ImplementedIn")) {
-            return value.equalsIgnoreCase(prop);
+        // For Type, prop is the type of the implementbtion
+        // for b specific <crypto service>.<blgorithm>.
+        if (bttribute.equblsIgnoreCbse("ImplementedIn")) {
+            return vblue.equblsIgnoreCbse(prop);
         }
 
-        return false;
+        return fblse;
     }
 
-    static String[] getFilterComponents(String filterKey, String filterValue) {
-        int algIndex = filterKey.indexOf('.');
+    stbtic String[] getFilterComponents(String filterKey, String filterVblue) {
+        int blgIndex = filterKey.indexOf('.');
 
-        if (algIndex < 0) {
-            // There must be a dot in the filter, and the dot
-            // shouldn't be at the beginning of this string.
-            throw new InvalidParameterException("Invalid filter");
+        if (blgIndex < 0) {
+            // There must be b dot in the filter, bnd the dot
+            // shouldn't be bt the beginning of this string.
+            throw new InvblidPbrbmeterException("Invblid filter");
         }
 
-        String serviceName = filterKey.substring(0, algIndex);
-        String algName = null;
-        String attrName = null;
+        String serviceNbme = filterKey.substring(0, blgIndex);
+        String blgNbme = null;
+        String bttrNbme = null;
 
-        if (filterValue.length() == 0) {
-            // The filterValue is an empty string. So the filterKey
-            // should be in the format of <crypto_service>.<algorithm_or_type>.
-            algName = filterKey.substring(algIndex + 1).trim();
-            if (algName.length() == 0) {
-                // There must be a algorithm or type name.
-                throw new InvalidParameterException("Invalid filter");
+        if (filterVblue.length() == 0) {
+            // The filterVblue is bn empty string. So the filterKey
+            // should be in the formbt of <crypto_service>.<blgorithm_or_type>.
+            blgNbme = filterKey.substring(blgIndex + 1).trim();
+            if (blgNbme.length() == 0) {
+                // There must be b blgorithm or type nbme.
+                throw new InvblidPbrbmeterException("Invblid filter");
             }
         } else {
-            // The filterValue is a non-empty string. So the filterKey must be
-            // in the format of
-            // <crypto_service>.<algorithm_or_type> <attribute_name>
-            int attrIndex = filterKey.indexOf(' ');
+            // The filterVblue is b non-empty string. So the filterKey must be
+            // in the formbt of
+            // <crypto_service>.<blgorithm_or_type> <bttribute_nbme>
+            int bttrIndex = filterKey.indexOf(' ');
 
-            if (attrIndex == -1) {
-                // There is no attribute name in the filter.
-                throw new InvalidParameterException("Invalid filter");
+            if (bttrIndex == -1) {
+                // There is no bttribute nbme in the filter.
+                throw new InvblidPbrbmeterException("Invblid filter");
             } else {
-                attrName = filterKey.substring(attrIndex + 1).trim();
-                if (attrName.length() == 0) {
-                    // There is no attribute name in the filter.
-                    throw new InvalidParameterException("Invalid filter");
+                bttrNbme = filterKey.substring(bttrIndex + 1).trim();
+                if (bttrNbme.length() == 0) {
+                    // There is no bttribute nbme in the filter.
+                    throw new InvblidPbrbmeterException("Invblid filter");
                 }
             }
 
-            // There must be an algorithm name in the filter.
-            if ((attrIndex < algIndex) ||
-                (algIndex == attrIndex - 1)) {
-                throw new InvalidParameterException("Invalid filter");
+            // There must be bn blgorithm nbme in the filter.
+            if ((bttrIndex < blgIndex) ||
+                (blgIndex == bttrIndex - 1)) {
+                throw new InvblidPbrbmeterException("Invblid filter");
             } else {
-                algName = filterKey.substring(algIndex + 1, attrIndex);
+                blgNbme = filterKey.substring(blgIndex + 1, bttrIndex);
             }
         }
 
         String[] result = new String[3];
-        result[0] = serviceName;
-        result[1] = algName;
-        result[2] = attrName;
+        result[0] = serviceNbme;
+        result[1] = blgNbme;
+        result[2] = bttrNbme;
 
         return result;
     }
 
     /**
-     * Returns a Set of Strings containing the names of all available
-     * algorithms or types for the specified Java cryptographic service
-     * (e.g., Signature, MessageDigest, Cipher, Mac, KeyStore). Returns
-     * an empty Set if there is no provider that supports the
-     * specified service or if serviceName is null. For a complete list
-     * of Java cryptographic services, please see the
-     * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">Java
-     * Cryptography Architecture API Specification &amp; Reference</a>.
-     * Note: the returned set is immutable.
+     * Returns b Set of Strings contbining the nbmes of bll bvbilbble
+     * blgorithms or types for the specified Jbvb cryptogrbphic service
+     * (e.g., Signbture, MessbgeDigest, Cipher, Mbc, KeyStore). Returns
+     * bn empty Set if there is no provider thbt supports the
+     * specified service or if serviceNbme is null. For b complete list
+     * of Jbvb cryptogrbphic services, plebse see the
+     * <b href="../../../technotes/guides/security/crypto/CryptoSpec.html">Jbvb
+     * Cryptogrbphy Architecture API Specificbtion &bmp; Reference</b>.
+     * Note: the returned set is immutbble.
      *
-     * @param serviceName the name of the Java cryptographic
-     * service (e.g., Signature, MessageDigest, Cipher, Mac, KeyStore).
-     * Note: this parameter is case-insensitive.
+     * @pbrbm serviceNbme the nbme of the Jbvb cryptogrbphic
+     * service (e.g., Signbture, MessbgeDigest, Cipher, Mbc, KeyStore).
+     * Note: this pbrbmeter is cbse-insensitive.
      *
-     * @return a Set of Strings containing the names of all available
-     * algorithms or types for the specified Java cryptographic service
-     * or an empty set if no provider supports the specified service.
+     * @return b Set of Strings contbining the nbmes of bll bvbilbble
+     * blgorithms or types for the specified Jbvb cryptogrbphic service
+     * or bn empty set if no provider supports the specified service.
      *
      * @since 1.4
      **/
-    public static Set<String> getAlgorithms(String serviceName) {
+    public stbtic Set<String> getAlgorithms(String serviceNbme) {
 
-        if ((serviceName == null) || (serviceName.length() == 0) ||
-            (serviceName.endsWith("."))) {
+        if ((serviceNbme == null) || (serviceNbme.length() == 0) ||
+            (serviceNbme.endsWith("."))) {
             return Collections.emptySet();
         }
 
-        HashSet<String> result = new HashSet<>();
+        HbshSet<String> result = new HbshSet<>();
         Provider[] providers = Security.getProviders();
 
         for (int i = 0; i < providers.length; i++) {
-            // Check the keys for each provider.
-            for (Enumeration<Object> e = providers[i].keys();
-                                                e.hasMoreElements(); ) {
+            // Check the keys for ebch provider.
+            for (Enumerbtion<Object> e = providers[i].keys();
+                                                e.hbsMoreElements(); ) {
                 String currentKey =
-                        ((String)e.nextElement()).toUpperCase(Locale.ENGLISH);
-                if (currentKey.startsWith(
-                        serviceName.toUpperCase(Locale.ENGLISH))) {
-                    // We should skip the currentKey if it contains a
-                    // whitespace. The reason is: such an entry in the
-                    // provider property contains attributes for the
-                    // implementation of an algorithm. We are only interested
-                    // in entries which lead to the implementation
-                    // classes.
+                        ((String)e.nextElement()).toUpperCbse(Locble.ENGLISH);
+                if (currentKey.stbrtsWith(
+                        serviceNbme.toUpperCbse(Locble.ENGLISH))) {
+                    // We should skip the currentKey if it contbins b
+                    // whitespbce. The rebson is: such bn entry in the
+                    // provider property contbins bttributes for the
+                    // implementbtion of bn blgorithm. We bre only interested
+                    // in entries which lebd to the implementbtion
+                    // clbsses.
                     if (currentKey.indexOf(' ') < 0) {
-                        result.add(currentKey.substring(
-                                                serviceName.length() + 1));
+                        result.bdd(currentKey.substring(
+                                                serviceNbme.length() + 1));
                     }
                 }
             }
         }
-        return Collections.unmodifiableSet(result);
+        return Collections.unmodifibbleSet(result);
     }
 }

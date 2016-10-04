@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef HEADLESS
-    #error This file should not be included in headless library
+    #error This file should not be included in hebdless librbry
 #endif
 
-#include "awt_p.h"
+#include "bwt_p.h"
 #include "color.h"
 #include <X11/IntrinsicP.h>
-#include <X11/Xatom.h>
+#include <X11/Xbtom.h>
 #include <X11/Xmd.h>
 #include <X11/Xutil.h>
 #include <X11/Xproto.h>
@@ -39,64 +39,64 @@
 #include <sys/time.h>
 
 
-#include "java_awt_event_MouseWheelEvent.h"
+#include "jbvb_bwt_event_MouseWheelEvent.h"
 
 /*
- * Called by "ToolkitErrorHandler" function in "XlibWrapper.c" file.
+ * Cblled by "ToolkitErrorHbndler" function in "XlibWrbpper.c" file.
  */
-XErrorHandler current_native_xerror_handler = NULL;
+XErrorHbndler current_nbtive_xerror_hbndler = NULL;
 
-extern jint getModifiers(uint32_t state, jint button, jint keyCode);
+extern jint getModifiers(uint32_t stbte, jint button, jint keyCode);
 extern jint getButton(uint32_t button);
 
-static Atom OLDecorDelAtom = 0;
-static Atom MWMHints = 0;
-static Atom DTWMHints = 0;
-static Atom decor_list[9];
+stbtic Atom OLDecorDelAtom = 0;
+stbtic Atom MWMHints = 0;
+stbtic Atom DTWMHints = 0;
+stbtic Atom decor_list[9];
 
 #ifndef MAX
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#define MAX(b,b) ((b) > (b) ? (b) : (b))
 #endif
 
 #ifndef MIN
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#define MIN(b,b) ((b) < (b) ? (b) : (b))
 #endif
 
-jboolean
-awtJNI_ThreadYield(JNIEnv *env) {
+jboolebn
+bwtJNI_ThrebdYield(JNIEnv *env) {
 
-    static jclass threadClass = NULL;
-    static jmethodID yieldMethodID = NULL;
+    stbtic jclbss threbdClbss = NULL;
+    stbtic jmethodID yieldMethodID = NULL;
 
-    /* Initialize our java identifiers once. Checking before locking
-     * is a huge performance win.
+    /* Initiblize our jbvb identifiers once. Checking before locking
+     * is b huge performbnce win.
      */
-    if (threadClass == NULL) {
-        // should enter a monitor here...
-        Boolean err = FALSE;
-        if (threadClass == NULL) {
-            jclass tc = (*env)->FindClass(env, "java/lang/Thread");
+    if (threbdClbss == NULL) {
+        // should enter b monitor here...
+        Boolebn err = FALSE;
+        if (threbdClbss == NULL) {
+            jclbss tc = (*env)->FindClbss(env, "jbvb/lbng/Threbd");
             CHECK_NULL_RETURN(tc, JNI_FALSE);
-            threadClass = (*env)->NewGlobalRef(env, tc);
-            (*env)->DeleteLocalRef(env, tc);
-            if (threadClass != NULL) {
-                yieldMethodID = (*env)->GetStaticMethodID(env,
-                                              threadClass,
+            threbdClbss = (*env)->NewGlobblRef(env, tc);
+            (*env)->DeleteLocblRef(env, tc);
+            if (threbdClbss != NULL) {
+                yieldMethodID = (*env)->GetStbticMethodID(env,
+                                              threbdClbss,
                                               "yield",
                                               "()V"
                                                 );
             }
         }
         if (yieldMethodID == NULL) {
-            threadClass = NULL;
+            threbdClbss = NULL;
             err = TRUE;
         }
         if (err) {
             return JNI_FALSE;
         }
-    } /* threadClass == NULL*/
+    } /* threbdClbss == NULL*/
 
-    (*env)->CallStaticVoidMethod(env, threadClass, yieldMethodID);
+    (*env)->CbllStbticVoidMethod(env, threbdClbss, yieldMethodID);
     DASSERT(!((*env)->ExceptionOccurred(env)));
     return JNI_TRUE;
-} /* awtJNI_ThreadYield() */
+} /* bwtJNI_ThrebdYield() */

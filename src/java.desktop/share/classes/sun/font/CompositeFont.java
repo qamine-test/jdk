@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
+import jbvb.bwt.Font;
 
-/* Remind: need to enhance to extend component list with a fallback
+/* Remind: need to enhbnce to extend component list with b fbllbbck
  * list, which is not used in metrics or queries on the composite, but
- * is used in drawing primitives and queries which supply an actual string.
- * ie for a codepoint that is only in a fallback, font-wide queries such
- * as FontMetrics.getHeight() will not take it into account.
- * But getStringBounds(..) would take it into account.
- * Its fuzzier for queries such as "canDisplay". If this does not include
- * the fallback, then we probably want to add "canDisplayFallback()"
- * But its probably OK to include it so long as only composites include
- * fallbacks. If physicals do then it would be really confusing ..
+ * is used in drbwing primitives bnd queries which supply bn bctubl string.
+ * ie for b codepoint thbt is only in b fbllbbck, font-wide queries such
+ * bs FontMetrics.getHeight() will not tbke it into bccount.
+ * But getStringBounds(..) would tbke it into bccount.
+ * Its fuzzier for queries such bs "cbnDisplby". If this does not include
+ * the fbllbbck, then we probbbly wbnt to bdd "cbnDisplbyFbllbbck()"
+ * But its probbbly OK to include it so long bs only composites include
+ * fbllbbcks. If physicbls do then it would be reblly confusing ..
  */
-public final class CompositeFont extends Font2D {
+public finbl clbss CompositeFont extends Font2D {
 
-    private boolean[] deferredInitialisation;
-    String[] componentFileNames;
-    String[] componentNames;
-    /* because components can be lazily initialised the components field is
-     * private, to ensure all clients call getSlotFont()
+    privbte boolebn[] deferredInitiblisbtion;
+    String[] componentFileNbmes;
+    String[] componentNbmes;
+    /* becbuse components cbn be lbzily initiblised the components field is
+     * privbte, to ensure bll clients cbll getSlotFont()
      */
-    private PhysicalFont[] components;
+    privbte PhysicblFont[] components;
     int numSlots;
     int numMetricsSlots;
-    int[] exclusionRanges;
-    int[] maxIndices;
+    int[] exclusionRbnges;
+    int[] mbxIndices;
     int numGlyphs = 0;
-    int localeSlot = -1; // primary slot for this locale.
+    int locbleSlot = -1; // primbry slot for this locble.
 
     /* See isStdComposite() for when/how this is used */
-    boolean isStdComposite = true;
+    boolebn isStdComposite = true;
 
-    public CompositeFont(String name, String[] compFileNames,
-                         String[] compNames, int metricsSlotCnt,
-                         int[] exclRanges, int[] maxIndexes,
-                         boolean defer, SunFontManager fm) {
+    public CompositeFont(String nbme, String[] compFileNbmes,
+                         String[] compNbmes, int metricsSlotCnt,
+                         int[] exclRbnges, int[] mbxIndexes,
+                         boolebn defer, SunFontMbnbger fm) {
 
-        handle = new Font2DHandle(this);
-        fullName = name;
-        componentFileNames = compFileNames;
-        componentNames = compNames;
-        if (compNames == null) {
-            numSlots = componentFileNames.length;
+        hbndle = new Font2DHbndle(this);
+        fullNbme = nbme;
+        componentFileNbmes = compFileNbmes;
+        componentNbmes = compNbmes;
+        if (compNbmes == null) {
+            numSlots = componentFileNbmes.length;
         } else {
-            numSlots = componentNames.length;
+            numSlots = componentNbmes.length;
         }
 
-        /* Only the first "numMetricsSlots" slots are used for font metrics.
-         * the rest are considered "fallback" slots".
+        /* Only the first "numMetricsSlots" slots bre used for font metrics.
+         * the rest bre considered "fbllbbck" slots".
          */
         numMetricsSlots = metricsSlotCnt;
-        exclusionRanges = exclRanges;
-        maxIndices = maxIndexes;
+        exclusionRbnges = exclRbnges;
+        mbxIndices = mbxIndexes;
 
         /*
-         * See if this is a windows locale which has a system EUDC font.
-         * If so add it as the final fallback component of the composite.
-         * The caller could be responsible for this, but for now it seems
-         * better that it is handled internally to the CompositeFont class.
+         * See if this is b windows locble which hbs b system EUDC font.
+         * If so bdd it bs the finbl fbllbbck component of the composite.
+         * The cbller could be responsible for this, but for now it seems
+         * better thbt it is hbndled internblly to the CompositeFont clbss.
          */
         if (fm.getEUDCFont() != null) {
             numSlots++;
-            if (componentNames != null) {
-                componentNames = new String[numSlots];
-                System.arraycopy(compNames, 0, componentNames, 0, numSlots-1);
-                componentNames[numSlots-1] =
-                    fm.getEUDCFont().getFontName(null);
+            if (componentNbmes != null) {
+                componentNbmes = new String[numSlots];
+                System.brrbycopy(compNbmes, 0, componentNbmes, 0, numSlots-1);
+                componentNbmes[numSlots-1] =
+                    fm.getEUDCFont().getFontNbme(null);
             }
-            if (componentFileNames != null) {
-                componentFileNames = new String[numSlots];
-                System.arraycopy(compFileNames, 0,
-                                  componentFileNames, 0, numSlots-1);
+            if (componentFileNbmes != null) {
+                componentFileNbmes = new String[numSlots];
+                System.brrbycopy(compFileNbmes, 0,
+                                  componentFileNbmes, 0, numSlots-1);
             }
-            components = new PhysicalFont[numSlots];
+            components = new PhysicblFont[numSlots];
             components[numSlots-1] = fm.getEUDCFont();
-            deferredInitialisation = new boolean[numSlots];
+            deferredInitiblisbtion = new boolebn[numSlots];
             if (defer) {
                 for (int i=0; i<numSlots-1; i++) {
-                    deferredInitialisation[i] = true;
+                    deferredInitiblisbtion[i] = true;
                 }
             }
         } else {
-            components = new PhysicalFont[numSlots];
-            deferredInitialisation = new boolean[numSlots];
+            components = new PhysicblFont[numSlots];
+            deferredInitiblisbtion = new boolebn[numSlots];
             if (defer) {
                 for (int i=0; i<numSlots; i++) {
-                    deferredInitialisation[i] = true;
+                    deferredInitiblisbtion[i] = true;
                 }
             }
         }
 
-        fontRank = Font2D.FONT_CONFIG_RANK;
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
 
-        int index = fullName.indexOf('.');
+        int index = fullNbme.indexOf('.');
         if (index>0) {
-            familyName = fullName.substring(0, index);
-            /* composites don't call setStyle() as parsing the style
-             * takes place at the same time as parsing the family name.
-             * Do I really have to parse the style from the name?
-             * Need to look into having the caller provide this. */
-            if (index+1 < fullName.length()) {
-                String styleStr = fullName.substring(index+1);
-                if ("plain".equals(styleStr)) {
+            fbmilyNbme = fullNbme.substring(0, index);
+            /* composites don't cbll setStyle() bs pbrsing the style
+             * tbkes plbce bt the sbme time bs pbrsing the fbmily nbme.
+             * Do I reblly hbve to pbrse the style from the nbme?
+             * Need to look into hbving the cbller provide this. */
+            if (index+1 < fullNbme.length()) {
+                String styleStr = fullNbme.substring(index+1);
+                if ("plbin".equbls(styleStr)) {
                     style = Font.PLAIN;
-                } else if ("bold".equals(styleStr)) {
+                } else if ("bold".equbls(styleStr)) {
                     style = Font.BOLD;
-                } else if ("italic".equals(styleStr)) {
+                } else if ("itblic".equbls(styleStr)) {
                     style = Font.ITALIC;
-                } else if ("bolditalic".equals(styleStr)) {
+                } else if ("bolditblic".equbls(styleStr)) {
                     style = Font.BOLD | Font.ITALIC;
                 }
             }
         } else {
-            familyName = fullName;
+            fbmilyNbme = fullNbme;
         }
     }
 
-    /* This method is currently intended to be called only from
-     * FontManager.getCompositeFontUIResource(Font)
-     * It creates a new CompositeFont with the contents of the Physical
-     * one pre-pended as slot 0.
+    /* This method is currently intended to be cblled only from
+     * FontMbnbger.getCompositeFontUIResource(Font)
+     * It crebtes b new CompositeFont with the contents of the Physicbl
+     * one pre-pended bs slot 0.
      */
-    CompositeFont(PhysicalFont physFont, CompositeFont compFont) {
+    CompositeFont(PhysicblFont physFont, CompositeFont compFont) {
 
-        isStdComposite = false;
-        handle = new Font2DHandle(this);
-        fullName = physFont.fullName;
-        familyName = physFont.familyName;
+        isStdComposite = fblse;
+        hbndle = new Font2DHbndle(this);
+        fullNbme = physFont.fullNbme;
+        fbmilyNbme = physFont.fbmilyNbme;
         style = physFont.style;
 
-        numMetricsSlots = 1; /* Only the physical Font */
+        numMetricsSlots = 1; /* Only the physicbl Font */
         numSlots = compFont.numSlots+1;
 
-        /* Ugly though it is, we synchronize here on the FontManager class
-         * because it is the lock used to do deferred initialisation.
-         * We need to ensure that the arrays have consistent information.
-         * But it may be possible to dispense with the synchronisation if
-         * it is harmless that we do not know a slot is already initialised
-         * and just need to discover that and mark it so.
+        /* Ugly though it is, we synchronize here on the FontMbnbger clbss
+         * becbuse it is the lock used to do deferred initiblisbtion.
+         * We need to ensure thbt the brrbys hbve consistent informbtion.
+         * But it mby be possible to dispense with the synchronisbtion if
+         * it is hbrmless thbt we do not know b slot is blrebdy initiblised
+         * bnd just need to discover thbt bnd mbrk it so.
          */
-        synchronized (FontManagerFactory.getInstance()) {
-            components = new PhysicalFont[numSlots];
+        synchronized (FontMbnbgerFbctory.getInstbnce()) {
+            components = new PhysicblFont[numSlots];
             components[0] = physFont;
-            System.arraycopy(compFont.components, 0,
+            System.brrbycopy(compFont.components, 0,
                              components, 1, compFont.numSlots);
 
-            if (compFont.componentNames != null) {
-                componentNames = new String[numSlots];
-                componentNames[0] = physFont.fullName;
-                System.arraycopy(compFont.componentNames, 0,
-                                 componentNames, 1, compFont.numSlots);
+            if (compFont.componentNbmes != null) {
+                componentNbmes = new String[numSlots];
+                componentNbmes[0] = physFont.fullNbme;
+                System.brrbycopy(compFont.componentNbmes, 0,
+                                 componentNbmes, 1, compFont.numSlots);
             }
-            if (compFont.componentFileNames != null) {
-                componentFileNames = new String[numSlots];
-                componentFileNames[0] = null;
-                System.arraycopy(compFont.componentFileNames, 0,
-                                  componentFileNames, 1, compFont.numSlots);
+            if (compFont.componentFileNbmes != null) {
+                componentFileNbmes = new String[numSlots];
+                componentFileNbmes[0] = null;
+                System.brrbycopy(compFont.componentFileNbmes, 0,
+                                  componentFileNbmes, 1, compFont.numSlots);
             }
-            deferredInitialisation = new boolean[numSlots];
-            deferredInitialisation[0] = false;
-            System.arraycopy(compFont.deferredInitialisation, 0,
-                             deferredInitialisation, 1, compFont.numSlots);
+            deferredInitiblisbtion = new boolebn[numSlots];
+            deferredInitiblisbtion[0] = fblse;
+            System.brrbycopy(compFont.deferredInitiblisbtion, 0,
+                             deferredInitiblisbtion, 1, compFont.numSlots);
         }
     }
 
-    /* This is used for deferred initialisation, so that the components of
-     * a logical font are initialised only when the font is used.
-     * This can have a positive impact on start-up of most UI applications.
-     * Note that this technique cannot be used with a TTC font as it
+    /* This is used for deferred initiblisbtion, so thbt the components of
+     * b logicbl font bre initiblised only when the font is used.
+     * This cbn hbve b positive impbct on stbrt-up of most UI bpplicbtions.
+     * Note thbt this technique cbnnot be used with b TTC font bs it
      * doesn't know which font in the collection is needed. The solution to
-     * this is that the initialisation checks if the returned font is
-     * really the one it wants by comparing the name against the name that
-     * was passed in (if none was passed in then you aren't using a TTC
-     * as you would have to specify the name in such a case).
-     * Assuming there's only two or three fonts in a collection then it
-     * may be sufficient to verify the returned name is the expected one.
-     * But half the time it won't be. However since initialisation of the
-     * TTC will initialise all its components then just do a findFont2D call
-     * to locate the right one.
-     * This code allows for initialisation of each slot on demand.
-     * There are two issues with this.
-     * 1) All metrics slots probably may be initialised anyway as many
-     * apps will query the overall font metrics. However this is not an
-     * absolute requirement
-     * 2) Some font configuration files on Solaris reference two versions
-     * of a TT font: a Latin-1 version, then a Pan-European version.
+     * this is thbt the initiblisbtion checks if the returned font is
+     * reblly the one it wbnts by compbring the nbme bgbinst the nbme thbt
+     * wbs pbssed in (if none wbs pbssed in then you bren't using b TTC
+     * bs you would hbve to specify the nbme in such b cbse).
+     * Assuming there's only two or three fonts in b collection then it
+     * mby be sufficient to verify the returned nbme is the expected one.
+     * But hblf the time it won't be. However since initiblisbtion of the
+     * TTC will initiblise bll its components then just do b findFont2D cbll
+     * to locbte the right one.
+     * This code bllows for initiblisbtion of ebch slot on dembnd.
+     * There bre two issues with this.
+     * 1) All metrics slots probbbly mby be initiblised bnywby bs mbny
+     * bpps will query the overbll font metrics. However this is not bn
+     * bbsolute requirement
+     * 2) Some font configurbtion files on Solbris reference two versions
+     * of b TT font: b Lbtin-1 version, then b Pbn-Europebn version.
      * One from /usr/openwin/lib/X11/fonts/TrueType, the other from
-     * a euro_fonts directory which is symlinked from numerous locations.
-     * This is difficult to avoid because the two do not share XLFDs so
-     * both will be consequently mapped by separate XLFDs needed by AWT.
-     * The difficulty this presents for lazy initialisation is that if
-     * all the components are not mapped at once, the smaller version may
-     * have been used only to be replaced later, and what is the consequence
-     * for a client that displayed the contents of this font already.
-     * After some thought I think this will not be a problem because when
-     * client tries to display a glyph only in the Euro font, the composite
-     * will ask all components of this font for that glyph and will get
-     * the euro one. Subsequent uses will all come from the 100% compatible
+     * b euro_fonts directory which is symlinked from numerous locbtions.
+     * This is difficult to bvoid becbuse the two do not shbre XLFDs so
+     * both will be consequently mbpped by sepbrbte XLFDs needed by AWT.
+     * The difficulty this presents for lbzy initiblisbtion is thbt if
+     * bll the components bre not mbpped bt once, the smbller version mby
+     * hbve been used only to be replbced lbter, bnd whbt is the consequence
+     * for b client thbt displbyed the contents of this font blrebdy.
+     * After some thought I think this will not be b problem becbuse when
+     * client tries to displby b glyph only in the Euro font, the composite
+     * will bsk bll components of this font for thbt glyph bnd will get
+     * the euro one. Subsequent uses will bll come from the 100% compbtible
      * euro one.
      */
-    private void doDeferredInitialisation(int slot) {
-        if (deferredInitialisation[slot] == false) {
+    privbte void doDeferredInitiblisbtion(int slot) {
+        if (deferredInitiblisbtion[slot] == fblse) {
             return;
         }
 
-        /* Synchronize on FontManager so that is the global lock
-         * to update its static set of deferred fonts.
-         * This global lock is rarely likely to be an issue as there
-         * are only going to be a few calls into this code.
+        /* Synchronize on FontMbnbger so thbt is the globbl lock
+         * to updbte its stbtic set of deferred fonts.
+         * This globbl lock is rbrely likely to be bn issue bs there
+         * bre only going to be b few cblls into this code.
          */
-        SunFontManager fm = SunFontManager.getInstance();
+        SunFontMbnbger fm = SunFontMbnbger.getInstbnce();
         synchronized (fm) {
-            if (componentNames == null) {
-                componentNames = new String[numSlots];
+            if (componentNbmes == null) {
+                componentNbmes = new String[numSlots];
             }
             if (components[slot] == null) {
-                /* Warning: it is possible that the returned component is
-                 * not derived from the file name argument, this can happen if:
-                 * - the file can't be found
-                 * - the file has a bad font
-                 * - the font in the file is superseded by a more complete one
-                 * This should not be a problem for composite font as it will
-                 * make no further use of this file, but code debuggers/
-                 * maintainers need to be conscious of this possibility.
+                /* Wbrning: it is possible thbt the returned component is
+                 * not derived from the file nbme brgument, this cbn hbppen if:
+                 * - the file cbn't be found
+                 * - the file hbs b bbd font
+                 * - the font in the file is superseded by b more complete one
+                 * This should not be b problem for composite font bs it will
+                 * mbke no further use of this file, but code debuggers/
+                 * mbintbiners need to be conscious of this possibility.
                  */
-                if (componentFileNames != null &&
-                    componentFileNames[slot] != null) {
+                if (componentFileNbmes != null &&
+                    componentFileNbmes[slot] != null) {
                     components[slot] =
-                        fm.initialiseDeferredFont(componentFileNames[slot]);
+                        fm.initibliseDeferredFont(componentFileNbmes[slot]);
                 }
 
                 if (components[slot] == null) {
-                    components[slot] = fm.getDefaultPhysicalFont();
+                    components[slot] = fm.getDefbultPhysicblFont();
                 }
-                String name = components[slot].getFontName(null);
-                if (componentNames[slot] == null) {
-                    componentNames[slot] = name;
-                } else if (!componentNames[slot].equalsIgnoreCase(name)) {
+                String nbme = components[slot].getFontNbme(null);
+                if (componentNbmes[slot] == null) {
+                    componentNbmes[slot] = nbme;
+                } else if (!componentNbmes[slot].equblsIgnoreCbse(nbme)) {
                     components[slot] =
-                        (PhysicalFont) fm.findFont2D(componentNames[slot],
+                        (PhysicblFont) fm.findFont2D(componentNbmes[slot],
                                                      style,
-                                                FontManager.PHYSICAL_FALLBACK);
+                                                FontMbnbger.PHYSICAL_FALLBACK);
                 }
             }
-            deferredInitialisation[slot] = false;
+            deferredInitiblisbtion[slot] = fblse;
         }
     }
 
-    /* To called only by FontManager.replaceFont */
-    void replaceComponentFont(PhysicalFont oldFont, PhysicalFont newFont) {
+    /* To cblled only by FontMbnbger.replbceFont */
+    void replbceComponentFont(PhysicblFont oldFont, PhysicblFont newFont) {
         if (components == null) {
             return;
         }
         for (int slot=0; slot<numSlots; slot++) {
             if (components[slot] == oldFont) {
                 components[slot] = newFont;
-                if (componentNames != null) {
-                    componentNames[slot] = newFont.getFontName(null);
+                if (componentNbmes != null) {
+                    componentNbmes[slot] = newFont.getFontNbme(null);
                 }
             }
         }
     }
 
-    public boolean isExcludedChar(int slot, int charcode) {
+    public boolebn isExcludedChbr(int slot, int chbrcode) {
 
-        if (exclusionRanges == null || maxIndices == null ||
+        if (exclusionRbnges == null || mbxIndices == null ||
             slot >= numMetricsSlots) {
-            return false;
+            return fblse;
         }
 
         int minIndex = 0;
-        int maxIndex = maxIndices[slot];
+        int mbxIndex = mbxIndices[slot];
         if (slot > 0) {
-            minIndex = maxIndices[slot - 1];
+            minIndex = mbxIndices[slot - 1];
         }
         int curIndex = minIndex;
-        while (maxIndex > curIndex) {
-            if ((charcode >= exclusionRanges[curIndex])
-                && (charcode <= exclusionRanges[curIndex+1])) {
+        while (mbxIndex > curIndex) {
+            if ((chbrcode >= exclusionRbnges[curIndex])
+                && (chbrcode <= exclusionRbnges[curIndex+1])) {
                 return true;      // excluded
             }
             curIndex += 2;
         }
-        return false;
+        return fblse;
     }
 
-    public void getStyleMetrics(float pointSize, float[] metrics, int offset) {
-        PhysicalFont font = getSlotFont(0);
+    public void getStyleMetrics(flobt pointSize, flobt[] metrics, int offset) {
+        PhysicblFont font = getSlotFont(0);
         if (font == null) { // possible?
             super.getStyleMetrics(pointSize, metrics, offset);
         } else {
@@ -324,110 +324,110 @@ public final class CompositeFont extends Font2D {
         return numSlots;
     }
 
-    public PhysicalFont getSlotFont(int slot) {
-        /* This is essentially the runtime overhead for deferred font
-         * initialisation: a boolean test on obtaining a slot font,
-         * which will happen per slot, on initialisation of a strike
-         * (as that is the only frequent call site of this method.
+    public PhysicblFont getSlotFont(int slot) {
+        /* This is essentiblly the runtime overhebd for deferred font
+         * initiblisbtion: b boolebn test on obtbining b slot font,
+         * which will hbppen per slot, on initiblisbtion of b strike
+         * (bs thbt is the only frequent cbll site of this method.
          */
-        if (deferredInitialisation[slot]) {
-            doDeferredInitialisation(slot);
+        if (deferredInitiblisbtion[slot]) {
+            doDeferredInitiblisbtion(slot);
         }
-        SunFontManager fm = SunFontManager.getInstance();
+        SunFontMbnbger fm = SunFontMbnbger.getInstbnce();
         try {
-            PhysicalFont font = components[slot];
+            PhysicblFont font = components[slot];
             if (font == null) {
                 try {
-                    font = (PhysicalFont) fm.
-                        findFont2D(componentNames[slot], style,
-                                   FontManager.PHYSICAL_FALLBACK);
+                    font = (PhysicblFont) fm.
+                        findFont2D(componentNbmes[slot], style,
+                                   FontMbnbger.PHYSICAL_FALLBACK);
                     components[slot] = font;
-                } catch (ClassCastException cce) {
-                    font = fm.getDefaultPhysicalFont();
+                } cbtch (ClbssCbstException cce) {
+                    font = fm.getDefbultPhysicblFont();
                 }
             }
             return font;
-        } catch (Exception e) {
-            return fm.getDefaultPhysicalFont();
+        } cbtch (Exception e) {
+            return fm.getDefbultPhysicblFont();
         }
     }
 
-    FontStrike createStrike(FontStrikeDesc desc) {
+    FontStrike crebteStrike(FontStrikeDesc desc) {
         return new CompositeStrike(this, desc);
     }
 
-    /* This is set false when the composite is created using a specified
-     * physical font as the first slot and called by code which
-     * selects composites by locale preferences to know that this
-     * isn't a font which should be adjusted.
+    /* This is set fblse when the composite is crebted using b specified
+     * physicbl font bs the first slot bnd cblled by code which
+     * selects composites by locble preferences to know thbt this
+     * isn't b font which should be bdjusted.
      */
-    public boolean isStdComposite() {
+    public boolebn isStdComposite() {
         return isStdComposite;
     }
 
     /* This isn't very efficient but its infrequently used.
-     * StandardGlyphVector uses it when the client assigns the glyph codes.
-     * These may not be valid. This validates them substituting the missing
+     * StbndbrdGlyphVector uses it when the client bssigns the glyph codes.
+     * These mby not be vblid. This vblidbtes them substituting the missing
      * glyph elsewhere.
      */
-    protected int getValidatedGlyphCode(int glyphCode) {
+    protected int getVblidbtedGlyphCode(int glyphCode) {
         int slot = glyphCode >>> 24;
         if (slot >= numSlots) {
-            return getMapper().getMissingGlyphCode();
+            return getMbpper().getMissingGlyphCode();
         }
 
         int slotglyphCode = glyphCode & CompositeStrike.SLOTMASK;
-        PhysicalFont slotFont = getSlotFont(slot);
-        if (slotFont.getValidatedGlyphCode(slotglyphCode) ==
+        PhysicblFont slotFont = getSlotFont(slot);
+        if (slotFont.getVblidbtedGlyphCode(slotglyphCode) ==
             slotFont.getMissingGlyphCode()) {
-            return getMapper().getMissingGlyphCode();
+            return getMbpper().getMissingGlyphCode();
         } else {
             return glyphCode;
         }
     }
 
-    public CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            mapper = new CompositeGlyphMapper(this);
+    public ChbrToGlyphMbpper getMbpper() {
+        if (mbpper == null) {
+            mbpper = new CompositeGlyphMbpper(this);
         }
-        return mapper;
+        return mbpper;
     }
 
-    public boolean hasSupplementaryChars() {
+    public boolebn hbsSupplementbryChbrs() {
         for (int i=0; i<numSlots; i++) {
-            if (getSlotFont(i).hasSupplementaryChars()) {
+            if (getSlotFont(i).hbsSupplementbryChbrs()) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     public int getNumGlyphs() {
         if (numGlyphs == 0) {
-            numGlyphs = getMapper().getNumGlyphs();
+            numGlyphs = getMbpper().getNumGlyphs();
         }
         return numGlyphs;
     }
 
     public int getMissingGlyphCode() {
-        return getMapper().getMissingGlyphCode();
+        return getMbpper().getMissingGlyphCode();
     }
 
-    public boolean canDisplay(char c) {
-        return getMapper().canDisplay(c);
+    public boolebn cbnDisplby(chbr c) {
+        return getMbpper().cbnDisplby(c);
     }
 
-    public boolean useAAForPtSize(int ptsize) {
-        /* Find the first slot that supports the default encoding and use
-         * that to decide the "gasp" behaviour of the composite font.
-         * REMIND "default encoding" isn't applicable to a Unicode locale
-         * and we need to replace this with a better mechanism for deciding
-         * if a font "supports" the user's language. See TrueTypeFont.java
+    public boolebn useAAForPtSize(int ptsize) {
+        /* Find the first slot thbt supports the defbult encoding bnd use
+         * thbt to decide the "gbsp" behbviour of the composite font.
+         * REMIND "defbult encoding" isn't bpplicbble to b Unicode locble
+         * bnd we need to replbce this with b better mechbnism for deciding
+         * if b font "supports" the user's lbngubge. See TrueTypeFont.jbvb
          */
-        if (localeSlot == -1) {
-            /* Ordinarily check numMetricsSlots, but non-standard composites
-             * set that to "1" whilst not necessarily supporting the default
-             * encoding with that first slot. In such a case check all slots.
+        if (locbleSlot == -1) {
+            /* Ordinbrily check numMetricsSlots, but non-stbndbrd composites
+             * set thbt to "1" whilst not necessbrily supporting the defbult
+             * encoding with thbt first slot. In such b cbse check bll slots.
              */
             int numCoreSlots = numMetricsSlots;
             if (numCoreSlots == 1 && !isStdComposite()) {
@@ -435,24 +435,24 @@ public final class CompositeFont extends Font2D {
             }
             for (int slot=0; slot<numCoreSlots; slot++) {
                  if (getSlotFont(slot).supportsEncoding(null)) {
-                     localeSlot = slot;
-                     break;
+                     locbleSlot = slot;
+                     brebk;
                  }
             }
-            if (localeSlot == -1) {
-                localeSlot = 0;
+            if (locbleSlot == -1) {
+                locbleSlot = 0;
             }
         }
-        return getSlotFont(localeSlot).useAAForPtSize(ptsize);
+        return getSlotFont(locbleSlot).useAAForPtSize(ptsize);
     }
 
     public String toString() {
-        String ls = System.lineSeparator();
+        String ls = System.lineSepbrbtor();
         String componentsStr = "";
         for (int i=0; i<numSlots; i++) {
             componentsStr += "    Slot["+i+"]="+getSlotFont(i)+ls;
         }
-        return "** Composite Font: Family=" + familyName +
-            " Name=" + fullName + " style=" + style + ls + componentsStr;
+        return "** Composite Font: Fbmily=" + fbmilyNbme +
+            " Nbme=" + fullNbme + " style=" + style + ls + componentsStr;
     }
 }

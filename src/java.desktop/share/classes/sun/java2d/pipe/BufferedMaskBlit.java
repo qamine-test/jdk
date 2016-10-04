@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.SurfaceType;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Composite;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.SurfbceType;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
 
 /**
- * The MaskBlit operation is expressed as:
- *   dst = ((src <MODE> dst) * pathA) + (dst * (1 - pathA))
+ * The MbskBlit operbtion is expressed bs:
+ *   dst = ((src <MODE> dst) * pbthA) + (dst * (1 - pbthA))
  *
- * The OGL/D3D implementation of the MaskBlit operation differs from the above
- * equation because it is not possible to perform such a complex operation in
- * OpenGL/Direct3D (without the use of advanced techniques like fragment
- * shaders and multitexturing).  Therefore, the BufferedMaskBlit operation
- * is expressed as:
- *   dst = (src * pathA) <SrcOver> dst
+ * The OGL/D3D implementbtion of the MbskBlit operbtion differs from the bbove
+ * equbtion becbuse it is not possible to perform such b complex operbtion in
+ * OpenGL/Direct3D (without the use of bdvbnced techniques like frbgment
+ * shbders bnd multitexturing).  Therefore, the BufferedMbskBlit operbtion
+ * is expressed bs:
+ *   dst = (src * pbthA) <SrcOver> dst
  *
- * This simplified formula is only equivalent to the "true" MaskBlit equation
- * in the following situations:
+ * This simplified formulb is only equivblent to the "true" MbskBlit equbtion
+ * in the following situbtions:
  *   - <MODE> is SrcOver
- *   - <MODE> is Src, extra alpha == 1.0, and the source surface is opaque
+ *   - <MODE> is Src, extrb blphb == 1.0, bnd the source surfbce is opbque
  *
- * Therefore, we register BufferedMaskBlit primitives for only the SurfaceType
- * and CompositeType restrictions mentioned above.  In addition for the Src
- * case, we must override the composite with a SrcOver (no extra alpha)
- * instance, so that we set up the OpenGL/Direct3D blending mode to match the
- * BufferedMaskBlit equation.
+ * Therefore, we register BufferedMbskBlit primitives for only the SurfbceType
+ * bnd CompositeType restrictions mentioned bbove.  In bddition for the Src
+ * cbse, we must override the composite with b SrcOver (no extrb blphb)
+ * instbnce, so thbt we set up the OpenGL/Direct3D blending mode to mbtch the
+ * BufferedMbskBlit equbtion.
  */
-public abstract class BufferedMaskBlit extends MaskBlit {
+public bbstrbct clbss BufferedMbskBlit extends MbskBlit {
 
-    private static final int ST_INT_ARGB     = 0;
-    private static final int ST_INT_ARGB_PRE = 1;
-    private static final int ST_INT_RGB      = 2;
-    private static final int ST_INT_BGR      = 3;
+    privbte stbtic finbl int ST_INT_ARGB     = 0;
+    privbte stbtic finbl int ST_INT_ARGB_PRE = 1;
+    privbte stbtic finbl int ST_INT_RGB      = 2;
+    privbte stbtic finbl int ST_INT_BGR      = 3;
 
-    private final RenderQueue rq;
-    private final int srcTypeVal;
-    private Blit blitop;
+    privbte finbl RenderQueue rq;
+    privbte finbl int srcTypeVbl;
+    privbte Blit blitop;
 
-    protected BufferedMaskBlit(RenderQueue rq,
-                               SurfaceType srcType,
+    protected BufferedMbskBlit(RenderQueue rq,
+                               SurfbceType srcType,
                                CompositeType compType,
-                               SurfaceType dstType)
+                               SurfbceType dstType)
     {
         super(srcType, compType, dstType);
         this.rq = rq;
-        if (srcType == SurfaceType.IntArgb) {
-            this.srcTypeVal = ST_INT_ARGB;
-        } else if (srcType == SurfaceType.IntArgbPre) {
-            this.srcTypeVal = ST_INT_ARGB_PRE;
-        } else if (srcType == SurfaceType.IntRgb) {
-            this.srcTypeVal = ST_INT_RGB;
-        } else if (srcType == SurfaceType.IntBgr) {
-            this.srcTypeVal = ST_INT_BGR;
+        if (srcType == SurfbceType.IntArgb) {
+            this.srcTypeVbl = ST_INT_ARGB;
+        } else if (srcType == SurfbceType.IntArgbPre) {
+            this.srcTypeVbl = ST_INT_ARGB_PRE;
+        } else if (srcType == SurfbceType.IntRgb) {
+            this.srcTypeVbl = ST_INT_RGB;
+        } else if (srcType == SurfbceType.IntBgr) {
+            this.srcTypeVbl = ST_INT_BGR;
         } else {
-            throw new InternalError("unrecognized source surface type");
+            throw new InternblError("unrecognized source surfbce type");
         }
     }
 
     @Override
-    public void MaskBlit(SurfaceData src, SurfaceData dst,
+    public void MbskBlit(SurfbceDbtb src, SurfbceDbtb dst,
                          Composite comp, Region clip,
                          int srcx, int srcy,
                          int dstx, int dsty,
                          int width, int height,
-                         byte[] mask, int maskoff, int maskscan)
+                         byte[] mbsk, int mbskoff, int mbskscbn)
     {
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        if (mask == null) {
-            // no mask involved; delegate to regular blit loop
+        if (mbsk == null) {
+            // no mbsk involved; delegbte to regulbr blit loop
             if (blitop == null) {
-                blitop = Blit.getFromCache(src.getSurfaceType(),
-                                           CompositeType.AnyAlpha,
+                blitop = Blit.getFromCbche(src.getSurfbceType(),
+                                           CompositeType.AnyAlphb,
                                            this.getDestType());
             }
             blitop.Blit(src, dst,
@@ -113,51 +113,51 @@ public abstract class BufferedMaskBlit extends MaskBlit {
             return;
         }
 
-        AlphaComposite acomp = (AlphaComposite)comp;
-        if (acomp.getRule() != AlphaComposite.SRC_OVER) {
-            comp = AlphaComposite.SrcOver;
+        AlphbComposite bcomp = (AlphbComposite)comp;
+        if (bcomp.getRule() != AlphbComposite.SRC_OVER) {
+            comp = AlphbComposite.SrcOver;
         }
 
         rq.lock();
         try {
-            validateContext(dst, comp, clip);
+            vblidbteContext(dst, comp, clip);
 
             RenderBuffer buf = rq.getBuffer();
-            int totalBytesRequired = 20 + (width * height * 4);
+            int totblBytesRequired = 20 + (width * height * 4);
 
             /*
-             * REMIND: we should fix this so that it works with tiles that
-             *         are larger than the entire buffer, but the native
-             *         OGL/D3DMaskBlit isn't even prepared for tiles larger
-             *         than 32x32 pixels, so there's no urgency here...
+             * REMIND: we should fix this so thbt it works with tiles thbt
+             *         bre lbrger thbn the entire buffer, but the nbtive
+             *         OGL/D3DMbskBlit isn't even prepbred for tiles lbrger
+             *         thbn 32x32 pixels, so there's no urgency here...
              */
-            rq.ensureCapacity(totalBytesRequired);
+            rq.ensureCbpbcity(totblBytesRequired);
 
-            // enqueue parameters and tile pixels
+            // enqueue pbrbmeters bnd tile pixels
             int newpos = enqueueTile(buf.getAddress(), buf.position(),
-                                     src, src.getNativeOps(), srcTypeVal,
-                                     mask, mask.length, maskoff, maskscan,
+                                     src, src.getNbtiveOps(), srcTypeVbl,
+                                     mbsk, mbsk.length, mbskoff, mbskscbn,
                                      srcx, srcy, dstx, dsty,
                                      width, height);
 
             buf.position(newpos);
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
-    private native int enqueueTile(long buf, int bpos,
-                                   SurfaceData srcData,
+    privbte nbtive int enqueueTile(long buf, int bpos,
+                                   SurfbceDbtb srcDbtb,
                                    long pSrcOps, int srcType,
-                                   byte[] mask, int masklen,
-                                   int maskoff, int maskscan,
+                                   byte[] mbsk, int mbsklen,
+                                   int mbskoff, int mbskscbn,
                                    int srcx, int srcy, int dstx, int dsty,
                                    int width, int height);
 
     /**
-     * Validates the context state using the given destination surface
-     * and composite/clip values.
+     * Vblidbtes the context stbte using the given destinbtion surfbce
+     * bnd composite/clip vblues.
      */
-    protected abstract void validateContext(SurfaceData dstData,
+    protected bbstrbct void vblidbteContext(SurfbceDbtb dstDbtb,
                                             Composite comp, Region clip);
 }

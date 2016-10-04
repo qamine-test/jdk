@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.ntlm;
+pbckbge com.sun.security.ntlm;
 
-import java.security.GeneralSecurityException;
+import jbvb.security.GenerblSecurityException;
 
 /**
- * An NTLM-related Exception
+ * An NTLM-relbted Exception
  */
-public final class NTLMException extends GeneralSecurityException {
-    private static final long serialVersionUID = -3298539507906689430L;
+public finbl clbss NTLMException extends GenerblSecurityException {
+    privbte stbtic finbl long seriblVersionUID = -3298539507906689430L;
 
     /**
-     * If the incoming packet is invalid.
+     * If the incoming pbcket is invblid.
      */
-    public final static int PACKET_READ_ERROR = 1;
+    public finbl stbtic int PACKET_READ_ERROR = 1;
 
     /**
-     * If the client cannot get a domain value from the server and the
-     * caller has not provided one.
+     * If the client cbnnot get b dombin vblue from the server bnd the
+     * cbller hbs not provided one.
      */
-    public final static int NO_DOMAIN_INFO = 2;
+    public finbl stbtic int NO_DOMAIN_INFO = 2;
 
     /**
-     * If the domain provided by the client does not match the one received
+     * If the dombin provided by the client does not mbtch the one received
      * from server.
      */
-    //public final static int DOMAIN_UNMATCH = 3;
+    //public finbl stbtic int DOMAIN_UNMATCH = 3;
 
     /**
-     * If the client name is not found on server's user database.
+     * If the client nbme is not found on server's user dbtbbbse.
      */
-    public final static int USER_UNKNOWN = 3;
+    public finbl stbtic int USER_UNKNOWN = 3;
 
     /**
-     * If authentication fails.
+     * If buthenticbtion fbils.
      */
-    public final static int AUTH_FAILED = 4;
+    public finbl stbtic int AUTH_FAILED = 4;
 
     /**
-     * If an illegal version string is provided.
+     * If bn illegbl version string is provided.
      */
-    public final static int BAD_VERSION = 5;
+    public finbl stbtic int BAD_VERSION = 5;
 
     /**
      * Protocol errors.
      */
-    public final static int PROTOCOL = 6;
+    public finbl stbtic int PROTOCOL = 6;
 
-    private int errorCode;
+    privbte int errorCode;
 
     /**
-     * Constructs an NTLMException object.
-     * @param errorCode the error code, which can be retrieved by
+     * Constructs bn NTLMException object.
+     * @pbrbm errorCode the error code, which cbn be retrieved by
      * the {@link #errorCode() } method.
-     * @param msg the string message, which can be retrived by
-     * the {@link Exception#getMessage() } method.
+     * @pbrbm msg the string messbge, which cbn be retrived by
+     * the {@link Exception#getMessbge() } method.
      */
     public NTLMException(int errorCode, String msg) {
         super(msg);
@@ -85,7 +85,7 @@ public final class NTLMException extends GeneralSecurityException {
     }
 
     /**
-     * Returns the error code associated with this NTLMException.
+     * Returns the error code bssocibted with this NTLMException.
      * @return the error code
      */
     public int errorCode() {

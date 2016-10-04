@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.geom.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-public class AquaTextPasswordFieldUI extends AquaTextFieldUI {
-    static final RecyclableSingleton<CapsLockSymbolPainter> capsLockPainter = new RecyclableSingletonFromDefaultConstructor<CapsLockSymbolPainter>(CapsLockSymbolPainter.class);
-    static CapsLockSymbolPainter getCapsLockPainter() {
-        return capsLockPainter.get();
+public clbss AqubTextPbsswordFieldUI extends AqubTextFieldUI {
+    stbtic finbl RecyclbbleSingleton<CbpsLockSymbolPbinter> cbpsLockPbinter = new RecyclbbleSingletonFromDefbultConstructor<CbpsLockSymbolPbinter>(CbpsLockSymbolPbinter.clbss);
+    stbtic CbpsLockSymbolPbinter getCbpsLockPbinter() {
+        return cbpsLockPbinter.get();
     }
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTextPasswordFieldUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTextPbsswordFieldUI();
     }
 
     @Override
     protected String getPropertyPrefix() {
-        return "PasswordField";
+        return "PbsswordField";
     }
 
     @Override
-    public View create(final Element elem) {
-        return new AquaPasswordView(elem);
+    public View crebte(finbl Element elem) {
+        return new AqubPbsswordView(elem);
     }
 
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        getComponent().addKeyListener(getCapsLockPainter());
+    protected void instbllListeners() {
+        super.instbllListeners();
+        getComponent().bddKeyListener(getCbpsLockPbinter());
     }
 
     @Override
-    protected void uninstallListeners() {
-        getComponent().removeKeyListener(getCapsLockPainter());
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        getComponent().removeKeyListener(getCbpsLockPbinter());
+        super.uninstbllListeners();
     }
 
     @Override
-    protected void paintBackgroundSafely(final Graphics g) {
-        super.paintBackgroundSafely(g);
+    protected void pbintBbckgroundSbfely(finbl Grbphics g) {
+        super.pbintBbckgroundSbfely(g);
 
-        final JTextComponent component = getComponent();
+        finbl JTextComponent component = getComponent();
         if (component == null) return;
         if (!component.isFocusOwner()) return;
 
-        final boolean capsLockDown = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-        if (!capsLockDown) return;
+        finbl boolebn cbpsLockDown = Toolkit.getDefbultToolkit().getLockingKeyStbte(KeyEvent.VK_CAPS_LOCK);
+        if (!cbpsLockDown) return;
 
-        final Rectangle bounds = component.getBounds();
-        getCapsLockPainter().paintBorder(component, g, bounds.x, bounds.y, bounds.width, bounds.height);
+        finbl Rectbngle bounds = component.getBounds();
+        getCbpsLockPbinter().pbintBorder(component, g, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
-    protected class AquaPasswordView extends PasswordView {
-        public AquaPasswordView(final Element elem) {
+    protected clbss AqubPbsswordView extends PbsswordView {
+        public AqubPbsswordView(finbl Element elem) {
             super(elem);
-            setupDefaultEchoCharacter();
+            setupDefbultEchoChbrbcter();
         }
 
-        protected void setupDefaultEchoCharacter() {
-            // this allows us to change the echo character in CoreAquaLookAndFeel.java
-            final Character echoChar = (Character)UIManager.getDefaults().get(getPropertyPrefix() + ".echoChar");
-            if (echoChar != null) {
-                LookAndFeel.installProperty(getComponent(), "echoChar", echoChar);
+        protected void setupDefbultEchoChbrbcter() {
+            // this bllows us to chbnge the echo chbrbcter in CoreAqubLookAndFeel.jbvb
+            finbl Chbrbcter echoChbr = (Chbrbcter)UIMbnbger.getDefbults().get(getPropertyPrefix() + ".echoChbr");
+            if (echoChbr != null) {
+                LookAndFeel.instbllProperty(getComponent(), "echoChbr", echoChbr);
             }
         }
     }
 
-    static class CapsLockSymbolPainter extends KeyAdapter implements Border, UIResource {
-        protected Shape capsLockShape;
-        protected Shape getCapsLockShape() {
-            if (capsLockShape != null) return capsLockShape;
+    stbtic clbss CbpsLockSymbolPbinter extends KeyAdbpter implements Border, UIResource {
+        protected Shbpe cbpsLockShbpe;
+        protected Shbpe getCbpsLockShbpe() {
+            if (cbpsLockShbpe != null) return cbpsLockShbpe;
 
-            final RoundRectangle2D rect = new RoundRectangle2D.Double(0.5, 0.5, 16, 16, 8, 8);
-            final GeneralPath shape = new GeneralPath(rect);
-            shape.setWindingRule(Path2D.WIND_EVEN_ODD);
+            finbl RoundRectbngle2D rect = new RoundRectbngle2D.Double(0.5, 0.5, 16, 16, 8, 8);
+            finbl GenerblPbth shbpe = new GenerblPbth(rect);
+            shbpe.setWindingRule(Pbth2D.WIND_EVEN_ODD);
 
-            // arrow
-            shape.moveTo( 8.50,  2.00);
-            shape.lineTo( 4.00,  7.00);
-            shape.lineTo( 6.25,  7.00);
-            shape.lineTo( 6.25, 10.25);
-            shape.lineTo(10.75, 10.25);
-            shape.lineTo(10.75,  7.00);
-            shape.lineTo(13.00,  7.00);
-            shape.lineTo( 8.50,  2.00);
+            // brrow
+            shbpe.moveTo( 8.50,  2.00);
+            shbpe.lineTo( 4.00,  7.00);
+            shbpe.lineTo( 6.25,  7.00);
+            shbpe.lineTo( 6.25, 10.25);
+            shbpe.lineTo(10.75, 10.25);
+            shbpe.lineTo(10.75,  7.00);
+            shbpe.lineTo(13.00,  7.00);
+            shbpe.lineTo( 8.50,  2.00);
 
-            // base line
-            shape.moveTo(10.75, 12.00);
-            shape.lineTo( 6.25, 12.00);
-            shape.lineTo( 6.25, 14.25);
-            shape.lineTo(10.75, 14.25);
-            shape.lineTo(10.75, 12.00);
+            // bbse line
+            shbpe.moveTo(10.75, 12.00);
+            shbpe.lineTo( 6.25, 12.00);
+            shbpe.lineTo( 6.25, 14.25);
+            shbpe.lineTo(10.75, 14.25);
+            shbpe.lineTo(10.75, 12.00);
 
-            return capsLockShape = shape;
+            return cbpsLockShbpe = shbpe;
         }
 
         @Override
-        public Insets getBorderInsets(final Component c) {
+        public Insets getBorderInsets(finbl Component c) {
             return new Insets(0, 0, 0, 0);
         }
 
         @Override
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
 
         @Override
-        public void paintBorder(final Component c, Graphics g, final int x, final int y, final int width, final int height) {
-            g = g.create(width - 23, height / 2 - 8, 18, 18);
+        public void pbintBorder(finbl Component c, Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+            g = g.crebte(width - 23, height / 2 - 8, 18, 18);
 
-            g.setColor(UIManager.getColor("PasswordField.capsLockIconColor"));
-            ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            ((Graphics2D)g).fill(getCapsLockShape());
+            g.setColor(UIMbnbger.getColor("PbsswordField.cbpsLockIconColor"));
+            ((Grbphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            ((Grbphics2D)g).fill(getCbpsLockShbpe());
             g.dispose();
         }
 
         @Override
-        public void keyPressed(final KeyEvent e) {
-            update(e);
+        public void keyPressed(finbl KeyEvent e) {
+            updbte(e);
         }
 
         @Override
-        public void keyReleased(final KeyEvent e) {
-            update(e);
+        public void keyRelebsed(finbl KeyEvent e) {
+            updbte(e);
         }
 
-        void update(final KeyEvent e) {
+        void updbte(finbl KeyEvent e) {
             if (KeyEvent.VK_CAPS_LOCK != e.getKeyCode()) return;
-            e.getComponent().repaint();
+            e.getComponent().repbint();
         }
     }
 }

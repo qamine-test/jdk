@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rmi.rmid;
+pbckbge com.sun.rmi.rmid;
 
-import java.security.*;
-import java.io.*;
-import java.util.*;
+import jbvb.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * The ExecOptionPermission class represents permission for rmid to use
- * a specific command-line option when launching an activation group.
+ * The ExecOptionPermission clbss represents permission for rmid to use
+ * b specific commbnd-line option when lbunching bn bctivbtion group.
  * <P>
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  *
- * @serial exclude
+ * @seribl exclude
  */
-public final class ExecOptionPermission extends Permission
+public finbl clbss ExecOptionPermission extends Permission
 {
     /**
-     * does this permission have a wildcard at the end?
+     * does this permission hbve b wildcbrd bt the end?
      */
-    private transient boolean wildcard;
+    privbte trbnsient boolebn wildcbrd;
 
     /**
-     * the name without the wildcard on the end
+     * the nbme without the wildcbrd on the end
      */
-    private transient String name;
+    privbte trbnsient String nbme;
 
     /**
-     * UID for serialization
+     * UID for seriblizbtion
      */
-    private static final long serialVersionUID = 5842294756823092756L;
+    privbte stbtic finbl long seriblVersionUID = 5842294756823092756L;
 
-    public ExecOptionPermission(String name) {
-        super(name);
-        init(name);
+    public ExecOptionPermission(String nbme) {
+        super(nbme);
+        init(nbme);
     }
 
-    public ExecOptionPermission(String name, String actions) {
-        this(name);
+    public ExecOptionPermission(String nbme, String bctions) {
+        this(nbme);
     }
 
     /**
      * Checks if the specified permission is "implied" by
      * this object.
      * <P>
-     * More specifically, this method returns true if:<p>
+     * More specificblly, this method returns true if:<p>
      * <ul>
-     * <li> <i>p</i>'s class is the same as this object's class, and<p>
-     * <li> <i>p</i>'s name equals or (in the case of wildcards)
+     * <li> <i>p</i>'s clbss is the sbme bs this object's clbss, bnd<p>
+     * <li> <i>p</i>'s nbme equbls or (in the cbse of wildcbrds)
      *      is implied by this object's
-     *      name. For example, "a.b.*" implies "a.b.c", and
-     *      "a.b=*" implies "a.b=c"
+     *      nbme. For exbmple, "b.b.*" implies "b.b.c", bnd
+     *      "b.b=*" implies "b.b=c"
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
-     * @return true if the passed permission is equal to or
-     * implied by this permission, false otherwise.
+     * @return true if the pbssed permission is equbl to or
+     * implied by this permission, fblse otherwise.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof ExecOptionPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof ExecOptionPermission))
+            return fblse;
 
-        ExecOptionPermission that = (ExecOptionPermission) p;
+        ExecOptionPermission thbt = (ExecOptionPermission) p;
 
-        if (this.wildcard) {
-            if (that.wildcard) {
-                // one wildcard can imply another
-                return that.name.startsWith(name);
+        if (this.wildcbrd) {
+            if (thbt.wildcbrd) {
+                // one wildcbrd cbn imply bnother
+                return thbt.nbme.stbrtsWith(nbme);
             } else {
-                // make sure p.name is longer so a.b.* doesn't imply a.b
-                return (that.name.length() > this.name.length()) &&
-                    that.name.startsWith(this.name);
+                // mbke sure p.nbme is longer so b.b.* doesn't imply b.b
+                return (thbt.nbme.length() > this.nbme.length()) &&
+                    thbt.nbme.stbrtsWith(this.nbme);
             }
         } else {
-            if (that.wildcard) {
-                // a non-wildcard can't imply a wildcard
-                return false;
+            if (thbt.wildcbrd) {
+                // b non-wildcbrd cbn't imply b wildcbrd
+                return fblse;
             } else {
-                return this.name.equals(that.name);
+                return this.nbme.equbls(thbt.nbme);
             }
         }
     }
 
     /**
-     * Checks two ExecOptionPermission objects for equality.
-     * Checks that <i>obj</i>'s class is the same as this object's class
-     * and has the same name as this object.
+     * Checks two ExecOptionPermission objects for equblity.
+     * Checks thbt <i>obj</i>'s clbss is the sbme bs this object's clbss
+     * bnd hbs the sbme nbme bs this object.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an ExecOptionPermission, and has the same
-     * name as this ExecOptionPermission object, false otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if <i>obj</i> is bn ExecOptionPermission, bnd hbs the sbme
+     * nbme bs this ExecOptionPermission object, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if ((obj == null) || (obj.getClass() != getClass()))
-            return false;
+        if ((obj == null) || (obj.getClbss() != getClbss()))
+            return fblse;
 
-        ExecOptionPermission that = (ExecOptionPermission) obj;
+        ExecOptionPermission thbt = (ExecOptionPermission) obj;
 
-        return this.getName().equals(that.getName());
+        return this.getNbme().equbls(thbt.getNbme());
     }
 
 
     /**
-     * Returns the hash code value for this object.
-     * The hash code used is the hash code of the name, that is,
-     * <code>getName().hashCode()</code>, where <code>getName</code> is
-     * from the Permission superclass.
+     * Returns the hbsh code vblue for this object.
+     * The hbsh code used is the hbsh code of the nbme, thbt is,
+     * <code>getNbme().hbshCode()</code>, where <code>getNbme</code> is
+     * from the Permission superclbss.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return this.getName().hashCode();
+    public int hbshCode() {
+        return this.getNbme().hbshCode();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
+     * Returns the cbnonicbl string representbtion of the bctions.
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
     public String getActions() {
         return "";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
+     * Returns b new PermissionCollection object for storing
      * ExecOptionPermission objects.
      * <p>
-     * A ExecOptionPermissionCollection stores a collection of
+     * A ExecOptionPermissionCollection stores b collection of
      * ExecOptionPermission permissions.
      *
-     * <p>ExecOptionPermission objects must be stored in a manner that allows
-     * them to be inserted in any order, but that also enables the
+     * <p>ExecOptionPermission objects must be stored in b mbnner thbt bllows
+     * them to be inserted in bny order, but thbt blso enbbles the
      * PermissionCollection <code>implies</code> method
-     * to be implemented in an efficient (and consistent) manner.
+     * to be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for
+     * @return b new PermissionCollection object suitbble for
      * storing ExecOptionPermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -170,178 +170,178 @@ public final class ExecOptionPermission extends Permission
     }
 
     /**
-     * readObject is called to restore the state of the ExecOptionPermission
-     * from a stream.
+     * rebdObject is cblled to restore the stbte of the ExecOptionPermission
+     * from b strebm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        // init is called to initialize the rest of the values.
-        init(getName());
+        s.defbultRebdObject();
+        // init is cblled to initiblize the rest of the vblues.
+        init(getNbme());
     }
 
     /**
-     * Initialize a ExecOptionPermission object. Common to all constructors.
-     * Also called during de-serialization.
+     * Initiblize b ExecOptionPermission object. Common to bll constructors.
+     * Also cblled during de-seriblizbtion.
      */
-    private void init(String name)
+    privbte void init(String nbme)
     {
-        if (name == null)
-            throw new NullPointerException("name can't be null");
+        if (nbme == null)
+            throw new NullPointerException("nbme cbn't be null");
 
-        if (name.equals("")) {
-            throw new IllegalArgumentException("name can't be empty");
+        if (nbme.equbls("")) {
+            throw new IllegblArgumentException("nbme cbn't be empty");
         }
 
-        if (name.endsWith(".*") || name.endsWith("=*") || name.equals("*")) {
-            wildcard = true;
-            if (name.length() == 1) {
-                this.name = "";
+        if (nbme.endsWith(".*") || nbme.endsWith("=*") || nbme.equbls("*")) {
+            wildcbrd = true;
+            if (nbme.length() == 1) {
+                this.nbme = "";
             } else {
-                this.name = name.substring(0, name.length()-1);
+                this.nbme = nbme.substring(0, nbme.length()-1);
             }
         } else {
-            this.name = name;
+            this.nbme = nbme;
         }
     }
 
     /**
-     * A ExecOptionPermissionCollection stores a collection
+     * A ExecOptionPermissionCollection stores b collection
      * of ExecOptionPermission permissions. ExecOptionPermission objects
-     * must be stored in a manner that allows them to be inserted in any
-     * order, but enable the implies function to evaluate the implies
-     * method in an efficient (and consistent) manner.
+     * must be stored in b mbnner thbt bllows them to be inserted in bny
+     * order, but enbble the implies function to evblubte the implies
+     * method in bn efficient (bnd consistent) mbnner.
      *
-     * A ExecOptionPermissionCollection handles comparing a permission like
-     * "a.b.c.d.e" * with a Permission such as "a.b.*", or "*".
+     * A ExecOptionPermissionCollection hbndles compbring b permission like
+     * "b.b.c.d.e" * with b Permission such bs "b.b.*", or "*".
      *
-     * @serial include
+     * @seribl include
      */
-    private static class ExecOptionPermissionCollection
+    privbte stbtic clbss ExecOptionPermissionCollection
         extends PermissionCollection
-        implements java.io.Serializable
+        implements jbvb.io.Seriblizbble
     {
 
-        private Hashtable<String, Permission> permissions;
-        private boolean all_allowed; // true if "*" is in the collection
-        private static final long serialVersionUID = -1242475729790124375L;
+        privbte Hbshtbble<String, Permission> permissions;
+        privbte boolebn bll_bllowed; // true if "*" is in the collection
+        privbte stbtic finbl long seriblVersionUID = -1242475729790124375L;
 
         /**
-         * Create an empty ExecOptionPermissionCollection.
+         * Crebte bn empty ExecOptionPermissionCollection.
          */
         public ExecOptionPermissionCollection() {
-            permissions = new Hashtable<>(11);
-            all_allowed = false;
+            permissions = new Hbshtbble<>(11);
+            bll_bllowed = fblse;
         }
 
         /**
-         * Adds a permission to the collection. The key for the hash is
-         * permission.name.
+         * Adds b permission to the collection. The key for the hbsh is
+         * permission.nbme.
          *
-         * @param permission the Permission object to add.
+         * @pbrbm permission the Permission object to bdd.
          *
-         * @exception IllegalArgumentException - if the permission is not a
+         * @exception IllegblArgumentException - if the permission is not b
          *                                       ExecOptionPermission
          *
          * @exception SecurityException - if this ExecOptionPermissionCollection
-         *                                object has been marked readonly
+         *                                object hbs been mbrked rebdonly
          */
 
-        public void add(Permission permission)
+        public void bdd(Permission permission)
         {
-            if (! (permission instanceof ExecOptionPermission))
-                throw new IllegalArgumentException("invalid permission: "+
+            if (! (permission instbnceof ExecOptionPermission))
+                throw new IllegblArgumentException("invblid permission: "+
                                                    permission);
-            if (isReadOnly())
-                throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+            if (isRebdOnly())
+                throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
             ExecOptionPermission p = (ExecOptionPermission) permission;
 
-            permissions.put(p.getName(), permission);
-            if (!all_allowed) {
-                if (p.getName().equals("*"))
-                    all_allowed = true;
+            permissions.put(p.getNbme(), permission);
+            if (!bll_bllowed) {
+                if (p.getNbme().equbls("*"))
+                    bll_bllowed = true;
             }
         }
 
         /**
-         * Check and see if this set of permissions implies the permissions
+         * Check bnd see if this set of permissions implies the permissions
          * expressed in "permission".
          *
-         * @param p the Permission object to compare
+         * @pbrbm p the Permission object to compbre
          *
-         * @return true if "permission" is a proper subset of a permission in
-         * the set, false if not.
+         * @return true if "permission" is b proper subset of b permission in
+         * the set, fblse if not.
          */
-        public boolean implies(Permission permission)
+        public boolebn implies(Permission permission)
         {
-            if (! (permission instanceof ExecOptionPermission))
-                return false;
+            if (! (permission instbnceof ExecOptionPermission))
+                return fblse;
 
             ExecOptionPermission p = (ExecOptionPermission) permission;
 
-            // short circuit if the "*" Permission was added
-            if (all_allowed)
+            // short circuit if the "*" Permission wbs bdded
+            if (bll_bllowed)
                 return true;
 
-            // strategy:
-            // Check for full match first. Then work our way up the
-            // name looking for matches on a.b.*
+            // strbtegy:
+            // Check for full mbtch first. Then work our wby up the
+            // nbme looking for mbtches on b.b.*
 
-            String pname = p.getName();
+            String pnbme = p.getNbme();
 
-            Permission x = permissions.get(pname);
+            Permission x = permissions.get(pnbme);
 
             if (x != null)
-                // we have a direct hit!
+                // we hbve b direct hit!
                 return x.implies(permission);
 
 
-            // work our way up the tree...
-            int last, offset;
+            // work our wby up the tree...
+            int lbst, offset;
 
-            offset = pname.length() - 1;
+            offset = pnbme.length() - 1;
 
-            while ((last = pname.lastIndexOf('.', offset)) != -1) {
+            while ((lbst = pnbme.lbstIndexOf('.', offset)) != -1) {
 
-                pname = pname.substring(0, last+1) + "*";
-                x = permissions.get(pname);
-
-                if (x != null) {
-                    return x.implies(permission);
-                }
-                offset = last - 1;
-            }
-
-            // check for "=*" wildcard match
-            pname = p.getName();
-            offset = pname.length() - 1;
-
-            while ((last = pname.lastIndexOf('=', offset)) != -1) {
-
-                pname = pname.substring(0, last+1) + "*";
-                x = permissions.get(pname);
+                pnbme = pnbme.substring(0, lbst+1) + "*";
+                x = permissions.get(pnbme);
 
                 if (x != null) {
                     return x.implies(permission);
                 }
-                offset = last - 1;
+                offset = lbst - 1;
             }
 
-            // we don't have to check for "*" as it was already checked
-            // at the top (all_allowed), so we just return false
-            return false;
+            // check for "=*" wildcbrd mbtch
+            pnbme = p.getNbme();
+            offset = pnbme.length() - 1;
+
+            while ((lbst = pnbme.lbstIndexOf('=', offset)) != -1) {
+
+                pnbme = pnbme.substring(0, lbst+1) + "*";
+                x = permissions.get(pnbme);
+
+                if (x != null) {
+                    return x.implies(permission);
+                }
+                offset = lbst - 1;
+            }
+
+            // we don't hbve to check for "*" bs it wbs blrebdy checked
+            // bt the top (bll_bllowed), so we just return fblse
+            return fblse;
         }
 
         /**
-         * Returns an enumeration of all the ExecOptionPermission objects in the
-         * container.
+         * Returns bn enumerbtion of bll the ExecOptionPermission objects in the
+         * contbiner.
          *
-         * @return an enumeration of all the ExecOptionPermission objects.
+         * @return bn enumerbtion of bll the ExecOptionPermission objects.
          */
 
-        public Enumeration<Permission> elements()
+        public Enumerbtion<Permission> elements()
         {
             return permissions.elements();
         }

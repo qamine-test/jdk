@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter.perf;
+pbckbge sun.mbnbgement.counter.perf;
 
-import sun.management.counter.*;
-import java.nio.*;
-import java.util.*;
-import java.util.regex.*;
+import sun.mbnbgement.counter.*;
+import jbvb.nio.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
 
-public class PerfInstrumentation {
-    private ByteBuffer buffer;
-    private Prologue prologue;
-    private long lastModificationTime;
-    private long lastUsed;
-    private int  nextEntry;
-    private SortedMap<String, Counter>  map;
+public clbss PerfInstrumentbtion {
+    privbte ByteBuffer buffer;
+    privbte Prologue prologue;
+    privbte long lbstModificbtionTime;
+    privbte long lbstUsed;
+    privbte int  nextEntry;
+    privbte SortedMbp<String, Counter>  mbp;
 
-    public PerfInstrumentation(ByteBuffer b) {
+    public PerfInstrumentbtion(ByteBuffer b) {
         prologue = new Prologue(b);
         buffer = b;
         buffer.order(prologue.getByteOrder());
 
         // Check recognized versions
-        int major = getMajorVersion();
+        int mbjor = getMbjorVersion();
         int minor = getMinorVersion();
 
         // Support only 2.0 version
-        if (major < 2) {
-            throw new InstrumentationException("Unsupported version: " +
-                                               major + "." + minor);
+        if (mbjor < 2) {
+            throw new InstrumentbtionException("Unsupported version: " +
+                                               mbjor + "." + minor);
         }
         rewind();
     }
 
-    public int getMajorVersion() {
-        return prologue.getMajorVersion();
+    public int getMbjorVersion() {
+        return prologue.getMbjorVersion();
     }
 
     public int getMinorVersion() {
         return prologue.getMinorVersion();
     }
 
-    public long getModificationTimeStamp() {
-        return prologue.getModificationTimeStamp();
+    public long getModificbtionTimeStbmp() {
+        return prologue.getModificbtionTimeStbmp();
     }
 
     void rewind() {
@@ -72,115 +72,115 @@ public class PerfInstrumentation {
         buffer.rewind();
         buffer.position(prologue.getEntryOffset());
         nextEntry = buffer.position();
-        // rebuild all the counters
-        map = new TreeMap<>();
+        // rebuild bll the counters
+        mbp = new TreeMbp<>();
     }
 
-    boolean hasNext() {
+    boolebn hbsNext() {
         return (nextEntry < prologue.getUsed());
     }
 
     Counter getNextCounter() {
-        if (! hasNext()) {
+        if (! hbsNext()) {
             return null;
         }
 
         if ((nextEntry % 4) != 0) {
-            // entries are always 4 byte aligned.
-            throw new InstrumentationException(
-                "Entry index not properly aligned: " + nextEntry);
+            // entries bre blwbys 4 byte bligned.
+            throw new InstrumentbtionException(
+                "Entry index not properly bligned: " + nextEntry);
         }
 
         if (nextEntry < 0  || nextEntry > buffer.limit()) {
-            // defensive check to protect against a corrupted shared memory region.
-            throw new InstrumentationException(
+            // defensive check to protect bgbinst b corrupted shbred memory region.
+            throw new InstrumentbtionException(
                 "Entry index out of bounds: nextEntry = " + nextEntry +
                 ", limit = " + buffer.limit());
         }
 
         buffer.position(nextEntry);
-        PerfDataEntry entry = new PerfDataEntry(buffer);
+        PerfDbtbEntry entry = new PerfDbtbEntry(buffer);
         nextEntry = nextEntry + entry.size();
 
         Counter counter = null;
-        PerfDataType type = entry.type();
-        if (type == PerfDataType.BYTE) {
+        PerfDbtbType type = entry.type();
+        if (type == PerfDbtbType.BYTE) {
             if (entry.units() == Units.STRING && entry.vectorLength() > 0) {
-                counter = new PerfStringCounter(entry.name(),
-                                                entry.variability(),
-                                                entry.flags(),
+                counter = new PerfStringCounter(entry.nbme(),
+                                                entry.vbribbility(),
+                                                entry.flbgs(),
                                                 entry.vectorLength(),
-                                                entry.byteData());
+                                                entry.byteDbtb());
             } else if (entry.vectorLength() > 0) {
-                counter = new PerfByteArrayCounter(entry.name(),
+                counter = new PerfByteArrbyCounter(entry.nbme(),
                                                    entry.units(),
-                                                   entry.variability(),
-                                                   entry.flags(),
+                                                   entry.vbribbility(),
+                                                   entry.flbgs(),
                                                    entry.vectorLength(),
-                                                   entry.byteData());
+                                                   entry.byteDbtb());
            } else {
-                // ByteArrayCounter must have vectorLength > 0
-                assert false;
+                // ByteArrbyCounter must hbve vectorLength > 0
+                bssert fblse;
            }
         }
-        else if (type == PerfDataType.LONG) {
+        else if (type == PerfDbtbType.LONG) {
             if (entry.vectorLength() == 0) {
-                counter = new PerfLongCounter(entry.name(),
+                counter = new PerfLongCounter(entry.nbme(),
                                               entry.units(),
-                                              entry.variability(),
-                                              entry.flags(),
-                                              entry.longData());
+                                              entry.vbribbility(),
+                                              entry.flbgs(),
+                                              entry.longDbtb());
             } else {
-                counter = new PerfLongArrayCounter(entry.name(),
+                counter = new PerfLongArrbyCounter(entry.nbme(),
                                                    entry.units(),
-                                                   entry.variability(),
-                                                   entry.flags(),
+                                                   entry.vbribbility(),
+                                                   entry.flbgs(),
                                                    entry.vectorLength(),
-                                                   entry.longData());
+                                                   entry.longDbtb());
             }
         }
         else {
-            // FIXME: Should we throw an exception for unsupported type?
+            // FIXME: Should we throw bn exception for unsupported type?
             // Currently skip such entry
-            assert false;
+            bssert fblse;
         }
         return counter;
     }
 
     public synchronized List<Counter> getAllCounters() {
-        while (hasNext()) {
+        while (hbsNext()) {
             Counter c = getNextCounter();
             if (c != null) {
-                map.put(c.getName(), c);
+                mbp.put(c.getNbme(), c);
             }
         }
-        return new ArrayList<>(map.values());
+        return new ArrbyList<>(mbp.vblues());
     }
 
-    public synchronized List<Counter> findByPattern(String patternString) {
-        while (hasNext()) {
+    public synchronized List<Counter> findByPbttern(String pbtternString) {
+        while (hbsNext()) {
             Counter c = getNextCounter();
             if (c != null) {
-                map.put(c.getName(), c);
+                mbp.put(c.getNbme(), c);
             }
         }
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher("");
-        List<Counter> matches = new ArrayList<>();
+        Pbttern pbttern = Pbttern.compile(pbtternString);
+        Mbtcher mbtcher = pbttern.mbtcher("");
+        List<Counter> mbtches = new ArrbyList<>();
 
 
-        for (Map.Entry<String,Counter> me: map.entrySet()) {
-            String name = me.getKey();
+        for (Mbp.Entry<String,Counter> me: mbp.entrySet()) {
+            String nbme = me.getKey();
 
-            // apply pattern to counter name
-            matcher.reset(name);
+            // bpply pbttern to counter nbme
+            mbtcher.reset(nbme);
 
-            // if the pattern matches, then add Counter to list
-            if (matcher.lookingAt()) {
-                matches.add(me.getValue());
+            // if the pbttern mbtches, then bdd Counter to list
+            if (mbtcher.lookingAt()) {
+                mbtches.bdd(me.getVblue());
             }
         }
-        return matches;
+        return mbtches;
     }
 }

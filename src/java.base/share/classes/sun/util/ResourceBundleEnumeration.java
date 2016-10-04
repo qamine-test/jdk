@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util;
+pbckbge sun.util;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
 
 /**
- * Implements an Enumeration that combines elements from a Set and
- * an Enumeration. Used by ListResourceBundle and PropertyResourceBundle.
+ * Implements bn Enumerbtion thbt combines elements from b Set bnd
+ * bn Enumerbtion. Used by ListResourceBundle bnd PropertyResourceBundle.
  */
-public class ResourceBundleEnumeration implements Enumeration<String> {
+public clbss ResourceBundleEnumerbtion implements Enumerbtion<String> {
 
     Set<String> set;
-    Iterator<String> iterator;
-    Enumeration<String> enumeration; // may remain null
+    Iterbtor<String> iterbtor;
+    Enumerbtion<String> enumerbtion; // mby rembin null
 
     /**
-     * Constructs a resource bundle enumeration.
-     * @param set an set providing some elements of the enumeration
-     * @param enumeration an enumeration providing more elements of the enumeration.
-     *        enumeration may be null.
+     * Constructs b resource bundle enumerbtion.
+     * @pbrbm set bn set providing some elements of the enumerbtion
+     * @pbrbm enumerbtion bn enumerbtion providing more elements of the enumerbtion.
+     *        enumerbtion mby be null.
      */
-    public ResourceBundleEnumeration(Set<String> set, Enumeration<String> enumeration) {
+    public ResourceBundleEnumerbtion(Set<String> set, Enumerbtion<String> enumerbtion) {
         this.set = set;
-        this.iterator = set.iterator();
-        this.enumeration = enumeration;
+        this.iterbtor = set.iterbtor();
+        this.enumerbtion = enumerbtion;
     }
 
     String next = null;
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         if (next == null) {
-            if (iterator.hasNext()) {
-                next = iterator.next();
-            } else if (enumeration != null) {
-                while (next == null && enumeration.hasMoreElements()) {
-                    next = enumeration.nextElement();
-                    if (set.contains(next)) {
+            if (iterbtor.hbsNext()) {
+                next = iterbtor.next();
+            } else if (enumerbtion != null) {
+                while (next == null && enumerbtion.hbsMoreElements()) {
+                    next = enumerbtion.nextElement();
+                    if (set.contbins(next)) {
                         next = null;
                     }
                 }
@@ -71,7 +71,7 @@ public class ResourceBundleEnumeration implements Enumeration<String> {
     }
 
     public String nextElement() {
-        if (hasMoreElements()) {
+        if (hbsMoreElements()) {
             String result = next;
             next = null;
             return result;

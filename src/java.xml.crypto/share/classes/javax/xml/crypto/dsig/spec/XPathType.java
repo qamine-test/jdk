@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XPathType.java,v 1.4 2005/05/10 16:40:17 mullan Exp $
+ * $Id: XPbthType.jbvb,v 1.4 2005/05/10 16:40:17 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbckbge jbvbx.xml.crypto.dsig.spec;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 /**
- * The XML Schema Definition of the <code>XPath</code> element as defined in the
- * <a href="http://www.w3.org/TR/xmldsig-filter2">
- * W3C Recommendation for XML-Signature XPath Filter 2.0</a>:
+ * The XML Schemb Definition of the <code>XPbth</code> element bs defined in the
+ * <b href="http://www.w3.org/TR/xmldsig-filter2">
+ * W3C Recommendbtion for XML-Signbture XPbth Filter 2.0</b>:
  * <pre><code>
- * &lt;schema xmlns="http://www.w3.org/2001/XMLSchema"
+ * &lt;schemb xmlns="http://www.w3.org/2001/XMLSchemb"
  *         xmlns:xf="http://www.w3.org/2002/06/xmldsig-filter2"
- *         targetNamespace="http://www.w3.org/2002/06/xmldsig-filter2"
- *         version="0.1" elementFormDefault="qualified"&gt;
+ *         tbrgetNbmespbce="http://www.w3.org/2002/06/xmldsig-filter2"
+ *         version="0.1" elementFormDefbult="qublified"&gt;
  *
- * &lt;element name="XPath"
- *          type="xf:XPathType"/&gt;
+ * &lt;element nbme="XPbth"
+ *          type="xf:XPbthType"/&gt;
  *
- * &lt;complexType name="XPathType"&gt;
+ * &lt;complexType nbme="XPbthType"&gt;
  *   &lt;simpleContent&gt;
- *     &lt;extension base="string"&gt;
- *       &lt;attribute name="Filter"&gt;
+ *     &lt;extension bbse="string"&gt;
+ *       &lt;bttribute nbme="Filter"&gt;
  *         &lt;simpleType&gt;
- *           &lt;restriction base="string"&gt;
- *             &lt;enumeration value="intersect"/&gt;
- *             &lt;enumeration value="subtract"/&gt;
- *             &lt;enumeration value="union"/&gt;
+ *           &lt;restriction bbse="string"&gt;
+ *             &lt;enumerbtion vblue="intersect"/&gt;
+ *             &lt;enumerbtion vblue="subtrbct"/&gt;
+ *             &lt;enumerbtion vblue="union"/&gt;
  *           &lt;/restriction&gt;
  *         &lt;/simpleType&gt;
- *       &lt;/attribute&gt;
+ *       &lt;/bttribute&gt;
  *     &lt;/extension&gt;
  *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
  * </code></pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XPathFilter2ParameterSpec
+ * @see XPbthFilter2PbrbmeterSpec
  */
-public class XPathType {
+public clbss XPbthType {
 
     /**
-     * Represents the filter set operation.
+     * Represents the filter set operbtion.
      */
-    public static class Filter {
-        private final String operation;
+    public stbtic clbss Filter {
+        privbte finbl String operbtion;
 
-        private Filter(String operation) {
-            this.operation = operation;
+        privbte Filter(String operbtion) {
+            this.operbtion = operbtion;
         }
 
         /**
-         * Returns the string form of the operation.
+         * Returns the string form of the operbtion.
          *
-         * @return the string form of the operation
+         * @return the string form of the operbtion
          */
         public String toString() {
-            return operation;
+            return operbtion;
         }
 
         /**
-         * The intersect filter operation.
+         * The intersect filter operbtion.
          */
-        public static final Filter INTERSECT = new Filter("intersect");
+        public stbtic finbl Filter INTERSECT = new Filter("intersect");
 
         /**
-         * The subtract filter operation.
+         * The subtrbct filter operbtion.
          */
-        public static final Filter SUBTRACT = new Filter("subtract");
+        public stbtic finbl Filter SUBTRACT = new Filter("subtrbct");
 
         /**
-         * The union filter operation.
+         * The union filter operbtion.
          */
-        public static final Filter UNION = new Filter("union");
+        public stbtic finbl Filter UNION = new Filter("union");
     }
 
-    private final String expression;
-    private final Filter filter;
-    private Map<String,String> nsMap;
+    privbte finbl String expression;
+    privbte finbl Filter filter;
+    privbte Mbp<String,String> nsMbp;
 
     /**
-     * Creates an <code>XPathType</code> instance with the specified XPath
-     * expression and filter.
+     * Crebtes bn <code>XPbthType</code> instbnce with the specified XPbth
+     * expression bnd filter.
      *
-     * @param expression the XPath expression to be evaluated
-     * @param filter the filter operation ({@link Filter#INTERSECT},
+     * @pbrbm expression the XPbth expression to be evblubted
+     * @pbrbm filter the filter operbtion ({@link Filter#INTERSECT},
      *    {@link Filter#SUBTRACT}, or {@link Filter#UNION})
      * @throws NullPointerException if <code>expression</code> or
      *    <code>filter</code> is <code>null</code>
      */
-    public XPathType(String expression, Filter filter) {
+    public XPbthType(String expression, Filter filter) {
         if (expression == null) {
-            throw new NullPointerException("expression cannot be null");
+            throw new NullPointerException("expression cbnnot be null");
         }
         if (filter == null) {
-            throw new NullPointerException("filter cannot be null");
+            throw new NullPointerException("filter cbnnot be null");
         }
         this.expression = expression;
         this.filter = filter;
-        this.nsMap = Collections.emptyMap();
+        this.nsMbp = Collections.emptyMbp();
     }
 
     /**
-     * Creates an <code>XPathType</code> instance with the specified XPath
-     * expression, filter, and namespace map. The map is copied to protect
-     * against subsequent modification.
+     * Crebtes bn <code>XPbthType</code> instbnce with the specified XPbth
+     * expression, filter, bnd nbmespbce mbp. The mbp is copied to protect
+     * bgbinst subsequent modificbtion.
      *
-     * @param expression the XPath expression to be evaluated
-     * @param filter the filter operation ({@link Filter#INTERSECT},
+     * @pbrbm expression the XPbth expression to be evblubted
+     * @pbrbm filter the filter operbtion ({@link Filter#INTERSECT},
      *    {@link Filter#SUBTRACT}, or {@link Filter#UNION})
-     * @param namespaceMap the map of namespace prefixes. Each key is a
-     *    namespace prefix <code>String</code> that maps to a corresponding
-     *    namespace URI <code>String</code>.
+     * @pbrbm nbmespbceMbp the mbp of nbmespbce prefixes. Ebch key is b
+     *    nbmespbce prefix <code>String</code> thbt mbps to b corresponding
+     *    nbmespbce URI <code>String</code>.
      * @throws NullPointerException if <code>expression</code>,
-     *    <code>filter</code> or <code>namespaceMap</code> are
+     *    <code>filter</code> or <code>nbmespbceMbp</code> bre
      *    <code>null</code>
-     * @throws ClassCastException if any of the map's keys or entries are
+     * @throws ClbssCbstException if bny of the mbp's keys or entries bre
      *    not of type <code>String</code>
      */
-    @SuppressWarnings("rawtypes")
-    public XPathType(String expression, Filter filter, Map namespaceMap) {
+    @SuppressWbrnings("rbwtypes")
+    public XPbthType(String expression, Filter filter, Mbp nbmespbceMbp) {
         this(expression, filter);
-        if (namespaceMap == null) {
-            throw new NullPointerException("namespaceMap cannot be null");
+        if (nbmespbceMbp == null) {
+            throw new NullPointerException("nbmespbceMbp cbnnot be null");
         }
-        Map<?,?> copy = new HashMap<>((Map<?,?>)namespaceMap);
-        Iterator<? extends Map.Entry<?,?>> entries = copy.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<?,?> me = entries.next();
-            if (!(me.getKey() instanceof String) ||
-                !(me.getValue() instanceof String)) {
-                throw new ClassCastException("not a String");
+        Mbp<?,?> copy = new HbshMbp<>((Mbp<?,?>)nbmespbceMbp);
+        Iterbtor<? extends Mbp.Entry<?,?>> entries = copy.entrySet().iterbtor();
+        while (entries.hbsNext()) {
+            Mbp.Entry<?,?> me = entries.next();
+            if (!(me.getKey() instbnceof String) ||
+                !(me.getVblue() instbnceof String)) {
+                throw new ClbssCbstException("not b String");
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String,String> temp = (Map<String,String>)copy;
+        @SuppressWbrnings("unchecked")
+        Mbp<String,String> temp = (Mbp<String,String>)copy;
 
-        nsMap = Collections.unmodifiableMap(temp);
+        nsMbp = Collections.unmodifibbleMbp(temp);
     }
 
     /**
-     * Returns the XPath expression to be evaluated.
+     * Returns the XPbth expression to be evblubted.
      *
-     * @return the XPath expression to be evaluated
+     * @return the XPbth expression to be evblubted
      */
     public String getExpression() {
         return expression;
     }
 
     /**
-     * Returns the filter operation.
+     * Returns the filter operbtion.
      *
-     * @return the filter operation
+     * @return the filter operbtion
      */
     public Filter getFilter() {
         return filter;
     }
 
     /**
-     * Returns a map of namespace prefixes. Each key is a namespace prefix
-     * <code>String</code> that maps to a corresponding namespace URI
+     * Returns b mbp of nbmespbce prefixes. Ebch key is b nbmespbce prefix
+     * <code>String</code> thbt mbps to b corresponding nbmespbce URI
      * <code>String</code>.
      * <p>
-     * This implementation returns an {@link Collections#unmodifiableMap
-     * unmodifiable map}.
+     * This implementbtion returns bn {@link Collections#unmodifibbleMbp
+     * unmodifibble mbp}.
      *
-     * @return a <code>Map</code> of namespace prefixes to namespace URIs
-     *    (may be empty, but never <code>null</code>)
+     * @return b <code>Mbp</code> of nbmespbce prefixes to nbmespbce URIs
+     *    (mby be empty, but never <code>null</code>)
      */
-    @SuppressWarnings("rawtypes")
-    public Map getNamespaceMap() {
-        return nsMap;
+    @SuppressWbrnings("rbwtypes")
+    public Mbp getNbmespbceMbp() {
+        return nsMbp;
     }
 }

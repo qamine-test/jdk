@@ -1,488 +1,488 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * The {@code Array} class provides static methods to dynamically create and
- * access Java arrays.
+ * The {@code Arrby} clbss provides stbtic methods to dynbmicblly crebte bnd
+ * bccess Jbvb brrbys.
  *
- * <p>{@code Array} permits widening conversions to occur during a get or set
- * operation, but throws an {@code IllegalArgumentException} if a narrowing
+ * <p>{@code Arrby} permits widening conversions to occur during b get or set
+ * operbtion, but throws bn {@code IllegblArgumentException} if b nbrrowing
  * conversion would occur.
  *
- * @author Nakul Saraiya
+ * @buthor Nbkul Sbrbiyb
  */
-public final
-class Array {
+public finbl
+clbss Arrby {
 
     /**
-     * Constructor.  Class Array is not instantiable.
+     * Constructor.  Clbss Arrby is not instbntibble.
      */
-    private Array() {}
+    privbte Arrby() {}
 
     /**
-     * Creates a new array with the specified component type and
+     * Crebtes b new brrby with the specified component type bnd
      * length.
-     * Invoking this method is equivalent to creating an array
-     * as follows:
+     * Invoking this method is equivblent to crebting bn brrby
+     * bs follows:
      * <blockquote>
      * <pre>
      * int[] x = {length};
-     * Array.newInstance(componentType, x);
+     * Arrby.newInstbnce(componentType, x);
      * </pre>
      * </blockquote>
      *
-     * <p>The number of dimensions of the new array must not
+     * <p>The number of dimensions of the new brrby must not
      * exceed 255.
      *
-     * @param componentType the {@code Class} object representing the
-     * component type of the new array
-     * @param length the length of the new array
-     * @return the new array
+     * @pbrbm componentType the {@code Clbss} object representing the
+     * component type of the new brrby
+     * @pbrbm length the length of the new brrby
+     * @return the new brrby
      * @exception NullPointerException if the specified
-     * {@code componentType} parameter is null
-     * @exception IllegalArgumentException if componentType is {@link
-     * Void#TYPE} or if the number of dimensions of the requested array
-     * instance exceed 255.
-     * @exception NegativeArraySizeException if the specified {@code length}
-     * is negative
+     * {@code componentType} pbrbmeter is null
+     * @exception IllegblArgumentException if componentType is {@link
+     * Void#TYPE} or if the number of dimensions of the requested brrby
+     * instbnce exceed 255.
+     * @exception NegbtiveArrbySizeException if the specified {@code length}
+     * is negbtive
      */
-    public static Object newInstance(Class<?> componentType, int length)
-        throws NegativeArraySizeException {
-        return newArray(componentType, length);
+    public stbtic Object newInstbnce(Clbss<?> componentType, int length)
+        throws NegbtiveArrbySizeException {
+        return newArrby(componentType, length);
     }
 
     /**
-     * Creates a new array
-     * with the specified component type and dimensions.
+     * Crebtes b new brrby
+     * with the specified component type bnd dimensions.
      * If {@code componentType}
-     * represents a non-array class or interface, the new array
-     * has {@code dimensions.length} dimensions and
-     * {@code componentType} as its component type. If
-     * {@code componentType} represents an array class, the
-     * number of dimensions of the new array is equal to the sum
-     * of {@code dimensions.length} and the number of
-     * dimensions of {@code componentType}. In this case, the
-     * component type of the new array is the component type of
+     * represents b non-brrby clbss or interfbce, the new brrby
+     * hbs {@code dimensions.length} dimensions bnd
+     * {@code componentType} bs its component type. If
+     * {@code componentType} represents bn brrby clbss, the
+     * number of dimensions of the new brrby is equbl to the sum
+     * of {@code dimensions.length} bnd the number of
+     * dimensions of {@code componentType}. In this cbse, the
+     * component type of the new brrby is the component type of
      * {@code componentType}.
      *
-     * <p>The number of dimensions of the new array must not
+     * <p>The number of dimensions of the new brrby must not
      * exceed 255.
      *
-     * @param componentType the {@code Class} object representing the component
-     * type of the new array
-     * @param dimensions an array of {@code int} representing the dimensions of
-     * the new array
-     * @return the new array
+     * @pbrbm componentType the {@code Clbss} object representing the component
+     * type of the new brrby
+     * @pbrbm dimensions bn brrby of {@code int} representing the dimensions of
+     * the new brrby
+     * @return the new brrby
      * @exception NullPointerException if the specified
-     * {@code componentType} argument is null
-     * @exception IllegalArgumentException if the specified {@code dimensions}
-     * argument is a zero-dimensional array, if componentType is {@link
-     * Void#TYPE}, or if the number of dimensions of the requested array
-     * instance exceed 255.
-     * @exception NegativeArraySizeException if any of the components in
-     * the specified {@code dimensions} argument is negative.
+     * {@code componentType} brgument is null
+     * @exception IllegblArgumentException if the specified {@code dimensions}
+     * brgument is b zero-dimensionbl brrby, if componentType is {@link
+     * Void#TYPE}, or if the number of dimensions of the requested brrby
+     * instbnce exceed 255.
+     * @exception NegbtiveArrbySizeException if bny of the components in
+     * the specified {@code dimensions} brgument is negbtive.
      */
-    public static Object newInstance(Class<?> componentType, int... dimensions)
-        throws IllegalArgumentException, NegativeArraySizeException {
-        return multiNewArray(componentType, dimensions);
+    public stbtic Object newInstbnce(Clbss<?> componentType, int... dimensions)
+        throws IllegblArgumentException, NegbtiveArrbySizeException {
+        return multiNewArrby(componentType, dimensions);
     }
 
     /**
-     * Returns the length of the specified array object, as an {@code int}.
+     * Returns the length of the specified brrby object, bs bn {@code int}.
      *
-     * @param array the array
-     * @return the length of the array
-     * @exception IllegalArgumentException if the object argument is not
-     * an array
+     * @pbrbm brrby the brrby
+     * @return the length of the brrby
+     * @exception IllegblArgumentException if the object brgument is not
+     * bn brrby
      */
-    public static native int getLength(Object array)
-        throws IllegalArgumentException;
+    public stbtic nbtive int getLength(Object brrby)
+        throws IllegblArgumentException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object.  The value is automatically wrapped in an object
-     * if it has a primitive type.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object.  The vblue is butombticblly wrbpped in bn object
+     * if it hbs b primitive type.
      *
-     * @param array the array
-     * @param index the index
-     * @return the (possibly wrapped) value of the indexed component in
-     * the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the (possibly wrbpped) vblue of the indexed component in
+     * the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
      */
-    public static native Object get(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive Object get(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code boolean}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code boolebn}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native boolean getBoolean(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive boolebn getBoolebn(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code byte}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code byte}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native byte getByte(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive byte getByte(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code char}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code chbr}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native char getChar(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive chbr getChbr(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code short}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code short}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native short getShort(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive short getShort(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as an {@code int}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs bn {@code int}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native int getInt(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive int getInt(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code long}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code long}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native long getLong(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive long getLong(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code float}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code flobt}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native float getFloat(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive flobt getFlobt(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Returns the value of the indexed component in the specified
-     * array object, as a {@code double}.
+     * Returns the vblue of the indexed component in the specified
+     * brrby object, bs b {@code double}.
      *
-     * @param array the array
-     * @param index the index
-     * @return the value of the indexed component in the specified array
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index
+     * @return the vblue of the indexed component in the specified brrby
      * @exception NullPointerException If the specified object is null
-     * @exception IllegalArgumentException If the specified object is not
-     * an array, or if the indexed element cannot be converted to the
-     * return type by an identity or widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to the
-     * length of the specified array
-     * @see Array#get
+     * @exception IllegblArgumentException If the specified object is not
+     * bn brrby, or if the indexed element cbnnot be converted to the
+     * return type by bn identity or widening conversion
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to the
+     * length of the specified brrby
+     * @see Arrby#get
      */
-    public static native double getDouble(Object array, int index)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive double getDouble(Object brrby, int index)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified new value.  The new value is first
-     * automatically unwrapped if the array has a primitive component
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified new vblue.  The new vblue is first
+     * butombticblly unwrbpped if the brrby hbs b primitive component
      * type.
-     * @param array the array
-     * @param index the index into the array
-     * @param value the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm vblue the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the array component type is primitive and
-     * an unwrapping conversion fails
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the brrby component type is primitive bnd
+     * bn unwrbpping conversion fbils
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
      */
-    public static native void set(Object array, int index, Object value)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void set(Object brrby, int index, Object vblue)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code boolean} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param z the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code boolebn} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm z the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setBoolean(Object array, int index, boolean z)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setBoolebn(Object brrby, int index, boolebn z)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code byte} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param b the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code byte} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm b the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setByte(Object array, int index, byte b)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setByte(Object brrby, int index, byte b)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code char} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param c the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code chbr} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm c the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setChar(Object array, int index, char c)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setChbr(Object brrby, int index, chbr c)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code short} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param s the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code short} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm s the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setShort(Object array, int index, short s)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setShort(Object brrby, int index, short s)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code int} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param i the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code int} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm i the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setInt(Object array, int index, int i)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setInt(Object brrby, int index, int i)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code long} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param l the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code long} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm l the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setLong(Object array, int index, long l)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setLong(Object brrby, int index, long l)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code float} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param f the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code flobt} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm f the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setFloat(Object array, int index, float f)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setFlobt(Object brrby, int index, flobt f)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /**
-     * Sets the value of the indexed component of the specified array
-     * object to the specified {@code double} value.
-     * @param array the array
-     * @param index the index into the array
-     * @param d the new value of the indexed component
-     * @exception NullPointerException If the specified object argument
+     * Sets the vblue of the indexed component of the specified brrby
+     * object to the specified {@code double} vblue.
+     * @pbrbm brrby the brrby
+     * @pbrbm index the index into the brrby
+     * @pbrbm d the new vblue of the indexed component
+     * @exception NullPointerException If the specified object brgument
      * is null
-     * @exception IllegalArgumentException If the specified object argument
-     * is not an array, or if the specified value cannot be converted
-     * to the underlying array's component type by an identity or a
+     * @exception IllegblArgumentException If the specified object brgument
+     * is not bn brrby, or if the specified vblue cbnnot be converted
+     * to the underlying brrby's component type by bn identity or b
      * primitive widening conversion
-     * @exception ArrayIndexOutOfBoundsException If the specified {@code index}
-     * argument is negative, or if it is greater than or equal to
-     * the length of the specified array
-     * @see Array#set
+     * @exception ArrbyIndexOutOfBoundsException If the specified {@code index}
+     * brgument is negbtive, or if it is grebter thbn or equbl to
+     * the length of the specified brrby
+     * @see Arrby#set
      */
-    public static native void setDouble(Object array, int index, double d)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+    public stbtic nbtive void setDouble(Object brrby, int index, double d)
+        throws IllegblArgumentException, ArrbyIndexOutOfBoundsException;
 
     /*
-     * Private
+     * Privbte
      */
 
-    private static native Object newArray(Class<?> componentType, int length)
-        throws NegativeArraySizeException;
+    privbte stbtic nbtive Object newArrby(Clbss<?> componentType, int length)
+        throws NegbtiveArrbySizeException;
 
-    private static native Object multiNewArray(Class<?> componentType,
+    privbte stbtic nbtive Object multiNewArrby(Clbss<?> componentType,
         int[] dimensions)
-        throws IllegalArgumentException, NegativeArraySizeException;
+        throws IllegblArgumentException, NegbtiveArrbySizeException;
 
 
 }

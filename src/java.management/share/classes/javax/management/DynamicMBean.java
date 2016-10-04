@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * Defines the methods that should be implemented by
- * a Dynamic MBean (MBean that exposes a dynamic management interface).
+ * Defines the methods thbt should be implemented by
+ * b Dynbmic MBebn (MBebn thbt exposes b dynbmic mbnbgement interfbce).
  *
  * @since 1.5
  */
-public interface DynamicMBean {
+public interfbce DynbmicMBebn {
 
 
     /**
-     * Obtain the value of a specific attribute of the Dynamic MBean.
+     * Obtbin the vblue of b specific bttribute of the Dynbmic MBebn.
      *
-     * @param attribute The name of the attribute to be retrieved
+     * @pbrbm bttribute The nbme of the bttribute to be retrieved
      *
-     * @return  The value of the attribute retrieved.
+     * @return  The vblue of the bttribute retrieved.
      *
      * @exception AttributeNotFoundException
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's getter.
-     * @exception ReflectionException  Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the getter.
+     * @exception MBebnException  Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown by the MBebn's getter.
+     * @exception ReflectionException  Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown while trying to invoke the getter.
      *
      * @see #setAttribute
      */
-    public Object getAttribute(String attribute) throws AttributeNotFoundException,
-        MBeanException, ReflectionException;
+    public Object getAttribute(String bttribute) throws AttributeNotFoundException,
+        MBebnException, ReflectionException;
 
     /**
-     * Set the value of a specific attribute of the Dynamic MBean.
+     * Set the vblue of b specific bttribute of the Dynbmic MBebn.
      *
-     * @param attribute The identification of the attribute to
-     * be set and  the value it is to be set to.
+     * @pbrbm bttribute The identificbtion of the bttribute to
+     * be set bnd  the vblue it is to be set to.
      *
      * @exception AttributeNotFoundException
-     * @exception InvalidAttributeValueException
-     * @exception MBeanException Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's setter.
-     * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the MBean's setter.
+     * @exception InvblidAttributeVblueException
+     * @exception MBebnException Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown by the MBebn's setter.
+     * @exception ReflectionException Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown while trying to invoke the MBebn's setter.
      *
      * @see #getAttribute
      */
-    public void setAttribute(Attribute attribute) throws AttributeNotFoundException,
-        InvalidAttributeValueException, MBeanException, ReflectionException ;
+    public void setAttribute(Attribute bttribute) throws AttributeNotFoundException,
+        InvblidAttributeVblueException, MBebnException, ReflectionException ;
 
     /**
-     * Get the values of several attributes of the Dynamic MBean.
+     * Get the vblues of severbl bttributes of the Dynbmic MBebn.
      *
-     * @param attributes A list of the attributes to be retrieved.
+     * @pbrbm bttributes A list of the bttributes to be retrieved.
      *
-     * @return  The list of attributes retrieved.
+     * @return  The list of bttributes retrieved.
      *
      * @see #setAttributes
      */
-    public AttributeList getAttributes(String[] attributes);
+    public AttributeList getAttributes(String[] bttributes);
 
     /**
-     * Sets the values of several attributes of the Dynamic MBean.
+     * Sets the vblues of severbl bttributes of the Dynbmic MBebn.
      *
-     * @param attributes A list of attributes: The identification of the
-     * attributes to be set and  the values they are to be set to.
+     * @pbrbm bttributes A list of bttributes: The identificbtion of the
+     * bttributes to be set bnd  the vblues they bre to be set to.
      *
-     * @return  The list of attributes that were set, with their new values.
+     * @return  The list of bttributes thbt were set, with their new vblues.
      *
      * @see #getAttributes
      */
-    public AttributeList setAttributes(AttributeList attributes);
+    public AttributeList setAttributes(AttributeList bttributes);
 
     /**
-     * Allows an action to be invoked on the Dynamic MBean.
+     * Allows bn bction to be invoked on the Dynbmic MBebn.
      *
-     * @param actionName The name of the action to be invoked.
-     * @param params An array containing the parameters to be set when the action is
+     * @pbrbm bctionNbme The nbme of the bction to be invoked.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters to be set when the bction is
      * invoked.
-     * @param signature An array containing the signature of the action. The class objects will
-     * be loaded through the same class loader as the one used for loading the
-     * MBean on which the action is invoked.
+     * @pbrbm signbture An brrby contbining the signbture of the bction. The clbss objects will
+     * be lobded through the sbme clbss lobder bs the one used for lobding the
+     * MBebn on which the bction is invoked.
      *
-     * @return  The object returned by the action, which represents the result of
-     * invoking the action on the MBean specified.
+     * @return  The object returned by the bction, which represents the result of
+     * invoking the bction on the MBebn specified.
      *
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's invoked method.
-     * @exception ReflectionException  Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the method
+     * @exception MBebnException  Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown by the MBebn's invoked method.
+     * @exception ReflectionException  Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown while trying to invoke the method
      */
-    public Object invoke(String actionName, Object params[], String signature[])
-        throws MBeanException, ReflectionException ;
+    public Object invoke(String bctionNbme, Object pbrbms[], String signbture[])
+        throws MBebnException, ReflectionException ;
 
     /**
-     * Provides the exposed attributes and actions of the Dynamic MBean using an MBeanInfo object.
+     * Provides the exposed bttributes bnd bctions of the Dynbmic MBebn using bn MBebnInfo object.
      *
-     * @return  An instance of <CODE>MBeanInfo</CODE> allowing all attributes and actions
-     * exposed by this Dynamic MBean to be retrieved.
+     * @return  An instbnce of <CODE>MBebnInfo</CODE> bllowing bll bttributes bnd bctions
+     * exposed by this Dynbmic MBebn to be retrieved.
      *
      */
-    public MBeanInfo getMBeanInfo();
+    public MBebnInfo getMBebnInfo();
 
  }

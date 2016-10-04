@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.io.IOException;
-import java.text.BreakIterator;
-import java.text.spi.BreakIteratorProvider;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.text.BrebkIterbtor;
+import jbvb.text.spi.BrebkIterbtorProvider;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.Set;
 
 /**
- * Concrete implementation of the  {@link java.text.spi.BreakIteratorProvider
- * BreakIteratorProvider} class for the JRE LocaleProviderAdapter.
+ * Concrete implementbtion of the  {@link jbvb.text.spi.BrebkIterbtorProvider
+ * BrebkIterbtorProvider} clbss for the JRE LocbleProviderAdbpter.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public class BreakIteratorProviderImpl extends BreakIteratorProvider
-                                       implements AvailableLanguageTags {
+public clbss BrebkIterbtorProviderImpl extends BrebkIterbtorProvider
+                                       implements AvbilbbleLbngubgeTbgs {
 
-    private static final int CHARACTER_INDEX = 0;
-    private static final int WORD_INDEX = 1;
-    private static final int LINE_INDEX = 2;
-    private static final int SENTENCE_INDEX = 3;
+    privbte stbtic finbl int CHARACTER_INDEX = 0;
+    privbte stbtic finbl int WORD_INDEX = 1;
+    privbte stbtic finbl int LINE_INDEX = 2;
+    privbte stbtic finbl int SENTENCE_INDEX = 3;
 
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+    privbte finbl LocbleProviderAdbpter.Type type;
+    privbte finbl Set<String> lbngtbgs;
 
-    public BreakIteratorProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
+    public BrebkIterbtorProviderImpl(LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
         this.type = type;
-        this.langtags = langtags;
+        this.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Returns bn brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @return An brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      */
     @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    public Locble[] getAvbilbbleLocbles() {
+        return LocbleProviderAdbpter.toLocbleArrby(lbngtbgs);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="../BreakIterator.html#word">word breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for word breaks
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.text.BreakIterator#getWordInstance(java.util.Locale)
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="../BrebkIterbtor.html#word">word brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for word brebks
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.text.BrebkIterbtor#getWordInstbnce(jbvb.util.Locble)
      */
     @Override
-    public BreakIterator getWordInstance(Locale locale) {
-        return getBreakInstance(locale,
+    public BrebkIterbtor getWordInstbnce(Locble locble) {
+        return getBrebkInstbnce(locble,
                                 WORD_INDEX,
-                                "WordData",
-                                "WordDictionary");
+                                "WordDbtb",
+                                "WordDictionbry");
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="../BreakIterator.html#line">line breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for line breaks
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.text.BreakIterator#getLineInstance(java.util.Locale)
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="../BrebkIterbtor.html#line">line brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for line brebks
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.text.BrebkIterbtor#getLineInstbnce(jbvb.util.Locble)
      */
     @Override
-    public BreakIterator getLineInstance(Locale locale) {
-        return getBreakInstance(locale,
+    public BrebkIterbtor getLineInstbnce(Locble locble) {
+        return getBrebkInstbnce(locble,
                                 LINE_INDEX,
-                                "LineData",
-                                "LineDictionary");
+                                "LineDbtb",
+                                "LineDictionbry");
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="../BreakIterator.html#character">character breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for character breaks
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.text.BreakIterator#getCharacterInstance(java.util.Locale)
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="../BrebkIterbtor.html#chbrbcter">chbrbcter brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for chbrbcter brebks
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.text.BrebkIterbtor#getChbrbcterInstbnce(jbvb.util.Locble)
      */
     @Override
-    public BreakIterator getCharacterInstance(Locale locale) {
-        return getBreakInstance(locale,
+    public BrebkIterbtor getChbrbcterInstbnce(Locble locble) {
+        return getBrebkInstbnce(locble,
                                 CHARACTER_INDEX,
-                                "CharacterData",
-                                "CharacterDictionary");
+                                "ChbrbcterDbtb",
+                                "ChbrbcterDictionbry");
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="../BreakIterator.html#sentence">sentence breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for sentence breaks
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.text.BreakIterator#getSentenceInstance(java.util.Locale)
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="../BrebkIterbtor.html#sentence">sentence brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for sentence brebks
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.text.BrebkIterbtor#getSentenceInstbnce(jbvb.util.Locble)
      */
     @Override
-    public BreakIterator getSentenceInstance(Locale locale) {
-        return getBreakInstance(locale,
+    public BrebkIterbtor getSentenceInstbnce(Locble locble) {
+        return getBrebkInstbnce(locble,
                                 SENTENCE_INDEX,
-                                "SentenceData",
-                                "SentenceDictionary");
+                                "SentenceDbtb",
+                                "SentenceDictionbry");
     }
 
-    private BreakIterator getBreakInstance(Locale locale,
+    privbte BrebkIterbtor getBrebkInstbnce(Locble locble,
                                                   int type,
-                                                  String dataName,
-                                                  String dictionaryName) {
-        if (locale == null) {
+                                                  String dbtbNbme,
+                                                  String dictionbryNbme) {
+        if (locble == null) {
             throw new NullPointerException();
         }
 
-        LocaleResources lr = LocaleProviderAdapter.forJRE().getLocaleResources(locale);
-        String[] classNames = (String[]) lr.getBreakIteratorInfo("BreakIteratorClasses");
-        String dataFile = (String) lr.getBreakIteratorInfo(dataName);
+        LocbleResources lr = LocbleProviderAdbpter.forJRE().getLocbleResources(locble);
+        String[] clbssNbmes = (String[]) lr.getBrebkIterbtorInfo("BrebkIterbtorClbsses");
+        String dbtbFile = (String) lr.getBrebkIterbtorInfo(dbtbNbme);
 
         try {
-            switch (classNames[type]) {
-            case "RuleBasedBreakIterator":
-                return new RuleBasedBreakIterator(dataFile);
-            case "DictionaryBasedBreakIterator":
-                String dictionaryFile = (String) lr.getBreakIteratorInfo(dictionaryName);
-                return new DictionaryBasedBreakIterator(dataFile, dictionaryFile);
-            default:
-                throw new IllegalArgumentException("Invalid break iterator class \"" +
-                                classNames[type] + "\"");
+            switch (clbssNbmes[type]) {
+            cbse "RuleBbsedBrebkIterbtor":
+                return new RuleBbsedBrebkIterbtor(dbtbFile);
+            cbse "DictionbryBbsedBrebkIterbtor":
+                String dictionbryFile = (String) lr.getBrebkIterbtorInfo(dictionbryNbme);
+                return new DictionbryBbsedBrebkIterbtor(dbtbFile, dictionbryFile);
+            defbult:
+                throw new IllegblArgumentException("Invblid brebk iterbtor clbss \"" +
+                                clbssNbmes[type] + "\"");
             }
-        } catch (IOException | MissingResourceException | IllegalArgumentException e) {
-            throw new InternalError(e.toString(), e);
+        } cbtch (IOException | MissingResourceException | IllegblArgumentException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 
     @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    public Set<String> getAvbilbbleLbngubgeTbgs() {
+        return lbngtbgs;
     }
 
     @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    public boolebn isSupportedLocble(Locble locble) {
+        return LocbleProviderAdbpter.isSupportedLocble(locble, type, lbngtbgs);
 }
 }

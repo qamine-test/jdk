@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.providers;
+pbckbge com.sun.rowset.providers;
 
 import com.sun.rowset.JdbcRowSetResourceBundle;
-import java.io.IOException;
-import java.sql.*;
-import javax.sql.*;
+import jbvb.io.IOException;
+import jbvb.sql.*;
+import jbvbx.sql.*;
 
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowset.spi.*;
 
 /**
- * A reference implementation of a JDBC RowSet synchronization provider
- * with the ability to read and write rowsets in well formed XML using the
- * standard WebRowSet schema.
+ * A reference implementbtion of b JDBC RowSet synchronizbtion provider
+ * with the bbility to rebd bnd write rowsets in well formed XML using the
+ * stbndbrd WebRowSet schemb.
  *
- * <h3>1.0 Background</h3>
- * This synchronization provider is registered with the
- * <code>SyncFactory</code> by default as the
+ * <h3>1.0 Bbckground</h3>
+ * This synchronizbtion provider is registered with the
+ * <code>SyncFbctory</code> by defbult bs the
  * <code>com.sun.rowset.providers.RIXMLProvider</code>.
  * <P>
- * A <code>WebRowSet</code> object uses an <code>RIXMLProvider</code> implementation
- * to read an XML data source or to write itself in XML format using the
- * <code>WebRowSet</code> XML schema definition available at
+ * A <code>WebRowSet</code> object uses bn <code>RIXMLProvider</code> implementbtion
+ * to rebd bn XML dbtb source or to write itself in XML formbt using the
+ * <code>WebRowSet</code> XML schemb definition bvbilbble bt
  * <pre>
- *     <a href="http://java.sun.com/xml/ns/jdbc/webrowset.xsd">http://java.sun.com/xml/ns/jdbc/webrowset.xsd</a>
+ *     <b href="http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd">http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd</b>
  * </pre>
- * The <code>RIXMLProvider</code> implementation has a synchronization level of
- * GRADE_NONE, which means that it does no checking at all for conflicts.  It
- * simply writes a <code>WebRowSet</code> object to a file.
- * <h3>2.0 Usage</h3>
- * A <code>WebRowSet</code> implementation is created with an <code>RIXMLProvider</code>
- * by default.
+ * The <code>RIXMLProvider</code> implementbtion hbs b synchronizbtion level of
+ * GRADE_NONE, which mebns thbt it does no checking bt bll for conflicts.  It
+ * simply writes b <code>WebRowSet</code> object to b file.
+ * <h3>2.0 Usbge</h3>
+ * A <code>WebRowSet</code> implementbtion is crebted with bn <code>RIXMLProvider</code>
+ * by defbult.
  * <pre>
  *     WebRowSet wrs = new FooWebRowSetImpl();
  * </pre>
- * The <code>SyncFactory</code> always provides an instance of
+ * The <code>SyncFbctory</code> blwbys provides bn instbnce of
  * <code>RIOptimisticProvider</code> when no provider is specified,
- * but the implementation of the default constructor for <code>WebRowSet</code> sets the
- * provider to be the <code>RIXMLProvider</code> implementation.  Therefore,
- * the following line of code is executed behind the scenes as part of the
- * implementation of the default constructor.
+ * but the implementbtion of the defbult constructor for <code>WebRowSet</code> sets the
+ * provider to be the <code>RIXMLProvider</code> implementbtion.  Therefore,
+ * the following line of code is executed behind the scenes bs pbrt of the
+ * implementbtion of the defbult constructor.
  * <pre>
  *     wrs.setSyncProvider("com.sun.rowset.providers.RIXMLProvider");
  * </pre>
- * See the standard <code>RowSet</code> reference implementations in the
- * <code>com.sun.rowset</code> package for more details.
+ * See the stbndbrd <code>RowSet</code> reference implementbtions in the
+ * <code>com.sun.rowset</code> pbckbge for more detbils.
  *
- * @author  Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncProviderException
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor  Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncProvider
+ * @see jbvbx.sql.rowset.spi.SyncProviderException
+ * @see jbvbx.sql.rowset.spi.SyncFbctory
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  */
-public final class RIXMLProvider extends SyncProvider {
+public finbl clbss RIXMLProvider extends SyncProvider {
 
     /**
      * The unique provider identifier.
      */
-    private String providerID = "com.sun.rowset.providers.RIXMLProvider";
+    privbte String providerID = "com.sun.rowset.providers.RIXMLProvider";
 
     /**
-     * The vendor name of this SyncProvider implementation.
+     * The vendor nbme of this SyncProvider implementbtion.
      */
-    private String vendorName = "Oracle Corporation";
+    privbte String vendorNbme = "Orbcle Corporbtion";
 
     /**
-     * The version number of this SyncProvider implementation.
+     * The version number of this SyncProvider implementbtion.
      */
-    private String versionNumber = "1.0";
+    privbte String versionNumber = "1.0";
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbte JdbcRowSetResourceBundle resBundle;
 
-    private XmlReader xmlReader;
-    private XmlWriter xmlWriter;
+    privbte XmlRebder xmlRebder;
+    privbte XmlWriter xmlWriter;
 
     /**
-     * This provider is available to all JDBC <code>RowSet</code> implementations as the
-     * default persistence provider.
+     * This provider is bvbilbble to bll JDBC <code>RowSet</code> implementbtions bs the
+     * defbult persistence provider.
      */
     public RIXMLProvider() {
-        providerID = this.getClass().getName();
+        providerID = this.getClbss().getNbme();
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
     /**
-     * Returns <code>"javax.sql.rowset.providers.RIXMLProvider"</code>, which is
-     * the fully qualified class name of this provider implementation.
+     * Returns <code>"jbvbx.sql.rowset.providers.RIXMLProvider"</code>, which is
+     * the fully qublified clbss nbme of this provider implementbtion.
      *
-     * @return a <code>String</code> object with the fully specified class name of
-     *           this <code>RIOptimisticProvider</code> implementation
+     * @return b <code>String</code> object with the fully specified clbss nbme of
+     *           this <code>RIOptimisticProvider</code> implementbtion
      */
     public String getProviderID() {
         return providerID;
     }
 
-    // additional methods that sit on top of reader/writer methods back to
-    // original datasource. Allow XML state to be written out and in
+    // bdditionbl methods thbt sit on top of rebder/writer methods bbck to
+    // originbl dbtbsource. Allow XML stbte to be written out bnd in
 
     /**
-     * Sets this <code>WebRowSet</code> object's reader to the given
-     * <code>XmlReader</code> object.
+     * Sets this <code>WebRowSet</code> object's rebder to the given
+     * <code>XmlRebder</code> object.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public void setXmlReader(XmlReader reader) throws SQLException {
-        xmlReader = reader;
+    public void setXmlRebder(XmlRebder rebder) throws SQLException {
+        xmlRebder = rebder;
     }
 
     /**
      * Sets this <code>WebRowSet</code> object's writer to the given
      * <code>XmlWriter</code> object.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
     public void setXmlWriter(XmlWriter writer) throws SQLException {
         xmlWriter = writer;
     }
 
     /**
-     * Retrieves the reader that this <code>WebRowSet</code> object
-     * will call when its <code>readXml</code> method is called.
+     * Retrieves the rebder thbt this <code>WebRowSet</code> object
+     * will cbll when its <code>rebdXml</code> method is cblled.
      *
-     * @return the <code>XmlReader</code> object for this SyncProvider
-     * @throws SQLException if a database access error occurs
+     * @return the <code>XmlRebder</code> object for this SyncProvider
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public XmlReader getXmlReader() throws SQLException {
-        return xmlReader;
+    public XmlRebder getXmlRebder() throws SQLException {
+        return xmlRebder;
     }
 
     /**
-     * Retrieves the writer that this <code>WebRowSet</code> object
-     * will call when its <code>writeXml</code> method is called.
+     * Retrieves the writer thbt this <code>WebRowSet</code> object
+     * will cbll when its <code>writeXml</code> method is cblled.
      *
      * @return the <code>XmlWriter</code> for this SyncProvider
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
     public XmlWriter getXmlWriter() throws SQLException {
         return xmlWriter;
     }
 
     /**
-     * Returns the <code>SyncProvider</code> grade of syncrhonization that
-     * <code>RowSet</code> object instances can expect when using this
-     * implementation. As this implementation provides no synchonization
-     * facilities to the XML data source, the lowest grade is returned.
+     * Returns the <code>SyncProvider</code> grbde of syncrhonizbtion thbt
+     * <code>RowSet</code> object instbnces cbn expect when using this
+     * implementbtion. As this implementbtion provides no synchonizbtion
+     * fbcilities to the XML dbtb source, the lowest grbde is returned.
      *
-     * @return the <code>SyncProvider</code> syncronization grade of this
-     *     provider; must be one of the following constants:
+     * @return the <code>SyncProvider</code> syncronizbtion grbde of this
+     *     provider; must be one of the following constbnts:
      *       <PRE>
      *          SyncProvider.GRADE_NONE,
      *          SyncProvider.GRADE_MODIFIED_AT_COMMIT,
@@ -183,66 +183,66 @@ public final class RIXMLProvider extends SyncProvider {
      *       </PRE>
      *
      */
-    public int getProviderGrade() {
+    public int getProviderGrbde() {
         return SyncProvider.GRADE_NONE;
     }
 
     /**
-     * Returns the default UPDATABLE_VIEW behavior of this reader
+     * Returns the defbult UPDATABLE_VIEW behbvior of this rebder
      *
      */
-    public int supportsUpdatableView() {
+    public int supportsUpdbtbbleView() {
         return SyncProvider.NONUPDATABLE_VIEW_SYNC;
     }
 
     /**
-     * Returns the default DATASOURCE_LOCK behavior of this reader
+     * Returns the defbult DATASOURCE_LOCK behbvior of this rebder
      */
-    public int getDataSourceLock() throws SyncProviderException {
+    public int getDbtbSourceLock() throws SyncProviderException {
         return SyncProvider.DATASOURCE_NO_LOCK;
     }
 
     /**
-     * Throws an unsupported operation exception as this method does
-     * function with non-locking XML data sources.
+     * Throws bn unsupported operbtion exception bs this method does
+     * function with non-locking XML dbtb sources.
      */
-    public void setDataSourceLock(int lock) throws SyncProviderException {
-        throw new UnsupportedOperationException(resBundle.handleGetObject("rixml.unsupp").toString());
+    public void setDbtbSourceLock(int lock) throws SyncProviderException {
+        throw new UnsupportedOperbtionException(resBundle.hbndleGetObject("rixml.unsupp").toString());
     }
 
     /**
-     * Returns a null object as RowSetWriters are not returned by this SyncProvider
+     * Returns b null object bs RowSetWriters bre not returned by this SyncProvider
      */
     public RowSetWriter getRowSetWriter() {
         return null;
     }
 
     /**
-     * Returns a null object as RowSetWriter objects are not returned by this
+     * Returns b null object bs RowSetWriter objects bre not returned by this
      * SyncProvider
      */
-    public RowSetReader getRowSetReader() {
+    public RowSetRebder getRowSetRebder() {
         return null;
     }
 
   /**
-     * Returns the release version ID of the Reference Implementation Optimistic
-     * Synchronization Provider.
+     * Returns the relebse version ID of the Reference Implementbtion Optimistic
+     * Synchronizbtion Provider.
      *
-     * @return the <code>String</code> detailing the version number of this SyncProvider
+     * @return the <code>String</code> detbiling the version number of this SyncProvider
      */
     public String getVersion() {
         return this.versionNumber;
     }
 
     /**
-     * Returns the vendor name of the Reference Implemntation Optimistic
-     * Syncchronication Provider
+     * Returns the vendor nbme of the Reference Implemntbtion Optimistic
+     * Syncchronicbtion Provider
      *
-     * @return the <code>String</code> detailing the vendor name of this
+     * @return the <code>String</code> detbiling the vendor nbme of this
      *      SyncProvider
      */
     public String getVendor() {
-        return this.vendorName;
+        return this.vendorNbme;
     }
 }

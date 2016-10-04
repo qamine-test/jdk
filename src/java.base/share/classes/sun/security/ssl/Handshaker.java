@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.AccessController;
-import java.security.AlgorithmConstraints;
-import java.security.AccessControlContext;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.AccessController;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 import sun.misc.HexDumpEncoder;
 
-import sun.security.internal.spec.*;
-import sun.security.internal.interfaces.TlsMasterSecret;
+import sun.security.internbl.spec.*;
+import sun.security.internbl.interfbces.TlsMbsterSecret;
 
-import sun.security.ssl.HandshakeMessage.*;
+import sun.security.ssl.HbndshbkeMessbge.*;
 import sun.security.ssl.CipherSuite.*;
 
-import static sun.security.ssl.CipherSuite.PRF.*;
-import static sun.security.ssl.CipherSuite.CipherType.*;
+import stbtic sun.security.ssl.CipherSuite.PRF.*;
+import stbtic sun.security.ssl.CipherSuite.CipherType.*;
 
 /**
- * Handshaker ... processes handshake records from an SSL V3.0
- * data stream, handling all the details of the handshake protocol.
+ * Hbndshbker ... processes hbndshbke records from bn SSL V3.0
+ * dbtb strebm, hbndling bll the detbils of the hbndshbke protocol.
  *
- * Note that the real protocol work is done in two subclasses, the  base
- * class just provides the control flow and key generation framework.
+ * Note thbt the rebl protocol work is done in two subclbsses, the  bbse
+ * clbss just provides the control flow bnd key generbtion frbmework.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-abstract class Handshaker {
+bbstrbct clbss Hbndshbker {
 
-    // protocol version being established using this Handshaker
+    // protocol version being estbblished using this Hbndshbker
     ProtocolVersion protocolVersion;
 
-    // the currently active protocol version during a renegotiation
-    ProtocolVersion     activeProtocolVersion;
+    // the currently bctive protocol version during b renegotibtion
+    ProtocolVersion     bctiveProtocolVersion;
 
-    // security parameters for secure renegotiation.
-    boolean             secureRenegotiation;
-    byte[]              clientVerifyData;
-    byte[]              serverVerifyData;
+    // security pbrbmeters for secure renegotibtion.
+    boolebn             secureRenegotibtion;
+    byte[]              clientVerifyDbtb;
+    byte[]              serverVerifyDbtb;
 
-    // Is it an initial negotiation  or a renegotiation?
-    boolean                     isInitialHandshake;
+    // Is it bn initibl negotibtion  or b renegotibtion?
+    boolebn                     isInitiblHbndshbke;
 
-    // List of enabled protocols
-    private ProtocolList        enabledProtocols;
+    // List of enbbled protocols
+    privbte ProtocolList        enbbledProtocols;
 
-    // List of enabled CipherSuites
-    private CipherSuiteList     enabledCipherSuites;
+    // List of enbbled CipherSuites
+    privbte CipherSuiteList     enbbledCipherSuites;
 
-    // The endpoint identification protocol
-    String              identificationProtocol;
+    // The endpoint identificbtion protocol
+    String              identificbtionProtocol;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints    algorithmConstraints = null;
+    // The cryptogrbphic blgorithm constrbints
+    privbte AlgorithmConstrbints    blgorithmConstrbints = null;
 
-    // Local supported signature and algorithms
-    Collection<SignatureAndHashAlgorithm> localSupportedSignAlgs;
+    // Locbl supported signbture bnd blgorithms
+    Collection<SignbtureAndHbshAlgorithm> locblSupportedSignAlgs;
 
-    // Peer supported signature and algorithms
-    Collection<SignatureAndHashAlgorithm> peerSupportedSignAlgs;
-
-    /*
+    // Peer supported signbture bnd blgorithms
+    Collection<SignbtureAndHbshAlgorithm> peerSupportedSignAlgs;
 
     /*
-     * List of active protocols
+
+    /*
+     * List of bctive protocols
      *
-     * Active protocols is a subset of enabled protocols, and will
-     * contain only those protocols that have vaild cipher suites
-     * enabled.
+     * Active protocols is b subset of enbbled protocols, bnd will
+     * contbin only those protocols thbt hbve vbild cipher suites
+     * enbbled.
      */
-    private ProtocolList       activeProtocols;
+    privbte ProtocolList       bctiveProtocols;
 
     /*
-     * List of active cipher suites
+     * List of bctive cipher suites
      *
-     * Active cipher suites is a subset of enabled cipher suites, and will
-     * contain only those cipher suites available for the active protocols.
+     * Active cipher suites is b subset of enbbled cipher suites, bnd will
+     * contbin only those cipher suites bvbilbble for the bctive protocols.
      */
-    private CipherSuiteList    activeCipherSuites;
+    privbte CipherSuiteList    bctiveCipherSuites;
 
-    // The server name indication and matchers
-    List<SNIServerName>         serverNames =
-                                    Collections.<SNIServerName>emptyList();
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // The server nbme indicbtion bnd mbtchers
+    List<SNIServerNbme>         serverNbmes =
+                                    Collections.<SNIServerNbme>emptyList();
+    Collection<SNIMbtcher>      sniMbtchers =
+                                    Collections.<SNIMbtcher>emptyList();
 
-    private boolean             isClient;
-    private boolean             needCertVerify;
+    privbte boolebn             isClient;
+    privbte boolebn             needCertVerify;
 
     SSLSocketImpl               conn = null;
     SSLEngineImpl               engine = null;
 
-    HandshakeHash               handshakeHash;
-    HandshakeInStream           input;
-    HandshakeOutStream          output;
-    int                         state;
+    HbndshbkeHbsh               hbndshbkeHbsh;
+    HbndshbkeInStrebm           input;
+    HbndshbkeOutStrebm          output;
+    int                         stbte;
     SSLContextImpl              sslContext;
-    RandomCookie                clnt_random, svr_random;
+    RbndomCookie                clnt_rbndom, svr_rbndom;
     SSLSessionImpl              session;
 
-    // current CipherSuite. Never null, initially SSL_NULL_WITH_NULL_NULL
+    // current CipherSuite. Never null, initiblly SSL_NULL_WITH_NULL_NULL
     CipherSuite         cipherSuite;
 
-    // current key exchange. Never null, initially K_NULL
-    KeyExchange         keyExchange;
+    // current key exchbnge. Never null, initiblly K_NULL
+    KeyExchbnge         keyExchbnge;
 
-    /* True if this session is being resumed (fast handshake) */
-    boolean             resumingSession;
+    /* True if this session is being resumed (fbst hbndshbke) */
+    boolebn             resumingSession;
 
-    /* True if it's OK to start a new SSL session */
-    boolean             enableNewSession;
+    /* True if it's OK to stbrt b new SSL session */
+    boolebn             enbbleNewSession;
 
-    // Whether local cipher suites preference should be honored during
-    // handshaking?
+    // Whether locbl cipher suites preference should be honored during
+    // hbndshbking?
     //
-    // Note that in this provider, this option only applies to server side.
-    // Local cipher suites preference is always honored in client side in
+    // Note thbt in this provider, this option only bpplies to server side.
+    // Locbl cipher suites preference is blwbys honored in client side in
     // this provider.
-    boolean preferLocalCipherSuites = false;
+    boolebn preferLocblCipherSuites = fblse;
 
-    // Temporary storage for the individual keys. Set by
-    // calculateConnectionKeys() and cleared once the ciphers are
-    // activated.
-    private SecretKey clntWriteKey, svrWriteKey;
-    private IvParameterSpec clntWriteIV, svrWriteIV;
-    private SecretKey clntMacSecret, svrMacSecret;
+    // Temporbry storbge for the individubl keys. Set by
+    // cblculbteConnectionKeys() bnd clebred once the ciphers bre
+    // bctivbted.
+    privbte SecretKey clntWriteKey, svrWriteKey;
+    privbte IvPbrbmeterSpec clntWriteIV, svrWriteIV;
+    privbte SecretKey clntMbcSecret, svrMbcSecret;
 
     /*
-     * Delegated task subsystem data structures.
+     * Delegbted tbsk subsystem dbtb structures.
      *
-     * If thrown is set, we need to propagate this back immediately
-     * on entry into processMessage().
+     * If thrown is set, we need to propbgbte this bbck immedibtely
+     * on entry into processMessbge().
      *
-     * Data is protected by the SSLEngine.this lock.
+     * Dbtb is protected by the SSLEngine.this lock.
      */
-    private volatile boolean taskDelegated = false;
-    private volatile DelegatedTask<?> delegatedTask = null;
-    private volatile Exception thrown = null;
+    privbte volbtile boolebn tbskDelegbted = fblse;
+    privbte volbtile DelegbtedTbsk<?> delegbtedTbsk = null;
+    privbte volbtile Exception thrown = null;
 
-    // Could probably use a java.util.concurrent.atomic.AtomicReference
-    // here instead of using this lock.  Consider changing.
-    private Object thrownLock = new Object();
+    // Could probbbly use b jbvb.util.concurrent.btomic.AtomicReference
+    // here instebd of using this lock.  Consider chbnging.
+    privbte Object thrownLock = new Object();
 
-    /* Class and subclass dynamic debugging support */
-    static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subclbss dynbmic debugging support */
+    stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
-    // By default, disable the unsafe legacy session renegotiation
-    static final boolean allowUnsafeRenegotiation = Debug.getBooleanProperty(
-                    "sun.security.ssl.allowUnsafeRenegotiation", false);
+    // By defbult, disbble the unsbfe legbcy session renegotibtion
+    stbtic finbl boolebn bllowUnsbfeRenegotibtion = Debug.getBoolebnProperty(
+                    "sun.security.ssl.bllowUnsbfeRenegotibtion", fblse);
 
-    // For maximum interoperability and backward compatibility, RFC 5746
-    // allows server (or client) to accept ClientHello (or ServerHello)
-    // message without the secure renegotiation_info extension or SCSV.
+    // For mbximum interoperbbility bnd bbckwbrd compbtibility, RFC 5746
+    // bllows server (or client) to bccept ClientHello (or ServerHello)
+    // messbge without the secure renegotibtion_info extension or SCSV.
     //
-    // For maximum security, RFC 5746 also allows server (or client) to
-    // reject such message with a fatal "handshake_failure" alert.
+    // For mbximum security, RFC 5746 blso bllows server (or client) to
+    // reject such messbge with b fbtbl "hbndshbke_fbilure" blert.
     //
-    // By default, allow such legacy hello messages.
-    static final boolean allowLegacyHelloMessages = Debug.getBooleanProperty(
-                    "sun.security.ssl.allowLegacyHelloMessages", true);
+    // By defbult, bllow such legbcy hello messbges.
+    stbtic finbl boolebn bllowLegbcyHelloMessbges = Debug.getBoolebnProperty(
+                    "sun.security.ssl.bllowLegbcyHelloMessbges", true);
 
-    // To prevent the TLS renegotiation issues, by setting system property
-    // "jdk.tls.rejectClientInitiatedRenegotiation" to true, applications in
-    // server side can disable all client initiated SSL renegotiations
-    // regardless of the support of TLS protocols.
+    // To prevent the TLS renegotibtion issues, by setting system property
+    // "jdk.tls.rejectClientInitibtedRenegotibtion" to true, bpplicbtions in
+    // server side cbn disbble bll client initibted SSL renegotibtions
+    // regbrdless of the support of TLS protocols.
     //
-    // By default, allow client initiated renegotiations.
-    static final boolean rejectClientInitiatedRenego =
-            Debug.getBooleanProperty(
-                "jdk.tls.rejectClientInitiatedRenegotiation", false);
+    // By defbult, bllow client initibted renegotibtions.
+    stbtic finbl boolebn rejectClientInitibtedRenego =
+            Debug.getBoolebnProperty(
+                "jdk.tls.rejectClientInitibtedRenegotibtion", fblse);
 
-    // need to dispose the object when it is invalidated
-    boolean invalidated;
+    // need to dispose the object when it is invblidbted
+    boolebn invblidbted;
 
-    Handshaker(SSLSocketImpl c, SSLContextImpl context,
-            ProtocolList enabledProtocols, boolean needCertVerify,
-            boolean isClient, ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    Hbndshbker(SSLSocketImpl c, SSLContextImpl context,
+            ProtocolList enbbledProtocols, boolebn needCertVerify,
+            boolebn isClient, ProtocolVersion bctiveProtocolVersion,
+            boolebn isInitiblHbndshbke, boolebn secureRenegotibtion,
+            byte[] clientVerifyDbtb, byte[] serverVerifyDbtb) {
         this.conn = c;
-        init(context, enabledProtocols, needCertVerify, isClient,
-            activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-            clientVerifyData, serverVerifyData);
+        init(context, enbbledProtocols, needCertVerify, isClient,
+            bctiveProtocolVersion, isInitiblHbndshbke, secureRenegotibtion,
+            clientVerifyDbtb, serverVerifyDbtb);
     }
 
-    Handshaker(SSLEngineImpl engine, SSLContextImpl context,
-            ProtocolList enabledProtocols, boolean needCertVerify,
-            boolean isClient, ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    Hbndshbker(SSLEngineImpl engine, SSLContextImpl context,
+            ProtocolList enbbledProtocols, boolebn needCertVerify,
+            boolebn isClient, ProtocolVersion bctiveProtocolVersion,
+            boolebn isInitiblHbndshbke, boolebn secureRenegotibtion,
+            byte[] clientVerifyDbtb, byte[] serverVerifyDbtb) {
         this.engine = engine;
-        init(context, enabledProtocols, needCertVerify, isClient,
-            activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-            clientVerifyData, serverVerifyData);
+        init(context, enbbledProtocols, needCertVerify, isClient,
+            bctiveProtocolVersion, isInitiblHbndshbke, secureRenegotibtion,
+            clientVerifyDbtb, serverVerifyDbtb);
     }
 
-    private void init(SSLContextImpl context, ProtocolList enabledProtocols,
-            boolean needCertVerify, boolean isClient,
-            ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    privbte void init(SSLContextImpl context, ProtocolList enbbledProtocols,
+            boolebn needCertVerify, boolebn isClient,
+            ProtocolVersion bctiveProtocolVersion,
+            boolebn isInitiblHbndshbke, boolebn secureRenegotibtion,
+            byte[] clientVerifyDbtb, byte[] serverVerifyDbtb) {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             System.out.println(
-                "Allow unsafe renegotiation: " + allowUnsafeRenegotiation +
-                "\nAllow legacy hello messages: " + allowLegacyHelloMessages +
-                "\nIs initial handshake: " + isInitialHandshake +
-                "\nIs secure renegotiation: " + secureRenegotiation);
+                "Allow unsbfe renegotibtion: " + bllowUnsbfeRenegotibtion +
+                "\nAllow legbcy hello messbges: " + bllowLegbcyHelloMessbges +
+                "\nIs initibl hbndshbke: " + isInitiblHbndshbke +
+                "\nIs secure renegotibtion: " + secureRenegotibtion);
         }
 
         this.sslContext = context;
         this.isClient = isClient;
         this.needCertVerify = needCertVerify;
-        this.activeProtocolVersion = activeProtocolVersion;
-        this.isInitialHandshake = isInitialHandshake;
-        this.secureRenegotiation = secureRenegotiation;
-        this.clientVerifyData = clientVerifyData;
-        this.serverVerifyData = serverVerifyData;
-        enableNewSession = true;
-        invalidated = false;
+        this.bctiveProtocolVersion = bctiveProtocolVersion;
+        this.isInitiblHbndshbke = isInitiblHbndshbke;
+        this.secureRenegotibtion = secureRenegotibtion;
+        this.clientVerifyDbtb = clientVerifyDbtb;
+        this.serverVerifyDbtb = serverVerifyDbtb;
+        enbbleNewSession = true;
+        invblidbted = fblse;
 
         setCipherSuite(CipherSuite.C_NULL);
-        setEnabledProtocols(enabledProtocols);
+        setEnbbledProtocols(enbbledProtocols);
 
         if (conn != null) {
-            algorithmConstraints = new SSLAlgorithmConstraints(conn, true);
+            blgorithmConstrbints = new SSLAlgorithmConstrbints(conn, true);
         } else {        // engine != null
-            algorithmConstraints = new SSLAlgorithmConstraints(engine, true);
+            blgorithmConstrbints = new SSLAlgorithmConstrbints(engine, true);
         }
 
 
         //
-        // In addition to the connection state machine, controlling
-        // how the connection deals with the different sorts of records
-        // that get sent (notably handshake transitions!), there's
-        // also a handshaking state machine that controls message
+        // In bddition to the connection stbte mbchine, controlling
+        // how the connection debls with the different sorts of records
+        // thbt get sent (notbbly hbndshbke trbnsitions!), there's
+        // blso b hbndshbking stbte mbchine thbt controls messbge
         // sequencing.
         //
-        // It's a convenient artifact of the protocol that this can,
-        // with only a couple of minor exceptions, be driven by the
-        // type constant for the last message seen:  except for the
-        // client's cert verify, those constants are in a convenient
-        // order to drastically simplify state machine checking.
+        // It's b convenient brtifbct of the protocol thbt this cbn,
+        // with only b couple of minor exceptions, be driven by the
+        // type constbnt for the lbst messbge seen:  except for the
+        // client's cert verify, those constbnts bre in b convenient
+        // order to drbsticblly simplify stbte mbchine checking.
         //
-        state = -2;  // initialized but not activated
+        stbte = -2;  // initiblized but not bctivbted
     }
 
     /*
-     * Reroutes calls to the SSLSocket or SSLEngine (*SE).
+     * Reroutes cblls to the SSLSocket or SSLEngine (*SE).
      *
-     * We could have also done it by extra classes
-     * and letting them override, but this seemed much
+     * We could hbve blso done it by extrb clbsses
+     * bnd letting them override, but this seemed much
      * less involved.
      */
-    void fatalSE(byte b, String diagnostic) throws IOException {
-        fatalSE(b, diagnostic, null);
+    void fbtblSE(byte b, String dibgnostic) throws IOException {
+        fbtblSE(b, dibgnostic, null);
     }
 
-    void fatalSE(byte b, Throwable cause) throws IOException {
-        fatalSE(b, null, cause);
+    void fbtblSE(byte b, Throwbble cbuse) throws IOException {
+        fbtblSE(b, null, cbuse);
     }
 
-    void fatalSE(byte b, String diagnostic, Throwable cause)
+    void fbtblSE(byte b, String dibgnostic, Throwbble cbuse)
             throws IOException {
         if (conn != null) {
-            conn.fatal(b, diagnostic, cause);
+            conn.fbtbl(b, dibgnostic, cbuse);
         } else {
-            engine.fatal(b, diagnostic, cause);
+            engine.fbtbl(b, dibgnostic, cbuse);
         }
     }
 
-    void warningSE(byte b) {
+    void wbrningSE(byte b) {
         if (conn != null) {
-            conn.warning(b);
+            conn.wbrning(b);
         } else {
-            engine.warning(b);
+            engine.wbrning(b);
         }
     }
 
-    // ONLY used by ClientHandshaker to setup the peer host in SSLSession.
+    // ONLY used by ClientHbndshbker to setup the peer host in SSLSession.
     String getHostSE() {
         if (conn != null) {
             return conn.getHost();
@@ -321,15 +321,15 @@ abstract class Handshaker {
         }
     }
 
-    // ONLY used by ServerHandshaker to setup the peer host in SSLSession.
+    // ONLY used by ServerHbndshbker to setup the peer host in SSLSession.
     String getHostAddressSE() {
         if (conn != null) {
             return conn.getInetAddress().getHostAddress();
         } else {
             /*
-             * This is for caching only, doesn't matter that's is really
-             * a hostname.  The main thing is that it doesn't do
-             * a reverse DNS lookup, potentially slowing things down.
+             * This is for cbching only, doesn't mbtter thbt's is reblly
+             * b hostnbme.  The mbin thing is thbt it doesn't do
+             * b reverse DNS lookup, potentiblly slowing things down.
              */
             return engine.getPeerHost();
         }
@@ -343,9 +343,9 @@ abstract class Handshaker {
         }
     }
 
-    int getLocalPortSE() {
+    int getLocblPortSE() {
         if (conn != null) {
-            return conn.getLocalPort();
+            return conn.getLocblPort();
         } else {
             return -1;
         }
@@ -359,7 +359,7 @@ abstract class Handshaker {
         }
     }
 
-    private void setVersionSE(ProtocolVersion protocolVersion) {
+    privbte void setVersionSE(ProtocolVersion protocolVersion) {
         if (conn != null) {
             conn.setVersion(protocolVersion);
         } else {
@@ -368,9 +368,9 @@ abstract class Handshaker {
     }
 
     /**
-     * Set the active protocol version and propagate it to the SSLSocket
-     * and our handshake streams. Called from ClientHandshaker
-     * and ServerHandshaker with the negotiated protocol version.
+     * Set the bctive protocol version bnd propbgbte it to the SSLSocket
+     * bnd our hbndshbke strebms. Cblled from ClientHbndshbker
+     * bnd ServerHbndshbker with the negotibted protocol version.
      */
     void setVersion(ProtocolVersion protocolVersion) {
         this.protocolVersion = protocolVersion;
@@ -380,250 +380,250 @@ abstract class Handshaker {
     }
 
     /**
-     * Set the enabled protocols. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setEnabledProtocols() (if the
-     * handshake is not yet in progress).
+     * Set the enbbled protocols. Cblled from the constructor or
+     * SSLSocketImpl/SSLEngineImpl.setEnbbledProtocols() (if the
+     * hbndshbke is not yet in progress).
      */
-    void setEnabledProtocols(ProtocolList enabledProtocols) {
-        activeCipherSuites = null;
-        activeProtocols = null;
+    void setEnbbledProtocols(ProtocolList enbbledProtocols) {
+        bctiveCipherSuites = null;
+        bctiveProtocols = null;
 
-        this.enabledProtocols = enabledProtocols;
+        this.enbbledProtocols = enbbledProtocols;
     }
 
     /**
-     * Set the enabled cipher suites. Called from
-     * SSLSocketImpl/SSLEngineImpl.setEnabledCipherSuites() (if the
-     * handshake is not yet in progress).
+     * Set the enbbled cipher suites. Cblled from
+     * SSLSocketImpl/SSLEngineImpl.setEnbbledCipherSuites() (if the
+     * hbndshbke is not yet in progress).
      */
-    void setEnabledCipherSuites(CipherSuiteList enabledCipherSuites) {
-        activeCipherSuites = null;
-        activeProtocols = null;
-        this.enabledCipherSuites = enabledCipherSuites;
+    void setEnbbledCipherSuites(CipherSuiteList enbbledCipherSuites) {
+        bctiveCipherSuites = null;
+        bctiveProtocols = null;
+        this.enbbledCipherSuites = enbbledCipherSuites;
     }
 
     /**
-     * Set the algorithm constraints. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setAlgorithmConstraints() (if the
-     * handshake is not yet in progress).
+     * Set the blgorithm constrbints. Cblled from the constructor or
+     * SSLSocketImpl/SSLEngineImpl.setAlgorithmConstrbints() (if the
+     * hbndshbke is not yet in progress).
      */
-    void setAlgorithmConstraints(AlgorithmConstraints algorithmConstraints) {
-        activeCipherSuites = null;
-        activeProtocols = null;
+    void setAlgorithmConstrbints(AlgorithmConstrbints blgorithmConstrbints) {
+        bctiveCipherSuites = null;
+        bctiveProtocols = null;
 
-        this.algorithmConstraints =
-            new SSLAlgorithmConstraints(algorithmConstraints);
-        this.localSupportedSignAlgs = null;
+        this.blgorithmConstrbints =
+            new SSLAlgorithmConstrbints(blgorithmConstrbints);
+        this.locblSupportedSignAlgs = null;
     }
 
-    Collection<SignatureAndHashAlgorithm> getLocalSupportedSignAlgs() {
-        if (localSupportedSignAlgs == null) {
-            localSupportedSignAlgs =
-                SignatureAndHashAlgorithm.getSupportedAlgorithms(
-                                                    algorithmConstraints);
+    Collection<SignbtureAndHbshAlgorithm> getLocblSupportedSignAlgs() {
+        if (locblSupportedSignAlgs == null) {
+            locblSupportedSignAlgs =
+                SignbtureAndHbshAlgorithm.getSupportedAlgorithms(
+                                                    blgorithmConstrbints);
         }
 
-        return localSupportedSignAlgs;
+        return locblSupportedSignAlgs;
     }
 
     void setPeerSupportedSignAlgs(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
+            Collection<SignbtureAndHbshAlgorithm> blgorithms) {
         peerSupportedSignAlgs =
-            new ArrayList<SignatureAndHashAlgorithm>(algorithms);
+            new ArrbyList<SignbtureAndHbshAlgorithm>(blgorithms);
     }
 
-    Collection<SignatureAndHashAlgorithm> getPeerSupportedSignAlgs() {
+    Collection<SignbtureAndHbshAlgorithm> getPeerSupportedSignAlgs() {
         return peerSupportedSignAlgs;
     }
 
 
     /**
-     * Set the identification protocol. Called from the constructor or
-     * SSLSocketImpl/SSLEngineImpl.setIdentificationProtocol() (if the
-     * handshake is not yet in progress).
+     * Set the identificbtion protocol. Cblled from the constructor or
+     * SSLSocketImpl/SSLEngineImpl.setIdentificbtionProtocol() (if the
+     * hbndshbke is not yet in progress).
      */
-    void setIdentificationProtocol(String protocol) {
-        this.identificationProtocol = protocol;
+    void setIdentificbtionProtocol(String protocol) {
+        this.identificbtionProtocol = protocol;
     }
 
     /**
-     * Sets the server name indication of the handshake.
+     * Sets the server nbme indicbtion of the hbndshbke.
      */
-    void setSNIServerNames(List<SNIServerName> serverNames) {
-        // The serverNames parameter is unmodifiable.
-        this.serverNames = serverNames;
+    void setSNIServerNbmes(List<SNIServerNbme> serverNbmes) {
+        // The serverNbmes pbrbmeter is unmodifibble.
+        this.serverNbmes = serverNbmes;
     }
 
     /**
-     * Sets the server name matchers of the handshaking.
+     * Sets the server nbme mbtchers of the hbndshbking.
      */
-    void setSNIMatchers(Collection<SNIMatcher> sniMatchers) {
-        // The sniMatchers parameter is unmodifiable.
-        this.sniMatchers = sniMatchers;
+    void setSNIMbtchers(Collection<SNIMbtcher> sniMbtchers) {
+        // The sniMbtchers pbrbmeter is unmodifibble.
+        this.sniMbtchers = sniMbtchers;
     }
 
     /**
      * Sets the cipher suites preference.
      */
-    void setUseCipherSuitesOrder(boolean on) {
-        this.preferLocalCipherSuites = on;
+    void setUseCipherSuitesOrder(boolebn on) {
+        this.preferLocblCipherSuites = on;
     }
 
     /**
-     * Prior to handshaking, activate the handshake and initialize the version,
-     * input stream and output stream.
+     * Prior to hbndshbking, bctivbte the hbndshbke bnd initiblize the version,
+     * input strebm bnd output strebm.
      */
-    void activate(ProtocolVersion helloVersion) throws IOException {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+    void bctivbte(ProtocolVersion helloVersion) throws IOException {
+        if (bctiveProtocols == null) {
+            bctiveProtocols = getActiveProtocols();
         }
 
-        if (activeProtocols.collection().isEmpty() ||
-                activeProtocols.max.v == ProtocolVersion.NONE.v) {
-            throw new SSLHandshakeException("No appropriate protocol");
+        if (bctiveProtocols.collection().isEmpty() ||
+                bctiveProtocols.mbx.v == ProtocolVersion.NONE.v) {
+            throw new SSLHbndshbkeException("No bppropribte protocol");
         }
 
-        if (activeCipherSuites == null) {
-            activeCipherSuites = getActiveCipherSuites();
+        if (bctiveCipherSuites == null) {
+            bctiveCipherSuites = getActiveCipherSuites();
         }
 
-        if (activeCipherSuites.collection().isEmpty()) {
-            throw new SSLHandshakeException("No appropriate cipher suite");
+        if (bctiveCipherSuites.collection().isEmpty()) {
+            throw new SSLHbndshbkeException("No bppropribte cipher suite");
         }
 
-        // temporary protocol version until the actual protocol version
-        // is negotiated in the Hello exchange. This affects the record
+        // temporbry protocol version until the bctubl protocol version
+        // is negotibted in the Hello exchbnge. This bffects the record
         // version we sent with the ClientHello.
-        if (!isInitialHandshake) {
-            protocolVersion = activeProtocolVersion;
+        if (!isInitiblHbndshbke) {
+            protocolVersion = bctiveProtocolVersion;
         } else {
-            protocolVersion = activeProtocols.max;
+            protocolVersion = bctiveProtocols.mbx;
         }
 
         if (helloVersion == null || helloVersion.v == ProtocolVersion.NONE.v) {
-            helloVersion = activeProtocols.helloVersion;
+            helloVersion = bctiveProtocols.helloVersion;
         }
 
-        // We accumulate digests of the handshake messages so that
-        // we can read/write CertificateVerify and Finished messages,
-        // getting assurance against some particular active attacks.
-        handshakeHash = new HandshakeHash(needCertVerify);
+        // We bccumulbte digests of the hbndshbke messbges so thbt
+        // we cbn rebd/write CertificbteVerify bnd Finished messbges,
+        // getting bssurbnce bgbinst some pbrticulbr bctive bttbcks.
+        hbndshbkeHbsh = new HbndshbkeHbsh(needCertVerify);
 
-        // Generate handshake input/output stream.
-        input = new HandshakeInStream(handshakeHash);
+        // Generbte hbndshbke input/output strebm.
+        input = new HbndshbkeInStrebm(hbndshbkeHbsh);
         if (conn != null) {
-            output = new HandshakeOutStream(protocolVersion, helloVersion,
-                                        handshakeHash, conn);
-            conn.getAppInputStream().r.setHandshakeHash(handshakeHash);
-            conn.getAppInputStream().r.setHelloVersion(helloVersion);
-            conn.getAppOutputStream().r.setHelloVersion(helloVersion);
+            output = new HbndshbkeOutStrebm(protocolVersion, helloVersion,
+                                        hbndshbkeHbsh, conn);
+            conn.getAppInputStrebm().r.setHbndshbkeHbsh(hbndshbkeHbsh);
+            conn.getAppInputStrebm().r.setHelloVersion(helloVersion);
+            conn.getAppOutputStrebm().r.setHelloVersion(helloVersion);
         } else {
-            output = new HandshakeOutStream(protocolVersion, helloVersion,
-                                        handshakeHash, engine);
-            engine.inputRecord.setHandshakeHash(handshakeHash);
+            output = new HbndshbkeOutStrebm(protocolVersion, helloVersion,
+                                        hbndshbkeHbsh, engine);
+            engine.inputRecord.setHbndshbkeHbsh(hbndshbkeHbsh);
             engine.inputRecord.setHelloVersion(helloVersion);
             engine.outputRecord.setHelloVersion(helloVersion);
         }
 
-        // move state to activated
-        state = -1;
+        // move stbte to bctivbted
+        stbte = -1;
     }
 
     /**
-     * Set cipherSuite and keyExchange to the given CipherSuite.
-     * Does not perform any verification that this is a valid selection,
-     * this must be done before calling this method.
+     * Set cipherSuite bnd keyExchbnge to the given CipherSuite.
+     * Does not perform bny verificbtion thbt this is b vblid selection,
+     * this must be done before cblling this method.
      */
     void setCipherSuite(CipherSuite s) {
         this.cipherSuite = s;
-        this.keyExchange = s.keyExchange;
+        this.keyExchbnge = s.keyExchbnge;
     }
 
     /**
-     * Check if the given ciphersuite is enabled and available within the
-     * current active cipher suites.
+     * Check if the given ciphersuite is enbbled bnd bvbilbble within the
+     * current bctive cipher suites.
      *
-     * Does not check if the required server certificates are available.
+     * Does not check if the required server certificbtes bre bvbilbble.
      */
-    boolean isNegotiable(CipherSuite s) {
-        if (activeCipherSuites == null) {
-            activeCipherSuites = getActiveCipherSuites();
+    boolebn isNegotibble(CipherSuite s) {
+        if (bctiveCipherSuites == null) {
+            bctiveCipherSuites = getActiveCipherSuites();
         }
 
-        return isNegotiable(activeCipherSuites, s);
+        return isNegotibble(bctiveCipherSuites, s);
     }
 
     /**
-     * Check if the given ciphersuite is enabled and available within the
+     * Check if the given ciphersuite is enbbled bnd bvbilbble within the
      * proposed cipher suite list.
      *
-     * Does not check if the required server certificates are available.
+     * Does not check if the required server certificbtes bre bvbilbble.
      */
-    final static boolean isNegotiable(CipherSuiteList proposed, CipherSuite s) {
-        return proposed.contains(s) && s.isNegotiable();
+    finbl stbtic boolebn isNegotibble(CipherSuiteList proposed, CipherSuite s) {
+        return proposed.contbins(s) && s.isNegotibble();
     }
 
     /**
-     * Check if the given protocol version is enabled and available.
+     * Check if the given protocol version is enbbled bnd bvbilbble.
      */
-    boolean isNegotiable(ProtocolVersion protocolVersion) {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+    boolebn isNegotibble(ProtocolVersion protocolVersion) {
+        if (bctiveProtocols == null) {
+            bctiveProtocols = getActiveProtocols();
         }
 
-        return activeProtocols.contains(protocolVersion);
+        return bctiveProtocols.contbins(protocolVersion);
     }
 
     /**
-     * Select a protocol version from the list. Called from
-     * ServerHandshaker to negotiate protocol version.
+     * Select b protocol version from the list. Cblled from
+     * ServerHbndshbker to negotibte protocol version.
      *
      * Return the lower of the protocol version suggested in the
-     * clien hello and the highest supported by the server.
+     * clien hello bnd the highest supported by the server.
      */
     ProtocolVersion selectProtocolVersion(ProtocolVersion protocolVersion) {
-        if (activeProtocols == null) {
-            activeProtocols = getActiveProtocols();
+        if (bctiveProtocols == null) {
+            bctiveProtocols = getActiveProtocols();
         }
 
-        return activeProtocols.selectProtocolVersion(protocolVersion);
+        return bctiveProtocols.selectProtocolVersion(protocolVersion);
     }
 
     /**
-     * Get the active cipher suites.
+     * Get the bctive cipher suites.
      *
-     * In TLS 1.1, many weak or vulnerable cipher suites were obsoleted,
-     * such as TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementation MUST NOT
-     * negotiate these cipher suites in TLS 1.1 or later mode.
+     * In TLS 1.1, mbny webk or vulnerbble cipher suites were obsoleted,
+     * such bs TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementbtion MUST NOT
+     * negotibte these cipher suites in TLS 1.1 or lbter mode.
      *
-     * Therefore, when the active protocols only include TLS 1.1 or later,
-     * the client cannot request to negotiate those obsoleted cipher
-     * suites.  That is, the obsoleted suites should not be included in the
-     * client hello. So we need to create a subset of the enabled cipher
-     * suites, the active cipher suites, which does not contain obsoleted
-     * cipher suites of the minimum active protocol.
+     * Therefore, when the bctive protocols only include TLS 1.1 or lbter,
+     * the client cbnnot request to negotibte those obsoleted cipher
+     * suites.  Thbt is, the obsoleted suites should not be included in the
+     * client hello. So we need to crebte b subset of the enbbled cipher
+     * suites, the bctive cipher suites, which does not contbin obsoleted
+     * cipher suites of the minimum bctive protocol.
      *
-     * Return empty list instead of null if no active cipher suites.
+     * Return empty list instebd of null if no bctive cipher suites.
      */
     CipherSuiteList getActiveCipherSuites() {
-        if (activeCipherSuites == null) {
-            if (activeProtocols == null) {
-                activeProtocols = getActiveProtocols();
+        if (bctiveCipherSuites == null) {
+            if (bctiveProtocols == null) {
+                bctiveProtocols = getActiveProtocols();
             }
 
-            ArrayList<CipherSuite> suites = new ArrayList<>();
-            if (!(activeProtocols.collection().isEmpty()) &&
-                    activeProtocols.min.v != ProtocolVersion.NONE.v) {
-                for (CipherSuite suite : enabledCipherSuites.collection()) {
-                    if (suite.obsoleted > activeProtocols.min.v &&
-                            suite.supported <= activeProtocols.max.v) {
-                        if (algorithmConstraints.permits(
+            ArrbyList<CipherSuite> suites = new ArrbyList<>();
+            if (!(bctiveProtocols.collection().isEmpty()) &&
+                    bctiveProtocols.min.v != ProtocolVersion.NONE.v) {
+                for (CipherSuite suite : enbbledCipherSuites.collection()) {
+                    if (suite.obsoleted > bctiveProtocols.min.v &&
+                            suite.supported <= bctiveProtocols.mbx.v) {
+                        if (blgorithmConstrbints.permits(
                                 EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                                suite.name, null)) {
-                            suites.add(suite);
+                                suite.nbme, null)) {
+                            suites.bdd(suite);
                         }
                     } else if (debug != null && Debug.isOn("verbose")) {
-                        if (suite.obsoleted <= activeProtocols.min.v) {
+                        if (suite.obsoleted <= bctiveProtocols.min.v) {
                             System.out.println(
                                 "Ignoring obsoleted cipher suite: " + suite);
                         } else {
@@ -633,51 +633,51 @@ abstract class Handshaker {
                     }
                 }
             }
-            activeCipherSuites = new CipherSuiteList(suites);
+            bctiveCipherSuites = new CipherSuiteList(suites);
         }
 
-        return activeCipherSuites;
+        return bctiveCipherSuites;
     }
 
     /*
-     * Get the active protocol versions.
+     * Get the bctive protocol versions.
      *
-     * In TLS 1.1, many weak or vulnerable cipher suites were obsoleted,
-     * such as TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementation MUST NOT
-     * negotiate these cipher suites in TLS 1.1 or later mode.
+     * In TLS 1.1, mbny webk or vulnerbble cipher suites were obsoleted,
+     * such bs TLS_RSA_EXPORT_WITH_RC4_40_MD5. The implementbtion MUST NOT
+     * negotibte these cipher suites in TLS 1.1 or lbter mode.
      *
-     * For example, if "TLS_RSA_EXPORT_WITH_RC4_40_MD5" is the
-     * only enabled cipher suite, the client cannot request TLS 1.1 or
-     * later, even though TLS 1.1 or later is enabled.  We need to create a
-     * subset of the enabled protocols, called the active protocols, which
-     * contains protocols appropriate to the list of enabled Ciphersuites.
+     * For exbmple, if "TLS_RSA_EXPORT_WITH_RC4_40_MD5" is the
+     * only enbbled cipher suite, the client cbnnot request TLS 1.1 or
+     * lbter, even though TLS 1.1 or lbter is enbbled.  We need to crebte b
+     * subset of the enbbled protocols, cblled the bctive protocols, which
+     * contbins protocols bppropribte to the list of enbbled Ciphersuites.
      *
-     * Return empty list instead of null if no active protocol versions.
+     * Return empty list instebd of null if no bctive protocol versions.
      */
     ProtocolList getActiveProtocols() {
-        if (activeProtocols == null) {
-            boolean enabledSSL20Hello = false;
-            ArrayList<ProtocolVersion> protocols = new ArrayList<>(4);
-            for (ProtocolVersion protocol : enabledProtocols.collection()) {
+        if (bctiveProtocols == null) {
+            boolebn enbbledSSL20Hello = fblse;
+            ArrbyList<ProtocolVersion> protocols = new ArrbyList<>(4);
+            for (ProtocolVersion protocol : enbbledProtocols.collection()) {
                 // Need not to check the SSL20Hello protocol.
                 if (protocol.v == ProtocolVersion.SSL20Hello.v) {
-                    enabledSSL20Hello = true;
+                    enbbledSSL20Hello = true;
                     continue;
                 }
 
-                boolean found = false;
-                for (CipherSuite suite : enabledCipherSuites.collection()) {
-                    if (suite.isAvailable() && suite.obsoleted > protocol.v &&
+                boolebn found = fblse;
+                for (CipherSuite suite : enbbledCipherSuites.collection()) {
+                    if (suite.isAvbilbble() && suite.obsoleted > protocol.v &&
                                                suite.supported <= protocol.v) {
-                        if (algorithmConstraints.permits(
+                        if (blgorithmConstrbints.permits(
                                 EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                                suite.name, null)) {
-                            protocols.add(protocol);
+                                suite.nbme, null)) {
+                            protocols.bdd(protocol);
                             found = true;
-                            break;
+                            brebk;
                         } else if (debug != null && Debug.isOn("verbose")) {
                             System.out.println(
-                                "Ignoring disabled cipher suite: " + suite +
+                                "Ignoring disbbled cipher suite: " + suite +
                                  " for " + protocol);
                         }
                     } else if (debug != null && Debug.isOn("verbose")) {
@@ -686,47 +686,47 @@ abstract class Handshaker {
                                  " for " + protocol);
                     }
                 }
-                if (!found && (debug != null) && Debug.isOn("handshake")) {
+                if (!found && (debug != null) && Debug.isOn("hbndshbke")) {
                     System.out.println(
-                        "No available cipher suite for " + protocol);
+                        "No bvbilbble cipher suite for " + protocol);
                 }
             }
 
-            if (!protocols.isEmpty() && enabledSSL20Hello) {
-                protocols.add(ProtocolVersion.SSL20Hello);
+            if (!protocols.isEmpty() && enbbledSSL20Hello) {
+                protocols.bdd(ProtocolVersion.SSL20Hello);
             }
 
-            activeProtocols = new ProtocolList(protocols);
+            bctiveProtocols = new ProtocolList(protocols);
         }
 
-        return activeProtocols;
+        return bctiveProtocols;
     }
 
     /**
-     * As long as handshaking has not activated, we can
-     * change whether session creations are allowed.
+     * As long bs hbndshbking hbs not bctivbted, we cbn
+     * chbnge whether session crebtions bre bllowed.
      *
-     * Callers should do their own checking if handshaking
-     * has activated.
+     * Cbllers should do their own checking if hbndshbking
+     * hbs bctivbted.
      */
-    void setEnableSessionCreation(boolean newSessions) {
-        enableNewSession = newSessions;
+    void setEnbbleSessionCrebtion(boolebn newSessions) {
+        enbbleNewSession = newSessions;
     }
 
     /**
-     * Create a new read cipher and return it to caller.
+     * Crebte b new rebd cipher bnd return it to cbller.
      */
-    CipherBox newReadCipher() throws NoSuchAlgorithmException {
+    CipherBox newRebdCipher() throws NoSuchAlgorithmException {
         BulkCipher cipher = cipherSuite.cipher;
         CipherBox box;
         if (isClient) {
             box = cipher.newCipher(protocolVersion, svrWriteKey, svrWriteIV,
-                                   sslContext.getSecureRandom(), false);
+                                   sslContext.getSecureRbndom(), fblse);
             svrWriteKey = null;
             svrWriteIV = null;
         } else {
             box = cipher.newCipher(protocolVersion, clntWriteKey, clntWriteIV,
-                                   sslContext.getSecureRandom(), false);
+                                   sslContext.getSecureRbndom(), fblse);
             clntWriteKey = null;
             clntWriteIV = null;
         }
@@ -734,19 +734,19 @@ abstract class Handshaker {
     }
 
     /**
-     * Create a new write cipher and return it to caller.
+     * Crebte b new write cipher bnd return it to cbller.
      */
     CipherBox newWriteCipher() throws NoSuchAlgorithmException {
         BulkCipher cipher = cipherSuite.cipher;
         CipherBox box;
         if (isClient) {
             box = cipher.newCipher(protocolVersion, clntWriteKey, clntWriteIV,
-                                   sslContext.getSecureRandom(), true);
+                                   sslContext.getSecureRbndom(), true);
             clntWriteKey = null;
             clntWriteIV = null;
         } else {
             box = cipher.newCipher(protocolVersion, svrWriteKey, svrWriteIV,
-                                   sslContext.getSecureRandom(), true);
+                                   sslContext.getSecureRbndom(), true);
             svrWriteKey = null;
             svrWriteIV = null;
         }
@@ -754,63 +754,63 @@ abstract class Handshaker {
     }
 
     /**
-     * Create a new read MAC and return it to caller.
+     * Crebte b new rebd MAC bnd return it to cbller.
      */
-    Authenticator newReadAuthenticator()
-            throws NoSuchAlgorithmException, InvalidKeyException {
+    Authenticbtor newRebdAuthenticbtor()
+            throws NoSuchAlgorithmException, InvblidKeyException {
 
-        Authenticator authenticator = null;
+        Authenticbtor buthenticbtor = null;
         if (cipherSuite.cipher.cipherType == AEAD_CIPHER) {
-            authenticator = new Authenticator(protocolVersion);
+            buthenticbtor = new Authenticbtor(protocolVersion);
         } else {
-            MacAlg macAlg = cipherSuite.macAlg;
+            MbcAlg mbcAlg = cipherSuite.mbcAlg;
             if (isClient) {
-                authenticator = macAlg.newMac(protocolVersion, svrMacSecret);
-                svrMacSecret = null;
+                buthenticbtor = mbcAlg.newMbc(protocolVersion, svrMbcSecret);
+                svrMbcSecret = null;
             } else {
-                authenticator = macAlg.newMac(protocolVersion, clntMacSecret);
-                clntMacSecret = null;
+                buthenticbtor = mbcAlg.newMbc(protocolVersion, clntMbcSecret);
+                clntMbcSecret = null;
             }
         }
 
-        return authenticator;
+        return buthenticbtor;
     }
 
     /**
-     * Create a new write MAC and return it to caller.
+     * Crebte b new write MAC bnd return it to cbller.
      */
-    Authenticator newWriteAuthenticator()
-            throws NoSuchAlgorithmException, InvalidKeyException {
+    Authenticbtor newWriteAuthenticbtor()
+            throws NoSuchAlgorithmException, InvblidKeyException {
 
-        Authenticator authenticator = null;
+        Authenticbtor buthenticbtor = null;
         if (cipherSuite.cipher.cipherType == AEAD_CIPHER) {
-            authenticator = new Authenticator(protocolVersion);
+            buthenticbtor = new Authenticbtor(protocolVersion);
         } else {
-            MacAlg macAlg = cipherSuite.macAlg;
+            MbcAlg mbcAlg = cipherSuite.mbcAlg;
             if (isClient) {
-                authenticator = macAlg.newMac(protocolVersion, clntMacSecret);
-                clntMacSecret = null;
+                buthenticbtor = mbcAlg.newMbc(protocolVersion, clntMbcSecret);
+                clntMbcSecret = null;
             } else {
-                authenticator = macAlg.newMac(protocolVersion, svrMacSecret);
-                svrMacSecret = null;
+                buthenticbtor = mbcAlg.newMbc(protocolVersion, svrMbcSecret);
+                svrMbcSecret = null;
             }
         }
 
-        return authenticator;
+        return buthenticbtor;
     }
 
     /*
-     * Returns true iff the handshake sequence is done, so that
-     * this freshly created session can become the current one.
+     * Returns true iff the hbndshbke sequence is done, so thbt
+     * this freshly crebted session cbn become the current one.
      */
-    boolean isDone() {
-        return state == HandshakeMessage.ht_finished;
+    boolebn isDone() {
+        return stbte == HbndshbkeMessbge.ht_finished;
     }
 
 
     /*
-     * Returns the session which was created through this
-     * handshake sequence ... should be called after isDone()
+     * Returns the session which wbs crebted through this
+     * hbndshbke sequence ... should be cblled bfter isDone()
      * returns true.
      */
     SSLSessionImpl getSession() {
@@ -818,60 +818,60 @@ abstract class Handshaker {
     }
 
     /*
-     * Set the handshake session
+     * Set the hbndshbke session
      */
-    void setHandshakeSessionSE(SSLSessionImpl handshakeSession) {
+    void setHbndshbkeSessionSE(SSLSessionImpl hbndshbkeSession) {
         if (conn != null) {
-            conn.setHandshakeSession(handshakeSession);
+            conn.setHbndshbkeSession(hbndshbkeSession);
         } else {
-            engine.setHandshakeSession(handshakeSession);
+            engine.setHbndshbkeSession(hbndshbkeSession);
         }
     }
 
     /*
-     * Returns true if renegotiation is in use for this connection.
+     * Returns true if renegotibtion is in use for this connection.
      */
-    boolean isSecureRenegotiation() {
-        return secureRenegotiation;
+    boolebn isSecureRenegotibtion() {
+        return secureRenegotibtion;
     }
 
     /*
-     * Returns the verify_data from the Finished message sent by the client.
+     * Returns the verify_dbtb from the Finished messbge sent by the client.
      */
-    byte[] getClientVerifyData() {
-        return clientVerifyData;
+    byte[] getClientVerifyDbtb() {
+        return clientVerifyDbtb;
     }
 
     /*
-     * Returns the verify_data from the Finished message sent by the server.
+     * Returns the verify_dbtb from the Finished messbge sent by the server.
      */
-    byte[] getServerVerifyData() {
-        return serverVerifyData;
+    byte[] getServerVerifyDbtb() {
+        return serverVerifyDbtb;
     }
 
     /*
-     * This routine is fed SSL handshake records when they become available,
-     * and processes messages found therein.
+     * This routine is fed SSL hbndshbke records when they become bvbilbble,
+     * bnd processes messbges found therein.
      */
-    void process_record(InputRecord r, boolean expectingFinished)
+    void process_record(InputRecord r, boolebn expectingFinished)
             throws IOException {
 
         checkThrown();
 
         /*
-         * Store the incoming handshake data, then see if we can
-         * now process any completed handshake messages
+         * Store the incoming hbndshbke dbtb, then see if we cbn
+         * now process bny completed hbndshbke messbges
          */
         input.incomingRecord(r);
 
         /*
-         * We don't need to create a separate delegatable task
-         * for finished messages.
+         * We don't need to crebte b sepbrbte delegbtbble tbsk
+         * for finished messbges.
          */
         if ((conn != null) || expectingFinished) {
             processLoop();
         } else {
-            delegateTask(new PrivilegedExceptionAction<Void>() {
+            delegbteTbsk(new PrivilegedExceptionAction<Void>() {
                 @Override
                 public Void run() throws Exception {
                     processLoop();
@@ -882,59 +882,59 @@ abstract class Handshaker {
     }
 
     /*
-     * On input, we hash messages one at a time since servers may need
-     * to access an intermediate hash to validate a CertificateVerify
-     * message.
+     * On input, we hbsh messbges one bt b time since servers mby need
+     * to bccess bn intermedibte hbsh to vblidbte b CertificbteVerify
+     * messbge.
      *
-     * Note that many handshake messages can come in one record (and often
-     * do, to reduce network resource utilization), and one message can also
-     * require multiple records (e.g. very large Certificate messages).
+     * Note thbt mbny hbndshbke messbges cbn come in one record (bnd often
+     * do, to reduce network resource utilizbtion), bnd one messbge cbn blso
+     * require multiple records (e.g. very lbrge Certificbte messbges).
      */
     void processLoop() throws IOException {
 
-        // need to read off 4 bytes at least to get the handshake
-        // message type and length.
-        while (input.available() >= 4) {
-            byte messageType;
-            int messageLen;
+        // need to rebd off 4 bytes bt lebst to get the hbndshbke
+        // messbge type bnd length.
+        while (input.bvbilbble() >= 4) {
+            byte messbgeType;
+            int messbgeLen;
 
             /*
-             * See if we can read the handshake message header, and
-             * then the entire handshake message.  If not, wait till
-             * we can read and process an entire message.
+             * See if we cbn rebd the hbndshbke messbge hebder, bnd
+             * then the entire hbndshbke messbge.  If not, wbit till
+             * we cbn rebd bnd process bn entire messbge.
              */
-            input.mark(4);
+            input.mbrk(4);
 
-            messageType = (byte)input.getInt8();
-            messageLen = input.getInt24();
+            messbgeType = (byte)input.getInt8();
+            messbgeLen = input.getInt24();
 
-            if (input.available() < messageLen) {
+            if (input.bvbilbble() < messbgeLen) {
                 input.reset();
                 return;
             }
 
             /*
-             * Process the message.  We require
-             * that processMessage() consumes the entire message.  In
-             * lieu of explicit error checks (how?!) we assume that the
-             * data will look like garbage on encoding/processing errors,
-             * and that other protocol code will detect such errors.
+             * Process the messbge.  We require
+             * thbt processMessbge() consumes the entire messbge.  In
+             * lieu of explicit error checks (how?!) we bssume thbt the
+             * dbtb will look like gbrbbge on encoding/processing errors,
+             * bnd thbt other protocol code will detect such errors.
              *
-             * Note that digesting is normally deferred till after the
-             * message has been processed, though to process at least the
-             * client's Finished message (i.e. send the server's) we need
-             * to acccelerate that digesting.
+             * Note thbt digesting is normblly deferred till bfter the
+             * messbge hbs been processed, though to process bt lebst the
+             * client's Finished messbge (i.e. send the server's) we need
+             * to bcccelerbte thbt digesting.
              *
-             * Also, note that hello request messages are never hashed;
-             * that includes the hello request header, too.
+             * Also, note thbt hello request messbges bre never hbshed;
+             * thbt includes the hello request hebder, too.
              */
-            if (messageType == HandshakeMessage.ht_hello_request) {
+            if (messbgeType == HbndshbkeMessbge.ht_hello_request) {
                 input.reset();
-                processMessage(messageType, messageLen);
-                input.ignore(4 + messageLen);
+                processMessbge(messbgeType, messbgeLen);
+                input.ignore(4 + messbgeLen);
             } else {
-                input.mark(messageLen);
-                processMessage(messageType, messageLen);
+                input.mbrk(messbgeLen);
+                processMessbge(messbgeType, messbgeLen);
                 input.digestNow();
             }
         }
@@ -942,116 +942,116 @@ abstract class Handshaker {
 
 
     /**
-     * Returns true iff the handshaker has been activated.
+     * Returns true iff the hbndshbker hbs been bctivbted.
      *
-     * In activated state, the handshaker may not send any messages out.
+     * In bctivbted stbte, the hbndshbker mby not send bny messbges out.
      */
-    boolean activated() {
-        return state >= -1;
+    boolebn bctivbted() {
+        return stbte >= -1;
     }
 
     /**
-     * Returns true iff the handshaker has sent any messages.
+     * Returns true iff the hbndshbker hbs sent bny messbges.
      */
-    boolean started() {
-        return state >= 0;  // 0: HandshakeMessage.ht_hello_request
-                            // 1: HandshakeMessage.ht_client_hello
+    boolebn stbrted() {
+        return stbte >= 0;  // 0: HbndshbkeMessbge.ht_hello_request
+                            // 1: HbndshbkeMessbge.ht_client_hello
     }
 
 
     /*
-     * Used to kickstart the negotiation ... either writing a
-     * ClientHello or a HelloRequest as appropriate, whichever
-     * the subclass returns.  NOP if handshaking's already started.
+     * Used to kickstbrt the negotibtion ... either writing b
+     * ClientHello or b HelloRequest bs bppropribte, whichever
+     * the subclbss returns.  NOP if hbndshbking's blrebdy stbrted.
      */
-    void kickstart() throws IOException {
-        if (state >= 0) {
+    void kickstbrt() throws IOException {
+        if (stbte >= 0) {
             return;
         }
 
-        HandshakeMessage m = getKickstartMessage();
+        HbndshbkeMessbge m = getKickstbrtMessbge();
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             m.print(System.out);
         }
         m.write(output);
         output.flush();
 
-        state = m.messageType();
+        stbte = m.messbgeType();
     }
 
     /**
-     * Both client and server modes can start handshaking; but the
-     * message they send to do so is different.
+     * Both client bnd server modes cbn stbrt hbndshbking; but the
+     * messbge they send to do so is different.
      */
-    abstract HandshakeMessage getKickstartMessage() throws SSLException;
+    bbstrbct HbndshbkeMessbge getKickstbrtMessbge() throws SSLException;
 
     /*
-     * Client and Server side protocols are each driven though this
-     * call, which processes a single message and drives the appropriate
-     * side of the protocol state machine (depending on the subclass).
+     * Client bnd Server side protocols bre ebch driven though this
+     * cbll, which processes b single messbge bnd drives the bppropribte
+     * side of the protocol stbte mbchine (depending on the subclbss).
      */
-    abstract void processMessage(byte messageType, int messageLen)
+    bbstrbct void processMessbge(byte messbgeType, int messbgeLen)
         throws IOException;
 
     /*
-     * Most alerts in the protocol relate to handshaking problems.
-     * Alerts are detected as the connection reads data.
+     * Most blerts in the protocol relbte to hbndshbking problems.
+     * Alerts bre detected bs the connection rebds dbtb.
      */
-    abstract void handshakeAlert(byte description) throws SSLProtocolException;
+    bbstrbct void hbndshbkeAlert(byte description) throws SSLProtocolException;
 
     /*
-     * Sends a change cipher spec message and updates the write side
-     * cipher state so that future messages use the just-negotiated spec.
+     * Sends b chbnge cipher spec messbge bnd updbtes the write side
+     * cipher stbte so thbt future messbges use the just-negotibted spec.
      */
-    void sendChangeCipherSpec(Finished mesg, boolean lastMessage)
+    void sendChbngeCipherSpec(Finished mesg, boolebn lbstMessbge)
             throws IOException {
 
-        output.flush(); // i.e. handshake data
+        output.flush(); // i.e. hbndshbke dbtb
 
         /*
-         * The write cipher state is protected by the connection write lock
-         * so we must grab it while making the change. We also
-         * make sure no writes occur between sending the ChangeCipherSpec
-         * message, installing the new cipher state, and sending the
-         * Finished message.
+         * The write cipher stbte is protected by the connection write lock
+         * so we must grbb it while mbking the chbnge. We blso
+         * mbke sure no writes occur between sending the ChbngeCipherSpec
+         * messbge, instblling the new cipher stbte, bnd sending the
+         * Finished messbge.
          *
-         * We already hold SSLEngine/SSLSocket "this" by virtue
-         * of this being called from the readRecord code.
+         * We blrebdy hold SSLEngine/SSLSocket "this" by virtue
+         * of this being cblled from the rebdRecord code.
          */
         OutputRecord r;
         if (conn != null) {
-            r = new OutputRecord(Record.ct_change_cipher_spec);
+            r = new OutputRecord(Record.ct_chbnge_cipher_spec);
         } else {
-            r = new EngineOutputRecord(Record.ct_change_cipher_spec, engine);
+            r = new EngineOutputRecord(Record.ct_chbnge_cipher_spec, engine);
         }
 
         r.setVersion(protocolVersion);
-        r.write(1);     // single byte of data
+        r.write(1);     // single byte of dbtb
 
         if (conn != null) {
             conn.writeLock.lock();
             try {
                 conn.writeRecord(r);
-                conn.changeWriteCiphers();
-                if (debug != null && Debug.isOn("handshake")) {
+                conn.chbngeWriteCiphers();
+                if (debug != null && Debug.isOn("hbndshbke")) {
                     mesg.print(System.out);
                 }
                 mesg.write(output);
                 output.flush();
-            } finally {
+            } finblly {
                 conn.writeLock.unlock();
             }
         } else {
             synchronized (engine.writeLock) {
                 engine.writeRecord((EngineOutputRecord)r);
-                engine.changeWriteCiphers();
-                if (debug != null && Debug.isOn("handshake")) {
+                engine.chbngeWriteCiphers();
+                if (debug != null && Debug.isOn("hbndshbke")) {
                     mesg.print(System.out);
                 }
                 mesg.write(output);
 
-                if (lastMessage) {
+                if (lbstMessbge) {
                     output.setFinishedMsg();
                 }
                 output.flush();
@@ -1060,27 +1060,27 @@ abstract class Handshaker {
     }
 
     /*
-     * Single access point to key calculation logic.  Given the
-     * pre-master secret and the nonces from client and server,
-     * produce all the keying material to be used.
+     * Single bccess point to key cblculbtion logic.  Given the
+     * pre-mbster secret bnd the nonces from client bnd server,
+     * produce bll the keying mbteribl to be used.
      */
-    void calculateKeys(SecretKey preMasterSecret, ProtocolVersion version) {
-        SecretKey master = calculateMasterSecret(preMasterSecret, version);
-        session.setMasterSecret(master);
-        calculateConnectionKeys(master);
+    void cblculbteKeys(SecretKey preMbsterSecret, ProtocolVersion version) {
+        SecretKey mbster = cblculbteMbsterSecret(preMbsterSecret, version);
+        session.setMbsterSecret(mbster);
+        cblculbteConnectionKeys(mbster);
     }
 
 
     /*
-     * Calculate the master secret from its various components.  This is
-     * used for key exchange by all cipher suites.
+     * Cblculbte the mbster secret from its vbrious components.  This is
+     * used for key exchbnge by bll cipher suites.
      *
-     * The master secret is the catenation of three MD5 hashes, each
-     * consisting of the pre-master secret and a SHA1 hash.  Those three
-     * SHA1 hashes are of (different) constant strings, the pre-master
-     * secret, and the nonces provided by the client and the server.
+     * The mbster secret is the cbtenbtion of three MD5 hbshes, ebch
+     * consisting of the pre-mbster secret bnd b SHA1 hbsh.  Those three
+     * SHA1 hbshes bre of (different) constbnt strings, the pre-mbster
+     * secret, bnd the nonces provided by the client bnd the server.
      */
-    private SecretKey calculateMasterSecret(SecretKey preMasterSecret,
+    privbte SecretKey cblculbteMbsterSecret(SecretKey preMbsterSecret,
             ProtocolVersion requestedVersion) {
 
         if (debug != null && Debug.isOn("keygen")) {
@@ -1088,95 +1088,95 @@ abstract class Handshaker {
 
             System.out.println("SESSION KEYGEN:");
 
-            System.out.println("PreMaster Secret:");
-            printHex(dump, preMasterSecret.getEncoded());
+            System.out.println("PreMbster Secret:");
+            printHex(dump, preMbsterSecret.getEncoded());
 
-            // Nonces are dumped with connection keygen, no
+            // Nonces bre dumped with connection keygen, no
             // benefit to doing it twice
         }
 
-        // What algs/params do we need to use?
-        String masterAlg;
+        // Whbt blgs/pbrbms do we need to use?
+        String mbsterAlg;
         PRF prf;
 
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            masterAlg = "SunTls12MasterSecret";
+            mbsterAlg = "SunTls12MbsterSecret";
             prf = cipherSuite.prfAlg;
         } else {
-            masterAlg = "SunTlsMasterSecret";
+            mbsterAlg = "SunTlsMbsterSecret";
             prf = P_NONE;
         }
 
-        String prfHashAlg = prf.getPRFHashAlg();
-        int prfHashLength = prf.getPRFHashLength();
+        String prfHbshAlg = prf.getPRFHbshAlg();
+        int prfHbshLength = prf.getPRFHbshLength();
         int prfBlockSize = prf.getPRFBlockSize();
 
-        TlsMasterSecretParameterSpec spec = new TlsMasterSecretParameterSpec(
-                preMasterSecret, protocolVersion.major, protocolVersion.minor,
-                clnt_random.random_bytes, svr_random.random_bytes,
-                prfHashAlg, prfHashLength, prfBlockSize);
+        TlsMbsterSecretPbrbmeterSpec spec = new TlsMbsterSecretPbrbmeterSpec(
+                preMbsterSecret, protocolVersion.mbjor, protocolVersion.minor,
+                clnt_rbndom.rbndom_bytes, svr_rbndom.rbndom_bytes,
+                prfHbshAlg, prfHbshLength, prfBlockSize);
 
         try {
-            KeyGenerator kg = JsseJce.getKeyGenerator(masterAlg);
+            KeyGenerbtor kg = JsseJce.getKeyGenerbtor(mbsterAlg);
             kg.init(spec);
-            return kg.generateKey();
-        } catch (InvalidAlgorithmParameterException |
-                NoSuchAlgorithmException iae) {
-            // unlikely to happen, otherwise, must be a provider exception
+            return kg.generbteKey();
+        } cbtch (InvblidAlgorithmPbrbmeterException |
+                NoSuchAlgorithmException ibe) {
+            // unlikely to hbppen, otherwise, must be b provider exception
             //
-            // For RSA premaster secrets, do not signal a protocol error
-            // due to the Bleichenbacher attack. See comments further down.
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("RSA master secret generation error:");
-                iae.printStackTrace(System.out);
+            // For RSA prembster secrets, do not signbl b protocol error
+            // due to the Bleichenbbcher bttbck. See comments further down.
+            if (debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("RSA mbster secret generbtion error:");
+                ibe.printStbckTrbce(System.out);
             }
-            throw new ProviderException(iae);
+            throw new ProviderException(ibe);
 
         }
     }
 
     /*
-     * Calculate the keys needed for this connection, once the session's
-     * master secret has been calculated.  Uses the master key and nonces;
-     * the amount of keying material generated is a function of the cipher
-     * suite that's been negotiated.
+     * Cblculbte the keys needed for this connection, once the session's
+     * mbster secret hbs been cblculbted.  Uses the mbster key bnd nonces;
+     * the bmount of keying mbteribl generbted is b function of the cipher
+     * suite thbt's been negotibted.
      *
-     * This gets called both on the "full handshake" (where we exchanged
-     * a premaster secret and started a new session) as well as on the
-     * "fast handshake" (where we just resumed a pre-existing session).
+     * This gets cblled both on the "full hbndshbke" (where we exchbnged
+     * b prembster secret bnd stbrted b new session) bs well bs on the
+     * "fbst hbndshbke" (where we just resumed b pre-existing session).
      */
-    void calculateConnectionKeys(SecretKey masterKey) {
+    void cblculbteConnectionKeys(SecretKey mbsterKey) {
         /*
-         * For both the read and write sides of the protocol, we use the
-         * master to generate MAC secrets and cipher keying material.  Block
-         * ciphers need initialization vectors, which we also generate.
+         * For both the rebd bnd write sides of the protocol, we use the
+         * mbster to generbte MAC secrets bnd cipher keying mbteribl.  Block
+         * ciphers need initiblizbtion vectors, which we blso generbte.
          *
-         * First we figure out how much keying material is needed.
+         * First we figure out how much keying mbteribl is needed.
          */
-        int hashSize = cipherSuite.macAlg.size;
-        boolean is_exportable = cipherSuite.exportable;
+        int hbshSize = cipherSuite.mbcAlg.size;
+        boolebn is_exportbble = cipherSuite.exportbble;
         BulkCipher cipher = cipherSuite.cipher;
-        int expandedKeySize = is_exportable ? cipher.expandedKeySize : 0;
+        int expbndedKeySize = is_exportbble ? cipher.expbndedKeySize : 0;
 
-        // Which algs/params do we need to use?
-        String keyMaterialAlg;
+        // Which blgs/pbrbms do we need to use?
+        String keyMbteriblAlg;
         PRF prf;
 
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            keyMaterialAlg = "SunTls12KeyMaterial";
+            keyMbteriblAlg = "SunTls12KeyMbteribl";
             prf = cipherSuite.prfAlg;
         } else {
-            keyMaterialAlg = "SunTlsKeyMaterial";
+            keyMbteriblAlg = "SunTlsKeyMbteribl";
             prf = P_NONE;
         }
 
-        String prfHashAlg = prf.getPRFHashAlg();
-        int prfHashLength = prf.getPRFHashLength();
+        String prfHbshAlg = prf.getPRFHbshAlg();
+        int prfHbshLength = prf.getPRFHbshLength();
         int prfBlockSize = prf.getPRFBlockSize();
 
-        // TLS v1.1 or later uses an explicit IV in CBC cipher suites to
-        // protect against the CBC attacks.  AEAD/GCM cipher suites in TLS
-        // v1.2 or later use a fixed IV as the implicit part of the partially
+        // TLS v1.1 or lbter uses bn explicit IV in CBC cipher suites to
+        // protect bgbinst the CBC bttbcks.  AEAD/GCM cipher suites in TLS
+        // v1.2 or lbter use b fixed IV bs the implicit pbrt of the pbrtiblly
         // implicit nonce technique described in RFC 5116.
         int ivSize = cipher.ivSize;
         if (cipher.cipherType == AEAD_CIPHER) {
@@ -1186,35 +1186,35 @@ abstract class Handshaker {
             ivSize = 0;
         }
 
-        TlsKeyMaterialParameterSpec spec = new TlsKeyMaterialParameterSpec(
-            masterKey, protocolVersion.major, protocolVersion.minor,
-            clnt_random.random_bytes, svr_random.random_bytes,
-            cipher.algorithm, cipher.keySize, expandedKeySize,
-            ivSize, hashSize,
-            prfHashAlg, prfHashLength, prfBlockSize);
+        TlsKeyMbteriblPbrbmeterSpec spec = new TlsKeyMbteriblPbrbmeterSpec(
+            mbsterKey, protocolVersion.mbjor, protocolVersion.minor,
+            clnt_rbndom.rbndom_bytes, svr_rbndom.rbndom_bytes,
+            cipher.blgorithm, cipher.keySize, expbndedKeySize,
+            ivSize, hbshSize,
+            prfHbshAlg, prfHbshLength, prfBlockSize);
 
         try {
-            KeyGenerator kg = JsseJce.getKeyGenerator(keyMaterialAlg);
+            KeyGenerbtor kg = JsseJce.getKeyGenerbtor(keyMbteriblAlg);
             kg.init(spec);
-            TlsKeyMaterialSpec keySpec = (TlsKeyMaterialSpec)kg.generateKey();
+            TlsKeyMbteriblSpec keySpec = (TlsKeyMbteriblSpec)kg.generbteKey();
 
-            // Return null if cipher keys are not supposed to be generated.
+            // Return null if cipher keys bre not supposed to be generbted.
             clntWriteKey = keySpec.getClientCipherKey();
             svrWriteKey = keySpec.getServerCipherKey();
 
-            // Return null if IVs are not supposed to be generated.
+            // Return null if IVs bre not supposed to be generbted.
             clntWriteIV = keySpec.getClientIv();
             svrWriteIV = keySpec.getServerIv();
 
-            // Return null if MAC keys are not supposed to be generated.
-            clntMacSecret = keySpec.getClientMacKey();
-            svrMacSecret = keySpec.getServerMacKey();
-        } catch (GeneralSecurityException e) {
+            // Return null if MAC keys bre not supposed to be generbted.
+            clntMbcSecret = keySpec.getClientMbcKey();
+            svrMbcSecret = keySpec.getServerMbcKey();
+        } cbtch (GenerblSecurityException e) {
             throw new ProviderException(e);
         }
 
         //
-        // Dump the connection keys as they're generated.
+        // Dump the connection keys bs they're generbted.
         //
         if (debug != null && Debug.isOn("keygen")) {
             synchronized (System.out) {
@@ -1224,18 +1224,18 @@ abstract class Handshaker {
 
                 // Inputs:
                 System.out.println("Client Nonce:");
-                printHex(dump, clnt_random.random_bytes);
+                printHex(dump, clnt_rbndom.rbndom_bytes);
                 System.out.println("Server Nonce:");
-                printHex(dump, svr_random.random_bytes);
-                System.out.println("Master Secret:");
-                printHex(dump, masterKey.getEncoded());
+                printHex(dump, svr_rbndom.rbndom_bytes);
+                System.out.println("Mbster Secret:");
+                printHex(dump, mbsterKey.getEncoded());
 
                 // Outputs:
-                if (clntMacSecret != null) {
+                if (clntMbcSecret != null) {
                     System.out.println("Client MAC write Secret:");
-                    printHex(dump, clntMacSecret.getEncoded());
+                    printHex(dump, clntMbcSecret.getEncoded());
                     System.out.println("Server MAC write Secret:");
-                    printHex(dump, svrMacSecret.getEncoded());
+                    printHex(dump, svrMbcSecret.getEncoded());
                 } else {
                     System.out.println("... no MAC keys used for this cipher");
                 }
@@ -1267,89 +1267,89 @@ abstract class Handshaker {
         }
     }
 
-    private static void printHex(HexDumpEncoder dump, byte[] bytes) {
+    privbte stbtic void printHex(HexDumpEncoder dump, byte[] bytes) {
         if (bytes == null) {
-            System.out.println("(key bytes not available)");
+            System.out.println("(key bytes not bvbilbble)");
         } else {
             try {
                 dump.encodeBuffer(bytes, System.out);
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 // just for debugging, ignore this
             }
         }
     }
 
     /**
-     * Throw an SSLException with the specified message and cause.
-     * Shorthand until a new SSLException constructor is added.
+     * Throw bn SSLException with the specified messbge bnd cbuse.
+     * Shorthbnd until b new SSLException constructor is bdded.
      * This method never returns.
      */
-    static void throwSSLException(String msg, Throwable cause)
+    stbtic void throwSSLException(String msg, Throwbble cbuse)
             throws SSLException {
         SSLException e = new SSLException(msg);
-        e.initCause(cause);
+        e.initCbuse(cbuse);
         throw e;
     }
 
 
     /*
-     * Implement a simple task delegator.
+     * Implement b simple tbsk delegbtor.
      *
-     * We are currently implementing this as a single delegator, may
-     * try for parallel tasks later.  Client Authentication could
-     * benefit from this, where ClientKeyExchange/CertificateVerify
-     * could be carried out in parallel.
+     * We bre currently implementing this bs b single delegbtor, mby
+     * try for pbrbllel tbsks lbter.  Client Authenticbtion could
+     * benefit from this, where ClientKeyExchbnge/CertificbteVerify
+     * could be cbrried out in pbrbllel.
      */
-    class DelegatedTask<E> implements Runnable {
+    clbss DelegbtedTbsk<E> implements Runnbble {
 
-        private PrivilegedExceptionAction<E> pea;
+        privbte PrivilegedExceptionAction<E> peb;
 
-        DelegatedTask(PrivilegedExceptionAction<E> pea) {
-            this.pea = pea;
+        DelegbtedTbsk(PrivilegedExceptionAction<E> peb) {
+            this.peb = peb;
         }
 
         public void run() {
             synchronized (engine) {
                 try {
-                    AccessController.doPrivileged(pea, engine.getAcc());
-                } catch (PrivilegedActionException pae) {
-                    thrown = pae.getException();
-                } catch (RuntimeException rte) {
+                    AccessController.doPrivileged(peb, engine.getAcc());
+                } cbtch (PrivilegedActionException pbe) {
+                    thrown = pbe.getException();
+                } cbtch (RuntimeException rte) {
                     thrown = rte;
                 }
-                delegatedTask = null;
-                taskDelegated = false;
+                delegbtedTbsk = null;
+                tbskDelegbted = fblse;
             }
         }
     }
 
-    private <T> void delegateTask(PrivilegedExceptionAction<T> pea) {
-        delegatedTask = new DelegatedTask<T>(pea);
-        taskDelegated = false;
+    privbte <T> void delegbteTbsk(PrivilegedExceptionAction<T> peb) {
+        delegbtedTbsk = new DelegbtedTbsk<T>(peb);
+        tbskDelegbted = fblse;
         thrown = null;
     }
 
-    DelegatedTask<?> getTask() {
-        if (!taskDelegated) {
-            taskDelegated = true;
-            return delegatedTask;
+    DelegbtedTbsk<?> getTbsk() {
+        if (!tbskDelegbted) {
+            tbskDelegbted = true;
+            return delegbtedTbsk;
         } else {
             return null;
         }
     }
 
     /*
-     * See if there are any tasks which need to be delegated
+     * See if there bre bny tbsks which need to be delegbted
      *
      * Locked by SSLEngine.this.
      */
-    boolean taskOutstanding() {
-        return (delegatedTask != null);
+    boolebn tbskOutstbnding() {
+        return (delegbtedTbsk != null);
     }
 
     /*
-     * The previous caller failed for some reason, report back the
-     * Exception.  We won't worry about Error's.
+     * The previous cbller fbiled for some rebson, report bbck the
+     * Exception.  We won't worry bbout Error's.
      *
      * Locked by SSLEngine.this.
      */
@@ -1357,37 +1357,37 @@ abstract class Handshaker {
         synchronized (thrownLock) {
             if (thrown != null) {
 
-                String msg = thrown.getMessage();
+                String msg = thrown.getMessbge();
 
                 if (msg == null) {
-                    msg = "Delegated task threw Exception/Error";
+                    msg = "Delegbted tbsk threw Exception/Error";
                 }
 
                 /*
-                 * See what the underlying type of exception is.  We should
-                 * throw the same thing.  Chain thrown to the new exception.
+                 * See whbt the underlying type of exception is.  We should
+                 * throw the sbme thing.  Chbin thrown to the new exception.
                  */
                 Exception e = thrown;
                 thrown = null;
 
-                if (e instanceof RuntimeException) {
+                if (e instbnceof RuntimeException) {
                     throw new RuntimeException(msg, e);
-                } else if (e instanceof SSLHandshakeException) {
-                    throw (SSLHandshakeException)
-                        new SSLHandshakeException(msg).initCause(e);
-                } else if (e instanceof SSLKeyException) {
+                } else if (e instbnceof SSLHbndshbkeException) {
+                    throw (SSLHbndshbkeException)
+                        new SSLHbndshbkeException(msg).initCbuse(e);
+                } else if (e instbnceof SSLKeyException) {
                     throw (SSLKeyException)
-                        new SSLKeyException(msg).initCause(e);
-                } else if (e instanceof SSLPeerUnverifiedException) {
+                        new SSLKeyException(msg).initCbuse(e);
+                } else if (e instbnceof SSLPeerUnverifiedException) {
                     throw (SSLPeerUnverifiedException)
-                        new SSLPeerUnverifiedException(msg).initCause(e);
-                } else if (e instanceof SSLProtocolException) {
+                        new SSLPeerUnverifiedException(msg).initCbuse(e);
+                } else if (e instbnceof SSLProtocolException) {
                     throw (SSLProtocolException)
-                        new SSLProtocolException(msg).initCause(e);
+                        new SSLProtocolException(msg).initCbuse(e);
                 } else {
                     /*
-                     * If it's SSLException or any other Exception,
-                     * we'll wrap it in an SSLException.
+                     * If it's SSLException or bny other Exception,
+                     * we'll wrbp it in bn SSLException.
                      */
                     throw new SSLException(msg, e);
                 }

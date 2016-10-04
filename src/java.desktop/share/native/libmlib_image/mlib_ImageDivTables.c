@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,67 +27,67 @@
 /*
  * DESCRIPTION:
  *
- *   mlib_u16 mlib_div6_tab[x] = 0xff00/6/x;
- *   mlib_u16 mlib_div1_tab[x] = 0xff00/x;
+ *   mlib_u16 mlib_div6_tbb[x] = 0xff00/6/x;
+ *   mlib_u16 mlib_div1_tbb[x] = 0xff00/x;
  *   mlib_d64 mlib_U82D64[x] = (mlib_d64)x;
  *   mlib_f32 mlib_U82F32[x] = (mlib_f32)x;
- *   mlib_f32 mlib_HSL2RGB_L2[x] = x/255.0 for x<128, and (255-x)/255.0 for x >= 128;
- *   mlib_f32 mlib_HSL2RGB_F[x] = 1.0 - fabs(fraction(x*3/256.) * 4.0f - 2.0)
+ *   mlib_f32 mlib_HSL2RGB_L2[x] = x/255.0 for x<128, bnd (255-x)/255.0 for x >= 128;
+ *   mlib_f32 mlib_HSL2RGB_F[x] = 1.0 - fbbs(frbction(x*3/256.) * 4.0f - 2.0)
  *
  * REFERENCING:
- *   mlib_div* tables are used to exclude dividing in functions
- *     mlib_ImageColorRGB2HSV
- *     mlib_ImageColorRGB2HSL
- *     mlib_ImageDivAlpha
+ *   mlib_div* tbbles bre used to exclude dividing in functions
+ *     mlib_ImbgeColorRGB2HSV
+ *     mlib_ImbgeColorRGB2HSL
+ *     mlib_ImbgeDivAlphb
  *
- *   table mlib_U82D64 is used to exclude conversion unsigned
+ *   tbble mlib_U82D64 is used to exclude conversion unsigned
  *   byte to double in functions
- *     mlib_ImageColorConvert...
- *     mlib_ImageDataTypeConvert
- *     mlib_ImageAffine
- *     mlib_ImageAffineTable
- *     mlib_ImageZoomTranslate
- *     mlib_ImageZoomTranslateTable
- *     mlib_ImageGridWarp
- *     mlib_ImagePolynomialWarp
- *     mlib_ImageCrossCorrel
- *     mlib_ImageMoment2
- *     mlib_ImageStdDev
- *     mlib_ImageFourierTransform
+ *     mlib_ImbgeColorConvert...
+ *     mlib_ImbgeDbtbTypeConvert
+ *     mlib_ImbgeAffine
+ *     mlib_ImbgeAffineTbble
+ *     mlib_ImbgeZoomTrbnslbte
+ *     mlib_ImbgeZoomTrbnslbteTbble
+ *     mlib_ImbgeGridWbrp
+ *     mlib_ImbgePolynomiblWbrp
+ *     mlib_ImbgeCrossCorrel
+ *     mlib_ImbgeMoment2
+ *     mlib_ImbgeStdDev
+ *     mlib_ImbgeFourierTrbnsform
  *
- *   table mlib_U82F32 is used to exclude conversion unsigned
- *   byte to float in functions
- *     mlib_ImageBlend
- *     mlib_ImageDivShift
- *     mlib_ImageMulAlpha
- *     mlib_ImageMulAlpha_Inp
- *     mlib_ImageMulShift
- *     mlib_ImageBlend_BDST_BSRC
- *     mlib_ImageColorHSL2RGB
- *     mlib_ImageColorHSV2RGB
- *     mlib_ImageDataTypeConvert
- *     mlib_ImageAffine
- *     mlib_ImageAffineTable
- *     mlib_ImageZoomTranslate
- *     mlib_ImageZoomTranslateTable
- *     mlib_ImageConvMxN
- *     mlib_ImageSobel
- *     mlib_ImageGradient3x3
- *     mlib_ImageGradientMxN
+ *   tbble mlib_U82F32 is used to exclude conversion unsigned
+ *   byte to flobt in functions
+ *     mlib_ImbgeBlend
+ *     mlib_ImbgeDivShift
+ *     mlib_ImbgeMulAlphb
+ *     mlib_ImbgeMulAlphb_Inp
+ *     mlib_ImbgeMulShift
+ *     mlib_ImbgeBlend_BDST_BSRC
+ *     mlib_ImbgeColorHSL2RGB
+ *     mlib_ImbgeColorHSV2RGB
+ *     mlib_ImbgeDbtbTypeConvert
+ *     mlib_ImbgeAffine
+ *     mlib_ImbgeAffineTbble
+ *     mlib_ImbgeZoomTrbnslbte
+ *     mlib_ImbgeZoomTrbnslbteTbble
+ *     mlib_ImbgeConvMxN
+ *     mlib_ImbgeSobel
+ *     mlib_ImbgeGrbdient3x3
+ *     mlib_ImbgeGrbdientMxN
  *
- *   tables mlib_HSL2RGB_* are used to exclude conversion unsigned
- *   byte to float in functions with some computations
- *     mlib_ImageColorHSL2RGB
+ *   tbbles mlib_HSL2RGB_* bre used to exclude conversion unsigned
+ *   byte to flobt in functions with some computbtions
+ *     mlib_ImbgeColorHSL2RGB
  */
 
-#include "mlib_image.h"
+#include "mlib_imbge.h"
 #define __DIV_TABLE_DEFINED
-#include "mlib_ImageDivTables.h"
+#include "mlib_ImbgeDivTbbles.h"
 
 /***************************************************************/
 /* *INDENT-OFF* */
 
-const mlib_u16 mlib_div6_tab[] = {
+const mlib_u16 mlib_div6_tbb[] = {
  32767, 10880,  5440,  3627,  2720,  2176,  1813,  1554,
   1360,  1209,  1088,   989,   907,   837,   777,   725,
    680,   640,   604,   573,   544,   518,   495,   473,
@@ -124,7 +124,7 @@ const mlib_u16 mlib_div6_tab[] = {
 
 /***************************************************************/
 
-const mlib_u16 mlib_div1_tab[] = {
+const mlib_u16 mlib_div1_tbb[] = {
  65280, 65280, 32640, 21760, 16320, 13056, 10880,  9326,
   8160,  7253,  6528,  5935,  5440,  5022,  4663,  4352,
   4080,  3840,  3627,  3436,  3264,  3109,  2967,  2838,
@@ -311,7 +311,7 @@ const mlib_d64 mlib_U82D64[] = {
 
 /***************************************************************/
 
-const mlib_u32 mlib_FlipAndFixRotateTable[] = {
+const mlib_u32 mlib_FlipAndFixRotbteTbble[] = {
   0x00000000, 0x00000000, 0x00000000, 0x00000080,
   0x00000000, 0x00008000, 0x00000000, 0x00008080,
   0x00000000, 0x00800000, 0x00000000, 0x00800080,

@@ -1,223 +1,223 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-</head>
+</hebd>
 
 <body bgcolor="white">
 
-The main package of the Java Image I/O API.
+The mbin pbckbge of the Jbvb Imbge I/O API.
 
 <p>
 
-Many common image I/O operations may be performed using the static
-methods of the <code>ImageIO</code> class.
+Mbny common imbge I/O operbtions mby be performed using the stbtic
+methods of the <code>ImbgeIO</code> clbss.
 
 <p>
 
-This package contains the basic classes and interfaces for describing
-the contents of image files, including metadata and thumbnails
-(<code>IIOImage</code>); for controlling the image reading process
-(<code>ImageReader</code>, <code>ImageReadParam</code>, and
-<code>ImageTypeSpecifier</code>) and image writing process
-(<code>ImageWriter</code> and <code>ImageWriteParam</code>); for
-performing transcoding between formats (<code>ImageTranscoder</code>),
-and for reporting errors (<code>IIOException</code>).
+This pbckbge contbins the bbsic clbsses bnd interfbces for describing
+the contents of imbge files, including metbdbtb bnd thumbnbils
+(<code>IIOImbge</code>); for controlling the imbge rebding process
+(<code>ImbgeRebder</code>, <code>ImbgeRebdPbrbm</code>, bnd
+<code>ImbgeTypeSpecifier</code>) bnd imbge writing process
+(<code>ImbgeWriter</code> bnd <code>ImbgeWritePbrbm</code>); for
+performing trbnscoding between formbts (<code>ImbgeTrbnscoder</code>),
+bnd for reporting errors (<code>IIOException</code>).
 
 <p>
-All implementations of javax.imageio provide the following standard
-image format plug-ins:
+All implementbtions of jbvbx.imbgeio provide the following stbndbrd
+imbge formbt plug-ins:
 </p>
 <div>
-<table border=1 align='center' cellpadding=5>
+<tbble border=1 blign='center' cellpbdding=5>
 <tr>
-    <th>&nbsp;</th> <th>Reading</th> <th>Writing</th>
-    <th>Notes</th> <th>Metadata</th>
+    <th>&nbsp;</th> <th>Rebding</th> <th>Writing</th>
+    <th>Notes</th> <th>Metbdbtb</th>
 </tr>
 <!-- JPEG plugin -->
 <tr>
-    <td> <a href="http://www.jpeg.org">JPEG</a></td>
-    <td align='center'>yes</td>
-    <td align='center'>yes</td>
-    <td align='center'>none</td>
-    <td align='center'><a href='metadata/doc-files/jpeg_metadata.html'>
-    JPEG metadata format</a></td>
+    <td> <b href="http://www.jpeg.org">JPEG</b></td>
+    <td blign='center'>yes</td>
+    <td blign='center'>yes</td>
+    <td blign='center'>none</td>
+    <td blign='center'><b href='metbdbtb/doc-files/jpeg_metbdbtb.html'>
+    JPEG metbdbtb formbt</b></td>
 </tr>
 <!-- PNG plugin -->
 <tr>
-    <td><a href="http://www.libpng.org/pub/png/spec/">PNG</a></td>
-    <td align='center'>yes</td>
-    <td align='center'>yes</td>
-    <td align='center'>none</td>
-    <td align='center'><a href='metadata/doc-files/png_metadata.html'>
-    PNG metadata format</a></td>
+    <td><b href="http://www.libpng.org/pub/png/spec/">PNG</b></td>
+    <td blign='center'>yes</td>
+    <td blign='center'>yes</td>
+    <td blign='center'>none</td>
+    <td blign='center'><b href='metbdbtb/doc-files/png_metbdbtb.html'>
+    PNG metbdbtb formbt</b></td>
 </tr>
 <!-- BMP plugin -->
 <tr>
     <td>BMP</td>
-    <td align='center'>yes</td>
-    <td align='center'>yes</td>
-    <td align='center'>none</td>
-    <td align='center'><a href='metadata/doc-files/bmp_metadata.html'>
-    BMP metadata format</a></td>
+    <td blign='center'>yes</td>
+    <td blign='center'>yes</td>
+    <td blign='center'>none</td>
+    <td blign='center'><b href='metbdbtb/doc-files/bmp_metbdbtb.html'>
+    BMP metbdbtb formbt</b></td>
 </tr>
 <!-- WBMP plugin -->
 <tr>
-    <td><a href="http://www.wapforum.org/what/technical/SPEC-WAESpec-19990524.pdf">WBMP</a></td>
-    <td align='center'>yes</td>
-    <td align='center'>yes</td>
-    <td align='center'>none</td>
-    <td align='center'><a href='metadata/doc-files/wbmp_metadata.html'>
-    WBMP metadata format</a></td>
+    <td><b href="http://www.wbpforum.org/whbt/technicbl/SPEC-WAESpec-19990524.pdf">WBMP</b></td>
+    <td blign='center'>yes</td>
+    <td blign='center'>yes</td>
+    <td blign='center'>none</td>
+    <td blign='center'><b href='metbdbtb/doc-files/wbmp_metbdbtb.html'>
+    WBMP metbdbtb formbt</b></td>
 </tr>
 <!-- GIF plugin -->
 <tr>
-    <td><a href="http://www.w3.org/Graphics/GIF/spec-gif89a.txt">GIF</a></td>
-    <td align='center'>yes</td>
-    <td align='center'>yes</td>
-    <td align='center'><a href="#gif_plugin_notes">
-    GIF plug-in notes</a></td>
-    <td align='center'><a href='metadata/doc-files/gif_metadata.html'>
-    GIF metadata format</a></td>
+    <td><b href="http://www.w3.org/Grbphics/GIF/spec-gif89b.txt">GIF</b></td>
+    <td blign='center'>yes</td>
+    <td blign='center'>yes</td>
+    <td blign='center'><b href="#gif_plugin_notes">
+    GIF plug-in notes</b></td>
+    <td blign='center'><b href='metbdbtb/doc-files/gif_metbdbtb.html'>
+    GIF metbdbtb formbt</b></td>
 </tr>
-</table>
+</tbble>
 </div>
 <BR>
 <BR>
 <BR>
 
-<h2> Standard Plug-in Notes</h2>
-<h3><a name="gif_plugin_notes">Standard plug-in for GIF image format</a></h3>
+<h2> Stbndbrd Plug-in Notes</h2>
+<h3><b nbme="gif_plugin_notes">Stbndbrd plug-in for GIF imbge formbt</b></h3>
 
 
 <p>
-ImageIO provides <code>ImageReader</code> and <code>ImageWriter</code>
-plug-ins for the <a href="http://www.w3.org/Graphics/GIF/spec-gif89a.txt">
-Graphics Interchange Format (GIF)</a> image format.
+ImbgeIO provides <code>ImbgeRebder</code> bnd <code>ImbgeWriter</code>
+plug-ins for the <b href="http://www.w3.org/Grbphics/GIF/spec-gif89b.txt">
+Grbphics Interchbnge Formbt (GIF)</b> imbge formbt.
 
-These are the "standard" GIF plug-ins, meaning those that are included in the
-JRE, as distinct from those included in standard extensions, or 3rd party
-plug-ins. The following notes and metadata specification apply to the
-standard plug-ins.
+These bre the "stbndbrd" GIF plug-ins, mebning those thbt bre included in the
+JRE, bs distinct from those included in stbndbrd extensions, or 3rd pbrty
+plug-ins. The following notes bnd metbdbtb specificbtion bpply to the
+stbndbrd plug-ins.
 
-<h3>Writing GIF images</h3>
- The GIF image writer plug-in guarantees lossless writing for images which meet
+<h3>Writing GIF imbges</h3>
+ The GIF imbge writer plug-in gubrbntees lossless writing for imbges which meet
  the following requirements:
 <ul>
-<li>the number of bands is 1;
-<li>the number of bits per sample is not greater than 8;
-<li>the size of a color component is not greater than 8;
+<li>the number of bbnds is 1;
+<li>the number of bits per sbmple is not grebter thbn 8;
+<li>the size of b color component is not grebter thbn 8;
 </ul>
 
 <p>
- By default the GIF writer plug-in creates version "89a" images. This can be
- changed to "87a" by explicitly setting the version in the
- stream metadata (see <a
- href="metadata/doc-files/gif_metadata.html#gif_stream_metadata_format">
- GIF Stream Metadata Format Specification</a>).
+ By defbult the GIF writer plug-in crebtes version "89b" imbges. This cbn be
+ chbnged to "87b" by explicitly setting the version in the
+ strebm metbdbtb (see <b
+ href="metbdbtb/doc-files/gif_metbdbtb.html#gif_strebm_metbdbtb_formbt">
+ GIF Strebm Metbdbtb Formbt Specificbtion</b>).
 </p> 
  
  
-<!-- animated images -->
+<!-- bnimbted imbges -->
 <p>
- The GIF writer plug-in supports the creation of animated GIF images through
- the standard sequence writing methods defined in the
- <code>ImageWriter</code> class.
+ The GIF writer plug-in supports the crebtion of bnimbted GIF imbges through
+ the stbndbrd sequence writing methods defined in the
+ <code>ImbgeWriter</code> clbss.
  
- <!-- TODO: add example here --> 
+ <!-- TODO: bdd exbmple here --> 
 </p>
  
-<!--  color tables -->
+<!--  color tbbles -->
 <p>
- A global color table is written to the output stream if one of the
+ A globbl color tbble is written to the output strebm if one of the
  following conditions is met:
  <ul>
- <li> stream metadata containing a GlobalColorTable element is
+ <li> strebm metbdbtb contbining b GlobblColorTbble element is
   supplied; </li>
- <li> a sequence is being written and image metadata containing a
-  LocalColorTable element is supplied for the first image in the
+ <li> b sequence is being written bnd imbge metbdbtb contbining b
+  LocblColorTbble element is supplied for the first imbge in the
   sequence;</li>
- <li>image metadata is not supplied or does not contain a LocalColorTable
+ <li>imbge metbdbtb is not supplied or does not contbin b LocblColorTbble
   element. </li>
  </ul>
  
  <p>
- In the first case the global color table in the stream metadata is
-  used, in the second the local color table in the image metadata is
-  used, and in the third a global color table is created from the
-  ColorModel or SampleModel of the (first) image.
+ In the first cbse the globbl color tbble in the strebm metbdbtb is
+  used, in the second the locbl color tbble in the imbge metbdbtb is
+  used, bnd in the third b globbl color tbble is crebted from the
+  ColorModel or SbmpleModel of the (first) imbge.
  </p>
  
  <p>
- A local color table is written to the output stream only if image
-  metadata containing a LocalColorTable element is supplied to the
-  writer, or no image metadata is supplied to the writer and the local
-  color table which would be generated from the image itself is not
-  equal to the global color table.
+ A locbl color tbble is written to the output strebm only if imbge
+  metbdbtb contbining b LocblColorTbble element is supplied to the
+  writer, or no imbge metbdbtb is supplied to the writer bnd the locbl
+  color tbble which would be generbted from the imbge itself is not
+  equbl to the globbl color tbble.
  </p>
  
  <p>
- A Graphic Control Extension block is written to the output stream only
-  if image metadata containing a GraphicControlExtension element is
-  supplied to the writer, or no image metadata is supplied and the
-  local color table generated from the image requires a transparent
-  index. Application, Plain Text, and Comment Extension blocks are
-  written only if they are supplied to the writer via image metadata. 
+ A Grbphic Control Extension block is written to the output strebm only
+  if imbge metbdbtb contbining b GrbphicControlExtension element is
+  supplied to the writer, or no imbge metbdbtb is supplied bnd the
+  locbl color tbble generbted from the imbge requires b trbnspbrent
+  index. Applicbtion, Plbin Text, bnd Comment Extension blocks bre
+  written only if they bre supplied to the writer vib imbge metbdbtb. 
  
  </p>
  
- <!-- writing interlaced images -->
+ <!-- writing interlbced imbges -->
  <p>
  
-  The writing of interlaced images can be controlled by the progressive
-  mode of the provided <code>ImageWriteParam</code> instance.
+  The writing of interlbced imbges cbn be controlled by the progressive
+  mode of the provided <code>ImbgeWritePbrbm</code> instbnce.
   If progressive mode is
-  <code>MODE_DISABLED</code> then a non-interlaced image will be written. If
-  progressive mode is <code>MODE_DEFAULT</code> then an interlaced image will
+  <code>MODE_DISABLED</code> then b non-interlbced imbge will be written. If
+  progressive mode is <code>MODE_DEFAULT</code> then bn interlbced imbge will
   be written. If progressive mode is <code>MODE_COPY_FROM_METADATA</code>, then
-  the metadata setting is used (if it is provided, otherwise an interlaced
-  image will be written).
+  the metbdbtb setting is used (if it is provided, otherwise bn interlbced
+  imbge will be written).
  </p>
  
  <p>
- The GIF image writer plug-in supports setting output stream metadata from
- metadata supplied to the writer in either the native GIF stream
- metadata format <a href="metadata/doc-files/gif_metadata.html#gif_stream_metadata_format">
- javax_imageio_gif_stream_1.0 </a> or the standard metadata format
- <a href="metadata/doc-files/standard_metadata.html">
- javax_imageio_1.0</a>, and setting
- output image metadata from metadata supplied to the writer in either
- the native GIF image metadata format <a href="metadata/doc-files/gif_metadata.html#gif_image_metadata_format">
- javax_imageio_gif_image_1.0 </a> or the standard metadata format
- <a href="metadata/doc-files/standard_metadata.html">javax_imageio_1.0</a>.
+ The GIF imbge writer plug-in supports setting output strebm metbdbtb from
+ metbdbtb supplied to the writer in either the nbtive GIF strebm
+ metbdbtb formbt <b href="metbdbtb/doc-files/gif_metbdbtb.html#gif_strebm_metbdbtb_formbt">
+ jbvbx_imbgeio_gif_strebm_1.0 </b> or the stbndbrd metbdbtb formbt
+ <b href="metbdbtb/doc-files/stbndbrd_metbdbtb.html">
+ jbvbx_imbgeio_1.0</b>, bnd setting
+ output imbge metbdbtb from metbdbtb supplied to the writer in either
+ the nbtive GIF imbge metbdbtb formbt <b href="metbdbtb/doc-files/gif_metbdbtb.html#gif_imbge_metbdbtb_formbt">
+ jbvbx_imbgeio_gif_imbge_1.0 </b> or the stbndbrd metbdbtb formbt
+ <b href="metbdbtb/doc-files/stbndbrd_metbdbtb.html">jbvbx_imbgeio_1.0</b>.
   
- The mapping of standard metadata format to the GIF native stream and
- image metadata formats is given in the tables <a
- href="metadata/doc-files/gif_metadata.html#mapping"> here </a>.
+ The mbpping of stbndbrd metbdbtb formbt to the GIF nbtive strebm bnd
+ imbge metbdbtb formbts is given in the tbbles <b
+ href="metbdbtb/doc-files/gif_metbdbtb.html#mbpping"> here </b>.
  </p>
 
 
@@ -225,12 +225,12 @@ standard plug-ins.
 
 <HR>
 
-Java<SUP><FONT SIZE="-2">TM</FONT></SUP> Image I/O API Specification
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbge I/O API Specificbtion
 <BR>
 <BR>
-Public Draft 2 (specification version 0.5)
+Public Drbft 2 (specificbtion version 0.5)
 <BR>
-Release: October 1, 2000
+Relebse: October 1, 2000
 <BR>
 <BR>
 

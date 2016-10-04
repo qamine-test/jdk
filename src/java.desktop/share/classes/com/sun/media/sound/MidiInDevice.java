@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 
 
 /**
- * MidiInDevice class representing functionality of MidiIn devices.
+ * MidiInDevice clbss representing functionblity of MidiIn devices.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-final class MidiInDevice extends AbstractMidiDevice implements Runnable {
+finbl clbss MidiInDevice extends AbstrbctMidiDevice implements Runnbble {
 
-    private Thread midiInThread = null;
+    privbte Threbd midiInThrebd = null;
 
     // CONSTRUCTOR
 
-    MidiInDevice(AbstractMidiDeviceProvider.Info info) {
+    MidiInDevice(AbstrbctMidiDeviceProvider.Info info) {
         super(info);
-        if(Printer.trace) Printer.trace("MidiInDevice CONSTRUCTOR");
+        if(Printer.trbce) Printer.trbce("MidiInDevice CONSTRUCTOR");
     }
 
 
     // IMPLEMENTATION OF ABSTRACT MIDI DEVICE METHODS
 
-    // $$kk: 06.24.99: i have this both opening and starting the midi in device.
-    // may want to separate these??
-    protected synchronized void implOpen() throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace("> MidiInDevice: implOpen()");
+    // $$kk: 06.24.99: i hbve this both opening bnd stbrting the midi in device.
+    // mby wbnt to sepbrbte these??
+    protected synchronized void implOpen() throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("> MidiInDevice: implOpen()");
 
         int index = ((MidiInDeviceProvider.MidiInDeviceInfo)getDeviceInfo()).getIndex();
-        id = nOpen(index); // can throw MidiUnavailableException
+        id = nOpen(index); // cbn throw MidiUnbvbilbbleException
 
         if (id == 0) {
-            throw new MidiUnavailableException("Unable to open native device");
+            throw new MidiUnbvbilbbleException("Unbble to open nbtive device");
         }
 
-        // create / start a thread to get messages
-        if (midiInThread == null) {
-            midiInThread = JSSecurityManager.createThread(this,
-                                                    "Java Sound MidiInDevice Thread",   // name
-                                                    false,  // daemon
+        // crebte / stbrt b threbd to get messbges
+        if (midiInThrebd == null) {
+            midiInThrebd = JSSecurityMbnbger.crebteThrebd(this,
+                                                    "Jbvb Sound MidiInDevice Threbd",   // nbme
+                                                    fblse,  // dbemon
                                                     -1,    // priority
-                                                    true); // doStart
+                                                    true); // doStbrt
         }
 
-        nStart(id); // can throw MidiUnavailableException
-        if (Printer.trace) Printer.trace("< MidiInDevice: implOpen() completed");
+        nStbrt(id); // cbn throw MidiUnbvbilbbleException
+        if (Printer.trbce) Printer.trbce("< MidiInDevice: implOpen() completed");
     }
 
 
-    // $$kk: 06.24.99: i have this both stopping and closing the midi in device.
-    // may want to separate these??
+    // $$kk: 06.24.99: i hbve this both stopping bnd closing the midi in device.
+    // mby wbnt to sepbrbte these??
     protected synchronized void implClose() {
-        if (Printer.trace) Printer.trace("> MidiInDevice: implClose()");
+        if (Printer.trbce) Printer.trbce("> MidiInDevice: implClose()");
         long oldId = id;
         id = 0;
 
@@ -87,45 +87,45 @@ final class MidiInDevice extends AbstractMidiDevice implements Runnable {
 
         // close the device
         nStop(oldId);
-        if (midiInThread != null) {
+        if (midiInThrebd != null) {
             try {
-                midiInThread.join(1000);
-            } catch (InterruptedException e) {
+                midiInThrebd.join(1000);
+            } cbtch (InterruptedException e) {
                 // IGNORE EXCEPTION
             }
         }
         nClose(oldId);
-        if (Printer.trace) Printer.trace("< MidiInDevice: implClose() completed");
+        if (Printer.trbce) Printer.trbce("< MidiInDevice: implClose() completed");
     }
 
 
     public long getMicrosecondPosition() {
-        long timestamp = -1;
+        long timestbmp = -1;
         if (isOpen()) {
-            timestamp = nGetTimeStamp(id);
+            timestbmp = nGetTimeStbmp(id);
         }
-        return timestamp;
+        return timestbmp;
     }
 
 
     // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
 
 
-    protected boolean hasTransmitters() {
+    protected boolebn hbsTrbnsmitters() {
         return true;
     }
 
 
-    protected Transmitter createTransmitter() {
-        return new MidiInTransmitter();
+    protected Trbnsmitter crebteTrbnsmitter() {
+        return new MidiInTrbnsmitter();
     }
 
     /**
-      * An own class to distinguish the class name from
-      * the transmitter of other devices
+      * An own clbss to distinguish the clbss nbme from
+      * the trbnsmitter of other devices
       */
-    private final class MidiInTransmitter extends BasicTransmitter {
-        private MidiInTransmitter() {
+    privbte finbl clbss MidiInTrbnsmitter extends BbsicTrbnsmitter {
+        privbte MidiInTrbnsmitter() {
             super();
         }
     }
@@ -133,63 +133,63 @@ final class MidiInDevice extends AbstractMidiDevice implements Runnable {
     // RUNNABLE METHOD
 
     public void run() {
-        // while the device is started, keep trying to get messages.
-        // this thread returns from native code whenever stop() or close() is called
+        // while the device is stbrted, keep trying to get messbges.
+        // this threbd returns from nbtive code whenever stop() or close() is cblled
         while (id!=0) {
-            // go into native code and retrieve messages
-            nGetMessages(id);
+            // go into nbtive code bnd retrieve messbges
+            nGetMessbges(id);
             if (id!=0) {
                 try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {}
+                    Threbd.sleep(1);
+                } cbtch (InterruptedException e) {}
             }
         }
-        if(Printer.verbose) Printer.verbose("MidiInDevice Thread exit");
-        // let the thread exit
-        midiInThread = null;
+        if(Printer.verbose) Printer.verbose("MidiInDevice Threbd exit");
+        // let the threbd exit
+        midiInThrebd = null;
     }
 
 
     // CALLBACKS FROM NATIVE
 
     /**
-     * Callback from native code when a short MIDI event is received from hardware.
-     * @param packedMsg: status | data1 << 8 | data2 << 8
-     * @param timeStamp time-stamp in microseconds
+     * Cbllbbck from nbtive code when b short MIDI event is received from hbrdwbre.
+     * @pbrbm pbckedMsg: stbtus | dbtb1 << 8 | dbtb2 << 8
+     * @pbrbm timeStbmp time-stbmp in microseconds
      */
-    void callbackShortMessage(int packedMsg, long timeStamp) {
-        if (packedMsg == 0 || id == 0) {
+    void cbllbbckShortMessbge(int pbckedMsg, long timeStbmp) {
+        if (pbckedMsg == 0 || id == 0) {
             return;
         }
 
         /*if(Printer.verbose) {
-          int status = packedMsg & 0xFF;
-          int data1 = (packedMsg & 0xFF00)>>8;
-          int data2 = (packedMsg & 0xFF0000)>>16;
-          Printer.verbose(">> MidiInDevice callbackShortMessage: status: " + status + " data1: " + data1 + " data2: " + data2 + " timeStamp: " + timeStamp);
+          int stbtus = pbckedMsg & 0xFF;
+          int dbtb1 = (pbckedMsg & 0xFF00)>>8;
+          int dbtb2 = (pbckedMsg & 0xFF0000)>>16;
+          Printer.verbose(">> MidiInDevice cbllbbckShortMessbge: stbtus: " + stbtus + " dbtb1: " + dbtb1 + " dbtb2: " + dbtb2 + " timeStbmp: " + timeStbmp);
           }*/
 
-        getTransmitterList().sendMessage(packedMsg, timeStamp);
+        getTrbnsmitterList().sendMessbge(pbckedMsg, timeStbmp);
     }
 
-    void callbackLongMessage(byte[] data, long timeStamp) {
-        if (id == 0 || data == null) {
+    void cbllbbckLongMessbge(byte[] dbtb, long timeStbmp) {
+        if (id == 0 || dbtb == null) {
             return;
         }
-        getTransmitterList().sendMessage(data, timeStamp);
+        getTrbnsmitterList().sendMessbge(dbtb, timeStbmp);
     }
 
     // NATIVE METHODS
 
-    private native long nOpen(int index) throws MidiUnavailableException;
-    private native void nClose(long id);
+    privbte nbtive long nOpen(int index) throws MidiUnbvbilbbleException;
+    privbte nbtive void nClose(long id);
 
-    private native void nStart(long id) throws MidiUnavailableException;
-    private native void nStop(long id);
-    private native long nGetTimeStamp(long id);
+    privbte nbtive void nStbrt(long id) throws MidiUnbvbilbbleException;
+    privbte nbtive void nStop(long id);
+    privbte nbtive long nGetTimeStbmp(long id);
 
-    // go into native code and get messages. May be blocking
-    private native void nGetMessages(long id);
+    // go into nbtive code bnd get messbges. Mby be blocking
+    privbte nbtive void nGetMessbges(long id);
 
 
 }

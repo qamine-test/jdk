@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,59 +32,59 @@
 extern "C" {
 #endif
 
-typedef struct FontManagerNativeIDs {
+typedef struct FontMbnbgerNbtiveIDs {
 
     /* sun/font/Font2D methods */
-    jmethodID getMapperMID;
-    jmethodID getTableBytesMID;
-    jmethodID canDisplayMID;
-    jmethodID f2dCharToGlyphMID;
+    jmethodID getMbpperMID;
+    jmethodID getTbbleBytesMID;
+    jmethodID cbnDisplbyMID;
+    jmethodID f2dChbrToGlyphMID;
 
-    /* sun/font/CharToGlyphMapper methods */
-    jmethodID charToGlyphMID;
+    /* sun/font/ChbrToGlyphMbpper methods */
+    jmethodID chbrToGlyphMID;
 
-    /* sun/font/PhysicalStrike methods */
+    /* sun/font/PhysicblStrike methods */
     jmethodID getGlyphMetricsMID;
     jmethodID getGlyphPointMID;
-    jmethodID adjustPointMID;
-    jfieldID  pScalerContextFID;
+    jmethodID bdjustPointMID;
+    jfieldID  pScblerContextFID;
 
-    /* java/awt/geom/Rectangle2D.Float */
-    jclass rect2DFloatClass;
-    jmethodID rect2DFloatCtr;
-    jmethodID rect2DFloatCtr4;
+    /* jbvb/bwt/geom/Rectbngle2D.Flobt */
+    jclbss rect2DFlobtClbss;
+    jmethodID rect2DFlobtCtr;
+    jmethodID rect2DFlobtCtr4;
     jfieldID rectF2DX, rectF2DY, rectF2DWidth, rectF2DHeight;
 
-    /* java/awt/geom/Point2D.Float */
-    jclass pt2DFloatClass;
-    jmethodID pt2DFloatCtr;
+    /* jbvb/bwt/geom/Point2D.Flobt */
+    jclbss pt2DFlobtClbss;
+    jmethodID pt2DFlobtCtr;
     jfieldID xFID, yFID;
 
-    /* java/awt/geom/GeneralPath */
-    jclass gpClass;
+    /* jbvb/bwt/geom/GenerblPbth */
+    jclbss gpClbss;
     jmethodID gpCtr;
     jmethodID gpCtrEmpty;
 
     /* sun/font/StrikeMetrics */
-    jclass strikeMetricsClass;
+    jclbss strikeMetricsClbss;
     jmethodID strikeMetricsCtr;
 
     /* sun/font/TrueTypeFont */
-    jmethodID ttReadBlockMID;
-    jmethodID ttReadBytesMID;
+    jmethodID ttRebdBlockMID;
+    jmethodID ttRebdBytesMID;
 
     /* sun/font/Type1Font */
-    jmethodID readFileMID;
+    jmethodID rebdFileMID;
 
     /* sun/font/GlyphList */
     jfieldID glyphListX, glyphListY, glyphListLen,
-      glyphImages, glyphListUsePos, glyphListPos, lcdRGBOrder, lcdSubPixPos;
-} FontManagerNativeIDs;
+      glyphImbges, glyphListUsePos, glyphListPos, lcdRGBOrder, lcdSubPixPos;
+} FontMbnbgerNbtiveIDs;
 
-/* Note: we share variable in the context of fontmanager lib
-   but we need access method to use it from separate rasterizer lib */
-extern FontManagerNativeIDs sunFontIDs;
-JNIEXPORT FontManagerNativeIDs getSunFontIDs(JNIEnv* env);
+/* Note: we shbre vbribble in the context of fontmbnbger lib
+   but we need bccess method to use it from sepbrbte rbsterizer lib */
+extern FontMbnbgerNbtiveIDs sunFontIDs;
+JNIEXPORT FontMbnbgerNbtiveIDs getSunFontIDs(JNIEnv* env);
 
 #ifdef  __cplusplus
 }

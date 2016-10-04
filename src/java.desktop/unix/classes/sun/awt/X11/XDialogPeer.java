@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import sun.awt.AWTAccessor;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import sun.bwt.AWTAccessor;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-class XDialogPeer extends XDecoratedPeer implements DialogPeer {
+clbss XDiblogPeer extends XDecorbtedPeer implements DiblogPeer {
 
-    private Boolean undecorated;
+    privbte Boolebn undecorbted;
 
-    XDialogPeer(Dialog target) {
-        super(target);
+    XDiblogPeer(Diblog tbrget) {
+        super(tbrget);
     }
 
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    public void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
 
-        Dialog target = (Dialog)(this.target);
-        undecorated = Boolean.valueOf(target.isUndecorated());
-        winAttr.nativeDecor = !target.isUndecorated();
-        if (winAttr.nativeDecor) {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_ALL;
+        Diblog tbrget = (Diblog)(this.tbrget);
+        undecorbted = Boolebn.vblueOf(tbrget.isUndecorbted());
+        winAttr.nbtiveDecor = !tbrget.isUndecorbted();
+        if (winAttr.nbtiveDecor) {
+            winAttr.decorbtions = XWindowAttributesDbtb.AWT_DECOR_ALL;
         } else {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_NONE;
+            winAttr.decorbtions = XWindowAttributesDbtb.AWT_DECOR_NONE;
         }
-        winAttr.functions = MWMConstants.MWM_FUNC_ALL;
-        winAttr.isResizable =  true; //target.isResizable();
-        winAttr.initialResizability =  target.isResizable();
-        winAttr.title = target.getTitle();
-        winAttr.initialState = XWindowAttributesData.NORMAL;
+        winAttr.functions = MWMConstbnts.MWM_FUNC_ALL;
+        winAttr.isResizbble =  true; //tbrget.isResizbble();
+        winAttr.initiblResizbbility =  tbrget.isResizbble();
+        winAttr.title = tbrget.getTitle();
+        winAttr.initiblStbte = XWindowAttributesDbtb.NORMAL;
     }
 
-    public void setVisible(boolean vis) {
-        XToolkit.awtLock();
+    public void setVisible(boolebn vis) {
+        XToolkit.bwtLock();
         try {
-            Dialog target = (Dialog)this.target;
+            Diblog tbrget = (Diblog)this.tbrget;
             if (vis) {
-                if (target.getModalityType() != Dialog.ModalityType.MODELESS) {
-                    if (!isModalBlocked()) {
-                        XBaseWindow.ungrabInput();
+                if (tbrget.getModblityType() != Diblog.ModblityType.MODELESS) {
+                    if (!isModblBlocked()) {
+                        XBbseWindow.ungrbbInput();
                     }
                 }
             } else {
-                restoreTransientFor(this);
-                prevTransientFor = null;
-                nextTransientFor = null;
+                restoreTrbnsientFor(this);
+                prevTrbnsientFor = null;
+                nextTrbnsientFor = null;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
         super.setVisible(vis);
     }
 
     @Override
-    boolean isTargetUndecorated() {
-        if (undecorated != null) {
-            return undecorated.booleanValue();
+    boolebn isTbrgetUndecorbted() {
+        if (undecorbted != null) {
+            return undecorbted.boolebnVblue();
         } else {
-            return ((Dialog)target).isUndecorated();
+            return ((Diblog)tbrget).isUndecorbted();
         }
     }
 
-    int getDecorations() {
-        int d = super.getDecorations();
-        // remove minimize and maximize buttons for dialogs
-        if ((d & MWMConstants.MWM_DECOR_ALL) != 0) {
-            d |= (MWMConstants.MWM_DECOR_MINIMIZE | MWMConstants.MWM_DECOR_MAXIMIZE);
+    int getDecorbtions() {
+        int d = super.getDecorbtions();
+        // remove minimize bnd mbximize buttons for diblogs
+        if ((d & MWMConstbnts.MWM_DECOR_ALL) != 0) {
+            d |= (MWMConstbnts.MWM_DECOR_MINIMIZE | MWMConstbnts.MWM_DECOR_MAXIMIZE);
         } else {
-            d &= ~(MWMConstants.MWM_DECOR_MINIMIZE | MWMConstants.MWM_DECOR_MAXIMIZE);
+            d &= ~(MWMConstbnts.MWM_DECOR_MINIMIZE | MWMConstbnts.MWM_DECOR_MAXIMIZE);
         }
         return d;
     }
 
     int getFunctions() {
         int f = super.getFunctions();
-        // remove minimize and maximize functions for dialogs
-        if ((f & MWMConstants.MWM_FUNC_ALL) != 0) {
-            f |= (MWMConstants.MWM_FUNC_MINIMIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+        // remove minimize bnd mbximize functions for diblogs
+        if ((f & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+            f |= (MWMConstbnts.MWM_FUNC_MINIMIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
         } else {
-            f &= ~(MWMConstants.MWM_FUNC_MINIMIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+            f &= ~(MWMConstbnts.MWM_FUNC_MINIMIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
         }
         return f;
     }
 
-    public void blockWindows(java.util.List<Window> toBlock) {
-        Vector<XWindowPeer> javaToplevels = null;
-        XToolkit.awtLock();
+    public void blockWindows(jbvb.util.List<Window> toBlock) {
+        Vector<XWindowPeer> jbvbToplevels = null;
+        XToolkit.bwtLock();
         try {
-            javaToplevels = XWindowPeer.collectJavaToplevels();
+            jbvbToplevels = XWindowPeer.collectJbvbToplevels();
             for (Window w : toBlock) {
                 XWindowPeer wp = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
                 if (wp != null) {
-                    wp.setModalBlocked((Dialog)target, true, javaToplevels);
+                    wp.setModblBlocked((Diblog)tbrget, true, jbvbToplevels);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /*
-     * WARNING: don't call client code in this method!
+     * WARNING: don't cbll client code in this method!
      *
-     * The check is performed before the dialog is shown.
-     * The focused window can't be blocked at the time it's focused.
-     * Thus we don't have to perform any transitive (a blocker of a blocker) checks.
+     * The check is performed before the diblog is shown.
+     * The focused window cbn't be blocked bt the time it's focused.
+     * Thus we don't hbve to perform bny trbnsitive (b blocker of b blocker) checks.
      */
-    boolean isFocusedWindowModalBlocker() {
-        Window focusedWindow = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow();
+    boolebn isFocusedWindowModblBlocker() {
+        Window focusedWindow = XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusedWindow();
         XWindowPeer focusedWindowPeer = null;
 
         if (focusedWindow != null) {
             focusedWindowPeer = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(focusedWindow);
         } else {
             /*
-             * For the case when a potential blocked window is not yet focused
-             * on the Java level (e.g. it's just been mapped) we're asking for the
-             * focused window on the native level.
+             * For the cbse when b potentibl blocked window is not yet focused
+             * on the Jbvb level (e.g. it's just been mbpped) we're bsking for the
+             * focused window on the nbtive level.
              */
-            focusedWindowPeer = getNativeFocusedWindowPeer();
+            focusedWindowPeer = getNbtiveFocusedWindowPeer();
         }
-        synchronized (getStateLock()) {
-            if (focusedWindowPeer != null && focusedWindowPeer.modalBlocker == target) {
+        synchronized (getStbteLock()) {
+            if (focusedWindowPeer != null && focusedWindowPeer.modblBlocker == tbrget) {
                 return true;
             }
         }
-        return super.isFocusedWindowModalBlocker();
+        return super.isFocusedWindowModblBlocker();
     }
 }

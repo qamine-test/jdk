@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 #include "jni.h"
-#include "AccelGlyphCache.h"
-#include "Trace.h"
+#include "AccelGlyphCbche.h"
+#include "Trbce.h"
 
 /**
- * When the cache is full, we will try to reuse the cache cells that have
- * been used relatively less than the others (and we will save the cells that
- * have been rendered more than the threshold defined here).
+ * When the cbche is full, we will try to reuse the cbche cells thbt hbve
+ * been used relbtively less thbn the others (bnd we will sbve the cells thbt
+ * hbve been rendered more thbn the threshold defined here).
  */
 #define TIMES_RENDERED_THRESHOLD 5
 
 /**
- * Creates a new GlyphCacheInfo structure, fills in the initial values, and
- * then returns a pointer to the GlyphCacheInfo record.
+ * Crebtes b new GlyphCbcheInfo structure, fills in the initibl vblues, bnd
+ * then returns b pointer to the GlyphCbcheInfo record.
  *
- * Note that this method only sets up a data structure describing a
- * rectangular region of accelerated memory, containing "virtual" cells of
- * the requested size.  The cell information is added lazily to the linked
- * list describing the cache as new glyphs are added.  Platform specific
- * glyph caching code is responsible for actually creating the accelerated
- * memory surface that will contain the individual glyph images.
+ * Note thbt this method only sets up b dbtb structure describing b
+ * rectbngulbr region of bccelerbted memory, contbining "virtubl" cells of
+ * the requested size.  The cell informbtion is bdded lbzily to the linked
+ * list describing the cbche bs new glyphs bre bdded.  Plbtform specific
+ * glyph cbching code is responsible for bctublly crebting the bccelerbted
+ * memory surfbce thbt will contbin the individubl glyph imbges.
  *
- * Each glyph contains a reference to a list of cell infos - one per glyph
- * cache. There may be multiple glyph caches (for example, one per graphics
- * adapter), so if the glyph is cached on two devices its cell list will
- * consists of two elements corresponding to different glyph caches.
+ * Ebch glyph contbins b reference to b list of cell infos - one per glyph
+ * cbche. There mby be multiple glyph cbches (for exbmple, one per grbphics
+ * bdbpter), so if the glyph is cbched on two devices its cell list will
+ * consists of two elements corresponding to different glyph cbches.
  *
- * The platform-specific glyph caching code is supposed to use
- * GetCellInfoForCache method for retrieving cache infos from the glyph's list.
+ * The plbtform-specific glyph cbching code is supposed to use
+ * GetCellInfoForCbche method for retrieving cbche infos from the glyph's list.
  *
- * Note that if it is guaranteed that there will be only one global glyph
- * cache then it one does not have to use AccelGlyphCache_GetCellInfoForCache
- * for retrieving cell info for the glyph, but instead just use the struct's
+ * Note thbt if it is gubrbnteed thbt there will be only one globbl glyph
+ * cbche then it one does not hbve to use AccelGlyphCbche_GetCellInfoForCbche
+ * for retrieving cell info for the glyph, but instebd just use the struct's
  * field directly.
  */
-GlyphCacheInfo *
-AccelGlyphCache_Init(jint width, jint height,
+GlyphCbcheInfo *
+AccelGlyphCbche_Init(jint width, jint height,
                      jint cellWidth, jint cellHeight,
                      FlushFunc *func)
 {
-    GlyphCacheInfo *gcinfo;
+    GlyphCbcheInfo *gcinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Init");
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_Init");
 
-    gcinfo = (GlyphCacheInfo *)malloc(sizeof(GlyphCacheInfo));
+    gcinfo = (GlyphCbcheInfo *)mblloc(sizeof(GlyphCbcheInfo));
     if (gcinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "AccelGlyphCache_Init: could not allocate GlyphCacheInfo");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "AccelGlyphCbche_Init: could not bllocbte GlyphCbcheInfo");
         return NULL;
     }
 
-    gcinfo->head = NULL;
-    gcinfo->tail = NULL;
+    gcinfo->hebd = NULL;
+    gcinfo->tbil = NULL;
     gcinfo->width = width;
     gcinfo->height = height;
     gcinfo->cellWidth = cellWidth;
@@ -88,262 +88,262 @@ AccelGlyphCache_Init(jint width, jint height,
 }
 
 /**
- * Attempts to add the provided glyph to the specified cache.  If the
- * operation is successful, a pointer to the newly occupied cache cell is
+ * Attempts to bdd the provided glyph to the specified cbche.  If the
+ * operbtion is successful, b pointer to the newly occupied cbche cell is
  * stored in the glyph's cellInfo field; otherwise, its cellInfo field is
- * set to NULL, indicating that the glyph's original bits should be rendered
- * instead.  If the cache is full, the least-recently-used glyph is
- * invalidated and its cache cell is reassigned to the new glyph being added.
+ * set to NULL, indicbting thbt the glyph's originbl bits should be rendered
+ * instebd.  If the cbche is full, the lebst-recently-used glyph is
+ * invblidbted bnd its cbche cell is rebssigned to the new glyph being bdded.
  *
- * Note that this method only ensures that a rectangular region in the
- * "virtual" glyph cache is available for the glyph image.  Platform specific
- * glyph caching code is responsible for actually caching the glyph image
- * in the associated accelerated memory surface.
+ * Note thbt this method only ensures thbt b rectbngulbr region in the
+ * "virtubl" glyph cbche is bvbilbble for the glyph imbge.  Plbtform specific
+ * glyph cbching code is responsible for bctublly cbching the glyph imbge
+ * in the bssocibted bccelerbted memory surfbce.
  *
- * Returns created cell info if it was successfully created and added to the
- * cache and glyph's cell lists, NULL otherwise.
+ * Returns crebted cell info if it wbs successfully crebted bnd bdded to the
+ * cbche bnd glyph's cell lists, NULL otherwise.
  */
-CacheCellInfo *
-AccelGlyphCache_AddGlyph(GlyphCacheInfo *cache, GlyphInfo *glyph)
+CbcheCellInfo *
+AccelGlyphCbche_AddGlyph(GlyphCbcheInfo *cbche, GlyphInfo *glyph)
 {
-    CacheCellInfo *cellinfo = NULL;
+    CbcheCellInfo *cellinfo = NULL;
     jint w = glyph->width;
     jint h = glyph->height;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_AddGlyph");
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_AddGlyph");
 
-    if ((glyph->width > cache->cellWidth) ||
-        (glyph->height > cache->cellHeight))
+    if ((glyph->width > cbche->cellWidth) ||
+        (glyph->height > cbche->cellHeight))
     {
         return NULL;
     }
 
-    if (!cache->isFull) {
+    if (!cbche->isFull) {
         jint x, y;
 
-        if (cache->head == NULL) {
+        if (cbche->hebd == NULL) {
             x = 0;
             y = 0;
         } else {
-            x = cache->tail->x + cache->cellWidth;
-            y = cache->tail->y;
-            if ((x + cache->cellWidth) > cache->width) {
+            x = cbche->tbil->x + cbche->cellWidth;
+            y = cbche->tbil->y;
+            if ((x + cbche->cellWidth) > cbche->width) {
                 x = 0;
-                y += cache->cellHeight;
-                if ((y + cache->cellHeight) > cache->height) {
-                    // no room left for a new cell; we'll go through the
-                    // isFull path below
-                    cache->isFull = JNI_TRUE;
+                y += cbche->cellHeight;
+                if ((y + cbche->cellHeight) > cbche->height) {
+                    // no room left for b new cell; we'll go through the
+                    // isFull pbth below
+                    cbche->isFull = JNI_TRUE;
                 }
             }
         }
 
-        if (!cache->isFull) {
-            // create new CacheCellInfo
-            cellinfo = (CacheCellInfo *)malloc(sizeof(CacheCellInfo));
+        if (!cbche->isFull) {
+            // crebte new CbcheCellInfo
+            cellinfo = (CbcheCellInfo *)mblloc(sizeof(CbcheCellInfo));
             if (cellinfo == NULL) {
-                J2dTraceLn(J2D_TRACE_ERROR, "could not allocate CellInfo");
+                J2dTrbceLn(J2D_TRACE_ERROR, "could not bllocbte CellInfo");
                 return NULL;
             }
 
-            cellinfo->cacheInfo = cache;
+            cellinfo->cbcheInfo = cbche;
             cellinfo->glyphInfo = glyph;
             cellinfo->timesRendered = 0;
             cellinfo->x = x;
             cellinfo->y = y;
             cellinfo->leftOff = 0;
             cellinfo->rightOff = 0;
-            cellinfo->tx1 = (jfloat)cellinfo->x / cache->width;
-            cellinfo->ty1 = (jfloat)cellinfo->y / cache->height;
-            cellinfo->tx2 = cellinfo->tx1 + ((jfloat)w / cache->width);
-            cellinfo->ty2 = cellinfo->ty1 + ((jfloat)h / cache->height);
+            cellinfo->tx1 = (jflobt)cellinfo->x / cbche->width;
+            cellinfo->ty1 = (jflobt)cellinfo->y / cbche->height;
+            cellinfo->tx2 = cellinfo->tx1 + ((jflobt)w / cbche->width);
+            cellinfo->ty2 = cellinfo->ty1 + ((jflobt)h / cbche->height);
 
-            if (cache->head == NULL) {
-                // initialize the head cell
-                cache->head = cellinfo;
+            if (cbche->hebd == NULL) {
+                // initiblize the hebd cell
+                cbche->hebd = cellinfo;
             } else {
-                // update existing tail cell
-                cache->tail->next = cellinfo;
+                // updbte existing tbil cell
+                cbche->tbil->next = cellinfo;
             }
 
-            // add the new cell to the end of the list
-            cache->tail = cellinfo;
+            // bdd the new cell to the end of the list
+            cbche->tbil = cellinfo;
             cellinfo->next = NULL;
             cellinfo->nextGCI = NULL;
         }
     }
 
-    if (cache->isFull) {
+    if (cbche->isFull) {
         /**
-         * Search through the cells, and for each cell:
+         * Sebrch through the cells, bnd for ebch cell:
          *   - reset its timesRendered counter to zero
          *   - toss it to the end of the list
-         * Eventually we will find a cell that either:
+         * Eventublly we will find b cell thbt either:
          *   - is empty, or
-         *   - has been used less than the threshold
-         * When we find such a cell, we will:
-         *   - break out of the loop
-         *   - invalidate any glyph that may be residing in that cell
-         *   - update the cell with the new resident glyph's information
+         *   - hbs been used less thbn the threshold
+         * When we find such b cell, we will:
+         *   - brebk out of the loop
+         *   - invblidbte bny glyph thbt mby be residing in thbt cell
+         *   - updbte the cell with the new resident glyph's informbtion
          *
-         * The goal here is to keep the glyphs rendered most often in the
-         * cache, while younger glyphs hang out near the end of the list.
-         * Those young glyphs that have only been used a few times will move
-         * towards the head of the list and will eventually be kicked to
+         * The gobl here is to keep the glyphs rendered most often in the
+         * cbche, while younger glyphs hbng out nebr the end of the list.
+         * Those young glyphs thbt hbve only been used b few times will move
+         * towbrds the hebd of the list bnd will eventublly be kicked to
          * the curb.
          *
-         * In the worst-case scenario, all cells will be occupied and they
-         * will all have timesRendered counts above the threshold, so we will
-         * end up iterating through all the cells exactly once.  Since we are
-         * resetting their counters along the way, we are guaranteed to
-         * eventually hit the original "head" cell, whose counter is now zero.
-         * This avoids the possibility of an infinite loop.
+         * In the worst-cbse scenbrio, bll cells will be occupied bnd they
+         * will bll hbve timesRendered counts bbove the threshold, so we will
+         * end up iterbting through bll the cells exbctly once.  Since we bre
+         * resetting their counters blong the wby, we bre gubrbnteed to
+         * eventublly hit the originbl "hebd" cell, whose counter is now zero.
+         * This bvoids the possibility of bn infinite loop.
          */
 
         do {
-            // the head cell will be updated on each iteration
-            CacheCellInfo *current = cache->head;
+            // the hebd cell will be updbted on ebch iterbtion
+            CbcheCellInfo *current = cbche->hebd;
 
             if ((current->glyphInfo == NULL) ||
                 (current->timesRendered < TIMES_RENDERED_THRESHOLD))
             {
-                // all bow before the chosen one (we will break out of the
-                // loop now that we've found an appropriate cell)
+                // bll bow before the chosen one (we will brebk out of the
+                // loop now thbt we've found bn bppropribte cell)
                 cellinfo = current;
             }
 
-            // move cell to the end of the list; update existing head and
-            // tail pointers
-            cache->head = current->next;
-            cache->tail->next = current;
-            cache->tail = current;
+            // move cell to the end of the list; updbte existing hebd bnd
+            // tbil pointers
+            cbche->hebd = current->next;
+            cbche->tbil->next = current;
+            cbche->tbil = current;
             current->next = NULL;
             current->timesRendered = 0;
         } while (cellinfo == NULL);
 
         if (cellinfo->glyphInfo != NULL) {
-            // flush in case any pending vertices are depending on the
-            // glyph that is about to be kicked out
-            if (cache->Flush != NULL) {
-                cache->Flush();
+            // flush in cbse bny pending vertices bre depending on the
+            // glyph thbt is bbout to be kicked out
+            if (cbche->Flush != NULL) {
+                cbche->Flush();
             }
 
-            // if the cell is occupied, notify the base glyph that the
-            // cached version for this cache is about to be kicked out
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+            // if the cell is occupied, notify the bbse glyph thbt the
+            // cbched version for this cbche is bbout to be kicked out
+            AccelGlyphCbche_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
         }
 
-        // update cellinfo with glyph's occupied region information
+        // updbte cellinfo with glyph's occupied region informbtion
         cellinfo->glyphInfo = glyph;
-        cellinfo->tx2 = cellinfo->tx1 + ((jfloat)w / cache->width);
-        cellinfo->ty2 = cellinfo->ty1 + ((jfloat)h / cache->height);
+        cellinfo->tx2 = cellinfo->tx1 + ((jflobt)w / cbche->width);
+        cellinfo->ty2 = cellinfo->ty1 + ((jflobt)h / cbche->height);
     }
 
-    // add cache cell to the glyph's cells list
-    AccelGlyphCache_AddCellInfo(glyph, cellinfo);
+    // bdd cbche cell to the glyph's cells list
+    AccelGlyphCbche_AddCellInfo(glyph, cellinfo);
     return cellinfo;
 }
 
 /**
- * Invalidates all cells in the cache.  Note that this method does not
- * attempt to compact the cache in any way; it just invalidates any cells
- * that already exist.
+ * Invblidbtes bll cells in the cbche.  Note thbt this method does not
+ * bttempt to compbct the cbche in bny wby; it just invblidbtes bny cells
+ * thbt blrebdy exist.
  */
 void
-AccelGlyphCache_Invalidate(GlyphCacheInfo *cache)
+AccelGlyphCbche_Invblidbte(GlyphCbcheInfo *cbche)
 {
-    CacheCellInfo *cellinfo;
+    CbcheCellInfo *cellinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Invalidate");
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_Invblidbte");
 
-    if (cache == NULL) {
+    if (cbche == NULL) {
         return;
     }
 
-    // flush any pending vertices that may be depending on the current
-    // glyph cache layout
-    if (cache->Flush != NULL) {
-        cache->Flush();
+    // flush bny pending vertices thbt mby be depending on the current
+    // glyph cbche lbyout
+    if (cbche->Flush != NULL) {
+        cbche->Flush();
     }
 
-    cellinfo = cache->head;
+    cellinfo = cbche->hebd;
     while (cellinfo != NULL) {
         if (cellinfo->glyphInfo != NULL) {
-            // if the cell is occupied, notify the base glyph that its
-            // cached version for this cache is about to be invalidated
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+            // if the cell is occupied, notify the bbse glyph thbt its
+            // cbched version for this cbche is bbout to be invblidbted
+            AccelGlyphCbche_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
         }
         cellinfo = cellinfo->next;
     }
 }
 
 /**
- * Invalidates and frees all cells and the cache itself. The "cache" pointer
- * becomes invalid after this function returns.
+ * Invblidbtes bnd frees bll cells bnd the cbche itself. The "cbche" pointer
+ * becomes invblid bfter this function returns.
  */
 void
-AccelGlyphCache_Free(GlyphCacheInfo *cache)
+AccelGlyphCbche_Free(GlyphCbcheInfo *cbche)
 {
-    CacheCellInfo *cellinfo;
+    CbcheCellInfo *cellinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Free");
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_Free");
 
-    if (cache == NULL) {
+    if (cbche == NULL) {
         return;
     }
 
-    // flush any pending vertices that may be depending on the current
-    // glyph cache
-    if (cache->Flush != NULL) {
-        cache->Flush();
+    // flush bny pending vertices thbt mby be depending on the current
+    // glyph cbche
+    if (cbche->Flush != NULL) {
+        cbche->Flush();
     }
 
-    while (cache->head != NULL) {
-        cellinfo = cache->head;
+    while (cbche->hebd != NULL) {
+        cellinfo = cbche->hebd;
         if (cellinfo->glyphInfo != NULL) {
-            // if the cell is occupied, notify the base glyph that its
-            // cached version for this cache is about to be invalidated
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+            // if the cell is occupied, notify the bbse glyph thbt its
+            // cbched version for this cbche is bbout to be invblidbted
+            AccelGlyphCbche_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
         }
-        cache->head = cellinfo->next;
+        cbche->hebd = cellinfo->next;
         free(cellinfo);
     }
-    free(cache);
+    free(cbche);
 }
 
 /**
- * Add cell info to the head of the glyph's list of cached cells.
+ * Add cell info to the hebd of the glyph's list of cbched cells.
  */
 void
-AccelGlyphCache_AddCellInfo(GlyphInfo *glyph, CacheCellInfo *cellInfo)
+AccelGlyphCbche_AddCellInfo(GlyphInfo *glyph, CbcheCellInfo *cellInfo)
 {
-    // assert (glyph != NULL && cellInfo != NULL)
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_AddCellInfo");
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  glyph 0x%x: adding cell 0x%x to the list",
+    // bssert (glyph != NULL && cellInfo != NULL)
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_AddCellInfo");
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  glyph 0x%x: bdding cell 0x%x to the list",
                 glyph, cellInfo);
 
     cellInfo->glyphInfo = glyph;
     cellInfo->nextGCI = glyph->cellInfo;
     glyph->cellInfo = cellInfo;
-    glyph->managed = MANAGED_GLYPH;
+    glyph->mbnbged = MANAGED_GLYPH;
 }
 
 /**
- * Removes cell info from the glyph's list of cached cells.
+ * Removes cell info from the glyph's list of cbched cells.
  */
 void
-AccelGlyphCache_RemoveCellInfo(GlyphInfo *glyph, CacheCellInfo *cellInfo)
+AccelGlyphCbche_RemoveCellInfo(GlyphInfo *glyph, CbcheCellInfo *cellInfo)
 {
-    CacheCellInfo *currCellInfo = glyph->cellInfo;
-    CacheCellInfo *prevInfo = NULL;
-    // assert (glyph!= NULL && glyph->cellInfo != NULL && cellInfo != NULL)
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_RemoveCellInfo");
+    CbcheCellInfo *currCellInfo = glyph->cellInfo;
+    CbcheCellInfo *prevInfo = NULL;
+    // bssert (glyph!= NULL && glyph->cellInfo != NULL && cellInfo != NULL)
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_RemoveCellInfo");
     do {
         if (currCellInfo == cellInfo) {
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
+            J2dTrbceLn2(J2D_TRACE_VERBOSE,
                         "  glyph 0x%x: removing cell 0x%x from glyph's list",
                         glyph, currCellInfo);
-            if (prevInfo == NULL) { // it's the head, chop-chop
+            if (prevInfo == NULL) { // it's the hebd, chop-chop
                 glyph->cellInfo = currCellInfo->nextGCI;
             } else {
                 prevInfo->nextGCI = currCellInfo->nextGCI;
@@ -355,26 +355,26 @@ AccelGlyphCache_RemoveCellInfo(GlyphInfo *glyph, CacheCellInfo *cellInfo)
         prevInfo = currCellInfo;
         currCellInfo = currCellInfo->nextGCI;
     } while (currCellInfo != NULL);
-    J2dTraceLn2(J2D_TRACE_WARNING, "AccelGlyphCache_RemoveCellInfo: "\
+    J2dTrbceLn2(J2D_TRACE_WARNING, "AccelGlyphCbche_RemoveCellInfo: "\
                 "no cell 0x%x in glyph 0x%x's cell list",
                 cellInfo, glyph);
 }
 
 /**
- * Removes cell info from the glyph's list of cached cells.
+ * Removes cell info from the glyph's list of cbched cells.
  */
 JNIEXPORT void
-AccelGlyphCache_RemoveAllCellInfos(GlyphInfo *glyph)
+AccelGlyphCbche_RemoveAllCellInfos(GlyphInfo *glyph)
 {
-    CacheCellInfo *currCell, *prevCell;
+    CbcheCellInfo *currCell, *prevCell;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_RemoveAllCellInfos");
+    J2dTrbceLn(J2D_TRACE_INFO, "AccelGlyphCbche_RemoveAllCellInfos");
 
     if (glyph == NULL || glyph->cellInfo == NULL) {
         return;
     }
 
-    // invalidate all of this glyph's accelerated cache cells
+    // invblidbte bll of this glyph's bccelerbted cbche cells
     currCell = glyph->cellInfo;
     do {
         currCell->glyphInfo = NULL;
@@ -387,29 +387,29 @@ AccelGlyphCache_RemoveAllCellInfos(GlyphInfo *glyph)
 }
 
 /**
- * Returns cell info associated with particular cache from the glyph's list of
- * cached cells.
+ * Returns cell info bssocibted with pbrticulbr cbche from the glyph's list of
+ * cbched cells.
  */
-CacheCellInfo *
-AccelGlyphCache_GetCellInfoForCache(GlyphInfo *glyph, GlyphCacheInfo *cache)
+CbcheCellInfo *
+AccelGlyphCbche_GetCellInfoForCbche(GlyphInfo *glyph, GlyphCbcheInfo *cbche)
 {
-    // assert (glyph != NULL && cache != NULL)
-    J2dTraceLn(J2D_TRACE_VERBOSE2, "AccelGlyphCache_GetCellInfoForCache");
+    // bssert (glyph != NULL && cbche != NULL)
+    J2dTrbceLn(J2D_TRACE_VERBOSE2, "AccelGlyphCbche_GetCellInfoForCbche");
 
     if (glyph->cellInfo != NULL) {
-        CacheCellInfo *cellInfo = glyph->cellInfo;
+        CbcheCellInfo *cellInfo = glyph->cellInfo;
         do {
-            if (cellInfo->cacheInfo == cache) {
-                J2dTraceLn3(J2D_TRACE_VERBOSE2,
-                            "  glyph 0x%x: found cell 0x%x for cache 0x%x",
-                            glyph, cellInfo, cache);
+            if (cellInfo->cbcheInfo == cbche) {
+                J2dTrbceLn3(J2D_TRACE_VERBOSE2,
+                            "  glyph 0x%x: found cell 0x%x for cbche 0x%x",
+                            glyph, cellInfo, cbche);
                 return cellInfo;
             }
             cellInfo = cellInfo->nextGCI;
         } while (cellInfo != NULL);
     }
-    J2dTraceLn2(J2D_TRACE_VERBOSE2, "  glyph 0x%x: no cell for cache 0x%x",
-                glyph, cache);
+    J2dTrbceLn2(J2D_TRACE_VERBOSE2, "  glyph 0x%x: no cell for cbche 0x%x",
+                glyph, cbche);
     return NULL;
 }
 

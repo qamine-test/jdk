@@ -3,69 +3,69 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.trbnsform.Source;
+import jbvbx.xml.trbnsform.Trbnsformer;
+import jbvbx.xml.trbnsform.TrbnsformerConfigurbtionException;
+import jbvbx.xml.trbnsform.TrbnsformerException;
+import jbvbx.xml.trbnsform.TrbnsformerFbctory;
+import jbvbx.xml.trbnsform.dom.DOMSource;
+import jbvbx.xml.trbnsform.strebm.StrebmResult;
+import jbvbx.xml.trbnsform.strebm.StrebmSource;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformSpi;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformbtionException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * Class TransformXSLT
+ * Clbss TrbnsformXSLT
  *
  * Implements the <CODE>http://www.w3.org/TR/1999/REC-xslt-19991116</CODE>
- * transform.
+ * trbnsform.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class TransformXSLT extends TransformSpi {
+public clbss TrbnsformXSLT extends TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI =
-        Transforms.TRANSFORM_XSLT;
+    /** Field implementedTrbnsformURI */
+    public stbtic finbl String implementedTrbnsformURI =
+        Trbnsforms.TRANSFORM_XSLT;
 
-    static final String XSLTSpecNS              = "http://www.w3.org/1999/XSL/Transform";
-    static final String defaultXSLTSpecNSprefix = "xslt";
-    static final String XSLTSTYLESHEET          = "stylesheet";
+    stbtic finbl String XSLTSpecNS              = "http://www.w3.org/1999/XSL/Trbnsform";
+    stbtic finbl String defbultXSLTSpecNSprefix = "xslt";
+    stbtic finbl String XSLTSTYLESHEET          = "stylesheet";
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(TransformXSLT.class.getName());
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(TrbnsformXSLT.clbss.getNbme());
 
     /**
      * Method engineGetURI
@@ -73,95 +73,95 @@ public class TransformXSLT extends TransformSpi {
      * @inheritDoc
      */
     protected String engineGetURI() {
-        return implementedTransformURI;
+        return implementedTrbnsformURI;
     }
 
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream baos, Transform transformObject
-    ) throws IOException, TransformationException {
+    protected XMLSignbtureInput enginePerformTrbnsform(
+        XMLSignbtureInput input, OutputStrebm bbos, Trbnsform trbnsformObject
+    ) throws IOException, TrbnsformbtionException {
         try {
-            Element transformElement = transformObject.getElement();
+            Element trbnsformElement = trbnsformObject.getElement();
 
             Element xsltElement =
-                XMLUtils.selectNode(transformElement.getFirstChild(), XSLTSpecNS, "stylesheet", 0);
+                XMLUtils.selectNode(trbnsformElement.getFirstChild(), XSLTSpecNS, "stylesheet", 0);
 
             if (xsltElement == null) {
-                Object exArgs[] = { "xslt:stylesheet", "Transform" };
+                Object exArgs[] = { "xslt:stylesheet", "Trbnsform" };
 
-                throw new TransformationException("xml.WrongContent", exArgs);
+                throw new TrbnsformbtionException("xml.WrongContent", exArgs);
             }
 
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-            // Process XSLT stylesheets in a secure manner
-            tFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            TrbnsformerFbctory tFbctory = TrbnsformerFbctory.newInstbnce();
+            // Process XSLT stylesheets in b secure mbnner
+            tFbctory.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
 
             /*
-             * This transform requires an octet stream as input. If the actual
-             * input is an XPath node-set, then the signature application should
-             * attempt to convert it to octets (apply Canonical XML]) as described
+             * This trbnsform requires bn octet strebm bs input. If the bctubl
+             * input is bn XPbth node-set, then the signbture bpplicbtion should
+             * bttempt to convert it to octets (bpply Cbnonicbl XML]) bs described
              * in the Reference Processing Model (section 4.3.3.2).
              */
             Source xmlSource =
-                new StreamSource(new ByteArrayInputStream(input.getBytes()));
+                new StrebmSource(new ByteArrbyInputStrebm(input.getBytes()));
             Source stylesheet;
 
             /*
-             * This complicated transformation of the stylesheet itself is necessary
-             * because of the need to get the pure style sheet. If we simply say
+             * This complicbted trbnsformbtion of the stylesheet itself is necessbry
+             * becbuse of the need to get the pure style sheet. If we simply sby
              * Source stylesheet = new DOMSource(this.xsltElement);
              * whereby this.xsltElement is not the rootElement of the Document,
-             * this causes problems;
-             * so we convert the stylesheet to byte[] and use this as input stream
+             * this cbuses problems;
+             * so we convert the stylesheet to byte[] bnd use this bs input strebm
              */
             {
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                Transformer transformer = tFactory.newTransformer();
+                ByteArrbyOutputStrebm os = new ByteArrbyOutputStrebm();
+                Trbnsformer trbnsformer = tFbctory.newTrbnsformer();
                 DOMSource source = new DOMSource(xsltElement);
-                StreamResult result = new StreamResult(os);
+                StrebmResult result = new StrebmResult(os);
 
-                transformer.transform(source, result);
+                trbnsformer.trbnsform(source, result);
 
                 stylesheet =
-                    new StreamSource(new ByteArrayInputStream(os.toByteArray()));
+                    new StrebmSource(new ByteArrbyInputStrebm(os.toByteArrby()));
             }
 
-            Transformer transformer = tFactory.newTransformer(stylesheet);
+            Trbnsformer trbnsformer = tFbctory.newTrbnsformer(stylesheet);
 
-            // Force Xalan to use \n as line separator on all OSes. This
-            // avoids OS specific signature validation failures due to line
-            // separator differences in the transformed output. Unfortunately,
-            // this is not a standard JAXP property so will not work with non-Xalan
-            // implementations.
+            // Force Xblbn to use \n bs line sepbrbtor on bll OSes. This
+            // bvoids OS specific signbture vblidbtion fbilures due to line
+            // sepbrbtor differences in the trbnsformed output. Unfortunbtely,
+            // this is not b stbndbrd JAXP property so will not work with non-Xblbn
+            // implementbtions.
             try {
-                transformer.setOutputProperty("{http://xml.apache.org/xalan}line-separator", "\n");
-            } catch (Exception e) {
-                log.log(java.util.logging.Level.WARNING, "Unable to set Xalan line-separator property: " + e.getMessage());
+                trbnsformer.setOutputProperty("{http://xml.bpbche.org/xblbn}line-sepbrbtor", "\n");
+            } cbtch (Exception e) {
+                log.log(jbvb.util.logging.Level.WARNING, "Unbble to set Xblbn line-sepbrbtor property: " + e.getMessbge());
             }
 
-            if (baos == null) {
-                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-                StreamResult outputTarget = new StreamResult(baos1);
-                transformer.transform(xmlSource, outputTarget);
-                return new XMLSignatureInput(baos1.toByteArray());
+            if (bbos == null) {
+                ByteArrbyOutputStrebm bbos1 = new ByteArrbyOutputStrebm();
+                StrebmResult outputTbrget = new StrebmResult(bbos1);
+                trbnsformer.trbnsform(xmlSource, outputTbrget);
+                return new XMLSignbtureInput(bbos1.toByteArrby());
             }
-            StreamResult outputTarget = new StreamResult(baos);
+            StrebmResult outputTbrget = new StrebmResult(bbos);
 
-            transformer.transform(xmlSource, outputTarget);
-            XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-            output.setOutputStream(baos);
+            trbnsformer.trbnsform(xmlSource, outputTbrget);
+            XMLSignbtureInput output = new XMLSignbtureInput((byte[])null);
+            output.setOutputStrebm(bbos);
             return output;
-        } catch (XMLSecurityException ex) {
-            Object exArgs[] = { ex.getMessage() };
+        } cbtch (XMLSecurityException ex) {
+            Object exArgs[] = { ex.getMessbge() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
-        } catch (TransformerConfigurationException ex) {
-            Object exArgs[] = { ex.getMessage() };
+            throw new TrbnsformbtionException("generic.EmptyMessbge", exArgs, ex);
+        } cbtch (TrbnsformerConfigurbtionException ex) {
+            Object exArgs[] = { ex.getMessbge() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
-        } catch (TransformerException ex) {
-            Object exArgs[] = { ex.getMessage() };
+            throw new TrbnsformbtionException("generic.EmptyMessbge", exArgs, ex);
+        } cbtch (TrbnsformerException ex) {
+            Object exArgs[] = { ex.getMessbge() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
+            throw new TrbnsformbtionException("generic.EmptyMessbge", exArgs, ex);
         }
     }
 }

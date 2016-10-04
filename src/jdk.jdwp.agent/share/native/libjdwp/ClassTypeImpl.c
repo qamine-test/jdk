@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "ClassTypeImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#include "ClbssTypeImpl.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
 
-static jboolean
-superclass(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+superclbss(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
-    jclass clazz;
+    jclbss clbzz;
 
     env = getEnv();
 
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
+    clbzz = inStrebm_rebdClbssRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jclass superclass;
+        jclbss superclbss;
 
-        superclass = JNI_FUNC_PTR(env,GetSuperclass)(env,clazz);
-        (void)outStream_writeObjectRef(env, out, superclass);
+        superclbss = JNI_FUNC_PTR(env,GetSuperclbss)(env,clbzz);
+        (void)outStrebm_writeObjectRef(env, out, superclbss);
 
     } END_WITH_LOCAL_REFS(env);
 
     return JNI_TRUE;
 }
 
-static jdwpError
-readStaticFieldValue(JNIEnv *env, PacketInputStream *in, jclass clazz,
-                     jfieldID field, char *signature)
+stbtic jdwpError
+rebdStbticFieldVblue(JNIEnv *env, PbcketInputStrebm *in, jclbss clbzz,
+                     jfieldID field, chbr *signbture)
 {
-    jvalue value;
+    jvblue vblue;
     jdwpError serror = JDWP_ERROR(NONE);
 
-    switch (signature[0]) {
-        case JDWP_TAG(ARRAY):
-        case JDWP_TAG(OBJECT):
-            value.l = inStream_readObjectRef(env, in);
-            JNI_FUNC_PTR(env,SetStaticObjectField)(env, clazz, field, value.l);
-            break;
+    switch (signbture[0]) {
+        cbse JDWP_TAG(ARRAY):
+        cbse JDWP_TAG(OBJECT):
+            vblue.l = inStrebm_rebdObjectRef(env, in);
+            JNI_FUNC_PTR(env,SetStbticObjectField)(env, clbzz, field, vblue.l);
+            brebk;
 
-        case JDWP_TAG(BYTE):
-            value.b = inStream_readByte(in);
-            JNI_FUNC_PTR(env,SetStaticByteField)(env, clazz, field, value.b);
-            break;
+        cbse JDWP_TAG(BYTE):
+            vblue.b = inStrebm_rebdByte(in);
+            JNI_FUNC_PTR(env,SetStbticByteField)(env, clbzz, field, vblue.b);
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            value.c = inStream_readChar(in);
-            JNI_FUNC_PTR(env,SetStaticCharField)(env, clazz, field, value.c);
-            break;
+        cbse JDWP_TAG(CHAR):
+            vblue.c = inStrebm_rebdChbr(in);
+            JNI_FUNC_PTR(env,SetStbticChbrField)(env, clbzz, field, vblue.c);
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            value.f = inStream_readFloat(in);
-            JNI_FUNC_PTR(env,SetStaticFloatField)(env, clazz, field, value.f);
-            break;
+        cbse JDWP_TAG(FLOAT):
+            vblue.f = inStrebm_rebdFlobt(in);
+            JNI_FUNC_PTR(env,SetStbticFlobtField)(env, clbzz, field, vblue.f);
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            value.d = inStream_readDouble(in);
-            JNI_FUNC_PTR(env,SetStaticDoubleField)(env, clazz, field, value.d);
-            break;
+        cbse JDWP_TAG(DOUBLE):
+            vblue.d = inStrebm_rebdDouble(in);
+            JNI_FUNC_PTR(env,SetStbticDoubleField)(env, clbzz, field, vblue.d);
+            brebk;
 
-        case JDWP_TAG(INT):
-            value.i = inStream_readInt(in);
-            JNI_FUNC_PTR(env,SetStaticIntField)(env, clazz, field, value.i);
-            break;
+        cbse JDWP_TAG(INT):
+            vblue.i = inStrebm_rebdInt(in);
+            JNI_FUNC_PTR(env,SetStbticIntField)(env, clbzz, field, vblue.i);
+            brebk;
 
-        case JDWP_TAG(LONG):
-            value.j = inStream_readLong(in);
-            JNI_FUNC_PTR(env,SetStaticLongField)(env, clazz, field, value.j);
-            break;
+        cbse JDWP_TAG(LONG):
+            vblue.j = inStrebm_rebdLong(in);
+            JNI_FUNC_PTR(env,SetStbticLongField)(env, clbzz, field, vblue.j);
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            value.s = inStream_readShort(in);
-            JNI_FUNC_PTR(env,SetStaticShortField)(env, clazz, field, value.s);
-            break;
+        cbse JDWP_TAG(SHORT):
+            vblue.s = inStrebm_rebdShort(in);
+            JNI_FUNC_PTR(env,SetStbticShortField)(env, clbzz, field, vblue.s);
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            value.z = inStream_readBoolean(in);
-            JNI_FUNC_PTR(env,SetStaticBooleanField)(env, clazz, field, value.z);
-            break;
+        cbse JDWP_TAG(BOOLEAN):
+            vblue.z = inStrebm_rebdBoolebn(in);
+            JNI_FUNC_PTR(env,SetStbticBoolebnField)(env, clbzz, field, vblue.z);
+            brebk;
     }
 
     if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
@@ -115,21 +115,21 @@ readStaticFieldValue(JNIEnv *env, PacketInputStream *in, jclass clazz,
     return serror;
 }
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+setVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jint count;
-    jclass clazz;
+    jclbss clbzz;
 
     env = getEnv();
 
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
+    clbzz = inStrebm_rebdClbssRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    count = inStream_readInt(in);
-    if (inStream_error(in)) {
+    count = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
@@ -140,26 +140,26 @@ setValues(PacketInputStream *in, PacketOutputStream *out)
         for (i = 0; i < count; i++) {
 
             jfieldID field;
-            char *signature = NULL;
+            chbr *signbture = NULL;
             jvmtiError error;
             jdwpError serror;
 
-            field = inStream_readFieldID(in);
-            if (inStream_error(in)) {
-                break;
+            field = inStrebm_rebdFieldID(in);
+            if (inStrebm_error(in)) {
+                brebk;
             }
 
-            error = fieldSignature(clazz, field, NULL, &signature, NULL);
+            error = fieldSignbture(clbzz, field, NULL, &signbture, NULL);
             if (error != JVMTI_ERROR_NONE) {
-                break;
+                brebk;
             }
 
-            serror = readStaticFieldValue(env, in, clazz, field, signature);
+            serror = rebdStbticFieldVblue(env, in, clbzz, field, signbture);
 
-            jvmtiDeallocate(signature);
+            jvmtiDebllocbte(signbture);
 
             if ( serror != JDWP_ERROR(NONE) ) {
-                break;
+                brebk;
             }
 
         }
@@ -169,15 +169,15 @@ setValues(PacketInputStream *in, PacketOutputStream *out)
     return JNI_TRUE;
 }
 
-static jboolean
-invokeStatic(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+invokeStbtic(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    return sharedInvoke(in, out);
+    return shbredInvoke(in, out);
 }
 
-void *ClassType_Cmds[] = { (void *)0x4
-    ,(void *)superclass
-    ,(void *)setValues
-    ,(void *)invokeStatic
-    ,(void *)invokeStatic
+void *ClbssType_Cmds[] = { (void *)0x4
+    ,(void *)superclbss
+    ,(void *)setVblues
+    ,(void *)invokeStbtic
+    ,(void *)invokeStbtic
 };

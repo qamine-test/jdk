@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.repository;
+pbckbge sun.reflect.generics.repository;
 
-import java.lang.reflect.Type;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.parser.SignatureParser;
-import sun.reflect.generics.tree.FieldTypeSignature;
-import sun.reflect.generics.tree.MethodTypeSignature;
-import sun.reflect.generics.tree.TypeSignature;
+import jbvb.lbng.reflect.Type;
+import sun.reflect.generics.fbctory.GenericsFbctory;
+import sun.reflect.generics.pbrser.SignbturePbrser;
+import sun.reflect.generics.tree.FieldTypeSignbture;
+import sun.reflect.generics.tree.MethodTypeSignbture;
+import sun.reflect.generics.tree.TypeSignbture;
 import sun.reflect.generics.visitor.Reifier;
 
 
 
 /**
- * This class represents the generic type information for a constructor.
- * The code is not dependent on a particular reflective implementation.
- * It is designed to be used unchanged by at least core reflection and JDI.
+ * This clbss represents the generic type informbtion for b constructor.
+ * The code is not dependent on b pbrticulbr reflective implementbtion.
+ * It is designed to be used unchbnged by bt lebst core reflection bnd JDI.
  */
-public class ConstructorRepository
-    extends GenericDeclRepository<MethodTypeSignature> {
+public clbss ConstructorRepository
+    extends GenericDeclRepository<MethodTypeSignbture> {
 
-    private Type[] paramTypes; // caches the generic parameter types info
-    private Type[] exceptionTypes; // caches the generic exception types info
+    privbte Type[] pbrbmTypes; // cbches the generic pbrbmeter types info
+    privbte Type[] exceptionTypes; // cbches the generic exception types info
 
- // protected, to enforce use of static factory yet allow subclassing
-    protected ConstructorRepository(String rawSig, GenericsFactory f) {
-      super(rawSig, f);
+ // protected, to enforce use of stbtic fbctory yet bllow subclbssing
+    protected ConstructorRepository(String rbwSig, GenericsFbctory f) {
+      super(rbwSig, f);
     }
 
-    protected MethodTypeSignature parse(String s) {
-        return SignatureParser.make().parseMethodSig(s);
+    protected MethodTypeSignbture pbrse(String s) {
+        return SignbturePbrser.mbke().pbrseMethodSig(s);
     }
 
     /**
-     * Static factory method.
-     * @param rawSig - the generic signature of the reflective object
-     * that this repository is servicing
-     * @param f - a factory that will provide instances of reflective
+     * Stbtic fbctory method.
+     * @pbrbm rbwSig - the generic signbture of the reflective object
+     * thbt this repository is servicing
+     * @pbrbm f - b fbctory thbt will provide instbnces of reflective
      * objects when this repository converts its AST
-     * @return a <tt>ConstructorRepository</tt> that manages the generic type
-     * information represented in the signature <tt>rawSig</tt>
+     * @return b <tt>ConstructorRepository</tt> thbt mbnbges the generic type
+     * informbtion represented in the signbture <tt>rbwSig</tt>
      */
-    public static ConstructorRepository make(String rawSig,
-                                             GenericsFactory f) {
-        return new ConstructorRepository(rawSig, f);
+    public stbtic ConstructorRepository mbke(String rbwSig,
+                                             GenericsFbctory f) {
+        return new ConstructorRepository(rbwSig, f);
     }
 
     // public API
 
  /*
- * When queried for a particular piece of type information, the
- * general pattern is to consult the corresponding cached value.
+ * When queried for b pbrticulbr piece of type informbtion, the
+ * generbl pbttern is to consult the corresponding cbched vblue.
  * If the corresponding field is non-null, it is returned.
- * If not, it is created lazily. This is done by selecting the appropriate
- * part of the tree and transforming it into a reflective object
- * using a visitor.
- * a visitor, which is created by feeding it the factory
- * with which the repository was created.
+ * If not, it is crebted lbzily. This is done by selecting the bppropribte
+ * pbrt of the tree bnd trbnsforming it into b reflective object
+ * using b visitor.
+ * b visitor, which is crebted by feeding it the fbctory
+ * with which the repository wbs crebted.
  */
 
-    public Type[] getParameterTypes(){
-        if (paramTypes == null) { // lazily initialize parameter types
-            // first, extract parameter type subtree(s) from AST
-            TypeSignature[] pts = getTree().getParameterTypes();
-            // create array to store reified subtree(s)
+    public Type[] getPbrbmeterTypes(){
+        if (pbrbmTypes == null) { // lbzily initiblize pbrbmeter types
+            // first, extrbct pbrbmeter type subtree(s) from AST
+            TypeSignbture[] pts = getTree().getPbrbmeterTypes();
+            // crebte brrby to store reified subtree(s)
             Type[] ps = new Type[pts.length];
-            // reify all subtrees
+            // reify bll subtrees
             for (int i = 0; i < pts.length; i++) {
-                Reifier r = getReifier(); // obtain visitor
-                pts[i].accept(r); // reify subtree
-                // extract result from visitor and store it
+                Reifier r = getReifier(); // obtbin visitor
+                pts[i].bccept(r); // reify subtree
+                // extrbct result from visitor bnd store it
                 ps[i] = r.getResult();
             }
-            paramTypes = ps; // cache overall result
+            pbrbmTypes = ps; // cbche overbll result
         }
-        return paramTypes.clone(); // return cached result
+        return pbrbmTypes.clone(); // return cbched result
     }
 
     public Type[] getExceptionTypes(){
-        if (exceptionTypes == null) { // lazily initialize exception types
-            // first, extract exception type subtree(s) from AST
-            FieldTypeSignature[] ets = getTree().getExceptionTypes();
-            // create array to store reified subtree(s)
+        if (exceptionTypes == null) { // lbzily initiblize exception types
+            // first, extrbct exception type subtree(s) from AST
+            FieldTypeSignbture[] ets = getTree().getExceptionTypes();
+            // crebte brrby to store reified subtree(s)
             Type[] es = new Type[ets.length];
-            // reify all subtrees
+            // reify bll subtrees
             for (int i = 0; i < ets.length; i++) {
-                Reifier r = getReifier(); // obtain visitor
-                ets[i].accept(r); // reify subtree
-                // extract result from visitor and store it
+                Reifier r = getReifier(); // obtbin visitor
+                ets[i].bccept(r); // reify subtree
+                // extrbct result from visitor bnd store it
                 es[i] = r.getResult();
             }
-            exceptionTypes = es; // cache overall result
+            exceptionTypes = es; // cbche overbll result
         }
-        return exceptionTypes.clone(); // return cached result
+        return exceptionTypes.clone(); // return cbched result
     }
 }

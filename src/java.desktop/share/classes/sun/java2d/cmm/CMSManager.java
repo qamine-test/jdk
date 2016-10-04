@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.cmm;
+pbckbge sun.jbvb2d.cmm;
 
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.awt.color.CMMException;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.color.CMMException;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.bction.GetPropertyAction;
 
-public class CMSManager {
-    public static ColorSpace GRAYspace;       // These two fields allow access
-    public static ColorSpace LINEAR_RGBspace; // to java.awt.color.ColorSpace
-                                              // private fields from other
-                                              // packages.  The fields are set
-                                              // by java.awt.color.ColorSpace
-                                              // and read by
-                                              // java.awt.image.ColorModel.
+public clbss CMSMbnbger {
+    public stbtic ColorSpbce GRAYspbce;       // These two fields bllow bccess
+    public stbtic ColorSpbce LINEAR_RGBspbce; // to jbvb.bwt.color.ColorSpbce
+                                              // privbte fields from other
+                                              // pbckbges.  The fields bre set
+                                              // by jbvb.bwt.color.ColorSpbce
+                                              // bnd rebd by
+                                              // jbvb.bwt.imbge.ColorModel.
 
-    private static PCMM cmmImpl = null;
+    privbte stbtic PCMM cmmImpl = null;
 
-    public static synchronized PCMM getModule() {
+    public stbtic synchronized PCMM getModule() {
         if (cmmImpl != null) {
             return cmmImpl;
         }
 
-        GetPropertyAction gpa = new GetPropertyAction("sun.java2d.cmm");
-        String cmmProviderClass = AccessController.doPrivileged(gpa);
+        GetPropertyAction gpb = new GetPropertyAction("sun.jbvb2d.cmm");
+        String cmmProviderClbss = AccessController.doPrivileged(gpb);
         CMMServiceProvider provider = null;
-        if (cmmProviderClass != null) {
+        if (cmmProviderClbss != null) {
             try {
-                Class<?> cls = Class.forName(cmmProviderClass);
-                provider = (CMMServiceProvider)cls.newInstance();
-            } catch (ReflectiveOperationException e) {
+                Clbss<?> cls = Clbss.forNbme(cmmProviderClbss);
+                provider = (CMMServiceProvider)cls.newInstbnce();
+            } cbtch (ReflectiveOperbtionException e) {
             }
         }
         if (provider == null) {
-            provider = new sun.java2d.cmm.lcms.LcmsServiceProvider();
+            provider = new sun.jbvb2d.cmm.lcms.LcmsServiceProvider();
         }
 
-        cmmImpl = provider.getColorManagementModule();
+        cmmImpl = provider.getColorMbnbgementModule();
 
         if (cmmImpl == null) {
-            throw new CMMException("Cannot initialize Color Management System."+
+            throw new CMMException("Cbnnot initiblize Color Mbnbgement System."+
                                    "No CM module found");
         }
 
-        gpa = new GetPropertyAction("sun.java2d.cmm.trace");
-        String cmmTrace = AccessController.doPrivileged(gpa);
-        if (cmmTrace != null) {
-            cmmImpl = new CMMTracer(cmmImpl);
+        gpb = new GetPropertyAction("sun.jbvb2d.cmm.trbce");
+        String cmmTrbce = AccessController.doPrivileged(gpb);
+        if (cmmTrbce != null) {
+            cmmImpl = new CMMTrbcer(cmmImpl);
         }
 
         return cmmImpl;
     }
 
-    static synchronized boolean canCreateModule() {
+    stbtic synchronized boolebn cbnCrebteModule() {
         return (cmmImpl == null);
     }
 
-    /* CMM trace routines */
+    /* CMM trbce routines */
 
-    public static class CMMTracer implements PCMM {
+    public stbtic clbss CMMTrbcer implements PCMM {
         PCMM tcmm;
-        String cName ;
+        String cNbme ;
 
-        public CMMTracer(PCMM tcmm) {
+        public CMMTrbcer(PCMM tcmm) {
             this.tcmm = tcmm;
-            cName = tcmm.getClass().getName();
+            cNbme = tcmm.getClbss().getNbme();
         }
 
-        public Profile loadProfile(byte[] data) {
-            System.err.print(cName + ".loadProfile");
-            Profile p = tcmm.loadProfile(data);
+        public Profile lobdProfile(byte[] dbtb) {
+            System.err.print(cNbme + ".lobdProfile");
+            Profile p = tcmm.lobdProfile(dbtb);
             System.err.printf("(ID=%s)\n", p.toString());
             return p;
         }
 
         public void freeProfile(Profile p) {
-            System.err.printf(cName + ".freeProfile(ID=%s)\n", p.toString());
+            System.err.printf(cNbme + ".freeProfile(ID=%s)\n", p.toString());
             tcmm.freeProfile(p);
         }
 
         public int getProfileSize(Profile p) {
-            System.err.print(cName + ".getProfileSize(ID=" + p + ")");
+            System.err.print(cNbme + ".getProfileSize(ID=" + p + ")");
             int size = tcmm.getProfileSize(p);
             System.err.println("=" + size);
             return size;
         }
 
-        public void getProfileData(Profile p, byte[] data) {
-            System.err.print(cName + ".getProfileData(ID=" + p + ") ");
-            System.err.println("requested " + data.length + " byte(s)");
-            tcmm.getProfileData(p, data);
+        public void getProfileDbtb(Profile p, byte[] dbtb) {
+            System.err.print(cNbme + ".getProfileDbtb(ID=" + p + ") ");
+            System.err.println("requested " + dbtb.length + " byte(s)");
+            tcmm.getProfileDbtb(p, dbtb);
         }
 
-        public int getTagSize(Profile p, int tagSignature) {
-            System.err.printf(cName + ".getTagSize(ID=%x, TagSig=%s)",
-                              p, signatureToString(tagSignature));
-            int size = tcmm.getTagSize(p, tagSignature);
+        public int getTbgSize(Profile p, int tbgSignbture) {
+            System.err.printf(cNbme + ".getTbgSize(ID=%x, TbgSig=%s)",
+                              p, signbtureToString(tbgSignbture));
+            int size = tcmm.getTbgSize(p, tbgSignbture);
             System.err.println("=" + size);
             return size;
         }
 
-        public void getTagData(Profile p, int tagSignature,
-                               byte[] data) {
-            System.err.printf(cName + ".getTagData(ID=%x, TagSig=%s)",
-                              p, signatureToString(tagSignature));
-            System.err.println(" requested " + data.length + " byte(s)");
-            tcmm.getTagData(p, tagSignature, data);
+        public void getTbgDbtb(Profile p, int tbgSignbture,
+                               byte[] dbtb) {
+            System.err.printf(cNbme + ".getTbgDbtb(ID=%x, TbgSig=%s)",
+                              p, signbtureToString(tbgSignbture));
+            System.err.println(" requested " + dbtb.length + " byte(s)");
+            tcmm.getTbgDbtb(p, tbgSignbture, dbtb);
         }
 
-        public void setTagData(Profile p, int tagSignature,
-                               byte[] data) {
-            System.err.print(cName + ".setTagData(ID=" + p +
-                             ", TagSig=" + tagSignature + ")");
-            System.err.println(" sending " + data.length + " byte(s)");
-            tcmm.setTagData(p, tagSignature, data);
+        public void setTbgDbtb(Profile p, int tbgSignbture,
+                               byte[] dbtb) {
+            System.err.print(cNbme + ".setTbgDbtb(ID=" + p +
+                             ", TbgSig=" + tbgSignbture + ")");
+            System.err.println(" sending " + dbtb.length + " byte(s)");
+            tcmm.setTbgDbtb(p, tbgSignbture, dbtb);
         }
 
-        /* methods for creating ColorTransforms */
-        public ColorTransform createTransform(ICC_Profile profile,
+        /* methods for crebting ColorTrbnsforms */
+        public ColorTrbnsform crebteTrbnsform(ICC_Profile profile,
                                               int renderType,
-                                              int transformType) {
-            System.err.println(cName + ".createTransform(ICC_Profile,int,int)");
-            return tcmm.createTransform(profile, renderType, transformType);
+                                              int trbnsformType) {
+            System.err.println(cNbme + ".crebteTrbnsform(ICC_Profile,int,int)");
+            return tcmm.crebteTrbnsform(profile, renderType, trbnsformType);
         }
 
-        public ColorTransform createTransform(ColorTransform[] transforms) {
-            System.err.println(cName + ".createTransform(ColorTransform[])");
-            return tcmm.createTransform(transforms);
+        public ColorTrbnsform crebteTrbnsform(ColorTrbnsform[] trbnsforms) {
+            System.err.println(cNbme + ".crebteTrbnsform(ColorTrbnsform[])");
+            return tcmm.crebteTrbnsform(trbnsforms);
         }
 
-        private static String signatureToString(int sig) {
-            return String.format("%c%c%c%c",
-                                 (char)(0xff & (sig >> 24)),
-                                 (char)(0xff & (sig >> 16)),
-                                 (char)(0xff & (sig >>  8)),
-                                 (char)(0xff & (sig      )));
+        privbte stbtic String signbtureToString(int sig) {
+            return String.formbt("%c%c%c%c",
+                                 (chbr)(0xff & (sig >> 24)),
+                                 (chbr)(0xff & (sig >> 16)),
+                                 (chbr)(0xff & (sig >>  8)),
+                                 (chbr)(0xff & (sig      )));
         }
     }
 }

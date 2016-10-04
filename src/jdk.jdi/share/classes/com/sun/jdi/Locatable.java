@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * A mirror that has a {@link Location}.
+ * A mirror thbt hbs b {@link Locbtion}.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface Locatable {
+public interfbce Locbtbble {
     /**
-     * Returns the {@link Location} of this mirror, if there
-     * is executable code associated with it. Note that both
-     * Java<SUP><FONT SIZE="-2">TM</FONT></SUP> programming
-     * language methods and native methods have executable code.
-     * Returns null for abstract methods, since abstract methods
-     * have no executable code.
+     * Returns the {@link Locbtion} of this mirror, if there
+     * is executbble code bssocibted with it. Note thbt both
+     * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
+     * lbngubge methods bnd nbtive methods hbve executbble code.
+     * Returns null for bbstrbct methods, since bbstrbct methods
+     * hbve no executbble code.
      *
-     * @return the {@link Location} of this mirror, or null if
-     * there is no executable code associated with it.
+     * @return the {@link Locbtion} of this mirror, or null if
+     * there is no executbble code bssocibted with it.
      */
-    Location location();
+    Locbtion locbtion();
 }

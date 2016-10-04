@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import javax.naming.CommunicationException;
+import jbvb.io.IOException;
+import jbvb.util.concurrent.BlockingQueue;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvbx.nbming.CommunicbtionException;
 
-final class LdapRequest {
+finbl clbss LdbpRequest {
 
-    LdapRequest next;   // Set/read in synchronized Connection methods
-    int msgId;          // read-only
+    LdbpRequest next;   // Set/rebd in synchronized Connection methods
+    int msgId;          // rebd-only
 
-    private int gotten = 0;
-    private BlockingQueue<BerDecoder> replies;
-    private int highWatermark = -1;
-    private boolean cancelled = false;
-    private boolean pauseAfterReceipt = false;
-    private boolean completed = false;
+    privbte int gotten = 0;
+    privbte BlockingQueue<BerDecoder> replies;
+    privbte int highWbtermbrk = -1;
+    privbte boolebn cbncelled = fblse;
+    privbte boolebn pbuseAfterReceipt = fblse;
+    privbte boolebn completed = fblse;
 
-    LdapRequest(int msgId, boolean pause) {
-        this(msgId, pause, -1);
+    LdbpRequest(int msgId, boolebn pbuse) {
+        this(msgId, pbuse, -1);
     }
 
-    LdapRequest(int msgId, boolean pause, int replyQueueCapacity) {
+    LdbpRequest(int msgId, boolebn pbuse, int replyQueueCbpbcity) {
         this.msgId = msgId;
-        this.pauseAfterReceipt = pause;
-        if (replyQueueCapacity == -1) {
+        this.pbuseAfterReceipt = pbuse;
+        if (replyQueueCbpbcity == -1) {
             this.replies = new LinkedBlockingQueue<BerDecoder>();
         } else {
             this.replies =
-                new LinkedBlockingQueue<BerDecoder>(replyQueueCapacity);
-            highWatermark = (replyQueueCapacity * 80) / 100; // 80% capacity
+                new LinkedBlockingQueue<BerDecoder>(replyQueueCbpbcity);
+            highWbtermbrk = (replyQueueCbpbcity * 80) / 100; // 80% cbpbcity
         }
     }
 
-    synchronized void cancel() {
-        cancelled = true;
+    synchronized void cbncel() {
+        cbncelled = true;
 
-        // Unblock reader of pending request
-        // Should only ever have at most one waiter
+        // Unblock rebder of pending request
+        // Should only ever hbve bt most one wbiter
         notify();
     }
 
-    synchronized boolean addReplyBer(BerDecoder ber) {
-        if (cancelled) {
-            return false;
+    synchronized boolebn bddReplyBer(BerDecoder ber) {
+        if (cbncelled) {
+            return fblse;
         }
 
-        // Add a new reply to the queue of unprocessed replies.
+        // Add b new reply to the queue of unprocessed replies.
         try {
             replies.put(ber);
-        } catch (InterruptedException e) {
+        } cbtch (InterruptedException e) {
             // ignore
         }
 
-        // peek at the BER buffer to check if it is a SearchResultDone PDU
+        // peek bt the BER buffer to check if it is b SebrchResultDone PDU
         try {
-            ber.parseSeq(null);
-            ber.parseInt();
-            completed = (ber.peekByte() == LdapClient.LDAP_REP_RESULT);
-        } catch (IOException e) {
+            ber.pbrseSeq(null);
+            ber.pbrseInt();
+            completed = (ber.peekByte() == LdbpClient.LDAP_REP_RESULT);
+        } cbtch (IOException e) {
             // ignore
         }
         ber.reset();
 
-        notify(); // notify anyone waiting for reply
+        notify(); // notify bnyone wbiting for reply
         /*
-         * If a queue capacity has been set then trigger a pause when the
-         * queue has filled to 80% capacity. Later, when the queue has drained
-         * then the reader gets unpaused.
+         * If b queue cbpbcity hbs been set then trigger b pbuse when the
+         * queue hbs filled to 80% cbpbcity. Lbter, when the queue hbs drbined
+         * then the rebder gets unpbused.
          */
-        if (highWatermark != -1 && replies.size() >= highWatermark) {
-            return true; // trigger the pause
+        if (highWbtermbrk != -1 && replies.size() >= highWbtermbrk) {
+            return true; // trigger the pbuse
         }
-        return pauseAfterReceipt;
+        return pbuseAfterReceipt;
     }
 
-    synchronized BerDecoder getReplyBer() throws CommunicationException {
-        if (cancelled) {
-            throw new CommunicationException("Request: " + msgId +
-                " cancelled");
+    synchronized BerDecoder getReplyBer() throws CommunicbtionException {
+        if (cbncelled) {
+            throw new CommunicbtionException("Request: " + msgId +
+                " cbncelled");
         }
 
         /*
-         * Remove a reply if the queue is not empty.
+         * Remove b reply if the queue is not empty.
          * poll returns null if queue is empty.
          */
         BerDecoder reply = replies.poll();
         return reply;
     }
 
-    synchronized boolean hasSearchCompleted() {
+    synchronized boolebn hbsSebrchCompleted() {
         return completed;
     }
 }

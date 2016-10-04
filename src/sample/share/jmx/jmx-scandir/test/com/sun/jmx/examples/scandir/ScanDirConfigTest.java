@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,296 +30,296 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.config.XmlConfigUtils;
-import com.sun.jmx.examples.scandir.config.FileMatch;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import junit.framework.*;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.io.File;
-import java.util.concurrent.BlockingQueue;
-import javax.management.*;
+import com.sun.jmx.exbmples.scbndir.config.XmlConfigUtils;
+import com.sun.jmx.exbmples.scbndir.config.FileMbtch;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.TimeUnit;
+import junit.frbmework.*;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig;
+import jbvb.io.File;
+import jbvb.util.concurrent.BlockingQueue;
+import jbvbx.mbnbgement.*;
 
 /**
- * Unit tests for {@code ScanDirConfig}
+ * Unit tests for {@code ScbnDirConfig}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class ScanDirConfigTest extends TestCase {
+public clbss ScbnDirConfigTest extends TestCbse {
 
-    public ScanDirConfigTest(String testName) {
-        super(testName);
+    public ScbnDirConfigTest(String testNbme) {
+        super(testNbme);
     }
 
     protected void setUp() throws Exception {
     }
 
-    protected void tearDown() throws Exception {
+    protected void tebrDown() throws Exception {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ScanDirConfigTest.class);
+    public stbtic Test suite() {
+        TestSuite suite = new TestSuite(ScbnDirConfigTest.clbss);
 
         return suite;
     }
 
     /**
-     * Test of load method, of class com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of lobd method, of clbss com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
-    public void testLoad() throws Exception {
-        System.out.println("load");
+    public void testLobd() throws Exception {
+        System.out.println("lobd");
 
-        final File file = File.createTempFile("testconf",".xml");
-        final ScanDirConfig instance = new ScanDirConfig(file.getAbsolutePath());
-        final ScanManagerConfig bean =
-                new  ScanManagerConfig("testLoad");
-        final DirectoryScannerConfig dir =
-                new DirectoryScannerConfig("tmp");
-        dir.setRootDirectory(file.getParent());
-        bean.putScan(dir);
-        XmlConfigUtils.write(bean,new FileOutputStream(file),false);
-        instance.load();
+        finbl File file = File.crebteTempFile("testconf",".xml");
+        finbl ScbnDirConfig instbnce = new ScbnDirConfig(file.getAbsolutePbth());
+        finbl ScbnMbnbgerConfig bebn =
+                new  ScbnMbnbgerConfig("testLobd");
+        finbl DirectoryScbnnerConfig dir =
+                new DirectoryScbnnerConfig("tmp");
+        dir.setRootDirectory(file.getPbrent());
+        bebn.putScbn(dir);
+        XmlConfigUtils.write(bebn,new FileOutputStrebm(file),fblse);
+        instbnce.lobd();
 
-        assertEquals(bean,instance.getConfiguration());
-        bean.removeScan(dir.getName());
-        XmlConfigUtils.write(bean,new FileOutputStream(file),false);
+        bssertEqubls(bebn,instbnce.getConfigurbtion());
+        bebn.removeScbn(dir.getNbme());
+        XmlConfigUtils.write(bebn,new FileOutputStrebm(file),fblse);
 
-        assertNotSame(bean,instance.getConfiguration());
+        bssertNotSbme(bebn,instbnce.getConfigurbtion());
 
-        instance.load();
+        instbnce.lobd();
 
-        assertEquals(bean,instance.getConfiguration());
+        bssertEqubls(bebn,instbnce.getConfigurbtion());
 
     }
 
     /**
-     * Test of save method, of class com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of sbve method, of clbss com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
-    public void testSave() throws Exception {
-        System.out.println("save");
+    public void testSbve() throws Exception {
+        System.out.println("sbve");
 
-        final File file = File.createTempFile("testconf",".xml");
-        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        final ScanManagerMXBean manager = ScanManager.register(mbs);
+        finbl File file = File.crebteTempFile("testconf",".xml");
+        finbl MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register(mbs);
 
         try {
-            final ScanDirConfigMXBean instance =
-                    manager.createOtherConfigurationMBean("testSave",file.getAbsolutePath());
-            assertTrue(mbs.isRegistered(
-                    ScanManager.makeScanDirConfigName("testSave")));
-            final ScanManagerConfig bean =
-                new  ScanManagerConfig("testSave");
-            final DirectoryScannerConfig dir =
-                new DirectoryScannerConfig("tmp");
-            dir.setRootDirectory(file.getParent());
-            bean.putScan(dir);
-            instance.setConfiguration(bean);
-            instance.save();
-            final ScanManagerConfig loaded =
-                new XmlConfigUtils(file.getAbsolutePath()).readFromFile();
-            assertEquals(instance.getConfiguration(),loaded);
-            assertEquals(bean,loaded);
+            finbl ScbnDirConfigMXBebn instbnce =
+                    mbnbger.crebteOtherConfigurbtionMBebn("testSbve",file.getAbsolutePbth());
+            bssertTrue(mbs.isRegistered(
+                    ScbnMbnbger.mbkeScbnDirConfigNbme("testSbve")));
+            finbl ScbnMbnbgerConfig bebn =
+                new  ScbnMbnbgerConfig("testSbve");
+            finbl DirectoryScbnnerConfig dir =
+                new DirectoryScbnnerConfig("tmp");
+            dir.setRootDirectory(file.getPbrent());
+            bebn.putScbn(dir);
+            instbnce.setConfigurbtion(bebn);
+            instbnce.sbve();
+            finbl ScbnMbnbgerConfig lobded =
+                new XmlConfigUtils(file.getAbsolutePbth()).rebdFromFile();
+            bssertEqubls(instbnce.getConfigurbtion(),lobded);
+            bssertEqubls(bebn,lobded);
 
-            instance.getConfiguration().removeScan("tmp");
-            instance.save();
-            assertNotSame(loaded,instance.getConfiguration());
-            final ScanManagerConfig loaded2 =
-                new XmlConfigUtils(file.getAbsolutePath()).readFromFile();
-            assertEquals(instance.getConfiguration(),loaded2);
-        } finally {
-            manager.close();
-            mbs.unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
+            instbnce.getConfigurbtion().removeScbn("tmp");
+            instbnce.sbve();
+            bssertNotSbme(lobded,instbnce.getConfigurbtion());
+            finbl ScbnMbnbgerConfig lobded2 =
+                new XmlConfigUtils(file.getAbsolutePbth()).rebdFromFile();
+            bssertEqubls(instbnce.getConfigurbtion(),lobded2);
+        } finblly {
+            mbnbger.close();
+            mbs.unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
         }
-        final ObjectName all =
-                new ObjectName(ScanManager.SCAN_MANAGER_NAME.getDomain()+":*");
-        assertEquals(0,mbs.queryNames(all,null).size());
+        finbl ObjectNbme bll =
+                new ObjectNbme(ScbnMbnbger.SCAN_MANAGER_NAME.getDombin()+":*");
+        bssertEqubls(0,mbs.queryNbmes(bll,null).size());
     }
 
     /**
-     * Test of saveTo method, of class com.sun.jmx.examples.scandir.ScanProfile.
+     * Test of sbveTo method, of clbss com.sun.jmx.exbmples.scbndir.ScbnProfile.
      */
     /*
-    public void testSaveTo() throws Exception {
-        System.out.println("saveTo");
+    public void testSbveTo() throws Exception {
+        System.out.println("sbveTo");
 
-        String filename = "";
-        ScanDirConfig instance = null;
+        String filenbme = "";
+        ScbnDirConfig instbnce = null;
 
-        instance.saveTo(filename);
+        instbnce.sbveTo(filenbme);
 
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // TODO review the generbted test code bnd remove the defbult cbll to fbil.
+        fbil("The test cbse is b prototype.");
     }
     */
 
     /**
-     * Test of getXmlConfigString method, of class com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of getXmlConfigString method, of clbss com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
     public void testGetXmlConfigString() throws Exception {
         System.out.println("getXmlConfigString");
 
         try {
-            final File file = File.createTempFile("testconf",".xml");
-            final ScanDirConfig instance = new ScanDirConfig(file.getAbsolutePath());
-            final ScanManagerConfig bean =
-                new  ScanManagerConfig("testGetXmlConfigString");
-            final DirectoryScannerConfig dir =
-                new DirectoryScannerConfig("tmp");
-            dir.setRootDirectory(file.getParent());
-            bean.putScan(dir);
-            instance.setConfiguration(bean);
-            System.out.println("Expected: " + XmlConfigUtils.toString(bean));
+            finbl File file = File.crebteTempFile("testconf",".xml");
+            finbl ScbnDirConfig instbnce = new ScbnDirConfig(file.getAbsolutePbth());
+            finbl ScbnMbnbgerConfig bebn =
+                new  ScbnMbnbgerConfig("testGetXmlConfigString");
+            finbl DirectoryScbnnerConfig dir =
+                new DirectoryScbnnerConfig("tmp");
+            dir.setRootDirectory(file.getPbrent());
+            bebn.putScbn(dir);
+            instbnce.setConfigurbtion(bebn);
+            System.out.println("Expected: " + XmlConfigUtils.toString(bebn));
             System.out.println("Received: " +
-                    instance.getConfiguration().toString());
-            assertEquals(XmlConfigUtils.toString(bean),
-                instance.getConfiguration().toString());
-        } catch (Exception x) {
-            x.printStackTrace();
+                    instbnce.getConfigurbtion().toString());
+            bssertEqubls(XmlConfigUtils.toString(bebn),
+                instbnce.getConfigurbtion().toString());
+        } cbtch (Exception x) {
+            x.printStbckTrbce();
             throw x;
         }
     }
 
 
     /**
-     * Test of addNotificationListener method, of class
-     * com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of bddNotificbtionListener method, of clbss
+     * com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
-    public void testAddNotificationListener() throws Exception {
-        System.out.println("addNotificationListener");
+    public void testAddNotificbtionListener() throws Exception {
+        System.out.println("bddNotificbtionListener");
 
-        final File file = File.createTempFile("testconf",".xml");
-        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        final ScanManagerMXBean manager = ScanManager.register(mbs);
+        finbl File file = File.crebteTempFile("testconf",".xml");
+        finbl MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register(mbs);
 
         try {
-            final ScanDirConfigMXBean instance =
-                TestUtils.makeNotificationEmitter(
-                    manager.createOtherConfigurationMBean("testSave",
-                        file.getAbsolutePath()),
-                    ScanDirConfigMXBean.class);
-            assertTrue(mbs.isRegistered(
-                    ScanManager.makeScanDirConfigName("testSave")));
-            DirectoryScannerConfig dir =
-                    instance.addDirectoryScanner("tmp",file.getParent(),".*",0,0);
+            finbl ScbnDirConfigMXBebn instbnce =
+                TestUtils.mbkeNotificbtionEmitter(
+                    mbnbger.crebteOtherConfigurbtionMBebn("testSbve",
+                        file.getAbsolutePbth()),
+                    ScbnDirConfigMXBebn.clbss);
+            bssertTrue(mbs.isRegistered(
+                    ScbnMbnbger.mbkeScbnDirConfigNbme("testSbve")));
+            DirectoryScbnnerConfig dir =
+                    instbnce.bddDirectoryScbnner("tmp",file.getPbrent(),".*",0,0);
 
-            final BlockingQueue<Notification> queue =
-                    new LinkedBlockingQueue<Notification>();
-            final NotificationListener listener = new NotificationListener() {
-                public void handleNotification(Notification notification,
-                            Object handback) {
-                    queue.add(notification);
+            finbl BlockingQueue<Notificbtion> queue =
+                    new LinkedBlockingQueue<Notificbtion>();
+            finbl NotificbtionListener listener = new NotificbtionListener() {
+                public void hbndleNotificbtion(Notificbtion notificbtion,
+                            Object hbndbbck) {
+                    queue.bdd(notificbtion);
                 }
             };
-            NotificationFilter filter = null;
-            Object handback = null;
+            NotificbtionFilter filter = null;
+            Object hbndbbck = null;
 
-            ((NotificationEmitter)instance).addNotificationListener(listener,
-                    filter, handback);
+            ((NotificbtionEmitter)instbnce).bddNotificbtionListener(listener,
+                    filter, hbndbbck);
 
-            instance.save();
-            final ScanManagerConfig loaded =
-                new XmlConfigUtils(file.getAbsolutePath()).readFromFile();
-            assertEquals(instance.getConfiguration(),loaded);
+            instbnce.sbve();
+            finbl ScbnMbnbgerConfig lobded =
+                new XmlConfigUtils(file.getAbsolutePbth()).rebdFromFile();
+            bssertEqubls(instbnce.getConfigurbtion(),lobded);
 
-            final ScanManagerConfig newConfig =
-                    instance.getConfiguration();
-            newConfig.removeScan("tmp");
-            instance.setConfiguration(newConfig);
-            instance.save();
-            assertNotSame(loaded,instance.getConfiguration());
-            final ScanManagerConfig loaded2 =
-                new XmlConfigUtils(file.getAbsolutePath()).readFromFile();
-            assertEquals(instance.getConfiguration(),loaded2);
-            instance.load();
+            finbl ScbnMbnbgerConfig newConfig =
+                    instbnce.getConfigurbtion();
+            newConfig.removeScbn("tmp");
+            instbnce.setConfigurbtion(newConfig);
+            instbnce.sbve();
+            bssertNotSbme(lobded,instbnce.getConfigurbtion());
+            finbl ScbnMbnbgerConfig lobded2 =
+                new XmlConfigUtils(file.getAbsolutePbth()).rebdFromFile();
+            bssertEqubls(instbnce.getConfigurbtion(),lobded2);
+            instbnce.lobd();
             for (int i=0;i<4;i++) {
-                final Notification n = queue.poll(3,TimeUnit.SECONDS);
-                assertNotNull(n);
-                assertEquals(TestUtils.getObjectName(instance),n.getSource());
+                finbl Notificbtion n = queue.poll(3,TimeUnit.SECONDS);
+                bssertNotNull(n);
+                bssertEqubls(TestUtils.getObjectNbme(instbnce),n.getSource());
                 switch(i) {
-                    case 0: case 2:
-                        assertEquals(ScanDirConfig.NOTIFICATION_SAVED,n.getType());
-                        break;
-                    case 1:
-                        assertEquals(ScanDirConfig.NOTIFICATION_MODIFIED,n.getType());
-                        break;
-                    case 3:
-                        assertEquals(ScanDirConfig.NOTIFICATION_LOADED,n.getType());
-                        break;
-                    default: break;
+                    cbse 0: cbse 2:
+                        bssertEqubls(ScbnDirConfig.NOTIFICATION_SAVED,n.getType());
+                        brebk;
+                    cbse 1:
+                        bssertEqubls(ScbnDirConfig.NOTIFICATION_MODIFIED,n.getType());
+                        brebk;
+                    cbse 3:
+                        bssertEqubls(ScbnDirConfig.NOTIFICATION_LOADED,n.getType());
+                        brebk;
+                    defbult: brebk;
                 }
             }
-        } finally {
-            manager.close();
-            mbs.unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
+        } finblly {
+            mbnbger.close();
+            mbs.unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
         }
-        final ObjectName all =
-                new ObjectName(ScanManager.SCAN_MANAGER_NAME.getDomain()+":*");
-        assertEquals(0,mbs.queryNames(all,null).size());
+        finbl ObjectNbme bll =
+                new ObjectNbme(ScbnMbnbger.SCAN_MANAGER_NAME.getDombin()+":*");
+        bssertEqubls(0,mbs.queryNbmes(bll,null).size());
     }
 
     /**
-     * Test of getConfigFilename method, of class
-     * com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of getConfigFilenbme method, of clbss
+     * com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
-    public void testGetConfigFilename() throws Exception {
-        System.out.println("getConfigFilename");
+    public void testGetConfigFilenbme() throws Exception {
+        System.out.println("getConfigFilenbme");
 
-        final File file = File.createTempFile("testconf",".xml");
-        final ScanDirConfig instance = new ScanDirConfig(file.getAbsolutePath());
+        finbl File file = File.crebteTempFile("testconf",".xml");
+        finbl ScbnDirConfig instbnce = new ScbnDirConfig(file.getAbsolutePbth());
 
-        String result = instance.getConfigFilename();
-        assertEquals(file.getAbsolutePath(), new File(result).getAbsolutePath());
+        String result = instbnce.getConfigFilenbme();
+        bssertEqubls(file.getAbsolutePbth(), new File(result).getAbsolutePbth());
 
     }
 
     /**
-     * Test of addDirectoryScanner method, of class
-     * com.sun.jmx.examples.scandir.ScanDirConfig.
+     * Test of bddDirectoryScbnner method, of clbss
+     * com.sun.jmx.exbmples.scbndir.ScbnDirConfig.
      */
-    public void testAddDirectoryScanner() throws IOException {
-        System.out.println("addDirectoryScanner");
+    public void testAddDirectoryScbnner() throws IOException {
+        System.out.println("bddDirectoryScbnner");
 
-        System.out.println("save");
+        System.out.println("sbve");
 
-        final File file = File.createTempFile("testconf",".xml");
-        final ScanDirConfig instance = new ScanDirConfig(file.getAbsolutePath());
-        final ScanManagerConfig bean =
-                new  ScanManagerConfig("testSave");
-        final DirectoryScannerConfig dir =
-                new DirectoryScannerConfig("tmp");
-        dir.setRootDirectory(file.getParent());
-        FileMatch filter = new FileMatch();
-        filter.setFilePattern(".*");
-        dir.setIncludeFiles(new FileMatch[] {
+        finbl File file = File.crebteTempFile("testconf",".xml");
+        finbl ScbnDirConfig instbnce = new ScbnDirConfig(file.getAbsolutePbth());
+        finbl ScbnMbnbgerConfig bebn =
+                new  ScbnMbnbgerConfig("testSbve");
+        finbl DirectoryScbnnerConfig dir =
+                new DirectoryScbnnerConfig("tmp");
+        dir.setRootDirectory(file.getPbrent());
+        FileMbtch filter = new FileMbtch();
+        filter.setFilePbttern(".*");
+        dir.setIncludeFiles(new FileMbtch[] {
             filter
         });
-        instance.setConfiguration(bean);
-        instance.addDirectoryScanner(dir.getName(),
+        instbnce.setConfigurbtion(bebn);
+        instbnce.bddDirectoryScbnner(dir.getNbme(),
                                      dir.getRootDirectory(),
-                                     filter.getFilePattern(),
-                                     filter.getSizeExceedsMaxBytes(),
+                                     filter.getFilePbttern(),
+                                     filter.getSizeExceedsMbxBytes(),
                                      0);
-        instance.save();
-        final ScanManagerConfig loaded =
-                new XmlConfigUtils(file.getAbsolutePath()).readFromFile();
-        assertNotNull(loaded.getScan(dir.getName()));
-        assertEquals(dir,loaded.getScan(dir.getName()));
-        assertEquals(instance.getConfiguration(),loaded);
-        assertEquals(instance.getConfiguration().getScan(dir.getName()),dir);
+        instbnce.sbve();
+        finbl ScbnMbnbgerConfig lobded =
+                new XmlConfigUtils(file.getAbsolutePbth()).rebdFromFile();
+        bssertNotNull(lobded.getScbn(dir.getNbme()));
+        bssertEqubls(dir,lobded.getScbn(dir.getNbme()));
+        bssertEqubls(instbnce.getConfigurbtion(),lobded);
+        bssertEqubls(instbnce.getConfigurbtion().getScbn(dir.getNbme()),dir);
     }
 
 }

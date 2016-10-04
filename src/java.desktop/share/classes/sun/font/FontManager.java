@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.File;
-import java.util.Locale;
-import java.util.TreeMap;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtException;
+import jbvb.io.File;
+import jbvb.util.Locble;
+import jbvb.util.TreeMbp;
 
-import javax.swing.plaf.FontUIResource;
+import jbvbx.swing.plbf.FontUIResource;
 
 
 /**
- * Interface between Java Fonts (java.awt.Font) and the underlying
- * font files/native font resources and the Java and native font scalers.
+ * Interfbce between Jbvb Fonts (jbvb.bwt.Font) bnd the underlying
+ * font files/nbtive font resources bnd the Jbvb bnd nbtive font scblers.
  */
-public interface FontManager {
+public interfbce FontMbnbger {
 
-    // These constants are used in findFont().
-    public static final int NO_FALLBACK = 0;
-    public static final int PHYSICAL_FALLBACK = 1;
-    public static final int LOGICAL_FALLBACK = 2;
+    // These constbnts bre used in findFont().
+    public stbtic finbl int NO_FALLBACK = 0;
+    public stbtic finbl int PHYSICAL_FALLBACK = 1;
+    public stbtic finbl int LOGICAL_FALLBACK = 2;
 
     /**
-     * Register a new font. Please, note that {@code null} is not a valid
-     * argument, and it's caller's responsibility to ensure that, but to keep
-     * compatibility, if {@code null} is passed as an argument, {@code false}
-     * is returned, and no {@link NullPointerException}
+     * Register b new font. Plebse, note thbt {@code null} is not b vblid
+     * brgument, bnd it's cbller's responsibility to ensure thbt, but to keep
+     * compbtibility, if {@code null} is pbssed bs bn brgument, {@code fblse}
+     * is returned, bnd no {@link NullPointerException}
      * is thrown.
      *
-     * As additional note, an implementation should ensure that this font
-     * cannot override existing installed fonts.
+     * As bdditionbl note, bn implementbtion should ensure thbt this font
+     * cbnnot override existing instblled fonts.
      *
-     * @param font
+     * @pbrbm font
      * @return {@code true} is the font is successfully registered,
-     * {@code false} otherwise.
+     * {@code fblse} otherwise.
      */
-    public boolean registerFont(Font font);
+    public boolebn registerFont(Font font);
 
-    public void deRegisterBadFont(Font2D font2D);
+    public void deRegisterBbdFont(Font2D font2D);
 
     /**
-     * The client supplies a name and a style.
-     * The name could be a family name, or a full name.
-     * A font may exist with the specified style, or it may
-     * exist only in some other style. For non-native fonts the scaler
-     * may be able to emulate the required style.
+     * The client supplies b nbme bnd b style.
+     * The nbme could be b fbmily nbme, or b full nbme.
+     * A font mby exist with the specified style, or it mby
+     * exist only in some other style. For non-nbtive fonts the scbler
+     * mby be bble to emulbte the required style.
      */
-    public Font2D findFont2D(String name, int style, int fallback);
+    public Font2D findFont2D(String nbme, int style, int fbllbbck);
 
     /**
-     * Creates a Font2D for the specified font file, that is expected
-     * to be in the specified font format (according to the constants
-     * in java.awt.Font). The parameter {@code isCopy} is set to true
-     * when the specified font file is actually a copy of the font data
-     * and needs to be deleted afterwards. This method is called
-     * for the Font.createFont() methods.
+     * Crebtes b Font2D for the specified font file, thbt is expected
+     * to be in the specified font formbt (bccording to the constbnts
+     * in jbvb.bwt.Font). The pbrbmeter {@code isCopy} is set to true
+     * when the specified font file is bctublly b copy of the font dbtb
+     * bnd needs to be deleted bfterwbrds. This method is cblled
+     * for the Font.crebteFont() methods.
      *
-     * @param fontFile the file holding the font data
-     * @param fontFormat the expected font format
-     * @param isCopy {@code true} if the file is a copy and needs to be
-     *        deleted, {@code false} otherwise
+     * @pbrbm fontFile the file holding the font dbtb
+     * @pbrbm fontFormbt the expected font formbt
+     * @pbrbm isCopy {@code true} if the file is b copy bnd needs to be
+     *        deleted, {@code fblse} otherwise
      *
-     * @return the created Font2D instance
+     * @return the crebted Font2D instbnce
      */
-    public Font2D createFont2D(File fontFile, int fontFormat,
-                               boolean isCopy, CreatedFontTracker tracker)
-        throws FontFormatException;
+    public Font2D crebteFont2D(File fontFile, int fontFormbt,
+                               boolebn isCopy, CrebtedFontTrbcker trbcker)
+        throws FontFormbtException;
 
     /**
-     * If usingPerAppContextComposites is true, we are in "applet"
-     * (eg browser) environment and at least one context has selected
-     * an alternate composite font behaviour.
+     * If usingPerAppContextComposites is true, we bre in "bpplet"
+     * (eg browser) environment bnd bt lebst one context hbs selected
+     * bn blternbte composite font behbviour.
      */
-    public boolean usingPerAppContextComposites();
+    public boolebn usingPerAppContextComposites();
 
     /**
-     * Creates a derived composite font from the specified font (handle).
+     * Crebtes b derived composite font from the specified font (hbndle).
      *
-     * @param family the font family of the derived font
-     * @param style the font style of the derived font
-     * @param handle the original font (handle)
+     * @pbrbm fbmily the font fbmily of the derived font
+     * @pbrbm style the font style of the derived font
+     * @pbrbm hbndle the originbl font (hbndle)
      *
-     * @return the handle for the derived font
+     * @return the hbndle for the derived font
      */
-    public Font2DHandle getNewComposite(String family, int style,
-                                        Font2DHandle handle);
+    public Font2DHbndle getNewComposite(String fbmily, int style,
+                                        Font2DHbndle hbndle);
 
     /**
-     * Indicates a preference for locale-specific fonts in the mapping of
-     * logical fonts to physical fonts. Calling this method indicates that font
-     * rendering should primarily use fonts specific to the primary writing
-     * system (the one indicated by the default encoding and the initial
-     * default locale). For example, if the primary writing system is
-     * Japanese, then characters should be rendered using a Japanese font
-     * if possible, and other fonts should only be used for characters for
-     * which the Japanese font doesn't have glyphs.
+     * Indicbtes b preference for locble-specific fonts in the mbpping of
+     * logicbl fonts to physicbl fonts. Cblling this method indicbtes thbt font
+     * rendering should primbrily use fonts specific to the primbry writing
+     * system (the one indicbted by the defbult encoding bnd the initibl
+     * defbult locble). For exbmple, if the primbry writing system is
+     * Jbpbnese, then chbrbcters should be rendered using b Jbpbnese font
+     * if possible, bnd other fonts should only be used for chbrbcters for
+     * which the Jbpbnese font doesn't hbve glyphs.
      * <p>
-     * The actual change in font rendering behavior resulting from a call
-     * to this method is implementation dependent; it may have no effect at
-     * all, or the requested behavior may already match the default behavior.
-     * The behavior may differ between font rendering in lightweight
-     * and peered components.  Since calling this method requests a
-     * different font, clients should expect different metrics, and may need
-     * to recalculate window sizes and layout. Therefore this method should
-     * be called before user interface initialisation.
+     * The bctubl chbnge in font rendering behbvior resulting from b cbll
+     * to this method is implementbtion dependent; it mby hbve no effect bt
+     * bll, or the requested behbvior mby blrebdy mbtch the defbult behbvior.
+     * The behbvior mby differ between font rendering in lightweight
+     * bnd peered components.  Since cblling this method requests b
+     * different font, clients should expect different metrics, bnd mby need
+     * to recblculbte window sizes bnd lbyout. Therefore this method should
+     * be cblled before user interfbce initiblisbtion.
      *
-     * @see #preferProportionalFonts()
+     * @see #preferProportionblFonts()
      * @since 1.5
      */
-    public void preferLocaleFonts();
+    public void preferLocbleFonts();
 
     /**
-     * preferLocaleFonts() and preferProportionalFonts() are called to inform
-     * that the application could be using an alternate set of composite
-     * fonts, and so the implementation should try to create a CompositeFonts
+     * preferLocbleFonts() bnd preferProportionblFonts() bre cblled to inform
+     * thbt the bpplicbtion could be using bn blternbte set of composite
+     * fonts, bnd so the implementbtion should try to crebte b CompositeFonts
      * with this directive in mind.
      *
-     * @see #preferLocaleFonts()
+     * @see #preferLocbleFonts()
      */
-    public void preferProportionalFonts();
+    public void preferProportionblFonts();
 
 }

@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.jarsigner;
+pbckbge sun.security.tools.jbrsigner;
 
-import java.io.IOException;
-import java.net.URI;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import jbvb.io.IOException;
+import jbvb.net.URI;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.X509Certificbte;
 
-import com.sun.jarsigner.*;
+import com.sun.jbrsigner.*;
 import sun.security.pkcs.PKCS7;
 import sun.security.util.*;
 import sun.security.x509.*;
 
 /**
- * This class implements a content signing service.
- * It generates a timestamped signature for a given content according to
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
- * The signature along with a trusted timestamp and the signer's certificate
- * are all packaged into a standard PKCS #7 Signed Data message.
+ * This clbss implements b content signing service.
+ * It generbtes b timestbmped signbture for b given content bccording to
+ * <b href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</b>.
+ * The signbture blong with b trusted timestbmp bnd the signer's certificbte
+ * bre bll pbckbged into b stbndbrd PKCS #7 Signed Dbtb messbge.
  *
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
 
-public final class TimestampedSigner extends ContentSigner {
+public finbl clbss TimestbmpedSigner extends ContentSigner {
 
     /*
-     * Object identifier for the subject information access X.509 certificate
+     * Object identifier for the subject informbtion bccess X.509 certificbte
      * extension.
      */
-    private static final String SUBJECT_INFO_ACCESS_OID = "1.3.6.1.5.5.7.1.11";
+    privbte stbtic finbl String SUBJECT_INFO_ACCESS_OID = "1.3.6.1.5.5.7.1.11";
 
     /*
-     * Object identifier for the timestamping access descriptors.
+     * Object identifier for the timestbmping bccess descriptors.
      */
-    private static final ObjectIdentifier AD_TIMESTAMPING_Id;
-    static {
+    privbte stbtic finbl ObjectIdentifier AD_TIMESTAMPING_Id;
+    stbtic {
         ObjectIdentifier tmp = null;
         try {
             tmp = new ObjectIdentifier("1.3.6.1.5.5.7.48.3");
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             // ignore
         }
         AD_TIMESTAMPING_Id = tmp;
     }
 
     /**
-     * Instantiates a content signer that supports timestamped signatures.
+     * Instbntibtes b content signer thbt supports timestbmped signbtures.
      */
-    public TimestampedSigner() {
+    public TimestbmpedSigner() {
     }
 
     /**
-     * Generates a PKCS #7 signed data message that includes a signature
-     * timestamp.
-     * This method is used when a signature has already been generated.
-     * The signature, a signature timestamp, the signer's certificate chain,
-     * and optionally the content that was signed, are packaged into a PKCS #7
-     * signed data message.
+     * Generbtes b PKCS #7 signed dbtb messbge thbt includes b signbture
+     * timestbmp.
+     * This method is used when b signbture hbs blrebdy been generbted.
+     * The signbture, b signbture timestbmp, the signer's certificbte chbin,
+     * bnd optionblly the content thbt wbs signed, bre pbckbged into b PKCS #7
+     * signed dbtb messbge.
      *
-     * @param params The non-null input parameters.
-     * @param omitContent true if the content should be omitted from the
-     *        signed data message. Otherwise the content is included.
-     * @param applyTimestamp true if the signature should be timestamped.
-     *        Otherwise timestamping is not performed.
-     * @return A PKCS #7 signed data message including a signature timestamp.
-     * @throws NoSuchAlgorithmException The exception is thrown if the signature
-     *         algorithm is unrecognised.
-     * @throws CertificateException The exception is thrown if an error occurs
-     *         while processing the signer's certificate or the TSA's
-     *         certificate.
-     * @throws IOException The exception is thrown if an error occurs while
-     *         generating the signature timestamp or while generating the signed
-     *         data message.
-     * @throws NullPointerException The exception is thrown if parameters is
+     * @pbrbm pbrbms The non-null input pbrbmeters.
+     * @pbrbm omitContent true if the content should be omitted from the
+     *        signed dbtb messbge. Otherwise the content is included.
+     * @pbrbm bpplyTimestbmp true if the signbture should be timestbmped.
+     *        Otherwise timestbmping is not performed.
+     * @return A PKCS #7 signed dbtb messbge including b signbture timestbmp.
+     * @throws NoSuchAlgorithmException The exception is thrown if the signbture
+     *         blgorithm is unrecognised.
+     * @throws CertificbteException The exception is thrown if bn error occurs
+     *         while processing the signer's certificbte or the TSA's
+     *         certificbte.
+     * @throws IOException The exception is thrown if bn error occurs while
+     *         generbting the signbture timestbmp or while generbting the signed
+     *         dbtb messbge.
+     * @throws NullPointerException The exception is thrown if pbrbmeters is
      *         null.
      */
-    public byte[] generateSignedData(ContentSignerParameters params,
-        boolean omitContent, boolean applyTimestamp)
-            throws NoSuchAlgorithmException, CertificateException, IOException {
+    public byte[] generbteSignedDbtb(ContentSignerPbrbmeters pbrbms,
+        boolebn omitContent, boolebn bpplyTimestbmp)
+            throws NoSuchAlgorithmException, CertificbteException, IOException {
 
-        if (params == null) {
+        if (pbrbms == null) {
             throw new NullPointerException();
         }
 
-        // Parse the signature algorithm to extract the digest
-        // algorithm. The expected format is:
+        // Pbrse the signbture blgorithm to extrbct the digest
+        // blgorithm. The expected formbt is:
         //     "<digest>with<encryption>"
-        // or  "<digest>with<encryption>and<mgf>"
-        String signatureAlgorithm = params.getSignatureAlgorithm();
+        // or  "<digest>with<encryption>bnd<mgf>"
+        String signbtureAlgorithm = pbrbms.getSignbtureAlgorithm();
 
-        X509Certificate[] signerChain = params.getSignerCertificateChain();
-        byte[] signature = params.getSignature();
+        X509Certificbte[] signerChbin = pbrbms.getSignerCertificbteChbin();
+        byte[] signbture = pbrbms.getSignbture();
 
         // Include or exclude content
-        byte[] content = (omitContent == true) ? null : params.getContent();
+        byte[] content = (omitContent == true) ? null : pbrbms.getContent();
 
-        URI tsaURI = null;
-        if (applyTimestamp) {
-            tsaURI = params.getTimestampingAuthority();
-            if (tsaURI == null) {
-                // Examine TSA cert
-                tsaURI = getTimestampingURI(
-                    params.getTimestampingAuthorityCertificate());
-                if (tsaURI == null) {
-                    throw new CertificateException(
-                        "Subject Information Access extension not found");
+        URI tsbURI = null;
+        if (bpplyTimestbmp) {
+            tsbURI = pbrbms.getTimestbmpingAuthority();
+            if (tsbURI == null) {
+                // Exbmine TSA cert
+                tsbURI = getTimestbmpingURI(
+                    pbrbms.getTimestbmpingAuthorityCertificbte());
+                if (tsbURI == null) {
+                    throw new CertificbteException(
+                        "Subject Informbtion Access extension not found");
                 }
             }
         }
-        return PKCS7.generateSignedData(signature, signerChain, content,
-                                        params.getSignatureAlgorithm(), tsaURI,
-                                        params.getTSAPolicyID(),
-                                        params.getTSADigestAlg());
+        return PKCS7.generbteSignedDbtb(signbture, signerChbin, content,
+                                        pbrbms.getSignbtureAlgorithm(), tsbURI,
+                                        pbrbms.getTSAPolicyID(),
+                                        pbrbms.getTSADigestAlg());
     }
 
     /**
-     * Examine the certificate for a Subject Information Access extension
-     * (<a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280</a>).
-     * The extension's <tt>accessMethod</tt> field should contain the object
-     * identifier defined for timestamping: 1.3.6.1.5.5.7.48.3 and its
-     * <tt>accessLocation</tt> field should contain an HTTP or HTTPS URL.
+     * Exbmine the certificbte for b Subject Informbtion Access extension
+     * (<b href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280</b>).
+     * The extension's <tt>bccessMethod</tt> field should contbin the object
+     * identifier defined for timestbmping: 1.3.6.1.5.5.7.48.3 bnd its
+     * <tt>bccessLocbtion</tt> field should contbin bn HTTP or HTTPS URL.
      *
-     * @param tsaCertificate An X.509 certificate for the TSA.
-     * @return An HTTP or HTTPS URI or null if none was found.
+     * @pbrbm tsbCertificbte An X.509 certificbte for the TSA.
+     * @return An HTTP or HTTPS URI or null if none wbs found.
      */
-    public static URI getTimestampingURI(X509Certificate tsaCertificate) {
+    public stbtic URI getTimestbmpingURI(X509Certificbte tsbCertificbte) {
 
-        if (tsaCertificate == null) {
+        if (tsbCertificbte == null) {
             return null;
         }
-        // Parse the extensions
+        // Pbrse the extensions
         try {
-            byte[] extensionValue =
-                tsaCertificate.getExtensionValue(SUBJECT_INFO_ACCESS_OID);
-            if (extensionValue == null) {
+            byte[] extensionVblue =
+                tsbCertificbte.getExtensionVblue(SUBJECT_INFO_ACCESS_OID);
+            if (extensionVblue == null) {
                 return null;
             }
-            DerInputStream der = new DerInputStream(extensionValue);
-            der = new DerInputStream(der.getOctetString());
-            DerValue[] derValue = der.getSequence(5);
+            DerInputStrebm der = new DerInputStrebm(extensionVblue);
+            der = new DerInputStrebm(der.getOctetString());
+            DerVblue[] derVblue = der.getSequence(5);
             AccessDescription description;
-            GeneralName location;
-            URIName uri;
-            for (int i = 0; i < derValue.length; i++) {
-                description = new AccessDescription(derValue[i]);
+            GenerblNbme locbtion;
+            URINbme uri;
+            for (int i = 0; i < derVblue.length; i++) {
+                description = new AccessDescription(derVblue[i]);
                 if (description.getAccessMethod()
-                        .equals((Object)AD_TIMESTAMPING_Id)) {
-                    location = description.getAccessLocation();
-                    if (location.getType() == GeneralNameInterface.NAME_URI) {
-                        uri = (URIName) location.getName();
-                        if (uri.getScheme().equalsIgnoreCase("http") ||
-                                uri.getScheme().equalsIgnoreCase("https")) {
+                        .equbls((Object)AD_TIMESTAMPING_Id)) {
+                    locbtion = description.getAccessLocbtion();
+                    if (locbtion.getType() == GenerblNbmeInterfbce.NAME_URI) {
+                        uri = (URINbme) locbtion.getNbme();
+                        if (uri.getScheme().equblsIgnoreCbse("http") ||
+                                uri.getScheme().equblsIgnoreCbse("https")) {
                             return uri.getURI();
                         }
                     }
                 }
             }
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             // ignore
         }
         return null;

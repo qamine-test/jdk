@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A collection that contains no duplicate elements.  More formally, sets
- * contain no pair of elements <code>e1</code> and <code>e2</code> such that
- * <code>e1.equals(e2)</code>, and at most one null element.  As implied by
- * its name, this interface models the mathematical <i>set</i> abstraction.
+ * A collection thbt contbins no duplicbte elements.  More formblly, sets
+ * contbin no pbir of elements <code>e1</code> bnd <code>e2</code> such thbt
+ * <code>e1.equbls(e2)</code>, bnd bt most one null element.  As implied by
+ * its nbme, this interfbce models the mbthembticbl <i>set</i> bbstrbction.
  *
- * <p>The <tt>Set</tt> interface places additional stipulations, beyond those
- * inherited from the <tt>Collection</tt> interface, on the contracts of all
- * constructors and on the contracts of the <tt>add</tt>, <tt>equals</tt> and
- * <tt>hashCode</tt> methods.  Declarations for other inherited methods are
- * also included here for convenience.  (The specifications accompanying these
- * declarations have been tailored to the <tt>Set</tt> interface, but they do
- * not contain any additional stipulations.)
+ * <p>The <tt>Set</tt> interfbce plbces bdditionbl stipulbtions, beyond those
+ * inherited from the <tt>Collection</tt> interfbce, on the contrbcts of bll
+ * constructors bnd on the contrbcts of the <tt>bdd</tt>, <tt>equbls</tt> bnd
+ * <tt>hbshCode</tt> methods.  Declbrbtions for other inherited methods bre
+ * blso included here for convenience.  (The specificbtions bccompbnying these
+ * declbrbtions hbve been tbilored to the <tt>Set</tt> interfbce, but they do
+ * not contbin bny bdditionbl stipulbtions.)
  *
- * <p>The additional stipulation on constructors is, not surprisingly,
- * that all constructors must create a set that contains no duplicate elements
- * (as defined above).
+ * <p>The bdditionbl stipulbtion on constructors is, not surprisingly,
+ * thbt bll constructors must crebte b set thbt contbins no duplicbte elements
+ * (bs defined bbove).
  *
- * <p>Note: Great care must be exercised if mutable objects are used as set
- * elements.  The behavior of a set is not specified if the value of an object
- * is changed in a manner that affects <tt>equals</tt> comparisons while the
- * object is an element in the set.  A special case of this prohibition is
- * that it is not permissible for a set to contain itself as an element.
+ * <p>Note: Grebt cbre must be exercised if mutbble objects bre used bs set
+ * elements.  The behbvior of b set is not specified if the vblue of bn object
+ * is chbnged in b mbnner thbt bffects <tt>equbls</tt> compbrisons while the
+ * object is bn element in the set.  A specibl cbse of this prohibition is
+ * thbt it is not permissible for b set to contbin itself bs bn element.
  *
- * <p>Some set implementations have restrictions on the elements that
- * they may contain.  For example, some implementations prohibit null elements,
- * and some have restrictions on the types of their elements.  Attempting to
- * add an ineligible element throws an unchecked exception, typically
- * <tt>NullPointerException</tt> or <tt>ClassCastException</tt>.  Attempting
- * to query the presence of an ineligible element may throw an exception,
- * or it may simply return false; some implementations will exhibit the former
- * behavior and some will exhibit the latter.  More generally, attempting an
- * operation on an ineligible element whose completion would not result in
- * the insertion of an ineligible element into the set may throw an
- * exception or it may succeed, at the option of the implementation.
- * Such exceptions are marked as "optional" in the specification for this
- * interface.
+ * <p>Some set implementbtions hbve restrictions on the elements thbt
+ * they mby contbin.  For exbmple, some implementbtions prohibit null elements,
+ * bnd some hbve restrictions on the types of their elements.  Attempting to
+ * bdd bn ineligible element throws bn unchecked exception, typicblly
+ * <tt>NullPointerException</tt> or <tt>ClbssCbstException</tt>.  Attempting
+ * to query the presence of bn ineligible element mby throw bn exception,
+ * or it mby simply return fblse; some implementbtions will exhibit the former
+ * behbvior bnd some will exhibit the lbtter.  More generblly, bttempting bn
+ * operbtion on bn ineligible element whose completion would not result in
+ * the insertion of bn ineligible element into the set mby throw bn
+ * exception or it mby succeed, bt the option of the implementbtion.
+ * Such exceptions bre mbrked bs "optionbl" in the specificbtion for this
+ * interfbce.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> the type of elements mbintbined by this set
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see Collection
  * @see List
  * @see SortedSet
- * @see HashSet
+ * @see HbshSet
  * @see TreeSet
- * @see AbstractSet
- * @see Collections#singleton(java.lang.Object)
+ * @see AbstrbctSet
+ * @see Collections#singleton(jbvb.lbng.Object)
  * @see Collections#EMPTY_SET
  * @since 1.2
  */
 
-public interface Set<E> extends Collection<E> {
-    // Query Operations
+public interfbce Set<E> extends Collection<E> {
+    // Query Operbtions
 
     /**
-     * Returns the number of elements in this set (its cardinality).  If this
-     * set contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
+     * Returns the number of elements in this set (its cbrdinblity).  If this
+     * set contbins more thbn <tt>Integer.MAX_VALUE</tt> elements, returns
      * <tt>Integer.MAX_VALUE</tt>.
      *
-     * @return the number of elements in this set (its cardinality)
+     * @return the number of elements in this set (its cbrdinblity)
      */
     int size();
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <tt>true</tt> if this set contbins no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @return <tt>true</tt> if this set contbins no elements
      */
-    boolean isEmpty();
+    boolebn isEmpty();
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this set
-     * contains an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns <tt>true</tt> if this set contbins the specified element.
+     * More formblly, returns <tt>true</tt> if bnd only if this set
+     * contbins bn element <tt>e</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o element whose presence in this set is to be tested
-     * @return <tt>true</tt> if this set contains the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element whose presence in this set is to be tested
+     * @return <tt>true</tt> if this set contbins the specified element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this set
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         set does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean contains(Object o);
+    boolebn contbins(Object o);
 
     /**
-     * Returns an iterator over the elements in this set.  The elements are
-     * returned in no particular order (unless this set is an instance of some
-     * class that provides a guarantee).
+     * Returns bn iterbtor over the elements in this set.  The elements bre
+     * returned in no pbrticulbr order (unless this set is bn instbnce of some
+     * clbss thbt provides b gubrbntee).
      *
-     * @return an iterator over the elements in this set
+     * @return bn iterbtor over the elements in this set
      */
-    Iterator<E> iterator();
+    Iterbtor<E> iterbtor();
 
     /**
-     * Returns an array containing all of the elements in this set.
-     * If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the
-     * elements in the same order.
+     * Returns bn brrby contbining bll of the elements in this set.
+     * If this set mbkes bny gubrbntees bs to whbt order its elements
+     * bre returned by its iterbtor, this method must return the
+     * elements in the sbme order.
      *
-     * <p>The returned array will be "safe" in that no references to it
-     * are maintained by this set.  (In other words, this method must
-     * allocate a new array even if this set is backed by an array).
-     * The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it
+     * bre mbintbined by this set.  (In other words, this method must
+     * bllocbte b new brrby even if this set is bbcked by bn brrby).
+     * The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all the elements in this set
+     * @return bn brrby contbining bll the elements in this set
      */
-    Object[] toArray();
+    Object[] toArrby();
 
     /**
-     * Returns an array containing all of the elements in this set; the
-     * runtime type of the returned array is that of the specified array.
-     * If the set fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this set.
+     * Returns bn brrby contbining bll of the elements in this set; the
+     * runtime type of the returned brrby is thbt of the specified brrby.
+     * If the set fits in the specified brrby, it is returned therein.
+     * Otherwise, b new brrby is bllocbted with the runtime type of the
+     * specified brrby bnd the size of this set.
      *
-     * <p>If this set fits in the specified array with room to spare
-     * (i.e., the array has more elements than this set), the element in
-     * the array immediately following the end of the set is set to
+     * <p>If this set fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this set), the element in
+     * the brrby immedibtely following the end of the set is set to
      * <tt>null</tt>.  (This is useful in determining the length of this
-     * set <i>only</i> if the caller knows that this set does not contain
-     * any null elements.)
+     * set <i>only</i> if the cbller knows thbt this set does not contbin
+     * bny null elements.)
      *
-     * <p>If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the elements
-     * in the same order.
+     * <p>If this set mbkes bny gubrbntees bs to whbt order its elements
+     * bre returned by its iterbtor, this method must return the elements
+     * in the sbme order.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose <tt>x</tt> is a set known to contain only strings.
-     * The following code can be used to dump the set into a newly allocated
-     * array of <tt>String</tt>:
+     * <p>Suppose <tt>x</tt> is b set known to contbin only strings.
+     * The following code cbn be used to dump the set into b newly bllocbted
+     * brrby of <tt>String</tt>:
      *
      * <pre>
-     *     String[] y = x.toArray(new String[0]);</pre>
+     *     String[] y = x.toArrby(new String[0]);</pre>
      *
-     * Note that <tt>toArray(new Object[0])</tt> is identical in function to
-     * <tt>toArray()</tt>.
+     * Note thbt <tt>toArrby(new Object[0])</tt> is identicbl in function to
+     * <tt>toArrby()</tt>.
      *
-     * @param a the array into which the elements of this set are to be
-     *        stored, if it is big enough; otherwise, a new array of the same
-     *        runtime type is allocated for this purpose.
-     * @return an array containing all the elements in this set
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in this
+     * @pbrbm b the brrby into which the elements of this set bre to be
+     *        stored, if it is big enough; otherwise, b new brrby of the sbme
+     *        runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining bll the elements in this set
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in this
      *         set
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    <T> T[] toArray(T[] a);
+    <T> T[] toArrby(T[] b);
 
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
-     * Adds the specified element to this set if it is not already present
-     * (optional operation).  More formally, adds the specified element
-     * <tt>e</tt> to this set if the set contains no element <tt>e2</tt>
-     * such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns <tt>false</tt>.  In combination with the
-     * restriction on constructors, this ensures that sets never contain
-     * duplicate elements.
+     * Adds the specified element to this set if it is not blrebdy present
+     * (optionbl operbtion).  More formblly, bdds the specified element
+     * <tt>e</tt> to this set if the set contbins no element <tt>e2</tt>
+     * such thbt
+     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equbls(e2))</tt>.
+     * If this set blrebdy contbins the element, the cbll lebves the set
+     * unchbnged bnd returns <tt>fblse</tt>.  In combinbtion with the
+     * restriction on constructors, this ensures thbt sets never contbin
+     * duplicbte elements.
      *
-     * <p>The stipulation above does not imply that sets must accept all
-     * elements; sets may refuse to add any particular element, including
-     * <tt>null</tt>, and throw an exception, as described in the
-     * specification for {@link Collection#add Collection.add}.
-     * Individual set implementations should clearly document any
-     * restrictions on the elements that they may contain.
+     * <p>The stipulbtion bbove does not imply thbt sets must bccept bll
+     * elements; sets mby refuse to bdd bny pbrticulbr element, including
+     * <tt>null</tt>, bnd throw bn exception, bs described in the
+     * specificbtion for {@link Collection#bdd Collection.bdd}.
+     * Individubl set implementbtions should clebrly document bny
+     * restrictions on the elements thbt they mby contbin.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if this set did not already contain the specified
+     * @pbrbm e element to be bdded to this set
+     * @return <tt>true</tt> if this set did not blrebdy contbin the specified
      *         element
-     * @throws UnsupportedOperationException if the <tt>add</tt> operation
+     * @throws UnsupportedOperbtionException if the <tt>bdd</tt> operbtion
      *         is not supported by this set
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this set
-     * @throws NullPointerException if the specified element is null and this
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this set
+     * @throws NullPointerException if the specified element is null bnd this
      *         set does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified element
-     *         prevents it from being added to this set
+     * @throws IllegblArgumentException if some property of the specified element
+     *         prevents it from being bdded to this set
      */
-    boolean add(E e);
+    boolebn bdd(E e);
 
 
     /**
      * Removes the specified element from this set if it is present
-     * (optional operation).  More formally, removes an element <tt>e</tt>
-     * such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>, if
-     * this set contains such an element.  Returns <tt>true</tt> if this set
-     * contained the element (or equivalently, if this set changed as a
-     * result of the call).  (This set will not contain the element once the
-     * call returns.)
+     * (optionbl operbtion).  More formblly, removes bn element <tt>e</tt>
+     * such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>, if
+     * this set contbins such bn element.  Returns <tt>true</tt> if this set
+     * contbined the element (or equivblently, if this set chbnged bs b
+     * result of the cbll).  (This set will not contbin the element once the
+     * cbll returns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return <tt>true</tt> if this set contained the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o object to be removed from this set, if present
+     * @return <tt>true</tt> if this set contbined the specified element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this set
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         set does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws UnsupportedOperbtionException if the <tt>remove</tt> operbtion
      *         is not supported by this set
      */
-    boolean remove(Object o);
+    boolebn remove(Object o);
 
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements of the
-     * specified collection.  If the specified collection is also a set, this
-     * method returns <tt>true</tt> if it is a <i>subset</i> of this set.
+     * Returns <tt>true</tt> if this set contbins bll of the elements of the
+     * specified collection.  If the specified collection is blso b set, this
+     * method returns <tt>true</tt> if it is b <i>subset</i> of this set.
      *
-     * @param  c collection to be checked for containment in this set
-     * @return <tt>true</tt> if this set contains all of the elements of the
+     * @pbrbm  c collection to be checked for contbinment in this set
+     * @return <tt>true</tt> if this set contbins bll of the elements of the
      *         specified collection
-     * @throws ClassCastException if the types of one or more elements
-     *         in the specified collection are incompatible with this
+     * @throws ClbssCbstException if the types of one or more elements
+     *         in the specified collection bre incompbtible with this
      *         set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this set does not permit null
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified collection contbins one
+     *         or more null elements bnd this set does not permit null
      *         elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
-     * @see    #contains(Object)
+     * @see    #contbins(Object)
      */
-    boolean containsAll(Collection<?> c);
+    boolebn contbinsAll(Collection<?> c);
 
     /**
-     * Adds all of the elements in the specified collection to this set if
-     * they're not already present (optional operation).  If the specified
-     * collection is also a set, the <tt>addAll</tt> operation effectively
-     * modifies this set so that its value is the <i>union</i> of the two
-     * sets.  The behavior of this operation is undefined if the specified
-     * collection is modified while the operation is in progress.
+     * Adds bll of the elements in the specified collection to this set if
+     * they're not blrebdy present (optionbl operbtion).  If the specified
+     * collection is blso b set, the <tt>bddAll</tt> operbtion effectively
+     * modifies this set so thbt its vblue is the <i>union</i> of the two
+     * sets.  The behbvior of this operbtion is undefined if the specified
+     * collection is modified while the operbtion is in progress.
      *
-     * @param  c collection containing elements to be added to this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm  c collection contbining elements to be bdded to this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
      *
-     * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
+     * @throws UnsupportedOperbtionException if the <tt>bddAll</tt> operbtion
      *         is not supported by this set
-     * @throws ClassCastException if the class of an element of the
-     *         specified collection prevents it from being added to this set
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this set does not permit null
+     * @throws ClbssCbstException if the clbss of bn element of the
+     *         specified collection prevents it from being bdded to this set
+     * @throws NullPointerException if the specified collection contbins one
+     *         or more null elements bnd this set does not permit null
      *         elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this set
-     * @see #add(Object)
+     * @throws IllegblArgumentException if some property of bn element of the
+     *         specified collection prevents it from being bdded to this set
+     * @see #bdd(Object)
      */
-    boolean addAll(Collection<? extends E> c);
+    boolebn bddAll(Collection<? extends E> c);
 
     /**
-     * Retains only the elements in this set that are contained in the
-     * specified collection (optional operation).  In other words, removes
-     * from this set all of its elements that are not contained in the
-     * specified collection.  If the specified collection is also a set, this
-     * operation effectively modifies this set so that its value is the
+     * Retbins only the elements in this set thbt bre contbined in the
+     * specified collection (optionbl operbtion).  In other words, removes
+     * from this set bll of its elements thbt bre not contbined in the
+     * specified collection.  If the specified collection is blso b set, this
+     * operbtion effectively modifies this set so thbt its vblue is the
      * <i>intersection</i> of the two sets.
      *
-     * @param  c collection containing elements to be retained in this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>retainAll</tt> operation
+     * @pbrbm  c collection contbining elements to be retbined in this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>retbinAll</tt> operbtion
      *         is not supported by this set
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this set contains a null element and the
+     * @throws ClbssCbstException if the clbss of bn element of this set
+     *         is incompbtible with the specified collection
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if this set contbins b null element bnd the
      *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
      * @see #remove(Object)
      */
-    boolean retainAll(Collection<?> c);
+    boolebn retbinAll(Collection<?> c);
 
     /**
-     * Removes from this set all of its elements that are contained in the
-     * specified collection (optional operation).  If the specified
-     * collection is also a set, this operation effectively modifies this
-     * set so that its value is the <i>asymmetric set difference</i> of
+     * Removes from this set bll of its elements thbt bre contbined in the
+     * specified collection (optionbl operbtion).  If the specified
+     * collection is blso b set, this operbtion effectively modifies this
+     * set so thbt its vblue is the <i>bsymmetric set difference</i> of
      * the two sets.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>removeAll</tt> operation
+     * @pbrbm  c collection contbining elements to be removed from this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>removeAll</tt> operbtion
      *         is not supported by this set
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this set contains a null element and the
+     * @throws ClbssCbstException if the clbss of bn element of this set
+     *         is incompbtible with the specified collection
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if this set contbins b null element bnd the
      *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    boolean removeAll(Collection<?> c);
+    boolebn removeAll(Collection<?> c);
 
     /**
-     * Removes all of the elements from this set (optional operation).
-     * The set will be empty after this call returns.
+     * Removes bll of the elements from this set (optionbl operbtion).
+     * The set will be empty bfter this cbll returns.
      *
-     * @throws UnsupportedOperationException if the <tt>clear</tt> method
+     * @throws UnsupportedOperbtionException if the <tt>clebr</tt> method
      *         is not supported by this set
      */
-    void clear();
+    void clebr();
 
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the specified object is also a set, the two sets
-     * have the same size, and every member of the specified set is
-     * contained in this set (or equivalently, every member of this set is
-     * contained in the specified set).  This definition ensures that the
-     * equals method works properly across different implementations of the
-     * set interface.
+     * Compbres the specified object with this set for equblity.  Returns
+     * <tt>true</tt> if the specified object is blso b set, the two sets
+     * hbve the sbme size, bnd every member of the specified set is
+     * contbined in this set (or equivblently, every member of this set is
+     * contbined in the specified set).  This definition ensures thbt the
+     * equbls method works properly bcross different implementbtions of the
+     * set interfbce.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o object to be compbred for equblity with this set
+     * @return <tt>true</tt> if the specified object is equbl to this set
      */
-    boolean equals(Object o);
+    boolebn equbls(Object o);
 
     /**
-     * Returns the hash code value for this set.  The hash code of a set is
-     * defined to be the sum of the hash codes of the elements in the set,
-     * where the hash code of a <tt>null</tt> element is defined to be zero.
-     * This ensures that <tt>s1.equals(s2)</tt> implies that
-     * <tt>s1.hashCode()==s2.hashCode()</tt> for any two sets <tt>s1</tt>
-     * and <tt>s2</tt>, as required by the general contract of
-     * {@link Object#hashCode}.
+     * Returns the hbsh code vblue for this set.  The hbsh code of b set is
+     * defined to be the sum of the hbsh codes of the elements in the set,
+     * where the hbsh code of b <tt>null</tt> element is defined to be zero.
+     * This ensures thbt <tt>s1.equbls(s2)</tt> implies thbt
+     * <tt>s1.hbshCode()==s2.hbshCode()</tt> for bny two sets <tt>s1</tt>
+     * bnd <tt>s2</tt>, bs required by the generbl contrbct of
+     * {@link Object#hbshCode}.
      *
-     * @return the hash code value for this set
-     * @see Object#equals(Object)
-     * @see Set#equals(Object)
+     * @return the hbsh code vblue for this set
+     * @see Object#equbls(Object)
+     * @see Set#equbls(Object)
      */
-    int hashCode();
+    int hbshCode();
 
     /**
-     * Creates a {@code Spliterator} over the elements in this set.
+     * Crebtes b {@code Spliterbtor} over the elements in this set.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#DISTINCT}.
-     * Implementations should document the reporting of additional
-     * characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#DISTINCT}.
+     * Implementbtions should document the reporting of bdditionbl
+     * chbrbcteristic vblues.
      *
      * @implSpec
-     * The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the set's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the set's iterator.
+     * The defbult implementbtion crebtes b
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em> spliterbtor
+     * from the set's {@code Iterbtor}.  The spliterbtor inherits the
+     * <em>fbil-fbst</em> properties of the set's iterbtor.
      * <p>
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SIZED}.
+     * The crebted {@code Spliterbtor} bdditionblly reports
+     * {@link Spliterbtor#SIZED}.
      *
      * @implNote
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * The crebted {@code Spliterbtor} bdditionblly reports
+     * {@link Spliterbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this set
+     * @return b {@code Spliterbtor} over the elements in this set
      * @since 1.8
      */
     @Override
-    default Spliterator<E> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.DISTINCT);
+    defbult Spliterbtor<E> spliterbtor() {
+        return Spliterbtors.spliterbtor(this, Spliterbtor.DISTINCT);
     }
 }

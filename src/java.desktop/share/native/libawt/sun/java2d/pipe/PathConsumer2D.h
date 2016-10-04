@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef _Included_PathConsumer2D
-#define _Included_PathConsumer2D
+#ifndef _Included_PbthConsumer2D
+#define _Included_PbthConsumer2D
 
-/* For forward referencing - struct defined below. */
-struct _PathConsumerVec;
+/* For forwbrd referencing - struct defined below. */
+struct _PbthConsumerVec;
 
 /*
  * Note on Error Conditions:
- * The following functions all return true on an error condition which
- * precludes any further processing.  The module calling these functions
- * should cease the operation and invoke its own error handling.
- * The return value is the only indication of the error, no exceptions
- * should be thrown by the consumer - the caller is solely responsible
+ * The following functions bll return true on bn error condition which
+ * precludes bny further processing.  The module cblling these functions
+ * should cebse the operbtion bnd invoke its own error hbndling.
+ * The return vblue is the only indicbtion of the error, no exceptions
+ * should be thrown by the consumer - the cbller is solely responsible
  * for reporting the error/exception.
- * The most common cause of failure is an allocation failure so a
- * true return code could be reported as an "out of memory" error
+ * The most common cbuse of fbilure is bn bllocbtion fbilure so b
+ * true return code could be reported bs bn "out of memory" error
  * if so desired.
- * No cleanup of the native consumer is required upon either a successful
- * completion of the path or upon an error return.  Such cleanup will
- * be handled elsewhere via other mechanisms (finalization, try/finally,
+ * No clebnup of the nbtive consumer is required upon either b successful
+ * completion of the pbth or upon bn error return.  Such clebnup will
+ * be hbndled elsewhere vib other mechbnisms (finblizbtion, try/finblly,
  * etc.)
  */
 
-/* See GeneralPath.moveTo - returns true on error condition. */
-typedef jboolean (MoveToFunc)(struct _PathConsumerVec *pVec,
-                              jfloat x0, jfloat y0);
-/* See GeneralPath.lineTo - returns true on error condition. */
-typedef jboolean (LineToFunc)(struct _PathConsumerVec *pVec,
-                              jfloat x1, jfloat y1);
-/* See GeneralPath.quadTo - returns true on error condition. */
-typedef jboolean (QuadToFunc)(struct _PathConsumerVec *pVec,
-                              jfloat xm, jfloat ym,
-                              jfloat x1, jfloat y1);
-/* See GeneralPath.curveTo - returns true on error condition. */
-typedef jboolean (CubicToFunc)(struct _PathConsumerVec *pVec,
-                               jfloat xm0, jfloat ym0,
-                               jfloat xm1, jfloat ym1,
-                               jfloat x1, jfloat y1);
-/* See GeneralPath.closePath - returns true on error condition. */
-typedef jboolean (ClosePathFunc)(struct _PathConsumerVec *pVec);
+/* See GenerblPbth.moveTo - returns true on error condition. */
+typedef jboolebn (MoveToFunc)(struct _PbthConsumerVec *pVec,
+                              jflobt x0, jflobt y0);
+/* See GenerblPbth.lineTo - returns true on error condition. */
+typedef jboolebn (LineToFunc)(struct _PbthConsumerVec *pVec,
+                              jflobt x1, jflobt y1);
+/* See GenerblPbth.qubdTo - returns true on error condition. */
+typedef jboolebn (QubdToFunc)(struct _PbthConsumerVec *pVec,
+                              jflobt xm, jflobt ym,
+                              jflobt x1, jflobt y1);
+/* See GenerblPbth.curveTo - returns true on error condition. */
+typedef jboolebn (CubicToFunc)(struct _PbthConsumerVec *pVec,
+                               jflobt xm0, jflobt ym0,
+                               jflobt xm1, jflobt ym1,
+                               jflobt x1, jflobt y1);
+/* See GenerblPbth.closePbth - returns true on error condition. */
+typedef jboolebn (ClosePbthFunc)(struct _PbthConsumerVec *pVec);
 
 /*
- * This function must be called after the last segment of the last
- * subpath is sent to the above methods.  No further calls should
- * be made to any of the PathConsumerVec functions subsequently.
+ * This function must be cblled bfter the lbst segment of the lbst
+ * subpbth is sent to the bbove methods.  No further cblls should
+ * be mbde to bny of the PbthConsumerVec functions subsequently.
  */
-typedef jboolean (PathDoneFunc)(struct _PathConsumerVec *pVec);
+typedef jboolebn (PbthDoneFunc)(struct _PbthConsumerVec *pVec);
 
 /*
- * This structure defines the list of function pointers for implementations
- * of the above specified functions.  A pointer to this structure is also
- * handed to each function as its first parameter.  If the implementation
- * needs private context-specific data then it can be stored adjacent to
- * the PathConsumerVec structure in the same allocated storage.
+ * This structure defines the list of function pointers for implementbtions
+ * of the bbove specified functions.  A pointer to this structure is blso
+ * hbnded to ebch function bs its first pbrbmeter.  If the implementbtion
+ * needs privbte context-specific dbtb then it cbn be stored bdjbcent to
+ * the PbthConsumerVec structure in the sbme bllocbted storbge.
  */
-typedef struct _PathConsumerVec {
+typedef struct _PbthConsumerVec {
     MoveToFunc     *moveTo;
     LineToFunc     *lineTo;
-    QuadToFunc     *quadTo;
+    QubdToFunc     *qubdTo;
     CubicToFunc    *cubicTo;
-    ClosePathFunc  *closePath;
-    PathDoneFunc   *pathDone;
-} PathConsumerVec;
+    ClosePbthFunc  *closePbth;
+    PbthDoneFunc   *pbthDone;
+} PbthConsumerVec;
 
 #endif

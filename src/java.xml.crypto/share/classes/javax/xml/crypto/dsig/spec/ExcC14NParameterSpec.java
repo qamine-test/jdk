@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: ExcC14NParameterSpec.java,v 1.7 2005/05/13 18:45:42 mullan Exp $
+ * $Id: ExcC14NPbrbmeterSpec.jbvb,v 1.7 2005/05/13 18:45:42 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbckbge jbvbx.xml.crypto.dsig.spec;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jbvbx.xml.crypto.dsig.CbnonicblizbtionMethod;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
 
 /**
- * Parameters for the W3C Recommendation:
- * <a href="http://www.w3.org/TR/xml-exc-c14n/">
- * Exclusive XML Canonicalization (C14N) algorithm</a>. The
- * parameters include an optional inclusive namespace prefix list. The XML
- * Schema Definition of the Exclusive XML Canonicalization parameters is
- * defined as:
+ * Pbrbmeters for the W3C Recommendbtion:
+ * <b href="http://www.w3.org/TR/xml-exc-c14n/">
+ * Exclusive XML Cbnonicblizbtion (C14N) blgorithm</b>. The
+ * pbrbmeters include bn optionbl inclusive nbmespbce prefix list. The XML
+ * Schemb Definition of the Exclusive XML Cbnonicblizbtion pbrbmeters is
+ * defined bs:
  * <pre><code>
- * &lt;schema xmlns="http://www.w3.org/2001/XMLSchema"
+ * &lt;schemb xmlns="http://www.w3.org/2001/XMLSchemb"
  *         xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
- *         targetNamespace="http://www.w3.org/2001/10/xml-exc-c14n#"
- *         version="0.1" elementFormDefault="qualified"&gt;
+ *         tbrgetNbmespbce="http://www.w3.org/2001/10/xml-exc-c14n#"
+ *         version="0.1" elementFormDefbult="qublified"&gt;
  *
- * &lt;element name="InclusiveNamespaces" type="ec:InclusiveNamespaces"/&gt;
- * &lt;complexType name="InclusiveNamespaces"&gt;
- *   &lt;attribute name="PrefixList" type="xsd:string"/&gt;
+ * &lt;element nbme="InclusiveNbmespbces" type="ec:InclusiveNbmespbces"/&gt;
+ * &lt;complexType nbme="InclusiveNbmespbces"&gt;
+ *   &lt;bttribute nbme="PrefixList" type="xsd:string"/&gt;
  * &lt;/complexType&gt;
- * &lt;/schema&gt;
+ * &lt;/schemb&gt;
  * </code></pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see CanonicalizationMethod
+ * @see CbnonicblizbtionMethod
  */
-public final class ExcC14NParameterSpec implements C14NMethodParameterSpec {
+public finbl clbss ExcC14NPbrbmeterSpec implements C14NMethodPbrbmeterSpec {
 
-    private List<String> preList;
+    privbte List<String> preList;
 
     /**
-     * Indicates the default namespace ("#default").
+     * Indicbtes the defbult nbmespbce ("#defbult").
      */
-    public static final String DEFAULT = "#default";
+    public stbtic finbl String DEFAULT = "#defbult";
 
     /**
-     * Creates a <code>ExcC14NParameterSpec</code> with an empty prefix
+     * Crebtes b <code>ExcC14NPbrbmeterSpec</code> with bn empty prefix
      * list.
      */
-    public ExcC14NParameterSpec() {
+    public ExcC14NPbrbmeterSpec() {
         preList = Collections.emptyList();
     }
 
     /**
-     * Creates a <code>ExcC14NParameterSpec</code> with the specified list
-     * of prefixes. The list is copied to protect against subsequent
-     * modification.
+     * Crebtes b <code>ExcC14NPbrbmeterSpec</code> with the specified list
+     * of prefixes. The list is copied to protect bgbinst subsequent
+     * modificbtion.
      *
-     * @param prefixList the inclusive namespace prefix list. Each entry in
-     *    the list is a <code>String</code> that represents a namespace prefix.
+     * @pbrbm prefixList the inclusive nbmespbce prefix list. Ebch entry in
+     *    the list is b <code>String</code> thbt represents b nbmespbce prefix.
      * @throws NullPointerException if <code>prefixList</code> is
      *    <code>null</code>
-     * @throws ClassCastException if any of the entries in the list are not
+     * @throws ClbssCbstException if bny of the entries in the list bre not
      *    of type <code>String</code>
      */
-    @SuppressWarnings("rawtypes")
-    public ExcC14NParameterSpec(List prefixList) {
+    @SuppressWbrnings("rbwtypes")
+    public ExcC14NPbrbmeterSpec(List prefixList) {
         if (prefixList == null) {
-            throw new NullPointerException("prefixList cannot be null");
+            throw new NullPointerException("prefixList cbnnot be null");
         }
-        List<?> copy = new ArrayList<>((List<?>)prefixList);
+        List<?> copy = new ArrbyList<>((List<?>)prefixList);
         for (int i = 0, size = copy.size(); i < size; i++) {
-            if (!(copy.get(i) instanceof String)) {
-                throw new ClassCastException("not a String");
+            if (!(copy.get(i) instbnceof String)) {
+                throw new ClbssCbstException("not b String");
             }
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         List<String> temp = (List<String>)copy;
 
-        preList = Collections.unmodifiableList(temp);
+        preList = Collections.unmodifibbleList(temp);
     }
 
     /**
-     * Returns the inclusive namespace prefix list. Each entry in the list
-     * is a <code>String</code> that represents a namespace prefix.
+     * Returns the inclusive nbmespbce prefix list. Ebch entry in the list
+     * is b <code>String</code> thbt represents b nbmespbce prefix.
      *
-     * <p>This implementation returns an {@link
-     * java.util.Collections#unmodifiableList unmodifiable list}.
+     * <p>This implementbtion returns bn {@link
+     * jbvb.util.Collections#unmodifibbleList unmodifibble list}.
      *
-     * @return the inclusive namespace prefix list (may be empty but never
+     * @return the inclusive nbmespbce prefix list (mby be empty but never
      *    <code>null</code>)
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     public List getPrefixList() {
         return preList;
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,62 +30,62 @@
  */
 
 /**
- * The sample illustrates the simplest use case of the <b>default methods</b>.
+ * The sbmple illustrbtes the simplest use cbse of the <b>defbult methods</b>.
  */
-public class SimplestUsage {
+public clbss SimplestUsbge {
 
     /**
-     * The Animal interface provides the default implementation
-     * of the {@link #eat} method.
+     * The Animbl interfbce provides the defbult implementbtion
+     * of the {@link #ebt} method.
      */
-    public interface Animal {
+    public interfbce Animbl {
 
         /**
-         * Return string representation of the eat action for Animal
+         * Return string representbtion of the ebt bction for Animbl
          *
-         * @return string representation of the eat action for Animal
+         * @return string representbtion of the ebt bction for Animbl
          */
-        default String eat() {
-            return this.getClass().getSimpleName()
-                    + " eats like an ordinary animal";
+        defbult String ebt() {
+            return this.getClbss().getSimpleNbme()
+                    + " ebts like bn ordinbry bnimbl";
         }
     }
 
     /**
-     * The Dog class doesn't have its own implementation of the {@link #eat}
-     * method and uses the default implementation.
+     * The Dog clbss doesn't hbve its own implementbtion of the {@link #ebt}
+     * method bnd uses the defbult implementbtion.
      */
-    public static class Dog implements Animal {
+    public stbtic clbss Dog implements Animbl {
     }
 
     /**
-     * The Mosquito class implements {@link #eat} method, its own implementation
-     * overrides the default implementation.
+     * The Mosquito clbss implements {@link #ebt} method, its own implementbtion
+     * overrides the defbult implementbtion.
      *
      */
-    public static class Mosquito implements Animal {
+    public stbtic clbss Mosquito implements Animbl {
 
         /**
-         * Return string representation of the eat action for Mosquito
+         * Return string representbtion of the ebt bction for Mosquito
          *
-         * @return string representation of the eat action for Mosquito
+         * @return string representbtion of the ebt bction for Mosquito
          */
         @Override
-        public String eat() {
+        public String ebt() {
             return "Mosquito consumes blood";
         }
     }
 
     /**
-     * Illustrate behavior of the classes: {@link Dog} and {@link Mosquito}
+     * Illustrbte behbvior of the clbsses: {@link Dog} bnd {@link Mosquito}
      *
-     * @param args command-line arguments
+     * @pbrbm brgs commbnd-line brguments
      */
-    public static void main(String[] args) {
-        // "Dog eats like an ordinary animal" is output
-        System.out.println(new Dog().eat());
+    public stbtic void mbin(String[] brgs) {
+        // "Dog ebts like bn ordinbry bnimbl" is output
+        System.out.println(new Dog().ebt());
 
         // "Mosquito consumes blood" is output
-        System.out.println(new Mosquito().eat());
+        System.out.println(new Mosquito().ebt());
     }
 }

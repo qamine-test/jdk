@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbrset.*;
 
-public class StreamDecoder extends Reader
+public clbss StrebmDecoder extends Rebder
 {
 
-    private static final int MIN_BYTE_BUFFER_SIZE = 32;
-    private static final int DEFAULT_BYTE_BUFFER_SIZE = 8192;
+    privbte stbtic finbl int MIN_BYTE_BUFFER_SIZE = 32;
+    privbte stbtic finbl int DEFAULT_BYTE_BUFFER_SIZE = 8192;
 
-    private volatile boolean isOpen = true;
+    privbte volbtile boolebn isOpen = true;
 
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (!isOpen)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
-    // In order to handle surrogates properly we must never try to produce
-    // fewer than two characters at a time.  If we're only asked to return one
-    // character then the other is saved here to be returned later.
+    // In order to hbndle surrogbtes properly we must never try to produce
+    // fewer thbn two chbrbcters bt b time.  If we're only bsked to return one
+    // chbrbcter then the other is sbved here to be returned lbter.
     //
-    private boolean haveLeftoverChar = false;
-    private char leftoverChar;
+    privbte boolebn hbveLeftoverChbr = fblse;
+    privbte chbr leftoverChbr;
 
 
-    // Factories for java.io.InputStreamReader
+    // Fbctories for jbvb.io.InputStrebmRebder
 
-    public static StreamDecoder forInputStreamReader(InputStream in,
+    public stbtic StrebmDecoder forInputStrebmRebder(InputStrebm in,
                                                      Object lock,
-                                                     String charsetName)
+                                                     String chbrsetNbme)
         throws UnsupportedEncodingException
     {
-        String csn = charsetName;
+        String csn = chbrsetNbme;
         if (csn == null)
-            csn = Charset.defaultCharset().name();
+            csn = Chbrset.defbultChbrset().nbme();
         try {
-            if (Charset.isSupported(csn))
-                return new StreamDecoder(in, lock, Charset.forName(csn));
-        } catch (IllegalCharsetNameException x) { }
+            if (Chbrset.isSupported(csn))
+                return new StrebmDecoder(in, lock, Chbrset.forNbme(csn));
+        } cbtch (IllegblChbrsetNbmeException x) { }
         throw new UnsupportedEncodingException (csn);
     }
 
-    public static StreamDecoder forInputStreamReader(InputStream in,
+    public stbtic StrebmDecoder forInputStrebmRebder(InputStrebm in,
                                                      Object lock,
-                                                     Charset cs)
+                                                     Chbrset cs)
     {
-        return new StreamDecoder(in, lock, cs);
+        return new StrebmDecoder(in, lock, cs);
     }
 
-    public static StreamDecoder forInputStreamReader(InputStream in,
+    public stbtic StrebmDecoder forInputStrebmRebder(InputStrebm in,
                                                      Object lock,
-                                                     CharsetDecoder dec)
+                                                     ChbrsetDecoder dec)
     {
-        return new StreamDecoder(in, lock, dec);
+        return new StrebmDecoder(in, lock, dec);
     }
 
 
-    // Factory for java.nio.channels.Channels.newReader
+    // Fbctory for jbvb.nio.chbnnels.Chbnnels.newRebder
 
-    public static StreamDecoder forDecoder(ReadableByteChannel ch,
-                                           CharsetDecoder dec,
-                                           int minBufferCap)
+    public stbtic StrebmDecoder forDecoder(RebdbbleByteChbnnel ch,
+                                           ChbrsetDecoder dec,
+                                           int minBufferCbp)
     {
-        return new StreamDecoder(ch, dec, minBufferCap);
+        return new StrebmDecoder(ch, dec, minBufferCbp);
     }
 
 
-    // -- Public methods corresponding to those in InputStreamReader --
+    // -- Public methods corresponding to those in InputStrebmRebder --
 
-    // All synchronization and state/argument checking is done in these public
-    // methods; the concrete stream-decoder subclasses defined below need not
-    // do any such checking.
+    // All synchronizbtion bnd stbte/brgument checking is done in these public
+    // methods; the concrete strebm-decoder subclbsses defined below need not
+    // do bny such checking.
 
     public String getEncoding() {
         if (isOpen())
-            return encodingName();
+            return encodingNbme();
         return null;
     }
 
-    public int read() throws IOException {
-        return read0();
+    public int rebd() throws IOException {
+        return rebd0();
     }
 
-    @SuppressWarnings("fallthrough")
-    private int read0() throws IOException {
+    @SuppressWbrnings("fbllthrough")
+    privbte int rebd0() throws IOException {
         synchronized (lock) {
 
-            // Return the leftover char, if there is one
-            if (haveLeftoverChar) {
-                haveLeftoverChar = false;
-                return leftoverChar;
+            // Return the leftover chbr, if there is one
+            if (hbveLeftoverChbr) {
+                hbveLeftoverChbr = fblse;
+                return leftoverChbr;
             }
 
             // Convert more bytes
-            char cb[] = new char[2];
-            int n = read(cb, 0, 2);
+            chbr cb[] = new chbr[2];
+            int n = rebd(cb, 0, 2);
             switch (n) {
-            case -1:
+            cbse -1:
                 return -1;
-            case 2:
-                leftoverChar = cb[1];
-                haveLeftoverChar = true;
+            cbse 2:
+                leftoverChbr = cb[1];
+                hbveLeftoverChbr = true;
                 // FALL THROUGH
-            case 1:
+            cbse 1:
                 return cb[0];
-            default:
-                assert false : n;
+            defbult:
+                bssert fblse : n;
                 return -1;
             }
         }
     }
 
-    public int read(char cbuf[], int offset, int length) throws IOException {
+    public int rebd(chbr cbuf[], int offset, int length) throws IOException {
         int off = offset;
         int len = length;
         synchronized (lock) {
@@ -155,34 +155,34 @@ public class StreamDecoder extends Reader
 
             int n = 0;
 
-            if (haveLeftoverChar) {
-                // Copy the leftover char into the buffer
-                cbuf[off] = leftoverChar;
+            if (hbveLeftoverChbr) {
+                // Copy the leftover chbr into the buffer
+                cbuf[off] = leftoverChbr;
                 off++; len--;
-                haveLeftoverChar = false;
+                hbveLeftoverChbr = fblse;
                 n = 1;
-                if ((len == 0) || !implReady())
-                    // Return now if this is all we can produce w/o blocking
+                if ((len == 0) || !implRebdy())
+                    // Return now if this is bll we cbn produce w/o blocking
                     return n;
             }
 
             if (len == 1) {
-                // Treat single-character array reads just like read()
-                int c = read0();
+                // Trebt single-chbrbcter brrby rebds just like rebd()
+                int c = rebd0();
                 if (c == -1)
                     return (n == 0) ? -1 : n;
-                cbuf[off] = (char)c;
+                cbuf[off] = (chbr)c;
                 return n + 1;
             }
 
-            return n + implRead(cbuf, off, off + len);
+            return n + implRebd(cbuf, off, off + len);
         }
     }
 
-    public boolean ready() throws IOException {
+    public boolebn rebdy() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            return haveLeftoverChar || implReady();
+            return hbveLeftoverChbr || implRebdy();
         }
     }
 
@@ -191,74 +191,74 @@ public class StreamDecoder extends Reader
             if (!isOpen)
                 return;
             implClose();
-            isOpen = false;
+            isOpen = fblse;
         }
     }
 
-    private boolean isOpen() {
+    privbte boolebn isOpen() {
         return isOpen;
     }
 
 
-    // -- Charset-based stream decoder impl --
+    // -- Chbrset-bbsed strebm decoder impl --
 
-    // In the early stages of the build we haven't yet built the NIO native
-    // code, so guard against that by catching the first UnsatisfiedLinkError
-    // and setting this flag so that later attempts fail quickly.
+    // In the ebrly stbges of the build we hbven't yet built the NIO nbtive
+    // code, so gubrd bgbinst thbt by cbtching the first UnsbtisfiedLinkError
+    // bnd setting this flbg so thbt lbter bttempts fbil quickly.
     //
-    private static volatile boolean channelsAvailable = true;
+    privbte stbtic volbtile boolebn chbnnelsAvbilbble = true;
 
-    private static FileChannel getChannel(FileInputStream in) {
-        if (!channelsAvailable)
+    privbte stbtic FileChbnnel getChbnnel(FileInputStrebm in) {
+        if (!chbnnelsAvbilbble)
             return null;
         try {
-            return in.getChannel();
-        } catch (UnsatisfiedLinkError x) {
-            channelsAvailable = false;
+            return in.getChbnnel();
+        } cbtch (UnsbtisfiedLinkError x) {
+            chbnnelsAvbilbble = fblse;
             return null;
         }
     }
 
-    private Charset cs;
-    private CharsetDecoder decoder;
-    private ByteBuffer bb;
+    privbte Chbrset cs;
+    privbte ChbrsetDecoder decoder;
+    privbte ByteBuffer bb;
 
-    // Exactly one of these is non-null
-    private InputStream in;
-    private ReadableByteChannel ch;
+    // Exbctly one of these is non-null
+    privbte InputStrebm in;
+    privbte RebdbbleByteChbnnel ch;
 
-    StreamDecoder(InputStream in, Object lock, Charset cs) {
+    StrebmDecoder(InputStrebm in, Object lock, Chbrset cs) {
         this(in, lock,
          cs.newDecoder()
-         .onMalformedInput(CodingErrorAction.REPLACE)
-         .onUnmappableCharacter(CodingErrorAction.REPLACE));
+         .onMblformedInput(CodingErrorAction.REPLACE)
+         .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE));
     }
 
-    StreamDecoder(InputStream in, Object lock, CharsetDecoder dec) {
+    StrebmDecoder(InputStrebm in, Object lock, ChbrsetDecoder dec) {
         super(lock);
-        this.cs = dec.charset();
+        this.cs = dec.chbrset();
         this.decoder = dec;
 
-        // This path disabled until direct buffers are faster
-        if (false && in instanceof FileInputStream) {
-        ch = getChannel((FileInputStream)in);
+        // This pbth disbbled until direct buffers bre fbster
+        if (fblse && in instbnceof FileInputStrebm) {
+        ch = getChbnnel((FileInputStrebm)in);
         if (ch != null)
-            bb = ByteBuffer.allocateDirect(DEFAULT_BYTE_BUFFER_SIZE);
+            bb = ByteBuffer.bllocbteDirect(DEFAULT_BYTE_BUFFER_SIZE);
         }
         if (ch == null) {
         this.in = in;
         this.ch = null;
-        bb = ByteBuffer.allocate(DEFAULT_BYTE_BUFFER_SIZE);
+        bb = ByteBuffer.bllocbte(DEFAULT_BYTE_BUFFER_SIZE);
         }
-        bb.flip();                      // So that bb is initially empty
+        bb.flip();                      // So thbt bb is initiblly empty
     }
 
-    StreamDecoder(ReadableByteChannel ch, CharsetDecoder dec, int mbc) {
+    StrebmDecoder(RebdbbleByteChbnnel ch, ChbrsetDecoder dec, int mbc) {
         this.in = null;
         this.ch = ch;
         this.decoder = dec;
-        this.cs = dec.charset();
-        this.bb = ByteBuffer.allocate(mbc < 0
+        this.cs = dec.chbrset();
+        this.bb = ByteBuffer.bllocbte(mbc < 0
                                   ? DEFAULT_BYTE_BUFFER_SIZE
                                   : (mbc < MIN_BYTE_BUFFER_SIZE
                                      ? MIN_BYTE_BUFFER_SIZE
@@ -266,75 +266,75 @@ public class StreamDecoder extends Reader
         bb.flip();
     }
 
-    private int readBytes() throws IOException {
-        bb.compact();
+    privbte int rebdBytes() throws IOException {
+        bb.compbct();
         try {
         if (ch != null) {
-            // Read from the channel
-            int n = ch.read(bb);
+            // Rebd from the chbnnel
+            int n = ch.rebd(bb);
             if (n < 0)
                 return n;
         } else {
-            // Read from the input stream, and then update the buffer
+            // Rebd from the input strebm, bnd then updbte the buffer
             int lim = bb.limit();
             int pos = bb.position();
-            assert (pos <= lim);
+            bssert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
-            assert rem > 0;
-            int n = in.read(bb.array(), bb.arrayOffset() + pos, rem);
+            bssert rem > 0;
+            int n = in.rebd(bb.brrby(), bb.brrbyOffset() + pos, rem);
             if (n < 0)
                 return n;
             if (n == 0)
-                throw new IOException("Underlying input stream returned zero bytes");
-            assert (n <= rem) : "n = " + n + ", rem = " + rem;
+                throw new IOException("Underlying input strebm returned zero bytes");
+            bssert (n <= rem) : "n = " + n + ", rem = " + rem;
             bb.position(pos + n);
         }
-        } finally {
-        // Flip even when an IOException is thrown,
-        // otherwise the stream will stutter
+        } finblly {
+        // Flip even when bn IOException is thrown,
+        // otherwise the strebm will stutter
         bb.flip();
         }
 
-        int rem = bb.remaining();
-            assert (rem != 0) : rem;
+        int rem = bb.rembining();
+            bssert (rem != 0) : rem;
             return rem;
     }
 
-    int implRead(char[] cbuf, int off, int end) throws IOException {
+    int implRebd(chbr[] cbuf, int off, int end) throws IOException {
 
-        // In order to handle surrogate pairs, this method requires that
-        // the invoker attempt to read at least two characters.  Saving the
-        // extra character, if any, at a higher level is easier than trying
-        // to deal with it here.
-        assert (end - off > 1);
+        // In order to hbndle surrogbte pbirs, this method requires thbt
+        // the invoker bttempt to rebd bt lebst two chbrbcters.  Sbving the
+        // extrb chbrbcter, if bny, bt b higher level is ebsier thbn trying
+        // to debl with it here.
+        bssert (end - off > 1);
 
-        CharBuffer cb = CharBuffer.wrap(cbuf, off, end - off);
+        ChbrBuffer cb = ChbrBuffer.wrbp(cbuf, off, end - off);
         if (cb.position() != 0)
-        // Ensure that cb[0] == cbuf[off]
+        // Ensure thbt cb[0] == cbuf[off]
         cb = cb.slice();
 
-        boolean eof = false;
+        boolebn eof = fblse;
         for (;;) {
         CoderResult cr = decoder.decode(bb, cb, eof);
         if (cr.isUnderflow()) {
             if (eof)
-                break;
-            if (!cb.hasRemaining())
-                break;
-            if ((cb.position() > 0) && !inReady())
-                break;          // Block at most once
-            int n = readBytes();
+                brebk;
+            if (!cb.hbsRembining())
+                brebk;
+            if ((cb.position() > 0) && !inRebdy())
+                brebk;          // Block bt most once
+            int n = rebdBytes();
             if (n < 0) {
                 eof = true;
-                if ((cb.position() == 0) && (!bb.hasRemaining()))
-                    break;
+                if ((cb.position() == 0) && (!bb.hbsRembining()))
+                    brebk;
                 decoder.reset();
             }
             continue;
         }
         if (cr.isOverflow()) {
-            assert cb.position() > 0;
-            break;
+            bssert cb.position() > 0;
+            brebk;
         }
         cr.throwException();
         }
@@ -347,28 +347,28 @@ public class StreamDecoder extends Reader
         if (cb.position() == 0) {
             if (eof)
                 return -1;
-            assert false;
+            bssert fblse;
         }
         return cb.position();
     }
 
-    String encodingName() {
-        return ((cs instanceof HistoricallyNamedCharset)
-            ? ((HistoricallyNamedCharset)cs).historicalName()
-            : cs.name());
+    String encodingNbme() {
+        return ((cs instbnceof HistoricbllyNbmedChbrset)
+            ? ((HistoricbllyNbmedChbrset)cs).historicblNbme()
+            : cs.nbme());
     }
 
-    private boolean inReady() {
+    privbte boolebn inRebdy() {
         try {
-        return (((in != null) && (in.available() > 0))
-                || (ch instanceof FileChannel)); // ## RBC.available()?
-        } catch (IOException x) {
-        return false;
+        return (((in != null) && (in.bvbilbble() > 0))
+                || (ch instbnceof FileChbnnel)); // ## RBC.bvbilbble()?
+        } cbtch (IOException x) {
+        return fblse;
         }
     }
 
-    boolean implReady() {
-            return bb.hasRemaining() || inReady();
+    boolebn implRebdy() {
+            return bb.hbsRembining() || inRebdy();
     }
 
     void implClose() throws IOException {

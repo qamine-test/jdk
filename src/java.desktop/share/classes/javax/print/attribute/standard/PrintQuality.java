@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class PrintQuality is a printing attribute class, an enumeration,
- * that specifies the print quality that the printer uses for the job.
+ * Clbss PrintQublity is b printing bttribute clbss, bn enumerbtion,
+ * thbt specifies the print qublity thbt the printer uses for the job.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public class PrintQuality extends EnumSyntax
+public clbss PrintQublity extends EnumSyntbx
     implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -3072341285225858365L;
+    privbte stbtic finbl long seriblVersionUID = -3072341285225858365L;
     /**
-     * Lowest quality available on the printer.
+     * Lowest qublity bvbilbble on the printer.
      */
-    public static final PrintQuality DRAFT = new PrintQuality(3);
+    public stbtic finbl PrintQublity DRAFT = new PrintQublity(3);
 
     /**
-     * Normal or intermediate quality on the printer.
+     * Normbl or intermedibte qublity on the printer.
      */
-    public static final PrintQuality NORMAL = new PrintQuality(4);
+    public stbtic finbl PrintQublity NORMAL = new PrintQublity(4);
 
     /**
-     * Highest quality available on the printer.
+     * Highest qublity bvbilbble on the printer.
      */
-    public static final PrintQuality HIGH = new PrintQuality(5);
+    public stbtic finbl PrintQublity HIGH = new PrintQublity(5);
 
     /**
-     * Construct a new print quality enumeration value with the given integer
-     * value.
+     * Construct b new print qublity enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected PrintQuality(int value) {
-        super (value);
+    protected PrintQublity(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-        "draft",
-        "normal",
+    privbte stbtic finbl String[] myStringTbble = {
+        "drbft",
+        "normbl",
         "high"
     };
 
-    private static final PrintQuality[] myEnumValueTable = {
+    privbte stbtic finbl PrintQublity[] myEnumVblueTbble = {
         DRAFT,
         NORMAL,
         HIGH
     };
 
     /**
-     * Returns the string table for class PrintQuality.
+     * Returns the string tbble for clbss PrintQublity.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class PrintQuality.
+     * Returns the enumerbtion vblue tbble for clbss PrintQublity.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Returns the lowest integer value used by class PrintQuality.
+     * Returns the lowest integer vblue used by clbss PrintQublity.
      */
     protected int getOffset() {
         return 3;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrintQuality and any vendor-defined subclasses, the category is
-     * class PrintQuality itself.
+     * For clbss PrintQublity bnd bny vendor-defined subclbsses, the cbtegory is
+     * clbss PrintQublity itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrintQuality.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrintQublity.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrintQuality and any vendor-defined subclasses, the category
-     * name is <CODE>"print-quality"</CODE>.
+     * For clbss PrintQublity bnd bny vendor-defined subclbsses, the cbtegory
+     * nbme is <CODE>"print-qublity"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "print-quality";
+    public finbl String getNbme() {
+        return "print-qublity";
     }
 
 }

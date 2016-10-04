@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.*;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * This class defines the certificate policies extension which specifies the
- * policies under which the certificate has been issued
- * and the purposes for which the certificate may be used.
+ * This clbss defines the certificbte policies extension which specifies the
+ * policies under which the certificbte hbs been issued
+ * bnd the purposes for which the certificbte mby be used.
  * <p>
- * Applications with specific policy requirements are expected to have a
- * list of those policies which they will accept and to compare the
- * policy OIDs in the certificate to that list.  If this extension is
- * critical, the path validation software MUST be able to interpret this
- * extension (including the optional qualifier), or MUST reject the
- * certificate.
+ * Applicbtions with specific policy requirements bre expected to hbve b
+ * list of those policies which they will bccept bnd to compbre the
+ * policy OIDs in the certificbte to thbt list.  If this extension is
+ * criticbl, the pbth vblidbtion softwbre MUST be bble to interpret this
+ * extension (including the optionbl qublifier), or MUST reject the
+ * certificbte.
  * <p>
- * Optional qualifiers are not supported in this implementation, as they are
+ * Optionbl qublifiers bre not supported in this implementbtion, bs they bre
  * not recommended by RFC2459.
  *
- * The ASN.1 syntax for this is (IMPLICIT tagging is defined in the
+ * The ASN.1 syntbx for this is (IMPLICIT tbgging is defined in the
  * module definition):
  * <pre>
- * id-ce-certificatePolicies OBJECT IDENTIFIER ::=  { id-ce 32 }
+ * id-ce-certificbtePolicies OBJECT IDENTIFIER ::=  { id-ce 32 }
  *
- * certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
+ * certificbtePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformbtion
  *
- * PolicyInformation ::= SEQUENCE {
+ * PolicyInformbtion ::= SEQUENCE {
  *      policyIdentifier   CertPolicyId,
- *      policyQualifiers   SEQUENCE SIZE (1..MAX) OF
- *                              PolicyQualifierInfo OPTIONAL }
+ *      policyQublifiers   SEQUENCE SIZE (1..MAX) OF
+ *                              PolicyQublifierInfo OPTIONAL }
  *
  * CertPolicyId ::= OBJECT IDENTIFIER
  * </pre>
- * @author Anne Anderson
+ * @buthor Anne Anderson
  * @since       1.4
  * @see Extension
  * @see CertAttrSet
  */
-public class CertificatePoliciesExtension extends Extension
+public clbss CertificbtePoliciesExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.CertificatePolicies";
+    public stbtic finbl String IDENT = "x509.info.extensions.CertificbtePolicies";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "CertificatePolicies";
-    public static final String POLICIES = "policies";
+    public stbtic finbl String NAME = "CertificbtePolicies";
+    public stbtic finbl String POLICIES = "policies";
 
     /**
-     * List of PolicyInformation for this object.
+     * List of PolicyInformbtion for this object.
      */
-    private List<PolicyInformation> certPolicies;
+    privbte List<PolicyInformbtion> certPolicies;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
+    // Encode this extension vblue.
+    privbte void encodeThis() throws IOException {
         if (certPolicies == null || certPolicies.isEmpty()) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
         } else {
-            DerOutputStream os = new DerOutputStream();
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm os = new DerOutputStrebm();
+            DerOutputStrebm tmp = new DerOutputStrebm();
 
-            for (PolicyInformation info : certPolicies) {
+            for (PolicyInformbtion info : certPolicies) {
                 info.encode(tmp);
             }
 
-            os.write(DerValue.tag_Sequence, tmp);
-            this.extensionValue = os.toByteArray();
+            os.write(DerVblue.tbg_Sequence, tmp);
+            this.extensionVblue = os.toByteArrby();
         }
     }
 
     /**
-     * Create a CertificatePoliciesExtension object from
-     * a List of PolicyInformation; the criticality is set to false.
+     * Crebte b CertificbtePoliciesExtension object from
+     * b List of PolicyInformbtion; the criticblity is set to fblse.
      *
-     * @param certPolicies the List of PolicyInformation.
+     * @pbrbm certPolicies the List of PolicyInformbtion.
      */
-    public CertificatePoliciesExtension(List<PolicyInformation> certPolicies)
+    public CertificbtePoliciesExtension(List<PolicyInformbtion> certPolicies)
     throws IOException {
-        this(Boolean.FALSE, certPolicies);
+        this(Boolebn.FALSE, certPolicies);
     }
 
     /**
-     * Create a CertificatePoliciesExtension object from
-     * a List of PolicyInformation with specified criticality.
+     * Crebte b CertificbtePoliciesExtension object from
+     * b List of PolicyInformbtion with specified criticblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param certPolicies the List of PolicyInformation.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm certPolicies the List of PolicyInformbtion.
      */
-    public CertificatePoliciesExtension(Boolean critical,
-            List<PolicyInformation> certPolicies) throws IOException {
+    public CertificbtePoliciesExtension(Boolebn criticbl,
+            List<PolicyInformbtion> certPolicies) throws IOException {
         this.certPolicies = certPolicies;
-        this.extensionId = PKIXExtensions.CertificatePolicies_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.CertificbtePolicies_Id;
+        this.criticbl = criticbl.boolebnVblue();
         encodeThis();
     }
 
     /**
-     * Create the extension from its DER encoded value and criticality.
+     * Crebte the extension from its DER encoded vblue bnd criticblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public CertificatePoliciesExtension(Boolean critical, Object value)
+    public CertificbtePoliciesExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.CertificatePolicies_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
-                                   "CertificatePoliciesExtension.");
+        this.extensionId = PKIXExtensions.CertificbtePolicies_Id;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " +
+                                   "CertificbtePoliciesExtension.");
         }
-        certPolicies = new ArrayList<PolicyInformation>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            PolicyInformation policy = new PolicyInformation(seq);
-            certPolicies.add(policy);
+        certPolicies = new ArrbyList<PolicyInformbtion>();
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue seq = vbl.dbtb.getDerVblue();
+            PolicyInformbtion policy = new PolicyInformbtion(seq);
+            certPolicies.bdd(policy);
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Return the extension bs user rebdbble string.
      */
     public String toString() {
         if (certPolicies == null) {
             return "";
         }
         StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("CertificatePolicies [\n");
-        for (PolicyInformation info : certPolicies) {
-            sb.append(info.toString());
+        sb.bppend("CertificbtePolicies [\n");
+        for (PolicyInformbtion info : certPolicies) {
+            sb.bppend(info.toString());
         }
-        sb.append("]\n");
+        sb.bppend("]\n");
         return sb.toString();
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-          extensionId = PKIXExtensions.CertificatePolicies_Id;
-          critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+          extensionId = PKIXExtensions.CertificbtePolicies_Id;
+          criticbl = fblse;
           encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with an instanceof check
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(POLICIES)) {
-            if (!(obj instanceof List)) {
-                throw new IOException("Attribute value should be of type List.");
+    @SuppressWbrnings("unchecked") // Checked with bn instbnceof check
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(POLICIES)) {
+            if (!(obj instbnceof List)) {
+                throw new IOException("Attribute vblue should be of type List.");
             }
-            certPolicies = (List<PolicyInformation>)obj;
+            certPolicies = (List<PolicyInformbtion>)obj;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:CertificatePoliciesExtension.");
+                                "CertAttrSet:CertificbtePoliciesExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public List<PolicyInformation> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(POLICIES)) {
-            //XXXX May want to consider cloning this
+    public List<PolicyInformbtion> get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(POLICIES)) {
+            //XXXX Mby wbnt to consider cloning this
             return certPolicies;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:CertificatePoliciesExtension.");
+                                "CertAttrSet:CertificbtePoliciesExtension.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(POLICIES)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(POLICIES)) {
             certPolicies = null;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:CertificatePoliciesExtension.");
+                                "CertAttrSet:CertificbtePoliciesExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(POLICIES);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(POLICIES);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

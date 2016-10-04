@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * The abstract class {@code Number} is the superclass of platform
- * classes representing numeric values that are convertible to the
- * primitive types {@code byte}, {@code double}, {@code float}, {@code
- * int}, {@code long}, and {@code short}.
+ * The bbstrbct clbss {@code Number} is the superclbss of plbtform
+ * clbsses representing numeric vblues thbt bre convertible to the
+ * primitive types {@code byte}, {@code double}, {@code flobt}, {@code
+ * int}, {@code long}, bnd {@code short}.
  *
- * The specific semantics of the conversion from the numeric value of
- * a particular {@code Number} implementation to a given primitive
- * type is defined by the {@code Number} implementation in question.
+ * The specific sembntics of the conversion from the numeric vblue of
+ * b pbrticulbr {@code Number} implementbtion to b given primitive
+ * type is defined by the {@code Number} implementbtion in question.
  *
- * For platform classes, the conversion is often analogous to a
- * narrowing primitive conversion or a widening primitive conversion
- * as defining in <cite>The Java&trade; Language Specification</cite>
- * for converting between primitive types.  Therefore, conversions may
- * lose information about the overall magnitude of a numeric value, may
- * lose precision, and may even return a result of a different sign
- * than the input.
+ * For plbtform clbsses, the conversion is often bnblogous to b
+ * nbrrowing primitive conversion or b widening primitive conversion
+ * bs defining in <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+ * for converting between primitive types.  Therefore, conversions mby
+ * lose informbtion bbout the overbll mbgnitude of b numeric vblue, mby
+ * lose precision, bnd mby even return b result of b different sign
+ * thbn the input.
  *
- * See the documentation of a given {@code Number} implementation for
- * conversion details.
+ * See the documentbtion of b given {@code Number} implementbtion for
+ * conversion detbils.
  *
- * @author      Lee Boynton
- * @author      Arthur van Hoff
+ * @buthor      Lee Boynton
+ * @buthor      Arthur vbn Hoff
  * @jls 5.1.2 Widening Primitive Conversions
- * @jls 5.1.3 Narrowing Primitive Conversions
+ * @jls 5.1.3 Nbrrowing Primitive Conversions
  * @since   1.0
  */
-public abstract class Number implements java.io.Serializable {
+public bbstrbct clbss Number implements jbvb.io.Seriblizbble {
     /**
-     * Returns the value of the specified number as an {@code int},
-     * which may involve rounding or truncation.
+     * Returns the vblue of the specified number bs bn {@code int},
+     * which mby involve rounding or truncbtion.
      *
-     * @return  the numeric value represented by this object after conversion
+     * @return  the numeric vblue represented by this object bfter conversion
      *          to type {@code int}.
      */
-    public abstract int intValue();
+    public bbstrbct int intVblue();
 
     /**
-     * Returns the value of the specified number as a {@code long},
-     * which may involve rounding or truncation.
+     * Returns the vblue of the specified number bs b {@code long},
+     * which mby involve rounding or truncbtion.
      *
-     * @return  the numeric value represented by this object after conversion
+     * @return  the numeric vblue represented by this object bfter conversion
      *          to type {@code long}.
      */
-    public abstract long longValue();
+    public bbstrbct long longVblue();
 
     /**
-     * Returns the value of the specified number as a {@code float},
-     * which may involve rounding.
+     * Returns the vblue of the specified number bs b {@code flobt},
+     * which mby involve rounding.
      *
-     * @return  the numeric value represented by this object after conversion
-     *          to type {@code float}.
+     * @return  the numeric vblue represented by this object bfter conversion
+     *          to type {@code flobt}.
      */
-    public abstract float floatValue();
+    public bbstrbct flobt flobtVblue();
 
     /**
-     * Returns the value of the specified number as a {@code double},
-     * which may involve rounding.
+     * Returns the vblue of the specified number bs b {@code double},
+     * which mby involve rounding.
      *
-     * @return  the numeric value represented by this object after conversion
+     * @return  the numeric vblue represented by this object bfter conversion
      *          to type {@code double}.
      */
-    public abstract double doubleValue();
+    public bbstrbct double doubleVblue();
 
     /**
-     * Returns the value of the specified number as a {@code byte},
-     * which may involve rounding or truncation.
+     * Returns the vblue of the specified number bs b {@code byte},
+     * which mby involve rounding or truncbtion.
      *
-     * <p>This implementation returns the result of {@link #intValue} cast
-     * to a {@code byte}.
+     * <p>This implementbtion returns the result of {@link #intVblue} cbst
+     * to b {@code byte}.
      *
-     * @return  the numeric value represented by this object after conversion
+     * @return  the numeric vblue represented by this object bfter conversion
      *          to type {@code byte}.
      * @since   1.1
      */
-    public byte byteValue() {
-        return (byte)intValue();
+    public byte byteVblue() {
+        return (byte)intVblue();
     }
 
     /**
-     * Returns the value of the specified number as a {@code short},
-     * which may involve rounding or truncation.
+     * Returns the vblue of the specified number bs b {@code short},
+     * which mby involve rounding or truncbtion.
      *
-     * <p>This implementation returns the result of {@link #intValue} cast
-     * to a {@code short}.
+     * <p>This implementbtion returns the result of {@link #intVblue} cbst
+     * to b {@code short}.
      *
-     * @return  the numeric value represented by this object after conversion
+     * @return  the numeric vblue represented by this object bfter conversion
      *          to type {@code short}.
      * @since   1.1
      */
-    public short shortValue() {
-        return (short)intValue();
+    public short shortVblue() {
+        return (short)intVblue();
     }
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -8742448824652078965L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -8742448824652078965L;
 }

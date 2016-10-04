@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.security.BasicPermission;
+import jbvb.security.BbsicPermission;
 
 /**
- * This class is for AWT permissions.
- * An <code>AWTPermission</code> contains a target name but
- * no actions list; you either have the named permission
+ * This clbss is for AWT permissions.
+ * An <code>AWTPermission</code> contbins b tbrget nbme but
+ * no bctions list; you either hbve the nbmed permission
  * or you don't.
  *
  * <P>
- * The target name is the name of the AWT permission (see below). The naming
- * convention follows the hierarchical property naming convention.
- * Also, an asterisk could be used to represent all AWT permissions.
+ * The tbrget nbme is the nbme of the AWT permission (see below). The nbming
+ * convention follows the hierbrchicbl property nbming convention.
+ * Also, bn bsterisk could be used to represent bll AWT permissions.
  *
  * <P>
- * The following table lists all the possible <code>AWTPermission</code>
- * target names, and for each provides a description of what the
- * permission allows and a discussion of the risks of granting code
+ * The following tbble lists bll the possible <code>AWTPermission</code>
+ * tbrget nbmes, bnd for ebch provides b description of whbt the
+ * permission bllows bnd b discussion of the risks of grbnting code
  * the permission.
  *
- * <table border=1 cellpadding=5 summary="AWTPermission target names, descriptions, and associated risks.">
+ * <tbble border=1 cellpbdding=5 summbry="AWTPermission tbrget nbmes, descriptions, bnd bssocibted risks.">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- *   <td>accessClipboard</td>
- *   <td>Posting and retrieval of information to and from the AWT clipboard</td>
- *   <td>This would allow malfeasant code to share
- * potentially sensitive or confidential information.</td>
+ *   <td>bccessClipbobrd</td>
+ *   <td>Posting bnd retrievbl of informbtion to bnd from the AWT clipbobrd</td>
+ *   <td>This would bllow mblfebsbnt code to shbre
+ * potentiblly sensitive or confidentibl informbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessEventQueue</td>
+ *   <td>bccessEventQueue</td>
  *   <td>Access to the AWT event queue</td>
  *   <td>After retrieving the AWT event queue,
- * malicious code may peek at and even remove existing events
- * from its event queue, as well as post bogus events which may purposefully
- * cause the application or applet to misbehave in an insecure manner.</td>
+ * mblicious code mby peek bt bnd even remove existing events
+ * from its event queue, bs well bs post bogus events which mby purposefully
+ * cbuse the bpplicbtion or bpplet to misbehbve in bn insecure mbnner.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessSystemTray</td>
- *   <td>Access to the AWT SystemTray instance</td>
- *   <td>This would allow malicious code to add tray icons to the system tray.
- * First, such an icon may look like the icon of some known application
- * (such as a firewall or anti-virus) and order a user to do something unsafe
- * (with help of balloon messages). Second, the system tray may be glutted with
- * tray icons so that no one could add a tray icon anymore.</td>
+ *   <td>bccessSystemTrby</td>
+ *   <td>Access to the AWT SystemTrby instbnce</td>
+ *   <td>This would bllow mblicious code to bdd trby icons to the system trby.
+ * First, such bn icon mby look like the icon of some known bpplicbtion
+ * (such bs b firewbll or bnti-virus) bnd order b user to do something unsbfe
+ * (with help of bblloon messbges). Second, the system trby mby be glutted with
+ * trby icons so thbt no one could bdd b trby icon bnymore.</td>
  * </tr>
  *
  * <tr>
- *   <td>createRobot</td>
- *   <td>Create java.awt.Robot objects</td>
- *   <td>The java.awt.Robot object allows code to generate native-level
- * mouse and keyboard events as well as read the screen. It could allow
- * malicious code to control the system, run other programs, read the
- * display, and deny mouse and keyboard access to the user.</td>
+ *   <td>crebteRobot</td>
+ *   <td>Crebte jbvb.bwt.Robot objects</td>
+ *   <td>The jbvb.bwt.Robot object bllows code to generbte nbtive-level
+ * mouse bnd keybobrd events bs well bs rebd the screen. It could bllow
+ * mblicious code to control the system, run other progrbms, rebd the
+ * displby, bnd deny mouse bnd keybobrd bccess to the user.</td>
  * </tr>
  *
  * <tr>
  *   <td>fullScreenExclusive</td>
  *   <td>Enter full-screen exclusive mode</td>
- *   <td>Entering full-screen exclusive mode allows direct access to
- * low-level graphics card memory.  This could be used to spoof the
- * system, since the program is in direct control of rendering. Depending on
- * the implementation, the security warning may not be shown for the windows
- * used to enter the full-screen exclusive mode (assuming that the {@code
- * fullScreenExclusive} permission has been granted to this application). Note
- * that this behavior does not mean that the {@code
- * showWindowWithoutWarningBanner} permission will be automatically granted to
- * the application which has the {@code fullScreenExclusive} permission:
+ *   <td>Entering full-screen exclusive mode bllows direct bccess to
+ * low-level grbphics cbrd memory.  This could be used to spoof the
+ * system, since the progrbm is in direct control of rendering. Depending on
+ * the implementbtion, the security wbrning mby not be shown for the windows
+ * used to enter the full-screen exclusive mode (bssuming thbt the {@code
+ * fullScreenExclusive} permission hbs been grbnted to this bpplicbtion). Note
+ * thbt this behbvior does not mebn thbt the {@code
+ * showWindowWithoutWbrningBbnner} permission will be butombticblly grbnted to
+ * the bpplicbtion which hbs the {@code fullScreenExclusive} permission:
  * non-full-screen windows will continue to be shown with the security
- * warning.</td>
+ * wbrning.</td>
  * </tr>
  *
  * <tr>
  *   <td>listenToAllAWTEvents</td>
- *   <td>Listen to all AWT events, system-wide</td>
- *   <td>After adding an AWT event listener,
- * malicious code may scan all AWT events dispatched in the system,
- * allowing it to read all user input (such as passwords).  Each
- * AWT event listener is called from within the context of that
- * event queue's EventDispatchThread, so if the accessEventQueue
- * permission is also enabled, malicious code could modify the
- * contents of AWT event queues system-wide, causing the application
- * or applet to misbehave in an insecure manner.</td>
+ *   <td>Listen to bll AWT events, system-wide</td>
+ *   <td>After bdding bn AWT event listener,
+ * mblicious code mby scbn bll AWT events dispbtched in the system,
+ * bllowing it to rebd bll user input (such bs pbsswords).  Ebch
+ * AWT event listener is cblled from within the context of thbt
+ * event queue's EventDispbtchThrebd, so if the bccessEventQueue
+ * permission is blso enbbled, mblicious code could modify the
+ * contents of AWT event queues system-wide, cbusing the bpplicbtion
+ * or bpplet to misbehbve in bn insecure mbnner.</td>
  * </tr>
  *
  * <tr>
- *   <td>readDisplayPixels</td>
- *   <td>Readback of pixels from the display screen</td>
- *   <td>Interfaces such as the java.awt.Composite interface or the
- * java.awt.Robot class allow arbitrary code to examine pixels on the
- * display enable malicious code to snoop on the activities of the user.</td>
+ *   <td>rebdDisplbyPixels</td>
+ *   <td>Rebdbbck of pixels from the displby screen</td>
+ *   <td>Interfbces such bs the jbvb.bwt.Composite interfbce or the
+ * jbvb.bwt.Robot clbss bllow brbitrbry code to exbmine pixels on the
+ * displby enbble mblicious code to snoop on the bctivities of the user.</td>
  * </tr>
  *
  * <tr>
- *   <td>replaceKeyboardFocusManager</td>
- *   <td>Sets the <code>KeyboardFocusManager</code> for
- *       a particular thread.
- *   <td>When <code>SecurityManager</code> is installed, the invoking
- *       thread must be granted this permission in order to replace
- *       the current <code>KeyboardFocusManager</code>.  If permission
- *       is not granted, a <code>SecurityException</code> will be thrown.
+ *   <td>replbceKeybobrdFocusMbnbger</td>
+ *   <td>Sets the <code>KeybobrdFocusMbnbger</code> for
+ *       b pbrticulbr threbd.
+ *   <td>When <code>SecurityMbnbger</code> is instblled, the invoking
+ *       threbd must be grbnted this permission in order to replbce
+ *       the current <code>KeybobrdFocusMbnbger</code>.  If permission
+ *       is not grbnted, b <code>SecurityException</code> will be thrown.
  * </tr>
  *
  * <tr>
  *   <td>setAppletStub</td>
- *   <td>Setting the stub which implements Applet container services</td>
- *   <td>Malicious code could set an applet's stub and result in unexpected
- * behavior or denial of service to an applet.</td>
+ *   <td>Setting the stub which implements Applet contbiner services</td>
+ *   <td>Mblicious code could set bn bpplet's stub bnd result in unexpected
+ * behbvior or denibl of service to bn bpplet.</td>
  * </tr>
  *
  * <tr>
- *   <td>setWindowAlwaysOnTop</td>
- *   <td>Setting always-on-top property of the window: {@link Window#setAlwaysOnTop}</td>
- *   <td>The malicious window might make itself look and behave like a real full desktop, so that
- * information entered by the unsuspecting user is captured and subsequently misused </td>
+ *   <td>setWindowAlwbysOnTop</td>
+ *   <td>Setting blwbys-on-top property of the window: {@link Window#setAlwbysOnTop}</td>
+ *   <td>The mblicious window might mbke itself look bnd behbve like b rebl full desktop, so thbt
+ * informbtion entered by the unsuspecting user is cbptured bnd subsequently misused </td>
  * </tr>
  *
  * <tr>
- *   <td>showWindowWithoutWarningBanner</td>
- *   <td>Display of a window without also displaying a banner warning
- * that the window was created by an applet</td>
- *   <td>Without this warning,
- * an applet may pop up windows without the user knowing that they
- * belong to an applet.  Since users may make security-sensitive
- * decisions based on whether or not the window belongs to an applet
- * (entering a username and password into a dialog box, for example),
- * disabling this warning banner may allow applets to trick the user
- * into entering such information.</td>
+ *   <td>showWindowWithoutWbrningBbnner</td>
+ *   <td>Displby of b window without blso displbying b bbnner wbrning
+ * thbt the window wbs crebted by bn bpplet</td>
+ *   <td>Without this wbrning,
+ * bn bpplet mby pop up windows without the user knowing thbt they
+ * belong to bn bpplet.  Since users mby mbke security-sensitive
+ * decisions bbsed on whether or not the window belongs to bn bpplet
+ * (entering b usernbme bnd pbssword into b diblog box, for exbmple),
+ * disbbling this wbrning bbnner mby bllow bpplets to trick the user
+ * into entering such informbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>toolkitModality</td>
- *   <td>Creating {@link Dialog.ModalityType#TOOLKIT_MODAL TOOLKIT_MODAL} dialogs
- *       and setting the {@link Dialog.ModalExclusionType#TOOLKIT_EXCLUDE
+ *   <td>toolkitModblity</td>
+ *   <td>Crebting {@link Diblog.ModblityType#TOOLKIT_MODAL TOOLKIT_MODAL} diblogs
+ *       bnd setting the {@link Diblog.ModblExclusionType#TOOLKIT_EXCLUDE
  *       TOOLKIT_EXCLUDE} window property.</td>
- *   <td>When a toolkit-modal dialog is shown from an applet, it blocks all other
- * applets in the browser. When launching applications from Java Web Start,
- * its windows (such as the security dialog) may also be blocked by toolkit-modal
- * dialogs, shown from these applications.</td>
+ *   <td>When b toolkit-modbl diblog is shown from bn bpplet, it blocks bll other
+ * bpplets in the browser. When lbunching bpplicbtions from Jbvb Web Stbrt,
+ * its windows (such bs the security diblog) mby blso be blocked by toolkit-modbl
+ * diblogs, shown from these bpplicbtions.</td>
  * </tr>
  *
  * <tr>
- *   <td>watchMousePointer</td>
- *   <td>Getting the information about the mouse pointer position at any
+ *   <td>wbtchMousePointer</td>
+ *   <td>Getting the informbtion bbout the mouse pointer position bt bny
  * time</td>
- *   <td>Constantly watching the mouse pointer,
- * an applet can make guesses about what the user is doing, i.e. moving
- * the mouse to the lower left corner of the screen most likely means that
- * the user is about to launch an application. If a virtual keypad is used
- * so that keyboard is emulated using the mouse, an applet may guess what
+ *   <td>Constbntly wbtching the mouse pointer,
+ * bn bpplet cbn mbke guesses bbout whbt the user is doing, i.e. moving
+ * the mouse to the lower left corner of the screen most likely mebns thbt
+ * the user is bbout to lbunch bn bpplicbtion. If b virtubl keypbd is used
+ * so thbt keybobrd is emulbted using the mouse, bn bpplet mby guess whbt
  * is being typed.</td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  */
 
-public final class AWTPermission extends BasicPermission {
+public finbl clbss AWTPermission extends BbsicPermission {
 
-    /** use serialVersionUID from the Java 2 platform for interoperability */
-    private static final long serialVersionUID = 8890392402588814465L;
+    /** use seriblVersionUID from the Jbvb 2 plbtform for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 8890392402588814465L;
 
     /**
-     * Creates a new <code>AWTPermission</code> with the specified name.
-     * The name is the symbolic name of the <code>AWTPermission</code>,
-     * such as "topLevelWindow", "systemClipboard", etc. An asterisk
-     * may be used to indicate all AWT permissions.
+     * Crebtes b new <code>AWTPermission</code> with the specified nbme.
+     * The nbme is the symbolic nbme of the <code>AWTPermission</code>,
+     * such bs "topLevelWindow", "systemClipbobrd", etc. An bsterisk
+     * mby be used to indicbte bll AWT permissions.
      *
-     * @param name the name of the AWTPermission
+     * @pbrbm nbme the nbme of the AWTPermission
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty.
      */
 
-    public AWTPermission(String name)
+    public AWTPermission(String nbme)
     {
-        super(name);
+        super(nbme);
     }
 
     /**
-     * Creates a new <code>AWTPermission</code> object with the specified name.
-     * The name is the symbolic name of the <code>AWTPermission</code>, and the
-     * actions string is currently unused and should be <code>null</code>.
+     * Crebtes b new <code>AWTPermission</code> object with the specified nbme.
+     * The nbme is the symbolic nbme of the <code>AWTPermission</code>, bnd the
+     * bctions string is currently unused bnd should be <code>null</code>.
      *
-     * @param name the name of the <code>AWTPermission</code>
-     * @param actions should be <code>null</code>
+     * @pbrbm nbme the nbme of the <code>AWTPermission</code>
+     * @pbrbm bctions should be <code>null</code>
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty.
      */
 
-    public AWTPermission(String name, String actions)
+    public AWTPermission(String nbme, String bctions)
     {
-        super(name, actions);
+        super(nbme, bctions);
     }
 }

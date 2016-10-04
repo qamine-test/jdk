@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import javax.naming.Name;
-import javax.naming.Context;
-import javax.naming.CompositeName;
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.Nbme;
+import jbvbx.nbming.Context;
+import jbvbx.nbming.CompositeNbme;
+import jbvbx.nbming.InvblidNbmeException;
 
 /**
-  * This class represents the result of resolution of a name.
-  * It contains the object to which name was resolved, and the portion
-  * of the name that has not been resolved.
+  * This clbss represents the result of resolution of b nbme.
+  * It contbins the object to which nbme wbs resolved, bnd the portion
+  * of the nbme thbt hbs not been resolved.
   *<p>
-  * A ResolveResult instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single ResolveResult instance should lock the object.
+  * A ResolveResult instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * b single ResolveResult instbnce should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
-public class ResolveResult implements java.io.Serializable {
+public clbss ResolveResult implements jbvb.io.Seriblizbble {
     /**
-     * Field containing the Object that was resolved to successfully.
-     * It can be null only when constructed using a subclass.
-     * Constructors should always initialize this.
-     * @serial
+     * Field contbining the Object thbt wbs resolved to successfully.
+     * It cbn be null only when constructed using b subclbss.
+     * Constructors should blwbys initiblize this.
+     * @seribl
      */
     protected Object resolvedObj;
     /**
-     * Field containing the remaining name yet to be resolved.
-     * It can be null only when constructed using a subclass.
-     * Constructors should always initialize this.
-     * @serial
+     * Field contbining the rembining nbme yet to be resolved.
+     * It cbn be null only when constructed using b subclbss.
+     * Constructors should blwbys initiblize this.
+     * @seribl
      */
-    protected Name remainingName;
+    protected Nbme rembiningNbme;
 
     /**
-      * Constructs an instance of ResolveResult with the
-      * resolved object and remaining name both initialized to null.
+      * Constructs bn instbnce of ResolveResult with the
+      * resolved object bnd rembining nbme both initiblized to null.
       */
     protected ResolveResult() {
         resolvedObj = null;
-        remainingName = null;
+        rembiningNbme = null;
     }
 
     /**
-      * Constructs a new instance of ResolveResult consisting of
-      * the resolved object and the remaining unresolved component.
+      * Constructs b new instbnce of ResolveResult consisting of
+      * the resolved object bnd the rembining unresolved component.
       *
-      * @param robj The non-null object resolved to.
-      * @param rcomp The single remaining name component that has yet to be
-      *                 resolved. Cannot be null (but can be empty).
+      * @pbrbm robj The non-null object resolved to.
+      * @pbrbm rcomp The single rembining nbme component thbt hbs yet to be
+      *                 resolved. Cbnnot be null (but cbn be empty).
       */
     public ResolveResult(Object robj, String rcomp) {
         resolvedObj = robj;
         try {
-        remainingName = new CompositeName(rcomp);
-//          remainingName.appendComponent(rcomp);
-        } catch (InvalidNameException e) {
-            // ignore; shouldn't happen
+        rembiningNbme = new CompositeNbme(rcomp);
+//          rembiningNbme.bppendComponent(rcomp);
+        } cbtch (InvblidNbmeException e) {
+            // ignore; shouldn't hbppen
         }
     }
 
     /**
-      * Constructs a new instance of ResolveResult consisting of
-      * the resolved Object and the remaining name.
+      * Constructs b new instbnce of ResolveResult consisting of
+      * the resolved Object bnd the rembining nbme.
       *
-      * @param robj The non-null Object resolved to.
-      * @param rname The non-null remaining name that has yet to be resolved.
+      * @pbrbm robj The non-null Object resolved to.
+      * @pbrbm rnbme The non-null rembining nbme thbt hbs yet to be resolved.
       */
-    public ResolveResult(Object robj, Name rname) {
+    public ResolveResult(Object robj, Nbme rnbme) {
         resolvedObj = robj;
-        setRemainingName(rname);
+        setRembiningNbme(rnbme);
     }
 
     /**
-     * Retrieves the remaining unresolved portion of the name.
+     * Retrieves the rembining unresolved portion of the nbme.
      *
-     * @return The remaining unresolved portion of the name.
-     *          Cannot be null but empty OK.
-     * @see #appendRemainingName
-     * @see #appendRemainingComponent
-     * @see #setRemainingName
+     * @return The rembining unresolved portion of the nbme.
+     *          Cbnnot be null but empty OK.
+     * @see #bppendRembiningNbme
+     * @see #bppendRembiningComponent
+     * @see #setRembiningNbme
      */
-    public Name getRemainingName() {
-        return this.remainingName;
+    public Nbme getRembiningNbme() {
+        return this.rembiningNbme;
     }
 
     /**
-     * Retrieves the Object to which resolution was successful.
+     * Retrieves the Object to which resolution wbs successful.
      *
-     * @return The Object to which resolution was successful. Cannot be null.
+     * @return The Object to which resolution wbs successful. Cbnnot be null.
       * @see #setResolvedObj
      */
     public Object getResolvedObj() {
@@ -122,74 +122,74 @@ public class ResolveResult implements java.io.Serializable {
     }
 
     /**
-      * Sets the remaining name field of this result to name.
-      * A copy of name is made so that modifying the copy within
-      * this ResolveResult does not affect <code>name</code> and
-      * vice versa.
+      * Sets the rembining nbme field of this result to nbme.
+      * A copy of nbme is mbde so thbt modifying the copy within
+      * this ResolveResult does not bffect <code>nbme</code> bnd
+      * vice versb.
       *
-      * @param name The name to set remaining name to. Cannot be null.
-      * @see #getRemainingName
-      * @see #appendRemainingName
-      * @see #appendRemainingComponent
+      * @pbrbm nbme The nbme to set rembining nbme to. Cbnnot be null.
+      * @see #getRembiningNbme
+      * @see #bppendRembiningNbme
+      * @see #bppendRembiningComponent
       */
-    public void setRemainingName(Name name) {
-        if (name != null)
-            this.remainingName = (Name)(name.clone());
+    public void setRembiningNbme(Nbme nbme) {
+        if (nbme != null)
+            this.rembiningNbme = (Nbme)(nbme.clone());
         else {
-            // ??? should throw illegal argument exception
-            this.remainingName = null;
+            // ??? should throw illegbl brgument exception
+            this.rembiningNbme = null;
         }
     }
 
     /**
-      * Adds components to the end of remaining name.
+      * Adds components to the end of rembining nbme.
       *
-      * @param name The components to add. Can be null.
-      * @see #getRemainingName
-      * @see #setRemainingName
-      * @see #appendRemainingComponent
+      * @pbrbm nbme The components to bdd. Cbn be null.
+      * @see #getRembiningNbme
+      * @see #setRembiningNbme
+      * @see #bppendRembiningComponent
       */
-    public void appendRemainingName(Name name) {
-//      System.out.println("appendingRemainingName: " + name.toString());
+    public void bppendRembiningNbme(Nbme nbme) {
+//      System.out.println("bppendingRembiningNbme: " + nbme.toString());
 //      Exception e = new Exception();
-//      e.printStackTrace();
-        if (name != null) {
-            if (this.remainingName != null) {
+//      e.printStbckTrbce();
+        if (nbme != null) {
+            if (this.rembiningNbme != null) {
                 try {
-                    this.remainingName.addAll(name);
-                } catch (InvalidNameException e) {
-                    // ignore; shouldn't happen for composite name
+                    this.rembiningNbme.bddAll(nbme);
+                } cbtch (InvblidNbmeException e) {
+                    // ignore; shouldn't hbppen for composite nbme
                 }
             } else {
-                this.remainingName = (Name)(name.clone());
+                this.rembiningNbme = (Nbme)(nbme.clone());
             }
         }
     }
 
     /**
-      * Adds a single component to the end of remaining name.
+      * Adds b single component to the end of rembining nbme.
       *
-      * @param name The component to add. Can be null.
-      * @see #getRemainingName
-      * @see #appendRemainingName
+      * @pbrbm nbme The component to bdd. Cbn be null.
+      * @see #getRembiningNbme
+      * @see #bppendRembiningNbme
       */
-    public void appendRemainingComponent(String name) {
-        if (name != null) {
-            CompositeName rname = new CompositeName();
+    public void bppendRembiningComponent(String nbme) {
+        if (nbme != null) {
+            CompositeNbme rnbme = new CompositeNbme();
             try {
-                rname.add(name);
-            } catch (InvalidNameException e) {
-                // ignore; shouldn't happen for empty composite name
+                rnbme.bdd(nbme);
+            } cbtch (InvblidNbmeException e) {
+                // ignore; shouldn't hbppen for empty composite nbme
             }
-            appendRemainingName(rname);
+            bppendRembiningNbme(rnbme);
         }
     }
 
     /**
       * Sets the resolved Object field of this result to obj.
       *
-      * @param obj The object to use for setting the resolved obj field.
-      *            Cannot be null.
+      * @pbrbm obj The object to use for setting the resolved obj field.
+      *            Cbnnot be null.
       * @see #getResolvedObj
       */
     public void setResolvedObj(Object obj) {
@@ -197,5 +197,5 @@ public class ResolveResult implements java.io.Serializable {
         // ??? should check for null?
     }
 
-    private static final long serialVersionUID = -4552108072002407559L;
+    privbte stbtic finbl long seriblVersionUID = -4552108072002407559L;
 }

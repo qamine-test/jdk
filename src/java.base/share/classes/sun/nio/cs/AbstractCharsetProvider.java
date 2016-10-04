@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.lang.ref.SoftReference;
-import java.nio.charset.Charset;
-import java.nio.charset.spi.CharsetProvider;
-import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import sun.misc.ASCIICaseInsensitiveComparator;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.spi.ChbrsetProvider;
+import jbvb.util.ArrbyList;
+import jbvb.util.TreeMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import sun.misc.ASCIICbseInsensitiveCompbrbtor;
 
 
 /**
- * Abstract base class for charset providers.
+ * Abstrbct bbse clbss for chbrset providers.
  *
- * @author Mark Reinhold
+ * @buthor Mbrk Reinhold
  */
 
-public class AbstractCharsetProvider
-    extends CharsetProvider
+public clbss AbstrbctChbrsetProvider
+    extends ChbrsetProvider
 {
 
-    /* Maps canonical names to class names
+    /* Mbps cbnonicbl nbmes to clbss nbmes
      */
-    private Map<String,String> classMap
-        = new TreeMap<>(ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
+    privbte Mbp<String,String> clbssMbp
+        = new TreeMbp<>(ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER);
 
-    /* Maps alias names to canonical names
+    /* Mbps blibs nbmes to cbnonicbl nbmes
      */
-    private Map<String,String> aliasMap
-        = new TreeMap<>(ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
+    privbte Mbp<String,String> blibsMbp
+        = new TreeMbp<>(ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER);
 
-    /* Maps canonical names to alias-name arrays
+    /* Mbps cbnonicbl nbmes to blibs-nbme brrbys
      */
-    private Map<String,String[]> aliasNameMap
-        = new TreeMap<>(ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
+    privbte Mbp<String,String[]> blibsNbmeMbp
+        = new TreeMbp<>(ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER);
 
-    /* Maps canonical names to soft references that hold cached instances
+    /* Mbps cbnonicbl nbmes to soft references thbt hold cbched instbnces
      */
-    private Map<String,SoftReference<Charset>> cache
-        = new TreeMap<>(ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
+    privbte Mbp<String,SoftReference<Chbrset>> cbche
+        = new TreeMbp<>(ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER);
 
-    private String packagePrefix;
+    privbte String pbckbgePrefix;
 
-    protected AbstractCharsetProvider() {
-        packagePrefix = "sun.nio.cs";
+    protected AbstrbctChbrsetProvider() {
+        pbckbgePrefix = "sun.nio.cs";
     }
 
-    protected AbstractCharsetProvider(String pkgPrefixName) {
-        packagePrefix = pkgPrefixName;
+    protected AbstrbctChbrsetProvider(String pkgPrefixNbme) {
+        pbckbgePrefix = pkgPrefixNbme;
     }
 
-    /* Add an entry to the given map, but only if no mapping yet exists
-     * for the given name.
+    /* Add bn entry to the given mbp, but only if no mbpping yet exists
+     * for the given nbme.
      */
-    private static <K,V> void put(Map<K,V> m, K name, V value) {
-        if (!m.containsKey(name))
-            m.put(name, value);
+    privbte stbtic <K,V> void put(Mbp<K,V> m, K nbme, V vblue) {
+        if (!m.contbinsKey(nbme))
+            m.put(nbme, vblue);
     }
 
-    private static <K,V> void remove(Map<K,V> m, K name) {
-        V x  = m.remove(name);
-        assert (x != null);
+    privbte stbtic <K,V> void remove(Mbp<K,V> m, K nbme) {
+        V x  = m.remove(nbme);
+        bssert (x != null);
     }
 
-    /* Declare support for the given charset
+    /* Declbre support for the given chbrset
      */
-    protected void charset(String name, String className, String[] aliases) {
+    protected void chbrset(String nbme, String clbssNbme, String[] blibses) {
         synchronized (this) {
-            put(classMap, name, className);
-            for (int i = 0; i < aliases.length; i++)
-                put(aliasMap, aliases[i], name);
-            put(aliasNameMap, name, aliases);
-            cache.clear();
+            put(clbssMbp, nbme, clbssNbme);
+            for (int i = 0; i < blibses.length; i++)
+                put(blibsMbp, blibses[i], nbme);
+            put(blibsNbmeMbp, nbme, blibses);
+            cbche.clebr();
         }
     }
 
-    protected void deleteCharset(String name, String[] aliases) {
+    protected void deleteChbrset(String nbme, String[] blibses) {
         synchronized (this) {
-            remove(classMap, name);
-            for (int i = 0; i < aliases.length; i++)
-                remove(aliasMap, aliases[i]);
-            remove(aliasNameMap, name);
-            cache.clear();
+            remove(clbssMbp, nbme);
+            for (int i = 0; i < blibses.length; i++)
+                remove(blibsMbp, blibses[i]);
+            remove(blibsNbmeMbp, nbme);
+            cbche.clebr();
         }
     }
 
-    /* Late initialization hook, needed by some providers
+    /* Lbte initiblizbtion hook, needed by some providers
      */
     protected void init() { }
 
-    private String canonicalize(String charsetName) {
-        String acn = aliasMap.get(charsetName);
-        return (acn != null) ? acn : charsetName;
+    privbte String cbnonicblize(String chbrsetNbme) {
+        String bcn = blibsMbp.get(chbrsetNbme);
+        return (bcn != null) ? bcn : chbrsetNbme;
     }
 
-    private Charset lookup(String csn) {
+    privbte Chbrset lookup(String csn) {
 
-        // Check cache first
-        SoftReference<Charset> sr = cache.get(csn);
+        // Check cbche first
+        SoftReference<Chbrset> sr = cbche.get(csn);
         if (sr != null) {
-            Charset cs = sr.get();
+            Chbrset cs = sr.get();
             if (cs != null)
                 return cs;
         }
 
-        // Do we even support this charset?
-        String cln = classMap.get(csn);
+        // Do we even support this chbrset?
+        String cln = clbssMbp.get(csn);
 
         if (cln == null)
             return null;
 
-        // Instantiate the charset and cache it
+        // Instbntibte the chbrset bnd cbche it
         try {
 
-            Class<?> c = Class.forName(packagePrefix + "." + cln,
+            Clbss<?> c = Clbss.forNbme(pbckbgePrefix + "." + cln,
                                        true,
-                                       this.getClass().getClassLoader());
+                                       this.getClbss().getClbssLobder());
 
-            Charset cs = (Charset)c.newInstance();
-            cache.put(csn, new SoftReference<Charset>(cs));
+            Chbrset cs = (Chbrset)c.newInstbnce();
+            cbche.put(csn, new SoftReference<Chbrset>(cs));
             return cs;
-        } catch (ClassNotFoundException x) {
+        } cbtch (ClbssNotFoundException x) {
             return null;
-        } catch (IllegalAccessException x) {
+        } cbtch (IllegblAccessException x) {
             return null;
-        } catch (InstantiationException x) {
+        } cbtch (InstbntibtionException x) {
             return null;
         }
     }
 
-    public final Charset charsetForName(String charsetName) {
+    public finbl Chbrset chbrsetForNbme(String chbrsetNbme) {
         synchronized (this) {
             init();
-            return lookup(canonicalize(charsetName));
+            return lookup(cbnonicblize(chbrsetNbme));
         }
     }
 
-    public final Iterator<Charset> charsets() {
+    public finbl Iterbtor<Chbrset> chbrsets() {
 
-        final ArrayList<String> ks;
+        finbl ArrbyList<String> ks;
         synchronized (this) {
             init();
-            ks = new ArrayList<>(classMap.keySet());
+            ks = new ArrbyList<>(clbssMbp.keySet());
         }
 
-        return new Iterator<Charset>() {
-                Iterator<String> i = ks.iterator();
+        return new Iterbtor<Chbrset>() {
+                Iterbtor<String> i = ks.iterbtor();
 
-                public boolean hasNext() {
-                    return i.hasNext();
+                public boolebn hbsNext() {
+                    return i.hbsNext();
                 }
 
-                public Charset next() {
+                public Chbrset next() {
                     String csn = i.next();
-                    synchronized (AbstractCharsetProvider.this) {
+                    synchronized (AbstrbctChbrsetProvider.this) {
                         return lookup(csn);
                     }
                 }
 
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
             };
     }
 
-    public final String[] aliases(String charsetName) {
+    public finbl String[] blibses(String chbrsetNbme) {
         synchronized (this) {
             init();
-            return aliasNameMap.get(charsetName);
+            return blibsNbmeMbp.get(chbrsetNbme);
         }
     }
 

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-public class TransportConstants {
-    /** Transport magic number: "JRMI"*/
-    public static final int Magic = 0x4a524d49;
-    /** Transport version number */
-    public static final short Version = 2;
+public clbss TrbnsportConstbnts {
+    /** Trbnsport mbgic number: "JRMI"*/
+    public stbtic finbl int Mbgic = 0x4b524d49;
+    /** Trbnsport version number */
+    public stbtic finbl short Version = 2;
 
-    /** Connection uses stream protocol */
-    public static final byte StreamProtocol = 0x4b;
-    /** Protocol for single operation per connection; no ack required */
-    public static final byte SingleOpProtocol = 0x4c;
+    /** Connection uses strebm protocol */
+    public stbtic finbl byte StrebmProtocol = 0x4b;
+    /** Protocol for single operbtion per connection; no bck required */
+    public stbtic finbl byte SingleOpProtocol = 0x4c;
     /** Connection uses multiplex protocol */
-    public static final byte MultiplexProtocol = 0x4d;
+    public stbtic finbl byte MultiplexProtocol = 0x4d;
 
-    /** Ack for transport protocol */
-    public static final byte ProtocolAck = 0x4e;
-    /** Negative ack for transport protocol (protocol not supported) */
-    public static final byte ProtocolNack = 0x4f;
+    /** Ack for trbnsport protocol */
+    public stbtic finbl byte ProtocolAck = 0x4e;
+    /** Negbtive bck for trbnsport protocol (protocol not supported) */
+    public stbtic finbl byte ProtocolNbck = 0x4f;
 
-    /** RMI call */
-    public static final byte Call = 0x50;
+    /** RMI cbll */
+    public stbtic finbl byte Cbll = 0x50;
     /** RMI return */
-    public static final byte Return = 0x51;
-    /** Ping operation */
-    public static final byte Ping = 0x52;
-    /** Acknowledgment for Ping operation */
-    public static final byte PingAck = 0x53;
+    public stbtic finbl byte Return = 0x51;
+    /** Ping operbtion */
+    public stbtic finbl byte Ping = 0x52;
+    /** Acknowledgment for Ping operbtion */
+    public stbtic finbl byte PingAck = 0x53;
     /** Acknowledgment for distributed GC */
-    public static final byte DGCAck = 0x54;
+    public stbtic finbl byte DGCAck = 0x54;
 
-    /** Normal return (with or without return value) */
-    public static final byte NormalReturn = 0x01;
-    /** Exceptional return */
-    public static final byte ExceptionalReturn = 0x02;
+    /** Normbl return (with or without return vblue) */
+    public stbtic finbl byte NormblReturn = 0x01;
+    /** Exceptionbl return */
+    public stbtic finbl byte ExceptionblReturn = 0x02;
 }

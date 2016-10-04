@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 import sun.misc.*;
 
 
 /**
- * Manipulates a native array of iovec structs on Solaris:
+ * Mbnipulbtes b nbtive brrby of iovec structs on Solbris:
  *
  * typedef struct iovec {
- *    caddr_t  iov_base;
+ *    cbddr_t  iov_bbse;
       int      iov_len;
  * } iovec_t;
  *
- * @author Mike McCloskey
+ * @buthor Mike McCloskey
  * @since 1.4
  */
 
-class IOVecWrapper {
+clbss IOVecWrbpper {
 
-    // Miscellaneous constants
-    private static final int BASE_OFFSET = 0;
-    private static final int LEN_OFFSET;
-    private static final int SIZE_IOVEC;
+    // Miscellbneous constbnts
+    privbte stbtic finbl int BASE_OFFSET = 0;
+    privbte stbtic finbl int LEN_OFFSET;
+    privbte stbtic finbl int SIZE_IOVEC;
 
-    // The iovec array
-    private final AllocatedNativeObject vecArray;
+    // The iovec brrby
+    privbte finbl AllocbtedNbtiveObject vecArrby;
 
-    // Number of elements in iovec array
-    private final int size;
+    // Number of elements in iovec brrby
+    privbte finbl int size;
 
-    // Buffers and position/remaining corresponding to elements in iovec array
-    private final ByteBuffer[] buf;
-    private final int[] position;
-    private final int[] remaining;
+    // Buffers bnd position/rembining corresponding to elements in iovec brrby
+    privbte finbl ByteBuffer[] buf;
+    privbte finbl int[] position;
+    privbte finbl int[] rembining;
 
-    // Shadow buffers for cases when original buffer is substituted
-    private final ByteBuffer[] shadow;
+    // Shbdow buffers for cbses when originbl buffer is substituted
+    privbte finbl ByteBuffer[] shbdow;
 
-    // Base address of this array
-    final long address;
+    // Bbse bddress of this brrby
+    finbl long bddress;
 
     // Address size in bytes
-    static int addressSize;
+    stbtic int bddressSize;
 
-    private static class Deallocator implements Runnable {
-        private final AllocatedNativeObject obj;
-        Deallocator(AllocatedNativeObject obj) {
+    privbte stbtic clbss Debllocbtor implements Runnbble {
+        privbte finbl AllocbtedNbtiveObject obj;
+        Debllocbtor(AllocbtedNbtiveObject obj) {
             this.obj = obj;
         }
         public void run() {
@@ -78,43 +78,43 @@ class IOVecWrapper {
         }
     }
 
-    // per thread IOVecWrapper
-    private static final ThreadLocal<IOVecWrapper> cached =
-        new ThreadLocal<IOVecWrapper>();
+    // per threbd IOVecWrbpper
+    privbte stbtic finbl ThrebdLocbl<IOVecWrbpper> cbched =
+        new ThrebdLocbl<IOVecWrbpper>();
 
-    private IOVecWrapper(int size) {
+    privbte IOVecWrbpper(int size) {
         this.size      = size;
         this.buf       = new ByteBuffer[size];
         this.position  = new int[size];
-        this.remaining = new int[size];
-        this.shadow    = new ByteBuffer[size];
-        this.vecArray  = new AllocatedNativeObject(size * SIZE_IOVEC, false);
-        this.address   = vecArray.address();
+        this.rembining = new int[size];
+        this.shbdow    = new ByteBuffer[size];
+        this.vecArrby  = new AllocbtedNbtiveObject(size * SIZE_IOVEC, fblse);
+        this.bddress   = vecArrby.bddress();
     }
 
-    static IOVecWrapper get(int size) {
-        IOVecWrapper wrapper = cached.get();
-        if (wrapper != null && wrapper.size < size) {
-            // not big enough; eagerly release memory
-            wrapper.vecArray.free();
-            wrapper = null;
+    stbtic IOVecWrbpper get(int size) {
+        IOVecWrbpper wrbpper = cbched.get();
+        if (wrbpper != null && wrbpper.size < size) {
+            // not big enough; ebgerly relebse memory
+            wrbpper.vecArrby.free();
+            wrbpper = null;
         }
-        if (wrapper == null) {
-            wrapper = new IOVecWrapper(size);
-            Cleaner.create(wrapper, new Deallocator(wrapper.vecArray));
-            cached.set(wrapper);
+        if (wrbpper == null) {
+            wrbpper = new IOVecWrbpper(size);
+            Clebner.crebte(wrbpper, new Debllocbtor(wrbpper.vecArrby));
+            cbched.set(wrbpper);
         }
-        return wrapper;
+        return wrbpper;
     }
 
     void setBuffer(int i, ByteBuffer buf, int pos, int rem) {
         this.buf[i] = buf;
         this.position[i] = pos;
-        this.remaining[i] = rem;
+        this.rembining[i] = rem;
     }
 
-    void setShadow(int i, ByteBuffer buf) {
-        shadow[i] = buf;
+    void setShbdow(int i, ByteBuffer buf) {
+        shbdow[i] = buf;
     }
 
     ByteBuffer getBuffer(int i) {
@@ -125,38 +125,38 @@ class IOVecWrapper {
         return position[i];
     }
 
-    int getRemaining(int i) {
-        return remaining[i];
+    int getRembining(int i) {
+        return rembining[i];
     }
 
-    ByteBuffer getShadow(int i) {
-        return shadow[i];
+    ByteBuffer getShbdow(int i) {
+        return shbdow[i];
     }
 
-    void clearRefs(int i) {
+    void clebrRefs(int i) {
         buf[i] = null;
-        shadow[i] = null;
+        shbdow[i] = null;
     }
 
-    void putBase(int i, long base) {
+    void putBbse(int i, long bbse) {
         int offset = SIZE_IOVEC * i + BASE_OFFSET;
-        if (addressSize == 4)
-            vecArray.putInt(offset, (int)base);
+        if (bddressSize == 4)
+            vecArrby.putInt(offset, (int)bbse);
         else
-            vecArray.putLong(offset, base);
+            vecArrby.putLong(offset, bbse);
     }
 
     void putLen(int i, long len) {
         int offset = SIZE_IOVEC * i + LEN_OFFSET;
-        if (addressSize == 4)
-            vecArray.putInt(offset, (int)len);
+        if (bddressSize == 4)
+            vecArrby.putInt(offset, (int)len);
         else
-            vecArray.putLong(offset, len);
+            vecArrby.putLong(offset, len);
     }
 
-    static {
-        addressSize = Util.unsafe().addressSize();
-        LEN_OFFSET = addressSize;
-        SIZE_IOVEC = (short) (addressSize * 2);
+    stbtic {
+        bddressSize = Util.unsbfe().bddressSize();
+        LEN_OFFSET = bddressSize;
+        SIZE_IOVEC = (short) (bddressSize * 2);
     }
 }

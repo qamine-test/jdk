@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.SourceDataLine;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
 
 /**
- * This is a processor object that writes into SourceDataLine
+ * This is b processor object thbt writes into SourceDbtbLine
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftAudioPusher implements Runnable {
+public finbl clbss SoftAudioPusher implements Runnbble {
 
-    private volatile boolean active = false;
-    private SourceDataLine sourceDataLine = null;
-    private Thread audiothread;
-    private final AudioInputStream ais;
-    private final byte[] buffer;
+    privbte volbtile boolebn bctive = fblse;
+    privbte SourceDbtbLine sourceDbtbLine = null;
+    privbte Threbd budiothrebd;
+    privbte finbl AudioInputStrebm bis;
+    privbte finbl byte[] buffer;
 
-    public SoftAudioPusher(SourceDataLine sourceDataLine, AudioInputStream ais,
+    public SoftAudioPusher(SourceDbtbLine sourceDbtbLine, AudioInputStrebm bis,
             int workbuffersizer) {
-        this.ais = ais;
+        this.bis = bis;
         this.buffer = new byte[workbuffersizer];
-        this.sourceDataLine = sourceDataLine;
+        this.sourceDbtbLine = sourceDbtbLine;
     }
 
-    public synchronized void start() {
-        if (active)
+    public synchronized void stbrt() {
+        if (bctive)
             return;
-        active = true;
-        audiothread = new Thread(this);
-        audiothread.setDaemon(true);
-        audiothread.setPriority(Thread.MAX_PRIORITY);
-        audiothread.start();
+        bctive = true;
+        budiothrebd = new Threbd(this);
+        budiothrebd.setDbemon(true);
+        budiothrebd.setPriority(Threbd.MAX_PRIORITY);
+        budiothrebd.stbrt();
     }
 
     public synchronized void stop() {
-        if (!active)
+        if (!bctive)
             return;
-        active = false;
+        bctive = fblse;
         try {
-            audiothread.join();
-        } catch (InterruptedException e) {
-            //e.printStackTrace();
+            budiothrebd.join();
+        } cbtch (InterruptedException e) {
+            //e.printStbckTrbce();
         }
     }
 
     public void run() {
         byte[] buffer = SoftAudioPusher.this.buffer;
-        AudioInputStream ais = SoftAudioPusher.this.ais;
-        SourceDataLine sourceDataLine = SoftAudioPusher.this.sourceDataLine;
+        AudioInputStrebm bis = SoftAudioPusher.this.bis;
+        SourceDbtbLine sourceDbtbLine = SoftAudioPusher.this.sourceDbtbLine;
 
         try {
-            while (active) {
-                // Read from audio source
-                int count = ais.read(buffer);
-                if(count < 0) break;
+            while (bctive) {
+                // Rebd from budio source
+                int count = bis.rebd(buffer);
+                if(count < 0) brebk;
                 // Write byte buffer to source output
-                sourceDataLine.write(buffer, 0, count);
+                sourceDbtbLine.write(buffer, 0, count);
             }
-        } catch (IOException e) {
-            active = false;
-            //e.printStackTrace();
+        } cbtch (IOException e) {
+            bctive = fblse;
+            //e.printStbckTrbce();
         }
 
     }

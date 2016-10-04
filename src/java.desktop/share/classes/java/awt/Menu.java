@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.awt.peer.MenuPeer;
-import java.awt.event.KeyEvent;
-import javax.accessibility.*;
-import sun.awt.AWTAccessor;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.bwt.peer.MenuPeer;
+import jbvb.bwt.event.KeyEvent;
+import jbvbx.bccessibility.*;
+import sun.bwt.AWTAccessor;
 
 /**
- * A <code>Menu</code> object is a pull-down menu component
- * that is deployed from a menu bar.
+ * A <code>Menu</code> object is b pull-down menu component
+ * thbt is deployed from b menu bbr.
  * <p>
- * A menu can optionally be a <i>tear-off</i> menu. A tear-off menu
- * can be opened and dragged away from its parent menu bar or menu.
- * It remains on the screen after the mouse button has been released.
- * The mechanism for tearing off a menu is platform dependent, since
- * the look and feel of the tear-off menu is determined by its peer.
- * On platforms that do not support tear-off menus, the tear-off
+ * A menu cbn optionblly be b <i>tebr-off</i> menu. A tebr-off menu
+ * cbn be opened bnd drbgged bwby from its pbrent menu bbr or menu.
+ * It rembins on the screen bfter the mouse button hbs been relebsed.
+ * The mechbnism for tebring off b menu is plbtform dependent, since
+ * the look bnd feel of the tebr-off menu is determined by its peer.
+ * On plbtforms thbt do not support tebr-off menus, the tebr-off
  * property is ignored.
  * <p>
- * Each item in a menu must belong to the <code>MenuItem</code>
- * class. It can be an instance of <code>MenuItem</code>, a submenu
- * (an instance of <code>Menu</code>), or a check box (an instance of
+ * Ebch item in b menu must belong to the <code>MenuItem</code>
+ * clbss. It cbn be bn instbnce of <code>MenuItem</code>, b submenu
+ * (bn instbnce of <code>Menu</code>), or b check box (bn instbnce of
  * <code>CheckboxMenuItem</code>).
  *
- * @author Sami Shaio
- * @see     java.awt.MenuItem
- * @see     java.awt.CheckboxMenuItem
+ * @buthor Sbmi Shbio
+ * @see     jbvb.bwt.MenuItem
+ * @see     jbvb.bwt.CheckboxMenuItem
  * @since   1.0
  */
-public class Menu extends MenuItem implements MenuContainer, Accessible {
+public clbss Menu extends MenuItem implements MenuContbiner, Accessible {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
 
@@ -73,120 +73,120 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
     /**
-     * A vector of the items that will be part of the Menu.
+     * A vector of the items thbt will be pbrt of the Menu.
      *
-     * @serial
+     * @seribl
      * @see #countItems()
      */
     Vector<MenuItem> items = new Vector<>();
 
     /**
-     * This field indicates whether the menu has the
-     * tear of property or not.  It will be set to
-     * <code>true</code> if the menu has the tear off
-     * property and it will be set to <code>false</code>
+     * This field indicbtes whether the menu hbs the
+     * tebr of property or not.  It will be set to
+     * <code>true</code> if the menu hbs the tebr off
+     * property bnd it will be set to <code>fblse</code>
      * if it does not.
-     * A torn off menu can be deleted by a user when
+     * A torn off menu cbn be deleted by b user when
      * it is no longer needed.
      *
-     * @serial
-     * @see #isTearOff()
+     * @seribl
+     * @see #isTebrOff()
      */
-    boolean             tearOff;
+    boolebn             tebrOff;
 
     /**
      * This field will be set to <code>true</code>
-     * if the Menu in question is actually a help
+     * if the Menu in question is bctublly b help
      * menu.  Otherwise it will be set to <code>
-     * false</code>.
+     * fblse</code>.
      *
-     * @serial
+     * @seribl
      */
-    boolean             isHelpMenu;
+    boolebn             isHelpMenu;
 
-    private static final String base = "menu";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "menu";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -8809584163345499784L;
+     privbte stbtic finbl long seriblVersionUID = -8809584163345499784L;
 
     /**
-     * Constructs a new menu with an empty label. This menu is not
-     * a tear-off menu.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Constructs b new menu with bn empty lbbel. This menu is not
+     * b tebr-off menu.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since      1.1
      */
-    public Menu() throws HeadlessException {
-        this("", false);
+    public Menu() throws HebdlessException {
+        this("", fblse);
     }
 
     /**
-     * Constructs a new menu with the specified label. This menu is not
-     * a tear-off menu.
-     * @param       label the menu's label in the menu bar, or in
-     *                   another menu of which this menu is a submenu.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Constructs b new menu with the specified lbbel. This menu is not
+     * b tebr-off menu.
+     * @pbrbm       lbbel the menu's lbbel in the menu bbr, or in
+     *                   bnother menu of which this menu is b submenu.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Menu(String label) throws HeadlessException {
-        this(label, false);
+    public Menu(String lbbel) throws HebdlessException {
+        this(lbbel, fblse);
     }
 
     /**
-     * Constructs a new menu with the specified label,
-     * indicating whether the menu can be torn off.
+     * Constructs b new menu with the specified lbbel,
+     * indicbting whether the menu cbn be torn off.
      * <p>
-     * Tear-off functionality may not be supported by all
-     * implementations of AWT.  If a particular implementation doesn't
-     * support tear-off menus, this value is silently ignored.
-     * @param       label the menu's label in the menu bar, or in
-     *                   another menu of which this menu is a submenu.
-     * @param       tearOff   if <code>true</code>, the menu
-     *                   is a tear-off menu.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Tebr-off functionblity mby not be supported by bll
+     * implementbtions of AWT.  If b pbrticulbr implementbtion doesn't
+     * support tebr-off menus, this vblue is silently ignored.
+     * @pbrbm       lbbel the menu's lbbel in the menu bbr, or in
+     *                   bnother menu of which this menu is b submenu.
+     * @pbrbm       tebrOff   if <code>true</code>, the menu
+     *                   is b tebr-off menu.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Menu(String label, boolean tearOff) throws HeadlessException {
-        super(label);
-        this.tearOff = tearOff;
+    public Menu(String lbbel, boolebn tebrOff) throws HebdlessException {
+        super(lbbel);
+        this.tebrOff = tebrOff;
     }
 
     /**
-     * Construct a name for this MenuComponent.  Called by getName() when
-     * the name is null.
+     * Construct b nbme for this MenuComponent.  Cblled by getNbme() when
+     * the nbme is null.
      */
-    String constructComponentName() {
-        synchronized (Menu.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Menu.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the menu's peer.  The peer allows us to modify the
-     * appearance of the menu without changing its functionality.
+     * Crebtes the menu's peer.  The peer bllows us to modify the
+     * bppebrbnce of the menu without chbnging its functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = Toolkit.getDefaultToolkit().createMenu(this);
+                peer = Toolkit.getDefbultToolkit().crebteMenu(this);
             int nitems = getItemCount();
             for (int i = 0 ; i < nitems ; i++) {
                 MenuItem mi = getItem(i);
-                mi.parent = this;
-                mi.addNotify();
+                mi.pbrent = this;
+                mi.bddNotify();
             }
         }
     }
 
     /**
-     * Removes the menu's peer.  The peer allows us to modify the appearance
-     * of the menu without changing its functionality.
+     * Removes the menu's peer.  The peer bllows us to modify the bppebrbnce
+     * of the menu without chbnging its functionblity.
      */
     public void removeNotify() {
         synchronized (getTreeLock()) {
@@ -199,16 +199,16 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
     /**
-     * Indicates whether this menu is a tear-off menu.
+     * Indicbtes whether this menu is b tebr-off menu.
      * <p>
-     * Tear-off functionality may not be supported by all
-     * implementations of AWT.  If a particular implementation doesn't
-     * support tear-off menus, this value is silently ignored.
-     * @return      <code>true</code> if this is a tear-off menu;
-     *                         <code>false</code> otherwise.
+     * Tebr-off functionblity mby not be supported by bll
+     * implementbtions of AWT.  If b pbrticulbr implementbtion doesn't
+     * support tebr-off menus, this vblue is silently ignored.
+     * @return      <code>true</code> if this is b tebr-off menu;
+     *                         <code>fblse</code> otherwise.
      */
-    public boolean isTearOff() {
-        return tearOff;
+    public boolebn isTebrOff() {
+        return tebrOff;
     }
 
     /**
@@ -224,188 +224,188 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      * Returns the number of items in this menu.
      *
      * @return the number of items in this menu
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getItemCount()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getItemCount()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public int countItems() {
         return countItemsImpl();
     }
 
     /*
-     * This is called by the native code, so client code can't
-     * be called on the toolkit thread.
+     * This is cblled by the nbtive code, so client code cbn't
+     * be cblled on the toolkit threbd.
      */
-    final int countItemsImpl() {
+    finbl int countItemsImpl() {
         return items.size();
     }
 
     /**
-     * Gets the item located at the specified index of this menu.
-     * @param     index the position of the item to be returned.
-     * @return    the item located at the specified index.
+     * Gets the item locbted bt the specified index of this menu.
+     * @pbrbm     index the position of the item to be returned.
+     * @return    the item locbted bt the specified index.
      */
     public MenuItem getItem(int index) {
         return getItemImpl(index);
     }
 
     /*
-     * This is called by the native code, so client code can't
-     * be called on the toolkit thread.
+     * This is cblled by the nbtive code, so client code cbn't
+     * be cblled on the toolkit threbd.
      */
-    final MenuItem getItemImpl(int index) {
+    finbl MenuItem getItemImpl(int index) {
         return items.elementAt(index);
     }
 
     /**
      * Adds the specified menu item to this menu. If the
-     * menu item has been part of another menu, removes it
-     * from that menu.
+     * menu item hbs been pbrt of bnother menu, removes it
+     * from thbt menu.
      *
-     * @param       mi   the menu item to be added
-     * @return      the menu item added
-     * @see         java.awt.Menu#insert(java.lang.String, int)
-     * @see         java.awt.Menu#insert(java.awt.MenuItem, int)
+     * @pbrbm       mi   the menu item to be bdded
+     * @return      the menu item bdded
+     * @see         jbvb.bwt.Menu#insert(jbvb.lbng.String, int)
+     * @see         jbvb.bwt.Menu#insert(jbvb.bwt.MenuItem, int)
      */
-    public MenuItem add(MenuItem mi) {
+    public MenuItem bdd(MenuItem mi) {
         synchronized (getTreeLock()) {
-            if (mi.parent != null) {
-                mi.parent.remove(mi);
+            if (mi.pbrent != null) {
+                mi.pbrent.remove(mi);
             }
-            items.addElement(mi);
-            mi.parent = this;
+            items.bddElement(mi);
+            mi.pbrent = this;
             MenuPeer peer = (MenuPeer)this.peer;
             if (peer != null) {
-                mi.addNotify();
-                peer.addItem(mi);
+                mi.bddNotify();
+                peer.bddItem(mi);
             }
             return mi;
         }
     }
 
     /**
-     * Adds an item with the specified label to this menu.
+     * Adds bn item with the specified lbbel to this menu.
      *
-     * @param       label   the text on the item
-     * @see         java.awt.Menu#insert(java.lang.String, int)
-     * @see         java.awt.Menu#insert(java.awt.MenuItem, int)
+     * @pbrbm       lbbel   the text on the item
+     * @see         jbvb.bwt.Menu#insert(jbvb.lbng.String, int)
+     * @see         jbvb.bwt.Menu#insert(jbvb.bwt.MenuItem, int)
      */
-    public void add(String label) {
-        add(new MenuItem(label));
+    public void bdd(String lbbel) {
+        bdd(new MenuItem(lbbel));
     }
 
     /**
-     * Inserts a menu item into this menu
-     * at the specified position.
+     * Inserts b menu item into this menu
+     * bt the specified position.
      *
-     * @param         menuitem  the menu item to be inserted.
-     * @param         index     the position at which the menu
+     * @pbrbm         menuitem  the menu item to be inserted.
+     * @pbrbm         index     the position bt which the menu
      *                          item should be inserted.
-     * @see           java.awt.Menu#add(java.lang.String)
-     * @see           java.awt.Menu#add(java.awt.MenuItem)
-     * @exception     IllegalArgumentException if the value of
-     *                    <code>index</code> is less than zero
+     * @see           jbvb.bwt.Menu#bdd(jbvb.lbng.String)
+     * @see           jbvb.bwt.Menu#bdd(jbvb.bwt.MenuItem)
+     * @exception     IllegblArgumentException if the vblue of
+     *                    <code>index</code> is less thbn zero
      * @since         1.1
      */
 
     public void insert(MenuItem menuitem, int index) {
         synchronized (getTreeLock()) {
             if (index < 0) {
-                throw new IllegalArgumentException("index less than zero.");
+                throw new IllegblArgumentException("index less thbn zero.");
             }
 
             int nitems = getItemCount();
             Vector<MenuItem> tempItems = new Vector<>();
 
-            /* Remove the item at index, nitems-index times
-               storing them in a temporary vector in the
-               order they appear on the menu.
+            /* Remove the item bt index, nitems-index times
+               storing them in b temporbry vector in the
+               order they bppebr on the menu.
             */
             for (int i = index ; i < nitems; i++) {
-                tempItems.addElement(getItem(index));
+                tempItems.bddElement(getItem(index));
                 remove(index);
             }
 
-            add(menuitem);
+            bdd(menuitem);
 
-            /* Add the removed items back to the menu, they are
-               already in the correct order in the temp vector.
+            /* Add the removed items bbck to the menu, they bre
+               blrebdy in the correct order in the temp vector.
             */
             for (int i = 0; i < tempItems.size()  ; i++) {
-                add(tempItems.elementAt(i));
+                bdd(tempItems.elementAt(i));
             }
         }
     }
 
     /**
-     * Inserts a menu item with the specified label into this menu
-     * at the specified position.  This is a convenience method for
+     * Inserts b menu item with the specified lbbel into this menu
+     * bt the specified position.  This is b convenience method for
      * <code>insert(menuItem, index)</code>.
      *
-     * @param       label the text on the item
-     * @param       index the position at which the menu item
+     * @pbrbm       lbbel the text on the item
+     * @pbrbm       index the position bt which the menu item
      *                      should be inserted
-     * @see         java.awt.Menu#add(java.lang.String)
-     * @see         java.awt.Menu#add(java.awt.MenuItem)
-     * @exception     IllegalArgumentException if the value of
-     *                    <code>index</code> is less than zero
+     * @see         jbvb.bwt.Menu#bdd(jbvb.lbng.String)
+     * @see         jbvb.bwt.Menu#bdd(jbvb.bwt.MenuItem)
+     * @exception     IllegblArgumentException if the vblue of
+     *                    <code>index</code> is less thbn zero
      * @since       1.1
      */
 
-    public void insert(String label, int index) {
-        insert(new MenuItem(label), index);
+    public void insert(String lbbel, int index) {
+        insert(new MenuItem(lbbel), index);
     }
 
     /**
-     * Adds a separator line, or a hypen, to the menu at the current position.
-     * @see         java.awt.Menu#insertSeparator(int)
+     * Adds b sepbrbtor line, or b hypen, to the menu bt the current position.
+     * @see         jbvb.bwt.Menu#insertSepbrbtor(int)
      */
-    public void addSeparator() {
-        add("-");
+    public void bddSepbrbtor() {
+        bdd("-");
     }
 
     /**
-     * Inserts a separator at the specified position.
-     * @param       index the position at which the
-     *                       menu separator should be inserted.
-     * @exception   IllegalArgumentException if the value of
-     *                       <code>index</code> is less than 0.
-     * @see         java.awt.Menu#addSeparator
+     * Inserts b sepbrbtor bt the specified position.
+     * @pbrbm       index the position bt which the
+     *                       menu sepbrbtor should be inserted.
+     * @exception   IllegblArgumentException if the vblue of
+     *                       <code>index</code> is less thbn 0.
+     * @see         jbvb.bwt.Menu#bddSepbrbtor
      * @since       1.1
      */
 
-    public void insertSeparator(int index) {
+    public void insertSepbrbtor(int index) {
         synchronized (getTreeLock()) {
             if (index < 0) {
-                throw new IllegalArgumentException("index less than zero.");
+                throw new IllegblArgumentException("index less thbn zero.");
             }
 
             int nitems = getItemCount();
             Vector<MenuItem> tempItems = new Vector<>();
 
-            /* Remove the item at index, nitems-index times
-               storing them in a temporary vector in the
-               order they appear on the menu.
+            /* Remove the item bt index, nitems-index times
+               storing them in b temporbry vector in the
+               order they bppebr on the menu.
             */
             for (int i = index ; i < nitems; i++) {
-                tempItems.addElement(getItem(index));
+                tempItems.bddElement(getItem(index));
                 remove(index);
             }
 
-            addSeparator();
+            bddSepbrbtor();
 
-            /* Add the removed items back to the menu, they are
-               already in the correct order in the temp vector.
+            /* Add the removed items bbck to the menu, they bre
+               blrebdy in the correct order in the temp vector.
             */
             for (int i = 0; i < tempItems.size()  ; i++) {
-                add(tempItems.elementAt(i));
+                bdd(tempItems.elementAt(i));
             }
         }
     }
 
     /**
-     * Removes the menu item at the specified index from this menu.
-     * @param       index the position of the item to be removed.
+     * Removes the menu item bt the specified index from this menu.
+     * @pbrbm       index the position of the item to be removed.
      */
     public void remove(int index) {
         synchronized (getTreeLock()) {
@@ -414,7 +414,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
             MenuPeer peer = (MenuPeer)this.peer;
             if (peer != null) {
                 mi.removeNotify();
-                mi.parent = null;
+                mi.pbrent = null;
                 peer.delItem(index);
             }
         }
@@ -422,7 +422,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
 
     /**
      * Removes the specified menu item from this menu.
-     * @param  item the item to be removed from the menu.
+     * @pbrbm  item the item to be removed from the menu.
      *         If <code>item</code> is <code>null</code>
      *         or is not in this menu, this method does
      *         nothing.
@@ -437,7 +437,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
     /**
-     * Removes all items from this menu.
+     * Removes bll items from this menu.
      * @since       1.1
      */
     public void removeAll() {
@@ -450,20 +450,20 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
     /*
-     * Post an ActionEvent to the target of the MenuPeer
-     * associated with the specified keyboard event (on
-     * keydown).  Returns true if there is an associated
-     * keyboard event.
+     * Post bn ActionEvent to the tbrget of the MenuPeer
+     * bssocibted with the specified keybobrd event (on
+     * keydown).  Returns true if there is bn bssocibted
+     * keybobrd event.
      */
-    boolean handleShortcut(KeyEvent e) {
+    boolebn hbndleShortcut(KeyEvent e) {
         int nitems = getItemCount();
         for (int i = 0 ; i < nitems ; i++) {
             MenuItem mi = getItem(i);
-            if (mi.handleShortcut(e)) {
+            if (mi.hbndleShortcut(e)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     MenuItem getShortcutMenuItem(MenuShortcut s) {
@@ -477,20 +477,20 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
         return null;
     }
 
-    synchronized Enumeration<MenuShortcut> shortcuts() {
+    synchronized Enumerbtion<MenuShortcut> shortcuts() {
         Vector<MenuShortcut> shortcuts = new Vector<>();
         int nitems = getItemCount();
         for (int i = 0 ; i < nitems ; i++) {
             MenuItem mi = getItem(i);
-            if (mi instanceof Menu) {
-                Enumeration<MenuShortcut> e = ((Menu)mi).shortcuts();
-                while (e.hasMoreElements()) {
-                    shortcuts.addElement(e.nextElement());
+            if (mi instbnceof Menu) {
+                Enumerbtion<MenuShortcut> e = ((Menu)mi).shortcuts();
+                while (e.hbsMoreElements()) {
+                    shortcuts.bddElement(e.nextElement());
                 }
             } else {
                 MenuShortcut ms = mi.getShortcut();
                 if (ms != null) {
-                    shortcuts.addElement(ms);
+                    shortcuts.bddElement(ms);
                 }
             }
         }
@@ -505,70 +505,70 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
 
-    /* Serialization support.  A MenuContainer is responsible for
-     * restoring the parent fields of its children.
+    /* Seriblizbtion support.  A MenuContbiner is responsible for
+     * restoring the pbrent fields of its children.
      */
 
     /**
-     * The menu serialized Data Version.
+     * The menu seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int menuSerializedDataVersion = 1;
+    privbte int menuSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.
+     * Writes defbult seriblizbble fields to strebm.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see #readObject(ObjectInputStream)
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-      throws java.io.IOException
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+      throws jbvb.io.IOException
     {
-      s.defaultWriteObject();
+      s.defbultWriteObject();
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code>.
-     * Unrecognized keys or values will be ignored.
+     * Rebds the <code>ObjectInputStrebm</code>.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws IOException, ClassNotFoundException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws IOException, ClbssNotFoundException, HebdlessException
     {
-      // HeadlessException will be thrown from MenuComponent's readObject
-      s.defaultReadObject();
+      // HebdlessException will be thrown from MenuComponent's rebdObject
+      s.defbultRebdObject();
       for(int i = 0; i < items.size(); i++) {
         MenuItem item = items.elementAt(i);
-        item.parent = this;
+        item.pbrent = this;
       }
     }
 
     /**
-     * Returns a string representing the state of this <code>Menu</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Menu</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return the parameter string of this menu
+     * @return the pbrbmeter string of this menu
      */
-    public String paramString() {
-        String str = ",tearOff=" + tearOff+",isHelpMenu=" + isHelpMenu;
-        return super.paramString() + str;
+    public String pbrbmString() {
+        String str = ",tebrOff=" + tebrOff+",isHelpMenu=" + isHelpMenu;
+        return super.pbrbmString() + str;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 
 /////////////////
@@ -576,20 +576,20 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this Menu.
-     * For menus, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this Menu.
+     * For menus, the AccessibleContext tbkes the form of bn
      * AccessibleAWTMenu.
-     * A new AccessibleAWTMenu instance is created if necessary.
+     * A new AccessibleAWTMenu instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTMenu that serves as the
+     * @return bn AccessibleAWTMenu thbt serves bs the
      *         AccessibleContext of this Menu
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTMenu();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTMenu();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
@@ -600,33 +600,33 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     }
 
     /**
-     * Inner class of Menu used to provide default support for
-     * accessibility.  This class is not meant to be used directly by
-     * application developers, but is instead meant only to be
-     * subclassed by menu component developers.
+     * Inner clbss of Menu used to provide defbult support for
+     * bccessibility.  This clbss is not mebnt to be used directly by
+     * bpplicbtion developers, but is instebd mebnt only to be
+     * subclbssed by menu component developers.
      * <p>
-     * This class implements accessibility support for the
-     * <code>Menu</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Menu</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to menu user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTMenu extends AccessibleAWTMenuItem
+    protected clbss AccessibleAWTMenu extends AccessibleAWTMenuItem
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 5228160894980069094L;
+        privbte stbtic finbl long seriblVersionUID = 5228160894980069094L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU;
         }
 
-    } // class AccessibleAWTMenu
+    } // clbss AccessibleAWTMenu
 
 }

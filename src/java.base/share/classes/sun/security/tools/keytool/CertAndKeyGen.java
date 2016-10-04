@@ -1,328 +1,328 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.keytool;
+pbckbge sun.security.tools.keytool;
 
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateEncodingException;
-import java.security.*;
-import java.util.Date;
+import jbvb.io.IOException;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteEncodingException;
+import jbvb.security.*;
+import jbvb.util.Dbte;
 
 import sun.security.pkcs10.PKCS10;
 import sun.security.x509.*;
 
 
 /**
- * Generate a pair of keys, and provide access to them.  This class is
- * provided primarily for ease of use.
+ * Generbte b pbir of keys, bnd provide bccess to them.  This clbss is
+ * provided primbrily for ebse of use.
  *
- * <P>This provides some simple certificate management functionality.
- * Specifically, it allows you to create self-signed X.509 certificates
- * as well as PKCS 10 based certificate signing requests.
+ * <P>This provides some simple certificbte mbnbgement functionblity.
+ * Specificblly, it bllows you to crebte self-signed X.509 certificbtes
+ * bs well bs PKCS 10 bbsed certificbte signing requests.
  *
- * <P>Keys for some public key signature algorithms have algorithm
- * parameters, such as DSS/DSA.  Some sites' Certificate Authorities
- * adopt fixed algorithm parameters, which speeds up some operations
- * including key generation and signing.  <em>At this time, this interface
- * does not provide a way to provide such algorithm parameters, e.g.
- * by providing the CA certificate which includes those parameters.</em>
+ * <P>Keys for some public key signbture blgorithms hbve blgorithm
+ * pbrbmeters, such bs DSS/DSA.  Some sites' Certificbte Authorities
+ * bdopt fixed blgorithm pbrbmeters, which speeds up some operbtions
+ * including key generbtion bnd signing.  <em>At this time, this interfbce
+ * does not provide b wby to provide such blgorithm pbrbmeters, e.g.
+ * by providing the CA certificbte which includes those pbrbmeters.</em>
  *
- * <P>Also, note that at this time only signature-capable keys may be
- * acquired through this interface.  Diffie-Hellman keys, used for secure
- * key exchange, may be supported later.
+ * <P>Also, note thbt bt this time only signbture-cbpbble keys mby be
+ * bcquired through this interfbce.  Diffie-Hellmbn keys, used for secure
+ * key exchbnge, mby be supported lbter.
  *
- * @author David Brownell
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Hemmb Prbfullchbndrb
  * @see PKCS10
  * @see X509CertImpl
  */
-public final class CertAndKeyGen {
+public finbl clbss CertAndKeyGen {
     /**
-     * Creates a CertAndKeyGen object for a particular key type
-     * and signature algorithm.
+     * Crebtes b CertAndKeyGen object for b pbrticulbr key type
+     * bnd signbture blgorithm.
      *
-     * @param keyType type of key, e.g. "RSA", "DSA"
-     * @param sigAlg name of the signature algorithm, e.g. "MD5WithRSA",
+     * @pbrbm keyType type of key, e.g. "RSA", "DSA"
+     * @pbrbm sigAlg nbme of the signbture blgorithm, e.g. "MD5WithRSA",
      *          "MD2WithRSA", "SHAwithDSA".
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
      */
     public CertAndKeyGen (String keyType, String sigAlg)
     throws NoSuchAlgorithmException
     {
-        keyGen = KeyPairGenerator.getInstance(keyType);
+        keyGen = KeyPbirGenerbtor.getInstbnce(keyType);
         this.sigAlg = sigAlg;
     }
 
     /**
-     * Creates a CertAndKeyGen object for a particular key type,
-     * signature algorithm, and provider.
+     * Crebtes b CertAndKeyGen object for b pbrticulbr key type,
+     * signbture blgorithm, bnd provider.
      *
-     * @param keyType type of key, e.g. "RSA", "DSA"
-     * @param sigAlg name of the signature algorithm, e.g. "MD5WithRSA",
+     * @pbrbm keyType type of key, e.g. "RSA", "DSA"
+     * @pbrbm sigAlg nbme of the signbture blgorithm, e.g. "MD5WithRSA",
      *          "MD2WithRSA", "SHAwithDSA".
-     * @param providerName name of the provider
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
+     * @pbrbm providerNbme nbme of the provider
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
      * @exception NoSuchProviderException on unrecognized providers.
      */
-    public CertAndKeyGen (String keyType, String sigAlg, String providerName)
+    public CertAndKeyGen (String keyType, String sigAlg, String providerNbme)
     throws NoSuchAlgorithmException, NoSuchProviderException
     {
-        if (providerName == null) {
-            keyGen = KeyPairGenerator.getInstance(keyType);
+        if (providerNbme == null) {
+            keyGen = KeyPbirGenerbtor.getInstbnce(keyType);
         } else {
             try {
-                keyGen = KeyPairGenerator.getInstance(keyType, providerName);
-            } catch (Exception e) {
-                // try first available provider instead
-                keyGen = KeyPairGenerator.getInstance(keyType);
+                keyGen = KeyPbirGenerbtor.getInstbnce(keyType, providerNbme);
+            } cbtch (Exception e) {
+                // try first bvbilbble provider instebd
+                keyGen = KeyPbirGenerbtor.getInstbnce(keyType);
             }
         }
         this.sigAlg = sigAlg;
     }
 
     /**
-     * Sets the source of random numbers used when generating keys.
-     * If you do not provide one, a system default facility is used.
-     * You may wish to provide your own source of random numbers
-     * to get a reproducible sequence of keys and signatures, or
-     * because you may be able to take advantage of strong sources
-     * of randomness/entropy in your environment.
+     * Sets the source of rbndom numbers used when generbting keys.
+     * If you do not provide one, b system defbult fbcility is used.
+     * You mby wish to provide your own source of rbndom numbers
+     * to get b reproducible sequence of keys bnd signbtures, or
+     * becbuse you mby be bble to tbke bdvbntbge of strong sources
+     * of rbndomness/entropy in your environment.
      */
-    public void         setRandom (SecureRandom generator)
+    public void         setRbndom (SecureRbndom generbtor)
     {
-        prng = generator;
+        prng = generbtor;
     }
 
-    // want "public void generate (X509Certificate)" ... inherit DSA/D-H param
+    // wbnt "public void generbte (X509Certificbte)" ... inherit DSA/D-H pbrbm
 
     /**
-     * Generates a random public/private key pair, with a given key
-     * size.  Different algorithms provide different degrees of security
-     * for the same key size, because of the "work factor" involved in
-     * brute force attacks.  As computers become faster, it becomes
-     * easier to perform such attacks.  Small keys are to be avoided.
+     * Generbtes b rbndom public/privbte key pbir, with b given key
+     * size.  Different blgorithms provide different degrees of security
+     * for the sbme key size, becbuse of the "work fbctor" involved in
+     * brute force bttbcks.  As computers become fbster, it becomes
+     * ebsier to perform such bttbcks.  Smbll keys bre to be bvoided.
      *
-     * <P>Note that not all values of "keyBits" are valid for all
-     * algorithms, and not all public key algorithms are currently
-     * supported for use in X.509 certificates.  If the algorithm
-     * you specified does not produce X.509 compatible keys, an
-     * invalid key exception is thrown.
+     * <P>Note thbt not bll vblues of "keyBits" bre vblid for bll
+     * blgorithms, bnd not bll public key blgorithms bre currently
+     * supported for use in X.509 certificbtes.  If the blgorithm
+     * you specified does not produce X.509 compbtible keys, bn
+     * invblid key exception is thrown.
      *
-     * @param keyBits the number of bits in the keys.
-     * @exception InvalidKeyException if the environment does not
-     *  provide X.509 public keys for this signature algorithm.
+     * @pbrbm keyBits the number of bits in the keys.
+     * @exception InvblidKeyException if the environment does not
+     *  provide X.509 public keys for this signbture blgorithm.
      */
-    public void generate (int keyBits)
-    throws InvalidKeyException
+    public void generbte (int keyBits)
+    throws InvblidKeyException
     {
-        KeyPair pair;
+        KeyPbir pbir;
 
         try {
             if (prng == null) {
-                prng = new SecureRandom();
+                prng = new SecureRbndom();
             }
-            keyGen.initialize(keyBits, prng);
-            pair = keyGen.generateKeyPair();
+            keyGen.initiblize(keyBits, prng);
+            pbir = keyGen.generbteKeyPbir();
 
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+        } cbtch (Exception e) {
+            throw new IllegblArgumentException(e.getMessbge());
         }
 
-        publicKey = pair.getPublic();
-        privateKey = pair.getPrivate();
+        publicKey = pbir.getPublic();
+        privbteKey = pbir.getPrivbte();
 
-        // publicKey's format must be X.509 otherwise
-        // the whole CertGen part of this class is broken.
-        if (!"X.509".equalsIgnoreCase(publicKey.getFormat())) {
-            throw new IllegalArgumentException("publicKey's is not X.509, but "
-                    + publicKey.getFormat());
+        // publicKey's formbt must be X.509 otherwise
+        // the whole CertGen pbrt of this clbss is broken.
+        if (!"X.509".equblsIgnoreCbse(publicKey.getFormbt())) {
+            throw new IllegblArgumentException("publicKey's is not X.509, but "
+                    + publicKey.getFormbt());
         }
     }
 
 
     /**
-     * Returns the public key of the generated key pair if it is of type
-     * <code>X509Key</code>, or null if the public key is of a different type.
+     * Returns the public key of the generbted key pbir if it is of type
+     * <code>X509Key</code>, or null if the public key is of b different type.
      *
-     * XXX Note: This behaviour is needed for backwards compatibility.
-     * What this method really should return is the public key of the
-     * generated key pair, regardless of whether or not it is an instance of
+     * XXX Note: This behbviour is needed for bbckwbrds compbtibility.
+     * Whbt this method reblly should return is the public key of the
+     * generbted key pbir, regbrdless of whether or not it is bn instbnce of
      * <code>X509Key</code>. Accordingly, the return type of this method
      * should be <code>PublicKey</code>.
      */
     public X509Key getPublicKey()
     {
-        if (!(publicKey instanceof X509Key)) {
+        if (!(publicKey instbnceof X509Key)) {
             return null;
         }
         return (X509Key)publicKey;
     }
 
     /**
-     * Always returns the public key of the generated key pair. Used
+     * Alwbys returns the public key of the generbted key pbir. Used
      * by KeyTool only.
      *
-     * The publicKey is not necessarily to be an instance of
-     * X509Key in some JCA/JCE providers, for example SunPKCS11.
+     * The publicKey is not necessbrily to be bn instbnce of
+     * X509Key in some JCA/JCE providers, for exbmple SunPKCS11.
      */
-    public PublicKey getPublicKeyAnyway() {
+    public PublicKey getPublicKeyAnywby() {
         return publicKey;
     }
 
     /**
-     * Returns the private key of the generated key pair.
+     * Returns the privbte key of the generbted key pbir.
      *
-     * <P><STRONG><em>Be extremely careful when handling private keys.
-     * When private keys are not kept secret, they lose their ability
-     * to securely authenticate specific entities ... that is a huge
+     * <P><STRONG><em>Be extremely cbreful when hbndling privbte keys.
+     * When privbte keys bre not kept secret, they lose their bbility
+     * to securely buthenticbte specific entities ... thbt is b huge
      * security risk!</em></STRONG>
      */
-    public PrivateKey getPrivateKey ()
+    public PrivbteKey getPrivbteKey ()
     {
-        return privateKey;
+        return privbteKey;
     }
 
     /**
-     * Returns a self-signed X.509v3 certificate for the public key.
-     * The certificate is immediately valid. No extensions.
+     * Returns b self-signed X.509v3 certificbte for the public key.
+     * The certificbte is immedibtely vblid. No extensions.
      *
-     * <P>Such certificates normally are used to identify a "Certificate
-     * Authority" (CA).  Accordingly, they will not always be accepted by
-     * other parties.  However, such certificates are also useful when
-     * you are bootstrapping your security infrastructure, or deploying
+     * <P>Such certificbtes normblly bre used to identify b "Certificbte
+     * Authority" (CA).  Accordingly, they will not blwbys be bccepted by
+     * other pbrties.  However, such certificbtes bre blso useful when
+     * you bre bootstrbpping your security infrbstructure, or deploying
      * system prototypes.
      *
-     * @param myname X.500 name of the subject (who is also the issuer)
-     * @param firstDate the issue time of the certificate
-     * @param validity how long the certificate should be valid, in seconds
-     * @exception CertificateException on certificate handling errors.
-     * @exception InvalidKeyException on key handling errors.
-     * @exception SignatureException on signature handling errors.
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
+     * @pbrbm mynbme X.500 nbme of the subject (who is blso the issuer)
+     * @pbrbm firstDbte the issue time of the certificbte
+     * @pbrbm vblidity how long the certificbte should be vblid, in seconds
+     * @exception CertificbteException on certificbte hbndling errors.
+     * @exception InvblidKeyException on key hbndling errors.
+     * @exception SignbtureException on signbture hbndling errors.
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
      * @exception NoSuchProviderException on unrecognized providers.
      */
-    public X509Certificate getSelfCertificate (
-            X500Name myname, Date firstDate, long validity)
-    throws CertificateException, InvalidKeyException, SignatureException,
+    public X509Certificbte getSelfCertificbte (
+            X500Nbme mynbme, Dbte firstDbte, long vblidity)
+    throws CertificbteException, InvblidKeyException, SignbtureException,
         NoSuchAlgorithmException, NoSuchProviderException
     {
-        return getSelfCertificate(myname, firstDate, validity, null);
+        return getSelfCertificbte(mynbme, firstDbte, vblidity, null);
     }
 
-    // Like above, plus a CertificateExtensions argument, which can be null.
-    public X509Certificate getSelfCertificate (X500Name myname, Date firstDate,
-            long validity, CertificateExtensions ext)
-    throws CertificateException, InvalidKeyException, SignatureException,
+    // Like bbove, plus b CertificbteExtensions brgument, which cbn be null.
+    public X509Certificbte getSelfCertificbte (X500Nbme mynbme, Dbte firstDbte,
+            long vblidity, CertificbteExtensions ext)
+    throws CertificbteException, InvblidKeyException, SignbtureException,
         NoSuchAlgorithmException, NoSuchProviderException
     {
         X509CertImpl    cert;
-        Date            lastDate;
+        Dbte            lbstDbte;
 
         try {
-            lastDate = new Date ();
-            lastDate.setTime (firstDate.getTime () + validity * 1000);
+            lbstDbte = new Dbte ();
+            lbstDbte.setTime (firstDbte.getTime () + vblidity * 1000);
 
-            CertificateValidity interval =
-                                   new CertificateValidity(firstDate,lastDate);
+            CertificbteVblidity intervbl =
+                                   new CertificbteVblidity(firstDbte,lbstDbte);
 
             X509CertInfo info = new X509CertInfo();
-            // Add all mandatory attributes
+            // Add bll mbndbtory bttributes
             info.set(X509CertInfo.VERSION,
-                     new CertificateVersion(CertificateVersion.V3));
-            info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(
-                    new java.util.Random().nextInt() & 0x7fffffff));
-            AlgorithmId algID = AlgorithmId.get(sigAlg);
+                     new CertificbteVersion(CertificbteVersion.V3));
+            info.set(X509CertInfo.SERIAL_NUMBER, new CertificbteSeriblNumber(
+                    new jbvb.util.Rbndom().nextInt() & 0x7fffffff));
+            AlgorithmId blgID = AlgorithmId.get(sigAlg);
             info.set(X509CertInfo.ALGORITHM_ID,
-                     new CertificateAlgorithmId(algID));
-            info.set(X509CertInfo.SUBJECT, myname);
-            info.set(X509CertInfo.KEY, new CertificateX509Key(publicKey));
-            info.set(X509CertInfo.VALIDITY, interval);
-            info.set(X509CertInfo.ISSUER, myname);
+                     new CertificbteAlgorithmId(blgID));
+            info.set(X509CertInfo.SUBJECT, mynbme);
+            info.set(X509CertInfo.KEY, new CertificbteX509Key(publicKey));
+            info.set(X509CertInfo.VALIDITY, intervbl);
+            info.set(X509CertInfo.ISSUER, mynbme);
             if (ext != null) info.set(X509CertInfo.EXTENSIONS, ext);
 
             cert = new X509CertImpl(info);
-            cert.sign(privateKey, this.sigAlg);
+            cert.sign(privbteKey, this.sigAlg);
 
-            return (X509Certificate)cert;
+            return (X509Certificbte)cert;
 
-        } catch (IOException e) {
-             throw new CertificateEncodingException("getSelfCert: " +
-                                                    e.getMessage());
+        } cbtch (IOException e) {
+             throw new CertificbteEncodingException("getSelfCert: " +
+                                                    e.getMessbge());
         }
     }
 
     // Keep the old method
-    public X509Certificate getSelfCertificate (X500Name myname, long validity)
-    throws CertificateException, InvalidKeyException, SignatureException,
+    public X509Certificbte getSelfCertificbte (X500Nbme mynbme, long vblidity)
+    throws CertificbteException, InvblidKeyException, SignbtureException,
         NoSuchAlgorithmException, NoSuchProviderException
     {
-        return getSelfCertificate(myname, new Date(), validity);
+        return getSelfCertificbte(mynbme, new Dbte(), vblidity);
     }
 
     /**
-     * Returns a PKCS #10 certificate request.  The caller uses either
-     * <code>PKCS10.print</code> or <code>PKCS10.toByteArray</code>
-     * operations on the result, to get the request in an appropriate
-     * transmission format.
+     * Returns b PKCS #10 certificbte request.  The cbller uses either
+     * <code>PKCS10.print</code> or <code>PKCS10.toByteArrby</code>
+     * operbtions on the result, to get the request in bn bppropribte
+     * trbnsmission formbt.
      *
-     * <P>PKCS #10 certificate requests are sent, along with some proof
-     * of identity, to Certificate Authorities (CAs) which then issue
-     * X.509 public key certificates.
+     * <P>PKCS #10 certificbte requests bre sent, blong with some proof
+     * of identity, to Certificbte Authorities (CAs) which then issue
+     * X.509 public key certificbtes.
      *
-     * @param myname X.500 name of the subject
-     * @exception InvalidKeyException on key handling errors.
-     * @exception SignatureException on signature handling errors.
+     * @pbrbm mynbme X.500 nbme of the subject
+     * @exception InvblidKeyException on key hbndling errors.
+     * @exception SignbtureException on signbture hbndling errors.
      */
-    public PKCS10 getCertRequest (X500Name myname)
-    throws InvalidKeyException, SignatureException
+    public PKCS10 getCertRequest (X500Nbme mynbme)
+    throws InvblidKeyException, SignbtureException
     {
         PKCS10  req = new PKCS10 (publicKey);
 
         try {
-            Signature signature = Signature.getInstance(sigAlg);
-            signature.initSign (privateKey);
-            req.encodeAndSign(myname, signature);
+            Signbture signbture = Signbture.getInstbnce(sigAlg);
+            signbture.initSign (privbteKey);
+            req.encodeAndSign(mynbme, signbture);
 
-        } catch (CertificateException e) {
-            throw new SignatureException (sigAlg + " CertificateException");
+        } cbtch (CertificbteException e) {
+            throw new SignbtureException (sigAlg + " CertificbteException");
 
-        } catch (IOException e) {
-            throw new SignatureException (sigAlg + " IOException");
+        } cbtch (IOException e) {
+            throw new SignbtureException (sigAlg + " IOException");
 
-        } catch (NoSuchAlgorithmException e) {
-            // "can't happen"
-            throw new SignatureException (sigAlg + " unavailable?");
+        } cbtch (NoSuchAlgorithmException e) {
+            // "cbn't hbppen"
+            throw new SignbtureException (sigAlg + " unbvbilbble?");
         }
         return req;
     }
 
-    private SecureRandom        prng;
-    private String              sigAlg;
-    private KeyPairGenerator    keyGen;
-    private PublicKey           publicKey;
-    private PrivateKey          privateKey;
+    privbte SecureRbndom        prng;
+    privbte String              sigAlg;
+    privbte KeyPbirGenerbtor    keyGen;
+    privbte PublicKey           publicKey;
+    privbte PrivbteKey          privbteKey;
 }

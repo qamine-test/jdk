@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.event.InputEvent;
-import java.awt.Component;
-import java.awt.Point;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.Component;
+import jbvb.bwt.Point;
 
-import java.io.InvalidObjectException;
-import java.util.Collections;
-import java.util.TooManyListenersException;
-import java.util.ArrayList;
+import jbvb.io.InvblidObjectException;
+import jbvb.util.Collections;
+import jbvb.util.TooMbnyListenersException;
+import jbvb.util.ArrbyList;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
 
 /**
- * The <code>DragGestureRecognizer</code> is an
- * abstract base class for the specification
- * of a platform-dependent listener that can be associated with a particular
+ * The <code>DrbgGestureRecognizer</code> is bn
+ * bbstrbct bbse clbss for the specificbtion
+ * of b plbtform-dependent listener thbt cbn be bssocibted with b pbrticulbr
  * <code>Component</code> in order to
- * identify platform-dependent drag initiating gestures.
+ * identify plbtform-dependent drbg initibting gestures.
  * <p>
- * The appropriate <code>DragGestureRecognizer</code>
- * subclass instance is obtained from the
- * {@link DragSource} associated with
- * a particular <code>Component</code>, or from the <code>Toolkit</code> object via its
- * {@link java.awt.Toolkit#createDragGestureRecognizer createDragGestureRecognizer()}
+ * The bppropribte <code>DrbgGestureRecognizer</code>
+ * subclbss instbnce is obtbined from the
+ * {@link DrbgSource} bssocibted with
+ * b pbrticulbr <code>Component</code>, or from the <code>Toolkit</code> object vib its
+ * {@link jbvb.bwt.Toolkit#crebteDrbgGestureRecognizer crebteDrbgGestureRecognizer()}
  * method.
  * <p>
- * Once the <code>DragGestureRecognizer</code>
- * is associated with a particular <code>Component</code>
- * it will register the appropriate listener interfaces on that
+ * Once the <code>DrbgGestureRecognizer</code>
+ * is bssocibted with b pbrticulbr <code>Component</code>
+ * it will register the bppropribte listener interfbces on thbt
  * <code>Component</code>
- * in order to track the input events delivered to the <code>Component</code>.
+ * in order to trbck the input events delivered to the <code>Component</code>.
  * <p>
- * Once the <code>DragGestureRecognizer</code> identifies a sequence of events
- * on the <code>Component</code> as a drag initiating gesture, it will notify
- * its unicast <code>DragGestureListener</code> by
+ * Once the <code>DrbgGestureRecognizer</code> identifies b sequence of events
+ * on the <code>Component</code> bs b drbg initibting gesture, it will notify
+ * its unicbst <code>DrbgGestureListener</code> by
  * invoking its
- * {@link java.awt.dnd.DragGestureListener#dragGestureRecognized gestureRecognized()}
+ * {@link jbvb.bwt.dnd.DrbgGestureListener#drbgGestureRecognized gestureRecognized()}
  * method.
  * <P>
- * When a concrete <code>DragGestureRecognizer</code>
- * instance detects a drag initiating
- * gesture on the <code>Component</code> it is associated with,
- * it fires a {@link DragGestureEvent} to
- * the <code>DragGestureListener</code> registered on
- * its unicast event source for <code>DragGestureListener</code>
- * events. This <code>DragGestureListener</code> is responsible
- * for causing the associated
- * <code>DragSource</code> to start the Drag and Drop operation (if
- * appropriate).
+ * When b concrete <code>DrbgGestureRecognizer</code>
+ * instbnce detects b drbg initibting
+ * gesture on the <code>Component</code> it is bssocibted with,
+ * it fires b {@link DrbgGestureEvent} to
+ * the <code>DrbgGestureListener</code> registered on
+ * its unicbst event source for <code>DrbgGestureListener</code>
+ * events. This <code>DrbgGestureListener</code> is responsible
+ * for cbusing the bssocibted
+ * <code>DrbgSource</code> to stbrt the Drbg bnd Drop operbtion (if
+ * bppropribte).
  *
- * @author Laurence P. G. Cable
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @buthor Lburence P. G. Cbble
+ * @see jbvb.bwt.dnd.DrbgGestureListener
+ * @see jbvb.bwt.dnd.DrbgGestureEvent
+ * @see jbvb.bwt.dnd.DrbgSource
  */
 
-public abstract class DragGestureRecognizer implements Serializable {
+public bbstrbct clbss DrbgGestureRecognizer implements Seriblizbble {
 
-    private static final long serialVersionUID = 8996673345831063337L;
+    privbte stbtic finbl long seriblVersionUID = 8996673345831063337L;
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used
-     * in this Drag and Drop operation, the <code>Component</code>
-     * this <code>DragGestureRecognizer</code> should "observe"
-     * for drag initiating gestures, the action(s) supported
-     * for this Drag and Drop operation, and the
-     * <code>DragGestureListener</code> to notify
-     * once a drag initiating gesture has been detected.
+     * Construct b new <code>DrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> to be used
+     * in this Drbg bnd Drop operbtion, the <code>Component</code>
+     * this <code>DrbgGestureRecognizer</code> should "observe"
+     * for drbg initibting gestures, the bction(s) supported
+     * for this Drbg bnd Drop operbtion, bnd the
+     * <code>DrbgGestureListener</code> to notify
+     * once b drbg initibting gesture hbs been detected.
      *
-     * @param ds  the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code>
-     * will use to process the Drag and Drop operation
+     * @pbrbm ds  the <code>DrbgSource</code> this
+     * <code>DrbgGestureRecognizer</code>
+     * will use to process the Drbg bnd Drop operbtion
      *
-     * @param c the <code>Component</code>
-     * this <code>DragGestureRecognizer</code>
-     * should "observe" the event stream to,
-     * in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>, the
-     * <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm c the <code>Component</code>
+     * this <code>DrbgGestureRecognizer</code>
+     * should "observe" the event strebm to,
+     * in order to detect b drbg initibting gesture.
+     * If this vblue is <code>null</code>, the
+     * <code>DrbgGestureRecognizer</code>
+     * is not bssocibted with bny <code>Component</code>.
      *
-     * @param sa  the set (logical OR) of the
-     * <code>DnDConstants</code>
-     * that this Drag and Drop operation will support
+     * @pbrbm sb  the set (logicbl OR) of the
+     * <code>DnDConstbnts</code>
+     * thbt this Drbg bnd Drop operbtion will support
      *
-     * @param dgl the <code>DragGestureRecognizer</code>
-     * to notify when a drag gesture is detected
+     * @pbrbm dgl the <code>DrbgGestureRecognizer</code>
+     * to notify when b drbg gesture is detected
      *
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      * if ds is <code>null</code>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c, int sa, DragGestureListener dgl) {
+    protected DrbgGestureRecognizer(DrbgSource ds, Component c, int sb, DrbgGestureListener dgl) {
         super();
 
-        if (ds == null) throw new IllegalArgumentException("null DragSource");
+        if (ds == null) throw new IllegblArgumentException("null DrbgSource");
 
-        dragSource    = ds;
+        drbgSource    = ds;
         component     = c;
-        sourceActions = sa & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
+        sourceActions = sb & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
 
         try {
-            if (dgl != null) addDragGestureListener(dgl);
-        } catch (TooManyListenersException tmle) {
-            // cant happen ...
+            if (dgl != null) bddDrbgGestureListener(dgl);
+        } cbtch (TooMbnyListenersException tmle) {
+            // cbnt hbppen ...
         }
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used in this
-     * Drag and Drop
-     * operation, the <code>Component</code> this
-     * <code>DragGestureRecognizer</code> should "observe"
-     * for drag initiating gestures, and the action(s)
-     * supported for this Drag and Drop operation.
+     * Construct b new <code>DrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> to be used in this
+     * Drbg bnd Drop
+     * operbtion, the <code>Component</code> this
+     * <code>DrbgGestureRecognizer</code> should "observe"
+     * for drbg initibting gestures, bnd the bction(s)
+     * supported for this Drbg bnd Drop operbtion.
      *
-     * @param ds  the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code> will use to
-     * process the Drag and Drop operation
+     * @pbrbm ds  the <code>DrbgSource</code> this
+     * <code>DrbgGestureRecognizer</code> will use to
+     * process the Drbg bnd Drop operbtion
      *
-     * @param c   the <code>Component</code> this
-     * <code>DragGestureRecognizer</code> should "observe" the event
-     * stream to, in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>, the
-     * <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm c   the <code>Component</code> this
+     * <code>DrbgGestureRecognizer</code> should "observe" the event
+     * strebm to, in order to detect b drbg initibting gesture.
+     * If this vblue is <code>null</code>, the
+     * <code>DrbgGestureRecognizer</code>
+     * is not bssocibted with bny <code>Component</code>.
      *
-     * @param sa the set (logical OR) of the <code>DnDConstants</code>
-     * that this Drag and Drop operation will support
+     * @pbrbm sb the set (logicbl OR) of the <code>DnDConstbnts</code>
+     * thbt this Drbg bnd Drop operbtion will support
      *
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      * if ds is <code>null</code>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c, int sa) {
-        this(ds, c, sa, null);
+    protected DrbgGestureRecognizer(DrbgSource ds, Component c, int sb) {
+        this(ds, c, sb, null);
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used
-     * in this Drag and Drop operation, and
+     * Construct b new <code>DrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> to be used
+     * in this Drbg bnd Drop operbtion, bnd
      * the <code>Component</code> this
-     * <code>DragGestureRecognizer</code>
-     * should "observe" for drag initiating gestures.
+     * <code>DrbgGestureRecognizer</code>
+     * should "observe" for drbg initibting gestures.
      *
-     * @param ds the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code>
-     * will use to process the Drag and Drop operation
+     * @pbrbm ds the <code>DrbgSource</code> this
+     * <code>DrbgGestureRecognizer</code>
+     * will use to process the Drbg bnd Drop operbtion
      *
-     * @param c the <code>Component</code>
-     * this <code>DragGestureRecognizer</code>
-     * should "observe" the event stream to,
-     * in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>,
-     * the <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm c the <code>Component</code>
+     * this <code>DrbgGestureRecognizer</code>
+     * should "observe" the event strebm to,
+     * in order to detect b drbg initibting gesture.
+     * If this vblue is <code>null</code>,
+     * the <code>DrbgGestureRecognizer</code>
+     * is not bssocibted with bny <code>Component</code>.
      *
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      * if ds is <code>null</code>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c) {
-        this(ds, c, DnDConstants.ACTION_NONE);
+    protected DrbgGestureRecognizer(DrbgSource ds, Component c) {
+        this(ds, c, DnDConstbnts.ACTION_NONE);
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used in this
-     * Drag and Drop operation.
+     * Construct b new <code>DrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> to be used in this
+     * Drbg bnd Drop operbtion.
      *
-     * @param ds the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code> will
-     * use to process the Drag and Drop operation
+     * @pbrbm ds the <code>DrbgSource</code> this
+     * <code>DrbgGestureRecognizer</code> will
+     * use to process the Drbg bnd Drop operbtion
      *
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      * if ds is <code>null</code>.
      */
 
-    protected DragGestureRecognizer(DragSource ds) {
+    protected DrbgGestureRecognizer(DrbgSource ds) {
         this(ds, null);
     }
 
     /**
-     * register this DragGestureRecognizer's Listeners with the Component
+     * register this DrbgGestureRecognizer's Listeners with the Component
      *
-     * subclasses must override this method
+     * subclbsses must override this method
      */
 
-    protected abstract void registerListeners();
+    protected bbstrbct void registerListeners();
 
     /**
-     * unregister this DragGestureRecognizer's Listeners with the Component
+     * unregister this DrbgGestureRecognizer's Listeners with the Component
      *
-     * subclasses must override this method
+     * subclbsses must override this method
      */
 
-    protected abstract void unregisterListeners();
+    protected bbstrbct void unregisterListeners();
 
     /**
-     * This method returns the <code>DragSource</code>
-     * this <code>DragGestureRecognizer</code>
-     * will use in order to process the Drag and Drop
-     * operation.
+     * This method returns the <code>DrbgSource</code>
+     * this <code>DrbgGestureRecognizer</code>
+     * will use in order to process the Drbg bnd Drop
+     * operbtion.
      *
-     * @return the DragSource
+     * @return the DrbgSource
      */
 
-    public DragSource getDragSource() { return dragSource; }
+    public DrbgSource getDrbgSource() { return drbgSource; }
 
     /**
      * This method returns the <code>Component</code>
-     * that is to be "observed" by the
-     * <code>DragGestureRecognizer</code>
-     * for drag initiating gestures.
+     * thbt is to be "observed" by the
+     * <code>DrbgGestureRecognizer</code>
+     * for drbg initibting gestures.
      *
-     * @return The Component this DragGestureRecognizer
-     * is associated with
+     * @return The Component this DrbgGestureRecognizer
+     * is bssocibted with
      */
 
     public synchronized Component getComponent() { return component; }
 
     /**
-     * set the Component that the DragGestureRecognizer is associated with
+     * set the Component thbt the DrbgGestureRecognizer is bssocibted with
      *
-     * registerListeners() and unregisterListeners() are called as a side
-     * effect as appropriate.
+     * registerListeners() bnd unregisterListeners() bre cblled bs b side
+     * effect bs bppropribte.
      *
-     * @param c The <code>Component</code> or <code>null</code>
+     * @pbrbm c The <code>Component</code> or <code>null</code>
      */
 
     public synchronized void setComponent(Component c) {
-        if (component != null && dragGestureListener != null)
+        if (component != null && drbgGestureListener != null)
             unregisterListeners();
 
         component = c;
 
-        if (component != null && dragGestureListener != null)
+        if (component != null && drbgGestureListener != null)
             registerListeners();
     }
 
     /**
-     * This method returns an int representing the
-     * type of action(s) this Drag and Drop
-     * operation will support.
+     * This method returns bn int representing the
+     * type of bction(s) this Drbg bnd Drop
+     * operbtion will support.
      *
-     * @return the currently permitted source action(s)
+     * @return the currently permitted source bction(s)
      */
 
     public synchronized int getSourceActions() { return sourceActions; }
 
     /**
-     * This method sets the permitted source drag action(s)
-     * for this Drag and Drop operation.
+     * This method sets the permitted source drbg bction(s)
+     * for this Drbg bnd Drop operbtion.
      *
-     * @param actions the permitted source drag action(s)
+     * @pbrbm bctions the permitted source drbg bction(s)
      */
 
-    public synchronized void setSourceActions(int actions) {
-        sourceActions = actions & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
+    public synchronized void setSourceActions(int bctions) {
+        sourceActions = bctions & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
     }
 
     /**
      * This method returns the first event in the
-     * series of events that initiated
-     * the Drag and Drop operation.
+     * series of events thbt initibted
+     * the Drbg bnd Drop operbtion.
      *
-     * @return the initial event that triggered the drag gesture
+     * @return the initibl event thbt triggered the drbg gesture
      */
 
     public InputEvent getTriggerEvent() { return events.isEmpty() ? null : events.get(0); }
 
     /**
-     * Reset the Recognizer, if its currently recognizing a gesture, ignore
+     * Reset the Recognizer, if its currently recognizing b gesture, ignore
      * it.
      */
 
-    public void resetRecognizer() { events.clear(); }
+    public void resetRecognizer() { events.clebr(); }
 
     /**
-     * Register a new <code>DragGestureListener</code>.
+     * Register b new <code>DrbgGestureListener</code>.
      *
-     * @param dgl the <code>DragGestureListener</code> to register
-     * with this <code>DragGestureRecognizer</code>.
+     * @pbrbm dgl the <code>DrbgGestureListener</code> to register
+     * with this <code>DrbgGestureRecognizer</code>.
      *
-     * @throws java.util.TooManyListenersException if a
-     * <code>DragGestureListener</code> has already been added.
+     * @throws jbvb.util.TooMbnyListenersException if b
+     * <code>DrbgGestureListener</code> hbs blrebdy been bdded.
      */
 
-    public synchronized void addDragGestureListener(DragGestureListener dgl) throws TooManyListenersException {
-        if (dragGestureListener != null)
-            throw new TooManyListenersException();
+    public synchronized void bddDrbgGestureListener(DrbgGestureListener dgl) throws TooMbnyListenersException {
+        if (drbgGestureListener != null)
+            throw new TooMbnyListenersException();
         else {
-            dragGestureListener = dgl;
+            drbgGestureListener = dgl;
 
             if (component != null) registerListeners();
         }
     }
 
     /**
-     * unregister the current DragGestureListener
+     * unregister the current DrbgGestureListener
      *
-     * @param dgl the <code>DragGestureListener</code> to unregister
-     * from this <code>DragGestureRecognizer</code>
+     * @pbrbm dgl the <code>DrbgGestureListener</code> to unregister
+     * from this <code>DrbgGestureRecognizer</code>
      *
-     * @throws IllegalArgumentException if
-     * dgl is not (equal to) the currently registered <code>DragGestureListener</code>.
+     * @throws IllegblArgumentException if
+     * dgl is not (equbl to) the currently registered <code>DrbgGestureListener</code>.
      */
 
-    public synchronized void removeDragGestureListener(DragGestureListener dgl) {
-        if (dragGestureListener == null || !dragGestureListener.equals(dgl))
-            throw new IllegalArgumentException();
+    public synchronized void removeDrbgGestureListener(DrbgGestureListener dgl) {
+        if (drbgGestureListener == null || !drbgGestureListener.equbls(dgl))
+            throw new IllegblArgumentException();
         else {
-            dragGestureListener = null;
+            drbgGestureListener = null;
 
             if (component != null) unregisterListeners();
         }
     }
 
     /**
-     * Notify the DragGestureListener that a Drag and Drop initiating
-     * gesture has occurred. Then reset the state of the Recognizer.
+     * Notify the DrbgGestureListener thbt b Drbg bnd Drop initibting
+     * gesture hbs occurred. Then reset the stbte of the Recognizer.
      *
-     * @param dragAction The action initially selected by the users gesture
-     * @param p          The point (in Component coords) where the gesture originated
+     * @pbrbm drbgAction The bction initiblly selected by the users gesture
+     * @pbrbm p          The point (in Component coords) where the gesture originbted
      */
-    protected synchronized void fireDragGestureRecognized(int dragAction, Point p) {
+    protected synchronized void fireDrbgGestureRecognized(int drbgAction, Point p) {
         try {
-            if (dragGestureListener != null) {
-                dragGestureListener.dragGestureRecognized(new DragGestureEvent(this, dragAction, p, events));
+            if (drbgGestureListener != null) {
+                drbgGestureListener.drbgGestureRecognized(new DrbgGestureEvent(this, drbgAction, p, events));
             }
-        } finally {
-            events.clear();
+        } finblly {
+            events.clebr();
         }
     }
 
     /**
-     * Listeners registered on the Component by this Recognizer shall record
-     * all Events that are recognized as part of the series of Events that go
-     * to comprise a Drag and Drop initiating gesture via this API.
+     * Listeners registered on the Component by this Recognizer shbll record
+     * bll Events thbt bre recognized bs pbrt of the series of Events thbt go
+     * to comprise b Drbg bnd Drop initibting gesture vib this API.
      * <P>
-     * This method is used by a <code>DragGestureRecognizer</code>
-     * implementation to add an <code>InputEvent</code>
-     * subclass (that it believes is one in a series
-     * of events that comprise a Drag and Drop operation)
-     * to the array of events that this
-     * <code>DragGestureRecognizer</code> maintains internally.
+     * This method is used by b <code>DrbgGestureRecognizer</code>
+     * implementbtion to bdd bn <code>InputEvent</code>
+     * subclbss (thbt it believes is one in b series
+     * of events thbt comprise b Drbg bnd Drop operbtion)
+     * to the brrby of events thbt this
+     * <code>DrbgGestureRecognizer</code> mbintbins internblly.
      *
-     * @param awtie the <code>InputEvent</code>
-     * to add to this <code>DragGestureRecognizer</code>'s
-     * internal array of events. Note that <code>null</code>
-     * is not a valid value, and will be ignored.
+     * @pbrbm bwtie the <code>InputEvent</code>
+     * to bdd to this <code>DrbgGestureRecognizer</code>'s
+     * internbl brrby of events. Note thbt <code>null</code>
+     * is not b vblid vblue, bnd will be ignored.
      */
 
-    protected synchronized void appendEvent(InputEvent awtie) {
-        events.add(awtie);
+    protected synchronized void bppendEvent(InputEvent bwtie) {
+        events.bdd(bwtie);
     }
 
     /**
-     * Serializes this <code>DragGestureRecognizer</code>. This method first
-     * performs default serialization. Then, this object's
-     * <code>DragGestureListener</code> is written out if and only if it can be
-     * serialized. If not, <code>null</code> is written instead.
+     * Seriblizes this <code>DrbgGestureRecognizer</code>. This method first
+     * performs defbult seriblizbtion. Then, this object's
+     * <code>DrbgGestureListener</code> is written out if bnd only if it cbn be
+     * seriblized. If not, <code>null</code> is written instebd.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>DragGestureListener</code>, or
+     * @seriblDbtb The defbult seriblizbble fields, in blphbbeticbl order,
+     *             followed by either b <code>DrbgGestureListener</code>, or
      *             <code>null</code>.
      * @since 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
 
-        s.writeObject(SerializationTester.test(dragGestureListener)
-                      ? dragGestureListener : null);
+        s.writeObject(SeriblizbtionTester.test(drbgGestureListener)
+                      ? drbgGestureListener : null);
     }
 
     /**
-     * Deserializes this <code>DragGestureRecognizer</code>. This method first
-     * performs default deserialization for all non-<code>transient</code>
-     * fields. This object's <code>DragGestureListener</code> is then
-     * deserialized as well by using the next object in the stream.
+     * Deseriblizes this <code>DrbgGestureRecognizer</code>. This method first
+     * performs defbult deseriblizbtion for bll non-<code>trbnsient</code>
+     * fields. This object's <code>DrbgGestureListener</code> is then
+     * deseriblized bs well by using the next object in the strebm.
      *
      * @since 1.4
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjectInputStrebm.GetField f = s.rebdFields();
 
-        DragSource newDragSource = (DragSource)f.get("dragSource", null);
-        if (newDragSource == null) {
-            throw new InvalidObjectException("null DragSource");
+        DrbgSource newDrbgSource = (DrbgSource)f.get("drbgSource", null);
+        if (newDrbgSource == null) {
+            throw new InvblidObjectException("null DrbgSource");
         }
-        dragSource = newDragSource;
+        drbgSource = newDrbgSource;
 
         component = (Component)f.get("component", null);
-        sourceActions = f.get("sourceActions", 0) & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
-        events = (ArrayList<InputEvent>)f.get("events", new ArrayList<>(1));
+        sourceActions = f.get("sourceActions", 0) & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
+        events = (ArrbyList<InputEvent>)f.get("events", new ArrbyList<>(1));
 
-        dragGestureListener = (DragGestureListener)s.readObject();
+        drbgGestureListener = (DrbgGestureListener)s.rebdObject();
     }
 
     /*
@@ -437,43 +437,43 @@ public abstract class DragGestureRecognizer implements Serializable {
      */
 
     /**
-     * The <code>DragSource</code>
-     * associated with this
-     * <code>DragGestureRecognizer</code>.
+     * The <code>DrbgSource</code>
+     * bssocibted with this
+     * <code>DrbgGestureRecognizer</code>.
      *
-     * @serial
+     * @seribl
      */
-    protected DragSource          dragSource;
+    protected DrbgSource          drbgSource;
 
     /**
      * The <code>Component</code>
-     * associated with this <code>DragGestureRecognizer</code>.
+     * bssocibted with this <code>DrbgGestureRecognizer</code>.
      *
-     * @serial
+     * @seribl
      */
     protected Component           component;
 
     /**
-     * The <code>DragGestureListener</code>
-     * associated with this <code>DragGestureRecognizer</code>.
+     * The <code>DrbgGestureListener</code>
+     * bssocibted with this <code>DrbgGestureRecognizer</code>.
      */
-    protected transient DragGestureListener dragGestureListener;
+    protected trbnsient DrbgGestureListener drbgGestureListener;
 
   /**
    * An <code>int</code> representing
-   * the type(s) of action(s) used
-   * in this Drag and Drop operation.
+   * the type(s) of bction(s) used
+   * in this Drbg bnd Drop operbtion.
    *
-   * @serial
+   * @seribl
    */
   protected int  sourceActions;
 
    /**
-    * The list of events (in order) that
-    * the <code>DragGestureRecognizer</code>
-    * "recognized" as a "gesture" that triggers a drag.
+    * The list of events (in order) thbt
+    * the <code>DrbgGestureRecognizer</code>
+    * "recognized" bs b "gesture" thbt triggers b drbg.
     *
-    * @serial
+    * @seribl
     */
-   protected ArrayList<InputEvent> events = new ArrayList<InputEvent>(1);
+   protected ArrbyList<InputEvent> events = new ArrbyList<InputEvent>(1);
 }

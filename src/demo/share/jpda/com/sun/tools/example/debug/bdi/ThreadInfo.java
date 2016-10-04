@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
 
-//### Should handle target VM death or connection failure cleanly.
+//### Should hbndle tbrget VM debth or connection fbilure clebnly.
 
-public class ThreadInfo {
+public clbss ThrebdInfo {
 
-    private ThreadReference thread;
-    private int status;
+    privbte ThrebdReference threbd;
+    privbte int stbtus;
 
-    private int frameCount;
+    privbte int frbmeCount;
 
-    Object userObject;  // User-supplied annotation.
+    Object userObject;  // User-supplied bnnotbtion.
 
-    private boolean interrupted = false;
+    privbte boolebn interrupted = fblse;
 
-    private void assureInterrupted() throws VMNotInterruptedException {
+    privbte void bssureInterrupted() throws VMNotInterruptedException {
         if (!interrupted) {
             throw new VMNotInterruptedException();
         }
     }
 
-    ThreadInfo (ThreadReference thread) {
-        this.thread = thread;
-        this.frameCount = -1;
+    ThrebdInfo (ThrebdReference threbd) {
+        this.threbd = threbd;
+        this.frbmeCount = -1;
     }
 
-    public ThreadReference thread() {
-        return thread;
+    public ThrebdReference threbd() {
+        return threbd;
     }
 
-    public int getStatus() throws VMNotInterruptedException {
-        assureInterrupted();
-        update();
-        return status;
+    public int getStbtus() throws VMNotInterruptedException {
+        bssureInterrupted();
+        updbte();
+        return stbtus;
     }
 
-    public int getFrameCount() throws VMNotInterruptedException {
-        assureInterrupted();
-        update();
-        return frameCount;
+    public int getFrbmeCount() throws VMNotInterruptedException {
+        bssureInterrupted();
+        updbte();
+        return frbmeCount;
     }
 
-    public StackFrame getFrame(int index) throws VMNotInterruptedException {
-        assureInterrupted();
-        update();
+    public StbckFrbme getFrbme(int index) throws VMNotInterruptedException {
+        bssureInterrupted();
+        updbte();
         try {
-            return thread.frame(index);
-        } catch (IncompatibleThreadStateException e) {
-            // Should not happen
-            interrupted = false;
+            return threbd.frbme(index);
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            // Should not hbppen
+            interrupted = fblse;
             throw new VMNotInterruptedException();
         }
     }
@@ -96,31 +96,31 @@ public class ThreadInfo {
         userObject = obj;
     }
 
-    // Refresh upon first access after cache is cleared.
+    // Refresh upon first bccess bfter cbche is clebred.
 
-    void update() throws VMNotInterruptedException {
-        if (frameCount == -1) {
+    void updbte() throws VMNotInterruptedException {
+        if (frbmeCount == -1) {
             try {
-                status = thread.status();
-                frameCount = thread.frameCount();
-            } catch (IncompatibleThreadStateException e) {
-                // Should not happen
-                interrupted = false;
+                stbtus = threbd.stbtus();
+                frbmeCount = threbd.frbmeCount();
+            } cbtch (IncompbtibleThrebdStbteException e) {
+                // Should not hbppen
+                interrupted = fblse;
                 throw new VMNotInterruptedException();
             }
         }
     }
 
-    // Called from 'ExecutionManager'.
+    // Cblled from 'ExecutionMbnbger'.
 
-    void validate() {
+    void vblidbte() {
         interrupted = true;
     }
 
-    void invalidate() {
-        interrupted = false;
-        frameCount = -1;
-        status = ThreadReference.THREAD_STATUS_UNKNOWN;
+    void invblidbte() {
+        interrupted = fblse;
+        frbmeCount = -1;
+        stbtus = ThrebdReference.THREAD_STATUS_UNKNOWN;
     }
 
 }

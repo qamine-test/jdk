@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "JavaComponentAccessibility.h"
+#import "JbvbComponentAccessibility.h"
 
 #import <AppKit/NSAccessibility.h>
 
 
-@interface JavaTextAccessibility : JavaComponentAccessibility {
+@interfbce JbvbTextAccessibility : JbvbComponentAccessibility {
 
 }
-// attributes
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env;
-- (NSString *)accessibilityValueAttribute;
-- (BOOL)accessibilityIsValueAttributeSettable;
-- (void)accessibilitySetValueAttribute:(id)value;
-- (NSString *)accessibilitySelectedTextAttribute;
-- (BOOL)accessibilityIsSelectedTextAttributeSettable;
-- (NSValue *)accessibilitySelectedTextRangeAttribute;
-- (BOOL)accessibilityIsSelectedTextRangeAttributeSettable;
-- (NSNumber *)accessibilityNumberOfCharactersAttribute;
-- (BOOL)accessibilityIsNumberOfCharactersAttributeSettable;
-- (NSValue *)accessibilityVisibleCharacterRangeAttribute;
-- (BOOL)accessibilityIsVisibleCharacterRangeAttributeSettable;
-- (NSValue *)accessibilityInsertionPointLineNumberAttribute;
-- (BOOL)accessibilityIsInsertionPointLineNumberAttributeSettable;
-- (void)accessibilitySetSelectedTextAttribute:(id)value;
-- (NSValue *)accessibilitySelectedTextRangeAttribute;
-- (NSValue *)accessibilityInsertionPointLineNumberAttribute;
-- (BOOL)accessibilityIsInsertionPointLineNumberAttributeSettable;
+// bttributes
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env;
+- (NSString *)bccessibilityVblueAttribute;
+- (BOOL)bccessibilityIsVblueAttributeSettbble;
+- (void)bccessibilitySetVblueAttribute:(id)vblue;
+- (NSString *)bccessibilitySelectedTextAttribute;
+- (BOOL)bccessibilityIsSelectedTextAttributeSettbble;
+- (NSVblue *)bccessibilitySelectedTextRbngeAttribute;
+- (BOOL)bccessibilityIsSelectedTextRbngeAttributeSettbble;
+- (NSNumber *)bccessibilityNumberOfChbrbctersAttribute;
+- (BOOL)bccessibilityIsNumberOfChbrbctersAttributeSettbble;
+- (NSVblue *)bccessibilityVisibleChbrbcterRbngeAttribute;
+- (BOOL)bccessibilityIsVisibleChbrbcterRbngeAttributeSettbble;
+- (NSVblue *)bccessibilityInsertionPointLineNumberAttribute;
+- (BOOL)bccessibilityIsInsertionPointLineNumberAttributeSettbble;
+- (void)bccessibilitySetSelectedTextAttribute:(id)vblue;
+- (NSVblue *)bccessibilitySelectedTextRbngeAttribute;
+- (NSVblue *)bccessibilityInsertionPointLineNumberAttribute;
+- (BOOL)bccessibilityIsInsertionPointLineNumberAttributeSettbble;
 
-// parameterized attributes
-- (NSArray *)accessibilityParameterizedAttributeNames;
-- (NSValue *)accessibilityBoundsForRangeAttributeForParameter:(id)parameter;
-- (NSNumber *)accessibilityLineForIndexAttributeForParameter:(id)parameter;
-- (NSValue *)accessibilityRangeForLineAttributeForParameter:(id)parameter;
-- (NSString *)accessibilityStringForRangeAttributeForParameter:(id)parameter;
-- (NSValue *)accessibilityRangeForPositionAttributeForParameter:(id)parameter;
-- (NSValue *)accessibilityRangeForIndexAttributeForParameter:(id)parameter;
+// pbrbmeterized bttributes
+- (NSArrby *)bccessibilityPbrbmeterizedAttributeNbmes;
+- (NSVblue *)bccessibilityBoundsForRbngeAttributeForPbrbmeter:(id)pbrbmeter;
+- (NSNumber *)bccessibilityLineForIndexAttributeForPbrbmeter:(id)pbrbmeter;
+- (NSVblue *)bccessibilityRbngeForLineAttributeForPbrbmeter:(id)pbrbmeter;
+- (NSString *)bccessibilityStringForRbngeAttributeForPbrbmeter:(id)pbrbmeter;
+- (NSVblue *)bccessibilityRbngeForPositionAttributeForPbrbmeter:(id)pbrbmeter;
+- (NSVblue *)bccessibilityRbngeForIndexAttributeForPbrbmeter:(id)pbrbmeter;
 
-// actions
-- (NSDictionary *)getActions:(JNIEnv *)env;
+// bctions
+- (NSDictionbry *)getActions:(JNIEnv *)env;
 @end

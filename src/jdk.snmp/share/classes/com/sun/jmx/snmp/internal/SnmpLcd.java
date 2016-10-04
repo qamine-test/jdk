@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 import com.sun.jmx.snmp.SnmpEngineId;
 import com.sun.jmx.snmp.SnmpUnknownModelLcdException;
 import com.sun.jmx.snmp.SnmpUnknownSubSystemException;
 /**
- * Class to extend in order to develop a customized Local Configuration Datastore. The Lcd is used by the <CODE>SnmpEngine</CODE> to store and retrieve data.
- *<P> <CODE>SnmpLcd</CODE> manages the Lcds needed by every {@link com.sun.jmx.snmp.internal.SnmpModel SnmpModel}. It is possible to add and remove {@link com.sun.jmx.snmp.internal.SnmpModelLcd SnmpModelLcd}.</P>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Clbss to extend in order to develop b customized Locbl Configurbtion Dbtbstore. The Lcd is used by the <CODE>SnmpEngine</CODE> to store bnd retrieve dbtb.
+ *<P> <CODE>SnmpLcd</CODE> mbnbges the Lcds needed by every {@link com.sun.jmx.snmp.internbl.SnmpModel SnmpModel}. It is possible to bdd bnd remove {@link com.sun.jmx.snmp.internbl.SnmpModelLcd SnmpModelLcd}.</P>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public abstract class SnmpLcd {
+public bbstrbct clbss SnmpLcd {
 
-    class SubSysLcdManager {
-        private Hashtable<Integer, SnmpModelLcd> models =
-                new Hashtable<Integer, SnmpModelLcd>();
+    clbss SubSysLcdMbnbger {
+        privbte Hbshtbble<Integer, SnmpModelLcd> models =
+                new Hbshtbble<Integer, SnmpModelLcd>();
 
-        public void addModelLcd(int id,
+        public void bddModelLcd(int id,
                                 SnmpModelLcd usmlcd) {
             models.put(id, usmlcd);
         }
@@ -56,59 +56,59 @@ public abstract class SnmpLcd {
     }
 
 
-    private Hashtable<SnmpSubSystem, SubSysLcdManager> subs =
-            new Hashtable<SnmpSubSystem, SubSysLcdManager>();
+    privbte Hbshtbble<SnmpSubSystem, SubSysLcdMbnbger> subs =
+            new Hbshtbble<SnmpSubSystem, SubSysLcdMbnbger>();
 
     /**
      * Returns the number of time the engine rebooted.
-     * @return The number of reboots or -1 if the information is not present in the Lcd.
+     * @return The number of reboots or -1 if the informbtion is not present in the Lcd.
      */
-    public abstract int getEngineBoots();
+    public bbstrbct int getEngineBoots();
     /**
-     * Returns the engine Id located in the Lcd.
-     * @return The engine Id or null if the information is not present in the Lcd.
+     * Returns the engine Id locbted in the Lcd.
+     * @return The engine Id or null if the informbtion is not present in the Lcd.
      */
-    public abstract String getEngineId();
+    public bbstrbct String getEngineId();
 
     /**
      * Persists the number of reboots.
-     * @param i Reboot number.
+     * @pbrbm i Reboot number.
      */
-    public abstract void storeEngineBoots(int i);
+    public bbstrbct void storeEngineBoots(int i);
 
     /**
      * Persists the engine Id.
-     * @param id The engine Id.
+     * @pbrbm id The engine Id.
      */
-    public abstract void  storeEngineId(SnmpEngineId id);
+    public bbstrbct void  storeEngineId(SnmpEngineId id);
     /**
-     * Adds an Lcd model.
-     * @param sys The subsytem managing the model.
-     * @param id The model Id.
-     * @param lcd The Lcd model.
+     * Adds bn Lcd model.
+     * @pbrbm sys The subsytem mbnbging the model.
+     * @pbrbm id The model Id.
+     * @pbrbm lcd The Lcd model.
      */
-    public void addModelLcd(SnmpSubSystem sys,
+    public void bddModelLcd(SnmpSubSystem sys,
                             int id,
                             SnmpModelLcd lcd) {
 
-        SubSysLcdManager subsys = subs.get(sys);
+        SubSysLcdMbnbger subsys = subs.get(sys);
         if( subsys == null ) {
-            subsys = new SubSysLcdManager();
+            subsys = new SubSysLcdMbnbger();
             subs.put(sys, subsys);
         }
 
-        subsys.addModelLcd(id, lcd);
+        subsys.bddModelLcd(id, lcd);
     }
      /**
-     * Removes an Lcd model.
-     * @param sys The subsytem managing the model.
-     * @param id The model Id.
+     * Removes bn Lcd model.
+     * @pbrbm sys The subsytem mbnbging the model.
+     * @pbrbm id The model Id.
      */
     public void removeModelLcd(SnmpSubSystem sys,
                                 int id)
         throws SnmpUnknownModelLcdException, SnmpUnknownSubSystemException {
 
-        SubSysLcdManager subsys = subs.get(sys);
+        SubSysLcdMbnbger subsys = subs.get(sys);
         if( subsys != null ) {
             SnmpModelLcd lcd = subsys.removeModelLcd(id);
             if(lcd == null) {
@@ -120,14 +120,14 @@ public abstract class SnmpLcd {
     }
 
     /**
-     * Gets an Lcd model.
-     * @param sys The subsytem managing the model
-     * @param id The model Id.
+     * Gets bn Lcd model.
+     * @pbrbm sys The subsytem mbnbging the model
+     * @pbrbm id The model Id.
      * @return The Lcd model or null if no Lcd model were found.
      */
     public SnmpModelLcd getModelLcd(SnmpSubSystem sys,
                                     int id) {
-        SubSysLcdManager subsys = subs.get(sys);
+        SubSysLcdMbnbger subsys = subs.get(sys);
 
         if(subsys == null) return null;
 

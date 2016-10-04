@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.nio.ByteBuffer;
-import java.util.concurrent.Future;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.concurrent.Future;
 
 /**
- * An asynchronous channel that can read and write bytes.
+ * An bsynchronous chbnnel thbt cbn rebd bnd write bytes.
  *
- * <p> Some channels may not allow more than one read or write to be outstanding
- * at any given time. If a thread invokes a read method before a previous read
- * operation has completed then a {@link ReadPendingException} will be thrown.
- * Similarly, if a write method is invoked before a previous write has completed
+ * <p> Some chbnnels mby not bllow more thbn one rebd or write to be outstbnding
+ * bt bny given time. If b threbd invokes b rebd method before b previous rebd
+ * operbtion hbs completed then b {@link RebdPendingException} will be thrown.
+ * Similbrly, if b write method is invoked before b previous write hbs completed
  * then {@link WritePendingException} is thrown. Whether or not other kinds of
- * I/O operations may proceed concurrently with a read operation depends upon
- * the type of the channel.
+ * I/O operbtions mby proceed concurrently with b rebd operbtion depends upon
+ * the type of the chbnnel.
  *
- * <p> Note that {@link java.nio.ByteBuffer ByteBuffers} are not safe for use by
- * multiple concurrent threads. When a read or write operation is initiated then
- * care must be taken to ensure that the buffer is not accessed until the
- * operation completes.
+ * <p> Note thbt {@link jbvb.nio.ByteBuffer ByteBuffers} bre not sbfe for use by
+ * multiple concurrent threbds. When b rebd or write operbtion is initibted then
+ * cbre must be tbken to ensure thbt the buffer is not bccessed until the
+ * operbtion completes.
  *
- * @see Channels#newInputStream(AsynchronousByteChannel)
- * @see Channels#newOutputStream(AsynchronousByteChannel)
+ * @see Chbnnels#newInputStrebm(AsynchronousByteChbnnel)
+ * @see Chbnnels#newOutputStrebm(AsynchronousByteChbnnel)
  *
  * @since 1.7
  */
 
-public interface AsynchronousByteChannel
-    extends AsynchronousChannel
+public interfbce AsynchronousByteChbnnel
+    extends AsynchronousChbnnel
 {
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer.
      *
-     * <p> This method initiates an asynchronous read operation to read a
-     * sequence of bytes from this channel into the given buffer. The {@code
-     * handler} parameter is a completion handler that is invoked when the read
-     * operation completes (or fails). The result passed to the completion
-     * handler is the number of bytes read or {@code -1} if no bytes could be
-     * read because the channel has reached end-of-stream.
+     * <p> This method initibtes bn bsynchronous rebd operbtion to rebd b
+     * sequence of bytes from this chbnnel into the given buffer. The {@code
+     * hbndler} pbrbmeter is b completion hbndler thbt is invoked when the rebd
+     * operbtion completes (or fbils). The result pbssed to the completion
+     * hbndler is the number of bytes rebd or {@code -1} if no bytes could be
+     * rebd becbuse the chbnnel hbs rebched end-of-strebm.
      *
-     * <p> The read operation may read up to <i>r</i> bytes from the channel,
-     * where <i>r</i> is the number of bytes remaining in the buffer, that is,
-     * {@code dst.remaining()} at the time that the read is attempted. Where
-     * <i>r</i> is 0, the read operation completes immediately with a result of
-     * {@code 0} without initiating an I/O operation.
+     * <p> The rebd operbtion mby rebd up to <i>r</i> bytes from the chbnnel,
+     * where <i>r</i> is the number of bytes rembining in the buffer, thbt is,
+     * {@code dst.rembining()} bt the time thbt the rebd is bttempted. Where
+     * <i>r</i> is 0, the rebd operbtion completes immedibtely with b result of
+     * {@code 0} without initibting bn I/O operbtion.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is read, where
+     * <p> Suppose thbt b byte sequence of length <i>n</i> is rebd, where
      * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * This byte sequence will be transferred into the buffer so that the first
-     * byte in the sequence is at index <i>p</i> and the last byte is at index
+     * This byte sequence will be trbnsferred into the buffer so thbt the first
+     * byte in the sequence is bt index <i>p</i> bnd the lbst byte is bt index
      * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>,
-     * where <i>p</i> is the buffer's position at the moment the read is
-     * performed. Upon completion the buffer's position will be equal to
-     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not have changed.
+     * where <i>p</i> is the buffer's position bt the moment the rebd is
+     * performed. Upon completion the buffer's position will be equbl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not hbve chbnged.
      *
-     * <p> Buffers are not safe for use by multiple concurrent threads so care
-     * should be taken to not access the buffer until the operation has
+     * <p> Buffers bre not sbfe for use by multiple concurrent threbds so cbre
+     * should be tbken to not bccess the buffer until the operbtion hbs
      * completed.
      *
-     * <p> This method may be invoked at any time. Some channel types may not
-     * allow more than one read to be outstanding at any given time. If a thread
-     * initiates a read operation before a previous read operation has
-     * completed then a {@link ReadPendingException} will be thrown.
+     * <p> This method mby be invoked bt bny time. Some chbnnel types mby not
+     * bllow more thbn one rebd to be outstbnding bt bny given time. If b threbd
+     * initibtes b rebd operbtion before b previous rebd operbtion hbs
+     * completed then b {@link RebdPendingException} will be thrown.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   dst
-     *          The buffer into which bytes are to be transferred
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The completion handler
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   dst
+     *          The buffer into which bytes bre to be trbnsferred
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The completion hbndler
      *
-     * @throws  IllegalArgumentException
-     *          If the buffer is read-only
-     * @throws  ReadPendingException
-     *          If the channel does not allow more than one read to be outstanding
-     *          and a previous read has not completed
-     * @throws  ShutdownChannelGroupException
-     *          If the channel is associated with a {@link AsynchronousChannelGroup
-     *          group} that has terminated
+     * @throws  IllegblArgumentException
+     *          If the buffer is rebd-only
+     * @throws  RebdPendingException
+     *          If the chbnnel does not bllow more thbn one rebd to be outstbnding
+     *          bnd b previous rebd hbs not completed
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel is bssocibted with b {@link AsynchronousChbnnelGroup
+     *          group} thbt hbs terminbted
      */
-    <A> void read(ByteBuffer dst,
-                  A attachment,
-                  CompletionHandler<Integer,? super A> handler);
+    <A> void rebd(ByteBuffer dst,
+                  A bttbchment,
+                  CompletionHbndler<Integer,? super A> hbndler);
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer.
      *
-     * <p> This method initiates an asynchronous read operation to read a
-     * sequence of bytes from this channel into the given buffer. The method
-     * behaves in exactly the same manner as the {@link
-     * #read(ByteBuffer,Object,CompletionHandler)
-     * read(ByteBuffer,Object,CompletionHandler)} method except that instead
-     * of specifying a completion handler, this method returns a {@code Future}
+     * <p> This method initibtes bn bsynchronous rebd operbtion to rebd b
+     * sequence of bytes from this chbnnel into the given buffer. The method
+     * behbves in exbctly the sbme mbnner bs the {@link
+     * #rebd(ByteBuffer,Object,CompletionHbndler)
+     * rebd(ByteBuffer,Object,CompletionHbndler)} method except thbt instebd
+     * of specifying b completion hbndler, this method returns b {@code Future}
      * representing the pending result. The {@code Future}'s {@link Future#get()
-     * get} method returns the number of bytes read or {@code -1} if no bytes
-     * could be read because the channel has reached end-of-stream.
+     * get} method returns the number of bytes rebd or {@code -1} if no bytes
+     * could be rebd becbuse the chbnnel hbs rebched end-of-strebm.
      *
-     * @param   dst
-     *          The buffer into which bytes are to be transferred
+     * @pbrbm   dst
+     *          The buffer into which bytes bre to be trbnsferred
      *
-     * @return  A Future representing the result of the operation
+     * @return  A Future representing the result of the operbtion
      *
-     * @throws  IllegalArgumentException
-     *          If the buffer is read-only
-     * @throws  ReadPendingException
-     *          If the channel does not allow more than one read to be outstanding
-     *          and a previous read has not completed
+     * @throws  IllegblArgumentException
+     *          If the buffer is rebd-only
+     * @throws  RebdPendingException
+     *          If the chbnnel does not bllow more thbn one rebd to be outstbnding
+     *          bnd b previous rebd hbs not completed
      */
-    Future<Integer> read(ByteBuffer dst);
+    Future<Integer> rebd(ByteBuffer dst);
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writes b sequence of bytes to this chbnnel from the given buffer.
      *
-     * <p> This method initiates an asynchronous write operation to write a
-     * sequence of bytes to this channel from the given buffer. The {@code
-     * handler} parameter is a completion handler that is invoked when the write
-     * operation completes (or fails). The result passed to the completion
-     * handler is the number of bytes written.
+     * <p> This method initibtes bn bsynchronous write operbtion to write b
+     * sequence of bytes to this chbnnel from the given buffer. The {@code
+     * hbndler} pbrbmeter is b completion hbndler thbt is invoked when the write
+     * operbtion completes (or fbils). The result pbssed to the completion
+     * hbndler is the number of bytes written.
      *
-     * <p> The write operation may write up to <i>r</i> bytes to the channel,
-     * where <i>r</i> is the number of bytes remaining in the buffer, that is,
-     * {@code src.remaining()} at the time that the write is attempted. Where
-     * <i>r</i> is 0, the write operation completes immediately with a result of
-     * {@code 0} without initiating an I/O operation.
+     * <p> The write operbtion mby write up to <i>r</i> bytes to the chbnnel,
+     * where <i>r</i> is the number of bytes rembining in the buffer, thbt is,
+     * {@code src.rembining()} bt the time thbt the write is bttempted. Where
+     * <i>r</i> is 0, the write operbtion completes immedibtely with b result of
+     * {@code 0} without initibting bn I/O operbtion.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is written, where
+     * <p> Suppose thbt b byte sequence of length <i>n</i> is written, where
      * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * This byte sequence will be transferred from the buffer starting at index
-     * <i>p</i>, where <i>p</i> is the buffer's position at the moment the
-     * write is performed; the index of the last byte written will be
+     * This byte sequence will be trbnsferred from the buffer stbrting bt index
+     * <i>p</i>, where <i>p</i> is the buffer's position bt the moment the
+     * write is performed; the index of the lbst byte written will be
      * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>.
-     * Upon completion the buffer's position will be equal to
-     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not have changed.
+     * Upon completion the buffer's position will be equbl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not hbve chbnged.
      *
-     * <p> Buffers are not safe for use by multiple concurrent threads so care
-     * should be taken to not access the buffer until the operation has
+     * <p> Buffers bre not sbfe for use by multiple concurrent threbds so cbre
+     * should be tbken to not bccess the buffer until the operbtion hbs
      * completed.
      *
-     * <p> This method may be invoked at any time. Some channel types may not
-     * allow more than one write to be outstanding at any given time. If a thread
-     * initiates a write operation before a previous write operation has
-     * completed then a {@link WritePendingException} will be thrown.
+     * <p> This method mby be invoked bt bny time. Some chbnnel types mby not
+     * bllow more thbn one write to be outstbnding bt bny given time. If b threbd
+     * initibtes b write operbtion before b previous write operbtion hbs
+     * completed then b {@link WritePendingException} will be thrown.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   src
-     *          The buffer from which bytes are to be retrieved
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The completion handler object
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   src
+     *          The buffer from which bytes bre to be retrieved
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The completion hbndler object
      *
      * @throws  WritePendingException
-     *          If the channel does not allow more than one write to be outstanding
-     *          and a previous write has not completed
-     * @throws  ShutdownChannelGroupException
-     *          If the channel is associated with a {@link AsynchronousChannelGroup
-     *          group} that has terminated
+     *          If the chbnnel does not bllow more thbn one write to be outstbnding
+     *          bnd b previous write hbs not completed
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel is bssocibted with b {@link AsynchronousChbnnelGroup
+     *          group} thbt hbs terminbted
      */
     <A> void write(ByteBuffer src,
-                   A attachment,
-                   CompletionHandler<Integer,? super A> handler);
+                   A bttbchment,
+                   CompletionHbndler<Integer,? super A> hbndler);
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writes b sequence of bytes to this chbnnel from the given buffer.
      *
-     * <p> This method initiates an asynchronous write operation to write a
-     * sequence of bytes to this channel from the given buffer. The method
-     * behaves in exactly the same manner as the {@link
-     * #write(ByteBuffer,Object,CompletionHandler)
-     * write(ByteBuffer,Object,CompletionHandler)} method except that instead
-     * of specifying a completion handler, this method returns a {@code Future}
+     * <p> This method initibtes bn bsynchronous write operbtion to write b
+     * sequence of bytes to this chbnnel from the given buffer. The method
+     * behbves in exbctly the sbme mbnner bs the {@link
+     * #write(ByteBuffer,Object,CompletionHbndler)
+     * write(ByteBuffer,Object,CompletionHbndler)} method except thbt instebd
+     * of specifying b completion hbndler, this method returns b {@code Future}
      * representing the pending result. The {@code Future}'s {@link Future#get()
      * get} method returns the number of bytes written.
      *
-     * @param   src
-     *          The buffer from which bytes are to be retrieved
+     * @pbrbm   src
+     *          The buffer from which bytes bre to be retrieved
      *
-     * @return A Future representing the result of the operation
+     * @return A Future representing the result of the operbtion
      *
      * @throws  WritePendingException
-     *          If the channel does not allow more than one write to be outstanding
-     *          and a previous write has not completed
+     *          If the chbnnel does not bllow more thbn one write to be outstbnding
+     *          bnd b previous write hbs not completed
      */
     Future<Integer> write(ByteBuffer src);
 }

@@ -1,49 +1,49 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
 import sun.security.krb5.Checksum;
 import sun.security.krb5.Confounder;
 import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DESKeySpec;
-import java.security.MessageDigest;
-import java.security.Provider;
-import java.security.Security;
-import java.security.InvalidKeyException;
+import sun.security.krb5.internbl.*;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.DESKeySpec;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.Provider;
+import jbvb.security.Security;
+import jbvb.security.InvblidKeyException;
 
-public final class RsaMd5DesCksumType extends CksumType {
+public finbl clbss RsbMd5DesCksumType extends CksumType {
 
-    public RsaMd5DesCksumType() {
+    public RsbMd5DesCksumType() {
     }
 
     public int confounderSize() {
@@ -54,7 +54,7 @@ public final class RsaMd5DesCksumType extends CksumType {
         return Checksum.CKSUMTYPE_RSA_MD5_DES;
     }
 
-    public boolean isSafe() {
+    public boolebn isSbfe() {
         return true;
     }
 
@@ -71,41 +71,41 @@ public final class RsaMd5DesCksumType extends CksumType {
     }
 
     /**
-     * Calculates keyed checksum.
-     * @param data the data used to generate the checksum.
-     * @param size length of the data.
-     * @param key the key used to encrypt the checksum.
+     * Cblculbtes keyed checksum.
+     * @pbrbm dbtb the dbtb used to generbte the checksum.
+     * @pbrbm size length of the dbtb.
+     * @pbrbm key the key used to encrypt the checksum.
      * @return keyed checksum.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modified by Ybnni Zhbng, 12/08/99.
      */
-    public byte[] calculateKeyedChecksum(byte[] data, int size, byte[] key,
-        int usage) throws KrbCryptoException {
+    public byte[] cblculbteKeyedChecksum(byte[] dbtb, int size, byte[] key,
+        int usbge) throws KrbCryptoException {
         //prepend confounder
-        byte[] new_data = new byte[size + confounderSize()];
+        byte[] new_dbtb = new byte[size + confounderSize()];
         byte[] conf = Confounder.bytes(confounderSize());
-        System.arraycopy(conf, 0, new_data, 0, confounderSize());
-        System.arraycopy(data, 0, new_data, confounderSize(), size);
+        System.brrbycopy(conf, 0, new_dbtb, 0, confounderSize());
+        System.brrbycopy(dbtb, 0, new_dbtb, confounderSize(), size);
 
-        //calculate md5 cksum
-        byte[] mdc_cksum = calculateChecksum(new_data, new_data.length);
+        //cblculbte md5 cksum
+        byte[] mdc_cksum = cblculbteChecksum(new_dbtb, new_dbtb.length);
         byte[] cksum = new byte[cksumSize()];
-        System.arraycopy(conf, 0, cksum, 0, confounderSize());
-        System.arraycopy(mdc_cksum, 0, cksum, confounderSize(),
+        System.brrbycopy(conf, 0, cksum, 0, confounderSize());
+        System.brrbycopy(mdc_cksum, 0, cksum, confounderSize(),
                          cksumSize() - confounderSize());
 
         //compute modified key
         byte[] new_key = new byte[keySize()];
-        System.arraycopy(key, 0, new_key, 0, key.length);
+        System.brrbycopy(key, 0, new_key, 0, key.length);
         for (int i = 0; i < new_key.length; i++)
         new_key[i] = (byte)(new_key[i] ^ 0xf0);
-        //check for weak keys
+        //check for webk keys
         try {
-            if (DESKeySpec.isWeak(new_key, 0)) {
+            if (DESKeySpec.isWebk(new_key, 0)) {
                 new_key[7] = (byte)(new_key[7] ^ 0xF0);
             }
-        } catch (InvalidKeyException ex) {
-            // swallow, since it should never happen
+        } cbtch (InvblidKeyException ex) {
+            // swbllow, since it should never hbppen
         }
         byte[] ivec = new byte[new_key.length];
 
@@ -117,83 +117,83 @@ public final class RsaMd5DesCksumType extends CksumType {
 
     /**
      * Verifies keyed checksum.
-     * @param data the data.
-     * @param size the length of data.
-     * @param key the key used to encrypt the checksum.
-     * @param checksum
-     * @return true if verification is successful.
+     * @pbrbm dbtb the dbtb.
+     * @pbrbm size the length of dbtb.
+     * @pbrbm key the key used to encrypt the checksum.
+     * @pbrbm checksum
+     * @return true if verificbtion is successful.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modified by Ybnni Zhbng, 12/08/99.
      */
-    public boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException {
+    public boolebn verifyKeyedChecksum(byte[] dbtb, int size,
+        byte[] key, byte[] checksum, int usbge) throws KrbCryptoException {
         //decrypt checksum
         byte[] cksum = decryptKeyedChecksum(checksum, key);
 
         //prepend confounder
-        byte[] new_data = new byte[size + confounderSize()];
-        System.arraycopy(cksum, 0, new_data, 0, confounderSize());
-        System.arraycopy(data, 0, new_data, confounderSize(), size);
+        byte[] new_dbtb = new byte[size + confounderSize()];
+        System.brrbycopy(cksum, 0, new_dbtb, 0, confounderSize());
+        System.brrbycopy(dbtb, 0, new_dbtb, confounderSize(), size);
 
-        byte[] new_cksum = calculateChecksum(new_data, new_data.length);
-        //extract original cksum value
+        byte[] new_cksum = cblculbteChecksum(new_dbtb, new_dbtb.length);
+        //extrbct originbl cksum vblue
         byte[] orig_cksum = new byte[cksumSize() - confounderSize()];
-        System.arraycopy(cksum,  confounderSize(), orig_cksum, 0,
+        System.brrbycopy(cksum,  confounderSize(), orig_cksum, 0,
                          cksumSize() - confounderSize());
 
-        return isChecksumEqual(orig_cksum, new_cksum);
+        return isChecksumEqubl(orig_cksum, new_cksum);
     }
 
     /**
      * Decrypts keyed checksum.
-     * @param enc_cksum the buffer for encrypted checksum.
-     * @param key the key.
+     * @pbrbm enc_cksum the buffer for encrypted checksum.
+     * @pbrbm key the key.
      * @return the checksum.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modified by Ybnni Zhbng, 12/08/99.
      */
-    private byte[] decryptKeyedChecksum(byte[] enc_cksum, byte[] key) throws KrbCryptoException {
+    privbte byte[] decryptKeyedChecksum(byte[] enc_cksum, byte[] key) throws KrbCryptoException {
         //compute modified key
         byte[] new_key = new byte[keySize()];
-        System.arraycopy(key, 0, new_key, 0, key.length);
+        System.brrbycopy(key, 0, new_key, 0, key.length);
         for (int i = 0; i < new_key.length; i++)
         new_key[i] = (byte)(new_key[i] ^ 0xf0);
-        //check for weak keys
+        //check for webk keys
         try {
-            if (DESKeySpec.isWeak(new_key, 0)) {
+            if (DESKeySpec.isWebk(new_key, 0)) {
                 new_key[7] = (byte)(new_key[7] ^ 0xF0);
             }
-        } catch (InvalidKeyException ex) {
-            // swallow, since it should never happen
+        } cbtch (InvblidKeyException ex) {
+            // swbllow, since it should never hbppen
         }
         byte[] ivec = new byte[new_key.length];
 
         byte[] cksum = new byte[enc_cksum.length];
-        Des.cbc_encrypt(enc_cksum, cksum, new_key, ivec, false);
+        Des.cbc_encrypt(enc_cksum, cksum, new_key, ivec, fblse);
         return cksum;
     }
 
     /**
-     * Calculates checksum using MD5.
-     * @param data the data used to generate the checksum.
-     * @param size length of the data.
+     * Cblculbtes checksum using MD5.
+     * @pbrbm dbtb the dbtb used to generbte the checksum.
+     * @pbrbm size length of the dbtb.
      * @return the checksum.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modified by Ybnni Zhbng, 12/08/99.
      */
-    public byte[] calculateChecksum(byte[] data, int size) throws KrbCryptoException{
-        MessageDigest md5;
+    public byte[] cblculbteChecksum(byte[] dbtb, int size) throws KrbCryptoException{
+        MessbgeDigest md5;
         byte[] result = null;
         try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (Exception e) {
-            throw new KrbCryptoException("JCE provider may not be installed. " + e.getMessage());
+            md5 = MessbgeDigest.getInstbnce("MD5");
+        } cbtch (Exception e) {
+            throw new KrbCryptoException("JCE provider mby not be instblled. " + e.getMessbge());
         }
         try {
-            md5.update(data);
+            md5.updbte(dbtb);
             result = md5.digest();
-        } catch (Exception e) {
-            throw new KrbCryptoException(e.getMessage());
+        } cbtch (Exception e) {
+            throw new KrbCryptoException(e.getMessbge());
         }
         return result;
     }

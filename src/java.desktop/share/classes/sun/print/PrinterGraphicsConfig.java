@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
 
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
 
-public class PrinterGraphicsConfig extends GraphicsConfiguration {
+public clbss PrinterGrbphicsConfig extends GrbphicsConfigurbtion {
 
-    static ColorModel theModel;
+    stbtic ColorModel theModel;
 
-    GraphicsDevice gd;
-    int pageWidth, pageHeight;
-    AffineTransform deviceTransform;
+    GrbphicsDevice gd;
+    int pbgeWidth, pbgeHeight;
+    AffineTrbnsform deviceTrbnsform;
 
-    public PrinterGraphicsConfig(String printerID, AffineTransform deviceTx,
-                                 int pageWid, int pageHgt) {
-        this.pageWidth = pageWid;
-        this.pageHeight = pageHgt;
-        this.deviceTransform = deviceTx;
-        this.gd = new PrinterGraphicsDevice(this, printerID);
+    public PrinterGrbphicsConfig(String printerID, AffineTrbnsform deviceTx,
+                                 int pbgeWid, int pbgeHgt) {
+        this.pbgeWidth = pbgeWid;
+        this.pbgeHeight = pbgeHgt;
+        this.deviceTrbnsform = deviceTx;
+        this.gd = new PrinterGrbphicsDevice(this, printerID);
     }
 
     /**
-     * Return the graphics device associated with this configuration.
+     * Return the grbphics device bssocibted with this configurbtion.
      */
-    public GraphicsDevice getDevice() {
+    public GrbphicsDevice getDevice() {
         return gd;
     }
 
     /**
-     * Returns the color model associated with this configuration.
+     * Returns the color model bssocibted with this configurbtion.
      */
     public ColorModel getColorModel() {
         if (theModel == null) {
-            BufferedImage bufImg =
-                new BufferedImage(1,1, BufferedImage.TYPE_3BYTE_BGR);
+            BufferedImbge bufImg =
+                new BufferedImbge(1,1, BufferedImbge.TYPE_3BYTE_BGR);
             theModel = bufImg.getColorModel();
         }
 
@@ -72,59 +72,59 @@ public class PrinterGraphicsConfig extends GraphicsConfiguration {
     }
 
     /**
-     * Returns the color model associated with this configuration that
-     * supports the specified transparency.
+     * Returns the color model bssocibted with this configurbtion thbt
+     * supports the specified trbnspbrency.
      */
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
+    public ColorModel getColorModel(int trbnspbrency) {
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
             return getColorModel();
-        case Transparency.BITMASK:
+        cbse Trbnspbrency.BITMASK:
             return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            return ColorModel.getRGBdefault();
-        default:
+        cbse Trbnspbrency.TRANSLUCENT:
+            return ColorModel.getRGBdefbult();
+        defbult:
             return null;
         }
     }
 
     /**
-     * Returns the default Transform for this configuration.  This
-     * Transform is typically the Identity transform for most normal
-     * screens.  Device coordinates for screen and printer devices will
-     * have the origin in the upper left-hand corner of the target region of
-     * the device, with X coordinates
-     * increasing to the right and Y coordinates increasing downwards.
-     * For image buffers, this Transform will be the Identity transform.
+     * Returns the defbult Trbnsform for this configurbtion.  This
+     * Trbnsform is typicblly the Identity trbnsform for most normbl
+     * screens.  Device coordinbtes for screen bnd printer devices will
+     * hbve the origin in the upper left-hbnd corner of the tbrget region of
+     * the device, with X coordinbtes
+     * increbsing to the right bnd Y coordinbtes increbsing downwbrds.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform.
      */
-    public AffineTransform getDefaultTransform() {
-        return new AffineTransform(deviceTransform);
+    public AffineTrbnsform getDefbultTrbnsform() {
+        return new AffineTrbnsform(deviceTrbnsform);
     }
 
     /**
      *
-     * Returns a Transform that can be composed with the default Transform
-     * of a Graphics2D so that 72 units in user space will equal 1 inch
-     * in device space.
-     * Given a Graphics2D, g, one can reset the transformation to create
-     * such a mapping by using the following pseudocode:
+     * Returns b Trbnsform thbt cbn be composed with the defbult Trbnsform
+     * of b Grbphics2D so thbt 72 units in user spbce will equbl 1 inch
+     * in device spbce.
+     * Given b Grbphics2D, g, one cbn reset the trbnsformbtion to crebte
+     * such b mbpping by using the following pseudocode:
      * <pre>
-     *      GraphicsConfiguration gc = g.getGraphicsConfiguration();
+     *      GrbphicsConfigurbtion gc = g.getGrbphicsConfigurbtion();
      *
-     *      g.setTransform(gc.getDefaultTransform());
-     *      g.transform(gc.getNormalizingTransform());
+     *      g.setTrbnsform(gc.getDefbultTrbnsform());
+     *      g.trbnsform(gc.getNormblizingTrbnsform());
      * </pre>
-     * Note that sometimes this Transform will be identity (e.g. for
-     * printers or metafile output) and that this Transform is only
-     * as accurate as the information supplied by the underlying system.
-     * For image buffers, this Transform will be the Identity transform,
-     * since there is no valid distance measurement.
+     * Note thbt sometimes this Trbnsform will be identity (e.g. for
+     * printers or metbfile output) bnd thbt this Trbnsform is only
+     * bs bccurbte bs the informbtion supplied by the underlying system.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform,
+     * since there is no vblid distbnce mebsurement.
      */
-    public AffineTransform getNormalizingTransform() {
-        return new AffineTransform();
+    public AffineTrbnsform getNormblizingTrbnsform() {
+        return new AffineTrbnsform();
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(0, 0, pageWidth, pageHeight);
+    public Rectbngle getBounds() {
+        return new Rectbngle(0, 0, pbgeWidth, pbgeHeight);
     }
 }

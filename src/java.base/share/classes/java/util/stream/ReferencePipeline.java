@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.Function;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Iterbtor;
+import jbvb.util.Objects;
+import jbvb.util.Optionbl;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.LongConsumer;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Supplier;
+import jbvb.util.function.ToDoubleFunction;
+import jbvb.util.function.ToIntFunction;
+import jbvb.util.function.ToLongFunction;
 
 /**
- * Abstract base class for an intermediate pipeline stage or pipeline source
- * stage implementing whose elements are of type {@code U}.
+ * Abstrbct bbse clbss for bn intermedibte pipeline stbge or pipeline source
+ * stbge implementing whose elements bre of type {@code U}.
  *
- * @param <P_IN> type of elements in the upstream source
- * @param <P_OUT> type of elements in produced by this stage
+ * @pbrbm <P_IN> type of elements in the upstrebm source
+ * @pbrbm <P_OUT> type of elements in produced by this stbge
  *
  * @since 1.8
  */
-abstract class ReferencePipeline<P_IN, P_OUT>
-        extends AbstractPipeline<P_IN, P_OUT, Stream<P_OUT>>
-        implements Stream<P_OUT>  {
+bbstrbct clbss ReferencePipeline<P_IN, P_OUT>
+        extends AbstrbctPipeline<P_IN, P_OUT, Strebm<P_OUT>>
+        implements Strebm<P_OUT>  {
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     *        {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
      */
-    ReferencePipeline(Supplier<? extends Spliterator<?>> source,
-                      int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    ReferencePipeline(Supplier<? extends Spliterbtor<?>> source,
+                      int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags The source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm source {@code Spliterbtor} describing the strebm source
+     * @pbrbm sourceFlbgs The source flbgs for the strebm source, described in
+     *        {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
      */
-    ReferencePipeline(Spliterator<?> source,
-                      int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    ReferencePipeline(Spliterbtor<?> source,
+                      int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for appending an intermediate operation onto an existing
+     * Constructor for bppending bn intermedibte operbtion onto bn existing
      * pipeline.
      *
-     * @param upstream the upstream element source.
+     * @pbrbm upstrebm the upstrebm element source.
      */
-    ReferencePipeline(AbstractPipeline<?, P_IN, ?> upstream, int opFlags) {
-        super(upstream, opFlags);
+    ReferencePipeline(AbstrbctPipeline<?, P_IN, ?> upstrebm, int opFlbgs) {
+        super(upstrebm, opFlbgs);
     }
 
-    // Shape-specific methods
+    // Shbpe-specific methods
 
     @Override
-    final StreamShape getOutputShape() {
-        return StreamShape.REFERENCE;
-    }
-
-    @Override
-    final <P_IN> Node<P_OUT> evaluateToNode(PipelineHelper<P_OUT> helper,
-                                        Spliterator<P_IN> spliterator,
-                                        boolean flattenTree,
-                                        IntFunction<P_OUT[]> generator) {
-        return Nodes.collect(helper, spliterator, flattenTree, generator);
+    finbl StrebmShbpe getOutputShbpe() {
+        return StrebmShbpe.REFERENCE;
     }
 
     @Override
-    final <P_IN> Spliterator<P_OUT> wrap(PipelineHelper<P_OUT> ph,
-                                     Supplier<Spliterator<P_IN>> supplier,
-                                     boolean isParallel) {
-        return new StreamSpliterators.WrappingSpliterator<>(ph, supplier, isParallel);
+    finbl <P_IN> Node<P_OUT> evblubteToNode(PipelineHelper<P_OUT> helper,
+                                        Spliterbtor<P_IN> spliterbtor,
+                                        boolebn flbttenTree,
+                                        IntFunction<P_OUT[]> generbtor) {
+        return Nodes.collect(helper, spliterbtor, flbttenTree, generbtor);
     }
 
     @Override
-    final Spliterator<P_OUT> lazySpliterator(Supplier<? extends Spliterator<P_OUT>> supplier) {
-        return new StreamSpliterators.DelegatingSpliterator<>(supplier);
+    finbl <P_IN> Spliterbtor<P_OUT> wrbp(PipelineHelper<P_OUT> ph,
+                                     Supplier<Spliterbtor<P_IN>> supplier,
+                                     boolebn isPbrbllel) {
+        return new StrebmSpliterbtors.WrbppingSpliterbtor<>(ph, supplier, isPbrbllel);
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<P_OUT> spliterator, Sink<P_OUT> sink) {
-        do { } while (!sink.cancellationRequested() && spliterator.tryAdvance(sink));
+    finbl Spliterbtor<P_OUT> lbzySpliterbtor(Supplier<? extends Spliterbtor<P_OUT>> supplier) {
+        return new StrebmSpliterbtors.DelegbtingSpliterbtor<>(supplier);
     }
 
     @Override
-    final Node.Builder<P_OUT> makeNodeBuilder(long exactSizeIfKnown, IntFunction<P_OUT[]> generator) {
-        return Nodes.builder(exactSizeIfKnown, generator);
+    finbl void forEbchWithCbncel(Spliterbtor<P_OUT> spliterbtor, Sink<P_OUT> sink) {
+        do { } while (!sink.cbncellbtionRequested() && spliterbtor.tryAdvbnce(sink));
+    }
+
+    @Override
+    finbl Node.Builder<P_OUT> mbkeNodeBuilder(long exbctSizeIfKnown, IntFunction<P_OUT[]> generbtor) {
+        return Nodes.builder(exbctSizeIfKnown, generbtor);
     }
 
 
-    // BaseStream
+    // BbseStrebm
 
     @Override
-    public final Iterator<P_OUT> iterator() {
-        return Spliterators.iterator(spliterator());
+    public finbl Iterbtor<P_OUT> iterbtor() {
+        return Spliterbtors.iterbtor(spliterbtor());
     }
 
 
-    // Stream
+    // Strebm
 
-    // Stateless intermediate operations from Stream
+    // Stbteless intermedibte operbtions from Strebm
 
     @Override
-    public Stream<P_OUT> unordered() {
+    public Strebm<P_OUT> unordered() {
         if (!isOrdered())
             return this;
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE, StreamOpFlag.NOT_ORDERED) {
+        return new StbtelessOp<P_OUT, P_OUT>(this, StrebmShbpe.REFERENCE, StrebmOpFlbg.NOT_ORDERED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
                 return sink;
             }
         };
     }
 
     @Override
-    public final Stream<P_OUT> filter(Predicate<? super P_OUT> predicate) {
-        Objects.requireNonNull(predicate);
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SIZED) {
+    public finbl Strebm<P_OUT> filter(Predicbte<? super P_OUT> predicbte) {
+        Objects.requireNonNull(predicbte);
+        return new StbtelessOp<P_OUT, P_OUT>(this, StrebmShbpe.REFERENCE,
+                                     StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
-                return new Sink.ChainedReference<P_OUT, P_OUT>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
+                return new Sink.ChbinedReference<P_OUT, P_OUT>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(P_OUT u) {
-                        if (predicate.test(u))
-                            downstream.accept(u);
+                    public void bccept(P_OUT u) {
+                        if (predicbte.test(u))
+                            downstrebm.bccept(u);
                     }
                 };
             }
@@ -180,17 +180,17 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <R> Stream<R> map(Function<? super P_OUT, ? extends R> mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    @SuppressWbrnings("unchecked")
+    public finbl <R> Strebm<R> mbp(Function<? super P_OUT, ? extends R> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new StbtelessOp<P_OUT, R>(this, StrebmShbpe.REFERENCE,
+                                     StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
-                return new Sink.ChainedReference<P_OUT, R>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<R> sink) {
+                return new Sink.ChbinedReference<P_OUT, R>(sink) {
                     @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.apply(u));
+                    public void bccept(P_OUT u) {
+                        downstrebm.bccept(mbpper.bpply(u));
                     }
                 };
             }
@@ -198,16 +198,16 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final IntStream mapToInt(ToIntFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                              StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl IntStrebm mbpToInt(ToIntFunction<? super P_OUT> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new IntPipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                              StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedReference<P_OUT, Integer>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Integer> sink) {
+                return new Sink.ChbinedReference<P_OUT, Integer>(sink) {
                     @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsInt(u));
+                    public void bccept(P_OUT u) {
+                        downstrebm.bccept(mbpper.bpplyAsInt(u));
                     }
                 };
             }
@@ -215,16 +215,16 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final LongStream mapToLong(ToLongFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl LongStrebm mbpToLong(ToLongFunction<? super P_OUT> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new LongPipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                      StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedReference<P_OUT, Long>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedReference<P_OUT, Long>(sink) {
                     @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsLong(u));
+                    public void bccept(P_OUT u) {
+                        downstrebm.bccept(mbpper.bpplyAsLong(u));
                     }
                 };
             }
@@ -232,16 +232,16 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final DoubleStream mapToDouble(ToDoubleFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                        StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl DoubleStrebm mbpToDouble(ToDoubleFunction<? super P_OUT> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new DoublePipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                        StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedReference<P_OUT, Double>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedReference<P_OUT, Double>(sink) {
                     @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsDouble(u));
+                    public void bccept(P_OUT u) {
+                        downstrebm.bccept(mbpper.bpplyAsDouble(u));
                     }
                 };
             }
@@ -249,25 +249,25 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final <R> Stream<R> flatMap(Function<? super P_OUT, ? extends Stream<? extends R>> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl <R> Strebm<R> flbtMbp(Function<? super P_OUT, ? extends Strebm<? extends R>> mbpper) {
+        Objects.requireNonNull(mbpper);
+        // We cbn do better thbn this, by polling cbncellbtionRequested when strebm is infinite
+        return new StbtelessOp<P_OUT, R>(this, StrebmShbpe.REFERENCE,
+                                     StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
-                return new Sink.ChainedReference<P_OUT, R>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<R> sink) {
+                return new Sink.ChbinedReference<P_OUT, R>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(P_OUT u) {
-                        try (Stream<? extends R> result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(P_OUT u) {
+                        try (Strebm<? extends R> result = mbpper.bpply(u)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(downstream);
+                                result.sequentibl().forEbch(downstrebm);
                         }
                     }
                 };
@@ -276,26 +276,26 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final IntStream flatMapToInt(Function<? super P_OUT, ? extends IntStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                              StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl IntStrebm flbtMbpToInt(Function<? super P_OUT, ? extends IntStrebm> mbpper) {
+        Objects.requireNonNull(mbpper);
+        // We cbn do better thbn this, by polling cbncellbtionRequested when strebm is infinite
+        return new IntPipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                              StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedReference<P_OUT, Integer>(sink) {
-                    IntConsumer downstreamAsInt = downstream::accept;
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Integer> sink) {
+                return new Sink.ChbinedReference<P_OUT, Integer>(sink) {
+                    IntConsumer downstrebmAsInt = downstrebm::bccept;
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(P_OUT u) {
-                        try (IntStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(P_OUT u) {
+                        try (IntStrebm result = mbpper.bpply(u)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(downstreamAsInt);
+                                result.sequentibl().forEbch(downstrebmAsInt);
                         }
                     }
                 };
@@ -304,26 +304,26 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final DoubleStream flatMapToDouble(Function<? super P_OUT, ? extends DoubleStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl DoubleStrebm flbtMbpToDouble(Function<? super P_OUT, ? extends DoubleStrebm> mbpper) {
+        Objects.requireNonNull(mbpper);
+        // We cbn do better thbn this, by polling cbncellbtionRequested when strebm is infinite
+        return new DoublePipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                                     StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedReference<P_OUT, Double>(sink) {
-                    DoubleConsumer downstreamAsDouble = downstream::accept;
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedReference<P_OUT, Double>(sink) {
+                    DoubleConsumer downstrebmAsDouble = downstrebm::bccept;
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(P_OUT u) {
-                        try (DoubleStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(P_OUT u) {
+                        try (DoubleStrebm result = mbpper.bpply(u)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(downstreamAsDouble);
+                                result.sequentibl().forEbch(downstrebmAsDouble);
                         }
                     }
                 };
@@ -332,26 +332,26 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final LongStream flatMapToLong(Function<? super P_OUT, ? extends LongStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                                   StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl LongStrebm flbtMbpToLong(Function<? super P_OUT, ? extends LongStrebm> mbpper) {
+        Objects.requireNonNull(mbpper);
+        // We cbn do better thbn this, by polling cbncellbtionRequested when strebm is infinite
+        return new LongPipeline.StbtelessOp<P_OUT>(this, StrebmShbpe.REFERENCE,
+                                                   StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedReference<P_OUT, Long>(sink) {
-                    LongConsumer downstreamAsLong = downstream::accept;
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedReference<P_OUT, Long>(sink) {
+                    LongConsumer downstrebmAsLong = downstrebm::bccept;
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(P_OUT u) {
-                        try (LongStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(P_OUT u) {
+                        try (LongStrebm result = mbpper.bpply(u)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(downstreamAsLong);
+                                result.sequentibl().forEbch(downstrebmAsLong);
                         }
                     }
                 };
@@ -360,302 +360,302 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final Stream<P_OUT> peek(Consumer<? super P_OUT> action) {
-        Objects.requireNonNull(action);
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
+    public finbl Strebm<P_OUT> peek(Consumer<? super P_OUT> bction) {
+        Objects.requireNonNull(bction);
+        return new StbtelessOp<P_OUT, P_OUT>(this, StrebmShbpe.REFERENCE,
                                      0) {
             @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
-                return new Sink.ChainedReference<P_OUT, P_OUT>(sink) {
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
+                return new Sink.ChbinedReference<P_OUT, P_OUT>(sink) {
                     @Override
-                    public void accept(P_OUT u) {
-                        action.accept(u);
-                        downstream.accept(u);
+                    public void bccept(P_OUT u) {
+                        bction.bccept(u);
+                        downstrebm.bccept(u);
                     }
                 };
             }
         };
     }
 
-    // Stateful intermediate operations from Stream
+    // Stbteful intermedibte operbtions from Strebm
 
     @Override
-    public final Stream<P_OUT> distinct() {
-        return DistinctOps.makeRef(this);
+    public finbl Strebm<P_OUT> distinct() {
+        return DistinctOps.mbkeRef(this);
     }
 
     @Override
-    public final Stream<P_OUT> sorted() {
-        return SortedOps.makeRef(this);
+    public finbl Strebm<P_OUT> sorted() {
+        return SortedOps.mbkeRef(this);
     }
 
     @Override
-    public final Stream<P_OUT> sorted(Comparator<? super P_OUT> comparator) {
-        return SortedOps.makeRef(this, comparator);
+    public finbl Strebm<P_OUT> sorted(Compbrbtor<? super P_OUT> compbrbtor) {
+        return SortedOps.mbkeRef(this, compbrbtor);
     }
 
     @Override
-    public final Stream<P_OUT> limit(long maxSize) {
-        if (maxSize < 0)
-            throw new IllegalArgumentException(Long.toString(maxSize));
-        return SliceOps.makeRef(this, 0, maxSize);
+    public finbl Strebm<P_OUT> limit(long mbxSize) {
+        if (mbxSize < 0)
+            throw new IllegblArgumentException(Long.toString(mbxSize));
+        return SliceOps.mbkeRef(this, 0, mbxSize);
     }
 
     @Override
-    public final Stream<P_OUT> skip(long n) {
+    public finbl Strebm<P_OUT> skip(long n) {
         if (n < 0)
-            throw new IllegalArgumentException(Long.toString(n));
+            throw new IllegblArgumentException(Long.toString(n));
         if (n == 0)
             return this;
         else
-            return SliceOps.makeRef(this, n, -1);
+            return SliceOps.mbkeRef(this, n, -1);
     }
 
-    // Terminal operations from Stream
+    // Terminbl operbtions from Strebm
 
     @Override
-    public void forEach(Consumer<? super P_OUT> action) {
-        evaluate(ForEachOps.makeRef(action, false));
-    }
-
-    @Override
-    public void forEachOrdered(Consumer<? super P_OUT> action) {
-        evaluate(ForEachOps.makeRef(action, true));
+    public void forEbch(Consumer<? super P_OUT> bction) {
+        evblubte(ForEbchOps.mbkeRef(bction, fblse));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <A> A[] toArray(IntFunction<A[]> generator) {
-        // Since A has no relation to U (not possible to declare that A is an upper bound of U)
-        // there will be no static type checking.
-        // Therefore use a raw type and assume A == U rather than propagating the separation of A and U
-        // throughout the code-base.
-        // The runtime type of U is never checked for equality with the component type of the runtime type of A[].
-        // Runtime checking will be performed when an element is stored in A[], thus if A is not a
-        // super type of U an ArrayStoreException will be thrown.
-        @SuppressWarnings("rawtypes")
-        IntFunction rawGenerator = (IntFunction) generator;
-        return (A[]) Nodes.flatten(evaluateToArrayNode(rawGenerator), rawGenerator)
-                              .asArray(rawGenerator);
+    public void forEbchOrdered(Consumer<? super P_OUT> bction) {
+        evblubte(ForEbchOps.mbkeRef(bction, true));
     }
 
     @Override
-    public final Object[] toArray() {
-        return toArray(Object[]::new);
+    @SuppressWbrnings("unchecked")
+    public finbl <A> A[] toArrby(IntFunction<A[]> generbtor) {
+        // Since A hbs no relbtion to U (not possible to declbre thbt A is bn upper bound of U)
+        // there will be no stbtic type checking.
+        // Therefore use b rbw type bnd bssume A == U rbther thbn propbgbting the sepbrbtion of A bnd U
+        // throughout the code-bbse.
+        // The runtime type of U is never checked for equblity with the component type of the runtime type of A[].
+        // Runtime checking will be performed when bn element is stored in A[], thus if A is not b
+        // super type of U bn ArrbyStoreException will be thrown.
+        @SuppressWbrnings("rbwtypes")
+        IntFunction rbwGenerbtor = (IntFunction) generbtor;
+        return (A[]) Nodes.flbtten(evblubteToArrbyNode(rbwGenerbtor), rbwGenerbtor)
+                              .bsArrby(rbwGenerbtor);
     }
 
     @Override
-    public final boolean anyMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ANY));
+    public finbl Object[] toArrby() {
+        return toArrby(Object[]::new);
     }
 
     @Override
-    public final boolean allMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ALL));
+    public finbl boolebn bnyMbtch(Predicbte<? super P_OUT> predicbte) {
+        return evblubte(MbtchOps.mbkeRef(predicbte, MbtchOps.MbtchKind.ANY));
     }
 
     @Override
-    public final boolean noneMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.NONE));
+    public finbl boolebn bllMbtch(Predicbte<? super P_OUT> predicbte) {
+        return evblubte(MbtchOps.mbkeRef(predicbte, MbtchOps.MbtchKind.ALL));
     }
 
     @Override
-    public final Optional<P_OUT> findFirst() {
-        return evaluate(FindOps.makeRef(true));
+    public finbl boolebn noneMbtch(Predicbte<? super P_OUT> predicbte) {
+        return evblubte(MbtchOps.mbkeRef(predicbte, MbtchOps.MbtchKind.NONE));
     }
 
     @Override
-    public final Optional<P_OUT> findAny() {
-        return evaluate(FindOps.makeRef(false));
+    public finbl Optionbl<P_OUT> findFirst() {
+        return evblubte(FindOps.mbkeRef(true));
     }
 
     @Override
-    public final P_OUT reduce(final P_OUT identity, final BinaryOperator<P_OUT> accumulator) {
-        return evaluate(ReduceOps.makeRef(identity, accumulator, accumulator));
+    public finbl Optionbl<P_OUT> findAny() {
+        return evblubte(FindOps.mbkeRef(fblse));
     }
 
     @Override
-    public final Optional<P_OUT> reduce(BinaryOperator<P_OUT> accumulator) {
-        return evaluate(ReduceOps.makeRef(accumulator));
+    public finbl P_OUT reduce(finbl P_OUT identity, finbl BinbryOperbtor<P_OUT> bccumulbtor) {
+        return evblubte(ReduceOps.mbkeRef(identity, bccumulbtor, bccumulbtor));
     }
 
     @Override
-    public final <R> R reduce(R identity, BiFunction<R, ? super P_OUT, R> accumulator, BinaryOperator<R> combiner) {
-        return evaluate(ReduceOps.makeRef(identity, accumulator, combiner));
+    public finbl Optionbl<P_OUT> reduce(BinbryOperbtor<P_OUT> bccumulbtor) {
+        return evblubte(ReduceOps.mbkeRef(bccumulbtor));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <R, A> R collect(Collector<? super P_OUT, A, R> collector) {
-        A container;
-        if (isParallel()
-                && (collector.characteristics().contains(Collector.Characteristics.CONCURRENT))
-                && (!isOrdered() || collector.characteristics().contains(Collector.Characteristics.UNORDERED))) {
-            container = collector.supplier().get();
-            BiConsumer<A, ? super P_OUT> accumulator = collector.accumulator();
-            forEach(u -> accumulator.accept(container, u));
+    public finbl <R> R reduce(R identity, BiFunction<R, ? super P_OUT, R> bccumulbtor, BinbryOperbtor<R> combiner) {
+        return evblubte(ReduceOps.mbkeRef(identity, bccumulbtor, combiner));
+    }
+
+    @Override
+    @SuppressWbrnings("unchecked")
+    public finbl <R, A> R collect(Collector<? super P_OUT, A, R> collector) {
+        A contbiner;
+        if (isPbrbllel()
+                && (collector.chbrbcteristics().contbins(Collector.Chbrbcteristics.CONCURRENT))
+                && (!isOrdered() || collector.chbrbcteristics().contbins(Collector.Chbrbcteristics.UNORDERED))) {
+            contbiner = collector.supplier().get();
+            BiConsumer<A, ? super P_OUT> bccumulbtor = collector.bccumulbtor();
+            forEbch(u -> bccumulbtor.bccept(contbiner, u));
         }
         else {
-            container = evaluate(ReduceOps.makeRef(collector));
+            contbiner = evblubte(ReduceOps.mbkeRef(collector));
         }
-        return collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)
-               ? (R) container
-               : collector.finisher().apply(container);
+        return collector.chbrbcteristics().contbins(Collector.Chbrbcteristics.IDENTITY_FINISH)
+               ? (R) contbiner
+               : collector.finisher().bpply(contbiner);
     }
 
     @Override
-    public final <R> R collect(Supplier<R> supplier,
-                               BiConsumer<R, ? super P_OUT> accumulator,
+    public finbl <R> R collect(Supplier<R> supplier,
+                               BiConsumer<R, ? super P_OUT> bccumulbtor,
                                BiConsumer<R, R> combiner) {
-        return evaluate(ReduceOps.makeRef(supplier, accumulator, combiner));
+        return evblubte(ReduceOps.mbkeRef(supplier, bccumulbtor, combiner));
     }
 
     @Override
-    public final Optional<P_OUT> max(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperator.maxBy(comparator));
+    public finbl Optionbl<P_OUT> mbx(Compbrbtor<? super P_OUT> compbrbtor) {
+        return reduce(BinbryOperbtor.mbxBy(compbrbtor));
     }
 
     @Override
-    public final Optional<P_OUT> min(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperator.minBy(comparator));
+    public finbl Optionbl<P_OUT> min(Compbrbtor<? super P_OUT> compbrbtor) {
+        return reduce(BinbryOperbtor.minBy(compbrbtor));
 
     }
 
     @Override
-    public final long count() {
-        return mapToLong(e -> 1L).sum();
+    public finbl long count() {
+        return mbpToLong(e -> 1L).sum();
     }
 
 
     //
 
     /**
-     * Source stage of a ReferencePipeline.
+     * Source stbge of b ReferencePipeline.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
+     * @pbrbm <E_IN> type of elements in the upstrebm source
+     * @pbrbm <E_OUT> type of elements in produced by this stbge
      * @since 1.8
      */
-    static class Head<E_IN, E_OUT> extends ReferencePipeline<E_IN, E_OUT> {
+    stbtic clbss Hebd<E_IN, E_OUT> extends ReferencePipeline<E_IN, E_OUT> {
         /**
-         * Constructor for the source stage of a Stream.
+         * Constructor for the source stbge of b Strebm.
          *
-         * @param source {@code Supplier<Spliterator>} describing the stream
+         * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm
          *               source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
          */
-        Head(Supplier<? extends Spliterator<?>> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Supplier<? extends Spliterbtor<?>> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         /**
-         * Constructor for the source stage of a Stream.
+         * Constructor for the source stbge of b Strebm.
          *
-         * @param source {@code Spliterator} describing the stream source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
+         * @pbrbm source {@code Spliterbtor} describing the strebm source
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
          */
-        Head(Spliterator<?> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Spliterbtor<?> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         @Override
-        final boolean opIsStateful() {
-            throw new UnsupportedOperationException();
+        finbl boolebn opIsStbteful() {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        final Sink<E_IN> opWrapSink(int flags, Sink<E_OUT> sink) {
-            throw new UnsupportedOperationException();
+        finbl Sink<E_IN> opWrbpSink(int flbgs, Sink<E_OUT> sink) {
+            throw new UnsupportedOperbtionException();
         }
 
-        // Optimized sequential terminal operations for the head of the pipeline
+        // Optimized sequentibl terminbl operbtions for the hebd of the pipeline
 
         @Override
-        public void forEach(Consumer<? super E_OUT> action) {
-            if (!isParallel()) {
-                sourceStageSpliterator().forEachRemaining(action);
+        public void forEbch(Consumer<? super E_OUT> bction) {
+            if (!isPbrbllel()) {
+                sourceStbgeSpliterbtor().forEbchRembining(bction);
             }
             else {
-                super.forEach(action);
+                super.forEbch(bction);
             }
         }
 
         @Override
-        public void forEachOrdered(Consumer<? super E_OUT> action) {
-            if (!isParallel()) {
-                sourceStageSpliterator().forEachRemaining(action);
+        public void forEbchOrdered(Consumer<? super E_OUT> bction) {
+            if (!isPbrbllel()) {
+                sourceStbgeSpliterbtor().forEbchRembining(bction);
             }
             else {
-                super.forEachOrdered(action);
+                super.forEbchOrdered(bction);
             }
         }
     }
 
     /**
-     * Base class for a stateless intermediate stage of a Stream.
+     * Bbse clbss for b stbteless intermedibte stbge of b Strebm.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
+     * @pbrbm <E_IN> type of elements in the upstrebm source
+     * @pbrbm <E_OUT> type of elements in produced by this stbge
      * @since 1.8
      */
-    abstract static class StatelessOp<E_IN, E_OUT>
+    bbstrbct stbtic clbss StbtelessOp<E_IN, E_OUT>
             extends ReferencePipeline<E_IN, E_OUT> {
         /**
-         * Construct a new Stream by appending a stateless intermediate
-         * operation to an existing stream.
+         * Construct b new Strebm by bppending b stbteless intermedibte
+         * operbtion to bn existing strebm.
          *
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * @pbrbm upstrebm The upstrebm pipeline stbge
+         * @pbrbm inputShbpe The strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs Operbtion flbgs for the new stbge
          */
-        StatelessOp(AbstractPipeline<?, E_IN, ?> upstream,
-                    StreamShape inputShape,
-                    int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtelessOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                    StrebmShbpe inputShbpe,
+                    int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
-            return false;
+        finbl boolebn opIsStbteful() {
+            return fblse;
         }
     }
 
     /**
-     * Base class for a stateful intermediate stage of a Stream.
+     * Bbse clbss for b stbteful intermedibte stbge of b Strebm.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
+     * @pbrbm <E_IN> type of elements in the upstrebm source
+     * @pbrbm <E_OUT> type of elements in produced by this stbge
      * @since 1.8
      */
-    abstract static class StatefulOp<E_IN, E_OUT>
+    bbstrbct stbtic clbss StbtefulOp<E_IN, E_OUT>
             extends ReferencePipeline<E_IN, E_OUT> {
         /**
-         * Construct a new Stream by appending a stateful intermediate operation
-         * to an existing stream.
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * Construct b new Strebm by bppending b stbteful intermedibte operbtion
+         * to bn existing strebm.
+         * @pbrbm upstrebm The upstrebm pipeline stbge
+         * @pbrbm inputShbpe The strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs Operbtion flbgs for the new stbge
          */
-        StatefulOp(AbstractPipeline<?, E_IN, ?> upstream,
-                   StreamShape inputShape,
-                   int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtefulOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                   StrebmShbpe inputShbpe,
+                   int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
+        finbl boolebn opIsStbteful() {
             return true;
         }
 
         @Override
-        abstract <P_IN> Node<E_OUT> opEvaluateParallel(PipelineHelper<E_OUT> helper,
-                                                       Spliterator<P_IN> spliterator,
-                                                       IntFunction<E_OUT[]> generator);
+        bbstrbct <P_IN> Node<E_OUT> opEvblubtePbrbllel(PipelineHelper<E_OUT> helper,
+                                                       Spliterbtor<P_IN> spliterbtor,
+                                                       IntFunction<E_OUT[]> generbtor);
     }
 }

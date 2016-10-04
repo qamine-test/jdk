@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.spi;
+pbckbge jbvbx.imbgeio.spi;
 
-import java.io.IOException;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOException;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 /**
- * The service provider interface (SPI) for <code>ImageReader</code>s.
- * For more information on service provider classes, see the class comment
- * for the <code>IIORegistry</code> class.
+ * The service provider interfbce (SPI) for <code>ImbgeRebder</code>s.
+ * For more informbtion on service provider clbsses, see the clbss comment
+ * for the <code>IIORegistry</code> clbss.
  *
- * <p> Each <code>ImageReaderSpi</code> provides several types of information
- * about the <code>ImageReader</code> class with which it is associated.
+ * <p> Ebch <code>ImbgeRebderSpi</code> provides severbl types of informbtion
+ * bbout the <code>ImbgeRebder</code> clbss with which it is bssocibted.
  *
- * <p> The name of the vendor who defined the SPI class and a
- * brief description of the class are available via the
- * <code>getVendorName</code>, <code>getDescription</code>,
- * and <code>getVersion</code> methods.
- * These methods may be internationalized to provide locale-specific
- * output.  These methods are intended mainly to provide short,
- * human-readable information that might be used to organize a pop-up
+ * <p> The nbme of the vendor who defined the SPI clbss bnd b
+ * brief description of the clbss bre bvbilbble vib the
+ * <code>getVendorNbme</code>, <code>getDescription</code>,
+ * bnd <code>getVersion</code> methods.
+ * These methods mby be internbtionblized to provide locble-specific
+ * output.  These methods bre intended mbinly to provide short,
+ * humbn-rebdbble informbtion thbt might be used to orgbnize b pop-up
  * menu or other list.
  *
- * <p> Lists of format names, file suffixes, and MIME types associated
- * with the service may be obtained by means of the
- * <code>getFormatNames</code>, <code>getFileSuffixes</code>, and
- * <code>getMIMETypes</code> methods.  These methods may be used to
- * identify candidate <code>ImageReader</code>s for decoding a
- * particular file or stream based on manual format selection, file
- * naming, or MIME associations (for example, when accessing a file
- * over HTTP or as an email attachment).
+ * <p> Lists of formbt nbmes, file suffixes, bnd MIME types bssocibted
+ * with the service mby be obtbined by mebns of the
+ * <code>getFormbtNbmes</code>, <code>getFileSuffixes</code>, bnd
+ * <code>getMIMETypes</code> methods.  These methods mby be used to
+ * identify cbndidbte <code>ImbgeRebder</code>s for decoding b
+ * pbrticulbr file or strebm bbsed on mbnubl formbt selection, file
+ * nbming, or MIME bssocibtions (for exbmple, when bccessing b file
+ * over HTTP or bs bn embil bttbchment).
  *
- * <p> A more reliable way to determine which <code>ImageReader</code>s
- * are likely to be able to parse a particular data stream is provided
- * by the <code>canDecodeInput</code> method.  This methods allows the
- * service provider to inspect the actual stream contents.
+ * <p> A more relibble wby to determine which <code>ImbgeRebder</code>s
+ * bre likely to be bble to pbrse b pbrticulbr dbtb strebm is provided
+ * by the <code>cbnDecodeInput</code> method.  This methods bllows the
+ * service provider to inspect the bctubl strebm contents.
  *
- * <p> Finally, an instance of the <code>ImageReader</code> class
- * associated with this service provider may be obtained by calling
- * the <code>createReaderInstance</code> method.  Any heavyweight
- * initialization, such as the loading of native libraries or creation
- * of large tables, should be deferred at least until the first
- * invocation of this method.
+ * <p> Finblly, bn instbnce of the <code>ImbgeRebder</code> clbss
+ * bssocibted with this service provider mby be obtbined by cblling
+ * the <code>crebteRebderInstbnce</code> method.  Any hebvyweight
+ * initiblizbtion, such bs the lobding of nbtive librbries or crebtion
+ * of lbrge tbbles, should be deferred bt lebst until the first
+ * invocbtion of this method.
  *
  * @see IIORegistry
- * @see javax.imageio.ImageReader
+ * @see jbvbx.imbgeio.ImbgeRebder
  *
  */
-public abstract class ImageReaderSpi extends ImageReaderWriterSpi {
+public bbstrbct clbss ImbgeRebderSpi extends ImbgeRebderWriterSpi {
 
     /**
-     * A single-element array, initially containing
-     * <code>ImageInputStream.class</code>, to be returned from
+     * A single-element brrby, initiblly contbining
+     * <code>ImbgeInputStrebm.clbss</code>, to be returned from
      * <code>getInputTypes</code>.
-     * @deprecated Instead of using this field, directly create
-     * the equivalent array <code>{ ImageInputStream.class }</code>.
+     * @deprecbted Instebd of using this field, directly crebte
+     * the equivblent brrby <code>{ ImbgeInputStrebm.clbss }</code>.
      */
-    @Deprecated
-    public static final Class<?>[] STANDARD_INPUT_TYPE =
-        { ImageInputStream.class };
+    @Deprecbted
+    public stbtic finbl Clbss<?>[] STANDARD_INPUT_TYPE =
+        { ImbgeInputStrebm.clbss };
 
     /**
-     * An array of <code>Class</code> objects to be returned from
-     * <code>getInputTypes</code>, initially <code>null</code>.
+     * An brrby of <code>Clbss</code> objects to be returned from
+     * <code>getInputTypes</code>, initiblly <code>null</code>.
      */
-    protected Class<?>[] inputTypes = null;
+    protected Clbss<?>[] inputTypes = null;
 
     /**
-     * An array of strings to be returned from
-     * <code>getImageWriterSpiNames</code>, initially
+     * An brrby of strings to be returned from
+     * <code>getImbgeWriterSpiNbmes</code>, initiblly
      * <code>null</code>.
      */
-    protected String[] writerSpiNames = null;
+    protected String[] writerSpiNbmes = null;
 
     /**
-     * The <code>Class</code> of the reader, initially
+     * The <code>Clbss</code> of the rebder, initiblly
      * <code>null</code>.
      */
-    private Class<?> readerClass = null;
+    privbte Clbss<?> rebderClbss = null;
 
     /**
-     * Constructs a blank <code>ImageReaderSpi</code>.  It is up to
-     * the subclass to initialize instance variables and/or override
-     * method implementations in order to provide working versions of
-     * all methods.
+     * Constructs b blbnk <code>ImbgeRebderSpi</code>.  It is up to
+     * the subclbss to initiblize instbnce vbribbles bnd/or override
+     * method implementbtions in order to provide working versions of
+     * bll methods.
      */
-    protected ImageReaderSpi() {
+    protected ImbgeRebderSpi() {
     }
 
     /**
-     * Constructs an <code>ImageReaderSpi</code> with a given
-     * set of values.
+     * Constructs bn <code>ImbgeRebderSpi</code> with b given
+     * set of vblues.
      *
-     * @param vendorName the vendor name, as a non-<code>null</code>
+     * @pbrbm vendorNbme the vendor nbme, bs b non-<code>null</code>
      * <code>String</code>.
-     * @param version a version identifier, as a non-<code>null</code>
+     * @pbrbm version b version identifier, bs b non-<code>null</code>
      * <code>String</code>.
-     * @param names a non-<code>null</code> array of
-     * <code>String</code>s indicating the format names.  At least one
+     * @pbrbm nbmes b non-<code>null</code> brrby of
+     * <code>String</code>s indicbting the formbt nbmes.  At lebst one
      * entry must be present.
-     * @param suffixes an array of <code>String</code>s indicating the
-     * common file suffixes.  If no suffixes are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param MIMETypes an array of <code>String</code>s indicating
-     * the format's MIME types.  If no MIME types are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param readerClassName the fully-qualified name of the
-     * associated <code>ImageReader</code> class, as a
+     * @pbrbm suffixes bn brrby of <code>String</code>s indicbting the
+     * common file suffixes.  If no suffixes bre defined,
+     * <code>null</code> should be supplied.  An brrby of length 0
+     * will be normblized to <code>null</code>.
+     * @pbrbm MIMETypes bn brrby of <code>String</code>s indicbting
+     * the formbt's MIME types.  If no MIME types bre defined,
+     * <code>null</code> should be supplied.  An brrby of length 0
+     * will be normblized to <code>null</code>.
+     * @pbrbm rebderClbssNbme the fully-qublified nbme of the
+     * bssocibted <code>ImbgeRebder</code> clbss, bs b
      * non-<code>null</code> <code>String</code>.
-     * @param inputTypes a non-<code>null</code> array of
-     * <code>Class</code> objects of length at least 1 indicating the
-     * legal input types.
-     * @param writerSpiNames an array <code>String</code>s naming the
-     * classes of all associated <code>ImageWriter</code>s, or
-     * <code>null</code>.  An array of length 0 is normalized to
+     * @pbrbm inputTypes b non-<code>null</code> brrby of
+     * <code>Clbss</code> objects of length bt lebst 1 indicbting the
+     * legbl input types.
+     * @pbrbm writerSpiNbmes bn brrby <code>String</code>s nbming the
+     * clbsses of bll bssocibted <code>ImbgeWriter</code>s, or
+     * <code>null</code>.  An brrby of length 0 is normblized to
      * <code>null</code>.
-     * @param supportsStandardStreamMetadataFormat a
-     * <code>boolean</code> that indicates whether a stream metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeStreamMetadataFormatName a
+     * @pbrbm supportsStbndbrdStrebmMetbdbtbFormbt b
+     * <code>boolebn</code> thbt indicbtes whether b strebm metbdbtb
+     * object cbn use trees described by the stbndbrd metbdbtb formbt.
+     * @pbrbm nbtiveStrebmMetbdbtbFormbtNbme b
      * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeStreamMetadataFormatName</code>.
-     * @param nativeStreamMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeStreamMetadataFormat</code>.
-     * @param extraStreamMetadataFormatNames an array of
+     * <code>getNbtiveStrebmMetbdbtbFormbtNbme</code>.
+     * @pbrbm nbtiveStrebmMetbdbtbFormbtClbssNbme b
+     * <code>String</code>, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getNbtiveStrebmMetbdbtbFormbt</code>.
+     * @pbrbm extrbStrebmMetbdbtbFormbtNbmes bn brrby of
      * <code>String</code>s, or <code>null</code>, to be returned from
-     * <code>getExtraStreamMetadataFormatNames</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param extraStreamMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getStreamMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param supportsStandardImageMetadataFormat a
-     * <code>boolean</code> that indicates whether an image metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeImageMetadataFormatName a
+     * <code>getExtrbStrebmMetbdbtbFormbtNbmes</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
+     * @pbrbm extrbStrebmMetbdbtbFormbtClbssNbmes bn brrby of
+     * <code>String</code>s, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getStrebmMetbdbtbFormbt</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
+     * @pbrbm supportsStbndbrdImbgeMetbdbtbFormbt b
+     * <code>boolebn</code> thbt indicbtes whether bn imbge metbdbtb
+     * object cbn use trees described by the stbndbrd metbdbtb formbt.
+     * @pbrbm nbtiveImbgeMetbdbtbFormbtNbme b
      * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeImageMetadataFormatName</code>.
-     * @param nativeImageMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeImageMetadataFormat</code>.
-     * @param extraImageMetadataFormatNames an array of
+     * <code>getNbtiveImbgeMetbdbtbFormbtNbme</code>.
+     * @pbrbm nbtiveImbgeMetbdbtbFormbtClbssNbme b
+     * <code>String</code>, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getNbtiveImbgeMetbdbtbFormbt</code>.
+     * @pbrbm extrbImbgeMetbdbtbFormbtNbmes bn brrby of
      * <code>String</code>s to be returned from
-     * <code>getExtraImageMetadataFormatNames</code>.  An array of length 0
-     * is normalized to <code>null</code>.
-     * @param extraImageMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getImageMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
+     * <code>getExtrbImbgeMetbdbtbFormbtNbmes</code>.  An brrby of length 0
+     * is normblized to <code>null</code>.
+     * @pbrbm extrbImbgeMetbdbtbFormbtClbssNbmes bn brrby of
+     * <code>String</code>s, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getImbgeMetbdbtbFormbt</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>vendorName</code>
+     * @exception IllegblArgumentException if <code>vendorNbme</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>version</code>
+     * @exception IllegblArgumentException if <code>version</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>names</code>
-     * is <code>null</code> or has length 0.
-     * @exception IllegalArgumentException if <code>readerClassName</code>
+     * @exception IllegblArgumentException if <code>nbmes</code>
+     * is <code>null</code> or hbs length 0.
+     * @exception IllegblArgumentException if <code>rebderClbssNbme</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>inputTypes</code>
-     * is <code>null</code> or has length 0.
+     * @exception IllegblArgumentException if <code>inputTypes</code>
+     * is <code>null</code> or hbs length 0.
      */
-    public ImageReaderSpi(String vendorName,
+    public ImbgeRebderSpi(String vendorNbme,
                           String version,
-                          String[] names,
+                          String[] nbmes,
                           String[] suffixes,
                           String[] MIMETypes,
-                          String readerClassName,
-                          Class<?>[] inputTypes,
-                          String[] writerSpiNames,
-                          boolean supportsStandardStreamMetadataFormat,
-                          String nativeStreamMetadataFormatName,
-                          String nativeStreamMetadataFormatClassName,
-                          String[] extraStreamMetadataFormatNames,
-                          String[] extraStreamMetadataFormatClassNames,
-                          boolean supportsStandardImageMetadataFormat,
-                          String nativeImageMetadataFormatName,
-                          String nativeImageMetadataFormatClassName,
-                          String[] extraImageMetadataFormatNames,
-                          String[] extraImageMetadataFormatClassNames) {
-        super(vendorName, version,
-              names, suffixes, MIMETypes, readerClassName,
-              supportsStandardStreamMetadataFormat,
-              nativeStreamMetadataFormatName,
-              nativeStreamMetadataFormatClassName,
-              extraStreamMetadataFormatNames,
-              extraStreamMetadataFormatClassNames,
-              supportsStandardImageMetadataFormat,
-              nativeImageMetadataFormatName,
-              nativeImageMetadataFormatClassName,
-              extraImageMetadataFormatNames,
-              extraImageMetadataFormatClassNames);
+                          String rebderClbssNbme,
+                          Clbss<?>[] inputTypes,
+                          String[] writerSpiNbmes,
+                          boolebn supportsStbndbrdStrebmMetbdbtbFormbt,
+                          String nbtiveStrebmMetbdbtbFormbtNbme,
+                          String nbtiveStrebmMetbdbtbFormbtClbssNbme,
+                          String[] extrbStrebmMetbdbtbFormbtNbmes,
+                          String[] extrbStrebmMetbdbtbFormbtClbssNbmes,
+                          boolebn supportsStbndbrdImbgeMetbdbtbFormbt,
+                          String nbtiveImbgeMetbdbtbFormbtNbme,
+                          String nbtiveImbgeMetbdbtbFormbtClbssNbme,
+                          String[] extrbImbgeMetbdbtbFormbtNbmes,
+                          String[] extrbImbgeMetbdbtbFormbtClbssNbmes) {
+        super(vendorNbme, version,
+              nbmes, suffixes, MIMETypes, rebderClbssNbme,
+              supportsStbndbrdStrebmMetbdbtbFormbt,
+              nbtiveStrebmMetbdbtbFormbtNbme,
+              nbtiveStrebmMetbdbtbFormbtClbssNbme,
+              extrbStrebmMetbdbtbFormbtNbmes,
+              extrbStrebmMetbdbtbFormbtClbssNbmes,
+              supportsStbndbrdImbgeMetbdbtbFormbt,
+              nbtiveImbgeMetbdbtbFormbtNbme,
+              nbtiveImbgeMetbdbtbFormbtClbssNbme,
+              extrbImbgeMetbdbtbFormbtNbmes,
+              extrbImbgeMetbdbtbFormbtClbssNbmes);
 
         if (inputTypes == null) {
-            throw new IllegalArgumentException
+            throw new IllegblArgumentException
                 ("inputTypes == null!");
         }
         if (inputTypes.length == 0) {
-            throw new IllegalArgumentException
+            throw new IllegblArgumentException
                 ("inputTypes.length == 0!");
         }
 
         this.inputTypes = (inputTypes == STANDARD_INPUT_TYPE) ?
-            new Class<?>[] { ImageInputStream.class } :
+            new Clbss<?>[] { ImbgeInputStrebm.clbss } :
             inputTypes.clone();
 
-        // If length == 0, leave it null
-        if (writerSpiNames != null && writerSpiNames.length > 0) {
-            this.writerSpiNames = writerSpiNames.clone();
+        // If length == 0, lebve it null
+        if (writerSpiNbmes != null && writerSpiNbmes.length > 0) {
+            this.writerSpiNbmes = writerSpiNbmes.clone();
         }
     }
 
     /**
-     * Returns an array of <code>Class</code> objects indicating what
-     * types of objects may be used as arguments to the reader's
+     * Returns bn brrby of <code>Clbss</code> objects indicbting whbt
+     * types of objects mby be used bs brguments to the rebder's
      * <code>setInput</code> method.
      *
-     * <p> For most readers, which only accept input from an
-     * <code>ImageInputStream</code>, a single-element array
-     * containing <code>ImageInputStream.class</code> should be
+     * <p> For most rebders, which only bccept input from bn
+     * <code>ImbgeInputStrebm</code>, b single-element brrby
+     * contbining <code>ImbgeInputStrebm.clbss</code> should be
      * returned.
      *
-     * @return a non-<code>null</code> array of
-     * <code>Class</code> objects of length at least 1.
+     * @return b non-<code>null</code> brrby of
+     * <code>Clbss</code> objects of length bt lebst 1.
      */
-    public Class<?>[] getInputTypes() {
+    public Clbss<?>[] getInputTypes() {
         return inputTypes.clone();
     }
 
     /**
-     * Returns <code>true</code> if the supplied source object appears
-     * to be of the format supported by this reader.  Returning
-     * <code>true</code> from this method does not guarantee that
-     * reading will succeed, only that there appears to be a
-     * reasonable chance of success based on a brief inspection of the
-     * stream contents.  If the source is an
-     * <code>ImageInputStream</code>, implementations will commonly
-     * check the first several bytes of the stream for a "magic
-     * number" associated with the format.  Once actual reading has
-     * commenced, the reader may still indicate failure at any time
+     * Returns <code>true</code> if the supplied source object bppebrs
+     * to be of the formbt supported by this rebder.  Returning
+     * <code>true</code> from this method does not gubrbntee thbt
+     * rebding will succeed, only thbt there bppebrs to be b
+     * rebsonbble chbnce of success bbsed on b brief inspection of the
+     * strebm contents.  If the source is bn
+     * <code>ImbgeInputStrebm</code>, implementbtions will commonly
+     * check the first severbl bytes of the strebm for b "mbgic
+     * number" bssocibted with the formbt.  Once bctubl rebding hbs
+     * commenced, the rebder mby still indicbte fbilure bt bny time
      * prior to the completion of decoding.
      *
-     * <p> It is important that the state of the object not be
-     * disturbed in order that other <code>ImageReaderSpi</code>s can
-     * properly determine whether they are able to decode the object.
-     * In particular, if the source is an
-     * <code>ImageInputStream</code>, a
-     * <code>mark</code>/<code>reset</code> pair should be used to
-     * preserve the stream position.
+     * <p> It is importbnt thbt the stbte of the object not be
+     * disturbed in order thbt other <code>ImbgeRebderSpi</code>s cbn
+     * properly determine whether they bre bble to decode the object.
+     * In pbrticulbr, if the source is bn
+     * <code>ImbgeInputStrebm</code>, b
+     * <code>mbrk</code>/<code>reset</code> pbir should be used to
+     * preserve the strebm position.
      *
-     * <p> Formats such as "raw," which can potentially attempt
-     * to read nearly any stream, should return <code>false</code>
-     * in order to avoid being invoked in preference to a closer
-     * match.
+     * <p> Formbts such bs "rbw," which cbn potentiblly bttempt
+     * to rebd nebrly bny strebm, should return <code>fblse</code>
+     * in order to bvoid being invoked in preference to b closer
+     * mbtch.
      *
-     * <p> If <code>source</code> is not an instance of one of the
-     * classes returned by <code>getInputTypes</code>, the method
-     * should simply return <code>false</code>.
+     * <p> If <code>source</code> is not bn instbnce of one of the
+     * clbsses returned by <code>getInputTypes</code>, the method
+     * should simply return <code>fblse</code>.
      *
-     * @param source the object (typically an
-     * <code>ImageInputStream</code>) to be decoded.
+     * @pbrbm source the object (typicblly bn
+     * <code>ImbgeInputStrebm</code>) to be decoded.
      *
-     * @return <code>true</code> if it is likely that this stream can
+     * @return <code>true</code> if it is likely thbt this strebm cbn
      * be decoded.
      *
-     * @exception IllegalArgumentException if <code>source</code> is
+     * @exception IllegblArgumentException if <code>source</code> is
      * <code>null</code>.
-     * @exception IOException if an I/O error occurs while reading the
-     * stream.
+     * @exception IOException if bn I/O error occurs while rebding the
+     * strebm.
      */
-    public abstract boolean canDecodeInput(Object source) throws IOException;
+    public bbstrbct boolebn cbnDecodeInput(Object source) throws IOException;
 
     /**
-     * Returns an instance of the <code>ImageReader</code>
-     * implementation associated with this service provider.
-     * The returned object will initially be in an initial state
-     * as if its <code>reset</code> method had been called.
+     * Returns bn instbnce of the <code>ImbgeRebder</code>
+     * implementbtion bssocibted with this service provider.
+     * The returned object will initiblly be in bn initibl stbte
+     * bs if its <code>reset</code> method hbd been cblled.
      *
-     * <p> The default implementation simply returns
-     * <code>createReaderInstance(null)</code>.
+     * <p> The defbult implementbtion simply returns
+     * <code>crebteRebderInstbnce(null)</code>.
      *
-     * @return an <code>ImageReader</code> instance.
+     * @return bn <code>ImbgeRebder</code> instbnce.
      *
-     * @exception IOException if an error occurs during loading,
-     * or initialization of the reader class, or during instantiation
-     * or initialization of the reader object.
+     * @exception IOException if bn error occurs during lobding,
+     * or initiblizbtion of the rebder clbss, or during instbntibtion
+     * or initiblizbtion of the rebder object.
      */
-    public ImageReader createReaderInstance() throws IOException {
-        return createReaderInstance(null);
+    public ImbgeRebder crebteRebderInstbnce() throws IOException {
+        return crebteRebderInstbnce(null);
     }
 
     /**
-     * Returns an instance of the <code>ImageReader</code>
-     * implementation associated with this service provider.
-     * The returned object will initially be in an initial state
-     * as if its <code>reset</code> method had been called.
+     * Returns bn instbnce of the <code>ImbgeRebder</code>
+     * implementbtion bssocibted with this service provider.
+     * The returned object will initiblly be in bn initibl stbte
+     * bs if its <code>reset</code> method hbd been cblled.
      *
-     * <p> An <code>Object</code> may be supplied to the plug-in at
-     * construction time.  The nature of the object is entirely
+     * <p> An <code>Object</code> mby be supplied to the plug-in bt
+     * construction time.  The nbture of the object is entirely
      * plug-in specific.
      *
-     * <p> Typically, a plug-in will implement this method using code
-     * such as <code>return new MyImageReader(this)</code>.
+     * <p> Typicblly, b plug-in will implement this method using code
+     * such bs <code>return new MyImbgeRebder(this)</code>.
      *
-     * @param extension a plug-in specific extension object, which may
+     * @pbrbm extension b plug-in specific extension object, which mby
      * be <code>null</code>.
      *
-     * @return an <code>ImageReader</code> instance.
+     * @return bn <code>ImbgeRebder</code> instbnce.
      *
-     * @exception IOException if the attempt to instantiate
-     * the reader fails.
-     * @exception IllegalArgumentException if the
-     * <code>ImageReader</code>'s constructor throws an
-     * <code>IllegalArgumentException</code> to indicate that the
-     * extension object is unsuitable.
+     * @exception IOException if the bttempt to instbntibte
+     * the rebder fbils.
+     * @exception IllegblArgumentException if the
+     * <code>ImbgeRebder</code>'s constructor throws bn
+     * <code>IllegblArgumentException</code> to indicbte thbt the
+     * extension object is unsuitbble.
      */
-    public abstract ImageReader createReaderInstance(Object extension)
+    public bbstrbct ImbgeRebder crebteRebderInstbnce(Object extension)
         throws IOException;
 
     /**
-     * Returns <code>true</code> if the <code>ImageReader</code> object
-     * passed in is an instance of the <code>ImageReader</code>
-     * associated with this service provider.
+     * Returns <code>true</code> if the <code>ImbgeRebder</code> object
+     * pbssed in is bn instbnce of the <code>ImbgeRebder</code>
+     * bssocibted with this service provider.
      *
-     * <p> The default implementation compares the fully-qualified
-     * class name of the <code>reader</code> argument with the class
-     * name passed into the constructor.  This method may be overridden
-     * if more sophisticated checking is required.
+     * <p> The defbult implementbtion compbres the fully-qublified
+     * clbss nbme of the <code>rebder</code> brgument with the clbss
+     * nbme pbssed into the constructor.  This method mby be overridden
+     * if more sophisticbted checking is required.
      *
-     * @param reader an <code>ImageReader</code> instance.
+     * @pbrbm rebder bn <code>ImbgeRebder</code> instbnce.
      *
-     * @return <code>true</code> if <code>reader</code> is recognized.
+     * @return <code>true</code> if <code>rebder</code> is recognized.
      *
-     * @exception IllegalArgumentException if <code>reader</code> is
+     * @exception IllegblArgumentException if <code>rebder</code> is
      * <code>null</code>.
      */
-    public boolean isOwnReader(ImageReader reader) {
-        if (reader == null) {
-            throw new IllegalArgumentException("reader == null!");
+    public boolebn isOwnRebder(ImbgeRebder rebder) {
+        if (rebder == null) {
+            throw new IllegblArgumentException("rebder == null!");
         }
-        String name = reader.getClass().getName();
-        return name.equals(pluginClassName);
+        String nbme = rebder.getClbss().getNbme();
+        return nbme.equbls(pluginClbssNbme);
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the fully
-     * qualified names of all the <code>ImageWriterSpi</code> classes
-     * that can understand the internal metadata representation used
-     * by the <code>ImageReader</code> associated with this service
-     * provider, or <code>null</code> if there are no such
-     * <code>ImageWriter</code>s specified.  If a
-     * non-<code>null</code> value is returned, it must have non-zero
+     * Returns bn brrby of <code>String</code>s contbining the fully
+     * qublified nbmes of bll the <code>ImbgeWriterSpi</code> clbsses
+     * thbt cbn understbnd the internbl metbdbtb representbtion used
+     * by the <code>ImbgeRebder</code> bssocibted with this service
+     * provider, or <code>null</code> if there bre no such
+     * <code>ImbgeWriter</code>s specified.  If b
+     * non-<code>null</code> vblue is returned, it must hbve non-zero
      * length.
      *
-     * <p> The first item in the array must be the name of the service
-     * provider for the "preferred" writer, as it will be used to
-     * instantiate the <code>ImageWriter</code> returned by
-     * <code>ImageIO.getImageWriter(ImageReader)</code>.
+     * <p> The first item in the brrby must be the nbme of the service
+     * provider for the "preferred" writer, bs it will be used to
+     * instbntibte the <code>ImbgeWriter</code> returned by
+     * <code>ImbgeIO.getImbgeWriter(ImbgeRebder)</code>.
      *
-     * <p> This mechanism may be used to obtain
-     * <code>ImageWriters</code> that will understand the internal
-     * structure of non-pixel meta-data (see
-     * <code>IIOTreeInfo</code>) generated by an
-     * <code>ImageReader</code>.  By obtaining this data from the
-     * <code>ImageReader</code> and passing it on to one of the
-     * <code>ImageWriters</code> obtained with this method, a client
-     * program can read an image, modify it in some way, and write it
-     * back out while preserving all meta-data, without having to
-     * understand anything about the internal structure of the
-     * meta-data, or even about the image format.
+     * <p> This mechbnism mby be used to obtbin
+     * <code>ImbgeWriters</code> thbt will understbnd the internbl
+     * structure of non-pixel metb-dbtb (see
+     * <code>IIOTreeInfo</code>) generbted by bn
+     * <code>ImbgeRebder</code>.  By obtbining this dbtb from the
+     * <code>ImbgeRebder</code> bnd pbssing it on to one of the
+     * <code>ImbgeWriters</code> obtbined with this method, b client
+     * progrbm cbn rebd bn imbge, modify it in some wby, bnd write it
+     * bbck out while preserving bll metb-dbtb, without hbving to
+     * understbnd bnything bbout the internbl structure of the
+     * metb-dbtb, or even bbout the imbge formbt.
      *
-     * @return an array of <code>String</code>s of length at least 1
-     * containing names of <code>ImageWriterSpi</code>, or
+     * @return bn brrby of <code>String</code>s of length bt lebst 1
+     * contbining nbmes of <code>ImbgeWriterSpi</code>, or
      * <code>null</code>.
      *
-     * @see javax.imageio.ImageIO#getImageWriter(ImageReader)
+     * @see jbvbx.imbgeio.ImbgeIO#getImbgeWriter(ImbgeRebder)
      */
-    public String[] getImageWriterSpiNames() {
-        return writerSpiNames == null ?
-            null : writerSpiNames.clone();
+    public String[] getImbgeWriterSpiNbmes() {
+        return writerSpiNbmes == null ?
+            null : writerSpiNbmes.clone();
     }
 }

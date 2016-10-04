@@ -1,885 +1,885 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.io.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
-import java.security.Provider.Service;
+import jbvb.security.Provider.Service;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherSpi;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.NoSuchPaddingException;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.CipherSpi;
+import jbvbx.crypto.IllegblBlockSizeException;
+import jbvbx.crypto.BbdPbddingException;
+import jbvbx.crypto.NoSuchPbddingException;
 
 import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * The Signature class is used to provide applications the functionality
- * of a digital signature algorithm. Digital signatures are used for
- * authentication and integrity assurance of digital data.
+ * The Signbture clbss is used to provide bpplicbtions the functionblity
+ * of b digitbl signbture blgorithm. Digitbl signbtures bre used for
+ * buthenticbtion bnd integrity bssurbnce of digitbl dbtb.
  *
- * <p> The signature algorithm can be, among others, the NIST standard
- * DSA, using DSA and SHA-1. The DSA algorithm using the
- * SHA-1 message digest algorithm can be specified as {@code SHA1withDSA}.
- * In the case of RSA, there are multiple choices for the message digest
- * algorithm, so the signing algorithm could be specified as, for example,
+ * <p> The signbture blgorithm cbn be, bmong others, the NIST stbndbrd
+ * DSA, using DSA bnd SHA-1. The DSA blgorithm using the
+ * SHA-1 messbge digest blgorithm cbn be specified bs {@code SHA1withDSA}.
+ * In the cbse of RSA, there bre multiple choices for the messbge digest
+ * blgorithm, so the signing blgorithm could be specified bs, for exbmple,
  * {@code MD2withRSA}, {@code MD5withRSA}, or {@code SHA1withRSA}.
- * The algorithm name must be specified, as there is no default.
+ * The blgorithm nbme must be specified, bs there is no defbult.
  *
- * <p> A Signature object can be used to generate and verify digital
- * signatures.
+ * <p> A Signbture object cbn be used to generbte bnd verify digitbl
+ * signbtures.
  *
- * <p> There are three phases to the use of a Signature object for
- * either signing data or verifying a signature:<ol>
+ * <p> There bre three phbses to the use of b Signbture object for
+ * either signing dbtb or verifying b signbture:<ol>
  *
- * <li>Initialization, with either
+ * <li>Initiblizbtion, with either
  *
  *     <ul>
  *
- *     <li>a public key, which initializes the signature for
- *     verification (see {@link #initVerify(PublicKey) initVerify}), or
+ *     <li>b public key, which initiblizes the signbture for
+ *     verificbtion (see {@link #initVerify(PublicKey) initVerify}), or
  *
- *     <li>a private key (and optionally a Secure Random Number Generator),
- *     which initializes the signature for signing
- *     (see {@link #initSign(PrivateKey)}
- *     and {@link #initSign(PrivateKey, SecureRandom)}).
+ *     <li>b privbte key (bnd optionblly b Secure Rbndom Number Generbtor),
+ *     which initiblizes the signbture for signing
+ *     (see {@link #initSign(PrivbteKey)}
+ *     bnd {@link #initSign(PrivbteKey, SecureRbndom)}).
  *
  *     </ul>
  *
- * <li>Updating
+ * <li>Updbting
  *
- * <p>Depending on the type of initialization, this will update the
+ * <p>Depending on the type of initiblizbtion, this will updbte the
  * bytes to be signed or verified. See the
- * {@link #update(byte) update} methods.
+ * {@link #updbte(byte) updbte} methods.
  *
- * <li>Signing or Verifying a signature on all updated bytes. See the
- * {@link #sign() sign} methods and the {@link #verify(byte[]) verify}
+ * <li>Signing or Verifying b signbture on bll updbted bytes. See the
+ * {@link #sign() sign} methods bnd the {@link #verify(byte[]) verify}
  * method.
  *
  * </ol>
  *
- * <p>Note that this class is abstract and extends from
- * {@code SignatureSpi} for historical reasons.
- * Application developers should only take notice of the methods defined in
- * this {@code Signature} class; all the methods in
- * the superclass are intended for cryptographic service providers who wish to
- * supply their own implementations of digital signature algorithms.
+ * <p>Note thbt this clbss is bbstrbct bnd extends from
+ * {@code SignbtureSpi} for historicbl rebsons.
+ * Applicbtion developers should only tbke notice of the methods defined in
+ * this {@code Signbture} clbss; bll the methods in
+ * the superclbss bre intended for cryptogrbphic service providers who wish to
+ * supply their own implementbtions of digitbl signbture blgorithms.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code Signature} algorithms:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd {@code Signbture} blgorithms:
  * <ul>
  * <li>{@code SHA1withDSA}</li>
  * <li>{@code SHA1withRSA}</li>
  * <li>{@code SHA256withRSA}</li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
- * Signature section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * These blgorithms bre described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Signbture">
+ * Signbture section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  */
 
-public abstract class Signature extends SignatureSpi {
+public bbstrbct clbss Signbture extends SignbtureSpi {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "Signature");
+    privbte stbtic finbl Debug debug =
+                        Debug.getInstbnce("jcb", "Signbture");
 
     /*
-     * The algorithm for this signature object.
-     * This value is used to map an OID to the particular algorithm.
-     * The mapping is done in AlgorithmObject.algOID(String algorithm)
+     * The blgorithm for this signbture object.
+     * This vblue is used to mbp bn OID to the pbrticulbr blgorithm.
+     * The mbpping is done in AlgorithmObject.blgOID(String blgorithm)
      */
-    private String algorithm;
+    privbte String blgorithm;
 
     // The provider
     Provider provider;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has not yet been initialized.
+     * Possible {@link #stbte} vblue, signifying thbt
+     * this signbture object hbs not yet been initiblized.
      */
-    protected final static int UNINITIALIZED = 0;
+    protected finbl stbtic int UNINITIALIZED = 0;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has been initialized for signing.
+     * Possible {@link #stbte} vblue, signifying thbt
+     * this signbture object hbs been initiblized for signing.
      */
-    protected final static int SIGN = 2;
+    protected finbl stbtic int SIGN = 2;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has been initialized for verification.
+     * Possible {@link #stbte} vblue, signifying thbt
+     * this signbture object hbs been initiblized for verificbtion.
      */
-    protected final static int VERIFY = 3;
+    protected finbl stbtic int VERIFY = 3;
 
     /**
-     * Current state of this signature object.
+     * Current stbte of this signbture object.
      */
-    protected int state = UNINITIALIZED;
+    protected int stbte = UNINITIALIZED;
 
     /**
-     * Creates a Signature object for the specified algorithm.
+     * Crebtes b Signbture object for the specified blgorithm.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd string nbme of the blgorithm.
+     * See the Signbture section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Signbture">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      */
-    protected Signature(String algorithm) {
-        this.algorithm = algorithm;
+    protected Signbture(String blgorithm) {
+        this.blgorithm = blgorithm;
     }
 
-    // name of the special signature alg
-    private final static String RSA_SIGNATURE = "NONEwithRSA";
+    // nbme of the specibl signbture blg
+    privbte finbl stbtic String RSA_SIGNATURE = "NONEwithRSA";
 
-    // name of the equivalent cipher alg
-    private final static String RSA_CIPHER = "RSA/ECB/PKCS1Padding";
+    // nbme of the equivblent cipher blg
+    privbte finbl stbtic String RSA_CIPHER = "RSA/ECB/PKCS1Pbdding";
 
-    // all the services we need to lookup for compatibility with Cipher
-    private final static List<ServiceId> rsaIds = Arrays.asList(
+    // bll the services we need to lookup for compbtibility with Cipher
+    privbte finbl stbtic List<ServiceId> rsbIds = Arrbys.bsList(
         new ServiceId[] {
-            new ServiceId("Signature", "NONEwithRSA"),
-            new ServiceId("Cipher", "RSA/ECB/PKCS1Padding"),
+            new ServiceId("Signbture", "NONEwithRSA"),
+            new ServiceId("Cipher", "RSA/ECB/PKCS1Pbdding"),
             new ServiceId("Cipher", "RSA/ECB"),
-            new ServiceId("Cipher", "RSA//PKCS1Padding"),
+            new ServiceId("Cipher", "RSA//PKCS1Pbdding"),
             new ServiceId("Cipher", "RSA"),
         }
     );
 
     /**
-     * Returns a Signature object that implements the specified signature
-     * algorithm.
+     * Returns b Signbture object thbt implements the specified signbture
+     * blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new Signature object encapsulating the
-     * SignatureSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new Signbture object encbpsulbting the
+     * SignbtureSpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the blgorithm requested.
+     * See the Signbture section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Signbture">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new Signature object.
+     * @return the new Signbture object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          Signature implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          Signbture implementbtion for the
+     *          specified blgorithm.
      *
      * @see Provider
      */
-    public static Signature getInstance(String algorithm)
+    public stbtic Signbture getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
         List<Service> list;
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            list = GetInstance.getServices(rsaIds);
+        if (blgorithm.equblsIgnoreCbse(RSA_SIGNATURE)) {
+            list = GetInstbnce.getServices(rsbIds);
         } else {
-            list = GetInstance.getServices("Signature", algorithm);
+            list = GetInstbnce.getServices("Signbture", blgorithm);
         }
-        Iterator<Service> t = list.iterator();
-        if (t.hasNext() == false) {
+        Iterbtor<Service> t = list.iterbtor();
+        if (t.hbsNext() == fblse) {
             throw new NoSuchAlgorithmException
-                (algorithm + " Signature not available");
+                (blgorithm + " Signbture not bvbilbble");
         }
-        // try services until we find an Spi or a working Signature subclass
-        NoSuchAlgorithmException failure;
+        // try services until we find bn Spi or b working Signbture subclbss
+        NoSuchAlgorithmException fbilure;
         do {
             Service s = t.next();
             if (isSpi(s)) {
-                return new Delegate(s, t, algorithm);
+                return new Delegbte(s, t, blgorithm);
             } else {
-                // must be a subclass of Signature, disable dynamic selection
+                // must be b subclbss of Signbture, disbble dynbmic selection
                 try {
-                    Instance instance =
-                        GetInstance.getInstance(s, SignatureSpi.class);
-                    return getInstance(instance, algorithm);
-                } catch (NoSuchAlgorithmException e) {
-                    failure = e;
+                    Instbnce instbnce =
+                        GetInstbnce.getInstbnce(s, SignbtureSpi.clbss);
+                    return getInstbnce(instbnce, blgorithm);
+                } cbtch (NoSuchAlgorithmException e) {
+                    fbilure = e;
                 }
             }
-        } while (t.hasNext());
-        throw failure;
+        } while (t.hbsNext());
+        throw fbilure;
     }
 
-    private static Signature getInstance(Instance instance, String algorithm) {
-        Signature sig;
-        if (instance.impl instanceof Signature) {
-            sig = (Signature)instance.impl;
-            sig.algorithm = algorithm;
+    privbte stbtic Signbture getInstbnce(Instbnce instbnce, String blgorithm) {
+        Signbture sig;
+        if (instbnce.impl instbnceof Signbture) {
+            sig = (Signbture)instbnce.impl;
+            sig.blgorithm = blgorithm;
         } else {
-            SignatureSpi spi = (SignatureSpi)instance.impl;
-            sig = new Delegate(spi, algorithm);
+            SignbtureSpi spi = (SignbtureSpi)instbnce.impl;
+            sig = new Delegbte(spi, blgorithm);
         }
-        sig.provider = instance.provider;
+        sig.provider = instbnce.provider;
         return sig;
     }
 
-    private final static Map<String,Boolean> signatureInfo;
+    privbte finbl stbtic Mbp<String,Boolebn> signbtureInfo;
 
-    static {
-        signatureInfo = new ConcurrentHashMap<String,Boolean>();
-        Boolean TRUE = Boolean.TRUE;
-        // pre-initialize with values for our SignatureSpi implementations
-        signatureInfo.put("sun.security.provider.DSA$RawDSA", TRUE);
-        signatureInfo.put("sun.security.provider.DSA$SHA1withDSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$MD2withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$MD5withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA1withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA256withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA384withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA512withRSA", TRUE);
-        signatureInfo.put("com.sun.net.ssl.internal.ssl.RSASignature", TRUE);
-        signatureInfo.put("sun.security.pkcs11.P11Signature", TRUE);
+    stbtic {
+        signbtureInfo = new ConcurrentHbshMbp<String,Boolebn>();
+        Boolebn TRUE = Boolebn.TRUE;
+        // pre-initiblize with vblues for our SignbtureSpi implementbtions
+        signbtureInfo.put("sun.security.provider.DSA$RbwDSA", TRUE);
+        signbtureInfo.put("sun.security.provider.DSA$SHA1withDSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$MD2withRSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$MD5withRSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$SHA1withRSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$SHA256withRSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$SHA384withRSA", TRUE);
+        signbtureInfo.put("sun.security.rsb.RSASignbture$SHA512withRSA", TRUE);
+        signbtureInfo.put("com.sun.net.ssl.internbl.ssl.RSASignbture", TRUE);
+        signbtureInfo.put("sun.security.pkcs11.P11Signbture", TRUE);
     }
 
-    private static boolean isSpi(Service s) {
-        if (s.getType().equals("Cipher")) {
-            // must be a CipherSpi, which we can wrap with the CipherAdapter
+    privbte stbtic boolebn isSpi(Service s) {
+        if (s.getType().equbls("Cipher")) {
+            // must be b CipherSpi, which we cbn wrbp with the CipherAdbpter
             return true;
         }
-        String className = s.getClassName();
-        Boolean result = signatureInfo.get(className);
+        String clbssNbme = s.getClbssNbme();
+        Boolebn result = signbtureInfo.get(clbssNbme);
         if (result == null) {
             try {
-                Object instance = s.newInstance(null);
-                // Signature extends SignatureSpi
-                // so it is a "real" Spi if it is an
-                // instance of SignatureSpi but not Signature
-                boolean r = (instance instanceof SignatureSpi)
-                                && (instance instanceof Signature == false);
-                if ((debug != null) && (r == false)) {
-                    debug.println("Not a SignatureSpi " + className);
-                    debug.println("Delayed provider selection may not be "
-                        + "available for algorithm " + s.getAlgorithm());
+                Object instbnce = s.newInstbnce(null);
+                // Signbture extends SignbtureSpi
+                // so it is b "rebl" Spi if it is bn
+                // instbnce of SignbtureSpi but not Signbture
+                boolebn r = (instbnce instbnceof SignbtureSpi)
+                                && (instbnce instbnceof Signbture == fblse);
+                if ((debug != null) && (r == fblse)) {
+                    debug.println("Not b SignbtureSpi " + clbssNbme);
+                    debug.println("Delbyed provider selection mby not be "
+                        + "bvbilbble for blgorithm " + s.getAlgorithm());
                 }
-                result = Boolean.valueOf(r);
-                signatureInfo.put(className, result);
-            } catch (Exception e) {
-                // something is wrong, assume not an SPI
-                return false;
+                result = Boolebn.vblueOf(r);
+                signbtureInfo.put(clbssNbme, result);
+            } cbtch (Exception e) {
+                // something is wrong, bssume not bn SPI
+                return fblse;
             }
         }
-        return result.booleanValue();
+        return result.boolebnVblue();
     }
 
     /**
-     * Returns a Signature object that implements the specified signature
-     * algorithm.
+     * Returns b Signbture object thbt implements the specified signbture
+     * blgorithm.
      *
-     * <p> A new Signature object encapsulating the
-     * SignatureSpi implementation from the specified provider
+     * <p> A new Signbture object encbpsulbting the
+     * SignbtureSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the blgorithm requested.
+     * See the Signbture section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Signbture">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return the new Signature object.
+     * @return the new Signbture object.
      *
-     * @exception NoSuchAlgorithmException if a SignatureSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if b SignbtureSpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the provider name is null
+     * @exception IllegblArgumentException if the provider nbme is null
      *          or empty.
      *
      * @see Provider
      */
-    public static Signature getInstance(String algorithm, String provider)
+    public stbtic Signbture getInstbnce(String blgorithm, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            // exception compatibility with existing code
+        if (blgorithm.equblsIgnoreCbse(RSA_SIGNATURE)) {
+            // exception compbtibility with existing code
             if ((provider == null) || (provider.length() == 0)) {
-                throw new IllegalArgumentException("missing provider");
+                throw new IllegblArgumentException("missing provider");
             }
             Provider p = Security.getProvider(provider);
             if (p == null) {
                 throw new NoSuchProviderException
                     ("no such provider: " + provider);
             }
-            return getInstanceRSA(p);
+            return getInstbnceRSA(p);
         }
-        Instance instance = GetInstance.getInstance
-                ("Signature", SignatureSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+        Instbnce instbnce = GetInstbnce.getInstbnce
+                ("Signbture", SignbtureSpi.clbss, blgorithm, provider);
+        return getInstbnce(instbnce, blgorithm);
     }
 
     /**
-     * Returns a Signature object that implements the specified
-     * signature algorithm.
+     * Returns b Signbture object thbt implements the specified
+     * signbture blgorithm.
      *
-     * <p> A new Signature object encapsulating the
-     * SignatureSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new Signbture object encbpsulbting the
+     * SignbtureSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the blgorithm requested.
+     * See the Signbture section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Signbture">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return the new Signature object.
+     * @return the new Signbture object.
      *
-     * @exception NoSuchAlgorithmException if a SignatureSpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if b SignbtureSpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the provider is null.
+     * @exception IllegblArgumentException if the provider is null.
      *
      * @see Provider
      *
      * @since 1.4
      */
-    public static Signature getInstance(String algorithm, Provider provider)
+    public stbtic Signbture getInstbnce(String blgorithm, Provider provider)
             throws NoSuchAlgorithmException {
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            // exception compatibility with existing code
+        if (blgorithm.equblsIgnoreCbse(RSA_SIGNATURE)) {
+            // exception compbtibility with existing code
             if (provider == null) {
-                throw new IllegalArgumentException("missing provider");
+                throw new IllegblArgumentException("missing provider");
             }
-            return getInstanceRSA(provider);
+            return getInstbnceRSA(provider);
         }
-        Instance instance = GetInstance.getInstance
-                ("Signature", SignatureSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+        Instbnce instbnce = GetInstbnce.getInstbnce
+                ("Signbture", SignbtureSpi.clbss, blgorithm, provider);
+        return getInstbnce(instbnce, blgorithm);
     }
 
-    // return an implementation for NONEwithRSA, which is a special case
-    // because of the Cipher.RSA/ECB/PKCS1Padding compatibility wrapper
-    private static Signature getInstanceRSA(Provider p)
+    // return bn implementbtion for NONEwithRSA, which is b specibl cbse
+    // becbuse of the Cipher.RSA/ECB/PKCS1Pbdding compbtibility wrbpper
+    privbte stbtic Signbture getInstbnceRSA(Provider p)
             throws NoSuchAlgorithmException {
-        // try Signature first
-        Service s = p.getService("Signature", RSA_SIGNATURE);
+        // try Signbture first
+        Service s = p.getService("Signbture", RSA_SIGNATURE);
         if (s != null) {
-            Instance instance = GetInstance.getInstance(s, SignatureSpi.class);
-            return getInstance(instance, RSA_SIGNATURE);
+            Instbnce instbnce = GetInstbnce.getInstbnce(s, SignbtureSpi.clbss);
+            return getInstbnce(instbnce, RSA_SIGNATURE);
         }
         // check Cipher
         try {
-            Cipher c = Cipher.getInstance(RSA_CIPHER, p);
-            return new Delegate(new CipherAdapter(c), RSA_SIGNATURE);
-        } catch (GeneralSecurityException e) {
-            // throw Signature style exception message to avoid confusion,
-            // but append Cipher exception as cause
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + RSA_SIGNATURE + " for provider " + p.getName(), e);
+            Cipher c = Cipher.getInstbnce(RSA_CIPHER, p);
+            return new Delegbte(new CipherAdbpter(c), RSA_SIGNATURE);
+        } cbtch (GenerblSecurityException e) {
+            // throw Signbture style exception messbge to bvoid confusion,
+            // but bppend Cipher exception bs cbuse
+            throw new NoSuchAlgorithmException("no such blgorithm: "
+                + RSA_SIGNATURE + " for provider " + p.getNbme(), e);
         }
     }
 
     /**
-     * Returns the provider of this signature object.
+     * Returns the provider of this signbture object.
      *
-     * @return the provider of this signature object
+     * @return the provider of this signbture object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         chooseFirstProvider();
         return this.provider;
     }
 
     void chooseFirstProvider() {
-        // empty, overridden in Delegate
+        // empty, overridden in Delegbte
     }
 
     /**
-     * Initializes this object for verification. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
+     * Initiblizes this object for verificbtion. If this method is cblled
+     * bgbin with b different brgument, it negbtes the effect
+     * of this cbll.
      *
-     * @param publicKey the public key of the identity whose signature is
+     * @pbrbm publicKey the public key of the identity whose signbture is
      * going to be verified.
      *
-     * @exception InvalidKeyException if the key is invalid.
+     * @exception InvblidKeyException if the key is invblid.
      */
-    public final void initVerify(PublicKey publicKey)
-            throws InvalidKeyException {
+    public finbl void initVerify(PublicKey publicKey)
+            throws InvblidKeyException {
         engineInitVerify(publicKey);
-        state = VERIFY;
+        stbte = VERIFY;
     }
 
     /**
-     * Initializes this object for verification, using the public key from
-     * the given certificate.
-     * <p>If the certificate is of type X.509 and has a <i>key usage</i>
-     * extension field marked as critical, and the value of the <i>key usage</i>
-     * extension field implies that the public key in
-     * the certificate and its corresponding private key are not
-     * supposed to be used for digital signatures, an
-     * {@code InvalidKeyException} is thrown.
+     * Initiblizes this object for verificbtion, using the public key from
+     * the given certificbte.
+     * <p>If the certificbte is of type X.509 bnd hbs b <i>key usbge</i>
+     * extension field mbrked bs criticbl, bnd the vblue of the <i>key usbge</i>
+     * extension field implies thbt the public key in
+     * the certificbte bnd its corresponding privbte key bre not
+     * supposed to be used for digitbl signbtures, bn
+     * {@code InvblidKeyException} is thrown.
      *
-     * @param certificate the certificate of the identity whose signature is
+     * @pbrbm certificbte the certificbte of the identity whose signbture is
      * going to be verified.
      *
-     * @exception InvalidKeyException  if the public key in the certificate
-     * is not encoded properly or does not include required  parameter
-     * information or cannot be used for digital signature purposes.
+     * @exception InvblidKeyException  if the public key in the certificbte
+     * is not encoded properly or does not include required  pbrbmeter
+     * informbtion or cbnnot be used for digitbl signbture purposes.
      * @since 1.3
      */
-    public final void initVerify(Certificate certificate)
-            throws InvalidKeyException {
-        // If the certificate is of type X509Certificate,
-        // we should check whether it has a Key Usage
-        // extension marked as critical.
-        if (certificate instanceof java.security.cert.X509Certificate) {
-            // Check whether the cert has a key usage extension
-            // marked as a critical extension.
-            // The OID for KeyUsage extension is 2.5.29.15.
-            X509Certificate cert = (X509Certificate)certificate;
-            Set<String> critSet = cert.getCriticalExtensionOIDs();
+    public finbl void initVerify(Certificbte certificbte)
+            throws InvblidKeyException {
+        // If the certificbte is of type X509Certificbte,
+        // we should check whether it hbs b Key Usbge
+        // extension mbrked bs criticbl.
+        if (certificbte instbnceof jbvb.security.cert.X509Certificbte) {
+            // Check whether the cert hbs b key usbge extension
+            // mbrked bs b criticbl extension.
+            // The OID for KeyUsbge extension is 2.5.29.15.
+            X509Certificbte cert = (X509Certificbte)certificbte;
+            Set<String> critSet = cert.getCriticblExtensionOIDs();
 
             if (critSet != null && !critSet.isEmpty()
-                && critSet.contains("2.5.29.15")) {
-                boolean[] keyUsageInfo = cert.getKeyUsage();
-                // keyUsageInfo[0] is for digitalSignature.
-                if ((keyUsageInfo != null) && (keyUsageInfo[0] == false))
-                    throw new InvalidKeyException("Wrong key usage");
+                && critSet.contbins("2.5.29.15")) {
+                boolebn[] keyUsbgeInfo = cert.getKeyUsbge();
+                // keyUsbgeInfo[0] is for digitblSignbture.
+                if ((keyUsbgeInfo != null) && (keyUsbgeInfo[0] == fblse))
+                    throw new InvblidKeyException("Wrong key usbge");
             }
         }
 
-        PublicKey publicKey = certificate.getPublicKey();
+        PublicKey publicKey = certificbte.getPublicKey();
         engineInitVerify(publicKey);
-        state = VERIFY;
+        stbte = VERIFY;
     }
 
     /**
-     * Initialize this object for signing. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
+     * Initiblize this object for signing. If this method is cblled
+     * bgbin with b different brgument, it negbtes the effect
+     * of this cbll.
      *
-     * @param privateKey the private key of the identity whose signature
-     * is going to be generated.
+     * @pbrbm privbteKey the privbte key of the identity whose signbture
+     * is going to be generbted.
      *
-     * @exception InvalidKeyException if the key is invalid.
+     * @exception InvblidKeyException if the key is invblid.
      */
-    public final void initSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey);
-        state = SIGN;
+    public finbl void initSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        engineInitSign(privbteKey);
+        stbte = SIGN;
     }
 
     /**
-     * Initialize this object for signing. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
+     * Initiblize this object for signing. If this method is cblled
+     * bgbin with b different brgument, it negbtes the effect
+     * of this cbll.
      *
-     * @param privateKey the private key of the identity whose signature
-     * is going to be generated.
+     * @pbrbm privbteKey the privbte key of the identity whose signbture
+     * is going to be generbted.
      *
-     * @param random the source of randomness for this signature.
+     * @pbrbm rbndom the source of rbndomness for this signbture.
      *
-     * @exception InvalidKeyException if the key is invalid.
+     * @exception InvblidKeyException if the key is invblid.
      */
-    public final void initSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, random);
-        state = SIGN;
+    public finbl void initSign(PrivbteKey privbteKey, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        engineInitSign(privbteKey, rbndom);
+        stbte = SIGN;
     }
 
     /**
-     * Returns the signature bytes of all the data updated.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Returns the signbture bytes of bll the dbtb updbted.
+     * The formbt of the signbture depends on the underlying
+     * signbture scheme.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for signing via a
-     * call to {@code initSign(PrivateKey)}. That is, the object is
-     * reset and available to generate another signature from the same
-     * signer, if desired, via new calls to {@code update} and
+     * <p>A cbll to this method resets this signbture object to the stbte
+     * it wbs in when previously initiblized for signing vib b
+     * cbll to {@code initSign(PrivbteKey)}. Thbt is, the object is
+     * reset bnd bvbilbble to generbte bnother signbture from the sbme
+     * signer, if desired, vib new cblls to {@code updbte} bnd
      * {@code sign}.
      *
-     * @return the signature bytes of the signing operation's result.
+     * @return the signbture bytes of the signing operbtion's result.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly or if this signature algorithm is unable to
-     * process the input data provided.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly or if this signbture blgorithm is unbble to
+     * process the input dbtb provided.
      */
-    public final byte[] sign() throws SignatureException {
-        if (state == SIGN) {
+    public finbl byte[] sign() throws SignbtureException {
+        if (stbte == SIGN) {
             return engineSign();
         }
-        throw new SignatureException("object not initialized for " +
+        throw new SignbtureException("object not initiblized for " +
                                      "signing");
     }
 
     /**
-     * Finishes the signature operation and stores the resulting signature
-     * bytes in the provided buffer {@code outbuf}, starting at
+     * Finishes the signbture operbtion bnd stores the resulting signbture
+     * bytes in the provided buffer {@code outbuf}, stbrting bt
      * {@code offset}.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * The formbt of the signbture depends on the underlying
+     * signbture scheme.
      *
-     * <p>This signature object is reset to its initial state (the state it
-     * was in after a call to one of the {@code initSign} methods) and
-     * can be reused to generate further signatures with the same private key.
+     * <p>This signbture object is reset to its initibl stbte (the stbte it
+     * wbs in bfter b cbll to one of the {@code initSign} methods) bnd
+     * cbn be reused to generbte further signbtures with the sbme privbte key.
      *
-     * @param outbuf buffer for the signature result.
+     * @pbrbm outbuf buffer for the signbture result.
      *
-     * @param offset offset into {@code outbuf} where the signature is
+     * @pbrbm offset offset into {@code outbuf} where the signbture is
      * stored.
      *
-     * @param len number of bytes within {@code outbuf} allotted for the
-     * signature.
+     * @pbrbm len number of bytes within {@code outbuf} bllotted for the
+     * signbture.
      *
-     * @return the number of bytes placed into {@code outbuf}.
+     * @return the number of bytes plbced into {@code outbuf}.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, if this signature algorithm is unable to
-     * process the input data provided, or if {@code len} is less
-     * than the actual signature length.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, or if {@code len} is less
+     * thbn the bctubl signbture length.
      *
      * @since 1.2
      */
-    public final int sign(byte[] outbuf, int offset, int len)
-        throws SignatureException {
+    public finbl int sign(byte[] outbuf, int offset, int len)
+        throws SignbtureException {
         if (outbuf == null) {
-            throw new IllegalArgumentException("No output buffer given");
+            throw new IllegblArgumentException("No output buffer given");
         }
         if (outbuf.length - offset < len) {
-            throw new IllegalArgumentException
-                ("Output buffer too small for specified offset and length");
+            throw new IllegblArgumentException
+                ("Output buffer too smbll for specified offset bnd length");
         }
-        if (state != SIGN) {
-            throw new SignatureException("object not initialized for " +
+        if (stbte != SIGN) {
+            throw new SignbtureException("object not initiblized for " +
                                          "signing");
         }
         return engineSign(outbuf, offset, len);
     }
 
     /**
-     * Verifies the passed-in signature.
+     * Verifies the pbssed-in signbture.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for verification via a
-     * call to {@code initVerify(PublicKey)}. That is, the object is
-     * reset and available to verify another signature from the identity
-     * whose public key was specified in the call to {@code initVerify}.
+     * <p>A cbll to this method resets this signbture object to the stbte
+     * it wbs in when previously initiblized for verificbtion vib b
+     * cbll to {@code initVerify(PublicKey)}. Thbt is, the object is
+     * reset bnd bvbilbble to verify bnother signbture from the identity
+     * whose public key wbs specified in the cbll to {@code initVerify}.
      *
-     * @param signature the signature bytes to be verified.
+     * @pbrbm signbture the signbture bytes to be verified.
      *
-     * @return true if the signature was verified, false if not.
+     * @return true if the signbture wbs verified, fblse if not.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly, the pbssed-in signbture is improperly
+     * encoded or of the wrong type, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, etc.
      */
-    public final boolean verify(byte[] signature) throws SignatureException {
-        if (state == VERIFY) {
-            return engineVerify(signature);
+    public finbl boolebn verify(byte[] signbture) throws SignbtureException {
+        if (stbte == VERIFY) {
+            return engineVerify(signbture);
         }
-        throw new SignatureException("object not initialized for " +
-                                     "verification");
+        throw new SignbtureException("object not initiblized for " +
+                                     "verificbtion");
     }
 
     /**
-     * Verifies the passed-in signature in the specified array
-     * of bytes, starting at the specified offset.
+     * Verifies the pbssed-in signbture in the specified brrby
+     * of bytes, stbrting bt the specified offset.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for verification via a
-     * call to {@code initVerify(PublicKey)}. That is, the object is
-     * reset and available to verify another signature from the identity
-     * whose public key was specified in the call to {@code initVerify}.
+     * <p>A cbll to this method resets this signbture object to the stbte
+     * it wbs in when previously initiblized for verificbtion vib b
+     * cbll to {@code initVerify(PublicKey)}. Thbt is, the object is
+     * reset bnd bvbilbble to verify bnother signbture from the identity
+     * whose public key wbs specified in the cbll to {@code initVerify}.
      *
      *
-     * @param signature the signature bytes to be verified.
-     * @param offset the offset to start from in the array of bytes.
-     * @param length the number of bytes to use, starting at offset.
+     * @pbrbm signbture the signbture bytes to be verified.
+     * @pbrbm offset the offset to stbrt from in the brrby of bytes.
+     * @pbrbm length the number of bytes to use, stbrting bt offset.
      *
-     * @return true if the signature was verified, false if not.
+     * @return true if the signbture wbs verified, fblse if not.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
-     * @exception IllegalArgumentException if the {@code signature}
-     * byte array is null, or the {@code offset} or {@code length}
-     * is less than 0, or the sum of the {@code offset} and
-     * {@code length} is greater than the length of the
-     * {@code signature} byte array.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly, the pbssed-in signbture is improperly
+     * encoded or of the wrong type, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, etc.
+     * @exception IllegblArgumentException if the {@code signbture}
+     * byte brrby is null, or the {@code offset} or {@code length}
+     * is less thbn 0, or the sum of the {@code offset} bnd
+     * {@code length} is grebter thbn the length of the
+     * {@code signbture} byte brrby.
      * @since 1.4
      */
-    public final boolean verify(byte[] signature, int offset, int length)
-        throws SignatureException {
-        if (state == VERIFY) {
-            if ((signature == null) || (offset < 0) || (length < 0) ||
-                (length > signature.length - offset)) {
-                throw new IllegalArgumentException("Bad arguments");
+    public finbl boolebn verify(byte[] signbture, int offset, int length)
+        throws SignbtureException {
+        if (stbte == VERIFY) {
+            if ((signbture == null) || (offset < 0) || (length < 0) ||
+                (length > signbture.length - offset)) {
+                throw new IllegblArgumentException("Bbd brguments");
             }
 
-            return engineVerify(signature, offset, length);
+            return engineVerify(signbture, offset, length);
         }
-        throw new SignatureException("object not initialized for " +
-                                     "verification");
+        throw new SignbtureException("object not initiblized for " +
+                                     "verificbtion");
     }
 
     /**
-     * Updates the data to be signed or verified by a byte.
+     * Updbtes the dbtb to be signed or verified by b byte.
      *
-     * @param b the byte to use for the update.
+     * @pbrbm b the byte to use for the updbte.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly.
      */
-    public final void update(byte b) throws SignatureException {
-        if (state == VERIFY || state == SIGN) {
-            engineUpdate(b);
+    public finbl void updbte(byte b) throws SignbtureException {
+        if (stbte == VERIFY || stbte == SIGN) {
+            engineUpdbte(b);
         } else {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
+            throw new SignbtureException("object not initiblized for "
+                                         + "signbture or verificbtion");
         }
     }
 
     /**
-     * Updates the data to be signed or verified, using the specified
-     * array of bytes.
+     * Updbtes the dbtb to be signed or verified, using the specified
+     * brrby of bytes.
      *
-     * @param data the byte array to use for the update.
+     * @pbrbm dbtb the byte brrby to use for the updbte.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly.
      */
-    public final void update(byte[] data) throws SignatureException {
-        update(data, 0, data.length);
+    public finbl void updbte(byte[] dbtb) throws SignbtureException {
+        updbte(dbtb, 0, dbtb.length);
     }
 
     /**
-     * Updates the data to be signed or verified, using the specified
-     * array of bytes, starting at the specified offset.
+     * Updbtes the dbtb to be signed or verified, using the specified
+     * brrby of bytes, stbrting bt the specified offset.
      *
-     * @param data the array of bytes.
-     * @param off the offset to start from in the array of bytes.
-     * @param len the number of bytes to use, starting at offset.
+     * @pbrbm dbtb the brrby of bytes.
+     * @pbrbm off the offset to stbrt from in the brrby of bytes.
+     * @pbrbm len the number of bytes to use, stbrting bt offset.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly.
      */
-    public final void update(byte[] data, int off, int len)
-            throws SignatureException {
-        if (state == SIGN || state == VERIFY) {
-            engineUpdate(data, off, len);
+    public finbl void updbte(byte[] dbtb, int off, int len)
+            throws SignbtureException {
+        if (stbte == SIGN || stbte == VERIFY) {
+            engineUpdbte(dbtb, off, len);
         } else {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
+            throw new SignbtureException("object not initiblized for "
+                                         + "signbture or verificbtion");
         }
     }
 
     /**
-     * Updates the data to be signed or verified using the specified
-     * ByteBuffer. Processes the {@code data.remaining()} bytes
-     * starting at at {@code data.position()}.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Updbtes the dbtb to be signed or verified using the specified
+     * ByteBuffer. Processes the {@code dbtb.rembining()} bytes
+     * stbrting bt bt {@code dbtb.position()}.
+     * Upon return, the buffer's position will be equbl to its limit;
+     * its limit will not hbve chbnged.
      *
-     * @param data the ByteBuffer
+     * @pbrbm dbtb the ByteBuffer
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
+     * @exception SignbtureException if this signbture object is not
+     * initiblized properly.
      * @since 1.5
      */
-    public final void update(ByteBuffer data) throws SignatureException {
-        if ((state != SIGN) && (state != VERIFY)) {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
+    public finbl void updbte(ByteBuffer dbtb) throws SignbtureException {
+        if ((stbte != SIGN) && (stbte != VERIFY)) {
+            throw new SignbtureException("object not initiblized for "
+                                         + "signbture or verificbtion");
         }
-        if (data == null) {
+        if (dbtb == null) {
             throw new NullPointerException();
         }
-        engineUpdate(data);
+        engineUpdbte(dbtb);
     }
 
     /**
-     * Returns the name of the algorithm for this signature object.
+     * Returns the nbme of the blgorithm for this signbture object.
      *
-     * @return the name of the algorithm for this signature object.
+     * @return the nbme of the blgorithm for this signbture object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Returns a string representation of this signature object,
-     * providing information that includes the state of the object
-     * and the name of the algorithm used.
+     * Returns b string representbtion of this signbture object,
+     * providing informbtion thbt includes the stbte of the object
+     * bnd the nbme of the blgorithm used.
      *
-     * @return a string representation of this signature object.
+     * @return b string representbtion of this signbture object.
      */
     public String toString() {
-        String initState = "";
-        switch (state) {
-        case UNINITIALIZED:
-            initState = "<not initialized>";
-            break;
-        case VERIFY:
-            initState = "<initialized for verifying>";
-            break;
-        case SIGN:
-            initState = "<initialized for signing>";
-            break;
+        String initStbte = "";
+        switch (stbte) {
+        cbse UNINITIALIZED:
+            initStbte = "<not initiblized>";
+            brebk;
+        cbse VERIFY:
+            initStbte = "<initiblized for verifying>";
+            brebk;
+        cbse SIGN:
+            initStbte = "<initiblized for signing>";
+            brebk;
         }
-        return "Signature object: " + getAlgorithm() + initState;
+        return "Signbture object: " + getAlgorithm() + initStbte;
     }
 
     /**
-     * Sets the specified algorithm parameter to the specified value.
-     * This method supplies a general-purpose mechanism through
-     * which it is possible to set the various parameters of this object.
-     * A parameter may be any settable parameter for the algorithm, such as
-     * a parameter size, or a source of random bits for signature generation
-     * (if appropriate), or an indication of whether or not to perform
-     * a specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Sets the specified blgorithm pbrbmeter to the specified vblue.
+     * This method supplies b generbl-purpose mechbnism through
+     * which it is possible to set the vbrious pbrbmeters of this object.
+     * A pbrbmeter mby be bny settbble pbrbmeter for the blgorithm, such bs
+     * b pbrbmeter size, or b source of rbndom bits for signbture generbtion
+     * (if bppropribte), or bn indicbtion of whether or not to perform
+     * b specific but optionbl computbtion. A uniform blgorithm-specific
+     * nbming scheme for ebch pbrbmeter is desirbble but left unspecified
+     * bt this time.
      *
-     * @param param the string identifier of the parameter.
-     * @param value the parameter value.
+     * @pbrbm pbrbm the string identifier of the pbrbmeter.
+     * @pbrbm vblue the pbrbmeter vblue.
      *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this signature algorithm engine,
-     * the parameter is already set
-     * and cannot be set again, a security exception occurs, and so on.
+     * @exception InvblidPbrbmeterException if {@code pbrbm} is bn
+     * invblid pbrbmeter for this signbture blgorithm engine,
+     * the pbrbmeter is blrebdy set
+     * bnd cbnnot be set bgbin, b security exception occurs, bnd so on.
      *
-     * @see #getParameter
+     * @see #getPbrbmeter
      *
-     * @deprecated Use
-     * {@link #setParameter(java.security.spec.AlgorithmParameterSpec)
-     * setParameter}.
+     * @deprecbted Use
+     * {@link #setPbrbmeter(jbvb.security.spec.AlgorithmPbrbmeterSpec)
+     * setPbrbmeter}.
      */
-    @Deprecated
-    public final void setParameter(String param, Object value)
-            throws InvalidParameterException {
-        engineSetParameter(param, value);
+    @Deprecbted
+    public finbl void setPbrbmeter(String pbrbm, Object vblue)
+            throws InvblidPbrbmeterException {
+        engineSetPbrbmeter(pbrbm, vblue);
     }
 
     /**
-     * Initializes this signature engine with the specified parameter set.
+     * Initiblizes this signbture engine with the specified pbrbmeter set.
      *
-     * @param params the parameters
+     * @pbrbm pbrbms the pbrbmeters
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this signature engine
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this signbture engine
      *
-     * @see #getParameters
+     * @see #getPbrbmeters
      */
-    public final void setParameter(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-        engineSetParameter(params);
+    public finbl void setPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+        engineSetPbrbmeter(pbrbms);
     }
 
     /**
-     * Returns the parameters used with this signature object.
+     * Returns the pbrbmeters used with this signbture object.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this signature, or may contain a combination of default and randomly
-     * generated parameter values used by the underlying signature
-     * implementation if this signature requires algorithm parameters but
-     * was not initialized with any.
+     * <p>The returned pbrbmeters mby be the sbme thbt were used to initiblize
+     * this signbture, or mby contbin b combinbtion of defbult bnd rbndomly
+     * generbted pbrbmeter vblues used by the underlying signbture
+     * implementbtion if this signbture requires blgorithm pbrbmeters but
+     * wbs not initiblized with bny.
      *
-     * @return the parameters used with this signature, or null if this
-     * signature does not use any parameters.
+     * @return the pbrbmeters used with this signbture, or null if this
+     * signbture does not use bny pbrbmeters.
      *
-     * @see #setParameter(AlgorithmParameterSpec)
+     * @see #setPbrbmeter(AlgorithmPbrbmeterSpec)
      * @since 1.4
      */
-    public final AlgorithmParameters getParameters() {
-        return engineGetParameters();
+    public finbl AlgorithmPbrbmeters getPbrbmeters() {
+        return engineGetPbrbmeters();
     }
 
     /**
-     * Gets the value of the specified algorithm parameter. This method
-     * supplies a general-purpose mechanism through which it is possible to
-     * get the various parameters of this object. A parameter may be any
-     * settable parameter for the algorithm, such as a parameter size, or
-     * a source of random bits for signature generation (if appropriate),
-     * or an indication of whether or not to perform a specific but optional
-     * computation. A uniform algorithm-specific naming scheme for each
-     * parameter is desirable but left unspecified at this time.
+     * Gets the vblue of the specified blgorithm pbrbmeter. This method
+     * supplies b generbl-purpose mechbnism through which it is possible to
+     * get the vbrious pbrbmeters of this object. A pbrbmeter mby be bny
+     * settbble pbrbmeter for the blgorithm, such bs b pbrbmeter size, or
+     * b source of rbndom bits for signbture generbtion (if bppropribte),
+     * or bn indicbtion of whether or not to perform b specific but optionbl
+     * computbtion. A uniform blgorithm-specific nbming scheme for ebch
+     * pbrbmeter is desirbble but left unspecified bt this time.
      *
-     * @param param the string name of the parameter.
+     * @pbrbm pbrbm the string nbme of the pbrbmeter.
      *
-     * @return the object that represents the parameter value, or null if
+     * @return the object thbt represents the pbrbmeter vblue, or null if
      * there is none.
      *
-     * @exception InvalidParameterException if {@code param} is an invalid
-     * parameter for this engine, or another exception occurs while
-     * trying to get this parameter.
+     * @exception InvblidPbrbmeterException if {@code pbrbm} is bn invblid
+     * pbrbmeter for this engine, or bnother exception occurs while
+     * trying to get this pbrbmeter.
      *
-     * @see #setParameter(String, Object)
+     * @see #setPbrbmeter(String, Object)
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public final Object getParameter(String param)
-            throws InvalidParameterException {
-        return engineGetParameter(param);
+    @Deprecbted
+    public finbl Object getPbrbmeter(String pbrbm)
+            throws InvblidPbrbmeterException {
+        return engineGetPbrbmeter(pbrbm);
     }
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Returns b clone if the implementbtion is clonebble.
      *
-     * @return a clone if the implementation is cloneable.
+     * @return b clone if the implementbtion is clonebble.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support {@code Cloneable}.
+     * @exception CloneNotSupportedException if this is cblled
+     * on bn implementbtion thbt does not support {@code Clonebble}.
      */
     public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
+        if (this instbnceof Clonebble) {
             return super.clone();
         } else {
             throw new CloneNotSupportedException();
@@ -887,104 +887,104 @@ public abstract class Signature extends SignatureSpi {
     }
 
     /*
-     * The following class allows providers to extend from SignatureSpi
-     * rather than from Signature. It represents a Signature with an
-     * encapsulated, provider-supplied SPI object (of type SignatureSpi).
-     * If the provider implementation is an instance of SignatureSpi, the
-     * getInstance() methods above return an instance of this class, with
-     * the SPI object encapsulated.
+     * The following clbss bllows providers to extend from SignbtureSpi
+     * rbther thbn from Signbture. It represents b Signbture with bn
+     * encbpsulbted, provider-supplied SPI object (of type SignbtureSpi).
+     * If the provider implementbtion is bn instbnce of SignbtureSpi, the
+     * getInstbnce() methods bbove return bn instbnce of this clbss, with
+     * the SPI object encbpsulbted.
      *
-     * Note: All SPI methods from the original Signature class have been
-     * moved up the hierarchy into a new class (SignatureSpi), which has
-     * been interposed in the hierarchy between the API (Signature)
-     * and its original parent (Object).
+     * Note: All SPI methods from the originbl Signbture clbss hbve been
+     * moved up the hierbrchy into b new clbss (SignbtureSpi), which hbs
+     * been interposed in the hierbrchy between the API (Signbture)
+     * bnd its originbl pbrent (Object).
      */
 
-    @SuppressWarnings("deprecation")
-    private static class Delegate extends Signature {
+    @SuppressWbrnings("deprecbtion")
+    privbte stbtic clbss Delegbte extends Signbture {
 
-        // The provider implementation (delegate)
+        // The provider implementbtion (delegbte)
         // filled in once the provider is selected
-        private SignatureSpi sigSpi;
+        privbte SignbtureSpi sigSpi;
 
         // lock for mutex during provider selection
-        private final Object lock;
+        privbte finbl Object lock;
 
         // next service to try in provider selection
         // null once provider is selected
-        private Service firstService;
+        privbte Service firstService;
 
-        // remaining services to try in provider selection
+        // rembining services to try in provider selection
         // null once provider is selected
-        private Iterator<Service> serviceIterator;
+        privbte Iterbtor<Service> serviceIterbtor;
 
         // constructor
-        Delegate(SignatureSpi sigSpi, String algorithm) {
-            super(algorithm);
+        Delegbte(SignbtureSpi sigSpi, String blgorithm) {
+            super(blgorithm);
             this.sigSpi = sigSpi;
             this.lock = null; // no lock needed
         }
 
-        // used with delayed provider selection
-        Delegate(Service service,
-                        Iterator<Service> iterator, String algorithm) {
-            super(algorithm);
+        // used with delbyed provider selection
+        Delegbte(Service service,
+                        Iterbtor<Service> iterbtor, String blgorithm) {
+            super(blgorithm);
             this.firstService = service;
-            this.serviceIterator = iterator;
+            this.serviceIterbtor = iterbtor;
             this.lock = new Object();
         }
 
         /**
-         * Returns a clone if the delegate is cloneable.
+         * Returns b clone if the delegbte is clonebble.
          *
-         * @return a clone if the delegate is cloneable.
+         * @return b clone if the delegbte is clonebble.
          *
-         * @exception CloneNotSupportedException if this is called on a
-         * delegate that does not support {@code Cloneable}.
+         * @exception CloneNotSupportedException if this is cblled on b
+         * delegbte thbt does not support {@code Clonebble}.
          */
         public Object clone() throws CloneNotSupportedException {
             chooseFirstProvider();
-            if (sigSpi instanceof Cloneable) {
-                SignatureSpi sigSpiClone = (SignatureSpi)sigSpi.clone();
-                // Because 'algorithm' and 'provider' are private
-                // members of our supertype, we must perform a cast to
-                // access them.
-                Signature that =
-                    new Delegate(sigSpiClone, ((Signature)this).algorithm);
-                that.provider = ((Signature)this).provider;
-                return that;
+            if (sigSpi instbnceof Clonebble) {
+                SignbtureSpi sigSpiClone = (SignbtureSpi)sigSpi.clone();
+                // Becbuse 'blgorithm' bnd 'provider' bre privbte
+                // members of our supertype, we must perform b cbst to
+                // bccess them.
+                Signbture thbt =
+                    new Delegbte(sigSpiClone, ((Signbture)this).blgorithm);
+                thbt.provider = ((Signbture)this).provider;
+                return thbt;
             } else {
                 throw new CloneNotSupportedException();
             }
         }
 
-        private static SignatureSpi newInstance(Service s)
+        privbte stbtic SignbtureSpi newInstbnce(Service s)
                 throws NoSuchAlgorithmException {
-            if (s.getType().equals("Cipher")) {
+            if (s.getType().equbls("Cipher")) {
                 // must be NONEwithRSA
                 try {
-                    Cipher c = Cipher.getInstance(RSA_CIPHER, s.getProvider());
-                    return new CipherAdapter(c);
-                } catch (NoSuchPaddingException e) {
+                    Cipher c = Cipher.getInstbnce(RSA_CIPHER, s.getProvider());
+                    return new CipherAdbpter(c);
+                } cbtch (NoSuchPbddingException e) {
                     throw new NoSuchAlgorithmException(e);
                 }
             } else {
-                Object o = s.newInstance(null);
-                if (o instanceof SignatureSpi == false) {
+                Object o = s.newInstbnce(null);
+                if (o instbnceof SignbtureSpi == fblse) {
                     throw new NoSuchAlgorithmException
-                        ("Not a SignatureSpi: " + o.getClass().getName());
+                        ("Not b SignbtureSpi: " + o.getClbss().getNbme());
                 }
-                return (SignatureSpi)o;
+                return (SignbtureSpi)o;
             }
         }
 
-        // max number of debug warnings to print from chooseFirstProvider()
-        private static int warnCount = 10;
+        // mbx number of debug wbrnings to print from chooseFirstProvider()
+        privbte stbtic int wbrnCount = 10;
 
         /**
-         * Choose the Spi from the first provider available. Used if
-         * delayed provider selection is not possible because initSign()/
-         * initVerify() is not the first method called.
+         * Choose the Spi from the first provider bvbilbble. Used if
+         * delbyed provider selection is not possible becbuse initSign()/
+         * initVerify() is not the first method cblled.
          */
         void chooseFirstProvider() {
             if (sigSpi != null) {
@@ -995,127 +995,127 @@ public abstract class Signature extends SignatureSpi {
                     return;
                 }
                 if (debug != null) {
-                    int w = --warnCount;
+                    int w = --wbrnCount;
                     if (w >= 0) {
-                        debug.println("Signature.init() not first method "
-                            + "called, disabling delayed provider selection");
+                        debug.println("Signbture.init() not first method "
+                            + "cblled, disbbling delbyed provider selection");
                         if (w == 0) {
-                            debug.println("Further warnings of this type will "
+                            debug.println("Further wbrnings of this type will "
                                 + "be suppressed");
                         }
-                        new Exception("Call trace").printStackTrace();
+                        new Exception("Cbll trbce").printStbckTrbce();
                     }
                 }
-                Exception lastException = null;
-                while ((firstService != null) || serviceIterator.hasNext()) {
+                Exception lbstException = null;
+                while ((firstService != null) || serviceIterbtor.hbsNext()) {
                     Service s;
                     if (firstService != null) {
                         s = firstService;
                         firstService = null;
                     } else {
-                        s = serviceIterator.next();
+                        s = serviceIterbtor.next();
                     }
-                    if (isSpi(s) == false) {
+                    if (isSpi(s) == fblse) {
                         continue;
                     }
                     try {
-                        sigSpi = newInstance(s);
+                        sigSpi = newInstbnce(s);
                         provider = s.getProvider();
-                        // not needed any more
+                        // not needed bny more
                         firstService = null;
-                        serviceIterator = null;
+                        serviceIterbtor = null;
                         return;
-                    } catch (NoSuchAlgorithmException e) {
-                        lastException = e;
+                    } cbtch (NoSuchAlgorithmException e) {
+                        lbstException = e;
                     }
                 }
                 ProviderException e = new ProviderException
-                        ("Could not construct SignatureSpi instance");
-                if (lastException != null) {
-                    e.initCause(lastException);
+                        ("Could not construct SignbtureSpi instbnce");
+                if (lbstException != null) {
+                    e.initCbuse(lbstException);
                 }
                 throw e;
             }
         }
 
-        private void chooseProvider(int type, Key key, SecureRandom random)
-                throws InvalidKeyException {
+        privbte void chooseProvider(int type, Key key, SecureRbndom rbndom)
+                throws InvblidKeyException {
             synchronized (lock) {
                 if (sigSpi != null) {
-                    init(sigSpi, type, key, random);
+                    init(sigSpi, type, key, rbndom);
                     return;
                 }
-                Exception lastException = null;
-                while ((firstService != null) || serviceIterator.hasNext()) {
+                Exception lbstException = null;
+                while ((firstService != null) || serviceIterbtor.hbsNext()) {
                     Service s;
                     if (firstService != null) {
                         s = firstService;
                         firstService = null;
                     } else {
-                        s = serviceIterator.next();
+                        s = serviceIterbtor.next();
                     }
-                    // if provider says it does not support this key, ignore it
-                    if (s.supportsParameter(key) == false) {
+                    // if provider sbys it does not support this key, ignore it
+                    if (s.supportsPbrbmeter(key) == fblse) {
                         continue;
                     }
-                    // if instance is not a SignatureSpi, ignore it
-                    if (isSpi(s) == false) {
+                    // if instbnce is not b SignbtureSpi, ignore it
+                    if (isSpi(s) == fblse) {
                         continue;
                     }
                     try {
-                        SignatureSpi spi = newInstance(s);
-                        init(spi, type, key, random);
+                        SignbtureSpi spi = newInstbnce(s);
+                        init(spi, type, key, rbndom);
                         provider = s.getProvider();
                         sigSpi = spi;
                         firstService = null;
-                        serviceIterator = null;
+                        serviceIterbtor = null;
                         return;
-                    } catch (Exception e) {
-                        // NoSuchAlgorithmException from newInstance()
-                        // InvalidKeyException from init()
+                    } cbtch (Exception e) {
+                        // NoSuchAlgorithmException from newInstbnce()
+                        // InvblidKeyException from init()
                         // RuntimeException (ProviderException) from init()
-                        if (lastException == null) {
-                            lastException = e;
+                        if (lbstException == null) {
+                            lbstException = e;
                         }
                     }
                 }
-                // no working provider found, fail
-                if (lastException instanceof InvalidKeyException) {
-                    throw (InvalidKeyException)lastException;
+                // no working provider found, fbil
+                if (lbstException instbnceof InvblidKeyException) {
+                    throw (InvblidKeyException)lbstException;
                 }
-                if (lastException instanceof RuntimeException) {
-                    throw (RuntimeException)lastException;
+                if (lbstException instbnceof RuntimeException) {
+                    throw (RuntimeException)lbstException;
                 }
-                String k = (key != null) ? key.getClass().getName() : "(null)";
-                throw new InvalidKeyException
-                    ("No installed provider supports this key: "
-                    + k, lastException);
+                String k = (key != null) ? key.getClbss().getNbme() : "(null)";
+                throw new InvblidKeyException
+                    ("No instblled provider supports this key: "
+                    + k, lbstException);
             }
         }
 
-        private final static int I_PUB     = 1;
-        private final static int I_PRIV    = 2;
-        private final static int I_PRIV_SR = 3;
+        privbte finbl stbtic int I_PUB     = 1;
+        privbte finbl stbtic int I_PRIV    = 2;
+        privbte finbl stbtic int I_PRIV_SR = 3;
 
-        private void init(SignatureSpi spi, int type, Key  key,
-                SecureRandom random) throws InvalidKeyException {
+        privbte void init(SignbtureSpi spi, int type, Key  key,
+                SecureRbndom rbndom) throws InvblidKeyException {
             switch (type) {
-            case I_PUB:
+            cbse I_PUB:
                 spi.engineInitVerify((PublicKey)key);
-                break;
-            case I_PRIV:
-                spi.engineInitSign((PrivateKey)key);
-                break;
-            case I_PRIV_SR:
-                spi.engineInitSign((PrivateKey)key, random);
-                break;
-            default:
-                throw new AssertionError("Internal error: " + type);
+                brebk;
+            cbse I_PRIV:
+                spi.engineInitSign((PrivbteKey)key);
+                brebk;
+            cbse I_PRIV_SR:
+                spi.engineInitSign((PrivbteKey)key, rbndom);
+                brebk;
+            defbult:
+                throw new AssertionError("Internbl error: " + type);
             }
         }
 
         protected void engineInitVerify(PublicKey publicKey)
-                throws InvalidKeyException {
+                throws InvblidKeyException {
             if (sigSpi != null) {
                 sigSpi.engineInitVerify(publicKey);
             } else {
@@ -1123,172 +1123,172 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey)
-                throws InvalidKeyException {
+        protected void engineInitSign(PrivbteKey privbteKey)
+                throws InvblidKeyException {
             if (sigSpi != null) {
-                sigSpi.engineInitSign(privateKey);
+                sigSpi.engineInitSign(privbteKey);
             } else {
-                chooseProvider(I_PRIV, privateKey, null);
+                chooseProvider(I_PRIV, privbteKey, null);
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey, SecureRandom sr)
-                throws InvalidKeyException {
+        protected void engineInitSign(PrivbteKey privbteKey, SecureRbndom sr)
+                throws InvblidKeyException {
             if (sigSpi != null) {
-                sigSpi.engineInitSign(privateKey, sr);
+                sigSpi.engineInitSign(privbteKey, sr);
             } else {
-                chooseProvider(I_PRIV_SR, privateKey, sr);
+                chooseProvider(I_PRIV_SR, privbteKey, sr);
             }
         }
 
-        protected void engineUpdate(byte b) throws SignatureException {
+        protected void engineUpdbte(byte b) throws SignbtureException {
             chooseFirstProvider();
-            sigSpi.engineUpdate(b);
+            sigSpi.engineUpdbte(b);
         }
 
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
+        protected void engineUpdbte(byte[] b, int off, int len)
+                throws SignbtureException {
             chooseFirstProvider();
-            sigSpi.engineUpdate(b, off, len);
+            sigSpi.engineUpdbte(b, off, len);
         }
 
-        protected void engineUpdate(ByteBuffer data) {
+        protected void engineUpdbte(ByteBuffer dbtb) {
             chooseFirstProvider();
-            sigSpi.engineUpdate(data);
+            sigSpi.engineUpdbte(dbtb);
         }
 
-        protected byte[] engineSign() throws SignatureException {
+        protected byte[] engineSign() throws SignbtureException {
             chooseFirstProvider();
             return sigSpi.engineSign();
         }
 
         protected int engineSign(byte[] outbuf, int offset, int len)
-                throws SignatureException {
+                throws SignbtureException {
             chooseFirstProvider();
             return sigSpi.engineSign(outbuf, offset, len);
         }
 
-        protected boolean engineVerify(byte[] sigBytes)
-                throws SignatureException {
+        protected boolebn engineVerify(byte[] sigBytes)
+                throws SignbtureException {
             chooseFirstProvider();
             return sigSpi.engineVerify(sigBytes);
         }
 
-        protected boolean engineVerify(byte[] sigBytes, int offset, int length)
-                throws SignatureException {
+        protected boolebn engineVerify(byte[] sigBytes, int offset, int length)
+                throws SignbtureException {
             chooseFirstProvider();
             return sigSpi.engineVerify(sigBytes, offset, length);
         }
 
-        protected void engineSetParameter(String param, Object value)
-                throws InvalidParameterException {
+        protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+                throws InvblidPbrbmeterException {
             chooseFirstProvider();
-            sigSpi.engineSetParameter(param, value);
+            sigSpi.engineSetPbrbmeter(pbrbm, vblue);
         }
 
-        protected void engineSetParameter(AlgorithmParameterSpec params)
-                throws InvalidAlgorithmParameterException {
+        protected void engineSetPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+                throws InvblidAlgorithmPbrbmeterException {
             chooseFirstProvider();
-            sigSpi.engineSetParameter(params);
+            sigSpi.engineSetPbrbmeter(pbrbms);
         }
 
-        protected Object engineGetParameter(String param)
-                throws InvalidParameterException {
+        protected Object engineGetPbrbmeter(String pbrbm)
+                throws InvblidPbrbmeterException {
             chooseFirstProvider();
-            return sigSpi.engineGetParameter(param);
+            return sigSpi.engineGetPbrbmeter(pbrbm);
         }
 
-        protected AlgorithmParameters engineGetParameters() {
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
             chooseFirstProvider();
-            return sigSpi.engineGetParameters();
+            return sigSpi.engineGetPbrbmeters();
         }
     }
 
-    // adapter for RSA/ECB/PKCS1Padding ciphers
-    @SuppressWarnings("deprecation")
-    private static class CipherAdapter extends SignatureSpi {
+    // bdbpter for RSA/ECB/PKCS1Pbdding ciphers
+    @SuppressWbrnings("deprecbtion")
+    privbte stbtic clbss CipherAdbpter extends SignbtureSpi {
 
-        private final Cipher cipher;
+        privbte finbl Cipher cipher;
 
-        private ByteArrayOutputStream data;
+        privbte ByteArrbyOutputStrebm dbtb;
 
-        CipherAdapter(Cipher cipher) {
+        CipherAdbpter(Cipher cipher) {
             this.cipher = cipher;
         }
 
         protected void engineInitVerify(PublicKey publicKey)
-                throws InvalidKeyException {
+                throws InvblidKeyException {
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
-            if (data == null) {
-                data = new ByteArrayOutputStream(128);
+            if (dbtb == null) {
+                dbtb = new ByteArrbyOutputStrebm(128);
             } else {
-                data.reset();
+                dbtb.reset();
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey)
-                throws InvalidKeyException {
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            data = null;
+        protected void engineInitSign(PrivbteKey privbteKey)
+                throws InvblidKeyException {
+            cipher.init(Cipher.ENCRYPT_MODE, privbteKey);
+            dbtb = null;
         }
 
-        protected void engineInitSign(PrivateKey privateKey,
-                SecureRandom random) throws InvalidKeyException {
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey, random);
-            data = null;
+        protected void engineInitSign(PrivbteKey privbteKey,
+                SecureRbndom rbndom) throws InvblidKeyException {
+            cipher.init(Cipher.ENCRYPT_MODE, privbteKey, rbndom);
+            dbtb = null;
         }
 
-        protected void engineUpdate(byte b) throws SignatureException {
-            engineUpdate(new byte[] {b}, 0, 1);
+        protected void engineUpdbte(byte b) throws SignbtureException {
+            engineUpdbte(new byte[] {b}, 0, 1);
         }
 
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
-            if (data != null) {
-                data.write(b, off, len);
+        protected void engineUpdbte(byte[] b, int off, int len)
+                throws SignbtureException {
+            if (dbtb != null) {
+                dbtb.write(b, off, len);
                 return;
             }
-            byte[] out = cipher.update(b, off, len);
+            byte[] out = cipher.updbte(b, off, len);
             if ((out != null) && (out.length != 0)) {
-                throw new SignatureException
-                    ("Cipher unexpectedly returned data");
+                throw new SignbtureException
+                    ("Cipher unexpectedly returned dbtb");
             }
         }
 
-        protected byte[] engineSign() throws SignatureException {
+        protected byte[] engineSign() throws SignbtureException {
             try {
-                return cipher.doFinal();
-            } catch (IllegalBlockSizeException e) {
-                throw new SignatureException("doFinal() failed", e);
-            } catch (BadPaddingException e) {
-                throw new SignatureException("doFinal() failed", e);
+                return cipher.doFinbl();
+            } cbtch (IllegblBlockSizeException e) {
+                throw new SignbtureException("doFinbl() fbiled", e);
+            } cbtch (BbdPbddingException e) {
+                throw new SignbtureException("doFinbl() fbiled", e);
             }
         }
 
-        protected boolean engineVerify(byte[] sigBytes)
-                throws SignatureException {
+        protected boolebn engineVerify(byte[] sigBytes)
+                throws SignbtureException {
             try {
-                byte[] out = cipher.doFinal(sigBytes);
-                byte[] dataBytes = data.toByteArray();
-                data.reset();
-                return Arrays.equals(out, dataBytes);
-            } catch (BadPaddingException e) {
+                byte[] out = cipher.doFinbl(sigBytes);
+                byte[] dbtbBytes = dbtb.toByteArrby();
+                dbtb.reset();
+                return Arrbys.equbls(out, dbtbBytes);
+            } cbtch (BbdPbddingException e) {
                 // e.g. wrong public key used
-                // return false rather than throwing exception
-                return false;
-            } catch (IllegalBlockSizeException e) {
-                throw new SignatureException("doFinal() failed", e);
+                // return fblse rbther thbn throwing exception
+                return fblse;
+            } cbtch (IllegblBlockSizeException e) {
+                throw new SignbtureException("doFinbl() fbiled", e);
             }
         }
 
-        protected void engineSetParameter(String param, Object value)
-                throws InvalidParameterException {
-            throw new InvalidParameterException("Parameters not supported");
+        protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+                throws InvblidPbrbmeterException {
+            throw new InvblidPbrbmeterException("Pbrbmeters not supported");
         }
 
-        protected Object engineGetParameter(String param)
-                throws InvalidParameterException {
-            throw new InvalidParameterException("Parameters not supported");
+        protected Object engineGetPbrbmeter(String pbrbm)
+                throws InvblidPbrbmeterException {
+            throw new InvblidPbrbmeterException("Pbrbmeters not supported");
         }
 
     }

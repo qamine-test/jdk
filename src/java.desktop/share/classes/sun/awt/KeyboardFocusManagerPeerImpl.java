@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.Component;
-import java.awt.KeyboardFocusManager;
-import java.awt.Window;
-import java.awt.Canvas;
-import java.awt.Scrollbar;
-import java.awt.Panel;
+import jbvb.bwt.Component;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Window;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Scrollbbr;
+import jbvb.bwt.Pbnel;
 
-import java.awt.event.FocusEvent;
+import jbvb.bwt.event.FocusEvent;
 
-import java.awt.peer.KeyboardFocusManagerPeer;
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.peer.KeybobrdFocusMbnbgerPeer;
+import jbvb.bwt.peer.ComponentPeer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-public abstract class KeyboardFocusManagerPeerImpl implements KeyboardFocusManagerPeer {
+public bbstrbct clbss KeybobrdFocusMbnbgerPeerImpl implements KeybobrdFocusMbnbgerPeer {
 
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.focus.KeyboardFocusManagerPeerImpl");
+    privbte stbtic finbl PlbtformLogger focusLog = PlbtformLogger.getLogger("sun.bwt.focus.KeybobrdFocusMbnbgerPeerImpl");
 
-    private static AWTAccessor.KeyboardFocusManagerAccessor kfmAccessor =
-        AWTAccessor.getKeyboardFocusManagerAccessor();
+    privbte stbtic AWTAccessor.KeybobrdFocusMbnbgerAccessor kfmAccessor =
+        AWTAccessor.getKeybobrdFocusMbnbgerAccessor();
 
-    // The constants are copied from java.awt.KeyboardFocusManager
-    public static final int SNFH_FAILURE         = 0;
-    public static final int SNFH_SUCCESS_HANDLED = 1;
-    public static final int SNFH_SUCCESS_PROCEED = 2;
+    // The constbnts bre copied from jbvb.bwt.KeybobrdFocusMbnbger
+    public stbtic finbl int SNFH_FAILURE         = 0;
+    public stbtic finbl int SNFH_SUCCESS_HANDLED = 1;
+    public stbtic finbl int SNFH_SUCCESS_PROCEED = 2;
 
     @Override
-    public void clearGlobalFocusOwner(Window activeWindow) {
-        if (activeWindow != null) {
-            Component focusOwner = activeWindow.getFocusOwner();
-            if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                focusLog.fine("Clearing global focus owner " + focusOwner);
+    public void clebrGlobblFocusOwner(Window bctiveWindow) {
+        if (bctiveWindow != null) {
+            Component focusOwner = bctiveWindow.getFocusOwner();
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                focusLog.fine("Clebring globbl focus owner " + focusOwner);
             }
             if (focusOwner != null) {
-                FocusEvent fl = new CausedFocusEvent(focusOwner, FocusEvent.FOCUS_LOST, false, null,
-                                                     CausedFocusEvent.Cause.CLEAR_GLOBAL_FOCUS_OWNER);
+                FocusEvent fl = new CbusedFocusEvent(focusOwner, FocusEvent.FOCUS_LOST, fblse, null,
+                                                     CbusedFocusEvent.Cbuse.CLEAR_GLOBAL_FOCUS_OWNER);
                 SunToolkit.postPriorityEvent(fl);
             }
         }
     }
 
     /*
-     * WARNING: Don't call it on the Toolkit thread.
+     * WARNING: Don't cbll it on the Toolkit threbd.
      *
      * Checks if the component:
-     * 1) accepts focus on click (in general)
-     * 2) may be a focus owner (in particular)
+     * 1) bccepts focus on click (in generbl)
+     * 2) mby be b focus owner (in pbrticulbr)
      */
-    @SuppressWarnings("deprecation")
-    public static boolean shouldFocusOnClick(Component component) {
-        boolean acceptFocusOnClick = false;
+    @SuppressWbrnings("deprecbtion")
+    public stbtic boolebn shouldFocusOnClick(Component component) {
+        boolebn bcceptFocusOnClick = fblse;
 
-        // A component is generally allowed to accept focus on click
-        // if its peer is focusable. There're some exceptions though.
+        // A component is generblly bllowed to bccept focus on click
+        // if its peer is focusbble. There're some exceptions though.
 
 
-        // CANVAS & SCROLLBAR accept focus on click
-        if (component instanceof Canvas ||
-            component instanceof Scrollbar)
+        // CANVAS & SCROLLBAR bccept focus on click
+        if (component instbnceof Cbnvbs ||
+            component instbnceof Scrollbbr)
         {
-            acceptFocusOnClick = true;
+            bcceptFocusOnClick = true;
 
-        // PANEL, empty only, accepts focus on click
-        } else if (component instanceof Panel) {
-            acceptFocusOnClick = (((Panel)component).getComponentCount() == 0);
+        // PANEL, empty only, bccepts focus on click
+        } else if (component instbnceof Pbnel) {
+            bcceptFocusOnClick = (((Pbnel)component).getComponentCount() == 0);
 
 
         // Other components
         } else {
             ComponentPeer peer = (component != null ? component.getPeer() : null);
-            acceptFocusOnClick = (peer != null ? peer.isFocusable() : false);
+            bcceptFocusOnClick = (peer != null ? peer.isFocusbble() : fblse);
         }
-        return acceptFocusOnClick &&
-               AWTAccessor.getComponentAccessor().canBeFocusOwner(component);
+        return bcceptFocusOnClick &&
+               AWTAccessor.getComponentAccessor().cbnBeFocusOwner(component);
     }
 
     /*
-     * Posts proper lost/gain focus events to the event queue.
+     * Posts proper lost/gbin focus events to the event queue.
      */
-    @SuppressWarnings("deprecation")
-    public static boolean deliverFocus(Component lightweightChild,
-                                       Component target,
-                                       boolean temporary,
-                                       boolean focusedWindowChangeAllowed,
+    @SuppressWbrnings("deprecbtion")
+    public stbtic boolebn deliverFocus(Component lightweightChild,
+                                       Component tbrget,
+                                       boolebn temporbry,
+                                       boolebn focusedWindowChbngeAllowed,
                                        long time,
-                                       CausedFocusEvent.Cause cause,
-                                       Component currentFocusOwner) // provided by the descendant peers
+                                       CbusedFocusEvent.Cbuse cbuse,
+                                       Component currentFocusOwner) // provided by the descendbnt peers
     {
         if (lightweightChild == null) {
-            lightweightChild = target;
+            lightweightChild = tbrget;
         }
 
         Component currentOwner = currentFocusOwner;
@@ -124,54 +124,54 @@ public abstract class KeyboardFocusManagerPeerImpl implements KeyboardFocusManag
             currentOwner = null;
         }
         if (currentOwner != null) {
-            FocusEvent fl = new CausedFocusEvent(currentOwner, FocusEvent.FOCUS_LOST,
-                                                 false, lightweightChild, cause);
+            FocusEvent fl = new CbusedFocusEvent(currentOwner, FocusEvent.FOCUS_LOST,
+                                                 fblse, lightweightChild, cbuse);
 
-            if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                 focusLog.finer("Posting focus event: " + fl);
             }
-            SunToolkit.postEvent(SunToolkit.targetToAppContext(currentOwner), fl);
+            SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(currentOwner), fl);
         }
 
-        FocusEvent fg = new CausedFocusEvent(lightweightChild, FocusEvent.FOCUS_GAINED,
-                                             false, currentOwner, cause);
+        FocusEvent fg = new CbusedFocusEvent(lightweightChild, FocusEvent.FOCUS_GAINED,
+                                             fblse, currentOwner, cbuse);
 
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer("Posting focus event: " + fg);
         }
-        SunToolkit.postEvent(SunToolkit.targetToAppContext(lightweightChild), fg);
+        SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(lightweightChild), fg);
         return true;
     }
 
-    // WARNING: Don't call it on the Toolkit thread.
-    public static boolean requestFocusFor(Component target, CausedFocusEvent.Cause cause) {
-        return AWTAccessor.getComponentAccessor().requestFocus(target, cause);
+    // WARNING: Don't cbll it on the Toolkit threbd.
+    public stbtic boolebn requestFocusFor(Component tbrget, CbusedFocusEvent.Cbuse cbuse) {
+        return AWTAccessor.getComponentAccessor().requestFocus(tbrget, cbuse);
     }
 
-    // WARNING: Don't call it on the Toolkit thread.
-    public static int shouldNativelyFocusHeavyweight(Component heavyweight,
-                                                     Component descendant,
-                                                     boolean temporary,
-                                                     boolean focusedWindowChangeAllowed,
+    // WARNING: Don't cbll it on the Toolkit threbd.
+    public stbtic int shouldNbtivelyFocusHebvyweight(Component hebvyweight,
+                                                     Component descendbnt,
+                                                     boolebn temporbry,
+                                                     boolebn focusedWindowChbngeAllowed,
                                                      long time,
-                                                     CausedFocusEvent.Cause cause)
+                                                     CbusedFocusEvent.Cbuse cbuse)
     {
-        return kfmAccessor.shouldNativelyFocusHeavyweight(
-            heavyweight, descendant, temporary, focusedWindowChangeAllowed, time, cause);
+        return kfmAccessor.shouldNbtivelyFocusHebvyweight(
+            hebvyweight, descendbnt, temporbry, focusedWindowChbngeAllowed, time, cbuse);
     }
 
-    public static void removeLastFocusRequest(Component heavyweight) {
-        kfmAccessor.removeLastFocusRequest(heavyweight);
+    public stbtic void removeLbstFocusRequest(Component hebvyweight) {
+        kfmAccessor.removeLbstFocusRequest(hebvyweight);
     }
 
-    // WARNING: Don't call it on the Toolkit thread.
-    public static boolean processSynchronousLightweightTransfer(Component heavyweight,
-                                                                Component descendant,
-                                                                boolean temporary,
-                                                                boolean focusedWindowChangeAllowed,
+    // WARNING: Don't cbll it on the Toolkit threbd.
+    public stbtic boolebn processSynchronousLightweightTrbnsfer(Component hebvyweight,
+                                                                Component descendbnt,
+                                                                boolebn temporbry,
+                                                                boolebn focusedWindowChbngeAllowed,
                                                                 long time)
     {
-        return kfmAccessor.processSynchronousLightweightTransfer(
-            heavyweight, descendant, temporary, focusedWindowChangeAllowed, time);
+        return kfmAccessor.processSynchronousLightweightTrbnsfer(
+            hebvyweight, descendbnt, temporbry, focusedWindowChbngeAllowed, time);
     }
 }

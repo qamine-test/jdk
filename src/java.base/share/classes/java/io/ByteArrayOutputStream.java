@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * This class implements an output stream in which the data is
- * written into a byte array. The buffer automatically grows as data
+ * This clbss implements bn output strebm in which the dbtb is
+ * written into b byte brrby. The buffer butombticblly grows bs dbtb
  * is written to it.
- * The data can be retrieved using <code>toByteArray()</code> and
+ * The dbtb cbn be retrieved using <code>toByteArrby()</code> bnd
  * <code>toString()</code>.
  * <p>
- * Closing a <tt>ByteArrayOutputStream</tt> has no effect. The methods in
- * this class can be called after the stream has been closed without
- * generating an <tt>IOException</tt>.
+ * Closing b <tt>ByteArrbyOutputStrebm</tt> hbs no effect. The methods in
+ * this clbss cbn be cblled bfter the strebm hbs been closed without
+ * generbting bn <tt>IOException</tt>.
  *
- * @author  Arthur van Hoff
+ * @buthor  Arthur vbn Hoff
  * @since   1.0
  */
 
-public class ByteArrayOutputStream extends OutputStream {
+public clbss ByteArrbyOutputStrebm extends OutputStrebm {
 
     /**
-     * The buffer where data is stored.
+     * The buffer where dbtb is stored.
      */
     protected byte buf[];
 
     /**
-     * The number of valid bytes in the buffer.
+     * The number of vblid bytes in the buffer.
      */
     protected int count;
 
     /**
-     * Creates a new byte array output stream. The buffer capacity is
-     * initially 32 bytes, though its size increases if necessary.
+     * Crebtes b new byte brrby output strebm. The buffer cbpbcity is
+     * initiblly 32 bytes, though its size increbses if necessbry.
      */
-    public ByteArrayOutputStream() {
+    public ByteArrbyOutputStrebm() {
         this(32);
     }
 
     /**
-     * Creates a new byte array output stream, with a buffer capacity of
+     * Crebtes b new byte brrby output strebm, with b buffer cbpbcity of
      * the specified size, in bytes.
      *
-     * @param   size   the initial size.
-     * @exception  IllegalArgumentException if size is negative.
+     * @pbrbm   size   the initibl size.
+     * @exception  IllegblArgumentException if size is negbtive.
      */
-    public ByteArrayOutputStream(int size) {
+    public ByteArrbyOutputStrebm(int size) {
         if (size < 0) {
-            throw new IllegalArgumentException("Negative initial size: "
+            throw new IllegblArgumentException("Negbtive initibl size: "
                                                + size);
         }
         buf = new byte[size];
     }
 
     /**
-     * Increases the capacity if necessary to ensure that it can hold
-     * at least the number of elements specified by the minimum
-     * capacity argument.
+     * Increbses the cbpbcity if necessbry to ensure thbt it cbn hold
+     * bt lebst the number of elements specified by the minimum
+     * cbpbcity brgument.
      *
-     * @param minCapacity the desired minimum capacity
-     * @throws OutOfMemoryError if {@code minCapacity < 0}.  This is
-     * interpreted as a request for the unsatisfiably large capacity
-     * {@code (long) Integer.MAX_VALUE + (minCapacity - Integer.MAX_VALUE)}.
+     * @pbrbm minCbpbcity the desired minimum cbpbcity
+     * @throws OutOfMemoryError if {@code minCbpbcity < 0}.  This is
+     * interpreted bs b request for the unsbtisfibbly lbrge cbpbcity
+     * {@code (long) Integer.MAX_VALUE + (minCbpbcity - Integer.MAX_VALUE)}.
      */
-    private void ensureCapacity(int minCapacity) {
+    privbte void ensureCbpbcity(int minCbpbcity) {
         // overflow-conscious code
-        if (minCapacity - buf.length > 0)
-            grow(minCapacity);
+        if (minCbpbcity - buf.length > 0)
+            grow(minCbpbcity);
     }
 
     /**
-     * Increases the capacity to ensure that it can hold at least the
-     * number of elements specified by the minimum capacity argument.
+     * Increbses the cbpbcity to ensure thbt it cbn hold bt lebst the
+     * number of elements specified by the minimum cbpbcity brgument.
      *
-     * @param minCapacity the desired minimum capacity
+     * @pbrbm minCbpbcity the desired minimum cbpbcity
      */
-    private void grow(int minCapacity) {
+    privbte void grow(int minCbpbcity) {
         // overflow-conscious code
-        int oldCapacity = buf.length;
-        int newCapacity = oldCapacity << 1;
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
-        if (newCapacity < 0) {
-            if (minCapacity < 0) // overflow
+        int oldCbpbcity = buf.length;
+        int newCbpbcity = oldCbpbcity << 1;
+        if (newCbpbcity - minCbpbcity < 0)
+            newCbpbcity = minCbpbcity;
+        if (newCbpbcity < 0) {
+            if (minCbpbcity < 0) // overflow
                 throw new OutOfMemoryError();
-            newCapacity = Integer.MAX_VALUE;
+            newCbpbcity = Integer.MAX_VALUE;
         }
-        buf = Arrays.copyOf(buf, newCapacity);
+        buf = Arrbys.copyOf(buf, newCbpbcity);
     }
 
     /**
-     * Writes the specified byte to this byte array output stream.
+     * Writes the specified byte to this byte brrby output strebm.
      *
-     * @param   b   the byte to be written.
+     * @pbrbm   b   the byte to be written.
      */
     public synchronized void write(int b) {
-        ensureCapacity(count + 1);
+        ensureCbpbcity(count + 1);
         buf[count] = (byte) b;
         count += 1;
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this byte array output stream.
+     * Writes <code>len</code> bytes from the specified byte brrby
+     * stbrting bt offset <code>off</code> to this byte brrby output strebm.
      *
-     * @param   b     the data.
-     * @param   off   the start offset in the data.
-     * @param   len   the number of bytes to write.
+     * @pbrbm   b     the dbtb.
+     * @pbrbm   off   the stbrt offset in the dbtb.
+     * @pbrbm   len   the number of bytes to write.
      */
     public synchronized void write(byte b[], int off, int len) {
         if ((off < 0) || (off > b.length) || (len < 0) ||
             ((off + len) - b.length > 0)) {
             throw new IndexOutOfBoundsException();
         }
-        ensureCapacity(count + len);
-        System.arraycopy(b, off, buf, count, len);
+        ensureCbpbcity(count + len);
+        System.brrbycopy(b, off, buf, count, len);
         count += len;
     }
 
     /**
-     * Writes the complete contents of this byte array output stream to
-     * the specified output stream argument, as if by calling the output
-     * stream's write method using <code>out.write(buf, 0, count)</code>.
+     * Writes the complete contents of this byte brrby output strebm to
+     * the specified output strebm brgument, bs if by cblling the output
+     * strebm's write method using <code>out.write(buf, 0, count)</code>.
      *
-     * @param      out   the output stream to which to write the data.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      out   the output strebm to which to write the dbtb.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public synchronized void writeTo(OutputStream out) throws IOException {
+    public synchronized void writeTo(OutputStrebm out) throws IOException {
         out.write(buf, 0, count);
     }
 
     /**
-     * Resets the <code>count</code> field of this byte array output
-     * stream to zero, so that all currently accumulated output in the
-     * output stream is discarded. The output stream can be used again,
-     * reusing the already allocated buffer space.
+     * Resets the <code>count</code> field of this byte brrby output
+     * strebm to zero, so thbt bll currently bccumulbted output in the
+     * output strebm is discbrded. The output strebm cbn be used bgbin,
+     * reusing the blrebdy bllocbted buffer spbce.
      *
-     * @see     java.io.ByteArrayInputStream#count
+     * @see     jbvb.io.ByteArrbyInputStrebm#count
      */
     public synchronized void reset() {
         count = 0;
     }
 
     /**
-     * Creates a newly allocated byte array. Its size is the current
-     * size of this output stream and the valid contents of the buffer
-     * have been copied into it.
+     * Crebtes b newly bllocbted byte brrby. Its size is the current
+     * size of this output strebm bnd the vblid contents of the buffer
+     * hbve been copied into it.
      *
-     * @return  the current contents of this output stream, as a byte array.
-     * @see     java.io.ByteArrayOutputStream#size()
+     * @return  the current contents of this output strebm, bs b byte brrby.
+     * @see     jbvb.io.ByteArrbyOutputStrebm#size()
      */
-    public synchronized byte toByteArray()[] {
-        return Arrays.copyOf(buf, count);
+    public synchronized byte toByteArrby()[] {
+        return Arrbys.copyOf(buf, count);
     }
 
     /**
      * Returns the current size of the buffer.
      *
-     * @return  the value of the <code>count</code> field, which is the number
-     *          of valid bytes in this output stream.
-     * @see     java.io.ByteArrayOutputStream#count
+     * @return  the vblue of the <code>count</code> field, which is the number
+     *          of vblid bytes in this output strebm.
+     * @see     jbvb.io.ByteArrbyOutputStrebm#count
      */
     public synchronized int size() {
         return count;
     }
 
     /**
-     * Converts the buffer's contents into a string decoding bytes using the
-     * platform's default character set. The length of the new <tt>String</tt>
-     * is a function of the character set, and hence may not be equal to the
+     * Converts the buffer's contents into b string decoding bytes using the
+     * plbtform's defbult chbrbcter set. The length of the new <tt>String</tt>
+     * is b function of the chbrbcter set, bnd hence mby not be equbl to the
      * size of the buffer.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with the default replacement string for the platform's
-     * default character set. The {@linkplain java.nio.charset.CharsetDecoder}
-     * class should be used when more control over the decoding process is
+     * <p> This method blwbys replbces mblformed-input bnd unmbppbble-chbrbcter
+     * sequences with the defbult replbcement string for the plbtform's
+     * defbult chbrbcter set. The {@linkplbin jbvb.nio.chbrset.ChbrsetDecoder}
+     * clbss should be used when more control over the decoding process is
      * required.
      *
      * @return String decoded from the buffer's contents.
@@ -209,60 +209,60 @@ public class ByteArrayOutputStream extends OutputStream {
     }
 
     /**
-     * Converts the buffer's contents into a string by decoding the bytes using
-     * the named {@link java.nio.charset.Charset charset}. The length of the new
-     * <tt>String</tt> is a function of the charset, and hence may not be equal
-     * to the length of the byte array.
+     * Converts the buffer's contents into b string by decoding the bytes using
+     * the nbmed {@link jbvb.nio.chbrset.Chbrset chbrset}. The length of the new
+     * <tt>String</tt> is b function of the chbrset, bnd hence mby not be equbl
+     * to the length of the byte brrby.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement string. The {@link
-     * java.nio.charset.CharsetDecoder} class should be used when more control
+     * <p> This method blwbys replbces mblformed-input bnd unmbppbble-chbrbcter
+     * sequences with this chbrset's defbult replbcement string. The {@link
+     * jbvb.nio.chbrset.ChbrsetDecoder} clbss should be used when more control
      * over the decoding process is required.
      *
-     * @param      charsetName  the name of a supported
-     *             {@link java.nio.charset.Charset charset}
+     * @pbrbm      chbrsetNbme  the nbme of b supported
+     *             {@link jbvb.nio.chbrset.Chbrset chbrset}
      * @return     String decoded from the buffer's contents.
      * @exception  UnsupportedEncodingException
-     *             If the named charset is not supported
+     *             If the nbmed chbrset is not supported
      * @since      1.1
      */
-    public synchronized String toString(String charsetName)
+    public synchronized String toString(String chbrsetNbme)
         throws UnsupportedEncodingException
     {
-        return new String(buf, 0, count, charsetName);
+        return new String(buf, 0, count, chbrsetNbme);
     }
 
     /**
-     * Creates a newly allocated string. Its size is the current size of
-     * the output stream and the valid contents of the buffer have been
-     * copied into it. Each character <i>c</i> in the resulting string is
+     * Crebtes b newly bllocbted string. Its size is the current size of
+     * the output strebm bnd the vblid contents of the buffer hbve been
+     * copied into it. Ebch chbrbcter <i>c</i> in the resulting string is
      * constructed from the corresponding element <i>b</i> in the byte
-     * array such that:
+     * brrby such thbt:
      * <blockquote><pre>
-     *     c == (char)(((hibyte &amp; 0xff) &lt;&lt; 8) | (b &amp; 0xff))
+     *     c == (chbr)(((hibyte &bmp; 0xff) &lt;&lt; 8) | (b &bmp; 0xff))
      * </pre></blockquote>
      *
-     * @deprecated This method does not properly convert bytes into characters.
-     * As of JDK&nbsp;1.1, the preferred way to do this is via the
-     * <code>toString(String enc)</code> method, which takes an encoding-name
-     * argument, or the <code>toString()</code> method, which uses the
-     * platform's default character encoding.
+     * @deprecbted This method does not properly convert bytes into chbrbcters.
+     * As of JDK&nbsp;1.1, the preferred wby to do this is vib the
+     * <code>toString(String enc)</code> method, which tbkes bn encoding-nbme
+     * brgument, or the <code>toString()</code> method, which uses the
+     * plbtform's defbult chbrbcter encoding.
      *
-     * @param      hibyte    the high byte of each resulting Unicode character.
-     * @return     the current contents of the output stream, as a string.
-     * @see        java.io.ByteArrayOutputStream#size()
-     * @see        java.io.ByteArrayOutputStream#toString(String)
-     * @see        java.io.ByteArrayOutputStream#toString()
+     * @pbrbm      hibyte    the high byte of ebch resulting Unicode chbrbcter.
+     * @return     the current contents of the output strebm, bs b string.
+     * @see        jbvb.io.ByteArrbyOutputStrebm#size()
+     * @see        jbvb.io.ByteArrbyOutputStrebm#toString(String)
+     * @see        jbvb.io.ByteArrbyOutputStrebm#toString()
      */
-    @Deprecated
+    @Deprecbted
     public synchronized String toString(int hibyte) {
         return new String(buf, hibyte, 0, count);
     }
 
     /**
-     * Closing a <tt>ByteArrayOutputStream</tt> has no effect. The methods in
-     * this class can be called after the stream has been closed without
-     * generating an <tt>IOException</tt>.
+     * Closing b <tt>ByteArrbyOutputStrebm</tt> hbs no effect. The methods in
+     * this clbss cbn be cblled bfter the strebm hbs been closed without
+     * generbting bn <tt>IOException</tt>.
      */
     public void close() throws IOException {
     }

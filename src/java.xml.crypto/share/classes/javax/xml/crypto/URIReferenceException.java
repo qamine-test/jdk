@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: URIReferenceException.java,v 1.4 2005/05/10 15:47:42 mullan Exp $
+ * $Id: URIReferenceException.jbvb,v 1.4 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbckbge jbvbx.xml.crypto;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvbx.xml.crypto.dsig.keyinfo.RetrievblMethod;
 
 /**
- * Indicates an exceptional condition thrown while dereferencing a
+ * Indicbtes bn exceptionbl condition thrown while dereferencing b
  * {@link URIReference}.
  *
- * <p>A <code>URIReferenceException</code> can contain a cause: another
- * throwable that caused this <code>URIReferenceException</code> to get thrown.
+ * <p>A <code>URIReferenceException</code> cbn contbin b cbuse: bnother
+ * throwbble thbt cbused this <code>URIReferenceException</code> to get thrown.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  * @see URIDereferencer#dereference(URIReference, XMLCryptoContext)
- * @see RetrievalMethod#dereference(XMLCryptoContext)
+ * @see RetrievblMethod#dereference(XMLCryptoContext)
  */
-public class URIReferenceException extends Exception {
+public clbss URIReferenceException extends Exception {
 
-    private static final long serialVersionUID = 7173469703932561419L;
+    privbte stbtic finbl long seriblVersionUID = 7173469703932561419L;
 
     /**
-     * The throwable that caused this exception to get thrown, or null if this
-     * exception was not caused by another throwable or if the causative
-     * throwable is unknown.
+     * The throwbble thbt cbused this exception to get thrown, or null if this
+     * exception wbs not cbused by bnother throwbble or if the cbusbtive
+     * throwbble is unknown.
      *
-     * @serial
+     * @seribl
      */
-    private Throwable cause;
+    privbte Throwbble cbuse;
 
-    private URIReference uriReference;
+    privbte URIReference uriReference;
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with
-     * <code>null</code> as its detail message.
+     * Constructs b new <code>URIReferenceException</code> with
+     * <code>null</code> bs its detbil messbge.
      */
     public URIReferenceException() {
         super();
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the specified
-     * detail message.
+     * Constructs b new <code>URIReferenceException</code> with the specified
+     * detbil messbge.
      *
-     * @param message the detail message
+     * @pbrbm messbge the detbil messbge
      */
-    public URIReferenceException(String message) {
-        super(message);
+    public URIReferenceException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the
-     * specified detail message and cause.
-     * <p>Note that the detail message associated with
-     * <code>cause</code> is <i>not</i> automatically incorporated in
-     * this exception's detail message.
+     * Constructs b new <code>URIReferenceException</code> with the
+     * specified detbil messbge bnd cbuse.
+     * <p>Note thbt the detbil messbge bssocibted with
+     * <code>cbuse</code> is <i>not</i> butombticblly incorporbted in
+     * this exception's detbil messbge.
      *
-     * @param message the detail message
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
+     * @pbrbm messbge the detbil messbge
+     * @pbrbm cbuse the cbuse (A <tt>null</tt> vblue is permitted, bnd
+     *        indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public URIReferenceException(String message, Throwable cause) {
-        super(message);
-        this.cause = cause;
+    public URIReferenceException(String messbge, Throwbble cbuse) {
+        super(messbge);
+        this.cbuse = cbuse;
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the
-     * specified detail message, cause and <code>URIReference</code>.
-     * <p>Note that the detail message associated with
-     * <code>cause</code> is <i>not</i> automatically incorporated in
-     * this exception's detail message.
+     * Constructs b new <code>URIReferenceException</code> with the
+     * specified detbil messbge, cbuse bnd <code>URIReference</code>.
+     * <p>Note thbt the detbil messbge bssocibted with
+     * <code>cbuse</code> is <i>not</i> butombticblly incorporbted in
+     * this exception's detbil messbge.
      *
-     * @param message the detail message
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
-     * @param uriReference the <code>URIReference</code> that was being
-     *    dereferenced when the error was encountered
+     * @pbrbm messbge the detbil messbge
+     * @pbrbm cbuse the cbuse (A <tt>null</tt> vblue is permitted, bnd
+     *        indicbtes thbt the cbuse is nonexistent or unknown.)
+     * @pbrbm uriReference the <code>URIReference</code> thbt wbs being
+     *    dereferenced when the error wbs encountered
      * @throws NullPointerException if <code>uriReference</code> is
      *    <code>null</code>
      */
-    public URIReferenceException(String message, Throwable cause,
+    public URIReferenceException(String messbge, Throwbble cbuse,
         URIReference uriReference) {
-        this(message, cause);
+        this(messbge, cbuse);
         if (uriReference == null) {
-            throw new NullPointerException("uriReference cannot be null");
+            throw new NullPointerException("uriReference cbnnot be null");
         }
         this.uriReference = uriReference;
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the specified
-     * cause and a detail message of <code>(cause==null ? null :
-     * cause.toString())</code> (which typically contains the class and detail
-     * message of <code>cause</code>).
+     * Constructs b new <code>URIReferenceException</code> with the specified
+     * cbuse bnd b detbil messbge of <code>(cbuse==null ? null :
+     * cbuse.toString())</code> (which typicblly contbins the clbss bnd detbil
+     * messbge of <code>cbuse</code>).
      *
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
+     * @pbrbm cbuse the cbuse (A <tt>null</tt> vblue is permitted, bnd
+     *        indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public URIReferenceException(Throwable cause) {
-        super(cause==null ? null : cause.toString());
-        this.cause = cause;
+    public URIReferenceException(Throwbble cbuse) {
+        super(cbuse==null ? null : cbuse.toString());
+        this.cbuse = cbuse;
     }
 
     /**
-     * Returns the <code>URIReference</code> that was being dereferenced
-     * when the exception was thrown.
+     * Returns the <code>URIReference</code> thbt wbs being dereferenced
+     * when the exception wbs thrown.
      *
-     * @return the <code>URIReference</code> that was being dereferenced
-     * when the exception was thrown, or <code>null</code> if not specified
+     * @return the <code>URIReference</code> thbt wbs being dereferenced
+     * when the exception wbs thrown, or <code>null</code> if not specified
      */
     public URIReference getURIReference() {
         return uriReference;
     }
 
     /**
-     * Returns the cause of this <code>URIReferenceException</code> or
-     * <code>null</code> if the cause is nonexistent or unknown.  (The
-     * cause is the throwable that caused this
+     * Returns the cbuse of this <code>URIReferenceException</code> or
+     * <code>null</code> if the cbuse is nonexistent or unknown.  (The
+     * cbuse is the throwbble thbt cbused this
      * <code>URIReferenceException</code> to get thrown.)
      *
-     * @return the cause of this <code>URIReferenceException</code> or
-     *    <code>null</code> if the cause is nonexistent or unknown.
+     * @return the cbuse of this <code>URIReferenceException</code> or
+     *    <code>null</code> if the cbuse is nonexistent or unknown.
      */
-    public Throwable getCause() {
-        return cause;
+    public Throwbble getCbuse() {
+        return cbuse;
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the standard error stream.
+     * Prints this <code>URIReferenceException</code>, its bbcktrbce bnd
+     * the cbuse's bbcktrbce to the stbndbrd error strebm.
      */
-    public void printStackTrace() {
-        super.printStackTrace();
-        //XXX print backtrace of cause
+    public void printStbckTrbce() {
+        super.printStbckTrbce();
+        //XXX print bbcktrbce of cbuse
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the specified print stream.
+     * Prints this <code>URIReferenceException</code>, its bbcktrbce bnd
+     * the cbuse's bbcktrbce to the specified print strebm.
      *
-     * @param s <code>PrintStream</code> to use for output
+     * @pbrbm s <code>PrintStrebm</code> to use for output
      */
-    public void printStackTrace(PrintStream s) {
-        super.printStackTrace(s);
-        //XXX print backtrace of cause
+    public void printStbckTrbce(PrintStrebm s) {
+        super.printStbckTrbce(s);
+        //XXX print bbcktrbce of cbuse
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the specified print writer.
+     * Prints this <code>URIReferenceException</code>, its bbcktrbce bnd
+     * the cbuse's bbcktrbce to the specified print writer.
      *
-     * @param s <code>PrintWriter</code> to use for output
+     * @pbrbm s <code>PrintWriter</code> to use for output
      */
-    public void printStackTrace(PrintWriter s) {
-        super.printStackTrace(s);
-        //XXX print backtrace of cause
+    public void printStbckTrbce(PrintWriter s) {
+        super.printStbckTrbce(s);
+        //XXX print bbcktrbce of cbuse
     }
 }

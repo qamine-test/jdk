@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.image.BufferStrategy;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.imbge.BufferStrbtegy;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * Manages v-synced buffer strategies.
+ * Mbnbges v-synced buffer strbtegies.
  */
-public abstract class VSyncedBSManager {
+public bbstrbct clbss VSyncedBSMbnbger {
 
-    private static VSyncedBSManager theInstance;
+    privbte stbtic VSyncedBSMbnbger theInstbnce;
 
-    private static final boolean vSyncLimit =
-        Boolean.valueOf(java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.vsynclimit", "true")));
+    privbte stbtic finbl boolebn vSyncLimit =
+        Boolebn.vblueOf(jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction(
+                    "sun.jbvb2d.vsynclimit", "true")));
 
-    private static VSyncedBSManager getInstance(boolean create) {
-        if (theInstance == null && create) {
-            theInstance =
+    privbte stbtic VSyncedBSMbnbger getInstbnce(boolebn crebte) {
+        if (theInstbnce == null && crebte) {
+            theInstbnce =
                 vSyncLimit ? new SingleVSyncedBSMgr() : new NoLimitVSyncBSMgr();
         }
-        return theInstance;
+        return theInstbnce;
     }
 
-    abstract boolean checkAllowed(BufferStrategy bs);
-    abstract void relinquishVsync(BufferStrategy bs);
+    bbstrbct boolebn checkAllowed(BufferStrbtegy bs);
+    bbstrbct void relinquishVsync(BufferStrbtegy bs);
 
     /**
-     * Returns true if the buffer strategy is allowed to be created
+     * Returns true if the buffer strbtegy is bllowed to be crebted
      * v-synced.
      *
-     * @return true if the bs is allowed to be v-synced, false otherwise
+     * @return true if the bs is bllowed to be v-synced, fblse otherwise
      */
-    public static boolean vsyncAllowed(BufferStrategy bs) {
-        VSyncedBSManager bsm = getInstance(true);
+    public stbtic boolebn vsyncAllowed(BufferStrbtegy bs) {
+        VSyncedBSMbnbger bsm = getInstbnce(true);
         return bsm.checkAllowed(bs);
     }
 
     /**
-     * Lets the manager know that this buffer strategy is no longer interested
+     * Lets the mbnbger know thbt this buffer strbtegy is no longer interested
      * in being v-synced.
      */
-    public static synchronized void releaseVsync(BufferStrategy bs) {
-        VSyncedBSManager bsm = getInstance(false);
+    public stbtic synchronized void relebseVsync(BufferStrbtegy bs) {
+        VSyncedBSMbnbger bsm = getInstbnce(fblse);
         if (bsm != null) {
             bsm.relinquishVsync(bs);
         }
     }
 
     /**
-     * An instance of the manager which allows any buffer strategy to be
+     * An instbnce of the mbnbger which bllows bny buffer strbtegy to be
      * v-synced.
      */
-    private static final class NoLimitVSyncBSMgr extends VSyncedBSManager {
+    privbte stbtic finbl clbss NoLimitVSyncBSMgr extends VSyncedBSMbnbger {
         @Override
-        boolean checkAllowed(BufferStrategy bs) {
+        boolebn checkAllowed(BufferStrbtegy bs) {
             return true;
         }
 
         @Override
-        void relinquishVsync(BufferStrategy bs) {
+        void relinquishVsync(BufferStrbtegy bs) {
         }
     }
 
     /**
-     * An instance of the manager which allows only one buffer strategy to
-     * be v-synced at any give moment in the vm.
+     * An instbnce of the mbnbger which bllows only one buffer strbtegy to
+     * be v-synced bt bny give moment in the vm.
      */
-    private static final class SingleVSyncedBSMgr extends VSyncedBSManager {
-        private WeakReference<BufferStrategy> strategy;
+    privbte stbtic finbl clbss SingleVSyncedBSMgr extends VSyncedBSMbnbger {
+        privbte WebkReference<BufferStrbtegy> strbtegy;
 
         @Override
-        public synchronized boolean checkAllowed(BufferStrategy bs) {
-            if (strategy != null) {
-                BufferStrategy current = strategy.get();
+        public synchronized boolebn checkAllowed(BufferStrbtegy bs) {
+            if (strbtegy != null) {
+                BufferStrbtegy current = strbtegy.get();
                 if (current != null) {
                     return (current == bs);
                 }
             }
-            strategy = new WeakReference<BufferStrategy>(bs);
+            strbtegy = new WebkReference<BufferStrbtegy>(bs);
             return true;
         }
 
         @Override
-        public synchronized void relinquishVsync(BufferStrategy bs) {
-            if (strategy != null) {
-                BufferStrategy b = strategy.get();
+        public synchronized void relinquishVsync(BufferStrbtegy bs) {
+            if (strbtegy != null) {
+                BufferStrbtegy b = strbtegy.get();
                 if (b == bs) {
-                    strategy.clear();
-                    strategy = null;
+                    strbtegy.clebr();
+                    strbtegy = null;
                 }
             }
         }

@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.*;
 
 import sun.security.util.*;
 
 /**
- * Represent the Policy Mappings Extension.
+ * Represent the Policy Mbppings Extension.
  *
- * This extension, if present, identifies the certificate policies considered
- * identical between the issuing and the subject CA.
- * <p>Extensions are addiitonal attributes which can be inserted in a X509
- * v3 certificate. For example a "Driving License Certificate" could have
- * the driving license number as a extension.
+ * This extension, if present, identifies the certificbte policies considered
+ * identicbl between the issuing bnd the subject CA.
+ * <p>Extensions bre bddiitonbl bttributes which cbn be inserted in b X509
+ * v3 certificbte. For exbmple b "Driving License Certificbte" could hbve
+ * the driving license number bs b extension.
  *
- * <p>Extensions are represented as a sequence of the extension identifier
- * (Object Identifier), a boolean flag stating whether the extension is to
- * be treated as being critical and the extension value itself (this is again
- * a DER encoding of the extension value).
+ * <p>Extensions bre represented bs b sequence of the extension identifier
+ * (Object Identifier), b boolebn flbg stbting whether the extension is to
+ * be trebted bs being criticbl bnd the extension vblue itself (this is bgbin
+ * b DER encoding of the extension vblue).
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class PolicyMappingsExtension extends Extension
+public clbss PolicyMbppingsExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.PolicyMappings";
+    public stbtic finbl String IDENT = "x509.info.extensions.PolicyMbppings";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "PolicyMappings";
-    public static final String MAP = "map";
+    public stbtic finbl String NAME = "PolicyMbppings";
+    public stbtic finbl String MAP = "mbp";
 
-    // Private data members
-    private List<CertificatePolicyMap> maps;
+    // Privbte dbtb members
+    privbte List<CertificbtePolicyMbp> mbps;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        if (maps == null || maps.isEmpty()) {
-            this.extensionValue = null;
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
+        if (mbps == null || mbps.isEmpty()) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm os = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        for (CertificatePolicyMap map : maps) {
-            map.encode(tmp);
+        for (CertificbtePolicyMbp mbp : mbps) {
+            mbp.encode(tmp);
         }
 
-        os.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = os.toByteArray();
+        os.write(DerVblue.tbg_Sequence, tmp);
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a PolicyMappings with the List of CertificatePolicyMap.
+     * Crebte b PolicyMbppings with the List of CertificbtePolicyMbp.
      *
-     * @param maps the List of CertificatePolicyMap.
+     * @pbrbm mbps the List of CertificbtePolicyMbp.
      */
-    public PolicyMappingsExtension(List<CertificatePolicyMap> map)
+    public PolicyMbppingsExtension(List<CertificbtePolicyMbp> mbp)
             throws IOException {
-        this.maps = map;
-        this.extensionId = PKIXExtensions.PolicyMappings_Id;
-        this.critical = false;
+        this.mbps = mbp;
+        this.extensionId = PKIXExtensions.PolicyMbppings_Id;
+        this.criticbl = fblse;
         encodeThis();
     }
 
     /**
-     * Create a default PolicyMappingsExtension.
+     * Crebte b defbult PolicyMbppingsExtension.
      */
-    public PolicyMappingsExtension() {
-        extensionId = PKIXExtensions.KeyUsage_Id;
-        critical = false;
-        maps = new ArrayList<CertificatePolicyMap>();
+    public PolicyMbppingsExtension() {
+        extensionId = PKIXExtensions.KeyUsbge_Id;
+        criticbl = fblse;
+        mbps = new ArrbyList<CertificbtePolicyMbp>();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crebte the extension from the pbssed DER encoded vblue.
      *
-     * @params critical true if the extension is to be treated as critical.
-     * @params value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbms criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbms vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public PolicyMappingsExtension(Boolean critical, Object value)
+    public PolicyMbppingsExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.PolicyMappings_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.PolicyMbppings_Id;
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
-                                  "PolicyMappingsExtension.");
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " +
+                                  "PolicyMbppingsExtension.");
         }
-        maps = new ArrayList<CertificatePolicyMap>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            CertificatePolicyMap map = new CertificatePolicyMap(seq);
-            maps.add(map);
+        mbps = new ArrbyList<CertificbtePolicyMbp>();
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue seq = vbl.dbtb.getDerVblue();
+            CertificbtePolicyMbp mbp = new CertificbtePolicyMbp(seq);
+            mbps.bdd(mbp);
         }
     }
 
     /**
-     * Returns a printable representation of the policy map.
+     * Returns b printbble representbtion of the policy mbp.
      */
     public String toString() {
-        if (maps == null) return "";
-        String s = super.toString() + "PolicyMappings [\n"
-                 + maps.toString() + "]\n";
+        if (mbps == null) return "";
+        String s = super.toString() + "PolicyMbppings [\n"
+                 + mbps.toString() + "]\n";
 
         return (s);
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to.
+     * @pbrbm out the OutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-            extensionId = PKIXExtensions.PolicyMappings_Id;
-            critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+            extensionId = PKIXExtensions.PolicyMbppings_Id;
+            criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(MAP)) {
-            if (!(obj instanceof List)) {
-              throw new IOException("Attribute value should be of" +
+    @SuppressWbrnings("unchecked") // Checked with instbnceof
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(MAP)) {
+            if (!(obj instbnceof List)) {
+              throw new IOException("Attribute vblue should be of" +
                                     " type List.");
             }
-            maps = (List<CertificatePolicyMap>)obj;
+            mbps = (List<CertificbtePolicyMbp>)obj;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:PolicyMappingsExtension.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:PolicyMbppingsExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public List<CertificatePolicyMap> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(MAP)) {
-            return (maps);
+    public List<CertificbtePolicyMbp> get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(MAP)) {
+            return (mbps);
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:PolicyMappingsExtension.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:PolicyMbppingsExtension.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(MAP)) {
-            maps = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(MAP)) {
+            mbps = null;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:PolicyMappingsExtension.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:PolicyMbppingsExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements () {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(MAP);
+    public Enumerbtion<String> getElements () {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(MAP);
 
         return elements.elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName () {
+    public String getNbme () {
         return (NAME);
     }
 }

@@ -3,123 +3,123 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content;
 
-import java.security.PublicKey;
+import jbvb.security.PublicKey;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.keyvalues.DSAKeyValue;
-import com.sun.org.apache.xml.internal.security.keys.content.keyvalues.RSAKeyValue;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.keyvblues.DSAKeyVblue;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.keyvblues.RSAKeyVblue;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * The KeyValue element contains a single public key that may be useful in
- * validating the signature. Structured formats for defining DSA (REQUIRED)
- * and RSA (RECOMMENDED) public keys are defined in Signature Algorithms
- * (section 6.4). The KeyValue element may include externally defined public
- * keys values represented as PCDATA or element types from an external
- * namespace.
+ * The KeyVblue element contbins b single public key thbt mby be useful in
+ * vblidbting the signbture. Structured formbts for defining DSA (REQUIRED)
+ * bnd RSA (RECOMMENDED) public keys bre defined in Signbture Algorithms
+ * (section 6.4). The KeyVblue element mby include externblly defined public
+ * keys vblues represented bs PCDATA or element types from bn externbl
+ * nbmespbce.
  *
- * @author $Author: coheigea $
+ * @buthor $Author: coheigeb $
  */
-public class KeyValue extends SignatureElementProxy implements KeyInfoContent {
+public clbss KeyVblue extends SignbtureElementProxy implements KeyInfoContent {
 
     /**
-     * Constructor KeyValue
+     * Constructor KeyVblue
      *
-     * @param doc
-     * @param dsaKeyValue
+     * @pbrbm doc
+     * @pbrbm dsbKeyVblue
      */
-    public KeyValue(Document doc, DSAKeyValue dsaKeyValue) {
+    public KeyVblue(Document doc, DSAKeyVblue dsbKeyVblue) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(dsaKeyValue.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(dsbKeyVblue.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Constructor KeyValue
+     * Constructor KeyVblue
      *
-     * @param doc
-     * @param rsaKeyValue
+     * @pbrbm doc
+     * @pbrbm rsbKeyVblue
      */
-    public KeyValue(Document doc, RSAKeyValue rsaKeyValue) {
+    public KeyVblue(Document doc, RSAKeyVblue rsbKeyVblue) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(rsaKeyValue.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(rsbKeyVblue.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Constructor KeyValue
+     * Constructor KeyVblue
      *
-     * @param doc
-     * @param unknownKeyValue
+     * @pbrbm doc
+     * @pbrbm unknownKeyVblue
      */
-    public KeyValue(Document doc, Element unknownKeyValue) {
+    public KeyVblue(Document doc, Element unknownKeyVblue) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.constructionElement.appendChild(unknownKeyValue);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(unknownKeyVblue);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Constructor KeyValue
+     * Constructor KeyVblue
      *
-     * @param doc
-     * @param pk
+     * @pbrbm doc
+     * @pbrbm pk
      */
-    public KeyValue(Document doc, PublicKey pk) {
+    public KeyVblue(Document doc, PublicKey pk) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        if (pk instanceof java.security.interfaces.DSAPublicKey) {
-            DSAKeyValue dsa = new DSAKeyValue(this.doc, pk);
+        if (pk instbnceof jbvb.security.interfbces.DSAPublicKey) {
+            DSAKeyVblue dsb = new DSAKeyVblue(this.doc, pk);
 
-            this.constructionElement.appendChild(dsa.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
-        } else if (pk instanceof java.security.interfaces.RSAPublicKey) {
-            RSAKeyValue rsa = new RSAKeyValue(this.doc, pk);
+            this.constructionElement.bppendChild(dsb.getElement());
+            XMLUtils.bddReturnToElement(this.constructionElement);
+        } else if (pk instbnceof jbvb.security.interfbces.RSAPublicKey) {
+            RSAKeyVblue rsb = new RSAKeyVblue(this.doc, pk);
 
-            this.constructionElement.appendChild(rsa.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
+            this.constructionElement.bppendChild(rsb.getElement());
+            XMLUtils.bddReturnToElement(this.constructionElement);
         }
     }
 
     /**
-     * Constructor KeyValue
+     * Constructor KeyVblue
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public KeyValue(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public KeyVblue(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
     }
 
     /**
@@ -129,21 +129,21 @@ public class KeyValue extends SignatureElementProxy implements KeyInfoContent {
      * @throws XMLSecurityException
      */
     public PublicKey getPublicKey() throws XMLSecurityException {
-        Element rsa =
+        Element rsb =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_RSAKEYVALUE, 0);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_RSAKEYVALUE, 0);
 
-        if (rsa != null) {
-            RSAKeyValue kv = new RSAKeyValue(rsa, this.baseURI);
+        if (rsb != null) {
+            RSAKeyVblue kv = new RSAKeyVblue(rsb, this.bbseURI);
             return kv.getPublicKey();
         }
 
-        Element dsa =
+        Element dsb =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_DSAKEYVALUE, 0);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_DSAKEYVALUE, 0);
 
-        if (dsa != null) {
-            DSAKeyValue kv = new DSAKeyValue(dsa, this.baseURI);
+        if (dsb != null) {
+            DSAKeyVblue kv = new DSAKeyVblue(dsb, this.bbseURI);
             return kv.getPublicKey();
         }
 
@@ -151,7 +151,7 @@ public class KeyValue extends SignatureElementProxy implements KeyInfoContent {
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_KEYVALUE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_KEYVALUE;
     }
 }

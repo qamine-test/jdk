@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Constants used by Synth. Not all Components support all states. A
- * Component will at least be in one of the primary states. That is, the
- * return value from <code>SynthContext.getComponentState()</code> will at
- * least be one of <code>ENABLED</code>, <code>MOUSE_OVER</code>,
- * <code>PRESSED</code> or <code>DISABLED</code>, and may also contain
+ * Constbnts used by Synth. Not bll Components support bll stbtes. A
+ * Component will bt lebst be in one of the primbry stbtes. Thbt is, the
+ * return vblue from <code>SynthContext.getComponentStbte()</code> will bt
+ * lebst be one of <code>ENABLED</code>, <code>MOUSE_OVER</code>,
+ * <code>PRESSED</code> or <code>DISABLED</code>, bnd mby blso contbin
  * <code>FOCUSED</code>, <code>SELECTED</code> or <code>DEFAULT</code>.
  *
  * @since 1.5
  */
-public interface SynthConstants {
+public interfbce SynthConstbnts {
     /**
-     * Primary state indicating the component is enabled.
+     * Primbry stbte indicbting the component is enbbled.
      */
-    public static final int ENABLED = 1 << 0;
+    public stbtic finbl int ENABLED = 1 << 0;
     /**
-     * Primary state indicating the mouse is over the region.
+     * Primbry stbte indicbting the mouse is over the region.
      */
-    public static final int MOUSE_OVER = 1 << 1;
+    public stbtic finbl int MOUSE_OVER = 1 << 1;
     /**
-     * Primary state indicating the region is in a pressed state. Pressed
-     * does not necessarily mean the user has pressed the mouse button.
+     * Primbry stbte indicbting the region is in b pressed stbte. Pressed
+     * does not necessbrily mebn the user hbs pressed the mouse button.
      */
-    public static final int PRESSED = 1 << 2;
+    public stbtic finbl int PRESSED = 1 << 2;
     /**
-     * Primary state indicating the region is not enabled.
+     * Primbry stbte indicbting the region is not enbbled.
      */
-    public static final int DISABLED = 1 << 3;
+    public stbtic finbl int DISABLED = 1 << 3;
 
     /**
-     * Indicates the region has focus.
+     * Indicbtes the region hbs focus.
      */
-    public static final int FOCUSED = 1 << 8;
+    public stbtic finbl int FOCUSED = 1 << 8;
     /**
-     * Indicates the region is selected.
+     * Indicbtes the region is selected.
      */
-    public static final int SELECTED = 1 << 9;
+    public stbtic finbl int SELECTED = 1 << 9;
     /**
-     * Indicates the region is the default. This is typically used for buttons
-     * to indicate this button is somehow special.
+     * Indicbtes the region is the defbult. This is typicblly used for buttons
+     * to indicbte this button is somehow specibl.
      */
-    public static final int DEFAULT = 1 << 10;
+    public stbtic finbl int DEFAULT = 1 << 10;
 }

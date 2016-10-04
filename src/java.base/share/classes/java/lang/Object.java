@@ -1,556 +1,556 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Class {@code Object} is the root of the class hierarchy.
- * Every class has {@code Object} as a superclass. All objects,
- * including arrays, implement the methods of this class.
+ * Clbss {@code Object} is the root of the clbss hierbrchy.
+ * Every clbss hbs {@code Object} bs b superclbss. All objects,
+ * including brrbys, implement the methods of this clbss.
  *
- * @author  unascribed
- * @see     java.lang.Class
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.Clbss
  * @since   1.0
  */
-public class Object {
+public clbss Object {
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
     }
 
     /**
-     * Returns the runtime class of this {@code Object}. The returned
-     * {@code Class} object is the object that is locked by {@code
-     * static synchronized} methods of the represented class.
+     * Returns the runtime clbss of this {@code Object}. The returned
+     * {@code Clbss} object is the object thbt is locked by {@code
+     * stbtic synchronized} methods of the represented clbss.
      *
-     * <p><b>The actual result type is {@code Class<? extends |X|>}
-     * where {@code |X|} is the erasure of the static type of the
-     * expression on which {@code getClass} is called.</b> For
-     * example, no cast is required in this code fragment:</p>
+     * <p><b>The bctubl result type is {@code Clbss<? extends |X|>}
+     * where {@code |X|} is the erbsure of the stbtic type of the
+     * expression on which {@code getClbss} is cblled.</b> For
+     * exbmple, no cbst is required in this code frbgment:</p>
      *
      * <p>
      * {@code Number n = 0;                             }<br>
-     * {@code Class<? extends Number> c = n.getClass(); }
+     * {@code Clbss<? extends Number> c = n.getClbss(); }
      * </p>
      *
-     * @return The {@code Class} object that represents the runtime
-     *         class of this object.
-     * @jls 15.8.2 Class Literals
+     * @return The {@code Clbss} object thbt represents the runtime
+     *         clbss of this object.
+     * @jls 15.8.2 Clbss Literbls
      */
-    public final native Class<?> getClass();
+    public finbl nbtive Clbss<?> getClbss();
 
     /**
-     * Returns a hash code value for the object. This method is
-     * supported for the benefit of hash tables such as those provided by
-     * {@link java.util.HashMap}.
+     * Returns b hbsh code vblue for the object. This method is
+     * supported for the benefit of hbsh tbbles such bs those provided by
+     * {@link jbvb.util.HbshMbp}.
      * <p>
-     * The general contract of {@code hashCode} is:
+     * The generbl contrbct of {@code hbshCode} is:
      * <ul>
-     * <li>Whenever it is invoked on the same object more than once during
-     *     an execution of a Java application, the {@code hashCode} method
-     *     must consistently return the same integer, provided no information
-     *     used in {@code equals} comparisons on the object is modified.
-     *     This integer need not remain consistent from one execution of an
-     *     application to another execution of the same application.
-     * <li>If two objects are equal according to the {@code equals(Object)}
-     *     method, then calling the {@code hashCode} method on each of
-     *     the two objects must produce the same integer result.
-     * <li>It is <em>not</em> required that if two objects are unequal
-     *     according to the {@link java.lang.Object#equals(java.lang.Object)}
-     *     method, then calling the {@code hashCode} method on each of the
+     * <li>Whenever it is invoked on the sbme object more thbn once during
+     *     bn execution of b Jbvb bpplicbtion, the {@code hbshCode} method
+     *     must consistently return the sbme integer, provided no informbtion
+     *     used in {@code equbls} compbrisons on the object is modified.
+     *     This integer need not rembin consistent from one execution of bn
+     *     bpplicbtion to bnother execution of the sbme bpplicbtion.
+     * <li>If two objects bre equbl bccording to the {@code equbls(Object)}
+     *     method, then cblling the {@code hbshCode} method on ebch of
+     *     the two objects must produce the sbme integer result.
+     * <li>It is <em>not</em> required thbt if two objects bre unequbl
+     *     bccording to the {@link jbvb.lbng.Object#equbls(jbvb.lbng.Object)}
+     *     method, then cblling the {@code hbshCode} method on ebch of the
      *     two objects must produce distinct integer results.  However, the
-     *     programmer should be aware that producing distinct integer results
-     *     for unequal objects may improve the performance of hash tables.
+     *     progrbmmer should be bwbre thbt producing distinct integer results
+     *     for unequbl objects mby improve the performbnce of hbsh tbbles.
      * </ul>
      * <p>
-     * As much as is reasonably practical, the hashCode method defined by
-     * class {@code Object} does return distinct integers for distinct
-     * objects. (This is typically implemented by converting the internal
-     * address of the object into an integer, but this implementation
+     * As much bs is rebsonbbly prbcticbl, the hbshCode method defined by
+     * clbss {@code Object} does return distinct integers for distinct
+     * objects. (This is typicblly implemented by converting the internbl
+     * bddress of the object into bn integer, but this implementbtion
      * technique is not required by the
-     * Java&trade; programming language.)
+     * Jbvb&trbde; progrbmming lbngubge.)
      *
-     * @return  a hash code value for this object.
-     * @see     java.lang.Object#equals(java.lang.Object)
-     * @see     java.lang.System#identityHashCode
+     * @return  b hbsh code vblue for this object.
+     * @see     jbvb.lbng.Object#equbls(jbvb.lbng.Object)
+     * @see     jbvb.lbng.System#identityHbshCode
      */
-    public native int hashCode();
+    public nbtive int hbshCode();
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * Indicbtes whether some other object is "equbl to" this one.
      * <p>
-     * The {@code equals} method implements an equivalence relation
+     * The {@code equbls} method implements bn equivblence relbtion
      * on non-null object references:
      * <ul>
-     * <li>It is <i>reflexive</i>: for any non-null reference value
-     *     {@code x}, {@code x.equals(x)} should return
+     * <li>It is <i>reflexive</i>: for bny non-null reference vblue
+     *     {@code x}, {@code x.equbls(x)} should return
      *     {@code true}.
-     * <li>It is <i>symmetric</i>: for any non-null reference values
-     *     {@code x} and {@code y}, {@code x.equals(y)}
-     *     should return {@code true} if and only if
-     *     {@code y.equals(x)} returns {@code true}.
-     * <li>It is <i>transitive</i>: for any non-null reference values
-     *     {@code x}, {@code y}, and {@code z}, if
-     *     {@code x.equals(y)} returns {@code true} and
-     *     {@code y.equals(z)} returns {@code true}, then
-     *     {@code x.equals(z)} should return {@code true}.
-     * <li>It is <i>consistent</i>: for any non-null reference values
-     *     {@code x} and {@code y}, multiple invocations of
-     *     {@code x.equals(y)} consistently return {@code true}
-     *     or consistently return {@code false}, provided no
-     *     information used in {@code equals} comparisons on the
+     * <li>It is <i>symmetric</i>: for bny non-null reference vblues
+     *     {@code x} bnd {@code y}, {@code x.equbls(y)}
+     *     should return {@code true} if bnd only if
+     *     {@code y.equbls(x)} returns {@code true}.
+     * <li>It is <i>trbnsitive</i>: for bny non-null reference vblues
+     *     {@code x}, {@code y}, bnd {@code z}, if
+     *     {@code x.equbls(y)} returns {@code true} bnd
+     *     {@code y.equbls(z)} returns {@code true}, then
+     *     {@code x.equbls(z)} should return {@code true}.
+     * <li>It is <i>consistent</i>: for bny non-null reference vblues
+     *     {@code x} bnd {@code y}, multiple invocbtions of
+     *     {@code x.equbls(y)} consistently return {@code true}
+     *     or consistently return {@code fblse}, provided no
+     *     informbtion used in {@code equbls} compbrisons on the
      *     objects is modified.
-     * <li>For any non-null reference value {@code x},
-     *     {@code x.equals(null)} should return {@code false}.
+     * <li>For bny non-null reference vblue {@code x},
+     *     {@code x.equbls(null)} should return {@code fblse}.
      * </ul>
      * <p>
-     * The {@code equals} method for class {@code Object} implements
-     * the most discriminating possible equivalence relation on objects;
-     * that is, for any non-null reference values {@code x} and
-     * {@code y}, this method returns {@code true} if and only
-     * if {@code x} and {@code y} refer to the same object
-     * ({@code x == y} has the value {@code true}).
+     * The {@code equbls} method for clbss {@code Object} implements
+     * the most discriminbting possible equivblence relbtion on objects;
+     * thbt is, for bny non-null reference vblues {@code x} bnd
+     * {@code y}, this method returns {@code true} if bnd only
+     * if {@code x} bnd {@code y} refer to the sbme object
+     * ({@code x == y} hbs the vblue {@code true}).
      * <p>
-     * Note that it is generally necessary to override the {@code hashCode}
-     * method whenever this method is overridden, so as to maintain the
-     * general contract for the {@code hashCode} method, which states
-     * that equal objects must have equal hash codes.
+     * Note thbt it is generblly necessbry to override the {@code hbshCode}
+     * method whenever this method is overridden, so bs to mbintbin the
+     * generbl contrbct for the {@code hbshCode} method, which stbtes
+     * thbt equbl objects must hbve equbl hbsh codes.
      *
-     * @param   obj   the reference object with which to compare.
-     * @return  {@code true} if this object is the same as the obj
-     *          argument; {@code false} otherwise.
-     * @see     #hashCode()
-     * @see     java.util.HashMap
+     * @pbrbm   obj   the reference object with which to compbre.
+     * @return  {@code true} if this object is the sbme bs the obj
+     *          brgument; {@code fblse} otherwise.
+     * @see     #hbshCode()
+     * @see     jbvb.util.HbshMbp
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return (this == obj);
     }
 
     /**
-     * Creates and returns a copy of this object.  The precise meaning
-     * of "copy" may depend on the class of the object. The general
-     * intent is that, for any object {@code x}, the expression:
+     * Crebtes bnd returns b copy of this object.  The precise mebning
+     * of "copy" mby depend on the clbss of the object. The generbl
+     * intent is thbt, for bny object {@code x}, the expression:
      * <blockquote>
      * <pre>
      * x.clone() != x</pre></blockquote>
-     * will be true, and that the expression:
+     * will be true, bnd thbt the expression:
      * <blockquote>
      * <pre>
-     * x.clone().getClass() == x.getClass()</pre></blockquote>
-     * will be {@code true}, but these are not absolute requirements.
-     * While it is typically the case that:
+     * x.clone().getClbss() == x.getClbss()</pre></blockquote>
+     * will be {@code true}, but these bre not bbsolute requirements.
+     * While it is typicblly the cbse thbt:
      * <blockquote>
      * <pre>
-     * x.clone().equals(x)</pre></blockquote>
-     * will be {@code true}, this is not an absolute requirement.
+     * x.clone().equbls(x)</pre></blockquote>
+     * will be {@code true}, this is not bn bbsolute requirement.
      * <p>
-     * By convention, the returned object should be obtained by calling
-     * {@code super.clone}.  If a class and all of its superclasses (except
-     * {@code Object}) obey this convention, it will be the case that
-     * {@code x.clone().getClass() == x.getClass()}.
+     * By convention, the returned object should be obtbined by cblling
+     * {@code super.clone}.  If b clbss bnd bll of its superclbsses (except
+     * {@code Object}) obey this convention, it will be the cbse thbt
+     * {@code x.clone().getClbss() == x.getClbss()}.
      * <p>
      * By convention, the object returned by this method should be independent
-     * of this object (which is being cloned).  To achieve this independence,
-     * it may be necessary to modify one or more fields of the object returned
-     * by {@code super.clone} before returning it.  Typically, this means
-     * copying any mutable objects that comprise the internal "deep structure"
-     * of the object being cloned and replacing the references to these
-     * objects with references to the copies.  If a class contains only
-     * primitive fields or references to immutable objects, then it is usually
-     * the case that no fields in the object returned by {@code super.clone}
+     * of this object (which is being cloned).  To bchieve this independence,
+     * it mby be necessbry to modify one or more fields of the object returned
+     * by {@code super.clone} before returning it.  Typicblly, this mebns
+     * copying bny mutbble objects thbt comprise the internbl "deep structure"
+     * of the object being cloned bnd replbcing the references to these
+     * objects with references to the copies.  If b clbss contbins only
+     * primitive fields or references to immutbble objects, then it is usublly
+     * the cbse thbt no fields in the object returned by {@code super.clone}
      * need to be modified.
      * <p>
-     * The method {@code clone} for class {@code Object} performs a
-     * specific cloning operation. First, if the class of this object does
-     * not implement the interface {@code Cloneable}, then a
-     * {@code CloneNotSupportedException} is thrown. Note that all arrays
-     * are considered to implement the interface {@code Cloneable} and that
-     * the return type of the {@code clone} method of an array type {@code T[]}
-     * is {@code T[]} where T is any reference or primitive type.
-     * Otherwise, this method creates a new instance of the class of this
-     * object and initializes all its fields with exactly the contents of
-     * the corresponding fields of this object, as if by assignment; the
-     * contents of the fields are not themselves cloned. Thus, this method
-     * performs a "shallow copy" of this object, not a "deep copy" operation.
+     * The method {@code clone} for clbss {@code Object} performs b
+     * specific cloning operbtion. First, if the clbss of this object does
+     * not implement the interfbce {@code Clonebble}, then b
+     * {@code CloneNotSupportedException} is thrown. Note thbt bll brrbys
+     * bre considered to implement the interfbce {@code Clonebble} bnd thbt
+     * the return type of the {@code clone} method of bn brrby type {@code T[]}
+     * is {@code T[]} where T is bny reference or primitive type.
+     * Otherwise, this method crebtes b new instbnce of the clbss of this
+     * object bnd initiblizes bll its fields with exbctly the contents of
+     * the corresponding fields of this object, bs if by bssignment; the
+     * contents of the fields bre not themselves cloned. Thus, this method
+     * performs b "shbllow copy" of this object, not b "deep copy" operbtion.
      * <p>
-     * The class {@code Object} does not itself implement the interface
-     * {@code Cloneable}, so calling the {@code clone} method on an object
-     * whose class is {@code Object} will result in throwing an
-     * exception at run time.
+     * The clbss {@code Object} does not itself implement the interfbce
+     * {@code Clonebble}, so cblling the {@code clone} method on bn object
+     * whose clbss is {@code Object} will result in throwing bn
+     * exception bt run time.
      *
-     * @return     a clone of this instance.
-     * @throws  CloneNotSupportedException  if the object's class does not
-     *               support the {@code Cloneable} interface. Subclasses
-     *               that override the {@code clone} method can also
-     *               throw this exception to indicate that an instance cannot
+     * @return     b clone of this instbnce.
+     * @throws  CloneNotSupportedException  if the object's clbss does not
+     *               support the {@code Clonebble} interfbce. Subclbsses
+     *               thbt override the {@code clone} method cbn blso
+     *               throw this exception to indicbte thbt bn instbnce cbnnot
      *               be cloned.
-     * @see java.lang.Cloneable
+     * @see jbvb.lbng.Clonebble
      */
-    protected native Object clone() throws CloneNotSupportedException;
+    protected nbtive Object clone() throws CloneNotSupportedException;
 
     /**
-     * Returns a string representation of the object. In general, the
-     * {@code toString} method returns a string that
-     * "textually represents" this object. The result should
-     * be a concise but informative representation that is easy for a
-     * person to read.
-     * It is recommended that all subclasses override this method.
+     * Returns b string representbtion of the object. In generbl, the
+     * {@code toString} method returns b string thbt
+     * "textublly represents" this object. The result should
+     * be b concise but informbtive representbtion thbt is ebsy for b
+     * person to rebd.
+     * It is recommended thbt bll subclbsses override this method.
      * <p>
-     * The {@code toString} method for class {@code Object}
-     * returns a string consisting of the name of the class of which the
-     * object is an instance, the at-sign character `{@code @}', and
-     * the unsigned hexadecimal representation of the hash code of the
-     * object. In other words, this method returns a string equal to the
-     * value of:
+     * The {@code toString} method for clbss {@code Object}
+     * returns b string consisting of the nbme of the clbss of which the
+     * object is bn instbnce, the bt-sign chbrbcter `{@code @}', bnd
+     * the unsigned hexbdecimbl representbtion of the hbsh code of the
+     * object. In other words, this method returns b string equbl to the
+     * vblue of:
      * <blockquote>
      * <pre>
-     * getClass().getName() + '@' + Integer.toHexString(hashCode())
+     * getClbss().getNbme() + '@' + Integer.toHexString(hbshCode())
      * </pre></blockquote>
      *
-     * @return  a string representation of the object.
+     * @return  b string representbtion of the object.
      */
     public String toString() {
-        return getClass().getName() + "@" + Integer.toHexString(hashCode());
+        return getClbss().getNbme() + "@" + Integer.toHexString(hbshCode());
     }
 
     /**
-     * Wakes up a single thread that is waiting on this object's
-     * monitor. If any threads are waiting on this object, one of them
-     * is chosen to be awakened. The choice is arbitrary and occurs at
-     * the discretion of the implementation. A thread waits on an object's
-     * monitor by calling one of the {@code wait} methods.
+     * Wbkes up b single threbd thbt is wbiting on this object's
+     * monitor. If bny threbds bre wbiting on this object, one of them
+     * is chosen to be bwbkened. The choice is brbitrbry bnd occurs bt
+     * the discretion of the implementbtion. A threbd wbits on bn object's
+     * monitor by cblling one of the {@code wbit} methods.
      * <p>
-     * The awakened thread will not be able to proceed until the current
-     * thread relinquishes the lock on this object. The awakened thread will
-     * compete in the usual manner with any other threads that might be
-     * actively competing to synchronize on this object; for example, the
-     * awakened thread enjoys no reliable privilege or disadvantage in being
-     * the next thread to lock this object.
+     * The bwbkened threbd will not be bble to proceed until the current
+     * threbd relinquishes the lock on this object. The bwbkened threbd will
+     * compete in the usubl mbnner with bny other threbds thbt might be
+     * bctively competing to synchronize on this object; for exbmple, the
+     * bwbkened threbd enjoys no relibble privilege or disbdvbntbge in being
+     * the next threbd to lock this object.
      * <p>
-     * This method should only be called by a thread that is the owner
-     * of this object's monitor. A thread becomes the owner of the
-     * object's monitor in one of three ways:
+     * This method should only be cblled by b threbd thbt is the owner
+     * of this object's monitor. A threbd becomes the owner of the
+     * object's monitor in one of three wbys:
      * <ul>
-     * <li>By executing a synchronized instance method of that object.
-     * <li>By executing the body of a {@code synchronized} statement
-     *     that synchronizes on the object.
-     * <li>For objects of type {@code Class,} by executing a
-     *     synchronized static method of that class.
+     * <li>By executing b synchronized instbnce method of thbt object.
+     * <li>By executing the body of b {@code synchronized} stbtement
+     *     thbt synchronizes on the object.
+     * <li>For objects of type {@code Clbss,} by executing b
+     *     synchronized stbtic method of thbt clbss.
      * </ul>
      * <p>
-     * Only one thread at a time can own an object's monitor.
+     * Only one threbd bt b time cbn own bn object's monitor.
      *
-     * @throws  IllegalMonitorStateException  if the current thread is not
+     * @throws  IllegblMonitorStbteException  if the current threbd is not
      *               the owner of this object's monitor.
-     * @see        java.lang.Object#notifyAll()
-     * @see        java.lang.Object#wait()
+     * @see        jbvb.lbng.Object#notifyAll()
+     * @see        jbvb.lbng.Object#wbit()
      */
-    public final native void notify();
+    public finbl nbtive void notify();
 
     /**
-     * Wakes up all threads that are waiting on this object's monitor. A
-     * thread waits on an object's monitor by calling one of the
-     * {@code wait} methods.
+     * Wbkes up bll threbds thbt bre wbiting on this object's monitor. A
+     * threbd wbits on bn object's monitor by cblling one of the
+     * {@code wbit} methods.
      * <p>
-     * The awakened threads will not be able to proceed until the current
-     * thread relinquishes the lock on this object. The awakened threads
-     * will compete in the usual manner with any other threads that might
-     * be actively competing to synchronize on this object; for example,
-     * the awakened threads enjoy no reliable privilege or disadvantage in
-     * being the next thread to lock this object.
+     * The bwbkened threbds will not be bble to proceed until the current
+     * threbd relinquishes the lock on this object. The bwbkened threbds
+     * will compete in the usubl mbnner with bny other threbds thbt might
+     * be bctively competing to synchronize on this object; for exbmple,
+     * the bwbkened threbds enjoy no relibble privilege or disbdvbntbge in
+     * being the next threbd to lock this object.
      * <p>
-     * This method should only be called by a thread that is the owner
-     * of this object's monitor. See the {@code notify} method for a
-     * description of the ways in which a thread can become the owner of
-     * a monitor.
+     * This method should only be cblled by b threbd thbt is the owner
+     * of this object's monitor. See the {@code notify} method for b
+     * description of the wbys in which b threbd cbn become the owner of
+     * b monitor.
      *
-     * @throws  IllegalMonitorStateException  if the current thread is not
+     * @throws  IllegblMonitorStbteException  if the current threbd is not
      *               the owner of this object's monitor.
-     * @see        java.lang.Object#notify()
-     * @see        java.lang.Object#wait()
+     * @see        jbvb.lbng.Object#notify()
+     * @see        jbvb.lbng.Object#wbit()
      */
-    public final native void notifyAll();
+    public finbl nbtive void notifyAll();
 
     /**
-     * Causes the current thread to wait until either another thread invokes the
-     * {@link java.lang.Object#notify()} method or the
-     * {@link java.lang.Object#notifyAll()} method for this object, or a
-     * specified amount of time has elapsed.
+     * Cbuses the current threbd to wbit until either bnother threbd invokes the
+     * {@link jbvb.lbng.Object#notify()} method or the
+     * {@link jbvb.lbng.Object#notifyAll()} method for this object, or b
+     * specified bmount of time hbs elbpsed.
      * <p>
-     * The current thread must own this object's monitor.
+     * The current threbd must own this object's monitor.
      * <p>
-     * This method causes the current thread (call it <var>T</var>) to
-     * place itself in the wait set for this object and then to relinquish
-     * any and all synchronization claims on this object. Thread <var>T</var>
-     * becomes disabled for thread scheduling purposes and lies dormant
-     * until one of four things happens:
+     * This method cbuses the current threbd (cbll it <vbr>T</vbr>) to
+     * plbce itself in the wbit set for this object bnd then to relinquish
+     * bny bnd bll synchronizbtion clbims on this object. Threbd <vbr>T</vbr>
+     * becomes disbbled for threbd scheduling purposes bnd lies dormbnt
+     * until one of four things hbppens:
      * <ul>
-     * <li>Some other thread invokes the {@code notify} method for this
-     * object and thread <var>T</var> happens to be arbitrarily chosen as
-     * the thread to be awakened.
-     * <li>Some other thread invokes the {@code notifyAll} method for this
+     * <li>Some other threbd invokes the {@code notify} method for this
+     * object bnd threbd <vbr>T</vbr> hbppens to be brbitrbrily chosen bs
+     * the threbd to be bwbkened.
+     * <li>Some other threbd invokes the {@code notifyAll} method for this
      * object.
-     * <li>Some other thread {@linkplain Thread#interrupt() interrupts}
-     * thread <var>T</var>.
-     * <li>The specified amount of real time has elapsed, more or less.  If
-     * {@code timeout} is zero, however, then real time is not taken into
-     * consideration and the thread simply waits until notified.
+     * <li>Some other threbd {@linkplbin Threbd#interrupt() interrupts}
+     * threbd <vbr>T</vbr>.
+     * <li>The specified bmount of rebl time hbs elbpsed, more or less.  If
+     * {@code timeout} is zero, however, then rebl time is not tbken into
+     * considerbtion bnd the threbd simply wbits until notified.
      * </ul>
-     * The thread <var>T</var> is then removed from the wait set for this
-     * object and re-enabled for thread scheduling. It then competes in the
-     * usual manner with other threads for the right to synchronize on the
-     * object; once it has gained control of the object, all its
-     * synchronization claims on the object are restored to the status quo
-     * ante - that is, to the situation as of the time that the {@code wait}
-     * method was invoked. Thread <var>T</var> then returns from the
-     * invocation of the {@code wait} method. Thus, on return from the
-     * {@code wait} method, the synchronization state of the object and of
-     * thread {@code T} is exactly as it was when the {@code wait} method
-     * was invoked.
+     * The threbd <vbr>T</vbr> is then removed from the wbit set for this
+     * object bnd re-enbbled for threbd scheduling. It then competes in the
+     * usubl mbnner with other threbds for the right to synchronize on the
+     * object; once it hbs gbined control of the object, bll its
+     * synchronizbtion clbims on the object bre restored to the stbtus quo
+     * bnte - thbt is, to the situbtion bs of the time thbt the {@code wbit}
+     * method wbs invoked. Threbd <vbr>T</vbr> then returns from the
+     * invocbtion of the {@code wbit} method. Thus, on return from the
+     * {@code wbit} method, the synchronizbtion stbte of the object bnd of
+     * threbd {@code T} is exbctly bs it wbs when the {@code wbit} method
+     * wbs invoked.
      * <p>
-     * A thread can also wake up without being notified, interrupted, or
-     * timing out, a so-called <i>spurious wakeup</i>.  While this will rarely
-     * occur in practice, applications must guard against it by testing for
-     * the condition that should have caused the thread to be awakened, and
-     * continuing to wait if the condition is not satisfied.  In other words,
-     * waits should always occur in loops, like this one:
+     * A threbd cbn blso wbke up without being notified, interrupted, or
+     * timing out, b so-cblled <i>spurious wbkeup</i>.  While this will rbrely
+     * occur in prbctice, bpplicbtions must gubrd bgbinst it by testing for
+     * the condition thbt should hbve cbused the threbd to be bwbkened, bnd
+     * continuing to wbit if the condition is not sbtisfied.  In other words,
+     * wbits should blwbys occur in loops, like this one:
      * <pre>
      *     synchronized (obj) {
      *         while (&lt;condition does not hold&gt;)
-     *             obj.wait(timeout);
-     *         ... // Perform action appropriate to condition
+     *             obj.wbit(timeout);
+     *         ... // Perform bction bppropribte to condition
      *     }
      * </pre>
-     * (For more information on this topic, see Section 3.2.3 in Doug Lea's
-     * "Concurrent Programming in Java (Second Edition)" (Addison-Wesley,
-     * 2000), or Item 50 in Joshua Bloch's "Effective Java Programming
-     * Language Guide" (Addison-Wesley, 2001).
+     * (For more informbtion on this topic, see Section 3.2.3 in Doug Leb's
+     * "Concurrent Progrbmming in Jbvb (Second Edition)" (Addison-Wesley,
+     * 2000), or Item 50 in Joshub Bloch's "Effective Jbvb Progrbmming
+     * Lbngubge Guide" (Addison-Wesley, 2001).
      *
-     * <p>If the current thread is {@linkplain java.lang.Thread#interrupt()
-     * interrupted} by any thread before or while it is waiting, then an
+     * <p>If the current threbd is {@linkplbin jbvb.lbng.Threbd#interrupt()
+     * interrupted} by bny threbd before or while it is wbiting, then bn
      * {@code InterruptedException} is thrown.  This exception is not
-     * thrown until the lock status of this object has been restored as
-     * described above.
+     * thrown until the lock stbtus of this object hbs been restored bs
+     * described bbove.
      *
      * <p>
-     * Note that the {@code wait} method, as it places the current thread
-     * into the wait set for this object, unlocks only this object; any
-     * other objects on which the current thread may be synchronized remain
-     * locked while the thread waits.
+     * Note thbt the {@code wbit} method, bs it plbces the current threbd
+     * into the wbit set for this object, unlocks only this object; bny
+     * other objects on which the current threbd mby be synchronized rembin
+     * locked while the threbd wbits.
      * <p>
-     * This method should only be called by a thread that is the owner
-     * of this object's monitor. See the {@code notify} method for a
-     * description of the ways in which a thread can become the owner of
-     * a monitor.
+     * This method should only be cblled by b threbd thbt is the owner
+     * of this object's monitor. See the {@code notify} method for b
+     * description of the wbys in which b threbd cbn become the owner of
+     * b monitor.
      *
-     * @param      timeout   the maximum time to wait in milliseconds.
-     * @throws  IllegalArgumentException      if the value of timeout is
-     *               negative.
-     * @throws  IllegalMonitorStateException  if the current thread is not
+     * @pbrbm      timeout   the mbximum time to wbit in milliseconds.
+     * @throws  IllegblArgumentException      if the vblue of timeout is
+     *               negbtive.
+     * @throws  IllegblMonitorStbteException  if the current threbd is not
      *               the owner of the object's monitor.
-     * @throws  InterruptedException if any thread interrupted the
-     *             current thread before or while the current thread
-     *             was waiting for a notification.  The <i>interrupted
-     *             status</i> of the current thread is cleared when
+     * @throws  InterruptedException if bny threbd interrupted the
+     *             current threbd before or while the current threbd
+     *             wbs wbiting for b notificbtion.  The <i>interrupted
+     *             stbtus</i> of the current threbd is clebred when
      *             this exception is thrown.
-     * @see        java.lang.Object#notify()
-     * @see        java.lang.Object#notifyAll()
+     * @see        jbvb.lbng.Object#notify()
+     * @see        jbvb.lbng.Object#notifyAll()
      */
-    public final native void wait(long timeout) throws InterruptedException;
+    public finbl nbtive void wbit(long timeout) throws InterruptedException;
 
     /**
-     * Causes the current thread to wait until another thread invokes the
-     * {@link java.lang.Object#notify()} method or the
-     * {@link java.lang.Object#notifyAll()} method for this object, or
-     * some other thread interrupts the current thread, or a certain
-     * amount of real time has elapsed.
+     * Cbuses the current threbd to wbit until bnother threbd invokes the
+     * {@link jbvb.lbng.Object#notify()} method or the
+     * {@link jbvb.lbng.Object#notifyAll()} method for this object, or
+     * some other threbd interrupts the current threbd, or b certbin
+     * bmount of rebl time hbs elbpsed.
      * <p>
-     * This method is similar to the {@code wait} method of one
-     * argument, but it allows finer control over the amount of time to
-     * wait for a notification before giving up. The amount of real time,
-     * measured in nanoseconds, is given by:
+     * This method is similbr to the {@code wbit} method of one
+     * brgument, but it bllows finer control over the bmount of time to
+     * wbit for b notificbtion before giving up. The bmount of rebl time,
+     * mebsured in nbnoseconds, is given by:
      * <blockquote>
      * <pre>
-     * 1000000*timeout+nanos</pre></blockquote>
+     * 1000000*timeout+nbnos</pre></blockquote>
      * <p>
-     * In all other respects, this method does the same thing as the
-     * method {@link #wait(long)} of one argument. In particular,
-     * {@code wait(0, 0)} means the same thing as {@code wait(0)}.
+     * In bll other respects, this method does the sbme thing bs the
+     * method {@link #wbit(long)} of one brgument. In pbrticulbr,
+     * {@code wbit(0, 0)} mebns the sbme thing bs {@code wbit(0)}.
      * <p>
-     * The current thread must own this object's monitor. The thread
-     * releases ownership of this monitor and waits until either of the
-     * following two conditions has occurred:
+     * The current threbd must own this object's monitor. The threbd
+     * relebses ownership of this monitor bnd wbits until either of the
+     * following two conditions hbs occurred:
      * <ul>
-     * <li>Another thread notifies threads waiting on this object's monitor
-     *     to wake up either through a call to the {@code notify} method
+     * <li>Another threbd notifies threbds wbiting on this object's monitor
+     *     to wbke up either through b cbll to the {@code notify} method
      *     or the {@code notifyAll} method.
      * <li>The timeout period, specified by {@code timeout}
-     *     milliseconds plus {@code nanos} nanoseconds arguments, has
-     *     elapsed.
+     *     milliseconds plus {@code nbnos} nbnoseconds brguments, hbs
+     *     elbpsed.
      * </ul>
      * <p>
-     * The thread then waits until it can re-obtain ownership of the
-     * monitor and resumes execution.
+     * The threbd then wbits until it cbn re-obtbin ownership of the
+     * monitor bnd resumes execution.
      * <p>
-     * As in the one argument version, interrupts and spurious wakeups are
-     * possible, and this method should always be used in a loop:
+     * As in the one brgument version, interrupts bnd spurious wbkeups bre
+     * possible, bnd this method should blwbys be used in b loop:
      * <pre>
      *     synchronized (obj) {
      *         while (&lt;condition does not hold&gt;)
-     *             obj.wait(timeout, nanos);
-     *         ... // Perform action appropriate to condition
+     *             obj.wbit(timeout, nbnos);
+     *         ... // Perform bction bppropribte to condition
      *     }
      * </pre>
-     * This method should only be called by a thread that is the owner
-     * of this object's monitor. See the {@code notify} method for a
-     * description of the ways in which a thread can become the owner of
-     * a monitor.
+     * This method should only be cblled by b threbd thbt is the owner
+     * of this object's monitor. See the {@code notify} method for b
+     * description of the wbys in which b threbd cbn become the owner of
+     * b monitor.
      *
-     * @param      timeout   the maximum time to wait in milliseconds.
-     * @param      nanos      additional time, in nanoseconds range
+     * @pbrbm      timeout   the mbximum time to wbit in milliseconds.
+     * @pbrbm      nbnos      bdditionbl time, in nbnoseconds rbnge
      *                       0-999999.
-     * @throws  IllegalArgumentException      if the value of timeout is
-     *                      negative or the value of nanos is
-     *                      not in the range 0-999999.
-     * @throws  IllegalMonitorStateException  if the current thread is not
+     * @throws  IllegblArgumentException      if the vblue of timeout is
+     *                      negbtive or the vblue of nbnos is
+     *                      not in the rbnge 0-999999.
+     * @throws  IllegblMonitorStbteException  if the current threbd is not
      *               the owner of this object's monitor.
-     * @throws  InterruptedException if any thread interrupted the
-     *             current thread before or while the current thread
-     *             was waiting for a notification.  The <i>interrupted
-     *             status</i> of the current thread is cleared when
+     * @throws  InterruptedException if bny threbd interrupted the
+     *             current threbd before or while the current threbd
+     *             wbs wbiting for b notificbtion.  The <i>interrupted
+     *             stbtus</i> of the current threbd is clebred when
      *             this exception is thrown.
      */
-    public final void wait(long timeout, int nanos) throws InterruptedException {
+    public finbl void wbit(long timeout, int nbnos) throws InterruptedException {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeout value is negative");
+            throw new IllegblArgumentException("timeout vblue is negbtive");
         }
 
-        if (nanos < 0 || nanos > 999999) {
-            throw new IllegalArgumentException(
-                                "nanosecond timeout value out of range");
+        if (nbnos < 0 || nbnos > 999999) {
+            throw new IllegblArgumentException(
+                                "nbnosecond timeout vblue out of rbnge");
         }
 
-        if (nanos >= 500000 || (nanos != 0 && timeout == 0)) {
+        if (nbnos >= 500000 || (nbnos != 0 && timeout == 0)) {
             timeout++;
         }
 
-        wait(timeout);
+        wbit(timeout);
     }
 
     /**
-     * Causes the current thread to wait until another thread invokes the
-     * {@link java.lang.Object#notify()} method or the
-     * {@link java.lang.Object#notifyAll()} method for this object.
-     * In other words, this method behaves exactly as if it simply
-     * performs the call {@code wait(0)}.
+     * Cbuses the current threbd to wbit until bnother threbd invokes the
+     * {@link jbvb.lbng.Object#notify()} method or the
+     * {@link jbvb.lbng.Object#notifyAll()} method for this object.
+     * In other words, this method behbves exbctly bs if it simply
+     * performs the cbll {@code wbit(0)}.
      * <p>
-     * The current thread must own this object's monitor. The thread
-     * releases ownership of this monitor and waits until another thread
-     * notifies threads waiting on this object's monitor to wake up
-     * either through a call to the {@code notify} method or the
-     * {@code notifyAll} method. The thread then waits until it can
-     * re-obtain ownership of the monitor and resumes execution.
+     * The current threbd must own this object's monitor. The threbd
+     * relebses ownership of this monitor bnd wbits until bnother threbd
+     * notifies threbds wbiting on this object's monitor to wbke up
+     * either through b cbll to the {@code notify} method or the
+     * {@code notifyAll} method. The threbd then wbits until it cbn
+     * re-obtbin ownership of the monitor bnd resumes execution.
      * <p>
-     * As in the one argument version, interrupts and spurious wakeups are
-     * possible, and this method should always be used in a loop:
+     * As in the one brgument version, interrupts bnd spurious wbkeups bre
+     * possible, bnd this method should blwbys be used in b loop:
      * <pre>
      *     synchronized (obj) {
      *         while (&lt;condition does not hold&gt;)
-     *             obj.wait();
-     *         ... // Perform action appropriate to condition
+     *             obj.wbit();
+     *         ... // Perform bction bppropribte to condition
      *     }
      * </pre>
-     * This method should only be called by a thread that is the owner
-     * of this object's monitor. See the {@code notify} method for a
-     * description of the ways in which a thread can become the owner of
-     * a monitor.
+     * This method should only be cblled by b threbd thbt is the owner
+     * of this object's monitor. See the {@code notify} method for b
+     * description of the wbys in which b threbd cbn become the owner of
+     * b monitor.
      *
-     * @throws  IllegalMonitorStateException  if the current thread is not
+     * @throws  IllegblMonitorStbteException  if the current threbd is not
      *               the owner of the object's monitor.
-     * @throws  InterruptedException if any thread interrupted the
-     *             current thread before or while the current thread
-     *             was waiting for a notification.  The <i>interrupted
-     *             status</i> of the current thread is cleared when
+     * @throws  InterruptedException if bny threbd interrupted the
+     *             current threbd before or while the current threbd
+     *             wbs wbiting for b notificbtion.  The <i>interrupted
+     *             stbtus</i> of the current threbd is clebred when
      *             this exception is thrown.
-     * @see        java.lang.Object#notify()
-     * @see        java.lang.Object#notifyAll()
+     * @see        jbvb.lbng.Object#notify()
+     * @see        jbvb.lbng.Object#notifyAll()
      */
-    public final void wait() throws InterruptedException {
-        wait(0);
+    public finbl void wbit() throws InterruptedException {
+        wbit(0);
     }
 
     /**
-     * Called by the garbage collector on an object when garbage collection
-     * determines that there are no more references to the object.
-     * A subclass overrides the {@code finalize} method to dispose of
-     * system resources or to perform other cleanup.
+     * Cblled by the gbrbbge collector on bn object when gbrbbge collection
+     * determines thbt there bre no more references to the object.
+     * A subclbss overrides the {@code finblize} method to dispose of
+     * system resources or to perform other clebnup.
      * <p>
-     * The general contract of {@code finalize} is that it is invoked
-     * if and when the Java&trade; virtual
-     * machine has determined that there is no longer any
-     * means by which this object can be accessed by any thread that has
-     * not yet died, except as a result of an action taken by the
-     * finalization of some other object or class which is ready to be
-     * finalized. The {@code finalize} method may take any action, including
-     * making this object available again to other threads; the usual purpose
-     * of {@code finalize}, however, is to perform cleanup actions before
-     * the object is irrevocably discarded. For example, the finalize method
-     * for an object that represents an input/output connection might perform
-     * explicit I/O transactions to break the connection before the object is
-     * permanently discarded.
+     * The generbl contrbct of {@code finblize} is thbt it is invoked
+     * if bnd when the Jbvb&trbde; virtubl
+     * mbchine hbs determined thbt there is no longer bny
+     * mebns by which this object cbn be bccessed by bny threbd thbt hbs
+     * not yet died, except bs b result of bn bction tbken by the
+     * finblizbtion of some other object or clbss which is rebdy to be
+     * finblized. The {@code finblize} method mby tbke bny bction, including
+     * mbking this object bvbilbble bgbin to other threbds; the usubl purpose
+     * of {@code finblize}, however, is to perform clebnup bctions before
+     * the object is irrevocbbly discbrded. For exbmple, the finblize method
+     * for bn object thbt represents bn input/output connection might perform
+     * explicit I/O trbnsbctions to brebk the connection before the object is
+     * permbnently discbrded.
      * <p>
-     * The {@code finalize} method of class {@code Object} performs no
-     * special action; it simply returns normally. Subclasses of
-     * {@code Object} may override this definition.
+     * The {@code finblize} method of clbss {@code Object} performs no
+     * specibl bction; it simply returns normblly. Subclbsses of
+     * {@code Object} mby override this definition.
      * <p>
-     * The Java programming language does not guarantee which thread will
-     * invoke the {@code finalize} method for any given object. It is
-     * guaranteed, however, that the thread that invokes finalize will not
-     * be holding any user-visible synchronization locks when finalize is
-     * invoked. If an uncaught exception is thrown by the finalize method,
-     * the exception is ignored and finalization of that object terminates.
+     * The Jbvb progrbmming lbngubge does not gubrbntee which threbd will
+     * invoke the {@code finblize} method for bny given object. It is
+     * gubrbnteed, however, thbt the threbd thbt invokes finblize will not
+     * be holding bny user-visible synchronizbtion locks when finblize is
+     * invoked. If bn uncbught exception is thrown by the finblize method,
+     * the exception is ignored bnd finblizbtion of thbt object terminbtes.
      * <p>
-     * After the {@code finalize} method has been invoked for an object, no
-     * further action is taken until the Java virtual machine has again
-     * determined that there is no longer any means by which this object can
-     * be accessed by any thread that has not yet died, including possible
-     * actions by other objects or classes which are ready to be finalized,
-     * at which point the object may be discarded.
+     * After the {@code finblize} method hbs been invoked for bn object, no
+     * further bction is tbken until the Jbvb virtubl mbchine hbs bgbin
+     * determined thbt there is no longer bny mebns by which this object cbn
+     * be bccessed by bny threbd thbt hbs not yet died, including possible
+     * bctions by other objects or clbsses which bre rebdy to be finblized,
+     * bt which point the object mby be discbrded.
      * <p>
-     * The {@code finalize} method is never invoked more than once by a Java
-     * virtual machine for any given object.
+     * The {@code finblize} method is never invoked more thbn once by b Jbvb
+     * virtubl mbchine for bny given object.
      * <p>
-     * Any exception thrown by the {@code finalize} method causes
-     * the finalization of this object to be halted, but is otherwise
+     * Any exception thrown by the {@code finblize} method cbuses
+     * the finblizbtion of this object to be hblted, but is otherwise
      * ignored.
      *
-     * @throws Throwable the {@code Exception} raised by this method
-     * @see java.lang.ref.WeakReference
-     * @see java.lang.ref.PhantomReference
-     * @jls 12.6 Finalization of Class Instances
+     * @throws Throwbble the {@code Exception} rbised by this method
+     * @see jbvb.lbng.ref.WebkReference
+     * @see jbvb.lbng.ref.PhbntomReference
+     * @jls 12.6 Finblizbtion of Clbss Instbnces
      */
-    protected void finalize() throws Throwable { }
+    protected void finblize() throws Throwbble { }
 }

@@ -1,332 +1,332 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-</head>
+</hebd>
 
 
 
 <body bgcolor="white">
 
-Provides the API for accessing and processing data stored in a 
-data source (usually a relational database) using the 
-Java<sup><font size=-2>TM</font></sup> programming language. 
-This API includes a framework whereby different
-drivers can be installed dynamically to access different data sources.
-Although the JDBC<sup><font size=-2>TM</font></sup> API is mainly geared 
-to passing SQL statements to a database, it provides for reading and
-writing data from any data source with a tabular format.
-The reader/writer facility, available through the 
-<code>javax.sql.RowSet</code> group of interfaces, can be customized to
-use and update data from a spread sheet, flat file, or any other tabular 
-data source.
+Provides the API for bccessing bnd processing dbtb stored in b 
+dbtb source (usublly b relbtionbl dbtbbbse) using the 
+Jbvb<sup><font size=-2>TM</font></sup> progrbmming lbngubge. 
+This API includes b frbmework whereby different
+drivers cbn be instblled dynbmicblly to bccess different dbtb sources.
+Although the JDBC<sup><font size=-2>TM</font></sup> API is mbinly gebred 
+to pbssing SQL stbtements to b dbtbbbse, it provides for rebding bnd
+writing dbtb from bny dbtb source with b tbbulbr formbt.
+The rebder/writer fbcility, bvbilbble through the 
+<code>jbvbx.sql.RowSet</code> group of interfbces, cbn be customized to
+use bnd updbte dbtb from b sprebd sheet, flbt file, or bny other tbbulbr 
+dbtb source.
 
-<h2>What the JDBC<sup><font size=-2>TM</font></sup> 4.2 API Includes</h2>
+<h2>Whbt the JDBC<sup><font size=-2>TM</font></sup> 4.2 API Includes</h2>
 The JDBC<sup><font size=-2>TM</font></sup> 4.2 API includes both
-the <code>java.sql</code> package, referred to as the JDBC core API,
-and the <code>javax.sql</code> package, referred to as the JDBC Optional
-Package API. This complete JDBC API
-is included in the Java<sup><font size=-2>TM</font></sup>  
-Standard Edition (Java SE<sup><font size=-2>TM</font></sup>), version 7.
-The <code>javax.sql</code> package extends the functionality of the JDBC API 
-from a client-side API to a server-side API, and it is an essential part
-of the Java<sup><font size=-2>TM</font></sup>  Enterprise Edition
-(Java EE<sup><font size=-2>TM</font></sup>) technology. 
+the <code>jbvb.sql</code> pbckbge, referred to bs the JDBC core API,
+bnd the <code>jbvbx.sql</code> pbckbge, referred to bs the JDBC Optionbl
+Pbckbge API. This complete JDBC API
+is included in the Jbvb<sup><font size=-2>TM</font></sup>  
+Stbndbrd Edition (Jbvb SE<sup><font size=-2>TM</font></sup>), version 7.
+The <code>jbvbx.sql</code> pbckbge extends the functionblity of the JDBC API 
+from b client-side API to b server-side API, bnd it is bn essentibl pbrt
+of the Jbvb<sup><font size=-2>TM</font></sup>  Enterprise Edition
+(Jbvb EE<sup><font size=-2>TM</font></sup>) technology. 
 
 <h2>Versions</h2>
-The JDBC 4.2 API incorporates all of the previous JDBC API versions:
+The JDBC 4.2 API incorporbtes bll of the previous JDBC API versions:
 <UL>
     <LI> The JDBC 4.1 API</li>
     <LI> The JDBC 4.0 API</li>
     <LI> The JDBC 3.0 API</li>
     <LI> The JDBC 2.1 core API</li>
- <LI> The JDBC 2.0 Optional Package API<br>
-      (Note that the JDBC 2.1 core API and the JDBC 2.0 Optional Package
-      API together are referred to as the JDBC 2.0 API.)</li>
+ <LI> The JDBC 2.0 Optionbl Pbckbge API<br>
+      (Note thbt the JDBC 2.1 core API bnd the JDBC 2.0 Optionbl Pbckbge
+      API together bre referred to bs the JDBC 2.0 API.)</li>
  <LI> The JDBC 1.2 API</li>
  <LI> The JDBC 1.0 API</li>
 </UL>
 <P>
-Classes, interfaces, methods, fields, constructors, and exceptions 
-have the following "since" tags that indicate when they were introduced 
-into the Java platform. When these "since" tags are used in
-Javadoc<sup><font size=-2>TM</font></sup> comments for the JDBC API,
-they indicate the following:
+Clbsses, interfbces, methods, fields, constructors, bnd exceptions 
+hbve the following "since" tbgs thbt indicbte when they were introduced 
+into the Jbvb plbtform. When these "since" tbgs bre used in
+Jbvbdoc<sup><font size=-2>TM</font></sup> comments for the JDBC API,
+they indicbte the following:
 <UL>
-    <LI>Since 1.8 -- new in the JDBC 4.2 API and part of the Java SE platform,
+    <LI>Since 1.8 -- new in the JDBC 4.2 API bnd pbrt of the Jbvb SE plbtform,
         version 8</li>
- <LI>Since 1.7 -- new in the JDBC 4.1 API and part of the Java SE platform,
+ <LI>Since 1.7 -- new in the JDBC 4.1 API bnd pbrt of the Jbvb SE plbtform,
      version 7</li>
-<LI>Since 1.6 -- new in the JDBC 4.0 API and part of the Java SE platform,
+<LI>Since 1.6 -- new in the JDBC 4.0 API bnd pbrt of the Jbvb SE plbtform,
     version 6</li>
- <LI>Since 1.4 -- new in the JDBC 3.0 API and part of the J2SE platform, 
+ <LI>Since 1.4 -- new in the JDBC 3.0 API bnd pbrt of the J2SE plbtform, 
      version 1.4</li>
- <LI>Since 1.2 -- new in the JDBC 2.0 API and part of the J2SE platform, 
+ <LI>Since 1.2 -- new in the JDBC 2.0 API bnd pbrt of the J2SE plbtform, 
      version 1.2</li>
- <LI>Since 1.1 or no "since" tag -- in the original JDBC 1.0 API and part of
+ <LI>Since 1.1 or no "since" tbg -- in the originbl JDBC 1.0 API bnd pbrt of
      the JDK<sup><font size=-2>TM</font></sup>, version 1.1</li>
 </UL>
 <P>
-<b>NOTE:</b> Many of the new features are optional; consequently, there is 
-some variation in drivers and the features they support. Always 
-check your driver's documentation to see whether it supports a feature before
+<b>NOTE:</b> Mbny of the new febtures bre optionbl; consequently, there is 
+some vbribtion in drivers bnd the febtures they support. Alwbys 
+check your driver's documentbtion to see whether it supports b febture before
 you try to use it.
 <P>
-<b>NOTE:</b> The class <code>SQLPermission</code> was added in the
-Java<sup><font size=-2>TM</font></sup> 2 SDK, Standard Edition, 
-version 1.3 release. This class is used to prevent unauthorized
-access to the logging stream associated with the <code>DriverManager</code>,
-which may contain information such as table names, column data, and so on.
+<b>NOTE:</b> The clbss <code>SQLPermission</code> wbs bdded in the
+Jbvb<sup><font size=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+version 1.3 relebse. This clbss is used to prevent unbuthorized
+bccess to the logging strebm bssocibted with the <code>DriverMbnbger</code>,
+which mby contbin informbtion such bs tbble nbmes, column dbtb, bnd so on.
 
-<h2>What the <code>java.sql</code> Package Contains</h2>
-The <code>java.sql</code> package contains API for the following:
+<h2>Whbt the <code>jbvb.sql</code> Pbckbge Contbins</h2>
+The <code>jbvb.sql</code> pbckbge contbins API for the following:
 <UL>
-  <LI>Making a connection with a database via the <code>DriverManager</code> facility
+  <LI>Mbking b connection with b dbtbbbse vib the <code>DriverMbnbger</code> fbcility
   <UL>
-	 <LI><code>DriverManager</code> class -- makes a connection with a driver
-	 <LI><code>SQLPermission</code> class -- provides permission when code
-                  running within a Security Manager, such as an applet,
-                  attempts to set up a logging stream through the
-                  <code>DriverManager</code>
-	 <LI><code>Driver</code> interface -- provides the API for registering
-             and connecting drivers based on JDBC technology ("JDBC drivers"); 
-             generally used only by the <code>DriverManager</code> class
-	 <LI><code>DriverPropertyInfo</code> class -- provides properties for a
-             JDBC driver; not used by the general user
+	 <LI><code>DriverMbnbger</code> clbss -- mbkes b connection with b driver
+	 <LI><code>SQLPermission</code> clbss -- provides permission when code
+                  running within b Security Mbnbger, such bs bn bpplet,
+                  bttempts to set up b logging strebm through the
+                  <code>DriverMbnbger</code>
+	 <LI><code>Driver</code> interfbce -- provides the API for registering
+             bnd connecting drivers bbsed on JDBC technology ("JDBC drivers"); 
+             generblly used only by the <code>DriverMbnbger</code> clbss
+	 <LI><code>DriverPropertyInfo</code> clbss -- provides properties for b
+             JDBC driver; not used by the generbl user
   </UL>
-  <LI>Sending SQL statements to a database
+  <LI>Sending SQL stbtements to b dbtbbbse
   <UL>
-	 <LI><code>Statement</code> --  used to send basic SQL statements
-	 <LI><code>PreparedStatement</code> --  used to send prepared statements or 
-              basic SQL statements (derived from <code>Statement</code>)
-	 <LI><code>CallableStatement</code> --  used to call database stored 
-              procedures (derived from <code>PreparedStatement</code>)
-	 <LI><code>Connection</code> interface --  provides methods for creating
-             statements and managing connections and their properties
-	 <LI><code>Savepoint</code> --  provides savepoints in a transaction
+	 <LI><code>Stbtement</code> --  used to send bbsic SQL stbtements
+	 <LI><code>PrepbredStbtement</code> --  used to send prepbred stbtements or 
+              bbsic SQL stbtements (derived from <code>Stbtement</code>)
+	 <LI><code>CbllbbleStbtement</code> --  used to cbll dbtbbbse stored 
+              procedures (derived from <code>PrepbredStbtement</code>)
+	 <LI><code>Connection</code> interfbce --  provides methods for crebting
+             stbtements bnd mbnbging connections bnd their properties
+	 <LI><code>Sbvepoint</code> --  provides sbvepoints in b trbnsbction
 
   </UL>
-  <LI>Retrieving and updating the results of a query
+  <LI>Retrieving bnd updbting the results of b query
   <UL>
-	 <LI><code>ResultSet</code> interface
+	 <LI><code>ResultSet</code> interfbce
   </UL>
-  <LI>Standard mappings for SQL types to classes and interfaces in the 
-      Java programming language
+  <LI>Stbndbrd mbppings for SQL types to clbsses bnd interfbces in the 
+      Jbvb progrbmming lbngubge
   <UL>
-	 <LI><code>Array</code> interface -- mapping for SQL <code>ARRAY</code> 
-	 <LI><code>Blob</code> interface -- mapping for SQL <code>BLOB</code> 
-	 <LI><code>Clob</code> interface -- mapping for SQL <code>CLOB</code>
-	 <LI><code>Date</code> class -- mapping for SQL <code>DATE</code> 
-	  <LI><code>NClob</code> interface -- mapping for SQL <code>NCLOB</code>
-	 <LI><code>Ref</code> interface -- mapping for SQL <code>REF</code> 
-	  <LI><code>RowId</code> interface -- mapping for SQL <code>ROWID</code>
-	 <LI><code>Struct</code> interface -- mapping for SQL <code>STRUCT</code> 
-	  <LI><code>SQLXML</code> interface -- mapping for SQL <code>XML</code>
-	 <LI><code>Time</code> class -- mapping for SQL <code>TIME</code> 
-	 <LI><code>Timestamp</code> class -- mapping for SQL <code>TIMESTAMP</code> 
-	 <LI><code>Types</code> class -- provides constants for SQL types
+	 <LI><code>Arrby</code> interfbce -- mbpping for SQL <code>ARRAY</code> 
+	 <LI><code>Blob</code> interfbce -- mbpping for SQL <code>BLOB</code> 
+	 <LI><code>Clob</code> interfbce -- mbpping for SQL <code>CLOB</code>
+	 <LI><code>Dbte</code> clbss -- mbpping for SQL <code>DATE</code> 
+	  <LI><code>NClob</code> interfbce -- mbpping for SQL <code>NCLOB</code>
+	 <LI><code>Ref</code> interfbce -- mbpping for SQL <code>REF</code> 
+	  <LI><code>RowId</code> interfbce -- mbpping for SQL <code>ROWID</code>
+	 <LI><code>Struct</code> interfbce -- mbpping for SQL <code>STRUCT</code> 
+	  <LI><code>SQLXML</code> interfbce -- mbpping for SQL <code>XML</code>
+	 <LI><code>Time</code> clbss -- mbpping for SQL <code>TIME</code> 
+	 <LI><code>Timestbmp</code> clbss -- mbpping for SQL <code>TIMESTAMP</code> 
+	 <LI><code>Types</code> clbss -- provides constbnts for SQL types
   </UL>
-  <LI>Custom mapping an SQL user-defined type (UDT) to a class in the
-	  Java programming language
+  <LI>Custom mbpping bn SQL user-defined type (UDT) to b clbss in the
+	  Jbvb progrbmming lbngubge
   <UL>
-	 <LI><code>SQLData</code> interface -- specifies the mapping of
-              a UDT to an instance of this class
-	 <LI><code>SQLInput</code> interface -- provides methods for reading
-              UDT attributes from a stream
-	 <LI><code>SQLOutput</code> interface -- provides methods for writing
-              UDT attributes back to a stream
+	 <LI><code>SQLDbtb</code> interfbce -- specifies the mbpping of
+              b UDT to bn instbnce of this clbss
+	 <LI><code>SQLInput</code> interfbce -- provides methods for rebding
+              UDT bttributes from b strebm
+	 <LI><code>SQLOutput</code> interfbce -- provides methods for writing
+              UDT bttributes bbck to b strebm
   </UL>
-  <LI>Metadata
+  <LI>Metbdbtb
   <UL>
-	 <LI><code>DatabaseMetaData</code> interface -- provides information
-              about the database
-	 <LI><code>ResultSetMetaData</code> interface -- provides information
-              about the columns of a <code>ResultSet</code> object
-	 <LI><code>ParameterMetaData</code> interface -- provides information
-              about the parameters to <code>PreparedStatement</code> commands
+	 <LI><code>DbtbbbseMetbDbtb</code> interfbce -- provides informbtion
+              bbout the dbtbbbse
+	 <LI><code>ResultSetMetbDbtb</code> interfbce -- provides informbtion
+              bbout the columns of b <code>ResultSet</code> object
+	 <LI><code>PbrbmeterMetbDbtb</code> interfbce -- provides informbtion
+              bbout the pbrbmeters to <code>PrepbredStbtement</code> commbnds
   </UL>
   <LI>Exceptions
 	<UL>
 	  <LI><code>SQLException</code> -- thrown by most methods when there
-		 is a problem accessing data and by some methods for other reasons
-	  <LI><code>SQLWarning</code> -- thrown to indicate a warning
-	  <LI><code>DataTruncation</code> -- thrown to indicate that data may have
-     	  been truncated
-	  <LI><code>BatchUpdateException</code> -- thrown to indicate that not all
-		 commands in a batch update executed successfully
+		 is b problem bccessing dbtb bnd by some methods for other rebsons
+	  <LI><code>SQLWbrning</code> -- thrown to indicbte b wbrning
+	  <LI><code>DbtbTruncbtion</code> -- thrown to indicbte thbt dbtb mby hbve
+     	  been truncbted
+	  <LI><code>BbtchUpdbteException</code> -- thrown to indicbte thbt not bll
+		 commbnds in b bbtch updbte executed successfully
 	</UL>
 </UL>
 
-    <h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.2 API</h3>
+    <h3><code>jbvb.sql</code> bnd <code>jbvbx.sql</code> Febtures Introduced in the JDBC 4.2 API</h3>
 <UL>
-    <LI>Added <code>JDBCType</code>  enum and <code>SQLType</code> interface</li>
-    <LI>Support for <code>REF CURSORS</code> in <code>CallableStatement</code> 
+    <LI>Added <code>JDBCType</code>  enum bnd <code>SQLType</code> interfbce</li>
+    <LI>Support for <code>REF CURSORS</code> in <code>CbllbbleStbtement</code> 
     </LI>
-    <LI><code>DatabaseMetaData</code> methods to return maximum Logical LOB size
-        and if Ref Cursors are supported</LI>
-    <LI>Added support for large update counts</LI>
+    <LI><code>DbtbbbseMetbDbtb</code> methods to return mbximum Logicbl LOB size
+        bnd if Ref Cursors bre supported</LI>
+    <LI>Added support for lbrge updbte counts</LI>
 
 </UL>
 
-    <h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.1 API</h3>
+    <h3><code>jbvb.sql</code> bnd <code>jbvbx.sql</code> Febtures Introduced in the JDBC 4.1 API</h3>
 <UL>
     <LI>Allow <code>Connection</code>,
-        <code>ResultSet</code> and <code>Statement</code> objects to be
-        used with the try-with-resources statement</LI>
-    <LI>Supported added to <code>CallableStatement</code> and
-        <code>ResultSet</code> to specify the Java type to convert to via the
+        <code>ResultSet</code> bnd <code>Stbtement</code> objects to be
+        used with the try-with-resources stbtement</LI>
+    <LI>Supported bdded to <code>CbllbbleStbtement</code> bnd
+        <code>ResultSet</code> to specify the Jbvb type to convert to vib the
         <code>getObject</code> method</LI>
-    <LI><code>DatabaseMetaData</code> methods to return PseudoColumns and if a
-        generated key is always returned</LI>
-    <LI>Added support to <code>Connection</code> to specify a database schema,
-    abort and timeout a physical connection.</LI>
-    <LI>Added support to close a <code>Statement</code> object when its dependent
-    objects have been closed</LI>
-    <LI>Support for obtaining the parent logger for a <code>Driver</code>,
-     <code>DataSource</code>, <code>ConnectionPoolDataSource</code> and
-     <code>XADataSource</code></LI>
+    <LI><code>DbtbbbseMetbDbtb</code> methods to return PseudoColumns bnd if b
+        generbted key is blwbys returned</LI>
+    <LI>Added support to <code>Connection</code> to specify b dbtbbbse schemb,
+    bbort bnd timeout b physicbl connection.</LI>
+    <LI>Added support to close b <code>Stbtement</code> object when its dependent
+    objects hbve been closed</LI>
+    <LI>Support for obtbining the pbrent logger for b <code>Driver</code>,
+     <code>DbtbSource</code>, <code>ConnectionPoolDbtbSource</code> bnd
+     <code>XADbtbSource</code></LI>
 
 </UL>
-<h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.0 API</h3>
+<h3><code>jbvb.sql</code> bnd <code>jbvbx.sql</code> Febtures Introduced in the JDBC 4.0 API</h3>
 <UL>
-  <LI>auto java.sql.Driver discovery -- no longer need to load a 
-<code>java.sql.Driver</code> class via <code>Class.forName</code>
- <LI>National Character Set support added
- <li>Support added for the SQL:2003 XML data type
- <lI>SQLException enhancements -- Added support for cause chaining; New SQLExceptions
- added for common SQLState class value codes
- <li>Enhanced Blob/Clob functionality -- Support provided to create and free a Blob/Clob instance
- as well as additional methods added to improve accessibility
- <li>Support added for accessing a SQL ROWID
- <li>Support added to allow a JDBC application to access an instance of a JDBC resource
- that has been wrapped by a vendor, usually in an application server or connection 
+  <LI>buto jbvb.sql.Driver discovery -- no longer need to lobd b 
+<code>jbvb.sql.Driver</code> clbss vib <code>Clbss.forNbme</code>
+ <LI>Nbtionbl Chbrbcter Set support bdded
+ <li>Support bdded for the SQL:2003 XML dbtb type
+ <lI>SQLException enhbncements -- Added support for cbuse chbining; New SQLExceptions
+ bdded for common SQLStbte clbss vblue codes
+ <li>Enhbnced Blob/Clob functionblity -- Support provided to crebte bnd free b Blob/Clob instbnce
+ bs well bs bdditionbl methods bdded to improve bccessibility
+ <li>Support bdded for bccessing b SQL ROWID
+ <li>Support bdded to bllow b JDBC bpplicbtion to bccess bn instbnce of b JDBC resource
+ thbt hbs been wrbpped by b vendor, usublly in bn bpplicbtion server or connection 
  pooling environment.
- <li>Availability to be notified when a <code>PreparedStatement</code> that is associated
- with a <code>PooledConnection</code> has been closed or the driver determines is invalid
+ <li>Avbilbbility to be notified when b <code>PrepbredStbtement</code> thbt is bssocibted
+ with b <code>PooledConnection</code> hbs been closed or the driver determines is invblid
  
  
 </UL>
 
 
-<h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 3.0 API</h3>
+<h3><code>jbvb.sql</code> bnd <code>jbvbx.sql</code> Febtures Introduced in the JDBC 3.0 API</h3>
 <UL>
-  <LI>Pooled statements -- reuse of statements associated with a pooled 
+  <LI>Pooled stbtements -- reuse of stbtements bssocibted with b pooled 
        connection
-  <LI>Savepoints -- allow a transaction to be rolled back to a designated
-      savepoint
-  <LI>Properties defined for <code>ConnectionPoolDataSource</code> -- specify
-      how connections are to be pooled
-  <LI>Metadata for parameters of a <code>PreparedStatement</code> object
-  <LI>Ability to retrieve values from automatically generated columns
-  <LI>Ability to have multiple <code>ResultSet</code> objects 
-       returned from <code>CallableStatement</code> objects open at the
-      same time
-  <LI>Ability to identify parameters to <code>CallableStatement</code>
-      objects by name as well as by index
-  <LI><code>ResultSet</code> holdability -- ability to specify whether cursors
-      should be held open or closed at the end of a transaction
-  <LI>Ability to retrieve and update the SQL structured type instance that a
+  <LI>Sbvepoints -- bllow b trbnsbction to be rolled bbck to b designbted
+      sbvepoint
+  <LI>Properties defined for <code>ConnectionPoolDbtbSource</code> -- specify
+      how connections bre to be pooled
+  <LI>Metbdbtb for pbrbmeters of b <code>PrepbredStbtement</code> object
+  <LI>Ability to retrieve vblues from butombticblly generbted columns
+  <LI>Ability to hbve multiple <code>ResultSet</code> objects 
+       returned from <code>CbllbbleStbtement</code> objects open bt the
+      sbme time
+  <LI>Ability to identify pbrbmeters to <code>CbllbbleStbtement</code>
+      objects by nbme bs well bs by index
+  <LI><code>ResultSet</code> holdbbility -- bbility to specify whether cursors
+      should be held open or closed bt the end of b trbnsbction
+  <LI>Ability to retrieve bnd updbte the SQL structured type instbnce thbt b
       <code>Ref</code> object references
-  <LI>Ability to programmatically update <code>BLOB</code>,
-      <code>CLOB</code>, <code>ARRAY</code>, and <code>REF</code> values.
-  <LI>Addition of the <code>java.sql.Types.DATALINK</code> data type -- 
-      allows JDBC drivers access to objects stored outside a data source
-  <LI>Addition of metadata for retrieving SQL type hierarchies
+  <LI>Ability to progrbmmbticblly updbte <code>BLOB</code>,
+      <code>CLOB</code>, <code>ARRAY</code>, bnd <code>REF</code> vblues.
+  <LI>Addition of the <code>jbvb.sql.Types.DATALINK</code> dbtb type -- 
+      bllows JDBC drivers bccess to objects stored outside b dbtb source
+  <LI>Addition of metbdbtb for retrieving SQL type hierbrchies
 </UL>
 
-<h3><code>java.sql</code> Features Introduced in the JDBC 2.1 Core API</h3>
+<h3><code>jbvb.sql</code> Febtures Introduced in the JDBC 2.1 Core API</h3>
 <UL>
-  <LI>Scrollable result sets--using new methods in the <code>ResultSet</code>
-	  interface that allow the cursor to be moved to a particular row or to a
-	  position relative to its current position
-  <LI>Batch updates
-  <LI>Programmatic updates--using <code>ResultSet</code> updater methods
-  <LI>New data types--interfaces mapping the SQL3 data types
-  <LI>Custom mapping of user-defined types (UDTs)
-  <LI>Miscellaneous features, including performance hints, the use of character
-	  streams, full precision for <code>java.math.BigDecimal</code> values,
-	  additional security, and
-	  support for time zones in date, time, and timestamp values. 
+  <LI>Scrollbble result sets--using new methods in the <code>ResultSet</code>
+	  interfbce thbt bllow the cursor to be moved to b pbrticulbr row or to b
+	  position relbtive to its current position
+  <LI>Bbtch updbtes
+  <LI>Progrbmmbtic updbtes--using <code>ResultSet</code> updbter methods
+  <LI>New dbtb types--interfbces mbpping the SQL3 dbtb types
+  <LI>Custom mbpping of user-defined types (UDTs)
+  <LI>Miscellbneous febtures, including performbnce hints, the use of chbrbcter
+	  strebms, full precision for <code>jbvb.mbth.BigDecimbl</code> vblues,
+	  bdditionbl security, bnd
+	  support for time zones in dbte, time, bnd timestbmp vblues. 
 </UL>
 
-<h3><code>javax.sql</code> Features Introduced in the JDBC 2.0 Optional
-Package API</h3>
+<h3><code>jbvbx.sql</code> Febtures Introduced in the JDBC 2.0 Optionbl
+Pbckbge API</h3>
 <UL>
-  <LI>The <code>DataSource</code> interface as a means of making a connection.  The
-      Java Naming and Directory Interface<sup><font size=-2>TM</font></sup>
-      (JNDI) is used for registering a <code>DataSource</code> object with a 
-      naming service and also for  retrieving it.
-  <LI>Pooled connections -- allowing connections to be used and reused
-  <LI>Distributed transactions -- allowing a transaction to span diverse
+  <LI>The <code>DbtbSource</code> interfbce bs b mebns of mbking b connection.  The
+      Jbvb Nbming bnd Directory Interfbce<sup><font size=-2>TM</font></sup>
+      (JNDI) is used for registering b <code>DbtbSource</code> object with b 
+      nbming service bnd blso for  retrieving it.
+  <LI>Pooled connections -- bllowing connections to be used bnd reused
+  <LI>Distributed trbnsbctions -- bllowing b trbnsbction to spbn diverse
       DBMS servers
-  <LI><code>RowSet</code> technology -- providing a convenient means of
-       handling and passing data
+  <LI><code>RowSet</code> technology -- providing b convenient mebns of
+       hbndling bnd pbssing dbtb
 </UL>
 
 
-<h3>Custom Mapping of UDTs</h3>
-A user-defined type (UDT) defined in SQL can be mapped to a class in the Java
-programming language. An SQL structured type or an SQL <code>DISTINCT</code>
-type are the UDTs that may be custom mapped.  The following three
-steps set up a custom mapping:
+<h3>Custom Mbpping of UDTs</h3>
+A user-defined type (UDT) defined in SQL cbn be mbpped to b clbss in the Jbvb
+progrbmming lbngubge. An SQL structured type or bn SQL <code>DISTINCT</code>
+type bre the UDTs thbt mby be custom mbpped.  The following three
+steps set up b custom mbpping:
 <ol>
   <li>Defining the SQL structured type or <code>DISTINCT</code> type in SQL
-  <li>Defining the class in the Java programming language to which the
-	  SQL UDT will be mapped.  This class must implement the
-	  <code>SQLData</code> interface.
-  <li>Making an entry in a <code>Connection</code> object's type map
-      that contains two things:
+  <li>Defining the clbss in the Jbvb progrbmming lbngubge to which the
+	  SQL UDT will be mbpped.  This clbss must implement the
+	  <code>SQLDbtb</code> interfbce.
+  <li>Mbking bn entry in b <code>Connection</code> object's type mbp
+      thbt contbins two things:
    <ul>
-       <li>the fully-qualified SQL name of the UDT
-       <li>the <code>Class</code> object for the class that implements the 
-           <code>SQLData</code> interface
+       <li>the fully-qublified SQL nbme of the UDT
+       <li>the <code>Clbss</code> object for the clbss thbt implements the 
+           <code>SQLDbtb</code> interfbce
    </ul>
 </ol>
 <p>
-When these are in place for a UDT, calling the methods
-<code>ResultSet.getObject</code> or <code>CallableStatement.getObject</code> 
-on that UDT will automatically retrieve the custom mapping for it. Also, the
-<code>PreparedStatement.setObject</code> method will automatically map the
-object back to its SQL type to store it in the data source.
+When these bre in plbce for b UDT, cblling the methods
+<code>ResultSet.getObject</code> or <code>CbllbbleStbtement.getObject</code> 
+on thbt UDT will butombticblly retrieve the custom mbpping for it. Also, the
+<code>PrepbredStbtement.setObject</code> method will butombticblly mbp the
+object bbck to its SQL type to store it in the dbtb source.
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
 <ul>
-  <li><a href="https://jcp.org/en/jsr/detail?id=221">JDBC 4.2 Specification</a>
+  <li><b href="https://jcp.org/en/jsr/detbil?id=221">JDBC 4.2 Specificbtion</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<h2>Relbted Documentbtion</h2>
 
 <ul>
-  <li><a href="http://docs.oracle.com/javase/tutorial/jdbc/basics/index.html">
-          Lesson:JDBC Basics(The Javaxx Tutorials &gt; JDBC&trade; Database Access)</a>
+  <li><b href="http://docs.orbcle.com/jbvbse/tutoribl/jdbc/bbsics/index.html">
+          Lesson:JDBC Bbsics(The Jbvbxx Tutoribls &gt; JDBC&trbde; Dbtbbbse Access)</b>
 
- <li><a href="http://www.oracle.com/technetwork/java/index-142838.html">
-          <i>JDBC&trade; API Tutorial and Reference, Third Edition</i></a>
+ <li><b href="http://www.orbcle.com/technetwork/jbvb/index-142838.html">
+          <i>JDBC&trbde; API Tutoribl bnd Reference, Third Edition</i></b>
 </ul>
 
 </body>

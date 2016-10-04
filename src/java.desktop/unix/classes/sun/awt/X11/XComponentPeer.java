@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.AWTEvent;
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.peer.DropTargetPeer;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.PaintEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.VolatileImage;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.ContainerPeer;
-import java.lang.reflect.*;
-import java.security.*;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-import sun.util.logging.PlatformLogger;
-import sun.awt.*;
-import sun.awt.event.IgnorePaintEvent;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.ToolkitImage;
-import sun.java2d.BackBufferCapsProvider;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.SystemColor;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.dnd.DropTbrget;
+import jbvb.bwt.dnd.peer.DropTbrgetPeer;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseWheelEvent;
+import jbvb.bwt.event.PbintEvent;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.ContbinerPeer;
+import jbvb.lbng.reflect.*;
+import jbvb.security.*;
+import jbvb.util.Collection;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.*;
+import sun.bwt.event.IgnorePbintEvent;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.ToolkitImbge;
+import sun.jbvb2d.BbckBufferCbpsProvider;
+import sun.jbvb2d.pipe.Region;
 
 
-public class XComponentPeer extends XWindow implements ComponentPeer, DropTargetPeer,
-    BackBufferCapsProvider
+public clbss XComponentPeer extends XWindow implements ComponentPeer, DropTbrgetPeer,
+    BbckBufferCbpsProvider
 {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XComponentPeer");
-    private static final PlatformLogger buffersLog = PlatformLogger.getLogger("sun.awt.X11.XComponentPeer.multibuffer");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XComponentPeer");
-    private static final PlatformLogger fontLog = PlatformLogger.getLogger("sun.awt.X11.font.XComponentPeer");
-    private static final PlatformLogger enableLog = PlatformLogger.getLogger("sun.awt.X11.enable.XComponentPeer");
-    private static final PlatformLogger shapeLog = PlatformLogger.getLogger("sun.awt.X11.shape.XComponentPeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XComponentPeer");
+    privbte stbtic finbl PlbtformLogger buffersLog = PlbtformLogger.getLogger("sun.bwt.X11.XComponentPeer.multibuffer");
+    privbte stbtic finbl PlbtformLogger focusLog = PlbtformLogger.getLogger("sun.bwt.X11.focus.XComponentPeer");
+    privbte stbtic finbl PlbtformLogger fontLog = PlbtformLogger.getLogger("sun.bwt.X11.font.XComponentPeer");
+    privbte stbtic finbl PlbtformLogger enbbleLog = PlbtformLogger.getLogger("sun.bwt.X11.enbble.XComponentPeer");
+    privbte stbtic finbl PlbtformLogger shbpeLog = PlbtformLogger.getLogger("sun.bwt.X11.shbpe.XComponentPeer");
 
-    boolean paintPending = false;
-    boolean isLayouting = false;
-    private boolean enabled;
+    boolebn pbintPending = fblse;
+    boolebn isLbyouting = fblse;
+    privbte boolebn enbbled;
 
-    // Actually used only by XDecoratedPeer
-    protected int boundsOperation;
+    // Actublly used only by XDecorbtedPeer
+    protected int boundsOperbtion;
 
     Color foreground;
-    Color background;
+    Color bbckground;
 
-    // Colors calculated as on Motif using MotifColorUtilties.
-    // If you use these, call updateMotifColors() in the peer's Constructor and
-    // setBackground().  Examples are XCheckboxPeer and XButtonPeer.
-    Color darkShadow;
-    Color lightShadow;
+    // Colors cblculbted bs on Motif using MotifColorUtilties.
+    // If you use these, cbll updbteMotifColors() in the peer's Constructor bnd
+    // setBbckground().  Exbmples bre XCheckboxPeer bnd XButtonPeer.
+    Color dbrkShbdow;
+    Color lightShbdow;
     Color selectColor;
 
     Font font;
-    private long backBuffer = 0;
-    private VolatileImage xBackBuffer = null;
+    privbte long bbckBuffer = 0;
+    privbte VolbtileImbge xBbckBuffer = null;
 
-    static Color[] systemColors;
+    stbtic Color[] systemColors;
 
     XComponentPeer() {
     }
 
-    XComponentPeer (XCreateWindowParams params) {
-        super(params);
+    XComponentPeer (XCrebteWindowPbrbms pbrbms) {
+        super(pbrbms);
     }
 
-    XComponentPeer(Component target, long parentWindow, Rectangle bounds) {
-        super(target, parentWindow, bounds);
+    XComponentPeer(Component tbrget, long pbrentWindow, Rectbngle bounds) {
+        super(tbrget, pbrentWindow, bounds);
     }
 
     /**
-     * Standard peer constructor, with corresponding Component
+     * Stbndbrd peer constructor, with corresponding Component
      */
-    XComponentPeer(Component target) {
-        super(target);
+    XComponentPeer(Component tbrget) {
+        super(tbrget);
     }
 
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        boundsOperation = DEFAULT_OPERATION;
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        boundsOperbtion = DEFAULT_OPERATION;
     }
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
 
-        pSetCursor(target.getCursor());
+        pSetCursor(tbrget.getCursor());
 
-        foreground = target.getForeground();
-        background = target.getBackground();
-        font = target.getFont();
+        foreground = tbrget.getForeground();
+        bbckground = tbrget.getBbckground();
+        font = tbrget.getFont();
 
-        if (isInitialReshape()) {
-            Rectangle r = target.getBounds();
-            reshape(r.x, r.y, r.width, r.height);
+        if (isInitiblReshbpe()) {
+            Rectbngle r = tbrget.getBounds();
+            reshbpe(r.x, r.y, r.width, r.height);
         }
 
-        setEnabled(target.isEnabled());
+        setEnbbled(tbrget.isEnbbled());
 
-        if (target.isVisible()) {
+        if (tbrget.isVisible()) {
             setVisible(true);
         }
     }
 
-    protected boolean isInitialReshape() {
+    protected boolebn isInitiblReshbpe() {
         return true;
     }
 
-    public void reparent(ContainerPeer newNativeParent) {
-        XComponentPeer newPeer = (XComponentPeer)newNativeParent;
-        XToolkit.awtLock();
+    public void repbrent(ContbinerPeer newNbtivePbrent) {
+        XComponentPeer newPeer = (XComponentPeer)newNbtivePbrent;
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XReparentWindow(XToolkit.getDisplay(), getWindow(), newPeer.getContentWindow(), x, y);
-            parentWindow = newPeer;
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XRepbrentWindow(XToolkit.getDisplby(), getWindow(), newPeer.getContentWindow(), x, y);
+            pbrentWindow = newPeer;
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
-    public boolean isReparentSupported() {
-        return System.getProperty("sun.awt.X11.XComponentPeer.reparentNotSupported", "false").equals("false");
+    public boolebn isRepbrentSupported() {
+        return System.getProperty("sun.bwt.X11.XComponentPeer.repbrentNotSupported", "fblse").equbls("fblse");
     }
 
-    public boolean isObscured() {
-        Container container  = (target instanceof Container) ?
-            (Container)target : target.getParent();
+    public boolebn isObscured() {
+        Contbiner contbiner  = (tbrget instbnceof Contbiner) ?
+            (Contbiner)tbrget : tbrget.getPbrent();
 
-        if (container == null) {
+        if (contbiner == null) {
             return true;
         }
 
-        Container parent;
-        while ((parent = container.getParent()) != null) {
-            container = parent;
+        Contbiner pbrent;
+        while ((pbrent = contbiner.getPbrent()) != null) {
+            contbiner = pbrent;
         }
 
-        if (container instanceof Window) {
-            XWindowPeer wpeer = (XWindowPeer)(container.getPeer());
+        if (contbiner instbnceof Window) {
+            XWindowPeer wpeer = (XWindowPeer)(contbiner.getPeer());
             if (wpeer != null) {
-                return (wpeer.winAttr.visibilityState !=
-                        XWindowAttributesData.AWT_UNOBSCURED);
+                return (wpeer.winAttr.visibilityStbte !=
+                        XWindowAttributesDbtb.AWT_UNOBSCURED);
             }
         }
         return true;
     }
 
-    public boolean canDetermineObscurity() {
+    public boolebn cbnDetermineObscurity() {
         return true;
     }
 
@@ -199,176 +199,176 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
      *************************************************/
 
     /**
-     * Keeps the track of focused state of the _NATIVE_ window
+     * Keeps the trbck of focused stbte of the _NATIVE_ window
      */
-    boolean bHasFocus = false;
+    boolebn bHbsFocus = fblse;
 
     /**
-     * Descendants should use this method to determine whether or not native window
-     * has focus.
+     * Descendbnts should use this method to determine whether or not nbtive window
+     * hbs focus.
      */
-    final public boolean hasFocus() {
-        return bHasFocus;
+    finbl public boolebn hbsFocus() {
+        return bHbsFocus;
     }
 
     /**
-     * Called when component receives focus
+     * Cblled when component receives focus
      */
-    public void focusGained(FocusEvent e) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
+    public void focusGbined(FocusEvent e) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             focusLog.fine("{0}", e);
         }
-        bHasFocus = true;
+        bHbsFocus = true;
     }
 
     /**
-     * Called when component loses focus
+     * Cblled when component loses focus
      */
     public void focusLost(FocusEvent e) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             focusLog.fine("{0}", e);
         }
-        bHasFocus = false;
+        bHbsFocus = fblse;
     }
 
-    public boolean isFocusable() {
-        /* should be implemented by other sub-classes */
-        return false;
+    public boolebn isFocusbble() {
+        /* should be implemented by other sub-clbsses */
+        return fblse;
     }
 
-    private static Class<?> seClass;
-    private static Constructor<?> seCtor;
+    privbte stbtic Clbss<?> seClbss;
+    privbte stbtic Constructor<?> seCtor;
 
-    final static AWTEvent wrapInSequenced(AWTEvent event) {
+    finbl stbtic AWTEvent wrbpInSequenced(AWTEvent event) {
         try {
-            if (seClass == null) {
-                seClass = Class.forName("java.awt.SequencedEvent");
+            if (seClbss == null) {
+                seClbss = Clbss.forNbme("jbvb.bwt.SequencedEvent");
             }
 
             if (seCtor == null) {
                 seCtor = AccessController.doPrivileged(new
                     PrivilegedExceptionAction<Constructor<?>>() {
                         public Constructor<?> run() throws Exception {
-                            Constructor<?> ctor = seClass.getConstructor(
-                                new Class<?>[] { AWTEvent.class });
+                            Constructor<?> ctor = seClbss.getConstructor(
+                                new Clbss<?>[] { AWTEvent.clbss });
                             ctor.setAccessible(true);
                             return ctor;
                         }
                     });
             }
 
-            return (AWTEvent) seCtor.newInstance(new Object[] { event });
+            return (AWTEvent) seCtor.newInstbnce(new Object[] { event });
         }
-        catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError("java.awt.SequencedEvent.");
+        cbtch (ClbssNotFoundException e) {
+            throw new NoClbssDefFoundError("jbvb.bwt.SequencedEvent.");
         }
-        catch (PrivilegedActionException ex) {
-            throw new NoClassDefFoundError("java.awt.SequencedEvent.");
+        cbtch (PrivilegedActionException ex) {
+            throw new NoClbssDefFoundError("jbvb.bwt.SequencedEvent.");
         }
-        catch (InstantiationException e) {
-            assert false;
+        cbtch (InstbntibtionException e) {
+            bssert fblse;
         }
-        catch (IllegalAccessException e) {
-            assert false;
+        cbtch (IllegblAccessException e) {
+            bssert fblse;
         }
-        catch (InvocationTargetException e) {
-            assert false;
+        cbtch (InvocbtionTbrgetException e) {
+            bssert fblse;
         }
 
         return null;
     }
 
-    // TODO: consider moving it to KeyboardFocusManagerPeerImpl
-    final public boolean requestFocus(Component lightweightChild, boolean temporary,
-                                      boolean focusedWindowChangeAllowed, long time,
-                                      CausedFocusEvent.Cause cause)
+    // TODO: consider moving it to KeybobrdFocusMbnbgerPeerImpl
+    finbl public boolebn requestFocus(Component lightweightChild, boolebn temporbry,
+                                      boolebn focusedWindowChbngeAllowed, long time,
+                                      CbusedFocusEvent.Cbuse cbuse)
     {
-        if (XKeyboardFocusManagerPeer.
-            processSynchronousLightweightTransfer(target, lightweightChild, temporary,
-                                                  focusedWindowChangeAllowed, time))
+        if (XKeybobrdFocusMbnbgerPeer.
+            processSynchronousLightweightTrbnsfer(tbrget, lightweightChild, temporbry,
+                                                  focusedWindowChbngeAllowed, time))
         {
             return true;
         }
 
-        int result = XKeyboardFocusManagerPeer.
-            shouldNativelyFocusHeavyweight(target, lightweightChild,
-                                           temporary, focusedWindowChangeAllowed,
-                                           time, cause);
+        int result = XKeybobrdFocusMbnbgerPeer.
+            shouldNbtivelyFocusHebvyweight(tbrget, lightweightChild,
+                                           temporbry, focusedWindowChbngeAllowed,
+                                           time, cbuse);
 
         switch (result) {
-          case XKeyboardFocusManagerPeer.SNFH_FAILURE:
-              return false;
-          case XKeyboardFocusManagerPeer.SNFH_SUCCESS_PROCEED:
-              // Currently we just generate focus events like we deal with lightweight instead of calling
-              // XSetInputFocus on native window
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_FAILURE:
+              return fblse;
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_PROCEED:
+              // Currently we just generbte focus events like we debl with lightweight instebd of cblling
+              // XSetInputFocus on nbtive window
+              if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                   focusLog.finer("Proceeding with request to " +
-                                 lightweightChild + " in " + target);
+                                 lightweightChild + " in " + tbrget);
               }
               /**
-               * The problems with requests in non-focused window arise because shouldNativelyFocusHeavyweight
-               * checks that native window is focused while appropriate WINDOW_GAINED_FOCUS has not yet
-               * been processed - it is in EventQueue. Thus, SNFH allows native request and stores request record
-               * in requests list - and it breaks our requests sequence as first record on WGF should be the last
-               * focus owner which had focus before WLF. So, we should not add request record for such requests
-               * but store this component in mostRecent - and return true as before for compatibility.
+               * The problems with requests in non-focused window brise becbuse shouldNbtivelyFocusHebvyweight
+               * checks thbt nbtive window is focused while bppropribte WINDOW_GAINED_FOCUS hbs not yet
+               * been processed - it is in EventQueue. Thus, SNFH bllows nbtive request bnd stores request record
+               * in requests list - bnd it brebks our requests sequence bs first record on WGF should be the lbst
+               * focus owner which hbd focus before WLF. So, we should not bdd request record for such requests
+               * but store this component in mostRecent - bnd return true bs before for compbtibility.
                */
-              Window parentWindow = SunToolkit.getContainingWindow(target);
-              if (parentWindow == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window is null");
+              Window pbrentWindow = SunToolkit.getContbiningWindow(tbrget);
+              if (pbrentWindow == null) {
+                  return rejectFocusRequestHelper("WARNING: Pbrent window is null");
               }
-              XWindowPeer wpeer = (XWindowPeer)parentWindow.getPeer();
+              XWindowPeer wpeer = (XWindowPeer)pbrentWindow.getPeer();
               if (wpeer == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window's peer is null");
+                  return rejectFocusRequestHelper("WARNING: Pbrent window's peer is null");
               }
               /*
-               * Passing null 'actualFocusedWindow' as we don't want to restore focus on it
-               * when a component inside a Frame is requesting focus.
-               * See 6314575 for details.
+               * Pbssing null 'bctublFocusedWindow' bs we don't wbnt to restore focus on it
+               * when b component inside b Frbme is requesting focus.
+               * See 6314575 for detbils.
                */
-              boolean res = wpeer.requestWindowFocus(null);
+              boolebn res = wpeer.requestWindowFocus(null);
 
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+              if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                   focusLog.finer("Requested window focus: " + res);
               }
-              // If parent window can be made focused and has been made focused(synchronously)
-              // then we can proceed with children, otherwise we retreat.
-              if (!(res && parentWindow.isFocused())) {
-                  return rejectFocusRequestHelper("Waiting for asynchronous processing of the request");
+              // If pbrent window cbn be mbde focused bnd hbs been mbde focused(synchronously)
+              // then we cbn proceed with children, otherwise we retrebt.
+              if (!(res && pbrentWindow.isFocused())) {
+                  return rejectFocusRequestHelper("Wbiting for bsynchronous processing of the request");
               }
-              return XKeyboardFocusManagerPeer.deliverFocus(lightweightChild,
-                                                            target,
-                                                            temporary,
-                                                            focusedWindowChangeAllowed,
-                                                            time, cause);
-              // Motif compatibility code
-          case XKeyboardFocusManagerPeer.SNFH_SUCCESS_HANDLED:
-              // Either lightweight or excessive request - all events are generated.
+              return XKeybobrdFocusMbnbgerPeer.deliverFocus(lightweightChild,
+                                                            tbrget,
+                                                            temporbry,
+                                                            focusedWindowChbngeAllowed,
+                                                            time, cbuse);
+              // Motif compbtibility code
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_HANDLED:
+              // Either lightweight or excessive request - bll events bre generbted.
               return true;
         }
-        return false;
+        return fblse;
     }
 
-    private boolean rejectFocusRequestHelper(String logMsg) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+    privbte boolebn rejectFocusRequestHelper(String logMsg) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer(logMsg);
         }
-        XKeyboardFocusManagerPeer.removeLastFocusRequest(target);
-        return false;
+        XKeybobrdFocusMbnbgerPeer.removeLbstFocusRequest(tbrget);
+        return fblse;
     }
 
-    void handleJavaFocusEvent(AWTEvent e) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+    void hbndleJbvbFocusEvent(AWTEvent e) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer(e.toString());
         }
         if (e.getID() == FocusEvent.FOCUS_GAINED) {
-            focusGained((FocusEvent)e);
+            focusGbined((FocusEvent)e);
         } else {
             focusLost((FocusEvent)e);
         }
     }
 
-    void handleJavaWindowFocusEvent(AWTEvent e) {
+    void hbndleJbvbWindowFocusEvent(AWTEvent e) {
     }
 
     /*************************************************
@@ -377,75 +377,75 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
 
 
 
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
         xSetVisible(b);
     }
 
     public void hide() {
-        setVisible(false);
+        setVisible(fblse);
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer
+     * @see jbvb.bwt.peer.ComponentPeer
      */
-    public void setEnabled(final boolean value) {
-        if (enableLog.isLoggable(PlatformLogger.Level.FINE)) {
-            enableLog.fine("{0}ing {1}", (value ? "Enabl" : "Disabl"), this);
+    public void setEnbbled(finbl boolebn vblue) {
+        if (enbbleLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            enbbleLog.fine("{0}ing {1}", (vblue ? "Enbbl" : "Disbbl"), this);
         }
-        boolean status = value;
-        // If any of our heavyweight ancestors are disable, we should be too
-        // See 6176875 for more information
-        final Container cp = SunToolkit.getNativeContainer(target);
+        boolebn stbtus = vblue;
+        // If bny of our hebvyweight bncestors bre disbble, we should be too
+        // See 6176875 for more informbtion
+        finbl Contbiner cp = SunToolkit.getNbtiveContbiner(tbrget);
         if (cp != null) {
-            status &= ((XComponentPeer) cp.getPeer()).isEnabled();
+            stbtus &= ((XComponentPeer) cp.getPeer()).isEnbbled();
         }
-        synchronized (getStateLock()) {
-            if (enabled == status) {
+        synchronized (getStbteLock()) {
+            if (enbbled == stbtus) {
                 return;
             }
-            enabled = status;
+            enbbled = stbtus;
         }
 
-        if (target instanceof Container) {
-            final Component[] list = ((Container) target).getComponents();
-            for (final Component child : list) {
-                final ComponentPeer p = child.getPeer();
+        if (tbrget instbnceof Contbiner) {
+            finbl Component[] list = ((Contbiner) tbrget).getComponents();
+            for (finbl Component child : list) {
+                finbl ComponentPeer p = child.getPeer();
                 if (p != null) {
-                    p.setEnabled(status && child.isEnabled());
+                    p.setEnbbled(stbtus && child.isEnbbled());
                 }
             }
         }
-        repaint();
+        repbint();
     }
 
     //
-    // public so aw/Window can call it
+    // public so bw/Window cbn cbll it
     //
-    public final boolean isEnabled() {
-        synchronized (getStateLock()) {
-            return enabled;
+    public finbl boolebn isEnbbled() {
+        synchronized (getStbteLock()) {
+            return enbbled;
         }
     }
 
     @Override
-    public void paint(final Graphics g) {
-        super.paint(g);
-        // allow target to change the picture
-        target.paint(g);
+    public void pbint(finbl Grbphics g) {
+        super.pbint(g);
+        // bllow tbrget to chbnge the picture
+        tbrget.pbint(g);
     }
 
-    public Graphics getGraphics() {
-        return getGraphics(surfaceData, getPeerForeground(), getPeerBackground(), getPeerFont());
+    public Grbphics getGrbphics() {
+        return getGrbphics(surfbceDbtb, getPeerForeground(), getPeerBbckground(), getPeerFont());
     }
-    public void print(Graphics g) {
-        // clear rect here to emulate X clears rect before Expose
-        g.setColor(target.getBackground());
-        g.fillRect(0, 0, target.getWidth(), target.getHeight());
-        g.setColor(target.getForeground());
-        // paint peer
-        paintPeer(g);
-        // allow target to change the picture
-        target.print(g);
+    public void print(Grbphics g) {
+        // clebr rect here to emulbte X clebrs rect before Expose
+        g.setColor(tbrget.getBbckground());
+        g.fillRect(0, 0, tbrget.getWidth(), tbrget.getHeight());
+        g.setColor(tbrget.getForeground());
+        // pbint peer
+        pbintPeer(g);
+        // bllow tbrget to chbnge the picture
+        tbrget.print(g);
     }
 
     public void setBounds(int x, int y, int width, int height, int op) {
@@ -454,30 +454,30 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
         this.width = width;
         this.height = height;
         xSetBounds(x,y,width,height);
-        validateSurface();
-        layout();
+        vblidbteSurfbce();
+        lbyout();
     }
 
-    public void reshape(int x, int y, int width, int height) {
+    public void reshbpe(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS);
     }
 
-    public void coalescePaintEvent(PaintEvent e) {
-        Rectangle r = e.getUpdateRect();
-        if (!(e instanceof IgnorePaintEvent)) {
-            paintArea.add(r, e.getID());
+    public void coblescePbintEvent(PbintEvent e) {
+        Rectbngle r = e.getUpdbteRect();
+        if (!(e instbnceof IgnorePbintEvent)) {
+            pbintAreb.bdd(r, e.getID());
         }
         if (true) {
             switch(e.getID()) {
-              case PaintEvent.UPDATE:
-                  if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                      log.finer("XCP coalescePaintEvent : UPDATE : add : x = " +
+              cbse PbintEvent.UPDATE:
+                  if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                      log.finer("XCP coblescePbintEvent : UPDATE : bdd : x = " +
                             r.x + ", y = " + r.y + ", width = " + r.width + ",height = " + r.height);
                   }
                   return;
-              case PaintEvent.PAINT:
-                  if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                      log.finer("XCP coalescePaintEvent : PAINT : add : x = " +
+              cbse PbintEvent.PAINT:
+                  if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                      log.finer("XCP coblescePbintEvent : PAINT : bdd : x = " +
                             r.x + ", y = " + r.y + ", width = " + r.width + ",height = " + r.height);
                   }
                   return;
@@ -485,202 +485,202 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
         }
     }
 
-    XWindowPeer getParentTopLevel() {
+    XWindowPeer getPbrentTopLevel() {
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        Container parent = (target instanceof Container) ? ((Container)target) : (compAccessor.getParent(target));
-        // Search for parent window
-        while (parent != null && !(parent instanceof Window)) {
-            parent = compAccessor.getParent(parent);
+        Contbiner pbrent = (tbrget instbnceof Contbiner) ? ((Contbiner)tbrget) : (compAccessor.getPbrent(tbrget));
+        // Sebrch for pbrent window
+        while (pbrent != null && !(pbrent instbnceof Window)) {
+            pbrent = compAccessor.getPbrent(pbrent);
         }
-        if (parent != null) {
-            return (XWindowPeer)compAccessor.getPeer(parent);
+        if (pbrent != null) {
+            return (XWindowPeer)compAccessor.getPeer(pbrent);
         } else {
             return null;
         }
     }
 
-    /* This method is intended to be over-ridden by peers to perform user interaction */
-    void handleJavaMouseEvent(MouseEvent e) {
+    /* This method is intended to be over-ridden by peers to perform user interbction */
+    void hbndleJbvbMouseEvent(MouseEvent e) {
         switch (e.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              if (target == e.getSource() &&
-                  !target.isFocusOwner() &&
-                  XKeyboardFocusManagerPeer.shouldFocusOnClick(target))
+          cbse MouseEvent.MOUSE_PRESSED:
+              if (tbrget == e.getSource() &&
+                  !tbrget.isFocusOwner() &&
+                  XKeybobrdFocusMbnbgerPeer.shouldFocusOnClick(tbrget))
               {
-                  XWindowPeer parentXWindow = getParentTopLevel();
-                  Window parentWindow = ((Window)parentXWindow.getTarget());
-                  // Simple windows are non-focusable in X terms but focusable in Java terms.
-                  // As X-non-focusable they don't receive any focus events - we should generate them
+                  XWindowPeer pbrentXWindow = getPbrentTopLevel();
+                  Window pbrentWindow = ((Window)pbrentXWindow.getTbrget());
+                  // Simple windows bre non-focusbble in X terms but focusbble in Jbvb terms.
+                  // As X-non-focusbble they don't receive bny focus events - we should generbte them
                   // by ourselfves.
-//                   if (parentXWindow.isFocusableWindow() /*&& parentXWindow.isSimpleWindow()*/ &&
-//                       !(getCurrentNativeFocusedWindow() == parentWindow))
+//                   if (pbrentXWindow.isFocusbbleWindow() /*&& pbrentXWindow.isSimpleWindow()*/ &&
+//                       !(getCurrentNbtiveFocusedWindow() == pbrentWindow))
 //                   {
-//                       setCurrentNativeFocusedWindow(parentWindow);
-//                       WindowEvent wfg = new WindowEvent(parentWindow, WindowEvent.WINDOW_GAINED_FOCUS);
-//                       parentWindow.dispatchEvent(wfg);
+//                       setCurrentNbtiveFocusedWindow(pbrentWindow);
+//                       WindowEvent wfg = new WindowEvent(pbrentWindow, WindowEvent.WINDOW_GAINED_FOCUS);
+//                       pbrentWindow.dispbtchEvent(wfg);
 //                   }
-                  XKeyboardFocusManagerPeer.requestFocusFor(target, CausedFocusEvent.Cause.MOUSE_EVENT);
+                  XKeybobrdFocusMbnbgerPeer.requestFocusFor(tbrget, CbusedFocusEvent.Cbuse.MOUSE_EVENT);
               }
-              break;
+              brebk;
         }
     }
 
-    /* This method is intended to be over-ridden by peers to perform user interaction */
-    void handleJavaKeyEvent(KeyEvent e) {
+    /* This method is intended to be over-ridden by peers to perform user interbction */
+    void hbndleJbvbKeyEvent(KeyEvent e) {
     }
 
-    /* This method is intended to be over-ridden by peers to perform user interaction */
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
+    /* This method is intended to be over-ridden by peers to perform user interbction */
+    void hbndleJbvbMouseWheelEvent(MouseWheelEvent e) {
     }
 
 
-    /* This method is intended to be over-ridden by peers to perform user interaction */
-    void handleJavaInputMethodEvent(InputMethodEvent e) {
+    /* This method is intended to be over-ridden by peers to perform user interbction */
+    void hbndleJbvbInputMethodEvent(InputMethodEvent e) {
     }
 
-    void handleF10JavaKeyEvent(KeyEvent e) {
+    void hbndleF10JbvbKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F10) {
             XWindowPeer winPeer = this.getToplevelXWindow();
-            if (winPeer instanceof XFramePeer) {
-                XMenuBarPeer mPeer = ((XFramePeer)winPeer).getMenubarPeer();
+            if (winPeer instbnceof XFrbmePeer) {
+                XMenuBbrPeer mPeer = ((XFrbmePeer)winPeer).getMenubbrPeer();
                 if (mPeer != null) {
-                    mPeer.handleF10KeyPress(e);
+                    mPeer.hbndleF10KeyPress(e);
                 }
             }
         }
     }
 
-    @SuppressWarnings("fallthrough")
-    public void handleEvent(java.awt.AWTEvent e) {
-        if ((e instanceof InputEvent) && !((InputEvent)e).isConsumed() && target.isEnabled())  {
-            if (e instanceof MouseEvent) {
-                if (e instanceof MouseWheelEvent) {
-                    handleJavaMouseWheelEvent((MouseWheelEvent) e);
+    @SuppressWbrnings("fbllthrough")
+    public void hbndleEvent(jbvb.bwt.AWTEvent e) {
+        if ((e instbnceof InputEvent) && !((InputEvent)e).isConsumed() && tbrget.isEnbbled())  {
+            if (e instbnceof MouseEvent) {
+                if (e instbnceof MouseWheelEvent) {
+                    hbndleJbvbMouseWheelEvent((MouseWheelEvent) e);
                 }
                 else
-                    handleJavaMouseEvent((MouseEvent) e);
+                    hbndleJbvbMouseEvent((MouseEvent) e);
             }
-            else if (e instanceof KeyEvent) {
-                handleF10JavaKeyEvent((KeyEvent)e);
-                handleJavaKeyEvent((KeyEvent)e);
+            else if (e instbnceof KeyEvent) {
+                hbndleF10JbvbKeyEvent((KeyEvent)e);
+                hbndleJbvbKeyEvent((KeyEvent)e);
             }
         }
-        else if (e instanceof KeyEvent && !((InputEvent)e).isConsumed()) {
-            // even if target is disabled.
-            handleF10JavaKeyEvent((KeyEvent)e);
+        else if (e instbnceof KeyEvent && !((InputEvent)e).isConsumed()) {
+            // even if tbrget is disbbled.
+            hbndleF10JbvbKeyEvent((KeyEvent)e);
         }
-        else if (e instanceof InputMethodEvent) {
-            handleJavaInputMethodEvent((InputMethodEvent) e);
+        else if (e instbnceof InputMethodEvent) {
+            hbndleJbvbInputMethodEvent((InputMethodEvent) e);
         }
 
         int id = e.getID();
 
         switch(id) {
-          case PaintEvent.PAINT:
-              // Got native painting
-              paintPending = false;
-              // Fallthrough to next statement
-          case PaintEvent.UPDATE:
-              // Skip all painting while layouting and all UPDATEs
-              // while waiting for native paint
-              if (!isLayouting && !paintPending) {
-                  paintArea.paint(target,false);
+          cbse PbintEvent.PAINT:
+              // Got nbtive pbinting
+              pbintPending = fblse;
+              // Fbllthrough to next stbtement
+          cbse PbintEvent.UPDATE:
+              // Skip bll pbinting while lbyouting bnd bll UPDATEs
+              // while wbiting for nbtive pbint
+              if (!isLbyouting && !pbintPending) {
+                  pbintAreb.pbint(tbrget,fblse);
               }
               return;
-          case FocusEvent.FOCUS_LOST:
-          case FocusEvent.FOCUS_GAINED:
-              handleJavaFocusEvent(e);
-              break;
-          case WindowEvent.WINDOW_LOST_FOCUS:
-          case WindowEvent.WINDOW_GAINED_FOCUS:
-              handleJavaWindowFocusEvent(e);
-              break;
-          default:
-              break;
+          cbse FocusEvent.FOCUS_LOST:
+          cbse FocusEvent.FOCUS_GAINED:
+              hbndleJbvbFocusEvent(e);
+              brebk;
+          cbse WindowEvent.WINDOW_LOST_FOCUS:
+          cbse WindowEvent.WINDOW_GAINED_FOCUS:
+              hbndleJbvbWindowFocusEvent(e);
+              brebk;
+          defbult:
+              brebk;
         }
 
     }
 
     public Dimension getMinimumSize() {
-        return target.getSize();
+        return tbrget.getSize();
     }
 
     public Dimension getPreferredSize() {
         return getMinimumSize();
     }
 
-    public void layout() {}
+    public void lbyout() {}
 
-    void updateMotifColors(Color bg) {
+    void updbteMotifColors(Color bg) {
         int red = bg.getRed();
         int green = bg.getGreen();
         int blue = bg.getBlue();
 
-        darkShadow = new Color(MotifColorUtilities.calculateBottomShadowFromBackground(red,green,blue));
-        lightShadow = new Color(MotifColorUtilities.calculateTopShadowFromBackground(red,green,blue));
-        selectColor= new Color(MotifColorUtilities.calculateSelectFromBackground(red,green,blue));
+        dbrkShbdow = new Color(MotifColorUtilities.cblculbteBottomShbdowFromBbckground(red,green,blue));
+        lightShbdow = new Color(MotifColorUtilities.cblculbteTopShbdowFromBbckground(red,green,blue));
+        selectColor= new Color(MotifColorUtilities.cblculbteSelectFromBbckground(red,green,blue));
     }
 
     /*
-     * Draw a 3D rectangle using the Motif colors.
-     * "Normal" rectangles have shadows on the bottom.
-     * "Depressed" rectangles (such as pressed buttons) have shadows on the top,
-     * in which case true should be passed for topShadow.
+     * Drbw b 3D rectbngle using the Motif colors.
+     * "Normbl" rectbngles hbve shbdows on the bottom.
+     * "Depressed" rectbngles (such bs pressed buttons) hbve shbdows on the top,
+     * in which cbse true should be pbssed for topShbdow.
      */
-    public void drawMotif3DRect(Graphics g,
+    public void drbwMotif3DRect(Grbphics g,
                                           int x, int y, int width, int height,
-                                          boolean topShadow) {
-        g.setColor(topShadow ? darkShadow : lightShadow);
-        g.drawLine(x, y, x+width, y);       // top
-        g.drawLine(x, y+height, x, y);      // left
+                                          boolebn topShbdow) {
+        g.setColor(topShbdow ? dbrkShbdow : lightShbdow);
+        g.drbwLine(x, y, x+width, y);       // top
+        g.drbwLine(x, y+height, x, y);      // left
 
-        g.setColor(topShadow ? lightShadow : darkShadow );
-        g.drawLine(x+1, y+height, x+width, y+height); // bottom
-        g.drawLine(x+width, y+height, x+width, y+1);  // right
+        g.setColor(topShbdow ? lightShbdow : dbrkShbdow );
+        g.drbwLine(x+1, y+height, x+width, y+height); // bottom
+        g.drbwLine(x+width, y+height, x+width, y+1);  // right
     }
 
     @Override
-    public void setBackground(Color c) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Set background to " + c);
+    public void setBbckground(Color c) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Set bbckground to " + c);
         }
-        synchronized (getStateLock()) {
-            if (Objects.equals(background, c)) {
+        synchronized (getStbteLock()) {
+            if (Objects.equbls(bbckground, c)) {
                 return;
             }
-            background = c;
+            bbckground = c;
         }
-        super.setBackground(c);
-        repaint();
+        super.setBbckground(c);
+        repbint();
     }
 
     @Override
     public void setForeground(Color c) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Set foreground to " + c);
         }
-        synchronized (getStateLock()) {
-            if (Objects.equals(foreground, c)) {
+        synchronized (getStbteLock()) {
+            if (Objects.equbls(foreground, c)) {
                 return;
             }
             foreground = c;
         }
-        repaint();
+        repbint();
     }
 
     /**
      * Gets the font metrics for the specified font.
-     * @param font the font for which font metrics is to be
-     *      obtained
+     * @pbrbm font the font for which font metrics is to be
+     *      obtbined
      * @return the font metrics for <code>font</code>
      * @see       #getFont
      * @see       #getPeer
-     * @see       java.awt.peer.ComponentPeer#getFontMetrics(Font)
+     * @see       jbvb.bwt.peer.ComponentPeer#getFontMetrics(Font)
      * @see       Toolkit#getFontMetrics(Font)
      * @since     1.0
      */
     public FontMetrics getFontMetrics(Font font) {
-        if (fontLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (fontLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             fontLog.fine("Getting font metrics for " + font);
         }
         return sun.font.FontDesignMetrics.getMetrics(font);
@@ -689,78 +689,78 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
     @Override
     public void setFont(Font f) {
         if (f == null) {
-            f = XWindow.getDefaultFont();
+            f = XWindow.getDefbultFont();
         }
-        synchronized (getStateLock()) {
-            if (f.equals(font)) {
+        synchronized (getStbteLock()) {
+            if (f.equbls(font)) {
                 return;
             }
             font = f;
         }
-        // as it stands currently we don't need to do layout since
-        // layout is done in the Component upon setFont.
-        //layout();
-        repaint();
+        // bs it stbnds currently we don't need to do lbyout since
+        // lbyout is done in the Component upon setFont.
+        //lbyout();
+        repbint();
     }
 
     public Font getFont() {
         return font;
     }
 
-    public void updateCursorImmediately() {
-        XGlobalCursorManager.getCursorManager().updateCursorImmediately();
+    public void updbteCursorImmedibtely() {
+        XGlobblCursorMbnbger.getCursorMbnbger().updbteCursorImmedibtely();
     }
 
-    public final void pSetCursor(Cursor cursor) {
+    public finbl void pSetCursor(Cursor cursor) {
         this.pSetCursor(cursor, true);
     }
 
     /*
-     * The method changes the cursor.
-     * @param cursor - a new cursor to change to.
-     * @param ignoreSubComponents - if {@code true} is passed then
-     *                              the new cursor will be installed on window.
-     *                              if {@code false} is passed then
-     *                              subsequent components will try to handle
-     *                              this request and install their cursor.
+     * The method chbnges the cursor.
+     * @pbrbm cursor - b new cursor to chbnge to.
+     * @pbrbm ignoreSubComponents - if {@code true} is pbssed then
+     *                              the new cursor will be instblled on window.
+     *                              if {@code fblse} is pbssed then
+     *                              subsequent components will try to hbndle
+     *                              this request bnd instbll their cursor.
      */
     //ignoreSubComponents not used here
-    public void pSetCursor(Cursor cursor, boolean ignoreSubComponents) {
-        XToolkit.awtLock();
+    public void pSetCursor(Cursor cursor, boolebn ignoreSubComponents) {
+        XToolkit.bwtLock();
         try {
-            long xcursor = XGlobalCursorManager.getCursor(cursor);
+            long xcursor = XGlobblCursorMbnbger.getCursor(cursor);
 
-            XSetWindowAttributes xwa = new XSetWindowAttributes();
-            xwa.set_cursor(xcursor);
+            XSetWindowAttributes xwb = new XSetWindowAttributes();
+            xwb.set_cursor(xcursor);
 
-            long valuemask = XConstants.CWCursor;
+            long vbluembsk = XConstbnts.CWCursor;
 
-            XlibWrapper.XChangeWindowAttributes(XToolkit.getDisplay(),getWindow(),valuemask,xwa.pData);
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-            xwa.dispose();
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XChbngeWindowAttributes(XToolkit.getDisplby(),getWindow(),vbluembsk,xwb.pDbtb);
+            XlibWrbpper.XFlush(XToolkit.getDisplby());
+            xwb.dispose();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public Image createImage(ImageProducer producer) {
-        return new ToolkitImage(producer);
+    public Imbge crebteImbge(ImbgeProducer producer) {
+        return new ToolkitImbge(producer);
     }
 
-    public Image createImage(int width, int height) {
-        return graphicsConfig.createAcceleratedImage(target, width, height);
+    public Imbge crebteImbge(int width, int height) {
+        return grbphicsConfig.crebteAccelerbtedImbge(tbrget, width, height);
     }
 
-    public VolatileImage createVolatileImage(int width, int height) {
-        return new SunVolatileImage(target, width, height);
+    public VolbtileImbge crebteVolbtileImbge(int width, int height) {
+        return new SunVolbtileImbge(tbrget, width, height);
     }
 
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().prepareImage(img, w, h, o);
+    public boolebn prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return Toolkit.getDefbultToolkit().prepbreImbge(img, w, h, o);
     }
 
-    public int checkImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().checkImage(img, w, h, o);
+    public int checkImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return Toolkit.getDefbultToolkit().checkImbge(img, w, h, o);
     }
 
     public Dimension preferredSize() {
@@ -775,114 +775,114 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
         return new Insets(0, 0, 0, 0);
     }
 
-    public void beginValidate() {
+    public void beginVblidbte() {
     }
 
-    public void endValidate() {
+    public void endVblidbte() {
     }
 
 
     /**
-     * DEPRECATED:  Replaced by getInsets().
+     * DEPRECATED:  Replbced by getInsets().
      */
 
     public Insets insets() {
         return getInsets();
     }
 
-    // Returns true if we are inside begin/endLayout and
-    // are waiting for native painting
-    public boolean isPaintPending() {
-        return paintPending && isLayouting;
+    // Returns true if we bre inside begin/endLbyout bnd
+    // bre wbiting for nbtive pbinting
+    public boolebn isPbintPending() {
+        return pbintPending && isLbyouting;
     }
 
-    public boolean handlesWheelScrolling() {
-        return false;
+    public boolebn hbndlesWheelScrolling() {
+        return fblse;
     }
 
-    public void beginLayout() {
-        // Skip all painting till endLayout
-        isLayouting = true;
+    public void beginLbyout() {
+        // Skip bll pbinting till endLbyout
+        isLbyouting = true;
 
     }
 
-    public void endLayout() {
-        if (!paintPending && !paintArea.isEmpty()
-            && !AWTAccessor.getComponentAccessor().getIgnoreRepaint(target))
+    public void endLbyout() {
+        if (!pbintPending && !pbintAreb.isEmpty()
+            && !AWTAccessor.getComponentAccessor().getIgnoreRepbint(tbrget))
         {
-            // if not waiting for native painting repaint damaged area
-            postEvent(new PaintEvent(target, PaintEvent.PAINT,
-                                     new Rectangle()));
+            // if not wbiting for nbtive pbinting repbint dbmbged breb
+            postEvent(new PbintEvent(tbrget, PbintEvent.PAINT,
+                                     new Rectbngle()));
         }
-        isLayouting = false;
+        isLbyouting = fblse;
     }
 
-    public Color getWinBackground() {
-        return getPeerBackground();
+    public Color getWinBbckground() {
+        return getPeerBbckground();
     }
 
-    static int[] getRGBvals(Color c) {
+    stbtic int[] getRGBvbls(Color c) {
 
-        int rgbvals[] = new int[3];
+        int rgbvbls[] = new int[3];
 
-        rgbvals[0] = c.getRed();
-        rgbvals[1] = c.getGreen();
-        rgbvals[2] = c.getBlue();
+        rgbvbls[0] = c.getRed();
+        rgbvbls[1] = c.getGreen();
+        rgbvbls[2] = c.getBlue();
 
-        return rgbvals;
+        return rgbvbls;
     }
 
-    static final int BACKGROUND_COLOR = 0;
-    static final int HIGHLIGHT_COLOR = 1;
-    static final int SHADOW_COLOR = 2;
-    static final int FOREGROUND_COLOR = 3;
+    stbtic finbl int BACKGROUND_COLOR = 0;
+    stbtic finbl int HIGHLIGHT_COLOR = 1;
+    stbtic finbl int SHADOW_COLOR = 2;
+    stbtic finbl int FOREGROUND_COLOR = 3;
 
     public Color[] getGUIcolors() {
         Color c[] = new Color[4];
-        float backb, highb, shadowb, hue, saturation;
-        c[BACKGROUND_COLOR] = getWinBackground();
+        flobt bbckb, highb, shbdowb, hue, sbturbtion;
+        c[BACKGROUND_COLOR] = getWinBbckground();
         if (c[BACKGROUND_COLOR] == null) {
-            c[BACKGROUND_COLOR] = super.getWinBackground();
+            c[BACKGROUND_COLOR] = super.getWinBbckground();
         }
         if (c[BACKGROUND_COLOR] == null) {
-            c[BACKGROUND_COLOR] = Color.lightGray;
+            c[BACKGROUND_COLOR] = Color.lightGrby;
         }
 
-        int[] rgb = getRGBvals(c[BACKGROUND_COLOR]);
+        int[] rgb = getRGBvbls(c[BACKGROUND_COLOR]);
 
-        float[] hsb = Color.RGBtoHSB(rgb[0],rgb[1],rgb[2],null);
+        flobt[] hsb = Color.RGBtoHSB(rgb[0],rgb[1],rgb[2],null);
 
         hue = hsb[0];
-        saturation = hsb[1];
-        backb = hsb[2];
+        sbturbtion = hsb[1];
+        bbckb = hsb[2];
 
 
-/*      Calculate Highlight Brightness  */
+/*      Cblculbte Highlight Brightness  */
 
-        highb = backb + 0.2f;
-        shadowb = backb - 0.4f;
+        highb = bbckb + 0.2f;
+        shbdowb = bbckb - 0.4f;
         if ((highb > 1.0) ) {
-            if  ((1.0 - backb) < 0.05) {
-                highb = shadowb + 0.25f;
+            if  ((1.0 - bbckb) < 0.05) {
+                highb = shbdowb + 0.25f;
             } else {
                 highb = 1.0f;
             }
         } else {
-            if (shadowb < 0.0) {
-                if ((backb - 0.0) < 0.25) {
-                    highb = backb + 0.75f;
-                    shadowb = highb - 0.2f;
+            if (shbdowb < 0.0) {
+                if ((bbckb - 0.0) < 0.25) {
+                    highb = bbckb + 0.75f;
+                    shbdowb = highb - 0.2f;
                 } else {
-                    shadowb = 0.0f;
+                    shbdowb = 0.0f;
                 }
             }
         }
-        c[HIGHLIGHT_COLOR] = Color.getHSBColor(hue,saturation,highb);
-        c[SHADOW_COLOR] = Color.getHSBColor(hue,saturation,shadowb);
+        c[HIGHLIGHT_COLOR] = Color.getHSBColor(hue,sbturbtion,highb);
+        c[SHADOW_COLOR] = Color.getHSBColor(hue,sbturbtion,shbdowb);
 
 
 /*
-  c[SHADOW_COLOR] = c[BACKGROUND_COLOR].darker();
+  c[SHADOW_COLOR] = c[BACKGROUND_COLOR].dbrker();
   int r2 = c[SHADOW_COLOR].getRed();
   int g2 = c[SHADOW_COLOR].getGreen();
   int b2 = c[SHADOW_COLOR].getBlue();
@@ -890,26 +890,26 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
 
         c[FOREGROUND_COLOR] = getPeerForeground();
         if (c[FOREGROUND_COLOR] == null) {
-            c[FOREGROUND_COLOR] = Color.black;
+            c[FOREGROUND_COLOR] = Color.blbck;
         }
 /*
-  if ((c[BACKGROUND_COLOR].equals(c[HIGHLIGHT_COLOR]))
-  && (c[BACKGROUND_COLOR].equals(c[SHADOW_COLOR]))) {
+  if ((c[BACKGROUND_COLOR].equbls(c[HIGHLIGHT_COLOR]))
+  && (c[BACKGROUND_COLOR].equbls(c[SHADOW_COLOR]))) {
   c[SHADOW_COLOR] = new Color(c[BACKGROUND_COLOR].getRed() + 75,
   c[BACKGROUND_COLOR].getGreen() + 75,
   c[BACKGROUND_COLOR].getBlue() + 75);
   c[HIGHLIGHT_COLOR] = c[SHADOW_COLOR].brighter();
-  } else if (c[BACKGROUND_COLOR].equals(c[HIGHLIGHT_COLOR])) {
+  } else if (c[BACKGROUND_COLOR].equbls(c[HIGHLIGHT_COLOR])) {
   c[HIGHLIGHT_COLOR] = c[SHADOW_COLOR];
-  c[SHADOW_COLOR] = c[SHADOW_COLOR].darker();
+  c[SHADOW_COLOR] = c[SHADOW_COLOR].dbrker();
   }
 */
-        if (! isEnabled()) {
-            c[BACKGROUND_COLOR] = c[BACKGROUND_COLOR].darker();
-            // Reduce the contrast
-            // Calculate the NTSC gray (NB: REC709 L* might be better!)
-            // for foreground and background; then multiply the foreground
-            // by the average lightness
+        if (! isEnbbled()) {
+            c[BACKGROUND_COLOR] = c[BACKGROUND_COLOR].dbrker();
+            // Reduce the contrbst
+            // Cblculbte the NTSC grby (NB: REC709 L* might be better!)
+            // for foreground bnd bbckground; then multiply the foreground
+            // by the bverbge lightness
 
 
             Color tc = c[BACKGROUND_COLOR];
@@ -918,16 +918,16 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
             tc = c[FOREGROUND_COLOR];
             int fg = tc.getRed() * 30 + tc.getGreen() * 59 + tc.getBlue() * 11;
 
-            float ave = (float) ((fg + bg) / 51000.0);
+            flobt bve = (flobt) ((fg + bg) / 51000.0);
             // 255 * 100 * 2
 
-            Color newForeground = new Color((int) (tc.getRed() * ave),
-                                            (int) (tc.getGreen() * ave),
-                                            (int) (tc.getBlue() * ave));
+            Color newForeground = new Color((int) (tc.getRed() * bve),
+                                            (int) (tc.getGreen() * bve),
+                                            (int) (tc.getBlue() * bve));
 
-            if (newForeground.equals(c[FOREGROUND_COLOR])) {
-                // This probably means the foreground color is black or white
-                newForeground = new Color(ave, ave, ave);
+            if (newForeground.equbls(c[FOREGROUND_COLOR])) {
+                // This probbbly mebns the foreground color is blbck or white
+                newForeground = new Color(bve, bve, bve);
             }
             c[FOREGROUND_COLOR] = newForeground;
 
@@ -938,90 +938,90 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
     }
 
     /**
-     * Returns an array of Colors similar to getGUIcolors(), but using the
-     * System colors.  This is useful if pieces of a Component (such as
-     * the integrated scrollbars of a List) should retain the System color
-     * instead of the background color set by Component.setBackground().
+     * Returns bn brrby of Colors similbr to getGUIcolors(), but using the
+     * System colors.  This is useful if pieces of b Component (such bs
+     * the integrbted scrollbbrs of b List) should retbin the System color
+     * instebd of the bbckground color set by Component.setBbckground().
      */
-    static Color[] getSystemColors() {
+    stbtic Color[] getSystemColors() {
         if (systemColors == null) {
             systemColors = new Color[4];
             systemColors[BACKGROUND_COLOR] = SystemColor.window;
             systemColors[HIGHLIGHT_COLOR] = SystemColor.controlLtHighlight;
-            systemColors[SHADOW_COLOR] = SystemColor.controlShadow;
+            systemColors[SHADOW_COLOR] = SystemColor.controlShbdow;
             systemColors[FOREGROUND_COLOR] = SystemColor.windowText;
         }
         return systemColors;
     }
 
     /**
-     * Draw a 3D oval.
+     * Drbw b 3D ovbl.
      */
-    public void draw3DOval(Graphics g, Color colors[],
-                           int x, int y, int w, int h, boolean raised)
+    public void drbw3DOvbl(Grbphics g, Color colors[],
+                           int x, int y, int w, int h, boolebn rbised)
         {
         Color c = g.getColor();
-        g.setColor(raised ? colors[HIGHLIGHT_COLOR] : colors[SHADOW_COLOR]);
-        g.drawArc(x, y, w, h, 45, 180);
-        g.setColor(raised ? colors[SHADOW_COLOR] : colors[HIGHLIGHT_COLOR]);
-        g.drawArc(x, y, w, h, 225, 180);
+        g.setColor(rbised ? colors[HIGHLIGHT_COLOR] : colors[SHADOW_COLOR]);
+        g.drbwArc(x, y, w, h, 45, 180);
+        g.setColor(rbised ? colors[SHADOW_COLOR] : colors[HIGHLIGHT_COLOR]);
+        g.drbwArc(x, y, w, h, 225, 180);
         g.setColor(c);
     }
 
-    public void draw3DRect(Graphics g, Color colors[],
-                           int x, int y, int width, int height, boolean raised)
+    public void drbw3DRect(Grbphics g, Color colors[],
+                           int x, int y, int width, int height, boolebn rbised)
         {
             Color c = g.getColor();
-            g.setColor(raised ? colors[HIGHLIGHT_COLOR] : colors[SHADOW_COLOR]);
-            g.drawLine(x, y, x, y + height);
-            g.drawLine(x + 1, y, x + width - 1, y);
-            g.setColor(raised ? colors[SHADOW_COLOR] : colors[HIGHLIGHT_COLOR]);
-            g.drawLine(x + 1, y + height, x + width, y + height);
-            g.drawLine(x + width, y, x + width, y + height - 1);
+            g.setColor(rbised ? colors[HIGHLIGHT_COLOR] : colors[SHADOW_COLOR]);
+            g.drbwLine(x, y, x, y + height);
+            g.drbwLine(x + 1, y, x + width - 1, y);
+            g.setColor(rbised ? colors[SHADOW_COLOR] : colors[HIGHLIGHT_COLOR]);
+            g.drbwLine(x + 1, y + height, x + width, y + height);
+            g.drbwLine(x + width, y, x + width, y + height - 1);
             g.setColor(c);
         }
 
     /*
-     * drawXXX() methods are used to print the native components by
+     * drbwXXX() methods bre used to print the nbtive components by
      * rendering the Motif look ourselves.
-     * ToDo(aim): needs to query native motif for more accurate color
-     * information.
+     * ToDo(bim): needs to query nbtive motif for more bccurbte color
+     * informbtion.
      */
-    void draw3DOval(Graphics g, Color bg,
-                    int x, int y, int w, int h, boolean raised)
+    void drbw3DOvbl(Grbphics g, Color bg,
+                    int x, int y, int w, int h, boolebn rbised)
         {
             Color c = g.getColor();
-            Color shadow = bg.darker();
+            Color shbdow = bg.dbrker();
             Color highlight = bg.brighter();
 
-            g.setColor(raised ? highlight : shadow);
-            g.drawArc(x, y, w, h, 45, 180);
-            g.setColor(raised ? shadow : highlight);
-            g.drawArc(x, y, w, h, 225, 180);
+            g.setColor(rbised ? highlight : shbdow);
+            g.drbwArc(x, y, w, h, 45, 180);
+            g.setColor(rbised ? shbdow : highlight);
+            g.drbwArc(x, y, w, h, 225, 180);
             g.setColor(c);
         }
 
-    void draw3DRect(Graphics g, Color bg,
+    void drbw3DRect(Grbphics g, Color bg,
                     int x, int y, int width, int height,
-                    boolean raised) {
+                    boolebn rbised) {
         Color c = g.getColor();
-        Color shadow = bg.darker();
+        Color shbdow = bg.dbrker();
         Color highlight = bg.brighter();
 
-        g.setColor(raised ? highlight : shadow);
-        g.drawLine(x, y, x, y + height);
-        g.drawLine(x + 1, y, x + width - 1, y);
-        g.setColor(raised ? shadow : highlight);
-        g.drawLine(x + 1, y + height, x + width, y + height);
-        g.drawLine(x + width, y, x + width, y + height - 1);
+        g.setColor(rbised ? highlight : shbdow);
+        g.drbwLine(x, y, x, y + height);
+        g.drbwLine(x + 1, y, x + width - 1, y);
+        g.setColor(rbised ? shbdow : highlight);
+        g.drbwLine(x + 1, y + height, x + width, y + height);
+        g.drbwLine(x + width, y, x + width, y + height - 1);
         g.setColor(c);
     }
 
-    void drawScrollbar(Graphics g, Color bg, int thickness, int length,
-               int min, int max, int val, int vis, boolean horizontal) {
+    void drbwScrollbbr(Grbphics g, Color bg, int thickness, int length,
+               int min, int mbx, int vbl, int vis, boolebn horizontbl) {
         Color c = g.getColor();
-        double f = (double)(length - 2*(thickness-1)) / Math.max(1, ((max - min) + vis));
-        int v1 = thickness + (int)(f * (val - min));
+        double f = (double)(length - 2*(thickness-1)) / Mbth.mbx(1, ((mbx - min) + vis));
+        int v1 = thickness + (int)(f * (vbl - min));
         int v2 = (int)(f * vis);
         int w2 = thickness-4;
         int tpts_x[] = new int[3];
@@ -1033,33 +1033,33 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
                 w2 = (length-2)/2;
             }
         } else  if (v2 < 7) {
-            // enforce a minimum handle size
-            v1 = Math.max(0, v1 - ((7 - v2)>>1));
+            // enforce b minimum hbndle size
+            v1 = Mbth.mbx(0, v1 - ((7 - v2)>>1));
             v2 = 7;
         }
 
         int ctr   = thickness/2;
         int sbmin = ctr - w2/2;
-        int sbmax = ctr + w2/2;
+        int sbmbx = ctr + w2/2;
 
-        // paint the background slightly darker
+        // pbint the bbckground slightly dbrker
         {
             Color d = new Color((int) (bg.getRed()   * 0.85),
                                 (int) (bg.getGreen() * 0.85),
                                 (int) (bg.getBlue()  * 0.85));
 
             g.setColor(d);
-            if (horizontal) {
+            if (horizontbl) {
                 g.fillRect(0, 0, length, thickness);
             } else {
                 g.fillRect(0, 0, thickness, length);
             }
         }
 
-        // paint the thumb and arrows in the normal background color
+        // pbint the thumb bnd brrows in the normbl bbckground color
         g.setColor(bg);
         if (v1 > 0) {
-            if (horizontal) {
+            if (horizontbl) {
                 g.fillRect(v1, 3, v2, thickness-3);
             } else {
                 g.fillRect(3, v1, thickness-3, v2);
@@ -1068,8 +1068,8 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
 
         tpts_x[0] = ctr;    tpts_y[0] = 2;
         tpts_x[1] = sbmin;  tpts_y[1] = w2;
-        tpts_x[2] = sbmax;  tpts_y[2] = w2;
-        if (horizontal) {
+        tpts_x[2] = sbmbx;  tpts_y[2] = w2;
+        if (horizontbl) {
             g.fillPolygon(tpts_y, tpts_x, 3);
         } else {
             g.fillPolygon(tpts_x, tpts_y, 3);
@@ -1078,7 +1078,7 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
         tpts_y[0] = length-2;
         tpts_y[1] = length-w2;
         tpts_y[2] = length-w2;
-        if (horizontal) {
+        if (horizontbl) {
             g.fillPolygon(tpts_y, tpts_x, 3);
         } else {
             g.fillPolygon(tpts_x, tpts_y, 3);
@@ -1086,191 +1086,191 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
 
         Color highlight = bg.brighter();
 
-        // // // // draw the "highlighted" edges
+        // // // // drbw the "highlighted" edges
         g.setColor(highlight);
 
-        // outline & arrows
-        if (horizontal) {
-            g.drawLine(1, thickness, length - 1, thickness);
-            g.drawLine(length - 1, 1, length - 1, thickness);
+        // outline & brrows
+        if (horizontbl) {
+            g.drbwLine(1, thickness, length - 1, thickness);
+            g.drbwLine(length - 1, 1, length - 1, thickness);
 
-            // arrows
-            g.drawLine(1, ctr, w2, sbmin);
-            g.drawLine(length - w2, sbmin, length - w2, sbmax);
-            g.drawLine(length - w2, sbmin, length - 2, ctr);
+            // brrows
+            g.drbwLine(1, ctr, w2, sbmin);
+            g.drbwLine(length - w2, sbmin, length - w2, sbmbx);
+            g.drbwLine(length - w2, sbmin, length - 2, ctr);
 
         } else {
-            g.drawLine(thickness, 1, thickness, length - 1);
-            g.drawLine(1, length - 1, thickness, length - 1);
+            g.drbwLine(thickness, 1, thickness, length - 1);
+            g.drbwLine(1, length - 1, thickness, length - 1);
 
-            // arrows
-            g.drawLine(ctr, 1, sbmin, w2);
-            g.drawLine(sbmin, length - w2, sbmax, length - w2);
-            g.drawLine(sbmin, length - w2, ctr, length - 2);
+            // brrows
+            g.drbwLine(ctr, 1, sbmin, w2);
+            g.drbwLine(sbmin, length - w2, sbmbx, length - w2);
+            g.drbwLine(sbmin, length - w2, ctr, length - 2);
         }
 
         // thumb
         if (v1 > 0) {
-            if (horizontal) {
-                g.drawLine(v1, 2, v1 + v2, 2);
-                g.drawLine(v1, 2, v1, thickness-3);
+            if (horizontbl) {
+                g.drbwLine(v1, 2, v1 + v2, 2);
+                g.drbwLine(v1, 2, v1, thickness-3);
             } else {
-                g.drawLine(2, v1, 2, v1 + v2);
-                g.drawLine(2, v1, thickness-3, v1);
+                g.drbwLine(2, v1, 2, v1 + v2);
+                g.drbwLine(2, v1, thickness-3, v1);
             }
         }
 
-        Color shadow = bg.darker();
+        Color shbdow = bg.dbrker();
 
-        // // // // draw the "shadowed" edges
-        g.setColor(shadow);
+        // // // // drbw the "shbdowed" edges
+        g.setColor(shbdow);
 
-        // outline && arrows
-        if (horizontal) {
-            g.drawLine(0, 0, 0, thickness);
-            g.drawLine(0, 0, length - 1, 0);
+        // outline && brrows
+        if (horizontbl) {
+            g.drbwLine(0, 0, 0, thickness);
+            g.drbwLine(0, 0, length - 1, 0);
 
-            // arrows
-            g.drawLine(w2, sbmin, w2, sbmax);
-            g.drawLine(w2, sbmax, 1, ctr);
-            g.drawLine(length-2, ctr, length-w2, sbmax);
+            // brrows
+            g.drbwLine(w2, sbmin, w2, sbmbx);
+            g.drbwLine(w2, sbmbx, 1, ctr);
+            g.drbwLine(length-2, ctr, length-w2, sbmbx);
 
         } else {
-            g.drawLine(0, 0, thickness, 0);
-            g.drawLine(0, 0, 0, length - 1);
+            g.drbwLine(0, 0, thickness, 0);
+            g.drbwLine(0, 0, 0, length - 1);
 
-            // arrows
-            g.drawLine(sbmin, w2, sbmax, w2);
-            g.drawLine(sbmax, w2, ctr, 1);
-            g.drawLine(ctr, length-2, sbmax, length-w2);
+            // brrows
+            g.drbwLine(sbmin, w2, sbmbx, w2);
+            g.drbwLine(sbmbx, w2, ctr, 1);
+            g.drbwLine(ctr, length-2, sbmbx, length-w2);
         }
 
         // thumb
         if (v1 > 0) {
-            if (horizontal) {
-                g.drawLine(v1 + v2, 2, v1 + v2, thickness-2);
-                g.drawLine(v1, thickness-2, v1 + v2, thickness-2);
+            if (horizontbl) {
+                g.drbwLine(v1 + v2, 2, v1 + v2, thickness-2);
+                g.drbwLine(v1, thickness-2, v1 + v2, thickness-2);
             } else {
-                g.drawLine(2, v1 + v2, thickness-2, v1 + v2);
-                g.drawLine(thickness-2, v1, thickness-2, v1 + v2);
+                g.drbwLine(2, v1 + v2, thickness-2, v1 + v2);
+                g.drbwLine(thickness-2, v1, thickness-2, v1 + v2);
             }
         }
         g.setColor(c);
     }
 
     /**
-     * The following multibuffering-related methods delegate to our
-     * associated GraphicsConfig (X11 or GLX) to handle the appropriate
-     * native windowing system specific actions.
+     * The following multibuffering-relbted methods delegbte to our
+     * bssocibted GrbphicsConfig (X11 or GLX) to hbndle the bppropribte
+     * nbtive windowing system specific bctions.
      */
 
-    private BufferCapabilities backBufferCaps;
+    privbte BufferCbpbbilities bbckBufferCbps;
 
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
+    public void crebteBuffers(int numBuffers, BufferCbpbbilities cbps)
       throws AWTException
     {
-        if (buffersLog.isLoggable(PlatformLogger.Level.FINE)) {
-            buffersLog.fine("createBuffers(" + numBuffers + ", " + caps + ")");
+        if (buffersLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            buffersLog.fine("crebteBuffers(" + numBuffers + ", " + cbps + ")");
         }
-        // set the caps first, they're used when creating the bb
-        backBufferCaps = caps;
-        backBuffer = graphicsConfig.createBackBuffer(this, numBuffers, caps);
-        xBackBuffer = graphicsConfig.createBackBufferImage(target,
-                                                           backBuffer);
+        // set the cbps first, they're used when crebting the bb
+        bbckBufferCbps = cbps;
+        bbckBuffer = grbphicsConfig.crebteBbckBuffer(this, numBuffers, cbps);
+        xBbckBuffer = grbphicsConfig.crebteBbckBufferImbge(tbrget,
+                                                           bbckBuffer);
     }
 
     @Override
-    public BufferCapabilities getBackBufferCaps() {
-        return backBufferCaps;
+    public BufferCbpbbilities getBbckBufferCbps() {
+        return bbckBufferCbps;
     }
 
     public void flip(int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufferCbpbbilities.FlipContents flipAction)
     {
-        if (buffersLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (buffersLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             buffersLog.fine("flip(" + flipAction + ")");
         }
-        if (backBuffer == 0) {
-            throw new IllegalStateException("Buffers have not been created");
+        if (bbckBuffer == 0) {
+            throw new IllegblStbteException("Buffers hbve not been crebted");
         }
-        graphicsConfig.flip(this, target, xBackBuffer,
+        grbphicsConfig.flip(this, tbrget, xBbckBuffer,
                             x1, y1, x2, y2, flipAction);
     }
 
-    public Image getBackBuffer() {
-        if (buffersLog.isLoggable(PlatformLogger.Level.FINE)) {
-            buffersLog.fine("getBackBuffer()");
+    public Imbge getBbckBuffer() {
+        if (buffersLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            buffersLog.fine("getBbckBuffer()");
         }
-        if (backBuffer == 0) {
-            throw new IllegalStateException("Buffers have not been created");
+        if (bbckBuffer == 0) {
+            throw new IllegblStbteException("Buffers hbve not been crebted");
         }
-        return xBackBuffer;
+        return xBbckBuffer;
     }
 
     public void destroyBuffers() {
-        if (buffersLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (buffersLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             buffersLog.fine("destroyBuffers()");
         }
-        graphicsConfig.destroyBackBuffer(backBuffer);
-        backBuffer = 0;
-        xBackBuffer = null;
+        grbphicsConfig.destroyBbckBuffer(bbckBuffer);
+        bbckBuffer = 0;
+        xBbckBuffer = null;
     }
 
     // End of multi-buffering
 
-    public void notifyTextComponentChange(boolean add){
-        Container parent = AWTAccessor.getComponentAccessor().getParent(target);
-        while(!(parent == null ||
-                parent instanceof java.awt.Frame ||
-                parent instanceof java.awt.Dialog)) {
-            parent = AWTAccessor.getComponentAccessor().getParent(parent);
+    public void notifyTextComponentChbnge(boolebn bdd){
+        Contbiner pbrent = AWTAccessor.getComponentAccessor().getPbrent(tbrget);
+        while(!(pbrent == null ||
+                pbrent instbnceof jbvb.bwt.Frbme ||
+                pbrent instbnceof jbvb.bwt.Diblog)) {
+            pbrent = AWTAccessor.getComponentAccessor().getPbrent(pbrent);
         }
 
 /*      FIX ME - FIX ME need to implement InputMethods
-    if (parent instanceof java.awt.Frame ||
-        parent instanceof java.awt.Dialog) {
-        if (add)
-        ((MInputMethodControl)parent.getPeer()).addTextComponent((MComponentPeer)this);
+    if (pbrent instbnceof jbvb.bwt.Frbme ||
+        pbrent instbnceof jbvb.bwt.Diblog) {
+        if (bdd)
+        ((MInputMethodControl)pbrent.getPeer()).bddTextComponent((MComponentPeer)this);
         else
-        ((MInputMethodControl)parent.getPeer()).removeTextComponent((MComponentPeer)this);
+        ((MInputMethodControl)pbrent.getPeer()).removeTextComponent((MComponentPeer)this);
     }
 */
     }
 
     /**
-     * Returns true if this event is disabled and shouldn't be processed by window
-     * Currently if target component is disabled the following event will be disabled on window:
-     * ButtonPress, ButtonRelease, KeyPress, KeyRelease, EnterNotify, LeaveNotify, MotionNotify
+     * Returns true if this event is disbbled bnd shouldn't be processed by window
+     * Currently if tbrget component is disbbled the following event will be disbbled on window:
+     * ButtonPress, ButtonRelebse, KeyPress, KeyRelebse, EnterNotify, LebveNotify, MotionNotify
      */
-    protected boolean isEventDisabled(XEvent e) {
-        if (enableLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            enableLog.finest("Component is {1}, checking for disabled event {0}", e, (isEnabled()?"enabled":"disable"));
+    protected boolebn isEventDisbbled(XEvent e) {
+        if (enbbleLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            enbbleLog.finest("Component is {1}, checking for disbbled event {0}", e, (isEnbbled()?"enbbled":"disbble"));
         }
-        if (!isEnabled()) {
+        if (!isEnbbled()) {
             switch (e.get_type()) {
-              case XConstants.ButtonPress:
-              case XConstants.ButtonRelease:
-              case XConstants.KeyPress:
-              case XConstants.KeyRelease:
-              case XConstants.EnterNotify:
-              case XConstants.LeaveNotify:
-              case XConstants.MotionNotify:
-                  if (enableLog.isLoggable(PlatformLogger.Level.FINER)) {
-                      enableLog.finer("Event {0} is disable", e);
+              cbse XConstbnts.ButtonPress:
+              cbse XConstbnts.ButtonRelebse:
+              cbse XConstbnts.KeyPress:
+              cbse XConstbnts.KeyRelebse:
+              cbse XConstbnts.EnterNotify:
+              cbse XConstbnts.LebveNotify:
+              cbse XConstbnts.MotionNotify:
+                  if (enbbleLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                      enbbleLog.finer("Event {0} is disbble", e);
                   }
                   return true;
             }
         }
         switch(e.get_type()) {
-          case XConstants.MapNotify:
-          case XConstants.UnmapNotify:
+          cbse XConstbnts.MbpNotify:
+          cbse XConstbnts.UnmbpNotify:
               return true;
         }
-        return super.isEventDisabled(e);
+        return super.isEventDisbbled(e);
     }
 
-    Color getPeerBackground() {
-        return background;
+    Color getPeerBbckground() {
+        return bbckground;
     }
 
     Color getPeerForeground() {
@@ -1285,155 +1285,155 @@ public class XComponentPeer extends XWindow implements ComponentPeer, DropTarget
         return new Dimension(width,height);
     }
 
-    public void setBoundsOperation(int operation) {
-        synchronized(getStateLock()) {
-            if (boundsOperation == DEFAULT_OPERATION) {
-                boundsOperation = operation;
-            } else if (operation == RESET_OPERATION) {
-                boundsOperation = DEFAULT_OPERATION;
+    public void setBoundsOperbtion(int operbtion) {
+        synchronized(getStbteLock()) {
+            if (boundsOperbtion == DEFAULT_OPERATION) {
+                boundsOperbtion = operbtion;
+            } else if (operbtion == RESET_OPERATION) {
+                boundsOperbtion = DEFAULT_OPERATION;
             }
         }
     }
 
-    static String operationToString(int operation) {
-        switch (operation) {
-          case SET_LOCATION:
+    stbtic String operbtionToString(int operbtion) {
+        switch (operbtion) {
+          cbse SET_LOCATION:
               return "SET_LOCATION";
-          case SET_SIZE:
+          cbse SET_SIZE:
               return "SET_SIZE";
-          case SET_CLIENT_SIZE:
+          cbse SET_CLIENT_SIZE:
               return "SET_CLIENT_SIZE";
-          default:
-          case SET_BOUNDS:
+          defbult:
+          cbse SET_BOUNDS:
               return "SET_BOUNDS";
         }
     }
 
     /**
-     * Lowers this component at the bottom of the above HW peer. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
+     * Lowers this component bt the bottom of the bbove HW peer. If the bbove pbrbmeter
+     * is null then the method plbces this component bt the top of the Z-order.
      */
-    public void setZOrder(ComponentPeer above) {
-        long aboveWindow = (above != null) ? ((XComponentPeer)above).getWindow() : 0;
+    public void setZOrder(ComponentPeer bbove) {
+        long bboveWindow = (bbove != null) ? ((XComponentPeer)bbove).getWindow() : 0;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try{
-            XlibWrapper.SetZOrder(XToolkit.getDisplay(), getWindow(), aboveWindow);
-        }finally{
-            XToolkit.awtUnlock();
+            XlibWrbpper.SetZOrder(XToolkit.getDisplby(), getWindow(), bboveWindow);
+        }finblly{
+            XToolkit.bwtUnlock();
         }
     }
 
-    private void addTree(Collection<Long> order, Set<Long> set, Container cont) {
+    privbte void bddTree(Collection<Long> order, Set<Long> set, Contbiner cont) {
         for (int i = 0; i < cont.getComponentCount(); i++) {
             Component comp = cont.getComponent(i);
             ComponentPeer peer = comp.getPeer();
-            if (peer instanceof XComponentPeer) {
-                Long window = Long.valueOf(((XComponentPeer)peer).getWindow());
-                if (!set.contains(window)) {
-                    set.add(window);
-                    order.add(window);
+            if (peer instbnceof XComponentPeer) {
+                Long window = Long.vblueOf(((XComponentPeer)peer).getWindow());
+                if (!set.contbins(window)) {
+                    set.bdd(window);
+                    order.bdd(window);
                 }
-            } else if (comp instanceof Container) {
-                // It is lightweight container, it might contain heavyweight components attached to this
+            } else if (comp instbnceof Contbiner) {
+                // It is lightweight contbiner, it might contbin hebvyweight components bttbched to this
                 // peer
-                addTree(order, set, (Container)comp);
+                bddTree(order, set, (Contbiner)comp);
             }
         }
     }
 
-    /****** DropTargetPeer implementation ********************/
+    /****** DropTbrgetPeer implementbtion ********************/
 
-    public void addDropTarget(DropTarget dt) {
-        Component comp = target;
-        while(!(comp == null || comp instanceof Window)) {
-            comp = comp.getParent();
+    public void bddDropTbrget(DropTbrget dt) {
+        Component comp = tbrget;
+        while(!(comp == null || comp instbnceof Window)) {
+            comp = comp.getPbrent();
         }
 
-        if (comp instanceof Window) {
+        if (comp instbnceof Window) {
             XWindowPeer wpeer = (XWindowPeer)(comp.getPeer());
             if (wpeer != null) {
-                wpeer.addDropTarget();
+                wpeer.bddDropTbrget();
             }
         }
     }
 
-    public void removeDropTarget(DropTarget dt) {
-        Component comp = target;
-        while(!(comp == null || comp instanceof Window)) {
-            comp = comp.getParent();
+    public void removeDropTbrget(DropTbrget dt) {
+        Component comp = tbrget;
+        while(!(comp == null || comp instbnceof Window)) {
+            comp = comp.getPbrent();
         }
 
-        if (comp instanceof Window) {
+        if (comp instbnceof Window) {
             XWindowPeer wpeer = (XWindowPeer)(comp.getPeer());
             if (wpeer != null) {
-                wpeer.removeDropTarget();
+                wpeer.removeDropTbrget();
             }
         }
     }
 
     /**
-     * Applies the shape to the X-window.
+     * Applies the shbpe to the X-window.
      * @since 1.7
      */
-    public void applyShape(Region shape) {
-        if (XlibUtil.isShapingSupported()) {
-            if (shapeLog.isLoggable(PlatformLogger.Level.FINER)) {
-                shapeLog.finer(
-                        "*** INFO: Setting shape: PEER: " + this
+    public void bpplyShbpe(Region shbpe) {
+        if (XlibUtil.isShbpingSupported()) {
+            if (shbpeLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                shbpeLog.finer(
+                        "*** INFO: Setting shbpe: PEER: " + this
                         + "; WINDOW: " + getWindow()
-                        + "; TARGET: " + target
-                        + "; SHAPE: " + shape);
+                        + "; TARGET: " + tbrget
+                        + "; SHAPE: " + shbpe);
             }
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                if (shape != null) {
-                    XlibWrapper.SetRectangularShape(
-                            XToolkit.getDisplay(),
+                if (shbpe != null) {
+                    XlibWrbpper.SetRectbngulbrShbpe(
+                            XToolkit.getDisplby(),
                             getWindow(),
-                            shape.getLoX(), shape.getLoY(),
-                            shape.getHiX(), shape.getHiY(),
-                            (shape.isRectangular() ? null : shape)
+                            shbpe.getLoX(), shbpe.getLoY(),
+                            shbpe.getHiX(), shbpe.getHiY(),
+                            (shbpe.isRectbngulbr() ? null : shbpe)
                             );
                 } else {
-                    XlibWrapper.SetRectangularShape(
-                            XToolkit.getDisplay(),
+                    XlibWrbpper.SetRectbngulbrShbpe(
+                            XToolkit.getDisplby(),
                             getWindow(),
                             0, 0,
                             0, 0,
                             null
                             );
                 }
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         } else {
-            if (shapeLog.isLoggable(PlatformLogger.Level.FINER)) {
-                shapeLog.finer("*** WARNING: Shaping is NOT supported!");
+            if (shbpeLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                shbpeLog.finer("*** WARNING: Shbping is NOT supported!");
             }
         }
     }
 
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        int oldVisual = -1, newVisual = -1;
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        int oldVisubl = -1, newVisubl = -1;
 
-        if (graphicsConfig != null) {
-            oldVisual = graphicsConfig.getVisual();
+        if (grbphicsConfig != null) {
+            oldVisubl = grbphicsConfig.getVisubl();
         }
-        if (gc != null && gc instanceof X11GraphicsConfig) {
-            newVisual = ((X11GraphicsConfig)gc).getVisual();
+        if (gc != null && gc instbnceof X11GrbphicsConfig) {
+            newVisubl = ((X11GrbphicsConfig)gc).getVisubl();
         }
 
-        // If the new visual differs from the old one, the peer must be
-        // recreated because X11 does not allow changing the visual on the fly.
-        // So we even skip the initGraphicsConfiguration() call.
-        // The initial assignment should happen though, hence the != -1 thing.
-        if (oldVisual != -1 && oldVisual != newVisual) {
+        // If the new visubl differs from the old one, the peer must be
+        // recrebted becbuse X11 does not bllow chbnging the visubl on the fly.
+        // So we even skip the initGrbphicsConfigurbtion() cbll.
+        // The initibl bssignment should hbppen though, hence the != -1 thing.
+        if (oldVisubl != -1 && oldVisubl != newVisubl) {
             return true;
         }
 
-        initGraphicsConfiguration();
-        doValidateSurface();
-        return false;
+        initGrbphicsConfigurbtion();
+        doVblidbteSurfbce();
+        return fblse;
     }
 }

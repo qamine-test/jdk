@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
 
-// java imports
+// jbvb imports
 //
-import com.sun.jmx.mbeanserver.Util;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.io.Seriblizbble;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
 
 // jmx imports
 //
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdObjectServer;
 
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
 
-import sun.management.snmp.jvmmib.JvmMemManagerTableMeta;
-import sun.management.snmp.util.SnmpTableCache;
-import sun.management.snmp.util.SnmpNamedListTableCache;
-import sun.management.snmp.util.SnmpTableHandler;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmMemMbnbgerTbbleMetb;
+import sun.mbnbgement.snmp.util.SnmpTbbleCbche;
+import sun.mbnbgement.snmp.util.SnmpNbmedListTbbleCbche;
+import sun.mbnbgement.snmp.util.SnmpTbbleHbndler;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmMemManagerTable" table.
+ * The clbss is used for implementing the "JvmMemMbnbgerTbble" tbble.
  *
- * This custom implementation show how to implement an SNMP table
- * over a weak cache, recomputing the cahed data when needed.
+ * This custom implementbtion show how to implement bn SNMP tbble
+ * over b webk cbche, recomputing the cbhed dbtb when needed.
  */
-public class JvmMemManagerTableMetaImpl extends JvmMemManagerTableMeta {
+public clbss JvmMemMbnbgerTbbleMetbImpl extends JvmMemMbnbgerTbbleMetb {
 
-    static final long serialVersionUID = 36176771566817592L;
+    stbtic finbl long seriblVersionUID = 36176771566817592L;
 
     /**
-     * A concrete implementation of {@link SnmpNamedListTableCache}, for the
-     * jvmMemManagerTable.
+     * A concrete implementbtion of {@link SnmpNbmedListTbbleCbche}, for the
+     * jvmMemMbnbgerTbble.
      **/
-    private static class JvmMemManagerTableCache
-        extends SnmpNamedListTableCache {
+    privbte stbtic clbss JvmMemMbnbgerTbbleCbche
+        extends SnmpNbmedListTbbleCbche {
 
-        static final long serialVersionUID = 6564294074653009240L;
+        stbtic finbl long seriblVersionUID = 6564294074653009240L;
 
         /**
-         * Create a weak cache for the jvmMemManagerTable.
-         * @param validity validity of the cached data, in ms.
+         * Crebte b webk cbche for the jvmMemMbnbgerTbble.
+         * @pbrbm vblidity vblidity of the cbched dbtb, in ms.
          **/
-        JvmMemManagerTableCache(long validity) {
-            this.validity = validity;
+        JvmMemMbnbgerTbbleCbche(long vblidity) {
+            this.vblidity = vblidity;
         }
 
         /**
-         * Use the MemoryManagerMXBean name as key.
-         * @param context A {@link TreeMap} as allocated by the parent
-         *        {@link SnmpNamedListTableCache} class.
-         * @param rawDatas List of {@link MemoryManagerMXBean}, as
+         * Use the MemoryMbnbgerMXBebn nbme bs key.
+         * @pbrbm context A {@link TreeMbp} bs bllocbted by the pbrent
+         *        {@link SnmpNbmedListTbbleCbche} clbss.
+         * @pbrbm rbwDbtbs List of {@link MemoryMbnbgerMXBebn}, bs
          *        returned by
-         * <code>ManagementFactory.getMemoryMBean().getMemoryManagers()</code>
-         * @param rank The <var>rank</var> of <var>item</var> in the list.
-         * @param item The <var>rank</var><super>th</super>
-         *        <code>MemoryManagerMXBean</code> in the list.
-         * @return  <code>((MemoryManagerMXBean)item).getName()</code>
+         * <code>MbnbgementFbctory.getMemoryMBebn().getMemoryMbnbgers()</code>
+         * @pbrbm rbnk The <vbr>rbnk</vbr> of <vbr>item</vbr> in the list.
+         * @pbrbm item The <vbr>rbnk</vbr><super>th</super>
+         *        <code>MemoryMbnbgerMXBebn</code> in the list.
+         * @return  <code>((MemoryMbnbgerMXBebn)item).getNbme()</code>
          **/
-        protected String getKey(Object context, List<?> rawDatas,
-                                int rank, Object item) {
+        protected String getKey(Object context, List<?> rbwDbtbs,
+                                int rbnk, Object item) {
             if (item == null) return null;
-            final String name = ((MemoryManagerMXBean)item).getName();
-            log.debug("getKey", "key=" + name);
-            return name;
+            finbl String nbme = ((MemoryMbnbgerMXBebn)item).getNbme();
+            log.debug("getKey", "key=" + nbme);
+            return nbme;
         }
 
         /**
-         * Call <code>getTableHandler(JvmContextFactory.getUserData())</code>.
+         * Cbll <code>getTbbleHbndler(JvmContextFbctory.getUserDbtb())</code>.
          **/
-        public SnmpTableHandler getTableHandler() {
-            final Map<Object, Object> userData = JvmContextFactory.getUserData();
-            return getTableDatas(userData);
+        public SnmpTbbleHbndler getTbbleHbndler() {
+            finbl Mbp<Object, Object> userDbtb = JvmContextFbctory.getUserDbtb();
+            return getTbbleDbtbs(userDbtb);
         }
 
         /**
-         * Return the key used to cache the raw data of this table.
+         * Return the key used to cbche the rbw dbtb of this tbble.
          **/
-        protected String getRawDatasKey() {
-            return "JvmMemManagerTable.getMemoryManagers";
+        protected String getRbwDbtbsKey() {
+            return "JvmMemMbnbgerTbble.getMemoryMbnbgers";
         }
 
         /**
-         * Call ManagementFactory.getMemoryManagerMXBeans() to
-         * load the raw data of this table.
+         * Cbll MbnbgementFbctory.getMemoryMbnbgerMXBebns() to
+         * lobd the rbw dbtb of this tbble.
          **/
-        protected List<MemoryManagerMXBean> loadRawDatas(Map<Object, Object> userData) {
-            return ManagementFactory.getMemoryManagerMXBeans();
+        protected List<MemoryMbnbgerMXBebn> lobdRbwDbtbs(Mbp<Object, Object> userDbtb) {
+            return MbnbgementFbctory.getMemoryMbnbgerMXBebns();
         }
 
     }
 
-    // The weak cache for this table.
-    protected SnmpTableCache cache;
+    // The webk cbche for this tbble.
+    protected SnmpTbbleCbche cbche;
 
     /**
-     * Constructor for the table. Initialize metadata for
-     * "JvmMemManagerTableMeta".
-     * The reference on the MBean server is updated so the entries
-     * created through an SNMP SET will be AUTOMATICALLY REGISTERED
-     * in Java DMK.
+     * Constructor for the tbble. Initiblize metbdbtb for
+     * "JvmMemMbnbgerTbbleMetb".
+     * The reference on the MBebn server is updbted so the entries
+     * crebted through bn SNMP SET will be AUTOMATICALLY REGISTERED
+     * in Jbvb DMK.
      */
-    public JvmMemManagerTableMetaImpl(SnmpMib myMib,
-                                      SnmpStandardObjectServer objserv) {
+    public JvmMemMbnbgerTbbleMetbImpl(SnmpMib myMib,
+                                      SnmpStbndbrdObjectServer objserv) {
         super(myMib,objserv);
-        this.cache = new
-            JvmMemManagerTableCache(((JVM_MANAGEMENT_MIB_IMPL)myMib).
-                                    validity());
+        this.cbche = new
+            JvmMemMbnbgerTbbleCbche(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+                                    vblidity());
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
-        // null means get the first OID.
-        return getNextOid(null,userData);
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(Object userDbtb)
+        throws SnmpStbtusException {
+        // null mebns get the first OID.
+        return getNextOid(null,userDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
-        final boolean dbg = log.isDebugOn();
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(SnmpOid oid, Object userDbtb)
+        throws SnmpStbtusException {
+        finbl boolebn dbg = log.isDebugOn();
         if (dbg) log.debug("getNextOid", "previous=" + oid);
 
 
-        // Get the data handler.
+        // Get the dbtb hbndler.
         //
-        SnmpTableHandler handler = getHandler(userData);
-        if (handler == null) {
-            // This should never happen.
-            // If we get here it's a bug.
+        SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
+        if (hbndler == null) {
+            // This should never hbppen.
+            // If we get here it's b bug.
             //
-            if (dbg) log.debug("getNextOid", "handler is null!");
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            if (dbg) log.debug("getNextOid", "hbndler is null!");
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
         // Get the next oid
         //
-        final SnmpOid next = handler.getNext(oid);
+        finbl SnmpOid next = hbndler.getNext(oid);
         if (dbg) log.debug("getNextOid", "next=" + next);
 
-        // if next is null: we reached the end of the table.
+        // if next is null: we rebched the end of the tbble.
         //
         if (next == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
         return next;
     }
 
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected boolean contains(SnmpOid oid, Object userData) {
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected boolebn contbins(SnmpOid oid, Object userDbtb) {
 
-        // Get the handler.
+        // Get the hbndler.
         //
-        SnmpTableHandler handler = getHandler(userData);
+        SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            return false;
+        if (hbndler == null)
+            return fblse;
 
-        return handler.contains(oid);
+        return hbndler.contbins(oid);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
     public Object getEntry(SnmpOid oid)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
         if (oid == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Get the request contextual cache (userData).
+        // Get the request contextubl cbche (userDbtb).
         //
-        final Map<Object, Object> m = JvmContextFactory.getUserData();
+        finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
-        // We know in the case of this table that the index is an integer,
-        // it is thus the first OID arc of the index OID.
+        // We know in the cbse of this tbble thbt the index is bn integer,
+        // it is thus the first OID brc of the index OID.
         //
-        final long   index    = oid.getOidArc(0);
+        finbl long   index    = oid.getOidArc(0);
 
-        // We're going to use this name to store/retrieve the entry in
-        // the request contextual cache.
+        // We're going to use this nbme to store/retrieve the entry in
+        // the request contextubl cbche.
         //
-        // Revisit: Probably better programming to put all these strings
-        //          in some interface.
+        // Revisit: Probbbly better progrbmming to put bll these strings
+        //          in some interfbce.
         //
-        final String entryTag = ((m==null)?null:("JvmMemManagerTable.entry." +
+        finbl String entryTbg = ((m==null)?null:("JvmMemMbnbgerTbble.entry." +
                                                  index));
 
-        // If the entry is in the cache, simply return it.
+        // If the entry is in the cbche, simply return it.
         //
         if (m != null) {
-            final Object entry = m.get(entryTag);
+            finbl Object entry = m.get(entryTbg);
             if (entry != null) return entry;
         }
 
-        // The entry was not in the cache, make a new one.
+        // The entry wbs not in the cbche, mbke b new one.
         //
-        // Get the data hanler.
+        // Get the dbtb hbnler.
         //
-        SnmpTableHandler handler = getHandler(m);
+        SnmpTbbleHbndler hbndler = getHbndler(m);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (hbndler == null)
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Get the data associated with our entry.
+        // Get the dbtb bssocibted with our entry.
         //
-        final Object data = handler.getData(oid);
+        finbl Object dbtb = hbndler.getDbtb(oid);
 
-        // data may be null if the OID we were given is not valid.
+        // dbtb mby be null if the OID we were given is not vblid.
         //
-        if (data == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (dbtb == null)
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // make the new entry (transient object that will be kept only
-        // for the duration of the request.
+        // mbke the new entry (trbnsient object thbt will be kept only
+        // for the durbtion of the request.
         //
-        final Object entry =
-            new JvmMemManagerEntryImpl((MemoryManagerMXBean)data,(int)index);
+        finbl Object entry =
+            new JvmMemMbnbgerEntryImpl((MemoryMbnbgerMXBebn)dbtb,(int)index);
 
-        // Put the entry in the cache in case we need it later while processing
+        // Put the entry in the cbche in cbse we need it lbter while processing
         // the request.
         //
         if (m != null && entry != null) {
-            m.put(entryTag,entry);
+            m.put(entryTbg,entry);
         }
 
         return entry;
     }
 
     /**
-     * Get the SnmpTableHandler that holds the jvmMemManagerTable data.
-     * First look it up in the request contextual cache, and if it is
-     * not found, obtain it from the weak cache.
-     * <br>The request contextual cache will be released at the end of the
-     * current requests, and is used only to process this request.
-     * <br>The weak cache is shared by all requests, and is only
+     * Get the SnmpTbbleHbndler thbt holds the jvmMemMbnbgerTbble dbtb.
+     * First look it up in the request contextubl cbche, bnd if it is
+     * not found, obtbin it from the webk cbche.
+     * <br>The request contextubl cbche will be relebsed bt the end of the
+     * current requests, bnd is used only to process this request.
+     * <br>The webk cbche is shbred by bll requests, bnd is only
      * recomputed when it is found to be obsolete.
-     * <br>Note that the data put in the request contextual cache is
-     *     never considered to be obsolete, in order to preserve data
+     * <br>Note thbt the dbtb put in the request contextubl cbche is
+     *     never considered to be obsolete, in order to preserve dbtb
      *     coherency.
      **/
-    protected SnmpTableHandler getHandler(Object userData) {
-        final Map<Object, Object> m;
-        if (userData instanceof Map) m=Util.cast(userData);
+    protected SnmpTbbleHbndler getHbndler(Object userDbtb) {
+        finbl Mbp<Object, Object> m;
+        if (userDbtb instbnceof Mbp) m=Util.cbst(userDbtb);
         else m=null;
 
-        // Look in the contextual cache.
+        // Look in the contextubl cbche.
         if (m != null) {
-            final SnmpTableHandler handler =
-                (SnmpTableHandler)m.get("JvmMemManagerTable.handler");
-            if (handler != null) return handler;
+            finbl SnmpTbbleHbndler hbndler =
+                (SnmpTbbleHbndler)m.get("JvmMemMbnbgerTbble.hbndler");
+            if (hbndler != null) return hbndler;
         }
 
-        // No handler in contextual cache, make a new one.
-        final SnmpTableHandler handler = cache.getTableHandler();
+        // No hbndler in contextubl cbche, mbke b new one.
+        finbl SnmpTbbleHbndler hbndler = cbche.getTbbleHbndler();
 
-        if (m != null && handler != null )
-            m.put("JvmMemManagerTable.handler",handler);
+        if (m != null && hbndler != null )
+            m.put("JvmMemMbnbgerTbble.hbndler",hbndler);
 
-        return handler;
+        return hbndler;
     }
 
-    static final MibLogger log =
-        new MibLogger(JvmMemManagerTableMetaImpl.class);
+    stbtic finbl MibLogger log =
+        new MibLogger(JvmMemMbnbgerTbbleMetbImpl.clbss);
 }

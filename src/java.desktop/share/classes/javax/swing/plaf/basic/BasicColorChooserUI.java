@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.colorchooser.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.colorchooser.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 
 /**
- * Provides the basic look and feel for a JColorChooser.
+ * Provides the bbsic look bnd feel for b JColorChooser.
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @buthor Tom Sbntos
+ * @buthor Steve Wilson
  */
 
-public class BasicColorChooserUI extends ColorChooserUI
+public clbss BbsicColorChooserUI extends ColorChooserUI
 {
     /**
-     * JColorChooser this BasicColorChooserUI is installed on.
+     * JColorChooser this BbsicColorChooserUI is instblled on.
      *
      * @since 1.5
      */
     protected JColorChooser chooser;
 
-    JTabbedPane tabbedPane;
-    JPanel singlePanel;
+    JTbbbedPbne tbbbedPbne;
+    JPbnel singlePbnel;
 
-    JPanel previewPanelHolder;
-    JComponent previewPanel;
-    boolean isMultiPanel = false;
-    private static TransferHandler defaultTransferHandler = new ColorTransferHandler();
+    JPbnel previewPbnelHolder;
+    JComponent previewPbnel;
+    boolebn isMultiPbnel = fblse;
+    privbte stbtic TrbnsferHbndler defbultTrbnsferHbndler = new ColorTrbnsferHbndler();
 
     /**
-     * The array of default color choosers.
+     * The brrby of defbult color choosers.
      */
-    protected AbstractColorChooserPanel[] defaultChoosers;
+    protected AbstrbctColorChooserPbnel[] defbultChoosers;
 
     /**
-     * The instance of {@code ChangeListener}.
+     * The instbnce of {@code ChbngeListener}.
      */
-    protected ChangeListener previewListener;
+    protected ChbngeListener previewListener;
 
     /**
-     * The instance of {@code PropertyChangeListener}.
+     * The instbnce of {@code PropertyChbngeListener}.
      */
-    protected PropertyChangeListener propertyChangeListener;
-    private Handler handler;
+    protected PropertyChbngeListener propertyChbngeListener;
+    privbte Hbndler hbndler;
 
     /**
-     * Returns a new instance of {@code BasicColorChooserUI}.
+     * Returns b new instbnce of {@code BbsicColorChooserUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicColorChooserUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicColorChooserUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicColorChooserUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicColorChooserUI();
     }
 
     /**
-     * Returns an array of default color choosers.
+     * Returns bn brrby of defbult color choosers.
      *
-     * @return an array of default color choosers
+     * @return bn brrby of defbult color choosers
      */
-    protected AbstractColorChooserPanel[] createDefaultChoosers() {
-        AbstractColorChooserPanel[] panels = ColorChooserComponentFactory.getDefaultChooserPanels();
-        return panels;
+    protected AbstrbctColorChooserPbnel[] crebteDefbultChoosers() {
+        AbstrbctColorChooserPbnel[] pbnels = ColorChooserComponentFbctory.getDefbultChooserPbnels();
+        return pbnels;
     }
 
     /**
-     * Uninstalls default color choosers.
+     * Uninstblls defbult color choosers.
      */
-    protected void uninstallDefaultChoosers() {
-        AbstractColorChooserPanel[] choosers = chooser.getChooserPanels();
+    protected void uninstbllDefbultChoosers() {
+        AbstrbctColorChooserPbnel[] choosers = chooser.getChooserPbnels();
         for( int i = 0 ; i < choosers.length; i++) {
-            chooser.removeChooserPanel( choosers[i] );
+            chooser.removeChooserPbnel( choosers[i] );
         }
     }
 
-    public void installUI( JComponent c ) {
+    public void instbllUI( JComponent c ) {
         chooser = (JColorChooser)c;
 
-        super.installUI( c );
+        super.instbllUI( c );
 
-        installDefaults();
-        installListeners();
+        instbllDefbults();
+        instbllListeners();
 
-        tabbedPane = new JTabbedPane();
-        tabbedPane.setName("ColorChooser.tabPane");
-        tabbedPane.setInheritsPopupMenu(true);
-        tabbedPane.getAccessibleContext().setAccessibleDescription(tabbedPane.getName());
-        singlePanel = new JPanel(new CenterLayout());
-        singlePanel.setName("ColorChooser.panel");
-        singlePanel.setInheritsPopupMenu(true);
+        tbbbedPbne = new JTbbbedPbne();
+        tbbbedPbne.setNbme("ColorChooser.tbbPbne");
+        tbbbedPbne.setInheritsPopupMenu(true);
+        tbbbedPbne.getAccessibleContext().setAccessibleDescription(tbbbedPbne.getNbme());
+        singlePbnel = new JPbnel(new CenterLbyout());
+        singlePbnel.setNbme("ColorChooser.pbnel");
+        singlePbnel.setInheritsPopupMenu(true);
 
-        chooser.setLayout( new BorderLayout() );
+        chooser.setLbyout( new BorderLbyout() );
 
-        defaultChoosers = createDefaultChoosers();
-        chooser.setChooserPanels(defaultChoosers);
+        defbultChoosers = crebteDefbultChoosers();
+        chooser.setChooserPbnels(defbultChoosers);
 
-        previewPanelHolder = new JPanel(new CenterLayout());
-        previewPanelHolder.setName("ColorChooser.previewPanelHolder");
+        previewPbnelHolder = new JPbnel(new CenterLbyout());
+        previewPbnelHolder.setNbme("ColorChooser.previewPbnelHolder");
 
-        if (DefaultLookup.getBoolean(chooser, this,
-                                  "ColorChooser.showPreviewPanelText", true)) {
-            String previewString = UIManager.getString(
-                "ColorChooser.previewText", chooser.getLocale());
-            previewPanelHolder.setBorder(new TitledBorder(previewString));
+        if (DefbultLookup.getBoolebn(chooser, this,
+                                  "ColorChooser.showPreviewPbnelText", true)) {
+            String previewString = UIMbnbger.getString(
+                "ColorChooser.previewText", chooser.getLocble());
+            previewPbnelHolder.setBorder(new TitledBorder(previewString));
         }
-        previewPanelHolder.setInheritsPopupMenu(true);
+        previewPbnelHolder.setInheritsPopupMenu(true);
 
-        installPreviewPanel();
-        chooser.applyComponentOrientation(c.getComponentOrientation());
+        instbllPreviewPbnel();
+        chooser.bpplyComponentOrientbtion(c.getComponentOrientbtion());
     }
 
-    public void uninstallUI( JComponent c ) {
-        chooser.remove(tabbedPane);
-        chooser.remove(singlePanel);
-        chooser.remove(previewPanelHolder);
+    public void uninstbllUI( JComponent c ) {
+        chooser.remove(tbbbedPbne);
+        chooser.remove(singlePbnel);
+        chooser.remove(previewPbnelHolder);
 
-        uninstallDefaultChoosers();
-        uninstallListeners();
-        uninstallPreviewPanel();
-        uninstallDefaults();
+        uninstbllDefbultChoosers();
+        uninstbllListeners();
+        uninstbllPreviewPbnel();
+        uninstbllDefbults();
 
-        previewPanelHolder = null;
-        previewPanel = null;
-        defaultChoosers = null;
+        previewPbnelHolder = null;
+        previewPbnel = null;
+        defbultChoosers = null;
         chooser = null;
-        tabbedPane = null;
+        tbbbedPbne = null;
 
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Installs preview panel.
+     * Instblls preview pbnel.
      */
-    protected void installPreviewPanel() {
-        JComponent previewPanel = this.chooser.getPreviewPanel();
-        if (previewPanel == null) {
-            previewPanel = ColorChooserComponentFactory.getPreviewPanel();
+    protected void instbllPreviewPbnel() {
+        JComponent previewPbnel = this.chooser.getPreviewPbnel();
+        if (previewPbnel == null) {
+            previewPbnel = ColorChooserComponentFbctory.getPreviewPbnel();
         }
-        else if (JPanel.class.equals(previewPanel.getClass()) && (0 == previewPanel.getComponentCount())) {
-            previewPanel = null;
+        else if (JPbnel.clbss.equbls(previewPbnel.getClbss()) && (0 == previewPbnel.getComponentCount())) {
+            previewPbnel = null;
         }
-        this.previewPanel = previewPanel;
-        if (previewPanel != null) {
-            chooser.add(previewPanelHolder, BorderLayout.SOUTH);
-            previewPanel.setForeground(chooser.getColor());
-            previewPanelHolder.add(previewPanel);
-            previewPanel.addMouseListener(getHandler());
-            previewPanel.setInheritsPopupMenu(true);
+        this.previewPbnel = previewPbnel;
+        if (previewPbnel != null) {
+            chooser.bdd(previewPbnelHolder, BorderLbyout.SOUTH);
+            previewPbnel.setForeground(chooser.getColor());
+            previewPbnelHolder.bdd(previewPbnel);
+            previewPbnel.bddMouseListener(getHbndler());
+            previewPbnel.setInheritsPopupMenu(true);
         }
     }
 
     /**
-     * Removes installed preview panel from the UI delegate.
+     * Removes instblled preview pbnel from the UI delegbte.
      *
      * @since 1.7
      */
-    protected void uninstallPreviewPanel() {
-        if (this.previewPanel != null) {
-            this.previewPanel.removeMouseListener(getHandler());
-            this.previewPanelHolder.remove(this.previewPanel);
+    protected void uninstbllPreviewPbnel() {
+        if (this.previewPbnel != null) {
+            this.previewPbnel.removeMouseListener(getHbndler());
+            this.previewPbnelHolder.remove(this.previewPbnel);
         }
-        this.chooser.remove(this.previewPanelHolder);
+        this.chooser.remove(this.previewPbnelHolder);
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(chooser, "ColorChooser.background",
+    protected void instbllDefbults() {
+        LookAndFeel.instbllColorsAndFont(chooser, "ColorChooser.bbckground",
                                               "ColorChooser.foreground",
                                               "ColorChooser.font");
-        LookAndFeel.installProperty(chooser, "opaque", Boolean.TRUE);
-        TransferHandler th = chooser.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            chooser.setTransferHandler(defaultTransferHandler);
+        LookAndFeel.instbllProperty(chooser, "opbque", Boolebn.TRUE);
+        TrbnsferHbndler th = chooser.getTrbnsferHbndler();
+        if (th == null || th instbnceof UIResource) {
+            chooser.setTrbnsferHbndler(defbultTrbnsferHbndler);
         }
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        if (chooser.getTransferHandler() instanceof UIResource) {
-            chooser.setTransferHandler(null);
+    protected void uninstbllDefbults() {
+        if (chooser.getTrbnsferHbndler() instbnceof UIResource) {
+            chooser.setTrbnsferHbndler(null);
         }
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        propertyChangeListener = createPropertyChangeListener();
-        chooser.addPropertyChangeListener(propertyChangeListener);
+    protected void instbllListeners() {
+        propertyChbngeListener = crebtePropertyChbngeListener();
+        chooser.bddPropertyChbngeListener(propertyChbngeListener);
 
-        previewListener = getHandler();
-        chooser.getSelectionModel().addChangeListener(previewListener);
+        previewListener = getHbndler();
+        chooser.getSelectionModel().bddChbngeListener(previewListener);
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Returns bn instbnce of {@code PropertyChbngeListener}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @return bn instbnce of {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        chooser.removePropertyChangeListener( propertyChangeListener );
-        chooser.getSelectionModel().removeChangeListener(previewListener);
+    protected void uninstbllListeners() {
+        chooser.removePropertyChbngeListener( propertyChbngeListener );
+        chooser.getSelectionModel().removeChbngeListener(previewListener);
         previewListener = null;
     }
 
-    private void selectionChanged(ColorSelectionModel model) {
-        JComponent previewPanel = this.chooser.getPreviewPanel();
-        if (previewPanel != null) {
-            previewPanel.setForeground(model.getSelectedColor());
-            previewPanel.repaint();
+    privbte void selectionChbnged(ColorSelectionModel model) {
+        JComponent previewPbnel = this.chooser.getPreviewPbnel();
+        if (previewPbnel != null) {
+            previewPbnel.setForeground(model.getSelectedColor());
+            previewPbnel.repbint();
         }
-        AbstractColorChooserPanel[] panels = this.chooser.getChooserPanels();
-        if (panels != null) {
-            for (AbstractColorChooserPanel panel : panels) {
-                if (panel != null) {
-                    panel.updateChooser();
+        AbstrbctColorChooserPbnel[] pbnels = this.chooser.getChooserPbnels();
+        if (pbnels != null) {
+            for (AbstrbctColorChooserPbnel pbnel : pbnels) {
+                if (pbnel != null) {
+                    pbnel.updbteChooser();
                 }
             }
         }
     }
 
-    private class Handler implements ChangeListener, MouseListener,
-            PropertyChangeListener {
+    privbte clbss Hbndler implements ChbngeListener, MouseListener,
+            PropertyChbngeListener {
         //
-        // ChangeListener
+        // ChbngeListener
         //
-        public void stateChanged(ChangeEvent evt) {
-            selectionChanged((ColorSelectionModel) evt.getSource());
+        public void stbteChbnged(ChbngeEvent evt) {
+            selectionChbnged((ColorSelectionModel) evt.getSource());
         }
 
         //
         // MouseListener
         public void mousePressed(MouseEvent evt) {
-            if (chooser.getDragEnabled()) {
-                TransferHandler th = chooser.getTransferHandler();
-                th.exportAsDrag(chooser, evt, TransferHandler.COPY);
+            if (chooser.getDrbgEnbbled()) {
+                TrbnsferHbndler th = chooser.getTrbnsferHbndler();
+                th.exportAsDrbg(chooser, evt, TrbnsferHbndler.COPY);
             }
         }
-        public void mouseReleased(MouseEvent evt) {}
+        public void mouseRelebsed(MouseEvent evt) {}
         public void mouseClicked(MouseEvent evt) {}
         public void mouseEntered(MouseEvent evt) {}
         public void mouseExited(MouseEvent evt) {}
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String prop = evt.getPropertyNbme();
 
             if (prop == JColorChooser.CHOOSER_PANELS_PROPERTY) {
-                AbstractColorChooserPanel[] oldPanels =
-                    (AbstractColorChooserPanel[])evt.getOldValue();
-                AbstractColorChooserPanel[] newPanels =
-                    (AbstractColorChooserPanel[])evt.getNewValue();
+                AbstrbctColorChooserPbnel[] oldPbnels =
+                    (AbstrbctColorChooserPbnel[])evt.getOldVblue();
+                AbstrbctColorChooserPbnel[] newPbnels =
+                    (AbstrbctColorChooserPbnel[])evt.getNewVblue();
 
-                for (int i = 0; i < oldPanels.length; i++) {  // remove old panels
-                   Container wrapper = oldPanels[i].getParent();
-                    if (wrapper != null) {
-                      Container parent = wrapper.getParent();
-                      if (parent != null)
-                          parent.remove(wrapper);  // remove from hierarchy
-                      oldPanels[i].uninstallChooserPanel(chooser); // uninstall
+                for (int i = 0; i < oldPbnels.length; i++) {  // remove old pbnels
+                   Contbiner wrbpper = oldPbnels[i].getPbrent();
+                    if (wrbpper != null) {
+                      Contbiner pbrent = wrbpper.getPbrent();
+                      if (pbrent != null)
+                          pbrent.remove(wrbpper);  // remove from hierbrchy
+                      oldPbnels[i].uninstbllChooserPbnel(chooser); // uninstbll
                     }
                 }
 
-                int numNewPanels = newPanels.length;
-                if (numNewPanels == 0) {  // removed all panels and added none
-                    chooser.remove(tabbedPane);
+                int numNewPbnels = newPbnels.length;
+                if (numNewPbnels == 0) {  // removed bll pbnels bnd bdded none
+                    chooser.remove(tbbbedPbne);
                     return;
                 }
-                else if (numNewPanels == 1) {  // one panel case
-                    chooser.remove(tabbedPane);
-                    JPanel centerWrapper = new JPanel( new CenterLayout() );
-                    centerWrapper.setInheritsPopupMenu(true);
-                    centerWrapper.add(newPanels[0]);
-                    singlePanel.add(centerWrapper, BorderLayout.CENTER);
-                    chooser.add(singlePanel);
+                else if (numNewPbnels == 1) {  // one pbnel cbse
+                    chooser.remove(tbbbedPbne);
+                    JPbnel centerWrbpper = new JPbnel( new CenterLbyout() );
+                    centerWrbpper.setInheritsPopupMenu(true);
+                    centerWrbpper.bdd(newPbnels[0]);
+                    singlePbnel.bdd(centerWrbpper, BorderLbyout.CENTER);
+                    chooser.bdd(singlePbnel);
                 }
-                else {   // multi-panel case
-                    if ( oldPanels.length < 2 ) {// moving from single to multiple
-                        chooser.remove(singlePanel);
-                        chooser.add(tabbedPane, BorderLayout.CENTER);
+                else {   // multi-pbnel cbse
+                    if ( oldPbnels.length < 2 ) {// moving from single to multiple
+                        chooser.remove(singlePbnel);
+                        chooser.bdd(tbbbedPbne, BorderLbyout.CENTER);
                     }
 
-                    for (int i = 0; i < newPanels.length; i++) {
-                        JPanel centerWrapper = new JPanel( new CenterLayout() );
-                        centerWrapper.setInheritsPopupMenu(true);
-                        String name = newPanels[i].getDisplayName();
-                        int mnemonic = newPanels[i].getMnemonic();
-                        centerWrapper.add(newPanels[i]);
-                        tabbedPane.addTab(name, centerWrapper);
+                    for (int i = 0; i < newPbnels.length; i++) {
+                        JPbnel centerWrbpper = new JPbnel( new CenterLbyout() );
+                        centerWrbpper.setInheritsPopupMenu(true);
+                        String nbme = newPbnels[i].getDisplbyNbme();
+                        int mnemonic = newPbnels[i].getMnemonic();
+                        centerWrbpper.bdd(newPbnels[i]);
+                        tbbbedPbne.bddTbb(nbme, centerWrbpper);
                         if (mnemonic > 0) {
-                            tabbedPane.setMnemonicAt(i, mnemonic);
-                            int index = newPanels[i].getDisplayedMnemonicIndex();
+                            tbbbedPbne.setMnemonicAt(i, mnemonic);
+                            int index = newPbnels[i].getDisplbyedMnemonicIndex();
                             if (index >= 0) {
-                                tabbedPane.setDisplayedMnemonicIndexAt(i, index);
+                                tbbbedPbne.setDisplbyedMnemonicIndexAt(i, index);
                             }
                         }
                     }
                 }
-                chooser.applyComponentOrientation(chooser.getComponentOrientation());
-                for (int i = 0; i < newPanels.length; i++) {
-                    newPanels[i].installChooserPanel(chooser);
+                chooser.bpplyComponentOrientbtion(chooser.getComponentOrientbtion());
+                for (int i = 0; i < newPbnels.length; i++) {
+                    newPbnels[i].instbllChooserPbnel(chooser);
                 }
             }
             else if (prop == JColorChooser.PREVIEW_PANEL_PROPERTY) {
-                uninstallPreviewPanel();
-                installPreviewPanel();
+                uninstbllPreviewPbnel();
+                instbllPreviewPbnel();
             }
             else if (prop == JColorChooser.SELECTION_MODEL_PROPERTY) {
-                ColorSelectionModel oldModel = (ColorSelectionModel) evt.getOldValue();
-                oldModel.removeChangeListener(previewListener);
-                ColorSelectionModel newModel = (ColorSelectionModel) evt.getNewValue();
-                newModel.addChangeListener(previewListener);
-                selectionChanged(newModel);
+                ColorSelectionModel oldModel = (ColorSelectionModel) evt.getOldVblue();
+                oldModel.removeChbngeListener(previewListener);
+                ColorSelectionModel newModel = (ColorSelectionModel) evt.getNewVblue();
+                newModel.bddChbngeListener(previewListener);
+                selectionChbnged(newModel);
             }
-            else if (prop == "componentOrientation") {
-                ComponentOrientation o =
-                    (ComponentOrientation)evt.getNewValue();
+            else if (prop == "componentOrientbtion") {
+                ComponentOrientbtion o =
+                    (ComponentOrientbtion)evt.getNewVblue();
                 JColorChooser cc = (JColorChooser)evt.getSource();
-                if (o != (ComponentOrientation)evt.getOldValue()) {
-                    cc.applyComponentOrientation(o);
-                    cc.updateUI();
+                if (o != (ComponentOrientbtion)evt.getOldVblue()) {
+                    cc.bpplyComponentOrientbtion(o);
+                    cc.updbteUI();
                 }
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicColorChooserUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicColorChooserUI}.
      */
-    public class PropertyHandler implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+    public clbss PropertyHbndler implements PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            getHbndler().propertyChbnge(e);
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class ColorTransferHandler extends TransferHandler implements UIResource {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss ColorTrbnsferHbndler extends TrbnsferHbndler implements UIResource {
 
-        ColorTransferHandler() {
+        ColorTrbnsferHbndler() {
             super("color");
         }
     }

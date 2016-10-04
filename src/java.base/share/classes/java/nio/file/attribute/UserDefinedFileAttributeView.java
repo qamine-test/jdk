@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.List;
+import jbvb.io.IOException;
 
 /**
- * A file attribute view that provides a view of a file's user-defined
- * attributes, sometimes known as <em>extended attributes</em>. User-defined
- * file attributes are used to store metadata with a file that is not meaningful
- * to the file system. It is primarily intended for file system implementations
- * that support such a capability directly but may be emulated. The details of
- * such emulation are highly implementation specific and therefore not specified.
+ * A file bttribute view thbt provides b view of b file's user-defined
+ * bttributes, sometimes known bs <em>extended bttributes</em>. User-defined
+ * file bttributes bre used to store metbdbtb with b file thbt is not mebningful
+ * to the file system. It is primbrily intended for file system implementbtions
+ * thbt support such b cbpbbility directly but mby be emulbted. The detbils of
+ * such emulbtion bre highly implementbtion specific bnd therefore not specified.
  *
- * <p> This {@code FileAttributeView} provides a view of a file's user-defined
- * attributes as a set of name/value pairs, where the attribute name is
- * represented by a {@code String}. An implementation may require to encode and
- * decode from the platform or file system representation when accessing the
- * attribute. The value has opaque content. This attribute view defines the
- * {@link #read read} and {@link #write write} methods to read the value into
- * or write from a {@link ByteBuffer}. This {@code FileAttributeView} is not
- * intended for use where the size of an attribute value is larger than {@link
+ * <p> This {@code FileAttributeView} provides b view of b file's user-defined
+ * bttributes bs b set of nbme/vblue pbirs, where the bttribute nbme is
+ * represented by b {@code String}. An implementbtion mby require to encode bnd
+ * decode from the plbtform or file system representbtion when bccessing the
+ * bttribute. The vblue hbs opbque content. This bttribute view defines the
+ * {@link #rebd rebd} bnd {@link #write write} methods to rebd the vblue into
+ * or write from b {@link ByteBuffer}. This {@code FileAttributeView} is not
+ * intended for use where the size of bn bttribute vblue is lbrger thbn {@link
  * Integer#MAX_VALUE}.
  *
- * <p> User-defined attributes may be used in some implementations to store
- * security related attributes so consequently, in the case of the default
- * provider at least, all methods that access user-defined attributes require the
- * {@code RuntimePermission("accessUserDefinedAttributes")} permission when a
- * security manager is installed.
+ * <p> User-defined bttributes mby be used in some implementbtions to store
+ * security relbted bttributes so consequently, in the cbse of the defbult
+ * provider bt lebst, bll methods thbt bccess user-defined bttributes require the
+ * {@code RuntimePermission("bccessUserDefinedAttributes")} permission when b
+ * security mbnbger is instblled.
  *
- * <p> The {@link java.nio.file.FileStore#supportsFileAttributeView
- * supportsFileAttributeView} method may be used to test if a specific {@link
- * java.nio.file.FileStore FileStore} supports the storage of user-defined
- * attributes.
+ * <p> The {@link jbvb.nio.file.FileStore#supportsFileAttributeView
+ * supportsFileAttributeView} method mby be used to test if b specific {@link
+ * jbvb.nio.file.FileStore FileStore} supports the storbge of user-defined
+ * bttributes.
  *
- * <p> Where dynamic access to file attributes is required, the {@link
- * java.nio.file.Files#getAttribute getAttribute} method may be used to read
- * the attribute value. The attribute value is returned as a byte array (byte[]).
- * The {@link java.nio.file.Files#setAttribute setAttribute} method may be used
- * to write the value of a user-defined attribute from a buffer (as if by
- * invoking the {@link #write write} method), or byte array (byte[]).
+ * <p> Where dynbmic bccess to file bttributes is required, the {@link
+ * jbvb.nio.file.Files#getAttribute getAttribute} method mby be used to rebd
+ * the bttribute vblue. The bttribute vblue is returned bs b byte brrby (byte[]).
+ * The {@link jbvb.nio.file.Files#setAttribute setAttribute} method mby be used
+ * to write the vblue of b user-defined bttribute from b buffer (bs if by
+ * invoking the {@link #write write} method), or byte brrby (byte[]).
  *
  * @since 1.7
  */
 
-public interface UserDefinedFileAttributeView
+public interfbce UserDefinedFileAttributeView
     extends FileAttributeView
 {
     /**
-     * Returns the name of this attribute view. Attribute views of this type
-     * have the name {@code "user"}.
+     * Returns the nbme of this bttribute view. Attribute views of this type
+     * hbve the nbme {@code "user"}.
      */
     @Override
-    String name();
+    String nbme();
 
     /**
-     * Returns a list containing the names of the user-defined attributes.
+     * Returns b list contbining the nbmes of the user-defined bttributes.
      *
-     * @return  An unmodifiable list containing the names of the file's
+     * @return  An unmodifibble list contbining the nbmes of the file's
      *          user-defined
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link
-     *          RuntimePermission}<tt>("accessUserDefinedAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String) checkRead} method
-     *          denies read access to the file.
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, bnd it denies {@link
+     *          RuntimePermission}<tt>("bccessUserDefinedAttributes")</tt>
+     *          or its {@link SecurityMbnbger#checkRebd(String) checkRebd} method
+     *          denies rebd bccess to the file.
      */
     List<String> list() throws IOException;
 
     /**
-     * Returns the size of the value of a user-defined attribute.
+     * Returns the size of the vblue of b user-defined bttribute.
      *
-     * @param   name
-     *          The attribute name
+     * @pbrbm   nbme
+     *          The bttribute nbme
      *
-     * @return  The size of the attribute value, in bytes.
+     * @return  The size of the bttribute vblue, in bytes.
      *
      * @throws  ArithmeticException
-     *          If the size of the attribute is larger than {@link Integer#MAX_VALUE}
+     *          If the size of the bttribute is lbrger thbn {@link Integer#MAX_VALUE}
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link
-     *          RuntimePermission}<tt>("accessUserDefinedAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String) checkRead} method
-     *          denies read access to the file.
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, bnd it denies {@link
+     *          RuntimePermission}<tt>("bccessUserDefinedAttributes")</tt>
+     *          or its {@link SecurityMbnbger#checkRebd(String) checkRebd} method
+     *          denies rebd bccess to the file.
      */
-    int size(String name) throws IOException;
+    int size(String nbme) throws IOException;
 
     /**
-     * Read the value of a user-defined attribute into a buffer.
+     * Rebd the vblue of b user-defined bttribute into b buffer.
      *
-     * <p> This method reads the value of the attribute into the given buffer
-     * as a sequence of bytes, failing if the number of bytes remaining in
-     * the buffer is insufficient to read the complete attribute value. The
-     * number of bytes transferred into the buffer is {@code n}, where {@code n}
-     * is the size of the attribute value. The first byte in the sequence is at
-     * index {@code p} and the last byte is at index {@code p + n - 1}, where
+     * <p> This method rebds the vblue of the bttribute into the given buffer
+     * bs b sequence of bytes, fbiling if the number of bytes rembining in
+     * the buffer is insufficient to rebd the complete bttribute vblue. The
+     * number of bytes trbnsferred into the buffer is {@code n}, where {@code n}
+     * is the size of the bttribute vblue. The first byte in the sequence is bt
+     * index {@code p} bnd the lbst byte is bt index {@code p + n - 1}, where
      * {@code p} is the buffer's position. Upon return the buffer's position
-     * will be equal to {@code p + n}; its limit will not have changed.
+     * will be equbl to {@code p + n}; its limit will not hbve chbnged.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we want to read a file's MIME type that is stored as a user-defined
-     * attribute with the name "{@code user.mimetype}".
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we wbnt to rebd b file's MIME type thbt is stored bs b user-defined
+     * bttribute with the nbme "{@code user.mimetype}".
      * <pre>
      *    UserDefinedFileAttributeView view =
-     *        Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
-     *    String name = "user.mimetype";
-     *    ByteBuffer buf = ByteBuffer.allocate(view.size(name));
-     *    view.read(name, buf);
+     *        Files.getFileAttributeView(pbth, UserDefinedFileAttributeView.clbss);
+     *    String nbme = "user.mimetype";
+     *    ByteBuffer buf = ByteBuffer.bllocbte(view.size(nbme));
+     *    view.rebd(nbme, buf);
      *    buf.flip();
-     *    String value = Charset.defaultCharset().decode(buf).toString();
+     *    String vblue = Chbrset.defbultChbrset().decode(buf).toString();
      * </pre>
      *
-     * @param   name
-     *          The attribute name
-     * @param   dst
-     *          The destination buffer
+     * @pbrbm   nbme
+     *          The bttribute nbme
+     * @pbrbm   dst
+     *          The destinbtion buffer
      *
-     * @return  The number of bytes read, possibly zero
+     * @return  The number of bytes rebd, possibly zero
      *
-     * @throws  IllegalArgumentException
-     *          If the destination buffer is read-only
+     * @throws  IllegblArgumentException
+     *          If the destinbtion buffer is rebd-only
      * @throws  IOException
-     *          If an I/O error occurs or there is insufficient space in the
-     *          destination buffer for the attribute value
+     *          If bn I/O error occurs or there is insufficient spbce in the
+     *          destinbtion buffer for the bttribute vblue
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link
-     *          RuntimePermission}<tt>("accessUserDefinedAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String) checkRead} method
-     *          denies read access to the file.
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, bnd it denies {@link
+     *          RuntimePermission}<tt>("bccessUserDefinedAttributes")</tt>
+     *          or its {@link SecurityMbnbger#checkRebd(String) checkRebd} method
+     *          denies rebd bccess to the file.
      *
      * @see #size
      */
-    int read(String name, ByteBuffer dst) throws IOException;
+    int rebd(String nbme, ByteBuffer dst) throws IOException;
 
     /**
-     * Writes the value of a user-defined attribute from a buffer.
+     * Writes the vblue of b user-defined bttribute from b buffer.
      *
-     * <p> This method writes the value of the attribute from a given buffer as
-     * a sequence of bytes. The size of the value to transfer is {@code r},
-     * where {@code r} is the number of bytes remaining in the buffer, that is
-     * {@code src.remaining()}. The sequence of bytes is transferred from the
-     * buffer starting at index {@code p}, where {@code p} is the buffer's
-     * position. Upon return, the buffer's position will be equal to {@code
-     * p + n}, where {@code n} is the number of bytes transferred; its limit
-     * will not have changed.
+     * <p> This method writes the vblue of the bttribute from b given buffer bs
+     * b sequence of bytes. The size of the vblue to trbnsfer is {@code r},
+     * where {@code r} is the number of bytes rembining in the buffer, thbt is
+     * {@code src.rembining()}. The sequence of bytes is trbnsferred from the
+     * buffer stbrting bt index {@code p}, where {@code p} is the buffer's
+     * position. Upon return, the buffer's position will be equbl to {@code
+     * p + n}, where {@code n} is the number of bytes trbnsferred; its limit
+     * will not hbve chbnged.
      *
-     * <p> If an attribute of the given name already exists then its value is
-     * replaced. If the attribute does not exist then it is created. If it
-     * implementation specific if a test to check for the existence of the
-     * attribute and the creation of attribute are atomic with respect to other
-     * file system activities.
+     * <p> If bn bttribute of the given nbme blrebdy exists then its vblue is
+     * replbced. If the bttribute does not exist then it is crebted. If it
+     * implementbtion specific if b test to check for the existence of the
+     * bttribute bnd the crebtion of bttribute bre btomic with respect to other
+     * file system bctivities.
      *
-     * <p> Where there is insufficient space to store the attribute, or the
-     * attribute name or value exceed an implementation specific maximum size
-     * then an {@code IOException} is thrown.
+     * <p> Where there is insufficient spbce to store the bttribute, or the
+     * bttribute nbme or vblue exceed bn implementbtion specific mbximum size
+     * then bn {@code IOException} is thrown.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we want to write a file's MIME type as a user-defined attribute:
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we wbnt to write b file's MIME type bs b user-defined bttribute:
      * <pre>
      *    UserDefinedFileAttributeView view =
-     *        FIles.getFileAttributeView(path, UserDefinedFileAttributeView.class);
-     *    view.write("user.mimetype", Charset.defaultCharset().encode("text/html"));
+     *        FIles.getFileAttributeView(pbth, UserDefinedFileAttributeView.clbss);
+     *    view.write("user.mimetype", Chbrset.defbultChbrset().encode("text/html"));
      * </pre>
      *
-     * @param   name
-     *          The attribute name
-     * @param   src
-     *          The buffer containing the attribute value
+     * @pbrbm   nbme
+     *          The bttribute nbme
+     * @pbrbm   src
+     *          The buffer contbining the bttribute vblue
      *
      * @return  The number of bytes written, possibly zero
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link
-     *          RuntimePermission}<tt>("accessUserDefinedAttributes")</tt>
-     *          or its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to the file.
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, bnd it denies {@link
+     *          RuntimePermission}<tt>("bccessUserDefinedAttributes")</tt>
+     *          or its {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method denies write bccess to the file.
      */
-    int write(String name, ByteBuffer src) throws IOException;
+    int write(String nbme, ByteBuffer src) throws IOException;
 
     /**
-     * Deletes a user-defined attribute.
+     * Deletes b user-defined bttribute.
      *
-     * @param   name
-     *          The attribute name
+     * @pbrbm   nbme
+     *          The bttribute nbme
      *
      * @throws  IOException
-     *          If an I/O error occurs or the attribute does not exist
+     *          If bn I/O error occurs or the bttribute does not exist
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link
-     *          RuntimePermission}<tt>("accessUserDefinedAttributes")</tt>
-     *          or its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to the file.
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, bnd it denies {@link
+     *          RuntimePermission}<tt>("bccessUserDefinedAttributes")</tt>
+     *          or its {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method denies write bccess to the file.
      */
-    void delete(String name) throws IOException;
+    void delete(String nbme) throws IOException;
 }

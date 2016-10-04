@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.geom;
+pbckbge sun.bwt.geom;
 
-final class Edge {
-    static final int INIT_PARTS = 4;
-    static final int GROW_PARTS = 10;
+finbl clbss Edge {
+    stbtic finbl int INIT_PARTS = 4;
+    stbtic finbl int GROW_PARTS = 10;
 
     Curve curve;
-    int ctag;
-    int etag;
-    double activey;
-    int equivalence;
+    int ctbg;
+    int etbg;
+    double bctivey;
+    int equivblence;
 
-    public Edge(Curve c, int ctag) {
-        this(c, ctag, AreaOp.ETAG_IGNORE);
+    public Edge(Curve c, int ctbg) {
+        this(c, ctbg, ArebOp.ETAG_IGNORE);
     }
 
-    public Edge(Curve c, int ctag, int etag) {
+    public Edge(Curve c, int ctbg, int etbg) {
         this.curve = c;
-        this.ctag = ctag;
-        this.etag = etag;
+        this.ctbg = ctbg;
+        this.etbg = etbg;
     }
 
     public Curve getCurve() {
         return curve;
     }
 
-    public int getCurveTag() {
-        return ctag;
+    public int getCurveTbg() {
+        return ctbg;
     }
 
-    public int getEdgeTag() {
-        return etag;
+    public int getEdgeTbg() {
+        return etbg;
     }
 
-    public void setEdgeTag(int etag) {
-        this.etag = etag;
+    public void setEdgeTbg(int etbg) {
+        this.etbg = etbg;
     }
 
-    public int getEquivalence() {
-        return equivalence;
+    public int getEquivblence() {
+        return equivblence;
     }
 
-    public void setEquivalence(int eq) {
-        equivalence = eq;
+    public void setEquivblence(int eq) {
+        equivblence = eq;
     }
 
-    private Edge lastEdge;
-    private int lastResult;
-    private double lastLimit;
+    privbte Edge lbstEdge;
+    privbte int lbstResult;
+    privbte double lbstLimit;
 
-    public int compareTo(Edge other, double yrange[]) {
-        if (other == lastEdge && yrange[0] < lastLimit) {
-            if (yrange[1] > lastLimit) {
-                yrange[1] = lastLimit;
+    public int compbreTo(Edge other, double yrbnge[]) {
+        if (other == lbstEdge && yrbnge[0] < lbstLimit) {
+            if (yrbnge[1] > lbstLimit) {
+                yrbnge[1] = lbstLimit;
             }
-            return lastResult;
+            return lbstResult;
         }
-        if (this == other.lastEdge && yrange[0] < other.lastLimit) {
-            if (yrange[1] > other.lastLimit) {
-                yrange[1] = other.lastLimit;
+        if (this == other.lbstEdge && yrbnge[0] < other.lbstLimit) {
+            if (yrbnge[1] > other.lbstLimit) {
+                yrbnge[1] = other.lbstLimit;
             }
-            return 0-other.lastResult;
+            return 0-other.lbstResult;
         }
-        //long start = System.currentTimeMillis();
-        int ret = curve.compareTo(other.curve, yrange);
+        //long stbrt = System.currentTimeMillis();
+        int ret = curve.compbreTo(other.curve, yrbnge);
         //long end = System.currentTimeMillis();
         /*
-        System.out.println("compare: "+
-                           ((System.identityHashCode(this) <
-                             System.identityHashCode(other))
+        System.out.println("compbre: "+
+                           ((System.identityHbshCode(this) <
+                             System.identityHbshCode(other))
                             ? this+" to "+other
                             : other+" to "+this)+
-                           " == "+ret+" at "+yrange[1]+
-                           " in "+(end-start)+"ms");
+                           " == "+ret+" bt "+yrbnge[1]+
+                           " in "+(end-stbrt)+"ms");
          */
-        lastEdge = other;
-        lastLimit = yrange[1];
-        lastResult = ret;
+        lbstEdge = other;
+        lbstLimit = yrbnge[1];
+        lbstResult = ret;
         return ret;
     }
 
-    public void record(double yend, int etag) {
-        this.activey = yend;
-        this.etag = etag;
+    public void record(double yend, int etbg) {
+        this.bctivey = yend;
+        this.etbg = etbg;
     }
 
-    public boolean isActiveFor(double y, int etag) {
-        return (this.etag == etag && this.activey >= y);
+    public boolebn isActiveFor(double y, int etbg) {
+        return (this.etbg == etbg && this.bctivey >= y);
     }
 
     public String toString() {
         return ("Edge["+curve+
                 ", "+
-                (ctag == AreaOp.CTAG_LEFT ? "L" : "R")+
+                (ctbg == ArebOp.CTAG_LEFT ? "L" : "R")+
                 ", "+
-                (etag == AreaOp.ETAG_ENTER ? "I" :
-                 (etag == AreaOp.ETAG_EXIT ? "O" : "N"))+
+                (etbg == ArebOp.ETAG_ENTER ? "I" :
+                 (etbg == ArebOp.ETAG_EXIT ? "O" : "N"))+
                 "]");
     }
 }

@@ -1,88 +1,88 @@
 '\" t
-.\"  Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: appletviewer.1
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Bbsic Tools
+.\"     Title: bppletviewer.1
 .\"
 .if n .pl 99999
-.TH appletviewer 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH bppletviewer 1 "21 November 2013" "JDK 8" "Bbsic Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-appletviewer \- Runs applets outside of a web browser\&.
+bppletviewer \- Runs bpplets outside of b web browser\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBappletviewer\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
+\fBbppletviewer\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options separated by spaces\&. See Options\&.
+The commbnd-line options sepbrbted by spbces\&. See Options\&.
 .TP     
 \fIurl\fR
-The location of the documents or resources to be displayed\&. You can specify multiple URLs separated by spaces\&.
+The locbtion of the documents or resources to be displbyed\&. You cbn specify multiple URLs sepbrbted by spbces\&.
 .SH DESCRIPTION    
-The \f3appletviewer\fR command connects to the documents or resources designated by \fIurls\fR and displays each applet referenced by the documents in its own window\&. If the documents referred to by urls do not reference any applets with the \f3OBJECT\fR, \f3EMBED\fR, or \f3APPLET\fR tag, then the \f3appletviewer\fR command does nothing\&. For details about the HTML tags that the \f3appletviewer\fR command supports, see AppletViewer Tags at http://docs\&.oracle\&.com/javase/8/docs/technotes/tools/appletviewertags\&.html
+The \f3bppletviewer\fR commbnd connects to the documents or resources designbted by \fIurls\fR bnd displbys ebch bpplet referenced by the documents in its own window\&. If the documents referred to by urls do not reference bny bpplets with the \f3OBJECT\fR, \f3EMBED\fR, or \f3APPLET\fR tbg, then the \f3bppletviewer\fR commbnd does nothing\&. For detbils bbout the HTML tbgs thbt the \f3bppletviewer\fR commbnd supports, see AppletViewer Tbgs bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/tools/bppletviewertbgs\&.html
 .PP
-The \f3appletviewer\fR command requires encoded URLs according to the escaping mechanism defined in RFC2396\&. Only encoded URLs are supported\&. However, file names must be unencoded, as specified in RFC2396\&.
+The \f3bppletviewer\fR commbnd requires encoded URLs bccording to the escbping mechbnism defined in RFC2396\&. Only encoded URLs bre supported\&. However, file nbmes must be unencoded, bs specified in RFC2396\&.
 .PP
-\fINote:\fR The \f3appletviewer\fR command is intended for development purposes only\&. For more information, see About Sample/Test Applications and Code at http://docs\&.oracle\&.com/javase/8/docs/technotes/samples/aboutCodeSamples\&.html
+\fINote:\fR The \f3bppletviewer\fR commbnd is intended for development purposes only\&. For more informbtion, see About Sbmple/Test Applicbtions bnd Code bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/sbmples/bboutCodeSbmples\&.html
 .SH OPTIONS    
 .TP
 -debug
 .br
-Starts the Applet Viewer in the Java debugger with the \f3jdb\fR command to debug the applets in the document\&.
+Stbrts the Applet Viewer in the Jbvb debugger with the \f3jdb\fR commbnd to debug the bpplets in the document\&.
 .TP
--encoding \fIencoding-name\fR
+-encoding \fIencoding-nbme\fR
 .br
-Specifies the input HTML file encoding name\&.
+Specifies the input HTML file encoding nbme\&.
 .TP
--J\fIjavaoption\fR
+-J\fIjbvboption\fR
 .br
-Passes the string \f3javaoption\fR as a single argument to the Java interpreter, which runs the Applet Viewer\&. The argument should not contain spaces\&. Multiple argument words must all begin with the prefix \f3-J\fR\&. This is useful for adjusting the compiler\&'s execution environment or memory usage\&.
+Pbsses the string \f3jbvboption\fR bs b single brgument to the Jbvb interpreter, which runs the Applet Viewer\&. The brgument should not contbin spbces\&. Multiple brgument words must bll begin with the prefix \f3-J\fR\&. This is useful for bdjusting the compiler\&'s execution environment or memory usbge\&.
 .PP
 .RE
 .br

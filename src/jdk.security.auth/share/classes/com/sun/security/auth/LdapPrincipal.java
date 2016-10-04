@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth;
+pbckbge com.sun.security.buth;
 
-import java.security.Principal;
-import javax.naming.InvalidNameException;
-import javax.naming.ldap.LdapName;
+import jbvb.security.Principbl;
+import jbvbx.nbming.InvblidNbmeException;
+import jbvbx.nbming.ldbp.LdbpNbme;
 
 /**
- * A principal identified by a distinguished name as specified by
- * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
+ * A principbl identified by b distinguished nbme bs specified by
+ * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>.
  *
  * <p>
- * After successful authentication, a user {@link java.security.Principal}
- * can be associated with a particular {@link javax.security.auth.Subject}
- * to augment that <code>Subject</code> with an additional identity.
- * Authorization decisions can then be based upon the
- * <code>Principal</code>s that are associated with a <code>Subject</code>.
+ * After successful buthenticbtion, b user {@link jbvb.security.Principbl}
+ * cbn be bssocibted with b pbrticulbr {@link jbvbx.security.buth.Subject}
+ * to bugment thbt <code>Subject</code> with bn bdditionbl identity.
+ * Authorizbtion decisions cbn then be bbsed upon the
+ * <code>Principbl</code>s thbt bre bssocibted with b <code>Subject</code>.
  *
  * <p>
- * This class is immutable.
+ * This clbss is immutbble.
  *
  * @since 1.6
  */
 @jdk.Exported
-public final class LdapPrincipal implements Principal, java.io.Serializable {
+public finbl clbss LdbpPrincipbl implements Principbl, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 6820120005580754861L;
+    privbte stbtic finbl long seriblVersionUID = 6820120005580754861L;
 
     /**
-     * The principal's string name
+     * The principbl's string nbme
      *
-     * @serial
+     * @seribl
      */
-    private final String nameString;
+    privbte finbl String nbmeString;
 
     /**
-     * The principal's name
+     * The principbl's nbme
      *
-     * @serial
+     * @seribl
      */
-    private final LdapName name;
+    privbte finbl LdbpNbme nbme;
 
     /**
-     * Creates an LDAP principal.
+     * Crebtes bn LDAP principbl.
      *
-     * @param name The principal's string distinguished name.
-     * @throws InvalidNameException If a syntax violation is detected.
-     * @exception NullPointerException If the <code>name</code> is
+     * @pbrbm nbme The principbl's string distinguished nbme.
+     * @throws InvblidNbmeException If b syntbx violbtion is detected.
+     * @exception NullPointerException If the <code>nbme</code> is
      * <code>null</code>.
      */
-    public LdapPrincipal(String name) throws InvalidNameException {
-        if (name == null) {
-            throw new NullPointerException("null name is illegal");
+    public LdbpPrincipbl(String nbme) throws InvblidNbmeException {
+        if (nbme == null) {
+            throw new NullPointerException("null nbme is illegbl");
         }
-        this.name = getLdapName(name);
-        nameString = name;
+        this.nbme = getLdbpNbme(nbme);
+        nbmeString = nbme;
     }
 
     /**
-     * Compares this principal to the specified object.
+     * Compbres this principbl to the specified object.
      *
-     * @param object The object to compare this principal against.
-     * @return true if they are equal; false otherwise.
+     * @pbrbm object The object to compbre this principbl bgbinst.
+     * @return true if they bre equbl; fblse otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         if (this == object) {
             return true;
         }
-        if (object instanceof LdapPrincipal) {
+        if (object instbnceof LdbpPrincipbl) {
             try {
 
                 return
-                    name.equals(getLdapName(((LdapPrincipal)object).getName()));
+                    nbme.equbls(getLdbpNbme(((LdbpPrincipbl)object).getNbme()));
 
-            } catch (InvalidNameException e) {
-                return false;
+            } cbtch (InvblidNbmeException e) {
+                return fblse;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Computes the hash code for this principal.
+     * Computes the hbsh code for this principbl.
      *
-     * @return The principal's hash code.
+     * @return The principbl's hbsh code.
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
     /**
-     * Returns the name originally used to create this principal.
+     * Returns the nbme originblly used to crebte this principbl.
      *
-     * @return The principal's string name.
+     * @return The principbl's string nbme.
      */
-    public String getName() {
-        return nameString;
+    public String getNbme() {
+        return nbmeString;
     }
 
     /**
-     * Creates a string representation of this principal's name in the format
-     * defined by <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
-     * If the name has zero components an empty string is returned.
+     * Crebtes b string representbtion of this principbl's nbme in the formbt
+     * defined by <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>.
+     * If the nbme hbs zero components bn empty string is returned.
      *
-     * @return The principal's string name.
+     * @return The principbl's string nbme.
      */
     public String toString() {
-        return name.toString();
+        return nbme.toString();
     }
 
-    // Create an LdapName object from a string distinguished name.
-    private LdapName getLdapName(String name) throws InvalidNameException {
-        return new LdapName(name);
+    // Crebte bn LdbpNbme object from b string distinguished nbme.
+    privbte LdbpNbme getLdbpNbme(String nbme) throws InvblidNbmeException {
+        return new LdbpNbme(nbme);
     }
 }

@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bebns.ConstructorProperties;
 
 /**
- * The {@code RadialGradientPaint} class provides a way to fill a shape with
- * a circular radial color gradient pattern. The user may specify 2 or more
- * gradient colors, and this paint will provide an interpolation between
- * each color.
+ * The {@code RbdiblGrbdientPbint} clbss provides b wby to fill b shbpe with
+ * b circulbr rbdibl color grbdient pbttern. The user mby specify 2 or more
+ * grbdient colors, bnd this pbint will provide bn interpolbtion between
+ * ebch color.
  * <p>
- * The user must specify the circle controlling the gradient pattern,
- * which is described by a center point and a radius.  The user can also
- * specify a separate focus point within that circle, which controls the
- * location of the first color of the gradient.  By default the focus is
+ * The user must specify the circle controlling the grbdient pbttern,
+ * which is described by b center point bnd b rbdius.  The user cbn blso
+ * specify b sepbrbte focus point within thbt circle, which controls the
+ * locbtion of the first color of the grbdient.  By defbult the focus is
  * set to be the center of the circle.
  * <p>
- * This paint will map the first color of the gradient to the focus point,
- * and the last color to the perimeter of the circle, interpolating
- * smoothly for any in-between colors specified by the user.  Any line drawn
- * from the focus point to the circumference will thus span all the gradient
+ * This pbint will mbp the first color of the grbdient to the focus point,
+ * bnd the lbst color to the perimeter of the circle, interpolbting
+ * smoothly for bny in-between colors specified by the user.  Any line drbwn
+ * from the focus point to the circumference will thus spbn bll the grbdient
  * colors.
  * <p>
- * Specifying a focus point outside of the radius of the circle will cause
- * the rings of the gradient pattern to be centered on the point just inside
+ * Specifying b focus point outside of the rbdius of the circle will cbuse
+ * the rings of the grbdient pbttern to be centered on the point just inside
  * the edge of the circle in the direction of the focus point.
- * The rendering will internally use this modified location as if it were
+ * The rendering will internblly use this modified locbtion bs if it were
  * the specified focus point.
  * <p>
- * The user must provide an array of floats specifying how to distribute the
- * colors along the gradient.  These values should range from 0.0 to 1.0 and
- * act like keyframes along the gradient (they mark where the gradient should
- * be exactly a particular color).
+ * The user must provide bn brrby of flobts specifying how to distribute the
+ * colors blong the grbdient.  These vblues should rbnge from 0.0 to 1.0 bnd
+ * bct like keyfrbmes blong the grbdient (they mbrk where the grbdient should
+ * be exbctly b pbrticulbr color).
  * <p>
- * In the event that the user does not set the first keyframe value equal
- * to 0 and/or the last keyframe value equal to 1, keyframes will be created
- * at these positions and the first and last colors will be replicated there.
- * So, if a user specifies the following arrays to construct a gradient:<br>
+ * In the event thbt the user does not set the first keyfrbme vblue equbl
+ * to 0 bnd/or the lbst keyfrbme vblue equbl to 1, keyfrbmes will be crebted
+ * bt these positions bnd the first bnd lbst colors will be replicbted there.
+ * So, if b user specifies the following brrbys to construct b grbdient:<br>
  * <pre>
  *     {Color.BLUE, Color.RED}, {.3f, .7f}
  * </pre>
- * this will be converted to a gradient with the following keyframes:<br>
+ * this will be converted to b grbdient with the following keyfrbmes:<br>
  * <pre>
  *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
  * </pre>
  *
  * <p>
- * The user may also select what action the {@code RadialGradientPaint} object
- * takes when it is filling the space outside the circle's radius by
+ * The user mby blso select whbt bction the {@code RbdiblGrbdientPbint} object
+ * tbkes when it is filling the spbce outside the circle's rbdius by
  * setting {@code CycleMethod} to either {@code REFLECTION} or {@code REPEAT}.
- * The gradient color proportions are equal for any particular line drawn
- * from the focus point. The following figure shows that the distance AB
- * is equal to the distance BC, and the distance AD is equal to the distance DE.
+ * The grbdient color proportions bre equbl for bny pbrticulbr line drbwn
+ * from the focus point. The following figure shows thbt the distbnce AB
+ * is equbl to the distbnce BC, bnd the distbnce AD is equbl to the distbnce DE.
  * <center>
- * <img src = "doc-files/RadialGradientPaint-3.png" alt="image showing the
- * distance AB=BC, and AD=DE">
+ * <img src = "doc-files/RbdiblGrbdientPbint-3.png" blt="imbge showing the
+ * distbnce AB=BC, bnd AD=DE">
  * </center>
- * If the gradient and graphics rendering transforms are uniformly scaled and
- * the user sets the focus so that it coincides with the center of the circle,
- * the gradient color proportions are equal for any line drawn from the center.
- * The following figure shows the distances AB, BC, AD, and DE. They are all equal.
+ * If the grbdient bnd grbphics rendering trbnsforms bre uniformly scbled bnd
+ * the user sets the focus so thbt it coincides with the center of the circle,
+ * the grbdient color proportions bre equbl for bny line drbwn from the center.
+ * The following figure shows the distbnces AB, BC, AD, bnd DE. They bre bll equbl.
  * <center>
- * <img src = "doc-files/RadialGradientPaint-4.png" alt="image showing the
- * distance of AB, BC, AD, and DE are all equal">
+ * <img src = "doc-files/RbdiblGrbdientPbint-4.png" blt="imbge showing the
+ * distbnce of AB, BC, AD, bnd DE bre bll equbl">
  * </center>
- * Note that some minor variations in distances may occur due to sampling at
- * the granularity of a pixel.
+ * Note thbt some minor vbribtions in distbnces mby occur due to sbmpling bt
+ * the grbnulbrity of b pixel.
  * If no cycle method is specified, {@code NO_CYCLE} will be chosen by
- * default, which means the the last keyframe color will be used to fill the
- * remaining area.
+ * defbult, which mebns the the lbst keyfrbme color will be used to fill the
+ * rembining breb.
  * <p>
- * The colorSpace parameter allows the user to specify in which colorspace
- * the interpolation should be performed, default sRGB or linearized RGB.
+ * The colorSpbce pbrbmeter bllows the user to specify in which colorspbce
+ * the interpolbtion should be performed, defbult sRGB or linebrized RGB.
  *
  * <p>
- * The following code demonstrates typical usage of
- * {@code RadialGradientPaint}, where the center and focus points are
- * the same:
+ * The following code demonstrbtes typicbl usbge of
+ * {@code RbdiblGrbdientPbint}, where the center bnd focus points bre
+ * the sbme:
  * <pre>
- *     Point2D center = new Point2D.Float(50, 50);
- *     float radius = 25;
- *     float[] dist = {0.0f, 0.2f, 1.0f};
+ *     Point2D center = new Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     RadialGradientPaint p =
- *         new RadialGradientPaint(center, radius, dist, colors);
+ *     RbdiblGrbdientPbint p =
+ *         new RbdiblGrbdientPbint(center, rbdius, dist, colors);
  * </pre>
  *
  * <p>
- * This image demonstrates the example code above, with default
- * (centered) focus for each of the three cycle methods:
+ * This imbge demonstrbtes the exbmple code bbove, with defbult
+ * (centered) focus for ebch of the three cycle methods:
  * <center>
- * <img src = "doc-files/RadialGradientPaint-1.png" alt="image showing the
- * output of the sameple code">
+ * <img src = "doc-files/RbdiblGrbdientPbint-1.png" blt="imbge showing the
+ * output of the sbmeple code">
  * </center>
  *
  * <p>
- * It is also possible to specify a non-centered focus point, as
+ * It is blso possible to specify b non-centered focus point, bs
  * in the following code:
  * <pre>
- *     Point2D center = new Point2D.Float(50, 50);
- *     float radius = 25;
- *     Point2D focus = new Point2D.Float(40, 40);
- *     float[] dist = {0.0f, 0.2f, 1.0f};
+ *     Point2D center = new Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     Point2D focus = new Point2D.Flobt(40, 40);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     RadialGradientPaint p =
- *         new RadialGradientPaint(center, radius, focus,
+ *     RbdiblGrbdientPbint p =
+ *         new RbdiblGrbdientPbint(center, rbdius, focus,
  *                                 dist, colors,
  *                                 CycleMethod.NO_CYCLE);
  * </pre>
  *
  * <p>
- * This image demonstrates the previous example code, with non-centered
- * focus for each of the three cycle methods:
+ * This imbge demonstrbtes the previous exbmple code, with non-centered
+ * focus for ebch of the three cycle methods:
  * <center>
- * <img src = "doc-files/RadialGradientPaint-2.png" alt="image showing the
- * output of the sample code">
+ * <img src = "doc-files/RbdiblGrbdientPbint-2.png" blt="imbge showing the
+ * output of the sbmple code">
  * </center>
  *
- * @see java.awt.Paint
- * @see java.awt.Graphics2D#setPaint
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
+ * @see jbvb.bwt.Pbint
+ * @see jbvb.bwt.Grbphics2D#setPbint
+ * @buthor Nicholbs Tblibn, Vincent Hbrdy, Jim Grbhbm, Jerry Evbns
  * @since 1.6
  */
-public final class RadialGradientPaint extends MultipleGradientPaint {
+public finbl clbss RbdiblGrbdientPbint extends MultipleGrbdientPbint {
 
-    /** Focus point which defines the 0% gradient stop X coordinate. */
-    private final Point2D focus;
+    /** Focus point which defines the 0% grbdient stop X coordinbte. */
+    privbte finbl Point2D focus;
 
-    /** Center of the circle defining the 100% gradient stop X coordinate. */
-    private final Point2D center;
+    /** Center of the circle defining the 100% grbdient stop X coordinbte. */
+    privbte finbl Point2D center;
 
-    /** Radius of the outermost circle defining the 100% gradient stop. */
-    private final float radius;
+    /** Rbdius of the outermost circle defining the 100% grbdient stop. */
+    privbte finbl flobt rbdius;
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space,
-     * using the center as the focus point.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code NO_CYCLE} repebting method bnd {@code SRGB} color spbce,
+     * using the center bs the focus point.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm cx the X coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm cy the Y coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float[] fractions, Color[] colors)
+    public RbdiblGrbdientPbint(flobt cx, flobt cy, flobt rbdius,
+                               flobt[] frbctions, Color[] colors)
     {
         this(cx, cy,
-             radius,
+             rbdius,
              cx, cy,
-             fractions,
+             frbctions,
              colors,
              CycleMethod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space,
-     * using the center as the focus point.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code NO_CYCLE} repebting method bnd {@code SRGB} color spbce,
+     * using the center bs the focus point.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm center the center point, in user spbce, of the circle defining
+     *               the grbdient
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
      *
      * @throws NullPointerException
      * if {@code center} point is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(Point2D center, float radius,
-                               float[] fractions, Color[] colors)
+    public RbdiblGrbdientPbint(Point2D center, flobt rbdius,
+                               flobt[] frbctions, Color[] colors)
     {
         this(center,
-             radius,
+             rbdius,
              center,
-             fractions,
+             frbctions,
              colors,
              CycleMethod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space, using the center as the focus point.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code SRGB} color spbce, using the center bs the focus point.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm cx the X coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm cy the Y coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float[] fractions, Color[] colors,
+    public RbdiblGrbdientPbint(flobt cx, flobt cy, flobt rbdius,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
         this(cx, cy,
-             radius,
+             rbdius,
              cx, cy,
-             fractions,
+             frbctions,
              colors,
              cycleMethod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space, using the center as the focus point.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code SRGB} color spbce, using the center bs the focus point.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm center the center point, in user spbce, of the circle defining
+     *               the grbdient
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
      * if {@code center} point is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(Point2D center, float radius,
-                               float[] fractions, Color[] colors,
+    public RbdiblGrbdientPbint(Point2D center, flobt rbdius,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
         this(center,
-             radius,
+             rbdius,
              center,
-             fractions,
+             frbctions,
              colors,
              cycleMethod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code SRGB} color spbce.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fx the X coordinate of the point in user space to which the
-     *           first color is mapped
-     * @param fy the Y coordinate of the point in user space to which the
-     *           first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm cx the X coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm cy the Y coordinbte in user spbce of the center point of the
+     *           circle defining the grbdient.  The lbst color of the
+     *           grbdient is mbpped to the perimeter of this circle.
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm fx the X coordinbte of the point in user spbce to which the
+     *           first color is mbpped
+     * @pbrbm fy the Y coordinbte of the point in user spbce to which the
+     *           first color is mbpped
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float fx, float fy,
-                               float[] fractions, Color[] colors,
+    public RbdiblGrbdientPbint(flobt cx, flobt cy, flobt rbdius,
+                               flobt fx, flobt fy,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
-        this(new Point2D.Float(cx, cy),
-             radius,
-             new Point2D.Float(fx, fy),
-             fractions,
+        this(new Point2D.Flobt(cx, cy),
+             rbdius,
+             new Point2D.Flobt(fx, fy),
+             frbctions,
              colors,
              cycleMethod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code SRGB} color spbce.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient.  The last color of the gradient is mapped
+     * @pbrbm center the center point, in user spbce, of the circle defining
+     *               the grbdient.  The lbst color of the grbdient is mbpped
      *               to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the color
-     *               gradient
-     * @param focus the point in user space to which the first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient. The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the color
+     *               grbdient
+     * @pbrbm focus the point in user spbce to which the first color is mbpped
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient. The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
      * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(Point2D center, float radius,
+    public RbdiblGrbdientPbint(Point2D center, flobt rbdius,
                                Point2D focus,
-                               float[] fractions, Color[] colors,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
         this(center,
-             radius,
+             rbdius,
              focus,
-             fractions,
+             frbctions,
              colors,
              cycleMethod,
-             ColorSpaceType.SRGB,
-             new AffineTransform());
+             ColorSpbceType.SRGB,
+             new AffineTrbnsform());
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint}.
+     * Constructs b {@code RbdiblGrbdientPbint}.
      *
-     * @param center the center point in user space of the circle defining the
-     *               gradient.  The last color of the gradient is mapped to
+     * @pbrbm center the center point in user spbce of the circle defining the
+     *               grbdient.  The lbst color of the grbdient is mbpped to
      *               the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param focus the point in user space to which the first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm rbdius the rbdius of the circle defining the extents of the
+     *               color grbdient
+     * @pbrbm focus the point in user spbce to which the first color is mbpped
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
+     * @pbrbm colorSpbce which color spbce to use for interpolbtion,
      *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
+     * @pbrbm grbdientTrbnsform trbnsform to bpply to the grbdient
      *
      * @throws NullPointerException
      * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null,
-     * or {@code gradientTransform} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * or {@code colorSpbce} is null,
+     * or {@code grbdientTrbnsform} is null
+     * @throws IllegblArgumentException
+     * if {@code rbdius} is non-positive,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    @ConstructorProperties({ "centerPoint", "radius", "focusPoint", "fractions", "colors", "cycleMethod", "colorSpace", "transform" })
-    public RadialGradientPaint(Point2D center,
-                               float radius,
+    @ConstructorProperties({ "centerPoint", "rbdius", "focusPoint", "frbctions", "colors", "cycleMethod", "colorSpbce", "trbnsform" })
+    public RbdiblGrbdientPbint(Point2D center,
+                               flobt rbdius,
                                Point2D focus,
-                               float[] fractions, Color[] colors,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod,
-                               ColorSpaceType colorSpace,
-                               AffineTransform gradientTransform)
+                               ColorSpbceType colorSpbce,
+                               AffineTrbnsform grbdientTrbnsform)
     {
-        super(fractions, colors, cycleMethod, colorSpace, gradientTransform);
+        super(frbctions, colors, cycleMethod, colorSpbce, grbdientTrbnsform);
 
-        // check input arguments
+        // check input brguments
         if (center == null) {
             throw new NullPointerException("Center point must be non-null");
         }
@@ -467,180 +467,180 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
             throw new NullPointerException("Focus point must be non-null");
         }
 
-        if (radius <= 0) {
-            throw new IllegalArgumentException("Radius must be greater " +
-                                               "than zero");
+        if (rbdius <= 0) {
+            throw new IllegblArgumentException("Rbdius must be grebter " +
+                                               "thbn zero");
         }
 
-        // copy parameters
+        // copy pbrbmeters
         this.center = new Point2D.Double(center.getX(), center.getY());
         this.focus = new Point2D.Double(focus.getX(), focus.getY());
-        this.radius = radius;
+        this.rbdius = rbdius;
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
-     * The gradient circle of the {@code RadialGradientPaint} is defined
+     * Constructs b {@code RbdiblGrbdientPbint} with b defbult
+     * {@code SRGB} color spbce.
+     * The grbdient circle of the {@code RbdiblGrbdientPbint} is defined
      * by the given bounding box.
      * <p>
-     * This constructor is a more convenient way to express the
-     * following (equivalent) code:<br>
+     * This constructor is b more convenient wby to express the
+     * following (equivblent) code:<br>
      *
      * <pre>
-     *     double gw = gradientBounds.getWidth();
-     *     double gh = gradientBounds.getHeight();
-     *     double cx = gradientBounds.getCenterX();
-     *     double cy = gradientBounds.getCenterY();
+     *     double gw = grbdientBounds.getWidth();
+     *     double gh = grbdientBounds.getHeight();
+     *     double cx = grbdientBounds.getCenterX();
+     *     double cy = grbdientBounds.getCenterY();
      *     Point2D center = new Point2D.Double(cx, cy);
      *
-     *     AffineTransform gradientTransform = new AffineTransform();
-     *     gradientTransform.translate(cx, cy);
-     *     gradientTransform.scale(gw / 2, gh / 2);
-     *     gradientTransform.translate(-cx, -cy);
+     *     AffineTrbnsform grbdientTrbnsform = new AffineTrbnsform();
+     *     grbdientTrbnsform.trbnslbte(cx, cy);
+     *     grbdientTrbnsform.scble(gw / 2, gh / 2);
+     *     grbdientTrbnsform.trbnslbte(-cx, -cy);
      *
-     *     RadialGradientPaint gp =
-     *         new RadialGradientPaint(center, 1.0f, center,
-     *                                 fractions, colors,
+     *     RbdiblGrbdientPbint gp =
+     *         new RbdiblGrbdientPbint(center, 1.0f, center,
+     *                                 frbctions, colors,
      *                                 cycleMethod,
-     *                                 ColorSpaceType.SRGB,
-     *                                 gradientTransform);
+     *                                 ColorSpbceType.SRGB,
+     *                                 grbdientTrbnsform);
      * </pre>
      *
-     * @param gradientBounds the bounding box, in user space, of the circle
-     *                       defining the outermost extent of the gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
+     * @pbrbm grbdientBounds the bounding box, in user spbce, of the circle
+     *                       defining the outermost extent of the grbdient
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors to use in the grbdient.  The first color
+     *               is used bt the focus point, the lbst color bround the
      *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
-     * if {@code gradientBounds} is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * if {@code grbdientBounds} is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code gradientBounds} is empty,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if {@code grbdientBounds} is empty,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public RadialGradientPaint(Rectangle2D gradientBounds,
-                               float[] fractions, Color[] colors,
+    public RbdiblGrbdientPbint(Rectbngle2D grbdientBounds,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
-        // gradient center/focal point is the center of the bounding box,
-        // radius is set to 1.0, and then we set a scale transform
-        // to achieve an elliptical gradient defined by the bounding box
-        this(new Point2D.Double(gradientBounds.getCenterX(),
-                                gradientBounds.getCenterY()),
+        // grbdient center/focbl point is the center of the bounding box,
+        // rbdius is set to 1.0, bnd then we set b scble trbnsform
+        // to bchieve bn ellipticbl grbdient defined by the bounding box
+        this(new Point2D.Double(grbdientBounds.getCenterX(),
+                                grbdientBounds.getCenterY()),
              1.0f,
-             new Point2D.Double(gradientBounds.getCenterX(),
-                                gradientBounds.getCenterY()),
-             fractions,
+             new Point2D.Double(grbdientBounds.getCenterX(),
+                                grbdientBounds.getCenterY()),
+             frbctions,
              colors,
              cycleMethod,
-             ColorSpaceType.SRGB,
-             createGradientTransform(gradientBounds));
+             ColorSpbceType.SRGB,
+             crebteGrbdientTrbnsform(grbdientBounds));
 
-        if (gradientBounds.isEmpty()) {
-            throw new IllegalArgumentException("Gradient bounds must be " +
+        if (grbdientBounds.isEmpty()) {
+            throw new IllegblArgumentException("Grbdient bounds must be " +
                                                "non-empty");
         }
     }
 
-    private static AffineTransform createGradientTransform(Rectangle2D r) {
+    privbte stbtic AffineTrbnsform crebteGrbdientTrbnsform(Rectbngle2D r) {
         double cx = r.getCenterX();
         double cy = r.getCenterY();
-        AffineTransform xform = AffineTransform.getTranslateInstance(cx, cy);
-        xform.scale(r.getWidth()/2, r.getHeight()/2);
-        xform.translate(-cx, -cy);
+        AffineTrbnsform xform = AffineTrbnsform.getTrbnslbteInstbnce(cx, cy);
+        xform.scble(r.getWidth()/2, r.getHeight()/2);
+        xform.trbnslbte(-cx, -cy);
         return xform;
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a circular radial color gradient pattern.
-     * See the description of the {@link Paint#createContext createContext} method
-     * for information on null parameter handling.
+     * Crebtes bnd returns b {@link PbintContext} used to
+     * generbte b circulbr rbdibl color grbdient pbttern.
+     * See the description of the {@link Pbint#crebteContext crebteContext} method
+     * for informbtion on null pbrbmeter hbndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
+     * @pbrbm cm the preferred {@link ColorModel} which represents the most convenient
+     *           formbt for the cbller to receive the pixel dbtb, or {@code null}
      *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param transform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
+     * @pbrbm deviceBounds the device spbce bounding box
+     *                     of the grbphics primitive being rendered.
+     * @pbrbm userBounds the user spbce bounding box
+     *                   of the grbphics primitive being rendered.
+     * @pbrbm trbnsform the {@link AffineTrbnsform} from user
+     *              spbce into device spbce.
+     * @pbrbm hints the set of hints thbt the context object cbn use to
+     *              choose between rendering blternbtives.
+     * @return the {@code PbintContext} for
+     *         generbting color pbtterns.
+     * @see Pbint
+     * @see PbintContext
      * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
+     * @see Rectbngle
+     * @see Rectbngle2D
+     * @see AffineTrbnsform
      * @see RenderingHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform transform,
+    public PbintContext crebteContext(ColorModel cm,
+                                      Rectbngle deviceBounds,
+                                      Rectbngle2D userBounds,
+                                      AffineTrbnsform trbnsform,
                                       RenderingHints hints)
     {
-        // avoid modifying the user's transform...
-        transform = new AffineTransform(transform);
-        // incorporate the gradient transform
-        transform.concatenate(gradientTransform);
+        // bvoid modifying the user's trbnsform...
+        trbnsform = new AffineTrbnsform(trbnsform);
+        // incorporbte the grbdient trbnsform
+        trbnsform.concbtenbte(grbdientTrbnsform);
 
-        return new RadialGradientPaintContext(this, cm,
+        return new RbdiblGrbdientPbintContext(this, cm,
                                               deviceBounds, userBounds,
-                                              transform, hints,
-                                              (float)center.getX(),
-                                              (float)center.getY(),
-                                              radius,
-                                              (float)focus.getX(),
-                                              (float)focus.getY(),
-                                              fractions, colors,
-                                              cycleMethod, colorSpace);
+                                              trbnsform, hints,
+                                              (flobt)center.getX(),
+                                              (flobt)center.getY(),
+                                              rbdius,
+                                              (flobt)focus.getX(),
+                                              (flobt)focus.getY(),
+                                              frbctions, colors,
+                                              cycleMethod, colorSpbce);
     }
 
     /**
-     * Returns a copy of the center point of the radial gradient.
+     * Returns b copy of the center point of the rbdibl grbdient.
      *
-     * @return a {@code Point2D} object that is a copy of the center point
+     * @return b {@code Point2D} object thbt is b copy of the center point
      */
     public Point2D getCenterPoint() {
         return new Point2D.Double(center.getX(), center.getY());
     }
 
     /**
-     * Returns a copy of the focus point of the radial gradient.
-     * Note that if the focus point specified when the radial gradient
-     * was constructed lies outside of the radius of the circle, this
-     * method will still return the original focus point even though
-     * the rendering may center the rings of color on a different
-     * point that lies inside the radius.
+     * Returns b copy of the focus point of the rbdibl grbdient.
+     * Note thbt if the focus point specified when the rbdibl grbdient
+     * wbs constructed lies outside of the rbdius of the circle, this
+     * method will still return the originbl focus point even though
+     * the rendering mby center the rings of color on b different
+     * point thbt lies inside the rbdius.
      *
-     * @return a {@code Point2D} object that is a copy of the focus point
+     * @return b {@code Point2D} object thbt is b copy of the focus point
      */
     public Point2D getFocusPoint() {
         return new Point2D.Double(focus.getX(), focus.getY());
     }
 
     /**
-     * Returns the radius of the circle defining the radial gradient.
+     * Returns the rbdius of the circle defining the rbdibl grbdient.
      *
-     * @return the radius of the circle defining the radial gradient
+     * @return the rbdius of the circle defining the rbdibl grbdient
      */
-    public float getRadius() {
-        return radius;
+    public flobt getRbdius() {
+        return rbdius;
     }
 }

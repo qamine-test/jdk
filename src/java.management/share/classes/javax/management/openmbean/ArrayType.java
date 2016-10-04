@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
-import java.io.ObjectStreamException;
-import java.lang.reflect.Array;
+import jbvb.io.ObjectStrebmException;
+import jbvb.lbng.reflect.Arrby;
 
 /**
- * The <code>ArrayType</code> class is the <i>open type</i> class whose instances describe
- * all <i>open data</i> values which are n-dimensional arrays of <i>open data</i> values.
+ * The <code>ArrbyType</code> clbss is the <i>open type</i> clbss whose instbnces describe
+ * bll <i>open dbtb</i> vblues which bre n-dimensionbl brrbys of <i>open dbtb</i> vblues.
  * <p>
- * Examples of valid {@code ArrayType} instances are:
+ * Exbmples of vblid {@code ArrbyType} instbnces bre:
  * <pre>{@code
- * // 2-dimension array of java.lang.String
- * ArrayType<String[][]> a1 = new ArrayType<String[][]>(2, SimpleType.STRING);
+ * // 2-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[][]> b1 = new ArrbyType<String[][]>(2, SimpleType.STRING);
  *
- * // 1-dimension array of int
- * ArrayType<int[]> a2 = new ArrayType<int[]>(SimpleType.INTEGER, true);
+ * // 1-dimension brrby of int
+ * ArrbyType<int[]> b2 = new ArrbyType<int[]>(SimpleType.INTEGER, true);
  *
- * // 1-dimension array of java.lang.Integer
- * ArrayType<Integer[]> a3 = new ArrayType<Integer[]>(SimpleType.INTEGER, false);
+ * // 1-dimension brrby of jbvb.lbng.Integer
+ * ArrbyType<Integer[]> b3 = new ArrbyType<Integer[]>(SimpleType.INTEGER, fblse);
  *
- * // 4-dimension array of int
- * ArrayType<int[][][][]> a4 = new ArrayType<int[][][][]>(3, a2);
+ * // 4-dimension brrby of int
+ * ArrbyType<int[][][][]> b4 = new ArrbyType<int[][][][]>(3, b2);
  *
- * // 4-dimension array of java.lang.Integer
- * ArrayType<Integer[][][][]> a5 = new ArrayType<Integer[][][][]>(3, a3);
+ * // 4-dimension brrby of jbvb.lbng.Integer
+ * ArrbyType<Integer[][][][]> b5 = new ArrbyType<Integer[][][][]>(3, b3);
  *
- * // 1-dimension array of java.lang.String
- * ArrayType<String[]> a6 = new ArrayType<String[]>(SimpleType.STRING, false);
+ * // 1-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[]> b6 = new ArrbyType<String[]>(SimpleType.STRING, fblse);
  *
- * // 1-dimension array of long
- * ArrayType<long[]> a7 = new ArrayType<long[]>(SimpleType.LONG, true);
+ * // 1-dimension brrby of long
+ * ArrbyType<long[]> b7 = new ArrbyType<long[]>(SimpleType.LONG, true);
  *
- * // 1-dimension array of java.lang.Integer
- * ArrayType<Integer[]> a8 = ArrayType.getArrayType(SimpleType.INTEGER);
+ * // 1-dimension brrby of jbvb.lbng.Integer
+ * ArrbyType<Integer[]> b8 = ArrbyType.getArrbyType(SimpleType.INTEGER);
  *
- * // 2-dimension array of java.lang.Integer
- * ArrayType<Integer[][]> a9 = ArrayType.getArrayType(a8);
+ * // 2-dimension brrby of jbvb.lbng.Integer
+ * ArrbyType<Integer[][]> b9 = ArrbyType.getArrbyType(b8);
  *
- * // 2-dimension array of int
- * ArrayType<int[][]> a10 = ArrayType.getPrimitiveArrayType(int[][].class);
+ * // 2-dimension brrby of int
+ * ArrbyType<int[][]> b10 = ArrbyType.getPrimitiveArrbyType(int[][].clbss);
  *
- * // 3-dimension array of int
- * ArrayType<int[][][]> a11 = ArrayType.getArrayType(a10);
+ * // 3-dimension brrby of int
+ * ArrbyType<int[][][]> b11 = ArrbyType.getArrbyType(b10);
  *
- * // 1-dimension array of float
- * ArrayType<float[]> a12 = ArrayType.getPrimitiveArrayType(float[].class);
+ * // 1-dimension brrby of flobt
+ * ArrbyType<flobt[]> b12 = ArrbyType.getPrimitiveArrbyType(flobt[].clbss);
  *
- * // 2-dimension array of float
- * ArrayType<float[][]> a13 = ArrayType.getArrayType(a12);
+ * // 2-dimension brrby of flobt
+ * ArrbyType<flobt[][]> b13 = ArrbyType.getArrbyType(b12);
  *
- * // 1-dimension array of javax.management.ObjectName
- * ArrayType<ObjectName[]> a14 = ArrayType.getArrayType(SimpleType.OBJECTNAME);
+ * // 1-dimension brrby of jbvbx.mbnbgement.ObjectNbme
+ * ArrbyType<ObjectNbme[]> b14 = ArrbyType.getArrbyType(SimpleType.OBJECTNAME);
  *
- * // 2-dimension array of javax.management.ObjectName
- * ArrayType<ObjectName[][]> a15 = ArrayType.getArrayType(a14);
+ * // 2-dimension brrby of jbvbx.mbnbgement.ObjectNbme
+ * ArrbyType<ObjectNbme[][]> b15 = ArrbyType.getArrbyType(b14);
  *
- * // 3-dimension array of java.lang.String
- * ArrayType<String[][][]> a16 = new ArrayType<String[][][]>(3, SimpleType.STRING);
+ * // 3-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[][][]> b16 = new ArrbyType<String[][][]>(3, SimpleType.STRING);
  *
- * // 1-dimension array of java.lang.String
- * ArrayType<String[]> a17 = new ArrayType<String[]>(1, SimpleType.STRING);
+ * // 1-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[]> b17 = new ArrbyType<String[]>(1, SimpleType.STRING);
  *
- * // 2-dimension array of java.lang.String
- * ArrayType<String[][]> a18 = new ArrayType<String[][]>(1, a17);
+ * // 2-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[][]> b18 = new ArrbyType<String[][]>(1, b17);
  *
- * // 3-dimension array of java.lang.String
- * ArrayType<String[][][]> a19 = new ArrayType<String[][][]>(1, a18);
+ * // 3-dimension brrby of jbvb.lbng.String
+ * ArrbyType<String[][][]> b19 = new ArrbyType<String[][][]>(1, b18);
  * }</pre>
  *
  *
  * @since 1.5
  */
 /*
-  Generification note: we could have defined a type parameter that is the
-  element type, with class ArrayType<E> extends OpenType<E[]>.  However,
-  that doesn't buy us all that much.  We can't say
+  Generificbtion note: we could hbve defined b type pbrbmeter thbt is the
+  element type, with clbss ArrbyType<E> extends OpenType<E[]>.  However,
+  thbt doesn't buy us bll thbt much.  We cbn't sby
     public OpenType<E> getElementOpenType()
-  because this ArrayType could be a multi-dimensional array.
-  For example, if we had
-    ArrayType(2, SimpleType.INTEGER)
-  then E would have to be Integer[], while getElementOpenType() would
-  return SimpleType.INTEGER, which is an OpenType<Integer>.
+  becbuse this ArrbyType could be b multi-dimensionbl brrby.
+  For exbmple, if we hbd
+    ArrbyType(2, SimpleType.INTEGER)
+  then E would hbve to be Integer[], while getElementOpenType() would
+  return SimpleType.INTEGER, which is bn OpenType<Integer>.
 
-  Furthermore, we would like to support int[] (as well as Integer[]) as
-  an Open Type (RFE 5045358).  We would want this to be an OpenType<int[]>
-  which can't be expressed as <E[]> because E can't be a primitive type
+  Furthermore, we would like to support int[] (bs well bs Integer[]) bs
+  bn Open Type (RFE 5045358).  We would wbnt this to be bn OpenType<int[]>
+  which cbn't be expressed bs <E[]> becbuse E cbn't be b primitive type
   like int.
  */
-public class ArrayType<T> extends OpenType<T> {
+public clbss ArrbyType<T> extends OpenType<T> {
 
-    /* Serial version */
-    static final long serialVersionUID = 720504429830309770L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 720504429830309770L;
 
     /**
-     * @serial The dimension of arrays described by this {@link ArrayType}
-     *         instance.
+     * @seribl The dimension of brrbys described by this {@link ArrbyType}
+     *         instbnce.
      */
-    private int dimension;
+    privbte int dimension;
 
     /**
-     * @serial The <i>open type</i> of element values contained in the arrays
-     *         described by this {@link ArrayType} instance.
+     * @seribl The <i>open type</i> of element vblues contbined in the brrbys
+     *         described by this {@link ArrbyType} instbnce.
      */
-    private OpenType<?> elementType;
+    privbte OpenType<?> elementType;
 
     /**
-     * @serial This flag indicates whether this {@link ArrayType}
-     *         describes a primitive array.
+     * @seribl This flbg indicbtes whether this {@link ArrbyType}
+     *         describes b primitive brrby.
      *
      * @since 1.6
      */
-    private boolean primitiveArray;
+    privbte boolebn primitiveArrby;
 
-    private transient Integer  myHashCode = null;       // As this instance is immutable, these two values
-    private transient String   myToString = null;       // need only be calculated once.
+    privbte trbnsient Integer  myHbshCode = null;       // As this instbnce is immutbble, these two vblues
+    privbte trbnsient String   myToString = null;       // need only be cblculbted once.
 
-    // indexes refering to columns in the PRIMITIVE_ARRAY_TYPES table.
-    private static final int PRIMITIVE_WRAPPER_NAME_INDEX = 0;
-    private static final int PRIMITIVE_TYPE_NAME_INDEX = 1;
-    private static final int PRIMITIVE_TYPE_KEY_INDEX  = 2;
-    private static final int PRIMITIVE_OPEN_TYPE_INDEX  = 3;
+    // indexes refering to columns in the PRIMITIVE_ARRAY_TYPES tbble.
+    privbte stbtic finbl int PRIMITIVE_WRAPPER_NAME_INDEX = 0;
+    privbte stbtic finbl int PRIMITIVE_TYPE_NAME_INDEX = 1;
+    privbte stbtic finbl int PRIMITIVE_TYPE_KEY_INDEX  = 2;
+    privbte stbtic finbl int PRIMITIVE_OPEN_TYPE_INDEX  = 3;
 
-    private static final Object[][] PRIMITIVE_ARRAY_TYPES = {
-        { Boolean.class.getName(),   boolean.class.getName(), "Z", SimpleType.BOOLEAN },
-        { Character.class.getName(), char.class.getName(),    "C", SimpleType.CHARACTER },
-        { Byte.class.getName(),      byte.class.getName(),    "B", SimpleType.BYTE },
-        { Short.class.getName(),     short.class.getName(),   "S", SimpleType.SHORT },
-        { Integer.class.getName(),   int.class.getName(),     "I", SimpleType.INTEGER },
-        { Long.class.getName(),      long.class.getName(),    "J", SimpleType.LONG },
-        { Float.class.getName(),     float.class.getName(),   "F", SimpleType.FLOAT },
-        { Double.class.getName(),    double.class.getName(),  "D", SimpleType.DOUBLE }
+    privbte stbtic finbl Object[][] PRIMITIVE_ARRAY_TYPES = {
+        { Boolebn.clbss.getNbme(),   boolebn.clbss.getNbme(), "Z", SimpleType.BOOLEAN },
+        { Chbrbcter.clbss.getNbme(), chbr.clbss.getNbme(),    "C", SimpleType.CHARACTER },
+        { Byte.clbss.getNbme(),      byte.clbss.getNbme(),    "B", SimpleType.BYTE },
+        { Short.clbss.getNbme(),     short.clbss.getNbme(),   "S", SimpleType.SHORT },
+        { Integer.clbss.getNbme(),   int.clbss.getNbme(),     "I", SimpleType.INTEGER },
+        { Long.clbss.getNbme(),      long.clbss.getNbme(),    "J", SimpleType.LONG },
+        { Flobt.clbss.getNbme(),     flobt.clbss.getNbme(),   "F", SimpleType.FLOAT },
+        { Double.clbss.getNbme(),    double.clbss.getNbme(),  "D", SimpleType.DOUBLE }
     };
 
-    static boolean isPrimitiveContentType(final String primitiveKey) {
+    stbtic boolebn isPrimitiveContentType(finbl String primitiveKey) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (typeDescr[PRIMITIVE_TYPE_KEY_INDEX].equals(primitiveKey)) {
+            if (typeDescr[PRIMITIVE_TYPE_KEY_INDEX].equbls(primitiveKey)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Return the key used to identify the element type in
-     * arrays - e.g. "Z" for boolean, "C" for char etc...
-     * @param elementClassName the wrapper class name of the array
-     *        element ("Boolean",  "Character", etc...)
+     * brrbys - e.g. "Z" for boolebn, "C" for chbr etc...
+     * @pbrbm elementClbssNbme the wrbpper clbss nbme of the brrby
+     *        element ("Boolebn",  "Chbrbcter", etc...)
      * @return the key corresponding to the given type ("Z", "C", etc...)
-     *         return null if the given elementClassName is not a primitive
-     *         wrapper class name.
+     *         return null if the given elementClbssNbme is not b primitive
+     *         wrbpper clbss nbme.
      **/
-    static String getPrimitiveTypeKey(String elementClassName) {
+    stbtic String getPrimitiveTypeKey(String elementClbssNbme) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+            if (elementClbssNbme.equbls(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
                 return (String)typeDescr[PRIMITIVE_TYPE_KEY_INDEX];
         }
         return null;
     }
 
     /**
-     * Return the primitive type name corresponding to the given wrapper class.
-     * e.g. "boolean" for "Boolean", "char" for "Character" etc...
-     * @param elementClassName the type of the array element ("Boolean",
-     *        "Character", etc...)
-     * @return the primitive type name corresponding to the given wrapper class
-     *         ("boolean", "char", etc...)
-     *         return null if the given elementClassName is not a primitive
-     *         wrapper type name.
+     * Return the primitive type nbme corresponding to the given wrbpper clbss.
+     * e.g. "boolebn" for "Boolebn", "chbr" for "Chbrbcter" etc...
+     * @pbrbm elementClbssNbme the type of the brrby element ("Boolebn",
+     *        "Chbrbcter", etc...)
+     * @return the primitive type nbme corresponding to the given wrbpper clbss
+     *         ("boolebn", "chbr", etc...)
+     *         return null if the given elementClbssNbme is not b primitive
+     *         wrbpper type nbme.
      **/
-    static String getPrimitiveTypeName(String elementClassName) {
+    stbtic String getPrimitiveTypeNbme(String elementClbssNbme) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+            if (elementClbssNbme.equbls(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
                 return (String)typeDescr[PRIMITIVE_TYPE_NAME_INDEX];
         }
         return null;
@@ -202,18 +202,18 @@ public class ArrayType<T> extends OpenType<T> {
 
     /**
      * Return the primitive open type corresponding to the given primitive type.
-     * e.g. SimpleType.BOOLEAN for "boolean", SimpleType.CHARACTER for
-     * "char", etc...
-     * @param primitiveTypeName the primitive type of the array element ("boolean",
-     *        "char", etc...)
-     * @return the OpenType corresponding to the given primitive type name
+     * e.g. SimpleType.BOOLEAN for "boolebn", SimpleType.CHARACTER for
+     * "chbr", etc...
+     * @pbrbm primitiveTypeNbme the primitive type of the brrby element ("boolebn",
+     *        "chbr", etc...)
+     * @return the OpenType corresponding to the given primitive type nbme
      *         (SimpleType.BOOLEAN, SimpleType.CHARACTER, etc...)
-     *         return null if the given elementClassName is not a primitive
-     *         type name.
+     *         return null if the given elementClbssNbme is not b primitive
+     *         type nbme.
      **/
-    static SimpleType<?> getPrimitiveOpenType(String primitiveTypeName) {
+    stbtic SimpleType<?> getPrimitiveOpenType(String primitiveTypeNbme) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (primitiveTypeName.equals(typeDescr[PRIMITIVE_TYPE_NAME_INDEX]))
+            if (primitiveTypeNbme.equbls(typeDescr[PRIMITIVE_TYPE_NAME_INDEX]))
                 return (SimpleType<?>)typeDescr[PRIMITIVE_OPEN_TYPE_INDEX];
         }
         return null;
@@ -222,268 +222,268 @@ public class ArrayType<T> extends OpenType<T> {
     /* *** Constructor *** */
 
     /**
-     * Constructs an <tt>ArrayType</tt> instance describing <i>open data</i> values which are
-     * arrays with dimension <var>dimension</var> of elements whose <i>open type</i> is <var>elementType</var>.
+     * Constructs bn <tt>ArrbyType</tt> instbnce describing <i>open dbtb</i> vblues which bre
+     * brrbys with dimension <vbr>dimension</vbr> of elements whose <i>open type</i> is <vbr>elementType</vbr>.
      * <p>
-     * When invoked on an <tt>ArrayType</tt> instance, the {@link OpenType#getClassName() getClassName} method
-     * returns the class name of the array instances it describes (following the rules defined by the
-     * {@link Class#getName() getName} method of <code>java.lang.Class</code>), not the class name of the array elements
-     * (which is returned by a call to <tt>getElementOpenType().getClassName()</tt>).
+     * When invoked on bn <tt>ArrbyType</tt> instbnce, the {@link OpenType#getClbssNbme() getClbssNbme} method
+     * returns the clbss nbme of the brrby instbnces it describes (following the rules defined by the
+     * {@link Clbss#getNbme() getNbme} method of <code>jbvb.lbng.Clbss</code>), not the clbss nbme of the brrby elements
+     * (which is returned by b cbll to <tt>getElementOpenType().getClbssNbme()</tt>).
      * <p>
-     * The internal field corresponding to the type name of this <code>ArrayType</code> instance is also set to
-     * the class name of the array instances it describes.
-     * In other words, the methods <code>getClassName</code> and <code>getTypeName</code> return the same string value.
-     * The internal field corresponding to the description of this <code>ArrayType</code> instance is set to a string value
-     * which follows the following template:
+     * The internbl field corresponding to the type nbme of this <code>ArrbyType</code> instbnce is blso set to
+     * the clbss nbme of the brrby instbnces it describes.
+     * In other words, the methods <code>getClbssNbme</code> bnd <code>getTypeNbme</code> return the sbme string vblue.
+     * The internbl field corresponding to the description of this <code>ArrbyType</code> instbnce is set to b string vblue
+     * which follows the following templbte:
      * <ul>
-     * <li>if non-primitive array: <tt><i>&lt;dimension&gt;</i>-dimension array of <i>&lt;element_class_name&gt;</i></tt></li>
-     * <li>if primitive array: <tt><i>&lt;dimension&gt;</i>-dimension array of <i>&lt;primitive_type_of_the_element_class_name&gt;</i></tt></li>
+     * <li>if non-primitive brrby: <tt><i>&lt;dimension&gt;</i>-dimension brrby of <i>&lt;element_clbss_nbme&gt;</i></tt></li>
+     * <li>if primitive brrby: <tt><i>&lt;dimension&gt;</i>-dimension brrby of <i>&lt;primitive_type_of_the_element_clbss_nbme&gt;</i></tt></li>
      * </ul>
      * <p>
-     * As an example, the following piece of code:
+     * As bn exbmple, the following piece of code:
      * <pre>{@code
-     * ArrayType<String[][][]> t = new ArrayType<String[][][]>(3, SimpleType.STRING);
-     * System.out.println("array class name       = " + t.getClassName());
-     * System.out.println("element class name     = " + t.getElementOpenType().getClassName());
-     * System.out.println("array type name        = " + t.getTypeName());
-     * System.out.println("array type description = " + t.getDescription());
+     * ArrbyType<String[][][]> t = new ArrbyType<String[][][]>(3, SimpleType.STRING);
+     * System.out.println("brrby clbss nbme       = " + t.getClbssNbme());
+     * System.out.println("element clbss nbme     = " + t.getElementOpenType().getClbssNbme());
+     * System.out.println("brrby type nbme        = " + t.getTypeNbme());
+     * System.out.println("brrby type description = " + t.getDescription());
      * }</pre>
      * would produce the following output:
      * <pre>{@code
-     * array class name       = [[[Ljava.lang.String;
-     * element class name     = java.lang.String
-     * array type name        = [[[Ljava.lang.String;
-     * array type description = 3-dimension array of java.lang.String
+     * brrby clbss nbme       = [[[Ljbvb.lbng.String;
+     * element clbss nbme     = jbvb.lbng.String
+     * brrby type nbme        = [[[Ljbvb.lbng.String;
+     * brrby type description = 3-dimension brrby of jbvb.lbng.String
      * }</pre>
-     * And the following piece of code which is equivalent to the one listed
-     * above would also produce the same output:
+     * And the following piece of code which is equivblent to the one listed
+     * bbove would blso produce the sbme output:
      * <pre>{@code
-     * ArrayType<String[]> t1 = new ArrayType<String[]>(1, SimpleType.STRING);
-     * ArrayType<String[][]> t2 = new ArrayType<String[][]>(1, t1);
-     * ArrayType<String[][][]> t3 = new ArrayType<String[][][]>(1, t2);
-     * System.out.println("array class name       = " + t3.getClassName());
-     * System.out.println("element class name     = " + t3.getElementOpenType().getClassName());
-     * System.out.println("array type name        = " + t3.getTypeName());
-     * System.out.println("array type description = " + t3.getDescription());
+     * ArrbyType<String[]> t1 = new ArrbyType<String[]>(1, SimpleType.STRING);
+     * ArrbyType<String[][]> t2 = new ArrbyType<String[][]>(1, t1);
+     * ArrbyType<String[][][]> t3 = new ArrbyType<String[][][]>(1, t2);
+     * System.out.println("brrby clbss nbme       = " + t3.getClbssNbme());
+     * System.out.println("element clbss nbme     = " + t3.getElementOpenType().getClbssNbme());
+     * System.out.println("brrby type nbme        = " + t3.getTypeNbme());
+     * System.out.println("brrby type description = " + t3.getDescription());
      * }</pre>
      *
-     * @param  dimension  the dimension of arrays described by this <tt>ArrayType</tt> instance;
-     *                    must be greater than or equal to 1.
+     * @pbrbm  dimension  the dimension of brrbys described by this <tt>ArrbyType</tt> instbnce;
+     *                    must be grebter thbn or equbl to 1.
      *
-     * @param  elementType  the <i>open type</i> of element values contained
-     *                      in the arrays described by this <tt>ArrayType</tt>
-     *                      instance; must be an instance of either
+     * @pbrbm  elementType  the <i>open type</i> of element vblues contbined
+     *                      in the brrbys described by this <tt>ArrbyType</tt>
+     *                      instbnce; must be bn instbnce of either
      *                      <tt>SimpleType</tt>, <tt>CompositeType</tt>,
-     *                      <tt>TabularType</tt> or another <tt>ArrayType</tt>
-     *                      with a <tt>SimpleType</tt>, <tt>CompositeType</tt>
-     *                      or <tt>TabularType</tt> as its <tt>elementType</tt>.
+     *                      <tt>TbbulbrType</tt> or bnother <tt>ArrbyType</tt>
+     *                      with b <tt>SimpleType</tt>, <tt>CompositeType</tt>
+     *                      or <tt>TbbulbrType</tt> bs its <tt>elementType</tt>.
      *
-     * @throws IllegalArgumentException if {@code dimension} is not a positive
+     * @throws IllegblArgumentException if {@code dimension} is not b positive
      *                                  integer.
-     * @throws OpenDataException  if <var>elementType's className</var> is not
-     *                            one of the allowed Java class names for open
-     *                            data.
+     * @throws OpenDbtbException  if <vbr>elementType's clbssNbme</vbr> is not
+     *                            one of the bllowed Jbvb clbss nbmes for open
+     *                            dbtb.
      */
-    public ArrayType(int dimension,
-                     OpenType<?> elementType) throws OpenDataException {
-        // Check and construct state defined by parent.
-        // We can't use the package-private OpenType constructor because
-        // we don't know if the elementType parameter is sane.
-        super(buildArrayClassName(dimension, elementType),
-              buildArrayClassName(dimension, elementType),
-              buildArrayDescription(dimension, elementType));
+    public ArrbyType(int dimension,
+                     OpenType<?> elementType) throws OpenDbtbException {
+        // Check bnd construct stbte defined by pbrent.
+        // We cbn't use the pbckbge-privbte OpenType constructor becbuse
+        // we don't know if the elementType pbrbmeter is sbne.
+        super(buildArrbyClbssNbme(dimension, elementType),
+              buildArrbyClbssNbme(dimension, elementType),
+              buildArrbyDescription(dimension, elementType));
 
-        // Check and construct state specific to ArrayType
+        // Check bnd construct stbte specific to ArrbyType
         //
-        if (elementType.isArray()) {
-            ArrayType<?> at = (ArrayType<?>) elementType;
-            this.dimension = at.getDimension() + dimension;
-            this.elementType = at.getElementOpenType();
-            this.primitiveArray = at.isPrimitiveArray();
+        if (elementType.isArrby()) {
+            ArrbyType<?> bt = (ArrbyType<?>) elementType;
+            this.dimension = bt.getDimension() + dimension;
+            this.elementType = bt.getElementOpenType();
+            this.primitiveArrby = bt.isPrimitiveArrby();
         } else {
             this.dimension = dimension;
             this.elementType = elementType;
-            this.primitiveArray = false;
+            this.primitiveArrby = fblse;
         }
     }
 
     /**
-     * Constructs a unidimensional {@code ArrayType} instance for the
+     * Constructs b unidimensionbl {@code ArrbyType} instbnce for the
      * supplied {@code SimpleType}.
      * <p>
-     * This constructor supports the creation of arrays of primitive
-     * types when {@code primitiveArray} is {@code true}.
+     * This constructor supports the crebtion of brrbys of primitive
+     * types when {@code primitiveArrby} is {@code true}.
      * <p>
-     * For primitive arrays the {@link #getElementOpenType()} method
-     * returns the {@link SimpleType} corresponding to the wrapper
-     * type of the primitive type of the array.
+     * For primitive brrbys the {@link #getElementOpenType()} method
+     * returns the {@link SimpleType} corresponding to the wrbpper
+     * type of the primitive type of the brrby.
      * <p>
-     * When invoked on an <tt>ArrayType</tt> instance, the {@link OpenType#getClassName() getClassName} method
-     * returns the class name of the array instances it describes (following the rules defined by the
-     * {@link Class#getName() getName} method of <code>java.lang.Class</code>), not the class name of the array elements
-     * (which is returned by a call to <tt>getElementOpenType().getClassName()</tt>).
+     * When invoked on bn <tt>ArrbyType</tt> instbnce, the {@link OpenType#getClbssNbme() getClbssNbme} method
+     * returns the clbss nbme of the brrby instbnces it describes (following the rules defined by the
+     * {@link Clbss#getNbme() getNbme} method of <code>jbvb.lbng.Clbss</code>), not the clbss nbme of the brrby elements
+     * (which is returned by b cbll to <tt>getElementOpenType().getClbssNbme()</tt>).
      * <p>
-     * The internal field corresponding to the type name of this <code>ArrayType</code> instance is also set to
-     * the class name of the array instances it describes.
-     * In other words, the methods <code>getClassName</code> and <code>getTypeName</code> return the same string value.
-     * The internal field corresponding to the description of this <code>ArrayType</code> instance is set to a string value
-     * which follows the following template:
+     * The internbl field corresponding to the type nbme of this <code>ArrbyType</code> instbnce is blso set to
+     * the clbss nbme of the brrby instbnces it describes.
+     * In other words, the methods <code>getClbssNbme</code> bnd <code>getTypeNbme</code> return the sbme string vblue.
+     * The internbl field corresponding to the description of this <code>ArrbyType</code> instbnce is set to b string vblue
+     * which follows the following templbte:
      * <ul>
-     * <li>if non-primitive array: <tt>1-dimension array of <i>&lt;element_class_name&gt;</i></tt></li>
-     * <li>if primitive array: <tt>1-dimension array of <i>&lt;primitive_type_of_the_element_class_name&gt;</i></tt></li>
+     * <li>if non-primitive brrby: <tt>1-dimension brrby of <i>&lt;element_clbss_nbme&gt;</i></tt></li>
+     * <li>if primitive brrby: <tt>1-dimension brrby of <i>&lt;primitive_type_of_the_element_clbss_nbme&gt;</i></tt></li>
      * </ul>
      * <p>
-     * As an example, the following piece of code:
+     * As bn exbmple, the following piece of code:
      * <pre>{@code
-     * ArrayType<int[]> t = new ArrayType<int[]>(SimpleType.INTEGER, true);
-     * System.out.println("array class name       = " + t.getClassName());
-     * System.out.println("element class name     = " + t.getElementOpenType().getClassName());
-     * System.out.println("array type name        = " + t.getTypeName());
-     * System.out.println("array type description = " + t.getDescription());
+     * ArrbyType<int[]> t = new ArrbyType<int[]>(SimpleType.INTEGER, true);
+     * System.out.println("brrby clbss nbme       = " + t.getClbssNbme());
+     * System.out.println("element clbss nbme     = " + t.getElementOpenType().getClbssNbme());
+     * System.out.println("brrby type nbme        = " + t.getTypeNbme());
+     * System.out.println("brrby type description = " + t.getDescription());
      * }</pre>
      * would produce the following output:
      * <pre>{@code
-     * array class name       = [I
-     * element class name     = java.lang.Integer
-     * array type name        = [I
-     * array type description = 1-dimension array of int
+     * brrby clbss nbme       = [I
+     * element clbss nbme     = jbvb.lbng.Integer
+     * brrby type nbme        = [I
+     * brrby type description = 1-dimension brrby of int
      * }</pre>
      *
-     * @param elementType the {@code SimpleType} of the element values
-     *                    contained in the arrays described by this
-     *                    {@code ArrayType} instance.
+     * @pbrbm elementType the {@code SimpleType} of the element vblues
+     *                    contbined in the brrbys described by this
+     *                    {@code ArrbyType} instbnce.
      *
-     * @param primitiveArray {@code true} when this array describes
-     *                       primitive arrays.
+     * @pbrbm primitiveArrby {@code true} when this brrby describes
+     *                       primitive brrbys.
      *
-     * @throws IllegalArgumentException if {@code dimension} is not a positive
+     * @throws IllegblArgumentException if {@code dimension} is not b positive
      * integer.
-     * @throws OpenDataException if {@code primitiveArray} is {@code true} and
-     * {@code elementType} is not a valid {@code SimpleType} for a primitive
+     * @throws OpenDbtbException if {@code primitiveArrby} is {@code true} bnd
+     * {@code elementType} is not b vblid {@code SimpleType} for b primitive
      * type.
      *
      * @since 1.6
      */
-    public ArrayType(SimpleType<?> elementType,
-                     boolean primitiveArray) throws OpenDataException {
+    public ArrbyType(SimpleType<?> elementType,
+                     boolebn primitiveArrby) throws OpenDbtbException {
 
-        // Check and construct state defined by parent.
-        // We can call the package-private OpenType constructor because the
-        // set of SimpleTypes is fixed and SimpleType can't be subclassed.
-        super(buildArrayClassName(1, elementType, primitiveArray),
-              buildArrayClassName(1, elementType, primitiveArray),
-              buildArrayDescription(1, elementType, primitiveArray),
+        // Check bnd construct stbte defined by pbrent.
+        // We cbn cbll the pbckbge-privbte OpenType constructor becbuse the
+        // set of SimpleTypes is fixed bnd SimpleType cbn't be subclbssed.
+        super(buildArrbyClbssNbme(1, elementType, primitiveArrby),
+              buildArrbyClbssNbme(1, elementType, primitiveArrby),
+              buildArrbyDescription(1, elementType, primitiveArrby),
               true);
 
-        // Check and construct state specific to ArrayType
+        // Check bnd construct stbte specific to ArrbyType
         //
         this.dimension = 1;
         this.elementType = elementType;
-        this.primitiveArray = primitiveArray;
+        this.primitiveArrby = primitiveArrby;
     }
 
-    /* Package-private constructor for callers we trust to get it right. */
-    ArrayType(String className, String typeName, String description,
+    /* Pbckbge-privbte constructor for cbllers we trust to get it right. */
+    ArrbyType(String clbssNbme, String typeNbme, String description,
               int dimension, OpenType<?> elementType,
-              boolean primitiveArray) {
-        super(className, typeName, description, true);
+              boolebn primitiveArrby) {
+        super(clbssNbme, typeNbme, description, true);
         this.dimension = dimension;
         this.elementType = elementType;
-        this.primitiveArray = primitiveArray;
+        this.primitiveArrby = primitiveArrby;
     }
 
-    private static String buildArrayClassName(int dimension,
+    privbte stbtic String buildArrbyClbssNbme(int dimension,
                                               OpenType<?> elementType)
-        throws OpenDataException {
-        boolean isPrimitiveArray = false;
-        if (elementType.isArray()) {
-            isPrimitiveArray = ((ArrayType<?>) elementType).isPrimitiveArray();
+        throws OpenDbtbException {
+        boolebn isPrimitiveArrby = fblse;
+        if (elementType.isArrby()) {
+            isPrimitiveArrby = ((ArrbyType<?>) elementType).isPrimitiveArrby();
         }
-        return buildArrayClassName(dimension, elementType, isPrimitiveArray);
+        return buildArrbyClbssNbme(dimension, elementType, isPrimitiveArrby);
     }
 
-    private static String buildArrayClassName(int dimension,
+    privbte stbtic String buildArrbyClbssNbme(int dimension,
                                               OpenType<?> elementType,
-                                              boolean isPrimitiveArray)
-        throws OpenDataException {
+                                              boolebn isPrimitiveArrby)
+        throws OpenDbtbException {
         if (dimension < 1) {
-            throw new IllegalArgumentException(
-                "Value of argument dimension must be greater than 0");
+            throw new IllegblArgumentException(
+                "Vblue of brgument dimension must be grebter thbn 0");
         }
         StringBuilder result = new StringBuilder();
-        String elementClassName = elementType.getClassName();
-        // Add N (= dimension) additional '[' characters to the existing array
+        String elementClbssNbme = elementType.getClbssNbme();
+        // Add N (= dimension) bdditionbl '[' chbrbcters to the existing brrby
         for (int i = 1; i <= dimension; i++) {
-            result.append('[');
+            result.bppend('[');
         }
-        if (elementType.isArray()) {
-            result.append(elementClassName);
+        if (elementType.isArrby()) {
+            result.bppend(elementClbssNbme);
         } else {
-            if (isPrimitiveArray) {
-                final String key = getPrimitiveTypeKey(elementClassName);
-                // Ideally we should throw an IllegalArgumentException here,
-                // but for compatibility reasons we throw an OpenDataException.
+            if (isPrimitiveArrby) {
+                finbl String key = getPrimitiveTypeKey(elementClbssNbme);
+                // Ideblly we should throw bn IllegblArgumentException here,
+                // but for compbtibility rebsons we throw bn OpenDbtbException.
                 // (used to be thrown by OpenType() constructor).
                 //
                 if (key == null)
-                    throw new OpenDataException("Element type is not primitive: "
-                            + elementClassName);
-                result.append(key);
+                    throw new OpenDbtbException("Element type is not primitive: "
+                            + elementClbssNbme);
+                result.bppend(key);
             } else {
-                result.append("L");
-                result.append(elementClassName);
-                result.append(';');
+                result.bppend("L");
+                result.bppend(elementClbssNbme);
+                result.bppend(';');
             }
         }
         return result.toString();
     }
 
-    private static String buildArrayDescription(int dimension,
+    privbte stbtic String buildArrbyDescription(int dimension,
                                                 OpenType<?> elementType)
-        throws OpenDataException {
-        boolean isPrimitiveArray = false;
-        if (elementType.isArray()) {
-            isPrimitiveArray = ((ArrayType<?>) elementType).isPrimitiveArray();
+        throws OpenDbtbException {
+        boolebn isPrimitiveArrby = fblse;
+        if (elementType.isArrby()) {
+            isPrimitiveArrby = ((ArrbyType<?>) elementType).isPrimitiveArrby();
         }
-        return buildArrayDescription(dimension, elementType, isPrimitiveArray);
+        return buildArrbyDescription(dimension, elementType, isPrimitiveArrby);
     }
 
-    private static String buildArrayDescription(int dimension,
+    privbte stbtic String buildArrbyDescription(int dimension,
                                                 OpenType<?> elementType,
-                                                boolean isPrimitiveArray)
-        throws OpenDataException {
-        if (elementType.isArray()) {
-            ArrayType<?> at = (ArrayType<?>) elementType;
-            dimension += at.getDimension();
-            elementType = at.getElementOpenType();
-            isPrimitiveArray = at.isPrimitiveArray();
+                                                boolebn isPrimitiveArrby)
+        throws OpenDbtbException {
+        if (elementType.isArrby()) {
+            ArrbyType<?> bt = (ArrbyType<?>) elementType;
+            dimension += bt.getDimension();
+            elementType = bt.getElementOpenType();
+            isPrimitiveArrby = bt.isPrimitiveArrby();
         }
         StringBuilder result =
-            new StringBuilder(dimension + "-dimension array of ");
-        final String elementClassName = elementType.getClassName();
-        if (isPrimitiveArray) {
-            // Convert from wrapper type to primitive type
-            final String primitiveType =
-                    getPrimitiveTypeName(elementClassName);
+            new StringBuilder(dimension + "-dimension brrby of ");
+        finbl String elementClbssNbme = elementType.getClbssNbme();
+        if (isPrimitiveArrby) {
+            // Convert from wrbpper type to primitive type
+            finbl String primitiveType =
+                    getPrimitiveTypeNbme(elementClbssNbme);
 
-            // Ideally we should throw an IllegalArgumentException here,
-            // but for compatibility reasons we throw an OpenDataException.
+            // Ideblly we should throw bn IllegblArgumentException here,
+            // but for compbtibility rebsons we throw bn OpenDbtbException.
             // (used to be thrown by OpenType() constructor).
             //
             if (primitiveType == null)
-                throw new OpenDataException("Element is not a primitive type: "+
-                        elementClassName);
-            result.append(primitiveType);
+                throw new OpenDbtbException("Element is not b primitive type: "+
+                        elementClbssNbme);
+            result.bppend(primitiveType);
         } else {
-            result.append(elementClassName);
+            result.bppend(elementClbssNbme);
         }
         return result.toString();
     }
 
-    /* *** ArrayType specific information methods *** */
+    /* *** ArrbyType specific informbtion methods *** */
 
     /**
-     * Returns the dimension of arrays described by this <tt>ArrayType</tt> instance.
+     * Returns the dimension of brrbys described by this <tt>ArrbyType</tt> instbnce.
      *
      * @return the dimension.
      */
@@ -493,7 +493,7 @@ public class ArrayType<T> extends OpenType<T> {
     }
 
     /**
-     * Returns the <i>open type</i> of element values contained in the arrays described by this <tt>ArrayType</tt> instance.
+     * Returns the <i>open type</i> of element vblues contbined in the brrbys described by this <tt>ArrbyType</tt> instbnce.
      *
      * @return the element type.
      */
@@ -503,132 +503,132 @@ public class ArrayType<T> extends OpenType<T> {
     }
 
     /**
-     * Returns <code>true</code> if the open data values this open
-     * type describes are primitive arrays, <code>false</code> otherwise.
+     * Returns <code>true</code> if the open dbtb vblues this open
+     * type describes bre primitive brrbys, <code>fblse</code> otherwise.
      *
-     * @return true if this is a primitive array type.
+     * @return true if this is b primitive brrby type.
      *
      * @since 1.6
      */
-    public boolean isPrimitiveArray() {
+    public boolebn isPrimitiveArrby() {
 
-        return primitiveArray;
+        return primitiveArrby;
     }
 
     /**
-     * Tests whether <var>obj</var> is a value for this <code>ArrayType</code>
-     * instance.
+     * Tests whether <vbr>obj</vbr> is b vblue for this <code>ArrbyType</code>
+     * instbnce.
      * <p>
-     * This method returns <code>true</code> if and only if <var>obj</var>
-     * is not null, <var>obj</var> is an array and any one of the following
+     * This method returns <code>true</code> if bnd only if <vbr>obj</vbr>
+     * is not null, <vbr>obj</vbr> is bn brrby bnd bny one of the following
      * is <tt>true</tt>:
      *
      * <ul>
-     * <li>if this <code>ArrayType</code> instance describes an array of
+     * <li>if this <code>ArrbyType</code> instbnce describes bn brrby of
      * <tt>SimpleType</tt> elements or their corresponding primitive types,
-     * <var>obj</var>'s class name is the same as the className field defined
-     * for this <code>ArrayType</code> instance (i.e. the class name returned
-     * by the {@link OpenType#getClassName() getClassName} method, which
-     * includes the dimension information),<br>&nbsp;</li>
-     * <li>if this <code>ArrayType</code> instance describes an array of
-     * classes implementing the {@code TabularData} interface or the
-     * {@code CompositeData} interface, <var>obj</var> is assignable to
-     * such a declared array, and each element contained in {<var>obj</var>
-     * is either null or a valid value for the element's open type specified
-     * by this <code>ArrayType</code> instance.</li>
+     * <vbr>obj</vbr>'s clbss nbme is the sbme bs the clbssNbme field defined
+     * for this <code>ArrbyType</code> instbnce (i.e. the clbss nbme returned
+     * by the {@link OpenType#getClbssNbme() getClbssNbme} method, which
+     * includes the dimension informbtion),<br>&nbsp;</li>
+     * <li>if this <code>ArrbyType</code> instbnce describes bn brrby of
+     * clbsses implementing the {@code TbbulbrDbtb} interfbce or the
+     * {@code CompositeDbtb} interfbce, <vbr>obj</vbr> is bssignbble to
+     * such b declbred brrby, bnd ebch element contbined in {<vbr>obj</vbr>
+     * is either null or b vblid vblue for the element's open type specified
+     * by this <code>ArrbyType</code> instbnce.</li>
      * </ul>
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj the object to be tested.
      *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * <code>ArrayType</code> instance.
+     * @return <code>true</code> if <vbr>obj</vbr> is b vblue for this
+     * <code>ArrbyType</code> instbnce.
      */
-    public boolean isValue(Object obj) {
+    public boolebn isVblue(Object obj) {
 
-        // if obj is null, return false
+        // if obj is null, return fblse
         //
         if (obj == null) {
-            return false;
+            return fblse;
         }
 
-        Class<?> objClass = obj.getClass();
-        String objClassName = objClass.getName();
+        Clbss<?> objClbss = obj.getClbss();
+        String objClbssNbme = objClbss.getNbme();
 
-        // if obj is not an array, return false
+        // if obj is not bn brrby, return fblse
         //
-        if ( ! objClass.isArray() ) {
-            return false;
+        if ( ! objClbss.isArrby() ) {
+            return fblse;
         }
 
-        // Test if obj's class name is the same as for the array values that this instance describes
-        // (this is fine if elements are of simple types, which are final classes)
+        // Test if obj's clbss nbme is the sbme bs for the brrby vblues thbt this instbnce describes
+        // (this is fine if elements bre of simple types, which bre finbl clbsses)
         //
-        if ( this.getClassName().equals(objClassName) ) {
+        if ( this.getClbssNbme().equbls(objClbssNbme) ) {
             return true;
         }
 
-        // In case this ArrayType instance describes an array of classes implementing the TabularData or CompositeData interface,
-        // we first check for the assignability of obj to such an array of TabularData or CompositeData,
-        // which ensures that:
-        //  . obj is of the the same dimension as this ArrayType instance,
-        //  . it is declared as an array of elements which are either all TabularData or all CompositeData.
+        // In cbse this ArrbyType instbnce describes bn brrby of clbsses implementing the TbbulbrDbtb or CompositeDbtb interfbce,
+        // we first check for the bssignbbility of obj to such bn brrby of TbbulbrDbtb or CompositeDbtb,
+        // which ensures thbt:
+        //  . obj is of the the sbme dimension bs this ArrbyType instbnce,
+        //  . it is declbred bs bn brrby of elements which bre either bll TbbulbrDbtb or bll CompositeDbtb.
         //
-        // If the assignment check is positive,
-        // then we have to check that each element in obj is of the same TabularType or CompositeType
-        // as the one described by this ArrayType instance.
+        // If the bssignment check is positive,
+        // then we hbve to check thbt ebch element in obj is of the sbme TbbulbrType or CompositeType
+        // bs the one described by this ArrbyType instbnce.
         //
-        // [About assignment check, note that the call below returns true: ]
-        // [Class.forName("[Lpackage.CompositeData;").isAssignableFrom(Class.forName("[Lpackage.CompositeDataImpl;)")); ]
+        // [About bssignment check, note thbt the cbll below returns true: ]
+        // [Clbss.forNbme("[Lpbckbge.CompositeDbtb;").isAssignbbleFrom(Clbss.forNbme("[Lpbckbge.CompositeDbtbImpl;)")); ]
         //
-        if ( (this.elementType.getClassName().equals(TabularData.class.getName()))  ||
-             (this.elementType.getClassName().equals(CompositeData.class.getName()))   ) {
+        if ( (this.elementType.getClbssNbme().equbls(TbbulbrDbtb.clbss.getNbme()))  ||
+             (this.elementType.getClbssNbme().equbls(CompositeDbtb.clbss.getNbme()))   ) {
 
-            boolean isTabular =
-                (elementType.getClassName().equals(TabularData.class.getName()));
+            boolebn isTbbulbr =
+                (elementType.getClbssNbme().equbls(TbbulbrDbtb.clbss.getNbme()));
             int[] dims = new int[getDimension()];
-            Class<?> elementClass = isTabular ? TabularData.class : CompositeData.class;
-            Class<?> targetClass = Array.newInstance(elementClass, dims).getClass();
+            Clbss<?> elementClbss = isTbbulbr ? TbbulbrDbtb.clbss : CompositeDbtb.clbss;
+            Clbss<?> tbrgetClbss = Arrby.newInstbnce(elementClbss, dims).getClbss();
 
-            // assignment check: return false if negative
-            if  ( ! targetClass.isAssignableFrom(objClass) ) {
-                return false;
+            // bssignment check: return fblse if negbtive
+            if  ( ! tbrgetClbss.isAssignbbleFrom(objClbss) ) {
+                return fblse;
             }
 
-            // check that all elements in obj are valid values for this ArrayType
+            // check thbt bll elements in obj bre vblid vblues for this ArrbyType
             if ( ! checkElementsType( (Object[]) obj, this.dimension) ) { // we know obj's dimension is this.dimension
-                return false;
+                return fblse;
             }
 
             return true;
         }
 
-        // if previous tests did not return, then obj is not a value for this ArrayType instance
-        return false;
+        // if previous tests did not return, then obj is not b vblue for this ArrbyType instbnce
+        return fblse;
     }
 
     /**
-     * Returns true if and only if all elements contained in the array argument x_dim_Array of dimension dim
-     * are valid values (ie either null or of the right openType)
-     * for the element open type specified by this ArrayType instance.
+     * Returns true if bnd only if bll elements contbined in the brrby brgument x_dim_Arrby of dimension dim
+     * bre vblid vblues (ie either null or of the right openType)
+     * for the element open type specified by this ArrbyType instbnce.
      *
-     * This method's implementation uses recursion to go down the dimensions of the array argument.
+     * This method's implementbtion uses recursion to go down the dimensions of the brrby brgument.
      */
-    private boolean checkElementsType(Object[] x_dim_Array, int dim) {
+    privbte boolebn checkElementsType(Object[] x_dim_Arrby, int dim) {
 
-        // if the elements of x_dim_Array are themselves array: go down recursively....
+        // if the elements of x_dim_Arrby bre themselves brrby: go down recursively....
         if ( dim > 1 ) {
-            for (int i=0; i<x_dim_Array.length; i++) {
-                if ( ! checkElementsType((Object[])x_dim_Array[i], dim-1) ) {
-                    return false;
+            for (int i=0; i<x_dim_Arrby.length; i++) {
+                if ( ! checkElementsType((Object[])x_dim_Arrby[i], dim-1) ) {
+                    return fblse;
                 }
             }
             return true;
         }
-        // ...else, for a non-empty array, each element must be a valid value: either null or of the right openType
+        // ...else, for b non-empty brrby, ebch element must be b vblid vblue: either null or of the right openType
         else {
-            for (int i=0; i<x_dim_Array.length; i++) {
-                if ( (x_dim_Array[i] != null) && (! this.getElementOpenType().isValue(x_dim_Array[i])) ) {
-                    return false;
+            for (int i=0; i<x_dim_Arrby.length; i++) {
+                if ( (x_dim_Arrby[i] != null) && (! this.getElementOpenType().isVblue(x_dim_Arrby[i])) ) {
+                    return fblse;
                 }
             }
             return true;
@@ -636,392 +636,392 @@ public class ArrayType<T> extends OpenType<T> {
     }
 
     @Override
-    boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof ArrayType<?>))
-            return false;
-        ArrayType<?> at = (ArrayType<?>) ot;
-        return (at.getDimension() == getDimension() &&
-                at.isPrimitiveArray() == isPrimitiveArray() &&
-                at.getElementOpenType().isAssignableFrom(getElementOpenType()));
+    boolebn isAssignbbleFrom(OpenType<?> ot) {
+        if (!(ot instbnceof ArrbyType<?>))
+            return fblse;
+        ArrbyType<?> bt = (ArrbyType<?>) ot;
+        return (bt.getDimension() == getDimension() &&
+                bt.isPrimitiveArrby() == isPrimitiveArrby() &&
+                bt.getElementOpenType().isAssignbbleFrom(getElementOpenType()));
     }
 
 
-    /* *** Methods overriden from class Object *** */
+    /* *** Methods overriden from clbss Object *** */
 
     /**
-     * Compares the specified <code>obj</code> parameter with this
-     * <code>ArrayType</code> instance for equality.
+     * Compbres the specified <code>obj</code> pbrbmeter with this
+     * <code>ArrbyType</code> instbnce for equblity.
      * <p>
-     * Two <code>ArrayType</code> instances are equal if and only if they
-     * describe array instances which have the same dimension, elements'
-     * open type and primitive array flag.
+     * Two <code>ArrbyType</code> instbnces bre equbl if bnd only if they
+     * describe brrby instbnces which hbve the sbme dimension, elements'
+     * open type bnd primitive brrby flbg.
      *
-     * @param obj the object to be compared for equality with this
-     *            <code>ArrayType</code> instance; if <var>obj</var>
-     *            is <code>null</code> or is not an instance of the
-     *            class <code>ArrayType</code> this method returns
-     *            <code>false</code>.
+     * @pbrbm obj the object to be compbred for equblity with this
+     *            <code>ArrbyType</code> instbnce; if <vbr>obj</vbr>
+     *            is <code>null</code> or is not bn instbnce of the
+     *            clbss <code>ArrbyType</code> this method returns
+     *            <code>fblse</code>.
      *
-     * @return <code>true</code> if the specified object is equal to
-     *         this <code>ArrayType</code> instance.
+     * @return <code>true</code> if the specified object is equbl to
+     *         this <code>ArrbyType</code> instbnce.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
-        // if obj is null, return false
+        // if obj is null, return fblse
         //
         if (obj == null) {
-            return false;
+            return fblse;
         }
 
-        // if obj is not an ArrayType, return false
+        // if obj is not bn ArrbyType, return fblse
         //
-        if (!(obj instanceof ArrayType<?>))
-            return false;
-        ArrayType<?> other = (ArrayType<?>) obj;
+        if (!(obj instbnceof ArrbyType<?>))
+            return fblse;
+        ArrbyType<?> other = (ArrbyType<?>) obj;
 
-        // if other's dimension is different than this instance's, return false
+        // if other's dimension is different thbn this instbnce's, return fblse
         //
         if (this.dimension != other.dimension) {
-            return false;
+            return fblse;
         }
 
-        // Test if other's elementType field is the same as for this instance
+        // Test if other's elementType field is the sbme bs for this instbnce
         //
-        if (!this.elementType.equals(other.elementType)) {
-            return false;
+        if (!this.elementType.equbls(other.elementType)) {
+            return fblse;
         }
 
-        // Test if other's primitiveArray flag is the same as for this instance
+        // Test if other's primitiveArrby flbg is the sbme bs for this instbnce
         //
-        return this.primitiveArray == other.primitiveArray;
+        return this.primitiveArrby == other.primitiveArrby;
     }
 
     /**
-     * Returns the hash code value for this <code>ArrayType</code> instance.
+     * Returns the hbsh code vblue for this <code>ArrbyType</code> instbnce.
      * <p>
-     * The hash code of an <code>ArrayType</code> instance is the sum of the
-     * hash codes of all the elements of information used in <code>equals</code>
-     * comparisons (i.e. dimension, elements' open type and primitive array flag).
-     * The hashcode for a primitive value is the hashcode of the corresponding boxed
-     * object (e.g. the hashcode for <tt>true</tt> is <tt>Boolean.TRUE.hashCode()</tt>).
-     * This ensures that <code> t1.equals(t2) </code> implies that
-     * <code> t1.hashCode()==t2.hashCode() </code> for any two
-     * <code>ArrayType</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * The hbsh code of bn <code>ArrbyType</code> instbnce is the sum of the
+     * hbsh codes of bll the elements of informbtion used in <code>equbls</code>
+     * compbrisons (i.e. dimension, elements' open type bnd primitive brrby flbg).
+     * The hbshcode for b primitive vblue is the hbshcode of the corresponding boxed
+     * object (e.g. the hbshcode for <tt>true</tt> is <tt>Boolebn.TRUE.hbshCode()</tt>).
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt
+     * <code> t1.hbshCode()==t2.hbshCode() </code> for bny two
+     * <code>ArrbyType</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      * <p>
-     * As <code>ArrayType</code> instances are immutable, the hash
-     * code for this instance is calculated once, on the first call
-     * to <code>hashCode</code>, and then the same value is returned
-     * for subsequent calls.
+     * As <code>ArrbyType</code> instbnces bre immutbble, the hbsh
+     * code for this instbnce is cblculbted once, on the first cbll
+     * to <code>hbshCode</code>, bnd then the sbme vblue is returned
+     * for subsequent cblls.
      *
-     * @return  the hash code value for this <code>ArrayType</code> instance
+     * @return  the hbsh code vblue for this <code>ArrbyType</code> instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += dimension;
-            value += elementType.hashCode();
-            value += Boolean.valueOf(primitiveArray).hashCode();
-            myHashCode = Integer.valueOf(value);
+        if (myHbshCode == null) {
+            int vblue = 0;
+            vblue += dimension;
+            vblue += elementType.hbshCode();
+            vblue += Boolebn.vblueOf(primitiveArrby).hbshCode();
+            myHbshCode = Integer.vblueOf(vblue);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
     /**
-     * Returns a string representation of this <code>ArrayType</code> instance.
+     * Returns b string representbtion of this <code>ArrbyType</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (i.e.
-     * <code>javax.management.openmbean.ArrayType</code>), the type name,
-     * the dimension, the elements' open type and the primitive array flag
-     * defined for this instance.
+     * The string representbtion consists of the nbme of this clbss (i.e.
+     * <code>jbvbx.mbnbgement.openmbebn.ArrbyType</code>), the type nbme,
+     * the dimension, the elements' open type bnd the primitive brrby flbg
+     * defined for this instbnce.
      * <p>
-     * As <code>ArrayType</code> instances are immutable, the
-     * string representation for this instance is calculated
-     * once, on the first call to <code>toString</code>, and
-     * then the same value is returned for subsequent calls.
+     * As <code>ArrbyType</code> instbnces bre immutbble, the
+     * string representbtion for this instbnce is cblculbted
+     * once, on the first cbll to <code>toString</code>, bnd
+     * then the sbme vblue is returned for subsequent cblls.
      *
-     * @return a string representation of this <code>ArrayType</code> instance
+     * @return b string representbtion of this <code>ArrbyType</code> instbnce
      */
     public String toString() {
 
-        // Calculate the string representation if it has not yet been done (ie 1st call to toString())
+        // Cblculbte the string representbtion if it hbs not yet been done (ie 1st cbll to toString())
         //
         if (myToString == null) {
-            myToString = getClass().getName() +
-                         "(name=" + getTypeName() +
+            myToString = getClbss().getNbme() +
+                         "(nbme=" + getTypeNbme() +
                          ",dimension=" + dimension +
                          ",elementType=" + elementType +
-                         ",primitiveArray=" + primitiveArray + ")";
+                         ",primitiveArrby=" + primitiveArrby + ")";
         }
 
-        // return always the same string representation for this instance (immutable)
+        // return blwbys the sbme string representbtion for this instbnce (immutbble)
         //
         return myToString;
     }
 
     /**
-     * Create an {@code ArrayType} instance in a type-safe manner.
+     * Crebte bn {@code ArrbyType} instbnce in b type-sbfe mbnner.
      * <p>
-     * Multidimensional arrays can be built up by calling this method as many
-     * times as necessary.
+     * Multidimensionbl brrbys cbn be built up by cblling this method bs mbny
+     * times bs necessbry.
      * <p>
-     * Calling this method twice with the same parameters may return the same
-     * object or two equal but not identical objects.
+     * Cblling this method twice with the sbme pbrbmeters mby return the sbme
+     * object or two equbl but not identicbl objects.
      * <p>
-     * As an example, the following piece of code:
+     * As bn exbmple, the following piece of code:
      * <pre>{@code
-     * ArrayType<String[]> t1 = ArrayType.getArrayType(SimpleType.STRING);
-     * ArrayType<String[][]> t2 = ArrayType.getArrayType(t1);
-     * ArrayType<String[][][]> t3 = ArrayType.getArrayType(t2);
-     * System.out.println("array class name       = " + t3.getClassName());
-     * System.out.println("element class name     = " + t3.getElementOpenType().getClassName());
-     * System.out.println("array type name        = " + t3.getTypeName());
-     * System.out.println("array type description = " + t3.getDescription());
+     * ArrbyType<String[]> t1 = ArrbyType.getArrbyType(SimpleType.STRING);
+     * ArrbyType<String[][]> t2 = ArrbyType.getArrbyType(t1);
+     * ArrbyType<String[][][]> t3 = ArrbyType.getArrbyType(t2);
+     * System.out.println("brrby clbss nbme       = " + t3.getClbssNbme());
+     * System.out.println("element clbss nbme     = " + t3.getElementOpenType().getClbssNbme());
+     * System.out.println("brrby type nbme        = " + t3.getTypeNbme());
+     * System.out.println("brrby type description = " + t3.getDescription());
      * }</pre>
      * would produce the following output:
      * <pre>{@code
-     * array class name       = [[[Ljava.lang.String;
-     * element class name     = java.lang.String
-     * array type name        = [[[Ljava.lang.String;
-     * array type description = 3-dimension array of java.lang.String
+     * brrby clbss nbme       = [[[Ljbvb.lbng.String;
+     * element clbss nbme     = jbvb.lbng.String
+     * brrby type nbme        = [[[Ljbvb.lbng.String;
+     * brrby type description = 3-dimension brrby of jbvb.lbng.String
      * }</pre>
      *
-     * @param  elementType  the <i>open type</i> of element values contained
-     *                      in the arrays described by this <tt>ArrayType</tt>
-     *                      instance; must be an instance of either
+     * @pbrbm  elementType  the <i>open type</i> of element vblues contbined
+     *                      in the brrbys described by this <tt>ArrbyType</tt>
+     *                      instbnce; must be bn instbnce of either
      *                      <tt>SimpleType</tt>, <tt>CompositeType</tt>,
-     *                      <tt>TabularType</tt> or another <tt>ArrayType</tt>
-     *                      with a <tt>SimpleType</tt>, <tt>CompositeType</tt>
-     *                      or <tt>TabularType</tt> as its <tt>elementType</tt>.
+     *                      <tt>TbbulbrType</tt> or bnother <tt>ArrbyType</tt>
+     *                      with b <tt>SimpleType</tt>, <tt>CompositeType</tt>
+     *                      or <tt>TbbulbrType</tt> bs its <tt>elementType</tt>.
      *
-     * @throws OpenDataException if <var>elementType's className</var> is not
-     *                           one of the allowed Java class names for open
-     *                           data.
+     * @throws OpenDbtbException if <vbr>elementType's clbssNbme</vbr> is not
+     *                           one of the bllowed Jbvb clbss nbmes for open
+     *                           dbtb.
      *
      * @since 1.6
      */
-    public static <E> ArrayType<E[]> getArrayType(OpenType<E> elementType)
-        throws OpenDataException {
-        return new ArrayType<E[]>(1, elementType);
+    public stbtic <E> ArrbyType<E[]> getArrbyType(OpenType<E> elementType)
+        throws OpenDbtbException {
+        return new ArrbyType<E[]>(1, elementType);
     }
 
     /**
-     * Create an {@code ArrayType} instance in a type-safe manner.
+     * Crebte bn {@code ArrbyType} instbnce in b type-sbfe mbnner.
      * <p>
-     * Calling this method twice with the same parameters may return the
-     * same object or two equal but not identical objects.
+     * Cblling this method twice with the sbme pbrbmeters mby return the
+     * sbme object or two equbl but not identicbl objects.
      * <p>
-     * As an example, the following piece of code:
+     * As bn exbmple, the following piece of code:
      * <pre>{@code
-     * ArrayType<int[][][]> t = ArrayType.getPrimitiveArrayType(int[][][].class);
-     * System.out.println("array class name       = " + t.getClassName());
-     * System.out.println("element class name     = " + t.getElementOpenType().getClassName());
-     * System.out.println("array type name        = " + t.getTypeName());
-     * System.out.println("array type description = " + t.getDescription());
+     * ArrbyType<int[][][]> t = ArrbyType.getPrimitiveArrbyType(int[][][].clbss);
+     * System.out.println("brrby clbss nbme       = " + t.getClbssNbme());
+     * System.out.println("element clbss nbme     = " + t.getElementOpenType().getClbssNbme());
+     * System.out.println("brrby type nbme        = " + t.getTypeNbme());
+     * System.out.println("brrby type description = " + t.getDescription());
      * }</pre>
      * would produce the following output:
      * <pre>{@code
-     * array class name       = [[[I
-     * element class name     = java.lang.Integer
-     * array type name        = [[[I
-     * array type description = 3-dimension array of int
+     * brrby clbss nbme       = [[[I
+     * element clbss nbme     = jbvb.lbng.Integer
+     * brrby type nbme        = [[[I
+     * brrby type description = 3-dimension brrby of int
      * }</pre>
      *
-     * @param arrayClass a primitive array class such as {@code int[].class},
-     *                   {@code boolean[][].class}, etc. The {@link
+     * @pbrbm brrbyClbss b primitive brrby clbss such bs {@code int[].clbss},
+     *                   {@code boolebn[][].clbss}, etc. The {@link
      *                   #getElementOpenType()} method of the returned
-     *                   {@code ArrayType} returns the {@link SimpleType}
-     *                   corresponding to the wrapper type of the primitive
-     *                   type of the array.
+     *                   {@code ArrbyType} returns the {@link SimpleType}
+     *                   corresponding to the wrbpper type of the primitive
+     *                   type of the brrby.
      *
-     * @throws IllegalArgumentException if <var>arrayClass</var> is not
-     *                                  a primitive array.
+     * @throws IllegblArgumentException if <vbr>brrbyClbss</vbr> is not
+     *                                  b primitive brrby.
      *
      * @since 1.6
      */
-    @SuppressWarnings("unchecked")  // can't get appropriate T for primitive array
-    public static <T> ArrayType<T> getPrimitiveArrayType(Class<T> arrayClass) {
-        // Check if the supplied parameter is an array
+    @SuppressWbrnings("unchecked")  // cbn't get bppropribte T for primitive brrby
+    public stbtic <T> ArrbyType<T> getPrimitiveArrbyType(Clbss<T> brrbyClbss) {
+        // Check if the supplied pbrbmeter is bn brrby
         //
-        if (!arrayClass.isArray()) {
-            throw new IllegalArgumentException("arrayClass must be an array");
+        if (!brrbyClbss.isArrby()) {
+            throw new IllegblArgumentException("brrbyClbss must be bn brrby");
         }
 
-        // Calculate array dimension and component type name
+        // Cblculbte brrby dimension bnd component type nbme
         //
         int n = 1;
-        Class<?> componentType = arrayClass.getComponentType();
-        while (componentType.isArray()) {
+        Clbss<?> componentType = brrbyClbss.getComponentType();
+        while (componentType.isArrby()) {
             n++;
             componentType = componentType.getComponentType();
         }
-        String componentTypeName = componentType.getName();
+        String componentTypeNbme = componentType.getNbme();
 
-        // Check if the array's component type is a primitive type
+        // Check if the brrby's component type is b primitive type
         //
         if (!componentType.isPrimitive()) {
-            throw new IllegalArgumentException(
-                "component type of the array must be a primitive type");
+            throw new IllegblArgumentException(
+                "component type of the brrby must be b primitive type");
         }
 
-        // Map component type name to corresponding SimpleType
+        // Mbp component type nbme to corresponding SimpleType
         //
-        final SimpleType<?> simpleType =
-                getPrimitiveOpenType(componentTypeName);
+        finbl SimpleType<?> simpleType =
+                getPrimitiveOpenType(componentTypeNbme);
 
-        // Build primitive array
+        // Build primitive brrby
         //
         try {
-            @SuppressWarnings("rawtypes")
-            ArrayType at = new ArrayType(simpleType, true);
+            @SuppressWbrnings("rbwtypes")
+            ArrbyType bt = new ArrbyType(simpleType, true);
             if (n > 1)
-                at = new ArrayType<T>(n - 1, at);
-            return at;
-        } catch (OpenDataException e) {
-            throw new IllegalArgumentException(e); // should not happen
+                bt = new ArrbyType<T>(n - 1, bt);
+            return bt;
+        } cbtch (OpenDbtbException e) {
+            throw new IllegblArgumentException(e); // should not hbppen
         }
     }
 
     /**
-     * Replace/resolve the object read from the stream before it is returned
-     * to the caller.
+     * Replbce/resolve the object rebd from the strebm before it is returned
+     * to the cbller.
      *
-     * @serialData The new serial form of this class defines a new serializable
-     * {@code boolean} field {@code primitiveArray}. In order to guarantee the
-     * interoperability with previous versions of this class the new serial
-     * form must continue to refer to primitive wrapper types even when the
-     * {@code ArrayType} instance describes a primitive type array. So when
-     * {@code primitiveArray} is {@code true} the {@code className},
-     * {@code typeName} and {@code description} serializable fields
-     * are converted into primitive types before the deserialized
-     * {@code ArrayType} instance is return to the caller. The
-     * {@code elementType} field always returns the {@code SimpleType}
-     * corresponding to the primitive wrapper type of the array's
+     * @seriblDbtb The new seribl form of this clbss defines b new seriblizbble
+     * {@code boolebn} field {@code primitiveArrby}. In order to gubrbntee the
+     * interoperbbility with previous versions of this clbss the new seribl
+     * form must continue to refer to primitive wrbpper types even when the
+     * {@code ArrbyType} instbnce describes b primitive type brrby. So when
+     * {@code primitiveArrby} is {@code true} the {@code clbssNbme},
+     * {@code typeNbme} bnd {@code description} seriblizbble fields
+     * bre converted into primitive types before the deseriblized
+     * {@code ArrbyType} instbnce is return to the cbller. The
+     * {@code elementType} field blwbys returns the {@code SimpleType}
+     * corresponding to the primitive wrbpper type of the brrby's
      * primitive type.
      * <p>
-     * Therefore the following serializable fields are deserialized as follows:
+     * Therefore the following seriblizbble fields bre deseriblized bs follows:
      * <ul>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code className}
-     *       field is deserialized by replacing the array's component primitive
-     *       wrapper type by the corresponding array's component primitive type,
-     *       e.g. {@code "[[Ljava.lang.Integer;"} will be deserialized as
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code clbssNbme}
+     *       field is deseriblized by replbcing the brrby's component primitive
+     *       wrbpper type by the corresponding brrby's component primitive type,
+     *       e.g. {@code "[[Ljbvb.lbng.Integer;"} will be deseriblized bs
      *       {@code "[[I"}.</li>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code typeName}
-     *       field is deserialized by replacing the array's component primitive
-     *       wrapper type by the corresponding array's component primitive type,
-     *       e.g. {@code "[[Ljava.lang.Integer;"} will be deserialized as
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code typeNbme}
+     *       field is deseriblized by replbcing the brrby's component primitive
+     *       wrbpper type by the corresponding brrby's component primitive type,
+     *       e.g. {@code "[[Ljbvb.lbng.Integer;"} will be deseriblized bs
      *       {@code "[[I"}.</li>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code description}
-     *       field is deserialized by replacing the array's component primitive
-     *       wrapper type by the corresponding array's component primitive type,
-     *       e.g. {@code "2-dimension array of java.lang.Integer"} will be
-     *       deserialized as {@code "2-dimension array of int"}.</li>
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code description}
+     *       field is deseriblized by replbcing the brrby's component primitive
+     *       wrbpper type by the corresponding brrby's component primitive type,
+     *       e.g. {@code "2-dimension brrby of jbvb.lbng.Integer"} will be
+     *       deseriblized bs {@code "2-dimension brrby of int"}.</li>
      * </ul>
      *
      * @since 1.6
      */
-    private Object readResolve() throws ObjectStreamException {
-        if (primitiveArray) {
-            return convertFromWrapperToPrimitiveTypes();
+    privbte Object rebdResolve() throws ObjectStrebmException {
+        if (primitiveArrby) {
+            return convertFromWrbpperToPrimitiveTypes();
         } else {
             return this;
         }
     }
 
-    private <T> ArrayType<T> convertFromWrapperToPrimitiveTypes() {
-        String cn = getClassName();
-        String tn = getTypeName();
+    privbte <T> ArrbyType<T> convertFromWrbpperToPrimitiveTypes() {
+        String cn = getClbssNbme();
+        String tn = getTypeNbme();
         String d = getDescription();
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
             if (cn.indexOf((String)typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]) != -1) {
-                cn = cn.replaceFirst(
+                cn = cn.replbceFirst(
                     "L" + typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";",
                     (String) typeDescr[PRIMITIVE_TYPE_KEY_INDEX]);
-                tn = tn.replaceFirst(
+                tn = tn.replbceFirst(
                     "L" + typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";",
                     (String) typeDescr[PRIMITIVE_TYPE_KEY_INDEX]);
-                d = d.replaceFirst(
+                d = d.replbceFirst(
                     (String) typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX],
                     (String) typeDescr[PRIMITIVE_TYPE_NAME_INDEX]);
-                break;
+                brebk;
             }
         }
-        return new ArrayType<T>(cn, tn, d,
-                                dimension, elementType, primitiveArray);
+        return new ArrbyType<T>(cn, tn, d,
+                                dimension, elementType, primitiveArrby);
     }
 
     /**
-     * Nominate a replacement for this object in the stream before the object
+     * Nominbte b replbcement for this object in the strebm before the object
      * is written.
      *
-     * @serialData The new serial form of this class defines a new serializable
-     * {@code boolean} field {@code primitiveArray}. In order to guarantee the
-     * interoperability with previous versions of this class the new serial
-     * form must continue to refer to primitive wrapper types even when the
-     * {@code ArrayType} instance describes a primitive type array. So when
-     * {@code primitiveArray} is {@code true} the {@code className},
-     * {@code typeName} and {@code description} serializable fields
-     * are converted into wrapper types before the serialized
-     * {@code ArrayType} instance is written to the stream. The
-     * {@code elementType} field always returns the {@code SimpleType}
-     * corresponding to the primitive wrapper type of the array's
+     * @seriblDbtb The new seribl form of this clbss defines b new seriblizbble
+     * {@code boolebn} field {@code primitiveArrby}. In order to gubrbntee the
+     * interoperbbility with previous versions of this clbss the new seribl
+     * form must continue to refer to primitive wrbpper types even when the
+     * {@code ArrbyType} instbnce describes b primitive type brrby. So when
+     * {@code primitiveArrby} is {@code true} the {@code clbssNbme},
+     * {@code typeNbme} bnd {@code description} seriblizbble fields
+     * bre converted into wrbpper types before the seriblized
+     * {@code ArrbyType} instbnce is written to the strebm. The
+     * {@code elementType} field blwbys returns the {@code SimpleType}
+     * corresponding to the primitive wrbpper type of the brrby's
      * primitive type.
      * <p>
-     * Therefore the following serializable fields are serialized as follows:
+     * Therefore the following seriblizbble fields bre seriblized bs follows:
      * <ul>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code className}
-     *       field is serialized by replacing the array's component primitive
-     *       type by the corresponding array's component primitive wrapper type,
-     *       e.g. {@code "[[I"} will be serialized as
-     *       {@code "[[Ljava.lang.Integer;"}.</li>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code typeName}
-     *       field is serialized by replacing the array's component primitive
-     *       type by the corresponding array's component primitive wrapper type,
-     *       e.g. {@code "[[I"} will be serialized as
-     *       {@code "[[Ljava.lang.Integer;"}.</li>
-     *   <li>if {@code primitiveArray} is {@code true} the {@code description}
-     *       field is serialized by replacing the array's component primitive
-     *       type by the corresponding array's component primitive wrapper type,
-     *       e.g. {@code "2-dimension array of int"} will be serialized as
-     *       {@code "2-dimension array of java.lang.Integer"}.</li>
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code clbssNbme}
+     *       field is seriblized by replbcing the brrby's component primitive
+     *       type by the corresponding brrby's component primitive wrbpper type,
+     *       e.g. {@code "[[I"} will be seriblized bs
+     *       {@code "[[Ljbvb.lbng.Integer;"}.</li>
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code typeNbme}
+     *       field is seriblized by replbcing the brrby's component primitive
+     *       type by the corresponding brrby's component primitive wrbpper type,
+     *       e.g. {@code "[[I"} will be seriblized bs
+     *       {@code "[[Ljbvb.lbng.Integer;"}.</li>
+     *   <li>if {@code primitiveArrby} is {@code true} the {@code description}
+     *       field is seriblized by replbcing the brrby's component primitive
+     *       type by the corresponding brrby's component primitive wrbpper type,
+     *       e.g. {@code "2-dimension brrby of int"} will be seriblized bs
+     *       {@code "2-dimension brrby of jbvb.lbng.Integer"}.</li>
      * </ul>
      *
      * @since 1.6
      */
-    private Object writeReplace() throws ObjectStreamException {
-        if (primitiveArray) {
-            return convertFromPrimitiveToWrapperTypes();
+    privbte Object writeReplbce() throws ObjectStrebmException {
+        if (primitiveArrby) {
+            return convertFromPrimitiveToWrbpperTypes();
         } else {
             return this;
         }
     }
 
-    private <T> ArrayType<T> convertFromPrimitiveToWrapperTypes() {
-        String cn = getClassName();
-        String tn = getTypeName();
+    privbte <T> ArrbyType<T> convertFromPrimitiveToWrbpperTypes() {
+        String cn = getClbssNbme();
+        String tn = getTypeNbme();
         String d = getDescription();
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
             if (cn.indexOf((String) typeDescr[PRIMITIVE_TYPE_KEY_INDEX]) != -1) {
-                cn = cn.replaceFirst(
+                cn = cn.replbceFirst(
                     (String) typeDescr[PRIMITIVE_TYPE_KEY_INDEX],
                     "L" + typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";");
-                tn = tn.replaceFirst(
+                tn = tn.replbceFirst(
                     (String) typeDescr[PRIMITIVE_TYPE_KEY_INDEX],
                     "L" + typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";");
-                d = d.replaceFirst(
+                d = d.replbceFirst(
                     (String) typeDescr[PRIMITIVE_TYPE_NAME_INDEX],
                     (String) typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]);
-                break;
+                brebk;
             }
         }
-        return new ArrayType<T>(cn, tn, d,
-                                dimension, elementType, primitiveArray);
+        return new ArrbyType<T>(cn, tn, d,
+                                dimension, elementType, primitiveArrby);
     }
 }

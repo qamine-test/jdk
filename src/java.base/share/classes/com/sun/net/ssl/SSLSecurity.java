@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.SSLSecurity,
- * but was heavily modified to allow com.sun.* users to
- * access providers written using the javax.sun.* APIs.
+ * NOTE:  this file wbs copied from jbvbx.net.ssl.SSLSecurity,
+ * but wbs hebvily modified to bllow com.sun.* users to
+ * bccess providers written using the jbvbx.sun.* APIs.
  */
 
-package com.sun.net.ssl;
+pbckbge com.sun.net.ssl;
 
-import java.util.*;
-import java.io.*;
-import java.security.*;
-import java.security.Provider.Service;
-import java.net.Socket;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
+import jbvb.net.Socket;
 
-import sun.security.jca.*;
+import sun.security.jcb.*;
 
 /**
- * This class instantiates implementations of JSSE engine classes from
- * providers registered with the java.security.Security object.
+ * This clbss instbntibtes implementbtions of JSSE engine clbsses from
+ * providers registered with the jbvb.security.Security object.
  *
- * @author Jan Luehe
- * @author Jeff Nisewanger
- * @author Brad Wetmore
+ * @buthor Jbn Luehe
+ * @buthor Jeff Nisewbnger
+ * @buthor Brbd Wetmore
  */
 
-final class SSLSecurity {
+finbl clbss SSLSecurity {
 
     /*
-     * Don't let anyone instantiate this.
+     * Don't let bnyone instbntibte this.
      */
-    private SSLSecurity() {
+    privbte SSLSecurity() {
     }
 
 
-    // ProviderList.getService() is not accessible now, implement our own loop
-    private static Service getService(String type, String alg) {
+    // ProviderList.getService() is not bccessible now, implement our own loop
+    privbte stbtic Service getService(String type, String blg) {
         ProviderList list = Providers.getProviderList();
         for (Provider p : list.providers()) {
-            Service s = p.getService(type, alg);
+            Service s = p.getService(type, blg);
             if (s != null) {
                 return s;
             }
@@ -72,196 +72,196 @@ final class SSLSecurity {
     /**
      * The body of the driver for the getImpl method.
      */
-    private static Object[] getImpl1(String algName, String engineType,
+    privbte stbtic Object[] getImpl1(String blgNbme, String engineType,
             Service service) throws NoSuchAlgorithmException
     {
         Provider provider = service.getProvider();
-        String className = service.getClassName();
-        Class<?> implClass;
+        String clbssNbme = service.getClbssNbme();
+        Clbss<?> implClbss;
         try {
-            ClassLoader cl = provider.getClass().getClassLoader();
+            ClbssLobder cl = provider.getClbss().getClbssLobder();
             if (cl == null) {
-                // system class
-                implClass = Class.forName(className);
+                // system clbss
+                implClbss = Clbss.forNbme(clbssNbme);
             } else {
-                implClass = cl.loadClass(className);
+                implClbss = cl.lobdClbss(clbssNbme);
             }
-        } catch (ClassNotFoundException e) {
-            throw new NoSuchAlgorithmException("Class " + className +
+        } cbtch (ClbssNotFoundException e) {
+            throw new NoSuchAlgorithmException("Clbss " + clbssNbme +
                                                 " configured for " +
                                                 engineType +
                                                 " not found: " +
-                                                e.getMessage());
-        } catch (SecurityException e) {
-            throw new NoSuchAlgorithmException("Class " + className +
+                                                e.getMessbge());
+        } cbtch (SecurityException e) {
+            throw new NoSuchAlgorithmException("Clbss " + clbssNbme +
                                                 " configured for " +
                                                 engineType +
-                                                " cannot be accessed: " +
-                                                e.getMessage());
+                                                " cbnnot be bccessed: " +
+                                                e.getMessbge());
         }
 
         /*
-         * JSSE 1.0, 1.0.1, and 1.0.2 used the com.sun.net.ssl API as the
-         * API was being developed.  As JSSE was folded into the main
-         * release, it was decided to promote the com.sun.net.ssl API to
-         * be javax.net.ssl.  It is desired to keep binary compatibility
-         * with vendors of JSSE implementation written using the
-         * com.sun.net.sll API, so we do this magic to handle everything.
+         * JSSE 1.0, 1.0.1, bnd 1.0.2 used the com.sun.net.ssl API bs the
+         * API wbs being developed.  As JSSE wbs folded into the mbin
+         * relebse, it wbs decided to promote the com.sun.net.ssl API to
+         * be jbvbx.net.ssl.  It is desired to keep binbry compbtibility
+         * with vendors of JSSE implementbtion written using the
+         * com.sun.net.sll API, so we do this mbgic to hbndle everything.
          *
-         * API used     Implementation used     Supported?
+         * API used     Implementbtion used     Supported?
          * ========     ===================     ==========
-         * com.sun      javax                   Yes
+         * com.sun      jbvbx                   Yes
          * com.sun      com.sun                 Yes
-         * javax        javax                   Yes
-         * javax        com.sun                 Not Currently
+         * jbvbx        jbvbx                   Yes
+         * jbvbx        com.sun                 Not Currently
          *
-         * Make sure the implementation class is a subclass of the
-         * corresponding engine class.
+         * Mbke sure the implementbtion clbss is b subclbss of the
+         * corresponding engine clbss.
          *
-         * In wrapping these classes, there's no way to know how to
-         * wrap all possible classes that extend the TrustManager/KeyManager.
-         * We only wrap the x509 variants.
+         * In wrbpping these clbsses, there's no wby to know how to
+         * wrbp bll possible clbsses thbt extend the TrustMbnbger/KeyMbnbger.
+         * We only wrbp the x509 vbribnts.
          */
 
-        try {   // catch instantiation errors
+        try {   // cbtch instbntibtion errors
 
             /*
-             * (The following Class.forName()s should alway work, because
-             * this class and all the SPI classes in javax.crypto are
-             * loaded by the same class loader.)  That is, unless they
-             * give us a SPI class that doesn't exist, say SSLFoo,
-             * or someone has removed classes from the jsse.jar file.
+             * (The following Clbss.forNbme()s should blwby work, becbuse
+             * this clbss bnd bll the SPI clbsses in jbvbx.crypto bre
+             * lobded by the sbme clbss lobder.)  Thbt is, unless they
+             * give us b SPI clbss thbt doesn't exist, sby SSLFoo,
+             * or someone hbs removed clbsses from the jsse.jbr file.
              */
 
-            Class<?> typeClassJavax;
-            Class<?> typeClassCom;
+            Clbss<?> typeClbssJbvbx;
+            Clbss<?> typeClbssCom;
             Object obj = null;
 
             /*
-             * Odds are more likely that we have a javax variant, try this
+             * Odds bre more likely thbt we hbve b jbvbx vbribnt, try this
              * first.
              */
-            if (((typeClassJavax = Class.forName("javax.net.ssl." +
+            if (((typeClbssJbvbx = Clbss.forNbme("jbvbx.net.ssl." +
                     engineType + "Spi")) != null) &&
-                    (checkSuperclass(implClass, typeClassJavax))) {
+                    (checkSuperclbss(implClbss, typeClbssJbvbx))) {
 
-                if (engineType.equals("SSLContext")) {
-                    obj = new SSLContextSpiWrapper(algName, provider);
-                } else if (engineType.equals("TrustManagerFactory")) {
-                    obj = new TrustManagerFactorySpiWrapper(algName, provider);
-                } else if (engineType.equals("KeyManagerFactory")) {
-                    obj = new KeyManagerFactorySpiWrapper(algName, provider);
+                if (engineType.equbls("SSLContext")) {
+                    obj = new SSLContextSpiWrbpper(blgNbme, provider);
+                } else if (engineType.equbls("TrustMbnbgerFbctory")) {
+                    obj = new TrustMbnbgerFbctorySpiWrbpper(blgNbme, provider);
+                } else if (engineType.equbls("KeyMbnbgerFbctory")) {
+                    obj = new KeyMbnbgerFbctorySpiWrbpper(blgNbme, provider);
                 } else {
                     /*
-                     * We should throw an error if we get
-                     * something totally unexpected.  Don't ever
+                     * We should throw bn error if we get
+                     * something totblly unexpected.  Don't ever
                      * expect to see this one...
                      */
-                    throw new IllegalStateException(
-                        "Class " + implClass.getName() +
-                        " unknown engineType wrapper:" + engineType);
+                    throw new IllegblStbteException(
+                        "Clbss " + implClbss.getNbme() +
+                        " unknown engineType wrbpper:" + engineType);
                 }
 
-            } else if (((typeClassCom = Class.forName("com.sun.net.ssl." +
+            } else if (((typeClbssCom = Clbss.forNbme("com.sun.net.ssl." +
                         engineType + "Spi")) != null) &&
-                        (checkSuperclass(implClass, typeClassCom))) {
-                obj = service.newInstance(null);
+                        (checkSuperclbss(implClbss, typeClbssCom))) {
+                obj = service.newInstbnce(null);
             }
 
             if (obj != null) {
                 return new Object[] { obj, provider };
             } else {
                 throw new NoSuchAlgorithmException(
-                    "Couldn't locate correct object or wrapper: " +
-                    engineType + " " + algName);
+                    "Couldn't locbte correct object or wrbpper: " +
+                    engineType + " " + blgNbme);
             }
 
-        } catch (ClassNotFoundException e) {
-            IllegalStateException exc = new IllegalStateException(
-                "Engine Class Not Found for " + engineType);
-            exc.initCause(e);
+        } cbtch (ClbssNotFoundException e) {
+            IllegblStbteException exc = new IllegblStbteException(
+                "Engine Clbss Not Found for " + engineType);
+            exc.initCbuse(e);
             throw exc;
         }
     }
 
     /**
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The <code>provName</code> argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Returns bn brrby of objects: the first object in the brrby is
+     * bn instbnce of bn implementbtion of the requested blgorithm
+     * bnd type, bnd the second object in the brrby identifies the provider
+     * of thbt implementbtion.
+     * The <code>provNbme</code> brgument cbn be null, in which cbse bll
+     * configured providers will be sebrched in order of preference.
      */
-    static Object[] getImpl(String algName, String engineType, String provName)
+    stbtic Object[] getImpl(String blgNbme, String engineType, String provNbme)
         throws NoSuchAlgorithmException, NoSuchProviderException
     {
         Service service;
-        if (provName != null) {
+        if (provNbme != null) {
             ProviderList list = Providers.getProviderList();
-            Provider prov = list.getProvider(provName);
+            Provider prov = list.getProvider(provNbme);
             if (prov == null) {
                 throw new NoSuchProviderException("No such provider: " +
-                                                  provName);
+                                                  provNbme);
             }
-            service = prov.getService(engineType, algName);
+            service = prov.getService(engineType, blgNbme);
         } else {
-            service = getService(engineType, algName);
+            service = getService(engineType, blgNbme);
         }
         if (service == null) {
-            throw new NoSuchAlgorithmException("Algorithm " + algName
-                                               + " not available");
+            throw new NoSuchAlgorithmException("Algorithm " + blgNbme
+                                               + " not bvbilbble");
         }
-        return getImpl1(algName, engineType, service);
+        return getImpl1(blgNbme, engineType, service);
     }
 
 
     /**
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The <code>prov</code> argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Returns bn brrby of objects: the first object in the brrby is
+     * bn instbnce of bn implementbtion of the requested blgorithm
+     * bnd type, bnd the second object in the brrby identifies the provider
+     * of thbt implementbtion.
+     * The <code>prov</code> brgument cbn be null, in which cbse bll
+     * configured providers will be sebrched in order of preference.
      */
-    static Object[] getImpl(String algName, String engineType, Provider prov)
+    stbtic Object[] getImpl(String blgNbme, String engineType, Provider prov)
         throws NoSuchAlgorithmException
     {
-        Service service = prov.getService(engineType, algName);
+        Service service = prov.getService(engineType, blgNbme);
         if (service == null) {
-            throw new NoSuchAlgorithmException("No such algorithm: " +
-                                               algName);
+            throw new NoSuchAlgorithmException("No such blgorithm: " +
+                                               blgNbme);
         }
-        return getImpl1(algName, engineType, service);
+        return getImpl1(blgNbme, engineType, service);
     }
 
     /*
-     * Checks whether one class is the superclass of another
+     * Checks whether one clbss is the superclbss of bnother
      */
-    private static boolean checkSuperclass(Class<?> subclass, Class<?> superclass) {
-        if ((subclass == null) || (superclass == null))
-                return false;
+    privbte stbtic boolebn checkSuperclbss(Clbss<?> subclbss, Clbss<?> superclbss) {
+        if ((subclbss == null) || (superclbss == null))
+                return fblse;
 
-        while (!subclass.equals(superclass)) {
-            subclass = subclass.getSuperclass();
-            if (subclass == null) {
-                return false;
+        while (!subclbss.equbls(superclbss)) {
+            subclbss = subclbss.getSuperclbss();
+            if (subclbss == null) {
+                return fblse;
             }
         }
         return true;
     }
 
     /*
-     * Return at most the first "resize" elements of an array.
+     * Return bt most the first "resize" elements of bn brrby.
      *
-     * Didn't want to use java.util.Arrays, as PJava may not have it.
+     * Didn't wbnt to use jbvb.util.Arrbys, bs PJbvb mby not hbve it.
      */
-    static Object[] truncateArray(Object[] oldArray, Object[] newArray) {
+    stbtic Object[] truncbteArrby(Object[] oldArrby, Object[] newArrby) {
 
-        for (int i = 0; i < newArray.length; i++) {
-            newArray[i] = oldArray[i];
+        for (int i = 0; i < newArrby.length; i++) {
+            newArrby[i] = oldArrby[i];
         }
 
-        return newArray;
+        return newArrby;
     }
 
 }
@@ -269,423 +269,423 @@ final class SSLSecurity {
 
 /*
  * =================================================================
- * The remainder of this file is for the wrapper and wrapper-support
- * classes.  When SSLSecurity finds something which extends the
- * javax.net.ssl.*Spi, we need to go grab a real instance of the
- * thing that the Spi supports, and wrap into a com.sun.net.ssl.*Spi
- * object.  This also mean that anything going down into the SPI
- * needs to be wrapped, as well as anything coming back up.
+ * The rembinder of this file is for the wrbpper bnd wrbpper-support
+ * clbsses.  When SSLSecurity finds something which extends the
+ * jbvbx.net.ssl.*Spi, we need to go grbb b rebl instbnce of the
+ * thing thbt the Spi supports, bnd wrbp into b com.sun.net.ssl.*Spi
+ * object.  This blso mebn thbt bnything going down into the SPI
+ * needs to be wrbpped, bs well bs bnything coming bbck up.
  */
-final class SSLContextSpiWrapper extends SSLContextSpi {
+finbl clbss SSLContextSpiWrbpper extends SSLContextSpi {
 
-    private javax.net.ssl.SSLContext theSSLContext;
+    privbte jbvbx.net.ssl.SSLContext theSSLContext;
 
-    SSLContextSpiWrapper(String algName, Provider prov) throws
+    SSLContextSpiWrbpper(String blgNbme, Provider prov) throws
             NoSuchAlgorithmException {
-        theSSLContext = javax.net.ssl.SSLContext.getInstance(algName, prov);
+        theSSLContext = jbvbx.net.ssl.SSLContext.getInstbnce(blgNbme, prov);
     }
 
-    protected void engineInit(KeyManager[] kma, TrustManager[] tma,
-            SecureRandom sr) throws KeyManagementException {
+    protected void engineInit(KeyMbnbger[] kmb, TrustMbnbger[] tmb,
+            SecureRbndom sr) throws KeyMbnbgementException {
 
-        // Keep track of the actual number of array elements copied
+        // Keep trbck of the bctubl number of brrby elements copied
         int dst;
         int src;
-        javax.net.ssl.KeyManager[] kmaw;
-        javax.net.ssl.TrustManager[] tmaw;
+        jbvbx.net.ssl.KeyMbnbger[] kmbw;
+        jbvbx.net.ssl.TrustMbnbger[] tmbw;
 
-        // Convert com.sun.net.ssl.kma to a javax.net.ssl.kma
-        // wrapper if need be.
-        if (kma != null) {
-            kmaw = new javax.net.ssl.KeyManager[kma.length];
-            for (src = 0, dst = 0; src < kma.length; ) {
+        // Convert com.sun.net.ssl.kmb to b jbvbx.net.ssl.kmb
+        // wrbpper if need be.
+        if (kmb != null) {
+            kmbw = new jbvbx.net.ssl.KeyMbnbger[kmb.length];
+            for (src = 0, dst = 0; src < kmb.length; ) {
                 /*
-                 * These key managers may implement both javax
-                 * and com.sun interfaces, so if they do
-                 * javax, there's no need to wrap them.
+                 * These key mbnbgers mby implement both jbvbx
+                 * bnd com.sun interfbces, so if they do
+                 * jbvbx, there's no need to wrbp them.
                  */
-                if (!(kma[src] instanceof javax.net.ssl.KeyManager)) {
+                if (!(kmb[src] instbnceof jbvbx.net.ssl.KeyMbnbger)) {
                     /*
                      * Do we know how to convert them?  If not, oh well...
-                     * We'll have to drop them on the floor in this
-                     * case, cause we don't know how to handle them.
-                     * This will be pretty rare, but put here for
+                     * We'll hbve to drop them on the floor in this
+                     * cbse, cbuse we don't know how to hbndle them.
+                     * This will be pretty rbre, but put here for
                      * completeness.
                      */
-                    if (kma[src] instanceof X509KeyManager) {
-                        kmaw[dst] = (javax.net.ssl.KeyManager)
-                            new X509KeyManagerJavaxWrapper(
-                            (X509KeyManager)kma[src]);
+                    if (kmb[src] instbnceof X509KeyMbnbger) {
+                        kmbw[dst] = (jbvbx.net.ssl.KeyMbnbger)
+                            new X509KeyMbnbgerJbvbxWrbpper(
+                            (X509KeyMbnbger)kmb[src]);
                         dst++;
                     }
                 } else {
-                    // We can convert directly, since they implement.
-                    kmaw[dst] = (javax.net.ssl.KeyManager)kma[src];
+                    // We cbn convert directly, since they implement.
+                    kmbw[dst] = (jbvbx.net.ssl.KeyMbnbger)kmb[src];
                     dst++;
                 }
                 src++;
             }
 
             /*
-             * If dst != src, there were more items in the original array
-             * than in the new array.  Compress the new elements to avoid
-             * any problems down the road.
+             * If dst != src, there were more items in the originbl brrby
+             * thbn in the new brrby.  Compress the new elements to bvoid
+             * bny problems down the robd.
              */
             if (dst != src) {
-                    kmaw = (javax.net.ssl.KeyManager [])
-                        SSLSecurity.truncateArray(kmaw,
-                            new javax.net.ssl.KeyManager [dst]);
+                    kmbw = (jbvbx.net.ssl.KeyMbnbger [])
+                        SSLSecurity.truncbteArrby(kmbw,
+                            new jbvbx.net.ssl.KeyMbnbger [dst]);
             }
         } else {
-            kmaw = null;
+            kmbw = null;
         }
 
-        // Now do the same thing with the TrustManagers.
-        if (tma != null) {
-            tmaw = new javax.net.ssl.TrustManager[tma.length];
+        // Now do the sbme thing with the TrustMbnbgers.
+        if (tmb != null) {
+            tmbw = new jbvbx.net.ssl.TrustMbnbger[tmb.length];
 
-            for (src = 0, dst = 0; src < tma.length; ) {
+            for (src = 0, dst = 0; src < tmb.length; ) {
                 /*
-                 * These key managers may implement both...see above...
+                 * These key mbnbgers mby implement both...see bbove...
                  */
-                if (!(tma[src] instanceof javax.net.ssl.TrustManager)) {
+                if (!(tmb[src] instbnceof jbvbx.net.ssl.TrustMbnbger)) {
                     // Do we know how to convert them?
-                    if (tma[src] instanceof X509TrustManager) {
-                        tmaw[dst] = (javax.net.ssl.TrustManager)
-                            new X509TrustManagerJavaxWrapper(
-                            (X509TrustManager)tma[src]);
+                    if (tmb[src] instbnceof X509TrustMbnbger) {
+                        tmbw[dst] = (jbvbx.net.ssl.TrustMbnbger)
+                            new X509TrustMbnbgerJbvbxWrbpper(
+                            (X509TrustMbnbger)tmb[src]);
                         dst++;
                     }
                 } else {
-                    tmaw[dst] = (javax.net.ssl.TrustManager)tma[src];
+                    tmbw[dst] = (jbvbx.net.ssl.TrustMbnbger)tmb[src];
                     dst++;
                 }
                 src++;
             }
 
             if (dst != src) {
-                tmaw = (javax.net.ssl.TrustManager [])
-                    SSLSecurity.truncateArray(tmaw,
-                        new javax.net.ssl.TrustManager [dst]);
+                tmbw = (jbvbx.net.ssl.TrustMbnbger [])
+                    SSLSecurity.truncbteArrby(tmbw,
+                        new jbvbx.net.ssl.TrustMbnbger [dst]);
             }
         } else {
-            tmaw = null;
+            tmbw = null;
         }
 
-        theSSLContext.init(kmaw, tmaw, sr);
+        theSSLContext.init(kmbw, tmbw, sr);
     }
 
-    protected javax.net.ssl.SSLSocketFactory
-            engineGetSocketFactory() {
-        return theSSLContext.getSocketFactory();
+    protected jbvbx.net.ssl.SSLSocketFbctory
+            engineGetSocketFbctory() {
+        return theSSLContext.getSocketFbctory();
     }
 
-    protected javax.net.ssl.SSLServerSocketFactory
-            engineGetServerSocketFactory() {
-        return theSSLContext.getServerSocketFactory();
+    protected jbvbx.net.ssl.SSLServerSocketFbctory
+            engineGetServerSocketFbctory() {
+        return theSSLContext.getServerSocketFbctory();
     }
 
 }
 
-final class TrustManagerFactorySpiWrapper extends TrustManagerFactorySpi {
+finbl clbss TrustMbnbgerFbctorySpiWrbpper extends TrustMbnbgerFbctorySpi {
 
-    private javax.net.ssl.TrustManagerFactory theTrustManagerFactory;
+    privbte jbvbx.net.ssl.TrustMbnbgerFbctory theTrustMbnbgerFbctory;
 
-    TrustManagerFactorySpiWrapper(String algName, Provider prov) throws
+    TrustMbnbgerFbctorySpiWrbpper(String blgNbme, Provider prov) throws
             NoSuchAlgorithmException {
-        theTrustManagerFactory =
-            javax.net.ssl.TrustManagerFactory.getInstance(algName, prov);
+        theTrustMbnbgerFbctory =
+            jbvbx.net.ssl.TrustMbnbgerFbctory.getInstbnce(blgNbme, prov);
     }
 
     protected void engineInit(KeyStore ks) throws KeyStoreException {
-        theTrustManagerFactory.init(ks);
+        theTrustMbnbgerFbctory.init(ks);
     }
 
-    protected TrustManager[] engineGetTrustManagers() {
+    protected TrustMbnbger[] engineGetTrustMbnbgers() {
 
         int dst;
         int src;
 
-        javax.net.ssl.TrustManager[] tma =
-            theTrustManagerFactory.getTrustManagers();
+        jbvbx.net.ssl.TrustMbnbger[] tmb =
+            theTrustMbnbgerFbctory.getTrustMbnbgers();
 
-        TrustManager[] tmaw = new TrustManager[tma.length];
+        TrustMbnbger[] tmbw = new TrustMbnbger[tmb.length];
 
-        for (src = 0, dst = 0; src < tma.length; ) {
-            if (!(tma[src] instanceof com.sun.net.ssl.TrustManager)) {
-                // We only know how to wrap X509TrustManagers, as
-                // TrustManagers don't have any methods to wrap.
-                if (tma[src] instanceof javax.net.ssl.X509TrustManager) {
-                    tmaw[dst] = (TrustManager)
-                        new X509TrustManagerComSunWrapper(
-                        (javax.net.ssl.X509TrustManager)tma[src]);
+        for (src = 0, dst = 0; src < tmb.length; ) {
+            if (!(tmb[src] instbnceof com.sun.net.ssl.TrustMbnbger)) {
+                // We only know how to wrbp X509TrustMbnbgers, bs
+                // TrustMbnbgers don't hbve bny methods to wrbp.
+                if (tmb[src] instbnceof jbvbx.net.ssl.X509TrustMbnbger) {
+                    tmbw[dst] = (TrustMbnbger)
+                        new X509TrustMbnbgerComSunWrbpper(
+                        (jbvbx.net.ssl.X509TrustMbnbger)tmb[src]);
                     dst++;
                 }
             } else {
-                tmaw[dst] = (TrustManager)tma[src];
+                tmbw[dst] = (TrustMbnbger)tmb[src];
                 dst++;
             }
             src++;
         }
 
         if (dst != src) {
-            tmaw = (TrustManager [])
-                SSLSecurity.truncateArray(tmaw, new TrustManager [dst]);
+            tmbw = (TrustMbnbger [])
+                SSLSecurity.truncbteArrby(tmbw, new TrustMbnbger [dst]);
         }
 
-        return tmaw;
+        return tmbw;
     }
 
 }
 
-final class KeyManagerFactorySpiWrapper extends KeyManagerFactorySpi {
+finbl clbss KeyMbnbgerFbctorySpiWrbpper extends KeyMbnbgerFbctorySpi {
 
-    private javax.net.ssl.KeyManagerFactory theKeyManagerFactory;
+    privbte jbvbx.net.ssl.KeyMbnbgerFbctory theKeyMbnbgerFbctory;
 
-    KeyManagerFactorySpiWrapper(String algName, Provider prov) throws
+    KeyMbnbgerFbctorySpiWrbpper(String blgNbme, Provider prov) throws
             NoSuchAlgorithmException {
-        theKeyManagerFactory =
-            javax.net.ssl.KeyManagerFactory.getInstance(algName, prov);
+        theKeyMbnbgerFbctory =
+            jbvbx.net.ssl.KeyMbnbgerFbctory.getInstbnce(blgNbme, prov);
     }
 
-    protected void engineInit(KeyStore ks, char[] password)
+    protected void engineInit(KeyStore ks, chbr[] pbssword)
             throws KeyStoreException, NoSuchAlgorithmException,
-            UnrecoverableKeyException {
-        theKeyManagerFactory.init(ks, password);
+            UnrecoverbbleKeyException {
+        theKeyMbnbgerFbctory.init(ks, pbssword);
     }
 
-    protected KeyManager[] engineGetKeyManagers() {
+    protected KeyMbnbger[] engineGetKeyMbnbgers() {
 
         int dst;
         int src;
 
-        javax.net.ssl.KeyManager[] kma =
-            theKeyManagerFactory.getKeyManagers();
+        jbvbx.net.ssl.KeyMbnbger[] kmb =
+            theKeyMbnbgerFbctory.getKeyMbnbgers();
 
-        KeyManager[] kmaw = new KeyManager[kma.length];
+        KeyMbnbger[] kmbw = new KeyMbnbger[kmb.length];
 
-        for (src = 0, dst = 0; src < kma.length; ) {
-            if (!(kma[src] instanceof com.sun.net.ssl.KeyManager)) {
-                // We only know how to wrap X509KeyManagers, as
-                // KeyManagers don't have any methods to wrap.
-                if (kma[src] instanceof javax.net.ssl.X509KeyManager) {
-                    kmaw[dst] = (KeyManager)
-                        new X509KeyManagerComSunWrapper(
-                        (javax.net.ssl.X509KeyManager)kma[src]);
+        for (src = 0, dst = 0; src < kmb.length; ) {
+            if (!(kmb[src] instbnceof com.sun.net.ssl.KeyMbnbger)) {
+                // We only know how to wrbp X509KeyMbnbgers, bs
+                // KeyMbnbgers don't hbve bny methods to wrbp.
+                if (kmb[src] instbnceof jbvbx.net.ssl.X509KeyMbnbger) {
+                    kmbw[dst] = (KeyMbnbger)
+                        new X509KeyMbnbgerComSunWrbpper(
+                        (jbvbx.net.ssl.X509KeyMbnbger)kmb[src]);
                     dst++;
                 }
             } else {
-                kmaw[dst] = (KeyManager)kma[src];
+                kmbw[dst] = (KeyMbnbger)kmb[src];
                 dst++;
             }
             src++;
         }
 
         if (dst != src) {
-            kmaw = (KeyManager [])
-                SSLSecurity.truncateArray(kmaw, new KeyManager [dst]);
+            kmbw = (KeyMbnbger [])
+                SSLSecurity.truncbteArrby(kmbw, new KeyMbnbger [dst]);
         }
 
-        return kmaw;
+        return kmbw;
     }
 
 }
 
 // =================================
 
-final class X509KeyManagerJavaxWrapper implements
-        javax.net.ssl.X509KeyManager {
+finbl clbss X509KeyMbnbgerJbvbxWrbpper implements
+        jbvbx.net.ssl.X509KeyMbnbger {
 
-    private X509KeyManager theX509KeyManager;
+    privbte X509KeyMbnbger theX509KeyMbnbger;
 
-    X509KeyManagerJavaxWrapper(X509KeyManager obj) {
-        theX509KeyManager = obj;
+    X509KeyMbnbgerJbvbxWrbpper(X509KeyMbnbger obj) {
+        theX509KeyMbnbger = obj;
     }
 
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getClientAliases(keyType, issuers);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
+        return theX509KeyMbnbger.getClientAlibses(keyType, issuers);
     }
 
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyTypes, Principbl[] issuers,
             Socket socket) {
-        String retval;
+        String retvbl;
 
         if (keyTypes == null) {
             return null;
         }
 
         /*
-         * Scan the list, look for something we can pass back.
+         * Scbn the list, look for something we cbn pbss bbck.
          */
         for (int i = 0; i < keyTypes.length; i++) {
-            if ((retval = theX509KeyManager.chooseClientAlias(keyTypes[i],
+            if ((retvbl = theX509KeyMbnbger.chooseClientAlibs(keyTypes[i],
                     issuers)) != null)
-                return retval;
+                return retvbl;
         }
         return null;
 
     }
 
     /*
-     * JSSE 1.0.x was only socket based, but it's possible someone might
-     * want to install a really old provider.  We should at least
+     * JSSE 1.0.x wbs only socket bbsed, but it's possible someone might
+     * wbnt to instbll b reblly old provider.  We should bt lebst
      * try to be nice.
      */
-    public String chooseEngineClientAlias(
-            String[] keyTypes, Principal[] issuers,
-            javax.net.ssl.SSLEngine engine) {
-        String retval;
+    public String chooseEngineClientAlibs(
+            String[] keyTypes, Principbl[] issuers,
+            jbvbx.net.ssl.SSLEngine engine) {
+        String retvbl;
 
         if (keyTypes == null) {
             return null;
         }
 
         /*
-         * Scan the list, look for something we can pass back.
+         * Scbn the list, look for something we cbn pbss bbck.
          */
         for (int i = 0; i < keyTypes.length; i++) {
-            if ((retval = theX509KeyManager.chooseClientAlias(keyTypes[i],
+            if ((retvbl = theX509KeyMbnbger.chooseClientAlibs(keyTypes[i],
                     issuers)) != null)
-                return retval;
+                return retvbl;
         }
 
         return null;
     }
 
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getServerAliases(keyType, issuers);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
+        return theX509KeyMbnbger.getServerAlibses(keyType, issuers);
     }
 
-    public String chooseServerAlias(String keyType, Principal[] issuers,
+    public String chooseServerAlibs(String keyType, Principbl[] issuers,
             Socket socket) {
 
         if (keyType == null) {
             return null;
         }
-        return theX509KeyManager.chooseServerAlias(keyType, issuers);
+        return theX509KeyMbnbger.chooseServerAlibs(keyType, issuers);
     }
 
     /*
-     * JSSE 1.0.x was only socket based, but it's possible someone might
-     * want to install a really old provider.  We should at least
+     * JSSE 1.0.x wbs only socket bbsed, but it's possible someone might
+     * wbnt to instbll b reblly old provider.  We should bt lebst
      * try to be nice.
      */
-    public String chooseEngineServerAlias(
-            String keyType, Principal[] issuers,
-            javax.net.ssl.SSLEngine engine) {
+    public String chooseEngineServerAlibs(
+            String keyType, Principbl[] issuers,
+            jbvbx.net.ssl.SSLEngine engine) {
 
         if (keyType == null) {
             return null;
         }
-        return theX509KeyManager.chooseServerAlias(keyType, issuers);
+        return theX509KeyMbnbger.chooseServerAlibs(keyType, issuers);
     }
 
-    public java.security.cert.X509Certificate[]
-            getCertificateChain(String alias) {
-        return theX509KeyManager.getCertificateChain(alias);
+    public jbvb.security.cert.X509Certificbte[]
+            getCertificbteChbin(String blibs) {
+        return theX509KeyMbnbger.getCertificbteChbin(blibs);
     }
 
-    public PrivateKey getPrivateKey(String alias) {
-        return theX509KeyManager.getPrivateKey(alias);
+    public PrivbteKey getPrivbteKey(String blibs) {
+        return theX509KeyMbnbger.getPrivbteKey(blibs);
     }
 }
 
-final class X509TrustManagerJavaxWrapper implements
-        javax.net.ssl.X509TrustManager {
+finbl clbss X509TrustMbnbgerJbvbxWrbpper implements
+        jbvbx.net.ssl.X509TrustMbnbger {
 
-    private X509TrustManager theX509TrustManager;
+    privbte X509TrustMbnbger theX509TrustMbnbger;
 
-    X509TrustManagerJavaxWrapper(X509TrustManager obj) {
-        theX509TrustManager = obj;
+    X509TrustMbnbgerJbvbxWrbpper(X509TrustMbnbger obj) {
+        theX509TrustMbnbger = obj;
     }
 
     public void checkClientTrusted(
-            java.security.cert.X509Certificate[] chain, String authType)
-        throws java.security.cert.CertificateException {
-        if (!theX509TrustManager.isClientTrusted(chain)) {
-            throw new java.security.cert.CertificateException(
-                "Untrusted Client Certificate Chain");
+            jbvb.security.cert.X509Certificbte[] chbin, String buthType)
+        throws jbvb.security.cert.CertificbteException {
+        if (!theX509TrustMbnbger.isClientTrusted(chbin)) {
+            throw new jbvb.security.cert.CertificbteException(
+                "Untrusted Client Certificbte Chbin");
         }
     }
 
     public void checkServerTrusted(
-            java.security.cert.X509Certificate[] chain, String authType)
-        throws java.security.cert.CertificateException {
-        if (!theX509TrustManager.isServerTrusted(chain)) {
-            throw new java.security.cert.CertificateException(
-                "Untrusted Server Certificate Chain");
+            jbvb.security.cert.X509Certificbte[] chbin, String buthType)
+        throws jbvb.security.cert.CertificbteException {
+        if (!theX509TrustMbnbger.isServerTrusted(chbin)) {
+            throw new jbvb.security.cert.CertificbteException(
+                "Untrusted Server Certificbte Chbin");
         }
     }
 
-    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-        return theX509TrustManager.getAcceptedIssuers();
+    public jbvb.security.cert.X509Certificbte[] getAcceptedIssuers() {
+        return theX509TrustMbnbger.getAcceptedIssuers();
     }
 }
 
-final class X509KeyManagerComSunWrapper implements X509KeyManager {
+finbl clbss X509KeyMbnbgerComSunWrbpper implements X509KeyMbnbger {
 
-    private javax.net.ssl.X509KeyManager theX509KeyManager;
+    privbte jbvbx.net.ssl.X509KeyMbnbger theX509KeyMbnbger;
 
-    X509KeyManagerComSunWrapper(javax.net.ssl.X509KeyManager obj) {
-        theX509KeyManager = obj;
+    X509KeyMbnbgerComSunWrbpper(jbvbx.net.ssl.X509KeyMbnbger obj) {
+        theX509KeyMbnbger = obj;
     }
 
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getClientAliases(keyType, issuers);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
+        return theX509KeyMbnbger.getClientAlibses(keyType, issuers);
     }
 
-    public String chooseClientAlias(String keyType, Principal[] issuers) {
+    public String chooseClientAlibs(String keyType, Principbl[] issuers) {
         String [] keyTypes = new String [] { keyType };
-        return theX509KeyManager.chooseClientAlias(keyTypes, issuers, null);
+        return theX509KeyMbnbger.chooseClientAlibs(keyTypes, issuers, null);
     }
 
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getServerAliases(keyType, issuers);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
+        return theX509KeyMbnbger.getServerAlibses(keyType, issuers);
     }
 
-    public String chooseServerAlias(String keyType, Principal[] issuers) {
-        return theX509KeyManager.chooseServerAlias(keyType, issuers, null);
+    public String chooseServerAlibs(String keyType, Principbl[] issuers) {
+        return theX509KeyMbnbger.chooseServerAlibs(keyType, issuers, null);
     }
 
-    public java.security.cert.X509Certificate[]
-            getCertificateChain(String alias) {
-        return theX509KeyManager.getCertificateChain(alias);
+    public jbvb.security.cert.X509Certificbte[]
+            getCertificbteChbin(String blibs) {
+        return theX509KeyMbnbger.getCertificbteChbin(blibs);
     }
 
-    public PrivateKey getPrivateKey(String alias) {
-        return theX509KeyManager.getPrivateKey(alias);
+    public PrivbteKey getPrivbteKey(String blibs) {
+        return theX509KeyMbnbger.getPrivbteKey(blibs);
     }
 }
 
-final class X509TrustManagerComSunWrapper implements X509TrustManager {
+finbl clbss X509TrustMbnbgerComSunWrbpper implements X509TrustMbnbger {
 
-    private javax.net.ssl.X509TrustManager theX509TrustManager;
+    privbte jbvbx.net.ssl.X509TrustMbnbger theX509TrustMbnbger;
 
-    X509TrustManagerComSunWrapper(javax.net.ssl.X509TrustManager obj) {
-        theX509TrustManager = obj;
+    X509TrustMbnbgerComSunWrbpper(jbvbx.net.ssl.X509TrustMbnbger obj) {
+        theX509TrustMbnbger = obj;
     }
 
-    public boolean isClientTrusted(
-            java.security.cert.X509Certificate[] chain) {
+    public boolebn isClientTrusted(
+            jbvb.security.cert.X509Certificbte[] chbin) {
         try {
-            theX509TrustManager.checkClientTrusted(chain, "UNKNOWN");
+            theX509TrustMbnbger.checkClientTrusted(chbin, "UNKNOWN");
             return true;
-        } catch (java.security.cert.CertificateException e) {
-            return false;
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            return fblse;
         }
     }
 
-    public boolean isServerTrusted(
-            java.security.cert.X509Certificate[] chain) {
+    public boolebn isServerTrusted(
+            jbvb.security.cert.X509Certificbte[] chbin) {
         try {
-            theX509TrustManager.checkServerTrusted(chain, "UNKNOWN");
+            theX509TrustMbnbger.checkServerTrusted(chbin, "UNKNOWN");
             return true;
-        } catch (java.security.cert.CertificateException e) {
-            return false;
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            return fblse;
         }
     }
 
-    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-        return theX509TrustManager.getAcceptedIssuers();
+    public jbvb.security.cert.X509Certificbte[] getAcceptedIssuers() {
+        return theX509TrustMbnbger.getAcceptedIssuers();
     }
 }

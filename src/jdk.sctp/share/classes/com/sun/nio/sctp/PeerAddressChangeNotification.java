@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
-import java.net.SocketAddress;
+import jbvb.net.SocketAddress;
 
 /**
- * Notification emitted when a destination address on a multi-homed peer
- * encounters a change.
+ * Notificbtion emitted when b destinbtion bddress on b multi-homed peer
+ * encounters b chbnge.
  *
  * @since 1.7
  */
 @jdk.Exported
-public abstract class PeerAddressChangeNotification
-    implements Notification
+public bbstrbct clbss PeerAddressChbngeNotificbtion
+    implements Notificbtion
 {
     /**
-     * Defines the type of address change event that occurred to the destination
-     * address on a multi-homed peer when it encounters a change of interface
-     * details.
+     * Defines the type of bddress chbnge event thbt occurred to the destinbtion
+     * bddress on b multi-homed peer when it encounters b chbnge of interfbce
+     * detbils.
      *
-     * <P> Some of these events types are only generated when the association
-     * supports dynamic address reconfiguration, e.g. {@code SCTP_ADDR_ADDED},
+     * <P> Some of these events types bre only generbted when the bssocibtion
+     * supports dynbmic bddress reconfigurbtion, e.g. {@code SCTP_ADDR_ADDED},
      * {@code SCTP_ADDR_REMOVED}, etc.
      *
      * @since 1.7
      */
     @jdk.Exported
-    public enum AddressChangeEvent {
+    public enum AddressChbngeEvent {
         /**
-         * This address is now reachable.
+         * This bddress is now rebchbble.
          */
        ADDR_AVAILABLE,
 
        /**
-        * The address specified can no longer be reached. Any data sent to this
-        * address is rerouted to an alternate until this address becomes reachable.
+        * The bddress specified cbn no longer be rebched. Any dbtb sent to this
+        * bddress is rerouted to bn blternbte until this bddress becomes rebchbble.
         */
        ADDR_UNREACHABLE,
 
        /**
-        * The address is no longer part of the association.
+        * The bddress is no longer pbrt of the bssocibtion.
         */
        ADDR_REMOVED,
 
        /**
-        * The address is now part of the association.
+        * The bddress is now pbrt of the bssocibtion.
         */
        ADDR_ADDED,
 
        /**
-        * This address has now been made to be the primary destination address.
+        * This bddress hbs now been mbde to be the primbry destinbtion bddress.
         */
        ADDR_MADE_PRIMARY,
 
        /**
-        * This address has now been confirmed as a valid address.
+        * This bddress hbs now been confirmed bs b vblid bddress.
         */
        ADDR_CONFIRMED;
     }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected PeerAddressChangeNotification() {}
+    protected PeerAddressChbngeNotificbtion() {}
 
     /**
-     * Returns the peer address.
+     * Returns the peer bddress.
      *
-     * @return  The peer address
+     * @return  The peer bddress
      */
-    public abstract SocketAddress address();
+    public bbstrbct SocketAddress bddress();
 
     /**
-     * Returns the association that this notification is applicable to.
+     * Returns the bssocibtion thbt this notificbtion is bpplicbble to.
      *
-     * @return  The association whose peer address changed
+     * @return  The bssocibtion whose peer bddress chbnged
      */
-    public abstract Association association();
+    public bbstrbct Associbtion bssocibtion();
 
     /**
-     * Returns the type of change event.
+     * Returns the type of chbnge event.
      *
      * @return  The event
      */
-    public abstract AddressChangeEvent event();
+    public bbstrbct AddressChbngeEvent event();
 }

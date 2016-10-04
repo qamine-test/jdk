@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #define USE_ERROR
 #define USE_TRACE
 
-#include "PLATFORM_API_SolarisOS_Utils.h"
+#include "PLATFORM_API_SolbrisOS_Utils.h"
 
 #define MAX_AUDIO_DEVICES 20
 
-// not thread safe...
-static AudioDevicePath globalADPaths[MAX_AUDIO_DEVICES];
-static int globalADCount = -1;
-static int globalADCacheTime = -1;
-/* how many seconds do we cache devices */
+// not threbd sbfe...
+stbtic AudioDevicePbth globblADPbths[MAX_AUDIO_DEVICES];
+stbtic int globblADCount = -1;
+stbtic int globblADCbcheTime = -1;
+/* how mbny seconds do we cbche devices */
 #define AD_CACHE_TIME 30
 
 // return seconds
 long getTimeInSeconds() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
+    struct timevbl tv;
+    gettimeofdby(&tv, NULL);
     return tv.tv_sec;
 }
 
@@ -48,143 +48,143 @@ long getTimeInSeconds() {
 int getAudioDeviceCount() {
     int count = MAX_AUDIO_DEVICES;
 
-    getAudioDevices(globalADPaths, &count);
+    getAudioDevices(globblADPbths, &count);
     return count;
 }
 
-/* returns TRUE if the path exists at all */
-int addAudioDevice(char* path, AudioDevicePath* adPath, int* count) {
+/* returns TRUE if the pbth exists bt bll */
+int bddAudioDevice(chbr* pbth, AudioDevicePbth* bdPbth, int* count) {
     int i;
     int found = 0;
     int fileExists = 0;
-    // not thread safe...
-    static struct stat statBuf;
+    // not threbd sbfe...
+    stbtic struct stbt stbtBuf;
 
-    // get stats on the file
-    if (stat(path, &statBuf) == 0) {
+    // get stbts on the file
+    if (stbt(pbth, &stbtBuf) == 0) {
         // file exists.
         fileExists = 1;
-        // If it is not yet in the adPath array, add it to the array
+        // If it is not yet in the bdPbth brrby, bdd it to the brrby
         for (i = 0; i < *count; i++) {
-            if (adPath[i].st_ino == statBuf.st_ino
-                && adPath[i].st_dev == statBuf.st_dev) {
+            if (bdPbth[i].st_ino == stbtBuf.st_ino
+                && bdPbth[i].st_dev == stbtBuf.st_dev) {
                 found = 1;
-                break;
+                brebk;
             }
         }
         if (!found) {
-            adPath[*count].st_ino = statBuf.st_ino;
-            adPath[*count].st_dev = statBuf.st_dev;
-            strncpy(adPath[*count].path, path, MAX_NAME_LENGTH);
-            adPath[*count].path[MAX_NAME_LENGTH - 1] = 0;
+            bdPbth[*count].st_ino = stbtBuf.st_ino;
+            bdPbth[*count].st_dev = stbtBuf.st_dev;
+            strncpy(bdPbth[*count].pbth, pbth, MAX_NAME_LENGTH);
+            bdPbth[*count].pbth[MAX_NAME_LENGTH - 1] = 0;
             (*count)++;
-            TRACE1("Added audio device %s\n", path);
+            TRACE1("Added budio device %s\n", pbth);
         }
     }
     return fileExists;
 }
 
 
-void getAudioDevices(AudioDevicePath* adPath, int* count) {
-    int maxCount = *count;
-    char* audiodev;
-    char devsound[15];
+void getAudioDevices(AudioDevicePbth* bdPbth, int* count) {
+    int mbxCount = *count;
+    chbr* budiodev;
+    chbr devsound[15];
     int i;
     long timeInSeconds = getTimeInSeconds();
 
-    if (globalADCount < 0
-        || (getTimeInSeconds() - globalADCacheTime) > AD_CACHE_TIME
-        || (adPath != globalADPaths)) {
+    if (globblADCount < 0
+        || (getTimeInSeconds() - globblADCbcheTime) > AD_CACHE_TIME
+        || (bdPbth != globblADPbths)) {
         *count = 0;
-        // first device, if set, is AUDIODEV variable
-        audiodev = getenv("AUDIODEV");
-        if (audiodev != NULL && audiodev[0] != 0) {
-            addAudioDevice(audiodev, adPath, count);
+        // first device, if set, is AUDIODEV vbribble
+        budiodev = getenv("AUDIODEV");
+        if (budiodev != NULL && budiodev[0] != 0) {
+            bddAudioDevice(budiodev, bdPbth, count);
         }
-        // then try /dev/audio
-        addAudioDevice("/dev/audio", adPath, count);
-        // then go through all of the /dev/sound/? devices
+        // then try /dev/budio
+        bddAudioDevice("/dev/budio", bdPbth, count);
+        // then go through bll of the /dev/sound/? devices
         for (i = 0; i < 100; i++) {
             sprintf(devsound, "/dev/sound/%d", i);
-            if (!addAudioDevice(devsound, adPath, count)) {
-                break;
+            if (!bddAudioDevice(devsound, bdPbth, count)) {
+                brebk;
             }
         }
-        if (adPath == globalADPaths) {
-            /* commit cache */
-            globalADCount = *count;
-            /* set cache time */
-            globalADCacheTime = timeInSeconds;
+        if (bdPbth == globblADPbths) {
+            /* commit cbche */
+            globblADCount = *count;
+            /* set cbche time */
+            globblADCbcheTime = timeInSeconds;
         }
     } else {
-        /* return cache */
-        *count = globalADCount;
+        /* return cbche */
+        *count = globblADCount;
     }
-    // that's it
+    // thbt's it
 }
 
-int getAudioDeviceDescriptionByIndex(int index, AudioDeviceDescription* adDesc, int getNames) {
+int getAudioDeviceDescriptionByIndex(int index, AudioDeviceDescription* bdDesc, int getNbmes) {
     int count = MAX_AUDIO_DEVICES;
     int ret = 0;
 
-    getAudioDevices(globalADPaths, &count);
+    getAudioDevices(globblADPbths, &count);
     if (index>=0 && index < count) {
-        ret = getAudioDeviceDescription(globalADPaths[index].path, adDesc, getNames);
+        ret = getAudioDeviceDescription(globblADPbths[index].pbth, bdDesc, getNbmes);
     }
     return ret;
 }
 
-int getAudioDeviceDescription(char* path, AudioDeviceDescription* adDesc, int getNames) {
+int getAudioDeviceDescription(chbr* pbth, AudioDeviceDescription* bdDesc, int getNbmes) {
     int fd;
     int mixerMode;
     int len;
-    audio_info_t info;
-    audio_device_t deviceInfo;
+    budio_info_t info;
+    budio_device_t deviceInfo;
 
-    strncpy(adDesc->path, path, MAX_NAME_LENGTH);
-    adDesc->path[MAX_NAME_LENGTH] = 0;
-    strcpy(adDesc->pathctl, adDesc->path);
-    strcat(adDesc->pathctl, "ctl");
-    strcpy(adDesc->name, adDesc->path);
-    adDesc->vendor[0] = 0;
-    adDesc->version[0] = 0;
-    adDesc->description[0] = 0;
-    adDesc->maxSimulLines = 1;
+    strncpy(bdDesc->pbth, pbth, MAX_NAME_LENGTH);
+    bdDesc->pbth[MAX_NAME_LENGTH] = 0;
+    strcpy(bdDesc->pbthctl, bdDesc->pbth);
+    strcbt(bdDesc->pbthctl, "ctl");
+    strcpy(bdDesc->nbme, bdDesc->pbth);
+    bdDesc->vendor[0] = 0;
+    bdDesc->version[0] = 0;
+    bdDesc->description[0] = 0;
+    bdDesc->mbxSimulLines = 1;
 
-    // try to open the pseudo device and get more information
-    fd = open(adDesc->pathctl, O_WRONLY | O_NONBLOCK);
+    // try to open the pseudo device bnd get more informbtion
+    fd = open(bdDesc->pbthctl, O_WRONLY | O_NONBLOCK);
     if (fd >= 0) {
         close(fd);
-        if (getNames) {
-            fd = open(adDesc->pathctl, O_RDONLY);
+        if (getNbmes) {
+            fd = open(bdDesc->pbthctl, O_RDONLY);
             if (fd >= 0) {
                 if (ioctl(fd, AUDIO_GETDEV, &deviceInfo) >= 0) {
-                    strncpy(adDesc->vendor, deviceInfo.name, MAX_AUDIO_DEV_LEN);
-                    adDesc->vendor[MAX_AUDIO_DEV_LEN] = 0;
-                    strncpy(adDesc->version, deviceInfo.version, MAX_AUDIO_DEV_LEN);
-                    adDesc->version[MAX_AUDIO_DEV_LEN] = 0;
-                    /* add config string to the dev name
-                     * creates a string like "/dev/audio (onboard1)"
+                    strncpy(bdDesc->vendor, deviceInfo.nbme, MAX_AUDIO_DEV_LEN);
+                    bdDesc->vendor[MAX_AUDIO_DEV_LEN] = 0;
+                    strncpy(bdDesc->version, deviceInfo.version, MAX_AUDIO_DEV_LEN);
+                    bdDesc->version[MAX_AUDIO_DEV_LEN] = 0;
+                    /* bdd config string to the dev nbme
+                     * crebtes b string like "/dev/budio (onbobrd1)"
                      */
-                    len = strlen(adDesc->name) + 1;
+                    len = strlen(bdDesc->nbme) + 1;
                     if (MAX_NAME_LENGTH - len > 3) {
-                        strcat(adDesc->name, " (");
-                        strncat(adDesc->name, deviceInfo.config, MAX_NAME_LENGTH - len);
-                        strcat(adDesc->name, ")");
+                        strcbt(bdDesc->nbme, " (");
+                        strncbt(bdDesc->nbme, deviceInfo.config, MAX_NAME_LENGTH - len);
+                        strcbt(bdDesc->nbme, ")");
                     }
-                    adDesc->name[MAX_NAME_LENGTH-1] = 0;
+                    bdDesc->nbme[MAX_NAME_LENGTH-1] = 0;
                 }
                 if (ioctl(fd, AUDIO_MIXERCTL_GET_MODE, &mixerMode) >= 0) {
                     if (mixerMode == AM_MIXER_MODE) {
-                        TRACE1(" getAudioDeviceDescription: %s is in mixer mode\n", adDesc->path);
-                        adDesc->maxSimulLines = -1;
+                        TRACE1(" getAudioDeviceDescription: %s is in mixer mode\n", bdDesc->pbth);
+                        bdDesc->mbxSimulLines = -1;
                     }
                 } else {
-                    ERROR1("ioctl AUDIO_MIXERCTL_GET_MODE failed on %s!\n", adDesc->path);
+                    ERROR1("ioctl AUDIO_MIXERCTL_GET_MODE fbiled on %s!\n", bdDesc->pbth);
                 }
                 close(fd);
             } else {
-                ERROR1("could not open %s!\n", adDesc->pathctl);
+                ERROR1("could not open %s!\n", bdDesc->pbthctl);
             }
         }
         return 1;

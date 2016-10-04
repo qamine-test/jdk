@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Reader;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.Rebder;
 
-import javax.print.attribute.DocAttributeSet;
+import jbvbx.print.bttribute.DocAttributeSet;
 
 
 /**
- * Interface Doc specifies the interface for an object that supplies one piece
- * of print data for a Print Job. "Doc" is a short, easy-to-pronounce term
- * that means "a piece of print data." The client passes to the Print Job an
- * object that implements interface Doc, and the Print Job calls methods on
- * that object to obtain the print data. The Doc interface lets a Print Job:
+ * Interfbce Doc specifies the interfbce for bn object thbt supplies one piece
+ * of print dbtb for b Print Job. "Doc" is b short, ebsy-to-pronounce term
+ * thbt mebns "b piece of print dbtb." The client pbsses to the Print Job bn
+ * object thbt implements interfbce Doc, bnd the Print Job cblls methods on
+ * thbt object to obtbin the print dbtb. The Doc interfbce lets b Print Job:
  * <UL>
  * <LI>
- * Determine the format, or "doc flavor" (class {@link DocFlavor DocFlavor}),
- * in which the print data is available. A doc flavor designates the print
- * data format (a MIME type) and the representation class of the object
- * from which the print data comes.
+ * Determine the formbt, or "doc flbvor" (clbss {@link DocFlbvor DocFlbvor}),
+ * in which the print dbtb is bvbilbble. A doc flbvor designbtes the print
+ * dbtb formbt (b MIME type) bnd the representbtion clbss of the object
+ * from which the print dbtb comes.
  *
  * <LI>
- * Obtain the print data representation object, which is an instance of the
- * doc flavor's representation class. The Print Job can then obtain the actual
- * print data from the representation object.
+ * Obtbin the print dbtb representbtion object, which is bn instbnce of the
+ * doc flbvor's representbtion clbss. The Print Job cbn then obtbin the bctubl
+ * print dbtb from the representbtion object.
  *
  * <LI>
- * Obtain the printing attributes that specify additional characteristics of
- * the doc or that specify processing instructions to be applied to the doc.
- * Printing attributes are defined in package {@link javax.print.attribute
- * javax.print.attribute}. The doc returns its printing attributes stored in
- * an {@link javax.print.attribute.DocAttributeSet javax.print.attribute.DocAttributeSet}.
+ * Obtbin the printing bttributes thbt specify bdditionbl chbrbcteristics of
+ * the doc or thbt specify processing instructions to be bpplied to the doc.
+ * Printing bttributes bre defined in pbckbge {@link jbvbx.print.bttribute
+ * jbvbx.print.bttribute}. The doc returns its printing bttributes stored in
+ * bn {@link jbvbx.print.bttribute.DocAttributeSet jbvbx.print.bttribute.DocAttributeSet}.
  * </UL>
  * <P>
- * Each method in an implementation of interface Doc is permitted always to
- * return the same object each time the method is called.
- * This has implications
- * for a Print Job or other caller of a doc object whose print data
- * representation object "consumes" the print data as the caller obtains the
- * print data, such as a print data representation object which is a stream.
- * Once the Print Job has called {@link #getPrintData()
- * getPrintData()} and obtained the stream, any further calls to
- * {@link #getPrintData() getPrintData()} will return the same
- * stream object upon which reading may already be in progress, <I>not</I> a new
- * stream object that will re-read the print data from the beginning. Specifying
- * a doc object to behave this way simplifies the implementation of doc objects,
- * and is justified on the grounds that a particular doc is intended to convey
- * print data only to one Print Job, not to several different Print Jobs. (To
- * convey the same print data to several different Print Jobs, you have to
- * create several different doc objects on top of the same print data source.)
+ * Ebch method in bn implementbtion of interfbce Doc is permitted blwbys to
+ * return the sbme object ebch time the method is cblled.
+ * This hbs implicbtions
+ * for b Print Job or other cbller of b doc object whose print dbtb
+ * representbtion object "consumes" the print dbtb bs the cbller obtbins the
+ * print dbtb, such bs b print dbtb representbtion object which is b strebm.
+ * Once the Print Job hbs cblled {@link #getPrintDbtb()
+ * getPrintDbtb()} bnd obtbined the strebm, bny further cblls to
+ * {@link #getPrintDbtb() getPrintDbtb()} will return the sbme
+ * strebm object upon which rebding mby blrebdy be in progress, <I>not</I> b new
+ * strebm object thbt will re-rebd the print dbtb from the beginning. Specifying
+ * b doc object to behbve this wby simplifies the implementbtion of doc objects,
+ * bnd is justified on the grounds thbt b pbrticulbr doc is intended to convey
+ * print dbtb only to one Print Job, not to severbl different Print Jobs. (To
+ * convey the sbme print dbtb to severbl different Print Jobs, you hbve to
+ * crebte severbl different doc objects on top of the sbme print dbtb source.)
  * <P>
- * Interface Doc affords considerable implementation flexibility. The print data
- * might already be in existence when the doc object is constructed. In this
- * case the objects returned by the doc's methods can be supplied to the doc's
- * constructor, be stored in the doc ahead of time, and simply be returned when
- * called for. Alternatively, the print data might not exist yet when the doc
- * object is constructed. In this case the doc object might provide a "lazy"
- * implementation that generates the print data representation object (and/or
- * the print data) only when the Print Job calls for it (when the Print Job
- * calls the {@link #getPrintData() getPrintData()} method).
+ * Interfbce Doc bffords considerbble implementbtion flexibility. The print dbtb
+ * might blrebdy be in existence when the doc object is constructed. In this
+ * cbse the objects returned by the doc's methods cbn be supplied to the doc's
+ * constructor, be stored in the doc bhebd of time, bnd simply be returned when
+ * cblled for. Alternbtively, the print dbtb might not exist yet when the doc
+ * object is constructed. In this cbse the doc object might provide b "lbzy"
+ * implementbtion thbt generbtes the print dbtb representbtion object (bnd/or
+ * the print dbtb) only when the Print Job cblls for it (when the Print Job
+ * cblls the {@link #getPrintDbtb() getPrintDbtb()} method).
  * <P>
- * There is no restriction on the number of client threads that may be
- * simultaneously accessing the same doc. Therefore, all implementations of
- * interface Doc must be designed to be multiple thread safe.
+ * There is no restriction on the number of client threbds thbt mby be
+ * simultbneously bccessing the sbme doc. Therefore, bll implementbtions of
+ * interfbce Doc must be designed to be multiple threbd sbfe.
  * <p>
- * However there can only be one consumer of the print data obtained from a
+ * However there cbn only be one consumer of the print dbtb obtbined from b
  * Doc.
  * <p>
- * If print data is obtained from the client as a stream, by calling Doc's
- * <code>getReaderForText()</code> or <code>getStreamForBytes()</code>
- * methods, or because the print data source is already an InputStream or
- * Reader, then the print service should always close these streams for the
- * client on all job completion conditions. With the following caveat.
- * If the print data is itself a stream, the service will always close it.
- * If the print data is otherwise something that can be requested as a stream,
- * the service will only close the stream if it has obtained the stream before
- * terminating. That is, just because a print service might request data as
- * a stream does not mean that it will, with the implications that Doc
- * implementors which rely on the service to close them should create such
- * streams only in response to a request from the service.
+ * If print dbtb is obtbined from the client bs b strebm, by cblling Doc's
+ * <code>getRebderForText()</code> or <code>getStrebmForBytes()</code>
+ * methods, or becbuse the print dbtb source is blrebdy bn InputStrebm or
+ * Rebder, then the print service should blwbys close these strebms for the
+ * client on bll job completion conditions. With the following cbvebt.
+ * If the print dbtb is itself b strebm, the service will blwbys close it.
+ * If the print dbtb is otherwise something thbt cbn be requested bs b strebm,
+ * the service will only close the strebm if it hbs obtbined the strebm before
+ * terminbting. Thbt is, just becbuse b print service might request dbtb bs
+ * b strebm does not mebn thbt it will, with the implicbtions thbt Doc
+ * implementors which rely on the service to close them should crebte such
+ * strebms only in response to b request from the service.
  * <HR>
  */
-public interface Doc {
+public interfbce Doc {
 
     /**
-     * Determines the doc flavor in which this doc object will supply its
-     * piece of print data.
+     * Determines the doc flbvor in which this doc object will supply its
+     * piece of print dbtb.
      *
-     * @return  Doc flavor.
+     * @return  Doc flbvor.
      */
-    public DocFlavor getDocFlavor();
+    public DocFlbvor getDocFlbvor();
 
     /**
-     * Obtains the print data representation object that contains this doc
-     * object's piece of print data in the format corresponding to the
-     * supported doc flavor.
-     * The <CODE>getPrintData()</CODE> method returns an instance of
-     * the representation class whose name is given by <CODE>{@link
-     * #getDocFlavor() getDocFlavor()}.{@link
-     * DocFlavor#getRepresentationClassName()
-     * getRepresentationClassName()}</CODE>, and the return value can be cast
-     * from class Object to that representation class.
+     * Obtbins the print dbtb representbtion object thbt contbins this doc
+     * object's piece of print dbtb in the formbt corresponding to the
+     * supported doc flbvor.
+     * The <CODE>getPrintDbtb()</CODE> method returns bn instbnce of
+     * the representbtion clbss whose nbme is given by <CODE>{@link
+     * #getDocFlbvor() getDocFlbvor()}.{@link
+     * DocFlbvor#getRepresentbtionClbssNbme()
+     * getRepresentbtionClbssNbme()}</CODE>, bnd the return vblue cbn be cbst
+     * from clbss Object to thbt representbtion clbss.
      *
-     * @return  Print data representation object.
+     * @return  Print dbtb representbtion object.
      *
      * @exception  IOException
-     *     Thrown if the representation class is a stream and there was an I/O
-     *     error while constructing the stream.
+     *     Thrown if the representbtion clbss is b strebm bnd there wbs bn I/O
+     *     error while constructing the strebm.
      */
-    public Object getPrintData() throws IOException;
+    public Object getPrintDbtb() throws IOException;
 
     /**
-     * Obtains the set of printing attributes for this doc object. If the
-     * returned attribute set includes an instance of a particular attribute
-     * <I>X,</I> the printer must use that attribute value for this doc,
-     * overriding any value of attribute <I>X</I> in the job's attribute set.
-     * If the returned attribute set does not include an instance
-     * of a particular attribute <I>X</I> or if null is returned, the printer
-     * must consult the job's attribute set to obtain the value for
-     * attribute <I>X,</I> and if not found there, the printer must use an
-     * implementation-dependent default value. The returned attribute set is
-     * unmodifiable.
+     * Obtbins the set of printing bttributes for this doc object. If the
+     * returned bttribute set includes bn instbnce of b pbrticulbr bttribute
+     * <I>X,</I> the printer must use thbt bttribute vblue for this doc,
+     * overriding bny vblue of bttribute <I>X</I> in the job's bttribute set.
+     * If the returned bttribute set does not include bn instbnce
+     * of b pbrticulbr bttribute <I>X</I> or if null is returned, the printer
+     * must consult the job's bttribute set to obtbin the vblue for
+     * bttribute <I>X,</I> bnd if not found there, the printer must use bn
+     * implementbtion-dependent defbult vblue. The returned bttribute set is
+     * unmodifibble.
      *
-     * @return  Unmodifiable set of printing attributes for this doc, or null
-     *          to obtain all attribute values from the job's attribute
+     * @return  Unmodifibble set of printing bttributes for this doc, or null
+     *          to obtbin bll bttribute vblues from the job's bttribute
      *          set.
      */
     public DocAttributeSet getAttributes();
 
     /**
-     * Obtains a reader for extracting character print data from this doc.
-     * The Doc implementation is required to support this method if the
-     * DocFlavor has one of the following print data representation classes,
-     * and return null otherwise:
+     * Obtbins b rebder for extrbcting chbrbcter print dbtb from this doc.
+     * The Doc implementbtion is required to support this method if the
+     * DocFlbvor hbs one of the following print dbtb representbtion clbsses,
+     * bnd return null otherwise:
      * <UL>
-     * <LI> char[]
-     * <LI> java.lang.String
-     * <LI> java.io.Reader
+     * <LI> chbr[]
+     * <LI> jbvb.lbng.String
+     * <LI> jbvb.io.Rebder
      * </UL>
-     * The doc's print data representation object is used to construct and
-     * return a Reader for reading the print data as a stream of characters
-     * from the print data representation object.
-     * However, if the print data representation object is itself a Reader,
-     * then the print data representation object is simply returned.
+     * The doc's print dbtb representbtion object is used to construct bnd
+     * return b Rebder for rebding the print dbtb bs b strebm of chbrbcters
+     * from the print dbtb representbtion object.
+     * However, if the print dbtb representbtion object is itself b Rebder,
+     * then the print dbtb representbtion object is simply returned.
      *
-     * @return  Reader for reading the print data characters from this doc.
-     *          If a reader cannot be provided because this doc does not meet
-     *          the criteria stated above, null is returned.
+     * @return  Rebder for rebding the print dbtb chbrbcters from this doc.
+     *          If b rebder cbnnot be provided becbuse this doc does not meet
+     *          the criterib stbted bbove, null is returned.
      *
      * @exception  IOException
-     *     Thrown if there was an I/O error while creating the reader.
+     *     Thrown if there wbs bn I/O error while crebting the rebder.
      */
-    public Reader getReaderForText() throws IOException;
+    public Rebder getRebderForText() throws IOException;
 
     /**
-     * Obtains an input stream for extracting byte print data from this
-     * doc.  The Doc implementation is required to support this method if
-     * the DocFlavor has one of the following print data representation
-     * classes, and return null otherwise:
+     * Obtbins bn input strebm for extrbcting byte print dbtb from this
+     * doc.  The Doc implementbtion is required to support this method if
+     * the DocFlbvor hbs one of the following print dbtb representbtion
+     * clbsses, bnd return null otherwise:
      * <UL>
      * <LI> byte[]
-     * <LI> java.io.InputStream
+     * <LI> jbvb.io.InputStrebm
      * </UL>
-     * This doc's print data representation object is obtained, then an input
-     * stream for reading the print data from the print data representation
-     * object as a stream of bytes is created and returned. However, if the
-     * print data representation object is itself an input stream, then the
-     * print data representation object is simply returned.
+     * This doc's print dbtb representbtion object is obtbined, then bn input
+     * strebm for rebding the print dbtb from the print dbtb representbtion
+     * object bs b strebm of bytes is crebted bnd returned. However, if the
+     * print dbtb representbtion object is itself bn input strebm, then the
+     * print dbtb representbtion object is simply returned.
      *
-     * @return  Input stream for reading the print data bytes from this doc. If
-     *          an input stream cannot be provided because this doc does not
-     *          meet the criteria stated above, null is returned.
+     * @return  Input strebm for rebding the print dbtb bytes from this doc. If
+     *          bn input strebm cbnnot be provided becbuse this doc does not
+     *          meet the criterib stbted bbove, null is returned.
      *
      * @exception  IOException
-     *     Thrown if there was an I/O error while creating the input stream.
+     *     Thrown if there wbs bn I/O error while crebting the input strebm.
      */
-    public InputStream getStreamForBytes() throws IOException;
+    public InputStrebm getStrebmForBytes() throws IOException;
 
 }

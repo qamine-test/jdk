@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Decoding category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Decoding cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation can decode the pixel information associated
- * with any valid Java ColorModel object by dynamically invoking the
- * getRGB method on that object.  The implementation will also
- * optimally handle pixel data coming from IndexColorModel and
- * DirectColorModel objects so that it can be used as the default
- * fallback implementation for corner cases without imposing the
- * enormous performance penalty required for handling the custom
- * ColorModel objects in those cases.
+ * This implementbtion cbn decode the pixel informbtion bssocibted
+ * with bny vblid Jbvb ColorModel object by dynbmicblly invoking the
+ * getRGB method on thbt object.  The implementbtion will blso
+ * optimblly hbndle pixel dbtb coming from IndexColorModel bnd
+ * DirectColorModel objects so thbt it cbn be used bs the defbult
+ * fbllbbck implementbtion for corner cbses without imposing the
+ * enormous performbnce penblty required for hbndling the custom
+ * ColorModel objects in those cbses.
  *
- * This file can be used to provide the default implementation of the
- * Decoding macros, handling all color conversion cases.
+ * This file cbn be used to provide the defbult implementbtion of the
+ * Decoding mbcros, hbndling bll color conversion cbses.
  */
 
 /*
- * These definitions vector the standard macro names to the "Any"
- * versions of those macros.  The "DecodeDeclared" keyword is also
- * defined to indicate to the other include files that they are not
- * defining the primary implementation.  All other include files
- * will check for the existance of the "DecodeDeclared" keyword
- * and define their implementations of the Decoding macros using
- * more specific names without overriding the standard names.
- * This is done so that the other files can be included here to
- * reuse their implementations for the specific optimization cases.
+ * These definitions vector the stbndbrd mbcro nbmes to the "Any"
+ * versions of those mbcros.  The "DecodeDeclbred" keyword is blso
+ * defined to indicbte to the other include files thbt they bre not
+ * defining the primbry implementbtion.  All other include files
+ * will check for the existbnce of the "DecodeDeclbred" keyword
+ * bnd define their implementbtions of the Decoding mbcros using
+ * more specific nbmes without overriding the stbndbrd nbmes.
+ * This is done so thbt the other files cbn be included here to
+ * reuse their implementbtions for the specific optimizbtion cbses.
  */
-#define DecodeDeclared
-#define DeclareDecodeVars       DeclareAnyVars
+#define DecodeDeclbred
+#define DeclbreDecodeVbrs       DeclbreAnyVbrs
 #define InitPixelDecode         InitPixelAny
 #define PixelDecode             PixelAnyDecode
 
-/* Include the optimal implementations for Index and Direct ColorModels */
+/* Include the optimbl implementbtions for Index bnd Direct ColorModels */
 #include "img_icm.h"
 #include "img_dcm.h"
 
@@ -64,18 +64,18 @@
 #define DCMTYPE         1
 #define OCMTYPE         2
 
-#define DeclareAnyVars                                          \
-    DeclareICMVars                                              \
-    DeclareDCMVars                                              \
+#define DeclbreAnyVbrs                                          \
+    DeclbreICMVbrs                                              \
+    DeclbreDCMVbrs                                              \
     struct execenv *ee;                                         \
     struct methodblock *mb = 0;                                 \
     int CMtype;
 
 #define InitPixelAny(CM)                                                \
     do {                                                                \
-        Classjava_awt_image_ColorModel *cm =                            \
-            (Classjava_awt_image_ColorModel *) unhand(CM);              \
-        ImgCMData *icmd = (ImgCMData *) cm->pData;                      \
+        Clbssjbvb_bwt_imbge_ColorModel *cm =                            \
+            (Clbssjbvb_bwt_imbge_ColorModel *) unhbnd(CM);              \
+        ImgCMDbtb *icmd = (ImgCMDbtb *) cm->pDbtb;                      \
         if ((icmd->type & IMGCV_CMBITS) == IMGCV_ICM) {                 \
             CMtype = ICMTYPE;                                           \
             InitPixelICM(cm);                                           \
@@ -90,26 +90,26 @@
         }                                                               \
     } while (0)
 
-#define PixelAnyDecode(CM, pixel, red, green, blue, alpha)              \
+#define PixelAnyDecode(CM, pixel, red, green, blue, blphb)              \
     do {                                                                \
         switch (CMtype) {                                               \
-        case ICMTYPE:                                                   \
-            PixelICMDecode(CM, pixel, red, green, blue, alpha);         \
-            break;                                                      \
-        case DCMTYPE:                                                   \
-            PixelDCMDecode(CM, pixel, red, green, blue, alpha);         \
-            break;                                                      \
-        case OCMTYPE:                                                   \
-            pixel = do_execute_java_method(ee, (void *) CM,             \
+        cbse ICMTYPE:                                                   \
+            PixelICMDecode(CM, pixel, red, green, blue, blphb);         \
+            brebk;                                                      \
+        cbse DCMTYPE:                                                   \
+            PixelDCMDecode(CM, pixel, red, green, blue, blphb);         \
+            brebk;                                                      \
+        cbse OCMTYPE:                                                   \
+            pixel = do_execute_jbvb_method(ee, (void *) CM,             \
                                            "getRGB","(I)I", mb,         \
                                            FALSE, pixel);               \
             if (exceptionOccurred(ee)) {                                \
                 return SCALEFAILURE;                                    \
             }                                                           \
-            IfAlpha(alpha = pixel >> ALPHASHIFT;)                       \
+            IfAlphb(blphb = pixel >> ALPHASHIFT;)                       \
             red = (pixel >> REDSHIFT) & 0xff;                           \
             green = (pixel >> GREENSHIFT) & 0xff;                       \
             blue = (pixel >> BLUESHIFT) & 0xff;                         \
-            break;                                                      \
+            brebk;                                                      \
         }                                                               \
     } while (0)

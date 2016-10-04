@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Motif-specific data structures for AWT Java objects.
+ * Motif-specific dbtb structures for AWT Jbvb objects.
  *
  */
 #ifndef _AWT_P_H_
@@ -32,10 +32,10 @@
 
 /* turn on to do event filtering */
 #define NEW_EVENT_MODEL
-/* turn on to only filter keyboard events */
+/* turn on to only filter keybobrd events */
 #define KEYBOARD_ONLY_EVENTS
 
-#include <stdarg.h>
+#include <stdbrg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,107 +45,107 @@
 #include <X11/IntrinsicP.h>
 #include <X11/Shell.h>
 #include <X11/StringDefs.h>
-#include <X11/Xatom.h>
+#include <X11/Xbtom.h>
 #include <X11/keysym.h>
 #include <X11/keysymdef.h>
 #include <X11/extensions/Xrender.h>
 #endif /* !HEADLESS */
-#include "awt.h"
-#include "awt_util.h"
+#include "bwt.h"
+#include "bwt_util.h"
 #include "color.h"
-#include "colordata.h"
+#include "colordbtb.h"
 #include "gdefs.h"
 
 #ifndef HEADLESS
 #ifndef min
-#define min(a,b) ((a) <= (b)? (a):(b))
+#define min(b,b) ((b) <= (b)? (b):(b))
 #endif
-#ifndef max
-#define max(a,b) ((a) >= (b)? (a):(b))
+#ifndef mbx
+#define mbx(b,b) ((b) >= (b)? (b):(b))
 #endif
 #endif /* !HEADLESS */
 
-#define RepaintPending_NONE     0
-#define RepaintPending_REPAINT  (1 << 0)
-#define RepaintPending_EXPOSE   (1 << 1)
+#define RepbintPending_NONE     0
+#define RepbintPending_REPAINT  (1 << 0)
+#define RepbintPending_EXPOSE   (1 << 1)
 #define LOOKUPSIZE 32
 
 #ifndef HEADLESS
 
-typedef XRenderPictFormat *
-XRenderFindVisualFormatFunc (Display *dpy, _Xconst Visual *visual);
+typedef XRenderPictFormbt *
+XRenderFindVisublFormbtFunc (Displby *dpy, _Xconst Visubl *visubl);
 
-typedef struct _AwtGraphicsConfigData  {
-    int         awt_depth;
-    Colormap    awt_cmap;
-    XVisualInfo awt_visInfo;
-    int         awt_num_colors;
-    awtImageData *awtImage;
-    int         (*AwtColorMatch)(int, int, int,
-                                 struct _AwtGraphicsConfigData *);
-    XImage      *monoImage;
-    Pixmap      monoPixmap;      /* Used in X11TextRenderer_md.c */
-    int         monoPixmapWidth; /* Used in X11TextRenderer_md.c */
-    int         monoPixmapHeight;/* Used in X11TextRenderer_md.c */
-    GC          monoPixmapGC;    /* Used in X11TextRenderer_md.c */
-    int         pixelStride;     /* Used in X11SurfaceData.c */
-    ColorData      *color_data;
-    struct _GLXGraphicsConfigInfo *glxInfo;
-    int         isTranslucencySupported; /* Uses Xrender to find this out. */
-    XRenderPictFormat renderPictFormat; /*Used only if translucency supported*/
-} AwtGraphicsConfigData;
+typedef struct _AwtGrbphicsConfigDbtb  {
+    int         bwt_depth;
+    Colormbp    bwt_cmbp;
+    XVisublInfo bwt_visInfo;
+    int         bwt_num_colors;
+    bwtImbgeDbtb *bwtImbge;
+    int         (*AwtColorMbtch)(int, int, int,
+                                 struct _AwtGrbphicsConfigDbtb *);
+    XImbge      *monoImbge;
+    Pixmbp      monoPixmbp;      /* Used in X11TextRenderer_md.c */
+    int         monoPixmbpWidth; /* Used in X11TextRenderer_md.c */
+    int         monoPixmbpHeight;/* Used in X11TextRenderer_md.c */
+    GC          monoPixmbpGC;    /* Used in X11TextRenderer_md.c */
+    int         pixelStride;     /* Used in X11SurfbceDbtb.c */
+    ColorDbtb      *color_dbtb;
+    struct _GLXGrbphicsConfigInfo *glxInfo;
+    int         isTrbnslucencySupported; /* Uses Xrender to find this out. */
+    XRenderPictFormbt renderPictFormbt; /*Used only if trbnslucency supported*/
+} AwtGrbphicsConfigDbtb;
 
-typedef AwtGraphicsConfigData* AwtGraphicsConfigDataPtr;
+typedef AwtGrbphicsConfigDbtb* AwtGrbphicsConfigDbtbPtr;
 
-typedef struct _AwtScreenData {
+typedef struct _AwtScreenDbtb {
     int numConfigs;
     Window root;
     unsigned long whitepixel;
-    unsigned long blackpixel;
-    AwtGraphicsConfigDataPtr defaultConfig;
-    AwtGraphicsConfigDataPtr *configs;
-} AwtScreenData;
+    unsigned long blbckpixel;
+    AwtGrbphicsConfigDbtbPtr defbultConfig;
+    AwtGrbphicsConfigDbtbPtr *configs;
+} AwtScreenDbtb;
 
-typedef AwtScreenData* AwtScreenDataPtr;
+typedef AwtScreenDbtb* AwtScreenDbtbPtr;
 
 #define W_GRAVITY_INITIALIZED 1
 #define W_IS_EMBEDDED 2
 
-typedef struct awtFontList {
-    char *xlfd;
+typedef struct bwtFontList {
+    chbr *xlfd;
     int index_length;
-    int load;
-    char *charset_name;
+    int lobd;
+    chbr *chbrset_nbme;
     XFontStruct *xfont;
-} awtFontList;
+} bwtFontList;
 
-struct FontData {
-    int charset_num;
-    awtFontList *flist;
-    XFontSet xfs;       /* for TextField & TextArea */
-    XFontStruct *xfont; /* Latin1 font */
+struct FontDbtb {
+    int chbrset_num;
+    bwtFontList *flist;
+    XFontSet xfs;       /* for TextField & TextAreb */
+    XFontStruct *xfont; /* Lbtin1 font */
 };
 
-extern struct FontData *awtJNI_GetFontData(JNIEnv *env,jobject font, char **errmsg);
+extern struct FontDbtb *bwtJNI_GetFontDbtb(JNIEnv *env,jobject font, chbr **errmsg);
 
-extern AwtGraphicsConfigDataPtr getDefaultConfig(int screen);
-extern AwtScreenDataPtr getScreenData(int screen);
+extern AwtGrbphicsConfigDbtbPtr getDefbultConfig(int screen);
+extern AwtScreenDbtbPtr getScreenDbtb(int screen);
 #endif /* !HEADLESS */
 
-/* allocated and initialize a structure */
-#define ZALLOC(T)       ((struct T *)calloc(1, sizeof(struct T)))
+/* bllocbted bnd initiblize b structure */
+#define ZALLOC(T)       ((struct T *)cblloc(1, sizeof(struct T)))
 
 #ifndef HEADLESS
-#define XDISPLAY awt_display;
+#define XDISPLAY bwt_displby;
 
-extern int awt_allocate_colors(AwtGraphicsConfigDataPtr);
-extern void awt_allocate_systemcolors(XColor *, int, AwtGraphicsConfigDataPtr);
-extern void awt_allocate_systemrgbcolors(jint *, int, AwtGraphicsConfigDataPtr);
+extern int bwt_bllocbte_colors(AwtGrbphicsConfigDbtbPtr);
+extern void bwt_bllocbte_systemcolors(XColor *, int, AwtGrbphicsConfigDbtbPtr);
+extern void bwt_bllocbte_systemrgbcolors(jint *, int, AwtGrbphicsConfigDbtbPtr);
 
-extern int awtJNI_GetColor(JNIEnv *, jobject);
-extern int awtJNI_GetColorForVis (JNIEnv *, jobject, AwtGraphicsConfigDataPtr);
-extern jobject awtJNI_GetColorModel(JNIEnv *, AwtGraphicsConfigDataPtr);
-extern void awtJNI_CreateColorData (JNIEnv *, AwtGraphicsConfigDataPtr, int lock);
+extern int bwtJNI_GetColor(JNIEnv *, jobject);
+extern int bwtJNI_GetColorForVis (JNIEnv *, jobject, AwtGrbphicsConfigDbtbPtr);
+extern jobject bwtJNI_GetColorModel(JNIEnv *, AwtGrbphicsConfigDbtbPtr);
+extern void bwtJNI_CrebteColorDbtb (JNIEnv *, AwtGrbphicsConfigDbtbPtr, int lock);
 
 #endif /* !HEADLESS */
 #endif           /* _AWT_P_H_ */

@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "sun_java2d_pipe_BufferedRenderPipe.h"
+#include "sun_jbvb2d_pipe_BufferedRenderPipe.h"
 #include "D3DContext.h"
 
 #define BYTES_PER_POLY_POINT \
-    sun_java2d_pipe_BufferedRenderPipe_BYTES_PER_POLY_POINT
+    sun_jbvb2d_pipe_BufferedRenderPipe_BYTES_PER_POLY_POINT
 #define BYTES_PER_SCANLINE \
-    sun_java2d_pipe_BufferedRenderPipe_BYTES_PER_SCANLINE
+    sun_jbvb2d_pipe_BufferedRenderPipe_BYTES_PER_SCANLINE
 #define BYTES_PER_SPAN \
-    sun_java2d_pipe_BufferedRenderPipe_BYTES_PER_SPAN
+    sun_jbvb2d_pipe_BufferedRenderPipe_BYTES_PER_SPAN
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawLine(D3DContext *d3dc,
+D3DRenderer_DrbwLine(D3DContext *d3dc,
                      jint x1, jint y1, jint x2, jint y2);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawRect(D3DContext *d3dc,
+D3DRenderer_DrbwRect(D3DContext *d3dc,
                      jint x, jint y, jint w, jint h);
 
 HRESULT D3DPIPELINE_API
@@ -46,40 +46,40 @@ D3DRenderer_FillRect(D3DContext *d3dc,
                      jint x, jint y, jint w, jint h);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawPoly(D3DContext *d3dc,
-                     jint nPoints, jboolean isClosed,
-                     jint transX, jint transY,
+D3DRenderer_DrbwPoly(D3DContext *d3dc,
+                     jint nPoints, jboolebn isClosed,
+                     jint trbnsX, jint trbnsY,
                      jint *xPoints, jint *yPoints);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawScanlines(D3DContext *d3dc,
-                          jint scanlineCount, jint *scanlines);
+D3DRenderer_DrbwScbnlines(D3DContext *d3dc,
+                          jint scbnlineCount, jint *scbnlines);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillSpans(D3DContext *d3dc, jint spanCount, jint *spans);
+D3DRenderer_FillSpbns(D3DContext *d3dc, jint spbnCount, jint *spbns);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillParallelogram(D3DContext *d3dc,
-                              jfloat fx11, jfloat fy11,
-                              jfloat dx21, jfloat dy21,
-                              jfloat dx12, jfloat dy12);
+D3DRenderer_FillPbrbllelogrbm(D3DContext *d3dc,
+                              jflobt fx11, jflobt fy11,
+                              jflobt dx21, jflobt dy21,
+                              jflobt dx12, jflobt dy12);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawParallelogram(D3DContext *d3dc,
-                              jfloat fx11, jfloat fy11,
-                              jfloat dx21, jfloat dy21,
-                              jfloat dx12, jfloat dy12,
-                              jfloat lw21, jfloat lw12);
+D3DRenderer_DrbwPbrbllelogrbm(D3DContext *d3dc,
+                              jflobt fx11, jflobt fy11,
+                              jflobt dx21, jflobt dy21,
+                              jflobt dx12, jflobt dy12,
+                              jflobt lw21, jflobt lw12);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillAAParallelogram(D3DContext *d3dc,
-                                jfloat fx11, jfloat fy11,
-                                jfloat dx21, jfloat dy21,
-                                jfloat dx12, jfloat dy12);
+D3DRenderer_FillAAPbrbllelogrbm(D3DContext *d3dc,
+                                jflobt fx11, jflobt fy11,
+                                jflobt dx21, jflobt dy21,
+                                jflobt dx12, jflobt dy12);
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawAAParallelogram(D3DContext *d3dc,
-                                jfloat fx11, jfloat fy11,
-                                jfloat dx21, jfloat dy21,
-                                jfloat dx12, jfloat dy12,
-                                jfloat lw21, jfloat lw12);
+D3DRenderer_DrbwAAPbrbllelogrbm(D3DContext *d3dc,
+                                jflobt fx11, jflobt fy11,
+                                jflobt dx21, jflobt dy21,
+                                jflobt dx12, jflobt dy12,
+                                jflobt lw21, jflobt lw12);

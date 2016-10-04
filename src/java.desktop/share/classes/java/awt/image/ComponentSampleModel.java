@@ -1,1242 +1,1242 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- *  This class represents image data which is stored such that each sample
- *  of a pixel occupies one data element of the DataBuffer.  It stores the
- *  N samples which make up a pixel in N separate data array elements.
- *  Different bands may be in different banks of the DataBuffer.
- *  Accessor methods are provided so that image data can be manipulated
- *  directly. This class can support different kinds of interleaving, e.g.
- *  band interleaving, scanline interleaving, and pixel interleaving.
- *  Pixel stride is the number of data array elements between two samples
- *  for the same band on the same scanline. Scanline stride is the number
- *  of data array elements between a given sample and the corresponding sample
- *  in the same column of the next scanline.  Band offsets denote the number
- *  of data array elements from the first data array element of the bank
- *  of the DataBuffer holding each band to the first sample of the band.
- *  The bands are numbered from 0 to N-1.  This class can represent image
- *  data for which each sample is an unsigned integral number which can be
- *  stored in 8, 16, or 32 bits (using <code>DataBuffer.TYPE_BYTE</code>,
- *  <code>DataBuffer.TYPE_USHORT</code>, or <code>DataBuffer.TYPE_INT</code>,
- *  respectively), data for which each sample is a signed integral number
- *  which can be stored in 16 bits (using <code>DataBuffer.TYPE_SHORT</code>),
- *  or data for which each sample is a signed float or double quantity
- *  (using <code>DataBuffer.TYPE_FLOAT</code> or
- *  <code>DataBuffer.TYPE_DOUBLE</code>, respectively).
- *  All samples of a given ComponentSampleModel
- *  are stored with the same precision.  All strides and offsets must be
- *  non-negative.  This class supports
- *  {@link DataBuffer#TYPE_BYTE TYPE_BYTE},
- *  {@link DataBuffer#TYPE_USHORT TYPE_USHORT},
- *  {@link DataBuffer#TYPE_SHORT TYPE_SHORT},
- *  {@link DataBuffer#TYPE_INT TYPE_INT},
- *  {@link DataBuffer#TYPE_FLOAT TYPE_FLOAT},
- *  {@link DataBuffer#TYPE_DOUBLE TYPE_DOUBLE},
- *  @see java.awt.image.PixelInterleavedSampleModel
- *  @see java.awt.image.BandedSampleModel
+ *  This clbss represents imbge dbtb which is stored such thbt ebch sbmple
+ *  of b pixel occupies one dbtb element of the DbtbBuffer.  It stores the
+ *  N sbmples which mbke up b pixel in N sepbrbte dbtb brrby elements.
+ *  Different bbnds mby be in different bbnks of the DbtbBuffer.
+ *  Accessor methods bre provided so thbt imbge dbtb cbn be mbnipulbted
+ *  directly. This clbss cbn support different kinds of interlebving, e.g.
+ *  bbnd interlebving, scbnline interlebving, bnd pixel interlebving.
+ *  Pixel stride is the number of dbtb brrby elements between two sbmples
+ *  for the sbme bbnd on the sbme scbnline. Scbnline stride is the number
+ *  of dbtb brrby elements between b given sbmple bnd the corresponding sbmple
+ *  in the sbme column of the next scbnline.  Bbnd offsets denote the number
+ *  of dbtb brrby elements from the first dbtb brrby element of the bbnk
+ *  of the DbtbBuffer holding ebch bbnd to the first sbmple of the bbnd.
+ *  The bbnds bre numbered from 0 to N-1.  This clbss cbn represent imbge
+ *  dbtb for which ebch sbmple is bn unsigned integrbl number which cbn be
+ *  stored in 8, 16, or 32 bits (using <code>DbtbBuffer.TYPE_BYTE</code>,
+ *  <code>DbtbBuffer.TYPE_USHORT</code>, or <code>DbtbBuffer.TYPE_INT</code>,
+ *  respectively), dbtb for which ebch sbmple is b signed integrbl number
+ *  which cbn be stored in 16 bits (using <code>DbtbBuffer.TYPE_SHORT</code>),
+ *  or dbtb for which ebch sbmple is b signed flobt or double qubntity
+ *  (using <code>DbtbBuffer.TYPE_FLOAT</code> or
+ *  <code>DbtbBuffer.TYPE_DOUBLE</code>, respectively).
+ *  All sbmples of b given ComponentSbmpleModel
+ *  bre stored with the sbme precision.  All strides bnd offsets must be
+ *  non-negbtive.  This clbss supports
+ *  {@link DbtbBuffer#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBuffer#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBuffer#TYPE_SHORT TYPE_SHORT},
+ *  {@link DbtbBuffer#TYPE_INT TYPE_INT},
+ *  {@link DbtbBuffer#TYPE_FLOAT TYPE_FLOAT},
+ *  {@link DbtbBuffer#TYPE_DOUBLE TYPE_DOUBLE},
+ *  @see jbvb.bwt.imbge.PixelInterlebvedSbmpleModel
+ *  @see jbvb.bwt.imbge.BbndedSbmpleModel
  */
 
-public class ComponentSampleModel extends SampleModel
+public clbss ComponentSbmpleModel extends SbmpleModel
 {
-    /** Offsets for all bands in data array elements. */
-    protected int bandOffsets[];
+    /** Offsets for bll bbnds in dbtb brrby elements. */
+    protected int bbndOffsets[];
 
-    /** Index for each bank storing a band of image data. */
-    protected int[] bankIndices;
-
-    /**
-     * The number of bands in this
-     * <code>ComponentSampleModel</code>.
-     */
-    protected int numBands = 1;
+    /** Index for ebch bbnk storing b bbnd of imbge dbtb. */
+    protected int[] bbnkIndices;
 
     /**
-     * The number of banks in this
-     * <code>ComponentSampleModel</code>.
+     * The number of bbnds in this
+     * <code>ComponentSbmpleModel</code>.
      */
-    protected int numBanks = 1;
+    protected int numBbnds = 1;
 
     /**
-     *  Line stride (in data array elements) of the region of image
-     *  data described by this ComponentSampleModel.
+     * The number of bbnks in this
+     * <code>ComponentSbmpleModel</code>.
      */
-    protected int scanlineStride;
+    protected int numBbnks = 1;
 
-    /** Pixel stride (in data array elements) of the region of image
-     *  data described by this ComponentSampleModel.
+    /**
+     *  Line stride (in dbtb brrby elements) of the region of imbge
+     *  dbtb described by this ComponentSbmpleModel.
+     */
+    protected int scbnlineStride;
+
+    /** Pixel stride (in dbtb brrby elements) of the region of imbge
+     *  dbtb described by this ComponentSbmpleModel.
      */
     protected int pixelStride;
 
-    static private native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    stbtic privbte nbtive void initIDs();
+    stbtic {
+        ColorModel.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Constructs a ComponentSampleModel with the specified parameters.
-     * The number of bands will be given by the length of the bandOffsets array.
-     * All bands will be stored in the first bank of the DataBuffer.
-     * @param dataType  the data type for storing samples
-     * @param w         the width (in pixels) of the region of
-     *     image data described
-     * @param h         the height (in pixels) of the region of
-     *     image data described
-     * @param pixelStride the pixel stride of the region of image
-     *     data described
-     * @param scanlineStride the line stride of the region of image
-     *     data described
-     * @param bandOffsets the offsets of all bands
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if <code>pixelStride</code>
-     *         is less than 0
-     * @throws IllegalArgumentException if <code>scanlineStride</code>
-     *         is less than 0
-     * @throws IllegalArgumentException if <code>numBands</code>
-     *         is less than 1
-     * @throws IllegalArgumentException if the product of <code>w</code>
-     *         and <code>h</code> is greater than
+     * Constructs b ComponentSbmpleModel with the specified pbrbmeters.
+     * The number of bbnds will be given by the length of the bbndOffsets brrby.
+     * All bbnds will be stored in the first bbnk of the DbtbBuffer.
+     * @pbrbm dbtbType  the dbtb type for storing sbmples
+     * @pbrbm w         the width (in pixels) of the region of
+     *     imbge dbtb described
+     * @pbrbm h         the height (in pixels) of the region of
+     *     imbge dbtb described
+     * @pbrbm pixelStride the pixel stride of the region of imbge
+     *     dbtb described
+     * @pbrbm scbnlineStride the line stride of the region of imbge
+     *     dbtb described
+     * @pbrbm bbndOffsets the offsets of bll bbnds
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
+     * @throws IllegblArgumentException if <code>pixelStride</code>
+     *         is less thbn 0
+     * @throws IllegblArgumentException if <code>scbnlineStride</code>
+     *         is less thbn 0
+     * @throws IllegblArgumentException if <code>numBbnds</code>
+     *         is less thbn 1
+     * @throws IllegblArgumentException if the product of <code>w</code>
+     *         bnd <code>h</code> is grebter thbn
      *         <code>Integer.MAX_VALUE</code>
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         one of the supported data types
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         one of the supported dbtb types
      */
-    public ComponentSampleModel(int dataType,
+    public ComponentSbmpleModel(int dbtbType,
                                 int w, int h,
                                 int pixelStride,
-                                int scanlineStride,
-                                int bandOffsets[]) {
-        super(dataType, w, h, bandOffsets.length);
-        this.dataType = dataType;
+                                int scbnlineStride,
+                                int bbndOffsets[]) {
+        super(dbtbType, w, h, bbndOffsets.length);
+        this.dbtbType = dbtbType;
         this.pixelStride = pixelStride;
-        this.scanlineStride  = scanlineStride;
-        this.bandOffsets = bandOffsets.clone();
-        numBands = this.bandOffsets.length;
+        this.scbnlineStride  = scbnlineStride;
+        this.bbndOffsets = bbndOffsets.clone();
+        numBbnds = this.bbndOffsets.length;
         if (pixelStride < 0) {
-            throw new IllegalArgumentException("Pixel stride must be >= 0");
+            throw new IllegblArgumentException("Pixel stride must be >= 0");
         }
         // TODO - bug 4296691 - remove this check
-        if (scanlineStride < 0) {
-            throw new IllegalArgumentException("Scanline stride must be >= 0");
+        if (scbnlineStride < 0) {
+            throw new IllegblArgumentException("Scbnline stride must be >= 0");
         }
-        if (numBands < 1) {
-            throw new IllegalArgumentException("Must have at least one band.");
+        if (numBbnds < 1) {
+            throw new IllegblArgumentException("Must hbve bt lebst one bbnd.");
         }
-        if ((dataType < DataBuffer.TYPE_BYTE) ||
-            (dataType > DataBuffer.TYPE_DOUBLE)) {
-            throw new IllegalArgumentException("Unsupported dataType.");
+        if ((dbtbType < DbtbBuffer.TYPE_BYTE) ||
+            (dbtbType > DbtbBuffer.TYPE_DOUBLE)) {
+            throw new IllegblArgumentException("Unsupported dbtbType.");
         }
-        bankIndices = new int[numBands];
-        for (int i=0; i<numBands; i++) {
-            bankIndices[i] = 0;
+        bbnkIndices = new int[numBbnds];
+        for (int i=0; i<numBbnds; i++) {
+            bbnkIndices[i] = 0;
         }
         verify();
     }
 
 
     /**
-     * Constructs a ComponentSampleModel with the specified parameters.
-     * The number of bands will be given by the length of the bandOffsets array.
-     * Different bands may be stored in different banks of the DataBuffer.
+     * Constructs b ComponentSbmpleModel with the specified pbrbmeters.
+     * The number of bbnds will be given by the length of the bbndOffsets brrby.
+     * Different bbnds mby be stored in different bbnks of the DbtbBuffer.
      *
-     * @param dataType  the data type for storing samples
-     * @param w         the width (in pixels) of the region of
-     *     image data described
-     * @param h         the height (in pixels) of the region of
-     *     image data described
-     * @param pixelStride the pixel stride of the region of image
-     *     data described
-     * @param scanlineStride The line stride of the region of image
-     *     data described
-     * @param bankIndices the bank indices of all bands
-     * @param bandOffsets the band offsets of all bands
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if <code>pixelStride</code>
-     *         is less than 0
-     * @throws IllegalArgumentException if <code>scanlineStride</code>
-     *         is less than 0
-     * @throws IllegalArgumentException if the length of
-     *         <code>bankIndices</code> does not equal the length of
-     *         <code>bankOffsets</code>
-     * @throws IllegalArgumentException if any of the bank indices
-     *         of <code>bandIndices</code> is less than 0
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         one of the supported data types
+     * @pbrbm dbtbType  the dbtb type for storing sbmples
+     * @pbrbm w         the width (in pixels) of the region of
+     *     imbge dbtb described
+     * @pbrbm h         the height (in pixels) of the region of
+     *     imbge dbtb described
+     * @pbrbm pixelStride the pixel stride of the region of imbge
+     *     dbtb described
+     * @pbrbm scbnlineStride The line stride of the region of imbge
+     *     dbtb described
+     * @pbrbm bbnkIndices the bbnk indices of bll bbnds
+     * @pbrbm bbndOffsets the bbnd offsets of bll bbnds
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
+     * @throws IllegblArgumentException if <code>pixelStride</code>
+     *         is less thbn 0
+     * @throws IllegblArgumentException if <code>scbnlineStride</code>
+     *         is less thbn 0
+     * @throws IllegblArgumentException if the length of
+     *         <code>bbnkIndices</code> does not equbl the length of
+     *         <code>bbnkOffsets</code>
+     * @throws IllegblArgumentException if bny of the bbnk indices
+     *         of <code>bbndIndices</code> is less thbn 0
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         one of the supported dbtb types
      */
-    public ComponentSampleModel(int dataType,
+    public ComponentSbmpleModel(int dbtbType,
                                 int w, int h,
                                 int pixelStride,
-                                int scanlineStride,
-                                int bankIndices[],
-                                int bandOffsets[]) {
-        super(dataType, w, h, bandOffsets.length);
-        this.dataType = dataType;
+                                int scbnlineStride,
+                                int bbnkIndices[],
+                                int bbndOffsets[]) {
+        super(dbtbType, w, h, bbndOffsets.length);
+        this.dbtbType = dbtbType;
         this.pixelStride = pixelStride;
-        this.scanlineStride  = scanlineStride;
-        this.bandOffsets = bandOffsets.clone();
-        this.bankIndices = bankIndices.clone();
+        this.scbnlineStride  = scbnlineStride;
+        this.bbndOffsets = bbndOffsets.clone();
+        this.bbnkIndices = bbnkIndices.clone();
         if (pixelStride < 0) {
-            throw new IllegalArgumentException("Pixel stride must be >= 0");
+            throw new IllegblArgumentException("Pixel stride must be >= 0");
         }
         // TODO - bug 4296691 - remove this check
-        if (scanlineStride < 0) {
-            throw new IllegalArgumentException("Scanline stride must be >= 0");
+        if (scbnlineStride < 0) {
+            throw new IllegblArgumentException("Scbnline stride must be >= 0");
         }
-        if ((dataType < DataBuffer.TYPE_BYTE) ||
-            (dataType > DataBuffer.TYPE_DOUBLE)) {
-            throw new IllegalArgumentException("Unsupported dataType.");
+        if ((dbtbType < DbtbBuffer.TYPE_BYTE) ||
+            (dbtbType > DbtbBuffer.TYPE_DOUBLE)) {
+            throw new IllegblArgumentException("Unsupported dbtbType.");
         }
-        int maxBank = this.bankIndices[0];
-        if (maxBank < 0) {
-            throw new IllegalArgumentException("Index of bank 0 is less than "+
-                                               "0 ("+maxBank+")");
+        int mbxBbnk = this.bbnkIndices[0];
+        if (mbxBbnk < 0) {
+            throw new IllegblArgumentException("Index of bbnk 0 is less thbn "+
+                                               "0 ("+mbxBbnk+")");
         }
-        for (int i=1; i < this.bankIndices.length; i++) {
-            if (this.bankIndices[i] > maxBank) {
-                maxBank = this.bankIndices[i];
+        for (int i=1; i < this.bbnkIndices.length; i++) {
+            if (this.bbnkIndices[i] > mbxBbnk) {
+                mbxBbnk = this.bbnkIndices[i];
             }
-            else if (this.bankIndices[i] < 0) {
-                throw new IllegalArgumentException("Index of bank "+i+
-                                                   " is less than 0 ("+
-                                                   maxBank+")");
+            else if (this.bbnkIndices[i] < 0) {
+                throw new IllegblArgumentException("Index of bbnk "+i+
+                                                   " is less thbn 0 ("+
+                                                   mbxBbnk+")");
             }
         }
-        numBanks         = maxBank+1;
-        numBands         = this.bandOffsets.length;
-        if (this.bandOffsets.length != this.bankIndices.length) {
-            throw new IllegalArgumentException("Length of bandOffsets must "+
-                                               "equal length of bankIndices.");
+        numBbnks         = mbxBbnk+1;
+        numBbnds         = this.bbndOffsets.length;
+        if (this.bbndOffsets.length != this.bbnkIndices.length) {
+            throw new IllegblArgumentException("Length of bbndOffsets must "+
+                                               "equbl length of bbnkIndices.");
         }
         verify();
     }
 
-    private void verify() {
+    privbte void verify() {
         int requiredSize = getBufferSize();
     }
 
     /**
-     * Returns the size of the data buffer (in data elements) needed
-     * for a data buffer that matches this ComponentSampleModel.
+     * Returns the size of the dbtb buffer (in dbtb elements) needed
+     * for b dbtb buffer thbt mbtches this ComponentSbmpleModel.
      */
-     private int getBufferSize() {
-         int maxBandOff=bandOffsets[0];
-         for (int i=1; i<bandOffsets.length; i++) {
-             maxBandOff = Math.max(maxBandOff,bandOffsets[i]);
+     privbte int getBufferSize() {
+         int mbxBbndOff=bbndOffsets[0];
+         for (int i=1; i<bbndOffsets.length; i++) {
+             mbxBbndOff = Mbth.mbx(mbxBbndOff,bbndOffsets[i]);
          }
 
-         if (maxBandOff < 0 || maxBandOff > (Integer.MAX_VALUE - 1)) {
-             throw new IllegalArgumentException("Invalid band offset");
+         if (mbxBbndOff < 0 || mbxBbndOff > (Integer.MAX_VALUE - 1)) {
+             throw new IllegblArgumentException("Invblid bbnd offset");
          }
 
          if (pixelStride < 0 || pixelStride > (Integer.MAX_VALUE / width)) {
-             throw new IllegalArgumentException("Invalid pixel stride");
+             throw new IllegblArgumentException("Invblid pixel stride");
          }
 
-         if (scanlineStride < 0 || scanlineStride > (Integer.MAX_VALUE / height)) {
-             throw new IllegalArgumentException("Invalid scanline stride");
+         if (scbnlineStride < 0 || scbnlineStride > (Integer.MAX_VALUE / height)) {
+             throw new IllegblArgumentException("Invblid scbnline stride");
          }
 
-         int size = maxBandOff + 1;
+         int size = mbxBbndOff + 1;
 
-         int val = pixelStride * (width - 1);
+         int vbl = pixelStride * (width - 1);
 
-         if (val > (Integer.MAX_VALUE - size)) {
-             throw new IllegalArgumentException("Invalid pixel stride");
+         if (vbl > (Integer.MAX_VALUE - size)) {
+             throw new IllegblArgumentException("Invblid pixel stride");
          }
 
-         size += val;
+         size += vbl;
 
-         val = scanlineStride * (height - 1);
+         vbl = scbnlineStride * (height - 1);
 
-         if (val > (Integer.MAX_VALUE - size)) {
-             throw new IllegalArgumentException("Invalid scan stride");
+         if (vbl > (Integer.MAX_VALUE - size)) {
+             throw new IllegblArgumentException("Invblid scbn stride");
          }
 
-         size += val;
+         size += vbl;
 
          return size;
      }
 
      /**
-      * Preserves band ordering with new step factor...
+      * Preserves bbnd ordering with new step fbctor...
       */
-    int []orderBands(int orig[], int step) {
-        int map[] = new int[orig.length];
+    int []orderBbnds(int orig[], int step) {
+        int mbp[] = new int[orig.length];
         int ret[] = new int[orig.length];
 
-        for (int i=0; i<map.length; i++) map[i] = i;
+        for (int i=0; i<mbp.length; i++) mbp[i] = i;
 
         for (int i = 0; i < ret.length; i++) {
             int index = i;
             for (int j = i+1; j < ret.length; j++) {
-                if (orig[map[index]] > orig[map[j]]) {
+                if (orig[mbp[index]] > orig[mbp[j]]) {
                     index = j;
                 }
             }
-            ret[map[index]] = i*step;
-            map[index]  = map[i];
+            ret[mbp[index]] = i*step;
+            mbp[index]  = mbp[i];
         }
         return ret;
     }
 
     /**
-     * Creates a new <code>ComponentSampleModel</code> with the specified
-     * width and height.  The new <code>SampleModel</code> will have the same
-     * number of bands, storage data type, interleaving scheme, and
-     * pixel stride as this <code>SampleModel</code>.
-     * @param w the width of the resulting <code>SampleModel</code>
-     * @param h the height of the resulting <code>SampleModel</code>
-     * @return a new <code>ComponentSampleModel</code> with the specified size
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
+     * Crebtes b new <code>ComponentSbmpleModel</code> with the specified
+     * width bnd height.  The new <code>SbmpleModel</code> will hbve the sbme
+     * number of bbnds, storbge dbtb type, interlebving scheme, bnd
+     * pixel stride bs this <code>SbmpleModel</code>.
+     * @pbrbm w the width of the resulting <code>SbmpleModel</code>
+     * @pbrbm h the height of the resulting <code>SbmpleModel</code>
+     * @return b new <code>ComponentSbmpleModel</code> with the specified size
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        SampleModel ret=null;
+    public SbmpleModel crebteCompbtibleSbmpleModel(int w, int h) {
+        SbmpleModel ret=null;
         long size;
-        int minBandOff=bandOffsets[0];
-        int maxBandOff=bandOffsets[0];
-        for (int i=1; i<bandOffsets.length; i++) {
-            minBandOff = Math.min(minBandOff,bandOffsets[i]);
-            maxBandOff = Math.max(maxBandOff,bandOffsets[i]);
+        int minBbndOff=bbndOffsets[0];
+        int mbxBbndOff=bbndOffsets[0];
+        for (int i=1; i<bbndOffsets.length; i++) {
+            minBbndOff = Mbth.min(minBbndOff,bbndOffsets[i]);
+            mbxBbndOff = Mbth.mbx(mbxBbndOff,bbndOffsets[i]);
         }
-        maxBandOff -= minBandOff;
+        mbxBbndOff -= minBbndOff;
 
-        int bands   = bandOffsets.length;
-        int bandOff[];
-        int pStride = Math.abs(pixelStride);
-        int lStride = Math.abs(scanlineStride);
-        int bStride = Math.abs(maxBandOff);
+        int bbnds   = bbndOffsets.length;
+        int bbndOff[];
+        int pStride = Mbth.bbs(pixelStride);
+        int lStride = Mbth.bbs(scbnlineStride);
+        int bStride = Mbth.bbs(mbxBbndOff);
 
         if (pStride > lStride) {
             if (pStride > bStride) {
-                if (lStride > bStride) { // pix > line > band
-                    bandOff = new int[bandOffsets.length];
-                    for (int i=0; i<bands; i++)
-                        bandOff[i] = bandOffsets[i]-minBandOff;
+                if (lStride > bStride) { // pix > line > bbnd
+                    bbndOff = new int[bbndOffsets.length];
+                    for (int i=0; i<bbnds; i++)
+                        bbndOff[i] = bbndOffsets[i]-minBbndOff;
                     lStride = bStride+1;
                     pStride = lStride*h;
-                } else { // pix > band > line
-                    bandOff = orderBands(bandOffsets,lStride*h);
-                    pStride = bands*lStride*h;
+                } else { // pix > bbnd > line
+                    bbndOff = orderBbnds(bbndOffsets,lStride*h);
+                    pStride = bbnds*lStride*h;
                 }
-            } else { // band > pix > line
+            } else { // bbnd > pix > line
                 pStride = lStride*h;
-                bandOff = orderBands(bandOffsets,pStride*w);
+                bbndOff = orderBbnds(bbndOffsets,pStride*w);
             }
         } else {
-            if (pStride > bStride) { // line > pix > band
-                bandOff = new int[bandOffsets.length];
-                for (int i=0; i<bands; i++)
-                    bandOff[i] = bandOffsets[i]-minBandOff;
+            if (pStride > bStride) { // line > pix > bbnd
+                bbndOff = new int[bbndOffsets.length];
+                for (int i=0; i<bbnds; i++)
+                    bbndOff[i] = bbndOffsets[i]-minBbndOff;
                 pStride = bStride+1;
                 lStride = pStride*w;
             } else {
-                if (lStride > bStride) { // line > band > pix
-                    bandOff = orderBands(bandOffsets,pStride*w);
-                    lStride = bands*pStride*w;
-                } else { // band > line > pix
+                if (lStride > bStride) { // line > bbnd > pix
+                    bbndOff = orderBbnds(bbndOffsets,pStride*w);
+                    lStride = bbnds*pStride*w;
+                } else { // bbnd > line > pix
                     lStride = pStride*w;
-                    bandOff = orderBands(bandOffsets,lStride*h);
+                    bbndOff = orderBbnds(bbndOffsets,lStride*h);
                 }
             }
         }
 
-        // make sure we make room for negative offsets...
-        int base = 0;
-        if (scanlineStride < 0) {
-            base += lStride*h;
+        // mbke sure we mbke room for negbtive offsets...
+        int bbse = 0;
+        if (scbnlineStride < 0) {
+            bbse += lStride*h;
             lStride *= -1;
         }
         if (pixelStride    < 0) {
-            base += pStride*w;
+            bbse += pStride*w;
             pStride *= -1;
         }
 
-        for (int i=0; i<bands; i++)
-            bandOff[i] += base;
-        return new ComponentSampleModel(dataType, w, h, pStride,
-                                        lStride, bankIndices, bandOff);
+        for (int i=0; i<bbnds; i++)
+            bbndOff[i] += bbse;
+        return new ComponentSbmpleModel(dbtbType, w, h, pStride,
+                                        lStride, bbnkIndices, bbndOff);
     }
 
     /**
-     * Creates a new ComponentSampleModel with a subset of the bands
-     * of this ComponentSampleModel.  The new ComponentSampleModel can be
-     * used with any DataBuffer that the existing ComponentSampleModel
-     * can be used with.  The new ComponentSampleModel/DataBuffer
-     * combination will represent an image with a subset of the bands
-     * of the original ComponentSampleModel/DataBuffer combination.
-     * @param bands a subset of bands from this
-     *              <code>ComponentSampleModel</code>
-     * @return a <code>ComponentSampleModel</code> created with a subset
-     *          of bands from this <code>ComponentSampleModel</code>.
+     * Crebtes b new ComponentSbmpleModel with b subset of the bbnds
+     * of this ComponentSbmpleModel.  The new ComponentSbmpleModel cbn be
+     * used with bny DbtbBuffer thbt the existing ComponentSbmpleModel
+     * cbn be used with.  The new ComponentSbmpleModel/DbtbBuffer
+     * combinbtion will represent bn imbge with b subset of the bbnds
+     * of the originbl ComponentSbmpleModel/DbtbBuffer combinbtion.
+     * @pbrbm bbnds b subset of bbnds from this
+     *              <code>ComponentSbmpleModel</code>
+     * @return b <code>ComponentSbmpleModel</code> crebted with b subset
+     *          of bbnds from this <code>ComponentSbmpleModel</code>.
      */
-    public SampleModel createSubsetSampleModel(int bands[]) {
-       if (bands.length > bankIndices.length)
-            throw new RasterFormatException("There are only " +
-                                            bankIndices.length +
-                                            " bands");
-        int newBankIndices[] = new int[bands.length];
-        int newBandOffsets[] = new int[bands.length];
+    public SbmpleModel crebteSubsetSbmpleModel(int bbnds[]) {
+       if (bbnds.length > bbnkIndices.length)
+            throw new RbsterFormbtException("There bre only " +
+                                            bbnkIndices.length +
+                                            " bbnds");
+        int newBbnkIndices[] = new int[bbnds.length];
+        int newBbndOffsets[] = new int[bbnds.length];
 
-        for (int i=0; i<bands.length; i++) {
-            newBankIndices[i] = bankIndices[bands[i]];
-            newBandOffsets[i] = bandOffsets[bands[i]];
+        for (int i=0; i<bbnds.length; i++) {
+            newBbnkIndices[i] = bbnkIndices[bbnds[i]];
+            newBbndOffsets[i] = bbndOffsets[bbnds[i]];
         }
 
-        return new ComponentSampleModel(this.dataType, width, height,
+        return new ComponentSbmpleModel(this.dbtbType, width, height,
                                         this.pixelStride,
-                                        this.scanlineStride,
-                                        newBankIndices, newBandOffsets);
+                                        this.scbnlineStride,
+                                        newBbnkIndices, newBbndOffsets);
     }
 
     /**
-     * Creates a <code>DataBuffer</code> that corresponds to this
-     * <code>ComponentSampleModel</code>.
-     * The <code>DataBuffer</code> object's data type, number of banks,
-     * and size are be consistent with this <code>ComponentSampleModel</code>.
-     * @return a <code>DataBuffer</code> whose data type, number of banks
-     *         and size are consistent with this
-     *         <code>ComponentSampleModel</code>.
+     * Crebtes b <code>DbtbBuffer</code> thbt corresponds to this
+     * <code>ComponentSbmpleModel</code>.
+     * The <code>DbtbBuffer</code> object's dbtb type, number of bbnks,
+     * bnd size bre be consistent with this <code>ComponentSbmpleModel</code>.
+     * @return b <code>DbtbBuffer</code> whose dbtb type, number of bbnks
+     *         bnd size bre consistent with this
+     *         <code>ComponentSbmpleModel</code>.
      */
-    public DataBuffer createDataBuffer() {
-        DataBuffer dataBuffer = null;
+    public DbtbBuffer crebteDbtbBuffer() {
+        DbtbBuffer dbtbBuffer = null;
 
         int size = getBufferSize();
-        switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataBuffer = new DataBufferByte(size, numBanks);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataBuffer = new DataBufferUShort(size, numBanks);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            dataBuffer = new DataBufferShort(size, numBanks);
-            break;
-        case DataBuffer.TYPE_INT:
-            dataBuffer = new DataBufferInt(size, numBanks);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            dataBuffer = new DataBufferFloat(size, numBanks);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            dataBuffer = new DataBufferDouble(size, numBanks);
-            break;
+        switch (dbtbType) {
+        cbse DbtbBuffer.TYPE_BYTE:
+            dbtbBuffer = new DbtbBufferByte(size, numBbnks);
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
+            dbtbBuffer = new DbtbBufferUShort(size, numBbnks);
+            brebk;
+        cbse DbtbBuffer.TYPE_SHORT:
+            dbtbBuffer = new DbtbBufferShort(size, numBbnks);
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
+            dbtbBuffer = new DbtbBufferInt(size, numBbnks);
+            brebk;
+        cbse DbtbBuffer.TYPE_FLOAT:
+            dbtbBuffer = new DbtbBufferFlobt(size, numBbnks);
+            brebk;
+        cbse DbtbBuffer.TYPE_DOUBLE:
+            dbtbBuffer = new DbtbBufferDouble(size, numBbnks);
+            brebk;
         }
 
-        return dataBuffer;
+        return dbtbBuffer;
     }
 
 
-    /** Gets the offset for the first band of pixel (x,y).
-     *  A sample of the first band can be retrieved from a
-     * <code>DataBuffer</code>
-     *  <code>data</code> with a <code>ComponentSampleModel</code>
-     * <code>csm</code> as
+    /** Gets the offset for the first bbnd of pixel (x,y).
+     *  A sbmple of the first bbnd cbn be retrieved from b
+     * <code>DbtbBuffer</code>
+     *  <code>dbtb</code> with b <code>ComponentSbmpleModel</code>
+     * <code>csm</code> bs
      * <pre>
-     *        data.getElem(csm.getOffset(x, y));
+     *        dbtb.getElem(csm.getOffset(x, y));
      * </pre>
-     * @param x the X location of the pixel
-     * @param y the Y location of the pixel
-     * @return the offset for the first band of the specified pixel.
+     * @pbrbm x the X locbtion of the pixel
+     * @pbrbm y the Y locbtion of the pixel
+     * @return the offset for the first bbnd of the specified pixel.
      */
     public int getOffset(int x, int y) {
-        int offset = y*scanlineStride + x*pixelStride + bandOffsets[0];
+        int offset = y*scbnlineStride + x*pixelStride + bbndOffsets[0];
         return offset;
     }
 
-    /** Gets the offset for band b of pixel (x,y).
-     *  A sample of band <code>b</code> can be retrieved from a
-     *  <code>DataBuffer</code> <code>data</code>
-     *  with a <code>ComponentSampleModel</code> <code>csm</code> as
+    /** Gets the offset for bbnd b of pixel (x,y).
+     *  A sbmple of bbnd <code>b</code> cbn be retrieved from b
+     *  <code>DbtbBuffer</code> <code>dbtb</code>
+     *  with b <code>ComponentSbmpleModel</code> <code>csm</code> bs
      * <pre>
-     *       data.getElem(csm.getOffset(x, y, b));
+     *       dbtb.getElem(csm.getOffset(x, y, b));
      * </pre>
-     * @param x the X location of the specified pixel
-     * @param y the Y location of the specified pixel
-     * @param b the specified band
-     * @return the offset for the specified band of the specified pixel.
+     * @pbrbm x the X locbtion of the specified pixel
+     * @pbrbm y the Y locbtion of the specified pixel
+     * @pbrbm b the specified bbnd
+     * @return the offset for the specified bbnd of the specified pixel.
      */
     public int getOffset(int x, int y, int b) {
-        int offset = y*scanlineStride + x*pixelStride + bandOffsets[b];
+        int offset = y*scbnlineStride + x*pixelStride + bbndOffsets[b];
         return offset;
     }
 
-    /** Returns the number of bits per sample for all bands.
-     *  @return an array containing the number of bits per sample
-     *          for all bands, where each element in the array
-     *          represents a band.
+    /** Returns the number of bits per sbmple for bll bbnds.
+     *  @return bn brrby contbining the number of bits per sbmple
+     *          for bll bbnds, where ebch element in the brrby
+     *          represents b bbnd.
      */
-    public final int[] getSampleSize() {
-        int sampleSize[] = new int [numBands];
-        int sizeInBits = getSampleSize(0);
+    public finbl int[] getSbmpleSize() {
+        int sbmpleSize[] = new int [numBbnds];
+        int sizeInBits = getSbmpleSize(0);
 
-        for (int i=0; i<numBands; i++)
-            sampleSize[i] = sizeInBits;
+        for (int i=0; i<numBbnds; i++)
+            sbmpleSize[i] = sizeInBits;
 
-        return sampleSize;
+        return sbmpleSize;
     }
 
-    /** Returns the number of bits per sample for the specified band.
-     *  @param band the specified band
-     *  @return the number of bits per sample for the specified band.
+    /** Returns the number of bits per sbmple for the specified bbnd.
+     *  @pbrbm bbnd the specified bbnd
+     *  @return the number of bits per sbmple for the specified bbnd.
      */
-    public final int getSampleSize(int band) {
-        return DataBuffer.getDataTypeSize(dataType);
+    public finbl int getSbmpleSize(int bbnd) {
+        return DbtbBuffer.getDbtbTypeSize(dbtbType);
     }
 
-    /** Returns the bank indices for all bands.
-     *  @return the bank indices for all bands.
+    /** Returns the bbnk indices for bll bbnds.
+     *  @return the bbnk indices for bll bbnds.
      */
-    public final int [] getBankIndices() {
-        return bankIndices.clone();
+    public finbl int [] getBbnkIndices() {
+        return bbnkIndices.clone();
     }
 
-    /** Returns the band offset for all bands.
-     *  @return the band offsets for all bands.
+    /** Returns the bbnd offset for bll bbnds.
+     *  @return the bbnd offsets for bll bbnds.
      */
-    public final int [] getBandOffsets() {
-        return bandOffsets.clone();
+    public finbl int [] getBbndOffsets() {
+        return bbndOffsets.clone();
     }
 
-    /** Returns the scanline stride of this ComponentSampleModel.
-     *  @return the scanline stride of this <code>ComponentSampleModel</code>.
+    /** Returns the scbnline stride of this ComponentSbmpleModel.
+     *  @return the scbnline stride of this <code>ComponentSbmpleModel</code>.
      */
-    public final int getScanlineStride() {
-        return scanlineStride;
+    public finbl int getScbnlineStride() {
+        return scbnlineStride;
     }
 
-    /** Returns the pixel stride of this ComponentSampleModel.
-     *  @return the pixel stride of this <code>ComponentSampleModel</code>.
+    /** Returns the pixel stride of this ComponentSbmpleModel.
+     *  @return the pixel stride of this <code>ComponentSbmpleModel</code>.
      */
-    public final int getPixelStride() {
+    public finbl int getPixelStride() {
         return pixelStride;
     }
 
     /**
-     * Returns the number of data elements needed to transfer a pixel
+     * Returns the number of dbtb elements needed to trbnsfer b pixel
      * with the
-     * {@link #getDataElements(int, int, Object, DataBuffer) } and
-     * {@link #setDataElements(int, int, Object, DataBuffer) }
+     * {@link #getDbtbElements(int, int, Object, DbtbBuffer) } bnd
+     * {@link #setDbtbElements(int, int, Object, DbtbBuffer) }
      * methods.
-     * For a <code>ComponentSampleModel</code>, this is identical to the
-     * number of bands.
-     * @return the number of data elements needed to transfer a pixel with
-     *         the <code>getDataElements</code> and
-     *         <code>setDataElements</code> methods.
-     * @see java.awt.image.SampleModel#getNumDataElements
-     * @see #getNumBands
+     * For b <code>ComponentSbmpleModel</code>, this is identicbl to the
+     * number of bbnds.
+     * @return the number of dbtb elements needed to trbnsfer b pixel with
+     *         the <code>getDbtbElements</code> bnd
+     *         <code>setDbtbElements</code> methods.
+     * @see jbvb.bwt.imbge.SbmpleModel#getNumDbtbElements
+     * @see #getNumBbnds
      */
-    public final int getNumDataElements() {
-        return getNumBands();
+    public finbl int getNumDbtbElements() {
+        return getNumBbnds();
     }
 
     /**
-     * Returns data for a single pixel in a primitive array of type
-     * <code>TransferType</code>.  For a <code>ComponentSampleModel</code>,
-     * this is the same as the data type, and samples are returned
-     * one per array element.  Generally, <code>obj</code> should
-     * be passed in as <code>null</code>, so that the <code>Object</code>
-     * is created automatically and is the right primitive data type.
+     * Returns dbtb for b single pixel in b primitive brrby of type
+     * <code>TrbnsferType</code>.  For b <code>ComponentSbmpleModel</code>,
+     * this is the sbme bs the dbtb type, bnd sbmples bre returned
+     * one per brrby element.  Generblly, <code>obj</code> should
+     * be pbssed in bs <code>null</code>, so thbt the <code>Object</code>
+     * is crebted butombticblly bnd is the right primitive dbtb type.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * <code>DataBuffer</code> <code>db1</code>, whose storage layout is
-     * described by <code>ComponentSampleModel</code> <code>csm1</code>,
-     * to <code>DataBuffer</code> <code>db2</code>, whose storage layout
-     * is described by <code>ComponentSampleModel</code> <code>csm2</code>.
-     * The transfer is usually more efficient than using
-     * <code>getPixel</code> and <code>setPixel</code>.
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * <code>DbtbBuffer</code> <code>db1</code>, whose storbge lbyout is
+     * described by <code>ComponentSbmpleModel</code> <code>csm1</code>,
+     * to <code>DbtbBuffer</code> <code>db2</code>, whose storbge lbyout
+     * is described by <code>ComponentSbmpleModel</code> <code>csm2</code>.
+     * The trbnsfer is usublly more efficient thbn using
+     * <code>getPixel</code> bnd <code>setPixel</code>.
      * <pre>
-     *       ComponentSampleModel csm1, csm2;
-     *       DataBufferInt db1, db2;
-     *       csm2.setDataElements(x, y,
-     *                            csm1.getDataElements(x, y, null, db1), db2);
+     *       ComponentSbmpleModel csm1, csm2;
+     *       DbtbBufferInt db1, db2;
+     *       csm2.setDbtbElements(x, y,
+     *                            csm1.getDbtbElements(x, y, null, db1), db2);
      * </pre>
      *
-     * Using <code>getDataElements</code> and <code>setDataElements</code>
-     * to transfer between two <code>DataBuffer/SampleModel</code>
-     * pairs is legitimate if the <code>SampleModel</code> objects have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the <code>TransferType</code>s are the same.
+     * Using <code>getDbtbElements</code> bnd <code>setDbtbElements</code>
+     * to trbnsfer between two <code>DbtbBuffer/SbmpleModel</code>
+     * pbirs is legitimbte if the <code>SbmpleModel</code> objects hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the <code>TrbnsferType</code>s bre the sbme.
      * <p>
-     * If <code>obj</code> is not <code>null</code>, it should be a
-     * primitive array of type <code>TransferType</code>.
-     * Otherwise, a <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> might be thrown if the
-     * coordinates are not in bounds, or if <code>obj</code> is not
-     * <code>null</code> and is not large enough to hold
-     * the pixel data.
+     * If <code>obj</code> is not <code>null</code>, it should be b
+     * primitive brrby of type <code>TrbnsferType</code>.
+     * Otherwise, b <code>ClbssCbstException</code> is thrown.  An
+     * <code>ArrbyIndexOutOfBoundsException</code> might be thrown if the
+     * coordinbtes bre not in bounds, or if <code>obj</code> is not
+     * <code>null</code> bnd is not lbrge enough to hold
+     * the pixel dbtb.
      *
-     * @param x         the X coordinate of the pixel location
-     * @param y         the Y coordinate of the pixel location
-     * @param obj       if non-<code>null</code>, a primitive array
-     *                  in which to return the pixel data
-     * @param data      the <code>DataBuffer</code> containing the image data
-     * @return the data of the specified pixel
-     * @see #setDataElements(int, int, Object, DataBuffer)
+     * @pbrbm x         the X coordinbte of the pixel locbtion
+     * @pbrbm y         the Y coordinbte of the pixel locbtion
+     * @pbrbm obj       if non-<code>null</code>, b primitive brrby
+     *                  in which to return the pixel dbtb
+     * @pbrbm dbtb      the <code>DbtbBuffer</code> contbining the imbge dbtb
+     * @return the dbtb of the specified pixel
+     * @see #setDbtbElements(int, int, Object, DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if obj is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if obj is too smbll to hold the output.
      */
-    public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
+    public Object getDbtbElements(int x, int y, Object obj, DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int type = getTransferType();
-        int numDataElems = getNumDataElements();
-        int pixelOffset = y*scanlineStride + x*pixelStride;
+        int type = getTrbnsferType();
+        int numDbtbElems = getNumDbtbElements();
+        int pixelOffset = y*scbnlineStride + x*pixelStride;
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
-            byte[] bdata;
-
-            if (obj == null)
-                bdata = new byte[numDataElems];
-            else
-                bdata = (byte[])obj;
-
-            for (int i=0; i<numDataElems; i++) {
-                bdata[i] = (byte)data.getElem(bankIndices[i],
-                                              pixelOffset + bandOffsets[i]);
-            }
-
-            obj = (Object)bdata;
-            break;
-
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
-
-            short[] sdata;
+            byte[] bdbtb;
 
             if (obj == null)
-                sdata = new short[numDataElems];
+                bdbtb = new byte[numDbtbElems];
             else
-                sdata = (short[])obj;
+                bdbtb = (byte[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                sdata[i] = (short)data.getElem(bankIndices[i],
-                                               pixelOffset + bandOffsets[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                bdbtb[i] = (byte)dbtb.getElem(bbnkIndices[i],
+                                              pixelOffset + bbndOffsets[i]);
             }
 
-            obj = (Object)sdata;
-            break;
+            obj = (Object)bdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_SHORT:
 
-            int[] idata;
+            short[] sdbtb;
 
             if (obj == null)
-                idata = new int[numDataElems];
+                sdbtb = new short[numDbtbElems];
             else
-                idata = (int[])obj;
+                sdbtb = (short[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                idata[i] = data.getElem(bankIndices[i],
-                                        pixelOffset + bandOffsets[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                sdbtb[i] = (short)dbtb.getElem(bbnkIndices[i],
+                                               pixelOffset + bbndOffsets[i]);
             }
 
-            obj = (Object)idata;
-            break;
+            obj = (Object)sdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_FLOAT:
+        cbse DbtbBuffer.TYPE_INT:
 
-            float[] fdata;
+            int[] idbtb;
 
             if (obj == null)
-                fdata = new float[numDataElems];
+                idbtb = new int[numDbtbElems];
             else
-                fdata = (float[])obj;
+                idbtb = (int[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                fdata[i] = data.getElemFloat(bankIndices[i],
-                                             pixelOffset + bandOffsets[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                idbtb[i] = dbtb.getElem(bbnkIndices[i],
+                                        pixelOffset + bbndOffsets[i]);
             }
 
-            obj = (Object)fdata;
-            break;
+            obj = (Object)idbtb;
+            brebk;
 
-        case DataBuffer.TYPE_DOUBLE:
+        cbse DbtbBuffer.TYPE_FLOAT:
 
-            double[] ddata;
+            flobt[] fdbtb;
 
             if (obj == null)
-                ddata = new double[numDataElems];
+                fdbtb = new flobt[numDbtbElems];
             else
-                ddata = (double[])obj;
+                fdbtb = (flobt[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                ddata[i] = data.getElemDouble(bankIndices[i],
-                                              pixelOffset + bandOffsets[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                fdbtb[i] = dbtb.getElemFlobt(bbnkIndices[i],
+                                             pixelOffset + bbndOffsets[i]);
             }
 
-            obj = (Object)ddata;
-            break;
+            obj = (Object)fdbtb;
+            brebk;
+
+        cbse DbtbBuffer.TYPE_DOUBLE:
+
+            double[] ddbtb;
+
+            if (obj == null)
+                ddbtb = new double[numDbtbElems];
+            else
+                ddbtb = (double[])obj;
+
+            for (int i=0; i<numDbtbElems; i++) {
+                ddbtb[i] = dbtb.getElemDouble(bbnkIndices[i],
+                                              pixelOffset + bbndOffsets[i]);
+            }
+
+            obj = (Object)ddbtb;
+            brebk;
         }
 
         return obj;
     }
 
     /**
-     * Returns all samples for the specified pixel in an int array,
-     * one sample per array element.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         the X coordinate of the pixel location
-     * @param y         the Y coordinate of the pixel location
-     * @param iArray    If non-null, returns the samples in this array
-     * @param data      The DataBuffer containing the image data
-     * @return the samples of the specified pixel.
-     * @see #setPixel(int, int, int[], DataBuffer)
+     * Returns bll sbmples for the specified pixel in bn int brrby,
+     * one sbmple per brrby element.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         the X coordinbte of the pixel locbtion
+     * @pbrbm y         the Y coordinbte of the pixel locbtion
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @return the sbmples of the specified pixel.
+     * @see #setPixel(int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if iArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if iArrby is too smbll to hold the output.
      */
-    public int[] getPixel(int x, int y, int iArray[], DataBuffer data) {
+    public int[] getPixel(int x, int y, int iArrby[], DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         int pixels[];
-        if (iArray != null) {
-           pixels = iArray;
+        if (iArrby != null) {
+           pixels = iArrby;
         } else {
-           pixels = new int [numBands];
+           pixels = new int [numBbnds];
         }
-        int pixelOffset = y*scanlineStride + x*pixelStride;
-        for (int i=0; i<numBands; i++) {
-            pixels[i] = data.getElem(bankIndices[i],
-                                     pixelOffset + bandOffsets[i]);
+        int pixelOffset = y*scbnlineStride + x*pixelStride;
+        for (int i=0; i<numBbnds; i++) {
+            pixels[i] = dbtb.getElem(bbnkIndices[i],
+                                     pixelOffset + bbndOffsets[i]);
         }
         return pixels;
     }
 
     /**
-     * Returns all samples for the specified rectangle of pixels in
-     * an int array, one sample per array element.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         The X coordinate of the upper left pixel location
-     * @param y         The Y coordinate of the upper left pixel location
-     * @param w         The width of the pixel rectangle
-     * @param h         The height of the pixel rectangle
-     * @param iArray    If non-null, returns the samples in this array
-     * @param data      The DataBuffer containing the image data
-     * @return the samples of the pixels within the specified region.
-     * @see #setPixels(int, int, int, int, int[], DataBuffer)
+     * Returns bll sbmples for the specified rectbngle of pixels in
+     * bn int brrby, one sbmple per brrby element.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion
+     * @pbrbm w         The width of the pixel rectbngle
+     * @pbrbm h         The height of the pixel rectbngle
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @return the sbmples of the pixels within the specified region.
+     * @see #setPixels(int, int, int, int, int[], DbtbBuffer)
      */
     public int[] getPixels(int x, int y, int w, int h,
-                           int iArray[], DataBuffer data) {
+                           int iArrby[], DbtbBuffer dbtb) {
         int x1 = x + w;
         int y1 = y + h;
 
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || y > height || y1 < 0 || y1 >  height)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         int pixels[];
-        if (iArray != null) {
-           pixels = iArray;
+        if (iArrby != null) {
+           pixels = iArrby;
         } else {
-           pixels = new int [w*h*numBands];
+           pixels = new int [w*h*numBbnds];
         }
-        int lineOffset = y*scanlineStride + x*pixelStride;
+        int lineOffset = y*scbnlineStride + x*pixelStride;
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
            int pixelOffset = lineOffset;
            for (int j = 0; j < w; j++) {
-              for (int k=0; k < numBands; k++) {
+              for (int k=0; k < numBbnds; k++) {
                  pixels[srcOffset++] =
-                    data.getElem(bankIndices[k], pixelOffset + bandOffsets[k]);
+                    dbtb.getElem(bbnkIndices[k], pixelOffset + bbndOffsets[k]);
               }
               pixelOffset += pixelStride;
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
         return pixels;
     }
 
     /**
-     * Returns as int the sample in a specified band for the pixel
-     * located at (x,y).
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         the X coordinate of the pixel location
-     * @param y         the Y coordinate of the pixel location
-     * @param b         the band to return
-     * @param data      the <code>DataBuffer</code> containing the image data
-     * @return the sample in a specified band for the specified pixel
-     * @see #setSample(int, int, int, int, DataBuffer)
+     * Returns bs int the sbmple in b specified bbnd for the pixel
+     * locbted bt (x,y).
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         the X coordinbte of the pixel locbtion
+     * @pbrbm y         the Y coordinbte of the pixel locbtion
+     * @pbrbm b         the bbnd to return
+     * @pbrbm dbtb      the <code>DbtbBuffer</code> contbining the imbge dbtb
+     * @return the sbmple in b specified bbnd for the specified pixel
+     * @see #setSbmple(int, int, int, int, DbtbBuffer)
      */
-    public int getSample(int x, int y, int b, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public int getSbmple(int x, int y, int b, DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int sample = data.getElem(bankIndices[b],
-                                  y*scanlineStride + x*pixelStride +
-                                  bandOffsets[b]);
-        return sample;
+        int sbmple = dbtb.getElem(bbnkIndices[b],
+                                  y*scbnlineStride + x*pixelStride +
+                                  bbndOffsets[b]);
+        return sbmple;
     }
 
     /**
-     * Returns the sample in a specified band
-     * for the pixel located at (x,y) as a float.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be
-     * thrown if the coordinates are not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param b         The band to return
-     * @param data      The DataBuffer containing the image data
-     * @return a float value representing the sample in the specified
-     * band for the specified pixel.
+     * Returns the sbmple in b specified bbnd
+     * for the pixel locbted bt (x,y) bs b flobt.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be
+     * thrown if the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm b         The bbnd to return
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @return b flobt vblue representing the sbmple in the specified
+     * bbnd for the specified pixel.
      */
-    public float getSampleFloat(int x, int y, int b, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public flobt getSbmpleFlobt(int x, int y, int b, DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        float sample = data.getElemFloat(bankIndices[b],
-                                         y*scanlineStride + x*pixelStride +
-                                         bandOffsets[b]);
-        return sample;
+        flobt sbmple = dbtb.getElemFlobt(bbnkIndices[b],
+                                         y*scbnlineStride + x*pixelStride +
+                                         bbndOffsets[b]);
+        return sbmple;
     }
 
     /**
-     * Returns the sample in a specified band
-     * for a pixel located at (x,y) as a double.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be
-     * thrown if the coordinates are not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param b         The band to return
-     * @param data      The DataBuffer containing the image data
-     * @return a double value representing the sample in the specified
-     * band for the specified pixel.
+     * Returns the sbmple in b specified bbnd
+     * for b pixel locbted bt (x,y) bs b double.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be
+     * thrown if the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm b         The bbnd to return
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @return b double vblue representing the sbmple in the specified
+     * bbnd for the specified pixel.
      */
-    public double getSampleDouble(int x, int y, int b, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public double getSbmpleDouble(int x, int y, int b, DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        double sample = data.getElemDouble(bankIndices[b],
-                                           y*scanlineStride + x*pixelStride +
-                                           bandOffsets[b]);
-        return sample;
+        double sbmple = dbtb.getElemDouble(bbnkIndices[b],
+                                           y*scbnlineStride + x*pixelStride +
+                                           bbndOffsets[b]);
+        return sbmple;
     }
 
     /**
-     * Returns the samples in a specified band for the specified rectangle
-     * of pixels in an int array, one sample per data array element.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         The X coordinate of the upper left pixel location
-     * @param y         The Y coordinate of the upper left pixel location
-     * @param w         the width of the pixel rectangle
-     * @param h         the height of the pixel rectangle
-     * @param b         the band to return
-     * @param iArray    if non-<code>null</code>, returns the samples
-     *                  in this array
-     * @param data      the <code>DataBuffer</code> containing the image data
-     * @return the samples in the specified band of the specified pixel
-     * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
+     * Returns the sbmples in b specified bbnd for the specified rectbngle
+     * of pixels in bn int brrby, one sbmple per dbtb brrby element.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion
+     * @pbrbm w         the width of the pixel rectbngle
+     * @pbrbm h         the height of the pixel rectbngle
+     * @pbrbm b         the bbnd to return
+     * @pbrbm iArrby    if non-<code>null</code>, returns the sbmples
+     *                  in this brrby
+     * @pbrbm dbtb      the <code>DbtbBuffer</code> contbining the imbge dbtb
+     * @return the sbmples in the specified bbnd of the specified pixel
+     * @see #setSbmples(int, int, int, int, int, int[], DbtbBuffer)
      */
-    public int[] getSamples(int x, int y, int w, int h, int b,
-                            int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public int[] getSbmples(int x, int y, int w, int h, int b,
+                            int iArrby[], DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int samples[];
-        if (iArray != null) {
-           samples = iArray;
+        int sbmples[];
+        if (iArrby != null) {
+           sbmples = iArrby;
         } else {
-           samples = new int [w*h];
+           sbmples = new int [w*h];
         }
-        int lineOffset = y*scanlineStride + x*pixelStride +  bandOffsets[b];
+        int lineOffset = y*scbnlineStride + x*pixelStride +  bbndOffsets[b];
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
-           int sampleOffset = lineOffset;
+           int sbmpleOffset = lineOffset;
            for (int j = 0; j < w; j++) {
-              samples[srcOffset++] = data.getElem(bankIndices[b],
-                                                  sampleOffset);
-              sampleOffset += pixelStride;
+              sbmples[srcOffset++] = dbtb.getElem(bbnkIndices[b],
+                                                  sbmpleOffset);
+              sbmpleOffset += pixelStride;
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
-        return samples;
+        return sbmples;
     }
 
     /**
-     * Sets the data for a single pixel in the specified
-     * <code>DataBuffer</code> from a primitive array of type
-     * <code>TransferType</code>.  For a <code>ComponentSampleModel</code>,
-     * this is the same as the data type, and samples are transferred
-     * one per array element.
+     * Sets the dbtb for b single pixel in the specified
+     * <code>DbtbBuffer</code> from b primitive brrby of type
+     * <code>TrbnsferType</code>.  For b <code>ComponentSbmpleModel</code>,
+     * this is the sbme bs the dbtb type, bnd sbmples bre trbnsferred
+     * one per brrby element.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * <code>DataBuffer</code> <code>db1</code>, whose storage layout is
-     * described by <code>ComponentSampleModel</code> <code>csm1</code>,
-     * to <code>DataBuffer</code> <code>db2</code>, whose storage layout
-     * is described by <code>ComponentSampleModel</code> <code>csm2</code>.
-     * The transfer is usually more efficient than using
-     * <code>getPixel</code> and <code>setPixel</code>.
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * <code>DbtbBuffer</code> <code>db1</code>, whose storbge lbyout is
+     * described by <code>ComponentSbmpleModel</code> <code>csm1</code>,
+     * to <code>DbtbBuffer</code> <code>db2</code>, whose storbge lbyout
+     * is described by <code>ComponentSbmpleModel</code> <code>csm2</code>.
+     * The trbnsfer is usublly more efficient thbn using
+     * <code>getPixel</code> bnd <code>setPixel</code>.
      * <pre>
-     *       ComponentSampleModel csm1, csm2;
-     *       DataBufferInt db1, db2;
-     *       csm2.setDataElements(x, y, csm1.getDataElements(x, y, null, db1),
+     *       ComponentSbmpleModel csm1, csm2;
+     *       DbtbBufferInt db1, db2;
+     *       csm2.setDbtbElements(x, y, csm1.getDbtbElements(x, y, null, db1),
      *                            db2);
      * </pre>
-     * Using <code>getDataElements</code> and <code>setDataElements</code>
-     * to transfer between two <code>DataBuffer/SampleModel</code> pairs
-     * is legitimate if the <code>SampleModel</code> objects have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the <code>TransferType</code>s are the same.
+     * Using <code>getDbtbElements</code> bnd <code>setDbtbElements</code>
+     * to trbnsfer between two <code>DbtbBuffer/SbmpleModel</code> pbirs
+     * is legitimbte if the <code>SbmpleModel</code> objects hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the <code>TrbnsferType</code>s bre the sbme.
      * <p>
-     * A <code>ClassCastException</code> is thrown if <code>obj</code> is not
-     * a primitive array of type <code>TransferType</code>.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds, or if <code>obj</code> is not large
-     * enough to hold the pixel data.
-     * @param x         the X coordinate of the pixel location
-     * @param y         the Y coordinate of the pixel location
-     * @param obj       a primitive array containing pixel data
-     * @param data      the DataBuffer containing the image data
-     * @see #getDataElements(int, int, Object, DataBuffer)
+     * A <code>ClbssCbstException</code> is thrown if <code>obj</code> is not
+     * b primitive brrby of type <code>TrbnsferType</code>.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds, or if <code>obj</code> is not lbrge
+     * enough to hold the pixel dbtb.
+     * @pbrbm x         the X coordinbte of the pixel locbtion
+     * @pbrbm y         the Y coordinbte of the pixel locbtion
+     * @pbrbm obj       b primitive brrby contbining pixel dbtb
+     * @pbrbm dbtb      the DbtbBuffer contbining the imbge dbtb
+     * @see #getDbtbElements(int, int, Object, DbtbBuffer)
      */
-    public void setDataElements(int x, int y, Object obj, DataBuffer data) {
+    public void setDbtbElements(int x, int y, Object obj, DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int type = getTransferType();
-        int numDataElems = getNumDataElements();
-        int pixelOffset = y*scanlineStride + x*pixelStride;
+        int type = getTrbnsferType();
+        int numDbtbElems = getNumDbtbElements();
+        int pixelOffset = y*scbnlineStride + x*pixelStride;
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
-            byte[] barray = (byte[])obj;
+            byte[] bbrrby = (byte[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                data.setElem(bankIndices[i], pixelOffset + bandOffsets[i],
-                           ((int)barray[i])&0xff);
+            for (int i=0; i<numDbtbElems; i++) {
+                dbtb.setElem(bbnkIndices[i], pixelOffset + bbndOffsets[i],
+                           ((int)bbrrby[i])&0xff);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_SHORT:
 
-            short[] sarray = (short[])obj;
+            short[] sbrrby = (short[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                data.setElem(bankIndices[i], pixelOffset + bandOffsets[i],
-                           ((int)sarray[i])&0xffff);
+            for (int i=0; i<numDbtbElems; i++) {
+                dbtb.setElem(bbnkIndices[i], pixelOffset + bbndOffsets[i],
+                           ((int)sbrrby[i])&0xffff);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_INT:
 
-            int[] iarray = (int[])obj;
+            int[] ibrrby = (int[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                data.setElem(bankIndices[i],
-                             pixelOffset + bandOffsets[i], iarray[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                dbtb.setElem(bbnkIndices[i],
+                             pixelOffset + bbndOffsets[i], ibrrby[i]);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_FLOAT:
+        cbse DbtbBuffer.TYPE_FLOAT:
 
-            float[] farray = (float[])obj;
+            flobt[] fbrrby = (flobt[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                data.setElemFloat(bankIndices[i],
-                             pixelOffset + bandOffsets[i], farray[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                dbtb.setElemFlobt(bbnkIndices[i],
+                             pixelOffset + bbndOffsets[i], fbrrby[i]);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_DOUBLE:
+        cbse DbtbBuffer.TYPE_DOUBLE:
 
-            double[] darray = (double[])obj;
+            double[] dbrrby = (double[])obj;
 
-            for (int i=0; i<numDataElems; i++) {
-                data.setElemDouble(bankIndices[i],
-                             pixelOffset + bandOffsets[i], darray[i]);
+            for (int i=0; i<numDbtbElems; i++) {
+                dbtb.setElemDouble(bbnkIndices[i],
+                             pixelOffset + bbndOffsets[i], dbrrby[i]);
             }
-            break;
+            brebk;
 
         }
     }
 
     /**
-     * Sets a pixel in the <code>DataBuffer</code> using an int array of
-     * samples for input.  An <code>ArrayIndexOutOfBoundsException</code>
-     * might be thrown if the coordinates are
+     * Sets b pixel in the <code>DbtbBuffer</code> using bn int brrby of
+     * sbmples for input.  An <code>ArrbyIndexOutOfBoundsException</code>
+     * might be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param iArray    The input samples in an int array
-     * @param data      The DataBuffer containing the image data
-     * @see #getPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm iArrby    The input sbmples in bn int brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @see #getPixel(int, int, int[], DbtbBuffer)
      */
-    public void setPixel(int x, int y, int iArray[], DataBuffer data) {
+    public void setPixel(int x, int y, int iArrby[], DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-       int pixelOffset = y*scanlineStride + x*pixelStride;
-       for (int i=0; i<numBands; i++) {
-           data.setElem(bankIndices[i],
-                        pixelOffset + bandOffsets[i],iArray[i]);
+       int pixelOffset = y*scbnlineStride + x*pixelStride;
+       for (int i=0; i<numBbnds; i++) {
+           dbtb.setElem(bbnkIndices[i],
+                        pixelOffset + bbndOffsets[i],iArrby[i]);
        }
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if the
-     * coordinates are not in bounds.
-     * @param x         The X coordinate of the upper left pixel location
-     * @param y         The Y coordinate of the upper left pixel location
-     * @param w         The width of the pixel rectangle
-     * @param h         The height of the pixel rectangle
-     * @param iArray    The input samples in an int array
-     * @param data      The DataBuffer containing the image data
-     * @see #getPixels(int, int, int, int, int[], DataBuffer)
+     * Sets bll sbmples for b rectbngle of pixels from bn int brrby contbining
+     * one sbmple per brrby element.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if the
+     * coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion
+     * @pbrbm w         The width of the pixel rectbngle
+     * @pbrbm h         The height of the pixel rectbngle
+     * @pbrbm iArrby    The input sbmples in bn int brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @see #getPixels(int, int, int, int, int[], DbtbBuffer)
      */
     public void setPixels(int x, int y, int w, int h,
-                          int iArray[], DataBuffer data) {
+                          int iArrby[], DbtbBuffer dbtb) {
         int x1 = x + w;
         int y1 = y + h;
 
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 >  height)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int lineOffset = y*scanlineStride + x*pixelStride;
+        int lineOffset = y*scbnlineStride + x*pixelStride;
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
            int pixelOffset = lineOffset;
            for (int j = 0; j < w; j++) {
-              for (int k=0; k < numBands; k++) {
-                 data.setElem(bankIndices[k], pixelOffset + bandOffsets[k],
-                              iArray[srcOffset++]);
+              for (int k=0; k < numBbnds; k++) {
+                 dbtb.setElem(bbnkIndices[k], pixelOffset + bbndOffsets[k],
+                              iArrby[srcOffset++]);
               }
               pixelOffset += pixelStride;
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the <code>DataBuffer</code> using an int for input.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if the
-     * coordinates are not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param b         the band to set
-     * @param s         the input sample as an int
-     * @param data      the DataBuffer containing the image data
-     * @see #getSample(int, int, int, DataBuffer)
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the <code>DbtbBuffer</code> using bn int for input.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if the
+     * coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm b         the bbnd to set
+     * @pbrbm s         the input sbmple bs bn int
+     * @pbrbm dbtb      the DbtbBuffer contbining the imbge dbtb
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      */
-    public void setSample(int x, int y, int b, int s,
-                          DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public void setSbmple(int x, int y, int b, int s,
+                          DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        data.setElem(bankIndices[b],
-                     y*scanlineStride + x*pixelStride + bandOffsets[b], s);
+        dbtb.setElem(bbnkIndices[b],
+                     y*scbnlineStride + x*pixelStride + bbndOffsets[b], s);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the <code>DataBuffer</code> using a float for input.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param b         The band to set
-     * @param s         The input sample as a float
-     * @param data      The DataBuffer containing the image data
-     * @see #getSample(int, int, int, DataBuffer)
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the <code>DbtbBuffer</code> using b flobt for input.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm b         The bbnd to set
+     * @pbrbm s         The input sbmple bs b flobt
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      */
-    public void setSample(int x, int y, int b,
-                          float s ,
-                          DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public void setSbmple(int x, int y, int b,
+                          flobt s ,
+                          DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        data.setElemFloat(bankIndices[b],
-                          y*scanlineStride + x*pixelStride + bandOffsets[b],
+        dbtb.setElemFlobt(bbnkIndices[b],
+                          y*scbnlineStride + x*pixelStride + bbndOffsets[b],
                           s);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the <code>DataBuffer</code> using a double for input.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if
-     * the coordinates are not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param b         The band to set
-     * @param s         The input sample as a double
-     * @param data      The DataBuffer containing the image data
-     * @see #getSample(int, int, int, DataBuffer)
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the <code>DbtbBuffer</code> using b double for input.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if
+     * the coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm b         The bbnd to set
+     * @pbrbm s         The input sbmple bs b double
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      */
-    public void setSample(int x, int y, int b,
+    public void setSbmple(int x, int y, int b,
                           double s,
-                          DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+                          DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        data.setElemDouble(bankIndices[b],
-                          y*scanlineStride + x*pixelStride + bandOffsets[b],
+        dbtb.setElemDouble(bbnkIndices[b],
+                          y*scbnlineStride + x*pixelStride + bbndOffsets[b],
                           s);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from an int array containing one sample per data array element.
-     * An <code>ArrayIndexOutOfBoundsException</code> might be thrown if the
-     * coordinates are not in bounds.
-     * @param x         The X coordinate of the upper left pixel location
-     * @param y         The Y coordinate of the upper left pixel location
-     * @param w         The width of the pixel rectangle
-     * @param h         The height of the pixel rectangle
-     * @param b         The band to set
-     * @param iArray    The input samples in an int array
-     * @param data      The DataBuffer containing the image data
-     * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from bn int brrby contbining one sbmple per dbtb brrby element.
+     * An <code>ArrbyIndexOutOfBoundsException</code> might be thrown if the
+     * coordinbtes bre not in bounds.
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion
+     * @pbrbm w         The width of the pixel rectbngle
+     * @pbrbm h         The height of the pixel rectbngle
+     * @pbrbm b         The bbnd to set
+     * @pbrbm iArrby    The input sbmples in bn int brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @see #getSbmples(int, int, int, int, int, int[], DbtbBuffer)
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           int iArrby[], DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int lineOffset = y*scanlineStride + x*pixelStride + bandOffsets[b];
+        int lineOffset = y*scbnlineStride + x*pixelStride + bbndOffsets[b];
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
-           int sampleOffset = lineOffset;
+           int sbmpleOffset = lineOffset;
            for (int j = 0; j < w; j++) {
-              data.setElem(bankIndices[b], sampleOffset, iArray[srcOffset++]);
-              sampleOffset += pixelStride;
+              dbtb.setElem(bbnkIndices[b], sbmpleOffset, iArrby[srcOffset++]);
+              sbmpleOffset += pixelStride;
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
     }
 
-    public boolean equals(Object o) {
-        if ((o == null) || !(o instanceof ComponentSampleModel)) {
-            return false;
+    public boolebn equbls(Object o) {
+        if ((o == null) || !(o instbnceof ComponentSbmpleModel)) {
+            return fblse;
         }
 
-        ComponentSampleModel that = (ComponentSampleModel)o;
-        return this.width == that.width &&
-            this.height == that.height &&
-            this.numBands == that.numBands &&
-            this.dataType == that.dataType &&
-            Arrays.equals(this.bandOffsets, that.bandOffsets) &&
-            Arrays.equals(this.bankIndices, that.bankIndices) &&
-            this.numBands == that.numBands &&
-            this.numBanks == that.numBanks &&
-            this.scanlineStride == that.scanlineStride &&
-            this.pixelStride == that.pixelStride;
+        ComponentSbmpleModel thbt = (ComponentSbmpleModel)o;
+        return this.width == thbt.width &&
+            this.height == thbt.height &&
+            this.numBbnds == thbt.numBbnds &&
+            this.dbtbType == thbt.dbtbType &&
+            Arrbys.equbls(this.bbndOffsets, thbt.bbndOffsets) &&
+            Arrbys.equbls(this.bbnkIndices, thbt.bbnkIndices) &&
+            this.numBbnds == thbt.numBbnds &&
+            this.numBbnks == thbt.numBbnks &&
+            this.scbnlineStride == thbt.scbnlineStride &&
+            this.pixelStride == thbt.pixelStride;
     }
 
-    // If we implement equals() we must also implement hashCode
-    public int hashCode() {
-        int hash = 0;
-        hash = width;
-        hash <<= 8;
-        hash ^= height;
-        hash <<= 8;
-        hash ^= numBands;
-        hash <<= 8;
-        hash ^= dataType;
-        hash <<= 8;
-        for (int i = 0; i < bandOffsets.length; i++) {
-            hash ^= bandOffsets[i];
-            hash <<= 8;
+    // If we implement equbls() we must blso implement hbshCode
+    public int hbshCode() {
+        int hbsh = 0;
+        hbsh = width;
+        hbsh <<= 8;
+        hbsh ^= height;
+        hbsh <<= 8;
+        hbsh ^= numBbnds;
+        hbsh <<= 8;
+        hbsh ^= dbtbType;
+        hbsh <<= 8;
+        for (int i = 0; i < bbndOffsets.length; i++) {
+            hbsh ^= bbndOffsets[i];
+            hbsh <<= 8;
         }
-        for (int i = 0; i < bankIndices.length; i++) {
-            hash ^= bankIndices[i];
-            hash <<= 8;
+        for (int i = 0; i < bbnkIndices.length; i++) {
+            hbsh ^= bbnkIndices[i];
+            hbsh <<= 8;
         }
-        hash ^= numBands;
-        hash <<= 8;
-        hash ^= numBanks;
-        hash <<= 8;
-        hash ^= scanlineStride;
-        hash <<= 8;
-        hash ^= pixelStride;
-        return hash;
+        hbsh ^= numBbnds;
+        hbsh <<= 8;
+        hbsh ^= numBbnks;
+        hbsh <<= 8;
+        hbsh ^= scbnlineStride;
+        hbsh <<= 8;
+        hbsh ^= pixelStride;
+        return hbsh;
     }
 }

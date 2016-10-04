@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.security.AccessControlContext;
-import java.security.Permission;
-import java.security.Principal;
-import javax.crypto.SecretKey;
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.Permission;
+import jbvb.security.Principbl;
+import jbvbx.crypto.SecretKey;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.login.LoginException;
 
 /**
- * An interface to a subset of the Kerberos APIs to avoid a static dependency
+ * An interfbce to b subset of the Kerberos APIs to bvoid b stbtic dependency
  * on the types defined by these APIs.
  */
-public interface Krb5Proxy {
+public interfbce Krb5Proxy {
 
     /**
-     * Returns the Subject associated with the client-side of the SSL socket.
+     * Returns the Subject bssocibted with the client-side of the SSL socket.
      */
-    Subject getClientSubject(AccessControlContext acc) throws LoginException;
+    Subject getClientSubject(AccessControlContext bcc) throws LoginException;
 
     /**
-     * Returns the Subject associated with the server-side of the SSL socket.
+     * Returns the Subject bssocibted with the server-side of the SSL socket.
      */
-    Subject getServerSubject(AccessControlContext acc) throws LoginException;
+    Subject getServerSubject(AccessControlContext bcc) throws LoginException;
 
 
     /**
-     * Returns the Kerberos ServiceCreds for the default server-side principal.
+     * Returns the Kerberos ServiceCreds for the defbult server-side principbl.
      */
-    Object getServiceCreds(AccessControlContext acc) throws LoginException;
+    Object getServiceCreds(AccessControlContext bcc) throws LoginException;
 
     /**
-     * Returns the server-side principal name associated with the KerberosKey.
+     * Returns the server-side principbl nbme bssocibted with the KerberosKey.
      */
-    String getServerPrincipalName(Object serviceCreds);
+    String getServerPrincipblNbme(Object serviceCreds);
 
     /**
-     * Returns the hostname embedded in the principal name.
+     * Returns the hostnbme embedded in the principbl nbme.
      */
-    String getPrincipalHostName(Principal principal);
+    String getPrincipblHostNbme(Principbl principbl);
 
     /**
-     * Returns a ServicePermission for the principal name and action.
+     * Returns b ServicePermission for the principbl nbme bnd bction.
      */
-    Permission getServicePermission(String principalName, String action);
+    Permission getServicePermission(String principblNbme, String bction);
 
     /**
-     * Determines if the Subject might contain creds for princ.
+     * Determines if the Subject might contbin creds for princ.
      */
-    boolean isRelated(Subject subject, Principal princ);
+    boolebn isRelbted(Subject subject, Principbl princ);
 }

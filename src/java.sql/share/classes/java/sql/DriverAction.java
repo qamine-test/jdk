@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * An interface that must be implemented when a {@linkplain Driver} wants to be
- * notified by {@code DriverManager}.
+ * An interfbce thbt must be implemented when b {@linkplbin Driver} wbnts to be
+ * notified by {@code DriverMbnbger}.
  *<P>
- * A {@code DriverAction} implementation is not intended to be used
- * directly by applications. A JDBC Driver  may choose
- * to create its {@code DriverAction} implementation in a private class
- * to avoid it being called directly.
+ * A {@code DriverAction} implementbtion is not intended to be used
+ * directly by bpplicbtions. A JDBC Driver  mby choose
+ * to crebte its {@code DriverAction} implementbtion in b privbte clbss
+ * to bvoid it being cblled directly.
  * <p>
- * The JDBC driver's static initialization block must call
- * {@linkplain DriverManager#registerDriver(java.sql.Driver, java.sql.DriverAction) } in order
- * to inform {@code DriverManager} which {@code DriverAction} implementation to
- * call when the JDBC driver is de-registered.
+ * The JDBC driver's stbtic initiblizbtion block must cbll
+ * {@linkplbin DriverMbnbger#registerDriver(jbvb.sql.Driver, jbvb.sql.DriverAction) } in order
+ * to inform {@code DriverMbnbger} which {@code DriverAction} implementbtion to
+ * cbll when the JDBC driver is de-registered.
  * @since 1.8
  */
-public interface DriverAction {
+public interfbce DriverAction {
     /**
-     * Method called by
-     * {@linkplain DriverManager#deregisterDriver(Driver) }
-     *  to notify the JDBC driver that it was de-registered.
+     * Method cblled by
+     * {@linkplbin DriverMbnbger#deregisterDriver(Driver) }
+     *  to notify the JDBC driver thbt it wbs de-registered.
      * <p>
      * The {@code deregister} method is intended only to be used by JDBC Drivers
-     * and not by applications.  JDBC drivers are recommended to not implement
-     * {@code DriverAction} in a public class.  If there are active
-     * connections to the database at the time that the {@code deregister}
-     * method is called, it is implementation specific as to whether the
-     * connections are closed or allowed to continue. Once this method is
-     * called, it is implementation specific as to whether the driver may
-     * limit the ability to create new connections to the database, invoke
-     * other {@code Driver} methods or throw a {@code SQLException}.
-     * Consult your JDBC driver's documentation for additional information
-     * on its behavior.
-     * @see DriverManager#registerDriver(java.sql.Driver, java.sql.DriverAction)
-     * @see DriverManager#deregisterDriver(Driver)
+     * bnd not by bpplicbtions.  JDBC drivers bre recommended to not implement
+     * {@code DriverAction} in b public clbss.  If there bre bctive
+     * connections to the dbtbbbse bt the time thbt the {@code deregister}
+     * method is cblled, it is implementbtion specific bs to whether the
+     * connections bre closed or bllowed to continue. Once this method is
+     * cblled, it is implementbtion specific bs to whether the driver mby
+     * limit the bbility to crebte new connections to the dbtbbbse, invoke
+     * other {@code Driver} methods or throw b {@code SQLException}.
+     * Consult your JDBC driver's documentbtion for bdditionbl informbtion
+     * on its behbvior.
+     * @see DriverMbnbger#registerDriver(jbvb.sql.Driver, jbvb.sql.DriverAction)
+     * @see DriverMbnbger#deregisterDriver(Driver)
      * @since 1.8
      */
     void deregister();

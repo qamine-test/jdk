@@ -1,106 +1,106 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: javap.1
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Bbsic Tools
+.\"     Title: jbvbp.1
 .\"
 .if n .pl 99999
-.TH javap 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH jbvbp 1 "21 November 2013" "JDK 8" "Bbsic Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-javap \- Disassembles one or more class files\&.
+jbvbp \- Disbssembles one or more clbss files\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjavap\fR [\fIoptions\fR] \fIclassfile\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIclbssfile\fR\&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-\fIclassfile\fR
-One or more classes separated by spaces to be processed for annotations such as DocFooter\&.class\&. You can specify a class that can be found in the class path, by its file name or with a URL such as \f3file:///home/user/myproject/src/DocFooter\&.class\fR\&.
+\fIclbssfile\fR
+One or more clbsses sepbrbted by spbces to be processed for bnnotbtions such bs DocFooter\&.clbss\&. You cbn specify b clbss thbt cbn be found in the clbss pbth, by its file nbme or with b URL such bs \f3file:///home/user/myproject/src/DocFooter\&.clbss\fR\&.
 .SH DESCRIPTION    
-The \f3javap\fR command disassembles one or more class files\&. The output depends on the options used\&. When no options are used, then the \f3javap\fR command prints the package, protected and public fields, and methods of the classes passed to it\&. The \f3javap\fR command prints its output to \f3stdout\fR\&.
+The \f3jbvbp\fR commbnd disbssembles one or more clbss files\&. The output depends on the options used\&. When no options bre used, then the \f3jbvbp\fR commbnd prints the pbckbge, protected bnd public fields, bnd methods of the clbsses pbssed to it\&. The \f3jbvbp\fR commbnd prints its output to \f3stdout\fR\&.
 .SH OPTIONS    
 .TP
 -help, --help, -?
 .br
-Prints a help message for the \f3javap\fR command\&.
+Prints b help messbge for the \f3jbvbp\fR commbnd\&.
 .TP
 -version
 .br
-Prints release information\&.
+Prints relebse informbtion\&.
 .TP
 -l
 .br
-Prints line and local variable tables\&.
+Prints line bnd locbl vbribble tbbles\&.
 .TP
 -public
 .br
-Shows only public classes and members\&.
+Shows only public clbsses bnd members\&.
 .TP
 -protected
 .br
-Shows only protected and public classes and members\&.
+Shows only protected bnd public clbsses bnd members\&.
 .TP
--private, -p
+-privbte, -p
 .br
-Shows all classes and members\&.
+Shows bll clbsses bnd members\&.
 .TP
 -J\fIoption\fR
 .br
-Passes the specified option to the JVM\&. For example:
+Pbsses the specified option to the JVM\&. For exbmple:
 .sp     
 .nf     
-\f3javap \-J\-version\fP
+\f3jbvbp \-J\-version\fP
 .fi     
 .nf     
-\f3javap \-J\-Djava\&.security\&.manager \-J\-Djava\&.security\&.policy=MyPolicy MyClassName\fP
+\f3jbvbp \-J\-Djbvb\&.security\&.mbnbger \-J\-Djbvb\&.security\&.policy=MyPolicy MyClbssNbme\fP
 .fi     
 .nf     
 \f3\fP
@@ -108,59 +108,59 @@ Passes the specified option to the JVM\&. For example:
 .sp     
 
 
-For more information about JVM options, see the \f3java(1)\fR command documentation\&.
+For more informbtion bbout JVM options, see the \f3jbvb(1)\fR commbnd documentbtion\&.
 .TP
 -s
 .br
-Prints internal type signatures\&.
+Prints internbl type signbtures\&.
 .TP
 -sysinfo
 .br
-Shows system information (path, size, date, MD5 hash) of the class being processed\&.
+Shows system informbtion (pbth, size, dbte, MD5 hbsh) of the clbss being processed\&.
 .TP
--constants
+-constbnts
 .br
-Shows \f3static final\fR constants\&.
+Shows \f3stbtic finbl\fR constbnts\&.
 .TP
 -c
 .br
-Prints disassembled code, for example, the instructions that comprise the Java bytecodes, for each of the methods in the class\&.
+Prints disbssembled code, for exbmple, the instructions thbt comprise the Jbvb bytecodes, for ebch of the methods in the clbss\&.
 .TP
 -verbose
 .br
-Prints stack size, number of locals and arguments for methods\&.
+Prints stbck size, number of locbls bnd brguments for methods\&.
 .TP
--classpath \fIpath\fR
+-clbsspbth \fIpbth\fR
 .br
-Specifies the path the \f3javap\fR command uses to look up classes\&. Overrides the default or the \f3CLASSPATH\fR environment variable when it is set\&.
+Specifies the pbth the \f3jbvbp\fR commbnd uses to look up clbsses\&. Overrides the defbult or the \f3CLASSPATH\fR environment vbribble when it is set\&.
 .TP
--bootclasspath \fIpath\fR
+-bootclbsspbth \fIpbth\fR
 .br
-Specifies the path from which to load bootstrap classes\&. By default, the bootstrap classes are the classes that implement the core Java platform located in \f3jre/lib/rt\&.jar\fR and several other JAR files\&.
+Specifies the pbth from which to lobd bootstrbp clbsses\&. By defbult, the bootstrbp clbsses bre the clbsses thbt implement the core Jbvb plbtform locbted in \f3jre/lib/rt\&.jbr\fR bnd severbl other JAR files\&.
 .TP
 -extdir \fIdirs\fR
 .br
-Overrides the location at which installed extensions are searched for\&. The default location for extensions is the value of \f3java\&.ext\&.dirs\fR\&.
+Overrides the locbtion bt which instblled extensions bre sebrched for\&. The defbult locbtion for extensions is the vblue of \f3jbvb\&.ext\&.dirs\fR\&.
 .SH EXAMPLE    
-Compile the following \f3DocFooter\fR class:
+Compile the following \f3DocFooter\fR clbss:
 .sp     
 .nf     
-\f3import java\&.awt\&.*;\fP
+\f3import jbvb\&.bwt\&.*;\fP
 .fi     
 .nf     
-\f3import java\&.applet\&.*;\fP
+\f3import jbvb\&.bpplet\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3public class DocFooter extends Applet {\fP
+\f3public clbss DocFooter extends Applet {\fP
 .fi     
 .nf     
-\f3        String date;\fP
+\f3        String dbte;\fP
 .fi     
 .nf     
-\f3        String email;\fP
+\f3        String embil;\fP
 .fi     
 .nf     
 \f3\fP
@@ -172,10 +172,10 @@ Compile the following \f3DocFooter\fR class:
 \f3                resize(500,100);\fP
 .fi     
 .nf     
-\f3                date = getParameter("LAST_UPDATED");\fP
+\f3                dbte = getPbrbmeter("LAST_UPDATED");\fP
 .fi     
 .nf     
-\f3                email = getParameter("EMAIL");\fP
+\f3                embil = getPbrbmeter("EMAIL");\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -184,13 +184,13 @@ Compile the following \f3DocFooter\fR class:
 \f3\fP
 .fi     
 .nf     
-\f3        public void paint(Graphics g) {\fP
+\f3        public void pbint(Grbphics g) {\fP
 .fi     
 .nf     
-\f3                g\&.drawString(date + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbte + " by ",100, 15);\fP
 .fi     
 .nf     
-\f3                g\&.drawString(email,290,15);\fP
+\f3                g\&.drbwString(embil,290,15);\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -202,19 +202,19 @@ Compile the following \f3DocFooter\fR class:
 \f3\fP
 .fi     
 .sp     
-The output from the \f3javap DocFooter\&.class\fR command yields the following:
+The output from the \f3jbvbp DocFooter\&.clbss\fR commbnd yields the following:
 .sp     
 .nf     
-\f3Compiled from "DocFooter\&.java"\fP
+\f3Compiled from "DocFooter\&.jbvb"\fP
 .fi     
 .nf     
-\f3public class DocFooter extends java\&.applet\&.Applet {\fP
+\f3public clbss DocFooter extends jbvb\&.bpplet\&.Applet {\fP
 .fi     
 .nf     
-\f3  java\&.lang\&.String date;\fP
+\f3  jbvb\&.lbng\&.String dbte;\fP
 .fi     
 .nf     
-\f3  java\&.lang\&.String email;\fP
+\f3  jbvb\&.lbng\&.String embil;\fP
 .fi     
 .nf     
 \f3  public DocFooter();\fP
@@ -223,7 +223,7 @@ The output from the \f3javap DocFooter\&.class\fR command yields the following:
 \f3  public void init();\fP
 .fi     
 .nf     
-\f3  public void paint(java\&.awt\&.Graphics);\fP
+\f3  public void pbint(jbvb\&.bwt\&.Grbphics);\fP
 .fi     
 .nf     
 \f3}\fP
@@ -232,19 +232,19 @@ The output from the \f3javap DocFooter\&.class\fR command yields the following:
 \f3\fP
 .fi     
 .sp     
-The output from \f3javap -c DocFooter\&.class\fR command yields the following:
+The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
 .sp     
 .nf     
-\f3Compiled from "DocFooter\&.java"\fP
+\f3Compiled from "DocFooter\&.jbvb"\fP
 .fi     
 .nf     
-\f3public class DocFooter extends java\&.applet\&.Applet {\fP
+\f3public clbss DocFooter extends jbvb\&.bpplet\&.Applet {\fP
 .fi     
 .nf     
-\f3  java\&.lang\&.String date;\fP
+\f3  jbvb\&.lbng\&.String dbte;\fP
 .fi     
 .nf     
-\f3  java\&.lang\&.String email;\fP
+\f3  jbvb\&.lbng\&.String embil;\fP
 .fi     
 .nf     
 \f3\fP
@@ -256,13 +256,13 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3    Code:\fP
 .fi     
 .nf     
-\f3       0: aload_0       \fP
+\f3       0: blobd_0       \fP
 .fi     
 .nf     
-\f3       1: invokespecial #1                  // Method\fP
+\f3       1: invokespecibl #1                  // Method\fP
 .fi     
 .nf     
-\f3java/applet/Applet\&."<init>":()V\fP
+\f3jbvb/bpplet/Applet\&."<init>":()V\fP
 .fi     
 .nf     
 \f3       4: return        \fP
@@ -277,7 +277,7 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3    Code:\fP
 .fi     
 .nf     
-\f3       0: aload_0       \fP
+\f3       0: blobd_0       \fP
 .fi     
 .nf     
 \f3       1: sipush        500\fP
@@ -286,43 +286,43 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3       4: bipush        100\fP
 .fi     
 .nf     
-\f3       6: invokevirtual #2                  // Method resize:(II)V\fP
+\f3       6: invokevirtubl #2                  // Method resize:(II)V\fP
 .fi     
 .nf     
-\f3       9: aload_0       \fP
+\f3       9: blobd_0       \fP
 .fi     
 .nf     
-\f3      10: aload_0       \fP
+\f3      10: blobd_0       \fP
 .fi     
 .nf     
 \f3      11: ldc           #3                  // String LAST_UPDATED\fP
 .fi     
 .nf     
-\f3      13: invokevirtual #4                  // Method\fP
+\f3      13: invokevirtubl #4                  // Method\fP
 .fi     
 .nf     
-\f3 getParameter:(Ljava/lang/String;)Ljava/lang/String;\fP
+\f3 getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      16: putfield      #5                  // Field date:Ljava/lang/String;\fP
+\f3      16: putfield      #5                  // Field dbte:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      19: aload_0       \fP
+\f3      19: blobd_0       \fP
 .fi     
 .nf     
-\f3      20: aload_0       \fP
+\f3      20: blobd_0       \fP
 .fi     
 .nf     
 \f3      21: ldc           #6                  // String EMAIL\fP
 .fi     
 .nf     
-\f3      23: invokevirtual #4                  // Method\fP
+\f3      23: invokevirtubl #4                  // Method\fP
 .fi     
 .nf     
-\f3 getParameter:(Ljava/lang/String;)Ljava/lang/String;\fP
+\f3 getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      26: putfield      #7                  // Field email:Ljava/lang/String;\fP
+\f3      26: putfield      #7                  // Field embil:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
 \f3      29: return        \fP
@@ -331,52 +331,52 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3\fP
 .fi     
 .nf     
-\f3  public void paint(java\&.awt\&.Graphics);\fP
+\f3  public void pbint(jbvb\&.bwt\&.Grbphics);\fP
 .fi     
 .nf     
 \f3    Code:\fP
 .fi     
 .nf     
-\f3       0: aload_1       \fP
+\f3       0: blobd_1       \fP
 .fi     
 .nf     
-\f3       1: new           #8                  // class java/lang/StringBuilder\fP
+\f3       1: new           #8                  // clbss jbvb/lbng/StringBuilder\fP
 .fi     
 .nf     
 \f3       4: dup           \fP
 .fi     
 .nf     
-\f3       5: invokespecial #9                  // Method\fP
+\f3       5: invokespecibl #9                  // Method\fP
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuilder\&."<init>":()V\fP
 .fi     
 .nf     
-\f3       8: aload_0       \fP
+\f3       8: blobd_0       \fP
 .fi     
 .nf     
-\f3       9: getfield      #5                  // Field date:Ljava/lang/String;\fP
+\f3       9: getfield      #5                  // Field dbte:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      12: invokevirtual #10                 // Method\fP
+\f3      12: invokevirtubl #10                 // Method\fP
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\fP
+\f3 jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;\fP
 .fi     
 .nf     
 \f3      15: ldc           #11                 // String  by \fP
 .fi     
 .nf     
-\f3      17: invokevirtual #10                 // Method\fP
+\f3      17: invokevirtubl #10                 // Method\fP
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\fP
+\f3 jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;\fP
 .fi     
 .nf     
-\f3      20: invokevirtual #12                 // Method\fP
+\f3      20: invokevirtubl #12                 // Method\fP
 .fi     
 .nf     
-\f3 java/lang/StringBuilder\&.toString:()Ljava/lang/String;\fP
+\f3 jbvb/lbng/StringBuilder\&.toString:()Ljbvb/lbng/String;\fP
 .fi     
 .nf     
 \f3      23: bipush        100\fP
@@ -385,19 +385,19 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3      25: bipush        15\fP
 .fi     
 .nf     
-\f3      27: invokevirtual #13                 // Method\fP
+\f3      27: invokevirtubl #13                 // Method\fP
 .fi     
 .nf     
-\f3 java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V\fP
+\f3 jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V\fP
 .fi     
 .nf     
-\f3      30: aload_1       \fP
+\f3      30: blobd_1       \fP
 .fi     
 .nf     
-\f3      31: aload_0       \fP
+\f3      31: blobd_0       \fP
 .fi     
 .nf     
-\f3      32: getfield      #7                  // Field email:Ljava/lang/String;\fP
+\f3      32: getfield      #7                  // Field embil:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
 \f3      35: sipush        290\fP
@@ -406,10 +406,10 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 \f3      38: bipush        15\fP
 .fi     
 .nf     
-\f3      40: invokevirtual #13                 // Method\fP
+\f3      40: invokevirtubl #13                 // Method\fP
 .fi     
 .nf     
-\f3java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V\fP
+\f3jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V\fP
 .fi     
 .nf     
 \f3      43: return        \fP
@@ -424,19 +424,19 @@ The output from \f3javap -c DocFooter\&.class\fR command yields the following:
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-javac(1)
+jbvbc(1)
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
 jdb(1)
 .TP 0.2i    
 \(bu
-javah(1)
+jbvbh(1)
 .TP 0.2i    
 \(bu
-javadoc(1)
+jbvbdoc(1)
 .RE
 .br
 'pl 8.5i

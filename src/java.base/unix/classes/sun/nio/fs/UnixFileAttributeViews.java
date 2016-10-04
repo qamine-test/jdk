@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
 
-class UnixFileAttributeViews {
+clbss UnixFileAttributeViews {
 
-    static class Basic extends AbstractBasicFileAttributeView {
-        protected final UnixPath file;
-        protected final boolean followLinks;
+    stbtic clbss Bbsic extends AbstrbctBbsicFileAttributeView {
+        protected finbl UnixPbth file;
+        protected finbl boolebn followLinks;
 
-        Basic(UnixPath file, boolean followLinks) {
+        Bbsic(UnixPbth file, boolebn followLinks) {
             this.file = file;
             this.followLinks = followLinks;
         }
 
         @Override
-        public BasicFileAttributes readAttributes() throws IOException {
-            file.checkRead();
+        public BbsicFileAttributes rebdAttributes() throws IOException {
+            file.checkRebd();
             try {
-                 UnixFileAttributes attrs =
+                 UnixFileAttributes bttrs =
                      UnixFileAttributes.get(file, followLinks);
-                 return attrs.asBasicFileAttributes();
-            } catch (UnixException x) {
+                 return bttrs.bsBbsicFileAttributes();
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
-                return null;    // keep compiler happy
+                return null;    // keep compiler hbppy
             }
         }
 
         @Override
-        public void setTimes(FileTime lastModifiedTime,
-                             FileTime lastAccessTime,
-                             FileTime createTime) throws IOException
+        public void setTimes(FileTime lbstModifiedTime,
+                             FileTime lbstAccessTime,
+                             FileTime crebteTime) throws IOException
         {
-            // null => don't change
-            if (lastModifiedTime == null && lastAccessTime == null) {
+            // null => don't chbnge
+            if (lbstModifiedTime == null && lbstAccessTime == null) {
                 // no effect
                 return;
             }
@@ -73,174 +73,174 @@ class UnixFileAttributeViews {
 
             int fd = file.openForAttributeAccess(followLinks);
             try {
-                // assert followLinks || !UnixFileAttributes.get(fd).isSymbolicLink();
+                // bssert followLinks || !UnixFileAttributes.get(fd).isSymbolicLink();
 
-                // if not changing both attributes then need existing attributes
-                if (lastModifiedTime == null || lastAccessTime == null) {
+                // if not chbnging both bttributes then need existing bttributes
+                if (lbstModifiedTime == null || lbstAccessTime == null) {
                     try {
-                        UnixFileAttributes attrs = UnixFileAttributes.get(fd);
-                        if (lastModifiedTime == null)
-                            lastModifiedTime = attrs.lastModifiedTime();
-                        if (lastAccessTime == null)
-                            lastAccessTime = attrs.lastAccessTime();
-                    } catch (UnixException x) {
+                        UnixFileAttributes bttrs = UnixFileAttributes.get(fd);
+                        if (lbstModifiedTime == null)
+                            lbstModifiedTime = bttrs.lbstModifiedTime();
+                        if (lbstAccessTime == null)
+                            lbstAccessTime = bttrs.lbstAccessTime();
+                    } cbtch (UnixException x) {
                         x.rethrowAsIOException(file);
                     }
                 }
 
                 // uptime times
-                long modValue = lastModifiedTime.to(TimeUnit.MICROSECONDS);
-                long accessValue= lastAccessTime.to(TimeUnit.MICROSECONDS);
+                long modVblue = lbstModifiedTime.to(TimeUnit.MICROSECONDS);
+                long bccessVblue= lbstAccessTime.to(TimeUnit.MICROSECONDS);
 
-                boolean retry = false;
+                boolebn retry = fblse;
                 try {
                     if (futimesSupported()) {
-                        futimes(fd, accessValue, modValue);
+                        futimes(fd, bccessVblue, modVblue);
                     } else {
-                        utimes(file, accessValue, modValue);
+                        utimes(file, bccessVblue, modVblue);
                     }
-                } catch (UnixException x) {
-                    // if futimes/utimes fails with EINVAL and one/both of the times is
-                    // negative then we adjust the value to the epoch and retry.
-                    if (x.errno() == UnixConstants.EINVAL &&
-                        (modValue < 0L || accessValue < 0L)) {
+                } cbtch (UnixException x) {
+                    // if futimes/utimes fbils with EINVAL bnd one/both of the times is
+                    // negbtive then we bdjust the vblue to the epoch bnd retry.
+                    if (x.errno() == UnixConstbnts.EINVAL &&
+                        (modVblue < 0L || bccessVblue < 0L)) {
                         retry = true;
                     } else {
                         x.rethrowAsIOException(file);
                     }
                 }
                 if (retry) {
-                    if (modValue < 0L) modValue = 0L;
-                    if (accessValue < 0L) accessValue= 0L;
+                    if (modVblue < 0L) modVblue = 0L;
+                    if (bccessVblue < 0L) bccessVblue= 0L;
                     try {
                         if (futimesSupported()) {
-                            futimes(fd, accessValue, modValue);
+                            futimes(fd, bccessVblue, modVblue);
                         } else {
-                            utimes(file, accessValue, modValue);
+                            utimes(file, bccessVblue, modVblue);
                         }
-                    } catch (UnixException x) {
+                    } cbtch (UnixException x) {
                         x.rethrowAsIOException(file);
                     }
                 }
-            } finally {
+            } finblly {
                 close(fd);
             }
         }
     }
 
-    private static class Posix extends Basic implements PosixFileAttributeView {
-        private static final String PERMISSIONS_NAME = "permissions";
-        private static final String OWNER_NAME = "owner";
-        private static final String GROUP_NAME = "group";
+    privbte stbtic clbss Posix extends Bbsic implements PosixFileAttributeView {
+        privbte stbtic finbl String PERMISSIONS_NAME = "permissions";
+        privbte stbtic finbl String OWNER_NAME = "owner";
+        privbte stbtic finbl String GROUP_NAME = "group";
 
-        // the names of the posix attributes (includes basic)
-        static final Set<String> posixAttributeNames =
-            Util.newSet(basicAttributeNames, PERMISSIONS_NAME, OWNER_NAME, GROUP_NAME);
+        // the nbmes of the posix bttributes (includes bbsic)
+        stbtic finbl Set<String> posixAttributeNbmes =
+            Util.newSet(bbsicAttributeNbmes, PERMISSIONS_NAME, OWNER_NAME, GROUP_NAME);
 
-        Posix(UnixPath file, boolean followLinks) {
+        Posix(UnixPbth file, boolebn followLinks) {
             super(file, followLinks);
         }
 
-        final void checkReadExtended() {
-            SecurityManager sm = System.getSecurityManager();
+        finbl void checkRebdExtended() {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                file.checkRead();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                file.checkRebd();
+                sm.checkPermission(new RuntimePermission("bccessUserInformbtion"));
             }
         }
 
-        final void checkWriteExtended() {
-            SecurityManager sm = System.getSecurityManager();
+        finbl void checkWriteExtended() {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 file.checkWrite();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                sm.checkPermission(new RuntimePermission("bccessUserInformbtion"));
             }
         }
 
         @Override
-        public String name() {
+        public String nbme() {
             return "posix";
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public void setAttribute(String attribute, Object value)
+        @SuppressWbrnings("unchecked")
+        public void setAttribute(String bttribute, Object vblue)
             throws IOException
         {
-            if (attribute.equals(PERMISSIONS_NAME)) {
-                setPermissions((Set<PosixFilePermission>)value);
+            if (bttribute.equbls(PERMISSIONS_NAME)) {
+                setPermissions((Set<PosixFilePermission>)vblue);
                 return;
             }
-            if (attribute.equals(OWNER_NAME)) {
-                setOwner((UserPrincipal)value);
+            if (bttribute.equbls(OWNER_NAME)) {
+                setOwner((UserPrincipbl)vblue);
                 return;
             }
-            if (attribute.equals(GROUP_NAME)) {
-                setGroup((GroupPrincipal)value);
+            if (bttribute.equbls(GROUP_NAME)) {
+                setGroup((GroupPrincipbl)vblue);
                 return;
             }
-            super.setAttribute(attribute, value);
+            super.setAttribute(bttribute, vblue);
         }
 
         /**
-         * Invoked by readAttributes or sub-classes to add all matching posix
-         * attributes to the builder
+         * Invoked by rebdAttributes or sub-clbsses to bdd bll mbtching posix
+         * bttributes to the builder
          */
-        final void addRequestedPosixAttributes(PosixFileAttributes attrs,
+        finbl void bddRequestedPosixAttributes(PosixFileAttributes bttrs,
                                                AttributesBuilder builder)
         {
-            addRequestedBasicAttributes(attrs, builder);
-            if (builder.match(PERMISSIONS_NAME))
-                builder.add(PERMISSIONS_NAME, attrs.permissions());
-            if (builder.match(OWNER_NAME))
-                 builder.add(OWNER_NAME, attrs.owner());
-            if (builder.match(GROUP_NAME))
-                builder.add(GROUP_NAME, attrs.group());
+            bddRequestedBbsicAttributes(bttrs, builder);
+            if (builder.mbtch(PERMISSIONS_NAME))
+                builder.bdd(PERMISSIONS_NAME, bttrs.permissions());
+            if (builder.mbtch(OWNER_NAME))
+                 builder.bdd(OWNER_NAME, bttrs.owner());
+            if (builder.mbtch(GROUP_NAME))
+                builder.bdd(GROUP_NAME, bttrs.group());
         }
 
         @Override
-        public Map<String,Object> readAttributes(String[] requested)
+        public Mbp<String,Object> rebdAttributes(String[] requested)
             throws IOException
         {
             AttributesBuilder builder =
-                AttributesBuilder.create(posixAttributeNames, requested);
-            PosixFileAttributes attrs = readAttributes();
-            addRequestedPosixAttributes(attrs, builder);
-            return builder.unmodifiableMap();
+                AttributesBuilder.crebte(posixAttributeNbmes, requested);
+            PosixFileAttributes bttrs = rebdAttributes();
+            bddRequestedPosixAttributes(bttrs, builder);
+            return builder.unmodifibbleMbp();
         }
 
         @Override
-        public UnixFileAttributes readAttributes() throws IOException {
-            checkReadExtended();
+        public UnixFileAttributes rebdAttributes() throws IOException {
+            checkRebdExtended();
             try {
                  return UnixFileAttributes.get(file, followLinks);
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
-                return null;    // keep compiler happy
+                return null;    // keep compiler hbppy
             }
         }
 
         // chmod
-        final void setMode(int mode) throws IOException {
+        finbl void setMode(int mode) throws IOException {
             checkWriteExtended();
             try {
                 if (followLinks) {
                     chmod(file, mode);
                 } else {
-                    int fd = file.openForAttributeAccess(false);
+                    int fd = file.openForAttributeAccess(fblse);
                     try {
                         fchmod(fd, mode);
-                    } finally {
+                    } finblly {
                         close(fd);
                     }
                 }
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
             }
         }
 
         // chown
-        final void setOwners(int uid, int gid) throws IOException {
+        finbl void setOwners(int uid, int gid) throws IOException {
             checkWriteExtended();
             try {
                 if (followLinks) {
@@ -248,7 +248,7 @@ class UnixFileAttributeViews {
                 } else {
                     lchown(file, uid, gid);
                 }
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
             }
         }
@@ -261,122 +261,122 @@ class UnixFileAttributeViews {
         }
 
         @Override
-        public void setOwner(UserPrincipal owner)
+        public void setOwner(UserPrincipbl owner)
             throws IOException
         {
             if (owner == null)
                 throw new NullPointerException("'owner' is null");
-            if (!(owner instanceof UnixUserPrincipals.User))
-                throw new ProviderMismatchException();
-            if (owner instanceof UnixUserPrincipals.Group)
-                throw new IOException("'owner' parameter can't be a group");
-            int uid = ((UnixUserPrincipals.User)owner).uid();
+            if (!(owner instbnceof UnixUserPrincipbls.User))
+                throw new ProviderMismbtchException();
+            if (owner instbnceof UnixUserPrincipbls.Group)
+                throw new IOException("'owner' pbrbmeter cbn't be b group");
+            int uid = ((UnixUserPrincipbls.User)owner).uid();
             setOwners(uid, -1);
         }
 
         @Override
-        public UserPrincipal getOwner() throws IOException {
-            return readAttributes().owner();
+        public UserPrincipbl getOwner() throws IOException {
+            return rebdAttributes().owner();
         }
 
         @Override
-        public void setGroup(GroupPrincipal group)
+        public void setGroup(GroupPrincipbl group)
             throws IOException
         {
             if (group == null)
                 throw new NullPointerException("'owner' is null");
-            if (!(group instanceof UnixUserPrincipals.Group))
-                throw new ProviderMismatchException();
-            int gid = ((UnixUserPrincipals.Group)group).gid();
+            if (!(group instbnceof UnixUserPrincipbls.Group))
+                throw new ProviderMismbtchException();
+            int gid = ((UnixUserPrincipbls.Group)group).gid();
             setOwners(-1, gid);
         }
     }
 
-    private static class Unix extends Posix {
-        private static final String MODE_NAME = "mode";
-        private static final String INO_NAME = "ino";
-        private static final String DEV_NAME = "dev";
-        private static final String RDEV_NAME = "rdev";
-        private static final String NLINK_NAME = "nlink";
-        private static final String UID_NAME = "uid";
-        private static final String GID_NAME = "gid";
-        private static final String CTIME_NAME = "ctime";
+    privbte stbtic clbss Unix extends Posix {
+        privbte stbtic finbl String MODE_NAME = "mode";
+        privbte stbtic finbl String INO_NAME = "ino";
+        privbte stbtic finbl String DEV_NAME = "dev";
+        privbte stbtic finbl String RDEV_NAME = "rdev";
+        privbte stbtic finbl String NLINK_NAME = "nlink";
+        privbte stbtic finbl String UID_NAME = "uid";
+        privbte stbtic finbl String GID_NAME = "gid";
+        privbte stbtic finbl String CTIME_NAME = "ctime";
 
-        // the names of the unix attributes (including posix)
-        static final Set<String> unixAttributeNames =
-            Util.newSet(posixAttributeNames,
+        // the nbmes of the unix bttributes (including posix)
+        stbtic finbl Set<String> unixAttributeNbmes =
+            Util.newSet(posixAttributeNbmes,
                         MODE_NAME, INO_NAME, DEV_NAME, RDEV_NAME,
                         NLINK_NAME, UID_NAME, GID_NAME, CTIME_NAME);
 
-        Unix(UnixPath file, boolean followLinks) {
+        Unix(UnixPbth file, boolebn followLinks) {
             super(file, followLinks);
         }
 
         @Override
-        public String name() {
+        public String nbme() {
             return "unix";
         }
 
         @Override
-        public void setAttribute(String attribute, Object value)
+        public void setAttribute(String bttribute, Object vblue)
             throws IOException
         {
-            if (attribute.equals(MODE_NAME)) {
-                setMode((Integer)value);
+            if (bttribute.equbls(MODE_NAME)) {
+                setMode((Integer)vblue);
                 return;
             }
-            if (attribute.equals(UID_NAME)) {
-                setOwners((Integer)value, -1);
+            if (bttribute.equbls(UID_NAME)) {
+                setOwners((Integer)vblue, -1);
                 return;
             }
-            if (attribute.equals(GID_NAME)) {
-                setOwners(-1, (Integer)value);
+            if (bttribute.equbls(GID_NAME)) {
+                setOwners(-1, (Integer)vblue);
                 return;
             }
-            super.setAttribute(attribute, value);
+            super.setAttribute(bttribute, vblue);
         }
 
         @Override
-        public Map<String,Object> readAttributes(String[] requested)
+        public Mbp<String,Object> rebdAttributes(String[] requested)
             throws IOException
         {
             AttributesBuilder builder =
-                AttributesBuilder.create(unixAttributeNames, requested);
-            UnixFileAttributes attrs = readAttributes();
-            addRequestedPosixAttributes(attrs, builder);
-            if (builder.match(MODE_NAME))
-                builder.add(MODE_NAME, attrs.mode());
-            if (builder.match(INO_NAME))
-                builder.add(INO_NAME, attrs.ino());
-            if (builder.match(DEV_NAME))
-                builder.add(DEV_NAME, attrs.dev());
-            if (builder.match(RDEV_NAME))
-                builder.add(RDEV_NAME, attrs.rdev());
-            if (builder.match(NLINK_NAME))
-                builder.add(NLINK_NAME, attrs.nlink());
-            if (builder.match(UID_NAME))
-                builder.add(UID_NAME, attrs.uid());
-            if (builder.match(GID_NAME))
-                builder.add(GID_NAME, attrs.gid());
-            if (builder.match(CTIME_NAME))
-                builder.add(CTIME_NAME, attrs.ctime());
-            return builder.unmodifiableMap();
+                AttributesBuilder.crebte(unixAttributeNbmes, requested);
+            UnixFileAttributes bttrs = rebdAttributes();
+            bddRequestedPosixAttributes(bttrs, builder);
+            if (builder.mbtch(MODE_NAME))
+                builder.bdd(MODE_NAME, bttrs.mode());
+            if (builder.mbtch(INO_NAME))
+                builder.bdd(INO_NAME, bttrs.ino());
+            if (builder.mbtch(DEV_NAME))
+                builder.bdd(DEV_NAME, bttrs.dev());
+            if (builder.mbtch(RDEV_NAME))
+                builder.bdd(RDEV_NAME, bttrs.rdev());
+            if (builder.mbtch(NLINK_NAME))
+                builder.bdd(NLINK_NAME, bttrs.nlink());
+            if (builder.mbtch(UID_NAME))
+                builder.bdd(UID_NAME, bttrs.uid());
+            if (builder.mbtch(GID_NAME))
+                builder.bdd(GID_NAME, bttrs.gid());
+            if (builder.mbtch(CTIME_NAME))
+                builder.bdd(CTIME_NAME, bttrs.ctime());
+            return builder.unmodifibbleMbp();
         }
     }
 
-    static Basic createBasicView(UnixPath file, boolean followLinks) {
-        return new Basic(file, followLinks);
+    stbtic Bbsic crebteBbsicView(UnixPbth file, boolebn followLinks) {
+        return new Bbsic(file, followLinks);
     }
 
-    static Posix createPosixView(UnixPath file, boolean followLinks) {
+    stbtic Posix crebtePosixView(UnixPbth file, boolebn followLinks) {
         return new Posix(file, followLinks);
     }
 
-    static Unix createUnixView(UnixPath file, boolean followLinks) {
+    stbtic Unix crebteUnixView(UnixPbth file, boolebn followLinks) {
         return new Unix(file, followLinks);
     }
 
-    static FileOwnerAttributeViewImpl createOwnerView(UnixPath file, boolean followLinks) {
-        return new FileOwnerAttributeViewImpl(createPosixView(file, followLinks));
+    stbtic FileOwnerAttributeViewImpl crebteOwnerView(UnixPbth file, boolebn followLinks) {
+        return new FileOwnerAttributeViewImpl(crebtePosixView(file, followLinks));
     }
 }

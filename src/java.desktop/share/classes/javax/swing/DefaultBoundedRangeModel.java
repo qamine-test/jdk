@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.event.*;
-import java.io.Serializable;
-import java.util.EventListener;
+import jbvbx.swing.event.*;
+import jbvb.io.Seriblizbble;
+import jbvb.util.EventListener;
 
 /**
- * A generic implementation of BoundedRangeModel.
+ * A generic implementbtion of BoundedRbngeModel.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
- * @author Hans Muller
- * @see BoundedRangeModel
+ * @buthor Dbvid Klobb
+ * @buthor Hbns Muller
+ * @see BoundedRbngeModel
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultBoundedRbngeModel implements BoundedRbngeModel, Seriblizbble
 {
     /**
-     * Only one <code>ChangeEvent</code> is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * Only one <code>ChbngeEvent</code> is needed per model instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protected trbnsient ChbngeEvent chbngeEvent = null;
 
-    /** The listeners waiting for model changes. */
+    /** The listeners wbiting for model chbnges. */
     protected EventListenerList listenerList = new EventListenerList();
 
-    private int value = 0;
-    private int extent = 0;
-    private int min = 0;
-    private int max = 100;
-    private boolean isAdjusting = false;
+    privbte int vblue = 0;
+    privbte int extent = 0;
+    privbte int min = 0;
+    privbte int mbx = 100;
+    privbte boolebn isAdjusting = fblse;
 
 
     /**
-     * Initializes all of the properties with default values.
-     * Those values are:
+     * Initiblizes bll of the properties with defbult vblues.
+     * Those vblues bre:
      * <ul>
-     * <li><code>value</code> = 0
+     * <li><code>vblue</code> = 0
      * <li><code>extent</code> = 0
      * <li><code>minimum</code> = 0
-     * <li><code>maximum</code> = 100
-     * <li><code>adjusting</code> = false
+     * <li><code>mbximum</code> = 100
+     * <li><code>bdjusting</code> = fblse
      * </ul>
      */
-    public DefaultBoundedRangeModel() {
+    public DefbultBoundedRbngeModel() {
     }
 
 
     /**
-     * Initializes value, extent, minimum and maximum. Adjusting is false.
-     * Throws an <code>IllegalArgumentException</code> if the following
-     * constraints aren't satisfied:
+     * Initiblizes vblue, extent, minimum bnd mbximum. Adjusting is fblse.
+     * Throws bn <code>IllegblArgumentException</code> if the following
+     * constrbints bren't sbtisfied:
      * <pre>
-     * min &lt;= value &lt;= value+extent &lt;= max
+     * min &lt;= vblue &lt;= vblue+extent &lt;= mbx
      * </pre>
      *
-     * @param value  an int giving the current value
-     * @param extent the length of the inner range that begins at the model's value
-     * @param min    an int giving the minimum value
-     * @param max    an int giving the maximum value
+     * @pbrbm vblue  bn int giving the current vblue
+     * @pbrbm extent the length of the inner rbnge thbt begins bt the model's vblue
+     * @pbrbm min    bn int giving the minimum vblue
+     * @pbrbm mbx    bn int giving the mbximum vblue
      */
-    public DefaultBoundedRangeModel(int value, int extent, int min, int max)
+    public DefbultBoundedRbngeModel(int vblue, int extent, int min, int mbx)
     {
-        if ((max >= min) &&
-            (value >= min) &&
-            ((value + extent) >= value) &&
-            ((value + extent) <= max)) {
-            this.value = value;
+        if ((mbx >= min) &&
+            (vblue >= min) &&
+            ((vblue + extent) >= vblue) &&
+            ((vblue + extent) <= mbx)) {
+            this.vblue = vblue;
             this.extent = extent;
             this.min = min;
-            this.max = max;
+            this.mbx = mbx;
         }
         else {
-            throw new IllegalArgumentException("invalid range properties");
+            throw new IllegblArgumentException("invblid rbnge properties");
         }
     }
 
 
     /**
-     * Returns the model's current value.
-     * @return the model's current value
-     * @see #setValue
-     * @see BoundedRangeModel#getValue
+     * Returns the model's current vblue.
+     * @return the model's current vblue
+     * @see #setVblue
+     * @see BoundedRbngeModel#getVblue
      */
-    public int getValue() {
-      return value;
+    public int getVblue() {
+      return vblue;
     }
 
 
@@ -126,7 +126,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * Returns the model's extent.
      * @return the model's extent
      * @see #setExtent
-     * @see BoundedRangeModel#getExtent
+     * @see BoundedRbngeModel#getExtent
      */
     public int getExtent() {
       return extent;
@@ -137,7 +137,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * Returns the model's minimum.
      * @return the model's minimum
      * @see #setMinimum
-     * @see BoundedRangeModel#getMinimum
+     * @see BoundedRbngeModel#getMinimum
      */
     public int getMinimum() {
       return min;
@@ -145,287 +145,287 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
 
 
     /**
-     * Returns the model's maximum.
-     * @return  the model's maximum
-     * @see #setMaximum
-     * @see BoundedRangeModel#getMaximum
+     * Returns the model's mbximum.
+     * @return  the model's mbximum
+     * @see #setMbximum
+     * @see BoundedRbngeModel#getMbximum
      */
-    public int getMaximum() {
-        return max;
+    public int getMbximum() {
+        return mbx;
     }
 
 
     /**
-     * Sets the current value of the model. For a slider, that
-     * determines where the knob appears. Ensures that the new
-     * value, <I>n</I> falls within the model's constraints:
+     * Sets the current vblue of the model. For b slider, thbt
+     * determines where the knob bppebrs. Ensures thbt the new
+     * vblue, <I>n</I> fblls within the model's constrbints:
      * <pre>
-     *     minimum &lt;= value &lt;= value+extent &lt;= maximum
+     *     minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
      *
-     * @see BoundedRangeModel#setValue
+     * @see BoundedRbngeModel#setVblue
      */
-    public void setValue(int n) {
-        n = Math.min(n, Integer.MAX_VALUE - extent);
+    public void setVblue(int n) {
+        n = Mbth.min(n, Integer.MAX_VALUE - extent);
 
-        int newValue = Math.max(n, min);
-        if (newValue + extent > max) {
-            newValue = max - extent;
+        int newVblue = Mbth.mbx(n, min);
+        if (newVblue + extent > mbx) {
+            newVblue = mbx - extent;
         }
-        setRangeProperties(newValue, extent, min, max, isAdjusting);
+        setRbngeProperties(newVblue, extent, min, mbx, isAdjusting);
     }
 
 
     /**
-     * Sets the extent to <I>n</I> after ensuring that <I>n</I>
-     * is greater than or equal to zero and falls within the model's
-     * constraints:
+     * Sets the extent to <I>n</I> bfter ensuring thbt <I>n</I>
+     * is grebter thbn or equbl to zero bnd fblls within the model's
+     * constrbints:
      * <pre>
-     *     minimum &lt;= value &lt;= value+extent &lt;= maximum
+     *     minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
-     * @see BoundedRangeModel#setExtent
+     * @see BoundedRbngeModel#setExtent
      */
     public void setExtent(int n) {
-        int newExtent = Math.max(0, n);
-        if(value + newExtent > max) {
-            newExtent = max - value;
+        int newExtent = Mbth.mbx(0, n);
+        if(vblue + newExtent > mbx) {
+            newExtent = mbx - vblue;
         }
-        setRangeProperties(value, newExtent, min, max, isAdjusting);
+        setRbngeProperties(vblue, newExtent, min, mbx, isAdjusting);
     }
 
 
     /**
-     * Sets the minimum to <I>n</I> after ensuring that <I>n</I>
-     * that the other three properties obey the model's constraints:
+     * Sets the minimum to <I>n</I> bfter ensuring thbt <I>n</I>
+     * thbt the other three properties obey the model's constrbints:
      * <pre>
-     *     minimum &lt;= value &lt;= value+extent &lt;= maximum
+     *     minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
      * @see #getMinimum
-     * @see BoundedRangeModel#setMinimum
+     * @see BoundedRbngeModel#setMinimum
      */
     public void setMinimum(int n) {
-        int newMax = Math.max(n, max);
-        int newValue = Math.max(n, value);
-        int newExtent = Math.min(newMax - newValue, extent);
-        setRangeProperties(newValue, newExtent, n, newMax, isAdjusting);
+        int newMbx = Mbth.mbx(n, mbx);
+        int newVblue = Mbth.mbx(n, vblue);
+        int newExtent = Mbth.min(newMbx - newVblue, extent);
+        setRbngeProperties(newVblue, newExtent, n, newMbx, isAdjusting);
     }
 
 
     /**
-     * Sets the maximum to <I>n</I> after ensuring that <I>n</I>
-     * that the other three properties obey the model's constraints:
+     * Sets the mbximum to <I>n</I> bfter ensuring thbt <I>n</I>
+     * thbt the other three properties obey the model's constrbints:
      * <pre>
-     *     minimum &lt;= value &lt;= value+extent &lt;= maximum
+     *     minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
-     * @see BoundedRangeModel#setMaximum
+     * @see BoundedRbngeModel#setMbximum
      */
-    public void setMaximum(int n) {
-        int newMin = Math.min(n, min);
-        int newExtent = Math.min(n - newMin, extent);
-        int newValue = Math.min(n - newExtent, value);
-        setRangeProperties(newValue, newExtent, newMin, n, isAdjusting);
+    public void setMbximum(int n) {
+        int newMin = Mbth.min(n, min);
+        int newExtent = Mbth.min(n - newMin, extent);
+        int newVblue = Mbth.min(n - newExtent, vblue);
+        setRbngeProperties(newVblue, newExtent, newMin, n, isAdjusting);
     }
 
 
     /**
-     * Sets the <code>valueIsAdjusting</code> property.
+     * Sets the <code>vblueIsAdjusting</code> property.
      *
-     * @see #getValueIsAdjusting
-     * @see #setValue
-     * @see BoundedRangeModel#setValueIsAdjusting
+     * @see #getVblueIsAdjusting
+     * @see #setVblue
+     * @see BoundedRbngeModel#setVblueIsAdjusting
      */
-    public void setValueIsAdjusting(boolean b) {
-        setRangeProperties(value, extent, min, max, b);
+    public void setVblueIsAdjusting(boolebn b) {
+        setRbngeProperties(vblue, extent, min, mbx, b);
     }
 
 
     /**
-     * Returns true if the value is in the process of changing
-     * as a result of actions being taken by the user.
+     * Returns true if the vblue is in the process of chbnging
+     * bs b result of bctions being tbken by the user.
      *
-     * @return the value of the <code>valueIsAdjusting</code> property
-     * @see #setValue
-     * @see BoundedRangeModel#getValueIsAdjusting
+     * @return the vblue of the <code>vblueIsAdjusting</code> property
+     * @see #setVblue
+     * @see BoundedRbngeModel#getVblueIsAdjusting
      */
-    public boolean getValueIsAdjusting() {
+    public boolebn getVblueIsAdjusting() {
         return isAdjusting;
     }
 
 
     /**
-     * Sets all of the <code>BoundedRangeModel</code> properties after forcing
-     * the arguments to obey the usual constraints:
+     * Sets bll of the <code>BoundedRbngeModel</code> properties bfter forcing
+     * the brguments to obey the usubl constrbints:
      * <pre>
-     *     minimum &lt;= value &lt;= value+extent &lt;= maximum
+     *     minimum &lt;= vblue &lt;= vblue+extent &lt;= mbximum
      * </pre>
      * <p>
-     * At most, one <code>ChangeEvent</code> is generated.
+     * At most, one <code>ChbngeEvent</code> is generbted.
      *
-     * @see BoundedRangeModel#setRangeProperties
-     * @see #setValue
+     * @see BoundedRbngeModel#setRbngeProperties
+     * @see #setVblue
      * @see #setExtent
      * @see #setMinimum
-     * @see #setMaximum
-     * @see #setValueIsAdjusting
+     * @see #setMbximum
+     * @see #setVblueIsAdjusting
      */
-    public void setRangeProperties(int newValue, int newExtent, int newMin, int newMax, boolean adjusting)
+    public void setRbngeProperties(int newVblue, int newExtent, int newMin, int newMbx, boolebn bdjusting)
     {
-        if (newMin > newMax) {
-            newMin = newMax;
+        if (newMin > newMbx) {
+            newMin = newMbx;
         }
-        if (newValue > newMax) {
-            newMax = newValue;
+        if (newVblue > newMbx) {
+            newMbx = newVblue;
         }
-        if (newValue < newMin) {
-            newMin = newValue;
+        if (newVblue < newMin) {
+            newMin = newVblue;
         }
 
-        /* Convert the addends to long so that extent can be
+        /* Convert the bddends to long so thbt extent cbn be
          * Integer.MAX_VALUE without rolling over the sum.
          * A JCK test covers this, see bug 4097718.
          */
-        if (((long)newExtent + (long)newValue) > newMax) {
-            newExtent = newMax - newValue;
+        if (((long)newExtent + (long)newVblue) > newMbx) {
+            newExtent = newMbx - newVblue;
         }
 
         if (newExtent < 0) {
             newExtent = 0;
         }
 
-        boolean isChange =
-            (newValue != value) ||
+        boolebn isChbnge =
+            (newVblue != vblue) ||
             (newExtent != extent) ||
             (newMin != min) ||
-            (newMax != max) ||
-            (adjusting != isAdjusting);
+            (newMbx != mbx) ||
+            (bdjusting != isAdjusting);
 
-        if (isChange) {
-            value = newValue;
+        if (isChbnge) {
+            vblue = newVblue;
             extent = newExtent;
             min = newMin;
-            max = newMax;
-            isAdjusting = adjusting;
+            mbx = newMbx;
+            isAdjusting = bdjusting;
 
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Adds a <code>ChangeListener</code>.  The change listeners are run each
-     * time any one of the Bounded Range model properties changes.
+     * Adds b <code>ChbngeListener</code>.  The chbnge listeners bre run ebch
+     * time bny one of the Bounded Rbnge model properties chbnges.
      *
-     * @param l the ChangeListener to add
-     * @see #removeChangeListener
-     * @see BoundedRangeModel#addChangeListener
+     * @pbrbm l the ChbngeListener to bdd
+     * @see #removeChbngeListener
+     * @see BoundedRbngeModel#bddChbngeListener
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Removes a <code>ChangeListener</code>.
+     * Removes b <code>ChbngeListener</code>.
      *
-     * @param l the <code>ChangeListener</code> to remove
-     * @see #addChangeListener
-     * @see BoundedRangeModel#removeChangeListener
+     * @pbrbm l the <code>ChbngeListener</code> to remove
+     * @see #bddChbngeListener
+     * @see BoundedRbngeModel#removeChbngeListener
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Returns an array of all the change listeners
-     * registered on this <code>DefaultBoundedRangeModel</code>.
+     * Returns bn brrby of bll the chbnge listeners
+     * registered on this <code>DefbultBoundedRbngeModel</code>.
      *
-     * @return all of this model's <code>ChangeListener</code>s
-     *         or an empty
-     *         array if no change listeners are currently registered
+     * @return bll of this model's <code>ChbngeListener</code>s
+     *         or bn empty
+     *         brrby if no chbnge listeners bre currently registered
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @see #bddChbngeListener
+     * @see #removeChbngeListener
      *
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
 
     /**
-     * Runs each <code>ChangeListener</code>'s <code>stateChanged</code> method.
+     * Runs ebch <code>ChbngeListener</code>'s <code>stbteChbnged</code> method.
      *
-     * @see #setRangeProperties
+     * @see #setRbngeProperties
      * @see EventListenerList
      */
-    protected void fireStateChanged()
+    protected void fireStbteChbnged()
     {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -=2 ) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+            if (listeners[i] == ChbngeListener.clbss) {
+                if (chbngeEvent == null) {
+                    chbngeEvent = new ChbngeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
 
     /**
-     * Returns a string that displays all of the
-     * <code>BoundedRangeModel</code> properties.
+     * Returns b string thbt displbys bll of the
+     * <code>BoundedRbngeModel</code> properties.
      */
     public String toString()  {
         String modelString =
-            "value=" + getValue() + ", " +
+            "vblue=" + getVblue() + ", " +
             "extent=" + getExtent() + ", " +
             "min=" + getMinimum() + ", " +
-            "max=" + getMaximum() + ", " +
-            "adj=" + getValueIsAdjusting();
+            "mbx=" + getMbximum() + ", " +
+            "bdj=" + getVblueIsAdjusting();
 
-        return getClass().getName() + "[" + modelString + "]";
+        return getClbss().getNbme() + "[" + modelString + "]";
     }
 
     /**
-     * Returns an array of all the objects currently registered as
+     * Returns bn brrby of bll the objects currently registered bs
      * <code><em>Foo</em>Listener</code>s
      * upon this model.
      * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * bre registered using the <code>bdd<em>Foo</em>Listener</code> method.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>DefaultBoundedRangeModel</code>
-     * instance <code>m</code>
-     * for its change listeners
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b <code>DefbultBoundedRbngeModel</code>
+     * instbnce <code>m</code>
+     * for its chbnge listeners
      * with the following code:
      *
-     * <pre>ChangeListener[] cls = (ChangeListener[])(m.getListeners(ChangeListener.class));</pre>
+     * <pre>ChbngeListener[] cls = (ChbngeListener[])(m.getListeners(ChbngeListener.clbss));</pre>
      *
      * If no such listeners exist,
-     * this method returns an empty array.
+     * this method returns bn empty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm <T> the type of {@code EventListener} clbss being requested
+     * @pbrbm listenerType  the type of listeners requested;
+     *          this pbrbmeter should specify bn interfbce
+     *          thbt descends from <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s
      *          on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code> doesn't
+     *          specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
-     * @see #getChangeListeners
+     * @see #getChbngeListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 }

@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,37 +34,37 @@
 */
 
 /*
- * Usage:
- *    1. method_invocation_stat.d -c "java ..."
- *    2. method_invocation_stat.d -p JAVA_PID
+ * Usbge:
+ *    1. method_invocbtion_stbt.d -c "jbvb ..."
+ *    2. method_invocbtion_stbt.d -p JAVA_PID
  *
- * This script collects statistics about Java method invocations.
+ * This script collects stbtistics bbout Jbvb method invocbtions.
  *
  * Notes:
- *  - These probes are disabled by default since it incurs performance
- *    overhead to the application. To trace the method-entry and
- *    method-exit probes, you need to turn on the ExtendedDTraceProbes VM
+ *  - These probes bre disbbled by defbult since it incurs performbnce
+ *    overhebd to the bpplicbtion. To trbce the method-entry bnd
+ *    method-exit probes, you need to turn on the ExtendedDTrbceProbes VM
  *    option.  
- *    You can either start the application with -XX:+ExtendedDTraceProbes
- *    option or use the jinfo command to enable it at runtime as follows:
+ *    You cbn either stbrt the bpplicbtion with -XX:+ExtendedDTrbceProbes
+ *    option or use the jinfo commbnd to enbble it bt runtime bs follows:
  *
- *       jinfo -flag +ExtendedDTraceProbes <java_pid>
+ *       jinfo -flbg +ExtendedDTrbceProbes <jbvb_pid>
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option bufsize=16m
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bufsize=16m
+#prbgmb D option bggrbte=100ms
 
 
-self char *str_ptr;
-self string class_name;
-self string method_name;
-self string signature;
-self string package_name;
-self string last_class_name;
+self chbr *str_ptr;
+self string clbss_nbme;
+self string method_nbme;
+self string signbture;
+self string pbckbge_nbme;
+self string lbst_clbss_nbme;
 
 long long JAVA_CALLS;
 long long JNI_CALLS;
@@ -80,109 +80,109 @@ long long SYS_TIME;
 
 BEGIN
 {
-    SAMPLE_NAME = "hotspot method invocation tracing";
+    SAMPLE_NAME = "hotspot method invocbtion trbcing";
 
-    START_TIME = timestamp;
+    START_TIME = timestbmp;
     SYS_TIME = 0;
 
     printf("BEGIN %s\n\n", SAMPLE_NAME);
 }
 
 /*
- * hotspot:::method-entry, hotspot:::method-return probe arguments:
- *  arg0: uintptr_t,    Java thread id
- *  arg1: char*,        a pointer to mUTF-8 string containing the name of
- *                          the class of the method being entered
- *  arg2: uintptr_t,    the length of the class name (in bytes)
- *  arg3: char*,        a pointer to mUTF-8 string data which contains the
- *                          name of the method being entered
- *  arg4: uintptr_t,    the length of the method name (in bytes)
- *  arg5: char*,        a pointer to mUTF-8 string data which contains the
- *                          signature of the method being entered
- *  arg6: uintptr_t,    the length of the signature(in bytes)
+ * hotspot:::method-entry, hotspot:::method-return probe brguments:
+ *  brg0: uintptr_t,    Jbvb threbd id
+ *  brg1: chbr*,        b pointer to mUTF-8 string contbining the nbme of
+ *                          the clbss of the method being entered
+ *  brg2: uintptr_t,    the length of the clbss nbme (in bytes)
+ *  brg3: chbr*,        b pointer to mUTF-8 string dbtb which contbins the
+ *                          nbme of the method being entered
+ *  brg4: uintptr_t,    the length of the method nbme (in bytes)
+ *  brg5: chbr*,        b pointer to mUTF-8 string dbtb which contbins the
+ *                          signbture of the method being entered
+ *  brg6: uintptr_t,    the length of the signbture(in bytes)
  */
-hotspot$target:::method-entry
+hotspot$tbrget:::method-entry
 {
-    self->str_ptr = (char*) copyin(arg1, arg2+1);
-    self->str_ptr[arg2] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg1, brg2+1);
+    self->str_ptr[brg2] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg3, arg4+1);
-    self->str_ptr[arg4] = '\0';
-    self->method_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg3, brg4+1);
+    self->str_ptr[brg4] = '\0';
+    self->method_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg5, arg6+1);
-    self->str_ptr[arg6] = '\0';
-    self->signature = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg5, brg6+1);
+    self->str_ptr[brg6] = '\0';
+    self->signbture = (string) self->str_ptr;
 
 
-    self->package_name = dirname(self->class_name);
+    self->pbckbge_nbme = dirnbme(self->clbss_nbme);
 
     JAVA_CALLS ++;
-    @method_calls[self->class_name,
-                  self->method_name, self->signature] = count();
-    @class_calls[self->class_name] = count();
-    @package_calls[self->package_name] = count();
+    @method_cblls[self->clbss_nbme,
+                  self->method_nbme, self->signbture] = count();
+    @clbss_cblls[self->clbss_nbme] = count();
+    @pbckbge_cblls[self->pbckbge_nbme] = count();
 }
 
 
-hotspot_jni$target:::*-entry
+hotspot_jni$tbrget:::*-entry
 {
     JNI_CALLS ++;
 
-    @jni_calls[probename] = count();
+    @jni_cblls[probenbme] = count();
 }
 
-syscall:::entry
-/pid == $target && SYS_DEEP == 0/
+syscbll:::entry
+/pid == $tbrget && SYS_DEEP == 0/
 {
-    LAST_SYS_TS = timestamp;
+    LAST_SYS_TS = timestbmp;
 }
 
-syscall:::entry
-/pid == $target/
+syscbll:::entry
+/pid == $tbrget/
 {
     SYS_DEEP ++;
-    @sys_calls[probefunc] = count();
+    @sys_cblls[probefunc] = count();
     SYS_CALLS ++;
 }
 
-syscall:::return
-/pid == $target/
+syscbll:::return
+/pid == $tbrget/
 {
     SYS_DEEP --;
 }
 
-syscall:::return
-/pid == $target && SYS_DEEP == 0/
+syscbll:::return
+/pid == $tbrget && SYS_DEEP == 0/
 {
-    SYS_TIME += (timestamp - LAST_SYS_TS);
+    SYS_TIME += (timestbmp - LAST_SYS_TS);
 }
 
 
 :::END
 {
-    RUN_TIME = (timestamp - START_TIME);
+    RUN_TIME = (timestbmp - START_TIME);
     JAVA_TIME = (RUN_TIME - SYS_TIME);
 
-    printf("System calls:\n");
-    printa("%10@d %s\n", @sys_calls);
+    printf("System cblls:\n");
+    printb("%10@d %s\n", @sys_cblls);
     printf("\n");
 
-    printf("JNI calls:\n");
-    printa("%10@d %s\n", @jni_calls);
+    printf("JNI cblls:\n");
+    printb("%10@d %s\n", @jni_cblls);
     printf("\n");
 
-    printf("Top packages calls:\n");
-    printa("%10@d %s\n", @package_calls);
+    printf("Top pbckbges cblls:\n");
+    printb("%10@d %s\n", @pbckbge_cblls);
     printf("\n");
 
-    printf("Top class calls:\n");
-    printa("%10@d %s\n", @class_calls);
+    printf("Top clbss cblls:\n");
+    printb("%10@d %s\n", @clbss_cblls);
     printf("\n");
 
-    printf("Top method calls:\n");
-    printa("%10@d %s:%s:%s\n", @method_calls);
+    printf("Top method cblls:\n");
+    printb("%10@d %s:%s:%s\n", @method_cblls);
     printf("\n");
 
     printf("=======================================\n");
@@ -192,8 +192,8 @@ syscall:::return
     printf("\n");
 
     printf("Run time:       %15d\n", RUN_TIME);
-    printf("Syscall time:   %15d\n", SYS_TIME);
-    printf("Java+JNI time:  %15d\n", JAVA_TIME);
+    printf("Syscbll time:   %15d\n", SYS_TIME);
+    printf("Jbvb+JNI time:  %15d\n", JAVA_TIME);
     printf("\n");
 }
 
@@ -202,9 +202,9 @@ syscall:::return
     printf("\nEND %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
     exit(0);
 }

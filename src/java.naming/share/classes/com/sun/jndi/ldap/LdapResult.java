@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Vector;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.ldap.Control;
+import jbvb.util.Vector;
+import jbvbx.nbming.directory.Attributes;
+import jbvbx.nbming.directory.BbsicAttributes;
+import jbvbx.nbming.ldbp.Control;
 
 /**
-  * %%% public for use by LdapSasl %%%
+  * %%% public for use by LdbpSbsl %%%
   */
-public final class LdapResult {
+public finbl clbss LdbpResult {
     int msgId;
-    public int status;                  // %%% public for use by LdapSasl
-    String matchedDN;
-    String errorMessage;
+    public int stbtus;                  // %%% public for use by LdbpSbsl
+    String mbtchedDN;
+    String errorMessbge;
     // Vector<String | Vector<String>>
-    Vector<Vector<String>> referrals = null;
-    LdapReferralException refEx = null;
-    Vector<LdapEntry> entries = null;
+    Vector<Vector<String>> referrbls = null;
+    LdbpReferrblException refEx = null;
+    Vector<LdbpEntry> entries = null;
     Vector<Control> resControls = null;
-    public byte[] serverCreds = null;   // %%% public for use by LdapSasl
+    public byte[] serverCreds = null;   // %%% public for use by LdbpSbsl
     String extensionId = null;          // string OID
-    byte[] extensionValue = null;       // BER OCTET STRING
+    byte[] extensionVblue = null;       // BER OCTET STRING
 
 
-    // This function turns an LdapResult that came from a compare operation
-    // into one that looks like it came from a search operation. This is
-    // useful when the caller asked the context to do a search, but it was
-    // carried out as a compare. In this case, the client still expects a
-    // result that looks like it came from a search.
-    boolean compareToSearchResult(String name) {
-        boolean successful = false;
+    // This function turns bn LdbpResult thbt cbme from b compbre operbtion
+    // into one thbt looks like it cbme from b sebrch operbtion. This is
+    // useful when the cbller bsked the context to do b sebrch, but it wbs
+    // cbrried out bs b compbre. In this cbse, the client still expects b
+    // result thbt looks like it cbme from b sebrch.
+    boolebn compbreToSebrchResult(String nbme) {
+        boolebn successful = fblse;
 
-        switch (status) {
-            case LdapClient.LDAP_COMPARE_TRUE:
-                status = LdapClient.LDAP_SUCCESS;
+        switch (stbtus) {
+            cbse LdbpClient.LDAP_COMPARE_TRUE:
+                stbtus = LdbpClient.LDAP_SUCCESS;
                 entries = new Vector<>(1,1);
-                Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-                LdapEntry entry = new LdapEntry( name, attrs );
-                entries.addElement(entry);
+                Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+                LdbpEntry entry = new LdbpEntry( nbme, bttrs );
+                entries.bddElement(entry);
                 successful = true;
-                break;
+                brebk;
 
-            case LdapClient.LDAP_COMPARE_FALSE:
-                status = LdapClient.LDAP_SUCCESS;
+            cbse LdbpClient.LDAP_COMPARE_FALSE:
+                stbtus = LdbpClient.LDAP_SUCCESS;
                 entries = new Vector<>(0);
                 successful = true;
-                break;
+                brebk;
 
-            default:
-                successful = false;
-                break;
+            defbult:
+                successful = fblse;
+                brebk;
         }
 
         return successful;

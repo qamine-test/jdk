@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.View;
 
 
 
 /**
- * BasicToggleButton implementation
+ * BbsicToggleButton implementbtion
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class BasicToggleButtonUI extends BasicButtonUI {
+public clbss BbsicToggleButtonUI extends BbsicButtonUI {
 
-    private static final Object BASIC_TOGGLE_BUTTON_UI_KEY = new Object();
+    privbte stbtic finbl Object BASIC_TOGGLE_BUTTON_UI_KEY = new Object();
 
-    private final static String propertyPrefix = "ToggleButton" + ".";
+    privbte finbl stbtic String propertyPrefix = "ToggleButton" + ".";
 
     // ********************************
-    //          Create PLAF
+    //          Crebte PLAF
     // ********************************
 
     /**
-     * Returns an instance of {@code BasicToggleButtonUI}.
+     * Returns bn instbnce of {@code BbsicToggleButtonUI}.
      *
-     * @param b a component
-     * @return an instance of {@code BasicToggleButtonUI}
+     * @pbrbm b b component
+     * @return bn instbnce of {@code BbsicToggleButtonUI}
      */
-    public static ComponentUI createUI(JComponent b) {
-        AppContext appContext = AppContext.getAppContext();
-        BasicToggleButtonUI toggleButtonUI =
-                (BasicToggleButtonUI) appContext.get(BASIC_TOGGLE_BUTTON_UI_KEY);
+    public stbtic ComponentUI crebteUI(JComponent b) {
+        AppContext bppContext = AppContext.getAppContext();
+        BbsicToggleButtonUI toggleButtonUI =
+                (BbsicToggleButtonUI) bppContext.get(BASIC_TOGGLE_BUTTON_UI_KEY);
         if (toggleButtonUI == null) {
-            toggleButtonUI = new BasicToggleButtonUI();
-            appContext.put(BASIC_TOGGLE_BUTTON_UI_KEY, toggleButtonUI);
+            toggleButtonUI = new BbsicToggleButtonUI();
+            bppContext.put(BASIC_TOGGLE_BUTTON_UI_KEY, toggleButtonUI);
         }
         return toggleButtonUI;
     }
@@ -75,10 +75,10 @@ public class BasicToggleButtonUI extends BasicButtonUI {
 
 
     // ********************************
-    //          Paint Methods
+    //          Pbint Methods
     // ********************************
-    public void paint(Graphics g, JComponent c) {
-        AbstractButton b = (AbstractButton) c;
+    public void pbint(Grbphics g, JComponent c) {
+        AbstrbctButton b = (AbstrbctButton) c;
         ButtonModel model = b.getModel();
 
         Dimension size = b.getSize();
@@ -86,70 +86,70 @@ public class BasicToggleButtonUI extends BasicButtonUI {
 
         Insets i = c.getInsets();
 
-        Rectangle viewRect = new Rectangle(size);
+        Rectbngle viewRect = new Rectbngle(size);
 
         viewRect.x += i.left;
         viewRect.y += i.top;
         viewRect.width -= (i.right + viewRect.x);
         viewRect.height -= (i.bottom + viewRect.y);
 
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
 
         Font f = c.getFont();
         g.setFont(f);
 
-        // layout the text and icon
-        String text = SwingUtilities.layoutCompoundLabel(
+        // lbyout the text bnd icon
+        String text = SwingUtilities.lbyoutCompoundLbbel(
             c, fm, b.getText(), b.getIcon(),
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
+            b.getVerticblAlignment(), b.getHorizontblAlignment(),
+            b.getVerticblTextPosition(), b.getHorizontblTextPosition(),
             viewRect, iconRect, textRect,
-            b.getText() == null ? 0 : b.getIconTextGap());
+            b.getText() == null ? 0 : b.getIconTextGbp());
 
-        g.setColor(b.getBackground());
+        g.setColor(b.getBbckground());
 
         if (model.isArmed() && model.isPressed() || model.isSelected()) {
-            paintButtonPressed(g,b);
+            pbintButtonPressed(g,b);
         }
 
-        // Paint the Icon
+        // Pbint the Icon
         if(b.getIcon() != null) {
-            paintIcon(g, b, iconRect);
+            pbintIcon(g, b, iconRect);
         }
 
-        // Draw the Text
-        if(text != null && !text.equals("")) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        // Drbw the Text
+        if(text != null && !text.equbls("")) {
+            View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-               v.paint(g, textRect);
+               v.pbint(g, textRect);
             } else {
-               paintText(g, b, textRect, text);
+               pbintText(g, b, textRect, text);
             }
         }
 
-        // draw the dashed focus line.
-        if (b.isFocusPainted() && b.hasFocus()) {
-            paintFocus(g, b, viewRect, textRect, iconRect);
+        // drbw the dbshed focus line.
+        if (b.isFocusPbinted() && b.hbsFocus()) {
+            pbintFocus(g, b, viewRect, textRect, iconRect);
         }
     }
 
     /**
-     * Paints an icon in the specified location.
+     * Pbints bn icon in the specified locbtion.
      *
-     * @param g an instance of {@code Graphics}
-     * @param b an instance of {@code Button}
-     * @param iconRect bounds of an icon
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm b bn instbnce of {@code Button}
+     * @pbrbm iconRect bounds of bn icon
      */
-    protected void paintIcon(Graphics g, AbstractButton b, Rectangle iconRect) {
+    protected void pbintIcon(Grbphics g, AbstrbctButton b, Rectbngle iconRect) {
         ButtonModel model = b.getModel();
         Icon icon = null;
 
-        if(!model.isEnabled()) {
+        if(!model.isEnbbled()) {
             if(model.isSelected()) {
-               icon = b.getDisabledSelectedIcon();
+               icon = b.getDisbbledSelectedIcon();
             } else {
-               icon = b.getDisabledIcon();
+               icon = b.getDisbbledIcon();
             }
         } else if(model.isPressed() && model.isArmed()) {
             icon = b.getPressedIcon();
@@ -158,7 +158,7 @@ public class BasicToggleButtonUI extends BasicButtonUI {
                 icon = b.getSelectedIcon();
             }
         } else if(model.isSelected()) {
-            if(b.isRolloverEnabled() && model.isRollover()) {
+            if(b.isRolloverEnbbled() && model.isRollover()) {
                 icon = b.getRolloverSelectedIcon();
                 if (icon == null) {
                     icon = b.getSelectedIcon();
@@ -166,7 +166,7 @@ public class BasicToggleButtonUI extends BasicButtonUI {
             } else {
                 icon = b.getSelectedIcon();
             }
-        } else if(b.isRolloverEnabled() && model.isRollover()) {
+        } else if(b.isRolloverEnbbled() && model.isRollover()) {
             icon = b.getRolloverIcon();
         }
 
@@ -174,12 +174,12 @@ public class BasicToggleButtonUI extends BasicButtonUI {
             icon = b.getIcon();
         }
 
-        icon.paintIcon(b, g, iconRect.x, iconRect.y);
+        icon.pbintIcon(b, g, iconRect.x, iconRect.y);
     }
 
     /**
-     * Overriden so that the text will not be rendered as shifted for
-     * Toggle buttons and subclasses.
+     * Overriden so thbt the text will not be rendered bs shifted for
+     * Toggle buttons bnd subclbsses.
      */
     protected int getTextShiftOffset() {
         return 0;

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,19 +27,19 @@
  *
  * (C) Copyright IBM Corp. 2005 - All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by IBM. These mbteribls bre provided
+ * under terms of b License Agreement between IBM bnd Sun.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.font.TextAttribute;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
 
-import static java.awt.font.TextAttribute.*;
+import stbtic jbvb.bwt.font.TextAttribute.*;
 
 public enum EAttribute {
     EFAMILY(FAMILY),
@@ -67,26 +67,26 @@ public enum EAttribute {
     ETRACKING(TRACKING),
     EBASELINE_TRANSFORM(null);
 
-    /* package */ final int mask;
-    /* package */ final TextAttribute att;
+    /* pbckbge */ finbl int mbsk;
+    /* pbckbge */ finbl TextAttribute btt;
 
-    EAttribute(TextAttribute ta) {
-        mask = 1 << ordinal();
-        att = ta;
+    EAttribute(TextAttribute tb) {
+        mbsk = 1 << ordinbl();
+        btt = tb;
     }
 
-    /* package */ static final EAttribute[] atts = EAttribute.class.getEnumConstants();
+    /* pbckbge */ stbtic finbl EAttribute[] btts = EAttribute.clbss.getEnumConstbnts();
 
-    public static EAttribute forAttribute(Attribute ta) {
-        for (EAttribute ea: atts) {
-            if (ea.att == ta) {
-                return ea;
+    public stbtic EAttribute forAttribute(Attribute tb) {
+        for (EAttribute eb: btts) {
+            if (eb.btt == tb) {
+                return eb;
             }
         }
         return null;
     }
 
     public String toString() {
-        return name().substring(1).toLowerCase();
+        return nbme().substring(1).toLowerCbse();
     }
 }

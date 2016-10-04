@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.security.AccessController;
-import sun.net.ResourceManager;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import sun.net.ResourceMbnbger;
 
 /**
- * Abstract datagram and multicast socket implementation base class.
- * Note: This is not a public class, so that applets cannot call
- * into the implementation directly and hence cannot bypass the
- * security checks present in the DatagramSocket and MulticastSocket
- * classes.
+ * Abstrbct dbtbgrbm bnd multicbst socket implementbtion bbse clbss.
+ * Note: This is not b public clbss, so thbt bpplets cbnnot cbll
+ * into the implementbtion directly bnd hence cbnnot bypbss the
+ * security checks present in the DbtbgrbmSocket bnd MulticbstSocket
+ * clbsses.
  *
- * @author Pavani Diwanji
+ * @buthor Pbvbni Diwbnji
  */
 
-abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
+bbstrbct clbss AbstrbctPlbinDbtbgrbmSocketImpl extends DbtbgrbmSocketImpl
 {
-    /* timeout value for receive() */
+    /* timeout vblue for receive() */
     int timeout = 0;
-    boolean connected = false;
-    private int trafficClass = 0;
+    boolebn connected = fblse;
+    privbte int trbfficClbss = 0;
     protected InetAddress connectedAddress = null;
-    private int connectedPort = -1;
+    privbte int connectedPort = -1;
 
-    private static final String os = AccessController.doPrivileged(
-        new sun.security.action.GetPropertyAction("os.name")
+    privbte stbtic finbl String os = AccessController.doPrivileged(
+        new sun.security.bction.GetPropertyAction("os.nbme")
     );
 
     /**
-     * flag set if the native connect() call not to be used
+     * flbg set if the nbtive connect() cbll not to be used
      */
-    private final static boolean connectDisabled = os.contains("OS X");
+    privbte finbl stbtic boolebn connectDisbbled = os.contbins("OS X");
 
     /**
-     * Load net library into runtime.
+     * Lobd net librbry into runtime.
      */
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
     }
 
     /**
-     * Creates a datagram socket
+     * Crebtes b dbtbgrbm socket
      */
-    protected synchronized void create() throws SocketException {
-        ResourceManager.beforeUdpCreate();
+    protected synchronized void crebte() throws SocketException {
+        ResourceMbnbger.beforeUdpCrebte();
         fd = new FileDescriptor();
         try {
-            datagramSocketCreate();
-        } catch (SocketException ioe) {
-            ResourceManager.afterUdpClose();
+            dbtbgrbmSocketCrebte();
+        } cbtch (SocketException ioe) {
+            ResourceMbnbger.bfterUdpClose();
             fd = null;
             throw ioe;
         }
     }
 
     /**
-     * Binds a datagram socket to a local port.
+     * Binds b dbtbgrbm socket to b locbl port.
      */
-    protected synchronized void bind(int lport, InetAddress laddr)
+    protected synchronized void bind(int lport, InetAddress lbddr)
         throws SocketException {
-        bind0(lport, laddr);
+        bind0(lport, lbddr);
     }
 
-    protected abstract void bind0(int lport, InetAddress laddr)
+    protected bbstrbct void bind0(int lport, InetAddress lbddr)
         throws SocketException;
 
     /**
-     * Sends a datagram packet. The packet contains the data and the
-     * destination address to send the packet to.
-     * @param p the packet to be sent.
+     * Sends b dbtbgrbm pbcket. The pbcket contbins the dbtb bnd the
+     * destinbtion bddress to send the pbcket to.
+     * @pbrbm p the pbcket to be sent.
      */
-    protected abstract void send(DatagramPacket p) throws IOException;
+    protected bbstrbct void send(DbtbgrbmPbcket p) throws IOException;
 
     /**
-     * Connects a datagram socket to a remote destination. This associates the remote
-     * address with the local socket so that datagrams may only be sent to this destination
-     * and received from this destination.
-     * @param address the remote InetAddress to connect to
-     * @param port the remote port number
+     * Connects b dbtbgrbm socket to b remote destinbtion. This bssocibtes the remote
+     * bddress with the locbl socket so thbt dbtbgrbms mby only be sent to this destinbtion
+     * bnd received from this destinbtion.
+     * @pbrbm bddress the remote InetAddress to connect to
+     * @pbrbm port the remote port number
      */
-    protected void connect(InetAddress address, int port) throws SocketException {
-        connect0(address, port);
-        connectedAddress = address;
+    protected void connect(InetAddress bddress, int port) throws SocketException {
+        connect0(bddress, port);
+        connectedAddress = bddress;
         connectedPort = port;
         connected = true;
     }
 
     /**
-     * Disconnects a previously connected socket. Does nothing if the socket was
-     * not connected already.
+     * Disconnects b previously connected socket. Does nothing if the socket wbs
+     * not connected blrebdy.
      */
     protected void disconnect() {
-        disconnect0(connectedAddress.holder().getFamily());
-        connected = false;
+        disconnect0(connectedAddress.holder().getFbmily());
+        connected = fblse;
         connectedAddress = null;
         connectedPort = -1;
     }
 
     /**
-     * Peek at the packet to see who it is from.
-     * @param i the address to populate with the sender address
+     * Peek bt the pbcket to see who it is from.
+     * @pbrbm i the bddress to populbte with the sender bddress
      */
-    protected abstract int peek(InetAddress i) throws IOException;
-    protected abstract int peekData(DatagramPacket p) throws IOException;
+    protected bbstrbct int peek(InetAddress i) throws IOException;
+    protected bbstrbct int peekDbtb(DbtbgrbmPbcket p) throws IOException;
     /**
-     * Receive the datagram packet.
-     * @param p the packet to receive into
+     * Receive the dbtbgrbm pbcket.
+     * @pbrbm p the pbcket to receive into
      */
-    protected synchronized void receive(DatagramPacket p)
+    protected synchronized void receive(DbtbgrbmPbcket p)
         throws IOException {
         receive0(p);
     }
 
-    protected abstract void receive0(DatagramPacket p)
+    protected bbstrbct void receive0(DbtbgrbmPbcket p)
         throws IOException;
 
     /**
      * Set the TTL (time-to-live) option.
-     * @param ttl TTL to be set.
+     * @pbrbm ttl TTL to be set.
      */
-    protected abstract void setTimeToLive(int ttl) throws IOException;
+    protected bbstrbct void setTimeToLive(int ttl) throws IOException;
 
     /**
      * Get the TTL (time-to-live) option.
      */
-    protected abstract int getTimeToLive() throws IOException;
+    protected bbstrbct int getTimeToLive() throws IOException;
 
     /**
      * Set the TTL (time-to-live) option.
-     * @param ttl TTL to be set.
+     * @pbrbm ttl TTL to be set.
      */
-    @Deprecated
-    protected abstract void setTTL(byte ttl) throws IOException;
+    @Deprecbted
+    protected bbstrbct void setTTL(byte ttl) throws IOException;
 
     /**
      * Get the TTL (time-to-live) option.
      */
-    @Deprecated
-    protected abstract byte getTTL() throws IOException;
+    @Deprecbted
+    protected bbstrbct byte getTTL() throws IOException;
 
     /**
-     * Join the multicast group.
-     * @param inetaddr multicast address to join.
+     * Join the multicbst group.
+     * @pbrbm inetbddr multicbst bddress to join.
      */
-    protected void join(InetAddress inetaddr) throws IOException {
-        join(inetaddr, null);
+    protected void join(InetAddress inetbddr) throws IOException {
+        join(inetbddr, null);
     }
 
     /**
-     * Leave the multicast group.
-     * @param inetaddr multicast address to leave.
+     * Lebve the multicbst group.
+     * @pbrbm inetbddr multicbst bddress to lebve.
      */
-    protected void leave(InetAddress inetaddr) throws IOException {
-        leave(inetaddr, null);
+    protected void lebve(InetAddress inetbddr) throws IOException {
+        lebve(inetbddr, null);
     }
     /**
-     * Join the multicast group.
-     * @param mcastaddr multicast address to join.
-     * @param netIf specifies the local interface to receive multicast
-     *        datagram packets
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * Join the multicbst group.
+     * @pbrbm mcbstbddr multicbst bddress to join.
+     * @pbrbm netIf specifies the locbl interfbce to receive multicbst
+     *        dbtbgrbm pbckets
+     * @throws  IllegblArgumentException if mcbstbddr is null or is b
+     *          SocketAddress subclbss not supported by this socket
      * @since 1.4
      */
 
-    protected void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf)
+    protected void joinGroup(SocketAddress mcbstbddr, NetworkInterfbce netIf)
         throws IOException {
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        join(((InetSocketAddress)mcastaddr).getAddress(), netIf);
+        if (mcbstbddr == null || !(mcbstbddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
+        join(((InetSocketAddress)mcbstbddr).getAddress(), netIf);
     }
 
-    protected abstract void join(InetAddress inetaddr, NetworkInterface netIf)
+    protected bbstrbct void join(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException;
 
     /**
-     * Leave the multicast group.
-     * @param mcastaddr  multicast address to leave.
-     * @param netIf specified the local interface to leave the group at
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * Lebve the multicbst group.
+     * @pbrbm mcbstbddr  multicbst bddress to lebve.
+     * @pbrbm netIf specified the locbl interfbce to lebve the group bt
+     * @throws  IllegblArgumentException if mcbstbddr is null or is b
+     *          SocketAddress subclbss not supported by this socket
      * @since 1.4
      */
-    protected void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf)
+    protected void lebveGroup(SocketAddress mcbstbddr, NetworkInterfbce netIf)
         throws IOException {
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        leave(((InetSocketAddress)mcastaddr).getAddress(), netIf);
+        if (mcbstbddr == null || !(mcbstbddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
+        lebve(((InetSocketAddress)mcbstbddr).getAddress(), netIf);
     }
 
-    protected abstract void leave(InetAddress inetaddr, NetworkInterface netIf)
+    protected bbstrbct void lebve(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException;
 
     /**
@@ -228,23 +228,23 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      */
     protected void close() {
         if (fd != null) {
-            datagramSocketClose();
-            ResourceManager.afterUdpClose();
+            dbtbgrbmSocketClose();
+            ResourceMbnbger.bfterUdpClose();
             fd = null;
         }
     }
 
-    protected boolean isClosed() {
-        return (fd == null) ? true : false;
+    protected boolebn isClosed() {
+        return (fd == null) ? true : fblse;
     }
 
-    protected void finalize() {
+    protected void finblize() {
         close();
     }
 
     /**
-     * set a value - since we only support (setting) binary options
-     * here, o must be a Boolean
+     * set b vblue - since we only support (setting) binbry options
+     * here, o must be b Boolebn
      */
 
      public void setOption(int optID, Object o) throws SocketException {
@@ -252,65 +252,65 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
              throw new SocketException("Socket Closed");
          }
          switch (optID) {
-            /* check type safety b4 going native.  These should never
-             * fail, since only java.Socket* has access to
-             * PlainSocketImpl.setOption().
+            /* check type sbfety b4 going nbtive.  These should never
+             * fbil, since only jbvb.Socket* hbs bccess to
+             * PlbinSocketImpl.setOption().
              */
-         case SO_TIMEOUT:
-             if (o == null || !(o instanceof Integer)) {
-                 throw new SocketException("bad argument for SO_TIMEOUT");
+         cbse SO_TIMEOUT:
+             if (o == null || !(o instbnceof Integer)) {
+                 throw new SocketException("bbd brgument for SO_TIMEOUT");
              }
-             int tmp = ((Integer) o).intValue();
+             int tmp = ((Integer) o).intVblue();
              if (tmp < 0)
-                 throw new IllegalArgumentException("timeout < 0");
+                 throw new IllegblArgumentException("timeout < 0");
              timeout = tmp;
              return;
-         case IP_TOS:
-             if (o == null || !(o instanceof Integer)) {
-                 throw new SocketException("bad argument for IP_TOS");
+         cbse IP_TOS:
+             if (o == null || !(o instbnceof Integer)) {
+                 throw new SocketException("bbd brgument for IP_TOS");
              }
-             trafficClass = ((Integer)o).intValue();
-             break;
-         case SO_REUSEADDR:
-             if (o == null || !(o instanceof Boolean)) {
-                 throw new SocketException("bad argument for SO_REUSEADDR");
+             trbfficClbss = ((Integer)o).intVblue();
+             brebk;
+         cbse SO_REUSEADDR:
+             if (o == null || !(o instbnceof Boolebn)) {
+                 throw new SocketException("bbd brgument for SO_REUSEADDR");
              }
-             break;
-         case SO_BROADCAST:
-             if (o == null || !(o instanceof Boolean)) {
-                 throw new SocketException("bad argument for SO_BROADCAST");
+             brebk;
+         cbse SO_BROADCAST:
+             if (o == null || !(o instbnceof Boolebn)) {
+                 throw new SocketException("bbd brgument for SO_BROADCAST");
              }
-             break;
-         case SO_BINDADDR:
-             throw new SocketException("Cannot re-bind Socket");
-         case SO_RCVBUF:
-         case SO_SNDBUF:
-             if (o == null || !(o instanceof Integer) ||
-                 ((Integer)o).intValue() < 0) {
-                 throw new SocketException("bad argument for SO_SNDBUF or " +
+             brebk;
+         cbse SO_BINDADDR:
+             throw new SocketException("Cbnnot re-bind Socket");
+         cbse SO_RCVBUF:
+         cbse SO_SNDBUF:
+             if (o == null || !(o instbnceof Integer) ||
+                 ((Integer)o).intVblue() < 0) {
+                 throw new SocketException("bbd brgument for SO_SNDBUF or " +
                                            "SO_RCVBUF");
              }
-             break;
-         case IP_MULTICAST_IF:
-             if (o == null || !(o instanceof InetAddress))
-                 throw new SocketException("bad argument for IP_MULTICAST_IF");
-             break;
-         case IP_MULTICAST_IF2:
-             if (o == null || !(o instanceof NetworkInterface))
-                 throw new SocketException("bad argument for IP_MULTICAST_IF2");
-             break;
-         case IP_MULTICAST_LOOP:
-             if (o == null || !(o instanceof Boolean))
-                 throw new SocketException("bad argument for IP_MULTICAST_LOOP");
-             break;
-         default:
-             throw new SocketException("invalid option: " + optID);
+             brebk;
+         cbse IP_MULTICAST_IF:
+             if (o == null || !(o instbnceof InetAddress))
+                 throw new SocketException("bbd brgument for IP_MULTICAST_IF");
+             brebk;
+         cbse IP_MULTICAST_IF2:
+             if (o == null || !(o instbnceof NetworkInterfbce))
+                 throw new SocketException("bbd brgument for IP_MULTICAST_IF2");
+             brebk;
+         cbse IP_MULTICAST_LOOP:
+             if (o == null || !(o instbnceof Boolebn))
+                 throw new SocketException("bbd brgument for IP_MULTICAST_LOOP");
+             brebk;
+         defbult:
+             throw new SocketException("invblid option: " + optID);
          }
          socketSetOption(optID, o);
      }
 
     /*
-     * get option's state - set or not
+     * get option's stbte - set or not
      */
 
     public Object getOption(int optID) throws SocketException {
@@ -321,45 +321,45 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
         Object result;
 
         switch (optID) {
-            case SO_TIMEOUT:
+            cbse SO_TIMEOUT:
                 result = timeout;
-                break;
+                brebk;
 
-            case IP_TOS:
+            cbse IP_TOS:
                 result = socketGetOption(optID);
-                if ( ((Integer)result).intValue() == -1) {
-                    result = trafficClass;
+                if ( ((Integer)result).intVblue() == -1) {
+                    result = trbfficClbss;
                 }
-                break;
+                brebk;
 
-            case SO_BINDADDR:
-            case IP_MULTICAST_IF:
-            case IP_MULTICAST_IF2:
-            case SO_RCVBUF:
-            case SO_SNDBUF:
-            case IP_MULTICAST_LOOP:
-            case SO_REUSEADDR:
-            case SO_BROADCAST:
+            cbse SO_BINDADDR:
+            cbse IP_MULTICAST_IF:
+            cbse IP_MULTICAST_IF2:
+            cbse SO_RCVBUF:
+            cbse SO_SNDBUF:
+            cbse IP_MULTICAST_LOOP:
+            cbse SO_REUSEADDR:
+            cbse SO_BROADCAST:
                 result = socketGetOption(optID);
-                break;
+                brebk;
 
-            default:
-                throw new SocketException("invalid option: " + optID);
+            defbult:
+                throw new SocketException("invblid option: " + optID);
         }
 
         return result;
     }
 
-    protected abstract void datagramSocketCreate() throws SocketException;
-    protected abstract void datagramSocketClose();
-    protected abstract void socketSetOption(int opt, Object val)
+    protected bbstrbct void dbtbgrbmSocketCrebte() throws SocketException;
+    protected bbstrbct void dbtbgrbmSocketClose();
+    protected bbstrbct void socketSetOption(int opt, Object vbl)
         throws SocketException;
-    protected abstract Object socketGetOption(int opt) throws SocketException;
+    protected bbstrbct Object socketGetOption(int opt) throws SocketException;
 
-    protected abstract void connect0(InetAddress address, int port) throws SocketException;
-    protected abstract void disconnect0(int family);
+    protected bbstrbct void connect0(InetAddress bddress, int port) throws SocketException;
+    protected bbstrbct void disconnect0(int fbmily);
 
-    protected boolean nativeConnectDisabled() {
-        return connectDisabled;
+    protected boolebn nbtiveConnectDisbbled() {
+        return connectDisbbled;
     }
 }

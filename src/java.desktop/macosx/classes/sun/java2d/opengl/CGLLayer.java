@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import sun.lwawt.macosx.CFRetainedResource;
-import sun.lwawt.LWWindowPeer;
+import sun.lwbwt.mbcosx.CFRetbinedResource;
+import sun.lwbwt.LWWindowPeer;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.NullSurfaceData;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.NullSurfbceDbtb;
 
-import sun.awt.CGraphicsConfig;
+import sun.bwt.CGrbphicsConfig;
 
-import java.awt.Rectangle;
-import java.awt.GraphicsConfiguration;
-import java.awt.Transparency;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Trbnspbrency;
 
-public class CGLLayer extends CFRetainedResource {
+public clbss CGLLbyer extends CFRetbinedResource {
 
-    private native long nativeCreateLayer();
-    private static native void nativeSetScale(long layerPtr, double scale);
-    private static native void validate(long layerPtr, CGLSurfaceData cglsd);
-    private static native void blitTexture(long layerPtr);
+    privbte nbtive long nbtiveCrebteLbyer();
+    privbte stbtic nbtive void nbtiveSetScble(long lbyerPtr, double scble);
+    privbte stbtic nbtive void vblidbte(long lbyerPtr, CGLSurfbceDbtb cglsd);
+    privbte stbtic nbtive void blitTexture(long lbyerPtr);
 
-    private LWWindowPeer peer;
-    private int scale = 1;
+    privbte LWWindowPeer peer;
+    privbte int scble = 1;
 
-    private SurfaceData surfaceData; // represents intermediate buffer (texture)
+    privbte SurfbceDbtb surfbceDbtb; // represents intermedibte buffer (texture)
 
-    public CGLLayer(LWWindowPeer peer) {
+    public CGLLbyer(LWWindowPeer peer) {
         super(0, true);
 
-        setPtr(nativeCreateLayer());
+        setPtr(nbtiveCrebteLbyer());
         this.peer = peer;
     }
 
@@ -60,71 +60,71 @@ public class CGLLayer extends CFRetainedResource {
         return ptr;
     }
 
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         return peer.getBounds();
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        return peer.getGraphicsConfiguration();
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
+        return peer.getGrbphicsConfigurbtion();
     }
 
-    public boolean isOpaque() {
-        return !peer.isTranslucent();
+    public boolebn isOpbque() {
+        return !peer.isTrbnslucent();
     }
 
-    public int getTransparency() {
-        return isOpaque() ? Transparency.OPAQUE : Transparency.TRANSLUCENT;
+    public int getTrbnspbrency() {
+        return isOpbque() ? Trbnspbrency.OPAQUE : Trbnspbrency.TRANSLUCENT;
     }
 
-    public Object getDestination() {
+    public Object getDestinbtion() {
         return peer;
     }
 
-    public SurfaceData replaceSurfaceData() {
+    public SurfbceDbtb replbceSurfbceDbtb() {
         if (getBounds().isEmpty()) {
-            surfaceData = NullSurfaceData.theInstance;
-            return surfaceData;
+            surfbceDbtb = NullSurfbceDbtb.theInstbnce;
+            return surfbceDbtb;
         }
 
-        // the layer redirects all painting to the buffer's graphics
-        // and blits the buffer to the layer surface (in drawInCGLContext callback)
-        CGraphicsConfig gc = (CGraphicsConfig)getGraphicsConfiguration();
-        surfaceData = gc.createSurfaceData(this);
-        setScale(gc.getDevice().getScaleFactor());
-        // the layer holds a reference to the buffer, which in
-        // turn has a reference back to this layer
-        if (surfaceData instanceof CGLSurfaceData) {
-            validate((CGLSurfaceData)surfaceData);
+        // the lbyer redirects bll pbinting to the buffer's grbphics
+        // bnd blits the buffer to the lbyer surfbce (in drbwInCGLContext cbllbbck)
+        CGrbphicsConfig gc = (CGrbphicsConfig)getGrbphicsConfigurbtion();
+        surfbceDbtb = gc.crebteSurfbceDbtb(this);
+        setScble(gc.getDevice().getScbleFbctor());
+        // the lbyer holds b reference to the buffer, which in
+        // turn hbs b reference bbck to this lbyer
+        if (surfbceDbtb instbnceof CGLSurfbceDbtb) {
+            vblidbte((CGLSurfbceDbtb)surfbceDbtb);
         }
 
-        return surfaceData;
+        return surfbceDbtb;
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    public SurfbceDbtb getSurfbceDbtb() {
+        return surfbceDbtb;
     }
 
-    public void validate(final CGLSurfaceData cglsd) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+    public void vblidbte(finbl CGLSurfbceDbtb cglsd) {
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            validate(getPointer(), cglsd);
-        } finally {
+            vblidbte(getPointer(), cglsd);
+        } finblly {
             rq.unlock();
         }
     }
 
     @Override
     public void dispose() {
-        // break the connection between the layer and the buffer
-        validate(null);
+        // brebk the connection between the lbyer bnd the buffer
+        vblidbte(null);
         super.dispose();
     }
 
-    private void setScale(final int _scale) {
-        if (scale != _scale) {
-            scale = _scale;
-            nativeSetScale(getPointer(), scale);
+    privbte void setScble(finbl int _scble) {
+        if (scble != _scble) {
+            scble = _scble;
+            nbtiveSetScble(getPointer(), scble);
         }
     }
 
@@ -132,14 +132,14 @@ public class CGLLayer extends CFRetainedResource {
     // NATIVE CALLBACKS
     // ----------------------------------------------------------------------
 
-    private void drawInCGLContext() {
-        // tell the flusher thread not to update the intermediate buffer
-        // until we are done blitting from it
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+    privbte void drbwInCGLContext() {
+        // tell the flusher threbd not to updbte the intermedibte buffer
+        // until we bre done blitting from it
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
             blitTexture(getPointer());
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }

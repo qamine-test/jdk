@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.nio.charset.*;
+import jbvb.util.Collections;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.nio.chbrset.*;
 
-final class CompoundTextSupport {
+finbl clbss CompoundTextSupport {
 
-    private static final class ControlSequence {
+    privbte stbtic finbl clbss ControlSequence {
 
-        final int hash;
-        final byte[] escSequence;
-        final byte[] encoding;
+        finbl int hbsh;
+        finbl byte[] escSequence;
+        finbl byte[] encoding;
 
         ControlSequence(byte[] escSequence) {
             this(escSequence, null);
@@ -51,41 +51,41 @@ final class CompoundTextSupport {
             this.escSequence = escSequence;
             this.encoding = encoding;
 
-            int hash = 0;
+            int hbsh = 0;
             int length = escSequence.length;
 
             for (int i = 0; i < escSequence.length; i++) {
-                hash += (((int)escSequence[i]) & 0xff) << (i % 4);
+                hbsh += (((int)escSequence[i]) & 0xff) << (i % 4);
             }
             if (encoding != null) {
                 for (int i = 0; i < encoding.length; i++) {
-                    hash += (((int)encoding[i]) & 0xff) << (i % 4);
+                    hbsh += (((int)encoding[i]) & 0xff) << (i % 4);
                 }
                 length += 2 /* M L */ + encoding.length + 1 /* 0x02 */;
             }
 
-            this.hash = hash;
+            this.hbsh = hbsh;
 
             if (MAX_CONTROL_SEQUENCE_LEN < length) {
                 MAX_CONTROL_SEQUENCE_LEN = length;
             }
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof ControlSequence)) {
-                return false;
+            if (!(obj instbnceof ControlSequence)) {
+                return fblse;
             }
             ControlSequence rhs = (ControlSequence)obj;
             if (escSequence != rhs.escSequence) {
                 if (escSequence.length != rhs.escSequence.length) {
-                    return false;
+                    return fblse;
                 }
                 for (int i = 0; i < escSequence.length; i++) {
                     if (escSequence[i] != rhs.escSequence[i]) {
-                        return false;
+                        return fblse;
                     }
                 }
             }
@@ -93,456 +93,456 @@ final class CompoundTextSupport {
                 if (encoding == null || rhs.encoding == null ||
                     encoding.length != rhs.encoding.length)
                 {
-                    return false;
+                    return fblse;
                 }
                 for (int i = 0; i < encoding.length; i++) {
                     if (encoding[i] != rhs.encoding[i]) {
-                        return false;
+                        return fblse;
                     }
                 }
             }
             return true;
         }
 
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
-        ControlSequence concatenate(ControlSequence rhs) {
+        ControlSequence concbtenbte(ControlSequence rhs) {
             if (encoding != null) {
-                throw new IllegalArgumentException
-                    ("cannot concatenate to a non-standard charset escape " +
+                throw new IllegblArgumentException
+                    ("cbnnot concbtenbte to b non-stbndbrd chbrset escbpe " +
                      "sequence");
             }
 
             int len = escSequence.length + rhs.escSequence.length;
             byte[] newEscSequence = new byte[len];
-            System.arraycopy(escSequence, 0, newEscSequence, 0,
+            System.brrbycopy(escSequence, 0, newEscSequence, 0,
                              escSequence.length);
-            System.arraycopy(rhs.escSequence, 0, newEscSequence,
+            System.brrbycopy(rhs.escSequence, 0, newEscSequence,
                              escSequence.length, rhs.escSequence.length);
             return new ControlSequence(newEscSequence, rhs.encoding);
         }
     }
 
-    static int MAX_CONTROL_SEQUENCE_LEN;
+    stbtic int MAX_CONTROL_SEQUENCE_LEN;
 
     /**
-     * Maps a GL or GR escape sequence to an encoding.
+     * Mbps b GL or GR escbpe sequence to bn encoding.
      */
-    private static final Map<ControlSequence, String> sequenceToEncodingMap;
+    privbte stbtic finbl Mbp<ControlSequence, String> sequenceToEncodingMbp;
 
     /**
-     * Indicates whether a particular encoding wants the high bit turned on
+     * Indicbtes whether b pbrticulbr encoding wbnts the high bit turned on
      * or off.
      */
-    private static final Map<ControlSequence, Boolean> highBitsMap;
+    privbte stbtic finbl Mbp<ControlSequence, Boolebn> highBitsMbp;
 
     /**
-     * Maps an encoding to an escape sequence. Rather than manage two
-     * converters in CharToByteCOMPOUND_TEXT, we output escape sequences which
-     * modify both GL and GR if necessary. This makes the output slightly less
+     * Mbps bn encoding to bn escbpe sequence. Rbther thbn mbnbge two
+     * converters in ChbrToByteCOMPOUND_TEXT, we output escbpe sequences which
+     * modify both GL bnd GR if necessbry. This mbkes the output slightly less
      * efficient, but our code much simpler.
      */
-    private static final Map<String, ControlSequence> encodingToSequenceMap;
+    privbte stbtic finbl Mbp<String, ControlSequence> encodingToSequenceMbp;
 
     /**
-     * The keys of 'encodingToSequenceMap', sorted in preferential order.
+     * The keys of 'encodingToSequenceMbp', sorted in preferentibl order.
      */
-    private static final List<String> encodings;
+    privbte stbtic finbl List<String> encodings;
 
-    static {
-        HashMap<ControlSequence, String> tSequenceToEncodingMap =
-            new HashMap<>(33, 1.0f);
-        HashMap<ControlSequence, Boolean> tHighBitsMap =
-            new HashMap<>(31, 1.0f);
-        HashMap<String, ControlSequence> tEncodingToSequenceMap =
-            new HashMap<>(21, 1.0f);
-        ArrayList<String> tEncodings = new ArrayList<>(21);
+    stbtic {
+        HbshMbp<ControlSequence, String> tSequenceToEncodingMbp =
+            new HbshMbp<>(33, 1.0f);
+        HbshMbp<ControlSequence, Boolebn> tHighBitsMbp =
+            new HbshMbp<>(31, 1.0f);
+        HbshMbp<String, ControlSequence> tEncodingToSequenceMbp =
+            new HbshMbp<>(21, 1.0f);
+        ArrbyList<String> tEncodings = new ArrbyList<>(21);
 
         if (!(isEncodingSupported("US-ASCII") &&
               isEncodingSupported("ISO-8859-1")))
         {
-            throw new ExceptionInInitializerError
-                ("US-ASCII and ISO-8859-1 unsupported");
+            throw new ExceptionInInitiblizerError
+                ("US-ASCII bnd ISO-8859-1 unsupported");
         }
 
-        ControlSequence leftAscii = // high bit off, leave off
+        ControlSequence leftAscii = // high bit off, lebve off
             new ControlSequence(new byte[] { 0x1B, 0x28, 0x42 });
-        tSequenceToEncodingMap.put(leftAscii, "US-ASCII");
-        tHighBitsMap.put(leftAscii, Boolean.FALSE);
+        tSequenceToEncodingMbp.put(leftAscii, "US-ASCII");
+        tHighBitsMbp.put(leftAscii, Boolebn.FALSE);
 
         {
             ControlSequence rightAscii = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x29, 0x42 });
-            tSequenceToEncodingMap.put(rightAscii, "US-ASCII");
-            tHighBitsMap.put(rightAscii, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(rightAscii, "US-ASCII");
+            tHighBitsMbp.put(rightAscii, Boolebn.FALSE);
         }
 
         {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x41 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-1");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-1");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-1", fullSet);
-            tEncodings.add("ISO-8859-1");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-1", fullSet);
+            tEncodings.bdd("ISO-8859-1");
         }
         if (isEncodingSupported("ISO-8859-2")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x42 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-2");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-2");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-2", fullSet);
-            tEncodings.add("ISO-8859-2");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-2", fullSet);
+            tEncodings.bdd("ISO-8859-2");
         }
         if (isEncodingSupported("ISO-8859-3")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x43 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-3");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-3");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-3", fullSet);
-            tEncodings.add("ISO-8859-3");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-3", fullSet);
+            tEncodings.bdd("ISO-8859-3");
         }
         if (isEncodingSupported("ISO-8859-4")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x44 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-4");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-4");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-4", fullSet);
-            tEncodings.add("ISO-8859-4");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-4", fullSet);
+            tEncodings.bdd("ISO-8859-4");
         }
         if (isEncodingSupported("ISO-8859-5")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x4C });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-5");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-5");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-5", fullSet);
-            tEncodings.add("ISO-8859-5");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-5", fullSet);
+            tEncodings.bdd("ISO-8859-5");
         }
         if (isEncodingSupported("ISO-8859-6")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x47 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-6");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-6");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-6", fullSet);
-            tEncodings.add("ISO-8859-6");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-6", fullSet);
+            tEncodings.bdd("ISO-8859-6");
         }
         if (isEncodingSupported("ISO-8859-7")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x46 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-7");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-7");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-7", fullSet);
-            tEncodings.add("ISO-8859-7");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-7", fullSet);
+            tEncodings.bdd("ISO-8859-7");
         }
         if (isEncodingSupported("ISO-8859-8")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x48 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-8");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-8");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-8", fullSet);
-            tEncodings.add("ISO-8859-8");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-8", fullSet);
+            tEncodings.bdd("ISO-8859-8");
         }
         if (isEncodingSupported("ISO-8859-9")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x4D });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-9");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-9");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-9", fullSet);
-            tEncodings.add("ISO-8859-9");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-9", fullSet);
+            tEncodings.bdd("ISO-8859-9");
         }
         if (isEncodingSupported("JIS_X0201")) {
-            ControlSequence glLeft = // high bit off, leave off
+            ControlSequence glLeft = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x28, 0x4A });
             ControlSequence glRight = // high bit off, turn on
                 new ControlSequence(new byte[] { 0x1B, 0x28, 0x49 });
             ControlSequence grLeft = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x29, 0x4A });
-            ControlSequence grRight = // high bit on, leave on
+            ControlSequence grRight = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x29, 0x49 });
-            tSequenceToEncodingMap.put(glLeft, "JIS_X0201");
-            tSequenceToEncodingMap.put(glRight, "JIS_X0201");
-            tSequenceToEncodingMap.put(grLeft, "JIS_X0201");
-            tSequenceToEncodingMap.put(grRight, "JIS_X0201");
-            tHighBitsMap.put(glLeft, Boolean.FALSE);
-            tHighBitsMap.put(glRight, Boolean.TRUE);
-            tHighBitsMap.put(grLeft, Boolean.FALSE);
-            tHighBitsMap.put(grRight, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(glLeft, "JIS_X0201");
+            tSequenceToEncodingMbp.put(glRight, "JIS_X0201");
+            tSequenceToEncodingMbp.put(grLeft, "JIS_X0201");
+            tSequenceToEncodingMbp.put(grRight, "JIS_X0201");
+            tHighBitsMbp.put(glLeft, Boolebn.FALSE);
+            tHighBitsMbp.put(glRight, Boolebn.TRUE);
+            tHighBitsMbp.put(grLeft, Boolebn.FALSE);
+            tHighBitsMbp.put(grRight, Boolebn.TRUE);
 
-            ControlSequence fullSet = glLeft.concatenate(grRight);
-            tEncodingToSequenceMap.put("JIS_X0201", fullSet);
-            tEncodings.add("JIS_X0201");
+            ControlSequence fullSet = glLeft.concbtenbte(grRight);
+            tEncodingToSequenceMbp.put("JIS_X0201", fullSet);
+            tEncodings.bdd("JIS_X0201");
         }
         if (isEncodingSupported("X11GB2312")) {
-            ControlSequence leftHalf =  // high bit off, leave off
+            ControlSequence leftHblf =  // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x41 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x41 });
-            tSequenceToEncodingMap.put(leftHalf, "X11GB2312");
-            tSequenceToEncodingMap.put(rightHalf, "X11GB2312");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "X11GB2312");
+            tSequenceToEncodingMbp.put(rightHblf, "X11GB2312");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("X11GB2312", leftHalf);
-            tEncodings.add("X11GB2312");
+            tEncodingToSequenceMbp.put("X11GB2312", leftHblf);
+            tEncodings.bdd("X11GB2312");
         }
         if (isEncodingSupported("x-JIS0208")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x42 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x42 });
-            tSequenceToEncodingMap.put(leftHalf, "x-JIS0208");
-            tSequenceToEncodingMap.put(rightHalf, "x-JIS0208");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "x-JIS0208");
+            tSequenceToEncodingMbp.put(rightHblf, "x-JIS0208");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("x-JIS0208", leftHalf);
-            tEncodings.add("x-JIS0208");
+            tEncodingToSequenceMbp.put("x-JIS0208", leftHblf);
+            tEncodings.bdd("x-JIS0208");
         }
         if (isEncodingSupported("X11KSC5601")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x43 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x43 });
-            tSequenceToEncodingMap.put(leftHalf, "X11KSC5601");
-            tSequenceToEncodingMap.put(rightHalf, "X11KSC5601");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "X11KSC5601");
+            tSequenceToEncodingMbp.put(rightHblf, "X11KSC5601");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("X11KSC5601", leftHalf);
-            tEncodings.add("X11KSC5601");
+            tEncodingToSequenceMbp.put("X11KSC5601", leftHblf);
+            tEncodings.bdd("X11KSC5601");
         }
 
         // Encodings not listed in Compound Text Encoding spec
 
         // Esc seq: -b
         if (isEncodingSupported("ISO-8859-15")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x62 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-15");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "ISO-8859-15");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-15", fullSet);
-            tEncodings.add("ISO-8859-15");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("ISO-8859-15", fullSet);
+            tEncodings.bdd("ISO-8859-15");
         }
         // Esc seq: -T
         if (isEncodingSupported("TIS-620")) {
-            ControlSequence rightHalf = // high bit on, leave on
+            ControlSequence rightHblf = // high bit on, lebve on
                 new ControlSequence(new byte[] { 0x1B, 0x2D, 0x54 });
-            tSequenceToEncodingMap.put(rightHalf, "TIS-620");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+            tSequenceToEncodingMbp.put(rightHblf, "TIS-620");
+            tHighBitsMbp.put(rightHblf, Boolebn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("TIS-620", fullSet);
-            tEncodings.add("TIS-620");
+            ControlSequence fullSet = leftAscii.concbtenbte(rightHblf);
+            tEncodingToSequenceMbp.put("TIS-620", fullSet);
+            tEncodings.bdd("TIS-620");
         }
         if (isEncodingSupported("JIS_X0212-1990")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x44 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x44 });
-            tSequenceToEncodingMap.put(leftHalf, "JIS_X0212-1990");
-            tSequenceToEncodingMap.put(rightHalf, "JIS_X0212-1990");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "JIS_X0212-1990");
+            tSequenceToEncodingMbp.put(rightHblf, "JIS_X0212-1990");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("JIS_X0212-1990", leftHalf);
-            tEncodings.add("JIS_X0212-1990");
+            tEncodingToSequenceMbp.put("JIS_X0212-1990", leftHblf);
+            tEncodings.bdd("JIS_X0212-1990");
         }
         if (isEncodingSupported("X11CNS11643P1")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x47 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x47 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P1");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P1");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "X11CNS11643P1");
+            tSequenceToEncodingMbp.put(rightHblf, "X11CNS11643P1");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P1", leftHalf);
-            tEncodings.add("X11CNS11643P1");
+            tEncodingToSequenceMbp.put("X11CNS11643P1", leftHblf);
+            tEncodings.bdd("X11CNS11643P1");
         }
         if (isEncodingSupported("X11CNS11643P2")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x48 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x48 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P2");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P2");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "X11CNS11643P2");
+            tSequenceToEncodingMbp.put(rightHblf, "X11CNS11643P2");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P2", leftHalf);
-            tEncodings.add("X11CNS11643P2");
+            tEncodingToSequenceMbp.put("X11CNS11643P2", leftHblf);
+            tEncodings.bdd("X11CNS11643P2");
         }
         if (isEncodingSupported("X11CNS11643P3")) {
-            ControlSequence leftHalf = // high bit off, leave off
+            ControlSequence leftHblf = // high bit off, lebve off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x49 });
-            ControlSequence rightHalf = // high bit on, turn off
+            ControlSequence rightHblf = // high bit on, turn off
                 new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x49 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P3");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P3");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+            tSequenceToEncodingMbp.put(leftHblf, "X11CNS11643P3");
+            tSequenceToEncodingMbp.put(rightHblf, "X11CNS11643P3");
+            tHighBitsMbp.put(leftHblf, Boolebn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolebn.FALSE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P3", leftHalf);
-            tEncodings.add("X11CNS11643P3");
+            tEncodingToSequenceMbp.put("X11CNS11643P3", leftHblf);
+            tEncodings.bdd("X11CNS11643P3");
         }
         // Esc seq: %/2??SUN-KSC5601.1992-3
-        if (isEncodingSupported("x-Johab")) {
+        if (isEncodingSupported("x-Johbb")) {
             // 0x32 looks wrong. It's copied from the Sun X11 Compound Text
-            // support code. It implies that all Johab characters comprise two
-            // octets, which isn't true. Johab supports the ASCII/KS-Roman
-            // characters from 0x21-0x7E with single-byte representations.
-            ControlSequence johab = new ControlSequence(
+            // support code. It implies thbt bll Johbb chbrbcters comprise two
+            // octets, which isn't true. Johbb supports the ASCII/KS-Rombn
+            // chbrbcters from 0x21-0x7E with single-byte representbtions.
+            ControlSequence johbb = new ControlSequence(
                 new byte[] { 0x1b, 0x25, 0x2f, 0x32 },
                 new byte[] { 0x53, 0x55, 0x4e, 0x2d, 0x4b, 0x53, 0x43, 0x35,
                              0x36, 0x30, 0x31, 0x2e, 0x31, 0x39, 0x39, 0x32,
                              0x2d, 0x33 });
-            tSequenceToEncodingMap.put(johab, "x-Johab");
-            tEncodingToSequenceMap.put("x-Johab", johab);
-            tEncodings.add("x-Johab");
+            tSequenceToEncodingMbp.put(johbb, "x-Johbb");
+            tEncodingToSequenceMbp.put("x-Johbb", johbb);
+            tEncodings.bdd("x-Johbb");
         }
         // Esc seq: %/2??SUN-BIG5-1
         if (isEncodingSupported("Big5")) {
             // 0x32 looks wrong. It's copied from the Sun X11 Compound Text
-            // support code. It implies that all Big5 characters comprise two
-            // octets, which isn't true. Big5 supports the ASCII/CNS-Roman
-            // characters from 0x21-0x7E with single-byte representations.
+            // support code. It implies thbt bll Big5 chbrbcters comprise two
+            // octets, which isn't true. Big5 supports the ASCII/CNS-Rombn
+            // chbrbcters from 0x21-0x7E with single-byte representbtions.
             ControlSequence big5 = new ControlSequence(
                 new byte[] { 0x1b, 0x25, 0x2f, 0x32 },
                 new byte[] { 0x53, 0x55, 0x4e, 0x2d, 0x42, 0x49, 0x47, 0x35,
                              0x2d, 0x31 });
-            tSequenceToEncodingMap.put(big5, "Big5");
-            tEncodingToSequenceMap.put("Big5", big5);
-            tEncodings.add("Big5");
+            tSequenceToEncodingMbp.put(big5, "Big5");
+            tEncodingToSequenceMbp.put("Big5", big5);
+            tEncodings.bdd("Big5");
         }
 
-        sequenceToEncodingMap =
-            Collections.unmodifiableMap(tSequenceToEncodingMap);
-        highBitsMap = Collections.unmodifiableMap(tHighBitsMap);
-        encodingToSequenceMap =
-            Collections.unmodifiableMap(tEncodingToSequenceMap);
-        encodings = Collections.unmodifiableList(tEncodings);
+        sequenceToEncodingMbp =
+            Collections.unmodifibbleMbp(tSequenceToEncodingMbp);
+        highBitsMbp = Collections.unmodifibbleMbp(tHighBitsMbp);
+        encodingToSequenceMbp =
+            Collections.unmodifibbleMbp(tEncodingToSequenceMbp);
+        encodings = Collections.unmodifibbleList(tEncodings);
     }
 
-    private static boolean isEncodingSupported(String encoding) {
+    privbte stbtic boolebn isEncodingSupported(String encoding) {
         try {
-            if (Charset.isSupported(encoding))
+            if (Chbrset.isSupported(encoding))
                 return true;
-        } catch (IllegalArgumentException x) { }
+        } cbtch (IllegblArgumentException x) { }
         return (getDecoder(encoding) != null &&
                 getEncoder(encoding) != null);
     }
 
 
     // For Decoder
-    static CharsetDecoder getStandardDecoder(byte[] escSequence) {
-        return getNonStandardDecoder(escSequence, null);
+    stbtic ChbrsetDecoder getStbndbrdDecoder(byte[] escSequence) {
+        return getNonStbndbrdDecoder(escSequence, null);
     }
-    static boolean getHighBit(byte[] escSequence) {
-        Boolean bool = highBitsMap.get(new ControlSequence(escSequence));
-        return (bool == Boolean.TRUE);
+    stbtic boolebn getHighBit(byte[] escSequence) {
+        Boolebn bool = highBitsMbp.get(new ControlSequence(escSequence));
+        return (bool == Boolebn.TRUE);
     }
-    static CharsetDecoder getNonStandardDecoder(byte[] escSequence,
+    stbtic ChbrsetDecoder getNonStbndbrdDecoder(byte[] escSequence,
                                                        byte[] encoding) {
-        return getDecoder(sequenceToEncodingMap.get
+        return getDecoder(sequenceToEncodingMbp.get
             (new ControlSequence(escSequence, encoding)));
     }
-    static CharsetDecoder getDecoder(String enc) {
+    stbtic ChbrsetDecoder getDecoder(String enc) {
         if (enc == null) {
             return null;
         }
-        Charset cs = null;
+        Chbrset cs = null;
         try {
-            cs = Charset.forName(enc);
-        } catch (IllegalArgumentException e) {
-            Class<?> cls;
+            cs = Chbrset.forNbme(enc);
+        } cbtch (IllegblArgumentException e) {
+            Clbss<?> cls;
             try {
-                cls = Class.forName("sun.awt.motif." + enc);
-            } catch (ClassNotFoundException ee) {
+                cls = Clbss.forNbme("sun.bwt.motif." + enc);
+            } cbtch (ClbssNotFoundException ee) {
                 return null;
             }
             try {
-                cs = (Charset)cls.newInstance();
-            } catch (InstantiationException ee) {
+                cs = (Chbrset)cls.newInstbnce();
+            } cbtch (InstbntibtionException ee) {
                 return null;
-            } catch (IllegalAccessException ee) {
+            } cbtch (IllegblAccessException ee) {
                 return null;
             }
         }
         try {
             return cs.newDecoder();
-        } catch (UnsupportedOperationException e) {}
+        } cbtch (UnsupportedOperbtionException e) {}
         return null;
     }
 
 
     // For Encoder
-    static byte[] getEscapeSequence(String encoding) {
-        ControlSequence seq = encodingToSequenceMap.get(encoding);
+    stbtic byte[] getEscbpeSequence(String encoding) {
+        ControlSequence seq = encodingToSequenceMbp.get(encoding);
         if (seq != null) {
             return seq.escSequence;
         }
         return null;
     }
-    static byte[] getEncoding(String encoding) {
-        ControlSequence seq = encodingToSequenceMap.get(encoding);
+    stbtic byte[] getEncoding(String encoding) {
+        ControlSequence seq = encodingToSequenceMbp.get(encoding);
         if (seq != null) {
             return seq.encoding;
         }
         return null;
     }
-    static List<String> getEncodings() {
+    stbtic List<String> getEncodings() {
         return encodings;
     }
-    static CharsetEncoder getEncoder(String enc) {
+    stbtic ChbrsetEncoder getEncoder(String enc) {
         if (enc == null) {
             return null;
         }
-        Charset cs = null;
+        Chbrset cs = null;
         try {
-            cs = Charset.forName(enc);
-        } catch (IllegalArgumentException e) {
-            Class<?> cls;
+            cs = Chbrset.forNbme(enc);
+        } cbtch (IllegblArgumentException e) {
+            Clbss<?> cls;
             try {
-                cls = Class.forName("sun.awt.motif." + enc);
-            } catch (ClassNotFoundException ee) {
+                cls = Clbss.forNbme("sun.bwt.motif." + enc);
+            } cbtch (ClbssNotFoundException ee) {
                 return null;
             }
             try {
-                cs = (Charset)cls.newInstance();
-            } catch (InstantiationException ee) {
+                cs = (Chbrset)cls.newInstbnce();
+            } cbtch (InstbntibtionException ee) {
                 return null;
-            } catch (IllegalAccessException ee) {
+            } cbtch (IllegblAccessException ee) {
                 return null;
             }
         }
         try {
             return cs.newEncoder();
-        } catch (Throwable e) {}
+        } cbtch (Throwbble e) {}
         return null;
     }
 
-    // Not an instantiable class
-    private CompoundTextSupport() {}
+    // Not bn instbntibble clbss
+    privbte CompoundTextSupport() {}
 }

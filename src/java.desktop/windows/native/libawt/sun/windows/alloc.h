@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef _ALLOC_H_
 #define _ALLOC_H_
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
 #include "stdhdrs.h"
 
-// By defining std::bad_alloc in a local header file instead of including
-// the Standard C++ <new> header file, we avoid making awt.dll dependent
+// By defining std::bbd_blloc in b locbl hebder file instebd of including
+// the Stbndbrd C++ <new> hebder file, we bvoid mbking bwt.dll dependent
 // on msvcp50.dll. This reduces the size of the JRE by 500kb.
-namespace std {
-    class bad_alloc {};
+nbmespbce std {
+    clbss bbd_blloc {};
 }
 
 #define SIZECALC_ALLOC_THROWING_BAD_ALLOC
-#include "sizecalc.h"
+#include "sizecblc.h"
 
-class awt_toolkit_shutdown {};
+clbss bwt_toolkit_shutdown {};
 
-// Disable "C++ Exception Specification ignored" warnings.
-// These warnings are generated because VC++ 5.0 allows, but does not enforce,
-// exception specifications. This #pragma can be safely removed when VC++
-// is updated to enforce exception specifications.
-#pragma warning(disable : 4290)
+// Disbble "C++ Exception Specificbtion ignored" wbrnings.
+// These wbrnings bre generbted becbuse VC++ 5.0 bllows, but does not enforce,
+// exception specificbtions. This #prbgmb cbn be sbfely removed when VC++
+// is updbted to enforce exception specificbtions.
+#prbgmb wbrning(disbble : 4290)
 
 #ifdef TRY
 #error Multiple definitions of TRY
@@ -83,129 +83,129 @@ class awt_toolkit_shutdown {};
 #error Multiple defintions of CATCH_BAD_ALLOC_RET_NO_JNI
 #endif
 
-// The unsafe versions of malloc, calloc, and realloc should not be used
-#define malloc Do_Not_Use_malloc_Use_safe_Malloc_Instead
-#define calloc Do_Not_Use_calloc_Use_safe_Calloc_Instead
-#define realloc Do_Not_Use_realloc_Use_safe_Realloc_Instead
-#define ExceptionOccurred Do_Not_Use_ExceptionOccurred_Use_safe_\
-ExceptionOccurred_Instead
+// The unsbfe versions of mblloc, cblloc, bnd reblloc should not be used
+#define mblloc Do_Not_Use_mblloc_Use_sbfe_Mblloc_Instebd
+#define cblloc Do_Not_Use_cblloc_Use_sbfe_Cblloc_Instebd
+#define reblloc Do_Not_Use_reblloc_Use_sbfe_Reblloc_Instebd
+#define ExceptionOccurred Do_Not_Use_ExceptionOccurred_Use_sbfe_\
+ExceptionOccurred_Instebd
 
-// These three functions throw std::bad_alloc in an out of memory condition
-// instead of returning 0. safe_Realloc will return 0 if memblock is not
-// NULL and size is 0. safe_Malloc and safe_Calloc will never return 0.
-void *safe_Malloc(size_t size) throw (std::bad_alloc);
-void *safe_Calloc(size_t num, size_t size) throw (std::bad_alloc);
-void *safe_Realloc(void *memblock, size_t size) throw (std::bad_alloc);
+// These three functions throw std::bbd_blloc in bn out of memory condition
+// instebd of returning 0. sbfe_Reblloc will return 0 if memblock is not
+// NULL bnd size is 0. sbfe_Mblloc bnd sbfe_Cblloc will never return 0.
+void *sbfe_Mblloc(size_t size) throw (std::bbd_blloc);
+void *sbfe_Cblloc(size_t num, size_t size) throw (std::bbd_blloc);
+void *sbfe_Reblloc(void *memblock, size_t size) throw (std::bbd_blloc);
 
-// This function should be called instead of ExceptionOccurred. It throws
-// std::bad_alloc if a java.lang.OutOfMemoryError is currently pending
-// on the calling thread.
-jthrowable safe_ExceptionOccurred(JNIEnv *env) throw (std::bad_alloc);
+// This function should be cblled instebd of ExceptionOccurred. It throws
+// std::bbd_blloc if b jbvb.lbng.OutOfMemoryError is currently pending
+// on the cblling threbd.
+jthrowbble sbfe_ExceptionOccurred(JNIEnv *env) throw (std::bbd_blloc);
 
-// This function is called at the beginning of an entry point.
-// Entry points are functions which are declared:
+// This function is cblled bt the beginning of bn entry point.
+// Entry points bre functions which bre declbred:
 //   1. CALLBACK,
 //   2. JNIEXPORT,
 //   3. __declspec(dllexport), or
 //   4. extern "C"
-// A function which returns an HRESULT (an OLE function) is also an entry
+// A function which returns bn HRESULT (bn OLE function) is blso bn entry
 // point.
 void entry_point(void);
 
-// This function hangs indefinitely if the Toolkit is not active
-void hang_if_shutdown(void);
+// This function hbngs indefinitely if the Toolkit is not bctive
+void hbng_if_shutdown(void);
 
-// This function throws awt_toolkit_shutdown if the Toolkit is not active
-void throw_if_shutdown(void) throw (awt_toolkit_shutdown);
+// This function throws bwt_toolkit_shutdown if the Toolkit is not bctive
+void throw_if_shutdown(void) throw (bwt_toolkit_shutdown);
 
-// This function is called when a std::bad_alloc exception is caught
-void handle_bad_alloc(void);
+// This function is cblled when b std::bbd_blloc exception is cbught
+void hbndle_bbd_blloc(void);
 
-// Uncomment to nondeterministically test OutOfMemory errors
+// Uncomment to nondeterministicblly test OutOfMemory errors
 // #define OUTOFMEM_TEST
 
 #ifdef OUTOFMEM_TEST
-    void *safe_Malloc_outofmem(size_t size, const char *, int)
-        throw (std::bad_alloc);
-    void *safe_Calloc_outofmem(size_t num, size_t size, const char *, int)
-        throw (std::bad_alloc);
-    void *safe_Realloc_outofmem(void *memblock, size_t size, const char *, int)
-        throw (std::bad_alloc);
-    void * CDECL operator new(size_t size, const char *, int)
-        throw (std::bad_alloc);
+    void *sbfe_Mblloc_outofmem(size_t size, const chbr *, int)
+        throw (std::bbd_blloc);
+    void *sbfe_Cblloc_outofmem(size_t num, size_t size, const chbr *, int)
+        throw (std::bbd_blloc);
+    void *sbfe_Reblloc_outofmem(void *memblock, size_t size, const chbr *, int)
+        throw (std::bbd_blloc);
+    void * CDECL operbtor new(size_t size, const chbr *, int)
+        throw (std::bbd_blloc);
 
-    #define safe_Malloc(size) \
-        safe_Malloc_outofmem(size, THIS_FILE, __LINE__)
-    #define safe_Calloc(num, size) \
-        safe_Calloc_outofmem(num, size, THIS_FILE, __LINE__)
-    #define safe_Realloc(memblock, size) \
-        safe_Realloc_outofmem(memblock, size, THIS_FILE, __LINE__)
+    #define sbfe_Mblloc(size) \
+        sbfe_Mblloc_outofmem(size, THIS_FILE, __LINE__)
+    #define sbfe_Cblloc(num, size) \
+        sbfe_Cblloc_outofmem(num, size, THIS_FILE, __LINE__)
+    #define sbfe_Reblloc(memblock, size) \
+        sbfe_Reblloc_outofmem(memblock, size, THIS_FILE, __LINE__)
     #define new new(THIS_FILE, __LINE__)
 #endif /* OUTOFMEM_TEST */
 
 #define TRY \
     try { \
         entry_point(); \
-        hang_if_shutdown();
-// The _NO_HANG version of TRY causes the AWT native code to return to Java
-// immediately if the Toolkit is not active. Normal AWT operations should
-// never use this macro. It should only be used for cleanup routines where:
-// (1) Hanging is not a valid option, because the method is called during
-// execution of runFinalizersOnExit; and, (2) Execution of the method would
-// generate a NullPointerException or other Exception.
+        hbng_if_shutdown();
+// The _NO_HANG version of TRY cbuses the AWT nbtive code to return to Jbvb
+// immedibtely if the Toolkit is not bctive. Normbl AWT operbtions should
+// never use this mbcro. It should only be used for clebnup routines where:
+// (1) Hbnging is not b vblid option, becbuse the method is cblled during
+// execution of runFinblizersOnExit; bnd, (2) Execution of the method would
+// generbte b NullPointerException or other Exception.
 #define TRY_NO_HANG \
     try { \
         entry_point(); \
         throw_if_shutdown();
-// The _NO_VERIFY version of TRY does not verify that the Toolkit is still
-// active before proceeding. Normal AWT operations should never use this
-// macro. It should only be used for cleanup routines which can safely
-// execute after the Toolkit is disposed, and then only with caution. Users
-// of this macro must be able to guarantee that the code which will execute
-// will not generate a NullPointerException or other Exception.
+// The _NO_VERIFY version of TRY does not verify thbt the Toolkit is still
+// bctive before proceeding. Normbl AWT operbtions should never use this
+// mbcro. It should only be used for clebnup routines which cbn sbfely
+// execute bfter the Toolkit is disposed, bnd then only with cbution. Users
+// of this mbcro must be bble to gubrbntee thbt the code which will execute
+// will not generbte b NullPointerException or other Exception.
 #define TRY_NO_VERIFY \
     try { \
         entry_point();
 #define CATCH_BAD_ALLOC \
-    } catch (std::bad_alloc&) { \
-        handle_bad_alloc(); \
+    } cbtch (std::bbd_blloc&) { \
+        hbndle_bbd_blloc(); \
         return; \
-    } catch (awt_toolkit_shutdown&) {\
+    } cbtch (bwt_toolkit_shutdown&) {\
         return; \
     }
 #define CATCH_BAD_ALLOC_RET(x) \
-    } catch (std::bad_alloc&) { \
-        handle_bad_alloc(); \
+    } cbtch (std::bbd_blloc&) { \
+        hbndle_bbd_blloc(); \
         return (x); \
-    } catch (awt_toolkit_shutdown&) {\
+    } cbtch (bwt_toolkit_shutdown&) {\
         return (0); \
     }
 
-// The _NO_JNI versions of TRY and CATCH_BAD_ALLOC simply discard
-// std::bad_alloc exceptions and thus should be avoided at all costs. They
-// are only useful if the calling function currently holds the JNI lock
-// for the thread. This lock is acquired by calling GetPrimitiveArrayCritical
-// or GetStringCritical. No JNI function should be called by that thread
-// until the corresponding Release function has been called.
+// The _NO_JNI versions of TRY bnd CATCH_BAD_ALLOC simply discbrd
+// std::bbd_blloc exceptions bnd thus should be bvoided bt bll costs. They
+// bre only useful if the cblling function currently holds the JNI lock
+// for the threbd. This lock is bcquired by cblling GetPrimitiveArrbyCriticbl
+// or GetStringCriticbl. No JNI function should be cblled by thbt threbd
+// until the corresponding Relebse function hbs been cblled.
 
 #define TRY_NO_JNI \
     try { \
-        hang_if_shutdown();
+        hbng_if_shutdown();
 #define TRY_NO_HANG_NO_JNI \
     try { \
         throw_if_shutdown();
 #define TRY_NO_VERIFY_NO_JNI \
     try {
 #define CATCH_BAD_ALLOC_NO_JNI \
-    } catch (std::bad_alloc&) { \
+    } cbtch (std::bbd_blloc&) { \
         return; \
-    } catch (awt_toolkit_shutdown&) {\
+    } cbtch (bwt_toolkit_shutdown&) {\
         return; \
     }
 #define CATCH_BAD_ALLOC_RET_NO_JNI(x) \
-    } catch (std::bad_alloc&) { \
+    } cbtch (std::bbd_blloc&) { \
         return (x); \
-    } catch (awt_toolkit_shutdown&) {\
+    } cbtch (bwt_toolkit_shutdown&) {\
         return (0); \
     }
 

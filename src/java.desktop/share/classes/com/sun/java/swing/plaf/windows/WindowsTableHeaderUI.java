@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.table.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.tbble.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.*;
-import sun.swing.table.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.*;
+import sun.swing.tbble.*;
 import sun.swing.SwingUtilities2;
 
 
-public class WindowsTableHeaderUI extends BasicTableHeaderUI {
-    private TableCellRenderer originalHeaderRenderer;
+public clbss WindowsTbbleHebderUI extends BbsicTbbleHebderUI {
+    privbte TbbleCellRenderer originblHebderRenderer;
 
-    public static ComponentUI createUI(JComponent h) {
-        return new WindowsTableHeaderUI();
+    public stbtic ComponentUI crebteUI(JComponent h) {
+        return new WindowsTbbleHebderUI();
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
 
         if (XPStyle.getXP() != null) {
-            originalHeaderRenderer = header.getDefaultRenderer();
-            if (originalHeaderRenderer instanceof UIResource) {
-                header.setDefaultRenderer(new XPDefaultRenderer());
+            originblHebderRenderer = hebder.getDefbultRenderer();
+            if (originblHebderRenderer instbnceof UIResource) {
+                hebder.setDefbultRenderer(new XPDefbultRenderer());
             }
         }
     }
 
-    public void uninstallUI(JComponent c) {
-        if (header.getDefaultRenderer() instanceof XPDefaultRenderer) {
-            header.setDefaultRenderer(originalHeaderRenderer);
+    public void uninstbllUI(JComponent c) {
+        if (hebder.getDefbultRenderer() instbnceof XPDefbultRenderer) {
+            hebder.setDefbultRenderer(originblHebderRenderer);
         }
-        super.uninstallUI(c);
+        super.uninstbllUI(c);
     }
 
     @Override
-    protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
+    protected void rolloverColumnUpdbted(int oldColumn, int newColumn) {
         if (XPStyle.getXP() != null) {
-            header.repaint(header.getHeaderRect(oldColumn));
-            header.repaint(header.getHeaderRect(newColumn));
+            hebder.repbint(hebder.getHebderRect(oldColumn));
+            hebder.repbint(hebder.getHebderRect(newColumn));
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class XPDefaultRenderer extends DefaultTableCellHeaderRenderer {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    privbte clbss XPDefbultRenderer extends DefbultTbbleCellHebderRenderer {
         Skin skin;
-        boolean isSelected, hasFocus, hasRollover;
+        boolebn isSelected, hbsFocus, hbsRollover;
         int column;
 
-        XPDefaultRenderer() {
-            setHorizontalAlignment(LEADING);
+        XPDefbultRenderer() {
+            setHorizontblAlignment(LEADING);
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
+        public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                                                       boolebn isSelected, boolebn hbsFocus,
                                                        int row, int column) {
-            super.getTableCellRendererComponent(table, value, isSelected,
-                                                hasFocus, row, column);
+            super.getTbbleCellRendererComponent(tbble, vblue, isSelected,
+                                                hbsFocus, row, column);
             this.isSelected = isSelected;
-            this.hasFocus = hasFocus;
+            this.hbsFocus = hbsFocus;
             this.column = column;
-            this.hasRollover = (column == getRolloverColumn());
+            this.hbsRollover = (column == getRolloverColumn());
             if (skin == null) {
                 XPStyle xp = XPStyle.getXP();
-                skin = (xp != null) ? xp.getSkin(header, Part.HP_HEADERITEM) : null;
+                skin = (xp != null) ? xp.getSkin(hebder, Pbrt.HP_HEADERITEM) : null;
             }
-            Insets margins = (skin != null) ? skin.getContentMargin() : null;
+            Insets mbrgins = (skin != null) ? skin.getContentMbrgin() : null;
             Border border = null;
             int contentTop = 0;
             int contentLeft = 0;
             int contentBottom = 0;
             int contentRight = 0;
-            if (margins != null) {
-                contentTop = margins.top;
-                contentLeft = margins.left;
-                contentBottom = margins.bottom;
-                contentRight = margins.right;
+            if (mbrgins != null) {
+                contentTop = mbrgins.top;
+                contentLeft = mbrgins.left;
+                contentBottom = mbrgins.bottom;
+                contentRight = mbrgins.right;
             }
             /* idk:
-             * Both on Vista and XP there is some offset to the
+             * Both on Vistb bnd XP there is some offset to the
              * HP_HEADERITEM content. It does not seem to come from
              * Prop.CONTENTMARGINS. Do not know where it is defined.
-             * using some hardcoded values.
+             * using some hbrdcoded vblues.
              */
             contentLeft += 5;
             contentBottom += 4;
             contentRight += 5;
 
-            /* On Vista sortIcon is painted above the header's text.
-             * We use border to paint it.
+            /* On Vistb sortIcon is pbinted bbove the hebder's text.
+             * We use border to pbint it.
              */
             Icon sortIcon;
-            if (WindowsLookAndFeel.isOnVista()
-                && ((sortIcon = getIcon()) instanceof javax.swing.plaf.UIResource
+            if (WindowsLookAndFeel.isOnVistb()
+                && ((sortIcon = getIcon()) instbnceof jbvbx.swing.plbf.UIResource
                     || sortIcon == null)) {
                 contentTop += 1;
                 setIcon(null);
                 sortIcon = null;
                 SortOrder sortOrder =
-                    getColumnSortOrder(table, column);
+                    getColumnSortOrder(tbble, column);
                 if (sortOrder != null) {
                     switch (sortOrder) {
-                    case ASCENDING:
+                    cbse ASCENDING:
                         sortIcon =
-                            UIManager.getIcon("Table.ascendingSortIcon");
-                        break;
-                    case DESCENDING:
+                            UIMbnbger.getIcon("Tbble.bscendingSortIcon");
+                        brebk;
+                    cbse DESCENDING:
                         sortIcon =
-                            UIManager.getIcon("Table.descendingSortIcon");
-                        break;
+                            UIMbnbger.getIcon("Tbble.descendingSortIcon");
+                        brebk;
                     }
                 }
                 if (sortIcon != null) {
@@ -146,7 +146,7 @@ public class WindowsTableHeaderUI extends BasicTableHeaderUI {
                                             contentBottom, contentRight);
                 } else {
                     sortIcon =
-                        UIManager.getIcon("Table.ascendingSortIcon");
+                        UIMbnbger.getIcon("Tbble.bscendingSortIcon");
                     int sortIconHeight =
                         (sortIcon != null) ? sortIcon.getIconHeight() : 0;
                     if (sortIconHeight != 0) {
@@ -166,62 +166,62 @@ public class WindowsTableHeaderUI extends BasicTableHeaderUI {
             return this;
         }
 
-        public void paint(Graphics g) {
+        public void pbint(Grbphics g) {
             Dimension size = getSize();
-            State state = State.NORMAL;
-            TableColumn draggedColumn = header.getDraggedColumn();
-            if (draggedColumn != null &&
+            Stbte stbte = Stbte.NORMAL;
+            TbbleColumn drbggedColumn = hebder.getDrbggedColumn();
+            if (drbggedColumn != null &&
                     column == SwingUtilities2.convertColumnIndexToView(
-                            header.getColumnModel(), draggedColumn.getModelIndex())) {
-                state = State.PRESSED;
-            } else if (isSelected || hasFocus || hasRollover) {
-                state = State.HOT;
+                            hebder.getColumnModel(), drbggedColumn.getModelIndex())) {
+                stbte = Stbte.PRESSED;
+            } else if (isSelected || hbsFocus || hbsRollover) {
+                stbte = Stbte.HOT;
             }
-            /* on Vista there are more states for sorted columns */
-            if (WindowsLookAndFeel.isOnVista()) {
-                SortOrder sortOrder = getColumnSortOrder(header.getTable(), column);
+            /* on Vistb there bre more stbtes for sorted columns */
+            if (WindowsLookAndFeel.isOnVistb()) {
+                SortOrder sortOrder = getColumnSortOrder(hebder.getTbble(), column);
                 if (sortOrder != null) {
                      switch(sortOrder) {
-                     case ASCENDING:
-                     case DESCENDING:
-                         switch (state) {
-                         case NORMAL:
-                             state = State.SORTEDNORMAL;
-                             break;
-                         case PRESSED:
-                             state = State.SORTEDPRESSED;
-                             break;
-                         case HOT:
-                             state = State.SORTEDHOT;
-                             break;
-                         default:
+                     cbse ASCENDING:
+                     cbse DESCENDING:
+                         switch (stbte) {
+                         cbse NORMAL:
+                             stbte = Stbte.SORTEDNORMAL;
+                             brebk;
+                         cbse PRESSED:
+                             stbte = Stbte.SORTEDPRESSED;
+                             brebk;
+                         cbse HOT:
+                             stbte = Stbte.SORTEDHOT;
+                             brebk;
+                         defbult:
                              /* do nothing */
                          }
-                         break;
-                     default :
+                         brebk;
+                     defbult :
                          /* do nothing */
                      }
                 }
             }
-            skin.paintSkin(g, 0, 0, size.width-1, size.height-1, state);
-            super.paint(g);
+            skin.pbintSkin(g, 0, 0, size.width-1, size.height-1, stbte);
+            super.pbint(g);
         }
     }
 
     /**
-     * A border with an Icon at the middle of the top side.
-     * Outer insets can be provided for this border.
+     * A border with bn Icon bt the middle of the top side.
+     * Outer insets cbn be provided for this border.
      */
-    private static class IconBorder implements Border, UIResource{
-        private final Icon icon;
-        private final int top;
-        private final int left;
-        private final int bottom;
-        private final int right;
+    privbte stbtic clbss IconBorder implements Border, UIResource{
+        privbte finbl Icon icon;
+        privbte finbl int top;
+        privbte finbl int left;
+        privbte finbl int bottom;
+        privbte finbl int right;
         /**
-         * Creates this border;
-         * @param icon - icon to paint for this border
-         * @param top, left, bottom, right - outer insets for this border
+         * Crebtes this border;
+         * @pbrbm icon - icon to pbint for this border
+         * @pbrbm top, left, bottom, right - outer insets for this border
          */
         public IconBorder(Icon icon, int top, int left,
                           int bottom, int right) {
@@ -234,12 +234,12 @@ public class WindowsTableHeaderUI extends BasicTableHeaderUI {
         public Insets getBorderInsets(Component c) {
             return new Insets(icon.getIconHeight() + top, left, bottom, right);
         }
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            icon.paintIcon(c, g,
+            icon.pbintIcon(c, g,
                 x + left + (width - left - right - icon.getIconWidth()) / 2,
                 y + top);
         }

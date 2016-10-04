@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FileRebder;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /*
- * MetaIndex is intended to decrease startup time (in particular cold
- * start, when files are not yet in the disk cache) by providing a
- * quick reject mechanism for probes into jar files. The on-disk
- * representation of the meta-index is a flat text file with per-jar
- * entries indicating (generally speaking) prefixes of package names
- * contained in the jar. As an example, here is an edited excerpt of
- * the meta-index generated for jre/lib in the current build:
+ * MetbIndex is intended to decrebse stbrtup time (in pbrticulbr cold
+ * stbrt, when files bre not yet in the disk cbche) by providing b
+ * quick reject mechbnism for probes into jbr files. The on-disk
+ * representbtion of the metb-index is b flbt text file with per-jbr
+ * entries indicbting (generblly spebking) prefixes of pbckbge nbmes
+ * contbined in the jbr. As bn exbmple, here is bn edited excerpt of
+ * the metb-index generbted for jre/lib in the current build:
  *
 <PRE>
 % VERSION 1
-# charsets.jar
+# chbrsets.jbr
 sun/
-# jce.jar
-javax/
-! jsse.jar
+# jce.jbr
+jbvbx/
+! jsse.jbr
 sun/
 com/sun/net/
-javax/
+jbvbx/
 com/sun/security/
-@ resources.jar
+@ resources.jbr
 com/sun/xml/
 com/sun/rowset/
 com/sun/org/
 sun/
-com/sun/imageio/
-javax/
-com/sun/java/swing/
+com/sun/imbgeio/
+jbvbx/
+com/sun/jbvb/swing/
 META-INF/services/
-com/sun/java/util/jar/pack/
-com/sun/corba/
+com/sun/jbvb/util/jbr/pbck/
+com/sun/corbb/
 com/sun/jndi/
-! rt.jar
+! rt.jbr
 org/w3c/
-com/sun/imageio/
-javax/
-java/
+com/sun/imbgeio/
+jbvbx/
+jbvb/
 sun/
 ...
 </PRE>
- * <p> A few notes about the design of the meta-index:
+ * <p> A few notes bbout the design of the metb-index:
  *
  * <UL>
  *
- * <LI> It contains entries for multiple jar files. This is
- * intentional, to reduce the number of disk accesses that need to be
- * performed during startup.
+ * <LI> It contbins entries for multiple jbr files. This is
+ * intentionbl, to reduce the number of disk bccesses thbt need to be
+ * performed during stbrtup.
  *
- * <LI> It is only intended to act as a fast reject mechanism to
- * prevent application and other classes from forcing all jar files on
- * the boot and extension class paths to be opened. It is not intended
- * as a precise index of the contents of the jar.
+ * <LI> It is only intended to bct bs b fbst reject mechbnism to
+ * prevent bpplicbtion bnd other clbsses from forcing bll jbr files on
+ * the boot bnd extension clbss pbths to be opened. It is not intended
+ * bs b precise index of the contents of the jbr.
  *
- * <LI> It should be as small as possible to reduce the amount of time
- * required to parse it during startup. For example, adding on the
- * secondary package element to java/ and javax/ packages
- * ("javax/swing/", for example) causes the meta-index to grow
- * significantly. This is why substrings of the packages have been
- * chosen as the principal contents.
+ * <LI> It should be bs smbll bs possible to reduce the bmount of time
+ * required to pbrse it during stbrtup. For exbmple, bdding on the
+ * secondbry pbckbge element to jbvb/ bnd jbvbx/ pbckbges
+ * ("jbvbx/swing/", for exbmple) cbuses the metb-index to grow
+ * significbntly. This is why substrings of the pbckbges hbve been
+ * chosen bs the principbl contents.
  *
- * <LI> It is versioned, and optional, to prevent strong dependencies
- * between the JVM and JDK. It is also potentially applicable to more
- * than just the boot and extension class paths.
+ * <LI> It is versioned, bnd optionbl, to prevent strong dependencies
+ * between the JVM bnd JDK. It is blso potentiblly bpplicbble to more
+ * thbn just the boot bnd extension clbss pbths.
  *
- * <LI> Precisely speaking, it plays different role in JVM and J2SE
- * side.  On the JVM side, meta-index file is used to speed up locating the
- * class files only while on the J2SE side, meta-index file is used to speed
- * up the resources file & class file.
- * To help the JVM and J2SE code to better utilize the information in meta-index
- * file, we mark the jar file differently. Here is the current rule we use.
- * For jar file containing only class file, we put '!' before the jar file name;
- * for jar file containing only resources file, we put '@' before the jar file name;
- * for jar file containing both resources and class file, we put '#' before the
- * jar name.
- * Notice the fact that every jar file contains at least the manifest file, so when
- * we say "jar file containing only class file", we don't include that file.
+ * <LI> Precisely spebking, it plbys different role in JVM bnd J2SE
+ * side.  On the JVM side, metb-index file is used to speed up locbting the
+ * clbss files only while on the J2SE side, metb-index file is used to speed
+ * up the resources file & clbss file.
+ * To help the JVM bnd J2SE code to better utilize the informbtion in metb-index
+ * file, we mbrk the jbr file differently. Here is the current rule we use.
+ * For jbr file contbining only clbss file, we put '!' before the jbr file nbme;
+ * for jbr file contbining only resources file, we put '@' before the jbr file nbme;
+ * for jbr file contbining both resources bnd clbss file, we put '#' before the
+ * jbr nbme.
+ * Notice the fbct thbt every jbr file contbins bt lebst the mbnifest file, so when
+ * we sby "jbr file contbining only clbss file", we don't include thbt file.
  *
  * </UL>
  *
- * <p> To avoid changing the behavior of the current application
- * loader and other loaders, the current MetaIndex implementation in
- * the JDK requires that the directory containing the meta-index be
- * registered with the MetaIndex class before construction of the
- * associated URLClassPath. This prevents the need for automatic
- * searching for the meta-index in the URLClassPath code and potential
- * changes in behavior for non-core ClassLoaders.
+ * <p> To bvoid chbnging the behbvior of the current bpplicbtion
+ * lobder bnd other lobders, the current MetbIndex implementbtion in
+ * the JDK requires thbt the directory contbining the metb-index be
+ * registered with the MetbIndex clbss before construction of the
+ * bssocibted URLClbssPbth. This prevents the need for butombtic
+ * sebrching for the metb-index in the URLClbssPbth code bnd potentibl
+ * chbnges in behbvior for non-core ClbssLobders.
  *
- * This class depends on make/tools/MetaIndex/BuildMetaIndex.java and
- * is used principally by sun.misc.URLClassPath.
+ * This clbss depends on mbke/tools/MetbIndex/BuildMetbIndex.jbvb bnd
+ * is used principblly by sun.misc.URLClbssPbth.
  */
 
-public class MetaIndex {
-    // Maps jar file names in registered directories to meta-indices
-    private static volatile Map<File, MetaIndex> jarMap;
+public clbss MetbIndex {
+    // Mbps jbr file nbmes in registered directories to metb-indices
+    privbte stbtic volbtile Mbp<File, MetbIndex> jbrMbp;
 
-    // List of contents of this meta-index
-    private String[] contents;
+    // List of contents of this metb-index
+    privbte String[] contents;
 
-    // Indicate whether the coresponding jar file is a pure class jar file or not
-    private boolean isClassOnlyJar;
+    // Indicbte whether the coresponding jbr file is b pure clbss jbr file or not
+    privbte boolebn isClbssOnlyJbr;
 
     //----------------------------------------------------------------------
-    // Registration of directories (which can cause parsing of the
-    // meta-index file if it is present), and fetching of parsed
-    // meta-indices
-    // jarMap is not strictly thread-safe when the meta index mechanism
-    // is extended for user-provided jar files in future.
+    // Registrbtion of directories (which cbn cbuse pbrsing of the
+    // metb-index file if it is present), bnd fetching of pbrsed
+    // metb-indices
+    // jbrMbp is not strictly threbd-sbfe when the metb index mechbnism
+    // is extended for user-provided jbr files in future.
 
-    public static MetaIndex forJar(File jar) {
-        return getJarMap().get(jar);
+    public stbtic MetbIndex forJbr(File jbr) {
+        return getJbrMbp().get(jbr);
     }
 
-    // 'synchronized' is added to protect the jarMap from being modified
-    // by multiple threads.
-    public static synchronized void registerDirectory(File dir) {
-        // Note that this does not currently check to see whether the
-        // directory has previously been registered, since the meta-index
-        // in a particular directory creates multiple entries in the
-        // jarMap. If this mechanism is extended beyond the boot and
-        // extension class paths (for example, automatically searching for
-        // meta-index files in directories containing jars which have been
-        // explicitly opened) then this code should be generalized.
+    // 'synchronized' is bdded to protect the jbrMbp from being modified
+    // by multiple threbds.
+    public stbtic synchronized void registerDirectory(File dir) {
+        // Note thbt this does not currently check to see whether the
+        // directory hbs previously been registered, since the metb-index
+        // in b pbrticulbr directory crebtes multiple entries in the
+        // jbrMbp. If this mechbnism is extended beyond the boot bnd
+        // extension clbss pbths (for exbmple, butombticblly sebrching for
+        // metb-index files in directories contbining jbrs which hbve been
+        // explicitly opened) then this code should be generblized.
         //
-        // This method must be called from a privileged context.
-        File indexFile = new File(dir, "meta-index");
+        // This method must be cblled from b privileged context.
+        File indexFile = new File(dir, "metb-index");
         if (indexFile.exists()) {
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(indexFile));
+                BufferedRebder rebder = new BufferedRebder(new FileRebder(indexFile));
                 String line = null;
-                String curJarName = null;
-                boolean isCurJarContainClassOnly = false;
-                List<String> contents = new ArrayList<String>();
-                Map<File, MetaIndex> map = getJarMap();
+                String curJbrNbme = null;
+                boolebn isCurJbrContbinClbssOnly = fblse;
+                List<String> contents = new ArrbyList<String>();
+                Mbp<File, MetbIndex> mbp = getJbrMbp();
 
-                /* Convert dir into canonical form. */
-                dir = dir.getCanonicalFile();
-                /* Note: The first line should contain the version of
-                 * the meta-index file. We have to match the right version
-                 * before trying to parse this file. */
-                line = reader.readLine();
+                /* Convert dir into cbnonicbl form. */
+                dir = dir.getCbnonicblFile();
+                /* Note: The first line should contbin the version of
+                 * the metb-index file. We hbve to mbtch the right version
+                 * before trying to pbrse this file. */
+                line = rebder.rebdLine();
                 if (line == null ||
-                    !line.equals("% VERSION 2")) {
-                    reader.close();
+                    !line.equbls("% VERSION 2")) {
+                    rebder.close();
                     return;
                 }
-                while ((line = reader.readLine()) != null) {
-                    switch (line.charAt(0)) {
-                    case '!':
-                    case '#':
-                    case '@': {
-                        // Store away current contents, if any
-                        if ((curJarName != null) && (contents.size() > 0)) {
-                            map.put(new File(dir, curJarName),
-                                    new MetaIndex(contents,
-                                                  isCurJarContainClassOnly));
+                while ((line = rebder.rebdLine()) != null) {
+                    switch (line.chbrAt(0)) {
+                    cbse '!':
+                    cbse '#':
+                    cbse '@': {
+                        // Store bwby current contents, if bny
+                        if ((curJbrNbme != null) && (contents.size() > 0)) {
+                            mbp.put(new File(dir, curJbrNbme),
+                                    new MetbIndex(contents,
+                                                  isCurJbrContbinClbssOnly));
 
-                            contents.clear();
+                            contents.clebr();
                         }
-                        // Fetch new current jar file name
-                        curJarName = line.substring(2);
-                        if (line.charAt(0) == '!') {
-                            isCurJarContainClassOnly = true;
-                        } else if (isCurJarContainClassOnly) {
-                            isCurJarContainClassOnly = false;
+                        // Fetch new current jbr file nbme
+                        curJbrNbme = line.substring(2);
+                        if (line.chbrAt(0) == '!') {
+                            isCurJbrContbinClbssOnly = true;
+                        } else if (isCurJbrContbinClbssOnly) {
+                            isCurJbrContbinClbssOnly = fblse;
                         }
 
-                        break;
+                        brebk;
                     }
-                    case '%':
-                        break;
-                    default: {
-                        contents.add(line);
+                    cbse '%':
+                        brebk;
+                    defbult: {
+                        contents.bdd(line);
                     }
                     }
                 }
-                // Store away current contents, if any
-                if ((curJarName != null) && (contents.size() > 0)) {
-                    map.put(new File(dir, curJarName),
-                            new MetaIndex(contents, isCurJarContainClassOnly));
+                // Store bwby current contents, if bny
+                if ((curJbrNbme != null) && (contents.size() > 0)) {
+                    mbp.put(new File(dir, curJbrNbme),
+                            new MetbIndex(contents, isCurJbrContbinClbssOnly));
                 }
 
-                reader.close();
+                rebder.close();
 
-            } catch (IOException e) {
-                // Silently fail for now (similar behavior to elsewhere in
-                // extension and core loaders)
+            } cbtch (IOException e) {
+                // Silently fbil for now (similbr behbvior to elsewhere in
+                // extension bnd core lobders)
             }
         }
     }
@@ -229,46 +229,46 @@ public class MetaIndex {
     // Public APIs
     //
 
-    public boolean mayContain(String entry) {
-        // Ask non-class file from class only jar returns false
-        // This check is important to avoid some class only jar
-        // files such as rt.jar are opened for resource request.
-        if  (isClassOnlyJar && !entry.endsWith(".class")){
-            return false;
+    public boolebn mbyContbin(String entry) {
+        // Ask non-clbss file from clbss only jbr returns fblse
+        // This check is importbnt to bvoid some clbss only jbr
+        // files such bs rt.jbr bre opened for resource request.
+        if  (isClbssOnlyJbr && !entry.endsWith(".clbss")){
+            return fblse;
         }
 
         String[] conts = contents;
         for (int i = 0; i < conts.length; i++) {
-            if (entry.startsWith(conts[i])) {
+            if (entry.stbrtsWith(conts[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     //----------------------------------------------------------------------
-    // Implementation only below this point
-    // @IllegalArgumentException if entries is null.
-    private MetaIndex(List<String> entries, boolean isClassOnlyJar)
-        throws IllegalArgumentException {
+    // Implementbtion only below this point
+    // @IllegblArgumentException if entries is null.
+    privbte MetbIndex(List<String> entries, boolebn isClbssOnlyJbr)
+        throws IllegblArgumentException {
         if (entries == null) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        contents = entries.toArray(new String[0]);
-        this.isClassOnlyJar = isClassOnlyJar;
+        contents = entries.toArrby(new String[0]);
+        this.isClbssOnlyJbr = isClbssOnlyJbr;
     }
 
-    private static Map<File, MetaIndex> getJarMap() {
-        if (jarMap == null) {
-            synchronized (MetaIndex.class) {
-                if (jarMap == null) {
-                    jarMap = new HashMap<File, MetaIndex>();
+    privbte stbtic Mbp<File, MetbIndex> getJbrMbp() {
+        if (jbrMbp == null) {
+            synchronized (MetbIndex.clbss) {
+                if (jbrMbp == null) {
+                    jbrMbp = new HbshMbp<File, MetbIndex>();
                 }
             }
         }
-        assert jarMap != null;
-        return jarMap;
+        bssert jbrMbp != null;
+        return jbrMbp;
     }
 }

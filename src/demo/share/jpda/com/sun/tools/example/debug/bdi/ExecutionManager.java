@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
 import com.sun.jdi.connect.*;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import com.sun.tools.example.debug.expr.ParseException;
+import com.sun.tools.exbmple.debug.expr.ExpressionPbrser;
+import com.sun.tools.exbmple.debug.expr.PbrseException;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import com.sun.tools.example.debug.event.*;
+import com.sun.tools.exbmple.debug.event.*;
 
-import javax.swing.SwingUtilities;
+import jbvbx.swing.SwingUtilities;
 
 /**
- * Move this towards being only state and functionality
- * that spans across Sessions (and thus VMs).
+ * Move this towbrds being only stbte bnd functionblity
+ * thbt spbns bcross Sessions (bnd thus VMs).
  */
-public class ExecutionManager {
+public clbss ExecutionMbnbger {
 
-    private Session session;
+    privbte Session session;
 
     /**
-     * Get/set JDI trace mode.
+     * Get/set JDI trbce mode.
      */
-    int traceMode = VirtualMachine.TRACE_NONE;
+    int trbceMode = VirtublMbchine.TRACE_NONE;
 
-  //////////////////    Listener registration    //////////////////
+  //////////////////    Listener registrbtion    //////////////////
 
   // Session Listeners
 
-    ArrayList<SessionListener> sessionListeners = new ArrayList<SessionListener>();
+    ArrbyList<SessionListener> sessionListeners = new ArrbyList<SessionListener>();
 
-    public void addSessionListener(SessionListener listener) {
-        sessionListeners.add(listener);
+    public void bddSessionListener(SessionListener listener) {
+        sessionListeners.bdd(listener);
     }
 
     public void removeSessionListener(SessionListener listener) {
@@ -76,10 +76,10 @@ public class ExecutionManager {
 
   // Spec Listeners
 
-  ArrayList<SpecListener> specListeners = new ArrayList<SpecListener>();
+  ArrbyList<SpecListener> specListeners = new ArrbyList<SpecListener>();
 
-    public void addSpecListener(SpecListener cl) {
-        specListeners.add(cl);
+    public void bddSpecListener(SpecListener cl) {
+        specListeners.bdd(cl);
     }
 
     public void removeSpecListener(SpecListener cl) {
@@ -88,24 +88,24 @@ public class ExecutionManager {
 
     // JDI Listeners
 
-    ArrayList<JDIListener> jdiListeners = new ArrayList<JDIListener>();
+    ArrbyList<JDIListener> jdiListeners = new ArrbyList<JDIListener>();
 
     /**
-     * Adds a JDIListener
+     * Adds b JDIListener
      */
-    public void addJDIListener(JDIListener jl) {
-        jdiListeners.add(jl);
+    public void bddJDIListener(JDIListener jl) {
+        jdiListeners.bdd(jl);
     }
 
     /**
-     * Adds a JDIListener - at the specified position
+     * Adds b JDIListener - bt the specified position
      */
-    public void addJDIListener(int index, JDIListener jl) {
-        jdiListeners.add(index, jl);
+    public void bddJDIListener(int index, JDIListener jl) {
+        jdiListeners.bdd(index, jl);
     }
 
     /**
-     * Removes a JDIListener
+     * Removes b JDIListener
      */
     public void removeJDIListener(JDIListener jl) {
         jdiListeners.remove(jl);
@@ -113,56 +113,56 @@ public class ExecutionManager {
 
   // App Echo Listeners
 
-    private ArrayList<OutputListener> appEchoListeners = new ArrayList<OutputListener>();
+    privbte ArrbyList<OutputListener> bppEchoListeners = new ArrbyList<OutputListener>();
 
-    public void addApplicationEchoListener(OutputListener l) {
-        appEchoListeners.add(l);
+    public void bddApplicbtionEchoListener(OutputListener l) {
+        bppEchoListeners.bdd(l);
     }
 
-    public void removeApplicationEchoListener(OutputListener l) {
-        appEchoListeners.remove(l);
+    public void removeApplicbtionEchoListener(OutputListener l) {
+        bppEchoListeners.remove(l);
     }
 
   // App Output Listeners
 
-    private ArrayList<OutputListener> appOutputListeners = new ArrayList<OutputListener>();
+    privbte ArrbyList<OutputListener> bppOutputListeners = new ArrbyList<OutputListener>();
 
-    public void addApplicationOutputListener(OutputListener l) {
-        appOutputListeners.add(l);
+    public void bddApplicbtionOutputListener(OutputListener l) {
+        bppOutputListeners.bdd(l);
     }
 
-    public void removeApplicationOutputListener(OutputListener l) {
-        appOutputListeners.remove(l);
+    public void removeApplicbtionOutputListener(OutputListener l) {
+        bppOutputListeners.remove(l);
     }
 
   // App Error Listeners
 
-    private ArrayList<OutputListener> appErrorListeners = new ArrayList<OutputListener>();
+    privbte ArrbyList<OutputListener> bppErrorListeners = new ArrbyList<OutputListener>();
 
-    public void addApplicationErrorListener(OutputListener l) {
-        appErrorListeners.add(l);
+    public void bddApplicbtionErrorListener(OutputListener l) {
+        bppErrorListeners.bdd(l);
     }
 
-    public void removeApplicationErrorListener(OutputListener l) {
-        appErrorListeners.remove(l);
+    public void removeApplicbtionErrorListener(OutputListener l) {
+        bppErrorListeners.remove(l);
     }
 
-  // Diagnostic Listeners
+  // Dibgnostic Listeners
 
-    private ArrayList<OutputListener> diagnosticsListeners = new ArrayList<OutputListener>();
+    privbte ArrbyList<OutputListener> dibgnosticsListeners = new ArrbyList<OutputListener>();
 
-    public void addDiagnosticsListener(OutputListener l) {
-        diagnosticsListeners.add(l);
+    public void bddDibgnosticsListener(OutputListener l) {
+        dibgnosticsListeners.bdd(l);
     }
 
-    public void removeDiagnosticsListener(OutputListener l) {
-        diagnosticsListeners.remove(l);
+    public void removeDibgnosticsListener(OutputListener l) {
+        dibgnosticsListeners.remove(l);
     }
 
-  ///////////    End Listener Registration    //////////////
+  ///////////    End Listener Registrbtion    //////////////
 
-    //### We probably don't want this public
-    public VirtualMachine vm() {
+    //### We probbbly don't wbnt this public
+    public VirtublMbchine vm() {
         return session == null ? null : session.vm;
     }
 
@@ -172,320 +172,320 @@ public class ExecutionManager {
       }
     }
 
-    public EventRequestManager eventRequestManager() {
-        return vm() == null ? null : vm().eventRequestManager();
+    public EventRequestMbnbger eventRequestMbnbger() {
+        return vm() == null ? null : vm().eventRequestMbnbger();
     }
 
     /**
-     * Get JDI trace mode.
+     * Get JDI trbce mode.
      */
-    public int getTraceMode(int mode) {
-        return traceMode;
+    public int getTrbceMode(int mode) {
+        return trbceMode;
     }
 
     /**
-     * Set JDI trace mode.
+     * Set JDI trbce mode.
      */
-    public void setTraceMode(int mode) {
-        traceMode = mode;
+    public void setTrbceMode(int mode) {
+        trbceMode = mode;
         if (session != null) {
-            session.setTraceMode(mode);
+            session.setTrbceMode(mode);
         }
     }
 
     /**
-     * Determine if VM is interrupted, i.e, present and not running.
+     * Determine if VM is interrupted, i.e, present bnd not running.
      */
-    public boolean isInterrupted() /* should: throws NoSessionException */ {
+    public boolebn isInterrupted() /* should: throws NoSessionException */ {
 //      ensureActiveSession();
         return session.interrupted;
     }
 
     /**
-     * Return a list of ReferenceType objects for all
-     * currently loaded classes and interfaces.
-     * Array types are not returned.
+     * Return b list of ReferenceType objects for bll
+     * currently lobded clbsses bnd interfbces.
+     * Arrby types bre not returned.
      */
-    public List<ReferenceType> allClasses() throws NoSessionException {
+    public List<ReferenceType> bllClbsses() throws NoSessionException {
         ensureActiveSession();
-        return vm().allClasses();
+        return vm().bllClbsses();
     }
 
     /**
-     * Return a ReferenceType object for the currently
-     * loaded class or interface whose fully-qualified
-     * class name is specified, else return null if there
+     * Return b ReferenceType object for the currently
+     * lobded clbss or interfbce whose fully-qublified
+     * clbss nbme is specified, else return null if there
      * is none.
      *
-     * In general, we must return a list of types, because
-     * multiple class loaders could have loaded a class
-     * with the same fully-qualified name.
+     * In generbl, we must return b list of types, becbuse
+     * multiple clbss lobders could hbve lobded b clbss
+     * with the sbme fully-qublified nbme.
      */
-    public List<ReferenceType> findClassesByName(String name) throws NoSessionException {
+    public List<ReferenceType> findClbssesByNbme(String nbme) throws NoSessionException {
         ensureActiveSession();
-        return vm().classesByName(name);
+        return vm().clbssesByNbme(nbme);
     }
 
     /**
-     * Return a list of ReferenceType objects for all
-     * currently loaded classes and interfaces whose name
-     * matches the given pattern.  The pattern syntax is
+     * Return b list of ReferenceType objects for bll
+     * currently lobded clbsses bnd interfbces whose nbme
+     * mbtches the given pbttern.  The pbttern syntbx is
      * open to some future revision, but currently consists
-     * of a fully-qualified class name in which the first
-     * component may optionally be a "*" character, designating
-     * an arbitrary prefix.
+     * of b fully-qublified clbss nbme in which the first
+     * component mby optionblly be b "*" chbrbcter, designbting
+     * bn brbitrbry prefix.
      */
-    public List<ReferenceType> findClassesMatchingPattern(String pattern)
+    public List<ReferenceType> findClbssesMbtchingPbttern(String pbttern)
                                                 throws NoSessionException {
         ensureActiveSession();
-        List<ReferenceType> result = new ArrayList<ReferenceType>();  //### Is default size OK?
-        if (pattern.startsWith("*.")) {
-            // Wildcard matches any leading package name.
-            pattern = pattern.substring(1);
-            for (ReferenceType type : vm().allClasses()) {
-                if (type.name().endsWith(pattern)) {
-                    result.add(type);
+        List<ReferenceType> result = new ArrbyList<ReferenceType>();  //### Is defbult size OK?
+        if (pbttern.stbrtsWith("*.")) {
+            // Wildcbrd mbtches bny lebding pbckbge nbme.
+            pbttern = pbttern.substring(1);
+            for (ReferenceType type : vm().bllClbsses()) {
+                if (type.nbme().endsWith(pbttern)) {
+                    result.bdd(type);
                 }
             }
             return result;
         } else {
-            // It's a class name.
-            return vm().classesByName(pattern);
+            // It's b clbss nbme.
+            return vm().clbssesByNbme(pbttern);
         }
     }
 
     /*
-     * Return a list of ThreadReference objects corresponding
-     * to the threads that are currently active in the VM.
-     * A thread is removed from the list just before the
-     * thread terminates.
+     * Return b list of ThrebdReference objects corresponding
+     * to the threbds thbt bre currently bctive in the VM.
+     * A threbd is removed from the list just before the
+     * threbd terminbtes.
      */
 
-    public List<ThreadReference> allThreads() throws NoSessionException {
+    public List<ThrebdReference> bllThrebds() throws NoSessionException {
         ensureActiveSession();
-        return vm().allThreads();
+        return vm().bllThrebds();
     }
 
     /*
-     * Return a list of ThreadGroupReference objects corresponding
-     * to the top-level threadgroups that are currently active in the VM.
-     * Note that a thread group may be empty, or contain no threads as
+     * Return b list of ThrebdGroupReference objects corresponding
+     * to the top-level threbdgroups thbt bre currently bctive in the VM.
+     * Note thbt b threbd group mby be empty, or contbin no threbds bs
      * descendents.
      */
 
-    public List<ThreadGroupReference> topLevelThreadGroups() throws NoSessionException {
+    public List<ThrebdGroupReference> topLevelThrebdGroups() throws NoSessionException {
         ensureActiveSession();
-        return vm().topLevelThreadGroups();
+        return vm().topLevelThrebdGroups();
     }
 
     /*
-     * Return the system threadgroup.
+     * Return the system threbdgroup.
      */
 
-    public ThreadGroupReference systemThreadGroup()
+    public ThrebdGroupReference systemThrebdGroup()
                                                 throws NoSessionException {
         ensureActiveSession();
-        return vm().topLevelThreadGroups().get(0);
+        return vm().topLevelThrebdGroups().get(0);
     }
 
     /*
-     * Evaluate an expression.
+     * Evblubte bn expression.
      */
 
-    public Value evaluate(final StackFrame f, String expr)
-        throws ParseException,
-                                            InvocationException,
-                                            InvalidTypeException,
-                                            ClassNotLoadedException,
+    public Vblue evblubte(finbl StbckFrbme f, String expr)
+        throws PbrseException,
+                                            InvocbtionException,
+                                            InvblidTypeException,
+                                            ClbssNotLobdedException,
                                             NoSessionException,
-                                            IncompatibleThreadStateException {
-        ExpressionParser.GetFrame frameGetter = null;
+                                            IncompbtibleThrebdStbteException {
+        ExpressionPbrser.GetFrbme frbmeGetter = null;
         ensureActiveSession();
         if (f != null) {
-            frameGetter = new ExpressionParser.GetFrame() {
+            frbmeGetter = new ExpressionPbrser.GetFrbme() {
                 @Override
-                public StackFrame get() /* throws IncompatibleThreadStateException */ {
+                public StbckFrbme get() /* throws IncompbtibleThrebdStbteException */ {
                     return f;
                 }
             };
         }
-        return ExpressionParser.evaluate(expr, vm(), frameGetter);
+        return ExpressionPbrser.evblubte(expr, vm(), frbmeGetter);
     }
 
 
     /*
-     * Start a new VM.
+     * Stbrt b new VM.
      */
 
-    public void run(boolean suspended,
+    public void run(boolebn suspended,
                     String vmArgs,
-                    String className,
-                    String args) throws VMLaunchFailureException {
+                    String clbssNbme,
+                    String brgs) throws VMLbunchFbilureException {
 
         endSession();
 
-        //### Set a breakpoint on 'main' method.
-        //### Would be cleaner if we could just bring up VM already suspended.
+        //### Set b brebkpoint on 'mbin' method.
+        //### Would be clebner if we could just bring up VM blrebdy suspended.
         if (suspended) {
-            //### Set breakpoint at 'main(java.lang.String[])'.
-            List<String> argList = new ArrayList<String>(1);
-            argList.add("java.lang.String[]");
-            createMethodBreakpoint(className, "main", argList);
+            //### Set brebkpoint bt 'mbin(jbvb.lbng.String[])'.
+            List<String> brgList = new ArrbyList<String>(1);
+            brgList.bdd("jbvb.lbng.String[]");
+            crebteMethodBrebkpoint(clbssNbme, "mbin", brgList);
         }
 
-        String cmdLine = className + " " + args;
+        String cmdLine = clbssNbme + " " + brgs;
 
-        startSession(new ChildSession(this, vmArgs, cmdLine,
-                                      appInput, appOutput, appError,
-                                      diagnostics));
+        stbrtSession(new ChildSession(this, vmArgs, cmdLine,
+                                      bppInput, bppOutput, bppError,
+                                      dibgnostics));
     }
 
     /*
-     * Attach to an existing VM.
+     * Attbch to bn existing VM.
      */
-    public void attach(String portName) throws VMLaunchFailureException {
+    public void bttbch(String portNbme) throws VMLbunchFbilureException {
         endSession();
 
-        //### Changes made here for connectors have broken the
-        //### the 'Session' abstraction.  The 'Session.attach()'
-        //### method is intended to encapsulate all of the various
-        //### ways in which session start-up can fail. (maddox 12/18/98)
+        //### Chbnges mbde here for connectors hbve broken the
+        //### the 'Session' bbstrbction.  The 'Session.bttbch()'
+        //### method is intended to encbpsulbte bll of the vbrious
+        //### wbys in which session stbrt-up cbn fbil. (mbddox 12/18/98)
 
         /*
-         * Now that attaches and launches both go through Connectors,
-         * it may be worth creating a new subclass of Session for
-         * attach sessions.
+         * Now thbt bttbches bnd lbunches both go through Connectors,
+         * it mby be worth crebting b new subclbss of Session for
+         * bttbch sessions.
          */
-        VirtualMachineManager mgr = Bootstrap.virtualMachineManager();
-        AttachingConnector connector = mgr.attachingConnectors().get(0);
-        Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        arguments.get("port").setValue(portName);
+        VirtublMbchineMbnbger mgr = Bootstrbp.virtublMbchineMbnbger();
+        AttbchingConnector connector = mgr.bttbchingConnectors().get(0);
+        Mbp<String, Connector.Argument> brguments = connector.defbultArguments();
+        brguments.get("port").setVblue(portNbme);
 
-        Session newSession = internalAttach(connector, arguments);
+        Session newSession = internblAttbch(connector, brguments);
         if (newSession != null) {
-            startSession(newSession);
+            stbrtSession(newSession);
         }
     }
 
-    private Session internalAttach(AttachingConnector connector,
-                                   Map<String, Connector.Argument> arguments) {
+    privbte Session internblAttbch(AttbchingConnector connector,
+                                   Mbp<String, Connector.Argument> brguments) {
         try {
-            VirtualMachine vm = connector.attach(arguments);
-            return new Session(vm, this, diagnostics);
-        } catch (IOException ioe) {
-            diagnostics.putString("\n Unable to attach to target VM: " +
-                                  ioe.getMessage());
-        } catch (IllegalConnectorArgumentsException icae) {
-            diagnostics.putString("\n Invalid connector arguments: " +
-                                  icae.getMessage());
+            VirtublMbchine vm = connector.bttbch(brguments);
+            return new Session(vm, this, dibgnostics);
+        } cbtch (IOException ioe) {
+            dibgnostics.putString("\n Unbble to bttbch to tbrget VM: " +
+                                  ioe.getMessbge());
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            dibgnostics.putString("\n Invblid connector brguments: " +
+                                  icbe.getMessbge());
         }
         return null;
     }
 
-    private Session internalListen(ListeningConnector connector,
-                                   Map<String, Connector.Argument> arguments) {
+    privbte Session internblListen(ListeningConnector connector,
+                                   Mbp<String, Connector.Argument> brguments) {
         try {
-            VirtualMachine vm = connector.accept(arguments);
-            return new Session(vm, this, diagnostics);
-        } catch (IOException ioe) {
-            diagnostics.putString(
-                  "\n Unable to accept connection to target VM: " +
-                                  ioe.getMessage());
-        } catch (IllegalConnectorArgumentsException icae) {
-            diagnostics.putString("\n Invalid connector arguments: " +
-                                  icae.getMessage());
+            VirtublMbchine vm = connector.bccept(brguments);
+            return new Session(vm, this, dibgnostics);
+        } cbtch (IOException ioe) {
+            dibgnostics.putString(
+                  "\n Unbble to bccept connection to tbrget VM: " +
+                                  ioe.getMessbge());
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            dibgnostics.putString("\n Invblid connector brguments: " +
+                                  icbe.getMessbge());
         }
         return null;
     }
 
     /*
-     * Connect via user specified arguments
+     * Connect vib user specified brguments
      * @return true on success
      */
-    public boolean explictStart(Connector connector, Map<String, Connector.Argument> arguments)
-                                           throws VMLaunchFailureException {
+    public boolebn explictStbrt(Connector connector, Mbp<String, Connector.Argument> brguments)
+                                           throws VMLbunchFbilureException {
         Session newSession = null;
 
         endSession();
 
-        if (connector instanceof LaunchingConnector) {
-            // we were launched, use ChildSession
-            newSession = new ChildSession(this, (LaunchingConnector)connector,
-                                          arguments,
-                                          appInput, appOutput, appError,
-                                          diagnostics);
-        } else if (connector instanceof AttachingConnector) {
-            newSession = internalAttach((AttachingConnector)connector,
-                                        arguments);
-        } else if (connector instanceof ListeningConnector) {
-            newSession = internalListen((ListeningConnector)connector,
-                                        arguments);
+        if (connector instbnceof LbunchingConnector) {
+            // we were lbunched, use ChildSession
+            newSession = new ChildSession(this, (LbunchingConnector)connector,
+                                          brguments,
+                                          bppInput, bppOutput, bppError,
+                                          dibgnostics);
+        } else if (connector instbnceof AttbchingConnector) {
+            newSession = internblAttbch((AttbchingConnector)connector,
+                                        brguments);
+        } else if (connector instbnceof ListeningConnector) {
+            newSession = internblListen((ListeningConnector)connector,
+                                        brguments);
         } else {
-            diagnostics.putString("\n Unknown connector: " + connector);
+            dibgnostics.putString("\n Unknown connector: " + connector);
         }
         if (newSession != null) {
-            startSession(newSession);
+            stbrtSession(newSession);
         }
         return newSession != null;
     }
 
     /*
-     * Detach from VM.  If VM was started by debugger, terminate it.
+     * Detbch from VM.  If VM wbs stbrted by debugger, terminbte it.
      */
-    public void detach() throws NoSessionException {
+    public void detbch() throws NoSessionException {
         ensureActiveSession();
         endSession();
     }
 
-    private void startSession(Session s) throws VMLaunchFailureException {
-        if (!s.attach()) {
-            throw new VMLaunchFailureException();
+    privbte void stbrtSession(Session s) throws VMLbunchFbilureException {
+        if (!s.bttbch()) {
+            throw new VMLbunchFbilureException();
         }
         session = s;
-        EventRequestManager em = vm().eventRequestManager();
-        ClassPrepareRequest classPrepareRequest = em.createClassPrepareRequest();
-        //### We must allow the deferred breakpoints to be resolved before
-        //### we continue executing the class.  We could optimize if there
-        //### were no deferred breakpoints outstanding for a particular class.
-        //### Can we do this with JDI?
-        classPrepareRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        classPrepareRequest.enable();
-        ClassUnloadRequest classUnloadRequest = em.createClassUnloadRequest();
-        classUnloadRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        classUnloadRequest.enable();
-        ThreadStartRequest threadStartRequest = em.createThreadStartRequest();
-        threadStartRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        threadStartRequest.enable();
-        ThreadDeathRequest threadDeathRequest = em.createThreadDeathRequest();
-        threadDeathRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        threadDeathRequest.enable();
+        EventRequestMbnbger em = vm().eventRequestMbnbger();
+        ClbssPrepbreRequest clbssPrepbreRequest = em.crebteClbssPrepbreRequest();
+        //### We must bllow the deferred brebkpoints to be resolved before
+        //### we continue executing the clbss.  We could optimize if there
+        //### were no deferred brebkpoints outstbnding for b pbrticulbr clbss.
+        //### Cbn we do this with JDI?
+        clbssPrepbreRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
+        clbssPrepbreRequest.enbble();
+        ClbssUnlobdRequest clbssUnlobdRequest = em.crebteClbssUnlobdRequest();
+        clbssUnlobdRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
+        clbssUnlobdRequest.enbble();
+        ThrebdStbrtRequest threbdStbrtRequest = em.crebteThrebdStbrtRequest();
+        threbdStbrtRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
+        threbdStbrtRequest.enbble();
+        ThrebdDebthRequest threbdDebthRequest = em.crebteThrebdDebthRequest();
+        threbdDebthRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
+        threbdDebthRequest.enbble();
         ExceptionRequest exceptionRequest =
-                                em.createExceptionRequest(null, false, true);
+                                em.crebteExceptionRequest(null, fblse, true);
         exceptionRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        exceptionRequest.enable();
-        validateThreadInfo();
+        exceptionRequest.enbble();
+        vblidbteThrebdInfo();
         session.interrupted = true;
-        notifySessionStart();
+        notifySessionStbrt();
     }
 
     void endSession() {
         if (session != null) {
-            session.detach();
+            session.detbch();
             session = null;
-            invalidateThreadInfo();
-            notifySessionDeath();
+            invblidbteThrebdInfo();
+            notifySessionDebth();
         }
     }
 
     /*
-     * Suspend all VM activity.
+     * Suspend bll VM bctivity.
      */
 
     public void interrupt() throws NoSessionException {
         ensureActiveSession();
         vm().suspend();
-        //### Is it guaranteed that the interrupt has happened?
-        validateThreadInfo();
+        //### Is it gubrbnteed thbt the interrupt hbs hbppened?
+        vblidbteThrebdInfo();
         session.interrupted = true;
         notifyInterrupted();
     }
@@ -496,8 +496,8 @@ public class ExecutionManager {
 
     public void go() throws NoSessionException, VMNotInterruptedException {
         ensureActiveSession();
-        invalidateThreadInfo();
-        session.interrupted = false;
+        invblidbteThrebdInfo();
+        session.interrupted = fblse;
         notifyContinued();
         vm().resume();
     }
@@ -505,132 +505,132 @@ public class ExecutionManager {
     /*
      * Stepping.
      */
-    void clearPreviousStep(ThreadReference thread) {
+    void clebrPreviousStep(ThrebdReference threbd) {
         /*
-         * A previous step may not have completed on this thread;
+         * A previous step mby not hbve completed on this threbd;
          * if so, it gets removed here.
          */
-         EventRequestManager mgr = vm().eventRequestManager();
+         EventRequestMbnbger mgr = vm().eventRequestMbnbger();
          for (StepRequest request : mgr.stepRequests()) {
-             if (request.thread().equals(thread)) {
+             if (request.threbd().equbls(threbd)) {
                  mgr.deleteEventRequest(request);
-                 break;
+                 brebk;
              }
          }
     }
 
-    private void generalStep(ThreadReference thread, int size, int depth)
+    privbte void generblStep(ThrebdReference threbd, int size, int depth)
                         throws NoSessionException {
         ensureActiveSession();
-        invalidateThreadInfo();
-        session.interrupted = false;
+        invblidbteThrebdInfo();
+        session.interrupted = fblse;
         notifyContinued();
 
-        clearPreviousStep(thread);
-        EventRequestManager reqMgr = vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(thread,
+        clebrPreviousStep(threbd);
+        EventRequestMbnbger reqMgr = vm().eventRequestMbnbger();
+        StepRequest request = reqMgr.crebteStepRequest(threbd,
                                                        size, depth);
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
+        // We wbnt just the next step event bnd no others
+        request.bddCountFilter(1);
+        request.enbble();
         vm().resume();
     }
 
-    public void stepIntoInstruction(ThreadReference thread)
+    public void stepIntoInstruction(ThrebdReference threbd)
                         throws NoSessionException {
-        generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_INTO);
+        generblStep(threbd, StepRequest.STEP_MIN, StepRequest.STEP_INTO);
     }
 
-    public void stepOverInstruction(ThreadReference thread)
+    public void stepOverInstruction(ThrebdReference threbd)
                         throws NoSessionException {
-        generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_OVER);
+        generblStep(threbd, StepRequest.STEP_MIN, StepRequest.STEP_OVER);
     }
 
-    public void stepIntoLine(ThreadReference thread)
+    public void stepIntoLine(ThrebdReference threbd)
                         throws NoSessionException,
-                        AbsentInformationException {
-        generalStep(thread, StepRequest.STEP_LINE, StepRequest.STEP_INTO);
+                        AbsentInformbtionException {
+        generblStep(threbd, StepRequest.STEP_LINE, StepRequest.STEP_INTO);
     }
 
-    public void stepOverLine(ThreadReference thread)
+    public void stepOverLine(ThrebdReference threbd)
                         throws NoSessionException,
-                        AbsentInformationException {
-        generalStep(thread, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
+                        AbsentInformbtionException {
+        generblStep(threbd, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
     }
 
-    public void stepOut(ThreadReference thread)
+    public void stepOut(ThrebdReference threbd)
                         throws NoSessionException {
-        generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_OUT);
+        generblStep(threbd, StepRequest.STEP_MIN, StepRequest.STEP_OUT);
     }
 
     /*
-     * Thread control.
+     * Threbd control.
      */
 
-    public void suspendThread(ThreadReference thread) throws NoSessionException {
+    public void suspendThrebd(ThrebdReference threbd) throws NoSessionException {
         ensureActiveSession();
-        thread.suspend();
+        threbd.suspend();
     }
 
-    public void resumeThread(ThreadReference thread) throws NoSessionException {
+    public void resumeThrebd(ThrebdReference threbd) throws NoSessionException {
         ensureActiveSession();
-        thread.resume();
+        threbd.resume();
     }
 
-    public void stopThread(ThreadReference thread) throws NoSessionException {
+    public void stopThrebd(ThrebdReference threbd) throws NoSessionException {
         ensureActiveSession();
-        //### Need an exception now.  Which one to use?
-        //thread.stop();
+        //### Need bn exception now.  Which one to use?
+        //threbd.stop();
     }
 
     /*
-     * ThreadInfo objects -- Allow query of thread status and stack.
+     * ThrebdInfo objects -- Allow query of threbd stbtus bnd stbck.
      */
 
-    private List<ThreadInfo> threadInfoList = new LinkedList<ThreadInfo>();
-    //### Should be weak! (in the value, not the key)
-    private HashMap<ThreadReference, ThreadInfo> threadInfoMap = new HashMap<ThreadReference, ThreadInfo>();
+    privbte List<ThrebdInfo> threbdInfoList = new LinkedList<ThrebdInfo>();
+    //### Should be webk! (in the vblue, not the key)
+    privbte HbshMbp<ThrebdReference, ThrebdInfo> threbdInfoMbp = new HbshMbp<ThrebdReference, ThrebdInfo>();
 
-    public ThreadInfo threadInfo(ThreadReference thread) {
-        if (session == null || thread == null) {
+    public ThrebdInfo threbdInfo(ThrebdReference threbd) {
+        if (session == null || threbd == null) {
             return null;
         }
-        ThreadInfo info = threadInfoMap.get(thread);
+        ThrebdInfo info = threbdInfoMbp.get(threbd);
         if (info == null) {
-            //### Should not hardcode initial frame count and prefetch here!
-            //info = new ThreadInfo(thread, 10, 10);
-            info = new ThreadInfo(thread);
+            //### Should not hbrdcode initibl frbme count bnd prefetch here!
+            //info = new ThrebdInfo(threbd, 10, 10);
+            info = new ThrebdInfo(threbd);
             if (session.interrupted) {
-                info.validate();
+                info.vblidbte();
             }
-            threadInfoList.add(info);
-            threadInfoMap.put(thread, info);
+            threbdInfoList.bdd(info);
+            threbdInfoMbp.put(threbd, info);
         }
         return info;
     }
 
-     void validateThreadInfo() {
+     void vblidbteThrebdInfo() {
         session.interrupted = true;
-        for (ThreadInfo threadInfo : threadInfoList) {
-            threadInfo.validate();
+        for (ThrebdInfo threbdInfo : threbdInfoList) {
+            threbdInfo.vblidbte();
             }
     }
 
-    private void invalidateThreadInfo() {
+    privbte void invblidbteThrebdInfo() {
         if (session != null) {
-            session.interrupted = false;
-            for (ThreadInfo threadInfo : threadInfoList) {
-                threadInfo.invalidate();
+            session.interrupted = fblse;
+            for (ThrebdInfo threbdInfo : threbdInfoList) {
+                threbdInfo.invblidbte();
             }
         }
     }
 
-    void removeThreadInfo(ThreadReference thread) {
-        ThreadInfo info = threadInfoMap.get(thread);
+    void removeThrebdInfo(ThrebdReference threbd) {
+        ThrebdInfo info = threbdInfoMbp.get(threbd);
         if (info != null) {
-            info.invalidate();
-            threadInfoMap.remove(thread);
-            threadInfoList.remove(info);
+            info.invblidbte();
+            threbdInfoMbp.remove(threbd);
+            threbdInfoList.remove(info);
         }
     }
 
@@ -638,83 +638,83 @@ public class ExecutionManager {
      * Listen for Session control events.
      */
 
-    private void notifyInterrupted() {
-      ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
+    privbte void notifyInterrupted() {
+      ArrbyList<SessionListener> l = new ArrbyList<SessionListener>(sessionListeners);
         EventObject evt = new EventObject(this);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).sessionInterrupt(evt);
         }
     }
 
-    private void notifyContinued() {
-        ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
+    privbte void notifyContinued() {
+        ArrbyList<SessionListener> l = new ArrbyList<SessionListener>(sessionListeners);
         EventObject evt = new EventObject(this);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).sessionContinue(evt);
         }
     }
 
-    private void notifySessionStart() {
-        ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
+    privbte void notifySessionStbrt() {
+        ArrbyList<SessionListener> l = new ArrbyList<SessionListener>(sessionListeners);
         EventObject evt = new EventObject(this);
         for (int i = 0; i < l.size(); i++) {
-            l.get(i).sessionStart(evt);
+            l.get(i).sessionStbrt(evt);
         }
     }
 
-    private void notifySessionDeath() {
+    privbte void notifySessionDebth() {
 /*** noop for now
-        ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
+        ArrbyList<SessionListener> l = new ArrbyList<SessionListener>(sessionListeners);
         EventObject evt = new EventObject(this);
         for (int i = 0; i < l.size(); i++) {
-            ((SessionListener)l.get(i)).sessionDeath(evt);
+            ((SessionListener)l.get(i)).sessionDebth(evt);
         }
 ****/
     }
 
     /*
-     * Listen for input and output requests from the application
-     * being debugged.  These are generated only when the debuggee
-     * is spawned as a child of the debugger.
+     * Listen for input bnd output requests from the bpplicbtion
+     * being debugged.  These bre generbted only when the debuggee
+     * is spbwned bs b child of the debugger.
      */
 
-    private Object inputLock = new Object();
-    private LinkedList<String> inputBuffer = new LinkedList<String>();
+    privbte Object inputLock = new Object();
+    privbte LinkedList<String> inputBuffer = new LinkedList<String>();
 
-    private void resetInputBuffer() {
+    privbte void resetInputBuffer() {
         synchronized (inputLock) {
             inputBuffer = new LinkedList<String>();
         }
     }
 
-    public void sendLineToApplication(String line) {
+    public void sendLineToApplicbtion(String line) {
         synchronized (inputLock) {
-            inputBuffer.addFirst(line);
+            inputBuffer.bddFirst(line);
             inputLock.notifyAll();
         }
     }
 
-    private InputListener appInput = new InputListener() {
+    privbte InputListener bppInput = new InputListener() {
         @Override
         public String getLine() {
-            // Don't allow reader to be interrupted -- catch and retry.
+            // Don't bllow rebder to be interrupted -- cbtch bnd retry.
             String line = null;
             while (line == null) {
                 synchronized (inputLock) {
                     try {
                         while (inputBuffer.size() < 1) {
-                            inputLock.wait();
+                            inputLock.wbit();
                         }
-                        line = inputBuffer.removeLast();
-                    } catch (InterruptedException e) {}
+                        line = inputBuffer.removeLbst();
+                    } cbtch (InterruptedException e) {}
                 }
             }
-            // We must not be holding inputLock here, as the listener
-            // that we call to echo a line might call us re-entrantly
-            // to provide another line of input.
-            // Run in Swing event dispatcher thread.
-            final String input = line;
-            SwingUtilities.invokeLater(new Runnable() {
+            // We must not be holding inputLock here, bs the listener
+            // thbt we cbll to echo b line might cbll us re-entrbntly
+            // to provide bnother line of input.
+            // Run in Swing event dispbtcher threbd.
+            finbl String input = line;
+            SwingUtilities.invokeLbter(new Runnbble() {
                 @Override
                 public void run() {
                     echoInputLine(input);
@@ -724,10 +724,10 @@ public class ExecutionManager {
         }
     };
 
-    private static String newline = System.getProperty("line.separator");
+    privbte stbtic String newline = System.getProperty("line.sepbrbtor");
 
-    private void echoInputLine(String line) {
-        ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
+    privbte void echoInputLine(String line) {
+        ArrbyList<OutputListener> l = new ArrbyList<OutputListener>(bppEchoListeners);
         for (int i = 0; i < l.size(); i++) {
             OutputListener ol = l.get(i);
             ol.putString(line);
@@ -735,74 +735,74 @@ public class ExecutionManager {
         }
     }
 
-    private OutputListener appOutput = new OutputListener() {
+    privbte OutputListener bppOutput = new OutputListener() {
       @Override
         public void putString(String string) {
-            ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
+            ArrbyList<OutputListener> l = new ArrbyList<OutputListener>(bppEchoListeners);
             for (int i = 0; i < l.size(); i++) {
                 l.get(i).putString(string);
             }
         }
     };
 
-    private OutputListener appError = new OutputListener() {
+    privbte OutputListener bppError = new OutputListener() {
       @Override
         public void putString(String string) {
-            ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
+            ArrbyList<OutputListener> l = new ArrbyList<OutputListener>(bppEchoListeners);
             for (int i = 0; i < l.size(); i++) {
                 l.get(i).putString(string);
             }
         }
     };
 
-   private OutputListener diagnostics = new OutputListener() {
+   privbte OutputListener dibgnostics = new OutputListener() {
       @Override
         public void putString(String string) {
-            ArrayList<OutputListener> l = new ArrayList<OutputListener>(diagnosticsListeners);
+            ArrbyList<OutputListener> l = new ArrbyList<OutputListener>(dibgnosticsListeners);
             for (int i = 0; i < l.size(); i++) {
                 l.get(i).putString(string);
             }
         }
    };
 
-  /////////////    Spec Request Creation/Deletion/Query   ///////////
+  /////////////    Spec Request Crebtion/Deletion/Query   ///////////
 
-    private EventRequestSpecList specList = new EventRequestSpecList(this);
+    privbte EventRequestSpecList specList = new EventRequestSpecList(this);
 
-    public BreakpointSpec
-    createSourceLineBreakpoint(String sourceName, int line) {
-        return specList.createSourceLineBreakpoint(sourceName, line);
+    public BrebkpointSpec
+    crebteSourceLineBrebkpoint(String sourceNbme, int line) {
+        return specList.crebteSourceLineBrebkpoint(sourceNbme, line);
     }
 
-    public BreakpointSpec
-    createClassLineBreakpoint(String classPattern, int line) {
-        return specList.createClassLineBreakpoint(classPattern, line);
+    public BrebkpointSpec
+    crebteClbssLineBrebkpoint(String clbssPbttern, int line) {
+        return specList.crebteClbssLineBrebkpoint(clbssPbttern, line);
     }
 
-    public BreakpointSpec
-    createMethodBreakpoint(String classPattern,
+    public BrebkpointSpec
+    crebteMethodBrebkpoint(String clbssPbttern,
                            String methodId, List<String> methodArgs) {
-        return specList.createMethodBreakpoint(classPattern,
+        return specList.crebteMethodBrebkpoint(clbssPbttern,
                                                  methodId, methodArgs);
     }
 
     public ExceptionSpec
-    createExceptionIntercept(String classPattern,
-                             boolean notifyCaught,
-                             boolean notifyUncaught) {
-        return specList.createExceptionIntercept(classPattern,
-                                                   notifyCaught,
-                                                   notifyUncaught);
+    crebteExceptionIntercept(String clbssPbttern,
+                             boolebn notifyCbught,
+                             boolebn notifyUncbught) {
+        return specList.crebteExceptionIntercept(clbssPbttern,
+                                                   notifyCbught,
+                                                   notifyUncbught);
     }
 
-    public AccessWatchpointSpec
-    createAccessWatchpoint(String classPattern, String fieldId) {
-        return specList.createAccessWatchpoint(classPattern, fieldId);
+    public AccessWbtchpointSpec
+    crebteAccessWbtchpoint(String clbssPbttern, String fieldId) {
+        return specList.crebteAccessWbtchpoint(clbssPbttern, fieldId);
     }
 
-    public ModificationWatchpointSpec
-    createModificationWatchpoint(String classPattern, String fieldId) {
-        return specList.createModificationWatchpoint(classPattern,
+    public ModificbtionWbtchpointSpec
+    crebteModificbtionWbtchpoint(String clbssPbttern, String fieldId) {
+        return specList.crebteModificbtionWbtchpoint(clbssPbttern,
                                                        fieldId);
     }
 
@@ -814,8 +814,8 @@ public class ExecutionManager {
         specList.resolve(refType);
     }
 
-    public void install(EventRequestSpec spec) {
-        specList.install(spec, vm());
+    public void instbll(EventRequestSpec spec) {
+        specList.instbll(spec, vm());
     }
 
     public List<EventRequestSpec> eventRequestSpecs() {

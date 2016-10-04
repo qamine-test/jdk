@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.trace;
+pbckbge com.sun.tools.exbmple.trbce;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
 import com.sun.jdi.event.*;
 
-import java.util.*;
-import java.io.PrintWriter;
+import jbvb.util.*;
+import jbvb.io.PrintWriter;
 
 /**
- * This class processes incoming JDI events and displays them
+ * This clbss processes incoming JDI events bnd displbys them
  *
- * @author Robert Field
+ * @buthor Robert Field
  */
-public class EventThread extends Thread {
+public clbss EventThrebd extends Threbd {
 
-    private final VirtualMachine vm;   // Running VM
-    private final String[] excludes;   // Packages to exclude
-    private final PrintWriter writer;  // Where output goes
+    privbte finbl VirtublMbchine vm;   // Running VM
+    privbte finbl String[] excludes;   // Pbckbges to exclude
+    privbte finbl PrintWriter writer;  // Where output goes
 
-    static String nextBaseIndent = ""; // Starting indent for next thread
+    stbtic String nextBbseIndent = ""; // Stbrting indent for next threbd
 
-    private boolean connected = true;  // Connected to VM
-    private boolean vmDied = true;     // VMDeath occurred
+    privbte boolebn connected = true;  // Connected to VM
+    privbte boolebn vmDied = true;     // VMDebth occurred
 
-    // Maps ThreadReference to ThreadTrace instances
-    private Map<ThreadReference, ThreadTrace> traceMap =
-       new HashMap<>();
+    // Mbps ThrebdReference to ThrebdTrbce instbnces
+    privbte Mbp<ThrebdReference, ThrebdTrbce> trbceMbp =
+       new HbshMbp<>();
 
-    EventThread(VirtualMachine vm, String[] excludes, PrintWriter writer) {
-        super("event-handler");
+    EventThrebd(VirtublMbchine vm, String[] excludes, PrintWriter writer) {
+        super("event-hbndler");
         this.vm = vm;
         this.excludes = excludes;
         this.writer = writer;
     }
 
     /**
-     * Run the event handling thread.
-     * As long as we are connected, get event sets off
-     * the queue and dispatch the events within them.
+     * Run the event hbndling threbd.
+     * As long bs we bre connected, get event sets off
+     * the queue bnd dispbtch the events within them.
      */
     @Override
     public void run() {
@@ -79,177 +79,177 @@ public class EventThread extends Thread {
         while (connected) {
             try {
                 EventSet eventSet = queue.remove();
-                EventIterator it = eventSet.eventIterator();
-                while (it.hasNext()) {
-                    handleEvent(it.nextEvent());
+                EventIterbtor it = eventSet.eventIterbtor();
+                while (it.hbsNext()) {
+                    hbndleEvent(it.nextEvent());
                 }
                 eventSet.resume();
-            } catch (InterruptedException exc) {
+            } cbtch (InterruptedException exc) {
                 // Ignore
-            } catch (VMDisconnectedException discExc) {
-                handleDisconnectedException();
-                break;
+            } cbtch (VMDisconnectedException discExc) {
+                hbndleDisconnectedException();
+                brebk;
             }
         }
     }
 
     /**
-     * Create the desired event requests, and enable
-     * them so that we will get events.
-     * @param excludes     Class patterns for which we don't want events
-     * @param watchFields  Do we want to watch assignments to fields
+     * Crebte the desired event requests, bnd enbble
+     * them so thbt we will get events.
+     * @pbrbm excludes     Clbss pbtterns for which we don't wbnt events
+     * @pbrbm wbtchFields  Do we wbnt to wbtch bssignments to fields
      */
-    void setEventRequests(boolean watchFields) {
-        EventRequestManager mgr = vm.eventRequestManager();
+    void setEventRequests(boolebn wbtchFields) {
+        EventRequestMbnbger mgr = vm.eventRequestMbnbger();
 
-        // want all exceptions
-        ExceptionRequest excReq = mgr.createExceptionRequest(null,
+        // wbnt bll exceptions
+        ExceptionRequest excReq = mgr.crebteExceptionRequest(null,
                                                              true, true);
-        // suspend so we can step
+        // suspend so we cbn step
         excReq.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        excReq.enable();
+        excReq.enbble();
 
-        MethodEntryRequest menr = mgr.createMethodEntryRequest();
+        MethodEntryRequest menr = mgr.crebteMethodEntryRequest();
         for (int i=0; i<excludes.length; ++i) {
-            menr.addClassExclusionFilter(excludes[i]);
+            menr.bddClbssExclusionFilter(excludes[i]);
         }
         menr.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        menr.enable();
+        menr.enbble();
 
-        MethodExitRequest mexr = mgr.createMethodExitRequest();
+        MethodExitRequest mexr = mgr.crebteMethodExitRequest();
         for (int i=0; i<excludes.length; ++i) {
-            mexr.addClassExclusionFilter(excludes[i]);
+            mexr.bddClbssExclusionFilter(excludes[i]);
         }
         mexr.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        mexr.enable();
+        mexr.enbble();
 
-        ThreadDeathRequest tdr = mgr.createThreadDeathRequest();
-        // Make sure we sync on thread death
+        ThrebdDebthRequest tdr = mgr.crebteThrebdDebthRequest();
+        // Mbke sure we sync on threbd debth
         tdr.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        tdr.enable();
+        tdr.enbble();
 
-        if (watchFields) {
-            ClassPrepareRequest cpr = mgr.createClassPrepareRequest();
+        if (wbtchFields) {
+            ClbssPrepbreRequest cpr = mgr.crebteClbssPrepbreRequest();
             for (int i=0; i<excludes.length; ++i) {
-                cpr.addClassExclusionFilter(excludes[i]);
+                cpr.bddClbssExclusionFilter(excludes[i]);
             }
             cpr.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-            cpr.enable();
+            cpr.enbble();
         }
     }
 
     /**
-     * This class keeps context on events in one thread.
-     * In this implementation, context is the indentation prefix.
+     * This clbss keeps context on events in one threbd.
+     * In this implementbtion, context is the indentbtion prefix.
      */
-    class ThreadTrace {
-        final ThreadReference thread;
-        final String baseIndent;
-        static final String threadDelta = "                     ";
+    clbss ThrebdTrbce {
+        finbl ThrebdReference threbd;
+        finbl String bbseIndent;
+        stbtic finbl String threbdDeltb = "                     ";
         StringBuffer indent;
 
-        ThreadTrace(ThreadReference thread) {
-            this.thread = thread;
-            this.baseIndent = nextBaseIndent;
-            indent = new StringBuffer(baseIndent);
-            nextBaseIndent += threadDelta;
-            println("====== " + thread.name() + " ======");
+        ThrebdTrbce(ThrebdReference threbd) {
+            this.threbd = threbd;
+            this.bbseIndent = nextBbseIndent;
+            indent = new StringBuffer(bbseIndent);
+            nextBbseIndent += threbdDeltb;
+            println("====== " + threbd.nbme() + " ======");
         }
 
-        private void println(String str) {
+        privbte void println(String str) {
             writer.print(indent);
             writer.println(str);
         }
 
         void methodEntryEvent(MethodEntryEvent event)  {
-            println(event.method().name() + "  --  "
-                    + event.method().declaringType().name());
-            indent.append("| ");
+            println(event.method().nbme() + "  --  "
+                    + event.method().declbringType().nbme());
+            indent.bppend("| ");
         }
 
         void methodExitEvent(MethodExitEvent event)  {
             indent.setLength(indent.length()-2);
         }
 
-        void fieldWatchEvent(ModificationWatchpointEvent event)  {
+        void fieldWbtchEvent(ModificbtionWbtchpointEvent event)  {
             Field field = event.field();
-            Value value = event.valueToBe();
-            println("    " + field.name() + " = " + value);
+            Vblue vblue = event.vblueToBe();
+            println("    " + field.nbme() + " = " + vblue);
         }
 
         void exceptionEvent(ExceptionEvent event) {
             println("Exception: " + event.exception() +
-                    " catch: " + event.catchLocation());
+                    " cbtch: " + event.cbtchLocbtion());
 
-            // Step to the catch
-            EventRequestManager mgr = vm.eventRequestManager();
-            StepRequest req = mgr.createStepRequest(thread,
+            // Step to the cbtch
+            EventRequestMbnbger mgr = vm.eventRequestMbnbger();
+            StepRequest req = mgr.crebteStepRequest(threbd,
                                                     StepRequest.STEP_MIN,
                                                     StepRequest.STEP_INTO);
-            req.addCountFilter(1);  // next step only
+            req.bddCountFilter(1);  // next step only
             req.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-            req.enable();
+            req.enbble();
         }
 
-        // Step to exception catch
+        // Step to exception cbtch
         void stepEvent(StepEvent event)  {
-            // Adjust call depth
+            // Adjust cbll depth
             int cnt = 0;
-            indent = new StringBuffer(baseIndent);
+            indent = new StringBuffer(bbseIndent);
             try {
-                cnt = thread.frameCount();
-            } catch (IncompatibleThreadStateException exc) {
+                cnt = threbd.frbmeCount();
+            } cbtch (IncompbtibleThrebdStbteException exc) {
             }
             while (cnt-- > 0) {
-                indent.append("| ");
+                indent.bppend("| ");
             }
 
-            EventRequestManager mgr = vm.eventRequestManager();
+            EventRequestMbnbger mgr = vm.eventRequestMbnbger();
             mgr.deleteEventRequest(event.request());
         }
 
-        void threadDeathEvent(ThreadDeathEvent event)  {
-            indent = new StringBuffer(baseIndent);
-            println("====== " + thread.name() + " end ======");
+        void threbdDebthEvent(ThrebdDebthEvent event)  {
+            indent = new StringBuffer(bbseIndent);
+            println("====== " + threbd.nbme() + " end ======");
         }
     }
 
     /**
-     * Returns the ThreadTrace instance for the specified thread,
-     * creating one if needed.
+     * Returns the ThrebdTrbce instbnce for the specified threbd,
+     * crebting one if needed.
      */
-    ThreadTrace threadTrace(ThreadReference thread) {
-        ThreadTrace trace = traceMap.get(thread);
-        if (trace == null) {
-            trace = new ThreadTrace(thread);
-            traceMap.put(thread, trace);
+    ThrebdTrbce threbdTrbce(ThrebdReference threbd) {
+        ThrebdTrbce trbce = trbceMbp.get(threbd);
+        if (trbce == null) {
+            trbce = new ThrebdTrbce(threbd);
+            trbceMbp.put(threbd, trbce);
         }
-        return trace;
+        return trbce;
     }
 
     /**
-     * Dispatch incoming events
+     * Dispbtch incoming events
      */
-    private void handleEvent(Event event) {
-        if (event instanceof ExceptionEvent) {
+    privbte void hbndleEvent(Event event) {
+        if (event instbnceof ExceptionEvent) {
             exceptionEvent((ExceptionEvent)event);
-        } else if (event instanceof ModificationWatchpointEvent) {
-            fieldWatchEvent((ModificationWatchpointEvent)event);
-        } else if (event instanceof MethodEntryEvent) {
+        } else if (event instbnceof ModificbtionWbtchpointEvent) {
+            fieldWbtchEvent((ModificbtionWbtchpointEvent)event);
+        } else if (event instbnceof MethodEntryEvent) {
             methodEntryEvent((MethodEntryEvent)event);
-        } else if (event instanceof MethodExitEvent) {
+        } else if (event instbnceof MethodExitEvent) {
             methodExitEvent((MethodExitEvent)event);
-        } else if (event instanceof StepEvent) {
+        } else if (event instbnceof StepEvent) {
             stepEvent((StepEvent)event);
-        } else if (event instanceof ThreadDeathEvent) {
-            threadDeathEvent((ThreadDeathEvent)event);
-        } else if (event instanceof ClassPrepareEvent) {
-            classPrepareEvent((ClassPrepareEvent)event);
-        } else if (event instanceof VMStartEvent) {
-            vmStartEvent((VMStartEvent)event);
-        } else if (event instanceof VMDeathEvent) {
-            vmDeathEvent((VMDeathEvent)event);
-        } else if (event instanceof VMDisconnectEvent) {
+        } else if (event instbnceof ThrebdDebthEvent) {
+            threbdDebthEvent((ThrebdDebthEvent)event);
+        } else if (event instbnceof ClbssPrepbreEvent) {
+            clbssPrepbreEvent((ClbssPrepbreEvent)event);
+        } else if (event instbnceof VMStbrtEvent) {
+            vmStbrtEvent((VMStbrtEvent)event);
+        } else if (event instbnceof VMDebthEvent) {
+            vmDebthEvent((VMDebthEvent)event);
+        } else if (event instbnceof VMDisconnectEvent) {
             vmDisconnectEvent((VMDisconnectEvent)event);
         } else {
             throw new Error("Unexpected event type");
@@ -257,97 +257,97 @@ public class EventThread extends Thread {
     }
 
     /***
-     * A VMDisconnectedException has happened while dealing with
-     * another event. We need to flush the event queue, dealing only
-     * with exit events (VMDeath, VMDisconnect) so that we terminate
+     * A VMDisconnectedException hbs hbppened while debling with
+     * bnother event. We need to flush the event queue, debling only
+     * with exit events (VMDebth, VMDisconnect) so thbt we terminbte
      * correctly.
      */
-    synchronized void handleDisconnectedException() {
+    synchronized void hbndleDisconnectedException() {
         EventQueue queue = vm.eventQueue();
         while (connected) {
             try {
                 EventSet eventSet = queue.remove();
-                EventIterator iter = eventSet.eventIterator();
-                while (iter.hasNext()) {
+                EventIterbtor iter = eventSet.eventIterbtor();
+                while (iter.hbsNext()) {
                     Event event = iter.nextEvent();
-                    if (event instanceof VMDeathEvent) {
-                        vmDeathEvent((VMDeathEvent)event);
-                    } else if (event instanceof VMDisconnectEvent) {
+                    if (event instbnceof VMDebthEvent) {
+                        vmDebthEvent((VMDebthEvent)event);
+                    } else if (event instbnceof VMDisconnectEvent) {
                         vmDisconnectEvent((VMDisconnectEvent)event);
                     }
                 }
                 eventSet.resume(); // Resume the VM
-            } catch (InterruptedException exc) {
+            } cbtch (InterruptedException exc) {
                 // ignore
             }
         }
     }
 
-    private void vmStartEvent(VMStartEvent event)  {
-         writer.println("-- VM Started --");
+    privbte void vmStbrtEvent(VMStbrtEvent event)  {
+         writer.println("-- VM Stbrted --");
     }
 
-    // Forward event for thread specific processing
-    private void methodEntryEvent(MethodEntryEvent event)  {
-         threadTrace(event.thread()).methodEntryEvent(event);
+    // Forwbrd event for threbd specific processing
+    privbte void methodEntryEvent(MethodEntryEvent event)  {
+         threbdTrbce(event.threbd()).methodEntryEvent(event);
     }
 
-    // Forward event for thread specific processing
-    private void methodExitEvent(MethodExitEvent event)  {
-         threadTrace(event.thread()).methodExitEvent(event);
+    // Forwbrd event for threbd specific processing
+    privbte void methodExitEvent(MethodExitEvent event)  {
+         threbdTrbce(event.threbd()).methodExitEvent(event);
     }
 
-    // Forward event for thread specific processing
-    private void stepEvent(StepEvent event)  {
-         threadTrace(event.thread()).stepEvent(event);
+    // Forwbrd event for threbd specific processing
+    privbte void stepEvent(StepEvent event)  {
+         threbdTrbce(event.threbd()).stepEvent(event);
     }
 
-    // Forward event for thread specific processing
-    private void fieldWatchEvent(ModificationWatchpointEvent event)  {
-         threadTrace(event.thread()).fieldWatchEvent(event);
+    // Forwbrd event for threbd specific processing
+    privbte void fieldWbtchEvent(ModificbtionWbtchpointEvent event)  {
+         threbdTrbce(event.threbd()).fieldWbtchEvent(event);
     }
 
-    void threadDeathEvent(ThreadDeathEvent event)  {
-        ThreadTrace trace = traceMap.get(event.thread());
-        if (trace != null) {  // only want threads we care about
-            trace.threadDeathEvent(event);   // Forward event
+    void threbdDebthEvent(ThrebdDebthEvent event)  {
+        ThrebdTrbce trbce = trbceMbp.get(event.threbd());
+        if (trbce != null) {  // only wbnt threbds we cbre bbout
+            trbce.threbdDebthEvent(event);   // Forwbrd event
         }
     }
 
     /**
-     * A new class has been loaded.
-     * Set watchpoints on each of its fields
+     * A new clbss hbs been lobded.
+     * Set wbtchpoints on ebch of its fields
      */
-    private void classPrepareEvent(ClassPrepareEvent event)  {
-        EventRequestManager mgr = vm.eventRequestManager();
+    privbte void clbssPrepbreEvent(ClbssPrepbreEvent event)  {
+        EventRequestMbnbger mgr = vm.eventRequestMbnbger();
         List<Field> fields = event.referenceType().visibleFields();
         for (Field field : fields) {
-            ModificationWatchpointRequest req =
-                     mgr.createModificationWatchpointRequest(field);
+            ModificbtionWbtchpointRequest req =
+                     mgr.crebteModificbtionWbtchpointRequest(field);
             for (int i=0; i<excludes.length; ++i) {
-                req.addClassExclusionFilter(excludes[i]);
+                req.bddClbssExclusionFilter(excludes[i]);
             }
             req.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-            req.enable();
+            req.enbble();
         }
     }
 
-    private void exceptionEvent(ExceptionEvent event) {
-        ThreadTrace trace = traceMap.get(event.thread());
-        if (trace != null) {  // only want threads we care about
-            trace.exceptionEvent(event);      // Forward event
+    privbte void exceptionEvent(ExceptionEvent event) {
+        ThrebdTrbce trbce = trbceMbp.get(event.threbd());
+        if (trbce != null) {  // only wbnt threbds we cbre bbout
+            trbce.exceptionEvent(event);      // Forwbrd event
         }
     }
 
-    public void vmDeathEvent(VMDeathEvent event) {
+    public void vmDebthEvent(VMDebthEvent event) {
         vmDied = true;
-        writer.println("-- The application exited --");
+        writer.println("-- The bpplicbtion exited --");
     }
 
     public void vmDisconnectEvent(VMDisconnectEvent event) {
-        connected = false;
+        connected = fblse;
         if (!vmDied) {
-            writer.println("-- The application has been disconnected --");
+            writer.println("-- The bpplicbtion hbs been disconnected --");
         }
     }
 }

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic;
+pbckbge sun.rmi.rmic.newrmic;
 
-import java.io.Writer;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import jbvb.io.Writer;
+import jbvb.io.BufferedWriter;
+import jbvb.io.IOException;
 
 /**
- * A BufferedWriter that supports automatic indentation of lines of
+ * A BufferedWriter thbt supports butombtic indentbtion of lines of
  * text written to the underlying Writer.
  *
- * Methods are provided for compact/convenient indenting in and out,
- * writing text, and writing lines of text in various combinations.
+ * Methods bre provided for compbct/convenient indenting in bnd out,
+ * writing text, bnd writing lines of text in vbrious combinbtions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-public class IndentingWriter extends BufferedWriter {
+public clbss IndentingWriter extends BufferedWriter {
 
-    /** number of spaces to change indent when indenting in or out */
-    private final int indentStep;
+    /** number of spbces to chbnge indent when indenting in or out */
+    privbte finbl int indentStep;
 
-    /** number of spaces to convert into tabs (use MAX_VALUE to disable) */
-    private final int tabSize;
+    /** number of spbces to convert into tbbs (use MAX_VALUE to disbble) */
+    privbte finbl int tbbSize;
 
-    /** true if the next character written is the first on a line */
-    private boolean beginningOfLine = true;
+    /** true if the next chbrbcter written is the first on b line */
+    privbte boolebn beginningOfLine = true;
 
-    /** current number of spaces to prepend to lines */
-    private int currentIndent = 0;
+    /** current number of spbces to prepend to lines */
+    privbte int currentIndent = 0;
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer.  Use the default indent step of four spaces.
+     * Crebtes b new IndentingWriter thbt writes indented text to the
+     * given Writer.  Use the defbult indent step of four spbces.
      **/
     public IndentingWriter(Writer out) {
         this(out, 4);
     }
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step.
+     * Crebtes b new IndentingWriter thbt writes indented text to the
+     * given Writer bnd uses the supplied indent step.
      **/
     public IndentingWriter(Writer out, int indentStep) {
         this(out, indentStep, 8);
     }
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step and tab size.
+     * Crebtes b new IndentingWriter thbt writes indented text to the
+     * given Writer bnd uses the supplied indent step bnd tbb size.
      **/
-    public IndentingWriter(Writer out, int indentStep, int tabSize) {
+    public IndentingWriter(Writer out, int indentStep, int tbbSize) {
         super(out);
         if (indentStep < 0) {
-            throw new IllegalArgumentException("negative indent step");
+            throw new IllegblArgumentException("negbtive indent step");
         }
-        if (tabSize < 0) {
-            throw new IllegalArgumentException("negative tab size");
+        if (tbbSize < 0) {
+            throw new IllegblArgumentException("negbtive tbb size");
         }
         this.indentStep = indentStep;
-        this.tabSize = tabSize;
+        this.tbbSize = tbbSize;
     }
 
     /**
-     * Writes a single character.
+     * Writes b single chbrbcter.
      **/
     public void write(int c) throws IOException {
         checkWrite();
@@ -97,9 +97,9 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writes b portion of bn brrby of chbrbcters.
      **/
-    public void write(char[] cbuf, int off, int len) throws IOException {
+    public void write(chbr[] cbuf, int off, int len) throws IOException {
         if (len > 0) {
             checkWrite();
         }
@@ -107,7 +107,7 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Writes a portion of a String.
+     * Writes b portion of b String.
      **/
     public void write(String s, int off, int len) throws IOException {
         if (len > 0) {
@@ -117,8 +117,8 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Writes a line separator.  The next character written will be
-     * preceded by an indent.
+     * Writes b line sepbrbtor.  The next chbrbcter written will be
+     * preceded by bn indent.
      **/
     public void newLine() throws IOException {
         super.newLine();
@@ -126,20 +126,20 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Checks if an indent needs to be written before writing the next
-     * character.
+     * Checks if bn indent needs to be written before writing the next
+     * chbrbcter.
      *
-     * The indent generation is optimized (and made consistent with
-     * certain coding conventions) by condensing groups of eight
-     * spaces into tab characters.
+     * The indent generbtion is optimized (bnd mbde consistent with
+     * certbin coding conventions) by condensing groups of eight
+     * spbces into tbb chbrbcters.
      **/
     protected void checkWrite() throws IOException {
         if (beginningOfLine) {
-            beginningOfLine = false;
+            beginningOfLine = fblse;
             int i = currentIndent;
-            while (i >= tabSize) {
+            while (i >= tbbSize) {
                 super.write('\t');
-                i -= tabSize;
+                i -= tbbSize;
             }
             while (i > 0) {
                 super.write(' ');
@@ -149,14 +149,14 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Increases the current indent by the indent step.
+     * Increbses the current indent by the indent step.
      **/
     protected void indentIn() {
         currentIndent += indentStep;
     }
 
     /**
-     * Decreases the current indent by the indent step.
+     * Decrebses the current indent by the indent step.
      **/
     protected void indentOut() {
         currentIndent -= indentStep;
@@ -228,8 +228,8 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Indents out; writes string; ends current line; indents in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * This method is useful for generbting lines of code thbt both
+     * end bnd begin nested blocks, like "} else {".
      **/
     public void pOlnI(String s) throws IOException {
         pO(s);
@@ -280,8 +280,8 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Indents out; writes object; ends current line; indents in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * This method is useful for generbting lines of code thbt both
+     * end bnd begin nested blocks, like "} else {".
      **/
     public void pOlnI(Object o) throws IOException {
         pO(o.toString());

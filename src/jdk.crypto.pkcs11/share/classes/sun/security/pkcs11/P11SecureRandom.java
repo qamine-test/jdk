@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.*;
-import java.security.*;
-import sun.security.pkcs11.wrapper.*;
+import jbvb.io.*;
+import jbvb.security.*;
+import sun.security.pkcs11.wrbpper.*;
 
 /**
- * SecureRandom implementation class. Some tokens support only
- * C_GenerateRandom() and not C_SeedRandom(). In order not to lose an
- * application specified seed, we create a SHA1PRNG that we mix with in that
- * case.
+ * SecureRbndom implementbtion clbss. Some tokens support only
+ * C_GenerbteRbndom() bnd not C_SeedRbndom(). In order not to lose bn
+ * bpplicbtion specified seed, we crebte b SHA1PRNG thbt we mix with in thbt
+ * cbse.
  *
- * Note that since SecureRandom is thread safe, we only need one
- * instance per PKCS#11 token instance. It is created on demand and cached
- * in the SunPKCS11 class.
+ * Note thbt since SecureRbndom is threbd sbfe, we only need one
+ * instbnce per PKCS#11 token instbnce. It is crebted on dembnd bnd cbched
+ * in the SunPKCS11 clbss.
  *
- * Also note that we obtain the PKCS#11 session on demand, no need to tie one
+ * Also note thbt we obtbin the PKCS#11 session on dembnd, no need to tie one
  * up.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11SecureRandom extends SecureRandomSpi {
+finbl clbss P11SecureRbndom extends SecureRbndomSpi {
 
-    private static final long serialVersionUID = -8939510236124553291L;
+    privbte stbtic finbl long seriblVersionUID = -8939510236124553291L;
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // PRNG for mixing, non-null if active (i.e. setSeed() has been called)
-    private volatile SecureRandom mixRandom;
+    // PRNG for mixing, non-null if bctive (i.e. setSeed() hbs been cblled)
+    privbte volbtile SecureRbndom mixRbndom;
 
     // buffer, if mixing is used
-    private byte[] mixBuffer;
+    privbte byte[] mixBuffer;
 
-    // bytes remaining in mixBuffer, if mixing is used
-    private int buffered;
+    // bytes rembining in mixBuffer, if mixing is used
+    privbte int buffered;
 
     /*
-     * we buffer data internally for efficiency but limit the lifetime
-     * to avoid using stale bits.
+     * we buffer dbtb internblly for efficiency but limit the lifetime
+     * to bvoid using stble bits.
      */
     // lifetime in ms, currently 100 ms (0.1 s)
-    private static final long MAX_IBUFFER_TIME = 100;
+    privbte stbtic finbl long MAX_IBUFFER_TIME = 100;
 
-    // size of the internal buffer
-    private static final int IBUFFER_SIZE = 32;
+    // size of the internbl buffer
+    privbte stbtic finbl int IBUFFER_SIZE = 32;
 
-    // internal buffer for the random bits
-    private transient byte[] iBuffer = new byte[IBUFFER_SIZE];
+    // internbl buffer for the rbndom bits
+    privbte trbnsient byte[] iBuffer = new byte[IBUFFER_SIZE];
 
-    // number of bytes remain in iBuffer
-    private transient int ibuffered = 0;
+    // number of bytes rembin in iBuffer
+    privbte trbnsient int ibuffered = 0;
 
-    // time that data was read into iBuffer
-    private transient long lastRead = 0L;
+    // time thbt dbtb wbs rebd into iBuffer
+    privbte trbnsient long lbstRebd = 0L;
 
-    P11SecureRandom(Token token) {
+    P11SecureRbndom(Token token) {
         this.token = token;
     }
 
@@ -93,26 +93,26 @@ final class P11SecureRandom extends SecureRandomSpi {
         Session session = null;
         try {
             session = token.getOpSession();
-            token.p11.C_SeedRandom(session.id(), seed);
-        } catch (PKCS11Exception e) {
-            // cannot set seed
-            // let a SHA1PRNG use that seed instead
-            SecureRandom random = mixRandom;
-            if (random != null) {
-                random.setSeed(seed);
+            token.p11.C_SeedRbndom(session.id(), seed);
+        } cbtch (PKCS11Exception e) {
+            // cbnnot set seed
+            // let b SHA1PRNG use thbt seed instebd
+            SecureRbndom rbndom = mixRbndom;
+            if (rbndom != null) {
+                rbndom.setSeed(seed);
             } else {
                 try {
                     mixBuffer = new byte[20];
-                    random = SecureRandom.getInstance("SHA1PRNG");
-                    // initialize object before assigning to class field
-                    random.setSeed(seed);
-                    mixRandom = random;
-                } catch (NoSuchAlgorithmException ee) {
+                    rbndom = SecureRbndom.getInstbnce("SHA1PRNG");
+                    // initiblize object before bssigning to clbss field
+                    rbndom.setSeed(seed);
+                    mixRbndom = rbndom;
+                } cbtch (NoSuchAlgorithmException ee) {
                     throw new ProviderException(ee);
                 }
             }
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
@@ -127,10 +127,10 @@ final class P11SecureRandom extends SecureRandomSpi {
             synchronized (iBuffer) {
                 while (ofs < bytes.length) {
                     long time = System.currentTimeMillis();
-                    // refill the internal buffer if empty or stale
+                    // refill the internbl buffer if empty or stble
                     if ((ibuffered == 0) ||
-                            !(time - lastRead < MAX_IBUFFER_TIME)) {
-                        lastRead = time;
+                            !(time - lbstRebd < MAX_IBUFFER_TIME)) {
+                        lbstRebd = time;
                         implNextBytes(iBuffer);
                         ibuffered = IBUFFER_SIZE;
                     }
@@ -141,7 +141,7 @@ final class P11SecureRandom extends SecureRandomSpi {
                 }
             }
         } else {
-            // avoid using the buffer - just fill bytes directly
+            // bvoid using the buffer - just fill bytes directly
             implNextBytes(bytes);
         }
 
@@ -149,16 +149,16 @@ final class P11SecureRandom extends SecureRandomSpi {
 
     // see JCA spec
     @Override
-    protected byte[] engineGenerateSeed(int numBytes) {
+    protected byte[] engineGenerbteSeed(int numBytes) {
         byte[] b = new byte[numBytes];
         engineNextBytes(b);
         return b;
     }
 
-    private void mix(byte[] b) {
-        SecureRandom random = mixRandom;
-        if (random == null) {
-            // avoid mixing if setSeed() has never been called
+    privbte void mix(byte[] b) {
+        SecureRbndom rbndom = mixRbndom;
+        if (rbndom == null) {
+            // bvoid mixing if setSeed() hbs never been cblled
             return;
         }
         synchronized (this) {
@@ -166,7 +166,7 @@ final class P11SecureRandom extends SecureRandomSpi {
             int len = b.length;
             while (len-- > 0) {
                 if (buffered == 0) {
-                    random.nextBytes(mixBuffer);
+                    rbndom.nextBytes(mixBuffer);
                     buffered = mixBuffer.length;
                 }
                 b[ofs++] ^= mixBuffer[mixBuffer.length - buffered];
@@ -175,26 +175,26 @@ final class P11SecureRandom extends SecureRandomSpi {
         }
     }
 
-    // fill up the specified buffer with random bytes, and mix them
-    private void implNextBytes(byte[] bytes) {
+    // fill up the specified buffer with rbndom bytes, bnd mix them
+    privbte void implNextBytes(byte[] bytes) {
         Session session = null;
         try {
             session = token.getOpSession();
-            token.p11.C_GenerateRandom(session.id(), bytes);
+            token.p11.C_GenerbteRbndom(session.id(), bytes);
             mix(bytes);
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("nextBytes() failed", e);
-        } finally {
-            token.releaseSession(session);
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("nextBytes() fbiled", e);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        // assign default values to non-null transient fields
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+        in.defbultRebdObject();
+        // bssign defbult vblues to non-null trbnsient fields
         iBuffer = new byte[IBUFFER_SIZE];
         ibuffered = 0;
-        lastRead = 0L;
+        lbstRebd = 0L;
     }
 }

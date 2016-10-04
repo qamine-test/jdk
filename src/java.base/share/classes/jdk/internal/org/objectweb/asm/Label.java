@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,96 +56,96 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A label represents a position in the bytecode of a method. Labels are used
- * for jump, goto, and switch instructions, and for try catch blocks. A label
- * designates the <i>instruction</i> that is just after. Note however that there
- * can be other elements between a label and the instruction it designates (such
- * as other labels, stack map frames, line numbers, etc.).
+ * A lbbel represents b position in the bytecode of b method. Lbbels bre used
+ * for jump, goto, bnd switch instructions, bnd for try cbtch blocks. A lbbel
+ * designbtes the <i>instruction</i> thbt is just bfter. Note however thbt there
+ * cbn be other elements between b lbbel bnd the instruction it designbtes (such
+ * bs other lbbels, stbck mbp frbmes, line numbers, etc.).
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class Label {
+public clbss Lbbel {
 
     /**
-     * Indicates if this label is only used for debug attributes. Such a label
-     * is not the start of a basic block, the target of a jump instruction, or
-     * an exception handler. It can be safely ignored in control flow graph
-     * analysis algorithms (for optimization purposes).
+     * Indicbtes if this lbbel is only used for debug bttributes. Such b lbbel
+     * is not the stbrt of b bbsic block, the tbrget of b jump instruction, or
+     * bn exception hbndler. It cbn be sbfely ignored in control flow grbph
+     * bnblysis blgorithms (for optimizbtion purposes).
      */
-    static final int DEBUG = 1;
+    stbtic finbl int DEBUG = 1;
 
     /**
-     * Indicates if the position of this label is known.
+     * Indicbtes if the position of this lbbel is known.
      */
-    static final int RESOLVED = 2;
+    stbtic finbl int RESOLVED = 2;
 
     /**
-     * Indicates if this label has been updated, after instruction resizing.
+     * Indicbtes if this lbbel hbs been updbted, bfter instruction resizing.
      */
-    static final int RESIZED = 4;
+    stbtic finbl int RESIZED = 4;
 
     /**
-     * Indicates if this basic block has been pushed in the basic block stack.
-     * See {@link MethodWriter#visitMaxs visitMaxs}.
+     * Indicbtes if this bbsic block hbs been pushed in the bbsic block stbck.
+     * See {@link MethodWriter#visitMbxs visitMbxs}.
      */
-    static final int PUSHED = 8;
+    stbtic finbl int PUSHED = 8;
 
     /**
-     * Indicates if this label is the target of a jump instruction, or the start
-     * of an exception handler.
+     * Indicbtes if this lbbel is the tbrget of b jump instruction, or the stbrt
+     * of bn exception hbndler.
      */
-    static final int TARGET = 16;
+    stbtic finbl int TARGET = 16;
 
     /**
-     * Indicates if a stack map frame must be stored for this label.
+     * Indicbtes if b stbck mbp frbme must be stored for this lbbel.
      */
-    static final int STORE = 32;
+    stbtic finbl int STORE = 32;
 
     /**
-     * Indicates if this label corresponds to a reachable basic block.
+     * Indicbtes if this lbbel corresponds to b rebchbble bbsic block.
      */
-    static final int REACHABLE = 64;
+    stbtic finbl int REACHABLE = 64;
 
     /**
-     * Indicates if this basic block ends with a JSR instruction.
+     * Indicbtes if this bbsic block ends with b JSR instruction.
      */
-    static final int JSR = 128;
+    stbtic finbl int JSR = 128;
 
     /**
-     * Indicates if this basic block ends with a RET instruction.
+     * Indicbtes if this bbsic block ends with b RET instruction.
      */
-    static final int RET = 256;
+    stbtic finbl int RET = 256;
 
     /**
-     * Indicates if this basic block is the start of a subroutine.
+     * Indicbtes if this bbsic block is the stbrt of b subroutine.
      */
-    static final int SUBROUTINE = 512;
+    stbtic finbl int SUBROUTINE = 512;
 
     /**
-     * Indicates if this subroutine basic block has been visited by a
-     * visitSubroutine(null, ...) call.
+     * Indicbtes if this subroutine bbsic block hbs been visited by b
+     * visitSubroutine(null, ...) cbll.
      */
-    static final int VISITED = 1024;
+    stbtic finbl int VISITED = 1024;
 
     /**
-     * Indicates if this subroutine basic block has been visited by a
-     * visitSubroutine(!null, ...) call.
+     * Indicbtes if this subroutine bbsic block hbs been visited by b
+     * visitSubroutine(!null, ...) cbll.
      */
-    static final int VISITED2 = 2048;
+    stbtic finbl int VISITED2 = 2048;
 
     /**
-     * Field used to associate user information to a label. Warning: this field
-     * is used by the ASM tree package. In order to use it with the ASM tree
-     * package you must override the
-     * {@link jdk.internal.org.objectweb.asm.tree.MethodNode#getLabelNode} method.
+     * Field used to bssocibte user informbtion to b lbbel. Wbrning: this field
+     * is used by the ASM tree pbckbge. In order to use it with the ASM tree
+     * pbckbge you must override the
+     * {@link jdk.internbl.org.objectweb.bsm.tree.MethodNode#getLbbelNode} method.
      */
     public Object info;
 
     /**
-     * Flags that indicate the status of this label.
+     * Flbgs thbt indicbte the stbtus of this lbbel.
      *
      * @see #DEBUG
      * @see #RESOLVED
@@ -157,182 +157,182 @@ public class Label {
      * @see #JSR
      * @see #RET
      */
-    int status;
+    int stbtus;
 
     /**
-     * The line number corresponding to this label, if known.
+     * The line number corresponding to this lbbel, if known.
      */
     int line;
 
     /**
-     * The position of this label in the code, if known.
+     * The position of this lbbel in the code, if known.
      */
     int position;
 
     /**
-     * Number of forward references to this label, times two.
+     * Number of forwbrd references to this lbbel, times two.
      */
-    private int referenceCount;
+    privbte int referenceCount;
 
     /**
-     * Informations about forward references. Each forward reference is
-     * described by two consecutive integers in this array: the first one is the
-     * position of the first byte of the bytecode instruction that contains the
-     * forward reference, while the second is the position of the first byte of
-     * the forward reference itself. In fact the sign of the first integer
-     * indicates if this reference uses 2 or 4 bytes, and its absolute value
-     * gives the position of the bytecode instruction. This array is also used
-     * as a bitset to store the subroutines to which a basic block belongs. This
-     * information is needed in {@linked MethodWriter#visitMaxs}, after all
-     * forward references have been resolved. Hence the same array can be used
+     * Informbtions bbout forwbrd references. Ebch forwbrd reference is
+     * described by two consecutive integers in this brrby: the first one is the
+     * position of the first byte of the bytecode instruction thbt contbins the
+     * forwbrd reference, while the second is the position of the first byte of
+     * the forwbrd reference itself. In fbct the sign of the first integer
+     * indicbtes if this reference uses 2 or 4 bytes, bnd its bbsolute vblue
+     * gives the position of the bytecode instruction. This brrby is blso used
+     * bs b bitset to store the subroutines to which b bbsic block belongs. This
+     * informbtion is needed in {@linked MethodWriter#visitMbxs}, bfter bll
+     * forwbrd references hbve been resolved. Hence the sbme brrby cbn be used
      * for both purposes without problems.
      */
-    private int[] srcAndRefPositions;
+    privbte int[] srcAndRefPositions;
 
     // ------------------------------------------------------------------------
 
     /*
-     * Fields for the control flow and data flow graph analysis algorithms (used
-     * to compute the maximum stack size or the stack map frames). A control
-     * flow graph contains one node per "basic block", and one edge per "jump"
-     * from one basic block to another. Each node (i.e., each basic block) is
-     * represented by the Label object that corresponds to the first instruction
-     * of this basic block. Each node also stores the list of its successors in
-     * the graph, as a linked list of Edge objects.
+     * Fields for the control flow bnd dbtb flow grbph bnblysis blgorithms (used
+     * to compute the mbximum stbck size or the stbck mbp frbmes). A control
+     * flow grbph contbins one node per "bbsic block", bnd one edge per "jump"
+     * from one bbsic block to bnother. Ebch node (i.e., ebch bbsic block) is
+     * represented by the Lbbel object thbt corresponds to the first instruction
+     * of this bbsic block. Ebch node blso stores the list of its successors in
+     * the grbph, bs b linked list of Edge objects.
      *
-     * The control flow analysis algorithms used to compute the maximum stack
-     * size or the stack map frames are similar and use two steps. The first
-     * step, during the visit of each instruction, builds information about the
-     * state of the local variables and the operand stack at the end of each
-     * basic block, called the "output frame", <i>relatively</i> to the frame
-     * state at the beginning of the basic block, which is called the "input
-     * frame", and which is <i>unknown</i> during this step. The second step, in
-     * {@link MethodWriter#visitMaxs}, is a fix point algorithm that computes
-     * information about the input frame of each basic block, from the input
-     * state of the first basic block (known from the method signature), and by
-     * the using the previously computed relative output frames.
+     * The control flow bnblysis blgorithms used to compute the mbximum stbck
+     * size or the stbck mbp frbmes bre similbr bnd use two steps. The first
+     * step, during the visit of ebch instruction, builds informbtion bbout the
+     * stbte of the locbl vbribbles bnd the operbnd stbck bt the end of ebch
+     * bbsic block, cblled the "output frbme", <i>relbtively</i> to the frbme
+     * stbte bt the beginning of the bbsic block, which is cblled the "input
+     * frbme", bnd which is <i>unknown</i> during this step. The second step, in
+     * {@link MethodWriter#visitMbxs}, is b fix point blgorithm thbt computes
+     * informbtion bbout the input frbme of ebch bbsic block, from the input
+     * stbte of the first bbsic block (known from the method signbture), bnd by
+     * the using the previously computed relbtive output frbmes.
      *
-     * The algorithm used to compute the maximum stack size only computes the
-     * relative output and absolute input stack heights, while the algorithm
-     * used to compute stack map frames computes relative output frames and
-     * absolute input frames.
+     * The blgorithm used to compute the mbximum stbck size only computes the
+     * relbtive output bnd bbsolute input stbck heights, while the blgorithm
+     * used to compute stbck mbp frbmes computes relbtive output frbmes bnd
+     * bbsolute input frbmes.
      */
 
     /**
-     * Start of the output stack relatively to the input stack. The exact
-     * semantics of this field depends on the algorithm that is used.
+     * Stbrt of the output stbck relbtively to the input stbck. The exbct
+     * sembntics of this field depends on the blgorithm thbt is used.
      *
-     * When only the maximum stack size is computed, this field is the number of
-     * elements in the input stack.
+     * When only the mbximum stbck size is computed, this field is the number of
+     * elements in the input stbck.
      *
-     * When the stack map frames are completely computed, this field is the
-     * offset of the first output stack element relatively to the top of the
-     * input stack. This offset is always negative or null. A null offset means
-     * that the output stack must be appended to the input stack. A -n offset
-     * means that the first n output stack elements must replace the top n input
-     * stack elements, and that the other elements must be appended to the input
-     * stack.
+     * When the stbck mbp frbmes bre completely computed, this field is the
+     * offset of the first output stbck element relbtively to the top of the
+     * input stbck. This offset is blwbys negbtive or null. A null offset mebns
+     * thbt the output stbck must be bppended to the input stbck. A -n offset
+     * mebns thbt the first n output stbck elements must replbce the top n input
+     * stbck elements, bnd thbt the other elements must be bppended to the input
+     * stbck.
      */
-    int inputStackTop;
+    int inputStbckTop;
 
     /**
-     * Maximum height reached by the output stack, relatively to the top of the
-     * input stack. This maximum is always positive or null.
+     * Mbximum height rebched by the output stbck, relbtively to the top of the
+     * input stbck. This mbximum is blwbys positive or null.
      */
-    int outputStackMax;
+    int outputStbckMbx;
 
     /**
-     * Information about the input and output stack map frames of this basic
-     * block. This field is only used when {@link ClassWriter#COMPUTE_FRAMES}
+     * Informbtion bbout the input bnd output stbck mbp frbmes of this bbsic
+     * block. This field is only used when {@link ClbssWriter#COMPUTE_FRAMES}
      * option is used.
      */
-    Frame frame;
+    Frbme frbme;
 
     /**
-     * The successor of this label, in the order they are visited. This linked
-     * list does not include labels used for debug info only. If
-     * {@link ClassWriter#COMPUTE_FRAMES} option is used then, in addition, it
-     * does not contain successive labels that denote the same bytecode position
-     * (in this case only the first label appears in this list).
+     * The successor of this lbbel, in the order they bre visited. This linked
+     * list does not include lbbels used for debug info only. If
+     * {@link ClbssWriter#COMPUTE_FRAMES} option is used then, in bddition, it
+     * does not contbin successive lbbels thbt denote the sbme bytecode position
+     * (in this cbse only the first lbbel bppebrs in this list).
      */
-    Label successor;
+    Lbbel successor;
 
     /**
-     * The successors of this node in the control flow graph. These successors
-     * are stored in a linked list of {@link Edge Edge} objects, linked to each
+     * The successors of this node in the control flow grbph. These successors
+     * bre stored in b linked list of {@link Edge Edge} objects, linked to ebch
      * other by their {@link Edge#next} field.
      */
     Edge successors;
 
     /**
-     * The next basic block in the basic block stack. This stack is used in the
-     * main loop of the fix point algorithm used in the second step of the
-     * control flow analysis algorithms. It is also used in
-     * {@link #visitSubroutine} to avoid using a recursive method.
+     * The next bbsic block in the bbsic block stbck. This stbck is used in the
+     * mbin loop of the fix point blgorithm used in the second step of the
+     * control flow bnblysis blgorithms. It is blso used in
+     * {@link #visitSubroutine} to bvoid using b recursive method.
      *
-     * @see MethodWriter#visitMaxs
+     * @see MethodWriter#visitMbxs
      */
-    Label next;
+    Lbbel next;
 
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new label.
+     * Constructs b new lbbel.
      */
-    public Label() {
+    public Lbbel() {
     }
 
     // ------------------------------------------------------------------------
-    // Methods to compute offsets and to manage forward references
+    // Methods to compute offsets bnd to mbnbge forwbrd references
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the offset corresponding to this label. This offset is computed
-     * from the start of the method's bytecode. <i>This method is intended for
-     * {@link Attribute} sub classes, and is normally not needed by class
-     * generators or adapters.</i>
+     * Returns the offset corresponding to this lbbel. This offset is computed
+     * from the stbrt of the method's bytecode. <i>This method is intended for
+     * {@link Attribute} sub clbsses, bnd is normblly not needed by clbss
+     * generbtors or bdbpters.</i>
      *
-     * @return the offset corresponding to this label.
-     * @throws IllegalStateException
-     *             if this label is not resolved yet.
+     * @return the offset corresponding to this lbbel.
+     * @throws IllegblStbteException
+     *             if this lbbel is not resolved yet.
      */
     public int getOffset() {
-        if ((status & RESOLVED) == 0) {
-            throw new IllegalStateException(
-                    "Label offset position has not been resolved yet");
+        if ((stbtus & RESOLVED) == 0) {
+            throw new IllegblStbteException(
+                    "Lbbel offset position hbs not been resolved yet");
         }
         return position;
     }
 
     /**
-     * Puts a reference to this label in the bytecode of a method. If the
-     * position of the label is known, the offset is computed and written
-     * directly. Otherwise, a null offset is written and a new forward reference
-     * is declared for this label.
+     * Puts b reference to this lbbel in the bytecode of b method. If the
+     * position of the lbbel is known, the offset is computed bnd written
+     * directly. Otherwise, b null offset is written bnd b new forwbrd reference
+     * is declbred for this lbbel.
      *
-     * @param owner
-     *            the code writer that calls this method.
-     * @param out
+     * @pbrbm owner
+     *            the code writer thbt cblls this method.
+     * @pbrbm out
      *            the bytecode of the method.
-     * @param source
-     *            the position of first byte of the bytecode instruction that
-     *            contains this label.
-     * @param wideOffset
+     * @pbrbm source
+     *            the position of first byte of the bytecode instruction thbt
+     *            contbins this lbbel.
+     * @pbrbm wideOffset
      *            <tt>true</tt> if the reference must be stored in 4 bytes, or
-     *            <tt>false</tt> if it must be stored with 2 bytes.
-     * @throws IllegalArgumentException
-     *             if this label has not been created by the given code writer.
+     *            <tt>fblse</tt> if it must be stored with 2 bytes.
+     * @throws IllegblArgumentException
+     *             if this lbbel hbs not been crebted by the given code writer.
      */
-    void put(final MethodWriter owner, final ByteVector out, final int source,
-            final boolean wideOffset) {
-        if ((status & RESOLVED) == 0) {
+    void put(finbl MethodWriter owner, finbl ByteVector out, finbl int source,
+            finbl boolebn wideOffset) {
+        if ((stbtus & RESOLVED) == 0) {
             if (wideOffset) {
-                addReference(-1 - source, out.length);
+                bddReference(-1 - source, out.length);
                 out.putInt(-1);
             } else {
-                addReference(source, out.length);
+                bddReference(source, out.length);
                 out.putShort(-1);
             }
         } else {
@@ -345,60 +345,60 @@ public class Label {
     }
 
     /**
-     * Adds a forward reference to this label. This method must be called only
-     * for a true forward reference, i.e. only if this label is not resolved
-     * yet. For backward references, the offset of the reference can be, and
-     * must be, computed and stored directly.
+     * Adds b forwbrd reference to this lbbel. This method must be cblled only
+     * for b true forwbrd reference, i.e. only if this lbbel is not resolved
+     * yet. For bbckwbrd references, the offset of the reference cbn be, bnd
+     * must be, computed bnd stored directly.
      *
-     * @param sourcePosition
+     * @pbrbm sourcePosition
      *            the position of the referencing instruction. This position
-     *            will be used to compute the offset of this forward reference.
-     * @param referencePosition
-     *            the position where the offset for this forward reference must
+     *            will be used to compute the offset of this forwbrd reference.
+     * @pbrbm referencePosition
+     *            the position where the offset for this forwbrd reference must
      *            be stored.
      */
-    private void addReference(final int sourcePosition,
-            final int referencePosition) {
+    privbte void bddReference(finbl int sourcePosition,
+            finbl int referencePosition) {
         if (srcAndRefPositions == null) {
             srcAndRefPositions = new int[6];
         }
         if (referenceCount >= srcAndRefPositions.length) {
-            int[] a = new int[srcAndRefPositions.length + 6];
-            System.arraycopy(srcAndRefPositions, 0, a, 0,
+            int[] b = new int[srcAndRefPositions.length + 6];
+            System.brrbycopy(srcAndRefPositions, 0, b, 0,
                     srcAndRefPositions.length);
-            srcAndRefPositions = a;
+            srcAndRefPositions = b;
         }
         srcAndRefPositions[referenceCount++] = sourcePosition;
         srcAndRefPositions[referenceCount++] = referencePosition;
     }
 
     /**
-     * Resolves all forward references to this label. This method must be called
-     * when this label is added to the bytecode of the method, i.e. when its
-     * position becomes known. This method fills in the blanks that where left
-     * in the bytecode by each forward reference previously added to this label.
+     * Resolves bll forwbrd references to this lbbel. This method must be cblled
+     * when this lbbel is bdded to the bytecode of the method, i.e. when its
+     * position becomes known. This method fills in the blbnks thbt where left
+     * in the bytecode by ebch forwbrd reference previously bdded to this lbbel.
      *
-     * @param owner
-     *            the code writer that calls this method.
-     * @param position
-     *            the position of this label in the bytecode.
-     * @param data
+     * @pbrbm owner
+     *            the code writer thbt cblls this method.
+     * @pbrbm position
+     *            the position of this lbbel in the bytecode.
+     * @pbrbm dbtb
      *            the bytecode of the method.
-     * @return <tt>true</tt> if a blank that was left for this label was to
-     *         small to store the offset. In such a case the corresponding jump
-     *         instruction is replaced with a pseudo instruction (using unused
-     *         opcodes) using an unsigned two bytes offset. These pseudo
-     *         instructions will need to be replaced with true instructions with
-     *         wider offsets (4 bytes instead of 2). This is done in
+     * @return <tt>true</tt> if b blbnk thbt wbs left for this lbbel wbs to
+     *         smbll to store the offset. In such b cbse the corresponding jump
+     *         instruction is replbced with b pseudo instruction (using unused
+     *         opcodes) using bn unsigned two bytes offset. These pseudo
+     *         instructions will need to be replbced with true instructions with
+     *         wider offsets (4 bytes instebd of 2). This is done in
      *         {@link MethodWriter#resizeInstructions}.
-     * @throws IllegalArgumentException
-     *             if this label has already been resolved, or if it has not
-     *             been created by the given code writer.
+     * @throws IllegblArgumentException
+     *             if this lbbel hbs blrebdy been resolved, or if it hbs not
+     *             been crebted by the given code writer.
      */
-    boolean resolve(final MethodWriter owner, final int position,
-            final byte[] data) {
-        boolean needUpdate = false;
-        this.status |= RESOLVED;
+    boolebn resolve(finbl MethodWriter owner, finbl int position,
+            finbl byte[] dbtb) {
+        boolebn needUpdbte = fblse;
+        this.stbtus |= RESOLVED;
         this.position = position;
         int i = 0;
         while (i < referenceCount) {
@@ -409,163 +409,163 @@ public class Label {
                 offset = position - source;
                 if (offset < Short.MIN_VALUE || offset > Short.MAX_VALUE) {
                     /*
-                     * changes the opcode of the jump instruction, in order to
-                     * be able to find it later (see resizeInstructions in
-                     * MethodWriter). These temporary opcodes are similar to
-                     * jump instruction opcodes, except that the 2 bytes offset
-                     * is unsigned (and can therefore represent values from 0 to
-                     * 65535, which is sufficient since the size of a method is
+                     * chbnges the opcode of the jump instruction, in order to
+                     * be bble to find it lbter (see resizeInstructions in
+                     * MethodWriter). These temporbry opcodes bre similbr to
+                     * jump instruction opcodes, except thbt the 2 bytes offset
+                     * is unsigned (bnd cbn therefore represent vblues from 0 to
+                     * 65535, which is sufficient since the size of b method is
                      * limited to 65535 bytes).
                      */
-                    int opcode = data[reference - 1] & 0xFF;
+                    int opcode = dbtb[reference - 1] & 0xFF;
                     if (opcode <= Opcodes.JSR) {
-                        // changes IFEQ ... JSR to opcodes 202 to 217
-                        data[reference - 1] = (byte) (opcode + 49);
+                        // chbnges IFEQ ... JSR to opcodes 202 to 217
+                        dbtb[reference - 1] = (byte) (opcode + 49);
                     } else {
-                        // changes IFNULL and IFNONNULL to opcodes 218 and 219
-                        data[reference - 1] = (byte) (opcode + 20);
+                        // chbnges IFNULL bnd IFNONNULL to opcodes 218 bnd 219
+                        dbtb[reference - 1] = (byte) (opcode + 20);
                     }
-                    needUpdate = true;
+                    needUpdbte = true;
                 }
-                data[reference++] = (byte) (offset >>> 8);
-                data[reference] = (byte) offset;
+                dbtb[reference++] = (byte) (offset >>> 8);
+                dbtb[reference] = (byte) offset;
             } else {
                 offset = position + source + 1;
-                data[reference++] = (byte) (offset >>> 24);
-                data[reference++] = (byte) (offset >>> 16);
-                data[reference++] = (byte) (offset >>> 8);
-                data[reference] = (byte) offset;
+                dbtb[reference++] = (byte) (offset >>> 24);
+                dbtb[reference++] = (byte) (offset >>> 16);
+                dbtb[reference++] = (byte) (offset >>> 8);
+                dbtb[reference] = (byte) offset;
             }
         }
-        return needUpdate;
+        return needUpdbte;
     }
 
     /**
-     * Returns the first label of the series to which this label belongs. For an
-     * isolated label or for the first label in a series of successive labels,
-     * this method returns the label itself. For other labels it returns the
-     * first label of the series.
+     * Returns the first lbbel of the series to which this lbbel belongs. For bn
+     * isolbted lbbel or for the first lbbel in b series of successive lbbels,
+     * this method returns the lbbel itself. For other lbbels it returns the
+     * first lbbel of the series.
      *
-     * @return the first label of the series to which this label belongs.
+     * @return the first lbbel of the series to which this lbbel belongs.
      */
-    Label getFirst() {
-        return !ClassReader.FRAMES || frame == null ? this : frame.owner;
+    Lbbel getFirst() {
+        return !ClbssRebder.FRAMES || frbme == null ? this : frbme.owner;
     }
 
     // ------------------------------------------------------------------------
-    // Methods related to subroutines
+    // Methods relbted to subroutines
     // ------------------------------------------------------------------------
 
     /**
-     * Returns true is this basic block belongs to the given subroutine.
+     * Returns true is this bbsic block belongs to the given subroutine.
      *
-     * @param id
-     *            a subroutine id.
-     * @return true is this basic block belongs to the given subroutine.
+     * @pbrbm id
+     *            b subroutine id.
+     * @return true is this bbsic block belongs to the given subroutine.
      */
-    boolean inSubroutine(final long id) {
-        if ((status & Label.VISITED) != 0) {
+    boolebn inSubroutine(finbl long id) {
+        if ((stbtus & Lbbel.VISITED) != 0) {
             return (srcAndRefPositions[(int) (id >>> 32)] & (int) id) != 0;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if this basic block and the given one belong to a common
+     * Returns true if this bbsic block bnd the given one belong to b common
      * subroutine.
      *
-     * @param block
-     *            another basic block.
-     * @return true if this basic block and the given one belong to a common
+     * @pbrbm block
+     *            bnother bbsic block.
+     * @return true if this bbsic block bnd the given one belong to b common
      *         subroutine.
      */
-    boolean inSameSubroutine(final Label block) {
-        if ((status & VISITED) == 0 || (block.status & VISITED) == 0) {
-            return false;
+    boolebn inSbmeSubroutine(finbl Lbbel block) {
+        if ((stbtus & VISITED) == 0 || (block.stbtus & VISITED) == 0) {
+            return fblse;
         }
         for (int i = 0; i < srcAndRefPositions.length; ++i) {
             if ((srcAndRefPositions[i] & block.srcAndRefPositions[i]) != 0) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Marks this basic block as belonging to the given subroutine.
+     * Mbrks this bbsic block bs belonging to the given subroutine.
      *
-     * @param id
-     *            a subroutine id.
-     * @param nbSubroutines
-     *            the total number of subroutines in the method.
+     * @pbrbm id
+     *            b subroutine id.
+     * @pbrbm nbSubroutines
+     *            the totbl number of subroutines in the method.
      */
-    void addToSubroutine(final long id, final int nbSubroutines) {
-        if ((status & VISITED) == 0) {
-            status |= VISITED;
+    void bddToSubroutine(finbl long id, finbl int nbSubroutines) {
+        if ((stbtus & VISITED) == 0) {
+            stbtus |= VISITED;
             srcAndRefPositions = new int[nbSubroutines / 32 + 1];
         }
         srcAndRefPositions[(int) (id >>> 32)] |= (int) id;
     }
 
     /**
-     * Finds the basic blocks that belong to a given subroutine, and marks these
-     * blocks as belonging to this subroutine. This method follows the control
-     * flow graph to find all the blocks that are reachable from the current
-     * block WITHOUT following any JSR target.
+     * Finds the bbsic blocks thbt belong to b given subroutine, bnd mbrks these
+     * blocks bs belonging to this subroutine. This method follows the control
+     * flow grbph to find bll the blocks thbt bre rebchbble from the current
+     * block WITHOUT following bny JSR tbrget.
      *
-     * @param JSR
-     *            a JSR block that jumps to this subroutine. If this JSR is not
-     *            null it is added to the successor of the RET blocks found in
+     * @pbrbm JSR
+     *            b JSR block thbt jumps to this subroutine. If this JSR is not
+     *            null it is bdded to the successor of the RET blocks found in
      *            the subroutine.
-     * @param id
+     * @pbrbm id
      *            the id of this subroutine.
-     * @param nbSubroutines
-     *            the total number of subroutines in the method.
+     * @pbrbm nbSubroutines
+     *            the totbl number of subroutines in the method.
      */
-    void visitSubroutine(final Label JSR, final long id, final int nbSubroutines) {
-        // user managed stack of labels, to avoid using a recursive method
-        // (recursivity can lead to stack overflow with very large methods)
-        Label stack = this;
-        while (stack != null) {
-            // removes a label l from the stack
-            Label l = stack;
-            stack = l.next;
+    void visitSubroutine(finbl Lbbel JSR, finbl long id, finbl int nbSubroutines) {
+        // user mbnbged stbck of lbbels, to bvoid using b recursive method
+        // (recursivity cbn lebd to stbck overflow with very lbrge methods)
+        Lbbel stbck = this;
+        while (stbck != null) {
+            // removes b lbbel l from the stbck
+            Lbbel l = stbck;
+            stbck = l.next;
             l.next = null;
 
             if (JSR != null) {
-                if ((l.status & VISITED2) != 0) {
+                if ((l.stbtus & VISITED2) != 0) {
                     continue;
                 }
-                l.status |= VISITED2;
-                // adds JSR to the successors of l, if it is a RET block
-                if ((l.status & RET) != 0) {
-                    if (!l.inSameSubroutine(JSR)) {
+                l.stbtus |= VISITED2;
+                // bdds JSR to the successors of l, if it is b RET block
+                if ((l.stbtus & RET) != 0) {
+                    if (!l.inSbmeSubroutine(JSR)) {
                         Edge e = new Edge();
-                        e.info = l.inputStackTop;
+                        e.info = l.inputStbckTop;
                         e.successor = JSR.successors.successor;
                         e.next = l.successors;
                         l.successors = e;
                     }
                 }
             } else {
-                // if the l block already belongs to subroutine 'id', continue
+                // if the l block blrebdy belongs to subroutine 'id', continue
                 if (l.inSubroutine(id)) {
                     continue;
                 }
-                // marks the l block as belonging to subroutine 'id'
-                l.addToSubroutine(id, nbSubroutines);
+                // mbrks the l block bs belonging to subroutine 'id'
+                l.bddToSubroutine(id, nbSubroutines);
             }
-            // pushes each successor of l on the stack, except JSR targets
+            // pushes ebch successor of l on the stbck, except JSR tbrgets
             Edge e = l.successors;
             while (e != null) {
-                // if the l block is a JSR block, then 'l.successors.next' leads
-                // to the JSR target (see {@link #visitJumpInsn}) and must
+                // if the l block is b JSR block, then 'l.successors.next' lebds
+                // to the JSR tbrget (see {@link #visitJumpInsn}) bnd must
                 // therefore not be followed
-                if ((l.status & Label.JSR) == 0 || e != l.successors.next) {
-                    // pushes e.successor on the stack if it not already added
+                if ((l.stbtus & Lbbel.JSR) == 0 || e != l.successors.next) {
+                    // pushes e.successor on the stbck if it not blrebdy bdded
                     if (e.successor.next == null) {
-                        e.successor.next = stack;
-                        stack = e.successor;
+                        e.successor.next = stbck;
+                        stbck = e.successor;
                     }
                 }
                 e = e.next;
@@ -578,12 +578,12 @@ public class Label {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns a string representation of this label.
+     * Returns b string representbtion of this lbbel.
      *
-     * @return a string representation of this label.
+     * @return b string representbtion of this lbbel.
      */
     @Override
     public String toString() {
-        return "L" + System.identityHashCode(this);
+        return "L" + System.identityHbshCode(this);
     }
 }

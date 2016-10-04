@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.LocblVbribble;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class IdentifierExpression extends Expression {
+clbss IdentifierExpression extends Expression {
     Identifier id;
     MemberDefinition field;
-    Expression implementation;
+    Expression implementbtion;
 
     /**
      * Constructor
@@ -50,79 +50,79 @@ class IdentifierExpression extends Expression {
         this.id = id;
     }
     public IdentifierExpression(IdentifierToken id) {
-        this(id.getWhere(), id.getName());
+        this(id.getWhere(), id.getNbme());
     }
     public IdentifierExpression(long where, MemberDefinition field) {
         super(IDENT, where, field.getType());
-        this.id = field.getName();
+        this.id = field.getNbme();
         this.field = field;
     }
 
-    public Expression getImplementation() {
-        if (implementation != null)
-            return implementation;
+    public Expression getImplementbtion() {
+        if (implementbtion != null)
+            return implementbtion;
         return this;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Check if the expression is equbl to b vblue
      */
-    public boolean equals(Identifier id) {
-        return this.id.equals(id);
+    public boolebn equbls(Identifier id) {
+        return this.id.equbls(id);
     }
 
 
     /**
-     * Assign a value to this identifier.  [It must already be "bound"]
+     * Assign b vblue to this identifier.  [It must blrebdy be "bound"]
      */
-    private Vset assign(Environment env, Context ctx, Vset vset) {
-        if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
-            if (local.scopeNumber < ctx.frameNumber) {
-                env.error(where, "assign.to.uplevel", id);
+    privbte Vset bssign(Environment env, Context ctx, Vset vset) {
+        if (field.isLocbl()) {
+            LocblMember locbl = (LocblMember)field;
+            if (locbl.scopeNumber < ctx.frbmeNumber) {
+                env.error(where, "bssign.to.uplevel", id);
             }
-            if (local.isFinal()) {
-                // allow definite single assignment of blank finals
-                if (!local.isBlankFinal()) {
-                    env.error(where, "assign.to.final", id);
-                } else if (!vset.testVarUnassigned(local.number)) {
-                    env.error(where, "assign.to.blank.final", id);
+            if (locbl.isFinbl()) {
+                // bllow definite single bssignment of blbnk finbls
+                if (!locbl.isBlbnkFinbl()) {
+                    env.error(where, "bssign.to.finbl", id);
+                } else if (!vset.testVbrUnbssigned(locbl.number)) {
+                    env.error(where, "bssign.to.blbnk.finbl", id);
                 }
             }
-            vset.addVar(local.number);
-            local.writecount++;
-        } else if (field.isFinal()) {
-            vset = FieldExpression.checkFinalAssign(env, ctx, vset,
+            vset.bddVbr(locbl.number);
+            locbl.writecount++;
+        } else if (field.isFinbl()) {
+            vset = FieldExpression.checkFinblAssign(env, ctx, vset,
                                                     where, field);
         }
         return vset;
     }
 
     /**
-     * Get the value of this identifier.  [ It must already be "bound"]
+     * Get the vblue of this identifier.  [ It must blrebdy be "bound"]
      */
-    private Vset get(Environment env, Context ctx, Vset vset) {
-        if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
-            if (local.scopeNumber < ctx.frameNumber && !local.isFinal()) {
-                env.error(where, "invalid.uplevel", id);
+    privbte Vset get(Environment env, Context ctx, Vset vset) {
+        if (field.isLocbl()) {
+            LocblMember locbl = (LocblMember)field;
+            if (locbl.scopeNumber < ctx.frbmeNumber && !locbl.isFinbl()) {
+                env.error(where, "invblid.uplevel", id);
             }
-            if (!vset.testVar(local.number)) {
-                env.error(where, "var.not.initialized", id);
-                vset.addVar(local.number);
+            if (!vset.testVbr(locbl.number)) {
+                env.error(where, "vbr.not.initiblized", id);
+                vset.bddVbr(locbl.number);
             }
-            local.readcount++;
+            locbl.rebdcount++;
         } else {
-            if (!field.isStatic()) {
-                if (!vset.testVar(ctx.getThisNumber())) {
-                    env.error(where, "access.inst.before.super", id);
-                    implementation = null;
+            if (!field.isStbtic()) {
+                if (!vset.testVbr(ctx.getThisNumber())) {
+                    env.error(where, "bccess.inst.before.super", id);
+                    implementbtion = null;
                 }
             }
-            if (field.isBlankFinal()) {
+            if (field.isBlbnkFinbl()) {
                 int number = ctx.getFieldNumber(field);
-                if (number >= 0 && !vset.testVar(number)) {
-                    env.error(where, "var.not.initialized", id);
+                if (number >= 0 && !vset.testVbr(number)) {
+                    env.error(where, "vbr.not.initiblized", id);
                 }
             }
         }
@@ -130,234 +130,234 @@ class IdentifierExpression extends Expression {
     }
 
     /**
-     * Bind to a field
+     * Bind to b field
      */
-    boolean bind(Environment env, Context ctx) {
+    boolebn bind(Environment env, Context ctx) {
         try {
             field = ctx.getField(env, id);
             if (field == null) {
-                for (ClassDefinition cdef = ctx.field.getClassDefinition();
-                     cdef != null; cdef = cdef.getOuterClass()) {
+                for (ClbssDefinition cdef = ctx.field.getClbssDefinition();
+                     cdef != null; cdef = cdef.getOuterClbss()) {
                     if (cdef.findAnyMethod(env, id) != null) {
-                        env.error(where, "invalid.var", id,
-                                  ctx.field.getClassDeclaration());
-                        return false;
+                        env.error(where, "invblid.vbr", id,
+                                  ctx.field.getClbssDeclbrbtion());
+                        return fblse;
                     }
                 }
-                env.error(where, "undef.var", id);
-                return false;
+                env.error(where, "undef.vbr", id);
+                return fblse;
             }
 
             type = field.getType();
 
-            // Check access permission
-            if (!ctx.field.getClassDefinition().canAccess(env, field)) {
-                env.error(where, "no.field.access",
-                          id, field.getClassDeclaration(),
-                          ctx.field.getClassDeclaration());
-                return false;
+            // Check bccess permission
+            if (!ctx.field.getClbssDefinition().cbnAccess(env, field)) {
+                env.error(where, "no.field.bccess",
+                          id, field.getClbssDeclbrbtion(),
+                          ctx.field.getClbssDeclbrbtion());
+                return fblse;
             }
 
-            // Find out how to access this variable.
-            if (field.isLocal()) {
-                LocalMember local = (LocalMember)field;
-                if (local.scopeNumber < ctx.frameNumber) {
-                    // get a "val$x" copy via the current object
-                    implementation = ctx.makeReference(env, local);
+            // Find out how to bccess this vbribble.
+            if (field.isLocbl()) {
+                LocblMember locbl = (LocblMember)field;
+                if (locbl.scopeNumber < ctx.frbmeNumber) {
+                    // get b "vbl$x" copy vib the current object
+                    implementbtion = ctx.mbkeReference(env, locbl);
                 }
             } else {
                 MemberDefinition f = field;
 
-                if (f.reportDeprecated(env)) {
-                    env.error(where, "warn.field.is.deprecated",
-                              id, f.getClassDefinition());
+                if (f.reportDeprecbted(env)) {
+                    env.error(where, "wbrn.field.is.deprecbted",
+                              id, f.getClbssDefinition());
                 }
 
-                ClassDefinition fclass = f.getClassDefinition();
-                if (fclass != ctx.field.getClassDefinition()) {
-                    // Maybe an inherited field hides an apparent variable.
-                    MemberDefinition f2 = ctx.getApparentField(env, id);
+                ClbssDefinition fclbss = f.getClbssDefinition();
+                if (fclbss != ctx.field.getClbssDefinition()) {
+                    // Mbybe bn inherited field hides bn bppbrent vbribble.
+                    MemberDefinition f2 = ctx.getAppbrentField(env, id);
                     if (f2 != null && f2 != f) {
-                        ClassDefinition c = ctx.findScope(env, fclass);
-                        if (c == null)  c = f.getClassDefinition();
-                        if (f2.isLocal()) {
-                            env.error(where, "inherited.hides.local",
-                                      id, c.getClassDeclaration());
+                        ClbssDefinition c = ctx.findScope(env, fclbss);
+                        if (c == null)  c = f.getClbssDefinition();
+                        if (f2.isLocbl()) {
+                            env.error(where, "inherited.hides.locbl",
+                                      id, c.getClbssDeclbrbtion());
                         } else {
                             env.error(where, "inherited.hides.field",
-                                      id, c.getClassDeclaration(),
-                                      f2.getClassDeclaration());
+                                      id, c.getClbssDeclbrbtion(),
+                                      f2.getClbssDeclbrbtion());
                         }
                     }
                 }
 
-                // Rewrite as a FieldExpression.
-                // Access methods for private fields, if needed, will be added
+                // Rewrite bs b FieldExpression.
+                // Access methods for privbte fields, if needed, will be bdded
                 // during subsequent processing of the FieldExpression.  See
-                // method 'FieldExpression.checkCommon'. This division of labor
-                // is somewhat awkward, as most further processing of a
-                // FieldExpression during the checking phase is suppressed when
-                // the referenced field is pre-set as it is here.
+                // method 'FieldExpression.checkCommon'. This division of lbbor
+                // is somewhbt bwkwbrd, bs most further processing of b
+                // FieldExpression during the checking phbse is suppressed when
+                // the referenced field is pre-set bs it is here.
 
-                if (f.isStatic()) {
-                    Expression base = new TypeExpression(where,
-                                        f.getClassDeclaration().getType());
-                    implementation = new FieldExpression(where, null, f);
+                if (f.isStbtic()) {
+                    Expression bbse = new TypeExpression(where,
+                                        f.getClbssDeclbrbtion().getType());
+                    implementbtion = new FieldExpression(where, null, f);
                 } else {
-                    Expression base = ctx.findOuterLink(env, where, f);
-                    if (base != null) {
-                        implementation = new FieldExpression(where, base, f);
+                    Expression bbse = ctx.findOuterLink(env, where, f);
+                    if (bbse != null) {
+                        implementbtion = new FieldExpression(where, bbse, f);
                     }
                 }
             }
 
-            // Check forward reference
-            if (!ctx.canReach(env, field)) {
-                env.error(where, "forward.ref",
-                          id, field.getClassDeclaration());
-                return false;
+            // Check forwbrd reference
+            if (!ctx.cbnRebch(env, field)) {
+                env.error(where, "forwbrd.ref",
+                          id, field.getClbssDeclbrbtion());
+                return fblse;
             }
             return true;
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, ctx.field);
-        } catch (AmbiguousMember e) {
-            env.error(where, "ambig.field", id,
-                      e.field1.getClassDeclaration(),
-                      e.field2.getClassDeclaration());
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, ctx.field);
+        } cbtch (AmbiguousMember e) {
+            env.error(where, "bmbig.field", id,
+                      e.field1.getClbssDeclbrbtion(),
+                      e.field2.getClbssDeclbrbtion());
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Check expression
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
         if (field != null) {
-            // An internally pre-set field, such as an argument copying
-            // an uplevel value.  Do not re-check it.
+            // An internblly pre-set field, such bs bn brgument copying
+            // bn uplevel vblue.  Do not re-check it.
             return vset;
         }
         if (bind(env, ctx)) {
             vset = get(env, ctx, vset);
-            ctx.field.getClassDefinition().addDependency(field.getClassDeclaration());
-            if (implementation != null)
-                vset = implementation.checkValue(env, ctx, vset, exp);
+            ctx.field.getClbssDefinition().bddDependency(field.getClbssDeclbrbtion());
+            if (implementbtion != null)
+                vset = implementbtion.checkVblue(env, ctx, vset, exp);
         }
         return vset;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an assignment
+     * Check the expression if it bppebrs on the LHS of bn bssignment
      */
     public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
+                         Vset vset, Hbshtbble<Object, Object> exp) {
         if (!bind(env, ctx))
             return vset;
-        vset = assign(env, ctx, vset);
-        if (implementation != null)
-            vset = implementation.checkValue(env, ctx, vset, exp);
+        vset = bssign(env, ctx, vset);
+        if (implementbtion != null)
+            vset = implementbtion.checkVblue(env, ctx, vset, exp);
         return vset;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an op= expression
+     * Check the expression if it bppebrs on the LHS of bn op= expression
      */
     public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+                              Vset vset, Hbshtbble<Object, Object> exp, Expression outside) {
         if (!bind(env, ctx))
             return vset;
-        vset = assign(env, ctx, get(env, ctx, vset));
-        if (implementation != null)
-            vset = implementation.checkValue(env, ctx, vset, exp);
+        vset = bssign(env, ctx, get(env, ctx, vset));
+        if (implementbtion != null)
+            vset = implementbtion.checkVblue(env, ctx, vset, exp);
         return vset;
     }
 
     /**
-     * Return an accessor if one is needed for assignments to this expression.
+     * Return bn bccessor if one is needed for bssignments to this expression.
      */
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.getAssigner(env, ctx);
+    public FieldUpdbter getAssigner(Environment env, Context ctx) {
+        if (implementbtion != null)
+            return implementbtion.getAssigner(env, ctx);
         return null;
     }
 
     /**
-     * Return an updater if one is needed for assignments to this expression.
+     * Return bn updbter if one is needed for bssignments to this expression.
      */
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.getUpdater(env, ctx);
+    public FieldUpdbter getUpdbter(Environment env, Context ctx) {
+        if (implementbtion != null)
+            return implementbtion.getUpdbter(env, ctx);
         return null;
     }
 
     /**
-     * Check if the present name is part of a scoping prefix.
+     * Check if the present nbme is pbrt of b scoping prefix.
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigNbme(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp,
+                               UnbryExpression loc) {
         try {
             if (ctx.getField(env, id) != null) {
-                // if this is a local field, there's nothing more to do.
-                return checkValue(env, ctx, vset, exp);
+                // if this is b locbl field, there's nothing more to do.
+                return checkVblue(env, ctx, vset, exp);
             }
-        } catch (ClassNotFound ee) {
-        } catch (AmbiguousMember ee) {
+        } cbtch (ClbssNotFound ee) {
+        } cbtch (AmbiguousMember ee) {
         }
-        // Can this be interpreted as a type?
-        ClassDefinition c = toResolvedType(env, ctx, true);
-        // Is it a real type??
+        // Cbn this be interpreted bs b type?
+        ClbssDefinition c = toResolvedType(env, ctx, true);
+        // Is it b rebl type??
         if (c != null) {
             loc.right = new TypeExpression(where, c.getType());
             return vset;
         }
-        // We hope it is a package prefix.  Let the caller decide.
-        type = Type.tPackage;
+        // We hope it is b pbckbge prefix.  Let the cbller decide.
+        type = Type.tPbckbge;
         return vset;
     }
 
     /**
-     * Convert an identifier to a known type, or null.
+     * Convert bn identifier to b known type, or null.
      */
-    private ClassDefinition toResolvedType(Environment env, Context ctx,
-                                           boolean pkgOK) {
-        Identifier rid = ctx.resolveName(env, id);
-        Type t = Type.tClass(rid);
-        if (pkgOK && !env.classExists(t)) {
+    privbte ClbssDefinition toResolvedType(Environment env, Context ctx,
+                                           boolebn pkgOK) {
+        Identifier rid = ctx.resolveNbme(env, id);
+        Type t = Type.tClbss(rid);
+        if (pkgOK && !env.clbssExists(t)) {
             return null;
         }
-        if (env.resolve(where, ctx.field.getClassDefinition(), t)) {
+        if (env.resolve(where, ctx.field.getClbssDefinition(), t)) {
             try {
-                ClassDefinition c = env.getClassDefinition(t);
+                ClbssDefinition c = env.getClbssDefinition(t);
 
-                // Maybe an inherited class hides an apparent class.
+                // Mbybe bn inherited clbss hides bn bppbrent clbss.
                 if (c.isMember()) {
-                    ClassDefinition sc = ctx.findScope(env, c.getOuterClass());
-                    if (sc != c.getOuterClass()) {
-                        Identifier rid2 = ctx.getApparentClassName(env, id);
-                        if (!rid2.equals(idNull) && !rid2.equals(rid)) {
+                    ClbssDefinition sc = ctx.findScope(env, c.getOuterClbss());
+                    if (sc != c.getOuterClbss()) {
+                        Identifier rid2 = ctx.getAppbrentClbssNbme(env, id);
+                        if (!rid2.equbls(idNull) && !rid2.equbls(rid)) {
                             env.error(where, "inherited.hides.type",
-                                      id, sc.getClassDeclaration());
+                                      id, sc.getClbssDeclbrbtion());
                         }
                     }
                 }
 
-                if (!c.getLocalName().equals(id.getFlatName().getName())) {
-                    env.error(where, "illegal.mangled.name", id, c);
+                if (!c.getLocblNbme().equbls(id.getFlbtNbme().getNbme())) {
+                    env.error(where, "illegbl.mbngled.nbme", id, c);
                 }
 
                 return c;
-            } catch (ClassNotFound ee) {
+            } cbtch (ClbssNotFound ee) {
             }
         }
         return null;
     }
 
     /**
-     * Convert an identifier to a type.
-     * If one is not known, use the current package as a qualifier.
+     * Convert bn identifier to b type.
+     * If one is not known, use the current pbckbge bs b qublifier.
      */
     Type toType(Environment env, Context ctx) {
-        ClassDefinition c = toResolvedType(env, ctx, false);
+        ClbssDefinition c = toResolvedType(env, ctx, fblse);
         if (c != null) {
             return c.getType();
         }
@@ -365,35 +365,35 @@ class IdentifierExpression extends Expression {
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name. We do not necessarily know where the package prefix ends,
-     * so we operate similarly to 'checkAmbiguousName'.  This is the
-     * base case -- the first component of the qualified name.
+     * Convert bn expresion to b type in b context where b qublified
+     * type nbme is expected, e.g., in the prefix of b qublified type
+     * nbme. We do not necessbrily know where the pbckbge prefix ends,
+     * so we operbte similbrly to 'checkAmbiguousNbme'.  This is the
+     * bbse cbse -- the first component of the qublified nbme.
      */
     /*-------------------------------------------------------*
-    Type toQualifiedType(Environment env, Context ctx) {
+    Type toQublifiedType(Environment env, Context ctx) {
         // We do not look for non-type fields.  Is this correct?
-        ClassDefinition c = toResolvedType(env, ctx, true);
-        // Is it a real type?
+        ClbssDefinition c = toResolvedType(env, ctx, true);
+        // Is it b rebl type?
         if (c != null) {
             return c.getType();
         }
-        // We hope it is a package prefix.  Let the caller decide.
-        return Type.tPackage;
+        // We hope it is b pbckbge prefix.  Let the cbller decide.
+        return Type.tPbckbge;
     }
     *-------------------------------------------------------*/
 
     /**
-     * Check if constant:  Will it inline away?
+     * Check if constbnt:  Will it inline bwby?
      */
-    public boolean isConstant() {
-        if (implementation != null)
-            return implementation.isConstant();
+    public boolebn isConstbnt() {
+        if (implementbtion != null)
+            return implementbtion.isConstbnt();
         if (field != null) {
-            return field.isConstant();
+            return field.isConstbnt();
         }
-        return false;
+        return fblse;
     }
 
     /**
@@ -402,76 +402,76 @@ class IdentifierExpression extends Expression {
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineValue(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        if (implementbtion != null)
+            return implementbtion.inlineVblue(env, ctx);
         if (field == null) {
             return this;
         }
         try {
-            if (field.isLocal()) {
-                if (field.isInlineable(env, false)) {
-                    Expression e = (Expression)field.getValue(env);
-                    return (e == null) ? this : e.inlineValue(env, ctx);
+            if (field.isLocbl()) {
+                if (field.isInlinebble(env, fblse)) {
+                    Expression e = (Expression)field.getVblue(env);
+                    return (e == null) ? this : e.inlineVblue(env, ctx);
                 }
                 return this;
             }
             return this;
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
             throw new CompilerError(e);
         }
     }
     public Expression inlineLHS(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineLHS(env, ctx);
+        if (implementbtion != null)
+            return implementbtion.inlineLHS(env, ctx);
         return this;
     }
 
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
-            return implementation.copyInline(ctx);
+        if (implementbtion != null)
+            return implementbtion.copyInline(ctx);
         IdentifierExpression e =
             (IdentifierExpression)super.copyInline(ctx);
-        if (field != null && field.isLocal()) {
-            e.field = ((LocalMember)field).getCurrentInlineCopy(ctx);
+        if (field != null && field.isLocbl()) {
+            e.field = ((LocblMember)field).getCurrentInlineCopy(ctx);
         }
         return e;
     }
 
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.costInline(thresh, env, ctx);
+        if (implementbtion != null)
+            return implementbtion.costInline(thresh, env, ctx);
         return super.costInline(thresh, env, ctx);
     }
 
     /**
-     * Code local vars (object fields have been inlined away)
+     * Code locbl vbrs (object fields hbve been inlined bwby)
      */
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
+    int codeLVblue(Environment env, Context ctx, Assembler bsm) {
         return 0;
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_iload + type.getTypeCodeOffset(),
-                ((LocalMember)field).number);
+    void codeLobd(Environment env, Context ctx, Assembler bsm) {
+        bsm.bdd(where, opc_ilobd + type.getTypeCodeOffset(),
+                ((LocblMember)field).number);
     }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        LocalMember local = (LocalMember)field;
-        asm.add(where, opc_istore + type.getTypeCodeOffset(),
-                new LocalVariable(local, local.number));
+    void codeStore(Environment env, Context ctx, Assembler bsm) {
+        LocblMember locbl = (LocblMember)field;
+        bsm.bdd(where, opc_istore + type.getTypeCodeOffset(),
+                new LocblVbribble(locbl, locbl.number));
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        codeLValue(env, ctx, asm);
-        codeLoad(env, ctx, asm);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        codeLVblue(env, ctx, bsm);
+        codeLobd(env, ctx, bsm);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print(id + "#" + ((field != null) ? field.hashCode() : 0));
-        if (implementation != null) {
+    public void print(PrintStrebm out) {
+        out.print(id + "#" + ((field != null) ? field.hbshCode() : 0));
+        if (implementbtion != null) {
             out.print("/IMPL=");
-            implementation.print(out);
+            implementbtion.print(out);
         }
     }
 }

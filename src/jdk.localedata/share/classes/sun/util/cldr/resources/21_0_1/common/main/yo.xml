@@ -3,120 +3,120 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="yo"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="yo"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="af">Èdè Afrikani</language>
-			<language type="ak">Èdè Akani</language>
-			<language type="am">Èdè Amariki</language>
-			<language type="ar">Èdè Arabiki</language>
-			<language type="as">Ti Assam</language>
-			<language type="az">Èdè Azerbaijani</language>
-			<language type="be">Èdè Belarusi</language>
-			<language type="bg">Èdè Bugaria</language>
-			<language type="bh">Èdè Bihari</language>
-			<language type="bn">Èdè Bengali</language>
-			<language type="br">Èdè Bretoni</language>
-			<language type="bs">Èdè Bosnia</language>
-			<language type="ca">Èdè Catala</language>
-			<language type="cs">Èdè seeki</language>
-			<language type="cy">Èdè Welshi</language>
-			<language type="da">Èdè Ilẹ̀ Denmark</language>
-			<language type="de">Èdè Ilẹ̀ Gemani</language>
-			<language type="el">Èdè Giriki</language>
-			<language type="en">Èdè Gẹ̀ẹ́sì</language>
-			<language type="eo">Èdè Esperanto</language>
-			<language type="es">Èdè Sipanisi</language>
-			<language type="et">Èdè Estonia</language>
-			<language type="eu">Èdè Baski</language>
-			<language type="fa">Èdè Pasia</language>
-			<language type="fi">Èdè Finisi</language>
-			<language type="fil">Èdè Tagalogi</language>
-			<language type="fo">Èdè Faroesi</language>
-			<language type="fr">Èdè Faransé</language>
-			<language type="fy">Èdè Frisia</language>
-			<language type="ga">Èdè Ireland</language>
-			<language type="gd">Èdè Gaelik ti Ilu Scotland</language>
-			<language type="gl">Èdè Galicia</language>
-			<language type="gn">Èdè Guarani</language>
-			<language type="gu">Èdè Gujarati</language>
-			<language type="ha">Èdè Hausa</language>
-			<language type="he">Èdè Heberu</language>
-			<language type="hi">Èdè Hindi</language>
-			<language type="hr">Èdè Kroatia</language>
-			<language type="hu">Èdè Hungaria</language>
-			<language type="hy">Èdè Ile Armenia</language>
-			<language type="ia">Èdè pipo</language>
-			<language type="id">Èdè Indonasia</language>
-			<language type="ie">Iru Èdè</language>
-			<language type="ig">Èdè Ibo</language>
-			<language type="is">Èdè Icelandic</language>
-			<language type="it">Èdè Italiani</language>
-			<language type="ja">Èdè Japanisi</language>
-			<language type="jv">Èdè Javanasi</language>
-			<language type="ka">Èdè Georgia</language>
-			<language type="km">Èdè kameri</language>
-			<language type="kn">Èdè Kannada</language>
-			<language type="ko">Èdè Koria</language>
-			<language type="la">Èdè Latini</language>
-			<language type="lt">Èdè Lithuania</language>
-			<language type="lv">Èdè Latvianu</language>
-			<language type="mk">Èdè Macedonia</language>
-			<language type="mr">Èdè marathi</language>
-			<language type="ms">Èdè Malaya</language>
-			<language type="mt">Èdè Malta</language>
-			<language type="my">Èdè Bumiisi</language>
-			<language type="ne">Èdè Nepali</language>
-			<language type="nl">Èdè Duki</language>
-			<language type="no">Èdè Norway</language>
-			<language type="oc">Èdè Occitani</language>
-			<language type="pa">Èdè Punjabi</language>
-			<language type="pl">Èdè Ilẹ̀ Polandi</language>
-			<language type="pt">Èdè Pọtugi</language>
-			<language type="ro">Èdè Romania</language>
-			<language type="ru">Èdè ̣Rọọsia</language>
-			<language type="rw">Èdè Ruwanda</language>
-			<language type="sa">Èdè awon ara Indo</language>
-			<language type="sd">Èdè Sindhi</language>
-			<language type="sh">Èdè Serbo-Croatiani</language>
-			<language type="si">Èdè Sinhalese</language>
-			<language type="sk">Èdè Slovaki</language>
-			<language type="sl">Èdè Slovenia</language>
-			<language type="so">Èdè ara Somalia</language>
-			<language type="sq">Èdè Albania</language>
-			<language type="sr">Èdè Serbia</language>
-			<language type="st">Èdè Sesoto</language>
-			<language type="su">Èdè Sudani</language>
-			<language type="sv">Èdè Suwidiisi</language>
-			<language type="sw">Èdè Swahili</language>
-			<language type="ta">Èdè Tamili</language>
-			<language type="te">Èdè Telugu</language>
-			<language type="th">Èdè Tai</language>
-			<language type="ti">Èdè Tigrinya</language>
-			<language type="tk">Èdè Turkmen</language>
-			<language type="tlh">Èdè Klingoni</language>
-			<language type="tr">Èdè Tọọkisi</language>
-			<language type="uk">Èdè Ukania</language>
-			<language type="ur">Èdè Udu</language>
-			<language type="uz">Èdè Uzbek</language>
-			<language type="vi">Èdè Jetinamu</language>
-			<language type="xh">Èdè Xhosa</language>
-			<language type="yi">Èdè Yiddishi</language>
-			<language type="yo">Èdè Yorùbá</language>
-			<language type="zh">Èdè Mandari</language>
-			<language type="zu">Èdè Ṣulu</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bf">Èdè Afrikbni</lbngubge>
+			<lbngubge type="bk">Èdè Akbni</lbngubge>
+			<lbngubge type="bm">Èdè Ambriki</lbngubge>
+			<lbngubge type="br">Èdè Arbbiki</lbngubge>
+			<lbngubge type="bs">Ti Assbm</lbngubge>
+			<lbngubge type="bz">Èdè Azerbbijbni</lbngubge>
+			<lbngubge type="be">Èdè Belbrusi</lbngubge>
+			<lbngubge type="bg">Èdè Bugbrib</lbngubge>
+			<lbngubge type="bh">Èdè Bihbri</lbngubge>
+			<lbngubge type="bn">Èdè Bengbli</lbngubge>
+			<lbngubge type="br">Èdè Bretoni</lbngubge>
+			<lbngubge type="bs">Èdè Bosnib</lbngubge>
+			<lbngubge type="cb">Èdè Cbtblb</lbngubge>
+			<lbngubge type="cs">Èdè seeki</lbngubge>
+			<lbngubge type="cy">Èdè Welshi</lbngubge>
+			<lbngubge type="db">Èdè Ilẹ̀ Denmbrk</lbngubge>
+			<lbngubge type="de">Èdè Ilẹ̀ Gembni</lbngubge>
+			<lbngubge type="el">Èdè Giriki</lbngubge>
+			<lbngubge type="en">Èdè Gẹ̀ẹ́sì</lbngubge>
+			<lbngubge type="eo">Èdè Esperbnto</lbngubge>
+			<lbngubge type="es">Èdè Sipbnisi</lbngubge>
+			<lbngubge type="et">Èdè Estonib</lbngubge>
+			<lbngubge type="eu">Èdè Bbski</lbngubge>
+			<lbngubge type="fb">Èdè Pbsib</lbngubge>
+			<lbngubge type="fi">Èdè Finisi</lbngubge>
+			<lbngubge type="fil">Èdè Tbgblogi</lbngubge>
+			<lbngubge type="fo">Èdè Fbroesi</lbngubge>
+			<lbngubge type="fr">Èdè Fbrbnsé</lbngubge>
+			<lbngubge type="fy">Èdè Frisib</lbngubge>
+			<lbngubge type="gb">Èdè Irelbnd</lbngubge>
+			<lbngubge type="gd">Èdè Gbelik ti Ilu Scotlbnd</lbngubge>
+			<lbngubge type="gl">Èdè Gblicib</lbngubge>
+			<lbngubge type="gn">Èdè Gubrbni</lbngubge>
+			<lbngubge type="gu">Èdè Gujbrbti</lbngubge>
+			<lbngubge type="hb">Èdè Hbusb</lbngubge>
+			<lbngubge type="he">Èdè Heberu</lbngubge>
+			<lbngubge type="hi">Èdè Hindi</lbngubge>
+			<lbngubge type="hr">Èdè Krobtib</lbngubge>
+			<lbngubge type="hu">Èdè Hungbrib</lbngubge>
+			<lbngubge type="hy">Èdè Ile Armenib</lbngubge>
+			<lbngubge type="ib">Èdè pipo</lbngubge>
+			<lbngubge type="id">Èdè Indonbsib</lbngubge>
+			<lbngubge type="ie">Iru Èdè</lbngubge>
+			<lbngubge type="ig">Èdè Ibo</lbngubge>
+			<lbngubge type="is">Èdè Icelbndic</lbngubge>
+			<lbngubge type="it">Èdè Itblibni</lbngubge>
+			<lbngubge type="jb">Èdè Jbpbnisi</lbngubge>
+			<lbngubge type="jv">Èdè Jbvbnbsi</lbngubge>
+			<lbngubge type="kb">Èdè Georgib</lbngubge>
+			<lbngubge type="km">Èdè kbmeri</lbngubge>
+			<lbngubge type="kn">Èdè Kbnnbdb</lbngubge>
+			<lbngubge type="ko">Èdè Korib</lbngubge>
+			<lbngubge type="lb">Èdè Lbtini</lbngubge>
+			<lbngubge type="lt">Èdè Lithubnib</lbngubge>
+			<lbngubge type="lv">Èdè Lbtvibnu</lbngubge>
+			<lbngubge type="mk">Èdè Mbcedonib</lbngubge>
+			<lbngubge type="mr">Èdè mbrbthi</lbngubge>
+			<lbngubge type="ms">Èdè Mblbyb</lbngubge>
+			<lbngubge type="mt">Èdè Mbltb</lbngubge>
+			<lbngubge type="my">Èdè Bumiisi</lbngubge>
+			<lbngubge type="ne">Èdè Nepbli</lbngubge>
+			<lbngubge type="nl">Èdè Duki</lbngubge>
+			<lbngubge type="no">Èdè Norwby</lbngubge>
+			<lbngubge type="oc">Èdè Occitbni</lbngubge>
+			<lbngubge type="pb">Èdè Punjbbi</lbngubge>
+			<lbngubge type="pl">Èdè Ilẹ̀ Polbndi</lbngubge>
+			<lbngubge type="pt">Èdè Pọtugi</lbngubge>
+			<lbngubge type="ro">Èdè Rombnib</lbngubge>
+			<lbngubge type="ru">Èdè ̣Rọọsib</lbngubge>
+			<lbngubge type="rw">Èdè Ruwbndb</lbngubge>
+			<lbngubge type="sb">Èdè bwon brb Indo</lbngubge>
+			<lbngubge type="sd">Èdè Sindhi</lbngubge>
+			<lbngubge type="sh">Èdè Serbo-Crobtibni</lbngubge>
+			<lbngubge type="si">Èdè Sinhblese</lbngubge>
+			<lbngubge type="sk">Èdè Slovbki</lbngubge>
+			<lbngubge type="sl">Èdè Slovenib</lbngubge>
+			<lbngubge type="so">Èdè brb Somblib</lbngubge>
+			<lbngubge type="sq">Èdè Albbnib</lbngubge>
+			<lbngubge type="sr">Èdè Serbib</lbngubge>
+			<lbngubge type="st">Èdè Sesoto</lbngubge>
+			<lbngubge type="su">Èdè Sudbni</lbngubge>
+			<lbngubge type="sv">Èdè Suwidiisi</lbngubge>
+			<lbngubge type="sw">Èdè Swbhili</lbngubge>
+			<lbngubge type="tb">Èdè Tbmili</lbngubge>
+			<lbngubge type="te">Èdè Telugu</lbngubge>
+			<lbngubge type="th">Èdè Tbi</lbngubge>
+			<lbngubge type="ti">Èdè Tigrinyb</lbngubge>
+			<lbngubge type="tk">Èdè Turkmen</lbngubge>
+			<lbngubge type="tlh">Èdè Klingoni</lbngubge>
+			<lbngubge type="tr">Èdè Tọọkisi</lbngubge>
+			<lbngubge type="uk">Èdè Ukbnib</lbngubge>
+			<lbngubge type="ur">Èdè Udu</lbngubge>
+			<lbngubge type="uz">Èdè Uzbek</lbngubge>
+			<lbngubge type="vi">Èdè Jetinbmu</lbngubge>
+			<lbngubge type="xh">Èdè Xhosb</lbngubge>
+			<lbngubge type="yi">Èdè Yiddishi</lbngubge>
+			<lbngubge type="yo">Èdè Yorùbá</lbngubge>
+			<lbngubge type="zh">Èdè Mbndbri</lbngubge>
+			<lbngubge type="zu">Èdè Ṣulu</lbngubge>
+		</lbngubges>
 		<territories>
 			<territory type="AD">Orílẹ́ède Ààndórà</territory>
-			<territory type="AE">Orílẹ́ède Ẹmirate ti Awọn Arabu</territory>
+			<territory type="AE">Orílẹ́ède Ẹmirbte ti Awọn Arbbu</territory>
 			<territory type="AF">Orílẹ́ède Àfùgànístánì</territory>
 			<territory type="AG">Orílẹ́ède Ààntígúà àti Báríbúdà</territory>
 			<territory type="AI">Orílẹ́ède Ààngúlílà</territory>
 			<territory type="AL">Orílẹ́ède Àlùbàníánì</territory>
 			<territory type="AM">Orílẹ́ède Améníà</territory>
-			<territory type="AN">Orílẹ́ède Nedalandi ti Antelisi</territory>
+			<territory type="AN">Orílẹ́ède Nedblbndi ti Antelisi</territory>
 			<territory type="AO">Orílẹ́ède Ààngólà</territory>
 			<territory type="AR">Orílẹ́ède Agentínà</territory>
 			<territory type="AS">Sámóánì ti Orílẹ́ède Àméríkà</territory>
@@ -128,7 +128,7 @@
 			<territory type="BB">Orílẹ́ède Bábádósì</territory>
 			<territory type="BD">Orílẹ́ède Bángáládésì</territory>
 			<territory type="BE">Orílẹ́ède Bégíọ́mù</territory>
-			<territory type="BF">Orílẹ́ède Bùùkíná Fasò</territory>
+			<territory type="BF">Orílẹ́ède Bùùkíná Fbsò</territory>
 			<territory type="BG">Orílẹ́ède Bùùgáríà</territory>
 			<territory type="BH">Orílẹ́ède Báránì</territory>
 			<territory type="BI">Orílẹ́ède Bùùrúndì</territory>
@@ -146,214 +146,214 @@
 			<territory type="CD">Orilẹ́ède Kóngò</territory>
 			<territory type="CF">Orílẹ́ède Àrin gùngun Áfíríkà</territory>
 			<territory type="CG">Orílẹ́ède Kóngò</territory>
-			<territory type="CH">Orílẹ́ède switiṣilandi</territory>
+			<territory type="CH">Orílẹ́ède switiṣilbndi</territory>
 			<territory type="CI">Orílẹ́ède Kóútè forà</territory>
 			<territory type="CK">Orílẹ́ède Etíokun Kùúkù</territory>
 			<territory type="CL">Orílẹ́ède ṣílè</territory>
-			<territory type="CM">Orílẹ́ède Kamerúúnì</territory>
+			<territory type="CM">Orílẹ́ède Kbmerúúnì</territory>
 			<territory type="CN">Orílẹ́ède ṣáínà</territory>
-			<territory type="CO">Orílẹ́ède Kòlómíbìa</territory>
-			<territory type="CR">Orílẹ́ède Kuusita Ríkà</territory>
-			<territory type="CS">Orílẹ́ède sẹbia ati Mọtinegoro</territory>
+			<territory type="CO">Orílẹ́ède Kòlómíbìb</territory>
+			<territory type="CR">Orílẹ́ède Kuusitb Ríkà</territory>
+			<territory type="CS">Orílẹ́ède sẹbib bti Mọtinegoro</territory>
 			<territory type="CU">Orílẹ́ède Kúbà</territory>
 			<territory type="CV">Orílẹ́ède Etíokun Kápé féndè</territory>
 			<territory type="CY">Orílẹ́ède Kúrúsì</territory>
 			<territory type="CZ">Orílẹ́ède ṣẹ́ẹ́kì</territory>
-			<territory type="DE">Orílẹ́ède Gemani</territory>
+			<territory type="DE">Orílẹ́ède Gembni</territory>
 			<territory type="DJ">Orílẹ́ède Díbọ́ótì</territory>
 			<territory type="DK">Orílẹ́ède Dẹ́mákì</territory>
 			<territory type="DM">Orílẹ́ède Dòmíníkà</territory>
 			<territory type="DO">Orilẹ́ède Dòmíníkánì</territory>
 			<territory type="DZ">Orílẹ́ède Àlùgèríánì</territory>
 			<territory type="EC">Orílẹ́ède Ekuádò</territory>
-			<territory type="EE">Orílẹ́ède Esitonia</territory>
+			<territory type="EE">Orílẹ́ède Esitonib</territory>
 			<territory type="EG">Orílẹ́ède Égípítì</territory>
-			<territory type="ER">Orílẹ́ède Eritira</territory>
-			<territory type="ES">Orílẹ́ède Sipani</territory>
-			<territory type="ET">Orílẹ́ède Etopia</territory>
-			<territory type="FI">Orílẹ́ède Filandi</territory>
+			<territory type="ER">Orílẹ́ède Eritirb</territory>
+			<territory type="ES">Orílẹ́ède Sipbni</territory>
+			<territory type="ET">Orílẹ́ède Etopib</territory>
+			<territory type="FI">Orílẹ́ède Filbndi</territory>
 			<territory type="FJ">Orílẹ́ède Fiji</territory>
-			<territory type="FK">Orílẹ́ède Etikun Fakalandi</territory>
-			<territory type="FM">Orílẹ́ède Makoronesia</territory>
-			<territory type="FR">Orílẹ́ède Faranse</territory>
-			<territory type="GA">Orílẹ́ède Gabon</territory>
-			<territory type="GB">Orílẹ́ède Omobabirin</territory>
-			<territory type="GD">Orílẹ́ède Genada</territory>
-			<territory type="GE">Orílẹ́ède Gọgia</territory>
-			<territory type="GF">Orílẹ́ède Firenṣi Guana</territory>
-			<territory type="GH">Orílẹ́ède Gana</territory>
-			<territory type="GI">Orílẹ́ède Gibaratara</territory>
-			<territory type="GL">Orílẹ́ède Gerelandi</territory>
-			<territory type="GM">Orílẹ́ède Gambia</territory>
+			<territory type="FK">Orílẹ́ède Etikun Fbkblbndi</territory>
+			<territory type="FM">Orílẹ́ède Mbkoronesib</territory>
+			<territory type="FR">Orílẹ́ède Fbrbnse</territory>
+			<territory type="GA">Orílẹ́ède Gbbon</territory>
+			<territory type="GB">Orílẹ́ède Omobbbirin</territory>
+			<territory type="GD">Orílẹ́ède Genbdb</territory>
+			<territory type="GE">Orílẹ́ède Gọgib</territory>
+			<territory type="GF">Orílẹ́ède Firenṣi Gubnb</territory>
+			<territory type="GH">Orílẹ́ède Gbnb</territory>
+			<territory type="GI">Orílẹ́ède Gibbrbtbrb</territory>
+			<territory type="GL">Orílẹ́ède Gerelbndi</territory>
+			<territory type="GM">Orílẹ́ède Gbmbib</territory>
 			<territory type="GN">Orílẹ́ède Gene</territory>
-			<territory type="GP">Orílẹ́ède Gadelope</territory>
-			<territory type="GQ">Orílẹ́ède Ekutoria Gini</territory>
+			<territory type="GP">Orílẹ́ède Gbdelope</territory>
+			<territory type="GQ">Orílẹ́ède Ekutorib Gini</territory>
 			<territory type="GR">Orílẹ́ède Geriisi</territory>
-			<territory type="GT">Orílẹ́ède Guatemala</territory>
-			<territory type="GU">Orílẹ́ède Guamu</territory>
-			<territory type="GW">Orílẹ́ède Gene-Busau</territory>
-			<territory type="GY">Orílẹ́ède Guyana</territory>
-			<territory type="HN">Orílẹ́ède Hondurasi</territory>
+			<territory type="GT">Orílẹ́ède Gubtemblb</territory>
+			<territory type="GU">Orílẹ́ède Gubmu</territory>
+			<territory type="GW">Orílẹ́ède Gene-Busbu</territory>
+			<territory type="GY">Orílẹ́ède Guybnb</territory>
+			<territory type="HN">Orílẹ́ède Hondurbsi</territory>
 			<territory type="HR">Orílẹ́ède Kòróátíà</territory>
-			<territory type="HT">Orílẹ́ède Haati</territory>
-			<territory type="HU">Orílẹ́ède Hungari</territory>
-			<territory type="ID">Orílẹ́ède Indonesia</territory>
-			<territory type="IE">Orílẹ́ède Ailandi</territory>
+			<territory type="HT">Orílẹ́ède Hbbti</territory>
+			<territory type="HU">Orílẹ́ède Hungbri</territory>
+			<territory type="ID">Orílẹ́ède Indonesib</territory>
+			<territory type="IE">Orílẹ́ède Ailbndi</territory>
 			<territory type="IL">Orílẹ́ède Iserẹli</territory>
-			<territory type="IN">Orílẹ́ède India</territory>
+			<territory type="IN">Orílẹ́ède Indib</territory>
 			<territory type="IO">Orílẹ́ède Etíkun Índíánì ti Ìlú Bírítísì</territory>
-			<territory type="IQ">Orílẹ́ède Iraki</territory>
-			<territory type="IR">Orílẹ́ède Irani</territory>
-			<territory type="IS">Orílẹ́ède Aṣilandi</territory>
-			<territory type="IT">Orílẹ́ède Italiyi</territory>
-			<territory type="JM">Orílẹ́ède Jamaika</territory>
-			<territory type="JO">Orílẹ́ède Jọdani</territory>
-			<territory type="JP">Orílẹ́ède Japani</territory>
-			<territory type="KE">Orílẹ́ède Kenya</territory>
-			<territory type="KG">Orílẹ́ède Kuriṣisitani</territory>
+			<territory type="IQ">Orílẹ́ède Irbki</territory>
+			<territory type="IR">Orílẹ́ède Irbni</territory>
+			<territory type="IS">Orílẹ́ède Aṣilbndi</territory>
+			<territory type="IT">Orílẹ́ède Itbliyi</territory>
+			<territory type="JM">Orílẹ́ède Jbmbikb</territory>
+			<territory type="JO">Orílẹ́ède Jọdbni</territory>
+			<territory type="JP">Orílẹ́ède Jbpbni</territory>
+			<territory type="KE">Orílẹ́ède Kenyb</territory>
+			<territory type="KG">Orílẹ́ède Kuriṣisitbni</territory>
 			<territory type="KH">Orílẹ́ède Kàmùbódíà</territory>
-			<territory type="KI">Orílẹ́ède Kiribati</territory>
+			<territory type="KI">Orílẹ́ède Kiribbti</territory>
 			<territory type="KM">Orílẹ́ède Kòmòrósì</territory>
-			<territory type="KN">Orílẹ́ède Kiiti ati Neefi</territory>
-			<territory type="KP">Orílẹ́ède Guusu Kọria</territory>
-			<territory type="KR">Orílẹ́ède Ariwa Kọria</territory>
+			<territory type="KN">Orílẹ́ède Kiiti bti Neefi</territory>
+			<territory type="KP">Orílẹ́ède Guusu Kọrib</territory>
+			<territory type="KR">Orílẹ́ède Ariwb Kọrib</territory>
 			<territory type="KW">Orílẹ́ède Kuweti</territory>
 			<territory type="KY">Orílẹ́ède Etíokun Kámánì</territory>
-			<territory type="KZ">Orílẹ́ède Kaṣaṣatani</territory>
-			<territory type="LA">Orílẹ́ède Laosi</territory>
-			<territory type="LB">Orílẹ́ède Lebanoni</territory>
-			<territory type="LC">Orílẹ́ède Luṣia</territory>
+			<territory type="KZ">Orílẹ́ède Kbṣbṣbtbni</territory>
+			<territory type="LA">Orílẹ́ède Lbosi</territory>
+			<territory type="LB">Orílẹ́ède Lebbnoni</territory>
+			<territory type="LC">Orílẹ́ède Luṣib</territory>
 			<territory type="LI">Orílẹ́ède Lẹṣitẹnisiteni</territory>
-			<territory type="LK">Orílẹ́ède Siri Lanka</territory>
-			<territory type="LR">Orílẹ́ède Laberia</territory>
+			<territory type="LK">Orílẹ́ède Siri Lbnkb</territory>
+			<territory type="LR">Orílẹ́ède Lbberib</territory>
 			<territory type="LS">Orílẹ́ède Lesoto</territory>
-			<territory type="LT">Orílẹ́ède Lituania</territory>
+			<territory type="LT">Orílẹ́ède Litubnib</territory>
 			<territory type="LU">Orílẹ́ède Lusemogi</territory>
-			<territory type="LV">Orílẹ́ède Latifia</territory>
-			<territory type="LY">Orílẹ́ède Libiya</territory>
+			<territory type="LV">Orílẹ́ède Lbtifib</territory>
+			<territory type="LY">Orílẹ́ède Libiyb</territory>
 			<territory type="MA">Orílẹ́ède Moroko</territory>
-			<territory type="MC">Orílẹ́ède Monako</territory>
-			<territory type="MD">Orílẹ́ède Modofia</territory>
-			<territory type="MG">Orílẹ́ède Madasika</territory>
-			<territory type="MH">Orílẹ́ède Etikun Máṣali</territory>
-			<territory type="MK">Orílẹ́ède Masidonia</territory>
-			<territory type="ML">Orílẹ́ède Mali</territory>
-			<territory type="MM">Orílẹ́ède Manamari</territory>
-			<territory type="MN">Orílẹ́ède Mogolia</territory>
-			<territory type="MP">Orílẹ́ède Etikun Guusu Mariana</territory>
-			<territory type="MQ">Orílẹ́ède Matinikuwi</territory>
-			<territory type="MR">Orílẹ́ède Maritania</territory>
-			<territory type="MS">Orílẹ́ède Motserati</territory>
-			<territory type="MT">Orílẹ́ède Malata</territory>
-			<territory type="MU">Orílẹ́ède Maritiusi</territory>
-			<territory type="MV">Orílẹ́ède Maladifi</territory>
-			<territory type="MW">Orílẹ́ède Malawi</territory>
+			<territory type="MC">Orílẹ́ède Monbko</territory>
+			<territory type="MD">Orílẹ́ède Modofib</territory>
+			<territory type="MG">Orílẹ́ède Mbdbsikb</territory>
+			<territory type="MH">Orílẹ́ède Etikun Máṣbli</territory>
+			<territory type="MK">Orílẹ́ède Mbsidonib</territory>
+			<territory type="ML">Orílẹ́ède Mbli</territory>
+			<territory type="MM">Orílẹ́ède Mbnbmbri</territory>
+			<territory type="MN">Orílẹ́ède Mogolib</territory>
+			<territory type="MP">Orílẹ́ède Etikun Guusu Mbribnb</territory>
+			<territory type="MQ">Orílẹ́ède Mbtinikuwi</territory>
+			<territory type="MR">Orílẹ́ède Mbritbnib</territory>
+			<territory type="MS">Orílẹ́ède Motserbti</territory>
+			<territory type="MT">Orílẹ́ède Mblbtb</territory>
+			<territory type="MU">Orílẹ́ède Mbritiusi</territory>
+			<territory type="MV">Orílẹ́ède Mblbdifi</territory>
+			<territory type="MW">Orílẹ́ède Mblbwi</territory>
 			<territory type="MX">Orílẹ́ède Mesiko</territory>
-			<territory type="MY">Orílẹ́ède Malasia</territory>
-			<territory type="MZ">Orílẹ́ède Moṣamibiku</territory>
-			<territory type="NA">Orílẹ́ède Namibia</territory>
-			<territory type="NC">Orílẹ́ède Kaledonia Titun</territory>
+			<territory type="MY">Orílẹ́ède Mblbsib</territory>
+			<territory type="MZ">Orílẹ́ède Moṣbmibiku</territory>
+			<territory type="NA">Orílẹ́ède Nbmibib</territory>
+			<territory type="NC">Orílẹ́ède Kbledonib Titun</territory>
 			<territory type="NE">Orílẹ́ède Nàìjá</territory>
 			<territory type="NF">Orílẹ́ède Etikun Nọ́úfókì</territory>
 			<territory type="NG">Orílẹ́ède Nàìjíríà</territory>
-			<territory type="NI">Orílẹ́ède NIkaragua</territory>
-			<territory type="NL">Orílẹ́ède Nedalandi</territory>
+			<territory type="NI">Orílẹ́ède NIkbrbgub</territory>
+			<territory type="NL">Orílẹ́ède Nedblbndi</territory>
 			<territory type="NO">Orílẹ́ède Nọọwii</territory>
-			<territory type="NP">Orílẹ́ède Nepa</territory>
-			<territory type="NR">Orílẹ́ède Nauru</territory>
+			<territory type="NP">Orílẹ́ède Nepb</territory>
+			<territory type="NR">Orílẹ́ède Nburu</territory>
 			<territory type="NU">Orílẹ́ède Niue</territory>
-			<territory type="NZ">Orílẹ́ède ṣilandi Titun</territory>
-			<territory type="OM">Orílẹ́ède Ọọma</territory>
-			<territory type="PA">Orílẹ́ède Panama</territory>
+			<territory type="NZ">Orílẹ́ède ṣilbndi Titun</territory>
+			<territory type="OM">Orílẹ́ède Ọọmb</territory>
+			<territory type="PA">Orílẹ́ède Pbnbmb</territory>
 			<territory type="PE">Orílẹ́ède Peru</territory>
-			<territory type="PF">Orílẹ́ède Firenṣi Polinesia</territory>
-			<territory type="PG">Orílẹ́ède Paapu ti Giini</territory>
+			<territory type="PF">Orílẹ́ède Firenṣi Polinesib</territory>
+			<territory type="PG">Orílẹ́ède Pbbpu ti Giini</territory>
 			<territory type="PH">Orílẹ́ède filipini</territory>
-			<territory type="PK">Orílẹ́ède Pakisitan</territory>
-			<territory type="PL">Orílẹ́ède Polandi</territory>
-			<territory type="PM">Orílẹ́ède Pẹẹri ati mikuloni</territory>
-			<territory type="PN">Orílẹ́ède Pikarini</territory>
+			<territory type="PK">Orílẹ́ède Pbkisitbn</territory>
+			<territory type="PL">Orílẹ́ède Polbndi</territory>
+			<territory type="PM">Orílẹ́ède Pẹẹri bti mikuloni</territory>
+			<territory type="PN">Orílẹ́ède Pikbrini</territory>
 			<territory type="PR">Orílẹ́ède Pọto Riko</territory>
-			<territory type="PS">Orílẹ́ède Iwọorun Pakisitian ati Gaṣa</territory>
+			<territory type="PS">Orílẹ́ède Iwọorun Pbkisitibn bti Gbṣb</territory>
 			<territory type="PT">Orílẹ́ède Pọtugi</territory>
-			<territory type="PW">Orílẹ́ède Paalu</territory>
-			<territory type="PY">Orílẹ́ède Paraguye</territory>
-			<territory type="QA">Orílẹ́ède Kota</territory>
-			<territory type="RE">Orílẹ́ède Riuniyan</territory>
-			<territory type="RO">Orílẹ́ède Romaniya</territory>
-			<territory type="RU">Orílẹ́ède Rọṣia</territory>
-			<territory type="RW">Orílẹ́ède Ruwanda</territory>
-			<territory type="SA">Orílẹ́ède Saudi Arabia</territory>
+			<territory type="PW">Orílẹ́ède Pbblu</territory>
+			<territory type="PY">Orílẹ́ède Pbrbguye</territory>
+			<territory type="QA">Orílẹ́ède Kotb</territory>
+			<territory type="RE">Orílẹ́ède Riuniybn</territory>
+			<territory type="RO">Orílẹ́ède Rombniyb</territory>
+			<territory type="RU">Orílẹ́ède Rọṣib</territory>
+			<territory type="RW">Orílẹ́ède Ruwbndb</territory>
+			<territory type="SA">Orílẹ́ède Sbudi Arbbib</territory>
 			<territory type="SB">Orílẹ́ède Etikun Solomoni</territory>
 			<territory type="SC">Orílẹ́ède seṣẹlẹsi</territory>
-			<territory type="SD">Orílẹ́ède Sudani</territory>
+			<territory type="SD">Orílẹ́ède Sudbni</territory>
 			<territory type="SE">Orílẹ́ède Swidini</territory>
-			<territory type="SG">Orílẹ́ède Singapo</territory>
-			<territory type="SH">Orílẹ́ède Hẹlena</territory>
-			<territory type="SI">Orílẹ́ède Silofania</territory>
-			<territory type="SK">Orílẹ́ède Silofakia</territory>
-			<territory type="SL">Orílẹ́ède Siria looni</territory>
-			<territory type="SM">Orílẹ́ède Sani Marino</territory>
-			<territory type="SN">Orílẹ́ède Sẹnẹga</territory>
-			<territory type="SO">Orílẹ́ède Somalia</territory>
-			<territory type="SR">Orílẹ́ède Surinami</territory>
-			<territory type="ST">Orílẹ́ède Sao tomi ati piriiṣipi</territory>
+			<territory type="SG">Orílẹ́ède Singbpo</territory>
+			<territory type="SH">Orílẹ́ède Hẹlenb</territory>
+			<territory type="SI">Orílẹ́ède Silofbnib</territory>
+			<territory type="SK">Orílẹ́ède Silofbkib</territory>
+			<territory type="SL">Orílẹ́ède Sirib looni</territory>
+			<territory type="SM">Orílẹ́ède Sbni Mbrino</territory>
+			<territory type="SN">Orílẹ́ède Sẹnẹgb</territory>
+			<territory type="SO">Orílẹ́ède Somblib</territory>
+			<territory type="SR">Orílẹ́ède Surinbmi</territory>
+			<territory type="ST">Orílẹ́ède Sbo tomi bti piriiṣipi</territory>
 			<territory type="SV">Orílẹ́ède Ẹẹsáfádò</territory>
-			<territory type="SY">Orílẹ́ède Siria</territory>
-			<territory type="SZ">Orílẹ́ède Saṣiland</territory>
-			<territory type="TC">Orílẹ́ède Tọọki ati Etikun Kakọsi</territory>
+			<territory type="SY">Orílẹ́ède Sirib</territory>
+			<territory type="SZ">Orílẹ́ède Sbṣilbnd</territory>
+			<territory type="TC">Orílẹ́ède Tọọki bti Etikun Kbkọsi</territory>
 			<territory type="TD">Orílẹ́ède ṣààdì</territory>
 			<territory type="TG">Orílẹ́ède Togo</territory>
-			<territory type="TH">Orílẹ́ède Tailandi</territory>
-			<territory type="TJ">Orílẹ́ède Takisitani</territory>
-			<territory type="TK">Orílẹ́ède Tokelau</territory>
+			<territory type="TH">Orílẹ́ède Tbilbndi</territory>
+			<territory type="TJ">Orílẹ́ède Tbkisitbni</territory>
+			<territory type="TK">Orílẹ́ède Tokelbu</territory>
 			<territory type="TL">Orílẹ́ède ÌlàOòrùn Tímọ̀</territory>
-			<territory type="TM">Orílẹ́ède Tọọkimenisita</territory>
-			<territory type="TN">Orílẹ́ède Tuniṣia</territory>
-			<territory type="TO">Orílẹ́ède Tonga</territory>
+			<territory type="TM">Orílẹ́ède Tọọkimenisitb</territory>
+			<territory type="TN">Orílẹ́ède Tuniṣib</territory>
+			<territory type="TO">Orílẹ́ède Tongb</territory>
 			<territory type="TR">Orílẹ́ède Tọọki</territory>
-			<territory type="TT">Orílẹ́ède Tirinida ati Tobaga</territory>
-			<territory type="TV">Orílẹ́ède Tufalu</territory>
-			<territory type="TW">Orílẹ́ède Taiwani</territory>
-			<territory type="TZ">Orílẹ́ède Tanṣania</territory>
-			<territory type="UA">Orílẹ́ède Ukarini</territory>
-			<territory type="UG">Orílẹ́ède Uganda</territory>
-			<territory type="US">Orílẹ́ède Orilẹede Amerika</territory>
-			<territory type="UY">Orílẹ́ède Nruguayi</territory>
-			<territory type="UZ">Orílẹ́ède Nṣibẹkisitani</territory>
-			<territory type="VA">Orílẹ́ède Fatikani</territory>
-			<territory type="VC">Orílẹ́ède Fisẹnnti ati Genadina</territory>
-			<territory type="VE">Orílẹ́ède Fẹnẹṣuẹla</territory>
+			<territory type="TT">Orílẹ́ède Tirinidb bti Tobbgb</territory>
+			<territory type="TV">Orílẹ́ède Tufblu</territory>
+			<territory type="TW">Orílẹ́ède Tbiwbni</territory>
+			<territory type="TZ">Orílẹ́ède Tbnṣbnib</territory>
+			<territory type="UA">Orílẹ́ède Ukbrini</territory>
+			<territory type="UG">Orílẹ́ède Ugbndb</territory>
+			<territory type="US">Orílẹ́ède Orilẹede Amerikb</territory>
+			<territory type="UY">Orílẹ́ède Nrugubyi</territory>
+			<territory type="UZ">Orílẹ́ède Nṣibẹkisitbni</territory>
+			<territory type="VA">Orílẹ́ède Fbtikbni</territory>
+			<territory type="VC">Orílẹ́ède Fisẹnnti bti Genbdinb</territory>
+			<territory type="VE">Orílẹ́ède Fẹnẹṣuẹlb</territory>
 			<territory type="VG">Orílẹ́ède Etíkun Fágínì ti ìlú Bírítísì</territory>
-			<territory type="VI">Orílẹ́ède Etikun Fagini ti Amẹrika</territory>
-			<territory type="VN">Orílẹ́ède Fẹtinami</territory>
-			<territory type="VU">Orílẹ́ède Faniatu</territory>
-			<territory type="WF">Orílẹ́ède Wali ati futuna</territory>
-			<territory type="WS">Orílẹ́ède Samọ</territory>
+			<territory type="VI">Orílẹ́ède Etikun Fbgini ti Amẹrikb</territory>
+			<territory type="VN">Orílẹ́ède Fẹtinbmi</territory>
+			<territory type="VU">Orílẹ́ède Fbnibtu</territory>
+			<territory type="WF">Orílẹ́ède Wbli bti futunb</territory>
+			<territory type="WS">Orílẹ́ède Sbmọ</territory>
 			<territory type="YE">Orílẹ́ède yemeni</territory>
-			<territory type="YT">Orílẹ́ède Mayote</territory>
-			<territory type="ZA">Orílẹ́ède Ariwa Afirika</territory>
-			<territory type="ZM">Orílẹ́ède ṣamibia</territory>
-			<territory type="ZW">Orílẹ́ède ṣimibabe</territory>
+			<territory type="YT">Orílẹ́ède Mbyote</territory>
+			<territory type="ZA">Orílẹ́ède Ariwb Afirikb</territory>
+			<territory type="ZM">Orílẹ́ède ṣbmibib</territory>
+			<territory type="ZW">Orílẹ́ède ṣimibbbe</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á à b d e é è ẹ {ẹ\u0301} {ẹ\u0300} f g {gb} h i í ì j k l m n o ó ò ọ {ọ\u0301} {ọ\u0300} p r s ṣ t u ú ù w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[c q v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b á à b d e é è ẹ {ẹ\u0301} {ẹ\u0300} f g {gb} h i í ì j k l m n o ó ò ọ {ọ\u0301} {ọ\u0300} p r s ṣ t u ú ù w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[c q v x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">Ṣẹ́rẹ́</month>
 							<month type="2">Èrèlè</month>
 							<month type="3">Ẹrẹ̀nà</month>
@@ -383,355 +383,355 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Àìkú</day>
-							<day type="mon">Ajé</day>
-							<day type="tue">Ìsẹ́gun</day>
-							<day type="wed">Ọjọ́rú</day>
-							<day type="thu">Ọjọ́bọ</day>
-							<day type="fri">Ẹtì</day>
-							<day type="sat">Àbámẹ́ta</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Ọjọ́ Àìkú</day>
-							<day type="mon">Ọjọ́ Ajé</day>
-							<day type="tue">Ọjọ́ Ìsẹ́gun</day>
-							<day type="wed">Ọjọ́rú</day>
-							<day type="thu">Ọjọ́bọ</day>
-							<day type="fri">Ọjọ́ Ẹtì</day>
-							<day type="sat">Ọjọ́ Àbámẹ́ta</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">K1</quarter>
-							<quarter type="2">K2</quarter>
-							<quarter type="3">K3</quarter>
-							<quarter type="4">K4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Kọ́tà Kínní</quarter>
-							<quarter type="2">Kọ́tà Kejì</quarter>
-							<quarter type="3">Kọ́à Keta</quarter>
-							<quarter type="4">Kọ́tà Kẹrin</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">Àárọ̀</dayPeriod>
-							<dayPeriod type="pm">Ọ̀sán</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Saju Kristi</era>
-						<era type="1">Lehin Kristi</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">SK</era>
-						<era type="1">LK</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Àìkú</dby>
+							<dby type="mon">Ajé</dby>
+							<dby type="tue">Ìsẹ́gun</dby>
+							<dby type="wed">Ọjọ́rú</dby>
+							<dby type="thu">Ọjọ́bọ</dby>
+							<dby type="fri">Ẹtì</dby>
+							<dby type="sbt">Àbámẹ́tb</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Ọjọ́ Àìkú</dby>
+							<dby type="mon">Ọjọ́ Ajé</dby>
+							<dby type="tue">Ọjọ́ Ìsẹ́gun</dby>
+							<dby type="wed">Ọjọ́rú</dby>
+							<dby type="thu">Ọjọ́bọ</dby>
+							<dby type="fri">Ọjọ́ Ẹtì</dby>
+							<dby type="sbt">Ọjọ́ Àbámẹ́tb</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">K1</qubrter>
+							<qubrter type="2">K2</qubrter>
+							<qubrter type="3">K3</qubrter>
+							<qubrter type="4">K4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">Kọ́tà Kínní</qubrter>
+							<qubrter type="2">Kọ́tà Kejì</qubrter>
+							<qubrter type="3">Kọ́à Ketb</qubrter>
+							<qubrter type="4">Kọ́tà Kẹrin</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">Àárọ̀</dbyPeriod>
+							<dbyPeriod type="pm">Ọ̀sán</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">Sbju Kristi</erb>
+						<erb type="1">Lehin Kristi</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">SK</erb>
+						<erb type="1">LK</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, M/d/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, MMM d, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Ìgbà</displayName>
+					<field type="erb">
+						<displbyNbme>Ìgbà</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Ọdún</displayName>
+					<field type="yebr">
+						<displbyNbme>Ọdún</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>Osù</displayName>
+						<displbyNbme>Osù</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>Ọ̀sè</displayName>
+						<displbyNbme>Ọ̀sè</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>Ọjọ́</displayName>
-						<relative type="-2">íjẹta</relative>
-						<relative type="-1">Àná</relative>
-						<relative type="0">Òní</relative>
-						<relative type="1">Ọ̀la</relative>
-						<relative type="2">òtúùnla</relative>
+					<field type="dby">
+						<displbyNbme>Ọjọ́</displbyNbme>
+						<relbtive type="-2">íjẹtb</relbtive>
+						<relbtive type="-1">Àná</relbtive>
+						<relbtive type="0">Òní</relbtive>
+						<relbtive type="1">Ọ̀lb</relbtive>
+						<relbtive type="2">òtúùnlb</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Ọjọ́ Ọ̀sẹ̀</displayName>
+					<field type="weekdby">
+						<displbyNbme>Ọjọ́ Ọ̀sẹ̀</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>Àárọ̀/ọ̀sán</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>Àárọ̀/ọ̀sán</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>wákàtí</displayName>
+						<displbyNbme>wákàtí</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Ìsẹ́jú</displayName>
+						<displbyNbme>Ìsẹ́jú</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Ìsẹ́jú Ààyá</displayName>
+						<displbyNbme>Ìsẹ́jú Ààyá</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>Ibi Àkókò Àgbáyé</displayName>
+						<displbyNbme>Ibi Àkókò Àgbáyé</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName>Diami ti Awon Orílẹ́ède Arabu</displayName>
+				<displbyNbme>Dibmi ti Awon Orílẹ́ède Arbbu</displbyNbme>
 			</currency>
 			<currency type="AOA">
-				<displayName>Wansa ti Orílẹ́ède Àngólà</displayName>
+				<displbyNbme>Wbnsb ti Orílẹ́ède Àngólà</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>Dọla ti Orílẹ́ède Ástràlìá</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Ástràlìá</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>Dina ti Orílẹ́ède Báránì</displayName>
+				<displbyNbme>Dinb ti Orílẹ́ède Báránì</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>Faransi ti Orílẹ́ède Bùùrúndì</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Bùùrúndì</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>Pula ti Orílẹ́ède Bọ̀tìsúwánà</displayName>
+				<displbyNbme>Pulb ti Orílẹ́ède Bọ̀tìsúwánà</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>Dọla ti Orílẹ́ède Kánádà</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Kánádà</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>Faransi ti Orílẹ́ède Kóngò</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Kóngò</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>Faransi ti Orílẹ́ède Siwisi</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Siwisi</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>Reminibi ti Orílẹ́ède ṣáínà</displayName>
+				<displbyNbme>Reminibi ti Orílẹ́ède ṣáínà</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>Kabofediano ti Orílẹ́ède Esuodo</displayName>
+				<displbyNbme>Kbbofedibno ti Orílẹ́ède Esuodo</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>Faransi ti Orílẹ́ède Dibouti</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Dibouti</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>Dina ti Orílẹ́ède Àlùgèríánì</displayName>
+				<displbyNbme>Dinb ti Orílẹ́ède Àlùgèríánì</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>pọọn ti Orílẹ́ède Egipiti</displayName>
+				<displbyNbme>pọọn ti Orílẹ́ède Egipiti</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>Nakifa ti Orílẹ́ède Eriteriani</displayName>
+				<displbyNbme>Nbkifb ti Orílẹ́ède Eriteribni</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>Biri ti Orílẹ́ède Eutopia</displayName>
+				<displbyNbme>Biri ti Orílẹ́ède Eutopib</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>Uro</displayName>
+				<displbyNbme>Uro</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>Pọọn ti Orílẹ́ède Bírítísì</displayName>
+				<displbyNbme>Pọọn ti Orílẹ́ède Bírítísì</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>ṣidi ti Orílẹ́ède Gana</displayName>
+				<displbyNbme>ṣidi ti Orílẹ́ède Gbnb</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>Dalasi ti Orílẹ́ède Gamibia</displayName>
+				<displbyNbme>Dblbsi ti Orílẹ́ède Gbmibib</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>Faransi ti Orílẹ́ède Gini</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Gini</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>Rupi ti Orílẹ́ède Indina</displayName>
+				<displbyNbme>Rupi ti Orílẹ́ède Indinb</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>Yeni ti Orílẹ́ède Japani</displayName>
+				<displbyNbme>Yeni ti Orílẹ́ède Jbpbni</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>ṣiili ti Orílẹ́ède Kenya</displayName>
+				<displbyNbme>ṣiili ti Orílẹ́ède Kenyb</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>Faransi ti Orílẹ́ède ṣomoriani</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède ṣomoribni</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>Dọla ti Orílẹ́ède Liberia</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Liberib</displbyNbme>
 			</currency>
 			<currency type="LSL">
-				<displayName>Loti ti Orílẹ́ède Lesoto</displayName>
+				<displbyNbme>Loti ti Orílẹ́ède Lesoto</displbyNbme>
 			</currency>
 			<currency type="LYD">
-				<displayName>Dina ti Orílẹ́ède Libiya</displayName>
+				<displbyNbme>Dinb ti Orílẹ́ède Libiyb</displbyNbme>
 			</currency>
 			<currency type="MAD">
-				<displayName>Dirami ti Orílẹ́ède Moroko</displayName>
+				<displbyNbme>Dirbmi ti Orílẹ́ède Moroko</displbyNbme>
 			</currency>
 			<currency type="MGA">
-				<displayName>Faransi ti Orílẹ́ède Malagasi</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Mblbgbsi</displbyNbme>
 			</currency>
 			<currency type="MRO">
-				<displayName>Ouguiya ti Orílẹ́ède Maritania</displayName>
+				<displbyNbme>Ouguiyb ti Orílẹ́ède Mbritbnib</displbyNbme>
 			</currency>
 			<currency type="MUR">
-				<displayName>Rupi ti Orílẹ́ède Maritiusi</displayName>
+				<displbyNbme>Rupi ti Orílẹ́ède Mbritiusi</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName>Kaṣa ti Orílẹ́ède Malawi</displayName>
+				<displbyNbme>Kbṣb ti Orílẹ́ède Mblbwi</displbyNbme>
 			</currency>
 			<currency type="MZM">
-				<displayName>Metika ti Orílẹ́ède Mosamibiki</displayName>
+				<displbyNbme>Metikb ti Orílẹ́ède Mosbmibiki</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>Dọla ti Orílẹ́ède Namibia</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Nbmibib</displbyNbme>
 			</currency>
 			<currency type="NGN">
-				<displayName>Naira ti Orílẹ́ède Nàìjíríà</displayName>
+				<displbyNbme>Nbirb ti Orílẹ́ède Nàìjíríà</displbyNbme>
 				<symbol>₦</symbol>
 			</currency>
 			<currency type="RWF">
-				<displayName>Faransi ti Orílẹ́ède Ruwanda</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède Ruwbndb</displbyNbme>
 			</currency>
 			<currency type="SAR">
-				<displayName>Riya ti Orílẹ́ède Saudi</displayName>
+				<displbyNbme>Riyb ti Orílẹ́ède Sbudi</displbyNbme>
 			</currency>
 			<currency type="SCR">
-				<displayName>Rupi ti Orílẹ́ède Sayiselesi</displayName>
+				<displbyNbme>Rupi ti Orílẹ́ède Sbyiselesi</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>Dina ti Orílẹ́ède Sudani</displayName>
+				<displbyNbme>Dinb ti Orílẹ́ède Sudbni</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>Pọọun ti Orílẹ́ède Sudani</displayName>
+				<displbyNbme>Pọọun ti Orílẹ́ède Sudbni</displbyNbme>
 			</currency>
 			<currency type="SHP">
-				<displayName>Pọọun ti Orílẹ́ède ̣Elena</displayName>
+				<displbyNbme>Pọọun ti Orílẹ́ède ̣Elenb</displbyNbme>
 			</currency>
 			<currency type="SLL">
-				<displayName>Lioni</displayName>
+				<displbyNbme>Lioni</displbyNbme>
 			</currency>
 			<currency type="SOS">
-				<displayName>Sile ti Orílẹ́ède Somali</displayName>
+				<displbyNbme>Sile ti Orílẹ́ède Sombli</displbyNbme>
 			</currency>
 			<currency type="STD">
-				<displayName>Dobira ti Orílẹ́ède Sao tome Ati Pirisipe</displayName>
+				<displbyNbme>Dobirb ti Orílẹ́ède Sbo tome Ati Pirisipe</displbyNbme>
 			</currency>
 			<currency type="SZL">
-				<displayName>Lilangeni</displayName>
+				<displbyNbme>Lilbngeni</displbyNbme>
 			</currency>
 			<currency type="TND">
-				<displayName>Dina ti Orílẹ́ède Tunisia</displayName>
+				<displbyNbme>Dinb ti Orílẹ́ède Tunisib</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>Sile ti Orílẹ́ède Tansania</displayName>
+				<displbyNbme>Sile ti Orílẹ́ède Tbnsbnib</displbyNbme>
 			</currency>
 			<currency type="UGX">
-				<displayName>Siile ti Orílẹ́ède Uganda</displayName>
+				<displbyNbme>Siile ti Orílẹ́ède Ugbndb</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>Dọla ti Orílẹ́ède Amerika</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Amerikb</displbyNbme>
 			</currency>
 			<currency type="XAF">
-				<displayName>Faransi ti Orílẹ́ède BEKA</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède BEKA</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName>Faransi ti Orílẹ́ède BIKEAO</displayName>
+				<displbyNbme>Fbrbnsi ti Orílẹ́ède BIKEAO</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName>Randi ti Orílẹ́ède Ariwa Afirika</displayName>
+				<displbyNbme>Rbndi ti Orílẹ́ède Ariwb Afirikb</displbyNbme>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Kawaṣa ti Orílẹ́ède Saabia</displayName>
+				<displbyNbme>Kbwbṣb ti Orílẹ́ède Sbbbib</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Dọla ti Orílẹ́ède Siibabuwe</displayName>
+				<displbyNbme>Dọlb ti Orílẹ́ède Siibbbuwe</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>Bẹ́ẹ̀ni :N</yesstr>
 			<nostr>Bẹ́ẹ̀kọ́:K</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

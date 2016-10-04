@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.KeyFactorySpi;
-import java.security.InvalidKeyException;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
-import javax.crypto.spec.DHPublicKeySpec;
-import javax.crypto.spec.DHPrivateKeySpec;
-import javax.crypto.spec.DHParameterSpec;
+import jbvb.security.Key;
+import jbvb.security.PublicKey;
+import jbvb.security.PrivbteKey;
+import jbvb.security.KeyFbctorySpi;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.security.spec.X509EncodedKeySpec;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
+import jbvbx.crypto.spec.DHPublicKeySpec;
+import jbvbx.crypto.spec.DHPrivbteKeySpec;
+import jbvbx.crypto.spec.DHPbrbmeterSpec;
 
 /**
- * This class implements the Diffie-Hellman key factory of the Sun provider.
+ * This clbss implements the Diffie-Hellmbn key fbctory of the Sun provider.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
-public final class DHKeyFactory extends KeyFactorySpi {
+public finbl clbss DHKeyFbctory extends KeyFbctorySpi {
 
     /**
      * Empty constructor
      */
-    public DHKeyFactory() {
+    public DHKeyFbctory() {
     }
 
     /**
-     * Generates a public key object from the provided key specification
-     * (key material).
+     * Generbtes b public key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the public key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the public key
      *
      * @return the public key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b public key.
      */
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-        throws InvalidKeySpecException
+    protected PublicKey engineGenerbtePublic(KeySpec keySpec)
+        throws InvblidKeySpecException
     {
         try {
-            if (keySpec instanceof DHPublicKeySpec) {
+            if (keySpec instbnceof DHPublicKeySpec) {
                 DHPublicKeySpec dhPubKeySpec = (DHPublicKeySpec)keySpec;
                 return new DHPublicKey(dhPubKeySpec.getY(),
                                        dhPubKeySpec.getP(),
                                        dhPubKeySpec.getG());
 
-            } else if (keySpec instanceof X509EncodedKeySpec) {
+            } else if (keySpec instbnceof X509EncodedKeySpec) {
                 return new DHPublicKey
                     (((X509EncodedKeySpec)keySpec).getEncoded());
 
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification", e);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Inbppropribte key specificbtion", e);
         }
     }
 
     /**
-     * Generates a private key object from the provided key specification
-     * (key material).
+     * Generbtes b privbte key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the private key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the privbte key
      *
-     * @return the private key
+     * @return the privbte key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a private key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b privbte key.
      */
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-        throws InvalidKeySpecException
+    protected PrivbteKey engineGenerbtePrivbte(KeySpec keySpec)
+        throws InvblidKeySpecException
     {
         try {
-            if (keySpec instanceof DHPrivateKeySpec) {
-                DHPrivateKeySpec dhPrivKeySpec = (DHPrivateKeySpec)keySpec;
-                return new DHPrivateKey(dhPrivKeySpec.getX(),
+            if (keySpec instbnceof DHPrivbteKeySpec) {
+                DHPrivbteKeySpec dhPrivKeySpec = (DHPrivbteKeySpec)keySpec;
+                return new DHPrivbteKey(dhPrivKeySpec.getX(),
                                         dhPrivKeySpec.getP(),
                                         dhPrivKeySpec.getG());
 
-            } else if (keySpec instanceof PKCS8EncodedKeySpec) {
-                return new DHPrivateKey
+            } else if (keySpec instbnceof PKCS8EncodedKeySpec) {
+                return new DHPrivbteKey
                     (((PKCS8EncodedKeySpec)keySpec).getEncoded());
 
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification", e);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Inbppropribte key specificbtion", e);
         }
     }
 
     /**
-     * Returns a specification (key material) of the given key object
-     * in the requested format.
+     * Returns b specificbtion (key mbteribl) of the given key object
+     * in the requested formbt.
      *
-     * @param key the key
+     * @pbrbm key the key
      *
-     * @param keySpec the requested format in which the key material shall be
+     * @pbrbm keySpec the requested formbt in which the key mbteribl shbll be
      * returned
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @return the underlying key specificbtion (key mbteribl) in the
+     * requested formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key, or the given key cbnnot be processed
+     * (e.g., the given key hbs bn unrecognized blgorithm or formbt).
      */
     protected <T extends KeySpec>
-        T engineGetKeySpec(Key key, Class<T> keySpec)
-        throws InvalidKeySpecException {
-        DHParameterSpec params;
+        T engineGetKeySpec(Key key, Clbss<T> keySpec)
+        throws InvblidKeySpecException {
+        DHPbrbmeterSpec pbrbms;
 
-        if (key instanceof javax.crypto.interfaces.DHPublicKey) {
+        if (key instbnceof jbvbx.crypto.interfbces.DHPublicKey) {
 
-            if (DHPublicKeySpec.class.isAssignableFrom(keySpec)) {
-                javax.crypto.interfaces.DHPublicKey dhPubKey
-                    = (javax.crypto.interfaces.DHPublicKey) key;
-                params = dhPubKey.getParams();
-                return keySpec.cast(new DHPublicKeySpec(dhPubKey.getY(),
-                                                        params.getP(),
-                                                        params.getG()));
+            if (DHPublicKeySpec.clbss.isAssignbbleFrom(keySpec)) {
+                jbvbx.crypto.interfbces.DHPublicKey dhPubKey
+                    = (jbvbx.crypto.interfbces.DHPublicKey) key;
+                pbrbms = dhPubKey.getPbrbms();
+                return keySpec.cbst(new DHPublicKeySpec(dhPubKey.getY(),
+                                                        pbrbms.getP(),
+                                                        pbrbms.getG()));
 
-            } else if (X509EncodedKeySpec.class.isAssignableFrom(keySpec)) {
-                return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
+            } else if (X509EncodedKeySpec.clbss.isAssignbbleFrom(keySpec)) {
+                return keySpec.cbst(new X509EncodedKeySpec(key.getEncoded()));
 
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
 
-        } else if (key instanceof javax.crypto.interfaces.DHPrivateKey) {
+        } else if (key instbnceof jbvbx.crypto.interfbces.DHPrivbteKey) {
 
-            if (DHPrivateKeySpec.class.isAssignableFrom(keySpec)) {
-                javax.crypto.interfaces.DHPrivateKey dhPrivKey
-                    = (javax.crypto.interfaces.DHPrivateKey)key;
-                params = dhPrivKey.getParams();
-                return keySpec.cast(new DHPrivateKeySpec(dhPrivKey.getX(),
-                                                         params.getP(),
-                                                         params.getG()));
+            if (DHPrivbteKeySpec.clbss.isAssignbbleFrom(keySpec)) {
+                jbvbx.crypto.interfbces.DHPrivbteKey dhPrivKey
+                    = (jbvbx.crypto.interfbces.DHPrivbteKey)key;
+                pbrbms = dhPrivKey.getPbrbms();
+                return keySpec.cbst(new DHPrivbteKeySpec(dhPrivKey.getX(),
+                                                         pbrbms.getP(),
+                                                         pbrbms.getG()));
 
-            } else if (PKCS8EncodedKeySpec.class.isAssignableFrom(keySpec)) {
-                return keySpec.cast(new PKCS8EncodedKeySpec(key.getEncoded()));
+            } else if (PKCS8EncodedKeySpec.clbss.isAssignbbleFrom(keySpec)) {
+                return keySpec.cbst(new PKCS8EncodedKeySpec(key.getEncoded()));
 
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
 
         } else {
-            throw new InvalidKeySpecException("Inappropriate key type");
+            throw new InvblidKeySpecException("Inbppropribte key type");
         }
     }
 
     /**
-     * Translates a key object, whose provider may be unknown or potentially
-     * untrusted, into a corresponding key object of this key factory.
+     * Trbnslbtes b key object, whose provider mby be unknown or potentiblly
+     * untrusted, into b corresponding key object of this key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm key the key whose provider is unknown or untrusted
      *
-     * @return the translated key
+     * @return the trbnslbted key
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed by
+     * this key fbctory.
      */
-    protected Key engineTranslateKey(Key key)
-        throws InvalidKeyException
+    protected Key engineTrbnslbteKey(Key key)
+        throws InvblidKeyException
     {
         try {
 
-            if (key instanceof javax.crypto.interfaces.DHPublicKey) {
-                // Check if key originates from this factory
-                if (key instanceof com.sun.crypto.provider.DHPublicKey) {
+            if (key instbnceof jbvbx.crypto.interfbces.DHPublicKey) {
+                // Check if key originbtes from this fbctory
+                if (key instbnceof com.sun.crypto.provider.DHPublicKey) {
                     return key;
                 }
                 // Convert key to spec
                 DHPublicKeySpec dhPubKeySpec
-                    = engineGetKeySpec(key, DHPublicKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePublic(dhPubKeySpec);
+                    = engineGetKeySpec(key, DHPublicKeySpec.clbss);
+                // Crebte key from spec, bnd return it
+                return engineGenerbtePublic(dhPubKeySpec);
 
-            } else if (key instanceof javax.crypto.interfaces.DHPrivateKey) {
-                // Check if key originates from this factory
-                if (key instanceof com.sun.crypto.provider.DHPrivateKey) {
+            } else if (key instbnceof jbvbx.crypto.interfbces.DHPrivbteKey) {
+                // Check if key originbtes from this fbctory
+                if (key instbnceof com.sun.crypto.provider.DHPrivbteKey) {
                     return key;
                 }
                 // Convert key to spec
-                DHPrivateKeySpec dhPrivKeySpec
-                    = engineGetKeySpec(key, DHPrivateKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePrivate(dhPrivKeySpec);
+                DHPrivbteKeySpec dhPrivKeySpec
+                    = engineGetKeySpec(key, DHPrivbteKeySpec.clbss);
+                // Crebte key from spec, bnd return it
+                return engineGenerbtePrivbte(dhPrivKeySpec);
 
             } else {
-                throw new InvalidKeyException("Wrong algorithm type");
+                throw new InvblidKeyException("Wrong blgorithm type");
             }
 
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException("Cannot translate key", e);
+        } cbtch (InvblidKeySpecException e) {
+            throw new InvblidKeyException("Cbnnot trbnslbte key", e);
         }
     }
 }

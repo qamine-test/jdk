@@ -1,429 +1,429 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
+import jbvb.security.spec.*;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * This class represents a factory for secret keys.
+ * This clbss represents b fbctory for secret keys.
  *
- * <P> Key factories are used to convert <I>keys</I> (opaque
- * cryptographic keys of type <code>Key</code>) into <I>key specifications</I>
- * (transparent representations of the underlying key material), and vice
- * versa.
- * Secret key factories operate only on secret (symmetric) keys.
+ * <P> Key fbctories bre used to convert <I>keys</I> (opbque
+ * cryptogrbphic keys of type <code>Key</code>) into <I>key specificbtions</I>
+ * (trbnspbrent representbtions of the underlying key mbteribl), bnd vice
+ * versb.
+ * Secret key fbctories operbte only on secret (symmetric) keys.
  *
- * <P> Key factories are bi-directional, i.e., they allow to build an opaque
- * key object from a given key specification (key material), or to retrieve
- * the underlying key material of a key object in a suitable format.
+ * <P> Key fbctories bre bi-directionbl, i.e., they bllow to build bn opbque
+ * key object from b given key specificbtion (key mbteribl), or to retrieve
+ * the underlying key mbteribl of b key object in b suitbble formbt.
  *
- * <P> Application developers should refer to their provider's documentation
- * to find out which key specifications are supported by the
- * {@link #generateSecret(java.security.spec.KeySpec) generateSecret} and
- * {@link #getKeySpec(javax.crypto.SecretKey, java.lang.Class) getKeySpec}
+ * <P> Applicbtion developers should refer to their provider's documentbtion
+ * to find out which key specificbtions bre supported by the
+ * {@link #generbteSecret(jbvb.security.spec.KeySpec) generbteSecret} bnd
+ * {@link #getKeySpec(jbvbx.crypto.SecretKey, jbvb.lbng.Clbss) getKeySpec}
  * methods.
- * For example, the DES secret-key factory supplied by the "SunJCE" provider
- * supports <code>DESKeySpec</code> as a transparent representation of DES
- * keys, and that provider's secret-key factory for Triple DES keys supports
- * <code>DESedeKeySpec</code> as a transparent representation of Triple DES
+ * For exbmple, the DES secret-key fbctory supplied by the "SunJCE" provider
+ * supports <code>DESKeySpec</code> bs b trbnspbrent representbtion of DES
+ * keys, bnd thbt provider's secret-key fbctory for Triple DES keys supports
+ * <code>DESedeKeySpec</code> bs b trbnspbrent representbtion of Triple DES
  * keys.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard <code>SecretKeyFactory</code> algorithms:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd <code>SecretKeyFbctory</code> blgorithms:
  * <ul>
  * <li><tt>DES</tt></li>
  * <li><tt>DESede</tt></li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecretKeyFactory">
- * SecretKeyFactory section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * These blgorithms bre described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SecretKeyFbctory">
+ * SecretKeyFbctory section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @see SecretKey
- * @see javax.crypto.spec.DESKeySpec
- * @see javax.crypto.spec.DESedeKeySpec
- * @see javax.crypto.spec.PBEKeySpec
+ * @see jbvbx.crypto.spec.DESKeySpec
+ * @see jbvbx.crypto.spec.DESedeKeySpec
+ * @see jbvbx.crypto.spec.PBEKeySpec
  * @since 1.4
  */
 
-public class SecretKeyFactory {
+public clbss SecretKeyFbctory {
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The algorithm associated with this factory
-    private final String algorithm;
+    // The blgorithm bssocibted with this fbctory
+    privbte finbl String blgorithm;
 
-    // The provider implementation (delegate)
-    private volatile SecretKeyFactorySpi spi;
+    // The provider implementbtion (delegbte)
+    privbte volbtile SecretKeyFbctorySpi spi;
 
     // lock for mutex during provider selection
-    private final Object lock = new Object();
+    privbte finbl Object lock = new Object();
 
-    // remaining services to try in provider selection
+    // rembining services to try in provider selection
     // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    privbte Iterbtor<Service> serviceIterbtor;
 
     /**
-     * Creates a SecretKeyFactory object.
+     * Crebtes b SecretKeyFbctory object.
      *
-     * @param keyFacSpi the delegate
-     * @param provider the provider
-     * @param algorithm the secret-key algorithm
+     * @pbrbm keyFbcSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the secret-key blgorithm
      */
-    protected SecretKeyFactory(SecretKeyFactorySpi keyFacSpi,
-                               Provider provider, String algorithm) {
-        this.spi = keyFacSpi;
+    protected SecretKeyFbctory(SecretKeyFbctorySpi keyFbcSpi,
+                               Provider provider, String blgorithm) {
+        this.spi = keyFbcSpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
-    private SecretKeyFactory(String algorithm) throws NoSuchAlgorithmException {
-        this.algorithm = algorithm;
+    privbte SecretKeyFbctory(String blgorithm) throws NoSuchAlgorithmException {
+        this.blgorithm = blgorithm;
         List<Service> list =
-                GetInstance.getServices("SecretKeyFactory", algorithm);
-        serviceIterator = list.iterator();
-        // fetch and instantiate initial spi
+                GetInstbnce.getServices("SecretKeyFbctory", blgorithm);
+        serviceIterbtor = list.iterbtor();
+        // fetch bnd instbntibte initibl spi
         if (nextSpi(null) == null) {
             throw new NoSuchAlgorithmException
-                (algorithm + " SecretKeyFactory not available");
+                (blgorithm + " SecretKeyFbctory not bvbilbble");
         }
     }
 
     /**
-     * Returns a <code>SecretKeyFactory</code> object that converts
-     * secret keys of the specified algorithm.
+     * Returns b <code>SecretKeyFbctory</code> object thbt converts
+     * secret keys of the specified blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new SecretKeyFactory object encapsulating the
-     * SecretKeyFactorySpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new SecretKeyFbctory object encbpsulbting the
+     * SecretKeyFbctorySpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested secret-key
-     * algorithm.
-     * See the SecretKeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecretKeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested secret-key
+     * blgorithm.
+     * See the SecretKeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SecretKeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new <code>SecretKeyFactory</code> object.
+     * @return the new <code>SecretKeyFbctory</code> object.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      *          is null.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          SecretKeyFactorySpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          SecretKeyFbctorySpi implementbtion for the
+     *          specified blgorithm.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final SecretKeyFactory getInstance(String algorithm)
+    public stbtic finbl SecretKeyFbctory getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
-        return new SecretKeyFactory(algorithm);
+        return new SecretKeyFbctory(blgorithm);
     }
 
     /**
-     * Returns a <code>SecretKeyFactory</code> object that converts
-     * secret keys of the specified algorithm.
+     * Returns b <code>SecretKeyFbctory</code> object thbt converts
+     * secret keys of the specified blgorithm.
      *
-     * <p> A new SecretKeyFactory object encapsulating the
-     * SecretKeyFactorySpi implementation from the specified provider
+     * <p> A new SecretKeyFbctory object encbpsulbting the
+     * SecretKeyFbctorySpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested secret-key
-     * algorithm.
-     * See the SecretKeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecretKeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested secret-key
+     * blgorithm.
+     * See the SecretKeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SecretKeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return the new <code>SecretKeyFactory</code> object.
+     * @return the new <code>SecretKeyFbctory</code> object.
      *
-     * @exception NoSuchAlgorithmException if a SecretKeyFactorySpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if b SecretKeyFbctorySpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      *          is null.
      *
      * @throws NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null or empty.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final SecretKeyFactory getInstance(String algorithm,
+    public stbtic finbl SecretKeyFbctory getInstbnce(String blgorithm,
             String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
-        Instance instance = JceSecurity.getInstance("SecretKeyFactory",
-                SecretKeyFactorySpi.class, algorithm, provider);
-        return new SecretKeyFactory((SecretKeyFactorySpi)instance.impl,
-                instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce("SecretKeyFbctory",
+                SecretKeyFbctorySpi.clbss, blgorithm, provider);
+        return new SecretKeyFbctory((SecretKeyFbctorySpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a <code>SecretKeyFactory</code> object that converts
-     * secret keys of the specified algorithm.
+     * Returns b <code>SecretKeyFbctory</code> object thbt converts
+     * secret keys of the specified blgorithm.
      *
-     * <p> A new SecretKeyFactory object encapsulating the
-     * SecretKeyFactorySpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new SecretKeyFbctory object encbpsulbting the
+     * SecretKeyFbctorySpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the standard name of the requested secret-key
-     * algorithm.
-     * See the SecretKeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecretKeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested secret-key
+     * blgorithm.
+     * See the SecretKeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SecretKeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return the new <code>SecretKeyFactory</code> object.
+     * @return the new <code>SecretKeyFbctory</code> object.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      * is null.
      *
-     * @exception NoSuchAlgorithmException if a SecretKeyFactorySpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if b SecretKeyFbctorySpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final SecretKeyFactory getInstance(String algorithm,
+    public stbtic finbl SecretKeyFbctory getInstbnce(String blgorithm,
             Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = JceSecurity.getInstance("SecretKeyFactory",
-                SecretKeyFactorySpi.class, algorithm, provider);
-        return new SecretKeyFactory((SecretKeyFactorySpi)instance.impl,
-                instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce("SecretKeyFbctory",
+                SecretKeyFbctorySpi.clbss, blgorithm, provider);
+        return new SecretKeyFbctory((SecretKeyFbctorySpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns the provider of this <code>SecretKeyFactory</code> object.
+     * Returns the provider of this <code>SecretKeyFbctory</code> object.
      *
-     * @return the provider of this <code>SecretKeyFactory</code> object
+     * @return the provider of this <code>SecretKeyFbctory</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         synchronized (lock) {
-            // disable further failover after this call
-            serviceIterator = null;
+            // disbble further fbilover bfter this cbll
+            serviceIterbtor = null;
             return provider;
         }
     }
 
     /**
-     * Returns the algorithm name of this <code>SecretKeyFactory</code> object.
+     * Returns the blgorithm nbme of this <code>SecretKeyFbctory</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>SecretKeyFactory</code> object.
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
+     * <code>SecretKeyFbctory</code> object.
      *
-     * @return the algorithm name of this <code>SecretKeyFactory</code>
+     * @return the blgorithm nbme of this <code>SecretKeyFbctory</code>
      * object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Update the active spi of this class and return the next
-     * implementation for failover. If no more implemenations are
-     * available, this method returns null. However, the active spi of
-     * this class is never set to null.
+     * Updbte the bctive spi of this clbss bnd return the next
+     * implementbtion for fbilover. If no more implemenbtions bre
+     * bvbilbble, this method returns null. However, the bctive spi of
+     * this clbss is never set to null.
      */
-    private SecretKeyFactorySpi nextSpi(SecretKeyFactorySpi oldSpi) {
+    privbte SecretKeyFbctorySpi nextSpi(SecretKeyFbctorySpi oldSpi) {
         synchronized (lock) {
-            // somebody else did a failover concurrently
-            // try that spi now
+            // somebody else did b fbilover concurrently
+            // try thbt spi now
             if ((oldSpi != null) && (oldSpi != spi)) {
                 return spi;
             }
-            if (serviceIterator == null) {
+            if (serviceIterbtor == null) {
                 return null;
             }
-            while (serviceIterator.hasNext()) {
-                Service s = serviceIterator.next();
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+            while (serviceIterbtor.hbsNext()) {
+                Service s = serviceIterbtor.next();
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
                 try {
-                    Object obj = s.newInstance(null);
-                    if (obj instanceof SecretKeyFactorySpi == false) {
+                    Object obj = s.newInstbnce(null);
+                    if (obj instbnceof SecretKeyFbctorySpi == fblse) {
                         continue;
                     }
-                    SecretKeyFactorySpi spi = (SecretKeyFactorySpi)obj;
+                    SecretKeyFbctorySpi spi = (SecretKeyFbctorySpi)obj;
                     provider = s.getProvider();
                     this.spi = spi;
                     return spi;
-                } catch (NoSuchAlgorithmException e) {
+                } cbtch (NoSuchAlgorithmException e) {
                     // ignore
                 }
             }
-            serviceIterator = null;
+            serviceIterbtor = null;
             return null;
         }
     }
 
     /**
-     * Generates a <code>SecretKey</code> object from the provided key
-     * specification (key material).
+     * Generbtes b <code>SecretKey</code> object from the provided key
+     * specificbtion (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the secret key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the secret key
      *
      * @return the secret key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this secret-key factory to produce a secret key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this secret-key fbctory to produce b secret key.
      */
-    public final SecretKey generateSecret(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        if (serviceIterator == null) {
-            return spi.engineGenerateSecret(keySpec);
+    public finbl SecretKey generbteSecret(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        if (serviceIterbtor == null) {
+            return spi.engineGenerbteSecret(keySpec);
         }
-        Exception failure = null;
-        SecretKeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        SecretKeyFbctorySpi mySpi = spi;
         do {
             try {
-                return mySpi.engineGenerateSecret(keySpec);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+                return mySpi.engineGenerbteSecret(keySpec);
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof InvalidKeySpecException) {
-            throw (InvalidKeySpecException)failure;
+        if (fbilure instbnceof InvblidKeySpecException) {
+            throw (InvblidKeySpecException)fbilure;
         }
-        throw new InvalidKeySpecException
-                ("Could not generate secret key", failure);
+        throw new InvblidKeySpecException
+                ("Could not generbte secret key", fbilure);
     }
 
     /**
-     * Returns a specification (key material) of the given key object
-     * in the requested format.
+     * Returns b specificbtion (key mbteribl) of the given key object
+     * in the requested formbt.
      *
-     * @param key the key
-     * @param keySpec the requested format in which the key material shall be
+     * @pbrbm key the key
+     * @pbrbm keySpec the requested formbt in which the key mbteribl shbll be
      * returned
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @return the underlying key specificbtion (key mbteribl) in the
+     * requested formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key (e.g., the algorithms associated with
-     * <code>key</code> and <code>keySpec</code> do not match, or
-     * <code>key</code> references a key on a cryptographic hardware device
-     * whereas <code>keySpec</code> is the specification of a software-based
-     * key), or the given key cannot be dealt with
-     * (e.g., the given key has an algorithm or format not supported by this
-     * secret-key factory).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key (e.g., the blgorithms bssocibted with
+     * <code>key</code> bnd <code>keySpec</code> do not mbtch, or
+     * <code>key</code> references b key on b cryptogrbphic hbrdwbre device
+     * wherebs <code>keySpec</code> is the specificbtion of b softwbre-bbsed
+     * key), or the given key cbnnot be deblt with
+     * (e.g., the given key hbs bn blgorithm or formbt not supported by this
+     * secret-key fbctory).
      */
-    public final KeySpec getKeySpec(SecretKey key, Class<?> keySpec)
-            throws InvalidKeySpecException {
-        if (serviceIterator == null) {
+    public finbl KeySpec getKeySpec(SecretKey key, Clbss<?> keySpec)
+            throws InvblidKeySpecException {
+        if (serviceIterbtor == null) {
             return spi.engineGetKeySpec(key, keySpec);
         }
-        Exception failure = null;
-        SecretKeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        SecretKeyFbctorySpi mySpi = spi;
         do {
             try {
                 return mySpi.engineGetKeySpec(key, keySpec);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof InvalidKeySpecException) {
-            throw (InvalidKeySpecException)failure;
+        if (fbilure instbnceof InvblidKeySpecException) {
+            throw (InvblidKeySpecException)fbilure;
         }
-        throw new InvalidKeySpecException
-                ("Could not get key spec", failure);
+        throw new InvblidKeySpecException
+                ("Could not get key spec", fbilure);
     }
 
     /**
-     * Translates a key object, whose provider may be unknown or potentially
-     * untrusted, into a corresponding key object of this secret-key factory.
+     * Trbnslbtes b key object, whose provider mby be unknown or potentiblly
+     * untrusted, into b corresponding key object of this secret-key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm key the key whose provider is unknown or untrusted
      *
-     * @return the translated key
+     * @return the trbnslbted key
      *
-     * @exception InvalidKeyException if the given key cannot be processed
-     * by this secret-key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed
+     * by this secret-key fbctory.
      */
-    public final SecretKey translateKey(SecretKey key)
-            throws InvalidKeyException {
-        if (serviceIterator == null) {
-            return spi.engineTranslateKey(key);
+    public finbl SecretKey trbnslbteKey(SecretKey key)
+            throws InvblidKeyException {
+        if (serviceIterbtor == null) {
+            return spi.engineTrbnslbteKey(key);
         }
-        Exception failure = null;
-        SecretKeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        SecretKeyFbctorySpi mySpi = spi;
         do {
             try {
-                return mySpi.engineTranslateKey(key);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+                return mySpi.engineTrbnslbteKey(key);
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof InvalidKeyException) {
-            throw (InvalidKeyException)failure;
+        if (fbilure instbnceof InvblidKeyException) {
+            throw (InvblidKeyException)fbilure;
         }
-        throw new InvalidKeyException
-                ("Could not translate key", failure);
+        throw new InvblidKeyException
+                ("Could not trbnslbte key", fbilure);
     }
 }

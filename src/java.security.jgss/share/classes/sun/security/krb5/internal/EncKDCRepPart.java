@@ -1,224 +1,224 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.krb5.EncryptionKey;
 import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
- * Implements the ASN.1 EncKDCRepPart type.
+ * Implements the ASN.1 EncKDCRepPbrt type.
  *
  * <xmp>
- * EncKDCRepPart        ::= SEQUENCE {
+ * EncKDCRepPbrt        ::= SEQUENCE {
  *      key             [0] EncryptionKey,
- *      last-req        [1] LastReq,
+ *      lbst-req        [1] LbstReq,
  *      nonce           [2] UInt32,
- *      key-expiration  [3] KerberosTime OPTIONAL,
- *      flags           [4] TicketFlags,
- *      authtime        [5] KerberosTime,
- *      starttime       [6] KerberosTime OPTIONAL,
+ *      key-expirbtion  [3] KerberosTime OPTIONAL,
+ *      flbgs           [4] TicketFlbgs,
+ *      buthtime        [5] KerberosTime,
+ *      stbrttime       [6] KerberosTime OPTIONAL,
  *      endtime         [7] KerberosTime,
  *      renew-till      [8] KerberosTime OPTIONAL,
- *      srealm          [9] Realm,
- *      sname           [10] PrincipalName,
- *      caddr           [11] HostAddresses OPTIONAL
+ *      sreblm          [9] Reblm,
+ *      snbme           [10] PrincipblNbme,
+ *      cbddr           [11] HostAddresses OPTIONAL
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public class EncKDCRepPart {
+public clbss EncKDCRepPbrt {
 
     public EncryptionKey key;
-    public LastReq lastReq;
+    public LbstReq lbstReq;
     public int nonce;
-    public KerberosTime keyExpiration; //optional
-    public TicketFlags flags;
-    public KerberosTime authtime;
-    public KerberosTime starttime; //optional
+    public KerberosTime keyExpirbtion; //optionbl
+    public TicketFlbgs flbgs;
+    public KerberosTime buthtime;
+    public KerberosTime stbrttime; //optionbl
     public KerberosTime endtime;
-    public KerberosTime renewTill; //optional
-    public PrincipalName sname;
-    public HostAddresses caddr; //optional
+    public KerberosTime renewTill; //optionbl
+    public PrincipblNbme snbme;
+    public HostAddresses cbddr; //optionbl
     public int msgType; //not included in sequence
 
-    public EncKDCRepPart(
+    public EncKDCRepPbrt(
             EncryptionKey new_key,
-            LastReq new_lastReq,
+            LbstReq new_lbstReq,
             int new_nonce,
-            KerberosTime new_keyExpiration,
-            TicketFlags new_flags,
-            KerberosTime new_authtime,
-            KerberosTime new_starttime,
+            KerberosTime new_keyExpirbtion,
+            TicketFlbgs new_flbgs,
+            KerberosTime new_buthtime,
+            KerberosTime new_stbrttime,
             KerberosTime new_endtime,
             KerberosTime new_renewTill,
-            PrincipalName new_sname,
-            HostAddresses new_caddr,
+            PrincipblNbme new_snbme,
+            HostAddresses new_cbddr,
             int new_msgType) {
         key = new_key;
-        lastReq = new_lastReq;
+        lbstReq = new_lbstReq;
         nonce = new_nonce;
-        keyExpiration = new_keyExpiration;
-        flags = new_flags;
-        authtime = new_authtime;
-        starttime = new_starttime;
+        keyExpirbtion = new_keyExpirbtion;
+        flbgs = new_flbgs;
+        buthtime = new_buthtime;
+        stbrttime = new_stbrttime;
         endtime = new_endtime;
         renewTill = new_renewTill;
-        sname = new_sname;
-        caddr = new_caddr;
+        snbme = new_snbme;
+        cbddr = new_cbddr;
         msgType = new_msgType;
     }
 
-    public EncKDCRepPart() {
+    public EncKDCRepPbrt() {
     }
 
-    public EncKDCRepPart(byte[] data, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
-        init(new DerValue(data), rep_type);
+    public EncKDCRepPbrt(byte[] dbtb, int rep_type)
+            throws Asn1Exception, IOException, ReblmException {
+        init(new DerVblue(dbtb), rep_type);
     }
 
-    public EncKDCRepPart(DerValue encoding, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
+    public EncKDCRepPbrt(DerVblue encoding, int rep_type)
+            throws Asn1Exception, IOException, ReblmException {
         init(encoding, rep_type);
     }
 
     /**
-     * Initializes an EncKDCRepPart object.
+     * Initiblizes bn EncKDCRepPbrt object.
      *
-     * @param encoding a single DER-encoded value.
-     * @param rep_type type of the encrypted reply message.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while decoding an Realm object.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @pbrbm rep_type type of the encrypted reply messbge.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception ReblmException if bn error occurs while decoding bn Reblm object.
      */
-    protected void init(DerValue encoding, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
-        DerValue der, subDer;
-        //implementations return the incorrect tag value, so
-        //we don't use the above line; instead we use the following
-        msgType = (encoding.getTag() & (byte) 0x1F);
+    protected void init(DerVblue encoding, int rep_type)
+            throws Asn1Exception, IOException, ReblmException {
+        DerVblue der, subDer;
+        //implementbtions return the incorrect tbg vblue, so
+        //we don't use the bbove line; instebd we use the following
+        msgType = (encoding.getTbg() & (byte) 0x1F);
         if (msgType != Krb5.KRB_ENC_AS_REP_PART &&
                 msgType != Krb5.KRB_ENC_TGS_REP_PART) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
+        der = encoding.getDbtb().getDerVblue();
+        if (der.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        key = EncryptionKey.parse(der.getData(), (byte) 0x00, false);
-        lastReq = LastReq.parse(der.getData(), (byte) 0x01, false);
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) == (byte) 0x02) {
-            nonce = subDer.getData().getBigInteger().intValue();
+        key = EncryptionKey.pbrse(der.getDbtb(), (byte) 0x00, fblse);
+        lbstReq = LbstReq.pbrse(der.getDbtb(), (byte) 0x01, fblse);
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & (byte) 0x1F) == (byte) 0x02) {
+            nonce = subDer.getDbtb().getBigInteger().intVblue();
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        keyExpiration = KerberosTime.parse(der.getData(), (byte) 0x03, true);
-        flags = TicketFlags.parse(der.getData(), (byte) 0x04, false);
-        authtime = KerberosTime.parse(der.getData(), (byte) 0x05, false);
-        starttime = KerberosTime.parse(der.getData(), (byte) 0x06, true);
-        endtime = KerberosTime.parse(der.getData(), (byte) 0x07, false);
-        renewTill = KerberosTime.parse(der.getData(), (byte) 0x08, true);
-        Realm srealm = Realm.parse(der.getData(), (byte) 0x09, false);
-        sname = PrincipalName.parse(der.getData(), (byte) 0x0A, false, srealm);
-        if (der.getData().available() > 0) {
-            caddr = HostAddresses.parse(der.getData(), (byte) 0x0B, true);
+        keyExpirbtion = KerberosTime.pbrse(der.getDbtb(), (byte) 0x03, true);
+        flbgs = TicketFlbgs.pbrse(der.getDbtb(), (byte) 0x04, fblse);
+        buthtime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x05, fblse);
+        stbrttime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x06, true);
+        endtime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x07, fblse);
+        renewTill = KerberosTime.pbrse(der.getDbtb(), (byte) 0x08, true);
+        Reblm sreblm = Reblm.pbrse(der.getDbtb(), (byte) 0x09, fblse);
+        snbme = PrincipblNbme.pbrse(der.getDbtb(), (byte) 0x0A, fblse, sreblm);
+        if (der.getDbtb().bvbilbble() > 0) {
+            cbddr = HostAddresses.pbrse(der.getDbtb(), (byte) 0x0B, true);
         }
-        // We observe extra data from MSAD
-        /*if (der.getData().available() > 0) {
+        // We observe extrb dbtb from MSAD
+        /*if (der.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }*/
     }
 
     /**
-     * Encodes an EncKDCRepPart object.
-     * @param rep_type type of encrypted reply message.
-     * @return byte array of encoded EncKDCRepPart object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes bn EncKDCRepPbrt object.
+     * @pbrbm rep_type type of encrypted reply messbge.
+     * @return byte brrby of encoded EncKDCRepPbrt object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public byte[] asn1Encode(int rep_type) throws Asn1Exception,
+    public byte[] bsn1Encode(int rep_type) throws Asn1Exception,
             IOException {
-        DerOutputStream temp = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x00), key.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x01), lastReq.asn1Encode());
-        temp.putInteger(BigInteger.valueOf(nonce));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+        DerOutputStrebm temp = new DerOutputStrebm();
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x00), key.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x01), lbstReq.bsn1Encode());
+        temp.putInteger(BigInteger.vblueOf(nonce));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                 true, (byte) 0x02), temp);
 
-        if (keyExpiration != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x03), keyExpiration.asn1Encode());
+        if (keyExpirbtion != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x03), keyExpirbtion.bsn1Encode());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), flags.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x05), authtime.asn1Encode());
-        if (starttime != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x06), starttime.asn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x04), flbgs.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x05), buthtime.bsn1Encode());
+        if (stbrttime != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x06), stbrttime.bsn1Encode());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x07), endtime.asn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x07), endtime.bsn1Encode());
         if (renewTill != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x08), renewTill.asn1Encode());
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x08), renewTill.bsn1Encode());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x09), sname.getRealm().asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x0A), sname.asn1Encode());
-        if (caddr != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x0B), caddr.asn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x09), snbme.getReblm().bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x0A), snbme.bsn1Encode());
+        if (cbddr != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x0B), cbddr.bsn1Encode());
         }
         //should use the rep_type to build the encoding
-        //but other implementations do not; it is ignored and
-        //the cached msgType is used instead
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_APPLICATION,
+        //but other implementbtions do not; it is ignored bnd
+        //the cbched msgType is used instebd
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        bytes = new DerOutputStrebm();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_APPLICATION,
                 true, (byte) msgType), temp);
-        return bytes.toByteArray();
+        return bytes.toByteArrby();
     }
 }

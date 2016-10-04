@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.security.cert.Certificate;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import java.security.Principal;
-import java.util.List;
+import jbvb.security.cert.Certificbte;
+import jbvbx.net.ssl.SSLPeerUnverifiedException;
+import jbvb.security.Principbl;
+import jbvb.util.List;
 
 /**
- * Represents a cache response originally retrieved through secure
- * means, such as TLS.
+ * Represents b cbche response originblly retrieved through secure
+ * mebns, such bs TLS.
  *
  * @since 1.5
  */
-public abstract class SecureCacheResponse extends CacheResponse {
+public bbstrbct clbss SecureCbcheResponse extends CbcheResponse {
     /**
-     * Returns the cipher suite in use on the original connection that
+     * Returns the cipher suite in use on the originbl connection thbt
      * retrieved the network resource.
      *
-     * @return a string representing the cipher suite
+     * @return b string representing the cipher suite
      */
-    public abstract String getCipherSuite();
+    public bbstrbct String getCipherSuite();
 
     /**
-     * Returns the certificate chain that were sent to the server during
-     * handshaking of the original connection that retrieved the
+     * Returns the certificbte chbin thbt were sent to the server during
+     * hbndshbking of the originbl connection thbt retrieved the
      * network resource.  Note: This method is useful only
-     * when using certificate-based cipher suites.
+     * when using certificbte-bbsed cipher suites.
      *
-     * @return an immutable List of Certificate representing the
-     *           certificate chain that was sent to the server. If no
-     *           certificate chain was sent, null will be returned.
-     * @see #getLocalPrincipal()
+     * @return bn immutbble List of Certificbte representing the
+     *           certificbte chbin thbt wbs sent to the server. If no
+     *           certificbte chbin wbs sent, null will be returned.
+     * @see #getLocblPrincipbl()
      */
-    public abstract List<Certificate> getLocalCertificateChain();
+    public bbstrbct List<Certificbte> getLocblCertificbteChbin();
 
     /**
-     * Returns the server's certificate chain, which was established as
-     * part of defining the session in the original connection that
-     * retrieved the network resource, from cache.  Note: This method
-     * can be used only when using certificate-based cipher suites;
-     * using it with non-certificate-based cipher suites, such as
-     * Kerberos, will throw an SSLPeerUnverifiedException.
+     * Returns the server's certificbte chbin, which wbs estbblished bs
+     * pbrt of defining the session in the originbl connection thbt
+     * retrieved the network resource, from cbche.  Note: This method
+     * cbn be used only when using certificbte-bbsed cipher suites;
+     * using it with non-certificbte-bbsed cipher suites, such bs
+     * Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return an immutable List of Certificate representing the server's
-     *         certificate chain.
+     * @return bn immutbble List of Certificbte representing the server's
+     *         certificbte chbin.
      * @throws SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @see #getPeerPrincipbl()
      */
-    public abstract List<Certificate> getServerCertificateChain()
+    public bbstrbct List<Certificbte> getServerCertificbteChbin()
         throws SSLPeerUnverifiedException;
 
     /**
-     * Returns the server's principal which was established as part of
-     * defining the session during the original connection that
+     * Returns the server's principbl which wbs estbblished bs pbrt of
+     * defining the session during the originbl connection thbt
      * retrieved the network resource.
      *
-     * @return the server's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @return the server's principbl. Returns bn X500Principbl of the
+     * end-entity certiticbte for X509-bbsed cipher suites, bnd
+     * KerberosPrincipbl for Kerberos cipher suites.
      *
-     * @throws SSLPeerUnverifiedException if the peer was not verified.
+     * @throws SSLPeerUnverifiedException if the peer wbs not verified.
      *
-     * @see #getServerCertificateChain()
-     * @see #getLocalPrincipal()
+     * @see #getServerCertificbteChbin()
+     * @see #getLocblPrincipbl()
      */
-     public abstract Principal getPeerPrincipal()
+     public bbstrbct Principbl getPeerPrincipbl()
              throws SSLPeerUnverifiedException;
 
     /**
-      * Returns the principal that was sent to the server during
-      * handshaking in the original connection that retrieved the
+      * Returns the principbl thbt wbs sent to the server during
+      * hbndshbking in the originbl connection thbt retrieved the
       * network resource.
       *
-      * @return the principal sent to the server. Returns an X500Principal
-      * of the end-entity certificate for X509-based cipher suites, and
-      * KerberosPrincipal for Kerberos cipher suites. If no principal was
+      * @return the principbl sent to the server. Returns bn X500Principbl
+      * of the end-entity certificbte for X509-bbsed cipher suites, bnd
+      * KerberosPrincipbl for Kerberos cipher suites. If no principbl wbs
       * sent, then null is returned.
       *
-      * @see #getLocalCertificateChain()
-      * @see #getPeerPrincipal()
+      * @see #getLocblCertificbteChbin()
+      * @see #getPeerPrincipbl()
       */
-     public abstract Principal getLocalPrincipal();
+     public bbstrbct Principbl getLocblPrincipbl();
 }

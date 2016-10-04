@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,26 +30,26 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Table of byte arrays (e.g. char* string + NULL byte) */
+/* Tbble of byte brrbys (e.g. chbr* string + NULL byte) */
 
 /*
- * Strings are unique by their own contents, since the string itself
- *   is the Key, and the hprof_table.c guarantees that keys don't move,
- *   this works out perfect. Any key in this table can be used as
- *   an char*.
+ * Strings bre unique by their own contents, since the string itself
+ *   is the Key, bnd the hprof_tbble.c gubrbntees thbt keys don't move,
+ *   this works out perfect. Any key in this tbble cbn be used bs
+ *   bn chbr*.
  *
- * This does mean that this table has dynamically sized keys.
+ * This does mebn thbt this tbble hbs dynbmicblly sized keys.
  *
- * Care needs to be taken to make sure the NULL byte is included, not for
- *   the sake of hprof_table.c, but so that the key can be used as a char*.
+ * Cbre needs to be tbken to mbke sure the NULL byte is included, not for
+ *   the sbke of hprof_tbble.c, but so thbt the key cbn be used bs b chbr*.
  *
  */
 
@@ -58,49 +58,49 @@
 void
 string_init(void)
 {
-    HPROF_ASSERT(gdata->string_table==NULL);
-    gdata->string_table = table_initialize("Strings", 4096, 4096, 1024, 0);
+    HPROF_ASSERT(gdbtb->string_tbble==NULL);
+    gdbtb->string_tbble = tbble_initiblize("Strings", 4096, 4096, 1024, 0);
 }
 
 StringIndex
-string_find_or_create(const char *str)
+string_find_or_crebte(const chbr *str)
 {
-    return table_find_or_create_entry(gdata->string_table,
+    return tbble_find_or_crebte_entry(gdbtb->string_tbble,
                 (void*)str, (int)strlen(str)+1, NULL, NULL);
 }
 
-static void
-list_item(TableIndex index, void *str, int len, void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex index, void *str, int len, void *info_ptr, void *brg)
 {
-    debug_message( "0x%08x: String \"%s\"\n", index, (const char *)str);
+    debug_messbge( "0x%08x: String \"%s\"\n", index, (const chbr *)str);
 }
 
 void
 string_list(void)
 {
-    debug_message(
-        "-------------------- String Table ------------------------\n");
-    table_walk_items(gdata->string_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "-------------------- String Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->string_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-string_cleanup(void)
+string_clebnup(void)
 {
-    table_cleanup(gdata->string_table, NULL, NULL);
-    gdata->string_table = NULL;
+    tbble_clebnup(gdbtb->string_tbble, NULL, NULL);
+    gdbtb->string_tbble = NULL;
 }
 
-char *
+chbr *
 string_get(StringIndex index)
 {
     void *key;
     int   key_len;
 
-    table_get_key(gdata->string_table, index, &key, &key_len);
+    tbble_get_key(gdbtb->string_tbble, index, &key, &key_len);
     HPROF_ASSERT(key_len>0);
-    return (char*)key;
+    return (chbr*)key;
 }
 
 int
@@ -109,7 +109,7 @@ string_get_len(StringIndex index)
     void *key;
     int   key_len;
 
-    table_get_key(gdata->string_table, index, &key, &key_len);
+    tbble_get_key(gdbtb->string_tbble, index, &key, &key_len);
     HPROF_ASSERT(key_len>0);
     return key_len-1;
 }

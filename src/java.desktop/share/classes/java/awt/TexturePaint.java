@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
- * The <code>TexturePaint</code> class provides a way to fill a
- * {@link Shape} with a texture that is specified as
- * a {@link BufferedImage}. The size of the <code>BufferedImage</code>
- * object should be small because the <code>BufferedImage</code> data
- * is copied by the <code>TexturePaint</code> object.
- * At construction time, the texture is anchored to the upper
- * left corner of a {@link Rectangle2D} that is
- * specified in user space.  Texture is computed for
- * locations in the device space by conceptually replicating the
- * specified <code>Rectangle2D</code> infinitely in all directions
- * in user space and mapping the <code>BufferedImage</code> to each
- * replicated <code>Rectangle2D</code>.
- * @see Paint
- * @see Graphics2D#setPaint
+ * The <code>TexturePbint</code> clbss provides b wby to fill b
+ * {@link Shbpe} with b texture thbt is specified bs
+ * b {@link BufferedImbge}. The size of the <code>BufferedImbge</code>
+ * object should be smbll becbuse the <code>BufferedImbge</code> dbtb
+ * is copied by the <code>TexturePbint</code> object.
+ * At construction time, the texture is bnchored to the upper
+ * left corner of b {@link Rectbngle2D} thbt is
+ * specified in user spbce.  Texture is computed for
+ * locbtions in the device spbce by conceptublly replicbting the
+ * specified <code>Rectbngle2D</code> infinitely in bll directions
+ * in user spbce bnd mbpping the <code>BufferedImbge</code> to ebch
+ * replicbted <code>Rectbngle2D</code>.
+ * @see Pbint
+ * @see Grbphics2D#setPbint
  * @version 1.48, 06/05/07
  */
 
-public class TexturePaint implements Paint {
+public clbss TexturePbint implements Pbint {
 
-    BufferedImage bufImg;
+    BufferedImbge bufImg;
     double tx;
     double ty;
     double sx;
     double sy;
 
     /**
-     * Constructs a <code>TexturePaint</code> object.
-     * @param txtr the <code>BufferedImage</code> object with the texture
-     * used for painting
-     * @param anchor the <code>Rectangle2D</code> in user space used to
-     * anchor and replicate the texture
+     * Constructs b <code>TexturePbint</code> object.
+     * @pbrbm txtr the <code>BufferedImbge</code> object with the texture
+     * used for pbinting
+     * @pbrbm bnchor the <code>Rectbngle2D</code> in user spbce used to
+     * bnchor bnd replicbte the texture
      */
-    public TexturePaint(BufferedImage txtr,
-                        Rectangle2D anchor) {
+    public TexturePbint(BufferedImbge txtr,
+                        Rectbngle2D bnchor) {
         this.bufImg = txtr;
-        this.tx = anchor.getX();
-        this.ty = anchor.getY();
-        this.sx = anchor.getWidth() / bufImg.getWidth();
-        this.sy = anchor.getHeight() / bufImg.getHeight();
+        this.tx = bnchor.getX();
+        this.ty = bnchor.getY();
+        this.sx = bnchor.getWidth() / bufImg.getWidth();
+        this.sy = bnchor.getHeight() / bufImg.getHeight();
     }
 
     /**
-     * Returns the <code>BufferedImage</code> texture used to
-     * fill the shapes.
-     * @return a <code>BufferedImage</code>.
+     * Returns the <code>BufferedImbge</code> texture used to
+     * fill the shbpes.
+     * @return b <code>BufferedImbge</code>.
      */
-    public BufferedImage getImage() {
+    public BufferedImbge getImbge() {
         return bufImg;
     }
 
     /**
-     * Returns a copy of the anchor rectangle which positions and
-     * sizes the textured image.
-     * @return the <code>Rectangle2D</code> used to anchor and
-     * size this <code>TexturePaint</code>.
+     * Returns b copy of the bnchor rectbngle which positions bnd
+     * sizes the textured imbge.
+     * @return the <code>Rectbngle2D</code> used to bnchor bnd
+     * size this <code>TexturePbint</code>.
      */
-    public Rectangle2D getAnchorRect() {
-        return new Rectangle2D.Double(tx, ty,
+    public Rectbngle2D getAnchorRect() {
+        return new Rectbngle2D.Double(tx, ty,
                                       sx * bufImg.getWidth(),
                                       sy * bufImg.getHeight());
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a tiled image pattern.
-     * See the {@link Paint#createContext specification} of the
-     * method in the {@link Paint} interface for information
-     * on null parameter handling.
+     * Crebtes bnd returns b {@link PbintContext} used to
+     * generbte b tiled imbge pbttern.
+     * See the {@link Pbint#crebteContext specificbtion} of the
+     * method in the {@link Pbint} interfbce for informbtion
+     * on null pbrbmeter hbndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
+     * @pbrbm cm the preferred {@link ColorModel} which represents the most convenient
+     *           formbt for the cbller to receive the pixel dbtb, or {@code null}
      *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param xform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
+     * @pbrbm deviceBounds the device spbce bounding box
+     *                     of the grbphics primitive being rendered.
+     * @pbrbm userBounds the user spbce bounding box
+     *                   of the grbphics primitive being rendered.
+     * @pbrbm xform the {@link AffineTrbnsform} from user
+     *              spbce into device spbce.
+     * @pbrbm hints the set of hints thbt the context object cbn use to
+     *              choose between rendering blternbtives.
+     * @return the {@code PbintContext} for
+     *         generbting color pbtterns.
+     * @see Pbint
+     * @see PbintContext
      * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
+     * @see Rectbngle
+     * @see Rectbngle2D
+     * @see AffineTrbnsform
      * @see RenderingHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform xform,
+    public PbintContext crebteContext(ColorModel cm,
+                                      Rectbngle deviceBounds,
+                                      Rectbngle2D userBounds,
+                                      AffineTrbnsform xform,
                                       RenderingHints hints) {
         if (xform == null) {
-            xform = new AffineTransform();
+            xform = new AffineTrbnsform();
         } else {
-            xform = (AffineTransform) xform.clone();
+            xform = (AffineTrbnsform) xform.clone();
         }
-        xform.translate(tx, ty);
-        xform.scale(sx, sy);
+        xform.trbnslbte(tx, ty);
+        xform.scble(sx, sy);
 
-        return TexturePaintContext.getContext(bufImg, xform, hints,
+        return TexturePbintContext.getContext(bufImg, xform, hints,
                                               deviceBounds);
     }
 
     /**
-     * Returns the transparency mode for this <code>TexturePaint</code>.
-     * @return the transparency mode for this <code>TexturePaint</code>
-     * as an integer value.
-     * @see Transparency
+     * Returns the trbnspbrency mode for this <code>TexturePbint</code>.
+     * @return the trbnspbrency mode for this <code>TexturePbint</code>
+     * bs bn integer vblue.
+     * @see Trbnspbrency
      */
-    public int getTransparency() {
-        return (bufImg.getColorModel()).getTransparency();
+    public int getTrbnspbrency() {
+        return (bufImg.getColorModel()).getTrbnspbrency();
     }
 
 }

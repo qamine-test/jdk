@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.ccache.CredentialsCache;
-import sun.security.krb5.internal.crypto.EType;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Locale;
-import java.net.InetAddress;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.ccbche.CredentiblsCbche;
+import sun.security.krb5.internbl.crypto.EType;
+import jbvb.io.IOException;
+import jbvb.util.Dbte;
+import jbvb.util.Locble;
+import jbvb.net.InetAddress;
 
 /**
- * This class encapsulates the concept of a Kerberos service
- * credential. That includes a Kerberos ticket and an associated
+ * This clbss encbpsulbtes the concept of b Kerberos service
+ * credentibl. Thbt includes b Kerberos ticket bnd bn bssocibted
  * session key.
  */
-public class Credentials {
+public clbss Credentibls {
 
     Ticket ticket;
-    PrincipalName client;
-    PrincipalName server;
+    PrincipblNbme client;
+    PrincipblNbme server;
     EncryptionKey key;
-    TicketFlags flags;
-    KerberosTime authTime;
-    KerberosTime startTime;
+    TicketFlbgs flbgs;
+    KerberosTime buthTime;
+    KerberosTime stbrtTime;
     KerberosTime endTime;
     KerberosTime renewTill;
     HostAddresses cAddr;
     EncryptionKey serviceKey;
-    AuthorizationData authzData;
-    private static boolean DEBUG = Krb5.DEBUG;
-    private static CredentialsCache cache;
-    static boolean alreadyLoaded = false;
-    private static boolean alreadyTried = false;
+    AuthorizbtionDbtb buthzDbtb;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
+    privbte stbtic CredentiblsCbche cbche;
+    stbtic boolebn blrebdyLobded = fblse;
+    privbte stbtic boolebn blrebdyTried = fblse;
 
-    // Read native ticket with session key type in the given list
-    private static native Credentials acquireDefaultNativeCreds(int[] eTypes);
+    // Rebd nbtive ticket with session key type in the given list
+    privbte stbtic nbtive Credentibls bcquireDefbultNbtiveCreds(int[] eTypes);
 
-    public Credentials(Ticket new_ticket,
-                       PrincipalName new_client,
-                       PrincipalName new_server,
+    public Credentibls(Ticket new_ticket,
+                       PrincipblNbme new_client,
+                       PrincipblNbme new_server,
                        EncryptionKey new_key,
-                       TicketFlags new_flags,
-                       KerberosTime authTime,
-                       KerberosTime new_startTime,
+                       TicketFlbgs new_flbgs,
+                       KerberosTime buthTime,
+                       KerberosTime new_stbrtTime,
                        KerberosTime new_endTime,
                        KerberosTime renewTill,
                        HostAddresses cAddr,
-                       AuthorizationData authzData) {
-        this(new_ticket, new_client, new_server, new_key, new_flags,
-                authTime, new_startTime, new_endTime, renewTill, cAddr);
-        this.authzData = authzData;
+                       AuthorizbtionDbtb buthzDbtb) {
+        this(new_ticket, new_client, new_server, new_key, new_flbgs,
+                buthTime, new_stbrtTime, new_endTime, renewTill, cAddr);
+        this.buthzDbtb = buthzDbtb;
     }
 
-    public Credentials(Ticket new_ticket,
-                       PrincipalName new_client,
-                       PrincipalName new_server,
+    public Credentibls(Ticket new_ticket,
+                       PrincipblNbme new_client,
+                       PrincipblNbme new_server,
                        EncryptionKey new_key,
-                       TicketFlags new_flags,
-                       KerberosTime authTime,
-                       KerberosTime new_startTime,
+                       TicketFlbgs new_flbgs,
+                       KerberosTime buthTime,
+                       KerberosTime new_stbrtTime,
                        KerberosTime new_endTime,
                        KerberosTime renewTill,
                        HostAddresses cAddr) {
@@ -96,99 +96,99 @@ public class Credentials {
         client = new_client;
         server = new_server;
         key = new_key;
-        flags = new_flags;
-        this.authTime = authTime;
-        startTime = new_startTime;
+        flbgs = new_flbgs;
+        this.buthTime = buthTime;
+        stbrtTime = new_stbrtTime;
         endTime = new_endTime;
         this.renewTill = renewTill;
         this.cAddr = cAddr;
     }
 
-    public Credentials(byte[] encoding,
+    public Credentibls(byte[] encoding,
                        String client,
                        String server,
                        byte[] keyBytes,
                        int keyType,
-                       boolean[] flags,
-                       Date authTime,
-                       Date startTime,
-                       Date endTime,
-                       Date renewTill,
+                       boolebn[] flbgs,
+                       Dbte buthTime,
+                       Dbte stbrtTime,
+                       Dbte endTime,
+                       Dbte renewTill,
                        InetAddress[] cAddrs) throws KrbException, IOException {
         this(new Ticket(encoding),
-             new PrincipalName(client, PrincipalName.KRB_NT_PRINCIPAL),
-             new PrincipalName(server, PrincipalName.KRB_NT_SRV_INST),
+             new PrincipblNbme(client, PrincipblNbme.KRB_NT_PRINCIPAL),
+             new PrincipblNbme(server, PrincipblNbme.KRB_NT_SRV_INST),
              new EncryptionKey(keyType, keyBytes),
-             (flags == null? null: new TicketFlags(flags)),
-             (authTime == null? null: new KerberosTime(authTime)),
-             (startTime == null? null: new KerberosTime(startTime)),
+             (flbgs == null? null: new TicketFlbgs(flbgs)),
+             (buthTime == null? null: new KerberosTime(buthTime)),
+             (stbrtTime == null? null: new KerberosTime(stbrtTime)),
              (endTime == null? null: new KerberosTime(endTime)),
              (renewTill == null? null: new KerberosTime(renewTill)),
-             null); // caddrs are in the encoding at this point
+             null); // cbddrs bre in the encoding bt this point
     }
 
     /**
-     * Acquires a service ticket for the specified service
-     * principal. If the service ticket is not already available, it
-     * obtains a new one from the KDC.
+     * Acquires b service ticket for the specified service
+     * principbl. If the service ticket is not blrebdy bvbilbble, it
+     * obtbins b new one from the KDC.
      */
     /*
-    public Credentials(Credentials tgt, PrincipalName service)
+    public Credentibls(Credentibls tgt, PrincipblNbme service)
         throws KrbException {
     }
     */
 
-    public final PrincipalName getClient() {
+    public finbl PrincipblNbme getClient() {
         return client;
     }
 
-    public final PrincipalName getServer() {
+    public finbl PrincipblNbme getServer() {
         return server;
     }
 
-    public final EncryptionKey getSessionKey() {
+    public finbl EncryptionKey getSessionKey() {
         return key;
     }
 
-    public final Date getAuthTime() {
-        if (authTime != null) {
-            return authTime.toDate();
+    public finbl Dbte getAuthTime() {
+        if (buthTime != null) {
+            return buthTime.toDbte();
         } else {
             return null;
         }
     }
 
-    public final Date getStartTime() {
-        if (startTime != null)
+    public finbl Dbte getStbrtTime() {
+        if (stbrtTime != null)
             {
-                return startTime.toDate();
+                return stbrtTime.toDbte();
             }
         return null;
     }
 
-    public final Date getEndTime() {
+    public finbl Dbte getEndTime() {
         if (endTime != null)
             {
-                return endTime.toDate();
+                return endTime.toDbte();
             }
         return null;
     }
 
-    public final Date getRenewTill() {
+    public finbl Dbte getRenewTill() {
         if (renewTill != null)
             {
-                return renewTill.toDate();
+                return renewTill.toDbte();
             }
         return null;
     }
 
-    public final boolean[] getFlags() {
-        if (flags == null) // Can be in a KRB-CRED
+    public finbl boolebn[] getFlbgs() {
+        if (flbgs == null) // Cbn be in b KRB-CRED
         return null;
-        return flags.toBooleanArray();
+        return flbgs.toBoolebnArrby();
     }
 
-    public final InetAddress[] getClientAddresses() {
+    public finbl InetAddress[] getClientAddresses() {
 
         if (cAddr == null)
         return null;
@@ -196,65 +196,65 @@ public class Credentials {
         return cAddr.getInetAddresses();
     }
 
-    public final byte[] getEncoded() {
-        byte[] retVal = null;
+    public finbl byte[] getEncoded() {
+        byte[] retVbl = null;
         try {
-            retVal = ticket.asn1Encode();
-        } catch (Asn1Exception e) {
+            retVbl = ticket.bsn1Encode();
+        } cbtch (Asn1Exception e) {
             if (DEBUG)
             System.out.println(e);
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             if (DEBUG)
             System.out.println(ioe);
         }
-        return retVal;
+        return retVbl;
     }
 
-    public boolean isForwardable() {
-        return flags.get(Krb5.TKT_OPTS_FORWARDABLE);
+    public boolebn isForwbrdbble() {
+        return flbgs.get(Krb5.TKT_OPTS_FORWARDABLE);
     }
 
-    public boolean isRenewable() {
-        return flags.get(Krb5.TKT_OPTS_RENEWABLE);
+    public boolebn isRenewbble() {
+        return flbgs.get(Krb5.TKT_OPTS_RENEWABLE);
     }
 
     public Ticket getTicket() {
         return ticket;
     }
 
-    public TicketFlags getTicketFlags() {
-        return flags;
+    public TicketFlbgs getTicketFlbgs() {
+        return flbgs;
     }
 
-    public AuthorizationData getAuthzData() {
-        return authzData;
+    public AuthorizbtionDbtb getAuthzDbtb() {
+        return buthzDbtb;
     }
     /**
-     * Checks if the service ticket returned by the KDC has the OK-AS-DELEGATE
-     * flag set
-     * @return true if OK-AS_DELEGATE flag is set, otherwise, return false.
+     * Checks if the service ticket returned by the KDC hbs the OK-AS-DELEGATE
+     * flbg set
+     * @return true if OK-AS_DELEGATE flbg is set, otherwise, return fblse.
      */
-    public boolean checkDelegate() {
-        return flags.get(Krb5.TKT_OPTS_DELEGATE);
+    public boolebn checkDelegbte() {
+        return flbgs.get(Krb5.TKT_OPTS_DELEGATE);
     }
 
     /**
-     * Reset TKT_OPTS_DELEGATE to false, called at credentials acquirement
-     * when one of the cross-realm TGTs does not have the OK-AS-DELEGATE
-     * flag set. This info must be preservable and restorable through
-     * the Krb5Util.credsToTicket/ticketToCreds() methods so that even if
-     * the service ticket is cached it still remembers the cross-realm
-     * authentication result.
+     * Reset TKT_OPTS_DELEGATE to fblse, cblled bt credentibls bcquirement
+     * when one of the cross-reblm TGTs does not hbve the OK-AS-DELEGATE
+     * flbg set. This info must be preservbble bnd restorbble through
+     * the Krb5Util.credsToTicket/ticketToCreds() methods so thbt even if
+     * the service ticket is cbched it still remembers the cross-reblm
+     * buthenticbtion result.
      */
-    public void resetDelegate() {
-        flags.set(Krb5.TKT_OPTS_DELEGATE, false);
+    public void resetDelegbte() {
+        flbgs.set(Krb5.TKT_OPTS_DELEGATE, fblse);
     }
 
-    public Credentials renew() throws KrbException, IOException {
+    public Credentibls renew() throws KrbException, IOException {
         KDCOptions options = new KDCOptions();
         options.set(KDCOptions.RENEW, true);
         /*
-         * Added here to pass KrbKdcRep.check:73
+         * Added here to pbss KrbKdcRep.check:73
          */
         options.set(KDCOptions.RENEWABLE, true);
 
@@ -272,27 +272,27 @@ public class Credentials {
     }
 
     /**
-     * Returns a TGT for the given client principal from a ticket cache.
+     * Returns b TGT for the given client principbl from b ticket cbche.
      *
-     * @param princ the client principal. A value of null means that the
-     * default principal name in the credentials cache will be used.
-     * @param ticketCache the path to the tickets file. A value
-     * of null will be accepted to indicate that the default
-     * path should be searched
-     * @returns the TGT credentials or null if none were found. If the tgt
-     * expired, it is the responsibility of the caller to determine this.
+     * @pbrbm princ the client principbl. A vblue of null mebns thbt the
+     * defbult principbl nbme in the credentibls cbche will be used.
+     * @pbrbm ticketCbche the pbth to the tickets file. A vblue
+     * of null will be bccepted to indicbte thbt the defbult
+     * pbth should be sebrched
+     * @returns the TGT credentibls or null if none were found. If the tgt
+     * expired, it is the responsibility of the cbller to determine this.
      */
-    public static Credentials acquireTGTFromCache(PrincipalName princ,
-                                                  String ticketCache)
+    public stbtic Credentibls bcquireTGTFromCbche(PrincipblNbme princ,
+                                                  String ticketCbche)
         throws KrbException, IOException {
 
-        if (ticketCache == null) {
-            // The default ticket cache on Windows and Mac is not a file.
-            String os = java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("os.name"));
-            if (os.toUpperCase(Locale.ENGLISH).startsWith("WINDOWS") ||
-                    os.toUpperCase(Locale.ENGLISH).contains("OS X")) {
-                Credentials creds = acquireDefaultCreds();
+        if (ticketCbche == null) {
+            // The defbult ticket cbche on Windows bnd Mbc is not b file.
+            String os = jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("os.nbme"));
+            if (os.toUpperCbse(Locble.ENGLISH).stbrtsWith("WINDOWS") ||
+                    os.toUpperCbse(Locble.ENGLISH).contbins("OS X")) {
+                Credentibls creds = bcquireDefbultCreds();
                 if (creds == null) {
                     if (DEBUG) {
                         System.out.println(">>> Found no TGT's in LSA");
@@ -300,15 +300,15 @@ public class Credentials {
                     return null;
                 }
                 if (princ != null) {
-                    if (creds.getClient().equals(princ)) {
+                    if (creds.getClient().equbls(princ)) {
                         if (DEBUG) {
-                            System.out.println(">>> Obtained TGT from LSA: "
+                            System.out.println(">>> Obtbined TGT from LSA: "
                                                + creds);
                         }
                         return creds;
                     } else {
                         if (DEBUG) {
-                            System.out.println(">>> LSA contains TGT for "
+                            System.out.println(">>> LSA contbins TGT for "
                                                + creds.getClient()
                                                + " not "
                                                + princ);
@@ -317,7 +317,7 @@ public class Credentials {
                     }
                 } else {
                     if (DEBUG) {
-                        System.out.println(">>> Obtained TGT from LSA: "
+                        System.out.println(">>> Obtbined TGT from LSA: "
                                            + creds);
                     }
                     return creds;
@@ -326,18 +326,18 @@ public class Credentials {
         }
 
         /*
-         * Returns the appropriate cache. If ticketCache is null, it is the
-         * default cache otherwise it is the cache filename contained in it.
+         * Returns the bppropribte cbche. If ticketCbche is null, it is the
+         * defbult cbche otherwise it is the cbche filenbme contbined in it.
          */
-        CredentialsCache ccache =
-            CredentialsCache.getInstance(princ, ticketCache);
+        CredentiblsCbche ccbche =
+            CredentiblsCbche.getInstbnce(princ, ticketCbche);
 
-        if (ccache == null) {
+        if (ccbche == null) {
             return null;
         }
 
-        sun.security.krb5.internal.ccache.Credentials tgtCred  =
-            ccache.getDefaultCreds();
+        sun.security.krb5.internbl.ccbche.Credentibls tgtCred  =
+            ccbche.getDefbultCreds();
 
         if (tgtCred == null) {
             return null;
@@ -348,7 +348,7 @@ public class Credentials {
         } else {
             if (DEBUG) {
                 System.out.println(
-                    ">>> unsupported key type found the default TGT: " +
+                    ">>> unsupported key type found the defbult TGT: " +
                     tgtCred.getEType());
             }
             return null;
@@ -356,78 +356,78 @@ public class Credentials {
     }
 
     /**
-     * Acquires default credentials.
-     * <br>The possible locations for default credentials cache is searched in
+     * Acquires defbult credentibls.
+     * <br>The possible locbtions for defbult credentibls cbche is sebrched in
      * the following order:
      * <ol>
-     * <li> The directory and cache file name specified by "KRB5CCNAME" system.
+     * <li> The directory bnd cbche file nbme specified by "KRB5CCNAME" system.
      * property.
-     * <li> The directory and cache file name specified by "KRB5CCNAME"
-     * environment variable.
-     * <li> A cache file named krb5cc_{user.name} at {user.home} directory.
+     * <li> The directory bnd cbche file nbme specified by "KRB5CCNAME"
+     * environment vbribble.
+     * <li> A cbche file nbmed krb5cc_{user.nbme} bt {user.home} directory.
      * </ol>
-     * @return a <code>KrbCreds</code> object if the credential is found,
+     * @return b <code>KrbCreds</code> object if the credentibl is found,
      * otherwise return null.
      */
 
-    // this method is intentionally changed to not check if the caller's
-    // principal name matches cache file's principal name.
-    // It assumes that the GSS call has
-    // the privilege to access the default cache file.
+    // this method is intentionblly chbnged to not check if the cbller's
+    // principbl nbme mbtches cbche file's principbl nbme.
+    // It bssumes thbt the GSS cbll hbs
+    // the privilege to bccess the defbult cbche file.
 
-    // This method is only called on Windows and Mac OS X, the native
-    // acquireDefaultNativeCreds is also available on these platforms.
-    public static synchronized Credentials acquireDefaultCreds() {
-        Credentials result = null;
+    // This method is only cblled on Windows bnd Mbc OS X, the nbtive
+    // bcquireDefbultNbtiveCreds is blso bvbilbble on these plbtforms.
+    public stbtic synchronized Credentibls bcquireDefbultCreds() {
+        Credentibls result = null;
 
-        if (cache == null) {
-            cache = CredentialsCache.getInstance();
+        if (cbche == null) {
+            cbche = CredentiblsCbche.getInstbnce();
         }
-        if (cache != null) {
-            sun.security.krb5.internal.ccache.Credentials temp =
-                cache.getDefaultCreds();
+        if (cbche != null) {
+            sun.security.krb5.internbl.ccbche.Credentibls temp =
+                cbche.getDefbultCreds();
             if (temp != null) {
                 if (DEBUG) {
-                    System.out.println(">>> KrbCreds found the default ticket"
-                            + " granting ticket in credential cache.");
+                    System.out.println(">>> KrbCreds found the defbult ticket"
+                            + " grbnting ticket in credentibl cbche.");
                 }
                 if (EType.isSupported(temp.getEType())) {
                     result = temp.setKrbCreds();
                 } else {
                     if (DEBUG) {
                         System.out.println(
-                            ">>> unsupported key type found the default TGT: " +
+                            ">>> unsupported key type found the defbult TGT: " +
                             temp.getEType());
                     }
                 }
             }
         }
         if (result == null) {
-            // Doesn't seem to be a default cache on this system or
-            // TGT has unsupported encryption type
+            // Doesn't seem to be b defbult cbche on this system or
+            // TGT hbs unsupported encryption type
 
-            if (!alreadyTried) {
-                // See if there's any native code to load
+            if (!blrebdyTried) {
+                // See if there's bny nbtive code to lobd
                 try {
-                    ensureLoaded();
-                } catch (Exception e) {
+                    ensureLobded();
+                } cbtch (Exception e) {
                     if (DEBUG) {
-                        System.out.println("Can not load credentials cache");
-                        e.printStackTrace();
+                        System.out.println("Cbn not lobd credentibls cbche");
+                        e.printStbckTrbce();
                     }
-                    alreadyTried = true;
+                    blrebdyTried = true;
                 }
             }
-            if (alreadyLoaded) {
-                // There is some native code
+            if (blrebdyLobded) {
+                // There is some nbtive code
                 if (DEBUG) {
-                    System.out.println(">> Acquire default native Credentials");
+                    System.out.println(">> Acquire defbult nbtive Credentibls");
                 }
                 try {
-                    result = acquireDefaultNativeCreds(
-                            EType.getDefaults("default_tkt_enctypes"));
-                } catch (KrbException ke) {
-                    // when there is no default_tkt_enctypes.
+                    result = bcquireDefbultNbtiveCreds(
+                            EType.getDefbults("defbult_tkt_enctypes"));
+                } cbtch (KrbException ke) {
+                    // when there is no defbult_tkt_enctypes.
                 }
             }
         }
@@ -435,43 +435,43 @@ public class Credentials {
     }
 
     /**
-     * Acquires credentials for a specified service using initial credential.
-     * When the service has a different realm
-     * from the initial credential, we do cross-realm authentication
-     * - first, we use the current credential to get
-     * a cross-realm credential from the local KDC, then use that
-     * cross-realm credential to request service credential
+     * Acquires credentibls for b specified service using initibl credentibl.
+     * When the service hbs b different reblm
+     * from the initibl credentibl, we do cross-reblm buthenticbtion
+     * - first, we use the current credentibl to get
+     * b cross-reblm credentibl from the locbl KDC, then use thbt
+     * cross-reblm credentibl to request service credentibl
      * from the foreigh KDC.
      *
-     * @param service the name of service principal using format
-     * components@realm
-     * @param ccreds client's initial credential.
-     * @exception IOException if an error occurs in reading the credentials
-     * cache
-     * @exception KrbException if an error occurs specific to Kerberos
-     * @return a <code>Credentials</code> object.
+     * @pbrbm service the nbme of service principbl using formbt
+     * components@reblm
+     * @pbrbm ccreds client's initibl credentibl.
+     * @exception IOException if bn error occurs in rebding the credentibls
+     * cbche
+     * @exception KrbException if bn error occurs specific to Kerberos
+     * @return b <code>Credentibls</code> object.
      */
 
-    public static Credentials acquireServiceCreds(String service,
-                                                  Credentials ccreds)
+    public stbtic Credentibls bcquireServiceCreds(String service,
+                                                  Credentibls ccreds)
         throws KrbException, IOException {
-        return CredentialsUtil.acquireServiceCreds(service, ccreds);
+        return CredentiblsUtil.bcquireServiceCreds(service, ccreds);
     }
 
-    public static Credentials acquireS4U2selfCreds(PrincipalName user,
-            Credentials ccreds) throws KrbException, IOException {
-        return CredentialsUtil.acquireS4U2selfCreds(user, ccreds);
+    public stbtic Credentibls bcquireS4U2selfCreds(PrincipblNbme user,
+            Credentibls ccreds) throws KrbException, IOException {
+        return CredentiblsUtil.bcquireS4U2selfCreds(user, ccreds);
     }
 
-    public static Credentials acquireS4U2proxyCreds(String service,
-            Ticket second, PrincipalName client, Credentials ccreds)
+    public stbtic Credentibls bcquireS4U2proxyCreds(String service,
+            Ticket second, PrincipblNbme client, Credentibls ccreds)
         throws KrbException, IOException {
-        return CredentialsUtil.acquireS4U2proxyCreds(
+        return CredentiblsUtil.bcquireS4U2proxyCreds(
                 service, second, client, ccreds);
     }
 
-    public CredentialsCache getCache() {
-        return cache;
+    public CredentiblsCbche getCbche() {
+        return cbche;
     }
 
     public EncryptionKey getServiceKey() {
@@ -481,49 +481,49 @@ public class Credentials {
     /*
      * Prints out debug info.
      */
-    public static void printDebug(Credentials c) {
-        System.out.println(">>> DEBUG: ----Credentials----");
+    public stbtic void printDebug(Credentibls c) {
+        System.out.println(">>> DEBUG: ----Credentibls----");
         System.out.println("\tclient: " + c.client.toString());
         System.out.println("\tserver: " + c.server.toString());
-        System.out.println("\tticket: sname: " + c.ticket.sname.toString());
-        if (c.startTime != null) {
-            System.out.println("\tstartTime: " + c.startTime.getTime());
+        System.out.println("\tticket: snbme: " + c.ticket.snbme.toString());
+        if (c.stbrtTime != null) {
+            System.out.println("\tstbrtTime: " + c.stbrtTime.getTime());
         }
         System.out.println("\tendTime: " + c.endTime.getTime());
-        System.out.println("        ----Credentials end----");
+        System.out.println("        ----Credentibls end----");
     }
 
 
-    static void ensureLoaded() {
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void> () {
+    stbtic void ensureLobded() {
+        jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void> () {
                         public Void run() {
-                                if (System.getProperty("os.name").contains("OS X")) {
-                                    System.loadLibrary("osxkrb5");
+                                if (System.getProperty("os.nbme").contbins("OS X")) {
+                                    System.lobdLibrbry("osxkrb5");
                                 } else {
-                                    System.loadLibrary("w2k_lsa_auth");
+                                    System.lobdLibrbry("w2k_lsb_buth");
                                 }
                                 return null;
                         }
                 });
-        alreadyLoaded = true;
+        blrebdyLobded = true;
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder("Credentials:");
-        sb.append(    "\n      client=").append(client);
-        sb.append(    "\n      server=").append(server);
-        if (authTime != null) {
-            sb.append("\n    authTime=").append(authTime);
+        StringBuilder sb = new StringBuilder("Credentibls:");
+        sb.bppend(    "\n      client=").bppend(client);
+        sb.bppend(    "\n      server=").bppend(server);
+        if (buthTime != null) {
+            sb.bppend("\n    buthTime=").bppend(buthTime);
         }
-        if (startTime != null) {
-            sb.append("\n   startTime=").append(startTime);
+        if (stbrtTime != null) {
+            sb.bppend("\n   stbrtTime=").bppend(stbrtTime);
         }
-        sb.append(    "\n     endTime=").append(endTime);
-        sb.append(    "\n   renewTill=").append(renewTill);
-        sb.append(    "\n       flags=").append(flags);
-        sb.append(    "\nEType (skey)=").append(key.getEType());
-        sb.append(    "\n   (tkt key)=").append(ticket.encPart.eType);
+        sb.bppend(    "\n     endTime=").bppend(endTime);
+        sb.bppend(    "\n   renewTill=").bppend(renewTill);
+        sb.bppend(    "\n       flbgs=").bppend(flbgs);
+        sb.bppend(    "\nEType (skey)=").bppend(key.getEType());
+        sb.bppend(    "\n   (tkt key)=").bppend(ticket.encPbrt.eType);
         return sb.toString();
     }
 

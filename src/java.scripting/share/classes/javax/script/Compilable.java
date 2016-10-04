@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
-import java.util.Map;
-import java.io.Reader;
+import jbvb.util.Mbp;
+import jbvb.io.Rebder;
 
 /**
- * The optional interface implemented by ScriptEngines whose methods compile scripts
- * to a form that can be executed repeatedly without recompilation.
+ * The optionbl interfbce implemented by ScriptEngines whose methods compile scripts
+ * to b form thbt cbn be executed repebtedly without recompilbtion.
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
-public interface Compilable {
+public interfbce Compilbble {
     /**
-     * Compiles the script (source represented as a <code>String</code>) for
-     * later execution.
+     * Compiles the script (source represented bs b <code>String</code>) for
+     * lbter execution.
      *
-     * @param script The source of the script, represented as a <code>String</code>.
+     * @pbrbm script The source of the script, represented bs b <code>String</code>.
      *
-     * @return An subclass of <code>CompiledScript</code> to be executed later using one
-     * of the <code>eval</code> methods of <code>CompiledScript</code>.
+     * @return An subclbss of <code>CompiledScript</code> to be executed lbter using one
+     * of the <code>evbl</code> methods of <code>CompiledScript</code>.
      *
-     * @throws ScriptException if compilation fails.
-     * @throws NullPointerException if the argument is null.
+     * @throws ScriptException if compilbtion fbils.
+     * @throws NullPointerException if the brgument is null.
      *
      */
 
@@ -54,19 +54,19 @@ public interface Compilable {
             ScriptException;
 
     /**
-     * Compiles the script (source read from <code>Reader</code>) for
-     * later execution.  Functionality is identical to
-     * <code>compile(String)</code> other than the way in which the source is
-     * passed.
+     * Compiles the script (source rebd from <code>Rebder</code>) for
+     * lbter execution.  Functionblity is identicbl to
+     * <code>compile(String)</code> other thbn the wby in which the source is
+     * pbssed.
      *
-     * @param script The reader from which the script source is obtained.
+     * @pbrbm script The rebder from which the script source is obtbined.
      *
-     * @return An implementation of <code>CompiledScript</code> to be executed
-     * later using one of its <code>eval</code> methods of <code>CompiledScript</code>.
+     * @return An implementbtion of <code>CompiledScript</code> to be executed
+     * lbter using one of its <code>evbl</code> methods of <code>CompiledScript</code>.
      *
-     * @throws ScriptException if compilation fails.
-     * @throws NullPointerException if argument is null.
+     * @throws ScriptException if compilbtion fbils.
+     * @throws NullPointerException if brgument is null.
      */
-    public CompiledScript compile(Reader script) throws
+    public CompiledScript compile(Rebder script) throws
             ScriptException;
 }

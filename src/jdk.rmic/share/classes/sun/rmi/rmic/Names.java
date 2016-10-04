@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic;
+pbckbge sun.rmi.rmic;
 
-import sun.tools.java.Identifier;
+import sun.tools.jbvb.Identifier;
 
 /**
- * Names provides static utility methods used by other rmic classes
- * for dealing with identifiers.
+ * Nbmes provides stbtic utility methods used by other rmic clbsses
+ * for debling with identifiers.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public class Names {
+public clbss Nbmes {
 
     /**
-     * Return stub class name for impl class name.
+     * Return stub clbss nbme for impl clbss nbme.
      */
-    static final public Identifier stubFor(Identifier name) {
-        return Identifier.lookup(name + "_Stub");
+    stbtic finbl public Identifier stubFor(Identifier nbme) {
+        return Identifier.lookup(nbme + "_Stub");
     }
 
     /**
-     * Return skeleton class name for impl class name.
+     * Return skeleton clbss nbme for impl clbss nbme.
      */
-    static final public Identifier skeletonFor(Identifier name) {
-        return Identifier.lookup(name + "_Skel");
+    stbtic finbl public Identifier skeletonFor(Identifier nbme) {
+        return Identifier.lookup(nbme + "_Skel");
     }
 
     /**
-     * If necessary, convert a class name to its mangled form, i.e. the
-     * non-inner class name used in the binary representation of
-     * inner classes.  This is necessary to be able to name inner
-     * classes in the generated source code in places where the language
-     * does not permit it, such as when synthetically defining an inner
-     * class outside of its outer class, and for generating file names
-     * corresponding to inner classes.
+     * If necessbry, convert b clbss nbme to its mbngled form, i.e. the
+     * non-inner clbss nbme used in the binbry representbtion of
+     * inner clbsses.  This is necessbry to be bble to nbme inner
+     * clbsses in the generbted source code in plbces where the lbngubge
+     * does not permit it, such bs when syntheticblly defining bn inner
+     * clbss outside of its outer clbss, bnd for generbting file nbmes
+     * corresponding to inner clbsses.
      *
-     * Currently this mangling involves modifying the internal names of
-     * inner classes by converting occurrences of ". " into "$".
+     * Currently this mbngling involves modifying the internbl nbmes of
+     * inner clbsses by converting occurrences of ". " into "$".
      *
-     * This code is taken from the "mangleInnerType" method of
-     * the "sun.tools.java.Type" class; this method cannot be accessed
-     * itself because it is package protected.
+     * This code is tbken from the "mbngleInnerType" method of
+     * the "sun.tools.jbvb.Type" clbss; this method cbnnot be bccessed
+     * itself becbuse it is pbckbge protected.
      */
-    static final public Identifier mangleClass(Identifier className) {
-        if (!className.isInner())
-            return className;
+    stbtic finbl public Identifier mbngleClbss(Identifier clbssNbme) {
+        if (!clbssNbme.isInner())
+            return clbssNbme;
 
         /*
-         * Get '.' qualified inner class name (with outer class
-         * qualification and no package qualification) and replace
-         * each '.' with '$'.
+         * Get '.' qublified inner clbss nbme (with outer clbss
+         * qublificbtion bnd no pbckbge qublificbtion) bnd replbce
+         * ebch '.' with '$'.
          */
-        Identifier mangled = Identifier.lookup(
-                                               className.getFlatName().toString()
-                                               .replace('.', sun.tools.java.Constants.SIGC_INNERCLASS));
-        if (mangled.isInner())
-            throw new Error("failed to mangle inner class name");
+        Identifier mbngled = Identifier.lookup(
+                                               clbssNbme.getFlbtNbme().toString()
+                                               .replbce('.', sun.tools.jbvb.Constbnts.SIGC_INNERCLASS));
+        if (mbngled.isInner())
+            throw new Error("fbiled to mbngle inner clbss nbme");
 
-        // prepend package qualifier back for returned identifier
-        return Identifier.lookup(className.getQualifier(), mangled);
+        // prepend pbckbge qublifier bbck for returned identifier
+        return Identifier.lookup(clbssNbme.getQublifier(), mbngled);
     }
 }

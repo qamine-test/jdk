@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicRootPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicRootPbneUI;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
 /**
- * From AquaRootPaneUI.java
+ * From AqubRootPbneUI.jbvb
  *
- * The JRootPane manages the default button.  There can be only one active rootpane,
- * and one default button, so we need only one timer
+ * The JRootPbne mbnbges the defbult button.  There cbn be only one bctive rootpbne,
+ * bnd one defbult button, so we need only one timer
  *
- * AquaRootPaneUI is a singleton object
+ * AqubRootPbneUI is b singleton object
  */
-public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener, WindowListener, ContainerListener {
-    private static final RecyclableSingleton<AquaRootPaneUI> sRootPaneUI = new RecyclableSingletonFromDefaultConstructor<AquaRootPaneUI>(AquaRootPaneUI.class);
+public clbss AqubRootPbneUI extends BbsicRootPbneUI implements AncestorListener, WindowListener, ContbinerListener {
+    privbte stbtic finbl RecyclbbleSingleton<AqubRootPbneUI> sRootPbneUI = new RecyclbbleSingletonFromDefbultConstructor<AqubRootPbneUI>(AqubRootPbneUI.clbss);
 
-    final static int kDefaultButtonPaintDelayBetweenFrames = 50;
-    JButton fCurrentDefaultButton = null;
+    finbl stbtic int kDefbultButtonPbintDelbyBetweenFrbmes = 50;
+    JButton fCurrentDefbultButton = null;
     Timer fTimer = null;
-    static final boolean sUseScreenMenuBar = AquaMenuBarUI.getScreenMenuBarProperty();
+    stbtic finbl boolebn sUseScreenMenuBbr = AqubMenuBbrUI.getScreenMenuBbrProperty();
 
-    public static ComponentUI createUI(final JComponent c) {
-        return sRootPaneUI.get();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return sRootPbneUI.get();
     }
 
-    public void installUI(final JComponent c) {
-        super.installUI(c);
-        c.addAncestorListener(this);
+    public void instbllUI(finbl JComponent c) {
+        super.instbllUI(c);
+        c.bddAncestorListener(this);
 
-        if (c.isShowing() && c.isEnabled()) {
-            updateDefaultButton((JRootPane)c);
+        if (c.isShowing() && c.isEnbbled()) {
+            updbteDefbultButton((JRootPbne)c);
         }
 
-        // for <rdar://problem/3689020> REGR: Realtime LAF updates no longer work
+        // for <rdbr://problem/3689020> REGR: Rebltime LAF updbtes no longer work
         //
-        // because the JFrame parent has a LAF background set (why without a UI element I don't know!)
-        // we have to set it from the root pane so when we are coming from metal we will set it to
-        // the aqua color.
-        // This is because the aqua color is a magical color that gets the background of the window,
-        // so for most other LAFs the root pane changing is enough since it would be opaque, but for us
-        // it is not since we are going to grab the one that was set on the JFrame. :(
-        final Component parent = c.getParent();
+        // becbuse the JFrbme pbrent hbs b LAF bbckground set (why without b UI element I don't know!)
+        // we hbve to set it from the root pbne so when we bre coming from metbl we will set it to
+        // the bqub color.
+        // This is becbuse the bqub color is b mbgicbl color thbt gets the bbckground of the window,
+        // so for most other LAFs the root pbne chbnging is enough since it would be opbque, but for us
+        // it is not since we bre going to grbb the one thbt wbs set on the JFrbme. :(
+        finbl Component pbrent = c.getPbrent();
 
-        if (parent != null && parent instanceof JFrame) {
-            final JFrame frameParent = (JFrame)parent;
-            final Color bg = frameParent.getBackground();
-            if (bg == null || bg instanceof UIResource) {
-                frameParent.setBackground(UIManager.getColor("Panel.background"));
+        if (pbrent != null && pbrent instbnceof JFrbme) {
+            finbl JFrbme frbmePbrent = (JFrbme)pbrent;
+            finbl Color bg = frbmePbrent.getBbckground();
+            if (bg == null || bg instbnceof UIResource) {
+                frbmePbrent.setBbckground(UIMbnbger.getColor("Pbnel.bbckground"));
             }
         }
 
-        // for <rdar://problem/3750909> OutOfMemoryError swapping menus.
-        // Listen for layered pane/JMenuBar updates if the screen menu bar is active.
-        if (sUseScreenMenuBar) {
-            final JRootPane root = (JRootPane)c;
-            root.addContainerListener(this);
-            root.getLayeredPane().addContainerListener(this);
+        // for <rdbr://problem/3750909> OutOfMemoryError swbpping menus.
+        // Listen for lbyered pbne/JMenuBbr updbtes if the screen menu bbr is bctive.
+        if (sUseScreenMenuBbr) {
+            finbl JRootPbne root = (JRootPbne)c;
+            root.bddContbinerListener(this);
+            root.getLbyeredPbne().bddContbinerListener(this);
         }
     }
 
-    public void uninstallUI(final JComponent c) {
+    public void uninstbllUI(finbl JComponent c) {
         stopTimer();
         c.removeAncestorListener(this);
 
-        if (sUseScreenMenuBar) {
-            final JRootPane root = (JRootPane)c;
-            root.removeContainerListener(this);
-            root.getLayeredPane().removeContainerListener(this);
+        if (sUseScreenMenuBbr) {
+            finbl JRootPbne root = (JRootPbne)c;
+            root.removeContbinerListener(this);
+            root.getLbyeredPbne().removeContbinerListener(this);
         }
 
-        super.uninstallUI(c);
+        super.uninstbllUI(c);
     }
 
     /**
-     * If the screen menu bar is active we need to listen to the layered pane of the root pane
-     * because it holds the JMenuBar.  So, if a new layered pane was added, listen to it.
-     * If a new JMenuBar was added, tell the menu bar UI, because it will need to update the menu bar.
+     * If the screen menu bbr is bctive we need to listen to the lbyered pbne of the root pbne
+     * becbuse it holds the JMenuBbr.  So, if b new lbyered pbne wbs bdded, listen to it.
+     * If b new JMenuBbr wbs bdded, tell the menu bbr UI, becbuse it will need to updbte the menu bbr.
      */
-    public void componentAdded(final ContainerEvent e) {
-        if (e.getContainer() instanceof JRootPane) {
-            final JRootPane root = (JRootPane)e.getContainer();
-            if (e.getChild() == root.getLayeredPane()) {
-                final JLayeredPane layered = root.getLayeredPane();
-                layered.addContainerListener(this);
+    public void componentAdded(finbl ContbinerEvent e) {
+        if (e.getContbiner() instbnceof JRootPbne) {
+            finbl JRootPbne root = (JRootPbne)e.getContbiner();
+            if (e.getChild() == root.getLbyeredPbne()) {
+                finbl JLbyeredPbne lbyered = root.getLbyeredPbne();
+                lbyered.bddContbinerListener(this);
             }
         } else {
-            if (e.getChild() instanceof JMenuBar) {
-                final JMenuBar jmb = (JMenuBar)e.getChild();
-                final MenuBarUI mbui = jmb.getUI();
+            if (e.getChild() instbnceof JMenuBbr) {
+                finbl JMenuBbr jmb = (JMenuBbr)e.getChild();
+                finbl MenuBbrUI mbui = jmb.getUI();
 
-                if (mbui instanceof AquaMenuBarUI) {
-                    final Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
+                if (mbui instbnceof AqubMenuBbrUI) {
+                    finbl Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
 
-                    // Could be a JDialog, and may have been added to a JRootPane not yet in a window.
-                    if (owningWindow != null && owningWindow instanceof JFrame) {
-                        ((AquaMenuBarUI)mbui).setScreenMenuBar((JFrame)owningWindow);
+                    // Could be b JDiblog, bnd mby hbve been bdded to b JRootPbne not yet in b window.
+                    if (owningWindow != null && owningWindow instbnceof JFrbme) {
+                        ((AqubMenuBbrUI)mbui).setScreenMenuBbr((JFrbme)owningWindow);
                     }
                 }
             }
@@ -135,27 +135,27 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
     }
 
     /**
-     * Likewise, when the layered pane is removed from the root pane, stop listening to it.
-     * If the JMenuBar is removed, tell the menu bar UI to clear the menu bar.
+     * Likewise, when the lbyered pbne is removed from the root pbne, stop listening to it.
+     * If the JMenuBbr is removed, tell the menu bbr UI to clebr the menu bbr.
      */
-    public void componentRemoved(final ContainerEvent e) {
-        if (e.getContainer() instanceof JRootPane) {
-            final JRootPane root = (JRootPane)e.getContainer();
-            if (e.getChild() == root.getLayeredPane()) {
-                final JLayeredPane layered = root.getLayeredPane();
-                layered.removeContainerListener(this);
+    public void componentRemoved(finbl ContbinerEvent e) {
+        if (e.getContbiner() instbnceof JRootPbne) {
+            finbl JRootPbne root = (JRootPbne)e.getContbiner();
+            if (e.getChild() == root.getLbyeredPbne()) {
+                finbl JLbyeredPbne lbyered = root.getLbyeredPbne();
+                lbyered.removeContbinerListener(this);
             }
         } else {
-            if (e.getChild() instanceof JMenuBar) {
-                final JMenuBar jmb = (JMenuBar)e.getChild();
-                final MenuBarUI mbui = jmb.getUI();
+            if (e.getChild() instbnceof JMenuBbr) {
+                finbl JMenuBbr jmb = (JMenuBbr)e.getChild();
+                finbl MenuBbrUI mbui = jmb.getUI();
 
-                if (mbui instanceof AquaMenuBarUI) {
-                    final Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
+                if (mbui instbnceof AqubMenuBbrUI) {
+                    finbl Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
 
-                    // Could be a JDialog, and may have been added to a JRootPane not yet in a window.
-                    if (owningWindow != null && owningWindow instanceof JFrame) {
-                        ((AquaMenuBarUI)mbui).clearScreenMenuBar((JFrame)owningWindow);
+                    // Could be b JDiblog, bnd mby hbve been bdded to b JRootPbne not yet in b window.
+                    if (owningWindow != null && owningWindow instbnceof JFrbme) {
+                        ((AqubMenuBbrUI)mbui).clebrScreenMenuBbr((JFrbme)owningWindow);
                     }
                 }
             }
@@ -163,28 +163,28 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
     }
 
     /**
-     * Invoked when a property changes on the root pane. If the event
-     * indicates the <code>defaultButton</code> has changed, this will
-     * update the animation.
-     * If the enabled state changed, it will start or stop the animation
+     * Invoked when b property chbnges on the root pbne. If the event
+     * indicbtes the <code>defbultButton</code> hbs chbnged, this will
+     * updbte the bnimbtion.
+     * If the enbbled stbte chbnged, it will stbrt or stop the bnimbtion
      */
-    public void propertyChange(final PropertyChangeEvent e) {
-        super.propertyChange(e);
+    public void propertyChbnge(finbl PropertyChbngeEvent e) {
+        super.propertyChbnge(e);
 
-        final String prop = e.getPropertyName();
-        if ("defaultButton".equals(prop) || "temporaryDefaultButton".equals(prop)) {
-            // Change the animating button if this root is showing and enabled
-            // otherwise do nothing - someone else may be active
-            final JRootPane root = (JRootPane)e.getSource();
+        finbl String prop = e.getPropertyNbme();
+        if ("defbultButton".equbls(prop) || "temporbryDefbultButton".equbls(prop)) {
+            // Chbnge the bnimbting button if this root is showing bnd enbbled
+            // otherwise do nothing - someone else mby be bctive
+            finbl JRootPbne root = (JRootPbne)e.getSource();
 
-            if (root.isShowing() && root.isEnabled()) {
-                updateDefaultButton(root);
+            if (root.isShowing() && root.isEnbbled()) {
+                updbteDefbultButton(root);
             }
-        } else if ("enabled".equals(prop) || AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(prop)) {
-            final JRootPane root = (JRootPane)e.getSource();
+        } else if ("enbbled".equbls(prop) || AqubFocusHbndler.FRAME_ACTIVE_PROPERTY.equbls(prop)) {
+            finbl JRootPbne root = (JRootPbne)e.getSource();
             if (root.isShowing()) {
-                if (((Boolean)e.getNewValue()).booleanValue()) {
-                    updateDefaultButton((JRootPane)e.getSource());
+                if (((Boolebn)e.getNewVblue()).boolebnVblue()) {
+                    updbteDefbultButton((JRootPbne)e.getSource());
                 } else {
                     stopTimer();
                 }
@@ -199,29 +199,29 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
         }
     }
 
-    synchronized void updateDefaultButton(final JRootPane root) {
-        final JButton button = root.getDefaultButton();
-        //System.err.println("in updateDefaultButton button = " + button);
-        fCurrentDefaultButton = button;
+    synchronized void updbteDefbultButton(finbl JRootPbne root) {
+        finbl JButton button = root.getDefbultButton();
+        //System.err.println("in updbteDefbultButton button = " + button);
+        fCurrentDefbultButton = button;
         stopTimer();
         if (button != null) {
-            fTimer = new Timer(kDefaultButtonPaintDelayBetweenFrames, new DefaultButtonPainter(root));
-            fTimer.start();
+            fTimer = new Timer(kDefbultButtonPbintDelbyBetweenFrbmes, new DefbultButtonPbinter(root));
+            fTimer.stbrt();
         }
     }
 
-    class DefaultButtonPainter implements ActionListener {
-        JRootPane root;
+    clbss DefbultButtonPbinter implements ActionListener {
+        JRootPbne root;
 
-        public DefaultButtonPainter(final JRootPane root) {
+        public DefbultButtonPbinter(finbl JRootPbne root) {
             this.root = root;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JButton defaultButton = root.getDefaultButton();
-            if ((defaultButton != null) && defaultButton.isShowing()) {
-                if (defaultButton.isEnabled()) {
-                    defaultButton.repaint();
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JButton defbultButton = root.getDefbultButton();
+            if ((defbultButton != null) && defbultButton.isShowing()) {
+                if (defbultButton.isEnbbled()) {
+                    defbultButton.repbint();
                 }
             } else {
                 stopTimer();
@@ -230,101 +230,101 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
     }
 
     /**
-     * This is sort of like viewDidMoveToWindow:.  When the root pane is put into a window
-     * this method gets called for the notification.
-     * We need to set up the listener relationship so we can pick up activation events.
-     * And, if a JMenuBar was added before the root pane was added to the window, we now need
-     * to notify the menu bar UI.
+     * This is sort of like viewDidMoveToWindow:.  When the root pbne is put into b window
+     * this method gets cblled for the notificbtion.
+     * We need to set up the listener relbtionship so we cbn pick up bctivbtion events.
+     * And, if b JMenuBbr wbs bdded before the root pbne wbs bdded to the window, we now need
+     * to notify the menu bbr UI.
      */
-    public void ancestorAdded(final AncestorEvent event) {
-        // this is so we can handle window activated and deactivated events so
-        // our swing controls can color/enable/disable/focus draw correctly
-        final Container ancestor = event.getComponent();
-        final Window owningWindow = SwingUtilities.getWindowAncestor(ancestor);
+    public void bncestorAdded(finbl AncestorEvent event) {
+        // this is so we cbn hbndle window bctivbted bnd debctivbted events so
+        // our swing controls cbn color/enbble/disbble/focus drbw correctly
+        finbl Contbiner bncestor = event.getComponent();
+        finbl Window owningWindow = SwingUtilities.getWindowAncestor(bncestor);
 
         if (owningWindow != null) {
-            // We get this message even when a dialog is opened and the owning window is a window
-            // that could already be listened to. We should only be a listener once.
-            // adding multiple listeners was the cause of <rdar://problem/3534047>
-            // but the incorrect removal of them caused <rdar://problem/3617848>
+            // We get this messbge even when b diblog is opened bnd the owning window is b window
+            // thbt could blrebdy be listened to. We should only be b listener once.
+            // bdding multiple listeners wbs the cbuse of <rdbr://problem/3534047>
+            // but the incorrect removbl of them cbused <rdbr://problem/3617848>
             owningWindow.removeWindowListener(this);
-            owningWindow.addWindowListener(this);
+            owningWindow.bddWindowListener(this);
         }
 
-        // The root pane has been added to the hierarchy.  If it's enabled update the default
-        // button to start the throbbing.  Since the UI is a singleton make sure the root pane
-        // we are checking has a default button before calling update otherwise we will stop
-        // throbbing the current default button.
-        final JComponent comp = event.getComponent();
-        if (comp instanceof JRootPane) {
-            final JRootPane rp = (JRootPane)comp;
-            if (rp.isEnabled() && rp.getDefaultButton() != null) {
-                updateDefaultButton((JRootPane)comp);
+        // The root pbne hbs been bdded to the hierbrchy.  If it's enbbled updbte the defbult
+        // button to stbrt the throbbing.  Since the UI is b singleton mbke sure the root pbne
+        // we bre checking hbs b defbult button before cblling updbte otherwise we will stop
+        // throbbing the current defbult button.
+        finbl JComponent comp = event.getComponent();
+        if (comp instbnceof JRootPbne) {
+            finbl JRootPbne rp = (JRootPbne)comp;
+            if (rp.isEnbbled() && rp.getDefbultButton() != null) {
+                updbteDefbultButton((JRootPbne)comp);
             }
         }
     }
 
     /**
-     * If the JRootPane was removed from the window we should clear the screen menu bar.
-     * That's a non-trivial problem, because you need to know which window the JRootPane was in
-     * before it was removed.  By the time ancestorRemoved was called, the JRootPane has already been removed
+     * If the JRootPbne wbs removed from the window we should clebr the screen menu bbr.
+     * Thbt's b non-trivibl problem, becbuse you need to know which window the JRootPbne wbs in
+     * before it wbs removed.  By the time bncestorRemoved wbs cblled, the JRootPbne hbs blrebdy been removed
      */
 
-    public void ancestorRemoved(final AncestorEvent event) { }
-    public void ancestorMoved(final AncestorEvent event) { }
+    public void bncestorRemoved(finbl AncestorEvent event) { }
+    public void bncestorMoved(finbl AncestorEvent event) { }
 
-    public void windowActivated(final WindowEvent e) {
-        updateComponentTreeUIActivation((Component)e.getSource(), Boolean.TRUE);
+    public void windowActivbted(finbl WindowEvent e) {
+        updbteComponentTreeUIActivbtion((Component)e.getSource(), Boolebn.TRUE);
     }
 
-    public void windowDeactivated(final WindowEvent e) {
-        updateComponentTreeUIActivation((Component)e.getSource(), Boolean.FALSE);
+    public void windowDebctivbted(finbl WindowEvent e) {
+        updbteComponentTreeUIActivbtion((Component)e.getSource(), Boolebn.FALSE);
     }
 
-    public void windowOpened(final WindowEvent e) { }
-    public void windowClosing(final WindowEvent e) { }
+    public void windowOpened(finbl WindowEvent e) { }
+    public void windowClosing(finbl WindowEvent e) { }
 
-    public void windowClosed(final WindowEvent e) {
+    public void windowClosed(finbl WindowEvent e) {
         // We know the window is closed so remove the listener.
-        final Window w = e.getWindow();
+        finbl Window w = e.getWindow();
         w.removeWindowListener(this);
     }
 
-    public void windowIconified(final WindowEvent e) { }
-    public void windowDeiconified(final WindowEvent e) { }
-    public void windowStateChanged(final WindowEvent e) { }
-    public void windowGainedFocus(final WindowEvent e) { }
-    public void windowLostFocus(final WindowEvent e) { }
+    public void windowIconified(finbl WindowEvent e) { }
+    public void windowDeiconified(finbl WindowEvent e) { }
+    public void windowStbteChbnged(finbl WindowEvent e) { }
+    public void windowGbinedFocus(finbl WindowEvent e) { }
+    public void windowLostFocus(finbl WindowEvent e) { }
 
-    private static void updateComponentTreeUIActivation(final Component c, Object active) {
-        if (c instanceof javax.swing.JInternalFrame) {
-            active = (((JInternalFrame)c).isSelected() ? Boolean.TRUE : Boolean.FALSE);
+    privbte stbtic void updbteComponentTreeUIActivbtion(finbl Component c, Object bctive) {
+        if (c instbnceof jbvbx.swing.JInternblFrbme) {
+            bctive = (((JInternblFrbme)c).isSelected() ? Boolebn.TRUE : Boolebn.FALSE);
         }
 
-        if (c instanceof javax.swing.JComponent) {
-            ((javax.swing.JComponent)c).putClientProperty(AquaFocusHandler.FRAME_ACTIVE_PROPERTY, active);
+        if (c instbnceof jbvbx.swing.JComponent) {
+            ((jbvbx.swing.JComponent)c).putClientProperty(AqubFocusHbndler.FRAME_ACTIVE_PROPERTY, bctive);
         }
 
         Component[] children = null;
 
-        if (c instanceof javax.swing.JMenu) {
-            children = ((javax.swing.JMenu)c).getMenuComponents();
-        } else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        if (c instbnceof jbvbx.swing.JMenu) {
+            children = ((jbvbx.swing.JMenu)c).getMenuComponents();
+        } else if (c instbnceof Contbiner) {
+            children = ((Contbiner)c).getComponents();
         }
 
         if (children == null) return;
 
-        for (final Component element : children) {
-            updateComponentTreeUIActivation(element, active);
+        for (finbl Component element : children) {
+            updbteComponentTreeUIActivbtion(element, bctive);
         }
     }
 
     @Override
-    public final void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            AquaUtils.fillRect(g, c);
+    public finbl void updbte(finbl Grbphics g, finbl JComponent c) {
+        if (c.isOpbque()) {
+            AqubUtils.fillRect(g, c);
         }
-        paint(g, c);
+        pbint(g, c);
     }
 }

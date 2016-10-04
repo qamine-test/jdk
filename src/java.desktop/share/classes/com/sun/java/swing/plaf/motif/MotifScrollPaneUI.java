@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicScrollPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicScrollPbneUI;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
 /**
- * A CDE/Motif L&F implementation of ScrollPaneUI.
+ * A CDE/Motif L&F implementbtion of ScrollPbneUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  */
-public class MotifScrollPaneUI extends BasicScrollPaneUI
+public clbss MotifScrollPbneUI extends BbsicScrollPbneUI
 {
-    private final static Border vsbMarginBorderR = new EmptyBorder(0, 4, 0, 0);
-    private final static Border vsbMarginBorderL = new EmptyBorder(0, 0, 0, 4);
-    private final static Border hsbMarginBorder = new EmptyBorder(4, 0, 0, 0);
+    privbte finbl stbtic Border vsbMbrginBorderR = new EmptyBorder(0, 4, 0, 0);
+    privbte finbl stbtic Border vsbMbrginBorderL = new EmptyBorder(0, 0, 0, 4);
+    privbte finbl stbtic Border hsbMbrginBorder = new EmptyBorder(4, 0, 0, 0);
 
-    private CompoundBorder vsbBorder;
-    private CompoundBorder hsbBorder;
+    privbte CompoundBorder vsbBorder;
+    privbte CompoundBorder hsbBorder;
 
-    private PropertyChangeListener propertyChangeHandler;
+    privbte PropertyChbngeListener propertyChbngeHbndler;
 
-    protected void installListeners(JScrollPane scrollPane) {
-        super.installListeners(scrollPane);
-        propertyChangeHandler = createPropertyChangeHandler();
-        scrollPane.addPropertyChangeListener(propertyChangeHandler);
+    protected void instbllListeners(JScrollPbne scrollPbne) {
+        super.instbllListeners(scrollPbne);
+        propertyChbngeHbndler = crebtePropertyChbngeHbndler();
+        scrollPbne.bddPropertyChbngeListener(propertyChbngeHbndler);
     }
 
-    protected void uninstallListeners(JScrollPane scrollPane) {
-        super.uninstallListeners(scrollPane);
-        scrollPane.removePropertyChangeListener(propertyChangeHandler);
+    protected void uninstbllListeners(JScrollPbne scrollPbne) {
+        super.uninstbllListeners(scrollPbne);
+        scrollPbne.removePropertyChbngeListener(propertyChbngeHbndler);
     }
 
-    private PropertyChangeListener createPropertyChangeHandler() {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                  String propertyName = e.getPropertyName();
+    privbte PropertyChbngeListener crebtePropertyChbngeHbndler() {
+        return new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent e) {
+                  String propertyNbme = e.getPropertyNbme();
 
-                  if (propertyName.equals("componentOrientation")) {
-                        JScrollPane pane = (JScrollPane)e.getSource();
-                        JScrollBar vsb = pane.getVerticalScrollBar();
+                  if (propertyNbme.equbls("componentOrientbtion")) {
+                        JScrollPbne pbne = (JScrollPbne)e.getSource();
+                        JScrollBbr vsb = pbne.getVerticblScrollBbr();
                         if (vsb != null && vsbBorder != null &&
                             vsb.getBorder() == vsbBorder) {
-                            // The Border on the verticall scrollbar matches
-                            // what we installed, reset it.
-                            if (MotifGraphicsUtils.isLeftToRight(pane)) {
-                                vsbBorder = new CompoundBorder(vsbMarginBorderR,
+                            // The Border on the verticbll scrollbbr mbtches
+                            // whbt we instblled, reset it.
+                            if (MotifGrbphicsUtils.isLeftToRight(pbne)) {
+                                vsbBorder = new CompoundBorder(vsbMbrginBorderR,
                                                 vsbBorder.getInsideBorder());
                             } else {
-                                vsbBorder = new CompoundBorder(vsbMarginBorderL,
+                                vsbBorder = new CompoundBorder(vsbMbrginBorderL,
                                                 vsbBorder.getInsideBorder());
                             }
                             vsb.setBorder(vsbBorder);
@@ -92,34 +92,34 @@ public class MotifScrollPaneUI extends BasicScrollPaneUI
         }};
     }
 
-    protected void installDefaults(JScrollPane scrollpane) {
-        super.installDefaults(scrollpane);
+    protected void instbllDefbults(JScrollPbne scrollpbne) {
+        super.instbllDefbults(scrollpbne);
 
-        JScrollBar vsb = scrollpane.getVerticalScrollBar();
+        JScrollBbr vsb = scrollpbne.getVerticblScrollBbr();
         if (vsb != null) {
-            if (MotifGraphicsUtils.isLeftToRight(scrollpane)) {
-                vsbBorder = new CompoundBorder(vsbMarginBorderR,
+            if (MotifGrbphicsUtils.isLeftToRight(scrollpbne)) {
+                vsbBorder = new CompoundBorder(vsbMbrginBorderR,
                                                vsb.getBorder());
             }
             else {
-                vsbBorder = new CompoundBorder(vsbMarginBorderL,
+                vsbBorder = new CompoundBorder(vsbMbrginBorderL,
                                                vsb.getBorder());
             }
             vsb.setBorder(vsbBorder);
         }
 
-        JScrollBar hsb = scrollpane.getHorizontalScrollBar();
+        JScrollBbr hsb = scrollpbne.getHorizontblScrollBbr();
         if (hsb != null) {
-            hsbBorder = new CompoundBorder(hsbMarginBorder, hsb.getBorder());
+            hsbBorder = new CompoundBorder(hsbMbrginBorder, hsb.getBorder());
             hsb.setBorder(hsbBorder);
         }
     }
 
 
-    protected void uninstallDefaults(JScrollPane c) {
-        super.uninstallDefaults(c);
+    protected void uninstbllDefbults(JScrollPbne c) {
+        super.uninstbllDefbults(c);
 
-        JScrollBar vsb = scrollpane.getVerticalScrollBar();
+        JScrollBbr vsb = scrollpbne.getVerticblScrollBbr();
         if (vsb != null) {
             if (vsb.getBorder() == vsbBorder) {
                 vsb.setBorder(null);
@@ -127,7 +127,7 @@ public class MotifScrollPaneUI extends BasicScrollPaneUI
             vsbBorder = null;
         }
 
-        JScrollBar hsb = scrollpane.getHorizontalScrollBar();
+        JScrollBbr hsb = scrollpbne.getHorizontblScrollBbr();
         if (hsb != null) {
             if (hsb.getBorder() == hsbBorder) {
                 hsb.setBorder(null);
@@ -137,7 +137,7 @@ public class MotifScrollPaneUI extends BasicScrollPaneUI
     }
 
 
-    public static ComponentUI createUI(JComponent x) {
-        return new MotifScrollPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new MotifScrollPbneUI();
     }
 }

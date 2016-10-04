@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Created on Apr 28, 2005
+ * Crebted on Apr 28, 2005
  */
-package javax.sql;
+pbckbge jbvbx.sql;
 
 /**
- * An object that registers to be notified of events that occur on PreparedStatements
- * that are in the Statement pool.
+ * An object thbt registers to be notified of events thbt occur on PrepbredStbtements
+ * thbt bre in the Stbtement pool.
  * <p>
- * The JDBC 3.0 specification added the maxStatements
- * <code>ConnectionPooledDataSource</code> property to provide a standard mechanism for
- * enabling the pooling of <code>PreparedStatements</code>
- * and to specify the size of the statement
- * pool.  However, there was no way for a driver to notify an external
- * statement pool when a <code>PreparedStatement</code> becomes invalid.  For some databases, a
- * statement becomes invalid if a DDL operation is performed that affects the
- * table.  For example an application may create a temporary table to do some work
- * on the table and then destroy it.  It may later recreate the same table when
- * it is needed again.  Some databases will invalidate any prepared statements
- * that reference the temporary table when the table is dropped.
+ * The JDBC 3.0 specificbtion bdded the mbxStbtements
+ * <code>ConnectionPooledDbtbSource</code> property to provide b stbndbrd mechbnism for
+ * enbbling the pooling of <code>PrepbredStbtements</code>
+ * bnd to specify the size of the stbtement
+ * pool.  However, there wbs no wby for b driver to notify bn externbl
+ * stbtement pool when b <code>PrepbredStbtement</code> becomes invblid.  For some dbtbbbses, b
+ * stbtement becomes invblid if b DDL operbtion is performed thbt bffects the
+ * tbble.  For exbmple bn bpplicbtion mby crebte b temporbry tbble to do some work
+ * on the tbble bnd then destroy it.  It mby lbter recrebte the sbme tbble when
+ * it is needed bgbin.  Some dbtbbbses will invblidbte bny prepbred stbtements
+ * thbt reference the temporbry tbble when the tbble is dropped.
  * <p>
- * Similar to the methods defined in the <code>ConnectionEventListener</code> interface,
- * the driver will call the <code>StatementEventListener.statementErrorOccurred</code>
- * method prior to throwing any exceptions when it detects a statement is invalid.
- * The driver will also call the <code>StatementEventListener.statementClosed</code>
- * method when a <code>PreparedStatement</code> is closed.
+ * Similbr to the methods defined in the <code>ConnectionEventListener</code> interfbce,
+ * the driver will cbll the <code>StbtementEventListener.stbtementErrorOccurred</code>
+ * method prior to throwing bny exceptions when it detects b stbtement is invblid.
+ * The driver will blso cbll the <code>StbtementEventListener.stbtementClosed</code>
+ * method when b <code>PrepbredStbtement</code> is closed.
  * <p>
- * Methods which allow a component to register a StatementEventListener with a
- * <code>PooledConnection</code> have been added to the <code>PooledConnection</code> interface.
+ * Methods which bllow b component to register b StbtementEventListener with b
+ * <code>PooledConnection</code> hbve been bdded to the <code>PooledConnection</code> interfbce.
  *
  * @since 1.6
  */
-public interface StatementEventListener  extends java.util.EventListener{
+public interfbce StbtementEventListener  extends jbvb.util.EventListener{
   /**
-   * The driver calls this method on all <code>StatementEventListener</code>s registered on the connection when it detects that a
-   * <code>PreparedStatement</code> is closed.
+   * The driver cblls this method on bll <code>StbtementEventListener</code>s registered on the connection when it detects thbt b
+   * <code>PrepbredStbtement</code> is closed.
    *
-   * @param event an event object describing the source of
-   * the event and that the <code>PreparedStatement</code> was closed.
+   * @pbrbm event bn event object describing the source of
+   * the event bnd thbt the <code>PrepbredStbtement</code> wbs closed.
    * @since 1.6
    */
-  void statementClosed(StatementEvent event);
+  void stbtementClosed(StbtementEvent event);
 
         /**
-         * The driver calls this method on all <code>StatementEventListener</code>s
-         * registered on the connection when it detects that a
-         * <code>PreparedStatement</code> is invalid. The driver calls this method
+         * The driver cblls this method on bll <code>StbtementEventListener</code>s
+         * registered on the connection when it detects thbt b
+         * <code>PrepbredStbtement</code> is invblid. The driver cblls this method
          * just before it throws the <code>SQLException</code>,
-         * contained in the given event, to the application.
+         * contbined in the given event, to the bpplicbtion.
          *
-         * @param event    an event object describing the source of the event,
-         *                 the statement that is invalid and the exception the
-         *                 driver is about to throw.  The source of the event is
-         *                 the <code>PooledConnection</code> which the invalid <code>PreparedStatement</code>
-         *                 is associated with.
+         * @pbrbm event    bn event object describing the source of the event,
+         *                 the stbtement thbt is invblid bnd the exception the
+         *                 driver is bbout to throw.  The source of the event is
+         *                 the <code>PooledConnection</code> which the invblid <code>PrepbredStbtement</code>
+         *                 is bssocibted with.
          *
          * @since 1.6
          */
-        void statementErrorOccurred(StatementEvent event);
+        void stbtementErrorOccurred(StbtementEvent event);
 
 }

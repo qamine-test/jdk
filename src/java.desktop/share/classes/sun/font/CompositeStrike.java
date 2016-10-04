@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /*
- * performance:
- * it seems expensive that when using a composite font for
- * every char you have to find which "slot" can display it.
- * Just the fact that you need to check at all ..
+ * performbnce:
+ * it seems expensive thbt when using b composite font for
+ * every chbr you hbve to find which "slot" cbn displby it.
+ * Just the fbct thbt you need to check bt bll ..
  * A composite glyph code ducks this by encoding the slot into the
- * glyph code, but you still need to get from char to glyph code.
+ * glyph code, but you still need to get from chbr to glyph code.
  */
-public final class CompositeStrike extends FontStrike {
+public finbl clbss CompositeStrike extends FontStrike {
 
-    static final int SLOTMASK = 0xffffff;
+    stbtic finbl int SLOTMASK = 0xffffff;
 
-    private CompositeFont compFont;
-    private PhysicalStrike[] strikes;
+    privbte CompositeFont compFont;
+    privbte PhysicblStrike[] strikes;
     int numGlyphs = 0;
 
     CompositeStrike(CompositeFont font2D, FontStrikeDesc desc) {
@@ -52,30 +52,30 @@ public final class CompositeStrike extends FontStrike {
         this.desc = desc;
         this.disposer = new FontStrikeDisposer(compFont, desc);
         if (desc.style != compFont.style) {
-            algoStyle = true;
+            blgoStyle = true;
             if ((desc.style & Font.BOLD) == Font.BOLD &&
                 ((compFont.style & Font.BOLD) == 0)) {
                 boldness = 1.33f;
             }
             if ((desc.style & Font.ITALIC) == Font.ITALIC &&
                 (compFont.style & Font.ITALIC) == 0) {
-                italic = 0.7f;
+                itblic = 0.7f;
             }
         }
-        strikes = new PhysicalStrike[compFont.numSlots];
+        strikes = new PhysicblStrike[compFont.numSlots];
     }
 
     /* do I need this (see Strike::compositeStrikeForGlyph) */
-    PhysicalStrike getStrikeForGlyph(int glyphCode) {
+    PhysicblStrike getStrikeForGlyph(int glyphCode) {
         return getStrikeForSlot(glyphCode >>> 24);
     }
 
-    PhysicalStrike getStrikeForSlot(int slot) {
+    PhysicblStrike getStrikeForSlot(int slot) {
 
-        PhysicalStrike strike = strikes[slot];
+        PhysicblStrike strike = strikes[slot];
         if (strike == null) {
             strike =
-                (PhysicalStrike)(compFont.getSlotFont(slot).getStrike(desc));
+                (PhysicblStrike)(compFont.getSlotFont(slot).getStrike(desc));
 
             strikes[slot] = strike;
         }
@@ -98,118 +98,118 @@ public final class CompositeStrike extends FontStrike {
     }
 
 
-    /* Performance tweak: Slot 0 can often return all the glyphs
-     * Note slot zero doesn't need to be masked.
-     * Could go a step further and support getting a run of glyphs.
-     * This would help many locales a little.
+    /* Performbnce twebk: Slot 0 cbn often return bll the glyphs
+     * Note slot zero doesn't need to be mbsked.
+     * Could go b step further bnd support getting b run of glyphs.
+     * This would help mbny locbles b little.
      *
-     * Note that if a client constructs an invalid a composite glyph that
-     * references an invalid slot, that the behaviour is currently
-     * that this slot index falls through to CompositeFont.getSlotFont(int)
-     * which will substitute a default font, from which to obtain the
-     * strike. If its an invalid glyph code for a valid slot, then the
-     * physical font for that slot will substitute the missing glyph.
+     * Note thbt if b client constructs bn invblid b composite glyph thbt
+     * references bn invblid slot, thbt the behbviour is currently
+     * thbt this slot index fblls through to CompositeFont.getSlotFont(int)
+     * which will substitute b defbult font, from which to obtbin the
+     * strike. If its bn invblid glyph code for b vblid slot, then the
+     * physicbl font for thbt slot will substitute the missing glyph.
      */
-    void getGlyphImagePtrs(int[] glyphCodes, long[] images, int  len) {
-        PhysicalStrike strike = getStrikeForSlot(0);
-        int numptrs = strike.getSlot0GlyphImagePtrs(glyphCodes, images, len);
+    void getGlyphImbgePtrs(int[] glyphCodes, long[] imbges, int  len) {
+        PhysicblStrike strike = getStrikeForSlot(0);
+        int numptrs = strike.getSlot0GlyphImbgePtrs(glyphCodes, imbges, len);
         if (numptrs == len) {
             return;
         }
         for (int i=numptrs; i< len; i++) {
             strike = getStrikeForGlyph(glyphCodes[i]);
-            images[i] = strike.getGlyphImagePtr(glyphCodes[i] & SLOTMASK);
+            imbges[i] = strike.getGlyphImbgePtr(glyphCodes[i] & SLOTMASK);
         }
     }
 
 
-    long getGlyphImagePtr(int glyphCode) {
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
-        return strike.getGlyphImagePtr(glyphCode & SLOTMASK);
+    long getGlyphImbgePtr(int glyphCode) {
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
+        return strike.getGlyphImbgePtr(glyphCode & SLOTMASK);
     }
 
-    void getGlyphImageBounds(int glyphCode, Point2D.Float pt, Rectangle result) {
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
-        strike.getGlyphImageBounds(glyphCode & SLOTMASK, pt, result);
+    void getGlyphImbgeBounds(int glyphCode, Point2D.Flobt pt, Rectbngle result) {
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
+        strike.getGlyphImbgeBounds(glyphCode & SLOTMASK, pt, result);
     }
 
-    Point2D.Float getGlyphMetrics(int glyphCode) {
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
+    Point2D.Flobt getGlyphMetrics(int glyphCode) {
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
         return strike.getGlyphMetrics(glyphCode & SLOTMASK);
     }
 
-    Point2D.Float getCharMetrics(char ch) {
-        return getGlyphMetrics(compFont.getMapper().charToGlyph(ch));
+    Point2D.Flobt getChbrMetrics(chbr ch) {
+        return getGlyphMetrics(compFont.getMbpper().chbrToGlyph(ch));
     }
 
-    float getGlyphAdvance(int glyphCode) {
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
-        return strike.getGlyphAdvance(glyphCode & SLOTMASK);
+    flobt getGlyphAdvbnce(int glyphCode) {
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
+        return strike.getGlyphAdvbnce(glyphCode & SLOTMASK);
     }
 
-    /* REMIND where to cache?
-     * The glyph advance is already cached by physical strikes and that's a lot
+    /* REMIND where to cbche?
+     * The glyph bdvbnce is blrebdy cbched by physicbl strikes bnd thbt's b lot
      * of the work.
-     * Also FontDesignMetrics maintains a latin char advance cache, so don't
-     * cache advances here as apps tend to hold onto metrics objects when
-     * performance is sensitive to it. Revisit this assumption later.
+     * Also FontDesignMetrics mbintbins b lbtin chbr bdvbnce cbche, so don't
+     * cbche bdvbnces here bs bpps tend to hold onto metrics objects when
+     * performbnce is sensitive to it. Revisit this bssumption lbter.
      */
-    float getCodePointAdvance(int cp) {
-        return getGlyphAdvance(compFont.getMapper().charToGlyph(cp));
+    flobt getCodePointAdvbnce(int cp) {
+        return getGlyphAdvbnce(compFont.getMbpper().chbrToGlyph(cp));
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(int glyphCode) {
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
+    Rectbngle2D.Flobt getGlyphOutlineBounds(int glyphCode) {
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
         return strike.getGlyphOutlineBounds(glyphCode & SLOTMASK);
     }
 
-    GeneralPath getGlyphOutline(int glyphCode, float x, float y) {
+    GenerblPbth getGlyphOutline(int glyphCode, flobt x, flobt y) {
 
-        PhysicalStrike strike = getStrikeForGlyph(glyphCode);
-        GeneralPath path = strike.getGlyphOutline(glyphCode & SLOTMASK, x, y);
-        if (path == null) {
-            return new GeneralPath();
+        PhysicblStrike strike = getStrikeForGlyph(glyphCode);
+        GenerblPbth pbth = strike.getGlyphOutline(glyphCode & SLOTMASK, x, y);
+        if (pbth == null) {
+            return new GenerblPbth();
         } else {
-            return path;
+            return pbth;
         }
     }
 
-    /* The physical font slot for each glyph is encoded in the glyph ID
-     * To be as efficient as possible we find a run of glyphs from the
-     * same slot and create a temporary array of these glyphs decoded
-     * to the slot. The slot font is then queried for the GeneralPath
-     * for that run of glyphs. GeneralPaths from each run are appended
-     * to create the shape for the whole glyph array.
+    /* The physicbl font slot for ebch glyph is encoded in the glyph ID
+     * To be bs efficient bs possible we find b run of glyphs from the
+     * sbme slot bnd crebte b temporbry brrby of these glyphs decoded
+     * to the slot. The slot font is then queried for the GenerblPbth
+     * for thbt run of glyphs. GenerblPbths from ebch run bre bppended
+     * to crebte the shbpe for the whole glyph brrby.
      */
-    GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
-        GeneralPath path = null;
-        GeneralPath gp;
+    GenerblPbth getGlyphVectorOutline(int[] glyphs, flobt x, flobt y) {
+        GenerblPbth pbth = null;
+        GenerblPbth gp;
         int glyphIndex = 0;
         int[] tmpGlyphs;
 
         while (glyphIndex < glyphs.length) {
-            int start = glyphIndex;
+            int stbrt = glyphIndex;
             int slot = glyphs[glyphIndex] >>> 24;
             while (glyphIndex < glyphs.length &&
                    (glyphs[glyphIndex+1] >>> 24) == slot) {
                 glyphIndex++;
             }
-            int tmpLen = glyphIndex-start+1;
+            int tmpLen = glyphIndex-stbrt+1;
             tmpGlyphs = new int[tmpLen];
             for (int i=0;i<tmpLen;i++) {
                 tmpGlyphs[i] = glyphs[i] & SLOTMASK;
             }
             gp = getStrikeForSlot(slot).getGlyphVectorOutline(tmpGlyphs, x, y);
-            if (path == null) {
-                path = gp;
+            if (pbth == null) {
+                pbth = gp;
             } else if (gp != null) {
-                path.append(gp, false);
+                pbth.bppend(gp, fblse);
             }
         }
-        if (path == null) {
-            return new GeneralPath();
+        if (pbth == null) {
+            return new GenerblPbth();
         } else {
-            return path;
+            return pbth;
         }
     }
 }

@@ -3,36 +3,36 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMSignatureProperties.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMSignbtureProperties.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
 
-import java.util.*;
+import jbvb.util.*;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -41,43 +41,43 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * DOM-based implementation of SignatureProperties.
+ * DOM-bbsed implementbtion of SignbtureProperties.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMSignatureProperties extends DOMStructure
-    implements SignatureProperties {
+public finbl clbss DOMSignbtureProperties extends DOMStructure
+    implements SignbtureProperties {
 
-    private final String id;
-    private final List<SignatureProperty> properties;
+    privbte finbl String id;
+    privbte finbl List<SignbtureProperty> properties;
 
     /**
-     * Creates a <code>DOMSignatureProperties</code> from the specified
-     * parameters.
+     * Crebtes b <code>DOMSignbtureProperties</code> from the specified
+     * pbrbmeters.
      *
-     * @param properties a list of one or more {@link SignatureProperty}s. The
-     *    list is defensively copied to protect against subsequent modification.
-     * @param id the Id (may be <code>null</code>)
-     * @return a <code>DOMSignatureProperties</code>
-     * @throws ClassCastException if <code>properties</code> contains any
-     *    entries that are not of type {@link SignatureProperty}
-     * @throws IllegalArgumentException if <code>properties</code> is empty
+     * @pbrbm properties b list of one or more {@link SignbtureProperty}s. The
+     *    list is defensively copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm id the Id (mby be <code>null</code>)
+     * @return b <code>DOMSignbtureProperties</code>
+     * @throws ClbssCbstException if <code>properties</code> contbins bny
+     *    entries thbt bre not of type {@link SignbtureProperty}
+     * @throws IllegblArgumentException if <code>properties</code> is empty
      * @throws NullPointerException if <code>properties</code>
      */
-    public DOMSignatureProperties(List<? extends SignatureProperty> properties,
+    public DOMSignbtureProperties(List<? extends SignbtureProperty> properties,
                                   String id)
     {
         if (properties == null) {
-            throw new NullPointerException("properties cannot be null");
+            throw new NullPointerException("properties cbnnot be null");
         } else if (properties.isEmpty()) {
-            throw new IllegalArgumentException("properties cannot be empty");
+            throw new IllegblArgumentException("properties cbnnot be empty");
         } else {
-            this.properties = Collections.unmodifiableList(
-                new ArrayList<SignatureProperty>(properties));
+            this.properties = Collections.unmodifibbleList(
+                new ArrbyList<SignbtureProperty>(properties));
             for (int i = 0, size = this.properties.size(); i < size; i++) {
-                if (!(this.properties.get(i) instanceof SignatureProperty)) {
-                    throw new ClassCastException
-                        ("properties["+i+"] is not a valid type");
+                if (!(this.properties.get(i) instbnceof SignbtureProperty)) {
+                    throw new ClbssCbstException
+                        ("properties["+i+"] is not b vblid type");
                 }
             }
         }
@@ -85,47 +85,47 @@ public final class DOMSignatureProperties extends DOMStructure
     }
 
     /**
-     * Creates a <code>DOMSignatureProperties</code> from an element.
+     * Crebtes b <code>DOMSignbtureProperties</code> from bn element.
      *
-     * @param propsElem a SignatureProperties element
-     * @throws MarshalException if a marshalling error occurs
+     * @pbrbm propsElem b SignbtureProperties element
+     * @throws MbrshblException if b mbrshblling error occurs
      */
-    public DOMSignatureProperties(Element propsElem, XMLCryptoContext context)
-        throws MarshalException
+    public DOMSignbtureProperties(Element propsElem, XMLCryptoContext context)
+        throws MbrshblException
     {
-        // unmarshal attributes
-        Attr attr = propsElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            id = attr.getValue();
-            propsElem.setIdAttributeNode(attr, true);
+        // unmbrshbl bttributes
+        Attr bttr = propsElem.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            id = bttr.getVblue();
+            propsElem.setIdAttributeNode(bttr, true);
         } else {
             id = null;
         }
 
         NodeList nodes = propsElem.getChildNodes();
         int length = nodes.getLength();
-        List<SignatureProperty> properties =
-            new ArrayList<SignatureProperty>(length);
+        List<SignbtureProperty> properties =
+            new ArrbyList<SignbtureProperty>(length);
         for (int i = 0; i < length; i++) {
             Node child = nodes.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                String name = child.getLocalName();
-                if (!name.equals("SignatureProperty")) {
-                    throw new MarshalException("Invalid element name: " + name +
-                                               ", expected SignatureProperty");
+                String nbme = child.getLocblNbme();
+                if (!nbme.equbls("SignbtureProperty")) {
+                    throw new MbrshblException("Invblid element nbme: " + nbme +
+                                               ", expected SignbtureProperty");
                 }
-                properties.add(new DOMSignatureProperty((Element)child,
+                properties.bdd(new DOMSignbtureProperty((Element)child,
                                                         context));
             }
         }
         if (properties.isEmpty()) {
-            throw new MarshalException("properties cannot be empty");
+            throw new MbrshblException("properties cbnnot be empty");
         } else {
-            this.properties = Collections.unmodifiableList(properties);
+            this.properties = Collections.unmodifibbleList(properties);
         }
     }
 
-    public List<SignatureProperty> getProperties() {
+    public List<SignbtureProperty> getProperties() {
         return properties;
     }
 
@@ -133,51 +133,51 @@ public final class DOMSignatureProperties extends DOMStructure
         return id;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element propsElem = DOMUtils.createElement(ownerDoc,
-                                                   "SignatureProperties",
-                                                   XMLSignature.XMLNS,
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element propsElem = DOMUtils.crebteElement(ownerDoc,
+                                                   "SignbtureProperties",
+                                                   XMLSignbture.XMLNS,
                                                    dsPrefix);
 
-        // set attributes
+        // set bttributes
         DOMUtils.setAttributeID(propsElem, "Id", id);
 
-        // create and append any properties
-        for (SignatureProperty property : properties) {
-            ((DOMSignatureProperty)property).marshal(propsElem, dsPrefix,
+        // crebte bnd bppend bny properties
+        for (SignbtureProperty property : properties) {
+            ((DOMSignbtureProperty)property).mbrshbl(propsElem, dsPrefix,
                                                      context);
         }
 
-        parent.appendChild(propsElem);
+        pbrent.bppendChild(propsElem);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof SignatureProperties)) {
-            return false;
+        if (!(o instbnceof SignbtureProperties)) {
+            return fblse;
         }
-        SignatureProperties osp = (SignatureProperties)o;
+        SignbtureProperties osp = (SignbtureProperties)o;
 
-        boolean idsEqual = (id == null ? osp.getId() == null
-                                       : id.equals(osp.getId()));
+        boolebn idsEqubl = (id == null ? osp.getId() == null
+                                       : id.equbls(osp.getId()));
 
-        return (properties.equals(osp.getProperties()) && idsEqual);
+        return (properties.equbls(osp.getProperties()) && idsEqubl);
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            result = 31 * result + id.hbshCode();
         }
-        result = 31 * result + properties.hashCode();
+        result = 31 * result + properties.hbshCode();
 
         return result;
     }

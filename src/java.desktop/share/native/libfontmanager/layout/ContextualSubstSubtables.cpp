@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -29,29 +29,29 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "ContextualSubstSubtables.h"
-#include "GlyphIterator.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "ContextublSubstSubtbbles.h"
+#include "GlyphIterbtor.h"
 #include "LookupProcessor.h"
-#include "CoverageTables.h"
-#include "LESwaps.h"
+#include "CoverbgeTbbles.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
 /*
-    NOTE: This could be optimized somewhat by keeping track
-    of the previous sequenceIndex in the loop and doing next()
-    or prev() of the delta between that and the current
-    sequenceIndex instead of always resetting to the front.
+    NOTE: This could be optimized somewhbt by keeping trbck
+    of the previous sequenceIndex in the loop bnd doing next()
+    or prev() of the deltb between thbt bnd the current
+    sequenceIndex instebd of blwbys resetting to the front.
 */
-void ContextualSubstitutionBase::applySubstitutionLookups(
+void ContextublSubstitutionBbse::bpplySubstitutionLookups(
         const LookupProcessor *lookupProcessor,
-        const LEReferenceToArrayOf<SubstitutionLookupRecord>& substLookupRecordArray,
+        const LEReferenceToArrbyOf<SubstitutionLookupRecord>& substLookupRecordArrby,
         le_uint16 substCount,
-        GlyphIterator *glyphIterator,
-        const LEFontInstance *fontInstance,
+        GlyphIterbtor *glyphIterbtor,
+        const LEFontInstbnce *fontInstbnce,
         le_int32 position,
         LEErrorCode& success)
 {
@@ -59,114 +59,114 @@ void ContextualSubstitutionBase::applySubstitutionLookups(
         return;
     }
 
-    GlyphIterator tempIterator(*glyphIterator);
-    const SubstitutionLookupRecord *substLookupRecordArrayPtr = substLookupRecordArray.getAlias(); // OK to dereference, range checked against substCount below.
+    GlyphIterbtor tempIterbtor(*glyphIterbtor);
+    const SubstitutionLookupRecord *substLookupRecordArrbyPtr = substLookupRecordArrby.getAlibs(); // OK to dereference, rbnge checked bgbinst substCount below.
 
     for (le_int16 subst = 0; subst < substCount && LE_SUCCESS(success); subst += 1) {
-        le_uint16 sequenceIndex = SWAPW(substLookupRecordArrayPtr[subst].sequenceIndex);
-        le_uint16 lookupListIndex = SWAPW(substLookupRecordArrayPtr[subst].lookupListIndex);
+        le_uint16 sequenceIndex = SWAPW(substLookupRecordArrbyPtr[subst].sequenceIndex);
+        le_uint16 lookupListIndex = SWAPW(substLookupRecordArrbyPtr[subst].lookupListIndex);
 
-        tempIterator.setCurrStreamPosition(position);
-        tempIterator.next(sequenceIndex);
+        tempIterbtor.setCurrStrebmPosition(position);
+        tempIterbtor.next(sequenceIndex);
 
-        lookupProcessor->applySingleLookup(lookupListIndex, &tempIterator, fontInstance, success);
+        lookupProcessor->bpplySingleLookup(lookupListIndex, &tempIterbtor, fontInstbnce, success);
     }
 }
 
-le_bool ContextualSubstitutionBase::matchGlyphIDs(const LEReferenceToArrayOf<TTGlyphID>& glyphArray, le_uint16 glyphCount,
-                                               GlyphIterator *glyphIterator, le_bool backtrack)
+le_bool ContextublSubstitutionBbse::mbtchGlyphIDs(const LEReferenceToArrbyOf<TTGlyphID>& glyphArrby, le_uint16 glyphCount,
+                                               GlyphIterbtor *glyphIterbtor, le_bool bbcktrbck)
 {
     le_int32 direction = 1;
-    le_int32 match = 0;
+    le_int32 mbtch = 0;
 
-    if (backtrack) {
-        match = glyphCount -1;
+    if (bbcktrbck) {
+        mbtch = glyphCount -1;
         direction = -1;
     }
 
     while (glyphCount > 0) {
-        if (! glyphIterator->next()) {
+        if (! glyphIterbtor->next()) {
             return FALSE;
         }
 
-        TTGlyphID glyph = (TTGlyphID) glyphIterator->getCurrGlyphID();
+        TTGlyphID glyph = (TTGlyphID) glyphIterbtor->getCurrGlyphID();
 
-        if (glyph != SWAPW(glyphArray[match])) {
+        if (glyph != SWAPW(glyphArrby[mbtch])) {
             return FALSE;
         }
 
         glyphCount -= 1;
-        match += direction;
+        mbtch += direction;
     }
 
     return TRUE;
 }
 
-le_bool ContextualSubstitutionBase::matchGlyphClasses(
-    const LEReferenceToArrayOf<le_uint16> &classArray,
+le_bool ContextublSubstitutionBbse::mbtchGlyphClbsses(
+    const LEReferenceToArrbyOf<le_uint16> &clbssArrby,
     le_uint16 glyphCount,
-    GlyphIterator *glyphIterator,
-    const LEReferenceTo<ClassDefinitionTable> &classDefinitionTable,
+    GlyphIterbtor *glyphIterbtor,
+    const LEReferenceTo<ClbssDefinitionTbble> &clbssDefinitionTbble,
     LEErrorCode &success,
-    le_bool backtrack)
+    le_bool bbcktrbck)
 {
     if (LE_FAILURE(success)) { return FALSE; }
 
     le_int32 direction = 1;
-    le_int32 match = 0;
+    le_int32 mbtch = 0;
 
-    if (backtrack) {
-        match = glyphCount - 1;
+    if (bbcktrbck) {
+        mbtch = glyphCount - 1;
         direction = -1;
     }
 
     while (glyphCount > 0) {
-        if (! glyphIterator->next()) {
+        if (! glyphIterbtor->next()) {
             return FALSE;
         }
 
-        LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-        le_int32 glyphClass = classDefinitionTable->getGlyphClass(classDefinitionTable, glyph, success);
-        le_int32 matchClass = SWAPW(classArray[match]);
+        LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+        le_int32 glyphClbss = clbssDefinitionTbble->getGlyphClbss(clbssDefinitionTbble, glyph, success);
+        le_int32 mbtchClbss = SWAPW(clbssArrby[mbtch]);
 
-        if (glyphClass != matchClass) {
-            // Some fonts, e.g. Traditional Arabic, have classes
-            // in the class array which aren't in the class definition
-            // table. If we're looking for such a class, pretend that
+        if (glyphClbss != mbtchClbss) {
+            // Some fonts, e.g. Trbditionbl Arbbic, hbve clbsses
+            // in the clbss brrby which bren't in the clbss definition
+            // tbble. If we're looking for such b clbss, pretend thbt
             // we found it.
-            if (classDefinitionTable->hasGlyphClass(classDefinitionTable, matchClass, success)) {
+            if (clbssDefinitionTbble->hbsGlyphClbss(clbssDefinitionTbble, mbtchClbss, success)) {
                 return FALSE;
             }
         }
 
         glyphCount -= 1;
-        match += direction;
+        mbtch += direction;
     }
 
     return TRUE;
 }
 
-le_bool ContextualSubstitutionBase::matchGlyphCoverages(const LEReferenceToArrayOf<Offset> &coverageTableOffsetArray, le_uint16 glyphCount,
-GlyphIterator *glyphIterator, const LETableReference &offsetBase, LEErrorCode &success, le_bool backtrack)
+le_bool ContextublSubstitutionBbse::mbtchGlyphCoverbges(const LEReferenceToArrbyOf<Offset> &coverbgeTbbleOffsetArrby, le_uint16 glyphCount,
+GlyphIterbtor *glyphIterbtor, const LETbbleReference &offsetBbse, LEErrorCode &success, le_bool bbcktrbck)
 {
     le_int32 direction = 1;
     le_int32 glyph = 0;
 
-    if (backtrack) {
+    if (bbcktrbck) {
         glyph = glyphCount - 1;
         direction = -1;
     }
 
     while (glyphCount > 0) {
-        Offset coverageTableOffset = SWAPW(coverageTableOffsetArray[glyph]);
-        LEReferenceTo<CoverageTable> coverageTable(offsetBase, success, coverageTableOffset);
+        Offset coverbgeTbbleOffset = SWAPW(coverbgeTbbleOffsetArrby[glyph]);
+        LEReferenceTo<CoverbgeTbble> coverbgeTbble(offsetBbse, success, coverbgeTbbleOffset);
 
-        if (LE_FAILURE(success) || ! glyphIterator->next()) {
+        if (LE_FAILURE(success) || ! glyphIterbtor->next()) {
             return FALSE;
         }
 
-        if (coverageTable->getGlyphCoverage(coverageTable,
-                                            (LEGlyphID) glyphIterator->getCurrGlyphID(),
+        if (coverbgeTbble->getGlyphCoverbge(coverbgeTbble,
+                                            (LEGlyphID) glyphIterbtor->getCurrGlyphID(),
                                             success) < 0) {
             return FALSE;
         }
@@ -178,170 +178,170 @@ GlyphIterator *glyphIterator, const LETableReference &offsetBase, LEErrorCode &s
     return TRUE;
 }
 
-le_uint32 ContextualSubstitutionSubtable::process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                                                  GlyphIterator *glyphIterator,
-                                                  const LEFontInstance *fontInstance,
+le_uint32 ContextublSubstitutionSubtbble::process(const LETbbleReference &bbse, const LookupProcessor *lookupProcessor,
+                                                  GlyphIterbtor *glyphIterbtor,
+                                                  const LEFontInstbnce *fontInstbnce,
                                                   LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    switch(SWAPW(subtableFormat))
+    switch(SWAPW(subtbbleFormbt))
     {
-    case 0:
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      LEReferenceTo<ContextualSubstitutionFormat1Subtable> subtable(base, success, (const ContextualSubstitutionFormat1Subtable *) this);
+      LEReferenceTo<ContextublSubstitutionFormbt1Subtbble> subtbble(bbse, success, (const ContextublSubstitutionFormbt1Subtbble *) this);
       if( LE_FAILURE(success) ) {
         return 0;
       }
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    case 2:
+    cbse 2:
     {
-      LEReferenceTo<ContextualSubstitutionFormat2Subtable> subtable(base, success, (const ContextualSubstitutionFormat2Subtable *) this);
+      LEReferenceTo<ContextublSubstitutionFormbt2Subtbble> subtbble(bbse, success, (const ContextublSubstitutionFormbt2Subtbble *) this);
       if( LE_FAILURE(success) ) {
         return 0;
       }
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    case 3:
+    cbse 3:
     {
-      LEReferenceTo<ContextualSubstitutionFormat3Subtable> subtable(base, success, (const ContextualSubstitutionFormat3Subtable *) this);
+      LEReferenceTo<ContextublSubstitutionFormbt3Subtbble> subtbble(bbse, success, (const ContextublSubstitutionFormbt3Subtbble *) this);
       if( LE_FAILURE(success) ) {
         return 0;
       }
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    default:
+    defbult:
         return 0;
     }
 }
 
-le_uint32 ContextualSubstitutionFormat1Subtable::process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                                                         GlyphIterator *glyphIterator,
-                                                         const LEFontInstance *fontInstance,
+le_uint32 ContextublSubstitutionFormbt1Subtbble::process(const LETbbleReference &bbse, const LookupProcessor *lookupProcessor,
+                                                         GlyphIterbtor *glyphIterbtor,
+                                                         const LEFontInstbnce *fontInstbnce,
                                                          LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(lookupProcessor->getReference(), glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(lookupProcessor->getReference(), glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
+    if (coverbgeIndex >= 0) {
         le_uint16 srSetCount = SWAPW(subRuleSetCount);
 
-        if (coverageIndex < srSetCount) {
-            Offset subRuleSetTableOffset = SWAPW(subRuleSetTableOffsetArray[coverageIndex]);
-            LEReferenceTo<SubRuleSetTable>
-                 subRuleSetTable(base, success, (const SubRuleSetTable *) ((char *) this + subRuleSetTableOffset));
-            le_uint16 subRuleCount = SWAPW(subRuleSetTable->subRuleCount);
-            le_int32 position = glyphIterator->getCurrStreamPosition();
+        if (coverbgeIndex < srSetCount) {
+            Offset subRuleSetTbbleOffset = SWAPW(subRuleSetTbbleOffsetArrby[coverbgeIndex]);
+            LEReferenceTo<SubRuleSetTbble>
+                 subRuleSetTbble(bbse, success, (const SubRuleSetTbble *) ((chbr *) this + subRuleSetTbbleOffset));
+            le_uint16 subRuleCount = SWAPW(subRuleSetTbble->subRuleCount);
+            le_int32 position = glyphIterbtor->getCurrStrebmPosition();
 
             for (le_uint16 subRule = 0; subRule < subRuleCount; subRule += 1) {
-                Offset subRuleTableOffset =
-                    SWAPW(subRuleSetTable->subRuleTableOffsetArray[subRule]);
-                LEReferenceTo<SubRuleTable>
-                     subRuleTable(subRuleSetTable, success, subRuleTableOffset);
-                le_uint16 matchCount = SWAPW(subRuleTable->glyphCount) - 1;
-                le_uint16 substCount = SWAPW(subRuleTable->substCount);
-                LEReferenceToArrayOf<TTGlyphID> inputGlyphArray(base, success, subRuleTable->inputGlyphArray, matchCount+2);
+                Offset subRuleTbbleOffset =
+                    SWAPW(subRuleSetTbble->subRuleTbbleOffsetArrby[subRule]);
+                LEReferenceTo<SubRuleTbble>
+                     subRuleTbble(subRuleSetTbble, success, subRuleTbbleOffset);
+                le_uint16 mbtchCount = SWAPW(subRuleTbble->glyphCount) - 1;
+                le_uint16 substCount = SWAPW(subRuleTbble->substCount);
+                LEReferenceToArrbyOf<TTGlyphID> inputGlyphArrby(bbse, success, subRuleTbble->inputGlyphArrby, mbtchCount+2);
                 if (LE_FAILURE(success)) { return 0; }
-                if (matchGlyphIDs(inputGlyphArray, matchCount, glyphIterator)) {
-                  LEReferenceToArrayOf<SubstitutionLookupRecord>
-                    substLookupRecordArray(base, success, (const SubstitutionLookupRecord *) &subRuleTable->inputGlyphArray[matchCount], substCount);
+                if (mbtchGlyphIDs(inputGlyphArrby, mbtchCount, glyphIterbtor)) {
+                  LEReferenceToArrbyOf<SubstitutionLookupRecord>
+                    substLookupRecordArrby(bbse, success, (const SubstitutionLookupRecord *) &subRuleTbble->inputGlyphArrby[mbtchCount], substCount);
 
-                    applySubstitutionLookups(lookupProcessor, substLookupRecordArray, substCount, glyphIterator, fontInstance, position, success);
+                    bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, substCount, glyphIterbtor, fontInstbnce, position, success);
 
-                    return matchCount + 1;
+                    return mbtchCount + 1;
                 }
 
-                glyphIterator->setCurrStreamPosition(position);
+                glyphIterbtor->setCurrStrebmPosition(position);
             }
         }
 
-        // XXX If we get here, the table is mal-formed...
+        // XXX If we get here, the tbble is mbl-formed...
     }
 
     return 0;
 }
 
-le_uint32 ContextualSubstitutionFormat2Subtable::process(const LETableReference &base,
+le_uint32 ContextublSubstitutionFormbt2Subtbble::process(const LETbbleReference &bbse,
          const LookupProcessor *lookupProcessor,
-         GlyphIterator *glyphIterator,
-         const LEFontInstance *fontInstance,
+         GlyphIterbtor *glyphIterbtor,
+         const LEFontInstbnce *fontInstbnce,
          LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(lookupProcessor->getReference(), glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(lookupProcessor->getReference(), glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
-        LEReferenceTo<ClassDefinitionTable> classDefinitionTable(base, success,
-                                                                 (const ClassDefinitionTable *) ((char *) this + SWAPW(classDefTableOffset)));
-        le_uint16 scSetCount = SWAPW(subClassSetCount);
-        le_int32 setClass = classDefinitionTable->getGlyphClass(classDefinitionTable,
-                                                                glyphIterator->getCurrGlyphID(),
+    if (coverbgeIndex >= 0) {
+        LEReferenceTo<ClbssDefinitionTbble> clbssDefinitionTbble(bbse, success,
+                                                                 (const ClbssDefinitionTbble *) ((chbr *) this + SWAPW(clbssDefTbbleOffset)));
+        le_uint16 scSetCount = SWAPW(subClbssSetCount);
+        le_int32 setClbss = clbssDefinitionTbble->getGlyphClbss(clbssDefinitionTbble,
+                                                                glyphIterbtor->getCurrGlyphID(),
                                                                 success);
 
-        if (setClass < scSetCount && subClassSetTableOffsetArray[setClass] != 0) {
-            Offset subClassSetTableOffset = SWAPW(subClassSetTableOffsetArray[setClass]);
-            LEReferenceTo<SubClassSetTable>
-                 subClassSetTable(base, success, (const SubClassSetTable *) ((char *) this + subClassSetTableOffset));
-            le_uint16 subClassRuleCount = SWAPW(subClassSetTable->subClassRuleCount);
-            le_int32 position = glyphIterator->getCurrStreamPosition();
+        if (setClbss < scSetCount && subClbssSetTbbleOffsetArrby[setClbss] != 0) {
+            Offset subClbssSetTbbleOffset = SWAPW(subClbssSetTbbleOffsetArrby[setClbss]);
+            LEReferenceTo<SubClbssSetTbble>
+                 subClbssSetTbble(bbse, success, (const SubClbssSetTbble *) ((chbr *) this + subClbssSetTbbleOffset));
+            le_uint16 subClbssRuleCount = SWAPW(subClbssSetTbble->subClbssRuleCount);
+            le_int32 position = glyphIterbtor->getCurrStrebmPosition();
 
-            for (le_uint16 scRule = 0; scRule < subClassRuleCount; scRule += 1) {
-                Offset subClassRuleTableOffset =
-                    SWAPW(subClassSetTable->subClassRuleTableOffsetArray[scRule]);
-                LEReferenceTo<SubClassRuleTable>
-                     subClassRuleTable(subClassSetTable, success, subClassRuleTableOffset);
-                le_uint16 matchCount = SWAPW(subClassRuleTable->glyphCount) - 1;
-                le_uint16 substCount = SWAPW(subClassRuleTable->substCount);
+            for (le_uint16 scRule = 0; scRule < subClbssRuleCount; scRule += 1) {
+                Offset subClbssRuleTbbleOffset =
+                    SWAPW(subClbssSetTbble->subClbssRuleTbbleOffsetArrby[scRule]);
+                LEReferenceTo<SubClbssRuleTbble>
+                     subClbssRuleTbble(subClbssSetTbble, success, subClbssRuleTbbleOffset);
+                le_uint16 mbtchCount = SWAPW(subClbssRuleTbble->glyphCount) - 1;
+                le_uint16 substCount = SWAPW(subClbssRuleTbble->substCount);
 
-                LEReferenceToArrayOf<le_uint16> classArray(base, success, subClassRuleTable->classArray, matchCount+1);
+                LEReferenceToArrbyOf<le_uint16> clbssArrby(bbse, success, subClbssRuleTbble->clbssArrby, mbtchCount+1);
 
                 if (LE_FAILURE(success)) { return 0; }
-                if (matchGlyphClasses(classArray, matchCount, glyphIterator, classDefinitionTable, success)) {
-                    LEReferenceToArrayOf<SubstitutionLookupRecord>
-                      substLookupRecordArray(base, success, (const SubstitutionLookupRecord *) &subClassRuleTable->classArray[matchCount], substCount);
+                if (mbtchGlyphClbsses(clbssArrby, mbtchCount, glyphIterbtor, clbssDefinitionTbble, success)) {
+                    LEReferenceToArrbyOf<SubstitutionLookupRecord>
+                      substLookupRecordArrby(bbse, success, (const SubstitutionLookupRecord *) &subClbssRuleTbble->clbssArrby[mbtchCount], substCount);
 
-                    applySubstitutionLookups(lookupProcessor, substLookupRecordArray, substCount, glyphIterator, fontInstance, position, success);
+                    bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, substCount, glyphIterbtor, fontInstbnce, position, success);
 
-                    return matchCount + 1;
+                    return mbtchCount + 1;
                 }
 
-                glyphIterator->setCurrStreamPosition(position);
+                glyphIterbtor->setCurrStrebmPosition(position);
             }
         }
 
-        // XXX If we get here, the table is mal-formed...
+        // XXX If we get here, the tbble is mbl-formed...
     }
 
     return 0;
 }
 
-le_uint32 ContextualSubstitutionFormat3Subtable::process(const LETableReference &base,
+le_uint32 ContextublSubstitutionFormbt3Subtbble::process(const LETbbleReference &bbse,
                                                          const LookupProcessor *lookupProcessor,
-                                                         GlyphIterator *glyphIterator,
-                                                         const LEFontInstance *fontInstance,
+                                                         GlyphIterbtor *glyphIterbtor,
+                                                         const LEFontInstbnce *fontInstbnce,
                                                          LEErrorCode& success)const
 {
     if (LE_FAILURE(success)) {
@@ -350,307 +350,307 @@ le_uint32 ContextualSubstitutionFormat3Subtable::process(const LETableReference 
 
     le_uint16 gCount = SWAPW(glyphCount);
     le_uint16 subCount = SWAPW(substCount);
-    le_int32 position = glyphIterator->getCurrStreamPosition();
+    le_int32 position = glyphIterbtor->getCurrStrebmPosition();
 
-    // Back up the glyph iterator so that we
-    // can call next() before the check, which
-    // will leave it pointing at the last glyph
-    // that matched when we're done.
-    glyphIterator->prev();
+    // Bbck up the glyph iterbtor so thbt we
+    // cbn cbll next() before the check, which
+    // will lebve it pointing bt the lbst glyph
+    // thbt mbtched when we're done.
+    glyphIterbtor->prev();
 
-    LEReferenceToArrayOf<Offset> covTableOffsetArray(base, success, coverageTableOffsetArray, gCount);
+    LEReferenceToArrbyOf<Offset> covTbbleOffsetArrby(bbse, success, coverbgeTbbleOffsetArrby, gCount);
 
     if( LE_FAILURE(success) ) { return 0; }
 
-    if (ContextualSubstitutionBase::matchGlyphCoverages(covTableOffsetArray, gCount, glyphIterator, base, success)) {
-        LEReferenceToArrayOf<SubstitutionLookupRecord>
-          substLookupRecordArray(base, success, (const SubstitutionLookupRecord *) &coverageTableOffsetArray[gCount], subCount);
+    if (ContextublSubstitutionBbse::mbtchGlyphCoverbges(covTbbleOffsetArrby, gCount, glyphIterbtor, bbse, success)) {
+        LEReferenceToArrbyOf<SubstitutionLookupRecord>
+          substLookupRecordArrby(bbse, success, (const SubstitutionLookupRecord *) &coverbgeTbbleOffsetArrby[gCount], subCount);
 
-        ContextualSubstitutionBase::applySubstitutionLookups(lookupProcessor, substLookupRecordArray, subCount, glyphIterator, fontInstance, position, success);
+        ContextublSubstitutionBbse::bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, subCount, glyphIterbtor, fontInstbnce, position, success);
 
         return gCount + 1;
     }
 
-    glyphIterator->setCurrStreamPosition(position);
+    glyphIterbtor->setCurrStrebmPosition(position);
 
     return 0;
 }
 
-le_uint32 ChainingContextualSubstitutionSubtable::process(const LEReferenceTo<ChainingContextualSubstitutionSubtable> &base,
+le_uint32 ChbiningContextublSubstitutionSubtbble::process(const LEReferenceTo<ChbiningContextublSubstitutionSubtbble> &bbse,
                                                           const LookupProcessor *lookupProcessor,
-                                                          GlyphIterator *glyphIterator,
-                                                          const LEFontInstance *fontInstance,
+                                                          GlyphIterbtor *glyphIterbtor,
+                                                          const LEFontInstbnce *fontInstbnce,
                                                           LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    switch(SWAPW(subtableFormat))
+    switch(SWAPW(subtbbleFormbt))
     {
-    case 0:
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      LEReferenceTo<ChainingContextualSubstitutionFormat1Subtable> subtable(base, success,  (ChainingContextualSubstitutionFormat1Subtable *) this);
+      LEReferenceTo<ChbiningContextublSubstitutionFormbt1Subtbble> subtbble(bbse, success,  (ChbiningContextublSubstitutionFormbt1Subtbble *) this);
       if(LE_FAILURE(success)) return 0;
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    case 2:
+    cbse 2:
     {
-      LEReferenceTo<ChainingContextualSubstitutionFormat2Subtable> subtable(base, success, (const ChainingContextualSubstitutionFormat2Subtable *) this);
+      LEReferenceTo<ChbiningContextublSubstitutionFormbt2Subtbble> subtbble(bbse, success, (const ChbiningContextublSubstitutionFormbt2Subtbble *) this);
       if( LE_FAILURE(success) ) { return 0; }
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    case 3:
+    cbse 3:
     {
-      LEReferenceTo<ChainingContextualSubstitutionFormat3Subtable> subtable(base, success, (const ChainingContextualSubstitutionFormat3Subtable *) this);
+      LEReferenceTo<ChbiningContextublSubstitutionFormbt3Subtbble> subtbble(bbse, success, (const ChbiningContextublSubstitutionFormbt3Subtbble *) this);
       if( LE_FAILURE(success) ) { return 0; }
-      return subtable->process(subtable, lookupProcessor, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, lookupProcessor, glyphIterbtor, fontInstbnce, success);
     }
 
-    default:
+    defbult:
         return 0;
     }
 }
 
-// NOTE: This could be a #define, but that seems to confuse
-// the Visual Studio .NET 2003 compiler on the calls to the
-// GlyphIterator constructor. It somehow can't decide if
-// emptyFeatureList matches an le_uint32 or an le_uint16...
-static const FeatureMask emptyFeatureList = 0x00000000UL;
+// NOTE: This could be b #define, but thbt seems to confuse
+// the Visubl Studio .NET 2003 compiler on the cblls to the
+// GlyphIterbtor constructor. It somehow cbn't decide if
+// emptyFebtureList mbtches bn le_uint32 or bn le_uint16...
+stbtic const FebtureMbsk emptyFebtureList = 0x00000000UL;
 
-le_uint32 ChainingContextualSubstitutionFormat1Subtable::process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                                                                 GlyphIterator *glyphIterator,
-                                                                 const LEFontInstance *fontInstance,
+le_uint32 ChbiningContextublSubstitutionFormbt1Subtbble::process(const LETbbleReference &bbse, const LookupProcessor *lookupProcessor,
+                                                                 GlyphIterbtor *glyphIterbtor,
+                                                                 const LEFontInstbnce *fontInstbnce,
                                                                  LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(lookupProcessor->getReference(), glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(lookupProcessor->getReference(), glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
-        le_uint16 srSetCount = SWAPW(chainSubRuleSetCount);
+    if (coverbgeIndex >= 0) {
+        le_uint16 srSetCount = SWAPW(chbinSubRuleSetCount);
 
-        if (coverageIndex < srSetCount) {
-            Offset chainSubRuleSetTableOffset = SWAPW(chainSubRuleSetTableOffsetArray[coverageIndex]);
-            LEReferenceTo<ChainSubRuleSetTable>
-                 chainSubRuleSetTable(base, success, (const ChainSubRuleSetTable *) ((char *) this + chainSubRuleSetTableOffset));
-            le_uint16 chainSubRuleCount = SWAPW(chainSubRuleSetTable->chainSubRuleCount);
-            le_int32 position = glyphIterator->getCurrStreamPosition();
-            GlyphIterator tempIterator(*glyphIterator, emptyFeatureList);
+        if (coverbgeIndex < srSetCount) {
+            Offset chbinSubRuleSetTbbleOffset = SWAPW(chbinSubRuleSetTbbleOffsetArrby[coverbgeIndex]);
+            LEReferenceTo<ChbinSubRuleSetTbble>
+                 chbinSubRuleSetTbble(bbse, success, (const ChbinSubRuleSetTbble *) ((chbr *) this + chbinSubRuleSetTbbleOffset));
+            le_uint16 chbinSubRuleCount = SWAPW(chbinSubRuleSetTbble->chbinSubRuleCount);
+            le_int32 position = glyphIterbtor->getCurrStrebmPosition();
+            GlyphIterbtor tempIterbtor(*glyphIterbtor, emptyFebtureList);
 
-            for (le_uint16 subRule = 0; subRule < chainSubRuleCount; subRule += 1) {
-                Offset chainSubRuleTableOffset =
-                    SWAPW(chainSubRuleSetTable->chainSubRuleTableOffsetArray[subRule]);
-                LEReferenceTo<ChainSubRuleTable>
-                     chainSubRuleTable = LEReferenceTo<ChainSubRuleTable>(chainSubRuleSetTable, success, chainSubRuleTableOffset);
+            for (le_uint16 subRule = 0; subRule < chbinSubRuleCount; subRule += 1) {
+                Offset chbinSubRuleTbbleOffset =
+                    SWAPW(chbinSubRuleSetTbble->chbinSubRuleTbbleOffsetArrby[subRule]);
+                LEReferenceTo<ChbinSubRuleTbble>
+                     chbinSubRuleTbble = LEReferenceTo<ChbinSubRuleTbble>(chbinSubRuleSetTbble, success, chbinSubRuleTbbleOffset);
                 if( LE_FAILURE(success) ) { return 0; }
-                le_uint16 backtrackGlyphCount = SWAPW(chainSubRuleTable->backtrackGlyphCount);
-                LEReferenceToArrayOf<TTGlyphID> backtrackGlyphArray(base, success, chainSubRuleTable->backtrackGlyphArray, backtrackGlyphCount);
+                le_uint16 bbcktrbckGlyphCount = SWAPW(chbinSubRuleTbble->bbcktrbckGlyphCount);
+                LEReferenceToArrbyOf<TTGlyphID> bbcktrbckGlyphArrby(bbse, success, chbinSubRuleTbble->bbcktrbckGlyphArrby, bbcktrbckGlyphCount);
                 if( LE_FAILURE(success) ) { return 0; }
-                le_uint16 inputGlyphCount = (le_uint16) SWAPW(chainSubRuleTable->backtrackGlyphArray[backtrackGlyphCount]) - 1;
-                LEReferenceToArrayOf<TTGlyphID>   inputGlyphArray(base, success, &chainSubRuleTable->backtrackGlyphArray[backtrackGlyphCount + 1], inputGlyphCount+2);
+                le_uint16 inputGlyphCount = (le_uint16) SWAPW(chbinSubRuleTbble->bbcktrbckGlyphArrby[bbcktrbckGlyphCount]) - 1;
+                LEReferenceToArrbyOf<TTGlyphID>   inputGlyphArrby(bbse, success, &chbinSubRuleTbble->bbcktrbckGlyphArrby[bbcktrbckGlyphCount + 1], inputGlyphCount+2);
 
                 if( LE_FAILURE(success) ) { return 0; }
-                le_uint16 lookaheadGlyphCount = (le_uint16) SWAPW(inputGlyphArray[inputGlyphCount]);
-                LEReferenceToArrayOf<TTGlyphID>   lookaheadGlyphArray(base, success, inputGlyphArray.getAlias(inputGlyphCount + 1,success), lookaheadGlyphCount+2);
+                le_uint16 lookbhebdGlyphCount = (le_uint16) SWAPW(inputGlyphArrby[inputGlyphCount]);
+                LEReferenceToArrbyOf<TTGlyphID>   lookbhebdGlyphArrby(bbse, success, inputGlyphArrby.getAlibs(inputGlyphCount + 1,success), lookbhebdGlyphCount+2);
                 if( LE_FAILURE(success) ) { return 0; }
-                le_uint16 substCount = (le_uint16) SWAPW(lookaheadGlyphArray[lookaheadGlyphCount]);
+                le_uint16 substCount = (le_uint16) SWAPW(lookbhebdGlyphArrby[lookbhebdGlyphCount]);
 
-                tempIterator.setCurrStreamPosition(position);
+                tempIterbtor.setCurrStrebmPosition(position);
 
-                if (! tempIterator.prev(backtrackGlyphCount)) {
+                if (! tempIterbtor.prev(bbcktrbckGlyphCount)) {
                     continue;
                 }
 
-                tempIterator.prev();
+                tempIterbtor.prev();
 
-                if (! matchGlyphIDs(backtrackGlyphArray, backtrackGlyphCount, &tempIterator, TRUE)) {
+                if (! mbtchGlyphIDs(bbcktrbckGlyphArrby, bbcktrbckGlyphCount, &tempIterbtor, TRUE)) {
                     continue;
                 }
 
-                tempIterator.setCurrStreamPosition(position);
-                tempIterator.next(inputGlyphCount);
-                if (!matchGlyphIDs(lookaheadGlyphArray, lookaheadGlyphCount, &tempIterator)) {
+                tempIterbtor.setCurrStrebmPosition(position);
+                tempIterbtor.next(inputGlyphCount);
+                if (!mbtchGlyphIDs(lookbhebdGlyphArrby, lookbhebdGlyphCount, &tempIterbtor)) {
                     continue;
                 }
 
-                if (matchGlyphIDs(inputGlyphArray, inputGlyphCount, glyphIterator)) {
-                    LEReferenceToArrayOf<SubstitutionLookupRecord>
-                      substLookupRecordArray(base, success, (const SubstitutionLookupRecord *) lookaheadGlyphArray.getAlias(lookaheadGlyphCount + 1,success), substCount);
+                if (mbtchGlyphIDs(inputGlyphArrby, inputGlyphCount, glyphIterbtor)) {
+                    LEReferenceToArrbyOf<SubstitutionLookupRecord>
+                      substLookupRecordArrby(bbse, success, (const SubstitutionLookupRecord *) lookbhebdGlyphArrby.getAlibs(lookbhebdGlyphCount + 1,success), substCount);
 
-                    applySubstitutionLookups(lookupProcessor, substLookupRecordArray, substCount, glyphIterator, fontInstance, position, success);
+                    bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, substCount, glyphIterbtor, fontInstbnce, position, success);
 
                     return inputGlyphCount + 1;
                 }
 
-                glyphIterator->setCurrStreamPosition(position);
+                glyphIterbtor->setCurrStrebmPosition(position);
             }
         }
 
-        // XXX If we get here, the table is mal-formed...
+        // XXX If we get here, the tbble is mbl-formed...
     }
 
     return 0;
 }
 
-le_uint32 ChainingContextualSubstitutionFormat2Subtable::process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                                                                 GlyphIterator *glyphIterator,
-                                                                 const LEFontInstance *fontInstance,
+le_uint32 ChbiningContextublSubstitutionFormbt2Subtbble::process(const LETbbleReference &bbse, const LookupProcessor *lookupProcessor,
+                                                                 GlyphIterbtor *glyphIterbtor,
+                                                                 const LEFontInstbnce *fontInstbnce,
                                                                  LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(lookupProcessor->getReference(), glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(lookupProcessor->getReference(), glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
-        LEReferenceTo<ClassDefinitionTable>
-             backtrackClassDefinitionTable(base, success, (const ClassDefinitionTable *) ((char *) this + SWAPW(backtrackClassDefTableOffset)));
-        LEReferenceTo<ClassDefinitionTable>
-             inputClassDefinitionTable(base, success, (const ClassDefinitionTable *) ((char *) this + SWAPW(inputClassDefTableOffset)));
-        LEReferenceTo<ClassDefinitionTable>
-             lookaheadClassDefinitionTable(base, success, (const ClassDefinitionTable *) ((char *) this + SWAPW(lookaheadClassDefTableOffset)));
-        le_uint16 scSetCount = SWAPW(chainSubClassSetCount);
-        le_int32 setClass = inputClassDefinitionTable->getGlyphClass(inputClassDefinitionTable,
-                                                                     glyphIterator->getCurrGlyphID(),
+    if (coverbgeIndex >= 0) {
+        LEReferenceTo<ClbssDefinitionTbble>
+             bbcktrbckClbssDefinitionTbble(bbse, success, (const ClbssDefinitionTbble *) ((chbr *) this + SWAPW(bbcktrbckClbssDefTbbleOffset)));
+        LEReferenceTo<ClbssDefinitionTbble>
+             inputClbssDefinitionTbble(bbse, success, (const ClbssDefinitionTbble *) ((chbr *) this + SWAPW(inputClbssDefTbbleOffset)));
+        LEReferenceTo<ClbssDefinitionTbble>
+             lookbhebdClbssDefinitionTbble(bbse, success, (const ClbssDefinitionTbble *) ((chbr *) this + SWAPW(lookbhebdClbssDefTbbleOffset)));
+        le_uint16 scSetCount = SWAPW(chbinSubClbssSetCount);
+        le_int32 setClbss = inputClbssDefinitionTbble->getGlyphClbss(inputClbssDefinitionTbble,
+                                                                     glyphIterbtor->getCurrGlyphID(),
                                                                      success);
 
-        if (setClass < scSetCount && chainSubClassSetTableOffsetArray[setClass] != 0) {
-            Offset chainSubClassSetTableOffset = SWAPW(chainSubClassSetTableOffsetArray[setClass]);
-            LEReferenceTo<ChainSubClassSetTable>
-                 chainSubClassSetTable(base, success, (const ChainSubClassSetTable *) ((char *) this + chainSubClassSetTableOffset));
-            le_uint16 chainSubClassRuleCount = SWAPW(chainSubClassSetTable->chainSubClassRuleCount);
-            le_int32 position = glyphIterator->getCurrStreamPosition();
-            GlyphIterator tempIterator(*glyphIterator, emptyFeatureList);
+        if (setClbss < scSetCount && chbinSubClbssSetTbbleOffsetArrby[setClbss] != 0) {
+            Offset chbinSubClbssSetTbbleOffset = SWAPW(chbinSubClbssSetTbbleOffsetArrby[setClbss]);
+            LEReferenceTo<ChbinSubClbssSetTbble>
+                 chbinSubClbssSetTbble(bbse, success, (const ChbinSubClbssSetTbble *) ((chbr *) this + chbinSubClbssSetTbbleOffset));
+            le_uint16 chbinSubClbssRuleCount = SWAPW(chbinSubClbssSetTbble->chbinSubClbssRuleCount);
+            le_int32 position = glyphIterbtor->getCurrStrebmPosition();
+            GlyphIterbtor tempIterbtor(*glyphIterbtor, emptyFebtureList);
 
-            for (le_uint16 scRule = 0; scRule < chainSubClassRuleCount; scRule += 1) {
-                Offset chainSubClassRuleTableOffset =
-                    SWAPW(chainSubClassSetTable->chainSubClassRuleTableOffsetArray[scRule]);
-                LEReferenceTo<ChainSubClassRuleTable>
-                     chainSubClassRuleTable(chainSubClassSetTable, success, chainSubClassRuleTableOffset);
-                le_uint16 backtrackGlyphCount = SWAPW(chainSubClassRuleTable->backtrackGlyphCount);
-                le_uint16 inputGlyphCount = SWAPW(chainSubClassRuleTable->backtrackClassArray[backtrackGlyphCount]) - 1;
-                LEReferenceToArrayOf<le_uint16>   inputClassArray(base, success, &chainSubClassRuleTable->backtrackClassArray[backtrackGlyphCount + 1],inputGlyphCount+2); // +2 for the lookaheadGlyphCount count
-                le_uint16 lookaheadGlyphCount = SWAPW(inputClassArray.getObject(inputGlyphCount, success));
-                LEReferenceToArrayOf<le_uint16>   lookaheadClassArray(base, success, inputClassArray.getAlias(inputGlyphCount + 1,success), lookaheadGlyphCount+2); // +2 for the substCount
+            for (le_uint16 scRule = 0; scRule < chbinSubClbssRuleCount; scRule += 1) {
+                Offset chbinSubClbssRuleTbbleOffset =
+                    SWAPW(chbinSubClbssSetTbble->chbinSubClbssRuleTbbleOffsetArrby[scRule]);
+                LEReferenceTo<ChbinSubClbssRuleTbble>
+                     chbinSubClbssRuleTbble(chbinSubClbssSetTbble, success, chbinSubClbssRuleTbbleOffset);
+                le_uint16 bbcktrbckGlyphCount = SWAPW(chbinSubClbssRuleTbble->bbcktrbckGlyphCount);
+                le_uint16 inputGlyphCount = SWAPW(chbinSubClbssRuleTbble->bbcktrbckClbssArrby[bbcktrbckGlyphCount]) - 1;
+                LEReferenceToArrbyOf<le_uint16>   inputClbssArrby(bbse, success, &chbinSubClbssRuleTbble->bbcktrbckClbssArrby[bbcktrbckGlyphCount + 1],inputGlyphCount+2); // +2 for the lookbhebdGlyphCount count
+                le_uint16 lookbhebdGlyphCount = SWAPW(inputClbssArrby.getObject(inputGlyphCount, success));
+                LEReferenceToArrbyOf<le_uint16>   lookbhebdClbssArrby(bbse, success, inputClbssArrby.getAlibs(inputGlyphCount + 1,success), lookbhebdGlyphCount+2); // +2 for the substCount
 
                 if( LE_FAILURE(success) ) { return 0; }
-                le_uint16 substCount = SWAPW(lookaheadClassArray[lookaheadGlyphCount]);
+                le_uint16 substCount = SWAPW(lookbhebdClbssArrby[lookbhebdGlyphCount]);
 
 
-                tempIterator.setCurrStreamPosition(position);
+                tempIterbtor.setCurrStrebmPosition(position);
 
-                if (! tempIterator.prev(backtrackGlyphCount)) {
+                if (! tempIterbtor.prev(bbcktrbckGlyphCount)) {
                     continue;
                 }
 
-                tempIterator.prev();
-                LEReferenceToArrayOf<le_uint16>   backtrackClassArray(base, success, chainSubClassRuleTable->backtrackClassArray, backtrackGlyphCount);
+                tempIterbtor.prev();
+                LEReferenceToArrbyOf<le_uint16>   bbcktrbckClbssArrby(bbse, success, chbinSubClbssRuleTbble->bbcktrbckClbssArrby, bbcktrbckGlyphCount);
                 if( LE_FAILURE(success) ) { return 0; }
-                if (! matchGlyphClasses(backtrackClassArray, backtrackGlyphCount,
-                                        &tempIterator, backtrackClassDefinitionTable, success, TRUE)) {
+                if (! mbtchGlyphClbsses(bbcktrbckClbssArrby, bbcktrbckGlyphCount,
+                                        &tempIterbtor, bbcktrbckClbssDefinitionTbble, success, TRUE)) {
                     continue;
                 }
 
-                tempIterator.setCurrStreamPosition(position);
-                tempIterator.next(inputGlyphCount);
-                if (! matchGlyphClasses(lookaheadClassArray, lookaheadGlyphCount, &tempIterator, lookaheadClassDefinitionTable, success)) {
+                tempIterbtor.setCurrStrebmPosition(position);
+                tempIterbtor.next(inputGlyphCount);
+                if (! mbtchGlyphClbsses(lookbhebdClbssArrby, lookbhebdGlyphCount, &tempIterbtor, lookbhebdClbssDefinitionTbble, success)) {
                     continue;
                 }
 
-                if (matchGlyphClasses(inputClassArray, inputGlyphCount, glyphIterator, inputClassDefinitionTable, success)) {
-                    LEReferenceToArrayOf<SubstitutionLookupRecord>
-                      substLookupRecordArray(base, success, (const SubstitutionLookupRecord *) lookaheadClassArray.getAlias(lookaheadGlyphCount + 1, success), substCount);
+                if (mbtchGlyphClbsses(inputClbssArrby, inputGlyphCount, glyphIterbtor, inputClbssDefinitionTbble, success)) {
+                    LEReferenceToArrbyOf<SubstitutionLookupRecord>
+                      substLookupRecordArrby(bbse, success, (const SubstitutionLookupRecord *) lookbhebdClbssArrby.getAlibs(lookbhebdGlyphCount + 1, success), substCount);
                     if (LE_FAILURE(success)) { return 0; }
-                    applySubstitutionLookups(lookupProcessor, substLookupRecordArray, substCount, glyphIterator, fontInstance, position, success);
+                    bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, substCount, glyphIterbtor, fontInstbnce, position, success);
 
                     return inputGlyphCount + 1;
                 }
 
-                glyphIterator->setCurrStreamPosition(position);
+                glyphIterbtor->setCurrStrebmPosition(position);
             }
         }
 
-        // XXX If we get here, the table is mal-formed...
+        // XXX If we get here, the tbble is mbl-formed...
     }
 
     return 0;
 }
 
-le_uint32 ChainingContextualSubstitutionFormat3Subtable::process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                                                                 GlyphIterator *glyphIterator,
-                                                                 const LEFontInstance *fontInstance,
+le_uint32 ChbiningContextublSubstitutionFormbt3Subtbble::process(const LETbbleReference &bbse, const LookupProcessor *lookupProcessor,
+                                                                 GlyphIterbtor *glyphIterbtor,
+                                                                 const LEFontInstbnce *fontInstbnce,
                                                                  LEErrorCode & success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    le_uint16 backtrkGlyphCount = SWAPW(backtrackGlyphCount);
-    le_uint16 inputGlyphCount = (le_uint16) SWAPW(backtrackCoverageTableOffsetArray[backtrkGlyphCount]);
-    LEReferenceToArrayOf<Offset>   inputCoverageTableOffsetArray(base, success, &backtrackCoverageTableOffsetArray[backtrkGlyphCount + 1], inputGlyphCount+2); // offset
+    le_uint16 bbcktrkGlyphCount = SWAPW(bbcktrbckGlyphCount);
+    le_uint16 inputGlyphCount = (le_uint16) SWAPW(bbcktrbckCoverbgeTbbleOffsetArrby[bbcktrkGlyphCount]);
+    LEReferenceToArrbyOf<Offset>   inputCoverbgeTbbleOffsetArrby(bbse, success, &bbcktrbckCoverbgeTbbleOffsetArrby[bbcktrkGlyphCount + 1], inputGlyphCount+2); // offset
     if (LE_FAILURE(success)) { return 0; }
-    const le_uint16 lookaheadGlyphCount = (le_uint16) SWAPW(inputCoverageTableOffsetArray[inputGlyphCount]);
+    const le_uint16 lookbhebdGlyphCount = (le_uint16) SWAPW(inputCoverbgeTbbleOffsetArrby[inputGlyphCount]);
 
     if( LE_FAILURE(success)) { return 0; }
-    LEReferenceToArrayOf<Offset>   lookaheadCoverageTableOffsetArray(base, success, inputCoverageTableOffsetArray.getAlias(inputGlyphCount + 1, success), lookaheadGlyphCount+2);
+    LEReferenceToArrbyOf<Offset>   lookbhebdCoverbgeTbbleOffsetArrby(bbse, success, inputCoverbgeTbbleOffsetArrby.getAlibs(inputGlyphCount + 1, success), lookbhebdGlyphCount+2);
 
     if( LE_FAILURE(success) ) { return 0; }
-    le_uint16 substCount = (le_uint16) SWAPW(lookaheadCoverageTableOffsetArray[lookaheadGlyphCount]);
-    le_int32 position = glyphIterator->getCurrStreamPosition();
-    GlyphIterator tempIterator(*glyphIterator, emptyFeatureList);
+    le_uint16 substCount = (le_uint16) SWAPW(lookbhebdCoverbgeTbbleOffsetArrby[lookbhebdGlyphCount]);
+    le_int32 position = glyphIterbtor->getCurrStrebmPosition();
+    GlyphIterbtor tempIterbtor(*glyphIterbtor, emptyFebtureList);
 
-    if (! tempIterator.prev(backtrkGlyphCount)) {
+    if (! tempIterbtor.prev(bbcktrkGlyphCount)) {
         return 0;
     }
 
-    tempIterator.prev();
-    if (! ContextualSubstitutionBase::matchGlyphCoverages(backtrackCoverageTableOffsetArray,
-                       backtrkGlyphCount, &tempIterator, base, success, TRUE)) {
+    tempIterbtor.prev();
+    if (! ContextublSubstitutionBbse::mbtchGlyphCoverbges(bbcktrbckCoverbgeTbbleOffsetArrby,
+                       bbcktrkGlyphCount, &tempIterbtor, bbse, success, TRUE)) {
         return 0;
     }
 
-    tempIterator.setCurrStreamPosition(position);
-    tempIterator.next(inputGlyphCount - 1);
-    if (! ContextualSubstitutionBase::matchGlyphCoverages(lookaheadCoverageTableOffsetArray,
-                        lookaheadGlyphCount, &tempIterator, base, success)) {
+    tempIterbtor.setCurrStrebmPosition(position);
+    tempIterbtor.next(inputGlyphCount - 1);
+    if (! ContextublSubstitutionBbse::mbtchGlyphCoverbges(lookbhebdCoverbgeTbbleOffsetArrby,
+                        lookbhebdGlyphCount, &tempIterbtor, bbse, success)) {
         return 0;
     }
 
-    // Back up the glyph iterator so that we
-    // can call next() before the check, which
-    // will leave it pointing at the last glyph
-    // that matched when we're done.
-    glyphIterator->prev();
+    // Bbck up the glyph iterbtor so thbt we
+    // cbn cbll next() before the check, which
+    // will lebve it pointing bt the lbst glyph
+    // thbt mbtched when we're done.
+    glyphIterbtor->prev();
 
-    if (ContextualSubstitutionBase::matchGlyphCoverages(inputCoverageTableOffsetArray,
-                                                        inputGlyphCount, glyphIterator, base, success)) {
-        LEReferenceToArrayOf<SubstitutionLookupRecord>
-          substLookupRecordArray(base, success,
-                                 (const SubstitutionLookupRecord *) lookaheadCoverageTableOffsetArray.getAlias(lookaheadGlyphCount + 1,success), substCount);
+    if (ContextublSubstitutionBbse::mbtchGlyphCoverbges(inputCoverbgeTbbleOffsetArrby,
+                                                        inputGlyphCount, glyphIterbtor, bbse, success)) {
+        LEReferenceToArrbyOf<SubstitutionLookupRecord>
+          substLookupRecordArrby(bbse, success,
+                                 (const SubstitutionLookupRecord *) lookbhebdCoverbgeTbbleOffsetArrby.getAlibs(lookbhebdGlyphCount + 1,success), substCount);
 
-        ContextualSubstitutionBase::applySubstitutionLookups(lookupProcessor, substLookupRecordArray, substCount, glyphIterator, fontInstance, position, success);
+        ContextublSubstitutionBbse::bpplySubstitutionLookups(lookupProcessor, substLookupRecordArrby, substCount, glyphIterbtor, fontInstbnce, position, success);
 
         return inputGlyphCount;
     }
 
-    glyphIterator->setCurrStreamPosition(position);
+    glyphIterbtor->setCurrStrebmPosition(position);
 
     return 0;
 }

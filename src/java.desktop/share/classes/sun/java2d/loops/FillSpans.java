@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
  /*
- * @author Jim Graham
- * @author Charlton Innovations, Inc.
+ * @buthor Jim Grbhbm
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.SpanIterator;
-import java.awt.Color;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.pipe.SpbnIterbtor;
+import jbvb.bwt.Color;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * FillSpans
- * 1) draw solid color onto destination surface
- * 2) rectangular areas to fill come from SpanIterator
+ * FillSpbns
+ * 1) drbw solid color onto destinbtion surfbce
+ * 2) rectbngulbr brebs to fill come from SpbnIterbtor
  */
-public class FillSpans extends GraphicsPrimitive
+public clbss FillSpbns extends GrbphicsPrimitive
 {
-    public final static String methodSignature = "FillSpans(...)".toString();
+    public finbl stbtic String methodSignbture = "FillSpbns(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    public finbl stbtic int primTypeID = mbkePrimTypeID();
 
-    public static FillSpans locate(SurfaceType srctype,
+    public stbtic FillSpbns locbte(SurfbceType srctype,
                                    CompositeType comptype,
-                                   SurfaceType dsttype)
+                                   SurfbceType dsttype)
     {
-        return (FillSpans)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+        return (FillSpbns)
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    protected FillSpans(SurfaceType srctype,
+    protected FillSpbns(SurfbceType srctype,
                         CompositeType comptype,
-                        SurfaceType dsttype)
+                        SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public FillSpans(long pNativePrim,
-                     SurfaceType srctype,
+    public FillSpbns(long pNbtivePrim,
+                     SurfbceType srctype,
                      CompositeType comptype,
-                     SurfaceType dsttype)
+                     SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(pNbtivePrim, methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    private native void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                                  int pixel, long pIterator, SpanIterator si);
+    privbte nbtive void FillSpbns(SunGrbphics2D sg2d, SurfbceDbtb dest,
+                                  int pixel, long pIterbtor, SpbnIterbtor si);
 
     /**
-     * All FillSpan implementors must have this invoker method
+     * All FillSpbn implementors must hbve this invoker method
      */
-    public void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                          SpanIterator si)
+    public void FillSpbns(SunGrbphics2D sg2d, SurfbceDbtb dest,
+                          SpbnIterbtor si)
     {
-        FillSpans(sg2d, dest, sg2d.pixel, si.getNativeIterator(), si);
+        FillSpbns(sg2d, dest, sg2d.pixel, si.getNbtiveIterbtor(), si);
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
-        // REMIND: iterate with a FillRect primitive?
-        throw new InternalError("FillSpans not implemented for "+
+        // REMIND: iterbte with b FillRect primitive?
+        throw new InternblError("FillSpbns not implemented for "+
                                 srctype+" with "+comptype);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceFillSpans(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceFillSpbns(this);
     }
 
-    private static class TraceFillSpans extends FillSpans {
-        FillSpans target;
+    privbte stbtic clbss TrbceFillSpbns extends FillSpbns {
+        FillSpbns tbrget;
 
-        public TraceFillSpans(FillSpans target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceFillSpbns(FillSpbns tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                              SpanIterator si)
+        public void FillSpbns(SunGrbphics2D sg2d, SurfbceDbtb dest,
+                              SpbnIterbtor si)
         {
-            tracePrimitive(target);
-            target.FillSpans(sg2d, dest, si);
+            trbcePrimitive(tbrget);
+            tbrget.FillSpbns(sg2d, dest, si);
         }
     }
 }

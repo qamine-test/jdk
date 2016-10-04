@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAXNotSupportedException.java - unsupported feature or value.
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the Public Domain.
-// $Id: SAXNotSupportedException.java,v 1.4 2004/11/03 22:55:32 jsuttor Exp $
+// SAXNotSupportedException.jbvb - unsupported febture or vblue.
+// http://www.sbxproject.org
+// Written by Dbvid Megginson
+// NO WARRANTY!  This clbss is in the Public Dombin.
+// $Id: SAXNotSupportedException.jbvb,v 1.4 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 /**
- * Exception class for an unsupported operation.
+ * Exception clbss for bn unsupported operbtion.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>An XMLReader will throw this exception when it recognizes a
- * feature or property identifier, but cannot perform the requested
- * operation (setting a state or value).  Other SAX2 applications and
- * extensions may use this class for similar purposes.</p>
+ * <p>An XMLRebder will throw this exception when it recognizes b
+ * febture or property identifier, but cbnnot perform the requested
+ * operbtion (setting b stbte or vblue).  Other SAX2 bpplicbtions bnd
+ * extensions mby use this clbss for similbr purposes.</p>
  *
  * @since SAX 2.0
- * @author David Megginson
- * @see org.xml.sax.SAXNotRecognizedException
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.SAXNotRecognizedException
  */
-public class SAXNotSupportedException extends SAXException
+public clbss SAXNotSupportedException extends SAXException
 {
 
     /**
-     * Construct a new exception with no message.
+     * Construct b new exception with no messbge.
      */
     public SAXNotSupportedException ()
     {
@@ -63,17 +63,17 @@ public class SAXNotSupportedException extends SAXException
 
 
     /**
-     * Construct a new exception with the given message.
+     * Construct b new exception with the given messbge.
      *
-     * @param message The text message of the exception.
+     * @pbrbm messbge The text messbge of the exception.
      */
-    public SAXNotSupportedException (String message)
+    public SAXNotSupportedException (String messbge)
     {
-        super(message);
+        super(messbge);
     }
 
-    // Added serialVersionUID to preserve binary compatibility
-    static final long serialVersionUID = -1422818934641823846L;
+    // Added seriblVersionUID to preserve binbry compbtibility
+    stbtic finbl long seriblVersionUID = -1422818934641823846L;
 }
 
-// end of SAXNotSupportedException.java
+// end of SAXNotSupportedException.jbvb

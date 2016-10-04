@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class provides a skeletal implementation of the {@link List}
- * interface to minimize the effort required to implement this interface
- * backed by a "random access" data store (such as an array).  For sequential
- * access data (such as a linked list), {@link AbstractSequentialList} should
- * be used in preference to this class.
+ * This clbss provides b skeletbl implementbtion of the {@link List}
+ * interfbce to minimize the effort required to implement this interfbce
+ * bbcked by b "rbndom bccess" dbtb store (such bs bn brrby).  For sequentibl
+ * bccess dbtb (such bs b linked list), {@link AbstrbctSequentiblList} should
+ * be used in preference to this clbss.
  *
- * <p>To implement an unmodifiable list, the programmer needs only to extend
- * this class and provide implementations for the {@link #get(int)} and
+ * <p>To implement bn unmodifibble list, the progrbmmer needs only to extend
+ * this clbss bnd provide implementbtions for the {@link #get(int)} bnd
  * {@link List#size() size()} methods.
  *
- * <p>To implement a modifiable list, the programmer must additionally
+ * <p>To implement b modifibble list, the progrbmmer must bdditionblly
  * override the {@link #set(int, Object) set(int, E)} method (which otherwise
- * throws an {@code UnsupportedOperationException}).  If the list is
- * variable-size the programmer must additionally override the
- * {@link #add(int, Object) add(int, E)} and {@link #remove(int)} methods.
+ * throws bn {@code UnsupportedOperbtionException}).  If the list is
+ * vbribble-size the progrbmmer must bdditionblly override the
+ * {@link #bdd(int, Object) bdd(int, E)} bnd {@link #remove(int)} methods.
  *
- * <p>The programmer should generally provide a void (no argument) and collection
- * constructor, as per the recommendation in the {@link Collection} interface
- * specification.
+ * <p>The progrbmmer should generblly provide b void (no brgument) bnd collection
+ * constructor, bs per the recommendbtion in the {@link Collection} interfbce
+ * specificbtion.
  *
- * <p>Unlike the other abstract collection implementations, the programmer does
- * <i>not</i> have to provide an iterator implementation; the iterator and
- * list iterator are implemented by this class, on top of the "random access"
+ * <p>Unlike the other bbstrbct collection implementbtions, the progrbmmer does
+ * <i>not</i> hbve to provide bn iterbtor implementbtion; the iterbtor bnd
+ * list iterbtor bre implemented by this clbss, on top of the "rbndom bccess"
  * methods:
  * {@link #get(int)},
  * {@link #set(int, Object) set(int, E)},
- * {@link #add(int, Object) add(int, E)} and
+ * {@link #bdd(int, Object) bdd(int, E)} bnd
  * {@link #remove(int)}.
  *
- * <p>The documentation for each non-abstract method in this class describes its
- * implementation in detail.  Each of these methods may be overridden if the
- * collection being implemented admits a more efficient implementation.
+ * <p>The documentbtion for ebch non-bbstrbct method in this clbss describes its
+ * implementbtion in detbil.  Ebch of these methods mby be overridden if the
+ * collection being implemented bdmits b more efficient implementbtion.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @since 1.2
  */
 
-public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+public bbstrbct clbss AbstrbctList<E> extends AbstrbctCollection<E> implements List<E> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected AbstractList() {
+    protected AbstrbctList() {
     }
 
     /**
-     * Appends the specified element to the end of this list (optional
-     * operation).
+     * Appends the specified element to the end of this list (optionbl
+     * operbtion).
      *
-     * <p>Lists that support this operation may place limitations on what
-     * elements may be added to this list.  In particular, some
-     * lists will refuse to add null elements, and others will impose
-     * restrictions on the type of elements that may be added.  List
-     * classes should clearly specify in their documentation any restrictions
-     * on what elements may be added.
+     * <p>Lists thbt support this operbtion mby plbce limitbtions on whbt
+     * elements mby be bdded to this list.  In pbrticulbr, some
+     * lists will refuse to bdd null elements, bnd others will impose
+     * restrictions on the type of elements thbt mby be bdded.  List
+     * clbsses should clebrly specify in their documentbtion bny restrictions
+     * on whbt elements mby be bdded.
      *
      * @implSpec
-     * This implementation calls {@code add(size(), e)}.
+     * This implementbtion cblls {@code bdd(size(), e)}.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless
-     * {@link #add(int, Object) add(int, E)} is overridden.
+     * <p>Note thbt this implementbtion throws bn
+     * {@code UnsupportedOperbtionException} unless
+     * {@link #bdd(int, Object) bdd(int, E)} is overridden.
      *
-     * @param e element to be appended to this list
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws UnsupportedOperationException if the {@code add} operation
+     * @pbrbm e element to be bppended to this list
+     * @return {@code true} (bs specified by {@link Collection#bdd})
+     * @throws UnsupportedOperbtionException if the {@code bdd} operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this list
-     * @throws NullPointerException if the specified element is null and this
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this list
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this list
+     * @throws IllegblArgumentException if some property of this element
+     *         prevents it from being bdded to this list
      */
-    public boolean add(E e) {
-        add(size(), e);
+    public boolebn bdd(E e) {
+        bdd(size(), e);
         return true;
     }
 
@@ -115,79 +115,79 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    abstract public E get(int index);
+    bbstrbct public E get(int index);
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * This implementbtion blwbys throws bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
     public E set(int index, E element) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * This implementbtion blwbys throws bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
-    public void add(int index, E element) {
-        throw new UnsupportedOperationException();
+    public void bdd(int index, E element) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * This implementbtion blwbys throws bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
     public E remove(int index) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
 
-    // Search Operations
+    // Sebrch Operbtions
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation first gets a list iterator (with
-     * {@code listIterator()}).  Then, it iterates over the list until the
-     * specified element is found or the end of the list is reached.
+     * This implementbtion first gets b list iterbtor (with
+     * {@code listIterbtor()}).  Then, it iterbtes over the list until the
+     * specified element is found or the end of the list is rebched.
      *
-     * @throws ClassCastException   {@inheritDoc}
+     * @throws ClbssCbstException   {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
     public int indexOf(Object o) {
-        ListIterator<E> it = listIterator();
+        ListIterbtor<E> it = listIterbtor();
         if (o==null) {
-            while (it.hasNext())
+            while (it.hbsNext())
                 if (it.next()==null)
                     return it.previousIndex();
         } else {
-            while (it.hasNext())
-                if (o.equals(it.next()))
+            while (it.hbsNext())
+                if (o.equbls(it.next()))
                     return it.previousIndex();
         }
         return -1;
@@ -197,103 +197,103 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation first gets a list iterator that points to the end
-     * of the list (with {@code listIterator(size())}).  Then, it iterates
-     * backwards over the list until the specified element is found, or the
-     * beginning of the list is reached.
+     * This implementbtion first gets b list iterbtor thbt points to the end
+     * of the list (with {@code listIterbtor(size())}).  Then, it iterbtes
+     * bbckwbrds over the list until the specified element is found, or the
+     * beginning of the list is rebched.
      *
-     * @throws ClassCastException   {@inheritDoc}
+     * @throws ClbssCbstException   {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    public int lastIndexOf(Object o) {
-        ListIterator<E> it = listIterator(size());
+    public int lbstIndexOf(Object o) {
+        ListIterbtor<E> it = listIterbtor(size());
         if (o==null) {
-            while (it.hasPrevious())
+            while (it.hbsPrevious())
                 if (it.previous()==null)
                     return it.nextIndex();
         } else {
-            while (it.hasPrevious())
-                if (o.equals(it.previous()))
+            while (it.hbsPrevious())
+                if (o.equbls(it.previous()))
                     return it.nextIndex();
         }
         return -1;
     }
 
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Removes all of the elements from this list (optional operation).
-     * The list will be empty after this call returns.
+     * Removes bll of the elements from this list (optionbl operbtion).
+     * The list will be empty bfter this cbll returns.
      *
      * @implSpec
-     * This implementation calls {@code removeRange(0, size())}.
+     * This implementbtion cblls {@code removeRbnge(0, size())}.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless {@code remove(int
-     * index)} or {@code removeRange(int fromIndex, int toIndex)} is
+     * <p>Note thbt this implementbtion throws bn
+     * {@code UnsupportedOperbtionException} unless {@code remove(int
+     * index)} or {@code removeRbnge(int fromIndex, int toIndex)} is
      * overridden.
      *
-     * @throws UnsupportedOperationException if the {@code clear} operation
+     * @throws UnsupportedOperbtionException if the {@code clebr} operbtion
      *         is not supported by this list
      */
-    public void clear() {
-        removeRange(0, size());
+    public void clebr() {
+        removeRbnge(0, size());
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation gets an iterator over the specified collection
-     * and iterates over it, inserting the elements obtained from the
-     * iterator into this list at the appropriate position, one at a time,
-     * using {@code add(int, E)}.
-     * Many implementations will override this method for efficiency.
+     * This implementbtion gets bn iterbtor over the specified collection
+     * bnd iterbtes over it, inserting the elements obtbined from the
+     * iterbtor into this list bt the bppropribte position, one bt b time,
+     * using {@code bdd(int, E)}.
+     * Mbny implementbtions will override this method for efficiency.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless
-     * {@link #add(int, Object) add(int, E)} is overridden.
+     * <p>Note thbt this implementbtion throws bn
+     * {@code UnsupportedOperbtionException} unless
+     * {@link #bdd(int, Object) bdd(int, E)} is overridden.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
-        boolean modified = false;
+    public boolebn bddAll(int index, Collection<? extends E> c) {
+        rbngeCheckForAdd(index);
+        boolebn modified = fblse;
         for (E e : c) {
-            add(index++, e);
+            bdd(index++, e);
             modified = true;
         }
         return modified;
     }
 
 
-    // Iterators
+    // Iterbtors
 
     /**
-     * Returns an iterator over the elements in this list in proper sequence.
+     * Returns bn iterbtor over the elements in this list in proper sequence.
      *
      * @implSpec
-     * This implementation returns a straightforward implementation of the
-     * iterator interface, relying on the backing list's {@code size()},
-     * {@code get(int)}, and {@code remove(int)} methods.
+     * This implementbtion returns b strbightforwbrd implementbtion of the
+     * iterbtor interfbce, relying on the bbcking list's {@code size()},
+     * {@code get(int)}, bnd {@code remove(int)} methods.
      *
-     * <p>Note that the iterator returned by this method will throw an
-     * {@link UnsupportedOperationException} in response to its
+     * <p>Note thbt the iterbtor returned by this method will throw bn
+     * {@link UnsupportedOperbtionException} in response to its
      * {@code remove} method unless the list's {@code remove(int)} method is
      * overridden.
      *
-     * <p>This implementation can be made to throw runtime exceptions in the
-     * face of concurrent modification, as described in the specification
+     * <p>This implementbtion cbn be mbde to throw runtime exceptions in the
+     * fbce of concurrent modificbtion, bs described in the specificbtion
      * for the (protected) {@link #modCount} field.
      *
-     * @return an iterator over the elements in this list in proper sequence
+     * @return bn iterbtor over the elements in this list in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
@@ -301,121 +301,121 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns {@code listIterator(0)}.
+     * This implementbtion returns {@code listIterbtor(0)}.
      *
-     * @see #listIterator(int)
+     * @see #listIterbtor(int)
      */
-    public ListIterator<E> listIterator() {
-        return listIterator(0);
+    public ListIterbtor<E> listIterbtor() {
+        return listIterbtor(0);
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns a straightforward implementation of the
-     * {@code ListIterator} interface that extends the implementation of the
-     * {@code Iterator} interface returned by the {@code iterator()} method.
-     * The {@code ListIterator} implementation relies on the backing list's
-     * {@code get(int)}, {@code set(int, E)}, {@code add(int, E)}
-     * and {@code remove(int)} methods.
+     * This implementbtion returns b strbightforwbrd implementbtion of the
+     * {@code ListIterbtor} interfbce thbt extends the implementbtion of the
+     * {@code Iterbtor} interfbce returned by the {@code iterbtor()} method.
+     * The {@code ListIterbtor} implementbtion relies on the bbcking list's
+     * {@code get(int)}, {@code set(int, E)}, {@code bdd(int, E)}
+     * bnd {@code remove(int)} methods.
      *
-     * <p>Note that the list iterator returned by this implementation will
-     * throw an {@link UnsupportedOperationException} in response to its
-     * {@code remove}, {@code set} and {@code add} methods unless the
-     * list's {@code remove(int)}, {@code set(int, E)}, and
-     * {@code add(int, E)} methods are overridden.
+     * <p>Note thbt the list iterbtor returned by this implementbtion will
+     * throw bn {@link UnsupportedOperbtionException} in response to its
+     * {@code remove}, {@code set} bnd {@code bdd} methods unless the
+     * list's {@code remove(int)}, {@code set(int, E)}, bnd
+     * {@code bdd(int, E)} methods bre overridden.
      *
-     * <p>This implementation can be made to throw runtime exceptions in the
-     * face of concurrent modification, as described in the specification for
+     * <p>This implementbtion cbn be mbde to throw runtime exceptions in the
+     * fbce of concurrent modificbtion, bs described in the specificbtion for
      * the (protected) {@link #modCount} field.
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public ListIterator<E> listIterator(final int index) {
-        rangeCheckForAdd(index);
+    public ListIterbtor<E> listIterbtor(finbl int index) {
+        rbngeCheckForAdd(index);
 
         return new ListItr(index);
     }
 
-    private class Itr implements Iterator<E> {
+    privbte clbss Itr implements Iterbtor<E> {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Index of element to be returned by subsequent cbll to next.
          */
         int cursor = 0;
 
         /**
-         * Index of element returned by most recent call to next or
-         * previous.  Reset to -1 if this element is deleted by a call
+         * Index of element returned by most recent cbll to next or
+         * previous.  Reset to -1 if this element is deleted by b cbll
          * to remove.
          */
-        int lastRet = -1;
+        int lbstRet = -1;
 
         /**
-         * The modCount value that the iterator believes that the backing
-         * List should have.  If this expectation is violated, the iterator
-         * has detected concurrent modification.
+         * The modCount vblue thbt the iterbtor believes thbt the bbcking
+         * List should hbve.  If this expectbtion is violbted, the iterbtor
+         * hbs detected concurrent modificbtion.
          */
         int expectedModCount = modCount;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return cursor != size();
         }
 
         public E next() {
-            checkForComodification();
+            checkForComodificbtion();
             try {
                 int i = cursor;
                 E next = get(i);
-                lastRet = i;
+                lbstRet = i;
                 cursor = i + 1;
                 return next;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
+            } cbtch (IndexOutOfBoundsException e) {
+                checkForComodificbtion();
                 throw new NoSuchElementException();
             }
         }
 
         public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+            if (lbstRet < 0)
+                throw new IllegblStbteException();
+            checkForComodificbtion();
 
             try {
-                AbstractList.this.remove(lastRet);
-                if (lastRet < cursor)
+                AbstrbctList.this.remove(lbstRet);
+                if (lbstRet < cursor)
                     cursor--;
-                lastRet = -1;
+                lbstRet = -1;
                 expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException e) {
-                throw new ConcurrentModificationException();
+            } cbtch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificbtionException();
             }
         }
 
-        final void checkForComodification() {
+        finbl void checkForComodificbtion() {
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
-    private class ListItr extends Itr implements ListIterator<E> {
+    privbte clbss ListItr extends Itr implements ListIterbtor<E> {
         ListItr(int index) {
             cursor = index;
         }
 
-        public boolean hasPrevious() {
+        public boolebn hbsPrevious() {
             return cursor != 0;
         }
 
         public E previous() {
-            checkForComodification();
+            checkForComodificbtion();
             try {
                 int i = cursor - 1;
                 E previous = get(i);
-                lastRet = cursor = i;
+                lbstRet = cursor = i;
                 return previous;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
+            } cbtch (IndexOutOfBoundsException e) {
+                checkForComodificbtion();
                 throw new NoSuchElementException();
             }
         }
@@ -429,29 +429,29 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         }
 
         public void set(E e) {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+            if (lbstRet < 0)
+                throw new IllegblStbteException();
+            checkForComodificbtion();
 
             try {
-                AbstractList.this.set(lastRet, e);
+                AbstrbctList.this.set(lbstRet, e);
                 expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+            } cbtch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificbtionException();
             }
         }
 
-        public void add(E e) {
-            checkForComodification();
+        public void bdd(E e) {
+            checkForComodificbtion();
 
             try {
                 int i = cursor;
-                AbstractList.this.add(i, e);
-                lastRet = -1;
+                AbstrbctList.this.bdd(i, e);
+                lbstRet = -1;
                 cursor = i + 1;
                 expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+            } cbtch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificbtionException();
             }
         }
     }
@@ -460,127 +460,127 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns a list that subclasses
-     * {@code AbstractList}.  The subclass stores, in private fields, the
-     * offset of the subList within the backing list, the size of the subList
-     * (which can change over its lifetime), and the expected
-     * {@code modCount} value of the backing list.  There are two variants
-     * of the subclass, one of which implements {@code RandomAccess}.
-     * If this list implements {@code RandomAccess} the returned list will
-     * be an instance of the subclass that implements {@code RandomAccess}.
+     * This implementbtion returns b list thbt subclbsses
+     * {@code AbstrbctList}.  The subclbss stores, in privbte fields, the
+     * offset of the subList within the bbcking list, the size of the subList
+     * (which cbn chbnge over its lifetime), bnd the expected
+     * {@code modCount} vblue of the bbcking list.  There bre two vbribnts
+     * of the subclbss, one of which implements {@code RbndomAccess}.
+     * If this list implements {@code RbndomAccess} the returned list will
+     * be bn instbnce of the subclbss thbt implements {@code RbndomAccess}.
      *
-     * <p>The subclass's {@code set(int, E)}, {@code get(int)},
-     * {@code add(int, E)}, {@code remove(int)}, {@code addAll(int,
-     * Collection)} and {@code removeRange(int, int)} methods all
-     * delegate to the corresponding methods on the backing abstract list,
-     * after bounds-checking the index and adjusting for the offset.  The
-     * {@code addAll(Collection c)} method merely returns {@code addAll(size,
+     * <p>The subclbss's {@code set(int, E)}, {@code get(int)},
+     * {@code bdd(int, E)}, {@code remove(int)}, {@code bddAll(int,
+     * Collection)} bnd {@code removeRbnge(int, int)} methods bll
+     * delegbte to the corresponding methods on the bbcking bbstrbct list,
+     * bfter bounds-checking the index bnd bdjusting for the offset.  The
+     * {@code bddAll(Collection c)} method merely returns {@code bddAll(size,
      * c)}.
      *
-     * <p>The {@code listIterator(int)} method returns a "wrapper object"
-     * over a list iterator on the backing list, which is created with the
-     * corresponding method on the backing list.  The {@code iterator} method
-     * merely returns {@code listIterator()}, and the {@code size} method
-     * merely returns the subclass's {@code size} field.
+     * <p>The {@code listIterbtor(int)} method returns b "wrbpper object"
+     * over b list iterbtor on the bbcking list, which is crebted with the
+     * corresponding method on the bbcking list.  The {@code iterbtor} method
+     * merely returns {@code listIterbtor()}, bnd the {@code size} method
+     * merely returns the subclbss's {@code size} field.
      *
-     * <p>All methods first check to see if the actual {@code modCount} of
-     * the backing list is equal to its expected value, and throw a
-     * {@code ConcurrentModificationException} if it is not.
+     * <p>All methods first check to see if the bctubl {@code modCount} of
+     * the bbcking list is equbl to its expected vblue, bnd throw b
+     * {@code ConcurrentModificbtionException} if it is not.
      *
-     * @throws IndexOutOfBoundsException if an endpoint index value is out of range
+     * @throws IndexOutOfBoundsException if bn endpoint index vblue is out of rbnge
      *         {@code (fromIndex < 0 || toIndex > size)}
-     * @throws IllegalArgumentException if the endpoint indices are out of order
+     * @throws IllegblArgumentException if the endpoint indices bre out of order
      *         {@code (fromIndex > toIndex)}
      */
     public List<E> subList(int fromIndex, int toIndex) {
-        return (this instanceof RandomAccess ?
-                new RandomAccessSubList<>(this, fromIndex, toIndex) :
+        return (this instbnceof RbndomAccess ?
+                new RbndomAccessSubList<>(this, fromIndex, toIndex) :
                 new SubList<>(this, fromIndex, toIndex));
     }
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified object with this list for equality.  Returns
-     * {@code true} if and only if the specified object is also a list, both
-     * lists have the same size, and all corresponding pairs of elements in
-     * the two lists are <i>equal</i>.  (Two elements {@code e1} and
-     * {@code e2} are <i>equal</i> if {@code (e1==null ? e2==null :
-     * e1.equals(e2))}.)  In other words, two lists are defined to be
-     * equal if they contain the same elements in the same order.
+     * Compbres the specified object with this list for equblity.  Returns
+     * {@code true} if bnd only if the specified object is blso b list, both
+     * lists hbve the sbme size, bnd bll corresponding pbirs of elements in
+     * the two lists bre <i>equbl</i>.  (Two elements {@code e1} bnd
+     * {@code e2} bre <i>equbl</i> if {@code (e1==null ? e2==null :
+     * e1.equbls(e2))}.)  In other words, two lists bre defined to be
+     * equbl if they contbin the sbme elements in the sbme order.
      *
      * @implSpec
-     * This implementation first checks if the specified object is this
+     * This implementbtion first checks if the specified object is this
      * list. If so, it returns {@code true}; if not, it checks if the
-     * specified object is a list. If not, it returns {@code false}; if so,
-     * it iterates over both lists, comparing corresponding pairs of elements.
-     * If any comparison returns {@code false}, this method returns
-     * {@code false}.  If either iterator runs out of elements before the
-     * other it returns {@code false} (as the lists are of unequal length);
-     * otherwise it returns {@code true} when the iterations complete.
+     * specified object is b list. If not, it returns {@code fblse}; if so,
+     * it iterbtes over both lists, compbring corresponding pbirs of elements.
+     * If bny compbrison returns {@code fblse}, this method returns
+     * {@code fblse}.  If either iterbtor runs out of elements before the
+     * other it returns {@code fblse} (bs the lists bre of unequbl length);
+     * otherwise it returns {@code true} when the iterbtions complete.
      *
-     * @param o the object to be compared for equality with this list
-     * @return {@code true} if the specified object is equal to this list
+     * @pbrbm o the object to be compbred for equblity with this list
+     * @return {@code true} if the specified object is equbl to this list
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof List))
-            return false;
+        if (!(o instbnceof List))
+            return fblse;
 
-        ListIterator<E> e1 = listIterator();
-        ListIterator<?> e2 = ((List<?>) o).listIterator();
-        while (e1.hasNext() && e2.hasNext()) {
+        ListIterbtor<E> e1 = listIterbtor();
+        ListIterbtor<?> e2 = ((List<?>) o).listIterbtor();
+        while (e1.hbsNext() && e2.hbsNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
-            if (!(o1==null ? o2==null : o1.equals(o2)))
-                return false;
+            if (!(o1==null ? o2==null : o1.equbls(o2)))
+                return fblse;
         }
-        return !(e1.hasNext() || e2.hasNext());
+        return !(e1.hbsNext() || e2.hbsNext());
     }
 
     /**
-     * Returns the hash code value for this list.
+     * Returns the hbsh code vblue for this list.
      *
      * @implSpec
-     * This implementation uses exactly the code that is used to define the
-     * list hash function in the documentation for the {@link List#hashCode}
+     * This implementbtion uses exbctly the code thbt is used to define the
+     * list hbsh function in the documentbtion for the {@link List#hbshCode}
      * method.
      *
-     * @return the hash code value for this list
+     * @return the hbsh code vblue for this list
      */
-    public int hashCode() {
-        int hashCode = 1;
+    public int hbshCode() {
+        int hbshCode = 1;
         for (E e : this)
-            hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
-        return hashCode;
+            hbshCode = 31*hbshCode + (e==null ? 0 : e.hbshCode());
+        return hbshCode;
     }
 
     /**
-     * Removes from this list all of the elements whose index is between
-     * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
-     * Shifts any succeeding elements to the left (reduces their index).
-     * This call shortens the list by {@code (toIndex - fromIndex)} elements.
-     * (If {@code toIndex==fromIndex}, this operation has no effect.)
+     * Removes from this list bll of the elements whose index is between
+     * {@code fromIndex}, inclusive, bnd {@code toIndex}, exclusive.
+     * Shifts bny succeeding elements to the left (reduces their index).
+     * This cbll shortens the list by {@code (toIndex - fromIndex)} elements.
+     * (If {@code toIndex==fromIndex}, this operbtion hbs no effect.)
      *
-     * <p>This method is called by the {@code clear} operation on this list
-     * and its subLists.  Overriding this method to take advantage of
-     * the internals of the list implementation can <i>substantially</i>
-     * improve the performance of the {@code clear} operation on this list
-     * and its subLists.
+     * <p>This method is cblled by the {@code clebr} operbtion on this list
+     * bnd its subLists.  Overriding this method to tbke bdvbntbge of
+     * the internbls of the list implementbtion cbn <i>substbntiblly</i>
+     * improve the performbnce of the {@code clebr} operbtion on this list
+     * bnd its subLists.
      *
      * @implSpec
-     * This implementation gets a list iterator positioned before
-     * {@code fromIndex}, and repeatedly calls {@code ListIterator.next}
-     * followed by {@code ListIterator.remove} until the entire range has
-     * been removed.  <b>Note: if {@code ListIterator.remove} requires linear
-     * time, this implementation requires quadratic time.</b>
+     * This implementbtion gets b list iterbtor positioned before
+     * {@code fromIndex}, bnd repebtedly cblls {@code ListIterbtor.next}
+     * followed by {@code ListIterbtor.remove} until the entire rbnge hbs
+     * been removed.  <b>Note: if {@code ListIterbtor.remove} requires linebr
+     * time, this implementbtion requires qubdrbtic time.</b>
      *
-     * @param fromIndex index of first element to be removed
-     * @param toIndex index after last element to be removed
+     * @pbrbm fromIndex index of first element to be removed
+     * @pbrbm toIndex index bfter lbst element to be removed
      */
-    protected void removeRange(int fromIndex, int toIndex) {
-        ListIterator<E> it = listIterator(fromIndex);
+    protected void removeRbnge(int fromIndex, int toIndex) {
+        ListIterbtor<E> it = listIterbtor(fromIndex);
         for (int i=0, n=toIndex-fromIndex; i<n; i++) {
             it.next();
             it.remove();
@@ -588,55 +588,55 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
-     * The number of times this list has been <i>structurally modified</i>.
-     * Structural modifications are those that change the size of the
-     * list, or otherwise perturb it in such a fashion that iterations in
-     * progress may yield incorrect results.
+     * The number of times this list hbs been <i>structurblly modified</i>.
+     * Structurbl modificbtions bre those thbt chbnge the size of the
+     * list, or otherwise perturb it in such b fbshion thbt iterbtions in
+     * progress mby yield incorrect results.
      *
-     * <p>This field is used by the iterator and list iterator implementation
-     * returned by the {@code iterator} and {@code listIterator} methods.
-     * If the value of this field changes unexpectedly, the iterator (or list
-     * iterator) will throw a {@code ConcurrentModificationException} in
+     * <p>This field is used by the iterbtor bnd list iterbtor implementbtion
+     * returned by the {@code iterbtor} bnd {@code listIterbtor} methods.
+     * If the vblue of this field chbnges unexpectedly, the iterbtor (or list
+     * iterbtor) will throw b {@code ConcurrentModificbtionException} in
      * response to the {@code next}, {@code remove}, {@code previous},
-     * {@code set} or {@code add} operations.  This provides
-     * <i>fail-fast</i> behavior, rather than non-deterministic behavior in
-     * the face of concurrent modification during iteration.
+     * {@code set} or {@code bdd} operbtions.  This provides
+     * <i>fbil-fbst</i> behbvior, rbther thbn non-deterministic behbvior in
+     * the fbce of concurrent modificbtion during iterbtion.
      *
-     * <p><b>Use of this field by subclasses is optional.</b> If a subclass
-     * wishes to provide fail-fast iterators (and list iterators), then it
-     * merely has to increment this field in its {@code add(int, E)} and
-     * {@code remove(int)} methods (and any other methods that it overrides
-     * that result in structural modifications to the list).  A single call to
-     * {@code add(int, E)} or {@code remove(int)} must add no more than
-     * one to this field, or the iterators (and list iterators) will throw
-     * bogus {@code ConcurrentModificationExceptions}.  If an implementation
-     * does not wish to provide fail-fast iterators, this field may be
+     * <p><b>Use of this field by subclbsses is optionbl.</b> If b subclbss
+     * wishes to provide fbil-fbst iterbtors (bnd list iterbtors), then it
+     * merely hbs to increment this field in its {@code bdd(int, E)} bnd
+     * {@code remove(int)} methods (bnd bny other methods thbt it overrides
+     * thbt result in structurbl modificbtions to the list).  A single cbll to
+     * {@code bdd(int, E)} or {@code remove(int)} must bdd no more thbn
+     * one to this field, or the iterbtors (bnd list iterbtors) will throw
+     * bogus {@code ConcurrentModificbtionExceptions}.  If bn implementbtion
+     * does not wish to provide fbil-fbst iterbtors, this field mby be
      * ignored.
      */
-    protected transient int modCount = 0;
+    protected trbnsient int modCount = 0;
 
-    private void rangeCheckForAdd(int index) {
+    privbte void rbngeCheckForAdd(int index) {
         if (index < 0 || index > size())
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
-    private String outOfBoundsMsg(int index) {
+    privbte String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+size();
     }
 }
 
-class SubList<E> extends AbstractList<E> {
-    private final AbstractList<E> l;
-    private final int offset;
-    private int size;
+clbss SubList<E> extends AbstrbctList<E> {
+    privbte finbl AbstrbctList<E> l;
+    privbte finbl int offset;
+    privbte int size;
 
-    SubList(AbstractList<E> list, int fromIndex, int toIndex) {
+    SubList(AbstrbctList<E> list, int fromIndex, int toIndex) {
         if (fromIndex < 0)
             throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
         if (toIndex > list.size())
             throw new IndexOutOfBoundsException("toIndex = " + toIndex);
         if (fromIndex > toIndex)
-            throw new IllegalArgumentException("fromIndex(" + fromIndex +
+            throw new IllegblArgumentException("fromIndex(" + fromIndex +
                                                ") > toIndex(" + toIndex + ")");
         l = list;
         offset = fromIndex;
@@ -645,91 +645,91 @@ class SubList<E> extends AbstractList<E> {
     }
 
     public E set(int index, E element) {
-        rangeCheck(index);
-        checkForComodification();
+        rbngeCheck(index);
+        checkForComodificbtion();
         return l.set(index+offset, element);
     }
 
     public E get(int index) {
-        rangeCheck(index);
-        checkForComodification();
+        rbngeCheck(index);
+        checkForComodificbtion();
         return l.get(index+offset);
     }
 
     public int size() {
-        checkForComodification();
+        checkForComodificbtion();
         return size;
     }
 
-    public void add(int index, E element) {
-        rangeCheckForAdd(index);
-        checkForComodification();
-        l.add(index+offset, element);
+    public void bdd(int index, E element) {
+        rbngeCheckForAdd(index);
+        checkForComodificbtion();
+        l.bdd(index+offset, element);
         this.modCount = l.modCount;
         size++;
     }
 
     public E remove(int index) {
-        rangeCheck(index);
-        checkForComodification();
+        rbngeCheck(index);
+        checkForComodificbtion();
         E result = l.remove(index+offset);
         this.modCount = l.modCount;
         size--;
         return result;
     }
 
-    protected void removeRange(int fromIndex, int toIndex) {
-        checkForComodification();
-        l.removeRange(fromIndex+offset, toIndex+offset);
+    protected void removeRbnge(int fromIndex, int toIndex) {
+        checkForComodificbtion();
+        l.removeRbnge(fromIndex+offset, toIndex+offset);
         this.modCount = l.modCount;
         size -= (toIndex-fromIndex);
     }
 
-    public boolean addAll(Collection<? extends E> c) {
-        return addAll(size, c);
+    public boolebn bddAll(Collection<? extends E> c) {
+        return bddAll(size, c);
     }
 
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
+    public boolebn bddAll(int index, Collection<? extends E> c) {
+        rbngeCheckForAdd(index);
         int cSize = c.size();
         if (cSize==0)
-            return false;
+            return fblse;
 
-        checkForComodification();
-        l.addAll(offset+index, c);
+        checkForComodificbtion();
+        l.bddAll(offset+index, c);
         this.modCount = l.modCount;
         size += cSize;
         return true;
     }
 
-    public Iterator<E> iterator() {
-        return listIterator();
+    public Iterbtor<E> iterbtor() {
+        return listIterbtor();
     }
 
-    public ListIterator<E> listIterator(final int index) {
-        checkForComodification();
-        rangeCheckForAdd(index);
+    public ListIterbtor<E> listIterbtor(finbl int index) {
+        checkForComodificbtion();
+        rbngeCheckForAdd(index);
 
-        return new ListIterator<E>() {
-            private final ListIterator<E> i = l.listIterator(index+offset);
+        return new ListIterbtor<E>() {
+            privbte finbl ListIterbtor<E> i = l.listIterbtor(index+offset);
 
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 return nextIndex() < size;
             }
 
             public E next() {
-                if (hasNext())
+                if (hbsNext())
                     return i.next();
                 else
                     throw new NoSuchElementException();
             }
 
-            public boolean hasPrevious() {
+            public boolebn hbsPrevious() {
                 return previousIndex() >= 0;
             }
 
             public E previous() {
-                if (hasPrevious())
+                if (hbsPrevious())
                     return i.previous();
                 else
                     throw new NoSuchElementException();
@@ -753,8 +753,8 @@ class SubList<E> extends AbstractList<E> {
                 i.set(e);
             }
 
-            public void add(E e) {
-                i.add(e);
+            public void bdd(E e) {
+                i.bdd(e);
                 SubList.this.modCount = l.modCount;
                 size++;
             }
@@ -765,32 +765,32 @@ class SubList<E> extends AbstractList<E> {
         return new SubList<>(this, fromIndex, toIndex);
     }
 
-    private void rangeCheck(int index) {
+    privbte void rbngeCheck(int index) {
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
-    private void rangeCheckForAdd(int index) {
+    privbte void rbngeCheckForAdd(int index) {
         if (index < 0 || index > size)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
-    private String outOfBoundsMsg(int index) {
+    privbte String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+size;
     }
 
-    private void checkForComodification() {
+    privbte void checkForComodificbtion() {
         if (this.modCount != l.modCount)
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
     }
 }
 
-class RandomAccessSubList<E> extends SubList<E> implements RandomAccess {
-    RandomAccessSubList(AbstractList<E> list, int fromIndex, int toIndex) {
+clbss RbndomAccessSubList<E> extends SubList<E> implements RbndomAccess {
+    RbndomAccessSubList(AbstrbctList<E> list, int fromIndex, int toIndex) {
         super(list, fromIndex, toIndex);
     }
 
     public List<E> subList(int fromIndex, int toIndex) {
-        return new RandomAccessSubList<>(this, fromIndex, toIndex);
+        return new RbndomAccessSubList<>(this, fromIndex, toIndex);
     }
 }

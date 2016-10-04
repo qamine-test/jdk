@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.font.TextAttribute;
-import java.util.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.undo.*;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.util.*;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.undo.*;
 import sun.swing.SwingUtilities2;
-import static sun.swing.SwingUtilities2.IMPLIED_CR;
+import stbtic sun.swing.SwingUtilities2.IMPLIED_CR;
 
 /**
- * A document that models HTML.  The purpose of this model is to
- * support both browsing and editing.  As a result, the structure
- * described by an HTML document is not exactly replicated by default.
- * The element structure that is modeled by default, is built by the
- * class <code>HTMLDocument.HTMLReader</code>, which implements the
- * <code>HTMLEditorKit.ParserCallback</code> protocol that the parser
- * expects.  To change the structure one can subclass
- * <code>HTMLReader</code>, and reimplement the method {@link
- * #getReader(int)} to return the new reader implementation.  The
- * documentation for <code>HTMLReader</code> should be consulted for
- * the details of the default structure created.  The intent is that
- * the document be non-lossy (although reproducing the HTML format may
- * result in a different format).
+ * A document thbt models HTML.  The purpose of this model is to
+ * support both browsing bnd editing.  As b result, the structure
+ * described by bn HTML document is not exbctly replicbted by defbult.
+ * The element structure thbt is modeled by defbult, is built by the
+ * clbss <code>HTMLDocument.HTMLRebder</code>, which implements the
+ * <code>HTMLEditorKit.PbrserCbllbbck</code> protocol thbt the pbrser
+ * expects.  To chbnge the structure one cbn subclbss
+ * <code>HTMLRebder</code>, bnd reimplement the method {@link
+ * #getRebder(int)} to return the new rebder implementbtion.  The
+ * documentbtion for <code>HTMLRebder</code> should be consulted for
+ * the detbils of the defbult structure crebted.  The intent is thbt
+ * the document be non-lossy (blthough reproducing the HTML formbt mby
+ * result in b different formbt).
  *
- * <p>The document models only HTML, and makes no attempt to store
- * view attributes in it.  The elements are identified by the
- * <code>StyleContext.NameAttribute</code> attribute, which should
- * always have a value of type <code>HTML.Tag</code> that identifies
- * the kind of element.  Some of the elements (such as comments) are
- * synthesized.  The <code>HTMLFactory</code> uses this attribute to
- * determine what kind of view to build.</p>
+ * <p>The document models only HTML, bnd mbkes no bttempt to store
+ * view bttributes in it.  The elements bre identified by the
+ * <code>StyleContext.NbmeAttribute</code> bttribute, which should
+ * blwbys hbve b vblue of type <code>HTML.Tbg</code> thbt identifies
+ * the kind of element.  Some of the elements (such bs comments) bre
+ * synthesized.  The <code>HTMLFbctory</code> uses this bttribute to
+ * determine whbt kind of view to build.</p>
  *
- * <p>This document supports incremental loading.  The
- * <code>TokenThreshold</code> property controls how much of the parse
- * is buffered before trying to update the element structure of the
+ * <p>This document supports incrementbl lobding.  The
+ * <code>TokenThreshold</code> property controls how much of the pbrse
+ * is buffered before trying to updbte the element structure of the
  * document.  This property is set by the <code>EditorKit</code> so
- * that subclasses can disable it.</p>
+ * thbt subclbsses cbn disbble it.</p>
  *
- * <p>The <code>Base</code> property determines the URL against which
- * relative URLs are resolved.  By default, this will be the
- * <code>Document.StreamDescriptionProperty</code> if the value of the
- * property is a URL.  If a &lt;BASE&gt; tag is encountered, the base
- * will become the URL specified by that tag.  Because the base URL is
- * a property, it can of course be set directly.</p>
+ * <p>The <code>Bbse</code> property determines the URL bgbinst which
+ * relbtive URLs bre resolved.  By defbult, this will be the
+ * <code>Document.StrebmDescriptionProperty</code> if the vblue of the
+ * property is b URL.  If b &lt;BASE&gt; tbg is encountered, the bbse
+ * will become the URL specified by thbt tbg.  Becbuse the bbse URL is
+ * b property, it cbn of course be set directly.</p>
  *
- * <p>The default content storage mechanism for this document is a gap
- * buffer (<code>GapContent</code>).  Alternatives can be supplied by
- * using the constructor that takes a <code>Content</code>
- * implementation.</p>
+ * <p>The defbult content storbge mechbnism for this document is b gbp
+ * buffer (<code>GbpContent</code>).  Alternbtives cbn be supplied by
+ * using the constructor thbt tbkes b <code>Content</code>
+ * implementbtion.</p>
  *
  * <h2>Modifying HTMLDocument</h2>
  *
- * <p>In addition to the methods provided by Document and
- * StyledDocument for mutating an HTMLDocument, HTMLDocument provides
- * a number of convenience methods.  The following methods can be used
- * to insert HTML content into an existing document.</p>
+ * <p>In bddition to the methods provided by Document bnd
+ * StyledDocument for mutbting bn HTMLDocument, HTMLDocument provides
+ * b number of convenience methods.  The following methods cbn be used
+ * to insert HTML content into bn existing document.</p>
  *
  * <ul>
  *   <li>{@link #setInnerHTML(Element, String)}</li>
  *   <li>{@link #setOuterHTML(Element, String)}</li>
- *   <li>{@link #insertBeforeStart(Element, String)}</li>
- *   <li>{@link #insertAfterStart(Element, String)}</li>
+ *   <li>{@link #insertBeforeStbrt(Element, String)}</li>
+ *   <li>{@link #insertAfterStbrt(Element, String)}</li>
  *   <li>{@link #insertBeforeEnd(Element, String)}</li>
  *   <li>{@link #insertAfterEnd(Element, String)}</li>
  * </ul>
  *
- * <p>The following examples illustrate using these methods.  Each
- * example assumes the HTML document is initialized in the following
- * way:</p>
+ * <p>The following exbmples illustrbte using these methods.  Ebch
+ * exbmple bssumes the HTML document is initiblized in the following
+ * wby:</p>
  *
  * <pre>
- * JEditorPane p = new JEditorPane();
+ * JEditorPbne p = new JEditorPbne();
  * p.setContentType("text/html");
  * p.setText("..."); // Document text is provided below.
  * HTMLDocument d = (HTMLDocument) p.getDocument();
@@ -108,424 +108,424 @@ import static sun.swing.SwingUtilities2.IMPLIED_CR;
  *
  * <pre>
  * &lt;html&gt;
- *   &lt;head&gt;
- *     &lt;title&gt;An example HTMLDocument&lt;/title&gt;
+ *   &lt;hebd&gt;
+ *     &lt;title&gt;An exbmple HTMLDocument&lt;/title&gt;
  *     &lt;style type="text/css"&gt;
- *       div { background-color: silver; }
+ *       div { bbckground-color: silver; }
  *       ul { color: red; }
  *     &lt;/style&gt;
- *   &lt;/head&gt;
+ *   &lt;/hebd&gt;
  *   &lt;body&gt;
  *     &lt;div id="BOX"&gt;
- *       &lt;p&gt;Paragraph 1&lt;/p&gt;
- *       &lt;p&gt;Paragraph 2&lt;/p&gt;
+ *       &lt;p&gt;Pbrbgrbph 1&lt;/p&gt;
+ *       &lt;p&gt;Pbrbgrbph 2&lt;/p&gt;
  *     &lt;/div&gt;
  *   &lt;/body&gt;
  * &lt;/html&gt;
  * </pre>
  *
- * <p>All the methods for modifying an HTML document require an {@link
- * Element}.  Elements can be obtained from an HTML document by using
- * the method {@link #getElement(Element e, Object attribute, Object
- * value)}.  It returns the first descendant element that contains the
- * specified attribute with the given value, in depth-first order.
- * For example, <code>d.getElement(d.getDefaultRootElement(),
- * StyleConstants.NameAttribute, HTML.Tag.P)</code> returns the first
- * paragraph element.</p>
+ * <p>All the methods for modifying bn HTML document require bn {@link
+ * Element}.  Elements cbn be obtbined from bn HTML document by using
+ * the method {@link #getElement(Element e, Object bttribute, Object
+ * vblue)}.  It returns the first descendbnt element thbt contbins the
+ * specified bttribute with the given vblue, in depth-first order.
+ * For exbmple, <code>d.getElement(d.getDefbultRootElement(),
+ * StyleConstbnts.NbmeAttribute, HTML.Tbg.P)</code> returns the first
+ * pbrbgrbph element.</p>
  *
- * <p>A convenient shortcut for locating elements is the method {@link
- * #getElement(String)}; returns an element whose <code>ID</code>
- * attribute matches the specified value.  For example,
+ * <p>A convenient shortcut for locbting elements is the method {@link
+ * #getElement(String)}; returns bn element whose <code>ID</code>
+ * bttribute mbtches the specified vblue.  For exbmple,
  * <code>d.getElement("BOX")</code> returns the <code>DIV</code>
  * element.</p>
  *
- * <p>The {@link #getIterator(HTML.Tag t)} method can also be used for
- * finding all occurrences of the specified HTML tag in the
+ * <p>The {@link #getIterbtor(HTML.Tbg t)} method cbn blso be used for
+ * finding bll occurrences of the specified HTML tbg in the
  * document.</p>
  *
  * <h3>Inserting elements</h3>
  *
- * <p>Elements can be inserted before or after the existing children
- * of any non-leaf element by using the methods
- * <code>insertAfterStart</code> and <code>insertBeforeEnd</code>.
- * For example, if <code>e</code> is the <code>DIV</code> element,
- * <code>d.insertAfterStart(e, "&lt;ul&gt;&lt;li&gt;List
+ * <p>Elements cbn be inserted before or bfter the existing children
+ * of bny non-lebf element by using the methods
+ * <code>insertAfterStbrt</code> bnd <code>insertBeforeEnd</code>.
+ * For exbmple, if <code>e</code> is the <code>DIV</code> element,
+ * <code>d.insertAfterStbrt(e, "&lt;ul&gt;&lt;li&gt;List
  * Item&lt;/li&gt;&lt;/ul&gt;")</code> inserts the list before the first
- * paragraph, and <code>d.insertBeforeEnd(e, "&lt;ul&gt;&lt;li&gt;List
- * Item&lt;/li&gt;&lt;/ul&gt;")</code> inserts the list after the last
- * paragraph.  The <code>DIV</code> block becomes the parent of the
+ * pbrbgrbph, bnd <code>d.insertBeforeEnd(e, "&lt;ul&gt;&lt;li&gt;List
+ * Item&lt;/li&gt;&lt;/ul&gt;")</code> inserts the list bfter the lbst
+ * pbrbgrbph.  The <code>DIV</code> block becomes the pbrent of the
  * newly inserted elements.</p>
  *
- * <p>Sibling elements can be inserted before or after any element by
- * using the methods <code>insertBeforeStart</code> and
- * <code>insertAfterEnd</code>.  For example, if <code>e</code> is the
- * <code>DIV</code> element, <code>d.insertBeforeStart(e,
+ * <p>Sibling elements cbn be inserted before or bfter bny element by
+ * using the methods <code>insertBeforeStbrt</code> bnd
+ * <code>insertAfterEnd</code>.  For exbmple, if <code>e</code> is the
+ * <code>DIV</code> element, <code>d.insertBeforeStbrt(e,
  * "&lt;ul&gt;&lt;li&gt;List Item&lt;/li&gt;&lt;/ul&gt;")</code> inserts the list
- * before the <code>DIV</code> element, and <code>d.insertAfterEnd(e,
+ * before the <code>DIV</code> element, bnd <code>d.insertAfterEnd(e,
  * "&lt;ul&gt;&lt;li&gt;List Item&lt;/li&gt;&lt;/ul&gt;")</code> inserts the list
- * after the <code>DIV</code> element.  The newly inserted elements
+ * bfter the <code>DIV</code> element.  The newly inserted elements
  * become siblings of the <code>DIV</code> element.</p>
  *
- * <h3>Replacing elements</h3>
+ * <h3>Replbcing elements</h3>
  *
- * <p>Elements and all their descendants can be replaced by using the
- * methods <code>setInnerHTML</code> and <code>setOuterHTML</code>.
- * For example, if <code>e</code> is the <code>DIV</code> element,
+ * <p>Elements bnd bll their descendbnts cbn be replbced by using the
+ * methods <code>setInnerHTML</code> bnd <code>setOuterHTML</code>.
+ * For exbmple, if <code>e</code> is the <code>DIV</code> element,
  * <code>d.setInnerHTML(e, "&lt;ul&gt;&lt;li&gt;List
- * Item&lt;/li&gt;&lt;/ul&gt;")</code> replaces all children paragraphs with
- * the list, and <code>d.setOuterHTML(e, "&lt;ul&gt;&lt;li&gt;List
- * Item&lt;/li&gt;&lt;/ul&gt;")</code> replaces the <code>DIV</code> element
- * itself.  In latter case the parent of the list is the
+ * Item&lt;/li&gt;&lt;/ul&gt;")</code> replbces bll children pbrbgrbphs with
+ * the list, bnd <code>d.setOuterHTML(e, "&lt;ul&gt;&lt;li&gt;List
+ * Item&lt;/li&gt;&lt;/ul&gt;")</code> replbces the <code>DIV</code> element
+ * itself.  In lbtter cbse the pbrent of the list is the
  * <code>BODY</code> element.
  *
- * <h3>Summary</h3>
+ * <h3>Summbry</h3>
  *
- * <p>The following table shows the example document and the results
- * of various methods described above.</p>
+ * <p>The following tbble shows the exbmple document bnd the results
+ * of vbrious methods described bbove.</p>
  *
- * <table border=1 cellspacing=0 summary="HTML Content of example above">
+ * <tbble border=1 cellspbcing=0 summbry="HTML Content of exbmple bbove">
  *   <tr>
- *     <th>Example</th>
- *     <th><code>insertAfterStart</code></th>
+ *     <th>Exbmple</th>
+ *     <th><code>insertAfterStbrt</code></th>
  *     <th><code>insertBeforeEnd</code></th>
- *     <th><code>insertBeforeStart</code></th>
+ *     <th><code>insertBeforeStbrt</code></th>
  *     <th><code>insertAfterEnd</code></th>
  *     <th><code>setInnerHTML</code></th>
  *     <th><code>setOuterHTML</code></th>
  *   </tr>
- *   <tr valign="top">
- *     <td style="white-space:nowrap">
- *       <div style="background-color: silver;">
- *         <p>Paragraph 1</p>
- *         <p>Paragraph 2</p>
+ *   <tr vblign="top">
+ *     <td style="white-spbce:nowrbp">
+ *       <div style="bbckground-color: silver;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
  *       </div>
  *     </td>
- * <!--insertAfterStart-->
- *     <td style="white-space:nowrap">
- *       <div style="background-color: silver;">
+ * <!--insertAfterStbrt-->
+ *     <td style="white-spbce:nowrbp">
+ *       <div style="bbckground-color: silver;">
  *         <ul style="color: red;">
  *           <li>List Item</li>
  *         </ul>
- *         <p>Paragraph 1</p>
- *         <p>Paragraph 2</p>
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
  *       </div>
  *     </td>
  * <!--insertBeforeEnd-->
- *     <td style="white-space:nowrap">
- *       <div style="background-color: silver;">
- *         <p>Paragraph 1</p>
- *         <p>Paragraph 2</p>
+ *     <td style="white-spbce:nowrbp">
+ *       <div style="bbckground-color: silver;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
  *         <ul style="color: red;">
  *           <li>List Item</li>
  *         </ul>
  *       </div>
  *     </td>
- * <!--insertBeforeStart-->
- *     <td style="white-space:nowrap">
+ * <!--insertBeforeStbrt-->
+ *     <td style="white-spbce:nowrbp">
  *       <ul style="color: red;">
  *         <li>List Item</li>
  *       </ul>
- *       <div style="background-color: silver;">
- *         <p>Paragraph 1</p>
- *         <p>Paragraph 2</p>
+ *       <div style="bbckground-color: silver;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
  *       </div>
  *     </td>
  * <!--insertAfterEnd-->
- *     <td style="white-space:nowrap">
- *       <div style="background-color: silver;">
- *         <p>Paragraph 1</p>
- *         <p>Paragraph 2</p>
+ *     <td style="white-spbce:nowrbp">
+ *       <div style="bbckground-color: silver;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
  *       </div>
  *       <ul style="color: red;">
  *         <li>List Item</li>
  *       </ul>
  *     </td>
  * <!--setInnerHTML-->
- *     <td style="white-space:nowrap">
- *       <div style="background-color: silver;">
+ *     <td style="white-spbce:nowrbp">
+ *       <div style="bbckground-color: silver;">
  *         <ul style="color: red;">
  *           <li>List Item</li>
  *         </ul>
  *       </div>
  *     </td>
  * <!--setOuterHTML-->
- *     <td style="white-space:nowrap">
+ *     <td style="white-spbce:nowrbp">
  *       <ul style="color: red;">
  *         <li>List Item</li>
  *       </ul>
  *     </td>
  *   </tr>
- * </table>
+ * </tbble>
  *
- * <p><strong>Warning:</strong> Serialized objects of this class will
- * not be compatible with future Swing releases. The current
- * serialization support is appropriate for short term storage or RMI
- * between applications running the same version of Swing.  As of 1.4,
- * support for long term storage of all JavaBeans&trade;
- * has been added to the
- * <code>java.beans</code> package.  Please see {@link
- * java.beans.XMLEncoder}.</p>
+ * <p><strong>Wbrning:</strong> Seriblized objects of this clbss will
+ * not be compbtible with future Swing relebses. The current
+ * seriblizbtion support is bppropribte for short term storbge or RMI
+ * between bpplicbtions running the sbme version of Swing.  As of 1.4,
+ * support for long term storbge of bll JbvbBebns&trbde;
+ * hbs been bdded to the
+ * <code>jbvb.bebns</code> pbckbge.  Plebse see {@link
+ * jbvb.bebns.XMLEncoder}.</p>
  *
- * @author  Timothy Prinzing
- * @author  Scott Violet
- * @author  Sunita Mani
+ * @buthor  Timothy Prinzing
+ * @buthor  Scott Violet
+ * @buthor  Sunitb Mbni
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class HTMLDocument extends DefaultStyledDocument {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss HTMLDocument extends DefbultStyledDocument {
     /**
-     * Constructs an HTML document using the default buffer size
-     * and a default <code>StyleSheet</code>.  This is a convenience
+     * Constructs bn HTML document using the defbult buffer size
+     * bnd b defbult <code>StyleSheet</code>.  This is b convenience
      * method for the constructor
      * <code>HTMLDocument(Content, StyleSheet)</code>.
      */
     public HTMLDocument() {
-        this(new GapContent(BUFFER_SIZE_DEFAULT), new StyleSheet());
+        this(new GbpContent(BUFFER_SIZE_DEFAULT), new StyleSheet());
     }
 
     /**
-     * Constructs an HTML document with the default content
-     * storage implementation and the specified style/attribute
-     * storage mechanism.  This is a convenience method for the
+     * Constructs bn HTML document with the defbult content
+     * storbge implementbtion bnd the specified style/bttribute
+     * storbge mechbnism.  This is b convenience method for the
      * constructor
      * <code>HTMLDocument(Content, StyleSheet)</code>.
      *
-     * @param styles  the styles
+     * @pbrbm styles  the styles
      */
     public HTMLDocument(StyleSheet styles) {
-        this(new GapContent(BUFFER_SIZE_DEFAULT), styles);
+        this(new GbpContent(BUFFER_SIZE_DEFAULT), styles);
     }
 
     /**
-     * Constructs an HTML document with the given content
-     * storage implementation and the given style/attribute
-     * storage mechanism.
+     * Constructs bn HTML document with the given content
+     * storbge implementbtion bnd the given style/bttribute
+     * storbge mechbnism.
      *
-     * @param c  the container for the content
-     * @param styles the styles
+     * @pbrbm c  the contbiner for the content
+     * @pbrbm styles the styles
      */
     public HTMLDocument(Content c, StyleSheet styles) {
         super(c, styles);
     }
 
     /**
-     * Fetches the reader for the parser to use when loading the document
-     * with HTML.  This is implemented to return an instance of
-     * <code>HTMLDocument.HTMLReader</code>.
-     * Subclasses can reimplement this
-     * method to change how the document gets structured if desired.
-     * (For example, to handle custom tags, or structurally represent character
+     * Fetches the rebder for the pbrser to use when lobding the document
+     * with HTML.  This is implemented to return bn instbnce of
+     * <code>HTMLDocument.HTMLRebder</code>.
+     * Subclbsses cbn reimplement this
+     * method to chbnge how the document gets structured if desired.
+     * (For exbmple, to hbndle custom tbgs, or structurblly represent chbrbcter
      * style elements.)
      *
-     * @param pos the starting position
-     * @return the reader used by the parser to load the document
+     * @pbrbm pos the stbrting position
+     * @return the rebder used by the pbrser to lobd the document
      */
-    public HTMLEditorKit.ParserCallback getReader(int pos) {
-        Object desc = getProperty(Document.StreamDescriptionProperty);
-        if (desc instanceof URL) {
-            setBase((URL)desc);
+    public HTMLEditorKit.PbrserCbllbbck getRebder(int pos) {
+        Object desc = getProperty(Document.StrebmDescriptionProperty);
+        if (desc instbnceof URL) {
+            setBbse((URL)desc);
         }
-        HTMLReader reader = new HTMLReader(pos);
-        return reader;
+        HTMLRebder rebder = new HTMLRebder(pos);
+        return rebder;
     }
 
     /**
-     * Returns the reader for the parser to use to load the document
-     * with HTML.  This is implemented to return an instance of
-     * <code>HTMLDocument.HTMLReader</code>.
-     * Subclasses can reimplement this
-     * method to change how the document gets structured if desired.
-     * (For example, to handle custom tags, or structurally represent character
+     * Returns the rebder for the pbrser to use to lobd the document
+     * with HTML.  This is implemented to return bn instbnce of
+     * <code>HTMLDocument.HTMLRebder</code>.
+     * Subclbsses cbn reimplement this
+     * method to chbnge how the document gets structured if desired.
+     * (For exbmple, to hbndle custom tbgs, or structurblly represent chbrbcter
      * style elements.)
-     * <p>This is a convenience method for
-     * <code>getReader(int, int, int, HTML.Tag, TRUE)</code>.
+     * <p>This is b convenience method for
+     * <code>getRebder(int, int, int, HTML.Tbg, TRUE)</code>.
      *
-     * @param pos the starting position
-     * @param popDepth   the number of <code>ElementSpec.EndTagTypes</code>
-     *          to generate before inserting
-     * @param pushDepth  the number of <code>ElementSpec.StartTagTypes</code>
-     *          with a direction of <code>ElementSpec.JoinNextDirection</code>
-     *          that should be generated before inserting,
-     *          but after the end tags have been generated
-     * @param insertTag  the first tag to start inserting into document
-     * @return the reader used by the parser to load the document
+     * @pbrbm pos the stbrting position
+     * @pbrbm popDepth   the number of <code>ElementSpec.EndTbgTypes</code>
+     *          to generbte before inserting
+     * @pbrbm pushDepth  the number of <code>ElementSpec.StbrtTbgTypes</code>
+     *          with b direction of <code>ElementSpec.JoinNextDirection</code>
+     *          thbt should be generbted before inserting,
+     *          but bfter the end tbgs hbve been generbted
+     * @pbrbm insertTbg  the first tbg to stbrt inserting into document
+     * @return the rebder used by the pbrser to lobd the document
      */
-    public HTMLEditorKit.ParserCallback getReader(int pos, int popDepth,
+    public HTMLEditorKit.PbrserCbllbbck getRebder(int pos, int popDepth,
                                                   int pushDepth,
-                                                  HTML.Tag insertTag) {
-        return getReader(pos, popDepth, pushDepth, insertTag, true);
+                                                  HTML.Tbg insertTbg) {
+        return getRebder(pos, popDepth, pushDepth, insertTbg, true);
     }
 
     /**
-     * Fetches the reader for the parser to use to load the document
-     * with HTML.  This is implemented to return an instance of
-     * HTMLDocument.HTMLReader.  Subclasses can reimplement this
-     * method to change how the document get structured if desired
-     * (e.g. to handle custom tags, structurally represent character
+     * Fetches the rebder for the pbrser to use to lobd the document
+     * with HTML.  This is implemented to return bn instbnce of
+     * HTMLDocument.HTMLRebder.  Subclbsses cbn reimplement this
+     * method to chbnge how the document get structured if desired
+     * (e.g. to hbndle custom tbgs, structurblly represent chbrbcter
      * style elements, etc.).
      *
-     * @param popDepth   the number of <code>ElementSpec.EndTagTypes</code>
-     *          to generate before inserting
-     * @param pushDepth  the number of <code>ElementSpec.StartTagTypes</code>
-     *          with a direction of <code>ElementSpec.JoinNextDirection</code>
-     *          that should be generated before inserting,
-     *          but after the end tags have been generated
-     * @param insertTag  the first tag to start inserting into document
-     * @param insertInsertTag  false if all the Elements after insertTag should
-     *        be inserted; otherwise insertTag will be inserted
-     * @return the reader used by the parser to load the document
+     * @pbrbm popDepth   the number of <code>ElementSpec.EndTbgTypes</code>
+     *          to generbte before inserting
+     * @pbrbm pushDepth  the number of <code>ElementSpec.StbrtTbgTypes</code>
+     *          with b direction of <code>ElementSpec.JoinNextDirection</code>
+     *          thbt should be generbted before inserting,
+     *          but bfter the end tbgs hbve been generbted
+     * @pbrbm insertTbg  the first tbg to stbrt inserting into document
+     * @pbrbm insertInsertTbg  fblse if bll the Elements bfter insertTbg should
+     *        be inserted; otherwise insertTbg will be inserted
+     * @return the rebder used by the pbrser to lobd the document
      */
-    HTMLEditorKit.ParserCallback getReader(int pos, int popDepth,
+    HTMLEditorKit.PbrserCbllbbck getRebder(int pos, int popDepth,
                                            int pushDepth,
-                                           HTML.Tag insertTag,
-                                           boolean insertInsertTag) {
-        Object desc = getProperty(Document.StreamDescriptionProperty);
-        if (desc instanceof URL) {
-            setBase((URL)desc);
+                                           HTML.Tbg insertTbg,
+                                           boolebn insertInsertTbg) {
+        Object desc = getProperty(Document.StrebmDescriptionProperty);
+        if (desc instbnceof URL) {
+            setBbse((URL)desc);
         }
-        HTMLReader reader = new HTMLReader(pos, popDepth, pushDepth,
-                                           insertTag, insertInsertTag, false,
+        HTMLRebder rebder = new HTMLRebder(pos, popDepth, pushDepth,
+                                           insertTbg, insertInsertTbg, fblse,
                                            true);
-        return reader;
+        return rebder;
     }
 
     /**
-     * Returns the location to resolve relative URLs against.  By
-     * default this will be the document's URL if the document
-     * was loaded from a URL.  If a base tag is found and
-     * can be parsed, it will be used as the base location.
+     * Returns the locbtion to resolve relbtive URLs bgbinst.  By
+     * defbult this will be the document's URL if the document
+     * wbs lobded from b URL.  If b bbse tbg is found bnd
+     * cbn be pbrsed, it will be used bs the bbse locbtion.
      *
-     * @return the base location
+     * @return the bbse locbtion
      */
-    public URL getBase() {
-        return base;
+    public URL getBbse() {
+        return bbse;
     }
 
     /**
-     * Sets the location to resolve relative URLs against.  By
-     * default this will be the document's URL if the document
-     * was loaded from a URL.  If a base tag is found and
-     * can be parsed, it will be used as the base location.
-     * <p>This also sets the base of the <code>StyleSheet</code>
-     * to be <code>u</code> as well as the base of the document.
+     * Sets the locbtion to resolve relbtive URLs bgbinst.  By
+     * defbult this will be the document's URL if the document
+     * wbs lobded from b URL.  If b bbse tbg is found bnd
+     * cbn be pbrsed, it will be used bs the bbse locbtion.
+     * <p>This blso sets the bbse of the <code>StyleSheet</code>
+     * to be <code>u</code> bs well bs the bbse of the document.
      *
-     * @param u  the desired base URL
+     * @pbrbm u  the desired bbse URL
      */
-    public void setBase(URL u) {
-        base = u;
-        getStyleSheet().setBase(u);
+    public void setBbse(URL u) {
+        bbse = u;
+        getStyleSheet().setBbse(u);
     }
 
     /**
-     * Inserts new elements in bulk.  This is how elements get created
-     * in the document.  The parsing determines what structure is needed
-     * and creates the specification as a set of tokens that describe the
-     * edit while leaving the document free of a write-lock.  This method
-     * can then be called in bursts by the reader to acquire a write-lock
-     * for a shorter duration (i.e. while the document is actually being
-     * altered).
+     * Inserts new elements in bulk.  This is how elements get crebted
+     * in the document.  The pbrsing determines whbt structure is needed
+     * bnd crebtes the specificbtion bs b set of tokens thbt describe the
+     * edit while lebving the document free of b write-lock.  This method
+     * cbn then be cblled in bursts by the rebder to bcquire b write-lock
+     * for b shorter durbtion (i.e. while the document is bctublly being
+     * bltered).
      *
-     * @param offset the starting offset
-     * @param data the element data
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document.
+     * @pbrbm offset the stbrting offset
+     * @pbrbm dbtb the element dbtb
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document.
      */
-    protected void insert(int offset, ElementSpec[] data) throws BadLocationException {
-        super.insert(offset, data);
+    protected void insert(int offset, ElementSpec[] dbtb) throws BbdLocbtionException {
+        super.insert(offset, dbtb);
     }
 
     /**
-     * Updates document structure as a result of text insertion.  This
-     * will happen within a write lock.  This implementation simply
-     * parses the inserted content for line breaks and builds up a set
+     * Updbtes document structure bs b result of text insertion.  This
+     * will hbppen within b write lock.  This implementbtion simply
+     * pbrses the inserted content for line brebks bnd builds up b set
      * of instructions for the element buffer.
      *
-     * @param chng a description of the document change
-     * @param attr the attributes
+     * @pbrbm chng b description of the document chbnge
+     * @pbrbm bttr the bttributes
      */
-    protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
-        if(attr == null) {
-            attr = contentAttributeSet;
+    protected void insertUpdbte(DefbultDocumentEvent chng, AttributeSet bttr) {
+        if(bttr == null) {
+            bttr = contentAttributeSet;
         }
 
-        // If this is the composed text element, merge the content attribute to it
-        else if (attr.isDefined(StyleConstants.ComposedTextAttribute)) {
-            ((MutableAttributeSet)attr).addAttributes(contentAttributeSet);
+        // If this is the composed text element, merge the content bttribute to it
+        else if (bttr.isDefined(StyleConstbnts.ComposedTextAttribute)) {
+            ((MutbbleAttributeSet)bttr).bddAttributes(contentAttributeSet);
         }
 
-        if (attr.isDefined(IMPLIED_CR)) {
-            ((MutableAttributeSet)attr).removeAttribute(IMPLIED_CR);
+        if (bttr.isDefined(IMPLIED_CR)) {
+            ((MutbbleAttributeSet)bttr).removeAttribute(IMPLIED_CR);
         }
 
-        super.insertUpdate(chng, attr);
+        super.insertUpdbte(chng, bttr);
     }
 
     /**
-     * Replaces the contents of the document with the given
-     * element specifications.  This is called before insert if
-     * the loading is done in bursts.  This is the only method called
-     * if loading the document entirely in one burst.
+     * Replbces the contents of the document with the given
+     * element specificbtions.  This is cblled before insert if
+     * the lobding is done in bursts.  This is the only method cblled
+     * if lobding the document entirely in one burst.
      *
-     * @param data  the new contents of the document
+     * @pbrbm dbtb  the new contents of the document
      */
-    protected void create(ElementSpec[] data) {
-        super.create(data);
+    protected void crebte(ElementSpec[] dbtb) {
+        super.crebte(dbtb);
     }
 
     /**
-     * Sets attributes for a paragraph.
+     * Sets bttributes for b pbrbgrbph.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offset the offset into the paragraph (must be at least 0)
-     * @param length the number of characters affected (must be at least 0)
-     * @param s the attributes
-     * @param replace whether to replace existing attributes, or merge them
+     * @pbrbm offset the offset into the pbrbgrbph (must be bt lebst 0)
+     * @pbrbm length the number of chbrbcters bffected (must be bt lebst 0)
+     * @pbrbm s the bttributes
+     * @pbrbm replbce whether to replbce existing bttributes, or merge them
      */
-    public void setParagraphAttributes(int offset, int length, AttributeSet s,
-                                       boolean replace) {
+    public void setPbrbgrbphAttributes(int offset, int length, AttributeSet s,
+                                       boolebn replbce) {
         try {
             writeLock();
-            // Make sure we send out a change for the length of the paragraph.
-            int end = Math.min(offset + length, getLength());
-            Element e = getParagraphElement(offset);
-            offset = e.getStartOffset();
-            e = getParagraphElement(end);
-            length = Math.max(0, e.getEndOffset() - offset);
-            DefaultDocumentEvent changes =
-                new DefaultDocumentEvent(offset, length,
+            // Mbke sure we send out b chbnge for the length of the pbrbgrbph.
+            int end = Mbth.min(offset + length, getLength());
+            Element e = getPbrbgrbphElement(offset);
+            offset = e.getStbrtOffset();
+            e = getPbrbgrbphElement(end);
+            length = Mbth.mbx(0, e.getEndOffset() - offset);
+            DefbultDocumentEvent chbnges =
+                new DefbultDocumentEvent(offset, length,
                                          DocumentEvent.EventType.CHANGE);
             AttributeSet sCopy = s.copyAttributes();
-            int lastEnd = Integer.MAX_VALUE;
-            for (int pos = offset; pos <= end; pos = lastEnd) {
-                Element paragraph = getParagraphElement(pos);
-                if (lastEnd == paragraph.getEndOffset()) {
-                    lastEnd++;
+            int lbstEnd = Integer.MAX_VALUE;
+            for (int pos = offset; pos <= end; pos = lbstEnd) {
+                Element pbrbgrbph = getPbrbgrbphElement(pos);
+                if (lbstEnd == pbrbgrbph.getEndOffset()) {
+                    lbstEnd++;
                 }
                 else {
-                    lastEnd = paragraph.getEndOffset();
+                    lbstEnd = pbrbgrbph.getEndOffset();
                 }
-                MutableAttributeSet attr =
-                    (MutableAttributeSet) paragraph.getAttributes();
-                changes.addEdit(new AttributeUndoableEdit(paragraph, sCopy, replace));
-                if (replace) {
-                    attr.removeAttributes(attr);
+                MutbbleAttributeSet bttr =
+                    (MutbbleAttributeSet) pbrbgrbph.getAttributes();
+                chbnges.bddEdit(new AttributeUndobbleEdit(pbrbgrbph, sCopy, replbce));
+                if (replbce) {
+                    bttr.removeAttributes(bttr);
                 }
-                attr.addAttributes(s);
+                bttr.bddAttributes(s);
             }
-            changes.end();
-            fireChangedUpdate(changes);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, changes));
-        } finally {
+            chbnges.end();
+            fireChbngedUpdbte(chbnges);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, chbnges));
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Fetches the <code>StyleSheet</code> with the document-specific display
-     * rules (CSS) that were specified in the HTML document itself.
+     * Fetches the <code>StyleSheet</code> with the document-specific displby
+     * rules (CSS) thbt were specified in the HTML document itself.
      *
      * @return the <code>StyleSheet</code>
      */
@@ -534,101 +534,101 @@ public class HTMLDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Fetches an iterator for the specified HTML tag.
-     * This can be used for things like iterating over the
-     * set of anchors contained, or iterating over the input
+     * Fetches bn iterbtor for the specified HTML tbg.
+     * This cbn be used for things like iterbting over the
+     * set of bnchors contbined, or iterbting over the input
      * elements.
      *
-     * @param t the requested <code>HTML.Tag</code>
-     * @return the <code>Iterator</code> for the given HTML tag
-     * @see javax.swing.text.html.HTML.Tag
+     * @pbrbm t the requested <code>HTML.Tbg</code>
+     * @return the <code>Iterbtor</code> for the given HTML tbg
+     * @see jbvbx.swing.text.html.HTML.Tbg
      */
-    public Iterator getIterator(HTML.Tag t) {
+    public Iterbtor getIterbtor(HTML.Tbg t) {
         if (t.isBlock()) {
             // TBD
             return null;
         }
-        return new LeafIterator(t, this);
+        return new LebfIterbtor(t, this);
     }
 
     /**
-     * Creates a document leaf element that directly represents
-     * text (doesn't have any children).  This is implemented
-     * to return an element of type
+     * Crebtes b document lebf element thbt directly represents
+     * text (doesn't hbve bny children).  This is implemented
+     * to return bn element of type
      * <code>HTMLDocument.RunElement</code>.
      *
-     * @param parent the parent element
-     * @param a the attributes for the element
-     * @param p0 the beginning of the range (must be at least 0)
-     * @param p1 the end of the range (must be at least p0)
+     * @pbrbm pbrent the pbrent element
+     * @pbrbm b the bttributes for the element
+     * @pbrbm p0 the beginning of the rbnge (must be bt lebst 0)
+     * @pbrbm p1 the end of the rbnge (must be bt lebst p0)
      * @return the new element
      */
-    protected Element createLeafElement(Element parent, AttributeSet a, int p0, int p1) {
-        return new RunElement(parent, a, p0, p1);
+    protected Element crebteLebfElement(Element pbrent, AttributeSet b, int p0, int p1) {
+        return new RunElement(pbrent, b, p0, p1);
     }
 
     /**
-     * Creates a document branch element, that can contain other elements.
-     * This is implemented to return an element of type
+     * Crebtes b document brbnch element, thbt cbn contbin other elements.
+     * This is implemented to return bn element of type
      * <code>HTMLDocument.BlockElement</code>.
      *
-     * @param parent the parent element
-     * @param a the attributes
+     * @pbrbm pbrent the pbrent element
+     * @pbrbm b the bttributes
      * @return the element
      */
-    protected Element createBranchElement(Element parent, AttributeSet a) {
-        return new BlockElement(parent, a);
+    protected Element crebteBrbnchElement(Element pbrent, AttributeSet b) {
+        return new BlockElement(pbrent, b);
     }
 
     /**
-     * Creates the root element to be used to represent the
-     * default document structure.
+     * Crebtes the root element to be used to represent the
+     * defbult document structure.
      *
-     * @return the element base
+     * @return the element bbse
      */
-    protected AbstractElement createDefaultRoot() {
-        // grabs a write-lock for this initialization and
-        // abandon it during initialization so in normal
-        // operation we can detect an illegitimate attempt
-        // to mutate attributes.
+    protected AbstrbctElement crebteDefbultRoot() {
+        // grbbs b write-lock for this initiblizbtion bnd
+        // bbbndon it during initiblizbtion so in normbl
+        // operbtion we cbn detect bn illegitimbte bttempt
+        // to mutbte bttributes.
         writeLock();
-        MutableAttributeSet a = new SimpleAttributeSet();
-        a.addAttribute(StyleConstants.NameAttribute, HTML.Tag.HTML);
-        BlockElement html = new BlockElement(null, a.copyAttributes());
-        a.removeAttributes(a);
-        a.addAttribute(StyleConstants.NameAttribute, HTML.Tag.BODY);
-        BlockElement body = new BlockElement(html, a.copyAttributes());
-        a.removeAttributes(a);
-        a.addAttribute(StyleConstants.NameAttribute, HTML.Tag.P);
-        getStyleSheet().addCSSAttributeFromHTML(a, CSS.Attribute.MARGIN_TOP, "0");
-        BlockElement paragraph = new BlockElement(body, a.copyAttributes());
-        a.removeAttributes(a);
-        a.addAttribute(StyleConstants.NameAttribute, HTML.Tag.CONTENT);
-        RunElement brk = new RunElement(paragraph, a, 0, 1);
+        MutbbleAttributeSet b = new SimpleAttributeSet();
+        b.bddAttribute(StyleConstbnts.NbmeAttribute, HTML.Tbg.HTML);
+        BlockElement html = new BlockElement(null, b.copyAttributes());
+        b.removeAttributes(b);
+        b.bddAttribute(StyleConstbnts.NbmeAttribute, HTML.Tbg.BODY);
+        BlockElement body = new BlockElement(html, b.copyAttributes());
+        b.removeAttributes(b);
+        b.bddAttribute(StyleConstbnts.NbmeAttribute, HTML.Tbg.P);
+        getStyleSheet().bddCSSAttributeFromHTML(b, CSS.Attribute.MARGIN_TOP, "0");
+        BlockElement pbrbgrbph = new BlockElement(body, b.copyAttributes());
+        b.removeAttributes(b);
+        b.bddAttribute(StyleConstbnts.NbmeAttribute, HTML.Tbg.CONTENT);
+        RunElement brk = new RunElement(pbrbgrbph, b, 0, 1);
         Element[] buff = new Element[1];
         buff[0] = brk;
-        paragraph.replace(0, 0, buff);
-        buff[0] = paragraph;
-        body.replace(0, 0, buff);
+        pbrbgrbph.replbce(0, 0, buff);
+        buff[0] = pbrbgrbph;
+        body.replbce(0, 0, buff);
         buff[0] = body;
-        html.replace(0, 0, buff);
+        html.replbce(0, 0, buff);
         writeUnlock();
         return html;
     }
 
     /**
-     * Sets the number of tokens to buffer before trying to update
+     * Sets the number of tokens to buffer before trying to updbte
      * the documents element structure.
      *
-     * @param n  the number of tokens to buffer
+     * @pbrbm n  the number of tokens to buffer
      */
     public void setTokenThreshold(int n) {
         putProperty(TokenThreshold, n);
     }
 
     /**
-     * Gets the number of tokens to buffer before trying to update
-     * the documents element structure.  The default value is
+     * Gets the number of tokens to buffer before trying to updbte
+     * the documents element structure.  The defbult vblue is
      * <code>Integer.MAX_VALUE</code>.
      *
      * @return the number of tokens to buffer
@@ -636,122 +636,122 @@ public class HTMLDocument extends DefaultStyledDocument {
     public int getTokenThreshold() {
         Integer i = (Integer) getProperty(TokenThreshold);
         if (i != null) {
-            return i.intValue();
+            return i.intVblue();
         }
         return Integer.MAX_VALUE;
     }
 
     /**
-     * Determines how unknown tags are handled by the parser.
+     * Determines how unknown tbgs bre hbndled by the pbrser.
      * If set to true, unknown
-     * tags are put in the model, otherwise they are dropped.
+     * tbgs bre put in the model, otherwise they bre dropped.
      *
-     * @param preservesTags  true if unknown tags should be
-     *          saved in the model, otherwise tags are dropped
-     * @see javax.swing.text.html.HTML.Tag
+     * @pbrbm preservesTbgs  true if unknown tbgs should be
+     *          sbved in the model, otherwise tbgs bre dropped
+     * @see jbvbx.swing.text.html.HTML.Tbg
      */
-    public void setPreservesUnknownTags(boolean preservesTags) {
-        preservesUnknownTags = preservesTags;
+    public void setPreservesUnknownTbgs(boolebn preservesTbgs) {
+        preservesUnknownTbgs = preservesTbgs;
     }
 
     /**
-     * Returns the behavior the parser observes when encountering
-     * unknown tags.
+     * Returns the behbvior the pbrser observes when encountering
+     * unknown tbgs.
      *
-     * @see javax.swing.text.html.HTML.Tag
-     * @return true if unknown tags are to be preserved when parsing
+     * @see jbvbx.swing.text.html.HTML.Tbg
+     * @return true if unknown tbgs bre to be preserved when pbrsing
      */
-    public boolean getPreservesUnknownTags() {
-        return preservesUnknownTags;
+    public boolebn getPreservesUnknownTbgs() {
+        return preservesUnknownTbgs;
     }
 
     /**
-     * Processes <code>HyperlinkEvents</code> that
-     * are generated by documents in an HTML frame.
-     * The <code>HyperlinkEvent</code> type, as the parameter suggests,
-     * is <code>HTMLFrameHyperlinkEvent</code>.
-     * In addition to the typical information contained in a
+     * Processes <code>HyperlinkEvents</code> thbt
+     * bre generbted by documents in bn HTML frbme.
+     * The <code>HyperlinkEvent</code> type, bs the pbrbmeter suggests,
+     * is <code>HTMLFrbmeHyperlinkEvent</code>.
+     * In bddition to the typicbl informbtion contbined in b
      * <code>HyperlinkEvent</code>,
-     * this event contains the element that corresponds to the frame in
-     * which the click happened (the source element) and the
-     * target name.  The target name has 4 possible values:
+     * this event contbins the element thbt corresponds to the frbme in
+     * which the click hbppened (the source element) bnd the
+     * tbrget nbme.  The tbrget nbme hbs 4 possible vblues:
      * <ul>
      * <li>  _self
-     * <li>  _parent
+     * <li>  _pbrent
      * <li>  _top
-     * <li>  a named frame
+     * <li>  b nbmed frbme
      * </ul>
      *
-     * If target is _self, the action is to change the value of the
-     * <code>HTML.Attribute.SRC</code> attribute and fires a
-     * <code>ChangedUpdate</code> event.
+     * If tbrget is _self, the bction is to chbnge the vblue of the
+     * <code>HTML.Attribute.SRC</code> bttribute bnd fires b
+     * <code>ChbngedUpdbte</code> event.
      *<p>
-     * If the target is _parent, then it deletes the parent element,
-     * which is a &lt;FRAMESET&gt; element, and inserts a new &lt;FRAME&gt;
-     * element, and sets its <code>HTML.Attribute.SRC</code> attribute
-     * to have a value equal to the destination URL and fire a
-     * <code>RemovedUpdate</code> and <code>InsertUpdate</code>.
+     * If the tbrget is _pbrent, then it deletes the pbrent element,
+     * which is b &lt;FRAMESET&gt; element, bnd inserts b new &lt;FRAME&gt;
+     * element, bnd sets its <code>HTML.Attribute.SRC</code> bttribute
+     * to hbve b vblue equbl to the destinbtion URL bnd fire b
+     * <code>RemovedUpdbte</code> bnd <code>InsertUpdbte</code>.
      *<p>
-     * If the target is _top, this method does nothing. In the implementation
-     * of the view for a frame, namely the <code>FrameView</code>,
-     * the processing of _top is handled.  Given that _top implies
-     * replacing the entire document, it made sense to handle this outside
-     * of the document that it will replace.
+     * If the tbrget is _top, this method does nothing. In the implementbtion
+     * of the view for b frbme, nbmely the <code>FrbmeView</code>,
+     * the processing of _top is hbndled.  Given thbt _top implies
+     * replbcing the entire document, it mbde sense to hbndle this outside
+     * of the document thbt it will replbce.
      *<p>
-     * If the target is a named frame, then the element hierarchy is searched
-     * for an element with a name equal to the target, its
-     * <code>HTML.Attribute.SRC</code> attribute is updated and a
-     * <code>ChangedUpdate</code> event is fired.
+     * If the tbrget is b nbmed frbme, then the element hierbrchy is sebrched
+     * for bn element with b nbme equbl to the tbrget, its
+     * <code>HTML.Attribute.SRC</code> bttribute is updbted bnd b
+     * <code>ChbngedUpdbte</code> event is fired.
      *
-     * @param e the event
+     * @pbrbm e the event
      */
-    public void processHTMLFrameHyperlinkEvent(HTMLFrameHyperlinkEvent e) {
-        String frameName = e.getTarget();
+    public void processHTMLFrbmeHyperlinkEvent(HTMLFrbmeHyperlinkEvent e) {
+        String frbmeNbme = e.getTbrget();
         Element element = e.getSourceElement();
         String urlStr = e.getURL().toString();
 
-        if (frameName.equals("_self")) {
+        if (frbmeNbme.equbls("_self")) {
             /*
-              The source and destination elements
-              are the same.
+              The source bnd destinbtion elements
+              bre the sbme.
             */
-            updateFrame(element, urlStr);
-        } else if (frameName.equals("_parent")) {
+            updbteFrbme(element, urlStr);
+        } else if (frbmeNbme.equbls("_pbrent")) {
             /*
-              The destination is the parent of the frame.
+              The destinbtion is the pbrent of the frbme.
             */
-            updateFrameSet(element.getParentElement(), urlStr);
+            updbteFrbmeSet(element.getPbrentElement(), urlStr);
         } else {
             /*
-              locate a named frame
+              locbte b nbmed frbme
             */
-            Element targetElement = findFrame(frameName);
-            if (targetElement != null) {
-                updateFrame(targetElement, urlStr);
+            Element tbrgetElement = findFrbme(frbmeNbme);
+            if (tbrgetElement != null) {
+                updbteFrbme(tbrgetElement, urlStr);
             }
         }
     }
 
 
     /**
-     * Searches the element hierarchy for an FRAME element
-     * that has its name attribute equal to the <code>frameName</code>.
+     * Sebrches the element hierbrchy for bn FRAME element
+     * thbt hbs its nbme bttribute equbl to the <code>frbmeNbme</code>.
      *
-     * @param frameName
-     * @return the element whose NAME attribute has a value of
-     *          <code>frameName</code>; returns <code>null</code>
+     * @pbrbm frbmeNbme
+     * @return the element whose NAME bttribute hbs b vblue of
+     *          <code>frbmeNbme</code>; returns <code>null</code>
      *          if not found
      */
-    private Element findFrame(String frameName) {
-        ElementIterator it = new ElementIterator(this);
+    privbte Element findFrbme(String frbmeNbme) {
+        ElementIterbtor it = new ElementIterbtor(this);
         Element next;
 
         while ((next = it.next()) != null) {
-            AttributeSet attr = next.getAttributes();
-            if (matchNameAttribute(attr, HTML.Tag.FRAME)) {
-                String frameTarget = (String)attr.getAttribute(HTML.Attribute.NAME);
-                if (frameTarget != null && frameTarget.equals(frameName)) {
-                    break;
+            AttributeSet bttr = next.getAttributes();
+            if (mbtchNbmeAttribute(bttr, HTML.Tbg.FRAME)) {
+                String frbmeTbrget = (String)bttr.getAttribute(HTML.Attribute.NAME);
+                if (frbmeTbrget != null && frbmeTbrget.equbls(frbmeNbme)) {
+                    brebk;
                 }
             }
         }
@@ -759,236 +759,236 @@ public class HTMLDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Returns true if <code>StyleConstants.NameAttribute</code> is
-     * equal to the tag that is passed in as a parameter.
+     * Returns true if <code>StyleConstbnts.NbmeAttribute</code> is
+     * equbl to the tbg thbt is pbssed in bs b pbrbmeter.
      *
-     * @param attr the attributes to be matched
-     * @param tag the value to be matched
-     * @return true if there is a match, false otherwise
-     * @see javax.swing.text.html.HTML.Attribute
+     * @pbrbm bttr the bttributes to be mbtched
+     * @pbrbm tbg the vblue to be mbtched
+     * @return true if there is b mbtch, fblse otherwise
+     * @see jbvbx.swing.text.html.HTML.Attribute
      */
-    static boolean matchNameAttribute(AttributeSet attr, HTML.Tag tag) {
-        Object o = attr.getAttribute(StyleConstants.NameAttribute);
-        if (o instanceof HTML.Tag) {
-            HTML.Tag name = (HTML.Tag) o;
-            if (name == tag) {
+    stbtic boolebn mbtchNbmeAttribute(AttributeSet bttr, HTML.Tbg tbg) {
+        Object o = bttr.getAttribute(StyleConstbnts.NbmeAttribute);
+        if (o instbnceof HTML.Tbg) {
+            HTML.Tbg nbme = (HTML.Tbg) o;
+            if (nbme == tbg) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Replaces a frameset branch Element with a frame leaf element.
+     * Replbces b frbmeset brbnch Element with b frbme lebf element.
      *
-     * @param element the frameset element to remove
-     * @param url     the value for the SRC attribute for the
-     *                new frame that will replace the frameset
+     * @pbrbm element the frbmeset element to remove
+     * @pbrbm url     the vblue for the SRC bttribute for the
+     *                new frbme thbt will replbce the frbmeset
      */
-    private void updateFrameSet(Element element, String url) {
+    privbte void updbteFrbmeSet(Element element, String url) {
         try {
-            int startOffset = element.getStartOffset();
-            int endOffset = Math.min(getLength(), element.getEndOffset());
-            String html = "<frame";
+            int stbrtOffset = element.getStbrtOffset();
+            int endOffset = Mbth.min(getLength(), element.getEndOffset());
+            String html = "<frbme";
             if (url != null) {
                 html += " src=\"" + url + "\"";
             }
             html += ">";
-            installParserIfNecessary();
+            instbllPbrserIfNecessbry();
             setOuterHTML(element, html);
-        } catch (BadLocationException e1) {
-            // Should handle this better
-        } catch (IOException ioe) {
-            // Should handle this better
+        } cbtch (BbdLocbtionException e1) {
+            // Should hbndle this better
+        } cbtch (IOException ioe) {
+            // Should hbndle this better
         }
     }
 
 
     /**
-     * Updates the Frame elements <code>HTML.Attribute.SRC attribute</code>
-     * and fires a <code>ChangedUpdate</code> event.
+     * Updbtes the Frbme elements <code>HTML.Attribute.SRC bttribute</code>
+     * bnd fires b <code>ChbngedUpdbte</code> event.
      *
-     * @param element a FRAME element whose SRC attribute will be updated
-     * @param url     a string specifying the new value for the SRC attribute
+     * @pbrbm element b FRAME element whose SRC bttribute will be updbted
+     * @pbrbm url     b string specifying the new vblue for the SRC bttribute
      */
-    private void updateFrame(Element element, String url) {
+    privbte void updbteFrbme(Element element, String url) {
 
         try {
             writeLock();
-            DefaultDocumentEvent changes = new DefaultDocumentEvent(element.getStartOffset(),
+            DefbultDocumentEvent chbnges = new DefbultDocumentEvent(element.getStbrtOffset(),
                                                                     1,
                                                                     DocumentEvent.EventType.CHANGE);
             AttributeSet sCopy = element.getAttributes().copyAttributes();
-            MutableAttributeSet attr = (MutableAttributeSet) element.getAttributes();
-            changes.addEdit(new AttributeUndoableEdit(element, sCopy, false));
-            attr.removeAttribute(HTML.Attribute.SRC);
-            attr.addAttribute(HTML.Attribute.SRC, url);
-            changes.end();
-            fireChangedUpdate(changes);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, changes));
-        } finally {
+            MutbbleAttributeSet bttr = (MutbbleAttributeSet) element.getAttributes();
+            chbnges.bddEdit(new AttributeUndobbleEdit(element, sCopy, fblse));
+            bttr.removeAttribute(HTML.Attribute.SRC);
+            bttr.bddAttribute(HTML.Attribute.SRC, url);
+            chbnges.end();
+            fireChbngedUpdbte(chbnges);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, chbnges));
+        } finblly {
             writeUnlock();
         }
     }
 
 
     /**
-     * Returns true if the document will be viewed in a frame.
-     * @return true if document will be viewed in a frame, otherwise false
+     * Returns true if the document will be viewed in b frbme.
+     * @return true if document will be viewed in b frbme, otherwise fblse
      */
-    boolean isFrameDocument() {
-        return frameDocument;
+    boolebn isFrbmeDocument() {
+        return frbmeDocument;
     }
 
     /**
-     * Sets a boolean state about whether the document will be
-     * viewed in a frame.
-     * @param frameDoc  true if the document will be viewed in a frame,
-     *          otherwise false
+     * Sets b boolebn stbte bbout whether the document will be
+     * viewed in b frbme.
+     * @pbrbm frbmeDoc  true if the document will be viewed in b frbme,
+     *          otherwise fblse
      */
-    void setFrameDocumentState(boolean frameDoc) {
-        this.frameDocument = frameDoc;
+    void setFrbmeDocumentStbte(boolebn frbmeDoc) {
+        this.frbmeDocument = frbmeDoc;
     }
 
     /**
-     * Adds the specified map, this will remove a Map that has been
-     * previously registered with the same name.
+     * Adds the specified mbp, this will remove b Mbp thbt hbs been
+     * previously registered with the sbme nbme.
      *
-     * @param map  the <code>Map</code> to be registered
+     * @pbrbm mbp  the <code>Mbp</code> to be registered
      */
-    void addMap(Map map) {
-        String     name = map.getName();
+    void bddMbp(Mbp mbp) {
+        String     nbme = mbp.getNbme();
 
-        if (name != null) {
-            Object     maps = getProperty(MAP_PROPERTY);
+        if (nbme != null) {
+            Object     mbps = getProperty(MAP_PROPERTY);
 
-            if (maps == null) {
-                maps = new Hashtable<>(11);
-                putProperty(MAP_PROPERTY, maps);
+            if (mbps == null) {
+                mbps = new Hbshtbble<>(11);
+                putProperty(MAP_PROPERTY, mbps);
             }
-            if (maps instanceof Hashtable) {
-                @SuppressWarnings("unchecked")
-                Hashtable<Object, Object> tmp = (Hashtable)maps;
-                tmp.put("#" + name, map);
-            }
-        }
-    }
-
-    /**
-     * Removes a previously registered map.
-     * @param map the <code>Map</code> to be removed
-     */
-    void removeMap(Map map) {
-        String     name = map.getName();
-
-        if (name != null) {
-            Object     maps = getProperty(MAP_PROPERTY);
-
-            if (maps instanceof Hashtable) {
-                ((Hashtable)maps).remove("#" + name);
+            if (mbps instbnceof Hbshtbble) {
+                @SuppressWbrnings("unchecked")
+                Hbshtbble<Object, Object> tmp = (Hbshtbble)mbps;
+                tmp.put("#" + nbme, mbp);
             }
         }
     }
 
     /**
-     * Returns the Map associated with the given name.
-     * @param name the name of the desired <code>Map</code>
-     * @return the <code>Map</code> or <code>null</code> if it can't
-     *          be found, or if <code>name</code> is <code>null</code>
+     * Removes b previously registered mbp.
+     * @pbrbm mbp the <code>Mbp</code> to be removed
      */
-    Map getMap(String name) {
-        if (name != null) {
-            Object     maps = getProperty(MAP_PROPERTY);
+    void removeMbp(Mbp mbp) {
+        String     nbme = mbp.getNbme();
 
-            if (maps != null && (maps instanceof Hashtable)) {
-                return (Map)((Hashtable)maps).get(name);
+        if (nbme != null) {
+            Object     mbps = getProperty(MAP_PROPERTY);
+
+            if (mbps instbnceof Hbshtbble) {
+                ((Hbshtbble)mbps).remove("#" + nbme);
+            }
+        }
+    }
+
+    /**
+     * Returns the Mbp bssocibted with the given nbme.
+     * @pbrbm nbme the nbme of the desired <code>Mbp</code>
+     * @return the <code>Mbp</code> or <code>null</code> if it cbn't
+     *          be found, or if <code>nbme</code> is <code>null</code>
+     */
+    Mbp getMbp(String nbme) {
+        if (nbme != null) {
+            Object     mbps = getProperty(MAP_PROPERTY);
+
+            if (mbps != null && (mbps instbnceof Hbshtbble)) {
+                return (Mbp)((Hbshtbble)mbps).get(nbme);
             }
         }
         return null;
     }
 
     /**
-     * Returns an <code>Enumeration</code> of the possible Maps.
-     * @return the enumerated list of maps, or <code>null</code>
-     *          if the maps are not an instance of <code>Hashtable</code>
+     * Returns bn <code>Enumerbtion</code> of the possible Mbps.
+     * @return the enumerbted list of mbps, or <code>null</code>
+     *          if the mbps bre not bn instbnce of <code>Hbshtbble</code>
      */
-    Enumeration<Object> getMaps() {
-        Object     maps = getProperty(MAP_PROPERTY);
+    Enumerbtion<Object> getMbps() {
+        Object     mbps = getProperty(MAP_PROPERTY);
 
-        if (maps instanceof Hashtable) {
-            @SuppressWarnings("unchecked")
-            Hashtable<Object, Object> tmp = (Hashtable) maps;
+        if (mbps instbnceof Hbshtbble) {
+            @SuppressWbrnings("unchecked")
+            Hbshtbble<Object, Object> tmp = (Hbshtbble) mbps;
             return tmp.elements();
         }
         return null;
     }
 
     /**
-     * Sets the content type language used for style sheets that do not
-     * explicitly specify the type. The default is text/css.
-     * @param contentType  the content type language for the style sheets
+     * Sets the content type lbngubge used for style sheets thbt do not
+     * explicitly specify the type. The defbult is text/css.
+     * @pbrbm contentType  the content type lbngubge for the style sheets
      */
     /* public */
-    void setDefaultStyleSheetType(String contentType) {
+    void setDefbultStyleSheetType(String contentType) {
         putProperty(StyleType, contentType);
     }
 
     /**
-     * Returns the content type language used for style sheets. The default
+     * Returns the content type lbngubge used for style sheets. The defbult
      * is text/css.
-     * @return the content type language used for the style sheets
+     * @return the content type lbngubge used for the style sheets
      */
     /* public */
-    String getDefaultStyleSheetType() {
-        String retValue = (String)getProperty(StyleType);
-        if (retValue == null) {
+    String getDefbultStyleSheetType() {
+        String retVblue = (String)getProperty(StyleType);
+        if (retVblue == null) {
             return "text/css";
         }
-        return retValue;
+        return retVblue;
     }
 
     /**
-     * Sets the parser that is used by the methods that insert html
-     * into the existing document, such as <code>setInnerHTML</code>,
-     * and <code>setOuterHTML</code>.
+     * Sets the pbrser thbt is used by the methods thbt insert html
+     * into the existing document, such bs <code>setInnerHTML</code>,
+     * bnd <code>setOuterHTML</code>.
      * <p>
-     * <code>HTMLEditorKit.createDefaultDocument</code> will set the parser
-     * for you. If you create an <code>HTMLDocument</code> by hand,
-     * be sure and set the parser accordingly.
-     * @param parser the parser to be used for text insertion
+     * <code>HTMLEditorKit.crebteDefbultDocument</code> will set the pbrser
+     * for you. If you crebte bn <code>HTMLDocument</code> by hbnd,
+     * be sure bnd set the pbrser bccordingly.
+     * @pbrbm pbrser the pbrser to be used for text insertion
      *
      * @since 1.3
      */
-    public void setParser(HTMLEditorKit.Parser parser) {
-        this.parser = parser;
+    public void setPbrser(HTMLEditorKit.Pbrser pbrser) {
+        this.pbrser = pbrser;
         putProperty("__PARSER__", null);
     }
 
     /**
-     * Returns the parser that is used when inserting HTML into the existing
+     * Returns the pbrser thbt is used when inserting HTML into the existing
      * document.
-     * @return the parser used for text insertion
+     * @return the pbrser used for text insertion
      *
      * @since 1.3
      */
-    public HTMLEditorKit.Parser getParser() {
+    public HTMLEditorKit.Pbrser getPbrser() {
         Object p = getProperty("__PARSER__");
 
-        if (p instanceof HTMLEditorKit.Parser) {
-            return (HTMLEditorKit.Parser)p;
+        if (p instbnceof HTMLEditorKit.Pbrser) {
+            return (HTMLEditorKit.Pbrser)p;
         }
-        return parser;
+        return pbrser;
     }
 
     /**
-     * Replaces the children of the given element with the contents
-     * specified as an HTML string.
+     * Replbces the children of the given element with the contents
+     * specified bs bn HTML string.
      *
-     * <p>This will be seen as at least two events, n inserts followed by
-     * a remove.</p>
+     * <p>This will be seen bs bt lebst two events, n inserts followed by
+     * b remove.</p>
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -999,7 +999,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * </pre>
      *
      * <p>Invoking <code>setInnerHTML(elem, "&lt;ul&gt;&lt;li&gt;")</code>
-     * results in the following structure (new elements are <font
+     * results in the following structure (new elements bre <font
      * style="color: red;">in red</font>).</p>
      *
      * <pre>
@@ -1012,39 +1012,39 @@ public class HTMLDocument extends DefaultStyledDocument {
      *           <font style="color: red;">&lt;li&gt;</font>
      * </pre>
      *
-     * <p>Parameter <code>elem</code> must not be a leaf element,
-     * otherwise an <code>IllegalArgumentException</code> is thrown.
-     * If either <code>elem</code> or <code>htmlText</code> parameter
-     * is <code>null</code>, no changes are made to the document.</p>
+     * <p>Pbrbmeter <code>elem</code> must not be b lebf element,
+     * otherwise bn <code>IllegblArgumentException</code> is thrown.
+     * If either <code>elem</code> or <code>htmlText</code> pbrbmeter
+     * is <code>null</code>, no chbnges bre mbde to the document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * <code>HTMLEditorKit.Parser</code> set. This will be the case
-     * if the document was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * <code>HTMLEditorKit.Pbrser</code> set. This will be the cbse
+     * if the document wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the branch element whose children will be replaced
-     * @param htmlText the string to be parsed and assigned to <code>elem</code>
-     * @throws IllegalArgumentException if <code>elem</code> is a leaf
-     * @throws IllegalStateException if an <code>HTMLEditorKit.Parser</code>
-     *         has not been defined
-     * @throws BadLocationException if replacement is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @pbrbm elem the brbnch element whose children will be replbced
+     * @pbrbm htmlText the string to be pbrsed bnd bssigned to <code>elem</code>
+     * @throws IllegblArgumentException if <code>elem</code> is b lebf
+     * @throws IllegblStbteException if bn <code>HTMLEditorKit.Pbrser</code>
+     *         hbs not been defined
+     * @throws BbdLocbtionException if replbcement is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
     public void setInnerHTML(Element elem, String htmlText) throws
-                             BadLocationException, IOException {
-        verifyParser();
-        if (elem != null && elem.isLeaf()) {
-            throw new IllegalArgumentException
-                ("Can not set inner HTML of a leaf");
+                             BbdLocbtionException, IOException {
+        verifyPbrser();
+        if (elem != null && elem.isLebf()) {
+            throw new IllegblArgumentException
+                ("Cbn not set inner HTML of b lebf");
         }
         if (elem != null && htmlText != null) {
             int oldCount = elem.getElementCount();
-            int insertPosition = elem.getStartOffset();
-            insertHTML(elem, elem.getStartOffset(), htmlText, true);
+            int insertPosition = elem.getStbrtOffset();
+            insertHTML(elem, elem.getStbrtOffset(), htmlText, true);
             if (elem.getElementCount() > oldCount) {
-                // Elements were inserted, do the cleanup.
+                // Elements were inserted, do the clebnup.
                 removeElements(elem, elem.getElementCount() - oldCount,
                                oldCount);
             }
@@ -1052,27 +1052,27 @@ public class HTMLDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Replaces the given element in the parent with the contents
-     * specified as an HTML string.
+     * Replbces the given element in the pbrent with the contents
+     * specified bs bn HTML string.
      *
-     * <p>This will be seen as at least two events, n inserts followed by
-     * a remove.</p>
+     * <p>This will be seen bs bt lebst two events, n inserts followed by
+     * b remove.</p>
      *
-     * <p>When replacing a leaf this will attempt to make sure there is
-     * a newline present if one is needed. This may result in an additional
-     * element being inserted. Consider, if you were to replace a character
-     * element that contained a newline with &lt;img&gt; this would create
-     * two elements, one for the image, and one for the newline.</p>
+     * <p>When replbcing b lebf this will bttempt to mbke sure there is
+     * b newline present if one is needed. This mby result in bn bdditionbl
+     * element being inserted. Consider, if you were to replbce b chbrbcter
+     * element thbt contbined b newline with &lt;img&gt; this would crebte
+     * two elements, one for the imbge, bnd one for the newline.</p>
      *
-     * <p>If you try to replace the element at length you will most
+     * <p>If you try to replbce the element bt length you will most
      * likely end up with two elements, eg
-     * <code>setOuterHTML(getCharacterElement (getLength()),
-     * "blah")</code> will result in two leaf elements at the end, one
-     * representing 'blah', and the other representing the end
+     * <code>setOuterHTML(getChbrbcterElement (getLength()),
+     * "blbh")</code> will result in two lebf elements bt the end, one
+     * representing 'blbh', bnd the other representing the end
      * element.</p>
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -1083,7 +1083,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * </pre>
      *
      * <p>Invoking <code>setOuterHTML(elem, "&lt;ul&gt;&lt;li&gt;")</code>
-     * results in the following structure (new elements are <font
+     * results in the following structure (new elements bre <font
      * style="color: red;">in red</font>).</p>
      *
      * <pre>
@@ -1095,57 +1095,57 @@ public class HTMLDocument extends DefaultStyledDocument {
      * </pre>
      *
      * <p>If either <code>elem</code> or <code>htmlText</code>
-     * parameter is <code>null</code>, no changes are made to the
+     * pbrbmeter is <code>null</code>, no chbnges bre mbde to the
      * document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * HTMLEditorKit.Parser set. This will be the case if the document
-     * was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * HTMLEditorKit.Pbrser set. This will be the cbse if the document
+     * wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the element to replace
-     * @param htmlText the string to be parsed and inserted in place of <code>elem</code>
-     * @throws IllegalStateException if an HTMLEditorKit.Parser has not
+     * @pbrbm elem the element to replbce
+     * @pbrbm htmlText the string to be pbrsed bnd inserted in plbce of <code>elem</code>
+     * @throws IllegblStbteException if bn HTMLEditorKit.Pbrser hbs not
      *         been set
-     * @throws BadLocationException if replacement is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @throws BbdLocbtionException if replbcement is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
     public void setOuterHTML(Element elem, String htmlText) throws
-                            BadLocationException, IOException {
-        verifyParser();
-        if (elem != null && elem.getParentElement() != null &&
+                            BbdLocbtionException, IOException {
+        verifyPbrser();
+        if (elem != null && elem.getPbrentElement() != null &&
             htmlText != null) {
-            int start = elem.getStartOffset();
+            int stbrt = elem.getStbrtOffset();
             int end = elem.getEndOffset();
-            int startLength = getLength();
-            // We don't want a newline if elem is a leaf, and doesn't contain
-            // a newline.
-            boolean wantsNewline = !elem.isLeaf();
-            if (!wantsNewline && (end > startLength ||
-                                 getText(end - 1, 1).charAt(0) == NEWLINE[0])){
-                wantsNewline = true;
+            int stbrtLength = getLength();
+            // We don't wbnt b newline if elem is b lebf, bnd doesn't contbin
+            // b newline.
+            boolebn wbntsNewline = !elem.isLebf();
+            if (!wbntsNewline && (end > stbrtLength ||
+                                 getText(end - 1, 1).chbrAt(0) == NEWLINE[0])){
+                wbntsNewline = true;
             }
-            Element parent = elem.getParentElement();
-            int oldCount = parent.getElementCount();
-            insertHTML(parent, start, htmlText, wantsNewline);
+            Element pbrent = elem.getPbrentElement();
+            int oldCount = pbrent.getElementCount();
+            insertHTML(pbrent, stbrt, htmlText, wbntsNewline);
             // Remove old.
             int newLength = getLength();
-            if (oldCount != parent.getElementCount()) {
-                int removeIndex = parent.getElementIndex(start + newLength -
-                                                         startLength);
-                removeElements(parent, removeIndex, 1);
+            if (oldCount != pbrent.getElementCount()) {
+                int removeIndex = pbrent.getElementIndex(stbrt + newLength -
+                                                         stbrtLength);
+                removeElements(pbrent, removeIndex, 1);
             }
         }
     }
 
     /**
-     * Inserts the HTML specified as a string at the start
+     * Inserts the HTML specified bs b string bt the stbrt
      * of the element.
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -1155,9 +1155,9 @@ public class HTMLDocument extends DefaultStyledDocument {
      *    &lt;p&gt;   &lt;p&gt;
      * </pre>
      *
-     * <p>Invoking <code>insertAfterStart(elem,
+     * <p>Invoking <code>insertAfterStbrt(elem,
      * "&lt;ul&gt;&lt;li&gt;")</code> results in the following structure
-     * (new elements are <font style="color: red;">in red</font>).</p>
+     * (new elements bre <font style="color: red;">in red</font>).</p>
      *
      * <pre>
      *        &lt;body&gt;
@@ -1169,56 +1169,56 @@ public class HTMLDocument extends DefaultStyledDocument {
      *  <font style="color: red;">&lt;li&gt;</font>
      * </pre>
      *
-     * <p>Unlike the <code>insertBeforeStart</code> method, new
+     * <p>Unlike the <code>insertBeforeStbrt</code> method, new
      *  elements become <em>children</em> of the specified element,
      *  not siblings.</p>
      *
-     * <p>Parameter <code>elem</code> must not be a leaf element,
-     * otherwise an <code>IllegalArgumentException</code> is thrown.
-     * If either <code>elem</code> or <code>htmlText</code> parameter
-     * is <code>null</code>, no changes are made to the document.</p>
+     * <p>Pbrbmeter <code>elem</code> must not be b lebf element,
+     * otherwise bn <code>IllegblArgumentException</code> is thrown.
+     * If either <code>elem</code> or <code>htmlText</code> pbrbmeter
+     * is <code>null</code>, no chbnges bre mbde to the document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * <code>HTMLEditorKit.Parser</code> set. This will be the case
-     * if the document was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * <code>HTMLEditorKit.Pbrser</code> set. This will be the cbse
+     * if the document wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the branch element to be the root for the new text
-     * @param htmlText the string to be parsed and assigned to <code>elem</code>
-     * @throws IllegalArgumentException if <code>elem</code> is a leaf
-     * @throws IllegalStateException if an HTMLEditorKit.Parser has not
+     * @pbrbm elem the brbnch element to be the root for the new text
+     * @pbrbm htmlText the string to be pbrsed bnd bssigned to <code>elem</code>
+     * @throws IllegblArgumentException if <code>elem</code> is b lebf
+     * @throws IllegblStbteException if bn HTMLEditorKit.Pbrser hbs not
      *         been set on the document
-     * @throws BadLocationException if insertion is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @throws BbdLocbtionException if insertion is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
-    public void insertAfterStart(Element elem, String htmlText) throws
-                                 BadLocationException, IOException {
-        verifyParser();
+    public void insertAfterStbrt(Element elem, String htmlText) throws
+                                 BbdLocbtionException, IOException {
+        verifyPbrser();
 
         if (elem == null || htmlText == null) {
             return;
         }
 
-        if (elem.isLeaf()) {
-            throw new IllegalArgumentException
-                ("Can not insert HTML after start of a leaf");
+        if (elem.isLebf()) {
+            throw new IllegblArgumentException
+                ("Cbn not insert HTML bfter stbrt of b lebf");
         }
-        insertHTML(elem, elem.getStartOffset(), htmlText, false);
+        insertHTML(elem, elem.getStbrtOffset(), htmlText, fblse);
     }
 
     /**
-     * Inserts the HTML specified as a string at the end of
+     * Inserts the HTML specified bs b string bt the end of
      * the element.
      *
-     * <p> If <code>elem</code>'s children are leaves, and the
-     * character at a <code>elem.getEndOffset() - 1</code> is a newline,
-     * this will insert before the newline so that there isn't text after
+     * <p> If <code>elem</code>'s children bre lebves, bnd the
+     * chbrbcter bt b <code>elem.getEndOffset() - 1</code> is b newline,
+     * this will insert before the newline so thbt there isn't text bfter
      * the newline.</p>
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -1229,7 +1229,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * </pre>
      *
      * <p>Invoking <code>insertBeforeEnd(elem, "&lt;ul&gt;&lt;li&gt;")</code>
-     * results in the following structure (new elements are <font
+     * results in the following structure (new elements bre <font
      * style="color: red;">in red</font>).</p>
      *
      * <pre>
@@ -1246,49 +1246,49 @@ public class HTMLDocument extends DefaultStyledDocument {
      * become <em>children</em> of the specified element, not
      * siblings.</p>
      *
-     * <p>Parameter <code>elem</code> must not be a leaf element,
-     * otherwise an <code>IllegalArgumentException</code> is thrown.
-     * If either <code>elem</code> or <code>htmlText</code> parameter
-     * is <code>null</code>, no changes are made to the document.</p>
+     * <p>Pbrbmeter <code>elem</code> must not be b lebf element,
+     * otherwise bn <code>IllegblArgumentException</code> is thrown.
+     * If either <code>elem</code> or <code>htmlText</code> pbrbmeter
+     * is <code>null</code>, no chbnges bre mbde to the document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * <code>HTMLEditorKit.Parser</code> set. This will be the case
-     * if the document was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * <code>HTMLEditorKit.Pbrser</code> set. This will be the cbse
+     * if the document wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the element to be the root for the new text
-     * @param htmlText the string to be parsed and assigned to <code>elem</code>
-     * @throws IllegalArgumentException if <code>elem</code> is a leaf
-     * @throws IllegalStateException if an HTMLEditorKit.Parser has not
+     * @pbrbm elem the element to be the root for the new text
+     * @pbrbm htmlText the string to be pbrsed bnd bssigned to <code>elem</code>
+     * @throws IllegblArgumentException if <code>elem</code> is b lebf
+     * @throws IllegblStbteException if bn HTMLEditorKit.Pbrser hbs not
      *         been set on the document
-     * @throws BadLocationException if insertion is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @throws BbdLocbtionException if insertion is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
     public void insertBeforeEnd(Element elem, String htmlText) throws
-                                BadLocationException, IOException {
-        verifyParser();
-        if (elem != null && elem.isLeaf()) {
-            throw new IllegalArgumentException
-                ("Can not set inner HTML before end of leaf");
+                                BbdLocbtionException, IOException {
+        verifyPbrser();
+        if (elem != null && elem.isLebf()) {
+            throw new IllegblArgumentException
+                ("Cbn not set inner HTML before end of lebf");
         }
         if (elem != null) {
             int offset = elem.getEndOffset();
-            if (elem.getElement(elem.getElementIndex(offset - 1)).isLeaf() &&
-                getText(offset - 1, 1).charAt(0) == NEWLINE[0]) {
+            if (elem.getElement(elem.getElementIndex(offset - 1)).isLebf() &&
+                getText(offset - 1, 1).chbrAt(0) == NEWLINE[0]) {
                 offset--;
             }
-            insertHTML(elem, offset, htmlText, false);
+            insertHTML(elem, offset, htmlText, fblse);
         }
     }
 
     /**
-     * Inserts the HTML specified as a string before the start of
+     * Inserts the HTML specified bs b string before the stbrt of
      * the given element.
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -1298,9 +1298,9 @@ public class HTMLDocument extends DefaultStyledDocument {
      *    &lt;p&gt;   &lt;p&gt;
      * </pre>
      *
-     * <p>Invoking <code>insertBeforeStart(elem,
+     * <p>Invoking <code>insertBeforeStbrt(elem,
      * "&lt;ul&gt;&lt;li&gt;")</code> results in the following structure
-     * (new elements are <font style="color: red;">in red</font>).</p>
+     * (new elements bre <font style="color: red;">in red</font>).</p>
      *
      * <pre>
      *        &lt;body&gt;
@@ -1310,46 +1310,46 @@ public class HTMLDocument extends DefaultStyledDocument {
      *     <font style="color: red;">&lt;li&gt;</font> &lt;p&gt;  &lt;p&gt;
      * </pre>
      *
-     * <p>Unlike the <code>insertAfterStart</code> method, new
+     * <p>Unlike the <code>insertAfterStbrt</code> method, new
      * elements become <em>siblings</em> of the specified element, not
      * children.</p>
      *
      * <p>If either <code>elem</code> or <code>htmlText</code>
-     * parameter is <code>null</code>, no changes are made to the
+     * pbrbmeter is <code>null</code>, no chbnges bre mbde to the
      * document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * <code>HTMLEditorKit.Parser</code> set. This will be the case
-     * if the document was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * <code>HTMLEditorKit.Pbrser</code> set. This will be the cbse
+     * if the document wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the element the content is inserted before
-     * @param htmlText the string to be parsed and inserted before <code>elem</code>
-     * @throws IllegalStateException if an HTMLEditorKit.Parser has not
+     * @pbrbm elem the element the content is inserted before
+     * @pbrbm htmlText the string to be pbrsed bnd inserted before <code>elem</code>
+     * @throws IllegblStbteException if bn HTMLEditorKit.Pbrser hbs not
      *         been set on the document
-     * @throws BadLocationException if insertion is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @throws BbdLocbtionException if insertion is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
-    public void insertBeforeStart(Element elem, String htmlText) throws
-                                  BadLocationException, IOException {
-        verifyParser();
+    public void insertBeforeStbrt(Element elem, String htmlText) throws
+                                  BbdLocbtionException, IOException {
+        verifyPbrser();
         if (elem != null) {
-            Element parent = elem.getParentElement();
+            Element pbrent = elem.getPbrentElement();
 
-            if (parent != null) {
-                insertHTML(parent, elem.getStartOffset(), htmlText, false);
+            if (pbrent != null) {
+                insertHTML(pbrent, elem.getStbrtOffset(), htmlText, fblse);
             }
         }
     }
 
     /**
-     * Inserts the HTML specified as a string after the the end of the
+     * Inserts the HTML specified bs b string bfter the the end of the
      * given element.
      *
      * <p>Consider the following structure (the <code>elem</code>
-     * parameter is <b>in bold</b>).</p>
+     * pbrbmeter is <b>in bold</b>).</p>
      *
      * <pre>
      *     &lt;body&gt;
@@ -1360,7 +1360,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * </pre>
      *
      * <p>Invoking <code>insertAfterEnd(elem, "&lt;ul&gt;&lt;li&gt;")</code>
-     * results in the following structure (new elements are <font
+     * results in the following structure (new elements bre <font
      * style="color: red;">in red</font>).</p>
      *
      * <pre>
@@ -1376,138 +1376,138 @@ public class HTMLDocument extends DefaultStyledDocument {
      * children.</p>
      *
      * <p>If either <code>elem</code> or <code>htmlText</code>
-     * parameter is <code>null</code>, no changes are made to the
+     * pbrbmeter is <code>null</code>, no chbnges bre mbde to the
      * document.</p>
      *
-     * <p>For this to work correctly, the document must have an
-     * <code>HTMLEditorKit.Parser</code> set. This will be the case
-     * if the document was created from an HTMLEditorKit via the
-     * <code>createDefaultDocument</code> method.</p>
+     * <p>For this to work correctly, the document must hbve bn
+     * <code>HTMLEditorKit.Pbrser</code> set. This will be the cbse
+     * if the document wbs crebted from bn HTMLEditorKit vib the
+     * <code>crebteDefbultDocument</code> method.</p>
      *
-     * @param elem the element the content is inserted after
-     * @param htmlText the string to be parsed and inserted after <code>elem</code>
-     * @throws IllegalStateException if an HTMLEditorKit.Parser has not
+     * @pbrbm elem the element the content is inserted bfter
+     * @pbrbm htmlText the string to be pbrsed bnd inserted bfter <code>elem</code>
+     * @throws IllegblStbteException if bn HTMLEditorKit.Pbrser hbs not
      *         been set on the document
-     * @throws BadLocationException if insertion is impossible because of
-     *         a structural issue
-     * @throws IOException if an I/O exception occurs
+     * @throws BbdLocbtionException if insertion is impossible becbuse of
+     *         b structurbl issue
+     * @throws IOException if bn I/O exception occurs
      * @since 1.3
      */
     public void insertAfterEnd(Element elem, String htmlText) throws
-                               BadLocationException, IOException {
-        verifyParser();
+                               BbdLocbtionException, IOException {
+        verifyPbrser();
         if (elem != null) {
-            Element parent = elem.getParentElement();
+            Element pbrent = elem.getPbrentElement();
 
-            if (parent != null) {
+            if (pbrent != null) {
                 int offset = elem.getEndOffset();
                 if (offset > getLength()) {
                     offset--;
                 }
-                else if (elem.isLeaf() && getText(offset - 1, 1).
-                    charAt(0) == NEWLINE[0]) {
+                else if (elem.isLebf() && getText(offset - 1, 1).
+                    chbrAt(0) == NEWLINE[0]) {
                     offset--;
                 }
-                insertHTML(parent, offset, htmlText, false);
+                insertHTML(pbrent, offset, htmlText, fblse);
             }
         }
     }
 
     /**
-     * Returns the element that has the given id <code>Attribute</code>.
-     * If the element can't be found, <code>null</code> is returned.
-     * Note that this method works on an <code>Attribute</code>,
-     * <i>not</i> a character tag.  In the following HTML snippet:
-     * <code>&lt;a id="HelloThere"&gt;</code> the attribute is
-     * 'id' and the character tag is 'a'.
-     * This is a convenience method for
+     * Returns the element thbt hbs the given id <code>Attribute</code>.
+     * If the element cbn't be found, <code>null</code> is returned.
+     * Note thbt this method works on bn <code>Attribute</code>,
+     * <i>not</i> b chbrbcter tbg.  In the following HTML snippet:
+     * <code>&lt;b id="HelloThere"&gt;</code> the bttribute is
+     * 'id' bnd the chbrbcter tbg is 'b'.
+     * This is b convenience method for
      * <code>getElement(RootElement, HTML.Attribute.id, id)</code>.
-     * This is not thread-safe.
+     * This is not threbd-sbfe.
      *
-     * @param id  the string representing the desired <code>Attribute</code>
+     * @pbrbm id  the string representing the desired <code>Attribute</code>
      * @return the element with the specified <code>Attribute</code>
-     *          or <code>null</code> if it can't be found,
+     *          or <code>null</code> if it cbn't be found,
      *          or <code>null</code> if <code>id</code> is <code>null</code>
-     * @see javax.swing.text.html.HTML.Attribute
+     * @see jbvbx.swing.text.html.HTML.Attribute
      * @since 1.3
      */
     public Element getElement(String id) {
         if (id == null) {
             return null;
         }
-        return getElement(getDefaultRootElement(), HTML.Attribute.ID, id,
+        return getElement(getDefbultRootElement(), HTML.Attribute.ID, id,
                           true);
     }
 
     /**
-     * Returns the child element of <code>e</code> that contains the
-     * attribute, <code>attribute</code> with value <code>value</code>, or
-     * <code>null</code> if one isn't found. This is not thread-safe.
+     * Returns the child element of <code>e</code> thbt contbins the
+     * bttribute, <code>bttribute</code> with vblue <code>vblue</code>, or
+     * <code>null</code> if one isn't found. This is not threbd-sbfe.
      *
-     * @param e the root element where the search begins
-     * @param attribute the desired <code>Attribute</code>
-     * @param value the values for the specified <code>Attribute</code>
+     * @pbrbm e the root element where the sebrch begins
+     * @pbrbm bttribute the desired <code>Attribute</code>
+     * @pbrbm vblue the vblues for the specified <code>Attribute</code>
      * @return the element with the specified <code>Attribute</code>
-     *          and the specified <code>value</code>, or <code>null</code>
-     *          if it can't be found
-     * @see javax.swing.text.html.HTML.Attribute
+     *          bnd the specified <code>vblue</code>, or <code>null</code>
+     *          if it cbn't be found
+     * @see jbvbx.swing.text.html.HTML.Attribute
      * @since 1.3
      */
-    public Element getElement(Element e, Object attribute, Object value) {
-        return getElement(e, attribute, value, true);
+    public Element getElement(Element e, Object bttribute, Object vblue) {
+        return getElement(e, bttribute, vblue, true);
     }
 
     /**
-     * Returns the child element of <code>e</code> that contains the
-     * attribute, <code>attribute</code> with value <code>value</code>, or
-     * <code>null</code> if one isn't found. This is not thread-safe.
+     * Returns the child element of <code>e</code> thbt contbins the
+     * bttribute, <code>bttribute</code> with vblue <code>vblue</code>, or
+     * <code>null</code> if one isn't found. This is not threbd-sbfe.
      * <p>
-     * If <code>searchLeafAttributes</code> is true, and <code>e</code> is
-     * a leaf, any attributes that are instances of <code>HTML.Tag</code>
-     * with a value that is an <code>AttributeSet</code> will also be checked.
+     * If <code>sebrchLebfAttributes</code> is true, bnd <code>e</code> is
+     * b lebf, bny bttributes thbt bre instbnces of <code>HTML.Tbg</code>
+     * with b vblue thbt is bn <code>AttributeSet</code> will blso be checked.
      *
-     * @param e the root element where the search begins
-     * @param attribute the desired <code>Attribute</code>
-     * @param value the values for the specified <code>Attribute</code>
+     * @pbrbm e the root element where the sebrch begins
+     * @pbrbm bttribute the desired <code>Attribute</code>
+     * @pbrbm vblue the vblues for the specified <code>Attribute</code>
      * @return the element with the specified <code>Attribute</code>
-     *          and the specified <code>value</code>, or <code>null</code>
-     *          if it can't be found
-     * @see javax.swing.text.html.HTML.Attribute
+     *          bnd the specified <code>vblue</code>, or <code>null</code>
+     *          if it cbn't be found
+     * @see jbvbx.swing.text.html.HTML.Attribute
      */
-    private Element getElement(Element e, Object attribute, Object value,
-                               boolean searchLeafAttributes) {
-        AttributeSet attr = e.getAttributes();
+    privbte Element getElement(Element e, Object bttribute, Object vblue,
+                               boolebn sebrchLebfAttributes) {
+        AttributeSet bttr = e.getAttributes();
 
-        if (attr != null && attr.isDefined(attribute)) {
-            if (value.equals(attr.getAttribute(attribute))) {
+        if (bttr != null && bttr.isDefined(bttribute)) {
+            if (vblue.equbls(bttr.getAttribute(bttribute))) {
                 return e;
             }
         }
-        if (!e.isLeaf()) {
-            for (int counter = 0, maxCounter = e.getElementCount();
-                 counter < maxCounter; counter++) {
-                Element retValue = getElement(e.getElement(counter), attribute,
-                                              value, searchLeafAttributes);
+        if (!e.isLebf()) {
+            for (int counter = 0, mbxCounter = e.getElementCount();
+                 counter < mbxCounter; counter++) {
+                Element retVblue = getElement(e.getElement(counter), bttribute,
+                                              vblue, sebrchLebfAttributes);
 
-                if (retValue != null) {
-                    return retValue;
+                if (retVblue != null) {
+                    return retVblue;
                 }
             }
         }
-        else if (searchLeafAttributes && attr != null) {
-            // For some leaf elements we store the actual attributes inside
-            // the AttributeSet of the Element (such as anchors).
-            Enumeration<?> names = attr.getAttributeNames();
-            if (names != null) {
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
-                    if ((name instanceof HTML.Tag) &&
-                        (attr.getAttribute(name) instanceof AttributeSet)) {
+        else if (sebrchLebfAttributes && bttr != null) {
+            // For some lebf elements we store the bctubl bttributes inside
+            // the AttributeSet of the Element (such bs bnchors).
+            Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
+            if (nbmes != null) {
+                while (nbmes.hbsMoreElements()) {
+                    Object nbme = nbmes.nextElement();
+                    if ((nbme instbnceof HTML.Tbg) &&
+                        (bttr.getAttribute(nbme) instbnceof AttributeSet)) {
 
-                        AttributeSet check = (AttributeSet)attr.
-                                             getAttribute(name);
-                        if (check.isDefined(attribute) &&
-                            value.equals(check.getAttribute(attribute))) {
+                        AttributeSet check = (AttributeSet)bttr.
+                                             getAttribute(nbme);
+                        if (check.isDefined(bttribute) &&
+                            vblue.equbls(check.getAttribute(bttribute))) {
                             return e;
                         }
                     }
@@ -1518,876 +1518,876 @@ public class HTMLDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Verifies the document has an <code>HTMLEditorKit.Parser</code> set.
-     * If <code>getParser</code> returns <code>null</code>, this will throw an
-     * IllegalStateException.
+     * Verifies the document hbs bn <code>HTMLEditorKit.Pbrser</code> set.
+     * If <code>getPbrser</code> returns <code>null</code>, this will throw bn
+     * IllegblStbteException.
      *
-     * @throws IllegalStateException if the document does not have a Parser
+     * @throws IllegblStbteException if the document does not hbve b Pbrser
      */
-    private void verifyParser() {
-        if (getParser() == null) {
-            throw new IllegalStateException("No HTMLEditorKit.Parser");
+    privbte void verifyPbrser() {
+        if (getPbrser() == null) {
+            throw new IllegblStbteException("No HTMLEditorKit.Pbrser");
         }
     }
 
     /**
-     * Installs a default Parser if one has not been installed yet.
+     * Instblls b defbult Pbrser if one hbs not been instblled yet.
      */
-    private void installParserIfNecessary() {
-        if (getParser() == null) {
-            setParser(new HTMLEditorKit().getParser());
+    privbte void instbllPbrserIfNecessbry() {
+        if (getPbrser() == null) {
+            setPbrser(new HTMLEditorKit().getPbrser());
         }
     }
 
     /**
-     * Inserts a string of HTML into the document at the given position.
-     * <code>parent</code> is used to identify the location to insert the
-     * <code>html</code>. If <code>parent</code> is a leaf this can have
+     * Inserts b string of HTML into the document bt the given position.
+     * <code>pbrent</code> is used to identify the locbtion to insert the
+     * <code>html</code>. If <code>pbrent</code> is b lebf this cbn hbve
      * unexpected results.
      */
-    private void insertHTML(Element parent, int offset, String html,
-                            boolean wantsTrailingNewline)
-                 throws BadLocationException, IOException {
-        if (parent != null && html != null) {
-            HTMLEditorKit.Parser parser = getParser();
-            if (parser != null) {
-                int lastOffset = Math.max(0, offset - 1);
-                Element charElement = getCharacterElement(lastOffset);
-                Element commonParent = parent;
+    privbte void insertHTML(Element pbrent, int offset, String html,
+                            boolebn wbntsTrbilingNewline)
+                 throws BbdLocbtionException, IOException {
+        if (pbrent != null && html != null) {
+            HTMLEditorKit.Pbrser pbrser = getPbrser();
+            if (pbrser != null) {
+                int lbstOffset = Mbth.mbx(0, offset - 1);
+                Element chbrElement = getChbrbcterElement(lbstOffset);
+                Element commonPbrent = pbrent;
                 int pop = 0;
                 int push = 0;
 
-                if (parent.getStartOffset() > lastOffset) {
-                    while (commonParent != null &&
-                           commonParent.getStartOffset() > lastOffset) {
-                        commonParent = commonParent.getParentElement();
+                if (pbrent.getStbrtOffset() > lbstOffset) {
+                    while (commonPbrent != null &&
+                           commonPbrent.getStbrtOffset() > lbstOffset) {
+                        commonPbrent = commonPbrent.getPbrentElement();
                         push++;
                     }
-                    if (commonParent == null) {
-                        throw new BadLocationException("No common parent",
+                    if (commonPbrent == null) {
+                        throw new BbdLocbtionException("No common pbrent",
                                                        offset);
                     }
                 }
-                while (charElement != null && charElement != commonParent) {
+                while (chbrElement != null && chbrElement != commonPbrent) {
                     pop++;
-                    charElement = charElement.getParentElement();
+                    chbrElement = chbrElement.getPbrentElement();
                 }
-                if (charElement != null) {
+                if (chbrElement != null) {
                     // Found it, do the insert.
-                    HTMLReader reader = new HTMLReader(offset, pop - 1, push,
-                                                       null, false, true,
-                                                       wantsTrailingNewline);
+                    HTMLRebder rebder = new HTMLRebder(offset, pop - 1, push,
+                                                       null, fblse, true,
+                                                       wbntsTrbilingNewline);
 
-                    parser.parse(new StringReader(html), reader, true);
-                    reader.flush();
+                    pbrser.pbrse(new StringRebder(html), rebder, true);
+                    rebder.flush();
                 }
             }
         }
     }
 
     /**
-     * Removes child Elements of the passed in Element <code>e</code>. This
-     * will do the necessary cleanup to ensure the element representing the
-     * end character is correctly created.
-     * <p>This is not a general purpose method, it assumes that <code>e</code>
-     * will still have at least one child after the remove, and it assumes
-     * the character at <code>e.getStartOffset() - 1</code> is a newline and
+     * Removes child Elements of the pbssed in Element <code>e</code>. This
+     * will do the necessbry clebnup to ensure the element representing the
+     * end chbrbcter is correctly crebted.
+     * <p>This is not b generbl purpose method, it bssumes thbt <code>e</code>
+     * will still hbve bt lebst one child bfter the remove, bnd it bssumes
+     * the chbrbcter bt <code>e.getStbrtOffset() - 1</code> is b newline bnd
      * is of length 1.
      */
-    private void removeElements(Element e, int index, int count) throws BadLocationException {
+    privbte void removeElements(Element e, int index, int count) throws BbdLocbtionException {
         writeLock();
         try {
-            int start = e.getElement(index).getStartOffset();
+            int stbrt = e.getElement(index).getStbrtOffset();
             int end = e.getElement(index + count - 1).getEndOffset();
             if (end > getLength()) {
-                removeElementsAtEnd(e, index, count, start, end);
+                removeElementsAtEnd(e, index, count, stbrt, end);
             }
             else {
-                removeElements(e, index, count, start, end);
+                removeElements(e, index, count, stbrt, end);
             }
-        } finally {
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Called to remove child elements of <code>e</code> when one of the
-     * elements to remove is representing the end character.
-     * <p>Since the Content will not allow a removal to the end character
-     * this will do a remove from <code>start - 1</code> to <code>end</code>.
-     * The end Element(s) will be removed, and the element representing
-     * <code>start - 1</code> to <code>start</code> will be recreated. This
-     * Element has to be recreated as after the content removal its offsets
-     * become <code>start - 1</code> to <code>start - 1</code>.
+     * Cblled to remove child elements of <code>e</code> when one of the
+     * elements to remove is representing the end chbrbcter.
+     * <p>Since the Content will not bllow b removbl to the end chbrbcter
+     * this will do b remove from <code>stbrt - 1</code> to <code>end</code>.
+     * The end Element(s) will be removed, bnd the element representing
+     * <code>stbrt - 1</code> to <code>stbrt</code> will be recrebted. This
+     * Element hbs to be recrebted bs bfter the content removbl its offsets
+     * become <code>stbrt - 1</code> to <code>stbrt - 1</code>.
      */
-    private void removeElementsAtEnd(Element e, int index, int count,
-                         int start, int end) throws BadLocationException {
-        // index must be > 0 otherwise no insert would have happened.
-        boolean isLeaf = (e.getElement(index - 1).isLeaf());
-        DefaultDocumentEvent dde = new DefaultDocumentEvent(
-                       start - 1, end - start + 1, DocumentEvent.
+    privbte void removeElementsAtEnd(Element e, int index, int count,
+                         int stbrt, int end) throws BbdLocbtionException {
+        // index must be > 0 otherwise no insert would hbve hbppened.
+        boolebn isLebf = (e.getElement(index - 1).isLebf());
+        DefbultDocumentEvent dde = new DefbultDocumentEvent(
+                       stbrt - 1, end - stbrt + 1, DocumentEvent.
                        EventType.REMOVE);
 
-        if (isLeaf) {
-            Element endE = getCharacterElement(getLength());
+        if (isLebf) {
+            Element endE = getChbrbcterElement(getLength());
             // e.getElement(index - 1) should represent the newline.
             index--;
-            if (endE.getParentElement() != e) {
-                // The hiearchies don't match, we'll have to manually
-                // recreate the leaf at e.getElement(index - 1)
-                replace(dde, e, index, ++count, start, end, true, true);
+            if (endE.getPbrentElement() != e) {
+                // The hiebrchies don't mbtch, we'll hbve to mbnublly
+                // recrebte the lebf bt e.getElement(index - 1)
+                replbce(dde, e, index, ++count, stbrt, end, true, true);
             }
             else {
-                // The hierarchies for the end Element and
-                // e.getElement(index - 1), match, we can safely remove
-                // the Elements and the end content will be aligned
-                // appropriately.
-                replace(dde, e, index, count, start, end, true, false);
+                // The hierbrchies for the end Element bnd
+                // e.getElement(index - 1), mbtch, we cbn sbfely remove
+                // the Elements bnd the end content will be bligned
+                // bppropribtely.
+                replbce(dde, e, index, count, stbrt, end, true, fblse);
             }
         }
         else {
-            // Not a leaf, descend until we find the leaf representing
-            // start - 1 and remove it.
+            // Not b lebf, descend until we find the lebf representing
+            // stbrt - 1 bnd remove it.
             Element newLineE = e.getElement(index - 1);
-            while (!newLineE.isLeaf()) {
+            while (!newLineE.isLebf()) {
                 newLineE = newLineE.getElement(newLineE.getElementCount() - 1);
             }
-            newLineE = newLineE.getParentElement();
-            replace(dde, e, index, count, start, end, false, false);
-            replace(dde, newLineE, newLineE.getElementCount() - 1, 1, start,
+            newLineE = newLineE.getPbrentElement();
+            replbce(dde, e, index, count, stbrt, end, fblse, fblse);
+            replbce(dde, newLineE, newLineE.getElementCount() - 1, 1, stbrt,
                     end, true, true);
         }
-        postRemoveUpdate(dde);
+        postRemoveUpdbte(dde);
         dde.end();
-        fireRemoveUpdate(dde);
-        fireUndoableEditUpdate(new UndoableEditEvent(this, dde));
+        fireRemoveUpdbte(dde);
+        fireUndobbleEditUpdbte(new UndobbleEditEvent(this, dde));
     }
 
     /**
      * This is used by <code>removeElementsAtEnd</code>, it removes
-     * <code>count</code> elements starting at <code>start</code> from
+     * <code>count</code> elements stbrting bt <code>stbrt</code> from
      * <code>e</code>.  If <code>remove</code> is true text of length
-     * <code>start - 1</code> to <code>end - 1</code> is removed.  If
-     * <code>create</code> is true a new leaf is created of length 1.
+     * <code>stbrt - 1</code> to <code>end - 1</code> is removed.  If
+     * <code>crebte</code> is true b new lebf is crebted of length 1.
      */
-    private void replace(DefaultDocumentEvent dde, Element e, int index,
-                         int count, int start, int end, boolean remove,
-                         boolean create) throws BadLocationException {
-        Element[] added;
-        AttributeSet attrs = e.getElement(index).getAttributes();
+    privbte void replbce(DefbultDocumentEvent dde, Element e, int index,
+                         int count, int stbrt, int end, boolebn remove,
+                         boolebn crebte) throws BbdLocbtionException {
+        Element[] bdded;
+        AttributeSet bttrs = e.getElement(index).getAttributes();
         Element[] removed = new Element[count];
 
         for (int counter = 0; counter < count; counter++) {
             removed[counter] = e.getElement(counter + index);
         }
         if (remove) {
-            UndoableEdit u = getContent().remove(start - 1, end - start);
+            UndobbleEdit u = getContent().remove(stbrt - 1, end - stbrt);
             if (u != null) {
-                dde.addEdit(u);
+                dde.bddEdit(u);
             }
         }
-        if (create) {
-            added = new Element[1];
-            added[0] = createLeafElement(e, attrs, start - 1, start);
+        if (crebte) {
+            bdded = new Element[1];
+            bdded[0] = crebteLebfElement(e, bttrs, stbrt - 1, stbrt);
         }
         else {
-            added = new Element[0];
+            bdded = new Element[0];
         }
-        dde.addEdit(new ElementEdit(e, index, removed, added));
-        ((AbstractDocument.BranchElement)e).replace(
-                                             index, removed.length, added);
+        dde.bddEdit(new ElementEdit(e, index, removed, bdded));
+        ((AbstrbctDocument.BrbnchElement)e).replbce(
+                                             index, removed.length, bdded);
     }
 
     /**
-     * Called to remove child Elements when the end is not touched.
+     * Cblled to remove child Elements when the end is not touched.
      */
-    private void removeElements(Element e, int index, int count,
-                             int start, int end) throws BadLocationException {
+    privbte void removeElements(Element e, int index, int count,
+                             int stbrt, int end) throws BbdLocbtionException {
         Element[] removed = new Element[count];
-        Element[] added = new Element[0];
+        Element[] bdded = new Element[0];
         for (int counter = 0; counter < count; counter++) {
             removed[counter] = e.getElement(counter + index);
         }
-        DefaultDocumentEvent dde = new DefaultDocumentEvent
-                (start, end - start, DocumentEvent.EventType.REMOVE);
-        ((AbstractDocument.BranchElement)e).replace(index, removed.length,
-                                                    added);
-        dde.addEdit(new ElementEdit(e, index, removed, added));
-        UndoableEdit u = getContent().remove(start, end - start);
+        DefbultDocumentEvent dde = new DefbultDocumentEvent
+                (stbrt, end - stbrt, DocumentEvent.EventType.REMOVE);
+        ((AbstrbctDocument.BrbnchElement)e).replbce(index, removed.length,
+                                                    bdded);
+        dde.bddEdit(new ElementEdit(e, index, removed, bdded));
+        UndobbleEdit u = getContent().remove(stbrt, end - stbrt);
         if (u != null) {
-            dde.addEdit(u);
+            dde.bddEdit(u);
         }
-        postRemoveUpdate(dde);
+        postRemoveUpdbte(dde);
         dde.end();
-        fireRemoveUpdate(dde);
+        fireRemoveUpdbte(dde);
         if (u != null) {
-            fireUndoableEditUpdate(new UndoableEditEvent(this, dde));
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, dde));
         }
     }
 
 
-    // These two are provided for inner class access. The are named different
-    // than the super class as the super class implementations are final.
-    void obtainLock() {
+    // These two bre provided for inner clbss bccess. The bre nbmed different
+    // thbn the super clbss bs the super clbss implementbtions bre finbl.
+    void obtbinLock() {
         writeLock();
     }
 
-    void releaseLock() {
+    void relebseLock() {
         writeUnlock();
     }
 
     //
-    // Provided for inner class access.
+    // Provided for inner clbss bccess.
     //
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireChangedUpdate(DocumentEvent e) {
-        super.fireChangedUpdate(e);
+    protected void fireChbngedUpdbte(DocumentEvent e) {
+        super.fireChbngedUpdbte(e);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireUndoableEditUpdate(UndoableEditEvent e) {
-        super.fireUndoableEditUpdate(e);
+    protected void fireUndobbleEditUpdbte(UndobbleEditEvent e) {
+        super.fireUndobbleEditUpdbte(e);
     }
 
-    boolean hasBaseTag() {
-        return hasBaseTag;
+    boolebn hbsBbseTbg() {
+        return hbsBbseTbg;
     }
 
-    String getBaseTarget() {
-        return baseTarget;
+    String getBbseTbrget() {
+        return bbseTbrget;
     }
 
     /*
-     * state defines whether the document is a frame document
+     * stbte defines whether the document is b frbme document
      * or not.
      */
-    private boolean frameDocument = false;
-    private boolean preservesUnknownTags = true;
+    privbte boolebn frbmeDocument = fblse;
+    privbte boolebn preservesUnknownTbgs = true;
 
     /*
-     * Used to store button groups for radio buttons in
-     * a form.
+     * Used to store button groups for rbdio buttons in
+     * b form.
      */
-    private HashMap<String, ButtonGroup> radioButtonGroupsMap;
+    privbte HbshMbp<String, ButtonGroup> rbdioButtonGroupsMbp;
 
     /**
      * Document property for the number of tokens to buffer
-     * before building an element subtree to represent them.
+     * before building bn element subtree to represent them.
      */
-    static final String TokenThreshold = "token threshold";
+    stbtic finbl String TokenThreshold = "token threshold";
 
-    private static final int MaxThreshold = 10000;
+    privbte stbtic finbl int MbxThreshold = 10000;
 
-    private static final int StepThreshold = 5;
+    privbte stbtic finbl int StepThreshold = 5;
 
 
     /**
-     * Document property key value. The value for the key will be a Vector
-     * of Strings that are comments not found in the body.
+     * Document property key vblue. The vblue for the key will be b Vector
+     * of Strings thbt bre comments not found in the body.
      */
-    public static final String AdditionalComments = "AdditionalComments";
+    public stbtic finbl String AdditionblComments = "AdditionblComments";
 
     /**
-     * Document property key value. The value for the key will be a
-     * String indicating the default type of stylesheet links.
+     * Document property key vblue. The vblue for the key will be b
+     * String indicbting the defbult type of stylesheet links.
      */
-    /* public */ static final String StyleType = "StyleType";
+    /* public */ stbtic finbl String StyleType = "StyleType";
 
     /**
-     * The location to resolve relative URLs against.  By
-     * default this will be the document's URL if the document
-     * was loaded from a URL.  If a base tag is found and
-     * can be parsed, it will be used as the base location.
+     * The locbtion to resolve relbtive URLs bgbinst.  By
+     * defbult this will be the document's URL if the document
+     * wbs lobded from b URL.  If b bbse tbg is found bnd
+     * cbn be pbrsed, it will be used bs the bbse locbtion.
      */
-    URL base;
+    URL bbse;
 
     /**
-     * does the document have base tag
+     * does the document hbve bbse tbg
      */
-    boolean hasBaseTag = false;
+    boolebn hbsBbseTbg = fblse;
 
     /**
-     * BASE tag's TARGET attribute value
+     * BASE tbg's TARGET bttribute vblue
      */
-    private String baseTarget = null;
+    privbte String bbseTbrget = null;
 
     /**
-     * The parser that is used when inserting html into the existing
+     * The pbrser thbt is used when inserting html into the existing
      * document.
      */
-    private HTMLEditorKit.Parser parser;
+    privbte HTMLEditorKit.Pbrser pbrser;
 
     /**
-     * Used for inserts when a null AttributeSet is supplied.
+     * Used for inserts when b null AttributeSet is supplied.
      */
-    private static AttributeSet contentAttributeSet;
+    privbte stbtic AttributeSet contentAttributeSet;
 
     /**
-     * Property Maps are registered under, will be a Hashtable.
+     * Property Mbps bre registered under, will be b Hbshtbble.
      */
-    static String MAP_PROPERTY = "__MAP__";
+    stbtic String MAP_PROPERTY = "__MAP__";
 
-    private static char[] NEWLINE;
+    privbte stbtic chbr[] NEWLINE;
 
     /**
      * I18N property key.
      *
-     * @see AbstractDocument#I18NProperty
+     * @see AbstrbctDocument#I18NProperty
      */
-    private static final String I18NProperty = "i18n";
+    privbte stbtic finbl String I18NProperty = "i18n";
 
-    static {
+    stbtic {
         contentAttributeSet = new SimpleAttributeSet();
-        ((MutableAttributeSet)contentAttributeSet).
-                        addAttribute(StyleConstants.NameAttribute,
-                                     HTML.Tag.CONTENT);
-        NEWLINE = new char[1];
+        ((MutbbleAttributeSet)contentAttributeSet).
+                        bddAttribute(StyleConstbnts.NbmeAttribute,
+                                     HTML.Tbg.CONTENT);
+        NEWLINE = new chbr[1];
         NEWLINE[0] = '\n';
     }
 
 
     /**
-     * An iterator to iterate over a particular type of
-     * tag.  The iterator is not thread safe.  If reliable
-     * access to the document is not already ensured by
-     * the context under which the iterator is being used,
+     * An iterbtor to iterbte over b pbrticulbr type of
+     * tbg.  The iterbtor is not threbd sbfe.  If relibble
+     * bccess to the document is not blrebdy ensured by
+     * the context under which the iterbtor is being used,
      * its use should be performed under the protection of
      * Document.render.
      */
-    public static abstract class Iterator {
+    public stbtic bbstrbct clbss Iterbtor {
 
         /**
-         * Return the attributes for this tag.
-         * @return the <code>AttributeSet</code> for this tag, or
-         *      <code>null</code> if none can be found
+         * Return the bttributes for this tbg.
+         * @return the <code>AttributeSet</code> for this tbg, or
+         *      <code>null</code> if none cbn be found
          */
-        public abstract AttributeSet getAttributes();
+        public bbstrbct AttributeSet getAttributes();
 
         /**
-         * Returns the start of the range for which the current occurrence of
-         * the tag is defined and has the same attributes.
+         * Returns the stbrt of the rbnge for which the current occurrence of
+         * the tbg is defined bnd hbs the sbme bttributes.
          *
-         * @return the start of the range, or -1 if it can't be found
+         * @return the stbrt of the rbnge, or -1 if it cbn't be found
          */
-        public abstract int getStartOffset();
+        public bbstrbct int getStbrtOffset();
 
         /**
-         * Returns the end of the range for which the current occurrence of
-         * the tag is defined and has the same attributes.
+         * Returns the end of the rbnge for which the current occurrence of
+         * the tbg is defined bnd hbs the sbme bttributes.
          *
-         * @return the end of the range
+         * @return the end of the rbnge
          */
-        public abstract int getEndOffset();
+        public bbstrbct int getEndOffset();
 
         /**
-         * Move the iterator forward to the next occurrence
-         * of the tag it represents.
+         * Move the iterbtor forwbrd to the next occurrence
+         * of the tbg it represents.
          */
-        public abstract void next();
+        public bbstrbct void next();
 
         /**
-         * Indicates if the iterator is currently
-         * representing an occurrence of a tag.  If
-         * false there are no more tags for this iterator.
-         * @return true if the iterator is currently representing an
-         *              occurrence of a tag, otherwise returns false
+         * Indicbtes if the iterbtor is currently
+         * representing bn occurrence of b tbg.  If
+         * fblse there bre no more tbgs for this iterbtor.
+         * @return true if the iterbtor is currently representing bn
+         *              occurrence of b tbg, otherwise returns fblse
          */
-        public abstract boolean isValid();
+        public bbstrbct boolebn isVblid();
 
         /**
-         * Type of tag this iterator represents.
-         * @return the tag
+         * Type of tbg this iterbtor represents.
+         * @return the tbg
          */
-        public abstract HTML.Tag getTag();
+        public bbstrbct HTML.Tbg getTbg();
     }
 
     /**
-     * An iterator to iterate over a particular type of tag.
+     * An iterbtor to iterbte over b pbrticulbr type of tbg.
      */
-    static class LeafIterator extends Iterator {
+    stbtic clbss LebfIterbtor extends Iterbtor {
 
-        LeafIterator(HTML.Tag t, Document doc) {
-            tag = t;
-            pos = new ElementIterator(doc);
+        LebfIterbtor(HTML.Tbg t, Document doc) {
+            tbg = t;
+            pos = new ElementIterbtor(doc);
             endOffset = 0;
             next();
         }
 
         /**
-         * Returns the attributes for this tag.
-         * @return the <code>AttributeSet</code> for this tag,
-         *              or <code>null</code> if none can be found
+         * Returns the bttributes for this tbg.
+         * @return the <code>AttributeSet</code> for this tbg,
+         *              or <code>null</code> if none cbn be found
          */
         public AttributeSet getAttributes() {
             Element elem = pos.current();
             if (elem != null) {
-                AttributeSet a = (AttributeSet)
-                    elem.getAttributes().getAttribute(tag);
-                if (a == null) {
-                    a = elem.getAttributes();
+                AttributeSet b = (AttributeSet)
+                    elem.getAttributes().getAttribute(tbg);
+                if (b == null) {
+                    b = elem.getAttributes();
                 }
-                return a;
+                return b;
             }
             return null;
         }
 
         /**
-         * Returns the start of the range for which the current occurrence of
-         * the tag is defined and has the same attributes.
+         * Returns the stbrt of the rbnge for which the current occurrence of
+         * the tbg is defined bnd hbs the sbme bttributes.
          *
-         * @return the start of the range, or -1 if it can't be found
+         * @return the stbrt of the rbnge, or -1 if it cbn't be found
          */
-        public int getStartOffset() {
+        public int getStbrtOffset() {
             Element elem = pos.current();
             if (elem != null) {
-                return elem.getStartOffset();
+                return elem.getStbrtOffset();
             }
             return -1;
         }
 
         /**
-         * Returns the end of the range for which the current occurrence of
-         * the tag is defined and has the same attributes.
+         * Returns the end of the rbnge for which the current occurrence of
+         * the tbg is defined bnd hbs the sbme bttributes.
          *
-         * @return the end of the range
+         * @return the end of the rbnge
          */
         public int getEndOffset() {
             return endOffset;
         }
 
         /**
-         * Moves the iterator forward to the next occurrence
-         * of the tag it represents.
+         * Moves the iterbtor forwbrd to the next occurrence
+         * of the tbg it represents.
          */
         public void next() {
-            for (nextLeaf(pos); isValid(); nextLeaf(pos)) {
+            for (nextLebf(pos); isVblid(); nextLebf(pos)) {
                 Element elem = pos.current();
-                if (elem.getStartOffset() >= endOffset) {
-                    AttributeSet a = pos.current().getAttributes();
+                if (elem.getStbrtOffset() >= endOffset) {
+                    AttributeSet b = pos.current().getAttributes();
 
-                    if (a.isDefined(tag) ||
-                        a.getAttribute(StyleConstants.NameAttribute) == tag) {
+                    if (b.isDefined(tbg) ||
+                        b.getAttribute(StyleConstbnts.NbmeAttribute) == tbg) {
 
                         // we found the next one
                         setEndOffset();
-                        break;
+                        brebk;
                     }
                 }
             }
         }
 
         /**
-         * Returns the type of tag this iterator represents.
+         * Returns the type of tbg this iterbtor represents.
          *
-         * @return the <code>HTML.Tag</code> that this iterator represents.
-         * @see javax.swing.text.html.HTML.Tag
+         * @return the <code>HTML.Tbg</code> thbt this iterbtor represents.
+         * @see jbvbx.swing.text.html.HTML.Tbg
          */
-        public HTML.Tag getTag() {
-            return tag;
+        public HTML.Tbg getTbg() {
+            return tbg;
         }
 
         /**
          * Returns true if the current position is not <code>null</code>.
          * @return true if current position is not <code>null</code>,
-         *              otherwise returns false
+         *              otherwise returns fblse
          */
-        public boolean isValid() {
+        public boolebn isVblid() {
             return (pos.current() != null);
         }
 
         /**
-         * Moves the given iterator to the next leaf element.
-         * @param iter  the iterator to be scanned
+         * Moves the given iterbtor to the next lebf element.
+         * @pbrbm iter  the iterbtor to be scbnned
          */
-        void nextLeaf(ElementIterator iter) {
+        void nextLebf(ElementIterbtor iter) {
             for (iter.next(); iter.current() != null; iter.next()) {
                 Element e = iter.current();
-                if (e.isLeaf()) {
-                    break;
+                if (e.isLebf()) {
+                    brebk;
                 }
             }
         }
 
         /**
-         * Marches a cloned iterator forward to locate the end
-         * of the run.  This sets the value of <code>endOffset</code>.
+         * Mbrches b cloned iterbtor forwbrd to locbte the end
+         * of the run.  This sets the vblue of <code>endOffset</code>.
          */
         void setEndOffset() {
-            AttributeSet a0 = getAttributes();
+            AttributeSet b0 = getAttributes();
             endOffset = pos.current().getEndOffset();
-            ElementIterator fwd = (ElementIterator) pos.clone();
-            for (nextLeaf(fwd); fwd.current() != null; nextLeaf(fwd)) {
+            ElementIterbtor fwd = (ElementIterbtor) pos.clone();
+            for (nextLebf(fwd); fwd.current() != null; nextLebf(fwd)) {
                 Element e = fwd.current();
-                AttributeSet a1 = (AttributeSet) e.getAttributes().getAttribute(tag);
-                if ((a1 == null) || (! a1.equals(a0))) {
-                    break;
+                AttributeSet b1 = (AttributeSet) e.getAttributes().getAttribute(tbg);
+                if ((b1 == null) || (! b1.equbls(b0))) {
+                    brebk;
                 }
                 endOffset = e.getEndOffset();
             }
         }
 
-        private int endOffset;
-        private HTML.Tag tag;
-        private ElementIterator pos;
+        privbte int endOffset;
+        privbte HTML.Tbg tbg;
+        privbte ElementIterbtor pos;
 
     }
 
     /**
-     * An HTML reader to load an HTML document with an HTML
-     * element structure.  This is a set of callbacks from
-     * the parser, implemented to create a set of elements
-     * tagged with attributes.  The parse builds up tokens
-     * (ElementSpec) that describe the element subtree desired,
-     * and burst it into the document under the protection of
-     * a write lock using the insert method on the document
-     * outer class.
+     * An HTML rebder to lobd bn HTML document with bn HTML
+     * element structure.  This is b set of cbllbbcks from
+     * the pbrser, implemented to crebte b set of elements
+     * tbgged with bttributes.  The pbrse builds up tokens
+     * (ElementSpec) thbt describe the element subtree desired,
+     * bnd burst it into the document under the protection of
+     * b write lock using the insert method on the document
+     * outer clbss.
      * <p>
-     * The reader can be configured by registering actions
-     * (of type <code>HTMLDocument.HTMLReader.TagAction</code>)
-     * that describe how to handle the action.  The idea behind
-     * the actions provided is that the most natural text editing
-     * operations can be provided if the element structure boils
-     * down to paragraphs with runs of some kind of style
-     * in them.  Some things are more naturally specified
-     * structurally, so arbitrary structure should be allowed
-     * above the paragraphs, but will need to be edited with structural
-     * actions.  The implication of this is that some of the
-     * HTML elements specified in the stream being parsed will
-     * be collapsed into attributes, and in some cases paragraphs
-     * will be synthesized.  When HTML elements have been
-     * converted to attributes, the attribute key will be of
-     * type HTML.Tag, and the value will be of type AttributeSet
-     * so that no information is lost.  This enables many of the
-     * existing actions to work so that the user can type input,
-     * hit the return key, backspace, delete, etc and have a
-     * reasonable result.  Selections can be created, and attributes
-     * applied or removed, etc.  With this in mind, the work done
-     * by the reader can be categorized into the following kinds
-     * of tasks:
+     * The rebder cbn be configured by registering bctions
+     * (of type <code>HTMLDocument.HTMLRebder.TbgAction</code>)
+     * thbt describe how to hbndle the bction.  The ideb behind
+     * the bctions provided is thbt the most nbturbl text editing
+     * operbtions cbn be provided if the element structure boils
+     * down to pbrbgrbphs with runs of some kind of style
+     * in them.  Some things bre more nbturblly specified
+     * structurblly, so brbitrbry structure should be bllowed
+     * bbove the pbrbgrbphs, but will need to be edited with structurbl
+     * bctions.  The implicbtion of this is thbt some of the
+     * HTML elements specified in the strebm being pbrsed will
+     * be collbpsed into bttributes, bnd in some cbses pbrbgrbphs
+     * will be synthesized.  When HTML elements hbve been
+     * converted to bttributes, the bttribute key will be of
+     * type HTML.Tbg, bnd the vblue will be of type AttributeSet
+     * so thbt no informbtion is lost.  This enbbles mbny of the
+     * existing bctions to work so thbt the user cbn type input,
+     * hit the return key, bbckspbce, delete, etc bnd hbve b
+     * rebsonbble result.  Selections cbn be crebted, bnd bttributes
+     * bpplied or removed, etc.  With this in mind, the work done
+     * by the rebder cbn be cbtegorized into the following kinds
+     * of tbsks:
      * <dl>
      * <dt>Block
-     * <dd>Build the structure like it's specified in the stream.
-     * This produces elements that contain other elements.
-     * <dt>Paragraph
-     * <dd>Like block except that it's expected that the element
-     * will be used with a paragraph view so a paragraph element
+     * <dd>Build the structure like it's specified in the strebm.
+     * This produces elements thbt contbin other elements.
+     * <dt>Pbrbgrbph
+     * <dd>Like block except thbt it's expected thbt the element
+     * will be used with b pbrbgrbph view so b pbrbgrbph element
      * won't need to be synthesized.
-     * <dt>Character
-     * <dd>Contribute the element as an attribute that will start
-     * and stop at arbitrary text locations.  This will ultimately
-     * be mixed into a run of text, with all of the currently
-     * flattened HTML character elements.
-     * <dt>Special
-     * <dd>Produce an embedded graphical element.
+     * <dt>Chbrbcter
+     * <dd>Contribute the element bs bn bttribute thbt will stbrt
+     * bnd stop bt brbitrbry text locbtions.  This will ultimbtely
+     * be mixed into b run of text, with bll of the currently
+     * flbttened HTML chbrbcter elements.
+     * <dt>Specibl
+     * <dd>Produce bn embedded grbphicbl element.
      * <dt>Form
-     * <dd>Produce an element that is like the embedded graphical
-     * element, except that it also has a component model associated
+     * <dd>Produce bn element thbt is like the embedded grbphicbl
+     * element, except thbt it blso hbs b component model bssocibted
      * with it.
      * <dt>Hidden
-     * <dd>Create an element that is hidden from view when the
-     * document is being viewed read-only, and visible when the
+     * <dd>Crebte bn element thbt is hidden from view when the
+     * document is being viewed rebd-only, bnd visible when the
      * document is being edited.  This is useful to keep the
-     * model from losing information, and used to store things
-     * like comments and unrecognized tags.
+     * model from losing informbtion, bnd used to store things
+     * like comments bnd unrecognized tbgs.
      *
      * </dl>
      * <p>
      * Currently, &lt;APPLET&gt;, &lt;PARAM&gt;, &lt;MAP&gt;, &lt;AREA&gt;, &lt;LINK&gt;,
-     * &lt;SCRIPT&gt; and &lt;STYLE&gt; are unsupported.
+     * &lt;SCRIPT&gt; bnd &lt;STYLE&gt; bre unsupported.
      *
      * <p>
-     * The assignment of the actions described is shown in the
-     * following table for the tags defined in <code>HTML.Tag</code>.
-     * <table border=1 summary="HTML tags and assigned actions">
-     * <tr><th>Tag</th><th>Action</th></tr>
-     * <tr><td><code>HTML.Tag.A</code>         <td>CharacterAction
-     * <tr><td><code>HTML.Tag.ADDRESS</code>   <td>CharacterAction
-     * <tr><td><code>HTML.Tag.APPLET</code>    <td>HiddenAction
-     * <tr><td><code>HTML.Tag.AREA</code>      <td>AreaAction
-     * <tr><td><code>HTML.Tag.B</code>         <td>CharacterAction
-     * <tr><td><code>HTML.Tag.BASE</code>      <td>BaseAction
-     * <tr><td><code>HTML.Tag.BASEFONT</code>  <td>CharacterAction
-     * <tr><td><code>HTML.Tag.BIG</code>       <td>CharacterAction
-     * <tr><td><code>HTML.Tag.BLOCKQUOTE</code><td>BlockAction
-     * <tr><td><code>HTML.Tag.BODY</code>      <td>BlockAction
-     * <tr><td><code>HTML.Tag.BR</code>        <td>SpecialAction
-     * <tr><td><code>HTML.Tag.CAPTION</code>   <td>BlockAction
-     * <tr><td><code>HTML.Tag.CENTER</code>    <td>BlockAction
-     * <tr><td><code>HTML.Tag.CITE</code>      <td>CharacterAction
-     * <tr><td><code>HTML.Tag.CODE</code>      <td>CharacterAction
-     * <tr><td><code>HTML.Tag.DD</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.DFN</code>       <td>CharacterAction
-     * <tr><td><code>HTML.Tag.DIR</code>       <td>BlockAction
-     * <tr><td><code>HTML.Tag.DIV</code>       <td>BlockAction
-     * <tr><td><code>HTML.Tag.DL</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.DT</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.EM</code>        <td>CharacterAction
-     * <tr><td><code>HTML.Tag.FONT</code>      <td>CharacterAction
-     * <tr><td><code>HTML.Tag.FORM</code>      <td>As of 1.4 a BlockAction
-     * <tr><td><code>HTML.Tag.FRAME</code>     <td>SpecialAction
-     * <tr><td><code>HTML.Tag.FRAMESET</code>  <td>BlockAction
-     * <tr><td><code>HTML.Tag.H1</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.H2</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.H3</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.H4</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.H5</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.H6</code>        <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.HEAD</code>      <td>HeadAction
-     * <tr><td><code>HTML.Tag.HR</code>        <td>SpecialAction
-     * <tr><td><code>HTML.Tag.HTML</code>      <td>BlockAction
-     * <tr><td><code>HTML.Tag.I</code>         <td>CharacterAction
-     * <tr><td><code>HTML.Tag.IMG</code>       <td>SpecialAction
-     * <tr><td><code>HTML.Tag.INPUT</code>     <td>FormAction
-     * <tr><td><code>HTML.Tag.ISINDEX</code>   <td>IsndexAction
-     * <tr><td><code>HTML.Tag.KBD</code>       <td>CharacterAction
-     * <tr><td><code>HTML.Tag.LI</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.LINK</code>      <td>LinkAction
-     * <tr><td><code>HTML.Tag.MAP</code>       <td>MapAction
-     * <tr><td><code>HTML.Tag.MENU</code>      <td>BlockAction
-     * <tr><td><code>HTML.Tag.META</code>      <td>MetaAction
-     * <tr><td><code>HTML.Tag.NOFRAMES</code>  <td>BlockAction
-     * <tr><td><code>HTML.Tag.OBJECT</code>    <td>SpecialAction
-     * <tr><td><code>HTML.Tag.OL</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.OPTION</code>    <td>FormAction
-     * <tr><td><code>HTML.Tag.P</code>         <td>ParagraphAction
-     * <tr><td><code>HTML.Tag.PARAM</code>     <td>HiddenAction
-     * <tr><td><code>HTML.Tag.PRE</code>       <td>PreAction
-     * <tr><td><code>HTML.Tag.SAMP</code>      <td>CharacterAction
-     * <tr><td><code>HTML.Tag.SCRIPT</code>    <td>HiddenAction
-     * <tr><td><code>HTML.Tag.SELECT</code>    <td>FormAction
-     * <tr><td><code>HTML.Tag.SMALL</code>     <td>CharacterAction
-     * <tr><td><code>HTML.Tag.STRIKE</code>    <td>CharacterAction
-     * <tr><td><code>HTML.Tag.S</code>         <td>CharacterAction
-     * <tr><td><code>HTML.Tag.STRONG</code>    <td>CharacterAction
-     * <tr><td><code>HTML.Tag.STYLE</code>     <td>StyleAction
-     * <tr><td><code>HTML.Tag.SUB</code>       <td>CharacterAction
-     * <tr><td><code>HTML.Tag.SUP</code>       <td>CharacterAction
-     * <tr><td><code>HTML.Tag.TABLE</code>     <td>BlockAction
-     * <tr><td><code>HTML.Tag.TD</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.TEXTAREA</code>  <td>FormAction
-     * <tr><td><code>HTML.Tag.TH</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.TITLE</code>     <td>TitleAction
-     * <tr><td><code>HTML.Tag.TR</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.TT</code>        <td>CharacterAction
-     * <tr><td><code>HTML.Tag.U</code>         <td>CharacterAction
-     * <tr><td><code>HTML.Tag.UL</code>        <td>BlockAction
-     * <tr><td><code>HTML.Tag.VAR</code>       <td>CharacterAction
-     * </table>
+     * The bssignment of the bctions described is shown in the
+     * following tbble for the tbgs defined in <code>HTML.Tbg</code>.
+     * <tbble border=1 summbry="HTML tbgs bnd bssigned bctions">
+     * <tr><th>Tbg</th><th>Action</th></tr>
+     * <tr><td><code>HTML.Tbg.A</code>         <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.ADDRESS</code>   <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.APPLET</code>    <td>HiddenAction
+     * <tr><td><code>HTML.Tbg.AREA</code>      <td>ArebAction
+     * <tr><td><code>HTML.Tbg.B</code>         <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.BASE</code>      <td>BbseAction
+     * <tr><td><code>HTML.Tbg.BASEFONT</code>  <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.BIG</code>       <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.BLOCKQUOTE</code><td>BlockAction
+     * <tr><td><code>HTML.Tbg.BODY</code>      <td>BlockAction
+     * <tr><td><code>HTML.Tbg.BR</code>        <td>SpeciblAction
+     * <tr><td><code>HTML.Tbg.CAPTION</code>   <td>BlockAction
+     * <tr><td><code>HTML.Tbg.CENTER</code>    <td>BlockAction
+     * <tr><td><code>HTML.Tbg.CITE</code>      <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.CODE</code>      <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.DD</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.DFN</code>       <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.DIR</code>       <td>BlockAction
+     * <tr><td><code>HTML.Tbg.DIV</code>       <td>BlockAction
+     * <tr><td><code>HTML.Tbg.DL</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.DT</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.EM</code>        <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.FONT</code>      <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.FORM</code>      <td>As of 1.4 b BlockAction
+     * <tr><td><code>HTML.Tbg.FRAME</code>     <td>SpeciblAction
+     * <tr><td><code>HTML.Tbg.FRAMESET</code>  <td>BlockAction
+     * <tr><td><code>HTML.Tbg.H1</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.H2</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.H3</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.H4</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.H5</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.H6</code>        <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.HEAD</code>      <td>HebdAction
+     * <tr><td><code>HTML.Tbg.HR</code>        <td>SpeciblAction
+     * <tr><td><code>HTML.Tbg.HTML</code>      <td>BlockAction
+     * <tr><td><code>HTML.Tbg.I</code>         <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.IMG</code>       <td>SpeciblAction
+     * <tr><td><code>HTML.Tbg.INPUT</code>     <td>FormAction
+     * <tr><td><code>HTML.Tbg.ISINDEX</code>   <td>IsndexAction
+     * <tr><td><code>HTML.Tbg.KBD</code>       <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.LI</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.LINK</code>      <td>LinkAction
+     * <tr><td><code>HTML.Tbg.MAP</code>       <td>MbpAction
+     * <tr><td><code>HTML.Tbg.MENU</code>      <td>BlockAction
+     * <tr><td><code>HTML.Tbg.META</code>      <td>MetbAction
+     * <tr><td><code>HTML.Tbg.NOFRAMES</code>  <td>BlockAction
+     * <tr><td><code>HTML.Tbg.OBJECT</code>    <td>SpeciblAction
+     * <tr><td><code>HTML.Tbg.OL</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.OPTION</code>    <td>FormAction
+     * <tr><td><code>HTML.Tbg.P</code>         <td>PbrbgrbphAction
+     * <tr><td><code>HTML.Tbg.PARAM</code>     <td>HiddenAction
+     * <tr><td><code>HTML.Tbg.PRE</code>       <td>PreAction
+     * <tr><td><code>HTML.Tbg.SAMP</code>      <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.SCRIPT</code>    <td>HiddenAction
+     * <tr><td><code>HTML.Tbg.SELECT</code>    <td>FormAction
+     * <tr><td><code>HTML.Tbg.SMALL</code>     <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.STRIKE</code>    <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.S</code>         <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.STRONG</code>    <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.STYLE</code>     <td>StyleAction
+     * <tr><td><code>HTML.Tbg.SUB</code>       <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.SUP</code>       <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.TABLE</code>     <td>BlockAction
+     * <tr><td><code>HTML.Tbg.TD</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.TEXTAREA</code>  <td>FormAction
+     * <tr><td><code>HTML.Tbg.TH</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.TITLE</code>     <td>TitleAction
+     * <tr><td><code>HTML.Tbg.TR</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.TT</code>        <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.U</code>         <td>ChbrbcterAction
+     * <tr><td><code>HTML.Tbg.UL</code>        <td>BlockAction
+     * <tr><td><code>HTML.Tbg.VAR</code>       <td>ChbrbcterAction
+     * </tbble>
      * <p>
-     * Once &lt;/html&gt; is encountered, the Actions are no longer notified.
+     * Once &lt;/html&gt; is encountered, the Actions bre no longer notified.
      */
-    public class HTMLReader extends HTMLEditorKit.ParserCallback {
+    public clbss HTMLRebder extends HTMLEditorKit.PbrserCbllbbck {
 
         /**
-         * Constructs an HTMLReader using default pop and push depth and no tag to insert.
+         * Constructs bn HTMLRebder using defbult pop bnd push depth bnd no tbg to insert.
          *
-         * @param offset the starting offset
+         * @pbrbm offset the stbrting offset
          */
-        public HTMLReader(int offset) {
+        public HTMLRebder(int offset) {
             this(offset, 0, 0, null);
         }
 
         /**
-         * Constructs an HTMLReader.
+         * Constructs bn HTMLRebder.
          *
-         * @param offset the starting offset
-         * @param popDepth how many parents to ascend before insert new element
-         * @param pushDepth how many parents to descend (relative to popDepth) before
+         * @pbrbm offset the stbrting offset
+         * @pbrbm popDepth how mbny pbrents to bscend before insert new element
+         * @pbrbm pushDepth how mbny pbrents to descend (relbtive to popDepth) before
          *                  inserting
-         * @param insertTag a tag to insert (may be null)
+         * @pbrbm insertTbg b tbg to insert (mby be null)
          */
-        public HTMLReader(int offset, int popDepth, int pushDepth,
-                          HTML.Tag insertTag) {
-            this(offset, popDepth, pushDepth, insertTag, true, false, true);
+        public HTMLRebder(int offset, int popDepth, int pushDepth,
+                          HTML.Tbg insertTbg) {
+            this(offset, popDepth, pushDepth, insertTbg, true, fblse, true);
         }
 
         /**
-         * Generates a RuntimeException (will eventually generate
-         * a BadLocationException when API changes are alloced) if inserting
-         * into non empty document, <code>insertTag</code> is
-         * non-<code>null</code>, and <code>offset</code> is not in the body.
+         * Generbtes b RuntimeException (will eventublly generbte
+         * b BbdLocbtionException when API chbnges bre blloced) if inserting
+         * into non empty document, <code>insertTbg</code> is
+         * non-<code>null</code>, bnd <code>offset</code> is not in the body.
          */
-        // PENDING(sky): Add throws BadLocationException and remove
+        // PENDING(sky): Add throws BbdLocbtionException bnd remove
         // RuntimeException
-        HTMLReader(int offset, int popDepth, int pushDepth,
-                   HTML.Tag insertTag, boolean insertInsertTag,
-                   boolean insertAfterImplied, boolean wantsTrailingNewline) {
+        HTMLRebder(int offset, int popDepth, int pushDepth,
+                   HTML.Tbg insertTbg, boolebn insertInsertTbg,
+                   boolebn insertAfterImplied, boolebn wbntsTrbilingNewline) {
             emptyDocument = (getLength() == 0);
-            isStyleCSS = "text/css".equals(getDefaultStyleSheetType());
+            isStyleCSS = "text/css".equbls(getDefbultStyleSheetType());
             this.offset = offset;
             threshold = HTMLDocument.this.getTokenThreshold();
-            tagMap = new Hashtable<HTML.Tag, TagAction>(57);
-            TagAction na = new TagAction();
-            TagAction ba = new BlockAction();
-            TagAction pa = new ParagraphAction();
-            TagAction ca = new CharacterAction();
-            TagAction sa = new SpecialAction();
-            TagAction fa = new FormAction();
-            TagAction ha = new HiddenAction();
-            TagAction conv = new ConvertAction();
+            tbgMbp = new Hbshtbble<HTML.Tbg, TbgAction>(57);
+            TbgAction nb = new TbgAction();
+            TbgAction bb = new BlockAction();
+            TbgAction pb = new PbrbgrbphAction();
+            TbgAction cb = new ChbrbcterAction();
+            TbgAction sb = new SpeciblAction();
+            TbgAction fb = new FormAction();
+            TbgAction hb = new HiddenAction();
+            TbgAction conv = new ConvertAction();
 
-            // register handlers for the well known tags
-            tagMap.put(HTML.Tag.A, new AnchorAction());
-            tagMap.put(HTML.Tag.ADDRESS, ca);
-            tagMap.put(HTML.Tag.APPLET, ha);
-            tagMap.put(HTML.Tag.AREA, new AreaAction());
-            tagMap.put(HTML.Tag.B, conv);
-            tagMap.put(HTML.Tag.BASE, new BaseAction());
-            tagMap.put(HTML.Tag.BASEFONT, ca);
-            tagMap.put(HTML.Tag.BIG, ca);
-            tagMap.put(HTML.Tag.BLOCKQUOTE, ba);
-            tagMap.put(HTML.Tag.BODY, ba);
-            tagMap.put(HTML.Tag.BR, sa);
-            tagMap.put(HTML.Tag.CAPTION, ba);
-            tagMap.put(HTML.Tag.CENTER, ba);
-            tagMap.put(HTML.Tag.CITE, ca);
-            tagMap.put(HTML.Tag.CODE, ca);
-            tagMap.put(HTML.Tag.DD, ba);
-            tagMap.put(HTML.Tag.DFN, ca);
-            tagMap.put(HTML.Tag.DIR, ba);
-            tagMap.put(HTML.Tag.DIV, ba);
-            tagMap.put(HTML.Tag.DL, ba);
-            tagMap.put(HTML.Tag.DT, pa);
-            tagMap.put(HTML.Tag.EM, ca);
-            tagMap.put(HTML.Tag.FONT, conv);
-            tagMap.put(HTML.Tag.FORM, new FormTagAction());
-            tagMap.put(HTML.Tag.FRAME, sa);
-            tagMap.put(HTML.Tag.FRAMESET, ba);
-            tagMap.put(HTML.Tag.H1, pa);
-            tagMap.put(HTML.Tag.H2, pa);
-            tagMap.put(HTML.Tag.H3, pa);
-            tagMap.put(HTML.Tag.H4, pa);
-            tagMap.put(HTML.Tag.H5, pa);
-            tagMap.put(HTML.Tag.H6, pa);
-            tagMap.put(HTML.Tag.HEAD, new HeadAction());
-            tagMap.put(HTML.Tag.HR, sa);
-            tagMap.put(HTML.Tag.HTML, ba);
-            tagMap.put(HTML.Tag.I, conv);
-            tagMap.put(HTML.Tag.IMG, sa);
-            tagMap.put(HTML.Tag.INPUT, fa);
-            tagMap.put(HTML.Tag.ISINDEX, new IsindexAction());
-            tagMap.put(HTML.Tag.KBD, ca);
-            tagMap.put(HTML.Tag.LI, ba);
-            tagMap.put(HTML.Tag.LINK, new LinkAction());
-            tagMap.put(HTML.Tag.MAP, new MapAction());
-            tagMap.put(HTML.Tag.MENU, ba);
-            tagMap.put(HTML.Tag.META, new MetaAction());
-            tagMap.put(HTML.Tag.NOBR, ca);
-            tagMap.put(HTML.Tag.NOFRAMES, ba);
-            tagMap.put(HTML.Tag.OBJECT, sa);
-            tagMap.put(HTML.Tag.OL, ba);
-            tagMap.put(HTML.Tag.OPTION, fa);
-            tagMap.put(HTML.Tag.P, pa);
-            tagMap.put(HTML.Tag.PARAM, new ObjectAction());
-            tagMap.put(HTML.Tag.PRE, new PreAction());
-            tagMap.put(HTML.Tag.SAMP, ca);
-            tagMap.put(HTML.Tag.SCRIPT, ha);
-            tagMap.put(HTML.Tag.SELECT, fa);
-            tagMap.put(HTML.Tag.SMALL, ca);
-            tagMap.put(HTML.Tag.SPAN, ca);
-            tagMap.put(HTML.Tag.STRIKE, conv);
-            tagMap.put(HTML.Tag.S, ca);
-            tagMap.put(HTML.Tag.STRONG, ca);
-            tagMap.put(HTML.Tag.STYLE, new StyleAction());
-            tagMap.put(HTML.Tag.SUB, conv);
-            tagMap.put(HTML.Tag.SUP, conv);
-            tagMap.put(HTML.Tag.TABLE, ba);
-            tagMap.put(HTML.Tag.TD, ba);
-            tagMap.put(HTML.Tag.TEXTAREA, fa);
-            tagMap.put(HTML.Tag.TH, ba);
-            tagMap.put(HTML.Tag.TITLE, new TitleAction());
-            tagMap.put(HTML.Tag.TR, ba);
-            tagMap.put(HTML.Tag.TT, ca);
-            tagMap.put(HTML.Tag.U, conv);
-            tagMap.put(HTML.Tag.UL, ba);
-            tagMap.put(HTML.Tag.VAR, ca);
+            // register hbndlers for the well known tbgs
+            tbgMbp.put(HTML.Tbg.A, new AnchorAction());
+            tbgMbp.put(HTML.Tbg.ADDRESS, cb);
+            tbgMbp.put(HTML.Tbg.APPLET, hb);
+            tbgMbp.put(HTML.Tbg.AREA, new ArebAction());
+            tbgMbp.put(HTML.Tbg.B, conv);
+            tbgMbp.put(HTML.Tbg.BASE, new BbseAction());
+            tbgMbp.put(HTML.Tbg.BASEFONT, cb);
+            tbgMbp.put(HTML.Tbg.BIG, cb);
+            tbgMbp.put(HTML.Tbg.BLOCKQUOTE, bb);
+            tbgMbp.put(HTML.Tbg.BODY, bb);
+            tbgMbp.put(HTML.Tbg.BR, sb);
+            tbgMbp.put(HTML.Tbg.CAPTION, bb);
+            tbgMbp.put(HTML.Tbg.CENTER, bb);
+            tbgMbp.put(HTML.Tbg.CITE, cb);
+            tbgMbp.put(HTML.Tbg.CODE, cb);
+            tbgMbp.put(HTML.Tbg.DD, bb);
+            tbgMbp.put(HTML.Tbg.DFN, cb);
+            tbgMbp.put(HTML.Tbg.DIR, bb);
+            tbgMbp.put(HTML.Tbg.DIV, bb);
+            tbgMbp.put(HTML.Tbg.DL, bb);
+            tbgMbp.put(HTML.Tbg.DT, pb);
+            tbgMbp.put(HTML.Tbg.EM, cb);
+            tbgMbp.put(HTML.Tbg.FONT, conv);
+            tbgMbp.put(HTML.Tbg.FORM, new FormTbgAction());
+            tbgMbp.put(HTML.Tbg.FRAME, sb);
+            tbgMbp.put(HTML.Tbg.FRAMESET, bb);
+            tbgMbp.put(HTML.Tbg.H1, pb);
+            tbgMbp.put(HTML.Tbg.H2, pb);
+            tbgMbp.put(HTML.Tbg.H3, pb);
+            tbgMbp.put(HTML.Tbg.H4, pb);
+            tbgMbp.put(HTML.Tbg.H5, pb);
+            tbgMbp.put(HTML.Tbg.H6, pb);
+            tbgMbp.put(HTML.Tbg.HEAD, new HebdAction());
+            tbgMbp.put(HTML.Tbg.HR, sb);
+            tbgMbp.put(HTML.Tbg.HTML, bb);
+            tbgMbp.put(HTML.Tbg.I, conv);
+            tbgMbp.put(HTML.Tbg.IMG, sb);
+            tbgMbp.put(HTML.Tbg.INPUT, fb);
+            tbgMbp.put(HTML.Tbg.ISINDEX, new IsindexAction());
+            tbgMbp.put(HTML.Tbg.KBD, cb);
+            tbgMbp.put(HTML.Tbg.LI, bb);
+            tbgMbp.put(HTML.Tbg.LINK, new LinkAction());
+            tbgMbp.put(HTML.Tbg.MAP, new MbpAction());
+            tbgMbp.put(HTML.Tbg.MENU, bb);
+            tbgMbp.put(HTML.Tbg.META, new MetbAction());
+            tbgMbp.put(HTML.Tbg.NOBR, cb);
+            tbgMbp.put(HTML.Tbg.NOFRAMES, bb);
+            tbgMbp.put(HTML.Tbg.OBJECT, sb);
+            tbgMbp.put(HTML.Tbg.OL, bb);
+            tbgMbp.put(HTML.Tbg.OPTION, fb);
+            tbgMbp.put(HTML.Tbg.P, pb);
+            tbgMbp.put(HTML.Tbg.PARAM, new ObjectAction());
+            tbgMbp.put(HTML.Tbg.PRE, new PreAction());
+            tbgMbp.put(HTML.Tbg.SAMP, cb);
+            tbgMbp.put(HTML.Tbg.SCRIPT, hb);
+            tbgMbp.put(HTML.Tbg.SELECT, fb);
+            tbgMbp.put(HTML.Tbg.SMALL, cb);
+            tbgMbp.put(HTML.Tbg.SPAN, cb);
+            tbgMbp.put(HTML.Tbg.STRIKE, conv);
+            tbgMbp.put(HTML.Tbg.S, cb);
+            tbgMbp.put(HTML.Tbg.STRONG, cb);
+            tbgMbp.put(HTML.Tbg.STYLE, new StyleAction());
+            tbgMbp.put(HTML.Tbg.SUB, conv);
+            tbgMbp.put(HTML.Tbg.SUP, conv);
+            tbgMbp.put(HTML.Tbg.TABLE, bb);
+            tbgMbp.put(HTML.Tbg.TD, bb);
+            tbgMbp.put(HTML.Tbg.TEXTAREA, fb);
+            tbgMbp.put(HTML.Tbg.TH, bb);
+            tbgMbp.put(HTML.Tbg.TITLE, new TitleAction());
+            tbgMbp.put(HTML.Tbg.TR, bb);
+            tbgMbp.put(HTML.Tbg.TT, cb);
+            tbgMbp.put(HTML.Tbg.U, conv);
+            tbgMbp.put(HTML.Tbg.UL, bb);
+            tbgMbp.put(HTML.Tbg.VAR, cb);
 
-            if (insertTag != null) {
-                this.insertTag = insertTag;
+            if (insertTbg != null) {
+                this.insertTbg = insertTbg;
                 this.popDepth = popDepth;
                 this.pushDepth = pushDepth;
-                this.insertInsertTag = insertInsertTag;
-                foundInsertTag = false;
+                this.insertInsertTbg = insertInsertTbg;
+                foundInsertTbg = fblse;
             }
             else {
-                foundInsertTag = true;
+                foundInsertTbg = true;
             }
             if (insertAfterImplied) {
                 this.popDepth = popDepth;
                 this.pushDepth = pushDepth;
                 this.insertAfterImplied = true;
-                foundInsertTag = false;
-                midInsert = false;
-                this.insertInsertTag = true;
-                this.wantsTrailingNewline = wantsTrailingNewline;
+                foundInsertTbg = fblse;
+                midInsert = fblse;
+                this.insertInsertTbg = true;
+                this.wbntsTrbilingNewline = wbntsTrbilingNewline;
             }
             else {
-                midInsert = (!emptyDocument && insertTag == null);
+                midInsert = (!emptyDocument && insertTbg == null);
                 if (midInsert) {
-                    generateEndsSpecsForMidInsert();
+                    generbteEndsSpecsForMidInsert();
                 }
             }
 
             /**
-             * This block initializes the <code>inParagraph</code> flag.
-             * It is left in <code>false</code> value automatically
-             * if the target document is empty or future inserts
-             * were positioned into the 'body' tag.
+             * This block initiblizes the <code>inPbrbgrbph</code> flbg.
+             * It is left in <code>fblse</code> vblue butombticblly
+             * if the tbrget document is empty or future inserts
+             * were positioned into the 'body' tbg.
              */
             if (!emptyDocument && !midInsert) {
-                int targetOffset = Math.max(this.offset - 1, 0);
+                int tbrgetOffset = Mbth.mbx(this.offset - 1, 0);
                 Element elem =
-                        HTMLDocument.this.getCharacterElement(targetOffset);
-                /* Going up by the left document structure path */
+                        HTMLDocument.this.getChbrbcterElement(tbrgetOffset);
+                /* Going up by the left document structure pbth */
                 for (int i = 0; i <= this.popDepth; i++) {
-                    elem = elem.getParentElement();
+                    elem = elem.getPbrentElement();
                 }
-                /* Going down by the right document structure path */
+                /* Going down by the right document structure pbth */
                 for (int i = 0; i < this.pushDepth; i++) {
                     int index = elem.getElementIndex(this.offset);
                     elem = elem.getElement(index);
                 }
-                AttributeSet attrs = elem.getAttributes();
-                if (attrs != null) {
-                    HTML.Tag tagToInsertInto =
-                            (HTML.Tag) attrs.getAttribute(StyleConstants.NameAttribute);
-                    if (tagToInsertInto != null) {
-                        this.inParagraph = tagToInsertInto.isParagraph();
+                AttributeSet bttrs = elem.getAttributes();
+                if (bttrs != null) {
+                    HTML.Tbg tbgToInsertInto =
+                            (HTML.Tbg) bttrs.getAttribute(StyleConstbnts.NbmeAttribute);
+                    if (tbgToInsertInto != null) {
+                        this.inPbrbgrbph = tbgToInsertInto.isPbrbgrbph();
                     }
                 }
             }
         }
 
         /**
-         * Generates an initial batch of end <code>ElementSpecs</code>
-         * in parseBuffer to position future inserts into the body.
+         * Generbtes bn initibl bbtch of end <code>ElementSpecs</code>
+         * in pbrseBuffer to position future inserts into the body.
          */
-        private void generateEndsSpecsForMidInsert() {
-            int           count = heightToElementWithName(HTML.Tag.BODY,
-                                                   Math.max(0, offset - 1));
-            boolean       joinNext = false;
+        privbte void generbteEndsSpecsForMidInsert() {
+            int           count = heightToElementWithNbme(HTML.Tbg.BODY,
+                                                   Mbth.mbx(0, offset - 1));
+            boolebn       joinNext = fblse;
 
             if (count == -1 && offset > 0) {
-                count = heightToElementWithName(HTML.Tag.BODY, offset);
+                count = heightToElementWithNbme(HTML.Tbg.BODY, offset);
                 if (count != -1) {
-                    // Previous isn't in body, but current is. Have to
+                    // Previous isn't in body, but current is. Hbve to
                     // do some end specs, followed by join next.
                     count = depthTo(offset - 1) - 1;
                     joinNext = true;
@@ -2397,43 +2397,43 @@ public class HTMLDocument extends DefaultStyledDocument {
                 throw new RuntimeException("Must insert new content into body element-");
             }
             if (count != -1) {
-                // Insert a newline, if necessary.
+                // Insert b newline, if necessbry.
                 try {
                     if (!joinNext && offset > 0 &&
-                        !getText(offset - 1, 1).equals("\n")) {
+                        !getText(offset - 1, 1).equbls("\n")) {
                         SimpleAttributeSet newAttrs = new SimpleAttributeSet();
-                        newAttrs.addAttribute(StyleConstants.NameAttribute,
-                                              HTML.Tag.CONTENT);
+                        newAttrs.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                              HTML.Tbg.CONTENT);
                         ElementSpec spec = new ElementSpec(newAttrs,
                                     ElementSpec.ContentType, NEWLINE, 0, 1);
-                        parseBuffer.addElement(spec);
+                        pbrseBuffer.bddElement(spec);
                     }
-                    // Should never throw, but will catch anyway.
-                } catch (BadLocationException ble) {}
+                    // Should never throw, but will cbtch bnywby.
+                } cbtch (BbdLocbtionException ble) {}
                 while (count-- > 0) {
-                    parseBuffer.addElement(new ElementSpec
-                                           (null, ElementSpec.EndTagType));
+                    pbrseBuffer.bddElement(new ElementSpec
+                                           (null, ElementSpec.EndTbgType));
                 }
                 if (joinNext) {
                     ElementSpec spec = new ElementSpec(null, ElementSpec.
-                                                       StartTagType);
+                                                       StbrtTbgType);
 
                     spec.setDirection(ElementSpec.JoinNextDirection);
-                    parseBuffer.addElement(spec);
+                    pbrseBuffer.bddElement(spec);
                 }
             }
-            // We should probably throw an exception if (count == -1)
-            // Or look for the body and reset the offset.
+            // We should probbbly throw bn exception if (count == -1)
+            // Or look for the body bnd reset the offset.
         }
 
         /**
-         * @return number of parents to reach the child at offset.
+         * @return number of pbrents to rebch the child bt offset.
          */
-        private int depthTo(int offset) {
-            Element       e = getDefaultRootElement();
+        privbte int depthTo(int offset) {
+            Element       e = getDefbultRootElement();
             int           count = 0;
 
-            while (!e.isLeaf()) {
+            while (!e.isLebf()) {
                 count++;
                 e = e.getElement(e.getElementIndex(offset));
             }
@@ -2441,127 +2441,127 @@ public class HTMLDocument extends DefaultStyledDocument {
         }
 
         /**
-         * @return number of parents of the leaf at <code>offset</code>
-         *         until a parent with name, <code>name</code> has been
-         *         found. -1 indicates no matching parent with
-         *         <code>name</code>.
+         * @return number of pbrents of the lebf bt <code>offset</code>
+         *         until b pbrent with nbme, <code>nbme</code> hbs been
+         *         found. -1 indicbtes no mbtching pbrent with
+         *         <code>nbme</code>.
          */
-        private int heightToElementWithName(Object name, int offset) {
-            Element       e = getCharacterElement(offset).getParentElement();
+        privbte int heightToElementWithNbme(Object nbme, int offset) {
+            Element       e = getChbrbcterElement(offset).getPbrentElement();
             int           count = 0;
 
             while (e != null && e.getAttributes().getAttribute
-                   (StyleConstants.NameAttribute) != name) {
+                   (StyleConstbnts.NbmeAttribute) != nbme) {
                 count++;
-                e = e.getParentElement();
+                e = e.getPbrentElement();
             }
             return (e == null) ? -1 : count;
         }
 
         /**
-         * This will make sure there aren't two BODYs (the second is
-         * typically created when you do a remove all, and then an insert).
+         * This will mbke sure there bren't two BODYs (the second is
+         * typicblly crebted when you do b remove bll, bnd then bn insert).
          */
-        private void adjustEndElement() {
+        privbte void bdjustEndElement() {
             int length = getLength();
             if (length == 0) {
                 return;
             }
-            obtainLock();
+            obtbinLock();
             try {
-                Element[] pPath = getPathTo(length - 1);
-                int pLength = pPath.length;
-                if (pLength > 1 && pPath[1].getAttributes().getAttribute
-                         (StyleConstants.NameAttribute) == HTML.Tag.BODY &&
-                         pPath[1].getEndOffset() == length) {
-                    String lastText = getText(length - 1, 1);
-                    DefaultDocumentEvent event;
-                    Element[] added;
+                Element[] pPbth = getPbthTo(length - 1);
+                int pLength = pPbth.length;
+                if (pLength > 1 && pPbth[1].getAttributes().getAttribute
+                         (StyleConstbnts.NbmeAttribute) == HTML.Tbg.BODY &&
+                         pPbth[1].getEndOffset() == length) {
+                    String lbstText = getText(length - 1, 1);
+                    DefbultDocumentEvent event;
+                    Element[] bdded;
                     Element[] removed;
                     int index;
-                    // Remove the fake second body.
-                    added = new Element[0];
+                    // Remove the fbke second body.
+                    bdded = new Element[0];
                     removed = new Element[1];
-                    index = pPath[0].getElementIndex(length);
-                    removed[0] = pPath[0].getElement(index);
-                    ((BranchElement)pPath[0]).replace(index, 1, added);
-                    ElementEdit firstEdit = new ElementEdit(pPath[0], index,
-                                                            removed, added);
+                    index = pPbth[0].getElementIndex(length);
+                    removed[0] = pPbth[0].getElement(index);
+                    ((BrbnchElement)pPbth[0]).replbce(index, 1, bdded);
+                    ElementEdit firstEdit = new ElementEdit(pPbth[0], index,
+                                                            removed, bdded);
 
-                    // Insert a new element to represent the end that the
-                    // second body was representing.
-                    SimpleAttributeSet sas = new SimpleAttributeSet();
-                    sas.addAttribute(StyleConstants.NameAttribute,
-                                         HTML.Tag.CONTENT);
-                    sas.addAttribute(IMPLIED_CR, Boolean.TRUE);
-                    added = new Element[1];
-                    added[0] = createLeafElement(pPath[pLength - 1],
-                                                     sas, length, length + 1);
-                    index = pPath[pLength - 1].getElementCount();
-                    ((BranchElement)pPath[pLength - 1]).replace(index, 0,
-                                                                added);
-                    event = new DefaultDocumentEvent(length, 1,
+                    // Insert b new element to represent the end thbt the
+                    // second body wbs representing.
+                    SimpleAttributeSet sbs = new SimpleAttributeSet();
+                    sbs.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                         HTML.Tbg.CONTENT);
+                    sbs.bddAttribute(IMPLIED_CR, Boolebn.TRUE);
+                    bdded = new Element[1];
+                    bdded[0] = crebteLebfElement(pPbth[pLength - 1],
+                                                     sbs, length, length + 1);
+                    index = pPbth[pLength - 1].getElementCount();
+                    ((BrbnchElement)pPbth[pLength - 1]).replbce(index, 0,
+                                                                bdded);
+                    event = new DefbultDocumentEvent(length, 1,
                                             DocumentEvent.EventType.CHANGE);
-                    event.addEdit(new ElementEdit(pPath[pLength - 1],
-                                         index, new Element[0], added));
-                    event.addEdit(firstEdit);
+                    event.bddEdit(new ElementEdit(pPbth[pLength - 1],
+                                         index, new Element[0], bdded));
+                    event.bddEdit(firstEdit);
                     event.end();
-                    fireChangedUpdate(event);
-                    fireUndoableEditUpdate(new UndoableEditEvent(this, event));
+                    fireChbngedUpdbte(event);
+                    fireUndobbleEditUpdbte(new UndobbleEditEvent(this, event));
 
-                    if (lastText.equals("\n")) {
-                        // We now have two \n's, one part of the Document.
+                    if (lbstText.equbls("\n")) {
+                        // We now hbve two \n's, one pbrt of the Document.
                         // We need to remove one
-                        event = new DefaultDocumentEvent(length - 1, 1,
+                        event = new DefbultDocumentEvent(length - 1, 1,
                                            DocumentEvent.EventType.REMOVE);
-                        removeUpdate(event);
-                        UndoableEdit u = getContent().remove(length - 1, 1);
+                        removeUpdbte(event);
+                        UndobbleEdit u = getContent().remove(length - 1, 1);
                         if (u != null) {
-                            event.addEdit(u);
+                            event.bddEdit(u);
                         }
-                        postRemoveUpdate(event);
-                        // Mark the edit as done.
+                        postRemoveUpdbte(event);
+                        // Mbrk the edit bs done.
                         event.end();
-                        fireRemoveUpdate(event);
-                        fireUndoableEditUpdate(new UndoableEditEvent(
+                        fireRemoveUpdbte(event);
+                        fireUndobbleEditUpdbte(new UndobbleEditEvent(
                                                this, event));
                     }
                 }
             }
-            catch (BadLocationException ble) {
+            cbtch (BbdLocbtionException ble) {
             }
-            finally {
-                releaseLock();
+            finblly {
+                relebseLock();
             }
         }
 
-        private Element[] getPathTo(int offset) {
-            Stack<Element> elements = new Stack<Element>();
-            Element e = getDefaultRootElement();
+        privbte Element[] getPbthTo(int offset) {
+            Stbck<Element> elements = new Stbck<Element>();
+            Element e = getDefbultRootElement();
             int index;
-            while (!e.isLeaf()) {
+            while (!e.isLebf()) {
                 elements.push(e);
                 e = e.getElement(e.getElementIndex(offset));
             }
-            Element[] retValue = new Element[elements.size()];
-            elements.copyInto(retValue);
-            return retValue;
+            Element[] retVblue = new Element[elements.size()];
+            elements.copyInto(retVblue);
+            return retVblue;
         }
 
-        // -- HTMLEditorKit.ParserCallback methods --------------------
+        // -- HTMLEditorKit.PbrserCbllbbck methods --------------------
 
         /**
-         * The last method called on the reader.  It allows
-         * any pending changes to be flushed into the document.
-         * Since this is currently loading synchronously, the entire
-         * set of changes are pushed in at this point.
+         * The lbst method cblled on the rebder.  It bllows
+         * bny pending chbnges to be flushed into the document.
+         * Since this is currently lobding synchronously, the entire
+         * set of chbnges bre pushed in bt this point.
          */
-        public void flush() throws BadLocationException {
+        public void flush() throws BbdLocbtionException {
             if (emptyDocument && !insertAfterImplied) {
                 if (HTMLDocument.this.getLength() > 0 ||
-                                      parseBuffer.size() > 0) {
+                                      pbrseBuffer.size() > 0) {
                     flushBuffer(true);
-                    adjustEndElement();
+                    bdjustEndElement();
                 }
                 // We won't insert when
             }
@@ -2571,364 +2571,364 @@ public class HTMLDocument extends DefaultStyledDocument {
         }
 
         /**
-         * Called by the parser to indicate a block of text was
+         * Cblled by the pbrser to indicbte b block of text wbs
          * encountered.
          */
-        public void handleText(char[] data, int pos) {
+        public void hbndleText(chbr[] dbtb, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
             }
 
-            // see if complex glyph layout support is needed
-            if(HTMLDocument.this.getProperty(I18NProperty).equals( Boolean.FALSE ) ) {
-                // if a default direction of right-to-left has been specified,
-                // we want complex layout even if the text is all left to right.
+            // see if complex glyph lbyout support is needed
+            if(HTMLDocument.this.getProperty(I18NProperty).equbls( Boolebn.FALSE ) ) {
+                // if b defbult direction of right-to-left hbs been specified,
+                // we wbnt complex lbyout even if the text is bll left to right.
                 Object d = getProperty(TextAttribute.RUN_DIRECTION);
-                if ((d != null) && (d.equals(TextAttribute.RUN_DIRECTION_RTL))) {
-                    HTMLDocument.this.putProperty( I18NProperty, Boolean.TRUE);
+                if ((d != null) && (d.equbls(TextAttribute.RUN_DIRECTION_RTL))) {
+                    HTMLDocument.this.putProperty( I18NProperty, Boolebn.TRUE);
                 } else {
-                    if (SwingUtilities2.isComplexLayout(data, 0, data.length)) {
-                        HTMLDocument.this.putProperty( I18NProperty, Boolean.TRUE);
+                    if (SwingUtilities2.isComplexLbyout(dbtb, 0, dbtb.length)) {
+                        HTMLDocument.this.putProperty( I18NProperty, Boolebn.TRUE);
                     }
                 }
             }
 
-            if (inTextArea) {
-                textAreaContent(data);
+            if (inTextAreb) {
+                textArebContent(dbtb);
             } else if (inPre) {
-                preContent(data);
+                preContent(dbtb);
             } else if (inTitle) {
-                putProperty(Document.TitleProperty, new String(data));
+                putProperty(Document.TitleProperty, new String(dbtb));
             } else if (option != null) {
-                option.setLabel(new String(data));
+                option.setLbbel(new String(dbtb));
             } else if (inStyle) {
                 if (styles != null) {
-                    styles.addElement(new String(data));
+                    styles.bddElement(new String(dbtb));
                 }
             } else if (inBlock > 0) {
-                if (!foundInsertTag && insertAfterImplied) {
-                    // Assume content should be added.
-                    foundInsertTag(false);
-                    foundInsertTag = true;
-                    inParagraph = impliedP = true;
+                if (!foundInsertTbg && insertAfterImplied) {
+                    // Assume content should be bdded.
+                    foundInsertTbg(fblse);
+                    foundInsertTbg = true;
+                    inPbrbgrbph = impliedP = true;
                 }
-                if (data.length >= 1) {
-                    addContent(data, 0, data.length);
+                if (dbtb.length >= 1) {
+                    bddContent(dbtb, 0, dbtb.length);
                 }
             }
         }
 
         /**
-         * Callback from the parser.  Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser.  Route to the bppropribte
+         * hbndler for the tbg.
          */
-        public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
+        public void hbndleStbrtTbg(HTML.Tbg t, MutbbleAttributeSet b, int pos) {
             if (receivedEndHTML) {
                 return;
             }
             if (midInsert && !inBody) {
-                if (t == HTML.Tag.BODY) {
+                if (t == HTML.Tbg.BODY) {
                     inBody = true;
-                    // Increment inBlock since we know we are in the body,
-                    // this is needed incase an implied-p is needed. If
-                    // inBlock isn't incremented, and an implied-p is
-                    // encountered, addContent won't be called!
+                    // Increment inBlock since we know we bre in the body,
+                    // this is needed incbse bn implied-p is needed. If
+                    // inBlock isn't incremented, bnd bn implied-p is
+                    // encountered, bddContent won't be cblled!
                     inBlock++;
                 }
                 return;
             }
-            if (!inBody && t == HTML.Tag.BODY) {
+            if (!inBody && t == HTML.Tbg.BODY) {
                 inBody = true;
             }
-            if (isStyleCSS && a.isDefined(HTML.Attribute.STYLE)) {
-                // Map the style attributes.
-                String decl = (String)a.getAttribute(HTML.Attribute.STYLE);
-                a.removeAttribute(HTML.Attribute.STYLE);
-                styleAttributes = getStyleSheet().getDeclaration(decl);
-                a.addAttributes(styleAttributes);
+            if (isStyleCSS && b.isDefined(HTML.Attribute.STYLE)) {
+                // Mbp the style bttributes.
+                String decl = (String)b.getAttribute(HTML.Attribute.STYLE);
+                b.removeAttribute(HTML.Attribute.STYLE);
+                styleAttributes = getStyleSheet().getDeclbrbtion(decl);
+                b.bddAttributes(styleAttributes);
             }
             else {
                 styleAttributes = null;
             }
-            TagAction action = tagMap.get(t);
+            TbgAction bction = tbgMbp.get(t);
 
-            if (action != null) {
-                action.start(t, a);
+            if (bction != null) {
+                bction.stbrt(t, b);
             }
         }
 
-        public void handleComment(char[] data, int pos) {
+        public void hbndleComment(chbr[] dbtb, int pos) {
             if (receivedEndHTML) {
-                addExternalComment(new String(data));
+                bddExternblComment(new String(dbtb));
                 return;
             }
             if (inStyle) {
                 if (styles != null) {
-                    styles.addElement(new String(data));
+                    styles.bddElement(new String(dbtb));
                 }
             }
-            else if (getPreservesUnknownTags()) {
-                if (inBlock == 0 && (foundInsertTag ||
-                                     insertTag != HTML.Tag.COMMENT)) {
-                    // Comment outside of body, will not be able to show it,
-                    // but can add it as a property on the Document.
-                    addExternalComment(new String(data));
+            else if (getPreservesUnknownTbgs()) {
+                if (inBlock == 0 && (foundInsertTbg ||
+                                     insertTbg != HTML.Tbg.COMMENT)) {
+                    // Comment outside of body, will not be bble to show it,
+                    // but cbn bdd it bs b property on the Document.
+                    bddExternblComment(new String(dbtb));
                     return;
                 }
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                sas.addAttribute(HTML.Attribute.COMMENT, new String(data));
-                addSpecialElement(HTML.Tag.COMMENT, sas);
+                SimpleAttributeSet sbs = new SimpleAttributeSet();
+                sbs.bddAttribute(HTML.Attribute.COMMENT, new String(dbtb));
+                bddSpeciblElement(HTML.Tbg.COMMENT, sbs);
             }
 
-            TagAction action = tagMap.get(HTML.Tag.COMMENT);
-            if (action != null) {
-                action.start(HTML.Tag.COMMENT, new SimpleAttributeSet());
-                action.end(HTML.Tag.COMMENT);
+            TbgAction bction = tbgMbp.get(HTML.Tbg.COMMENT);
+            if (bction != null) {
+                bction.stbrt(HTML.Tbg.COMMENT, new SimpleAttributeSet());
+                bction.end(HTML.Tbg.COMMENT);
             }
         }
 
         /**
          * Adds the comment <code>comment</code> to the set of comments
-         * maintained outside of the scope of elements.
+         * mbintbined outside of the scope of elements.
          */
-        private void addExternalComment(String comment) {
-            Object comments = getProperty(AdditionalComments);
-            if (comments != null && !(comments instanceof Vector)) {
-                // No place to put comment.
+        privbte void bddExternblComment(String comment) {
+            Object comments = getProperty(AdditionblComments);
+            if (comments != null && !(comments instbnceof Vector)) {
+                // No plbce to put comment.
                 return;
             }
             if (comments == null) {
                 comments = new Vector<>();
-                putProperty(AdditionalComments, comments);
+                putProperty(AdditionblComments, comments);
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             Vector<Object> v = (Vector<Object>)comments;
-            v.addElement(comment);
+            v.bddElement(comment);
         }
 
         /**
-         * Callback from the parser.  Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser.  Route to the bppropribte
+         * hbndler for the tbg.
          */
-        public void handleEndTag(HTML.Tag t, int pos) {
+        public void hbndleEndTbg(HTML.Tbg t, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
             }
-            if (t == HTML.Tag.HTML) {
+            if (t == HTML.Tbg.HTML) {
                 receivedEndHTML = true;
             }
-            if (t == HTML.Tag.BODY) {
-                inBody = false;
+            if (t == HTML.Tbg.BODY) {
+                inBody = fblse;
                 if (midInsert) {
                     inBlock--;
                 }
             }
-            TagAction action = tagMap.get(t);
-            if (action != null) {
-                action.end(t);
+            TbgAction bction = tbgMbp.get(t);
+            if (bction != null) {
+                bction.end(t);
             }
         }
 
         /**
-         * Callback from the parser.  Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser.  Route to the bppropribte
+         * hbndler for the tbg.
          */
-        public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
+        public void hbndleSimpleTbg(HTML.Tbg t, MutbbleAttributeSet b, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
             }
 
-            if (isStyleCSS && a.isDefined(HTML.Attribute.STYLE)) {
-                // Map the style attributes.
-                String decl = (String)a.getAttribute(HTML.Attribute.STYLE);
-                a.removeAttribute(HTML.Attribute.STYLE);
-                styleAttributes = getStyleSheet().getDeclaration(decl);
-                a.addAttributes(styleAttributes);
+            if (isStyleCSS && b.isDefined(HTML.Attribute.STYLE)) {
+                // Mbp the style bttributes.
+                String decl = (String)b.getAttribute(HTML.Attribute.STYLE);
+                b.removeAttribute(HTML.Attribute.STYLE);
+                styleAttributes = getStyleSheet().getDeclbrbtion(decl);
+                b.bddAttributes(styleAttributes);
             }
             else {
                 styleAttributes = null;
             }
 
-            TagAction action = tagMap.get(t);
-            if (action != null) {
-                action.start(t, a);
-                action.end(t);
+            TbgAction bction = tbgMbp.get(t);
+            if (bction != null) {
+                bction.stbrt(t, b);
+                bction.end(t);
             }
-            else if (getPreservesUnknownTags()) {
-                // unknown tag, only add if should preserve it.
-                addSpecialElement(t, a);
+            else if (getPreservesUnknownTbgs()) {
+                // unknown tbg, only bdd if should preserve it.
+                bddSpeciblElement(t, b);
             }
         }
 
         /**
-         * This is invoked after the stream has been parsed, but before
+         * This is invoked bfter the strebm hbs been pbrsed, but before
          * <code>flush</code>. <code>eol</code> will be one of \n, \r
-         * or \r\n, which ever is encountered the most in parsing the
-         * stream.
+         * or \r\n, which ever is encountered the most in pbrsing the
+         * strebm.
          *
          * @since 1.3
          */
-        public void handleEndOfLineString(String eol) {
+        public void hbndleEndOfLineString(String eol) {
             if (emptyDocument && eol != null) {
-                putProperty(DefaultEditorKit.EndOfLineStringProperty,
+                putProperty(DefbultEditorKit.EndOfLineStringProperty,
                             eol);
             }
         }
 
-        // ---- tag handling support ------------------------------
+        // ---- tbg hbndling support ------------------------------
 
         /**
-         * Registers a handler for the given tag.  By default
-         * all of the well-known tags will have been registered.
-         * This can be used to change the handling of a particular
-         * tag or to add support for custom tags.
+         * Registers b hbndler for the given tbg.  By defbult
+         * bll of the well-known tbgs will hbve been registered.
+         * This cbn be used to chbnge the hbndling of b pbrticulbr
+         * tbg or to bdd support for custom tbgs.
          *
-         * @param t an HTML tag
-         * @param a tag action handler
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b tbg bction hbndler
          */
-        protected void registerTag(HTML.Tag t, TagAction a) {
-            tagMap.put(t, a);
+        protected void registerTbg(HTML.Tbg t, TbgAction b) {
+            tbgMbp.put(t, b);
         }
 
         /**
-         * An action to be performed in response
-         * to parsing a tag.  This allows customization
-         * of how each tag is handled and avoids a large
-         * switch statement.
+         * An bction to be performed in response
+         * to pbrsing b tbg.  This bllows customizbtion
+         * of how ebch tbg is hbndled bnd bvoids b lbrge
+         * switch stbtement.
          */
-        public class TagAction {
+        public clbss TbgAction {
 
             /**
-             * Called when a start tag is seen for the
-             * type of tag this action was registered
-             * to.  The tag argument indicates the actual
-             * tag for those actions that are shared across
-             * many tags.  By default this does nothing and
-             * completely ignores the tag.
+             * Cblled when b stbrt tbg is seen for the
+             * type of tbg this bction wbs registered
+             * to.  The tbg brgument indicbtes the bctubl
+             * tbg for those bctions thbt bre shbred bcross
+             * mbny tbgs.  By defbult this does nothing bnd
+             * completely ignores the tbg.
              *
-             * @param t the HTML tag
-             * @param a the attributes
+             * @pbrbm t the HTML tbg
+             * @pbrbm b the bttributes
              */
-            public void start(HTML.Tag t, MutableAttributeSet a) {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
             }
 
             /**
-             * Called when an end tag is seen for the
-             * type of tag this action was registered
-             * to.  The tag argument indicates the actual
-             * tag for those actions that are shared across
-             * many tags.  By default this does nothing and
-             * completely ignores the tag.
+             * Cblled when bn end tbg is seen for the
+             * type of tbg this bction wbs registered
+             * to.  The tbg brgument indicbtes the bctubl
+             * tbg for those bctions thbt bre shbred bcross
+             * mbny tbgs.  By defbult this does nothing bnd
+             * completely ignores the tbg.
              *
-             * @param t the HTML tag
+             * @pbrbm t the HTML tbg
              */
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
             }
 
         }
 
         /**
-         * Action assigned by default to handle the Block task of the reader.
+         * Action bssigned by defbult to hbndle the Block tbsk of the rebder.
          */
-        public class BlockAction extends TagAction {
+        public clbss BlockAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                blockOpen(t, attr);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                blockOpen(t, bttr);
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
                 blockClose(t);
             }
         }
 
 
         /**
-         * Action used for the actual element form tag. This is named such
-         * as there was already a public class named FormAction.
+         * Action used for the bctubl element form tbg. This is nbmed such
+         * bs there wbs blrebdy b public clbss nbmed FormAction.
          */
-        private class FormTagAction extends BlockAction {
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                super.start(t, attr);
-                // initialize a ButtonGroupsMap when
-                // FORM tag is encountered.  This will
-                // be used for any radio buttons that
+        privbte clbss FormTbgAction extends BlockAction {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                super.stbrt(t, bttr);
+                // initiblize b ButtonGroupsMbp when
+                // FORM tbg is encountered.  This will
+                // be used for bny rbdio buttons thbt
                 // might be defined in the FORM.
-                // for new group new ButtonGroup will be created (fix for 4529702)
-                // group name is a key in radioButtonGroupsMap
-                radioButtonGroupsMap = new HashMap<String, ButtonGroup>();
+                // for new group new ButtonGroup will be crebted (fix for 4529702)
+                // group nbme is b key in rbdioButtonGroupsMbp
+                rbdioButtonGroupsMbp = new HbshMbp<String, ButtonGroup>();
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
                 super.end(t);
                 // reset the button group to null since
-                // the form has ended.
-                radioButtonGroupsMap = null;
+                // the form hbs ended.
+                rbdioButtonGroupsMbp = null;
             }
         }
 
 
         /**
-         * Action assigned by default to handle the Paragraph task of the reader.
+         * Action bssigned by defbult to hbndle the Pbrbgrbph tbsk of the rebder.
          */
-        public class ParagraphAction extends BlockAction {
+        public clbss PbrbgrbphAction extends BlockAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                super.start(t, a);
-                inParagraph = true;
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                super.stbrt(t, b);
+                inPbrbgrbph = true;
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
                 super.end(t);
-                inParagraph = false;
+                inPbrbgrbph = fblse;
             }
         }
 
         /**
-         * Action assigned by default to handle the Special task of the reader.
+         * Action bssigned by defbult to hbndle the Specibl tbsk of the rebder.
          */
-        public class SpecialAction extends TagAction {
+        public clbss SpeciblAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                addSpecialElement(t, a);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                bddSpeciblElement(t, b);
             }
 
         }
 
         /**
-         * Action assigned by default to handle the Isindex task of the reader.
+         * Action bssigned by defbult to hbndle the Isindex tbsk of the rebder.
          */
-        public class IsindexAction extends TagAction {
+        public clbss IsindexAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                blockOpen(HTML.Tag.IMPLIED, new SimpleAttributeSet());
-                addSpecialElement(t, a);
-                blockClose(HTML.Tag.IMPLIED);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                blockOpen(HTML.Tbg.IMPLIED, new SimpleAttributeSet());
+                bddSpeciblElement(t, b);
+                blockClose(HTML.Tbg.IMPLIED);
             }
 
         }
 
 
         /**
-         * Action assigned by default to handle the Hidden task of the reader.
+         * Action bssigned by defbult to hbndle the Hidden tbsk of the rebder.
          */
-        public class HiddenAction extends TagAction {
+        public clbss HiddenAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                addSpecialElement(t, a);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                bddSpeciblElement(t, b);
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
                 if (!isEmpty(t)) {
-                    MutableAttributeSet a = new SimpleAttributeSet();
-                    a.addAttribute(HTML.Attribute.ENDTAG, "true");
-                    addSpecialElement(t, a);
+                    MutbbleAttributeSet b = new SimpleAttributeSet();
+                    b.bddAttribute(HTML.Attribute.ENDTAG, "true");
+                    bddSpeciblElement(t, b);
                 }
             }
 
-            boolean isEmpty(HTML.Tag t) {
-                if (t == HTML.Tag.APPLET ||
-                    t == HTML.Tag.SCRIPT) {
-                    return false;
+            boolebn isEmpty(HTML.Tbg t) {
+                if (t == HTML.Tbg.APPLET ||
+                    t == HTML.Tbg.SCRIPT) {
+                    return fblse;
                 }
                 return true;
             }
@@ -2936,67 +2936,67 @@ public class HTMLDocument extends DefaultStyledDocument {
 
 
         /**
-         * Subclass of HiddenAction to set the content type for style sheets,
-         * and to set the name of the default style sheet.
+         * Subclbss of HiddenAction to set the content type for style sheets,
+         * bnd to set the nbme of the defbult style sheet.
          */
-        class MetaAction extends HiddenAction {
+        clbss MetbAction extends HiddenAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                Object equiv = a.getAttribute(HTML.Attribute.HTTPEQUIV);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                Object equiv = b.getAttribute(HTML.Attribute.HTTPEQUIV);
                 if (equiv != null) {
-                    equiv = ((String)equiv).toLowerCase();
-                    if (equiv.equals("content-style-type")) {
-                        String value = (String)a.getAttribute
+                    equiv = ((String)equiv).toLowerCbse();
+                    if (equiv.equbls("content-style-type")) {
+                        String vblue = (String)b.getAttribute
                                        (HTML.Attribute.CONTENT);
-                        setDefaultStyleSheetType(value);
-                        isStyleCSS = "text/css".equals
-                                      (getDefaultStyleSheetType());
+                        setDefbultStyleSheetType(vblue);
+                        isStyleCSS = "text/css".equbls
+                                      (getDefbultStyleSheetType());
                     }
-                    else if (equiv.equals("default-style")) {
-                        defaultStyle = (String)a.getAttribute
+                    else if (equiv.equbls("defbult-style")) {
+                        defbultStyle = (String)b.getAttribute
                                        (HTML.Attribute.CONTENT);
                     }
                 }
-                super.start(t, a);
+                super.stbrt(t, b);
             }
 
-            boolean isEmpty(HTML.Tag t) {
+            boolebn isEmpty(HTML.Tbg t) {
                 return true;
             }
         }
 
 
         /**
-         * End if overridden to create the necessary stylesheets that
-         * are referenced via the link tag. It is done in this manner
-         * as the meta tag can be used to specify an alternate style sheet,
-         * and is not guaranteed to come before the link tags.
+         * End if overridden to crebte the necessbry stylesheets thbt
+         * bre referenced vib the link tbg. It is done in this mbnner
+         * bs the metb tbg cbn be used to specify bn blternbte style sheet,
+         * bnd is not gubrbnteed to come before the link tbgs.
          */
-        class HeadAction extends BlockAction {
+        clbss HebdAction extends BlockAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                inHead = true;
-                // This check of the insertTag is put in to avoid considering
-                // the implied-p that is generated for the head. This allows
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                inHebd = true;
+                // This check of the insertTbg is put in to bvoid considering
+                // the implied-p thbt is generbted for the hebd. This bllows
                 // inserts for HR to work correctly.
-                if ((insertTag == null && !insertAfterImplied) ||
-                    (insertTag == HTML.Tag.HEAD) ||
+                if ((insertTbg == null && !insertAfterImplied) ||
+                    (insertTbg == HTML.Tbg.HEAD) ||
                     (insertAfterImplied &&
-                     (foundInsertTag || !a.isDefined(IMPLIED)))) {
-                    super.start(t, a);
+                     (foundInsertTbg || !b.isDefined(IMPLIED)))) {
+                    super.stbrt(t, b);
                 }
             }
 
-            public void end(HTML.Tag t) {
-                inHead = inStyle = false;
-                // See if there is a StyleSheet to link to.
+            public void end(HTML.Tbg t) {
+                inHebd = inStyle = fblse;
+                // See if there is b StyleSheet to link to.
                 if (styles != null) {
-                    boolean isDefaultCSS = isStyleCSS;
-                    for (int counter = 0, maxCounter = styles.size();
-                         counter < maxCounter;) {
-                        Object value = styles.elementAt(counter);
-                        if (value == HTML.Tag.LINK) {
-                            handleLink((AttributeSet)styles.
+                    boolebn isDefbultCSS = isStyleCSS;
+                    for (int counter = 0, mbxCounter = styles.size();
+                         counter < mbxCounter;) {
+                        Object vblue = styles.elementAt(counter);
+                        if (vblue == HTML.Tbg.LINK) {
+                            hbndleLink((AttributeSet)styles.
                                        elementAt(++counter));
                             counter++;
                         }
@@ -3004,60 +3004,60 @@ public class HTMLDocument extends DefaultStyledDocument {
                             // Rule.
                             // First element gives type.
                             String type = (String)styles.elementAt(++counter);
-                            boolean isCSS = (type == null) ? isDefaultCSS :
-                                            type.equals("text/css");
-                            while (++counter < maxCounter &&
+                            boolebn isCSS = (type == null) ? isDefbultCSS :
+                                            type.equbls("text/css");
+                            while (++counter < mbxCounter &&
                                    (styles.elementAt(counter)
-                                    instanceof String)) {
+                                    instbnceof String)) {
                                 if (isCSS) {
-                                    addCSSRules((String)styles.elementAt
+                                    bddCSSRules((String)styles.elementAt
                                                 (counter));
                                 }
                             }
                         }
                     }
                 }
-                if ((insertTag == null && !insertAfterImplied) ||
-                    insertTag == HTML.Tag.HEAD ||
-                    (insertAfterImplied && foundInsertTag)) {
+                if ((insertTbg == null && !insertAfterImplied) ||
+                    insertTbg == HTML.Tbg.HEAD ||
+                    (insertAfterImplied && foundInsertTbg)) {
                     super.end(t);
                 }
             }
 
-            boolean isEmpty(HTML.Tag t) {
-                return false;
+            boolebn isEmpty(HTML.Tbg t) {
+                return fblse;
             }
 
-            private void handleLink(AttributeSet attr) {
+            privbte void hbndleLink(AttributeSet bttr) {
                 // Link.
-                String type = (String)attr.getAttribute(HTML.Attribute.TYPE);
+                String type = (String)bttr.getAttribute(HTML.Attribute.TYPE);
                 if (type == null) {
-                    type = getDefaultStyleSheetType();
+                    type = getDefbultStyleSheetType();
                 }
                 // Only choose if type==text/css
                 // Select link if rel==stylesheet.
-                // Otherwise if rel==alternate stylesheet and
-                //   title matches default style.
-                if (type.equals("text/css")) {
-                    String rel = (String)attr.getAttribute(HTML.Attribute.REL);
-                    String title = (String)attr.getAttribute
+                // Otherwise if rel==blternbte stylesheet bnd
+                //   title mbtches defbult style.
+                if (type.equbls("text/css")) {
+                    String rel = (String)bttr.getAttribute(HTML.Attribute.REL);
+                    String title = (String)bttr.getAttribute
                                                (HTML.Attribute.TITLE);
-                    String media = (String)attr.getAttribute
+                    String medib = (String)bttr.getAttribute
                                                    (HTML.Attribute.MEDIA);
-                    if (media == null) {
-                        media = "all";
+                    if (medib == null) {
+                        medib = "bll";
                     }
                     else {
-                        media = media.toLowerCase();
+                        medib = medib.toLowerCbse();
                     }
                     if (rel != null) {
-                        rel = rel.toLowerCase();
-                        if ((media.indexOf("all") != -1 ||
-                             media.indexOf("screen") != -1) &&
-                            (rel.equals("stylesheet") ||
-                             (rel.equals("alternate stylesheet") &&
-                              title.equals(defaultStyle)))) {
-                            linkCSSStyleSheet((String)attr.getAttribute
+                        rel = rel.toLowerCbse();
+                        if ((medib.indexOf("bll") != -1 ||
+                             medib.indexOf("screen") != -1) &&
+                            (rel.equbls("stylesheet") ||
+                             (rel.equbls("blternbte stylesheet") &&
+                              title.equbls(defbultStyle)))) {
+                            linkCSSStyleSheet((String)bttr.getAttribute
                                               (HTML.Attribute.HREF));
                         }
                     }
@@ -3067,370 +3067,370 @@ public class HTMLDocument extends DefaultStyledDocument {
 
 
         /**
-         * A subclass to add the AttributeSet to styles if the
-         * attributes contains an attribute for 'rel' with value
-         * 'stylesheet' or 'alternate stylesheet'.
+         * A subclbss to bdd the AttributeSet to styles if the
+         * bttributes contbins bn bttribute for 'rel' with vblue
+         * 'stylesheet' or 'blternbte stylesheet'.
          */
-        class LinkAction extends HiddenAction {
+        clbss LinkAction extends HiddenAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                String rel = (String)a.getAttribute(HTML.Attribute.REL);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                String rel = (String)b.getAttribute(HTML.Attribute.REL);
                 if (rel != null) {
-                    rel = rel.toLowerCase();
-                    if (rel.equals("stylesheet") ||
-                        rel.equals("alternate stylesheet")) {
+                    rel = rel.toLowerCbse();
+                    if (rel.equbls("stylesheet") ||
+                        rel.equbls("blternbte stylesheet")) {
                         if (styles == null) {
                             styles = new Vector<Object>(3);
                         }
-                        styles.addElement(t);
-                        styles.addElement(a.copyAttributes());
+                        styles.bddElement(t);
+                        styles.bddElement(b.copyAttributes());
                     }
                 }
-                super.start(t, a);
+                super.stbrt(t, b);
             }
         }
 
-        class MapAction extends TagAction {
+        clbss MbpAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                lastMap = new Map((String)a.getAttribute(HTML.Attribute.NAME));
-                addMap(lastMap);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                lbstMbp = new Mbp((String)b.getAttribute(HTML.Attribute.NAME));
+                bddMbp(lbstMbp);
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
             }
         }
 
 
-        class AreaAction extends TagAction {
+        clbss ArebAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                if (lastMap != null) {
-                    lastMap.addArea(a.copyAttributes());
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                if (lbstMbp != null) {
+                    lbstMbp.bddAreb(b.copyAttributes());
                 }
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
             }
         }
 
 
-        class StyleAction extends TagAction {
+        clbss StyleAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                if (inHead) {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                if (inHebd) {
                     if (styles == null) {
                         styles = new Vector<Object>(3);
                     }
-                    styles.addElement(t);
-                    styles.addElement(a.getAttribute(HTML.Attribute.TYPE));
+                    styles.bddElement(t);
+                    styles.bddElement(b.getAttribute(HTML.Attribute.TYPE));
                     inStyle = true;
                 }
             }
 
-            public void end(HTML.Tag t) {
-                inStyle = false;
+            public void end(HTML.Tbg t) {
+                inStyle = fblse;
             }
 
-            boolean isEmpty(HTML.Tag t) {
-                return false;
+            boolebn isEmpty(HTML.Tbg t) {
+                return fblse;
             }
         }
 
         /**
-         * Action assigned by default to handle the Pre block task of the reader.
+         * Action bssigned by defbult to hbndle the Pre block tbsk of the rebder.
          */
-        public class PreAction extends BlockAction {
+        public clbss PreAction extends BlockAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
                 inPre = true;
-                blockOpen(t, attr);
-                attr.addAttribute(CSS.Attribute.WHITE_SPACE, "pre");
-                blockOpen(HTML.Tag.IMPLIED, attr);
+                blockOpen(t, bttr);
+                bttr.bddAttribute(CSS.Attribute.WHITE_SPACE, "pre");
+                blockOpen(HTML.Tbg.IMPLIED, bttr);
             }
 
-            public void end(HTML.Tag t) {
-                blockClose(HTML.Tag.IMPLIED);
-                // set inPre to false after closing, so that if a newline
-                // is added it won't generate a blockOpen.
-                inPre = false;
+            public void end(HTML.Tbg t) {
+                blockClose(HTML.Tbg.IMPLIED);
+                // set inPre to fblse bfter closing, so thbt if b newline
+                // is bdded it won't generbte b blockOpen.
+                inPre = fblse;
                 blockClose(t);
             }
         }
 
         /**
-         * Action assigned by default to handle the Character task of the reader.
+         * Action bssigned by defbult to hbndle the Chbrbcter tbsk of the rebder.
          */
-        public class CharacterAction extends TagAction {
+        public clbss ChbrbcterAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                pushCharacterStyle();
-                if (!foundInsertTag) {
-                    // Note that the third argument should really be based off
-                    // inParagraph and impliedP. If we're wrong (that is
-                    // insertTagDepthDelta shouldn't be changed), we'll end up
-                    // removing an extra EndSpec, which won't matter anyway.
-                    boolean insert = canInsertTag(t, attr, false);
-                    if (foundInsertTag) {
-                        if (!inParagraph) {
-                            inParagraph = impliedP = true;
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                pushChbrbcterStyle();
+                if (!foundInsertTbg) {
+                    // Note thbt the third brgument should reblly be bbsed off
+                    // inPbrbgrbph bnd impliedP. If we're wrong (thbt is
+                    // insertTbgDepthDeltb shouldn't be chbnged), we'll end up
+                    // removing bn extrb EndSpec, which won't mbtter bnywby.
+                    boolebn insert = cbnInsertTbg(t, bttr, fblse);
+                    if (foundInsertTbg) {
+                        if (!inPbrbgrbph) {
+                            inPbrbgrbph = impliedP = true;
                         }
                     }
                     if (!insert) {
                         return;
                     }
                 }
-                if (attr.isDefined(IMPLIED)) {
-                    attr.removeAttribute(IMPLIED);
+                if (bttr.isDefined(IMPLIED)) {
+                    bttr.removeAttribute(IMPLIED);
                 }
-                charAttr.addAttribute(t, attr.copyAttributes());
+                chbrAttr.bddAttribute(t, bttr.copyAttributes());
                 if (styleAttributes != null) {
-                    charAttr.addAttributes(styleAttributes);
+                    chbrAttr.bddAttributes(styleAttributes);
                 }
             }
 
-            public void end(HTML.Tag t) {
-                popCharacterStyle();
+            public void end(HTML.Tbg t) {
+                popChbrbcterStyle();
             }
         }
 
         /**
-         * Provides conversion of HTML tag/attribute
-         * mappings that have a corresponding StyleConstants
-         * and CSS mapping.  The conversion is to CSS attributes.
+         * Provides conversion of HTML tbg/bttribute
+         * mbppings thbt hbve b corresponding StyleConstbnts
+         * bnd CSS mbpping.  The conversion is to CSS bttributes.
          */
-        class ConvertAction extends TagAction {
+        clbss ConvertAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                pushCharacterStyle();
-                if (!foundInsertTag) {
-                    // Note that the third argument should really be based off
-                    // inParagraph and impliedP. If we're wrong (that is
-                    // insertTagDepthDelta shouldn't be changed), we'll end up
-                    // removing an extra EndSpec, which won't matter anyway.
-                    boolean insert = canInsertTag(t, attr, false);
-                    if (foundInsertTag) {
-                        if (!inParagraph) {
-                            inParagraph = impliedP = true;
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                pushChbrbcterStyle();
+                if (!foundInsertTbg) {
+                    // Note thbt the third brgument should reblly be bbsed off
+                    // inPbrbgrbph bnd impliedP. If we're wrong (thbt is
+                    // insertTbgDepthDeltb shouldn't be chbnged), we'll end up
+                    // removing bn extrb EndSpec, which won't mbtter bnywby.
+                    boolebn insert = cbnInsertTbg(t, bttr, fblse);
+                    if (foundInsertTbg) {
+                        if (!inPbrbgrbph) {
+                            inPbrbgrbph = impliedP = true;
                         }
                     }
                     if (!insert) {
                         return;
                     }
                 }
-                if (attr.isDefined(IMPLIED)) {
-                    attr.removeAttribute(IMPLIED);
+                if (bttr.isDefined(IMPLIED)) {
+                    bttr.removeAttribute(IMPLIED);
                 }
                 if (styleAttributes != null) {
-                    charAttr.addAttributes(styleAttributes);
+                    chbrAttr.bddAttributes(styleAttributes);
                 }
-                // We also need to add attr, otherwise we lose custom
-                // attributes, including class/id for style lookups, and
-                // further confuse style lookup (doesn't have tag).
-                charAttr.addAttribute(t, attr.copyAttributes());
+                // We blso need to bdd bttr, otherwise we lose custom
+                // bttributes, including clbss/id for style lookups, bnd
+                // further confuse style lookup (doesn't hbve tbg).
+                chbrAttr.bddAttribute(t, bttr.copyAttributes());
                 StyleSheet sheet = getStyleSheet();
-                if (t == HTML.Tag.B) {
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.FONT_WEIGHT, "bold");
-                } else if (t == HTML.Tag.I) {
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.FONT_STYLE, "italic");
-                } else if (t == HTML.Tag.U) {
-                    Object v = charAttr.getAttribute(CSS.Attribute.TEXT_DECORATION);
-                    String value = "underline";
-                    value = (v != null) ? value + "," + v.toString() : value;
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.TEXT_DECORATION, value);
-                } else if (t == HTML.Tag.STRIKE) {
-                    Object v = charAttr.getAttribute(CSS.Attribute.TEXT_DECORATION);
-                    String value = "line-through";
-                    value = (v != null) ? value + "," + v.toString() : value;
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.TEXT_DECORATION, value);
-                } else if (t == HTML.Tag.SUP) {
-                    Object v = charAttr.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
-                    String value = "sup";
-                    value = (v != null) ? value + "," + v.toString() : value;
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.VERTICAL_ALIGN, value);
-                } else if (t == HTML.Tag.SUB) {
-                    Object v = charAttr.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
-                    String value = "sub";
-                    value = (v != null) ? value + "," + v.toString() : value;
-                    sheet.addCSSAttribute(charAttr, CSS.Attribute.VERTICAL_ALIGN, value);
-                } else if (t == HTML.Tag.FONT) {
-                    String color = (String) attr.getAttribute(HTML.Attribute.COLOR);
+                if (t == HTML.Tbg.B) {
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.FONT_WEIGHT, "bold");
+                } else if (t == HTML.Tbg.I) {
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.FONT_STYLE, "itblic");
+                } else if (t == HTML.Tbg.U) {
+                    Object v = chbrAttr.getAttribute(CSS.Attribute.TEXT_DECORATION);
+                    String vblue = "underline";
+                    vblue = (v != null) ? vblue + "," + v.toString() : vblue;
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.TEXT_DECORATION, vblue);
+                } else if (t == HTML.Tbg.STRIKE) {
+                    Object v = chbrAttr.getAttribute(CSS.Attribute.TEXT_DECORATION);
+                    String vblue = "line-through";
+                    vblue = (v != null) ? vblue + "," + v.toString() : vblue;
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.TEXT_DECORATION, vblue);
+                } else if (t == HTML.Tbg.SUP) {
+                    Object v = chbrAttr.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
+                    String vblue = "sup";
+                    vblue = (v != null) ? vblue + "," + v.toString() : vblue;
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.VERTICAL_ALIGN, vblue);
+                } else if (t == HTML.Tbg.SUB) {
+                    Object v = chbrAttr.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
+                    String vblue = "sub";
+                    vblue = (v != null) ? vblue + "," + v.toString() : vblue;
+                    sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.VERTICAL_ALIGN, vblue);
+                } else if (t == HTML.Tbg.FONT) {
+                    String color = (String) bttr.getAttribute(HTML.Attribute.COLOR);
                     if (color != null) {
-                        sheet.addCSSAttribute(charAttr, CSS.Attribute.COLOR, color);
+                        sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.COLOR, color);
                     }
-                    String face = (String) attr.getAttribute(HTML.Attribute.FACE);
-                    if (face != null) {
-                        sheet.addCSSAttribute(charAttr, CSS.Attribute.FONT_FAMILY, face);
+                    String fbce = (String) bttr.getAttribute(HTML.Attribute.FACE);
+                    if (fbce != null) {
+                        sheet.bddCSSAttribute(chbrAttr, CSS.Attribute.FONT_FAMILY, fbce);
                     }
-                    String size = (String) attr.getAttribute(HTML.Attribute.SIZE);
+                    String size = (String) bttr.getAttribute(HTML.Attribute.SIZE);
                     if (size != null) {
-                        sheet.addCSSAttributeFromHTML(charAttr, CSS.Attribute.FONT_SIZE, size);
+                        sheet.bddCSSAttributeFromHTML(chbrAttr, CSS.Attribute.FONT_SIZE, size);
                     }
                 }
             }
 
-            public void end(HTML.Tag t) {
-                popCharacterStyle();
+            public void end(HTML.Tbg t) {
+                popChbrbcterStyle();
             }
 
         }
 
-        class AnchorAction extends CharacterAction {
+        clbss AnchorAction extends ChbrbcterAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                // set flag to catch empty anchors
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                // set flbg to cbtch empty bnchors
                 emptyAnchor = true;
-                super.start(t, attr);
+                super.stbrt(t, bttr);
             }
 
-            public void end(HTML.Tag t) {
+            public void end(HTML.Tbg t) {
                 if (emptyAnchor) {
-                    // if the anchor was empty it was probably a
-                    // named anchor point and we don't want to throw
-                    // it away.
-                    char[] one = new char[1];
+                    // if the bnchor wbs empty it wbs probbbly b
+                    // nbmed bnchor point bnd we don't wbnt to throw
+                    // it bwby.
+                    chbr[] one = new chbr[1];
                     one[0] = '\n';
-                    addContent(one, 0, 1);
+                    bddContent(one, 0, 1);
                 }
                 super.end(t);
             }
         }
 
-        class TitleAction extends HiddenAction {
+        clbss TitleAction extends HiddenAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
                 inTitle = true;
-                super.start(t, attr);
+                super.stbrt(t, bttr);
             }
 
-            public void end(HTML.Tag t) {
-                inTitle = false;
+            public void end(HTML.Tbg t) {
+                inTitle = fblse;
                 super.end(t);
             }
 
-            boolean isEmpty(HTML.Tag t) {
-                return false;
+            boolebn isEmpty(HTML.Tbg t) {
+                return fblse;
             }
         }
 
 
-        class BaseAction extends TagAction {
+        clbss BbseAction extends TbgAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                String href = (String) attr.getAttribute(HTML.Attribute.HREF);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                String href = (String) bttr.getAttribute(HTML.Attribute.HREF);
                 if (href != null) {
                     try {
-                        URL newBase = new URL(base, href);
-                        setBase(newBase);
-                        hasBaseTag = true;
-                    } catch (MalformedURLException ex) {
+                        URL newBbse = new URL(bbse, href);
+                        setBbse(newBbse);
+                        hbsBbseTbg = true;
+                    } cbtch (MblformedURLException ex) {
                     }
                 }
-                baseTarget = (String) attr.getAttribute(HTML.Attribute.TARGET);
+                bbseTbrget = (String) bttr.getAttribute(HTML.Attribute.TARGET);
             }
         }
 
-        class ObjectAction extends SpecialAction {
+        clbss ObjectAction extends SpeciblAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet a) {
-                if (t == HTML.Tag.PARAM) {
-                    addParameter(a);
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet b) {
+                if (t == HTML.Tbg.PARAM) {
+                    bddPbrbmeter(b);
                 } else {
-                    super.start(t, a);
+                    super.stbrt(t, b);
                 }
             }
 
-            public void end(HTML.Tag t) {
-                if (t != HTML.Tag.PARAM) {
+            public void end(HTML.Tbg t) {
+                if (t != HTML.Tbg.PARAM) {
                     super.end(t);
                 }
             }
 
-            void addParameter(AttributeSet a) {
-                String name = (String) a.getAttribute(HTML.Attribute.NAME);
-                String value = (String) a.getAttribute(HTML.Attribute.VALUE);
-                if ((name != null) && (value != null)) {
-                    ElementSpec objSpec = parseBuffer.lastElement();
-                    MutableAttributeSet objAttr = (MutableAttributeSet) objSpec.getAttributes();
-                    objAttr.addAttribute(name, value);
+            void bddPbrbmeter(AttributeSet b) {
+                String nbme = (String) b.getAttribute(HTML.Attribute.NAME);
+                String vblue = (String) b.getAttribute(HTML.Attribute.VALUE);
+                if ((nbme != null) && (vblue != null)) {
+                    ElementSpec objSpec = pbrseBuffer.lbstElement();
+                    MutbbleAttributeSet objAttr = (MutbbleAttributeSet) objSpec.getAttributes();
+                    objAttr.bddAttribute(nbme, vblue);
                 }
             }
         }
 
         /**
-         * Action to support forms by building all of the elements
+         * Action to support forms by building bll of the elements
          * used to represent form controls.  This will process
          * the &lt;INPUT&gt;, &lt;TEXTAREA&gt;, &lt;SELECT&gt;,
-         * and &lt;OPTION&gt; tags.  The element created by
-         * this action is expected to have the attribute
-         * <code>StyleConstants.ModelAttribute</code> set to
-         * the model that holds the state for the form control.
-         * This enables multiple views, and allows document to
-         * be iterated over picking up the data of the form.
-         * The following are the model assignments for the
-         * various type of form elements.
-         * <table summary="model assignments for the various types of form elements">
+         * bnd &lt;OPTION&gt; tbgs.  The element crebted by
+         * this bction is expected to hbve the bttribute
+         * <code>StyleConstbnts.ModelAttribute</code> set to
+         * the model thbt holds the stbte for the form control.
+         * This enbbles multiple views, bnd bllows document to
+         * be iterbted over picking up the dbtb of the form.
+         * The following bre the model bssignments for the
+         * vbrious type of form elements.
+         * <tbble summbry="model bssignments for the vbrious types of form elements">
          * <tr>
          *   <th>Element Type
          *   <th>Model Type
          * <tr>
          *   <td>input, type button
-         *   <td>{@link DefaultButtonModel}
+         *   <td>{@link DefbultButtonModel}
          * <tr>
          *   <td>input, type checkbox
-         *   <td>{@link javax.swing.JToggleButton.ToggleButtonModel}
+         *   <td>{@link jbvbx.swing.JToggleButton.ToggleButtonModel}
          * <tr>
-         *   <td>input, type image
-         *   <td>{@link DefaultButtonModel}
+         *   <td>input, type imbge
+         *   <td>{@link DefbultButtonModel}
          * <tr>
-         *   <td>input, type password
-         *   <td>{@link PlainDocument}
+         *   <td>input, type pbssword
+         *   <td>{@link PlbinDocument}
          * <tr>
-         *   <td>input, type radio
-         *   <td>{@link javax.swing.JToggleButton.ToggleButtonModel}
+         *   <td>input, type rbdio
+         *   <td>{@link jbvbx.swing.JToggleButton.ToggleButtonModel}
          * <tr>
          *   <td>input, type reset
-         *   <td>{@link DefaultButtonModel}
+         *   <td>{@link DefbultButtonModel}
          * <tr>
          *   <td>input, type submit
-         *   <td>{@link DefaultButtonModel}
+         *   <td>{@link DefbultButtonModel}
          * <tr>
          *   <td>input, type text or type is null.
-         *   <td>{@link PlainDocument}
+         *   <td>{@link PlbinDocument}
          * <tr>
          *   <td>select
-         *   <td>{@link DefaultComboBoxModel} or an {@link DefaultListModel}, with an item type of Option
+         *   <td>{@link DefbultComboBoxModel} or bn {@link DefbultListModel}, with bn item type of Option
          * <tr>
-         *   <td>textarea
-         *   <td>{@link PlainDocument}
-         * </table>
+         *   <td>textbreb
+         *   <td>{@link PlbinDocument}
+         * </tbble>
          *
          */
-        public class FormAction extends SpecialAction {
+        public clbss FormAction extends SpeciblAction {
 
-            public void start(HTML.Tag t, MutableAttributeSet attr) {
-                if (t == HTML.Tag.INPUT) {
+            public void stbrt(HTML.Tbg t, MutbbleAttributeSet bttr) {
+                if (t == HTML.Tbg.INPUT) {
                     String type = (String)
-                        attr.getAttribute(HTML.Attribute.TYPE);
+                        bttr.getAttribute(HTML.Attribute.TYPE);
                     /*
-                     * if type is not defined the default is
-                     * assumed to be text.
+                     * if type is not defined the defbult is
+                     * bssumed to be text.
                      */
                     if (type == null) {
                         type = "text";
-                        attr.addAttribute(HTML.Attribute.TYPE, "text");
+                        bttr.bddAttribute(HTML.Attribute.TYPE, "text");
                     }
-                    setModel(type, attr);
-                } else if (t == HTML.Tag.TEXTAREA) {
-                    inTextArea = true;
-                    textAreaDocument = new TextAreaDocument();
-                    attr.addAttribute(StyleConstants.ModelAttribute,
-                                      textAreaDocument);
-                } else if (t == HTML.Tag.SELECT) {
-                    int size = HTML.getIntegerAttributeValue(attr,
+                    setModel(type, bttr);
+                } else if (t == HTML.Tbg.TEXTAREA) {
+                    inTextAreb = true;
+                    textArebDocument = new TextArebDocument();
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute,
+                                      textArebDocument);
+                } else if (t == HTML.Tbg.SELECT) {
+                    int size = HTML.getIntegerAttributeVblue(bttr,
                                                              HTML.Attribute.SIZE,
                                                              1);
-                    boolean multiple = attr.getAttribute(HTML.Attribute.MULTIPLE) != null;
+                    boolebn multiple = bttr.getAttribute(HTML.Attribute.MULTIPLE) != null;
                     if ((size > 1) || multiple) {
                         OptionListModel<Option> m = new OptionListModel<Option>();
                         if (multiple) {
@@ -3440,116 +3440,116 @@ public class HTMLDocument extends DefaultStyledDocument {
                     } else {
                         selectModel = new OptionComboBoxModel<Option>();
                     }
-                    attr.addAttribute(StyleConstants.ModelAttribute,
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute,
                                       selectModel);
 
                 }
 
-                // build the element, unless this is an option.
-                if (t == HTML.Tag.OPTION) {
-                    option = new Option(attr);
+                // build the element, unless this is bn option.
+                if (t == HTML.Tbg.OPTION) {
+                    option = new Option(bttr);
 
-                    if (selectModel instanceof OptionListModel) {
-                        @SuppressWarnings("unchecked")
+                    if (selectModel instbnceof OptionListModel) {
+                        @SuppressWbrnings("unchecked")
                         OptionListModel<Option> m = (OptionListModel<Option>) selectModel;
-                        m.addElement(option);
+                        m.bddElement(option);
                         if (option.isSelected()) {
-                            m.addSelectionInterval(optionCount, optionCount);
-                            m.setInitialSelection(optionCount);
+                            m.bddSelectionIntervbl(optionCount, optionCount);
+                            m.setInitiblSelection(optionCount);
                         }
-                    } else if (selectModel instanceof OptionComboBoxModel) {
-                        @SuppressWarnings("unchecked")
+                    } else if (selectModel instbnceof OptionComboBoxModel) {
+                        @SuppressWbrnings("unchecked")
                         OptionComboBoxModel<Option> m = (OptionComboBoxModel<Option>) selectModel;
-                        m.addElement(option);
+                        m.bddElement(option);
                         if (option.isSelected()) {
                             m.setSelectedItem(option);
-                            m.setInitialSelection(option);
+                            m.setInitiblSelection(option);
                         }
                     }
                     optionCount++;
                 } else {
-                    super.start(t, attr);
+                    super.stbrt(t, bttr);
                 }
             }
 
-            public void end(HTML.Tag t) {
-                if (t == HTML.Tag.OPTION) {
+            public void end(HTML.Tbg t) {
+                if (t == HTML.Tbg.OPTION) {
                     option = null;
                 } else {
-                    if (t == HTML.Tag.SELECT) {
+                    if (t == HTML.Tbg.SELECT) {
                         selectModel = null;
                         optionCount = 0;
-                    } else if (t == HTML.Tag.TEXTAREA) {
-                        inTextArea = false;
+                    } else if (t == HTML.Tbg.TEXTAREA) {
+                        inTextAreb = fblse;
 
-                        /* Now that the textarea has ended,
-                         * store the entire initial text
-                         * of the text area.  This will
-                         * enable us to restore the initial
-                         * state if a reset is requested.
+                        /* Now thbt the textbreb hbs ended,
+                         * store the entire initibl text
+                         * of the text breb.  This will
+                         * enbble us to restore the initibl
+                         * stbte if b reset is requested.
                          */
-                        textAreaDocument.storeInitialText();
+                        textArebDocument.storeInitiblText();
                     }
                     super.end(t);
                 }
             }
 
-            void setModel(String type, MutableAttributeSet attr) {
-                if (type.equals("submit") ||
-                    type.equals("reset") ||
-                    type.equals("image")) {
+            void setModel(String type, MutbbleAttributeSet bttr) {
+                if (type.equbls("submit") ||
+                    type.equbls("reset") ||
+                    type.equbls("imbge")) {
 
                     // button model
-                    attr.addAttribute(StyleConstants.ModelAttribute,
-                                      new DefaultButtonModel());
-                } else if (type.equals("text") ||
-                           type.equals("password")) {
-                    // plain text model
-                    int maxLength = HTML.getIntegerAttributeValue(
-                                       attr, HTML.Attribute.MAXLENGTH, -1);
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute,
+                                      new DefbultButtonModel());
+                } else if (type.equbls("text") ||
+                           type.equbls("pbssword")) {
+                    // plbin text model
+                    int mbxLength = HTML.getIntegerAttributeVblue(
+                                       bttr, HTML.Attribute.MAXLENGTH, -1);
                     Document doc;
 
-                    if (maxLength > 0) {
-                        doc = new FixedLengthDocument(maxLength);
+                    if (mbxLength > 0) {
+                        doc = new FixedLengthDocument(mbxLength);
                     }
                     else {
-                        doc = new PlainDocument();
+                        doc = new PlbinDocument();
                     }
-                    String value = (String)
-                        attr.getAttribute(HTML.Attribute.VALUE);
+                    String vblue = (String)
+                        bttr.getAttribute(HTML.Attribute.VALUE);
                     try {
-                        doc.insertString(0, value, null);
-                    } catch (BadLocationException e) {
+                        doc.insertString(0, vblue, null);
+                    } cbtch (BbdLocbtionException e) {
                     }
-                    attr.addAttribute(StyleConstants.ModelAttribute, doc);
-                } else if (type.equals("file")) {
-                    // plain text model
-                    attr.addAttribute(StyleConstants.ModelAttribute,
-                                      new PlainDocument());
-                } else if (type.equals("checkbox") ||
-                           type.equals("radio")) {
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute, doc);
+                } else if (type.equbls("file")) {
+                    // plbin text model
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute,
+                                      new PlbinDocument());
+                } else if (type.equbls("checkbox") ||
+                           type.equbls("rbdio")) {
                     JToggleButton.ToggleButtonModel model = new JToggleButton.ToggleButtonModel();
-                    if (type.equals("radio")) {
-                        String name = (String) attr.getAttribute(HTML.Attribute.NAME);
-                        if ( radioButtonGroupsMap == null ) { //fix for 4772743
-                           radioButtonGroupsMap = new HashMap<String, ButtonGroup>();
+                    if (type.equbls("rbdio")) {
+                        String nbme = (String) bttr.getAttribute(HTML.Attribute.NAME);
+                        if ( rbdioButtonGroupsMbp == null ) { //fix for 4772743
+                           rbdioButtonGroupsMbp = new HbshMbp<String, ButtonGroup>();
                         }
-                        ButtonGroup radioButtonGroup = radioButtonGroupsMap.get(name);
-                        if (radioButtonGroup == null) {
-                            radioButtonGroup = new ButtonGroup();
-                            radioButtonGroupsMap.put(name,radioButtonGroup);
+                        ButtonGroup rbdioButtonGroup = rbdioButtonGroupsMbp.get(nbme);
+                        if (rbdioButtonGroup == null) {
+                            rbdioButtonGroup = new ButtonGroup();
+                            rbdioButtonGroupsMbp.put(nbme,rbdioButtonGroup);
                         }
-                        model.setGroup(radioButtonGroup);
+                        model.setGroup(rbdioButtonGroup);
                     }
-                    boolean checked = (attr.getAttribute(HTML.Attribute.CHECKED) != null);
+                    boolebn checked = (bttr.getAttribute(HTML.Attribute.CHECKED) != null);
                     model.setSelected(checked);
-                    attr.addAttribute(StyleConstants.ModelAttribute, model);
+                    bttr.bddAttribute(StyleConstbnts.ModelAttribute, model);
                 }
             }
 
             /**
-             * If a &lt;SELECT&gt; tag is being processed, this
-             * model will be a reference to the model being filled
+             * If b &lt;SELECT&gt; tbg is being processed, this
+             * model will be b reference to the model being filled
              * with the &lt;OPTION&gt; elements (which produce
              * objects of type <code>Option</code>.
              */
@@ -3558,330 +3558,330 @@ public class HTMLDocument extends DefaultStyledDocument {
         }
 
 
-        // --- utility methods used by the reader ------------------
+        // --- utility methods used by the rebder ------------------
 
         /**
-         * Pushes the current character style on a stack in preparation
-         * for forming a new nested character style.
+         * Pushes the current chbrbcter style on b stbck in prepbrbtion
+         * for forming b new nested chbrbcter style.
          */
-        protected void pushCharacterStyle() {
-            charAttrStack.push(charAttr.copyAttributes());
+        protected void pushChbrbcterStyle() {
+            chbrAttrStbck.push(chbrAttr.copyAttributes());
         }
 
         /**
-         * Pops a previously pushed character style off the stack
-         * to return to a previous style.
+         * Pops b previously pushed chbrbcter style off the stbck
+         * to return to b previous style.
          */
-        protected void popCharacterStyle() {
-            if (!charAttrStack.empty()) {
-                charAttr = (MutableAttributeSet) charAttrStack.peek();
-                charAttrStack.pop();
+        protected void popChbrbcterStyle() {
+            if (!chbrAttrStbck.empty()) {
+                chbrAttr = (MutbbleAttributeSet) chbrAttrStbck.peek();
+                chbrAttrStbck.pop();
             }
         }
 
         /**
-         * Adds the given content to the textarea document.
-         * This method gets called when we are in a textarea
-         * context.  Therefore all text that is seen belongs
-         * to the text area and is hence added to the
-         * TextAreaDocument associated with the text area.
+         * Adds the given content to the textbreb document.
+         * This method gets cblled when we bre in b textbreb
+         * context.  Therefore bll text thbt is seen belongs
+         * to the text breb bnd is hence bdded to the
+         * TextArebDocument bssocibted with the text breb.
          *
-         * @param data the given content
+         * @pbrbm dbtb the given content
          */
-        protected void textAreaContent(char[] data) {
+        protected void textArebContent(chbr[] dbtb) {
             try {
-                textAreaDocument.insertString(textAreaDocument.getLength(), new String(data), null);
-            } catch (BadLocationException e) {
-                // Should do something reasonable
+                textArebDocument.insertString(textArebDocument.getLength(), new String(dbtb), null);
+            } cbtch (BbdLocbtionException e) {
+                // Should do something rebsonbble
             }
         }
 
         /**
-         * Adds the given content that was encountered in a
+         * Adds the given content thbt wbs encountered in b
          * PRE element.  This synthesizes lines to hold the
-         * runs of text, and makes calls to addContent to
-         * actually add the text.
+         * runs of text, bnd mbkes cblls to bddContent to
+         * bctublly bdd the text.
          *
-         * @param data the given content
+         * @pbrbm dbtb the given content
          */
-        protected void preContent(char[] data) {
-            int last = 0;
-            for (int i = 0; i < data.length; i++) {
-                if (data[i] == '\n') {
-                    addContent(data, last, i - last + 1);
-                    blockClose(HTML.Tag.IMPLIED);
-                    MutableAttributeSet a = new SimpleAttributeSet();
-                    a.addAttribute(CSS.Attribute.WHITE_SPACE, "pre");
-                    blockOpen(HTML.Tag.IMPLIED, a);
-                    last = i + 1;
+        protected void preContent(chbr[] dbtb) {
+            int lbst = 0;
+            for (int i = 0; i < dbtb.length; i++) {
+                if (dbtb[i] == '\n') {
+                    bddContent(dbtb, lbst, i - lbst + 1);
+                    blockClose(HTML.Tbg.IMPLIED);
+                    MutbbleAttributeSet b = new SimpleAttributeSet();
+                    b.bddAttribute(CSS.Attribute.WHITE_SPACE, "pre");
+                    blockOpen(HTML.Tbg.IMPLIED, b);
+                    lbst = i + 1;
                 }
             }
-            if (last < data.length) {
-                addContent(data, last, data.length - last);
+            if (lbst < dbtb.length) {
+                bddContent(dbtb, lbst, dbtb.length - lbst);
             }
         }
 
         /**
-         * Adds an instruction to the parse buffer to create a
-         * block element with the given attributes.
+         * Adds bn instruction to the pbrse buffer to crebte b
+         * block element with the given bttributes.
          *
-         * @param t an HTML tag
-         * @param attr the attribute set
+         * @pbrbm t bn HTML tbg
+         * @pbrbm bttr the bttribute set
          */
-        protected void blockOpen(HTML.Tag t, MutableAttributeSet attr) {
+        protected void blockOpen(HTML.Tbg t, MutbbleAttributeSet bttr) {
             if (impliedP) {
-                blockClose(HTML.Tag.IMPLIED);
+                blockClose(HTML.Tbg.IMPLIED);
             }
 
             inBlock++;
 
-            if (!canInsertTag(t, attr, true)) {
+            if (!cbnInsertTbg(t, bttr, true)) {
                 return;
             }
-            if (attr.isDefined(IMPLIED)) {
-                attr.removeAttribute(IMPLIED);
+            if (bttr.isDefined(IMPLIED)) {
+                bttr.removeAttribute(IMPLIED);
             }
-            lastWasNewline = false;
-            attr.addAttribute(StyleConstants.NameAttribute, t);
+            lbstWbsNewline = fblse;
+            bttr.bddAttribute(StyleConstbnts.NbmeAttribute, t);
             ElementSpec es = new ElementSpec(
-                attr.copyAttributes(), ElementSpec.StartTagType);
-            parseBuffer.addElement(es);
+                bttr.copyAttributes(), ElementSpec.StbrtTbgType);
+            pbrseBuffer.bddElement(es);
         }
 
         /**
-         * Adds an instruction to the parse buffer to close out
-         * a block element of the given type.
+         * Adds bn instruction to the pbrse buffer to close out
+         * b block element of the given type.
          *
-         * @param t the HTML tag
+         * @pbrbm t the HTML tbg
          */
-        protected void blockClose(HTML.Tag t) {
+        protected void blockClose(HTML.Tbg t) {
             inBlock--;
 
-            if (!foundInsertTag) {
+            if (!foundInsertTbg) {
                 return;
             }
 
-            // Add a new line, if the last character wasn't one. This is
-            // needed for proper positioning of the cursor. addContent
-            // with true will force an implied paragraph to be generated if
-            // there isn't one. This may result in a rather bogus structure
-            // (perhaps a table with a child pargraph), but the paragraph
-            // is needed for proper positioning and display.
-            if(!lastWasNewline) {
-                pushCharacterStyle();
-                charAttr.addAttribute(IMPLIED_CR, Boolean.TRUE);
-                addContent(NEWLINE, 0, 1, true);
-                popCharacterStyle();
-                lastWasNewline = true;
+            // Add b new line, if the lbst chbrbcter wbsn't one. This is
+            // needed for proper positioning of the cursor. bddContent
+            // with true will force bn implied pbrbgrbph to be generbted if
+            // there isn't one. This mby result in b rbther bogus structure
+            // (perhbps b tbble with b child pbrgrbph), but the pbrbgrbph
+            // is needed for proper positioning bnd displby.
+            if(!lbstWbsNewline) {
+                pushChbrbcterStyle();
+                chbrAttr.bddAttribute(IMPLIED_CR, Boolebn.TRUE);
+                bddContent(NEWLINE, 0, 1, true);
+                popChbrbcterStyle();
+                lbstWbsNewline = true;
             }
 
             if (impliedP) {
-                impliedP = false;
-                inParagraph = false;
-                if (t != HTML.Tag.IMPLIED) {
-                    blockClose(HTML.Tag.IMPLIED);
+                impliedP = fblse;
+                inPbrbgrbph = fblse;
+                if (t != HTML.Tbg.IMPLIED) {
+                    blockClose(HTML.Tbg.IMPLIED);
                 }
             }
-            // an open/close with no content will be removed, so we
-            // add a space of content to keep the element being formed.
-            ElementSpec prev = (parseBuffer.size() > 0) ?
-                parseBuffer.lastElement() : null;
-            if (prev != null && prev.getType() == ElementSpec.StartTagType) {
-                char[] one = new char[1];
+            // bn open/close with no content will be removed, so we
+            // bdd b spbce of content to keep the element being formed.
+            ElementSpec prev = (pbrseBuffer.size() > 0) ?
+                pbrseBuffer.lbstElement() : null;
+            if (prev != null && prev.getType() == ElementSpec.StbrtTbgType) {
+                chbr[] one = new chbr[1];
                 one[0] = ' ';
-                addContent(one, 0, 1);
+                bddContent(one, 0, 1);
             }
             ElementSpec es = new ElementSpec(
-                null, ElementSpec.EndTagType);
-            parseBuffer.addElement(es);
+                null, ElementSpec.EndTbgType);
+            pbrseBuffer.bddElement(es);
         }
 
         /**
-         * Adds some text with the current character attributes.
+         * Adds some text with the current chbrbcter bttributes.
          *
-         * @param data the content to add
-         * @param offs the initial offset
-         * @param length the length
+         * @pbrbm dbtb the content to bdd
+         * @pbrbm offs the initibl offset
+         * @pbrbm length the length
          */
-        protected void addContent(char[] data, int offs, int length) {
-            addContent(data, offs, length, true);
+        protected void bddContent(chbr[] dbtb, int offs, int length) {
+            bddContent(dbtb, offs, length, true);
         }
 
         /**
-         * Adds some text with the current character attributes.
+         * Adds some text with the current chbrbcter bttributes.
          *
-         * @param data the content to add
-         * @param offs the initial offset
-         * @param length the length
-         * @param generateImpliedPIfNecessary whether to generate implied
-         * paragraphs
+         * @pbrbm dbtb the content to bdd
+         * @pbrbm offs the initibl offset
+         * @pbrbm length the length
+         * @pbrbm generbteImpliedPIfNecessbry whether to generbte implied
+         * pbrbgrbphs
          */
-        protected void addContent(char[] data, int offs, int length,
-                                  boolean generateImpliedPIfNecessary) {
-            if (!foundInsertTag) {
+        protected void bddContent(chbr[] dbtb, int offs, int length,
+                                  boolebn generbteImpliedPIfNecessbry) {
+            if (!foundInsertTbg) {
                 return;
             }
 
-            if (generateImpliedPIfNecessary && (! inParagraph) && (! inPre)) {
-                blockOpen(HTML.Tag.IMPLIED, new SimpleAttributeSet());
-                inParagraph = true;
+            if (generbteImpliedPIfNecessbry && (! inPbrbgrbph) && (! inPre)) {
+                blockOpen(HTML.Tbg.IMPLIED, new SimpleAttributeSet());
+                inPbrbgrbph = true;
                 impliedP = true;
             }
-            emptyAnchor = false;
-            charAttr.addAttribute(StyleConstants.NameAttribute, HTML.Tag.CONTENT);
-            AttributeSet a = charAttr.copyAttributes();
+            emptyAnchor = fblse;
+            chbrAttr.bddAttribute(StyleConstbnts.NbmeAttribute, HTML.Tbg.CONTENT);
+            AttributeSet b = chbrAttr.copyAttributes();
             ElementSpec es = new ElementSpec(
-                a, ElementSpec.ContentType, data, offs, length);
-            parseBuffer.addElement(es);
+                b, ElementSpec.ContentType, dbtb, offs, length);
+            pbrseBuffer.bddElement(es);
 
-            if (parseBuffer.size() > threshold) {
-                if ( threshold <= MaxThreshold ) {
+            if (pbrseBuffer.size() > threshold) {
+                if ( threshold <= MbxThreshold ) {
                     threshold *= StepThreshold;
                 }
                 try {
-                    flushBuffer(false);
-                } catch (BadLocationException ble) {
+                    flushBuffer(fblse);
+                } cbtch (BbdLocbtionException ble) {
                 }
             }
             if(length > 0) {
-                lastWasNewline = (data[offs + length - 1] == '\n');
+                lbstWbsNewline = (dbtb[offs + length - 1] == '\n');
             }
         }
 
         /**
-         * Adds content that is basically specified entirely
-         * in the attribute set.
+         * Adds content thbt is bbsicblly specified entirely
+         * in the bttribute set.
          *
-         * @param t an HTML tag
-         * @param a the attribute set
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b the bttribute set
          */
-        protected void addSpecialElement(HTML.Tag t, MutableAttributeSet a) {
-            if ((t != HTML.Tag.FRAME) && (! inParagraph) && (! inPre)) {
-                nextTagAfterPImplied = t;
-                blockOpen(HTML.Tag.IMPLIED, new SimpleAttributeSet());
-                nextTagAfterPImplied = null;
-                inParagraph = true;
+        protected void bddSpeciblElement(HTML.Tbg t, MutbbleAttributeSet b) {
+            if ((t != HTML.Tbg.FRAME) && (! inPbrbgrbph) && (! inPre)) {
+                nextTbgAfterPImplied = t;
+                blockOpen(HTML.Tbg.IMPLIED, new SimpleAttributeSet());
+                nextTbgAfterPImplied = null;
+                inPbrbgrbph = true;
                 impliedP = true;
             }
-            if (!canInsertTag(t, a, t.isBlock())) {
+            if (!cbnInsertTbg(t, b, t.isBlock())) {
                 return;
             }
-            if (a.isDefined(IMPLIED)) {
-                a.removeAttribute(IMPLIED);
+            if (b.isDefined(IMPLIED)) {
+                b.removeAttribute(IMPLIED);
             }
-            emptyAnchor = false;
-            a.addAttributes(charAttr);
-            a.addAttribute(StyleConstants.NameAttribute, t);
-            char[] one = new char[1];
+            emptyAnchor = fblse;
+            b.bddAttributes(chbrAttr);
+            b.bddAttribute(StyleConstbnts.NbmeAttribute, t);
+            chbr[] one = new chbr[1];
             one[0] = ' ';
             ElementSpec es = new ElementSpec(
-                a.copyAttributes(), ElementSpec.ContentType, one, 0, 1);
-            parseBuffer.addElement(es);
-            // Set this to avoid generating a newline for frames, frames
-            // shouldn't have any content, and shouldn't need a newline.
-            if (t == HTML.Tag.FRAME) {
-                lastWasNewline = true;
+                b.copyAttributes(), ElementSpec.ContentType, one, 0, 1);
+            pbrseBuffer.bddElement(es);
+            // Set this to bvoid generbting b newline for frbmes, frbmes
+            // shouldn't hbve bny content, bnd shouldn't need b newline.
+            if (t == HTML.Tbg.FRAME) {
+                lbstWbsNewline = true;
             }
         }
 
         /**
-         * Flushes the current parse buffer into the document.
-         * @param endOfStream true if there is no more content to parser
+         * Flushes the current pbrse buffer into the document.
+         * @pbrbm endOfStrebm true if there is no more content to pbrser
          */
-        void flushBuffer(boolean endOfStream) throws BadLocationException {
+        void flushBuffer(boolebn endOfStrebm) throws BbdLocbtionException {
             int oldLength = HTMLDocument.this.getLength();
-            int size = parseBuffer.size();
-            if (endOfStream && (insertTag != null || insertAfterImplied) &&
+            int size = pbrseBuffer.size();
+            if (endOfStrebm && (insertTbg != null || insertAfterImplied) &&
                 size > 0) {
-                adjustEndSpecsForPartialInsert();
-                size = parseBuffer.size();
+                bdjustEndSpecsForPbrtiblInsert();
+                size = pbrseBuffer.size();
             }
             ElementSpec[] spec = new ElementSpec[size];
-            parseBuffer.copyInto(spec);
+            pbrseBuffer.copyInto(spec);
 
-            if (oldLength == 0 && (insertTag == null && !insertAfterImplied)) {
-                create(spec);
+            if (oldLength == 0 && (insertTbg == null && !insertAfterImplied)) {
+                crebte(spec);
             } else {
                 insert(offset, spec);
             }
-            parseBuffer.removeAllElements();
+            pbrseBuffer.removeAllElements();
             offset += HTMLDocument.this.getLength() - oldLength;
             flushCount++;
         }
 
         /**
-         * This will be invoked for the last flush, if <code>insertTag</code>
+         * This will be invoked for the lbst flush, if <code>insertTbg</code>
          * is non null.
          */
-        private void adjustEndSpecsForPartialInsert() {
-            int size = parseBuffer.size();
-            if (insertTagDepthDelta < 0) {
-                // When inserting via an insertTag, the depths (of the tree
-                // being read in, and existing hierarchy) may not match up.
-                // This attemps to clean it up.
-                int removeCounter = insertTagDepthDelta;
+        privbte void bdjustEndSpecsForPbrtiblInsert() {
+            int size = pbrseBuffer.size();
+            if (insertTbgDepthDeltb < 0) {
+                // When inserting vib bn insertTbg, the depths (of the tree
+                // being rebd in, bnd existing hierbrchy) mby not mbtch up.
+                // This bttemps to clebn it up.
+                int removeCounter = insertTbgDepthDeltb;
                 while (removeCounter < 0 && size >= 0 &&
-                        parseBuffer.elementAt(size - 1).
-                       getType() == ElementSpec.EndTagType) {
-                    parseBuffer.removeElementAt(--size);
+                        pbrseBuffer.elementAt(size - 1).
+                       getType() == ElementSpec.EndTbgType) {
+                    pbrseBuffer.removeElementAt(--size);
                     removeCounter++;
                 }
             }
             if (flushCount == 0 && (!insertAfterImplied ||
-                                    !wantsTrailingNewline)) {
-                // If this starts with content (or popDepth > 0 &&
-                // pushDepth > 0) and ends with EndTagTypes, make sure
-                // the last content isn't a \n, otherwise will end up with
-                // an extra \n in the middle of content.
+                                    !wbntsTrbilingNewline)) {
+                // If this stbrts with content (or popDepth > 0 &&
+                // pushDepth > 0) bnd ends with EndTbgTypes, mbke sure
+                // the lbst content isn't b \n, otherwise will end up with
+                // bn extrb \n in the middle of content.
                 int index = 0;
                 if (pushDepth > 0) {
-                    if (parseBuffer.elementAt(0).getType() ==
+                    if (pbrseBuffer.elementAt(0).getType() ==
                         ElementSpec.ContentType) {
                         index++;
                     }
                 }
                 index += (popDepth + pushDepth);
                 int cCount = 0;
-                int cStart = index;
-                while (index < size && parseBuffer.elementAt
+                int cStbrt = index;
+                while (index < size && pbrseBuffer.elementAt
                         (index).getType() == ElementSpec.ContentType) {
                     index++;
                     cCount++;
                 }
                 if (cCount > 1) {
-                    while (index < size && parseBuffer.elementAt
-                            (index).getType() == ElementSpec.EndTagType) {
+                    while (index < size && pbrseBuffer.elementAt
+                            (index).getType() == ElementSpec.EndTbgType) {
                         index++;
                     }
                     if (index == size) {
-                        char[] lastText = parseBuffer.elementAt
-                                (cStart + cCount - 1).getArray();
-                        if (lastText.length == 1 && lastText[0] == NEWLINE[0]){
-                            index = cStart + cCount - 1;
+                        chbr[] lbstText = pbrseBuffer.elementAt
+                                (cStbrt + cCount - 1).getArrby();
+                        if (lbstText.length == 1 && lbstText[0] == NEWLINE[0]){
+                            index = cStbrt + cCount - 1;
                             while (size > index) {
-                                parseBuffer.removeElementAt(--size);
+                                pbrseBuffer.removeElementAt(--size);
                             }
                         }
                     }
                 }
             }
-            if (wantsTrailingNewline) {
-                // Make sure there is in fact a newline
-                for (int counter = parseBuffer.size() - 1; counter >= 0;
+            if (wbntsTrbilingNewline) {
+                // Mbke sure there is in fbct b newline
+                for (int counter = pbrseBuffer.size() - 1; counter >= 0;
                                    counter--) {
-                    ElementSpec spec = parseBuffer.elementAt(counter);
+                    ElementSpec spec = pbrseBuffer.elementAt(counter);
                     if (spec.getType() == ElementSpec.ContentType) {
-                        if (spec.getArray()[spec.getLength() - 1] != '\n') {
-                            SimpleAttributeSet attrs =new SimpleAttributeSet();
+                        if (spec.getArrby()[spec.getLength() - 1] != '\n') {
+                            SimpleAttributeSet bttrs =new SimpleAttributeSet();
 
-                            attrs.addAttribute(StyleConstants.NameAttribute,
-                                               HTML.Tag.CONTENT);
-                            parseBuffer.insertElementAt(new ElementSpec(
-                                    attrs,
+                            bttrs.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                               HTML.Tbg.CONTENT);
+                            pbrseBuffer.insertElementAt(new ElementSpec(
+                                    bttrs,
                                     ElementSpec.ContentType, NEWLINE, 0, 1),
                                     counter + 1);
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -3890,23 +3890,23 @@ public class HTMLDocument extends DefaultStyledDocument {
         /**
          * Adds the CSS rules in <code>rules</code>.
          */
-        void addCSSRules(String rules) {
+        void bddCSSRules(String rules) {
             StyleSheet ss = getStyleSheet();
-            ss.addRule(rules);
+            ss.bddRule(rules);
         }
 
         /**
-         * Adds the CSS stylesheet at <code>href</code> to the known list
+         * Adds the CSS stylesheet bt <code>href</code> to the known list
          * of stylesheets.
          */
         void linkCSSStyleSheet(String href) {
             URL url;
             try {
-                url = new URL(base, href);
-            } catch (MalformedURLException mfe) {
+                url = new URL(bbse, href);
+            } cbtch (MblformedURLException mfe) {
                 try {
                     url = new URL(href);
-                } catch (MalformedURLException mfe2) {
+                } cbtch (MblformedURLException mfe2) {
                     url = null;
                 }
             }
@@ -3916,100 +3916,100 @@ public class HTMLDocument extends DefaultStyledDocument {
         }
 
         /**
-         * Returns true if can insert starting at <code>t</code>. This
-         * will return false if the insert tag is set, and hasn't been found
+         * Returns true if cbn insert stbrting bt <code>t</code>. This
+         * will return fblse if the insert tbg is set, bnd hbsn't been found
          * yet.
          */
-        private boolean canInsertTag(HTML.Tag t, AttributeSet attr,
-                                     boolean isBlockTag) {
-            if (!foundInsertTag) {
-                boolean needPImplied = ((t == HTML.Tag.IMPLIED)
-                                                          && (!inParagraph)
+        privbte boolebn cbnInsertTbg(HTML.Tbg t, AttributeSet bttr,
+                                     boolebn isBlockTbg) {
+            if (!foundInsertTbg) {
+                boolebn needPImplied = ((t == HTML.Tbg.IMPLIED)
+                                                          && (!inPbrbgrbph)
                                                           && (!inPre));
-                if (needPImplied && (nextTagAfterPImplied != null)) {
+                if (needPImplied && (nextTbgAfterPImplied != null)) {
 
                     /*
-                     * If insertTag == null then just proceed to
-                     * foundInsertTag() call below and return true.
+                     * If insertTbg == null then just proceed to
+                     * foundInsertTbg() cbll below bnd return true.
                      */
-                    if (insertTag != null) {
-                        boolean nextTagIsInsertTag =
-                                isInsertTag(nextTagAfterPImplied);
-                        if ( (! nextTagIsInsertTag) || (! insertInsertTag) ) {
-                            return false;
+                    if (insertTbg != null) {
+                        boolebn nextTbgIsInsertTbg =
+                                isInsertTbg(nextTbgAfterPImplied);
+                        if ( (! nextTbgIsInsertTbg) || (! insertInsertTbg) ) {
+                            return fblse;
                         }
                     }
                     /*
-                     *  Proceed to foundInsertTag() call...
+                     *  Proceed to foundInsertTbg() cbll...
                      */
-                 } else if ((insertTag != null && !isInsertTag(t))
+                 } else if ((insertTbg != null && !isInsertTbg(t))
                                || (insertAfterImplied
-                                    && (attr == null
-                                        || attr.isDefined(IMPLIED)
-                                        || t == HTML.Tag.IMPLIED
+                                    && (bttr == null
+                                        || bttr.isDefined(IMPLIED)
+                                        || t == HTML.Tbg.IMPLIED
                                        )
                                    )
                            ) {
-                    return false;
+                    return fblse;
                 }
 
-                // Allow the insert if t matches the insert tag, or
-                // insertAfterImplied is true and the element is implied.
-                foundInsertTag(isBlockTag);
-                if (!insertInsertTag) {
-                    return false;
+                // Allow the insert if t mbtches the insert tbg, or
+                // insertAfterImplied is true bnd the element is implied.
+                foundInsertTbg(isBlockTbg);
+                if (!insertInsertTbg) {
+                    return fblse;
                 }
             }
             return true;
         }
 
-        private boolean isInsertTag(HTML.Tag tag) {
-            return (insertTag == tag);
+        privbte boolebn isInsertTbg(HTML.Tbg tbg) {
+            return (insertTbg == tbg);
         }
 
-        private void foundInsertTag(boolean isBlockTag) {
-            foundInsertTag = true;
+        privbte void foundInsertTbg(boolebn isBlockTbg) {
+            foundInsertTbg = true;
             if (!insertAfterImplied && (popDepth > 0 || pushDepth > 0)) {
                 try {
-                    if (offset == 0 || !getText(offset - 1, 1).equals("\n")) {
-                        // Need to insert a newline.
+                    if (offset == 0 || !getText(offset - 1, 1).equbls("\n")) {
+                        // Need to insert b newline.
                         AttributeSet newAttrs = null;
-                        boolean joinP = true;
+                        boolebn joinP = true;
 
                         if (offset != 0) {
-                            // Determine if we can use JoinPrevious, we can't
-                            // if the Element has some attributes that are
-                            // not meant to be duplicated.
-                            Element charElement = getCharacterElement
+                            // Determine if we cbn use JoinPrevious, we cbn't
+                            // if the Element hbs some bttributes thbt bre
+                            // not mebnt to be duplicbted.
+                            Element chbrElement = getChbrbcterElement
                                                     (offset - 1);
-                            AttributeSet attrs = charElement.getAttributes();
+                            AttributeSet bttrs = chbrElement.getAttributes();
 
-                            if (attrs.isDefined(StyleConstants.
+                            if (bttrs.isDefined(StyleConstbnts.
                                                 ComposedTextAttribute)) {
-                                joinP = false;
+                                joinP = fblse;
                             }
                             else {
-                                Object name = attrs.getAttribute
-                                              (StyleConstants.NameAttribute);
-                                if (name instanceof HTML.Tag) {
-                                    HTML.Tag tag = (HTML.Tag)name;
-                                    if (tag == HTML.Tag.IMG ||
-                                        tag == HTML.Tag.HR ||
-                                        tag == HTML.Tag.COMMENT ||
-                                        (tag instanceof HTML.UnknownTag)) {
-                                        joinP = false;
+                                Object nbme = bttrs.getAttribute
+                                              (StyleConstbnts.NbmeAttribute);
+                                if (nbme instbnceof HTML.Tbg) {
+                                    HTML.Tbg tbg = (HTML.Tbg)nbme;
+                                    if (tbg == HTML.Tbg.IMG ||
+                                        tbg == HTML.Tbg.HR ||
+                                        tbg == HTML.Tbg.COMMENT ||
+                                        (tbg instbnceof HTML.UnknownTbg)) {
+                                        joinP = fblse;
                                     }
                                 }
                             }
                         }
                         if (!joinP) {
                             // If not joining with the previous element, be
-                            // sure and set the name (otherwise it will be
+                            // sure bnd set the nbme (otherwise it will be
                             // inherited).
                             newAttrs = new SimpleAttributeSet();
-                            ((SimpleAttributeSet)newAttrs).addAttribute
-                                              (StyleConstants.NameAttribute,
-                                               HTML.Tag.CONTENT);
+                            ((SimpleAttributeSet)newAttrs).bddAttribute
+                                              (StyleConstbnts.NbmeAttribute,
+                                               HTML.Tbg.CONTENT);
                         }
                         ElementSpec es = new ElementSpec(newAttrs,
                                      ElementSpec.ContentType, NEWLINE, 0,
@@ -4018,236 +4018,236 @@ public class HTMLDocument extends DefaultStyledDocument {
                             es.setDirection(ElementSpec.
                                             JoinPreviousDirection);
                         }
-                        parseBuffer.addElement(es);
+                        pbrseBuffer.bddElement(es);
                     }
-                } catch (BadLocationException ble) {}
+                } cbtch (BbdLocbtionException ble) {}
             }
             // pops
             for (int counter = 0; counter < popDepth; counter++) {
-                parseBuffer.addElement(new ElementSpec(null, ElementSpec.
-                                                       EndTagType));
+                pbrseBuffer.bddElement(new ElementSpec(null, ElementSpec.
+                                                       EndTbgType));
             }
             // pushes
             for (int counter = 0; counter < pushDepth; counter++) {
                 ElementSpec es = new ElementSpec(null, ElementSpec.
-                                                 StartTagType);
+                                                 StbrtTbgType);
                 es.setDirection(ElementSpec.JoinNextDirection);
-                parseBuffer.addElement(es);
+                pbrseBuffer.bddElement(es);
             }
-            insertTagDepthDelta = depthTo(Math.max(0, offset - 1)) -
+            insertTbgDepthDeltb = depthTo(Mbth.mbx(0, offset - 1)) -
                                   popDepth + pushDepth - inBlock;
-            if (isBlockTag) {
-                // A start spec will be added (for this tag), so we account
+            if (isBlockTbg) {
+                // A stbrt spec will be bdded (for this tbg), so we bccount
                 // for it here.
-                insertTagDepthDelta++;
+                insertTbgDepthDeltb++;
             }
             else {
-                // An implied paragraph close (end spec) is going to be added,
-                // so we account for it here.
-                insertTagDepthDelta--;
-                inParagraph = true;
-                lastWasNewline = false;
+                // An implied pbrbgrbph close (end spec) is going to be bdded,
+                // so we bccount for it here.
+                insertTbgDepthDeltb--;
+                inPbrbgrbph = true;
+                lbstWbsNewline = fblse;
             }
         }
 
         /**
-         * This is set to true when and end is invoked for {@literal <html>}.
+         * This is set to true when bnd end is invoked for {@literbl <html>}.
          */
-        private boolean receivedEndHTML;
-        /** Number of times <code>flushBuffer</code> has been invoked. */
-        private int flushCount;
-        /** If true, behavior is similar to insertTag, but instead of
-         * waiting for insertTag will wait for first Element without
-         * an 'implied' attribute and begin inserting then. */
-        private boolean insertAfterImplied;
-        /** This is only used if insertAfterImplied is true. If false, only
-         * inserting content, and there is a trailing newline it is removed. */
-        private boolean wantsTrailingNewline;
+        privbte boolebn receivedEndHTML;
+        /** Number of times <code>flushBuffer</code> hbs been invoked. */
+        privbte int flushCount;
+        /** If true, behbvior is similbr to insertTbg, but instebd of
+         * wbiting for insertTbg will wbit for first Element without
+         * bn 'implied' bttribute bnd begin inserting then. */
+        privbte boolebn insertAfterImplied;
+        /** This is only used if insertAfterImplied is true. If fblse, only
+         * inserting content, bnd there is b trbiling newline it is removed. */
+        privbte boolebn wbntsTrbilingNewline;
         int threshold;
         int offset;
-        boolean inParagraph = false;
-        boolean impliedP = false;
-        boolean inPre = false;
-        boolean inTextArea = false;
-        TextAreaDocument textAreaDocument = null;
-        boolean inTitle = false;
-        boolean lastWasNewline = true;
-        boolean emptyAnchor;
-        /** True if (!emptyDocument &amp;&amp; insertTag == null), this is used so
-         * much it is cached. */
-        boolean midInsert;
-        /** True when the body has been encountered. */
-        boolean inBody;
-        /** If non null, gives parent Tag that insert is to happen at. */
-        HTML.Tag insertTag;
-        /** If true, the insertTag is inserted, otherwise elements after
-         * the insertTag is found are inserted. */
-        boolean insertInsertTag;
-        /** Set to true when insertTag has been found. */
-        boolean foundInsertTag;
-        /** When foundInsertTag is set to true, this will be updated to
-         * reflect the delta between the two structures. That is, it
-         * will be the depth the inserts are happening at minus the
-         * depth of the tags being passed in. A value of 0 (the common
-         * case) indicates the structures match, a value greater than 0 indicates
-         * the insert is happening at a deeper depth than the stream is
-         * parsing, and a value less than 0 indicates the insert is happening earlier
-         * in the tree that the parser thinks and that we will need to remove
-         * EndTagType specs in the flushBuffer method.
+        boolebn inPbrbgrbph = fblse;
+        boolebn impliedP = fblse;
+        boolebn inPre = fblse;
+        boolebn inTextAreb = fblse;
+        TextArebDocument textArebDocument = null;
+        boolebn inTitle = fblse;
+        boolebn lbstWbsNewline = true;
+        boolebn emptyAnchor;
+        /** True if (!emptyDocument &bmp;&bmp; insertTbg == null), this is used so
+         * much it is cbched. */
+        boolebn midInsert;
+        /** True when the body hbs been encountered. */
+        boolebn inBody;
+        /** If non null, gives pbrent Tbg thbt insert is to hbppen bt. */
+        HTML.Tbg insertTbg;
+        /** If true, the insertTbg is inserted, otherwise elements bfter
+         * the insertTbg is found bre inserted. */
+        boolebn insertInsertTbg;
+        /** Set to true when insertTbg hbs been found. */
+        boolebn foundInsertTbg;
+        /** When foundInsertTbg is set to true, this will be updbted to
+         * reflect the deltb between the two structures. Thbt is, it
+         * will be the depth the inserts bre hbppening bt minus the
+         * depth of the tbgs being pbssed in. A vblue of 0 (the common
+         * cbse) indicbtes the structures mbtch, b vblue grebter thbn 0 indicbtes
+         * the insert is hbppening bt b deeper depth thbn the strebm is
+         * pbrsing, bnd b vblue less thbn 0 indicbtes the insert is hbppening ebrlier
+         * in the tree thbt the pbrser thinks bnd thbt we will need to remove
+         * EndTbgType specs in the flushBuffer method.
          */
-        int insertTagDepthDelta;
-        /** How many parents to ascend before insert new elements. */
+        int insertTbgDepthDeltb;
+        /** How mbny pbrents to bscend before insert new elements. */
         int popDepth;
-        /** How many parents to descend (relative to popDepth) before
+        /** How mbny pbrents to descend (relbtive to popDepth) before
          * inserting. */
         int pushDepth;
-        /** Last Map that was encountered. */
-        Map lastMap;
-        /** Set to true when a style element is encountered. */
-        boolean inStyle = false;
-        /** Name of style to use. Obtained from Meta tag. */
-        String defaultStyle;
-        /** Vector describing styles that should be include. Will consist
-         * of a bunch of HTML.Tags, which will either be:
-         * <p>LINK: in which case it is followed by an AttributeSet
-         * <p>STYLE: in which case the following element is a String
-         * indicating the type (may be null), and the elements following
-         * it until the next HTML.Tag are the rules as Strings.
+        /** Lbst Mbp thbt wbs encountered. */
+        Mbp lbstMbp;
+        /** Set to true when b style element is encountered. */
+        boolebn inStyle = fblse;
+        /** Nbme of style to use. Obtbined from Metb tbg. */
+        String defbultStyle;
+        /** Vector describing styles thbt should be include. Will consist
+         * of b bunch of HTML.Tbgs, which will either be:
+         * <p>LINK: in which cbse it is followed by bn AttributeSet
+         * <p>STYLE: in which cbse the following element is b String
+         * indicbting the type (mby be null), bnd the elements following
+         * it until the next HTML.Tbg bre the rules bs Strings.
          */
         Vector<Object> styles;
-        /** True if inside the head tag. */
-        boolean inHead = false;
-        /** Set to true if the style language is text/css. Since this is
-         * used alot, it is cached. */
-        boolean isStyleCSS;
-        /** True if inserting into an empty document. */
-        boolean emptyDocument;
-        /** Attributes from a style Attribute. */
+        /** True if inside the hebd tbg. */
+        boolebn inHebd = fblse;
+        /** Set to true if the style lbngubge is text/css. Since this is
+         * used blot, it is cbched. */
+        boolebn isStyleCSS;
+        /** True if inserting into bn empty document. */
+        boolebn emptyDocument;
+        /** Attributes from b style Attribute. */
         AttributeSet styleAttributes;
 
         /**
-         * Current option, if in an option element (needed to
-         * load the label.
+         * Current option, if in bn option element (needed to
+         * lobd the lbbel.
          */
         Option option;
 
         /**
          * Buffer to keep building elements.
          */
-        protected Vector<ElementSpec> parseBuffer = new Vector<ElementSpec>();
+        protected Vector<ElementSpec> pbrseBuffer = new Vector<ElementSpec>();
         /**
-         * Current character attribute set.
+         * Current chbrbcter bttribute set.
          */
-        protected MutableAttributeSet charAttr = new TaggedAttributeSet();
-        Stack<AttributeSet> charAttrStack = new Stack<AttributeSet>();
-        Hashtable<HTML.Tag, TagAction> tagMap;
+        protected MutbbleAttributeSet chbrAttr = new TbggedAttributeSet();
+        Stbck<AttributeSet> chbrAttrStbck = new Stbck<AttributeSet>();
+        Hbshtbble<HTML.Tbg, TbgAction> tbgMbp;
         int inBlock = 0;
 
         /**
-         * This attribute is sometimes used to refer to next tag
-         * to be handled after p-implied when the latter is
-         * the current tag which is being handled.
+         * This bttribute is sometimes used to refer to next tbg
+         * to be hbndled bfter p-implied when the lbtter is
+         * the current tbg which is being hbndled.
          */
-        private HTML.Tag nextTagAfterPImplied = null;
+        privbte HTML.Tbg nextTbgAfterPImplied = null;
     }
 
 
     /**
-     * Used by StyleSheet to determine when to avoid removing HTML.Tags
-     * matching StyleConstants.
+     * Used by StyleSheet to determine when to bvoid removing HTML.Tbgs
+     * mbtching StyleConstbnts.
      */
-    static class TaggedAttributeSet extends SimpleAttributeSet {
-        TaggedAttributeSet() {
+    stbtic clbss TbggedAttributeSet extends SimpleAttributeSet {
+        TbggedAttributeSet() {
             super();
         }
     }
 
 
     /**
-     * An element that represents a chunk of text that has
-     * a set of HTML character level attributes assigned to
+     * An element thbt represents b chunk of text thbt hbs
+     * b set of HTML chbrbcter level bttributes bssigned to
      * it.
      */
-    public class RunElement extends LeafElement {
+    public clbss RunElement extends LebfElement {
 
         /**
-         * Constructs an element that represents content within the
-         * document (has no children).
+         * Constructs bn element thbt represents content within the
+         * document (hbs no children).
          *
-         * @param parent  the parent element
-         * @param a       the element attributes
-         * @param offs0   the start offset (must be at least 0)
-         * @param offs1   the end offset (must be at least offs0)
+         * @pbrbm pbrent  the pbrent element
+         * @pbrbm b       the element bttributes
+         * @pbrbm offs0   the stbrt offset (must be bt lebst 0)
+         * @pbrbm offs1   the end offset (must be bt lebst offs0)
          * @since 1.4
          */
-        public RunElement(Element parent, AttributeSet a, int offs0, int offs1) {
-            super(parent, a, offs0, offs1);
+        public RunElement(Element pbrent, AttributeSet b, int offs0, int offs1) {
+            super(pbrent, b, offs0, offs1);
         }
 
         /**
-         * Gets the name of the element.
+         * Gets the nbme of the element.
          *
-         * @return the name, null if none
+         * @return the nbme, null if none
          */
-        public String getName() {
-            Object o = getAttribute(StyleConstants.NameAttribute);
+        public String getNbme() {
+            Object o = getAttribute(StyleConstbnts.NbmeAttribute);
             if (o != null) {
                 return o.toString();
             }
-            return super.getName();
+            return super.getNbme();
         }
 
         /**
-         * Gets the resolving parent.  HTML attributes are not inherited
-         * at the model level so we override this to return null.
+         * Gets the resolving pbrent.  HTML bttributes bre not inherited
+         * bt the model level so we override this to return null.
          *
-         * @return null, there are none
-         * @see AttributeSet#getResolveParent
+         * @return null, there bre none
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
+        public AttributeSet getResolvePbrent() {
             return null;
         }
     }
 
     /**
-     * An element that represents a structural <em>block</em> of
+     * An element thbt represents b structurbl <em>block</em> of
      * HTML.
      */
-    public class BlockElement extends BranchElement {
+    public clbss BlockElement extends BrbnchElement {
 
         /**
-         * Constructs a composite element that initially contains
+         * Constructs b composite element thbt initiblly contbins
          * no children.
          *
-         * @param parent  the parent element
-         * @param a       the attributes for the element
+         * @pbrbm pbrent  the pbrent element
+         * @pbrbm b       the bttributes for the element
          * @since 1.4
          */
-        public BlockElement(Element parent, AttributeSet a) {
-            super(parent, a);
+        public BlockElement(Element pbrent, AttributeSet b) {
+            super(pbrent, b);
         }
 
         /**
-         * Gets the name of the element.
+         * Gets the nbme of the element.
          *
-         * @return the name, null if none
+         * @return the nbme, null if none
          */
-        public String getName() {
-            Object o = getAttribute(StyleConstants.NameAttribute);
+        public String getNbme() {
+            Object o = getAttribute(StyleConstbnts.NbmeAttribute);
             if (o != null) {
                 return o.toString();
             }
-            return super.getName();
+            return super.getNbme();
         }
 
         /**
-         * Gets the resolving parent.  HTML attributes are not inherited
-         * at the model level so we override this to return null.
+         * Gets the resolving pbrent.  HTML bttributes bre not inherited
+         * bt the model level so we override this to return null.
          *
-         * @return null, there are none
-         * @see AttributeSet#getResolveParent
+         * @return null, there bre none
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
+        public AttributeSet getResolvePbrent() {
             return null;
         }
 
@@ -4255,19 +4255,19 @@ public class HTMLDocument extends DefaultStyledDocument {
 
 
     /**
-     * Document that allows you to set the maximum length of the text.
+     * Document thbt bllows you to set the mbximum length of the text.
      */
-    private static class FixedLengthDocument extends PlainDocument {
-        private int maxLength;
+    privbte stbtic clbss FixedLengthDocument extends PlbinDocument {
+        privbte int mbxLength;
 
-        public FixedLengthDocument(int maxLength) {
-            this.maxLength = maxLength;
+        public FixedLengthDocument(int mbxLength) {
+            this.mbxLength = mbxLength;
         }
 
-        public void insertString(int offset, String str, AttributeSet a)
-            throws BadLocationException {
-            if (str != null && str.length() + getLength() <= maxLength) {
-                super.insertString(offset, str, a);
+        public void insertString(int offset, String str, AttributeSet b)
+            throws BbdLocbtionException {
+            if (str != null && str.length() + getLength() <= mbxLength) {
+                super.insertString(offset, str, b);
             }
         }
     }

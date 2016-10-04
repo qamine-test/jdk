@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,65 +30,65 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.PrintWriter;
-import java.util.HashMap;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.io.PrintWriter;
+import jbvb.util.HbshMbp;
 
-public class Result {
-    public static final int RATE_UNKNOWN    = 0;
+public clbss Result {
+    public stbtic finbl int RATE_UNKNOWN    = 0;
 
-    public static final int WORK_OPS        = 1;
-    public static final int WORK_UNITS      = 2;
-    public static final int WORK_THOUSANDS  = 4;
-    public static final int WORK_MILLIONS   = 6;
-    public static final int WORK_AUTO       = 8;
+    public stbtic finbl int WORK_OPS        = 1;
+    public stbtic finbl int WORK_UNITS      = 2;
+    public stbtic finbl int WORK_THOUSANDS  = 4;
+    public stbtic finbl int WORK_MILLIONS   = 6;
+    public stbtic finbl int WORK_AUTO       = 8;
 
-    public static final int TIME_SECONDS    = 10;
-    public static final int TIME_MILLIS     = 11;
-    public static final int TIME_MICROS     = 12;
-    public static final int TIME_NANOS      = 13;
-    public static final int TIME_AUTO       = 14;
+    public stbtic finbl int TIME_SECONDS    = 10;
+    public stbtic finbl int TIME_MILLIS     = 11;
+    public stbtic finbl int TIME_MICROS     = 12;
+    public stbtic finbl int TIME_NANOS      = 13;
+    public stbtic finbl int TIME_AUTO       = 14;
 
-    static Group resultoptroot;
-    static Option.ObjectChoice timeOpt;
-    static Option.ObjectChoice workOpt;
-    static Option.ObjectChoice rateOpt;
+    stbtic Group resultoptroot;
+    stbtic Option.ObjectChoice timeOpt;
+    stbtic Option.ObjectChoice workOpt;
+    stbtic Option.ObjectChoice rbteOpt;
 
-    public static void init() {
-        resultoptroot = new Group(TestEnvironment.globaloptroot,
+    public stbtic void init() {
+        resultoptroot = new Group(TestEnvironment.globbloptroot,
                                   "results", "Result Options");
 
         String workStrings[] = {
             "units",
             "kilounits",
-            "megaunits",
-            "autounits",
+            "megbunits",
+            "butounits",
             "ops",
             "kiloops",
-            "megaops",
-            "autoops",
+            "megbops",
+            "butoops",
         };
         String workDescriptions[] = {
             "Test Units",
-            "Thousands of Test Units",
+            "Thousbnds of Test Units",
             "Millions of Test Units",
-            "Auto-scaled Test Units",
-            "Operations",
-            "Thousands of Operations",
-            "Millions of Operations",
-            "Auto-scaled Operations",
+            "Auto-scbled Test Units",
+            "Operbtions",
+            "Thousbnds of Operbtions",
+            "Millions of Operbtions",
+            "Auto-scbled Operbtions",
         };
         Integer workObjects[] = {
             new Integer(WORK_UNITS),
@@ -110,14 +110,14 @@ public class Result {
             "msec",
             "usec",
             "nsec",
-            "autosec",
+            "butosec",
         };
         String timeDescriptions[] = {
             "Seconds",
             "Milliseconds",
             "Microseconds",
-            "Nanoseconds",
-            "Auto-scaled seconds",
+            "Nbnoseconds",
+            "Auto-scbled seconds",
         };
         Integer timeObjects[] = {
             new Integer(TIME_SECONDS),
@@ -131,120 +131,120 @@ public class Result {
                                           timeStrings, timeObjects,
                                           timeStrings, timeDescriptions,
                                           0);
-        String rateStrings[] = {
+        String rbteStrings[] = {
             "unitspersec",
             "secsperunit",
         };
-        String rateDescriptions[] = {
+        String rbteDescriptions[] = {
             "Work units per Time",
             "Time units per Work",
         };
-        Boolean rateObjects[] = {
-            Boolean.FALSE,
-            Boolean.TRUE,
+        Boolebn rbteObjects[] = {
+            Boolebn.FALSE,
+            Boolebn.TRUE,
         };
-        rateOpt = new Option.ObjectChoice(resultoptroot,
-                                          "ratio", "Rate Ratio",
-                                          rateStrings, rateObjects,
-                                          rateStrings, rateDescriptions,
+        rbteOpt = new Option.ObjectChoice(resultoptroot,
+                                          "rbtio", "Rbte Rbtio",
+                                          rbteStrings, rbteObjects,
+                                          rbteStrings, rbteDescriptions,
                                           0);
     }
 
-    public static boolean isTimeUnit(int unit) {
+    public stbtic boolebn isTimeUnit(int unit) {
         return (unit >= TIME_SECONDS && unit <= TIME_AUTO);
     }
 
-    public static boolean isWorkUnit(int unit) {
+    public stbtic boolebn isWorkUnit(int unit) {
         return (unit >= WORK_OPS && unit <= (WORK_AUTO | WORK_OPS));
     }
 
-    public static String parseRateOpt(String opt) {
-        int timeScale = timeOpt.getIntValue();
-        int workScale = workOpt.getIntValue();
-        boolean invertRate = rateOpt.getBooleanValue();
+    public stbtic String pbrseRbteOpt(String opt) {
+        int timeScble = timeOpt.getIntVblue();
+        int workScble = workOpt.getIntVblue();
+        boolebn invertRbte = rbteOpt.getBoolebnVblue();
         int divindex = opt.indexOf('/');
         if (divindex < 0) {
-            int unit = parseUnit(opt);
+            int unit = pbrseUnit(opt);
             if (isTimeUnit(unit)) {
-                timeScale = unit;
+                timeScble = unit;
             } else if (isWorkUnit(unit)) {
-                workScale = unit;
+                workScble = unit;
             } else {
-                return "Bad unit: "+opt;
+                return "Bbd unit: "+opt;
             }
         } else {
-            int unit1 = parseUnit(opt.substring(0,divindex));
-            int unit2 = parseUnit(opt.substring(divindex+1));
+            int unit1 = pbrseUnit(opt.substring(0,divindex));
+            int unit2 = pbrseUnit(opt.substring(divindex+1));
             if (isTimeUnit(unit1)) {
                 if (isWorkUnit(unit2)) {
-                    timeScale = unit1;
-                    workScale = unit2;
-                    invertRate = true;
+                    timeScble = unit1;
+                    workScble = unit2;
+                    invertRbte = true;
                 } else if (isTimeUnit(unit2)) {
                     return "Both time units: "+opt;
                 } else {
-                    return "Bad denominator: "+opt;
+                    return "Bbd denominbtor: "+opt;
                 }
             } else if (isWorkUnit(unit1)) {
                 if (isWorkUnit(unit2)) {
                     return "Both work units: "+opt;
                 } else if (isTimeUnit(unit2)) {
-                    timeScale = unit2;
-                    workScale = unit1;
-                    invertRate = false;
+                    timeScble = unit2;
+                    workScble = unit1;
+                    invertRbte = fblse;
                 } else {
-                    return "Bad denominator: "+opt;
+                    return "Bbd denominbtor: "+opt;
                 }
             } else {
-                return "Bad numerator: "+opt;
+                return "Bbd numerbtor: "+opt;
             }
         }
-        timeOpt.setValue(timeScale);
-        workOpt.setValue(workScale);
-        rateOpt.setValue(invertRate);
+        timeOpt.setVblue(timeScble);
+        workOpt.setVblue(workScble);
+        rbteOpt.setVblue(invertRbte);
         return null;
     }
 
-    private static HashMap unitMap;
+    privbte stbtic HbshMbp unitMbp;
 
-    static {
-        unitMap = new HashMap();
-        unitMap.put("U",  new Integer(WORK_UNITS));
-        unitMap.put("M",  new Integer(WORK_MILLIONS));
-        unitMap.put("K",  new Integer(WORK_THOUSANDS));
-        unitMap.put("A",  new Integer(WORK_AUTO));
-        unitMap.put("MU", new Integer(WORK_MILLIONS));
-        unitMap.put("KU", new Integer(WORK_THOUSANDS));
-        unitMap.put("AU", new Integer(WORK_AUTO));
+    stbtic {
+        unitMbp = new HbshMbp();
+        unitMbp.put("U",  new Integer(WORK_UNITS));
+        unitMbp.put("M",  new Integer(WORK_MILLIONS));
+        unitMbp.put("K",  new Integer(WORK_THOUSANDS));
+        unitMbp.put("A",  new Integer(WORK_AUTO));
+        unitMbp.put("MU", new Integer(WORK_MILLIONS));
+        unitMbp.put("KU", new Integer(WORK_THOUSANDS));
+        unitMbp.put("AU", new Integer(WORK_AUTO));
 
-        unitMap.put("O",  new Integer(WORK_UNITS | WORK_OPS));
-        unitMap.put("NO", new Integer(WORK_UNITS | WORK_OPS));
-        unitMap.put("MO", new Integer(WORK_MILLIONS | WORK_OPS));
-        unitMap.put("KO", new Integer(WORK_THOUSANDS | WORK_OPS));
-        unitMap.put("AO", new Integer(WORK_AUTO | WORK_OPS));
+        unitMbp.put("O",  new Integer(WORK_UNITS | WORK_OPS));
+        unitMbp.put("NO", new Integer(WORK_UNITS | WORK_OPS));
+        unitMbp.put("MO", new Integer(WORK_MILLIONS | WORK_OPS));
+        unitMbp.put("KO", new Integer(WORK_THOUSANDS | WORK_OPS));
+        unitMbp.put("AO", new Integer(WORK_AUTO | WORK_OPS));
 
-        unitMap.put("s",  new Integer(TIME_SECONDS));
-        unitMap.put("m",  new Integer(TIME_MILLIS));
-        unitMap.put("u",  new Integer(TIME_MICROS));
-        unitMap.put("n",  new Integer(TIME_NANOS));
-        unitMap.put("a",  new Integer(TIME_AUTO));
+        unitMbp.put("s",  new Integer(TIME_SECONDS));
+        unitMbp.put("m",  new Integer(TIME_MILLIS));
+        unitMbp.put("u",  new Integer(TIME_MICROS));
+        unitMbp.put("n",  new Integer(TIME_NANOS));
+        unitMbp.put("b",  new Integer(TIME_AUTO));
     }
 
-    public static int parseUnit(String c) {
-        Integer u = (Integer) unitMap.get(c);
+    public stbtic int pbrseUnit(String c) {
+        Integer u = (Integer) unitMbp.get(c);
         if (u != null) {
-            return u.intValue();
+            return u.intVblue();
         }
         return RATE_UNKNOWN;
     }
 
-    String unitname = "unit";
+    String unitnbme = "unit";
     Test test;
     int repsPerRun;
     int unitsPerRep;
     Vector times;
-    Hashtable modifiers;
-    Throwable error;
+    Hbshtbble modifiers;
+    Throwbble error;
 
     public Result(Test test) {
         this.test = test;
@@ -261,27 +261,27 @@ public class Result {
         this.unitsPerRep = units;
     }
 
-    public void setUnitName(String name) {
-        this.unitname = name;
+    public void setUnitNbme(String nbme) {
+        this.unitnbme = nbme;
     }
 
-    public void addTime(long time) {
-        if (J2DBench.printresults.isEnabled()) {
+    public void bddTime(long time) {
+        if (J2DBench.printresults.isEnbbled()) {
             System.out.println(test+" took "+time+"ms for "+
                                getRepsPerRun()+" reps");
         }
-        times.addElement(new Long(time));
+        times.bddElement(new Long(time));
     }
 
-    public void setError(Throwable t) {
+    public void setError(Throwbble t) {
         this.error = t;
     }
 
-    public void setModifiers(Hashtable modifiers) {
+    public void setModifiers(Hbshtbble modifiers) {
         this.modifiers = modifiers;
     }
 
-    public Throwable getError() {
+    public Throwbble getError() {
         return error;
     }
 
@@ -297,7 +297,7 @@ public class Result {
         return ((long) getRepsPerRun()) * ((long) getUnitsPerRep());
     }
 
-    public Hashtable getModifiers() {
+    public Hbshtbble getModifiers() {
         return modifiers;
     }
 
@@ -306,7 +306,7 @@ public class Result {
     }
 
     public long getTime(int index) {
-        return ((Long) times.elementAt(index)).longValue();
+        return ((Long) times.elementAt(index)).longVblue();
     }
 
     public double getRepsPerSecond(int index) {
@@ -317,120 +317,120 @@ public class Result {
         return (getUnitsPerRun() * 1000.0) / getTime(index);
     }
 
-    public long getTotalReps() {
+    public long getTotblReps() {
         return getRepsPerRun() * getNumRuns();
     }
 
-    public long getTotalUnits() {
+    public long getTotblUnits() {
         return getUnitsPerRun() * getNumRuns();
     }
 
-    public long getTotalTime() {
-        long totalTime = 0;
+    public long getTotblTime() {
+        long totblTime = 0;
         for (int i = 0; i < times.size(); i++) {
-            totalTime += getTime(i);
+            totblTime += getTime(i);
         }
-        return totalTime;
+        return totblTime;
     }
 
-    public double getAverageRepsPerSecond() {
-        return (getTotalReps() * 1000.0) / getTotalTime();
+    public double getAverbgeRepsPerSecond() {
+        return (getTotblReps() * 1000.0) / getTotblTime();
     }
 
-    public double getAverageUnitsPerSecond() {
-        return (getTotalUnits() * 1000.0) / getTotalTime();
+    public double getAverbgeUnitsPerSecond() {
+        return (getTotblUnits() * 1000.0) / getTotblTime();
     }
 
-    public String getAverageString() {
-        int timeScale = timeOpt.getIntValue();
-        int workScale = workOpt.getIntValue();
-        boolean invertRate = rateOpt.getBooleanValue();
-        double time = getTotalTime();
+    public String getAverbgeString() {
+        int timeScble = timeOpt.getIntVblue();
+        int workScble = workOpt.getIntVblue();
+        boolebn invertRbte = rbteOpt.getBoolebnVblue();
+        double time = getTotblTime();
         String timeprefix = "";
-        switch (timeScale) {
-        case TIME_AUTO:
-        case TIME_SECONDS:
+        switch (timeScble) {
+        cbse TIME_AUTO:
+        cbse TIME_SECONDS:
             time /= 1000;
-            break;
-        case TIME_MILLIS:
+            brebk;
+        cbse TIME_MILLIS:
             timeprefix = "m";
-            break;
-        case TIME_MICROS:
+            brebk;
+        cbse TIME_MICROS:
             time *= 1000.0;
             timeprefix = "u";
-            break;
-        case TIME_NANOS:
+            brebk;
+        cbse TIME_NANOS:
             time *= 1000000.0;
             timeprefix = "n";
-            break;
+            brebk;
         }
 
         String workprefix = "";
-        boolean isOps = (workScale & WORK_OPS) != 0;
-        String workname = isOps ? "op" : unitname;
-        double work = isOps ? getTotalReps() : getTotalUnits();
-        switch (workScale & (~WORK_OPS)) {
-        case WORK_AUTO:
-        case WORK_UNITS:
-            break;
-        case WORK_THOUSANDS:
+        boolebn isOps = (workScble & WORK_OPS) != 0;
+        String worknbme = isOps ? "op" : unitnbme;
+        double work = isOps ? getTotblReps() : getTotblUnits();
+        switch (workScble & (~WORK_OPS)) {
+        cbse WORK_AUTO:
+        cbse WORK_UNITS:
+            brebk;
+        cbse WORK_THOUSANDS:
             work /= 1000.0;
             workprefix = "K";
-            break;
-        case WORK_MILLIONS:
+            brebk;
+        cbse WORK_MILLIONS:
             work /= 1000000.0;
             workprefix = "M";
-            break;
+            brebk;
         }
-        if (invertRate) {
-            double rate = time / work;
-            if (timeScale == TIME_AUTO) {
-                if (rate < 1.0) {
-                    rate *= 1000.0;
+        if (invertRbte) {
+            double rbte = time / work;
+            if (timeScble == TIME_AUTO) {
+                if (rbte < 1.0) {
+                    rbte *= 1000.0;
                     timeprefix = "m";
-                    if (rate < 1.0) {
-                        rate *= 1000.0;
+                    if (rbte < 1.0) {
+                        rbte *= 1000.0;
                         timeprefix = "u";
-                        if (rate < 1.0) {
-                            rate *= 1000.0;
+                        if (rbte < 1.0) {
+                            rbte *= 1000.0;
                             timeprefix = "n";
                         }
                     }
                 }
             }
-            return rate+" "+timeprefix+"secs/"+workprefix+workname;
+            return rbte+" "+timeprefix+"secs/"+workprefix+worknbme;
         } else {
-            double rate = work / time;
-            if (workScale == WORK_AUTO) {
-                if (rate > 1000.0) {
-                    rate /= 1000.0;
+            double rbte = work / time;
+            if (workScble == WORK_AUTO) {
+                if (rbte > 1000.0) {
+                    rbte /= 1000.0;
                     workprefix = "K";
-                    if (rate > 1000.0) {
-                        rate /= 1000.0;
+                    if (rbte > 1000.0) {
+                        rbte /= 1000.0;
                         workprefix = "M";
                     }
                 }
             }
-            return rate+" "+workprefix+workname+"s/"+timeprefix+"sec";
+            return rbte+" "+workprefix+worknbme+"s/"+timeprefix+"sec";
         }
     }
 
-    public void summarize() {
+    public void summbrize() {
         if (error != null) {
             System.out.println(test+" skipped due to "+error);
-            error.printStackTrace(System.out);
+            error.printStbckTrbce(System.out);
         } else {
-            System.out.println(test+" averaged "+getAverageString());
+            System.out.println(test+" bverbged "+getAverbgeString());
         }
         if (true) {
-            Enumeration enum_ = modifiers.keys();
+            Enumerbtion enum_ = modifiers.keys();
             System.out.print("    with");
             String sep = " ";
-            while (enum_.hasMoreElements()) {
+            while (enum_.hbsMoreElements()) {
                 Modifier mod = (Modifier) enum_.nextElement();
                 Object v = modifiers.get(mod);
                 System.out.print(sep);
-                System.out.print(mod.getAbbreviatedModifierDescription(v));
+                System.out.print(mod.getAbbrevibtedModifierDescription(v));
                 sep = ", ";
             }
             System.out.println();
@@ -441,18 +441,18 @@ public class Result {
         pw.println("  <result "+
                    "num-reps=\""+getRepsPerRun()+"\" "+
                    "num-units=\""+getUnitsPerRep()+"\" "+
-                   "name=\""+test.getTreeName()+"\">");
-        Enumeration enum_ = modifiers.keys();
-        while (enum_.hasMoreElements()) {
+                   "nbme=\""+test.getTreeNbme()+"\">");
+        Enumerbtion enum_ = modifiers.keys();
+        while (enum_.hbsMoreElements()) {
             Modifier mod = (Modifier) enum_.nextElement();
             Object v = modifiers.get(mod);
-            String val = mod.getModifierValueName(v);
+            String vbl = mod.getModifierVblueNbme(v);
             pw.println("    <option "+
-                       "key=\""+mod.getTreeName()+"\" "+
-                       "value=\""+val+"\"/>");
+                       "key=\""+mod.getTreeNbme()+"\" "+
+                       "vblue=\""+vbl+"\"/>");
         }
         for (int i = 0; i < getNumRuns(); i++) {
-            pw.println("    <time value=\""+getTime(i)+"\"/>");
+            pw.println("    <time vblue=\""+getTime(i)+"\"/>");
         }
         pw.println("  </result>");
     }

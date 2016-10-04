@@ -3,58 +3,58 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="en"/>
 		<territory type="JM"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">d/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md" draft="unconfirmed">d/M</dateFormatItem>
-						<dateFormatItem id="MEd" draft="unconfirmed">E, d/M</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="unconfirmed">E, d/M/yyyy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">d/M - d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M - d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d/M/yy - d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d/M/yy - E, d/M/yy</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
+				<dbteFormbts>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">d/M/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Md" drbft="unconfirmed">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd" drbft="unconfirmed">E, d/M</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd" drbft="unconfirmed">E, d/M/yyyy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d" drbft="unconfirmed">d/M - d/M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d/M - d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d/M - E, d/M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d/M - E, d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d" drbft="unconfirmed">d/M/yy - d/M/yy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d/M/yy - d/M/yy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">d/M/yy - d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d/M/yy - E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d/M/yy - E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, d/M/yy - E, d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="JMD">
 				<symbol>$</symbol>

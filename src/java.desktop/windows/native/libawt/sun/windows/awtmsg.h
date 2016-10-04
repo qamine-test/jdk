@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWTMSG_H
 #define AWTMSG_H
 
-#include <awt.h>
+#include <bwt.h>
 
 extern const UINT SYSCOMMAND_IMM;
 
@@ -34,11 +34,11 @@ extern const UINT SYSCOMMAND_IMM;
  * #defines for MouseWheel support
  *
  * Most of this is defined in winuser.h, however
- * it is enclosed by #ifdefs that aren't true
- * for all windows platforms.  To ensure that
- * necessary #defines are always available,
- * they're defined here as necessary.
- * See winuser.h for details.
+ * it is enclosed by #ifdefs thbt bren't true
+ * for bll windows plbtforms.  To ensure thbt
+ * necessbry #defines bre blwbys bvbilbble,
+ * they're defined here bs necessbry.
+ * See winuser.h for detbils.
  */
 
 #ifndef WM_MOUSEWHEEL
@@ -143,7 +143,7 @@ extern const UINT SYSCOMMAND_IMM;
 
 
 //
-// Flags for AnimateWindow
+// Flbgs for AnimbteWindow
 //
 #ifndef AW_HOR_POSITIVE
 #define AW_HOR_POSITIVE             0x00000001
@@ -182,11 +182,11 @@ extern const UINT SYSCOMMAND_IMM;
 #endif //AW_BLEND
 
 
-// AwtComponent messages
+// AwtComponent messbges
 enum {
-    // 6427323: unfortunately WM_APP+nnn conflicts with edit control messages
-    // on XP with IME support, so we're shifting our messages
-    // to some random value just to avoid the conflict
+    // 6427323: unfortunbtely WM_APP+nnn conflicts with edit control messbges
+    // on XP with IME support, so we're shifting our messbges
+    // to some rbndom vblue just to bvoid the conflict
     WM_AWT_COMPONENT_CREATE = WM_APP+0x1800,
     WM_AWT_DESTROY_WINDOW,
     WM_AWT_MOUSEENTER,
@@ -244,7 +244,7 @@ enum {
     WM_AWT_HIDECURSOR,
     WM_AWT_CREATE_PRINTED_PIXELS,
 
-    // Tray messages
+    // Trby messbges
     WM_AWT_TRAY_NOTIFY,
 
     WM_SYNC_WAIT

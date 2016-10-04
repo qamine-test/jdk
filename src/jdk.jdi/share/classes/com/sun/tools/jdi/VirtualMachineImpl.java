@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.spi.Connection;
-import com.sun.jdi.request.EventRequestManager;
+import com.sun.jdi.request.EventRequestMbnbger;
 import com.sun.jdi.request.EventRequest;
-import com.sun.jdi.request.BreakpointRequest;
+import com.sun.jdi.request.BrebkpointRequest;
 import com.sun.jdi.event.EventQueue;
 
-import java.util.*;
-import java.text.MessageFormat;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
+import jbvb.util.*;
+import jbvb.text.MessbgeFormbt;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
 
-class VirtualMachineImpl extends MirrorImpl
-             implements PathSearchingVirtualMachine, ThreadListener {
-    // VM Level exported variables, these
-    // are unique to a given vm
-    public final int sizeofFieldRef;
-    public final int sizeofMethodRef;
-    public final int sizeofObjectRef;
-    public final int sizeofClassRef;
-    public final int sizeofFrameRef;
+clbss VirtublMbchineImpl extends MirrorImpl
+             implements PbthSebrchingVirtublMbchine, ThrebdListener {
+    // VM Level exported vbribbles, these
+    // bre unique to b given vm
+    public finbl int sizeofFieldRef;
+    public finbl int sizeofMethodRef;
+    public finbl int sizeofObjectRef;
+    public finbl int sizeofClbssRef;
+    public finbl int sizeofFrbmeRef;
 
-    final int sequenceNumber;
+    finbl int sequenceNumber;
 
-    private final TargetVM target;
-    private final EventQueueImpl eventQueue;
-    private final EventRequestManagerImpl internalEventRequestManager;
-    private final EventRequestManagerImpl eventRequestManager;
-    final VirtualMachineManagerImpl vmManager;
-    private final ThreadGroup threadGroupForJDI;
+    privbte finbl TbrgetVM tbrget;
+    privbte finbl EventQueueImpl eventQueue;
+    privbte finbl EventRequestMbnbgerImpl internblEventRequestMbnbger;
+    privbte finbl EventRequestMbnbgerImpl eventRequestMbnbger;
+    finbl VirtublMbchineMbnbgerImpl vmMbnbger;
+    privbte finbl ThrebdGroup threbdGroupForJDI;
 
-    // Allow direct access to this field so that that tracing code slows down
-    // JDI as little as possible when not enabled.
-    int traceFlags = TRACE_NONE;
+    // Allow direct bccess to this field so thbt thbt trbcing code slows down
+    // JDI bs little bs possible when not enbbled.
+    int trbceFlbgs = TRACE_NONE;
 
-    static int TRACE_RAW_SENDS     = 0x01000000;
-    static int TRACE_RAW_RECEIVES  = 0x02000000;
+    stbtic int TRACE_RAW_SENDS     = 0x01000000;
+    stbtic int TRACE_RAW_RECEIVES  = 0x02000000;
 
-    boolean traceReceives = false;   // pre-compute because of frequency
+    boolebn trbceReceives = fblse;   // pre-compute becbuse of frequency
 
-    // ReferenceType access - updated with class prepare and unload events
-    // Protected by "synchronized(this)". "retrievedAllTypes" may be
-    // tested unsynchronized (since once true, it stays true), but must
+    // ReferenceType bccess - updbted with clbss prepbre bnd unlobd events
+    // Protected by "synchronized(this)". "retrievedAllTypes" mby be
+    // tested unsynchronized (since once true, it stbys true), but must
     // be set synchronously
-    private Map<Long, ReferenceType> typesByID;
-    private TreeSet<ReferenceType> typesBySignature;
-    private boolean retrievedAllTypes = false;
+    privbte Mbp<Long, ReferenceType> typesByID;
+    privbte TreeSet<ReferenceType> typesBySignbture;
+    privbte boolebn retrievedAllTypes = fblse;
 
-    // For other languages support
-    private String defaultStratum = null;
+    // For other lbngubges support
+    privbte String defbultStrbtum = null;
 
-    // ObjectReference cache
+    // ObjectReference cbche
     // "objectsByID" protected by "synchronized(this)".
-    private final Map<Long, SoftObjectReference> objectsByID = new HashMap<Long, SoftObjectReference>();
-    private final ReferenceQueue<ObjectReferenceImpl> referenceQueue = new ReferenceQueue<ObjectReferenceImpl>();
-    static private final int DISPOSE_THRESHOLD = 50;
-    private final List<SoftObjectReference> batchedDisposeRequests =
-            Collections.synchronizedList(new ArrayList<SoftObjectReference>(DISPOSE_THRESHOLD + 10));
+    privbte finbl Mbp<Long, SoftObjectReference> objectsByID = new HbshMbp<Long, SoftObjectReference>();
+    privbte finbl ReferenceQueue<ObjectReferenceImpl> referenceQueue = new ReferenceQueue<ObjectReferenceImpl>();
+    stbtic privbte finbl int DISPOSE_THRESHOLD = 50;
+    privbte finbl List<SoftObjectReference> bbtchedDisposeRequests =
+            Collections.synchronizedList(new ArrbyList<SoftObjectReference>(DISPOSE_THRESHOLD + 10));
 
-    // These are cached once for the life of the VM
-    private JDWP.VirtualMachine.Version versionInfo;
-    private JDWP.VirtualMachine.ClassPaths pathInfo;
-    private JDWP.VirtualMachine.Capabilities capabilities = null;
-    private JDWP.VirtualMachine.CapabilitiesNew capabilitiesNew = null;
+    // These bre cbched once for the life of the VM
+    privbte JDWP.VirtublMbchine.Version versionInfo;
+    privbte JDWP.VirtublMbchine.ClbssPbths pbthInfo;
+    privbte JDWP.VirtublMbchine.Cbpbbilities cbpbbilities = null;
+    privbte JDWP.VirtublMbchine.CbpbbilitiesNew cbpbbilitiesNew = null;
 
-    // Per-vm singletons for primitive types and for void.
+    // Per-vm singletons for primitive types bnd for void.
     // singleton-ness protected by "synchronized(this)".
-    private BooleanType theBooleanType;
-    private ByteType    theByteType;
-    private CharType    theCharType;
-    private ShortType   theShortType;
-    private IntegerType theIntegerType;
-    private LongType    theLongType;
-    private FloatType   theFloatType;
-    private DoubleType  theDoubleType;
+    privbte BoolebnType theBoolebnType;
+    privbte ByteType    theByteType;
+    privbte ChbrType    theChbrType;
+    privbte ShortType   theShortType;
+    privbte IntegerType theIntegerType;
+    privbte LongType    theLongType;
+    privbte FlobtType   theFlobtType;
+    privbte DoubleType  theDoubleType;
 
-    private VoidType    theVoidType;
+    privbte VoidType    theVoidType;
 
-    private VoidValue voidVal;
+    privbte VoidVblue voidVbl;
 
-    // Launched debuggee process
-    private Process process;
+    // Lbunched debuggee process
+    privbte Process process;
 
-    // coordinates state changes and corresponding listener notifications
-    private VMState state = new VMState(this);
+    // coordinbtes stbte chbnges bnd corresponding listener notificbtions
+    privbte VMStbte stbte = new VMStbte(this);
 
-    private Object initMonitor = new Object();
-    private boolean initComplete = false;
-    private boolean shutdown = false;
+    privbte Object initMonitor = new Object();
+    privbte boolebn initComplete = fblse;
+    privbte boolebn shutdown = fblse;
 
-    private void notifyInitCompletion() {
+    privbte void notifyInitCompletion() {
         synchronized(initMonitor) {
             initComplete = true;
             initMonitor.notifyAll();
         }
     }
 
-    void waitInitCompletion() {
+    void wbitInitCompletion() {
         synchronized(initMonitor) {
             while (!initComplete) {
                 try {
-                    initMonitor.wait();
-                } catch (InterruptedException e) {
+                    initMonitor.wbit();
+                } cbtch (InterruptedException e) {
                     // ignore
                 }
             }
         }
     }
 
-    VMState state() {
-        return state;
+    VMStbte stbte() {
+        return stbte;
     }
 
     /*
-     * ThreadListener implementation
+     * ThrebdListener implementbtion
      */
-    public boolean threadResumable(ThreadAction action) {
+    public boolebn threbdResumbble(ThrebdAction bction) {
         /*
-         * If any thread is resumed, the VM is considered not suspended.
-         * Just one thread is being resumed so pass it to thaw.
+         * If bny threbd is resumed, the VM is considered not suspended.
+         * Just one threbd is being resumed so pbss it to thbw.
          */
-        state.thaw(action.thread());
+        stbte.thbw(bction.threbd());
         return true;
     }
 
-    VirtualMachineImpl(VirtualMachineManager manager,
+    VirtublMbchineImpl(VirtublMbchineMbnbger mbnbger,
                        Connection connection, Process process,
                        int sequenceNumber) {
-        super(null);  // Can't use super(this)
+        super(null);  // Cbn't use super(this)
         vm = this;
 
-        this.vmManager = (VirtualMachineManagerImpl)manager;
+        this.vmMbnbger = (VirtublMbchineMbnbgerImpl)mbnbger;
         this.process = process;
         this.sequenceNumber = sequenceNumber;
 
-        /* Create ThreadGroup to be used by all threads servicing
+        /* Crebte ThrebdGroup to be used by bll threbds servicing
          * this VM.
          */
-        threadGroupForJDI = new ThreadGroup(vmManager.mainGroupForJDI(),
+        threbdGroupForJDI = new ThrebdGroup(vmMbnbger.mbinGroupForJDI(),
                                             "JDI [" +
-                                            this.hashCode() + "]");
+                                            this.hbshCode() + "]");
 
         /*
-         * Set up a thread to communicate with the target VM over
-         * the specified transport.
+         * Set up b threbd to communicbte with the tbrget VM over
+         * the specified trbnsport.
          */
-        target = new TargetVM(this, connection);
+        tbrget = new TbrgetVM(this, connection);
 
         /*
-         * Set up a thread to handle events processed internally
-         * the JDI implementation.
+         * Set up b threbd to hbndle events processed internblly
+         * the JDI implementbtion.
          */
-        EventQueueImpl internalEventQueue = new EventQueueImpl(this, target);
-        new InternalEventHandler(this, internalEventQueue);
+        EventQueueImpl internblEventQueue = new EventQueueImpl(this, tbrget);
+        new InternblEventHbndler(this, internblEventQueue);
         /*
-         * Initialize client access to event setting and handling
+         * Initiblize client bccess to event setting bnd hbndling
          */
-        eventQueue = new EventQueueImpl(this, target);
-        eventRequestManager = new EventRequestManagerImpl(this);
+        eventQueue = new EventQueueImpl(this, tbrget);
+        eventRequestMbnbger = new EventRequestMbnbgerImpl(this);
 
-        target.start();
+        tbrget.stbrt();
 
         /*
-         * Many ids are variably sized, depending on target VM.
-         * Find out the sizes right away.
+         * Mbny ids bre vbribbly sized, depending on tbrget VM.
+         * Find out the sizes right bwby.
          */
-        JDWP.VirtualMachine.IDSizes idSizes;
+        JDWP.VirtublMbchine.IDSizes idSizes;
         try {
-            idSizes = JDWP.VirtualMachine.IDSizes.process(vm);
-        } catch (JDWPException exc) {
+            idSizes = JDWP.VirtublMbchine.IDSizes.process(vm);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
         sizeofFieldRef  = idSizes.fieldIDSize;
         sizeofMethodRef = idSizes.methodIDSize;
         sizeofObjectRef = idSizes.objectIDSize;
-        sizeofClassRef = idSizes.referenceTypeIDSize;
-        sizeofFrameRef  = idSizes.frameIDSize;
+        sizeofClbssRef = idSizes.referenceTypeIDSize;
+        sizeofFrbmeRef  = idSizes.frbmeIDSize;
 
         /**
-         * Set up requests needed by internal event handler.
-         * Make sure they are distinguished by creating them with
-         * an internal event request manager.
+         * Set up requests needed by internbl event hbndler.
+         * Mbke sure they bre distinguished by crebting them with
+         * bn internbl event request mbnbger.
          *
-         * Warning: create events only with SUSPEND_NONE policy.
-         * In the current implementation other policies will not
-         * be handled correctly when the event comes in. (notfiySuspend()
-         * will not be properly called, and if the event is combined
-         * with external events in the same set, suspend policy is not
-         * correctly determined for the internal vs. external event sets)
+         * Wbrning: crebte events only with SUSPEND_NONE policy.
+         * In the current implementbtion other policies will not
+         * be hbndled correctly when the event comes in. (notfiySuspend()
+         * will not be properly cblled, bnd if the event is combined
+         * with externbl events in the sbme set, suspend policy is not
+         * correctly determined for the internbl vs. externbl event sets)
          */
-        internalEventRequestManager = new EventRequestManagerImpl(this);
-        EventRequest er = internalEventRequestManager.createClassPrepareRequest();
+        internblEventRequestMbnbger = new EventRequestMbnbgerImpl(this);
+        EventRequest er = internblEventRequestMbnbger.crebteClbssPrepbreRequest();
         er.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        er.enable();
-        er = internalEventRequestManager.createClassUnloadRequest();
+        er.enbble();
+        er = internblEventRequestMbnbger.crebteClbssUnlobdRequest();
         er.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        er.enable();
+        er.enbble();
 
         /*
-         * Tell other threads, notably TargetVM, that initialization
+         * Tell other threbds, notbbly TbrgetVM, thbt initiblizbtion
          * is complete.
          */
         notifyInitCompletion();
     }
 
-    EventRequestManagerImpl getInternalEventRequestManager() {
-        return internalEventRequestManager;
+    EventRequestMbnbgerImpl getInternblEventRequestMbnbger() {
+        return internblEventRequestMbnbger;
     }
 
-    void validateVM() {
+    void vblidbteVM() {
         /*
-         * We no longer need to do this.  The spec now says
-         * that a VMDisconnected _may_ be thrown in these
-         * cases, not that it _will_ be thrown.
+         * We no longer need to do this.  The spec now sbys
+         * thbt b VMDisconnected _mby_ be thrown in these
+         * cbses, not thbt it _will_ be thrown.
          * So, to simplify things we will just let the
-         * caller's of this method proceed with their business.
-         * If the debuggee is disconnected, either because it
-         * crashed or finished or something, or because the
-         * debugger called exit() or dispose(), then if
-         * we end up trying to communicate with the debuggee,
-         * code in TargetVM will throw a VMDisconnectedException.
-         * This means that if we can satisfy a request without
-         * talking to the debuggee, (eg, with cached data) then
+         * cbller's of this method proceed with their business.
+         * If the debuggee is disconnected, either becbuse it
+         * crbshed or finished or something, or becbuse the
+         * debugger cblled exit() or dispose(), then if
+         * we end up trying to communicbte with the debuggee,
+         * code in TbrgetVM will throw b VMDisconnectedException.
+         * This mebns thbt if we cbn sbtisfy b request without
+         * tblking to the debuggee, (eg, with cbched dbtb) then
          * VMDisconnectedException will _not_ be thrown.
          * if (shutdown) {
          *    throw new VMDisconnectedException();
@@ -257,195 +257,195 @@ class VirtualMachineImpl extends MirrorImpl
          */
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return this == obj;
     }
 
-    public int hashCode() {
-        return System.identityHashCode(this);
+    public int hbshCode() {
+        return System.identityHbshCode(this);
     }
 
-    public List<ReferenceType> classesByName(String className) {
-        validateVM();
-        String signature = JNITypeParser.typeNameToSignature(className);
+    public List<ReferenceType> clbssesByNbme(String clbssNbme) {
+        vblidbteVM();
+        String signbture = JNITypePbrser.typeNbmeToSignbture(clbssNbme);
         List<ReferenceType> list;
         if (retrievedAllTypes) {
-           list = findReferenceTypes(signature);
+           list = findReferenceTypes(signbture);
         } else {
-           list = retrieveClassesBySignature(signature);
+           list = retrieveClbssesBySignbture(signbture);
         }
-        return Collections.unmodifiableList(list);
+        return Collections.unmodifibbleList(list);
     }
 
-    public List<ReferenceType> allClasses() {
-        validateVM();
+    public List<ReferenceType> bllClbsses() {
+        vblidbteVM();
 
         if (!retrievedAllTypes) {
-            retrieveAllClasses();
+            retrieveAllClbsses();
         }
-        ArrayList<ReferenceType> a;
+        ArrbyList<ReferenceType> b;
         synchronized (this) {
-            a = new ArrayList<ReferenceType>(typesBySignature);
+            b = new ArrbyList<ReferenceType>(typesBySignbture);
         }
-        return Collections.unmodifiableList(a);
+        return Collections.unmodifibbleList(b);
     }
 
     public void
-        redefineClasses(Map<? extends ReferenceType,byte[]> classToBytes)
+        redefineClbsses(Mbp<? extends ReferenceType,byte[]> clbssToBytes)
     {
-        int cnt = classToBytes.size();
-        JDWP.VirtualMachine.RedefineClasses.ClassDef[] defs =
-            new JDWP.VirtualMachine.RedefineClasses.ClassDef[cnt];
-        validateVM();
-        if (!canRedefineClasses()) {
-            throw new UnsupportedOperationException();
+        int cnt = clbssToBytes.size();
+        JDWP.VirtublMbchine.RedefineClbsses.ClbssDef[] defs =
+            new JDWP.VirtublMbchine.RedefineClbsses.ClbssDef[cnt];
+        vblidbteVM();
+        if (!cbnRedefineClbsses()) {
+            throw new UnsupportedOperbtionException();
         }
-        Iterator<?> it = classToBytes.entrySet().iterator();
-        for (int i = 0; it.hasNext(); i++) {
-            Map.Entry<?,?> entry = (Map.Entry)it.next();
+        Iterbtor<?> it = clbssToBytes.entrySet().iterbtor();
+        for (int i = 0; it.hbsNext(); i++) {
+            Mbp.Entry<?,?> entry = (Mbp.Entry)it.next();
             ReferenceTypeImpl refType = (ReferenceTypeImpl)entry.getKey();
-            validateMirror(refType);
-            defs[i] = new JDWP.VirtualMachine.RedefineClasses
-                       .ClassDef(refType, (byte[])entry.getValue());
+            vblidbteMirror(refType);
+            defs[i] = new JDWP.VirtublMbchine.RedefineClbsses
+                       .ClbssDef(refType, (byte[])entry.getVblue());
         }
 
-        // flush caches and disable caching until the next suspend
-        vm.state().thaw();
+        // flush cbches bnd disbble cbching until the next suspend
+        vm.stbte().thbw();
 
         try {
-            JDWP.VirtualMachine.RedefineClasses.
+            JDWP.VirtublMbchine.RedefineClbsses.
                 process(vm, defs);
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.INVALID_CLASS_FORMAT :
-                throw new ClassFormatError(
-                        "class not in class file format");
-            case JDWP.Error.CIRCULAR_CLASS_DEFINITION :
-                throw new ClassCircularityError(
-       "circularity has been detected while initializing a class");
-            case JDWP.Error.FAILS_VERIFICATION :
+            cbse JDWP.Error.INVALID_CLASS_FORMAT :
+                throw new ClbssFormbtError(
+                        "clbss not in clbss file formbt");
+            cbse JDWP.Error.CIRCULAR_CLASS_DEFINITION :
+                throw new ClbssCirculbrityError(
+       "circulbrity hbs been detected while initiblizing b clbss");
+            cbse JDWP.Error.FAILS_VERIFICATION :
                 throw new VerifyError(
-   "verifier detected internal inconsistency or security problem");
-            case JDWP.Error.UNSUPPORTED_VERSION :
-                throw new UnsupportedClassVersionError(
-                    "version numbers of class are not supported");
-            case JDWP.Error.ADD_METHOD_NOT_IMPLEMENTED:
-                throw new UnsupportedOperationException(
-                              "add method not implemented");
-            case JDWP.Error.SCHEMA_CHANGE_NOT_IMPLEMENTED :
-                throw new UnsupportedOperationException(
-                              "schema change not implemented");
-            case JDWP.Error.HIERARCHY_CHANGE_NOT_IMPLEMENTED:
-                throw new UnsupportedOperationException(
-                              "hierarchy change not implemented");
-            case JDWP.Error.DELETE_METHOD_NOT_IMPLEMENTED :
-                throw new UnsupportedOperationException(
+   "verifier detected internbl inconsistency or security problem");
+            cbse JDWP.Error.UNSUPPORTED_VERSION :
+                throw new UnsupportedClbssVersionError(
+                    "version numbers of clbss bre not supported");
+            cbse JDWP.Error.ADD_METHOD_NOT_IMPLEMENTED:
+                throw new UnsupportedOperbtionException(
+                              "bdd method not implemented");
+            cbse JDWP.Error.SCHEMA_CHANGE_NOT_IMPLEMENTED :
+                throw new UnsupportedOperbtionException(
+                              "schemb chbnge not implemented");
+            cbse JDWP.Error.HIERARCHY_CHANGE_NOT_IMPLEMENTED:
+                throw new UnsupportedOperbtionException(
+                              "hierbrchy chbnge not implemented");
+            cbse JDWP.Error.DELETE_METHOD_NOT_IMPLEMENTED :
+                throw new UnsupportedOperbtionException(
                               "delete method not implemented");
-            case JDWP.Error.CLASS_MODIFIERS_CHANGE_NOT_IMPLEMENTED:
-                throw new UnsupportedOperationException(
-                       "changes to class modifiers not implemented");
-            case JDWP.Error.METHOD_MODIFIERS_CHANGE_NOT_IMPLEMENTED :
-                throw new UnsupportedOperationException(
-                       "changes to method modifiers not implemented");
-            case JDWP.Error.NAMES_DONT_MATCH :
-                throw new NoClassDefFoundError(
-                              "class names do not match");
-            default:
+            cbse JDWP.Error.CLASS_MODIFIERS_CHANGE_NOT_IMPLEMENTED:
+                throw new UnsupportedOperbtionException(
+                       "chbnges to clbss modifiers not implemented");
+            cbse JDWP.Error.METHOD_MODIFIERS_CHANGE_NOT_IMPLEMENTED :
+                throw new UnsupportedOperbtionException(
+                       "chbnges to method modifiers not implemented");
+            cbse JDWP.Error.NAMES_DONT_MATCH :
+                throw new NoClbssDefFoundError(
+                              "clbss nbmes do not mbtch");
+            defbult:
                 throw exc.toJDIException();
             }
         }
 
-        // Delete any record of the breakpoints
-        List<BreakpointRequest> toDelete = new ArrayList<BreakpointRequest>();
-        EventRequestManager erm = eventRequestManager();
-        it = erm.breakpointRequests().iterator();
-        while (it.hasNext()) {
-            BreakpointRequest req = (BreakpointRequest)it.next();
-            if (classToBytes.containsKey(req.location().declaringType())) {
-                toDelete.add(req);
+        // Delete bny record of the brebkpoints
+        List<BrebkpointRequest> toDelete = new ArrbyList<BrebkpointRequest>();
+        EventRequestMbnbger erm = eventRequestMbnbger();
+        it = erm.brebkpointRequests().iterbtor();
+        while (it.hbsNext()) {
+            BrebkpointRequest req = (BrebkpointRequest)it.next();
+            if (clbssToBytes.contbinsKey(req.locbtion().declbringType())) {
+                toDelete.bdd(req);
             }
         }
         erm.deleteEventRequests(toDelete);
 
-        // Invalidate any information cached for the classes just redefined.
-        it = classToBytes.keySet().iterator();
-        while (it.hasNext()) {
+        // Invblidbte bny informbtion cbched for the clbsses just redefined.
+        it = clbssToBytes.keySet().iterbtor();
+        while (it.hbsNext()) {
             ReferenceTypeImpl rti = (ReferenceTypeImpl)it.next();
-            rti.noticeRedefineClass();
+            rti.noticeRedefineClbss();
         }
     }
 
-    public List<ThreadReference> allThreads() {
-        validateVM();
-        return state.allThreads();
+    public List<ThrebdReference> bllThrebds() {
+        vblidbteVM();
+        return stbte.bllThrebds();
     }
 
-    public List<ThreadGroupReference> topLevelThreadGroups() {
-        validateVM();
-        return state.topLevelThreadGroups();
+    public List<ThrebdGroupReference> topLevelThrebdGroups() {
+        vblidbteVM();
+        return stbte.topLevelThrebdGroups();
     }
 
     /*
-     * Sends a command to the back end which is defined to do an
-     * implicit vm-wide resume. The VM can no longer be considered
-     * suspended, so certain cached data must be invalidated.
+     * Sends b commbnd to the bbck end which is defined to do bn
+     * implicit vm-wide resume. The VM cbn no longer be considered
+     * suspended, so certbin cbched dbtb must be invblidbted.
      */
-    PacketStream sendResumingCommand(CommandSender sender) {
-        return state.thawCommand(sender);
+    PbcketStrebm sendResumingCommbnd(CommbndSender sender) {
+        return stbte.thbwCommbnd(sender);
     }
 
     /*
-     * The VM has been suspended. Additional caching can be done
-     * as long as there are no pending resumes.
+     * The VM hbs been suspended. Additionbl cbching cbn be done
+     * bs long bs there bre no pending resumes.
      */
     void notifySuspend() {
-        state.freeze();
+        stbte.freeze();
     }
 
     public void suspend() {
-        validateVM();
+        vblidbteVM();
         try {
-            JDWP.VirtualMachine.Suspend.process(vm);
-        } catch (JDWPException exc) {
+            JDWP.VirtublMbchine.Suspend.process(vm);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
         notifySuspend();
     }
 
     public void resume() {
-        validateVM();
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.VirtualMachine.Resume.enqueueCommand(vm);
+        vblidbteVM();
+        CommbndSender sender =
+            new CommbndSender() {
+                public PbcketStrebm send() {
+                    return JDWP.VirtublMbchine.Resume.enqueueCommbnd(vm);
                 }
         };
         try {
-            PacketStream stream = state.thawCommand(sender);
-            JDWP.VirtualMachine.Resume.waitForReply(vm, stream);
-        } catch (VMDisconnectedException exc) {
+            PbcketStrebm strebm = stbte.thbwCommbnd(sender);
+            JDWP.VirtublMbchine.Resume.wbitForReply(vm, strebm);
+        } cbtch (VMDisconnectedException exc) {
             /*
-             * If the debugger makes a VMDeathRequest with SUSPEND_ALL,
-             * then when it does an EventSet.resume after getting the
-             * VMDeathEvent, the normal flow of events is that the
-             * BE shuts down, but the waitForReply comes back ok.  In this
-             * case, the run loop in TargetVM that is waiting for a packet
-             * gets an EOF because the socket closes. It generates a
-             * VMDisconnectedEvent and everyone is happy.
+             * If the debugger mbkes b VMDebthRequest with SUSPEND_ALL,
+             * then when it does bn EventSet.resume bfter getting the
+             * VMDebthEvent, the normbl flow of events is thbt the
+             * BE shuts down, but the wbitForReply comes bbck ok.  In this
+             * cbse, the run loop in TbrgetVM thbt is wbiting for b pbcket
+             * gets bn EOF becbuse the socket closes. It generbtes b
+             * VMDisconnectedEvent bnd everyone is hbppy.
              * However, sometimes, the BE gets shutdown before this
-             * waitForReply completes.  In this case, TargetVM.waitForReply
-             * gets awakened with no reply and so gens a VMDisconnectedException
-             * which is not what we want.  It might be possible to fix this
+             * wbitForReply completes.  In this cbse, TbrgetVM.wbitForReply
+             * gets bwbkened with no reply bnd so gens b VMDisconnectedException
+             * which is not whbt we wbnt.  It might be possible to fix this
              * in the BE, but it is ok to just ignore the VMDisconnectedException
-             * here.  This will allow the VMDisconnectedEvent to be generated
-             * correctly.  And, if the debugger should happen to make another
-             * request, it will get a VMDisconnectedException at that time.
+             * here.  This will bllow the VMDisconnectedEvent to be generbted
+             * correctly.  And, if the debugger should hbppen to mbke bnother
+             * request, it will get b VMDisconnectedException bt thbt time.
              */
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-                case JDWP.Error.VM_DEAD:
+                cbse JDWP.Error.VM_DEAD:
                     return;
-                default:
+                defbult:
                     throw exc.toJDIException();
             }
         }
@@ -453,394 +453,394 @@ class VirtualMachineImpl extends MirrorImpl
 
     public EventQueue eventQueue() {
         /*
-         * No VM validation here. We allow access to the event queue
-         * after disconnection, so that there is access to the terminating
+         * No VM vblidbtion here. We bllow bccess to the event queue
+         * bfter disconnection, so thbt there is bccess to the terminbting
          * events.
          */
         return eventQueue;
     }
 
-    public EventRequestManager eventRequestManager() {
-        validateVM();
-        return eventRequestManager;
+    public EventRequestMbnbger eventRequestMbnbger() {
+        vblidbteVM();
+        return eventRequestMbnbger;
     }
 
-    EventRequestManagerImpl eventRequestManagerImpl() {
-        return eventRequestManager;
+    EventRequestMbnbgerImpl eventRequestMbnbgerImpl() {
+        return eventRequestMbnbger;
     }
 
-    public BooleanValue mirrorOf(boolean value) {
-        validateVM();
-        return new BooleanValueImpl(this,value);
+    public BoolebnVblue mirrorOf(boolebn vblue) {
+        vblidbteVM();
+        return new BoolebnVblueImpl(this,vblue);
     }
 
-    public ByteValue mirrorOf(byte value) {
-        validateVM();
-        return new ByteValueImpl(this,value);
+    public ByteVblue mirrorOf(byte vblue) {
+        vblidbteVM();
+        return new ByteVblueImpl(this,vblue);
     }
 
-    public CharValue mirrorOf(char value) {
-        validateVM();
-        return new CharValueImpl(this,value);
+    public ChbrVblue mirrorOf(chbr vblue) {
+        vblidbteVM();
+        return new ChbrVblueImpl(this,vblue);
     }
 
-    public ShortValue mirrorOf(short value) {
-        validateVM();
-        return new ShortValueImpl(this,value);
+    public ShortVblue mirrorOf(short vblue) {
+        vblidbteVM();
+        return new ShortVblueImpl(this,vblue);
     }
 
-    public IntegerValue mirrorOf(int value) {
-        validateVM();
-        return new IntegerValueImpl(this,value);
+    public IntegerVblue mirrorOf(int vblue) {
+        vblidbteVM();
+        return new IntegerVblueImpl(this,vblue);
     }
 
-    public LongValue mirrorOf(long value) {
-        validateVM();
-        return new LongValueImpl(this,value);
+    public LongVblue mirrorOf(long vblue) {
+        vblidbteVM();
+        return new LongVblueImpl(this,vblue);
     }
 
-    public FloatValue mirrorOf(float value) {
-        validateVM();
-        return new FloatValueImpl(this,value);
+    public FlobtVblue mirrorOf(flobt vblue) {
+        vblidbteVM();
+        return new FlobtVblueImpl(this,vblue);
     }
 
-    public DoubleValue mirrorOf(double value) {
-        validateVM();
-        return new DoubleValueImpl(this,value);
+    public DoubleVblue mirrorOf(double vblue) {
+        vblidbteVM();
+        return new DoubleVblueImpl(this,vblue);
     }
 
-    public StringReference mirrorOf(String value) {
-        validateVM();
+    public StringReference mirrorOf(String vblue) {
+        vblidbteVM();
         try {
-            return (StringReference)JDWP.VirtualMachine.CreateString.
-                             process(vm, value).stringObject;
-        } catch (JDWPException exc) {
+            return (StringReference)JDWP.VirtublMbchine.CrebteString.
+                             process(vm, vblue).stringObject;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    public VoidValue mirrorOfVoid() {
-        if (voidVal == null) {
-            voidVal = new VoidValueImpl(this);
+    public VoidVblue mirrorOfVoid() {
+        if (voidVbl == null) {
+            voidVbl = new VoidVblueImpl(this);
         }
-        return voidVal;
+        return voidVbl;
     }
 
-    public long[] instanceCounts(List<? extends ReferenceType> classes) {
-        if (!canGetInstanceInfo()) {
-            throw new UnsupportedOperationException(
-                "target does not support getting instances");
+    public long[] instbnceCounts(List<? extends ReferenceType> clbsses) {
+        if (!cbnGetInstbnceInfo()) {
+            throw new UnsupportedOperbtionException(
+                "tbrget does not support getting instbnces");
         }
-        long[] retValue ;
-        ReferenceTypeImpl[] rtArray = new ReferenceTypeImpl[classes.size()];
+        long[] retVblue ;
+        ReferenceTypeImpl[] rtArrby = new ReferenceTypeImpl[clbsses.size()];
         int ii = 0;
-        for (ReferenceType rti: classes) {
-            validateMirror(rti);
-            rtArray[ii++] = (ReferenceTypeImpl)rti;
+        for (ReferenceType rti: clbsses) {
+            vblidbteMirror(rti);
+            rtArrby[ii++] = (ReferenceTypeImpl)rti;
         }
         try {
-            retValue = JDWP.VirtualMachine.InstanceCounts.
-                                process(vm, rtArray).counts;
-        } catch (JDWPException exc) {
+            retVblue = JDWP.VirtublMbchine.InstbnceCounts.
+                                process(vm, rtArrby).counts;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
-        return retValue;
+        return retVblue;
     }
 
     public void dispose() {
-        validateVM();
+        vblidbteVM();
         shutdown = true;
         try {
-            JDWP.VirtualMachine.Dispose.process(vm);
-        } catch (JDWPException exc) {
+            JDWP.VirtublMbchine.Dispose.process(vm);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        target.stopListening();
+        tbrget.stopListening();
     }
 
     public void exit(int exitCode) {
-        validateVM();
+        vblidbteVM();
         shutdown = true;
         try {
-            JDWP.VirtualMachine.Exit.process(vm, exitCode);
-        } catch (JDWPException exc) {
+            JDWP.VirtublMbchine.Exit.process(vm, exitCode);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        target.stopListening();
+        tbrget.stopListening();
     }
 
     public Process process() {
-        validateVM();
+        vblidbteVM();
         return process;
     }
 
-    private JDWP.VirtualMachine.Version versionInfo() {
+    privbte JDWP.VirtublMbchine.Version versionInfo() {
        try {
            if (versionInfo == null) {
-               // Need not be synchronized since it is static information
-               versionInfo = JDWP.VirtualMachine.Version.process(vm);
+               // Need not be synchronized since it is stbtic informbtion
+               versionInfo = JDWP.VirtublMbchine.Version.process(vm);
            }
            return versionInfo;
-       } catch (JDWPException exc) {
+       } cbtch (JDWPException exc) {
            throw exc.toJDIException();
        }
    }
     public String description() {
-        validateVM();
+        vblidbteVM();
 
-        return MessageFormat.format(vmManager.getString("version_format"),
-                                    "" + vmManager.majorInterfaceVersion(),
-                                    "" + vmManager.minorInterfaceVersion(),
+        return MessbgeFormbt.formbt(vmMbnbger.getString("version_formbt"),
+                                    "" + vmMbnbger.mbjorInterfbceVersion(),
+                                    "" + vmMbnbger.minorInterfbceVersion(),
                                      versionInfo().description);
     }
 
     public String version() {
-        validateVM();
+        vblidbteVM();
         return versionInfo().vmVersion;
     }
 
-    public String name() {
-        validateVM();
-        return versionInfo().vmName;
+    public String nbme() {
+        vblidbteVM();
+        return versionInfo().vmNbme;
     }
 
-    public boolean canWatchFieldModification() {
-        validateVM();
-        return capabilities().canWatchFieldModification;
+    public boolebn cbnWbtchFieldModificbtion() {
+        vblidbteVM();
+        return cbpbbilities().cbnWbtchFieldModificbtion;
     }
-    public boolean canWatchFieldAccess() {
-        validateVM();
-        return capabilities().canWatchFieldAccess;
+    public boolebn cbnWbtchFieldAccess() {
+        vblidbteVM();
+        return cbpbbilities().cbnWbtchFieldAccess;
     }
-    public boolean canGetBytecodes() {
-        validateVM();
-        return capabilities().canGetBytecodes;
+    public boolebn cbnGetBytecodes() {
+        vblidbteVM();
+        return cbpbbilities().cbnGetBytecodes;
     }
-    public boolean canGetSyntheticAttribute() {
-        validateVM();
-        return capabilities().canGetSyntheticAttribute;
+    public boolebn cbnGetSyntheticAttribute() {
+        vblidbteVM();
+        return cbpbbilities().cbnGetSyntheticAttribute;
     }
-    public boolean canGetOwnedMonitorInfo() {
-        validateVM();
-        return capabilities().canGetOwnedMonitorInfo;
+    public boolebn cbnGetOwnedMonitorInfo() {
+        vblidbteVM();
+        return cbpbbilities().cbnGetOwnedMonitorInfo;
     }
-    public boolean canGetCurrentContendedMonitor() {
-        validateVM();
-        return capabilities().canGetCurrentContendedMonitor;
+    public boolebn cbnGetCurrentContendedMonitor() {
+        vblidbteVM();
+        return cbpbbilities().cbnGetCurrentContendedMonitor;
     }
-    public boolean canGetMonitorInfo() {
-        validateVM();
-        return capabilities().canGetMonitorInfo;
+    public boolebn cbnGetMonitorInfo() {
+        vblidbteVM();
+        return cbpbbilities().cbnGetMonitorInfo;
     }
 
-    private boolean hasNewCapabilities() {
-        return versionInfo().jdwpMajor > 1 ||
+    privbte boolebn hbsNewCbpbbilities() {
+        return versionInfo().jdwpMbjor > 1 ||
             versionInfo().jdwpMinor >= 4;
     }
 
-    boolean canGet1_5LanguageFeatures() {
-        return versionInfo().jdwpMajor > 1 ||
+    boolebn cbnGet1_5LbngubgeFebtures() {
+        return versionInfo().jdwpMbjor > 1 ||
             versionInfo().jdwpMinor >= 5;
     }
 
-    public boolean canUseInstanceFilters() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canUseInstanceFilters;
+    public boolebn cbnUseInstbnceFilters() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnUseInstbnceFilters;
     }
-    public boolean canRedefineClasses() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canRedefineClasses;
+    public boolebn cbnRedefineClbsses() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnRedefineClbsses;
     }
-    public boolean canAddMethod() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canAddMethod;
+    public boolebn cbnAddMethod() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnAddMethod;
     }
-    public boolean canUnrestrictedlyRedefineClasses() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canUnrestrictedlyRedefineClasses;
+    public boolebn cbnUnrestrictedlyRedefineClbsses() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnUnrestrictedlyRedefineClbsses;
     }
-    public boolean canPopFrames() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canPopFrames;
+    public boolebn cbnPopFrbmes() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnPopFrbmes;
     }
-    public boolean canGetMethodReturnValues() {
-        return versionInfo().jdwpMajor > 1 ||
+    public boolebn cbnGetMethodReturnVblues() {
+        return versionInfo().jdwpMbjor > 1 ||
             versionInfo().jdwpMinor >= 6;
     }
-    public boolean canGetInstanceInfo() {
-        if (versionInfo().jdwpMajor < 1 ||
+    public boolebn cbnGetInstbnceInfo() {
+        if (versionInfo().jdwpMbjor < 1 ||
             versionInfo().jdwpMinor < 6) {
-            return false;
+            return fblse;
         }
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canGetInstanceInfo;
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnGetInstbnceInfo;
     }
-    public boolean canUseSourceNameFilters() {
-        if (versionInfo().jdwpMajor < 1 ||
+    public boolebn cbnUseSourceNbmeFilters() {
+        if (versionInfo().jdwpMbjor < 1 ||
             versionInfo().jdwpMinor < 6) {
-            return false;
+            return fblse;
         }
         return true;
     }
-    public boolean canForceEarlyReturn() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canForceEarlyReturn;
+    public boolebn cbnForceEbrlyReturn() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnForceEbrlyReturn;
     }
-    public boolean canBeModified() {
+    public boolebn cbnBeModified() {
         return true;
     }
-    public boolean canGetSourceDebugExtension() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canGetSourceDebugExtension;
+    public boolebn cbnGetSourceDebugExtension() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnGetSourceDebugExtension;
     }
-    public boolean canGetClassFileVersion() {
-        if ( versionInfo().jdwpMajor < 1 &&
+    public boolebn cbnGetClbssFileVersion() {
+        if ( versionInfo().jdwpMbjor < 1 &&
              versionInfo().jdwpMinor  < 6) {
-            return false;
+            return fblse;
         } else {
             return true;
         }
     }
-    public boolean canGetConstantPool() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canGetConstantPool;
+    public boolebn cbnGetConstbntPool() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnGetConstbntPool;
     }
-    public boolean canRequestVMDeathEvent() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canRequestVMDeathEvent;
+    public boolebn cbnRequestVMDebthEvent() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnRequestVMDebthEvent;
     }
-    public boolean canRequestMonitorEvents() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canRequestMonitorEvents;
+    public boolebn cbnRequestMonitorEvents() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnRequestMonitorEvents;
     }
-    public boolean canGetMonitorFrameInfo() {
-        validateVM();
-        return hasNewCapabilities() &&
-            capabilitiesNew().canGetMonitorFrameInfo;
-    }
-
-    public void setDebugTraceMode(int traceFlags) {
-        validateVM();
-        this.traceFlags = traceFlags;
-        this.traceReceives = (traceFlags & TRACE_RECEIVES) != 0;
+    public boolebn cbnGetMonitorFrbmeInfo() {
+        vblidbteVM();
+        return hbsNewCbpbbilities() &&
+            cbpbbilitiesNew().cbnGetMonitorFrbmeInfo;
     }
 
-    void printTrace(String string) {
+    public void setDebugTrbceMode(int trbceFlbgs) {
+        vblidbteVM();
+        this.trbceFlbgs = trbceFlbgs;
+        this.trbceReceives = (trbceFlbgs & TRACE_RECEIVES) != 0;
+    }
+
+    void printTrbce(String string) {
         System.err.println("[JDI: " + string + "]");
     }
 
-    void printReceiveTrace(int depth, String string) {
+    void printReceiveTrbce(int depth, String string) {
         StringBuilder sb = new StringBuilder("Receiving:");
         for (int i = depth; i > 0; --i) {
-            sb.append("    ");
+            sb.bppend("    ");
         }
-        sb.append(string);
-        printTrace(sb.toString());
+        sb.bppend(string);
+        printTrbce(sb.toString());
     }
 
-    private synchronized ReferenceTypeImpl addReferenceType(long id,
-                                                       int tag,
-                                                       String signature) {
+    privbte synchronized ReferenceTypeImpl bddReferenceType(long id,
+                                                       int tbg,
+                                                       String signbture) {
         if (typesByID == null) {
             initReferenceTypes();
         }
         ReferenceTypeImpl type = null;
-        switch(tag) {
-            case JDWP.TypeTag.CLASS:
-                type = new ClassTypeImpl(vm, id);
-                break;
-            case JDWP.TypeTag.INTERFACE:
-                type = new InterfaceTypeImpl(vm, id);
-                break;
-            case JDWP.TypeTag.ARRAY:
-                type = new ArrayTypeImpl(vm, id);
-                break;
-            default:
-                throw new InternalException("Invalid reference type tag");
+        switch(tbg) {
+            cbse JDWP.TypeTbg.CLASS:
+                type = new ClbssTypeImpl(vm, id);
+                brebk;
+            cbse JDWP.TypeTbg.INTERFACE:
+                type = new InterfbceTypeImpl(vm, id);
+                brebk;
+            cbse JDWP.TypeTbg.ARRAY:
+                type = new ArrbyTypeImpl(vm, id);
+                brebk;
+            defbult:
+                throw new InternblException("Invblid reference type tbg");
         }
 
         /*
-         * If a signature was specified, make sure to set it ASAP, to
-         * prevent any needless JDWP command to retrieve it. (for example,
-         * typesBySignature.add needs the signature, to maintain proper
+         * If b signbture wbs specified, mbke sure to set it ASAP, to
+         * prevent bny needless JDWP commbnd to retrieve it. (for exbmple,
+         * typesBySignbture.bdd needs the signbture, to mbintbin proper
          * ordering.
          */
-        if (signature != null) {
-            type.setSignature(signature);
+        if (signbture != null) {
+            type.setSignbture(signbture);
         }
 
         typesByID.put(id, type);
-        typesBySignature.add(type);
+        typesBySignbture.bdd(type);
 
-        if ((vm.traceFlags & VirtualMachine.TRACE_REFTYPES) != 0) {
-           vm.printTrace("Caching new ReferenceType, sig=" + signature +
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_REFTYPES) != 0) {
+           vm.printTrbce("Cbching new ReferenceType, sig=" + signbture +
                          ", id=" + id);
         }
 
         return type;
     }
 
-    synchronized void removeReferenceType(String signature) {
+    synchronized void removeReferenceType(String signbture) {
         if (typesByID == null) {
             return;
         }
         /*
-         * There can be multiple classes with the same name. Since
-         * we can't differentiate here, we first remove all
-         * matching classes from our cache...
+         * There cbn be multiple clbsses with the sbme nbme. Since
+         * we cbn't differentibte here, we first remove bll
+         * mbtching clbsses from our cbche...
          */
-        Iterator<ReferenceType> iter = typesBySignature.iterator();
-        int matches = 0;
-        while (iter.hasNext()) {
+        Iterbtor<ReferenceType> iter = typesBySignbture.iterbtor();
+        int mbtches = 0;
+        while (iter.hbsNext()) {
             ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-            int comp = signature.compareTo(type.signature());
+            int comp = signbture.compbreTo(type.signbture());
             if (comp == 0) {
-                matches++;
+                mbtches++;
                 iter.remove();
                 typesByID.remove(type.ref());
-                if ((vm.traceFlags & VirtualMachine.TRACE_REFTYPES) != 0) {
-                   vm.printTrace("Uncaching ReferenceType, sig=" + signature +
+                if ((vm.trbceFlbgs & VirtublMbchine.TRACE_REFTYPES) != 0) {
+                   vm.printTrbce("Uncbching ReferenceType, sig=" + signbture +
                                  ", id=" + type.ref());
                 }
-/* fix for 4359077 , don't break out. list is no longer sorted
+/* fix for 4359077 , don't brebk out. list is no longer sorted
         in the order we think
  */
             }
         }
 
         /*
-         * ...and if there was more than one, re-retrieve the classes
-         * with that name
+         * ...bnd if there wbs more thbn one, re-retrieve the clbsses
+         * with thbt nbme
          */
-        if (matches > 1) {
-            retrieveClassesBySignature(signature);
+        if (mbtches > 1) {
+            retrieveClbssesBySignbture(signbture);
         }
     }
 
-    private synchronized List<ReferenceType> findReferenceTypes(String signature) {
+    privbte synchronized List<ReferenceType> findReferenceTypes(String signbture) {
         if (typesByID == null) {
-            return new ArrayList<ReferenceType>(0);
+            return new ArrbyList<ReferenceType>(0);
         }
-        Iterator<ReferenceType> iter = typesBySignature.iterator();
-        List<ReferenceType> list = new ArrayList<ReferenceType>();
-        while (iter.hasNext()) {
+        Iterbtor<ReferenceType> iter = typesBySignbture.iterbtor();
+        List<ReferenceType> list = new ArrbyList<ReferenceType>();
+        while (iter.hbsNext()) {
             ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-            int comp = signature.compareTo(type.signature());
+            int comp = signbture.compbreTo(type.signbture());
             if (comp == 0) {
-                list.add(type);
-/* fix for 4359077 , don't break out. list is no longer sorted
+                list.bdd(type);
+/* fix for 4359077 , don't brebk out. list is no longer sorted
         in the order we think
  */
             }
@@ -848,46 +848,46 @@ class VirtualMachineImpl extends MirrorImpl
         return list;
     }
 
-    private void initReferenceTypes() {
-        typesByID = new HashMap<Long, ReferenceType>(300);
-        typesBySignature = new TreeSet<ReferenceType>();
+    privbte void initReferenceTypes() {
+        typesByID = new HbshMbp<Long, ReferenceType>(300);
+        typesBySignbture = new TreeSet<ReferenceType>();
     }
 
-    ReferenceTypeImpl referenceType(long ref, byte tag) {
-        return referenceType(ref, tag, null);
+    ReferenceTypeImpl referenceType(long ref, byte tbg) {
+        return referenceType(ref, tbg, null);
     }
 
-    ClassTypeImpl classType(long ref) {
-        return (ClassTypeImpl)referenceType(ref, JDWP.TypeTag.CLASS, null);
+    ClbssTypeImpl clbssType(long ref) {
+        return (ClbssTypeImpl)referenceType(ref, JDWP.TypeTbg.CLASS, null);
     }
 
-    InterfaceTypeImpl interfaceType(long ref) {
-        return (InterfaceTypeImpl)referenceType(ref, JDWP.TypeTag.INTERFACE, null);
+    InterfbceTypeImpl interfbceType(long ref) {
+        return (InterfbceTypeImpl)referenceType(ref, JDWP.TypeTbg.INTERFACE, null);
     }
 
-    ArrayTypeImpl arrayType(long ref) {
-        return (ArrayTypeImpl)referenceType(ref, JDWP.TypeTag.ARRAY, null);
+    ArrbyTypeImpl brrbyType(long ref) {
+        return (ArrbyTypeImpl)referenceType(ref, JDWP.TypeTbg.ARRAY, null);
     }
 
-    ReferenceTypeImpl referenceType(long id, int tag,
-                                                 String signature) {
-        if ((vm.traceFlags & VirtualMachine.TRACE_REFTYPES) != 0) {
+    ReferenceTypeImpl referenceType(long id, int tbg,
+                                                 String signbture) {
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_REFTYPES) != 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Looking up ");
-            if (tag == JDWP.TypeTag.CLASS) {
-                sb.append("Class");
-            } else if (tag == JDWP.TypeTag.INTERFACE) {
-                sb.append("Interface");
-            } else if (tag == JDWP.TypeTag.ARRAY) {
-                sb.append("ArrayType");
+            sb.bppend("Looking up ");
+            if (tbg == JDWP.TypeTbg.CLASS) {
+                sb.bppend("Clbss");
+            } else if (tbg == JDWP.TypeTbg.INTERFACE) {
+                sb.bppend("Interfbce");
+            } else if (tbg == JDWP.TypeTbg.ARRAY) {
+                sb.bppend("ArrbyType");
             } else {
-                sb.append("UNKNOWN TAG: " + tag);
+                sb.bppend("UNKNOWN TAG: " + tbg);
             }
-            if (signature != null) {
-                sb.append(", signature='" + signature + "'");
+            if (signbture != null) {
+                sb.bppend(", signbture='" + signbture + "'");
             }
-            sb.append(", id=" + id);
-            vm.printTrace(sb.toString());
+            sb.bppend(", id=" + id);
+            vm.printTrbce(sb.toString());
         }
         if (id == 0) {
             return null;
@@ -898,172 +898,172 @@ class VirtualMachineImpl extends MirrorImpl
                     retType = (ReferenceTypeImpl)typesByID.get(id);
                 }
                 if (retType == null) {
-                    retType = addReferenceType(id, tag, signature);
+                    retType = bddReferenceType(id, tbg, signbture);
                 }
             }
             return retType;
         }
     }
 
-    private JDWP.VirtualMachine.Capabilities capabilities() {
-        if (capabilities == null) {
+    privbte JDWP.VirtublMbchine.Cbpbbilities cbpbbilities() {
+        if (cbpbbilities == null) {
             try {
-                capabilities = JDWP.VirtualMachine
-                                 .Capabilities.process(vm);
-            } catch (JDWPException exc) {
+                cbpbbilities = JDWP.VirtublMbchine
+                                 .Cbpbbilities.process(vm);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return capabilities;
+        return cbpbbilities;
     }
 
-    private JDWP.VirtualMachine.CapabilitiesNew capabilitiesNew() {
-        if (capabilitiesNew == null) {
+    privbte JDWP.VirtublMbchine.CbpbbilitiesNew cbpbbilitiesNew() {
+        if (cbpbbilitiesNew == null) {
             try {
-                capabilitiesNew = JDWP.VirtualMachine
-                                 .CapabilitiesNew.process(vm);
-            } catch (JDWPException exc) {
+                cbpbbilitiesNew = JDWP.VirtublMbchine
+                                 .CbpbbilitiesNew.process(vm);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return capabilitiesNew;
+        return cbpbbilitiesNew;
     }
 
-    private List<ReferenceType> retrieveClassesBySignature(String signature) {
-        if ((vm.traceFlags & VirtualMachine.TRACE_REFTYPES) != 0) {
-            vm.printTrace("Retrieving matching ReferenceTypes, sig=" + signature);
+    privbte List<ReferenceType> retrieveClbssesBySignbture(String signbture) {
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_REFTYPES) != 0) {
+            vm.printTrbce("Retrieving mbtching ReferenceTypes, sig=" + signbture);
         }
-        JDWP.VirtualMachine.ClassesBySignature.ClassInfo[] cinfos;
+        JDWP.VirtublMbchine.ClbssesBySignbture.ClbssInfo[] cinfos;
         try {
-            cinfos = JDWP.VirtualMachine.ClassesBySignature.
-                                      process(vm, signature).classes;
-        } catch (JDWPException exc) {
+            cinfos = JDWP.VirtublMbchine.ClbssesBySignbture.
+                                      process(vm, signbture).clbsses;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
         int count = cinfos.length;
-        List<ReferenceType> list = new ArrayList<ReferenceType>(count);
+        List<ReferenceType> list = new ArrbyList<ReferenceType>(count);
 
-        // Hold lock during processing to improve performance
+        // Hold lock during processing to improve performbnce
         synchronized (this) {
             for (int i = 0; i < count; i++) {
-                JDWP.VirtualMachine.ClassesBySignature.ClassInfo ci =
+                JDWP.VirtublMbchine.ClbssesBySignbture.ClbssInfo ci =
                                                                cinfos[i];
                 ReferenceTypeImpl type = referenceType(ci.typeID,
-                                                       ci.refTypeTag,
-                                                       signature);
-                type.setStatus(ci.status);
-                list.add(type);
+                                                       ci.refTypeTbg,
+                                                       signbture);
+                type.setStbtus(ci.stbtus);
+                list.bdd(type);
             }
         }
         return list;
     }
 
-    private void retrieveAllClasses1_4() {
-        JDWP.VirtualMachine.AllClasses.ClassInfo[] cinfos;
+    privbte void retrieveAllClbsses1_4() {
+        JDWP.VirtublMbchine.AllClbsses.ClbssInfo[] cinfos;
         try {
-            cinfos = JDWP.VirtualMachine.AllClasses.process(vm).classes;
-        } catch (JDWPException exc) {
+            cinfos = JDWP.VirtublMbchine.AllClbsses.process(vm).clbsses;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
-        // Hold lock during processing to improve performance
-        // and to have safe check/set of retrievedAllTypes
+        // Hold lock during processing to improve performbnce
+        // bnd to hbve sbfe check/set of retrievedAllTypes
         synchronized (this) {
             if (!retrievedAllTypes) {
-                // Number of classes
+                // Number of clbsses
                 int count = cinfos.length;
                 for (int i=0; i<count; i++) {
-                    JDWP.VirtualMachine.AllClasses.ClassInfo ci =
+                    JDWP.VirtublMbchine.AllClbsses.ClbssInfo ci =
                                                                cinfos[i];
                     ReferenceTypeImpl type = referenceType(ci.typeID,
-                                                           ci.refTypeTag,
-                                                           ci.signature);
-                    type.setStatus(ci.status);
+                                                           ci.refTypeTbg,
+                                                           ci.signbture);
+                    type.setStbtus(ci.stbtus);
                 }
                 retrievedAllTypes = true;
             }
         }
     }
 
-    private void retrieveAllClasses() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_REFTYPES) != 0) {
-            vm.printTrace("Retrieving all ReferenceTypes");
+    privbte void retrieveAllClbsses() {
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_REFTYPES) != 0) {
+            vm.printTrbce("Retrieving bll ReferenceTypes");
         }
 
-        if (!vm.canGet1_5LanguageFeatures()) {
-            retrieveAllClasses1_4();
+        if (!vm.cbnGet1_5LbngubgeFebtures()) {
+            retrieveAllClbsses1_4();
             return;
         }
 
         /*
-         * To save time (assuming the caller will be
+         * To sbve time (bssuming the cbller will be
          * using then) we will get the generic sigs too.
          */
 
-        JDWP.VirtualMachine.AllClassesWithGeneric.ClassInfo[] cinfos;
+        JDWP.VirtublMbchine.AllClbssesWithGeneric.ClbssInfo[] cinfos;
         try {
-            cinfos = JDWP.VirtualMachine.AllClassesWithGeneric.process(vm).classes;
-        } catch (JDWPException exc) {
+            cinfos = JDWP.VirtublMbchine.AllClbssesWithGeneric.process(vm).clbsses;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
-        // Hold lock during processing to improve performance
-        // and to have safe check/set of retrievedAllTypes
+        // Hold lock during processing to improve performbnce
+        // bnd to hbve sbfe check/set of retrievedAllTypes
         synchronized (this) {
             if (!retrievedAllTypes) {
-                // Number of classes
+                // Number of clbsses
                 int count = cinfos.length;
                 for (int i=0; i<count; i++) {
-                    JDWP.VirtualMachine.AllClassesWithGeneric.ClassInfo ci =
+                    JDWP.VirtublMbchine.AllClbssesWithGeneric.ClbssInfo ci =
                                                                cinfos[i];
                     ReferenceTypeImpl type = referenceType(ci.typeID,
-                                                           ci.refTypeTag,
-                                                           ci.signature);
-                    type.setGenericSignature(ci.genericSignature);
-                    type.setStatus(ci.status);
+                                                           ci.refTypeTbg,
+                                                           ci.signbture);
+                    type.setGenericSignbture(ci.genericSignbture);
+                    type.setStbtus(ci.stbtus);
                 }
                 retrievedAllTypes = true;
             }
         }
     }
 
-    void sendToTarget(Packet packet) {
-        target.send(packet);
+    void sendToTbrget(Pbcket pbcket) {
+        tbrget.send(pbcket);
     }
 
-    void waitForTargetReply(Packet packet) {
-        target.waitForReply(packet);
+    void wbitForTbrgetReply(Pbcket pbcket) {
+        tbrget.wbitForReply(pbcket);
         /*
-         * If any object disposes have been batched up, send them now.
+         * If bny object disposes hbve been bbtched up, send them now.
          */
-        processBatchedDisposes();
+        processBbtchedDisposes();
     }
 
-    Type findBootType(String signature) throws ClassNotLoadedException {
-        List<ReferenceType> types = allClasses();
-        Iterator<ReferenceType> iter = types.iterator();
-        while (iter.hasNext()) {
+    Type findBootType(String signbture) throws ClbssNotLobdedException {
+        List<ReferenceType> types = bllClbsses();
+        Iterbtor<ReferenceType> iter = types.iterbtor();
+        while (iter.hbsNext()) {
             ReferenceType type = iter.next();
-            if ((type.classLoader() == null) &&
-                (type.signature().equals(signature))) {
+            if ((type.clbssLobder() == null) &&
+                (type.signbture().equbls(signbture))) {
                 return type;
             }
         }
-        JNITypeParser parser = new JNITypeParser(signature);
-        throw new ClassNotLoadedException(parser.typeName(),
-                                         "Type " + parser.typeName() + " not loaded");
+        JNITypePbrser pbrser = new JNITypePbrser(signbture);
+        throw new ClbssNotLobdedException(pbrser.typeNbme(),
+                                         "Type " + pbrser.typeNbme() + " not lobded");
     }
 
-    BooleanType theBooleanType() {
-        if (theBooleanType == null) {
+    BoolebnType theBoolebnType() {
+        if (theBoolebnType == null) {
             synchronized(this) {
-                if (theBooleanType == null) {
-                    theBooleanType = new BooleanTypeImpl(this);
+                if (theBoolebnType == null) {
+                    theBoolebnType = new BoolebnTypeImpl(this);
                 }
             }
         }
-        return theBooleanType;
+        return theBoolebnType;
     }
 
     ByteType theByteType() {
@@ -1077,15 +1077,15 @@ class VirtualMachineImpl extends MirrorImpl
         return theByteType;
     }
 
-    CharType theCharType() {
-        if (theCharType == null) {
+    ChbrType theChbrType() {
+        if (theChbrType == null) {
             synchronized(this) {
-                if (theCharType == null) {
-                    theCharType = new CharTypeImpl(this);
+                if (theChbrType == null) {
+                    theChbrType = new ChbrTypeImpl(this);
                 }
             }
         }
-        return theCharType;
+        return theChbrType;
     }
 
     ShortType theShortType() {
@@ -1121,15 +1121,15 @@ class VirtualMachineImpl extends MirrorImpl
         return theLongType;
     }
 
-    FloatType theFloatType() {
-        if (theFloatType == null) {
+    FlobtType theFlobtType() {
+        if (theFlobtType == null) {
             synchronized(this) {
-                if (theFloatType == null) {
-                    theFloatType = new FloatTypeImpl(this);
+                if (theFlobtType == null) {
+                    theFlobtType = new FlobtTypeImpl(this);
                 }
             }
         }
-        return theFloatType;
+        return theFlobtType;
     }
 
     DoubleType theDoubleType() {
@@ -1154,93 +1154,93 @@ class VirtualMachineImpl extends MirrorImpl
         return theVoidType;
     }
 
-    PrimitiveType primitiveTypeMirror(byte tag) {
-        switch (tag) {
-            case JDWP.Tag.BOOLEAN:
-                return theBooleanType();
-            case JDWP.Tag.BYTE:
+    PrimitiveType primitiveTypeMirror(byte tbg) {
+        switch (tbg) {
+            cbse JDWP.Tbg.BOOLEAN:
+                return theBoolebnType();
+            cbse JDWP.Tbg.BYTE:
                 return theByteType();
-            case JDWP.Tag.CHAR:
-                return theCharType();
-            case JDWP.Tag.SHORT:
+            cbse JDWP.Tbg.CHAR:
+                return theChbrType();
+            cbse JDWP.Tbg.SHORT:
                 return theShortType();
-            case JDWP.Tag.INT:
+            cbse JDWP.Tbg.INT:
                 return theIntegerType();
-            case JDWP.Tag.LONG:
+            cbse JDWP.Tbg.LONG:
                 return theLongType();
-            case JDWP.Tag.FLOAT:
-                return theFloatType();
-            case JDWP.Tag.DOUBLE:
+            cbse JDWP.Tbg.FLOAT:
+                return theFlobtType();
+            cbse JDWP.Tbg.DOUBLE:
                 return theDoubleType();
-            default:
-                throw new IllegalArgumentException("Unrecognized primitive tag " + tag);
+            defbult:
+                throw new IllegblArgumentException("Unrecognized primitive tbg " + tbg);
         }
     }
 
-    private void processBatchedDisposes() {
+    privbte void processBbtchedDisposes() {
         if (shutdown) {
             return;
         }
 
-        JDWP.VirtualMachine.DisposeObjects.Request[] requests = null;
-        synchronized(batchedDisposeRequests) {
-            int size = batchedDisposeRequests.size();
+        JDWP.VirtublMbchine.DisposeObjects.Request[] requests = null;
+        synchronized(bbtchedDisposeRequests) {
+            int size = bbtchedDisposeRequests.size();
             if (size >= DISPOSE_THRESHOLD) {
-                if ((traceFlags & TRACE_OBJREFS) != 0) {
-                    printTrace("Dispose threashold reached. Will dispose "
+                if ((trbceFlbgs & TRACE_OBJREFS) != 0) {
+                    printTrbce("Dispose threbshold rebched. Will dispose "
                                + size + " object references...");
                 }
-                requests = new JDWP.VirtualMachine.DisposeObjects.Request[size];
+                requests = new JDWP.VirtublMbchine.DisposeObjects.Request[size];
                 for (int i = 0; i < requests.length; i++) {
-                    SoftObjectReference ref = batchedDisposeRequests.get(i);
-                    if ((traceFlags & TRACE_OBJREFS) != 0) {
-                        printTrace("Disposing object " + ref.key().longValue() +
+                    SoftObjectReference ref = bbtchedDisposeRequests.get(i);
+                    if ((trbceFlbgs & TRACE_OBJREFS) != 0) {
+                        printTrbce("Disposing object " + ref.key().longVblue() +
                                    " (ref count = " + ref.count() + ")");
                     }
 
-                    // This is kludgy. We temporarily re-create an object
-                    // reference so that we can correctly pass its id to the
-                    // JDWP command.
+                    // This is kludgy. We temporbrily re-crebte bn object
+                    // reference so thbt we cbn correctly pbss its id to the
+                    // JDWP commbnd.
                     requests[i] =
-                        new JDWP.VirtualMachine.DisposeObjects.Request(
-                            new ObjectReferenceImpl(this, ref.key().longValue()),
+                        new JDWP.VirtublMbchine.DisposeObjects.Request(
+                            new ObjectReferenceImpl(this, ref.key().longVblue()),
                             ref.count());
                 }
-                batchedDisposeRequests.clear();
+                bbtchedDisposeRequests.clebr();
             }
         }
         if (requests != null) {
             try {
-                JDWP.VirtualMachine.DisposeObjects.process(vm, requests);
-            } catch (JDWPException exc) {
+                JDWP.VirtublMbchine.DisposeObjects.process(vm, requests);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
     }
 
-    private void batchForDispose(SoftObjectReference ref) {
-        if ((traceFlags & TRACE_OBJREFS) != 0) {
-            printTrace("Batching object " + ref.key().longValue() +
+    privbte void bbtchForDispose(SoftObjectReference ref) {
+        if ((trbceFlbgs & TRACE_OBJREFS) != 0) {
+            printTrbce("Bbtching object " + ref.key().longVblue() +
                        " for dispose (ref count = " + ref.count() + ")");
         }
-        batchedDisposeRequests.add(ref);
+        bbtchedDisposeRequests.bdd(ref);
     }
 
-    private void processQueue() {
+    privbte void processQueue() {
         Reference<?> ref;
-        //if ((traceFlags & TRACE_OBJREFS) != 0) {
-        //    printTrace("Checking for softly reachable objects");
+        //if ((trbceFlbgs & TRACE_OBJREFS) != 0) {
+        //    printTrbce("Checking for softly rebchbble objects");
         //}
         while ((ref = referenceQueue.poll()) != null) {
             SoftObjectReference softRef = (SoftObjectReference)ref;
             removeObjectMirror(softRef);
-            batchForDispose(softRef);
+            bbtchForDispose(softRef);
         }
     }
 
-    synchronized ObjectReferenceImpl objectMirror(long id, int tag) {
+    synchronized ObjectReferenceImpl objectMirror(long id, int tbg) {
 
-        // Handle any queue elements that are not strongly reachable
+        // Hbndle bny queue elements thbt bre not strongly rebchbble
         processQueue();
 
         if (id == 0) {
@@ -1250,7 +1250,7 @@ class VirtualMachineImpl extends MirrorImpl
         Long key = id;
 
         /*
-         * Attempt to retrieve an existing object object reference
+         * Attempt to retrieve bn existing object object reference
          */
         SoftObjectReference ref = objectsByID.get(key);
         if (ref != null) {
@@ -1258,48 +1258,48 @@ class VirtualMachineImpl extends MirrorImpl
         }
 
         /*
-         * If the object wasn't in the table, or it's soft reference was
-         * cleared, create a new instance.
+         * If the object wbsn't in the tbble, or it's soft reference wbs
+         * clebred, crebte b new instbnce.
          */
         if (object == null) {
-            switch (tag) {
-                case JDWP.Tag.OBJECT:
+            switch (tbg) {
+                cbse JDWP.Tbg.OBJECT:
                     object = new ObjectReferenceImpl(vm, id);
-                    break;
-                case JDWP.Tag.STRING:
+                    brebk;
+                cbse JDWP.Tbg.STRING:
                     object = new StringReferenceImpl(vm, id);
-                    break;
-                case JDWP.Tag.ARRAY:
-                    object = new ArrayReferenceImpl(vm, id);
-                    break;
-                case JDWP.Tag.THREAD:
-                    ThreadReferenceImpl thread =
-                        new ThreadReferenceImpl(vm, id);
-                    thread.addListener(this);
-                    object = thread;
-                    break;
-                case JDWP.Tag.THREAD_GROUP:
-                    object = new ThreadGroupReferenceImpl(vm, id);
-                    break;
-                case JDWP.Tag.CLASS_LOADER:
-                    object = new ClassLoaderReferenceImpl(vm, id);
-                    break;
-                case JDWP.Tag.CLASS_OBJECT:
-                    object = new ClassObjectReferenceImpl(vm, id);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid object tag: " + tag);
+                    brebk;
+                cbse JDWP.Tbg.ARRAY:
+                    object = new ArrbyReferenceImpl(vm, id);
+                    brebk;
+                cbse JDWP.Tbg.THREAD:
+                    ThrebdReferenceImpl threbd =
+                        new ThrebdReferenceImpl(vm, id);
+                    threbd.bddListener(this);
+                    object = threbd;
+                    brebk;
+                cbse JDWP.Tbg.THREAD_GROUP:
+                    object = new ThrebdGroupReferenceImpl(vm, id);
+                    brebk;
+                cbse JDWP.Tbg.CLASS_LOADER:
+                    object = new ClbssLobderReferenceImpl(vm, id);
+                    brebk;
+                cbse JDWP.Tbg.CLASS_OBJECT:
+                    object = new ClbssObjectReferenceImpl(vm, id);
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException("Invblid object tbg: " + tbg);
             }
             ref = new SoftObjectReference(key, object, referenceQueue);
 
             /*
-             * If there was no previous entry in the table, we add one here
-             * If the previous entry was cleared, we replace it here.
+             * If there wbs no previous entry in the tbble, we bdd one here
+             * If the previous entry wbs clebred, we replbce it here.
              */
             objectsByID.put(key, ref);
-            if ((traceFlags & TRACE_OBJREFS) != 0) {
-                printTrace("Creating new " +
-                           object.getClass().getName() + " (id = " + id + ")");
+            if ((trbceFlbgs & TRACE_OBJREFS) != 0) {
+                printTrbce("Crebting new " +
+                           object.getClbss().getNbme() + " (id = " + id + ")");
             }
         } else {
             ref.incrementCount();
@@ -1310,109 +1310,109 @@ class VirtualMachineImpl extends MirrorImpl
 
     synchronized void removeObjectMirror(ObjectReferenceImpl object) {
 
-        // Handle any queue elements that are not strongly reachable
+        // Hbndle bny queue elements thbt bre not strongly rebchbble
         processQueue();
 
         SoftObjectReference ref = objectsByID.remove(object.ref());
         if (ref != null) {
-            batchForDispose(ref);
+            bbtchForDispose(ref);
         } else {
             /*
-             * If there's a live ObjectReference about, it better be part
-             * of the cache.
+             * If there's b live ObjectReference bbout, it better be pbrt
+             * of the cbche.
              */
-            throw new InternalException("ObjectReference " + object.ref() +
-                                        " not found in object cache");
+            throw new InternblException("ObjectReference " + object.ref() +
+                                        " not found in object cbche");
         }
     }
 
     synchronized void removeObjectMirror(SoftObjectReference ref) {
         /*
-         * This will remove the soft reference if it has not been
-         * replaced in the cache.
+         * This will remove the soft reference if it hbs not been
+         * replbced in the cbche.
          */
         objectsByID.remove(ref.key());
     }
 
     ObjectReferenceImpl objectMirror(long id) {
-        return objectMirror(id, JDWP.Tag.OBJECT);
+        return objectMirror(id, JDWP.Tbg.OBJECT);
     }
 
     StringReferenceImpl stringMirror(long id) {
-        return (StringReferenceImpl)objectMirror(id, JDWP.Tag.STRING);
+        return (StringReferenceImpl)objectMirror(id, JDWP.Tbg.STRING);
     }
 
-    ArrayReferenceImpl arrayMirror(long id) {
-       return (ArrayReferenceImpl)objectMirror(id, JDWP.Tag.ARRAY);
+    ArrbyReferenceImpl brrbyMirror(long id) {
+       return (ArrbyReferenceImpl)objectMirror(id, JDWP.Tbg.ARRAY);
     }
 
-    ThreadReferenceImpl threadMirror(long id) {
-        return (ThreadReferenceImpl)objectMirror(id, JDWP.Tag.THREAD);
+    ThrebdReferenceImpl threbdMirror(long id) {
+        return (ThrebdReferenceImpl)objectMirror(id, JDWP.Tbg.THREAD);
     }
 
-    ThreadGroupReferenceImpl threadGroupMirror(long id) {
-        return (ThreadGroupReferenceImpl)objectMirror(id,
-                                                      JDWP.Tag.THREAD_GROUP);
+    ThrebdGroupReferenceImpl threbdGroupMirror(long id) {
+        return (ThrebdGroupReferenceImpl)objectMirror(id,
+                                                      JDWP.Tbg.THREAD_GROUP);
     }
 
-    ClassLoaderReferenceImpl classLoaderMirror(long id) {
-        return (ClassLoaderReferenceImpl)objectMirror(id,
-                                                      JDWP.Tag.CLASS_LOADER);
+    ClbssLobderReferenceImpl clbssLobderMirror(long id) {
+        return (ClbssLobderReferenceImpl)objectMirror(id,
+                                                      JDWP.Tbg.CLASS_LOADER);
     }
 
-    ClassObjectReferenceImpl classObjectMirror(long id) {
-        return (ClassObjectReferenceImpl)objectMirror(id,
-                                                      JDWP.Tag.CLASS_OBJECT);
+    ClbssObjectReferenceImpl clbssObjectMirror(long id) {
+        return (ClbssObjectReferenceImpl)objectMirror(id,
+                                                      JDWP.Tbg.CLASS_OBJECT);
     }
 
     /*
-     * Implementation of PathSearchingVirtualMachine
+     * Implementbtion of PbthSebrchingVirtublMbchine
      */
-    private JDWP.VirtualMachine.ClassPaths getClasspath() {
-        if (pathInfo == null) {
+    privbte JDWP.VirtublMbchine.ClbssPbths getClbsspbth() {
+        if (pbthInfo == null) {
             try {
-                pathInfo = JDWP.VirtualMachine.ClassPaths.process(vm);
-            } catch (JDWPException exc) {
+                pbthInfo = JDWP.VirtublMbchine.ClbssPbths.process(vm);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return pathInfo;
+        return pbthInfo;
     }
 
-   public List<String> classPath() {
-       return Arrays.asList(getClasspath().classpaths);
+   public List<String> clbssPbth() {
+       return Arrbys.bsList(getClbsspbth().clbsspbths);
    }
 
-   public List<String> bootClassPath() {
-       return Arrays.asList(getClasspath().bootclasspaths);
+   public List<String> bootClbssPbth() {
+       return Arrbys.bsList(getClbsspbth().bootclbsspbths);
    }
 
-   public String baseDirectory() {
-       return getClasspath().baseDir;
+   public String bbseDirectory() {
+       return getClbsspbth().bbseDir;
    }
 
-    public void setDefaultStratum(String stratum) {
-        defaultStratum = stratum;
-        if (stratum == null) {
-            stratum = "";
+    public void setDefbultStrbtum(String strbtum) {
+        defbultStrbtum = strbtum;
+        if (strbtum == null) {
+            strbtum = "";
         }
         try {
-            JDWP.VirtualMachine.SetDefaultStratum.process(vm,
-                                                          stratum);
-        } catch (JDWPException exc) {
+            JDWP.VirtublMbchine.SetDefbultStrbtum.process(vm,
+                                                          strbtum);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    public String getDefaultStratum() {
-        return defaultStratum;
+    public String getDefbultStrbtum() {
+        return defbultStrbtum;
     }
 
-    ThreadGroup threadGroupForJDI() {
-        return threadGroupForJDI;
+    ThrebdGroup threbdGroupForJDI() {
+        return threbdGroupForJDI;
     }
 
-   static private class SoftObjectReference extends SoftReference<ObjectReferenceImpl> {
+   stbtic privbte clbss SoftObjectReference extends SoftReference<ObjectReferenceImpl> {
        int count;
        Long key;
 

@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.lang.ref.WeakReference;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.PaintContext;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.BufferedImage;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.PbintContext;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.BufferedImbge;
+import sun.bwt.imbge.BufImgSurfbceDbtb;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.GrbphicsPrimitiveMgr;
 
 /**
- * This class implements a CompositePipe that renders path alpha tiles
- * into a destination according to the Composite attribute of a
- * SunGraphics2D.
+ * This clbss implements b CompositePipe thbt renders pbth blphb tiles
+ * into b destinbtion bccording to the Composite bttribute of b
+ * SunGrbphics2D.
  */
-public class AlphaPaintPipe implements CompositePipe {
-    static WeakReference<Raster> cachedLastRaster;
-    static WeakReference<ColorModel> cachedLastColorModel;
-    static WeakReference<SurfaceData> cachedLastData;
+public clbss AlphbPbintPipe implements CompositePipe {
+    stbtic WebkReference<Rbster> cbchedLbstRbster;
+    stbtic WebkReference<ColorModel> cbchedLbstColorModel;
+    stbtic WebkReference<SurfbceDbtb> cbchedLbstDbtb;
 
-    static class TileContext {
-        SunGraphics2D sunG2D;
-        PaintContext paintCtxt;
-        ColorModel paintModel;
-        WeakReference<Raster> lastRaster;
-        WeakReference<SurfaceData> lastData;
-        MaskBlit lastMask;
-        Blit     lastBlit;
-        SurfaceData dstData;
+    stbtic clbss TileContext {
+        SunGrbphics2D sunG2D;
+        PbintContext pbintCtxt;
+        ColorModel pbintModel;
+        WebkReference<Rbster> lbstRbster;
+        WebkReference<SurfbceDbtb> lbstDbtb;
+        MbskBlit lbstMbsk;
+        Blit     lbstBlit;
+        SurfbceDbtb dstDbtb;
 
-        public TileContext(SunGraphics2D sg, PaintContext pc) {
+        public TileContext(SunGrbphics2D sg, PbintContext pc) {
             sunG2D = sg;
-            paintCtxt = pc;
-            paintModel = pc.getColorModel();
-            dstData = sg.getSurfaceData();
-            synchronized (AlphaPaintPipe.class) {
-                if (cachedLastColorModel != null &&
-                    cachedLastColorModel.get() == paintModel)
+            pbintCtxt = pc;
+            pbintModel = pc.getColorModel();
+            dstDbtb = sg.getSurfbceDbtb();
+            synchronized (AlphbPbintPipe.clbss) {
+                if (cbchedLbstColorModel != null &&
+                    cbchedLbstColorModel.get() == pbintModel)
                 {
-                    this.lastRaster = cachedLastRaster;
-                    this.lastData = cachedLastData;
+                    this.lbstRbster = cbchedLbstRbster;
+                    this.lbstDbtb = cbchedLbstDbtb;
                 }
             }
         }
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle devR,
-                                int[] abox) {
-        PaintContext paintContext =
-            sg.paint.createContext(sg.getDeviceColorModel(),
+    public Object stbrtSequence(SunGrbphics2D sg, Shbpe s, Rectbngle devR,
+                                int[] bbox) {
+        PbintContext pbintContext =
+            sg.pbint.crebteContext(sg.getDeviceColorModel(),
                                    devR,
                                    s.getBounds2D(),
-                                   sg.cloneTransform(),
+                                   sg.cloneTrbnsform(),
                                    sg.getRenderingHints());
-        return new TileContext(sg, paintContext);
+        return new TileContext(sg, pbintContext);
     }
 
-    public boolean needTile(Object context, int x, int y, int w, int h) {
+    public boolebn needTile(Object context, int x, int y, int w, int h) {
         return true;
     }
 
-    private static final int TILE_SIZE = 32;
+    privbte stbtic finbl int TILE_SIZE = 32;
 
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tilesize,
+    public void renderPbthTile(Object ctx,
+                               byte[] btile, int offset, int tilesize,
                                int x, int y, int w, int h) {
         TileContext context = (TileContext) ctx;
-        PaintContext paintCtxt = context.paintCtxt;
-        SunGraphics2D sg = context.sunG2D;
-        SurfaceData dstData = context.dstData;
-        SurfaceData srcData = null;
-        Raster lastRas = null;
-        if (context.lastData != null && context.lastRaster != null) {
-            srcData = context.lastData.get();
-            lastRas = context.lastRaster.get();
-            if (srcData == null || lastRas == null) {
-                srcData = null;
-                lastRas = null;
+        PbintContext pbintCtxt = context.pbintCtxt;
+        SunGrbphics2D sg = context.sunG2D;
+        SurfbceDbtb dstDbtb = context.dstDbtb;
+        SurfbceDbtb srcDbtb = null;
+        Rbster lbstRbs = null;
+        if (context.lbstDbtb != null && context.lbstRbster != null) {
+            srcDbtb = context.lbstDbtb.get();
+            lbstRbs = context.lbstRbster.get();
+            if (srcDbtb == null || lbstRbs == null) {
+                srcDbtb = null;
+                lbstRbs = null;
             }
         }
-        ColorModel paintModel = context.paintModel;
+        ColorModel pbintModel = context.pbintModel;
 
         for (int rely = 0; rely < h; rely += TILE_SIZE) {
             int ty = y + rely;
-            int th = Math.min(h-rely, TILE_SIZE);
+            int th = Mbth.min(h-rely, TILE_SIZE);
             for (int relx = 0; relx < w; relx += TILE_SIZE) {
                 int tx = x + relx;
-                int tw = Math.min(w-relx, TILE_SIZE);
+                int tw = Mbth.min(w-relx, TILE_SIZE);
 
-                Raster srcRaster = paintCtxt.getRaster(tx, ty, tw, th);
-                if ((srcRaster.getMinX() != 0) || (srcRaster.getMinY() != 0)) {
-                    srcRaster = srcRaster.createTranslatedChild(0, 0);
+                Rbster srcRbster = pbintCtxt.getRbster(tx, ty, tw, th);
+                if ((srcRbster.getMinX() != 0) || (srcRbster.getMinY() != 0)) {
+                    srcRbster = srcRbster.crebteTrbnslbtedChild(0, 0);
                 }
-                if (lastRas != srcRaster) {
-                    lastRas = srcRaster;
-                    context.lastRaster = new WeakReference<>(lastRas);
-                    // REMIND: This will fail for a non-Writable raster!
-                    BufferedImage bImg =
-                        new BufferedImage(paintModel,
-                                          (WritableRaster) srcRaster,
-                                          paintModel.isAlphaPremultiplied(),
+                if (lbstRbs != srcRbster) {
+                    lbstRbs = srcRbster;
+                    context.lbstRbster = new WebkReference<>(lbstRbs);
+                    // REMIND: This will fbil for b non-Writbble rbster!
+                    BufferedImbge bImg =
+                        new BufferedImbge(pbintModel,
+                                          (WritbbleRbster) srcRbster,
+                                          pbintModel.isAlphbPremultiplied(),
                                           null);
-                    srcData = BufImgSurfaceData.createData(bImg);
-                    context.lastData = new WeakReference<>(srcData);
-                    context.lastMask = null;
-                    context.lastBlit = null;
+                    srcDbtb = BufImgSurfbceDbtb.crebteDbtb(bImg);
+                    context.lbstDbtb = new WebkReference<>(srcDbtb);
+                    context.lbstMbsk = null;
+                    context.lbstBlit = null;
                 }
 
-                if (atile == null) {
-                    if (context.lastBlit == null) {
-                        CompositeType comptype = sg.imageComp;
-                        if (CompositeType.SrcOverNoEa.equals(comptype) &&
-                            paintModel.getTransparency() == Transparency.OPAQUE)
+                if (btile == null) {
+                    if (context.lbstBlit == null) {
+                        CompositeType comptype = sg.imbgeComp;
+                        if (CompositeType.SrcOverNoEb.equbls(comptype) &&
+                            pbintModel.getTrbnspbrency() == Trbnspbrency.OPAQUE)
                         {
-                            comptype = CompositeType.SrcNoEa;
+                            comptype = CompositeType.SrcNoEb;
                         }
-                        context.lastBlit =
-                            Blit.getFromCache(srcData.getSurfaceType(),
+                        context.lbstBlit =
+                            Blit.getFromCbche(srcDbtb.getSurfbceType(),
                                               comptype,
-                                              dstData.getSurfaceType());
+                                              dstDbtb.getSurfbceType());
                     }
-                    context.lastBlit.Blit(srcData, dstData,
+                    context.lbstBlit.Blit(srcDbtb, dstDbtb,
                                           sg.composite, null,
                                           0, 0, tx, ty, tw, th);
                 } else {
-                    if (context.lastMask == null) {
-                        CompositeType comptype = sg.imageComp;
-                        if (CompositeType.SrcOverNoEa.equals(comptype) &&
-                            paintModel.getTransparency() == Transparency.OPAQUE)
+                    if (context.lbstMbsk == null) {
+                        CompositeType comptype = sg.imbgeComp;
+                        if (CompositeType.SrcOverNoEb.equbls(comptype) &&
+                            pbintModel.getTrbnspbrency() == Trbnspbrency.OPAQUE)
                         {
-                            comptype = CompositeType.SrcNoEa;
+                            comptype = CompositeType.SrcNoEb;
                         }
-                        context.lastMask =
-                            MaskBlit.getFromCache(srcData.getSurfaceType(),
+                        context.lbstMbsk =
+                            MbskBlit.getFromCbche(srcDbtb.getSurfbceType(),
                                                   comptype,
-                                                  dstData.getSurfaceType());
+                                                  dstDbtb.getSurfbceType());
                     }
 
                     int toff = offset + rely * tilesize + relx;
-                    context.lastMask.MaskBlit(srcData, dstData,
+                    context.lbstMbsk.MbskBlit(srcDbtb, dstDbtb,
                                               sg.composite, null,
                                               0, 0, tx, ty, tw, th,
-                                              atile, toff, tilesize);
+                                              btile, toff, tilesize);
                 }
             }
         }
@@ -186,20 +186,20 @@ public class AlphaPaintPipe implements CompositePipe {
 
     public void endSequence(Object ctx) {
         TileContext context = (TileContext) ctx;
-        if (context.paintCtxt != null) {
-            context.paintCtxt.dispose();
+        if (context.pbintCtxt != null) {
+            context.pbintCtxt.dispose();
         }
-        synchronized (AlphaPaintPipe.class) {
-            if (context.lastData != null) {
-                cachedLastRaster = context.lastRaster;
-                if (cachedLastColorModel == null ||
-                    cachedLastColorModel.get() != context.paintModel)
+        synchronized (AlphbPbintPipe.clbss) {
+            if (context.lbstDbtb != null) {
+                cbchedLbstRbster = context.lbstRbster;
+                if (cbchedLbstColorModel == null ||
+                    cbchedLbstColorModel.get() != context.pbintModel)
                 {
-                    // Avoid creating new WeakReference if possible
-                    cachedLastColorModel =
-                        new WeakReference<>(context.paintModel);
+                    // Avoid crebting new WebkReference if possible
+                    cbchedLbstColorModel =
+                        new WebkReference<>(context.pbintModel);
                 }
-                cachedLastData = context.lastData;
+                cbchedLbstDbtb = context.lbstDbtb;
             }
         }
     }

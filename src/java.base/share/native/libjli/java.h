@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -37,14 +37,14 @@
 /*
  * Get system specific defines.
  */
-#include "emessages.h"
-#include "java_md.h"
+#include "emessbges.h"
+#include "jbvb_md.h"
 #include "jli_util.h"
 
-#include "manifest_info.h"
+#include "mbnifest_info.h"
 #include "version_comp.h"
-#include "wildcard.h"
-#include "splashscreen.h"
+#include "wildcbrd.h"
+#include "splbshscreen.h"
 
 # define KB (1024UL)
 # define MB (1024UL * KB)
@@ -53,20 +53,20 @@
 #define CURRENT_DATA_MODEL (CHAR_BIT * sizeof(void*))
 
 /*
- * The following environment variable is used to influence the behavior
- * of the jre exec'd through the SelectVersion routine.  The command line
- * options which specify the version are not passed to the exec'd version,
- * because that jre may be an older version which wouldn't recognize them.
- * This environment variable is known to this (and later) version and serves
+ * The following environment vbribble is used to influence the behbvior
+ * of the jre exec'd through the SelectVersion routine.  The commbnd line
+ * options which specify the version bre not pbssed to the exec'd version,
+ * becbuse thbt jre mby be bn older version which wouldn't recognize them.
+ * This environment vbribble is known to this (bnd lbter) version bnd serves
  * to suppress the version selection code.  This is not only for efficiency,
- * but also for correctness, since any command line options have been
- * removed which would cause any value found in the manifest to be used.
- * This would be incorrect because the command line options are defined
- * to take precedence.
+ * but blso for correctness, since bny commbnd line options hbve been
+ * removed which would cbuse bny vblue found in the mbnifest to be used.
+ * This would be incorrect becbuse the commbnd line options bre defined
+ * to tbke precedence.
  *
- * The value associated with this environment variable is the MainClass
- * name from within the executable jar file (if any). This is strictly a
- * performance enhancement to avoid re-reading the jar file manifest.
+ * The vblue bssocibted with this environment vbribble is the MbinClbss
+ * nbme from within the executbble jbr file (if bny). This is strictly b
+ * performbnce enhbncement to bvoid re-rebding the jbr file mbnifest.
  *
  */
 #define ENV_ENTRY "_JAVA_VERSION_SET"
@@ -75,96 +75,96 @@
 #define SPLASH_JAR_ENV_ENTRY "_JAVA_SPLASH_JAR"
 
 /*
- * Pointers to the needed JNI invocation API, initialized by LoadJavaVM.
+ * Pointers to the needed JNI invocbtion API, initiblized by LobdJbvbVM.
  */
-typedef jint (JNICALL *CreateJavaVM_t)(JavaVM **pvm, void **env, void *args);
-typedef jint (JNICALL *GetDefaultJavaVMInitArgs_t)(void *args);
-typedef jint (JNICALL *GetCreatedJavaVMs_t)(JavaVM **vmBuf, jsize bufLen, jsize *nVMs);
+typedef jint (JNICALL *CrebteJbvbVM_t)(JbvbVM **pvm, void **env, void *brgs);
+typedef jint (JNICALL *GetDefbultJbvbVMInitArgs_t)(void *brgs);
+typedef jint (JNICALL *GetCrebtedJbvbVMs_t)(JbvbVM **vmBuf, jsize bufLen, jsize *nVMs);
 
 typedef struct {
-    CreateJavaVM_t CreateJavaVM;
-    GetDefaultJavaVMInitArgs_t GetDefaultJavaVMInitArgs;
-    GetCreatedJavaVMs_t GetCreatedJavaVMs;
-} InvocationFunctions;
+    CrebteJbvbVM_t CrebteJbvbVM;
+    GetDefbultJbvbVMInitArgs_t GetDefbultJbvbVMInitArgs;
+    GetCrebtedJbvbVMs_t GetCrebtedJbvbVMs;
+} InvocbtionFunctions;
 
 int
-JLI_Launch(int argc, char ** argv,              /* main argc, argc */
-        int jargc, const char** jargv,          /* java args */
-        int appclassc, const char** appclassv,  /* app classpath */
-        const char* fullversion,                /* full version defined */
-        const char* dotversion,                 /* dot version defined */
-        const char* pname,                      /* program name */
-        const char* lname,                      /* launcher name */
-        jboolean javaargs,                      /* JAVA_ARGS */
-        jboolean cpwildcard,                    /* classpath wildcard */
-        jboolean javaw,                         /* windows-only javaw */
-        jint     ergo_class                     /* ergnomics policy */
+JLI_Lbunch(int brgc, chbr ** brgv,              /* mbin brgc, brgc */
+        int jbrgc, const chbr** jbrgv,          /* jbvb brgs */
+        int bppclbssc, const chbr** bppclbssv,  /* bpp clbsspbth */
+        const chbr* fullversion,                /* full version defined */
+        const chbr* dotversion,                 /* dot version defined */
+        const chbr* pnbme,                      /* progrbm nbme */
+        const chbr* lnbme,                      /* lbuncher nbme */
+        jboolebn jbvbbrgs,                      /* JAVA_ARGS */
+        jboolebn cpwildcbrd,                    /* clbsspbth wildcbrd */
+        jboolebn jbvbw,                         /* windows-only jbvbw */
+        jint     ergo_clbss                     /* ergnomics policy */
 );
 
 /*
- * Prototypes for launcher functions in the system specific java_md.c.
+ * Prototypes for lbuncher functions in the system specific jbvb_md.c.
  */
 
-jboolean
-LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn);
+jboolebn
+LobdJbvbVM(const chbr *jvmpbth, InvocbtionFunctions *ifn);
 
 void
-GetXUsagePath(char *buf, jint bufsize);
+GetXUsbgePbth(chbr *buf, jint bufsize);
 
-jboolean
-GetApplicationHome(char *buf, jint bufsize);
+jboolebn
+GetApplicbtionHome(chbr *buf, jint bufsize);
 
-#define GetArch() GetArchPath(CURRENT_DATA_MODEL)
+#define GetArch() GetArchPbth(CURRENT_DATA_MODEL)
 
 /*
- * Different platforms will implement this, here
- * pargc is a pointer to the original argc,
- * pargv is a pointer to the original argv,
- * jrepath is an accessible path to the jre as determined by the call
- * so_jrepath is the length of the buffer jrepath
- * jvmpath is an accessible path to the jvm as determined by the call
- * so_jvmpath is the length of the buffer jvmpath
+ * Different plbtforms will implement this, here
+ * pbrgc is b pointer to the originbl brgc,
+ * pbrgv is b pointer to the originbl brgv,
+ * jrepbth is bn bccessible pbth to the jre bs determined by the cbll
+ * so_jrepbth is the length of the buffer jrepbth
+ * jvmpbth is bn bccessible pbth to the jvm bs determined by the cbll
+ * so_jvmpbth is the length of the buffer jvmpbth
  */
-void CreateExecutionEnvironment(int *argc, char ***argv,
-                                char *jrepath, jint so_jrepath,
-                                char *jvmpath, jint so_jvmpath,
-                                char *jvmcfg,  jint so_jvmcfg);
+void CrebteExecutionEnvironment(int *brgc, chbr ***brgv,
+                                chbr *jrepbth, jint so_jrepbth,
+                                chbr *jvmpbth, jint so_jvmpbth,
+                                chbr *jvmcfg,  jint so_jvmcfg);
 
-/* Reports an error message to stderr or a window as appropriate. */
-void JLI_ReportErrorMessage(const char * message, ...);
+/* Reports bn error messbge to stderr or b window bs bppropribte. */
+void JLI_ReportErrorMessbge(const chbr * messbge, ...);
 
-/* Reports a system error message to stderr or a window */
-void JLI_ReportErrorMessageSys(const char * message, ...);
+/* Reports b system error messbge to stderr or b window */
+void JLI_ReportErrorMessbgeSys(const chbr * messbge, ...);
 
-/* Reports an error message only to stderr. */
-void JLI_ReportMessage(const char * message, ...);
+/* Reports bn error messbge only to stderr. */
+void JLI_ReportMessbge(const chbr * messbge, ...);
 
 /*
- * Reports an exception which terminates the vm to stderr or a window
- * as appropriate.
+ * Reports bn exception which terminbtes the vm to stderr or b window
+ * bs bppropribte.
  */
 void JLI_ReportExceptionDescription(JNIEnv * env);
-void PrintMachineDependentOptions();
+void PrintMbchineDependentOptions();
 
-const char *jlong_format_specifier();
-
-/*
- * Block current thread and continue execution in new thread
- */
-int ContinueInNewThread0(int (JNICALL *continuation)(void *),
-                        jlong stack_size, void * args);
-
-/* sun.java.launcher.* platform properties. */
-void SetJavaLauncherPlatformProps(void);
-void SetJavaCommandLineProp(char* what, int argc, char** argv);
-void SetJavaLauncherProp(void);
+const chbr *jlong_formbt_specifier();
 
 /*
- * Functions defined in java.c and used in java_md.c.
+ * Block current threbd bnd continue execution in new threbd
  */
-jint ReadKnownVMs(const char *jvmcfg, jboolean speculative);
-char *CheckJvmType(int *argc, char ***argv, jboolean speculative);
-void AddOption(char *str, void *info);
+int ContinueInNewThrebd0(int (JNICALL *continubtion)(void *),
+                        jlong stbck_size, void * brgs);
+
+/* sun.jbvb.lbuncher.* plbtform properties. */
+void SetJbvbLbuncherPlbtformProps(void);
+void SetJbvbCommbndLineProp(chbr* whbt, int brgc, chbr** brgv);
+void SetJbvbLbuncherProp(void);
+
+/*
+ * Functions defined in jbvb.c bnd used in jbvb_md.c.
+ */
+jint RebdKnownVMs(const chbr *jvmcfg, jboolebn speculbtive);
+chbr *CheckJvmType(int *brgc, chbr ***brgv, jboolebn speculbtive);
+void AddOption(chbr *str, void *info);
 
 enum ergo_policy {
    DEFAULT_POLICY = 0,
@@ -172,81 +172,81 @@ enum ergo_policy {
    ALWAYS_SERVER_CLASS
 };
 
-const char* GetProgramName();
-const char* GetDotVersion();
-const char* GetFullVersion();
-jboolean IsJavaArgs();
-jboolean IsJavaw();
+const chbr* GetProgrbmNbme();
+const chbr* GetDotVersion();
+const chbr* GetFullVersion();
+jboolebn IsJbvbArgs();
+jboolebn IsJbvbw();
 jint GetErgoPolicy();
 
-jboolean ServerClassMachine();
+jboolebn ServerClbssMbchine();
 
-int ContinueInNewThread(InvocationFunctions* ifn, jlong threadStackSize,
-                   int argc, char** argv,
-                   int mode, char *what, int ret);
+int ContinueInNewThrebd(InvocbtionFunctions* ifn, jlong threbdStbckSize,
+                   int brgc, chbr** brgv,
+                   int mode, chbr *whbt, int ret);
 
-int JVMInit(InvocationFunctions* ifn, jlong threadStackSize,
-                   int argc, char** argv,
-                   int mode, char *what, int ret);
+int JVMInit(InvocbtionFunctions* ifn, jlong threbdStbckSize,
+                   int brgc, chbr** brgv,
+                   int mode, chbr *whbt, int ret);
 
 /*
- * Initialize platform specific settings
+ * Initiblize plbtform specific settings
  */
-void InitLauncher(jboolean javaw);
+void InitLbuncher(jboolebn jbvbw);
 
 /*
- * For MacOSX and Windows/Unix compatibility we require these
- * entry points, some of them may be stubbed out on Windows/Unixes.
+ * For MbcOSX bnd Windows/Unix compbtibility we require these
+ * entry points, some of them mby be stubbed out on Windows/Unixes.
  */
-void     PostJVMInit(JNIEnv *env, jstring mainClass, JavaVM *vm);
-void     ShowSplashScreen();
-void     RegisterThread();
+void     PostJVMInit(JNIEnv *env, jstring mbinClbss, JbvbVM *vm);
+void     ShowSplbshScreen();
+void     RegisterThrebd();
 /*
- * this method performs additional platform specific processing and
- * should return JNI_TRUE to indicate the argument has been consumed,
- * otherwise returns JNI_FALSE to allow the calling logic to further
+ * this method performs bdditionbl plbtform specific processing bnd
+ * should return JNI_TRUE to indicbte the brgument hbs been consumed,
+ * otherwise returns JNI_FALSE to bllow the cblling logic to further
  * process the option.
  */
-jboolean ProcessPlatformOption(const char *arg);
+jboolebn ProcessPlbtformOption(const chbr *brg);
 
 /*
- * This allows for finding classes from the VM's bootstrap class loader directly,
- * FindClass uses the application class loader internally, this will cause
- * unnecessary searching of the classpath for the required classes.
+ * This bllows for finding clbsses from the VM's bootstrbp clbss lobder directly,
+ * FindClbss uses the bpplicbtion clbss lobder internblly, this will cbuse
+ * unnecessbry sebrching of the clbsspbth for the required clbsses.
  *
  */
-typedef jclass (JNICALL FindClassFromBootLoader_t(JNIEnv *env,
-                                                  const char *name));
-jclass FindBootStrapClass(JNIEnv *env, const char *classname);
+typedef jclbss (JNICALL FindClbssFromBootLobder_t(JNIEnv *env,
+                                                  const chbr *nbme));
+jclbss FindBootStrbpClbss(JNIEnv *env, const chbr *clbssnbme);
 
-jobjectArray CreateApplicationArgs(JNIEnv *env, char **strv, int argc);
-jobjectArray NewPlatformStringArray(JNIEnv *env, char **strv, int strc);
-jclass GetLauncherHelperClass(JNIEnv *env);
+jobjectArrby CrebteApplicbtionArgs(JNIEnv *env, chbr **strv, int brgc);
+jobjectArrby NewPlbtformStringArrby(JNIEnv *env, chbr **strv, int strc);
+jclbss GetLbuncherHelperClbss(JNIEnv *env);
 
-int JNICALL JavaMain(void * args); /* entry point                  */
+int JNICALL JbvbMbin(void * brgs); /* entry point                  */
 
-enum LaunchMode {               // cf. sun.launcher.LauncherHelper
+enum LbunchMode {               // cf. sun.lbuncher.LbuncherHelper
     LM_UNKNOWN = 0,
     LM_CLASS,
     LM_JAR
 };
 
-static const char *launchModeNames[]
-    = { "Unknown", "Main class", "JAR file" };
+stbtic const chbr *lbunchModeNbmes[]
+    = { "Unknown", "Mbin clbss", "JAR file" };
 
 typedef struct {
-    int    argc;
-    char **argv;
+    int    brgc;
+    chbr **brgv;
     int    mode;
-    char  *what;
-    InvocationFunctions ifn;
-} JavaMainArgs;
+    chbr  *whbt;
+    InvocbtionFunctions ifn;
+} JbvbMbinArgs;
 
-#define NULL_CHECK_RETURN_VALUE(NCRV_check_pointer, NCRV_return_value) \
+#define NULL_CHECK_RETURN_VALUE(NCRV_check_pointer, NCRV_return_vblue) \
     do { \
         if ((NCRV_check_pointer) == NULL) { \
-            JLI_ReportErrorMessage(JNI_ERROR); \
-            return NCRV_return_value; \
+            JLI_ReportErrorMessbge(JNI_ERROR); \
+            return NCRV_return_vblue; \
         } \
     } while (JNI_FALSE)
 

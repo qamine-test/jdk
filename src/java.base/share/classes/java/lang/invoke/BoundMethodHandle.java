@@ -1,599 +1,599 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.*;
-import static java.lang.invoke.LambdaForm.*;
-import static java.lang.invoke.LambdaForm.BasicType.*;
-import static java.lang.invoke.MethodHandleStatics.*;
+import stbtic jdk.internbl.org.objectweb.bsm.Opcodes.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.BbsicType.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
 
-import java.lang.invoke.LambdaForm.NamedFunction;
-import java.lang.invoke.MethodHandles.Lookup;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
+import jbvb.lbng.invoke.LbmbdbForm.NbmedFunction;
+import jbvb.lbng.invoke.MethodHbndles.Lookup;
+import jbvb.lbng.reflect.Field;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
 
-import sun.invoke.util.ValueConversions;
-import sun.invoke.util.Wrapper;
+import sun.invoke.util.VblueConversions;
+import sun.invoke.util.Wrbpper;
 
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.ClbssWriter;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * The flavor of method handle which emulates an invoke instruction
- * on a predetermined argument.  The JVM dispatches to the correct method
- * when the handle is created, not when it is invoked.
+ * The flbvor of method hbndle which emulbtes bn invoke instruction
+ * on b predetermined brgument.  The JVM dispbtches to the correct method
+ * when the hbndle is crebted, not when it is invoked.
  *
- * All bound arguments are encapsulated in dedicated species.
+ * All bound brguments bre encbpsulbted in dedicbted species.
  */
-/* non-public */ abstract class BoundMethodHandle extends MethodHandle {
+/* non-public */ bbstrbct clbss BoundMethodHbndle extends MethodHbndle {
 
-    /* non-public */ BoundMethodHandle(MethodType type, LambdaForm form) {
+    /* non-public */ BoundMethodHbndle(MethodType type, LbmbdbForm form) {
         super(type, form);
     }
 
     //
-    // BMH API and internals
+    // BMH API bnd internbls
     //
 
-    static MethodHandle bindSingle(MethodType type, LambdaForm form, BasicType xtype, Object x) {
-        // for some type signatures, there exist pre-defined concrete BMH classes
+    stbtic MethodHbndle bindSingle(MethodType type, LbmbdbForm form, BbsicType xtype, Object x) {
+        // for some type signbtures, there exist pre-defined concrete BMH clbsses
         try {
             switch (xtype) {
-            case L_TYPE:
-                if (true)  return bindSingle(type, form, x);  // Use known fast path.
-                return (BoundMethodHandle) SpeciesData.EMPTY.extendWith(L_TYPE).constructor[0].invokeBasic(type, form, x);
-            case I_TYPE:
-                return (BoundMethodHandle) SpeciesData.EMPTY.extendWith(I_TYPE).constructor[0].invokeBasic(type, form, ValueConversions.widenSubword(x));
-            case J_TYPE:
-                return (BoundMethodHandle) SpeciesData.EMPTY.extendWith(J_TYPE).constructor[0].invokeBasic(type, form, (long) x);
-            case F_TYPE:
-                return (BoundMethodHandle) SpeciesData.EMPTY.extendWith(F_TYPE).constructor[0].invokeBasic(type, form, (float) x);
-            case D_TYPE:
-                return (BoundMethodHandle) SpeciesData.EMPTY.extendWith(D_TYPE).constructor[0].invokeBasic(type, form, (double) x);
-            default : throw newInternalError("unexpected xtype: " + xtype);
+            cbse L_TYPE:
+                if (true)  return bindSingle(type, form, x);  // Use known fbst pbth.
+                return (BoundMethodHbndle) SpeciesDbtb.EMPTY.extendWith(L_TYPE).constructor[0].invokeBbsic(type, form, x);
+            cbse I_TYPE:
+                return (BoundMethodHbndle) SpeciesDbtb.EMPTY.extendWith(I_TYPE).constructor[0].invokeBbsic(type, form, VblueConversions.widenSubword(x));
+            cbse J_TYPE:
+                return (BoundMethodHbndle) SpeciesDbtb.EMPTY.extendWith(J_TYPE).constructor[0].invokeBbsic(type, form, (long) x);
+            cbse F_TYPE:
+                return (BoundMethodHbndle) SpeciesDbtb.EMPTY.extendWith(F_TYPE).constructor[0].invokeBbsic(type, form, (flobt) x);
+            cbse D_TYPE:
+                return (BoundMethodHbndle) SpeciesDbtb.EMPTY.extendWith(D_TYPE).constructor[0].invokeBbsic(type, form, (double) x);
+            defbult : throw newInternblError("unexpected xtype: " + xtype);
             }
-        } catch (Throwable t) {
-            throw newInternalError(t);
+        } cbtch (Throwbble t) {
+            throw newInternblError(t);
         }
     }
 
-    static MethodHandle bindSingle(MethodType type, LambdaForm form, Object x) {
+    stbtic MethodHbndle bindSingle(MethodType type, LbmbdbForm form, Object x) {
             return new Species_L(type, form, x);
     }
 
-    MethodHandle cloneExtend(MethodType type, LambdaForm form, BasicType xtype, Object x) {
+    MethodHbndle cloneExtend(MethodType type, LbmbdbForm form, BbsicType xtype, Object x) {
         try {
             switch (xtype) {
-            case L_TYPE: return copyWithExtendL(type, form, x);
-            case I_TYPE: return copyWithExtendI(type, form, ValueConversions.widenSubword(x));
-            case J_TYPE: return copyWithExtendJ(type, form, (long) x);
-            case F_TYPE: return copyWithExtendF(type, form, (float) x);
-            case D_TYPE: return copyWithExtendD(type, form, (double) x);
+            cbse L_TYPE: return copyWithExtendL(type, form, x);
+            cbse I_TYPE: return copyWithExtendI(type, form, VblueConversions.widenSubword(x));
+            cbse J_TYPE: return copyWithExtendJ(type, form, (long) x);
+            cbse F_TYPE: return copyWithExtendF(type, form, (flobt) x);
+            cbse D_TYPE: return copyWithExtendD(type, form, (double) x);
             }
-        } catch (Throwable t) {
-            throw newInternalError(t);
+        } cbtch (Throwbble t) {
+            throw newInternblError(t);
         }
-        throw newInternalError("unexpected type: " + xtype);
+        throw newInternblError("unexpected type: " + xtype);
     }
 
     @Override
-    MethodHandle bindArgument(int pos, BasicType basicType, Object value) {
-        MethodType type = type().dropParameterTypes(pos, pos+1);
-        LambdaForm form = internalForm().bind(1+pos, speciesData());
-        return cloneExtend(type, form, basicType, value);
+    MethodHbndle bindArgument(int pos, BbsicType bbsicType, Object vblue) {
+        MethodType type = type().dropPbrbmeterTypes(pos, pos+1);
+        LbmbdbForm form = internblForm().bind(1+pos, speciesDbtb());
+        return cloneExtend(type, form, bbsicType, vblue);
     }
 
     @Override
-    MethodHandle dropArguments(MethodType srcType, int pos, int drops) {
-        LambdaForm form = internalForm().addArguments(pos, srcType.parameterList().subList(pos, pos + drops));
+    MethodHbndle dropArguments(MethodType srcType, int pos, int drops) {
+        LbmbdbForm form = internblForm().bddArguments(pos, srcType.pbrbmeterList().subList(pos, pos + drops));
         try {
              return copyWith(srcType, form);
-         } catch (Throwable t) {
-             throw newInternalError(t);
+         } cbtch (Throwbble t) {
+             throw newInternblError(t);
          }
     }
 
     @Override
-    MethodHandle permuteArguments(MethodType newType, int[] reorder) {
+    MethodHbndle permuteArguments(MethodType newType, int[] reorder) {
         try {
-             return copyWith(newType, form.permuteArguments(1, reorder, basicTypes(newType.parameterList())));
-         } catch (Throwable t) {
-             throw newInternalError(t);
+             return copyWith(newType, form.permuteArguments(1, reorder, bbsicTypes(newType.pbrbmeterList())));
+         } cbtch (Throwbble t) {
+             throw newInternblError(t);
          }
     }
 
     /**
-     * Return the {@link SpeciesData} instance representing this BMH species. All subclasses must provide a
-     * static field containing this value, and they must accordingly implement this method.
+     * Return the {@link SpeciesDbtb} instbnce representing this BMH species. All subclbsses must provide b
+     * stbtic field contbining this vblue, bnd they must bccordingly implement this method.
      */
-    /*non-public*/ abstract SpeciesData speciesData();
+    /*non-public*/ bbstrbct SpeciesDbtb speciesDbtb();
 
     /**
-     * Return the number of fields in this BMH.  Equivalent to speciesData().fieldCount().
+     * Return the number of fields in this BMH.  Equivblent to speciesDbtb().fieldCount().
      */
-    /*non-public*/ abstract int fieldCount();
+    /*non-public*/ bbstrbct int fieldCount();
 
     @Override
-    final Object internalProperties() {
-        return "/BMH="+internalValues();
+    finbl Object internblProperties() {
+        return "/BMH="+internblVblues();
     }
 
     @Override
-    final Object internalValues() {
-        Object[] boundValues = new Object[speciesData().fieldCount()];
-        for (int i = 0; i < boundValues.length; ++i) {
-            boundValues[i] = arg(i);
+    finbl Object internblVblues() {
+        Object[] boundVblues = new Object[speciesDbtb().fieldCount()];
+        for (int i = 0; i < boundVblues.length; ++i) {
+            boundVblues[i] = brg(i);
         }
-        return Arrays.asList(boundValues);
+        return Arrbys.bsList(boundVblues);
     }
 
-    /*non-public*/ final Object arg(int i) {
+    /*non-public*/ finbl Object brg(int i) {
         try {
-            switch (speciesData().fieldType(i)) {
-            case L_TYPE: return          speciesData().getters[i].invokeBasic(this);
-            case I_TYPE: return (int)    speciesData().getters[i].invokeBasic(this);
-            case J_TYPE: return (long)   speciesData().getters[i].invokeBasic(this);
-            case F_TYPE: return (float)  speciesData().getters[i].invokeBasic(this);
-            case D_TYPE: return (double) speciesData().getters[i].invokeBasic(this);
+            switch (speciesDbtb().fieldType(i)) {
+            cbse L_TYPE: return          speciesDbtb().getters[i].invokeBbsic(this);
+            cbse I_TYPE: return (int)    speciesDbtb().getters[i].invokeBbsic(this);
+            cbse J_TYPE: return (long)   speciesDbtb().getters[i].invokeBbsic(this);
+            cbse F_TYPE: return (flobt)  speciesDbtb().getters[i].invokeBbsic(this);
+            cbse D_TYPE: return (double) speciesDbtb().getters[i].invokeBbsic(this);
             }
-        } catch (Throwable ex) {
-            throw newInternalError(ex);
+        } cbtch (Throwbble ex) {
+            throw newInternblError(ex);
         }
-        throw new InternalError("unexpected type: " + speciesData().typeChars+"."+i);
+        throw new InternblError("unexpected type: " + speciesDbtb().typeChbrs+"."+i);
     }
 
     //
     // cloning API
     //
 
-    /*non-public*/ abstract BoundMethodHandle copyWith(MethodType mt, LambdaForm lf);
-    /*non-public*/ abstract BoundMethodHandle copyWithExtendL(MethodType mt, LambdaForm lf, Object narg);
-    /*non-public*/ abstract BoundMethodHandle copyWithExtendI(MethodType mt, LambdaForm lf, int    narg);
-    /*non-public*/ abstract BoundMethodHandle copyWithExtendJ(MethodType mt, LambdaForm lf, long   narg);
-    /*non-public*/ abstract BoundMethodHandle copyWithExtendF(MethodType mt, LambdaForm lf, float  narg);
-    /*non-public*/ abstract BoundMethodHandle copyWithExtendD(MethodType mt, LambdaForm lf, double narg);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWith(MethodType mt, LbmbdbForm lf);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWithExtendL(MethodType mt, LbmbdbForm lf, Object nbrg);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWithExtendI(MethodType mt, LbmbdbForm lf, int    nbrg);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWithExtendJ(MethodType mt, LbmbdbForm lf, long   nbrg);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWithExtendF(MethodType mt, LbmbdbForm lf, flobt  nbrg);
+    /*non-public*/ bbstrbct BoundMethodHbndle copyWithExtendD(MethodType mt, LbmbdbForm lf, double nbrg);
 
-    // The following is a grossly irregular hack:
-    @Override MethodHandle reinvokerTarget() {
+    // The following is b grossly irregulbr hbck:
+    @Override MethodHbndle reinvokerTbrget() {
         try {
-            return (MethodHandle) arg(0);
-        } catch (Throwable ex) {
-            throw newInternalError(ex);
+            return (MethodHbndle) brg(0);
+        } cbtch (Throwbble ex) {
+            throw newInternblError(ex);
         }
     }
 
     //
-    // concrete BMH classes required to close bootstrap loops
+    // concrete BMH clbsses required to close bootstrbp loops
     //
 
-    private  // make it private to force users to access the enclosing class first
-    static final class Species_L extends BoundMethodHandle {
-        final Object argL0;
-        private Species_L(MethodType mt, LambdaForm lf, Object argL0) {
+    privbte  // mbke it privbte to force users to bccess the enclosing clbss first
+    stbtic finbl clbss Species_L extends BoundMethodHbndle {
+        finbl Object brgL0;
+        privbte Species_L(MethodType mt, LbmbdbForm lf, Object brgL0) {
             super(mt, lf);
-            this.argL0 = argL0;
+            this.brgL0 = brgL0;
         }
-        // The following is a grossly irregular hack:
-        @Override MethodHandle reinvokerTarget() { return (MethodHandle) argL0; }
+        // The following is b grossly irregulbr hbck:
+        @Override MethodHbndle reinvokerTbrget() { return (MethodHbndle) brgL0; }
         @Override
-        /*non-public*/ SpeciesData speciesData() {
+        /*non-public*/ SpeciesDbtb speciesDbtb() {
             return SPECIES_DATA;
         }
         @Override
         /*non-public*/ int fieldCount() {
             return 1;
         }
-        /*non-public*/ static final SpeciesData SPECIES_DATA = SpeciesData.getForClass("L", Species_L.class);
-        /*non-public*/ static BoundMethodHandle make(MethodType mt, LambdaForm lf, Object argL0) {
-            return new Species_L(mt, lf, argL0);
+        /*non-public*/ stbtic finbl SpeciesDbtb SPECIES_DATA = SpeciesDbtb.getForClbss("L", Species_L.clbss);
+        /*non-public*/ stbtic BoundMethodHbndle mbke(MethodType mt, LbmbdbForm lf, Object brgL0) {
+            return new Species_L(mt, lf, brgL0);
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWith(MethodType mt, LambdaForm lf) {
-            return new Species_L(mt, lf, argL0);
+        /*non-public*/ finbl BoundMethodHbndle copyWith(MethodType mt, LbmbdbForm lf) {
+            return new Species_L(mt, lf, brgL0);
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWithExtendL(MethodType mt, LambdaForm lf, Object narg) {
+        /*non-public*/ finbl BoundMethodHbndle copyWithExtendL(MethodType mt, LbmbdbForm lf, Object nbrg) {
             try {
-                return (BoundMethodHandle) SPECIES_DATA.extendWith(L_TYPE).constructor[0].invokeBasic(mt, lf, argL0, narg);
-            } catch (Throwable ex) {
-                throw uncaughtException(ex);
+                return (BoundMethodHbndle) SPECIES_DATA.extendWith(L_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, nbrg);
+            } cbtch (Throwbble ex) {
+                throw uncbughtException(ex);
             }
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWithExtendI(MethodType mt, LambdaForm lf, int narg) {
+        /*non-public*/ finbl BoundMethodHbndle copyWithExtendI(MethodType mt, LbmbdbForm lf, int nbrg) {
             try {
-                return (BoundMethodHandle) SPECIES_DATA.extendWith(I_TYPE).constructor[0].invokeBasic(mt, lf, argL0, narg);
-            } catch (Throwable ex) {
-                throw uncaughtException(ex);
+                return (BoundMethodHbndle) SPECIES_DATA.extendWith(I_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, nbrg);
+            } cbtch (Throwbble ex) {
+                throw uncbughtException(ex);
             }
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWithExtendJ(MethodType mt, LambdaForm lf, long narg) {
+        /*non-public*/ finbl BoundMethodHbndle copyWithExtendJ(MethodType mt, LbmbdbForm lf, long nbrg) {
             try {
-                return (BoundMethodHandle) SPECIES_DATA.extendWith(J_TYPE).constructor[0].invokeBasic(mt, lf, argL0, narg);
-            } catch (Throwable ex) {
-                throw uncaughtException(ex);
+                return (BoundMethodHbndle) SPECIES_DATA.extendWith(J_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, nbrg);
+            } cbtch (Throwbble ex) {
+                throw uncbughtException(ex);
             }
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWithExtendF(MethodType mt, LambdaForm lf, float narg) {
+        /*non-public*/ finbl BoundMethodHbndle copyWithExtendF(MethodType mt, LbmbdbForm lf, flobt nbrg) {
             try {
-                return (BoundMethodHandle) SPECIES_DATA.extendWith(F_TYPE).constructor[0].invokeBasic(mt, lf, argL0, narg);
-            } catch (Throwable ex) {
-                throw uncaughtException(ex);
+                return (BoundMethodHbndle) SPECIES_DATA.extendWith(F_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, nbrg);
+            } cbtch (Throwbble ex) {
+                throw uncbughtException(ex);
             }
         }
         @Override
-        /*non-public*/ final BoundMethodHandle copyWithExtendD(MethodType mt, LambdaForm lf, double narg) {
+        /*non-public*/ finbl BoundMethodHbndle copyWithExtendD(MethodType mt, LbmbdbForm lf, double nbrg) {
             try {
-                return (BoundMethodHandle) SPECIES_DATA.extendWith(D_TYPE).constructor[0].invokeBasic(mt, lf, argL0, narg);
-            } catch (Throwable ex) {
-                throw uncaughtException(ex);
+                return (BoundMethodHbndle) SPECIES_DATA.extendWith(D_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, nbrg);
+            } cbtch (Throwbble ex) {
+                throw uncbughtException(ex);
             }
         }
     }
 
     //
-    // BMH species meta-data
+    // BMH species metb-dbtb
     //
 
     /**
-     * Meta-data wrapper for concrete BMH types.
-     * Each BMH type corresponds to a given sequence of basic field types (LIJFD).
-     * The fields are immutable; their values are fully specified at object construction.
-     * Each BMH type supplies an array of getter functions which may be used in lambda forms.
-     * A BMH is constructed by cloning a shorter BMH and adding one or more new field values.
-     * As a degenerate and common case, the "shorter BMH" can be missing, and contributes zero prior fields.
+     * Metb-dbtb wrbpper for concrete BMH types.
+     * Ebch BMH type corresponds to b given sequence of bbsic field types (LIJFD).
+     * The fields bre immutbble; their vblues bre fully specified bt object construction.
+     * Ebch BMH type supplies bn brrby of getter functions which mby be used in lbmbdb forms.
+     * A BMH is constructed by cloning b shorter BMH bnd bdding one or more new field vblues.
+     * As b degenerbte bnd common cbse, the "shorter BMH" cbn be missing, bnd contributes zero prior fields.
      */
-    static class SpeciesData {
-        final String                             typeChars;
-        final BasicType[]                        typeCodes;
-        final Class<? extends BoundMethodHandle> clazz;
-        // Bootstrapping requires circular relations MH -> BMH -> SpeciesData -> MH
-        // Therefore, we need a non-final link in the chain.  Use array elements.
-        final MethodHandle[]                     constructor;
-        final MethodHandle[]                     getters;
-        final NamedFunction[]                    nominalGetters;
-        final SpeciesData[]                      extensions;
+    stbtic clbss SpeciesDbtb {
+        finbl String                             typeChbrs;
+        finbl BbsicType[]                        typeCodes;
+        finbl Clbss<? extends BoundMethodHbndle> clbzz;
+        // Bootstrbpping requires circulbr relbtions MH -> BMH -> SpeciesDbtb -> MH
+        // Therefore, we need b non-finbl link in the chbin.  Use brrby elements.
+        finbl MethodHbndle[]                     constructor;
+        finbl MethodHbndle[]                     getters;
+        finbl NbmedFunction[]                    nominblGetters;
+        finbl SpeciesDbtb[]                      extensions;
 
         /*non-public*/ int fieldCount() {
             return typeCodes.length;
         }
-        /*non-public*/ BasicType fieldType(int i) {
+        /*non-public*/ BbsicType fieldType(int i) {
             return typeCodes[i];
         }
-        /*non-public*/ char fieldTypeChar(int i) {
-            return typeChars.charAt(i);
+        /*non-public*/ chbr fieldTypeChbr(int i) {
+            return typeChbrs.chbrAt(i);
         }
 
         public String toString() {
-            return "SpeciesData["+(isPlaceholder() ? "<placeholder>" : clazz.getSimpleName())+":"+typeChars+"]";
+            return "SpeciesDbtb["+(isPlbceholder() ? "<plbceholder>" : clbzz.getSimpleNbme())+":"+typeChbrs+"]";
         }
 
         /**
-         * Return a {@link LambdaForm.Name} containing a {@link LambdaForm.NamedFunction} that
-         * represents a MH bound to a generic invoker, which in turn forwards to the corresponding
+         * Return b {@link LbmbdbForm.Nbme} contbining b {@link LbmbdbForm.NbmedFunction} thbt
+         * represents b MH bound to b generic invoker, which in turn forwbrds to the corresponding
          * getter.
          */
-        NamedFunction getterFunction(int i) {
-            return nominalGetters[i];
+        NbmedFunction getterFunction(int i) {
+            return nominblGetters[i];
         }
 
-        static final SpeciesData EMPTY = new SpeciesData("", BoundMethodHandle.class);
+        stbtic finbl SpeciesDbtb EMPTY = new SpeciesDbtb("", BoundMethodHbndle.clbss);
 
-        private SpeciesData(String types, Class<? extends BoundMethodHandle> clazz) {
-            this.typeChars = types;
-            this.typeCodes = basicTypes(types);
-            this.clazz = clazz;
+        privbte SpeciesDbtb(String types, Clbss<? extends BoundMethodHbndle> clbzz) {
+            this.typeChbrs = types;
+            this.typeCodes = bbsicTypes(types);
+            this.clbzz = clbzz;
             if (!INIT_DONE) {
-                this.constructor = new MethodHandle[1];  // only one ctor
-                this.getters = new MethodHandle[types.length()];
-                this.nominalGetters = new NamedFunction[types.length()];
+                this.constructor = new MethodHbndle[1];  // only one ctor
+                this.getters = new MethodHbndle[types.length()];
+                this.nominblGetters = new NbmedFunction[types.length()];
             } else {
-                this.constructor = Factory.makeCtors(clazz, types, null);
-                this.getters = Factory.makeGetters(clazz, types, null);
-                this.nominalGetters = Factory.makeNominalGetters(types, null, this.getters);
+                this.constructor = Fbctory.mbkeCtors(clbzz, types, null);
+                this.getters = Fbctory.mbkeGetters(clbzz, types, null);
+                this.nominblGetters = Fbctory.mbkeNominblGetters(types, null, this.getters);
             }
-            this.extensions = new SpeciesData[ARG_TYPE_LIMIT];
+            this.extensions = new SpeciesDbtb[ARG_TYPE_LIMIT];
         }
 
-        private void initForBootstrap() {
-            assert(!INIT_DONE);
+        privbte void initForBootstrbp() {
+            bssert(!INIT_DONE);
             if (constructor[0] == null) {
-                String types = typeChars;
-                Factory.makeCtors(clazz, types, this.constructor);
-                Factory.makeGetters(clazz, types, this.getters);
-                Factory.makeNominalGetters(types, this.nominalGetters, this.getters);
+                String types = typeChbrs;
+                Fbctory.mbkeCtors(clbzz, types, this.constructor);
+                Fbctory.mbkeGetters(clbzz, types, this.getters);
+                Fbctory.mbkeNominblGetters(types, this.nominblGetters, this.getters);
             }
         }
 
-        private SpeciesData(String typeChars) {
-            // Placeholder only.
-            this.typeChars = typeChars;
-            this.typeCodes = basicTypes(typeChars);
-            this.clazz = null;
+        privbte SpeciesDbtb(String typeChbrs) {
+            // Plbceholder only.
+            this.typeChbrs = typeChbrs;
+            this.typeCodes = bbsicTypes(typeChbrs);
+            this.clbzz = null;
             this.constructor = null;
             this.getters = null;
-            this.nominalGetters = null;
+            this.nominblGetters = null;
             this.extensions = null;
         }
-        private boolean isPlaceholder() { return clazz == null; }
+        privbte boolebn isPlbceholder() { return clbzz == null; }
 
-        private static final HashMap<String, SpeciesData> CACHE = new HashMap<>();
-        static { CACHE.put("", EMPTY); }  // make bootstrap predictable
-        private static final boolean INIT_DONE;  // set after <clinit> finishes...
+        privbte stbtic finbl HbshMbp<String, SpeciesDbtb> CACHE = new HbshMbp<>();
+        stbtic { CACHE.put("", EMPTY); }  // mbke bootstrbp predictbble
+        privbte stbtic finbl boolebn INIT_DONE;  // set bfter <clinit> finishes...
 
-        SpeciesData extendWith(byte type) {
-            return extendWith(BasicType.basicType(type));
+        SpeciesDbtb extendWith(byte type) {
+            return extendWith(BbsicType.bbsicType(type));
         }
 
-        SpeciesData extendWith(BasicType type) {
-            int ord = type.ordinal();
-            SpeciesData d = extensions[ord];
+        SpeciesDbtb extendWith(BbsicType type) {
+            int ord = type.ordinbl();
+            SpeciesDbtb d = extensions[ord];
             if (d != null)  return d;
-            extensions[ord] = d = get(typeChars+type.basicTypeChar());
+            extensions[ord] = d = get(typeChbrs+type.bbsicTypeChbr());
             return d;
         }
 
-        private static SpeciesData get(String types) {
-            // Acquire cache lock for query.
-            SpeciesData d = lookupCache(types);
-            if (!d.isPlaceholder())
+        privbte stbtic SpeciesDbtb get(String types) {
+            // Acquire cbche lock for query.
+            SpeciesDbtb d = lookupCbche(types);
+            if (!d.isPlbceholder())
                 return d;
             synchronized (d) {
-                // Use synch. on the placeholder to prevent multiple instantiation of one species.
-                // Creating this class forces a recursive call to getForClass.
-                if (lookupCache(types).isPlaceholder())
-                    Factory.generateConcreteBMHClass(types);
+                // Use synch. on the plbceholder to prevent multiple instbntibtion of one species.
+                // Crebting this clbss forces b recursive cbll to getForClbss.
+                if (lookupCbche(types).isPlbceholder())
+                    Fbctory.generbteConcreteBMHClbss(types);
             }
-            // Reacquire cache lock.
-            d = lookupCache(types);
-            // Class loading must have upgraded the cache.
-            assert(d != null && !d.isPlaceholder());
+            // Rebcquire cbche lock.
+            d = lookupCbche(types);
+            // Clbss lobding must hbve upgrbded the cbche.
+            bssert(d != null && !d.isPlbceholder());
             return d;
         }
-        static SpeciesData getForClass(String types, Class<? extends BoundMethodHandle> clazz) {
-            // clazz is a new class which is initializing its SPECIES_DATA field
-            return updateCache(types, new SpeciesData(types, clazz));
+        stbtic SpeciesDbtb getForClbss(String types, Clbss<? extends BoundMethodHbndle> clbzz) {
+            // clbzz is b new clbss which is initiblizing its SPECIES_DATA field
+            return updbteCbche(types, new SpeciesDbtb(types, clbzz));
         }
-        private static synchronized SpeciesData lookupCache(String types) {
-            SpeciesData d = CACHE.get(types);
+        privbte stbtic synchronized SpeciesDbtb lookupCbche(String types) {
+            SpeciesDbtb d = CACHE.get(types);
             if (d != null)  return d;
-            d = new SpeciesData(types);
-            assert(d.isPlaceholder());
+            d = new SpeciesDbtb(types);
+            bssert(d.isPlbceholder());
             CACHE.put(types, d);
             return d;
         }
-        private static synchronized SpeciesData updateCache(String types, SpeciesData d) {
-            SpeciesData d2;
-            assert((d2 = CACHE.get(types)) == null || d2.isPlaceholder());
-            assert(!d.isPlaceholder());
+        privbte stbtic synchronized SpeciesDbtb updbteCbche(String types, SpeciesDbtb d) {
+            SpeciesDbtb d2;
+            bssert((d2 = CACHE.get(types)) == null || d2.isPlbceholder());
+            bssert(!d.isPlbceholder());
             CACHE.put(types, d);
             return d;
         }
 
-        static {
-            // pre-fill the BMH speciesdata cache with BMH's inner classes
-            final Class<BoundMethodHandle> rootCls = BoundMethodHandle.class;
+        stbtic {
+            // pre-fill the BMH speciesdbtb cbche with BMH's inner clbsses
+            finbl Clbss<BoundMethodHbndle> rootCls = BoundMethodHbndle.clbss;
             try {
-                for (Class<?> c : rootCls.getDeclaredClasses()) {
-                    if (rootCls.isAssignableFrom(c)) {
-                        final Class<? extends BoundMethodHandle> cbmh = c.asSubclass(BoundMethodHandle.class);
-                        SpeciesData d = Factory.speciesDataFromConcreteBMHClass(cbmh);
-                        assert(d != null) : cbmh.getName();
-                        assert(d.clazz == cbmh);
-                        assert(d == lookupCache(d.typeChars));
+                for (Clbss<?> c : rootCls.getDeclbredClbsses()) {
+                    if (rootCls.isAssignbbleFrom(c)) {
+                        finbl Clbss<? extends BoundMethodHbndle> cbmh = c.bsSubclbss(BoundMethodHbndle.clbss);
+                        SpeciesDbtb d = Fbctory.speciesDbtbFromConcreteBMHClbss(cbmh);
+                        bssert(d != null) : cbmh.getNbme();
+                        bssert(d.clbzz == cbmh);
+                        bssert(d == lookupCbche(d.typeChbrs));
                     }
                 }
-            } catch (Throwable e) {
-                throw newInternalError(e);
+            } cbtch (Throwbble e) {
+                throw newInternblError(e);
             }
 
-            for (SpeciesData d : CACHE.values()) {
-                d.initForBootstrap();
+            for (SpeciesDbtb d : CACHE.vblues()) {
+                d.initForBootstrbp();
             }
-            // Note:  Do not simplify this, because INIT_DONE must not be
-            // a compile-time constant during bootstrapping.
-            INIT_DONE = Boolean.TRUE;
+            // Note:  Do not simplify this, becbuse INIT_DONE must not be
+            // b compile-time constbnt during bootstrbpping.
+            INIT_DONE = Boolebn.TRUE;
         }
     }
 
-    static SpeciesData getSpeciesData(String types) {
-        return SpeciesData.get(types);
+    stbtic SpeciesDbtb getSpeciesDbtb(String types) {
+        return SpeciesDbtb.get(types);
     }
 
     /**
-     * Generation of concrete BMH classes.
+     * Generbtion of concrete BMH clbsses.
      *
-     * A concrete BMH species is fit for binding a number of values adhering to a
-     * given type pattern. Reference types are erased.
+     * A concrete BMH species is fit for binding b number of vblues bdhering to b
+     * given type pbttern. Reference types bre erbsed.
      *
-     * BMH species are cached by type pattern.
+     * BMH species bre cbched by type pbttern.
      *
-     * A BMH species has a number of fields with the concrete (possibly erased) types of
-     * bound values. Setters are provided as an API in BMH. Getters are exposed as MHs,
-     * which can be included as names in lambda forms.
+     * A BMH species hbs b number of fields with the concrete (possibly erbsed) types of
+     * bound vblues. Setters bre provided bs bn API in BMH. Getters bre exposed bs MHs,
+     * which cbn be included bs nbmes in lbmbdb forms.
      */
-    static class Factory {
+    stbtic clbss Fbctory {
 
-        static final String JLO_SIG  = "Ljava/lang/Object;";
-        static final String JLS_SIG  = "Ljava/lang/String;";
-        static final String JLC_SIG  = "Ljava/lang/Class;";
-        static final String MH       = "java/lang/invoke/MethodHandle";
-        static final String MH_SIG   = "L"+MH+";";
-        static final String BMH      = "java/lang/invoke/BoundMethodHandle";
-        static final String BMH_SIG  = "L"+BMH+";";
-        static final String SPECIES_DATA     = "java/lang/invoke/BoundMethodHandle$SpeciesData";
-        static final String SPECIES_DATA_SIG = "L"+SPECIES_DATA+";";
+        stbtic finbl String JLO_SIG  = "Ljbvb/lbng/Object;";
+        stbtic finbl String JLS_SIG  = "Ljbvb/lbng/String;";
+        stbtic finbl String JLC_SIG  = "Ljbvb/lbng/Clbss;";
+        stbtic finbl String MH       = "jbvb/lbng/invoke/MethodHbndle";
+        stbtic finbl String MH_SIG   = "L"+MH+";";
+        stbtic finbl String BMH      = "jbvb/lbng/invoke/BoundMethodHbndle";
+        stbtic finbl String BMH_SIG  = "L"+BMH+";";
+        stbtic finbl String SPECIES_DATA     = "jbvb/lbng/invoke/BoundMethodHbndle$SpeciesDbtb";
+        stbtic finbl String SPECIES_DATA_SIG = "L"+SPECIES_DATA+";";
 
-        static final String SPECIES_PREFIX_NAME = "Species_";
-        static final String SPECIES_PREFIX_PATH = BMH + "$" + SPECIES_PREFIX_NAME;
+        stbtic finbl String SPECIES_PREFIX_NAME = "Species_";
+        stbtic finbl String SPECIES_PREFIX_PATH = BMH + "$" + SPECIES_PREFIX_NAME;
 
-        static final String BMHSPECIES_DATA_EWI_SIG = "(B)" + SPECIES_DATA_SIG;
-        static final String BMHSPECIES_DATA_GFC_SIG = "(" + JLS_SIG + JLC_SIG + ")" + SPECIES_DATA_SIG;
-        static final String MYSPECIES_DATA_SIG = "()" + SPECIES_DATA_SIG;
-        static final String VOID_SIG   = "()V";
-        static final String INT_SIG    = "()I";
+        stbtic finbl String BMHSPECIES_DATA_EWI_SIG = "(B)" + SPECIES_DATA_SIG;
+        stbtic finbl String BMHSPECIES_DATA_GFC_SIG = "(" + JLS_SIG + JLC_SIG + ")" + SPECIES_DATA_SIG;
+        stbtic finbl String MYSPECIES_DATA_SIG = "()" + SPECIES_DATA_SIG;
+        stbtic finbl String VOID_SIG   = "()V";
+        stbtic finbl String INT_SIG    = "()I";
 
-        static final String SIG_INCIPIT = "(Ljava/lang/invoke/MethodType;Ljava/lang/invoke/LambdaForm;";
+        stbtic finbl String SIG_INCIPIT = "(Ljbvb/lbng/invoke/MethodType;Ljbvb/lbng/invoke/LbmbdbForm;";
 
-        static final String[] E_THROWABLE = new String[] { "java/lang/Throwable" };
+        stbtic finbl String[] E_THROWABLE = new String[] { "jbvb/lbng/Throwbble" };
 
         /**
-         * Generate a concrete subclass of BMH for a given combination of bound types.
+         * Generbte b concrete subclbss of BMH for b given combinbtion of bound types.
          *
-         * A concrete BMH species adheres to the following schema:
+         * A concrete BMH species bdheres to the following schemb:
          *
          * <pre>
-         * class Species_[[types]] extends BoundMethodHandle {
+         * clbss Species_[[types]] extends BoundMethodHbndle {
          *     [[fields]]
-         *     final SpeciesData speciesData() { return SpeciesData.get("[[types]]"); }
+         *     finbl SpeciesDbtb speciesDbtb() { return SpeciesDbtb.get("[[types]]"); }
          * }
          * </pre>
          *
-         * The {@code [[types]]} signature is precisely the string that is passed to this
+         * The {@code [[types]]} signbture is precisely the string thbt is pbssed to this
          * method.
          *
-         * The {@code [[fields]]} section consists of one field definition per character in
-         * the type signature, adhering to the naming schema described in the definition of
-         * {@link #makeFieldName}.
+         * The {@code [[fields]]} section consists of one field definition per chbrbcter in
+         * the type signbture, bdhering to the nbming schemb described in the definition of
+         * {@link #mbkeFieldNbme}.
          *
-         * For example, a concrete BMH species for two reference and one integral bound values
-         * would have the following shape:
+         * For exbmple, b concrete BMH species for two reference bnd one integrbl bound vblues
+         * would hbve the following shbpe:
          *
          * <pre>
-         * class BoundMethodHandle { ... private static
-         * final class Species_LLI extends BoundMethodHandle {
-         *     final Object argL0;
-         *     final Object argL1;
-         *     final int argI2;
-         *     private Species_LLI(MethodType mt, LambdaForm lf, Object argL0, Object argL1, int argI2) {
+         * clbss BoundMethodHbndle { ... privbte stbtic
+         * finbl clbss Species_LLI extends BoundMethodHbndle {
+         *     finbl Object brgL0;
+         *     finbl Object brgL1;
+         *     finbl int brgI2;
+         *     privbte Species_LLI(MethodType mt, LbmbdbForm lf, Object brgL0, Object brgL1, int brgI2) {
          *         super(mt, lf);
-         *         this.argL0 = argL0;
-         *         this.argL1 = argL1;
-         *         this.argI2 = argI2;
+         *         this.brgL0 = brgL0;
+         *         this.brgL1 = brgL1;
+         *         this.brgI2 = brgI2;
          *     }
-         *     final SpeciesData speciesData() { return SPECIES_DATA; }
-         *     final int fieldCount() { return 3; }
-         *     static final SpeciesData SPECIES_DATA = SpeciesData.getForClass("LLI", Species_LLI.class);
-         *     static BoundMethodHandle make(MethodType mt, LambdaForm lf, Object argL0, Object argL1, int argI2) {
-         *         return new Species_LLI(mt, lf, argL0, argL1, argI2);
+         *     finbl SpeciesDbtb speciesDbtb() { return SPECIES_DATA; }
+         *     finbl int fieldCount() { return 3; }
+         *     stbtic finbl SpeciesDbtb SPECIES_DATA = SpeciesDbtb.getForClbss("LLI", Species_LLI.clbss);
+         *     stbtic BoundMethodHbndle mbke(MethodType mt, LbmbdbForm lf, Object brgL0, Object brgL1, int brgI2) {
+         *         return new Species_LLI(mt, lf, brgL0, brgL1, brgI2);
          *     }
-         *     final BoundMethodHandle copyWith(MethodType mt, LambdaForm lf) {
-         *         return new Species_LLI(mt, lf, argL0, argL1, argI2);
+         *     finbl BoundMethodHbndle copyWith(MethodType mt, LbmbdbForm lf) {
+         *         return new Species_LLI(mt, lf, brgL0, brgL1, brgI2);
          *     }
-         *     final BoundMethodHandle copyWithExtendL(MethodType mt, LambdaForm lf, Object narg) {
-         *         return SPECIES_DATA.extendWith(L_TYPE).constructor[0].invokeBasic(mt, lf, argL0, argL1, argI2, narg);
+         *     finbl BoundMethodHbndle copyWithExtendL(MethodType mt, LbmbdbForm lf, Object nbrg) {
+         *         return SPECIES_DATA.extendWith(L_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, brgL1, brgI2, nbrg);
          *     }
-         *     final BoundMethodHandle copyWithExtendI(MethodType mt, LambdaForm lf, int narg) {
-         *         return SPECIES_DATA.extendWith(I_TYPE).constructor[0].invokeBasic(mt, lf, argL0, argL1, argI2, narg);
+         *     finbl BoundMethodHbndle copyWithExtendI(MethodType mt, LbmbdbForm lf, int nbrg) {
+         *         return SPECIES_DATA.extendWith(I_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, brgL1, brgI2, nbrg);
          *     }
-         *     final BoundMethodHandle copyWithExtendJ(MethodType mt, LambdaForm lf, long narg) {
-         *         return SPECIES_DATA.extendWith(J_TYPE).constructor[0].invokeBasic(mt, lf, argL0, argL1, argI2, narg);
+         *     finbl BoundMethodHbndle copyWithExtendJ(MethodType mt, LbmbdbForm lf, long nbrg) {
+         *         return SPECIES_DATA.extendWith(J_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, brgL1, brgI2, nbrg);
          *     }
-         *     final BoundMethodHandle copyWithExtendF(MethodType mt, LambdaForm lf, float narg) {
-         *         return SPECIES_DATA.extendWith(F_TYPE).constructor[0].invokeBasic(mt, lf, argL0, argL1, argI2, narg);
+         *     finbl BoundMethodHbndle copyWithExtendF(MethodType mt, LbmbdbForm lf, flobt nbrg) {
+         *         return SPECIES_DATA.extendWith(F_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, brgL1, brgI2, nbrg);
          *     }
-         *     public final BoundMethodHandle copyWithExtendD(MethodType mt, LambdaForm lf, double narg) {
-         *         return SPECIES_DATA.extendWith(D_TYPE).constructor[0].invokeBasic(mt, lf, argL0, argL1, argI2, narg);
+         *     public finbl BoundMethodHbndle copyWithExtendD(MethodType mt, LbmbdbForm lf, double nbrg) {
+         *         return SPECIES_DATA.extendWith(D_TYPE).constructor[0].invokeBbsic(mt, lf, brgL0, brgL1, brgI2, nbrg);
          *     }
          * }
          * </pre>
          *
-         * @param types the type signature, wherein reference types are erased to 'L'
-         * @return the generated concrete BMH class
+         * @pbrbm types the type signbture, wherein reference types bre erbsed to 'L'
+         * @return the generbted concrete BMH clbss
          */
-        static Class<? extends BoundMethodHandle> generateConcreteBMHClass(String types) {
-            final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS + ClassWriter.COMPUTE_FRAMES);
+        stbtic Clbss<? extends BoundMethodHbndle> generbteConcreteBMHClbss(String types) {
+            finbl ClbssWriter cw = new ClbssWriter(ClbssWriter.COMPUTE_MAXS + ClbssWriter.COMPUTE_FRAMES);
 
-            String shortTypes = LambdaForm.shortenSignature(types);
-            final String className  = SPECIES_PREFIX_PATH + shortTypes;
-            final String sourceFile = SPECIES_PREFIX_NAME + shortTypes;
-            final int NOT_ACC_PUBLIC = 0;  // not ACC_PUBLIC
-            cw.visit(V1_6, NOT_ACC_PUBLIC + ACC_FINAL + ACC_SUPER, className, null, BMH, null);
+            String shortTypes = LbmbdbForm.shortenSignbture(types);
+            finbl String clbssNbme  = SPECIES_PREFIX_PATH + shortTypes;
+            finbl String sourceFile = SPECIES_PREFIX_NAME + shortTypes;
+            finbl int NOT_ACC_PUBLIC = 0;  // not ACC_PUBLIC
+            cw.visit(V1_6, NOT_ACC_PUBLIC + ACC_FINAL + ACC_SUPER, clbssNbme, null, BMH, null);
             cw.visitSource(sourceFile, null);
 
-            // emit static types and SPECIES_DATA fields
+            // emit stbtic types bnd SPECIES_DATA fields
             cw.visitField(NOT_ACC_PUBLIC + ACC_STATIC, "SPECIES_DATA", SPECIES_DATA_SIG, null, null).visitEnd();
 
-            // emit bound argument fields
+            // emit bound brgument fields
             for (int i = 0; i < types.length(); ++i) {
-                final char t = types.charAt(i);
-                final String fieldName = makeFieldName(types, i);
-                final String fieldDesc = t == 'L' ? JLO_SIG : String.valueOf(t);
-                cw.visitField(ACC_FINAL, fieldName, fieldDesc, null, null).visitEnd();
+                finbl chbr t = types.chbrAt(i);
+                finbl String fieldNbme = mbkeFieldNbme(types, i);
+                finbl String fieldDesc = t == 'L' ? JLO_SIG : String.vblueOf(t);
+                cw.visitField(ACC_FINAL, fieldNbme, fieldDesc, null, null).visitEnd();
             }
 
             MethodVisitor mv;
 
             // emit constructor
-            mv = cw.visitMethod(ACC_PRIVATE, "<init>", makeSignature(types, true), null, null);
+            mv = cw.visitMethod(ACC_PRIVATE, "<init>", mbkeSignbture(types, true), null, null);
             mv.visitCode();
-            mv.visitVarInsn(ALOAD, 0); // this
-            mv.visitVarInsn(ALOAD, 1); // type
-            mv.visitVarInsn(ALOAD, 2); // form
+            mv.visitVbrInsn(ALOAD, 0); // this
+            mv.visitVbrInsn(ALOAD, 1); // type
+            mv.visitVbrInsn(ALOAD, 2); // form
 
-            mv.visitMethodInsn(INVOKESPECIAL, BMH, "<init>", makeSignature("", true), false);
+            mv.visitMethodInsn(INVOKESPECIAL, BMH, "<init>", mbkeSignbture("", true), fblse);
 
             for (int i = 0, j = 0; i < types.length(); ++i, ++j) {
-                // i counts the arguments, j counts corresponding argument slots
-                char t = types.charAt(i);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitVarInsn(typeLoadOp(t), j + 3); // parameters start at 3
-                mv.visitFieldInsn(PUTFIELD, className, makeFieldName(types, i), typeSig(t));
+                // i counts the brguments, j counts corresponding brgument slots
+                chbr t = types.chbrAt(i);
+                mv.visitVbrInsn(ALOAD, 0);
+                mv.visitVbrInsn(typeLobdOp(t), j + 3); // pbrbmeters stbrt bt 3
+                mv.visitFieldInsn(PUTFIELD, clbssNbme, mbkeFieldNbme(types, i), typeSig(t));
                 if (t == 'J' || t == 'D') {
-                    ++j; // adjust argument register access
+                    ++j; // bdjust brgument register bccess
                 }
             }
 
             mv.visitInsn(RETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
-            // emit implementation of reinvokerTarget()
-            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "reinvokerTarget", "()" + MH_SIG, null, null);
+            // emit implementbtion of reinvokerTbrget()
+            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "reinvokerTbrget", "()" + MH_SIG, null, null);
             mv.visitCode();
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, className, "argL0", JLO_SIG);
+            mv.visitVbrInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, clbssNbme, "brgL0", JLO_SIG);
             mv.visitTypeInsn(CHECKCAST, MH);
             mv.visitInsn(ARETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
-            // emit implementation of speciesData()
-            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "speciesData", MYSPECIES_DATA_SIG, null, null);
+            // emit implementbtion of speciesDbtb()
+            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "speciesDbtb", MYSPECIES_DATA_SIG, null, null);
             mv.visitCode();
-            mv.visitFieldInsn(GETSTATIC, className, "SPECIES_DATA", SPECIES_DATA_SIG);
+            mv.visitFieldInsn(GETSTATIC, clbssNbme, "SPECIES_DATA", SPECIES_DATA_SIG);
             mv.visitInsn(ARETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
-            // emit implementation of fieldCount()
+            // emit implementbtion of fieldCount()
             mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "fieldCount", INT_SIG, null, null);
             mv.visitCode();
             int fc = types.length();
@@ -603,225 +603,225 @@ import jdk.internal.org.objectweb.asm.Type;
                 mv.visitIntInsn(SIPUSH, fc);
             }
             mv.visitInsn(IRETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
-            // emit make()  ...factory method wrapping constructor
-            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_STATIC, "make", makeSignature(types, false), null, null);
+            // emit mbke()  ...fbctory method wrbpping constructor
+            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_STATIC, "mbke", mbkeSignbture(types, fblse), null, null);
             mv.visitCode();
-            // make instance
-            mv.visitTypeInsn(NEW, className);
+            // mbke instbnce
+            mv.visitTypeInsn(NEW, clbssNbme);
             mv.visitInsn(DUP);
-            // load mt, lf
-            mv.visitVarInsn(ALOAD, 0);  // type
-            mv.visitVarInsn(ALOAD, 1);  // form
-            // load factory method arguments
+            // lobd mt, lf
+            mv.visitVbrInsn(ALOAD, 0);  // type
+            mv.visitVbrInsn(ALOAD, 1);  // form
+            // lobd fbctory method brguments
             for (int i = 0, j = 0; i < types.length(); ++i, ++j) {
-                // i counts the arguments, j counts corresponding argument slots
-                char t = types.charAt(i);
-                mv.visitVarInsn(typeLoadOp(t), j + 2); // parameters start at 3
+                // i counts the brguments, j counts corresponding brgument slots
+                chbr t = types.chbrAt(i);
+                mv.visitVbrInsn(typeLobdOp(t), j + 2); // pbrbmeters stbrt bt 3
                 if (t == 'J' || t == 'D') {
-                    ++j; // adjust argument register access
+                    ++j; // bdjust brgument register bccess
                 }
             }
 
-            // finally, invoke the constructor and return
-            mv.visitMethodInsn(INVOKESPECIAL, className, "<init>", makeSignature(types, true), false);
+            // finblly, invoke the constructor bnd return
+            mv.visitMethodInsn(INVOKESPECIAL, clbssNbme, "<init>", mbkeSignbture(types, true), fblse);
             mv.visitInsn(ARETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
             // emit copyWith()
-            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "copyWith", makeSignature("", false), null, null);
+            mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "copyWith", mbkeSignbture("", fblse), null, null);
             mv.visitCode();
-            // make instance
-            mv.visitTypeInsn(NEW, className);
+            // mbke instbnce
+            mv.visitTypeInsn(NEW, clbssNbme);
             mv.visitInsn(DUP);
-            // load mt, lf
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitVarInsn(ALOAD, 2);
-            // put fields on the stack
-            emitPushFields(types, className, mv);
-            // finally, invoke the constructor and return
-            mv.visitMethodInsn(INVOKESPECIAL, className, "<init>", makeSignature(types, true), false);
+            // lobd mt, lf
+            mv.visitVbrInsn(ALOAD, 1);
+            mv.visitVbrInsn(ALOAD, 2);
+            // put fields on the stbck
+            emitPushFields(types, clbssNbme, mv);
+            // finblly, invoke the constructor bnd return
+            mv.visitMethodInsn(INVOKESPECIAL, clbssNbme, "<init>", mbkeSignbture(types, true), fblse);
             mv.visitInsn(ARETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
-            // for each type, emit copyWithExtendT()
-            for (BasicType type : BasicType.ARG_TYPES) {
-                int ord = type.ordinal();
-                char btChar = type.basicTypeChar();
-                mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "copyWithExtend" + btChar, makeSignature(String.valueOf(btChar), false), null, E_THROWABLE);
+            // for ebch type, emit copyWithExtendT()
+            for (BbsicType type : BbsicType.ARG_TYPES) {
+                int ord = type.ordinbl();
+                chbr btChbr = type.bbsicTypeChbr();
+                mv = cw.visitMethod(NOT_ACC_PUBLIC + ACC_FINAL, "copyWithExtend" + btChbr, mbkeSignbture(String.vblueOf(btChbr), fblse), null, E_THROWABLE);
                 mv.visitCode();
-                // return SPECIES_DATA.extendWith(t).constructor[0].invokeBasic(mt, lf, argL0, ..., narg)
-                // obtain constructor
-                mv.visitFieldInsn(GETSTATIC, className, "SPECIES_DATA", SPECIES_DATA_SIG);
+                // return SPECIES_DATA.extendWith(t).constructor[0].invokeBbsic(mt, lf, brgL0, ..., nbrg)
+                // obtbin constructor
+                mv.visitFieldInsn(GETSTATIC, clbssNbme, "SPECIES_DATA", SPECIES_DATA_SIG);
                 int iconstInsn = ICONST_0 + ord;
-                assert(iconstInsn <= ICONST_5);
+                bssert(iconstInsn <= ICONST_5);
                 mv.visitInsn(iconstInsn);
-                mv.visitMethodInsn(INVOKEVIRTUAL, SPECIES_DATA, "extendWith", BMHSPECIES_DATA_EWI_SIG, false);
+                mv.visitMethodInsn(INVOKEVIRTUAL, SPECIES_DATA, "extendWith", BMHSPECIES_DATA_EWI_SIG, fblse);
                 mv.visitFieldInsn(GETFIELD, SPECIES_DATA, "constructor", "[" + MH_SIG);
                 mv.visitInsn(ICONST_0);
                 mv.visitInsn(AALOAD);
-                // load mt, lf
-                mv.visitVarInsn(ALOAD, 1);
-                mv.visitVarInsn(ALOAD, 2);
-                // put fields on the stack
-                emitPushFields(types, className, mv);
-                // put narg on stack
-                mv.visitVarInsn(typeLoadOp(btChar), 3);
-                // finally, invoke the constructor and return
-                mv.visitMethodInsn(INVOKEVIRTUAL, MH, "invokeBasic", makeSignature(types + btChar, false), false);
+                // lobd mt, lf
+                mv.visitVbrInsn(ALOAD, 1);
+                mv.visitVbrInsn(ALOAD, 2);
+                // put fields on the stbck
+                emitPushFields(types, clbssNbme, mv);
+                // put nbrg on stbck
+                mv.visitVbrInsn(typeLobdOp(btChbr), 3);
+                // finblly, invoke the constructor bnd return
+                mv.visitMethodInsn(INVOKEVIRTUAL, MH, "invokeBbsic", mbkeSignbture(types + btChbr, fblse), fblse);
                 mv.visitInsn(ARETURN);
-                mv.visitMaxs(0, 0);
+                mv.visitMbxs(0, 0);
                 mv.visitEnd();
             }
 
-            // emit class initializer
+            // emit clbss initiblizer
             mv = cw.visitMethod(NOT_ACC_PUBLIC | ACC_STATIC, "<clinit>", VOID_SIG, null, null);
             mv.visitCode();
             mv.visitLdcInsn(types);
-            mv.visitLdcInsn(Type.getObjectType(className));
-            mv.visitMethodInsn(INVOKESTATIC, SPECIES_DATA, "getForClass", BMHSPECIES_DATA_GFC_SIG, false);
-            mv.visitFieldInsn(PUTSTATIC, className, "SPECIES_DATA", SPECIES_DATA_SIG);
+            mv.visitLdcInsn(Type.getObjectType(clbssNbme));
+            mv.visitMethodInsn(INVOKESTATIC, SPECIES_DATA, "getForClbss", BMHSPECIES_DATA_GFC_SIG, fblse);
+            mv.visitFieldInsn(PUTSTATIC, clbssNbme, "SPECIES_DATA", SPECIES_DATA_SIG);
             mv.visitInsn(RETURN);
-            mv.visitMaxs(0, 0);
+            mv.visitMbxs(0, 0);
             mv.visitEnd();
 
             cw.visitEnd();
 
-            // load class
-            final byte[] classFile = cw.toByteArray();
-            InvokerBytecodeGenerator.maybeDump(className, classFile);
-            Class<? extends BoundMethodHandle> bmhClass =
-                //UNSAFE.defineAnonymousClass(BoundMethodHandle.class, classFile, null).asSubclass(BoundMethodHandle.class);
-                UNSAFE.defineClass(className, classFile, 0, classFile.length,
-                                   BoundMethodHandle.class.getClassLoader(), null)
-                    .asSubclass(BoundMethodHandle.class);
-            UNSAFE.ensureClassInitialized(bmhClass);
+            // lobd clbss
+            finbl byte[] clbssFile = cw.toByteArrby();
+            InvokerBytecodeGenerbtor.mbybeDump(clbssNbme, clbssFile);
+            Clbss<? extends BoundMethodHbndle> bmhClbss =
+                //UNSAFE.defineAnonymousClbss(BoundMethodHbndle.clbss, clbssFile, null).bsSubclbss(BoundMethodHbndle.clbss);
+                UNSAFE.defineClbss(clbssNbme, clbssFile, 0, clbssFile.length,
+                                   BoundMethodHbndle.clbss.getClbssLobder(), null)
+                    .bsSubclbss(BoundMethodHbndle.clbss);
+            UNSAFE.ensureClbssInitiblized(bmhClbss);
 
-            return bmhClass;
+            return bmhClbss;
         }
 
-        private static int typeLoadOp(char t) {
+        privbte stbtic int typeLobdOp(chbr t) {
             switch (t) {
-            case 'L': return ALOAD;
-            case 'I': return ILOAD;
-            case 'J': return LLOAD;
-            case 'F': return FLOAD;
-            case 'D': return DLOAD;
-            default : throw newInternalError("unrecognized type " + t);
+            cbse 'L': return ALOAD;
+            cbse 'I': return ILOAD;
+            cbse 'J': return LLOAD;
+            cbse 'F': return FLOAD;
+            cbse 'D': return DLOAD;
+            defbult : throw newInternblError("unrecognized type " + t);
             }
         }
 
-        private static void emitPushFields(String types, String className, MethodVisitor mv) {
+        privbte stbtic void emitPushFields(String types, String clbssNbme, MethodVisitor mv) {
             for (int i = 0; i < types.length(); ++i) {
-                char tc = types.charAt(i);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETFIELD, className, makeFieldName(types, i), typeSig(tc));
+                chbr tc = types.chbrAt(i);
+                mv.visitVbrInsn(ALOAD, 0);
+                mv.visitFieldInsn(GETFIELD, clbssNbme, mbkeFieldNbme(types, i), typeSig(tc));
             }
         }
 
-        static String typeSig(char t) {
-            return t == 'L' ? JLO_SIG : String.valueOf(t);
+        stbtic String typeSig(chbr t) {
+            return t == 'L' ? JLO_SIG : String.vblueOf(t);
         }
 
         //
-        // Getter MH generation.
+        // Getter MH generbtion.
         //
 
-        private static MethodHandle makeGetter(Class<?> cbmhClass, String types, int index) {
-            String fieldName = makeFieldName(types, index);
-            Class<?> fieldType = Wrapper.forBasicType(types.charAt(index)).primitiveType();
+        privbte stbtic MethodHbndle mbkeGetter(Clbss<?> cbmhClbss, String types, int index) {
+            String fieldNbme = mbkeFieldNbme(types, index);
+            Clbss<?> fieldType = Wrbpper.forBbsicType(types.chbrAt(index)).primitiveType();
             try {
-                return LOOKUP.findGetter(cbmhClass, fieldName, fieldType);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw newInternalError(e);
+                return LOOKUP.findGetter(cbmhClbss, fieldNbme, fieldType);
+            } cbtch (NoSuchFieldException | IllegblAccessException e) {
+                throw newInternblError(e);
             }
         }
 
-        static MethodHandle[] makeGetters(Class<?> cbmhClass, String types, MethodHandle[] mhs) {
-            if (mhs == null)  mhs = new MethodHandle[types.length()];
+        stbtic MethodHbndle[] mbkeGetters(Clbss<?> cbmhClbss, String types, MethodHbndle[] mhs) {
+            if (mhs == null)  mhs = new MethodHbndle[types.length()];
             for (int i = 0; i < mhs.length; ++i) {
-                mhs[i] = makeGetter(cbmhClass, types, i);
-                assert(mhs[i].internalMemberName().getDeclaringClass() == cbmhClass);
+                mhs[i] = mbkeGetter(cbmhClbss, types, i);
+                bssert(mhs[i].internblMemberNbme().getDeclbringClbss() == cbmhClbss);
             }
             return mhs;
         }
 
-        static MethodHandle[] makeCtors(Class<? extends BoundMethodHandle> cbmh, String types, MethodHandle mhs[]) {
-            if (mhs == null)  mhs = new MethodHandle[1];
-            if (types.equals(""))  return mhs;  // hack for empty BMH species
-            mhs[0] = makeCbmhCtor(cbmh, types);
+        stbtic MethodHbndle[] mbkeCtors(Clbss<? extends BoundMethodHbndle> cbmh, String types, MethodHbndle mhs[]) {
+            if (mhs == null)  mhs = new MethodHbndle[1];
+            if (types.equbls(""))  return mhs;  // hbck for empty BMH species
+            mhs[0] = mbkeCbmhCtor(cbmh, types);
             return mhs;
         }
 
-        static NamedFunction[] makeNominalGetters(String types, NamedFunction[] nfs, MethodHandle[] getters) {
-            if (nfs == null)  nfs = new NamedFunction[types.length()];
+        stbtic NbmedFunction[] mbkeNominblGetters(String types, NbmedFunction[] nfs, MethodHbndle[] getters) {
+            if (nfs == null)  nfs = new NbmedFunction[types.length()];
             for (int i = 0; i < nfs.length; ++i) {
-                nfs[i] = new NamedFunction(getters[i]);
+                nfs[i] = new NbmedFunction(getters[i]);
             }
             return nfs;
         }
 
         //
-        // Auxiliary methods.
+        // Auxilibry methods.
         //
 
-        static SpeciesData speciesDataFromConcreteBMHClass(Class<? extends BoundMethodHandle> cbmh) {
+        stbtic SpeciesDbtb speciesDbtbFromConcreteBMHClbss(Clbss<? extends BoundMethodHbndle> cbmh) {
             try {
-                Field F_SPECIES_DATA = cbmh.getDeclaredField("SPECIES_DATA");
-                return (SpeciesData) F_SPECIES_DATA.get(null);
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError(ex);
+                Field F_SPECIES_DATA = cbmh.getDeclbredField("SPECIES_DATA");
+                return (SpeciesDbtb) F_SPECIES_DATA.get(null);
+            } cbtch (ReflectiveOperbtionException ex) {
+                throw newInternblError(ex);
             }
         }
 
         /**
-         * Field names in concrete BMHs adhere to this pattern:
-         * arg + type + index
-         * where type is a single character (L, I, J, F, D).
+         * Field nbmes in concrete BMHs bdhere to this pbttern:
+         * brg + type + index
+         * where type is b single chbrbcter (L, I, J, F, D).
          */
-        private static String makeFieldName(String types, int index) {
-            assert index >= 0 && index < types.length();
-            return "arg" + types.charAt(index) + index;
+        privbte stbtic String mbkeFieldNbme(String types, int index) {
+            bssert index >= 0 && index < types.length();
+            return "brg" + types.chbrAt(index) + index;
         }
 
-        private static String makeSignature(String types, boolean ctor) {
+        privbte stbtic String mbkeSignbture(String types, boolebn ctor) {
             StringBuilder buf = new StringBuilder(SIG_INCIPIT);
-            for (char c : types.toCharArray()) {
-                buf.append(typeSig(c));
+            for (chbr c : types.toChbrArrby()) {
+                buf.bppend(typeSig(c));
             }
-            return buf.append(')').append(ctor ? "V" : BMH_SIG).toString();
+            return buf.bppend(')').bppend(ctor ? "V" : BMH_SIG).toString();
         }
 
-        static MethodHandle makeCbmhCtor(Class<? extends BoundMethodHandle> cbmh, String types) {
+        stbtic MethodHbndle mbkeCbmhCtor(Clbss<? extends BoundMethodHbndle> cbmh, String types) {
             try {
-                return LOOKUP.findStatic(cbmh, "make", MethodType.fromMethodDescriptorString(makeSignature(types, false), null));
-            } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | TypeNotPresentException e) {
-                throw newInternalError(e);
+                return LOOKUP.findStbtic(cbmh, "mbke", MethodType.fromMethodDescriptorString(mbkeSignbture(types, fblse), null));
+            } cbtch (NoSuchMethodException | IllegblAccessException | IllegblArgumentException | TypeNotPresentException e) {
+                throw newInternblError(e);
             }
         }
     }
 
-    private static final Lookup LOOKUP = Lookup.IMPL_LOOKUP;
+    privbte stbtic finbl Lookup LOOKUP = Lookup.IMPL_LOOKUP;
 
     /**
-     * All subclasses must provide such a value describing their type signature.
+     * All subclbsses must provide such b vblue describing their type signbture.
      */
-    static final SpeciesData SPECIES_DATA = SpeciesData.EMPTY;
+    stbtic finbl SpeciesDbtb SPECIES_DATA = SpeciesDbtb.EMPTY;
 
-    private static final SpeciesData[] SPECIES_DATA_CACHE = new SpeciesData[5];
-    private static SpeciesData checkCache(int size, String types) {
+    privbte stbtic finbl SpeciesDbtb[] SPECIES_DATA_CACHE = new SpeciesDbtb[5];
+    privbte stbtic SpeciesDbtb checkCbche(int size, String types) {
         int idx = size - 1;
-        SpeciesData data = SPECIES_DATA_CACHE[idx];
-        if (data != null)  return data;
-        SPECIES_DATA_CACHE[idx] = data = getSpeciesData(types);
-        return data;
+        SpeciesDbtb dbtb = SPECIES_DATA_CACHE[idx];
+        if (dbtb != null)  return dbtb;
+        SPECIES_DATA_CACHE[idx] = dbtb = getSpeciesDbtb(types);
+        return dbtb;
     }
-    static SpeciesData speciesData_L()     { return checkCache(1, "L"); }
-    static SpeciesData speciesData_LL()    { return checkCache(2, "LL"); }
-    static SpeciesData speciesData_LLL()   { return checkCache(3, "LLL"); }
-    static SpeciesData speciesData_LLLL()  { return checkCache(4, "LLLL"); }
-    static SpeciesData speciesData_LLLLL() { return checkCache(5, "LLLLL"); }
+    stbtic SpeciesDbtb speciesDbtb_L()     { return checkCbche(1, "L"); }
+    stbtic SpeciesDbtb speciesDbtb_LL()    { return checkCbche(2, "LL"); }
+    stbtic SpeciesDbtb speciesDbtb_LLL()   { return checkCbche(3, "LLL"); }
+    stbtic SpeciesDbtb speciesDbtb_LLLL()  { return checkCbche(4, "LLLL"); }
+    stbtic SpeciesDbtb speciesDbtb_LLLLL() { return checkCbche(5, "LLLLL"); }
 }

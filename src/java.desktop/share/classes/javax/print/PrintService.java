@@ -1,488 +1,488 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.event.PrintServiceAttributeListener;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.event.PrintServiceAttributeListener;
 
 
 /**
- * Interface PrintService is the factory for a DocPrintJob. A PrintService
- * describes the capabilities of a Printer and can be queried regarding
- * a printer's supported attributes.
+ * Interfbce PrintService is the fbctory for b DocPrintJob. A PrintService
+ * describes the cbpbbilities of b Printer bnd cbn be queried regbrding
+ * b printer's supported bttributes.
  * <P>
- * Example:
+ * Exbmple:
  *   <PRE>{@code
- *   DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
- *   PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
- *   aset.add(MediaSizeName.ISO_A4);
+ *   DocFlbvor flbvor = DocFlbvor.INPUT_STREAM.POSTSCRIPT;
+ *   PrintRequestAttributeSet bset = new HbshPrintRequestAttributeSet();
+ *   bset.bdd(MedibSizeNbme.ISO_A4);
  *   PrintService[] pservices =
- *                 PrintServiceLookup.lookupPrintServices(flavor, aset);
+ *                 PrintServiceLookup.lookupPrintServices(flbvor, bset);
  *   if (pservices.length > 0) {
- *       DocPrintJob pj = pservices[0].createPrintJob();
+ *       DocPrintJob pj = pservices[0].crebtePrintJob();
  *       try {
- *           FileInputStream fis = new FileInputStream("test.ps");
- *           Doc doc = new SimpleDoc(fis, flavor, null);
- *           pj.print(doc, aset);
- *        } catch (FileNotFoundException fe) {
- *        } catch (PrintException e) {
+ *           FileInputStrebm fis = new FileInputStrebm("test.ps");
+ *           Doc doc = new SimpleDoc(fis, flbvor, null);
+ *           pj.print(doc, bset);
+ *        } cbtch (FileNotFoundException fe) {
+ *        } cbtch (PrintException e) {
  *        }
  *   }
  *   }</PRE>
  */
-public interface PrintService {
+public interfbce PrintService {
 
-    /** Returns a String name for this print service which may be used
-      * by applications to request a particular print service.
-      * In a suitable context, such as a name service, this name must be
+    /** Returns b String nbme for this print service which mby be used
+      * by bpplicbtions to request b pbrticulbr print service.
+      * In b suitbble context, such bs b nbme service, this nbme must be
       * unique.
-      * In some environments this unique name may be the same as the user
-      * friendly printer name defined as the
-      * {@link javax.print.attribute.standard.PrinterName PrinterName}
-      * attribute.
-      * @return name of the service.
+      * In some environments this unique nbme mby be the sbme bs the user
+      * friendly printer nbme defined bs the
+      * {@link jbvbx.print.bttribute.stbndbrd.PrinterNbme PrinterNbme}
+      * bttribute.
+      * @return nbme of the service.
       */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Creates and returns a PrintJob capable of handling data from
-     * any of the supported document flavors.
-     * @return a DocPrintJob object
+     * Crebtes bnd returns b PrintJob cbpbble of hbndling dbtb from
+     * bny of the supported document flbvors.
+     * @return b DocPrintJob object
      */
-    public DocPrintJob createPrintJob();
+    public DocPrintJob crebtePrintJob();
 
     /**
-     * Registers a listener for events on this PrintService.
-     * @param listener  a PrintServiceAttributeListener, which
-     *        monitors the status of a print service
+     * Registers b listener for events on this PrintService.
+     * @pbrbm listener  b PrintServiceAttributeListener, which
+     *        monitors the stbtus of b print service
      * @see #removePrintServiceAttributeListener
      */
-    public void addPrintServiceAttributeListener(
+    public void bddPrintServiceAttributeListener(
                                        PrintServiceAttributeListener listener);
 
     /**
      * Removes the print-service listener from this print service.
-     * This means the listener is no longer interested in
+     * This mebns the listener is no longer interested in
      * <code>PrintService</code> events.
-     * @param listener  a PrintServiceAttributeListener object
-     * @see #addPrintServiceAttributeListener
+     * @pbrbm listener  b PrintServiceAttributeListener object
+     * @see #bddPrintServiceAttributeListener
      */
     public void removePrintServiceAttributeListener(
                                        PrintServiceAttributeListener listener);
 
     /**
-     * Obtains this print service's set of printer description attributes
-     * giving this Print Service's status. The returned attribute set object
-     * is unmodifiable. The returned attribute set object is a "snapshot" of
-     * this Print Service's attribute set at the time of the
-     * <CODE>getAttributes()</CODE> method call: that is, the returned
-     * attribute set's contents will <I>not</I> be updated if this print
-     * service's attribute set's contents change in the future. To detect
-     * changes in attribute values, call <CODE>getAttributes()</CODE> again
-     * and compare the new attribute set to the previous attribute set;
-     * alternatively, register a listener for print service events.
+     * Obtbins this print service's set of printer description bttributes
+     * giving this Print Service's stbtus. The returned bttribute set object
+     * is unmodifibble. The returned bttribute set object is b "snbpshot" of
+     * this Print Service's bttribute set bt the time of the
+     * <CODE>getAttributes()</CODE> method cbll: thbt is, the returned
+     * bttribute set's contents will <I>not</I> be updbted if this print
+     * service's bttribute set's contents chbnge in the future. To detect
+     * chbnges in bttribute vblues, cbll <CODE>getAttributes()</CODE> bgbin
+     * bnd compbre the new bttribute set to the previous bttribute set;
+     * blternbtively, register b listener for print service events.
      *
-     * @return  Unmodifiable snapshot of this Print Service's attribute set.
-     *          May be empty, but not null.
+     * @return  Unmodifibble snbpshot of this Print Service's bttribute set.
+     *          Mby be empty, but not null.
      */
     public PrintServiceAttributeSet getAttributes();
 
     /**
-     * Gets the value of the single specified service attribute.
-     * This may be useful to clients which only need the value of one
-     * attribute and want to minimize overhead.
-     * @param <T> the type of the specified service attribute
-     * @param category the category of a PrintServiceAttribute supported
-     * by this service - may not be null.
-     * @return the value of the supported attribute or null if the
-     * attribute is not supported by this service.
-     * @exception NullPointerException if the category is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) if <CODE>category</CODE> is not a
-     *     <code>Class</code> that implements interface
-     *{@link javax.print.attribute.PrintServiceAttribute PrintServiceAttribute}.
+     * Gets the vblue of the single specified service bttribute.
+     * This mby be useful to clients which only need the vblue of one
+     * bttribute bnd wbnt to minimize overhebd.
+     * @pbrbm <T> the type of the specified service bttribute
+     * @pbrbm cbtegory the cbtegory of b PrintServiceAttribute supported
+     * by this service - mby not be null.
+     * @return the vblue of the supported bttribute or null if the
+     * bttribute is not supported by this service.
+     * @exception NullPointerException if the cbtegory is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) if <CODE>cbtegory</CODE> is not b
+     *     <code>Clbss</code> thbt implements interfbce
+     *{@link jbvbx.print.bttribute.PrintServiceAttribute PrintServiceAttribute}.
      */
     public <T extends PrintServiceAttribute>
-        T getAttribute(Class<T> category);
+        T getAttribute(Clbss<T> cbtegory);
 
     /**
-     * Determines the print data formats a client can specify when setting
-     * up a job for this <code>PrintService</code>. A print data format is
-     * designated by a "doc
-     * flavor" (class {@link javax.print.DocFlavor DocFlavor})
-     * consisting of a MIME type plus a print data representation class.
+     * Determines the print dbtb formbts b client cbn specify when setting
+     * up b job for this <code>PrintService</code>. A print dbtb formbt is
+     * designbted by b "doc
+     * flbvor" (clbss {@link jbvbx.print.DocFlbvor DocFlbvor})
+     * consisting of b MIME type plus b print dbtb representbtion clbss.
      * <P>
-     * Note that some doc flavors may not be supported in combination
-     * with all attributes. Use <code>getUnsupportedAttributes(..)</code>
-     * to validate specific combinations.
+     * Note thbt some doc flbvors mby not be supported in combinbtion
+     * with bll bttributes. Use <code>getUnsupportedAttributes(..)</code>
+     * to vblidbte specific combinbtions.
      *
-     * @return  Array of supported doc flavors, should have at least
+     * @return  Arrby of supported doc flbvors, should hbve bt lebst
      *          one element.
      *
      */
-    public DocFlavor[] getSupportedDocFlavors();
+    public DocFlbvor[] getSupportedDocFlbvors();
 
     /**
-     * Determines if this print service supports a specific
-     * <code>DocFlavor</code>.  This is a convenience method to determine
-     * if the <code>DocFlavor</code> would be a member of the result of
-     * <code>getSupportedDocFlavors()</code>.
+     * Determines if this print service supports b specific
+     * <code>DocFlbvor</code>.  This is b convenience method to determine
+     * if the <code>DocFlbvor</code> would be b member of the result of
+     * <code>getSupportedDocFlbvors()</code>.
      * <p>
-     * Note that some doc flavors may not be supported in combination
-     * with all attributes. Use <code>getUnsupportedAttributes(..)</code>
-     * to validate specific combinations.
+     * Note thbt some doc flbvors mby not be supported in combinbtion
+     * with bll bttributes. Use <code>getUnsupportedAttributes(..)</code>
+     * to vblidbte specific combinbtions.
      *
-     * @param flavor the <code>DocFlavor</code>to query for support.
+     * @pbrbm flbvor the <code>DocFlbvor</code>to query for support.
      * @return  <code>true</code> if this print service supports the
-     * specified <code>DocFlavor</code>; <code>false</code> otherwise.
+     * specified <code>DocFlbvor</code>; <code>fblse</code> otherwise.
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>flavor</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>flbvor</CODE> is null.
      */
-    public boolean isDocFlavorSupported(DocFlavor flavor);
+    public boolebn isDocFlbvorSupported(DocFlbvor flbvor);
 
 
     /**
-     * Determines the printing attribute categories a client can specify
-     * when setting up a job for this print service.
-     * A printing attribute category is
-     * designated by a <code>Class</code> that implements interface
-     * {@link javax.print.attribute.Attribute Attribute}. This method returns
-     * just the attribute <I>categories</I> that are supported; it does not
-     * return the particular attribute <I>values</I> that are supported.
+     * Determines the printing bttribute cbtegories b client cbn specify
+     * when setting up b job for this print service.
+     * A printing bttribute cbtegory is
+     * designbted by b <code>Clbss</code> thbt implements interfbce
+     * {@link jbvbx.print.bttribute.Attribute Attribute}. This method returns
+     * just the bttribute <I>cbtegories</I> thbt bre supported; it does not
+     * return the pbrticulbr bttribute <I>vblues</I> thbt bre supported.
      * <P>
-     * This method returns all the printing attribute
-     * categories this print service supports for any possible job.
-     * Some categories may not be supported in a particular context (ie
-     * for a particular <code>DocFlavor</code>).
-     * Use one of the methods that include a <code>DocFlavor</code> to
-     * validate the request before submitting it, such as
-     * <code>getSupportedAttributeValues(..)</code>.
+     * This method returns bll the printing bttribute
+     * cbtegories this print service supports for bny possible job.
+     * Some cbtegories mby not be supported in b pbrticulbr context (ie
+     * for b pbrticulbr <code>DocFlbvor</code>).
+     * Use one of the methods thbt include b <code>DocFlbvor</code> to
+     * vblidbte the request before submitting it, such bs
+     * <code>getSupportedAttributeVblues(..)</code>.
      *
-     * @return  Array of printing attribute categories that the client can
-     *          specify as a doc-level or job-level attribute in a Print
-     *          Request. Each element in the array is a {@link java.lang.Class
-     *          Class} that implements interface {@link
-     *          javax.print.attribute.Attribute Attribute}.
-     *          The array is empty if no categories are supported.
+     * @return  Arrby of printing bttribute cbtegories thbt the client cbn
+     *          specify bs b doc-level or job-level bttribute in b Print
+     *          Request. Ebch element in the brrby is b {@link jbvb.lbng.Clbss
+     *          Clbss} thbt implements interfbce {@link
+     *          jbvbx.print.bttribute.Attribute Attribute}.
+     *          The brrby is empty if no cbtegories bre supported.
      */
-    public Class<?>[] getSupportedAttributeCategories();
+    public Clbss<?>[] getSupportedAttributeCbtegories();
 
     /**
-     * Determines whether a client can specify the given printing
-     * attribute category when setting up a job for this print service. A
-     * printing attribute category is designated by a <code>Class</code>
-     * that implements interface {@link javax.print.attribute.Attribute
-     * Attribute}. This method tells whether the attribute <I>category</I> is
-     * supported; it does not tell whether a particular attribute <I>value</I>
+     * Determines whether b client cbn specify the given printing
+     * bttribute cbtegory when setting up b job for this print service. A
+     * printing bttribute cbtegory is designbted by b <code>Clbss</code>
+     * thbt implements interfbce {@link jbvbx.print.bttribute.Attribute
+     * Attribute}. This method tells whether the bttribute <I>cbtegory</I> is
+     * supported; it does not tell whether b pbrticulbr bttribute <I>vblue</I>
      * is supported.
      * <p>
-     * Some categories may not be supported in a particular context (ie
-     * for a particular <code>DocFlavor</code>).
-     * Use one of the methods which include a <code>DocFlavor</code> to
-     * validate the request before submitting it, such as
-     * <code>getSupportedAttributeValues(..)</code>.
+     * Some cbtegories mby not be supported in b pbrticulbr context (ie
+     * for b pbrticulbr <code>DocFlbvor</code>).
+     * Use one of the methods which include b <code>DocFlbvor</code> to
+     * vblidbte the request before submitting it, such bs
+     * <code>getSupportedAttributeVblues(..)</code>.
      * <P>
-     * This is a convenience method to determine if the category
-     * would be a member of the result of
-     * <code>getSupportedAttributeCategories()</code>.
+     * This is b convenience method to determine if the cbtegory
+     * would be b member of the result of
+     * <code>getSupportedAttributeCbtegories()</code>.
      *
-     * @param  category    Printing attribute category to test. It must be a
-     *                        <code>Class</code> that implements
-     *                        interface
-     *                {@link javax.print.attribute.Attribute Attribute}.
+     * @pbrbm  cbtegory    Printing bttribute cbtegory to test. It must be b
+     *                        <code>Clbss</code> thbt implements
+     *                        interfbce
+     *                {@link jbvbx.print.bttribute.Attribute Attribute}.
      *
      * @return  <code>true</code> if this print service supports
-     *          specifying a doc-level or
-     *          job-level attribute in <CODE>category</CODE> in a Print
-     *          Request; <code>false</code> if it doesn't.
+     *          specifying b doc-level or
+     *          job-level bttribute in <CODE>cbtegory</CODE> in b Print
+     *          Request; <code>fblse</code> if it doesn't.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is not a
-     *     <code>Class</code> that implements interface
-     *     {@link javax.print.attribute.Attribute Attribute}.
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is not b
+     *     <code>Clbss</code> thbt implements interfbce
+     *     {@link jbvbx.print.bttribute.Attribute Attribute}.
      */
-    public boolean
-        isAttributeCategorySupported(Class<? extends Attribute> category);
+    public boolebn
+        isAttributeCbtegorySupported(Clbss<? extends Attribute> cbtegory);
 
     /**
-     * Determines this print service's default printing attribute value in
-     * the given category. A printing attribute value is an instance of
-     * a class that implements interface
-     * {@link javax.print.attribute.Attribute Attribute}. If a client sets
-     * up a print job and does not specify any attribute value in the
-     * given category, this Print Service will use the
-     * default attribute value instead.
+     * Determines this print service's defbult printing bttribute vblue in
+     * the given cbtegory. A printing bttribute vblue is bn instbnce of
+     * b clbss thbt implements interfbce
+     * {@link jbvbx.print.bttribute.Attribute Attribute}. If b client sets
+     * up b print job bnd does not specify bny bttribute vblue in the
+     * given cbtegory, this Print Service will use the
+     * defbult bttribute vblue instebd.
      * <p>
-     * Some attributes may not be supported in a particular context (ie
-     * for a particular <code>DocFlavor</code>).
-     * Use one of the methods that include a <code>DocFlavor</code> to
-     * validate the request before submitting it, such as
-     * <code>getSupportedAttributeValues(..)</code>.
+     * Some bttributes mby not be supported in b pbrticulbr context (ie
+     * for b pbrticulbr <code>DocFlbvor</code>).
+     * Use one of the methods thbt include b <code>DocFlbvor</code> to
+     * vblidbte the request before submitting it, such bs
+     * <code>getSupportedAttributeVblues(..)</code>.
      * <P>
-     * Not all attributes have a default value. For example the
-     * service will not have a defaultvalue for <code>RequestingUser</code>
-     * i.e. a null return for a supported category means there is no
-     * service default value for that category. Use the
-     * <code>isAttributeCategorySupported(Class)</code> method to
-     * distinguish these cases.
+     * Not bll bttributes hbve b defbult vblue. For exbmple the
+     * service will not hbve b defbultvblue for <code>RequestingUser</code>
+     * i.e. b null return for b supported cbtegory mebns there is no
+     * service defbult vblue for thbt cbtegory. Use the
+     * <code>isAttributeCbtegorySupported(Clbss)</code> method to
+     * distinguish these cbses.
      *
-     * @param  category    Printing attribute category for which the default
-     *                     attribute value is requested. It must be a {@link
-     *                        java.lang.Class Class} that implements interface
-     *                        {@link javax.print.attribute.Attribute
+     * @pbrbm  cbtegory    Printing bttribute cbtegory for which the defbult
+     *                     bttribute vblue is requested. It must be b {@link
+     *                        jbvb.lbng.Clbss Clbss} thbt implements interfbce
+     *                        {@link jbvbx.print.bttribute.Attribute
      *                        Attribute}.
      *
-     * @return  Default attribute value for <CODE>category</CODE>, or null
-     *       if this Print Service does not support specifying a doc-level or
-     *          job-level attribute in <CODE>category</CODE> in a Print
-     *          Request, or the service does not have a default value
-     *          for this attribute.
+     * @return  Defbult bttribute vblue for <CODE>cbtegory</CODE>, or null
+     *       if this Print Service does not support specifying b doc-level or
+     *          job-level bttribute in <CODE>cbtegory</CODE> in b Print
+     *          Request, or the service does not hbve b defbult vblue
+     *          for this bttribute.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is not a
-     *     {@link java.lang.Class Class} that implements interface {@link
-     *     javax.print.attribute.Attribute Attribute}.
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implements interfbce {@link
+     *     jbvbx.print.bttribute.Attribute Attribute}.
      */
     public Object
-        getDefaultAttributeValue(Class<? extends Attribute> category);
+        getDefbultAttributeVblue(Clbss<? extends Attribute> cbtegory);
 
     /**
-     * Determines the printing attribute values a client can specify in
-     * the given category when setting up a job for this print service. A
+     * Determines the printing bttribute vblues b client cbn specify in
+     * the given cbtegory when setting up b job for this print service. A
      * printing
-     * attribute value is an instance of a class that implements interface
-     * {@link javax.print.attribute.Attribute Attribute}.
+     * bttribute vblue is bn instbnce of b clbss thbt implements interfbce
+     * {@link jbvbx.print.bttribute.Attribute Attribute}.
      * <P>
-     * If <CODE>flavor</CODE> is null and <CODE>attributes</CODE> is null
-     * or is an empty set, this method returns all the printing attribute
-     * values this Print Service supports for any possible job. If
-     * <CODE>flavor</CODE> is not null or <CODE>attributes</CODE> is not
-     * an empty set, this method returns just the printing attribute values
-     * that are compatible with the given doc flavor and/or set of attributes.
-     * That is, a null return value may indicate that specifying this attribute
-     * is incompatible with the specified DocFlavor.
-     * Also if DocFlavor is not null it must be a flavor supported by this
-     * PrintService, else IllegalArgumentException will be thrown.
+     * If <CODE>flbvor</CODE> is null bnd <CODE>bttributes</CODE> is null
+     * or is bn empty set, this method returns bll the printing bttribute
+     * vblues this Print Service supports for bny possible job. If
+     * <CODE>flbvor</CODE> is not null or <CODE>bttributes</CODE> is not
+     * bn empty set, this method returns just the printing bttribute vblues
+     * thbt bre compbtible with the given doc flbvor bnd/or set of bttributes.
+     * Thbt is, b null return vblue mby indicbte thbt specifying this bttribute
+     * is incompbtible with the specified DocFlbvor.
+     * Also if DocFlbvor is not null it must be b flbvor supported by this
+     * PrintService, else IllegblArgumentException will be thrown.
      * <P>
-     * If the <code>attributes</code> parameter contains an Attribute whose
-     * category is the same as the <code>category</code> parameter, the service
-     * must ignore this attribute in the AttributeSet.
+     * If the <code>bttributes</code> pbrbmeter contbins bn Attribute whose
+     * cbtegory is the sbme bs the <code>cbtegory</code> pbrbmeter, the service
+     * must ignore this bttribute in the AttributeSet.
      * <p>
-     * <code>DocAttribute</code>s which are to be specified on the
-     * <code>Doc</code> must be included in this set to accurately
+     * <code>DocAttribute</code>s which bre to be specified on the
+     * <code>Doc</code> must be included in this set to bccurbtely
      * represent the context.
      * <p>
-     * This method returns an Object because different printing attribute
-     * categories indicate the supported attribute values in different ways.
-     * The documentation for each printing attribute in package {@link
-     * javax.print.attribute.standard javax.print.attribute.standard}
-     * describes how each attribute indicates its supported values. Possible
-     * ways of indicating support include:
+     * This method returns bn Object becbuse different printing bttribute
+     * cbtegories indicbte the supported bttribute vblues in different wbys.
+     * The documentbtion for ebch printing bttribute in pbckbge {@link
+     * jbvbx.print.bttribute.stbndbrd jbvbx.print.bttribute.stbndbrd}
+     * describes how ebch bttribute indicbtes its supported vblues. Possible
+     * wbys of indicbting support include:
      * <UL>
      * <LI>
-     * Return a single instance of the attribute category to indicate that any
-     * value is legal -- used, for example, by an attribute whose value is an
-     * arbitrary text string. (The value of the returned attribute object is
-     * irrelevant.)
+     * Return b single instbnce of the bttribute cbtegory to indicbte thbt bny
+     * vblue is legbl -- used, for exbmple, by bn bttribute whose vblue is bn
+     * brbitrbry text string. (The vblue of the returned bttribute object is
+     * irrelevbnt.)
      * <LI>
-     * Return an array of one or more instances of the attribute category,
-     * containing the legal values -- used, for example, by an attribute with
-     * a list of enumerated values. The type of the array is an array of the
-     * specified attribute category type as returned by its
-     * <code>getCategory(Class)</code>.
+     * Return bn brrby of one or more instbnces of the bttribute cbtegory,
+     * contbining the legbl vblues -- used, for exbmple, by bn bttribute with
+     * b list of enumerbted vblues. The type of the brrby is bn brrby of the
+     * specified bttribute cbtegory type bs returned by its
+     * <code>getCbtegory(Clbss)</code>.
      * <LI>
-     * Return a single object (of some class other than the attribute category)
-     * that indicates bounds on the legal values -- used, for example, by an
-     * integer-valued attribute that must lie within a certain range.
+     * Return b single object (of some clbss other thbn the bttribute cbtegory)
+     * thbt indicbtes bounds on the legbl vblues -- used, for exbmple, by bn
+     * integer-vblued bttribute thbt must lie within b certbin rbnge.
      * </UL>
      *
-     * @param  category    Printing attribute category to test. It must be a
-     *                        {@link java.lang.Class Class} that implements
-     *                        interface {@link
-     *                        javax.print.attribute.Attribute Attribute}.
-     * @param  flavor      Doc flavor for a supposed job, or null.
-     * @param  attributes  Set of printing attributes for a supposed job
-     *                        (both job-level attributes and document-level
-     *                        attributes), or null.
+     * @pbrbm  cbtegory    Printing bttribute cbtegory to test. It must be b
+     *                        {@link jbvb.lbng.Clbss Clbss} thbt implements
+     *                        interfbce {@link
+     *                        jbvbx.print.bttribute.Attribute Attribute}.
+     * @pbrbm  flbvor      Doc flbvor for b supposed job, or null.
+     * @pbrbm  bttributes  Set of printing bttributes for b supposed job
+     *                        (both job-level bttributes bnd document-level
+     *                        bttributes), or null.
      *
-     * @return  Object indicating supported values for <CODE>category</CODE>,
-     *          or null if this Print Service does not support specifying a
-     *          doc-level or job-level attribute in <CODE>category</CODE> in
-     *          a Print Request.
+     * @return  Object indicbting supported vblues for <CODE>cbtegory</CODE>,
+     *          or null if this Print Service does not support specifying b
+     *          doc-level or job-level bttribute in <CODE>cbtegory</CODE> in
+     *          b Print Request.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>category</CODE> is not a
-     *     {@link java.lang.Class Class} that implements interface {@link
-     *     javax.print.attribute.Attribute Attribute}, or
-     *     <code>DocFlavor</code> is not supported by this service.
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) Thrown if <CODE>cbtegory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implements interfbce {@link
+     *     jbvbx.print.bttribute.Attribute Attribute}, or
+     *     <code>DocFlbvor</code> is not supported by this service.
      */
     public Object
-        getSupportedAttributeValues(Class<? extends Attribute> category,
-                                    DocFlavor flavor,
-                                    AttributeSet attributes);
+        getSupportedAttributeVblues(Clbss<? extends Attribute> cbtegory,
+                                    DocFlbvor flbvor,
+                                    AttributeSet bttributes);
 
     /**
-     * Determines whether a client can specify the given printing
-     * attribute
-     * value when setting up a job for this Print Service. A printing
-     * attribute value is an instance of a class that implements interface
-     *  {@link javax.print.attribute.Attribute Attribute}.
+     * Determines whether b client cbn specify the given printing
+     * bttribute
+     * vblue when setting up b job for this Print Service. A printing
+     * bttribute vblue is bn instbnce of b clbss thbt implements interfbce
+     *  {@link jbvbx.print.bttribute.Attribute Attribute}.
      * <P>
-     * If <CODE>flavor</CODE> is null and <CODE>attributes</CODE> is null or
-     * is an empty set, this method tells whether this Print Service supports
-     * the given printing attribute value for some possible combination of doc
-     * flavor and set of attributes. If <CODE>flavor</CODE> is not null or
-     * <CODE>attributes</CODE> is not an empty set, this method tells whether
-     * this Print Service supports the given printing attribute value in
-     * combination with the given doc flavor and/or set of attributes.
+     * If <CODE>flbvor</CODE> is null bnd <CODE>bttributes</CODE> is null or
+     * is bn empty set, this method tells whether this Print Service supports
+     * the given printing bttribute vblue for some possible combinbtion of doc
+     * flbvor bnd set of bttributes. If <CODE>flbvor</CODE> is not null or
+     * <CODE>bttributes</CODE> is not bn empty set, this method tells whether
+     * this Print Service supports the given printing bttribute vblue in
+     * combinbtion with the given doc flbvor bnd/or set of bttributes.
      * <p>
-     * Also if DocFlavor is not null it must be a flavor supported by this
-     * PrintService, else IllegalArgumentException will be thrown.
+     * Also if DocFlbvor is not null it must be b flbvor supported by this
+     * PrintService, else IllegblArgumentException will be thrown.
      * <p>
-     * <code>DocAttribute</code>s which are to be specified on the
-     * <code>Doc</code> must be included in this set to accurately
+     * <code>DocAttribute</code>s which bre to be specified on the
+     * <code>Doc</code> must be included in this set to bccurbtely
      * represent the context.
      * <p>
-     * This is a convenience method to determine if the value
-     * would be a member of the result of
-     * <code>getSupportedAttributeValues(...)</code>.
+     * This is b convenience method to determine if the vblue
+     * would be b member of the result of
+     * <code>getSupportedAttributeVblues(...)</code>.
      *
-     * @param  attrval       Printing attribute value to test.
-     * @param  flavor      Doc flavor for a supposed job, or null.
-     * @param  attributes  Set of printing attributes for a supposed job
-     *                        (both job-level attributes and document-level
-     *                        attributes), or null.
+     * @pbrbm  bttrvbl       Printing bttribute vblue to test.
+     * @pbrbm  flbvor      Doc flbvor for b supposed job, or null.
+     * @pbrbm  bttributes  Set of printing bttributes for b supposed job
+     *                        (both job-level bttributes bnd document-level
+     *                        bttributes), or null.
      *
      * @return  True if this Print Service supports specifying
-     *        <CODE>attrval</CODE> as a doc-level or job-level attribute in a
-     *          Print Request, false if it doesn't.
+     *        <CODE>bttrvbl</CODE> bs b doc-level or job-level bttribute in b
+     *          Print Request, fblse if it doesn't.
      *
      * @exception  NullPointerException
-     *     (unchecked exception)  if <CODE>attrval</CODE> is null.
-     * @exception  IllegalArgumentException if flavor is not supported by
+     *     (unchecked exception)  if <CODE>bttrvbl</CODE> is null.
+     * @exception  IllegblArgumentException if flbvor is not supported by
      *      this PrintService.
      */
-    public boolean isAttributeValueSupported(Attribute attrval,
-                                             DocFlavor flavor,
-                                             AttributeSet attributes);
+    public boolebn isAttributeVblueSupported(Attribute bttrvbl,
+                                             DocFlbvor flbvor,
+                                             AttributeSet bttributes);
 
 
     /**
-     * Identifies the attributes that are unsupported for a print request
-     * in the context of a particular DocFlavor.
-     * This method is useful for validating a potential print job and
-     * identifying the specific attributes which cannot be supported.
-     * It is important to supply only a supported DocFlavor or an
-     * IllegalArgumentException will be thrown. If the
-     * return value from this method is null, all attributes are supported.
+     * Identifies the bttributes thbt bre unsupported for b print request
+     * in the context of b pbrticulbr DocFlbvor.
+     * This method is useful for vblidbting b potentibl print job bnd
+     * identifying the specific bttributes which cbnnot be supported.
+     * It is importbnt to supply only b supported DocFlbvor or bn
+     * IllegblArgumentException will be thrown. If the
+     * return vblue from this method is null, bll bttributes bre supported.
      * <p>
-     * <code>DocAttribute</code>s which are to be specified on the
-     * <code>Doc</code> must be included in this set to accurately
+     * <code>DocAttribute</code>s which bre to be specified on the
+     * <code>Doc</code> must be included in this set to bccurbtely
      * represent the context.
      * <p>
-     * If the return value is non-null, all attributes in the returned
-     * set are unsupported with this DocFlavor. The returned set does not
-     * distinguish attribute categories that are unsupported from
-     * unsupported attribute values.
+     * If the return vblue is non-null, bll bttributes in the returned
+     * set bre unsupported with this DocFlbvor. The returned set does not
+     * distinguish bttribute cbtegories thbt bre unsupported from
+     * unsupported bttribute vblues.
      * <p>
-     * A supported print request can then be created by removing
-     * all unsupported attributes from the original attribute set,
-     * except in the case that the DocFlavor is unsupported.
+     * A supported print request cbn then be crebted by removing
+     * bll unsupported bttributes from the originbl bttribute set,
+     * except in the cbse thbt the DocFlbvor is unsupported.
      * <p>
-     * If any attributes are unsupported only because they are in conflict
-     * with other attributes then it is at the discretion of the service
-     * to select the attribute(s) to be identified as the cause of the
+     * If bny bttributes bre unsupported only becbuse they bre in conflict
+     * with other bttributes then it is bt the discretion of the service
+     * to select the bttribute(s) to be identified bs the cbuse of the
      * conflict.
      * <p>
-     * Use <code>isDocFlavorSupported()</code> to verify that a DocFlavor
-     * is supported before calling this method.
+     * Use <code>isDocFlbvorSupported()</code> to verify thbt b DocFlbvor
+     * is supported before cblling this method.
      *
-     * @param  flavor      Doc flavor to test, or null
-     * @param  attributes  Set of printing attributes for a supposed job
-     *                        (both job-level attributes and document-level
-     *                        attributes), or null.
+     * @pbrbm  flbvor      Doc flbvor to test, or null
+     * @pbrbm  bttributes  Set of printing bttributes for b supposed job
+     *                        (both job-level bttributes bnd document-level
+     *                        bttributes), or null.
      *
      * @return  null if this Print Service supports the print request
-     * specification, else the unsupported attributes.
+     * specificbtion, else the unsupported bttributes.
      *
-     * @exception IllegalArgumentException if<CODE>flavor</CODE> is
+     * @exception IllegblArgumentException if<CODE>flbvor</CODE> is
      *             not supported by this PrintService.
      */
-    public AttributeSet getUnsupportedAttributes(DocFlavor flavor,
-                                           AttributeSet attributes);
+    public AttributeSet getUnsupportedAttributes(DocFlbvor flbvor,
+                                           AttributeSet bttributes);
 
     /**
-     * Returns a factory for UI components which allow users to interact
-     * with the service in various roles.
-     * Services which do not provide any UI should return null.
-     * Print Services which do provide UI but want to be supported in
-     * an environment with no UI support should ensure that the factory
-     * is not initialised unless the application calls this method to
-     * obtain the factory.
-     * See <code>ServiceUIFactory</code> for more information.
-     * @return null or a factory for UI components.
+     * Returns b fbctory for UI components which bllow users to interbct
+     * with the service in vbrious roles.
+     * Services which do not provide bny UI should return null.
+     * Print Services which do provide UI but wbnt to be supported in
+     * bn environment with no UI support should ensure thbt the fbctory
+     * is not initiblised unless the bpplicbtion cblls this method to
+     * obtbin the fbctory.
+     * See <code>ServiceUIFbctory</code> for more informbtion.
+     * @return null or b fbctory for UI components.
      */
-    public ServiceUIFactory getServiceUIFactory();
+    public ServiceUIFbctory getServiceUIFbctory();
 
     /**
-     * Determines if two services are referring to the same underlying
-     * service.  Objects encapsulating a print service may not exhibit
-     * equality of reference even though they refer to the same underlying
+     * Determines if two services bre referring to the sbme underlying
+     * service.  Objects encbpsulbting b print service mby not exhibit
+     * equblity of reference even though they refer to the sbme underlying
      * service.
      * <p>
-     * Clients should call this method to determine if two services are
-     * referring to the same underlying service.
+     * Clients should cbll this method to determine if two services bre
+     * referring to the sbme underlying service.
      * <p>
-     * Services must implement this method and return true only if the
-     * service objects being compared may be used interchangeably by the
+     * Services must implement this method bnd return true only if the
+     * service objects being compbred mby be used interchbngebbly by the
      * client.
-     * Services are free to return the same object reference to an underlying
-     * service if that, but clients must not depend on equality of reference.
-     * @param obj the reference object with which to compare.
-     * @return true if this service is the same as the obj argument,
-     * false otherwise.
+     * Services bre free to return the sbme object reference to bn underlying
+     * service if thbt, but clients must not depend on equblity of reference.
+     * @pbrbm obj the reference object with which to compbre.
+     * @return true if this service is the sbme bs the obj brgument,
+     * fblse otherwise.
      */
-    public boolean equals(Object obj);
+    public boolebn equbls(Object obj);
 
     /**
      * This method should be implemented consistently with
-     * <code>equals(Object)</code>.
-     * @return hash code of this object.
+     * <code>equbls(Object)</code>.
+     * @return hbsh code of this object.
      */
-    public int hashCode();
+    public int hbshCode();
 
 }

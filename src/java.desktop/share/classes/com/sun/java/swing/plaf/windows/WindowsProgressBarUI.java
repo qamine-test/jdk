@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Michael C. Albers
+ * @buthor Michbel C. Albers
  */
-public class WindowsProgressBarUI extends BasicProgressBarUI
+public clbss WindowsProgressBbrUI extends BbsicProgressBbrUI
 {
 
-    private Rectangle previousFullBox;
-    private Insets indeterminateInsets;
+    privbte Rectbngle previousFullBox;
+    privbte Insets indeterminbteInsets;
 
-    public static ComponentUI createUI(JComponent x) {
-        return new WindowsProgressBarUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new WindowsProgressBbrUI();
     }
 
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protected void instbllDefbults() {
+        super.instbllDefbults();
 
         if (XPStyle.getXP() != null) {
-            LookAndFeel.installProperty(progressBar, "opaque", Boolean.FALSE);
-            progressBar.setBorder(null);
-            indeterminateInsets = UIManager.getInsets("ProgressBar.indeterminateInsets");
+            LookAndFeel.instbllProperty(progressBbr, "opbque", Boolebn.FALSE);
+            progressBbr.setBorder(null);
+            indeterminbteInsets = UIMbnbger.getInsets("ProgressBbr.indeterminbteInsets");
         }
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        int baseline = super.getBaseline(c, width, height);
-        if (XPStyle.getXP() != null && progressBar.isStringPainted() &&
-                progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            FontMetrics metrics = progressBar.
-                    getFontMetrics(progressBar.getFont());
-            int y = progressBar.getInsets().top;
-            if (progressBar.isIndeterminate()) {
+    public int getBbseline(JComponent c, int width, int height) {
+        int bbseline = super.getBbseline(c, width, height);
+        if (XPStyle.getXP() != null && progressBbr.isStringPbinted() &&
+                progressBbr.getOrientbtion() == JProgressBbr.HORIZONTAL) {
+            FontMetrics metrics = progressBbr.
+                    getFontMetrics(progressBbr.getFont());
+            int y = progressBbr.getInsets().top;
+            if (progressBbr.isIndeterminbte()) {
                 y = -1;
                 height--;
             }
@@ -90,116 +90,116 @@ public class WindowsProgressBarUI extends BasicProgressBarUI
                 y = 0;
                 height -= 3;
             }
-            baseline = y + (height + metrics.getAscent() -
-                        metrics.getLeading() -
+            bbseline = y + (height + metrics.getAscent() -
+                        metrics.getLebding() -
                         metrics.getDescent()) / 2;
         }
-        return baseline;
+        return bbseline;
     }
 
-    protected Dimension getPreferredInnerHorizontal() {
+    protected Dimension getPreferredInnerHorizontbl() {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-             Skin skin = xp.getSkin(progressBar, Part.PP_BAR);
+             Skin skin = xp.getSkin(progressBbr, Pbrt.PP_BAR);
              return new Dimension(
-                     (int)super.getPreferredInnerHorizontal().getWidth(),
+                     (int)super.getPreferredInnerHorizontbl().getWidth(),
                      skin.getHeight());
          }
-         return super.getPreferredInnerHorizontal();
+         return super.getPreferredInnerHorizontbl();
     }
 
-    protected Dimension getPreferredInnerVertical() {
+    protected Dimension getPreferredInnerVerticbl() {
          XPStyle xp = XPStyle.getXP();
          if (xp != null) {
-             Skin skin = xp.getSkin(progressBar, Part.PP_BARVERT);
+             Skin skin = xp.getSkin(progressBbr, Pbrt.PP_BARVERT);
              return new Dimension(
                      skin.getWidth(),
-                     (int)super.getPreferredInnerVertical().getHeight());
+                     (int)super.getPreferredInnerVerticbl().getHeight());
          }
-         return super.getPreferredInnerVertical();
+         return super.getPreferredInnerVerticbl();
     }
 
-    protected void paintDeterminate(Graphics g, JComponent c) {
+    protected void pbintDeterminbte(Grbphics g, JComponent c) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation() == JProgressBar.VERTICAL);
-            boolean isLeftToRight = WindowsGraphicsUtils.isLeftToRight(c);
-            int barRectWidth = progressBar.getWidth();
-            int barRectHeight = progressBar.getHeight()-1;
-            // amount of progress to draw
-            int amountFull = getAmountFull(null, barRectWidth, barRectHeight);
+            boolebn verticbl = (progressBbr.getOrientbtion() == JProgressBbr.VERTICAL);
+            boolebn isLeftToRight = WindowsGrbphicsUtils.isLeftToRight(c);
+            int bbrRectWidth = progressBbr.getWidth();
+            int bbrRectHeight = progressBbr.getHeight()-1;
+            // bmount of progress to drbw
+            int bmountFull = getAmountFull(null, bbrRectWidth, bbrRectHeight);
 
-            paintXPBackground(g, vertical, barRectWidth, barRectHeight);
-            // Paint progress
-            if (progressBar.isStringPainted()) {
-                // Do not paint the standard stripes from the skin, because they obscure
+            pbintXPBbckground(g, verticbl, bbrRectWidth, bbrRectHeight);
+            // Pbint progress
+            if (progressBbr.isStringPbinted()) {
+                // Do not pbint the stbndbrd stripes from the skin, becbuse they obscure
                 // the text
-                g.setColor(progressBar.getForeground());
-                barRectHeight -= 2;
-                barRectWidth -= 2;
+                g.setColor(progressBbr.getForeground());
+                bbrRectHeight -= 2;
+                bbrRectWidth -= 2;
 
-                if (barRectWidth <= 0 || barRectHeight <= 0) {
+                if (bbrRectWidth <= 0 || bbrRectHeight <= 0) {
                     return;
                 }
 
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setStroke(new BasicStroke((float)(vertical ? barRectWidth : barRectHeight),
-                                             BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-                if (!vertical) {
+                Grbphics2D g2 = (Grbphics2D)g;
+                g2.setStroke(new BbsicStroke((flobt)(verticbl ? bbrRectWidth : bbrRectHeight),
+                                             BbsicStroke.CAP_BUTT, BbsicStroke.JOIN_BEVEL));
+                if (!verticbl) {
                     if (isLeftToRight) {
-                        g2.drawLine(2,              barRectHeight / 2 + 1,
-                                    amountFull - 2, barRectHeight / 2 + 1);
+                        g2.drbwLine(2,              bbrRectHeight / 2 + 1,
+                                    bmountFull - 2, bbrRectHeight / 2 + 1);
                     } else {
-                        g2.drawLine(2 + barRectWidth,
-                                    barRectHeight / 2 + 1,
-                                    2 + barRectWidth - (amountFull - 2),
-                                    barRectHeight / 2 + 1);
+                        g2.drbwLine(2 + bbrRectWidth,
+                                    bbrRectHeight / 2 + 1,
+                                    2 + bbrRectWidth - (bmountFull - 2),
+                                    bbrRectHeight / 2 + 1);
                     }
-                    paintString(g, 0, 0, barRectWidth, barRectHeight, amountFull, null);
+                    pbintString(g, 0, 0, bbrRectWidth, bbrRectHeight, bmountFull, null);
                 } else {
-                    g2.drawLine(barRectWidth/2 + 1, barRectHeight + 1,
-                                barRectWidth/2 + 1, barRectHeight + 1 - amountFull + 2);
-                    paintString(g, 2, 2, barRectWidth, barRectHeight, amountFull, null);
+                    g2.drbwLine(bbrRectWidth/2 + 1, bbrRectHeight + 1,
+                                bbrRectWidth/2 + 1, bbrRectHeight + 1 - bmountFull + 2);
+                    pbintString(g, 2, 2, bbrRectWidth, bbrRectHeight, bmountFull, null);
                 }
 
             } else {
-                Skin skin = xp.getSkin(progressBar, vertical ? Part.PP_CHUNKVERT : Part.PP_CHUNK);
+                Skin skin = xp.getSkin(progressBbr, verticbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK);
                 int thickness;
-                if (vertical) {
-                    thickness = barRectWidth - 5;
+                if (verticbl) {
+                    thickness = bbrRectWidth - 5;
                 } else {
-                    thickness = barRectHeight - 5;
+                    thickness = bbrRectHeight - 5;
                 }
 
-                int chunkSize = xp.getInt(progressBar, Part.PP_PROGRESS, null, Prop.PROGRESSCHUNKSIZE, 2);
-                int spaceSize = xp.getInt(progressBar, Part.PP_PROGRESS, null, Prop.PROGRESSSPACESIZE, 0);
-                int nChunks = (amountFull-4) / (chunkSize + spaceSize);
+                int chunkSize = xp.getInt(progressBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSCHUNKSIZE, 2);
+                int spbceSize = xp.getInt(progressBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSSPACESIZE, 0);
+                int nChunks = (bmountFull-4) / (chunkSize + spbceSize);
 
-                // See if we can squeeze in an extra chunk without spacing after
-                if (spaceSize > 0 && (nChunks * (chunkSize + spaceSize) + chunkSize) < (amountFull-4)) {
+                // See if we cbn squeeze in bn extrb chunk without spbcing bfter
+                if (spbceSize > 0 && (nChunks * (chunkSize + spbceSize) + chunkSize) < (bmountFull-4)) {
                     nChunks++;
                 }
 
                 for (int i = 0; i < nChunks; i++) {
-                    if (vertical) {
-                        skin.paintSkin(g,
-                                       3, barRectHeight - i * (chunkSize + spaceSize) - chunkSize - 2,
+                    if (verticbl) {
+                        skin.pbintSkin(g,
+                                       3, bbrRectHeight - i * (chunkSize + spbceSize) - chunkSize - 2,
                                        thickness, chunkSize, null);
                     } else {
                         if (isLeftToRight) {
-                            skin.paintSkin(g,
-                                           4 + i * (chunkSize + spaceSize), 2,
+                            skin.pbintSkin(g,
+                                           4 + i * (chunkSize + spbceSize), 2,
                                            chunkSize, thickness, null);
                         } else {
-                            skin.paintSkin(g,
-                                           barRectWidth - (2 + (i+1) * (chunkSize + spaceSize)), 2,
+                            skin.pbintSkin(g,
+                                           bbrRectWidth - (2 + (i+1) * (chunkSize + spbceSize)), 2,
                                            chunkSize, thickness, null);
                         }
                     }
                 }
             }
         } else {
-            super.paintDeterminate(g, c);
+            super.pbintDeterminbte(g, c);
         }
     }
 
@@ -208,20 +208,20 @@ public class WindowsProgressBarUI extends BasicProgressBarUI
      * {@inheritDoc}
      * @since 1.6
      */
-    protected void setAnimationIndex(int newValue) {
-        super.setAnimationIndex(newValue);
+    protected void setAnimbtionIndex(int newVblue) {
+        super.setAnimbtionIndex(newVblue);
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
             if (boxRect != null) {
-                // get the full repaint area and add it the
-                // previous one so we can erase it
-                Rectangle chunk = getFullChunkBounds(boxRect);
+                // get the full repbint breb bnd bdd it the
+                // previous one so we cbn erbse it
+                Rectbngle chunk = getFullChunkBounds(boxRect);
                 if (previousFullBox != null) {
-                    chunk.add(previousFullBox);
+                    chunk.bdd(previousFullBox);
                 }
-                progressBar.repaint(chunk);
+                progressBbr.repbint(chunk);
             } else {
-                progressBar.repaint();
+                progressBbr.repbint();
             }
         }
     }
@@ -231,182 +231,182 @@ public class WindowsProgressBarUI extends BasicProgressBarUI
      * {@inheritDoc}
      * @since 1.6
      */
-    protected int getBoxLength(int availableLength, int otherDimension) {
+    protected int getBoxLength(int bvbilbbleLength, int otherDimension) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            return 6; // an apparently hard coded value in Windows
+            return 6; // bn bppbrently hbrd coded vblue in Windows
         }
-        return super.getBoxLength(availableLength, otherDimension);
+        return super.getBoxLength(bvbilbbleLength, otherDimension);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    protected Rectangle getBox(Rectangle r) {
-        Rectangle rect = super.getBox(r);
+    protected Rectbngle getBox(Rectbngle r) {
+        Rectbngle rect = super.getBox(r);
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation()
-                                 == JProgressBar.VERTICAL);
-            Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-            Insets ins = indeterminateInsets;
+            boolebn verticbl = (progressBbr.getOrientbtion()
+                                 == JProgressBbr.VERTICAL);
+            Pbrt pbrt = verticbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+            Insets ins = indeterminbteInsets;
 
-            int currentFrame = getAnimationIndex();
-            int framecount = getFrameCount()/2;
+            int currentFrbme = getAnimbtionIndex();
+            int frbmecount = getFrbmeCount()/2;
 
-            int gap = xp.getInt(progressBar, Part.PP_PROGRESS, null,
+            int gbp = xp.getInt(progressBbr, Pbrt.PP_PROGRESS, null,
                     Prop.PROGRESSSPACESIZE, 0);
-            currentFrame = currentFrame % framecount;
+            currentFrbme = currentFrbme % frbmecount;
 
-            // this code adjusts the chunk size to properly account for the
-            // size and gap specified in the XP style. It also does it's own
-            // box placement for the chunk animation. This is required because
-            // the inherited algorithm from BasicProgressBarUI goes back and
-            // forth whereas XP only goes in one direction. XP also has ghosted
-            // trailing chunks to create the illusion of speed. This code
-            // adjusts the pixel length of the animation to account for the
-            // trails.
-            if (!vertical) {
+            // this code bdjusts the chunk size to properly bccount for the
+            // size bnd gbp specified in the XP style. It blso does it's own
+            // box plbcement for the chunk bnimbtion. This is required becbuse
+            // the inherited blgorithm from BbsicProgressBbrUI goes bbck bnd
+            // forth wherebs XP only goes in one direction. XP blso hbs ghosted
+            // trbiling chunks to crebte the illusion of speed. This code
+            // bdjusts the pixel length of the bnimbtion to bccount for the
+            // trbils.
+            if (!verticbl) {
                 rect.y = rect.y + ins.top;
-                rect.height = progressBar.getHeight() - ins.top - ins.bottom;
-                int len = progressBar.getWidth() - ins.left - ins.right;
-                len += (rect.width+gap)*2; // add 2x for the trails
-                double delta = (double)(len) / (double)framecount;
-                rect.x = (int)(delta * currentFrame) + ins.left;
+                rect.height = progressBbr.getHeight() - ins.top - ins.bottom;
+                int len = progressBbr.getWidth() - ins.left - ins.right;
+                len += (rect.width+gbp)*2; // bdd 2x for the trbils
+                double deltb = (double)(len) / (double)frbmecount;
+                rect.x = (int)(deltb * currentFrbme) + ins.left;
             } else {
                 rect.x = rect.x + ins.left;
-                rect.width = progressBar.getWidth() - ins.left - ins.right;
-                int len = progressBar.getHeight() - ins.top - ins.bottom;
-                len += (rect.height+gap)*2; // add 2x for the trails
-                double delta = (double)(len) / (double)framecount;
-                rect.y = (int)(delta * currentFrame) + ins.top;
+                rect.width = progressBbr.getWidth() - ins.left - ins.right;
+                int len = progressBbr.getHeight() - ins.top - ins.bottom;
+                len += (rect.height+gbp)*2; // bdd 2x for the trbils
+                double deltb = (double)(len) / (double)frbmecount;
+                rect.y = (int)(deltb * currentFrbme) + ins.top;
             }
         }
         return rect;
     }
 
 
-    protected void paintIndeterminate(Graphics g, JComponent c) {
+    protected void pbintIndeterminbte(Grbphics g, JComponent c) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation()
-                                 == JProgressBar.VERTICAL);
-            int barRectWidth = progressBar.getWidth();
-            int barRectHeight = progressBar.getHeight();
-            paintXPBackground(g, vertical, barRectWidth, barRectHeight);
+            boolebn verticbl = (progressBbr.getOrientbtion()
+                                 == JProgressBbr.VERTICAL);
+            int bbrRectWidth = progressBbr.getWidth();
+            int bbrRectHeight = progressBbr.getHeight();
+            pbintXPBbckground(g, verticbl, bbrRectWidth, bbrRectHeight);
 
-            // Paint the bouncing box.
+            // Pbint the bouncing box.
             boxRect = getBox(boxRect);
             if (boxRect != null) {
-                g.setColor(progressBar.getForeground());
-                if (!(g instanceof Graphics2D)) {
+                g.setColor(progressBbr.getForeground());
+                if (!(g instbnceof Grbphics2D)) {
                     return;
                 }
-                paintIndeterminateFrame(boxRect, (Graphics2D)g, vertical,
-                                        barRectWidth, barRectHeight);
-                if (progressBar.isStringPainted()) {
-                    if (!vertical) {
-                        paintString(g, -1, -1, barRectWidth, barRectHeight, 0, null);
+                pbintIndeterminbteFrbme(boxRect, (Grbphics2D)g, verticbl,
+                                        bbrRectWidth, bbrRectHeight);
+                if (progressBbr.isStringPbinted()) {
+                    if (!verticbl) {
+                        pbintString(g, -1, -1, bbrRectWidth, bbrRectHeight, 0, null);
                     } else {
-                        paintString(g, 1, 1, barRectWidth, barRectHeight, 0, null);
+                        pbintString(g, 1, 1, bbrRectWidth, bbrRectHeight, 0, null);
                     }
                 }
             }
         } else {
-            super.paintIndeterminate(g, c);
+            super.pbintIndeterminbte(g, c);
         }
     }
 
-    private Rectangle getFullChunkBounds(Rectangle box) {
-        boolean vertical = (progressBar.getOrientation() == JProgressBar.VERTICAL);
+    privbte Rectbngle getFullChunkBounds(Rectbngle box) {
+        boolebn verticbl = (progressBbr.getOrientbtion() == JProgressBbr.VERTICAL);
         XPStyle xp = XPStyle.getXP();
-        int gap = (xp != null) ? xp.getInt(progressBar, Part.PP_PROGRESS,
+        int gbp = (xp != null) ? xp.getInt(progressBbr, Pbrt.PP_PROGRESS,
                                            null, Prop.PROGRESSSPACESIZE, 0)
                                : 0;
 
-        if (!vertical) {
-            int chunksize = box.width+gap;
-            return new Rectangle(box.x-chunksize*2, box.y, chunksize*3, box.height);
+        if (!verticbl) {
+            int chunksize = box.width+gbp;
+            return new Rectbngle(box.x-chunksize*2, box.y, chunksize*3, box.height);
         } else {
-            int chunksize = box.height+gap;
-            return new Rectangle(box.x, box.y-chunksize*2, box.width, chunksize*3);
+            int chunksize = box.height+gbp;
+            return new Rectbngle(box.x, box.y-chunksize*2, box.width, chunksize*3);
         }
     }
 
-    private void paintIndeterminateFrame(Rectangle box, Graphics2D g,
-                                          boolean vertical,
+    privbte void pbintIndeterminbteFrbme(Rectbngle box, Grbphics2D g,
+                                          boolebn verticbl,
                                           int bgwidth, int bgheight) {
         XPStyle xp = XPStyle.getXP();
         if (xp == null) {
             return;
         }
 
-        // create a new graphics to keep drawing surface state
-        Graphics2D gfx = (Graphics2D)g.create();
+        // crebte b new grbphics to keep drbwing surfbce stbte
+        Grbphics2D gfx = (Grbphics2D)g.crebte();
 
-        Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-        Part chunk = vertical ? Part.PP_CHUNKVERT : Part.PP_CHUNK;
+        Pbrt pbrt = verticbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Pbrt chunk = verticbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK;
 
-        // calculate the chunk offsets
-        int gap = xp.getInt(progressBar, Part.PP_PROGRESS, null,
+        // cblculbte the chunk offsets
+        int gbp = xp.getInt(progressBbr, Pbrt.PP_PROGRESS, null,
                             Prop.PROGRESSSPACESIZE, 0);
-        int deltax = 0;
-        int deltay = 0;
-        if (!vertical) {
-            deltax = -box.width - gap;
-            deltay = 0;
+        int deltbx = 0;
+        int deltby = 0;
+        if (!verticbl) {
+            deltbx = -box.width - gbp;
+            deltby = 0;
         } else {
-            deltax = 0;
-            deltay = -box.height - gap;
+            deltbx = 0;
+            deltby = -box.height - gbp;
         }
 
-        // Calculate the area of the chunks combined
-        Rectangle fullBox = getFullChunkBounds(box);
+        // Cblculbte the breb of the chunks combined
+        Rectbngle fullBox = getFullChunkBounds(box);
 
-        // save this box for the next time
+        // sbve this box for the next time
         previousFullBox = fullBox;
 
-        // this is the entire progress bar minus the track and borders
-        Insets ins = indeterminateInsets;
-        Rectangle progbarExtents = new Rectangle(ins.left, ins.top,
+        // this is the entire progress bbr minus the trbck bnd borders
+        Insets ins = indeterminbteInsets;
+        Rectbngle progbbrExtents = new Rectbngle(ins.left, ins.top,
                                                  bgwidth  - ins.left - ins.right,
                                                  bgheight - ins.top  - ins.bottom);
 
-        // only paint where the chunks overlap with the progress bar drawing area
-        Rectangle repaintArea = progbarExtents.intersection(fullBox);
+        // only pbint where the chunks overlbp with the progress bbr drbwing breb
+        Rectbngle repbintAreb = progbbrExtents.intersection(fullBox);
 
-        // adjust the cliprect to chop the chunks when they go off the end
-        gfx.clip(repaintArea);
+        // bdjust the cliprect to chop the chunks when they go off the end
+        gfx.clip(repbintAreb);
 
         // get the skin
-        XPStyle.Skin skin = xp.getSkin(progressBar, chunk);
+        XPStyle.Skin skin = xp.getSkin(progressBbr, chunk);
 
-        // do the drawing
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
-        box.translate(deltax, deltay);
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
-        box.translate(deltax, deltay);
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
+        // do the drbwing
+        gfx.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, 0.8f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.height, null);
+        box.trbnslbte(deltbx, deltby);
+        gfx.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, 0.5f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.height, null);
+        box.trbnslbte(deltbx, deltby);
+        gfx.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, 0.2f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.height, null);
 
-        // get rid of our clip and composite changes
+        // get rid of our clip bnd composite chbnges
         gfx.dispose();
     }
 
-    private void paintXPBackground(Graphics g, boolean vertical,
-                                   int barRectWidth, int barRectHeight) {
+    privbte void pbintXPBbckground(Grbphics g, boolebn verticbl,
+                                   int bbrRectWidth, int bbrRectHeight) {
         XPStyle xp = XPStyle.getXP();
         if (xp == null) {
             return;
         }
-        Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-        Skin skin = xp.getSkin(progressBar, part);
+        Pbrt pbrt = verticbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Skin skin = xp.getSkin(progressBbr, pbrt);
 
-        // Paint background
-        skin.paintSkin(g, 0, 0, barRectWidth, barRectHeight, null);
+        // Pbint bbckground
+        skin.pbintSkin(g, 0, 0, bbrRectWidth, bbrRectHeight, null);
     }
 }

@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.nio.charset;
+pbckbge jbvb.nio.chbrset;
 
 /**
- * Constant definitions for the standard {@link Charset Charsets}. These
- * charsets are guaranteed to be available on every implementation of the Java
- * platform.
+ * Constbnt definitions for the stbndbrd {@link Chbrset Chbrsets}. These
+ * chbrsets bre gubrbnteed to be bvbilbble on every implementbtion of the Jbvb
+ * plbtform.
  *
- * @see <a href="Charset.html#standard">Standard Charsets</a>
+ * @see <b href="Chbrset.html#stbndbrd">Stbndbrd Chbrsets</b>
  * @since 1.7
  */
-public final class StandardCharsets {
+public finbl clbss StbndbrdChbrsets {
 
-    private StandardCharsets() {
-        throw new AssertionError("No java.nio.charset.StandardCharsets instances for you!");
+    privbte StbndbrdChbrsets() {
+        throw new AssertionError("No jbvb.nio.chbrset.StbndbrdChbrsets instbnces for you!");
     }
     /**
-     * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
-     * Unicode character set
+     * Seven-bit ASCII, b.k.b. ISO646-US, b.k.b. the Bbsic Lbtin block of the
+     * Unicode chbrbcter set
      */
-    public static final Charset US_ASCII = Charset.forName("US-ASCII");
+    public stbtic finbl Chbrset US_ASCII = Chbrset.forNbme("US-ASCII");
     /**
-     * ISO Latin Alphabet No. 1, a.k.a. ISO-LATIN-1
+     * ISO Lbtin Alphbbet No. 1, b.k.b. ISO-LATIN-1
      */
-    public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+    public stbtic finbl Chbrset ISO_8859_1 = Chbrset.forNbme("ISO-8859-1");
     /**
-     * Eight-bit UCS Transformation Format
+     * Eight-bit UCS Trbnsformbtion Formbt
      */
-    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public stbtic finbl Chbrset UTF_8 = Chbrset.forNbme("UTF-8");
     /**
-     * Sixteen-bit UCS Transformation Format, big-endian byte order
+     * Sixteen-bit UCS Trbnsformbtion Formbt, big-endibn byte order
      */
-    public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
+    public stbtic finbl Chbrset UTF_16BE = Chbrset.forNbme("UTF-16BE");
     /**
-     * Sixteen-bit UCS Transformation Format, little-endian byte order
+     * Sixteen-bit UCS Trbnsformbtion Formbt, little-endibn byte order
      */
-    public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+    public stbtic finbl Chbrset UTF_16LE = Chbrset.forNbme("UTF-16LE");
     /**
-     * Sixteen-bit UCS Transformation Format, byte order identified by an
-     * optional byte-order mark
+     * Sixteen-bit UCS Trbnsformbtion Formbt, byte order identified by bn
+     * optionbl byte-order mbrk
      */
-    public static final Charset UTF_16 = Charset.forName("UTF-16");
+    public stbtic finbl Chbrset UTF_16 = Chbrset.forNbme("UTF-16");
 }

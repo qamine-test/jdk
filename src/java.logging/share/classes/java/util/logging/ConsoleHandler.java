@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
 /**
- * This <tt>Handler</tt> publishes log records to <tt>System.err</tt>.
- * By default the <tt>SimpleFormatter</tt> is used to generate brief summaries.
+ * This <tt>Hbndler</tt> publishes log records to <tt>System.err</tt>.
+ * By defbult the <tt>SimpleFormbtter</tt> is used to generbte brief summbries.
  * <p>
- * <b>Configuration:</b>
- * By default each <tt>ConsoleHandler</tt> is initialized using the following
- * <tt>LogManager</tt> configuration properties where {@code <handler-name>}
- * refers to the fully-qualified class name of the handler.
- * If properties are not defined
- * (or have invalid values) then the specified default values are used.
+ * <b>Configurbtion:</b>
+ * By defbult ebch <tt>ConsoleHbndler</tt> is initiblized using the following
+ * <tt>LogMbnbger</tt> configurbtion properties where {@code <hbndler-nbme>}
+ * refers to the fully-qublified clbss nbme of the hbndler.
+ * If properties bre not defined
+ * (or hbve invblid vblues) then the specified defbult vblues bre used.
  * <ul>
- * <li>   &lt;handler-name&gt;.level
- *        specifies the default level for the <tt>Handler</tt>
- *        (defaults to <tt>Level.INFO</tt>). </li>
- * <li>   &lt;handler-name&gt;.filter
- *        specifies the name of a <tt>Filter</tt> class to use
- *        (defaults to no <tt>Filter</tt>). </li>
- * <li>   &lt;handler-name&gt;.formatter
- *        specifies the name of a <tt>Formatter</tt> class to use
- *        (defaults to <tt>java.util.logging.SimpleFormatter</tt>). </li>
- * <li>   &lt;handler-name&gt;.encoding
- *        the name of the character set encoding to use (defaults to
- *        the default platform encoding). </li>
+ * <li>   &lt;hbndler-nbme&gt;.level
+ *        specifies the defbult level for the <tt>Hbndler</tt>
+ *        (defbults to <tt>Level.INFO</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.filter
+ *        specifies the nbme of b <tt>Filter</tt> clbss to use
+ *        (defbults to no <tt>Filter</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.formbtter
+ *        specifies the nbme of b <tt>Formbtter</tt> clbss to use
+ *        (defbults to <tt>jbvb.util.logging.SimpleFormbtter</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.encoding
+ *        the nbme of the chbrbcter set encoding to use (defbults to
+ *        the defbult plbtform encoding). </li>
  * </ul>
  * <p>
- * For example, the properties for {@code ConsoleHandler} would be:
+ * For exbmple, the properties for {@code ConsoleHbndler} would be:
  * <ul>
- * <li>   java.util.logging.ConsoleHandler.level=INFO </li>
- * <li>   java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   jbvb.util.logging.ConsoleHbndler.level=INFO </li>
+ * <li>   jbvb.util.logging.ConsoleHbndler.formbtter=jbvb.util.logging.SimpleFormbtter </li>
  * </ul>
  * <p>
- * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
+ * For b custom hbndler, e.g. com.foo.MyHbndler, the properties would be:
  * <ul>
- * <li>   com.foo.MyHandler.level=INFO </li>
- * <li>   com.foo.MyHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   com.foo.MyHbndler.level=INFO </li>
+ * <li>   com.foo.MyHbndler.formbtter=jbvb.util.logging.SimpleFormbtter </li>
  * </ul>
  *
  * @since 1.4
  */
-public class ConsoleHandler extends StreamHandler {
+public clbss ConsoleHbndler extends StrebmHbndler {
 
     /**
-     * Create a <tt>ConsoleHandler</tt> for <tt>System.err</tt>.
+     * Crebte b <tt>ConsoleHbndler</tt> for <tt>System.err</tt>.
      * <p>
-     * The <tt>ConsoleHandler</tt> is configured based on
-     * <tt>LogManager</tt> properties (or their default values).
+     * The <tt>ConsoleHbndler</tt> is configured bbsed on
+     * <tt>LogMbnbger</tt> properties (or their defbult vblues).
      *
      */
-    public ConsoleHandler() {
-        // configure with specific defaults for ConsoleHandler
-        super(Level.INFO, new SimpleFormatter(), null);
+    public ConsoleHbndler() {
+        // configure with specific defbults for ConsoleHbndler
+        super(Level.INFO, new SimpleFormbtter(), null);
 
-        setOutputStreamPrivileged(System.err);
+        setOutputStrebmPrivileged(System.err);
     }
 
     /**
-     * Publish a <tt>LogRecord</tt>.
+     * Publish b <tt>LogRecord</tt>.
      * <p>
-     * The logging request was made initially to a <tt>Logger</tt> object,
-     * which initialized the <tt>LogRecord</tt> and forwarded it here.
+     * The logging request wbs mbde initiblly to b <tt>Logger</tt> object,
+     * which initiblized the <tt>LogRecord</tt> bnd forwbrded it here.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  record  description of the log event. A null record is
+     *                 silently ignored bnd is not published
      */
     @Override
     public void publish(LogRecord record) {
@@ -97,8 +97,8 @@ public class ConsoleHandler extends StreamHandler {
     }
 
     /**
-     * Override <tt>StreamHandler.close</tt> to do a flush but not
-     * to close the output stream.  That is, we do <b>not</b>
+     * Override <tt>StrebmHbndler.close</tt> to do b flush but not
+     * to close the output strebm.  Thbt is, we do <b>not</b>
      * close <tt>System.err</tt>.
      */
     @Override

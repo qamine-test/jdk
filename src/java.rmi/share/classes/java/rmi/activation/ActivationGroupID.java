@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.rmi.server.UID;
+import jbvb.rmi.server.UID;
 
 /**
- * The identifier for a registered activation group serves several
+ * The identifier for b registered bctivbtion group serves severbl
  * purposes: <ul>
- * <li>identifies the group uniquely within the activation system, and
- * <li>contains a reference to the group's activation system so that the
- * group can contact its activation system when necessary.</ul><p>
+ * <li>identifies the group uniquely within the bctivbtion system, bnd
+ * <li>contbins b reference to the group's bctivbtion system so thbt the
+ * group cbn contbct its bctivbtion system when necessbry.</ul><p>
  *
- * The <code>ActivationGroupID</code> is returned from the call to
- * <code>ActivationSystem.registerGroup</code> and is used to identify
- * the group within the activation system. This group id is passed
- * as one of the arguments to the activation group's special constructor
- * when an activation group is created/recreated.
+ * The <code>ActivbtionGroupID</code> is returned from the cbll to
+ * <code>ActivbtionSystem.registerGroup</code> bnd is used to identify
+ * the group within the bctivbtion system. This group id is pbssed
+ * bs one of the brguments to the bctivbtion group's specibl constructor
+ * when bn bctivbtion group is crebted/recrebted.
  *
- * @author      Ann Wollrath
- * @see         ActivationGroup
- * @see         ActivationGroupDesc
+ * @buthor      Ann Wollrbth
+ * @see         ActivbtionGroup
+ * @see         ActivbtionGroupDesc
  * @since       1.2
  */
-public class ActivationGroupID implements java.io.Serializable {
+public clbss ActivbtionGroupID implements jbvb.io.Seriblizbble {
     /**
-     * @serial The group's activation system.
+     * @seribl The group's bctivbtion system.
      */
-    private ActivationSystem system;
+    privbte ActivbtionSystem system;
 
     /**
-     * @serial The group's unique id.
+     * @seribl The group's unique id.
      */
-    private UID uid = new UID();
+    privbte UID uid = new UID();
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private  static final long serialVersionUID = -1648432278909740833L;
+    /** indicbte compbtibility with the Jbvb 2 SDK v1.2 version of clbss */
+    privbte  stbtic finbl long seriblVersionUID = -1648432278909740833L;
 
     /**
-     * Constructs a unique group id.
+     * Constructs b unique group id.
      *
-     * @param system the group's activation system
-     * @throws UnsupportedOperationException if and only if activation is
-     *         not supported by this implementation
+     * @pbrbm system the group's bctivbtion system
+     * @throws UnsupportedOperbtionException if bnd only if bctivbtion is
+     *         not supported by this implementbtion
      * @since 1.2
      */
-    public ActivationGroupID(ActivationSystem system) {
+    public ActivbtionGroupID(ActivbtionSystem system) {
         this.system = system;
     }
 
     /**
-     * Returns the group's activation system.
-     * @return the group's activation system
+     * Returns the group's bctivbtion system.
+     * @return the group's bctivbtion system
      * @since 1.2
      */
-    public ActivationSystem getSystem() {
+    public ActivbtionSystem getSystem() {
         return system;
     }
 
     /**
-     * Returns a hashcode for the group's identifier.  Two group
-     * identifiers that refer to the same remote group will have the
-     * same hash code.
+     * Returns b hbshcode for the group's identifier.  Two group
+     * identifiers thbt refer to the sbme remote group will hbve the
+     * sbme hbsh code.
      *
-     * @see java.util.Hashtable
+     * @see jbvb.util.Hbshtbble
      * @since 1.2
      */
-    public int hashCode() {
-        return uid.hashCode();
+    public int hbshCode() {
+        return uid.hbshCode();
     }
 
     /**
-     * Compares two group identifiers for content equality.
-     * Returns true if both of the following conditions are true:
-     * 1) the unique identifiers are equivalent (by content), and
-     * 2) the activation system specified in each
-     *    refers to the same remote object.
+     * Compbres two group identifiers for content equblity.
+     * Returns true if both of the following conditions bre true:
+     * 1) the unique identifiers bre equivblent (by content), bnd
+     * 2) the bctivbtion system specified in ebch
+     *    refers to the sbme remote object.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
+     * @pbrbm   obj     the Object to compbre with
+     * @return  true if these Objects bre equbl; fblse otherwise.
+     * @see             jbvb.util.Hbshtbble
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
-        } else if (obj instanceof ActivationGroupID) {
-            ActivationGroupID id = (ActivationGroupID)obj;
-            return (uid.equals(id.uid) && system.equals(id.system));
+        } else if (obj instbnceof ActivbtionGroupID) {
+            ActivbtionGroupID id = (ActivbtionGroupID)obj;
+            return (uid.equbls(id.uid) && system.equbls(id.system));
         } else {
-            return false;
+            return fblse;
         }
     }
 }

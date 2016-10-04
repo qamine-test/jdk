@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.regex;
+pbckbge jbvb.util.regex;
 
 /**
- * The result of a match operation.
+ * The result of b mbtch operbtion.
  *
- * <p>This interface contains query methods used to determine the
- * results of a match against a regular expression. The match boundaries,
- * groups and group boundaries can be seen but not modified through
- * a <code>MatchResult</code>.
+ * <p>This interfbce contbins query methods used to determine the
+ * results of b mbtch bgbinst b regulbr expression. The mbtch boundbries,
+ * groups bnd group boundbries cbn be seen but not modified through
+ * b <code>MbtchResult</code>.
  *
- * @author  Michael McCloskey
- * @see Matcher
+ * @buthor  Michbel McCloskey
+ * @see Mbtcher
  * @since 1.5
  */
-public interface MatchResult {
+public interfbce MbtchResult {
 
     /**
-     * Returns the start index of the match.
+     * Returns the stbrt index of the mbtch.
      *
-     * @return  The index of the first character matched
+     * @return  The index of the first chbrbcter mbtched
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      */
-    public int start();
+    public int stbrt();
 
     /**
-     * Returns the start index of the subsequence captured by the given group
-     * during this match.
+     * Returns the stbrt index of the subsequence cbptured by the given group
+     * during this mbtch.
      *
-     * <p> <a href="Pattern.html#cg">Capturing groups</a> are indexed from left
-     * to right, starting at one.  Group zero denotes the entire pattern, so
-     * the expression <i>m.</i><tt>start(0)</tt> is equivalent to
-     * <i>m.</i><tt>start()</tt>.  </p>
+     * <p> <b href="Pbttern.html#cg">Cbpturing groups</b> bre indexed from left
+     * to right, stbrting bt one.  Group zero denotes the entire pbttern, so
+     * the expression <i>m.</i><tt>stbrt(0)</tt> is equivblent to
+     * <i>m.</i><tt>stbrt()</tt>.  </p>
      *
-     * @param  group
-     *         The index of a capturing group in this matcher's pattern
+     * @pbrbm  group
+     *         The index of b cbpturing group in this mbtcher's pbttern
      *
-     * @return  The index of the first character captured by the group,
-     *          or <tt>-1</tt> if the match was successful but the group
-     *          itself did not match anything
+     * @return  The index of the first chbrbcter cbptured by the group,
+     *          or <tt>-1</tt> if the mbtch wbs successful but the group
+     *          itself did not mbtch bnything
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      *
      * @throws  IndexOutOfBoundsException
-     *          If there is no capturing group in the pattern
+     *          If there is no cbpturing group in the pbttern
      *          with the given index
      */
-    public int start(int group);
+    public int stbrt(int group);
 
     /**
-     * Returns the offset after the last character matched.
+     * Returns the offset bfter the lbst chbrbcter mbtched.
      *
-     * @return  The offset after the last character matched
+     * @return  The offset bfter the lbst chbrbcter mbtched
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      */
     public int end();
 
     /**
-     * Returns the offset after the last character of the subsequence
-     * captured by the given group during this match.
+     * Returns the offset bfter the lbst chbrbcter of the subsequence
+     * cbptured by the given group during this mbtch.
      *
-     * <p> <a href="Pattern.html#cg">Capturing groups</a> are indexed from left
-     * to right, starting at one.  Group zero denotes the entire pattern, so
-     * the expression <i>m.</i><tt>end(0)</tt> is equivalent to
+     * <p> <b href="Pbttern.html#cg">Cbpturing groups</b> bre indexed from left
+     * to right, stbrting bt one.  Group zero denotes the entire pbttern, so
+     * the expression <i>m.</i><tt>end(0)</tt> is equivblent to
      * <i>m.</i><tt>end()</tt>.  </p>
      *
-     * @param  group
-     *         The index of a capturing group in this matcher's pattern
+     * @pbrbm  group
+     *         The index of b cbpturing group in this mbtcher's pbttern
      *
-     * @return  The offset after the last character captured by the group,
-     *          or <tt>-1</tt> if the match was successful
-     *          but the group itself did not match anything
+     * @return  The offset bfter the lbst chbrbcter cbptured by the group,
+     *          or <tt>-1</tt> if the mbtch wbs successful
+     *          but the group itself did not mbtch bnything
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      *
      * @throws  IndexOutOfBoundsException
-     *          If there is no capturing group in the pattern
+     *          If there is no cbpturing group in the pbttern
      *          with the given index
      */
     public int end(int group);
 
     /**
-     * Returns the input subsequence matched by the previous match.
+     * Returns the input subsequence mbtched by the previous mbtch.
      *
-     * <p> For a matcher <i>m</i> with input sequence <i>s</i>,
-     * the expressions <i>m.</i><tt>group()</tt> and
-     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>start(),</tt>&nbsp;<i>m.</i><tt>end())</tt>
-     * are equivalent.  </p>
+     * <p> For b mbtcher <i>m</i> with input sequence <i>s</i>,
+     * the expressions <i>m.</i><tt>group()</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(),</tt>&nbsp;<i>m.</i><tt>end())</tt>
+     * bre equivblent.  </p>
      *
-     * <p> Note that some patterns, for example <tt>a*</tt>, match the empty
-     * string.  This method will return the empty string when the pattern
-     * successfully matches the empty string in the input.  </p>
+     * <p> Note thbt some pbtterns, for exbmple <tt>b*</tt>, mbtch the empty
+     * string.  This method will return the empty string when the pbttern
+     * successfully mbtches the empty string in the input.  </p>
      *
-     * @return The (possibly empty) subsequence matched by the previous match,
+     * @return The (possibly empty) subsequence mbtched by the previous mbtch,
      *         in string form
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      */
     public String group();
 
     /**
-     * Returns the input subsequence captured by the given group during the
-     * previous match operation.
+     * Returns the input subsequence cbptured by the given group during the
+     * previous mbtch operbtion.
      *
-     * <p> For a matcher <i>m</i>, input sequence <i>s</i>, and group index
-     * <i>g</i>, the expressions <i>m.</i><tt>group(</tt><i>g</i><tt>)</tt> and
-     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>start(</tt><i>g</i><tt>),</tt>&nbsp;<i>m.</i><tt>end(</tt><i>g</i><tt>))</tt>
-     * are equivalent.  </p>
+     * <p> For b mbtcher <i>m</i>, input sequence <i>s</i>, bnd group index
+     * <i>g</i>, the expressions <i>m.</i><tt>group(</tt><i>g</i><tt>)</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(</tt><i>g</i><tt>),</tt>&nbsp;<i>m.</i><tt>end(</tt><i>g</i><tt>))</tt>
+     * bre equivblent.  </p>
      *
-     * <p> <a href="Pattern.html#cg">Capturing groups</a> are indexed from left
-     * to right, starting at one.  Group zero denotes the entire pattern, so
-     * the expression <tt>m.group(0)</tt> is equivalent to <tt>m.group()</tt>.
+     * <p> <b href="Pbttern.html#cg">Cbpturing groups</b> bre indexed from left
+     * to right, stbrting bt one.  Group zero denotes the entire pbttern, so
+     * the expression <tt>m.group(0)</tt> is equivblent to <tt>m.group()</tt>.
      * </p>
      *
-     * <p> If the match was successful but the group specified failed to match
-     * any part of the input sequence, then <tt>null</tt> is returned. Note
-     * that some groups, for example <tt>(a*)</tt>, match the empty string.
-     * This method will return the empty string when such a group successfully
-     * matches the empty string in the input.  </p>
+     * <p> If the mbtch wbs successful but the group specified fbiled to mbtch
+     * bny pbrt of the input sequence, then <tt>null</tt> is returned. Note
+     * thbt some groups, for exbmple <tt>(b*)</tt>, mbtch the empty string.
+     * This method will return the empty string when such b group successfully
+     * mbtches the empty string in the input.  </p>
      *
-     * @param  group
-     *         The index of a capturing group in this matcher's pattern
+     * @pbrbm  group
+     *         The index of b cbpturing group in this mbtcher's pbttern
      *
-     * @return  The (possibly empty) subsequence captured by the group
-     *          during the previous match, or <tt>null</tt> if the group
-     *          failed to match part of the input
+     * @return  The (possibly empty) subsequence cbptured by the group
+     *          during the previous mbtch, or <tt>null</tt> if the group
+     *          fbiled to mbtch pbrt of the input
      *
-     * @throws  IllegalStateException
-     *          If no match has yet been attempted,
-     *          or if the previous match operation failed
+     * @throws  IllegblStbteException
+     *          If no mbtch hbs yet been bttempted,
+     *          or if the previous mbtch operbtion fbiled
      *
      * @throws  IndexOutOfBoundsException
-     *          If there is no capturing group in the pattern
+     *          If there is no cbpturing group in the pbttern
      *          with the given index
      */
     public String group(int group);
 
     /**
-     * Returns the number of capturing groups in this match result's pattern.
+     * Returns the number of cbpturing groups in this mbtch result's pbttern.
      *
-     * <p> Group zero denotes the entire pattern by convention. It is not
+     * <p> Group zero denotes the entire pbttern by convention. It is not
      * included in this count.
      *
-     * <p> Any non-negative integer smaller than or equal to the value
-     * returned by this method is guaranteed to be a valid group index for
-     * this matcher.  </p>
+     * <p> Any non-negbtive integer smbller thbn or equbl to the vblue
+     * returned by this method is gubrbnteed to be b vblid group index for
+     * this mbtcher.  </p>
      *
-     * @return The number of capturing groups in this matcher's pattern
+     * @return The number of cbpturing groups in this mbtcher's pbttern
      */
     public int groupCount();
 

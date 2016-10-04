@@ -1,440 +1,440 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.net.*;
-import java.util.*;
-import java.util.List;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import jbvb.bwt.*;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.io.File;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.util.List;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
-import com.apple.eawt.AppEvent.*;
+import com.bpple.ebwt.AppEvent.*;
 
-class _AppEventHandler {
-    private static final int NOTIFY_ABOUT = 1;
-    private static final int NOTIFY_PREFS = 2;
-    private static final int NOTIFY_OPEN_APP = 3;
-    private static final int NOTIFY_REOPEN_APP = 4;
-    private static final int NOTIFY_QUIT = 5;
-    private static final int NOTIFY_SHUTDOWN = 6;
-    private static final int NOTIFY_ACTIVE_APP_GAINED = 7;
-    private static final int NOTIFY_ACTIVE_APP_LOST = 8;
-    private static final int NOTIFY_APP_HIDDEN = 9;
-    private static final int NOTIFY_APP_SHOWN = 10;
-    private static final int NOTIFY_USER_SESSION_ACTIVE = 11;
-    private static final int NOTIFY_USER_SESSION_INACTIVE = 12;
-    private static final int NOTIFY_SCREEN_SLEEP = 13;
-    private static final int NOTIFY_SCREEN_WAKE = 14;
-    private static final int NOTIFY_SYSTEM_SLEEP = 15;
-    private static final int NOTIFY_SYSTEM_WAKE = 16;
+clbss _AppEventHbndler {
+    privbte stbtic finbl int NOTIFY_ABOUT = 1;
+    privbte stbtic finbl int NOTIFY_PREFS = 2;
+    privbte stbtic finbl int NOTIFY_OPEN_APP = 3;
+    privbte stbtic finbl int NOTIFY_REOPEN_APP = 4;
+    privbte stbtic finbl int NOTIFY_QUIT = 5;
+    privbte stbtic finbl int NOTIFY_SHUTDOWN = 6;
+    privbte stbtic finbl int NOTIFY_ACTIVE_APP_GAINED = 7;
+    privbte stbtic finbl int NOTIFY_ACTIVE_APP_LOST = 8;
+    privbte stbtic finbl int NOTIFY_APP_HIDDEN = 9;
+    privbte stbtic finbl int NOTIFY_APP_SHOWN = 10;
+    privbte stbtic finbl int NOTIFY_USER_SESSION_ACTIVE = 11;
+    privbte stbtic finbl int NOTIFY_USER_SESSION_INACTIVE = 12;
+    privbte stbtic finbl int NOTIFY_SCREEN_SLEEP = 13;
+    privbte stbtic finbl int NOTIFY_SCREEN_WAKE = 14;
+    privbte stbtic finbl int NOTIFY_SYSTEM_SLEEP = 15;
+    privbte stbtic finbl int NOTIFY_SYSTEM_WAKE = 16;
 
-    private static final int REGISTER_USER_SESSION = 1;
-    private static final int REGISTER_SCREEN_SLEEP = 2;
-    private static final int REGISTER_SYSTEM_SLEEP = 3;
+    privbte stbtic finbl int REGISTER_USER_SESSION = 1;
+    privbte stbtic finbl int REGISTER_SCREEN_SLEEP = 2;
+    privbte stbtic finbl int REGISTER_SYSTEM_SLEEP = 3;
 
-    private static native void nativeOpenCocoaAboutWindow();
-    private static native void nativeReplyToAppShouldTerminate(final boolean shouldTerminate);
-    private static native void nativeRegisterForNotification(final int notification);
+    privbte stbtic nbtive void nbtiveOpenCocobAboutWindow();
+    privbte stbtic nbtive void nbtiveReplyToAppShouldTerminbte(finbl boolebn shouldTerminbte);
+    privbte stbtic nbtive void nbtiveRegisterForNotificbtion(finbl int notificbtion);
 
-    final static _AppEventHandler instance = new _AppEventHandler();
-    static _AppEventHandler getInstance() {
-        return instance;
+    finbl stbtic _AppEventHbndler instbnce = new _AppEventHbndler();
+    stbtic _AppEventHbndler getInstbnce() {
+        return instbnce;
     }
 
-    // single shot dispatchers (some queuing, others not)
-    final _AboutDispatcher aboutDispatcher = new _AboutDispatcher();
-    final _PreferencesDispatcher preferencesDispatcher = new _PreferencesDispatcher();
-    final _OpenFileDispatcher openFilesDispatcher = new _OpenFileDispatcher();
-    final _PrintFileDispatcher printFilesDispatcher = new _PrintFileDispatcher();
-    final _OpenURIDispatcher openURIDispatcher = new _OpenURIDispatcher();
-    final _QuitDispatcher quitDispatcher = new _QuitDispatcher();
-    final _OpenAppDispatcher openAppDispatcher = new _OpenAppDispatcher();
+    // single shot dispbtchers (some queuing, others not)
+    finbl _AboutDispbtcher bboutDispbtcher = new _AboutDispbtcher();
+    finbl _PreferencesDispbtcher preferencesDispbtcher = new _PreferencesDispbtcher();
+    finbl _OpenFileDispbtcher openFilesDispbtcher = new _OpenFileDispbtcher();
+    finbl _PrintFileDispbtcher printFilesDispbtcher = new _PrintFileDispbtcher();
+    finbl _OpenURIDispbtcher openURIDispbtcher = new _OpenURIDispbtcher();
+    finbl _QuitDispbtcher quitDispbtcher = new _QuitDispbtcher();
+    finbl _OpenAppDispbtcher openAppDispbtcher = new _OpenAppDispbtcher();
 
-    // multiplexing dispatchers (contains listener lists)
-    final _AppReOpenedDispatcher reOpenAppDispatcher = new _AppReOpenedDispatcher();
-    final _AppForegroundDispatcher foregroundAppDispatcher = new _AppForegroundDispatcher();
-    final _HiddenAppDispatcher hiddenAppDispatcher = new _HiddenAppDispatcher();
-    final _UserSessionDispatcher userSessionDispatcher = new _UserSessionDispatcher();
-    final _ScreenSleepDispatcher screenSleepDispatcher = new _ScreenSleepDispatcher();
-    final _SystemSleepDispatcher systemSleepDispatcher = new _SystemSleepDispatcher();
+    // multiplexing dispbtchers (contbins listener lists)
+    finbl _AppReOpenedDispbtcher reOpenAppDispbtcher = new _AppReOpenedDispbtcher();
+    finbl _AppForegroundDispbtcher foregroundAppDispbtcher = new _AppForegroundDispbtcher();
+    finbl _HiddenAppDispbtcher hiddenAppDispbtcher = new _HiddenAppDispbtcher();
+    finbl _UserSessionDispbtcher userSessionDispbtcher = new _UserSessionDispbtcher();
+    finbl _ScreenSleepDispbtcher screenSleepDispbtcher = new _ScreenSleepDispbtcher();
+    finbl _SystemSleepDispbtcher systemSleepDispbtcher = new _SystemSleepDispbtcher();
 
-    final _AppEventLegacyHandler legacyHandler = new _AppEventLegacyHandler(this);
+    finbl _AppEventLegbcyHbndler legbcyHbndler = new _AppEventLegbcyHbndler(this);
 
-    QuitStrategy defaultQuitAction = QuitStrategy.SYSTEM_EXIT_0;
+    QuitStrbtegy defbultQuitAction = QuitStrbtegy.SYSTEM_EXIT_0;
 
-    _AppEventHandler() {
-        final String strategyProp = System.getProperty("apple.eawt.quitStrategy");
-        if (strategyProp == null) return;
+    _AppEventHbndler() {
+        finbl String strbtegyProp = System.getProperty("bpple.ebwt.quitStrbtegy");
+        if (strbtegyProp == null) return;
 
-        if ("CLOSE_ALL_WINDOWS".equals(strategyProp)) {
-            setDefaultQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
-        } else if ("SYSTEM_EXIT_O".equals(strategyProp)) {
-            setDefaultQuitStrategy(QuitStrategy.SYSTEM_EXIT_0);
+        if ("CLOSE_ALL_WINDOWS".equbls(strbtegyProp)) {
+            setDefbultQuitStrbtegy(QuitStrbtegy.CLOSE_ALL_WINDOWS);
+        } else if ("SYSTEM_EXIT_O".equbls(strbtegyProp)) {
+            setDefbultQuitStrbtegy(QuitStrbtegy.SYSTEM_EXIT_0);
         } else {
-            System.err.println("unrecognized apple.eawt.quitStrategy: " + strategyProp);
+            System.err.println("unrecognized bpple.ebwt.quitStrbtegy: " + strbtegyProp);
         }
     }
 
-    void addListener(final AppEventListener listener) {
-        if (listener instanceof AppReOpenedListener) reOpenAppDispatcher.addListener((AppReOpenedListener)listener);
-        if (listener instanceof AppForegroundListener) foregroundAppDispatcher.addListener((AppForegroundListener)listener);
-        if (listener instanceof AppHiddenListener) hiddenAppDispatcher.addListener((AppHiddenListener)listener);
-        if (listener instanceof UserSessionListener) userSessionDispatcher.addListener((UserSessionListener)listener);
-        if (listener instanceof ScreenSleepListener) screenSleepDispatcher.addListener((ScreenSleepListener)listener);
-        if (listener instanceof SystemSleepListener) systemSleepDispatcher.addListener((SystemSleepListener)listener);
+    void bddListener(finbl AppEventListener listener) {
+        if (listener instbnceof AppReOpenedListener) reOpenAppDispbtcher.bddListener((AppReOpenedListener)listener);
+        if (listener instbnceof AppForegroundListener) foregroundAppDispbtcher.bddListener((AppForegroundListener)listener);
+        if (listener instbnceof AppHiddenListener) hiddenAppDispbtcher.bddListener((AppHiddenListener)listener);
+        if (listener instbnceof UserSessionListener) userSessionDispbtcher.bddListener((UserSessionListener)listener);
+        if (listener instbnceof ScreenSleepListener) screenSleepDispbtcher.bddListener((ScreenSleepListener)listener);
+        if (listener instbnceof SystemSleepListener) systemSleepDispbtcher.bddListener((SystemSleepListener)listener);
     }
 
-    void removeListener(final AppEventListener listener) {
-        if (listener instanceof AppReOpenedListener) reOpenAppDispatcher.removeListener((AppReOpenedListener)listener);
-        if (listener instanceof AppForegroundListener) foregroundAppDispatcher.removeListener((AppForegroundListener)listener);
-        if (listener instanceof AppHiddenListener) hiddenAppDispatcher.removeListener((AppHiddenListener)listener);
-        if (listener instanceof UserSessionListener) userSessionDispatcher.removeListener((UserSessionListener)listener);
-        if (listener instanceof ScreenSleepListener) screenSleepDispatcher.removeListener((ScreenSleepListener)listener);
-        if (listener instanceof SystemSleepListener) systemSleepDispatcher.removeListener((SystemSleepListener)listener);
+    void removeListener(finbl AppEventListener listener) {
+        if (listener instbnceof AppReOpenedListener) reOpenAppDispbtcher.removeListener((AppReOpenedListener)listener);
+        if (listener instbnceof AppForegroundListener) foregroundAppDispbtcher.removeListener((AppForegroundListener)listener);
+        if (listener instbnceof AppHiddenListener) hiddenAppDispbtcher.removeListener((AppHiddenListener)listener);
+        if (listener instbnceof UserSessionListener) userSessionDispbtcher.removeListener((UserSessionListener)listener);
+        if (listener instbnceof ScreenSleepListener) screenSleepDispbtcher.removeListener((ScreenSleepListener)listener);
+        if (listener instbnceof SystemSleepListener) systemSleepDispbtcher.removeListener((SystemSleepListener)listener);
     }
 
-    void openCocoaAboutWindow() {
-        nativeOpenCocoaAboutWindow();
+    void openCocobAboutWindow() {
+        nbtiveOpenCocobAboutWindow();
     }
 
-    void setDefaultQuitStrategy(final QuitStrategy defaultQuitAction) {
-        this.defaultQuitAction = defaultQuitAction;
+    void setDefbultQuitStrbtegy(finbl QuitStrbtegy defbultQuitAction) {
+        this.defbultQuitAction = defbultQuitAction;
     }
 
     QuitResponse currentQuitResponse;
-    synchronized QuitResponse obtainQuitResponse() {
+    synchronized QuitResponse obtbinQuitResponse() {
         if (currentQuitResponse != null) return currentQuitResponse;
         return currentQuitResponse = new QuitResponse(this);
     }
 
-    synchronized void cancelQuit() {
+    synchronized void cbncelQuit() {
         currentQuitResponse = null;
-        nativeReplyToAppShouldTerminate(false);
+        nbtiveReplyToAppShouldTerminbte(fblse);
     }
 
     synchronized void performQuit() {
         currentQuitResponse = null;
 
         try {
-            if (defaultQuitAction == QuitStrategy.SYSTEM_EXIT_0) System.exit(0);
+            if (defbultQuitAction == QuitStrbtegy.SYSTEM_EXIT_0) System.exit(0);
 
-            if (defaultQuitAction != QuitStrategy.CLOSE_ALL_WINDOWS) {
-                throw new RuntimeException("Unknown quit action");
+            if (defbultQuitAction != QuitStrbtegy.CLOSE_ALL_WINDOWS) {
+                throw new RuntimeException("Unknown quit bction");
             }
 
-            EventQueue.invokeLater(new Runnable() {
+            EventQueue.invokeLbter(new Runnbble() {
                 public void run() {
-                    // walk frames from back to front
-                    final Frame[] allFrames = Frame.getFrames();
-                    for (int i = allFrames.length - 1; i >= 0; i--) {
-                        final Frame frame = allFrames[i];
-                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                    // wblk frbmes from bbck to front
+                    finbl Frbme[] bllFrbmes = Frbme.getFrbmes();
+                    for (int i = bllFrbmes.length - 1; i >= 0; i--) {
+                        finbl Frbme frbme = bllFrbmes[i];
+                        frbme.dispbtchEvent(new WindowEvent(frbme, WindowEvent.WINDOW_CLOSING));
                     }
                 }
             });
-        } finally {
-            // Either we've just called System.exit(), or the app will call
-            // it when processing a WINDOW_CLOSING event. Either way, we reply
-            // to Cocoa that we don't want to exit the event loop yet.
-            nativeReplyToAppShouldTerminate(false);
+        } finblly {
+            // Either we've just cblled System.exit(), or the bpp will cbll
+            // it when processing b WINDOW_CLOSING event. Either wby, we reply
+            // to Cocob thbt we don't wbnt to exit the event loop yet.
+            nbtiveReplyToAppShouldTerminbte(fblse);
         }
     }
 
     /*
-     * callbacks from native delegate
+     * cbllbbcks from nbtive delegbte
      */
-    private static void handlePrintFiles(final List<String> filenames) {
-        instance.printFilesDispatcher.dispatch(new _NativeEvent(filenames));
+    privbte stbtic void hbndlePrintFiles(finbl List<String> filenbmes) {
+        instbnce.printFilesDispbtcher.dispbtch(new _NbtiveEvent(filenbmes));
     }
 
-    private static void handleOpenFiles(final List<String> filenames, final String searchTerm) {
-        instance.openFilesDispatcher.dispatch(new _NativeEvent(filenames, searchTerm));
+    privbte stbtic void hbndleOpenFiles(finbl List<String> filenbmes, finbl String sebrchTerm) {
+        instbnce.openFilesDispbtcher.dispbtch(new _NbtiveEvent(filenbmes, sebrchTerm));
     }
 
-    private static void handleOpenURI(final String uri) {
-        instance.openURIDispatcher.dispatch(new _NativeEvent(uri));
+    privbte stbtic void hbndleOpenURI(finbl String uri) {
+        instbnce.openURIDispbtcher.dispbtch(new _NbtiveEvent(uri));
     }
 
-    // default funnel for non-complex events
-    private static void handleNativeNotification(final int code) {
+    // defbult funnel for non-complex events
+    privbte stbtic void hbndleNbtiveNotificbtion(finbl int code) {
 //        System.out.println(code);
 
         switch (code) {
-            case NOTIFY_ABOUT:
-                instance.aboutDispatcher.dispatch(new _NativeEvent());
-                break;
-            case NOTIFY_PREFS:
-                instance.preferencesDispatcher.dispatch(new _NativeEvent());
-                break;
-            case NOTIFY_OPEN_APP:
-                instance.openAppDispatcher.dispatch(new _NativeEvent());
-                break;
-            case NOTIFY_REOPEN_APP:
-                instance.reOpenAppDispatcher.dispatch(new _NativeEvent());
-                break;
-            case NOTIFY_QUIT:
-                instance.quitDispatcher.dispatch(new _NativeEvent());
-                break;
-            case NOTIFY_SHUTDOWN:
+            cbse NOTIFY_ABOUT:
+                instbnce.bboutDispbtcher.dispbtch(new _NbtiveEvent());
+                brebk;
+            cbse NOTIFY_PREFS:
+                instbnce.preferencesDispbtcher.dispbtch(new _NbtiveEvent());
+                brebk;
+            cbse NOTIFY_OPEN_APP:
+                instbnce.openAppDispbtcher.dispbtch(new _NbtiveEvent());
+                brebk;
+            cbse NOTIFY_REOPEN_APP:
+                instbnce.reOpenAppDispbtcher.dispbtch(new _NbtiveEvent());
+                brebk;
+            cbse NOTIFY_QUIT:
+                instbnce.quitDispbtcher.dispbtch(new _NbtiveEvent());
+                brebk;
+            cbse NOTIFY_SHUTDOWN:
                 // do nothing for now
-                break;
-            case NOTIFY_ACTIVE_APP_GAINED:
-                instance.foregroundAppDispatcher.dispatch(new _NativeEvent(Boolean.TRUE));
-                break;
-            case NOTIFY_ACTIVE_APP_LOST:
-                instance.foregroundAppDispatcher.dispatch(new _NativeEvent(Boolean.FALSE));
-                break;
-            case NOTIFY_APP_HIDDEN:
-                instance.hiddenAppDispatcher.dispatch(new _NativeEvent(Boolean.TRUE));
-                break;
-            case NOTIFY_APP_SHOWN:
-                instance.hiddenAppDispatcher.dispatch(new _NativeEvent(Boolean.FALSE));
-                break;
-            case NOTIFY_USER_SESSION_ACTIVE:
-                instance.userSessionDispatcher.dispatch(new _NativeEvent(Boolean.TRUE));
-                break;
-            case NOTIFY_USER_SESSION_INACTIVE:
-                instance.userSessionDispatcher.dispatch(new _NativeEvent(Boolean.FALSE));
-                break;
-            case NOTIFY_SCREEN_SLEEP:
-                instance.screenSleepDispatcher.dispatch(new _NativeEvent(Boolean.TRUE));
-                break;
-            case NOTIFY_SCREEN_WAKE:
-                instance.screenSleepDispatcher.dispatch(new _NativeEvent(Boolean.FALSE));
-                break;
-            case NOTIFY_SYSTEM_SLEEP:
-                instance.systemSleepDispatcher.dispatch(new _NativeEvent(Boolean.TRUE));
-                break;
-            case NOTIFY_SYSTEM_WAKE:
-                instance.systemSleepDispatcher.dispatch(new _NativeEvent(Boolean.FALSE));
-                break;
-            default:
-                System.err.println("EAWT unknown native notification: " + code);
-                break;
+                brebk;
+            cbse NOTIFY_ACTIVE_APP_GAINED:
+                instbnce.foregroundAppDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.TRUE));
+                brebk;
+            cbse NOTIFY_ACTIVE_APP_LOST:
+                instbnce.foregroundAppDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.FALSE));
+                brebk;
+            cbse NOTIFY_APP_HIDDEN:
+                instbnce.hiddenAppDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.TRUE));
+                brebk;
+            cbse NOTIFY_APP_SHOWN:
+                instbnce.hiddenAppDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.FALSE));
+                brebk;
+            cbse NOTIFY_USER_SESSION_ACTIVE:
+                instbnce.userSessionDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.TRUE));
+                brebk;
+            cbse NOTIFY_USER_SESSION_INACTIVE:
+                instbnce.userSessionDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.FALSE));
+                brebk;
+            cbse NOTIFY_SCREEN_SLEEP:
+                instbnce.screenSleepDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.TRUE));
+                brebk;
+            cbse NOTIFY_SCREEN_WAKE:
+                instbnce.screenSleepDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.FALSE));
+                brebk;
+            cbse NOTIFY_SYSTEM_SLEEP:
+                instbnce.systemSleepDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.TRUE));
+                brebk;
+            cbse NOTIFY_SYSTEM_WAKE:
+                instbnce.systemSleepDispbtcher.dispbtch(new _NbtiveEvent(Boolebn.FALSE));
+                brebk;
+            defbult:
+                System.err.println("EAWT unknown nbtive notificbtion: " + code);
+                brebk;
         }
     }
 
 
-    class _AboutDispatcher extends _AppEventDispatcher<AboutHandler> {
-        void performDefaultAction(final _NativeEvent event) {
-            openCocoaAboutWindow(); // if the handler is null, fall back to showing the Cocoa default
+    clbss _AboutDispbtcher extends _AppEventDispbtcher<AboutHbndler> {
+        void performDefbultAction(finbl _NbtiveEvent event) {
+            openCocobAboutWindow(); // if the hbndler is null, fbll bbck to showing the Cocob defbult
         }
 
-        void performUsing(final AboutHandler handler, final _NativeEvent event) {
-            handler.handleAbout(new AboutEvent());
-        }
-    }
-
-    class _PreferencesDispatcher extends _AppEventDispatcher<PreferencesHandler> {
-        synchronized void setHandler(final PreferencesHandler handler) {
-            super.setHandler(handler);
-
-            _AppMenuBarHandler.getInstance().setPreferencesMenuItemVisible(handler != null);
-            _AppMenuBarHandler.getInstance().setPreferencesMenuItemEnabled(handler != null);
-        }
-
-        void performUsing(final PreferencesHandler handler, final _NativeEvent event) {
-            handler.handlePreferences(new PreferencesEvent());
+        void performUsing(finbl AboutHbndler hbndler, finbl _NbtiveEvent event) {
+            hbndler.hbndleAbout(new AboutEvent());
         }
     }
 
-    class _OpenAppDispatcher extends _QueuingAppEventDispatcher<com.apple.eawt._OpenAppHandler> {
-        void performUsing(com.apple.eawt._OpenAppHandler handler, _NativeEvent event) {
-            handler.handleOpenApp();
+    clbss _PreferencesDispbtcher extends _AppEventDispbtcher<PreferencesHbndler> {
+        synchronized void setHbndler(finbl PreferencesHbndler hbndler) {
+            super.setHbndler(hbndler);
+
+            _AppMenuBbrHbndler.getInstbnce().setPreferencesMenuItemVisible(hbndler != null);
+            _AppMenuBbrHbndler.getInstbnce().setPreferencesMenuItemEnbbled(hbndler != null);
+        }
+
+        void performUsing(finbl PreferencesHbndler hbndler, finbl _NbtiveEvent event) {
+            hbndler.hbndlePreferences(new PreferencesEvent());
         }
     }
 
-    class _AppReOpenedDispatcher extends _AppEventMultiplexor<AppReOpenedListener> {
-        void performOnListener(AppReOpenedListener listener, final _NativeEvent event) {
-            final AppReOpenedEvent e = new AppReOpenedEvent();
-            listener.appReOpened(e);
+    clbss _OpenAppDispbtcher extends _QueuingAppEventDispbtcher<com.bpple.ebwt._OpenAppHbndler> {
+        void performUsing(com.bpple.ebwt._OpenAppHbndler hbndler, _NbtiveEvent event) {
+            hbndler.hbndleOpenApp();
         }
     }
 
-    class _AppForegroundDispatcher extends _BooleanAppEventMultiplexor<AppForegroundListener, AppForegroundEvent> {
-        AppForegroundEvent createEvent(final boolean isTrue) { return new AppForegroundEvent(); }
-
-        void performFalseEventOn(final AppForegroundListener listener, final AppForegroundEvent e) {
-            listener.appMovedToBackground(e);
-        }
-
-        void performTrueEventOn(final AppForegroundListener listener, final AppForegroundEvent e) {
-            listener.appRaisedToForeground(e);
+    clbss _AppReOpenedDispbtcher extends _AppEventMultiplexor<AppReOpenedListener> {
+        void performOnListener(AppReOpenedListener listener, finbl _NbtiveEvent event) {
+            finbl AppReOpenedEvent e = new AppReOpenedEvent();
+            listener.bppReOpened(e);
         }
     }
 
-    class _HiddenAppDispatcher extends _BooleanAppEventMultiplexor<AppHiddenListener, AppHiddenEvent> {
-        AppHiddenEvent createEvent(final boolean isTrue) { return new AppHiddenEvent(); }
+    clbss _AppForegroundDispbtcher extends _BoolebnAppEventMultiplexor<AppForegroundListener, AppForegroundEvent> {
+        AppForegroundEvent crebteEvent(finbl boolebn isTrue) { return new AppForegroundEvent(); }
 
-        void performFalseEventOn(final AppHiddenListener listener, final AppHiddenEvent e) {
-            listener.appUnhidden(e);
+        void performFblseEventOn(finbl AppForegroundListener listener, finbl AppForegroundEvent e) {
+            listener.bppMovedToBbckground(e);
         }
 
-        void performTrueEventOn(final AppHiddenListener listener, final AppHiddenEvent e) {
-            listener.appHidden(e);
-        }
-    }
-
-    class _UserSessionDispatcher extends _BooleanAppEventMultiplexor<UserSessionListener, UserSessionEvent> {
-        UserSessionEvent createEvent(final boolean isTrue) { return new UserSessionEvent(); }
-
-        void performFalseEventOn(final UserSessionListener listener, final UserSessionEvent e) {
-            listener.userSessionDeactivated(e);
-        }
-
-        void performTrueEventOn(final UserSessionListener listener, final UserSessionEvent e) {
-            listener.userSessionActivated(e);
-        }
-
-        void registerNativeListener() {
-            nativeRegisterForNotification(REGISTER_USER_SESSION);
+        void performTrueEventOn(finbl AppForegroundListener listener, finbl AppForegroundEvent e) {
+            listener.bppRbisedToForeground(e);
         }
     }
 
-    class _ScreenSleepDispatcher extends _BooleanAppEventMultiplexor<ScreenSleepListener, ScreenSleepEvent> {
-        ScreenSleepEvent createEvent(final boolean isTrue) { return new ScreenSleepEvent(); }
+    clbss _HiddenAppDispbtcher extends _BoolebnAppEventMultiplexor<AppHiddenListener, AppHiddenEvent> {
+        AppHiddenEvent crebteEvent(finbl boolebn isTrue) { return new AppHiddenEvent(); }
 
-        void performFalseEventOn(final ScreenSleepListener listener, final ScreenSleepEvent e) {
+        void performFblseEventOn(finbl AppHiddenListener listener, finbl AppHiddenEvent e) {
+            listener.bppUnhidden(e);
+        }
+
+        void performTrueEventOn(finbl AppHiddenListener listener, finbl AppHiddenEvent e) {
+            listener.bppHidden(e);
+        }
+    }
+
+    clbss _UserSessionDispbtcher extends _BoolebnAppEventMultiplexor<UserSessionListener, UserSessionEvent> {
+        UserSessionEvent crebteEvent(finbl boolebn isTrue) { return new UserSessionEvent(); }
+
+        void performFblseEventOn(finbl UserSessionListener listener, finbl UserSessionEvent e) {
+            listener.userSessionDebctivbted(e);
+        }
+
+        void performTrueEventOn(finbl UserSessionListener listener, finbl UserSessionEvent e) {
+            listener.userSessionActivbted(e);
+        }
+
+        void registerNbtiveListener() {
+            nbtiveRegisterForNotificbtion(REGISTER_USER_SESSION);
+        }
+    }
+
+    clbss _ScreenSleepDispbtcher extends _BoolebnAppEventMultiplexor<ScreenSleepListener, ScreenSleepEvent> {
+        ScreenSleepEvent crebteEvent(finbl boolebn isTrue) { return new ScreenSleepEvent(); }
+
+        void performFblseEventOn(finbl ScreenSleepListener listener, finbl ScreenSleepEvent e) {
             listener.screenAwoke(e);
         }
 
-        void performTrueEventOn(final ScreenSleepListener listener, final ScreenSleepEvent e) {
+        void performTrueEventOn(finbl ScreenSleepListener listener, finbl ScreenSleepEvent e) {
             listener.screenAboutToSleep(e);
         }
 
-        void registerNativeListener() {
-            nativeRegisterForNotification(REGISTER_SCREEN_SLEEP);
+        void registerNbtiveListener() {
+            nbtiveRegisterForNotificbtion(REGISTER_SCREEN_SLEEP);
         }
     }
 
-    class _SystemSleepDispatcher extends _BooleanAppEventMultiplexor<SystemSleepListener, SystemSleepEvent> {
-        SystemSleepEvent createEvent(final boolean isTrue) { return new SystemSleepEvent(); }
+    clbss _SystemSleepDispbtcher extends _BoolebnAppEventMultiplexor<SystemSleepListener, SystemSleepEvent> {
+        SystemSleepEvent crebteEvent(finbl boolebn isTrue) { return new SystemSleepEvent(); }
 
-        void performFalseEventOn(final SystemSleepListener listener, final SystemSleepEvent e) {
+        void performFblseEventOn(finbl SystemSleepListener listener, finbl SystemSleepEvent e) {
             listener.systemAwoke(e);
         }
 
-        void performTrueEventOn(final SystemSleepListener listener, final SystemSleepEvent e) {
+        void performTrueEventOn(finbl SystemSleepListener listener, finbl SystemSleepEvent e) {
             listener.systemAboutToSleep(e);
         }
 
-        void registerNativeListener() {
-            nativeRegisterForNotification(REGISTER_SYSTEM_SLEEP);
+        void registerNbtiveListener() {
+            nbtiveRegisterForNotificbtion(REGISTER_SYSTEM_SLEEP);
         }
     }
 
-    class _OpenFileDispatcher extends _QueuingAppEventDispatcher<OpenFilesHandler> {
-        void performUsing(final OpenFilesHandler handler, final _NativeEvent event) {
-            // create file list from fileNames
-            final List<String> fileNameList = event.get(0);
-            final ArrayList<File> files = new ArrayList<File>(fileNameList.size());
-            for (final String fileName : fileNameList) files.add(new File(fileName));
+    clbss _OpenFileDispbtcher extends _QueuingAppEventDispbtcher<OpenFilesHbndler> {
+        void performUsing(finbl OpenFilesHbndler hbndler, finbl _NbtiveEvent event) {
+            // crebte file list from fileNbmes
+            finbl List<String> fileNbmeList = event.get(0);
+            finbl ArrbyList<File> files = new ArrbyList<File>(fileNbmeList.size());
+            for (finbl String fileNbme : fileNbmeList) files.bdd(new File(fileNbme));
 
-            // populate the properties map
-            final String searchTerm = event.get(1);
-            handler.openFiles(new OpenFilesEvent(files, searchTerm));
+            // populbte the properties mbp
+            finbl String sebrchTerm = event.get(1);
+            hbndler.openFiles(new OpenFilesEvent(files, sebrchTerm));
         }
     }
 
-    class _PrintFileDispatcher extends _QueuingAppEventDispatcher<PrintFilesHandler> {
-        void performUsing(final PrintFilesHandler handler, final _NativeEvent event) {
-            // create file list from fileNames
-            final List<String> fileNameList = event.get(0);
-            final ArrayList<File> files = new ArrayList<File>(fileNameList.size());
-            for (final String fileName : fileNameList) files.add(new File(fileName));
+    clbss _PrintFileDispbtcher extends _QueuingAppEventDispbtcher<PrintFilesHbndler> {
+        void performUsing(finbl PrintFilesHbndler hbndler, finbl _NbtiveEvent event) {
+            // crebte file list from fileNbmes
+            finbl List<String> fileNbmeList = event.get(0);
+            finbl ArrbyList<File> files = new ArrbyList<File>(fileNbmeList.size());
+            for (finbl String fileNbme : fileNbmeList) files.bdd(new File(fileNbme));
 
-            handler.printFiles(new PrintFilesEvent(files));
+            hbndler.printFiles(new PrintFilesEvent(files));
         }
     }
 
-    // Java URLs can't handle unknown protocol types, which is why we use URIs
-    class _OpenURIDispatcher extends _QueuingAppEventDispatcher<OpenURIHandler> {
-        void performUsing(final OpenURIHandler handler, final _NativeEvent event) {
-            final String urlString = event.get(0);
+    // Jbvb URLs cbn't hbndle unknown protocol types, which is why we use URIs
+    clbss _OpenURIDispbtcher extends _QueuingAppEventDispbtcher<OpenURIHbndler> {
+        void performUsing(finbl OpenURIHbndler hbndler, finbl _NbtiveEvent event) {
+            finbl String urlString = event.get(0);
             try {
-                handler.openURI(new OpenURIEvent(new URI(urlString)));
-            } catch (final URISyntaxException e) {
+                hbndler.openURI(new OpenURIEvent(new URI(urlString)));
+            } cbtch (finbl URISyntbxException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    class _QuitDispatcher extends _AppEventDispatcher<QuitHandler> {
-        void performDefaultAction(final _NativeEvent event) {
-            obtainQuitResponse().performQuit();
+    clbss _QuitDispbtcher extends _AppEventDispbtcher<QuitHbndler> {
+        void performDefbultAction(finbl _NbtiveEvent event) {
+            obtbinQuitResponse().performQuit();
         }
 
-        void performUsing(final QuitHandler handler, final _NativeEvent event) {
-            final QuitResponse response = obtainQuitResponse(); // obtains the "current" quit response
-            handler.handleQuitRequestWith(new QuitEvent(), response);
+        void performUsing(finbl QuitHbndler hbndler, finbl _NbtiveEvent event) {
+            finbl QuitResponse response = obtbinQuitResponse(); // obtbins the "current" quit response
+            hbndler.hbndleQuitRequestWith(new QuitEvent(), response);
         }
     }
 
 
 // -- ABSTRACT QUEUE/EVENT/LISTENER HELPERS --
 
-    // generic little "raw event" that's constructed easily from the native callbacks
-    static class _NativeEvent {
-        Object[] args;
+    // generic little "rbw event" thbt's constructed ebsily from the nbtive cbllbbcks
+    stbtic clbss _NbtiveEvent {
+        Object[] brgs;
 
-        public _NativeEvent(final Object... args) {
-            this.args = args;
+        public _NbtiveEvent(finbl Object... brgs) {
+            this.brgs = brgs;
         }
 
-        @SuppressWarnings("unchecked")
-        <T> T get(final int i) {
-            if (args == null) return null;
-            return (T)args[i];
+        @SuppressWbrnings("unchecked")
+        <T> T get(finbl int i) {
+            if (brgs == null) return null;
+            return (T)brgs[i];
         }
     }
 
-    abstract class _AppEventMultiplexor<L> {
-        private final Map<L, AppContext> listenerToAppContext =
-                new IdentityHashMap<L, AppContext>();
-        boolean nativeListenerRegistered;
+    bbstrbct clbss _AppEventMultiplexor<L> {
+        privbte finbl Mbp<L, AppContext> listenerToAppContext =
+                new IdentityHbshMbp<L, AppContext>();
+        boolebn nbtiveListenerRegistered;
 
-        // called from AppKit Thread-0
-        void dispatch(final _NativeEvent event, final Object... args) {
-            // grab a local ref to the listeners and its contexts as an array of the map's entries
-            final ArrayList<Map.Entry<L, AppContext>> localEntries;
+        // cblled from AppKit Threbd-0
+        void dispbtch(finbl _NbtiveEvent event, finbl Object... brgs) {
+            // grbb b locbl ref to the listeners bnd its contexts bs bn brrby of the mbp's entries
+            finbl ArrbyList<Mbp.Entry<L, AppContext>> locblEntries;
             synchronized (this) {
                 if (listenerToAppContext.size() == 0) {
                     return;
                 }
-                localEntries = new ArrayList<Map.Entry<L, AppContext>>(listenerToAppContext.size());
-                localEntries.addAll(listenerToAppContext.entrySet());
+                locblEntries = new ArrbyList<Mbp.Entry<L, AppContext>>(listenerToAppContext.size());
+                locblEntries.bddAll(listenerToAppContext.entrySet());
             }
 
-            for (final Map.Entry<L, AppContext> e : localEntries) {
-                final L listener = e.getKey();
-                final AppContext listenerContext = e.getValue();
-                SunToolkit.invokeLaterOnAppContext(listenerContext, new Runnable() {
+            for (finbl Mbp.Entry<L, AppContext> e : locblEntries) {
+                finbl L listener = e.getKey();
+                finbl AppContext listenerContext = e.getVblue();
+                SunToolkit.invokeLbterOnAppContext(listenerContext, new Runnbble() {
                     public void run() {
                         performOnListener(listener, event);
                     }
@@ -442,142 +442,142 @@ class _AppEventHandler {
             }
         }
 
-        synchronized void addListener(final L listener) {
+        synchronized void bddListener(finbl L listener) {
             setListenerContext(listener, AppContext.getAppContext());
 
-            if (!nativeListenerRegistered) {
-                registerNativeListener();
-                nativeListenerRegistered = true;
+            if (!nbtiveListenerRegistered) {
+                registerNbtiveListener();
+                nbtiveListenerRegistered = true;
             }
         }
 
-        synchronized void removeListener(final L listener) {
+        synchronized void removeListener(finbl L listener) {
             listenerToAppContext.remove(listener);
         }
 
-        abstract void performOnListener(L listener, final _NativeEvent event);
-        void registerNativeListener() { }
+        bbstrbct void performOnListener(L listener, finbl _NbtiveEvent event);
+        void registerNbtiveListener() { }
 
-        private void setListenerContext(L listener, AppContext listenerContext) {
+        privbte void setListenerContext(L listener, AppContext listenerContext) {
             if (listenerContext == null) {
                 throw new RuntimeException(
-                        "Attempting to add a listener from a thread group without AppContext");
+                        "Attempting to bdd b listener from b threbd group without AppContext");
             }
             listenerToAppContext.put(listener, AppContext.getAppContext());
         }
     }
 
-    abstract class _BooleanAppEventMultiplexor<L, E> extends _AppEventMultiplexor<L> {
+    bbstrbct clbss _BoolebnAppEventMultiplexor<L, E> extends _AppEventMultiplexor<L> {
         @Override
-        void performOnListener(L listener, final _NativeEvent event) {
-            final boolean isTrue = Boolean.TRUE.equals(event.get(0));
-            final E e = createEvent(isTrue);
+        void performOnListener(L listener, finbl _NbtiveEvent event) {
+            finbl boolebn isTrue = Boolebn.TRUE.equbls(event.get(0));
+            finbl E e = crebteEvent(isTrue);
             if (isTrue) {
                 performTrueEventOn(listener, e);
             } else {
-                performFalseEventOn(listener, e);
+                performFblseEventOn(listener, e);
             }
         }
 
-        abstract E createEvent(final boolean isTrue);
-        abstract void performTrueEventOn(final L listener, final E e);
-        abstract void performFalseEventOn(final L listener, final E e);
+        bbstrbct E crebteEvent(finbl boolebn isTrue);
+        bbstrbct void performTrueEventOn(finbl L listener, finbl E e);
+        bbstrbct void performFblseEventOn(finbl L listener, finbl E e);
     }
 
     /*
-     * Ensures that setting and obtaining an app event handler is done in
-     * both a thread-safe manner, and that user code is performed on the
-     * AWT EventQueue thread.
+     * Ensures thbt setting bnd obtbining bn bpp event hbndler is done in
+     * both b threbd-sbfe mbnner, bnd thbt user code is performed on the
+     * AWT EventQueue threbd.
      *
-     * Allows native to blindly lob new events into the dispatcher,
-     * knowing that they will only be dispatched once a handler is set.
+     * Allows nbtive to blindly lob new events into the dispbtcher,
+     * knowing thbt they will only be dispbtched once b hbndler is set.
      *
-     * User code is not (and should not be) run under any synchronized lock.
+     * User code is not (bnd should not be) run under bny synchronized lock.
      */
-    abstract class _AppEventDispatcher<H> {
-        H _handler;
-        AppContext handlerContext;
+    bbstrbct clbss _AppEventDispbtcher<H> {
+        H _hbndler;
+        AppContext hbndlerContext;
 
-        // called from AppKit Thread-0
-        void dispatch(final _NativeEvent event) {
-            // grab a local ref to the handler
-            final H localHandler;
-            final AppContext localHandlerContext;
-            synchronized (_AppEventDispatcher.this) {
-                localHandler = _handler;
-                localHandlerContext = handlerContext;
+        // cblled from AppKit Threbd-0
+        void dispbtch(finbl _NbtiveEvent event) {
+            // grbb b locbl ref to the hbndler
+            finbl H locblHbndler;
+            finbl AppContext locblHbndlerContext;
+            synchronized (_AppEventDispbtcher.this) {
+                locblHbndler = _hbndler;
+                locblHbndlerContext = hbndlerContext;
             }
 
-            if (localHandler == null) {
-                performDefaultAction(event);
+            if (locblHbndler == null) {
+                performDefbultAction(event);
             } else {
-                SunToolkit.invokeLaterOnAppContext(localHandlerContext, new Runnable() {
+                SunToolkit.invokeLbterOnAppContext(locblHbndlerContext, new Runnbble() {
                     public void run() {
-                        performUsing(localHandler, event);
+                        performUsing(locblHbndler, event);
                     }
                 });
             }
         }
 
-        synchronized void setHandler(final H handler) {
-            this._handler = handler;
+        synchronized void setHbndler(finbl H hbndler) {
+            this._hbndler = hbndler;
 
-            setHandlerContext(AppContext.getAppContext());
+            setHbndlerContext(AppContext.getAppContext());
 
-            // if a new handler is installed, block addition of legacy ApplicationListeners
-            if (handler == legacyHandler) return;
-            legacyHandler.blockLegacyAPI();
+            // if b new hbndler is instblled, block bddition of legbcy ApplicbtionListeners
+            if (hbndler == legbcyHbndler) return;
+            legbcyHbndler.blockLegbcyAPI();
         }
 
-        void performDefaultAction(final _NativeEvent event) { } // by default, do nothing
-        abstract void performUsing(final H handler, final _NativeEvent event);
+        void performDefbultAction(finbl _NbtiveEvent event) { } // by defbult, do nothing
+        bbstrbct void performUsing(finbl H hbndler, finbl _NbtiveEvent event);
 
-        protected void setHandlerContext(AppContext ctx) {
+        protected void setHbndlerContext(AppContext ctx) {
             if (ctx == null) {
                 throw new RuntimeException(
-                        "Attempting to set a handler from a thread group without AppContext");
+                        "Attempting to set b hbndler from b threbd group without AppContext");
             }
 
-            handlerContext = ctx;
+            hbndlerContext = ctx;
         }
     }
 
-    abstract class _QueuingAppEventDispatcher<H> extends _AppEventDispatcher<H> {
-        List<_NativeEvent> queuedEvents = new LinkedList<_NativeEvent>();
+    bbstrbct clbss _QueuingAppEventDispbtcher<H> extends _AppEventDispbtcher<H> {
+        List<_NbtiveEvent> queuedEvents = new LinkedList<_NbtiveEvent>();
 
         @Override
-        void dispatch(final _NativeEvent event) {
+        void dispbtch(finbl _NbtiveEvent event) {
             synchronized (this) {
-                // dispatcher hasn't started yet
+                // dispbtcher hbsn't stbrted yet
                 if (queuedEvents != null) {
-                    queuedEvents.add(event);
+                    queuedEvents.bdd(event);
                     return;
                 }
             }
 
-            super.dispatch(event);
+            super.dispbtch(event);
         }
 
-        synchronized void setHandler(final H handler) {
-            this._handler = handler;
+        synchronized void setHbndler(finbl H hbndler) {
+            this._hbndler = hbndler;
 
-            setHandlerContext(AppContext.getAppContext());
+            setHbndlerContext(AppContext.getAppContext());
 
-            // dispatch any events in the queue
+            // dispbtch bny events in the queue
             if (queuedEvents != null) {
-                // grab a local ref to the queue, so the real one can be nulled out
-                final java.util.List<_NativeEvent> localQueuedEvents = queuedEvents;
+                // grbb b locbl ref to the queue, so the rebl one cbn be nulled out
+                finbl jbvb.util.List<_NbtiveEvent> locblQueuedEvents = queuedEvents;
                 queuedEvents = null;
-                if (localQueuedEvents.size() != 0) {
-                    for (final _NativeEvent arg : localQueuedEvents) {
-                        dispatch(arg);
+                if (locblQueuedEvents.size() != 0) {
+                    for (finbl _NbtiveEvent brg : locblQueuedEvents) {
+                        dispbtch(brg);
                     }
                 }
             }
 
-            // if a new handler is installed, block addition of legacy ApplicationListeners
-            if (handler == legacyHandler) return;
-            legacyHandler.blockLegacyAPI();
+            // if b new hbndler is instblled, block bddition of legbcy ApplicbtionListeners
+            if (hbndler == legbcyHbndler) return;
+            legbcyHbndler.blockLegbcyAPI();
         }
     }
 }

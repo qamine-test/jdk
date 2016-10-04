@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * ListDataListener
+ * ListDbtbListener
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  */
-public interface ListDataListener extends EventListener {
+public interfbce ListDbtbListener extends EventListener {
 
     /**
-     * Sent after the indices in the index0,index1
-     * interval have been inserted in the data model.
-     * The new interval includes both index0 and index1.
+     * Sent bfter the indices in the index0,index1
+     * intervbl hbve been inserted in the dbtb model.
+     * The new intervbl includes both index0 bnd index1.
      *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
+     * @pbrbm e  b <code>ListDbtbEvent</code> encbpsulbting the
+     *    event informbtion
      */
-    void intervalAdded(ListDataEvent e);
-
-
-    /**
-     * Sent after the indices in the index0,index1 interval
-     * have been removed from the data model.  The interval
-     * includes both index0 and index1.
-     *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
-     */
-    void intervalRemoved(ListDataEvent e);
+    void intervblAdded(ListDbtbEvent e);
 
 
     /**
-     * Sent when the contents of the list has changed in a way
-     * that's too complex to characterize with the previous
-     * methods. For example, this is sent when an item has been
-     * replaced. Index0 and index1 bracket the change.
+     * Sent bfter the indices in the index0,index1 intervbl
+     * hbve been removed from the dbtb model.  The intervbl
+     * includes both index0 bnd index1.
      *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
+     * @pbrbm e  b <code>ListDbtbEvent</code> encbpsulbting the
+     *    event informbtion
      */
-    void contentsChanged(ListDataEvent e);
+    void intervblRemoved(ListDbtbEvent e);
+
+
+    /**
+     * Sent when the contents of the list hbs chbnged in b wby
+     * thbt's too complex to chbrbcterize with the previous
+     * methods. For exbmple, this is sent when bn item hbs been
+     * replbced. Index0 bnd index1 brbcket the chbnge.
+     *
+     * @pbrbm e  b <code>ListDbtbEvent</code> encbpsulbting the
+     *    event informbtion
+     */
+    void contentsChbnged(ListDbtbEvent e);
 }

@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.PolicyNode;
-import java.security.cert.PolicyQualifierInfo;
-import java.security.cert.X509Certificate;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.security.cert.PolicyNode;
+import jbvb.security.cert.PolicyQublifierInfo;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.*;
 
 import sun.security.util.Debug;
-import sun.security.x509.CertificatePoliciesExtension;
-import sun.security.x509.PolicyConstraintsExtension;
-import sun.security.x509.PolicyMappingsExtension;
-import sun.security.x509.CertificatePolicyMap;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.PolicyInformation;
+import sun.security.x509.CertificbtePoliciesExtension;
+import sun.security.x509.PolicyConstrbintsExtension;
+import sun.security.x509.PolicyMbppingsExtension;
+import sun.security.x509.CertificbtePolicyMbp;
+import stbtic sun.security.x509.PKIXExtensions.*;
+import sun.security.x509.PolicyInformbtion;
 import sun.security.x509.X509CertImpl;
 import sun.security.x509.InhibitAnyPolicyExtension;
 
 /**
- * PolicyChecker is a <code>PKIXCertPathChecker</code> that checks policy
- * information on a PKIX certificate, namely certificate policies, policy
- * mappings, policy constraints and policy qualifiers.
+ * PolicyChecker is b <code>PKIXCertPbthChecker</code> thbt checks policy
+ * informbtion on b PKIX certificbte, nbmely certificbte policies, policy
+ * mbppings, policy constrbints bnd policy qublifiers.
  *
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-class PolicyChecker extends PKIXCertPathChecker {
+clbss PolicyChecker extends PKIXCertPbthChecker {
 
-    private final Set<String> initPolicies;
-    private final int certPathLen;
-    private final boolean expPolicyRequired;
-    private final boolean polMappingInhibited;
-    private final boolean anyPolicyInhibited;
-    private final boolean rejectPolicyQualifiers;
-    private PolicyNodeImpl rootNode;
-    private int explicitPolicy;
-    private int policyMapping;
-    private int inhibitAnyPolicy;
-    private int certIndex;
+    privbte finbl Set<String> initPolicies;
+    privbte finbl int certPbthLen;
+    privbte finbl boolebn expPolicyRequired;
+    privbte finbl boolebn polMbppingInhibited;
+    privbte finbl boolebn bnyPolicyInhibited;
+    privbte finbl boolebn rejectPolicyQublifiers;
+    privbte PolicyNodeImpl rootNode;
+    privbte int explicitPolicy;
+    privbte int policyMbpping;
+    privbte int inhibitAnyPolicy;
+    privbte int certIndex;
 
-    private Set<String> supportedExts;
+    privbte Set<String> supportedExts;
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    static final String ANY_POLICY = "2.5.29.32.0";
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    stbtic finbl String ANY_POLICY = "2.5.29.32.0";
 
     /**
-     * Constructs a Policy Checker.
+     * Constructs b Policy Checker.
      *
-     * @param initialPolicies Set of initial policies
-     * @param certPathLen length of the certification path to be checked
-     * @param expPolicyRequired true if explicit policy is required
-     * @param polMappingInhibited true if policy mapping is inhibited
-     * @param anyPolicyInhibited true if the ANY_POLICY OID should be inhibited
-     * @param rejectPolicyQualifiers true if pol qualifiers are to be rejected
-     * @param rootNode the initial root node of the valid policy tree
+     * @pbrbm initiblPolicies Set of initibl policies
+     * @pbrbm certPbthLen length of the certificbtion pbth to be checked
+     * @pbrbm expPolicyRequired true if explicit policy is required
+     * @pbrbm polMbppingInhibited true if policy mbpping is inhibited
+     * @pbrbm bnyPolicyInhibited true if the ANY_POLICY OID should be inhibited
+     * @pbrbm rejectPolicyQublifiers true if pol qublifiers bre to be rejected
+     * @pbrbm rootNode the initibl root node of the vblid policy tree
      */
-    PolicyChecker(Set<String> initialPolicies, int certPathLen,
-        boolean expPolicyRequired, boolean polMappingInhibited,
-        boolean anyPolicyInhibited, boolean rejectPolicyQualifiers,
+    PolicyChecker(Set<String> initiblPolicies, int certPbthLen,
+        boolebn expPolicyRequired, boolebn polMbppingInhibited,
+        boolebn bnyPolicyInhibited, boolebn rejectPolicyQublifiers,
         PolicyNodeImpl rootNode)
     {
-        if (initialPolicies.isEmpty()) {
-            // if no initialPolicies are specified by user, set
-            // initPolicies to be anyPolicy by default
-            this.initPolicies = new HashSet<String>(1);
-            this.initPolicies.add(ANY_POLICY);
+        if (initiblPolicies.isEmpty()) {
+            // if no initiblPolicies bre specified by user, set
+            // initPolicies to be bnyPolicy by defbult
+            this.initPolicies = new HbshSet<String>(1);
+            this.initPolicies.bdd(ANY_POLICY);
         } else {
-            this.initPolicies = new HashSet<String>(initialPolicies);
+            this.initPolicies = new HbshSet<String>(initiblPolicies);
         }
-        this.certPathLen = certPathLen;
+        this.certPbthLen = certPbthLen;
         this.expPolicyRequired = expPolicyRequired;
-        this.polMappingInhibited = polMappingInhibited;
-        this.anyPolicyInhibited = anyPolicyInhibited;
-        this.rejectPolicyQualifiers = rejectPolicyQualifiers;
+        this.polMbppingInhibited = polMbppingInhibited;
+        this.bnyPolicyInhibited = bnyPolicyInhibited;
+        this.rejectPolicyQublifiers = rejectPolicyQublifiers;
         this.rootNode = rootNode;
     }
 
     /**
-     * Initializes the internal state of the checker from parameters
+     * Initiblizes the internbl stbte of the checker from pbrbmeters
      * specified in the constructor
      *
-     * @param forward a boolean indicating whether this checker should be
-     *        initialized capable of building in the forward direction
-     * @throws CertPathValidatorException if user wants to enable forward
-     *         checking and forward checking is not supported.
+     * @pbrbm forwbrd b boolebn indicbting whether this checker should be
+     *        initiblized cbpbble of building in the forwbrd direction
+     * @throws CertPbthVblidbtorException if user wbnts to enbble forwbrd
+     *         checking bnd forwbrd checking is not supported.
      */
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (forward) {
-            throw new CertPathValidatorException
-                                        ("forward checking not supported");
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        if (forwbrd) {
+            throw new CertPbthVblidbtorException
+                                        ("forwbrd checking not supported");
         }
 
         certIndex = 1;
-        explicitPolicy = (expPolicyRequired ? 0 : certPathLen + 1);
-        policyMapping = (polMappingInhibited ? 0 : certPathLen + 1);
-        inhibitAnyPolicy = (anyPolicyInhibited ? 0 : certPathLen + 1);
+        explicitPolicy = (expPolicyRequired ? 0 : certPbthLen + 1);
+        policyMbpping = (polMbppingInhibited ? 0 : certPbthLen + 1);
+        inhibitAnyPolicy = (bnyPolicyInhibited ? 0 : certPbthLen + 1);
     }
 
     /**
-     * Checks if forward checking is supported. Forward checking refers
-     * to the ability of the PKIXCertPathChecker to perform its checks
-     * when presented with certificates in the forward direction (from
-     * target to anchor).
+     * Checks if forwbrd checking is supported. Forwbrd checking refers
+     * to the bbility of the PKIXCertPbthChecker to perform its checks
+     * when presented with certificbtes in the forwbrd direction (from
+     * tbrget to bnchor).
      *
-     * @return true if forward checking is supported, false otherwise
+     * @return true if forwbrd checking is supported, fblse otherwise
      */
     @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        return fblse;
     }
 
     /**
-     * Gets an immutable Set of the OID strings for the extensions that
-     * the PKIXCertPathChecker supports (i.e. recognizes, is able to
-     * process), or null if no extensions are
-     * supported. All OID strings that a PKIXCertPathChecker might
-     * possibly be able to process should be included.
+     * Gets bn immutbble Set of the OID strings for the extensions thbt
+     * the PKIXCertPbthChecker supports (i.e. recognizes, is bble to
+     * process), or null if no extensions bre
+     * supported. All OID strings thbt b PKIXCertPbthChecker might
+     * possibly be bble to process should be included.
      *
-     * @return the Set of extensions supported by this PKIXCertPathChecker,
-     * or null if no extensions are supported
+     * @return the Set of extensions supported by this PKIXCertPbthChecker,
+     * or null if no extensions bre supported
      */
     @Override
     public Set<String> getSupportedExtensions() {
         if (supportedExts == null) {
-            supportedExts = new HashSet<String>(4);
-            supportedExts.add(CertificatePolicies_Id.toString());
-            supportedExts.add(PolicyMappings_Id.toString());
-            supportedExts.add(PolicyConstraints_Id.toString());
-            supportedExts.add(InhibitAnyPolicy_Id.toString());
-            supportedExts = Collections.unmodifiableSet(supportedExts);
+            supportedExts = new HbshSet<String>(4);
+            supportedExts.bdd(CertificbtePolicies_Id.toString());
+            supportedExts.bdd(PolicyMbppings_Id.toString());
+            supportedExts.bdd(PolicyConstrbints_Id.toString());
+            supportedExts.bdd(InhibitAnyPolicy_Id.toString());
+            supportedExts = Collections.unmodifibbleSet(supportedExts);
         }
         return supportedExts;
     }
 
     /**
-     * Performs the policy processing checks on the certificate using its
-     * internal state.
+     * Performs the policy processing checks on the certificbte using its
+     * internbl stbte.
      *
-     * @param cert the Certificate to be processed
-     * @param unresCritExts the unresolved critical extensions
-     * @throws CertPathValidatorException if the certificate does not verify
+     * @pbrbm cert the Certificbte to be processed
+     * @pbrbm unresCritExts the unresolved criticbl extensions
+     * @throws CertPbthVblidbtorException if the certificbte does not verify
      */
     @Override
-    public void check(Certificate cert, Collection<String> unresCritExts)
-        throws CertPathValidatorException
+    public void check(Certificbte cert, Collection<String> unresCritExts)
+        throws CertPbthVblidbtorException
     {
         // now do the policy checks
-        checkPolicy((X509Certificate) cert);
+        checkPolicy((X509Certificbte) cert);
 
         if (unresCritExts != null && !unresCritExts.isEmpty()) {
-            unresCritExts.remove(CertificatePolicies_Id.toString());
-            unresCritExts.remove(PolicyMappings_Id.toString());
-            unresCritExts.remove(PolicyConstraints_Id.toString());
+            unresCritExts.remove(CertificbtePolicies_Id.toString());
+            unresCritExts.remove(PolicyMbppings_Id.toString());
+            unresCritExts.remove(PolicyConstrbints_Id.toString());
             unresCritExts.remove(InhibitAnyPolicy_Id.toString());
         }
     }
 
     /**
-     * Internal method to run through all the checks.
+     * Internbl method to run through bll the checks.
      *
-     * @param currCert the certificate to be processed
-     * @exception CertPathValidatorException Exception thrown if
-     * the certificate does not verify
+     * @pbrbm currCert the certificbte to be processed
+     * @exception CertPbthVblidbtorException Exception thrown if
+     * the certificbte does not verify
      */
-    private void checkPolicy(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbte void checkPolicy(X509Certificbte currCert)
+        throws CertPbthVblidbtorException
     {
-        String msg = "certificate policies";
+        String msg = "certificbte policies";
         if (debug != null) {
             debug.println("PolicyChecker.checkPolicy() ---checking " + msg
                 + "...");
@@ -206,7 +206,7 @@ class PolicyChecker extends PKIXCertPathChecker {
             debug.println("PolicyChecker.checkPolicy() BEFORE PROCESSING: "
                 + "explicitPolicy = " + explicitPolicy);
             debug.println("PolicyChecker.checkPolicy() BEFORE PROCESSING: "
-                + "policyMapping = " + policyMapping);
+                + "policyMbpping = " + policyMbpping);
             debug.println("PolicyChecker.checkPolicy() BEFORE PROCESSING: "
                 + "inhibitAnyPolicy = " + inhibitAnyPolicy);
             debug.println("PolicyChecker.checkPolicy() BEFORE PROCESSING: "
@@ -216,20 +216,20 @@ class PolicyChecker extends PKIXCertPathChecker {
         X509CertImpl currCertImpl = null;
         try {
             currCertImpl = X509CertImpl.toImpl(currCert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+        } cbtch (CertificbteException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
-        boolean finalCert = (certIndex == certPathLen);
+        boolebn finblCert = (certIndex == certPbthLen);
 
         rootNode = processPolicies(certIndex, initPolicies, explicitPolicy,
-            policyMapping, inhibitAnyPolicy, rejectPolicyQualifiers, rootNode,
-            currCertImpl, finalCert);
+            policyMbpping, inhibitAnyPolicy, rejectPolicyQublifiers, rootNode,
+            currCertImpl, finblCert);
 
-        if (!finalCert) {
+        if (!finblCert) {
             explicitPolicy = mergeExplicitPolicy(explicitPolicy, currCertImpl,
-                                                 finalCert);
-            policyMapping = mergePolicyMapping(policyMapping, currCertImpl);
+                                                 finblCert);
+            policyMbpping = mergePolicyMbpping(policyMbpping, currCertImpl);
             inhibitAnyPolicy = mergeInhibitAnyPolicy(inhibitAnyPolicy,
                                                      currCertImpl);
         }
@@ -240,7 +240,7 @@ class PolicyChecker extends PKIXCertPathChecker {
             debug.println("PolicyChecker.checkPolicy() AFTER PROCESSING: "
                 + "explicitPolicy = " + explicitPolicy);
             debug.println("PolicyChecker.checkPolicy() AFTER PROCESSING: "
-                + "policyMapping = " + policyMapping);
+                + "policyMbpping = " + policyMbpping);
             debug.println("PolicyChecker.checkPolicy() AFTER PROCESSING: "
                 + "inhibitAnyPolicy = " + inhibitAnyPolicy);
             debug.println("PolicyChecker.checkPolicy() AFTER PROCESSING: "
@@ -250,39 +250,39 @@ class PolicyChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Merges the specified explicitPolicy value with the
-     * requireExplicitPolicy field of the <code>PolicyConstraints</code>
-     * extension obtained from the certificate. An explicitPolicy
-     * value of -1 implies no constraint.
+     * Merges the specified explicitPolicy vblue with the
+     * requireExplicitPolicy field of the <code>PolicyConstrbints</code>
+     * extension obtbined from the certificbte. An explicitPolicy
+     * vblue of -1 implies no constrbint.
      *
-     * @param explicitPolicy an integer which indicates if a non-null
-     * valid policy tree is required
-     * @param currCert the Certificate to be processed
-     * @param finalCert a boolean indicating whether currCert is
-     * the final cert in the cert path
-     * @return returns the new explicitPolicy value
-     * @exception CertPathValidatorException Exception thrown if an error
+     * @pbrbm explicitPolicy bn integer which indicbtes if b non-null
+     * vblid policy tree is required
+     * @pbrbm currCert the Certificbte to be processed
+     * @pbrbm finblCert b boolebn indicbting whether currCert is
+     * the finbl cert in the cert pbth
+     * @return returns the new explicitPolicy vblue
+     * @exception CertPbthVblidbtorException Exception thrown if bn error
      * occurs
      */
-    static int mergeExplicitPolicy(int explicitPolicy, X509CertImpl currCert,
-        boolean finalCert) throws CertPathValidatorException
+    stbtic int mergeExplicitPolicy(int explicitPolicy, X509CertImpl currCert,
+        boolebn finblCert) throws CertPbthVblidbtorException
     {
         if ((explicitPolicy > 0) && !X509CertImpl.isSelfIssued(currCert)) {
             explicitPolicy--;
         }
 
         try {
-            PolicyConstraintsExtension polConstExt
-                = currCert.getPolicyConstraintsExtension();
+            PolicyConstrbintsExtension polConstExt
+                = currCert.getPolicyConstrbintsExtension();
             if (polConstExt == null)
                 return explicitPolicy;
             int require =
-                polConstExt.get(PolicyConstraintsExtension.REQUIRE).intValue();
+                polConstExt.get(PolicyConstrbintsExtension.REQUIRE).intVblue();
             if (debug != null) {
                 debug.println("PolicyChecker.mergeExplicitPolicy() "
                    + "require Index from cert = " + require);
             }
-            if (!finalCert) {
+            if (!finblCert) {
                 if (require != -1) {
                     if ((explicitPolicy == -1) || (require < explicitPolicy)) {
                         explicitPolicy = require;
@@ -292,81 +292,81 @@ class PolicyChecker extends PKIXCertPathChecker {
                 if (require == 0)
                     explicitPolicy = require;
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (debug != null) {
                 debug.println("PolicyChecker.mergeExplicitPolicy "
                               + "unexpected exception");
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            throw new CertPathValidatorException(e);
+            throw new CertPbthVblidbtorException(e);
         }
 
         return explicitPolicy;
     }
 
     /**
-     * Merges the specified policyMapping value with the
-     * inhibitPolicyMapping field of the <code>PolicyConstraints</code>
-     * extension obtained from the certificate. A policyMapping
-     * value of -1 implies no constraint.
+     * Merges the specified policyMbpping vblue with the
+     * inhibitPolicyMbpping field of the <code>PolicyConstrbints</code>
+     * extension obtbined from the certificbte. A policyMbpping
+     * vblue of -1 implies no constrbint.
      *
-     * @param policyMapping an integer which indicates if policy mapping
+     * @pbrbm policyMbpping bn integer which indicbtes if policy mbpping
      * is inhibited
-     * @param currCert the Certificate to be processed
-     * @return returns the new policyMapping value
-     * @exception CertPathValidatorException Exception thrown if an error
+     * @pbrbm currCert the Certificbte to be processed
+     * @return returns the new policyMbpping vblue
+     * @exception CertPbthVblidbtorException Exception thrown if bn error
      * occurs
      */
-    static int mergePolicyMapping(int policyMapping, X509CertImpl currCert)
-        throws CertPathValidatorException
+    stbtic int mergePolicyMbpping(int policyMbpping, X509CertImpl currCert)
+        throws CertPbthVblidbtorException
     {
-        if ((policyMapping > 0) && !X509CertImpl.isSelfIssued(currCert)) {
-            policyMapping--;
+        if ((policyMbpping > 0) && !X509CertImpl.isSelfIssued(currCert)) {
+            policyMbpping--;
         }
 
         try {
-            PolicyConstraintsExtension polConstExt
-                = currCert.getPolicyConstraintsExtension();
+            PolicyConstrbintsExtension polConstExt
+                = currCert.getPolicyConstrbintsExtension();
             if (polConstExt == null)
-                return policyMapping;
+                return policyMbpping;
 
             int inhibit =
-                polConstExt.get(PolicyConstraintsExtension.INHIBIT).intValue();
+                polConstExt.get(PolicyConstrbintsExtension.INHIBIT).intVblue();
             if (debug != null)
-                debug.println("PolicyChecker.mergePolicyMapping() "
+                debug.println("PolicyChecker.mergePolicyMbpping() "
                     + "inhibit Index from cert = " + inhibit);
 
             if (inhibit != -1) {
-                if ((policyMapping == -1) || (inhibit < policyMapping)) {
-                    policyMapping = inhibit;
+                if ((policyMbpping == -1) || (inhibit < policyMbpping)) {
+                    policyMbpping = inhibit;
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (debug != null) {
-                debug.println("PolicyChecker.mergePolicyMapping "
+                debug.println("PolicyChecker.mergePolicyMbpping "
                               + "unexpected exception");
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            throw new CertPathValidatorException(e);
+            throw new CertPbthVblidbtorException(e);
         }
 
-        return policyMapping;
+        return policyMbpping;
     }
 
     /**
-     * Merges the specified inhibitAnyPolicy value with the
-     * SkipCerts value of the InhibitAnyPolicy
-     * extension obtained from the certificate.
+     * Merges the specified inhibitAnyPolicy vblue with the
+     * SkipCerts vblue of the InhibitAnyPolicy
+     * extension obtbined from the certificbte.
      *
-     * @param inhibitAnyPolicy an integer which indicates whether
-     * "any-policy" is considered a match
-     * @param currCert the Certificate to be processed
-     * @return returns the new inhibitAnyPolicy value
-     * @exception CertPathValidatorException Exception thrown if an error
+     * @pbrbm inhibitAnyPolicy bn integer which indicbtes whether
+     * "bny-policy" is considered b mbtch
+     * @pbrbm currCert the Certificbte to be processed
+     * @return returns the new inhibitAnyPolicy vblue
+     * @exception CertPbthVblidbtorException Exception thrown if bn error
      * occurs
      */
-    static int mergeInhibitAnyPolicy(int inhibitAnyPolicy,
-        X509CertImpl currCert) throws CertPathValidatorException
+    stbtic int mergeInhibitAnyPolicy(int inhibitAnyPolicy,
+        X509CertImpl currCert) throws CertPbthVblidbtorException
     {
         if ((inhibitAnyPolicy > 0) && !X509CertImpl.isSelfIssued(currCert)) {
             inhibitAnyPolicy--;
@@ -379,7 +379,7 @@ class PolicyChecker extends PKIXCertPathChecker {
                 return inhibitAnyPolicy;
 
             int skipCerts =
-                inhAnyPolExt.get(InhibitAnyPolicyExtension.SKIP_CERTS).intValue();
+                inhAnyPolExt.get(InhibitAnyPolicyExtension.SKIP_CERTS).intVblue();
             if (debug != null)
                 debug.println("PolicyChecker.mergeInhibitAnyPolicy() "
                     + "skipCerts Index from cert = " + skipCerts);
@@ -389,49 +389,49 @@ class PolicyChecker extends PKIXCertPathChecker {
                     inhibitAnyPolicy = skipCerts;
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (debug != null) {
                 debug.println("PolicyChecker.mergeInhibitAnyPolicy "
                               + "unexpected exception");
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            throw new CertPathValidatorException(e);
+            throw new CertPbthVblidbtorException(e);
         }
 
         return inhibitAnyPolicy;
     }
 
     /**
-     * Processes certificate policies in the certificate.
+     * Processes certificbte policies in the certificbte.
      *
-     * @param certIndex the index of the certificate
-     * @param initPolicies the initial policies required by the user
-     * @param explicitPolicy an integer which indicates if a non-null
-     * valid policy tree is required
-     * @param policyMapping an integer which indicates if policy
-     * mapping is inhibited
-     * @param inhibitAnyPolicy an integer which indicates whether
-     * "any-policy" is considered a match
-     * @param rejectPolicyQualifiers a boolean indicating whether the
-     * user wants to reject policies that have qualifiers
-     * @param origRootNode the root node of the valid policy tree
-     * @param currCert the Certificate to be processed
-     * @param finalCert a boolean indicating whether currCert is the final
-     * cert in the cert path
-     * @return the root node of the valid policy tree after modification
-     * @exception CertPathValidatorException Exception thrown if an
+     * @pbrbm certIndex the index of the certificbte
+     * @pbrbm initPolicies the initibl policies required by the user
+     * @pbrbm explicitPolicy bn integer which indicbtes if b non-null
+     * vblid policy tree is required
+     * @pbrbm policyMbpping bn integer which indicbtes if policy
+     * mbpping is inhibited
+     * @pbrbm inhibitAnyPolicy bn integer which indicbtes whether
+     * "bny-policy" is considered b mbtch
+     * @pbrbm rejectPolicyQublifiers b boolebn indicbting whether the
+     * user wbnts to reject policies thbt hbve qublifiers
+     * @pbrbm origRootNode the root node of the vblid policy tree
+     * @pbrbm currCert the Certificbte to be processed
+     * @pbrbm finblCert b boolebn indicbting whether currCert is the finbl
+     * cert in the cert pbth
+     * @return the root node of the vblid policy tree bfter modificbtion
+     * @exception CertPbthVblidbtorException Exception thrown if bn
      * error occurs while processing policies.
      */
-    static PolicyNodeImpl processPolicies(int certIndex, Set<String> initPolicies,
-        int explicitPolicy, int policyMapping, int inhibitAnyPolicy,
-        boolean rejectPolicyQualifiers, PolicyNodeImpl origRootNode,
-        X509CertImpl currCert, boolean finalCert)
-        throws CertPathValidatorException
+    stbtic PolicyNodeImpl processPolicies(int certIndex, Set<String> initPolicies,
+        int explicitPolicy, int policyMbpping, int inhibitAnyPolicy,
+        boolebn rejectPolicyQublifiers, PolicyNodeImpl origRootNode,
+        X509CertImpl currCert, boolebn finblCert)
+        throws CertPbthVblidbtorException
     {
-        boolean policiesCritical = false;
-        List<PolicyInformation> policyInfo;
+        boolebn policiesCriticbl = fblse;
+        List<PolicyInformbtion> policyInfo;
         PolicyNodeImpl rootNode = null;
-        Set<PolicyQualifierInfo> anyQuals = new HashSet<>();
+        Set<PolicyQublifierInfo> bnyQubls = new HbshSet<>();
 
         if (origRootNode == null)
             rootNode = null;
@@ -439,66 +439,66 @@ class PolicyChecker extends PKIXCertPathChecker {
             rootNode = origRootNode.copyTree();
 
         // retrieve policyOIDs from currCert
-        CertificatePoliciesExtension currCertPolicies
-            = currCert.getCertificatePoliciesExtension();
+        CertificbtePoliciesExtension currCertPolicies
+            = currCert.getCertificbtePoliciesExtension();
 
         // PKIX: Section 6.1.3: Step (d)
         if ((currCertPolicies != null) && (rootNode != null)) {
-            policiesCritical = currCertPolicies.isCritical();
+            policiesCriticbl = currCertPolicies.isCriticbl();
             if (debug != null)
                 debug.println("PolicyChecker.processPolicies() "
-                    + "policiesCritical = " + policiesCritical);
+                    + "policiesCriticbl = " + policiesCriticbl);
 
             try {
-                policyInfo = currCertPolicies.get(CertificatePoliciesExtension.POLICIES);
-            } catch (IOException ioe) {
-                throw new CertPathValidatorException("Exception while "
+                policyInfo = currCertPolicies.get(CertificbtePoliciesExtension.POLICIES);
+            } cbtch (IOException ioe) {
+                throw new CertPbthVblidbtorException("Exception while "
                     + "retrieving policyOIDs", ioe);
             }
 
             if (debug != null)
                 debug.println("PolicyChecker.processPolicies() "
-                    + "rejectPolicyQualifiers = " + rejectPolicyQualifiers);
+                    + "rejectPolicyQublifiers = " + rejectPolicyQublifiers);
 
-            boolean foundAnyPolicy = false;
+            boolebn foundAnyPolicy = fblse;
 
-            // process each policy in cert
-            for (PolicyInformation curPolInfo : policyInfo) {
+            // process ebch policy in cert
+            for (PolicyInformbtion curPolInfo : policyInfo) {
                 String curPolicy =
                     curPolInfo.getPolicyIdentifier().getIdentifier().toString();
 
-                if (curPolicy.equals(ANY_POLICY)) {
+                if (curPolicy.equbls(ANY_POLICY)) {
                     foundAnyPolicy = true;
-                    anyQuals = curPolInfo.getPolicyQualifiers();
+                    bnyQubls = curPolInfo.getPolicyQublifiers();
                 } else {
                     // PKIX: Section 6.1.3: Step (d)(1)
                     if (debug != null)
                         debug.println("PolicyChecker.processPolicies() "
                                       + "processing policy: " + curPolicy);
 
-                    // retrieve policy qualifiers from cert
-                    Set<PolicyQualifierInfo> pQuals =
-                                        curPolInfo.getPolicyQualifiers();
+                    // retrieve policy qublifiers from cert
+                    Set<PolicyQublifierInfo> pQubls =
+                                        curPolInfo.getPolicyQublifiers();
 
-                    // reject cert if we find critical policy qualifiers and
-                    // the policyQualifiersRejected flag is set in the params
-                    if (!pQuals.isEmpty() && rejectPolicyQualifiers &&
-                        policiesCritical) {
-                        throw new CertPathValidatorException(
-                            "critical policy qualifiers present in certificate",
-                            null, null, -1, PKIXReason.INVALID_POLICY);
+                    // reject cert if we find criticbl policy qublifiers bnd
+                    // the policyQublifiersRejected flbg is set in the pbrbms
+                    if (!pQubls.isEmpty() && rejectPolicyQublifiers &&
+                        policiesCriticbl) {
+                        throw new CertPbthVblidbtorException(
+                            "criticbl policy qublifiers present in certificbte",
+                            null, null, -1, PKIXRebson.INVALID_POLICY);
                     }
 
                     // PKIX: Section 6.1.3: Step (d)(1)(i)
-                    boolean foundMatch = processParents(certIndex,
-                        policiesCritical, rejectPolicyQualifiers, rootNode,
-                        curPolicy, pQuals, false);
+                    boolebn foundMbtch = processPbrents(certIndex,
+                        policiesCriticbl, rejectPolicyQublifiers, rootNode,
+                        curPolicy, pQubls, fblse);
 
-                    if (!foundMatch) {
+                    if (!foundMbtch) {
                         // PKIX: Section 6.1.3: Step (d)(1)(ii)
-                        processParents(certIndex, policiesCritical,
-                            rejectPolicyQualifiers, rootNode, curPolicy,
-                            pQuals, true);
+                        processPbrents(certIndex, policiesCriticbl,
+                            rejectPolicyQublifiers, rootNode, curPolicy,
+                            pQubls, true);
                     }
                 }
             }
@@ -506,20 +506,20 @@ class PolicyChecker extends PKIXCertPathChecker {
             // PKIX: Section 6.1.3: Step (d)(2)
             if (foundAnyPolicy) {
                 if ((inhibitAnyPolicy > 0) ||
-                        (!finalCert && X509CertImpl.isSelfIssued(currCert))) {
+                        (!finblCert && X509CertImpl.isSelfIssued(currCert))) {
                     if (debug != null) {
                         debug.println("PolicyChecker.processPolicies() "
                             + "processing policy: " + ANY_POLICY);
                     }
-                    processParents(certIndex, policiesCritical,
-                        rejectPolicyQualifiers, rootNode, ANY_POLICY, anyQuals,
+                    processPbrents(certIndex, policiesCriticbl,
+                        rejectPolicyQublifiers, rootNode, ANY_POLICY, bnyQubls,
                         true);
                 }
             }
 
             // PKIX: Section 6.1.3: Step (d)(3)
             rootNode.prune(certIndex);
-            if (!rootNode.getChildren().hasNext()) {
+            if (!rootNode.getChildren().hbsNext()) {
                 rootNode = null;
             }
         } else if (currCertPolicies == null) {
@@ -530,97 +530,97 @@ class PolicyChecker extends PKIXCertPathChecker {
             rootNode = null;
         }
 
-        // We delay PKIX: Section 6.1.3: Step (f) to the end
-        // because the code that follows may delete some nodes
-        // resulting in a null tree
+        // We delby PKIX: Section 6.1.3: Step (f) to the end
+        // becbuse the code thbt follows mby delete some nodes
+        // resulting in b null tree
         if (rootNode != null) {
-            if (!finalCert) {
-                // PKIX: Section 6.1.4: Steps (a)-(b)
-                rootNode = processPolicyMappings(currCert, certIndex,
-                    policyMapping, rootNode, policiesCritical, anyQuals);
+            if (!finblCert) {
+                // PKIX: Section 6.1.4: Steps (b)-(b)
+                rootNode = processPolicyMbppings(currCert, certIndex,
+                    policyMbpping, rootNode, policiesCriticbl, bnyQubls);
             }
         }
 
-        // At this point, we optimize the PKIX algorithm by
-        // removing those nodes which would later have
+        // At this point, we optimize the PKIX blgorithm by
+        // removing those nodes which would lbter hbve
         // been removed by PKIX: Section 6.1.5: Step (g)(iii)
 
-        if ((rootNode != null) && (!initPolicies.contains(ANY_POLICY))
+        if ((rootNode != null) && (!initPolicies.contbins(ANY_POLICY))
             && (currCertPolicies != null)) {
-            rootNode = removeInvalidNodes(rootNode, certIndex,
+            rootNode = removeInvblidNodes(rootNode, certIndex,
                                           initPolicies, currCertPolicies);
 
             // PKIX: Section 6.1.5: Step (g)(iii)
-            if ((rootNode != null) && finalCert) {
-                // rewrite anyPolicy leaf nodes (see method comments)
-                rootNode = rewriteLeafNodes(certIndex, initPolicies, rootNode);
+            if ((rootNode != null) && finblCert) {
+                // rewrite bnyPolicy lebf nodes (see method comments)
+                rootNode = rewriteLebfNodes(certIndex, initPolicies, rootNode);
             }
         }
 
 
-        if (finalCert) {
-            // PKIX: Section 6.1.5: Steps (a) and (b)
+        if (finblCert) {
+            // PKIX: Section 6.1.5: Steps (b) bnd (b)
             explicitPolicy = mergeExplicitPolicy(explicitPolicy, currCert,
-                                             finalCert);
+                                             finblCert);
         }
 
         // PKIX: Section 6.1.3: Step (f)
-        // verify that either explicit policy is greater than 0 or
-        // the valid_policy_tree is not equal to NULL
+        // verify thbt either explicit policy is grebter thbn 0 or
+        // the vblid_policy_tree is not equbl to NULL
 
         if ((explicitPolicy == 0) && (rootNode == null)) {
-            throw new CertPathValidatorException
-                ("non-null policy tree required and policy tree is null",
-                 null, null, -1, PKIXReason.INVALID_POLICY);
+            throw new CertPbthVblidbtorException
+                ("non-null policy tree required bnd policy tree is null",
+                 null, null, -1, PKIXRebson.INVALID_POLICY);
         }
 
         return rootNode;
     }
 
     /**
-     * Rewrite leaf nodes at the end of validation as described in RFC 3280
-     * section 6.1.5: Step (g)(iii). Leaf nodes with anyPolicy are replaced
-     * by nodes explicitly representing initial policies not already
-     * represented by leaf nodes.
+     * Rewrite lebf nodes bt the end of vblidbtion bs described in RFC 3280
+     * section 6.1.5: Step (g)(iii). Lebf nodes with bnyPolicy bre replbced
+     * by nodes explicitly representing initibl policies not blrebdy
+     * represented by lebf nodes.
      *
-     * This method should only be called when processing the final cert
-     * and if the policy tree is not null and initial policies is not
-     * anyPolicy.
+     * This method should only be cblled when processing the finbl cert
+     * bnd if the policy tree is not null bnd initibl policies is not
+     * bnyPolicy.
      *
-     * @param certIndex the depth of the tree
-     * @param initPolicies Set of user specified initial policies
-     * @param rootNode the root of the policy tree
+     * @pbrbm certIndex the depth of the tree
+     * @pbrbm initPolicies Set of user specified initibl policies
+     * @pbrbm rootNode the root of the policy tree
      */
-    private static PolicyNodeImpl rewriteLeafNodes(int certIndex,
+    privbte stbtic PolicyNodeImpl rewriteLebfNodes(int certIndex,
             Set<String> initPolicies, PolicyNodeImpl rootNode) {
-        Set<PolicyNodeImpl> anyNodes =
-                        rootNode.getPolicyNodesValid(certIndex, ANY_POLICY);
-        if (anyNodes.isEmpty()) {
+        Set<PolicyNodeImpl> bnyNodes =
+                        rootNode.getPolicyNodesVblid(certIndex, ANY_POLICY);
+        if (bnyNodes.isEmpty()) {
             return rootNode;
         }
-        PolicyNodeImpl anyNode = anyNodes.iterator().next();
-        PolicyNodeImpl parentNode = (PolicyNodeImpl)anyNode.getParent();
-        parentNode.deleteChild(anyNode);
-        // see if there are any initialPolicies not represented by leaf nodes
-        Set<String> initial = new HashSet<>(initPolicies);
+        PolicyNodeImpl bnyNode = bnyNodes.iterbtor().next();
+        PolicyNodeImpl pbrentNode = (PolicyNodeImpl)bnyNode.getPbrent();
+        pbrentNode.deleteChild(bnyNode);
+        // see if there bre bny initiblPolicies not represented by lebf nodes
+        Set<String> initibl = new HbshSet<>(initPolicies);
         for (PolicyNodeImpl node : rootNode.getPolicyNodes(certIndex)) {
-            initial.remove(node.getValidPolicy());
+            initibl.remove(node.getVblidPolicy());
         }
-        if (initial.isEmpty()) {
-            // we deleted the anyPolicy node and have nothing to re-add,
+        if (initibl.isEmpty()) {
+            // we deleted the bnyPolicy node bnd hbve nothing to re-bdd,
             // so we need to prune the tree
             rootNode.prune(certIndex);
-            if (rootNode.getChildren().hasNext() == false) {
+            if (rootNode.getChildren().hbsNext() == fblse) {
                 rootNode = null;
             }
         } else {
-            boolean anyCritical = anyNode.isCritical();
-            Set<PolicyQualifierInfo> anyQualifiers =
-                                                anyNode.getPolicyQualifiers();
-            for (String policy : initial) {
+            boolebn bnyCriticbl = bnyNode.isCriticbl();
+            Set<PolicyQublifierInfo> bnyQublifiers =
+                                                bnyNode.getPolicyQublifiers();
+            for (String policy : initibl) {
                 Set<String> expectedPolicies = Collections.singleton(policy);
-                PolicyNodeImpl node = new PolicyNodeImpl(parentNode, policy,
-                    anyQualifiers, anyCritical, expectedPolicies, false);
+                PolicyNodeImpl node = new PolicyNodeImpl(pbrentNode, policy,
+                    bnyQublifiers, bnyCriticbl, expectedPolicies, fblse);
             }
         }
         return rootNode;
@@ -628,201 +628,201 @@ class PolicyChecker extends PKIXCertPathChecker {
 
     /**
      * Finds the policy nodes of depth (certIndex-1) where curPolicy
-     * is in the expected policy set and creates a new child node
-     * appropriately. If matchAny is true, then a value of ANY_POLICY
-     * in the expected policy set will match any curPolicy. If matchAny
-     * is false, then the expected policy set must exactly contain the
-     * curPolicy to be considered a match. This method returns a boolean
-     * value indicating whether a match was found.
+     * is in the expected policy set bnd crebtes b new child node
+     * bppropribtely. If mbtchAny is true, then b vblue of ANY_POLICY
+     * in the expected policy set will mbtch bny curPolicy. If mbtchAny
+     * is fblse, then the expected policy set must exbctly contbin the
+     * curPolicy to be considered b mbtch. This method returns b boolebn
+     * vblue indicbting whether b mbtch wbs found.
      *
-     * @param certIndex the index of the certificate whose policy is
+     * @pbrbm certIndex the index of the certificbte whose policy is
      * being processed
-     * @param policiesCritical a boolean indicating whether the certificate
-     * policies extension is critical
-     * @param rejectPolicyQualifiers a boolean indicating whether the
-     * user wants to reject policies that have qualifiers
-     * @param rootNode the root node of the valid policy tree
-     * @param curPolicy a String representing the policy being processed
-     * @param pQuals the policy qualifiers of the policy being processed or an
-     * empty Set if there are no qualifiers
-     * @param matchAny a boolean indicating whether a value of ANY_POLICY
-     * in the expected policy set will be considered a match
-     * @return a boolean indicating whether a match was found
-     * @exception CertPathValidatorException Exception thrown if error occurs.
+     * @pbrbm policiesCriticbl b boolebn indicbting whether the certificbte
+     * policies extension is criticbl
+     * @pbrbm rejectPolicyQublifiers b boolebn indicbting whether the
+     * user wbnts to reject policies thbt hbve qublifiers
+     * @pbrbm rootNode the root node of the vblid policy tree
+     * @pbrbm curPolicy b String representing the policy being processed
+     * @pbrbm pQubls the policy qublifiers of the policy being processed or bn
+     * empty Set if there bre no qublifiers
+     * @pbrbm mbtchAny b boolebn indicbting whether b vblue of ANY_POLICY
+     * in the expected policy set will be considered b mbtch
+     * @return b boolebn indicbting whether b mbtch wbs found
+     * @exception CertPbthVblidbtorException Exception thrown if error occurs.
      */
-    private static boolean processParents(int certIndex,
-        boolean policiesCritical, boolean rejectPolicyQualifiers,
+    privbte stbtic boolebn processPbrents(int certIndex,
+        boolebn policiesCriticbl, boolebn rejectPolicyQublifiers,
         PolicyNodeImpl rootNode, String curPolicy,
-        Set<PolicyQualifierInfo> pQuals,
-        boolean matchAny) throws CertPathValidatorException
+        Set<PolicyQublifierInfo> pQubls,
+        boolebn mbtchAny) throws CertPbthVblidbtorException
     {
-        boolean foundMatch = false;
+        boolebn foundMbtch = fblse;
 
         if (debug != null)
-            debug.println("PolicyChecker.processParents(): matchAny = "
-                + matchAny);
+            debug.println("PolicyChecker.processPbrents(): mbtchAny = "
+                + mbtchAny);
 
-        // find matching parents
-        Set<PolicyNodeImpl> parentNodes =
+        // find mbtching pbrents
+        Set<PolicyNodeImpl> pbrentNodes =
                 rootNode.getPolicyNodesExpected(certIndex - 1,
-                                                curPolicy, matchAny);
+                                                curPolicy, mbtchAny);
 
-        // for each matching parent, extend policy tree
-        for (PolicyNodeImpl curParent : parentNodes) {
+        // for ebch mbtching pbrent, extend policy tree
+        for (PolicyNodeImpl curPbrent : pbrentNodes) {
             if (debug != null)
-                debug.println("PolicyChecker.processParents() "
-                              + "found parent:\n" + curParent.asString());
+                debug.println("PolicyChecker.processPbrents() "
+                              + "found pbrent:\n" + curPbrent.bsString());
 
-            foundMatch = true;
-            String curParPolicy = curParent.getValidPolicy();
+            foundMbtch = true;
+            String curPbrPolicy = curPbrent.getVblidPolicy();
 
             PolicyNodeImpl curNode = null;
             Set<String> curExpPols = null;
 
-            if (curPolicy.equals(ANY_POLICY)) {
+            if (curPolicy.equbls(ANY_POLICY)) {
                 // do step 2
-                Set<String> parExpPols = curParent.getExpectedPolicies();
-            parentExplicitPolicies:
-                for (String curParExpPol : parExpPols) {
+                Set<String> pbrExpPols = curPbrent.getExpectedPolicies();
+            pbrentExplicitPolicies:
+                for (String curPbrExpPol : pbrExpPols) {
 
-                    Iterator<PolicyNodeImpl> childIter =
-                                        curParent.getChildren();
-                    while (childIter.hasNext()) {
+                    Iterbtor<PolicyNodeImpl> childIter =
+                                        curPbrent.getChildren();
+                    while (childIter.hbsNext()) {
                         PolicyNodeImpl childNode = childIter.next();
-                        String childPolicy = childNode.getValidPolicy();
-                        if (curParExpPol.equals(childPolicy)) {
+                        String childPolicy = childNode.getVblidPolicy();
+                        if (curPbrExpPol.equbls(childPolicy)) {
                             if (debug != null)
-                                debug.println(childPolicy + " in parent's "
-                                    + "expected policy set already appears in "
+                                debug.println(childPolicy + " in pbrent's "
+                                    + "expected policy set blrebdy bppebrs in "
                                     + "child node");
-                            continue parentExplicitPolicies;
+                            continue pbrentExplicitPolicies;
                         }
                     }
 
-                    Set<String> expPols = new HashSet<>();
-                    expPols.add(curParExpPol);
+                    Set<String> expPols = new HbshSet<>();
+                    expPols.bdd(curPbrExpPol);
 
                     curNode = new PolicyNodeImpl
-                        (curParent, curParExpPol, pQuals,
-                         policiesCritical, expPols, false);
+                        (curPbrent, curPbrExpPol, pQubls,
+                         policiesCriticbl, expPols, fblse);
                 }
             } else {
-                curExpPols = new HashSet<String>();
-                curExpPols.add(curPolicy);
+                curExpPols = new HbshSet<String>();
+                curExpPols.bdd(curPolicy);
 
                 curNode = new PolicyNodeImpl
-                    (curParent, curPolicy, pQuals,
-                     policiesCritical, curExpPols, false);
+                    (curPbrent, curPolicy, pQubls,
+                     policiesCriticbl, curExpPols, fblse);
             }
         }
 
-        return foundMatch;
+        return foundMbtch;
     }
 
     /**
-     * Processes policy mappings in the certificate.
+     * Processes policy mbppings in the certificbte.
      *
-     * @param currCert the Certificate to be processed
-     * @param certIndex the index of the current certificate
-     * @param policyMapping an integer which indicates if policy
-     * mapping is inhibited
-     * @param rootNode the root node of the valid policy tree
-     * @param policiesCritical a boolean indicating if the certificate policies
-     * extension is critical
-     * @param anyQuals the qualifiers associated with ANY-POLICY, or an empty
-     * Set if there are no qualifiers associated with ANY-POLICY
-     * @return the root node of the valid policy tree after modification
-     * @exception CertPathValidatorException exception thrown if an error
-     * occurs while processing policy mappings
+     * @pbrbm currCert the Certificbte to be processed
+     * @pbrbm certIndex the index of the current certificbte
+     * @pbrbm policyMbpping bn integer which indicbtes if policy
+     * mbpping is inhibited
+     * @pbrbm rootNode the root node of the vblid policy tree
+     * @pbrbm policiesCriticbl b boolebn indicbting if the certificbte policies
+     * extension is criticbl
+     * @pbrbm bnyQubls the qublifiers bssocibted with ANY-POLICY, or bn empty
+     * Set if there bre no qublifiers bssocibted with ANY-POLICY
+     * @return the root node of the vblid policy tree bfter modificbtion
+     * @exception CertPbthVblidbtorException exception thrown if bn error
+     * occurs while processing policy mbppings
      */
-    private static PolicyNodeImpl processPolicyMappings(X509CertImpl currCert,
-        int certIndex, int policyMapping, PolicyNodeImpl rootNode,
-        boolean policiesCritical, Set<PolicyQualifierInfo> anyQuals)
-        throws CertPathValidatorException
+    privbte stbtic PolicyNodeImpl processPolicyMbppings(X509CertImpl currCert,
+        int certIndex, int policyMbpping, PolicyNodeImpl rootNode,
+        boolebn policiesCriticbl, Set<PolicyQublifierInfo> bnyQubls)
+        throws CertPbthVblidbtorException
     {
-        PolicyMappingsExtension polMappingsExt
-            = currCert.getPolicyMappingsExtension();
+        PolicyMbppingsExtension polMbppingsExt
+            = currCert.getPolicyMbppingsExtension();
 
-        if (polMappingsExt == null)
+        if (polMbppingsExt == null)
             return rootNode;
 
         if (debug != null)
-            debug.println("PolicyChecker.processPolicyMappings() "
-                + "inside policyMapping check");
+            debug.println("PolicyChecker.processPolicyMbppings() "
+                + "inside policyMbpping check");
 
-        List<CertificatePolicyMap> maps = null;
+        List<CertificbtePolicyMbp> mbps = null;
         try {
-            maps = polMappingsExt.get(PolicyMappingsExtension.MAP);
-        } catch (IOException e) {
+            mbps = polMbppingsExt.get(PolicyMbppingsExtension.MAP);
+        } cbtch (IOException e) {
             if (debug != null) {
-                debug.println("PolicyChecker.processPolicyMappings() "
-                    + "mapping exception");
-                e.printStackTrace();
+                debug.println("PolicyChecker.processPolicyMbppings() "
+                    + "mbpping exception");
+                e.printStbckTrbce();
             }
-            throw new CertPathValidatorException("Exception while checking "
-                                                 + "mapping", e);
+            throw new CertPbthVblidbtorException("Exception while checking "
+                                                 + "mbpping", e);
         }
 
-        boolean childDeleted = false;
-        for (CertificatePolicyMap polMap : maps) {
-            String issuerDomain
-                = polMap.getIssuerIdentifier().getIdentifier().toString();
-            String subjectDomain
-                = polMap.getSubjectIdentifier().getIdentifier().toString();
+        boolebn childDeleted = fblse;
+        for (CertificbtePolicyMbp polMbp : mbps) {
+            String issuerDombin
+                = polMbp.getIssuerIdentifier().getIdentifier().toString();
+            String subjectDombin
+                = polMbp.getSubjectIdentifier().getIdentifier().toString();
             if (debug != null) {
-                debug.println("PolicyChecker.processPolicyMappings() "
-                              + "issuerDomain = " + issuerDomain);
-                debug.println("PolicyChecker.processPolicyMappings() "
-                              + "subjectDomain = " + subjectDomain);
+                debug.println("PolicyChecker.processPolicyMbppings() "
+                              + "issuerDombin = " + issuerDombin);
+                debug.println("PolicyChecker.processPolicyMbppings() "
+                              + "subjectDombin = " + subjectDombin);
             }
 
-            if (issuerDomain.equals(ANY_POLICY)) {
-                throw new CertPathValidatorException
-                    ("encountered an issuerDomainPolicy of ANY_POLICY",
-                     null, null, -1, PKIXReason.INVALID_POLICY);
+            if (issuerDombin.equbls(ANY_POLICY)) {
+                throw new CertPbthVblidbtorException
+                    ("encountered bn issuerDombinPolicy of ANY_POLICY",
+                     null, null, -1, PKIXRebson.INVALID_POLICY);
             }
 
-            if (subjectDomain.equals(ANY_POLICY)) {
-                throw new CertPathValidatorException
-                    ("encountered a subjectDomainPolicy of ANY_POLICY",
-                     null, null, -1, PKIXReason.INVALID_POLICY);
+            if (subjectDombin.equbls(ANY_POLICY)) {
+                throw new CertPbthVblidbtorException
+                    ("encountered b subjectDombinPolicy of ANY_POLICY",
+                     null, null, -1, PKIXRebson.INVALID_POLICY);
             }
 
-            Set<PolicyNodeImpl> validNodes =
-                rootNode.getPolicyNodesValid(certIndex, issuerDomain);
-            if (!validNodes.isEmpty()) {
-                for (PolicyNodeImpl curNode : validNodes) {
-                    if ((policyMapping > 0) || (policyMapping == -1)) {
-                        curNode.addExpectedPolicy(subjectDomain);
-                    } else if (policyMapping == 0) {
-                        PolicyNodeImpl parentNode =
-                            (PolicyNodeImpl) curNode.getParent();
+            Set<PolicyNodeImpl> vblidNodes =
+                rootNode.getPolicyNodesVblid(certIndex, issuerDombin);
+            if (!vblidNodes.isEmpty()) {
+                for (PolicyNodeImpl curNode : vblidNodes) {
+                    if ((policyMbpping > 0) || (policyMbpping == -1)) {
+                        curNode.bddExpectedPolicy(subjectDombin);
+                    } else if (policyMbpping == 0) {
+                        PolicyNodeImpl pbrentNode =
+                            (PolicyNodeImpl) curNode.getPbrent();
                         if (debug != null)
-                            debug.println("PolicyChecker.processPolicyMappings"
+                            debug.println("PolicyChecker.processPolicyMbppings"
                                 + "() before deleting: policy tree = "
                                 + rootNode);
-                        parentNode.deleteChild(curNode);
+                        pbrentNode.deleteChild(curNode);
                         childDeleted = true;
                         if (debug != null)
-                            debug.println("PolicyChecker.processPolicyMappings"
-                                + "() after deleting: policy tree = "
+                            debug.println("PolicyChecker.processPolicyMbppings"
+                                + "() bfter deleting: policy tree = "
                                 + rootNode);
                     }
                 }
-            } else { // no node of depth i has a valid policy
-                if ((policyMapping > 0) || (policyMapping == -1)) {
-                    Set<PolicyNodeImpl> validAnyNodes =
-                        rootNode.getPolicyNodesValid(certIndex, ANY_POLICY);
-                    for (PolicyNodeImpl curAnyNode : validAnyNodes) {
-                        PolicyNodeImpl curAnyNodeParent =
-                            (PolicyNodeImpl) curAnyNode.getParent();
+            } else { // no node of depth i hbs b vblid policy
+                if ((policyMbpping > 0) || (policyMbpping == -1)) {
+                    Set<PolicyNodeImpl> vblidAnyNodes =
+                        rootNode.getPolicyNodesVblid(certIndex, ANY_POLICY);
+                    for (PolicyNodeImpl curAnyNode : vblidAnyNodes) {
+                        PolicyNodeImpl curAnyNodePbrent =
+                            (PolicyNodeImpl) curAnyNode.getPbrent();
 
-                        Set<String> expPols = new HashSet<>();
-                        expPols.add(subjectDomain);
+                        Set<String> expPols = new HbshSet<>();
+                        expPols.bdd(subjectDombin);
 
                         PolicyNodeImpl curNode = new PolicyNodeImpl
-                            (curAnyNodeParent, issuerDomain, anyQuals,
-                             policiesCritical, expPols, true);
+                            (curAnyNodePbrent, issuerDombin, bnyQubls,
+                             policiesCriticbl, expPols, true);
                     }
                 }
             }
@@ -830,7 +830,7 @@ class PolicyChecker extends PKIXCertPathChecker {
 
         if (childDeleted) {
             rootNode.prune(certIndex);
-            if (!rootNode.getChildren().hasNext()) {
+            if (!rootNode.getChildren().hbsNext()) {
                 if (debug != null)
                     debug.println("setting rootNode to null");
                 rootNode = null;
@@ -841,32 +841,32 @@ class PolicyChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Removes those nodes which do not intersect with the initial policies
+     * Removes those nodes which do not intersect with the initibl policies
      * specified by the user.
      *
-     * @param rootNode the root node of the valid policy tree
-     * @param certIndex the index of the certificate being processed
-     * @param initPolicies the Set of policies required by the user
-     * @param currCertPolicies the CertificatePoliciesExtension of the
-     * certificate being processed
-     * @returns the root node of the valid policy tree after modification
-     * @exception CertPathValidatorException Exception thrown if error occurs.
+     * @pbrbm rootNode the root node of the vblid policy tree
+     * @pbrbm certIndex the index of the certificbte being processed
+     * @pbrbm initPolicies the Set of policies required by the user
+     * @pbrbm currCertPolicies the CertificbtePoliciesExtension of the
+     * certificbte being processed
+     * @returns the root node of the vblid policy tree bfter modificbtion
+     * @exception CertPbthVblidbtorException Exception thrown if error occurs.
      */
-    private static PolicyNodeImpl removeInvalidNodes(PolicyNodeImpl rootNode,
+    privbte stbtic PolicyNodeImpl removeInvblidNodes(PolicyNodeImpl rootNode,
         int certIndex, Set<String> initPolicies,
-        CertificatePoliciesExtension currCertPolicies)
-        throws CertPathValidatorException
+        CertificbtePoliciesExtension currCertPolicies)
+        throws CertPbthVblidbtorException
     {
-        List<PolicyInformation> policyInfo = null;
+        List<PolicyInformbtion> policyInfo = null;
         try {
-            policyInfo = currCertPolicies.get(CertificatePoliciesExtension.POLICIES);
-        } catch (IOException ioe) {
-            throw new CertPathValidatorException("Exception while "
+            policyInfo = currCertPolicies.get(CertificbtePoliciesExtension.POLICIES);
+        } cbtch (IOException ioe) {
+            throw new CertPbthVblidbtorException("Exception while "
                 + "retrieving policyOIDs", ioe);
         }
 
-        boolean childDeleted = false;
-        for (PolicyInformation curPolInfo : policyInfo) {
+        boolebn childDeleted = fblse;
+        for (PolicyInformbtion curPolInfo : policyInfo) {
             String curPolicy =
                 curPolInfo.getPolicyIdentifier().getIdentifier().toString();
 
@@ -874,21 +874,21 @@ class PolicyChecker extends PKIXCertPathChecker {
                 debug.println("PolicyChecker.processPolicies() "
                               + "processing policy second time: " + curPolicy);
 
-            Set<PolicyNodeImpl> validNodes =
-                        rootNode.getPolicyNodesValid(certIndex, curPolicy);
-            for (PolicyNodeImpl curNode : validNodes) {
-                PolicyNodeImpl parentNode = (PolicyNodeImpl)curNode.getParent();
-                if (parentNode.getValidPolicy().equals(ANY_POLICY)) {
-                    if ((!initPolicies.contains(curPolicy)) &&
-                        (!curPolicy.equals(ANY_POLICY))) {
+            Set<PolicyNodeImpl> vblidNodes =
+                        rootNode.getPolicyNodesVblid(certIndex, curPolicy);
+            for (PolicyNodeImpl curNode : vblidNodes) {
+                PolicyNodeImpl pbrentNode = (PolicyNodeImpl)curNode.getPbrent();
+                if (pbrentNode.getVblidPolicy().equbls(ANY_POLICY)) {
+                    if ((!initPolicies.contbins(curPolicy)) &&
+                        (!curPolicy.equbls(ANY_POLICY))) {
                         if (debug != null)
                             debug.println("PolicyChecker.processPolicies() "
                                 + "before deleting: policy tree = " + rootNode);
-                        parentNode.deleteChild(curNode);
+                        pbrentNode.deleteChild(curNode);
                         childDeleted = true;
                         if (debug != null)
                             debug.println("PolicyChecker.processPolicies() "
-                                + "after deleting: policy tree = " + rootNode);
+                                + "bfter deleting: policy tree = " + rootNode);
                     }
                 }
             }
@@ -896,7 +896,7 @@ class PolicyChecker extends PKIXCertPathChecker {
 
         if (childDeleted) {
             rootNode.prune(certIndex);
-            if (!rootNode.getChildren().hasNext()) {
+            if (!rootNode.getChildren().hbsNext()) {
                 rootNode = null;
             }
         }
@@ -905,19 +905,19 @@ class PolicyChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Gets the root node of the valid policy tree, or null if the
-     * valid policy tree is null. Marks each node of the returned tree
-     * immutable and thread-safe.
+     * Gets the root node of the vblid policy tree, or null if the
+     * vblid policy tree is null. Mbrks ebch node of the returned tree
+     * immutbble bnd threbd-sbfe.
      *
-     * @returns the root node of the valid policy tree, or null if
-     * the valid policy tree is null
+     * @returns the root node of the vblid policy tree, or null if
+     * the vblid policy tree is null
      */
     PolicyNode getPolicyTree() {
         if (rootNode == null)
             return null;
         else {
             PolicyNodeImpl policyTree = rootNode.copyTree();
-            policyTree.setImmutable();
+            policyTree.setImmutbble();
             return policyTree;
         }
     }

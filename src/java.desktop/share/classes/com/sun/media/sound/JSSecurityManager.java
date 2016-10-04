@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.ServiceLoader;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Properties;
+import jbvb.util.ServiceLobder;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import javax.sound.sampled.AudioPermission;
+import jbvbx.sound.sbmpled.AudioPermission;
 
-/** Managing security in the Java Sound implementation.
- * This class contains all code that uses and is used by
- * SecurityManager.doPrivileged().
+/** Mbnbging security in the Jbvb Sound implementbtion.
+ * This clbss contbins bll code thbt uses bnd is used by
+ * SecurityMbnbger.doPrivileged().
  *
- * @author Matthias Pfisterer
+ * @buthor Mbtthibs Pfisterer
  */
-final class JSSecurityManager {
+finbl clbss JSSecurityMbnbger {
 
-    /** Prevent instantiation.
+    /** Prevent instbntibtion.
      */
-    private JSSecurityManager() {
+    privbte JSSecurityMbnbger() {
     }
 
-    /** Checks if the VM currently has a SecurityManager installed.
-     * Note that this may change over time. So the result of this method
-     * should not be cached.
+    /** Checks if the VM currently hbs b SecurityMbnbger instblled.
+     * Note thbt this mby chbnge over time. So the result of this method
+     * should not be cbched.
      *
-     * @return true if a SecurityManger is installed, false otherwise.
+     * @return true if b SecurityMbnger is instblled, fblse otherwise.
      */
-    private static boolean hasSecurityManager() {
-        return (System.getSecurityManager() != null);
+    privbte stbtic boolebn hbsSecurityMbnbger() {
+        return (System.getSecurityMbnbger() != null);
     }
 
 
-    static void checkRecordPermission() throws SecurityException {
-        if(Printer.trace) Printer.trace("JSSecurityManager.checkRecordPermission()");
-        SecurityManager sm = System.getSecurityManager();
+    stbtic void checkRecordPermission() throws SecurityException {
+        if(Printer.trbce) Printer.trbce("JSSecurityMbnbger.checkRecordPermission()");
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new AudioPermission("record"));
         }
     }
 
-    static String getProperty(final String propertyName) {
-        String propertyValue;
-        if (hasSecurityManager()) {
+    stbtic String getProperty(finbl String propertyNbme) {
+        String propertyVblue;
+        if (hbsSecurityMbnbger()) {
             if(Printer.debug) Printer.debug("using JDK 1.2 security to get property");
             try{
-                PrivilegedAction<String> action = new PrivilegedAction<String>() {
+                PrivilegedAction<String> bction = new PrivilegedAction<String>() {
                         public String run() {
                             try {
-                                return System.getProperty(propertyName);
-                            } catch (Throwable t) {
+                                return System.getProperty(propertyNbme);
+                            } cbtch (Throwbble t) {
                                 return null;
                             }
                         }
                     };
-                propertyValue = AccessController.doPrivileged(action);
-            } catch( Exception e ) {
+                propertyVblue = AccessController.doPrivileged(bction);
+            } cbtch( Exception e ) {
                 if(Printer.debug) Printer.debug("not using JDK 1.2 security to get properties");
-                propertyValue = System.getProperty(propertyName);
+                propertyVblue = System.getProperty(propertyNbme);
             }
         } else {
             if(Printer.debug) Printer.debug("not using JDK 1.2 security to get properties");
-            propertyValue = System.getProperty(propertyName);
+            propertyVblue = System.getProperty(propertyNbme);
         }
-        return propertyValue;
+        return propertyVblue;
     }
 
 
-    /** Load properties from a file.
-        This method tries to load properties from the filename give into
-        the passed properties object.
-        If the file cannot be found or something else goes wrong,
-        the method silently fails.
-        @param properties The properties bundle to store the values of the
+    /** Lobd properties from b file.
+        This method tries to lobd properties from the filenbme give into
+        the pbssed properties object.
+        If the file cbnnot be found or something else goes wrong,
+        the method silently fbils.
+        @pbrbm properties The properties bundle to store the vblues of the
         properties file.
-        @param filename The filename of the properties file to load. This
-        filename is interpreted as relative to the subdirectory "lib" in
+        @pbrbm filenbme The filenbme of the properties file to lobd. This
+        filenbme is interpreted bs relbtive to the subdirectory "lib" in
         the JRE directory.
      */
-    static void loadProperties(final Properties properties,
-                               final String filename) {
-        if(hasSecurityManager()) {
+    stbtic void lobdProperties(finbl Properties properties,
+                               finbl String filenbme) {
+        if(hbsSecurityMbnbger()) {
             try {
-                // invoke the privileged action using 1.2 security
-                PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
+                // invoke the privileged bction using 1.2 security
+                PrivilegedAction<Void> bction = new PrivilegedAction<Void>() {
                         public Void run() {
-                            loadPropertiesImpl(properties, filename);
+                            lobdPropertiesImpl(properties, filenbme);
                             return null;
                         }
                     };
-                AccessController.doPrivileged(action);
-                if(Printer.debug)Printer.debug("Loaded properties with JDK 1.2 security");
-            } catch (Exception e) {
-                if(Printer.debug)Printer.debug("Exception loading properties with JDK 1.2 security");
+                AccessController.doPrivileged(bction);
+                if(Printer.debug)Printer.debug("Lobded properties with JDK 1.2 security");
+            } cbtch (Exception e) {
+                if(Printer.debug)Printer.debug("Exception lobding properties with JDK 1.2 security");
                 // try without using JDK 1.2 security
-                loadPropertiesImpl(properties, filename);
+                lobdPropertiesImpl(properties, filenbme);
             }
         } else {
-            // not JDK 1.2 security, assume we already have permission
-            loadPropertiesImpl(properties, filename);
+            // not JDK 1.2 security, bssume we blrebdy hbve permission
+            lobdPropertiesImpl(properties, filenbme);
         }
     }
 
 
-    private static void loadPropertiesImpl(Properties properties,
-                                           String filename) {
-        if(Printer.trace)Printer.trace(">> JSSecurityManager: loadPropertiesImpl()");
-        String fname = System.getProperty("java.home");
+    privbte stbtic void lobdPropertiesImpl(Properties properties,
+                                           String filenbme) {
+        if(Printer.trbce)Printer.trbce(">> JSSecurityMbnbger: lobdPropertiesImpl()");
+        String fnbme = System.getProperty("jbvb.home");
         try {
-            if (fname == null) {
-                throw new Error("Can't find java.home ??");
+            if (fnbme == null) {
+                throw new Error("Cbn't find jbvb.home ??");
             }
-            File f = new File(fname, "lib");
-            f = new File(f, filename);
-            fname = f.getCanonicalPath();
-            InputStream in = new FileInputStream(fname);
-            BufferedInputStream bin = new BufferedInputStream(in);
+            File f = new File(fnbme, "lib");
+            f = new File(f, filenbme);
+            fnbme = f.getCbnonicblPbth();
+            InputStrebm in = new FileInputStrebm(fnbme);
+            BufferedInputStrebm bin = new BufferedInputStrebm(in);
             try {
-                properties.load(bin);
-            } finally {
+                properties.lobd(bin);
+            } finblly {
                 if (in != null) {
                     in.close();
                 }
             }
-        } catch (Throwable t) {
-            if (Printer.trace) {
-                System.err.println("Could not load properties file \"" + fname + "\"");
-                t.printStackTrace();
+        } cbtch (Throwbble t) {
+            if (Printer.trbce) {
+                System.err.println("Could not lobd properties file \"" + fnbme + "\"");
+                t.printStbckTrbce();
             }
         }
-        if(Printer.trace)Printer.trace("<< JSSecurityManager: loadPropertiesImpl() completed");
+        if(Printer.trbce)Printer.trbce("<< JSSecurityMbnbger: lobdPropertiesImpl() completed");
     }
 
-    /** Create a Thread in the current ThreadGroup.
+    /** Crebte b Threbd in the current ThrebdGroup.
      */
-    static Thread createThread(final Runnable runnable,
-                               final String threadName,
-                               final boolean isDaemon, final int priority,
-                               final boolean doStart) {
-        Thread thread = new Thread(runnable);
-        if (threadName != null) {
-            thread.setName(threadName);
+    stbtic Threbd crebteThrebd(finbl Runnbble runnbble,
+                               finbl String threbdNbme,
+                               finbl boolebn isDbemon, finbl int priority,
+                               finbl boolebn doStbrt) {
+        Threbd threbd = new Threbd(runnbble);
+        if (threbdNbme != null) {
+            threbd.setNbme(threbdNbme);
         }
-        thread.setDaemon(isDaemon);
+        threbd.setDbemon(isDbemon);
         if (priority >= 0) {
-            thread.setPriority(priority);
+            threbd.setPriority(priority);
         }
-        if (doStart) {
-            thread.start();
+        if (doStbrt) {
+            threbd.stbrt();
         }
-        return thread;
+        return threbd;
     }
 
-    static synchronized <T> List<T> getProviders(final Class<T> providerClass) {
-        List<T> p = new ArrayList<>(7);
-        // ServiceLoader creates "lazy" iterator instance, but it ensures that
-        // next/hasNext run with permissions that are restricted by whatever
-        // creates the ServiceLoader instance, so it requires to be called from
+    stbtic synchronized <T> List<T> getProviders(finbl Clbss<T> providerClbss) {
+        List<T> p = new ArrbyList<>(7);
+        // ServiceLobder crebtes "lbzy" iterbtor instbnce, but it ensures thbt
+        // next/hbsNext run with permissions thbt bre restricted by whbtever
+        // crebtes the ServiceLobder instbnce, so it requires to be cblled from
         // privileged section
-        final PrivilegedAction<Iterator<T>> psAction =
-                new PrivilegedAction<Iterator<T>>() {
+        finbl PrivilegedAction<Iterbtor<T>> psAction =
+                new PrivilegedAction<Iterbtor<T>>() {
                     @Override
-                    public Iterator<T> run() {
-                        return ServiceLoader.load(providerClass).iterator();
+                    public Iterbtor<T> run() {
+                        return ServiceLobder.lobd(providerClbss).iterbtor();
                     }
                 };
-        final Iterator<T> ps = AccessController.doPrivileged(psAction);
+        finbl Iterbtor<T> ps = AccessController.doPrivileged(psAction);
 
-        // the iterator's hasNext() method looks through classpath for
-        // the provider class names, so it requires read permissions
-        PrivilegedAction<Boolean> hasNextAction = new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return ps.hasNext();
+        // the iterbtor's hbsNext() method looks through clbsspbth for
+        // the provider clbss nbmes, so it requires rebd permissions
+        PrivilegedAction<Boolebn> hbsNextAction = new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                return ps.hbsNext();
             }
         };
 
-        while (AccessController.doPrivileged(hasNextAction)) {
+        while (AccessController.doPrivileged(hbsNextAction)) {
             try {
-                // the iterator's next() method creates instances of the
-                // providers and it should be called in the current security
+                // the iterbtor's next() method crebtes instbnces of the
+                // providers bnd it should be cblled in the current security
                 // context
                 T provider = ps.next();
-                if (providerClass.isInstance(provider)) {
+                if (providerClbss.isInstbnce(provider)) {
                     // $$mp 2003-08-22
-                    // Always adding at the beginning reverses the
-                    // order of the providers. So we no longer have
-                    // to do this in AudioSystem and MidiSystem.
-                    p.add(0, provider);
+                    // Alwbys bdding bt the beginning reverses the
+                    // order of the providers. So we no longer hbve
+                    // to do this in AudioSystem bnd MidiSystem.
+                    p.bdd(0, provider);
                 }
-            } catch (Throwable t) {
-                //$$fb 2002-11-07: do not fail on SPI not found
-                if (Printer.err) t.printStackTrace();
+            } cbtch (Throwbble t) {
+                //$$fb 2002-11-07: do not fbil on SPI not found
+                if (Printer.err) t.printStbckTrbce();
             }
         }
         return p;

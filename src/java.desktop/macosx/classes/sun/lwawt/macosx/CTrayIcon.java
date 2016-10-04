@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.awt.peer.TrayIconPeer;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.peer.TrbyIconPeer;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-public class CTrayIcon extends CFRetainedResource implements TrayIconPeer {
-    private TrayIcon target;
-    private PopupMenu popup;
-    private JDialog messageDialog;
-    private DialogEventHandler handler;
+public clbss CTrbyIcon extends CFRetbinedResource implements TrbyIconPeer {
+    privbte TrbyIcon tbrget;
+    privbte PopupMenu popup;
+    privbte JDiblog messbgeDiblog;
+    privbte DiblogEventHbndler hbndler;
 
-    // In order to construct MouseEvent object, we need to specify a
-    // Component target. Because TrayIcon isn't Component's subclass,
-    // we use this dummy frame instead
-    private final Frame dummyFrame;
+    // In order to construct MouseEvent object, we need to specify b
+    // Component tbrget. Becbuse TrbyIcon isn't Component's subclbss,
+    // we use this dummy frbme instebd
+    privbte finbl Frbme dummyFrbme;
 
-    // A bitmask that indicates what mouse buttons produce MOUSE_CLICKED events
-    // on MOUSE_RELEASE. Click events are only generated if there were no drag
-    // events between MOUSE_PRESSED and MOUSE_RELEASED for particular button
-    private static int mouseClickButtons = 0;
+    // A bitmbsk thbt indicbtes whbt mouse buttons produce MOUSE_CLICKED events
+    // on MOUSE_RELEASE. Click events bre only generbted if there were no drbg
+    // events between MOUSE_PRESSED bnd MOUSE_RELEASED for pbrticulbr button
+    privbte stbtic int mouseClickButtons = 0;
 
-    CTrayIcon(TrayIcon target) {
+    CTrbyIcon(TrbyIcon tbrget) {
         super(0, true);
 
-        this.messageDialog = null;
-        this.handler = null;
-        this.target = target;
-        this.popup = target.getPopupMenu();
-        this.dummyFrame = new Frame();
-        setPtr(createModel());
+        this.messbgeDiblog = null;
+        this.hbndler = null;
+        this.tbrget = tbrget;
+        this.popup = tbrget.getPopupMenu();
+        this.dummyFrbme = new Frbme();
+        setPtr(crebteModel());
 
-        //if no one else is creating the peer.
-        checkAndCreatePopupPeer();
-        updateImage();
+        //if no one else is crebting the peer.
+        checkAndCrebtePopupPeer();
+        updbteImbge();
     }
 
-    private CPopupMenu checkAndCreatePopupPeer() {
+    privbte CPopupMenu checkAndCrebtePopupPeer() {
         CPopupMenu menuPeer = null;
         if (popup != null) {
             try {
                 menuPeer = (CPopupMenu)popup.getPeer();
                 if (menuPeer == null) {
-                    popup.addNotify();
+                    popup.bddNotify();
                     menuPeer = (CPopupMenu)popup.getPeer();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } cbtch (Exception e) {
+                e.printStbckTrbce();
             }
         }
         return menuPeer;
     }
 
-    private long createModel() {
-        return nativeCreate();
+    privbte long crebteModel() {
+        return nbtiveCrebte();
     }
 
-    private long getModel() {
+    privbte long getModel() {
         return ptr;
     }
 
-    private native long nativeCreate();
+    privbte nbtive long nbtiveCrebte();
 
-    //invocation from the AWTTrayIcon.m
+    //invocbtion from the AWTTrbyIcon.m
     public long getPopupMenuModel(){
         if(popup == null) {
-            PopupMenu popupMenu = target.getPopupMenu();
+            PopupMenu popupMenu = tbrget.getPopupMenu();
             if (popupMenu != null) {
                 popup = popupMenu;
             } else {
                 return 0L;
             }
         }
-        return checkAndCreatePopupPeer().getModel();
+        return checkAndCrebtePopupPeer().getModel();
     }
 
     /**
-     * We display tray icon message as a small dialog with OK button.
-     * This is lame, but JDK 1.6 does basically the same. There is a new
-     * kind of window in Lion, NSPopover, so perhaps it could be used it
-     * to implement better looking notifications.
+     * We displby trby icon messbge bs b smbll diblog with OK button.
+     * This is lbme, but JDK 1.6 does bbsicblly the sbme. There is b new
+     * kind of window in Lion, NSPopover, so perhbps it could be used it
+     * to implement better looking notificbtions.
      */
-    public void displayMessage(final String caption, final String text,
-                               final String messageType) {
+    public void displbyMessbge(finbl String cbption, finbl String text,
+                               finbl String messbgeType) {
 
-        if (SwingUtilities.isEventDispatchThread()) {
-            displayMessageOnEDT(caption, text, messageType);
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            displbyMessbgeOnEDT(cbption, text, messbgeType);
         } else {
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
+                SwingUtilities.invokeAndWbit(new Runnbble() {
                     public void run() {
-                        displayMessageOnEDT(caption, text, messageType);
+                        displbyMessbgeOnEDT(cbption, text, messbgeType);
                     }
                 });
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new AssertionError(e);
             }
         }
@@ -133,280 +133,280 @@ public class CTrayIcon extends CFRetainedResource implements TrayIconPeer {
 
     @Override
     public void dispose() {
-        if (messageDialog != null) {
-            disposeMessageDialog();
+        if (messbgeDiblog != null) {
+            disposeMessbgeDiblog();
         }
 
-        dummyFrame.dispose();
+        dummyFrbme.dispose();
 
         if (popup != null) {
             popup.removeNotify();
         }
 
-        LWCToolkit.targetDisposedPeer(target, this);
-        target = null;
+        LWCToolkit.tbrgetDisposedPeer(tbrget, this);
+        tbrget = null;
 
         super.dispose();
     }
 
     @Override
     public void setToolTip(String tooltip) {
-        nativeSetToolTip(getModel(), tooltip);
+        nbtiveSetToolTip(getModel(), tooltip);
     }
 
-    //adds tooltip to the NSStatusBar's NSButton.
-    private native void nativeSetToolTip(long trayIconModel, String tooltip);
+    //bdds tooltip to the NSStbtusBbr's NSButton.
+    privbte nbtive void nbtiveSetToolTip(long trbyIconModel, String tooltip);
 
     @Override
     public void showPopupMenu(int x, int y) {
-        //Not used. The popupmenu is shown from the native code.
+        //Not used. The popupmenu is shown from the nbtive code.
     }
 
     @Override
-    public void updateImage() {
-        Image image = target.getImage();
-        if (image == null) return;
+    public void updbteImbge() {
+        Imbge imbge = tbrget.getImbge();
+        if (imbge == null) return;
 
-        MediaTracker tracker = new MediaTracker(new Button(""));
-        tracker.addImage(image, 0);
+        MedibTrbcker trbcker = new MedibTrbcker(new Button(""));
+        trbcker.bddImbge(imbge, 0);
         try {
-            tracker.waitForAll();
-        } catch (InterruptedException ignore) { }
+            trbcker.wbitForAll();
+        } cbtch (InterruptedException ignore) { }
 
-        if (image.getWidth(null) <= 0 ||
-            image.getHeight(null) <= 0)
+        if (imbge.getWidth(null) <= 0 ||
+            imbge.getHeight(null) <= 0)
         {
             return;
         }
 
-        CImage cimage = CImage.getCreator().createFromImage(image);
-        setNativeImage(getModel(), cimage.ptr, target.isImageAutoSize());
+        CImbge cimbge = CImbge.getCrebtor().crebteFromImbge(imbge);
+        setNbtiveImbge(getModel(), cimbge.ptr, tbrget.isImbgeAutoSize());
     }
 
-    private native void setNativeImage(final long model, final long nsimage, final boolean autosize);
+    privbte nbtive void setNbtiveImbge(finbl long model, finbl long nsimbge, finbl boolebn butosize);
 
-    private void postEvent(final AWTEvent event) {
-        SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
+    privbte void postEvent(finbl AWTEvent event) {
+        SunToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
             public void run() {
-                SunToolkit.postEvent(SunToolkit.targetToAppContext(target), event);
+                SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(tbrget), event);
             }
         });
     }
 
-    //invocation from the AWTTrayIcon.m
-    private void handleMouseEvent(NSEvent nsEvent) {
+    //invocbtion from the AWTTrbyIcon.m
+    privbte void hbndleMouseEvent(NSEvent nsEvent) {
         int buttonNumber = nsEvent.getButtonNumber();
-        final SunToolkit tk = (SunToolkit)Toolkit.getDefaultToolkit();
-        if ((buttonNumber > 2 && !tk.areExtraMouseButtonsEnabled())
+        finbl SunToolkit tk = (SunToolkit)Toolkit.getDefbultToolkit();
+        if ((buttonNumber > 2 && !tk.breExtrbMouseButtonsEnbbled())
                 || buttonNumber > tk.getNumberOfButtons() - 1) {
             return;
         }
 
-        int jeventType = NSEvent.nsToJavaEventType(nsEvent.getType());
+        int jeventType = NSEvent.nsToJbvbEventType(nsEvent.getType());
 
         int jbuttonNumber = MouseEvent.NOBUTTON;
         int jclickCount = 0;
         if (jeventType != MouseEvent.MOUSE_MOVED) {
-            jbuttonNumber = NSEvent.nsToJavaButton(buttonNumber);
+            jbuttonNumber = NSEvent.nsToJbvbButton(buttonNumber);
             jclickCount = nsEvent.getClickCount();
         }
 
-        int jmodifiers = NSEvent.nsToJavaMouseModifiers(buttonNumber,
-                nsEvent.getModifierFlags());
-        boolean isPopupTrigger = NSEvent.isPopupTrigger(jmodifiers);
+        int jmodifiers = NSEvent.nsToJbvbMouseModifiers(buttonNumber,
+                nsEvent.getModifierFlbgs());
+        boolebn isPopupTrigger = NSEvent.isPopupTrigger(jmodifiers);
 
-        int eventButtonMask = (jbuttonNumber > 0)?
-                MouseEvent.getMaskForButton(jbuttonNumber) : 0;
+        int eventButtonMbsk = (jbuttonNumber > 0)?
+                MouseEvent.getMbskForButton(jbuttonNumber) : 0;
         long when = System.currentTimeMillis();
 
         if (jeventType == MouseEvent.MOUSE_PRESSED) {
-            mouseClickButtons |= eventButtonMask;
+            mouseClickButtons |= eventButtonMbsk;
         } else if (jeventType == MouseEvent.MOUSE_DRAGGED) {
             mouseClickButtons = 0;
         }
 
-        // The MouseEvent's coordinates are relative to screen
-        int absX = nsEvent.getAbsX();
-        int absY = nsEvent.getAbsY();
+        // The MouseEvent's coordinbtes bre relbtive to screen
+        int bbsX = nsEvent.getAbsX();
+        int bbsY = nsEvent.getAbsY();
 
-        MouseEvent mouseEvent = new MouseEvent(dummyFrame, jeventType, when,
-                jmodifiers, absX, absY, absX, absY, jclickCount, isPopupTrigger,
+        MouseEvent mouseEvent = new MouseEvent(dummyFrbme, jeventType, when,
+                jmodifiers, bbsX, bbsY, bbsX, bbsY, jclickCount, isPopupTrigger,
                 jbuttonNumber);
-        mouseEvent.setSource(target);
+        mouseEvent.setSource(tbrget);
         postEvent(mouseEvent);
 
         // fire ACTION event
         if (jeventType == MouseEvent.MOUSE_PRESSED && isPopupTrigger) {
-            final String cmd = target.getActionCommand();
-            final ActionEvent event = new ActionEvent(target,
+            finbl String cmd = tbrget.getActionCommbnd();
+            finbl ActionEvent event = new ActionEvent(tbrget,
                     ActionEvent.ACTION_PERFORMED, cmd);
             postEvent(event);
         }
 
         // synthesize CLICKED event
         if (jeventType == MouseEvent.MOUSE_RELEASED) {
-            if ((mouseClickButtons & eventButtonMask) != 0) {
-                MouseEvent clickEvent = new MouseEvent(dummyFrame,
-                        MouseEvent.MOUSE_CLICKED, when, jmodifiers, absX, absY,
-                        absX, absY, jclickCount, isPopupTrigger, jbuttonNumber);
-                clickEvent.setSource(target);
+            if ((mouseClickButtons & eventButtonMbsk) != 0) {
+                MouseEvent clickEvent = new MouseEvent(dummyFrbme,
+                        MouseEvent.MOUSE_CLICKED, when, jmodifiers, bbsX, bbsY,
+                        bbsX, bbsY, jclickCount, isPopupTrigger, jbuttonNumber);
+                clickEvent.setSource(tbrget);
                 postEvent(clickEvent);
             }
 
-            mouseClickButtons &= ~eventButtonMask;
+            mouseClickButtons &= ~eventButtonMbsk;
         }
     }
 
-    private native Point2D nativeGetIconLocation(long trayIconModel);
+    privbte nbtive Point2D nbtiveGetIconLocbtion(long trbyIconModel);
 
-    public void displayMessageOnEDT(String caption, String text,
-                                    String messageType) {
-        if (messageDialog != null) {
-            disposeMessageDialog();
+    public void displbyMessbgeOnEDT(String cbption, String text,
+                                    String messbgeType) {
+        if (messbgeDiblog != null) {
+            disposeMessbgeDiblog();
         }
 
-        // obtain icon to show along the message
-        Icon icon = getIconForMessageType(messageType);
+        // obtbin icon to show blong the messbge
+        Icon icon = getIconForMessbgeType(messbgeType);
         if (icon != null) {
-            icon = new ImageIcon(scaleIcon(icon, 0.75));
+            icon = new ImbgeIcon(scbleIcon(icon, 0.75));
         }
 
-        // We want the message dialog text area to be about 1/8 of the screen
-        // size. There is nothing special about this value, it's just makes the
-        // message dialog to look nice
-        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        // We wbnt the messbge diblog text breb to be bbout 1/8 of the screen
+        // size. There is nothing specibl bbout this vblue, it's just mbkes the
+        // messbge diblog to look nice
+        Dimension screenSize = jbvb.bwt.Toolkit.getDefbultToolkit().getScreenSize();
         int textWidth = screenSize.width / 8;
 
-        // create dialog to show
-        messageDialog = createMessageDialog(caption, text, textWidth, icon);
+        // crebte diblog to show
+        messbgeDiblog = crebteMessbgeDiblog(cbption, text, textWidth, icon);
 
-        // finally, show the dialog to user
-        showMessageDialog();
+        // finblly, show the diblog to user
+        showMessbgeDiblog();
     }
 
     /**
-     * Creates dialog window used to display the message
+     * Crebtes diblog window used to displby the messbge
      */
-    private JDialog createMessageDialog(String caption, String text,
+    privbte JDiblog crebteMessbgeDiblog(String cbption, String text,
                                      int textWidth, Icon icon) {
-        JDialog dialog;
-        handler = new DialogEventHandler();
+        JDiblog diblog;
+        hbndler = new DiblogEventHbndler();
 
-        JTextArea captionArea = null;
-        if (caption != null) {
-            captionArea = createTextArea(caption, textWidth, false, true);
+        JTextAreb cbptionAreb = null;
+        if (cbption != null) {
+            cbptionAreb = crebteTextAreb(cbption, textWidth, fblse, true);
         }
 
-        JTextArea textArea = null;
+        JTextAreb textAreb = null;
         if (text != null){
-            textArea = createTextArea(text, textWidth, true, false);
+            textAreb = crebteTextAreb(text, textWidth, true, fblse);
         }
 
-        Object[] panels = null;
-        if (captionArea != null) {
-            if (textArea != null) {
-                panels = new Object[] {captionArea, new JLabel(), textArea};
+        Object[] pbnels = null;
+        if (cbptionAreb != null) {
+            if (textAreb != null) {
+                pbnels = new Object[] {cbptionAreb, new JLbbel(), textAreb};
             } else {
-                panels = new Object[] {captionArea};
+                pbnels = new Object[] {cbptionAreb};
             }
         } else {
-           if (textArea != null) {
-                panels = new Object[] {textArea};
+           if (textAreb != null) {
+                pbnels = new Object[] {textAreb};
             }
         }
 
-        // We want message dialog with small title bar. There is a client
-        // property property that does it, however, it must be set before
-        // dialog's native window is created. This is why we create option
-        // pane and dialog separately
-        final JOptionPane op = new JOptionPane(panels);
+        // We wbnt messbge diblog with smbll title bbr. There is b client
+        // property property thbt does it, however, it must be set before
+        // diblog's nbtive window is crebted. This is why we crebte option
+        // pbne bnd diblog sepbrbtely
+        finbl JOptionPbne op = new JOptionPbne(pbnels);
         op.setIcon(icon);
-        op.addPropertyChangeListener(handler);
+        op.bddPropertyChbngeListener(hbndler);
 
-        // Make Ok button small. Most likely won't work for L&F other then Aqua
+        // Mbke Ok button smbll. Most likely won't work for L&F other then Aqub
         try {
-            JPanel buttonPanel = (JPanel)op.getComponent(1);
-            JButton ok = (JButton)buttonPanel.getComponent(0);
-            ok.putClientProperty("JComponent.sizeVariant", "small");
-        } catch (Throwable t) {
-            // do nothing, we tried and failed, no big deal
+            JPbnel buttonPbnel = (JPbnel)op.getComponent(1);
+            JButton ok = (JButton)buttonPbnel.getComponent(0);
+            ok.putClientProperty("JComponent.sizeVbribnt", "smbll");
+        } cbtch (Throwbble t) {
+            // do nothing, we tried bnd fbiled, no big debl
         }
 
-        dialog = new JDialog((Dialog) null);
-        JRootPane rp = dialog.getRootPane();
+        diblog = new JDiblog((Diblog) null);
+        JRootPbne rp = diblog.getRootPbne();
 
-        // gives us dialog window with small title bar and not zoomable
-        rp.putClientProperty(CPlatformWindow.WINDOW_STYLE, "small");
-        rp.putClientProperty(CPlatformWindow.WINDOW_ZOOMABLE, "false");
+        // gives us diblog window with smbll title bbr bnd not zoombble
+        rp.putClientProperty(CPlbtformWindow.WINDOW_STYLE, "smbll");
+        rp.putClientProperty(CPlbtformWindow.WINDOW_ZOOMABLE, "fblse");
 
-        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        dialog.setModal(false);
-        dialog.setModalExclusionType(Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
-        dialog.setAlwaysOnTop(true);
-        dialog.setAutoRequestFocus(false);
-        dialog.setResizable(false);
-        dialog.setContentPane(op);
+        diblog.setDefbultCloseOperbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        diblog.setModbl(fblse);
+        diblog.setModblExclusionType(Diblog.ModblExclusionType.TOOLKIT_EXCLUDE);
+        diblog.setAlwbysOnTop(true);
+        diblog.setAutoRequestFocus(fblse);
+        diblog.setResizbble(fblse);
+        diblog.setContentPbne(op);
 
-        dialog.addWindowListener(handler);
+        diblog.bddWindowListener(hbndler);
 
-        // suppress security warning for untrusted windows
-        AWTAccessor.getWindowAccessor().setTrayIconWindow(dialog, true);
+        // suppress security wbrning for untrusted windows
+        AWTAccessor.getWindowAccessor().setTrbyIconWindow(diblog, true);
 
-        dialog.pack();
+        diblog.pbck();
 
-        return dialog;
+        return diblog;
     }
 
-    private void showMessageDialog() {
+    privbte void showMessbgeDiblog() {
 
-        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        Point2D iconLoc = nativeGetIconLocation(getModel());
+        Dimension screenSize = jbvb.bwt.Toolkit.getDefbultToolkit().getScreenSize();
+        Point2D iconLoc = nbtiveGetIconLocbtion(getModel());
 
-        int dialogY = (int)iconLoc.getY();
-        int dialogX = (int)iconLoc.getX();
-        if (dialogX + messageDialog.getWidth() > screenSize.width) {
-            dialogX = screenSize.width - messageDialog.getWidth();
+        int diblogY = (int)iconLoc.getY();
+        int diblogX = (int)iconLoc.getX();
+        if (diblogX + messbgeDiblog.getWidth() > screenSize.width) {
+            diblogX = screenSize.width - messbgeDiblog.getWidth();
         }
 
-        messageDialog.setLocation(dialogX, dialogY);
-        messageDialog.setVisible(true);
+        messbgeDiblog.setLocbtion(diblogX, diblogY);
+        messbgeDiblog.setVisible(true);
     }
 
-   private void disposeMessageDialog() {
-        if (SwingUtilities.isEventDispatchThread()) {
-            disposeMessageDialogOnEDT();
+   privbte void disposeMessbgeDiblog() {
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            disposeMessbgeDiblogOnEDT();
         } else {
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
+                SwingUtilities.invokeAndWbit(new Runnbble() {
                     public void run() {
-                        disposeMessageDialogOnEDT();
+                        disposeMessbgeDiblogOnEDT();
                     }
                 });
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new AssertionError(e);
             }
         }
    }
 
-    private void disposeMessageDialogOnEDT() {
-        if (messageDialog != null) {
-            messageDialog.removeWindowListener(handler);
-            messageDialog.removePropertyChangeListener(handler);
-            messageDialog.dispose();
+    privbte void disposeMessbgeDiblogOnEDT() {
+        if (messbgeDiblog != null) {
+            messbgeDiblog.removeWindowListener(hbndler);
+            messbgeDiblog.removePropertyChbngeListener(hbndler);
+            messbgeDiblog.dispose();
 
-            messageDialog = null;
-            handler = null;
+            messbgeDiblog = null;
+            hbndler = null;
         }
     }
 
     /**
-     * Scales an icon using specified scale factor
+     * Scbles bn icon using specified scble fbctor
      *
-     * @param icon        icon to scale
-     * @param scaleFactor scale factor to use
-     * @return scaled icon as BuffedredImage
+     * @pbrbm icon        icon to scble
+     * @pbrbm scbleFbctor scble fbctor to use
+     * @return scbled icon bs BuffedredImbge
      */
-    private static BufferedImage scaleIcon(Icon icon, double scaleFactor) {
+    privbte stbtic BufferedImbge scbleIcon(Icon icon, double scbleFbctor) {
         if (icon == null) {
             return null;
         }
@@ -414,94 +414,94 @@ public class CTrayIcon extends CFRetainedResource implements TrayIconPeer {
         int w = icon.getIconWidth();
         int h = icon.getIconHeight();
 
-        GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        GraphicsConfiguration gc = gd.getDefaultConfiguration();
+        GrbphicsEnvironment ge =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        GrbphicsDevice gd = ge.getDefbultScreenDevice();
+        GrbphicsConfigurbtion gc = gd.getDefbultConfigurbtion();
 
-        // convert icon into image
-        BufferedImage iconImage = gc.createCompatibleImage(w, h,
-                Transparency.TRANSLUCENT);
-        Graphics2D g = iconImage.createGraphics();
-        icon.paintIcon(null, g, 0, 0);
+        // convert icon into imbge
+        BufferedImbge iconImbge = gc.crebteCompbtibleImbge(w, h,
+                Trbnspbrency.TRANSLUCENT);
+        Grbphics2D g = iconImbge.crebteGrbphics();
+        icon.pbintIcon(null, g, 0, 0);
         g.dispose();
 
-        // and scale it nicely
-        int scaledW = (int) (w * scaleFactor);
-        int scaledH = (int) (h * scaleFactor);
-        BufferedImage scaledImage = gc.createCompatibleImage(scaledW, scaledH,
-                Transparency.TRANSLUCENT);
-        g = scaledImage.createGraphics();
+        // bnd scble it nicely
+        int scbledW = (int) (w * scbleFbctor);
+        int scbledH = (int) (h * scbleFbctor);
+        BufferedImbge scbledImbge = gc.crebteCompbtibleImbge(scbledW, scbledH,
+                Trbnspbrency.TRANSLUCENT);
+        g = scbledImbge.crebteGrbphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(iconImage, 0, 0, scaledW, scaledH, null);
+        g.drbwImbge(iconImbge, 0, 0, scbledW, scbledH, null);
         g.dispose();
 
-        return scaledImage;
+        return scbledImbge;
     }
 
 
     /**
-     * Gets Aqua icon used in message dialog.
+     * Gets Aqub icon used in messbge diblog.
      */
-    private static Icon getIconForMessageType(String messageType) {
-        if (messageType.equals("ERROR")) {
-            return UIManager.getIcon("OptionPane.errorIcon");
-        } else if (messageType.equals("WARNING")) {
-            return UIManager.getIcon("OptionPane.warningIcon");
+    privbte stbtic Icon getIconForMessbgeType(String messbgeType) {
+        if (messbgeType.equbls("ERROR")) {
+            return UIMbnbger.getIcon("OptionPbne.errorIcon");
+        } else if (messbgeType.equbls("WARNING")) {
+            return UIMbnbger.getIcon("OptionPbne.wbrningIcon");
         } else {
-            // this is just an application icon
-            return UIManager.getIcon("OptionPane.informationIcon");
+            // this is just bn bpplicbtion icon
+            return UIMbnbger.getIcon("OptionPbne.informbtionIcon");
         }
     }
 
-    private static JTextArea createTextArea(String text, int width,
-                                            boolean isSmall, boolean isBold) {
-        JTextArea textArea = new JTextArea(text);
+    privbte stbtic JTextAreb crebteTextAreb(String text, int width,
+                                            boolebn isSmbll, boolebn isBold) {
+        JTextAreb textAreb = new JTextAreb(text);
 
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
-        textArea.setFocusable(false);
-        textArea.setBorder(null);
-        textArea.setBackground(new JLabel().getBackground());
+        textAreb.setLineWrbp(true);
+        textAreb.setWrbpStyleWord(true);
+        textAreb.setEditbble(fblse);
+        textAreb.setFocusbble(fblse);
+        textAreb.setBorder(null);
+        textAreb.setBbckground(new JLbbel().getBbckground());
 
-        if (isSmall) {
-            textArea.putClientProperty("JComponent.sizeVariant", "small");
+        if (isSmbll) {
+            textAreb.putClientProperty("JComponent.sizeVbribnt", "smbll");
         }
 
         if (isBold) {
-            Font font = textArea.getFont();
-            Font boldFont = new Font(font.getName(), Font.BOLD, font.getSize());
-            textArea.setFont(boldFont);
+            Font font = textAreb.getFont();
+            Font boldFont = new Font(font.getNbme(), Font.BOLD, font.getSize());
+            textAreb.setFont(boldFont);
         }
 
-        textArea.setSize(width, 1);
+        textAreb.setSize(width, 1);
 
-        return textArea;
+        return textAreb;
     }
 
     /**
-     * Implements all the Listeners needed by message dialog
+     * Implements bll the Listeners needed by messbge diblog
      */
-    private final class DialogEventHandler extends WindowAdapter
-            implements PropertyChangeListener {
+    privbte finbl clbss DiblogEventHbndler extends WindowAdbpter
+            implements PropertyChbngeListener {
 
         public void windowClosing(WindowEvent we) {
-                disposeMessageDialog();
+                disposeMessbgeDiblog();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            if (messageDialog == null) {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            if (messbgeDiblog == null) {
                 return;
             }
 
-            String prop = e.getPropertyName();
-            Container cp = messageDialog.getContentPane();
+            String prop = e.getPropertyNbme();
+            Contbiner cp = messbgeDiblog.getContentPbne();
 
-            if (messageDialog.isVisible() && e.getSource() == cp &&
-                    (prop.equals(JOptionPane.VALUE_PROPERTY))) {
-                disposeMessageDialog();
+            if (messbgeDiblog.isVisible() && e.getSource() == cp &&
+                    (prop.equbls(JOptionPbne.VALUE_PROPERTY))) {
+                disposeMessbgeDiblog();
             }
         }
     }

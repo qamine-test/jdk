@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.zh;
+pbckbge sun.text.resources.zh;
 
-import sun.util.resources.ParallelListResourceBundle;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import sun.util.resources.PbrbllelListResourceBundle;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.ResourceBundleBbsedAdbpter;
 
-public class FormatData_zh_HK extends ParallelListResourceBundle {
+public clbss FormbtDbtb_zh_HK extends PbrbllelListResourceBundle {
 
-    // reparent to zh_TW for traditional Chinese names
-    public FormatData_zh_HK() {
-        ResourceBundle bundle = ((ResourceBundleBasedAdapter)LocaleProviderAdapter.forJRE())
-            .getLocaleData().getDateFormatData(Locale.TAIWAN);
-        setParent(bundle);
+    // repbrent to zh_TW for trbditionbl Chinese nbmes
+    public FormbtDbtb_zh_HK() {
+        ResourceBundle bundle = ((ResourceBundleBbsedAdbpter)LocbleProviderAdbpter.forJRE())
+            .getLocbleDbtb().getDbteFormbtDbtb(Locble.TAIWAN);
+        setPbrent(bundle);
     }
 
     /**
-     * Overrides ParallelListResourceBundle
+     * Overrides PbrbllelListResourceBundle
      */
     @Override
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "1\u6708", // abb january
-                    "2\u6708", // abb february
-                    "3\u6708", // abb march
-                    "4\u6708", // abb april
-                    "5\u6708", // abb may
-                    "6\u6708", // abb june
-                    "7\u6708", // abb july
-                    "8\u6708", // abb august
-                    "9\u6708", // abb september
-                    "10\u6708", // abb october
-                    "11\u6708", // abb november
-                    "12\u6708", // abb december
-                    "" // abb month 13 if applicable
+                    "1\u6708", // bbb jbnubry
+                    "2\u6708", // bbb februbry
+                    "3\u6708", // bbb mbrch
+                    "4\u6708", // bbb bpril
+                    "5\u6708", // bbb mby
+                    "6\u6708", // bbb june
+                    "7\u6708", // bbb july
+                    "8\u6708", // bbb bugust
+                    "9\u6708", // bbb september
+                    "10\u6708", // bbb october
+                    "11\u6708", // bbb november
+                    "12\u6708", // bbb december
+                    "" // bbb month 13 if bpplicbble
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "\u65e5", // abb Sunday
-                    "\u4e00", // abb Monday
-                    "\u4e8c", // abb Tuesday
-                    "\u4e09", // abb Wednesday
-                    "\u56db", // abb Thursday
-                    "\u4e94", // abb Friday
-                    "\u516d" // abb Saturday
+                    "\u65e5", // bbb Sundby
+                    "\u4e00", // bbb Mondby
+                    "\u4e8c", // bbb Tuesdby
+                    "\u4e09", // bbb Wednesdby
+                    "\u56db", // bbb Thursdby
+                    "\u4e94", // bbb Fridby
+                    "\u516d" // bbb Sbturdby
                 }
             },
-            { "NumberPatterns",
+            { "NumberPbtterns",
                 new String[] {
-                    "#,##0.###;-#,##0.###", // decimal pattern
-                    "\u00A4#,##0.00;(\u00A4#,##0.00)", // currency pattern
-                    "#,##0%" // percent pattern
+                    "#,##0.###;-#,##0.###", // decimbl pbttern
+                    "\u00A4#,##0.00;(\u00A4#,##0.00)", // currency pbttern
+                    "#,##0%" // percent pbttern
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
-                    "ahh'\u6642'mm'\u5206'ss'\u79d2' z", // full time pattern
-                    "ahh'\u6642'mm'\u5206'ss'\u79d2'", // long time pattern
-                    "ahh:mm:ss", // medium time pattern
-                    "ah:mm", // short time pattern
+                    "bhh'\u6642'mm'\u5206'ss'\u79d2' z", // full time pbttern
+                    "bhh'\u6642'mm'\u5206'ss'\u79d2'", // long time pbttern
+                    "bhh:mm:ss", // medium time pbttern
+                    "bh:mm", // short time pbttern
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // full date pattern
-                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // long date pattern
-                    "yyyy'\u5e74'M'\u6708'd'\u65e5'", // medium date pattern
-                    "yy'\u5e74'M'\u6708'd'\u65e5'", // short date pattern
+                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // full dbte pbttern
+                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // long dbte pbttern
+                    "yyyy'\u5e74'M'\u6708'd'\u65e5'", // medium dbte pbttern
+                    "yy'\u5e74'M'\u6708'd'\u65e5'", // short dbte pbttern
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}" // date-time pattern
+                    "{1} {0}" // dbte-time pbttern
                 }
             },
-            { "DateTimePatternChars", "GanjkHmsSEDFwWxhKzZ" },
+            { "DbteTimePbtternChbrs", "GbnjkHmsSEDFwWxhKzZ" },
         };
     }
 }

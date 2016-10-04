@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
  /*
-   * This code is ported to XAWT from MAWT based on awt_mgrsel.c
-   * and XSettings.java code written originally by Valeriy Ushakov
+   * This code is ported to XAWT from MAWT bbsed on bwt_mgrsel.c
+   * bnd XSettings.jbvb code written originblly by Vbleriy Ushbkov
    * Author : Bino George
    */
 
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.*;
-import java.awt.*;
-import sun.awt.XSettings;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import sun.bwt.XSettings;
+import sun.util.logging.PlbtformLogger;
 
 
-class XAWTXSettings extends XSettings implements XMSelectionListener {
+clbss XAWTXSettings extends XSettings implements XMSelectionListener {
 
-    private final XAtom xSettingsPropertyAtom = XAtom.get("_XSETTINGS_SETTINGS");
+    privbte finbl XAtom xSettingsPropertyAtom = XAtom.get("_XSETTINGS_SETTINGS");
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XAWTXSettings");
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XAWTXSettings");
 
-    /* The maximal length of the property data. */
-    public static final long MAX_LENGTH = 1000000;
+    /* The mbximbl length of the property dbtb. */
+    public stbtic finbl long MAX_LENGTH = 1000000;
 
     XMSelection settings;
 
@@ -55,11 +55,11 @@ class XAWTXSettings extends XSettings implements XMSelectionListener {
     }
 
     void initXSettings() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Initializing XAWT XSettings");
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Initiblizing XAWT XSettings");
         }
         settings = new XMSelection("_XSETTINGS");
-        settings.addSelectionListener(this);
+        settings.bddSelectionListener(this);
         initPerScreenXSettings();
     }
 
@@ -67,100 +67,100 @@ class XAWTXSettings extends XSettings implements XMSelectionListener {
         settings.removeSelectionListener(this);
     }
 
-    public void ownerDeath(int screen, XMSelection sel, long deadOwner) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Owner " + deadOwner + " died for selection " + sel + " screen "+ screen);
+    public void ownerDebth(int screen, XMSelection sel, long debdOwner) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Owner " + debdOwner + " died for selection " + sel + " screen "+ screen);
         }
     }
 
 
-    public void ownerChanged(int screen, XMSelection sel, long newOwner, long data, long timestamp) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    public void ownerChbnged(int screen, XMSelection sel, long newOwner, long dbtb, long timestbmp) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("New Owner "+ newOwner + " for selection = " + sel + " screen " +screen );
         }
     }
 
-    public void selectionChanged(int screen, XMSelection sel, long owner , XPropertyEvent event) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Selection changed on sel " + sel + " screen = " + screen + " owner = " + owner + " event = " + event);
+    public void selectionChbnged(int screen, XMSelection sel, long owner , XPropertyEvent event) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Selection chbnged on sel " + sel + " screen = " + screen + " owner = " + owner + " event = " + event);
         }
-        updateXSettings(screen,owner);
+        updbteXSettings(screen,owner);
     }
 
     void initPerScreenXSettings() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Updating Per XSettings changes");
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Updbting Per XSettings chbnges");
         }
 
         /*
-         * As toolkit cannot yet cope with per-screen desktop properties,
-         * only report XSETTINGS changes on the default screen.  This
-         * should be "good enough" for most cases.
+         * As toolkit cbnnot yet cope with per-screen desktop properties,
+         * only report XSETTINGS chbnges on the defbult screen.  This
+         * should be "good enough" for most cbses.
          */
 
-        Map<String, Object> updatedSettings = null;
-        XToolkit.awtLock();
+        Mbp<String, Object> updbtedSettings = null;
+        XToolkit.bwtLock();
         try {
-            long display = XToolkit.getDisplay();
-            int screen = (int) XlibWrapper.DefaultScreen(display);
-            updatedSettings = getUpdatedSettings(settings.getOwner(screen));
-        } finally {
-            XToolkit.awtUnlock();
+            long displby = XToolkit.getDisplby();
+            int screen = (int) XlibWrbpper.DefbultScreen(displby);
+            updbtedSettings = getUpdbtedSettings(settings.getOwner(screen));
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         // we must not  invoke this under Awt Lock
-        ((XToolkit)Toolkit.getDefaultToolkit()).parseXSettings(0,updatedSettings);
+        ((XToolkit)Toolkit.getDefbultToolkit()).pbrseXSettings(0,updbtedSettings);
     }
 
-    private void updateXSettings(int screen, long owner) {
-        final Map<String, Object> updatedSettings = getUpdatedSettings(owner);
-        // this method is called under awt lock and usually on toolkit thread
-        // but parseXSettings() causes public code execution, so we need to transfer
+    privbte void updbteXSettings(int screen, long owner) {
+        finbl Mbp<String, Object> updbtedSettings = getUpdbtedSettings(owner);
+        // this method is cblled under bwt lock bnd usublly on toolkit threbd
+        // but pbrseXSettings() cbuses public code execution, so we need to trbnsfer
         // this to EDT
-        EventQueue.invokeLater( new Runnable() {
+        EventQueue.invokeLbter( new Runnbble() {
             public void run() {
-                ((XToolkit) Toolkit.getDefaultToolkit()).parseXSettings( 0, updatedSettings);
+                ((XToolkit) Toolkit.getDefbultToolkit()).pbrseXSettings( 0, updbtedSettings);
             }
         });
     }
 
-    private Map<String, Object> getUpdatedSettings(final long owner) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    privbte Mbp<String, Object> getUpdbtedSettings(finbl long owner) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("owner =" + owner);
         }
         if (0 == owner) {
             return null;
         }
 
-        Map<String, Object> settings = null;
+        Mbp<String, Object> settings = null;
         try {
             WindowPropertyGetter getter =
                 new WindowPropertyGetter(owner, xSettingsPropertyAtom, 0, MAX_LENGTH,
-                        false, xSettingsPropertyAtom.getAtom() );
+                        fblse, xSettingsPropertyAtom.getAtom() );
             try {
-                int status = getter.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                int stbtus = getter.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                if (status != XConstants.Success || getter.getData() == 0) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("OH OH : getter failed  status = " + status );
+                if (stbtus != XConstbnts.Success || getter.getDbtb() == 0) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("OH OH : getter fbiled  stbtus = " + stbtus );
                     }
                     settings = null;
                 }
 
-                long ptr = getter.getData();
+                long ptr = getter.getDbtb();
 
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("noItems = " + getter.getNumberOfItems());
                 }
-                byte array[] = Native.toBytes(ptr,getter.getNumberOfItems());
-                if (array != null) {
-                    settings = update(array);
+                byte brrby[] = Nbtive.toBytes(ptr,getter.getNumberOfItems());
+                if (brrby != null) {
+                    settings = updbte(brrby);
                 }
-            } finally {
+            } finblly {
                 getter.dispose();
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        cbtch (Exception e) {
+            e.printStbckTrbce();
         }
         return settings;
     }

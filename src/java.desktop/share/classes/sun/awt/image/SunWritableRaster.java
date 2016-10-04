@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Image;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DataBufferInt;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferUShort;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import sun.java2d.StateTrackable.State;
-import sun.java2d.SurfaceData;
-import sun.java2d.StateTrackableDelegate;
+import sun.jbvb2d.StbteTrbckbble.Stbte;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.StbteTrbckbbleDelegbte;
 
 /**
- * This class exists as a middle layer between WritableRaster and its
- * implementation specific subclasses (ByteComponentRaster, ShortBandedRaster,
+ * This clbss exists bs b middle lbyer between WritbbleRbster bnd its
+ * implementbtion specific subclbsses (ByteComponentRbster, ShortBbndedRbster,
  * etc).
- * It provides utilities to steal the data arrays from the standard DataBuffer
- * types and also steals the StateTrackableDelegate from the associated
- * DataBuffer so that it can be updated when the data is changed.
+ * It provides utilities to stebl the dbtb brrbys from the stbndbrd DbtbBuffer
+ * types bnd blso stebls the StbteTrbckbbleDelegbte from the bssocibted
+ * DbtbBuffer so thbt it cbn be updbted when the dbtb is chbnged.
  */
-public class SunWritableRaster extends WritableRaster {
-    private static DataStealer stealer;
+public clbss SunWritbbleRbster extends WritbbleRbster {
+    privbte stbtic DbtbStebler stebler;
 
-    public static interface DataStealer {
-        public byte[] getData(DataBufferByte dbb, int bank);
-        public short[] getData(DataBufferUShort dbus, int bank);
-        public int[] getData(DataBufferInt dbi, int bank);
-        public StateTrackableDelegate getTrackable(DataBuffer db);
-        public void setTrackable(DataBuffer db, StateTrackableDelegate trackable);
+    public stbtic interfbce DbtbStebler {
+        public byte[] getDbtb(DbtbBufferByte dbb, int bbnk);
+        public short[] getDbtb(DbtbBufferUShort dbus, int bbnk);
+        public int[] getDbtb(DbtbBufferInt dbi, int bbnk);
+        public StbteTrbckbbleDelegbte getTrbckbble(DbtbBuffer db);
+        public void setTrbckbble(DbtbBuffer db, StbteTrbckbbleDelegbte trbckbble);
     }
 
-    public static void setDataStealer(DataStealer ds) {
-        if (stealer != null) {
-            throw new InternalError("Attempt to set DataStealer twice");
+    public stbtic void setDbtbStebler(DbtbStebler ds) {
+        if (stebler != null) {
+            throw new InternblError("Attempt to set DbtbStebler twice");
         }
-        stealer = ds;
+        stebler = ds;
     }
 
-    public static byte[] stealData(DataBufferByte dbb, int bank) {
-        return stealer.getData(dbb, bank);
+    public stbtic byte[] steblDbtb(DbtbBufferByte dbb, int bbnk) {
+        return stebler.getDbtb(dbb, bbnk);
     }
 
-    public static short[] stealData(DataBufferUShort dbus, int bank) {
-        return stealer.getData(dbus, bank);
+    public stbtic short[] steblDbtb(DbtbBufferUShort dbus, int bbnk) {
+        return stebler.getDbtb(dbus, bbnk);
     }
 
-    public static int[] stealData(DataBufferInt dbi, int bank) {
-        return stealer.getData(dbi, bank);
+    public stbtic int[] steblDbtb(DbtbBufferInt dbi, int bbnk) {
+        return stebler.getDbtb(dbi, bbnk);
     }
 
-    public static StateTrackableDelegate stealTrackable(DataBuffer db) {
-        return stealer.getTrackable(db);
+    public stbtic StbteTrbckbbleDelegbte steblTrbckbble(DbtbBuffer db) {
+        return stebler.getTrbckbble(db);
     }
 
-    public static void setTrackable(DataBuffer db, StateTrackableDelegate trackable) {
-        stealer.setTrackable(db, trackable);
+    public stbtic void setTrbckbble(DbtbBuffer db, StbteTrbckbbleDelegbte trbckbble) {
+        stebler.setTrbckbble(db, trbckbble);
     }
 
-    public static void makeTrackable(DataBuffer db) {
-        stealer.setTrackable(db, StateTrackableDelegate.createInstance(State.STABLE));
+    public stbtic void mbkeTrbckbble(DbtbBuffer db) {
+        stebler.setTrbckbble(db, StbteTrbckbbleDelegbte.crebteInstbnce(Stbte.STABLE));
     }
 
-    public static void markDirty(DataBuffer db) {
-        stealer.getTrackable(db).markDirty();
+    public stbtic void mbrkDirty(DbtbBuffer db) {
+        stebler.getTrbckbble(db).mbrkDirty();
     }
 
-    public static void markDirty(WritableRaster wr) {
-        if (wr instanceof SunWritableRaster) {
-            ((SunWritableRaster) wr).markDirty();
+    public stbtic void mbrkDirty(WritbbleRbster wr) {
+        if (wr instbnceof SunWritbbleRbster) {
+            ((SunWritbbleRbster) wr).mbrkDirty();
         } else {
-            markDirty(wr.getDataBuffer());
+            mbrkDirty(wr.getDbtbBuffer());
         }
     }
 
-    public static void markDirty(Image img) {
-        SurfaceData.getPrimarySurfaceData(img).markDirty();
+    public stbtic void mbrkDirty(Imbge img) {
+        SurfbceDbtb.getPrimbrySurfbceDbtb(img).mbrkDirty();
     }
 
-    private StateTrackableDelegate theTrackable;
+    privbte StbteTrbckbbleDelegbte theTrbckbble;
 
-    public SunWritableRaster(SampleModel sampleModel, Point origin) {
-        super(sampleModel, origin);
-        theTrackable = stealTrackable(dataBuffer);
+    public SunWritbbleRbster(SbmpleModel sbmpleModel, Point origin) {
+        super(sbmpleModel, origin);
+        theTrbckbble = steblTrbckbble(dbtbBuffer);
     }
 
-    public SunWritableRaster(SampleModel sampleModel,
-                             DataBuffer dataBuffer,
+    public SunWritbbleRbster(SbmpleModel sbmpleModel,
+                             DbtbBuffer dbtbBuffer,
                              Point origin)
     {
-        super(sampleModel, dataBuffer, origin);
-        theTrackable = stealTrackable(dataBuffer);
+        super(sbmpleModel, dbtbBuffer, origin);
+        theTrbckbble = steblTrbckbble(dbtbBuffer);
     }
 
-    public SunWritableRaster(SampleModel sampleModel,
-                             DataBuffer dataBuffer,
-                             Rectangle aRegion,
-                             Point sampleModelTranslate,
-                             WritableRaster parent)
+    public SunWritbbleRbster(SbmpleModel sbmpleModel,
+                             DbtbBuffer dbtbBuffer,
+                             Rectbngle bRegion,
+                             Point sbmpleModelTrbnslbte,
+                             WritbbleRbster pbrent)
     {
-        super(sampleModel, dataBuffer, aRegion, sampleModelTranslate, parent);
-        theTrackable = stealTrackable(dataBuffer);
+        super(sbmpleModel, dbtbBuffer, bRegion, sbmpleModelTrbnslbte, pbrent);
+        theTrbckbble = steblTrbckbble(dbtbBuffer);
     }
 
     /**
-     * Mark the TrackableDelegate of the associated DataBuffer dirty.
+     * Mbrk the TrbckbbleDelegbte of the bssocibted DbtbBuffer dirty.
      */
-    public final void markDirty() {
-        theTrackable.markDirty();
+    public finbl void mbrkDirty() {
+        theTrbckbble.mbrkDirty();
     }
 }

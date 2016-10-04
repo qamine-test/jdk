@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import java.awt.event.*;
-import java.awt.*;
-import javax.swing.event.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.event.*;
 
 /**
- * State model for buttons.
+ * Stbte model for buttons.
  * <p>
- * This model is used for regular buttons, as well as check boxes
- * and radio buttons, which are special kinds of buttons. In practice,
- * a button's UI takes the responsibility of calling methods on its
- * model to manage the state, as detailed below:
+ * This model is used for regulbr buttons, bs well bs check boxes
+ * bnd rbdio buttons, which bre specibl kinds of buttons. In prbctice,
+ * b button's UI tbkes the responsibility of cblling methods on its
+ * model to mbnbge the stbte, bs detbiled below:
  * <p>
- * In simple terms, pressing and releasing the mouse over a regular
- * button triggers the button and causes and <code>ActionEvent</code>
- * to be fired. The same behavior can be produced via a keyboard key
- * defined by the look and feel of the button (typically the SPACE BAR).
- * Pressing and releasing this key while the button has
- * focus will give the same results. For check boxes and radio buttons, the
- * mouse or keyboard equivalent sequence just described causes the button
+ * In simple terms, pressing bnd relebsing the mouse over b regulbr
+ * button triggers the button bnd cbuses bnd <code>ActionEvent</code>
+ * to be fired. The sbme behbvior cbn be produced vib b keybobrd key
+ * defined by the look bnd feel of the button (typicblly the SPACE BAR).
+ * Pressing bnd relebsing this key while the button hbs
+ * focus will give the sbme results. For check boxes bnd rbdio buttons, the
+ * mouse or keybobrd equivblent sequence just described cbuses the button
  * to become selected.
  * <p>
- * In details, the state model for buttons works as follows
+ * In detbils, the stbte model for buttons works bs follows
  * when used with the mouse:
  * <br>
- * Pressing the mouse on top of a button makes the model both
- * armed and pressed. As long as the mouse remains down,
- * the model remains pressed, even if the mouse moves
- * outside the button. On the contrary, the model is only
- * armed while the mouse remains pressed within the bounds of
- * the button (it can move in or out of the button, but the model
- * is only armed during the portion of time spent within the button).
- * A button is triggered, and an <code>ActionEvent</code> is fired,
- * when the mouse is released while the model is armed
- * - meaning when it is released over top of the button after the mouse
- * has previously been pressed on that button (and not already released).
- * Upon mouse release, the model becomes unarmed and unpressed.
+ * Pressing the mouse on top of b button mbkes the model both
+ * brmed bnd pressed. As long bs the mouse rembins down,
+ * the model rembins pressed, even if the mouse moves
+ * outside the button. On the contrbry, the model is only
+ * brmed while the mouse rembins pressed within the bounds of
+ * the button (it cbn move in or out of the button, but the model
+ * is only brmed during the portion of time spent within the button).
+ * A button is triggered, bnd bn <code>ActionEvent</code> is fired,
+ * when the mouse is relebsed while the model is brmed
+ * - mebning when it is relebsed over top of the button bfter the mouse
+ * hbs previously been pressed on thbt button (bnd not blrebdy relebsed).
+ * Upon mouse relebse, the model becomes unbrmed bnd unpressed.
  * <p>
- * In details, the state model for buttons works as follows
- * when used with the keyboard:
+ * In detbils, the stbte model for buttons works bs follows
+ * when used with the keybobrd:
  * <br>
- * Pressing the look and feel defined keyboard key while the button
- * has focus makes the model both armed and pressed. As long as this key
- * remains down, the model remains in this state. Releasing the key sets
- * the model to unarmed and unpressed, triggers the button, and causes an
+ * Pressing the look bnd feel defined keybobrd key while the button
+ * hbs focus mbkes the model both brmed bnd pressed. As long bs this key
+ * rembins down, the model rembins in this stbte. Relebsing the key sets
+ * the model to unbrmed bnd unpressed, triggers the button, bnd cbuses bn
  * <code>ActionEvent</code> to be fired.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  * @since 1.2
  */
-public interface ButtonModel extends ItemSelectable {
+public interfbce ButtonModel extends ItemSelectbble {
 
     /**
-     * Indicates partial commitment towards triggering the
+     * Indicbtes pbrtibl commitment towbrds triggering the
      * button.
      *
-     * @return <code>true</code> if the button is armed,
-     *         and ready to be triggered
+     * @return <code>true</code> if the button is brmed,
+     *         bnd rebdy to be triggered
      * @see #setArmed
      */
-    boolean isArmed();
+    boolebn isArmed();
 
     /**
-     * Indicates if the button has been selected. Only needed for
-     * certain types of buttons - such as radio buttons and check boxes.
+     * Indicbtes if the button hbs been selected. Only needed for
+     * certbin types of buttons - such bs rbdio buttons bnd check boxes.
      *
      * @return <code>true</code> if the button is selected
      */
-    boolean isSelected();
+    boolebn isSelected();
 
     /**
-     * Indicates if the button can be selected or triggered by
-     * an input device, such as a mouse pointer.
+     * Indicbtes if the button cbn be selected or triggered by
+     * bn input device, such bs b mouse pointer.
      *
-     * @return <code>true</code> if the button is enabled
+     * @return <code>true</code> if the button is enbbled
      */
-    boolean isEnabled();
+    boolebn isEnbbled();
 
     /**
-     * Indicates if the button is pressed.
+     * Indicbtes if the button is pressed.
      *
      * @return <code>true</code> if the button is pressed
      */
-    boolean isPressed();
+    boolebn isPressed();
 
     /**
-     * Indicates that the mouse is over the button.
+     * Indicbtes thbt the mouse is over the button.
      *
      * @return <code>true</code> if the mouse is over the button
      */
-    boolean isRollover();
+    boolebn isRollover();
 
     /**
-     * Marks the button as armed or unarmed.
+     * Mbrks the button bs brmed or unbrmed.
      *
-     * @param b whether or not the button should be armed
+     * @pbrbm b whether or not the button should be brmed
      */
-    public void setArmed(boolean b);
+    public void setArmed(boolebn b);
 
     /**
      * Selects or deselects the button.
      *
-     * @param b <code>true</code> selects the button,
-     *          <code>false</code> deselects the button
+     * @pbrbm b <code>true</code> selects the button,
+     *          <code>fblse</code> deselects the button
      */
-    public void setSelected(boolean b);
+    public void setSelected(boolebn b);
 
     /**
-     * Enables or disables the button.
+     * Enbbles or disbbles the button.
      *
-     * @param b whether or not the button should be enabled
-     * @see #isEnabled
+     * @pbrbm b whether or not the button should be enbbled
+     * @see #isEnbbled
      */
-    public void setEnabled(boolean b);
+    public void setEnbbled(boolebn b);
 
     /**
      * Sets the button to pressed or unpressed.
      *
-     * @param b whether or not the button should be pressed
+     * @pbrbm b whether or not the button should be pressed
      * @see #isPressed
      */
-    public void setPressed(boolean b);
+    public void setPressed(boolebn b);
 
     /**
-     * Sets or clears the button's rollover state
+     * Sets or clebrs the button's rollover stbte
      *
-     * @param b whether or not the button is in the rollover state
+     * @pbrbm b whether or not the button is in the rollover stbte
      * @see #isRollover
      */
-    public void setRollover(boolean b);
+    public void setRollover(boolebn b);
 
     /**
-     * Sets the keyboard mnemonic (shortcut key or
-     * accelerator key) for the button.
+     * Sets the keybobrd mnemonic (shortcut key or
+     * bccelerbtor key) for the button.
      *
-     * @param key an int specifying the accelerator key
+     * @pbrbm key bn int specifying the bccelerbtor key
      */
     public void setMnemonic(int key);
 
     /**
-     * Gets the keyboard mnemonic for the button.
+     * Gets the keybobrd mnemonic for the button.
      *
-     * @return an int specifying the accelerator key
+     * @return bn int specifying the bccelerbtor key
      * @see #setMnemonic
      */
     public int  getMnemonic();
 
     /**
-     * Sets the action command string that gets sent as part of the
+     * Sets the bction commbnd string thbt gets sent bs pbrt of the
      * <code>ActionEvent</code> when the button is triggered.
      *
-     * @param s the <code>String</code> that identifies the generated event
-     * @see #getActionCommand
-     * @see java.awt.event.ActionEvent#getActionCommand
+     * @pbrbm s the <code>String</code> thbt identifies the generbted event
+     * @see #getActionCommbnd
+     * @see jbvb.bwt.event.ActionEvent#getActionCommbnd
      */
-    public void setActionCommand(String s);
+    public void setActionCommbnd(String s);
 
     /**
-     * Returns the action command string for the button.
+     * Returns the bction commbnd string for the button.
      *
-     * @return the <code>String</code> that identifies the generated event
-     * @see #setActionCommand
+     * @return the <code>String</code> thbt identifies the generbted event
+     * @see #setActionCommbnd
      */
-    public String getActionCommand();
+    public String getActionCommbnd();
 
     /**
      * Identifies the group the button belongs to --
-     * needed for radio buttons, which are mutually
+     * needed for rbdio buttons, which bre mutublly
      * exclusive within their group.
      *
-     * @param group the <code>ButtonGroup</code> the button belongs to
+     * @pbrbm group the <code>ButtonGroup</code> the button belongs to
      */
     public void setGroup(ButtonGroup group);
 
     /**
-     * Adds an <code>ActionListener</code> to the model.
+     * Adds bn <code>ActionListener</code> to the model.
      *
-     * @param l the listener to add
+     * @pbrbm l the listener to bdd
      */
-    void addActionListener(ActionListener l);
+    void bddActionListener(ActionListener l);
 
     /**
-     * Removes an <code>ActionListener</code> from the model.
+     * Removes bn <code>ActionListener</code> from the model.
      *
-     * @param l the listener to remove
+     * @pbrbm l the listener to remove
      */
     void removeActionListener(ActionListener l);
 
     /**
-     * Adds an <code>ItemListener</code> to the model.
+     * Adds bn <code>ItemListener</code> to the model.
      *
-     * @param l the listener to add
+     * @pbrbm l the listener to bdd
      */
-    void addItemListener(ItemListener l);
+    void bddItemListener(ItemListener l);
 
     /**
-     * Removes an <code>ItemListener</code> from the model.
+     * Removes bn <code>ItemListener</code> from the model.
      *
-     * @param l the listener to remove
+     * @pbrbm l the listener to remove
      */
     void removeItemListener(ItemListener l);
 
     /**
-     * Adds a <code>ChangeListener</code> to the model.
+     * Adds b <code>ChbngeListener</code> to the model.
      *
-     * @param l the listener to add
+     * @pbrbm l the listener to bdd
      */
-    void addChangeListener(ChangeListener l);
+    void bddChbngeListener(ChbngeListener l);
 
     /**
-     * Removes a <code>ChangeListener</code> from the model.
+     * Removes b <code>ChbngeListener</code> from the model.
      *
-     * @param l the listener to remove
+     * @pbrbm l the listener to remove
      */
-    void removeChangeListener(ChangeListener l);
+    void removeChbngeListener(ChbngeListener l);
 
 }

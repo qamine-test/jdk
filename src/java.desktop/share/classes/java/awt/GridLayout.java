@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * The <code>GridLayout</code> class is a layout manager that
- * lays out a container's components in a rectangular grid.
- * The container is divided into equal-sized rectangles,
- * and one component is placed in each rectangle.
- * For example, the following is an applet that lays out six buttons
- * into three rows and two columns:
+ * The <code>GridLbyout</code> clbss is b lbyout mbnbger thbt
+ * lbys out b contbiner's components in b rectbngulbr grid.
+ * The contbiner is divided into equbl-sized rectbngles,
+ * bnd one component is plbced in ebch rectbngle.
+ * For exbmple, the following is bn bpplet thbt lbys out six buttons
+ * into three rows bnd two columns:
  *
  * <hr><blockquote>
  * <pre>
- * import java.awt.*;
- * import java.applet.Applet;
- * public class ButtonGrid extends Applet {
+ * import jbvb.bwt.*;
+ * import jbvb.bpplet.Applet;
+ * public clbss ButtonGrid extends Applet {
  *     public void init() {
- *         setLayout(new GridLayout(3,2));
- *         add(new Button("1"));
- *         add(new Button("2"));
- *         add(new Button("3"));
- *         add(new Button("4"));
- *         add(new Button("5"));
- *         add(new Button("6"));
+ *         setLbyout(new GridLbyout(3,2));
+ *         bdd(new Button("1"));
+ *         bdd(new Button("2"));
+ *         bdd(new Button("3"));
+ *         bdd(new Button("4"));
+ *         bdd(new Button("5"));
+ *         bdd(new Button("6"));
  *     }
  * }
  * </pre></blockquote><hr>
  * <p>
- * If the container's <code>ComponentOrientation</code> property is horizontal
- * and left-to-right, the above example produces the output shown in Figure 1.
- * If the container's <code>ComponentOrientation</code> property is horizontal
- * and right-to-left, the example produces the output shown in Figure 2.
+ * If the contbiner's <code>ComponentOrientbtion</code> property is horizontbl
+ * bnd left-to-right, the bbove exbmple produces the output shown in Figure 1.
+ * If the contbiner's <code>ComponentOrientbtion</code> property is horizontbl
+ * bnd right-to-left, the exbmple produces the output shown in Figure 2.
  *
- * <table style="float:center" WIDTH=600 summary="layout">
+ * <tbble style="flobt:center" WIDTH=600 summbry="lbyout">
  * <tr ALIGN=CENTER>
- * <td><img SRC="doc-files/GridLayout-1.gif"
- *      alt="Shows 6 buttons in rows of 2. Row 1 shows buttons 1 then 2.
+ * <td><img SRC="doc-files/GridLbyout-1.gif"
+ *      blt="Shows 6 buttons in rows of 2. Row 1 shows buttons 1 then 2.
  * Row 2 shows buttons 3 then 4. Row 3 shows buttons 5 then 6.">
  * </td>
  *
- * <td ALIGN=CENTER><img SRC="doc-files/GridLayout-2.gif"
- *                   alt="Shows 6 buttons in rows of 2. Row 1 shows buttons 2 then 1.
+ * <td ALIGN=CENTER><img SRC="doc-files/GridLbyout-2.gif"
+ *                   blt="Shows 6 buttons in rows of 2. Row 1 shows buttons 2 then 1.
  * Row 2 shows buttons 4 then 3. Row 3 shows buttons 6 then 5.">
  * </td>
  * </tr>
  *
  * <tr ALIGN=CENTER>
- * <td>Figure 1: Horizontal, Left-to-Right</td>
+ * <td>Figure 1: Horizontbl, Left-to-Right</td>
  *
- * <td>Figure 2: Horizontal, Right-to-Left</td>
+ * <td>Figure 2: Horizontbl, Right-to-Left</td>
  * </tr>
- * </table>
+ * </tbble>
  * <p>
- * When both the number of rows and the number of columns have
- * been set to non-zero values, either by a constructor or
- * by the <tt>setRows</tt> and <tt>setColumns</tt> methods, the number of
- * columns specified is ignored.  Instead, the number of
+ * When both the number of rows bnd the number of columns hbve
+ * been set to non-zero vblues, either by b constructor or
+ * by the <tt>setRows</tt> bnd <tt>setColumns</tt> methods, the number of
+ * columns specified is ignored.  Instebd, the number of
  * columns is determined from the specified number of rows
- * and the total number of components in the layout. So, for
- * example, if three rows and two columns have been specified
- * and nine components are added to the layout, they will
- * be displayed as three rows of three columns.  Specifying
- * the number of columns affects the layout only when the
+ * bnd the totbl number of components in the lbyout. So, for
+ * exbmple, if three rows bnd two columns hbve been specified
+ * bnd nine components bre bdded to the lbyout, they will
+ * be displbyed bs three rows of three columns.  Specifying
+ * the number of columns bffects the lbyout only when the
  * number of rows is set to zero.
  *
- * @author  Arthur van Hoff
+ * @buthor  Arthur vbn Hoff
  * @since   1.0
  */
-public class GridLayout implements LayoutManager, java.io.Serializable {
+public clbss GridLbyout implements LbyoutMbnbger, jbvb.io.Seriblizbble {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = -7411804673224730901L;
+    privbte stbtic finbl long seriblVersionUID = -7411804673224730901L;
 
     /**
-     * This is the horizontal gap (in pixels) which specifies the space
-     * between columns.  They can be changed at any time.
-     * This should be a non-negative integer.
+     * This is the horizontbl gbp (in pixels) which specifies the spbce
+     * between columns.  They cbn be chbnged bt bny time.
+     * This should be b non-negbtive integer.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @seribl
+     * @see #getHgbp()
+     * @see #setHgbp(int)
      */
-    int hgap;
+    int hgbp;
     /**
-     * This is the vertical gap (in pixels) which specifies the space
-     * between rows.  They can be changed at any time.
-     * This should be a non negative integer.
+     * This is the verticbl gbp (in pixels) which specifies the spbce
+     * between rows.  They cbn be chbnged bt bny time.
+     * This should be b non negbtive integer.
      *
-     * @serial
-     * @see #getVgap()
-     * @see #setVgap(int)
+     * @seribl
+     * @see #getVgbp()
+     * @see #setVgbp(int)
      */
-    int vgap;
+    int vgbp;
     /**
      * This is the number of rows specified for the grid.  The number
-     * of rows can be changed at any time.
-     * This should be a non negative integer, where '0' means
-     * 'any number' meaning that the number of Rows in that
+     * of rows cbn be chbnged bt bny time.
+     * This should be b non negbtive integer, where '0' mebns
+     * 'bny number' mebning thbt the number of Rows in thbt
      * dimension depends on the other dimension.
      *
-     * @serial
+     * @seribl
      * @see #getRows()
      * @see #setRows(int)
      */
     int rows;
     /**
      * This is the number of columns specified for the grid.  The number
-     * of columns can be changed at any time.
-     * This should be a non negative integer, where '0' means
-     * 'any number' meaning that the number of Columns in that
+     * of columns cbn be chbnged bt bny time.
+     * This should be b non negbtive integer, where '0' mebns
+     * 'bny number' mebning thbt the number of Columns in thbt
      * dimension depends on the other dimension.
      *
-     * @serial
+     * @seribl
      * @see #getColumns()
      * @see #setColumns(int)
      */
     int cols;
 
     /**
-     * Creates a grid layout with a default of one column per component,
-     * in a single row.
+     * Crebtes b grid lbyout with b defbult of one column per component,
+     * in b single row.
      * @since 1.1
      */
-    public GridLayout() {
+    public GridLbyout() {
         this(1, 0, 0, 0);
     }
 
     /**
-     * Creates a grid layout with the specified number of rows and
-     * columns. All components in the layout are given equal size.
+     * Crebtes b grid lbyout with the specified number of rows bnd
+     * columns. All components in the lbyout bre given equbl size.
      * <p>
-     * One, but not both, of <code>rows</code> and <code>cols</code> can
-     * be zero, which means that any number of objects can be placed in a
-     * row or in a column.
-     * @param     rows   the rows, with the value zero meaning
-     *                   any number of rows.
-     * @param     cols   the columns, with the value zero meaning
-     *                   any number of columns.
+     * One, but not both, of <code>rows</code> bnd <code>cols</code> cbn
+     * be zero, which mebns thbt bny number of objects cbn be plbced in b
+     * row or in b column.
+     * @pbrbm     rows   the rows, with the vblue zero mebning
+     *                   bny number of rows.
+     * @pbrbm     cols   the columns, with the vblue zero mebning
+     *                   bny number of columns.
      */
-    public GridLayout(int rows, int cols) {
+    public GridLbyout(int rows, int cols) {
         this(rows, cols, 0, 0);
     }
 
     /**
-     * Creates a grid layout with the specified number of rows and
-     * columns. All components in the layout are given equal size.
+     * Crebtes b grid lbyout with the specified number of rows bnd
+     * columns. All components in the lbyout bre given equbl size.
      * <p>
-     * In addition, the horizontal and vertical gaps are set to the
-     * specified values. Horizontal gaps are placed between each
-     * of the columns. Vertical gaps are placed between each of
+     * In bddition, the horizontbl bnd verticbl gbps bre set to the
+     * specified vblues. Horizontbl gbps bre plbced between ebch
+     * of the columns. Verticbl gbps bre plbced between ebch of
      * the rows.
      * <p>
-     * One, but not both, of <code>rows</code> and <code>cols</code> can
-     * be zero, which means that any number of objects can be placed in a
-     * row or in a column.
+     * One, but not both, of <code>rows</code> bnd <code>cols</code> cbn
+     * be zero, which mebns thbt bny number of objects cbn be plbced in b
+     * row or in b column.
      * <p>
-     * All <code>GridLayout</code> constructors defer to this one.
-     * @param     rows   the rows, with the value zero meaning
-     *                   any number of rows
-     * @param     cols   the columns, with the value zero meaning
-     *                   any number of columns
-     * @param     hgap   the horizontal gap
-     * @param     vgap   the vertical gap
-     * @exception   IllegalArgumentException  if the value of both
-     *                  <code>rows</code> and <code>cols</code> is
+     * All <code>GridLbyout</code> constructors defer to this one.
+     * @pbrbm     rows   the rows, with the vblue zero mebning
+     *                   bny number of rows
+     * @pbrbm     cols   the columns, with the vblue zero mebning
+     *                   bny number of columns
+     * @pbrbm     hgbp   the horizontbl gbp
+     * @pbrbm     vgbp   the verticbl gbp
+     * @exception   IllegblArgumentException  if the vblue of both
+     *                  <code>rows</code> bnd <code>cols</code> is
      *                  set to zero
      */
-    public GridLayout(int rows, int cols, int hgap, int vgap) {
+    public GridLbyout(int rows, int cols, int hgbp, int vgbp) {
         if ((rows == 0) && (cols == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+            throw new IllegblArgumentException("rows bnd cols cbnnot both be zero");
         }
         this.rows = rows;
         this.cols = cols;
-        this.hgap = hgap;
-        this.vgap = vgap;
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
     }
 
     /**
-     * Gets the number of rows in this layout.
-     * @return    the number of rows in this layout
+     * Gets the number of rows in this lbyout.
+     * @return    the number of rows in this lbyout
      * @since     1.1
      */
     public int getRows() {
@@ -210,22 +210,22 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Sets the number of rows in this layout to the specified value.
-     * @param        rows   the number of rows in this layout
-     * @exception    IllegalArgumentException  if the value of both
-     *               <code>rows</code> and <code>cols</code> is set to zero
+     * Sets the number of rows in this lbyout to the specified vblue.
+     * @pbrbm        rows   the number of rows in this lbyout
+     * @exception    IllegblArgumentException  if the vblue of both
+     *               <code>rows</code> bnd <code>cols</code> is set to zero
      * @since        1.1
      */
     public void setRows(int rows) {
         if ((rows == 0) && (this.cols == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+            throw new IllegblArgumentException("rows bnd cols cbnnot both be zero");
         }
         this.rows = rows;
     }
 
     /**
-     * Gets the number of columns in this layout.
-     * @return     the number of columns in this layout
+     * Gets the number of columns in this lbyout.
+     * @return     the number of columns in this lbyout
      * @since      1.1
      */
     public int getColumns() {
@@ -233,99 +233,99 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Sets the number of columns in this layout to the specified value.
-     * Setting the number of columns has no affect on the layout
-     * if the number of rows specified by a constructor or by
-     * the <tt>setRows</tt> method is non-zero. In that case, the number
-     * of columns displayed in the layout is determined by the total
-     * number of components and the number of rows specified.
-     * @param        cols   the number of columns in this layout
-     * @exception    IllegalArgumentException  if the value of both
-     *               <code>rows</code> and <code>cols</code> is set to zero
+     * Sets the number of columns in this lbyout to the specified vblue.
+     * Setting the number of columns hbs no bffect on the lbyout
+     * if the number of rows specified by b constructor or by
+     * the <tt>setRows</tt> method is non-zero. In thbt cbse, the number
+     * of columns displbyed in the lbyout is determined by the totbl
+     * number of components bnd the number of rows specified.
+     * @pbrbm        cols   the number of columns in this lbyout
+     * @exception    IllegblArgumentException  if the vblue of both
+     *               <code>rows</code> bnd <code>cols</code> is set to zero
      * @since        1.1
      */
     public void setColumns(int cols) {
         if ((cols == 0) && (this.rows == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+            throw new IllegblArgumentException("rows bnd cols cbnnot both be zero");
         }
         this.cols = cols;
     }
 
     /**
-     * Gets the horizontal gap between components.
-     * @return       the horizontal gap between components
+     * Gets the horizontbl gbp between components.
+     * @return       the horizontbl gbp between components
      * @since        1.1
      */
-    public int getHgap() {
-        return hgap;
+    public int getHgbp() {
+        return hgbp;
     }
 
     /**
-     * Sets the horizontal gap between components to the specified value.
-     * @param        hgap   the horizontal gap between components
+     * Sets the horizontbl gbp between components to the specified vblue.
+     * @pbrbm        hgbp   the horizontbl gbp between components
      * @since        1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    public void setHgbp(int hgbp) {
+        this.hgbp = hgbp;
     }
 
     /**
-     * Gets the vertical gap between components.
-     * @return       the vertical gap between components
+     * Gets the verticbl gbp between components.
+     * @return       the verticbl gbp between components
      * @since        1.1
      */
-    public int getVgap() {
-        return vgap;
+    public int getVgbp() {
+        return vgbp;
     }
 
     /**
-     * Sets the vertical gap between components to the specified value.
-     * @param         vgap  the vertical gap between components
+     * Sets the verticbl gbp between components to the specified vblue.
+     * @pbrbm         vgbp  the verticbl gbp between components
      * @since        1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    public void setVgbp(int vgbp) {
+        this.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component with the specified name to the layout.
-     * @param name the name of the component
-     * @param comp the component to be added
+     * Adds the specified component with the specified nbme to the lbyout.
+     * @pbrbm nbme the nbme of the component
+     * @pbrbm comp the component to be bdded
      */
-    public void addLayoutComponent(String name, Component comp) {
+    public void bddLbyoutComponent(String nbme, Component comp) {
     }
 
     /**
-     * Removes the specified component from the layout.
-     * @param comp the component to be removed
+     * Removes the specified component from the lbyout.
+     * @pbrbm comp the component to be removed
      */
-    public void removeLayoutComponent(Component comp) {
+    public void removeLbyoutComponent(Component comp) {
     }
 
     /**
-     * Determines the preferred size of the container argument using
-     * this grid layout.
+     * Determines the preferred size of the contbiner brgument using
+     * this grid lbyout.
      * <p>
-     * The preferred width of a grid layout is the largest preferred
-     * width of all of the components in the container times the number of
-     * columns, plus the horizontal padding times the number of columns
-     * minus one, plus the left and right insets of the target container.
+     * The preferred width of b grid lbyout is the lbrgest preferred
+     * width of bll of the components in the contbiner times the number of
+     * columns, plus the horizontbl pbdding times the number of columns
+     * minus one, plus the left bnd right insets of the tbrget contbiner.
      * <p>
-     * The preferred height of a grid layout is the largest preferred
-     * height of all of the components in the container times the number of
-     * rows, plus the vertical padding times the number of rows minus one,
-     * plus the top and bottom insets of the target container.
+     * The preferred height of b grid lbyout is the lbrgest preferred
+     * height of bll of the components in the contbiner times the number of
+     * rows, plus the verticbl pbdding times the number of rows minus one,
+     * plus the top bnd bottom insets of the tbrget contbiner.
      *
-     * @param     parent   the container in which to do the layout
-     * @return    the preferred dimensions to lay out the
-     *                      subcomponents of the specified container
-     * @see       java.awt.GridLayout#minimumLayoutSize
-     * @see       java.awt.Container#getPreferredSize()
+     * @pbrbm     pbrent   the contbiner in which to do the lbyout
+     * @return    the preferred dimensions to lby out the
+     *                      subcomponents of the specified contbiner
+     * @see       jbvb.bwt.GridLbyout#minimumLbyoutSize
+     * @see       jbvb.bwt.Contbiner#getPreferredSize()
      */
-    public Dimension preferredLayoutSize(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+      synchronized (pbrent.getTreeLock()) {
+        Insets insets = pbrent.getInsets();
+        int ncomponents = pbrent.getComponentCount();
         int nrows = rows;
         int ncols = cols;
 
@@ -337,7 +337,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
         int w = 0;
         int h = 0;
         for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = parent.getComponent(i);
+            Component comp = pbrent.getComponent(i);
             Dimension d = comp.getPreferredSize();
             if (w < d.width) {
                 w = d.width;
@@ -346,35 +346,35 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
                 h = d.height;
             }
         }
-        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
-                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
+        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgbp,
+                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgbp);
       }
     }
 
     /**
-     * Determines the minimum size of the container argument using this
-     * grid layout.
+     * Determines the minimum size of the contbiner brgument using this
+     * grid lbyout.
      * <p>
-     * The minimum width of a grid layout is the largest minimum width
-     * of all of the components in the container times the number of columns,
-     * plus the horizontal padding times the number of columns minus one,
-     * plus the left and right insets of the target container.
+     * The minimum width of b grid lbyout is the lbrgest minimum width
+     * of bll of the components in the contbiner times the number of columns,
+     * plus the horizontbl pbdding times the number of columns minus one,
+     * plus the left bnd right insets of the tbrget contbiner.
      * <p>
-     * The minimum height of a grid layout is the largest minimum height
-     * of all of the components in the container times the number of rows,
-     * plus the vertical padding times the number of rows minus one, plus
-     * the top and bottom insets of the target container.
+     * The minimum height of b grid lbyout is the lbrgest minimum height
+     * of bll of the components in the contbiner times the number of rows,
+     * plus the verticbl pbdding times the number of rows minus one, plus
+     * the top bnd bottom insets of the tbrget contbiner.
      *
-     * @param       parent   the container in which to do the layout
-     * @return      the minimum dimensions needed to lay out the
-     *                      subcomponents of the specified container
-     * @see         java.awt.GridLayout#preferredLayoutSize
-     * @see         java.awt.Container#doLayout
+     * @pbrbm       pbrent   the contbiner in which to do the lbyout
+     * @return      the minimum dimensions needed to lby out the
+     *                      subcomponents of the specified contbiner
+     * @see         jbvb.bwt.GridLbyout#preferredLbyoutSize
+     * @see         jbvb.bwt.Contbiner#doLbyout
      */
-    public Dimension minimumLayoutSize(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    public Dimension minimumLbyoutSize(Contbiner pbrent) {
+      synchronized (pbrent.getTreeLock()) {
+        Insets insets = pbrent.getInsets();
+        int ncomponents = pbrent.getComponentCount();
         int nrows = rows;
         int ncols = cols;
 
@@ -386,7 +386,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
         int w = 0;
         int h = 0;
         for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = parent.getComponent(i);
+            Component comp = pbrent.getComponent(i);
             Dimension d = comp.getMinimumSize();
             if (w < d.width) {
                 w = d.width;
@@ -395,36 +395,36 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
                 h = d.height;
             }
         }
-        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
-                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
+        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgbp,
+                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgbp);
       }
     }
 
     /**
-     * Lays out the specified container using this layout.
+     * Lbys out the specified contbiner using this lbyout.
      * <p>
-     * This method reshapes the components in the specified target
-     * container in order to satisfy the constraints of the
-     * <code>GridLayout</code> object.
+     * This method reshbpes the components in the specified tbrget
+     * contbiner in order to sbtisfy the constrbints of the
+     * <code>GridLbyout</code> object.
      * <p>
-     * The grid layout manager determines the size of individual
-     * components by dividing the free space in the container into
-     * equal-sized portions according to the number of rows and columns
-     * in the layout. The container's free space equals the container's
-     * size minus any insets and any specified horizontal or vertical
-     * gap. All components in a grid layout are given the same size.
+     * The grid lbyout mbnbger determines the size of individubl
+     * components by dividing the free spbce in the contbiner into
+     * equbl-sized portions bccording to the number of rows bnd columns
+     * in the lbyout. The contbiner's free spbce equbls the contbiner's
+     * size minus bny insets bnd bny specified horizontbl or verticbl
+     * gbp. All components in b grid lbyout bre given the sbme size.
      *
-     * @param      parent   the container in which to do the layout
-     * @see        java.awt.Container
-     * @see        java.awt.Container#doLayout
+     * @pbrbm      pbrent   the contbiner in which to do the lbyout
+     * @see        jbvb.bwt.Contbiner
+     * @see        jbvb.bwt.Contbiner#doLbyout
      */
-    public void layoutContainer(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    public void lbyoutContbiner(Contbiner pbrent) {
+      synchronized (pbrent.getTreeLock()) {
+        Insets insets = pbrent.getInsets();
+        int ncomponents = pbrent.getComponentCount();
         int nrows = rows;
         int ncols = cols;
-        boolean ltr = parent.getComponentOrientation().isLeftToRight();
+        boolebn ltr = pbrent.getComponentOrientbtion().isLeftToRight();
 
         if (ncomponents == 0) {
             return;
@@ -435,34 +435,34 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
             nrows = (ncomponents + ncols - 1) / ncols;
         }
         // 4370316. To position components in the center we should:
-        // 1. get an amount of extra space within Container
-        // 2. incorporate half of that value to the left/top position
-        // Note that we use trancating division for widthOnComponent
-        // The reminder goes to extraWidthAvailable
-        int totalGapsWidth = (ncols - 1) * hgap;
-        int widthWOInsets = parent.width - (insets.left + insets.right);
-        int widthOnComponent = (widthWOInsets - totalGapsWidth) / ncols;
-        int extraWidthAvailable = (widthWOInsets - (widthOnComponent * ncols + totalGapsWidth)) / 2;
+        // 1. get bn bmount of extrb spbce within Contbiner
+        // 2. incorporbte hblf of thbt vblue to the left/top position
+        // Note thbt we use trbncbting division for widthOnComponent
+        // The reminder goes to extrbWidthAvbilbble
+        int totblGbpsWidth = (ncols - 1) * hgbp;
+        int widthWOInsets = pbrent.width - (insets.left + insets.right);
+        int widthOnComponent = (widthWOInsets - totblGbpsWidth) / ncols;
+        int extrbWidthAvbilbble = (widthWOInsets - (widthOnComponent * ncols + totblGbpsWidth)) / 2;
 
-        int totalGapsHeight = (nrows - 1) * vgap;
-        int heightWOInsets = parent.height - (insets.top + insets.bottom);
-        int heightOnComponent = (heightWOInsets - totalGapsHeight) / nrows;
-        int extraHeightAvailable = (heightWOInsets - (heightOnComponent * nrows + totalGapsHeight)) / 2;
+        int totblGbpsHeight = (nrows - 1) * vgbp;
+        int heightWOInsets = pbrent.height - (insets.top + insets.bottom);
+        int heightOnComponent = (heightWOInsets - totblGbpsHeight) / nrows;
+        int extrbHeightAvbilbble = (heightWOInsets - (heightOnComponent * nrows + totblGbpsHeight)) / 2;
         if (ltr) {
-            for (int c = 0, x = insets.left + extraWidthAvailable; c < ncols ; c++, x += widthOnComponent + hgap) {
-                for (int r = 0, y = insets.top + extraHeightAvailable; r < nrows ; r++, y += heightOnComponent + vgap) {
+            for (int c = 0, x = insets.left + extrbWidthAvbilbble; c < ncols ; c++, x += widthOnComponent + hgbp) {
+                for (int r = 0, y = insets.top + extrbHeightAvbilbble; r < nrows ; r++, y += heightOnComponent + vgbp) {
                     int i = r * ncols + c;
                     if (i < ncomponents) {
-                        parent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
+                        pbrent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
                     }
                 }
             }
         } else {
-            for (int c = 0, x = (parent.width - insets.right - widthOnComponent) - extraWidthAvailable; c < ncols ; c++, x -= widthOnComponent + hgap) {
-                for (int r = 0, y = insets.top + extraHeightAvailable; r < nrows ; r++, y += heightOnComponent + vgap) {
+            for (int c = 0, x = (pbrent.width - insets.right - widthOnComponent) - extrbWidthAvbilbble; c < ncols ; c++, x -= widthOnComponent + hgbp) {
+                for (int r = 0, y = insets.top + extrbHeightAvbilbble; r < nrows ; r++, y += heightOnComponent + vgbp) {
                     int i = r * ncols + c;
                     if (i < ncomponents) {
-                        parent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
+                        pbrent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
                     }
                 }
             }
@@ -471,11 +471,11 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Returns the string representation of this grid layout's values.
-     * @return     a string representation of this grid layout
+     * Returns the string representbtion of this grid lbyout's vblues.
+     * @return     b string representbtion of this grid lbyout
      */
     public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap +
+        return getClbss().getNbme() + "[hgbp=" + hgbp + ",vgbp=" + vgbp +
                                        ",rows=" + rows + ",cols=" + cols + "]";
     }
 }

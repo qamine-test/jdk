@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,49 +30,49 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.io.File;
-import java.io.IOException;
-import javax.swing.filechooser.FileSystemView;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvbx.swing.filechooser.FileSystemView;
 
 
 /**
- * This is a simple example that uses the FileSystemView class.
- * You can provide a superclass of the FileSystemView class with your own functionality.
+ * This is b simple exbmple thbt uses the FileSystemView clbss.
+ * You cbn provide b superclbss of the FileSystemView clbss with your own functionblity.
  *
- * @author Pavel Porvatov
+ * @buthor Pbvel Porvbtov
  */
-public class ExampleFileSystemView extends FileSystemView {
+public clbss ExbmpleFileSystemView extends FileSystemView {
 
     /**
-     * Creates a new folder with the default name "New folder". This method is invoked
+     * Crebtes b new folder with the defbult nbme "New folder". This method is invoked
      * when the user presses the "New folder" button.
      */
-    public File createNewFolder(File containingDir) throws IOException {
-        File result = new File(containingDir, "New folder");
+    public File crebteNewFolder(File contbiningDir) throws IOException {
+        File result = new File(contbiningDir, "New folder");
 
         if (result.exists()) {
             throw new IOException("Directory 'New folder' exists");
         }
 
         if (!result.mkdir()) {
-            throw new IOException("Cannot create directory");
+            throw new IOException("Cbnnot crebte directory");
         }
 
         return result;
     }
 
     /**
-     * Returns a list which appears in a drop-down list of the FileChooser component.
-     * In this implementation only the home directory is returned.
+     * Returns b list which bppebrs in b drop-down list of the FileChooser component.
+     * In this implementbtion only the home directory is returned.
      */
     @Override
     public File[] getRoots() {
@@ -80,15 +80,15 @@ public class ExampleFileSystemView extends FileSystemView {
     }
 
     /**
-     * Returns a string that represents a directory or a file in the FileChooser component.
-     * A string with all upper case letters is returned for a directory.
-     * A string with all lower case letters is returned for a file.
+     * Returns b string thbt represents b directory or b file in the FileChooser component.
+     * A string with bll upper cbse letters is returned for b directory.
+     * A string with bll lower cbse letters is returned for b file.
      */
     @Override
-    public String getSystemDisplayName(File f) {
-        String displayName = super.getSystemDisplayName(f);
+    public String getSystemDisplbyNbme(File f) {
+        String displbyNbme = super.getSystemDisplbyNbme(f);
 
-        return f.isDirectory() ? displayName.toUpperCase() : displayName.
-                toLowerCase();
+        return f.isDirectory() ? displbyNbme.toUpperCbse() : displbyNbme.
+                toLowerCbse();
     }
 }

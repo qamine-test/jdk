@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "D3DGlyphCache.h"
+#include "D3DGlyphCbche.h"
 #include "D3DTextRenderer.h"
 #include "D3DRenderQueue.h"
 
-void D3DGlyphCache_FlushGlyphVertexCache();
+void D3DGlyphCbche_FlushGlyphVertexCbche();
 
-// static
+// stbtic
 HRESULT
-D3DGlyphCache::CreateInstance(D3DContext *pCtx, GlyphCacheType gcType,
-                              D3DGlyphCache **ppGlyphCache)
+D3DGlyphCbche::CrebteInstbnce(D3DContext *pCtx, GlyphCbcheType gcType,
+                              D3DGlyphCbche **ppGlyphCbche)
 {
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::CreateInstance");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGlyphCbche::CrebteInstbnce");
 
-    *ppGlyphCache = new D3DGlyphCache(gcType);
-    if (FAILED(res = (*ppGlyphCache)->Init(pCtx))) {
-        delete *ppGlyphCache;
-        *ppGlyphCache = NULL;
+    *ppGlyphCbche = new D3DGlyphCbche(gcType);
+    if (FAILED(res = (*ppGlyphCbche)->Init(pCtx))) {
+        delete *ppGlyphCbche;
+        *ppGlyphCbche = NULL;
     }
     return res;
 }
 
-D3DGlyphCache::D3DGlyphCache(GlyphCacheType type)
+D3DGlyphCbche::D3DGlyphCbche(GlyphCbcheType type)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DGlyphCache::D3DGlyphCache gcType=%d", type);
+    J2dTrbceLn1(J2D_TRACE_INFO, "D3DGlyphCbche::D3DGlyphCbche gcType=%d", type);
 
     pCtx = NULL;
     gcType = type;
-    pGlyphCacheRes = NULL;
-    pGlyphCache = NULL;
-    tileFormat = (gcType == CACHE_GRAY) ? TILEFMT_1BYTE_ALPHA : TILEFMT_UNKNOWN;
-    lastRGBOrder = JNI_FALSE;
+    pGlyphCbcheRes = NULL;
+    pGlyphCbche = NULL;
+    tileFormbt = (gcType == CACHE_GRAY) ? TILEFMT_1BYTE_ALPHA : TILEFMT_UNKNOWN;
+    lbstRGBOrder = JNI_FALSE;
 }
 
-D3DGlyphCache::~D3DGlyphCache()
+D3DGlyphCbche::~D3DGlyphCbche()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::~D3DGlyphCache");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGlyphCbche::~D3DGlyphCbche");
 
-    ReleaseDefPoolResources();
+    RelebseDefPoolResources();
 
     pCtx = NULL;
-    if (pGlyphCache != NULL) {
-        AccelGlyphCache_Free(pGlyphCache);
-        pGlyphCache = NULL;
+    if (pGlyphCbche != NULL) {
+        AccelGlyphCbche_Free(pGlyphCbche);
+        pGlyphCbche = NULL;
     }
 }
 
 void
-D3DGlyphCache::ReleaseDefPoolResources()
+D3DGlyphCbche::RelebseDefPoolResources()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::ReleaseDefPoolResources");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGlyphCbche::RelebseDefPoolResources");
 
-    AccelGlyphCache_Invalidate(pGlyphCache);
-    // REMIND: the glyph cache texture is not in the default pool, so
-    // this can be optimized not to release the texture
-    pCtx->GetResourceManager()->ReleaseResource(pGlyphCacheRes);
-    pGlyphCacheRes = NULL;
+    AccelGlyphCbche_Invblidbte(pGlyphCbche);
+    // REMIND: the glyph cbche texture is not in the defbult pool, so
+    // this cbn be optimized not to relebse the texture
+    pCtx->GetResourceMbnbger()->RelebseResource(pGlyphCbcheRes);
+    pGlyphCbcheRes = NULL;
 }
 
 HRESULT
-D3DGlyphCache::Init(D3DContext *pCtx)
+D3DGlyphCbche::Init(D3DContext *pCtx)
 {
-    D3DFORMAT format;
+    D3DFORMAT formbt;
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
 
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DGlyphCache::Init pCtx=%x", pCtx);
+    J2dTrbceLn1(J2D_TRACE_INFO, "D3DGlyphCbche::Init pCtx=%x", pCtx);
 
     this->pCtx = pCtx;
 
-    if (pGlyphCache == NULL) {
-        // init glyph cache data structure
-        pGlyphCache = AccelGlyphCache_Init(D3DTR_CACHE_WIDTH,
+    if (pGlyphCbche == NULL) {
+        // init glyph cbche dbtb structure
+        pGlyphCbche = AccelGlyphCbche_Init(D3DTR_CACHE_WIDTH,
                                            D3DTR_CACHE_HEIGHT,
                                            D3DTR_CACHE_CELL_WIDTH,
                                            D3DTR_CACHE_CELL_HEIGHT,
-                                           D3DGlyphCache_FlushGlyphVertexCache);
-        if (pGlyphCache == NULL) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                          "D3DGlyphCache::Init: "\
-                          "could not init D3D glyph cache");
+                                           D3DGlyphCbche_FlushGlyphVertexCbche);
+        if (pGlyphCbche == NULL) {
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                          "D3DGlyphCbche::Init: "\
+                          "could not init D3D glyph cbche");
             return E_FAIL;
         }
     }
 
     if (gcType == CACHE_GRAY) {
-        format = pCtx->IsTextureFormatSupported(D3DFMT_A8) ?
+        formbt = pCtx->IsTextureFormbtSupported(D3DFMT_A8) ?
             D3DFMT_A8 : D3DFMT_A8R8G8B8;
     } else { // gcType == CACHE_LCD
-        format = pCtx->IsTextureFormatSupported(D3DFMT_R8G8B8) ?
+        formbt = pCtx->IsTextureFormbtSupported(D3DFMT_R8G8B8) ?
             D3DFMT_R8G8B8 : D3DFMT_A8R8G8B8;
     }
 
-    HRESULT res = pCtx->GetResourceManager()->
-        CreateTexture(D3DTR_CACHE_WIDTH, D3DTR_CACHE_HEIGHT,
-                      FALSE/*isRTT*/, FALSE/*isOpaque*/, &format, 0/*usage*/,
-                      &pGlyphCacheRes);
+    HRESULT res = pCtx->GetResourceMbnbger()->
+        CrebteTexture(D3DTR_CACHE_WIDTH, D3DTR_CACHE_HEIGHT,
+                      FALSE/*isRTT*/, FALSE/*isOpbque*/, &formbt, 0/*usbge*/,
+                      &pGlyphCbcheRes);
     if (FAILED(res)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "D3DGlyphCache::Init: "\
-                      "could not create glyph cache texture");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "D3DGlyphCbche::Init: "\
+                      "could not crebte glyph cbche texture");
     }
 
     return res;
 }
 
 HRESULT
-D3DGlyphCache::AddGlyph(GlyphInfo *glyph)
+D3DGlyphCbche::AddGlyph(GlyphInfo *glyph)
 {
     HRESULT res = S_OK;
 
-    RETURN_STATUS_IF_NULL(pGlyphCacheRes, E_FAIL);
+    RETURN_STATUS_IF_NULL(pGlyphCbcheRes, E_FAIL);
 
-    CacheCellInfo *cellInfo = AccelGlyphCache_AddGlyph(pGlyphCache, glyph);
+    CbcheCellInfo *cellInfo = AccelGlyphCbche_AddGlyph(pGlyphCbche, glyph);
     if (cellInfo != NULL) {
         jint pixelsTouchedL = 0, pixelsTouchedR = 0;
-        // store glyph image in texture cell
-        res = pCtx->UploadTileToTexture(pGlyphCacheRes,
-                                        glyph->image,
+        // store glyph imbge in texture cell
+        res = pCtx->UplobdTileToTexture(pGlyphCbcheRes,
+                                        glyph->imbge,
                                         cellInfo->x, cellInfo->y,
                                         0, 0,
                                         glyph->width, glyph->height,
-                                        glyph->rowBytes, tileFormat,
+                                        glyph->rowBytes, tileFormbt,
                                         &pixelsTouchedL,
                                         &pixelsTouchedR);
-        // LCD text rendering optimization: if the number of pixels touched on
-        // the first or last column of the glyph image is less than 1/3 of the
+        // LCD text rendering optimizbtion: if the number of pixels touched on
+        // the first or lbst column of the glyph imbge is less thbn 1/3 of the
         // height of the glyph we do not consider them touched.
-        // See D3DTextRenderer.cpp:UpdateCachedDestination for more information.
-        // The leftOff/rightOff are only used in LCD cache case.
+        // See D3DTextRenderer.cpp:UpdbteCbchedDestinbtion for more informbtion.
+        // The leftOff/rightOff bre only used in LCD cbche cbse.
         if (gcType == CACHE_LCD) {
             jint threshold = glyph->height/3;
 
@@ -169,39 +169,39 @@ D3DGlyphCache::AddGlyph(GlyphInfo *glyph)
 }
 
 HRESULT
-D3DGlyphCache::CheckGlyphCacheByteOrder(jboolean rgbOrder)
+D3DGlyphCbche::CheckGlyphCbcheByteOrder(jboolebn rgbOrder)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::CheckGlyphCacheByteOrder");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGlyphCbche::CheckGlyphCbcheByteOrder");
 
     if (gcType != CACHE_LCD) {
-        J2dTraceLn(J2D_TRACE_ERROR, "D3DGlyphCache::CheckGlyphCacheByteOrder"\
-                   " invoked on CACHE_GRAY cache type instance!");
+        J2dTrbceLn(J2D_TRACE_ERROR, "D3DGlyphCbche::CheckGlyphCbcheByteOrder"\
+                   " invoked on CACHE_GRAY cbche type instbnce!");
         return E_FAIL;
     }
 
-    if (rgbOrder != lastRGBOrder) {
-        // need to invalidate the cache in this case; see comments
-        // for lastRGBOrder
-        AccelGlyphCache_Invalidate(pGlyphCache);
-        lastRGBOrder = rgbOrder;
+    if (rgbOrder != lbstRGBOrder) {
+        // need to invblidbte the cbche in this cbse; see comments
+        // for lbstRGBOrder
+        AccelGlyphCbche_Invblidbte(pGlyphCbche);
+        lbstRGBOrder = rgbOrder;
     }
-    tileFormat = rgbOrder ? TILEFMT_3BYTE_RGB : TILEFMT_3BYTE_BGR;
+    tileFormbt = rgbOrder ? TILEFMT_3BYTE_RGB : TILEFMT_3BYTE_BGR;
 
     return S_OK;
 }
 
 /**
- * This method is invoked in the (relatively rare) case where one or
- * more glyphs is about to be kicked out of the glyph cache texture.
- * Here we simply flush the vertex queue of the current context in case
- * any pending vertices are dependent upon the current glyph cache layout.
+ * This method is invoked in the (relbtively rbre) cbse where one or
+ * more glyphs is bbout to be kicked out of the glyph cbche texture.
+ * Here we simply flush the vertex queue of the current context in cbse
+ * bny pending vertices bre dependent upon the current glyph cbche lbyout.
  */
-static void
-D3DGlyphCache_FlushGlyphVertexCache()
+stbtic void
+D3DGlyphCbche_FlushGlyphVertexCbche()
 {
     D3DContext *d3dc = D3DRQ_GetCurrentContext();
     if (d3dc != NULL) {
-        J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache_FlushGlyphVertexCache");
+        J2dTrbceLn(J2D_TRACE_INFO, "D3DGlyphCbche_FlushGlyphVertexCbche");
         d3dc->FlushVertexQueue();
     }
 }

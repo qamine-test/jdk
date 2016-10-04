@@ -1,101 +1,101 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ktab;
+pbckbge sun.security.krb5.internbl.ktbb;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.util.KrbDataOutputStream;
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.util.KrbDbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.UnsupportedEncodingException;
 
 /**
- * This class implements a buffered input stream. It is used for parsing key table
- * data to memory.
+ * This clbss implements b buffered input strebm. It is used for pbrsing key tbble
+ * dbtb to memory.
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  *
  */
-public class KeyTabOutputStream extends KrbDataOutputStream implements KeyTabConstants {
-    private KeyTabEntry entry;
-    private int keyType;
-    private byte[] keyValue;
+public clbss KeyTbbOutputStrebm extends KrbDbtbOutputStrebm implements KeyTbbConstbnts {
+    privbte KeyTbbEntry entry;
+    privbte int keyType;
+    privbte byte[] keyVblue;
     public int version;
 
-    public KeyTabOutputStream(OutputStream os) {
+    public KeyTbbOutputStrebm(OutputStrebm os) {
         super(os);
     }
 
     public void writeVersion(int num) throws IOException {
         version = num;
-        write16(num);           //we use the standard version.
+        write16(num);           //we use the stbndbrd version.
     }
 
-    public void writeEntry(KeyTabEntry entry) throws IOException {
+    public void writeEntry(KeyTbbEntry entry) throws IOException {
         write32(entry.entryLength());
-        String[] serviceNames =  entry.service.getNameStrings();
-        int comp_num = serviceNames.length;
+        String[] serviceNbmes =  entry.service.getNbmeStrings();
+        int comp_num = serviceNbmes.length;
         if (version == KRB5_KT_VNO_1) {
             write16(comp_num + 1);
         }
         else write16(comp_num);
 
-        byte[] realm = null;
+        byte[] reblm = null;
         try {
-            realm = entry.service.getRealmString().getBytes("8859_1");
-        } catch (UnsupportedEncodingException exc) {
+            reblm = entry.service.getReblmString().getBytes("8859_1");
+        } cbtch (UnsupportedEncodingException exc) {
         }
 
-        write16(realm.length);
-        write(realm);
+        write16(reblm.length);
+        write(reblm);
         for (int i = 0; i < comp_num; i++) {
             try {
-                write16(serviceNames[i].getBytes("8859_1").length);
-                write(serviceNames[i].getBytes("8859_1"));
-            } catch (UnsupportedEncodingException exc) {
+                write16(serviceNbmes[i].getBytes("8859_1").length);
+                write(serviceNbmes[i].getBytes("8859_1"));
+            } cbtch (UnsupportedEncodingException exc) {
             }
         }
-        write32(entry.service.getNameType());
-        //time is long, but we only use 4 bytes to store the data.
-        write32((int)(entry.timestamp.getTime()/1000));
+        write32(entry.service.getNbmeType());
+        //time is long, but we only use 4 bytes to store the dbtb.
+        write32((int)(entry.timestbmp.getTime()/1000));
 
-        // the key version might be a 32 bit extended number.
+        // the key version might be b 32 bit extended number.
         write8(entry.keyVersion % 256 );
         write16(entry.keyType);
         write16(entry.keyblock.length);
         write(entry.keyblock);
 
-        // if the key version isn't smaller than 256, it could be saved as
+        // if the key version isn't smbller thbn 256, it could be sbved bs
         // extension key version number in 4 bytes. The nonzero extension
-        // key version number will be trusted. However, it isn't standardized
+        // key version number will be trusted. However, it isn't stbndbrdized
         // yet, we won't support it.
         // if (entry.keyVersion >= 256) {
         //    write32(entry.keyVersion);

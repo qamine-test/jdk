@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -42,45 +42,45 @@
 #include <stdlib.h>
 #include "jinvokerExp.h"
 
-static int g_nExitCode = 0;
+stbtic int g_nExitCode = 0;
 
 void system_exit(jint nCode){
     g_nExitCode = nCode;
 }
 
 /*
-Allocating and providing the JVM init argumets.
-By MakeJavaVMInitArgs() it is provided two options: providing CLASSPATH
-environment variable value and function java.lang.System.exit()
+Allocbting bnd providing the JVM init brgumets.
+By MbkeJbvbVMInitArgs() it is provided two options: providing CLASSPATH
+environment vbribble vblue bnd function jbvb.lbng.System.exit()
 redefinition in order to get the exit code.
 See the description of the JNI API in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/invocation.html#wp9502
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/invocbtion.html#wp9502
 */
 
-int MakeJavaVMInitArgs( void** ppArgs ){
+int MbkeJbvbVMInitArgs( void** ppArgs ){
 
     int nOptSize = 2;
-    JavaVMInitArgs* pArgs    = new JavaVMInitArgs();
-    JavaVMOption*   pOptions = new JavaVMOption[nOptSize];
+    JbvbVMInitArgs* pArgs    = new JbvbVMInitArgs();
+    JbvbVMOption*   pOptions = new JbvbVMOption[nOptSize];
 
-    //provide CLASSPATH value to java.class.path
+    //provide CLASSPATH vblue to jbvb.clbss.pbth
 
-    char* szClassPath = getenv("CLASSPATH");
-    if( szClassPath == NULL )
-        szClassPath = ".";
+    chbr* szClbssPbth = getenv("CLASSPATH");
+    if( szClbssPbth == NULL )
+        szClbssPbth = ".";
 
-    pOptions[0].optionString = new char[strlen("-Djava.class.path=")+
-                                        strlen(szClassPath)+1];
-    sprintf( pOptions[0].optionString, "-Djava.class.path=%s", szClassPath );
+    pOptions[0].optionString = new chbr[strlen("-Djbvb.clbss.pbth=")+
+                                        strlen(szClbssPbth)+1];
+    sprintf( pOptions[0].optionString, "-Djbvb.clbss.pbth=%s", szClbssPbth );
 
-    //redefine java.lang.System.exit()
+    //redefine jbvb.lbng.System.exit()
 
     pOptions[1].optionString = "exit";
-    pOptions[1].extraInfo    = system_exit;
+    pOptions[1].extrbInfo    = system_exit;
 
-    //Fill the arguments
+    //Fill the brguments
 
-    memset(pArgs, 0, sizeof(JavaVMInitArgs));
+    memset(pArgs, 0, sizeof(JbvbVMInitArgs));
     pArgs->version = 0x00010002;
     pArgs->options = pOptions;
     pArgs->nOptions = nOptSize;
@@ -92,32 +92,32 @@ int MakeJavaVMInitArgs( void** ppArgs ){
 }
 
 /*
-Free the allocated JVM init argumets
+Free the bllocbted JVM init brgumets
 */
 
-void FreeJavaVMInitArgs( void* pArgs ){
-    delete ((JavaVMInitArgs*)pArgs)->options[0].optionString;
-    delete ((JavaVMInitArgs*)pArgs)->options;
+void FreeJbvbVMInitArgs( void* pArgs ){
+    delete ((JbvbVMInitArgs*)pArgs)->options[0].optionString;
+    delete ((JbvbVMInitArgs*)pArgs)->options;
     delete pArgs;
 }
 
 /*
-Static wrapper on FindClass() JNI function.
+Stbtic wrbpper on FindClbss() JNI function.
 See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp16027
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/functions.html#wp16027
 */
 
-int FindClass( JNIEnv*     pEnv,
-               const char* szClass,
-               jclass*     pClass ){
+int FindClbss( JNIEnv*     pEnv,
+               const chbr* szClbss,
+               jclbss*     pClbss ){
 
-    *pClass = pEnv->FindClass( szClass );
+    *pClbss = pEnv->FindClbss( szClbss );
 
     if(pEnv->ExceptionCheck() == JNI_TRUE){
         pEnv->ExceptionDescribe();
         return -1;
     }
-    if(*pClass != NULL)
+    if(*pClbss != NULL)
         return 0;
     else
         return -2;
@@ -125,18 +125,18 @@ int FindClass( JNIEnv*     pEnv,
 }
 
 /*
-Static wrapper on GetStaticMethodID() JNI function.
+Stbtic wrbpper on GetStbticMethodID() JNI function.
 See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp20949
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/functions.html#wp20949
 */
 
-int GetStaticMethodID(JNIEnv*     pEnv,
-                      jclass      pClass,
-                      const char* szName,
-                      const char* szArgs,
+int GetStbticMethodID(JNIEnv*     pEnv,
+                      jclbss      pClbss,
+                      const chbr* szNbme,
+                      const chbr* szArgs,
                       jmethodID*  pMid){
 
-    *pMid = pEnv->GetStaticMethodID( pClass, szName, szArgs);
+    *pMid = pEnv->GetStbticMethodID( pClbss, szNbme, szArgs);
 
     if(pEnv->ExceptionCheck() == JNI_TRUE){
         pEnv->ExceptionDescribe();
@@ -150,24 +150,24 @@ int GetStaticMethodID(JNIEnv*     pEnv,
 }
 
 /*
-Static wrapper on NewObjectArray() JNI function.
+Stbtic wrbpper on NewObjectArrby() JNI function.
 See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp21619
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/functions.html#wp21619
 */
 
-int NewObjectArray( JNIEnv*       pEnv,
+int NewObjectArrby( JNIEnv*       pEnv,
                     int           nDimension,
-                    const char*   szType,
-                    jobjectArray* pArray ){
+                    const chbr*   szType,
+                    jobjectArrby* pArrby ){
 
-    *pArray = pEnv->NewObjectArray( nDimension, pEnv->FindClass( szType ), NULL);
+    *pArrby = pEnv->NewObjectArrby( nDimension, pEnv->FindClbss( szType ), NULL);
 
     if(pEnv->ExceptionCheck() == JNI_TRUE){
         pEnv->ExceptionDescribe();
         return -1;
     }
 
-    if( pArray != NULL )
+    if( pArrby != NULL )
         return 0;
     else
         return -2;
@@ -175,18 +175,18 @@ int NewObjectArray( JNIEnv*       pEnv,
 }
 
 /*
-Static wrapper on CallStaticVoidMethod() JNI function.
+Stbtic wrbpper on CbllStbticVoidMethod() JNI function.
 See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp4796
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/functions.html#wp4796
 */
 
-int CallStaticVoidMethod( JNIEnv*   pEnv,
-                          jclass    pClass,
+int CbllStbticVoidMethod( JNIEnv*   pEnv,
+                          jclbss    pClbss,
                           jmethodID pMid,
                           void*     pArgs){
 
     g_nExitCode = 0;
-    pEnv->CallStaticVoidMethod( pClass, pMid, pArgs);
+    pEnv->CbllStbticVoidMethod( pClbss, pMid, pArgs);
     if( pEnv->ExceptionCheck() == JNI_TRUE ){
         pEnv->ExceptionDescribe();
         return -1;
@@ -195,12 +195,12 @@ int CallStaticVoidMethod( JNIEnv*   pEnv,
 }
 
 /*
-Static wrapper on DestroyJavaVM() JNI function.
+Stbtic wrbpper on DestroyJbvbVM() JNI function.
 See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/invocation.html#destroy_java_vm
+http://jre.sfbby/jbvb/re/jdk/6/promoted/lbtest/docs/technotes/guides/jni/spec/invocbtion.html#destroy_jbvb_vm
 */
 
-int DestroyJavaVM( JavaVM* pJVM ){
-    pJVM->DestroyJavaVM();
+int DestroyJbvbVM( JbvbVM* pJVM ){
+    pJVM->DestroyJbvbVM();
     return 0;
 }

@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.MenuBar;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Window;
-import sun.awt.CGraphicsDevice;
-import sun.awt.CGraphicsEnvironment;
-import sun.awt.CausedFocusEvent;
-import sun.awt.LightweightFrame;
-import sun.java2d.SurfaceData;
-import sun.lwawt.LWLightweightFramePeer;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformWindow;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Insets;
+import jbvb.bwt.MenuBbr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Window;
+import sun.bwt.CGrbphicsDevice;
+import sun.bwt.CGrbphicsEnvironment;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.LightweightFrbme;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.lwbwt.LWLightweightFrbmePeer;
+import sun.lwbwt.LWWindowPeer;
+import sun.lwbwt.PlbtformWindow;
 
-public class CPlatformLWWindow extends CPlatformWindow {
+public clbss CPlbtformLWWindow extends CPlbtformWindow {
 
     @Override
-    public void initialize(Window target, LWWindowPeer peer, PlatformWindow owner) {
-        initializeBase(target, peer, owner, new CPlatformLWView());
+    public void initiblize(Window tbrget, LWWindowPeer peer, PlbtformWindow owner) {
+        initiblizeBbse(tbrget, peer, owner, new CPlbtformLWView());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public void setMenuBar(MenuBar mb) {
+    public void setMenuBbr(MenuBbr mb) {
     }
 
     @Override
@@ -74,29 +74,29 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public Point getLocationOnScreen() {
+    public Point getLocbtionOnScreen() {
         return null;
     }
 
     @Override
-    public SurfaceData getScreenSurface() {
+    public SurfbceDbtb getScreenSurfbce() {
         return null;
     }
 
     @Override
-    public SurfaceData replaceSurfaceData() {
+    public SurfbceDbtb replbceSurfbceDbtb() {
         return null;
     }
 
     @Override
     public void setBounds(int x, int y, int w, int h) {
         if (getPeer() != null) {
-            getPeer().notifyReshape(x, y, w, h);
+            getPeer().notifyReshbpe(x, y, w, h);
         }
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(boolebn visible) {
     }
 
     @Override
@@ -104,7 +104,7 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public void updateIconImages() {
+    public void updbteIconImbges() {
     }
 
     @Override
@@ -113,12 +113,12 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public SurfaceData getSurfaceData() {
+    public SurfbceDbtb getSurfbceDbtb() {
         return null;
     }
 
     @Override
-    public void toBack() {
+    public void toBbck() {
     }
 
     @Override
@@ -126,52 +126,52 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public void setResizable(final boolean resizable) {
+    public void setResizbble(finbl boolebn resizbble) {
     }
 
     @Override
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH) {
+    public void setSizeConstrbints(int minW, int minH, int mbxW, int mbxH) {
     }
 
     @Override
-    public boolean rejectFocusRequest(CausedFocusEvent.Cause cause) {
-        return false;
+    public boolebn rejectFocusRequest(CbusedFocusEvent.Cbuse cbuse) {
+        return fblse;
     }
 
     @Override
-    public boolean requestWindowFocus() {
+    public boolebn requestWindowFocus() {
         return true;
     }
 
     @Override
-    public boolean isActive() {
+    public boolebn isActive() {
         return true;
     }
 
     @Override
-    public void updateFocusableWindowState() {
+    public void updbteFocusbbleWindowStbte() {
     }
 
     @Override
-    public Graphics transformGraphics(Graphics g) {
+    public Grbphics trbnsformGrbphics(Grbphics g) {
         return null;
     }
 
     @Override
-    public void setAlwaysOnTop(boolean isAlwaysOnTop) {
+    public void setAlwbysOnTop(boolebn isAlwbysOnTop) {
     }
 
     @Override
-    public PlatformWindow getTopmostPlatformWindowUnderMouse(){
+    public PlbtformWindow getTopmostPlbtformWindowUnderMouse(){
         return null;
     }
 
     @Override
-    public void setOpacity(float opacity) {
+    public void setOpbcity(flobt opbcity) {
     }
 
     @Override
-    public void setOpaque(boolean isOpaque) {
+    public void setOpbque(boolebn isOpbque) {
     }
 
     @Override
@@ -183,7 +183,7 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public void setWindowState(int windowState) {
+    public void setWindowStbte(int windowStbte) {
     }
 
     @Override
@@ -192,32 +192,32 @@ public class CPlatformLWWindow extends CPlatformWindow {
     }
 
     @Override
-    public CPlatformView getContentView() {
+    public CPlbtformView getContentView() {
         return super.getContentView();
     }
 
     @Override
-    public long getLayerPtr() {
+    public long getLbyerPtr() {
         return 0;
     }
 
     @Override
-    public GraphicsDevice getGraphicsDevice() {
-        CGraphicsEnvironment ge = (CGraphicsEnvironment)GraphicsEnvironment.
-                                  getLocalGraphicsEnvironment();
+    public GrbphicsDevice getGrbphicsDevice() {
+        CGrbphicsEnvironment ge = (CGrbphicsEnvironment)GrbphicsEnvironment.
+                                  getLocblGrbphicsEnvironment();
 
-        LWLightweightFramePeer peer = (LWLightweightFramePeer)getPeer();
-        int scale = ((LightweightFrame)peer.getTarget()).getScaleFactor();
+        LWLightweightFrbmePeer peer = (LWLightweightFrbmePeer)getPeer();
+        int scble = ((LightweightFrbme)peer.getTbrget()).getScbleFbctor();
 
-        Rectangle bounds = ((LightweightFrame)peer.getTarget()).getHostBounds();
-        for (GraphicsDevice d : ge.getScreenDevices()) {
-            if (d.getDefaultConfiguration().getBounds().intersects(bounds) &&
-                ((CGraphicsDevice)d).getScaleFactor() == scale)
+        Rectbngle bounds = ((LightweightFrbme)peer.getTbrget()).getHostBounds();
+        for (GrbphicsDevice d : ge.getScreenDevices()) {
+            if (d.getDefbultConfigurbtion().getBounds().intersects(bounds) &&
+                ((CGrbphicsDevice)d).getScbleFbctor() == scble)
             {
                 return d;
             }
         }
         // We shouldn't be here...
-        return ge.getDefaultScreenDevice();
+        return ge.getDefbultScreenDevice();
     }
 }

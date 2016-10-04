@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.ClosedByInterruptException;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
-import java.nio.channels.FileLockInterruptionException;
-import java.nio.channels.NonReadableChannelException;
-import java.nio.channels.NonWritableChannelException;
-import java.nio.channels.OverlappingFileLockException;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
-import java.security.AccessController;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.MbppedByteBuffer;
+import jbvb.nio.chbnnels.ClosedByInterruptException;
+import jbvb.nio.chbnnels.ClosedChbnnelException;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.nio.chbnnels.FileLock;
+import jbvb.nio.chbnnels.FileLockInterruptionException;
+import jbvb.nio.chbnnels.NonRebdbbleChbnnelException;
+import jbvb.nio.chbnnels.NonWritbbleChbnnelException;
+import jbvb.nio.chbnnels.OverlbppingFileLockException;
+import jbvb.nio.chbnnels.RebdbbleByteChbnnel;
+import jbvb.nio.chbnnels.WritbbleByteChbnnel;
+import jbvb.security.AccessController;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import sun.misc.Cleaner;
-import sun.security.action.GetPropertyAction;
+import sun.misc.Clebner;
+import sun.security.bction.GetPropertyAction;
 
-public class FileChannelImpl
-    extends FileChannel
+public clbss FileChbnnelImpl
+    extends FileChbnnel
 {
-    // Memory allocation size for mapping buffers
-    private static final long allocationGranularity;
+    // Memory bllocbtion size for mbpping buffers
+    privbte stbtic finbl long bllocbtionGrbnulbrity;
 
-    // Used to make native read and write calls
-    private final FileDispatcher nd;
+    // Used to mbke nbtive rebd bnd write cblls
+    privbte finbl FileDispbtcher nd;
 
     // File descriptor
-    private final FileDescriptor fd;
+    privbte finbl FileDescriptor fd;
 
-    // File access mode (immutable)
-    private final boolean writable;
-    private final boolean readable;
-    private final boolean append;
+    // File bccess mode (immutbble)
+    privbte finbl boolebn writbble;
+    privbte finbl boolebn rebdbble;
+    privbte finbl boolebn bppend;
 
-    // Required to prevent finalization of creating stream (immutable)
-    private final Object parent;
+    // Required to prevent finblizbtion of crebting strebm (immutbble)
+    privbte finbl Object pbrent;
 
-    // The path of the referenced file
-    // (null if the parent stream is created with a file descriptor)
-    private final String path;
+    // The pbth of the referenced file
+    // (null if the pbrent strebm is crebted with b file descriptor)
+    privbte finbl String pbth;
 
-    // Thread-safe set of IDs of native threads, for signalling
-    private final NativeThreadSet threads = new NativeThreadSet(2);
+    // Threbd-sbfe set of IDs of nbtive threbds, for signblling
+    privbte finbl NbtiveThrebdSet threbds = new NbtiveThrebdSet(2);
 
-    // Lock for operations involving position and size
-    private final Object positionLock = new Object();
+    // Lock for operbtions involving position bnd size
+    privbte finbl Object positionLock = new Object();
 
-    private FileChannelImpl(FileDescriptor fd, String path, boolean readable,
-                            boolean writable, boolean append, Object parent)
+    privbte FileChbnnelImpl(FileDescriptor fd, String pbth, boolebn rebdbble,
+                            boolebn writbble, boolebn bppend, Object pbrent)
     {
         this.fd = fd;
-        this.readable = readable;
-        this.writable = writable;
-        this.append = append;
-        this.parent = parent;
-        this.path = path;
-        this.nd = new FileDispatcherImpl(append);
+        this.rebdbble = rebdbble;
+        this.writbble = writbble;
+        this.bppend = bppend;
+        this.pbrent = pbrent;
+        this.pbth = pbth;
+        this.nd = new FileDispbtcherImpl(bppend);
     }
 
-    // Used by FileInputStream.getChannel() and RandomAccessFile.getChannel()
-    public static FileChannel open(FileDescriptor fd, String path,
-                                   boolean readable, boolean writable,
-                                   Object parent)
+    // Used by FileInputStrebm.getChbnnel() bnd RbndomAccessFile.getChbnnel()
+    public stbtic FileChbnnel open(FileDescriptor fd, String pbth,
+                                   boolebn rebdbble, boolebn writbble,
+                                   Object pbrent)
     {
-        return new FileChannelImpl(fd, path, readable, writable, false, parent);
+        return new FileChbnnelImpl(fd, pbth, rebdbble, writbble, fblse, pbrent);
     }
 
-    // Used by FileOutputStream.getChannel
-    public static FileChannel open(FileDescriptor fd, String path,
-                                   boolean readable, boolean writable,
-                                   boolean append, Object parent)
+    // Used by FileOutputStrebm.getChbnnel
+    public stbtic FileChbnnel open(FileDescriptor fd, String pbth,
+                                   boolebn rebdbble, boolebn writbble,
+                                   boolebn bppend, Object pbrent)
     {
-        return new FileChannelImpl(fd, path, readable, writable, append, parent);
+        return new FileChbnnelImpl(fd, pbth, rebdbble, writbble, bppend, pbrent);
     }
 
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (!isOpen())
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
     }
 
 
-    // -- Standard channel operations --
+    // -- Stbndbrd chbnnel operbtions --
 
-    protected void implCloseChannel() throws IOException {
-        // Release and invalidate any locks that we still hold
-        if (fileLockTable != null) {
-            for (FileLock fl: fileLockTable.removeAll()) {
+    protected void implCloseChbnnel() throws IOException {
+        // Relebse bnd invblidbte bny locks thbt we still hold
+        if (fileLockTbble != null) {
+            for (FileLock fl: fileLockTbble.removeAll()) {
                 synchronized (fl) {
-                    if (fl.isValid()) {
-                        nd.release(fd, fl.position(), fl.size());
-                        ((FileLockImpl)fl).invalidate();
+                    if (fl.isVblid()) {
+                        nd.relebse(fd, fl.position(), fl.size());
+                        ((FileLockImpl)fl).invblidbte();
                     }
                 }
             }
         }
 
-        // signal any threads blocked on this channel
-        threads.signalAndWait();
+        // signbl bny threbds blocked on this chbnnel
+        threbds.signblAndWbit();
 
-        if (parent != null) {
+        if (pbrent != null) {
 
-            // Close the fd via the parent stream's close method.  The parent
+            // Close the fd vib the pbrent strebm's close method.  The pbrent
             // will reinvoke our close method, which is defined in the
-            // superclass AbstractInterruptibleChannel, but the isOpen logic in
-            // that method will prevent this method from being reinvoked.
+            // superclbss AbstrbctInterruptibleChbnnel, but the isOpen logic in
+            // thbt method will prevent this method from being reinvoked.
             //
-            ((java.io.Closeable)parent).close();
+            ((jbvb.io.Closebble)pbrent).close();
         } else {
             nd.close(fd);
         }
 
     }
 
-    public int read(ByteBuffer dst) throws IOException {
+    public int rebd(ByteBuffer dst) throws IOException {
         ensureOpen();
-        if (!readable)
-            throw new NonReadableChannelException();
+        if (!rebdbble)
+            throw new NonRebdbbleChbnnelException();
         synchronized (positionLock) {
             int n = 0;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return 0;
                 do {
-                    n = IOUtil.read(fd, dst, -1, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                threads.remove(ti);
+                    n = IOUtil.rebd(fd, dst, -1, nd);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                threbds.remove(ti);
                 end(n > 0);
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    public long read(ByteBuffer[] dsts, int offset, int length)
+    public long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException
     {
         if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
             throw new IndexOutOfBoundsException();
         ensureOpen();
-        if (!readable)
-            throw new NonReadableChannelException();
+        if (!rebdbble)
+            throw new NonRebdbbleChbnnelException();
         synchronized (positionLock) {
             long n = 0;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return 0;
                 do {
-                    n = IOUtil.read(fd, dsts, offset, length, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                threads.remove(ti);
+                    n = IOUtil.rebd(fd, dsts, offset, length, nd);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                threbds.remove(ti);
                 end(n > 0);
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
 
     public int write(ByteBuffer src) throws IOException {
         ensureOpen();
-        if (!writable)
-            throw new NonWritableChannelException();
+        if (!writbble)
+            throw new NonWritbbleChbnnelException();
         synchronized (positionLock) {
             int n = 0;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return 0;
                 do {
                     n = IOUtil.write(fd, src, -1, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                threads.remove(ti);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                threbds.remove(ti);
                 end(n > 0);
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
@@ -224,29 +224,29 @@ public class FileChannelImpl
         if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
             throw new IndexOutOfBoundsException();
         ensureOpen();
-        if (!writable)
-            throw new NonWritableChannelException();
+        if (!writbble)
+            throw new NonWritbbleChbnnelException();
         synchronized (positionLock) {
             long n = 0;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return 0;
                 do {
                     n = IOUtil.write(fd, srcs, offset, length, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                threads.remove(ti);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                threbds.remove(ti);
                 end(n > 0);
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    // -- Other operations --
+    // -- Other operbtions --
 
     public long position() throws IOException {
         ensureOpen();
@@ -255,42 +255,42 @@ public class FileChannelImpl
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return 0;
                 do {
-                    // in append-mode then position is advanced to end before writing
-                    p = (append) ? nd.size(fd) : position0(fd, -1);
-                } while ((p == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(p);
-            } finally {
-                threads.remove(ti);
+                    // in bppend-mode then position is bdvbnced to end before writing
+                    p = (bppend) ? nd.size(fd) : position0(fd, -1);
+                } while ((p == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(p);
+            } finblly {
+                threbds.remove(ti);
                 end(p > -1);
-                assert IOStatus.check(p);
+                bssert IOStbtus.check(p);
             }
         }
     }
 
-    public FileChannel position(long newPosition) throws IOException {
+    public FileChbnnel position(long newPosition) throws IOException {
         ensureOpen();
         if (newPosition < 0)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         synchronized (positionLock) {
             long p = -1;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return null;
                 do {
                     p  = position0(fd, newPosition);
-                } while ((p == IOStatus.INTERRUPTED) && isOpen());
+                } while ((p == IOStbtus.INTERRUPTED) && isOpen());
                 return this;
-            } finally {
-                threads.remove(ti);
+            } finblly {
+                threbds.remove(ti);
                 end(p > -1);
-                assert IOStatus.check(p);
+                bssert IOStbtus.check(p);
             }
         }
     }
@@ -302,34 +302,34 @@ public class FileChannelImpl
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return -1;
                 do {
                     s = nd.size(fd);
-                } while ((s == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(s);
-            } finally {
-                threads.remove(ti);
+                } while ((s == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(s);
+            } finblly {
+                threbds.remove(ti);
                 end(s > -1);
-                assert IOStatus.check(s);
+                bssert IOStbtus.check(s);
             }
         }
     }
 
-    public FileChannel truncate(long newSize) throws IOException {
+    public FileChbnnel truncbte(long newSize) throws IOException {
         ensureOpen();
         if (newSize < 0)
-            throw new IllegalArgumentException("Negative size");
-        if (!writable)
-            throw new NonWritableChannelException();
+            throw new IllegblArgumentException("Negbtive size");
+        if (!writbble)
+            throw new NonWritbbleChbnnelException();
         synchronized (positionLock) {
             int rv = -1;
             long p = -1;
             int ti = -1;
             try {
                 begin();
-                ti = threads.add();
+                ti = threbds.bdd();
                 if (!isOpen())
                     return null;
 
@@ -337,381 +337,381 @@ public class FileChannelImpl
                 long size;
                 do {
                     size = nd.size(fd);
-                } while ((size == IOStatus.INTERRUPTED) && isOpen());
+                } while ((size == IOStbtus.INTERRUPTED) && isOpen());
                 if (!isOpen())
                     return null;
 
                 // get current position
                 do {
                     p = position0(fd, -1);
-                } while ((p == IOStatus.INTERRUPTED) && isOpen());
+                } while ((p == IOStbtus.INTERRUPTED) && isOpen());
                 if (!isOpen())
                     return null;
-                assert p >= 0;
+                bssert p >= 0;
 
-                // truncate file if given size is less than the current size
+                // truncbte file if given size is less thbn the current size
                 if (newSize < size) {
                     do {
-                        rv = nd.truncate(fd, newSize);
-                    } while ((rv == IOStatus.INTERRUPTED) && isOpen());
+                        rv = nd.truncbte(fd, newSize);
+                    } while ((rv == IOStbtus.INTERRUPTED) && isOpen());
                     if (!isOpen())
                         return null;
                 }
 
-                // if position is beyond new size then adjust it
+                // if position is beyond new size then bdjust it
                 if (p > newSize)
                     p = newSize;
                 do {
                     rv = (int)position0(fd, p);
-                } while ((rv == IOStatus.INTERRUPTED) && isOpen());
+                } while ((rv == IOStbtus.INTERRUPTED) && isOpen());
                 return this;
-            } finally {
-                threads.remove(ti);
+            } finblly {
+                threbds.remove(ti);
                 end(rv > -1);
-                assert IOStatus.check(rv);
+                bssert IOStbtus.check(rv);
             }
         }
     }
 
-    public void force(boolean metaData) throws IOException {
+    public void force(boolebn metbDbtb) throws IOException {
         ensureOpen();
         int rv = -1;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return;
             do {
-                rv = nd.force(fd, metaData);
-            } while ((rv == IOStatus.INTERRUPTED) && isOpen());
-        } finally {
-            threads.remove(ti);
+                rv = nd.force(fd, metbDbtb);
+            } while ((rv == IOStbtus.INTERRUPTED) && isOpen());
+        } finblly {
+            threbds.remove(ti);
             end(rv > -1);
-            assert IOStatus.check(rv);
+            bssert IOStbtus.check(rv);
         }
     }
 
-    // Assume at first that the underlying kernel supports sendfile();
-    // set this to false if we find out later that it doesn't
+    // Assume bt first thbt the underlying kernel supports sendfile();
+    // set this to fblse if we find out lbter thbt it doesn't
     //
-    private static volatile boolean transferSupported = true;
+    privbte stbtic volbtile boolebn trbnsferSupported = true;
 
-    // Assume that the underlying kernel sendfile() will work if the target
-    // fd is a pipe; set this to false if we find out later that it doesn't
+    // Assume thbt the underlying kernel sendfile() will work if the tbrget
+    // fd is b pipe; set this to fblse if we find out lbter thbt it doesn't
     //
-    private static volatile boolean pipeSupported = true;
+    privbte stbtic volbtile boolebn pipeSupported = true;
 
-    // Assume that the underlying kernel sendfile() will work if the target
-    // fd is a file; set this to false if we find out later that it doesn't
+    // Assume thbt the underlying kernel sendfile() will work if the tbrget
+    // fd is b file; set this to fblse if we find out lbter thbt it doesn't
     //
-    private static volatile boolean fileSupported = true;
+    privbte stbtic volbtile boolebn fileSupported = true;
 
-    private long transferToDirectly(long position, int icount,
-                                    WritableByteChannel target)
+    privbte long trbnsferToDirectly(long position, int icount,
+                                    WritbbleByteChbnnel tbrget)
         throws IOException
     {
-        if (!transferSupported)
-            return IOStatus.UNSUPPORTED;
+        if (!trbnsferSupported)
+            return IOStbtus.UNSUPPORTED;
 
-        FileDescriptor targetFD = null;
-        if (target instanceof FileChannelImpl) {
+        FileDescriptor tbrgetFD = null;
+        if (tbrget instbnceof FileChbnnelImpl) {
             if (!fileSupported)
-                return IOStatus.UNSUPPORTED_CASE;
-            targetFD = ((FileChannelImpl)target).fd;
-        } else if (target instanceof SelChImpl) {
-            // Direct transfer to pipe causes EINVAL on some configurations
-            if ((target instanceof SinkChannelImpl) && !pipeSupported)
-                return IOStatus.UNSUPPORTED_CASE;
-            targetFD = ((SelChImpl)target).getFD();
+                return IOStbtus.UNSUPPORTED_CASE;
+            tbrgetFD = ((FileChbnnelImpl)tbrget).fd;
+        } else if (tbrget instbnceof SelChImpl) {
+            // Direct trbnsfer to pipe cbuses EINVAL on some configurbtions
+            if ((tbrget instbnceof SinkChbnnelImpl) && !pipeSupported)
+                return IOStbtus.UNSUPPORTED_CASE;
+            tbrgetFD = ((SelChImpl)tbrget).getFD();
         }
-        if (targetFD == null)
-            return IOStatus.UNSUPPORTED;
-        int thisFDVal = IOUtil.fdVal(fd);
-        int targetFDVal = IOUtil.fdVal(targetFD);
-        if (thisFDVal == targetFDVal) // Not supported on some configurations
-            return IOStatus.UNSUPPORTED;
+        if (tbrgetFD == null)
+            return IOStbtus.UNSUPPORTED;
+        int thisFDVbl = IOUtil.fdVbl(fd);
+        int tbrgetFDVbl = IOUtil.fdVbl(tbrgetFD);
+        if (thisFDVbl == tbrgetFDVbl) // Not supported on some configurbtions
+            return IOStbtus.UNSUPPORTED;
 
         long n = -1;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return -1;
             do {
-                n = transferTo0(thisFDVal, position, icount, targetFDVal);
-            } while ((n == IOStatus.INTERRUPTED) && isOpen());
-            if (n == IOStatus.UNSUPPORTED_CASE) {
-                if (target instanceof SinkChannelImpl)
-                    pipeSupported = false;
-                if (target instanceof FileChannelImpl)
-                    fileSupported = false;
-                return IOStatus.UNSUPPORTED_CASE;
+                n = trbnsferTo0(thisFDVbl, position, icount, tbrgetFDVbl);
+            } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+            if (n == IOStbtus.UNSUPPORTED_CASE) {
+                if (tbrget instbnceof SinkChbnnelImpl)
+                    pipeSupported = fblse;
+                if (tbrget instbnceof FileChbnnelImpl)
+                    fileSupported = fblse;
+                return IOStbtus.UNSUPPORTED_CASE;
             }
-            if (n == IOStatus.UNSUPPORTED) {
-                // Don't bother trying again
-                transferSupported = false;
-                return IOStatus.UNSUPPORTED;
+            if (n == IOStbtus.UNSUPPORTED) {
+                // Don't bother trying bgbin
+                trbnsferSupported = fblse;
+                return IOStbtus.UNSUPPORTED;
             }
-            return IOStatus.normalize(n);
-        } finally {
-            threads.remove(ti);
+            return IOStbtus.normblize(n);
+        } finblly {
+            threbds.remove(ti);
             end (n > -1);
         }
     }
 
-    // Maximum size to map when using a mapped buffer
-    private static final long MAPPED_TRANSFER_SIZE = 8L*1024L*1024L;
+    // Mbximum size to mbp when using b mbpped buffer
+    privbte stbtic finbl long MAPPED_TRANSFER_SIZE = 8L*1024L*1024L;
 
-    private long transferToTrustedChannel(long position, long count,
-                                          WritableByteChannel target)
+    privbte long trbnsferToTrustedChbnnel(long position, long count,
+                                          WritbbleByteChbnnel tbrget)
         throws IOException
     {
-        boolean isSelChImpl = (target instanceof SelChImpl);
-        if (!((target instanceof FileChannelImpl) || isSelChImpl))
-            return IOStatus.UNSUPPORTED;
+        boolebn isSelChImpl = (tbrget instbnceof SelChImpl);
+        if (!((tbrget instbnceof FileChbnnelImpl) || isSelChImpl))
+            return IOStbtus.UNSUPPORTED;
 
-        // Trusted target: Use a mapped buffer
-        long remaining = count;
-        while (remaining > 0L) {
-            long size = Math.min(remaining, MAPPED_TRANSFER_SIZE);
+        // Trusted tbrget: Use b mbpped buffer
+        long rembining = count;
+        while (rembining > 0L) {
+            long size = Mbth.min(rembining, MAPPED_TRANSFER_SIZE);
             try {
-                MappedByteBuffer dbb = map(MapMode.READ_ONLY, position, size);
+                MbppedByteBuffer dbb = mbp(MbpMode.READ_ONLY, position, size);
                 try {
-                    // ## Bug: Closing this channel will not terminate the write
-                    int n = target.write(dbb);
-                    assert n >= 0;
-                    remaining -= n;
+                    // ## Bug: Closing this chbnnel will not terminbte the write
+                    int n = tbrget.write(dbb);
+                    bssert n >= 0;
+                    rembining -= n;
                     if (isSelChImpl) {
-                        // one attempt to write to selectable channel
-                        break;
+                        // one bttempt to write to selectbble chbnnel
+                        brebk;
                     }
-                    assert n > 0;
+                    bssert n > 0;
                     position += n;
-                } finally {
-                    unmap(dbb);
+                } finblly {
+                    unmbp(dbb);
                 }
-            } catch (ClosedByInterruptException e) {
-                // target closed by interrupt as ClosedByInterruptException needs
-                // to be thrown after closing this channel.
-                assert !target.isOpen();
+            } cbtch (ClosedByInterruptException e) {
+                // tbrget closed by interrupt bs ClosedByInterruptException needs
+                // to be thrown bfter closing this chbnnel.
+                bssert !tbrget.isOpen();
                 try {
                     close();
-                } catch (Throwable suppressed) {
-                    e.addSuppressed(suppressed);
+                } cbtch (Throwbble suppressed) {
+                    e.bddSuppressed(suppressed);
                 }
                 throw e;
-            } catch (IOException ioe) {
-                // Only throw exception if no bytes have been written
-                if (remaining == count)
+            } cbtch (IOException ioe) {
+                // Only throw exception if no bytes hbve been written
+                if (rembining == count)
                     throw ioe;
-                break;
+                brebk;
             }
         }
-        return count - remaining;
+        return count - rembining;
     }
 
-    private long transferToArbitraryChannel(long position, int icount,
-                                            WritableByteChannel target)
+    privbte long trbnsferToArbitrbryChbnnel(long position, int icount,
+                                            WritbbleByteChbnnel tbrget)
         throws IOException
     {
-        // Untrusted target: Use a newly-erased buffer
-        int c = Math.min(icount, TRANSFER_SIZE);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(c);
-        long tw = 0;                    // Total bytes written
+        // Untrusted tbrget: Use b newly-erbsed buffer
+        int c = Mbth.min(icount, TRANSFER_SIZE);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(c);
+        long tw = 0;                    // Totbl bytes written
         long pos = position;
         try {
-            Util.erase(bb);
+            Util.erbse(bb);
             while (tw < icount) {
-                bb.limit(Math.min((int)(icount - tw), TRANSFER_SIZE));
-                int nr = read(bb, pos);
+                bb.limit(Mbth.min((int)(icount - tw), TRANSFER_SIZE));
+                int nr = rebd(bb, pos);
                 if (nr <= 0)
-                    break;
+                    brebk;
                 bb.flip();
-                // ## Bug: Will block writing target if this channel
-                // ##      is asynchronously closed
-                int nw = target.write(bb);
+                // ## Bug: Will block writing tbrget if this chbnnel
+                // ##      is bsynchronously closed
+                int nw = tbrget.write(bb);
                 tw += nw;
                 if (nw != nr)
-                    break;
+                    brebk;
                 pos += nw;
-                bb.clear();
+                bb.clebr();
             }
             return tw;
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             if (tw > 0)
                 return tw;
             throw x;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    public long transferTo(long position, long count,
-                           WritableByteChannel target)
+    public long trbnsferTo(long position, long count,
+                           WritbbleByteChbnnel tbrget)
         throws IOException
     {
         ensureOpen();
-        if (!target.isOpen())
-            throw new ClosedChannelException();
-        if (!readable)
-            throw new NonReadableChannelException();
-        if (target instanceof FileChannelImpl &&
-            !((FileChannelImpl)target).writable)
-            throw new NonWritableChannelException();
+        if (!tbrget.isOpen())
+            throw new ClosedChbnnelException();
+        if (!rebdbble)
+            throw new NonRebdbbleChbnnelException();
+        if (tbrget instbnceof FileChbnnelImpl &&
+            !((FileChbnnelImpl)tbrget).writbble)
+            throw new NonWritbbleChbnnelException();
         if ((position < 0) || (count < 0))
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         long sz = size();
         if (position > sz)
             return 0;
-        int icount = (int)Math.min(count, Integer.MAX_VALUE);
+        int icount = (int)Mbth.min(count, Integer.MAX_VALUE);
         if ((sz - position) < icount)
             icount = (int)(sz - position);
 
         long n;
 
-        // Attempt a direct transfer, if the kernel supports it
-        if ((n = transferToDirectly(position, icount, target)) >= 0)
+        // Attempt b direct trbnsfer, if the kernel supports it
+        if ((n = trbnsferToDirectly(position, icount, tbrget)) >= 0)
             return n;
 
-        // Attempt a mapped transfer, but only to trusted channel types
-        if ((n = transferToTrustedChannel(position, icount, target)) >= 0)
+        // Attempt b mbpped trbnsfer, but only to trusted chbnnel types
+        if ((n = trbnsferToTrustedChbnnel(position, icount, tbrget)) >= 0)
             return n;
 
-        // Slow path for untrusted targets
-        return transferToArbitraryChannel(position, icount, target);
+        // Slow pbth for untrusted tbrgets
+        return trbnsferToArbitrbryChbnnel(position, icount, tbrget);
     }
 
-    private long transferFromFileChannel(FileChannelImpl src,
+    privbte long trbnsferFromFileChbnnel(FileChbnnelImpl src,
                                          long position, long count)
         throws IOException
     {
-        if (!src.readable)
-            throw new NonReadableChannelException();
+        if (!src.rebdbble)
+            throw new NonRebdbbleChbnnelException();
         synchronized (src.positionLock) {
             long pos = src.position();
-            long max = Math.min(count, src.size() - pos);
+            long mbx = Mbth.min(count, src.size() - pos);
 
-            long remaining = max;
+            long rembining = mbx;
             long p = pos;
-            while (remaining > 0L) {
-                long size = Math.min(remaining, MAPPED_TRANSFER_SIZE);
-                // ## Bug: Closing this channel will not terminate the write
-                MappedByteBuffer bb = src.map(MapMode.READ_ONLY, p, size);
+            while (rembining > 0L) {
+                long size = Mbth.min(rembining, MAPPED_TRANSFER_SIZE);
+                // ## Bug: Closing this chbnnel will not terminbte the write
+                MbppedByteBuffer bb = src.mbp(MbpMode.READ_ONLY, p, size);
                 try {
                     long n = write(bb, position);
-                    assert n > 0;
+                    bssert n > 0;
                     p += n;
                     position += n;
-                    remaining -= n;
-                } catch (IOException ioe) {
-                    // Only throw exception if no bytes have been written
-                    if (remaining == max)
+                    rembining -= n;
+                } cbtch (IOException ioe) {
+                    // Only throw exception if no bytes hbve been written
+                    if (rembining == mbx)
                         throw ioe;
-                    break;
-                } finally {
-                    unmap(bb);
+                    brebk;
+                } finblly {
+                    unmbp(bb);
                 }
             }
-            long nwritten = max - remaining;
+            long nwritten = mbx - rembining;
             src.position(pos + nwritten);
             return nwritten;
         }
     }
 
-    private static final int TRANSFER_SIZE = 8192;
+    privbte stbtic finbl int TRANSFER_SIZE = 8192;
 
-    private long transferFromArbitraryChannel(ReadableByteChannel src,
+    privbte long trbnsferFromArbitrbryChbnnel(RebdbbleByteChbnnel src,
                                               long position, long count)
         throws IOException
     {
-        // Untrusted target: Use a newly-erased buffer
-        int c = (int)Math.min(count, TRANSFER_SIZE);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(c);
-        long tw = 0;                    // Total bytes written
+        // Untrusted tbrget: Use b newly-erbsed buffer
+        int c = (int)Mbth.min(count, TRANSFER_SIZE);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(c);
+        long tw = 0;                    // Totbl bytes written
         long pos = position;
         try {
-            Util.erase(bb);
+            Util.erbse(bb);
             while (tw < count) {
-                bb.limit((int)Math.min((count - tw), (long)TRANSFER_SIZE));
-                // ## Bug: Will block reading src if this channel
-                // ##      is asynchronously closed
-                int nr = src.read(bb);
+                bb.limit((int)Mbth.min((count - tw), (long)TRANSFER_SIZE));
+                // ## Bug: Will block rebding src if this chbnnel
+                // ##      is bsynchronously closed
+                int nr = src.rebd(bb);
                 if (nr <= 0)
-                    break;
+                    brebk;
                 bb.flip();
                 int nw = write(bb, pos);
                 tw += nw;
                 if (nw != nr)
-                    break;
+                    brebk;
                 pos += nw;
-                bb.clear();
+                bb.clebr();
             }
             return tw;
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             if (tw > 0)
                 return tw;
             throw x;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    public long transferFrom(ReadableByteChannel src,
+    public long trbnsferFrom(RebdbbleByteChbnnel src,
                              long position, long count)
         throws IOException
     {
         ensureOpen();
         if (!src.isOpen())
-            throw new ClosedChannelException();
-        if (!writable)
-            throw new NonWritableChannelException();
+            throw new ClosedChbnnelException();
+        if (!writbble)
+            throw new NonWritbbleChbnnelException();
         if ((position < 0) || (count < 0))
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (position > size())
             return 0;
-        if (src instanceof FileChannelImpl)
-           return transferFromFileChannel((FileChannelImpl)src,
+        if (src instbnceof FileChbnnelImpl)
+           return trbnsferFromFileChbnnel((FileChbnnelImpl)src,
                                           position, count);
 
-        return transferFromArbitraryChannel(src, position, count);
+        return trbnsferFromArbitrbryChbnnel(src, position, count);
     }
 
-    public int read(ByteBuffer dst, long position) throws IOException {
+    public int rebd(ByteBuffer dst, long position) throws IOException {
         if (dst == null)
             throw new NullPointerException();
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (!readable)
-            throw new NonReadableChannelException();
+            throw new IllegblArgumentException("Negbtive position");
+        if (!rebdbble)
+            throw new NonRebdbbleChbnnelException();
         ensureOpen();
         if (nd.needsPositionLock()) {
             synchronized (positionLock) {
-                return readInternal(dst, position);
+                return rebdInternbl(dst, position);
             }
         } else {
-            return readInternal(dst, position);
+            return rebdInternbl(dst, position);
         }
     }
 
-    private int readInternal(ByteBuffer dst, long position) throws IOException {
-        assert !nd.needsPositionLock() || Thread.holdsLock(positionLock);
+    privbte int rebdInternbl(ByteBuffer dst, long position) throws IOException {
+        bssert !nd.needsPositionLock() || Threbd.holdsLock(positionLock);
         int n = 0;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return -1;
             do {
-                n = IOUtil.read(fd, dst, position, nd);
-            } while ((n == IOStatus.INTERRUPTED) && isOpen());
-            return IOStatus.normalize(n);
-        } finally {
-            threads.remove(ti);
+                n = IOUtil.rebd(fd, dst, position, nd);
+            } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+            return IOStbtus.normblize(n);
+        } finblly {
+            threbds.remove(ti);
             end(n > 0);
-            assert IOStatus.check(n);
+            bssert IOStbtus.check(n);
         }
     }
 
@@ -719,247 +719,247 @@ public class FileChannelImpl
         if (src == null)
             throw new NullPointerException();
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (!writable)
-            throw new NonWritableChannelException();
+            throw new IllegblArgumentException("Negbtive position");
+        if (!writbble)
+            throw new NonWritbbleChbnnelException();
         ensureOpen();
         if (nd.needsPositionLock()) {
             synchronized (positionLock) {
-                return writeInternal(src, position);
+                return writeInternbl(src, position);
             }
         } else {
-            return writeInternal(src, position);
+            return writeInternbl(src, position);
         }
     }
 
-    private int writeInternal(ByteBuffer src, long position) throws IOException {
-        assert !nd.needsPositionLock() || Thread.holdsLock(positionLock);
+    privbte int writeInternbl(ByteBuffer src, long position) throws IOException {
+        bssert !nd.needsPositionLock() || Threbd.holdsLock(positionLock);
         int n = 0;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return -1;
             do {
                 n = IOUtil.write(fd, src, position, nd);
-            } while ((n == IOStatus.INTERRUPTED) && isOpen());
-            return IOStatus.normalize(n);
-        } finally {
-            threads.remove(ti);
+            } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+            return IOStbtus.normblize(n);
+        } finblly {
+            threbds.remove(ti);
             end(n > 0);
-            assert IOStatus.check(n);
+            bssert IOStbtus.check(n);
         }
     }
 
 
-    // -- Memory-mapped buffers --
+    // -- Memory-mbpped buffers --
 
-    private static class Unmapper
-        implements Runnable
+    privbte stbtic clbss Unmbpper
+        implements Runnbble
     {
-        // may be required to close file
-        private static final NativeDispatcher nd = new FileDispatcherImpl();
+        // mby be required to close file
+        privbte stbtic finbl NbtiveDispbtcher nd = new FileDispbtcherImpl();
 
-        // keep track of mapped buffer usage
-        static volatile int count;
-        static volatile long totalSize;
-        static volatile long totalCapacity;
+        // keep trbck of mbpped buffer usbge
+        stbtic volbtile int count;
+        stbtic volbtile long totblSize;
+        stbtic volbtile long totblCbpbcity;
 
-        private volatile long address;
-        private final long size;
-        private final int cap;
-        private final FileDescriptor fd;
+        privbte volbtile long bddress;
+        privbte finbl long size;
+        privbte finbl int cbp;
+        privbte finbl FileDescriptor fd;
 
-        private Unmapper(long address, long size, int cap,
+        privbte Unmbpper(long bddress, long size, int cbp,
                          FileDescriptor fd)
         {
-            assert (address != 0);
-            this.address = address;
+            bssert (bddress != 0);
+            this.bddress = bddress;
             this.size = size;
-            this.cap = cap;
+            this.cbp = cbp;
             this.fd = fd;
 
-            synchronized (Unmapper.class) {
+            synchronized (Unmbpper.clbss) {
                 count++;
-                totalSize += size;
-                totalCapacity += cap;
+                totblSize += size;
+                totblCbpbcity += cbp;
             }
         }
 
         public void run() {
-            if (address == 0)
+            if (bddress == 0)
                 return;
-            unmap0(address, size);
-            address = 0;
+            unmbp0(bddress, size);
+            bddress = 0;
 
-            // if this mapping has a valid file descriptor then we close it
-            if (fd.valid()) {
+            // if this mbpping hbs b vblid file descriptor then we close it
+            if (fd.vblid()) {
                 try {
                     nd.close(fd);
-                } catch (IOException ignore) {
-                    // nothing we can do
+                } cbtch (IOException ignore) {
+                    // nothing we cbn do
                 }
             }
 
-            synchronized (Unmapper.class) {
+            synchronized (Unmbpper.clbss) {
                 count--;
-                totalSize -= size;
-                totalCapacity -= cap;
+                totblSize -= size;
+                totblCbpbcity -= cbp;
             }
         }
     }
 
-    private static void unmap(MappedByteBuffer bb) {
-        Cleaner cl = ((DirectBuffer)bb).cleaner();
+    privbte stbtic void unmbp(MbppedByteBuffer bb) {
+        Clebner cl = ((DirectBuffer)bb).clebner();
         if (cl != null)
-            cl.clean();
+            cl.clebn();
     }
 
-    private static final int MAP_RO = 0;
-    private static final int MAP_RW = 1;
-    private static final int MAP_PV = 2;
+    privbte stbtic finbl int MAP_RO = 0;
+    privbte stbtic finbl int MAP_RW = 1;
+    privbte stbtic finbl int MAP_PV = 2;
 
-    public MappedByteBuffer map(MapMode mode, long position, long size)
+    public MbppedByteBuffer mbp(MbpMode mode, long position, long size)
         throws IOException
     {
         ensureOpen();
         if (mode == null)
             throw new NullPointerException("Mode is null");
         if (position < 0L)
-            throw new IllegalArgumentException("Negative position");
+            throw new IllegblArgumentException("Negbtive position");
         if (size < 0L)
-            throw new IllegalArgumentException("Negative size");
+            throw new IllegblArgumentException("Negbtive size");
         if (position + size < 0)
-            throw new IllegalArgumentException("Position + size overflow");
+            throw new IllegblArgumentException("Position + size overflow");
         if (size > Integer.MAX_VALUE)
-            throw new IllegalArgumentException("Size exceeds Integer.MAX_VALUE");
+            throw new IllegblArgumentException("Size exceeds Integer.MAX_VALUE");
 
         int imode = -1;
-        if (mode == MapMode.READ_ONLY)
+        if (mode == MbpMode.READ_ONLY)
             imode = MAP_RO;
-        else if (mode == MapMode.READ_WRITE)
+        else if (mode == MbpMode.READ_WRITE)
             imode = MAP_RW;
-        else if (mode == MapMode.PRIVATE)
+        else if (mode == MbpMode.PRIVATE)
             imode = MAP_PV;
-        assert (imode >= 0);
-        if ((mode != MapMode.READ_ONLY) && !writable)
-            throw new NonWritableChannelException();
-        if (!readable)
-            throw new NonReadableChannelException();
+        bssert (imode >= 0);
+        if ((mode != MbpMode.READ_ONLY) && !writbble)
+            throw new NonWritbbleChbnnelException();
+        if (!rebdbble)
+            throw new NonRebdbbleChbnnelException();
 
-        long addr = -1;
+        long bddr = -1;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return null;
 
             long filesize;
             do {
                 filesize = nd.size(fd);
-            } while ((filesize == IOStatus.INTERRUPTED) && isOpen());
+            } while ((filesize == IOStbtus.INTERRUPTED) && isOpen());
             if (!isOpen())
                 return null;
 
             if (filesize < position + size) { // Extend file size
-                if (!writable) {
-                    throw new IOException("Channel not open for writing " +
-                        "- cannot extend file to required size");
+                if (!writbble) {
+                    throw new IOException("Chbnnel not open for writing " +
+                        "- cbnnot extend file to required size");
                 }
                 int rv;
                 do {
-                    rv = nd.truncate(fd, position + size);
-                } while ((rv == IOStatus.INTERRUPTED) && isOpen());
+                    rv = nd.truncbte(fd, position + size);
+                } while ((rv == IOStbtus.INTERRUPTED) && isOpen());
                 if (!isOpen())
                     return null;
             }
             if (size == 0) {
-                addr = 0;
-                // a valid file descriptor is not required
+                bddr = 0;
+                // b vblid file descriptor is not required
                 FileDescriptor dummy = new FileDescriptor();
-                if ((!writable) || (imode == MAP_RO))
-                    return Util.newMappedByteBufferR(0, 0, dummy, null);
+                if ((!writbble) || (imode == MAP_RO))
+                    return Util.newMbppedByteBufferR(0, 0, dummy, null);
                 else
-                    return Util.newMappedByteBuffer(0, 0, dummy, null);
+                    return Util.newMbppedByteBuffer(0, 0, dummy, null);
             }
 
-            int pagePosition = (int)(position % allocationGranularity);
-            long mapPosition = position - pagePosition;
-            long mapSize = size + pagePosition;
+            int pbgePosition = (int)(position % bllocbtionGrbnulbrity);
+            long mbpPosition = position - pbgePosition;
+            long mbpSize = size + pbgePosition;
             try {
-                // If no exception was thrown from map0, the address is valid
-                addr = map0(imode, mapPosition, mapSize);
-            } catch (OutOfMemoryError x) {
-                // An OutOfMemoryError may indicate that we've exhausted memory
-                // so force gc and re-attempt map
+                // If no exception wbs thrown from mbp0, the bddress is vblid
+                bddr = mbp0(imode, mbpPosition, mbpSize);
+            } cbtch (OutOfMemoryError x) {
+                // An OutOfMemoryError mby indicbte thbt we've exhbusted memory
+                // so force gc bnd re-bttempt mbp
                 System.gc();
                 try {
-                    Thread.sleep(100);
-                } catch (InterruptedException y) {
-                    Thread.currentThread().interrupt();
+                    Threbd.sleep(100);
+                } cbtch (InterruptedException y) {
+                    Threbd.currentThrebd().interrupt();
                 }
                 try {
-                    addr = map0(imode, mapPosition, mapSize);
-                } catch (OutOfMemoryError y) {
-                    // After a second OOME, fail
-                    throw new IOException("Map failed", y);
+                    bddr = mbp0(imode, mbpPosition, mbpSize);
+                } cbtch (OutOfMemoryError y) {
+                    // After b second OOME, fbil
+                    throw new IOException("Mbp fbiled", y);
                 }
             }
 
-            // On Windows, and potentially other platforms, we need an open
-            // file descriptor for some mapping operations.
+            // On Windows, bnd potentiblly other plbtforms, we need bn open
+            // file descriptor for some mbpping operbtions.
             FileDescriptor mfd;
             try {
-                mfd = nd.duplicateForMapping(fd);
-            } catch (IOException ioe) {
-                unmap0(addr, mapSize);
+                mfd = nd.duplicbteForMbpping(fd);
+            } cbtch (IOException ioe) {
+                unmbp0(bddr, mbpSize);
                 throw ioe;
             }
 
-            assert (IOStatus.checkAll(addr));
-            assert (addr % allocationGranularity == 0);
+            bssert (IOStbtus.checkAll(bddr));
+            bssert (bddr % bllocbtionGrbnulbrity == 0);
             int isize = (int)size;
-            Unmapper um = new Unmapper(addr, mapSize, isize, mfd);
-            if ((!writable) || (imode == MAP_RO)) {
-                return Util.newMappedByteBufferR(isize,
-                                                 addr + pagePosition,
+            Unmbpper um = new Unmbpper(bddr, mbpSize, isize, mfd);
+            if ((!writbble) || (imode == MAP_RO)) {
+                return Util.newMbppedByteBufferR(isize,
+                                                 bddr + pbgePosition,
                                                  mfd,
                                                  um);
             } else {
-                return Util.newMappedByteBuffer(isize,
-                                                addr + pagePosition,
+                return Util.newMbppedByteBuffer(isize,
+                                                bddr + pbgePosition,
                                                 mfd,
                                                 um);
             }
-        } finally {
-            threads.remove(ti);
-            end(IOStatus.checkAll(addr));
+        } finblly {
+            threbds.remove(ti);
+            end(IOStbtus.checkAll(bddr));
         }
     }
 
     /**
-     * Invoked by sun.management.ManagementFactoryHelper to create the management
-     * interface for mapped buffers.
+     * Invoked by sun.mbnbgement.MbnbgementFbctoryHelper to crebte the mbnbgement
+     * interfbce for mbpped buffers.
      */
-    public static sun.misc.JavaNioAccess.BufferPool getMappedBufferPool() {
-        return new sun.misc.JavaNioAccess.BufferPool() {
+    public stbtic sun.misc.JbvbNioAccess.BufferPool getMbppedBufferPool() {
+        return new sun.misc.JbvbNioAccess.BufferPool() {
             @Override
-            public String getName() {
-                return "mapped";
+            public String getNbme() {
+                return "mbpped";
             }
             @Override
             public long getCount() {
-                return Unmapper.count;
+                return Unmbpper.count;
             }
             @Override
-            public long getTotalCapacity() {
-                return Unmapper.totalCapacity;
+            public long getTotblCbpbcity() {
+                return Unmbpper.totblCbpbcity;
             }
             @Override
             public long getMemoryUsed() {
-                return Unmapper.totalSize;
+                return Unmbpper.totblSize;
             }
         };
     }
@@ -968,179 +968,179 @@ public class FileChannelImpl
 
 
 
-    // keeps track of locks on this file
-    private volatile FileLockTable fileLockTable;
+    // keeps trbck of locks on this file
+    privbte volbtile FileLockTbble fileLockTbble;
 
-    // indicates if file locks are maintained system-wide (as per spec)
-    private static boolean isSharedFileLockTable;
+    // indicbtes if file locks bre mbintbined system-wide (bs per spec)
+    privbte stbtic boolebn isShbredFileLockTbble;
 
-    // indicates if the disableSystemWideOverlappingFileLockCheck property
-    // has been checked
-    private static volatile boolean propertyChecked;
+    // indicbtes if the disbbleSystemWideOverlbppingFileLockCheck property
+    // hbs been checked
+    privbte stbtic volbtile boolebn propertyChecked;
 
-    // The lock list in J2SE 1.4/5.0 was local to each FileChannel instance so
-    // the overlap check wasn't system wide when there were multiple channels to
-    // the same file. This property is used to get 1.4/5.0 behavior if desired.
-    private static boolean isSharedFileLockTable() {
+    // The lock list in J2SE 1.4/5.0 wbs locbl to ebch FileChbnnel instbnce so
+    // the overlbp check wbsn't system wide when there were multiple chbnnels to
+    // the sbme file. This property is used to get 1.4/5.0 behbvior if desired.
+    privbte stbtic boolebn isShbredFileLockTbble() {
         if (!propertyChecked) {
-            synchronized (FileChannelImpl.class) {
+            synchronized (FileChbnnelImpl.clbss) {
                 if (!propertyChecked) {
-                    String value = AccessController.doPrivileged(
+                    String vblue = AccessController.doPrivileged(
                         new GetPropertyAction(
-                            "sun.nio.ch.disableSystemWideOverlappingFileLockCheck"));
-                    isSharedFileLockTable = ((value == null) || value.equals("false"));
+                            "sun.nio.ch.disbbleSystemWideOverlbppingFileLockCheck"));
+                    isShbredFileLockTbble = ((vblue == null) || vblue.equbls("fblse"));
                     propertyChecked = true;
                 }
             }
         }
-        return isSharedFileLockTable;
+        return isShbredFileLockTbble;
     }
 
-    private FileLockTable fileLockTable() throws IOException {
-        if (fileLockTable == null) {
+    privbte FileLockTbble fileLockTbble() throws IOException {
+        if (fileLockTbble == null) {
             synchronized (this) {
-                if (fileLockTable == null) {
-                    if (isSharedFileLockTable()) {
-                        int ti = threads.add();
+                if (fileLockTbble == null) {
+                    if (isShbredFileLockTbble()) {
+                        int ti = threbds.bdd();
                         try {
                             ensureOpen();
-                            fileLockTable = FileLockTable.newSharedFileLockTable(this, fd);
-                        } finally {
-                            threads.remove(ti);
+                            fileLockTbble = FileLockTbble.newShbredFileLockTbble(this, fd);
+                        } finblly {
+                            threbds.remove(ti);
                         }
                     } else {
-                        fileLockTable = new SimpleFileLockTable();
+                        fileLockTbble = new SimpleFileLockTbble();
                     }
                 }
             }
         }
-        return fileLockTable;
+        return fileLockTbble;
     }
 
-    public FileLock lock(long position, long size, boolean shared)
+    public FileLock lock(long position, long size, boolebn shbred)
         throws IOException
     {
         ensureOpen();
-        if (shared && !readable)
-            throw new NonReadableChannelException();
-        if (!shared && !writable)
-            throw new NonWritableChannelException();
-        FileLockImpl fli = new FileLockImpl(this, position, size, shared);
-        FileLockTable flt = fileLockTable();
-        flt.add(fli);
-        boolean completed = false;
+        if (shbred && !rebdbble)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writbble)
+            throw new NonWritbbleChbnnelException();
+        FileLockImpl fli = new FileLockImpl(this, position, size, shbred);
+        FileLockTbble flt = fileLockTbble();
+        flt.bdd(fli);
+        boolebn completed = fblse;
         int ti = -1;
         try {
             begin();
-            ti = threads.add();
+            ti = threbds.bdd();
             if (!isOpen())
                 return null;
             int n;
             do {
-                n = nd.lock(fd, true, position, size, shared);
-            } while ((n == FileDispatcher.INTERRUPTED) && isOpen());
+                n = nd.lock(fd, true, position, size, shbred);
+            } while ((n == FileDispbtcher.INTERRUPTED) && isOpen());
             if (isOpen()) {
-                if (n == FileDispatcher.RET_EX_LOCK) {
-                    assert shared;
+                if (n == FileDispbtcher.RET_EX_LOCK) {
+                    bssert shbred;
                     FileLockImpl fli2 = new FileLockImpl(this, position, size,
-                                                         false);
-                    flt.replace(fli, fli2);
+                                                         fblse);
+                    flt.replbce(fli, fli2);
                     fli = fli2;
                 }
                 completed = true;
             }
-        } finally {
+        } finblly {
             if (!completed)
                 flt.remove(fli);
-            threads.remove(ti);
+            threbds.remove(ti);
             try {
                 end(completed);
-            } catch (ClosedByInterruptException e) {
+            } cbtch (ClosedByInterruptException e) {
                 throw new FileLockInterruptionException();
             }
         }
         return fli;
     }
 
-    public FileLock tryLock(long position, long size, boolean shared)
+    public FileLock tryLock(long position, long size, boolebn shbred)
         throws IOException
     {
         ensureOpen();
-        if (shared && !readable)
-            throw new NonReadableChannelException();
-        if (!shared && !writable)
-            throw new NonWritableChannelException();
-        FileLockImpl fli = new FileLockImpl(this, position, size, shared);
-        FileLockTable flt = fileLockTable();
-        flt.add(fli);
+        if (shbred && !rebdbble)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writbble)
+            throw new NonWritbbleChbnnelException();
+        FileLockImpl fli = new FileLockImpl(this, position, size, shbred);
+        FileLockTbble flt = fileLockTbble();
+        flt.bdd(fli);
         int result;
 
-        int ti = threads.add();
+        int ti = threbds.bdd();
         try {
             try {
                 ensureOpen();
-                result = nd.lock(fd, false, position, size, shared);
-            } catch (IOException e) {
+                result = nd.lock(fd, fblse, position, size, shbred);
+            } cbtch (IOException e) {
                 flt.remove(fli);
                 throw e;
             }
-            if (result == FileDispatcher.NO_LOCK) {
+            if (result == FileDispbtcher.NO_LOCK) {
                 flt.remove(fli);
                 return null;
             }
-            if (result == FileDispatcher.RET_EX_LOCK) {
-                assert shared;
+            if (result == FileDispbtcher.RET_EX_LOCK) {
+                bssert shbred;
                 FileLockImpl fli2 = new FileLockImpl(this, position, size,
-                                                     false);
-                flt.replace(fli, fli2);
+                                                     fblse);
+                flt.replbce(fli, fli2);
                 return fli2;
             }
             return fli;
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            threbds.remove(ti);
         }
     }
 
-    void release(FileLockImpl fli) throws IOException {
-        int ti = threads.add();
+    void relebse(FileLockImpl fli) throws IOException {
+        int ti = threbds.bdd();
         try {
             ensureOpen();
-            nd.release(fd, fli.position(), fli.size());
-        } finally {
-            threads.remove(ti);
+            nd.relebse(fd, fli.position(), fli.size());
+        } finblly {
+            threbds.remove(ti);
         }
-        assert fileLockTable != null;
-        fileLockTable.remove(fli);
+        bssert fileLockTbble != null;
+        fileLockTbble.remove(fli);
     }
 
     // -- File lock support --
 
     /**
-     * A simple file lock table that maintains a list of FileLocks obtained by a
-     * FileChannel. Use to get 1.4/5.0 behaviour.
+     * A simple file lock tbble thbt mbintbins b list of FileLocks obtbined by b
+     * FileChbnnel. Use to get 1.4/5.0 behbviour.
      */
-    private static class SimpleFileLockTable extends FileLockTable {
-        // synchronize on list for access
-        private final List<FileLock> lockList = new ArrayList<FileLock>(2);
+    privbte stbtic clbss SimpleFileLockTbble extends FileLockTbble {
+        // synchronize on list for bccess
+        privbte finbl List<FileLock> lockList = new ArrbyList<FileLock>(2);
 
-        public SimpleFileLockTable() {
+        public SimpleFileLockTbble() {
         }
 
-        private void checkList(long position, long size)
-            throws OverlappingFileLockException
+        privbte void checkList(long position, long size)
+            throws OverlbppingFileLockException
         {
-            assert Thread.holdsLock(lockList);
+            bssert Threbd.holdsLock(lockList);
             for (FileLock fl: lockList) {
-                if (fl.overlaps(position, size)) {
-                    throw new OverlappingFileLockException();
+                if (fl.overlbps(position, size)) {
+                    throw new OverlbppingFileLockException();
                 }
             }
         }
 
-        public void add(FileLock fl) throws OverlappingFileLockException {
+        public void bdd(FileLock fl) throws OverlbppingFileLockException {
             synchronized (lockList) {
                 checkList(fl.position(), fl.size());
-                lockList.add(fl);
+                lockList.bdd(fl);
             }
         }
 
@@ -1152,43 +1152,43 @@ public class FileChannelImpl
 
         public List<FileLock> removeAll() {
             synchronized(lockList) {
-                List<FileLock> result = new ArrayList<FileLock>(lockList);
-                lockList.clear();
+                List<FileLock> result = new ArrbyList<FileLock>(lockList);
+                lockList.clebr();
                 return result;
             }
         }
 
-        public void replace(FileLock fl1, FileLock fl2) {
+        public void replbce(FileLock fl1, FileLock fl2) {
             synchronized (lockList) {
                 lockList.remove(fl1);
-                lockList.add(fl2);
+                lockList.bdd(fl2);
             }
         }
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    // Creates a new mapping
-    private native long map0(int prot, long position, long length)
+    // Crebtes b new mbpping
+    privbte nbtive long mbp0(int prot, long position, long length)
         throws IOException;
 
-    // Removes an existing mapping
-    private static native int unmap0(long address, long length);
+    // Removes bn existing mbpping
+    privbte stbtic nbtive int unmbp0(long bddress, long length);
 
-    // Transfers from src to dst, or returns -2 if kernel can't do that
-    private native long transferTo0(int src, long position, long count, int dst);
+    // Trbnsfers from src to dst, or returns -2 if kernel cbn't do thbt
+    privbte nbtive long trbnsferTo0(int src, long position, long count, int dst);
 
     // Sets or reports this file's position
     // If offset is -1, the current position is returned
     // otherwise the position is set to offset
-    private native long position0(FileDescriptor fd, long offset);
+    privbte nbtive long position0(FileDescriptor fd, long offset);
 
-    // Caches fieldIDs
-    private static native long initIDs();
+    // Cbches fieldIDs
+    privbte stbtic nbtive long initIDs();
 
-    static {
-        IOUtil.load();
-        allocationGranularity = initIDs();
+    stbtic {
+        IOUtil.lobd();
+        bllocbtionGrbnulbrity = initIDs();
     }
 
 }

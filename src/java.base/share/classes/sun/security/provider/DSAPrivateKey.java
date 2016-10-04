@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.util.*;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.ProviderException;
-import java.security.AlgorithmParameters;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.interfaces.DSAParams;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.ProviderException;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.spec.DSAPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.interfbces.DSAPbrbms;
 
 import sun.security.x509.AlgIdDSA;
 import sun.security.pkcs.PKCS8Key;
 import sun.security.util.Debug;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * A PKCS#8 private key for the Digital Signature Algorithm.
+ * A PKCS#8 privbte key for the Digitbl Signbture Algorithm.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  *
  * @see DSAPublicKey
@@ -53,82 +53,82 @@ import sun.security.util.DerOutputStream;
  * @see DSA
  */
 
-public final class DSAPrivateKey extends PKCS8Key
-implements java.security.interfaces.DSAPrivateKey, Serializable {
+public finbl clbss DSAPrivbteKey extends PKCS8Key
+implements jbvb.security.interfbces.DSAPrivbteKey, Seriblizbble {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -3244453684193605938L;
+    /** use seriblVersionUID from JDK 1.1. for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -3244453684193605938L;
 
-    /* the private key */
-    private BigInteger x;
+    /* the privbte key */
+    privbte BigInteger x;
 
     /*
-     * Keep this constructor for backwards compatibility with JDK1.1.
+     * Keep this constructor for bbckwbrds compbtibility with JDK1.1.
      */
-    public DSAPrivateKey() {
+    public DSAPrivbteKey() {
     }
 
     /**
-     * Make a DSA private key out of a private key and three parameters.
+     * Mbke b DSA privbte key out of b privbte key bnd three pbrbmeters.
      */
-    public DSAPrivateKey(BigInteger x, BigInteger p,
+    public DSAPrivbteKey(BigInteger x, BigInteger p,
                          BigInteger q, BigInteger g)
-    throws InvalidKeyException {
+    throws InvblidKeyException {
         this.x = x;
-        algid = new AlgIdDSA(p, q, g);
+        blgid = new AlgIdDSA(p, q, g);
 
         try {
-            key = new DerValue(DerValue.tag_Integer,
-                               x.toByteArray()).toByteArray();
+            key = new DerVblue(DerVblue.tbg_Integer,
+                               x.toByteArrby()).toByteArrby();
             encode();
-        } catch (IOException e) {
-            InvalidKeyException ike = new InvalidKeyException(
-                "could not DER encode x: " + e.getMessage());
-            ike.initCause(e);
+        } cbtch (IOException e) {
+            InvblidKeyException ike = new InvblidKeyException(
+                "could not DER encode x: " + e.getMessbge());
+            ike.initCbuse(e);
             throw ike;
         }
     }
 
     /**
-     * Make a DSA private key from its DER encoding (PKCS #8).
+     * Mbke b DSA privbte key from its DER encoding (PKCS #8).
      */
-    public DSAPrivateKey(byte[] encoded) throws InvalidKeyException {
-        clearOldKey();
+    public DSAPrivbteKey(byte[] encoded) throws InvblidKeyException {
+        clebrOldKey();
         decode(encoded);
     }
 
     /**
-     * Returns the DSA parameters associated with this key, or null if the
-     * parameters could not be parsed.
+     * Returns the DSA pbrbmeters bssocibted with this key, or null if the
+     * pbrbmeters could not be pbrsed.
      */
-    public DSAParams getParams() {
+    public DSAPbrbms getPbrbms() {
         try {
-            if (algid instanceof DSAParams) {
-                return (DSAParams)algid;
+            if (blgid instbnceof DSAPbrbms) {
+                return (DSAPbrbms)blgid;
             } else {
-                DSAParameterSpec paramSpec;
-                AlgorithmParameters algParams = algid.getParameters();
-                if (algParams == null) {
+                DSAPbrbmeterSpec pbrbmSpec;
+                AlgorithmPbrbmeters blgPbrbms = blgid.getPbrbmeters();
+                if (blgPbrbms == null) {
                     return null;
                 }
-                paramSpec = algParams.getParameterSpec(DSAParameterSpec.class);
-                return (DSAParams)paramSpec;
+                pbrbmSpec = blgPbrbms.getPbrbmeterSpec(DSAPbrbmeterSpec.clbss);
+                return (DSAPbrbms)pbrbmSpec;
             }
-        } catch (InvalidParameterSpecException e) {
+        } cbtch (InvblidPbrbmeterSpecException e) {
             return null;
         }
     }
 
     /**
-     * Get the raw private key, x, without the parameters.
+     * Get the rbw privbte key, x, without the pbrbmeters.
      *
-     * @see getParameters
+     * @see getPbrbmeters
      */
     public BigInteger getX() {
         return x;
     }
 
-    private void clearOldKey() {
+    privbte void clebrOldKey() {
         int i;
         if (this.encodedKey != null) {
             for (i = 0; i < this.encodedKey.length; i++) {
@@ -142,13 +142,13 @@ implements java.security.interfaces.DSAPrivateKey, Serializable {
         }
     }
 
-    protected void parseKeyBits() throws InvalidKeyException {
+    protected void pbrseKeyBits() throws InvblidKeyException {
         try {
-            DerInputStream in = new DerInputStream(key);
+            DerInputStrebm in = new DerInputStrebm(key);
             x = in.getBigInteger();
-        } catch (IOException e) {
-            InvalidKeyException ike = new InvalidKeyException(e.getMessage());
-            ike.initCause(e);
+        } cbtch (IOException e) {
+            InvblidKeyException ike = new InvblidKeyException(e.getMessbge());
+            ike.initCbuse(e);
             throw ike;
         }
     }

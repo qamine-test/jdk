@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.Font;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.*;
+import jbvb.bwt.Font;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.io.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * A simple console window to display messages sent to System.out and
+ * A simple console window to displby messbges sent to System.out bnd
  * System.err.
  *
- * A stop-gap solution until an error dialog is implemented.
+ * A stop-gbp solution until bn error diblog is implemented.
  */
-public class OutputViewer {
-    private static JFrame frame;
-    private static JTextArea ta;
+public clbss OutputViewer {
+    privbte stbtic JFrbme frbme;
+    privbte stbtic JTextAreb tb;
 
-    static {
-        System.setOut(PipeListener.create("System.out"));
-        System.setErr(PipeListener.create("System.err"));
+    stbtic {
+        System.setOut(PipeListener.crebte("System.out"));
+        System.setErr(PipeListener.crebte("System.err"));
     }
 
-    // Dummy to cause class to be loaded
-    public static void init() { }
+    // Dummy to cbuse clbss to be lobded
+    public stbtic void init() { }
 
-    private static void append(String s) {
-        if (frame == null) {
-            // FIXME: The frame title should be a localized string.
-            frame = new JFrame("JConsole: Output");
-            ta = new JTextArea();
-            ta.setEditable(false);
-            frame.getContentPane().add(new JScrollPane(ta));
-            ta.setFont(new Font("Monospaced", Font.BOLD, 14));
-            frame.setSize(500, 600);
-            frame.setLocation(1024-500, 768-600);
-            // Exit JConsole if no window remains.
-            // e.g. jconsole -version only creates the OutputViewer
+    privbte stbtic void bppend(String s) {
+        if (frbme == null) {
+            // FIXME: The frbme title should be b locblized string.
+            frbme = new JFrbme("JConsole: Output");
+            tb = new JTextAreb();
+            tb.setEditbble(fblse);
+            frbme.getContentPbne().bdd(new JScrollPbne(tb));
+            tb.setFont(new Font("Monospbced", Font.BOLD, 14));
+            frbme.setSize(500, 600);
+            frbme.setLocbtion(1024-500, 768-600);
+            // Exit JConsole if no window rembins.
+            // e.g. jconsole -version only crebtes the OutputViewer
             // but no other window.
-            frame.addWindowListener(new WindowAdapter() {
+            frbme.bddWindowListener(new WindowAdbpter() {
                 public void windowClosing(WindowEvent e) {
-                    if (JFrame.getFrames().length == 1) {
+                    if (JFrbme.getFrbmes().length == 1) {
                         System.exit(0);
                     }
                 }
             });
         }
-        ta.append(s);
-        ta.setCaretPosition(ta.getText().length());
-        frame.setVisible(true);
+        tb.bppend(s);
+        tb.setCbretPosition(tb.getText().length());
+        frbme.setVisible(true);
     }
 
-    private static void appendln(String s) {
-        append(s+"\n");
+    privbte stbtic void bppendln(String s) {
+        bppend(s+"\n");
     }
 
-    private static class PipeListener extends Thread {
-        public PrintStream ps;
-        private String name;
-        private PipedInputStream inPipe;
-        private BufferedReader br;
+    privbte stbtic clbss PipeListener extends Threbd {
+        public PrintStrebm ps;
+        privbte String nbme;
+        privbte PipedInputStrebm inPipe;
+        privbte BufferedRebder br;
 
-        public static PrintStream create(String name) {
-            return new PipeListener(name).ps;
+        public stbtic PrintStrebm crebte(String nbme) {
+            return new PipeListener(nbme).ps;
         }
 
-        private PipeListener(String name) {
-            this.name = name;
+        privbte PipeListener(String nbme) {
+            this.nbme = nbme;
 
             try {
-                inPipe = new PipedInputStream();
-                ps = new PrintStream(new PipedOutputStream(inPipe));
-                br = new BufferedReader(new InputStreamReader(inPipe));
-            } catch (IOException e) {
-                appendln("PipeListener<init>("+name+"): " + e);
+                inPipe = new PipedInputStrebm();
+                ps = new PrintStrebm(new PipedOutputStrebm(inPipe));
+                br = new BufferedRebder(new InputStrebmRebder(inPipe));
+            } cbtch (IOException e) {
+                bppendln("PipeListener<init>("+nbme+"): " + e);
             }
-            start();
+            stbrt();
         }
 
         public void run() {
             try {
                 String str;
-                while ((str = br.readLine()) != null) {
-                    appendln(str);
+                while ((str = br.rebdLine()) != null) {
+                    bppendln(str);
 
-                    // Hack: Turn off thread check in PipedInputStream.
-                    // Any thread should be allowed to write except this one
-                    // but we just use this one to keep the pipe alive.
+                    // Hbck: Turn off threbd check in PipedInputStrebm.
+                    // Any threbd should be bllowed to write except this one
+                    // but we just use this one to keep the pipe blive.
                     try {
-                        java.lang.reflect.Field f =
-                            PipedInputStream.class.getDeclaredField("writeSide");
+                        jbvb.lbng.reflect.Field f =
+                            PipedInputStrebm.clbss.getDeclbredField("writeSide");
                         f.setAccessible(true);
                         f.set(inPipe, this);
-                    } catch (Exception e) {
-                        appendln("PipeListener("+name+").run: "+e);
+                    } cbtch (Exception e) {
+                        bppendln("PipeListener("+nbme+").run: "+e);
                     }
                 }
-                appendln("-- "+name+" closed --");
+                bppendln("-- "+nbme+" closed --");
                 br.close();
-            } catch (IOException e) {
-                appendln("PipeListener("+name+").run: "+e);
+            } cbtch (IOException e) {
+                bppendln("PipeListener("+nbme+").run: "+e);
             }
         }
     }

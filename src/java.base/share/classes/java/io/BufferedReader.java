@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.strebm.Strebm;
+import jbvb.util.strebm.StrebmSupport;
 
 /**
- * Reads text from a character-input stream, buffering characters so as to
- * provide for the efficient reading of characters, arrays, and lines.
+ * Rebds text from b chbrbcter-input strebm, buffering chbrbcters so bs to
+ * provide for the efficient rebding of chbrbcters, brrbys, bnd lines.
  *
- * <p> The buffer size may be specified, or the default size may be used.  The
- * default is large enough for most purposes.
+ * <p> The buffer size mby be specified, or the defbult size mby be used.  The
+ * defbult is lbrge enough for most purposes.
  *
- * <p> In general, each read request made of a Reader causes a corresponding
- * read request to be made of the underlying character or byte stream.  It is
- * therefore advisable to wrap a BufferedReader around any Reader whose read()
- * operations may be costly, such as FileReaders and InputStreamReaders.  For
- * example,
+ * <p> In generbl, ebch rebd request mbde of b Rebder cbuses b corresponding
+ * rebd request to be mbde of the underlying chbrbcter or byte strebm.  It is
+ * therefore bdvisbble to wrbp b BufferedRebder bround bny Rebder whose rebd()
+ * operbtions mby be costly, such bs FileRebders bnd InputStrebmRebders.  For
+ * exbmple,
  *
  * <pre>
- * BufferedReader in
- *   = new BufferedReader(new FileReader("foo.in"));
+ * BufferedRebder in
+ *   = new BufferedRebder(new FileRebder("foo.in"));
  * </pre>
  *
- * will buffer the input from the specified file.  Without buffering, each
- * invocation of read() or readLine() could cause bytes to be read from the
- * file, converted into characters, and then returned, which can be very
+ * will buffer the input from the specified file.  Without buffering, ebch
+ * invocbtion of rebd() or rebdLine() could cbuse bytes to be rebd from the
+ * file, converted into chbrbcters, bnd then returned, which cbn be very
  * inefficient.
  *
- * <p> Programs that use DataInputStreams for textual input can be localized by
- * replacing each DataInputStream with an appropriate BufferedReader.
+ * <p> Progrbms thbt use DbtbInputStrebms for textubl input cbn be locblized by
+ * replbcing ebch DbtbInputStrebm with bn bppropribte BufferedRebder.
  *
- * @see FileReader
- * @see InputStreamReader
- * @see java.nio.file.Files#newBufferedReader
+ * @see FileRebder
+ * @see InputStrebmRebder
+ * @see jbvb.nio.file.Files#newBufferedRebder
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class BufferedReader extends Reader {
+public clbss BufferedRebder extends Rebder {
 
-    private Reader in;
+    privbte Rebder in;
 
-    private char cb[];
-    private int nChars, nextChar;
+    privbte chbr cb[];
+    privbte int nChbrs, nextChbr;
 
-    private static final int INVALIDATED = -2;
-    private static final int UNMARKED = -1;
-    private int markedChar = UNMARKED;
-    private int readAheadLimit = 0; /* Valid only when markedChar > 0 */
+    privbte stbtic finbl int INVALIDATED = -2;
+    privbte stbtic finbl int UNMARKED = -1;
+    privbte int mbrkedChbr = UNMARKED;
+    privbte int rebdAhebdLimit = 0; /* Vblid only when mbrkedChbr > 0 */
 
-    /** If the next character is a line feed, skip it */
-    private boolean skipLF = false;
+    /** If the next chbrbcter is b line feed, skip it */
+    privbte boolebn skipLF = fblse;
 
-    /** The skipLF flag when the mark was set */
-    private boolean markedSkipLF = false;
+    /** The skipLF flbg when the mbrk wbs set */
+    privbte boolebn mbrkedSkipLF = fblse;
 
-    private static int defaultCharBufferSize = 8192;
-    private static int defaultExpectedLineLength = 80;
+    privbte stbtic int defbultChbrBufferSize = 8192;
+    privbte stbtic int defbultExpectedLineLength = 80;
 
     /**
-     * Creates a buffering character-input stream that uses an input buffer of
+     * Crebtes b buffering chbrbcter-input strebm thbt uses bn input buffer of
      * the specified size.
      *
-     * @param  in   A Reader
-     * @param  sz   Input-buffer size
+     * @pbrbm  in   A Rebder
+     * @pbrbm  sz   Input-buffer size
      *
-     * @exception  IllegalArgumentException  If {@code sz <= 0}
+     * @exception  IllegblArgumentException  If {@code sz <= 0}
      */
-    public BufferedReader(Reader in, int sz) {
+    public BufferedRebder(Rebder in, int sz) {
         super(in);
         if (sz <= 0)
-            throw new IllegalArgumentException("Buffer size <= 0");
+            throw new IllegblArgumentException("Buffer size <= 0");
         this.in = in;
-        cb = new char[sz];
-        nextChar = nChars = 0;
+        cb = new chbr[sz];
+        nextChbr = nChbrs = 0;
     }
 
     /**
-     * Creates a buffering character-input stream that uses a default-sized
+     * Crebtes b buffering chbrbcter-input strebm thbt uses b defbult-sized
      * input buffer.
      *
-     * @param  in   A Reader
+     * @pbrbm  in   A Rebder
      */
-    public BufferedReader(Reader in) {
-        this(in, defaultCharBufferSize);
+    public BufferedRebder(Rebder in) {
+        this(in, defbultChbrBufferSize);
     }
 
-    /** Checks to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Checks to mbke sure thbt the strebm hbs not been closed */
+    privbte void ensureOpen() throws IOException {
         if (in == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Fills the input buffer, taking the mark into account if it is valid.
+     * Fills the input buffer, tbking the mbrk into bccount if it is vblid.
      */
-    private void fill() throws IOException {
+    privbte void fill() throws IOException {
         int dst;
-        if (markedChar <= UNMARKED) {
-            /* No mark */
+        if (mbrkedChbr <= UNMARKED) {
+            /* No mbrk */
             dst = 0;
         } else {
-            /* Marked */
-            int delta = nextChar - markedChar;
-            if (delta >= readAheadLimit) {
-                /* Gone past read-ahead limit: Invalidate mark */
-                markedChar = INVALIDATED;
-                readAheadLimit = 0;
+            /* Mbrked */
+            int deltb = nextChbr - mbrkedChbr;
+            if (deltb >= rebdAhebdLimit) {
+                /* Gone pbst rebd-bhebd limit: Invblidbte mbrk */
+                mbrkedChbr = INVALIDATED;
+                rebdAhebdLimit = 0;
                 dst = 0;
             } else {
-                if (readAheadLimit <= cb.length) {
+                if (rebdAhebdLimit <= cb.length) {
                     /* Shuffle in the current buffer */
-                    System.arraycopy(cb, markedChar, cb, 0, delta);
-                    markedChar = 0;
-                    dst = delta;
+                    System.brrbycopy(cb, mbrkedChbr, cb, 0, deltb);
+                    mbrkedChbr = 0;
+                    dst = deltb;
                 } else {
-                    /* Reallocate buffer to accommodate read-ahead limit */
-                    char ncb[] = new char[readAheadLimit];
-                    System.arraycopy(cb, markedChar, ncb, 0, delta);
+                    /* Rebllocbte buffer to bccommodbte rebd-bhebd limit */
+                    chbr ncb[] = new chbr[rebdAhebdLimit];
+                    System.brrbycopy(cb, mbrkedChbr, ncb, 0, deltb);
                     cb = ncb;
-                    markedChar = 0;
-                    dst = delta;
+                    mbrkedChbr = 0;
+                    dst = deltb;
                 }
-                nextChar = nChars = delta;
+                nextChbr = nChbrs = deltb;
             }
         }
 
         int n;
         do {
-            n = in.read(cb, dst, cb.length - dst);
+            n = in.rebd(cb, dst, cb.length - dst);
         } while (n == 0);
         if (n > 0) {
-            nChars = dst + n;
-            nextChar = dst;
+            nChbrs = dst + n;
+            nextChbr = dst;
         }
     }
 
     /**
-     * Reads a single character.
+     * Rebds b single chbrbcter.
      *
-     * @return The character read, as an integer in the range
+     * @return The chbrbcter rebd, bs bn integer in the rbnge
      *         0 to 65535 (<tt>0x00-0xffff</tt>), or -1 if the
-     *         end of the stream has been reached
-     * @exception  IOException  If an I/O error occurs
+     *         end of the strebm hbs been rebched
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         synchronized (lock) {
             ensureOpen();
             for (;;) {
-                if (nextChar >= nChars) {
+                if (nextChbr >= nChbrs) {
                     fill();
-                    if (nextChar >= nChars)
+                    if (nextChbr >= nChbrs)
                         return -1;
                 }
                 if (skipLF) {
-                    skipLF = false;
-                    if (cb[nextChar] == '\n') {
-                        nextChar++;
+                    skipLF = fblse;
+                    if (cb[nextChbr] == '\n') {
+                        nextChbr++;
                         continue;
                     }
                 }
-                return cb[nextChar++];
+                return cb[nextChbr++];
             }
         }
     }
 
     /**
-     * Reads characters into a portion of an array, reading from the underlying
-     * stream if necessary.
+     * Rebds chbrbcters into b portion of bn brrby, rebding from the underlying
+     * strebm if necessbry.
      */
-    private int read1(char[] cbuf, int off, int len) throws IOException {
-        if (nextChar >= nChars) {
-            /* If the requested length is at least as large as the buffer, and
-               if there is no mark/reset activity, and if line feeds are not
-               being skipped, do not bother to copy the characters into the
-               local buffer.  In this way buffered streams will cascade
-               harmlessly. */
-            if (len >= cb.length && markedChar <= UNMARKED && !skipLF) {
-                return in.read(cbuf, off, len);
+    privbte int rebd1(chbr[] cbuf, int off, int len) throws IOException {
+        if (nextChbr >= nChbrs) {
+            /* If the requested length is bt lebst bs lbrge bs the buffer, bnd
+               if there is no mbrk/reset bctivity, bnd if line feeds bre not
+               being skipped, do not bother to copy the chbrbcters into the
+               locbl buffer.  In this wby buffered strebms will cbscbde
+               hbrmlessly. */
+            if (len >= cb.length && mbrkedChbr <= UNMARKED && !skipLF) {
+                return in.rebd(cbuf, off, len);
             }
             fill();
         }
-        if (nextChar >= nChars) return -1;
+        if (nextChbr >= nChbrs) return -1;
         if (skipLF) {
-            skipLF = false;
-            if (cb[nextChar] == '\n') {
-                nextChar++;
-                if (nextChar >= nChars)
+            skipLF = fblse;
+            if (cb[nextChbr] == '\n') {
+                nextChbr++;
+                if (nextChbr >= nChbrs)
                     fill();
-                if (nextChar >= nChars)
+                if (nextChbr >= nChbrs)
                     return -1;
             }
         }
-        int n = Math.min(len, nChars - nextChar);
-        System.arraycopy(cb, nextChar, cbuf, off, n);
-        nextChar += n;
+        int n = Mbth.min(len, nChbrs - nextChbr);
+        System.brrbycopy(cb, nextChbr, cbuf, off, n);
+        nextChbr += n;
         return n;
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rebds chbrbcters into b portion of bn brrby.
      *
-     * <p> This method implements the general contract of the corresponding
-     * <code>{@link Reader#read(char[], int, int) read}</code> method of the
-     * <code>{@link Reader}</code> class.  As an additional convenience, it
-     * attempts to read as many characters as possible by repeatedly invoking
-     * the <code>read</code> method of the underlying stream.  This iterated
-     * <code>read</code> continues until one of the following conditions becomes
+     * <p> This method implements the generbl contrbct of the corresponding
+     * <code>{@link Rebder#rebd(chbr[], int, int) rebd}</code> method of the
+     * <code>{@link Rebder}</code> clbss.  As bn bdditionbl convenience, it
+     * bttempts to rebd bs mbny chbrbcters bs possible by repebtedly invoking
+     * the <code>rebd</code> method of the underlying strebm.  This iterbted
+     * <code>rebd</code> continues until one of the following conditions becomes
      * true: <ul>
      *
-     *   <li> The specified number of characters have been read,
+     *   <li> The specified number of chbrbcters hbve been rebd,
      *
-     *   <li> The <code>read</code> method of the underlying stream returns
-     *   <code>-1</code>, indicating end-of-file, or
+     *   <li> The <code>rebd</code> method of the underlying strebm returns
+     *   <code>-1</code>, indicbting end-of-file, or
      *
-     *   <li> The <code>ready</code> method of the underlying stream
-     *   returns <code>false</code>, indicating that further input requests
+     *   <li> The <code>rebdy</code> method of the underlying strebm
+     *   returns <code>fblse</code>, indicbting thbt further input requests
      *   would block.
      *
-     * </ul> If the first <code>read</code> on the underlying stream returns
-     * <code>-1</code> to indicate end-of-file then this method returns
-     * <code>-1</code>.  Otherwise this method returns the number of characters
-     * actually read.
+     * </ul> If the first <code>rebd</code> on the underlying strebm returns
+     * <code>-1</code> to indicbte end-of-file then this method returns
+     * <code>-1</code>.  Otherwise this method returns the number of chbrbcters
+     * bctublly rebd.
      *
-     * <p> Subclasses of this class are encouraged, but not required, to
-     * attempt to read as many characters as possible in the same fashion.
+     * <p> Subclbsses of this clbss bre encourbged, but not required, to
+     * bttempt to rebd bs mbny chbrbcters bs possible in the sbme fbshion.
      *
-     * <p> Ordinarily this method takes characters from this stream's character
-     * buffer, filling it from the underlying stream as necessary.  If,
-     * however, the buffer is empty, the mark is not valid, and the requested
-     * length is at least as large as the buffer, then this method will read
-     * characters directly from the underlying stream into the given array.
-     * Thus redundant <code>BufferedReader</code>s will not copy data
-     * unnecessarily.
+     * <p> Ordinbrily this method tbkes chbrbcters from this strebm's chbrbcter
+     * buffer, filling it from the underlying strebm bs necessbry.  If,
+     * however, the buffer is empty, the mbrk is not vblid, bnd the requested
+     * length is bt lebst bs lbrge bs the buffer, then this method will rebd
+     * chbrbcters directly from the underlying strebm into the given brrby.
+     * Thus redundbnt <code>BufferedRebder</code>s will not copy dbtb
+     * unnecessbrily.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start storing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      cbuf  Destinbtion buffer
+     * @pbrbm      off   Offset bt which to stbrt storing chbrbcters
+     * @pbrbm      len   Mbximum number of chbrbcters to rebd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @return     The number of chbrbcters rebd, or -1 if the end of the
+     *             strebm hbs been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
+    public int rebd(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if ((off < 0) || (off > cbuf.length) || (len < 0) ||
@@ -283,11 +283,11 @@ public class BufferedReader extends Reader {
                 return 0;
             }
 
-            int n = read1(cbuf, off, len);
+            int n = rebd1(cbuf, off, len);
             if (n <= 0) return n;
-            while ((n < len) && in.ready()) {
-                int n1 = read1(cbuf, off + n, len - n);
-                if (n1 <= 0) break;
+            while ((n < len) && in.rebdy()) {
+                int n1 = rebd1(cbuf, off + n, len - n);
+                if (n1 <= 0) brebk;
                 n += n1;
             }
             return n;
@@ -295,70 +295,70 @@ public class BufferedReader extends Reader {
     }
 
     /**
-     * Reads a line of text.  A line is considered to be terminated by any one
-     * of a line feed ('\n'), a carriage return ('\r'), or a carriage return
-     * followed immediately by a linefeed.
+     * Rebds b line of text.  A line is considered to be terminbted by bny one
+     * of b line feed ('\n'), b cbrribge return ('\r'), or b cbrribge return
+     * followed immedibtely by b linefeed.
      *
-     * @param      ignoreLF  If true, the next '\n' will be skipped
+     * @pbrbm      ignoreLF  If true, the next '\n' will be skipped
      *
-     * @return     A String containing the contents of the line, not including
-     *             any line-termination characters, or null if the end of the
-     *             stream has been reached
+     * @return     A String contbining the contents of the line, not including
+     *             bny line-terminbtion chbrbcters, or null if the end of the
+     *             strebm hbs been rebched
      *
-     * @see        java.io.LineNumberReader#readLine()
+     * @see        jbvb.io.LineNumberRebder#rebdLine()
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    String readLine(boolean ignoreLF) throws IOException {
+    String rebdLine(boolebn ignoreLF) throws IOException {
         StringBuffer s = null;
-        int startChar;
+        int stbrtChbr;
 
         synchronized (lock) {
             ensureOpen();
-            boolean omitLF = ignoreLF || skipLF;
+            boolebn omitLF = ignoreLF || skipLF;
 
         bufferLoop:
             for (;;) {
 
-                if (nextChar >= nChars)
+                if (nextChbr >= nChbrs)
                     fill();
-                if (nextChar >= nChars) { /* EOF */
+                if (nextChbr >= nChbrs) { /* EOF */
                     if (s != null && s.length() > 0)
                         return s.toString();
                     else
                         return null;
                 }
-                boolean eol = false;
-                char c = 0;
+                boolebn eol = fblse;
+                chbr c = 0;
                 int i;
 
-                /* Skip a leftover '\n', if necessary */
-                if (omitLF && (cb[nextChar] == '\n'))
-                    nextChar++;
-                skipLF = false;
-                omitLF = false;
+                /* Skip b leftover '\n', if necessbry */
+                if (omitLF && (cb[nextChbr] == '\n'))
+                    nextChbr++;
+                skipLF = fblse;
+                omitLF = fblse;
 
-            charLoop:
-                for (i = nextChar; i < nChars; i++) {
+            chbrLoop:
+                for (i = nextChbr; i < nChbrs; i++) {
                     c = cb[i];
                     if ((c == '\n') || (c == '\r')) {
                         eol = true;
-                        break charLoop;
+                        brebk chbrLoop;
                     }
                 }
 
-                startChar = nextChar;
-                nextChar = i;
+                stbrtChbr = nextChbr;
+                nextChbr = i;
 
                 if (eol) {
                     String str;
                     if (s == null) {
-                        str = new String(cb, startChar, i - startChar);
+                        str = new String(cb, stbrtChbr, i - stbrtChbr);
                     } else {
-                        s.append(cb, startChar, i - startChar);
+                        s.bppend(cb, stbrtChbr, i - stbrtChbr);
                         str = s.toString();
                     }
-                    nextChar++;
+                    nextChbr++;
                     if (c == '\r') {
                         skipLF = true;
                     }
@@ -366,66 +366,66 @@ public class BufferedReader extends Reader {
                 }
 
                 if (s == null)
-                    s = new StringBuffer(defaultExpectedLineLength);
-                s.append(cb, startChar, i - startChar);
+                    s = new StringBuffer(defbultExpectedLineLength);
+                s.bppend(cb, stbrtChbr, i - stbrtChbr);
             }
         }
     }
 
     /**
-     * Reads a line of text.  A line is considered to be terminated by any one
-     * of a line feed ('\n'), a carriage return ('\r'), or a carriage return
-     * followed immediately by a linefeed.
+     * Rebds b line of text.  A line is considered to be terminbted by bny one
+     * of b line feed ('\n'), b cbrribge return ('\r'), or b cbrribge return
+     * followed immedibtely by b linefeed.
      *
-     * @return     A String containing the contents of the line, not including
-     *             any line-termination characters, or null if the end of the
-     *             stream has been reached
+     * @return     A String contbining the contents of the line, not including
+     *             bny line-terminbtion chbrbcters, or null if the end of the
+     *             strebm hbs been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      *
-     * @see java.nio.file.Files#readAllLines
+     * @see jbvb.nio.file.Files#rebdAllLines
      */
-    public String readLine() throws IOException {
-        return readLine(false);
+    public String rebdLine() throws IOException {
+        return rebdLine(fblse);
     }
 
     /**
-     * Skips characters.
+     * Skips chbrbcters.
      *
-     * @param  n  The number of characters to skip
+     * @pbrbm  n  The number of chbrbcters to skip
      *
-     * @return    The number of characters actually skipped
+     * @return    The number of chbrbcters bctublly skipped
      *
-     * @exception  IllegalArgumentException  If <code>n</code> is negative.
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IllegblArgumentException  If <code>n</code> is negbtive.
+     * @exception  IOException  If bn I/O error occurs
      */
     public long skip(long n) throws IOException {
         if (n < 0L) {
-            throw new IllegalArgumentException("skip value is negative");
+            throw new IllegblArgumentException("skip vblue is negbtive");
         }
         synchronized (lock) {
             ensureOpen();
             long r = n;
             while (r > 0) {
-                if (nextChar >= nChars)
+                if (nextChbr >= nChbrs)
                     fill();
-                if (nextChar >= nChars) /* EOF */
-                    break;
+                if (nextChbr >= nChbrs) /* EOF */
+                    brebk;
                 if (skipLF) {
-                    skipLF = false;
-                    if (cb[nextChar] == '\n') {
-                        nextChar++;
+                    skipLF = fblse;
+                    if (cb[nextChbr] == '\n') {
+                        nextChbr++;
                     }
                 }
-                long d = nChars - nextChar;
+                long d = nChbrs - nextChbr;
                 if (r <= d) {
-                    nextChar += r;
+                    nextChbr += r;
                     r = 0;
-                    break;
+                    brebk;
                 }
                 else {
                     r -= d;
-                    nextChar = nChars;
+                    nextChbr = nChbrs;
                 }
             }
             return n - r;
@@ -433,87 +433,87 @@ public class BufferedReader extends Reader {
     }
 
     /**
-     * Tells whether this stream is ready to be read.  A buffered character
-     * stream is ready if the buffer is not empty, or if the underlying
-     * character stream is ready.
+     * Tells whether this strebm is rebdy to be rebd.  A buffered chbrbcter
+     * strebm is rebdy if the buffer is not empty, or if the underlying
+     * chbrbcter strebm is rebdy.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public boolean ready() throws IOException {
+    public boolebn rebdy() throws IOException {
         synchronized (lock) {
             ensureOpen();
 
             /*
-             * If newline needs to be skipped and the next char to be read
-             * is a newline character, then just skip it right away.
+             * If newline needs to be skipped bnd the next chbr to be rebd
+             * is b newline chbrbcter, then just skip it right bwby.
              */
             if (skipLF) {
-                /* Note that in.ready() will return true if and only if the next
-                 * read on the stream will not block.
+                /* Note thbt in.rebdy() will return true if bnd only if the next
+                 * rebd on the strebm will not block.
                  */
-                if (nextChar >= nChars && in.ready()) {
+                if (nextChbr >= nChbrs && in.rebdy()) {
                     fill();
                 }
-                if (nextChar < nChars) {
-                    if (cb[nextChar] == '\n')
-                        nextChar++;
-                    skipLF = false;
+                if (nextChbr < nChbrs) {
+                    if (cb[nextChbr] == '\n')
+                        nextChbr++;
+                    skipLF = fblse;
                 }
             }
-            return (nextChar < nChars) || in.ready();
+            return (nextChbr < nChbrs) || in.rebdy();
         }
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does.
+     * Tells whether this strebm supports the mbrk() operbtion, which it does.
      */
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         return true;
     }
 
     /**
-     * Marks the present position in the stream.  Subsequent calls to reset()
-     * will attempt to reposition the stream to this point.
+     * Mbrks the present position in the strebm.  Subsequent cblls to reset()
+     * will bttempt to reposition the strebm to this point.
      *
-     * @param readAheadLimit   Limit on the number of characters that may be
-     *                         read while still preserving the mark. An attempt
-     *                         to reset the stream after reading characters
-     *                         up to this limit or beyond may fail.
-     *                         A limit value larger than the size of the input
-     *                         buffer will cause a new buffer to be allocated
-     *                         whose size is no smaller than limit.
-     *                         Therefore large values should be used with care.
+     * @pbrbm rebdAhebdLimit   Limit on the number of chbrbcters thbt mby be
+     *                         rebd while still preserving the mbrk. An bttempt
+     *                         to reset the strebm bfter rebding chbrbcters
+     *                         up to this limit or beyond mby fbil.
+     *                         A limit vblue lbrger thbn the size of the input
+     *                         buffer will cbuse b new buffer to be bllocbted
+     *                         whose size is no smbller thbn limit.
+     *                         Therefore lbrge vblues should be used with cbre.
      *
-     * @exception  IllegalArgumentException  If {@code readAheadLimit < 0}
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IllegblArgumentException  If {@code rebdAhebdLimit < 0}
+     * @exception  IOException  If bn I/O error occurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        if (readAheadLimit < 0) {
-            throw new IllegalArgumentException("Read-ahead limit < 0");
+    public void mbrk(int rebdAhebdLimit) throws IOException {
+        if (rebdAhebdLimit < 0) {
+            throw new IllegblArgumentException("Rebd-bhebd limit < 0");
         }
         synchronized (lock) {
             ensureOpen();
-            this.readAheadLimit = readAheadLimit;
-            markedChar = nextChar;
-            markedSkipLF = skipLF;
+            this.rebdAhebdLimit = rebdAhebdLimit;
+            mbrkedChbr = nextChbr;
+            mbrkedSkipLF = skipLF;
         }
     }
 
     /**
-     * Resets the stream to the most recent mark.
+     * Resets the strebm to the most recent mbrk.
      *
-     * @exception  IOException  If the stream has never been marked,
-     *                          or if the mark has been invalidated
+     * @exception  IOException  If the strebm hbs never been mbrked,
+     *                          or if the mbrk hbs been invblidbted
      */
     public void reset() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (markedChar < 0)
-                throw new IOException((markedChar == INVALIDATED)
-                                      ? "Mark invalid"
-                                      : "Stream not marked");
-            nextChar = markedChar;
-            skipLF = markedSkipLF;
+            if (mbrkedChbr < 0)
+                throw new IOException((mbrkedChbr == INVALIDATED)
+                                      ? "Mbrk invblid"
+                                      : "Strebm not mbrked");
+            nextChbr = mbrkedChbr;
+            skipLF = mbrkedSkipLF;
         }
     }
 
@@ -523,7 +523,7 @@ public class BufferedReader extends Reader {
                 return;
             try {
                 in.close();
-            } finally {
+            } finblly {
                 in = null;
                 cb = null;
             }
@@ -531,46 +531,46 @@ public class BufferedReader extends Reader {
     }
 
     /**
-     * Returns a {@code Stream}, the elements of which are lines read from
-     * this {@code BufferedReader}.  The {@link Stream} is lazily populated,
-     * i.e., read only occurs during the
-     * <a href="../util/stream/package-summary.html#StreamOps">terminal
-     * stream operation</a>.
+     * Returns b {@code Strebm}, the elements of which bre lines rebd from
+     * this {@code BufferedRebder}.  The {@link Strebm} is lbzily populbted,
+     * i.e., rebd only occurs during the
+     * <b href="../util/strebm/pbckbge-summbry.html#StrebmOps">terminbl
+     * strebm operbtion</b>.
      *
-     * <p> The reader must not be operated on during the execution of the
-     * terminal stream operation. Otherwise, the result of the terminal stream
-     * operation is undefined.
+     * <p> The rebder must not be operbted on during the execution of the
+     * terminbl strebm operbtion. Otherwise, the result of the terminbl strebm
+     * operbtion is undefined.
      *
-     * <p> After execution of the terminal stream operation there are no
-     * guarantees that the reader will be at a specific position from which to
-     * read the next character or line.
+     * <p> After execution of the terminbl strebm operbtion there bre no
+     * gubrbntees thbt the rebder will be bt b specific position from which to
+     * rebd the next chbrbcter or line.
      *
-     * <p> If an {@link IOException} is thrown when accessing the underlying
-     * {@code BufferedReader}, it is wrapped in an {@link
-     * UncheckedIOException} which will be thrown from the {@code Stream}
-     * method that caused the read to take place. This method will return a
-     * Stream if invoked on a BufferedReader that is closed. Any operation on
-     * that stream that requires reading from the BufferedReader after it is
-     * closed, will cause an UncheckedIOException to be thrown.
+     * <p> If bn {@link IOException} is thrown when bccessing the underlying
+     * {@code BufferedRebder}, it is wrbpped in bn {@link
+     * UncheckedIOException} which will be thrown from the {@code Strebm}
+     * method thbt cbused the rebd to tbke plbce. This method will return b
+     * Strebm if invoked on b BufferedRebder thbt is closed. Any operbtion on
+     * thbt strebm thbt requires rebding from the BufferedRebder bfter it is
+     * closed, will cbuse bn UncheckedIOException to be thrown.
      *
-     * @return a {@code Stream<String>} providing the lines of text
-     *         described by this {@code BufferedReader}
+     * @return b {@code Strebm<String>} providing the lines of text
+     *         described by this {@code BufferedRebder}
      *
      * @since 1.8
      */
-    public Stream<String> lines() {
-        Iterator<String> iter = new Iterator<String>() {
+    public Strebm<String> lines() {
+        Iterbtor<String> iter = new Iterbtor<String>() {
             String nextLine = null;
 
             @Override
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 if (nextLine != null) {
                     return true;
                 } else {
                     try {
-                        nextLine = readLine();
+                        nextLine = rebdLine();
                         return (nextLine != null);
-                    } catch (IOException e) {
+                    } cbtch (IOException e) {
                         throw new UncheckedIOException(e);
                     }
                 }
@@ -578,7 +578,7 @@ public class BufferedReader extends Reader {
 
             @Override
             public String next() {
-                if (nextLine != null || hasNext()) {
+                if (nextLine != null || hbsNext()) {
                     String line = nextLine;
                     nextLine = null;
                     return line;
@@ -587,7 +587,7 @@ public class BufferedReader extends Reader {
                 }
             }
         };
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                iter, Spliterator.ORDERED | Spliterator.NONNULL), false);
+        return StrebmSupport.strebm(Spliterbtors.spliterbtorUnknownSize(
+                iter, Spliterbtor.ORDERED | Spliterbtor.NONNULL), fblse);
     }
 }

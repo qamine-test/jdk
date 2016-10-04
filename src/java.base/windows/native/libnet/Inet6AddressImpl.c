@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,26 +28,26 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <mblloc.h>
 #include <sys/types.h>
 #include <process.h>
 
-#include "java_net_InetAddress.h"
-#include "java_net_Inet4AddressImpl.h"
-#include "java_net_Inet6AddressImpl.h"
+#include "jbvb_net_InetAddress.h"
+#include "jbvb_net_Inet4AddressImpl.h"
+#include "jbvb_net_Inet6AddressImpl.h"
 #include "net_util.h"
 #include "icmp.h"
 
 #ifdef WIN32
 #ifndef _WIN64
 
-/* Retain this code a little longer to support building in
- * old environments.  _MSC_VER is defined as:
+/* Retbin this code b little longer to support building in
+ * old environments.  _MSC_VER is defined bs:
  *     1200 for MSVC++ 6.0
  *     1310 for Vc7
  */
 #if defined(_MSC_VER) && _MSC_VER < 1310
-#define sockaddr_in6 SOCKADDR_IN6
+#define sockbddr_in6 SOCKADDR_IN6
 #endif
 #endif
 #define uint32_t UINT32
@@ -58,30 +58,30 @@
  */
 
 /*
- * Class:     java_net_Inet6AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_net_Inet6AddressImpl
+ * Method:    getLocblHostNbme
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet6AddressImpl_getLocalHostName (JNIEnv *env, jobject this) {
-    char hostname [256];
+Jbvb_jbvb_net_Inet6AddressImpl_getLocblHostNbme (JNIEnv *env, jobject this) {
+    chbr hostnbme [256];
 
-    if (gethostname (hostname, sizeof (hostname)) == -1) {
-        strcpy (hostname, "localhost");
+    if (gethostnbme (hostnbme, sizeof (hostnbme)) == -1) {
+        strcpy (hostnbme, "locblhost");
     }
-    return JNU_NewStringPlatform (env, hostname);
+    return JNU_NewStringPlbtform (env, hostnbme);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_jbvb_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
                                                 jstring host) {
-    const char *hostname;
-    jobjectArray ret = 0;
+    const chbr *hostnbme;
+    jobjectArrby ret = 0;
     int retLen = 0;
-    jboolean preferIPv6Address;
+    jboolebn preferIPv6Address;
 
     int error=0;
-    struct addrinfo hints, *res, *resNew = NULL;
+    struct bddrinfo hints, *res, *resNew = NULL;
 
     initInetAddressIDs(env);
     JNU_CHECK_EXCEPTION_RETURN(env, NULL);
@@ -90,115 +90,115 @@ Java_java_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
         JNU_ThrowNullPointerException(env, "host is null");
         return 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    hostnbme = JNU_GetStringPlbtformChbrs(env, host, JNI_FALSE);
+    CHECK_NULL_RETURN(hostnbme, NULL);
 
-    /* get the address preference */
+    /* get the bddress preference */
     preferIPv6Address
-        = (*env)->GetStaticBooleanField(env, ia_class, ia_preferIPv6AddressID);
+        = (*env)->GetStbticBoolebnField(env, ib_clbss, ib_preferIPv6AddressID);
 
-    /* Try once, with our static buffer. */
+    /* Try once, with our stbtic buffer. */
     memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_UNSPEC;
+    hints.bi_flbgs = AI_CANONNAME;
+    hints.bi_fbmily = AF_UNSPEC;
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    error = getbddrinfo(hostnbme, NULL, &hints, &res);
 
     if (error) {
-        if (WSAGetLastError() == WSATRY_AGAIN) {
-            NET_ThrowByNameWithLastError(env,
+        if (WSAGetLbstError() == WSATRY_AGAIN) {
+            NET_ThrowByNbmeWithLbstError(env,
                                          JNU_JAVANETPKG "UnknownHostException",
-                                         hostname);
-            JNU_ReleaseStringPlatformChars(env, host, hostname);
+                                         hostnbme);
+            JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
             return NULL;
         } else {
             /* report error */
-            JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                            (char *)hostname);
-            JNU_ReleaseStringPlatformChars(env, host, hostname);
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException",
+                            (chbr *)hostnbme);
+            JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
             return NULL;
         }
     } else {
         int i = 0;
         int inetCount = 0, inet6Count = 0, inetIndex, inet6Index;
-        struct addrinfo *itr, *last, *iterator = res;
-        while (iterator != NULL) {
+        struct bddrinfo *itr, *lbst, *iterbtor = res;
+        while (iterbtor != NULL) {
             int skip = 0;
             itr = resNew;
             while (itr != NULL) {
-                if (iterator->ai_family == itr->ai_family &&
-                    iterator->ai_addrlen == itr->ai_addrlen) {
-                    if (itr->ai_family == AF_INET) { /* AF_INET */
-                        struct sockaddr_in *addr1, *addr2;
-                        addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                        addr2 = (struct sockaddr_in *)itr->ai_addr;
-                        if (addr1->sin_addr.s_addr ==
-                            addr2->sin_addr.s_addr) {
+                if (iterbtor->bi_fbmily == itr->bi_fbmily &&
+                    iterbtor->bi_bddrlen == itr->bi_bddrlen) {
+                    if (itr->bi_fbmily == AF_INET) { /* AF_INET */
+                        struct sockbddr_in *bddr1, *bddr2;
+                        bddr1 = (struct sockbddr_in *)iterbtor->bi_bddr;
+                        bddr2 = (struct sockbddr_in *)itr->bi_bddr;
+                        if (bddr1->sin_bddr.s_bddr ==
+                            bddr2->sin_bddr.s_bddr) {
                             skip = 1;
-                            break;
+                            brebk;
                         }
                     } else {
                         int t;
-                        struct sockaddr_in6 *addr1, *addr2;
-                        addr1 = (struct sockaddr_in6 *)iterator->ai_addr;
-                        addr2 = (struct sockaddr_in6 *)itr->ai_addr;
+                        struct sockbddr_in6 *bddr1, *bddr2;
+                        bddr1 = (struct sockbddr_in6 *)iterbtor->bi_bddr;
+                        bddr2 = (struct sockbddr_in6 *)itr->bi_bddr;
 
                         for (t = 0; t < 16; t++) {
-                            if (addr1->sin6_addr.s6_addr[t] !=
-                                addr2->sin6_addr.s6_addr[t]) {
-                                break;
+                            if (bddr1->sin6_bddr.s6_bddr[t] !=
+                                bddr2->sin6_bddr.s6_bddr[t]) {
+                                brebk;
                             }
                         }
                         if (t < 16) {
-                            itr = itr->ai_next;
+                            itr = itr->bi_next;
                             continue;
                         } else {
                             skip = 1;
-                            break;
+                            brebk;
                         }
                     }
-                } else if (iterator->ai_family != AF_INET &&
-                           iterator->ai_family != AF_INET6) {
-                    /* we can't handle other family types */
+                } else if (iterbtor->bi_fbmily != AF_INET &&
+                           iterbtor->bi_fbmily != AF_INET6) {
+                    /* we cbn't hbndle other fbmily types */
                     skip = 1;
-                    break;
+                    brebk;
                 }
-                itr = itr->ai_next;
+                itr = itr->bi_next;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
+                struct bddrinfo *next
+                    = (struct bddrinfo*) mblloc(sizeof(struct bddrinfo));
                 if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
+                    JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled");
                     ret = NULL;
-                    goto cleanupAndReturn;
+                    goto clebnupAndReturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
+                memcpy(next, iterbtor, sizeof(struct bddrinfo));
+                next->bi_next = NULL;
                 if (resNew == NULL) {
                     resNew = next;
                 } else {
-                    last->ai_next = next;
+                    lbst->bi_next = next;
                 }
-                last = next;
+                lbst = next;
                 i++;
-                if (iterator->ai_family == AF_INET) {
+                if (iterbtor->bi_fbmily == AF_INET) {
                     inetCount ++;
-                } else if (iterator->ai_family == AF_INET6) {
+                } else if (iterbtor->bi_fbmily == AF_INET6) {
                     inet6Count ++;
                 }
             }
-            iterator = iterator->ai_next;
+            iterbtor = iterbtor->bi_next;
         }
         retLen = i;
-        iterator = resNew;
+        iterbtor = resNew;
         i = 0;
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
+        ret = (*env)->NewObjectArrby(env, retLen, ib_clbss, NULL);
 
         if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
+            /* we mby hbve memory to free bt the end of this */
+            goto clebnupAndReturn;
         }
 
         if (preferIPv6Address) {
@@ -209,106 +209,106 @@ Java_java_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
             inet6Index = inetCount;
         }
 
-        while (iterator != NULL) {
-            if (iterator->ai_family == AF_INET) {
-              jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-              if (IS_NULL(iaObj)) {
+        while (iterbtor != NULL) {
+            if (iterbtor->bi_fbmily == AF_INET) {
+              jobject ibObj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+              if (IS_NULL(ibObj)) {
                 ret = NULL;
-                goto cleanupAndReturn;
+                goto clebnupAndReturn;
               }
-              setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)iterator->ai_addr)->sin_addr.s_addr));
-              setInetAddress_hostName(env, iaObj, host);
-              (*env)->SetObjectArrayElement(env, ret, inetIndex, iaObj);
+              setInetAddress_bddr(env, ibObj, ntohl(((struct sockbddr_in*)iterbtor->bi_bddr)->sin_bddr.s_bddr));
+              setInetAddress_hostNbme(env, ibObj, host);
+              (*env)->SetObjectArrbyElement(env, ret, inetIndex, ibObj);
                 inetIndex ++;
-            } else if (iterator->ai_family == AF_INET6) {
+            } else if (iterbtor->bi_fbmily == AF_INET6) {
               jint scope = 0;
-              jboolean ret1;
-              jobject iaObj = (*env)->NewObject(env, ia6_class, ia6_ctrID);
-              if (IS_NULL(iaObj)) {
+              jboolebn ret1;
+              jobject ibObj = (*env)->NewObject(env, ib6_clbss, ib6_ctrID);
+              if (IS_NULL(ibObj)) {
                 ret = NULL;
-                goto cleanupAndReturn;
+                goto clebnupAndReturn;
               }
-              ret1 = setInet6Address_ipaddress(env, iaObj, (jbyte *)&(((struct sockaddr_in6*)iterator->ai_addr)->sin6_addr));
+              ret1 = setInet6Address_ipbddress(env, ibObj, (jbyte *)&(((struct sockbddr_in6*)iterbtor->bi_bddr)->sin6_bddr));
               if (ret1 == JNI_FALSE) {
                 ret = NULL;
-                goto cleanupAndReturn;
+                goto clebnupAndReturn;
               }
-              scope = ((struct sockaddr_in6*)iterator->ai_addr)->sin6_scope_id;
-              if (scope != 0) { /* zero is default value, no need to set */
-                setInet6Address_scopeid(env, iaObj, scope);
+              scope = ((struct sockbddr_in6*)iterbtor->bi_bddr)->sin6_scope_id;
+              if (scope != 0) { /* zero is defbult vblue, no need to set */
+                setInet6Address_scopeid(env, ibObj, scope);
               }
-              setInetAddress_hostName(env, iaObj, host);
-              (*env)->SetObjectArrayElement(env, ret, inet6Index, iaObj);
+              setInetAddress_hostNbme(env, ibObj, host);
+              (*env)->SetObjectArrbyElement(env, ret, inet6Index, ibObj);
               inet6Index ++;
             }
-            iterator = iterator->ai_next;
+            iterbtor = iterbtor->bi_next;
         }
     }
 
-cleanupAndReturn:
+clebnupAndReturn:
     {
-        struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
+        struct bddrinfo *iterbtor, *tmp;
+        iterbtor = resNew;
+        while (iterbtor != NULL) {
+            tmp = iterbtor;
+            iterbtor = iterbtor->bi_next;
             free(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
     }
 
-    freeaddrinfo(res);
+    freebddrinfo(res);
 
     return ret;
 }
 
 /*
- * Class:     java_net_Inet6AddressImpl
+ * Clbss:     jbvb_net_Inet6AddressImpl
  * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Signbture: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet6AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
+Jbvb_jbvb_net_Inet6AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
+                                            jbyteArrby bddrArrby) {
     jstring ret = NULL;
 
-    char host[NI_MAXHOST+1];
+    chbr host[NI_MAXHOST+1];
     int error = 0;
     int len = 0;
-    jbyte caddr[16];
+    jbyte cbddr[16];
 
-    struct sockaddr_in him4;
-    struct sockaddr_in6 him6;
-    struct sockaddr *sa;
+    struct sockbddr_in him4;
+    struct sockbddr_in6 him6;
+    struct sockbddr *sb;
 
     /*
-     * For IPv4 addresses construct a sockaddr_in structure.
+     * For IPv4 bddresses construct b sockbddr_in structure.
      */
-    if ((*env)->GetArrayLength(env, addrArray) == 4) {
-        jint addr;
-        (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-        addr = ((caddr[0]<<24) & 0xff000000);
-        addr |= ((caddr[1] <<16) & 0xff0000);
-        addr |= ((caddr[2] <<8) & 0xff00);
-        addr |= (caddr[3] & 0xff);
-        memset((char *) &him4, 0, sizeof(him4));
-        him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-        him4.sin_family = AF_INET;
-        sa = (struct sockaddr *) &him4;
+    if ((*env)->GetArrbyLength(env, bddrArrby) == 4) {
+        jint bddr;
+        (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 4, cbddr);
+        bddr = ((cbddr[0]<<24) & 0xff000000);
+        bddr |= ((cbddr[1] <<16) & 0xff0000);
+        bddr |= ((cbddr[2] <<8) & 0xff00);
+        bddr |= (cbddr[3] & 0xff);
+        memset((chbr *) &him4, 0, sizeof(him4));
+        him4.sin_bddr.s_bddr = (uint32_t) htonl(bddr);
+        him4.sin_fbmily = AF_INET;
+        sb = (struct sockbddr *) &him4;
         len = sizeof(him4);
     } else {
         /*
-         * For IPv6 address construct a sockaddr_in6 structure.
+         * For IPv6 bddress construct b sockbddr_in6 structure.
          */
-        (*env)->GetByteArrayRegion(env, addrArray, 0, 16, caddr);
-        memset((char *) &him6, 0, sizeof(him6));
-        memcpy((void *)&(him6.sin6_addr), caddr, sizeof(struct in6_addr) );
-        him6.sin6_family = AF_INET6;
-        sa = (struct sockaddr *) &him6 ;
+        (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 16, cbddr);
+        memset((chbr *) &him6, 0, sizeof(him6));
+        memcpy((void *)&(him6.sin6_bddr), cbddr, sizeof(struct in6_bddr) );
+        him6.sin6_fbmily = AF_INET6;
+        sb = (struct sockbddr *) &him6 ;
         len = sizeof(him6) ;
     }
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0, NI_NAMEREQD);
+    error = getnbmeinfo(sb, len, host, NI_MAXHOST, NULL, 0, NI_NAMEREQD);
 
     if (!error) {
         ret = (*env)->NewStringUTF(env, host);
@@ -316,7 +316,7 @@ Java_java_net_Inet6AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
     }
 
     if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException", NULL);
     }
 
     return ret;
@@ -326,68 +326,68 @@ Java_java_net_Inet6AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
 
 
 /**
- * ping implementation.
- * Send a ICMP_ECHO_REQUEST packet every second until either the timeout
- * expires or a answer is received.
- * Returns true is an ECHO_REPLY is received, otherwise, false.
+ * ping implementbtion.
+ * Send b ICMP_ECHO_REQUEST pbcket every second until either the timeout
+ * expires or b bnswer is received.
+ * Returns true is bn ECHO_REPLY is received, otherwise, fblse.
  */
-static jboolean
+stbtic jboolebn
 ping6(JNIEnv *env, jint fd, struct SOCKADDR_IN6* him, jint timeout,
       struct SOCKADDR_IN6* netif, jint ttl) {
     jint size;
     jint n, len, i;
-    char sendbuf[1500];
-    char auxbuf[1500];
-    unsigned char recvbuf[1500];
+    chbr sendbuf[1500];
+    chbr buxbuf[1500];
+    unsigned chbr recvbuf[1500];
     struct icmp6_hdr *icmp6;
-    struct SOCKADDR_IN6 sa_recv;
+    struct SOCKADDR_IN6 sb_recv;
     unsigned short pid, seq;
-    int read_rv = 0;
+    int rebd_rv = 0;
     WSAEVENT hEvent;
     struct ip6_pseudo_hdr *pseudo_ip6;
-    int timestamp;
+    int timestbmp;
     int tmout2;
 
-    /* Initialize the sequence number to a suitable random number and
-       shift right one place to allow sufficient room for increamenting. */
-    seq = ((unsigned short)rand()) >> 1;
+    /* Initiblize the sequence number to b suitbble rbndom number bnd
+       shift right one plbce to bllow sufficient room for increbmenting. */
+    seq = ((unsigned short)rbnd()) >> 1;
 
-    /* icmp_id is a 16 bit data type, therefore down cast the pid */
+    /* icmp_id is b 16 bit dbtb type, therefore down cbst the pid */
     pid = (unsigned short) _getpid();
 
     size = 60*1024;
-    setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (const char *)&size, sizeof(size));
+    setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (const chbr *)&size, sizeof(size));
     /**
-     * A TTL was specified, let's set the socket option.
+     * A TTL wbs specified, let's set the socket option.
      */
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, (const char *) &ttl, sizeof(ttl));
+      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, (const chbr *) &ttl, sizeof(ttl));
     }
 
     /**
-     * A network interface was specified, let's bind to it.
+     * A network interfbce wbs specified, let's bind to it.
      */
     if (netif != NULL) {
-      if (NET_Bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in6)) < 0){
-        NET_ThrowNew(env, WSAGetLastError(), "Can't bind socket to interface");
+      if (NET_Bind(fd, (struct sockbddr*)netif, sizeof(struct sockbddr_in6)) < 0){
+        NET_ThrowNew(env, WSAGetLbstError(), "Cbn't bind socket to interfbce");
         closesocket(fd);
         return JNI_FALSE;
       }
     }
 
     /*
-     * Make the socket non blocking
+     * Mbke the socket non blocking
      */
-    hEvent = WSACreateEvent();
+    hEvent = WSACrebteEvent();
     WSAEventSelect(fd, hEvent, FD_READ|FD_CONNECT|FD_CLOSE);
 
     /**
-     * send 1 ICMP REQUEST every second until either we get a valid reply
+     * send 1 ICMP REQUEST every second until either we get b vblid reply
      * or the timeout expired.
      */
     do {
-      /* let's tag the ECHO packet with our pid so we can identify it */
-      timestamp = GetCurrentTime();
+      /* let's tbg the ECHO pbcket with our pid so we cbn identify it */
+      timestbmp = GetCurrentTime();
       memset(sendbuf, 0, 1500);
       icmp6 = (struct icmp6_hdr *) sendbuf;
       icmp6->icmp6_type = ICMP6_ECHO_REQUEST;
@@ -395,21 +395,21 @@ ping6(JNIEnv *env, jint fd, struct SOCKADDR_IN6* him, jint timeout,
       icmp6->icmp6_id = htons(pid);
       icmp6->icmp6_seq = htons(seq);
       icmp6->icmp6_cksum = 0;
-      memcpy((icmp6 + 1), &timestamp, sizeof(int));
+      memcpy((icmp6 + 1), &timestbmp, sizeof(int));
       if (netif != NULL) {
-        memset(auxbuf, 0, 1500);
-        pseudo_ip6 = (struct ip6_pseudo_hdr*) auxbuf;
-        memcpy(&pseudo_ip6->ip6_src, &netif->sin6_addr, sizeof(struct in6_addr));
-        memcpy(&pseudo_ip6->ip6_dst, &him->sin6_addr, sizeof(struct in6_addr));
+        memset(buxbuf, 0, 1500);
+        pseudo_ip6 = (struct ip6_pseudo_hdr*) buxbuf;
+        memcpy(&pseudo_ip6->ip6_src, &netif->sin6_bddr, sizeof(struct in6_bddr));
+        memcpy(&pseudo_ip6->ip6_dst, &him->sin6_bddr, sizeof(struct in6_bddr));
         pseudo_ip6->ip6_plen= htonl( 64 );
         pseudo_ip6->ip6_nxt = htonl( IPPROTO_ICMPV6 );
-        memcpy(auxbuf + sizeof(struct ip6_pseudo_hdr), icmp6, 64);
+        memcpy(buxbuf + sizeof(struct ip6_pseudo_hdr), icmp6, 64);
         /**
-         * We shouldn't have to do that as computing the checksum is supposed
-         * to be done by the IPv6 stack. Unfortunately windows, here too, is
-         * uterly broken, or non compliant, so let's do it.
-         * Problem is to compute the checksum I need to know the source address
-         * which happens only if I know the interface to be used...
+         * We shouldn't hbve to do thbt bs computing the checksum is supposed
+         * to be done by the IPv6 stbck. Unfortunbtely windows, here too, is
+         * uterly broken, or non complibnt, so let's do it.
+         * Problem is to compute the checksum I need to know the source bddress
+         * which hbppens only if I know the interfbce to be used...
          */
         icmp6->icmp6_cksum = in_cksum((u_short *)pseudo_ip6, sizeof(struct ip6_pseudo_hdr) + 64);
       }
@@ -417,16 +417,16 @@ ping6(JNIEnv *env, jint fd, struct SOCKADDR_IN6* him, jint timeout,
       /**
        * Ping!
        */
-      n = sendto(fd, sendbuf, 64, 0, (struct sockaddr*) him, sizeof(struct sockaddr_in6));
-      if (n < 0 && (WSAGetLastError() == WSAEINTR || WSAGetLastError() == WSAEADDRNOTAVAIL)) {
-        // Happens when using a "tunnel interface" for instance.
-        // Or trying to send a packet on a different scope.
+      n = sendto(fd, sendbuf, 64, 0, (struct sockbddr*) him, sizeof(struct sockbddr_in6));
+      if (n < 0 && (WSAGetLbstError() == WSAEINTR || WSAGetLbstError() == WSAEADDRNOTAVAIL)) {
+        // Hbppens when using b "tunnel interfbce" for instbnce.
+        // Or trying to send b pbcket on b different scope.
         closesocket(fd);
         WSACloseEvent(hEvent);
         return JNI_FALSE;
       }
-      if (n < 0 && WSAGetLastError() != WSAEWOULDBLOCK) {
-        NET_ThrowNew(env, WSAGetLastError(), "Can't send ICMP packet");
+      if (n < 0 && WSAGetLbstError() != WSAEWOULDBLOCK) {
+        NET_ThrowNew(env, WSAGetLbstError(), "Cbn't send ICMP pbcket");
         closesocket(fd);
         WSACloseEvent(hEvent);
         return JNI_FALSE;
@@ -434,25 +434,25 @@ ping6(JNIEnv *env, jint fd, struct SOCKADDR_IN6* him, jint timeout,
 
       tmout2 = timeout > 1000 ? 1000 : timeout;
       do {
-        tmout2 = NET_Wait(env, fd, NET_WAIT_READ, tmout2);
+        tmout2 = NET_Wbit(env, fd, NET_WAIT_READ, tmout2);
 
         if (tmout2 >= 0) {
-          len = sizeof(sa_recv);
+          len = sizeof(sb_recv);
           memset(recvbuf, 0, 1500);
           /**
-           * For some unknown reason, besides plain stupidity, windows
-           * truncates the first 4 bytes of the icmpv6 header some we can't
-           * check for the ICMP_ECHOREPLY value.
-           * we'll check the other values, though
+           * For some unknown rebson, besides plbin stupidity, windows
+           * truncbtes the first 4 bytes of the icmpv6 hebder some we cbn't
+           * check for the ICMP_ECHOREPLY vblue.
+           * we'll check the other vblues, though
            */
-          n = recvfrom(fd, recvbuf + 4, sizeof(recvbuf) - 4, 0, (struct sockaddr*) &sa_recv, &len);
+          n = recvfrom(fd, recvbuf + 4, sizeof(recvbuf) - 4, 0, (struct sockbddr*) &sb_recv, &len);
           icmp6 = (struct icmp6_hdr *) (recvbuf);
           memcpy(&i, (icmp6 + 1), sizeof(int));
           /**
-           * Is that the reply we were expecting?
+           * Is thbt the reply we were expecting?
            */
           if (n >= 8 && ntohs(icmp6->icmp6_seq) == seq &&
-              ntohs(icmp6->icmp6_id) == pid && i == timestamp) {
+              ntohs(icmp6->icmp6_id) == pid && i == timestbmp) {
             closesocket(fd);
             WSACloseEvent(hEvent);
             return JNI_TRUE;
@@ -469,64 +469,64 @@ ping6(JNIEnv *env, jint fd, struct SOCKADDR_IN6* him, jint timeout,
 #endif /* AF_INET6 */
 
 /*
- * Class:     java_net_Inet6AddressImpl
- * Method:    isReachable0
- * Signature: ([bII[bI)Z
+ * Clbss:     jbvb_net_Inet6AddressImpl
+ * Method:    isRebchbble0
+ * Signbture: ([bII[bI)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_java_net_Inet6AddressImpl_isReachable0(JNIEnv *env, jobject this,
-                                           jbyteArray addrArray,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_net_Inet6AddressImpl_isRebchbble0(JNIEnv *env, jobject this,
+                                           jbyteArrby bddrArrby,
                                            jint scope,
                                            jint timeout,
-                                           jbyteArray ifArray,
+                                           jbyteArrby ifArrby,
                                            jint ttl, jint if_scope) {
 #ifdef AF_INET6
-    jbyte caddr[16];
+    jbyte cbddr[16];
     jint fd, sz;
-    struct sockaddr_in6 him6;
-    struct sockaddr_in6* netif = NULL;
-    struct sockaddr_in6 inf6;
+    struct sockbddr_in6 him6;
+    struct sockbddr_in6* netif = NULL;
+    struct sockbddr_in6 inf6;
     WSAEVENT hEvent;
     int len = 0;
     int connect_rv = -1;
 
     /*
-     * If IPv6 is not enable, then we can't reach an IPv6 address, can we?
-     * Actually, we probably shouldn't even get here.
+     * If IPv6 is not enbble, then we cbn't rebch bn IPv6 bddress, cbn we?
+     * Actublly, we probbbly shouldn't even get here.
      */
-    if (!ipv6_available()) {
+    if (!ipv6_bvbilbble()) {
       return JNI_FALSE;
     }
     /*
-     * If it's an IPv4 address, ICMP won't work with IPv4 mapped address,
-     * therefore, let's delegate to the Inet4Address method.
+     * If it's bn IPv4 bddress, ICMP won't work with IPv4 mbpped bddress,
+     * therefore, let's delegbte to the Inet4Address method.
      */
-    sz = (*env)->GetArrayLength(env, addrArray);
+    sz = (*env)->GetArrbyLength(env, bddrArrby);
     if (sz == 4) {
-      return Java_java_net_Inet4AddressImpl_isReachable0(env, this,
-                                                         addrArray,
+      return Jbvb_jbvb_net_Inet4AddressImpl_isRebchbble0(env, this,
+                                                         bddrArrby,
                                                          timeout,
-                                                         ifArray, ttl);
+                                                         ifArrby, ttl);
     }
 
-    memset((char *) caddr, 0, 16);
-    memset((char *) &him6, 0, sizeof(him6));
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 16, caddr);
-    memcpy((void *)&(him6.sin6_addr), caddr, sizeof(struct in6_addr) );
-    him6.sin6_family = AF_INET6;
+    memset((chbr *) cbddr, 0, 16);
+    memset((chbr *) &him6, 0, sizeof(him6));
+    (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 16, cbddr);
+    memcpy((void *)&(him6.sin6_bddr), cbddr, sizeof(struct in6_bddr) );
+    him6.sin6_fbmily = AF_INET6;
     if (scope > 0) {
       him6.sin6_scope_id = scope;
     }
-    len = sizeof(struct sockaddr_in6);
+    len = sizeof(struct sockbddr_in6);
     /**
-     * A network interface was specified, let's convert the address
+     * A network interfbce wbs specified, let's convert the bddress
      */
-    if (!(IS_NULL(ifArray))) {
-      memset((char *) caddr, 0, 16);
-      memset((char *) &inf6, 0, sizeof(inf6));
-      (*env)->GetByteArrayRegion(env, ifArray, 0, 16, caddr);
-      memcpy((void *)&(inf6.sin6_addr), caddr, sizeof(struct in6_addr) );
-      inf6.sin6_family = AF_INET6;
+    if (!(IS_NULL(ifArrby))) {
+      memset((chbr *) cbddr, 0, 16);
+      memset((chbr *) &inf6, 0, sizeof(inf6));
+      (*env)->GetByteArrbyRegion(env, ifArrby, 0, 16, cbddr);
+      memcpy((void *)&(inf6.sin6_bddr), cbddr, sizeof(struct in6_bddr) );
+      inf6.sin6_fbmily = AF_INET6;
       inf6.sin6_port = 0;
       inf6.sin6_scope_id = if_scope;
       netif = &inf6;
@@ -534,109 +534,109 @@ Java_java_net_Inet6AddressImpl_isReachable0(JNIEnv *env, jobject this,
 
 #if 0
     /*
-     * Windows implementation of ICMP & RAW sockets is too unreliable for now.
-     * Therefore it's best not to try it at all and rely only on TCP
-     * We may revisit and enable this code in the future.
+     * Windows implementbtion of ICMP & RAW sockets is too unrelibble for now.
+     * Therefore it's best not to try it bt bll bnd rely only on TCP
+     * We mby revisit bnd enbble this code in the future.
      */
 
     /*
-     * Right now, windows doesn't generate the ICMP checksum automatically
-     * so we have to compute it, but we can do it only if we know which
-     * interface will be used. Therefore, don't try to use ICMP if no
-     * interface was specified.
-     * When ICMPv6 support improves in windows, we may change this.
+     * Right now, windows doesn't generbte the ICMP checksum butombticblly
+     * so we hbve to compute it, but we cbn do it only if we know which
+     * interfbce will be used. Therefore, don't try to use ICMP if no
+     * interfbce wbs specified.
+     * When ICMPv6 support improves in windows, we mby chbnge this.
      */
-    if (!(IS_NULL(ifArray))) {
+    if (!(IS_NULL(ifArrby))) {
       /*
-       * If we can create a RAW socket, then when can use the ICMP ECHO_REQUEST
-       * otherwise we'll try a tcp socket to the Echo port (7).
-       * Note that this is empiric, and not connecting could mean it's blocked
-       * or the echo servioe has been disabled.
+       * If we cbn crebte b RAW socket, then when cbn use the ICMP ECHO_REQUEST
+       * otherwise we'll try b tcp socket to the Echo port (7).
+       * Note thbt this is empiric, bnd not connecting could mebn it's blocked
+       * or the echo servioe hbs been disbbled.
        */
       fd = NET_Socket(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6);
 
-      if (fd != -1) { /* Good to go, let's do a ping */
+      if (fd != -1) { /* Good to go, let's do b ping */
         return ping6(env, fd, &him6, timeout, netif, ttl);
       }
     }
 #endif
 
-    /* No good, let's fall back on TCP */
+    /* No good, let's fbll bbck on TCP */
     fd = NET_Socket(AF_INET6, SOCK_STREAM, 0);
     if (fd == SOCKET_ERROR) {
-        /* note: if you run out of fds, you may not be able to load
-         * the exception class, and get a NoClassDefFoundError
-         * instead.
+        /* note: if you run out of fds, you mby not be bble to lobd
+         * the exception clbss, bnd get b NoClbssDefFoundError
+         * instebd.
          */
-        NET_ThrowNew(env, errno, "Can't create socket");
+        NET_ThrowNew(env, errno, "Cbn't crebte socket");
         return JNI_FALSE;
     }
 
     /**
-     * A TTL was specified, let's set the socket option.
+     * A TTL wbs specified, let's set the socket option.
      */
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, (const char *)&ttl, sizeof(ttl));
+      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, (const chbr *)&ttl, sizeof(ttl));
     }
 
     /**
-     * A network interface was specified, let's bind to it.
+     * A network interfbce wbs specified, let's bind to it.
      */
     if (netif != NULL) {
-      if (NET_Bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in6)) < 0) {
-        NET_ThrowNew(env, WSAGetLastError(), "Can't bind socket to interface");
+      if (NET_Bind(fd, (struct sockbddr*)netif, sizeof(struct sockbddr_in6)) < 0) {
+        NET_ThrowNew(env, WSAGetLbstError(), "Cbn't bind socket to interfbce");
         closesocket(fd);
         return JNI_FALSE;
       }
     }
 
     /**
-     * Make the socket non blocking.
+     * Mbke the socket non blocking.
      */
-    hEvent = WSACreateEvent();
+    hEvent = WSACrebteEvent();
     WSAEventSelect(fd, hEvent, FD_READ|FD_CONNECT|FD_CLOSE);
 
-    /* no need to use NET_Connect as non-blocking */
+    /* no need to use NET_Connect bs non-blocking */
     him6.sin6_port = htons((short) 7); /* Echo port */
-    connect_rv = connect(fd, (struct sockaddr *)&him6, len);
+    connect_rv = connect(fd, (struct sockbddr *)&him6, len);
 
     /**
-     * connection established or refused immediately, either way it means
-     * we were able to reach the host!
+     * connection estbblished or refused immedibtely, either wby it mebns
+     * we were bble to rebch the host!
      */
-    if (connect_rv == 0 || WSAGetLastError() == WSAECONNREFUSED) {
+    if (connect_rv == 0 || WSAGetLbstError() == WSAECONNREFUSED) {
         WSACloseEvent(hEvent);
         closesocket(fd);
         return JNI_TRUE;
     } else {
         int optlen;
 
-        switch (WSAGetLastError()) {
-        case WSAEHOSTUNREACH:   /* Host Unreachable */
-        case WSAENETUNREACH:    /* Network Unreachable */
-        case WSAENETDOWN:       /* Network is down */
-        case WSAEPFNOSUPPORT:   /* Protocol Family unsupported */
+        switch (WSAGetLbstError()) {
+        cbse WSAEHOSTUNREACH:   /* Host Unrebchbble */
+        cbse WSAENETUNREACH:    /* Network Unrebchbble */
+        cbse WSAENETDOWN:       /* Network is down */
+        cbse WSAEPFNOSUPPORT:   /* Protocol Fbmily unsupported */
           WSACloseEvent(hEvent);
           closesocket(fd);
           return JNI_FALSE;
         }
 
-        if (WSAGetLastError() != WSAEWOULDBLOCK) {
-            NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "ConnectException",
-                                         "connect failed");
+        if (WSAGetLbstError() != WSAEWOULDBLOCK) {
+            NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "ConnectException",
+                                         "connect fbiled");
             WSACloseEvent(hEvent);
             closesocket(fd);
             return JNI_FALSE;
         }
 
-        timeout = NET_Wait(env, fd, NET_WAIT_CONNECT, timeout);
+        timeout = NET_Wbit(env, fd, NET_WAIT_CONNECT, timeout);
 
         if (timeout >= 0) {
-          /* has connection been established? */
+          /* hbs connection been estbblished? */
           optlen = sizeof(connect_rv);
           if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&connect_rv,
                          &optlen) <0) {
-            connect_rv = WSAGetLastError();
+            connect_rv = WSAGetLbstError();
           }
 
           if (connect_rv == 0 || connect_rv == WSAECONNREFUSED) {

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for the operating system on which
- * the Java virtual machine is running.
+ * The mbnbgement interfbce for the operbting system on which
+ * the Jbvb virtubl mbchine is running.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getOperatingSystemMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbchine hbs b single instbnce of the implementbtion
+ * clbss of this interfbce.  This instbnce implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getOperbtingSystemMXBebn} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>} method.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the operating system within an MBeanServer is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * the operbting system within bn MBebnServer is:
  * <blockquote>
- *    {@link ManagementFactory#OPERATING_SYSTEM_MXBEAN_NAME
- *      <tt>java.lang:type=OperatingSystem</tt>}
+ *    {@link MbnbgementFbctory#OPERATING_SYSTEM_MXBEAN_NAME
+ *      <tt>jbvb.lbng:type=OperbtingSystem</tt>}
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * <p> This interface defines several convenient methods for accessing
- * system properties about the operating system on which the Java
- * virtual machine is running.
+ * <p> This interfbce defines severbl convenient methods for bccessing
+ * system properties bbout the operbting system on which the Jbvb
+ * virtubl mbchine is running.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
-public interface OperatingSystemMXBean extends PlatformManagedObject {
+public interfbce OperbtingSystemMXBebn extends PlbtformMbnbgedObject {
     /**
-     * Returns the operating system name.
-     * This method is equivalent to <tt>System.getProperty("os.name")</tt>.
+     * Returns the operbting system nbme.
+     * This method is equivblent to <tt>System.getProperty("os.nbme")</tt>.
      *
-     * @return the operating system name.
+     * @return the operbting system nbme.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
+     * @throws  jbvb.lbng.SecurityException
+     *     if b security mbnbger exists bnd its
+     *     <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @see jbvb.lbng.SecurityMbnbger#checkPropertyAccess(jbvb.lbng.String)
+     * @see jbvb.lbng.System#getProperty
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Returns the operating system architecture.
-     * This method is equivalent to <tt>System.getProperty("os.arch")</tt>.
+     * Returns the operbting system brchitecture.
+     * This method is equivblent to <tt>System.getProperty("os.brch")</tt>.
      *
-     * @return the operating system architecture.
+     * @return the operbting system brchitecture.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
+     * @throws  jbvb.lbng.SecurityException
+     *     if b security mbnbger exists bnd its
+     *     <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @see jbvb.lbng.SecurityMbnbger#checkPropertyAccess(jbvb.lbng.String)
+     * @see jbvb.lbng.System#getProperty
      */
     public String getArch();
 
     /**
-     * Returns the operating system version.
-     * This method is equivalent to <tt>System.getProperty("os.version")</tt>.
+     * Returns the operbting system version.
+     * This method is equivblent to <tt>System.getProperty("os.version")</tt>.
      *
-     * @return the operating system version.
+     * @return the operbting system version.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
+     * @throws  jbvb.lbng.SecurityException
+     *     if b security mbnbger exists bnd its
+     *     <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @see jbvb.lbng.SecurityMbnbger#checkPropertyAccess(jbvb.lbng.String)
+     * @see jbvb.lbng.System#getProperty
      */
     public String getVersion();
 
     /**
-     * Returns the number of processors available to the Java virtual machine.
-     * This method is equivalent to the {@link Runtime#availableProcessors()}
+     * Returns the number of processors bvbilbble to the Jbvb virtubl mbchine.
+     * This method is equivblent to the {@link Runtime#bvbilbbleProcessors()}
      * method.
-     * <p> This value may change during a particular invocation of
-     * the virtual machine.
+     * <p> This vblue mby chbnge during b pbrticulbr invocbtion of
+     * the virtubl mbchine.
      *
-     * @return  the number of processors available to the virtual
-     *          machine; never smaller than one.
+     * @return  the number of processors bvbilbble to the virtubl
+     *          mbchine; never smbller thbn one.
      */
-    public int getAvailableProcessors();
+    public int getAvbilbbleProcessors();
 
     /**
-     * Returns the system load average for the last minute.
-     * The system load average is the sum of the number of runnable entities
-     * queued to the {@linkplain #getAvailableProcessors available processors}
-     * and the number of runnable entities running on the available processors
-     * averaged over a period of time.
-     * The way in which the load average is calculated is operating system
-     * specific but is typically a damped time-dependent average.
+     * Returns the system lobd bverbge for the lbst minute.
+     * The system lobd bverbge is the sum of the number of runnbble entities
+     * queued to the {@linkplbin #getAvbilbbleProcessors bvbilbble processors}
+     * bnd the number of runnbble entities running on the bvbilbble processors
+     * bverbged over b period of time.
+     * The wby in which the lobd bverbge is cblculbted is operbting system
+     * specific but is typicblly b dbmped time-dependent bverbge.
      * <p>
-     * If the load average is not available, a negative value is returned.
+     * If the lobd bverbge is not bvbilbble, b negbtive vblue is returned.
      * <p>
-     * This method is designed to provide a hint about the system load
-     * and may be queried frequently.
-     * The load average may be unavailable on some platform where it is
+     * This method is designed to provide b hint bbout the system lobd
+     * bnd mby be queried frequently.
+     * The lobd bverbge mby be unbvbilbble on some plbtform where it is
      * expensive to implement this method.
      *
-     * @return the system load average; or a negative value if not available.
+     * @return the system lobd bverbge; or b negbtive vblue if not bvbilbble.
      *
      * @since 1.6
      */
-    public double getSystemLoadAverage();
+    public double getSystemLobdAverbge();
 }

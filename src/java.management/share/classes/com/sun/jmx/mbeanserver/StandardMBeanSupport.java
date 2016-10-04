@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.Method;
 
-import javax.management.MBeanInfo;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Base class for Standard MBeans.
+ * Bbse clbss for Stbndbrd MBebns.
  *
  * @since 1.6
  */
-public class StandardMBeanSupport extends MBeanSupport<Method> {
+public clbss StbndbrdMBebnSupport extends MBebnSupport<Method> {
 
     /**
-     * <p>Construct a Standard MBean that wraps the given resource using the
-     * given Standard MBean interface.</p>
+     * <p>Construct b Stbndbrd MBebn thbt wrbps the given resource using the
+     * given Stbndbrd MBebn interfbce.</p>
      *
-     * @param resource the underlying resource for the new MBean.
-     * @param mbeanInterfaceType the class or interface to be used to determine
-     *       the MBean's management interface.  An interface if this is a
-     *       classic Standard MBean; a class if this is a {@code @ManagedResource}.
-     * @param <T> a type parameter that allows the compiler to check
-     *       that {@code resource} implements {@code mbeanInterfaceType},
-     *       provided that {@code mbeanInterfaceType} is a class constant like
-     *       {@code SomeMBean.class}.
-     * @throws IllegalArgumentException if {@code resource} is null or
-     *       if it does not implement the class {@code mbeanInterfaceType} or if
-     *       that class is not a valid Standard MBean interface.
+     * @pbrbm resource the underlying resource for the new MBebn.
+     * @pbrbm mbebnInterfbceType the clbss or interfbce to be used to determine
+     *       the MBebn's mbnbgement interfbce.  An interfbce if this is b
+     *       clbssic Stbndbrd MBebn; b clbss if this is b {@code @MbnbgedResource}.
+     * @pbrbm <T> b type pbrbmeter thbt bllows the compiler to check
+     *       thbt {@code resource} implements {@code mbebnInterfbceType},
+     *       provided thbt {@code mbebnInterfbceType} is b clbss constbnt like
+     *       {@code SomeMBebn.clbss}.
+     * @throws IllegblArgumentException if {@code resource} is null or
+     *       if it does not implement the clbss {@code mbebnInterfbceType} or if
+     *       thbt clbss is not b vblid Stbndbrd MBebn interfbce.
      */
-    public <T> StandardMBeanSupport(T resource, Class<T> mbeanInterfaceType)
-            throws NotCompliantMBeanException {
-        super(resource, mbeanInterfaceType);
+    public <T> StbndbrdMBebnSupport(T resource, Clbss<T> mbebnInterfbceType)
+            throws NotComplibntMBebnException {
+        super(resource, mbebnInterfbceType);
     }
 
     @Override
-    MBeanIntrospector<Method> getMBeanIntrospector() {
-        return StandardMBeanIntrospector.getInstance();
+    MBebnIntrospector<Method> getMBebnIntrospector() {
+        return StbndbrdMBebnIntrospector.getInstbnce();
     }
 
     @Override
@@ -71,25 +71,25 @@ public class StandardMBeanSupport extends MBeanSupport<Method> {
     }
 
     @Override
-    public void register(MBeanServer mbs, ObjectName name) {}
+    public void register(MBebnServer mbs, ObjectNbme nbme) {}
 
     @Override
     public void unregister() {}
 
-    /* Standard MBeans that are NotificationBroadcasters can return a different
-     * MBeanNotificationInfo[] every time getMBeanInfo() is called, so we have
-     * to reconstruct this MBeanInfo if necessary.
+    /* Stbndbrd MBebns thbt bre NotificbtionBrobdcbsters cbn return b different
+     * MBebnNotificbtionInfo[] every time getMBebnInfo() is cblled, so we hbve
+     * to reconstruct this MBebnInfo if necessbry.
      */
     @Override
-    public MBeanInfo getMBeanInfo() {
-        MBeanInfo mbi = super.getMBeanInfo();
-        Class<?> resourceClass = getResource().getClass();
-        if (StandardMBeanIntrospector.isDefinitelyImmutableInfo(resourceClass))
+    public MBebnInfo getMBebnInfo() {
+        MBebnInfo mbi = super.getMBebnInfo();
+        Clbss<?> resourceClbss = getResource().getClbss();
+        if (StbndbrdMBebnIntrospector.isDefinitelyImmutbbleInfo(resourceClbss))
             return mbi;
-        return new MBeanInfo(mbi.getClassName(), mbi.getDescription(),
+        return new MBebnInfo(mbi.getClbssNbme(), mbi.getDescription(),
                 mbi.getAttributes(), mbi.getConstructors(),
-                mbi.getOperations(),
-                MBeanIntrospector.findNotifications(getResource()),
+                mbi.getOperbtions(),
+                MBebnIntrospector.findNotificbtions(getResource()),
                 mbi.getDescriptor());
     }
 }

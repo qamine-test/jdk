@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.ch.sctp;
+pbckbge sun.nio.ch.sctp;
 
-import java.net.SocketAddress;
-import com.sun.nio.sctp.Association;
-import com.sun.nio.sctp.PeerAddressChangeNotification;
-import java.lang.annotation.Native;
+import jbvb.net.SocketAddress;
+import com.sun.nio.sctp.Associbtion;
+import com.sun.nio.sctp.PeerAddressChbngeNotificbtion;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * An implementation of PeerAddressChangeNotification
+ * An implementbtion of PeerAddressChbngeNotificbtion
  */
-public class PeerAddrChange extends PeerAddressChangeNotification
-    implements SctpNotification
+public clbss PeerAddrChbnge extends PeerAddressChbngeNotificbtion
+    implements SctpNotificbtion
 {
-    /* static final ints so that they can be referenced from native */
-    @Native private final static int SCTP_ADDR_AVAILABLE = 1;
-    @Native private final static int SCTP_ADDR_UNREACHABLE = 2;
-    @Native private final static int SCTP_ADDR_REMOVED = 3;
-    @Native private final static int SCTP_ADDR_ADDED = 4;
-    @Native private final static int SCTP_ADDR_MADE_PRIM = 5;
-    @Native private final static int SCTP_ADDR_CONFIRMED =6;
+    /* stbtic finbl ints so thbt they cbn be referenced from nbtive */
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_AVAILABLE = 1;
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_UNREACHABLE = 2;
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_REMOVED = 3;
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_ADDED = 4;
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_MADE_PRIM = 5;
+    @Nbtive privbte finbl stbtic int SCTP_ADDR_CONFIRMED =6;
 
-    private Association association;
+    privbte Associbtion bssocibtion;
 
-    /* assocId is used to lookup the association before the notification is
+    /* bssocId is used to lookup the bssocibtion before the notificbtion is
      * returned to user code */
-    private int assocId;
-    private SocketAddress address;
-    private AddressChangeEvent event;
+    privbte int bssocId;
+    privbte SocketAddress bddress;
+    privbte AddressChbngeEvent event;
 
-    /* Invoked from native */
-    private PeerAddrChange(int assocId, SocketAddress address, int intEvent) {
+    /* Invoked from nbtive */
+    privbte PeerAddrChbnge(int bssocId, SocketAddress bddress, int intEvent) {
         switch (intEvent) {
-            case SCTP_ADDR_AVAILABLE :
-                this.event = AddressChangeEvent.ADDR_AVAILABLE;
-                break;
-            case SCTP_ADDR_UNREACHABLE :
-                this.event = AddressChangeEvent.ADDR_UNREACHABLE;
-                break;
-            case SCTP_ADDR_REMOVED :
-                this.event = AddressChangeEvent.ADDR_REMOVED;
-                break;
-            case SCTP_ADDR_ADDED :
-                this.event = AddressChangeEvent.ADDR_ADDED;
-                break;
-            case SCTP_ADDR_MADE_PRIM :
-                this.event = AddressChangeEvent.ADDR_MADE_PRIMARY;
-                break;
-            case SCTP_ADDR_CONFIRMED :
-                this.event = AddressChangeEvent.ADDR_CONFIRMED;
-                break;
-            default:
+            cbse SCTP_ADDR_AVAILABLE :
+                this.event = AddressChbngeEvent.ADDR_AVAILABLE;
+                brebk;
+            cbse SCTP_ADDR_UNREACHABLE :
+                this.event = AddressChbngeEvent.ADDR_UNREACHABLE;
+                brebk;
+            cbse SCTP_ADDR_REMOVED :
+                this.event = AddressChbngeEvent.ADDR_REMOVED;
+                brebk;
+            cbse SCTP_ADDR_ADDED :
+                this.event = AddressChbngeEvent.ADDR_ADDED;
+                brebk;
+            cbse SCTP_ADDR_MADE_PRIM :
+                this.event = AddressChbngeEvent.ADDR_MADE_PRIMARY;
+                brebk;
+            cbse SCTP_ADDR_CONFIRMED :
+                this.event = AddressChbngeEvent.ADDR_CONFIRMED;
+                brebk;
+            defbult:
                 throw new AssertionError("Unknown event type");
         }
-        this.assocId = assocId;
-        this.address = address;
+        this.bssocId = bssocId;
+        this.bddress = bddress;
     }
 
     @Override
-    public int assocId() {
-        return assocId;
+    public int bssocId() {
+        return bssocId;
     }
 
     @Override
-    public void setAssociation(Association association) {
-        this.association = association;
+    public void setAssocibtion(Associbtion bssocibtion) {
+        this.bssocibtion = bssocibtion;
     }
 
     @Override
-    public SocketAddress address() {
-        assert address != null;
-        return address;
+    public SocketAddress bddress() {
+        bssert bddress != null;
+        return bddress;
     }
 
     @Override
-    public Association association() {
-        assert association != null;
-        return association;
+    public Associbtion bssocibtion() {
+        bssert bssocibtion != null;
+        return bssocibtion;
     }
 
     @Override
-    public AddressChangeEvent event() {
-        assert event != null;
+    public AddressChbngeEvent event() {
+        bssert event != null;
         return event;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append(" [");
-        sb.append("Address: ").append(address);
-        sb.append(", Association:").append(association);
-        sb.append(", Event: ").append(event).append("]");
+        sb.bppend(super.toString()).bppend(" [");
+        sb.bppend("Address: ").bppend(bddress);
+        sb.bppend(", Associbtion:").bppend(bssocibtion);
+        sb.bppend(", Event: ").bppend(event).bppend("]");
         return sb.toString();
     }
 }

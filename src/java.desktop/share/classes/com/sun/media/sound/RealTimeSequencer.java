@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 
 /**
- * A Real Time Sequencer
+ * A Rebl Time Sequencer
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
 
 /* TODO:
- * - rename PlayThread to PlayEngine (because isn't a thread)
+ * - renbme PlbyThrebd to PlbyEngine (becbuse isn't b threbd)
  */
-final class RealTimeSequencer extends AbstractMidiDevice
+finbl clbss ReblTimeSequencer extends AbstrbctMidiDevice
         implements Sequencer, AutoConnectSequencer {
 
     // STATIC VARIABLES
 
-    /** debugging flags */
-    private final static boolean DEBUG_PUMP = false;
-    private final static boolean DEBUG_PUMP_ALL = false;
+    /** debugging flbgs */
+    privbte finbl stbtic boolebn DEBUG_PUMP = fblse;
+    privbte finbl stbtic boolebn DEBUG_PUMP_ALL = fblse;
 
     /**
-     * Event Dispatcher thread. Should be using a shared event
-     * dispatcher instance with a factory in EventDispatcher
+     * Event Dispbtcher threbd. Should be using b shbred event
+     * dispbtcher instbnce with b fbctory in EventDispbtcher
      */
-    private static final Map<ThreadGroup, EventDispatcher> dispatchers =
-            new WeakHashMap<>();
+    privbte stbtic finbl Mbp<ThrebdGroup, EventDispbtcher> dispbtchers =
+            new WebkHbshMbp<>();
 
     /**
-     * All RealTimeSequencers share this info object.
+     * All ReblTimeSequencers shbre this info object.
      */
-    static final RealTimeSequencerInfo info = new RealTimeSequencerInfo();
+    stbtic finbl ReblTimeSequencerInfo info = new ReblTimeSequencerInfo();
 
 
-    private static final Sequencer.SyncMode[] masterSyncModes = { Sequencer.SyncMode.INTERNAL_CLOCK };
-    private static final Sequencer.SyncMode[] slaveSyncModes  = { Sequencer.SyncMode.NO_SYNC };
+    privbte stbtic finbl Sequencer.SyncMode[] mbsterSyncModes = { Sequencer.SyncMode.INTERNAL_CLOCK };
+    privbte stbtic finbl Sequencer.SyncMode[] slbveSyncModes  = { Sequencer.SyncMode.NO_SYNC };
 
-    private static final Sequencer.SyncMode masterSyncMode    = Sequencer.SyncMode.INTERNAL_CLOCK;
-    private static final Sequencer.SyncMode slaveSyncMode     = Sequencer.SyncMode.NO_SYNC;
-
-
-    /**
-     * Sequence on which this sequencer is operating.
-     */
-    private Sequence sequence = null;
-
-    // caches
-
-    /**
-     * Same for setTempoInMPQ...
-     * -1 means not set.
-     */
-    private double cacheTempoMPQ = -1;
+    privbte stbtic finbl Sequencer.SyncMode mbsterSyncMode    = Sequencer.SyncMode.INTERNAL_CLOCK;
+    privbte stbtic finbl Sequencer.SyncMode slbveSyncMode     = Sequencer.SyncMode.NO_SYNC;
 
 
     /**
-     * cache value for tempo factor until sequence is set
-     * -1 means not set.
+     * Sequence on which this sequencer is operbting.
      */
-    private float cacheTempoFactor = -1;
+    privbte Sequence sequence = null;
+
+    // cbches
+
+    /**
+     * Sbme for setTempoInMPQ...
+     * -1 mebns not set.
+     */
+    privbte double cbcheTempoMPQ = -1;
 
 
-    /** if a particular track is muted */
-    private boolean[] trackMuted = null;
-    /** if a particular track is solo */
-    private boolean[] trackSolo = null;
+    /**
+     * cbche vblue for tempo fbctor until sequence is set
+     * -1 mebns not set.
+     */
+    privbte flobt cbcheTempoFbctor = -1;
 
-    /** tempo cache for getMicrosecondPosition */
-    private final MidiUtils.TempoCache tempoCache = new MidiUtils.TempoCache();
+
+    /** if b pbrticulbr trbck is muted */
+    privbte boolebn[] trbckMuted = null;
+    /** if b pbrticulbr trbck is solo */
+    privbte boolebn[] trbckSolo = null;
+
+    /** tempo cbche for getMicrosecondPosition */
+    privbte finbl MidiUtils.TempoCbche tempoCbche = new MidiUtils.TempoCbche();
 
     /**
      * True if the sequence is running.
      */
-    private boolean running = false;
+    privbte boolebn running = fblse;
 
 
-    /** the thread for pushing out the MIDI messages */
-    private PlayThread playThread;
-
-
-    /**
-     * True if we are recording
-     */
-    private boolean recording = false;
+    /** the threbd for pushing out the MIDI messbges */
+    privbte PlbyThrebd plbyThrebd;
 
 
     /**
-     * List of tracks to which we're recording
+     * True if we bre recording
      */
-    private final List<RecordingTrack> recordingTracks = new ArrayList<>();
-
-
-    private long loopStart = 0;
-    private long loopEnd = -1;
-    private int loopCount = 0;
+    privbte boolebn recording = fblse;
 
 
     /**
-     * Meta event listeners
+     * List of trbcks to which we're recording
      */
-    private final ArrayList<Object> metaEventListeners = new ArrayList<>();
+    privbte finbl List<RecordingTrbck> recordingTrbcks = new ArrbyList<>();
+
+
+    privbte long loopStbrt = 0;
+    privbte long loopEnd = -1;
+    privbte int loopCount = 0;
 
 
     /**
-     * Control change listeners
+     * Metb event listeners
      */
-    private final ArrayList<ControllerListElement> controllerEventListeners = new ArrayList<>();
+    privbte finbl ArrbyList<Object> metbEventListeners = new ArrbyList<>();
 
 
-    /** automatic connection support */
-    private boolean autoConnect = false;
+    /**
+     * Control chbnge listeners
+     */
+    privbte finbl ArrbyList<ControllerListElement> controllerEventListeners = new ArrbyList<>();
 
-    /** if we need to autoconnect at next open */
-    private boolean doAutoConnectAtNextOpen = false;
 
-    /** the receiver that this device is auto-connected to */
-    Receiver autoConnectedReceiver = null;
+    /** butombtic connection support */
+    privbte boolebn butoConnect = fblse;
+
+    /** if we need to butoconnect bt next open */
+    privbte boolebn doAutoConnectAtNextOpen = fblse;
+
+    /** the receiver thbt this device is buto-connected to */
+    Receiver butoConnectedReceiver = null;
 
 
     /* ****************************** CONSTRUCTOR ****************************** */
 
-    RealTimeSequencer() throws MidiUnavailableException {
+    ReblTimeSequencer() throws MidiUnbvbilbbleException {
         super(info);
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer CONSTRUCTOR");
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer CONSTRUCTOR completed");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer CONSTRUCTOR");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer CONSTRUCTOR completed");
     }
 
 
     /* ****************************** SEQUENCER METHODS ******************** */
 
     public synchronized void setSequence(Sequence sequence)
-        throws InvalidMidiDataException {
+        throws InvblidMidiDbtbException {
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setSequence(" + sequence +")");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setSequence(" + sequence +")");
 
         if (sequence != this.sequence) {
             if (this.sequence != null && sequence == null) {
-                setCaches();
+                setCbches();
                 stop();
-                // initialize some non-cached values
-                trackMuted = null;
-                trackSolo = null;
-                loopStart = 0;
+                // initiblize some non-cbched vblues
+                trbckMuted = null;
+                trbckSolo = null;
+                loopStbrt = 0;
                 loopEnd = -1;
                 loopCount = 0;
-                if (getDataPump() != null) {
-                    getDataPump().setTickPos(0);
-                    getDataPump().resetLoopCount();
+                if (getDbtbPump() != null) {
+                    getDbtbPump().setTickPos(0);
+                    getDbtbPump().resetLoopCount();
                 }
             }
 
-            if (playThread != null) {
-                playThread.setSequence(sequence);
+            if (plbyThrebd != null) {
+                plbyThrebd.setSequence(sequence);
             }
 
-            // store this sequence (do not copy - we want to give the possibility
-            // of modifying the sequence at runtime)
+            // store this sequence (do not copy - we wbnt to give the possibility
+            // of modifying the sequence bt runtime)
             this.sequence = sequence;
 
             if (sequence != null) {
-                tempoCache.refresh(sequence);
+                tempoCbche.refresh(sequence);
                 // rewind to the beginning
                 setTickPosition(0);
-                // propagate caches
-                propagateCaches();
+                // propbgbte cbches
+                propbgbteCbches();
             }
         }
         else if (sequence != null) {
-            tempoCache.refresh(sequence);
-            if (playThread != null) {
-                playThread.setSequence(sequence);
+            tempoCbche.refresh(sequence);
+            if (plbyThrebd != null) {
+                plbyThrebd.setSequence(sequence);
             }
         }
 
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: setSequence(" + sequence +") completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: setSequence(" + sequence +") completed");
     }
 
 
-    public synchronized void setSequence(InputStream stream) throws IOException, InvalidMidiDataException {
+    public synchronized void setSequence(InputStrebm strebm) throws IOException, InvblidMidiDbtbException {
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setSequence(" + stream +")");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setSequence(" + strebm +")");
 
-        if (stream == null) {
+        if (strebm == null) {
             setSequence((Sequence) null);
             return;
         }
 
-        Sequence seq = MidiSystem.getSequence(stream); // can throw IOException, InvalidMidiDataException
+        Sequence seq = MidiSystem.getSequence(strebm); // cbn throw IOException, InvblidMidiDbtbException
 
         setSequence(seq);
 
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: setSequence(" + stream +") completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: setSequence(" + strebm +") completed");
 
     }
 
@@ -235,116 +235,116 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    public synchronized void start() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: start()");
+    public synchronized void stbrt() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: stbrt()");
 
-        // sequencer not open: throw an exception
+        // sequencer not open: throw bn exception
         if (!isOpen()) {
-            throw new IllegalStateException("sequencer not open");
+            throw new IllegblStbteException("sequencer not open");
         }
 
-        // sequence not available: throw an exception
+        // sequence not bvbilbble: throw bn exception
         if (sequence == null) {
-            throw new IllegalStateException("sequence not set");
+            throw new IllegblStbteException("sequence not set");
         }
 
-        // already running: return quietly
+        // blrebdy running: return quietly
         if (running == true) {
             return;
         }
 
-        // start playback
-        implStart();
+        // stbrt plbybbck
+        implStbrt();
 
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: start() completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: stbrt() completed");
     }
 
 
     public synchronized void stop() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: stop()");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: stop()");
 
         if (!isOpen()) {
-            throw new IllegalStateException("sequencer not open");
+            throw new IllegblStbteException("sequencer not open");
         }
         stopRecording();
 
         // not running; just return
-        if (running == false) {
-            if (Printer.trace) Printer.trace("<< RealTimeSequencer: stop() not running!");
+        if (running == fblse) {
+            if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: stop() not running!");
             return;
         }
 
-        // stop playback
+        // stop plbybbck
         implStop();
 
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: stop() completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: stop() completed");
     }
 
 
-    public boolean isRunning() {
+    public boolebn isRunning() {
         return running;
     }
 
 
-    public void startRecording() {
+    public void stbrtRecording() {
         if (!isOpen()) {
-            throw new IllegalStateException("Sequencer not open");
+            throw new IllegblStbteException("Sequencer not open");
         }
 
-        start();
+        stbrt();
         recording = true;
     }
 
 
     public void stopRecording() {
         if (!isOpen()) {
-            throw new IllegalStateException("Sequencer not open");
+            throw new IllegblStbteException("Sequencer not open");
         }
-        recording = false;
+        recording = fblse;
     }
 
 
-    public boolean isRecording() {
+    public boolebn isRecording() {
         return recording;
     }
 
 
-    public void recordEnable(Track track, int channel) {
-        if (!findTrack(track)) {
-            throw new IllegalArgumentException("Track does not exist in the current sequence");
+    public void recordEnbble(Trbck trbck, int chbnnel) {
+        if (!findTrbck(trbck)) {
+            throw new IllegblArgumentException("Trbck does not exist in the current sequence");
         }
 
-        synchronized(recordingTracks) {
-            RecordingTrack rc = RecordingTrack.get(recordingTracks, track);
+        synchronized(recordingTrbcks) {
+            RecordingTrbck rc = RecordingTrbck.get(recordingTrbcks, trbck);
             if (rc != null) {
-                rc.channel = channel;
+                rc.chbnnel = chbnnel;
             } else {
-                recordingTracks.add(new RecordingTrack(track, channel));
+                recordingTrbcks.bdd(new RecordingTrbck(trbck, chbnnel));
             }
         }
 
     }
 
 
-    public void recordDisable(Track track) {
-        synchronized(recordingTracks) {
-            RecordingTrack rc = RecordingTrack.get(recordingTracks, track);
+    public void recordDisbble(Trbck trbck) {
+        synchronized(recordingTrbcks) {
+            RecordingTrbck rc = RecordingTrbck.get(recordingTrbcks, trbck);
             if (rc != null) {
-                recordingTracks.remove(rc);
+                recordingTrbcks.remove(rc);
             }
         }
 
     }
 
 
-    private boolean findTrack(Track track) {
-        boolean found = false;
+    privbte boolebn findTrbck(Trbck trbck) {
+        boolebn found = fblse;
         if (sequence != null) {
-            Track[] tracks = sequence.getTracks();
-            for (int i = 0; i < tracks.length; i++) {
-                if (track == tracks[i]) {
+            Trbck[] trbcks = sequence.getTrbcks();
+            for (int i = 0; i < trbcks.length; i++) {
+                if (trbck == trbcks[i]) {
                     found = true;
-                    break;
+                    brebk;
                 }
             }
         }
@@ -352,98 +352,98 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    public float getTempoInBPM() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getTempoInBPM() ");
+    public flobt getTempoInBPM() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getTempoInBPM() ");
 
-        return (float) MidiUtils.convertTempo(getTempoInMPQ());
+        return (flobt) MidiUtils.convertTempo(getTempoInMPQ());
     }
 
 
-    public void setTempoInBPM(float bpm) {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setTempoInBPM() ");
+    public void setTempoInBPM(flobt bpm) {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setTempoInBPM() ");
         if (bpm <= 0) {
-            // should throw IllegalArgumentException
+            // should throw IllegblArgumentException
             bpm = 1.0f;
         }
 
-        setTempoInMPQ((float) MidiUtils.convertTempo((double) bpm));
+        setTempoInMPQ((flobt) MidiUtils.convertTempo((double) bpm));
     }
 
 
-    public float getTempoInMPQ() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getTempoInMPQ() ");
+    public flobt getTempoInMPQ() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getTempoInMPQ() ");
 
-        if (needCaching()) {
-            // if the sequencer is closed, return cached value
-            if (cacheTempoMPQ != -1) {
-                return (float) cacheTempoMPQ;
+        if (needCbching()) {
+            // if the sequencer is closed, return cbched vblue
+            if (cbcheTempoMPQ != -1) {
+                return (flobt) cbcheTempoMPQ;
             }
             // if sequence is set, return current tempo
             if (sequence != null) {
-                return tempoCache.getTempoMPQAt(getTickPosition());
+                return tempoCbche.getTempoMPQAt(getTickPosition());
             }
 
-            // last resort: return a standard tempo: 120bpm
-            return (float) MidiUtils.DEFAULT_TEMPO_MPQ;
+            // lbst resort: return b stbndbrd tempo: 120bpm
+            return (flobt) MidiUtils.DEFAULT_TEMPO_MPQ;
         }
-        return getDataPump().getTempoMPQ();
+        return getDbtbPump().getTempoMPQ();
     }
 
 
-    public void setTempoInMPQ(float mpq) {
+    public void setTempoInMPQ(flobt mpq) {
         if (mpq <= 0) {
-            // should throw IllegalArgumentException
+            // should throw IllegblArgumentException
             mpq = 1.0f;
         }
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setTempoInMPQ() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setTempoInMPQ() ");
 
-        if (needCaching()) {
-            // cache the value
-            cacheTempoMPQ = mpq;
+        if (needCbching()) {
+            // cbche the vblue
+            cbcheTempoMPQ = mpq;
         } else {
-            // set the native tempo in MPQ
-            getDataPump().setTempoMPQ(mpq);
+            // set the nbtive tempo in MPQ
+            getDbtbPump().setTempoMPQ(mpq);
 
-            // reset the tempoInBPM and tempoInMPQ values so we won't use them again
-            cacheTempoMPQ = -1;
+            // reset the tempoInBPM bnd tempoInMPQ vblues so we won't use them bgbin
+            cbcheTempoMPQ = -1;
         }
     }
 
 
-    public void setTempoFactor(float factor) {
-        if (factor <= 0) {
-            // should throw IllegalArgumentException
+    public void setTempoFbctor(flobt fbctor) {
+        if (fbctor <= 0) {
+            // should throw IllegblArgumentException
             return;
         }
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setTempoFactor() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setTempoFbctor() ");
 
-        if (needCaching()) {
-            cacheTempoFactor = factor;
+        if (needCbching()) {
+            cbcheTempoFbctor = fbctor;
         } else {
-            getDataPump().setTempoFactor(factor);
-            // don't need cache anymore
-            cacheTempoFactor = -1;
+            getDbtbPump().setTempoFbctor(fbctor);
+            // don't need cbche bnymore
+            cbcheTempoFbctor = -1;
         }
     }
 
 
-    public float getTempoFactor() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getTempoFactor() ");
+    public flobt getTempoFbctor() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getTempoFbctor() ");
 
-        if (needCaching()) {
-            if (cacheTempoFactor != -1) {
-                return cacheTempoFactor;
+        if (needCbching()) {
+            if (cbcheTempoFbctor != -1) {
+                return cbcheTempoFbctor;
             }
             return 1.0f;
         }
-        return getDataPump().getTempoFactor();
+        return getDbtbPump().getTempoFbctor();
     }
 
 
     public long getTickLength() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getTickLength() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getTickLength() ");
 
         if (sequence == null) {
             return 0;
@@ -454,41 +454,41 @@ final class RealTimeSequencer extends AbstractMidiDevice
 
 
     public synchronized long getTickPosition() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getTickPosition() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getTickPosition() ");
 
-        if (getDataPump() == null || sequence == null) {
+        if (getDbtbPump() == null || sequence == null) {
             return 0;
         }
 
-        return getDataPump().getTickPos();
+        return getDbtbPump().getTickPos();
     }
 
 
     public synchronized void setTickPosition(long tick) {
         if (tick < 0) {
-            // should throw IllegalArgumentException
+            // should throw IllegblArgumentException
             return;
         }
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setTickPosition("+tick+") ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setTickPosition("+tick+") ");
 
-        if (getDataPump() == null) {
+        if (getDbtbPump() == null) {
             if (tick != 0) {
-                // throw new InvalidStateException("cannot set position in closed state");
+                // throw new InvblidStbteException("cbnnot set position in closed stbte");
             }
         }
         else if (sequence == null) {
             if (tick != 0) {
-                // throw new InvalidStateException("cannot set position if sequence is not set");
+                // throw new InvblidStbteException("cbnnot set position if sequence is not set");
             }
         } else {
-            getDataPump().setTickPos(tick);
+            getDbtbPump().setTickPos(tick);
         }
     }
 
 
     public long getMicrosecondLength() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getMicrosecondLength() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getMicrosecondLength() ");
 
         if (sequence == null) {
             return 0;
@@ -499,166 +499,166 @@ final class RealTimeSequencer extends AbstractMidiDevice
 
 
     public long getMicrosecondPosition() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: getMicrosecondPosition() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: getMicrosecondPosition() ");
 
-        if (getDataPump() == null || sequence == null) {
+        if (getDbtbPump() == null || sequence == null) {
             return 0;
         }
-        synchronized (tempoCache) {
-            return MidiUtils.tick2microsecond(sequence, getDataPump().getTickPos(), tempoCache);
+        synchronized (tempoCbche) {
+            return MidiUtils.tick2microsecond(sequence, getDbtbPump().getTickPos(), tempoCbche);
         }
     }
 
 
     public void setMicrosecondPosition(long microseconds) {
         if (microseconds < 0) {
-            // should throw IllegalArgumentException
+            // should throw IllegblArgumentException
             return;
         }
 
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: setMicrosecondPosition("+microseconds+") ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: setMicrosecondPosition("+microseconds+") ");
 
-        if (getDataPump() == null) {
+        if (getDbtbPump() == null) {
             if (microseconds != 0) {
-                // throw new InvalidStateException("cannot set position in closed state");
+                // throw new InvblidStbteException("cbnnot set position in closed stbte");
             }
         }
         else if (sequence == null) {
             if (microseconds != 0) {
-                // throw new InvalidStateException("cannot set position if sequence is not set");
+                // throw new InvblidStbteException("cbnnot set position if sequence is not set");
             }
         } else {
-            synchronized(tempoCache) {
-                setTickPosition(MidiUtils.microsecond2tick(sequence, microseconds, tempoCache));
+            synchronized(tempoCbche) {
+                setTickPosition(MidiUtils.microsecond2tick(sequence, microseconds, tempoCbche));
             }
         }
     }
 
 
-    public void setMasterSyncMode(Sequencer.SyncMode sync) {
+    public void setMbsterSyncMode(Sequencer.SyncMode sync) {
         // not supported
     }
 
 
-    public Sequencer.SyncMode getMasterSyncMode() {
-        return masterSyncMode;
+    public Sequencer.SyncMode getMbsterSyncMode() {
+        return mbsterSyncMode;
     }
 
 
-    public Sequencer.SyncMode[] getMasterSyncModes() {
-        Sequencer.SyncMode[] returnedModes = new Sequencer.SyncMode[masterSyncModes.length];
-        System.arraycopy(masterSyncModes, 0, returnedModes, 0, masterSyncModes.length);
+    public Sequencer.SyncMode[] getMbsterSyncModes() {
+        Sequencer.SyncMode[] returnedModes = new Sequencer.SyncMode[mbsterSyncModes.length];
+        System.brrbycopy(mbsterSyncModes, 0, returnedModes, 0, mbsterSyncModes.length);
         return returnedModes;
     }
 
 
-    public void setSlaveSyncMode(Sequencer.SyncMode sync) {
+    public void setSlbveSyncMode(Sequencer.SyncMode sync) {
         // not supported
     }
 
 
-    public Sequencer.SyncMode getSlaveSyncMode() {
-        return slaveSyncMode;
+    public Sequencer.SyncMode getSlbveSyncMode() {
+        return slbveSyncMode;
     }
 
 
-    public Sequencer.SyncMode[] getSlaveSyncModes() {
-        Sequencer.SyncMode[] returnedModes = new Sequencer.SyncMode[slaveSyncModes.length];
-        System.arraycopy(slaveSyncModes, 0, returnedModes, 0, slaveSyncModes.length);
+    public Sequencer.SyncMode[] getSlbveSyncModes() {
+        Sequencer.SyncMode[] returnedModes = new Sequencer.SyncMode[slbveSyncModes.length];
+        System.brrbycopy(slbveSyncModes, 0, returnedModes, 0, slbveSyncModes.length);
         return returnedModes;
     }
 
-    int getTrackCount() {
+    int getTrbckCount() {
         Sequence seq = getSequence();
         if (seq != null) {
-            // $$fb wish there was a nicer way to get the number of tracks...
-            return sequence.getTracks().length;
+            // $$fb wish there wbs b nicer wby to get the number of trbcks...
+            return sequence.getTrbcks().length;
         }
         return 0;
     }
 
 
 
-    public synchronized void setTrackMute(int track, boolean mute) {
-        int trackCount = getTrackCount();
-        if (track < 0 || track >= getTrackCount()) return;
-        trackMuted = ensureBoolArraySize(trackMuted, trackCount);
-        trackMuted[track] = mute;
-        if (getDataPump() != null) {
-            getDataPump().muteSoloChanged();
+    public synchronized void setTrbckMute(int trbck, boolebn mute) {
+        int trbckCount = getTrbckCount();
+        if (trbck < 0 || trbck >= getTrbckCount()) return;
+        trbckMuted = ensureBoolArrbySize(trbckMuted, trbckCount);
+        trbckMuted[trbck] = mute;
+        if (getDbtbPump() != null) {
+            getDbtbPump().muteSoloChbnged();
         }
     }
 
 
-    public synchronized boolean getTrackMute(int track) {
-        if (track < 0 || track >= getTrackCount()) return false;
-        if (trackMuted == null || trackMuted.length <= track) return false;
-        return trackMuted[track];
+    public synchronized boolebn getTrbckMute(int trbck) {
+        if (trbck < 0 || trbck >= getTrbckCount()) return fblse;
+        if (trbckMuted == null || trbckMuted.length <= trbck) return fblse;
+        return trbckMuted[trbck];
     }
 
 
-    public synchronized void setTrackSolo(int track, boolean solo) {
-        int trackCount = getTrackCount();
-        if (track < 0 || track >= getTrackCount()) return;
-        trackSolo = ensureBoolArraySize(trackSolo, trackCount);
-        trackSolo[track] = solo;
-        if (getDataPump() != null) {
-            getDataPump().muteSoloChanged();
+    public synchronized void setTrbckSolo(int trbck, boolebn solo) {
+        int trbckCount = getTrbckCount();
+        if (trbck < 0 || trbck >= getTrbckCount()) return;
+        trbckSolo = ensureBoolArrbySize(trbckSolo, trbckCount);
+        trbckSolo[trbck] = solo;
+        if (getDbtbPump() != null) {
+            getDbtbPump().muteSoloChbnged();
         }
     }
 
 
-    public synchronized boolean getTrackSolo(int track) {
-        if (track < 0 || track >= getTrackCount()) return false;
-        if (trackSolo == null || trackSolo.length <= track) return false;
-        return trackSolo[track];
+    public synchronized boolebn getTrbckSolo(int trbck) {
+        if (trbck < 0 || trbck >= getTrbckCount()) return fblse;
+        if (trbckSolo == null || trbckSolo.length <= trbck) return fblse;
+        return trbckSolo[trbck];
     }
 
 
-    public boolean addMetaEventListener(MetaEventListener listener) {
-        synchronized(metaEventListeners) {
-            if (! metaEventListeners.contains(listener)) {
+    public boolebn bddMetbEventListener(MetbEventListener listener) {
+        synchronized(metbEventListeners) {
+            if (! metbEventListeners.contbins(listener)) {
 
-                metaEventListeners.add(listener);
+                metbEventListeners.bdd(listener);
             }
             return true;
         }
     }
 
 
-    public void removeMetaEventListener(MetaEventListener listener) {
-        synchronized(metaEventListeners) {
-            int index = metaEventListeners.indexOf(listener);
+    public void removeMetbEventListener(MetbEventListener listener) {
+        synchronized(metbEventListeners) {
+            int index = metbEventListeners.indexOf(listener);
             if (index >= 0) {
-                metaEventListeners.remove(index);
+                metbEventListeners.remove(index);
             }
         }
     }
 
 
-    public int[] addControllerEventListener(ControllerEventListener listener, int[] controllers) {
+    public int[] bddControllerEventListener(ControllerEventListener listener, int[] controllers) {
         synchronized(controllerEventListeners) {
 
-            // first find the listener.  if we have one, add the controllers
-            // if not, create a new element for it.
+            // first find the listener.  if we hbve one, bdd the controllers
+            // if not, crebte b new element for it.
             ControllerListElement cve = null;
-            boolean flag = false;
+            boolebn flbg = fblse;
             for(int i=0; i < controllerEventListeners.size(); i++) {
 
                 cve = controllerEventListeners.get(i);
 
-                if (cve.listener.equals(listener)) {
-                    cve.addControllers(controllers);
-                    flag = true;
-                    break;
+                if (cve.listener.equbls(listener)) {
+                    cve.bddControllers(controllers);
+                    flbg = true;
+                    brebk;
                 }
             }
-            if (!flag) {
+            if (!flbg) {
                 cve = new ControllerListElement(listener, controllers);
-                controllerEventListeners.add(cve);
+                controllerEventListeners.bdd(cve);
             }
 
-            // and return all the controllers this listener is interested in
+            // bnd return bll the controllers this listener is interested in
             return cve.getControllers();
         }
     }
@@ -667,16 +667,16 @@ final class RealTimeSequencer extends AbstractMidiDevice
     public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers) {
         synchronized(controllerEventListeners) {
             ControllerListElement cve = null;
-            boolean flag = false;
+            boolebn flbg = fblse;
             for (int i=0; i < controllerEventListeners.size(); i++) {
                 cve = controllerEventListeners.get(i);
-                if (cve.listener.equals(listener)) {
+                if (cve.listener.equbls(listener)) {
                     cve.removeControllers(controllers);
-                    flag = true;
-                    break;
+                    flbg = true;
+                    brebk;
                 }
             }
-            if (!flag) {
+            if (!flbg) {
                 return new int[0];
             }
             if (controllers == null) {
@@ -691,26 +691,26 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    ////////////////// LOOPING (added in 1.5) ///////////////////////
+    ////////////////// LOOPING (bdded in 1.5) ///////////////////////
 
-    public void setLoopStartPoint(long tick) {
+    public void setLoopStbrtPoint(long tick) {
         if ((tick > getTickLength())
             || ((loopEnd != -1) && (tick > loopEnd))
             || (tick < 0)) {
-            throw new IllegalArgumentException("invalid loop start point: "+tick);
+            throw new IllegblArgumentException("invblid loop stbrt point: "+tick);
         }
-        loopStart = tick;
+        loopStbrt = tick;
     }
 
-    public long getLoopStartPoint() {
-        return loopStart;
+    public long getLoopStbrtPoint() {
+        return loopStbrt;
     }
 
     public void setLoopEndPoint(long tick) {
         if ((tick > getTickLength())
-            || ((loopStart > tick) && (tick != -1))
+            || ((loopStbrt > tick) && (tick != -1))
             || (tick < -1)) {
-            throw new IllegalArgumentException("invalid loop end point: "+tick);
+            throw new IllegblArgumentException("invblid loop end point: "+tick);
         }
         loopEnd = tick;
     }
@@ -722,11 +722,11 @@ final class RealTimeSequencer extends AbstractMidiDevice
     public void setLoopCount(int count) {
         if (count != LOOP_CONTINUOUSLY
             && count < 0) {
-            throw new IllegalArgumentException("illegal value for loop count: "+count);
+            throw new IllegblArgumentException("illegbl vblue for loop count: "+count);
         }
         loopCount = count;
-        if (getDataPump() != null) {
-            getDataPump().resetLoopCount();
+        if (getDbtbPump() != null) {
+            getDbtbPump().resetLoopCount();
         }
     }
 
@@ -735,286 +735,286 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    /* *********************************** play control ************************* */
+    /* *********************************** plby control ************************* */
 
     /*
      */
-    protected void implOpen() throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: implOpen()");
+    protected void implOpen() throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: implOpen()");
 
-        //openInternalSynth();
+        //openInternblSynth();
 
-        // create PlayThread
-        playThread = new PlayThread();
+        // crebte PlbyThrebd
+        plbyThrebd = new PlbyThrebd();
 
         //id = nOpen();
         //if (id == 0) {
-        //    throw new MidiUnavailableException("unable to open sequencer");
+        //    throw new MidiUnbvbilbbleException("unbble to open sequencer");
         //}
         if (sequence != null) {
-            playThread.setSequence(sequence);
+            plbyThrebd.setSequence(sequence);
         }
 
-        // propagate caches
-        propagateCaches();
+        // propbgbte cbches
+        propbgbteCbches();
 
         if (doAutoConnectAtNextOpen) {
             doAutoConnect();
         }
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: implOpen() succeeded");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: implOpen() succeeded");
     }
 
-    private void doAutoConnect() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: doAutoConnect()");
+    privbte void doAutoConnect() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: doAutoConnect()");
         Receiver rec = null;
-        // first try to connect to the default synthesizer
+        // first try to connect to the defbult synthesizer
         // IMPORTANT: this code needs to be synch'ed with
-        //            MidiSystem.getSequencer(boolean), because the same
-        //            algorithm needs to be used!
+        //            MidiSystem.getSequencer(boolebn), becbuse the sbme
+        //            blgorithm needs to be used!
         try {
             Synthesizer synth = MidiSystem.getSynthesizer();
-            if (synth instanceof ReferenceCountingDevice) {
+            if (synth instbnceof ReferenceCountingDevice) {
                 rec = ((ReferenceCountingDevice) synth).getReceiverReferenceCounting();
             } else {
                 synth.open();
                 try {
                     rec = synth.getReceiver();
-                } finally {
-                    // make sure that the synth is properly closed
+                } finblly {
+                    // mbke sure thbt the synth is properly closed
                     if (rec == null) {
                         synth.close();
                     }
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             // something went wrong with synth
         }
         if (rec == null) {
-            // then try to connect to the default Receiver
+            // then try to connect to the defbult Receiver
             try {
                 rec = MidiSystem.getReceiver();
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // something went wrong. Nothing to do then!
             }
         }
         if (rec != null) {
-            autoConnectedReceiver = rec;
+            butoConnectedReceiver = rec;
             try {
-                getTransmitter().setReceiver(rec);
-            } catch (Exception e) {}
+                getTrbnsmitter().setReceiver(rec);
+            } cbtch (Exception e) {}
         }
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: doAutoConnect() succeeded");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: doAutoConnect() succeeded");
     }
 
-    private synchronized void propagateCaches() {
-        // only set caches if open and sequence is set
+    privbte synchronized void propbgbteCbches() {
+        // only set cbches if open bnd sequence is set
         if (sequence != null && isOpen()) {
-            if (cacheTempoFactor != -1) {
-                setTempoFactor(cacheTempoFactor);
+            if (cbcheTempoFbctor != -1) {
+                setTempoFbctor(cbcheTempoFbctor);
             }
-            if (cacheTempoMPQ == -1) {
-                setTempoInMPQ((new MidiUtils.TempoCache(sequence)).getTempoMPQAt(getTickPosition()));
+            if (cbcheTempoMPQ == -1) {
+                setTempoInMPQ((new MidiUtils.TempoCbche(sequence)).getTempoMPQAt(getTickPosition()));
             } else {
-                setTempoInMPQ((float) cacheTempoMPQ);
+                setTempoInMPQ((flobt) cbcheTempoMPQ);
             }
         }
     }
 
-    /** populate the caches with the current values */
-    private synchronized void setCaches() {
-        cacheTempoFactor = getTempoFactor();
-        cacheTempoMPQ = getTempoInMPQ();
+    /** populbte the cbches with the current vblues */
+    privbte synchronized void setCbches() {
+        cbcheTempoFbctor = getTempoFbctor();
+        cbcheTempoMPQ = getTempoInMPQ();
     }
 
 
 
     protected synchronized void implClose() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: implClose() ");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: implClose() ");
 
-        if (playThread == null) {
-            if (Printer.err) Printer.err("RealTimeSequencer.implClose() called, but playThread not instanciated!");
+        if (plbyThrebd == null) {
+            if (Printer.err) Printer.err("ReblTimeSequencer.implClose() cblled, but plbyThrebd not instbncibted!");
         } else {
-            // Interrupt playback loop.
-            playThread.close();
-            playThread = null;
+            // Interrupt plbybbck loop.
+            plbyThrebd.close();
+            plbyThrebd = null;
         }
 
         super.implClose();
 
         sequence = null;
-        running = false;
-        cacheTempoMPQ = -1;
-        cacheTempoFactor = -1;
-        trackMuted = null;
-        trackSolo = null;
-        loopStart = 0;
+        running = fblse;
+        cbcheTempoMPQ = -1;
+        cbcheTempoFbctor = -1;
+        trbckMuted = null;
+        trbckSolo = null;
+        loopStbrt = 0;
         loopEnd = -1;
         loopCount = 0;
 
-        /** if this sequencer is set to autoconnect, need to
-         * re-establish the connection at next open!
+        /** if this sequencer is set to butoconnect, need to
+         * re-estbblish the connection bt next open!
          */
-        doAutoConnectAtNextOpen = autoConnect;
+        doAutoConnectAtNextOpen = butoConnect;
 
-        if (autoConnectedReceiver != null) {
+        if (butoConnectedReceiver != null) {
             try {
-                autoConnectedReceiver.close();
-            } catch (Exception e) {}
-            autoConnectedReceiver = null;
+                butoConnectedReceiver.close();
+            } cbtch (Exception e) {}
+            butoConnectedReceiver = null;
         }
 
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: implClose() completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: implClose() completed");
     }
 
-    void implStart() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: implStart()");
+    void implStbrt() {
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: implStbrt()");
 
-        if (playThread == null) {
-            if (Printer.err) Printer.err("RealTimeSequencer.implStart() called, but playThread not instanciated!");
+        if (plbyThrebd == null) {
+            if (Printer.err) Printer.err("ReblTimeSequencer.implStbrt() cblled, but plbyThrebd not instbncibted!");
             return;
         }
 
-        tempoCache.refresh(sequence);
+        tempoCbche.refresh(sequence);
         if (!running) {
             running  = true;
-            playThread.start();
+            plbyThrebd.stbrt();
         }
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: implStart() completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: implStbrt() completed");
     }
 
 
     void implStop() {
-        if (Printer.trace) Printer.trace(">> RealTimeSequencer: implStop()");
+        if (Printer.trbce) Printer.trbce(">> ReblTimeSequencer: implStop()");
 
-        if (playThread == null) {
-            if (Printer.err) Printer.err("RealTimeSequencer.implStop() called, but playThread not instanciated!");
+        if (plbyThrebd == null) {
+            if (Printer.err) Printer.err("ReblTimeSequencer.implStop() cblled, but plbyThrebd not instbncibted!");
             return;
         }
 
-        recording = false;
+        recording = fblse;
         if (running) {
-            running = false;
-            playThread.stop();
+            running = fblse;
+            plbyThrebd.stop();
         }
-        if (Printer.trace) Printer.trace("<< RealTimeSequencer: implStop() completed");
+        if (Printer.trbce) Printer.trbce("<< ReblTimeSequencer: implStop() completed");
     }
 
-    private static EventDispatcher getEventDispatcher() {
-        // create and start the global event thread
-        //TODO  need a way to stop this thread when the engine is done
-        final ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        synchronized (dispatchers) {
-            EventDispatcher eventDispatcher = dispatchers.get(tg);
-            if (eventDispatcher == null) {
-                eventDispatcher = new EventDispatcher();
-                dispatchers.put(tg, eventDispatcher);
-                eventDispatcher.start();
+    privbte stbtic EventDispbtcher getEventDispbtcher() {
+        // crebte bnd stbrt the globbl event threbd
+        //TODO  need b wby to stop this threbd when the engine is done
+        finbl ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+        synchronized (dispbtchers) {
+            EventDispbtcher eventDispbtcher = dispbtchers.get(tg);
+            if (eventDispbtcher == null) {
+                eventDispbtcher = new EventDispbtcher();
+                dispbtchers.put(tg, eventDispbtcher);
+                eventDispbtcher.stbrt();
             }
-            return eventDispatcher;
+            return eventDispbtcher;
         }
     }
 
     /**
-     * Send midi player events.
+     * Send midi plbyer events.
      * must not be synchronized on "this"
      */
-    void sendMetaEvents(MidiMessage message) {
-        if (metaEventListeners.size() == 0) return;
+    void sendMetbEvents(MidiMessbge messbge) {
+        if (metbEventListeners.size() == 0) return;
 
-        //if (Printer.debug) Printer.debug("sending a meta event");
-        getEventDispatcher().sendAudioEvents(message, metaEventListeners);
+        //if (Printer.debug) Printer.debug("sending b metb event");
+        getEventDispbtcher().sendAudioEvents(messbge, metbEventListeners);
     }
 
     /**
-     * Send midi player events.
+     * Send midi plbyer events.
      */
-    void sendControllerEvents(MidiMessage message) {
+    void sendControllerEvents(MidiMessbge messbge) {
         int size = controllerEventListeners.size();
         if (size == 0) return;
 
-        //if (Printer.debug) Printer.debug("sending a controller event");
+        //if (Printer.debug) Printer.debug("sending b controller event");
 
-        if (! (message instanceof ShortMessage)) {
-            if (Printer.debug) Printer.debug("sendControllerEvents: message is NOT instanceof ShortMessage!");
+        if (! (messbge instbnceof ShortMessbge)) {
+            if (Printer.debug) Printer.debug("sendControllerEvents: messbge is NOT instbnceof ShortMessbge!");
             return;
         }
-        ShortMessage msg = (ShortMessage) message;
-        int controller = msg.getData1();
-        List<Object> sendToListeners = new ArrayList<>();
+        ShortMessbge msg = (ShortMessbge) messbge;
+        int controller = msg.getDbtb1();
+        List<Object> sendToListeners = new ArrbyList<>();
         for (int i = 0; i < size; i++) {
             ControllerListElement cve = controllerEventListeners.get(i);
             for(int j = 0; j < cve.controllers.length; j++) {
                 if (cve.controllers[j] == controller) {
-                    sendToListeners.add(cve.listener);
-                    break;
+                    sendToListeners.bdd(cve.listener);
+                    brebk;
                 }
             }
         }
-        getEventDispatcher().sendAudioEvents(message, sendToListeners);
+        getEventDispbtcher().sendAudioEvents(messbge, sendToListeners);
     }
 
 
 
-    private boolean needCaching() {
-        return !isOpen() || (sequence == null) || (playThread == null);
+    privbte boolebn needCbching() {
+        return !isOpen() || (sequence == null) || (plbyThrebd == null);
     }
 
     /**
-     * return the data pump instance, owned by play thread
-     * if playthread is null, return null.
-     * This method is guaranteed to return non-null if
-     * needCaching returns false
+     * return the dbtb pump instbnce, owned by plby threbd
+     * if plbythrebd is null, return null.
+     * This method is gubrbnteed to return non-null if
+     * needCbching returns fblse
      */
-    private DataPump getDataPump() {
-        if (playThread != null) {
-            return playThread.getDataPump();
+    privbte DbtbPump getDbtbPump() {
+        if (plbyThrebd != null) {
+            return plbyThrebd.getDbtbPump();
         }
         return null;
     }
 
-    private MidiUtils.TempoCache getTempoCache() {
-        return tempoCache;
+    privbte MidiUtils.TempoCbche getTempoCbche() {
+        return tempoCbche;
     }
 
-    private static boolean[] ensureBoolArraySize(boolean[] array, int desiredSize) {
-        if (array == null) {
-            return new boolean[desiredSize];
+    privbte stbtic boolebn[] ensureBoolArrbySize(boolebn[] brrby, int desiredSize) {
+        if (brrby == null) {
+            return new boolebn[desiredSize];
         }
-        if (array.length < desiredSize) {
-            boolean[] newArray = new boolean[desiredSize];
-            System.arraycopy(array, 0, newArray, 0, array.length);
-            return newArray;
+        if (brrby.length < desiredSize) {
+            boolebn[] newArrby = new boolebn[desiredSize];
+            System.brrbycopy(brrby, 0, newArrby, 0, brrby.length);
+            return newArrby;
         }
-        return array;
+        return brrby;
     }
 
 
     // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
 
-    protected boolean hasReceivers() {
+    protected boolebn hbsReceivers() {
         return true;
     }
 
     // for recording
-    protected Receiver createReceiver() throws MidiUnavailableException {
+    protected Receiver crebteReceiver() throws MidiUnbvbilbbleException {
         return new SequencerReceiver();
     }
 
 
-    protected boolean hasTransmitters() {
+    protected boolebn hbsTrbnsmitters() {
         return true;
     }
 
 
-    protected Transmitter createTransmitter() throws MidiUnavailableException {
-        return new SequencerTransmitter();
+    protected Trbnsmitter crebteTrbnsmitter() throws MidiUnbvbilbbleException {
+        return new SequencerTrbnsmitter();
     }
 
 
-    // interface AutoConnectSequencer
-    public void setAutoConnect(Receiver autoConnectedReceiver) {
-        this.autoConnect = (autoConnectedReceiver != null);
-        this.autoConnectedReceiver = autoConnectedReceiver;
+    // interfbce AutoConnectSequencer
+    public void setAutoConnect(Receiver butoConnectedReceiver) {
+        this.butoConnect = (butoConnectedReceiver != null);
+        this.butoConnectedReceiver = butoConnectedReceiver;
     }
 
 
@@ -1022,58 +1022,58 @@ final class RealTimeSequencer extends AbstractMidiDevice
     // INNER CLASSES
 
     /**
-     * An own class to distinguish the class name from
-     * the transmitter of other devices
+     * An own clbss to distinguish the clbss nbme from
+     * the trbnsmitter of other devices
      */
-    private class SequencerTransmitter extends BasicTransmitter {
-        private SequencerTransmitter() {
+    privbte clbss SequencerTrbnsmitter extends BbsicTrbnsmitter {
+        privbte SequencerTrbnsmitter() {
             super();
         }
     }
 
 
-    final class SequencerReceiver extends AbstractReceiver {
+    finbl clbss SequencerReceiver extends AbstrbctReceiver {
 
-        void implSend(MidiMessage message, long timeStamp) {
+        void implSend(MidiMessbge messbge, long timeStbmp) {
             if (recording) {
                 long tickPos = 0;
 
-                // convert timeStamp to ticks
-                if (timeStamp < 0) {
+                // convert timeStbmp to ticks
+                if (timeStbmp < 0) {
                     tickPos = getTickPosition();
                 } else {
-                    synchronized(tempoCache) {
-                        tickPos = MidiUtils.microsecond2tick(sequence, timeStamp, tempoCache);
+                    synchronized(tempoCbche) {
+                        tickPos = MidiUtils.microsecond2tick(sequence, timeStbmp, tempoCbche);
                     }
                 }
 
-                // and record to the first matching Track
-                Track track = null;
-                // do not record real-time events
-                // see 5048381: NullPointerException when saving a MIDI sequence
-                if (message.getLength() > 1) {
-                    if (message instanceof ShortMessage) {
-                        ShortMessage sm = (ShortMessage) message;
-                        // all real-time messages have 0xF in the high nibble of the status byte
-                        if ((sm.getStatus() & 0xF0) != 0xF0) {
-                            track = RecordingTrack.get(recordingTracks, sm.getChannel());
+                // bnd record to the first mbtching Trbck
+                Trbck trbck = null;
+                // do not record rebl-time events
+                // see 5048381: NullPointerException when sbving b MIDI sequence
+                if (messbge.getLength() > 1) {
+                    if (messbge instbnceof ShortMessbge) {
+                        ShortMessbge sm = (ShortMessbge) messbge;
+                        // bll rebl-time messbges hbve 0xF in the high nibble of the stbtus byte
+                        if ((sm.getStbtus() & 0xF0) != 0xF0) {
+                            trbck = RecordingTrbck.get(recordingTrbcks, sm.getChbnnel());
                         }
                     } else {
-                        // $$jb: where to record meta, sysex events?
-                        // $$fb: the first recording track
-                        track = RecordingTrack.get(recordingTracks, -1);
+                        // $$jb: where to record metb, sysex events?
+                        // $$fb: the first recording trbck
+                        trbck = RecordingTrbck.get(recordingTrbcks, -1);
                     }
-                    if (track != null) {
-                        // create a copy of this message
-                        if (message instanceof ShortMessage) {
-                            message = new FastShortMessage((ShortMessage) message);
+                    if (trbck != null) {
+                        // crebte b copy of this messbge
+                        if (messbge instbnceof ShortMessbge) {
+                            messbge = new FbstShortMessbge((ShortMessbge) messbge);
                         } else {
-                            message = (MidiMessage) message.clone();
+                            messbge = (MidiMessbge) messbge.clone();
                         }
 
-                        // create new MidiEvent
-                        MidiEvent me = new MidiEvent(message, tickPos);
-                        track.add(me);
+                        // crebte new MidiEvent
+                        MidiEvent me = new MidiEvent(messbge, tickPos);
+                        trbck.bdd(me);
                     }
                 }
             }
@@ -1081,28 +1081,28 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    private static class RealTimeSequencerInfo extends MidiDevice.Info {
+    privbte stbtic clbss ReblTimeSequencerInfo extends MidiDevice.Info {
 
-        private static final String name = "Real Time Sequencer";
-        private static final String vendor = "Oracle Corporation";
-        private static final String description = "Software sequencer";
-        private static final String version = "Version 1.0";
+        privbte stbtic finbl String nbme = "Rebl Time Sequencer";
+        privbte stbtic finbl String vendor = "Orbcle Corporbtion";
+        privbte stbtic finbl String description = "Softwbre sequencer";
+        privbte stbtic finbl String version = "Version 1.0";
 
-        private RealTimeSequencerInfo() {
-            super(name, vendor, description, version);
+        privbte ReblTimeSequencerInfo() {
+            super(nbme, vendor, description, version);
         }
-    } // class Info
+    } // clbss Info
 
 
-    private class ControllerListElement {
+    privbte clbss ControllerListElement {
 
-        // $$jb: using an array for controllers b/c its
-        //       easier to deal with than turning all the
-        //       ints into objects to use a Vector
+        // $$jb: using bn brrby for controllers b/c its
+        //       ebsier to debl with thbn turning bll the
+        //       ints into objects to use b Vector
         int []  controllers;
-        final ControllerEventListener listener;
+        finbl ControllerEventListener listener;
 
-        private ControllerListElement(ControllerEventListener listener, int[] controllers) {
+        privbte ControllerListElement(ControllerEventListener listener, int[] controllers) {
 
             this.listener = listener;
             if (controllers == null) {
@@ -1114,7 +1114,7 @@ final class RealTimeSequencer extends AbstractMidiDevice
             this.controllers = controllers;
         }
 
-        private void addControllers(int[] c) {
+        privbte void bddControllers(int[] c) {
 
             if (c==null) {
                 controllers = new int[128];
@@ -1126,22 +1126,22 @@ final class RealTimeSequencer extends AbstractMidiDevice
             int temp[] = new int[ controllers.length + c.length ];
             int elements;
 
-            // first add what we have
+            // first bdd whbt we hbve
             for(int i=0; i<controllers.length; i++) {
                 temp[i] = controllers[i];
             }
             elements = controllers.length;
-            // now add the new controllers only if we don't already have them
+            // now bdd the new controllers only if we don't blrebdy hbve them
             for(int i=0; i<c.length; i++) {
-                boolean flag = false;
+                boolebn flbg = fblse;
 
                 for(int j=0; j<controllers.length; j++) {
                     if (c[i] == controllers[j]) {
-                        flag = true;
-                        break;
+                        flbg = true;
+                        brebk;
                     }
                 }
-                if (!flag) {
+                if (!flbg) {
                     temp[elements++] = c[i];
                 }
             }
@@ -1153,7 +1153,7 @@ final class RealTimeSequencer extends AbstractMidiDevice
             controllers = newc;
         }
 
-        private void removeControllers(int[] c) {
+        privbte void removeControllers(int[] c) {
 
             if (c==null) {
                 controllers = new int[0];
@@ -1163,18 +1163,18 @@ final class RealTimeSequencer extends AbstractMidiDevice
 
 
                 for(int i=0; i<controllers.length; i++){
-                    boolean flag = false;
+                    boolebn flbg = fblse;
                     for(int j=0; j<c.length; j++) {
                         if (controllers[i] == c[j]) {
-                            flag = true;
-                            break;
+                            flbg = true;
+                            brebk;
                         }
                     }
-                    if (!flag){
+                    if (!flbg){
                         temp[elements++] = controllers[i];
                     }
                 }
-                // now keep only the elements remaining
+                // now keep only the elements rembining
                 int newc[] = new int[ elements ];
                 for(int i=0; i<elements; i++) {
                     newc[i] = temp[i];
@@ -1184,10 +1184,10 @@ final class RealTimeSequencer extends AbstractMidiDevice
             }
         }
 
-        private int[] getControllers() {
+        privbte int[] getControllers() {
 
-            // return a copy of our array of controllers,
-            // so others can't mess with it
+            // return b copy of our brrby of controllers,
+            // so others cbn't mess with it
             if (controllers == null) {
                 return null;
             }
@@ -1200,27 +1200,27 @@ final class RealTimeSequencer extends AbstractMidiDevice
             return c;
         }
 
-    } // class ControllerListElement
+    } // clbss ControllerListElement
 
 
-    static class RecordingTrack {
+    stbtic clbss RecordingTrbck {
 
-        private final Track track;
-        private int channel;
+        privbte finbl Trbck trbck;
+        privbte int chbnnel;
 
-        RecordingTrack(Track track, int channel) {
-            this.track = track;
-            this.channel = channel;
+        RecordingTrbck(Trbck trbck, int chbnnel) {
+            this.trbck = trbck;
+            this.chbnnel = chbnnel;
         }
 
-        static RecordingTrack get(List<RecordingTrack> recordingTracks, Track track) {
+        stbtic RecordingTrbck get(List<RecordingTrbck> recordingTrbcks, Trbck trbck) {
 
-            synchronized(recordingTracks) {
-                int size = recordingTracks.size();
+            synchronized(recordingTrbcks) {
+                int size = recordingTrbcks.size();
 
                 for (int i = 0; i < size; i++) {
-                    RecordingTrack current = recordingTracks.get(i);
-                    if (current.track == track) {
+                    RecordingTrbck current = recordingTrbcks.get(i);
+                    if (current.trbck == trbck) {
                         return current;
                     }
                 }
@@ -1228,14 +1228,14 @@ final class RealTimeSequencer extends AbstractMidiDevice
             return null;
         }
 
-        static Track get(List<RecordingTrack> recordingTracks, int channel) {
+        stbtic Trbck get(List<RecordingTrbck> recordingTrbcks, int chbnnel) {
 
-            synchronized(recordingTracks) {
-                int size = recordingTracks.size();
+            synchronized(recordingTrbcks) {
+                int size = recordingTrbcks.size();
                 for (int i = 0; i < size; i++) {
-                    RecordingTrack current = recordingTracks.get(i);
-                    if ((current.channel == channel) || (current.channel == -1)) {
-                        return current.track;
+                    RecordingTrbck current = recordingTrbcks.get(i);
+                    if ((current.chbnnel == chbnnel) || (current.chbnnel == -1)) {
+                        return current.trbck;
                     }
                 }
             }
@@ -1245,275 +1245,275 @@ final class RealTimeSequencer extends AbstractMidiDevice
     }
 
 
-    final class PlayThread implements Runnable {
-        private Thread thread;
-        private final Object lock = new Object();
+    finbl clbss PlbyThrebd implements Runnbble {
+        privbte Threbd threbd;
+        privbte finbl Object lock = new Object();
 
-        /** true if playback is interrupted (in close) */
-        boolean interrupted = false;
-        boolean isPumping = false;
+        /** true if plbybbck is interrupted (in close) */
+        boolebn interrupted = fblse;
+        boolebn isPumping = fblse;
 
-        private final DataPump dataPump = new DataPump();
+        privbte finbl DbtbPump dbtbPump = new DbtbPump();
 
 
-        PlayThread() {
-            // nearly MAX_PRIORITY
-            int priority = Thread.NORM_PRIORITY
-                + ((Thread.MAX_PRIORITY - Thread.NORM_PRIORITY) * 3) / 4;
-            thread = JSSecurityManager.createThread(this,
-                                                    "Java Sound Sequencer", // name
-                                                    false,                  // daemon
+        PlbyThrebd() {
+            // nebrly MAX_PRIORITY
+            int priority = Threbd.NORM_PRIORITY
+                + ((Threbd.MAX_PRIORITY - Threbd.NORM_PRIORITY) * 3) / 4;
+            threbd = JSSecurityMbnbger.crebteThrebd(this,
+                                                    "Jbvb Sound Sequencer", // nbme
+                                                    fblse,                  // dbemon
                                                     priority,               // priority
-                                                    true);                  // doStart
+                                                    true);                  // doStbrt
         }
 
-        DataPump getDataPump() {
-            return dataPump;
+        DbtbPump getDbtbPump() {
+            return dbtbPump;
         }
 
         synchronized void setSequence(Sequence seq) {
-            dataPump.setSequence(seq);
+            dbtbPump.setSequence(seq);
         }
 
 
-        /** start thread and pump. Requires up-to-date tempoCache */
-        synchronized void start() {
-            // mark the sequencer running
+        /** stbrt threbd bnd pump. Requires up-to-dbte tempoCbche */
+        synchronized void stbrt() {
+            // mbrk the sequencer running
             running = true;
 
-            if (!dataPump.hasCachedTempo()) {
+            if (!dbtbPump.hbsCbchedTempo()) {
                 long tickPos = getTickPosition();
-                dataPump.setTempoMPQ(tempoCache.getTempoMPQAt(tickPos));
+                dbtbPump.setTempoMPQ(tempoCbche.getTempoMPQAt(tickPos));
             }
-            dataPump.checkPointMillis = 0; // means restarted
-            dataPump.clearNoteOnCache();
-            dataPump.needReindex = true;
+            dbtbPump.checkPointMillis = 0; // mebns restbrted
+            dbtbPump.clebrNoteOnCbche();
+            dbtbPump.needReindex = true;
 
-            dataPump.resetLoopCount();
+            dbtbPump.resetLoopCount();
 
-            // notify the thread
+            // notify the threbd
             synchronized(lock) {
                 lock.notifyAll();
             }
 
-            if (Printer.debug) Printer.debug(" ->Started MIDI play thread");
+            if (Printer.debug) Printer.debug(" ->Stbrted MIDI plby threbd");
 
         }
 
-        // waits until stopped
+        // wbits until stopped
         synchronized void stop() {
-            playThreadImplStop();
-            long t = System.nanoTime() / 1000000l;
+            plbyThrebdImplStop();
+            long t = System.nbnoTime() / 1000000l;
             while (isPumping) {
                 synchronized(lock) {
                     try {
-                        lock.wait(2000);
-                    } catch (InterruptedException ie) {
+                        lock.wbit(2000);
+                    } cbtch (InterruptedException ie) {
                         // ignore
                     }
                 }
-                // don't wait for more than 2 seconds
-                if ((System.nanoTime()/1000000l) - t > 1900) {
-                    if (Printer.err) Printer.err("Waited more than 2 seconds in RealTimeSequencer.PlayThread.stop()!");
-                    //break;
+                // don't wbit for more thbn 2 seconds
+                if ((System.nbnoTime()/1000000l) - t > 1900) {
+                    if (Printer.err) Printer.err("Wbited more thbn 2 seconds in ReblTimeSequencer.PlbyThrebd.stop()!");
+                    //brebk;
                 }
             }
         }
 
-        void playThreadImplStop() {
-            // mark the sequencer running
-            running = false;
+        void plbyThrebdImplStop() {
+            // mbrk the sequencer running
+            running = fblse;
             synchronized(lock) {
                 lock.notifyAll();
             }
         }
 
         void close() {
-            Thread oldThread = null;
+            Threbd oldThrebd = null;
             synchronized (this) {
-                // dispose of thread
+                // dispose of threbd
                 interrupted = true;
-                oldThread = thread;
-                thread = null;
+                oldThrebd = threbd;
+                threbd = null;
             }
-            if (oldThread != null) {
-                // wake up the thread if it's in wait()
+            if (oldThrebd != null) {
+                // wbke up the threbd if it's in wbit()
                 synchronized(lock) {
                     lock.notifyAll();
                 }
             }
-            // wait for the thread to terminate itself,
-            // but max. 2 seconds. Must not be synchronized!
-            if (oldThread != null) {
+            // wbit for the threbd to terminbte itself,
+            // but mbx. 2 seconds. Must not be synchronized!
+            if (oldThrebd != null) {
                 try {
-                    oldThread.join(2000);
-                } catch (InterruptedException ie) {}
+                    oldThrebd.join(2000);
+                } cbtch (InterruptedException ie) {}
             }
         }
 
 
         /**
-         * Main process loop driving the media flow.
+         * Mbin process loop driving the medib flow.
          *
-         * Make sure to NOT synchronize on RealTimeSequencer
-         * anywhere here (even implicit). That is a sure deadlock!
+         * Mbke sure to NOT synchronize on ReblTimeSequencer
+         * bnywhere here (even implicit). Thbt is b sure debdlock!
          */
         public void run() {
 
             while (!interrupted) {
-                boolean EOM = false;
-                boolean wasRunning = running;
+                boolebn EOM = fblse;
+                boolebn wbsRunning = running;
                 isPumping = !interrupted && running;
                 while (!EOM && !interrupted && running) {
-                    EOM = dataPump.pump();
+                    EOM = dbtbPump.pump();
 
                     try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ie) {
+                        Threbd.sleep(1);
+                    } cbtch (InterruptedException ie) {
                         // ignore
                     }
                 }
                 if (Printer.debug) {
-                    Printer.debug("Exited main pump loop because: ");
-                    if (EOM) Printer.debug(" -> EOM is reached");
-                    if (!running) Printer.debug(" -> running was set to false");
-                    if (interrupted) Printer.debug(" -> interrupted was set to true");
+                    Printer.debug("Exited mbin pump loop becbuse: ");
+                    if (EOM) Printer.debug(" -> EOM is rebched");
+                    if (!running) Printer.debug(" -> running wbs set to fblse");
+                    if (interrupted) Printer.debug(" -> interrupted wbs set to true");
                 }
 
-                playThreadImplStop();
-                if (wasRunning) {
-                    dataPump.notesOff(true);
+                plbyThrebdImplStop();
+                if (wbsRunning) {
+                    dbtbPump.notesOff(true);
                 }
                 if (EOM) {
-                    dataPump.setTickPos(sequence.getTickLength());
+                    dbtbPump.setTickPos(sequence.getTickLength());
 
-                    // send EOT event (mis-used for end of media)
-                    MetaMessage message = new MetaMessage();
+                    // send EOT event (mis-used for end of medib)
+                    MetbMessbge messbge = new MetbMessbge();
                     try{
-                        message.setMessage(MidiUtils.META_END_OF_TRACK_TYPE, new byte[0], 0);
-                    } catch(InvalidMidiDataException e1) {}
-                    sendMetaEvents(message);
+                        messbge.setMessbge(MidiUtils.META_END_OF_TRACK_TYPE, new byte[0], 0);
+                    } cbtch(InvblidMidiDbtbException e1) {}
+                    sendMetbEvents(messbge);
                 }
                 synchronized (lock) {
-                    isPumping = false;
-                    // wake up a waiting stop() method
+                    isPumping = fblse;
+                    // wbke up b wbiting stop() method
                     lock.notifyAll();
                     while (!running && !interrupted) {
                         try {
-                            lock.wait();
-                        } catch (Exception ex) {}
+                            lock.wbit();
+                        } cbtch (Exception ex) {}
                     }
                 }
             } // end of while(!EOM && !interrupted && running)
-            if (Printer.debug) Printer.debug("end of play thread");
+            if (Printer.debug) Printer.debug("end of plby threbd");
         }
     }
 
 
     /**
-     * class that does the actual dispatching of events,
-     * used to be in native in MMAPI
+     * clbss thbt does the bctubl dispbtching of events,
+     * used to be in nbtive in MMAPI
      */
-    private class DataPump {
-        private float currTempo;         // MPQ tempo
-        private float tempoFactor;       // 1.0 is default
-        private float inverseTempoFactor;// = 1.0 / tempoFactor
-        private long ignoreTempoEventAt; // ignore next META tempo during playback at this tick pos only
-        private int resolution;
-        private float divisionType;
-        private long checkPointMillis;   // microseconds at checkoint
-        private long checkPointTick;     // ticks at checkpoint
-        private int[] noteOnCache;       // bit-mask of notes that are currently on
-        private Track[] tracks;
-        private boolean[] trackDisabled; // if true, do not play this track
-        private int[] trackReadPos;      // read index per track
-        private long lastTick;
-        private boolean needReindex = false;
-        private int currLoopCounter = 0;
+    privbte clbss DbtbPump {
+        privbte flobt currTempo;         // MPQ tempo
+        privbte flobt tempoFbctor;       // 1.0 is defbult
+        privbte flobt inverseTempoFbctor;// = 1.0 / tempoFbctor
+        privbte long ignoreTempoEventAt; // ignore next META tempo during plbybbck bt this tick pos only
+        privbte int resolution;
+        privbte flobt divisionType;
+        privbte long checkPointMillis;   // microseconds bt checkoint
+        privbte long checkPointTick;     // ticks bt checkpoint
+        privbte int[] noteOnCbche;       // bit-mbsk of notes thbt bre currently on
+        privbte Trbck[] trbcks;
+        privbte boolebn[] trbckDisbbled; // if true, do not plby this trbck
+        privbte int[] trbckRebdPos;      // rebd index per trbck
+        privbte long lbstTick;
+        privbte boolebn needReindex = fblse;
+        privbte int currLoopCounter = 0;
 
-        //private sun.misc.Perf perf = sun.misc.Perf.getPerf();
-        //private long perfFreq = perf.highResFrequency();
+        //privbte sun.misc.Perf perf = sun.misc.Perf.getPerf();
+        //privbte long perfFreq = perf.highResFrequency();
 
 
-        DataPump() {
+        DbtbPump() {
             init();
         }
 
         synchronized void init() {
             ignoreTempoEventAt = -1;
-            tempoFactor = 1.0f;
-            inverseTempoFactor = 1.0f;
-            noteOnCache = new int[128];
-            tracks = null;
-            trackDisabled = null;
+            tempoFbctor = 1.0f;
+            inverseTempoFbctor = 1.0f;
+            noteOnCbche = new int[128];
+            trbcks = null;
+            trbckDisbbled = null;
         }
 
         synchronized void setTickPos(long tickPos) {
-            long oldLastTick = tickPos;
-            lastTick = tickPos;
+            long oldLbstTick = tickPos;
+            lbstTick = tickPos;
             if (running) {
-                notesOff(false);
+                notesOff(fblse);
             }
             if (running || tickPos > 0) {
-                // will also reindex
-                chaseEvents(oldLastTick, tickPos);
+                // will blso reindex
+                chbseEvents(oldLbstTick, tickPos);
             } else {
                 needReindex = true;
             }
-            if (!hasCachedTempo()) {
-                setTempoMPQ(getTempoCache().getTempoMPQAt(lastTick, currTempo));
-                // treat this as if it is a real time tempo change
+            if (!hbsCbchedTempo()) {
+                setTempoMPQ(getTempoCbche().getTempoMPQAt(lbstTick, currTempo));
+                // trebt this bs if it is b rebl time tempo chbnge
                 ignoreTempoEventAt = -1;
             }
-            // trigger re-configuration
+            // trigger re-configurbtion
             checkPointMillis = 0;
         }
 
         long getTickPos() {
-            return lastTick;
+            return lbstTick;
         }
 
-        // hasCachedTempo is only valid if it is the current position
-        boolean hasCachedTempo() {
-            if (ignoreTempoEventAt != lastTick) {
+        // hbsCbchedTempo is only vblid if it is the current position
+        boolebn hbsCbchedTempo() {
+            if (ignoreTempoEventAt != lbstTick) {
                 ignoreTempoEventAt = -1;
             }
             return ignoreTempoEventAt >= 0;
         }
 
-        // this method is also used internally in the pump!
-        synchronized void setTempoMPQ(float tempoMPQ) {
+        // this method is blso used internblly in the pump!
+        synchronized void setTempoMPQ(flobt tempoMPQ) {
             if (tempoMPQ > 0 && tempoMPQ != currTempo) {
-                ignoreTempoEventAt = lastTick;
+                ignoreTempoEventAt = lbstTick;
                 this.currTempo = tempoMPQ;
-                // re-calculate check point
+                // re-cblculbte check point
                 checkPointMillis = 0;
             }
         }
 
-        float getTempoMPQ() {
+        flobt getTempoMPQ() {
             return currTempo;
         }
 
-        synchronized void setTempoFactor(float factor) {
-            if (factor > 0 && factor != this.tempoFactor) {
-                tempoFactor = factor;
-                inverseTempoFactor = 1.0f / factor;
-                // re-calculate check point
+        synchronized void setTempoFbctor(flobt fbctor) {
+            if (fbctor > 0 && fbctor != this.tempoFbctor) {
+                tempoFbctor = fbctor;
+                inverseTempoFbctor = 1.0f / fbctor;
+                // re-cblculbte check point
                 checkPointMillis = 0;
             }
         }
 
-        float getTempoFactor() {
-            return tempoFactor;
+        flobt getTempoFbctor() {
+            return tempoFbctor;
         }
 
-        synchronized void muteSoloChanged() {
-            boolean[] newDisabled = makeDisabledArray();
+        synchronized void muteSoloChbnged() {
+            boolebn[] newDisbbled = mbkeDisbbledArrby();
             if (running) {
-                applyDisabledTracks(trackDisabled, newDisabled);
+                bpplyDisbbledTrbcks(trbckDisbbled, newDisbbled);
             }
-            trackDisabled = newDisabled;
+            trbckDisbbled = newDisbbled;
         }
 
 
@@ -1523,12 +1523,12 @@ final class RealTimeSequencer extends AbstractMidiDevice
                 init();
                 return;
             }
-            tracks = seq.getTracks();
-            muteSoloChanged();
+            trbcks = seq.getTrbcks();
+            muteSoloChbnged();
             resolution = seq.getResolution();
             divisionType = seq.getDivisionType();
-            trackReadPos = new int[tracks.length];
-            // trigger re-initialization
+            trbckRebdPos = new int[trbcks.length];
+            // trigger re-initiblizbtion
             checkPointMillis = 0;
             needReindex = true;
         }
@@ -1537,426 +1537,426 @@ final class RealTimeSequencer extends AbstractMidiDevice
             currLoopCounter = loopCount;
         }
 
-        void clearNoteOnCache() {
+        void clebrNoteOnCbche() {
             for (int i = 0; i < 128; i++) {
-                noteOnCache[i] = 0;
+                noteOnCbche[i] = 0;
             }
         }
 
-        void notesOff(boolean doControllers) {
+        void notesOff(boolebn doControllers) {
             int done = 0;
             for (int ch=0; ch<16; ch++) {
-                int channelMask = (1<<ch);
+                int chbnnelMbsk = (1<<ch);
                 for (int i=0; i<128; i++) {
-                    if ((noteOnCache[i] & channelMask) != 0) {
-                        noteOnCache[i] ^= channelMask;
+                    if ((noteOnCbche[i] & chbnnelMbsk) != 0) {
+                        noteOnCbche[i] ^= chbnnelMbsk;
                         // send note on with velocity 0
-                        getTransmitterList().sendMessage((ShortMessage.NOTE_ON | ch) | (i<<8), -1);
+                        getTrbnsmitterList().sendMessbge((ShortMessbge.NOTE_ON | ch) | (i<<8), -1);
                         done++;
                     }
                 }
-                /* all notes off */
-                getTransmitterList().sendMessage((ShortMessage.CONTROL_CHANGE | ch) | (123<<8), -1);
-                /* sustain off */
-                getTransmitterList().sendMessage((ShortMessage.CONTROL_CHANGE | ch) | (64<<8), -1);
+                /* bll notes off */
+                getTrbnsmitterList().sendMessbge((ShortMessbge.CONTROL_CHANGE | ch) | (123<<8), -1);
+                /* sustbin off */
+                getTrbnsmitterList().sendMessbge((ShortMessbge.CONTROL_CHANGE | ch) | (64<<8), -1);
                 if (doControllers) {
-                    /* reset all controllers */
-                    getTransmitterList().sendMessage((ShortMessage.CONTROL_CHANGE | ch) | (121<<8), -1);
+                    /* reset bll controllers */
+                    getTrbnsmitterList().sendMessbge((ShortMessbge.CONTROL_CHANGE | ch) | (121<<8), -1);
                     done++;
                 }
             }
-            if (DEBUG_PUMP) Printer.println("  noteOff: sent "+done+" messages.");
+            if (DEBUG_PUMP) Printer.println("  noteOff: sent "+done+" messbges.");
         }
 
 
-        private boolean[] makeDisabledArray() {
-            if (tracks == null) {
+        privbte boolebn[] mbkeDisbbledArrby() {
+            if (trbcks == null) {
                 return null;
             }
-            boolean[] newTrackDisabled = new boolean[tracks.length];
-            boolean[] solo;
-            boolean[] mute;
-            synchronized(RealTimeSequencer.this) {
-                mute = trackMuted;
-                solo = trackSolo;
+            boolebn[] newTrbckDisbbled = new boolebn[trbcks.length];
+            boolebn[] solo;
+            boolebn[] mute;
+            synchronized(ReblTimeSequencer.this) {
+                mute = trbckMuted;
+                solo = trbckSolo;
             }
-            // if one track is solo, then only play solo
-            boolean hasSolo = false;
+            // if one trbck is solo, then only plby solo
+            boolebn hbsSolo = fblse;
             if (solo != null) {
                 for (int i = 0; i < solo.length; i++) {
                     if (solo[i]) {
-                        hasSolo = true;
-                        break;
+                        hbsSolo = true;
+                        brebk;
                     }
                 }
             }
-            if (hasSolo) {
-                // only the channels with solo play, regardless of mute
-                for (int i = 0; i < newTrackDisabled.length; i++) {
-                    newTrackDisabled[i] = (i >= solo.length) || (!solo[i]);
+            if (hbsSolo) {
+                // only the chbnnels with solo plby, regbrdless of mute
+                for (int i = 0; i < newTrbckDisbbled.length; i++) {
+                    newTrbckDisbbled[i] = (i >= solo.length) || (!solo[i]);
                 }
             } else {
-                // mute the selected channels
-                for (int i = 0; i < newTrackDisabled.length; i++) {
-                    newTrackDisabled[i] = (mute != null) && (i < mute.length) && (mute[i]);
+                // mute the selected chbnnels
+                for (int i = 0; i < newTrbckDisbbled.length; i++) {
+                    newTrbckDisbbled[i] = (mute != null) && (i < mute.length) && (mute[i]);
                 }
             }
-            return newTrackDisabled;
+            return newTrbckDisbbled;
         }
 
         /**
-         * chase all events from beginning of Track
-         * and send note off for those events that are active
-         * in noteOnCache array.
-         * It is possible, of course, to catch notes from other tracks,
-         * but better than more complicated logic to detect
-         * which notes are really from this track
+         * chbse bll events from beginning of Trbck
+         * bnd send note off for those events thbt bre bctive
+         * in noteOnCbche brrby.
+         * It is possible, of course, to cbtch notes from other trbcks,
+         * but better thbn more complicbted logic to detect
+         * which notes bre reblly from this trbck
          */
-        private void sendNoteOffIfOn(Track track, long endTick) {
-            int size = track.size();
+        privbte void sendNoteOffIfOn(Trbck trbck, long endTick) {
+            int size = trbck.size();
             int done = 0;
             try {
                 for (int i = 0; i < size; i++) {
-                    MidiEvent event = track.get(i);
-                    if (event.getTick() > endTick) break;
-                    MidiMessage msg = event.getMessage();
-                    int status = msg.getStatus();
+                    MidiEvent event = trbck.get(i);
+                    if (event.getTick() > endTick) brebk;
+                    MidiMessbge msg = event.getMessbge();
+                    int stbtus = msg.getStbtus();
                     int len = msg.getLength();
-                    if (len == 3 && ((status & 0xF0) == ShortMessage.NOTE_ON)) {
+                    if (len == 3 && ((stbtus & 0xF0) == ShortMessbge.NOTE_ON)) {
                         int note = -1;
-                        if (msg instanceof ShortMessage) {
-                            ShortMessage smsg = (ShortMessage) msg;
-                            if (smsg.getData2() > 0) {
+                        if (msg instbnceof ShortMessbge) {
+                            ShortMessbge smsg = (ShortMessbge) msg;
+                            if (smsg.getDbtb2() > 0) {
                                 // only consider Note On with velocity > 0
-                                note = smsg.getData1();
+                                note = smsg.getDbtb1();
                             }
                         } else {
-                            byte[] data = msg.getMessage();
-                            if ((data[2] & 0x7F) > 0) {
+                            byte[] dbtb = msg.getMessbge();
+                            if ((dbtb[2] & 0x7F) > 0) {
                                 // only consider Note On with velocity > 0
-                                note = data[1] & 0x7F;
+                                note = dbtb[1] & 0x7F;
                             }
                         }
                         if (note >= 0) {
-                            int bit = 1<<(status & 0x0F);
-                            if ((noteOnCache[note] & bit) != 0) {
+                            int bit = 1<<(stbtus & 0x0F);
+                            if ((noteOnCbche[note] & bit) != 0) {
                                 // the bit is set. Send Note Off
-                                getTransmitterList().sendMessage(status | (note<<8), -1);
-                                // clear the bit
-                                noteOnCache[note] &= (0xFFFF ^ bit);
+                                getTrbnsmitterList().sendMessbge(stbtus | (note<<8), -1);
+                                // clebr the bit
+                                noteOnCbche[note] &= (0xFFFF ^ bit);
                                 done++;
                             }
                         }
                     }
                 }
-            } catch (ArrayIndexOutOfBoundsException aioobe) {
-                // this happens when messages are removed
-                // from the track while this method executes
+            } cbtch (ArrbyIndexOutOfBoundsException bioobe) {
+                // this hbppens when messbges bre removed
+                // from the trbck while this method executes
             }
-            if (DEBUG_PUMP) Printer.println("  sendNoteOffIfOn: sent "+done+" messages.");
+            if (DEBUG_PUMP) Printer.println("  sendNoteOffIfOn: sent "+done+" messbges.");
         }
 
 
         /**
-         * Runtime application of mute/solo:
-         * if a track is muted that was previously playing, send
-         *    note off events for all currently playing notes
+         * Runtime bpplicbtion of mute/solo:
+         * if b trbck is muted thbt wbs previously plbying, send
+         *    note off events for bll currently plbying notes
          */
-        private void applyDisabledTracks(boolean[] oldDisabled, boolean[] newDisabled) {
-            byte[][] tempArray = null;
-            synchronized(RealTimeSequencer.this) {
-                for (int i = 0; i < newDisabled.length; i++) {
-                    if (((oldDisabled == null)
-                         || (i >= oldDisabled.length)
-                         || !oldDisabled[i])
-                        && newDisabled[i]) {
-                        // case that a track gets muted: need to
-                        // send appropriate note off events to prevent
-                        // hanging notes
+        privbte void bpplyDisbbledTrbcks(boolebn[] oldDisbbled, boolebn[] newDisbbled) {
+            byte[][] tempArrby = null;
+            synchronized(ReblTimeSequencer.this) {
+                for (int i = 0; i < newDisbbled.length; i++) {
+                    if (((oldDisbbled == null)
+                         || (i >= oldDisbbled.length)
+                         || !oldDisbbled[i])
+                        && newDisbbled[i]) {
+                        // cbse thbt b trbck gets muted: need to
+                        // send bppropribte note off events to prevent
+                        // hbnging notes
 
-                        if (tracks.length > i) {
-                            sendNoteOffIfOn(tracks[i], lastTick);
+                        if (trbcks.length > i) {
+                            sendNoteOffIfOn(trbcks[i], lbstTick);
                         }
                     }
-                    else if ((oldDisabled != null)
-                             && (i < oldDisabled.length)
-                             && oldDisabled[i]
-                             && !newDisabled[i]) {
-                        // case that a track was muted and is now unmuted
-                        // need to chase events and re-index this track
-                        if (tempArray == null) {
-                            tempArray = new byte[128][16];
+                    else if ((oldDisbbled != null)
+                             && (i < oldDisbbled.length)
+                             && oldDisbbled[i]
+                             && !newDisbbled[i]) {
+                        // cbse thbt b trbck wbs muted bnd is now unmuted
+                        // need to chbse events bnd re-index this trbck
+                        if (tempArrby == null) {
+                            tempArrby = new byte[128][16];
                         }
-                        chaseTrackEvents(i, 0, lastTick, true, tempArray);
+                        chbseTrbckEvents(i, 0, lbstTick, true, tempArrby);
                     }
                 }
             }
         }
 
-        /** go through all events from startTick to endTick
-         * chase the controller state and program change state
-         * and then set the end-states at once.
+        /** go through bll events from stbrtTick to endTick
+         * chbse the controller stbte bnd progrbm chbnge stbte
+         * bnd then set the end-stbtes bt once.
          *
-         * needs to be called in synchronized state
-         * @param tempArray an byte[128][16] to hold controller messages
+         * needs to be cblled in synchronized stbte
+         * @pbrbm tempArrby bn byte[128][16] to hold controller messbges
          */
-        private void chaseTrackEvents(int trackNum,
-                                      long startTick,
+        privbte void chbseTrbckEvents(int trbckNum,
+                                      long stbrtTick,
                                       long endTick,
-                                      boolean doReindex,
-                                      byte[][] tempArray) {
-            if (startTick > endTick) {
-                // start from the beginning
-                startTick = 0;
+                                      boolebn doReindex,
+                                      byte[][] tempArrby) {
+            if (stbrtTick > endTick) {
+                // stbrt from the beginning
+                stbrtTick = 0;
             }
             byte[] progs = new byte[16];
-            // init temp array with impossible values
+            // init temp brrby with impossible vblues
             for (int ch = 0; ch < 16; ch++) {
                 progs[ch] = -1;
                 for (int co = 0; co < 128; co++) {
-                    tempArray[co][ch] = -1;
+                    tempArrby[co][ch] = -1;
                 }
             }
-            Track track = tracks[trackNum];
-            int size = track.size();
+            Trbck trbck = trbcks[trbckNum];
+            int size = trbck.size();
             try {
                 for (int i = 0; i < size; i++) {
-                    MidiEvent event = track.get(i);
+                    MidiEvent event = trbck.get(i);
                     if (event.getTick() >= endTick) {
-                        if (doReindex && (trackNum < trackReadPos.length)) {
-                            trackReadPos[trackNum] = (i > 0)?(i-1):0;
-                            if (DEBUG_PUMP) Printer.println("  chaseEvents: setting trackReadPos["+trackNum+"] = "+trackReadPos[trackNum]);
+                        if (doReindex && (trbckNum < trbckRebdPos.length)) {
+                            trbckRebdPos[trbckNum] = (i > 0)?(i-1):0;
+                            if (DEBUG_PUMP) Printer.println("  chbseEvents: setting trbckRebdPos["+trbckNum+"] = "+trbckRebdPos[trbckNum]);
                         }
-                        break;
+                        brebk;
                     }
-                    MidiMessage msg = event.getMessage();
-                    int status = msg.getStatus();
+                    MidiMessbge msg = event.getMessbge();
+                    int stbtus = msg.getStbtus();
                     int len = msg.getLength();
-                    if (len == 3 && ((status & 0xF0) == ShortMessage.CONTROL_CHANGE)) {
-                        if (msg instanceof ShortMessage) {
-                            ShortMessage smsg = (ShortMessage) msg;
-                            tempArray[smsg.getData1() & 0x7F][status & 0x0F] = (byte) smsg.getData2();
+                    if (len == 3 && ((stbtus & 0xF0) == ShortMessbge.CONTROL_CHANGE)) {
+                        if (msg instbnceof ShortMessbge) {
+                            ShortMessbge smsg = (ShortMessbge) msg;
+                            tempArrby[smsg.getDbtb1() & 0x7F][stbtus & 0x0F] = (byte) smsg.getDbtb2();
                         } else {
-                            byte[] data = msg.getMessage();
-                            tempArray[data[1] & 0x7F][status & 0x0F] = data[2];
+                            byte[] dbtb = msg.getMessbge();
+                            tempArrby[dbtb[1] & 0x7F][stbtus & 0x0F] = dbtb[2];
                         }
                     }
-                    if (len == 2 && ((status & 0xF0) == ShortMessage.PROGRAM_CHANGE)) {
-                        if (msg instanceof ShortMessage) {
-                            ShortMessage smsg = (ShortMessage) msg;
-                            progs[status & 0x0F] = (byte) smsg.getData1();
+                    if (len == 2 && ((stbtus & 0xF0) == ShortMessbge.PROGRAM_CHANGE)) {
+                        if (msg instbnceof ShortMessbge) {
+                            ShortMessbge smsg = (ShortMessbge) msg;
+                            progs[stbtus & 0x0F] = (byte) smsg.getDbtb1();
                         } else {
-                            byte[] data = msg.getMessage();
-                            progs[status & 0x0F] = data[1];
+                            byte[] dbtb = msg.getMessbge();
+                            progs[stbtus & 0x0F] = dbtb[1];
                         }
                     }
                 }
-            } catch (ArrayIndexOutOfBoundsException aioobe) {
-                // this happens when messages are removed
-                // from the track while this method executes
+            } cbtch (ArrbyIndexOutOfBoundsException bioobe) {
+                // this hbppens when messbges bre removed
+                // from the trbck while this method executes
             }
             int numControllersSent = 0;
-            // now send out the aggregated controllers and program changes
+            // now send out the bggregbted controllers bnd progrbm chbnges
             for (int ch = 0; ch < 16; ch++) {
                 for (int co = 0; co < 128; co++) {
-                    byte controllerValue = tempArray[co][ch];
-                    if (controllerValue >= 0) {
-                        int packedMsg = (ShortMessage.CONTROL_CHANGE | ch) | (co<<8) | (controllerValue<<16);
-                        getTransmitterList().sendMessage(packedMsg, -1);
+                    byte controllerVblue = tempArrby[co][ch];
+                    if (controllerVblue >= 0) {
+                        int pbckedMsg = (ShortMessbge.CONTROL_CHANGE | ch) | (co<<8) | (controllerVblue<<16);
+                        getTrbnsmitterList().sendMessbge(pbckedMsg, -1);
                         numControllersSent++;
                     }
                 }
-                // send program change *after* controllers, to
-                // correctly initialize banks
+                // send progrbm chbnge *bfter* controllers, to
+                // correctly initiblize bbnks
                 if (progs[ch] >= 0) {
-                    getTransmitterList().sendMessage((ShortMessage.PROGRAM_CHANGE | ch) | (progs[ch]<<8), -1);
+                    getTrbnsmitterList().sendMessbge((ShortMessbge.PROGRAM_CHANGE | ch) | (progs[ch]<<8), -1);
                 }
-                if (progs[ch] >= 0 || startTick == 0 || endTick == 0) {
-                    // reset pitch bend on this channel (E0 00 40)
-                    getTransmitterList().sendMessage((ShortMessage.PITCH_BEND | ch) | (0x40 << 16), -1);
-                    // reset sustain pedal on this channel
-                    getTransmitterList().sendMessage((ShortMessage.CONTROL_CHANGE | ch) | (64 << 8), -1);
+                if (progs[ch] >= 0 || stbrtTick == 0 || endTick == 0) {
+                    // reset pitch bend on this chbnnel (E0 00 40)
+                    getTrbnsmitterList().sendMessbge((ShortMessbge.PITCH_BEND | ch) | (0x40 << 16), -1);
+                    // reset sustbin pedbl on this chbnnel
+                    getTrbnsmitterList().sendMessbge((ShortMessbge.CONTROL_CHANGE | ch) | (64 << 8), -1);
                 }
             }
-            if (DEBUG_PUMP) Printer.println("  chaseTrackEvents track "+trackNum+": sent "+numControllersSent+" controllers.");
+            if (DEBUG_PUMP) Printer.println("  chbseTrbckEvents trbck "+trbckNum+": sent "+numControllersSent+" controllers.");
         }
 
 
-        /** chase controllers and program for all tracks */
-        synchronized void chaseEvents(long startTick, long endTick) {
-            if (DEBUG_PUMP) Printer.println(">> chaseEvents from tick "+startTick+".."+(endTick-1));
-            byte[][] tempArray = new byte[128][16];
-            for (int t = 0; t < tracks.length; t++) {
-                if ((trackDisabled == null)
-                    || (trackDisabled.length <= t)
-                    || (!trackDisabled[t])) {
-                    // if track is not disabled, chase the events for it
-                    chaseTrackEvents(t, startTick, endTick, true, tempArray);
+        /** chbse controllers bnd progrbm for bll trbcks */
+        synchronized void chbseEvents(long stbrtTick, long endTick) {
+            if (DEBUG_PUMP) Printer.println(">> chbseEvents from tick "+stbrtTick+".."+(endTick-1));
+            byte[][] tempArrby = new byte[128][16];
+            for (int t = 0; t < trbcks.length; t++) {
+                if ((trbckDisbbled == null)
+                    || (trbckDisbbled.length <= t)
+                    || (!trbckDisbbled[t])) {
+                    // if trbck is not disbbled, chbse the events for it
+                    chbseTrbckEvents(t, stbrtTick, endTick, true, tempArrby);
                 }
             }
-            if (DEBUG_PUMP) Printer.println("<< chaseEvents");
+            if (DEBUG_PUMP) Printer.println("<< chbseEvents");
         }
 
 
-        // playback related methods (pumping)
+        // plbybbck relbted methods (pumping)
 
-        private long getCurrentTimeMillis() {
-            return System.nanoTime() / 1000000l;
+        privbte long getCurrentTimeMillis() {
+            return System.nbnoTime() / 1000000l;
             //return perf.highResCounter() * 1000 / perfFreq;
         }
 
-        private long millis2tick(long millis) {
+        privbte long millis2tick(long millis) {
             if (divisionType != Sequence.PPQ) {
-                double dTick = ((((double) millis) * tempoFactor)
+                double dTick = ((((double) millis) * tempoFbctor)
                                 * ((double) divisionType)
                                 * ((double) resolution))
                     / ((double) 1000);
                 return (long) dTick;
             }
             return MidiUtils.microsec2ticks(millis * 1000,
-                                            currTempo * inverseTempoFactor,
+                                            currTempo * inverseTempoFbctor,
                                             resolution);
         }
 
-        private long tick2millis(long tick) {
+        privbte long tick2millis(long tick) {
             if (divisionType != Sequence.PPQ) {
                 double dMillis = ((((double) tick) * 1000) /
-                                  (tempoFactor * ((double) divisionType) * ((double) resolution)));
+                                  (tempoFbctor * ((double) divisionType) * ((double) resolution)));
                 return (long) dMillis;
             }
             return MidiUtils.ticks2microsec(tick,
-                                            currTempo * inverseTempoFactor,
+                                            currTempo * inverseTempoFbctor,
                                             resolution) / 1000;
         }
 
-        private void ReindexTrack(int trackNum, long tick) {
-            if (trackNum < trackReadPos.length && trackNum < tracks.length) {
-                trackReadPos[trackNum] = MidiUtils.tick2index(tracks[trackNum], tick);
-                if (DEBUG_PUMP) Printer.println("  reindexTrack: setting trackReadPos["+trackNum+"] = "+trackReadPos[trackNum]);
+        privbte void ReindexTrbck(int trbckNum, long tick) {
+            if (trbckNum < trbckRebdPos.length && trbckNum < trbcks.length) {
+                trbckRebdPos[trbckNum] = MidiUtils.tick2index(trbcks[trbckNum], tick);
+                if (DEBUG_PUMP) Printer.println("  reindexTrbck: setting trbckRebdPos["+trbckNum+"] = "+trbckRebdPos[trbckNum]);
             }
         }
 
-        /* returns if changes are pending */
-        private boolean dispatchMessage(int trackNum, MidiEvent event) {
-            boolean changesPending = false;
-            MidiMessage message = event.getMessage();
-            int msgStatus = message.getStatus();
-            int msgLen = message.getLength();
-            if (msgStatus == MetaMessage.META && msgLen >= 2) {
-                // a meta message. Do not send it to the device.
-                // 0xFF with length=1 is a MIDI realtime message
-                // which shouldn't be in a Sequence, but we play it
+        /* returns if chbnges bre pending */
+        privbte boolebn dispbtchMessbge(int trbckNum, MidiEvent event) {
+            boolebn chbngesPending = fblse;
+            MidiMessbge messbge = event.getMessbge();
+            int msgStbtus = messbge.getStbtus();
+            int msgLen = messbge.getLength();
+            if (msgStbtus == MetbMessbge.META && msgLen >= 2) {
+                // b metb messbge. Do not send it to the device.
+                // 0xFF with length=1 is b MIDI rebltime messbge
+                // which shouldn't be in b Sequence, but we plby it
                 // nonetheless.
 
-                // see if this is a tempo message. Only on track 0.
-                if (trackNum == 0) {
-                    int newTempo = MidiUtils.getTempoMPQ(message);
+                // see if this is b tempo messbge. Only on trbck 0.
+                if (trbckNum == 0) {
+                    int newTempo = MidiUtils.getTempoMPQ(messbge);
                     if (newTempo > 0) {
                         if (event.getTick() != ignoreTempoEventAt) {
                             setTempoMPQ(newTempo); // sets ignoreTempoEventAt!
-                            changesPending = true;
+                            chbngesPending = true;
                         }
-                        // next loop, do not ignore anymore tempo events.
+                        // next loop, do not ignore bnymore tempo events.
                         ignoreTempoEventAt = -1;
                     }
                 }
                 // send to listeners
-                sendMetaEvents(message);
+                sendMetbEvents(messbge);
 
             } else {
-                // not meta, send to device
-                getTransmitterList().sendMessage(message, -1);
+                // not metb, send to device
+                getTrbnsmitterList().sendMessbge(messbge, -1);
 
-                switch (msgStatus & 0xF0) {
-                case ShortMessage.NOTE_OFF: {
-                    // note off - clear the bit in the noteOnCache array
-                    int note = ((ShortMessage) message).getData1() & 0x7F;
-                    noteOnCache[note] &= (0xFFFF ^ (1<<(msgStatus & 0x0F)));
-                    break;
+                switch (msgStbtus & 0xF0) {
+                cbse ShortMessbge.NOTE_OFF: {
+                    // note off - clebr the bit in the noteOnCbche brrby
+                    int note = ((ShortMessbge) messbge).getDbtb1() & 0x7F;
+                    noteOnCbche[note] &= (0xFFFF ^ (1<<(msgStbtus & 0x0F)));
+                    brebk;
                 }
 
-                case ShortMessage.NOTE_ON: {
+                cbse ShortMessbge.NOTE_ON: {
                     // note on
-                    ShortMessage smsg = (ShortMessage) message;
-                    int note = smsg.getData1() & 0x7F;
-                    int vel = smsg.getData2() & 0x7F;
+                    ShortMessbge smsg = (ShortMessbge) messbge;
+                    int note = smsg.getDbtb1() & 0x7F;
+                    int vel = smsg.getDbtb2() & 0x7F;
                     if (vel > 0) {
-                        // if velocity > 0 set the bit in the noteOnCache array
-                        noteOnCache[note] |= 1<<(msgStatus & 0x0F);
+                        // if velocity > 0 set the bit in the noteOnCbche brrby
+                        noteOnCbche[note] |= 1<<(msgStbtus & 0x0F);
                     } else {
-                        // if velocity = 0 clear the bit in the noteOnCache array
-                        noteOnCache[note] &= (0xFFFF ^ (1<<(msgStatus & 0x0F)));
+                        // if velocity = 0 clebr the bit in the noteOnCbche brrby
+                        noteOnCbche[note] &= (0xFFFF ^ (1<<(msgStbtus & 0x0F)));
                     }
-                    break;
+                    brebk;
                 }
 
-                case ShortMessage.CONTROL_CHANGE:
-                    // if controller message, send controller listeners
-                    sendControllerEvents(message);
-                    break;
+                cbse ShortMessbge.CONTROL_CHANGE:
+                    // if controller messbge, send controller listeners
+                    sendControllerEvents(messbge);
+                    brebk;
 
                 }
             }
-            return changesPending;
+            return chbngesPending;
         }
 
 
-        /** the main pump method
-         * @return true if end of sequence is reached
+        /** the mbin pump method
+         * @return true if end of sequence is rebched
          */
-        synchronized boolean pump() {
+        synchronized boolebn pump() {
             long currMillis;
-            long targetTick = lastTick;
+            long tbrgetTick = lbstTick;
             MidiEvent currEvent;
-            boolean changesPending = false;
-            boolean doLoop = false;
-            boolean EOM = false;
+            boolebn chbngesPending = fblse;
+            boolebn doLoop = fblse;
+            boolebn EOM = fblse;
 
             currMillis = getCurrentTimeMillis();
-            int finishedTracks = 0;
+            int finishedTrbcks = 0;
             do {
-                changesPending = false;
+                chbngesPending = fblse;
 
-                // need to re-find indexes in tracks?
+                // need to re-find indexes in trbcks?
                 if (needReindex) {
-                    if (DEBUG_PUMP) Printer.println("Need to re-index at "+currMillis+" millis. TargetTick="+targetTick);
-                    if (trackReadPos.length < tracks.length) {
-                        trackReadPos = new int[tracks.length];
+                    if (DEBUG_PUMP) Printer.println("Need to re-index bt "+currMillis+" millis. TbrgetTick="+tbrgetTick);
+                    if (trbckRebdPos.length < trbcks.length) {
+                        trbckRebdPos = new int[trbcks.length];
                     }
-                    for (int t = 0; t < tracks.length; t++) {
-                        ReindexTrack(t, targetTick);
-                        if (DEBUG_PUMP_ALL) Printer.println("  Setting trackReadPos["+t+"]="+trackReadPos[t]);
+                    for (int t = 0; t < trbcks.length; t++) {
+                        ReindexTrbck(t, tbrgetTick);
+                        if (DEBUG_PUMP_ALL) Printer.println("  Setting trbckRebdPos["+t+"]="+trbckRebdPos[t]);
                     }
-                    needReindex = false;
+                    needReindex = fblse;
                     checkPointMillis = 0;
                 }
 
-                // get target tick from current time in millis
+                // get tbrget tick from current time in millis
                 if (checkPointMillis == 0) {
                     // new check point
                     currMillis = getCurrentTimeMillis();
                     checkPointMillis = currMillis;
-                    targetTick = lastTick;
-                    checkPointTick = targetTick;
+                    tbrgetTick = lbstTick;
+                    checkPointTick = tbrgetTick;
                     if (DEBUG_PUMP) Printer.println("New checkpoint to "+currMillis+" millis. "
-                                                       +"TargetTick="+targetTick
+                                                       +"TbrgetTick="+tbrgetTick
                                                        +" new tempo="+MidiUtils.convertTempo(currTempo)+"bpm");
                 } else {
-                    // calculate current tick based on current time in milliseconds
-                    targetTick = checkPointTick + millis2tick(currMillis - checkPointMillis);
-                    if (DEBUG_PUMP_ALL) Printer.println("targetTick = "+targetTick+" at "+currMillis+" millis");
+                    // cblculbte current tick bbsed on current time in milliseconds
+                    tbrgetTick = checkPointTick + millis2tick(currMillis - checkPointMillis);
+                    if (DEBUG_PUMP_ALL) Printer.println("tbrgetTick = "+tbrgetTick+" bt "+currMillis+" millis");
                     if ((loopEnd != -1)
                         && ((loopCount > 0 && currLoopCounter > 0)
                             || (loopCount == LOOP_CONTINUOUSLY))) {
-                        if (lastTick <= loopEnd && targetTick >= loopEnd) {
+                        if (lbstTick <= loopEnd && tbrgetTick >= loopEnd) {
                             // need to loop!
-                            // only play until loop end
-                            targetTick = loopEnd - 1;
+                            // only plby until loop end
+                            tbrgetTick = loopEnd - 1;
                             doLoop = true;
-                            if (DEBUG_PUMP) Printer.println("set doLoop to true. lastTick="+lastTick
-                                                               +"  targetTick="+targetTick
+                            if (DEBUG_PUMP) Printer.println("set doLoop to true. lbstTick="+lbstTick
+                                                               +"  tbrgetTick="+tbrgetTick
                                                                +"  loopEnd="+loopEnd
-                                                               +"  jumping to loopStart="+loopStart
+                                                               +"  jumping to loopStbrt="+loopStbrt
                                                                +"  new currLoopCounter="+currLoopCounter);
                             if (DEBUG_PUMP) Printer.println("  currMillis="+currMillis
                                                                +"  checkPointMillis="+checkPointMillis
@@ -1964,121 +1964,121 @@ final class RealTimeSequencer extends AbstractMidiDevice
 
                         }
                     }
-                    lastTick = targetTick;
+                    lbstTick = tbrgetTick;
                 }
 
-                finishedTracks = 0;
+                finishedTrbcks = 0;
 
-                for (int t = 0; t < tracks.length; t++) {
+                for (int t = 0; t < trbcks.length; t++) {
                     try {
-                        boolean disabled = trackDisabled[t];
-                        Track thisTrack = tracks[t];
-                        int readPos = trackReadPos[t];
-                        int size = thisTrack.size();
-                        // play all events that are due until targetTick
-                        while (!changesPending && (readPos < size)
-                               && (currEvent = thisTrack.get(readPos)).getTick() <= targetTick) {
+                        boolebn disbbled = trbckDisbbled[t];
+                        Trbck thisTrbck = trbcks[t];
+                        int rebdPos = trbckRebdPos[t];
+                        int size = thisTrbck.size();
+                        // plby bll events thbt bre due until tbrgetTick
+                        while (!chbngesPending && (rebdPos < size)
+                               && (currEvent = thisTrbck.get(rebdPos)).getTick() <= tbrgetTick) {
 
-                            if ((readPos == size -1) &&  MidiUtils.isMetaEndOfTrack(currEvent.getMessage())) {
-                                // do not send out this message. Finished with this track
-                                readPos = size;
-                                break;
+                            if ((rebdPos == size -1) &&  MidiUtils.isMetbEndOfTrbck(currEvent.getMessbge())) {
+                                // do not send out this messbge. Finished with this trbck
+                                rebdPos = size;
+                                brebk;
                             }
-                            // TODO: some kind of heuristics if the MIDI messages have changed
-                            // significantly (i.e. deleted or inserted a bunch of messages)
-                            // since last time. Would need to set needReindex = true then
-                            readPos++;
-                            // only play this event if the track is enabled,
-                            // or if it is a tempo message on track 0
-                            // Note: cannot put this check outside
+                            // TODO: some kind of heuristics if the MIDI messbges hbve chbnged
+                            // significbntly (i.e. deleted or inserted b bunch of messbges)
+                            // since lbst time. Would need to set needReindex = true then
+                            rebdPos++;
+                            // only plby this event if the trbck is enbbled,
+                            // or if it is b tempo messbge on trbck 0
+                            // Note: cbnnot put this check outside
                             //       this inner loop in order to detect end of file
-                            if (!disabled ||
-                                ((t == 0) && (MidiUtils.isMetaTempo(currEvent.getMessage())))) {
-                                changesPending = dispatchMessage(t, currEvent);
+                            if (!disbbled ||
+                                ((t == 0) && (MidiUtils.isMetbTempo(currEvent.getMessbge())))) {
+                                chbngesPending = dispbtchMessbge(t, currEvent);
                             }
                         }
-                        if (readPos >= size) {
-                            finishedTracks++;
+                        if (rebdPos >= size) {
+                            finishedTrbcks++;
                         }
                         if (DEBUG_PUMP_ALL) {
-                            System.out.print(" pumped track "+t+" ("+size+" events) "
-                                             +" from index: "+trackReadPos[t]
-                                             +" to "+(readPos-1));
+                            System.out.print(" pumped trbck "+t+" ("+size+" events) "
+                                             +" from index: "+trbckRebdPos[t]
+                                             +" to "+(rebdPos-1));
                             System.out.print(" -> ticks: ");
-                            if (trackReadPos[t] < size) {
-                                System.out.print(""+(thisTrack.get(trackReadPos[t]).getTick()));
+                            if (trbckRebdPos[t] < size) {
+                                System.out.print(""+(thisTrbck.get(trbckRebdPos[t]).getTick()));
                             } else {
                                 System.out.print("EOT");
                             }
                             System.out.print(" to ");
-                            if (readPos < size) {
-                                System.out.print(""+(thisTrack.get(readPos-1).getTick()));
+                            if (rebdPos < size) {
+                                System.out.print(""+(thisTrbck.get(rebdPos-1).getTick()));
                             } else {
                                 System.out.print("EOT");
                             }
                             System.out.println();
                         }
-                        trackReadPos[t] = readPos;
-                    } catch(Exception e) {
+                        trbckRebdPos[t] = rebdPos;
+                    } cbtch(Exception e) {
                         if (Printer.debug) Printer.debug("Exception in Sequencer pump!");
-                        if (Printer.debug) e.printStackTrace();
-                        if (e instanceof ArrayIndexOutOfBoundsException) {
+                        if (Printer.debug) e.printStbckTrbce();
+                        if (e instbnceof ArrbyIndexOutOfBoundsException) {
                             needReindex = true;
-                            changesPending = true;
+                            chbngesPending = true;
                         }
                     }
-                    if (changesPending) {
-                        break;
+                    if (chbngesPending) {
+                        brebk;
                     }
                 }
-                EOM = (finishedTracks == tracks.length);
+                EOM = (finishedTrbcks == trbcks.length);
                 if (doLoop
                     || ( ((loopCount > 0 && currLoopCounter > 0)
                           || (loopCount == LOOP_CONTINUOUSLY))
-                         && !changesPending
+                         && !chbngesPending
                          && (loopEnd == -1)
                          && EOM)) {
 
                     long oldCheckPointMillis = checkPointMillis;
                     long loopEndTick = loopEnd;
                     if (loopEndTick == -1) {
-                        loopEndTick = lastTick;
+                        loopEndTick = lbstTick;
                     }
 
-                    // need to loop back!
+                    // need to loop bbck!
                     if (loopCount != LOOP_CONTINUOUSLY) {
                         currLoopCounter--;
                     }
-                    if (DEBUG_PUMP) Printer.println("Execute loop: lastTick="+lastTick
+                    if (DEBUG_PUMP) Printer.println("Execute loop: lbstTick="+lbstTick
                                                        +"  loopEnd="+loopEnd
-                                                       +"  jumping to loopStart="+loopStart
+                                                       +"  jumping to loopStbrt="+loopStbrt
                                                        +"  new currLoopCounter="+currLoopCounter);
-                    setTickPos(loopStart);
-                    // now patch the checkPointMillis so that
-                    // it points to the exact beginning of when the loop was finished
+                    setTickPos(loopStbrt);
+                    // now pbtch the checkPointMillis so thbt
+                    // it points to the exbct beginning of when the loop wbs finished
 
-                    // $$fb TODO: although this is mathematically correct (i.e. the loop position
-                    //            is correct, and doesn't drift away with several repetition,
-                    //            there is a slight lag when looping back, probably caused
-                    //            by the chasing.
+                    // $$fb TODO: blthough this is mbthembticblly correct (i.e. the loop position
+                    //            is correct, bnd doesn't drift bwby with severbl repetition,
+                    //            there is b slight lbg when looping bbck, probbbly cbused
+                    //            by the chbsing.
 
                     checkPointMillis = oldCheckPointMillis + tick2millis(loopEndTick - checkPointTick);
-                    checkPointTick = loopStart;
+                    checkPointTick = loopStbrt;
                     if (DEBUG_PUMP) Printer.println("  Setting currMillis="+currMillis
                                                        +"  new checkPointMillis="+checkPointMillis
                                                        +"  new checkPointTick="+checkPointTick);
                     // no need for reindexing, is done in setTickPos
-                    needReindex = false;
-                    changesPending = false;
-                    // reset doLoop flag
-                    doLoop = false;
-                    EOM = false;
+                    needReindex = fblse;
+                    chbngesPending = fblse;
+                    // reset doLoop flbg
+                    doLoop = fblse;
+                    EOM = fblse;
                 }
-            } while (changesPending);
+            } while (chbngesPending);
 
             return EOM;
         }
 
-    } // class DataPump
+    } // clbss DbtbPump
 
 }

@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
-import java.io.*;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.StreamSupport;
+pbckbge jbvb.util;
+import jbvb.io.*;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.LongConsumer;
+import jbvb.util.strebm.DoubleStrebm;
+import jbvb.util.strebm.IntStrebm;
+import jbvb.util.strebm.LongStrebm;
+import jbvb.util.strebm.StrebmSupport;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 /**
- * An instance of this class is used to generate a stream of
- * pseudorandom numbers. The class uses a 48-bit seed, which is
- * modified using a linear congruential formula. (See Donald Knuth,
- * <i>The Art of Computer Programming, Volume 2</i>, Section 3.2.1.)
+ * An instbnce of this clbss is used to generbte b strebm of
+ * pseudorbndom numbers. The clbss uses b 48-bit seed, which is
+ * modified using b linebr congruentibl formulb. (See Donbld Knuth,
+ * <i>The Art of Computer Progrbmming, Volume 2</i>, Section 3.2.1.)
  * <p>
- * If two instances of {@code Random} are created with the same
- * seed, and the same sequence of method calls is made for each, they
- * will generate and return identical sequences of numbers. In order to
- * guarantee this property, particular algorithms are specified for the
- * class {@code Random}. Java implementations must use all the algorithms
- * shown here for the class {@code Random}, for the sake of absolute
- * portability of Java code. However, subclasses of class {@code Random}
- * are permitted to use other algorithms, so long as they adhere to the
- * general contracts for all the methods.
+ * If two instbnces of {@code Rbndom} bre crebted with the sbme
+ * seed, bnd the sbme sequence of method cblls is mbde for ebch, they
+ * will generbte bnd return identicbl sequences of numbers. In order to
+ * gubrbntee this property, pbrticulbr blgorithms bre specified for the
+ * clbss {@code Rbndom}. Jbvb implementbtions must use bll the blgorithms
+ * shown here for the clbss {@code Rbndom}, for the sbke of bbsolute
+ * portbbility of Jbvb code. However, subclbsses of clbss {@code Rbndom}
+ * bre permitted to use other blgorithms, so long bs they bdhere to the
+ * generbl contrbcts for bll the methods.
  * <p>
- * The algorithms implemented by class {@code Random} use a
- * {@code protected} utility method that on each invocation can supply
- * up to 32 pseudorandomly generated bits.
+ * The blgorithms implemented by clbss {@code Rbndom} use b
+ * {@code protected} utility method thbt on ebch invocbtion cbn supply
+ * up to 32 pseudorbndomly generbted bits.
  * <p>
- * Many applications will find the method {@link Math#random} simpler to use.
+ * Mbny bpplicbtions will find the method {@link Mbth#rbndom} simpler to use.
  *
- * <p>Instances of {@code java.util.Random} are threadsafe.
- * However, the concurrent use of the same {@code java.util.Random}
- * instance across threads may encounter contention and consequent
- * poor performance. Consider instead using
- * {@link java.util.concurrent.ThreadLocalRandom} in multithreaded
+ * <p>Instbnces of {@code jbvb.util.Rbndom} bre threbdsbfe.
+ * However, the concurrent use of the sbme {@code jbvb.util.Rbndom}
+ * instbnce bcross threbds mby encounter contention bnd consequent
+ * poor performbnce. Consider instebd using
+ * {@link jbvb.util.concurrent.ThrebdLocblRbndom} in multithrebded
  * designs.
  *
- * <p>Instances of {@code java.util.Random} are not cryptographically
- * secure.  Consider instead using {@link java.security.SecureRandom} to
- * get a cryptographically secure pseudo-random number generator for use
- * by security-sensitive applications.
+ * <p>Instbnces of {@code jbvb.util.Rbndom} bre not cryptogrbphicblly
+ * secure.  Consider instebd using {@link jbvb.security.SecureRbndom} to
+ * get b cryptogrbphicblly secure pseudo-rbndom number generbtor for use
+ * by security-sensitive bpplicbtions.
  *
- * @author  Frank Yellin
+ * @buthor  Frbnk Yellin
  * @since   1.0
  */
 public
-class Random implements java.io.Serializable {
-    /** use serialVersionUID from JDK 1.1 for interoperability */
-    static final long serialVersionUID = 3905348978240129619L;
+clbss Rbndom implements jbvb.io.Seriblizbble {
+    /** use seriblVersionUID from JDK 1.1 for interoperbbility */
+    stbtic finbl long seriblVersionUID = 3905348978240129619L;
 
     /**
-     * The internal state associated with this pseudorandom number generator.
-     * (The specs for the methods in this class describe the ongoing
-     * computation of this value.)
+     * The internbl stbte bssocibted with this pseudorbndom number generbtor.
+     * (The specs for the methods in this clbss describe the ongoing
+     * computbtion of this vblue.)
      */
-    private final AtomicLong seed;
+    privbte finbl AtomicLong seed;
 
-    private static final long multiplier = 0x5DEECE66DL;
-    private static final long addend = 0xBL;
-    private static final long mask = (1L << 48) - 1;
+    privbte stbtic finbl long multiplier = 0x5DEECE66DL;
+    privbte stbtic finbl long bddend = 0xBL;
+    privbte stbtic finbl long mbsk = (1L << 48) - 1;
 
-    private static final double DOUBLE_UNIT = 0x1.0p-53; // 1.0 / (1L << 53)
+    privbte stbtic finbl double DOUBLE_UNIT = 0x1.0p-53; // 1.0 / (1L << 53)
 
-    // IllegalArgumentException messages
-    static final String BadBound = "bound must be positive";
-    static final String BadRange = "bound must be greater than origin";
-    static final String BadSize  = "size must be non-negative";
+    // IllegblArgumentException messbges
+    stbtic finbl String BbdBound = "bound must be positive";
+    stbtic finbl String BbdRbnge = "bound must be grebter thbn origin";
+    stbtic finbl String BbdSize  = "size must be non-negbtive";
 
     /**
-     * Creates a new random number generator. This constructor sets
-     * the seed of the random number generator to a value very likely
-     * to be distinct from any other invocation of this constructor.
+     * Crebtes b new rbndom number generbtor. This constructor sets
+     * the seed of the rbndom number generbtor to b vblue very likely
+     * to be distinct from bny other invocbtion of this constructor.
      */
-    public Random() {
-        this(seedUniquifier() ^ System.nanoTime());
+    public Rbndom() {
+        this(seedUniquifier() ^ System.nbnoTime());
     }
 
-    private static long seedUniquifier() {
-        // L'Ecuyer, "Tables of Linear Congruential Generators of
-        // Different Sizes and Good Lattice Structure", 1999
+    privbte stbtic long seedUniquifier() {
+        // L'Ecuyer, "Tbbles of Linebr Congruentibl Generbtors of
+        // Different Sizes bnd Good Lbttice Structure", 1999
         for (;;) {
             long current = seedUniquifier.get();
             long next = current * 181783497276652981L;
-            if (seedUniquifier.compareAndSet(current, next))
+            if (seedUniquifier.compbreAndSet(current, next))
                 return next;
         }
     }
 
-    private static final AtomicLong seedUniquifier
+    privbte stbtic finbl AtomicLong seedUniquifier
         = new AtomicLong(8682522807148012L);
 
     /**
-     * Creates a new random number generator using a single {@code long} seed.
-     * The seed is the initial value of the internal state of the pseudorandom
-     * number generator which is maintained by method {@link #next}.
+     * Crebtes b new rbndom number generbtor using b single {@code long} seed.
+     * The seed is the initibl vblue of the internbl stbte of the pseudorbndom
+     * number generbtor which is mbintbined by method {@link #next}.
      *
-     * <p>The invocation {@code new Random(seed)} is equivalent to:
+     * <p>The invocbtion {@code new Rbndom(seed)} is equivblent to:
      *  <pre> {@code
-     * Random rnd = new Random();
+     * Rbndom rnd = new Rbndom();
      * rnd.setSeed(seed);}</pre>
      *
-     * @param seed the initial seed
+     * @pbrbm seed the initibl seed
      * @see   #setSeed(long)
      */
-    public Random(long seed) {
-        if (getClass() == Random.class)
-            this.seed = new AtomicLong(initialScramble(seed));
+    public Rbndom(long seed) {
+        if (getClbss() == Rbndom.clbss)
+            this.seed = new AtomicLong(initiblScrbmble(seed));
         else {
-            // subclass might have overriden setSeed
+            // subclbss might hbve overriden setSeed
             this.seed = new AtomicLong();
             setSeed(seed);
         }
     }
 
-    private static long initialScramble(long seed) {
-        return (seed ^ multiplier) & mask;
+    privbte stbtic long initiblScrbmble(long seed) {
+        return (seed ^ multiplier) & mbsk;
     }
 
     /**
-     * Sets the seed of this random number generator using a single
-     * {@code long} seed. The general contract of {@code setSeed} is
-     * that it alters the state of this random number generator object
-     * so as to be in exactly the same state as if it had just been
-     * created with the argument {@code seed} as a seed. The method
-     * {@code setSeed} is implemented by class {@code Random} by
-     * atomically updating the seed to
+     * Sets the seed of this rbndom number generbtor using b single
+     * {@code long} seed. The generbl contrbct of {@code setSeed} is
+     * thbt it blters the stbte of this rbndom number generbtor object
+     * so bs to be in exbctly the sbme stbte bs if it hbd just been
+     * crebted with the brgument {@code seed} bs b seed. The method
+     * {@code setSeed} is implemented by clbss {@code Rbndom} by
+     * btomicblly updbting the seed to
      *  <pre>{@code (seed ^ 0x5DEECE66DL) & ((1L << 48) - 1)}</pre>
-     * and clearing the {@code haveNextNextGaussian} flag used by {@link
-     * #nextGaussian}.
+     * bnd clebring the {@code hbveNextNextGbussibn} flbg used by {@link
+     * #nextGbussibn}.
      *
-     * <p>The implementation of {@code setSeed} by class {@code Random}
-     * happens to use only 48 bits of the given seed. In general, however,
-     * an overriding method may use all 64 bits of the {@code long}
-     * argument as a seed value.
+     * <p>The implementbtion of {@code setSeed} by clbss {@code Rbndom}
+     * hbppens to use only 48 bits of the given seed. In generbl, however,
+     * bn overriding method mby use bll 64 bits of the {@code long}
+     * brgument bs b seed vblue.
      *
-     * @param seed the initial seed
+     * @pbrbm seed the initibl seed
      */
     synchronized public void setSeed(long seed) {
-        this.seed.set(initialScramble(seed));
-        haveNextNextGaussian = false;
+        this.seed.set(initiblScrbmble(seed));
+        hbveNextNextGbussibn = fblse;
     }
 
     /**
-     * Generates the next pseudorandom number. Subclasses should
-     * override this, as this is used by all other methods.
+     * Generbtes the next pseudorbndom number. Subclbsses should
+     * override this, bs this is used by bll other methods.
      *
-     * <p>The general contract of {@code next} is that it returns an
-     * {@code int} value and if the argument {@code bits} is between
-     * {@code 1} and {@code 32} (inclusive), then that many low-order
-     * bits of the returned value will be (approximately) independently
-     * chosen bit values, each of which is (approximately) equally
+     * <p>The generbl contrbct of {@code next} is thbt it returns bn
+     * {@code int} vblue bnd if the brgument {@code bits} is between
+     * {@code 1} bnd {@code 32} (inclusive), then thbt mbny low-order
+     * bits of the returned vblue will be (bpproximbtely) independently
+     * chosen bit vblues, ebch of which is (bpproximbtely) equblly
      * likely to be {@code 0} or {@code 1}. The method {@code next} is
-     * implemented by class {@code Random} by atomically updating the seed to
+     * implemented by clbss {@code Rbndom} by btomicblly updbting the seed to
      *  <pre>{@code (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1)}</pre>
-     * and returning
+     * bnd returning
      *  <pre>{@code (int)(seed >>> (48 - bits))}.</pre>
      *
-     * This is a linear congruential pseudorandom number generator, as
-     * defined by D. H. Lehmer and described by Donald E. Knuth in
-     * <i>The Art of Computer Programming,</i> Volume 3:
-     * <i>Seminumerical Algorithms</i>, section 3.2.1.
+     * This is b linebr congruentibl pseudorbndom number generbtor, bs
+     * defined by D. H. Lehmer bnd described by Donbld E. Knuth in
+     * <i>The Art of Computer Progrbmming,</i> Volume 3:
+     * <i>Seminumericbl Algorithms</i>, section 3.2.1.
      *
-     * @param  bits random bits
-     * @return the next pseudorandom value from this random number
-     *         generator's sequence
+     * @pbrbm  bits rbndom bits
+     * @return the next pseudorbndom vblue from this rbndom number
+     *         generbtor's sequence
      * @since  1.1
      */
     protected int next(int bits) {
@@ -200,61 +200,61 @@ class Random implements java.io.Serializable {
         AtomicLong seed = this.seed;
         do {
             oldseed = seed.get();
-            nextseed = (oldseed * multiplier + addend) & mask;
-        } while (!seed.compareAndSet(oldseed, nextseed));
+            nextseed = (oldseed * multiplier + bddend) & mbsk;
+        } while (!seed.compbreAndSet(oldseed, nextseed));
         return (int)(nextseed >>> (48 - bits));
     }
 
     /**
-     * Generates random bytes and places them into a user-supplied
-     * byte array.  The number of random bytes produced is equal to
-     * the length of the byte array.
+     * Generbtes rbndom bytes bnd plbces them into b user-supplied
+     * byte brrby.  The number of rbndom bytes produced is equbl to
+     * the length of the byte brrby.
      *
-     * <p>The method {@code nextBytes} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextBytes} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
      * public void nextBytes(byte[] bytes) {
      *   for (int i = 0; i < bytes.length; )
-     *     for (int rnd = nextInt(), n = Math.min(bytes.length - i, 4);
+     *     for (int rnd = nextInt(), n = Mbth.min(bytes.length - i, 4);
      *          n-- > 0; rnd >>= 8)
      *       bytes[i++] = (byte)rnd;
      * }}</pre>
      *
-     * @param  bytes the byte array to fill with random bytes
-     * @throws NullPointerException if the byte array is null
+     * @pbrbm  bytes the byte brrby to fill with rbndom bytes
+     * @throws NullPointerException if the byte brrby is null
      * @since  1.1
      */
     public void nextBytes(byte[] bytes) {
         for (int i = 0, len = bytes.length; i < len; )
             for (int rnd = nextInt(),
-                     n = Math.min(len - i, Integer.SIZE/Byte.SIZE);
+                     n = Mbth.min(len - i, Integer.SIZE/Byte.SIZE);
                  n-- > 0; rnd >>= Byte.SIZE)
                 bytes[i++] = (byte)rnd;
     }
 
     /**
-     * The form of nextLong used by LongStream Spliterators.  If
-     * origin is greater than bound, acts as unbounded form of
-     * nextLong, else as bounded form.
+     * The form of nextLong used by LongStrebm Spliterbtors.  If
+     * origin is grebter thbn bound, bcts bs unbounded form of
+     * nextLong, else bs bounded form.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final long internalNextLong(long origin, long bound) {
+    finbl long internblNextLong(long origin, long bound) {
         long r = nextLong();
         if (origin < bound) {
             long n = bound - origin, m = n - 1;
             if ((n & m) == 0L)  // power of two
                 r = (r & m) + origin;
-            else if (n > 0L) {  // reject over-represented candidates
-                for (long u = r >>> 1;            // ensure nonnegative
+            else if (n > 0L) {  // reject over-represented cbndidbtes
+                for (long u = r >>> 1;            // ensure nonnegbtive
                      u + m - (r = u % n) < 0L;    // rejection check
                      u = nextLong() >>> 1) // retry
                     ;
                 r += origin;
             }
-            else {              // range not representable as long
+            else {              // rbnge not representbble bs long
                 while (r < origin || r >= bound)
                     r = nextLong();
             }
@@ -263,22 +263,22 @@ class Random implements java.io.Serializable {
     }
 
     /**
-     * The form of nextInt used by IntStream Spliterators.
-     * For the unbounded case: uses nextInt().
-     * For the bounded case with representable range: uses nextInt(int bound)
-     * For the bounded case with unrepresentable range: uses nextInt()
+     * The form of nextInt used by IntStrebm Spliterbtors.
+     * For the unbounded cbse: uses nextInt().
+     * For the bounded cbse with representbble rbnge: uses nextInt(int bound)
+     * For the bounded cbse with unrepresentbble rbnge: uses nextInt()
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final int internalNextInt(int origin, int bound) {
+    finbl int internblNextInt(int origin, int bound) {
         if (origin < bound) {
             int n = bound - origin;
             if (n > 0) {
                 return nextInt(n) + origin;
             }
-            else {  // range not representable as int
+            else {  // rbnge not representbble bs int
                 int r;
                 do {
                     r = nextInt();
@@ -292,13 +292,13 @@ class Random implements java.io.Serializable {
     }
 
     /**
-     * The form of nextDouble used by DoubleStream Spliterators.
+     * The form of nextDouble used by DoubleStrebm Spliterbtors.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final double internalNextDouble(double origin, double bound) {
+    finbl double internblNextDouble(double origin, double bound) {
         double r = nextDouble();
         if (origin < bound) {
             r = r * (bound - origin) + origin;
@@ -309,87 +309,87 @@ class Random implements java.io.Serializable {
     }
 
     /**
-     * Returns the next pseudorandom, uniformly distributed {@code int}
-     * value from this random number generator's sequence. The general
-     * contract of {@code nextInt} is that one {@code int} value is
-     * pseudorandomly generated and returned. All 2<sup>32</sup> possible
-     * {@code int} values are produced with (approximately) equal probability.
+     * Returns the next pseudorbndom, uniformly distributed {@code int}
+     * vblue from this rbndom number generbtor's sequence. The generbl
+     * contrbct of {@code nextInt} is thbt one {@code int} vblue is
+     * pseudorbndomly generbted bnd returned. All 2<sup>32</sup> possible
+     * {@code int} vblues bre produced with (bpproximbtely) equbl probbbility.
      *
-     * <p>The method {@code nextInt} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextInt} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
      * public int nextInt() {
      *   return next(32);
      * }}</pre>
      *
-     * @return the next pseudorandom, uniformly distributed {@code int}
-     *         value from this random number generator's sequence
+     * @return the next pseudorbndom, uniformly distributed {@code int}
+     *         vblue from this rbndom number generbtor's sequence
      */
     public int nextInt() {
         return next(32);
     }
 
     /**
-     * Returns a pseudorandom, uniformly distributed {@code int} value
-     * between 0 (inclusive) and the specified value (exclusive), drawn from
-     * this random number generator's sequence.  The general contract of
-     * {@code nextInt} is that one {@code int} value in the specified range
-     * is pseudorandomly generated and returned.  All {@code bound} possible
-     * {@code int} values are produced with (approximately) equal
-     * probability.  The method {@code nextInt(int bound)} is implemented by
-     * class {@code Random} as if by:
+     * Returns b pseudorbndom, uniformly distributed {@code int} vblue
+     * between 0 (inclusive) bnd the specified vblue (exclusive), drbwn from
+     * this rbndom number generbtor's sequence.  The generbl contrbct of
+     * {@code nextInt} is thbt one {@code int} vblue in the specified rbnge
+     * is pseudorbndomly generbted bnd returned.  All {@code bound} possible
+     * {@code int} vblues bre produced with (bpproximbtely) equbl
+     * probbbility.  The method {@code nextInt(int bound)} is implemented by
+     * clbss {@code Rbndom} bs if by:
      *  <pre> {@code
      * public int nextInt(int bound) {
      *   if (bound <= 0)
-     *     throw new IllegalArgumentException("bound must be positive");
+     *     throw new IllegblArgumentException("bound must be positive");
      *
-     *   if ((bound & -bound) == bound)  // i.e., bound is a power of 2
+     *   if ((bound & -bound) == bound)  // i.e., bound is b power of 2
      *     return (int)((bound * (long)next(31)) >> 31);
      *
-     *   int bits, val;
+     *   int bits, vbl;
      *   do {
      *       bits = next(31);
-     *       val = bits % bound;
-     *   } while (bits - val + (bound-1) < 0);
-     *   return val;
+     *       vbl = bits % bound;
+     *   } while (bits - vbl + (bound-1) < 0);
+     *   return vbl;
      * }}</pre>
      *
-     * <p>The hedge "approximately" is used in the foregoing description only
-     * because the next method is only approximately an unbiased source of
-     * independently chosen bits.  If it were a perfect source of randomly
-     * chosen bits, then the algorithm shown would choose {@code int}
-     * values from the stated range with perfect uniformity.
+     * <p>The hedge "bpproximbtely" is used in the foregoing description only
+     * becbuse the next method is only bpproximbtely bn unbibsed source of
+     * independently chosen bits.  If it were b perfect source of rbndomly
+     * chosen bits, then the blgorithm shown would choose {@code int}
+     * vblues from the stbted rbnge with perfect uniformity.
      * <p>
-     * The algorithm is slightly tricky.  It rejects values that would result
-     * in an uneven distribution (due to the fact that 2^31 is not divisible
-     * by n). The probability of a value being rejected depends on n.  The
-     * worst case is n=2^30+1, for which the probability of a reject is 1/2,
-     * and the expected number of iterations before the loop terminates is 2.
+     * The blgorithm is slightly tricky.  It rejects vblues thbt would result
+     * in bn uneven distribution (due to the fbct thbt 2^31 is not divisible
+     * by n). The probbbility of b vblue being rejected depends on n.  The
+     * worst cbse is n=2^30+1, for which the probbbility of b reject is 1/2,
+     * bnd the expected number of iterbtions before the loop terminbtes is 2.
      * <p>
-     * The algorithm treats the case where n is a power of two specially: it
+     * The blgorithm trebts the cbse where n is b power of two speciblly: it
      * returns the correct number of high-order bits from the underlying
-     * pseudo-random number generator.  In the absence of special treatment,
-     * the correct number of <i>low-order</i> bits would be returned.  Linear
-     * congruential pseudo-random number generators such as the one
-     * implemented by this class are known to have short periods in the
-     * sequence of values of their low-order bits.  Thus, this special case
-     * greatly increases the length of the sequence of values returned by
-     * successive calls to this method if n is a small power of two.
+     * pseudo-rbndom number generbtor.  In the bbsence of specibl trebtment,
+     * the correct number of <i>low-order</i> bits would be returned.  Linebr
+     * congruentibl pseudo-rbndom number generbtors such bs the one
+     * implemented by this clbss bre known to hbve short periods in the
+     * sequence of vblues of their low-order bits.  Thus, this specibl cbse
+     * grebtly increbses the length of the sequence of vblues returned by
+     * successive cblls to this method if n is b smbll power of two.
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return the next pseudorandom, uniformly distributed {@code int}
-     *         value between zero (inclusive) and {@code bound} (exclusive)
-     *         from this random number generator's sequence
-     * @throws IllegalArgumentException if bound is not positive
+     * @pbrbm bound the upper bound (exclusive).  Must be positive.
+     * @return the next pseudorbndom, uniformly distributed {@code int}
+     *         vblue between zero (inclusive) bnd {@code bound} (exclusive)
+     *         from this rbndom number generbtor's sequence
+     * @throws IllegblArgumentException if bound is not positive
      * @since 1.2
      */
     public int nextInt(int bound) {
         if (bound <= 0)
-            throw new IllegalArgumentException(BadBound);
+            throw new IllegblArgumentException(BbdBound);
 
         int r = next(31);
         int m = bound - 1;
-        if ((bound & m) == 0)  // i.e., bound is a power of 2
+        if ((bound & m) == 0)  // i.e., bound is b power of 2
             r = (int)((bound * (long)r) >> 31);
         else {
             for (int u = r;
@@ -401,263 +401,263 @@ class Random implements java.io.Serializable {
     }
 
     /**
-     * Returns the next pseudorandom, uniformly distributed {@code long}
-     * value from this random number generator's sequence. The general
-     * contract of {@code nextLong} is that one {@code long} value is
-     * pseudorandomly generated and returned.
+     * Returns the next pseudorbndom, uniformly distributed {@code long}
+     * vblue from this rbndom number generbtor's sequence. The generbl
+     * contrbct of {@code nextLong} is thbt one {@code long} vblue is
+     * pseudorbndomly generbted bnd returned.
      *
-     * <p>The method {@code nextLong} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextLong} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
      * public long nextLong() {
      *   return ((long)next(32) << 32) + next(32);
      * }}</pre>
      *
-     * Because class {@code Random} uses a seed with only 48 bits,
-     * this algorithm will not return all possible {@code long} values.
+     * Becbuse clbss {@code Rbndom} uses b seed with only 48 bits,
+     * this blgorithm will not return bll possible {@code long} vblues.
      *
-     * @return the next pseudorandom, uniformly distributed {@code long}
-     *         value from this random number generator's sequence
+     * @return the next pseudorbndom, uniformly distributed {@code long}
+     *         vblue from this rbndom number generbtor's sequence
      */
     public long nextLong() {
-        // it's okay that the bottom word remains signed.
+        // it's okby thbt the bottom word rembins signed.
         return ((long)(next(32)) << 32) + next(32);
     }
 
     /**
-     * Returns the next pseudorandom, uniformly distributed
-     * {@code boolean} value from this random number generator's
-     * sequence. The general contract of {@code nextBoolean} is that one
-     * {@code boolean} value is pseudorandomly generated and returned.  The
-     * values {@code true} and {@code false} are produced with
-     * (approximately) equal probability.
+     * Returns the next pseudorbndom, uniformly distributed
+     * {@code boolebn} vblue from this rbndom number generbtor's
+     * sequence. The generbl contrbct of {@code nextBoolebn} is thbt one
+     * {@code boolebn} vblue is pseudorbndomly generbted bnd returned.  The
+     * vblues {@code true} bnd {@code fblse} bre produced with
+     * (bpproximbtely) equbl probbbility.
      *
-     * <p>The method {@code nextBoolean} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextBoolebn} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
-     * public boolean nextBoolean() {
+     * public boolebn nextBoolebn() {
      *   return next(1) != 0;
      * }}</pre>
      *
-     * @return the next pseudorandom, uniformly distributed
-     *         {@code boolean} value from this random number generator's
+     * @return the next pseudorbndom, uniformly distributed
+     *         {@code boolebn} vblue from this rbndom number generbtor's
      *         sequence
      * @since 1.2
      */
-    public boolean nextBoolean() {
+    public boolebn nextBoolebn() {
         return next(1) != 0;
     }
 
     /**
-     * Returns the next pseudorandom, uniformly distributed {@code float}
-     * value between {@code 0.0} and {@code 1.0} from this random
-     * number generator's sequence.
+     * Returns the next pseudorbndom, uniformly distributed {@code flobt}
+     * vblue between {@code 0.0} bnd {@code 1.0} from this rbndom
+     * number generbtor's sequence.
      *
-     * <p>The general contract of {@code nextFloat} is that one
-     * {@code float} value, chosen (approximately) uniformly from the
-     * range {@code 0.0f} (inclusive) to {@code 1.0f} (exclusive), is
-     * pseudorandomly generated and returned. All 2<sup>24</sup> possible
-     * {@code float} values of the form <i>m&nbsp;x&nbsp;</i>2<sup>-24</sup>,
-     * where <i>m</i> is a positive integer less than 2<sup>24</sup>, are
-     * produced with (approximately) equal probability.
+     * <p>The generbl contrbct of {@code nextFlobt} is thbt one
+     * {@code flobt} vblue, chosen (bpproximbtely) uniformly from the
+     * rbnge {@code 0.0f} (inclusive) to {@code 1.0f} (exclusive), is
+     * pseudorbndomly generbted bnd returned. All 2<sup>24</sup> possible
+     * {@code flobt} vblues of the form <i>m&nbsp;x&nbsp;</i>2<sup>-24</sup>,
+     * where <i>m</i> is b positive integer less thbn 2<sup>24</sup>, bre
+     * produced with (bpproximbtely) equbl probbbility.
      *
-     * <p>The method {@code nextFloat} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextFlobt} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
-     * public float nextFloat() {
-     *   return next(24) / ((float)(1 << 24));
+     * public flobt nextFlobt() {
+     *   return next(24) / ((flobt)(1 << 24));
      * }}</pre>
      *
-     * <p>The hedge "approximately" is used in the foregoing description only
-     * because the next method is only approximately an unbiased source of
-     * independently chosen bits. If it were a perfect source of randomly
-     * chosen bits, then the algorithm shown would choose {@code float}
-     * values from the stated range with perfect uniformity.<p>
-     * [In early versions of Java, the result was incorrectly calculated as:
+     * <p>The hedge "bpproximbtely" is used in the foregoing description only
+     * becbuse the next method is only bpproximbtely bn unbibsed source of
+     * independently chosen bits. If it were b perfect source of rbndomly
+     * chosen bits, then the blgorithm shown would choose {@code flobt}
+     * vblues from the stbted rbnge with perfect uniformity.<p>
+     * [In ebrly versions of Jbvb, the result wbs incorrectly cblculbted bs:
      *  <pre> {@code
-     *   return next(30) / ((float)(1 << 30));}</pre>
-     * This might seem to be equivalent, if not better, but in fact it
-     * introduced a slight nonuniformity because of the bias in the rounding
-     * of floating-point numbers: it was slightly more likely that the
-     * low-order bit of the significand would be 0 than that it would be 1.]
+     *   return next(30) / ((flobt)(1 << 30));}</pre>
+     * This might seem to be equivblent, if not better, but in fbct it
+     * introduced b slight nonuniformity becbuse of the bibs in the rounding
+     * of flobting-point numbers: it wbs slightly more likely thbt the
+     * low-order bit of the significbnd would be 0 thbn thbt it would be 1.]
      *
-     * @return the next pseudorandom, uniformly distributed {@code float}
-     *         value between {@code 0.0} and {@code 1.0} from this
-     *         random number generator's sequence
+     * @return the next pseudorbndom, uniformly distributed {@code flobt}
+     *         vblue between {@code 0.0} bnd {@code 1.0} from this
+     *         rbndom number generbtor's sequence
      */
-    public float nextFloat() {
-        return next(24) / ((float)(1 << 24));
+    public flobt nextFlobt() {
+        return next(24) / ((flobt)(1 << 24));
     }
 
     /**
-     * Returns the next pseudorandom, uniformly distributed
-     * {@code double} value between {@code 0.0} and
-     * {@code 1.0} from this random number generator's sequence.
+     * Returns the next pseudorbndom, uniformly distributed
+     * {@code double} vblue between {@code 0.0} bnd
+     * {@code 1.0} from this rbndom number generbtor's sequence.
      *
-     * <p>The general contract of {@code nextDouble} is that one
-     * {@code double} value, chosen (approximately) uniformly from the
-     * range {@code 0.0d} (inclusive) to {@code 1.0d} (exclusive), is
-     * pseudorandomly generated and returned.
+     * <p>The generbl contrbct of {@code nextDouble} is thbt one
+     * {@code double} vblue, chosen (bpproximbtely) uniformly from the
+     * rbnge {@code 0.0d} (inclusive) to {@code 1.0d} (exclusive), is
+     * pseudorbndomly generbted bnd returned.
      *
-     * <p>The method {@code nextDouble} is implemented by class {@code Random}
-     * as if by:
+     * <p>The method {@code nextDouble} is implemented by clbss {@code Rbndom}
+     * bs if by:
      *  <pre> {@code
      * public double nextDouble() {
      *   return (((long)next(26) << 27) + next(27))
      *     / (double)(1L << 53);
      * }}</pre>
      *
-     * <p>The hedge "approximately" is used in the foregoing description only
-     * because the {@code next} method is only approximately an unbiased
-     * source of independently chosen bits. If it were a perfect source of
-     * randomly chosen bits, then the algorithm shown would choose
-     * {@code double} values from the stated range with perfect uniformity.
-     * <p>[In early versions of Java, the result was incorrectly calculated as:
+     * <p>The hedge "bpproximbtely" is used in the foregoing description only
+     * becbuse the {@code next} method is only bpproximbtely bn unbibsed
+     * source of independently chosen bits. If it were b perfect source of
+     * rbndomly chosen bits, then the blgorithm shown would choose
+     * {@code double} vblues from the stbted rbnge with perfect uniformity.
+     * <p>[In ebrly versions of Jbvb, the result wbs incorrectly cblculbted bs:
      *  <pre> {@code
      *   return (((long)next(27) << 27) + next(27))
      *     / (double)(1L << 54);}</pre>
-     * This might seem to be equivalent, if not better, but in fact it
-     * introduced a large nonuniformity because of the bias in the rounding
-     * of floating-point numbers: it was three times as likely that the
-     * low-order bit of the significand would be 0 than that it would be 1!
-     * This nonuniformity probably doesn't matter much in practice, but we
+     * This might seem to be equivblent, if not better, but in fbct it
+     * introduced b lbrge nonuniformity becbuse of the bibs in the rounding
+     * of flobting-point numbers: it wbs three times bs likely thbt the
+     * low-order bit of the significbnd would be 0 thbn thbt it would be 1!
+     * This nonuniformity probbbly doesn't mbtter much in prbctice, but we
      * strive for perfection.]
      *
-     * @return the next pseudorandom, uniformly distributed {@code double}
-     *         value between {@code 0.0} and {@code 1.0} from this
-     *         random number generator's sequence
-     * @see Math#random
+     * @return the next pseudorbndom, uniformly distributed {@code double}
+     *         vblue between {@code 0.0} bnd {@code 1.0} from this
+     *         rbndom number generbtor's sequence
+     * @see Mbth#rbndom
      */
     public double nextDouble() {
         return (((long)(next(26)) << 27) + next(27)) * DOUBLE_UNIT;
     }
 
-    private double nextNextGaussian;
-    private boolean haveNextNextGaussian = false;
+    privbte double nextNextGbussibn;
+    privbte boolebn hbveNextNextGbussibn = fblse;
 
     /**
-     * Returns the next pseudorandom, Gaussian ("normally") distributed
-     * {@code double} value with mean {@code 0.0} and standard
-     * deviation {@code 1.0} from this random number generator's sequence.
+     * Returns the next pseudorbndom, Gbussibn ("normblly") distributed
+     * {@code double} vblue with mebn {@code 0.0} bnd stbndbrd
+     * devibtion {@code 1.0} from this rbndom number generbtor's sequence.
      * <p>
-     * The general contract of {@code nextGaussian} is that one
-     * {@code double} value, chosen from (approximately) the usual
-     * normal distribution with mean {@code 0.0} and standard deviation
-     * {@code 1.0}, is pseudorandomly generated and returned.
+     * The generbl contrbct of {@code nextGbussibn} is thbt one
+     * {@code double} vblue, chosen from (bpproximbtely) the usubl
+     * normbl distribution with mebn {@code 0.0} bnd stbndbrd devibtion
+     * {@code 1.0}, is pseudorbndomly generbted bnd returned.
      *
-     * <p>The method {@code nextGaussian} is implemented by class
-     * {@code Random} as if by a threadsafe version of the following:
+     * <p>The method {@code nextGbussibn} is implemented by clbss
+     * {@code Rbndom} bs if by b threbdsbfe version of the following:
      *  <pre> {@code
-     * private double nextNextGaussian;
-     * private boolean haveNextNextGaussian = false;
+     * privbte double nextNextGbussibn;
+     * privbte boolebn hbveNextNextGbussibn = fblse;
      *
-     * public double nextGaussian() {
-     *   if (haveNextNextGaussian) {
-     *     haveNextNextGaussian = false;
-     *     return nextNextGaussian;
+     * public double nextGbussibn() {
+     *   if (hbveNextNextGbussibn) {
+     *     hbveNextNextGbussibn = fblse;
+     *     return nextNextGbussibn;
      *   } else {
      *     double v1, v2, s;
      *     do {
-     *       v1 = 2 * nextDouble() - 1;   // between -1.0 and 1.0
-     *       v2 = 2 * nextDouble() - 1;   // between -1.0 and 1.0
+     *       v1 = 2 * nextDouble() - 1;   // between -1.0 bnd 1.0
+     *       v2 = 2 * nextDouble() - 1;   // between -1.0 bnd 1.0
      *       s = v1 * v1 + v2 * v2;
      *     } while (s >= 1 || s == 0);
-     *     double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
-     *     nextNextGaussian = v2 * multiplier;
-     *     haveNextNextGaussian = true;
+     *     double multiplier = StrictMbth.sqrt(-2 * StrictMbth.log(s)/s);
+     *     nextNextGbussibn = v2 * multiplier;
+     *     hbveNextNextGbussibn = true;
      *     return v1 * multiplier;
      *   }
      * }}</pre>
-     * This uses the <i>polar method</i> of G. E. P. Box, M. E. Muller, and
-     * G. Marsaglia, as described by Donald E. Knuth in <i>The Art of
-     * Computer Programming</i>, Volume 3: <i>Seminumerical Algorithms</i>,
-     * section 3.4.1, subsection C, algorithm P. Note that it generates two
-     * independent values at the cost of only one call to {@code StrictMath.log}
-     * and one call to {@code StrictMath.sqrt}.
+     * This uses the <i>polbr method</i> of G. E. P. Box, M. E. Muller, bnd
+     * G. Mbrsbglib, bs described by Donbld E. Knuth in <i>The Art of
+     * Computer Progrbmming</i>, Volume 3: <i>Seminumericbl Algorithms</i>,
+     * section 3.4.1, subsection C, blgorithm P. Note thbt it generbtes two
+     * independent vblues bt the cost of only one cbll to {@code StrictMbth.log}
+     * bnd one cbll to {@code StrictMbth.sqrt}.
      *
-     * @return the next pseudorandom, Gaussian ("normally") distributed
-     *         {@code double} value with mean {@code 0.0} and
-     *         standard deviation {@code 1.0} from this random number
-     *         generator's sequence
+     * @return the next pseudorbndom, Gbussibn ("normblly") distributed
+     *         {@code double} vblue with mebn {@code 0.0} bnd
+     *         stbndbrd devibtion {@code 1.0} from this rbndom number
+     *         generbtor's sequence
      */
-    synchronized public double nextGaussian() {
+    synchronized public double nextGbussibn() {
         // See Knuth, ACP, Section 3.4.1 Algorithm C.
-        if (haveNextNextGaussian) {
-            haveNextNextGaussian = false;
-            return nextNextGaussian;
+        if (hbveNextNextGbussibn) {
+            hbveNextNextGbussibn = fblse;
+            return nextNextGbussibn;
         } else {
             double v1, v2, s;
             do {
-                v1 = 2 * nextDouble() - 1; // between -1 and 1
-                v2 = 2 * nextDouble() - 1; // between -1 and 1
+                v1 = 2 * nextDouble() - 1; // between -1 bnd 1
+                v2 = 2 * nextDouble() - 1; // between -1 bnd 1
                 s = v1 * v1 + v2 * v2;
             } while (s >= 1 || s == 0);
-            double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
-            nextNextGaussian = v2 * multiplier;
-            haveNextNextGaussian = true;
+            double multiplier = StrictMbth.sqrt(-2 * StrictMbth.log(s)/s);
+            nextNextGbussibn = v2 * multiplier;
+            hbveNextNextGbussibn = true;
             return v1 * multiplier;
         }
     }
 
-    // stream methods, coded in a way intended to better isolate for
-    // maintenance purposes the small differences across forms.
+    // strebm methods, coded in b wby intended to better isolbte for
+    // mbintenbnce purposes the smbll differences bcross forms.
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code int} values.
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code int} vblues.
      *
-     * <p>A pseudorandom {@code int} value is generated as if it's the result of
-     * calling the method {@link #nextInt()}.
+     * <p>A pseudorbndom {@code int} vblue is generbted bs if it's the result of
+     * cblling the method {@link #nextInt()}.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code int} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of pseudorbndom {@code int} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public IntStream ints(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.intStream
-                (new RandomIntsSpliterator
-                         (this, 0L, streamSize, Integer.MAX_VALUE, 0),
-                 false);
+    public IntStrebm ints(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.intStrebm
+                (new RbndomIntsSpliterbtor
+                         (this, 0L, strebmSize, Integer.MAX_VALUE, 0),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code int}
-     * values.
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code int}
+     * vblues.
      *
-     * <p>A pseudorandom {@code int} value is generated as if it's the result of
-     * calling the method {@link #nextInt()}.
+     * <p>A pseudorbndom {@code int} vblue is generbted bs if it's the result of
+     * cblling the method {@link #nextInt()}.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * ints(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code int} values
+     * @return b strebm of pseudorbndom {@code int} vblues
      * @since 1.8
      */
-    public IntStream ints() {
-        return StreamSupport.intStream
-                (new RandomIntsSpliterator
+    public IntStrebm ints() {
+        return StrebmSupport.intStrebm
+                (new RbndomIntsSpliterbtor
                          (this, 0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0),
-                 false);
+                 fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number
-     * of pseudorandom {@code int} values, each conforming to the given
-     * origin (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number
+     * of pseudorbndom {@code int} vblues, ebch conforming to the given
+     * origin (inclusive) bnd bound (exclusive).
      *
-     * <p>A pseudorandom {@code int} value is generated as if it's the result of
-     * calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code int} vblue is generbted bs if it's the result of
+     * cblling the following method with the origin bnd bound:
      * <pre> {@code
      * int nextInt(int origin, int bound) {
      *   int n = bound - origin;
      *   if (n > 0) {
      *     return nextInt(n) + origin;
      *   }
-     *   else {  // range not representable as int
+     *   else {  // rbnge not representbble bs int
      *     int r;
      *     do {
      *       r = nextInt();
@@ -666,42 +666,42 @@ class Random implements java.io.Serializable {
      *   }
      * }}</pre>
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code int} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero, or {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public IntStream ints(long streamSize, int randomNumberOrigin,
-                          int randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-                (new RandomIntsSpliterator
-                         (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-                 false);
+    public IntStrebm ints(long strebmSize, int rbndomNumberOrigin,
+                          int rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.intStrebm
+                (new RbndomIntsSpliterbtor
+                         (this, 0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * int} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * int} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * <p>A pseudorandom {@code int} value is generated as if it's the result of
-     * calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code int} vblue is generbted bs if it's the result of
+     * cblling the following method with the origin bnd bound:
      * <pre> {@code
      * int nextInt(int origin, int bound) {
      *   int n = bound - origin;
      *   if (n > 0) {
      *     return nextInt(n) + origin;
      *   }
-     *   else {  // range not representable as int
+     *   else {  // rbnge not representbble bs int
      *     int r;
      *     do {
      *       r = nextInt();
@@ -710,393 +710,393 @@ class Random implements java.io.Serializable {
      *   }
      * }}</pre>
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * ints(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * ints(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code int} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public IntStream ints(int randomNumberOrigin, int randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-                (new RandomIntsSpliterator
-                         (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-                 false);
+    public IntStrebm ints(int rbndomNumberOrigin, int rbndomNumberBound) {
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.intStrebm
+                (new RbndomIntsSpliterbtor
+                         (this, 0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code long} values.
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code long} vblues.
      *
-     * <p>A pseudorandom {@code long} value is generated as if it's the result
-     * of calling the method {@link #nextLong()}.
+     * <p>A pseudorbndom {@code long} vblue is generbted bs if it's the result
+     * of cblling the method {@link #nextLong()}.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code long} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of pseudorbndom {@code long} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public LongStream longs(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.longStream
-                (new RandomLongsSpliterator
-                         (this, 0L, streamSize, Long.MAX_VALUE, 0L),
-                 false);
+    public LongStrebm longs(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.longStrebm
+                (new RbndomLongsSpliterbtor
+                         (this, 0L, strebmSize, Long.MAX_VALUE, 0L),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code long}
-     * values.
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code long}
+     * vblues.
      *
-     * <p>A pseudorandom {@code long} value is generated as if it's the result
-     * of calling the method {@link #nextLong()}.
+     * <p>A pseudorbndom {@code long} vblue is generbted bs if it's the result
+     * of cblling the method {@link #nextLong()}.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * longs(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code long} values
+     * @return b strebm of pseudorbndom {@code long} vblues
      * @since 1.8
      */
-    public LongStream longs() {
-        return StreamSupport.longStream
-                (new RandomLongsSpliterator
+    public LongStrebm longs() {
+        return StrebmSupport.longStrebm
+                (new RbndomLongsSpliterbtor
                          (this, 0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L),
-                 false);
+                 fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code long}, each conforming to the given origin
-     * (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code long}, ebch conforming to the given origin
+     * (inclusive) bnd bound (exclusive).
      *
-     * <p>A pseudorandom {@code long} value is generated as if it's the result
-     * of calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code long} vblue is generbted bs if it's the result
+     * of cblling the following method with the origin bnd bound:
      * <pre> {@code
      * long nextLong(long origin, long bound) {
      *   long r = nextLong();
      *   long n = bound - origin, m = n - 1;
      *   if ((n & m) == 0L)  // power of two
      *     r = (r & m) + origin;
-     *   else if (n > 0L) {  // reject over-represented candidates
-     *     for (long u = r >>> 1;            // ensure nonnegative
+     *   else if (n > 0L) {  // reject over-represented cbndidbtes
+     *     for (long u = r >>> 1;            // ensure nonnegbtive
      *          u + m - (r = u % n) < 0L;    // rejection check
      *          u = nextLong() >>> 1) // retry
      *         ;
      *     r += origin;
      *   }
-     *   else {              // range not representable as long
+     *   else {              // rbnge not representbble bs long
      *     while (r < origin || r >= bound)
      *       r = nextLong();
      *   }
      *   return r;
      * }}</pre>
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code long} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero, or {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public LongStream longs(long streamSize, long randomNumberOrigin,
-                            long randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-                (new RandomLongsSpliterator
-                         (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-                 false);
+    public LongStrebm longs(long strebmSize, long rbndomNumberOrigin,
+                            long rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.longStrebm
+                (new RbndomLongsSpliterbtor
+                         (this, 0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * long} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * long} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * <p>A pseudorandom {@code long} value is generated as if it's the result
-     * of calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code long} vblue is generbted bs if it's the result
+     * of cblling the following method with the origin bnd bound:
      * <pre> {@code
      * long nextLong(long origin, long bound) {
      *   long r = nextLong();
      *   long n = bound - origin, m = n - 1;
      *   if ((n & m) == 0L)  // power of two
      *     r = (r & m) + origin;
-     *   else if (n > 0L) {  // reject over-represented candidates
-     *     for (long u = r >>> 1;            // ensure nonnegative
+     *   else if (n > 0L) {  // reject over-represented cbndidbtes
+     *     for (long u = r >>> 1;            // ensure nonnegbtive
      *          u + m - (r = u % n) < 0L;    // rejection check
      *          u = nextLong() >>> 1) // retry
      *         ;
      *     r += origin;
      *   }
-     *   else {              // range not representable as long
+     *   else {              // rbnge not representbble bs long
      *     while (r < origin || r >= bound)
      *       r = nextLong();
      *   }
      *   return r;
      * }}</pre>
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * longs(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * longs(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code long} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public LongStream longs(long randomNumberOrigin, long randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-                (new RandomLongsSpliterator
-                         (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-                 false);
+    public LongStrebm longs(long rbndomNumberOrigin, long rbndomNumberBound) {
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.longStrebm
+                (new RbndomLongsSpliterbtor
+                         (this, 0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values, each between zero
-     * (inclusive) and one (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code double} vblues, ebch between zero
+     * (inclusive) bnd one (exclusive).
      *
-     * <p>A pseudorandom {@code double} value is generated as if it's the result
-     * of calling the method {@link #nextDouble()}.
+     * <p>A pseudorbndom {@code double} vblue is generbted bs if it's the result
+     * of cblling the method {@link #nextDouble()}.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of {@code double} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of {@code double} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public DoubleStream doubles(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.doubleStream
-                (new RandomDoublesSpliterator
-                         (this, 0L, streamSize, Double.MAX_VALUE, 0.0),
-                 false);
+    public DoubleStrebm doubles(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.doubleStrebm
+                (new RbndomDoublesSpliterbtor
+                         (this, 0L, strebmSize, Double.MAX_VALUE, 0.0),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values, each between zero (inclusive) and one
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * double} vblues, ebch between zero (inclusive) bnd one
      * (exclusive).
      *
-     * <p>A pseudorandom {@code double} value is generated as if it's the result
-     * of calling the method {@link #nextDouble()}.
+     * <p>A pseudorbndom {@code double} vblue is generbted bs if it's the result
+     * of cblling the method {@link #nextDouble()}.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * doubles(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code double} values
+     * @return b strebm of pseudorbndom {@code double} vblues
      * @since 1.8
      */
-    public DoubleStream doubles() {
-        return StreamSupport.doubleStream
-                (new RandomDoublesSpliterator
+    public DoubleStrebm doubles() {
+        return StrebmSupport.doubleStrebm
+                (new RbndomDoublesSpliterbtor
                          (this, 0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0),
-                 false);
+                 fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values, each conforming to the given origin
-     * (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code double} vblues, ebch conforming to the given origin
+     * (inclusive) bnd bound (exclusive).
      *
-     * <p>A pseudorandom {@code double} value is generated as if it's the result
-     * of calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code double} vblue is generbted bs if it's the result
+     * of cblling the following method with the origin bnd bound:
      * <pre> {@code
      * double nextDouble(double origin, double bound) {
      *   double r = nextDouble();
      *   r = r * (bound - origin) + origin;
      *   if (r >= bound) // correct for rounding
-     *     r = Math.nextDown(bound);
+     *     r = Mbth.nextDown(bound);
      *   return r;
      * }}</pre>
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code double} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public DoubleStream doubles(long streamSize, double randomNumberOrigin,
-                                double randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-                (new RandomDoublesSpliterator
-                         (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-                 false);
+    public DoubleStrebm doubles(long strebmSize, double rbndomNumberOrigin,
+                                double rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (!(rbndomNumberOrigin < rbndomNumberBound))
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.doubleStrebm
+                (new RbndomDoublesSpliterbtor
+                         (this, 0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * double} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * <p>A pseudorandom {@code double} value is generated as if it's the result
-     * of calling the following method with the origin and bound:
+     * <p>A pseudorbndom {@code double} vblue is generbted bs if it's the result
+     * of cblling the following method with the origin bnd bound:
      * <pre> {@code
      * double nextDouble(double origin, double bound) {
      *   double r = nextDouble();
      *   r = r * (bound - origin) + origin;
      *   if (r >= bound) // correct for rounding
-     *     r = Math.nextDown(bound);
+     *     r = Mbth.nextDown(bound);
      *   return r;
      * }}</pre>
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * doubles(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * doubles(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code double} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public DoubleStream doubles(double randomNumberOrigin, double randomNumberBound) {
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-                (new RandomDoublesSpliterator
-                         (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-                 false);
+    public DoubleStrebm doubles(double rbndomNumberOrigin, double rbndomNumberBound) {
+        if (!(rbndomNumberOrigin < rbndomNumberBound))
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.doubleStrebm
+                (new RbndomDoublesSpliterbtor
+                         (this, 0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+                 fblse);
     }
 
     /**
-     * Spliterator for int streams.  We multiplex the four int
-     * versions into one class by treating a bound less than origin as
-     * unbounded, and also by treating "infinite" as equivalent to
-     * Long.MAX_VALUE. For splits, it uses the standard divide-by-two
-     * approach. The long and double versions of this class are
-     * identical except for types.
+     * Spliterbtor for int strebms.  We multiplex the four int
+     * versions into one clbss by trebting b bound less thbn origin bs
+     * unbounded, bnd blso by trebting "infinite" bs equivblent to
+     * Long.MAX_VALUE. For splits, it uses the stbndbrd divide-by-two
+     * bpprobch. The long bnd double versions of this clbss bre
+     * identicbl except for types.
      */
-    static final class RandomIntsSpliterator implements Spliterator.OfInt {
-        final Random rng;
+    stbtic finbl clbss RbndomIntsSpliterbtor implements Spliterbtor.OfInt {
+        finbl Rbndom rng;
         long index;
-        final long fence;
-        final int origin;
-        final int bound;
-        RandomIntsSpliterator(Random rng, long index, long fence,
+        finbl long fence;
+        finbl int origin;
+        finbl int bound;
+        RbndomIntsSpliterbtor(Rbndom rng, long index, long fence,
                               int origin, int bound) {
             this.rng = rng; this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomIntsSpliterator trySplit() {
+        public RbndomIntsSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                   new RandomIntsSpliterator(rng, i, index = m, origin, bound);
+                   new RbndomIntsSpliterbtor(rng, i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(IntConsumer consumer) {
+        public boolebn tryAdvbnce(IntConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(rng.internalNextInt(origin, bound));
+                consumer.bccept(rng.internblNextInt(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(IntConsumer consumer) {
+        public void forEbchRembining(IntConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
-                Random r = rng;
+                Rbndom r = rng;
                 int o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextInt(o, b));
+                    consumer.bccept(r.internblNextInt(o, b));
                 } while (++i < f);
             }
         }
     }
 
     /**
-     * Spliterator for long streams.
+     * Spliterbtor for long strebms.
      */
-    static final class RandomLongsSpliterator implements Spliterator.OfLong {
-        final Random rng;
+    stbtic finbl clbss RbndomLongsSpliterbtor implements Spliterbtor.OfLong {
+        finbl Rbndom rng;
         long index;
-        final long fence;
-        final long origin;
-        final long bound;
-        RandomLongsSpliterator(Random rng, long index, long fence,
+        finbl long fence;
+        finbl long origin;
+        finbl long bound;
+        RbndomLongsSpliterbtor(Rbndom rng, long index, long fence,
                                long origin, long bound) {
             this.rng = rng; this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomLongsSpliterator trySplit() {
+        public RbndomLongsSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                   new RandomLongsSpliterator(rng, i, index = m, origin, bound);
+                   new RbndomLongsSpliterbtor(rng, i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(LongConsumer consumer) {
+        public boolebn tryAdvbnce(LongConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(rng.internalNextLong(origin, bound));
+                consumer.bccept(rng.internblNextLong(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(LongConsumer consumer) {
+        public void forEbchRembining(LongConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
-                Random r = rng;
+                Rbndom r = rng;
                 long o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextLong(o, b));
+                    consumer.bccept(r.internblNextLong(o, b));
                 } while (++i < f);
             }
         }
@@ -1104,124 +1104,124 @@ class Random implements java.io.Serializable {
     }
 
     /**
-     * Spliterator for double streams.
+     * Spliterbtor for double strebms.
      */
-    static final class RandomDoublesSpliterator implements Spliterator.OfDouble {
-        final Random rng;
+    stbtic finbl clbss RbndomDoublesSpliterbtor implements Spliterbtor.OfDouble {
+        finbl Rbndom rng;
         long index;
-        final long fence;
-        final double origin;
-        final double bound;
-        RandomDoublesSpliterator(Random rng, long index, long fence,
+        finbl long fence;
+        finbl double origin;
+        finbl double bound;
+        RbndomDoublesSpliterbtor(Rbndom rng, long index, long fence,
                                  double origin, double bound) {
             this.rng = rng; this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomDoublesSpliterator trySplit() {
+        public RbndomDoublesSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                   new RandomDoublesSpliterator(rng, i, index = m, origin, bound);
+                   new RbndomDoublesSpliterbtor(rng, i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(DoubleConsumer consumer) {
+        public boolebn tryAdvbnce(DoubleConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(rng.internalNextDouble(origin, bound));
+                consumer.bccept(rng.internblNextDouble(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(DoubleConsumer consumer) {
+        public void forEbchRembining(DoubleConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
-                Random r = rng;
+                Rbndom r = rng;
                 double o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextDouble(o, b));
+                    consumer.bccept(r.internblNextDouble(o, b));
                 } while (++i < f);
             }
         }
     }
 
     /**
-     * Serializable fields for Random.
+     * Seriblizbble fields for Rbndom.
      *
-     * @serialField    seed long
-     *              seed for random computations
-     * @serialField    nextNextGaussian double
-     *              next Gaussian to be returned
-     * @serialField      haveNextNextGaussian boolean
-     *              nextNextGaussian is valid
+     * @seriblField    seed long
+     *              seed for rbndom computbtions
+     * @seriblField    nextNextGbussibn double
+     *              next Gbussibn to be returned
+     * @seriblField      hbveNextNextGbussibn boolebn
+     *              nextNextGbussibn is vblid
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("seed", Long.TYPE),
-        new ObjectStreamField("nextNextGaussian", Double.TYPE),
-        new ObjectStreamField("haveNextNextGaussian", Boolean.TYPE)
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("seed", Long.TYPE),
+        new ObjectStrebmField("nextNextGbussibn", Double.TYPE),
+        new ObjectStrebmField("hbveNextNextGbussibn", Boolebn.TYPE)
     };
 
     /**
-     * Reconstitute the {@code Random} instance from a stream (that is,
-     * deserialize it).
+     * Reconstitute the {@code Rbndom} instbnce from b strebm (thbt is,
+     * deseriblize it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
 
-        ObjectInputStream.GetField fields = s.readFields();
+        ObjectInputStrebm.GetField fields = s.rebdFields();
 
-        // The seed is read in as {@code long} for
-        // historical reasons, but it is converted to an AtomicLong.
-        long seedVal = fields.get("seed", -1L);
-        if (seedVal < 0)
-          throw new java.io.StreamCorruptedException(
-                              "Random: invalid seed");
-        resetSeed(seedVal);
-        nextNextGaussian = fields.get("nextNextGaussian", 0.0);
-        haveNextNextGaussian = fields.get("haveNextNextGaussian", false);
+        // The seed is rebd in bs {@code long} for
+        // historicbl rebsons, but it is converted to bn AtomicLong.
+        long seedVbl = fields.get("seed", -1L);
+        if (seedVbl < 0)
+          throw new jbvb.io.StrebmCorruptedException(
+                              "Rbndom: invblid seed");
+        resetSeed(seedVbl);
+        nextNextGbussibn = fields.get("nextNextGbussibn", 0.0);
+        hbveNextNextGbussibn = fields.get("hbveNextNextGbussibn", fblse);
     }
 
     /**
-     * Save the {@code Random} instance to a stream.
+     * Sbve the {@code Rbndom} instbnce to b strebm.
      */
-    synchronized private void writeObject(ObjectOutputStream s)
+    synchronized privbte void writeObject(ObjectOutputStrebm s)
         throws IOException {
 
-        // set the values of the Serializable fields
-        ObjectOutputStream.PutField fields = s.putFields();
+        // set the vblues of the Seriblizbble fields
+        ObjectOutputStrebm.PutField fields = s.putFields();
 
-        // The seed is serialized as a long for historical reasons.
+        // The seed is seriblized bs b long for historicbl rebsons.
         fields.put("seed", seed.get());
-        fields.put("nextNextGaussian", nextNextGaussian);
-        fields.put("haveNextNextGaussian", haveNextNextGaussian);
+        fields.put("nextNextGbussibn", nextNextGbussibn);
+        fields.put("hbveNextNextGbussibn", hbveNextNextGbussibn);
 
-        // save them
+        // sbve them
         s.writeFields();
     }
 
-    // Support for resetting seed while deserializing
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long seedOffset;
-    static {
+    // Support for resetting seed while deseriblizing
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long seedOffset;
+    stbtic {
         try {
-            seedOffset = unsafe.objectFieldOffset
-                (Random.class.getDeclaredField("seed"));
-        } catch (Exception ex) { throw new Error(ex); }
+            seedOffset = unsbfe.objectFieldOffset
+                (Rbndom.clbss.getDeclbredField("seed"));
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
-    private void resetSeed(long seedVal) {
-        unsafe.putObjectVolatile(this, seedOffset, new AtomicLong(seedVal));
+    privbte void resetSeed(long seedVbl) {
+        unsbfe.putObjectVolbtile(this, seedOffset, new AtomicLong(seedVbl));
     }
 }

@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.io.StreamTokenizer;
-import java.util.Set;
-import java.util.Iterator;
+import jbvb.io.StrebmTokenizer;
+import jbvb.util.Set;
+import jbvb.util.Iterbtor;
 
 /**
- * An exception class for syntax exceptions detected by the options file
- * parser.
+ * An exception clbss for syntbx exceptions detected by the options file
+ * pbrser.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class SyntaxException extends ParserException {
-    private String message;
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss SyntbxException extends PbrserException {
+    privbte String messbge;
 
-    public SyntaxException(String message) {
-        this.message = message;
+    public SyntbxException(String messbge) {
+        this.messbge = messbge;
     }
 
-    public SyntaxException(int lineno, String expected, String found) {
-        message = "Syntax error at line " + lineno
+    public SyntbxException(int lineno, String expected, String found) {
+        messbge = "Syntbx error bt line " + lineno
                   + ": Expected " + expected
                   + ", Found " + found;
     }
 
-    public SyntaxException(int lineno, String expected, Token found) {
-        message = "Syntax error at line " + lineno
+    public SyntbxException(int lineno, String expected, Token found) {
+        messbge = "Syntbx error bt line " + lineno
                   + ": Expected " + expected
-                  + ", Found " + found.toMessage();
+                  + ", Found " + found.toMessbge();
     }
 
-    public SyntaxException(int lineno, Token expected, Token found) {
-        message = "Syntax error at line " + lineno
-                  + ": Expected " + expected.toMessage()
-                  + ", Found " + found.toMessage();
+    public SyntbxException(int lineno, Token expected, Token found) {
+        messbge = "Syntbx error bt line " + lineno
+                  + ": Expected " + expected.toMessbge()
+                  + ", Found " + found.toMessbge();
     }
 
-    public SyntaxException(int lineno, Set<String> expected, Token found) {
+    public SyntbxException(int lineno, Set<String> expected, Token found) {
         StringBuilder msg = new StringBuilder();
 
-        msg.append("Syntax error at line " + lineno + ": Expected one of \'");
+        msg.bppend("Syntbx error bt line " + lineno + ": Expected one of \'");
 
-        boolean first = true;
-        for (Iterator<String> i = expected.iterator(); i.hasNext(); /* empty */) {
+        boolebn first = true;
+        for (Iterbtor<String> i = expected.iterbtor(); i.hbsNext(); /* empty */) {
             String keyWord = i.next();
             if (first) {
-                msg.append(keyWord);
-                first = false;
+                msg.bppend(keyWord);
+                first = fblse;
             } else {
-                msg.append("|" + keyWord);
+                msg.bppend("|" + keyWord);
             }
         }
 
-        msg.append("\', Found " + found.toMessage());
-        message = msg.toString();
+        msg.bppend("\', Found " + found.toMessbge());
+        messbge = msg.toString();
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessbge() {
+        return messbge;
     }
 }

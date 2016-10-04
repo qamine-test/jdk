@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Random;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ServiceLoader;
-import java.security.AccessController;
-import java.io.ObjectStreamException;
-import java.io.ObjectStreamField;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectInputStream.GetField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream.PutField;
-import sun.security.action.*;
-import sun.net.InetAddressCachePolicy;
+import jbvb.util.HbshMbp;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Rbndom;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.ServiceLobder;
+import jbvb.security.AccessController;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectInputStrebm.GetField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectOutputStrebm.PutField;
+import sun.security.bction.*;
+import sun.net.InetAddressCbchePolicy;
 import sun.net.util.IPAddressUtil;
-import sun.net.spi.nameservice.*;
+import sun.net.spi.nbmeservice.*;
 
 /**
- * This class represents an Internet Protocol (IP) address.
+ * This clbss represents bn Internet Protocol (IP) bddress.
  *
- * <p> An IP address is either a 32-bit or 128-bit unsigned number
- * used by IP, a lower-level protocol on which protocols like UDP and
- * TCP are built. The IP address architecture is defined by <a
+ * <p> An IP bddress is either b 32-bit or 128-bit unsigned number
+ * used by IP, b lower-level protocol on which protocols like UDP bnd
+ * TCP bre built. The IP bddress brchitecture is defined by <b
  * href="http://www.ietf.org/rfc/rfc790.txt"><i>RFC&nbsp;790:
- * Assigned Numbers</i></a>, <a
+ * Assigned Numbers</i></b>, <b
  * href="http://www.ietf.org/rfc/rfc1918.txt"> <i>RFC&nbsp;1918:
- * Address Allocation for Private Internets</i></a>, <a
+ * Address Allocbtion for Privbte Internets</i></b>, <b
  * href="http://www.ietf.org/rfc/rfc2365.txt"><i>RFC&nbsp;2365:
- * Administratively Scoped IP Multicast</i></a>, and <a
+ * Administrbtively Scoped IP Multicbst</i></b>, bnd <b
  * href="http://www.ietf.org/rfc/rfc2373.txt"><i>RFC&nbsp;2373: IP
- * Version 6 Addressing Architecture</i></a>. An instance of an
- * InetAddress consists of an IP address and possibly its
- * corresponding host name (depending on whether it is constructed
- * with a host name or whether it has already done reverse host name
+ * Version 6 Addressing Architecture</i></b>. An instbnce of bn
+ * InetAddress consists of bn IP bddress bnd possibly its
+ * corresponding host nbme (depending on whether it is constructed
+ * with b host nbme or whether it hbs blrebdy done reverse host nbme
  * resolution).
  *
  * <h3> Address types </h3>
  *
- * <blockquote><table cellspacing=2 summary="Description of unicast and multicast address types">
- *   <tr><th valign=top><i>unicast</i></th>
- *       <td>An identifier for a single interface. A packet sent to
- *         a unicast address is delivered to the interface identified by
- *         that address.
+ * <blockquote><tbble cellspbcing=2 summbry="Description of unicbst bnd multicbst bddress types">
+ *   <tr><th vblign=top><i>unicbst</i></th>
+ *       <td>An identifier for b single interfbce. A pbcket sent to
+ *         b unicbst bddress is delivered to the interfbce identified by
+ *         thbt bddress.
  *
- *         <p> The Unspecified Address -- Also called anylocal or wildcard
- *         address. It must never be assigned to any node. It indicates the
- *         absence of an address. One example of its use is as the target of
- *         bind, which allows a server to accept a client connection on any
- *         interface, in case the server host has multiple interfaces.
+ *         <p> The Unspecified Address -- Also cblled bnylocbl or wildcbrd
+ *         bddress. It must never be bssigned to bny node. It indicbtes the
+ *         bbsence of bn bddress. One exbmple of its use is bs the tbrget of
+ *         bind, which bllows b server to bccept b client connection on bny
+ *         interfbce, in cbse the server host hbs multiple interfbces.
  *
- *         <p> The <i>unspecified</i> address must not be used as
- *         the destination address of an IP packet.
+ *         <p> The <i>unspecified</i> bddress must not be used bs
+ *         the destinbtion bddress of bn IP pbcket.
  *
- *         <p> The <i>Loopback</i> Addresses -- This is the address
- *         assigned to the loopback interface. Anything sent to this
- *         IP address loops around and becomes IP input on the local
- *         host. This address is often used when testing a
+ *         <p> The <i>Loopbbck</i> Addresses -- This is the bddress
+ *         bssigned to the loopbbck interfbce. Anything sent to this
+ *         IP bddress loops bround bnd becomes IP input on the locbl
+ *         host. This bddress is often used when testing b
  *         client.</td></tr>
- *   <tr><th valign=top><i>multicast</i></th>
- *       <td>An identifier for a set of interfaces (typically belonging
- *         to different nodes). A packet sent to a multicast address is
- *         delivered to all interfaces identified by that address.</td></tr>
- * </table></blockquote>
+ *   <tr><th vblign=top><i>multicbst</i></th>
+ *       <td>An identifier for b set of interfbces (typicblly belonging
+ *         to different nodes). A pbcket sent to b multicbst bddress is
+ *         delivered to bll interfbces identified by thbt bddress.</td></tr>
+ * </tbble></blockquote>
  *
- * <h4> IP address scope </h4>
+ * <h4> IP bddress scope </h4>
  *
- * <p> <i>Link-local</i> addresses are designed to be used for addressing
- * on a single link for purposes such as auto-address configuration,
- * neighbor discovery, or when no routers are present.
+ * <p> <i>Link-locbl</i> bddresses bre designed to be used for bddressing
+ * on b single link for purposes such bs buto-bddress configurbtion,
+ * neighbor discovery, or when no routers bre present.
  *
- * <p> <i>Site-local</i> addresses are designed to be used for addressing
- * inside of a site without the need for a global prefix.
+ * <p> <i>Site-locbl</i> bddresses bre designed to be used for bddressing
+ * inside of b site without the need for b globbl prefix.
  *
- * <p> <i>Global</i> addresses are unique across the internet.
+ * <p> <i>Globbl</i> bddresses bre unique bcross the internet.
  *
- * <h4> Textual representation of IP addresses </h4>
+ * <h4> Textubl representbtion of IP bddresses </h4>
  *
- * The textual representation of an IP address is address family specific.
+ * The textubl representbtion of bn IP bddress is bddress fbmily specific.
  *
  * <p>
  *
- * For IPv4 address format, please refer to <A
- * HREF="Inet4Address.html#format">Inet4Address#format</A>; For IPv6
- * address format, please refer to <A
- * HREF="Inet6Address.html#format">Inet6Address#format</A>.
+ * For IPv4 bddress formbt, plebse refer to <A
+ * HREF="Inet4Address.html#formbt">Inet4Address#formbt</A>; For IPv6
+ * bddress formbt, plebse refer to <A
+ * HREF="Inet6Address.html#formbt">Inet6Address#formbt</A>.
  *
- * <P>There is a <a href="doc-files/net-properties.html#Ipv4IPv6">couple of
- * System Properties</a> affecting how IPv4 and IPv6 addresses are used.</P>
+ * <P>There is b <b href="doc-files/net-properties.html#Ipv4IPv6">couple of
+ * System Properties</b> bffecting how IPv4 bnd IPv6 bddresses bre used.</P>
  *
- * <h4> Host Name Resolution </h4>
+ * <h4> Host Nbme Resolution </h4>
  *
- * Host name-to-IP address <i>resolution</i> is accomplished through
- * the use of a combination of local machine configuration information
- * and network naming services such as the Domain Name System (DNS)
- * and Network Information Service(NIS). The particular naming
- * services(s) being used is by default the local machine configured
- * one. For any host name, its corresponding IP address is returned.
+ * Host nbme-to-IP bddress <i>resolution</i> is bccomplished through
+ * the use of b combinbtion of locbl mbchine configurbtion informbtion
+ * bnd network nbming services such bs the Dombin Nbme System (DNS)
+ * bnd Network Informbtion Service(NIS). The pbrticulbr nbming
+ * services(s) being used is by defbult the locbl mbchine configured
+ * one. For bny host nbme, its corresponding IP bddress is returned.
  *
- * <p> <i>Reverse name resolution</i> means that for any IP address,
- * the host associated with the IP address is returned.
+ * <p> <i>Reverse nbme resolution</i> mebns thbt for bny IP bddress,
+ * the host bssocibted with the IP bddress is returned.
  *
- * <p> The InetAddress class provides methods to resolve host names to
- * their IP addresses and vice versa.
+ * <p> The InetAddress clbss provides methods to resolve host nbmes to
+ * their IP bddresses bnd vice versb.
  *
- * <h4> InetAddress Caching </h4>
+ * <h4> InetAddress Cbching </h4>
  *
- * The InetAddress class has a cache to store successful as well as
- * unsuccessful host name resolutions.
+ * The InetAddress clbss hbs b cbche to store successful bs well bs
+ * unsuccessful host nbme resolutions.
  *
- * <p> By default, when a security manager is installed, in order to
- * protect against DNS spoofing attacks,
- * the result of positive host name resolutions are
- * cached forever. When a security manager is not installed, the default
- * behavior is to cache entries for a finite (implementation dependent)
+ * <p> By defbult, when b security mbnbger is instblled, in order to
+ * protect bgbinst DNS spoofing bttbcks,
+ * the result of positive host nbme resolutions bre
+ * cbched forever. When b security mbnbger is not instblled, the defbult
+ * behbvior is to cbche entries for b finite (implementbtion dependent)
  * period of time. The result of unsuccessful host
- * name resolution is cached for a very short period of time (10
- * seconds) to improve performance.
+ * nbme resolution is cbched for b very short period of time (10
+ * seconds) to improve performbnce.
  *
- * <p> If the default behavior is not desired, then a Java security property
- * can be set to a different Time-to-live (TTL) value for positive
- * caching. Likewise, a system admin can configure a different
- * negative caching TTL value when needed.
+ * <p> If the defbult behbvior is not desired, then b Jbvb security property
+ * cbn be set to b different Time-to-live (TTL) vblue for positive
+ * cbching. Likewise, b system bdmin cbn configure b different
+ * negbtive cbching TTL vblue when needed.
  *
- * <p> Two Java security properties control the TTL values used for
- *  positive and negative host name resolution caching:
+ * <p> Two Jbvb security properties control the TTL vblues used for
+ *  positive bnd negbtive host nbme resolution cbching:
  *
  * <blockquote>
  * <dl>
- * <dt><b>networkaddress.cache.ttl</b></dt>
- * <dd>Indicates the caching policy for successful name lookups from
- * the name service. The value is specified as an integer to indicate
- * the number of seconds to cache the successful lookup. The default
- * setting is to cache for an implementation specific period of time.
+ * <dt><b>networkbddress.cbche.ttl</b></dt>
+ * <dd>Indicbtes the cbching policy for successful nbme lookups from
+ * the nbme service. The vblue is specified bs bn integer to indicbte
+ * the number of seconds to cbche the successful lookup. The defbult
+ * setting is to cbche for bn implementbtion specific period of time.
  * <p>
- * A value of -1 indicates "cache forever".
+ * A vblue of -1 indicbtes "cbche forever".
  * </dd>
- * <dt><b>networkaddress.cache.negative.ttl</b> (default: 10)</dt>
- * <dd>Indicates the caching policy for un-successful name lookups
- * from the name service. The value is specified as an integer to
- * indicate the number of seconds to cache the failure for
+ * <dt><b>networkbddress.cbche.negbtive.ttl</b> (defbult: 10)</dt>
+ * <dd>Indicbtes the cbching policy for un-successful nbme lookups
+ * from the nbme service. The vblue is specified bs bn integer to
+ * indicbte the number of seconds to cbche the fbilure for
  * un-successful lookups.
  * <p>
- * A value of 0 indicates "never cache".
- * A value of -1 indicates "cache forever".
+ * A vblue of 0 indicbtes "never cbche".
+ * A vblue of -1 indicbtes "cbche forever".
  * </dd>
  * </dl>
  * </blockquote>
  *
- * @author  Chris Warth
- * @see     java.net.InetAddress#getByAddress(byte[])
- * @see     java.net.InetAddress#getByAddress(java.lang.String, byte[])
- * @see     java.net.InetAddress#getAllByName(java.lang.String)
- * @see     java.net.InetAddress#getByName(java.lang.String)
- * @see     java.net.InetAddress#getLocalHost()
+ * @buthor  Chris Wbrth
+ * @see     jbvb.net.InetAddress#getByAddress(byte[])
+ * @see     jbvb.net.InetAddress#getByAddress(jbvb.lbng.String, byte[])
+ * @see     jbvb.net.InetAddress#getAllByNbme(jbvb.lbng.String)
+ * @see     jbvb.net.InetAddress#getByNbme(jbvb.lbng.String)
+ * @see     jbvb.net.InetAddress#getLocblHost()
  * @since 1.0
  */
 public
-class InetAddress implements java.io.Serializable {
+clbss InetAddress implements jbvb.io.Seriblizbble {
     /**
-     * Specify the address family: Internet Protocol, Version 4
+     * Specify the bddress fbmily: Internet Protocol, Version 4
      * @since 1.4
      */
-    static final int IPv4 = 1;
+    stbtic finbl int IPv4 = 1;
 
     /**
-     * Specify the address family: Internet Protocol, Version 6
+     * Specify the bddress fbmily: Internet Protocol, Version 6
      * @since 1.4
      */
-    static final int IPv6 = 2;
+    stbtic finbl int IPv6 = 2;
 
-    /* Specify address family preference */
-    static transient boolean preferIPv6Address = false;
+    /* Specify bddress fbmily preference */
+    stbtic trbnsient boolebn preferIPv6Address = fblse;
 
-    static class InetAddressHolder {
+    stbtic clbss InetAddressHolder {
 
         InetAddressHolder() {}
 
-        InetAddressHolder(String hostName, int address, int family) {
-            this.hostName = hostName;
-            this.address = address;
-            this.family = family;
+        InetAddressHolder(String hostNbme, int bddress, int fbmily) {
+            this.hostNbme = hostNbme;
+            this.bddress = bddress;
+            this.fbmily = fbmily;
         }
 
-        void init(String hostName, int family) {
-            this.hostName = hostName;
-            if (family != -1) {
-                this.family = family;
+        void init(String hostNbme, int fbmily) {
+            this.hostNbme = hostNbme;
+            if (fbmily != -1) {
+                this.fbmily = fbmily;
             }
         }
 
-        String hostName;
+        String hostNbme;
 
-        String getHostName() {
-            return hostName;
+        String getHostNbme() {
+            return hostNbme;
         }
 
         /**
-         * Holds a 32-bit IPv4 address.
+         * Holds b 32-bit IPv4 bddress.
          */
-        int address;
+        int bddress;
 
         int getAddress() {
-            return address;
+            return bddress;
         }
 
         /**
-         * Specifies the address family type, for instance, '1' for IPv4
-         * addresses, and '2' for IPv6 addresses.
+         * Specifies the bddress fbmily type, for instbnce, '1' for IPv4
+         * bddresses, bnd '2' for IPv6 bddresses.
          */
-        int family;
+        int fbmily;
 
-        int getFamily() {
-            return family;
+        int getFbmily() {
+            return fbmily;
         }
     }
 
-    /* Used to store the serializable fields of InetAddress */
-    final transient InetAddressHolder holder;
+    /* Used to store the seriblizbble fields of InetAddress */
+    finbl trbnsient InetAddressHolder holder;
 
     InetAddressHolder holder() {
         return holder;
     }
 
-    /* Used to store the name service provider */
-    private static List<NameService> nameServices = null;
+    /* Used to store the nbme service provider */
+    privbte stbtic List<NbmeService> nbmeServices = null;
 
-    /* Used to store the best available hostname */
-    private transient String canonicalHostName = null;
+    /* Used to store the best bvbilbble hostnbme */
+    privbte trbnsient String cbnonicblHostNbme = null;
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = 3286316764910316507L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 3286316764910316507L;
 
     /*
-     * Load net library into runtime, and perform initializations.
+     * Lobd net librbry into runtime, bnd perform initiblizbtions.
      */
-    static {
-        preferIPv6Address = java.security.AccessController.doPrivileged(
-            new GetBooleanAction("java.net.preferIPv6Addresses")).booleanValue();
+    stbtic {
+        preferIPv6Address = jbvb.security.AccessController.doPrivileged(
+            new GetBoolebnAction("jbvb.net.preferIPv6Addresses")).boolebnVblue();
         AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
@@ -278,361 +278,361 @@ class InetAddress implements java.io.Serializable {
     }
 
     /**
-     * Constructor for the Socket.accept() method.
-     * This creates an empty InetAddress, which is filled in by
-     * the accept() method.  This InetAddress, however, is not
-     * put in the address cache, since it is not created by name.
+     * Constructor for the Socket.bccept() method.
+     * This crebtes bn empty InetAddress, which is filled in by
+     * the bccept() method.  This InetAddress, however, is not
+     * put in the bddress cbche, since it is not crebted by nbme.
      */
     InetAddress() {
         holder = new InetAddressHolder();
     }
 
     /**
-     * Replaces the de-serialized object with an Inet4Address object.
+     * Replbces the de-seriblized object with bn Inet4Address object.
      *
-     * @return the alternate object to the de-serialized object.
+     * @return the blternbte object to the de-seriblized object.
      *
-     * @throws ObjectStreamException if a new object replacing this
-     * object could not be created
+     * @throws ObjectStrebmException if b new object replbcing this
+     * object could not be crebted
      */
-    private Object readResolve() throws ObjectStreamException {
-        // will replace the deserialized 'this' object
-        return new Inet4Address(holder().getHostName(), holder().getAddress());
+    privbte Object rebdResolve() throws ObjectStrebmException {
+        // will replbce the deseriblized 'this' object
+        return new Inet4Address(holder().getHostNbme(), holder().getAddress());
     }
 
     /**
-     * Utility routine to check if the InetAddress is an
-     * IP multicast address.
-     * @return a {@code boolean} indicating if the InetAddress is
-     * an IP multicast address
+     * Utility routine to check if the InetAddress is bn
+     * IP multicbst bddress.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * bn IP multicbst bddress
      * @since   1.1
      */
-    public boolean isMulticastAddress() {
-        return false;
+    public boolebn isMulticbstAddress() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the InetAddress in a wildcard address.
-     * @return a {@code boolean} indicating if the Inetaddress is
-     *         a wildcard address.
+     * Utility routine to check if the InetAddress in b wildcbrd bddress.
+     * @return b {@code boolebn} indicbting if the Inetbddress is
+     *         b wildcbrd bddress.
      * @since 1.4
      */
-    public boolean isAnyLocalAddress() {
-        return false;
+    public boolebn isAnyLocblAddress() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the InetAddress is a loopback address.
+     * Utility routine to check if the InetAddress is b loopbbck bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a loopback address; or false otherwise.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b loopbbck bddress; or fblse otherwise.
      * @since 1.4
      */
-    public boolean isLoopbackAddress() {
-        return false;
+    public boolebn isLoopbbckAddress() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the InetAddress is an link local address.
+     * Utility routine to check if the InetAddress is bn link locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a link local address; or false if address is not a link local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b link locbl bddress; or fblse if bddress is not b link locbl unicbst bddress.
      * @since 1.4
      */
-    public boolean isLinkLocalAddress() {
-        return false;
+    public boolebn isLinkLocblAddress() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the InetAddress is a site local address.
+     * Utility routine to check if the InetAddress is b site locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a site local address; or false if address is not a site local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b site locbl bddress; or fblse if bddress is not b site locbl unicbst bddress.
      * @since 1.4
      */
-    public boolean isSiteLocalAddress() {
-        return false;
+    public boolebn isSiteLocblAddress() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has global scope.
+     * Utility routine to check if the multicbst bddress hbs globbl scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of global scope, false if it is not
-     *         of global scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of globbl scope, fblse if it is not
+     *         of globbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCGlobal() {
-        return false;
+    public boolebn isMCGlobbl() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has node scope.
+     * Utility routine to check if the multicbst bddress hbs node scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of node-local scope, false if it is not
-     *         of node-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of node-locbl scope, fblse if it is not
+     *         of node-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCNodeLocal() {
-        return false;
+    public boolebn isMCNodeLocbl() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has link scope.
+     * Utility routine to check if the multicbst bddress hbs link scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of link-local scope, false if it is not
-     *         of link-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of link-locbl scope, fblse if it is not
+     *         of link-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCLinkLocal() {
-        return false;
+    public boolebn isMCLinkLocbl() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has site scope.
+     * Utility routine to check if the multicbst bddress hbs site scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of site-local scope, false if it is not
-     *         of site-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of site-locbl scope, fblse if it is not
+     *         of site-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCSiteLocal() {
-        return false;
+    public boolebn isMCSiteLocbl() {
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has organization scope.
+     * Utility routine to check if the multicbst bddress hbs orgbnizbtion scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of organization-local scope,
-     *         false if it is not of organization-local scope
-     *         or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of orgbnizbtion-locbl scope,
+     *         fblse if it is not of orgbnizbtion-locbl scope
+     *         or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCOrgLocal() {
-        return false;
+    public boolebn isMCOrgLocbl() {
+        return fblse;
     }
 
 
     /**
-     * Test whether that address is reachable. Best effort is made by the
-     * implementation to try to reach the host, but firewalls and server
-     * configuration may block requests resulting in a unreachable status
-     * while some specific ports may be accessible.
-     * A typical implementation will use ICMP ECHO REQUESTs if the
-     * privilege can be obtained, otherwise it will try to establish
-     * a TCP connection on port 7 (Echo) of the destination host.
+     * Test whether thbt bddress is rebchbble. Best effort is mbde by the
+     * implementbtion to try to rebch the host, but firewblls bnd server
+     * configurbtion mby block requests resulting in b unrebchbble stbtus
+     * while some specific ports mby be bccessible.
+     * A typicbl implementbtion will use ICMP ECHO REQUESTs if the
+     * privilege cbn be obtbined, otherwise it will try to estbblish
+     * b TCP connection on port 7 (Echo) of the destinbtion host.
      * <p>
-     * The timeout value, in milliseconds, indicates the maximum amount of time
-     * the try should take. If the operation times out before getting an
-     * answer, the host is deemed unreachable. A negative value will result
-     * in an IllegalArgumentException being thrown.
+     * The timeout vblue, in milliseconds, indicbtes the mbximum bmount of time
+     * the try should tbke. If the operbtion times out before getting bn
+     * bnswer, the host is deemed unrebchbble. A negbtive vblue will result
+     * in bn IllegblArgumentException being thrown.
      *
-     * @param   timeout the time, in milliseconds, before the call aborts
-     * @return a {@code boolean} indicating if the address is reachable.
-     * @throws IOException if a network error occurs
-     * @throws  IllegalArgumentException if {@code timeout} is negative.
+     * @pbrbm   timeout the time, in milliseconds, before the cbll bborts
+     * @return b {@code boolebn} indicbting if the bddress is rebchbble.
+     * @throws IOException if b network error occurs
+     * @throws  IllegblArgumentException if {@code timeout} is negbtive.
      * @since 1.5
      */
-    public boolean isReachable(int timeout) throws IOException {
-        return isReachable(null, 0 , timeout);
+    public boolebn isRebchbble(int timeout) throws IOException {
+        return isRebchbble(null, 0 , timeout);
     }
 
     /**
-     * Test whether that address is reachable. Best effort is made by the
-     * implementation to try to reach the host, but firewalls and server
-     * configuration may block requests resulting in a unreachable status
-     * while some specific ports may be accessible.
-     * A typical implementation will use ICMP ECHO REQUESTs if the
-     * privilege can be obtained, otherwise it will try to establish
-     * a TCP connection on port 7 (Echo) of the destination host.
+     * Test whether thbt bddress is rebchbble. Best effort is mbde by the
+     * implementbtion to try to rebch the host, but firewblls bnd server
+     * configurbtion mby block requests resulting in b unrebchbble stbtus
+     * while some specific ports mby be bccessible.
+     * A typicbl implementbtion will use ICMP ECHO REQUESTs if the
+     * privilege cbn be obtbined, otherwise it will try to estbblish
+     * b TCP connection on port 7 (Echo) of the destinbtion host.
      * <p>
-     * The {@code network interface} and {@code ttl} parameters
-     * let the caller specify which network interface the test will go through
-     * and the maximum number of hops the packets should go through.
-     * A negative value for the {@code ttl} will result in an
-     * IllegalArgumentException being thrown.
+     * The {@code network interfbce} bnd {@code ttl} pbrbmeters
+     * let the cbller specify which network interfbce the test will go through
+     * bnd the mbximum number of hops the pbckets should go through.
+     * A negbtive vblue for the {@code ttl} will result in bn
+     * IllegblArgumentException being thrown.
      * <p>
-     * The timeout value, in milliseconds, indicates the maximum amount of time
-     * the try should take. If the operation times out before getting an
-     * answer, the host is deemed unreachable. A negative value will result
-     * in an IllegalArgumentException being thrown.
+     * The timeout vblue, in milliseconds, indicbtes the mbximum bmount of time
+     * the try should tbke. If the operbtion times out before getting bn
+     * bnswer, the host is deemed unrebchbble. A negbtive vblue will result
+     * in bn IllegblArgumentException being thrown.
      *
-     * @param   netif   the NetworkInterface through which the
-     *                    test will be done, or null for any interface
-     * @param   ttl     the maximum numbers of hops to try or 0 for the
-     *                  default
-     * @param   timeout the time, in milliseconds, before the call aborts
-     * @throws  IllegalArgumentException if either {@code timeout}
-     *                          or {@code ttl} are negative.
-     * @return a {@code boolean}indicating if the address is reachable.
-     * @throws IOException if a network error occurs
+     * @pbrbm   netif   the NetworkInterfbce through which the
+     *                    test will be done, or null for bny interfbce
+     * @pbrbm   ttl     the mbximum numbers of hops to try or 0 for the
+     *                  defbult
+     * @pbrbm   timeout the time, in milliseconds, before the cbll bborts
+     * @throws  IllegblArgumentException if either {@code timeout}
+     *                          or {@code ttl} bre negbtive.
+     * @return b {@code boolebn}indicbting if the bddress is rebchbble.
+     * @throws IOException if b network error occurs
      * @since 1.5
      */
-    public boolean isReachable(NetworkInterface netif, int ttl,
+    public boolebn isRebchbble(NetworkInterfbce netif, int ttl,
                                int timeout) throws IOException {
         if (ttl < 0)
-            throw new IllegalArgumentException("ttl can't be negative");
+            throw new IllegblArgumentException("ttl cbn't be negbtive");
         if (timeout < 0)
-            throw new IllegalArgumentException("timeout can't be negative");
+            throw new IllegblArgumentException("timeout cbn't be negbtive");
 
-        return impl.isReachable(this, timeout, netif, ttl);
+        return impl.isRebchbble(this, timeout, netif, ttl);
     }
 
     /**
-     * Gets the host name for this IP address.
+     * Gets the host nbme for this IP bddress.
      *
-     * <p>If this InetAddress was created with a host name,
-     * this host name will be remembered and returned;
-     * otherwise, a reverse name lookup will be performed
-     * and the result will be returned based on the system
-     * configured name lookup service. If a lookup of the name service
-     * is required, call
-     * {@link #getCanonicalHostName() getCanonicalHostName}.
+     * <p>If this InetAddress wbs crebted with b host nbme,
+     * this host nbme will be remembered bnd returned;
+     * otherwise, b reverse nbme lookup will be performed
+     * bnd the result will be returned bbsed on the system
+     * configured nbme lookup service. If b lookup of the nbme service
+     * is required, cbll
+     * {@link #getCbnonicblHostNbme() getCbnonicblHostNbme}.
      *
-     * <p>If there is a security manager, its
-     * {@code checkConnect} method is first called
-     * with the hostname and {@code -1}
-     * as its arguments to see if the operation is allowed.
-     * If the operation is not allowed, it will return
-     * the textual representation of the IP address.
+     * <p>If there is b security mbnbger, its
+     * {@code checkConnect} method is first cblled
+     * with the hostnbme bnd {@code -1}
+     * bs its brguments to see if the operbtion is bllowed.
+     * If the operbtion is not bllowed, it will return
+     * the textubl representbtion of the IP bddress.
      *
-     * @return  the host name for this IP address, or if the operation
-     *    is not allowed by the security check, the textual
-     *    representation of the IP address.
+     * @return  the host nbme for this IP bddress, or if the operbtion
+     *    is not bllowed by the security check, the textubl
+     *    representbtion of the IP bddress.
      *
-     * @see InetAddress#getCanonicalHostName
-     * @see SecurityManager#checkConnect
+     * @see InetAddress#getCbnonicblHostNbme
+     * @see SecurityMbnbger#checkConnect
      */
-    public String getHostName() {
-        return getHostName(true);
+    public String getHostNbme() {
+        return getHostNbme(true);
     }
 
     /**
-     * Returns the hostname for this address.
-     * If the host is equal to null, then this address refers to any
-     * of the local machine's available network addresses.
-     * this is package private so SocketPermission can make calls into
-     * here without a security check.
+     * Returns the hostnbme for this bddress.
+     * If the host is equbl to null, then this bddress refers to bny
+     * of the locbl mbchine's bvbilbble network bddresses.
+     * this is pbckbge privbte so SocketPermission cbn mbke cblls into
+     * here without b security check.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkConnect} method
-     * with the hostname and {@code -1}
-     * as its arguments to see if the calling code is allowed to know
-     * the hostname for this IP address, i.e., to connect to the host.
-     * If the operation is not allowed, it will return
-     * the textual representation of the IP address.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkConnect} method
+     * with the hostnbme bnd {@code -1}
+     * bs its brguments to see if the cblling code is bllowed to know
+     * the hostnbme for this IP bddress, i.e., to connect to the host.
+     * If the operbtion is not bllowed, it will return
+     * the textubl representbtion of the IP bddress.
      *
-     * @return  the host name for this IP address, or if the operation
-     *    is not allowed by the security check, the textual
-     *    representation of the IP address.
+     * @return  the host nbme for this IP bddress, or if the operbtion
+     *    is not bllowed by the security check, the textubl
+     *    representbtion of the IP bddress.
      *
-     * @param check make security check if true
+     * @pbrbm check mbke security check if true
      *
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      */
-    String getHostName(boolean check) {
-        if (holder().getHostName() == null) {
-            holder().hostName = InetAddress.getHostFromNameService(this, check);
+    String getHostNbme(boolebn check) {
+        if (holder().getHostNbme() == null) {
+            holder().hostNbme = InetAddress.getHostFromNbmeService(this, check);
         }
-        return holder().getHostName();
+        return holder().getHostNbme();
     }
 
     /**
-     * Gets the fully qualified domain name for this IP address.
-     * Best effort method, meaning we may not be able to return
-     * the FQDN depending on the underlying system configuration.
+     * Gets the fully qublified dombin nbme for this IP bddress.
+     * Best effort method, mebning we mby not be bble to return
+     * the FQDN depending on the underlying system configurbtion.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkConnect} method
-     * with the hostname and {@code -1}
-     * as its arguments to see if the calling code is allowed to know
-     * the hostname for this IP address, i.e., to connect to the host.
-     * If the operation is not allowed, it will return
-     * the textual representation of the IP address.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkConnect} method
+     * with the hostnbme bnd {@code -1}
+     * bs its brguments to see if the cblling code is bllowed to know
+     * the hostnbme for this IP bddress, i.e., to connect to the host.
+     * If the operbtion is not bllowed, it will return
+     * the textubl representbtion of the IP bddress.
      *
-     * @return  the fully qualified domain name for this IP address,
-     *    or if the operation is not allowed by the security check,
-     *    the textual representation of the IP address.
+     * @return  the fully qublified dombin nbme for this IP bddress,
+     *    or if the operbtion is not bllowed by the security check,
+     *    the textubl representbtion of the IP bddress.
      *
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      *
      * @since 1.4
      */
-    public String getCanonicalHostName() {
-        if (canonicalHostName == null) {
-            canonicalHostName =
-                InetAddress.getHostFromNameService(this, true);
+    public String getCbnonicblHostNbme() {
+        if (cbnonicblHostNbme == null) {
+            cbnonicblHostNbme =
+                InetAddress.getHostFromNbmeService(this, true);
         }
-        return canonicalHostName;
+        return cbnonicblHostNbme;
     }
 
     /**
-     * Returns the hostname for this address.
+     * Returns the hostnbme for this bddress.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkConnect} method
-     * with the hostname and {@code -1}
-     * as its arguments to see if the calling code is allowed to know
-     * the hostname for this IP address, i.e., to connect to the host.
-     * If the operation is not allowed, it will return
-     * the textual representation of the IP address.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkConnect} method
+     * with the hostnbme bnd {@code -1}
+     * bs its brguments to see if the cblling code is bllowed to know
+     * the hostnbme for this IP bddress, i.e., to connect to the host.
+     * If the operbtion is not bllowed, it will return
+     * the textubl representbtion of the IP bddress.
      *
-     * @return  the host name for this IP address, or if the operation
-     *    is not allowed by the security check, the textual
-     *    representation of the IP address.
+     * @return  the host nbme for this IP bddress, or if the operbtion
+     *    is not bllowed by the security check, the textubl
+     *    representbtion of the IP bddress.
      *
-     * @param check make security check if true
+     * @pbrbm check mbke security check if true
      *
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      */
-    private static String getHostFromNameService(InetAddress addr, boolean check) {
+    privbte stbtic String getHostFromNbmeService(InetAddress bddr, boolebn check) {
         String host = null;
-        for (NameService nameService : nameServices) {
+        for (NbmeService nbmeService : nbmeServices) {
             try {
-                // first lookup the hostname
-                host = nameService.getHostByAddr(addr.getAddress());
+                // first lookup the hostnbme
+                host = nbmeService.getHostByAddr(bddr.getAddress());
 
-                /* check to see if calling code is allowed to know
-                 * the hostname for this IP address, ie, connect to the host
+                /* check to see if cblling code is bllowed to know
+                 * the hostnbme for this IP bddress, ie, connect to the host
                  */
                 if (check) {
-                    SecurityManager sec = System.getSecurityManager();
+                    SecurityMbnbger sec = System.getSecurityMbnbger();
                     if (sec != null) {
                         sec.checkConnect(host, -1);
                     }
                 }
 
-                /* now get all the IP addresses for this hostname,
-                 * and make sure one of them matches the original IP
-                 * address. We do this to try and prevent spoofing.
+                /* now get bll the IP bddresses for this hostnbme,
+                 * bnd mbke sure one of them mbtches the originbl IP
+                 * bddress. We do this to try bnd prevent spoofing.
                  */
 
-                InetAddress[] arr = InetAddress.getAllByName0(host, check);
-                boolean ok = false;
+                InetAddress[] brr = InetAddress.getAllByNbme0(host, check);
+                boolebn ok = fblse;
 
-                if(arr != null) {
-                    for(int i = 0; !ok && i < arr.length; i++) {
-                        ok = addr.equals(arr[i]);
+                if(brr != null) {
+                    for(int i = 0; !ok && i < brr.length; i++) {
+                        ok = bddr.equbls(brr[i]);
                     }
                 }
 
-                //XXX: if it looks a spoof just return the address?
+                //XXX: if it looks b spoof just return the bddress?
                 if (!ok) {
-                    host = addr.getHostAddress();
+                    host = bddr.getHostAddress();
                     return host;
                 }
 
-                break;
+                brebk;
 
-            } catch (SecurityException e) {
-                host = addr.getHostAddress();
-                break;
-            } catch (UnknownHostException e) {
-                host = addr.getHostAddress();
-                // let next provider resolve the hostname
+            } cbtch (SecurityException e) {
+                host = bddr.getHostAddress();
+                brebk;
+            } cbtch (UnknownHostException e) {
+                host = bddr.getHostAddress();
+                // let next provider resolve the hostnbme
             }
         }
 
@@ -640,20 +640,20 @@ class InetAddress implements java.io.Serializable {
     }
 
     /**
-     * Returns the raw IP address of this {@code InetAddress}
+     * Returns the rbw IP bddress of this {@code InetAddress}
      * object. The result is in network byte order: the highest order
-     * byte of the address is in {@code getAddress()[0]}.
+     * byte of the bddress is in {@code getAddress()[0]}.
      *
-     * @return  the raw IP address of this object.
+     * @return  the rbw IP bddress of this object.
      */
     public byte[] getAddress() {
         return null;
     }
 
     /**
-     * Returns the IP address string in textual presentation.
+     * Returns the IP bddress string in textubl presentbtion.
      *
-     * @return  the raw IP address in a string format.
+     * @return  the rbw IP bddress in b string formbt.
      * @since   1.0.2
      */
     public String getHostAddress() {
@@ -661,170 +661,170 @@ class InetAddress implements java.io.Serializable {
      }
 
     /**
-     * Returns a hashcode for this IP address.
+     * Returns b hbshcode for this IP bddress.
      *
-     * @return  a hash code value for this IP address.
+     * @return  b hbsh code vblue for this IP bddress.
      */
-    public int hashCode() {
+    public int hbshCode() {
         return -1;
     }
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same IP address as
+     * Compbres this object bgbinst the specified object.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd it represents the sbme IP bddress bs
      * this object.
      * <p>
-     * Two instances of {@code InetAddress} represent the same IP
-     * address if the length of the byte arrays returned by
-     * {@code getAddress} is the same for both, and each of the
-     * array components is the same for the byte arrays.
+     * Two instbnces of {@code InetAddress} represent the sbme IP
+     * bddress if the length of the byte brrbys returned by
+     * {@code getAddress} is the sbme for both, bnd ebch of the
+     * brrby components is the sbme for the byte brrbys.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.net.InetAddress#getAddress()
+     * @pbrbm   obj   the object to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see     jbvb.net.InetAddress#getAddress()
      */
-    public boolean equals(Object obj) {
-        return false;
+    public boolebn equbls(Object obj) {
+        return fblse;
     }
 
     /**
-     * Converts this IP address to a {@code String}. The
-     * string returned is of the form: hostname / literal IP
-     * address.
+     * Converts this IP bddress to b {@code String}. The
+     * string returned is of the form: hostnbme / literbl IP
+     * bddress.
      *
-     * If the host name is unresolved, no reverse name service lookup
-     * is performed. The hostname part will be represented by an empty string.
+     * If the host nbme is unresolved, no reverse nbme service lookup
+     * is performed. The hostnbme pbrt will be represented by bn empty string.
      *
-     * @return  a string representation of this IP address.
+     * @return  b string representbtion of this IP bddress.
      */
     public String toString() {
-        String hostName = holder().getHostName();
-        return ((hostName != null) ? hostName : "")
+        String hostNbme = holder().getHostNbme();
+        return ((hostNbme != null) ? hostNbme : "")
             + "/" + getHostAddress();
     }
 
     /*
-     * Cached addresses - our own litle nis, not!
+     * Cbched bddresses - our own litle nis, not!
      */
-    private static Cache addressCache = new Cache(Cache.Type.Positive);
+    privbte stbtic Cbche bddressCbche = new Cbche(Cbche.Type.Positive);
 
-    private static Cache negativeCache = new Cache(Cache.Type.Negative);
+    privbte stbtic Cbche negbtiveCbche = new Cbche(Cbche.Type.Negbtive);
 
-    private static boolean addressCacheInit = false;
+    privbte stbtic boolebn bddressCbcheInit = fblse;
 
-    static InetAddress[]    unknown_array; // put THIS in cache
+    stbtic InetAddress[]    unknown_brrby; // put THIS in cbche
 
-    static InetAddressImpl  impl;
+    stbtic InetAddressImpl  impl;
 
-    private static final HashMap<String, Void> lookupTable = new HashMap<>();
+    privbte stbtic finbl HbshMbp<String, Void> lookupTbble = new HbshMbp<>();
 
     /**
-     * Represents a cache entry
+     * Represents b cbche entry
      */
-    static final class CacheEntry {
+    stbtic finbl clbss CbcheEntry {
 
-        CacheEntry(InetAddress[] addresses, long expiration) {
-            this.addresses = addresses;
-            this.expiration = expiration;
+        CbcheEntry(InetAddress[] bddresses, long expirbtion) {
+            this.bddresses = bddresses;
+            this.expirbtion = expirbtion;
         }
 
-        InetAddress[] addresses;
-        long expiration;
+        InetAddress[] bddresses;
+        long expirbtion;
     }
 
     /**
-     * A cache that manages entries based on a policy specified
-     * at creation time.
+     * A cbche thbt mbnbges entries bbsed on b policy specified
+     * bt crebtion time.
      */
-    static final class Cache {
-        private LinkedHashMap<String, CacheEntry> cache;
-        private Type type;
+    stbtic finbl clbss Cbche {
+        privbte LinkedHbshMbp<String, CbcheEntry> cbche;
+        privbte Type type;
 
-        enum Type {Positive, Negative};
+        enum Type {Positive, Negbtive};
 
         /**
-         * Create cache
+         * Crebte cbche
          */
-        public Cache(Type type) {
+        public Cbche(Type type) {
             this.type = type;
-            cache = new LinkedHashMap<String, CacheEntry>();
+            cbche = new LinkedHbshMbp<String, CbcheEntry>();
         }
 
-        private int getPolicy() {
+        privbte int getPolicy() {
             if (type == Type.Positive) {
-                return InetAddressCachePolicy.get();
+                return InetAddressCbchePolicy.get();
             } else {
-                return InetAddressCachePolicy.getNegative();
+                return InetAddressCbchePolicy.getNegbtive();
             }
         }
 
         /**
-         * Add an entry to the cache. If there's already an
+         * Add bn entry to the cbche. If there's blrebdy bn
          * entry then for this host then the entry will be
-         * replaced.
+         * replbced.
          */
-        public Cache put(String host, InetAddress[] addresses) {
+        public Cbche put(String host, InetAddress[] bddresses) {
             int policy = getPolicy();
-            if (policy == InetAddressCachePolicy.NEVER) {
+            if (policy == InetAddressCbchePolicy.NEVER) {
                 return this;
             }
 
-            // purge any expired entries
+            // purge bny expired entries
 
-            if (policy != InetAddressCachePolicy.FOREVER) {
+            if (policy != InetAddressCbchePolicy.FOREVER) {
 
-                // As we iterate in insertion order we can
-                // terminate when a non-expired entry is found.
+                // As we iterbte in insertion order we cbn
+                // terminbte when b non-expired entry is found.
                 LinkedList<String> expired = new LinkedList<>();
                 long now = System.currentTimeMillis();
-                for (String key : cache.keySet()) {
-                    CacheEntry entry = cache.get(key);
+                for (String key : cbche.keySet()) {
+                    CbcheEntry entry = cbche.get(key);
 
-                    if (entry.expiration >= 0 && entry.expiration < now) {
-                        expired.add(key);
+                    if (entry.expirbtion >= 0 && entry.expirbtion < now) {
+                        expired.bdd(key);
                     } else {
-                        break;
+                        brebk;
                     }
                 }
 
                 for (String key : expired) {
-                    cache.remove(key);
+                    cbche.remove(key);
                 }
             }
 
-            // create new entry and add it to the cache
-            // -- as a HashMap replaces existing entries we
+            // crebte new entry bnd bdd it to the cbche
+            // -- bs b HbshMbp replbces existing entries we
             //    don't need to explicitly check if there is
-            //    already an entry for this host.
-            long expiration;
-            if (policy == InetAddressCachePolicy.FOREVER) {
-                expiration = -1;
+            //    blrebdy bn entry for this host.
+            long expirbtion;
+            if (policy == InetAddressCbchePolicy.FOREVER) {
+                expirbtion = -1;
             } else {
-                expiration = System.currentTimeMillis() + (policy * 1000);
+                expirbtion = System.currentTimeMillis() + (policy * 1000);
             }
-            CacheEntry entry = new CacheEntry(addresses, expiration);
-            cache.put(host, entry);
+            CbcheEntry entry = new CbcheEntry(bddresses, expirbtion);
+            cbche.put(host, entry);
             return this;
         }
 
         /**
-         * Query the cache for the specific host. If found then
-         * return its CacheEntry, or null if not found.
+         * Query the cbche for the specific host. If found then
+         * return its CbcheEntry, or null if not found.
          */
-        public CacheEntry get(String host) {
+        public CbcheEntry get(String host) {
             int policy = getPolicy();
-            if (policy == InetAddressCachePolicy.NEVER) {
+            if (policy == InetAddressCbchePolicy.NEVER) {
                 return null;
             }
-            CacheEntry entry = cache.get(host);
+            CbcheEntry entry = cbche.get(host);
 
-            // check if entry has expired
-            if (entry != null && policy != InetAddressCachePolicy.FOREVER) {
-                if (entry.expiration >= 0 &&
-                    entry.expiration < System.currentTimeMillis()) {
-                    cache.remove(host);
+            // check if entry hbs expired
+            if (entry != null && policy != InetAddressCbchePolicy.FOREVER) {
+                if (entry.expirbtion >= 0 &&
+                    entry.expirbtion < System.currentTimeMillis()) {
+                    cbche.remove(host);
                     entry = null;
                 }
             }
@@ -834,59 +834,59 @@ class InetAddress implements java.io.Serializable {
     }
 
     /*
-     * Initialize cache and insert anyLocalAddress into the
-     * unknown array with no expiry.
+     * Initiblize cbche bnd insert bnyLocblAddress into the
+     * unknown brrby with no expiry.
      */
-    private static void cacheInitIfNeeded() {
-        assert Thread.holdsLock(addressCache);
-        if (addressCacheInit) {
+    privbte stbtic void cbcheInitIfNeeded() {
+        bssert Threbd.holdsLock(bddressCbche);
+        if (bddressCbcheInit) {
             return;
         }
-        unknown_array = new InetAddress[1];
-        unknown_array[0] = impl.anyLocalAddress();
+        unknown_brrby = new InetAddress[1];
+        unknown_brrby[0] = impl.bnyLocblAddress();
 
-        addressCache.put(impl.anyLocalAddress().getHostName(),
-                         unknown_array);
+        bddressCbche.put(impl.bnyLocblAddress().getHostNbme(),
+                         unknown_brrby);
 
-        addressCacheInit = true;
+        bddressCbcheInit = true;
     }
 
     /*
-     * Cache the given hostname and addresses.
+     * Cbche the given hostnbme bnd bddresses.
      */
-    private static void cacheAddresses(String hostname,
-                                       InetAddress[] addresses,
-                                       boolean success) {
-        hostname = hostname.toLowerCase();
-        synchronized (addressCache) {
-            cacheInitIfNeeded();
+    privbte stbtic void cbcheAddresses(String hostnbme,
+                                       InetAddress[] bddresses,
+                                       boolebn success) {
+        hostnbme = hostnbme.toLowerCbse();
+        synchronized (bddressCbche) {
+            cbcheInitIfNeeded();
             if (success) {
-                addressCache.put(hostname, addresses);
+                bddressCbche.put(hostnbme, bddresses);
             } else {
-                negativeCache.put(hostname, addresses);
+                negbtiveCbche.put(hostnbme, bddresses);
             }
         }
     }
 
     /*
-     * Lookup hostname in cache (positive & negative cache). If
-     * found return addresses, null if not found.
+     * Lookup hostnbme in cbche (positive & negbtive cbche). If
+     * found return bddresses, null if not found.
      */
-    private static InetAddress[] getCachedAddresses(String hostname) {
-        hostname = hostname.toLowerCase();
+    privbte stbtic InetAddress[] getCbchedAddresses(String hostnbme) {
+        hostnbme = hostnbme.toLowerCbse();
 
-        // search both positive & negative caches
+        // sebrch both positive & negbtive cbches
 
-        synchronized (addressCache) {
-            cacheInitIfNeeded();
+        synchronized (bddressCbche) {
+            cbcheInitIfNeeded();
 
-            CacheEntry entry = addressCache.get(hostname);
+            CbcheEntry entry = bddressCbche.get(hostnbme);
             if (entry == null) {
-                entry = negativeCache.get(hostname);
+                entry = negbtiveCbche.get(hostnbme);
             }
 
             if (entry != null) {
-                return entry.addresses;
+                return entry.bddresses;
             }
         }
 
@@ -894,44 +894,44 @@ class InetAddress implements java.io.Serializable {
         return null;
     }
 
-    private static NameService createNSProvider(String provider) {
+    privbte stbtic NbmeService crebteNSProvider(String provider) {
         if (provider == null)
             return null;
 
-        NameService nameService = null;
-        if (provider.equals("default")) {
-            // initialize the default name service
-            nameService = new NameService() {
+        NbmeService nbmeService = null;
+        if (provider.equbls("defbult")) {
+            // initiblize the defbult nbme service
+            nbmeService = new NbmeService() {
                 public InetAddress[] lookupAllHostAddr(String host)
                     throws UnknownHostException {
                     return impl.lookupAllHostAddr(host);
                 }
-                public String getHostByAddr(byte[] addr)
+                public String getHostByAddr(byte[] bddr)
                     throws UnknownHostException {
-                    return impl.getHostByAddr(addr);
+                    return impl.getHostByAddr(bddr);
                 }
             };
         } else {
-            final String providerName = provider;
+            finbl String providerNbme = provider;
             try {
-                nameService = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedExceptionAction<NameService>() {
-                        public NameService run() {
-                            Iterator<NameServiceDescriptor> itr =
-                                ServiceLoader.load(NameServiceDescriptor.class)
-                                    .iterator();
-                            while (itr.hasNext()) {
-                                NameServiceDescriptor nsd = itr.next();
-                                if (providerName.
-                                    equalsIgnoreCase(nsd.getType()+","
-                                        +nsd.getProviderName())) {
+                nbmeService = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedExceptionAction<NbmeService>() {
+                        public NbmeService run() {
+                            Iterbtor<NbmeServiceDescriptor> itr =
+                                ServiceLobder.lobd(NbmeServiceDescriptor.clbss)
+                                    .iterbtor();
+                            while (itr.hbsNext()) {
+                                NbmeServiceDescriptor nsd = itr.next();
+                                if (providerNbme.
+                                    equblsIgnoreCbse(nsd.getType()+","
+                                        +nsd.getProviderNbme())) {
                                     try {
-                                        return nsd.createNameService();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        return nsd.crebteNbmeService();
+                                    } cbtch (Exception e) {
+                                        e.printStbckTrbce();
                                         System.err.println(
-                                            "Cannot create name service:"
-                                             +providerName+": " + e);
+                                            "Cbnnot crebte nbme service:"
+                                             +providerNbme+": " + e);
                                     }
                                 }
                             }
@@ -940,261 +940,261 @@ class InetAddress implements java.io.Serializable {
                         }
                     }
                 );
-            } catch (java.security.PrivilegedActionException e) {
+            } cbtch (jbvb.security.PrivilegedActionException e) {
             }
         }
 
-        return nameService;
+        return nbmeService;
     }
 
-    static {
-        // create the impl
-        impl = InetAddressImplFactory.create();
+    stbtic {
+        // crebte the impl
+        impl = InetAddressImplFbctory.crebte();
 
-        // get name service if provided and requested
+        // get nbme service if provided bnd requested
         String provider = null;;
-        String propPrefix = "sun.net.spi.nameservice.provider.";
+        String propPrefix = "sun.net.spi.nbmeservice.provider.";
         int n = 1;
-        nameServices = new ArrayList<NameService>();
+        nbmeServices = new ArrbyList<NbmeService>();
         provider = AccessController.doPrivileged(
                 new GetPropertyAction(propPrefix + n));
         while (provider != null) {
-            NameService ns = createNSProvider(provider);
+            NbmeService ns = crebteNSProvider(provider);
             if (ns != null)
-                nameServices.add(ns);
+                nbmeServices.bdd(ns);
 
             n++;
             provider = AccessController.doPrivileged(
                     new GetPropertyAction(propPrefix + n));
         }
 
-        // if not designate any name services provider,
-        // create a default one
-        if (nameServices.size() == 0) {
-            NameService ns = createNSProvider("default");
-            nameServices.add(ns);
+        // if not designbte bny nbme services provider,
+        // crebte b defbult one
+        if (nbmeServices.size() == 0) {
+            NbmeService ns = crebteNSProvider("defbult");
+            nbmeServices.bdd(ns);
         }
     }
 
     /**
-     * Creates an InetAddress based on the provided host name and IP address.
-     * No name service is checked for the validity of the address.
+     * Crebtes bn InetAddress bbsed on the provided host nbme bnd IP bddress.
+     * No nbme service is checked for the vblidity of the bddress.
      *
-     * <p> The host name can either be a machine name, such as
-     * "{@code java.sun.com}", or a textual representation of its IP
-     * address.
-     * <p> No validity checking is done on the host name either.
+     * <p> The host nbme cbn either be b mbchine nbme, such bs
+     * "{@code jbvb.sun.com}", or b textubl representbtion of its IP
+     * bddress.
+     * <p> No vblidity checking is done on the host nbme either.
      *
-     * <p> If addr specifies an IPv4 address an instance of Inet4Address
-     * will be returned; otherwise, an instance of Inet6Address
+     * <p> If bddr specifies bn IPv4 bddress bn instbnce of Inet4Address
+     * will be returned; otherwise, bn instbnce of Inet6Address
      * will be returned.
      *
-     * <p> IPv4 address byte array must be 4 bytes long and IPv6 byte array
+     * <p> IPv4 bddress byte brrby must be 4 bytes long bnd IPv6 byte brrby
      * must be 16 bytes long
      *
-     * @param host the specified host
-     * @param addr the raw IP address in network byte order
-     * @return  an InetAddress object created from the raw IP address.
-     * @exception  UnknownHostException  if IP address is of illegal length
+     * @pbrbm host the specified host
+     * @pbrbm bddr the rbw IP bddress in network byte order
+     * @return  bn InetAddress object crebted from the rbw IP bddress.
+     * @exception  UnknownHostException  if IP bddress is of illegbl length
      * @since 1.4
      */
-    public static InetAddress getByAddress(String host, byte[] addr)
+    public stbtic InetAddress getByAddress(String host, byte[] bddr)
         throws UnknownHostException {
-        if (host != null && host.length() > 0 && host.charAt(0) == '[') {
-            if (host.charAt(host.length()-1) == ']') {
+        if (host != null && host.length() > 0 && host.chbrAt(0) == '[') {
+            if (host.chbrAt(host.length()-1) == ']') {
                 host = host.substring(1, host.length() -1);
             }
         }
-        if (addr != null) {
-            if (addr.length == Inet4Address.INADDRSZ) {
-                return new Inet4Address(host, addr);
-            } else if (addr.length == Inet6Address.INADDRSZ) {
+        if (bddr != null) {
+            if (bddr.length == Inet4Address.INADDRSZ) {
+                return new Inet4Address(host, bddr);
+            } else if (bddr.length == Inet6Address.INADDRSZ) {
                 byte[] newAddr
-                    = IPAddressUtil.convertFromIPv4MappedAddress(addr);
+                    = IPAddressUtil.convertFromIPv4MbppedAddress(bddr);
                 if (newAddr != null) {
                     return new Inet4Address(host, newAddr);
                 } else {
-                    return new Inet6Address(host, addr);
+                    return new Inet6Address(host, bddr);
                 }
             }
         }
-        throw new UnknownHostException("addr is of illegal length");
+        throw new UnknownHostException("bddr is of illegbl length");
     }
 
 
     /**
-     * Determines the IP address of a host, given the host's name.
+     * Determines the IP bddress of b host, given the host's nbme.
      *
-     * <p> The host name can either be a machine name, such as
-     * "{@code java.sun.com}", or a textual representation of its
-     * IP address. If a literal IP address is supplied, only the
-     * validity of the address format is checked.
+     * <p> The host nbme cbn either be b mbchine nbme, such bs
+     * "{@code jbvb.sun.com}", or b textubl representbtion of its
+     * IP bddress. If b literbl IP bddress is supplied, only the
+     * vblidity of the bddress formbt is checked.
      *
-     * <p> For {@code host} specified in literal IPv6 address,
-     * either the form defined in RFC 2732 or the literal IPv6 address
-     * format defined in RFC 2373 is accepted. IPv6 scoped addresses are also
-     * supported. See <a href="Inet6Address.html#scoped">here</a> for a description of IPv6
-     * scoped addresses.
+     * <p> For {@code host} specified in literbl IPv6 bddress,
+     * either the form defined in RFC 2732 or the literbl IPv6 bddress
+     * formbt defined in RFC 2373 is bccepted. IPv6 scoped bddresses bre blso
+     * supported. See <b href="Inet6Address.html#scoped">here</b> for b description of IPv6
+     * scoped bddresses.
      *
-     * <p> If the host is {@code null} then an {@code InetAddress}
-     * representing an address of the loopback interface is returned.
-     * See <a href="http://www.ietf.org/rfc/rfc3330.txt">RFC&nbsp;3330</a>
-     * section&nbsp;2 and <a href="http://www.ietf.org/rfc/rfc2373.txt">RFC&nbsp;2373</a>
+     * <p> If the host is {@code null} then bn {@code InetAddress}
+     * representing bn bddress of the loopbbck interfbce is returned.
+     * See <b href="http://www.ietf.org/rfc/rfc3330.txt">RFC&nbsp;3330</b>
+     * section&nbsp;2 bnd <b href="http://www.ietf.org/rfc/rfc2373.txt">RFC&nbsp;2373</b>
      * section&nbsp;2.5.3. </p>
      *
-     * @param      host   the specified host, or {@code null}.
-     * @return     an IP address for the given host name.
-     * @exception  UnknownHostException  if no IP address for the
-     *               {@code host} could be found, or if a scope_id was specified
-     *               for a global IPv6 address.
-     * @exception  SecurityException if a security manager exists
-     *             and its checkConnect method doesn't allow the operation
+     * @pbrbm      host   the specified host, or {@code null}.
+     * @return     bn IP bddress for the given host nbme.
+     * @exception  UnknownHostException  if no IP bddress for the
+     *               {@code host} could be found, or if b scope_id wbs specified
+     *               for b globbl IPv6 bddress.
+     * @exception  SecurityException if b security mbnbger exists
+     *             bnd its checkConnect method doesn't bllow the operbtion
      */
-    public static InetAddress getByName(String host)
+    public stbtic InetAddress getByNbme(String host)
         throws UnknownHostException {
-        return InetAddress.getAllByName(host)[0];
+        return InetAddress.getAllByNbme(host)[0];
     }
 
-    // called from deployment cache manager
-    private static InetAddress getByName(String host, InetAddress reqAddr)
+    // cblled from deployment cbche mbnbger
+    privbte stbtic InetAddress getByNbme(String host, InetAddress reqAddr)
         throws UnknownHostException {
-        return InetAddress.getAllByName(host, reqAddr)[0];
+        return InetAddress.getAllByNbme(host, reqAddr)[0];
     }
 
     /**
-     * Given the name of a host, returns an array of its IP addresses,
-     * based on the configured name service on the system.
+     * Given the nbme of b host, returns bn brrby of its IP bddresses,
+     * bbsed on the configured nbme service on the system.
      *
-     * <p> The host name can either be a machine name, such as
-     * "{@code java.sun.com}", or a textual representation of its IP
-     * address. If a literal IP address is supplied, only the
-     * validity of the address format is checked.
+     * <p> The host nbme cbn either be b mbchine nbme, such bs
+     * "{@code jbvb.sun.com}", or b textubl representbtion of its IP
+     * bddress. If b literbl IP bddress is supplied, only the
+     * vblidity of the bddress formbt is checked.
      *
-     * <p> For {@code host} specified in <i>literal IPv6 address</i>,
-     * either the form defined in RFC 2732 or the literal IPv6 address
-     * format defined in RFC 2373 is accepted. A literal IPv6 address may
-     * also be qualified by appending a scoped zone identifier or scope_id.
-     * The syntax and usage of scope_ids is described
-     * <a href="Inet6Address.html#scoped">here</a>.
-     * <p> If the host is {@code null} then an {@code InetAddress}
-     * representing an address of the loopback interface is returned.
-     * See <a href="http://www.ietf.org/rfc/rfc3330.txt">RFC&nbsp;3330</a>
-     * section&nbsp;2 and <a href="http://www.ietf.org/rfc/rfc2373.txt">RFC&nbsp;2373</a>
+     * <p> For {@code host} specified in <i>literbl IPv6 bddress</i>,
+     * either the form defined in RFC 2732 or the literbl IPv6 bddress
+     * formbt defined in RFC 2373 is bccepted. A literbl IPv6 bddress mby
+     * blso be qublified by bppending b scoped zone identifier or scope_id.
+     * The syntbx bnd usbge of scope_ids is described
+     * <b href="Inet6Address.html#scoped">here</b>.
+     * <p> If the host is {@code null} then bn {@code InetAddress}
+     * representing bn bddress of the loopbbck interfbce is returned.
+     * See <b href="http://www.ietf.org/rfc/rfc3330.txt">RFC&nbsp;3330</b>
+     * section&nbsp;2 bnd <b href="http://www.ietf.org/rfc/rfc2373.txt">RFC&nbsp;2373</b>
      * section&nbsp;2.5.3. </p>
      *
-     * <p> If there is a security manager and {@code host} is not
-     * null and {@code host.length() } is not equal to zero, the
-     * security manager's
-     * {@code checkConnect} method is called
-     * with the hostname and {@code -1}
-     * as its arguments to see if the operation is allowed.
+     * <p> If there is b security mbnbger bnd {@code host} is not
+     * null bnd {@code host.length() } is not equbl to zero, the
+     * security mbnbger's
+     * {@code checkConnect} method is cblled
+     * with the hostnbme bnd {@code -1}
+     * bs its brguments to see if the operbtion is bllowed.
      *
-     * @param      host   the name of the host, or {@code null}.
-     * @return     an array of all the IP addresses for a given host name.
+     * @pbrbm      host   the nbme of the host, or {@code null}.
+     * @return     bn brrby of bll the IP bddresses for b given host nbme.
      *
-     * @exception  UnknownHostException  if no IP address for the
-     *               {@code host} could be found, or if a scope_id was specified
-     *               for a global IPv6 address.
-     * @exception  SecurityException  if a security manager exists and its
-     *               {@code checkConnect} method doesn't allow the operation.
+     * @exception  UnknownHostException  if no IP bddress for the
+     *               {@code host} could be found, or if b scope_id wbs specified
+     *               for b globbl IPv6 bddress.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *               {@code checkConnect} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      */
-    public static InetAddress[] getAllByName(String host)
+    public stbtic InetAddress[] getAllByNbme(String host)
         throws UnknownHostException {
-        return getAllByName(host, null);
+        return getAllByNbme(host, null);
     }
 
-    private static InetAddress[] getAllByName(String host, InetAddress reqAddr)
+    privbte stbtic InetAddress[] getAllByNbme(String host, InetAddress reqAddr)
         throws UnknownHostException {
 
         if (host == null || host.length() == 0) {
             InetAddress[] ret = new InetAddress[1];
-            ret[0] = impl.loopbackAddress();
+            ret[0] = impl.loopbbckAddress();
             return ret;
         }
 
-        boolean ipv6Expected = false;
-        if (host.charAt(0) == '[') {
-            // This is supposed to be an IPv6 literal
-            if (host.length() > 2 && host.charAt(host.length()-1) == ']') {
+        boolebn ipv6Expected = fblse;
+        if (host.chbrAt(0) == '[') {
+            // This is supposed to be bn IPv6 literbl
+            if (host.length() > 2 && host.chbrAt(host.length()-1) == ']') {
                 host = host.substring(1, host.length() -1);
                 ipv6Expected = true;
             } else {
-                // This was supposed to be a IPv6 address, but it's not!
-                throw new UnknownHostException(host + ": invalid IPv6 address");
+                // This wbs supposed to be b IPv6 bddress, but it's not!
+                throw new UnknownHostException(host + ": invblid IPv6 bddress");
             }
         }
 
-        // if host is an IP address, we won't do further lookup
-        if (Character.digit(host.charAt(0), 16) != -1
-            || (host.charAt(0) == ':')) {
-            byte[] addr = null;
+        // if host is bn IP bddress, we won't do further lookup
+        if (Chbrbcter.digit(host.chbrAt(0), 16) != -1
+            || (host.chbrAt(0) == ':')) {
+            byte[] bddr = null;
             int numericZone = -1;
-            String ifname = null;
-            // see if it is IPv4 address
-            addr = IPAddressUtil.textToNumericFormatV4(host);
-            if (addr == null) {
-                // This is supposed to be an IPv6 literal
-                // Check if a numeric or string zone id is present
+            String ifnbme = null;
+            // see if it is IPv4 bddress
+            bddr = IPAddressUtil.textToNumericFormbtV4(host);
+            if (bddr == null) {
+                // This is supposed to be bn IPv6 literbl
+                // Check if b numeric or string zone id is present
                 int pos;
                 if ((pos=host.indexOf ('%')) != -1) {
                     numericZone = checkNumericZone (host);
-                    if (numericZone == -1) { /* remainder of string must be an ifname */
-                        ifname = host.substring (pos+1);
+                    if (numericZone == -1) { /* rembinder of string must be bn ifnbme */
+                        ifnbme = host.substring (pos+1);
                     }
                 }
-                if ((addr = IPAddressUtil.textToNumericFormatV6(host)) == null && host.contains(":")) {
-                    throw new UnknownHostException(host + ": invalid IPv6 address");
+                if ((bddr = IPAddressUtil.textToNumericFormbtV6(host)) == null && host.contbins(":")) {
+                    throw new UnknownHostException(host + ": invblid IPv6 bddress");
                 }
             } else if (ipv6Expected) {
-                // Means an IPv4 litteral between brackets!
+                // Mebns bn IPv4 litterbl between brbckets!
                 throw new UnknownHostException("["+host+"]");
             }
             InetAddress[] ret = new InetAddress[1];
-            if(addr != null) {
-                if (addr.length == Inet4Address.INADDRSZ) {
-                    ret[0] = new Inet4Address(null, addr);
+            if(bddr != null) {
+                if (bddr.length == Inet4Address.INADDRSZ) {
+                    ret[0] = new Inet4Address(null, bddr);
                 } else {
-                    if (ifname != null) {
-                        ret[0] = new Inet6Address(null, addr, ifname);
+                    if (ifnbme != null) {
+                        ret[0] = new Inet6Address(null, bddr, ifnbme);
                     } else {
-                        ret[0] = new Inet6Address(null, addr, numericZone);
+                        ret[0] = new Inet6Address(null, bddr, numericZone);
                     }
                 }
                 return ret;
             }
         } else if (ipv6Expected) {
-            // We were expecting an IPv6 Litteral, but got something else
+            // We were expecting bn IPv6 Litterbl, but got something else
             throw new UnknownHostException("["+host+"]");
         }
-        return getAllByName0(host, reqAddr, true);
+        return getAllByNbme0(host, reqAddr, true);
     }
 
     /**
-     * Returns the loopback address.
+     * Returns the loopbbck bddress.
      * <p>
      * The InetAddress returned will represent the IPv4
-     * loopback address, 127.0.0.1, or the IPv6 loopback
-     * address, ::1. The IPv4 loopback address returned
-     * is only one of many in the form 127.*.*.*
+     * loopbbck bddress, 127.0.0.1, or the IPv6 loopbbck
+     * bddress, ::1. The IPv4 loopbbck bddress returned
+     * is only one of mbny in the form 127.*.*.*
      *
-     * @return  the InetAddress loopback instance.
+     * @return  the InetAddress loopbbck instbnce.
      * @since 1.7
      */
-    public static InetAddress getLoopbackAddress() {
-        return impl.loopbackAddress();
+    public stbtic InetAddress getLoopbbckAddress() {
+        return impl.loopbbckAddress();
     }
 
 
     /**
-     * check if the literal address string has %nn appended
-     * returns -1 if not, or the numeric value otherwise.
+     * check if the literbl bddress string hbs %nn bppended
+     * returns -1 if not, or the numeric vblue otherwise.
      *
-     * %nn may also be a string that represents the displayName of
-     * a currently available NetworkInterface.
+     * %nn mby blso be b string thbt represents the displbyNbme of
+     * b currently bvbilbble NetworkInterfbce.
      */
-    private static int checkNumericZone (String s) throws UnknownHostException {
+    privbte stbtic int checkNumericZone (String s) throws UnknownHostException {
         int percent = s.indexOf ('%');
         int slen = s.length();
         int digit, zone=0;
@@ -1202,15 +1202,15 @@ class InetAddress implements java.io.Serializable {
             return -1;
         }
         for (int i=percent+1; i<slen; i++) {
-            char c = s.charAt(i);
+            chbr c = s.chbrAt(i);
             if (c == ']') {
                 if (i == percent+1) {
                     /* empty per-cent field */
                     return -1;
                 }
-                break;
+                brebk;
             }
-            if ((digit = Character.digit (c, 10)) < 0) {
+            if ((digit = Chbrbcter.digit (c, 10)) < 0) {
                 return -1;
             }
             zone = (zone * 10) + digit;
@@ -1218,333 +1218,333 @@ class InetAddress implements java.io.Serializable {
         return zone;
     }
 
-    private static InetAddress[] getAllByName0 (String host)
+    privbte stbtic InetAddress[] getAllByNbme0 (String host)
         throws UnknownHostException
     {
-        return getAllByName0(host, true);
+        return getAllByNbme0(host, true);
     }
 
     /**
-     * package private so SocketPermission can call it
+     * pbckbge privbte so SocketPermission cbn cbll it
      */
-    static InetAddress[] getAllByName0 (String host, boolean check)
+    stbtic InetAddress[] getAllByNbme0 (String host, boolebn check)
         throws UnknownHostException  {
-        return getAllByName0 (host, null, check);
+        return getAllByNbme0 (host, null, check);
     }
 
-    private static InetAddress[] getAllByName0 (String host, InetAddress reqAddr, boolean check)
+    privbte stbtic InetAddress[] getAllByNbme0 (String host, InetAddress reqAddr, boolebn check)
         throws UnknownHostException  {
 
-        /* If it gets here it is presumed to be a hostname */
-        /* Cache.get can return: null, unknownAddress, or InetAddress[] */
+        /* If it gets here it is presumed to be b hostnbme */
+        /* Cbche.get cbn return: null, unknownAddress, or InetAddress[] */
 
-        /* make sure the connection to the host is allowed, before we
-         * give out a hostname
+        /* mbke sure the connection to the host is bllowed, before we
+         * give out b hostnbme
          */
         if (check) {
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 security.checkConnect(host, -1);
             }
         }
 
-        InetAddress[] addresses = getCachedAddresses(host);
+        InetAddress[] bddresses = getCbchedAddresses(host);
 
-        /* If no entry in cache, then do the host lookup */
-        if (addresses == null) {
-            addresses = getAddressesFromNameService(host, reqAddr);
+        /* If no entry in cbche, then do the host lookup */
+        if (bddresses == null) {
+            bddresses = getAddressesFromNbmeService(host, reqAddr);
         }
 
-        if (addresses == unknown_array)
+        if (bddresses == unknown_brrby)
             throw new UnknownHostException(host);
 
-        return addresses.clone();
+        return bddresses.clone();
     }
 
-    private static InetAddress[] getAddressesFromNameService(String host, InetAddress reqAddr)
+    privbte stbtic InetAddress[] getAddressesFromNbmeService(String host, InetAddress reqAddr)
         throws UnknownHostException
     {
-        InetAddress[] addresses = null;
-        boolean success = false;
+        InetAddress[] bddresses = null;
+        boolebn success = fblse;
         UnknownHostException ex = null;
 
-        // Check whether the host is in the lookupTable.
-        // 1) If the host isn't in the lookupTable when
-        //    checkLookupTable() is called, checkLookupTable()
-        //    would add the host in the lookupTable and
+        // Check whether the host is in the lookupTbble.
+        // 1) If the host isn't in the lookupTbble when
+        //    checkLookupTbble() is cblled, checkLookupTbble()
+        //    would bdd the host in the lookupTbble bnd
         //    return null. So we will do the lookup.
-        // 2) If the host is in the lookupTable when
-        //    checkLookupTable() is called, the current thread
+        // 2) If the host is in the lookupTbble when
+        //    checkLookupTbble() is cblled, the current threbd
         //    would be blocked until the host is removed
-        //    from the lookupTable. Then this thread
-        //    should try to look up the addressCache.
-        //     i) if it found the addresses in the
-        //        addressCache, checkLookupTable()  would
-        //        return the addresses.
-        //     ii) if it didn't find the addresses in the
-        //         addressCache for any reason,
-        //         it should add the host in the
-        //         lookupTable and return null so the
-        //         following code would do  a lookup itself.
-        if ((addresses = checkLookupTable(host)) == null) {
+        //    from the lookupTbble. Then this threbd
+        //    should try to look up the bddressCbche.
+        //     i) if it found the bddresses in the
+        //        bddressCbche, checkLookupTbble()  would
+        //        return the bddresses.
+        //     ii) if it didn't find the bddresses in the
+        //         bddressCbche for bny rebson,
+        //         it should bdd the host in the
+        //         lookupTbble bnd return null so the
+        //         following code would do  b lookup itself.
+        if ((bddresses = checkLookupTbble(host)) == null) {
             try {
-                // This is the first thread which looks up the addresses
-                // this host or the cache entry for this host has been
-                // expired so this thread should do the lookup.
-                for (NameService nameService : nameServices) {
+                // This is the first threbd which looks up the bddresses
+                // this host or the cbche entry for this host hbs been
+                // expired so this threbd should do the lookup.
+                for (NbmeService nbmeService : nbmeServices) {
                     try {
                         /*
-                         * Do not put the call to lookup() inside the
+                         * Do not put the cbll to lookup() inside the
                          * constructor.  if you do you will still be
-                         * allocating space when the lookup fails.
+                         * bllocbting spbce when the lookup fbils.
                          */
 
-                        addresses = nameService.lookupAllHostAddr(host);
+                        bddresses = nbmeService.lookupAllHostAddr(host);
                         success = true;
-                        break;
-                    } catch (UnknownHostException uhe) {
-                        if (host.equalsIgnoreCase("localhost")) {
-                            InetAddress[] local = new InetAddress[] { impl.loopbackAddress() };
-                            addresses = local;
+                        brebk;
+                    } cbtch (UnknownHostException uhe) {
+                        if (host.equblsIgnoreCbse("locblhost")) {
+                            InetAddress[] locbl = new InetAddress[] { impl.loopbbckAddress() };
+                            bddresses = locbl;
                             success = true;
-                            break;
+                            brebk;
                         }
                         else {
-                            addresses = unknown_array;
-                            success = false;
+                            bddresses = unknown_brrby;
+                            success = fblse;
                             ex = uhe;
                         }
                     }
                 }
 
                 // More to do?
-                if (reqAddr != null && addresses.length > 1 && !addresses[0].equals(reqAddr)) {
+                if (reqAddr != null && bddresses.length > 1 && !bddresses[0].equbls(reqAddr)) {
                     // Find it?
                     int i = 1;
-                    for (; i < addresses.length; i++) {
-                        if (addresses[i].equals(reqAddr)) {
-                            break;
+                    for (; i < bddresses.length; i++) {
+                        if (bddresses[i].equbls(reqAddr)) {
+                            brebk;
                         }
                     }
-                    // Rotate
-                    if (i < addresses.length) {
+                    // Rotbte
+                    if (i < bddresses.length) {
                         InetAddress tmp, tmp2 = reqAddr;
                         for (int j = 0; j < i; j++) {
-                            tmp = addresses[j];
-                            addresses[j] = tmp2;
+                            tmp = bddresses[j];
+                            bddresses[j] = tmp2;
                             tmp2 = tmp;
                         }
-                        addresses[i] = tmp2;
+                        bddresses[i] = tmp2;
                     }
                 }
-                // Cache the address.
-                cacheAddresses(host, addresses, success);
+                // Cbche the bddress.
+                cbcheAddresses(host, bddresses, success);
 
                 if (!success && ex != null)
                     throw ex;
 
-            } finally {
-                // Delete host from the lookupTable and notify
-                // all threads waiting on the lookupTable monitor.
-                updateLookupTable(host);
+            } finblly {
+                // Delete host from the lookupTbble bnd notify
+                // bll threbds wbiting on the lookupTbble monitor.
+                updbteLookupTbble(host);
             }
         }
 
-        return addresses;
+        return bddresses;
     }
 
 
-    private static InetAddress[] checkLookupTable(String host) {
-        synchronized (lookupTable) {
-            // If the host isn't in the lookupTable, add it in the
-            // lookuptable and return null. The caller should do
+    privbte stbtic InetAddress[] checkLookupTbble(String host) {
+        synchronized (lookupTbble) {
+            // If the host isn't in the lookupTbble, bdd it in the
+            // lookuptbble bnd return null. The cbller should do
             // the lookup.
-            if (lookupTable.containsKey(host) == false) {
-                lookupTable.put(host, null);
+            if (lookupTbble.contbinsKey(host) == fblse) {
+                lookupTbble.put(host, null);
                 return null;
             }
 
-            // If the host is in the lookupTable, it means that another
-            // thread is trying to look up the addresses of this host.
-            // This thread should wait.
-            while (lookupTable.containsKey(host)) {
+            // If the host is in the lookupTbble, it mebns thbt bnother
+            // threbd is trying to look up the bddresses of this host.
+            // This threbd should wbit.
+            while (lookupTbble.contbinsKey(host)) {
                 try {
-                    lookupTable.wait();
-                } catch (InterruptedException e) {
+                    lookupTbble.wbit();
+                } cbtch (InterruptedException e) {
                 }
             }
         }
 
-        // The other thread has finished looking up the addresses of
-        // the host. This thread should retry to get the addresses
-        // from the addressCache. If it doesn't get the addresses from
-        // the cache, it will try to look up the addresses itself.
-        InetAddress[] addresses = getCachedAddresses(host);
-        if (addresses == null) {
-            synchronized (lookupTable) {
-                lookupTable.put(host, null);
+        // The other threbd hbs finished looking up the bddresses of
+        // the host. This threbd should retry to get the bddresses
+        // from the bddressCbche. If it doesn't get the bddresses from
+        // the cbche, it will try to look up the bddresses itself.
+        InetAddress[] bddresses = getCbchedAddresses(host);
+        if (bddresses == null) {
+            synchronized (lookupTbble) {
+                lookupTbble.put(host, null);
                 return null;
             }
         }
 
-        return addresses;
+        return bddresses;
     }
 
-    private static void updateLookupTable(String host) {
-        synchronized (lookupTable) {
-            lookupTable.remove(host);
-            lookupTable.notifyAll();
+    privbte stbtic void updbteLookupTbble(String host) {
+        synchronized (lookupTbble) {
+            lookupTbble.remove(host);
+            lookupTbble.notifyAll();
         }
     }
 
     /**
-     * Returns an {@code InetAddress} object given the raw IP address .
-     * The argument is in network byte order: the highest order
-     * byte of the address is in {@code getAddress()[0]}.
+     * Returns bn {@code InetAddress} object given the rbw IP bddress .
+     * The brgument is in network byte order: the highest order
+     * byte of the bddress is in {@code getAddress()[0]}.
      *
-     * <p> This method doesn't block, i.e. no reverse name service lookup
+     * <p> This method doesn't block, i.e. no reverse nbme service lookup
      * is performed.
      *
-     * <p> IPv4 address byte array must be 4 bytes long and IPv6 byte array
+     * <p> IPv4 bddress byte brrby must be 4 bytes long bnd IPv6 byte brrby
      * must be 16 bytes long
      *
-     * @param addr the raw IP address in network byte order
-     * @return  an InetAddress object created from the raw IP address.
-     * @exception  UnknownHostException  if IP address is of illegal length
+     * @pbrbm bddr the rbw IP bddress in network byte order
+     * @return  bn InetAddress object crebted from the rbw IP bddress.
+     * @exception  UnknownHostException  if IP bddress is of illegbl length
      * @since 1.4
      */
-    public static InetAddress getByAddress(byte[] addr)
+    public stbtic InetAddress getByAddress(byte[] bddr)
         throws UnknownHostException {
-        return getByAddress(null, addr);
+        return getByAddress(null, bddr);
     }
 
-    private static InetAddress cachedLocalHost = null;
-    private static long cacheTime = 0;
-    private static final long maxCacheTime = 5000L;
-    private static final Object cacheLock = new Object();
+    privbte stbtic InetAddress cbchedLocblHost = null;
+    privbte stbtic long cbcheTime = 0;
+    privbte stbtic finbl long mbxCbcheTime = 5000L;
+    privbte stbtic finbl Object cbcheLock = new Object();
 
     /**
-     * Returns the address of the local host. This is achieved by retrieving
-     * the name of the host from the system, then resolving that name into
-     * an {@code InetAddress}.
+     * Returns the bddress of the locbl host. This is bchieved by retrieving
+     * the nbme of the host from the system, then resolving thbt nbme into
+     * bn {@code InetAddress}.
      *
-     * <P>Note: The resolved address may be cached for a short period of time.
+     * <P>Note: The resolved bddress mby be cbched for b short period of time.
      * </P>
      *
-     * <p>If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the local host name and {@code -1}
-     * as its arguments to see if the operation is allowed.
-     * If the operation is not allowed, an InetAddress representing
-     * the loopback address is returned.
+     * <p>If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the locbl host nbme bnd {@code -1}
+     * bs its brguments to see if the operbtion is bllowed.
+     * If the operbtion is not bllowed, bn InetAddress representing
+     * the loopbbck bddress is returned.
      *
-     * @return     the address of the local host.
+     * @return     the bddress of the locbl host.
      *
-     * @exception  UnknownHostException  if the local host name could not
-     *             be resolved into an address.
+     * @exception  UnknownHostException  if the locbl host nbme could not
+     *             be resolved into bn bddress.
      *
-     * @see SecurityManager#checkConnect
-     * @see java.net.InetAddress#getByName(java.lang.String)
+     * @see SecurityMbnbger#checkConnect
+     * @see jbvb.net.InetAddress#getByNbme(jbvb.lbng.String)
      */
-    public static InetAddress getLocalHost() throws UnknownHostException {
+    public stbtic InetAddress getLocblHost() throws UnknownHostException {
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         try {
-            String local = impl.getLocalHostName();
+            String locbl = impl.getLocblHostNbme();
 
             if (security != null) {
-                security.checkConnect(local, -1);
+                security.checkConnect(locbl, -1);
             }
 
-            if (local.equals("localhost")) {
-                return impl.loopbackAddress();
+            if (locbl.equbls("locblhost")) {
+                return impl.loopbbckAddress();
             }
 
             InetAddress ret = null;
-            synchronized (cacheLock) {
+            synchronized (cbcheLock) {
                 long now = System.currentTimeMillis();
-                if (cachedLocalHost != null) {
-                    if ((now - cacheTime) < maxCacheTime) // Less than 5s old?
-                        ret = cachedLocalHost;
+                if (cbchedLocblHost != null) {
+                    if ((now - cbcheTime) < mbxCbcheTime) // Less thbn 5s old?
+                        ret = cbchedLocblHost;
                     else
-                        cachedLocalHost = null;
+                        cbchedLocblHost = null;
                 }
 
-                // we are calling getAddressesFromNameService directly
-                // to avoid getting localHost from cache
+                // we bre cblling getAddressesFromNbmeService directly
+                // to bvoid getting locblHost from cbche
                 if (ret == null) {
-                    InetAddress[] localAddrs;
+                    InetAddress[] locblAddrs;
                     try {
-                        localAddrs =
-                            InetAddress.getAddressesFromNameService(local, null);
-                    } catch (UnknownHostException uhe) {
-                        // Rethrow with a more informative error message.
+                        locblAddrs =
+                            InetAddress.getAddressesFromNbmeService(locbl, null);
+                    } cbtch (UnknownHostException uhe) {
+                        // Rethrow with b more informbtive error messbge.
                         UnknownHostException uhe2 =
-                            new UnknownHostException(local + ": " +
-                                                     uhe.getMessage());
-                        uhe2.initCause(uhe);
+                            new UnknownHostException(locbl + ": " +
+                                                     uhe.getMessbge());
+                        uhe2.initCbuse(uhe);
                         throw uhe2;
                     }
-                    cachedLocalHost = localAddrs[0];
-                    cacheTime = now;
-                    ret = localAddrs[0];
+                    cbchedLocblHost = locblAddrs[0];
+                    cbcheTime = now;
+                    ret = locblAddrs[0];
                 }
             }
             return ret;
-        } catch (java.lang.SecurityException e) {
-            return impl.loopbackAddress();
+        } cbtch (jbvb.lbng.SecurityException e) {
+            return impl.loopbbckAddress();
         }
     }
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private static native void init();
+    privbte stbtic nbtive void init();
 
 
     /*
-     * Returns the InetAddress representing anyLocalAddress
-     * (typically 0.0.0.0 or ::0)
+     * Returns the InetAddress representing bnyLocblAddress
+     * (typicblly 0.0.0.0 or ::0)
      */
-    static InetAddress anyLocalAddress() {
-        return impl.anyLocalAddress();
+    stbtic InetAddress bnyLocblAddress() {
+        return impl.bnyLocblAddress();
     }
 
     /*
-     * Load and instantiate an underlying impl class
+     * Lobd bnd instbntibte bn underlying impl clbss
      */
-    static InetAddressImpl loadImpl(String implName) {
+    stbtic InetAddressImpl lobdImpl(String implNbme) {
         Object impl = null;
 
         /*
-         * Property "impl.prefix" will be prepended to the classname
-         * of the implementation object we instantiate, to which we
-         * delegate the real work (like native methods).  This
-         * property can vary across implementations of the java.
-         * classes.  The default is an empty String "".
+         * Property "impl.prefix" will be prepended to the clbssnbme
+         * of the implementbtion object we instbntibte, to which we
+         * delegbte the rebl work (like nbtive methods).  This
+         * property cbn vbry bcross implementbtions of the jbvb.
+         * clbsses.  The defbult is bn empty String "".
          */
         String prefix = AccessController.doPrivileged(
                       new GetPropertyAction("impl.prefix", ""));
         try {
-            impl = Class.forName("java.net." + prefix + implName).newInstance();
-        } catch (ClassNotFoundException e) {
-            System.err.println("Class not found: java.net." + prefix +
-                               implName + ":\ncheck impl.prefix property " +
+            impl = Clbss.forNbme("jbvb.net." + prefix + implNbme).newInstbnce();
+        } cbtch (ClbssNotFoundException e) {
+            System.err.println("Clbss not found: jbvb.net." + prefix +
+                               implNbme + ":\ncheck impl.prefix property " +
                                "in your properties file.");
-        } catch (InstantiationException e) {
-            System.err.println("Could not instantiate: java.net." + prefix +
-                               implName + ":\ncheck impl.prefix property " +
+        } cbtch (InstbntibtionException e) {
+            System.err.println("Could not instbntibte: jbvb.net." + prefix +
+                               implNbme + ":\ncheck impl.prefix property " +
                                "in your properties file.");
-        } catch (IllegalAccessException e) {
-            System.err.println("Cannot access class: java.net." + prefix +
-                               implName + ":\ncheck impl.prefix property " +
+        } cbtch (IllegblAccessException e) {
+            System.err.println("Cbnnot bccess clbss: jbvb.net." + prefix +
+                               implNbme + ":\ncheck impl.prefix property " +
                                "in your properties file.");
         }
 
         if (impl == null) {
             try {
-                impl = Class.forName(implName).newInstance();
-            } catch (Exception e) {
+                impl = Clbss.forNbme(implNbme).newInstbnce();
+            } cbtch (Exception e) {
                 throw new Error("System property impl.prefix incorrect");
             }
         }
@@ -1552,76 +1552,76 @@ class InetAddress implements java.io.Serializable {
         return (InetAddressImpl) impl;
     }
 
-    private void readObjectNoData (ObjectInputStream s) throws
-                         IOException, ClassNotFoundException {
-        if (getClass().getClassLoader() != null) {
-            throw new SecurityException ("invalid address type");
+    privbte void rebdObjectNoDbtb (ObjectInputStrebm s) throws
+                         IOException, ClbssNotFoundException {
+        if (getClbss().getClbssLobder() != null) {
+            throw new SecurityException ("invblid bddress type");
         }
     }
 
-    private static final long FIELDS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
+    privbte stbtic finbl long FIELDS_OFFSET;
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
 
-    static {
+    stbtic {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            FIELDS_OFFSET = unsafe.objectFieldOffset(
-                InetAddress.class.getDeclaredField("holder")
+            sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+            FIELDS_OFFSET = unsbfe.objectFieldOffset(
+                InetAddress.clbss.getDeclbredField("holder")
             );
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
+            UNSAFE = unsbfe;
+        } cbtch (ReflectiveOperbtionException e) {
             throw new Error(e);
         }
     }
 
-    private void readObject (ObjectInputStream s) throws
-                         IOException, ClassNotFoundException {
-        if (getClass().getClassLoader() != null) {
-            throw new SecurityException ("invalid address type");
+    privbte void rebdObject (ObjectInputStrebm s) throws
+                         IOException, ClbssNotFoundException {
+        if (getClbss().getClbssLobder() != null) {
+            throw new SecurityException ("invblid bddress type");
         }
-        GetField gf = s.readFields();
-        String host = (String)gf.get("hostName", null);
-        int address= gf.get("address", 0);
-        int family= gf.get("family", 0);
-        InetAddressHolder h = new InetAddressHolder(host, address, family);
+        GetField gf = s.rebdFields();
+        String host = (String)gf.get("hostNbme", null);
+        int bddress= gf.get("bddress", 0);
+        int fbmily= gf.get("fbmily", 0);
+        InetAddressHolder h = new InetAddressHolder(host, bddress, fbmily);
         UNSAFE.putObject(this, FIELDS_OFFSET, h);
     }
 
-    /* needed because the serializable fields no longer exist */
+    /* needed becbuse the seriblizbble fields no longer exist */
 
     /**
-     * @serialField hostName String
-     * @serialField address int
-     * @serialField family int
+     * @seriblField hostNbme String
+     * @seriblField bddress int
+     * @seriblField fbmily int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("hostName", String.class),
-        new ObjectStreamField("address", int.class),
-        new ObjectStreamField("family", int.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("hostNbme", String.clbss),
+        new ObjectStrebmField("bddress", int.clbss),
+        new ObjectStrebmField("fbmily", int.clbss),
     };
 
-    private void writeObject (ObjectOutputStream s) throws
+    privbte void writeObject (ObjectOutputStrebm s) throws
                         IOException {
-        if (getClass().getClassLoader() != null) {
-            throw new SecurityException ("invalid address type");
+        if (getClbss().getClbssLobder() != null) {
+            throw new SecurityException ("invblid bddress type");
         }
         PutField pf = s.putFields();
-        pf.put("hostName", holder().getHostName());
-        pf.put("address", holder().getAddress());
-        pf.put("family", holder().getFamily());
+        pf.put("hostNbme", holder().getHostNbme());
+        pf.put("bddress", holder().getAddress());
+        pf.put("fbmily", holder().getFbmily());
         s.writeFields();
     }
 }
 
 /*
- * Simple factory to create the impl
+ * Simple fbctory to crebte the impl
  */
-class InetAddressImplFactory {
+clbss InetAddressImplFbctory {
 
-    static InetAddressImpl create() {
-        return InetAddress.loadImpl(isIPv6Supported() ?
+    stbtic InetAddressImpl crebte() {
+        return InetAddress.lobdImpl(isIPv6Supported() ?
                                     "Inet6AddressImpl" : "Inet4AddressImpl");
     }
 
-    static native boolean isIPv6Supported();
+    stbtic nbtive boolebn isIPv6Supported();
 }

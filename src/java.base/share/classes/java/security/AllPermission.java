@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import sun.security.util.SecurityConstants;
+import jbvb.security.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * The AllPermission is a permission that implies all other permissions.
+ * The AllPermission is b permission thbt implies bll other permissions.
  * <p>
- * <b>Note:</b> Granting AllPermission should be done with extreme care,
- * as it implies all other permissions. Thus, it grants code the ability
+ * <b>Note:</b> Grbnting AllPermission should be done with extreme cbre,
+ * bs it implies bll other permissions. Thus, it grbnts code the bbility
  * to run with security
- * disabled.  Extreme caution should be taken before granting such
- * a permission to code.  This permission should be used only during testing,
- * or in extremely rare cases where an application or applet is
- * completely trusted and adding the necessary permissions to the policy
+ * disbbled.  Extreme cbution should be tbken before grbnting such
+ * b permission to code.  This permission should be used only during testing,
+ * or in extremely rbre cbses where bn bpplicbtion or bpplet is
+ * completely trusted bnd bdding the necessbry permissions to the policy
  * is prohibitively cumbersome.
  *
- * @see java.security.Permission
- * @see java.security.AccessController
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.Permission
+ * @see jbvb.security.AccessController
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial exclude
+ * @seribl exclude
  */
 
-public final class AllPermission extends Permission {
+public finbl clbss AllPermission extends Permission {
 
-    private static final long serialVersionUID = -2916474571451318075L;
+    privbte stbtic finbl long seriblVersionUID = -2916474571451318075L;
 
     /**
-     * Creates a new AllPermission object.
+     * Crebtes b new AllPermission object.
      */
     public AllPermission() {
-        super("<all permissions>");
+        super("<bll permissions>");
     }
 
 
     /**
-     * Creates a new AllPermission object. This
+     * Crebtes b new AllPermission object. This
      * constructor exists for use by the {@code Policy} object
-     * to instantiate new Permission objects.
+     * to instbntibte new Permission objects.
      *
-     * @param name ignored
-     * @param actions ignored.
+     * @pbrbm nbme ignored
+     * @pbrbm bctions ignored.
      */
-    public AllPermission(String name, String actions) {
+    public AllPermission(String nbme, String bctions) {
         this();
     }
 
     /**
      * Checks if the specified permission is "implied" by
-     * this object. This method always returns true.
+     * this object. This method blwbys returns true.
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return return
      */
-    public boolean implies(Permission p) {
+    public boolebn implies(Permission p) {
          return true;
     }
 
     /**
-     * Checks two AllPermission objects for equality. Two AllPermission
-     * objects are always equal.
+     * Checks two AllPermission objects for equblity. Two AllPermission
+     * objects bre blwbys equbl.
      *
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an AllPermission, false otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if <i>obj</i> is bn AllPermission, fblse otherwise.
      */
-    public boolean equals(Object obj) {
-        return (obj instanceof AllPermission);
+    public boolebn equbls(Object obj) {
+        return (obj instbnceof AllPermission);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
 
-    public int hashCode() {
+    public int hbshCode() {
         return 1;
     }
 
     /**
-     * Returns the canonical string representation of the actions.
+     * Returns the cbnonicbl string representbtion of the bctions.
      *
-     * @return the actions.
+     * @return the bctions.
      */
     public String getActions() {
-        return "<all actions>";
+        return "<bll bctions>";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing AllPermission
+     * Returns b new PermissionCollection object for storing AllPermission
      * objects.
      * <p>
      *
-     * @return a new PermissionCollection object suitable for
+     * @return b new PermissionCollection object suitbble for
      * storing AllPermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -136,93 +136,93 @@ public final class AllPermission extends Permission {
 }
 
 /**
- * A AllPermissionCollection stores a collection
+ * A AllPermissionCollection stores b collection
  * of AllPermission permissions. AllPermission objects
- * must be stored in a manner that allows them to be inserted in any
- * order, but enable the implies function to evaluate the implies
- * method in an efficient (and consistent) manner.
+ * must be stored in b mbnner thbt bllows them to be inserted in bny
+ * order, but enbble the implies function to evblubte the implies
+ * method in bn efficient (bnd consistent) mbnner.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
 
-final class AllPermissionCollection
+finbl clbss AllPermissionCollection
     extends PermissionCollection
-    implements java.io.Serializable
+    implements jbvb.io.Seriblizbble
 {
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = -4023755556366636806L;
+    // use seriblVersionUID from JDK 1.2.2 for interoperbbility
+    privbte stbtic finbl long seriblVersionUID = -4023755556366636806L;
 
-    private boolean all_allowed; // true if any all permissions have been added
+    privbte boolebn bll_bllowed; // true if bny bll permissions hbve been bdded
 
     /**
-     * Create an empty AllPermissions object.
+     * Crebte bn empty AllPermissions object.
      *
      */
 
     public AllPermissionCollection() {
-        all_allowed = false;
+        bll_bllowed = fblse;
     }
 
     /**
-     * Adds a permission to the AllPermissions. The key for the hash is
-     * permission.path.
+     * Adds b permission to the AllPermissions. The key for the hbsh is
+     * permission.pbth.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
+     * @exception IllegblArgumentException - if the permission is not b
      *                                       AllPermission
      *
      * @exception SecurityException - if this AllPermissionCollection object
-     *                                has been marked readonly
+     *                                hbs been mbrked rebdonly
      */
 
-    public void add(Permission permission) {
-        if (! (permission instanceof AllPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof AllPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        if (isRebdOnly())
+            throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
-        all_allowed = true; // No sync; staleness OK
+        bll_bllowed = true; // No sync; stbleness OK
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
+     * Check bnd see if this set of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return always returns true.
+     * @return blwbys returns true.
      */
 
-    public boolean implies(Permission permission) {
-        return all_allowed; // No sync; staleness OK
+    public boolebn implies(Permission permission) {
+        return bll_bllowed; // No sync; stbleness OK
     }
 
     /**
-     * Returns an enumeration of all the AllPermission objects in the
-     * container.
+     * Returns bn enumerbtion of bll the AllPermission objects in the
+     * contbiner.
      *
-     * @return an enumeration of all the AllPermission objects.
+     * @return bn enumerbtion of bll the AllPermission objects.
      */
-    public Enumeration<Permission> elements() {
-        return new Enumeration<Permission>() {
-            private boolean hasMore = all_allowed;
+    public Enumerbtion<Permission> elements() {
+        return new Enumerbtion<Permission>() {
+            privbte boolebn hbsMore = bll_bllowed;
 
-            public boolean hasMoreElements() {
-                return hasMore;
+            public boolebn hbsMoreElements() {
+                return hbsMore;
             }
 
             public Permission nextElement() {
-                hasMore = false;
-                return SecurityConstants.ALL_PERMISSION;
+                hbsMore = fblse;
+                return SecurityConstbnts.ALL_PERMISSION;
             }
         };
     }

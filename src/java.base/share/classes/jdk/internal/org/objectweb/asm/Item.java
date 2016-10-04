@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,286 +56,286 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A constant pool item. Constant pool items can be created with the 'newXXX'
- * methods in the {@link ClassWriter} class.
+ * A constbnt pool item. Constbnt pool items cbn be crebted with the 'newXXX'
+ * methods in the {@link ClbssWriter} clbss.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-final class Item {
+finbl clbss Item {
 
     /**
-     * Index of this item in the constant pool.
+     * Index of this item in the constbnt pool.
      */
     int index;
 
     /**
-     * Type of this constant pool item. A single class is used to represent all
-     * constant pool item types, in order to minimize the bytecode size of this
-     * package. The value of this field is one of {@link ClassWriter#INT},
-     * {@link ClassWriter#LONG}, {@link ClassWriter#FLOAT},
-     * {@link ClassWriter#DOUBLE}, {@link ClassWriter#UTF8},
-     * {@link ClassWriter#STR}, {@link ClassWriter#CLASS},
-     * {@link ClassWriter#NAME_TYPE}, {@link ClassWriter#FIELD},
-     * {@link ClassWriter#METH}, {@link ClassWriter#IMETH},
-     * {@link ClassWriter#MTYPE}, {@link ClassWriter#INDY}.
+     * Type of this constbnt pool item. A single clbss is used to represent bll
+     * constbnt pool item types, in order to minimize the bytecode size of this
+     * pbckbge. The vblue of this field is one of {@link ClbssWriter#INT},
+     * {@link ClbssWriter#LONG}, {@link ClbssWriter#FLOAT},
+     * {@link ClbssWriter#DOUBLE}, {@link ClbssWriter#UTF8},
+     * {@link ClbssWriter#STR}, {@link ClbssWriter#CLASS},
+     * {@link ClbssWriter#NAME_TYPE}, {@link ClbssWriter#FIELD},
+     * {@link ClbssWriter#METH}, {@link ClbssWriter#IMETH},
+     * {@link ClbssWriter#MTYPE}, {@link ClbssWriter#INDY}.
      *
-     * MethodHandle constant 9 variations are stored using a range of 9 values
-     * from {@link ClassWriter#HANDLE_BASE} + 1 to
-     * {@link ClassWriter#HANDLE_BASE} + 9.
+     * MethodHbndle constbnt 9 vbribtions bre stored using b rbnge of 9 vblues
+     * from {@link ClbssWriter#HANDLE_BASE} + 1 to
+     * {@link ClbssWriter#HANDLE_BASE} + 9.
      *
-     * Special Item types are used for Items that are stored in the ClassWriter
-     * {@link ClassWriter#typeTable}, instead of the constant pool, in order to
-     * avoid clashes with normal constant pool items in the ClassWriter constant
-     * pool's hash table. These special item types are
-     * {@link ClassWriter#TYPE_NORMAL}, {@link ClassWriter#TYPE_UNINIT} and
-     * {@link ClassWriter#TYPE_MERGED}.
+     * Specibl Item types bre used for Items thbt bre stored in the ClbssWriter
+     * {@link ClbssWriter#typeTbble}, instebd of the constbnt pool, in order to
+     * bvoid clbshes with normbl constbnt pool items in the ClbssWriter constbnt
+     * pool's hbsh tbble. These specibl item types bre
+     * {@link ClbssWriter#TYPE_NORMAL}, {@link ClbssWriter#TYPE_UNINIT} bnd
+     * {@link ClbssWriter#TYPE_MERGED}.
      */
     int type;
 
     /**
-     * Value of this item, for an integer item.
+     * Vblue of this item, for bn integer item.
      */
-    int intVal;
+    int intVbl;
 
     /**
-     * Value of this item, for a long item.
+     * Vblue of this item, for b long item.
      */
-    long longVal;
+    long longVbl;
 
     /**
-     * First part of the value of this item, for items that do not hold a
-     * primitive value.
+     * First pbrt of the vblue of this item, for items thbt do not hold b
+     * primitive vblue.
      */
-    String strVal1;
+    String strVbl1;
 
     /**
-     * Second part of the value of this item, for items that do not hold a
-     * primitive value.
+     * Second pbrt of the vblue of this item, for items thbt do not hold b
+     * primitive vblue.
      */
-    String strVal2;
+    String strVbl2;
 
     /**
-     * Third part of the value of this item, for items that do not hold a
-     * primitive value.
+     * Third pbrt of the vblue of this item, for items thbt do not hold b
+     * primitive vblue.
      */
-    String strVal3;
+    String strVbl3;
 
     /**
-     * The hash code value of this constant pool item.
+     * The hbsh code vblue of this constbnt pool item.
      */
-    int hashCode;
+    int hbshCode;
 
     /**
-     * Link to another constant pool item, used for collision lists in the
-     * constant pool's hash table.
+     * Link to bnother constbnt pool item, used for collision lists in the
+     * constbnt pool's hbsh tbble.
      */
     Item next;
 
     /**
-     * Constructs an uninitialized {@link Item}.
+     * Constructs bn uninitiblized {@link Item}.
      */
     Item() {
     }
 
     /**
-     * Constructs an uninitialized {@link Item} for constant pool element at
+     * Constructs bn uninitiblized {@link Item} for constbnt pool element bt
      * given position.
      *
-     * @param index
+     * @pbrbm index
      *            index of the item to be constructed.
      */
-    Item(final int index) {
+    Item(finbl int index) {
         this.index = index;
     }
 
     /**
-     * Constructs a copy of the given item.
+     * Constructs b copy of the given item.
      *
-     * @param index
+     * @pbrbm index
      *            index of the item to be constructed.
-     * @param i
-     *            the item that must be copied into the item to be constructed.
+     * @pbrbm i
+     *            the item thbt must be copied into the item to be constructed.
      */
-    Item(final int index, final Item i) {
+    Item(finbl int index, finbl Item i) {
         this.index = index;
         type = i.type;
-        intVal = i.intVal;
-        longVal = i.longVal;
-        strVal1 = i.strVal1;
-        strVal2 = i.strVal2;
-        strVal3 = i.strVal3;
-        hashCode = i.hashCode;
+        intVbl = i.intVbl;
+        longVbl = i.longVbl;
+        strVbl1 = i.strVbl1;
+        strVbl2 = i.strVbl2;
+        strVbl3 = i.strVbl3;
+        hbshCode = i.hbshCode;
     }
 
     /**
-     * Sets this item to an integer item.
+     * Sets this item to bn integer item.
      *
-     * @param intVal
-     *            the value of this item.
+     * @pbrbm intVbl
+     *            the vblue of this item.
      */
-    void set(final int intVal) {
-        this.type = ClassWriter.INT;
-        this.intVal = intVal;
-        this.hashCode = 0x7FFFFFFF & (type + intVal);
+    void set(finbl int intVbl) {
+        this.type = ClbssWriter.INT;
+        this.intVbl = intVbl;
+        this.hbshCode = 0x7FFFFFFF & (type + intVbl);
     }
 
     /**
-     * Sets this item to a long item.
+     * Sets this item to b long item.
      *
-     * @param longVal
-     *            the value of this item.
+     * @pbrbm longVbl
+     *            the vblue of this item.
      */
-    void set(final long longVal) {
-        this.type = ClassWriter.LONG;
-        this.longVal = longVal;
-        this.hashCode = 0x7FFFFFFF & (type + (int) longVal);
+    void set(finbl long longVbl) {
+        this.type = ClbssWriter.LONG;
+        this.longVbl = longVbl;
+        this.hbshCode = 0x7FFFFFFF & (type + (int) longVbl);
     }
 
     /**
-     * Sets this item to a float item.
+     * Sets this item to b flobt item.
      *
-     * @param floatVal
-     *            the value of this item.
+     * @pbrbm flobtVbl
+     *            the vblue of this item.
      */
-    void set(final float floatVal) {
-        this.type = ClassWriter.FLOAT;
-        this.intVal = Float.floatToRawIntBits(floatVal);
-        this.hashCode = 0x7FFFFFFF & (type + (int) floatVal);
+    void set(finbl flobt flobtVbl) {
+        this.type = ClbssWriter.FLOAT;
+        this.intVbl = Flobt.flobtToRbwIntBits(flobtVbl);
+        this.hbshCode = 0x7FFFFFFF & (type + (int) flobtVbl);
     }
 
     /**
-     * Sets this item to a double item.
+     * Sets this item to b double item.
      *
-     * @param doubleVal
-     *            the value of this item.
+     * @pbrbm doubleVbl
+     *            the vblue of this item.
      */
-    void set(final double doubleVal) {
-        this.type = ClassWriter.DOUBLE;
-        this.longVal = Double.doubleToRawLongBits(doubleVal);
-        this.hashCode = 0x7FFFFFFF & (type + (int) doubleVal);
+    void set(finbl double doubleVbl) {
+        this.type = ClbssWriter.DOUBLE;
+        this.longVbl = Double.doubleToRbwLongBits(doubleVbl);
+        this.hbshCode = 0x7FFFFFFF & (type + (int) doubleVbl);
     }
 
     /**
-     * Sets this item to an item that do not hold a primitive value.
+     * Sets this item to bn item thbt do not hold b primitive vblue.
      *
-     * @param type
+     * @pbrbm type
      *            the type of this item.
-     * @param strVal1
-     *            first part of the value of this item.
-     * @param strVal2
-     *            second part of the value of this item.
-     * @param strVal3
-     *            third part of the value of this item.
+     * @pbrbm strVbl1
+     *            first pbrt of the vblue of this item.
+     * @pbrbm strVbl2
+     *            second pbrt of the vblue of this item.
+     * @pbrbm strVbl3
+     *            third pbrt of the vblue of this item.
      */
-    @SuppressWarnings("fallthrough")
-    void set(final int type, final String strVal1, final String strVal2,
-            final String strVal3) {
+    @SuppressWbrnings("fbllthrough")
+    void set(finbl int type, finbl String strVbl1, finbl String strVbl2,
+            finbl String strVbl3) {
         this.type = type;
-        this.strVal1 = strVal1;
-        this.strVal2 = strVal2;
-        this.strVal3 = strVal3;
+        this.strVbl1 = strVbl1;
+        this.strVbl2 = strVbl2;
+        this.strVbl3 = strVbl3;
         switch (type) {
-        case ClassWriter.CLASS:
-            this.intVal = 0;     // intVal of a class must be zero, see visitInnerClass
-        case ClassWriter.UTF8:
-        case ClassWriter.STR:
-        case ClassWriter.MTYPE:
-        case ClassWriter.TYPE_NORMAL:
-            hashCode = 0x7FFFFFFF & (type + strVal1.hashCode());
+        cbse ClbssWriter.CLASS:
+            this.intVbl = 0;     // intVbl of b clbss must be zero, see visitInnerClbss
+        cbse ClbssWriter.UTF8:
+        cbse ClbssWriter.STR:
+        cbse ClbssWriter.MTYPE:
+        cbse ClbssWriter.TYPE_NORMAL:
+            hbshCode = 0x7FFFFFFF & (type + strVbl1.hbshCode());
             return;
-        case ClassWriter.NAME_TYPE: {
-            hashCode = 0x7FFFFFFF & (type + strVal1.hashCode()
-                    * strVal2.hashCode());
+        cbse ClbssWriter.NAME_TYPE: {
+            hbshCode = 0x7FFFFFFF & (type + strVbl1.hbshCode()
+                    * strVbl2.hbshCode());
             return;
         }
-        // ClassWriter.FIELD:
-        // ClassWriter.METH:
-        // ClassWriter.IMETH:
-        // ClassWriter.HANDLE_BASE + 1..9
-        default:
-            hashCode = 0x7FFFFFFF & (type + strVal1.hashCode()
-                    * strVal2.hashCode() * strVal3.hashCode());
+        // ClbssWriter.FIELD:
+        // ClbssWriter.METH:
+        // ClbssWriter.IMETH:
+        // ClbssWriter.HANDLE_BASE + 1..9
+        defbult:
+            hbshCode = 0x7FFFFFFF & (type + strVbl1.hbshCode()
+                    * strVbl2.hbshCode() * strVbl3.hbshCode());
         }
     }
 
     /**
-     * Sets the item to an InvokeDynamic item.
+     * Sets the item to bn InvokeDynbmic item.
      *
-     * @param name
-     *            invokedynamic's name.
-     * @param desc
-     *            invokedynamic's desc.
-     * @param bsmIndex
-     *            zero based index into the class attribute BootrapMethods.
+     * @pbrbm nbme
+     *            invokedynbmic's nbme.
+     * @pbrbm desc
+     *            invokedynbmic's desc.
+     * @pbrbm bsmIndex
+     *            zero bbsed index into the clbss bttribute BootrbpMethods.
      */
-    void set(String name, String desc, int bsmIndex) {
-        this.type = ClassWriter.INDY;
-        this.longVal = bsmIndex;
-        this.strVal1 = name;
-        this.strVal2 = desc;
-        this.hashCode = 0x7FFFFFFF & (ClassWriter.INDY + bsmIndex
-                * strVal1.hashCode() * strVal2.hashCode());
+    void set(String nbme, String desc, int bsmIndex) {
+        this.type = ClbssWriter.INDY;
+        this.longVbl = bsmIndex;
+        this.strVbl1 = nbme;
+        this.strVbl2 = desc;
+        this.hbshCode = 0x7FFFFFFF & (ClbssWriter.INDY + bsmIndex
+                * strVbl1.hbshCode() * strVbl2.hbshCode());
     }
 
     /**
-     * Sets the item to a BootstrapMethod item.
+     * Sets the item to b BootstrbpMethod item.
      *
-     * @param position
-     *            position in byte in the class attribute BootrapMethods.
-     * @param hashCode
-     *            hashcode of the item. This hashcode is processed from the
-     *            hashcode of the bootstrap method and the hashcode of all
-     *            bootstrap arguments.
+     * @pbrbm position
+     *            position in byte in the clbss bttribute BootrbpMethods.
+     * @pbrbm hbshCode
+     *            hbshcode of the item. This hbshcode is processed from the
+     *            hbshcode of the bootstrbp method bnd the hbshcode of bll
+     *            bootstrbp brguments.
      */
-    void set(int position, int hashCode) {
-        this.type = ClassWriter.BSM;
-        this.intVal = position;
-        this.hashCode = hashCode;
+    void set(int position, int hbshCode) {
+        this.type = ClbssWriter.BSM;
+        this.intVbl = position;
+        this.hbshCode = hbshCode;
     }
 
     /**
-     * Indicates if the given item is equal to this one. <i>This method assumes
-     * that the two items have the same {@link #type}</i>.
+     * Indicbtes if the given item is equbl to this one. <i>This method bssumes
+     * thbt the two items hbve the sbme {@link #type}</i>.
      *
-     * @param i
-     *            the item to be compared to this one. Both items must have the
-     *            same {@link #type}.
-     * @return <tt>true</tt> if the given item if equal to this one,
-     *         <tt>false</tt> otherwise.
+     * @pbrbm i
+     *            the item to be compbred to this one. Both items must hbve the
+     *            sbme {@link #type}.
+     * @return <tt>true</tt> if the given item if equbl to this one,
+     *         <tt>fblse</tt> otherwise.
      */
-    boolean isEqualTo(final Item i) {
+    boolebn isEqublTo(finbl Item i) {
         switch (type) {
-        case ClassWriter.UTF8:
-        case ClassWriter.STR:
-        case ClassWriter.CLASS:
-        case ClassWriter.MTYPE:
-        case ClassWriter.TYPE_NORMAL:
-            return i.strVal1.equals(strVal1);
-        case ClassWriter.TYPE_MERGED:
-        case ClassWriter.LONG:
-        case ClassWriter.DOUBLE:
-            return i.longVal == longVal;
-        case ClassWriter.INT:
-        case ClassWriter.FLOAT:
-            return i.intVal == intVal;
-        case ClassWriter.TYPE_UNINIT:
-            return i.intVal == intVal && i.strVal1.equals(strVal1);
-        case ClassWriter.NAME_TYPE:
-            return i.strVal1.equals(strVal1) && i.strVal2.equals(strVal2);
-        case ClassWriter.INDY: {
-            return i.longVal == longVal && i.strVal1.equals(strVal1)
-                    && i.strVal2.equals(strVal2);
+        cbse ClbssWriter.UTF8:
+        cbse ClbssWriter.STR:
+        cbse ClbssWriter.CLASS:
+        cbse ClbssWriter.MTYPE:
+        cbse ClbssWriter.TYPE_NORMAL:
+            return i.strVbl1.equbls(strVbl1);
+        cbse ClbssWriter.TYPE_MERGED:
+        cbse ClbssWriter.LONG:
+        cbse ClbssWriter.DOUBLE:
+            return i.longVbl == longVbl;
+        cbse ClbssWriter.INT:
+        cbse ClbssWriter.FLOAT:
+            return i.intVbl == intVbl;
+        cbse ClbssWriter.TYPE_UNINIT:
+            return i.intVbl == intVbl && i.strVbl1.equbls(strVbl1);
+        cbse ClbssWriter.NAME_TYPE:
+            return i.strVbl1.equbls(strVbl1) && i.strVbl2.equbls(strVbl2);
+        cbse ClbssWriter.INDY: {
+            return i.longVbl == longVbl && i.strVbl1.equbls(strVbl1)
+                    && i.strVbl2.equbls(strVbl2);
         }
-        // case ClassWriter.FIELD:
-        // case ClassWriter.METH:
-        // case ClassWriter.IMETH:
-        // case ClassWriter.HANDLE_BASE + 1..9
-        default:
-            return i.strVal1.equals(strVal1) && i.strVal2.equals(strVal2)
-                    && i.strVal3.equals(strVal3);
+        // cbse ClbssWriter.FIELD:
+        // cbse ClbssWriter.METH:
+        // cbse ClbssWriter.IMETH:
+        // cbse ClbssWriter.HANDLE_BASE + 1..9
+        defbult:
+            return i.strVbl1.equbls(strVbl1) && i.strVbl2.equbls(strVbl2)
+                    && i.strVbl3.equbls(strVbl3);
         }
     }
 

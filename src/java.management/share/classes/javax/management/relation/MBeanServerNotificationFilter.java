@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import static com.sun.jmx.defaults.JmxProperties.RELATION_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
+import stbtic com.sun.jmx.defbults.JmxProperties.RELATION_LOGGER;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.security.AccessController;
 
-import java.util.List;
-import java.util.Vector;
+import jbvb.util.List;
+import jbvb.util.Vector;
 
-import javax.management.MBeanServerNotification;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
 
-import javax.management.Notification;
-import javax.management.NotificationFilterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionFilterSupport;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.util.List;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
 
 /**
- * Filter for {@link MBeanServerNotification}.
- * This filter filters MBeanServerNotification notifications by
- * selecting the ObjectNames of interest and the operations (registration,
- * unregistration, both) of interest (corresponding to notification
+ * Filter for {@link MBebnServerNotificbtion}.
+ * This filter filters MBebnServerNotificbtion notificbtions by
+ * selecting the ObjectNbmes of interest bnd the operbtions (registrbtion,
+ * unregistrbtion, both) of interest (corresponding to notificbtion
  * types).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>2605900539589789736L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>2605900539589789736L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID must be constant
-public class MBeanServerNotificationFilter extends NotificationFilterSupport {
+@SuppressWbrnings("seribl")  // seriblVersionUID must be constbnt
+public clbss MBebnServerNotificbtionFilter extends NotificbtionFilterSupport {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 6001782699077323605L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 6001782699077323605L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 2605900539589789736L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = 2605900539589789736L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("mySelectObjNameList", Vector.class),
-      new ObjectStreamField("myDeselectObjNameList", Vector.class)
+      new ObjectStrebmField("mySelectObjNbmeList", Vector.clbss),
+      new ObjectStrebmField("myDeselectObjNbmeList", Vector.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("selectedNames", List.class),
-      new ObjectStreamField("deselectedNames", List.class)
+      new ObjectStrebmField("selectedNbmes", List.clbss),
+      new ObjectStrebmField("deselectedNbmes", List.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField selectedNames List List of {@link ObjectName}s of interest
+     * @seriblField selectedNbmes List List of {@link ObjectNbme}s of interest
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly selected
+     *         <li><code>null</code> mebns thbt bll {@link ObjectNbme}s bre implicitly selected
      *         (check for explicit deselections)</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly selected</li>
+     *         <li>Empty vector mebns thbt no {@link ObjectNbme} is explicitly selected</li>
      *         </ul>
-     * @serialField deselectedNames List List of {@link ObjectName}s with no interest
+     * @seriblField deselectedNbmes List List of {@link ObjectNbme}s with no interest
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly deselected
+     *         <li><code>null</code> mebns thbt bll {@link ObjectNbme}s bre implicitly deselected
      *         (check for explicit selections))</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly deselected</li>
+     *         <li>Empty vector mebns thbt no {@link ObjectNbme} is explicitly deselected</li>
      *         </ul>
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Private members
+    // Privbte members
     //
 
     /**
-     * @serial List of {@link ObjectName}s of interest
+     * @seribl List of {@link ObjectNbme}s of interest
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly selected
+     *         <li><code>null</code> mebns thbt bll {@link ObjectNbme}s bre implicitly selected
      *         (check for explicit deselections)</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly selected</li>
+     *         <li>Empty vector mebns thbt no {@link ObjectNbme} is explicitly selected</li>
      *         </ul>
      */
-    private List<ObjectName> selectedNames = new Vector<ObjectName>();
+    privbte List<ObjectNbme> selectedNbmes = new Vector<ObjectNbme>();
 
     /**
-     * @serial List of {@link ObjectName}s with no interest
+     * @seribl List of {@link ObjectNbme}s with no interest
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly deselected
+     *         <li><code>null</code> mebns thbt bll {@link ObjectNbme}s bre implicitly deselected
      *         (check for explicit selections))</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly deselected</li>
+     *         <li>Empty vector mebns thbt no {@link ObjectNbme} is explicitly deselected</li>
      *         </ul>
      */
-    private List<ObjectName> deselectedNames = null;
+    privbte List<ObjectNbme> deselectedNbmes = null;
 
     //
     // Constructor
     //
 
     /**
-     * Creates a filter selecting all MBeanServerNotification notifications for
-     * all ObjectNames.
+     * Crebtes b filter selecting bll MBebnServerNotificbtion notificbtions for
+     * bll ObjectNbmes.
      */
-    public MBeanServerNotificationFilter() {
+    public MBebnServerNotificbtionFilter() {
 
         super();
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "MBeanServerNotificationFilter");
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "MBebnServerNotificbtionFilter");
 
-        enableType(MBeanServerNotification.REGISTRATION_NOTIFICATION);
-        enableType(MBeanServerNotification.UNREGISTRATION_NOTIFICATION);
+        enbbleType(MBebnServerNotificbtion.REGISTRATION_NOTIFICATION);
+        enbbleType(MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION);
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "MBeanServerNotificationFilter");
+        RELATION_LOGGER.exiting(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "MBebnServerNotificbtionFilter");
         return;
     }
 
@@ -176,303 +176,303 @@ public class MBeanServerNotificationFilter extends NotificationFilterSupport {
     //
 
     /**
-     * Disables any MBeanServerNotification (all ObjectNames are
+     * Disbbles bny MBebnServerNotificbtion (bll ObjectNbmes bre
      * deselected).
      */
-    public synchronized void disableAllObjectNames() {
+    public synchronized void disbbleAllObjectNbmes() {
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "disableAllObjectNames");
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "disbbleAllObjectNbmes");
 
-        selectedNames = new Vector<ObjectName>();
-        deselectedNames = null;
+        selectedNbmes = new Vector<ObjectNbme>();
+        deselectedNbmes = null;
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "disableAllObjectNames");
+        RELATION_LOGGER.exiting(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "disbbleAllObjectNbmes");
         return;
     }
 
     /**
-     * Disables MBeanServerNotifications concerning given ObjectName.
+     * Disbbles MBebnServerNotificbtions concerning given ObjectNbme.
      *
-     * @param objectName  ObjectName no longer of interest
+     * @pbrbm objectNbme  ObjectNbme no longer of interest
      *
-     * @exception IllegalArgumentException  if the given ObjectName is null
+     * @exception IllegblArgumentException  if the given ObjectNbme is null
      */
-    public synchronized void disableObjectName(ObjectName objectName)
-        throws IllegalArgumentException {
+    public synchronized void disbbleObjectNbme(ObjectNbme objectNbme)
+        throws IllegblArgumentException {
 
-        if (objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objectNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "disableObjectName", objectName);
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "disbbleObjectNbme", objectNbme);
 
-        // Removes from selected ObjectNames, if present
-        if (selectedNames != null) {
-            if (selectedNames.size() != 0) {
-                selectedNames.remove(objectName);
+        // Removes from selected ObjectNbmes, if present
+        if (selectedNbmes != null) {
+            if (selectedNbmes.size() != 0) {
+                selectedNbmes.remove(objectNbme);
             }
         }
 
-        // Adds it in deselected ObjectNames
-        if (deselectedNames != null) {
-            // If all are deselected, no need to do anything :)
-            if (!(deselectedNames.contains(objectName))) {
-                // ObjectName was not already deselected
-                deselectedNames.add(objectName);
+        // Adds it in deselected ObjectNbmes
+        if (deselectedNbmes != null) {
+            // If bll bre deselected, no need to do bnything :)
+            if (!(deselectedNbmes.contbins(objectNbme))) {
+                // ObjectNbme wbs not blrebdy deselected
+                deselectedNbmes.bdd(objectNbme);
             }
         }
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "disableObjectName");
+        RELATION_LOGGER.exiting(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "disbbleObjectNbme");
         return;
     }
 
     /**
-     * Enables all MBeanServerNotifications (all ObjectNames are selected).
+     * Enbbles bll MBebnServerNotificbtions (bll ObjectNbmes bre selected).
      */
-    public synchronized void enableAllObjectNames() {
+    public synchronized void enbbleAllObjectNbmes() {
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "enableAllObjectNames");
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "enbbleAllObjectNbmes");
 
-        selectedNames = null;
-        deselectedNames = new Vector<ObjectName>();
+        selectedNbmes = null;
+        deselectedNbmes = new Vector<ObjectNbme>();
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "enableAllObjectNames");
+        RELATION_LOGGER.exiting(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "enbbleAllObjectNbmes");
         return;
     }
 
     /**
-     * Enables MBeanServerNotifications concerning given ObjectName.
+     * Enbbles MBebnServerNotificbtions concerning given ObjectNbme.
      *
-     * @param objectName  ObjectName of interest
+     * @pbrbm objectNbme  ObjectNbme of interest
      *
-     * @exception IllegalArgumentException  if the given ObjectName is null
+     * @exception IllegblArgumentException  if the given ObjectNbme is null
      */
-    public synchronized void enableObjectName(ObjectName objectName)
-        throws IllegalArgumentException {
+    public synchronized void enbbleObjectNbme(ObjectNbme objectNbme)
+        throws IllegblArgumentException {
 
-        if (objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objectNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "enableObjectName", objectName);
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "enbbleObjectNbme", objectNbme);
 
-        // Removes from deselected ObjectNames, if present
-        if (deselectedNames != null) {
-            if (deselectedNames.size() != 0) {
-                deselectedNames.remove(objectName);
+        // Removes from deselected ObjectNbmes, if present
+        if (deselectedNbmes != null) {
+            if (deselectedNbmes.size() != 0) {
+                deselectedNbmes.remove(objectNbme);
             }
         }
 
-        // Adds it in selected ObjectNames
-        if (selectedNames != null) {
-            // If all are selected, no need to do anything :)
-            if (!(selectedNames.contains(objectName))) {
-                // ObjectName was not already selected
-                selectedNames.add(objectName);
+        // Adds it in selected ObjectNbmes
+        if (selectedNbmes != null) {
+            // If bll bre selected, no need to do bnything :)
+            if (!(selectedNbmes.contbins(objectNbme))) {
+                // ObjectNbme wbs not blrebdy selected
+                selectedNbmes.bdd(objectNbme);
             }
         }
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "enableObjectName");
+        RELATION_LOGGER.exiting(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "enbbleObjectNbme");
         return;
     }
 
     /**
-     * Gets all the ObjectNames enabled.
+     * Gets bll the ObjectNbmes enbbled.
      *
-     * @return Vector of ObjectNames:
-     * <P>- null means all ObjectNames are implicitly selected, except the
-     * ObjectNames explicitly deselected
-     * <P>- empty means all ObjectNames are deselected, i.e. no ObjectName
+     * @return Vector of ObjectNbmes:
+     * <P>- null mebns bll ObjectNbmes bre implicitly selected, except the
+     * ObjectNbmes explicitly deselected
+     * <P>- empty mebns bll ObjectNbmes bre deselected, i.e. no ObjectNbme
      * selected.
      */
-    public synchronized Vector<ObjectName> getEnabledObjectNames() {
-        if (selectedNames != null) {
-            return new Vector<ObjectName>(selectedNames);
+    public synchronized Vector<ObjectNbme> getEnbbledObjectNbmes() {
+        if (selectedNbmes != null) {
+            return new Vector<ObjectNbme>(selectedNbmes);
         } else {
             return null;
         }
     }
 
     /**
-     * Gets all the ObjectNames disabled.
+     * Gets bll the ObjectNbmes disbbled.
      *
-     * @return Vector of ObjectNames:
-     * <P>- null means all ObjectNames are implicitly deselected, except the
-     * ObjectNames explicitly selected
-     * <P>- empty means all ObjectNames are selected, i.e. no ObjectName
+     * @return Vector of ObjectNbmes:
+     * <P>- null mebns bll ObjectNbmes bre implicitly deselected, except the
+     * ObjectNbmes explicitly selected
+     * <P>- empty mebns bll ObjectNbmes bre selected, i.e. no ObjectNbme
      * deselected.
      */
-    public synchronized Vector<ObjectName> getDisabledObjectNames() {
-        if (deselectedNames != null) {
-            return new Vector<ObjectName>(deselectedNames);
+    public synchronized Vector<ObjectNbme> getDisbbledObjectNbmes() {
+        if (deselectedNbmes != null) {
+            return new Vector<ObjectNbme>(deselectedNbmes);
         } else {
             return null;
         }
     }
 
     //
-    // NotificationFilter interface
+    // NotificbtionFilter interfbce
     //
 
     /**
-     * Invoked before sending the specified notification to the listener.
+     * Invoked before sending the specified notificbtion to the listener.
      * <P>If:
-     * <P>- the ObjectName of the concerned MBean is selected (explicitly OR
-     * (implicitly and not explicitly deselected))
+     * <P>- the ObjectNbme of the concerned MBebn is selected (explicitly OR
+     * (implicitly bnd not explicitly deselected))
      * <P>AND
-     * <P>- the type of the operation (registration or unregistration) is
+     * <P>- the type of the operbtion (registrbtion or unregistrbtion) is
      * selected
-     * <P>then the notification is sent to the listener.
+     * <P>then the notificbtion is sent to the listener.
      *
-     * @param notif  The notification to be sent.
+     * @pbrbm notif  The notificbtion to be sent.
      *
-     * @return true if the notification has to be sent to the listener, false
+     * @return true if the notificbtion hbs to be sent to the listener, fblse
      * otherwise.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public synchronized boolean isNotificationEnabled(Notification notif)
-        throws IllegalArgumentException {
+    public synchronized boolebn isNotificbtionEnbbled(Notificbtion notif)
+        throws IllegblArgumentException {
 
         if (notif == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "isNotificationEnabled", notif);
+        RELATION_LOGGER.entering(MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "isNotificbtionEnbbled", notif);
 
         // Checks the type first
         String ntfType = notif.getType();
-        Vector<String> enabledTypes = getEnabledTypes();
-        if (!(enabledTypes.contains(ntfType))) {
+        Vector<String> enbbledTypes = getEnbbledTypes();
+        if (!(enbbledTypes.contbins(ntfType))) {
             RELATION_LOGGER.logp(Level.FINER,
-                    MBeanServerNotificationFilter.class.getName(),
-                    "isNotificationEnabled",
+                    MBebnServerNotificbtionFilter.clbss.getNbme(),
+                    "isNotificbtionEnbbled",
                     "Type not selected, exiting");
-            return false;
+            return fblse;
         }
 
-        // We have a MBeanServerNotification: downcasts it
-        MBeanServerNotification mbsNtf = (MBeanServerNotification)notif;
+        // We hbve b MBebnServerNotificbtion: downcbsts it
+        MBebnServerNotificbtion mbsNtf = (MBebnServerNotificbtion)notif;
 
-        // Checks the ObjectName
-        ObjectName objName = mbsNtf.getMBeanName();
+        // Checks the ObjectNbme
+        ObjectNbme objNbme = mbsNtf.getMBebnNbme();
         // Is it selected?
-        boolean isSelectedFlg = false;
-        if (selectedNames != null) {
-            // Not all are implicitly selected:
+        boolebn isSelectedFlg = fblse;
+        if (selectedNbmes != null) {
+            // Not bll bre implicitly selected:
             // checks for explicit selection
-            if (selectedNames.size() == 0) {
-                // All are explicitly not selected
+            if (selectedNbmes.size() == 0) {
+                // All bre explicitly not selected
                 RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "No ObjectNames selected, exiting");
-                return false;
+                        MBebnServerNotificbtionFilter.clbss.getNbme(),
+                        "isNotificbtionEnbbled",
+                        "No ObjectNbmes selected, exiting");
+                return fblse;
             }
 
-            isSelectedFlg = selectedNames.contains(objName);
+            isSelectedFlg = selectedNbmes.contbins(objNbme);
             if (!isSelectedFlg) {
                 // Not in the explicit selected list
                 RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName not in selected list, exiting");
-                return false;
+                        MBebnServerNotificbtionFilter.clbss.getNbme(),
+                        "isNotificbtionEnbbled",
+                        "ObjectNbme not in selected list, exiting");
+                return fblse;
             }
         }
 
         if (!isSelectedFlg) {
             // Not explicitly selected: is it deselected?
 
-            if (deselectedNames == null) {
-                // All are implicitly deselected and it is not explicitly
+            if (deselectedNbmes == null) {
+                // All bre implicitly deselected bnd it is not explicitly
                 // selected
                 RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName not selected, and all " +
-                        "names deselected, exiting");
-                return false;
+                        MBebnServerNotificbtionFilter.clbss.getNbme(),
+                        "isNotificbtionEnbbled",
+                        "ObjectNbme not selected, bnd bll " +
+                        "nbmes deselected, exiting");
+                return fblse;
 
-            } else if (deselectedNames.contains(objName)) {
+            } else if (deselectedNbmes.contbins(objNbme)) {
                 // Explicitly deselected
                 RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName explicitly not selected, exiting");
-                return false;
+                        MBebnServerNotificbtionFilter.clbss.getNbme(),
+                        "isNotificbtionEnbbled",
+                        "ObjectNbme explicitly not selected, exiting");
+                return fblse;
             }
         }
 
         RELATION_LOGGER.logp(Level.FINER,
-                MBeanServerNotificationFilter.class.getName(),
-                "isNotificationEnabled",
-                "ObjectName selected, exiting");
+                MBebnServerNotificbtionFilter.clbss.getNbme(),
+                "isNotificbtionEnbbled",
+                "ObjectNbme selected, exiting");
         return true;
     }
 
 
     /**
-     * Deserializes an {@link MBeanServerNotificationFilter} from an {@link ObjectInputStream}.
+     * Deseriblizes bn {@link MBebnServerNotificbtionFilter} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        selectedNames = cast(fields.get("mySelectObjNameList", null));
-        if (fields.defaulted("mySelectObjNameList"))
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        selectedNbmes = cbst(fields.get("mySelectObjNbmeList", null));
+        if (fields.defbulted("mySelectObjNbmeList"))
         {
-          throw new NullPointerException("mySelectObjNameList");
+          throw new NullPointerException("mySelectObjNbmeList");
         }
-        deselectedNames = cast(fields.get("myDeselectObjNameList", null));
-        if (fields.defaulted("myDeselectObjNameList"))
+        deselectedNbmes = cbst(fields.get("myDeselectObjNbmeList", null));
+        if (fields.defbulted("myDeselectObjNbmeList"))
         {
-          throw new NullPointerException("myDeselectObjNameList");
+          throw new NullPointerException("myDeselectObjNbmeList");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes an {@link MBeanServerNotificationFilter} to an {@link ObjectOutputStream}.
+     * Seriblizes bn {@link MBebnServerNotificbtionFilter} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("mySelectObjNameList", selectedNames);
-        fields.put("myDeselectObjNameList", deselectedNames);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("mySelectObjNbmeList", selectedNbmes);
+        fields.put("myDeselectObjNbmeList", deselectedNbmes);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

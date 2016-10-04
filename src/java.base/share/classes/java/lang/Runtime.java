@@ -1,926 +1,926 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.*;
-import java.util.StringTokenizer;
-import sun.reflect.CallerSensitive;
+import jbvb.io.*;
+import jbvb.util.StringTokenizer;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
 /**
- * Every Java application has a single instance of class
- * <code>Runtime</code> that allows the application to interface with
- * the environment in which the application is running. The current
- * runtime can be obtained from the <code>getRuntime</code> method.
+ * Every Jbvb bpplicbtion hbs b single instbnce of clbss
+ * <code>Runtime</code> thbt bllows the bpplicbtion to interfbce with
+ * the environment in which the bpplicbtion is running. The current
+ * runtime cbn be obtbined from the <code>getRuntime</code> method.
  * <p>
- * An application cannot create its own instance of this class.
+ * An bpplicbtion cbnnot crebte its own instbnce of this clbss.
  *
- * @author  unascribed
- * @see     java.lang.Runtime#getRuntime()
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.Runtime#getRuntime()
  * @since   1.0
  */
 
-public class Runtime {
-    private static Runtime currentRuntime = new Runtime();
+public clbss Runtime {
+    privbte stbtic Runtime currentRuntime = new Runtime();
 
     /**
-     * Returns the runtime object associated with the current Java application.
-     * Most of the methods of class <code>Runtime</code> are instance
-     * methods and must be invoked with respect to the current runtime object.
+     * Returns the runtime object bssocibted with the current Jbvb bpplicbtion.
+     * Most of the methods of clbss <code>Runtime</code> bre instbnce
+     * methods bnd must be invoked with respect to the current runtime object.
      *
-     * @return  the <code>Runtime</code> object associated with the current
-     *          Java application.
+     * @return  the <code>Runtime</code> object bssocibted with the current
+     *          Jbvb bpplicbtion.
      */
-    public static Runtime getRuntime() {
+    public stbtic Runtime getRuntime() {
         return currentRuntime;
     }
 
-    /** Don't let anyone else instantiate this class */
-    private Runtime() {}
+    /** Don't let bnyone else instbntibte this clbss */
+    privbte Runtime() {}
 
     /**
-     * Terminates the currently running Java virtual machine by initiating its
-     * shutdown sequence.  This method never returns normally.  The argument
-     * serves as a status code; by convention, a nonzero status code indicates
-     * abnormal termination.
+     * Terminbtes the currently running Jbvb virtubl mbchine by initibting its
+     * shutdown sequence.  This method never returns normblly.  The brgument
+     * serves bs b stbtus code; by convention, b nonzero stbtus code indicbtes
+     * bbnormbl terminbtion.
      *
-     * <p> The virtual machine's shutdown sequence consists of two phases.  In
-     * the first phase all registered {@link #addShutdownHook shutdown hooks},
-     * if any, are started in some unspecified order and allowed to run
-     * concurrently until they finish.  In the second phase all uninvoked
-     * finalizers are run if {@link #runFinalizersOnExit finalization-on-exit}
-     * has been enabled.  Once this is done the virtual machine {@link #halt
-     * halts}.
+     * <p> The virtubl mbchine's shutdown sequence consists of two phbses.  In
+     * the first phbse bll registered {@link #bddShutdownHook shutdown hooks},
+     * if bny, bre stbrted in some unspecified order bnd bllowed to run
+     * concurrently until they finish.  In the second phbse bll uninvoked
+     * finblizers bre run if {@link #runFinblizersOnExit finblizbtion-on-exit}
+     * hbs been enbbled.  Once this is done the virtubl mbchine {@link #hblt
+     * hblts}.
      *
-     * <p> If this method is invoked after the virtual machine has begun its
-     * shutdown sequence then if shutdown hooks are being run this method will
-     * block indefinitely.  If shutdown hooks have already been run and on-exit
-     * finalization has been enabled then this method halts the virtual machine
-     * with the given status code if the status is nonzero; otherwise, it
+     * <p> If this method is invoked bfter the virtubl mbchine hbs begun its
+     * shutdown sequence then if shutdown hooks bre being run this method will
+     * block indefinitely.  If shutdown hooks hbve blrebdy been run bnd on-exit
+     * finblizbtion hbs been enbbled then this method hblts the virtubl mbchine
+     * with the given stbtus code if the stbtus is nonzero; otherwise, it
      * blocks indefinitely.
      *
      * <p> The <tt>{@link System#exit(int) System.exit}</tt> method is the
-     * conventional and convenient means of invoking this method.
+     * conventionbl bnd convenient mebns of invoking this method.
      *
-     * @param  status
-     *         Termination status.  By convention, a nonzero status code
-     *         indicates abnormal termination.
+     * @pbrbm  stbtus
+     *         Terminbtion stbtus.  By convention, b nonzero stbtus code
+     *         indicbtes bbnormbl terminbtion.
      *
      * @throws SecurityException
-     *         If a security manager is present and its <tt>{@link
-     *         SecurityManager#checkExit checkExit}</tt> method does not permit
-     *         exiting with the specified status
+     *         If b security mbnbger is present bnd its <tt>{@link
+     *         SecurityMbnbger#checkExit checkExit}</tt> method does not permit
+     *         exiting with the specified stbtus
      *
-     * @see java.lang.SecurityException
-     * @see java.lang.SecurityManager#checkExit(int)
-     * @see #addShutdownHook
+     * @see jbvb.lbng.SecurityException
+     * @see jbvb.lbng.SecurityMbnbger#checkExit(int)
+     * @see #bddShutdownHook
      * @see #removeShutdownHook
-     * @see #runFinalizersOnExit
-     * @see #halt(int)
+     * @see #runFinblizersOnExit
+     * @see #hblt(int)
      */
-    public void exit(int status) {
-        SecurityManager security = System.getSecurityManager();
+    public void exit(int stbtus) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkExit(status);
+            security.checkExit(stbtus);
         }
-        Shutdown.exit(status);
+        Shutdown.exit(stbtus);
     }
 
     /**
-     * Registers a new virtual-machine shutdown hook.
+     * Registers b new virtubl-mbchine shutdown hook.
      *
-     * <p> The Java virtual machine <i>shuts down</i> in response to two kinds
+     * <p> The Jbvb virtubl mbchine <i>shuts down</i> in response to two kinds
      * of events:
      *
      *   <ul>
      *
-     *   <li> The program <i>exits</i> normally, when the last non-daemon
-     *   thread exits or when the <tt>{@link #exit exit}</tt> (equivalently,
+     *   <li> The progrbm <i>exits</i> normblly, when the lbst non-dbemon
+     *   threbd exits or when the <tt>{@link #exit exit}</tt> (equivblently,
      *   {@link System#exit(int) System.exit}) method is invoked, or
      *
-     *   <li> The virtual machine is <i>terminated</i> in response to a
-     *   user interrupt, such as typing <tt>^C</tt>, or a system-wide event,
-     *   such as user logoff or system shutdown.
+     *   <li> The virtubl mbchine is <i>terminbted</i> in response to b
+     *   user interrupt, such bs typing <tt>^C</tt>, or b system-wide event,
+     *   such bs user logoff or system shutdown.
      *
      *   </ul>
      *
-     * <p> A <i>shutdown hook</i> is simply an initialized but unstarted
-     * thread.  When the virtual machine begins its shutdown sequence it will
-     * start all registered shutdown hooks in some unspecified order and let
-     * them run concurrently.  When all the hooks have finished it will then
-     * run all uninvoked finalizers if finalization-on-exit has been enabled.
-     * Finally, the virtual machine will halt.  Note that daemon threads will
-     * continue to run during the shutdown sequence, as will non-daemon threads
-     * if shutdown was initiated by invoking the <tt>{@link #exit exit}</tt>
+     * <p> A <i>shutdown hook</i> is simply bn initiblized but unstbrted
+     * threbd.  When the virtubl mbchine begins its shutdown sequence it will
+     * stbrt bll registered shutdown hooks in some unspecified order bnd let
+     * them run concurrently.  When bll the hooks hbve finished it will then
+     * run bll uninvoked finblizers if finblizbtion-on-exit hbs been enbbled.
+     * Finblly, the virtubl mbchine will hblt.  Note thbt dbemon threbds will
+     * continue to run during the shutdown sequence, bs will non-dbemon threbds
+     * if shutdown wbs initibted by invoking the <tt>{@link #exit exit}</tt>
      * method.
      *
-     * <p> Once the shutdown sequence has begun it can be stopped only by
-     * invoking the <tt>{@link #halt halt}</tt> method, which forcibly
-     * terminates the virtual machine.
+     * <p> Once the shutdown sequence hbs begun it cbn be stopped only by
+     * invoking the <tt>{@link #hblt hblt}</tt> method, which forcibly
+     * terminbtes the virtubl mbchine.
      *
-     * <p> Once the shutdown sequence has begun it is impossible to register a
-     * new shutdown hook or de-register a previously-registered hook.
-     * Attempting either of these operations will cause an
-     * <tt>{@link IllegalStateException}</tt> to be thrown.
+     * <p> Once the shutdown sequence hbs begun it is impossible to register b
+     * new shutdown hook or de-register b previously-registered hook.
+     * Attempting either of these operbtions will cbuse bn
+     * <tt>{@link IllegblStbteException}</tt> to be thrown.
      *
-     * <p> Shutdown hooks run at a delicate time in the life cycle of a virtual
-     * machine and should therefore be coded defensively.  They should, in
-     * particular, be written to be thread-safe and to avoid deadlocks insofar
-     * as possible.  They should also not rely blindly upon services that may
-     * have registered their own shutdown hooks and therefore may themselves in
-     * the process of shutting down.  Attempts to use other thread-based
-     * services such as the AWT event-dispatch thread, for example, may lead to
-     * deadlocks.
+     * <p> Shutdown hooks run bt b delicbte time in the life cycle of b virtubl
+     * mbchine bnd should therefore be coded defensively.  They should, in
+     * pbrticulbr, be written to be threbd-sbfe bnd to bvoid debdlocks insofbr
+     * bs possible.  They should blso not rely blindly upon services thbt mby
+     * hbve registered their own shutdown hooks bnd therefore mby themselves in
+     * the process of shutting down.  Attempts to use other threbd-bbsed
+     * services such bs the AWT event-dispbtch threbd, for exbmple, mby lebd to
+     * debdlocks.
      *
-     * <p> Shutdown hooks should also finish their work quickly.  When a
-     * program invokes <tt>{@link #exit exit}</tt> the expectation is
-     * that the virtual machine will promptly shut down and exit.  When the
-     * virtual machine is terminated due to user logoff or system shutdown the
-     * underlying operating system may only allow a fixed amount of time in
-     * which to shut down and exit.  It is therefore inadvisable to attempt any
-     * user interaction or to perform a long-running computation in a shutdown
+     * <p> Shutdown hooks should blso finish their work quickly.  When b
+     * progrbm invokes <tt>{@link #exit exit}</tt> the expectbtion is
+     * thbt the virtubl mbchine will promptly shut down bnd exit.  When the
+     * virtubl mbchine is terminbted due to user logoff or system shutdown the
+     * underlying operbting system mby only bllow b fixed bmount of time in
+     * which to shut down bnd exit.  It is therefore inbdvisbble to bttempt bny
+     * user interbction or to perform b long-running computbtion in b shutdown
      * hook.
      *
-     * <p> Uncaught exceptions are handled in shutdown hooks just as in any
-     * other thread, by invoking the <tt>{@link ThreadGroup#uncaughtException
-     * uncaughtException}</tt> method of the thread's <tt>{@link
-     * ThreadGroup}</tt> object.  The default implementation of this method
-     * prints the exception's stack trace to <tt>{@link System#err}</tt> and
-     * terminates the thread; it does not cause the virtual machine to exit or
-     * halt.
+     * <p> Uncbught exceptions bre hbndled in shutdown hooks just bs in bny
+     * other threbd, by invoking the <tt>{@link ThrebdGroup#uncbughtException
+     * uncbughtException}</tt> method of the threbd's <tt>{@link
+     * ThrebdGroup}</tt> object.  The defbult implementbtion of this method
+     * prints the exception's stbck trbce to <tt>{@link System#err}</tt> bnd
+     * terminbtes the threbd; it does not cbuse the virtubl mbchine to exit or
+     * hblt.
      *
-     * <p> In rare circumstances the virtual machine may <i>abort</i>, that is,
-     * stop running without shutting down cleanly.  This occurs when the
-     * virtual machine is terminated externally, for example with the
-     * <tt>SIGKILL</tt> signal on Unix or the <tt>TerminateProcess</tt> call on
-     * Microsoft Windows.  The virtual machine may also abort if a native
-     * method goes awry by, for example, corrupting internal data structures or
-     * attempting to access nonexistent memory.  If the virtual machine aborts
-     * then no guarantee can be made about whether or not any shutdown hooks
+     * <p> In rbre circumstbnces the virtubl mbchine mby <i>bbort</i>, thbt is,
+     * stop running without shutting down clebnly.  This occurs when the
+     * virtubl mbchine is terminbted externblly, for exbmple with the
+     * <tt>SIGKILL</tt> signbl on Unix or the <tt>TerminbteProcess</tt> cbll on
+     * Microsoft Windows.  The virtubl mbchine mby blso bbort if b nbtive
+     * method goes bwry by, for exbmple, corrupting internbl dbtb structures or
+     * bttempting to bccess nonexistent memory.  If the virtubl mbchine bborts
+     * then no gubrbntee cbn be mbde bbout whether or not bny shutdown hooks
      * will be run.
      *
-     * @param   hook
-     *          An initialized but unstarted <tt>{@link Thread}</tt> object
+     * @pbrbm   hook
+     *          An initiblized but unstbrted <tt>{@link Threbd}</tt> object
      *
-     * @throws  IllegalArgumentException
-     *          If the specified hook has already been registered,
-     *          or if it can be determined that the hook is already running or
-     *          has already been run
+     * @throws  IllegblArgumentException
+     *          If the specified hook hbs blrebdy been registered,
+     *          or if it cbn be determined thbt the hook is blrebdy running or
+     *          hbs blrebdy been run
      *
-     * @throws  IllegalStateException
-     *          If the virtual machine is already in the process
+     * @throws  IllegblStbteException
+     *          If the virtubl mbchine is blrebdy in the process
      *          of shutting down
      *
      * @throws  SecurityException
-     *          If a security manager is present and it denies
+     *          If b security mbnbger is present bnd it denies
      *          <tt>{@link RuntimePermission}("shutdownHooks")</tt>
      *
      * @see #removeShutdownHook
-     * @see #halt(int)
+     * @see #hblt(int)
      * @see #exit(int)
      * @since 1.3
      */
-    public void addShutdownHook(Thread hook) {
-        SecurityManager sm = System.getSecurityManager();
+    public void bddShutdownHook(Threbd hook) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("shutdownHooks"));
         }
-        ApplicationShutdownHooks.add(hook);
+        ApplicbtionShutdownHooks.bdd(hook);
     }
 
     /**
-     * De-registers a previously-registered virtual-machine shutdown hook. <p>
+     * De-registers b previously-registered virtubl-mbchine shutdown hook. <p>
      *
-     * @param hook the hook to remove
-     * @return <tt>true</tt> if the specified hook had previously been
-     * registered and was successfully de-registered, <tt>false</tt>
+     * @pbrbm hook the hook to remove
+     * @return <tt>true</tt> if the specified hook hbd previously been
+     * registered bnd wbs successfully de-registered, <tt>fblse</tt>
      * otherwise.
      *
-     * @throws  IllegalStateException
-     *          If the virtual machine is already in the process of shutting
+     * @throws  IllegblStbteException
+     *          If the virtubl mbchine is blrebdy in the process of shutting
      *          down
      *
      * @throws  SecurityException
-     *          If a security manager is present and it denies
+     *          If b security mbnbger is present bnd it denies
      *          <tt>{@link RuntimePermission}("shutdownHooks")</tt>
      *
-     * @see #addShutdownHook
+     * @see #bddShutdownHook
      * @see #exit(int)
      * @since 1.3
      */
-    public boolean removeShutdownHook(Thread hook) {
-        SecurityManager sm = System.getSecurityManager();
+    public boolebn removeShutdownHook(Threbd hook) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("shutdownHooks"));
         }
-        return ApplicationShutdownHooks.remove(hook);
+        return ApplicbtionShutdownHooks.remove(hook);
     }
 
     /**
-     * Forcibly terminates the currently running Java virtual machine.  This
-     * method never returns normally.
+     * Forcibly terminbtes the currently running Jbvb virtubl mbchine.  This
+     * method never returns normblly.
      *
-     * <p> This method should be used with extreme caution.  Unlike the
-     * <tt>{@link #exit exit}</tt> method, this method does not cause shutdown
-     * hooks to be started and does not run uninvoked finalizers if
-     * finalization-on-exit has been enabled.  If the shutdown sequence has
-     * already been initiated then this method does not wait for any running
-     * shutdown hooks or finalizers to finish their work.
+     * <p> This method should be used with extreme cbution.  Unlike the
+     * <tt>{@link #exit exit}</tt> method, this method does not cbuse shutdown
+     * hooks to be stbrted bnd does not run uninvoked finblizers if
+     * finblizbtion-on-exit hbs been enbbled.  If the shutdown sequence hbs
+     * blrebdy been initibted then this method does not wbit for bny running
+     * shutdown hooks or finblizers to finish their work.
      *
-     * @param  status
-     *         Termination status.  By convention, a nonzero status code
-     *         indicates abnormal termination.  If the <tt>{@link Runtime#exit
-     *         exit}</tt> (equivalently, <tt>{@link System#exit(int)
-     *         System.exit}</tt>) method has already been invoked then this
-     *         status code will override the status code passed to that method.
+     * @pbrbm  stbtus
+     *         Terminbtion stbtus.  By convention, b nonzero stbtus code
+     *         indicbtes bbnormbl terminbtion.  If the <tt>{@link Runtime#exit
+     *         exit}</tt> (equivblently, <tt>{@link System#exit(int)
+     *         System.exit}</tt>) method hbs blrebdy been invoked then this
+     *         stbtus code will override the stbtus code pbssed to thbt method.
      *
      * @throws SecurityException
-     *         If a security manager is present and its <tt>{@link
-     *         SecurityManager#checkExit checkExit}</tt> method does not permit
-     *         an exit with the specified status
+     *         If b security mbnbger is present bnd its <tt>{@link
+     *         SecurityMbnbger#checkExit checkExit}</tt> method does not permit
+     *         bn exit with the specified stbtus
      *
      * @see #exit
-     * @see #addShutdownHook
+     * @see #bddShutdownHook
      * @see #removeShutdownHook
      * @since 1.3
      */
-    public void halt(int status) {
-        SecurityManager sm = System.getSecurityManager();
+    public void hblt(int stbtus) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkExit(status);
+            sm.checkExit(stbtus);
         }
-        Shutdown.halt(status);
+        Shutdown.hblt(stbtus);
     }
 
     /**
-     * Enable or disable finalization on exit; doing so specifies that the
-     * finalizers of all objects that have finalizers that have not yet been
-     * automatically invoked are to be run before the Java runtime exits.
-     * By default, finalization on exit is disabled.
+     * Enbble or disbble finblizbtion on exit; doing so specifies thbt the
+     * finblizers of bll objects thbt hbve finblizers thbt hbve not yet been
+     * butombticblly invoked bre to be run before the Jbvb runtime exits.
+     * By defbult, finblizbtion on exit is disbbled.
      *
-     * <p>If there is a security manager,
-     * its <code>checkExit</code> method is first called
-     * with 0 as its argument to ensure the exit is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its <code>checkExit</code> method is first cblled
+     * with 0 bs its brgument to ensure the exit is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param value true to enable finalization on exit, false to disable
-     * @deprecated  This method is inherently unsafe.  It may result in
-     *      finalizers being called on live objects while other threads are
-     *      concurrently manipulating those objects, resulting in erratic
-     *      behavior or deadlock.
+     * @pbrbm vblue true to enbble finblizbtion on exit, fblse to disbble
+     * @deprecbted  This method is inherently unsbfe.  It mby result in
+     *      finblizers being cblled on live objects while other threbds bre
+     *      concurrently mbnipulbting those objects, resulting in errbtic
+     *      behbvior or debdlock.
      *
      * @throws  SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow the exit.
+     *        if b security mbnbger exists bnd its <code>checkExit</code>
+     *        method doesn't bllow the exit.
      *
-     * @see     java.lang.Runtime#exit(int)
-     * @see     java.lang.Runtime#gc()
-     * @see     java.lang.SecurityManager#checkExit(int)
+     * @see     jbvb.lbng.Runtime#exit(int)
+     * @see     jbvb.lbng.Runtime#gc()
+     * @see     jbvb.lbng.SecurityMbnbger#checkExit(int)
      * @since   1.1
      */
-    @Deprecated
-    public static void runFinalizersOnExit(boolean value) {
-        SecurityManager security = System.getSecurityManager();
+    @Deprecbted
+    public stbtic void runFinblizersOnExit(boolebn vblue) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             try {
                 security.checkExit(0);
-            } catch (SecurityException e) {
-                throw new SecurityException("runFinalizersOnExit");
+            } cbtch (SecurityException e) {
+                throw new SecurityException("runFinblizersOnExit");
             }
         }
-        Shutdown.setRunFinalizersOnExit(value);
+        Shutdown.setRunFinblizersOnExit(vblue);
     }
 
     /**
-     * Executes the specified string command in a separate process.
+     * Executes the specified string commbnd in b sepbrbte process.
      *
-     * <p>This is a convenience method.  An invocation of the form
-     * <tt>exec(command)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt>{@link #exec(String, String[], File) exec}(command, null, null)</tt>.
+     * <p>This is b convenience method.  An invocbtion of the form
+     * <tt>exec(commbnd)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
+     * <tt>{@link #exec(String, String[], File) exec}(commbnd, null, null)</tt>.
      *
-     * @param   command   a specified system command.
+     * @pbrbm   commbnd   b specified system commbnd.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>command</code> is <code>null</code>
+     *          If <code>commbnd</code> is <code>null</code>
      *
-     * @throws  IllegalArgumentException
-     *          If <code>command</code> is empty
+     * @throws  IllegblArgumentException
+     *          If <code>commbnd</code> is empty
      *
      * @see     #exec(String[], String[], File)
      * @see     ProcessBuilder
      */
-    public Process exec(String command) throws IOException {
-        return exec(command, null, null);
+    public Process exec(String commbnd) throws IOException {
+        return exec(commbnd, null, null);
     }
 
     /**
-     * Executes the specified string command in a separate process with the
+     * Executes the specified string commbnd in b sepbrbte process with the
      * specified environment.
      *
-     * <p>This is a convenience method.  An invocation of the form
-     * <tt>exec(command, envp)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt>{@link #exec(String, String[], File) exec}(command, envp, null)</tt>.
+     * <p>This is b convenience method.  An invocbtion of the form
+     * <tt>exec(commbnd, envp)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
+     * <tt>{@link #exec(String, String[], File) exec}(commbnd, envp, null)</tt>.
      *
-     * @param   command   a specified system command.
+     * @pbrbm   commbnd   b specified system commbnd.
      *
-     * @param   envp      array of strings, each element of which
-     *                    has environment variable settings in the format
-     *                    <i>name</i>=<i>value</i>, or
+     * @pbrbm   envp      brrby of strings, ebch element of which
+     *                    hbs environment vbribble settings in the formbt
+     *                    <i>nbme</i>=<i>vblue</i>, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the environment of the current process.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>command</code> is <code>null</code>,
+     *          If <code>commbnd</code> is <code>null</code>,
      *          or one of the elements of <code>envp</code> is <code>null</code>
      *
-     * @throws  IllegalArgumentException
-     *          If <code>command</code> is empty
+     * @throws  IllegblArgumentException
+     *          If <code>commbnd</code> is empty
      *
      * @see     #exec(String[], String[], File)
      * @see     ProcessBuilder
      */
-    public Process exec(String command, String[] envp) throws IOException {
-        return exec(command, envp, null);
+    public Process exec(String commbnd, String[] envp) throws IOException {
+        return exec(commbnd, envp, null);
     }
 
     /**
-     * Executes the specified string command in a separate process with the
-     * specified environment and working directory.
+     * Executes the specified string commbnd in b sepbrbte process with the
+     * specified environment bnd working directory.
      *
-     * <p>This is a convenience method.  An invocation of the form
-     * <tt>exec(command, envp, dir)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt>{@link #exec(String[], String[], File) exec}(cmdarray, envp, dir)</tt>,
-     * where <code>cmdarray</code> is an array of all the tokens in
-     * <code>command</code>.
+     * <p>This is b convenience method.  An invocbtion of the form
+     * <tt>exec(commbnd, envp, dir)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
+     * <tt>{@link #exec(String[], String[], File) exec}(cmdbrrby, envp, dir)</tt>,
+     * where <code>cmdbrrby</code> is bn brrby of bll the tokens in
+     * <code>commbnd</code>.
      *
-     * <p>More precisely, the <code>command</code> string is broken
-     * into tokens using a {@link StringTokenizer} created by the call
-     * <code>new {@link StringTokenizer}(command)</code> with no
-     * further modification of the character categories.  The tokens
-     * produced by the tokenizer are then placed in the new string
-     * array <code>cmdarray</code>, in the same order.
+     * <p>More precisely, the <code>commbnd</code> string is broken
+     * into tokens using b {@link StringTokenizer} crebted by the cbll
+     * <code>new {@link StringTokenizer}(commbnd)</code> with no
+     * further modificbtion of the chbrbcter cbtegories.  The tokens
+     * produced by the tokenizer bre then plbced in the new string
+     * brrby <code>cmdbrrby</code>, in the sbme order.
      *
-     * @param   command   a specified system command.
+     * @pbrbm   commbnd   b specified system commbnd.
      *
-     * @param   envp      array of strings, each element of which
-     *                    has environment variable settings in the format
-     *                    <i>name</i>=<i>value</i>, or
+     * @pbrbm   envp      brrby of strings, ebch element of which
+     *                    hbs environment vbribble settings in the formbt
+     *                    <i>nbme</i>=<i>vblue</i>, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the environment of the current process.
      *
-     * @param   dir       the working directory of the subprocess, or
+     * @pbrbm   dir       the working directory of the subprocess, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the working directory of the current process.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>command</code> is <code>null</code>,
+     *          If <code>commbnd</code> is <code>null</code>,
      *          or one of the elements of <code>envp</code> is <code>null</code>
      *
-     * @throws  IllegalArgumentException
-     *          If <code>command</code> is empty
+     * @throws  IllegblArgumentException
+     *          If <code>commbnd</code> is empty
      *
      * @see     ProcessBuilder
      * @since 1.3
      */
-    public Process exec(String command, String[] envp, File dir)
+    public Process exec(String commbnd, String[] envp, File dir)
         throws IOException {
-        if (command.length() == 0)
-            throw new IllegalArgumentException("Empty command");
+        if (commbnd.length() == 0)
+            throw new IllegblArgumentException("Empty commbnd");
 
-        StringTokenizer st = new StringTokenizer(command);
-        String[] cmdarray = new String[st.countTokens()];
-        for (int i = 0; st.hasMoreTokens(); i++)
-            cmdarray[i] = st.nextToken();
-        return exec(cmdarray, envp, dir);
+        StringTokenizer st = new StringTokenizer(commbnd);
+        String[] cmdbrrby = new String[st.countTokens()];
+        for (int i = 0; st.hbsMoreTokens(); i++)
+            cmdbrrby[i] = st.nextToken();
+        return exec(cmdbrrby, envp, dir);
     }
 
     /**
-     * Executes the specified command and arguments in a separate process.
+     * Executes the specified commbnd bnd brguments in b sepbrbte process.
      *
-     * <p>This is a convenience method.  An invocation of the form
-     * <tt>exec(cmdarray)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt>{@link #exec(String[], String[], File) exec}(cmdarray, null, null)</tt>.
+     * <p>This is b convenience method.  An invocbtion of the form
+     * <tt>exec(cmdbrrby)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
+     * <tt>{@link #exec(String[], String[], File) exec}(cmdbrrby, null, null)</tt>.
      *
-     * @param   cmdarray  array containing the command to call and
-     *                    its arguments.
+     * @pbrbm   cmdbrrby  brrby contbining the commbnd to cbll bnd
+     *                    its brguments.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>cmdarray</code> is <code>null</code>,
-     *          or one of the elements of <code>cmdarray</code> is <code>null</code>
+     *          If <code>cmdbrrby</code> is <code>null</code>,
+     *          or one of the elements of <code>cmdbrrby</code> is <code>null</code>
      *
      * @throws  IndexOutOfBoundsException
-     *          If <code>cmdarray</code> is an empty array
-     *          (has length <code>0</code>)
+     *          If <code>cmdbrrby</code> is bn empty brrby
+     *          (hbs length <code>0</code>)
      *
      * @see     ProcessBuilder
      */
-    public Process exec(String cmdarray[]) throws IOException {
-        return exec(cmdarray, null, null);
+    public Process exec(String cmdbrrby[]) throws IOException {
+        return exec(cmdbrrby, null, null);
     }
 
     /**
-     * Executes the specified command and arguments in a separate process
+     * Executes the specified commbnd bnd brguments in b sepbrbte process
      * with the specified environment.
      *
-     * <p>This is a convenience method.  An invocation of the form
-     * <tt>exec(cmdarray, envp)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt>{@link #exec(String[], String[], File) exec}(cmdarray, envp, null)</tt>.
+     * <p>This is b convenience method.  An invocbtion of the form
+     * <tt>exec(cmdbrrby, envp)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
+     * <tt>{@link #exec(String[], String[], File) exec}(cmdbrrby, envp, null)</tt>.
      *
-     * @param   cmdarray  array containing the command to call and
-     *                    its arguments.
+     * @pbrbm   cmdbrrby  brrby contbining the commbnd to cbll bnd
+     *                    its brguments.
      *
-     * @param   envp      array of strings, each element of which
-     *                    has environment variable settings in the format
-     *                    <i>name</i>=<i>value</i>, or
+     * @pbrbm   envp      brrby of strings, ebch element of which
+     *                    hbs environment vbribble settings in the formbt
+     *                    <i>nbme</i>=<i>vblue</i>, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the environment of the current process.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>cmdarray</code> is <code>null</code>,
-     *          or one of the elements of <code>cmdarray</code> is <code>null</code>,
+     *          If <code>cmdbrrby</code> is <code>null</code>,
+     *          or one of the elements of <code>cmdbrrby</code> is <code>null</code>,
      *          or one of the elements of <code>envp</code> is <code>null</code>
      *
      * @throws  IndexOutOfBoundsException
-     *          If <code>cmdarray</code> is an empty array
-     *          (has length <code>0</code>)
+     *          If <code>cmdbrrby</code> is bn empty brrby
+     *          (hbs length <code>0</code>)
      *
      * @see     ProcessBuilder
      */
-    public Process exec(String[] cmdarray, String[] envp) throws IOException {
-        return exec(cmdarray, envp, null);
+    public Process exec(String[] cmdbrrby, String[] envp) throws IOException {
+        return exec(cmdbrrby, envp, null);
     }
 
 
     /**
-     * Executes the specified command and arguments in a separate process with
-     * the specified environment and working directory.
+     * Executes the specified commbnd bnd brguments in b sepbrbte process with
+     * the specified environment bnd working directory.
      *
-     * <p>Given an array of strings <code>cmdarray</code>, representing the
-     * tokens of a command line, and an array of strings <code>envp</code>,
-     * representing "environment" variable settings, this method creates
-     * a new process in which to execute the specified command.
+     * <p>Given bn brrby of strings <code>cmdbrrby</code>, representing the
+     * tokens of b commbnd line, bnd bn brrby of strings <code>envp</code>,
+     * representing "environment" vbribble settings, this method crebtes
+     * b new process in which to execute the specified commbnd.
      *
-     * <p>This method checks that <code>cmdarray</code> is a valid operating
-     * system command.  Which commands are valid is system-dependent,
-     * but at the very least the command must be a non-empty list of
+     * <p>This method checks thbt <code>cmdbrrby</code> is b vblid operbting
+     * system commbnd.  Which commbnds bre vblid is system-dependent,
+     * but bt the very lebst the commbnd must be b non-empty list of
      * non-null strings.
      *
      * <p>If <tt>envp</tt> is <tt>null</tt>, the subprocess inherits the
      * environment settings of the current process.
      *
-     * <p>A minimal set of system dependent environment variables may
-     * be required to start a process on some operating systems.
-     * As a result, the subprocess may inherit additional environment variable
+     * <p>A minimbl set of system dependent environment vbribbles mby
+     * be required to stbrt b process on some operbting systems.
+     * As b result, the subprocess mby inherit bdditionbl environment vbribble
      * settings beyond those in the specified environment.
      *
-     * <p>{@link ProcessBuilder#start()} is now the preferred way to
-     * start a process with a modified environment.
+     * <p>{@link ProcessBuilder#stbrt()} is now the preferred wby to
+     * stbrt b process with b modified environment.
      *
      * <p>The working directory of the new subprocess is specified by <tt>dir</tt>.
      * If <tt>dir</tt> is <tt>null</tt>, the subprocess inherits the
      * current working directory of the current process.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkExec checkExec}
-     * method is invoked with the first component of the array
-     * <code>cmdarray</code> as its argument. This may result in a
+     * <p>If b security mbnbger exists, its
+     * {@link SecurityMbnbger#checkExec checkExec}
+     * method is invoked with the first component of the brrby
+     * <code>cmdbrrby</code> bs its brgument. This mby result in b
      * {@link SecurityException} being thrown.
      *
-     * <p>Starting an operating system process is highly system-dependent.
-     * Among the many things that can go wrong are:
+     * <p>Stbrting bn operbting system process is highly system-dependent.
+     * Among the mbny things thbt cbn go wrong bre:
      * <ul>
-     * <li>The operating system program file was not found.
-     * <li>Access to the program file was denied.
+     * <li>The operbting system progrbm file wbs not found.
+     * <li>Access to the progrbm file wbs denied.
      * <li>The working directory does not exist.
      * </ul>
      *
-     * <p>In such cases an exception will be thrown.  The exact nature
-     * of the exception is system-dependent, but it will always be a
-     * subclass of {@link IOException}.
+     * <p>In such cbses bn exception will be thrown.  The exbct nbture
+     * of the exception is system-dependent, but it will blwbys be b
+     * subclbss of {@link IOException}.
      *
      *
-     * @param   cmdarray  array containing the command to call and
-     *                    its arguments.
+     * @pbrbm   cmdbrrby  brrby contbining the commbnd to cbll bnd
+     *                    its brguments.
      *
-     * @param   envp      array of strings, each element of which
-     *                    has environment variable settings in the format
-     *                    <i>name</i>=<i>value</i>, or
+     * @pbrbm   envp      brrby of strings, ebch element of which
+     *                    hbs environment vbribble settings in the formbt
+     *                    <i>nbme</i>=<i>vblue</i>, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the environment of the current process.
      *
-     * @param   dir       the working directory of the subprocess, or
+     * @pbrbm   dir       the working directory of the subprocess, or
      *                    <tt>null</tt> if the subprocess should inherit
      *                    the working directory of the current process.
      *
-     * @return  A new {@link Process} object for managing the subprocess
+     * @return  A new {@link Process} object for mbnbging the subprocess
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          {@link SecurityManager#checkExec checkExec}
-     *          method doesn't allow creation of the subprocess
+     *          If b security mbnbger exists bnd its
+     *          {@link SecurityMbnbger#checkExec checkExec}
+     *          method doesn't bllow crebtion of the subprocess
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>cmdarray</code> is <code>null</code>,
-     *          or one of the elements of <code>cmdarray</code> is <code>null</code>,
+     *          If <code>cmdbrrby</code> is <code>null</code>,
+     *          or one of the elements of <code>cmdbrrby</code> is <code>null</code>,
      *          or one of the elements of <code>envp</code> is <code>null</code>
      *
      * @throws  IndexOutOfBoundsException
-     *          If <code>cmdarray</code> is an empty array
-     *          (has length <code>0</code>)
+     *          If <code>cmdbrrby</code> is bn empty brrby
+     *          (hbs length <code>0</code>)
      *
      * @see     ProcessBuilder
      * @since 1.3
      */
-    public Process exec(String[] cmdarray, String[] envp, File dir)
+    public Process exec(String[] cmdbrrby, String[] envp, File dir)
         throws IOException {
-        return new ProcessBuilder(cmdarray)
+        return new ProcessBuilder(cmdbrrby)
             .environment(envp)
             .directory(dir)
-            .start();
+            .stbrt();
     }
 
     /**
-     * Returns the number of processors available to the Java virtual machine.
+     * Returns the number of processors bvbilbble to the Jbvb virtubl mbchine.
      *
-     * <p> This value may change during a particular invocation of the virtual
-     * machine.  Applications that are sensitive to the number of available
-     * processors should therefore occasionally poll this property and adjust
-     * their resource usage appropriately. </p>
+     * <p> This vblue mby chbnge during b pbrticulbr invocbtion of the virtubl
+     * mbchine.  Applicbtions thbt bre sensitive to the number of bvbilbble
+     * processors should therefore occbsionblly poll this property bnd bdjust
+     * their resource usbge bppropribtely. </p>
      *
-     * @return  the maximum number of processors available to the virtual
-     *          machine; never smaller than one
+     * @return  the mbximum number of processors bvbilbble to the virtubl
+     *          mbchine; never smbller thbn one
      * @since 1.4
      */
-    public native int availableProcessors();
+    public nbtive int bvbilbbleProcessors();
 
     /**
-     * Returns the amount of free memory in the Java Virtual Machine.
-     * Calling the
-     * <code>gc</code> method may result in increasing the value returned
+     * Returns the bmount of free memory in the Jbvb Virtubl Mbchine.
+     * Cblling the
+     * <code>gc</code> method mby result in increbsing the vblue returned
      * by <code>freeMemory.</code>
      *
-     * @return  an approximation to the total amount of memory currently
-     *          available for future allocated objects, measured in bytes.
+     * @return  bn bpproximbtion to the totbl bmount of memory currently
+     *          bvbilbble for future bllocbted objects, mebsured in bytes.
      */
-    public native long freeMemory();
+    public nbtive long freeMemory();
 
     /**
-     * Returns the total amount of memory in the Java virtual machine.
-     * The value returned by this method may vary over time, depending on
+     * Returns the totbl bmount of memory in the Jbvb virtubl mbchine.
+     * The vblue returned by this method mby vbry over time, depending on
      * the host environment.
      * <p>
-     * Note that the amount of memory required to hold an object of any
-     * given type may be implementation-dependent.
+     * Note thbt the bmount of memory required to hold bn object of bny
+     * given type mby be implementbtion-dependent.
      *
-     * @return  the total amount of memory currently available for current
-     *          and future objects, measured in bytes.
+     * @return  the totbl bmount of memory currently bvbilbble for current
+     *          bnd future objects, mebsured in bytes.
      */
-    public native long totalMemory();
+    public nbtive long totblMemory();
 
     /**
-     * Returns the maximum amount of memory that the Java virtual machine will
-     * attempt to use.  If there is no inherent limit then the value {@link
-     * java.lang.Long#MAX_VALUE} will be returned.
+     * Returns the mbximum bmount of memory thbt the Jbvb virtubl mbchine will
+     * bttempt to use.  If there is no inherent limit then the vblue {@link
+     * jbvb.lbng.Long#MAX_VALUE} will be returned.
      *
-     * @return  the maximum amount of memory that the virtual machine will
-     *          attempt to use, measured in bytes
+     * @return  the mbximum bmount of memory thbt the virtubl mbchine will
+     *          bttempt to use, mebsured in bytes
      * @since 1.4
      */
-    public native long maxMemory();
+    public nbtive long mbxMemory();
 
     /**
-     * Runs the garbage collector.
-     * Calling this method suggests that the Java virtual machine expend
-     * effort toward recycling unused objects in order to make the memory
-     * they currently occupy available for quick reuse. When control
-     * returns from the method call, the virtual machine has made
-     * its best effort to recycle all discarded objects.
+     * Runs the gbrbbge collector.
+     * Cblling this method suggests thbt the Jbvb virtubl mbchine expend
+     * effort towbrd recycling unused objects in order to mbke the memory
+     * they currently occupy bvbilbble for quick reuse. When control
+     * returns from the method cbll, the virtubl mbchine hbs mbde
+     * its best effort to recycle bll discbrded objects.
      * <p>
-     * The name <code>gc</code> stands for "garbage
-     * collector". The virtual machine performs this recycling
-     * process automatically as needed, in a separate thread, even if the
+     * The nbme <code>gc</code> stbnds for "gbrbbge
+     * collector". The virtubl mbchine performs this recycling
+     * process butombticblly bs needed, in b sepbrbte threbd, even if the
      * <code>gc</code> method is not invoked explicitly.
      * <p>
-     * The method {@link System#gc()} is the conventional and convenient
-     * means of invoking this method.
+     * The method {@link System#gc()} is the conventionbl bnd convenient
+     * mebns of invoking this method.
      */
-    public native void gc();
+    public nbtive void gc();
 
-    /* Wormhole for calling java.lang.ref.Finalizer.runFinalization */
-    private static native void runFinalization0();
+    /* Wormhole for cblling jbvb.lbng.ref.Finblizer.runFinblizbtion */
+    privbte stbtic nbtive void runFinblizbtion0();
 
     /**
-     * Runs the finalization methods of any objects pending finalization.
-     * Calling this method suggests that the Java virtual machine expend
-     * effort toward running the <code>finalize</code> methods of objects
-     * that have been found to be discarded but whose <code>finalize</code>
-     * methods have not yet been run. When control returns from the
-     * method call, the virtual machine has made a best effort to
-     * complete all outstanding finalizations.
+     * Runs the finblizbtion methods of bny objects pending finblizbtion.
+     * Cblling this method suggests thbt the Jbvb virtubl mbchine expend
+     * effort towbrd running the <code>finblize</code> methods of objects
+     * thbt hbve been found to be discbrded but whose <code>finblize</code>
+     * methods hbve not yet been run. When control returns from the
+     * method cbll, the virtubl mbchine hbs mbde b best effort to
+     * complete bll outstbnding finblizbtions.
      * <p>
-     * The virtual machine performs the finalization process
-     * automatically as needed, in a separate thread, if the
-     * <code>runFinalization</code> method is not invoked explicitly.
+     * The virtubl mbchine performs the finblizbtion process
+     * butombticblly bs needed, in b sepbrbte threbd, if the
+     * <code>runFinblizbtion</code> method is not invoked explicitly.
      * <p>
-     * The method {@link System#runFinalization()} is the conventional
-     * and convenient means of invoking this method.
+     * The method {@link System#runFinblizbtion()} is the conventionbl
+     * bnd convenient mebns of invoking this method.
      *
-     * @see     java.lang.Object#finalize()
+     * @see     jbvb.lbng.Object#finblize()
      */
-    public void runFinalization() {
-        runFinalization0();
+    public void runFinblizbtion() {
+        runFinblizbtion0();
     }
 
     /**
-     * Enables/Disables tracing of instructions.
-     * If the <code>boolean</code> argument is <code>true</code>, this
-     * method suggests that the Java virtual machine emit debugging
-     * information for each instruction in the virtual machine as it
-     * is executed. The format of this information, and the file or other
-     * output stream to which it is emitted, depends on the host environment.
-     * The virtual machine may ignore this request if it does not support
-     * this feature. The destination of the trace output is system
+     * Enbbles/Disbbles trbcing of instructions.
+     * If the <code>boolebn</code> brgument is <code>true</code>, this
+     * method suggests thbt the Jbvb virtubl mbchine emit debugging
+     * informbtion for ebch instruction in the virtubl mbchine bs it
+     * is executed. The formbt of this informbtion, bnd the file or other
+     * output strebm to which it is emitted, depends on the host environment.
+     * The virtubl mbchine mby ignore this request if it does not support
+     * this febture. The destinbtion of the trbce output is system
      * dependent.
      * <p>
-     * If the <code>boolean</code> argument is <code>false</code>, this
-     * method causes the virtual machine to stop performing the
-     * detailed instruction trace it is performing.
+     * If the <code>boolebn</code> brgument is <code>fblse</code>, this
+     * method cbuses the virtubl mbchine to stop performing the
+     * detbiled instruction trbce it is performing.
      *
-     * @param   on   <code>true</code> to enable instruction tracing;
-     *               <code>false</code> to disable this feature.
+     * @pbrbm   on   <code>true</code> to enbble instruction trbcing;
+     *               <code>fblse</code> to disbble this febture.
      */
-    public native void traceInstructions(boolean on);
+    public nbtive void trbceInstructions(boolebn on);
 
     /**
-     * Enables/Disables tracing of method calls.
-     * If the <code>boolean</code> argument is <code>true</code>, this
-     * method suggests that the Java virtual machine emit debugging
-     * information for each method in the virtual machine as it is
-     * called. The format of this information, and the file or other output
-     * stream to which it is emitted, depends on the host environment. The
-     * virtual machine may ignore this request if it does not support
-     * this feature.
+     * Enbbles/Disbbles trbcing of method cblls.
+     * If the <code>boolebn</code> brgument is <code>true</code>, this
+     * method suggests thbt the Jbvb virtubl mbchine emit debugging
+     * informbtion for ebch method in the virtubl mbchine bs it is
+     * cblled. The formbt of this informbtion, bnd the file or other output
+     * strebm to which it is emitted, depends on the host environment. The
+     * virtubl mbchine mby ignore this request if it does not support
+     * this febture.
      * <p>
-     * Calling this method with argument false suggests that the
-     * virtual machine cease emitting per-call debugging information.
+     * Cblling this method with brgument fblse suggests thbt the
+     * virtubl mbchine cebse emitting per-cbll debugging informbtion.
      *
-     * @param   on   <code>true</code> to enable instruction tracing;
-     *               <code>false</code> to disable this feature.
+     * @pbrbm   on   <code>true</code> to enbble instruction trbcing;
+     *               <code>fblse</code> to disbble this febture.
      */
-    public native void traceMethodCalls(boolean on);
+    public nbtive void trbceMethodCblls(boolebn on);
 
     /**
-     * Loads the native library specified by the filename argument.  The filename
-     * argument must be an absolute path name.
-     * (for example
-     * <code>Runtime.getRuntime().load("/home/avh/lib/libX11.so");</code>).
+     * Lobds the nbtive librbry specified by the filenbme brgument.  The filenbme
+     * brgument must be bn bbsolute pbth nbme.
+     * (for exbmple
+     * <code>Runtime.getRuntime().lobd("/home/bvh/lib/libX11.so");</code>).
      *
-     * If the filename argument, when stripped of any platform-specific library
-     * prefix, path, and file extension, indicates a library whose name is,
-     * for example, L, and a native library called L is statically linked
-     * with the VM, then the JNI_OnLoad_L function exported by the library
-     * is invoked rather than attempting to load a dynamic library.
-     * A filename matching the argument does not have to exist in the file
-     * system. See the JNI Specification for more details.
+     * If the filenbme brgument, when stripped of bny plbtform-specific librbry
+     * prefix, pbth, bnd file extension, indicbtes b librbry whose nbme is,
+     * for exbmple, L, bnd b nbtive librbry cblled L is stbticblly linked
+     * with the VM, then the JNI_OnLobd_L function exported by the librbry
+     * is invoked rbther thbn bttempting to lobd b dynbmic librbry.
+     * A filenbme mbtching the brgument does not hbve to exist in the file
+     * system. See the JNI Specificbtion for more detbils.
      *
-     * Otherwise, the filename argument is mapped to a native library image in
-     * an implementation-dependent manner.
+     * Otherwise, the filenbme brgument is mbpped to b nbtive librbry imbge in
+     * bn implementbtion-dependent mbnner.
      * <p>
-     * First, if there is a security manager, its <code>checkLink</code>
-     * method is called with the <code>filename</code> as its argument.
-     * This may result in a security exception.
+     * First, if there is b security mbnbger, its <code>checkLink</code>
+     * method is cblled with the <code>filenbme</code> bs its brgument.
+     * This mby result in b security exception.
      * <p>
-     * This is similar to the method {@link #loadLibrary(String)}, but it
-     * accepts a general file name as an argument rather than just a library
-     * name, allowing any file of native code to be loaded.
+     * This is similbr to the method {@link #lobdLibrbry(String)}, but it
+     * bccepts b generbl file nbme bs bn brgument rbther thbn just b librbry
+     * nbme, bllowing bny file of nbtive code to be lobded.
      * <p>
-     * The method {@link System#load(String)} is the conventional and
-     * convenient means of invoking this method.
+     * The method {@link System#lobd(String)} is the conventionbl bnd
+     * convenient mebns of invoking this method.
      *
-     * @param      filename   the file to load.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError  if either the filename is not an
-     *             absolute path name, the native library is not statically
-     *             linked with the VM, or the library cannot be mapped to
-     *             a native library image by the host system.
-     * @exception  NullPointerException if <code>filename</code> is
+     * @pbrbm      filenbme   the file to lobd.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkLink</code> method doesn't bllow
+     *             lobding of the specified dynbmic librbry
+     * @exception  UnsbtisfiedLinkError  if either the filenbme is not bn
+     *             bbsolute pbth nbme, the nbtive librbry is not stbticblly
+     *             linked with the VM, or the librbry cbnnot be mbpped to
+     *             b nbtive librbry imbge by the host system.
+     * @exception  NullPointerException if <code>filenbme</code> is
      *             <code>null</code>
-     * @see        java.lang.Runtime#getRuntime()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @see        jbvb.lbng.Runtime#getRuntime()
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public void load(String filename) {
-        load0(Reflection.getCallerClass(), filename);
+    @CbllerSensitive
+    public void lobd(String filenbme) {
+        lobd0(Reflection.getCbllerClbss(), filenbme);
     }
 
-    synchronized void load0(Class<?> fromClass, String filename) {
-        SecurityManager security = System.getSecurityManager();
+    synchronized void lobd0(Clbss<?> fromClbss, String filenbme) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkLink(filename);
+            security.checkLink(filenbme);
         }
-        if (!(new File(filename).isAbsolute())) {
-            throw new UnsatisfiedLinkError(
-                "Expecting an absolute path of the library: " + filename);
+        if (!(new File(filenbme).isAbsolute())) {
+            throw new UnsbtisfiedLinkError(
+                "Expecting bn bbsolute pbth of the librbry: " + filenbme);
         }
-        ClassLoader.loadLibrary(fromClass, filename, true);
+        ClbssLobder.lobdLibrbry(fromClbss, filenbme, true);
     }
 
     /**
-     * Loads the native library specified by the <code>libname</code>
-     * argument.  The <code>libname</code> argument must not contain any platform
-     * specific prefix, file extension or path. If a native library
-     * called <code>libname</code> is statically linked with the VM, then the
-     * JNI_OnLoad_<code>libname</code> function exported by the library is invoked.
-     * See the JNI Specification for more details.
+     * Lobds the nbtive librbry specified by the <code>libnbme</code>
+     * brgument.  The <code>libnbme</code> brgument must not contbin bny plbtform
+     * specific prefix, file extension or pbth. If b nbtive librbry
+     * cblled <code>libnbme</code> is stbticblly linked with the VM, then the
+     * JNI_OnLobd_<code>libnbme</code> function exported by the librbry is invoked.
+     * See the JNI Specificbtion for more detbils.
      *
-     * Otherwise, the libname argument is loaded from a system library
-     * location and mapped to a native library image in an implementation-
-     * dependent manner.
+     * Otherwise, the libnbme brgument is lobded from b system librbry
+     * locbtion bnd mbpped to b nbtive librbry imbge in bn implementbtion-
+     * dependent mbnner.
      * <p>
-     * First, if there is a security manager, its <code>checkLink</code>
-     * method is called with the <code>libname</code> as its argument.
-     * This may result in a security exception.
+     * First, if there is b security mbnbger, its <code>checkLink</code>
+     * method is cblled with the <code>libnbme</code> bs its brgument.
+     * This mby result in b security exception.
      * <p>
-     * The method {@link System#loadLibrary(String)} is the conventional
-     * and convenient means of invoking this method. If native
-     * methods are to be used in the implementation of a class, a standard
-     * strategy is to put the native code in a library file (call it
-     * <code>LibFile</code>) and then to put a static initializer:
+     * The method {@link System#lobdLibrbry(String)} is the conventionbl
+     * bnd convenient mebns of invoking this method. If nbtive
+     * methods bre to be used in the implementbtion of b clbss, b stbndbrd
+     * strbtegy is to put the nbtive code in b librbry file (cbll it
+     * <code>LibFile</code>) bnd then to put b stbtic initiblizer:
      * <blockquote><pre>
-     * static { System.loadLibrary("LibFile"); }
+     * stbtic { System.lobdLibrbry("LibFile"); }
      * </pre></blockquote>
-     * within the class declaration. When the class is loaded and
-     * initialized, the necessary native code implementation for the native
-     * methods will then be loaded as well.
+     * within the clbss declbrbtion. When the clbss is lobded bnd
+     * initiblized, the necessbry nbtive code implementbtion for the nbtive
+     * methods will then be lobded bs well.
      * <p>
-     * If this method is called more than once with the same library
-     * name, the second and subsequent calls are ignored.
+     * If this method is cblled more thbn once with the sbme librbry
+     * nbme, the second bnd subsequent cblls bre ignored.
      *
-     * @param      libname   the name of the library.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError if either the libname argument
-     *             contains a file path, the native library is not statically
-     *             linked with the VM,  or the library cannot be mapped to a
-     *             native library image by the host system.
-     * @exception  NullPointerException if <code>libname</code> is
+     * @pbrbm      libnbme   the nbme of the librbry.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkLink</code> method doesn't bllow
+     *             lobding of the specified dynbmic librbry
+     * @exception  UnsbtisfiedLinkError if either the libnbme brgument
+     *             contbins b file pbth, the nbtive librbry is not stbticblly
+     *             linked with the VM,  or the librbry cbnnot be mbpped to b
+     *             nbtive librbry imbge by the host system.
+     * @exception  NullPointerException if <code>libnbme</code> is
      *             <code>null</code>
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public void loadLibrary(String libname) {
-        loadLibrary0(Reflection.getCallerClass(), libname);
+    @CbllerSensitive
+    public void lobdLibrbry(String libnbme) {
+        lobdLibrbry0(Reflection.getCbllerClbss(), libnbme);
     }
 
-    synchronized void loadLibrary0(Class<?> fromClass, String libname) {
-        SecurityManager security = System.getSecurityManager();
+    synchronized void lobdLibrbry0(Clbss<?> fromClbss, String libnbme) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkLink(libname);
+            security.checkLink(libnbme);
         }
-        if (libname.indexOf((int)File.separatorChar) != -1) {
-            throw new UnsatisfiedLinkError(
-    "Directory separator should not appear in library name: " + libname);
+        if (libnbme.indexOf((int)File.sepbrbtorChbr) != -1) {
+            throw new UnsbtisfiedLinkError(
+    "Directory sepbrbtor should not bppebr in librbry nbme: " + libnbme);
         }
-        ClassLoader.loadLibrary(fromClass, libname, false);
+        ClbssLobder.lobdLibrbry(fromClbss, libnbme, fblse);
     }
 
     /**
-     * Creates a localized version of an input stream. This method takes
-     * an <code>InputStream</code> and returns an <code>InputStream</code>
-     * equivalent to the argument in all respects except that it is
-     * localized: as characters in the local character set are read from
-     * the stream, they are automatically converted from the local
-     * character set to Unicode.
+     * Crebtes b locblized version of bn input strebm. This method tbkes
+     * bn <code>InputStrebm</code> bnd returns bn <code>InputStrebm</code>
+     * equivblent to the brgument in bll respects except thbt it is
+     * locblized: bs chbrbcters in the locbl chbrbcter set bre rebd from
+     * the strebm, they bre butombticblly converted from the locbl
+     * chbrbcter set to Unicode.
      * <p>
-     * If the argument is already a localized stream, it may be returned
-     * as the result.
+     * If the brgument is blrebdy b locblized strebm, it mby be returned
+     * bs the result.
      *
-     * @param      in InputStream to localize
-     * @return     a localized input stream
-     * @see        java.io.InputStream
-     * @see        java.io.BufferedReader#BufferedReader(java.io.Reader)
-     * @see        java.io.InputStreamReader#InputStreamReader(java.io.InputStream)
-     * @deprecated As of JDK&nbsp;1.1, the preferred way to translate a byte
-     * stream in the local encoding into a character stream in Unicode is via
-     * the <code>InputStreamReader</code> and <code>BufferedReader</code>
-     * classes.
+     * @pbrbm      in InputStrebm to locblize
+     * @return     b locblized input strebm
+     * @see        jbvb.io.InputStrebm
+     * @see        jbvb.io.BufferedRebder#BufferedRebder(jbvb.io.Rebder)
+     * @see        jbvb.io.InputStrebmRebder#InputStrebmRebder(jbvb.io.InputStrebm)
+     * @deprecbted As of JDK&nbsp;1.1, the preferred wby to trbnslbte b byte
+     * strebm in the locbl encoding into b chbrbcter strebm in Unicode is vib
+     * the <code>InputStrebmRebder</code> bnd <code>BufferedRebder</code>
+     * clbsses.
      */
-    @Deprecated
-    public InputStream getLocalizedInputStream(InputStream in) {
+    @Deprecbted
+    public InputStrebm getLocblizedInputStrebm(InputStrebm in) {
         return in;
     }
 
     /**
-     * Creates a localized version of an output stream. This method
-     * takes an <code>OutputStream</code> and returns an
-     * <code>OutputStream</code> equivalent to the argument in all respects
-     * except that it is localized: as Unicode characters are written to
-     * the stream, they are automatically converted to the local
-     * character set.
+     * Crebtes b locblized version of bn output strebm. This method
+     * tbkes bn <code>OutputStrebm</code> bnd returns bn
+     * <code>OutputStrebm</code> equivblent to the brgument in bll respects
+     * except thbt it is locblized: bs Unicode chbrbcters bre written to
+     * the strebm, they bre butombticblly converted to the locbl
+     * chbrbcter set.
      * <p>
-     * If the argument is already a localized stream, it may be returned
-     * as the result.
+     * If the brgument is blrebdy b locblized strebm, it mby be returned
+     * bs the result.
      *
-     * @deprecated As of JDK&nbsp;1.1, the preferred way to translate a
-     * Unicode character stream into a byte stream in the local encoding is via
-     * the <code>OutputStreamWriter</code>, <code>BufferedWriter</code>, and
-     * <code>PrintWriter</code> classes.
+     * @deprecbted As of JDK&nbsp;1.1, the preferred wby to trbnslbte b
+     * Unicode chbrbcter strebm into b byte strebm in the locbl encoding is vib
+     * the <code>OutputStrebmWriter</code>, <code>BufferedWriter</code>, bnd
+     * <code>PrintWriter</code> clbsses.
      *
-     * @param      out OutputStream to localize
-     * @return     a localized output stream
-     * @see        java.io.OutputStream
-     * @see        java.io.BufferedWriter#BufferedWriter(java.io.Writer)
-     * @see        java.io.OutputStreamWriter#OutputStreamWriter(java.io.OutputStream)
-     * @see        java.io.PrintWriter#PrintWriter(java.io.OutputStream)
+     * @pbrbm      out OutputStrebm to locblize
+     * @return     b locblized output strebm
+     * @see        jbvb.io.OutputStrebm
+     * @see        jbvb.io.BufferedWriter#BufferedWriter(jbvb.io.Writer)
+     * @see        jbvb.io.OutputStrebmWriter#OutputStrebmWriter(jbvb.io.OutputStrebm)
+     * @see        jbvb.io.PrintWriter#PrintWriter(jbvb.io.OutputStrebm)
      */
-    @Deprecated
-    public OutputStream getLocalizedOutputStream(OutputStream out) {
+    @Deprecbted
+    public OutputStrebm getLocblizedOutputStrebm(OutputStrebm out) {
         return out;
     }
 

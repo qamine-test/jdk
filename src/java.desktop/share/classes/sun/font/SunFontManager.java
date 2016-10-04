@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtException;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FilenbmeFilter;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebmRebder;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.TreeMbp;
+import jbvb.util.Vector;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import javax.swing.plaf.FontUIResource;
-import sun.awt.AppContext;
-import sun.awt.FontConfiguration;
-import sun.awt.SunToolkit;
-import sun.awt.util.ThreadGroupUtils;
-import sun.java2d.FontSupport;
-import sun.util.logging.PlatformLogger;
+import jbvbx.swing.plbf.FontUIResource;
+import sun.bwt.AppContext;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.SunToolkit;
+import sun.bwt.util.ThrebdGroupUtils;
+import sun.jbvb2d.FontSupport;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * The base implementation of the {@link FontManager} interface. It implements
- * the platform independent, shared parts of OpenJDK's FontManager
- * implementations. The platform specific parts are declared as abstract
- * methods that have to be implemented by specific implementations.
+ * The bbse implementbtion of the {@link FontMbnbger} interfbce. It implements
+ * the plbtform independent, shbred pbrts of OpenJDK's FontMbnbger
+ * implementbtions. The plbtform specific pbrts bre declbred bs bbstrbct
+ * methods thbt hbve to be implemented by specific implementbtions.
  */
-public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
+public bbstrbct clbss SunFontMbnbger implements FontSupport, FontMbnbgerForSGE {
 
-    private static class TTFilter implements FilenameFilter {
-        public boolean accept(File dir,String name) {
-            /* all conveniently have the same suffix length */
-            int offset = name.length()-4;
-            if (offset <= 0) { /* must be at least A.ttf */
-                return false;
+    privbte stbtic clbss TTFilter implements FilenbmeFilter {
+        public boolebn bccept(File dir,String nbme) {
+            /* bll conveniently hbve the sbme suffix length */
+            int offset = nbme.length()-4;
+            if (offset <= 0) { /* must be bt lebst A.ttf */
+                return fblse;
             } else {
-                return(name.startsWith(".ttf", offset) ||
-                       name.startsWith(".TTF", offset) ||
-                       name.startsWith(".ttc", offset) ||
-                       name.startsWith(".TTC", offset) ||
-                       name.startsWith(".otf", offset) ||
-                       name.startsWith(".OTF", offset));
+                return(nbme.stbrtsWith(".ttf", offset) ||
+                       nbme.stbrtsWith(".TTF", offset) ||
+                       nbme.stbrtsWith(".ttc", offset) ||
+                       nbme.stbrtsWith(".TTC", offset) ||
+                       nbme.stbrtsWith(".otf", offset) ||
+                       nbme.stbrtsWith(".OTF", offset));
             }
         }
     }
 
-    private static class T1Filter implements FilenameFilter {
-        public boolean accept(File dir,String name) {
+    privbte stbtic clbss T1Filter implements FilenbmeFilter {
+        public boolebn bccept(File dir,String nbme) {
             if (noType1Font) {
-                return false;
+                return fblse;
             }
-            /* all conveniently have the same suffix length */
-            int offset = name.length()-4;
-            if (offset <= 0) { /* must be at least A.pfa */
-                return false;
+            /* bll conveniently hbve the sbme suffix length */
+            int offset = nbme.length()-4;
+            if (offset <= 0) { /* must be bt lebst A.pfb */
+                return fblse;
             } else {
-                return(name.startsWith(".pfa", offset) ||
-                       name.startsWith(".pfb", offset) ||
-                       name.startsWith(".PFA", offset) ||
-                       name.startsWith(".PFB", offset));
+                return(nbme.stbrtsWith(".pfb", offset) ||
+                       nbme.stbrtsWith(".pfb", offset) ||
+                       nbme.stbrtsWith(".PFA", offset) ||
+                       nbme.stbrtsWith(".PFB", offset));
             }
         }
     }
 
-     private static class TTorT1Filter implements FilenameFilter {
-        public boolean accept(File dir, String name) {
+     privbte stbtic clbss TTorT1Filter implements FilenbmeFilter {
+        public boolebn bccept(File dir, String nbme) {
 
-            /* all conveniently have the same suffix length */
-            int offset = name.length()-4;
-            if (offset <= 0) { /* must be at least A.ttf or A.pfa */
-                return false;
+            /* bll conveniently hbve the sbme suffix length */
+            int offset = nbme.length()-4;
+            if (offset <= 0) { /* must be bt lebst A.ttf or A.pfb */
+                return fblse;
             } else {
-                boolean isTT =
-                    name.startsWith(".ttf", offset) ||
-                    name.startsWith(".TTF", offset) ||
-                    name.startsWith(".ttc", offset) ||
-                    name.startsWith(".TTC", offset) ||
-                    name.startsWith(".otf", offset) ||
-                    name.startsWith(".OTF", offset);
+                boolebn isTT =
+                    nbme.stbrtsWith(".ttf", offset) ||
+                    nbme.stbrtsWith(".TTF", offset) ||
+                    nbme.stbrtsWith(".ttc", offset) ||
+                    nbme.stbrtsWith(".TTC", offset) ||
+                    nbme.stbrtsWith(".otf", offset) ||
+                    nbme.stbrtsWith(".OTF", offset);
                 if (isTT) {
                     return true;
                 } else if (noType1Font) {
-                    return false;
+                    return fblse;
                 } else {
-                    return(name.startsWith(".pfa", offset) ||
-                           name.startsWith(".pfb", offset) ||
-                           name.startsWith(".PFA", offset) ||
-                           name.startsWith(".PFB", offset));
+                    return(nbme.stbrtsWith(".pfb", offset) ||
+                           nbme.stbrtsWith(".pfb", offset) ||
+                           nbme.stbrtsWith(".PFA", offset) ||
+                           nbme.stbrtsWith(".PFB", offset));
                 }
             }
         }
     }
 
-     public static final int FONTFORMAT_NONE = -1;
-     public static final int FONTFORMAT_TRUETYPE = 0;
-     public static final int FONTFORMAT_TYPE1 = 1;
-     public static final int FONTFORMAT_T2K = 2;
-     public static final int FONTFORMAT_TTC = 3;
-     public static final int FONTFORMAT_COMPOSITE = 4;
-     public static final int FONTFORMAT_NATIVE = 5;
+     public stbtic finbl int FONTFORMAT_NONE = -1;
+     public stbtic finbl int FONTFORMAT_TRUETYPE = 0;
+     public stbtic finbl int FONTFORMAT_TYPE1 = 1;
+     public stbtic finbl int FONTFORMAT_T2K = 2;
+     public stbtic finbl int FONTFORMAT_TTC = 3;
+     public stbtic finbl int FONTFORMAT_COMPOSITE = 4;
+     public stbtic finbl int FONTFORMAT_NATIVE = 5;
 
-     /* Pool of 20 font file channels chosen because some UTF-8 locale
-      * composite fonts can use up to 16 platform fonts (including the
-      * Lucida fall back). This should prevent channel thrashing when
-      * dealing with one of these fonts.
-      * The pool array stores the fonts, rather than directly referencing
-      * the channels, as the font needs to do the open/close work.
+     /* Pool of 20 font file chbnnels chosen becbuse some UTF-8 locble
+      * composite fonts cbn use up to 16 plbtform fonts (including the
+      * Lucidb fbll bbck). This should prevent chbnnel thrbshing when
+      * debling with one of these fonts.
+      * The pool brrby stores the fonts, rbther thbn directly referencing
+      * the chbnnels, bs the font needs to do the open/close work.
       */
-     // MACOSX begin -- need to access these in subclass
-     protected static final int CHANNELPOOLSIZE = 20;
-     protected FileFont fontFileCache[] = new FileFont[CHANNELPOOLSIZE];
+     // MACOSX begin -- need to bccess these in subclbss
+     protected stbtic finbl int CHANNELPOOLSIZE = 20;
+     protected FileFont fontFileCbche[] = new FileFont[CHANNELPOOLSIZE];
      // MACOSX end
-     private int lastPoolIndex = 0;
+     privbte int lbstPoolIndex = 0;
 
-    /* Need to implement a simple linked list scheme for fast
-     * traversal and lookup.
-     * Also want to "fast path" dialog so there's minimal overhead.
+    /* Need to implement b simple linked list scheme for fbst
+     * trbversbl bnd lookup.
+     * Also wbnt to "fbst pbth" diblog so there's minimbl overhebd.
      */
-    /* There are at exactly 20 composite fonts: 5 faces (but some are not
-     * usually different), in 4 styles. The array may be auto-expanded
-     * later if more are needed, eg for user-defined composites or locale
-     * variants.
+    /* There bre bt exbctly 20 composite fonts: 5 fbces (but some bre not
+     * usublly different), in 4 styles. The brrby mby be buto-expbnded
+     * lbter if more bre needed, eg for user-defined composites or locble
+     * vbribnts.
      */
-    private int maxCompFont = 0;
-    private CompositeFont [] compFonts = new CompositeFont[20];
-    private ConcurrentHashMap<String, CompositeFont>
-        compositeFonts = new ConcurrentHashMap<String, CompositeFont>();
-    private ConcurrentHashMap<String, PhysicalFont>
-        physicalFonts = new ConcurrentHashMap<String, PhysicalFont>();
-    private ConcurrentHashMap<String, PhysicalFont>
-        registeredFonts = new ConcurrentHashMap<String, PhysicalFont>();
+    privbte int mbxCompFont = 0;
+    privbte CompositeFont [] compFonts = new CompositeFont[20];
+    privbte ConcurrentHbshMbp<String, CompositeFont>
+        compositeFonts = new ConcurrentHbshMbp<String, CompositeFont>();
+    privbte ConcurrentHbshMbp<String, PhysicblFont>
+        physicblFonts = new ConcurrentHbshMbp<String, PhysicblFont>();
+    privbte ConcurrentHbshMbp<String, PhysicblFont>
+        registeredFonts = new ConcurrentHbshMbp<String, PhysicblFont>();
 
-    /* given a full name find the Font. Remind: there's duplication
-     * here in that this contains the content of compositeFonts +
-     * physicalFonts.
+    /* given b full nbme find the Font. Remind: there's duplicbtion
+     * here in thbt this contbins the content of compositeFonts +
+     * physicblFonts.
      */
-    // MACOSX begin -- need to access this in subclass
-    protected ConcurrentHashMap<String, Font2D>
-        fullNameToFont = new ConcurrentHashMap<String, Font2D>();
+    // MACOSX begin -- need to bccess this in subclbss
+    protected ConcurrentHbshMbp<String, Font2D>
+        fullNbmeToFont = new ConcurrentHbshMbp<String, Font2D>();
     // MACOSX end
 
-    /* TrueType fonts have localised names. Support searching all
-     * of these before giving up on a name.
+    /* TrueType fonts hbve locblised nbmes. Support sebrching bll
+     * of these before giving up on b nbme.
      */
-    private HashMap<String, TrueTypeFont> localeFullNamesToFont;
+    privbte HbshMbp<String, TrueTypeFont> locbleFullNbmesToFont;
 
-    private PhysicalFont defaultPhysicalFont;
+    privbte PhysicblFont defbultPhysicblFont;
 
-    static boolean longAddresses;
-    private boolean loaded1dot0Fonts = false;
-    boolean loadedAllFonts = false;
-    boolean loadedAllFontFiles = false;
-    HashMap<String,String> jreFontMap;
-    HashSet<String> jreLucidaFontFiles;
+    stbtic boolebn longAddresses;
+    privbte boolebn lobded1dot0Fonts = fblse;
+    boolebn lobdedAllFonts = fblse;
+    boolebn lobdedAllFontFiles = fblse;
+    HbshMbp<String,String> jreFontMbp;
+    HbshSet<String> jreLucidbFontFiles;
     String[] jreOtherFontFiles;
-    boolean noOtherJREFontFiles = false; // initial assumption.
+    boolebn noOtherJREFontFiles = fblse; // initibl bssumption.
 
-    public static final String lucidaFontName = "Lucida Sans Regular";
-    public static String jreLibDirName;
-    public static String jreFontDirName;
-    private static HashSet<String> missingFontFiles = null;
-    private String defaultFontName;
-    private String defaultFontFileName;
-    protected HashSet<String> registeredFontFiles = new HashSet<>();
+    public stbtic finbl String lucidbFontNbme = "Lucidb Sbns Regulbr";
+    public stbtic String jreLibDirNbme;
+    public stbtic String jreFontDirNbme;
+    privbte stbtic HbshSet<String> missingFontFiles = null;
+    privbte String defbultFontNbme;
+    privbte String defbultFontFileNbme;
+    protected HbshSet<String> registeredFontFiles = new HbshSet<>();
 
-    private ArrayList<String> badFonts;
-    /* fontPath is the location of all fonts on the system, excluding the
-     * JRE's own font directory but including any path specified using the
-     * sun.java2d.fontpath property. Together with that property,  it is
-     * initialised by the getPlatformFontPath() method
-     * This call must be followed by a call to registerFontDirs(fontPath)
-     * once any extra debugging path has been appended.
+    privbte ArrbyList<String> bbdFonts;
+    /* fontPbth is the locbtion of bll fonts on the system, excluding the
+     * JRE's own font directory but including bny pbth specified using the
+     * sun.jbvb2d.fontpbth property. Together with thbt property,  it is
+     * initiblised by the getPlbtformFontPbth() method
+     * This cbll must be followed by b cbll to registerFontDirs(fontPbth)
+     * once bny extrb debugging pbth hbs been bppended.
      */
-    protected String fontPath;
-    private FontConfiguration fontConfig;
-    /* discoveredAllFonts is set to true when all fonts on the font path are
-     * discovered. This usually also implies opening, validating and
-     * registering, but an implementation may be optimized to avold this.
-     * So see also "loadedAllFontFiles"
+    protected String fontPbth;
+    privbte FontConfigurbtion fontConfig;
+    /* discoveredAllFonts is set to true when bll fonts on the font pbth bre
+     * discovered. This usublly blso implies opening, vblidbting bnd
+     * registering, but bn implementbtion mby be optimized to bvold this.
+     * So see blso "lobdedAllFontFiles"
      */
-    private boolean discoveredAllFonts = false;
+    privbte boolebn discoveredAllFonts = fblse;
 
-    /* No need to keep consing up new instances - reuse a singleton.
-     * The trade-off is that these objects don't get GC'd.
+    /* No need to keep consing up new instbnces - reuse b singleton.
+     * The trbde-off is thbt these objects don't get GC'd.
      */
-    private static final FilenameFilter ttFilter = new TTFilter();
-    private static final FilenameFilter t1Filter = new T1Filter();
+    privbte stbtic finbl FilenbmeFilter ttFilter = new TTFilter();
+    privbte stbtic finbl FilenbmeFilter t1Filter = new T1Filter();
 
-    private Font[] allFonts;
-    private String[] allFamilies; // cache for default locale only
-    private Locale lastDefaultLocale;
+    privbte Font[] bllFonts;
+    privbte String[] bllFbmilies; // cbche for defbult locble only
+    privbte Locble lbstDefbultLocble;
 
-    public static boolean noType1Font;
+    public stbtic boolebn noType1Font;
 
-    /* Used to indicate required return type from toArray(..); */
-    private static String[] STR_ARRAY = new String[0];
+    /* Used to indicbte required return type from toArrby(..); */
+    privbte stbtic String[] STR_ARRAY = new String[0];
 
     /**
-     * Deprecated, unsupported hack - actually invokes a bug!
-     * Left in for a customer, don't remove.
+     * Deprecbted, unsupported hbck - bctublly invokes b bug!
+     * Left in for b customer, don't remove.
      */
-    private boolean usePlatformFontMetrics = false;
+    privbte boolebn usePlbtformFontMetrics = fblse;
 
     /**
-     * Returns the global SunFontManager instance. This is similar to
-     * {@link FontManagerFactory#getInstance()} but it returns a
-     * SunFontManager instance instead. This is only used in internal classes
-     * where we can safely assume that a SunFontManager is to be used.
+     * Returns the globbl SunFontMbnbger instbnce. This is similbr to
+     * {@link FontMbnbgerFbctory#getInstbnce()} but it returns b
+     * SunFontMbnbger instbnce instebd. This is only used in internbl clbsses
+     * where we cbn sbfely bssume thbt b SunFontMbnbger is to be used.
      *
-     * @return the global SunFontManager instance
+     * @return the globbl SunFontMbnbger instbnce
      */
-    public static SunFontManager getInstance() {
-        FontManager fm = FontManagerFactory.getInstance();
-        return (SunFontManager) fm;
+    public stbtic SunFontMbnbger getInstbnce() {
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+        return (SunFontMbnbger) fm;
     }
 
-    public FilenameFilter getTrueTypeFilter() {
+    public FilenbmeFilter getTrueTypeFilter() {
         return ttFilter;
     }
 
-    public FilenameFilter getType1Filter() {
+    public FilenbmeFilter getType1Filter() {
         return t1Filter;
     }
 
     @Override
-    public boolean usingPerAppContextComposites() {
+    public boolebn usingPerAppContextComposites() {
         return _usingPerAppContextComposites;
     }
 
-    private void initJREFontMap() {
+    privbte void initJREFontMbp() {
 
-        /* Key is familyname+style value as an int.
-         * Value is filename containing the font.
-         * If no mapping exists, it means there is no font file for the style
-         * If the mapping exists but the file doesn't exist in the deferred
-         * list then it means its not installed.
-         * This looks like a lot of code and strings but if it saves even
-         * a single file being opened at JRE start-up there's a big payoff.
-         * Lucida Sans is probably the only important case as the others
-         * are rarely used. Consider removing the other mappings if there's
-         * no evidence they are useful in practice.
+        /* Key is fbmilynbme+style vblue bs bn int.
+         * Vblue is filenbme contbining the font.
+         * If no mbpping exists, it mebns there is no font file for the style
+         * If the mbpping exists but the file doesn't exist in the deferred
+         * list then it mebns its not instblled.
+         * This looks like b lot of code bnd strings but if it sbves even
+         * b single file being opened bt JRE stbrt-up there's b big pbyoff.
+         * Lucidb Sbns is probbbly the only importbnt cbse bs the others
+         * bre rbrely used. Consider removing the other mbppings if there's
+         * no evidence they bre useful in prbctice.
          */
-        jreFontMap = new HashMap<String,String>();
-        jreLucidaFontFiles = new HashSet<String>();
+        jreFontMbp = new HbshMbp<String,String>();
+        jreLucidbFontFiles = new HbshSet<String>();
         if (isOpenJDK()) {
             return;
         }
-        /* Lucida Sans Family */
-        jreFontMap.put("lucida sans0",   "LucidaSansRegular.ttf");
-        jreFontMap.put("lucida sans1",   "LucidaSansDemiBold.ttf");
-        /* Lucida Sans full names (map Bold and DemiBold to same file) */
-        jreFontMap.put("lucida sans regular0", "LucidaSansRegular.ttf");
-        jreFontMap.put("lucida sans regular1", "LucidaSansDemiBold.ttf");
-        jreFontMap.put("lucida sans bold1", "LucidaSansDemiBold.ttf");
-        jreFontMap.put("lucida sans demibold1", "LucidaSansDemiBold.ttf");
+        /* Lucidb Sbns Fbmily */
+        jreFontMbp.put("lucidb sbns0",   "LucidbSbnsRegulbr.ttf");
+        jreFontMbp.put("lucidb sbns1",   "LucidbSbnsDemiBold.ttf");
+        /* Lucidb Sbns full nbmes (mbp Bold bnd DemiBold to sbme file) */
+        jreFontMbp.put("lucidb sbns regulbr0", "LucidbSbnsRegulbr.ttf");
+        jreFontMbp.put("lucidb sbns regulbr1", "LucidbSbnsDemiBold.ttf");
+        jreFontMbp.put("lucidb sbns bold1", "LucidbSbnsDemiBold.ttf");
+        jreFontMbp.put("lucidb sbns demibold1", "LucidbSbnsDemiBold.ttf");
 
-        /* Lucida Sans Typewriter Family */
-        jreFontMap.put("lucida sans typewriter0",
-                       "LucidaTypewriterRegular.ttf");
-        jreFontMap.put("lucida sans typewriter1", "LucidaTypewriterBold.ttf");
-        /* Typewriter full names (map Bold and DemiBold to same file) */
-        jreFontMap.put("lucida sans typewriter regular0",
-                       "LucidaTypewriter.ttf");
-        jreFontMap.put("lucida sans typewriter regular1",
-                       "LucidaTypewriterBold.ttf");
-        jreFontMap.put("lucida sans typewriter bold1",
-                       "LucidaTypewriterBold.ttf");
-        jreFontMap.put("lucida sans typewriter demibold1",
-                       "LucidaTypewriterBold.ttf");
+        /* Lucidb Sbns Typewriter Fbmily */
+        jreFontMbp.put("lucidb sbns typewriter0",
+                       "LucidbTypewriterRegulbr.ttf");
+        jreFontMbp.put("lucidb sbns typewriter1", "LucidbTypewriterBold.ttf");
+        /* Typewriter full nbmes (mbp Bold bnd DemiBold to sbme file) */
+        jreFontMbp.put("lucidb sbns typewriter regulbr0",
+                       "LucidbTypewriter.ttf");
+        jreFontMbp.put("lucidb sbns typewriter regulbr1",
+                       "LucidbTypewriterBold.ttf");
+        jreFontMbp.put("lucidb sbns typewriter bold1",
+                       "LucidbTypewriterBold.ttf");
+        jreFontMbp.put("lucidb sbns typewriter demibold1",
+                       "LucidbTypewriterBold.ttf");
 
-        /* Lucida Bright Family */
-        jreFontMap.put("lucida bright0", "LucidaBrightRegular.ttf");
-        jreFontMap.put("lucida bright1", "LucidaBrightDemiBold.ttf");
-        jreFontMap.put("lucida bright2", "LucidaBrightItalic.ttf");
-        jreFontMap.put("lucida bright3", "LucidaBrightDemiItalic.ttf");
-        /* Lucida Bright full names (map Bold and DemiBold to same file) */
-        jreFontMap.put("lucida bright regular0", "LucidaBrightRegular.ttf");
-        jreFontMap.put("lucida bright regular1", "LucidaBrightDemiBold.ttf");
-        jreFontMap.put("lucida bright regular2", "LucidaBrightItalic.ttf");
-        jreFontMap.put("lucida bright regular3", "LucidaBrightDemiItalic.ttf");
-        jreFontMap.put("lucida bright bold1", "LucidaBrightDemiBold.ttf");
-        jreFontMap.put("lucida bright bold3", "LucidaBrightDemiItalic.ttf");
-        jreFontMap.put("lucida bright demibold1", "LucidaBrightDemiBold.ttf");
-        jreFontMap.put("lucida bright demibold3","LucidaBrightDemiItalic.ttf");
-        jreFontMap.put("lucida bright italic2", "LucidaBrightItalic.ttf");
-        jreFontMap.put("lucida bright italic3", "LucidaBrightDemiItalic.ttf");
-        jreFontMap.put("lucida bright bold italic3",
-                       "LucidaBrightDemiItalic.ttf");
-        jreFontMap.put("lucida bright demibold italic3",
-                       "LucidaBrightDemiItalic.ttf");
-        for (String ffile : jreFontMap.values()) {
-            jreLucidaFontFiles.add(ffile);
+        /* Lucidb Bright Fbmily */
+        jreFontMbp.put("lucidb bright0", "LucidbBrightRegulbr.ttf");
+        jreFontMbp.put("lucidb bright1", "LucidbBrightDemiBold.ttf");
+        jreFontMbp.put("lucidb bright2", "LucidbBrightItblic.ttf");
+        jreFontMbp.put("lucidb bright3", "LucidbBrightDemiItblic.ttf");
+        /* Lucidb Bright full nbmes (mbp Bold bnd DemiBold to sbme file) */
+        jreFontMbp.put("lucidb bright regulbr0", "LucidbBrightRegulbr.ttf");
+        jreFontMbp.put("lucidb bright regulbr1", "LucidbBrightDemiBold.ttf");
+        jreFontMbp.put("lucidb bright regulbr2", "LucidbBrightItblic.ttf");
+        jreFontMbp.put("lucidb bright regulbr3", "LucidbBrightDemiItblic.ttf");
+        jreFontMbp.put("lucidb bright bold1", "LucidbBrightDemiBold.ttf");
+        jreFontMbp.put("lucidb bright bold3", "LucidbBrightDemiItblic.ttf");
+        jreFontMbp.put("lucidb bright demibold1", "LucidbBrightDemiBold.ttf");
+        jreFontMbp.put("lucidb bright demibold3","LucidbBrightDemiItblic.ttf");
+        jreFontMbp.put("lucidb bright itblic2", "LucidbBrightItblic.ttf");
+        jreFontMbp.put("lucidb bright itblic3", "LucidbBrightDemiItblic.ttf");
+        jreFontMbp.put("lucidb bright bold itblic3",
+                       "LucidbBrightDemiItblic.ttf");
+        jreFontMbp.put("lucidb bright demibold itblic3",
+                       "LucidbBrightDemiItblic.ttf");
+        for (String ffile : jreFontMbp.vblues()) {
+            jreLucidbFontFiles.bdd(ffile);
         }
     }
 
-    static {
+    stbtic {
 
-        java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
 
            public Object run() {
-               FontManagerNativeLibrary.load();
+               FontMbnbgerNbtiveLibrbry.lobd();
 
-               // JNI throws an exception if a class/method/field is not found,
-               // so there's no need to do anything explicit here.
+               // JNI throws bn exception if b clbss/method/field is not found,
+               // so there's no need to do bnything explicit here.
                initIDs();
 
-               switch (StrikeCache.nativeAddressSize) {
-               case 8: longAddresses = true; break;
-               case 4: longAddresses = false; break;
-               default: throw new RuntimeException("Unexpected address size");
+               switch (StrikeCbche.nbtiveAddressSize) {
+               cbse 8: longAddresses = true; brebk;
+               cbse 4: longAddresses = fblse; brebk;
+               defbult: throw new RuntimeException("Unexpected bddress size");
                }
 
                noType1Font =
-                   "true".equals(System.getProperty("sun.java2d.noType1Font"));
-               jreLibDirName =
-                   System.getProperty("java.home","") + File.separator + "lib";
-               jreFontDirName = jreLibDirName + File.separator + "fonts";
-               File lucidaFile =
-                   new File(jreFontDirName + File.separator + FontUtilities.LUCIDA_FILE_NAME);
+                   "true".equbls(System.getProperty("sun.jbvb2d.noType1Font"));
+               jreLibDirNbme =
+                   System.getProperty("jbvb.home","") + File.sepbrbtor + "lib";
+               jreFontDirNbme = jreLibDirNbme + File.sepbrbtor + "fonts";
+               File lucidbFile =
+                   new File(jreFontDirNbme + File.sepbrbtor + FontUtilities.LUCIDA_FILE_NAME);
 
                return null;
            }
@@ -366,180 +366,180 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         return null;
     }
 
-    /* Initialise ptrs used by JNI methods */
-    private static native void initIDs();
+    /* Initiblise ptrs used by JNI methods */
+    privbte stbtic nbtive void initIDs();
 
-    @SuppressWarnings("unchecked")
-    protected SunFontManager() {
+    @SuppressWbrnings("unchecked")
+    protected SunFontMbnbger() {
 
-        initJREFontMap();
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
+        initJREFontMbp();
+        jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Object>() {
                     public Object run() {
-                        File badFontFile =
-                            new File(jreFontDirName + File.separator +
-                                     "badfonts.txt");
-                        if (badFontFile.exists()) {
-                            FileInputStream fis = null;
+                        File bbdFontFile =
+                            new File(jreFontDirNbme + File.sepbrbtor +
+                                     "bbdfonts.txt");
+                        if (bbdFontFile.exists()) {
+                            FileInputStrebm fis = null;
                             try {
-                                badFonts = new ArrayList<>();
-                                fis = new FileInputStream(badFontFile);
-                                InputStreamReader isr = new InputStreamReader(fis);
-                                BufferedReader br = new BufferedReader(isr);
+                                bbdFonts = new ArrbyList<>();
+                                fis = new FileInputStrebm(bbdFontFile);
+                                InputStrebmRebder isr = new InputStrebmRebder(fis);
+                                BufferedRebder br = new BufferedRebder(isr);
                                 while (true) {
-                                    String name = br.readLine();
-                                    if (name == null) {
-                                        break;
+                                    String nbme = br.rebdLine();
+                                    if (nbme == null) {
+                                        brebk;
                                     } else {
                                         if (FontUtilities.debugFonts()) {
-                                            FontUtilities.getLogger().warning("read bad font: " +
-                                                           name);
+                                            FontUtilities.getLogger().wbrning("rebd bbd font: " +
+                                                           nbme);
                                         }
-                                        badFonts.add(name);
+                                        bbdFonts.bdd(nbme);
                                     }
                                 }
-                            } catch (IOException e) {
+                            } cbtch (IOException e) {
                                 try {
                                     if (fis != null) {
                                         fis.close();
                                     }
-                                } catch (IOException ioe) {
+                                } cbtch (IOException ioe) {
                                 }
                             }
                         }
 
-                        /* Here we get the fonts in jre/lib/fonts and register
-                         * them so they are always available and preferred over
+                        /* Here we get the fonts in jre/lib/fonts bnd register
+                         * them so they bre blwbys bvbilbble bnd preferred over
                          * other fonts. This needs to be registered before the
-                         * composite fonts as otherwise some native font that
-                         * corresponds may be found as we don't have a way to
-                         * handle two fonts of the same name, so the JRE one
-                         * must be the first one registered. Pass "true" to
-                         * registerFonts method as on-screen these JRE fonts
-                         * always go through the T2K rasteriser.
+                         * composite fonts bs otherwise some nbtive font thbt
+                         * corresponds mby be found bs we don't hbve b wby to
+                         * hbndle two fonts of the sbme nbme, so the JRE one
+                         * must be the first one registered. Pbss "true" to
+                         * registerFonts method bs on-screen these JRE fonts
+                         * blwbys go through the T2K rbsteriser.
                          */
                         if (FontUtilities.isLinux) {
-                            /* Linux font configuration uses these fonts */
-                            registerFontDir(jreFontDirName);
+                            /* Linux font configurbtion uses these fonts */
+                            registerFontDir(jreFontDirNbme);
                         }
-                        registerFontsInDir(jreFontDirName, true, Font2D.JRE_RANK,
-                                           true, false);
+                        registerFontsInDir(jreFontDirNbme, true, Font2D.JRE_RANK,
+                                           true, fblse);
 
-                        /* Create the font configuration and get any font path
-                         * that might be specified.
+                        /* Crebte the font configurbtion bnd get bny font pbth
+                         * thbt might be specified.
                          */
-                        fontConfig = createFontConfiguration();
+                        fontConfig = crebteFontConfigurbtion();
                         if (isOpenJDK()) {
-                            String[] fontInfo = getDefaultPlatformFont();
-                            defaultFontName = fontInfo[0];
-                            defaultFontFileName = fontInfo[1];
+                            String[] fontInfo = getDefbultPlbtformFont();
+                            defbultFontNbme = fontInfo[0];
+                            defbultFontFileNbme = fontInfo[1];
                         }
 
-                        String extraFontPath = fontConfig.getExtraFontPath();
+                        String extrbFontPbth = fontConfig.getExtrbFontPbth();
 
-                        /* In prior releases the debugging font path replaced
-                         * all normally located font directories except for the
-                         * JRE fonts dir. This directory is still always located
-                         * and placed at the head of the path but as an
-                         * augmentation to the previous behaviour the
-                         * changes below allow you to additionally append to
-                         * the font path by starting with append: or prepend by
-                         * starting with a prepend: sign. Eg: to append
-                         * -Dsun.java2d.fontpath=append:/usr/local/myfonts
-                         * and to prepend
-                         * -Dsun.java2d.fontpath=prepend:/usr/local/myfonts Disp
+                        /* In prior relebses the debugging font pbth replbced
+                         * bll normblly locbted font directories except for the
+                         * JRE fonts dir. This directory is still blwbys locbted
+                         * bnd plbced bt the hebd of the pbth but bs bn
+                         * bugmentbtion to the previous behbviour the
+                         * chbnges below bllow you to bdditionblly bppend to
+                         * the font pbth by stbrting with bppend: or prepend by
+                         * stbrting with b prepend: sign. Eg: to bppend
+                         * -Dsun.jbvb2d.fontpbth=bppend:/usr/locbl/myfonts
+                         * bnd to prepend
+                         * -Dsun.jbvb2d.fontpbth=prepend:/usr/locbl/myfonts Disp
                          *
-                         * If there is an appendedfontpath it in the font
-                         * configuration it is used instead of searching the
+                         * If there is bn bppendedfontpbth it in the font
+                         * configurbtion it is used instebd of sebrching the
                          * system for dirs.
-                         * The behaviour of append and prepend is then similar
-                         * to the normal case. ie it goes after what
-                         * you prepend and * before what you append. If the
-                         * sun.java2d.fontpath property is used, but it
-                         * neither the append or prepend syntaxes is used then
-                         * as except for the JRE dir the path is replaced and it
-                         * is up to you to make sure that all the right
-                         * directories are located. This is platform and
-                         * locale-specific so its almost impossible to get
-                         * right, so it should be used with caution.
+                         * The behbviour of bppend bnd prepend is then similbr
+                         * to the normbl cbse. ie it goes bfter whbt
+                         * you prepend bnd * before whbt you bppend. If the
+                         * sun.jbvb2d.fontpbth property is used, but it
+                         * neither the bppend or prepend syntbxes is used then
+                         * bs except for the JRE dir the pbth is replbced bnd it
+                         * is up to you to mbke sure thbt bll the right
+                         * directories bre locbted. This is plbtform bnd
+                         * locble-specific so its blmost impossible to get
+                         * right, so it should be used with cbution.
                          */
-                        boolean prependToPath = false;
-                        boolean appendToPath = false;
-                        String dbgFontPath =
-                            System.getProperty("sun.java2d.fontpath");
+                        boolebn prependToPbth = fblse;
+                        boolebn bppendToPbth = fblse;
+                        String dbgFontPbth =
+                            System.getProperty("sun.jbvb2d.fontpbth");
 
-                        if (dbgFontPath != null) {
-                            if (dbgFontPath.startsWith("prepend:")) {
-                                prependToPath = true;
-                                dbgFontPath =
-                                    dbgFontPath.substring("prepend:".length());
-                            } else if (dbgFontPath.startsWith("append:")) {
-                                appendToPath = true;
-                                dbgFontPath =
-                                    dbgFontPath.substring("append:".length());
+                        if (dbgFontPbth != null) {
+                            if (dbgFontPbth.stbrtsWith("prepend:")) {
+                                prependToPbth = true;
+                                dbgFontPbth =
+                                    dbgFontPbth.substring("prepend:".length());
+                            } else if (dbgFontPbth.stbrtsWith("bppend:")) {
+                                bppendToPbth = true;
+                                dbgFontPbth =
+                                    dbgFontPbth.substring("bppend:".length());
                             }
                         }
 
                         if (FontUtilities.debugFonts()) {
-                            PlatformLogger logger = FontUtilities.getLogger();
-                            logger.info("JRE font directory: " + jreFontDirName);
-                            logger.info("Extra font path: " + extraFontPath);
-                            logger.info("Debug font path: " + dbgFontPath);
+                            PlbtformLogger logger = FontUtilities.getLogger();
+                            logger.info("JRE font directory: " + jreFontDirNbme);
+                            logger.info("Extrb font pbth: " + extrbFontPbth);
+                            logger.info("Debug font pbth: " + dbgFontPbth);
                         }
 
-                        if (dbgFontPath != null) {
-                            /* In debugging mode we register all the paths
-                             * Caution: this is a very expensive call on Solaris:-
+                        if (dbgFontPbth != null) {
+                            /* In debugging mode we register bll the pbths
+                             * Cbution: this is b very expensive cbll on Solbris:-
                              */
-                            fontPath = getPlatformFontPath(noType1Font);
+                            fontPbth = getPlbtformFontPbth(noType1Font);
 
-                            if (extraFontPath != null) {
-                                fontPath =
-                                    extraFontPath + File.pathSeparator + fontPath;
+                            if (extrbFontPbth != null) {
+                                fontPbth =
+                                    extrbFontPbth + File.pbthSepbrbtor + fontPbth;
                             }
-                            if (appendToPath) {
-                                fontPath =
-                                    fontPath + File.pathSeparator + dbgFontPath;
-                            } else if (prependToPath) {
-                                fontPath =
-                                    dbgFontPath + File.pathSeparator + fontPath;
+                            if (bppendToPbth) {
+                                fontPbth =
+                                    fontPbth + File.pbthSepbrbtor + dbgFontPbth;
+                            } else if (prependToPbth) {
+                                fontPbth =
+                                    dbgFontPbth + File.pbthSepbrbtor + fontPbth;
                             } else {
-                                fontPath = dbgFontPath;
+                                fontPbth = dbgFontPbth;
                             }
-                            registerFontDirs(fontPath);
-                        } else if (extraFontPath != null) {
-                            /* If the font configuration contains an
-                             * "appendedfontpath" entry, it is interpreted as a
-                             * set of locations that should always be registered.
-                             * It may be additional to locations normally found
-                             * for that place, or it may be locations that need
-                             * to have all their paths registered to locate all
-                             * the needed platform names.
-                             * This is typically when the same .TTF file is
-                             * referenced from multiple font.dir files and all
-                             * of these must be read to find all the native
-                             * (XLFD) names for the font, so that X11 font APIs
-                             * can be used for as many code points as possible.
+                            registerFontDirs(fontPbth);
+                        } else if (extrbFontPbth != null) {
+                            /* If the font configurbtion contbins bn
+                             * "bppendedfontpbth" entry, it is interpreted bs b
+                             * set of locbtions thbt should blwbys be registered.
+                             * It mby be bdditionbl to locbtions normblly found
+                             * for thbt plbce, or it mby be locbtions thbt need
+                             * to hbve bll their pbths registered to locbte bll
+                             * the needed plbtform nbmes.
+                             * This is typicblly when the sbme .TTF file is
+                             * referenced from multiple font.dir files bnd bll
+                             * of these must be rebd to find bll the nbtive
+                             * (XLFD) nbmes for the font, so thbt X11 font APIs
+                             * cbn be used for bs mbny code points bs possible.
                              */
-                            registerFontDirs(extraFontPath);
+                            registerFontDirs(extrbFontPbth);
                         }
 
-                        /* On Solaris, we need to register the Japanese TrueType
-                         * directory so that we can find the corresponding
-                         * bitmap fonts. This could be done by listing the
-                         * directory in the font configuration file, but we
-                         * don't want to confuse users with this quirk. There
-                         * are no bitmap fonts for other writing systems that
-                         * correspond to TrueType fonts and have matching XLFDs.
-                         * We need to register the bitmap fonts only in
-                         * environments where they're on the X font path, i.e.,
-                         * in the Japanese locale. Note that if the X Toolkit
-                         * is in use the font path isn't set up by JDK, but
-                         * users of a JA locale should have it
-                         * set up already by their login environment.
+                        /* On Solbris, we need to register the Jbpbnese TrueType
+                         * directory so thbt we cbn find the corresponding
+                         * bitmbp fonts. This could be done by listing the
+                         * directory in the font configurbtion file, but we
+                         * don't wbnt to confuse users with this quirk. There
+                         * bre no bitmbp fonts for other writing systems thbt
+                         * correspond to TrueType fonts bnd hbve mbtching XLFDs.
+                         * We need to register the bitmbp fonts only in
+                         * environments where they're on the X font pbth, i.e.,
+                         * in the Jbpbnese locble. Note thbt if the X Toolkit
+                         * is in use the font pbth isn't set up by JDK, but
+                         * users of b JA locble should hbve it
+                         * set up blrebdy by their login environment.
                          */
-                        if (FontUtilities.isSolaris && Locale.JAPAN.equals(Locale.getDefault())) {
-                            registerFontDir("/usr/openwin/lib/locale/ja/X11/fonts/TT");
+                        if (FontUtilities.isSolbris && Locble.JAPAN.equbls(Locble.getDefbult())) {
+                            registerFontDir("/usr/openwin/lib/locble/jb/X11/fonts/TT");
                         }
 
                         initCompositeFonts(fontConfig, null);
@@ -548,267 +548,267 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
                     }
                 });
 
-        boolean platformFont = AccessController.doPrivileged(
-                        new PrivilegedAction<Boolean>() {
-                                public Boolean run() {
+        boolebn plbtformFont = AccessController.doPrivileged(
+                        new PrivilegedAction<Boolebn>() {
+                                public Boolebn run() {
                                         String prop =
-                                                System.getProperty("java2d.font.usePlatformFont");
+                                                System.getProperty("jbvb2d.font.usePlbtformFont");
                                         String env = System.getenv("JAVA2D_USEPLATFORMFONT");
-                                        return "true".equals(prop) || env != null;
+                                        return "true".equbls(prop) || env != null;
                                 }
                         });
 
-        if (platformFont) {
-            usePlatformFontMetrics = true;
-            System.out.println("Enabling platform font metrics for win32. This is an unsupported option.");
-            System.out.println("This yields incorrect composite font metrics as reported by 1.1.x releases.");
-            System.out.println("It is appropriate only for use by applications which do not use any Java 2");
-            System.out.println("functionality. This property will be removed in a later release.");
+        if (plbtformFont) {
+            usePlbtformFontMetrics = true;
+            System.out.println("Enbbling plbtform font metrics for win32. This is bn unsupported option.");
+            System.out.println("This yields incorrect composite font metrics bs reported by 1.1.x relebses.");
+            System.out.println("It is bppropribte only for use by bpplicbtions which do not use bny Jbvb 2");
+            System.out.println("functionblity. This property will be removed in b lbter relebse.");
         }
     }
 
     /**
-     * This method is provided for internal and exclusive use by Swing.
+     * This method is provided for internbl bnd exclusive use by Swing.
      *
-     * @param font representing a physical font.
-     * @return true if the underlying font is a TrueType or OpenType font
-     * that claims to support the Microsoft Windows encoding corresponding to
-     * the default file.encoding property of this JRE instance.
-     * This narrow value is useful for Swing to decide if the font is useful
-     * for the the Windows Look and Feel, or, if a  composite font should be
-     * used instead.
-     * The information used to make the decision is obtained from
-     * the ulCodePageRange fields in the font.
-     * A caller can use isLogicalFont(Font) in this class before calling
-     * this method and would not need to call this method if that
+     * @pbrbm font representing b physicbl font.
+     * @return true if the underlying font is b TrueType or OpenType font
+     * thbt clbims to support the Microsoft Windows encoding corresponding to
+     * the defbult file.encoding property of this JRE instbnce.
+     * This nbrrow vblue is useful for Swing to decide if the font is useful
+     * for the the Windows Look bnd Feel, or, if b  composite font should be
+     * used instebd.
+     * The informbtion used to mbke the decision is obtbined from
+     * the ulCodePbgeRbnge fields in the font.
+     * A cbller cbn use isLogicblFont(Font) in this clbss before cblling
+     * this method bnd would not need to cbll this method if thbt
      * returns true.
      */
-//     static boolean fontSupportsDefaultEncoding(Font font) {
+//     stbtic boolebn fontSupportsDefbultEncoding(Font font) {
 //      String encoding =
-//          (String) java.security.AccessController.doPrivileged(
-//                new sun.security.action.GetPropertyAction("file.encoding"));
+//          (String) jbvb.security.AccessController.doPrivileged(
+//                new sun.security.bction.GetPropertyAction("file.encoding"));
 
 //      if (encoding == null || font == null) {
-//          return false;
+//          return fblse;
 //      }
 
-//      encoding = encoding.toLowerCase(Locale.ENGLISH);
+//      encoding = encoding.toLowerCbse(Locble.ENGLISH);
 
-//      return FontManager.fontSupportsEncoding(font, encoding);
+//      return FontMbnbger.fontSupportsEncoding(font, encoding);
 //     }
 
-    public Font2DHandle getNewComposite(String family, int style,
-                                        Font2DHandle handle) {
+    public Font2DHbndle getNewComposite(String fbmily, int style,
+                                        Font2DHbndle hbndle) {
 
-        if (!(handle.font2D instanceof CompositeFont)) {
-            return handle;
+        if (!(hbndle.font2D instbnceof CompositeFont)) {
+            return hbndle;
         }
 
-        CompositeFont oldComp = (CompositeFont)handle.font2D;
-        PhysicalFont oldFont = oldComp.getSlotFont(0);
+        CompositeFont oldComp = (CompositeFont)hbndle.font2D;
+        PhysicblFont oldFont = oldComp.getSlotFont(0);
 
-        if (family == null) {
-            family = oldFont.getFamilyName(null);
+        if (fbmily == null) {
+            fbmily = oldFont.getFbmilyNbme(null);
         }
         if (style == -1) {
             style = oldComp.getStyle();
         }
 
-        Font2D newFont = findFont2D(family, style, NO_FALLBACK);
-        if (!(newFont instanceof PhysicalFont)) {
+        Font2D newFont = findFont2D(fbmily, style, NO_FALLBACK);
+        if (!(newFont instbnceof PhysicblFont)) {
             newFont = oldFont;
         }
-        PhysicalFont physicalFont = (PhysicalFont)newFont;
-        CompositeFont dialog2D =
-            (CompositeFont)findFont2D("dialog", style, NO_FALLBACK);
-        if (dialog2D == null) { /* shouldn't happen */
-            return handle;
+        PhysicblFont physicblFont = (PhysicblFont)newFont;
+        CompositeFont diblog2D =
+            (CompositeFont)findFont2D("diblog", style, NO_FALLBACK);
+        if (diblog2D == null) { /* shouldn't hbppen */
+            return hbndle;
         }
-        CompositeFont compFont = new CompositeFont(physicalFont, dialog2D);
-        Font2DHandle newHandle = new Font2DHandle(compFont);
-        return newHandle;
+        CompositeFont compFont = new CompositeFont(physicblFont, diblog2D);
+        Font2DHbndle newHbndle = new Font2DHbndle(compFont);
+        return newHbndle;
     }
 
-    protected void registerCompositeFont(String compositeName,
-                                      String[] componentFileNames,
-                                      String[] componentNames,
+    protected void registerCompositeFont(String compositeNbme,
+                                      String[] componentFileNbmes,
+                                      String[] componentNbmes,
                                       int numMetricsSlots,
-                                      int[] exclusionRanges,
-                                      int[] exclusionMaxIndex,
-                                      boolean defer) {
+                                      int[] exclusionRbnges,
+                                      int[] exclusionMbxIndex,
+                                      boolebn defer) {
 
-        CompositeFont cf = new CompositeFont(compositeName,
-                                             componentFileNames,
-                                             componentNames,
+        CompositeFont cf = new CompositeFont(compositeNbme,
+                                             componentFileNbmes,
+                                             componentNbmes,
                                              numMetricsSlots,
-                                             exclusionRanges,
-                                             exclusionMaxIndex, defer, this);
-        addCompositeToFontList(cf, Font2D.FONT_CONFIG_RANK);
+                                             exclusionRbnges,
+                                             exclusionMbxIndex, defer, this);
+        bddCompositeToFontList(cf, Font2D.FONT_CONFIG_RANK);
         synchronized (compFonts) {
-            compFonts[maxCompFont++] = cf;
+            compFonts[mbxCompFont++] = cf;
         }
     }
 
-    /* This variant is used only when the application specifies
-     * a variant of composite fonts which prefers locale specific or
-     * proportional fonts.
+    /* This vbribnt is used only when the bpplicbtion specifies
+     * b vbribnt of composite fonts which prefers locble specific or
+     * proportionbl fonts.
      */
-    protected static void registerCompositeFont(String compositeName,
-                                                String[] componentFileNames,
-                                                String[] componentNames,
+    protected stbtic void registerCompositeFont(String compositeNbme,
+                                                String[] componentFileNbmes,
+                                                String[] componentNbmes,
                                                 int numMetricsSlots,
-                                                int[] exclusionRanges,
-                                                int[] exclusionMaxIndex,
-                                                boolean defer,
-                                                ConcurrentHashMap<String, Font2D>
-                                                altNameCache) {
+                                                int[] exclusionRbnges,
+                                                int[] exclusionMbxIndex,
+                                                boolebn defer,
+                                                ConcurrentHbshMbp<String, Font2D>
+                                                bltNbmeCbche) {
 
-        CompositeFont cf = new CompositeFont(compositeName,
-                                             componentFileNames,
-                                             componentNames,
+        CompositeFont cf = new CompositeFont(compositeNbme,
+                                             componentFileNbmes,
+                                             componentNbmes,
                                              numMetricsSlots,
-                                             exclusionRanges,
-                                             exclusionMaxIndex, defer,
-                                             SunFontManager.getInstance());
+                                             exclusionRbnges,
+                                             exclusionMbxIndex, defer,
+                                             SunFontMbnbger.getInstbnce());
 
-        /* if the cache has an existing composite for this case, make
-         * its handle point to this new font.
-         * This ensures that when the altNameCache that is passed in
-         * is the global mapNameCache - ie we are running as an application -
-         * that any statically created java.awt.Font instances which already
-         * have a Font2D instance will have that re-directed to the new Font
-         * on subsequent uses. This is particularly important for "the"
-         * default font instance, or similar cases where a UI toolkit (eg
-         * Swing) has cached a java.awt.Font. Note that if Swing is using
-         * a custom composite APIs which update the standard composites have
-         * no effect - this is typically the case only when using the Windows
-         * L&F where these APIs would conflict with that L&F anyway.
+        /* if the cbche hbs bn existing composite for this cbse, mbke
+         * its hbndle point to this new font.
+         * This ensures thbt when the bltNbmeCbche thbt is pbssed in
+         * is the globbl mbpNbmeCbche - ie we bre running bs bn bpplicbtion -
+         * thbt bny stbticblly crebted jbvb.bwt.Font instbnces which blrebdy
+         * hbve b Font2D instbnce will hbve thbt re-directed to the new Font
+         * on subsequent uses. This is pbrticulbrly importbnt for "the"
+         * defbult font instbnce, or similbr cbses where b UI toolkit (eg
+         * Swing) hbs cbched b jbvb.bwt.Font. Note thbt if Swing is using
+         * b custom composite APIs which updbte the stbndbrd composites hbve
+         * no effect - this is typicblly the cbse only when using the Windows
+         * L&F where these APIs would conflict with thbt L&F bnywby.
          */
-        Font2D oldFont =altNameCache.get(compositeName.toLowerCase(Locale.ENGLISH));
-        if (oldFont instanceof CompositeFont) {
-            oldFont.handle.font2D = cf;
+        Font2D oldFont =bltNbmeCbche.get(compositeNbme.toLowerCbse(Locble.ENGLISH));
+        if (oldFont instbnceof CompositeFont) {
+            oldFont.hbndle.font2D = cf;
         }
-        altNameCache.put(compositeName.toLowerCase(Locale.ENGLISH), cf);
+        bltNbmeCbche.put(compositeNbme.toLowerCbse(Locble.ENGLISH), cf);
     }
 
-    private void addCompositeToFontList(CompositeFont f, int rank) {
+    privbte void bddCompositeToFontList(CompositeFont f, int rbnk) {
 
         if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().info("Add to Family "+ f.familyName +
-                        ", Font " + f.fullName + " rank="+rank);
+            FontUtilities.getLogger().info("Add to Fbmily "+ f.fbmilyNbme +
+                        ", Font " + f.fullNbme + " rbnk="+rbnk);
         }
-        f.setRank(rank);
-        compositeFonts.put(f.fullName, f);
-        fullNameToFont.put(f.fullName.toLowerCase(Locale.ENGLISH), f);
+        f.setRbnk(rbnk);
+        compositeFonts.put(f.fullNbme, f);
+        fullNbmeToFont.put(f.fullNbme.toLowerCbse(Locble.ENGLISH), f);
 
-        FontFamily family = FontFamily.getFamily(f.familyName);
-        if (family == null) {
-            family = new FontFamily(f.familyName, true, rank);
+        FontFbmily fbmily = FontFbmily.getFbmily(f.fbmilyNbme);
+        if (fbmily == null) {
+            fbmily = new FontFbmily(f.fbmilyNbme, true, rbnk);
         }
-        family.setFont(f, f.style);
+        fbmily.setFont(f, f.style);
     }
 
     /*
-     * Systems may have fonts with the same name.
-     * We want to register only one of such fonts (at least until
-     * such time as there might be APIs which can accommodate > 1).
-     * Rank is 1) font configuration fonts, 2) JRE fonts, 3) OT/TT fonts,
-     * 4) Type1 fonts, 5) native fonts.
+     * Systems mby hbve fonts with the sbme nbme.
+     * We wbnt to register only one of such fonts (bt lebst until
+     * such time bs there might be APIs which cbn bccommodbte > 1).
+     * Rbnk is 1) font configurbtion fonts, 2) JRE fonts, 3) OT/TT fonts,
+     * 4) Type1 fonts, 5) nbtive fonts.
      *
-     * If the new font has the same name as the old font, the higher
-     * ranked font gets added, replacing the lower ranked one.
-     * If the fonts are of equal rank, then make a special case of
-     * font configuration rank fonts, which are on closer inspection,
-     * OT/TT fonts such that the larger font is registered. This is
-     * a heuristic since a font may be "larger" in the sense of more
-     * code points, or be a larger "file" because it has more bitmaps.
-     * So it is possible that using filesize may lead to less glyphs, and
-     * using glyphs may lead to lower quality display. Probably number
-     * of glyphs is the ideal, but filesize is information we already
-     * have and is good enough for the known cases.
-     * Also don't want to register fonts that match JRE font families
-     * but are coming from a source other than the JRE.
-     * This will ensure that we will algorithmically style the JRE
-     * plain font and get the same set of glyphs for all styles.
+     * If the new font hbs the sbme nbme bs the old font, the higher
+     * rbnked font gets bdded, replbcing the lower rbnked one.
+     * If the fonts bre of equbl rbnk, then mbke b specibl cbse of
+     * font configurbtion rbnk fonts, which bre on closer inspection,
+     * OT/TT fonts such thbt the lbrger font is registered. This is
+     * b heuristic since b font mby be "lbrger" in the sense of more
+     * code points, or be b lbrger "file" becbuse it hbs more bitmbps.
+     * So it is possible thbt using filesize mby lebd to less glyphs, bnd
+     * using glyphs mby lebd to lower qublity displby. Probbbly number
+     * of glyphs is the idebl, but filesize is informbtion we blrebdy
+     * hbve bnd is good enough for the known cbses.
+     * Also don't wbnt to register fonts thbt mbtch JRE font fbmilies
+     * but bre coming from b source other thbn the JRE.
+     * This will ensure thbt we will blgorithmicblly style the JRE
+     * plbin font bnd get the sbme set of glyphs for bll styles.
      *
-     * Note that this method returns a value
-     * if it returns the same object as its argument that means this
-     * font was newly registered.
-     * If it returns a different object it means this font already exists,
-     * and you should use that one.
-     * If it returns null means this font was not registered and none
-     * in that name is registered. The caller must find a substitute
+     * Note thbt this method returns b vblue
+     * if it returns the sbme object bs its brgument thbt mebns this
+     * font wbs newly registered.
+     * If it returns b different object it mebns this font blrebdy exists,
+     * bnd you should use thbt one.
+     * If it returns null mebns this font wbs not registered bnd none
+     * in thbt nbme is registered. The cbller must find b substitute
      */
-    // MACOSX begin -- need to access this in subclass
-    protected PhysicalFont addToFontList(PhysicalFont f, int rank) {
+    // MACOSX begin -- need to bccess this in subclbss
+    protected PhysicblFont bddToFontList(PhysicblFont f, int rbnk) {
     // MACOSX end
 
-        String fontName = f.fullName;
-        String familyName = f.familyName;
-        if (fontName == null || "".equals(fontName)) {
+        String fontNbme = f.fullNbme;
+        String fbmilyNbme = f.fbmilyNbme;
+        if (fontNbme == null || "".equbls(fontNbme)) {
             return null;
         }
-        if (compositeFonts.containsKey(fontName)) {
-            /* Don't register any font that has the same name as a composite */
+        if (compositeFonts.contbinsKey(fontNbme)) {
+            /* Don't register bny font thbt hbs the sbme nbme bs b composite */
             return null;
         }
-        f.setRank(rank);
-        if (!physicalFonts.containsKey(fontName)) {
+        f.setRbnk(rbnk);
+        if (!physicblFonts.contbinsKey(fontNbme)) {
             if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().info("Add to Family "+familyName +
-                            ", Font " + fontName + " rank="+rank);
+                FontUtilities.getLogger().info("Add to Fbmily "+fbmilyNbme +
+                            ", Font " + fontNbme + " rbnk="+rbnk);
             }
-            physicalFonts.put(fontName, f);
-            FontFamily family = FontFamily.getFamily(familyName);
-            if (family == null) {
-                family = new FontFamily(familyName, false, rank);
-                family.setFont(f, f.style);
+            physicblFonts.put(fontNbme, f);
+            FontFbmily fbmily = FontFbmily.getFbmily(fbmilyNbme);
+            if (fbmily == null) {
+                fbmily = new FontFbmily(fbmilyNbme, fblse, rbnk);
+                fbmily.setFont(f, f.style);
             } else {
-                family.setFont(f, f.style);
+                fbmily.setFont(f, f.style);
             }
-            fullNameToFont.put(fontName.toLowerCase(Locale.ENGLISH), f);
+            fullNbmeToFont.put(fontNbme.toLowerCbse(Locble.ENGLISH), f);
             return f;
         } else {
-            PhysicalFont newFont = f;
-            PhysicalFont oldFont = physicalFonts.get(fontName);
+            PhysicblFont newFont = f;
+            PhysicblFont oldFont = physicblFonts.get(fontNbme);
             if (oldFont == null) {
                 return null;
             }
-            /* If the new font is of an equal or higher rank, it is a
-             * candidate to replace the current one, subject to further tests.
+            /* If the new font is of bn equbl or higher rbnk, it is b
+             * cbndidbte to replbce the current one, subject to further tests.
              */
-            if (oldFont.getRank() >= rank) {
+            if (oldFont.getRbnk() >= rbnk) {
 
-                /* All fonts initialise their mapper when first
-                 * used. If the mapper is non-null then this font
-                 * has been accessed at least once. In that case
-                 * do not replace it. This may be overly stringent,
-                 * but its probably better not to replace a font that
-                 * someone is already using without a compelling reason.
-                 * Additionally the primary case where it is known
-                 * this behaviour is important is in certain composite
-                 * fonts, and since all the components of a given
-                 * composite are usually initialised together this
-                 * is unlikely. For this to be a problem, there would
-                 * have to be a case where two different composites used
-                 * different versions of the same-named font, and they
-                 * were initialised and used at separate times.
-                 * In that case we continue on and allow the new font to
-                 * be installed, but replaceFont will continue to allow
-                 * the original font to be used in Composite fonts.
+                /* All fonts initiblise their mbpper when first
+                 * used. If the mbpper is non-null then this font
+                 * hbs been bccessed bt lebst once. In thbt cbse
+                 * do not replbce it. This mby be overly stringent,
+                 * but its probbbly better not to replbce b font thbt
+                 * someone is blrebdy using without b compelling rebson.
+                 * Additionblly the primbry cbse where it is known
+                 * this behbviour is importbnt is in certbin composite
+                 * fonts, bnd since bll the components of b given
+                 * composite bre usublly initiblised together this
+                 * is unlikely. For this to be b problem, there would
+                 * hbve to be b cbse where two different composites used
+                 * different versions of the sbme-nbmed font, bnd they
+                 * were initiblised bnd used bt sepbrbte times.
+                 * In thbt cbse we continue on bnd bllow the new font to
+                 * be instblled, but replbceFont will continue to bllow
+                 * the originbl font to be used in Composite fonts.
                  */
-                if (oldFont.mapper != null && rank > Font2D.FONT_CONFIG_RANK) {
+                if (oldFont.mbpper != null && rbnk > Font2D.FONT_CONFIG_RANK) {
                     return oldFont;
                 }
 
-                /* Normally we require a higher rank to replace a font,
-                 * but as a special case, if the two fonts are the same rank,
-                 * and are instances of TrueTypeFont we want the
-                 * more complete (larger) one.
+                /* Normblly we require b higher rbnk to replbce b font,
+                 * but bs b specibl cbse, if the two fonts bre the sbme rbnk,
+                 * bnd bre instbnces of TrueTypeFont we wbnt the
+                 * more complete (lbrger) one.
                  */
-                if (oldFont.getRank() == rank) {
-                    if (oldFont instanceof TrueTypeFont &&
-                        newFont instanceof TrueTypeFont) {
+                if (oldFont.getRbnk() == rbnk) {
+                    if (oldFont instbnceof TrueTypeFont &&
+                        newFont instbnceof TrueTypeFont) {
                         TrueTypeFont oldTTFont = (TrueTypeFont)oldFont;
                         TrueTypeFont newTTFont = (TrueTypeFont)newFont;
                         if (oldTTFont.fileSize >= newTTFont.fileSize) {
@@ -818,44 +818,44 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
                         return oldFont;
                     }
                 }
-                /* Don't replace ever JRE fonts.
-                 * This test is in case a font configuration references
-                 * a Lucida font, which has been mapped to a Lucida
-                 * from the host O/S. The assumption here is that any
-                 * such font configuration file is probably incorrect, or
+                /* Don't replbce ever JRE fonts.
+                 * This test is in cbse b font configurbtion references
+                 * b Lucidb font, which hbs been mbpped to b Lucidb
+                 * from the host O/S. The bssumption here is thbt bny
+                 * such font configurbtion file is probbbly incorrect, or
                  * the host O/S version is for the use of AWT.
-                 * In other words if we reach here, there's a possible
-                 * problem with our choice of font configuration fonts.
+                 * In other words if we rebch here, there's b possible
+                 * problem with our choice of font configurbtion fonts.
                  */
-                if (oldFont.platName.startsWith(jreFontDirName)) {
+                if (oldFont.plbtNbme.stbrtsWith(jreFontDirNbme)) {
                     if (FontUtilities.isLogging()) {
                         FontUtilities.getLogger()
-                              .warning("Unexpected attempt to replace a JRE " +
-                                       " font " + fontName + " from " +
-                                        oldFont.platName +
-                                       " with " + newFont.platName);
+                              .wbrning("Unexpected bttempt to replbce b JRE " +
+                                       " font " + fontNbme + " from " +
+                                        oldFont.plbtNbme +
+                                       " with " + newFont.plbtNbme);
                     }
                     return oldFont;
                 }
 
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                          .info("Replace in Family " + familyName +
-                                ",Font " + fontName + " new rank="+rank +
-                                " from " + oldFont.platName +
-                                " with " + newFont.platName);
+                          .info("Replbce in Fbmily " + fbmilyNbme +
+                                ",Font " + fontNbme + " new rbnk="+rbnk +
+                                " from " + oldFont.plbtNbme +
+                                " with " + newFont.plbtNbme);
                 }
-                replaceFont(oldFont, newFont);
-                physicalFonts.put(fontName, newFont);
-                fullNameToFont.put(fontName.toLowerCase(Locale.ENGLISH),
+                replbceFont(oldFont, newFont);
+                physicblFonts.put(fontNbme, newFont);
+                fullNbmeToFont.put(fontNbme.toLowerCbse(Locble.ENGLISH),
                                    newFont);
 
-                FontFamily family = FontFamily.getFamily(familyName);
-                if (family == null) {
-                    family = new FontFamily(familyName, false, rank);
-                    family.setFont(newFont, newFont.style);
+                FontFbmily fbmily = FontFbmily.getFbmily(fbmilyNbme);
+                if (fbmily == null) {
+                    fbmily = new FontFbmily(fbmilyNbme, fblse, rbnk);
+                    fbmily.setFont(newFont, newFont.style);
                 } else {
-                    family.setFont(newFont, newFont.style);
+                    fbmily.setFont(newFont, newFont.style);
                 }
                 return newFont;
             } else {
@@ -865,156 +865,156 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
     }
 
     public Font2D[] getRegisteredFonts() {
-        PhysicalFont[] physFonts = getPhysicalFonts();
-        int mcf = maxCompFont; /* for MT-safety */
+        PhysicblFont[] physFonts = getPhysicblFonts();
+        int mcf = mbxCompFont; /* for MT-sbfety */
         Font2D[] regFonts = new Font2D[physFonts.length+mcf];
-        System.arraycopy(compFonts, 0, regFonts, 0, mcf);
-        System.arraycopy(physFonts, 0, regFonts, mcf, physFonts.length);
+        System.brrbycopy(compFonts, 0, regFonts, 0, mcf);
+        System.brrbycopy(physFonts, 0, regFonts, mcf, physFonts.length);
         return regFonts;
     }
 
-    protected PhysicalFont[] getPhysicalFonts() {
-        return physicalFonts.values().toArray(new PhysicalFont[0]);
+    protected PhysicblFont[] getPhysicblFonts() {
+        return physicblFonts.vblues().toArrby(new PhysicblFont[0]);
     }
 
 
-    /* The class FontRegistrationInfo is used when a client says not
-     * to register a font immediately. This mechanism is used to defer
-     * initialisation of all the components of composite fonts at JRE
-     * start-up. The CompositeFont class is "aware" of this and when it
-     * is first used it asks for the registration of its components.
-     * Also in the event that any physical font is requested the
-     * deferred fonts are initialised before triggering a search of the
+    /* The clbss FontRegistrbtionInfo is used when b client sbys not
+     * to register b font immedibtely. This mechbnism is used to defer
+     * initiblisbtion of bll the components of composite fonts bt JRE
+     * stbrt-up. The CompositeFont clbss is "bwbre" of this bnd when it
+     * is first used it bsks for the registrbtion of its components.
+     * Also in the event thbt bny physicbl font is requested the
+     * deferred fonts bre initiblised before triggering b sebrch of the
      * system.
-     * Two maps are used. One to track the deferred fonts. The
-     * other to track the fonts that have been initialised through this
-     * mechanism.
+     * Two mbps bre used. One to trbck the deferred fonts. The
+     * other to trbck the fonts thbt hbve been initiblised through this
+     * mechbnism.
      */
 
-    private static final class FontRegistrationInfo {
+    privbte stbtic finbl clbss FontRegistrbtionInfo {
 
-        String fontFilePath;
-        String[] nativeNames;
-        int fontFormat;
-        boolean javaRasterizer;
-        int fontRank;
+        String fontFilePbth;
+        String[] nbtiveNbmes;
+        int fontFormbt;
+        boolebn jbvbRbsterizer;
+        int fontRbnk;
 
-        FontRegistrationInfo(String fontPath, String[] names, int format,
-                             boolean useJavaRasterizer, int rank) {
-            this.fontFilePath = fontPath;
-            this.nativeNames = names;
-            this.fontFormat = format;
-            this.javaRasterizer = useJavaRasterizer;
-            this.fontRank = rank;
+        FontRegistrbtionInfo(String fontPbth, String[] nbmes, int formbt,
+                             boolebn useJbvbRbsterizer, int rbnk) {
+            this.fontFilePbth = fontPbth;
+            this.nbtiveNbmes = nbmes;
+            this.fontFormbt = formbt;
+            this.jbvbRbsterizer = useJbvbRbsterizer;
+            this.fontRbnk = rbnk;
         }
     }
 
-    private final ConcurrentHashMap<String, FontRegistrationInfo>
+    privbte finbl ConcurrentHbshMbp<String, FontRegistrbtionInfo>
         deferredFontFiles =
-        new ConcurrentHashMap<String, FontRegistrationInfo>();
-    private final ConcurrentHashMap<String, Font2DHandle>
-        initialisedFonts = new ConcurrentHashMap<String, Font2DHandle>();
+        new ConcurrentHbshMbp<String, FontRegistrbtionInfo>();
+    privbte finbl ConcurrentHbshMbp<String, Font2DHbndle>
+        initiblisedFonts = new ConcurrentHbshMbp<String, Font2DHbndle>();
 
-    /* Remind: possibly enhance initialiseDeferredFonts() to be
-     * optionally given a name and a style and it could stop when it
-     * finds that font - but this would be a problem if two of the
-     * fonts reference the same font face name (cf the Solaris
+    /* Remind: possibly enhbnce initibliseDeferredFonts() to be
+     * optionblly given b nbme bnd b style bnd it could stop when it
+     * finds thbt font - but this would be b problem if two of the
+     * fonts reference the sbme font fbce nbme (cf the Solbris
      * euro fonts).
      */
-    protected synchronized void initialiseDeferredFonts() {
-        for (String fileName : deferredFontFiles.keySet()) {
-            initialiseDeferredFont(fileName);
+    protected synchronized void initibliseDeferredFonts() {
+        for (String fileNbme : deferredFontFiles.keySet()) {
+            initibliseDeferredFont(fileNbme);
         }
     }
 
     protected synchronized void registerDeferredJREFonts(String jreDir) {
-        for (FontRegistrationInfo info : deferredFontFiles.values()) {
-            if (info.fontFilePath != null &&
-                info.fontFilePath.startsWith(jreDir)) {
-                initialiseDeferredFont(info.fontFilePath);
+        for (FontRegistrbtionInfo info : deferredFontFiles.vblues()) {
+            if (info.fontFilePbth != null &&
+                info.fontFilePbth.stbrtsWith(jreDir)) {
+                initibliseDeferredFont(info.fontFilePbth);
             }
         }
     }
 
-    public boolean isDeferredFont(String fileName) {
-        return deferredFontFiles.containsKey(fileName);
+    public boolebn isDeferredFont(String fileNbme) {
+        return deferredFontFiles.contbinsKey(fileNbme);
     }
 
-    /* We keep a map of the files which contain the Lucida fonts so we
-     * don't need to search for them.
-     * But since we know what fonts these files contain, we can also avoid
-     * opening them to look for a font name we don't recognise - see
+    /* We keep b mbp of the files which contbin the Lucidb fonts so we
+     * don't need to sebrch for them.
+     * But since we know whbt fonts these files contbin, we cbn blso bvoid
+     * opening them to look for b font nbme we don't recognise - see
      * findDeferredFont().
-     * For typical cases where the font isn't a JRE one the overhead is
-     * this method call, HashMap.get() and null reference test, then
-     * a boolean test of noOtherJREFontFiles.
+     * For typicbl cbses where the font isn't b JRE one the overhebd is
+     * this method cbll, HbshMbp.get() bnd null reference test, then
+     * b boolebn test of noOtherJREFontFiles.
      */
     public
-    /*private*/ PhysicalFont findJREDeferredFont(String name, int style) {
+    /*privbte*/ PhysicblFont findJREDeferredFont(String nbme, int style) {
 
-        PhysicalFont physicalFont;
-        String nameAndStyle = name.toLowerCase(Locale.ENGLISH) + style;
-        String fileName = jreFontMap.get(nameAndStyle);
-        if (fileName != null) {
-            fileName = jreFontDirName + File.separator + fileName;
-            if (deferredFontFiles.get(fileName) != null) {
-                physicalFont = initialiseDeferredFont(fileName);
-                if (physicalFont != null &&
-                    (physicalFont.getFontName(null).equalsIgnoreCase(name) ||
-                     physicalFont.getFamilyName(null).equalsIgnoreCase(name))
-                    && physicalFont.style == style) {
-                    return physicalFont;
+        PhysicblFont physicblFont;
+        String nbmeAndStyle = nbme.toLowerCbse(Locble.ENGLISH) + style;
+        String fileNbme = jreFontMbp.get(nbmeAndStyle);
+        if (fileNbme != null) {
+            fileNbme = jreFontDirNbme + File.sepbrbtor + fileNbme;
+            if (deferredFontFiles.get(fileNbme) != null) {
+                physicblFont = initibliseDeferredFont(fileNbme);
+                if (physicblFont != null &&
+                    (physicblFont.getFontNbme(null).equblsIgnoreCbse(nbme) ||
+                     physicblFont.getFbmilyNbme(null).equblsIgnoreCbse(nbme))
+                    && physicblFont.style == style) {
+                    return physicblFont;
                 }
             }
         }
 
-        /* Iterate over the deferred font files looking for any in the
-         * jre directory that we didn't recognise, open each of these.
-         * In almost all installations this will quickly fall through
-         * because only the Lucidas will be present and jreOtherFontFiles
+        /* Iterbte over the deferred font files looking for bny in the
+         * jre directory thbt we didn't recognise, open ebch of these.
+         * In blmost bll instbllbtions this will quickly fbll through
+         * becbuse only the Lucidbs will be present bnd jreOtherFontFiles
          * will be empty.
-         * noOtherJREFontFiles is used so we can skip this block as soon
-         * as its determined that its not needed - almost always after the
+         * noOtherJREFontFiles is used so we cbn skip this block bs soon
+         * bs its determined thbt its not needed - blmost blwbys bfter the
          * very first time through.
          */
         if (noOtherJREFontFiles) {
             return null;
         }
-        synchronized (jreLucidaFontFiles) {
+        synchronized (jreLucidbFontFiles) {
             if (jreOtherFontFiles == null) {
-                HashSet<String> otherFontFiles = new HashSet<String>();
+                HbshSet<String> otherFontFiles = new HbshSet<String>();
                 for (String deferredFile : deferredFontFiles.keySet()) {
                     File file = new File(deferredFile);
-                    String dir = file.getParent();
-                    String fname = file.getName();
-                    /* skip names which aren't absolute, aren't in the JRE
-                     * directory, or are known Lucida fonts.
+                    String dir = file.getPbrent();
+                    String fnbme = file.getNbme();
+                    /* skip nbmes which bren't bbsolute, bren't in the JRE
+                     * directory, or bre known Lucidb fonts.
                      */
                     if (dir == null ||
-                        !dir.equals(jreFontDirName) ||
-                        jreLucidaFontFiles.contains(fname)) {
+                        !dir.equbls(jreFontDirNbme) ||
+                        jreLucidbFontFiles.contbins(fnbme)) {
                         continue;
                     }
-                    otherFontFiles.add(deferredFile);
+                    otherFontFiles.bdd(deferredFile);
                 }
-                jreOtherFontFiles = otherFontFiles.toArray(STR_ARRAY);
+                jreOtherFontFiles = otherFontFiles.toArrby(STR_ARRAY);
                 if (jreOtherFontFiles.length == 0) {
                     noOtherJREFontFiles = true;
                 }
             }
 
             for (int i=0; i<jreOtherFontFiles.length;i++) {
-                fileName = jreOtherFontFiles[i];
-                if (fileName == null) {
+                fileNbme = jreOtherFontFiles[i];
+                if (fileNbme == null) {
                     continue;
                 }
                 jreOtherFontFiles[i] = null;
-                physicalFont = initialiseDeferredFont(fileName);
-                if (physicalFont != null &&
-                    (physicalFont.getFontName(null).equalsIgnoreCase(name) ||
-                     physicalFont.getFamilyName(null).equalsIgnoreCase(name))
-                    && physicalFont.style == style) {
-                    return physicalFont;
+                physicblFont = initibliseDeferredFont(fileNbme);
+                if (physicblFont != null &&
+                    (physicblFont.getFontNbme(null).equblsIgnoreCbse(nbme) ||
+                     physicblFont.getFbmilyNbme(null).equblsIgnoreCbse(nbme))
+                    && physicblFont.style == style) {
+                    return physicblFont;
                 }
             }
         }
@@ -1022,284 +1022,284 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         return null;
     }
 
-    /* This skips JRE installed fonts. */
-    private PhysicalFont findOtherDeferredFont(String name, int style) {
-        for (String fileName : deferredFontFiles.keySet()) {
-            File file = new File(fileName);
-            String dir = file.getParent();
-            String fname = file.getName();
+    /* This skips JRE instblled fonts. */
+    privbte PhysicblFont findOtherDeferredFont(String nbme, int style) {
+        for (String fileNbme : deferredFontFiles.keySet()) {
+            File file = new File(fileNbme);
+            String dir = file.getPbrent();
+            String fnbme = file.getNbme();
             if (dir != null &&
-                dir.equals(jreFontDirName) &&
-                jreLucidaFontFiles.contains(fname)) {
+                dir.equbls(jreFontDirNbme) &&
+                jreLucidbFontFiles.contbins(fnbme)) {
                 continue;
             }
-            PhysicalFont physicalFont = initialiseDeferredFont(fileName);
-            if (physicalFont != null &&
-                (physicalFont.getFontName(null).equalsIgnoreCase(name) ||
-                physicalFont.getFamilyName(null).equalsIgnoreCase(name)) &&
-                physicalFont.style == style) {
-                return physicalFont;
+            PhysicblFont physicblFont = initibliseDeferredFont(fileNbme);
+            if (physicblFont != null &&
+                (physicblFont.getFontNbme(null).equblsIgnoreCbse(nbme) ||
+                physicblFont.getFbmilyNbme(null).equblsIgnoreCbse(nbme)) &&
+                physicblFont.style == style) {
+                return physicblFont;
             }
         }
         return null;
     }
 
-    private PhysicalFont findDeferredFont(String name, int style) {
+    privbte PhysicblFont findDeferredFont(String nbme, int style) {
 
-        PhysicalFont physicalFont = findJREDeferredFont(name, style);
-        if (physicalFont != null) {
-            return physicalFont;
+        PhysicblFont physicblFont = findJREDeferredFont(nbme, style);
+        if (physicblFont != null) {
+            return physicblFont;
         } else {
-            return findOtherDeferredFont(name, style);
+            return findOtherDeferredFont(nbme, style);
         }
     }
 
-    public void registerDeferredFont(String fileNameKey,
-                                     String fullPathName,
-                                     String[] nativeNames,
-                                     int fontFormat,
-                                     boolean useJavaRasterizer,
-                                     int fontRank) {
-        FontRegistrationInfo regInfo =
-            new FontRegistrationInfo(fullPathName, nativeNames, fontFormat,
-                                     useJavaRasterizer, fontRank);
-        deferredFontFiles.put(fileNameKey, regInfo);
+    public void registerDeferredFont(String fileNbmeKey,
+                                     String fullPbthNbme,
+                                     String[] nbtiveNbmes,
+                                     int fontFormbt,
+                                     boolebn useJbvbRbsterizer,
+                                     int fontRbnk) {
+        FontRegistrbtionInfo regInfo =
+            new FontRegistrbtionInfo(fullPbthNbme, nbtiveNbmes, fontFormbt,
+                                     useJbvbRbsterizer, fontRbnk);
+        deferredFontFiles.put(fileNbmeKey, regInfo);
     }
 
 
     public synchronized
-         PhysicalFont initialiseDeferredFont(String fileNameKey) {
+         PhysicblFont initibliseDeferredFont(String fileNbmeKey) {
 
-        if (fileNameKey == null) {
+        if (fileNbmeKey == null) {
             return null;
         }
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                            .info("Opening deferred font file " + fileNameKey);
+                            .info("Opening deferred font file " + fileNbmeKey);
         }
 
-        PhysicalFont physicalFont;
-        FontRegistrationInfo regInfo = deferredFontFiles.get(fileNameKey);
+        PhysicblFont physicblFont;
+        FontRegistrbtionInfo regInfo = deferredFontFiles.get(fileNbmeKey);
         if (regInfo != null) {
-            deferredFontFiles.remove(fileNameKey);
-            physicalFont = registerFontFile(regInfo.fontFilePath,
-                                            regInfo.nativeNames,
-                                            regInfo.fontFormat,
-                                            regInfo.javaRasterizer,
-                                            regInfo.fontRank);
+            deferredFontFiles.remove(fileNbmeKey);
+            physicblFont = registerFontFile(regInfo.fontFilePbth,
+                                            regInfo.nbtiveNbmes,
+                                            regInfo.fontFormbt,
+                                            regInfo.jbvbRbsterizer,
+                                            regInfo.fontRbnk);
 
 
-            if (physicalFont != null) {
-                /* Store the handle, so that if a font is bad, we
+            if (physicblFont != null) {
+                /* Store the hbndle, so thbt if b font is bbd, we
                  * retrieve the substituted font.
                  */
-                initialisedFonts.put(fileNameKey, physicalFont.handle);
+                initiblisedFonts.put(fileNbmeKey, physicblFont.hbndle);
             } else {
-                initialisedFonts.put(fileNameKey,
-                                     getDefaultPhysicalFont().handle);
+                initiblisedFonts.put(fileNbmeKey,
+                                     getDefbultPhysicblFont().hbndle);
             }
         } else {
-            Font2DHandle handle = initialisedFonts.get(fileNameKey);
-            if (handle == null) {
-                /* Probably shouldn't happen, but just in case */
-                physicalFont = getDefaultPhysicalFont();
+            Font2DHbndle hbndle = initiblisedFonts.get(fileNbmeKey);
+            if (hbndle == null) {
+                /* Probbbly shouldn't hbppen, but just in cbse */
+                physicblFont = getDefbultPhysicblFont();
             } else {
-                physicalFont = (PhysicalFont)(handle.font2D);
+                physicblFont = (PhysicblFont)(hbndle.font2D);
             }
         }
-        return physicalFont;
+        return physicblFont;
     }
 
-    public boolean isRegisteredFontFile(String name) {
-        return registeredFonts.containsKey(name);
+    public boolebn isRegisteredFontFile(String nbme) {
+        return registeredFonts.contbinsKey(nbme);
     }
 
-    public PhysicalFont getRegisteredFontFile(String name) {
-        return registeredFonts.get(name);
+    public PhysicblFont getRegisteredFontFile(String nbme) {
+        return registeredFonts.get(nbme);
     }
 
-    /* Note that the return value from this method is not always
-     * derived from this file, and may be null. See addToFontList for
-     * some explanation of this.
+    /* Note thbt the return vblue from this method is not blwbys
+     * derived from this file, bnd mby be null. See bddToFontList for
+     * some explbnbtion of this.
      */
-    public PhysicalFont registerFontFile(String fileName,
-                                         String[] nativeNames,
-                                         int fontFormat,
-                                         boolean useJavaRasterizer,
-                                         int fontRank) {
+    public PhysicblFont registerFontFile(String fileNbme,
+                                         String[] nbtiveNbmes,
+                                         int fontFormbt,
+                                         boolebn useJbvbRbsterizer,
+                                         int fontRbnk) {
 
-        PhysicalFont regFont = registeredFonts.get(fileName);
+        PhysicblFont regFont = registeredFonts.get(fileNbme);
         if (regFont != null) {
             return regFont;
         }
 
-        PhysicalFont physicalFont = null;
+        PhysicblFont physicblFont = null;
         try {
-            String name;
+            String nbme;
 
-            switch (fontFormat) {
+            switch (fontFormbt) {
 
-            case FONTFORMAT_TRUETYPE:
+            cbse FONTFORMAT_TRUETYPE:
                 int fn = 0;
                 TrueTypeFont ttf;
                 do {
-                    ttf = new TrueTypeFont(fileName, nativeNames, fn++,
-                                           useJavaRasterizer);
-                    PhysicalFont pf = addToFontList(ttf, fontRank);
-                    if (physicalFont == null) {
-                        physicalFont = pf;
+                    ttf = new TrueTypeFont(fileNbme, nbtiveNbmes, fn++,
+                                           useJbvbRbsterizer);
+                    PhysicblFont pf = bddToFontList(ttf, fontRbnk);
+                    if (physicblFont == null) {
+                        physicblFont = pf;
                     }
                 }
                 while (fn < ttf.getFontCount());
-                break;
+                brebk;
 
-            case FONTFORMAT_TYPE1:
-                Type1Font t1f = new Type1Font(fileName, nativeNames);
-                physicalFont = addToFontList(t1f, fontRank);
-                break;
+            cbse FONTFORMAT_TYPE1:
+                Type1Font t1f = new Type1Font(fileNbme, nbtiveNbmes);
+                physicblFont = bddToFontList(t1f, fontRbnk);
+                brebk;
 
-            case FONTFORMAT_NATIVE:
-                NativeFont nf = new NativeFont(fileName, false);
-                physicalFont = addToFontList(nf, fontRank);
-                break;
-            default:
+            cbse FONTFORMAT_NATIVE:
+                NbtiveFont nf = new NbtiveFont(fileNbme, fblse);
+                physicblFont = bddToFontList(nf, fontRbnk);
+                brebk;
+            defbult:
 
             }
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                      .info("Registered file " + fileName + " as font " +
-                            physicalFont + " rank="  + fontRank);
+                      .info("Registered file " + fileNbme + " bs font " +
+                            physicblFont + " rbnk="  + fontRbnk);
             }
-        } catch (FontFormatException ffe) {
+        } cbtch (FontFormbtException ffe) {
             if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().warning("Unusable font: " +
-                               fileName + " " + ffe.toString());
+                FontUtilities.getLogger().wbrning("Unusbble font: " +
+                               fileNbme + " " + ffe.toString());
             }
         }
-        if (physicalFont != null &&
-            fontFormat != FONTFORMAT_NATIVE) {
-            registeredFonts.put(fileName, physicalFont);
+        if (physicblFont != null &&
+            fontFormbt != FONTFORMAT_NATIVE) {
+            registeredFonts.put(fileNbme, physicblFont);
         }
-        return physicalFont;
+        return physicblFont;
     }
 
-    public void registerFonts(String[] fileNames,
-                              String[][] nativeNames,
+    public void registerFonts(String[] fileNbmes,
+                              String[][] nbtiveNbmes,
                               int fontCount,
-                              int fontFormat,
-                              boolean useJavaRasterizer,
-                              int fontRank, boolean defer) {
+                              int fontFormbt,
+                              boolebn useJbvbRbsterizer,
+                              int fontRbnk, boolebn defer) {
 
         for (int i=0; i < fontCount; i++) {
             if (defer) {
-                registerDeferredFont(fileNames[i],fileNames[i], nativeNames[i],
-                                     fontFormat, useJavaRasterizer, fontRank);
+                registerDeferredFont(fileNbmes[i],fileNbmes[i], nbtiveNbmes[i],
+                                     fontFormbt, useJbvbRbsterizer, fontRbnk);
             } else {
-                registerFontFile(fileNames[i], nativeNames[i],
-                                 fontFormat, useJavaRasterizer, fontRank);
+                registerFontFile(fileNbmes[i], nbtiveNbmes[i],
+                                 fontFormbt, useJbvbRbsterizer, fontRbnk);
             }
         }
     }
 
     /*
-     * This is the Physical font used when some other font on the system
-     * can't be located. There has to be at least one font or the font
-     * system is not useful and the graphics environment cannot sustain
-     * the Java platform.
+     * This is the Physicbl font used when some other font on the system
+     * cbn't be locbted. There hbs to be bt lebst one font or the font
+     * system is not useful bnd the grbphics environment cbnnot sustbin
+     * the Jbvb plbtform.
      */
-    public PhysicalFont getDefaultPhysicalFont() {
-        if (defaultPhysicalFont == null) {
-            /* findFont2D will load all fonts before giving up the search.
-             * If the JRE Lucida isn't found (eg because the JRE fonts
-             * directory is missing), it could find another version of Lucida
-             * from the host system. This is OK because at that point we are
-             * trying to gracefully handle/recover from a system
-             * misconfiguration and this is probably a reasonable substitution.
+    public PhysicblFont getDefbultPhysicblFont() {
+        if (defbultPhysicblFont == null) {
+            /* findFont2D will lobd bll fonts before giving up the sebrch.
+             * If the JRE Lucidb isn't found (eg becbuse the JRE fonts
+             * directory is missing), it could find bnother version of Lucidb
+             * from the host system. This is OK becbuse bt thbt point we bre
+             * trying to grbcefully hbndle/recover from b system
+             * misconfigurbtion bnd this is probbbly b rebsonbble substitution.
              */
-            defaultPhysicalFont = (PhysicalFont)
-                findFont2D("Lucida Sans Regular", Font.PLAIN, NO_FALLBACK);
-            if (defaultPhysicalFont == null) {
-                defaultPhysicalFont = (PhysicalFont)
-                    findFont2D("Arial", Font.PLAIN, NO_FALLBACK);
+            defbultPhysicblFont = (PhysicblFont)
+                findFont2D("Lucidb Sbns Regulbr", Font.PLAIN, NO_FALLBACK);
+            if (defbultPhysicblFont == null) {
+                defbultPhysicblFont = (PhysicblFont)
+                    findFont2D("Aribl", Font.PLAIN, NO_FALLBACK);
             }
-            if (defaultPhysicalFont == null) {
-                /* Because of the findFont2D call above, if we reach here, we
-                 * know all fonts have already been loaded, just accept any
-                 * match at this point. If this fails we are in real trouble
-                 * and I don't know how to recover from there being absolutely
-                 * no fonts anywhere on the system.
+            if (defbultPhysicblFont == null) {
+                /* Becbuse of the findFont2D cbll bbove, if we rebch here, we
+                 * know bll fonts hbve blrebdy been lobded, just bccept bny
+                 * mbtch bt this point. If this fbils we bre in rebl trouble
+                 * bnd I don't know how to recover from there being bbsolutely
+                 * no fonts bnywhere on the system.
                  */
-                Iterator<PhysicalFont> i = physicalFonts.values().iterator();
-                if (i.hasNext()) {
-                    defaultPhysicalFont = i.next();
+                Iterbtor<PhysicblFont> i = physicblFonts.vblues().iterbtor();
+                if (i.hbsNext()) {
+                    defbultPhysicblFont = i.next();
                 } else {
-                    throw new Error("Probable fatal error:No fonts found.");
+                    throw new Error("Probbble fbtbl error:No fonts found.");
                 }
             }
         }
-        return defaultPhysicalFont;
+        return defbultPhysicblFont;
     }
 
-    public Font2D getDefaultLogicalFont(int style) {
-        return findFont2D("dialog", style, NO_FALLBACK);
+    public Font2D getDefbultLogicblFont(int style) {
+        return findFont2D("diblog", style, NO_FALLBACK);
     }
 
     /*
-     * return String representation of style prepended with "."
-     * This is useful for performance to avoid unnecessary string operations.
+     * return String representbtion of style prepended with "."
+     * This is useful for performbnce to bvoid unnecessbry string operbtions.
      */
-    private static String dotStyleStr(int num) {
+    privbte stbtic String dotStyleStr(int num) {
         switch(num){
-          case Font.BOLD:
+          cbse Font.BOLD:
             return ".bold";
-          case Font.ITALIC:
-            return ".italic";
-          case Font.ITALIC | Font.BOLD:
-            return ".bolditalic";
-          default:
-            return ".plain";
+          cbse Font.ITALIC:
+            return ".itblic";
+          cbse Font.ITALIC | Font.BOLD:
+            return ".bolditblic";
+          defbult:
+            return ".plbin";
         }
     }
 
-    /* This is implemented only on windows and is called from code that
-     * executes only on windows. This isn't pretty but its not a precedent
-     * in this file. This very probably should be cleaned up at some point.
+    /* This is implemented only on windows bnd is cblled from code thbt
+     * executes only on windows. This isn't pretty but its not b precedent
+     * in this file. This very probbbly should be clebned up bt some point.
      */
     protected void
-        populateFontFileNameMap(HashMap<String,String> fontToFileMap,
-                                HashMap<String,String> fontToFamilyNameMap,
-                                HashMap<String,ArrayList<String>>
-                                familyToFontListMap,
-                                Locale locale) {
+        populbteFontFileNbmeMbp(HbshMbp<String,String> fontToFileMbp,
+                                HbshMbp<String,String> fontToFbmilyNbmeMbp,
+                                HbshMbp<String,ArrbyList<String>>
+                                fbmilyToFontListMbp,
+                                Locble locble) {
     }
 
-    /* Obtained from Platform APIs (windows only)
-     * Map from lower-case font full name to basename of font file.
-     * Eg "arial bold" -> ARIALBD.TTF.
-     * For TTC files, there is a mapping for each font in the file.
+    /* Obtbined from Plbtform APIs (windows only)
+     * Mbp from lower-cbse font full nbme to bbsenbme of font file.
+     * Eg "bribl bold" -> ARIALBD.TTF.
+     * For TTC files, there is b mbpping for ebch font in the file.
      */
-    private HashMap<String,String> fontToFileMap = null;
+    privbte HbshMbp<String,String> fontToFileMbp = null;
 
-    /* Obtained from Platform APIs (windows only)
-     * Map from lower-case font full name to the name of its font family
-     * Eg "arial bold" -> "Arial"
+    /* Obtbined from Plbtform APIs (windows only)
+     * Mbp from lower-cbse font full nbme to the nbme of its font fbmily
+     * Eg "bribl bold" -> "Aribl"
      */
-    private HashMap<String,String> fontToFamilyNameMap = null;
+    privbte HbshMbp<String,String> fontToFbmilyNbmeMbp = null;
 
-    /* Obtained from Platform APIs (windows only)
-     * Map from a lower-case family name to a list of full names of
+    /* Obtbined from Plbtform APIs (windows only)
+     * Mbp from b lower-cbse fbmily nbme to b list of full nbmes of
      * the member fonts, eg:
-     * "arial" -> ["Arial", "Arial Bold", "Arial Italic","Arial Bold Italic"]
+     * "bribl" -> ["Aribl", "Aribl Bold", "Aribl Itblic","Aribl Bold Itblic"]
      */
-    private HashMap<String,ArrayList<String>> familyToFontListMap= null;
+    privbte HbshMbp<String,ArrbyList<String>> fbmilyToFontListMbp= null;
 
-    /* The directories which contain platform fonts */
-    private String[] pathDirs = null;
+    /* The directories which contbin plbtform fonts */
+    privbte String[] pbthDirs = null;
 
-    private boolean haveCheckedUnreferencedFontFiles;
+    privbte boolebn hbveCheckedUnreferencedFontFiles;
 
-    private String[] getFontFilesFromPath(boolean noType1) {
-        final FilenameFilter filter;
+    privbte String[] getFontFilesFromPbth(boolebn noType1) {
+        finbl FilenbmeFilter filter;
         if (noType1) {
             filter = ttFilter;
         } else {
@@ -1307,183 +1307,183 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         }
         return (String[])AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                if (pathDirs.length == 1) {
-                    File dir = new File(pathDirs[0]);
+                if (pbthDirs.length == 1) {
+                    File dir = new File(pbthDirs[0]);
                     String[] files = dir.list(filter);
                     if (files == null) {
                         return new String[0];
                     }
                     for (int f=0; f<files.length; f++) {
-                        files[f] = files[f].toLowerCase();
+                        files[f] = files[f].toLowerCbse();
                     }
                     return files;
                 } else {
-                    ArrayList<String> fileList = new ArrayList<String>();
-                    for (int i = 0; i< pathDirs.length; i++) {
-                        File dir = new File(pathDirs[i]);
+                    ArrbyList<String> fileList = new ArrbyList<String>();
+                    for (int i = 0; i< pbthDirs.length; i++) {
+                        File dir = new File(pbthDirs[i]);
                         String[] files = dir.list(filter);
                         if (files == null) {
                             continue;
                         }
                         for (int f=0; f<files.length ; f++) {
-                            fileList.add(files[f].toLowerCase());
+                            fileList.bdd(files[f].toLowerCbse());
                         }
                     }
-                    return fileList.toArray(STR_ARRAY);
+                    return fileList.toArrby(STR_ARRAY);
                 }
             }
         });
     }
 
-    /* This is needed since some windows registry names don't match
-     * the font names.
-     * - UPC styled font names have a double space, but the
-     * registry entry mapping to a file doesn't.
-     * - Marlett is in a hidden file not listed in the registry
-     * - The registry advertises that the file david.ttf contains a
-     * font with the full name "David Regular" when in fact its
-     * just "David".
-     * Directly fix up these known cases as this is faster.
-     * If a font which doesn't match these known cases has no file,
-     * it may be a font that has been temporarily added to the known set
-     * or it may be an installed font with a missing registry entry.
-     * Installed fonts are those in the windows font directories.
-     * Make a best effort attempt to locate these.
-     * We obtain the list of TrueType fonts in these directories and
-     * filter out all the font files we already know about from the registry.
-     * What remains may be "bad" fonts, duplicate fonts, or perhaps the
-     * missing font(s) we are looking for.
-     * Open each of these files to find out.
+    /* This is needed since some windows registry nbmes don't mbtch
+     * the font nbmes.
+     * - UPC styled font nbmes hbve b double spbce, but the
+     * registry entry mbpping to b file doesn't.
+     * - Mbrlett is in b hidden file not listed in the registry
+     * - The registry bdvertises thbt the file dbvid.ttf contbins b
+     * font with the full nbme "Dbvid Regulbr" when in fbct its
+     * just "Dbvid".
+     * Directly fix up these known cbses bs this is fbster.
+     * If b font which doesn't mbtch these known cbses hbs no file,
+     * it mby be b font thbt hbs been temporbrily bdded to the known set
+     * or it mby be bn instblled font with b missing registry entry.
+     * Instblled fonts bre those in the windows font directories.
+     * Mbke b best effort bttempt to locbte these.
+     * We obtbin the list of TrueType fonts in these directories bnd
+     * filter out bll the font files we blrebdy know bbout from the registry.
+     * Whbt rembins mby be "bbd" fonts, duplicbte fonts, or perhbps the
+     * missing font(s) we bre looking for.
+     * Open ebch of these files to find out.
      */
-    private void resolveWindowsFonts() {
+    privbte void resolveWindowsFonts() {
 
-        ArrayList<String> unmappedFontNames = null;
-        for (String font : fontToFamilyNameMap.keySet()) {
-            String file = fontToFileMap.get(font);
+        ArrbyList<String> unmbppedFontNbmes = null;
+        for (String font : fontToFbmilyNbmeMbp.keySet()) {
+            String file = fontToFileMbp.get(font);
             if (file == null) {
                 if (font.indexOf("  ") > 0) {
-                    String newName = font.replaceFirst("  ", " ");
-                    file = fontToFileMap.get(newName);
-                    /* If this name exists and isn't for a valid name
-                     * replace the mapping to the file with this font
+                    String newNbme = font.replbceFirst("  ", " ");
+                    file = fontToFileMbp.get(newNbme);
+                    /* If this nbme exists bnd isn't for b vblid nbme
+                     * replbce the mbpping to the file with this font
                      */
                     if (file != null &&
-                        !fontToFamilyNameMap.containsKey(newName)) {
-                        fontToFileMap.remove(newName);
-                        fontToFileMap.put(font, file);
+                        !fontToFbmilyNbmeMbp.contbinsKey(newNbme)) {
+                        fontToFileMbp.remove(newNbme);
+                        fontToFileMbp.put(font, file);
                     }
-                } else if (font.equals("marlett")) {
-                    fontToFileMap.put(font, "marlett.ttf");
-                } else if (font.equals("david")) {
-                    file = fontToFileMap.get("david regular");
+                } else if (font.equbls("mbrlett")) {
+                    fontToFileMbp.put(font, "mbrlett.ttf");
+                } else if (font.equbls("dbvid")) {
+                    file = fontToFileMbp.get("dbvid regulbr");
                     if (file != null) {
-                        fontToFileMap.remove("david regular");
-                        fontToFileMap.put("david", file);
+                        fontToFileMbp.remove("dbvid regulbr");
+                        fontToFileMbp.put("dbvid", file);
                     }
                 } else {
-                    if (unmappedFontNames == null) {
-                        unmappedFontNames = new ArrayList<String>();
+                    if (unmbppedFontNbmes == null) {
+                        unmbppedFontNbmes = new ArrbyList<String>();
                     }
-                    unmappedFontNames.add(font);
+                    unmbppedFontNbmes.bdd(font);
                 }
             }
         }
 
-        if (unmappedFontNames != null) {
-            HashSet<String> unmappedFontFiles = new HashSet<String>();
+        if (unmbppedFontNbmes != null) {
+            HbshSet<String> unmbppedFontFiles = new HbshSet<String>();
 
-            /* Every font key in fontToFileMap ought to correspond to a
-             * font key in fontToFamilyNameMap. Entries that don't seem
-             * to correspond are likely fonts that were named differently
-             * by GDI than in the registry. One known cause of this is when
-             * Windows has had its regional settings changed so that from
-             * GDI we get a localised (eg Chinese or Japanese) name for the
-             * font, but the registry retains the English version of the name
-             * that corresponded to the "install" locale for windows.
-             * Since we are in this code block because there are unmapped
-             * font names, we can look to find unused font->file mappings
-             * and then open the files to read the names. We don't generally
-             * want to open font files, as its a performance hit, but this
-             * occurs only for a small number of fonts on specific system
-             * configs - ie is believed that a "true" Japanese windows would
-             * have JA names in the registry too.
-             * Clone fontToFileMap and remove from the clone all keys which
-             * match a fontToFamilyNameMap key. What remains maps to the
-             * files we want to open to find the fonts GDI returned.
-             * A font in such a file is added to the fontToFileMap after
-             * checking its one of the unmappedFontNames we are looking for.
-             * The original name that didn't map is removed from fontToFileMap
-             * so essentially this "fixes up" fontToFileMap to use the same
-             * name as GDI.
-             * Also note that typically the fonts for which this occurs in
-             * CJK locales are TTC fonts and not all fonts in a TTC may have
-             * localised names. Eg MSGOTHIC.TTC contains 3 fonts and one of
-             * them "MS UI Gothic" has no JA name whereas the other two do.
-             * So not every font in these files is unmapped or new.
+            /* Every font key in fontToFileMbp ought to correspond to b
+             * font key in fontToFbmilyNbmeMbp. Entries thbt don't seem
+             * to correspond bre likely fonts thbt were nbmed differently
+             * by GDI thbn in the registry. One known cbuse of this is when
+             * Windows hbs hbd its regionbl settings chbnged so thbt from
+             * GDI we get b locblised (eg Chinese or Jbpbnese) nbme for the
+             * font, but the registry retbins the English version of the nbme
+             * thbt corresponded to the "instbll" locble for windows.
+             * Since we bre in this code block becbuse there bre unmbpped
+             * font nbmes, we cbn look to find unused font->file mbppings
+             * bnd then open the files to rebd the nbmes. We don't generblly
+             * wbnt to open font files, bs its b performbnce hit, but this
+             * occurs only for b smbll number of fonts on specific system
+             * configs - ie is believed thbt b "true" Jbpbnese windows would
+             * hbve JA nbmes in the registry too.
+             * Clone fontToFileMbp bnd remove from the clone bll keys which
+             * mbtch b fontToFbmilyNbmeMbp key. Whbt rembins mbps to the
+             * files we wbnt to open to find the fonts GDI returned.
+             * A font in such b file is bdded to the fontToFileMbp bfter
+             * checking its one of the unmbppedFontNbmes we bre looking for.
+             * The originbl nbme thbt didn't mbp is removed from fontToFileMbp
+             * so essentiblly this "fixes up" fontToFileMbp to use the sbme
+             * nbme bs GDI.
+             * Also note thbt typicblly the fonts for which this occurs in
+             * CJK locbles bre TTC fonts bnd not bll fonts in b TTC mby hbve
+             * locblised nbmes. Eg MSGOTHIC.TTC contbins 3 fonts bnd one of
+             * them "MS UI Gothic" hbs no JA nbme wherebs the other two do.
+             * So not every font in these files is unmbpped or new.
              */
-            @SuppressWarnings("unchecked")
-            HashMap<String,String> ffmapCopy =
-                (HashMap<String,String>)(fontToFileMap.clone());
-            for (String key : fontToFamilyNameMap.keySet()) {
-                ffmapCopy.remove(key);
+            @SuppressWbrnings("unchecked")
+            HbshMbp<String,String> ffmbpCopy =
+                (HbshMbp<String,String>)(fontToFileMbp.clone());
+            for (String key : fontToFbmilyNbmeMbp.keySet()) {
+                ffmbpCopy.remove(key);
             }
-            for (String key : ffmapCopy.keySet()) {
-                unmappedFontFiles.add(ffmapCopy.get(key));
-                fontToFileMap.remove(key);
+            for (String key : ffmbpCopy.keySet()) {
+                unmbppedFontFiles.bdd(ffmbpCopy.get(key));
+                fontToFileMbp.remove(key);
             }
 
-            resolveFontFiles(unmappedFontFiles, unmappedFontNames);
+            resolveFontFiles(unmbppedFontFiles, unmbppedFontNbmes);
 
-            /* If there are still unmapped font names, this means there's
-             * something that wasn't in the registry. We need to get all
-             * the font files directly and look at the ones that weren't
+            /* If there bre still unmbpped font nbmes, this mebns there's
+             * something thbt wbsn't in the registry. We need to get bll
+             * the font files directly bnd look bt the ones thbt weren't
              * found in the registry.
              */
-            if (unmappedFontNames.size() > 0) {
+            if (unmbppedFontNbmes.size() > 0) {
 
-                /* getFontFilesFromPath() returns all lower case names.
-                 * To compare we also need lower case
-                 * versions of the names from the registry.
+                /* getFontFilesFromPbth() returns bll lower cbse nbmes.
+                 * To compbre we blso need lower cbse
+                 * versions of the nbmes from the registry.
                  */
-                ArrayList<String> registryFiles = new ArrayList<String>();
+                ArrbyList<String> registryFiles = new ArrbyList<String>();
 
-                for (String regFile : fontToFileMap.values()) {
-                    registryFiles.add(regFile.toLowerCase());
+                for (String regFile : fontToFileMbp.vblues()) {
+                    registryFiles.bdd(regFile.toLowerCbse());
                 }
-                /* We don't look for Type1 files here as windows will
-                 * not enumerate these, so aren't useful in reconciling
-                 * GDI's unmapped files. We do find these later when
-                 * we enumerate all fonts.
+                /* We don't look for Type1 files here bs windows will
+                 * not enumerbte these, so bren't useful in reconciling
+                 * GDI's unmbpped files. We do find these lbter when
+                 * we enumerbte bll fonts.
                  */
-                for (String pathFile : getFontFilesFromPath(true)) {
-                    if (!registryFiles.contains(pathFile)) {
-                        unmappedFontFiles.add(pathFile);
+                for (String pbthFile : getFontFilesFromPbth(true)) {
+                    if (!registryFiles.contbins(pbthFile)) {
+                        unmbppedFontFiles.bdd(pbthFile);
                     }
                 }
 
-                resolveFontFiles(unmappedFontFiles, unmappedFontNames);
+                resolveFontFiles(unmbppedFontFiles, unmbppedFontNbmes);
             }
 
-            /* remove from the set of names that will be returned to the
-             * user any fonts that can't be mapped to files.
+            /* remove from the set of nbmes thbt will be returned to the
+             * user bny fonts thbt cbn't be mbpped to files.
              */
-            if (unmappedFontNames.size() > 0) {
-                int sz = unmappedFontNames.size();
+            if (unmbppedFontNbmes.size() > 0) {
+                int sz = unmbppedFontNbmes.size();
                 for (int i=0; i<sz; i++) {
-                    String name = unmappedFontNames.get(i);
-                    String familyName = fontToFamilyNameMap.get(name);
-                    if (familyName != null) {
-                        ArrayList<String> family = familyToFontListMap.get(familyName);
-                        if (family != null) {
-                            if (family.size() <= 1) {
-                                familyToFontListMap.remove(familyName);
+                    String nbme = unmbppedFontNbmes.get(i);
+                    String fbmilyNbme = fontToFbmilyNbmeMbp.get(nbme);
+                    if (fbmilyNbme != null) {
+                        ArrbyList<String> fbmily = fbmilyToFontListMbp.get(fbmilyNbme);
+                        if (fbmily != null) {
+                            if (fbmily.size() <= 1) {
+                                fbmilyToFontListMbp.remove(fbmilyNbme);
                             }
                         }
                     }
-                    fontToFamilyNameMap.remove(name);
+                    fontToFbmilyNbmeMbp.remove(nbme);
                     if (FontUtilities.isLogging()) {
                         FontUtilities.getLogger()
-                                             .info("No file for font:" + name);
+                                             .info("No file for font:" + nbme);
                     }
                 }
             }
@@ -1491,715 +1491,715 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
     }
 
     /**
-     * In some cases windows may have fonts in the fonts folder that
-     * don't show up in the registry or in the GDI calls to enumerate fonts.
-     * The only way to find these is to list the directory. We invoke this
-     * only in getAllFonts/Families, so most searches for a specific
-     * font that is satisfied by the GDI/registry calls don't take the
-     * additional hit of listing the directory. This hit is small enough
-     * that its not significant in these 'enumerate all the fonts' cases.
-     * The basic approach is to cross-reference the files windows found
-     * with the ones in the directory listing approach, and for each
-     * in the latter list that is missing from the former list, register it.
+     * In some cbses windows mby hbve fonts in the fonts folder thbt
+     * don't show up in the registry or in the GDI cblls to enumerbte fonts.
+     * The only wby to find these is to list the directory. We invoke this
+     * only in getAllFonts/Fbmilies, so most sebrches for b specific
+     * font thbt is sbtisfied by the GDI/registry cblls don't tbke the
+     * bdditionbl hit of listing the directory. This hit is smbll enough
+     * thbt its not significbnt in these 'enumerbte bll the fonts' cbses.
+     * The bbsic bpprobch is to cross-reference the files windows found
+     * with the ones in the directory listing bpprobch, bnd for ebch
+     * in the lbtter list thbt is missing from the former list, register it.
      */
-    private synchronized void checkForUnreferencedFontFiles() {
-        if (haveCheckedUnreferencedFontFiles) {
+    privbte synchronized void checkForUnreferencedFontFiles() {
+        if (hbveCheckedUnreferencedFontFiles) {
             return;
         }
-        haveCheckedUnreferencedFontFiles = true;
+        hbveCheckedUnreferencedFontFiles = true;
         if (!FontUtilities.isWindows) {
             return;
         }
-        /* getFontFilesFromPath() returns all lower case names.
-         * To compare we also need lower case
-         * versions of the names from the registry.
+        /* getFontFilesFromPbth() returns bll lower cbse nbmes.
+         * To compbre we blso need lower cbse
+         * versions of the nbmes from the registry.
          */
-        ArrayList<String> registryFiles = new ArrayList<String>();
-        for (String regFile : fontToFileMap.values()) {
-            registryFiles.add(regFile.toLowerCase());
+        ArrbyList<String> registryFiles = new ArrbyList<String>();
+        for (String regFile : fontToFileMbp.vblues()) {
+            registryFiles.bdd(regFile.toLowerCbse());
         }
 
-        /* To avoid any issues with concurrent modification, create
-         * copies of the existing maps, add the new fonts into these
-         * and then replace the references to the old ones with the
-         * new maps. ConcurrentHashmap is another option but its a lot
-         * more changes and with this exception, these maps are intended
-         * to be static.
+        /* To bvoid bny issues with concurrent modificbtion, crebte
+         * copies of the existing mbps, bdd the new fonts into these
+         * bnd then replbce the references to the old ones with the
+         * new mbps. ConcurrentHbshmbp is bnother option but its b lot
+         * more chbnges bnd with this exception, these mbps bre intended
+         * to be stbtic.
          */
-        HashMap<String,String> fontToFileMap2 = null;
-        HashMap<String,String> fontToFamilyNameMap2 = null;
-        HashMap<String,ArrayList<String>> familyToFontListMap2 = null;;
+        HbshMbp<String,String> fontToFileMbp2 = null;
+        HbshMbp<String,String> fontToFbmilyNbmeMbp2 = null;
+        HbshMbp<String,ArrbyList<String>> fbmilyToFontListMbp2 = null;;
 
-        for (String pathFile : getFontFilesFromPath(false)) {
-            if (!registryFiles.contains(pathFile)) {
+        for (String pbthFile : getFontFilesFromPbth(fblse)) {
+            if (!registryFiles.contbins(pbthFile)) {
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                                 .info("Found non-registry file : " + pathFile);
+                                 .info("Found non-registry file : " + pbthFile);
                 }
-                PhysicalFont f = registerFontFile(getPathName(pathFile));
+                PhysicblFont f = registerFontFile(getPbthNbme(pbthFile));
                 if (f == null) {
                     continue;
                 }
-                if (fontToFileMap2 == null) {
-                    fontToFileMap2 = new HashMap<String,String>(fontToFileMap);
-                    fontToFamilyNameMap2 =
-                        new HashMap<String,String>(fontToFamilyNameMap);
-                    familyToFontListMap2 = new
-                        HashMap<String,ArrayList<String>>(familyToFontListMap);
+                if (fontToFileMbp2 == null) {
+                    fontToFileMbp2 = new HbshMbp<String,String>(fontToFileMbp);
+                    fontToFbmilyNbmeMbp2 =
+                        new HbshMbp<String,String>(fontToFbmilyNbmeMbp);
+                    fbmilyToFontListMbp2 = new
+                        HbshMbp<String,ArrbyList<String>>(fbmilyToFontListMbp);
                 }
-                String fontName = f.getFontName(null);
-                String family = f.getFamilyName(null);
-                String familyLC = family.toLowerCase();
-                fontToFamilyNameMap2.put(fontName, family);
-                fontToFileMap2.put(fontName, pathFile);
-                ArrayList<String> fonts = familyToFontListMap2.get(familyLC);
+                String fontNbme = f.getFontNbme(null);
+                String fbmily = f.getFbmilyNbme(null);
+                String fbmilyLC = fbmily.toLowerCbse();
+                fontToFbmilyNbmeMbp2.put(fontNbme, fbmily);
+                fontToFileMbp2.put(fontNbme, pbthFile);
+                ArrbyList<String> fonts = fbmilyToFontListMbp2.get(fbmilyLC);
                 if (fonts == null) {
-                    fonts = new ArrayList<String>();
+                    fonts = new ArrbyList<String>();
                 } else {
-                    fonts = new ArrayList<String>(fonts);
+                    fonts = new ArrbyList<String>(fonts);
                 }
-                fonts.add(fontName);
-                familyToFontListMap2.put(familyLC, fonts);
+                fonts.bdd(fontNbme);
+                fbmilyToFontListMbp2.put(fbmilyLC, fonts);
             }
         }
-        if (fontToFileMap2 != null) {
-            fontToFileMap = fontToFileMap2;
-            familyToFontListMap = familyToFontListMap2;
-            fontToFamilyNameMap = fontToFamilyNameMap2;
+        if (fontToFileMbp2 != null) {
+            fontToFileMbp = fontToFileMbp2;
+            fbmilyToFontListMbp = fbmilyToFontListMbp2;
+            fontToFbmilyNbmeMbp = fontToFbmilyNbmeMbp2;
         }
     }
 
-    private void resolveFontFiles(HashSet<String> unmappedFiles,
-                                  ArrayList<String> unmappedFonts) {
+    privbte void resolveFontFiles(HbshSet<String> unmbppedFiles,
+                                  ArrbyList<String> unmbppedFonts) {
 
-        Locale l = SunToolkit.getStartupLocale();
+        Locble l = SunToolkit.getStbrtupLocble();
 
-        for (String file : unmappedFiles) {
+        for (String file : unmbppedFiles) {
             try {
                 int fn = 0;
                 TrueTypeFont ttf;
-                String fullPath = getPathName(file);
+                String fullPbth = getPbthNbme(file);
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                                   .info("Trying to resolve file " + fullPath);
+                                   .info("Trying to resolve file " + fullPbth);
                 }
                 do {
-                    ttf = new TrueTypeFont(fullPath, null, fn++, false);
-                    //  prefer the font's locale name.
-                    String fontName = ttf.getFontName(l).toLowerCase();
-                    if (unmappedFonts.contains(fontName)) {
-                        fontToFileMap.put(fontName, file);
-                        unmappedFonts.remove(fontName);
+                    ttf = new TrueTypeFont(fullPbth, null, fn++, fblse);
+                    //  prefer the font's locble nbme.
+                    String fontNbme = ttf.getFontNbme(l).toLowerCbse();
+                    if (unmbppedFonts.contbins(fontNbme)) {
+                        fontToFileMbp.put(fontNbme, file);
+                        unmbppedFonts.remove(fontNbme);
                         if (FontUtilities.isLogging()) {
                             FontUtilities.getLogger()
-                                  .info("Resolved absent registry entry for " +
-                                        fontName + " located in " + fullPath);
+                                  .info("Resolved bbsent registry entry for " +
+                                        fontNbme + " locbted in " + fullPbth);
                         }
                     }
                 }
                 while (fn < ttf.getFontCount());
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
         }
     }
 
-    /* Hardwire the English names and expected file names of fonts
-     * commonly used at start up. Avoiding until later even the small
-     * cost of calling platform APIs to locate these can help.
-     * The code that registers these fonts needs to "bail" if any
+    /* Hbrdwire the English nbmes bnd expected file nbmes of fonts
+     * commonly used bt stbrt up. Avoiding until lbter even the smbll
+     * cost of cblling plbtform APIs to locbte these cbn help.
+     * The code thbt registers these fonts needs to "bbil" if bny
      * of the files do not exist, so it will verify the existence of
-     * all non-null file names first.
-     * They are added in to a map with nominally the first
-     * word in the name of the family as the key. In all the cases
-     * we are using the the family name is a single word, and as is
-     * more or less required the family name is the initial sequence
-     * in a full name. So lookup first finds the matching description,
-     * then registers the whole family, returning the right font.
+     * bll non-null file nbmes first.
+     * They bre bdded in to b mbp with nominblly the first
+     * word in the nbme of the fbmily bs the key. In bll the cbses
+     * we bre using the the fbmily nbme is b single word, bnd bs is
+     * more or less required the fbmily nbme is the initibl sequence
+     * in b full nbme. So lookup first finds the mbtching description,
+     * then registers the whole fbmily, returning the right font.
      */
-    public static class FamilyDescription {
-        public String familyName;
-        public String plainFullName;
-        public String boldFullName;
-        public String italicFullName;
-        public String boldItalicFullName;
-        public String plainFileName;
-        public String boldFileName;
-        public String italicFileName;
-        public String boldItalicFileName;
+    public stbtic clbss FbmilyDescription {
+        public String fbmilyNbme;
+        public String plbinFullNbme;
+        public String boldFullNbme;
+        public String itblicFullNbme;
+        public String boldItblicFullNbme;
+        public String plbinFileNbme;
+        public String boldFileNbme;
+        public String itblicFileNbme;
+        public String boldItblicFileNbme;
     }
 
-    static HashMap<String, FamilyDescription> platformFontMap;
+    stbtic HbshMbp<String, FbmilyDescription> plbtformFontMbp;
 
     /**
-     * default implementation does nothing.
+     * defbult implementbtion does nothing.
      */
-    public HashMap<String, FamilyDescription> populateHardcodedFileNameMap() {
-        return new HashMap<String, FamilyDescription>(0);
+    public HbshMbp<String, FbmilyDescription> populbteHbrdcodedFileNbmeMbp() {
+        return new HbshMbp<String, FbmilyDescription>(0);
     }
 
-    Font2D findFontFromPlatformMap(String lcName, int style) {
-        if (platformFontMap == null) {
-            platformFontMap = populateHardcodedFileNameMap();
+    Font2D findFontFromPlbtformMbp(String lcNbme, int style) {
+        if (plbtformFontMbp == null) {
+            plbtformFontMbp = populbteHbrdcodedFileNbmeMbp();
         }
 
-        if (platformFontMap == null || platformFontMap.size() == 0) {
+        if (plbtformFontMbp == null || plbtformFontMbp.size() == 0) {
             return null;
         }
 
-        int spaceIndex = lcName.indexOf(' ');
-        String firstWord = lcName;
-        if (spaceIndex > 0) {
-            firstWord = lcName.substring(0, spaceIndex);
+        int spbceIndex = lcNbme.indexOf(' ');
+        String firstWord = lcNbme;
+        if (spbceIndex > 0) {
+            firstWord = lcNbme.substring(0, spbceIndex);
         }
 
-        FamilyDescription fd = platformFontMap.get(firstWord);
+        FbmilyDescription fd = plbtformFontMbp.get(firstWord);
         if (fd == null) {
             return null;
         }
-        /* Once we've established that its at least the first word,
-         * we need to dig deeper to make sure its a match for either
-         * a full name, or the family name, to make sure its not
-         * a request for some other font that just happens to start
-         * with the same first word.
+        /* Once we've estbblished thbt its bt lebst the first word,
+         * we need to dig deeper to mbke sure its b mbtch for either
+         * b full nbme, or the fbmily nbme, to mbke sure its not
+         * b request for some other font thbt just hbppens to stbrt
+         * with the sbme first word.
          */
         int styleIndex = -1;
-        if (lcName.equalsIgnoreCase(fd.plainFullName)) {
+        if (lcNbme.equblsIgnoreCbse(fd.plbinFullNbme)) {
             styleIndex = 0;
-        } else if (lcName.equalsIgnoreCase(fd.boldFullName)) {
+        } else if (lcNbme.equblsIgnoreCbse(fd.boldFullNbme)) {
             styleIndex = 1;
-        } else if (lcName.equalsIgnoreCase(fd.italicFullName)) {
+        } else if (lcNbme.equblsIgnoreCbse(fd.itblicFullNbme)) {
             styleIndex = 2;
-        } else if (lcName.equalsIgnoreCase(fd.boldItalicFullName)) {
+        } else if (lcNbme.equblsIgnoreCbse(fd.boldItblicFullNbme)) {
             styleIndex = 3;
         }
-        if (styleIndex == -1 && !lcName.equalsIgnoreCase(fd.familyName)) {
+        if (styleIndex == -1 && !lcNbme.equblsIgnoreCbse(fd.fbmilyNbme)) {
             return null;
         }
 
-        String plainFile = null, boldFile = null,
-            italicFile = null, boldItalicFile = null;
+        String plbinFile = null, boldFile = null,
+            itblicFile = null, boldItblicFile = null;
 
-        boolean failure = false;
-        /* In a terminal server config, its possible that getPathName()
+        boolebn fbilure = fblse;
+        /* In b terminbl server config, its possible thbt getPbthNbme()
          * will return null, if the file doesn't exist, hence the null
-         * checks on return. But in the normal client config we need to
-         * follow this up with a check to see if all the files really
-         * exist for the non-null paths.
+         * checks on return. But in the normbl client config we need to
+         * follow this up with b check to see if bll the files reblly
+         * exist for the non-null pbths.
          */
-         getPlatformFontDirs(noType1Font);
+         getPlbtformFontDirs(noType1Font);
 
-        if (fd.plainFileName != null) {
-            plainFile = getPathName(fd.plainFileName);
-            if (plainFile == null) {
-                failure = true;
+        if (fd.plbinFileNbme != null) {
+            plbinFile = getPbthNbme(fd.plbinFileNbme);
+            if (plbinFile == null) {
+                fbilure = true;
             }
         }
 
-        if (fd.boldFileName != null) {
-            boldFile = getPathName(fd.boldFileName);
+        if (fd.boldFileNbme != null) {
+            boldFile = getPbthNbme(fd.boldFileNbme);
             if (boldFile == null) {
-                failure = true;
+                fbilure = true;
             }
         }
 
-        if (fd.italicFileName != null) {
-            italicFile = getPathName(fd.italicFileName);
-            if (italicFile == null) {
-                failure = true;
+        if (fd.itblicFileNbme != null) {
+            itblicFile = getPbthNbme(fd.itblicFileNbme);
+            if (itblicFile == null) {
+                fbilure = true;
             }
         }
 
-        if (fd.boldItalicFileName != null) {
-            boldItalicFile = getPathName(fd.boldItalicFileName);
-            if (boldItalicFile == null) {
-                failure = true;
+        if (fd.boldItblicFileNbme != null) {
+            boldItblicFile = getPbthNbme(fd.boldItblicFileNbme);
+            if (boldItblicFile == null) {
+                fbilure = true;
             }
         }
 
-        if (failure) {
+        if (fbilure) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger().
-                    info("Hardcoded file missing looking for " + lcName);
+                    info("Hbrdcoded file missing looking for " + lcNbme);
             }
-            platformFontMap.remove(firstWord);
+            plbtformFontMbp.remove(firstWord);
             return null;
         }
 
-        /* Some of these may be null,as not all styles have to exist */
-        final String[] files = {
-            plainFile, boldFile, italicFile, boldItalicFile } ;
+        /* Some of these mby be null,bs not bll styles hbve to exist */
+        finbl String[] files = {
+            plbinFile, boldFile, itblicFile, boldItblicFile } ;
 
-        failure = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<Boolean>() {
-                     public Boolean run() {
+        fbilure = jbvb.security.AccessController.doPrivileged(
+                 new jbvb.security.PrivilegedAction<Boolebn>() {
+                     public Boolebn run() {
                          for (int i=0; i<files.length; i++) {
                              if (files[i] == null) {
                                  continue;
                              }
                              File f = new File(files[i]);
                              if (!f.exists()) {
-                                 return Boolean.TRUE;
+                                 return Boolebn.TRUE;
                              }
                          }
-                         return Boolean.FALSE;
+                         return Boolebn.FALSE;
                      }
                  });
 
-        if (failure) {
+        if (fbilure) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger().
-                    info("Hardcoded file missing looking for " + lcName);
+                    info("Hbrdcoded file missing looking for " + lcNbme);
             }
-            platformFontMap.remove(firstWord);
+            plbtformFontMbp.remove(firstWord);
             return null;
         }
 
-        /* If we reach here we know that we have all the files we
-         * expect, so all should be fine so long as the contents
-         * are what we'd expect. Now on to registering the fonts.
-         * Currently this code only looks for TrueType fonts, so format
-         * and rank can be specified without looking at the filename.
+        /* If we rebch here we know thbt we hbve bll the files we
+         * expect, so bll should be fine so long bs the contents
+         * bre whbt we'd expect. Now on to registering the fonts.
+         * Currently this code only looks for TrueType fonts, so formbt
+         * bnd rbnk cbn be specified without looking bt the filenbme.
          */
         Font2D font = null;
         for (int f=0;f<files.length;f++) {
             if (files[f] == null) {
                 continue;
             }
-            PhysicalFont pf =
+            PhysicblFont pf =
                 registerFontFile(files[f], null,
-                                 FONTFORMAT_TRUETYPE, false, Font2D.TTF_RANK);
+                                 FONTFORMAT_TRUETYPE, fblse, Font2D.TTF_RANK);
             if (f == styleIndex) {
                 font = pf;
             }
         }
 
 
-        /* Two general cases need a bit more work here.
-         * 1) If font is null, then it was perhaps a request for a
-         * non-existent font, such as "Tahoma Italic", or a family name -
-         * where family and full name of the plain font differ.
-         * Fall back to finding the closest one in the family.
-         * This could still fail if a client specified "Segoe" instead of
+        /* Two generbl cbses need b bit more work here.
+         * 1) If font is null, then it wbs perhbps b request for b
+         * non-existent font, such bs "Tbhomb Itblic", or b fbmily nbme -
+         * where fbmily bnd full nbme of the plbin font differ.
+         * Fbll bbck to finding the closest one in the fbmily.
+         * This could still fbil if b client specified "Segoe" instebd of
          * "Segoe UI".
          * 2) The request is of the form "MyFont Bold", style=Font.ITALIC,
-         * and so we want to see if there's a Bold Italic font, or
-         * "MyFamily", style=Font.BOLD, and we may have matched the plain,
-         * but now need to revise that to the BOLD font.
+         * bnd so we wbnt to see if there's b Bold Itblic font, or
+         * "MyFbmily", style=Font.BOLD, bnd we mby hbve mbtched the plbin,
+         * but now need to revise thbt to the BOLD font.
          */
-        FontFamily fontFamily = FontFamily.getFamily(fd.familyName);
-        if (fontFamily != null) {
+        FontFbmily fontFbmily = FontFbmily.getFbmily(fd.fbmilyNbme);
+        if (fontFbmily != null) {
             if (font == null) {
-                font = fontFamily.getFont(style);
+                font = fontFbmily.getFont(style);
                 if (font == null) {
-                    font = fontFamily.getClosestStyle(style);
+                    font = fontFbmily.getClosestStyle(style);
                 }
             } else if (style > 0 && style != font.style) {
                 style |= font.style;
-                font = fontFamily.getFont(style);
+                font = fontFbmily.getFont(style);
                 if (font == null) {
-                    font = fontFamily.getClosestStyle(style);
+                    font = fontFbmily.getClosestStyle(style);
                 }
             }
         }
 
         return font;
     }
-    private synchronized HashMap<String,String> getFullNameToFileMap() {
-        if (fontToFileMap == null) {
+    privbte synchronized HbshMbp<String,String> getFullNbmeToFileMbp() {
+        if (fontToFileMbp == null) {
 
-            pathDirs = getPlatformFontDirs(noType1Font);
+            pbthDirs = getPlbtformFontDirs(noType1Font);
 
-            fontToFileMap = new HashMap<String,String>(100);
-            fontToFamilyNameMap = new HashMap<String,String>(100);
-            familyToFontListMap = new HashMap<String,ArrayList<String>>(50);
-            populateFontFileNameMap(fontToFileMap,
-                                    fontToFamilyNameMap,
-                                    familyToFontListMap,
-                                    Locale.ENGLISH);
+            fontToFileMbp = new HbshMbp<String,String>(100);
+            fontToFbmilyNbmeMbp = new HbshMbp<String,String>(100);
+            fbmilyToFontListMbp = new HbshMbp<String,ArrbyList<String>>(50);
+            populbteFontFileNbmeMbp(fontToFileMbp,
+                                    fontToFbmilyNbmeMbp,
+                                    fbmilyToFontListMbp,
+                                    Locble.ENGLISH);
             if (FontUtilities.isWindows) {
                 resolveWindowsFonts();
             }
             if (FontUtilities.isLogging()) {
-                logPlatformFontInfo();
+                logPlbtformFontInfo();
             }
         }
-        return fontToFileMap;
+        return fontToFileMbp;
     }
 
-    private void logPlatformFontInfo() {
-        PlatformLogger logger = FontUtilities.getLogger();
-        for (int i=0; i< pathDirs.length;i++) {
-            logger.info("fontdir="+pathDirs[i]);
+    privbte void logPlbtformFontInfo() {
+        PlbtformLogger logger = FontUtilities.getLogger();
+        for (int i=0; i< pbthDirs.length;i++) {
+            logger.info("fontdir="+pbthDirs[i]);
         }
-        for (String keyName : fontToFileMap.keySet()) {
-            logger.info("font="+keyName+" file="+ fontToFileMap.get(keyName));
+        for (String keyNbme : fontToFileMbp.keySet()) {
+            logger.info("font="+keyNbme+" file="+ fontToFileMbp.get(keyNbme));
         }
-        for (String keyName : fontToFamilyNameMap.keySet()) {
-            logger.info("font="+keyName+" family="+
-                        fontToFamilyNameMap.get(keyName));
+        for (String keyNbme : fontToFbmilyNbmeMbp.keySet()) {
+            logger.info("font="+keyNbme+" fbmily="+
+                        fontToFbmilyNbmeMbp.get(keyNbme));
         }
-        for (String keyName : familyToFontListMap.keySet()) {
-            logger.info("family="+keyName+ " fonts="+
-                        familyToFontListMap.get(keyName));
+        for (String keyNbme : fbmilyToFontListMbp.keySet()) {
+            logger.info("fbmily="+keyNbme+ " fonts="+
+                        fbmilyToFontListMbp.get(keyNbme));
         }
     }
 
-    /* Note this return list excludes logical fonts and JRE fonts */
-    protected String[] getFontNamesFromPlatform() {
-        if (getFullNameToFileMap().size() == 0) {
+    /* Note this return list excludes logicbl fonts bnd JRE fonts */
+    protected String[] getFontNbmesFromPlbtform() {
+        if (getFullNbmeToFileMbp().size() == 0) {
             return null;
         }
         checkForUnreferencedFontFiles();
-        /* This odd code with TreeMap is used to preserve a historical
-         * behaviour wrt the sorting order .. */
-        ArrayList<String> fontNames = new ArrayList<String>();
-        for (ArrayList<String> a : familyToFontListMap.values()) {
-            for (String s : a) {
-                fontNames.add(s);
+        /* This odd code with TreeMbp is used to preserve b historicbl
+         * behbviour wrt the sorting order .. */
+        ArrbyList<String> fontNbmes = new ArrbyList<String>();
+        for (ArrbyList<String> b : fbmilyToFontListMbp.vblues()) {
+            for (String s : b) {
+                fontNbmes.bdd(s);
             }
         }
-        return fontNames.toArray(STR_ARRAY);
+        return fontNbmes.toArrby(STR_ARRAY);
     }
 
-    public boolean gotFontsFromPlatform() {
-        return getFullNameToFileMap().size() != 0;
+    public boolebn gotFontsFromPlbtform() {
+        return getFullNbmeToFileMbp().size() != 0;
     }
 
-    public String getFileNameForFontName(String fontName) {
-        String fontNameLC = fontName.toLowerCase(Locale.ENGLISH);
-        return fontToFileMap.get(fontNameLC);
+    public String getFileNbmeForFontNbme(String fontNbme) {
+        String fontNbmeLC = fontNbme.toLowerCbse(Locble.ENGLISH);
+        return fontToFileMbp.get(fontNbmeLC);
     }
 
-    private PhysicalFont registerFontFile(String file) {
+    privbte PhysicblFont registerFontFile(String file) {
         if (new File(file).isAbsolute() &&
-            !registeredFonts.contains(file)) {
-            int fontFormat = FONTFORMAT_NONE;
-            int fontRank = Font2D.UNKNOWN_RANK;
-            if (ttFilter.accept(null, file)) {
-                fontFormat = FONTFORMAT_TRUETYPE;
-                fontRank = Font2D.TTF_RANK;
+            !registeredFonts.contbins(file)) {
+            int fontFormbt = FONTFORMAT_NONE;
+            int fontRbnk = Font2D.UNKNOWN_RANK;
+            if (ttFilter.bccept(null, file)) {
+                fontFormbt = FONTFORMAT_TRUETYPE;
+                fontRbnk = Font2D.TTF_RANK;
             } else if
-                (t1Filter.accept(null, file)) {
-                fontFormat = FONTFORMAT_TYPE1;
-                fontRank = Font2D.TYPE1_RANK;
+                (t1Filter.bccept(null, file)) {
+                fontFormbt = FONTFORMAT_TYPE1;
+                fontRbnk = Font2D.TYPE1_RANK;
             }
-            if (fontFormat == FONTFORMAT_NONE) {
+            if (fontFormbt == FONTFORMAT_NONE) {
                 return null;
             }
-            return registerFontFile(file, null, fontFormat, false, fontRank);
+            return registerFontFile(file, null, fontFormbt, fblse, fontRbnk);
         }
         return null;
     }
 
-    /* Used to register any font files that are found by platform APIs
-     * that weren't previously found in the standard font locations.
-     * the isAbsolute() check is needed since that's whats stored in the
-     * set, and on windows, the fonts in the system font directory that
-     * are in the fontToFileMap are just basenames. We don't want to try
-     * to register those again, but we do want to register other registry
-     * installed fonts.
+    /* Used to register bny font files thbt bre found by plbtform APIs
+     * thbt weren't previously found in the stbndbrd font locbtions.
+     * the isAbsolute() check is needed since thbt's whbts stored in the
+     * set, bnd on windows, the fonts in the system font directory thbt
+     * bre in the fontToFileMbp bre just bbsenbmes. We don't wbnt to try
+     * to register those bgbin, but we do wbnt to register other registry
+     * instblled fonts.
      */
-    protected void registerOtherFontFiles(HashSet<String> registeredFontFiles) {
-        if (getFullNameToFileMap().size() == 0) {
+    protected void registerOtherFontFiles(HbshSet<String> registeredFontFiles) {
+        if (getFullNbmeToFileMbp().size() == 0) {
             return;
         }
-        for (String file : fontToFileMap.values()) {
+        for (String file : fontToFileMbp.vblues()) {
             registerFontFile(file);
         }
     }
 
-    public boolean
-        getFamilyNamesFromPlatform(TreeMap<String,String> familyNames,
-                                   Locale requestedLocale) {
-        if (getFullNameToFileMap().size() == 0) {
-            return false;
+    public boolebn
+        getFbmilyNbmesFromPlbtform(TreeMbp<String,String> fbmilyNbmes,
+                                   Locble requestedLocble) {
+        if (getFullNbmeToFileMbp().size() == 0) {
+            return fblse;
         }
         checkForUnreferencedFontFiles();
-        for (String name : fontToFamilyNameMap.values()) {
-            familyNames.put(name.toLowerCase(requestedLocale), name);
+        for (String nbme : fontToFbmilyNbmeMbp.vblues()) {
+            fbmilyNbmes.put(nbme.toLowerCbse(requestedLocble), nbme);
         }
         return true;
     }
 
-    /* Path may be absolute or a base file name relative to one of
-     * the platform font directories
+    /* Pbth mby be bbsolute or b bbse file nbme relbtive to one of
+     * the plbtform font directories
      */
-    private String getPathName(final String s) {
+    privbte String getPbthNbme(finbl String s) {
         File f = new File(s);
         if (f.isAbsolute()) {
             return s;
-        } else if (pathDirs.length==1) {
-            return pathDirs[0] + File.separator + s;
+        } else if (pbthDirs.length==1) {
+            return pbthDirs[0] + File.sepbrbtor + s;
         } else {
-            String path = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<String>() {
+            String pbth = jbvb.security.AccessController.doPrivileged(
+                 new jbvb.security.PrivilegedAction<String>() {
                      public String run() {
-                         for (int p=0; p<pathDirs.length; p++) {
-                             File f = new File(pathDirs[p] +File.separator+ s);
+                         for (int p=0; p<pbthDirs.length; p++) {
+                             File f = new File(pbthDirs[p] +File.sepbrbtor+ s);
                              if (f.exists()) {
-                                 return f.getAbsolutePath();
+                                 return f.getAbsolutePbth();
                              }
                          }
                          return null;
                      }
                 });
-            if (path != null) {
-                return path;
+            if (pbth != null) {
+                return pbth;
             }
         }
-        return s; // shouldn't happen, but harmless
+        return s; // shouldn't hbppen, but hbrmless
     }
 
-    /* lcName is required to be lower case for use as a key.
-     * lcName may be a full name, or a family name, and style may
-     * be specified in addition to either of these. So be sure to
-     * get the right one. Since an app *could* ask for "Foo Regular"
-     * and later ask for "Foo Italic", if we don't register all the
-     * styles, then logic in findFont2D may try to style the original
-     * so we register the entire family if we get a match here.
-     * This is still a big win because this code is invoked where
-     * otherwise we would register all fonts.
-     * It's also useful for the case where "Foo Bold" was specified with
-     * style Font.ITALIC, as we would want in that case to try to return
-     * "Foo Bold Italic" if it exists, and it is only by locating "Foo Bold"
-     * and opening it that we really "know" it's Bold, and can look for
-     * a font that supports that and the italic style.
-     * The code in here is not overtly windows-specific but in fact it
-     * is unlikely to be useful as is on other platforms. It is maintained
-     * in this shared source file to be close to its sole client and
-     * because so much of the logic is intertwined with the logic in
+    /* lcNbme is required to be lower cbse for use bs b key.
+     * lcNbme mby be b full nbme, or b fbmily nbme, bnd style mby
+     * be specified in bddition to either of these. So be sure to
+     * get the right one. Since bn bpp *could* bsk for "Foo Regulbr"
+     * bnd lbter bsk for "Foo Itblic", if we don't register bll the
+     * styles, then logic in findFont2D mby try to style the originbl
+     * so we register the entire fbmily if we get b mbtch here.
+     * This is still b big win becbuse this code is invoked where
+     * otherwise we would register bll fonts.
+     * It's blso useful for the cbse where "Foo Bold" wbs specified with
+     * style Font.ITALIC, bs we would wbnt in thbt cbse to try to return
+     * "Foo Bold Itblic" if it exists, bnd it is only by locbting "Foo Bold"
+     * bnd opening it thbt we reblly "know" it's Bold, bnd cbn look for
+     * b font thbt supports thbt bnd the itblic style.
+     * The code in here is not overtly windows-specific but in fbct it
+     * is unlikely to be useful bs is on other plbtforms. It is mbintbined
+     * in this shbred source file to be close to its sole client bnd
+     * becbuse so much of the logic is intertwined with the logic in
      * findFont2D.
      */
-    private Font2D findFontFromPlatform(String lcName, int style) {
-        if (getFullNameToFileMap().size() == 0) {
+    privbte Font2D findFontFromPlbtform(String lcNbme, int style) {
+        if (getFullNbmeToFileMbp().size() == 0) {
             return null;
         }
 
-        ArrayList<String> family = null;
+        ArrbyList<String> fbmily = null;
         String fontFile = null;
-        String familyName = fontToFamilyNameMap.get(lcName);
-        if (familyName != null) {
-            fontFile = fontToFileMap.get(lcName);
-            family = familyToFontListMap.get
-                (familyName.toLowerCase(Locale.ENGLISH));
+        String fbmilyNbme = fontToFbmilyNbmeMbp.get(lcNbme);
+        if (fbmilyNbme != null) {
+            fontFile = fontToFileMbp.get(lcNbme);
+            fbmily = fbmilyToFontListMbp.get
+                (fbmilyNbme.toLowerCbse(Locble.ENGLISH));
         } else {
-            family = familyToFontListMap.get(lcName); // is lcName is a family?
-            if (family != null && family.size() > 0) {
-                String lcFontName = family.get(0).toLowerCase(Locale.ENGLISH);
-                if (lcFontName != null) {
-                    familyName = fontToFamilyNameMap.get(lcFontName);
+            fbmily = fbmilyToFontListMbp.get(lcNbme); // is lcNbme is b fbmily?
+            if (fbmily != null && fbmily.size() > 0) {
+                String lcFontNbme = fbmily.get(0).toLowerCbse(Locble.ENGLISH);
+                if (lcFontNbme != null) {
+                    fbmilyNbme = fontToFbmilyNbmeMbp.get(lcFontNbme);
                 }
             }
         }
-        if (family == null || familyName == null) {
+        if (fbmily == null || fbmilyNbme == null) {
             return null;
         }
-        String [] fontList = family.toArray(STR_ARRAY);
+        String [] fontList = fbmily.toArrby(STR_ARRAY);
         if (fontList.length == 0) {
             return null;
         }
 
-        /* first check that for every font in this family we can find
-         * a font file. The specific reason for doing this is that
-         * in at least one case on Windows a font has the face name "David"
-         * but the registry entry is "David Regular". That is the "unique"
-         * name of the font but in other cases the registry contains the
-         * "full" name. See the specifications of name ids 3 and 4 in the
-         * TrueType 'name' table.
-         * In general this could cause a problem that we fail to register
-         * if we all members of a family that we may end up mapping to
-         * the wrong font member: eg return Bold when Plain is needed.
+        /* first check thbt for every font in this fbmily we cbn find
+         * b font file. The specific rebson for doing this is thbt
+         * in bt lebst one cbse on Windows b font hbs the fbce nbme "Dbvid"
+         * but the registry entry is "Dbvid Regulbr". Thbt is the "unique"
+         * nbme of the font but in other cbses the registry contbins the
+         * "full" nbme. See the specificbtions of nbme ids 3 bnd 4 in the
+         * TrueType 'nbme' tbble.
+         * In generbl this could cbuse b problem thbt we fbil to register
+         * if we bll members of b fbmily thbt we mby end up mbpping to
+         * the wrong font member: eg return Bold when Plbin is needed.
          */
         for (int f=0;f<fontList.length;f++) {
-            String fontNameLC = fontList[f].toLowerCase(Locale.ENGLISH);
-            String fileName = fontToFileMap.get(fontNameLC);
-            if (fileName == null) {
+            String fontNbmeLC = fontList[f].toLowerCbse(Locble.ENGLISH);
+            String fileNbme = fontToFileMbp.get(fontNbmeLC);
+            if (fileNbme == null) {
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                          .info("Platform lookup : No file for font " +
-                                fontList[f] + " in family " +familyName);
+                          .info("Plbtform lookup : No file for font " +
+                                fontList[f] + " in fbmily " +fbmilyNbme);
                 }
                 return null;
             }
         }
 
-        /* Currently this code only looks for TrueType fonts, so format
-         * and rank can be specified without looking at the filename.
+        /* Currently this code only looks for TrueType fonts, so formbt
+         * bnd rbnk cbn be specified without looking bt the filenbme.
          */
-        PhysicalFont physicalFont = null;
+        PhysicblFont physicblFont = null;
         if (fontFile != null) {
-            physicalFont = registerFontFile(getPathName(fontFile), null,
-                                            FONTFORMAT_TRUETYPE, false,
+            physicblFont = registerFontFile(getPbthNbme(fontFile), null,
+                                            FONTFORMAT_TRUETYPE, fblse,
                                             Font2D.TTF_RANK);
         }
-        /* Register all fonts in this family. */
+        /* Register bll fonts in this fbmily. */
         for (int f=0;f<fontList.length;f++) {
-            String fontNameLC = fontList[f].toLowerCase(Locale.ENGLISH);
-            String fileName = fontToFileMap.get(fontNameLC);
-            if (fontFile != null && fontFile.equals(fileName)) {
+            String fontNbmeLC = fontList[f].toLowerCbse(Locble.ENGLISH);
+            String fileNbme = fontToFileMbp.get(fontNbmeLC);
+            if (fontFile != null && fontFile.equbls(fileNbme)) {
                 continue;
             }
-            /* Currently this code only looks for TrueType fonts, so format
-             * and rank can be specified without looking at the filename.
+            /* Currently this code only looks for TrueType fonts, so formbt
+             * bnd rbnk cbn be specified without looking bt the filenbme.
              */
-            registerFontFile(getPathName(fileName), null,
-                             FONTFORMAT_TRUETYPE, false, Font2D.TTF_RANK);
+            registerFontFile(getPbthNbme(fileNbme), null,
+                             FONTFORMAT_TRUETYPE, fblse, Font2D.TTF_RANK);
         }
 
         Font2D font = null;
-        FontFamily fontFamily = FontFamily.getFamily(familyName);
-        /* Handle case where request "MyFont Bold", style=Font.ITALIC */
-        if (physicalFont != null) {
-            style |= physicalFont.style;
+        FontFbmily fontFbmily = FontFbmily.getFbmily(fbmilyNbme);
+        /* Hbndle cbse where request "MyFont Bold", style=Font.ITALIC */
+        if (physicblFont != null) {
+            style |= physicblFont.style;
         }
-        if (fontFamily != null) {
-            font = fontFamily.getFont(style);
+        if (fontFbmily != null) {
+            font = fontFbmily.getFont(style);
             if (font == null) {
-                font = fontFamily.getClosestStyle(style);
+                font = fontFbmily.getClosestStyle(style);
             }
         }
         return font;
     }
 
-    private ConcurrentHashMap<String, Font2D> fontNameCache =
-        new ConcurrentHashMap<String, Font2D>();
+    privbte ConcurrentHbshMbp<String, Font2D> fontNbmeCbche =
+        new ConcurrentHbshMbp<String, Font2D>();
 
     /*
-     * The client supplies a name and a style.
-     * The name could be a family name, or a full name.
-     * A font may exist with the specified style, or it may
-     * exist only in some other style. For non-native fonts the scaler
-     * may be able to emulate the required style.
+     * The client supplies b nbme bnd b style.
+     * The nbme could be b fbmily nbme, or b full nbme.
+     * A font mby exist with the specified style, or it mby
+     * exist only in some other style. For non-nbtive fonts the scbler
+     * mby be bble to emulbte the required style.
      */
-    public Font2D findFont2D(String name, int style, int fallback) {
-        String lowerCaseName = name.toLowerCase(Locale.ENGLISH);
-        String mapName = lowerCaseName + dotStyleStr(style);
+    public Font2D findFont2D(String nbme, int style, int fbllbbck) {
+        String lowerCbseNbme = nbme.toLowerCbse(Locble.ENGLISH);
+        String mbpNbme = lowerCbseNbme + dotStyleStr(style);
         Font2D font;
 
-        /* If preferLocaleFonts() or preferProportionalFonts() has been
-         * called we may be using an alternate set of composite fonts in this
-         * app context. The presence of a pre-built name map indicates whether
-         * this is so, and gives access to the alternate composite for the
-         * name.
+        /* If preferLocbleFonts() or preferProportionblFonts() hbs been
+         * cblled we mby be using bn blternbte set of composite fonts in this
+         * bpp context. The presence of b pre-built nbme mbp indicbtes whether
+         * this is so, bnd gives bccess to the blternbte composite for the
+         * nbme.
          */
         if (_usingPerAppContextComposites) {
-            @SuppressWarnings("unchecked")
-            ConcurrentHashMap<String, Font2D> altNameCache =
-                (ConcurrentHashMap<String, Font2D>)
-                AppContext.getAppContext().get(CompositeFont.class);
-            if (altNameCache != null) {
-                font = altNameCache.get(mapName);
+            @SuppressWbrnings("unchecked")
+            ConcurrentHbshMbp<String, Font2D> bltNbmeCbche =
+                (ConcurrentHbshMbp<String, Font2D>)
+                AppContext.getAppContext().get(CompositeFont.clbss);
+            if (bltNbmeCbche != null) {
+                font = bltNbmeCbche.get(mbpNbme);
             } else {
                 font = null;
             }
         } else {
-            font = fontNameCache.get(mapName);
+            font = fontNbmeCbche.get(mbpNbme);
         }
         if (font != null) {
             return font;
         }
 
         if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().info("Search for font: " + name);
+            FontUtilities.getLogger().info("Sebrch for font: " + nbme);
         }
 
-        // The check below is just so that the bitmap fonts being set by
-        // AWT and Swing thru the desktop properties do not trigger the
-        // the load fonts case. The two bitmap fonts are now mapped to
-        // appropriate equivalents for serif and sansserif.
-        // Note that the cost of this comparison is only for the first
-        // call until the map is filled.
+        // The check below is just so thbt the bitmbp fonts being set by
+        // AWT bnd Swing thru the desktop properties do not trigger the
+        // the lobd fonts cbse. The two bitmbp fonts bre now mbpped to
+        // bppropribte equivblents for serif bnd sbnsserif.
+        // Note thbt the cost of this compbrison is only for the first
+        // cbll until the mbp is filled.
         if (FontUtilities.isWindows) {
-            if (lowerCaseName.equals("ms sans serif")) {
-                name = "sansserif";
-            } else if (lowerCaseName.equals("ms serif")) {
-                name = "serif";
+            if (lowerCbseNbme.equbls("ms sbns serif")) {
+                nbme = "sbnsserif";
+            } else if (lowerCbseNbme.equbls("ms serif")) {
+                nbme = "serif";
             }
         }
 
-        /* This isn't intended to support a client passing in the
-         * string default, but if a client passes in null for the name
-         * the java.awt.Font class internally substitutes this name.
-         * So we need to recognise it here to prevent a loadFonts
-         * on the unrecognised name. The only potential problem with
-         * this is it would hide any real font called "default"!
-         * But that seems like a potential problem we can ignore for now.
+        /* This isn't intended to support b client pbssing in the
+         * string defbult, but if b client pbsses in null for the nbme
+         * the jbvb.bwt.Font clbss internblly substitutes this nbme.
+         * So we need to recognise it here to prevent b lobdFonts
+         * on the unrecognised nbme. The only potentibl problem with
+         * this is it would hide bny rebl font cblled "defbult"!
+         * But thbt seems like b potentibl problem we cbn ignore for now.
          */
-        if (lowerCaseName.equals("default")) {
-            name = "dialog";
+        if (lowerCbseNbme.equbls("defbult")) {
+            nbme = "diblog";
         }
 
-        /* First see if its a family name. */
-        FontFamily family = FontFamily.getFamily(name);
-        if (family != null) {
-            font = family.getFontWithExactStyleMatch(style);
+        /* First see if its b fbmily nbme. */
+        FontFbmily fbmily = FontFbmily.getFbmily(nbme);
+        if (fbmily != null) {
+            font = fbmily.getFontWithExbctStyleMbtch(style);
             if (font == null) {
-                font = findDeferredFont(name, style);
+                font = findDeferredFont(nbme, style);
             }
             if (font == null) {
-                font = family.getFont(style);
+                font = fbmily.getFont(style);
             }
             if (font == null) {
-                font = family.getClosestStyle(style);
+                font = fbmily.getClosestStyle(style);
             }
             if (font != null) {
-                fontNameCache.put(mapName, font);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             }
         }
 
-        /* If it wasn't a family name, it should be a full name of
-         * either a composite, or a physical font
+        /* If it wbsn't b fbmily nbme, it should be b full nbme of
+         * either b composite, or b physicbl font
          */
-        font = fullNameToFont.get(lowerCaseName);
+        font = fullNbmeToFont.get(lowerCbseNbme);
         if (font != null) {
-            /* Check that the requested style matches the matched font's style.
-             * But also match style automatically if the requested style is
-             * "plain". This because the existing behaviour is that the fonts
-             * listed via getAllFonts etc always list their style as PLAIN.
-             * This does lead to non-commutative behaviours where you might
-             * start with "Lucida Sans Regular" and ask for a BOLD version
-             * and get "Lucida Sans DemiBold" but if you ask for the PLAIN
-             * style of "Lucida Sans DemiBold" you get "Lucida Sans DemiBold".
-             * This consistent however with what happens if you have a bold
-             * version of a font and no plain version exists - alg. styling
+            /* Check thbt the requested style mbtches the mbtched font's style.
+             * But blso mbtch style butombticblly if the requested style is
+             * "plbin". This becbuse the existing behbviour is thbt the fonts
+             * listed vib getAllFonts etc blwbys list their style bs PLAIN.
+             * This does lebd to non-commutbtive behbviours where you might
+             * stbrt with "Lucidb Sbns Regulbr" bnd bsk for b BOLD version
+             * bnd get "Lucidb Sbns DemiBold" but if you bsk for the PLAIN
+             * style of "Lucidb Sbns DemiBold" you get "Lucidb Sbns DemiBold".
+             * This consistent however with whbt hbppens if you hbve b bold
+             * version of b font bnd no plbin version exists - blg. styling
              * doesn't "unbolden" the font.
              */
             if (font.style == style || style == Font.PLAIN) {
-                fontNameCache.put(mapName, font);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             } else {
-                /* If it was a full name like "Lucida Sans Regular", but
-                 * the style requested is "bold", then we want to see if
-                 * there's the appropriate match against another font in
-                 * that family before trying to load all fonts, or applying a
-                 * algorithmic styling
+                /* If it wbs b full nbme like "Lucidb Sbns Regulbr", but
+                 * the style requested is "bold", then we wbnt to see if
+                 * there's the bppropribte mbtch bgbinst bnother font in
+                 * thbt fbmily before trying to lobd bll fonts, or bpplying b
+                 * blgorithmic styling
                  */
-                family = FontFamily.getFamily(font.getFamilyName(null));
-                if (family != null) {
-                    Font2D familyFont = family.getFont(style|font.style);
-                    /* We exactly matched the requested style, use it! */
-                    if (familyFont != null) {
-                        fontNameCache.put(mapName, familyFont);
-                        return familyFont;
+                fbmily = FontFbmily.getFbmily(font.getFbmilyNbme(null));
+                if (fbmily != null) {
+                    Font2D fbmilyFont = fbmily.getFont(style|font.style);
+                    /* We exbctly mbtched the requested style, use it! */
+                    if (fbmilyFont != null) {
+                        fontNbmeCbche.put(mbpNbme, fbmilyFont);
+                        return fbmilyFont;
                     } else {
-                        /* This next call is designed to support the case
-                         * where bold italic is requested, and if we must
-                         * style, then base it on either bold or italic -
-                         * not on plain!
+                        /* This next cbll is designed to support the cbse
+                         * where bold itblic is requested, bnd if we must
+                         * style, then bbse it on either bold or itblic -
+                         * not on plbin!
                          */
-                        familyFont = family.getClosestStyle(style|font.style);
-                        if (familyFont != null) {
-                            /* The next check is perhaps one
-                             * that shouldn't be done. ie if we get this
-                             * far we have probably as close a match as we
-                             * are going to get. We could load all fonts to
-                             * see if somehow some parts of the family are
-                             * loaded but not all of it.
+                        fbmilyFont = fbmily.getClosestStyle(style|font.style);
+                        if (fbmilyFont != null) {
+                            /* The next check is perhbps one
+                             * thbt shouldn't be done. ie if we get this
+                             * fbr we hbve probbbly bs close b mbtch bs we
+                             * bre going to get. We could lobd bll fonts to
+                             * see if somehow some pbrts of the fbmily bre
+                             * lobded but not bll of it.
                              */
-                            if (familyFont.canDoStyle(style|font.style)) {
-                                fontNameCache.put(mapName, familyFont);
-                                return familyFont;
+                            if (fbmilyFont.cbnDoStyle(style|font.style)) {
+                                fontNbmeCbche.put(mbpNbme, fbmilyFont);
+                                return fbmilyFont;
                             }
                         }
                     }
@@ -2209,277 +2209,277 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
 
         if (FontUtilities.isWindows) {
 
-            font = findFontFromPlatformMap(lowerCaseName, style);
+            font = findFontFromPlbtformMbp(lowerCbseNbme, style);
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                    .info("findFontFromPlatformMap returned " + font);
+                    .info("findFontFromPlbtformMbp returned " + font);
             }
             if (font != null) {
-                fontNameCache.put(mapName, font);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             }
 
-            /* Don't want Windows to return a Lucida Sans font from
+            /* Don't wbnt Windows to return b Lucidb Sbns font from
              * C:\Windows\Fonts
              */
             if (deferredFontFiles.size() > 0) {
-                font = findJREDeferredFont(lowerCaseName, style);
+                font = findJREDeferredFont(lowerCbseNbme, style);
                 if (font != null) {
-                    fontNameCache.put(mapName, font);
+                    fontNbmeCbche.put(mbpNbme, font);
                     return font;
                 }
             }
-            font = findFontFromPlatform(lowerCaseName, style);
+            font = findFontFromPlbtform(lowerCbseNbme, style);
             if (font != null) {
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                          .info("Found font via platform API for request:\"" +
-                                name + "\":, style="+style+
+                          .info("Found font vib plbtform API for request:\"" +
+                                nbme + "\":, style="+style+
                                 " found font: " + font);
                 }
-                fontNameCache.put(mapName, font);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             }
         }
 
-        /* If reach here and no match has been located, then if there are
-         * uninitialised deferred fonts, load as many of those as needed
-         * to find the deferred font. If none is found through that
-         * search continue on.
-         * There is possibly a minor issue when more than one
-         * deferred font implements the same font face. Since deferred
-         * fonts are only those in font configuration files, this is a
-         * controlled situation, the known case being Solaris euro_fonts
-         * versions of Arial, Times New Roman, Courier New. However
-         * the larger font will transparently replace the smaller one
-         *  - see addToFontList() - when it is needed by the composite font.
+        /* If rebch here bnd no mbtch hbs been locbted, then if there bre
+         * uninitiblised deferred fonts, lobd bs mbny of those bs needed
+         * to find the deferred font. If none is found through thbt
+         * sebrch continue on.
+         * There is possibly b minor issue when more thbn one
+         * deferred font implements the sbme font fbce. Since deferred
+         * fonts bre only those in font configurbtion files, this is b
+         * controlled situbtion, the known cbse being Solbris euro_fonts
+         * versions of Aribl, Times New Rombn, Courier New. However
+         * the lbrger font will trbnspbrently replbce the smbller one
+         *  - see bddToFontList() - when it is needed by the composite font.
          */
         if (deferredFontFiles.size() > 0) {
-            font = findDeferredFont(name, style);
+            font = findDeferredFont(nbme, style);
             if (font != null) {
-                fontNameCache.put(mapName, font);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             }
         }
 
-        /* Some apps use deprecated 1.0 names such as helvetica and courier. On
-         * Solaris these are Type1 fonts in /usr/openwin/lib/X11/fonts/Type1.
-         * If running on Solaris will register all the fonts in this
+        /* Some bpps use deprecbted 1.0 nbmes such bs helveticb bnd courier. On
+         * Solbris these bre Type1 fonts in /usr/openwin/lib/X11/fonts/Type1.
+         * If running on Solbris will register bll the fonts in this
          * directory.
-         * May as well register the whole directory without actually testing
-         * the font name is one of the deprecated names as the next step would
-         * load all fonts which are in this directory anyway.
-         * In the event that this lookup is successful it potentially "hides"
-         * TrueType versions of such fonts that are elsewhere but since they
-         * do not exist on Solaris this is not a problem.
-         * Set a flag to indicate we've done this registration to avoid
-         * repetition and more seriously, to avoid recursion.
+         * Mby bs well register the whole directory without bctublly testing
+         * the font nbme is one of the deprecbted nbmes bs the next step would
+         * lobd bll fonts which bre in this directory bnywby.
+         * In the event thbt this lookup is successful it potentiblly "hides"
+         * TrueType versions of such fonts thbt bre elsewhere but since they
+         * do not exist on Solbris this is not b problem.
+         * Set b flbg to indicbte we've done this registrbtion to bvoid
+         * repetition bnd more seriously, to bvoid recursion.
          */
-        if (FontUtilities.isSolaris &&!loaded1dot0Fonts) {
-            /* "timesroman" is a special case since that's not the
-             * name of any known font on Solaris or elsewhere.
+        if (FontUtilities.isSolbris &&!lobded1dot0Fonts) {
+            /* "timesrombn" is b specibl cbse since thbt's not the
+             * nbme of bny known font on Solbris or elsewhere.
              */
-            if (lowerCaseName.equals("timesroman")) {
-                font = findFont2D("serif", style, fallback);
-                fontNameCache.put(mapName, font);
+            if (lowerCbseNbme.equbls("timesrombn")) {
+                font = findFont2D("serif", style, fbllbbck);
+                fontNbmeCbche.put(mbpNbme, font);
             }
             register1dot0Fonts();
-            loaded1dot0Fonts = true;
-            Font2D ff = findFont2D(name, style, fallback);
+            lobded1dot0Fonts = true;
+            Font2D ff = findFont2D(nbme, style, fbllbbck);
             return ff;
         }
 
-        /* We check for application registered fonts before
-         * explicitly loading all fonts as if necessary the registration
-         * code will have done so anyway. And we don't want to needlessly
-         * load the actual files for all fonts.
-         * Just as for installed fonts we check for family before fullname.
-         * We do not add these fonts to fontNameCache for the
-         * app context case which eliminates the overhead of a per context
-         * cache for these.
+        /* We check for bpplicbtion registered fonts before
+         * explicitly lobding bll fonts bs if necessbry the registrbtion
+         * code will hbve done so bnywby. And we don't wbnt to needlessly
+         * lobd the bctubl files for bll fonts.
+         * Just bs for instblled fonts we check for fbmily before fullnbme.
+         * We do not bdd these fonts to fontNbmeCbche for the
+         * bpp context cbse which eliminbtes the overhebd of b per context
+         * cbche for these.
          */
 
         if (fontsAreRegistered || fontsAreRegisteredPerAppContext) {
-            Hashtable<String, FontFamily> familyTable = null;
-            Hashtable<String, Font2D> nameTable;
+            Hbshtbble<String, FontFbmily> fbmilyTbble = null;
+            Hbshtbble<String, Font2D> nbmeTbble;
 
             if (fontsAreRegistered) {
-                familyTable = createdByFamilyName;
-                nameTable = createdByFullName;
+                fbmilyTbble = crebtedByFbmilyNbme;
+                nbmeTbble = crebtedByFullNbme;
             } else {
-                AppContext appContext = AppContext.getAppContext();
-                @SuppressWarnings("unchecked")
-                Hashtable<String,FontFamily> tmp1 =
-                    (Hashtable<String,FontFamily>)appContext.get(regFamilyKey);
-                familyTable = tmp1;
+                AppContext bppContext = AppContext.getAppContext();
+                @SuppressWbrnings("unchecked")
+                Hbshtbble<String,FontFbmily> tmp1 =
+                    (Hbshtbble<String,FontFbmily>)bppContext.get(regFbmilyKey);
+                fbmilyTbble = tmp1;
 
-                @SuppressWarnings("unchecked")
-                Hashtable<String, Font2D> tmp2 =
-                    (Hashtable<String,Font2D>)appContext.get(regFullNameKey);
-                nameTable = tmp2;
+                @SuppressWbrnings("unchecked")
+                Hbshtbble<String, Font2D> tmp2 =
+                    (Hbshtbble<String,Font2D>)bppContext.get(regFullNbmeKey);
+                nbmeTbble = tmp2;
             }
 
-            family = familyTable.get(lowerCaseName);
-            if (family != null) {
-                font = family.getFontWithExactStyleMatch(style);
+            fbmily = fbmilyTbble.get(lowerCbseNbme);
+            if (fbmily != null) {
+                font = fbmily.getFontWithExbctStyleMbtch(style);
                 if (font == null) {
-                    font = family.getFont(style);
+                    font = fbmily.getFont(style);
                 }
                 if (font == null) {
-                    font = family.getClosestStyle(style);
+                    font = fbmily.getClosestStyle(style);
                 }
                 if (font != null) {
                     if (fontsAreRegistered) {
-                        fontNameCache.put(mapName, font);
+                        fontNbmeCbche.put(mbpNbme, font);
                     }
                     return font;
                 }
             }
-            font = nameTable.get(lowerCaseName);
+            font = nbmeTbble.get(lowerCbseNbme);
             if (font != null) {
                 if (fontsAreRegistered) {
-                    fontNameCache.put(mapName, font);
+                    fontNbmeCbche.put(mbpNbme, font);
                 }
                 return font;
             }
         }
 
-        /* If reach here and no match has been located, then if all fonts
-         * are not yet loaded, do so, and then recurse.
+        /* If rebch here bnd no mbtch hbs been locbted, then if bll fonts
+         * bre not yet lobded, do so, bnd then recurse.
          */
-        if (!loadedAllFonts) {
+        if (!lobdedAllFonts) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                                       .info("Load fonts looking for:" + name);
+                                       .info("Lobd fonts looking for:" + nbme);
             }
-            loadFonts();
-            loadedAllFonts = true;
-            return findFont2D(name, style, fallback);
+            lobdFonts();
+            lobdedAllFonts = true;
+            return findFont2D(nbme, style, fbllbbck);
         }
 
-        if (!loadedAllFontFiles) {
+        if (!lobdedAllFontFiles) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                                  .info("Load font files looking for:" + name);
+                                  .info("Lobd font files looking for:" + nbme);
             }
-            loadFontFiles();
-            loadedAllFontFiles = true;
-            return findFont2D(name, style, fallback);
+            lobdFontFiles();
+            lobdedAllFontFiles = true;
+            return findFont2D(nbme, style, fbllbbck);
         }
 
-        /* The primary name is the locale default - ie not US/English but
-         * whatever is the default in this locale. This is the way it always
-         * has been but may be surprising to some developers if "Arial Regular"
-         * were hard-coded in their app and yet "Arial Regular" was not the
-         * default name. Fortunately for them, as a consequence of the JDK
-         * supporting returning names and family names for arbitrary locales,
-         * we also need to support searching all localised names for a match.
-         * But because this case of the name used to reference a font is not
-         * the same as the default for this locale is rare, it makes sense to
-         * search a much shorter list of default locale names and only go to
-         * a longer list of names in the event that no match was found.
-         * So add here code which searches localised names too.
-         * As in 1.4.x this happens only after loading all fonts, which
-         * is probably the right order.
+        /* The primbry nbme is the locble defbult - ie not US/English but
+         * whbtever is the defbult in this locble. This is the wby it blwbys
+         * hbs been but mby be surprising to some developers if "Aribl Regulbr"
+         * were hbrd-coded in their bpp bnd yet "Aribl Regulbr" wbs not the
+         * defbult nbme. Fortunbtely for them, bs b consequence of the JDK
+         * supporting returning nbmes bnd fbmily nbmes for brbitrbry locbles,
+         * we blso need to support sebrching bll locblised nbmes for b mbtch.
+         * But becbuse this cbse of the nbme used to reference b font is not
+         * the sbme bs the defbult for this locble is rbre, it mbkes sense to
+         * sebrch b much shorter list of defbult locble nbmes bnd only go to
+         * b longer list of nbmes in the event thbt no mbtch wbs found.
+         * So bdd here code which sebrches locblised nbmes too.
+         * As in 1.4.x this hbppens only bfter lobding bll fonts, which
+         * is probbbly the right order.
          */
-        if ((font = findFont2DAllLocales(name, style)) != null) {
-            fontNameCache.put(mapName, font);
+        if ((font = findFont2DAllLocbles(nbme, style)) != null) {
+            fontNbmeCbche.put(mbpNbme, font);
             return font;
         }
 
-        /* Perhaps its a "compatibility" name - timesroman, helvetica,
-         * or courier, which 1.0 apps used for logical fonts.
-         * We look for these "late" after a loadFonts as we must not
-         * hide real fonts of these names.
-         * Map these appropriately:
-         * On windows this means according to the rules specified by the
-         * FontConfiguration : do it only for encoding==Cp1252
+        /* Perhbps its b "compbtibility" nbme - timesrombn, helveticb,
+         * or courier, which 1.0 bpps used for logicbl fonts.
+         * We look for these "lbte" bfter b lobdFonts bs we must not
+         * hide rebl fonts of these nbmes.
+         * Mbp these bppropribtely:
+         * On windows this mebns bccording to the rules specified by the
+         * FontConfigurbtion : do it only for encoding==Cp1252
          *
-         * REMIND: this is something we plan to remove.
+         * REMIND: this is something we plbn to remove.
          */
         if (FontUtilities.isWindows) {
-            String compatName =
-                getFontConfiguration().getFallbackFamilyName(name, null);
-            if (compatName != null) {
-                font = findFont2D(compatName, style, fallback);
-                fontNameCache.put(mapName, font);
+            String compbtNbme =
+                getFontConfigurbtion().getFbllbbckFbmilyNbme(nbme, null);
+            if (compbtNbme != null) {
+                font = findFont2D(compbtNbme, style, fbllbbck);
+                fontNbmeCbche.put(mbpNbme, font);
                 return font;
             }
-        } else if (lowerCaseName.equals("timesroman")) {
-            font = findFont2D("serif", style, fallback);
-            fontNameCache.put(mapName, font);
+        } else if (lowerCbseNbme.equbls("timesrombn")) {
+            font = findFont2D("serif", style, fbllbbck);
+            fontNbmeCbche.put(mbpNbme, font);
             return font;
-        } else if (lowerCaseName.equals("helvetica")) {
-            font = findFont2D("sansserif", style, fallback);
-            fontNameCache.put(mapName, font);
+        } else if (lowerCbseNbme.equbls("helveticb")) {
+            font = findFont2D("sbnsserif", style, fbllbbck);
+            fontNbmeCbche.put(mbpNbme, font);
             return font;
-        } else if (lowerCaseName.equals("courier")) {
-            font = findFont2D("monospaced", style, fallback);
-            fontNameCache.put(mapName, font);
+        } else if (lowerCbseNbme.equbls("courier")) {
+            font = findFont2D("monospbced", style, fbllbbck);
+            fontNbmeCbche.put(mbpNbme, font);
             return font;
         }
 
         if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().info("No font found for:" + name);
+            FontUtilities.getLogger().info("No font found for:" + nbme);
         }
 
-        switch (fallback) {
-        case PHYSICAL_FALLBACK: return getDefaultPhysicalFont();
-        case LOGICAL_FALLBACK: return getDefaultLogicalFont(style);
-        default: return null;
+        switch (fbllbbck) {
+        cbse PHYSICAL_FALLBACK: return getDefbultPhysicblFont();
+        cbse LOGICAL_FALLBACK: return getDefbultLogicblFont(style);
+        defbult: return null;
         }
     }
 
     /*
-     * Workaround for apps which are dependent on a font metrics bug
-     * in JDK 1.1. This is an unsupported win32 private setting.
-     * Left in for a customer - do not remove.
+     * Workbround for bpps which bre dependent on b font metrics bug
+     * in JDK 1.1. This is bn unsupported win32 privbte setting.
+     * Left in for b customer - do not remove.
      */
-    public boolean usePlatformFontMetrics() {
-        return usePlatformFontMetrics;
+    public boolebn usePlbtformFontMetrics() {
+        return usePlbtformFontMetrics;
     }
 
     public int getNumFonts() {
-        return physicalFonts.size()+maxCompFont;
+        return physicblFonts.size()+mbxCompFont;
     }
 
-    private static boolean fontSupportsEncoding(Font font, String encoding) {
+    privbte stbtic boolebn fontSupportsEncoding(Font font, String encoding) {
         return FontUtilities.getFont2D(font).supportsEncoding(encoding);
     }
 
-    protected abstract String getFontPath(boolean noType1Fonts);
+    protected bbstrbct String getFontPbth(boolebn noType1Fonts);
 
-    // MACOSX begin -- need to access this in subclass
-    protected Thread fileCloser = null;
+    // MACOSX begin -- need to bccess this in subclbss
+    protected Threbd fileCloser = null;
     // MACOSX end
     Vector<File> tmpFontFiles = null;
 
-    public Font2D createFont2D(File fontFile, int fontFormat,
-                               boolean isCopy, CreatedFontTracker tracker)
-    throws FontFormatException {
+    public Font2D crebteFont2D(File fontFile, int fontFormbt,
+                               boolebn isCopy, CrebtedFontTrbcker trbcker)
+    throws FontFormbtException {
 
-        String fontFilePath = fontFile.getPath();
+        String fontFilePbth = fontFile.getPbth();
         FileFont font2D = null;
-        final File fFile = fontFile;
-        final CreatedFontTracker _tracker = tracker;
+        finbl File fFile = fontFile;
+        finbl CrebtedFontTrbcker _trbcker = trbcker;
         try {
-            switch (fontFormat) {
-            case Font.TRUETYPE_FONT:
-                font2D = new TrueTypeFont(fontFilePath, null, 0, true);
-                break;
-            case Font.TYPE1_FONT:
-                font2D = new Type1Font(fontFilePath, null, isCopy);
-                break;
-            default:
-                throw new FontFormatException("Unrecognised Font Format");
+            switch (fontFormbt) {
+            cbse Font.TRUETYPE_FONT:
+                font2D = new TrueTypeFont(fontFilePbth, null, 0, true);
+                brebk;
+            cbse Font.TYPE1_FONT:
+                font2D = new Type1Font(fontFilePbth, null, isCopy);
+                brebk;
+            defbult:
+                throw new FontFormbtException("Unrecognised Font Formbt");
             }
-        } catch (FontFormatException e) {
+        } cbtch (FontFormbtException e) {
             if (isCopy) {
-                java.security.AccessController.doPrivileged(
-                     new java.security.PrivilegedAction<Object>() {
+                jbvb.security.AccessController.doPrivileged(
+                     new jbvb.security.PrivilegedAction<Object>() {
                           public Object run() {
-                              if (_tracker != null) {
-                                  _tracker.subBytes((int)fFile.length());
+                              if (_trbcker != null) {
+                                  _trbcker.subBytes((int)fFile.length());
                               }
                               fFile.delete();
                               return null;
@@ -2489,36 +2489,36 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
             throw(e);
         }
         if (isCopy) {
-            font2D.setFileToRemove(fontFile, tracker);
-            synchronized (FontManager.class) {
+            font2D.setFileToRemove(fontFile, trbcker);
+            synchronized (FontMbnbger.clbss) {
 
                 if (tmpFontFiles == null) {
                     tmpFontFiles = new Vector<File>();
                 }
-                tmpFontFiles.add(fontFile);
+                tmpFontFiles.bdd(fontFile);
 
                 if (fileCloser == null) {
-                    final Runnable fileCloserRunnable = new Runnable() {
+                    finbl Runnbble fileCloserRunnbble = new Runnbble() {
                       public void run() {
-                         java.security.AccessController.doPrivileged(
-                         new java.security.PrivilegedAction<Object>() {
+                         jbvb.security.AccessController.doPrivileged(
+                         new jbvb.security.PrivilegedAction<Object>() {
                          public Object run() {
 
                             for (int i=0;i<CHANNELPOOLSIZE;i++) {
-                                if (fontFileCache[i] != null) {
+                                if (fontFileCbche[i] != null) {
                                     try {
-                                        fontFileCache[i].close();
-                                    } catch (Exception e) {
+                                        fontFileCbche[i].close();
+                                    } cbtch (Exception e) {
                                     }
                                 }
                             }
                             if (tmpFontFiles != null) {
                                 File[] files = new File[tmpFontFiles.size()];
-                                files = tmpFontFiles.toArray(files);
+                                files = tmpFontFiles.toArrby(files);
                                 for (int f=0; f<files.length;f++) {
                                     try {
                                         files[f].delete();
-                                    } catch (Exception e) {
+                                    } cbtch (Exception e) {
                                     }
                                 }
                             }
@@ -2531,14 +2531,14 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
                     };
                     AccessController.doPrivileged(
                             (PrivilegedAction<Void>) () -> {
-                                /* The thread must be a member of a thread group
+                                /* The threbd must be b member of b threbd group
                                  * which will not get GCed before VM exit.
-                                 * Make its parent the top-level thread group.
+                                 * Mbke its pbrent the top-level threbd group.
                                  */
-                                ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                                fileCloser = new Thread(rootTG, fileCloserRunnable);
-                                fileCloser.setContextClassLoader(null);
-                                Runtime.getRuntime().addShutdownHook(fileCloser);
+                                ThrebdGroup rootTG = ThrebdGroupUtils.getRootThrebdGroup();
+                                fileCloser = new Threbd(rootTG, fileCloserRunnbble);
+                                fileCloser.setContextClbssLobder(null);
+                                Runtime.getRuntime().bddShutdownHook(fileCloser);
                                 return null;
                             });
                 }
@@ -2547,232 +2547,232 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         return font2D;
     }
 
-    /* remind: used in X11GraphicsEnvironment and called often enough
-     * that we ought to obsolete this code
+    /* remind: used in X11GrbphicsEnvironment bnd cblled often enough
+     * thbt we ought to obsolete this code
      */
-    public synchronized String getFullNameByFileName(String fileName) {
-        PhysicalFont[] physFonts = getPhysicalFonts();
+    public synchronized String getFullNbmeByFileNbme(String fileNbme) {
+        PhysicblFont[] physFonts = getPhysicblFonts();
         for (int i=0;i<physFonts.length;i++) {
-            if (physFonts[i].platName.equals(fileName)) {
-                return (physFonts[i].getFontName(null));
+            if (physFonts[i].plbtNbme.equbls(fileNbme)) {
+                return (physFonts[i].getFontNbme(null));
             }
         }
         return null;
     }
 
     /*
-     * This is called when font is determined to be invalid/bad.
-     * It designed to be called (for example) by the font scaler
-     * when in processing a font file it is discovered to be incorrect.
-     * This is different than the case where fonts are discovered to
-     * be incorrect during initial verification, as such fonts are
+     * This is cblled when font is determined to be invblid/bbd.
+     * It designed to be cblled (for exbmple) by the font scbler
+     * when in processing b font file it is discovered to be incorrect.
+     * This is different thbn the cbse where fonts bre discovered to
+     * be incorrect during initibl verificbtion, bs such fonts bre
      * never registered.
-     * Handles to this font held are re-directed to a default font.
-     * This default may not be an ideal substitute buts it better than
-     * crashing This code assumes a PhysicalFont parameter as it doesn't
-     * make sense for a Composite to be "bad".
+     * Hbndles to this font held bre re-directed to b defbult font.
+     * This defbult mby not be bn idebl substitute buts it better thbn
+     * crbshing This code bssumes b PhysicblFont pbrbmeter bs it doesn't
+     * mbke sense for b Composite to be "bbd".
      */
-    public synchronized void deRegisterBadFont(Font2D font2D) {
-        if (!(font2D instanceof PhysicalFont)) {
-            /* We should never reach here, but just in case */
+    public synchronized void deRegisterBbdFont(Font2D font2D) {
+        if (!(font2D instbnceof PhysicblFont)) {
+            /* We should never rebch here, but just in cbse */
             return;
         } else {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                                     .severe("Deregister bad font: " + font2D);
+                                     .severe("Deregister bbd font: " + font2D);
             }
-            replaceFont((PhysicalFont)font2D, getDefaultPhysicalFont());
+            replbceFont((PhysicblFont)font2D, getDefbultPhysicblFont());
         }
     }
 
     /*
-     * This encapsulates all the work that needs to be done when a
-     * Font2D is replaced by a different Font2D.
+     * This encbpsulbtes bll the work thbt needs to be done when b
+     * Font2D is replbced by b different Font2D.
      */
-    public synchronized void replaceFont(PhysicalFont oldFont,
-                                         PhysicalFont newFont) {
+    public synchronized void replbceFont(PhysicblFont oldFont,
+                                         PhysicblFont newFont) {
 
-        if (oldFont.handle.font2D != oldFont) {
-            /* already done */
+        if (oldFont.hbndle.font2D != oldFont) {
+            /* blrebdy done */
             return;
         }
 
-        /* If we try to replace the font with itself, that won't work,
-         * so pick any alternative physical font
+        /* If we try to replbce the font with itself, thbt won't work,
+         * so pick bny blternbtive physicbl font
          */
         if (oldFont == newFont) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                      .severe("Can't replace bad font with itself " + oldFont);
+                      .severe("Cbn't replbce bbd font with itself " + oldFont);
             }
-            PhysicalFont[] physFonts = getPhysicalFonts();
+            PhysicblFont[] physFonts = getPhysicblFonts();
             for (int i=0; i<physFonts.length;i++) {
                 if (physFonts[i] != newFont) {
                     newFont = physFonts[i];
-                    break;
+                    brebk;
                 }
             }
             if (oldFont == newFont) {
                 if (FontUtilities.isLogging()) {
                     FontUtilities.getLogger()
-                           .severe("This is bad. No good physicalFonts found.");
+                           .severe("This is bbd. No good physicblFonts found.");
                 }
                 return;
             }
         }
 
-        /* eliminate references to this font, so it won't be located
-         * by future callers, and will be eligible for GC when all
-         * references are removed
+        /* eliminbte references to this font, so it won't be locbted
+         * by future cbllers, bnd will be eligible for GC when bll
+         * references bre removed
          */
-        oldFont.handle.font2D = newFont;
-        physicalFonts.remove(oldFont.fullName);
-        fullNameToFont.remove(oldFont.fullName.toLowerCase(Locale.ENGLISH));
-        FontFamily.remove(oldFont);
-        if (localeFullNamesToFont != null) {
-            Map.Entry<?, ?>[] mapEntries = localeFullNamesToFont.entrySet().
-                toArray(new Map.Entry<?, ?>[0]);
-            /* Should I be replacing these, or just I just remove
-             * the names from the map?
+        oldFont.hbndle.font2D = newFont;
+        physicblFonts.remove(oldFont.fullNbme);
+        fullNbmeToFont.remove(oldFont.fullNbme.toLowerCbse(Locble.ENGLISH));
+        FontFbmily.remove(oldFont);
+        if (locbleFullNbmesToFont != null) {
+            Mbp.Entry<?, ?>[] mbpEntries = locbleFullNbmesToFont.entrySet().
+                toArrby(new Mbp.Entry<?, ?>[0]);
+            /* Should I be replbcing these, or just I just remove
+             * the nbmes from the mbp?
              */
-            for (int i=0; i<mapEntries.length;i++) {
-                if (mapEntries[i].getValue() == oldFont) {
+            for (int i=0; i<mbpEntries.length;i++) {
+                if (mbpEntries[i].getVblue() == oldFont) {
                     try {
-                        @SuppressWarnings("unchecked")
-                        Map.Entry<String, PhysicalFont> tmp = (Map.Entry<String, PhysicalFont>)mapEntries[i];
-                        tmp.setValue(newFont);
-                    } catch (Exception e) {
-                        /* some maps don't support this operation.
-                         * In this case just give up and remove the entry.
+                        @SuppressWbrnings("unchecked")
+                        Mbp.Entry<String, PhysicblFont> tmp = (Mbp.Entry<String, PhysicblFont>)mbpEntries[i];
+                        tmp.setVblue(newFont);
+                    } cbtch (Exception e) {
+                        /* some mbps don't support this operbtion.
+                         * In this cbse just give up bnd remove the entry.
                          */
-                        localeFullNamesToFont.remove(mapEntries[i].getKey());
+                        locbleFullNbmesToFont.remove(mbpEntries[i].getKey());
                     }
                 }
             }
         }
 
-        for (int i=0; i<maxCompFont; i++) {
-            /* Deferred initialization of composites shouldn't be
-             * a problem for this case, since a font must have been
-             * initialised to be discovered to be bad.
-             * Some JRE composites on Solaris use two versions of the same
-             * font. The replaced font isn't bad, just "smaller" so there's
-             * no need to make the slot point to the new font.
-             * Since composites have a direct reference to the Font2D (not
-             * via a handle) making this substitution is not safe and could
-             * cause an additional problem and so this substitution is
-             * warranted only when a font is truly "bad" and could cause
-             * a crash. So we now replace it only if its being substituted
-             * with some font other than a fontconfig rank font
-             * Since in practice a substitution will have the same rank
-             * this may never happen, but the code is safer even if its
-             * also now a no-op.
+        for (int i=0; i<mbxCompFont; i++) {
+            /* Deferred initiblizbtion of composites shouldn't be
+             * b problem for this cbse, since b font must hbve been
+             * initiblised to be discovered to be bbd.
+             * Some JRE composites on Solbris use two versions of the sbme
+             * font. The replbced font isn't bbd, just "smbller" so there's
+             * no need to mbke the slot point to the new font.
+             * Since composites hbve b direct reference to the Font2D (not
+             * vib b hbndle) mbking this substitution is not sbfe bnd could
+             * cbuse bn bdditionbl problem bnd so this substitution is
+             * wbrrbnted only when b font is truly "bbd" bnd could cbuse
+             * b crbsh. So we now replbce it only if its being substituted
+             * with some font other thbn b fontconfig rbnk font
+             * Since in prbctice b substitution will hbve the sbme rbnk
+             * this mby never hbppen, but the code is sbfer even if its
+             * blso now b no-op.
              * The only obvious "glitch" from this stems from the current
-             * implementation that when asked for the number of glyphs in a
-             * composite it lies and returns the number in slot 0 because
-             * composite glyphs aren't contiguous. Since we live with that
-             * we can live with the glitch that depending on how it was
-             * initialised a composite may return different values for this.
-             * Fixing the issues with composite glyph ids is tricky as
-             * there are exclusion ranges and unlike other fonts even the
-             * true "numGlyphs" isn't a contiguous range. Likely the only
-             * solution is an API that returns an array of glyph ranges
-             * which takes precedence over the existing API. That might
-             * also need to address excluding ranges which represent a
-             * code point supported by an earlier component.
+             * implementbtion thbt when bsked for the number of glyphs in b
+             * composite it lies bnd returns the number in slot 0 becbuse
+             * composite glyphs bren't contiguous. Since we live with thbt
+             * we cbn live with the glitch thbt depending on how it wbs
+             * initiblised b composite mby return different vblues for this.
+             * Fixing the issues with composite glyph ids is tricky bs
+             * there bre exclusion rbnges bnd unlike other fonts even the
+             * true "numGlyphs" isn't b contiguous rbnge. Likely the only
+             * solution is bn API thbt returns bn brrby of glyph rbnges
+             * which tbkes precedence over the existing API. Thbt might
+             * blso need to bddress excluding rbnges which represent b
+             * code point supported by bn ebrlier component.
              */
-            if (newFont.getRank() > Font2D.FONT_CONFIG_RANK) {
-                compFonts[i].replaceComponentFont(oldFont, newFont);
+            if (newFont.getRbnk() > Font2D.FONT_CONFIG_RANK) {
+                compFonts[i].replbceComponentFont(oldFont, newFont);
             }
         }
     }
 
-    private synchronized void loadLocaleNames() {
-        if (localeFullNamesToFont != null) {
+    privbte synchronized void lobdLocbleNbmes() {
+        if (locbleFullNbmesToFont != null) {
             return;
         }
-        localeFullNamesToFont = new HashMap<String, TrueTypeFont>();
+        locbleFullNbmesToFont = new HbshMbp<String, TrueTypeFont>();
         Font2D[] fonts = getRegisteredFonts();
         for (int i=0; i<fonts.length; i++) {
-            if (fonts[i] instanceof TrueTypeFont) {
+            if (fonts[i] instbnceof TrueTypeFont) {
                 TrueTypeFont ttf = (TrueTypeFont)fonts[i];
-                String[] fullNames = ttf.getAllFullNames();
-                for (int n=0; n<fullNames.length; n++) {
-                    localeFullNamesToFont.put(fullNames[n], ttf);
+                String[] fullNbmes = ttf.getAllFullNbmes();
+                for (int n=0; n<fullNbmes.length; n++) {
+                    locbleFullNbmesToFont.put(fullNbmes[n], ttf);
                 }
-                FontFamily family = FontFamily.getFamily(ttf.familyName);
-                if (family != null) {
-                    FontFamily.addLocaleNames(family, ttf.getAllFamilyNames());
+                FontFbmily fbmily = FontFbmily.getFbmily(ttf.fbmilyNbme);
+                if (fbmily != null) {
+                    FontFbmily.bddLocbleNbmes(fbmily, ttf.getAllFbmilyNbmes());
                 }
             }
         }
     }
 
-    /* This replicate the core logic of findFont2D but operates on
-     * all the locale names. This hasn't been merged into findFont2D to
-     * keep the logic simpler and reduce overhead, since this case is
-     * almost never used. The main case in which it is called is when
-     * a bogus font name is used and we need to check all possible names
-     * before returning the default case.
+    /* This replicbte the core logic of findFont2D but operbtes on
+     * bll the locble nbmes. This hbsn't been merged into findFont2D to
+     * keep the logic simpler bnd reduce overhebd, since this cbse is
+     * blmost never used. The mbin cbse in which it is cblled is when
+     * b bogus font nbme is used bnd we need to check bll possible nbmes
+     * before returning the defbult cbse.
      */
-    private Font2D findFont2DAllLocales(String name, int style) {
+    privbte Font2D findFont2DAllLocbles(String nbme, int style) {
 
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                           .info("Searching localised font names for:" + name);
+                           .info("Sebrching locblised font nbmes for:" + nbme);
         }
 
-        /* If reach here and no match has been located, then if we have
-         * not yet built the map of localeFullNamesToFont for TT fonts, do so
-         * now. This method must be called after all fonts have been loaded.
+        /* If rebch here bnd no mbtch hbs been locbted, then if we hbve
+         * not yet built the mbp of locbleFullNbmesToFont for TT fonts, do so
+         * now. This method must be cblled bfter bll fonts hbve been lobded.
          */
-        if (localeFullNamesToFont == null) {
-            loadLocaleNames();
+        if (locbleFullNbmesToFont == null) {
+            lobdLocbleNbmes();
         }
-        String lowerCaseName = name.toLowerCase();
+        String lowerCbseNbme = nbme.toLowerCbse();
         Font2D font = null;
 
-        /* First see if its a family name. */
-        FontFamily family = FontFamily.getLocaleFamily(lowerCaseName);
-        if (family != null) {
-          font = family.getFont(style);
+        /* First see if its b fbmily nbme. */
+        FontFbmily fbmily = FontFbmily.getLocbleFbmily(lowerCbseNbme);
+        if (fbmily != null) {
+          font = fbmily.getFont(style);
           if (font == null) {
-            font = family.getClosestStyle(style);
+            font = fbmily.getClosestStyle(style);
           }
           if (font != null) {
               return font;
           }
         }
 
-        /* If it wasn't a family name, it should be a full name. */
+        /* If it wbsn't b fbmily nbme, it should be b full nbme. */
         synchronized (this) {
-            font = localeFullNamesToFont.get(name);
+            font = locbleFullNbmesToFont.get(nbme);
         }
         if (font != null) {
             if (font.style == style || style == Font.PLAIN) {
                 return font;
             } else {
-                family = FontFamily.getFamily(font.getFamilyName(null));
-                if (family != null) {
-                    Font2D familyFont = family.getFont(style);
-                    /* We exactly matched the requested style, use it! */
-                    if (familyFont != null) {
-                        return familyFont;
+                fbmily = FontFbmily.getFbmily(font.getFbmilyNbme(null));
+                if (fbmily != null) {
+                    Font2D fbmilyFont = fbmily.getFont(style);
+                    /* We exbctly mbtched the requested style, use it! */
+                    if (fbmilyFont != null) {
+                        return fbmilyFont;
                     } else {
-                        familyFont = family.getClosestStyle(style);
-                        if (familyFont != null) {
-                            /* The next check is perhaps one
-                             * that shouldn't be done. ie if we get this
-                             * far we have probably as close a match as we
-                             * are going to get. We could load all fonts to
-                             * see if somehow some parts of the family are
-                             * loaded but not all of it.
+                        fbmilyFont = fbmily.getClosestStyle(style);
+                        if (fbmilyFont != null) {
+                            /* The next check is perhbps one
+                             * thbt shouldn't be done. ie if we get this
+                             * fbr we hbve probbbly bs close b mbtch bs we
+                             * bre going to get. We could lobd bll fonts to
+                             * see if somehow some pbrts of the fbmily bre
+                             * lobded but not bll of it.
                              * This check is commented out for now.
                              */
-                            if (!familyFont.canDoStyle(style)) {
-                                familyFont = null;
+                            if (!fbmilyFont.cbnDoStyle(style)) {
+                                fbmilyFont = null;
                             }
-                            return familyFont;
+                            return fbmilyFont;
                         }
                     }
                 }
@@ -2781,558 +2781,558 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         return font;
     }
 
-    /* Supporting "alternate" composite fonts on 2D graphics objects
-     * is accessed by the application by calling methods on the local
-     * GraphicsEnvironment. The overall implementation is described
-     * in one place, here, since otherwise the implementation is spread
-     * around it may be difficult to track.
-     * The methods below call into SunGraphicsEnvironment which creates a
-     * new FontConfiguration instance. The FontConfiguration class,
-     * and its platform sub-classes are updated to take parameters requesting
-     * these behaviours. This is then used to create new composite font
-     * instances. Since this calls the initCompositeFont method in
-     * SunGraphicsEnvironment it performs the same initialization as is
-     * performed normally. There may be some duplication of effort, but
-     * that code is already written to be able to perform properly if called
-     * to duplicate work. The main difference is that if we detect we are
-     * running in an applet/browser/Java plugin environment these new fonts
-     * are not placed in the "default" maps but into an AppContext instance.
-     * The font lookup mechanism in java.awt.Font.getFont2D() is also updated
-     * so that look-up for composite fonts will in that case always
-     * do a lookup rather than returning a cached result.
-     * This is inefficient but necessary else singleton java.awt.Font
-     * instances would not retrieve the correct Font2D for the appcontext.
-     * sun.font.FontManager.findFont2D is also updated to that it uses
-     * a name map cache specific to that appcontext.
+    /* Supporting "blternbte" composite fonts on 2D grbphics objects
+     * is bccessed by the bpplicbtion by cblling methods on the locbl
+     * GrbphicsEnvironment. The overbll implementbtion is described
+     * in one plbce, here, since otherwise the implementbtion is sprebd
+     * bround it mby be difficult to trbck.
+     * The methods below cbll into SunGrbphicsEnvironment which crebtes b
+     * new FontConfigurbtion instbnce. The FontConfigurbtion clbss,
+     * bnd its plbtform sub-clbsses bre updbted to tbke pbrbmeters requesting
+     * these behbviours. This is then used to crebte new composite font
+     * instbnces. Since this cblls the initCompositeFont method in
+     * SunGrbphicsEnvironment it performs the sbme initiblizbtion bs is
+     * performed normblly. There mby be some duplicbtion of effort, but
+     * thbt code is blrebdy written to be bble to perform properly if cblled
+     * to duplicbte work. The mbin difference is thbt if we detect we bre
+     * running in bn bpplet/browser/Jbvb plugin environment these new fonts
+     * bre not plbced in the "defbult" mbps but into bn AppContext instbnce.
+     * The font lookup mechbnism in jbvb.bwt.Font.getFont2D() is blso updbted
+     * so thbt look-up for composite fonts will in thbt cbse blwbys
+     * do b lookup rbther thbn returning b cbched result.
+     * This is inefficient but necessbry else singleton jbvb.bwt.Font
+     * instbnces would not retrieve the correct Font2D for the bppcontext.
+     * sun.font.FontMbnbger.findFont2D is blso updbted to thbt it uses
+     * b nbme mbp cbche specific to thbt bppcontext.
      *
-     * Getting an AppContext is expensive, so there is a global variable
-     * that records whether these methods have ever been called and can
-     * avoid the expense for almost all applications. Once the correct
-     * CompositeFont is associated with the Font, everything should work
-     * through existing mechanisms.
-     * A special case is that GraphicsEnvironment.getAllFonts() must
-     * return an AppContext specific list.
+     * Getting bn AppContext is expensive, so there is b globbl vbribble
+     * thbt records whether these methods hbve ever been cblled bnd cbn
+     * bvoid the expense for blmost bll bpplicbtions. Once the correct
+     * CompositeFont is bssocibted with the Font, everything should work
+     * through existing mechbnisms.
+     * A specibl cbse is thbt GrbphicsEnvironment.getAllFonts() must
+     * return bn AppContext specific list.
      *
-     * Calling the methods below is "heavyweight" but it is expected that
-     * these methods will be called very rarely.
+     * Cblling the methods below is "hebvyweight" but it is expected thbt
+     * these methods will be cblled very rbrely.
      *
-     * If _usingPerAppContextComposites is true, we are in "applet"
-     * (eg browser) environment and at least one context has selected
-     * an alternate composite font behaviour.
-     * If _usingAlternateComposites is true, we are not in an "applet"
-     * environment and the (single) application has selected
-     * an alternate composite font behaviour.
+     * If _usingPerAppContextComposites is true, we bre in "bpplet"
+     * (eg browser) environment bnd bt lebst one context hbs selected
+     * bn blternbte composite font behbviour.
+     * If _usingAlternbteComposites is true, we bre not in bn "bpplet"
+     * environment bnd the (single) bpplicbtion hbs selected
+     * bn blternbte composite font behbviour.
      *
-     * - Printing: The implementation delegates logical fonts to an AWT
-     * mechanism which cannot use these alternate configurations.
-     * We can detect that alternate fonts are in use and back-off to 2D, but
-     * that uses outlines. Much of this can be fixed with additional work
-     * but that may have to wait. The results should be correct, just not
-     * optimal.
+     * - Printing: The implementbtion delegbtes logicbl fonts to bn AWT
+     * mechbnism which cbnnot use these blternbte configurbtions.
+     * We cbn detect thbt blternbte fonts bre in use bnd bbck-off to 2D, but
+     * thbt uses outlines. Much of this cbn be fixed with bdditionbl work
+     * but thbt mby hbve to wbit. The results should be correct, just not
+     * optimbl.
      */
-    private static final Object altJAFontKey       = new Object();
-    private static final Object localeFontKey       = new Object();
-    private static final Object proportionalFontKey = new Object();
-    private boolean _usingPerAppContextComposites = false;
-    private boolean _usingAlternateComposites = false;
+    privbte stbtic finbl Object bltJAFontKey       = new Object();
+    privbte stbtic finbl Object locbleFontKey       = new Object();
+    privbte stbtic finbl Object proportionblFontKey = new Object();
+    privbte boolebn _usingPerAppContextComposites = fblse;
+    privbte boolebn _usingAlternbteComposites = fblse;
 
-    /* These values are used only if we are running as a standalone
-     * application, as determined by maybeMultiAppContext();
+    /* These vblues bre used only if we bre running bs b stbndblone
+     * bpplicbtion, bs determined by mbybeMultiAppContext();
      */
-    private static boolean gAltJAFont = false;
-    private boolean gLocalePref = false;
-    private boolean gPropPref = false;
+    privbte stbtic boolebn gAltJAFont = fblse;
+    privbte boolebn gLocblePref = fblse;
+    privbte boolebn gPropPref = fblse;
 
-    /* This method doesn't check if alternates are selected in this app
-     * context. Its used by the FontMetrics caching code which in such
-     * a case cannot retrieve a cached metrics solely on the basis of
-     * the Font.equals() method since it needs to also check if the Font2D
-     * is the same.
-     * We also use non-standard composites for Swing native L&F fonts on
-     * Windows. In that case the policy is that the metrics reported are
-     * based solely on the physical font in the first slot which is the
-     * visible java.awt.Font. So in that case the metrics cache which tests
-     * the Font does what we want. In the near future when we expand the GTK
-     * logical font definitions we may need to revisit this if GTK reports
-     * combined metrics instead. For now though this test can be simple.
+    /* This method doesn't check if blternbtes bre selected in this bpp
+     * context. Its used by the FontMetrics cbching code which in such
+     * b cbse cbnnot retrieve b cbched metrics solely on the bbsis of
+     * the Font.equbls() method since it needs to blso check if the Font2D
+     * is the sbme.
+     * We blso use non-stbndbrd composites for Swing nbtive L&F fonts on
+     * Windows. In thbt cbse the policy is thbt the metrics reported bre
+     * bbsed solely on the physicbl font in the first slot which is the
+     * visible jbvb.bwt.Font. So in thbt cbse the metrics cbche which tests
+     * the Font does whbt we wbnt. In the nebr future when we expbnd the GTK
+     * logicbl font definitions we mby need to revisit this if GTK reports
+     * combined metrics instebd. For now though this test cbn be simple.
      */
-    public boolean maybeUsingAlternateCompositeFonts() {
-       return _usingAlternateComposites || _usingPerAppContextComposites;
+    public boolebn mbybeUsingAlternbteCompositeFonts() {
+       return _usingAlternbteComposites || _usingPerAppContextComposites;
     }
 
-    public boolean usingAlternateCompositeFonts() {
-        return (_usingAlternateComposites ||
+    public boolebn usingAlternbteCompositeFonts() {
+        return (_usingAlternbteComposites ||
                 (_usingPerAppContextComposites &&
-                AppContext.getAppContext().get(CompositeFont.class) != null));
+                AppContext.getAppContext().get(CompositeFont.clbss) != null));
     }
 
-    private static boolean maybeMultiAppContext() {
-        Boolean appletSM = (Boolean)
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
+    privbte stbtic boolebn mbybeMultiAppContext() {
+        Boolebn bppletSM = (Boolebn)
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Object>() {
                         public Object run() {
-                            SecurityManager sm = System.getSecurityManager();
-                            return sm instanceof sun.applet.AppletSecurity;
+                            SecurityMbnbger sm = System.getSecurityMbnbger();
+                            return sm instbnceof sun.bpplet.AppletSecurity;
                         }
                     });
-        return appletSM.booleanValue();
+        return bppletSM.boolebnVblue();
     }
 
-    /* Modifies the behaviour of a subsequent call to preferLocaleFonts()
-     * to use Mincho instead of Gothic for dialoginput in JA locales
-     * on windows. Not needed on other platforms.
+    /* Modifies the behbviour of b subsequent cbll to preferLocbleFonts()
+     * to use Mincho instebd of Gothic for dibloginput in JA locbles
+     * on windows. Not needed on other plbtforms.
      */
-    public synchronized void useAlternateFontforJALocales() {
+    public synchronized void useAlternbteFontforJALocbles() {
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                .info("Entered useAlternateFontforJALocales().");
+                .info("Entered useAlternbteFontforJALocbles().");
         }
         if (!FontUtilities.isWindows) {
             return;
         }
 
-        if (!maybeMultiAppContext()) {
+        if (!mbybeMultiAppContext()) {
             gAltJAFont = true;
         } else {
-            AppContext appContext = AppContext.getAppContext();
-            appContext.put(altJAFontKey, altJAFontKey);
+            AppContext bppContext = AppContext.getAppContext();
+            bppContext.put(bltJAFontKey, bltJAFontKey);
         }
     }
 
-    public boolean usingAlternateFontforJALocales() {
-        if (!maybeMultiAppContext()) {
+    public boolebn usingAlternbteFontforJALocbles() {
+        if (!mbybeMultiAppContext()) {
             return gAltJAFont;
         } else {
-            AppContext appContext = AppContext.getAppContext();
-            return appContext.get(altJAFontKey) == altJAFontKey;
+            AppContext bppContext = AppContext.getAppContext();
+            return bppContext.get(bltJAFontKey) == bltJAFontKey;
         }
     }
 
-    public synchronized void preferLocaleFonts() {
+    public synchronized void preferLocbleFonts() {
         if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().info("Entered preferLocaleFonts().");
+            FontUtilities.getLogger().info("Entered preferLocbleFonts().");
         }
-        /* Test if re-ordering will have any effect */
-        if (!FontConfiguration.willReorderForStartupLocale()) {
+        /* Test if re-ordering will hbve bny effect */
+        if (!FontConfigurbtion.willReorderForStbrtupLocble()) {
             return;
         }
 
-        if (!maybeMultiAppContext()) {
-            if (gLocalePref == true) {
+        if (!mbybeMultiAppContext()) {
+            if (gLocblePref == true) {
                 return;
             }
-            gLocalePref = true;
-            createCompositeFonts(fontNameCache, gLocalePref, gPropPref);
-            _usingAlternateComposites = true;
+            gLocblePref = true;
+            crebteCompositeFonts(fontNbmeCbche, gLocblePref, gPropPref);
+            _usingAlternbteComposites = true;
         } else {
-            AppContext appContext = AppContext.getAppContext();
-            if (appContext.get(localeFontKey) == localeFontKey) {
+            AppContext bppContext = AppContext.getAppContext();
+            if (bppContext.get(locbleFontKey) == locbleFontKey) {
                 return;
             }
-            appContext.put(localeFontKey, localeFontKey);
-            boolean acPropPref =
-                appContext.get(proportionalFontKey) == proportionalFontKey;
-            ConcurrentHashMap<String, Font2D>
-                altNameCache = new ConcurrentHashMap<String, Font2D> ();
-            /* If there is an existing hashtable, we can drop it. */
-            appContext.put(CompositeFont.class, altNameCache);
+            bppContext.put(locbleFontKey, locbleFontKey);
+            boolebn bcPropPref =
+                bppContext.get(proportionblFontKey) == proportionblFontKey;
+            ConcurrentHbshMbp<String, Font2D>
+                bltNbmeCbche = new ConcurrentHbshMbp<String, Font2D> ();
+            /* If there is bn existing hbshtbble, we cbn drop it. */
+            bppContext.put(CompositeFont.clbss, bltNbmeCbche);
             _usingPerAppContextComposites = true;
-            createCompositeFonts(altNameCache, true, acPropPref);
+            crebteCompositeFonts(bltNbmeCbche, true, bcPropPref);
         }
     }
 
-    public synchronized void preferProportionalFonts() {
+    public synchronized void preferProportionblFonts() {
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                .info("Entered preferProportionalFonts().");
+                .info("Entered preferProportionblFonts().");
         }
-        /* If no proportional fonts are configured, there's no need
-         * to take any action.
+        /* If no proportionbl fonts bre configured, there's no need
+         * to tbke bny bction.
          */
-        if (!FontConfiguration.hasMonoToPropMap()) {
+        if (!FontConfigurbtion.hbsMonoToPropMbp()) {
             return;
         }
 
-        if (!maybeMultiAppContext()) {
+        if (!mbybeMultiAppContext()) {
             if (gPropPref == true) {
                 return;
             }
             gPropPref = true;
-            createCompositeFonts(fontNameCache, gLocalePref, gPropPref);
-            _usingAlternateComposites = true;
+            crebteCompositeFonts(fontNbmeCbche, gLocblePref, gPropPref);
+            _usingAlternbteComposites = true;
         } else {
-            AppContext appContext = AppContext.getAppContext();
-            if (appContext.get(proportionalFontKey) == proportionalFontKey) {
+            AppContext bppContext = AppContext.getAppContext();
+            if (bppContext.get(proportionblFontKey) == proportionblFontKey) {
                 return;
             }
-            appContext.put(proportionalFontKey, proportionalFontKey);
-            boolean acLocalePref =
-                appContext.get(localeFontKey) == localeFontKey;
-            ConcurrentHashMap<String, Font2D>
-                altNameCache = new ConcurrentHashMap<String, Font2D> ();
-            /* If there is an existing hashtable, we can drop it. */
-            appContext.put(CompositeFont.class, altNameCache);
+            bppContext.put(proportionblFontKey, proportionblFontKey);
+            boolebn bcLocblePref =
+                bppContext.get(locbleFontKey) == locbleFontKey;
+            ConcurrentHbshMbp<String, Font2D>
+                bltNbmeCbche = new ConcurrentHbshMbp<String, Font2D> ();
+            /* If there is bn existing hbshtbble, we cbn drop it. */
+            bppContext.put(CompositeFont.clbss, bltNbmeCbche);
             _usingPerAppContextComposites = true;
-            createCompositeFonts(altNameCache, acLocalePref, true);
+            crebteCompositeFonts(bltNbmeCbche, bcLocblePref, true);
         }
     }
 
-    private static HashSet<String> installedNames = null;
-    private static HashSet<String> getInstalledNames() {
-        if (installedNames == null) {
-           Locale l = getSystemStartupLocale();
-           SunFontManager fontManager = SunFontManager.getInstance();
-           String[] installedFamilies =
-               fontManager.getInstalledFontFamilyNames(l);
-           Font[] installedFonts = fontManager.getAllInstalledFonts();
-           HashSet<String> names = new HashSet<String>();
-           for (int i=0; i<installedFamilies.length; i++) {
-               names.add(installedFamilies[i].toLowerCase(l));
+    privbte stbtic HbshSet<String> instblledNbmes = null;
+    privbte stbtic HbshSet<String> getInstblledNbmes() {
+        if (instblledNbmes == null) {
+           Locble l = getSystemStbrtupLocble();
+           SunFontMbnbger fontMbnbger = SunFontMbnbger.getInstbnce();
+           String[] instblledFbmilies =
+               fontMbnbger.getInstblledFontFbmilyNbmes(l);
+           Font[] instblledFonts = fontMbnbger.getAllInstblledFonts();
+           HbshSet<String> nbmes = new HbshSet<String>();
+           for (int i=0; i<instblledFbmilies.length; i++) {
+               nbmes.bdd(instblledFbmilies[i].toLowerCbse(l));
            }
-           for (int i=0; i<installedFonts.length; i++) {
-               names.add(installedFonts[i].getFontName(l).toLowerCase(l));
+           for (int i=0; i<instblledFonts.length; i++) {
+               nbmes.bdd(instblledFonts[i].getFontNbme(l).toLowerCbse(l));
            }
-           installedNames = names;
+           instblledNbmes = nbmes;
         }
-        return installedNames;
+        return instblledNbmes;
     }
 
-    /* Keys are used to lookup per-AppContext Hashtables */
-    private static final Object regFamilyKey  = new Object();
-    private static final Object regFullNameKey = new Object();
-    private Hashtable<String,FontFamily> createdByFamilyName;
-    private Hashtable<String,Font2D>     createdByFullName;
-    private boolean fontsAreRegistered = false;
-    private boolean fontsAreRegisteredPerAppContext = false;
+    /* Keys bre used to lookup per-AppContext Hbshtbbles */
+    privbte stbtic finbl Object regFbmilyKey  = new Object();
+    privbte stbtic finbl Object regFullNbmeKey = new Object();
+    privbte Hbshtbble<String,FontFbmily> crebtedByFbmilyNbme;
+    privbte Hbshtbble<String,Font2D>     crebtedByFullNbme;
+    privbte boolebn fontsAreRegistered = fblse;
+    privbte boolebn fontsAreRegisteredPerAppContext = fblse;
 
-    public boolean registerFont(Font font) {
-        /* This method should not be called with "null".
-         * It is the caller's responsibility to ensure that.
+    public boolebn registerFont(Font font) {
+        /* This method should not be cblled with "null".
+         * It is the cbller's responsibility to ensure thbt.
          */
         if (font == null) {
-            return false;
+            return fblse;
         }
 
-        /* Initialise these objects only once we start to use this API */
-        synchronized (regFamilyKey) {
-            if (createdByFamilyName == null) {
-                createdByFamilyName = new Hashtable<String,FontFamily>();
-                createdByFullName = new Hashtable<String,Font2D>();
+        /* Initiblise these objects only once we stbrt to use this API */
+        synchronized (regFbmilyKey) {
+            if (crebtedByFbmilyNbme == null) {
+                crebtedByFbmilyNbme = new Hbshtbble<String,FontFbmily>();
+                crebtedByFullNbme = new Hbshtbble<String,Font2D>();
             }
         }
 
-        if (! FontAccess.getFontAccess().isCreatedFont(font)) {
-            return false;
+        if (! FontAccess.getFontAccess().isCrebtedFont(font)) {
+            return fblse;
         }
-        /* We want to ensure that this font cannot override existing
-         * installed fonts. Check these conditions :
-         * - family name is not that of an installed font
-         * - full name is not that of an installed font
-         * - family name is not the same as the full name of an installed font
-         * - full name is not the same as the family name of an installed font
-         * The last two of these may initially look odd but the reason is
-         * that (unfortunately) Font constructors do not distinuguish these.
-         * An extreme example of such a problem would be a font which has
-         * family name "Dialog.Plain" and full name of "Dialog".
-         * The one arguably overly stringent restriction here is that if an
-         * application wants to supply a new member of an existing family
-         * It will get rejected. But since the JRE can perform synthetic
-         * styling in many cases its not necessary.
-         * We don't apply the same logic to registered fonts. If apps want
-         * to do this lets assume they have a reason. It won't cause problems
+        /* We wbnt to ensure thbt this font cbnnot override existing
+         * instblled fonts. Check these conditions :
+         * - fbmily nbme is not thbt of bn instblled font
+         * - full nbme is not thbt of bn instblled font
+         * - fbmily nbme is not the sbme bs the full nbme of bn instblled font
+         * - full nbme is not the sbme bs the fbmily nbme of bn instblled font
+         * The lbst two of these mby initiblly look odd but the rebson is
+         * thbt (unfortunbtely) Font constructors do not distinuguish these.
+         * An extreme exbmple of such b problem would be b font which hbs
+         * fbmily nbme "Diblog.Plbin" bnd full nbme of "Diblog".
+         * The one brgubbly overly stringent restriction here is thbt if bn
+         * bpplicbtion wbnts to supply b new member of bn existing fbmily
+         * It will get rejected. But since the JRE cbn perform synthetic
+         * styling in mbny cbses its not necessbry.
+         * We don't bpply the sbme logic to registered fonts. If bpps wbnt
+         * to do this lets bssume they hbve b rebson. It won't cbuse problems
          * except for themselves.
          */
-        HashSet<String> names = getInstalledNames();
-        Locale l = getSystemStartupLocale();
-        String familyName = font.getFamily(l).toLowerCase();
-        String fullName = font.getFontName(l).toLowerCase();
-        if (names.contains(familyName) || names.contains(fullName)) {
-            return false;
+        HbshSet<String> nbmes = getInstblledNbmes();
+        Locble l = getSystemStbrtupLocble();
+        String fbmilyNbme = font.getFbmily(l).toLowerCbse();
+        String fullNbme = font.getFontNbme(l).toLowerCbse();
+        if (nbmes.contbins(fbmilyNbme) || nbmes.contbins(fullNbme)) {
+            return fblse;
         }
 
-        /* Checks passed, now register the font */
-        Hashtable<String,FontFamily> familyTable;
-        Hashtable<String,Font2D> fullNameTable;
-        if (!maybeMultiAppContext()) {
-            familyTable = createdByFamilyName;
-            fullNameTable = createdByFullName;
+        /* Checks pbssed, now register the font */
+        Hbshtbble<String,FontFbmily> fbmilyTbble;
+        Hbshtbble<String,Font2D> fullNbmeTbble;
+        if (!mbybeMultiAppContext()) {
+            fbmilyTbble = crebtedByFbmilyNbme;
+            fullNbmeTbble = crebtedByFullNbme;
             fontsAreRegistered = true;
         } else {
-            AppContext appContext = AppContext.getAppContext();
-            @SuppressWarnings("unchecked")
-            Hashtable<String,FontFamily> tmp1 =
-                (Hashtable<String,FontFamily>)appContext.get(regFamilyKey);
-            familyTable = tmp1;
-            @SuppressWarnings("unchecked")
-            Hashtable<String,Font2D> tmp2 =
-                (Hashtable<String,Font2D>)appContext.get(regFullNameKey);
-            fullNameTable = tmp2;
+            AppContext bppContext = AppContext.getAppContext();
+            @SuppressWbrnings("unchecked")
+            Hbshtbble<String,FontFbmily> tmp1 =
+                (Hbshtbble<String,FontFbmily>)bppContext.get(regFbmilyKey);
+            fbmilyTbble = tmp1;
+            @SuppressWbrnings("unchecked")
+            Hbshtbble<String,Font2D> tmp2 =
+                (Hbshtbble<String,Font2D>)bppContext.get(regFullNbmeKey);
+            fullNbmeTbble = tmp2;
 
-            if (familyTable == null) {
-                familyTable = new Hashtable<String,FontFamily>();
-                fullNameTable = new Hashtable<String,Font2D>();
-                appContext.put(regFamilyKey, familyTable);
-                appContext.put(regFullNameKey, fullNameTable);
+            if (fbmilyTbble == null) {
+                fbmilyTbble = new Hbshtbble<String,FontFbmily>();
+                fullNbmeTbble = new Hbshtbble<String,Font2D>();
+                bppContext.put(regFbmilyKey, fbmilyTbble);
+                bppContext.put(regFullNbmeKey, fullNbmeTbble);
             }
             fontsAreRegisteredPerAppContext = true;
         }
-        /* Create the FontFamily and add font to the tables */
+        /* Crebte the FontFbmily bnd bdd font to the tbbles */
         Font2D font2D = FontUtilities.getFont2D(font);
         int style = font2D.getStyle();
-        FontFamily family = familyTable.get(familyName);
-        if (family == null) {
-            family = new FontFamily(font.getFamily(l));
-            familyTable.put(familyName, family);
+        FontFbmily fbmily = fbmilyTbble.get(fbmilyNbme);
+        if (fbmily == null) {
+            fbmily = new FontFbmily(font.getFbmily(l));
+            fbmilyTbble.put(fbmilyNbme, fbmily);
         }
-        /* Remove name cache entries if not using app contexts.
-         * To accommodate a case where code may have registered first a plain
-         * family member and then used it and is now registering a bold family
-         * member, we need to remove all members of the family, so that the
-         * new style can get picked up rather than continuing to synthesise.
+        /* Remove nbme cbche entries if not using bpp contexts.
+         * To bccommodbte b cbse where code mby hbve registered first b plbin
+         * fbmily member bnd then used it bnd is now registering b bold fbmily
+         * member, we need to remove bll members of the fbmily, so thbt the
+         * new style cbn get picked up rbther thbn continuing to synthesise.
          */
         if (fontsAreRegistered) {
-            removeFromCache(family.getFont(Font.PLAIN));
-            removeFromCache(family.getFont(Font.BOLD));
-            removeFromCache(family.getFont(Font.ITALIC));
-            removeFromCache(family.getFont(Font.BOLD|Font.ITALIC));
-            removeFromCache(fullNameTable.get(fullName));
+            removeFromCbche(fbmily.getFont(Font.PLAIN));
+            removeFromCbche(fbmily.getFont(Font.BOLD));
+            removeFromCbche(fbmily.getFont(Font.ITALIC));
+            removeFromCbche(fbmily.getFont(Font.BOLD|Font.ITALIC));
+            removeFromCbche(fullNbmeTbble.get(fullNbme));
         }
-        family.setFont(font2D, style);
-        fullNameTable.put(fullName, font2D);
+        fbmily.setFont(font2D, style);
+        fullNbmeTbble.put(fullNbme, font2D);
         return true;
     }
 
-    /* Remove from the name cache all references to the Font2D */
-    private void removeFromCache(Font2D font) {
+    /* Remove from the nbme cbche bll references to the Font2D */
+    privbte void removeFromCbche(Font2D font) {
         if (font == null) {
             return;
         }
-        String[] keys = fontNameCache.keySet().toArray(STR_ARRAY);
+        String[] keys = fontNbmeCbche.keySet().toArrby(STR_ARRAY);
         for (int k=0; k<keys.length;k++) {
-            if (fontNameCache.get(keys[k]) == font) {
-                fontNameCache.remove(keys[k]);
+            if (fontNbmeCbche.get(keys[k]) == font) {
+                fontNbmeCbche.remove(keys[k]);
             }
         }
     }
 
-    // It may look odd to use TreeMap but its more convenient to the caller.
-    public TreeMap<String, String> getCreatedFontFamilyNames() {
+    // It mby look odd to use TreeMbp but its more convenient to the cbller.
+    public TreeMbp<String, String> getCrebtedFontFbmilyNbmes() {
 
-        Hashtable<String,FontFamily> familyTable;
+        Hbshtbble<String,FontFbmily> fbmilyTbble;
         if (fontsAreRegistered) {
-            familyTable = createdByFamilyName;
+            fbmilyTbble = crebtedByFbmilyNbme;
         } else if (fontsAreRegisteredPerAppContext) {
-            AppContext appContext = AppContext.getAppContext();
-            @SuppressWarnings("unchecked")
-            Hashtable<String,FontFamily> tmp =
-                (Hashtable<String,FontFamily>)appContext.get(regFamilyKey);
-            familyTable = tmp;
+            AppContext bppContext = AppContext.getAppContext();
+            @SuppressWbrnings("unchecked")
+            Hbshtbble<String,FontFbmily> tmp =
+                (Hbshtbble<String,FontFbmily>)bppContext.get(regFbmilyKey);
+            fbmilyTbble = tmp;
         } else {
             return null;
         }
 
-        Locale l = getSystemStartupLocale();
-        synchronized (familyTable) {
-            TreeMap<String, String> map = new TreeMap<String, String>();
-            for (FontFamily f : familyTable.values()) {
+        Locble l = getSystemStbrtupLocble();
+        synchronized (fbmilyTbble) {
+            TreeMbp<String, String> mbp = new TreeMbp<String, String>();
+            for (FontFbmily f : fbmilyTbble.vblues()) {
                 Font2D font2D = f.getFont(Font.PLAIN);
                 if (font2D == null) {
                     font2D = f.getClosestStyle(Font.PLAIN);
                 }
-                String name = font2D.getFamilyName(l);
-                map.put(name.toLowerCase(l), name);
+                String nbme = font2D.getFbmilyNbme(l);
+                mbp.put(nbme.toLowerCbse(l), nbme);
             }
-            return map;
+            return mbp;
         }
     }
 
-    public Font[] getCreatedFonts() {
+    public Font[] getCrebtedFonts() {
 
-        Hashtable<String,Font2D> nameTable;
+        Hbshtbble<String,Font2D> nbmeTbble;
         if (fontsAreRegistered) {
-            nameTable = createdByFullName;
+            nbmeTbble = crebtedByFullNbme;
         } else if (fontsAreRegisteredPerAppContext) {
-            AppContext appContext = AppContext.getAppContext();
-            @SuppressWarnings("unchecked")
-            Hashtable<String,Font2D> tmp =
-                (Hashtable<String,Font2D>)appContext.get(regFullNameKey);
-            nameTable = tmp;
+            AppContext bppContext = AppContext.getAppContext();
+            @SuppressWbrnings("unchecked")
+            Hbshtbble<String,Font2D> tmp =
+                (Hbshtbble<String,Font2D>)bppContext.get(regFullNbmeKey);
+            nbmeTbble = tmp;
         } else {
             return null;
         }
 
-        Locale l = getSystemStartupLocale();
-        synchronized (nameTable) {
-            Font[] fonts = new Font[nameTable.size()];
+        Locble l = getSystemStbrtupLocble();
+        synchronized (nbmeTbble) {
+            Font[] fonts = new Font[nbmeTbble.size()];
             int i=0;
-            for (Font2D font2D : nameTable.values()) {
-                fonts[i++] = new Font(font2D.getFontName(l), Font.PLAIN, 1);
+            for (Font2D font2D : nbmeTbble.vblues()) {
+                fonts[i++] = new Font(font2D.getFontNbme(l), Font.PLAIN, 1);
             }
             return fonts;
         }
     }
 
 
-    protected String[] getPlatformFontDirs(boolean noType1Fonts) {
+    protected String[] getPlbtformFontDirs(boolebn noType1Fonts) {
 
-        /* First check if we already initialised path dirs */
-        if (pathDirs != null) {
-            return pathDirs;
+        /* First check if we blrebdy initiblised pbth dirs */
+        if (pbthDirs != null) {
+            return pbthDirs;
         }
 
-        String path = getPlatformFontPath(noType1Fonts);
-        StringTokenizer parser =
-            new StringTokenizer(path, File.pathSeparator);
-        ArrayList<String> pathList = new ArrayList<String>();
+        String pbth = getPlbtformFontPbth(noType1Fonts);
+        StringTokenizer pbrser =
+            new StringTokenizer(pbth, File.pbthSepbrbtor);
+        ArrbyList<String> pbthList = new ArrbyList<String>();
         try {
-            while (parser.hasMoreTokens()) {
-                pathList.add(parser.nextToken());
+            while (pbrser.hbsMoreTokens()) {
+                pbthList.bdd(pbrser.nextToken());
             }
-        } catch (NoSuchElementException e) {
+        } cbtch (NoSuchElementException e) {
         }
-        pathDirs = pathList.toArray(new String[0]);
-        return pathDirs;
+        pbthDirs = pbthList.toArrby(new String[0]);
+        return pbthDirs;
     }
 
     /**
-     * Returns an array of two strings. The first element is the
-     * name of the font. The second element is the file name.
+     * Returns bn brrby of two strings. The first element is the
+     * nbme of the font. The second element is the file nbme.
      */
-    public abstract String[] getDefaultPlatformFont();
+    public bbstrbct String[] getDefbultPlbtformFont();
 
-    // Begin: Refactored from SunGraphicsEnviroment.
+    // Begin: Refbctored from SunGrbphicsEnviroment.
 
     /*
      * helper function for registerFonts
      */
-    private void addDirFonts(String dirName, File dirFile,
-                             FilenameFilter filter,
-                             int fontFormat, boolean useJavaRasterizer,
-                             int fontRank,
-                             boolean defer, boolean resolveSymLinks) {
+    privbte void bddDirFonts(String dirNbme, File dirFile,
+                             FilenbmeFilter filter,
+                             int fontFormbt, boolebn useJbvbRbsterizer,
+                             int fontRbnk,
+                             boolebn defer, boolebn resolveSymLinks) {
         String[] ls = dirFile.list(filter);
         if (ls == null || ls.length == 0) {
             return;
         }
-        String[] fontNames = new String[ls.length];
-        String[][] nativeNames = new String[ls.length][];
+        String[] fontNbmes = new String[ls.length];
+        String[][] nbtiveNbmes = new String[ls.length][];
         int fontCount = 0;
 
         for (int i=0; i < ls.length; i++ ) {
             File theFile = new File(dirFile, ls[i]);
-            String fullName = null;
+            String fullNbme = null;
             if (resolveSymLinks) {
                 try {
-                    fullName = theFile.getCanonicalPath();
-                } catch (IOException e) {
+                    fullNbme = theFile.getCbnonicblPbth();
+                } cbtch (IOException e) {
                 }
             }
-            if (fullName == null) {
-                fullName = dirName + File.separator + ls[i];
+            if (fullNbme == null) {
+                fullNbme = dirNbme + File.sepbrbtor + ls[i];
             }
 
-            // REMIND: case compare depends on platform
-            if (registeredFontFiles.contains(fullName)) {
+            // REMIND: cbse compbre depends on plbtform
+            if (registeredFontFiles.contbins(fullNbme)) {
                 continue;
             }
 
-            if (badFonts != null && badFonts.contains(fullName)) {
+            if (bbdFonts != null && bbdFonts.contbins(fullNbme)) {
                 if (FontUtilities.debugFonts()) {
                     FontUtilities.getLogger()
-                                         .warning("skip bad font " + fullName);
+                                         .wbrning("skip bbd font " + fullNbme);
                 }
                 continue; // skip this font file.
             }
 
-            registeredFontFiles.add(fullName);
+            registeredFontFiles.bdd(fullNbme);
 
             if (FontUtilities.debugFonts()
-                && FontUtilities.getLogger().isLoggable(PlatformLogger.Level.INFO)) {
-                String message = "Registering font " + fullName;
-                String[] natNames = getNativeNames(fullName, null);
-                if (natNames == null) {
-                    message += " with no native name";
+                && FontUtilities.getLogger().isLoggbble(PlbtformLogger.Level.INFO)) {
+                String messbge = "Registering font " + fullNbme;
+                String[] nbtNbmes = getNbtiveNbmes(fullNbme, null);
+                if (nbtNbmes == null) {
+                    messbge += " with no nbtive nbme";
                 } else {
-                    message += " with native name(s) " + natNames[0];
-                    for (int nn = 1; nn < natNames.length; nn++) {
-                        message += ", " + natNames[nn];
+                    messbge += " with nbtive nbme(s) " + nbtNbmes[0];
+                    for (int nn = 1; nn < nbtNbmes.length; nn++) {
+                        messbge += ", " + nbtNbmes[nn];
                     }
                 }
-                FontUtilities.getLogger().info(message);
+                FontUtilities.getLogger().info(messbge);
             }
-            fontNames[fontCount] = fullName;
-            nativeNames[fontCount++] = getNativeNames(fullName, null);
+            fontNbmes[fontCount] = fullNbme;
+            nbtiveNbmes[fontCount++] = getNbtiveNbmes(fullNbme, null);
         }
-        registerFonts(fontNames, nativeNames, fontCount, fontFormat,
-                         useJavaRasterizer, fontRank, defer);
+        registerFonts(fontNbmes, nbtiveNbmes, fontCount, fontFormbt,
+                         useJbvbRbsterizer, fontRbnk, defer);
         return;
     }
 
-    protected String[] getNativeNames(String fontFileName,
-                                      String platformName) {
+    protected String[] getNbtiveNbmes(String fontFileNbme,
+                                      String plbtformNbme) {
         return null;
     }
 
     /**
-     * Returns a file name for the physical font represented by this platform
-     * font name. The default implementation tries to obtain the file name
-     * from the font configuration.
-     * Subclasses may override to provide information from other sources.
+     * Returns b file nbme for the physicbl font represented by this plbtform
+     * font nbme. The defbult implementbtion tries to obtbin the file nbme
+     * from the font configurbtion.
+     * Subclbsses mby override to provide informbtion from other sources.
      */
-    protected String getFileNameFromPlatformName(String platformFontName) {
-        return fontConfig.getFileNameFromPlatformName(platformFontName);
+    protected String getFileNbmeFromPlbtformNbme(String plbtformFontNbme) {
+        return fontConfig.getFileNbmeFromPlbtformNbme(plbtformFontNbme);
     }
 
     /**
-     * Return the default font configuration.
+     * Return the defbult font configurbtion.
      */
-    public FontConfiguration getFontConfiguration() {
+    public FontConfigurbtion getFontConfigurbtion() {
         return fontConfig;
     }
 
-    /* A call to this method should be followed by a call to
+    /* A cbll to this method should be followed by b cbll to
      * registerFontDirs(..)
      */
-    public String getPlatformFontPath(boolean noType1Font) {
-        if (fontPath == null) {
-            fontPath = getFontPath(noType1Font);
+    public String getPlbtformFontPbth(boolebn noType1Font) {
+        if (fontPbth == null) {
+            fontPbth = getFontPbth(noType1Font);
         }
-        return fontPath;
+        return fontPbth;
     }
 
-    public static boolean isOpenJDK() {
+    public stbtic boolebn isOpenJDK() {
         return FontUtilities.isOpenJDK;
     }
 
-    protected void loadFonts() {
+    protected void lobdFonts() {
         if (discoveredAllFonts) {
             return;
         }
         /* Use lock specific to the font system */
         synchronized (this) {
             if (FontUtilities.debugFonts()) {
-                Thread.dumpStack();
+                Threbd.dumpStbck();
                 FontUtilities.getLogger()
-                            .info("SunGraphicsEnvironment.loadFonts() called");
+                            .info("SunGrbphicsEnvironment.lobdFonts() cblled");
             }
-            initialiseDeferredFonts();
+            initibliseDeferredFonts();
 
-            java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+            jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
-                    if (fontPath == null) {
-                        fontPath = getPlatformFontPath(noType1Font);
-                        registerFontDirs(fontPath);
+                    if (fontPbth == null) {
+                        fontPbth = getPlbtformFontPbth(noType1Font);
+                        registerFontDirs(fontPbth);
                     }
-                    if (fontPath != null) {
-                        // this will find all fonts including those already
-                        // registered. But we have checks in place to prevent
-                        // double registration.
-                        if (! gotFontsFromPlatform()) {
-                            registerFontsOnPath(fontPath, false,
+                    if (fontPbth != null) {
+                        // this will find bll fonts including those blrebdy
+                        // registered. But we hbve checks in plbce to prevent
+                        // double registrbtion.
+                        if (! gotFontsFromPlbtform()) {
+                            registerFontsOnPbth(fontPbth, fblse,
                                                 Font2D.UNKNOWN_RANK,
-                                                false, true);
-                            loadedAllFontFiles = true;
+                                                fblse, true);
+                            lobdedAllFontFiles = true;
                         }
                     }
                     registerOtherFontFiles(registeredFontFiles);
@@ -3343,130 +3343,130 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         }
     }
 
-    protected void registerFontDirs(String pathName) {
+    protected void registerFontDirs(String pbthNbme) {
         return;
     }
 
-    private void registerFontsOnPath(String pathName,
-                                     boolean useJavaRasterizer, int fontRank,
-                                     boolean defer, boolean resolveSymLinks) {
+    privbte void registerFontsOnPbth(String pbthNbme,
+                                     boolebn useJbvbRbsterizer, int fontRbnk,
+                                     boolebn defer, boolebn resolveSymLinks) {
 
-        StringTokenizer parser = new StringTokenizer(pathName,
-                File.pathSeparator);
+        StringTokenizer pbrser = new StringTokenizer(pbthNbme,
+                File.pbthSepbrbtor);
         try {
-            while (parser.hasMoreTokens()) {
-                registerFontsInDir(parser.nextToken(),
-                        useJavaRasterizer, fontRank,
+            while (pbrser.hbsMoreTokens()) {
+                registerFontsInDir(pbrser.nextToken(),
+                        useJbvbRbsterizer, fontRbnk,
                         defer, resolveSymLinks);
             }
-        } catch (NoSuchElementException e) {
+        } cbtch (NoSuchElementException e) {
         }
     }
 
-    /* Called to register fall back fonts */
-    public void registerFontsInDir(String dirName) {
-        registerFontsInDir(dirName, true, Font2D.JRE_RANK, true, false);
+    /* Cblled to register fbll bbck fonts */
+    public void registerFontsInDir(String dirNbme) {
+        registerFontsInDir(dirNbme, true, Font2D.JRE_RANK, true, fblse);
     }
 
-    // MACOSX begin -- need to access this in subclass
-    protected void registerFontsInDir(String dirName, boolean useJavaRasterizer,
+    // MACOSX begin -- need to bccess this in subclbss
+    protected void registerFontsInDir(String dirNbme, boolebn useJbvbRbsterizer,
     // MACOSX end
-                                    int fontRank,
-                                    boolean defer, boolean resolveSymLinks) {
-        File pathFile = new File(dirName);
-        addDirFonts(dirName, pathFile, ttFilter,
-                    FONTFORMAT_TRUETYPE, useJavaRasterizer,
-                    fontRank==Font2D.UNKNOWN_RANK ?
-                    Font2D.TTF_RANK : fontRank,
+                                    int fontRbnk,
+                                    boolebn defer, boolebn resolveSymLinks) {
+        File pbthFile = new File(dirNbme);
+        bddDirFonts(dirNbme, pbthFile, ttFilter,
+                    FONTFORMAT_TRUETYPE, useJbvbRbsterizer,
+                    fontRbnk==Font2D.UNKNOWN_RANK ?
+                    Font2D.TTF_RANK : fontRbnk,
                     defer, resolveSymLinks);
-        addDirFonts(dirName, pathFile, t1Filter,
-                    FONTFORMAT_TYPE1, useJavaRasterizer,
-                    fontRank==Font2D.UNKNOWN_RANK ?
-                    Font2D.TYPE1_RANK : fontRank,
+        bddDirFonts(dirNbme, pbthFile, t1Filter,
+                    FONTFORMAT_TYPE1, useJbvbRbsterizer,
+                    fontRbnk==Font2D.UNKNOWN_RANK ?
+                    Font2D.TYPE1_RANK : fontRbnk,
                     defer, resolveSymLinks);
     }
 
-    protected void registerFontDir(String path) {
+    protected void registerFontDir(String pbth) {
     }
 
     /**
-     * Returns file name for default font, either absolute
-     * or relative as needed by registerFontFile.
+     * Returns file nbme for defbult font, either bbsolute
+     * or relbtive bs needed by registerFontFile.
      */
-    public synchronized String getDefaultFontFile() {
-        if (defaultFontFileName == null) {
-            initDefaultFonts();
+    public synchronized String getDefbultFontFile() {
+        if (defbultFontFileNbme == null) {
+            initDefbultFonts();
         }
-        return defaultFontFileName;
+        return defbultFontFileNbme;
     }
 
-    private void initDefaultFonts() {
+    privbte void initDefbultFonts() {
         if (!isOpenJDK()) {
-            defaultFontName = lucidaFontName;
-            if (useAbsoluteFontFileNames()) {
-                defaultFontFileName =
-                    jreFontDirName + File.separator + FontUtilities.LUCIDA_FILE_NAME;
+            defbultFontNbme = lucidbFontNbme;
+            if (useAbsoluteFontFileNbmes()) {
+                defbultFontFileNbme =
+                    jreFontDirNbme + File.sepbrbtor + FontUtilities.LUCIDA_FILE_NAME;
             } else {
-                defaultFontFileName = FontUtilities.LUCIDA_FILE_NAME;
+                defbultFontFileNbme = FontUtilities.LUCIDA_FILE_NAME;
             }
         }
     }
 
     /**
-     * Whether registerFontFile expects absolute or relative
-     * font file names.
+     * Whether registerFontFile expects bbsolute or relbtive
+     * font file nbmes.
      */
-    protected boolean useAbsoluteFontFileNames() {
+    protected boolebn useAbsoluteFontFileNbmes() {
         return true;
     }
 
     /**
-     * Creates this environment's FontConfiguration.
+     * Crebtes this environment's FontConfigurbtion.
      */
-    protected abstract FontConfiguration createFontConfiguration();
+    protected bbstrbct FontConfigurbtion crebteFontConfigurbtion();
 
-    public abstract FontConfiguration
-    createFontConfiguration(boolean preferLocaleFonts,
-                            boolean preferPropFonts);
+    public bbstrbct FontConfigurbtion
+    crebteFontConfigurbtion(boolebn preferLocbleFonts,
+                            boolebn preferPropFonts);
 
     /**
-     * Returns face name for default font, or null if
-     * no face names are used for CompositeFontDescriptors
-     * for this platform.
+     * Returns fbce nbme for defbult font, or null if
+     * no fbce nbmes bre used for CompositeFontDescriptors
+     * for this plbtform.
      */
-    public synchronized String getDefaultFontFaceName() {
-        if (defaultFontName == null) {
-            initDefaultFonts();
+    public synchronized String getDefbultFontFbceNbme() {
+        if (defbultFontNbme == null) {
+            initDefbultFonts();
         }
-        return defaultFontName;
+        return defbultFontNbme;
     }
 
-    public void loadFontFiles() {
-        loadFonts();
-        if (loadedAllFontFiles) {
+    public void lobdFontFiles() {
+        lobdFonts();
+        if (lobdedAllFontFiles) {
             return;
         }
         /* Use lock specific to the font system */
         synchronized (this) {
             if (FontUtilities.debugFonts()) {
-                Thread.dumpStack();
-                FontUtilities.getLogger().info("loadAllFontFiles() called");
+                Threbd.dumpStbck();
+                FontUtilities.getLogger().info("lobdAllFontFiles() cblled");
             }
-            java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+            jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
-                    if (fontPath == null) {
-                        fontPath = getPlatformFontPath(noType1Font);
+                    if (fontPbth == null) {
+                        fontPbth = getPlbtformFontPbth(noType1Font);
                     }
-                    if (fontPath != null) {
-                        // this will find all fonts including those already
-                        // registered. But we have checks in place to prevent
-                        // double registration.
-                        registerFontsOnPath(fontPath, false,
+                    if (fontPbth != null) {
+                        // this will find bll fonts including those blrebdy
+                        // registered. But we hbve checks in plbce to prevent
+                        // double registrbtion.
+                        registerFontsOnPbth(fontPbth, fblse,
                                             Font2D.UNKNOWN_RANK,
-                                            false, true);
+                                            fblse, true);
                     }
-                    loadedAllFontFiles = true;
+                    lobdedAllFontFiles = true;
                     return null;
                 }
             });
@@ -3474,455 +3474,455 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
     }
 
     /*
-     * This method asks the font configuration API for all platform names
-     * used as components of composite/logical fonts and iterates over these
-     * looking up their corresponding file name and registers these fonts.
-     * It also ensures that the fonts are accessible via platform APIs.
-     * The composites themselves are then registered.
+     * This method bsks the font configurbtion API for bll plbtform nbmes
+     * used bs components of composite/logicbl fonts bnd iterbtes over these
+     * looking up their corresponding file nbme bnd registers these fonts.
+     * It blso ensures thbt the fonts bre bccessible vib plbtform APIs.
+     * The composites themselves bre then registered.
      */
-    private void
-        initCompositeFonts(FontConfiguration fontConfig,
-                           ConcurrentHashMap<String, Font2D>  altNameCache) {
+    privbte void
+        initCompositeFonts(FontConfigurbtion fontConfig,
+                           ConcurrentHbshMbp<String, Font2D>  bltNbmeCbche) {
 
         if (FontUtilities.isLogging()) {
             FontUtilities.getLogger()
-                            .info("Initialising composite fonts");
+                            .info("Initiblising composite fonts");
         }
 
         int numCoreFonts = fontConfig.getNumberCoreFonts();
-        String[] fcFonts = fontConfig.getPlatformFontNames();
+        String[] fcFonts = fontConfig.getPlbtformFontNbmes();
         for (int f=0; f<fcFonts.length; f++) {
-            String platformFontName = fcFonts[f];
-            String fontFileName =
-                getFileNameFromPlatformName(platformFontName);
-            String[] nativeNames = null;
-            if (fontFileName == null
-                || fontFileName.equals(platformFontName)) {
-                /* No file located, so register using the platform name,
-                 * i.e. as a native font.
+            String plbtformFontNbme = fcFonts[f];
+            String fontFileNbme =
+                getFileNbmeFromPlbtformNbme(plbtformFontNbme);
+            String[] nbtiveNbmes = null;
+            if (fontFileNbme == null
+                || fontFileNbme.equbls(plbtformFontNbme)) {
+                /* No file locbted, so register using the plbtform nbme,
+                 * i.e. bs b nbtive font.
                  */
-                fontFileName = platformFontName;
+                fontFileNbme = plbtformFontNbme;
             } else {
                 if (f < numCoreFonts) {
-                    /* If platform APIs also need to access the font, add it
-                     * to a set to be registered with the platform too.
-                     * This may be used to add the parent directory to the X11
-                     * font path if its not already there. See the docs for the
-                     * subclass implementation.
-                     * This is now mainly for the benefit of X11-based AWT
-                     * But for historical reasons, 2D initialisation code
-                     * makes these calls.
-                     * If the fontconfiguration file is properly set up
-                     * so that all fonts are mapped to files and all their
-                     * appropriate directories are specified, then this
-                     * method will be low cost as it will return after
-                     * a test that finds a null lookup map.
+                    /* If plbtform APIs blso need to bccess the font, bdd it
+                     * to b set to be registered with the plbtform too.
+                     * This mby be used to bdd the pbrent directory to the X11
+                     * font pbth if its not blrebdy there. See the docs for the
+                     * subclbss implementbtion.
+                     * This is now mbinly for the benefit of X11-bbsed AWT
+                     * But for historicbl rebsons, 2D initiblisbtion code
+                     * mbkes these cblls.
+                     * If the fontconfigurbtion file is properly set up
+                     * so thbt bll fonts bre mbpped to files bnd bll their
+                     * bppropribte directories bre specified, then this
+                     * method will be low cost bs it will return bfter
+                     * b test thbt finds b null lookup mbp.
                      */
-                    addFontToPlatformFontPath(platformFontName);
+                    bddFontToPlbtformFontPbth(plbtformFontNbme);
                 }
-                nativeNames = getNativeNames(fontFileName, platformFontName);
+                nbtiveNbmes = getNbtiveNbmes(fontFileNbme, plbtformFontNbme);
             }
-            /* Uncomment these two lines to "generate" the XLFD->filename
-             * mappings needed to speed start-up on Solaris.
-             * Augment this with the appendedpathname and the mappings
-             * for native (F3) fonts
+            /* Uncomment these two lines to "generbte" the XLFD->filenbme
+             * mbppings needed to speed stbrt-up on Solbris.
+             * Augment this with the bppendedpbthnbme bnd the mbppings
+             * for nbtive (F3) fonts
              */
-            //String platName = platformFontName.replaceAll(" ", "_");
-            //System.out.println("filename."+platName+"="+fontFileName);
-            registerFontFile(fontFileName, nativeNames,
+            //String plbtNbme = plbtformFontNbme.replbceAll(" ", "_");
+            //System.out.println("filenbme."+plbtNbme+"="+fontFileNbme);
+            registerFontFile(fontFileNbme, nbtiveNbmes,
                              Font2D.FONT_CONFIG_RANK, true);
 
 
         }
-        /* This registers accumulated paths from the calls to
-         * addFontToPlatformFontPath(..) and any specified by
-         * the font configuration. Rather than registering
-         * the fonts it puts them in a place and form suitable for
-         * the Toolkit to pick up and use if a toolkit is initialised,
-         * and if it uses X11 fonts.
+        /* This registers bccumulbted pbths from the cblls to
+         * bddFontToPlbtformFontPbth(..) bnd bny specified by
+         * the font configurbtion. Rbther thbn registering
+         * the fonts it puts them in b plbce bnd form suitbble for
+         * the Toolkit to pick up bnd use if b toolkit is initiblised,
+         * bnd if it uses X11 fonts.
          */
-        registerPlatformFontsUsedByFontConfiguration();
+        registerPlbtformFontsUsedByFontConfigurbtion();
 
         CompositeFontDescriptor[] compositeFontInfo
                 = fontConfig.get2DCompositeFontInfo();
         for (int i = 0; i < compositeFontInfo.length; i++) {
             CompositeFontDescriptor descriptor = compositeFontInfo[i];
-            String[] componentFileNames = descriptor.getComponentFileNames();
-            String[] componentFaceNames = descriptor.getComponentFaceNames();
+            String[] componentFileNbmes = descriptor.getComponentFileNbmes();
+            String[] componentFbceNbmes = descriptor.getComponentFbceNbmes();
 
-            /* It would be better eventually to handle this in the
-             * FontConfiguration code which should also remove duplicate slots
+            /* It would be better eventublly to hbndle this in the
+             * FontConfigurbtion code which should blso remove duplicbte slots
              */
             if (missingFontFiles != null) {
-                for (int ii=0; ii<componentFileNames.length; ii++) {
-                    if (missingFontFiles.contains(componentFileNames[ii])) {
-                        componentFileNames[ii] = getDefaultFontFile();
-                        componentFaceNames[ii] = getDefaultFontFaceName();
+                for (int ii=0; ii<componentFileNbmes.length; ii++) {
+                    if (missingFontFiles.contbins(componentFileNbmes[ii])) {
+                        componentFileNbmes[ii] = getDefbultFontFile();
+                        componentFbceNbmes[ii] = getDefbultFontFbceNbme();
                     }
                 }
             }
 
-            /* FontConfiguration needs to convey how many fonts it has added
-             * as fallback component fonts which should not affect metrics.
+            /* FontConfigurbtion needs to convey how mbny fonts it hbs bdded
+             * bs fbllbbck component fonts which should not bffect metrics.
              * The core component count will be the number of metrics slots.
-             * This does not preclude other mechanisms for adding
-             * fall back component fonts to the composite.
+             * This does not preclude other mechbnisms for bdding
+             * fbll bbck component fonts to the composite.
              */
-            if (altNameCache != null) {
-                SunFontManager.registerCompositeFont(
-                    descriptor.getFaceName(),
-                    componentFileNames, componentFaceNames,
+            if (bltNbmeCbche != null) {
+                SunFontMbnbger.registerCompositeFont(
+                    descriptor.getFbceNbme(),
+                    componentFileNbmes, componentFbceNbmes,
                     descriptor.getCoreComponentCount(),
-                    descriptor.getExclusionRanges(),
-                    descriptor.getExclusionRangeLimits(),
+                    descriptor.getExclusionRbnges(),
+                    descriptor.getExclusionRbngeLimits(),
                     true,
-                    altNameCache);
+                    bltNbmeCbche);
             } else {
-                registerCompositeFont(descriptor.getFaceName(),
-                                      componentFileNames, componentFaceNames,
+                registerCompositeFont(descriptor.getFbceNbme(),
+                                      componentFileNbmes, componentFbceNbmes,
                                       descriptor.getCoreComponentCount(),
-                                      descriptor.getExclusionRanges(),
-                                      descriptor.getExclusionRangeLimits(),
+                                      descriptor.getExclusionRbnges(),
+                                      descriptor.getExclusionRbngeLimits(),
                                       true);
             }
             if (FontUtilities.debugFonts()) {
                 FontUtilities.getLogger()
-                               .info("registered " + descriptor.getFaceName());
+                               .info("registered " + descriptor.getFbceNbme());
             }
         }
     }
 
     /**
-     * Notifies graphics environment that the logical font configuration
-     * uses the given platform font name. The graphics environment may
-     * use this for platform specific initialization.
+     * Notifies grbphics environment thbt the logicbl font configurbtion
+     * uses the given plbtform font nbme. The grbphics environment mby
+     * use this for plbtform specific initiblizbtion.
      */
-    protected void addFontToPlatformFontPath(String platformFontName) {
+    protected void bddFontToPlbtformFontPbth(String plbtformFontNbme) {
     }
 
-    protected void registerFontFile(String fontFileName, String[] nativeNames,
-                                    int fontRank, boolean defer) {
-//      REMIND: case compare depends on platform
-        if (registeredFontFiles.contains(fontFileName)) {
+    protected void registerFontFile(String fontFileNbme, String[] nbtiveNbmes,
+                                    int fontRbnk, boolebn defer) {
+//      REMIND: cbse compbre depends on plbtform
+        if (registeredFontFiles.contbins(fontFileNbme)) {
             return;
         }
-        int fontFormat;
-        if (ttFilter.accept(null, fontFileName)) {
-            fontFormat = FONTFORMAT_TRUETYPE;
-        } else if (t1Filter.accept(null, fontFileName)) {
-            fontFormat = FONTFORMAT_TYPE1;
+        int fontFormbt;
+        if (ttFilter.bccept(null, fontFileNbme)) {
+            fontFormbt = FONTFORMAT_TRUETYPE;
+        } else if (t1Filter.bccept(null, fontFileNbme)) {
+            fontFormbt = FONTFORMAT_TYPE1;
         } else {
-            fontFormat = FONTFORMAT_NATIVE;
+            fontFormbt = FONTFORMAT_NATIVE;
         }
-        registeredFontFiles.add(fontFileName);
+        registeredFontFiles.bdd(fontFileNbme);
         if (defer) {
-            registerDeferredFont(fontFileName, fontFileName, nativeNames,
-                                 fontFormat, false, fontRank);
+            registerDeferredFont(fontFileNbme, fontFileNbme, nbtiveNbmes,
+                                 fontFormbt, fblse, fontRbnk);
         } else {
-            registerFontFile(fontFileName, nativeNames, fontFormat, false,
-                             fontRank);
+            registerFontFile(fontFileNbme, nbtiveNbmes, fontFormbt, fblse,
+                             fontRbnk);
         }
     }
 
-    protected void registerPlatformFontsUsedByFontConfiguration() {
+    protected void registerPlbtformFontsUsedByFontConfigurbtion() {
     }
 
     /*
-     * A GE may verify whether a font file used in a fontconfiguration
-     * exists. If it doesn't then either we may substitute the default
-     * font, or perhaps elide it altogether from the composite font.
-     * This makes some sense on windows where the font file is only
-     * likely to be in one place. But on other OSes, eg Linux, the file
-     * can move around depending. So there we probably don't want to assume
-     * its missing and so won't add it to this list.
+     * A GE mby verify whether b font file used in b fontconfigurbtion
+     * exists. If it doesn't then either we mby substitute the defbult
+     * font, or perhbps elide it bltogether from the composite font.
+     * This mbkes some sense on windows where the font file is only
+     * likely to be in one plbce. But on other OSes, eg Linux, the file
+     * cbn move bround depending. So there we probbbly don't wbnt to bssume
+     * its missing bnd so won't bdd it to this list.
      * If this list - missingFontFiles - is non-null then the composite
-     * font initialisation logic tests to see if a font file is in that
+     * font initiblisbtion logic tests to see if b font file is in thbt
      * set.
-     * Only one thread should be able to add to this set so we don't
+     * Only one threbd should be bble to bdd to this set so we don't
      * synchronize.
      */
-    protected void addToMissingFontFileList(String fileName) {
+    protected void bddToMissingFontFileList(String fileNbme) {
         if (missingFontFiles == null) {
-            missingFontFiles = new HashSet<String>();
+            missingFontFiles = new HbshSet<String>();
         }
-        missingFontFiles.add(fileName);
+        missingFontFiles.bdd(fileNbme);
     }
 
     /*
      * This is for use only within getAllFonts().
-     * Fonts listed in the fontconfig files for windows were all
-     * on the "deferred" initialisation list. They were registered
-     * either in the course of the application, or in the call to
-     * loadFonts() within getAllFonts(). The fontconfig file specifies
-     * the names of the fonts using the English names. If there's a
-     * different name in the execution locale, then the platform will
-     * report that, and we will construct the font with both names, and
-     * thereby enumerate it twice. This happens for Japanese fonts listed
-     * in the windows fontconfig, when run in the JA locale. The solution
-     * is to rely (in this case) on the platform's font->file mapping to
-     * determine that this name corresponds to a file we already registered.
-     * This works because
-     * - we know when we get here all deferred fonts are already initialised
-     * - when we register a font file, we register all fonts in it.
-     * - we know the fontconfig fonts are all in the windows registry
+     * Fonts listed in the fontconfig files for windows were bll
+     * on the "deferred" initiblisbtion list. They were registered
+     * either in the course of the bpplicbtion, or in the cbll to
+     * lobdFonts() within getAllFonts(). The fontconfig file specifies
+     * the nbmes of the fonts using the English nbmes. If there's b
+     * different nbme in the execution locble, then the plbtform will
+     * report thbt, bnd we will construct the font with both nbmes, bnd
+     * thereby enumerbte it twice. This hbppens for Jbpbnese fonts listed
+     * in the windows fontconfig, when run in the JA locble. The solution
+     * is to rely (in this cbse) on the plbtform's font->file mbpping to
+     * determine thbt this nbme corresponds to b file we blrebdy registered.
+     * This works becbuse
+     * - we know when we get here bll deferred fonts bre blrebdy initiblised
+     * - when we register b font file, we register bll fonts in it.
+     * - we know the fontconfig fonts bre bll in the windows registry
      */
-    private boolean isNameForRegisteredFile(String fontName) {
-        String fileName = getFileNameForFontName(fontName);
-        if (fileName == null) {
-            return false;
+    privbte boolebn isNbmeForRegisteredFile(String fontNbme) {
+        String fileNbme = getFileNbmeForFontNbme(fontNbme);
+        if (fileNbme == null) {
+            return fblse;
         }
-        return registeredFontFiles.contains(fileName);
+        return registeredFontFiles.contbins(fileNbme);
     }
 
     /*
-     * This invocation is not in a privileged block because
-     * all privileged operations (reading files and properties)
-     * was conducted on the creation of the GE
+     * This invocbtion is not in b privileged block becbuse
+     * bll privileged operbtions (rebding files bnd properties)
+     * wbs conducted on the crebtion of the GE
      */
     public void
-        createCompositeFonts(ConcurrentHashMap<String, Font2D> altNameCache,
-                             boolean preferLocale,
-                             boolean preferProportional) {
+        crebteCompositeFonts(ConcurrentHbshMbp<String, Font2D> bltNbmeCbche,
+                             boolebn preferLocble,
+                             boolebn preferProportionbl) {
 
-        FontConfiguration fontConfig =
-            createFontConfiguration(preferLocale, preferProportional);
-        initCompositeFonts(fontConfig, altNameCache);
+        FontConfigurbtion fontConfig =
+            crebteFontConfigurbtion(preferLocble, preferProportionbl);
+        initCompositeFonts(fontConfig, bltNbmeCbche);
     }
 
     /**
-     * Returns all fonts installed in this environment.
+     * Returns bll fonts instblled in this environment.
      */
-    public Font[] getAllInstalledFonts() {
-        if (allFonts == null) {
-            loadFonts();
-            TreeMap<String, Font2D> fontMapNames = new TreeMap<>();
-            /* warning: the number of composite fonts could change dynamically
-             * if applications are allowed to create them. "allfonts" could
-             * then be stale.
+    public Font[] getAllInstblledFonts() {
+        if (bllFonts == null) {
+            lobdFonts();
+            TreeMbp<String, Font2D> fontMbpNbmes = new TreeMbp<>();
+            /* wbrning: the number of composite fonts could chbnge dynbmicblly
+             * if bpplicbtions bre bllowed to crebte them. "bllfonts" could
+             * then be stble.
              */
-            Font2D[] allfonts = getRegisteredFonts();
-            for (int i=0; i < allfonts.length; i++) {
-                if (!(allfonts[i] instanceof NativeFont)) {
-                    fontMapNames.put(allfonts[i].getFontName(null),
-                                     allfonts[i]);
+            Font2D[] bllfonts = getRegisteredFonts();
+            for (int i=0; i < bllfonts.length; i++) {
+                if (!(bllfonts[i] instbnceof NbtiveFont)) {
+                    fontMbpNbmes.put(bllfonts[i].getFontNbme(null),
+                                     bllfonts[i]);
                 }
             }
 
-            String[] platformNames = getFontNamesFromPlatform();
-            if (platformNames != null) {
-                for (int i=0; i<platformNames.length; i++) {
-                    if (!isNameForRegisteredFile(platformNames[i])) {
-                        fontMapNames.put(platformNames[i], null);
+            String[] plbtformNbmes = getFontNbmesFromPlbtform();
+            if (plbtformNbmes != null) {
+                for (int i=0; i<plbtformNbmes.length; i++) {
+                    if (!isNbmeForRegisteredFile(plbtformNbmes[i])) {
+                        fontMbpNbmes.put(plbtformNbmes[i], null);
                     }
                 }
             }
 
-            String[] fontNames = null;
-            if (fontMapNames.size() > 0) {
-                fontNames = new String[fontMapNames.size()];
-                Object [] keyNames = fontMapNames.keySet().toArray();
-                for (int i=0; i < keyNames.length; i++) {
-                    fontNames[i] = (String)keyNames[i];
+            String[] fontNbmes = null;
+            if (fontMbpNbmes.size() > 0) {
+                fontNbmes = new String[fontMbpNbmes.size()];
+                Object [] keyNbmes = fontMbpNbmes.keySet().toArrby();
+                for (int i=0; i < keyNbmes.length; i++) {
+                    fontNbmes[i] = (String)keyNbmes[i];
                 }
             }
-            Font[] fonts = new Font[fontNames.length];
-            for (int i=0; i < fontNames.length; i++) {
-                fonts[i] = new Font(fontNames[i], Font.PLAIN, 1);
-                Font2D f2d = fontMapNames.get(fontNames[i]);
+            Font[] fonts = new Font[fontNbmes.length];
+            for (int i=0; i < fontNbmes.length; i++) {
+                fonts[i] = new Font(fontNbmes[i], Font.PLAIN, 1);
+                Font2D f2d = fontMbpNbmes.get(fontNbmes[i]);
                 if (f2d  != null) {
-                    FontAccess.getFontAccess().setFont2D(fonts[i], f2d.handle);
+                    FontAccess.getFontAccess().setFont2D(fonts[i], f2d.hbndle);
                 }
             }
-            allFonts = fonts;
+            bllFonts = fonts;
         }
 
-        Font []copyFonts = new Font[allFonts.length];
-        System.arraycopy(allFonts, 0, copyFonts, 0, allFonts.length);
+        Font []copyFonts = new Font[bllFonts.length];
+        System.brrbycopy(bllFonts, 0, copyFonts, 0, bllFonts.length);
         return copyFonts;
     }
 
     /**
-     * Get a list of installed fonts in the requested {@link Locale}.
-     * The list contains the fonts Family Names.
-     * If Locale is null, the default locale is used.
+     * Get b list of instblled fonts in the requested {@link Locble}.
+     * The list contbins the fonts Fbmily Nbmes.
+     * If Locble is null, the defbult locble is used.
      *
-     * @param requestedLocale, if null the default locale is used.
-     * @return list of installed fonts in the system.
+     * @pbrbm requestedLocble, if null the defbult locble is used.
+     * @return list of instblled fonts in the system.
      */
-    public String[] getInstalledFontFamilyNames(Locale requestedLocale) {
-        if (requestedLocale == null) {
-            requestedLocale = Locale.getDefault();
+    public String[] getInstblledFontFbmilyNbmes(Locble requestedLocble) {
+        if (requestedLocble == null) {
+            requestedLocble = Locble.getDefbult();
         }
-        if (allFamilies != null && lastDefaultLocale != null &&
-            requestedLocale.equals(lastDefaultLocale)) {
-                String[] copyFamilies = new String[allFamilies.length];
-                System.arraycopy(allFamilies, 0, copyFamilies,
-                                 0, allFamilies.length);
-                return copyFamilies;
+        if (bllFbmilies != null && lbstDefbultLocble != null &&
+            requestedLocble.equbls(lbstDefbultLocble)) {
+                String[] copyFbmilies = new String[bllFbmilies.length];
+                System.brrbycopy(bllFbmilies, 0, copyFbmilies,
+                                 0, bllFbmilies.length);
+                return copyFbmilies;
         }
 
-        TreeMap<String,String> familyNames = new TreeMap<String,String>();
-        //  these names are always there and aren't localised
+        TreeMbp<String,String> fbmilyNbmes = new TreeMbp<String,String>();
+        //  these nbmes bre blwbys there bnd bren't locblised
         String str;
-        str = Font.SERIF;         familyNames.put(str.toLowerCase(), str);
-        str = Font.SANS_SERIF;    familyNames.put(str.toLowerCase(), str);
-        str = Font.MONOSPACED;    familyNames.put(str.toLowerCase(), str);
-        str = Font.DIALOG;        familyNames.put(str.toLowerCase(), str);
-        str = Font.DIALOG_INPUT;  familyNames.put(str.toLowerCase(), str);
+        str = Font.SERIF;         fbmilyNbmes.put(str.toLowerCbse(), str);
+        str = Font.SANS_SERIF;    fbmilyNbmes.put(str.toLowerCbse(), str);
+        str = Font.MONOSPACED;    fbmilyNbmes.put(str.toLowerCbse(), str);
+        str = Font.DIALOG;        fbmilyNbmes.put(str.toLowerCbse(), str);
+        str = Font.DIALOG_INPUT;  fbmilyNbmes.put(str.toLowerCbse(), str);
 
-        /* Platform APIs may be used to get the set of available family
-         * names for the current default locale so long as it is the same
-         * as the start-up system locale, rather than loading all fonts.
+        /* Plbtform APIs mby be used to get the set of bvbilbble fbmily
+         * nbmes for the current defbult locble so long bs it is the sbme
+         * bs the stbrt-up system locble, rbther thbn lobding bll fonts.
          */
-        if (requestedLocale.equals(getSystemStartupLocale()) &&
-            getFamilyNamesFromPlatform(familyNames, requestedLocale)) {
-            /* Augment platform names with JRE font family names */
-            getJREFontFamilyNames(familyNames, requestedLocale);
+        if (requestedLocble.equbls(getSystemStbrtupLocble()) &&
+            getFbmilyNbmesFromPlbtform(fbmilyNbmes, requestedLocble)) {
+            /* Augment plbtform nbmes with JRE font fbmily nbmes */
+            getJREFontFbmilyNbmes(fbmilyNbmes, requestedLocble);
         } else {
-            loadFontFiles();
-            Font2D[] physicalfonts = getPhysicalFonts();
-            for (int i=0; i < physicalfonts.length; i++) {
-                if (!(physicalfonts[i] instanceof NativeFont)) {
-                    String name =
-                        physicalfonts[i].getFamilyName(requestedLocale);
-                    familyNames.put(name.toLowerCase(requestedLocale), name);
+            lobdFontFiles();
+            Font2D[] physicblfonts = getPhysicblFonts();
+            for (int i=0; i < physicblfonts.length; i++) {
+                if (!(physicblfonts[i] instbnceof NbtiveFont)) {
+                    String nbme =
+                        physicblfonts[i].getFbmilyNbme(requestedLocble);
+                    fbmilyNbmes.put(nbme.toLowerCbse(requestedLocble), nbme);
                 }
             }
         }
 
-        // Add any native font family names here
-        addNativeFontFamilyNames(familyNames, requestedLocale);
+        // Add bny nbtive font fbmily nbmes here
+        bddNbtiveFontFbmilyNbmes(fbmilyNbmes, requestedLocble);
 
-        String[] retval =  new String[familyNames.size()];
-        Object [] keyNames = familyNames.keySet().toArray();
-        for (int i=0; i < keyNames.length; i++) {
-            retval[i] = familyNames.get(keyNames[i]);
+        String[] retvbl =  new String[fbmilyNbmes.size()];
+        Object [] keyNbmes = fbmilyNbmes.keySet().toArrby();
+        for (int i=0; i < keyNbmes.length; i++) {
+            retvbl[i] = fbmilyNbmes.get(keyNbmes[i]);
         }
-        if (requestedLocale.equals(Locale.getDefault())) {
-            lastDefaultLocale = requestedLocale;
-            allFamilies = new String[retval.length];
-            System.arraycopy(retval, 0, allFamilies, 0, allFamilies.length);
+        if (requestedLocble.equbls(Locble.getDefbult())) {
+            lbstDefbultLocble = requestedLocble;
+            bllFbmilies = new String[retvbl.length];
+            System.brrbycopy(retvbl, 0, bllFbmilies, 0, bllFbmilies.length);
         }
-        return retval;
+        return retvbl;
     }
 
-    // Provides an aperture to add native font family names to the map
-    protected void addNativeFontFamilyNames(TreeMap<String, String> familyNames, Locale requestedLocale) { }
+    // Provides bn bperture to bdd nbtive font fbmily nbmes to the mbp
+    protected void bddNbtiveFontFbmilyNbmes(TreeMbp<String, String> fbmilyNbmes, Locble requestedLocble) { }
 
     public void register1dot0Fonts() {
-        java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+                            new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
                 String type1Dir = "/usr/openwin/lib/X11/fonts/Type1";
                 registerFontsInDir(type1Dir, true, Font2D.TYPE1_RANK,
-                                   false, false);
+                                   fblse, fblse);
                 return null;
             }
         });
     }
 
-    /* Really we need only the JRE fonts family names, but there's little
-     * overhead in doing this the easy way by adding all the currently
+    /* Reblly we need only the JRE fonts fbmily nbmes, but there's little
+     * overhebd in doing this the ebsy wby by bdding bll the currently
      * known fonts.
      */
-    protected void getJREFontFamilyNames(TreeMap<String,String> familyNames,
-                                         Locale requestedLocale) {
-        registerDeferredJREFonts(jreFontDirName);
-        Font2D[] physicalfonts = getPhysicalFonts();
-        for (int i=0; i < physicalfonts.length; i++) {
-            if (!(physicalfonts[i] instanceof NativeFont)) {
-                String name =
-                    physicalfonts[i].getFamilyName(requestedLocale);
-                familyNames.put(name.toLowerCase(requestedLocale), name);
+    protected void getJREFontFbmilyNbmes(TreeMbp<String,String> fbmilyNbmes,
+                                         Locble requestedLocble) {
+        registerDeferredJREFonts(jreFontDirNbme);
+        Font2D[] physicblfonts = getPhysicblFonts();
+        for (int i=0; i < physicblfonts.length; i++) {
+            if (!(physicblfonts[i] instbnceof NbtiveFont)) {
+                String nbme =
+                    physicblfonts[i].getFbmilyNbme(requestedLocble);
+                fbmilyNbmes.put(nbme.toLowerCbse(requestedLocble), nbme);
             }
         }
     }
 
     /**
-     * Default locale can be changed but we need to know the initial locale
-     * as that is what is used by native code. Changing Java default locale
-     * doesn't affect that.
-     * Returns the locale in use when using native code to communicate
-     * with platform APIs. On windows this is known as the "system" locale,
-     * and it is usually the same as the platform locale, but not always,
-     * so this method also checks an implementation property used only
-     * on windows and uses that if set.
+     * Defbult locble cbn be chbnged but we need to know the initibl locble
+     * bs thbt is whbt is used by nbtive code. Chbnging Jbvb defbult locble
+     * doesn't bffect thbt.
+     * Returns the locble in use when using nbtive code to communicbte
+     * with plbtform APIs. On windows this is known bs the "system" locble,
+     * bnd it is usublly the sbme bs the plbtform locble, but not blwbys,
+     * so this method blso checks bn implementbtion property used only
+     * on windows bnd uses thbt if set.
      */
-    private static Locale systemLocale = null;
-    private static Locale getSystemStartupLocale() {
-        if (systemLocale == null) {
-            systemLocale = (Locale)
-                java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+    privbte stbtic Locble systemLocble = null;
+    privbte stbtic Locble getSystemStbrtupLocble() {
+        if (systemLocble == null) {
+            systemLocble = (Locble)
+                jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
-                /* On windows the system locale may be different than the
-                 * user locale. This is an unsupported configuration, but
-                 * in that case we want to return a dummy locale that will
-                 * never cause a match in the usage of this API. This is
-                 * important because Windows documents that the family
-                 * names of fonts are enumerated using the language of
-                 * the system locale. BY returning a dummy locale in that
-                 * case we do not use the platform API which would not
-                 * return us the names we want.
+                /* On windows the system locble mby be different thbn the
+                 * user locble. This is bn unsupported configurbtion, but
+                 * in thbt cbse we wbnt to return b dummy locble thbt will
+                 * never cbuse b mbtch in the usbge of this API. This is
+                 * importbnt becbuse Windows documents thbt the fbmily
+                 * nbmes of fonts bre enumerbted using the lbngubge of
+                 * the system locble. BY returning b dummy locble in thbt
+                 * cbse we do not use the plbtform API which would not
+                 * return us the nbmes we wbnt.
                  */
                 String fileEncoding = System.getProperty("file.encoding", "");
                 String sysEncoding = System.getProperty("sun.jnu.encoding");
-                if (sysEncoding != null && !sysEncoding.equals(fileEncoding)) {
-                    return Locale.ROOT;
+                if (sysEncoding != null && !sysEncoding.equbls(fileEncoding)) {
+                    return Locble.ROOT;
                 }
 
-                String language = System.getProperty("user.language", "en");
+                String lbngubge = System.getProperty("user.lbngubge", "en");
                 String country  = System.getProperty("user.country","");
-                String variant  = System.getProperty("user.variant","");
-                return new Locale(language, country, variant);
+                String vbribnt  = System.getProperty("user.vbribnt","");
+                return new Locble(lbngubge, country, vbribnt);
             }
         });
         }
-        return systemLocale;
+        return systemLocble;
     }
 
-    void addToPool(FileFont font) {
+    void bddToPool(FileFont font) {
 
         FileFont fontFileToClose = null;
         int freeSlot = -1;
 
-        synchronized (fontFileCache) {
-            /* Avoid duplicate entries in the pool, and don't close() it,
-             * since this method is called only from within open().
-             * Seeing a duplicate is most likely to happen if the thread
-             * was interrupted during a read, forcing perhaps repeated
-             * close and open calls and it eventually it ends up pointing
-             * at the same slot.
+        synchronized (fontFileCbche) {
+            /* Avoid duplicbte entries in the pool, bnd don't close() it,
+             * since this method is cblled only from within open().
+             * Seeing b duplicbte is most likely to hbppen if the threbd
+             * wbs interrupted during b rebd, forcing perhbps repebted
+             * close bnd open cblls bnd it eventublly it ends up pointing
+             * bt the sbme slot.
              */
             for (int i=0;i<CHANNELPOOLSIZE;i++) {
-                if (fontFileCache[i] == font) {
+                if (fontFileCbche[i] == font) {
                     return;
                 }
-                if (fontFileCache[i] == null && freeSlot < 0) {
+                if (fontFileCbche[i] == null && freeSlot < 0) {
                     freeSlot = i;
                 }
             }
             if (freeSlot >= 0) {
-                fontFileCache[freeSlot] = font;
+                fontFileCbche[freeSlot] = font;
                 return;
             } else {
-                /* replace with new font. */
-                fontFileToClose = fontFileCache[lastPoolIndex];
-                fontFileCache[lastPoolIndex] = font;
-                /* lastPoolIndex is updated so that the least recently opened
+                /* replbce with new font. */
+                fontFileToClose = fontFileCbche[lbstPoolIndex];
+                fontFileCbche[lbstPoolIndex] = font;
+                /* lbstPoolIndex is updbted so thbt the lebst recently opened
                  * file will be closed next.
                  */
-                lastPoolIndex = (lastPoolIndex+1) % CHANNELPOOLSIZE;
+                lbstPoolIndex = (lbstPoolIndex+1) % CHANNELPOOLSIZE;
             }
         }
         /* Need to close the font file outside of the synchronized block,
-         * since its possible some other thread is in an open() call on
-         * this font file, and could be holding its lock and the pool lock.
-         * Releasing the pool lock allows that thread to continue, so it can
-         * then release the lock on this font, allowing the close() call
+         * since its possible some other threbd is in bn open() cbll on
+         * this font file, bnd could be holding its lock bnd the pool lock.
+         * Relebsing the pool lock bllows thbt threbd to continue, so it cbn
+         * then relebse the lock on this font, bllowing the close() cbll
          * below to proceed.
-         * Also, calling close() is safe because any other thread using
-         * the font we are closing() synchronizes all reading, so we
+         * Also, cblling close() is sbfe becbuse bny other threbd using
+         * the font we bre closing() synchronizes bll rebding, so we
          * will not close the file while its in use.
          */
         if (fontFileToClose != null) {
@@ -3930,9 +3930,9 @@ public abstract class SunFontManager implements FontSupport, FontManagerForSGE {
         }
     }
 
-    protected FontUIResource getFontConfigFUIR(String family, int style,
+    protected FontUIResource getFontConfigFUIR(String fbmily, int style,
                                                int size)
     {
-        return new FontUIResource(family, style, size);
+        return new FontUIResource(fbmily, style, size);
     }
 }

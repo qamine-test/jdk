@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.VirtublMbchine;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
 
 /*
- * An AttachingConnector that uses the SharedMemoryTransportService
+ * An AttbchingConnector thbt uses the ShbredMemoryTrbnsportService
  */
-public class SharedMemoryAttachingConnector extends GenericAttachingConnector {
+public clbss ShbredMemoryAttbchingConnector extends GenericAttbchingConnector {
 
-    static final String ARG_NAME = "name";
+    stbtic finbl String ARG_NAME = "nbme";
 
-    public SharedMemoryAttachingConnector() {
-        super(new SharedMemoryTransportService());
+    public ShbredMemoryAttbchingConnector() {
+        super(new ShbredMemoryTrbnsportService());
 
-        addStringArgument(
+        bddStringArgument(
             ARG_NAME,
-            getString("memory_attaching.name.label"),
-            getString("memory_attaching.name"),
+            getString("memory_bttbching.nbme.lbbel"),
+            getString("memory_bttbching.nbme"),
             "",
             true);
 
-        transport = new Transport() {
-            public String name() {
-                return "dt_shmem";              // for compatibility reasons
+        trbnsport = new Trbnsport() {
+            public String nbme() {
+                return "dt_shmem";              // for compbtibility rebsons
             }
         };
     }
 
-    public VirtualMachine
-        attach(Map<String, ? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException
+    public VirtublMbchine
+        bttbch(Mbp<String, ? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException
     {
-        String name = argument(ARG_NAME, arguments).value();
-        return super.attach(name, arguments);
+        String nbme = brgument(ARG_NAME, brguments).vblue();
+        return super.bttbch(nbme, brguments);
     }
 
-    public String name() {
-        return "com.sun.jdi.SharedMemoryAttach";
+    public String nbme() {
+        return "com.sun.jdi.ShbredMemoryAttbch";
     }
 
     public String description() {
-       return getString("memory_attaching.description");
+       return getString("memory_bttbching.description");
     }
 }

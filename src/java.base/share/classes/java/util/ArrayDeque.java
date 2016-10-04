@@ -1,273 +1,273 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Josh Bloch of Google Inc. and released to the public domain,
- * as explained at http://creativecommons.org/publicdomain/zero/1.0/.
+ * Written by Josh Bloch of Google Inc. bnd relebsed to the public dombin,
+ * bs explbined bt http://crebtivecommons.org/publicdombin/zero/1.0/.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.Serializable;
-import java.util.function.Consumer;
+import jbvb.io.Seriblizbble;
+import jbvb.util.function.Consumer;
 
 /**
- * Resizable-array implementation of the {@link Deque} interface.  Array
- * deques have no capacity restrictions; they grow as necessary to support
- * usage.  They are not thread-safe; in the absence of external
- * synchronization, they do not support concurrent access by multiple threads.
- * Null elements are prohibited.  This class is likely to be faster than
- * {@link Stack} when used as a stack, and faster than {@link LinkedList}
- * when used as a queue.
+ * Resizbble-brrby implementbtion of the {@link Deque} interfbce.  Arrby
+ * deques hbve no cbpbcity restrictions; they grow bs necessbry to support
+ * usbge.  They bre not threbd-sbfe; in the bbsence of externbl
+ * synchronizbtion, they do not support concurrent bccess by multiple threbds.
+ * Null elements bre prohibited.  This clbss is likely to be fbster thbn
+ * {@link Stbck} when used bs b stbck, bnd fbster thbn {@link LinkedList}
+ * when used bs b queue.
  *
- * <p>Most {@code ArrayDeque} operations run in amortized constant time.
+ * <p>Most {@code ArrbyDeque} operbtions run in bmortized constbnt time.
  * Exceptions include {@link #remove(Object) remove}, {@link
- * #removeFirstOccurrence removeFirstOccurrence}, {@link #removeLastOccurrence
- * removeLastOccurrence}, {@link #contains contains}, {@link #iterator
- * iterator.remove()}, and the bulk operations, all of which run in linear
+ * #removeFirstOccurrence removeFirstOccurrence}, {@link #removeLbstOccurrence
+ * removeLbstOccurrence}, {@link #contbins contbins}, {@link #iterbtor
+ * iterbtor.remove()}, bnd the bulk operbtions, bll of which run in linebr
  * time.
  *
- * <p>The iterators returned by this class's {@code iterator} method are
- * <i>fail-fast</i>: If the deque is modified at any time after the iterator
- * is created, in any way except through the iterator's own {@code remove}
- * method, the iterator will generally throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the
+ * <p>The iterbtors returned by this clbss's {@code iterbtor} method bre
+ * <i>fbil-fbst</i>: If the deque is modified bt bny time bfter the iterbtor
+ * is crebted, in bny wby except through the iterbtor's own {@code remove}
+ * method, the iterbtor will generblly throw b {@link
+ * ConcurrentModificbtionException}.  Thus, in the fbce of concurrent
+ * modificbtion, the iterbtor fbils quickly bnd clebnly, rbther thbn risking
+ * brbitrbry, non-deterministic behbvior bt bn undetermined time in the
  * future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw {@code ConcurrentModificbtionException} on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the
+ * <em>optionbl</em> methods of the {@link Collection} bnd {@link
+ * Iterbtor} interfbces.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch and Doug Lea
+ * @buthor  Josh Bloch bnd Doug Leb
  * @since   1.6
- * @param <E> the type of elements held in this collection
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class ArrayDeque<E> extends AbstractCollection<E>
-                           implements Deque<E>, Cloneable, Serializable
+public clbss ArrbyDeque<E> extends AbstrbctCollection<E>
+                           implements Deque<E>, Clonebble, Seriblizbble
 {
     /**
-     * The array in which the elements of the deque are stored.
-     * The capacity of the deque is the length of this array, which is
-     * always a power of two. The array is never allowed to become
-     * full, except transiently within an addX method where it is
-     * resized (see doubleCapacity) immediately upon becoming full,
-     * thus avoiding head and tail wrapping around to equal each
-     * other.  We also guarantee that all array cells not holding
-     * deque elements are always null.
+     * The brrby in which the elements of the deque bre stored.
+     * The cbpbcity of the deque is the length of this brrby, which is
+     * blwbys b power of two. The brrby is never bllowed to become
+     * full, except trbnsiently within bn bddX method where it is
+     * resized (see doubleCbpbcity) immedibtely upon becoming full,
+     * thus bvoiding hebd bnd tbil wrbpping bround to equbl ebch
+     * other.  We blso gubrbntee thbt bll brrby cells not holding
+     * deque elements bre blwbys null.
      */
-    transient Object[] elements; // non-private to simplify nested class access
+    trbnsient Object[] elements; // non-privbte to simplify nested clbss bccess
 
     /**
-     * The index of the element at the head of the deque (which is the
-     * element that would be removed by remove() or pop()); or an
-     * arbitrary number equal to tail if the deque is empty.
+     * The index of the element bt the hebd of the deque (which is the
+     * element thbt would be removed by remove() or pop()); or bn
+     * brbitrbry number equbl to tbil if the deque is empty.
      */
-    transient int head;
+    trbnsient int hebd;
 
     /**
-     * The index at which the next element would be added to the tail
-     * of the deque (via addLast(E), add(E), or push(E)).
+     * The index bt which the next element would be bdded to the tbil
+     * of the deque (vib bddLbst(E), bdd(E), or push(E)).
      */
-    transient int tail;
+    trbnsient int tbil;
 
     /**
-     * The minimum capacity that we'll use for a newly created deque.
-     * Must be a power of 2.
+     * The minimum cbpbcity thbt we'll use for b newly crebted deque.
+     * Must be b power of 2.
      */
-    private static final int MIN_INITIAL_CAPACITY = 8;
+    privbte stbtic finbl int MIN_INITIAL_CAPACITY = 8;
 
-    // ******  Array allocation and resizing utilities ******
+    // ******  Arrby bllocbtion bnd resizing utilities ******
 
     /**
-     * Allocates empty array to hold the given number of elements.
+     * Allocbtes empty brrby to hold the given number of elements.
      *
-     * @param numElements  the number of elements to hold
+     * @pbrbm numElements  the number of elements to hold
      */
-    private void allocateElements(int numElements) {
-        int initialCapacity = MIN_INITIAL_CAPACITY;
+    privbte void bllocbteElements(int numElements) {
+        int initiblCbpbcity = MIN_INITIAL_CAPACITY;
         // Find the best power of two to hold elements.
-        // Tests "<=" because arrays aren't kept full.
-        if (numElements >= initialCapacity) {
-            initialCapacity = numElements;
-            initialCapacity |= (initialCapacity >>>  1);
-            initialCapacity |= (initialCapacity >>>  2);
-            initialCapacity |= (initialCapacity >>>  4);
-            initialCapacity |= (initialCapacity >>>  8);
-            initialCapacity |= (initialCapacity >>> 16);
-            initialCapacity++;
+        // Tests "<=" becbuse brrbys bren't kept full.
+        if (numElements >= initiblCbpbcity) {
+            initiblCbpbcity = numElements;
+            initiblCbpbcity |= (initiblCbpbcity >>>  1);
+            initiblCbpbcity |= (initiblCbpbcity >>>  2);
+            initiblCbpbcity |= (initiblCbpbcity >>>  4);
+            initiblCbpbcity |= (initiblCbpbcity >>>  8);
+            initiblCbpbcity |= (initiblCbpbcity >>> 16);
+            initiblCbpbcity++;
 
-            if (initialCapacity < 0)   // Too many elements, must back off
-                initialCapacity >>>= 1;// Good luck allocating 2 ^ 30 elements
+            if (initiblCbpbcity < 0)   // Too mbny elements, must bbck off
+                initiblCbpbcity >>>= 1;// Good luck bllocbting 2 ^ 30 elements
         }
-        elements = new Object[initialCapacity];
+        elements = new Object[initiblCbpbcity];
     }
 
     /**
-     * Doubles the capacity of this deque.  Call only when full, i.e.,
-     * when head and tail have wrapped around to become equal.
+     * Doubles the cbpbcity of this deque.  Cbll only when full, i.e.,
+     * when hebd bnd tbil hbve wrbpped bround to become equbl.
      */
-    private void doubleCapacity() {
-        assert head == tail;
-        int p = head;
+    privbte void doubleCbpbcity() {
+        bssert hebd == tbil;
+        int p = hebd;
         int n = elements.length;
         int r = n - p; // number of elements to the right of p
-        int newCapacity = n << 1;
-        if (newCapacity < 0)
-            throw new IllegalStateException("Sorry, deque too big");
-        Object[] a = new Object[newCapacity];
-        System.arraycopy(elements, p, a, 0, r);
-        System.arraycopy(elements, 0, a, r, p);
-        elements = a;
-        head = 0;
-        tail = n;
+        int newCbpbcity = n << 1;
+        if (newCbpbcity < 0)
+            throw new IllegblStbteException("Sorry, deque too big");
+        Object[] b = new Object[newCbpbcity];
+        System.brrbycopy(elements, p, b, 0, r);
+        System.brrbycopy(elements, 0, b, r, p);
+        elements = b;
+        hebd = 0;
+        tbil = n;
     }
 
     /**
-     * Copies the elements from our element array into the specified array,
-     * in order (from first to last element in the deque).  It is assumed
-     * that the array is large enough to hold all elements in the deque.
+     * Copies the elements from our element brrby into the specified brrby,
+     * in order (from first to lbst element in the deque).  It is bssumed
+     * thbt the brrby is lbrge enough to hold bll elements in the deque.
      *
-     * @return its argument
+     * @return its brgument
      */
-    private <T> T[] copyElements(T[] a) {
-        if (head < tail) {
-            System.arraycopy(elements, head, a, 0, size());
-        } else if (head > tail) {
-            int headPortionLen = elements.length - head;
-            System.arraycopy(elements, head, a, 0, headPortionLen);
-            System.arraycopy(elements, 0, a, headPortionLen, tail);
+    privbte <T> T[] copyElements(T[] b) {
+        if (hebd < tbil) {
+            System.brrbycopy(elements, hebd, b, 0, size());
+        } else if (hebd > tbil) {
+            int hebdPortionLen = elements.length - hebd;
+            System.brrbycopy(elements, hebd, b, 0, hebdPortionLen);
+            System.brrbycopy(elements, 0, b, hebdPortionLen, tbil);
         }
-        return a;
+        return b;
     }
 
     /**
-     * Constructs an empty array deque with an initial capacity
+     * Constructs bn empty brrby deque with bn initibl cbpbcity
      * sufficient to hold 16 elements.
      */
-    public ArrayDeque() {
+    public ArrbyDeque() {
         elements = new Object[16];
     }
 
     /**
-     * Constructs an empty array deque with an initial capacity
+     * Constructs bn empty brrby deque with bn initibl cbpbcity
      * sufficient to hold the specified number of elements.
      *
-     * @param numElements  lower bound on initial capacity of the deque
+     * @pbrbm numElements  lower bound on initibl cbpbcity of the deque
      */
-    public ArrayDeque(int numElements) {
-        allocateElements(numElements);
+    public ArrbyDeque(int numElements) {
+        bllocbteElements(numElements);
     }
 
     /**
-     * Constructs a deque containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.  (The first element returned by the collection's
-     * iterator becomes the first element, or <i>front</i> of the
+     * Constructs b deque contbining the elements of the specified
+     * collection, in the order they bre returned by the collection's
+     * iterbtor.  (The first element returned by the collection's
+     * iterbtor becomes the first element, or <i>front</i> of the
      * deque.)
      *
-     * @param c the collection whose elements are to be placed into the deque
+     * @pbrbm c the collection whose elements bre to be plbced into the deque
      * @throws NullPointerException if the specified collection is null
      */
-    public ArrayDeque(Collection<? extends E> c) {
-        allocateElements(c.size());
-        addAll(c);
+    public ArrbyDeque(Collection<? extends E> c) {
+        bllocbteElements(c.size());
+        bddAll(c);
     }
 
-    // The main insertion and extraction methods are addFirst,
-    // addLast, pollFirst, pollLast. The other methods are defined in
+    // The mbin insertion bnd extrbction methods bre bddFirst,
+    // bddLbst, pollFirst, pollLbst. The other methods bre defined in
     // terms of these.
 
     /**
-     * Inserts the specified element at the front of this deque.
+     * Inserts the specified element bt the front of this deque.
      *
-     * @param e the element to add
+     * @pbrbm e the element to bdd
      * @throws NullPointerException if the specified element is null
      */
-    public void addFirst(E e) {
+    public void bddFirst(E e) {
         if (e == null)
             throw new NullPointerException();
-        elements[head = (head - 1) & (elements.length - 1)] = e;
-        if (head == tail)
-            doubleCapacity();
+        elements[hebd = (hebd - 1) & (elements.length - 1)] = e;
+        if (hebd == tbil)
+            doubleCbpbcity();
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Inserts the specified element bt the end of this deque.
      *
-     * <p>This method is equivalent to {@link #add}.
+     * <p>This method is equivblent to {@link #bdd}.
      *
-     * @param e the element to add
+     * @pbrbm e the element to bdd
      * @throws NullPointerException if the specified element is null
      */
-    public void addLast(E e) {
+    public void bddLbst(E e) {
         if (e == null)
             throw new NullPointerException();
-        elements[tail] = e;
-        if ( (tail = (tail + 1) & (elements.length - 1)) == head)
-            doubleCapacity();
+        elements[tbil] = e;
+        if ( (tbil = (tbil + 1) & (elements.length - 1)) == hebd)
+            doubleCbpbcity();
     }
 
     /**
-     * Inserts the specified element at the front of this deque.
+     * Inserts the specified element bt the front of this deque.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Deque#offerFirst})
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Deque#offerFirst})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offerFirst(E e) {
-        addFirst(e);
+    public boolebn offerFirst(E e) {
+        bddFirst(e);
         return true;
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Inserts the specified element bt the end of this deque.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Deque#offerLast})
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Deque#offerLbst})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offerLast(E e) {
-        addLast(e);
+    public boolebn offerLbst(E e) {
+        bddLbst(e);
         return true;
     }
 
@@ -284,33 +284,33 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E removeLast() {
-        E x = pollLast();
+    public E removeLbst() {
+        E x = pollLbst();
         if (x == null)
             throw new NoSuchElementException();
         return x;
     }
 
     public E pollFirst() {
-        int h = head;
-        @SuppressWarnings("unchecked")
+        int h = hebd;
+        @SuppressWbrnings("unchecked")
         E result = (E) elements[h];
         // Element is null if deque empty
         if (result == null)
             return null;
         elements[h] = null;     // Must null out slot
-        head = (h + 1) & (elements.length - 1);
+        hebd = (h + 1) & (elements.length - 1);
         return result;
     }
 
-    public E pollLast() {
-        int t = (tail - 1) & (elements.length - 1);
-        @SuppressWarnings("unchecked")
+    public E pollLbst() {
+        int t = (tbil - 1) & (elements.length - 1);
+        @SuppressWbrnings("unchecked")
         E result = (E) elements[t];
         if (result == null)
             return null;
         elements[t] = null;
-        tail = t;
+        tbil = t;
         return result;
     }
 
@@ -318,8 +318,8 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      * @throws NoSuchElementException {@inheritDoc}
      */
     public E getFirst() {
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[head];
+        @SuppressWbrnings("unchecked")
+        E result = (E) elements[hebd];
         if (result == null)
             throw new NoSuchElementException();
         return result;
@@ -328,119 +328,119 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E getLast() {
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[(tail - 1) & (elements.length - 1)];
+    public E getLbst() {
+        @SuppressWbrnings("unchecked")
+        E result = (E) elements[(tbil - 1) & (elements.length - 1)];
         if (result == null)
             throw new NoSuchElementException();
         return result;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public E peekFirst() {
-        // elements[head] is null if deque empty
-        return (E) elements[head];
+        // elements[hebd] is null if deque empty
+        return (E) elements[hebd];
     }
 
-    @SuppressWarnings("unchecked")
-    public E peekLast() {
-        return (E) elements[(tail - 1) & (elements.length - 1)];
+    @SuppressWbrnings("unchecked")
+    public E peekLbst() {
+        return (E) elements[(tbil - 1) & (elements.length - 1)];
     }
 
     /**
      * Removes the first occurrence of the specified element in this
-     * deque (when traversing the deque from head to tail).
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * deque (when trbversing the deque from hebd to tbil).
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the first element {@code e} such thbt
+     * {@code o.equbls(e)} (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if the deque contbined the specified element
      */
-    public boolean removeFirstOccurrence(Object o) {
+    public boolebn removeFirstOccurrence(Object o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = head;
+            return fblse;
+        int mbsk = elements.length - 1;
+        int i = hebd;
         Object x;
         while ( (x = elements[i]) != null) {
-            if (o.equals(x)) {
+            if (o.equbls(x)) {
                 delete(i);
                 return true;
             }
-            i = (i + 1) & mask;
+            i = (i + 1) & mbsk;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Removes the last occurrence of the specified element in this
-     * deque (when traversing the deque from head to tail).
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the last element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Removes the lbst occurrence of the specified element in this
+     * deque (when trbversing the deque from hebd to tbil).
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the lbst element {@code e} such thbt
+     * {@code o.equbls(e)} (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if the deque contbined the specified element
      */
-    public boolean removeLastOccurrence(Object o) {
+    public boolebn removeLbstOccurrence(Object o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = (tail - 1) & mask;
+            return fblse;
+        int mbsk = elements.length - 1;
+        int i = (tbil - 1) & mbsk;
         Object x;
         while ( (x = elements[i]) != null) {
-            if (o.equals(x)) {
+            if (o.equbls(x)) {
                 delete(i);
                 return true;
             }
-            i = (i - 1) & mask;
+            i = (i - 1) & mbsk;
         }
-        return false;
+        return fblse;
     }
 
     // *** Queue methods ***
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Inserts the specified element bt the end of this deque.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>This method is equivblent to {@link #bddLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Collection#bdd})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
-        addLast(e);
+    public boolebn bdd(E e) {
+        bddLbst(e);
         return true;
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Inserts the specified element bt the end of this deque.
      *
-     * <p>This method is equivalent to {@link #offerLast}.
+     * <p>This method is equivblent to {@link #offerLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Queue#offer})
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Queue#offer})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
-        return offerLast(e);
+    public boolebn offer(E e) {
+        return offerLbst(e);
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque.
+     * Retrieves bnd removes the hebd of the queue represented by this deque.
      *
-     * This method differs from {@link #poll poll} only in that it throws an
+     * This method differs from {@link #poll poll} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #removeFirst}.
+     * <p>This method is equivblent to {@link #removeFirst}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException {@inheritDoc}
      */
     public E remove() {
@@ -448,13 +448,13 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
+     * Retrieves bnd removes the hebd of the queue represented by this deque
      * (in other words, the first element of this deque), or returns
      * {@code null} if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #pollFirst}.
+     * <p>This method is equivblent to {@link #pollFirst}.
      *
-     * @return the head of the queue represented by this deque, or
+     * @return the hebd of the queue represented by this deque, or
      *         {@code null} if this deque is empty
      */
     public E poll() {
@@ -462,13 +462,13 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
+     * Retrieves, but does not remove, the hebd of the queue represented by
      * this deque.  This method differs from {@link #peek peek} only in
-     * that it throws an exception if this deque is empty.
+     * thbt it throws bn exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #getFirst}.
+     * <p>This method is equivblent to {@link #getFirst}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException {@inheritDoc}
      */
     public E element() {
@@ -476,99 +476,99 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
+     * Retrieves, but does not remove, the hebd of the queue represented by
      * this deque, or returns {@code null} if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #peekFirst}.
+     * <p>This method is equivblent to {@link #peekFirst}.
      *
-     * @return the head of the queue represented by this deque, or
+     * @return the hebd of the queue represented by this deque, or
      *         {@code null} if this deque is empty
      */
     public E peek() {
         return peekFirst();
     }
 
-    // *** Stack methods ***
+    // *** Stbck methods ***
 
     /**
-     * Pushes an element onto the stack represented by this deque.  In other
-     * words, inserts the element at the front of this deque.
+     * Pushes bn element onto the stbck represented by this deque.  In other
+     * words, inserts the element bt the front of this deque.
      *
-     * <p>This method is equivalent to {@link #addFirst}.
+     * <p>This method is equivblent to {@link #bddFirst}.
      *
-     * @param e the element to push
+     * @pbrbm e the element to push
      * @throws NullPointerException if the specified element is null
      */
     public void push(E e) {
-        addFirst(e);
+        bddFirst(e);
     }
 
     /**
-     * Pops an element from the stack represented by this deque.  In other
-     * words, removes and returns the first element of this deque.
+     * Pops bn element from the stbck represented by this deque.  In other
+     * words, removes bnd returns the first element of this deque.
      *
-     * <p>This method is equivalent to {@link #removeFirst()}.
+     * <p>This method is equivblent to {@link #removeFirst()}.
      *
-     * @return the element at the front of this deque (which is the top
-     *         of the stack represented by this deque)
+     * @return the element bt the front of this deque (which is the top
+     *         of the stbck represented by this deque)
      * @throws NoSuchElementException {@inheritDoc}
      */
     public E pop() {
         return removeFirst();
     }
 
-    private void checkInvariants() {
-        assert elements[tail] == null;
-        assert head == tail ? elements[head] == null :
-            (elements[head] != null &&
-             elements[(tail - 1) & (elements.length - 1)] != null);
-        assert elements[(head - 1) & (elements.length - 1)] == null;
+    privbte void checkInvbribnts() {
+        bssert elements[tbil] == null;
+        bssert hebd == tbil ? elements[hebd] == null :
+            (elements[hebd] != null &&
+             elements[(tbil - 1) & (elements.length - 1)] != null);
+        bssert elements[(hebd - 1) & (elements.length - 1)] == null;
     }
 
     /**
-     * Removes the element at the specified position in the elements array,
-     * adjusting head and tail as necessary.  This can result in motion of
-     * elements backwards or forwards in the array.
+     * Removes the element bt the specified position in the elements brrby,
+     * bdjusting hebd bnd tbil bs necessbry.  This cbn result in motion of
+     * elements bbckwbrds or forwbrds in the brrby.
      *
-     * <p>This method is called delete rather than remove to emphasize
-     * that its semantics differ from those of {@link List#remove(int)}.
+     * <p>This method is cblled delete rbther thbn remove to emphbsize
+     * thbt its sembntics differ from those of {@link List#remove(int)}.
      *
-     * @return true if elements moved backwards
+     * @return true if elements moved bbckwbrds
      */
-    private boolean delete(int i) {
-        checkInvariants();
-        final Object[] elements = this.elements;
-        final int mask = elements.length - 1;
-        final int h = head;
-        final int t = tail;
-        final int front = (i - h) & mask;
-        final int back  = (t - i) & mask;
+    privbte boolebn delete(int i) {
+        checkInvbribnts();
+        finbl Object[] elements = this.elements;
+        finbl int mbsk = elements.length - 1;
+        finbl int h = hebd;
+        finbl int t = tbil;
+        finbl int front = (i - h) & mbsk;
+        finbl int bbck  = (t - i) & mbsk;
 
-        // Invariant: head <= i < tail mod circularity
-        if (front >= ((t - h) & mask))
-            throw new ConcurrentModificationException();
+        // Invbribnt: hebd <= i < tbil mod circulbrity
+        if (front >= ((t - h) & mbsk))
+            throw new ConcurrentModificbtionException();
 
-        // Optimize for least element motion
-        if (front < back) {
+        // Optimize for lebst element motion
+        if (front < bbck) {
             if (h <= i) {
-                System.arraycopy(elements, h, elements, h + 1, front);
-            } else { // Wrap around
-                System.arraycopy(elements, 0, elements, 1, i);
-                elements[0] = elements[mask];
-                System.arraycopy(elements, h, elements, h + 1, mask - h);
+                System.brrbycopy(elements, h, elements, h + 1, front);
+            } else { // Wrbp bround
+                System.brrbycopy(elements, 0, elements, 1, i);
+                elements[0] = elements[mbsk];
+                System.brrbycopy(elements, h, elements, h + 1, mbsk - h);
             }
             elements[h] = null;
-            head = (h + 1) & mask;
-            return false;
+            hebd = (h + 1) & mbsk;
+            return fblse;
         } else {
-            if (i < t) { // Copy the null tail as well
-                System.arraycopy(elements, i + 1, elements, i, back);
-                tail = t - 1;
-            } else { // Wrap around
-                System.arraycopy(elements, i + 1, elements, i, mask - i);
-                elements[mask] = elements[0];
-                System.arraycopy(elements, 1, elements, 0, t);
-                tail = (t - 1) & mask;
+            if (i < t) { // Copy the null tbil bs well
+                System.brrbycopy(elements, i + 1, elements, i, bbck);
+                tbil = t - 1;
+            } else { // Wrbp bround
+                System.brrbycopy(elements, i + 1, elements, i, mbsk - i);
+                elements[mbsk] = elements[0];
+                System.brrbycopy(elements, 1, elements, 0, t);
+                tbil = (t - 1) & mbsk;
             }
             return true;
         }
@@ -582,106 +582,106 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      * @return the number of elements in this deque
      */
     public int size() {
-        return (tail - head) & (elements.length - 1);
+        return (tbil - hebd) & (elements.length - 1);
     }
 
     /**
-     * Returns {@code true} if this deque contains no elements.
+     * Returns {@code true} if this deque contbins no elements.
      *
-     * @return {@code true} if this deque contains no elements
+     * @return {@code true} if this deque contbins no elements
      */
-    public boolean isEmpty() {
-        return head == tail;
+    public boolebn isEmpty() {
+        return hebd == tbil;
     }
 
     /**
-     * Returns an iterator over the elements in this deque.  The elements
-     * will be ordered from first (head) to last (tail).  This is the same
-     * order that elements would be dequeued (via successive calls to
-     * {@link #remove} or popped (via successive calls to {@link #pop}).
+     * Returns bn iterbtor over the elements in this deque.  The elements
+     * will be ordered from first (hebd) to lbst (tbil).  This is the sbme
+     * order thbt elements would be dequeued (vib successive cblls to
+     * {@link #remove} or popped (vib successive cblls to {@link #pop}).
      *
-     * @return an iterator over the elements in this deque
+     * @return bn iterbtor over the elements in this deque
      */
-    public Iterator<E> iterator() {
-        return new DeqIterator();
+    public Iterbtor<E> iterbtor() {
+        return new DeqIterbtor();
     }
 
-    public Iterator<E> descendingIterator() {
-        return new DescendingIterator();
+    public Iterbtor<E> descendingIterbtor() {
+        return new DescendingIterbtor();
     }
 
-    private class DeqIterator implements Iterator<E> {
+    privbte clbss DeqIterbtor implements Iterbtor<E> {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Index of element to be returned by subsequent cbll to next.
          */
-        private int cursor = head;
+        privbte int cursor = hebd;
 
         /**
-         * Tail recorded at construction (also in remove), to stop
-         * iterator and also to check for comodification.
+         * Tbil recorded bt construction (blso in remove), to stop
+         * iterbtor bnd blso to check for comodificbtion.
          */
-        private int fence = tail;
+        privbte int fence = tbil;
 
         /**
-         * Index of element returned by most recent call to next.
-         * Reset to -1 if element is deleted by a call to remove.
+         * Index of element returned by most recent cbll to next.
+         * Reset to -1 if element is deleted by b cbll to remove.
          */
-        private int lastRet = -1;
+        privbte int lbstRet = -1;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return cursor != fence;
         }
 
         public E next() {
             if (cursor == fence)
                 throw new NoSuchElementException();
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             E result = (E) elements[cursor];
-            // This check doesn't catch all possible comodifications,
-            // but does catch the ones that corrupt traversal
-            if (tail != fence || result == null)
-                throw new ConcurrentModificationException();
-            lastRet = cursor;
+            // This check doesn't cbtch bll possible comodificbtions,
+            // but does cbtch the ones thbt corrupt trbversbl
+            if (tbil != fence || result == null)
+                throw new ConcurrentModificbtionException();
+            lbstRet = cursor;
             cursor = (cursor + 1) & (elements.length - 1);
             return result;
         }
 
         public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            if (delete(lastRet)) { // if left-shifted, undo increment in next()
+            if (lbstRet < 0)
+                throw new IllegblStbteException();
+            if (delete(lbstRet)) { // if left-shifted, undo increment in next()
                 cursor = (cursor - 1) & (elements.length - 1);
-                fence = tail;
+                fence = tbil;
             }
-            lastRet = -1;
+            lbstRet = -1;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
-            Object[] a = elements;
-            int m = a.length - 1, f = fence, i = cursor;
+        public void forEbchRembining(Consumer<? super E> bction) {
+            Objects.requireNonNull(bction);
+            Object[] b = elements;
+            int m = b.length - 1, f = fence, i = cursor;
             cursor = f;
             while (i != f) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
+                @SuppressWbrnings("unchecked") E e = (E)b[i];
                 i = (i + 1) & m;
                 if (e == null)
-                    throw new ConcurrentModificationException();
-                action.accept(e);
+                    throw new ConcurrentModificbtionException();
+                bction.bccept(e);
             }
         }
     }
 
-    private class DescendingIterator implements Iterator<E> {
+    privbte clbss DescendingIterbtor implements Iterbtor<E> {
         /*
-         * This class is nearly a mirror-image of DeqIterator, using
-         * tail instead of head for initial cursor, and head instead of
-         * tail for fence.
+         * This clbss is nebrly b mirror-imbge of DeqIterbtor, using
+         * tbil instebd of hebd for initibl cursor, bnd hebd instebd of
+         * tbil for fence.
          */
-        private int cursor = tail;
-        private int fence = head;
-        private int lastRet = -1;
+        privbte int cursor = tbil;
+        privbte int fence = hebd;
+        privbte int lbstRet = -1;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return cursor != fence;
         }
 
@@ -689,286 +689,286 @@ public class ArrayDeque<E> extends AbstractCollection<E>
             if (cursor == fence)
                 throw new NoSuchElementException();
             cursor = (cursor - 1) & (elements.length - 1);
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             E result = (E) elements[cursor];
-            if (head != fence || result == null)
-                throw new ConcurrentModificationException();
-            lastRet = cursor;
+            if (hebd != fence || result == null)
+                throw new ConcurrentModificbtionException();
+            lbstRet = cursor;
             return result;
         }
 
         public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            if (!delete(lastRet)) {
+            if (lbstRet < 0)
+                throw new IllegblStbteException();
+            if (!delete(lbstRet)) {
                 cursor = (cursor + 1) & (elements.length - 1);
-                fence = head;
+                fence = hebd;
             }
-            lastRet = -1;
+            lbstRet = -1;
         }
     }
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this deque contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this deque contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this deque
-     * @return {@code true} if this deque contains the specified element
+     * @pbrbm o object to be checked for contbinment in this deque
+     * @return {@code true} if this deque contbins the specified element
      */
-    public boolean contains(Object o) {
+    public boolebn contbins(Object o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = head;
+            return fblse;
+        int mbsk = elements.length - 1;
+        int i = hebd;
         Object x;
         while ( (x = elements[i]) != null) {
-            if (o.equals(x))
+            if (o.equbls(x))
                 return true;
-            i = (i + 1) & mask;
+            i = (i + 1) & mbsk;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Removes a single instance of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Removes b single instbnce of the specified element from this deque.
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the first element {@code e} such thbt
+     * {@code o.equbls(e)} (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * <p>This method is equivalent to {@link #removeFirstOccurrence(Object)}.
+     * <p>This method is equivblent to {@link #removeFirstOccurrence(Object)}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if this deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if this deque contbined the specified element
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         return removeFirstOccurrence(o);
     }
 
     /**
-     * Removes all of the elements from this deque.
-     * The deque will be empty after this call returns.
+     * Removes bll of the elements from this deque.
+     * The deque will be empty bfter this cbll returns.
      */
-    public void clear() {
-        int h = head;
-        int t = tail;
-        if (h != t) { // clear all cells
-            head = tail = 0;
+    public void clebr() {
+        int h = hebd;
+        int t = tbil;
+        if (h != t) { // clebr bll cells
+            hebd = tbil = 0;
             int i = h;
-            int mask = elements.length - 1;
+            int mbsk = elements.length - 1;
             do {
                 elements[i] = null;
-                i = (i + 1) & mask;
+                i = (i + 1) & mbsk;
             } while (i != t);
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this deque
-     * in proper sequence (from first to last element).
+     * Returns bn brrby contbining bll of the elements in this deque
+     * in proper sequence (from first to lbst element).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this deque.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this deque.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this deque
+     * @return bn brrby contbining bll of the elements in this deque
      */
-    public Object[] toArray() {
+    public Object[] toArrby() {
         return copyElements(new Object[size()]);
     }
 
     /**
-     * Returns an array containing all of the elements in this deque in
-     * proper sequence (from first to last element); the runtime type of the
-     * returned array is that of the specified array.  If the deque fits in
-     * the specified array, it is returned therein.  Otherwise, a new array
-     * is allocated with the runtime type of the specified array and the
+     * Returns bn brrby contbining bll of the elements in this deque in
+     * proper sequence (from first to lbst element); the runtime type of the
+     * returned brrby is thbt of the specified brrby.  If the deque fits in
+     * the specified brrby, it is returned therein.  Otherwise, b new brrby
+     * is bllocbted with the runtime type of the specified brrby bnd the
      * size of this deque.
      *
-     * <p>If this deque fits in the specified array with room to spare
-     * (i.e., the array has more elements than this deque), the element in
-     * the array immediately following the end of the deque is set to
+     * <p>If this deque fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this deque), the element in
+     * the brrby immedibtely following the end of the deque is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a deque known to contain only strings.
-     * The following code can be used to dump the deque into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b deque known to contbin only strings.
+     * The following code cbn be used to dump the deque into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the deque are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this deque
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the deque bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose
+     * @return bn brrby contbining bll of the elements in this deque
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this deque
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
         int size = size();
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(
-                    a.getClass().getComponentType(), size);
-        copyElements(a);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+        if (b.length < size)
+            b = (T[])jbvb.lbng.reflect.Arrby.newInstbnce(
+                    b.getClbss().getComponentType(), size);
+        copyElements(b);
+        if (b.length > size)
+            b[size] = null;
+        return b;
     }
 
     // *** Object methods ***
 
     /**
-     * Returns a copy of this deque.
+     * Returns b copy of this deque.
      *
-     * @return a copy of this deque
+     * @return b copy of this deque
      */
-    public ArrayDeque<E> clone() {
+    public ArrbyDeque<E> clone() {
         try {
-            @SuppressWarnings("unchecked")
-            ArrayDeque<E> result = (ArrayDeque<E>) super.clone();
-            result.elements = Arrays.copyOf(elements, elements.length);
+            @SuppressWbrnings("unchecked")
+            ArrbyDeque<E> result = (ArrbyDeque<E>) super.clone();
+            result.elements = Arrbys.copyOf(elements, elements.length);
             return result;
-        } catch (CloneNotSupportedException e) {
+        } cbtch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
 
-    private static final long serialVersionUID = 2340985798034038923L;
+    privbte stbtic finbl long seriblVersionUID = 2340985798034038923L;
 
     /**
-     * Saves this deque to a stream (that is, serializes it).
+     * Sbves this deque to b strebm (thbt is, seriblizes it).
      *
-     * @serialData The current size ({@code int}) of the deque,
-     * followed by all of its elements (each an object reference) in
-     * first-to-last order.
+     * @seriblDbtb The current size ({@code int}) of the deque,
+     * followed by bll of its elements (ebch bn object reference) in
+     * first-to-lbst order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
+        s.defbultWriteObject();
 
         // Write out size
         s.writeInt(size());
 
         // Write out elements in order.
-        int mask = elements.length - 1;
-        for (int i = head; i != tail; i = (i + 1) & mask)
+        int mbsk = elements.length - 1;
+        for (int i = hebd; i != tbil; i = (i + 1) & mbsk)
             s.writeObject(elements[i]);
     }
 
     /**
-     * Reconstitutes this deque from a stream (that is, deserializes it).
+     * Reconstitutes this deque from b strebm (thbt is, deseriblizes it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        // Read in size and allocate array
-        int size = s.readInt();
-        allocateElements(size);
-        head = 0;
-        tail = size;
+        // Rebd in size bnd bllocbte brrby
+        int size = s.rebdInt();
+        bllocbteElements(size);
+        hebd = 0;
+        tbil = size;
 
-        // Read in all elements in the proper order.
+        // Rebd in bll elements in the proper order.
         for (int i = 0; i < size; i++)
-            elements[i] = s.readObject();
+            elements[i] = s.rebdObject();
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crebtes b <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>
+     * bnd <em>fbil-fbst</em> {@link Spliterbtor} over the elements in this
      * deque.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#SUBSIZED}, {@link Spliterator#ORDERED}, and
-     * {@link Spliterator#NONNULL}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#SIZED},
+     * {@link Spliterbtor#SUBSIZED}, {@link Spliterbtor#ORDERED}, bnd
+     * {@link Spliterbtor#NONNULL}.  Overriding implementbtions should document
+     * the reporting of bdditionbl chbrbcteristic vblues.
      *
-     * @return a {@code Spliterator} over the elements in this deque
+     * @return b {@code Spliterbtor} over the elements in this deque
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new DeqSpliterator<>(this, -1, -1);
+    public Spliterbtor<E> spliterbtor() {
+        return new DeqSpliterbtor<>(this, -1, -1);
     }
 
-    static final class DeqSpliterator<E> implements Spliterator<E> {
-        private final ArrayDeque<E> deq;
-        private int fence;  // -1 until first use
-        private int index;  // current index, modified on traverse/split
+    stbtic finbl clbss DeqSpliterbtor<E> implements Spliterbtor<E> {
+        privbte finbl ArrbyDeque<E> deq;
+        privbte int fence;  // -1 until first use
+        privbte int index;  // current index, modified on trbverse/split
 
-        /** Creates new spliterator covering the given array and range */
-        DeqSpliterator(ArrayDeque<E> deq, int origin, int fence) {
+        /** Crebtes new spliterbtor covering the given brrby bnd rbnge */
+        DeqSpliterbtor(ArrbyDeque<E> deq, int origin, int fence) {
             this.deq = deq;
             this.index = origin;
             this.fence = fence;
         }
 
-        private int getFence() { // force initialization
+        privbte int getFence() { // force initiblizbtion
             int t;
             if ((t = fence) < 0) {
-                t = fence = deq.tail;
-                index = deq.head;
+                t = fence = deq.tbil;
+                index = deq.hebd;
             }
             return t;
         }
 
-        public DeqSpliterator<E> trySplit() {
+        public DeqSpliterbtor<E> trySplit() {
             int t = getFence(), h = index, n = deq.elements.length;
             if (h != t && ((h + 1) & (n - 1)) != t) {
                 if (h > t)
                     t += n;
                 int m = ((h + t) >>> 1) & (n - 1);
-                return new DeqSpliterator<>(deq, h, index = m);
+                return new DeqSpliterbtor<>(deq, h, index = m);
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super E> consumer) {
+        public void forEbchRembining(Consumer<? super E> consumer) {
             if (consumer == null)
                 throw new NullPointerException();
-            Object[] a = deq.elements;
-            int m = a.length - 1, f = getFence(), i = index;
+            Object[] b = deq.elements;
+            int m = b.length - 1, f = getFence(), i = index;
             index = f;
             while (i != f) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
+                @SuppressWbrnings("unchecked") E e = (E)b[i];
                 i = (i + 1) & m;
                 if (e == null)
-                    throw new ConcurrentModificationException();
-                consumer.accept(e);
+                    throw new ConcurrentModificbtionException();
+                consumer.bccept(e);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> consumer) {
+        public boolebn tryAdvbnce(Consumer<? super E> consumer) {
             if (consumer == null)
                 throw new NullPointerException();
-            Object[] a = deq.elements;
-            int m = a.length - 1, f = getFence(), i = index;
+            Object[] b = deq.elements;
+            int m = b.length - 1, f = getFence(), i = index;
             if (i != fence) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
+                @SuppressWbrnings("unchecked") E e = (E)b[i];
                 index = (i + 1) & m;
                 if (e == null)
-                    throw new ConcurrentModificationException();
-                consumer.accept(e);
+                    throw new ConcurrentModificbtionException();
+                consumer.bccept(e);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             int n = getFence() - index;
             if (n < 0)
                 n += deq.elements.length;
@@ -976,9 +976,9 @@ public class ArrayDeque<E> extends AbstractCollection<E>
         }
 
         @Override
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED |
-                Spliterator.NONNULL | Spliterator.SUBSIZED;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.SIZED |
+                Spliterbtor.NONNULL | Spliterbtor.SUBSIZED;
         }
     }
 

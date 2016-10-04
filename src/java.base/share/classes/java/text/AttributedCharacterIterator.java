@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.InvalidObjectException;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.Seriblizbble;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * An {@code AttributedCharacterIterator} allows iteration through both text and
- * related attribute information.
+ * An {@code AttributedChbrbcterIterbtor} bllows iterbtion through both text bnd
+ * relbted bttribute informbtion.
  *
  * <p>
- * An attribute is a key/value pair, identified by the key.  No two
- * attributes on a given character can have the same key.
+ * An bttribute is b key/vblue pbir, identified by the key.  No two
+ * bttributes on b given chbrbcter cbn hbve the sbme key.
  *
- * <p>The values for an attribute are immutable, or must not be mutated
- * by clients or storage.  They are always passed by reference, and not
+ * <p>The vblues for bn bttribute bre immutbble, or must not be mutbted
+ * by clients or storbge.  They bre blwbys pbssed by reference, bnd not
  * cloned.
  *
- * <p>A <em>run with respect to an attribute</em> is a maximum text range for
+ * <p>A <em>run with respect to bn bttribute</em> is b mbximum text rbnge for
  * which:
  * <ul>
- * <li>the attribute is undefined or {@code null} for the entire range, or
- * <li>the attribute value is defined and has the same non-{@code null} value for the
- *     entire range.
+ * <li>the bttribute is undefined or {@code null} for the entire rbnge, or
+ * <li>the bttribute vblue is defined bnd hbs the sbme non-{@code null} vblue for the
+ *     entire rbnge.
  * </ul>
  *
- * <p>A <em>run with respect to a set of attributes</em> is a maximum text range for
- * which this condition is met for each member attribute.
+ * <p>A <em>run with respect to b set of bttributes</em> is b mbximum text rbnge for
+ * which this condition is met for ebch member bttribute.
  *
- * <p>When getting a run with no explicit attributes specified (i.e.,
- * calling {@link #getRunStart()} and {@link #getRunLimit()}), any
- * contiguous text segments having the same attributes (the same set
- * of attribute/value pairs) are treated as separate runs if the
- * attributes have been given to those text segments separately.
+ * <p>When getting b run with no explicit bttributes specified (i.e.,
+ * cblling {@link #getRunStbrt()} bnd {@link #getRunLimit()}), bny
+ * contiguous text segments hbving the sbme bttributes (the sbme set
+ * of bttribute/vblue pbirs) bre trebted bs sepbrbte runs if the
+ * bttributes hbve been given to those text segments sepbrbtely.
  *
- * <p>The returned indexes are limited to the range of the iterator.
+ * <p>The returned indexes bre limited to the rbnge of the iterbtor.
  *
- * <p>The returned attribute information is limited to runs that contain
- * the current character.
+ * <p>The returned bttribute informbtion is limited to runs thbt contbin
+ * the current chbrbcter.
  *
  * <p>
- * Attribute keys are instances of {@link AttributedCharacterIterator.Attribute} and its
- * subclasses, such as {@link java.awt.font.TextAttribute}.
+ * Attribute keys bre instbnces of {@link AttributedChbrbcterIterbtor.Attribute} bnd its
+ * subclbsses, such bs {@link jbvb.bwt.font.TextAttribute}.
  *
- * @see AttributedCharacterIterator.Attribute
- * @see java.awt.font.TextAttribute
+ * @see AttributedChbrbcterIterbtor.Attribute
+ * @see jbvb.bwt.font.TextAttribute
  * @see AttributedString
- * @see Annotation
+ * @see Annotbtion
  * @since 1.2
  */
 
-public interface AttributedCharacterIterator extends CharacterIterator {
+public interfbce AttributedChbrbcterIterbtor extends ChbrbcterIterbtor {
 
     /**
-     * Defines attribute keys that are used to identify text attributes. These
-     * keys are used in {@code AttributedCharacterIterator} and {@code AttributedString}.
-     * @see AttributedCharacterIterator
+     * Defines bttribute keys thbt bre used to identify text bttributes. These
+     * keys bre used in {@code AttributedChbrbcterIterbtor} bnd {@code AttributedString}.
+     * @see AttributedChbrbcterIterbtor
      * @see AttributedString
      * @since 1.2
      */
 
-    public static class Attribute implements Serializable {
+    public stbtic clbss Attribute implements Seriblizbble {
 
         /**
-         * The name of this {@code Attribute}. The name is used primarily by {@code readResolve}
-         * to look up the corresponding predefined instance when deserializing
-         * an instance.
-         * @serial
+         * The nbme of this {@code Attribute}. The nbme is used primbrily by {@code rebdResolve}
+         * to look up the corresponding predefined instbnce when deseriblizing
+         * bn instbnce.
+         * @seribl
          */
-        private String name;
+        privbte String nbme;
 
-        // table of all instances in this class, used by readResolve
-        private static final Map<String, Attribute> instanceMap = new HashMap<>(7);
+        // tbble of bll instbnces in this clbss, used by rebdResolve
+        privbte stbtic finbl Mbp<String, Attribute> instbnceMbp = new HbshMbp<>(7);
 
         /**
-         * Constructs an {@code Attribute} with the given name.
+         * Constructs bn {@code Attribute} with the given nbme.
          *
-         * @param name the name of {@code Attribute}
+         * @pbrbm nbme the nbme of {@code Attribute}
          */
-        protected Attribute(String name) {
-            this.name = name;
-            if (this.getClass() == Attribute.class) {
-                instanceMap.put(name, this);
+        protected Attribute(String nbme) {
+            this.nbme = nbme;
+            if (this.getClbss() == Attribute.clbss) {
+                instbnceMbp.put(nbme, this);
             }
         }
 
         /**
-         * Compares two objects for equality. This version only returns true
-         * for {@code x.equals(y)} if {@code x} and {@code y} refer
-         * to the same object, and guarantees this for all subclasses.
+         * Compbres two objects for equblity. This version only returns true
+         * for {@code x.equbls(y)} if {@code x} bnd {@code y} refer
+         * to the sbme object, bnd gubrbntees this for bll subclbsses.
          */
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        public finbl boolebn equbls(Object obj) {
+            return super.equbls(obj);
         }
 
         /**
-         * Returns a hash code value for the object. This version is identical to
-         * the one in {@code Object}, but is also final.
+         * Returns b hbsh code vblue for the object. This version is identicbl to
+         * the one in {@code Object}, but is blso finbl.
          */
-        public final int hashCode() {
-            return super.hashCode();
+        public finbl int hbshCode() {
+            return super.hbshCode();
         }
 
         /**
-         * Returns a string representation of the object. This version returns the
-         * concatenation of class name, {@code "("}, a name identifying the attribute
-         * and {@code ")"}.
+         * Returns b string representbtion of the object. This version returns the
+         * concbtenbtion of clbss nbme, {@code "("}, b nbme identifying the bttribute
+         * bnd {@code ")"}.
          */
         public String toString() {
-            return getClass().getName() + "(" + name + ")";
+            return getClbss().getNbme() + "(" + nbme + ")";
         }
 
         /**
-         * Returns the name of the attribute.
+         * Returns the nbme of the bttribute.
          *
-         * @return the name of {@code Attribute}
+         * @return the nbme of {@code Attribute}
          */
-        protected String getName() {
-            return name;
+        protected String getNbme() {
+            return nbme;
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Resolves instbnces being deseriblized to the predefined constbnts.
          *
          * @return the resolved {@code Attribute} object
-         * @throws InvalidObjectException if the object to resolve is not
-         *                                an instance of {@code Attribute}
+         * @throws InvblidObjectException if the object to resolve is not
+         *                                bn instbnce of {@code Attribute}
          */
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != Attribute.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        protected Object rebdResolve() throws InvblidObjectException {
+            if (this.getClbss() != Attribute.clbss) {
+                throw new InvblidObjectException("subclbss didn't correctly implement rebdResolve");
             }
 
-            Attribute instance = instanceMap.get(getName());
-            if (instance != null) {
-                return instance;
+            Attribute instbnce = instbnceMbp.get(getNbme());
+            if (instbnce != null) {
+                return instbnce;
             } else {
-                throw new InvalidObjectException("unknown attribute name");
+                throw new InvblidObjectException("unknown bttribute nbme");
             }
         }
 
         /**
-         * Attribute key for the language of some text.
-         * <p> Values are instances of {@link java.util.Locale Locale}.
-         * @see java.util.Locale
+         * Attribute key for the lbngubge of some text.
+         * <p> Vblues bre instbnces of {@link jbvb.util.Locble Locble}.
+         * @see jbvb.util.Locble
          */
-        public static final Attribute LANGUAGE = new Attribute("language");
+        public stbtic finbl Attribute LANGUAGE = new Attribute("lbngubge");
 
         /**
-         * Attribute key for the reading of some text. In languages where the written form
-         * and the pronunciation of a word are only loosely related (such as Japanese),
-         * it is often necessary to store the reading (pronunciation) along with the
+         * Attribute key for the rebding of some text. In lbngubges where the written form
+         * bnd the pronuncibtion of b word bre only loosely relbted (such bs Jbpbnese),
+         * it is often necessbry to store the rebding (pronuncibtion) blong with the
          * written form.
-         * <p>Values are instances of {@link Annotation} holding instances of {@link String}.
+         * <p>Vblues bre instbnces of {@link Annotbtion} holding instbnces of {@link String}.
          *
-         * @see Annotation
-         * @see java.lang.String
+         * @see Annotbtion
+         * @see jbvb.lbng.String
          */
-        public static final Attribute READING = new Attribute("reading");
+        public stbtic finbl Attribute READING = new Attribute("rebding");
 
         /**
-         * Attribute key for input method segments. Input methods often break
-         * up text into segments, which usually correspond to words.
-         * <p>Values are instances of {@link Annotation} holding a {@code null} reference.
-         * @see Annotation
+         * Attribute key for input method segments. Input methods often brebk
+         * up text into segments, which usublly correspond to words.
+         * <p>Vblues bre instbnces of {@link Annotbtion} holding b {@code null} reference.
+         * @see Annotbtion
          */
-        public static final Attribute INPUT_METHOD_SEGMENT = new Attribute("input_method_segment");
+        public stbtic finbl Attribute INPUT_METHOD_SEGMENT = new Attribute("input_method_segment");
 
-        // make sure the serial version doesn't change between compiler versions
-        private static final long serialVersionUID = -9142742483513960612L;
+        // mbke sure the seribl version doesn't chbnge between compiler versions
+        privbte stbtic finbl long seriblVersionUID = -9142742483513960612L;
 
     };
 
     /**
-     * Returns the index of the first character of the run
-     * with respect to all attributes containing the current character.
+     * Returns the index of the first chbrbcter of the run
+     * with respect to bll bttributes contbining the current chbrbcter.
      *
-     * <p>Any contiguous text segments having the same attributes (the
-     * same set of attribute/value pairs) are treated as separate runs
-     * if the attributes have been given to those text segments separately.
+     * <p>Any contiguous text segments hbving the sbme bttributes (the
+     * sbme set of bttribute/vblue pbirs) bre trebted bs sepbrbte runs
+     * if the bttributes hbve been given to those text segments sepbrbtely.
      *
-     * @return the index of the first character of the run
+     * @return the index of the first chbrbcter of the run
      */
-    public int getRunStart();
+    public int getRunStbrt();
 
     /**
-     * Returns the index of the first character of the run
-     * with respect to the given {@code attribute} containing the current character.
+     * Returns the index of the first chbrbcter of the run
+     * with respect to the given {@code bttribute} contbining the current chbrbcter.
      *
-     * @param attribute the desired attribute.
-     * @return the index of the first character of the run
+     * @pbrbm bttribute the desired bttribute.
+     * @return the index of the first chbrbcter of the run
      */
-    public int getRunStart(Attribute attribute);
+    public int getRunStbrt(Attribute bttribute);
 
     /**
-     * Returns the index of the first character of the run
-     * with respect to the given {@code attributes} containing the current character.
+     * Returns the index of the first chbrbcter of the run
+     * with respect to the given {@code bttributes} contbining the current chbrbcter.
      *
-     * @param attributes a set of the desired attributes.
-     * @return the index of the first character of the run
+     * @pbrbm bttributes b set of the desired bttributes.
+     * @return the index of the first chbrbcter of the run
      */
-    public int getRunStart(Set<? extends Attribute> attributes);
+    public int getRunStbrt(Set<? extends Attribute> bttributes);
 
     /**
-     * Returns the index of the first character following the run
-     * with respect to all attributes containing the current character.
+     * Returns the index of the first chbrbcter following the run
+     * with respect to bll bttributes contbining the current chbrbcter.
      *
-     * <p>Any contiguous text segments having the same attributes (the
-     * same set of attribute/value pairs) are treated as separate runs
-     * if the attributes have been given to those text segments separately.
+     * <p>Any contiguous text segments hbving the sbme bttributes (the
+     * sbme set of bttribute/vblue pbirs) bre trebted bs sepbrbte runs
+     * if the bttributes hbve been given to those text segments sepbrbtely.
      *
-     * @return the index of the first character following the run
+     * @return the index of the first chbrbcter following the run
      */
     public int getRunLimit();
 
     /**
-     * Returns the index of the first character following the run
-     * with respect to the given {@code attribute} containing the current character.
+     * Returns the index of the first chbrbcter following the run
+     * with respect to the given {@code bttribute} contbining the current chbrbcter.
      *
-     * @param attribute the desired attribute
-     * @return the index of the first character following the run
+     * @pbrbm bttribute the desired bttribute
+     * @return the index of the first chbrbcter following the run
      */
-    public int getRunLimit(Attribute attribute);
+    public int getRunLimit(Attribute bttribute);
 
     /**
-     * Returns the index of the first character following the run
-     * with respect to the given {@code attributes} containing the current character.
+     * Returns the index of the first chbrbcter following the run
+     * with respect to the given {@code bttributes} contbining the current chbrbcter.
      *
-     * @param attributes a set of the desired attributes
-     * @return the index of the first character following the run
+     * @pbrbm bttributes b set of the desired bttributes
+     * @return the index of the first chbrbcter following the run
      */
-    public int getRunLimit(Set<? extends Attribute> attributes);
+    public int getRunLimit(Set<? extends Attribute> bttributes);
 
     /**
-     * Returns a map with the attributes defined on the current
-     * character.
+     * Returns b mbp with the bttributes defined on the current
+     * chbrbcter.
      *
-     * @return a map with the attributes defined on the current character
+     * @return b mbp with the bttributes defined on the current chbrbcter
      */
-    public Map<Attribute,Object> getAttributes();
+    public Mbp<Attribute,Object> getAttributes();
 
     /**
-     * Returns the value of the named {@code attribute} for the current character.
-     * Returns {@code null} if the {@code attribute} is not defined.
+     * Returns the vblue of the nbmed {@code bttribute} for the current chbrbcter.
+     * Returns {@code null} if the {@code bttribute} is not defined.
      *
-     * @param attribute the desired attribute
-     * @return the value of the named {@code attribute} or {@code null}
+     * @pbrbm bttribute the desired bttribute
+     * @return the vblue of the nbmed {@code bttribute} or {@code null}
      */
-    public Object getAttribute(Attribute attribute);
+    public Object getAttribute(Attribute bttribute);
 
     /**
-     * Returns the keys of all attributes defined on the
-     * iterator's text range. The set is empty if no
-     * attributes are defined.
+     * Returns the keys of bll bttributes defined on the
+     * iterbtor's text rbnge. The set is empty if no
+     * bttributes bre defined.
      *
-     * @return the keys of all attributes
+     * @return the keys of bll bttributes
      */
     public Set<Attribute> getAllAttributeKeys();
 };

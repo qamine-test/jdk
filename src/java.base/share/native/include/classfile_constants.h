@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,11 +30,11 @@
 extern "C" {
 #endif
 
-/* Classfile version number for this information */
+/* Clbssfile version number for this informbtion */
 #define JVM_CLASSFILE_MAJOR_VERSION 52
 #define JVM_CLASSFILE_MINOR_VERSION 0
 
-/* Flags */
+/* Flbgs */
 
 enum {
     JVM_ACC_PUBLIC        = 0x0001,
@@ -57,7 +57,7 @@ enum {
     JVM_ACC_ENUM          = 0x4000
 };
 
-/* Used in newarray instruction. */
+/* Used in newbrrby instruction. */
 
 enum {
     JVM_T_BOOLEAN = 4,
@@ -70,54 +70,54 @@ enum {
     JVM_T_LONG    = 11
 };
 
-/* Constant Pool Entries */
+/* Constbnt Pool Entries */
 
 enum {
     JVM_CONSTANT_Utf8                   = 1,
     JVM_CONSTANT_Unicode                = 2, /* unused */
     JVM_CONSTANT_Integer                = 3,
-    JVM_CONSTANT_Float                  = 4,
+    JVM_CONSTANT_Flobt                  = 4,
     JVM_CONSTANT_Long                   = 5,
     JVM_CONSTANT_Double                 = 6,
-    JVM_CONSTANT_Class                  = 7,
+    JVM_CONSTANT_Clbss                  = 7,
     JVM_CONSTANT_String                 = 8,
     JVM_CONSTANT_Fieldref               = 9,
     JVM_CONSTANT_Methodref              = 10,
-    JVM_CONSTANT_InterfaceMethodref     = 11,
-    JVM_CONSTANT_NameAndType            = 12,
-    JVM_CONSTANT_MethodHandle           = 15,  // JSR 292
+    JVM_CONSTANT_InterfbceMethodref     = 11,
+    JVM_CONSTANT_NbmeAndType            = 12,
+    JVM_CONSTANT_MethodHbndle           = 15,  // JSR 292
     JVM_CONSTANT_MethodType             = 16,   // JSR 292
-    JVM_CONSTANT_InvokeDynamic          = 18
+    JVM_CONSTANT_InvokeDynbmic          = 18
 };
 
-/* JVM_CONSTANT_MethodHandle subtypes */
+/* JVM_CONSTANT_MethodHbndle subtypes */
 enum {
     JVM_REF_getField                = 1,
-    JVM_REF_getStatic               = 2,
+    JVM_REF_getStbtic               = 2,
     JVM_REF_putField                = 3,
-    JVM_REF_putStatic               = 4,
-    JVM_REF_invokeVirtual           = 5,
-    JVM_REF_invokeStatic            = 6,
-    JVM_REF_invokeSpecial           = 7,
-    JVM_REF_newInvokeSpecial        = 8,
-    JVM_REF_invokeInterface         = 9
+    JVM_REF_putStbtic               = 4,
+    JVM_REF_invokeVirtubl           = 5,
+    JVM_REF_invokeStbtic            = 6,
+    JVM_REF_invokeSpecibl           = 7,
+    JVM_REF_newInvokeSpecibl        = 8,
+    JVM_REF_invokeInterfbce         = 9
 };
 
-/* StackMapTable type item numbers */
+/* StbckMbpTbble type item numbers */
 
 enum {
     JVM_ITEM_Top                = 0,
     JVM_ITEM_Integer            = 1,
-    JVM_ITEM_Float              = 2,
+    JVM_ITEM_Flobt              = 2,
     JVM_ITEM_Double             = 3,
     JVM_ITEM_Long               = 4,
     JVM_ITEM_Null               = 5,
-    JVM_ITEM_UninitializedThis  = 6,
+    JVM_ITEM_UninitiblizedThis  = 6,
     JVM_ITEM_Object             = 7,
-    JVM_ITEM_Uninitialized      = 8
+    JVM_ITEM_Uninitiblized      = 8
 };
 
-/* Type signatures */
+/* Type signbtures */
 
 enum {
     JVM_SIGNATURE_ARRAY         = '[',
@@ -141,7 +141,7 @@ enum {
 
 enum {
     JVM_OPC_nop                 = 0,
-    JVM_OPC_aconst_null         = 1,
+    JVM_OPC_bconst_null         = 1,
     JVM_OPC_iconst_m1           = 2,
     JVM_OPC_iconst_0            = 3,
     JVM_OPC_iconst_1            = 4,
@@ -161,44 +161,44 @@ enum {
     JVM_OPC_ldc                 = 18,
     JVM_OPC_ldc_w               = 19,
     JVM_OPC_ldc2_w              = 20,
-    JVM_OPC_iload               = 21,
-    JVM_OPC_lload               = 22,
-    JVM_OPC_fload               = 23,
-    JVM_OPC_dload               = 24,
-    JVM_OPC_aload               = 25,
-    JVM_OPC_iload_0             = 26,
-    JVM_OPC_iload_1             = 27,
-    JVM_OPC_iload_2             = 28,
-    JVM_OPC_iload_3             = 29,
-    JVM_OPC_lload_0             = 30,
-    JVM_OPC_lload_1             = 31,
-    JVM_OPC_lload_2             = 32,
-    JVM_OPC_lload_3             = 33,
-    JVM_OPC_fload_0             = 34,
-    JVM_OPC_fload_1             = 35,
-    JVM_OPC_fload_2             = 36,
-    JVM_OPC_fload_3             = 37,
-    JVM_OPC_dload_0             = 38,
-    JVM_OPC_dload_1             = 39,
-    JVM_OPC_dload_2             = 40,
-    JVM_OPC_dload_3             = 41,
-    JVM_OPC_aload_0             = 42,
-    JVM_OPC_aload_1             = 43,
-    JVM_OPC_aload_2             = 44,
-    JVM_OPC_aload_3             = 45,
-    JVM_OPC_iaload              = 46,
-    JVM_OPC_laload              = 47,
-    JVM_OPC_faload              = 48,
-    JVM_OPC_daload              = 49,
-    JVM_OPC_aaload              = 50,
-    JVM_OPC_baload              = 51,
-    JVM_OPC_caload              = 52,
-    JVM_OPC_saload              = 53,
+    JVM_OPC_ilobd               = 21,
+    JVM_OPC_llobd               = 22,
+    JVM_OPC_flobd               = 23,
+    JVM_OPC_dlobd               = 24,
+    JVM_OPC_blobd               = 25,
+    JVM_OPC_ilobd_0             = 26,
+    JVM_OPC_ilobd_1             = 27,
+    JVM_OPC_ilobd_2             = 28,
+    JVM_OPC_ilobd_3             = 29,
+    JVM_OPC_llobd_0             = 30,
+    JVM_OPC_llobd_1             = 31,
+    JVM_OPC_llobd_2             = 32,
+    JVM_OPC_llobd_3             = 33,
+    JVM_OPC_flobd_0             = 34,
+    JVM_OPC_flobd_1             = 35,
+    JVM_OPC_flobd_2             = 36,
+    JVM_OPC_flobd_3             = 37,
+    JVM_OPC_dlobd_0             = 38,
+    JVM_OPC_dlobd_1             = 39,
+    JVM_OPC_dlobd_2             = 40,
+    JVM_OPC_dlobd_3             = 41,
+    JVM_OPC_blobd_0             = 42,
+    JVM_OPC_blobd_1             = 43,
+    JVM_OPC_blobd_2             = 44,
+    JVM_OPC_blobd_3             = 45,
+    JVM_OPC_iblobd              = 46,
+    JVM_OPC_lblobd              = 47,
+    JVM_OPC_fblobd              = 48,
+    JVM_OPC_dblobd              = 49,
+    JVM_OPC_bblobd              = 50,
+    JVM_OPC_bblobd              = 51,
+    JVM_OPC_cblobd              = 52,
+    JVM_OPC_sblobd              = 53,
     JVM_OPC_istore              = 54,
     JVM_OPC_lstore              = 55,
     JVM_OPC_fstore              = 56,
     JVM_OPC_dstore              = 57,
-    JVM_OPC_astore              = 58,
+    JVM_OPC_bstore              = 58,
     JVM_OPC_istore_0            = 59,
     JVM_OPC_istore_1            = 60,
     JVM_OPC_istore_2            = 61,
@@ -215,18 +215,18 @@ enum {
     JVM_OPC_dstore_1            = 72,
     JVM_OPC_dstore_2            = 73,
     JVM_OPC_dstore_3            = 74,
-    JVM_OPC_astore_0            = 75,
-    JVM_OPC_astore_1            = 76,
-    JVM_OPC_astore_2            = 77,
-    JVM_OPC_astore_3            = 78,
-    JVM_OPC_iastore             = 79,
-    JVM_OPC_lastore             = 80,
-    JVM_OPC_fastore             = 81,
-    JVM_OPC_dastore             = 82,
-    JVM_OPC_aastore             = 83,
-    JVM_OPC_bastore             = 84,
-    JVM_OPC_castore             = 85,
-    JVM_OPC_sastore             = 86,
+    JVM_OPC_bstore_0            = 75,
+    JVM_OPC_bstore_1            = 76,
+    JVM_OPC_bstore_2            = 77,
+    JVM_OPC_bstore_3            = 78,
+    JVM_OPC_ibstore             = 79,
+    JVM_OPC_lbstore             = 80,
+    JVM_OPC_fbstore             = 81,
+    JVM_OPC_dbstore             = 82,
+    JVM_OPC_bbstore             = 83,
+    JVM_OPC_bbstore             = 84,
+    JVM_OPC_cbstore             = 85,
+    JVM_OPC_sbstore             = 86,
     JVM_OPC_pop                 = 87,
     JVM_OPC_pop2                = 88,
     JVM_OPC_dup                 = 89,
@@ -235,11 +235,11 @@ enum {
     JVM_OPC_dup2                = 92,
     JVM_OPC_dup2_x1             = 93,
     JVM_OPC_dup2_x2             = 94,
-    JVM_OPC_swap                = 95,
-    JVM_OPC_iadd                = 96,
-    JVM_OPC_ladd                = 97,
-    JVM_OPC_fadd                = 98,
-    JVM_OPC_dadd                = 99,
+    JVM_OPC_swbp                = 95,
+    JVM_OPC_ibdd                = 96,
+    JVM_OPC_lbdd                = 97,
+    JVM_OPC_fbdd                = 98,
+    JVM_OPC_dbdd                = 99,
     JVM_OPC_isub                = 100,
     JVM_OPC_lsub                = 101,
     JVM_OPC_fsub                = 102,
@@ -266,8 +266,8 @@ enum {
     JVM_OPC_lshr                = 123,
     JVM_OPC_iushr               = 124,
     JVM_OPC_lushr               = 125,
-    JVM_OPC_iand                = 126,
-    JVM_OPC_land                = 127,
+    JVM_OPC_ibnd                = 126,
+    JVM_OPC_lbnd                = 127,
     JVM_OPC_ior                 = 128,
     JVM_OPC_lor                 = 129,
     JVM_OPC_ixor                = 130,
@@ -305,39 +305,39 @@ enum {
     JVM_OPC_if_icmpge           = 162,
     JVM_OPC_if_icmpgt           = 163,
     JVM_OPC_if_icmple           = 164,
-    JVM_OPC_if_acmpeq           = 165,
-    JVM_OPC_if_acmpne           = 166,
+    JVM_OPC_if_bcmpeq           = 165,
+    JVM_OPC_if_bcmpne           = 166,
     JVM_OPC_goto                = 167,
     JVM_OPC_jsr                 = 168,
     JVM_OPC_ret                 = 169,
-    JVM_OPC_tableswitch         = 170,
+    JVM_OPC_tbbleswitch         = 170,
     JVM_OPC_lookupswitch        = 171,
     JVM_OPC_ireturn             = 172,
     JVM_OPC_lreturn             = 173,
     JVM_OPC_freturn             = 174,
     JVM_OPC_dreturn             = 175,
-    JVM_OPC_areturn             = 176,
+    JVM_OPC_breturn             = 176,
     JVM_OPC_return              = 177,
-    JVM_OPC_getstatic           = 178,
-    JVM_OPC_putstatic           = 179,
+    JVM_OPC_getstbtic           = 178,
+    JVM_OPC_putstbtic           = 179,
     JVM_OPC_getfield            = 180,
     JVM_OPC_putfield            = 181,
-    JVM_OPC_invokevirtual       = 182,
-    JVM_OPC_invokespecial       = 183,
-    JVM_OPC_invokestatic        = 184,
-    JVM_OPC_invokeinterface     = 185,
-    JVM_OPC_invokedynamic       = 186,
+    JVM_OPC_invokevirtubl       = 182,
+    JVM_OPC_invokespecibl       = 183,
+    JVM_OPC_invokestbtic        = 184,
+    JVM_OPC_invokeinterfbce     = 185,
+    JVM_OPC_invokedynbmic       = 186,
     JVM_OPC_new                 = 187,
-    JVM_OPC_newarray            = 188,
-    JVM_OPC_anewarray           = 189,
-    JVM_OPC_arraylength         = 190,
-    JVM_OPC_athrow              = 191,
-    JVM_OPC_checkcast           = 192,
-    JVM_OPC_instanceof          = 193,
+    JVM_OPC_newbrrby            = 188,
+    JVM_OPC_bnewbrrby           = 189,
+    JVM_OPC_brrbylength         = 190,
+    JVM_OPC_bthrow              = 191,
+    JVM_OPC_checkcbst           = 192,
+    JVM_OPC_instbnceof          = 193,
     JVM_OPC_monitorenter        = 194,
     JVM_OPC_monitorexit         = 195,
     JVM_OPC_wide                = 196,
-    JVM_OPC_multianewarray      = 197,
+    JVM_OPC_multibnewbrrby      = 197,
     JVM_OPC_ifnull              = 198,
     JVM_OPC_ifnonnull           = 199,
     JVM_OPC_goto_w              = 200,
@@ -345,12 +345,12 @@ enum {
     JVM_OPC_MAX                 = 201
 };
 
-/* Opcode length initializer, use with something like:
- *   unsigned char opcode_length[JVM_OPC_MAX+1] = JVM_OPCODE_LENGTH_INITIALIZER;
+/* Opcode length initiblizer, use with something like:
+ *   unsigned chbr opcode_length[JVM_OPC_MAX+1] = JVM_OPCODE_LENGTH_INITIALIZER;
  */
 #define JVM_OPCODE_LENGTH_INITIALIZER { \
    1,   /* nop */                       \
-   1,   /* aconst_null */               \
+   1,   /* bconst_null */               \
    1,   /* iconst_m1 */                 \
    1,   /* iconst_0 */                  \
    1,   /* iconst_1 */                  \
@@ -370,44 +370,44 @@ enum {
    2,   /* ldc */                       \
    3,   /* ldc_w */                     \
    3,   /* ldc2_w */                    \
-   2,   /* iload */                     \
-   2,   /* lload */                     \
-   2,   /* fload */                     \
-   2,   /* dload */                     \
-   2,   /* aload */                     \
-   1,   /* iload_0 */                   \
-   1,   /* iload_1 */                   \
-   1,   /* iload_2 */                   \
-   1,   /* iload_3 */                   \
-   1,   /* lload_0 */                   \
-   1,   /* lload_1 */                   \
-   1,   /* lload_2 */                   \
-   1,   /* lload_3 */                   \
-   1,   /* fload_0 */                   \
-   1,   /* fload_1 */                   \
-   1,   /* fload_2 */                   \
-   1,   /* fload_3 */                   \
-   1,   /* dload_0 */                   \
-   1,   /* dload_1 */                   \
-   1,   /* dload_2 */                   \
-   1,   /* dload_3 */                   \
-   1,   /* aload_0 */                   \
-   1,   /* aload_1 */                   \
-   1,   /* aload_2 */                   \
-   1,   /* aload_3 */                   \
-   1,   /* iaload */                    \
-   1,   /* laload */                    \
-   1,   /* faload */                    \
-   1,   /* daload */                    \
-   1,   /* aaload */                    \
-   1,   /* baload */                    \
-   1,   /* caload */                    \
-   1,   /* saload */                    \
+   2,   /* ilobd */                     \
+   2,   /* llobd */                     \
+   2,   /* flobd */                     \
+   2,   /* dlobd */                     \
+   2,   /* blobd */                     \
+   1,   /* ilobd_0 */                   \
+   1,   /* ilobd_1 */                   \
+   1,   /* ilobd_2 */                   \
+   1,   /* ilobd_3 */                   \
+   1,   /* llobd_0 */                   \
+   1,   /* llobd_1 */                   \
+   1,   /* llobd_2 */                   \
+   1,   /* llobd_3 */                   \
+   1,   /* flobd_0 */                   \
+   1,   /* flobd_1 */                   \
+   1,   /* flobd_2 */                   \
+   1,   /* flobd_3 */                   \
+   1,   /* dlobd_0 */                   \
+   1,   /* dlobd_1 */                   \
+   1,   /* dlobd_2 */                   \
+   1,   /* dlobd_3 */                   \
+   1,   /* blobd_0 */                   \
+   1,   /* blobd_1 */                   \
+   1,   /* blobd_2 */                   \
+   1,   /* blobd_3 */                   \
+   1,   /* iblobd */                    \
+   1,   /* lblobd */                    \
+   1,   /* fblobd */                    \
+   1,   /* dblobd */                    \
+   1,   /* bblobd */                    \
+   1,   /* bblobd */                    \
+   1,   /* cblobd */                    \
+   1,   /* sblobd */                    \
    2,   /* istore */                    \
    2,   /* lstore */                    \
    2,   /* fstore */                    \
    2,   /* dstore */                    \
-   2,   /* astore */                    \
+   2,   /* bstore */                    \
    1,   /* istore_0 */                  \
    1,   /* istore_1 */                  \
    1,   /* istore_2 */                  \
@@ -424,18 +424,18 @@ enum {
    1,   /* dstore_1 */                  \
    1,   /* dstore_2 */                  \
    1,   /* dstore_3 */                  \
-   1,   /* astore_0 */                  \
-   1,   /* astore_1 */                  \
-   1,   /* astore_2 */                  \
-   1,   /* astore_3 */                  \
-   1,   /* iastore */                   \
-   1,   /* lastore */                   \
-   1,   /* fastore */                   \
-   1,   /* dastore */                   \
-   1,   /* aastore */                   \
-   1,   /* bastore */                   \
-   1,   /* castore */                   \
-   1,   /* sastore */                   \
+   1,   /* bstore_0 */                  \
+   1,   /* bstore_1 */                  \
+   1,   /* bstore_2 */                  \
+   1,   /* bstore_3 */                  \
+   1,   /* ibstore */                   \
+   1,   /* lbstore */                   \
+   1,   /* fbstore */                   \
+   1,   /* dbstore */                   \
+   1,   /* bbstore */                   \
+   1,   /* bbstore */                   \
+   1,   /* cbstore */                   \
+   1,   /* sbstore */                   \
    1,   /* pop */                       \
    1,   /* pop2 */                      \
    1,   /* dup */                       \
@@ -444,11 +444,11 @@ enum {
    1,   /* dup2 */                      \
    1,   /* dup2_x1 */                   \
    1,   /* dup2_x2 */                   \
-   1,   /* swap */                      \
-   1,   /* iadd */                      \
-   1,   /* ladd */                      \
-   1,   /* fadd */                      \
-   1,   /* dadd */                      \
+   1,   /* swbp */                      \
+   1,   /* ibdd */                      \
+   1,   /* lbdd */                      \
+   1,   /* fbdd */                      \
+   1,   /* dbdd */                      \
    1,   /* isub */                      \
    1,   /* lsub */                      \
    1,   /* fsub */                      \
@@ -475,8 +475,8 @@ enum {
    1,   /* lshr */                      \
    1,   /* iushr */                     \
    1,   /* lushr */                     \
-   1,   /* iand */                      \
-   1,   /* land */                      \
+   1,   /* ibnd */                      \
+   1,   /* lbnd */                      \
    1,   /* ior */                       \
    1,   /* lor */                       \
    1,   /* ixor */                      \
@@ -514,39 +514,39 @@ enum {
    3,   /* if_icmpge */                 \
    3,   /* if_icmpgt */                 \
    3,   /* if_icmple */                 \
-   3,   /* if_acmpeq */                 \
-   3,   /* if_acmpne */                 \
+   3,   /* if_bcmpeq */                 \
+   3,   /* if_bcmpne */                 \
    3,   /* goto */                      \
    3,   /* jsr */                       \
    2,   /* ret */                       \
-   99,  /* tableswitch */               \
+   99,  /* tbbleswitch */               \
    99,  /* lookupswitch */              \
    1,   /* ireturn */                   \
    1,   /* lreturn */                   \
    1,   /* freturn */                   \
    1,   /* dreturn */                   \
-   1,   /* areturn */                   \
+   1,   /* breturn */                   \
    1,   /* return */                    \
-   3,   /* getstatic */                 \
-   3,   /* putstatic */                 \
+   3,   /* getstbtic */                 \
+   3,   /* putstbtic */                 \
    3,   /* getfield */                  \
    3,   /* putfield */                  \
-   3,   /* invokevirtual */             \
-   3,   /* invokespecial */             \
-   3,   /* invokestatic */              \
-   5,   /* invokeinterface */           \
-   5,   /* invokedynamic */             \
+   3,   /* invokevirtubl */             \
+   3,   /* invokespecibl */             \
+   3,   /* invokestbtic */              \
+   5,   /* invokeinterfbce */           \
+   5,   /* invokedynbmic */             \
    3,   /* new */                       \
-   2,   /* newarray */                  \
-   3,   /* anewarray */                 \
-   1,   /* arraylength */               \
-   1,   /* athrow */                    \
-   3,   /* checkcast */                 \
-   3,   /* instanceof */                \
+   2,   /* newbrrby */                  \
+   3,   /* bnewbrrby */                 \
+   1,   /* brrbylength */               \
+   1,   /* bthrow */                    \
+   3,   /* checkcbst */                 \
+   3,   /* instbnceof */                \
    1,   /* monitorenter */              \
    1,   /* monitorexit */               \
    0,   /* wide */                      \
-   4,   /* multianewarray */            \
+   4,   /* multibnewbrrby */            \
    3,   /* ifnull */                    \
    3,   /* ifnonnull */                 \
    5,   /* goto_w */                    \

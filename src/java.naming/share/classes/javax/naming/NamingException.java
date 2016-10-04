@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
-  * This is the superclass of all exceptions thrown by
-  * operations in the Context and DirContext interfaces.
-  * The nature of the failure is described by the name of the subclass.
-  * This exception captures the information pinpointing where the operation
-  * failed, such as where resolution last proceeded to.
+  * This is the superclbss of bll exceptions thrown by
+  * operbtions in the Context bnd DirContext interfbces.
+  * The nbture of the fbilure is described by the nbme of the subclbss.
+  * This exception cbptures the informbtion pinpointing where the operbtion
+  * fbiled, such bs where resolution lbst proceeded to.
   * <ul>
-  * <li> Resolved Name. Portion of name that has been resolved.
-  * <li> Resolved Object. Object to which resolution of name proceeded.
-  * <li> Remaining Name. Portion of name that has not been resolved.
-  * <li> Explanation. Detail explaining why name resolution failed.
-  * <li> Root Exception. The exception that caused this naming exception
+  * <li> Resolved Nbme. Portion of nbme thbt hbs been resolved.
+  * <li> Resolved Object. Object to which resolution of nbme proceeded.
+  * <li> Rembining Nbme. Portion of nbme thbt hbs not been resolved.
+  * <li> Explbnbtion. Detbil explbining why nbme resolution fbiled.
+  * <li> Root Exception. The exception thbt cbused this nbming exception
   *                     to be thrown.
   *</ul>
-  * null is an acceptable value for any of these fields. When null,
-  * it means that no such information has been recorded for that field.
+  * null is bn bcceptbble vblue for bny of these fields. When null,
+  * it mebns thbt no such informbtion hbs been recorded for thbt field.
   *<p>
-  * A NamingException instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single NamingException instance should lock the object.
+  * A NbmingException instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * b single NbmingException instbnce should lock the object.
   *<p>
-  * This exception has been retrofitted to conform to
-  * the general purpose exception-chaining mechanism.  The
-  * <i>root exception</i> (or <i>root cause</i>) is the same object as the
-  * <i>cause</i> returned by the {@link Throwable#getCause()} method.
+  * This exception hbs been retrofitted to conform to
+  * the generbl purpose exception-chbining mechbnism.  The
+  * <i>root exception</i> (or <i>root cbuse</i>) is the sbme object bs the
+  * <i>cbuse</i> returned by the {@link Throwbble#getCbuse()} method.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
 
-public class NamingException extends Exception {
+public clbss NbmingException extends Exception {
     /**
-     * Contains the part of the name that has been successfully resolved.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getResolvedName
-     * @see #setResolvedName
+     * Contbins the pbrt of the nbme thbt hbs been successfully resolved.
+     * It is b composite nbme bnd cbn be null.
+     * This field is initiblized by the constructors.
+     * You should bccess bnd mbnipulbte this field
+     * through its get bnd set methods.
+     * @seribl
+     * @see #getResolvedNbme
+     * @see #setResolvedNbme
      */
-    protected Name resolvedName;
+    protected Nbme resolvedNbme;
     /**
-      * Contains the object to which resolution of the part of the name was
-      * successful. Can be null.
-      * This field is initialized by the constructors.
-      * You should access and manipulate this field
-      * through its get and set methods.
-      * @serial
+      * Contbins the object to which resolution of the pbrt of the nbme wbs
+      * successful. Cbn be null.
+      * This field is initiblized by the constructors.
+      * You should bccess bnd mbnipulbte this field
+      * through its get bnd set methods.
+      * @seribl
       * @see #getResolvedObj
       * @see #setResolvedObj
       */
     protected Object resolvedObj;
     /**
-     * Contains the remaining name that has not been resolved yet.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get, set, "append" methods.
-     * @serial
-     * @see #getRemainingName
-     * @see #setRemainingName
-     * @see #appendRemainingName
-     * @see #appendRemainingComponent
+     * Contbins the rembining nbme thbt hbs not been resolved yet.
+     * It is b composite nbme bnd cbn be null.
+     * This field is initiblized by the constructors.
+     * You should bccess bnd mbnipulbte this field
+     * through its get, set, "bppend" methods.
+     * @seribl
+     * @see #getRembiningNbme
+     * @see #setRembiningNbme
+     * @see #bppendRembiningNbme
+     * @see #bppendRembiningComponent
      */
-    protected Name remainingName;
+    protected Nbme rembiningNbme;
 
     /**
-     * Contains the original exception that caused this NamingException to
-     * be thrown. This field is set if there is additional
-     * information that could be obtained from the original
-     * exception, or if the original exception could not be
-     * mapped to a subclass of NamingException.
-     * Can be null.
+     * Contbins the originbl exception thbt cbused this NbmingException to
+     * be thrown. This field is set if there is bdditionbl
+     * informbtion thbt could be obtbined from the originbl
+     * exception, or if the originbl exception could not be
+     * mbpped to b subclbss of NbmingException.
+     * Cbn be null.
      *<p>
-     * This field predates the general-purpose exception chaining facility.
-     * The {@link #initCause(Throwable)} and {@link #getCause()} methods
-     * are now the preferred means of accessing this information.
+     * This field predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link #initCbuse(Throwbble)} bnd {@link #getCbuse()} methods
+     * bre now the preferred mebns of bccessing this informbtion.
      *
-     * @serial
-     * @see #getRootCause
-     * @see #setRootCause(Throwable)
-     * @see #initCause(Throwable)
-     * @see #getCause
+     * @seribl
+     * @see #getRootCbuse
+     * @see #setRootCbuse(Throwbble)
+     * @see #initCbuse(Throwbble)
+     * @see #getCbuse
      */
-    protected Throwable rootException = null;
+    protected Throwbble rootException = null;
 
     /**
-     * Constructs a new NamingException with an explanation.
-     * All unspecified fields are set to null.
+     * Constructs b new NbmingException with bn explbnbtion.
+     * All unspecified fields bre set to null.
      *
-     * @param   explanation     A possibly null string containing
-     *                          additional detail about this exception.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   explbnbtion     A possibly null string contbining
+     *                          bdditionbl detbil bbout this exception.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public NamingException(String explanation) {
-        super(explanation);
-        resolvedName = remainingName = null;
+    public NbmingException(String explbnbtion) {
+        super(explbnbtion);
+        resolvedNbme = rembiningNbme = null;
         resolvedObj = null;
     }
 
     /**
-      * Constructs a new NamingException.
-      * All fields are set to null.
+      * Constructs b new NbmingException.
+      * All fields bre set to null.
       */
-    public NamingException() {
+    public NbmingException() {
         super();
-        resolvedName = remainingName = null;
+        resolvedNbme = rembiningNbme = null;
         resolvedObj = null;
     }
 
     /**
-     * Retrieves the leading portion of the name that was resolved
+     * Retrieves the lebding portion of the nbme thbt wbs resolved
      * successfully.
      *
-     * @return The part of the name that was resolved successfully.
-     *          It is a composite name. It can be null, which means
-     *          the resolved name field has not been set.
+     * @return The pbrt of the nbme thbt wbs resolved successfully.
+     *          It is b composite nbme. It cbn be null, which mebns
+     *          the resolved nbme field hbs not been set.
      * @see #getResolvedObj
-     * @see #setResolvedName
+     * @see #setResolvedNbme
      */
-    public Name getResolvedName() {
-        return resolvedName;
+    public Nbme getResolvedNbme() {
+        return resolvedNbme;
     }
 
     /**
-     * Retrieves the remaining unresolved portion of the name.
-     * @return The part of the name that has not been resolved.
-     *          It is a composite name. It can be null, which means
-     *          the remaining name field has not been set.
-     * @see #setRemainingName
-     * @see #appendRemainingName
-     * @see #appendRemainingComponent
+     * Retrieves the rembining unresolved portion of the nbme.
+     * @return The pbrt of the nbme thbt hbs not been resolved.
+     *          It is b composite nbme. It cbn be null, which mebns
+     *          the rembining nbme field hbs not been set.
+     * @see #setRembiningNbme
+     * @see #bppendRembiningNbme
+     * @see #bppendRembiningComponent
      */
-    public Name getRemainingName() {
-        return remainingName;
+    public Nbme getRembiningNbme() {
+        return rembiningNbme;
     }
 
     /**
-     * Retrieves the object to which resolution was successful.
-     * This is the object to which the resolved name is bound.
+     * Retrieves the object to which resolution wbs successful.
+     * This is the object to which the resolved nbme is bound.
      *
-     * @return The possibly null object that was resolved so far.
-     *  null means that the resolved object field has not been set.
-     * @see #getResolvedName
+     * @return The possibly null object thbt wbs resolved so fbr.
+     *  null mebns thbt the resolved object field hbs not been set.
+     * @see #getResolvedNbme
      * @see #setResolvedObj
      */
     public Object getResolvedObj() {
@@ -179,70 +179,70 @@ public class NamingException extends Exception {
     }
 
     /**
-      * Retrieves the explanation associated with this exception.
+      * Retrieves the explbnbtion bssocibted with this exception.
       *
-      * @return The possibly null detail string explaining more
-      *         about this exception. If null, it means there is no
-      *         detail message for this exception.
+      * @return The possibly null detbil string explbining more
+      *         bbout this exception. If null, it mebns there is no
+      *         detbil messbge for this exception.
       *
-      * @see java.lang.Throwable#getMessage
+      * @see jbvb.lbng.Throwbble#getMessbge
       */
-    public String getExplanation() {
-        return getMessage();
+    public String getExplbnbtion() {
+        return getMessbge();
     }
 
     /**
-     * Sets the resolved name field of this exception.
+     * Sets the resolved nbme field of this exception.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbme</tt> is b composite nbme. If the intent is to set
+     * this field using b compound nbme or string, you must
+     * "stringify" the compound nbme, bnd crebte b composite
+     * nbme with b single component using the string. You cbn then
+     * invoke this method using the resulting composite nbme.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
+     * A copy of <code>nbme</code> is mbde bnd stored.
+     * Subsequent chbnges to <code>nbme</code> do not
+     * bffect the copy in this NbmingException bnd vice versb.
      *
-     * @param name The possibly null name to set resolved name to.
-     *          If null, it sets the resolved name field to null.
-     * @see #getResolvedName
+     * @pbrbm nbme The possibly null nbme to set resolved nbme to.
+     *          If null, it sets the resolved nbme field to null.
+     * @see #getResolvedNbme
      */
-    public void setResolvedName(Name name) {
-        if (name != null)
-            resolvedName = (Name)(name.clone());
+    public void setResolvedNbme(Nbme nbme) {
+        if (nbme != null)
+            resolvedNbme = (Nbme)(nbme.clone());
         else
-            resolvedName = null;
+            resolvedNbme = null;
     }
 
     /**
-     * Sets the remaining name field of this exception.
+     * Sets the rembining nbme field of this exception.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbme</tt> is b composite nbme. If the intent is to set
+     * this field using b compound nbme or string, you must
+     * "stringify" the compound nbme, bnd crebte b composite
+     * nbme with b single component using the string. You cbn then
+     * invoke this method using the resulting composite nbme.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
-     * @param name The possibly null name to set remaining name to.
-     *          If null, it sets the remaining name field to null.
-     * @see #getRemainingName
-     * @see #appendRemainingName
-     * @see #appendRemainingComponent
+     * A copy of <code>nbme</code> is mbde bnd stored.
+     * Subsequent chbnges to <code>nbme</code> do not
+     * bffect the copy in this NbmingException bnd vice versb.
+     * @pbrbm nbme The possibly null nbme to set rembining nbme to.
+     *          If null, it sets the rembining nbme field to null.
+     * @see #getRembiningNbme
+     * @see #bppendRembiningNbme
+     * @see #bppendRembiningComponent
      */
-    public void setRemainingName(Name name) {
-        if (name != null)
-            remainingName = (Name)(name.clone());
+    public void setRembiningNbme(Nbme nbme) {
+        if (nbme != null)
+            rembiningNbme = (Nbme)(nbme.clone());
         else
-            remainingName = null;
+            rembiningNbme = null;
     }
 
     /**
      * Sets the resolved object field of this exception.
-     * @param obj The possibly null object to set resolved object to.
+     * @pbrbm obj The possibly null object to set resolved object to.
      *            If null, the resolved object field is set to null.
      * @see #getResolvedObj
      */
@@ -251,177 +251,177 @@ public class NamingException extends Exception {
     }
 
     /**
-      * Add name as the last component in remaining name.
-      * @param name The component to add.
-      *         If name is null, this method does not do anything.
-      * @see #setRemainingName
-      * @see #getRemainingName
-      * @see #appendRemainingName
+      * Add nbme bs the lbst component in rembining nbme.
+      * @pbrbm nbme The component to bdd.
+      *         If nbme is null, this method does not do bnything.
+      * @see #setRembiningNbme
+      * @see #getRembiningNbme
+      * @see #bppendRembiningNbme
       */
-    public void appendRemainingComponent(String name) {
-        if (name != null) {
+    public void bppendRembiningComponent(String nbme) {
+        if (nbme != null) {
             try {
-                if (remainingName == null) {
-                    remainingName = new CompositeName();
+                if (rembiningNbme == null) {
+                    rembiningNbme = new CompositeNbme();
                 }
-                remainingName.add(name);
-            } catch (NamingException e) {
-                throw new IllegalArgumentException(e.toString());
+                rembiningNbme.bdd(nbme);
+            } cbtch (NbmingException e) {
+                throw new IllegblArgumentException(e.toString());
             }
         }
     }
 
     /**
-      * Add components from 'name' as the last components in
-      * remaining name.
+      * Add components from 'nbme' bs the lbst components in
+      * rembining nbme.
       *<p>
-      * <tt>name</tt> is a composite name. If the intent is to append
-      * a compound name, you should "stringify" the compound name
-      * then invoke the overloaded form that accepts a String parameter.
+      * <tt>nbme</tt> is b composite nbme. If the intent is to bppend
+      * b compound nbme, you should "stringify" the compound nbme
+      * then invoke the overlobded form thbt bccepts b String pbrbmeter.
       *<p>
-      * Subsequent changes to <code>name</code> do not
-      * affect the remaining name field in this NamingException and vice versa.
-      * @param name The possibly null name containing ordered components to add.
-      *                 If name is null, this method does not do anything.
-      * @see #setRemainingName
-      * @see #getRemainingName
-      * @see #appendRemainingComponent
+      * Subsequent chbnges to <code>nbme</code> do not
+      * bffect the rembining nbme field in this NbmingException bnd vice versb.
+      * @pbrbm nbme The possibly null nbme contbining ordered components to bdd.
+      *                 If nbme is null, this method does not do bnything.
+      * @see #setRembiningNbme
+      * @see #getRembiningNbme
+      * @see #bppendRembiningComponent
       */
-    public void appendRemainingName(Name name) {
-        if (name == null) {
+    public void bppendRembiningNbme(Nbme nbme) {
+        if (nbme == null) {
             return;
         }
-        if (remainingName != null) {
+        if (rembiningNbme != null) {
             try {
-                remainingName.addAll(name);
-            } catch (NamingException e) {
-                throw new IllegalArgumentException(e.toString());
+                rembiningNbme.bddAll(nbme);
+            } cbtch (NbmingException e) {
+                throw new IllegblArgumentException(e.toString());
             }
         } else {
-            remainingName = (Name)(name.clone());
+            rembiningNbme = (Nbme)(nbme.clone());
         }
     }
 
     /**
-      * Retrieves the root cause of this NamingException, if any.
-      * The root cause of a naming exception is used when the service provider
-      * wants to indicate to the caller a non-naming related exception
-      * but at the same time wants to use the NamingException structure
-      * to indicate how far the naming operation proceeded.
+      * Retrieves the root cbuse of this NbmingException, if bny.
+      * The root cbuse of b nbming exception is used when the service provider
+      * wbnts to indicbte to the cbller b non-nbming relbted exception
+      * but bt the sbme time wbnts to use the NbmingException structure
+      * to indicbte how fbr the nbming operbtion proceeded.
       *<p>
-      * This method predates the general-purpose exception chaining facility.
-      * The {@link #getCause()} method is now the preferred means of obtaining
-      * this information.
+      * This method predbtes the generbl-purpose exception chbining fbcility.
+      * The {@link #getCbuse()} method is now the preferred mebns of obtbining
+      * this informbtion.
       *
-      * @return The possibly null exception that caused this naming
-      *    exception. If null, it means no root cause has been
-      *    set for this naming exception.
-      * @see #setRootCause
+      * @return The possibly null exception thbt cbused this nbming
+      *    exception. If null, it mebns no root cbuse hbs been
+      *    set for this nbming exception.
+      * @see #setRootCbuse
       * @see #rootException
-      * @see #getCause
+      * @see #getCbuse
       */
-    public Throwable getRootCause() {
+    public Throwbble getRootCbuse() {
         return rootException;
     }
 
     /**
-      * Records the root cause of this NamingException.
-      * If <tt>e</tt> is <tt>this</tt>, this method does not do anything.
+      * Records the root cbuse of this NbmingException.
+      * If <tt>e</tt> is <tt>this</tt>, this method does not do bnything.
       *<p>
-      * This method predates the general-purpose exception chaining facility.
-      * The {@link #initCause(Throwable)} method is now the preferred means
-      * of recording this information.
+      * This method predbtes the generbl-purpose exception chbining fbcility.
+      * The {@link #initCbuse(Throwbble)} method is now the preferred mebns
+      * of recording this informbtion.
       *
-      * @param e The possibly null exception that caused the naming
-      *          operation to fail. If null, it means this naming
-      *          exception has no root cause.
-      * @see #getRootCause
+      * @pbrbm e The possibly null exception thbt cbused the nbming
+      *          operbtion to fbil. If null, it mebns this nbming
+      *          exception hbs no root cbuse.
+      * @see #getRootCbuse
       * @see #rootException
-      * @see #initCause
+      * @see #initCbuse
       */
-    public void setRootCause(Throwable e) {
+    public void setRootCbuse(Throwbble e) {
         if (e != this) {
             rootException = e;
         }
     }
 
     /**
-      * Returns the cause of this exception.  The cause is the
-      * throwable that caused this naming exception to be thrown.
-      * Returns <code>null</code> if the cause is nonexistent or
+      * Returns the cbuse of this exception.  The cbuse is the
+      * throwbble thbt cbused this nbming exception to be thrown.
+      * Returns <code>null</code> if the cbuse is nonexistent or
       * unknown.
       *
-      * @return  the cause of this exception, or <code>null</code> if the
-      *          cause is nonexistent or unknown.
-      * @see #initCause(Throwable)
+      * @return  the cbuse of this exception, or <code>null</code> if the
+      *          cbuse is nonexistent or unknown.
+      * @see #initCbuse(Throwbble)
       * @since 1.4
       */
-    public Throwable getCause() {
-        return getRootCause();
+    public Throwbble getCbuse() {
+        return getRootCbuse();
     }
 
     /**
-      * Initializes the cause of this exception to the specified value.
-      * The cause is the throwable that caused this naming exception to be
+      * Initiblizes the cbuse of this exception to the specified vblue.
+      * The cbuse is the throwbble thbt cbused this nbming exception to be
       * thrown.
       *<p>
-      * This method may be called at most once.
+      * This method mby be cblled bt most once.
       *
-      * @param  cause   the cause, which is saved for later retrieval by
-      *         the {@link #getCause()} method.  A <tt>null</tt> value
-      *         indicates that the cause is nonexistent or unknown.
-      * @return a reference to this <code>NamingException</code> instance.
-      * @throws IllegalArgumentException if <code>cause</code> is this
-      *         exception.  (A throwable cannot be its own cause.)
-      * @throws IllegalStateException if this method has already
-      *         been called on this exception.
-      * @see #getCause
+      * @pbrbm  cbuse   the cbuse, which is sbved for lbter retrievbl by
+      *         the {@link #getCbuse()} method.  A <tt>null</tt> vblue
+      *         indicbtes thbt the cbuse is nonexistent or unknown.
+      * @return b reference to this <code>NbmingException</code> instbnce.
+      * @throws IllegblArgumentException if <code>cbuse</code> is this
+      *         exception.  (A throwbble cbnnot be its own cbuse.)
+      * @throws IllegblStbteException if this method hbs blrebdy
+      *         been cblled on this exception.
+      * @see #getCbuse
       * @since 1.4
       */
-    public Throwable initCause(Throwable cause) {
-        super.initCause(cause);
-        setRootCause(cause);
+    public Throwbble initCbuse(Throwbble cbuse) {
+        super.initCbuse(cbuse);
+        setRootCbuse(cbuse);
         return this;
     }
 
     /**
-     * Generates the string representation of this exception.
-     * The string representation consists of this exception's class name,
-     * its detailed message, and if it has a root cause, the string
-     * representation of the root cause exception, followed by
-     * the remaining name (if it is not null).
-     * This string is used for debugging and not meant to be interpreted
-     * programmatically.
+     * Generbtes the string representbtion of this exception.
+     * The string representbtion consists of this exception's clbss nbme,
+     * its detbiled messbge, bnd if it hbs b root cbuse, the string
+     * representbtion of the root cbuse exception, followed by
+     * the rembining nbme (if it is not null).
+     * This string is used for debugging bnd not mebnt to be interpreted
+     * progrbmmbticblly.
      *
-     * @return The non-null string containing the string representation
+     * @return The non-null string contbining the string representbtion
      * of this exception.
      */
     public String toString() {
-        String answer = super.toString();
+        String bnswer = super.toString();
 
         if (rootException != null) {
-            answer += " [Root exception is " + rootException + "]";
+            bnswer += " [Root exception is " + rootException + "]";
         }
-        if (remainingName != null) {
-            answer += "; remaining name '" + remainingName + "'";
+        if (rembiningNbme != null) {
+            bnswer += "; rembining nbme '" + rembiningNbme + "'";
         }
-        return answer;
+        return bnswer;
     }
 
     /**
-      * Generates the string representation in more detail.
-      * This string representation consists of the information returned
-      * by the toString() that takes no parameters, plus the string
-      * representation of the resolved object (if it is not null).
-      * This string is used for debugging and not meant to be interpreted
-      * programmatically.
+      * Generbtes the string representbtion in more detbil.
+      * This string representbtion consists of the informbtion returned
+      * by the toString() thbt tbkes no pbrbmeters, plus the string
+      * representbtion of the resolved object (if it is not null).
+      * This string is used for debugging bnd not mebnt to be interpreted
+      * progrbmmbticblly.
       *
-      * @param detail If true, include details about the resolved object
-      *                 in addition to the other information.
-      * @return The non-null string containing the string representation.
+      * @pbrbm detbil If true, include detbils bbout the resolved object
+      *                 in bddition to the other informbtion.
+      * @return The non-null string contbining the string representbtion.
       */
-    public String toString(boolean detail) {
-        if (!detail || resolvedObj == null) {
+    public String toString(boolebn detbil) {
+        if (!detbil || resolvedObj == null) {
             return toString();
         } else {
             return (toString() + "; resolved object " + resolvedObj);
@@ -429,7 +429,7 @@ public class NamingException extends Exception {
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -1299181962103167177L;
+    privbte stbtic finbl long seriblVersionUID = -1299181962103167177L;
 };

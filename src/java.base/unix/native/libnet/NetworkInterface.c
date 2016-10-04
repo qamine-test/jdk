@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,11 +34,11 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <arpa/inet.h>
+#include <brpb/inet.h>
 #include <net/if.h>
-#include <net/if_arp.h>
+#include <net/if_brp.h>
 
-#ifdef __solaris__
+#ifdef __solbris__
 #include <sys/dlpi.h>
 #include <fcntl.h>
 #include <stropts.h>
@@ -48,14 +48,14 @@
 #ifdef __linux__
 #include <sys/ioctl.h>
 #include <bits/ioctls.h>
-#include <sys/utsname.h>
+#include <sys/utsnbme.h>
 #include <stdio.h>
 #endif
 
 #if defined(_AIX)
 #include <sys/ioctl.h>
-#include <netinet/in6_var.h>
-#include <sys/ndd_var.h>
+#include <netinet/in6_vbr.h>
+#include <sys/ndd_vbr.h>
 #include <sys/kinfo.h>
 #endif
 
@@ -64,15 +64,15 @@
 #endif
 
 #if defined(_ALLBSD_SOURCE)
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #include <sys/ioctl.h>
 #include <sys/sockio.h>
 #if defined(__APPLE__)
 #include <net/ethernet.h>
-#include <net/if_var.h>
+#include <net/if_vbr.h>
 #include <net/if_dl.h>
-#include <netinet/in_var.h>
-#include <ifaddrs.h>
+#include <netinet/in_vbr.h>
+#include <ifbddrs.h>
 #endif
 #endif
 
@@ -80,81 +80,81 @@
 #include "jni_util.h"
 #include "net_util.h"
 
-typedef struct _netaddr  {
-    struct sockaddr *addr;
-    struct sockaddr *brdcast;
-    short mask;
-    int family; /* to make searches simple */
-    struct _netaddr *next;
-} netaddr;
+typedef struct _netbddr  {
+    struct sockbddr *bddr;
+    struct sockbddr *brdcbst;
+    short mbsk;
+    int fbmily; /* to mbke sebrches simple */
+    struct _netbddr *next;
+} netbddr;
 
 typedef struct _netif {
-    char *name;
+    chbr *nbme;
     int index;
-    char virtual;
-    netaddr *addr;
+    chbr virtubl;
+    netbddr *bddr;
     struct _netif *childs;
     struct _netif *next;
 } netif;
 
 /************************************************************************
- * NetworkInterface
+ * NetworkInterfbce
  */
 
-#include "java_net_NetworkInterface.h"
+#include "jbvb_net_NetworkInterfbce.h"
 
 /************************************************************************
- * NetworkInterface
+ * NetworkInterfbce
  */
-jclass ni_class;
-jfieldID ni_nameID;
+jclbss ni_clbss;
+jfieldID ni_nbmeID;
 jfieldID ni_indexID;
 jfieldID ni_descID;
-jfieldID ni_addrsID;
+jfieldID ni_bddrsID;
 jfieldID ni_bindsID;
-jfieldID ni_virutalID;
+jfieldID ni_virutblID;
 jfieldID ni_childsID;
-jfieldID ni_parentID;
-jfieldID ni_defaultIndexID;
+jfieldID ni_pbrentID;
+jfieldID ni_defbultIndexID;
 jmethodID ni_ctrID;
 
-static jclass ni_ibcls;
-static jmethodID ni_ibctrID;
-static jfieldID ni_ibaddressID;
-static jfieldID ni_ib4broadcastID;
-static jfieldID ni_ib4maskID;
+stbtic jclbss ni_ibcls;
+stbtic jmethodID ni_ibctrID;
+stbtic jfieldID ni_ibbddressID;
+stbtic jfieldID ni_ib4brobdcbstID;
+stbtic jfieldID ni_ib4mbskID;
 
-/** Private methods declarations **/
-static jobject createNetworkInterface(JNIEnv *env, netif *ifs);
-static int     getFlags0(JNIEnv *env, jstring  ifname);
+/** Privbte methods declbrbtions **/
+stbtic jobject crebteNetworkInterfbce(JNIEnv *env, netif *ifs);
+stbtic int     getFlbgs0(JNIEnv *env, jstring  ifnbme);
 
-static netif  *enumInterfaces(JNIEnv *env);
-static netif  *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs);
+stbtic netif  *enumInterfbces(JNIEnv *env);
+stbtic netif  *enumIPv4Interfbces(JNIEnv *env, int sock, netif *ifs);
 
 #ifdef AF_INET6
-static netif  *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs);
+stbtic netif  *enumIPv6Interfbces(JNIEnv *env, int sock, netif *ifs);
 #endif
 
-static netif  *addif(JNIEnv *env, int sock, const char * if_name, netif *ifs, struct sockaddr* ifr_addrP, int family, short prefix);
-static void    freeif(netif *ifs);
+stbtic netif  *bddif(JNIEnv *env, int sock, const chbr * if_nbme, netif *ifs, struct sockbddr* ifr_bddrP, int fbmily, short prefix);
+stbtic void    freeif(netif *ifs);
 
-static int     openSocket(JNIEnv *env, int proto);
-static int     openSocketWithFallback(JNIEnv *env, const char *ifname);
-
-
-static struct  sockaddr *getBroadcast(JNIEnv *env, int sock, const char *name, struct sockaddr *brdcast_store);
-static short   getSubnet(JNIEnv *env, int sock, const char *ifname);
-static int     getIndex(int sock, const char *ifname);
-
-static int     getFlags(int sock, const char *ifname, int *flags);
-static int     getMacAddress(JNIEnv *env, int sock,  const char* ifname, const struct in_addr* addr, unsigned char *buf);
-static int     getMTU(JNIEnv *env, int sock, const char *ifname);
+stbtic int     openSocket(JNIEnv *env, int proto);
+stbtic int     openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme);
 
 
+stbtic struct  sockbddr *getBrobdcbst(JNIEnv *env, int sock, const chbr *nbme, struct sockbddr *brdcbst_store);
+stbtic short   getSubnet(JNIEnv *env, int sock, const chbr *ifnbme);
+stbtic int     getIndex(int sock, const chbr *ifnbme);
 
-#ifdef __solaris__
-static netif *enumIPvXInterfaces(JNIEnv *env, int sock, netif *ifs, int family);
-static int    getMacFromDevice(JNIEnv *env, const char* ifname, unsigned char* retbuf);
+stbtic int     getFlbgs(int sock, const chbr *ifnbme, int *flbgs);
+stbtic int     getMbcAddress(JNIEnv *env, int sock,  const chbr* ifnbme, const struct in_bddr* bddr, unsigned chbr *buf);
+stbtic int     getMTU(JNIEnv *env, int sock, const chbr *ifnbme);
+
+
+
+#ifdef __solbris__
+stbtic netif *enumIPvXInterfbces(JNIEnv *env, int sock, netif *ifs, int fbmily);
+stbtic int    getMbcFromDevice(JNIEnv *env, const chbr* ifnbme, unsigned chbr* retbuf);
 
 #ifndef SIOCGLIFHWADDR
 #define SIOCGLIFHWADDR  _IOWR('i', 192, struct lifreq)
@@ -162,98 +162,98 @@ static int    getMacFromDevice(JNIEnv *env, const char* ifname, unsigned char* r
 
 #endif
 
-/******************* Java entry points *****************************/
+/******************* Jbvb entry points *****************************/
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_NetworkInterface_init(JNIEnv *env, jclass cls) {
-    ni_class = (*env)->FindClass(env,"java/net/NetworkInterface");
-    CHECK_NULL(ni_class);
-    ni_class = (*env)->NewGlobalRef(env, ni_class);
-    CHECK_NULL(ni_class);
-    ni_nameID = (*env)->GetFieldID(env, ni_class,"name", "Ljava/lang/String;");
-    CHECK_NULL(ni_nameID);
-    ni_indexID = (*env)->GetFieldID(env, ni_class, "index", "I");
+Jbvb_jbvb_net_NetworkInterfbce_init(JNIEnv *env, jclbss cls) {
+    ni_clbss = (*env)->FindClbss(env,"jbvb/net/NetworkInterfbce");
+    CHECK_NULL(ni_clbss);
+    ni_clbss = (*env)->NewGlobblRef(env, ni_clbss);
+    CHECK_NULL(ni_clbss);
+    ni_nbmeID = (*env)->GetFieldID(env, ni_clbss,"nbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(ni_nbmeID);
+    ni_indexID = (*env)->GetFieldID(env, ni_clbss, "index", "I");
     CHECK_NULL(ni_indexID);
-    ni_addrsID = (*env)->GetFieldID(env, ni_class, "addrs", "[Ljava/net/InetAddress;");
-    CHECK_NULL(ni_addrsID);
-    ni_bindsID = (*env)->GetFieldID(env, ni_class, "bindings", "[Ljava/net/InterfaceAddress;");
+    ni_bddrsID = (*env)->GetFieldID(env, ni_clbss, "bddrs", "[Ljbvb/net/InetAddress;");
+    CHECK_NULL(ni_bddrsID);
+    ni_bindsID = (*env)->GetFieldID(env, ni_clbss, "bindings", "[Ljbvb/net/InterfbceAddress;");
     CHECK_NULL(ni_bindsID);
-    ni_descID = (*env)->GetFieldID(env, ni_class, "displayName", "Ljava/lang/String;");
+    ni_descID = (*env)->GetFieldID(env, ni_clbss, "displbyNbme", "Ljbvb/lbng/String;");
     CHECK_NULL(ni_descID);
-    ni_virutalID = (*env)->GetFieldID(env, ni_class, "virtual", "Z");
-    CHECK_NULL(ni_virutalID);
-    ni_childsID = (*env)->GetFieldID(env, ni_class, "childs", "[Ljava/net/NetworkInterface;");
+    ni_virutblID = (*env)->GetFieldID(env, ni_clbss, "virtubl", "Z");
+    CHECK_NULL(ni_virutblID);
+    ni_childsID = (*env)->GetFieldID(env, ni_clbss, "childs", "[Ljbvb/net/NetworkInterfbce;");
     CHECK_NULL(ni_childsID);
-    ni_parentID = (*env)->GetFieldID(env, ni_class, "parent", "Ljava/net/NetworkInterface;");
-    CHECK_NULL(ni_parentID);
-    ni_ctrID = (*env)->GetMethodID(env, ni_class, "<init>", "()V");
+    ni_pbrentID = (*env)->GetFieldID(env, ni_clbss, "pbrent", "Ljbvb/net/NetworkInterfbce;");
+    CHECK_NULL(ni_pbrentID);
+    ni_ctrID = (*env)->GetMethodID(env, ni_clbss, "<init>", "()V");
     CHECK_NULL(ni_ctrID);
-    ni_ibcls = (*env)->FindClass(env, "java/net/InterfaceAddress");
+    ni_ibcls = (*env)->FindClbss(env, "jbvb/net/InterfbceAddress");
     CHECK_NULL(ni_ibcls);
-    ni_ibcls = (*env)->NewGlobalRef(env, ni_ibcls);
+    ni_ibcls = (*env)->NewGlobblRef(env, ni_ibcls);
     CHECK_NULL(ni_ibcls);
     ni_ibctrID = (*env)->GetMethodID(env, ni_ibcls, "<init>", "()V");
     CHECK_NULL(ni_ibctrID);
-    ni_ibaddressID = (*env)->GetFieldID(env, ni_ibcls, "address", "Ljava/net/InetAddress;");
-    CHECK_NULL(ni_ibaddressID);
-    ni_ib4broadcastID = (*env)->GetFieldID(env, ni_ibcls, "broadcast", "Ljava/net/Inet4Address;");
-    CHECK_NULL(ni_ib4broadcastID);
-    ni_ib4maskID = (*env)->GetFieldID(env, ni_ibcls, "maskLength", "S");
-    CHECK_NULL(ni_ib4maskID);
-    ni_defaultIndexID = (*env)->GetStaticFieldID(env, ni_class, "defaultIndex", "I");
-    CHECK_NULL(ni_defaultIndexID);
+    ni_ibbddressID = (*env)->GetFieldID(env, ni_ibcls, "bddress", "Ljbvb/net/InetAddress;");
+    CHECK_NULL(ni_ibbddressID);
+    ni_ib4brobdcbstID = (*env)->GetFieldID(env, ni_ibcls, "brobdcbst", "Ljbvb/net/Inet4Address;");
+    CHECK_NULL(ni_ib4brobdcbstID);
+    ni_ib4mbskID = (*env)->GetFieldID(env, ni_ibcls, "mbskLength", "S");
+    CHECK_NULL(ni_ib4mbskID);
+    ni_defbultIndexID = (*env)->GetStbticFieldID(env, ni_clbss, "defbultIndex", "I");
+    CHECK_NULL(ni_defbultIndexID);
 
     initInetAddressIDs(env);
 }
 
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    getByName0
- * Signature: (Ljava/lang/String;)Ljava/net/NetworkInterface;
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    getByNbme0
+ * Signbture: (Ljbvb/lbng/String;)Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByName0
-    (JNIEnv *env, jclass cls, jstring name) {
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByNbme0
+    (JNIEnv *env, jclbss cls, jstring nbme) {
 
     netif *ifs, *curr;
-    jboolean isCopy;
-    const char* name_utf;
+    jboolebn isCopy;
+    const chbr* nbme_utf;
     jobject obj = NULL;
 
-    ifs = enumInterfaces(env);
+    ifs = enumInterfbces(env);
     if (ifs == NULL) {
         return NULL;
     }
 
-    name_utf = (*env)->GetStringUTFChars(env, name, &isCopy);
-    if (name_utf == NULL) {
+    nbme_utf = (*env)->GetStringUTFChbrs(env, nbme, &isCopy);
+    if (nbme_utf == NULL) {
        if (!(*env)->ExceptionCheck(env))
            JNU_ThrowOutOfMemoryError(env, NULL);
        return NULL;
     }
     /*
-     * Search the list of interface based on name
+     * Sebrch the list of interfbce bbsed on nbme
      */
     curr = ifs;
     while (curr != NULL) {
-        if (strcmp(name_utf, curr->name) == 0) {
-            break;
+        if (strcmp(nbme_utf, curr->nbme) == 0) {
+            brebk;
         }
         curr = curr->next;
     }
 
-    /* if found create a NetworkInterface */
+    /* if found crebte b NetworkInterfbce */
     if (curr != NULL) {;
-        obj = createNetworkInterface(env, curr);
+        obj = crebteNetworkInterfbce(env, curr);
     }
 
-    /* release the UTF string and interface list */
-    (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    /* relebse the UTF string bnd interfbce list */
+    (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
     freeif(ifs);
 
     return obj;
@@ -261,12 +261,12 @@ JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByName0
 
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    getByIndex0
- * Signature: (Ljava/lang/String;)Ljava/net/NetworkInterface;
+ * Signbture: (Ljbvb/lbng/String;)Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByIndex0
-    (JNIEnv *env, jclass cls, jint index) {
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByIndex0
+    (JNIEnv *env, jclbss cls, jint index) {
 
     netif *ifs, *curr;
     jobject obj = NULL;
@@ -275,25 +275,25 @@ JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByIndex0
         return NULL;
     }
 
-    ifs = enumInterfaces(env);
+    ifs = enumInterfbces(env);
     if (ifs == NULL) {
         return NULL;
     }
 
     /*
-     * Search the list of interface based on index
+     * Sebrch the list of interfbce bbsed on index
      */
     curr = ifs;
     while (curr != NULL) {
         if (index == curr->index) {
-            break;
+            brebk;
         }
         curr = curr->next;
     }
 
-    /* if found create a NetworkInterface */
+    /* if found crebte b NetworkInterfbce */
     if (curr != NULL) {;
-        obj = createNetworkInterface(env, curr);
+        obj = crebteNetworkInterfbce(env, curr);
     }
 
     freeif(ifs);
@@ -301,86 +301,86 @@ JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByIndex0
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    getByInetAddress0
- * Signature: (Ljava/net/InetAddress;)Ljava/net/NetworkInterface;
+ * Signbture: (Ljbvb/net/InetAddress;)Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByInetAddress0
-    (JNIEnv *env, jclass cls, jobject iaObj) {
+JNIEXPORT jobject JNICALL Jbvb_jbvb_net_NetworkInterfbce_getByInetAddress0
+    (JNIEnv *env, jclbss cls, jobject ibObj) {
 
     netif *ifs, *curr;
 
 #ifdef AF_INET6
-    int family = (getInetAddress_family(env, iaObj) == IPv4) ? AF_INET : AF_INET6;
+    int fbmily = (getInetAddress_fbmily(env, ibObj) == IPv4) ? AF_INET : AF_INET6;
 #else
-    int family =  AF_INET;
+    int fbmily =  AF_INET;
 #endif
 
     jobject obj = NULL;
-    jboolean match = JNI_FALSE;
+    jboolebn mbtch = JNI_FALSE;
 
-    ifs = enumInterfaces(env);
+    ifs = enumInterfbces(env);
     if (ifs == NULL) {
         return NULL;
     }
 
     curr = ifs;
     while (curr != NULL) {
-        netaddr *addrP = curr->addr;
+        netbddr *bddrP = curr->bddr;
 
         /*
-         * Iterate through each address on the interface
+         * Iterbte through ebch bddress on the interfbce
          */
-        while (addrP != NULL) {
+        while (bddrP != NULL) {
 
-            if (family == addrP->family) {
-                if (family == AF_INET) {
-                    int address1 = htonl(((struct sockaddr_in*)addrP->addr)->sin_addr.s_addr);
-                    int address2 = getInetAddress_addr(env, iaObj);
+            if (fbmily == bddrP->fbmily) {
+                if (fbmily == AF_INET) {
+                    int bddress1 = htonl(((struct sockbddr_in*)bddrP->bddr)->sin_bddr.s_bddr);
+                    int bddress2 = getInetAddress_bddr(env, ibObj);
 
-                    if (address1 == address2) {
-                        match = JNI_TRUE;
-                        break;
+                    if (bddress1 == bddress2) {
+                        mbtch = JNI_TRUE;
+                        brebk;
                     }
                 }
 
 #ifdef AF_INET6
-                if (family == AF_INET6) {
-                    jbyte *bytes = (jbyte *)&(((struct sockaddr_in6*)addrP->addr)->sin6_addr);
-                    jbyte caddr[16];
+                if (fbmily == AF_INET6) {
+                    jbyte *bytes = (jbyte *)&(((struct sockbddr_in6*)bddrP->bddr)->sin6_bddr);
+                    jbyte cbddr[16];
                     int i;
-                    getInet6Address_ipaddress(env, iaObj, (char *)caddr);
+                    getInet6Address_ipbddress(env, ibObj, (chbr *)cbddr);
                     i = 0;
                     while (i < 16) {
-                        if (caddr[i] != bytes[i]) {
-                            break;
+                        if (cbddr[i] != bytes[i]) {
+                            brebk;
                         }
                         i++;
                     }
                     if (i >= 16) {
-                        match = JNI_TRUE;
-                        break;
+                        mbtch = JNI_TRUE;
+                        brebk;
                     }
                 }
 #endif
 
             }
 
-            if (match) {
-                break;
+            if (mbtch) {
+                brebk;
             }
-            addrP = addrP->next;
+            bddrP = bddrP->next;
         }
 
-        if (match) {
-            break;
+        if (mbtch) {
+            brebk;
         }
         curr = curr->next;
     }
 
-    /* if found create a NetworkInterface */
-    if (match) {;
-        obj = createNetworkInterface(env, curr);
+    /* if found crebte b NetworkInterfbce */
+    if (mbtch) {;
+        obj = crebteNetworkInterfbce(env, curr);
     }
 
     freeif(ifs);
@@ -389,23 +389,23 @@ JNIEXPORT jobject JNICALL Java_java_net_NetworkInterface_getByInetAddress0
 
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    getAll
- * Signature: ()[Ljava/net/NetworkInterface;
+ * Signbture: ()[Ljbvb/net/NetworkInterfbce;
  */
-JNIEXPORT jobjectArray JNICALL Java_java_net_NetworkInterface_getAll
-    (JNIEnv *env, jclass cls) {
+JNIEXPORT jobjectArrby JNICALL Jbvb_jbvb_net_NetworkInterfbce_getAll
+    (JNIEnv *env, jclbss cls) {
 
     netif *ifs, *curr;
-    jobjectArray netIFArr;
-    jint arr_index, ifCount;
+    jobjectArrby netIFArr;
+    jint brr_index, ifCount;
 
-    ifs = enumInterfaces(env);
+    ifs = enumInterfbces(env);
     if (ifs == NULL) {
         return NULL;
     }
 
-    /* count the interface */
+    /* count the interfbce */
     ifCount = 0;
     curr = ifs;
     while (curr != NULL) {
@@ -413,30 +413,30 @@ JNIEXPORT jobjectArray JNICALL Java_java_net_NetworkInterface_getAll
         curr = curr->next;
     }
 
-    /* allocate a NetworkInterface array */
-    netIFArr = (*env)->NewObjectArray(env, ifCount, cls, NULL);
+    /* bllocbte b NetworkInterfbce brrby */
+    netIFArr = (*env)->NewObjectArrby(env, ifCount, cls, NULL);
     if (netIFArr == NULL) {
         freeif(ifs);
         return NULL;
     }
 
     /*
-     * Iterate through the interfaces, create a NetworkInterface instance
-     * for each array element and populate the object.
+     * Iterbte through the interfbces, crebte b NetworkInterfbce instbnce
+     * for ebch brrby element bnd populbte the object.
      */
     curr = ifs;
-    arr_index = 0;
+    brr_index = 0;
     while (curr != NULL) {
         jobject netifObj;
 
-        netifObj = createNetworkInterface(env, curr);
+        netifObj = crebteNetworkInterfbce(env, curr);
         if (netifObj == NULL) {
             freeif(ifs);
             return NULL;
         }
 
-        /* put the NetworkInterface into the array */
-        (*env)->SetObjectArrayElement(env, netIFArr, arr_index++, netifObj);
+        /* put the NetworkInterfbce into the brrby */
+        (*env)->SetObjectArrbyElement(env, netIFArr, brr_index++, netifObj);
 
         curr = curr->next;
     }
@@ -447,289 +447,289 @@ JNIEXPORT jobjectArray JNICALL Java_java_net_NetworkInterface_getAll
 
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    isUp0
- * Signature: (Ljava/lang/String;I)Z
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isUp0(JNIEnv *env, jclass cls, jstring name, jint index) {
-    int ret = getFlags0(env, name);
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isUp0(JNIEnv *env, jclbss cls, jstring nbme, jint index) {
+    int ret = getFlbgs0(env, nbme);
     return ((ret & IFF_UP) && (ret & IFF_RUNNING)) ? JNI_TRUE :  JNI_FALSE;
 }
 
 /*
- * Class:     java_net_NetworkInterface
+ * Clbss:     jbvb_net_NetworkInterfbce
  * Method:    isP2P0
- * Signature: (Ljava/lang/String;I)Z
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isP2P0(JNIEnv *env, jclass cls, jstring name, jint index) {
-    int ret = getFlags0(env, name);
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isP2P0(JNIEnv *env, jclbss cls, jstring nbme, jint index) {
+    int ret = getFlbgs0(env, nbme);
     return (ret & IFF_POINTOPOINT) ? JNI_TRUE :  JNI_FALSE;
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    isLoopback0
- * Signature: (Ljava/lang/String;I)Z
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    isLoopbbck0
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_isLoopback0(JNIEnv *env, jclass cls, jstring name, jint index) {
-    int ret = getFlags0(env, name);
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_isLoopbbck0(JNIEnv *env, jclbss cls, jstring nbme, jint index) {
+    int ret = getFlbgs0(env, nbme);
     return (ret & IFF_LOOPBACK) ? JNI_TRUE :  JNI_FALSE;
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    supportsMulticast0
- * Signature: (Ljava/lang/String;I)Z
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    supportsMulticbst0
+ * Signbture: (Ljbvb/lbng/String;I)Z
  */
-JNIEXPORT jboolean JNICALL Java_java_net_NetworkInterface_supportsMulticast0(JNIEnv *env, jclass cls, jstring name, jint index) {
-    int ret = getFlags0(env, name);
+JNIEXPORT jboolebn JNICALL Jbvb_jbvb_net_NetworkInterfbce_supportsMulticbst0(JNIEnv *env, jclbss cls, jstring nbme, jint index) {
+    int ret = getFlbgs0(env, nbme);
     return (ret & IFF_MULTICAST) ? JNI_TRUE :  JNI_FALSE;
 }
 
 /*
- * Class:     java_net_NetworkInterface
- * Method:    getMacAddr0
- * Signature: ([bLjava/lang/String;I)[b
+ * Clbss:     jbvb_net_NetworkInterfbce
+ * Method:    getMbcAddr0
+ * Signbture: ([bLjbvb/lbng/String;I)[b
  */
-JNIEXPORT jbyteArray JNICALL Java_java_net_NetworkInterface_getMacAddr0(JNIEnv *env, jclass class, jbyteArray addrArray, jstring name, jint index) {
-    jint addr;
-    jbyte caddr[4];
-    struct in_addr iaddr;
-    jbyteArray ret = NULL;
-    unsigned char mac[16];
+JNIEXPORT jbyteArrby JNICALL Jbvb_jbvb_net_NetworkInterfbce_getMbcAddr0(JNIEnv *env, jclbss clbss, jbyteArrby bddrArrby, jstring nbme, jint index) {
+    jint bddr;
+    jbyte cbddr[4];
+    struct in_bddr ibddr;
+    jbyteArrby ret = NULL;
+    unsigned chbr mbc[16];
     int len;
     int sock;
-    jboolean isCopy;
-    const char* name_utf;
+    jboolebn isCopy;
+    const chbr* nbme_utf;
 
-    name_utf = (*env)->GetStringUTFChars(env, name, &isCopy);
-    if (name_utf == NULL) {
+    nbme_utf = (*env)->GetStringUTFChbrs(env, nbme, &isCopy);
+    if (nbme_utf == NULL) {
        if (!(*env)->ExceptionCheck(env))
            JNU_ThrowOutOfMemoryError(env, NULL);
        return NULL;
     }
-    if ((sock =openSocketWithFallback(env, name_utf)) < 0) {
-       (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    if ((sock =openSocketWithFbllbbck(env, nbme_utf)) < 0) {
+       (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
        return JNI_FALSE;
     }
 
 
-    if (!IS_NULL(addrArray)) {
-       (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-       addr = ((caddr[0]<<24) & 0xff000000);
-       addr |= ((caddr[1] <<16) & 0xff0000);
-       addr |= ((caddr[2] <<8) & 0xff00);
-       addr |= (caddr[3] & 0xff);
-       iaddr.s_addr = htonl(addr);
-       len = getMacAddress(env, sock, name_utf, &iaddr, mac);
+    if (!IS_NULL(bddrArrby)) {
+       (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 4, cbddr);
+       bddr = ((cbddr[0]<<24) & 0xff000000);
+       bddr |= ((cbddr[1] <<16) & 0xff0000);
+       bddr |= ((cbddr[2] <<8) & 0xff00);
+       bddr |= (cbddr[3] & 0xff);
+       ibddr.s_bddr = htonl(bddr);
+       len = getMbcAddress(env, sock, nbme_utf, &ibddr, mbc);
     } else {
-       len = getMacAddress(env, sock, name_utf,NULL, mac);
+       len = getMbcAddress(env, sock, nbme_utf,NULL, mbc);
     }
     if (len > 0) {
-       ret = (*env)->NewByteArray(env, len);
+       ret = (*env)->NewByteArrby(env, len);
        if (IS_NULL(ret)) {
-          /* we may have memory to free at the end of this */
+          /* we mby hbve memory to free bt the end of this */
           goto fexit;
        }
-       (*env)->SetByteArrayRegion(env, ret, 0, len, (jbyte *) (mac));
+       (*env)->SetByteArrbyRegion(env, ret, 0, len, (jbyte *) (mbc));
     }
  fexit:
-   /* release the UTF string and interface list */
-   (*env)->ReleaseStringUTFChars(env, name, name_utf);
+   /* relebse the UTF string bnd interfbce list */
+   (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
 
    close(sock);
    return ret;
 }
 
 /*
- * Class:       java_net_NetworkInterface
+ * Clbss:       jbvb_net_NetworkInterfbce
  * Method:      getMTU0
- * Signature:   ([bLjava/lang/String;I)I
+ * Signbture:   ([bLjbvb/lbng/String;I)I
  */
 
-JNIEXPORT jint JNICALL Java_java_net_NetworkInterface_getMTU0(JNIEnv *env, jclass class, jstring name, jint index) {
-    jboolean isCopy;
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_NetworkInterfbce_getMTU0(JNIEnv *env, jclbss clbss, jstring nbme, jint index) {
+    jboolebn isCopy;
     int ret = -1;
     int sock;
-    const char* name_utf;
+    const chbr* nbme_utf;
 
-    name_utf = (*env)->GetStringUTFChars(env, name, &isCopy);
-    if (name_utf == NULL) {
+    nbme_utf = (*env)->GetStringUTFChbrs(env, nbme, &isCopy);
+    if (nbme_utf == NULL) {
        if (!(*env)->ExceptionCheck(env))
            JNU_ThrowOutOfMemoryError(env, NULL);
        return ret;
     }
 
-    if ((sock =openSocketWithFallback(env, name_utf)) < 0) {
-       (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    if ((sock =openSocketWithFbllbbck(env, nbme_utf)) < 0) {
+       (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
        return JNI_FALSE;
     }
 
-    ret = getMTU(env, sock, name_utf);
+    ret = getMTU(env, sock, nbme_utf);
 
-    (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
 
     close(sock);
     return ret;
 }
 
-/*** Private methods definitions ****/
+/*** Privbte methods definitions ****/
 
-static int getFlags0(JNIEnv *env, jstring name) {
-    jboolean isCopy;
+stbtic int getFlbgs0(JNIEnv *env, jstring nbme) {
+    jboolebn isCopy;
     int ret, sock;
-    const char* name_utf;
-    int flags = 0;
+    const chbr* nbme_utf;
+    int flbgs = 0;
 
-    name_utf = (*env)->GetStringUTFChars(env, name, &isCopy);
-    if (name_utf == NULL) {
+    nbme_utf = (*env)->GetStringUTFChbrs(env, nbme, &isCopy);
+    if (nbme_utf == NULL) {
        if (!(*env)->ExceptionCheck(env))
            JNU_ThrowOutOfMemoryError(env, NULL);
        return -1;
     }
-    if ((sock = openSocketWithFallback(env, name_utf)) < 0) {
-        (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    if ((sock = openSocketWithFbllbbck(env, nbme_utf)) < 0) {
+        (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
         return -1;
     }
 
-    ret = getFlags(sock, name_utf, &flags);
+    ret = getFlbgs(sock, nbme_utf, &flbgs);
 
     close(sock);
-    (*env)->ReleaseStringUTFChars(env, name, name_utf);
+    (*env)->RelebseStringUTFChbrs(env, nbme, nbme_utf);
 
     if (ret < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGLIFFLAGS failed");
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGLIFFLAGS fbiled");
         return -1;
     }
 
-    return flags;
+    return flbgs;
 }
 
 
 
 
 /*
- * Create a NetworkInterface object, populate the name and index, and
- * populate the InetAddress array based on the IP addresses for this
- * interface.
+ * Crebte b NetworkInterfbce object, populbte the nbme bnd index, bnd
+ * populbte the InetAddress brrby bbsed on the IP bddresses for this
+ * interfbce.
  */
-jobject createNetworkInterface(JNIEnv *env, netif *ifs) {
+jobject crebteNetworkInterfbce(JNIEnv *env, netif *ifs) {
     jobject netifObj;
-    jobject name;
-    jobjectArray addrArr;
-    jobjectArray bindArr;
-    jobjectArray childArr;
-    netaddr *addrs;
-    jint addr_index, addr_count, bind_index;
+    jobject nbme;
+    jobjectArrby bddrArr;
+    jobjectArrby bindArr;
+    jobjectArrby childArr;
+    netbddr *bddrs;
+    jint bddr_index, bddr_count, bind_index;
     jint child_count, child_index;
-    netaddr *addrP;
+    netbddr *bddrP;
     netif *childP;
     jobject tmp;
 
     /*
-     * Create a NetworkInterface object and populate it
+     * Crebte b NetworkInterfbce object bnd populbte it
      */
-    netifObj = (*env)->NewObject(env, ni_class, ni_ctrID);
+    netifObj = (*env)->NewObject(env, ni_clbss, ni_ctrID);
     CHECK_NULL_RETURN(netifObj, NULL);
-    name = (*env)->NewStringUTF(env, ifs->name);
-    CHECK_NULL_RETURN(name, NULL);
-    (*env)->SetObjectField(env, netifObj, ni_nameID, name);
-    (*env)->SetObjectField(env, netifObj, ni_descID, name);
+    nbme = (*env)->NewStringUTF(env, ifs->nbme);
+    CHECK_NULL_RETURN(nbme, NULL);
+    (*env)->SetObjectField(env, netifObj, ni_nbmeID, nbme);
+    (*env)->SetObjectField(env, netifObj, ni_descID, nbme);
     (*env)->SetIntField(env, netifObj, ni_indexID, ifs->index);
-    (*env)->SetBooleanField(env, netifObj, ni_virutalID, ifs->virtual ? JNI_TRUE : JNI_FALSE);
+    (*env)->SetBoolebnField(env, netifObj, ni_virutblID, ifs->virtubl ? JNI_TRUE : JNI_FALSE);
 
     /*
-     * Count the number of address on this interface
+     * Count the number of bddress on this interfbce
      */
-    addr_count = 0;
-    addrP = ifs->addr;
-    while (addrP != NULL) {
-        addr_count++;
-        addrP = addrP->next;
+    bddr_count = 0;
+    bddrP = ifs->bddr;
+    while (bddrP != NULL) {
+        bddr_count++;
+        bddrP = bddrP->next;
     }
 
     /*
-     * Create the array of InetAddresses
+     * Crebte the brrby of InetAddresses
      */
-    addrArr = (*env)->NewObjectArray(env, addr_count,  ia_class, NULL);
-    if (addrArr == NULL) {
+    bddrArr = (*env)->NewObjectArrby(env, bddr_count,  ib_clbss, NULL);
+    if (bddrArr == NULL) {
         return NULL;
     }
 
-    bindArr = (*env)->NewObjectArray(env, addr_count, ni_ibcls, NULL);
+    bindArr = (*env)->NewObjectArrby(env, bddr_count, ni_ibcls, NULL);
     if (bindArr == NULL) {
        return NULL;
     }
-    addrP = ifs->addr;
-    addr_index = 0;
+    bddrP = ifs->bddr;
+    bddr_index = 0;
     bind_index = 0;
-    while (addrP != NULL) {
-        jobject iaObj = NULL;
+    while (bddrP != NULL) {
+        jobject ibObj = NULL;
         jobject ibObj = NULL;
 
-        if (addrP->family == AF_INET) {
-            iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (iaObj) {
-                 setInetAddress_addr(env, iaObj, htonl(((struct sockaddr_in*)addrP->addr)->sin_addr.s_addr));
+        if (bddrP->fbmily == AF_INET) {
+            ibObj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+            if (ibObj) {
+                 setInetAddress_bddr(env, ibObj, htonl(((struct sockbddr_in*)bddrP->bddr)->sin_bddr.s_bddr));
             } else {
                 return NULL;
             }
             ibObj = (*env)->NewObject(env, ni_ibcls, ni_ibctrID);
             if (ibObj) {
-                 (*env)->SetObjectField(env, ibObj, ni_ibaddressID, iaObj);
-                 if (addrP->brdcast) {
-                    jobject ia2Obj = NULL;
-                    ia2Obj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-                    if (ia2Obj) {
-                       setInetAddress_addr(env, ia2Obj, htonl(((struct sockaddr_in*)addrP->brdcast)->sin_addr.s_addr));
-                       (*env)->SetObjectField(env, ibObj, ni_ib4broadcastID, ia2Obj);
+                 (*env)->SetObjectField(env, ibObj, ni_ibbddressID, ibObj);
+                 if (bddrP->brdcbst) {
+                    jobject ib2Obj = NULL;
+                    ib2Obj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+                    if (ib2Obj) {
+                       setInetAddress_bddr(env, ib2Obj, htonl(((struct sockbddr_in*)bddrP->brdcbst)->sin_bddr.s_bddr));
+                       (*env)->SetObjectField(env, ibObj, ni_ib4brobdcbstID, ib2Obj);
                     } else {
                         return NULL;
                     }
                  }
-                 (*env)->SetShortField(env, ibObj, ni_ib4maskID, addrP->mask);
-                 (*env)->SetObjectArrayElement(env, bindArr, bind_index++, ibObj);
+                 (*env)->SetShortField(env, ibObj, ni_ib4mbskID, bddrP->mbsk);
+                 (*env)->SetObjectArrbyElement(env, bindArr, bind_index++, ibObj);
             } else {
                 return NULL;
             }
         }
 
 #ifdef AF_INET6
-        if (addrP->family == AF_INET6) {
+        if (bddrP->fbmily == AF_INET6) {
             int scope=0;
-            iaObj = (*env)->NewObject(env, ia6_class, ia6_ctrID);
-            if (iaObj) {
-                jboolean ret = setInet6Address_ipaddress(env, iaObj, (char *)&(((struct sockaddr_in6*)addrP->addr)->sin6_addr));
+            ibObj = (*env)->NewObject(env, ib6_clbss, ib6_ctrID);
+            if (ibObj) {
+                jboolebn ret = setInet6Address_ipbddress(env, ibObj, (chbr *)&(((struct sockbddr_in6*)bddrP->bddr)->sin6_bddr));
                 if (ret == JNI_FALSE) {
                     return NULL;
                 }
 
-                scope = ((struct sockaddr_in6*)addrP->addr)->sin6_scope_id;
+                scope = ((struct sockbddr_in6*)bddrP->bddr)->sin6_scope_id;
 
-                if (scope != 0) { /* zero is default value, no need to set */
-                    setInet6Address_scopeid(env, iaObj, scope);
-                    setInet6Address_scopeifname(env, iaObj, netifObj);
+                if (scope != 0) { /* zero is defbult vblue, no need to set */
+                    setInet6Address_scopeid(env, ibObj, scope);
+                    setInet6Address_scopeifnbme(env, ibObj, netifObj);
                 }
             } else {
                 return NULL;
             }
             ibObj = (*env)->NewObject(env, ni_ibcls, ni_ibctrID);
             if (ibObj) {
-                (*env)->SetObjectField(env, ibObj, ni_ibaddressID, iaObj);
-                (*env)->SetShortField(env, ibObj, ni_ib4maskID, addrP->mask);
-                (*env)->SetObjectArrayElement(env, bindArr, bind_index++, ibObj);
+                (*env)->SetObjectField(env, ibObj, ni_ibbddressID, ibObj);
+                (*env)->SetShortField(env, ibObj, ni_ib4mbskID, bddrP->mbsk);
+                (*env)->SetObjectArrbyElement(env, bindArr, bind_index++, ibObj);
             } else {
                 return NULL;
             }
         }
 #endif
 
-        (*env)->SetObjectArrayElement(env, addrArr, addr_index++, iaObj);
-        addrP = addrP->next;
+        (*env)->SetObjectArrbyElement(env, bddrArr, bddr_index++, ibObj);
+        bddrP = bddrP->next;
     }
 
     /*
-     * See if there is any virtual interface attached to this one.
+     * See if there is bny virtubl interfbce bttbched to this one.
      */
     child_count = 0;
     childP = ifs->childs;
@@ -738,43 +738,43 @@ jobject createNetworkInterface(JNIEnv *env, netif *ifs) {
         childP = childP->next;
     }
 
-    childArr = (*env)->NewObjectArray(env, child_count, ni_class, NULL);
+    childArr = (*env)->NewObjectArrby(env, child_count, ni_clbss, NULL);
     if (childArr == NULL) {
         return NULL;
     }
 
     /*
-     * Create the NetworkInterface instances for the sub-interfaces as
+     * Crebte the NetworkInterfbce instbnces for the sub-interfbces bs
      * well.
      */
     child_index = 0;
     childP = ifs->childs;
     while(childP) {
-      tmp = createNetworkInterface(env, childP);
+      tmp = crebteNetworkInterfbce(env, childP);
       if (tmp == NULL) {
          return NULL;
       }
-      (*env)->SetObjectField(env, tmp, ni_parentID, netifObj);
-      (*env)->SetObjectArrayElement(env, childArr, child_index++, tmp);
+      (*env)->SetObjectField(env, tmp, ni_pbrentID, netifObj);
+      (*env)->SetObjectArrbyElement(env, childArr, child_index++, tmp);
       childP = childP->next;
     }
-    (*env)->SetObjectField(env, netifObj, ni_addrsID, addrArr);
+    (*env)->SetObjectField(env, netifObj, ni_bddrsID, bddrArr);
     (*env)->SetObjectField(env, netifObj, ni_bindsID, bindArr);
     (*env)->SetObjectField(env, netifObj, ni_childsID, childArr);
 
-    /* return the NetworkInterface */
+    /* return the NetworkInterfbce */
     return netifObj;
 }
 
 /*
- * Enumerates all interfaces
+ * Enumerbtes bll interfbces
  */
-static netif *enumInterfaces(JNIEnv *env) {
+stbtic netif *enumInterfbces(JNIEnv *env) {
     netif *ifs;
     int sock;
 
     /*
-     * Enumerate IPv4 addresses
+     * Enumerbte IPv4 bddresses
      */
 
     sock = openSocket(env, AF_INET);
@@ -782,24 +782,24 @@ static netif *enumInterfaces(JNIEnv *env) {
         return NULL;
     }
 
-    ifs = enumIPv4Interfaces(env, sock, NULL);
+    ifs = enumIPv4Interfbces(env, sock, NULL);
     close(sock);
 
     if (ifs == NULL && (*env)->ExceptionOccurred(env)) {
         return NULL;
     }
 
-    /* return partial list if an exception occurs in the middle of process ???*/
+    /* return pbrtibl list if bn exception occurs in the middle of process ???*/
 
     /*
-     * If IPv6 is available then enumerate IPv6 addresses.
+     * If IPv6 is bvbilbble then enumerbte IPv6 bddresses.
      */
 #ifdef AF_INET6
 
-        /* User can disable ipv6 explicitly by -Djava.net.preferIPv4Stack=true,
-         * so we have to call ipv6_available()
+        /* User cbn disbble ipv6 explicitly by -Djbvb.net.preferIPv4Stbck=true,
+         * so we hbve to cbll ipv6_bvbilbble()
          */
-        if (ipv6_available()) {
+        if (ipv6_bvbilbble()) {
 
            sock =  openSocket(env, AF_INET6);
            if (sock < 0 && (*env)->ExceptionOccurred(env)) {
@@ -807,7 +807,7 @@ static netif *enumInterfaces(JNIEnv *env) {
                return NULL;
            }
 
-           ifs = enumIPv6Interfaces(env, sock, ifs);
+           ifs = enumIPv6Interfbces(env, sock, ifs);
            close(sock);
 
            if ((*env)->ExceptionOccurred(env)) {
@@ -823,31 +823,31 @@ static netif *enumInterfaces(JNIEnv *env) {
 
 #define CHECKED_MALLOC3(_pointer,_type,_size) \
        do{ \
-        _pointer = (_type)malloc( _size ); \
+        _pointer = (_type)mblloc( _size ); \
         if (_pointer == NULL) { \
-            JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed"); \
+            JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled"); \
             return ifs; /* return untouched list */ \
         } \
        } while(0)
 
 
 /*
- * Free an interface list (including any attached addresses)
+ * Free bn interfbce list (including bny bttbched bddresses)
  */
 void freeif(netif *ifs) {
     netif *currif = ifs;
     netif *child = NULL;
 
     while (currif != NULL) {
-        netaddr *addrP = currif->addr;
-        while (addrP != NULL) {
-            netaddr *next = addrP->next;
-            free(addrP);
-            addrP = next;
+        netbddr *bddrP = currif->bddr;
+        while (bddrP != NULL) {
+            netbddr *next = bddrP->next;
+            free(bddrP);
+            bddrP = next;
          }
 
             /*
-            * Don't forget to free the sub-interfaces.
+            * Don't forget to free the sub-interfbces.
             */
           if (currif->childs != NULL) {
                 freeif(currif->childs);
@@ -859,195 +859,195 @@ void freeif(netif *ifs) {
     }
 }
 
-netif *addif(JNIEnv *env, int sock, const char * if_name,
-             netif *ifs, struct sockaddr* ifr_addrP, int family,
+netif *bddif(JNIEnv *env, int sock, const chbr * if_nbme,
+             netif *ifs, struct sockbddr* ifr_bddrP, int fbmily,
              short prefix)
 {
-    netif *currif = ifs, *parent;
-    netaddr *addrP;
+    netif *currif = ifs, *pbrent;
+    netbddr *bddrP;
 
 #ifdef LIFNAMSIZ
-    int ifnam_size = LIFNAMSIZ;
-    char name[LIFNAMSIZ], vname[LIFNAMSIZ];
+    int ifnbm_size = LIFNAMSIZ;
+    chbr nbme[LIFNAMSIZ], vnbme[LIFNAMSIZ];
 #else
-    int ifnam_size = IFNAMSIZ;
-    char name[IFNAMSIZ], vname[IFNAMSIZ];
+    int ifnbm_size = IFNAMSIZ;
+    chbr nbme[IFNAMSIZ], vnbme[IFNAMSIZ];
 #endif
 
-    char  *name_colonP;
-    int mask;
-    int isVirtual = 0;
-    int addr_size;
-    int flags = 0;
+    chbr  *nbme_colonP;
+    int mbsk;
+    int isVirtubl = 0;
+    int bddr_size;
+    int flbgs = 0;
 
     /*
-     * If the interface name is a logical interface then we
-     * remove the unit number so that we have the physical
-     * interface (eg: hme0:1 -> hme0). NetworkInterface
-     * currently doesn't have any concept of physical vs.
-     * logical interfaces.
+     * If the interfbce nbme is b logicbl interfbce then we
+     * remove the unit number so thbt we hbve the physicbl
+     * interfbce (eg: hme0:1 -> hme0). NetworkInterfbce
+     * currently doesn't hbve bny concept of physicbl vs.
+     * logicbl interfbces.
      */
-    strncpy(name, if_name, ifnam_size);
-    name[ifnam_size - 1] = '\0';
-    *vname = 0;
+    strncpy(nbme, if_nbme, ifnbm_size);
+    nbme[ifnbm_size - 1] = '\0';
+    *vnbme = 0;
 
     /*
-     * Create and populate the netaddr node. If allocation fails
-     * return an un-updated list.
+     * Crebte bnd populbte the netbddr node. If bllocbtion fbils
+     * return bn un-updbted list.
      */
-    /*Allocate for addr and brdcast at once*/
+    /*Allocbte for bddr bnd brdcbst bt once*/
 
 #ifdef AF_INET6
-    addr_size = (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6);
+    bddr_size = (fbmily == AF_INET) ? sizeof(struct sockbddr_in) : sizeof(struct sockbddr_in6);
 #else
-    addr_size = sizeof(struct sockaddr_in);
+    bddr_size = sizeof(struct sockbddr_in);
 #endif
 
-    CHECKED_MALLOC3(addrP, netaddr *, sizeof(netaddr)+2*addr_size);
-    addrP->addr = (struct sockaddr *)( (char *) addrP+sizeof(netaddr) );
-    memcpy(addrP->addr, ifr_addrP, addr_size);
+    CHECKED_MALLOC3(bddrP, netbddr *, sizeof(netbddr)+2*bddr_size);
+    bddrP->bddr = (struct sockbddr *)( (chbr *) bddrP+sizeof(netbddr) );
+    memcpy(bddrP->bddr, ifr_bddrP, bddr_size);
 
-    addrP->family = family;
-    addrP->brdcast = NULL;
-    addrP->mask = prefix;
-    addrP->next = 0;
-    if (family == AF_INET) {
-       // Deal with broadcast addr & subnet mask
-       struct sockaddr * brdcast_to = (struct sockaddr *) ((char *) addrP + sizeof(netaddr) + addr_size);
-       addrP->brdcast = getBroadcast(env, sock, name,  brdcast_to );
+    bddrP->fbmily = fbmily;
+    bddrP->brdcbst = NULL;
+    bddrP->mbsk = prefix;
+    bddrP->next = 0;
+    if (fbmily == AF_INET) {
+       // Debl with brobdcbst bddr & subnet mbsk
+       struct sockbddr * brdcbst_to = (struct sockbddr *) ((chbr *) bddrP + sizeof(netbddr) + bddr_size);
+       bddrP->brdcbst = getBrobdcbst(env, sock, nbme,  brdcbst_to );
        if ((*env)->ExceptionCheck(env) == JNI_TRUE) {
            return ifs;
        }
-       if ((mask = getSubnet(env, sock, name)) != -1) {
-           addrP->mask = mask;
+       if ((mbsk = getSubnet(env, sock, nbme)) != -1) {
+           bddrP->mbsk = mbsk;
        } else if((*env)->ExceptionCheck(env)) {
            return ifs;
        }
      }
 
     /**
-     * Deal with virtual interface with colon notation e.g. eth0:1
+     * Debl with virtubl interfbce with colon notbtion e.g. eth0:1
      */
-    name_colonP = strchr(name, ':');
-    if (name_colonP != NULL) {
+    nbme_colonP = strchr(nbme, ':');
+    if (nbme_colonP != NULL) {
       /**
-       * This is a virtual interface. If we are able to access the parent
-       * we need to create a new entry if it doesn't exist yet *and* update
-       * the 'parent' interface with the new records.
+       * This is b virtubl interfbce. If we bre bble to bccess the pbrent
+       * we need to crebte b new entry if it doesn't exist yet *bnd* updbte
+       * the 'pbrent' interfbce with the new records.
        */
-        *name_colonP = 0;
-        if (getFlags(sock, name, &flags) < 0 || flags < 0) {
-            // failed to access parent interface do not create parent.
-            // We are a virtual interface with no parent.
-            isVirtual = 1;
-            *name_colonP = ':';
+        *nbme_colonP = 0;
+        if (getFlbgs(sock, nbme, &flbgs) < 0 || flbgs < 0) {
+            // fbiled to bccess pbrent interfbce do not crebte pbrent.
+            // We bre b virtubl interfbce with no pbrent.
+            isVirtubl = 1;
+            *nbme_colonP = ':';
         }
         else{
-           // Got access to parent, so create it if necessary.
-           // Save original name to vname and truncate name by ':'
-            memcpy(vname, name, sizeof(vname) );
-            vname[name_colonP - name] = ':';
+           // Got bccess to pbrent, so crebte it if necessbry.
+           // Sbve originbl nbme to vnbme bnd truncbte nbme by ':'
+            memcpy(vnbme, nbme, sizeof(vnbme) );
+            vnbme[nbme_colonP - nbme] = ':';
         }
     }
 
     /*
-     * Check if this is a "new" interface. Use the interface
-     * name for matching because index isn't supported on
-     * Solaris 2.6 & 7.
+     * Check if this is b "new" interfbce. Use the interfbce
+     * nbme for mbtching becbuse index isn't supported on
+     * Solbris 2.6 & 7.
      */
     while (currif != NULL) {
-        if (strcmp(name, currif->name) == 0) {
-            break;
+        if (strcmp(nbme, currif->nbme) == 0) {
+            brebk;
         }
         currif = currif->next;
     }
 
     /*
-     * If "new" then create an netif structure and
+     * If "new" then crebte bn netif structure bnd
      * insert it onto the list.
      */
     if (currif == NULL) {
-         CHECKED_MALLOC3(currif, netif *, sizeof(netif) + ifnam_size);
-         currif->name = (char *) currif+sizeof(netif);
-         strncpy(currif->name, name, ifnam_size);
-         currif->name[ifnam_size - 1] = '\0';
-         currif->index = getIndex(sock, name);
-         currif->addr = NULL;
+         CHECKED_MALLOC3(currif, netif *, sizeof(netif) + ifnbm_size);
+         currif->nbme = (chbr *) currif+sizeof(netif);
+         strncpy(currif->nbme, nbme, ifnbm_size);
+         currif->nbme[ifnbm_size - 1] = '\0';
+         currif->index = getIndex(sock, nbme);
+         currif->bddr = NULL;
          currif->childs = NULL;
-         currif->virtual = isVirtual;
+         currif->virtubl = isVirtubl;
          currif->next = ifs;
          ifs = currif;
     }
 
     /*
-     * Finally insert the address on the interface
+     * Finblly insert the bddress on the interfbce
      */
-    addrP->next = currif->addr;
-    currif->addr = addrP;
+    bddrP->next = currif->bddr;
+    currif->bddr = bddrP;
 
-    parent = currif;
+    pbrent = currif;
 
     /**
-     * Let's deal with the virtual interface now.
+     * Let's debl with the virtubl interfbce now.
      */
-    if (vname[0]) {
-        netaddr *tmpaddr;
+    if (vnbme[0]) {
+        netbddr *tmpbddr;
 
-        currif = parent->childs;
+        currif = pbrent->childs;
 
         while (currif != NULL) {
-            if (strcmp(vname, currif->name) == 0) {
-                break;
+            if (strcmp(vnbme, currif->nbme) == 0) {
+                brebk;
             }
             currif = currif->next;
         }
 
         if (currif == NULL) {
-            CHECKED_MALLOC3(currif, netif *, sizeof(netif) + ifnam_size);
-            currif->name = (char *) currif + sizeof(netif);
-            strncpy(currif->name, vname, ifnam_size);
-            currif->name[ifnam_size - 1] = '\0';
-            currif->index = getIndex(sock, vname);
-            currif->addr = NULL;
-           /* Need to duplicate the addr entry? */
-            currif->virtual = 1;
+            CHECKED_MALLOC3(currif, netif *, sizeof(netif) + ifnbm_size);
+            currif->nbme = (chbr *) currif + sizeof(netif);
+            strncpy(currif->nbme, vnbme, ifnbm_size);
+            currif->nbme[ifnbm_size - 1] = '\0';
+            currif->index = getIndex(sock, vnbme);
+            currif->bddr = NULL;
+           /* Need to duplicbte the bddr entry? */
+            currif->virtubl = 1;
             currif->childs = NULL;
-            currif->next = parent->childs;
-            parent->childs = currif;
+            currif->next = pbrent->childs;
+            pbrent->childs = currif;
         }
 
-        CHECKED_MALLOC3(tmpaddr, netaddr *, sizeof(netaddr)+2*addr_size);
-        memcpy(tmpaddr, addrP, sizeof(netaddr));
-        if (addrP->addr != NULL) {
-            tmpaddr->addr = (struct sockaddr *) ( (char*)tmpaddr + sizeof(netaddr) ) ;
-            memcpy(tmpaddr->addr, addrP->addr, addr_size);
+        CHECKED_MALLOC3(tmpbddr, netbddr *, sizeof(netbddr)+2*bddr_size);
+        memcpy(tmpbddr, bddrP, sizeof(netbddr));
+        if (bddrP->bddr != NULL) {
+            tmpbddr->bddr = (struct sockbddr *) ( (chbr*)tmpbddr + sizeof(netbddr) ) ;
+            memcpy(tmpbddr->bddr, bddrP->bddr, bddr_size);
         }
 
-        if (addrP->brdcast != NULL) {
-            tmpaddr->brdcast = (struct sockaddr *) ((char *) tmpaddr + sizeof(netaddr)+addr_size);
-            memcpy(tmpaddr->brdcast, addrP->brdcast, addr_size);
+        if (bddrP->brdcbst != NULL) {
+            tmpbddr->brdcbst = (struct sockbddr *) ((chbr *) tmpbddr + sizeof(netbddr)+bddr_size);
+            memcpy(tmpbddr->brdcbst, bddrP->brdcbst, bddr_size);
         }
 
-        tmpaddr->next = currif->addr;
-        currif->addr = tmpaddr;
+        tmpbddr->next = currif->bddr;
+        currif->bddr = tmpbddr;
     }
 
     return ifs;
 }
 
-/* Open socket for further ioct calls
+/* Open socket for further ioct cblls
  * proto is AF_INET/AF_INET6
  */
-static int  openSocket(JNIEnv *env, int proto){
+stbtic int  openSocket(JNIEnv *env, int proto){
     int sock;
 
     if ((sock = socket(proto, SOCK_DGRAM, 0)) < 0) {
         /*
-         * If EPROTONOSUPPORT is returned it means we don't have
-         * support  for this proto so don't throw an exception.
+         * If EPROTONOSUPPORT is returned it mebns we don't hbve
+         * support  for this proto so don't throw bn exception.
          */
         if (errno != EPROTONOSUPPORT) {
-            NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "Socket creation failed");
+            NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "Socket crebtion fbiled");
         }
         return -1;
     }
@@ -1058,93 +1058,93 @@ static int  openSocket(JNIEnv *env, int proto){
 
 /** Linux, AIX **/
 #if defined(__linux__) || defined(_AIX)
-/* Open socket for further ioct calls, try v4 socket first and
- * if it falls return v6 socket
+/* Open socket for further ioct cblls, try v4 socket first bnd
+ * if it fblls return v6 socket
  */
 
 #ifdef AF_INET6
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
     int sock;
     struct ifreq if2;
 
      if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
          if (errno == EPROTONOSUPPORT){
               if ( (sock = socket(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
-                 NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket creation failed");
+                 NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket crebtion fbiled");
                  return -1;
               }
          }
          else{ // errno is not NOSUPPORT
-             NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket creation failed");
+             NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket crebtion fbiled");
              return -1;
          }
    }
 
-     /* Linux starting from 2.6.? kernel allows ioctl call with either IPv4 or IPv6 socket regardless of type
-        of address of an interface */
+     /* Linux stbrting from 2.6.? kernel bllows ioctl cbll with either IPv4 or IPv6 socket regbrdless of type
+        of bddress of bn interfbce */
 
        return sock;
 }
 
 #else
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
     return openSocket(env,AF_INET);
 }
 #endif
 
-static netif *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs) {
+stbtic netif *enumIPv4Interfbces(JNIEnv *env, int sock, netif *ifs) {
     struct ifconf ifc;
     struct ifreq *ifreqP;
-    char *buf = NULL;
+    chbr *buf = NULL;
     int numifs;
     unsigned i;
     int siocgifconfRequest = SIOCGIFCONF;
 
 
 #if defined(__linux__)
-    /* need to do a dummy SIOCGIFCONF to determine the buffer size.
+    /* need to do b dummy SIOCGIFCONF to determine the buffer size.
      * SIOCGIFCOUNT doesn't work
      */
     ifc.ifc_buf = NULL;
-    if (ioctl(sock, SIOCGIFCONF, (char *)&ifc) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGIFCONF failed");
+    if (ioctl(sock, SIOCGIFCONF, (chbr *)&ifc) < 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGIFCONF fbiled");
         return ifs;
     }
 #elif defined(_AIX)
     ifc.ifc_buf = NULL;
     if (ioctl(sock, SIOCGSIZIFCONF, &(ifc.ifc_len)) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGSIZIFCONF failed");
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGSIZIFCONF fbiled");
         return ifs;
     }
 #endif /* __linux__ */
 
-    CHECKED_MALLOC3(buf,char *, ifc.ifc_len);
+    CHECKED_MALLOC3(buf,chbr *, ifc.ifc_len);
 
     ifc.ifc_buf = buf;
 #if defined(_AIX)
     siocgifconfRequest = CSIOCGIFCONF;
 #endif
-    if (ioctl(sock, siocgifconfRequest, (char *)&ifc) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGIFCONF failed");
+    if (ioctl(sock, siocgifconfRequest, (chbr *)&ifc) < 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGIFCONF fbiled");
         (void) free(buf);
         return ifs;
     }
 
     /*
-     * Iterate through each interface
+     * Iterbte through ebch interfbce
      */
     ifreqP = ifc.ifc_req;
     for (i=0; i<ifc.ifc_len/sizeof (struct ifreq); i++, ifreqP++) {
 #if defined(_AIX)
-        if (ifreqP->ifr_addr.sa_family != AF_INET) continue;
+        if (ifreqP->ifr_bddr.sb_fbmily != AF_INET) continue;
 #endif
         /*
          * Add to the list
          */
-        ifs = addif(env, sock, ifreqP->ifr_name, ifs, (struct sockaddr *) & (ifreqP->ifr_addr), AF_INET, 0);
+        ifs = bddif(env, sock, ifreqP->ifr_nbme, ifs, (struct sockbddr *) & (ifreqP->ifr_bddr), AF_INET, 0);
 
         /*
-         * If an exception occurred then free the list
+         * If bn exception occurred then free the list
          */
         if ((*env)->ExceptionOccurred(env)) {
             free(buf);
@@ -1154,7 +1154,7 @@ static netif *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs) {
     }
 
     /*
-     * Free socket and buffer
+     * Free socket bnd buffer
      */
     free(buf);
     return ifs;
@@ -1162,40 +1162,40 @@ static netif *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs) {
 
 
 /*
- * Enumerates and returns all IPv6 interfaces on Linux
+ * Enumerbtes bnd returns bll IPv6 interfbces on Linux
  */
 
 #if defined(AF_INET6) && defined(__linux__)
-static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
+stbtic netif *enumIPv6Interfbces(JNIEnv *env, int sock, netif *ifs) {
     FILE *f;
-    char addr6[40], devname[21];
-    char addr6p[8][5];
-    int plen, scope, dad_status, if_idx;
-    uint8_t ipv6addr[16];
+    chbr bddr6[40], devnbme[21];
+    chbr bddr6p[8][5];
+    int plen, scope, dbd_stbtus, if_idx;
+    uint8_t ipv6bddr[16];
 
     if ((f = fopen(_PATH_PROCNET_IFINET6, "r")) != NULL) {
-        while (fscanf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %08x %02x %02x %02x %20s\n",
-                         addr6p[0], addr6p[1], addr6p[2], addr6p[3], addr6p[4], addr6p[5], addr6p[6], addr6p[7],
-                         &if_idx, &plen, &scope, &dad_status, devname) != EOF) {
+        while (fscbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %08x %02x %02x %02x %20s\n",
+                         bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3], bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7],
+                         &if_idx, &plen, &scope, &dbd_stbtus, devnbme) != EOF) {
 
             struct netif *ifs_ptr = NULL;
-            struct netif *last_ptr = NULL;
-            struct sockaddr_in6 addr;
+            struct netif *lbst_ptr = NULL;
+            struct sockbddr_in6 bddr;
 
-            sprintf(addr6, "%s:%s:%s:%s:%s:%s:%s:%s",
-                           addr6p[0], addr6p[1], addr6p[2], addr6p[3], addr6p[4], addr6p[5], addr6p[6], addr6p[7]);
-            inet_pton(AF_INET6, addr6, ipv6addr);
+            sprintf(bddr6, "%s:%s:%s:%s:%s:%s:%s:%s",
+                           bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3], bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7]);
+            inet_pton(AF_INET6, bddr6, ipv6bddr);
 
-            memset(&addr, 0, sizeof(struct sockaddr_in6));
-            memcpy((void*)addr.sin6_addr.s6_addr, (const void*)ipv6addr, 16);
+            memset(&bddr, 0, sizeof(struct sockbddr_in6));
+            memcpy((void*)bddr.sin6_bddr.s6_bddr, (const void*)ipv6bddr, 16);
 
-            addr.sin6_scope_id = if_idx;
+            bddr.sin6_scope_id = if_idx;
 
-            ifs = addif(env, sock, devname, ifs, (struct sockaddr *)&addr, AF_INET6, plen);
+            ifs = bddif(env, sock, devnbme, ifs, (struct sockbddr *)&bddr, AF_INET6, plen);
 
 
             /*
-             * If an exception occurred then return the list as is.
+             * If bn exception occurred then return the list bs is.
              */
             if ((*env)->ExceptionOccurred(env)) {
                 fclose(f);
@@ -1210,83 +1210,83 @@ static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
 
 
 /*
- * Enumerates and returns all IPv6 interfaces on AIX
+ * Enumerbtes bnd returns bll IPv6 interfbces on AIX
  */
 
 #if defined(AF_INET6) && defined(_AIX)
-static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
+stbtic netif *enumIPv6Interfbces(JNIEnv *env, int sock, netif *ifs) {
     struct ifconf ifc;
     struct ifreq *ifreqP;
-    char *buf;
+    chbr *buf;
     int numifs;
     unsigned i;
     unsigned bufsize;
-    char *cp, *cplimit;
+    chbr *cp, *cplimit;
 
     /* use SIOCGSIZIFCONF to get size for  SIOCGIFCONF */
 
     ifc.ifc_buf = NULL;
     if (ioctl(sock, SIOCGSIZIFCONF, &(ifc.ifc_len)) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException",
-                        "ioctl SIOCGSIZIFCONF failed");
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException",
+                        "ioctl SIOCGSIZIFCONF fbiled");
         return ifs;
     }
     bufsize = ifc.ifc_len;
 
-    buf = (char *)malloc(bufsize);
+    buf = (chbr *)mblloc(bufsize);
     if (!buf) {
-        JNU_ThrowOutOfMemoryError(env, "Network interface native buffer allocation failed");
+        JNU_ThrowOutOfMemoryError(env, "Network interfbce nbtive buffer bllocbtion fbiled");
         return ifs;
     }
     ifc.ifc_len = bufsize;
     ifc.ifc_buf = buf;
-    if (ioctl(sock, SIOCGIFCONF, (char *)&ifc) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException",
-                       "ioctl CSIOCGIFCONF failed");
+    if (ioctl(sock, SIOCGIFCONF, (chbr *)&ifc) < 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException",
+                       "ioctl CSIOCGIFCONF fbiled");
         free(buf);
         return ifs;
     }
 
     /*
-     * Iterate through each interface
+     * Iterbte through ebch interfbce
      */
     ifreqP = ifc.ifc_req;
-    cp = (char *)ifc.ifc_req;
+    cp = (chbr *)ifc.ifc_req;
     cplimit = cp + ifc.ifc_len;
 
-    for ( ; cp < cplimit; cp += (sizeof(ifreqP->ifr_name) + MAX((ifreqP->ifr_addr).sa_len, sizeof(ifreqP->ifr_addr)))) {
+    for ( ; cp < cplimit; cp += (sizeof(ifreqP->ifr_nbme) + MAX((ifreqP->ifr_bddr).sb_len, sizeof(ifreqP->ifr_bddr)))) {
         ifreqP = (struct ifreq *)cp;
         struct ifreq if2;
 
-        memset((char *)&if2, 0, sizeof(if2));
-        strcpy(if2.ifr_name, ifreqP->ifr_name);
+        memset((chbr *)&if2, 0, sizeof(if2));
+        strcpy(if2.ifr_nbme, ifreqP->ifr_nbme);
 
         /*
-         * Skip interface that aren't UP
+         * Skip interfbce thbt bren't UP
          */
-        if (ioctl(sock, SIOCGIFFLAGS, (char *)&if2) >= 0) {
-            if (!(if2.ifr_flags & IFF_UP)) {
+        if (ioctl(sock, SIOCGIFFLAGS, (chbr *)&if2) >= 0) {
+            if (!(if2.ifr_flbgs & IFF_UP)) {
                 continue;
             }
         }
 
-        if (ifreqP->ifr_addr.sa_family != AF_INET6)
+        if (ifreqP->ifr_bddr.sb_fbmily != AF_INET6)
             continue;
 
-        if (ioctl(sock, SIOCGIFSITE6, (char *)&if2) >= 0) {
-            struct sockaddr_in6 *s6= (struct sockaddr_in6 *)&(ifreqP->ifr_addr);
+        if (ioctl(sock, SIOCGIFSITE6, (chbr *)&if2) >= 0) {
+            struct sockbddr_in6 *s6= (struct sockbddr_in6 *)&(ifreqP->ifr_bddr);
             s6->sin6_scope_id = if2.ifr_site6;
         }
 
         /*
          * Add to the list
          */
-        ifs = addif(env, sock, ifreqP->ifr_name, ifs,
-                    (struct sockaddr *)&(ifreqP->ifr_addr),
+        ifs = bddif(env, sock, ifreqP->ifr_nbme, ifs,
+                    (struct sockbddr *)&(ifreqP->ifr_bddr),
                     AF_INET6, 0);
 
         /*
-         * If an exception occurred then free the list
+         * If bn exception occurred then free the list
          */
         if ((*env)->ExceptionOccurred(env)) {
             free(buf);
@@ -1296,7 +1296,7 @@ static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
     }
 
     /*
-     * Free socket and buffer
+     * Free socket bnd buffer
      */
     free(buf);
     return ifs;
@@ -1304,17 +1304,17 @@ static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
 #endif
 
 
-static int getIndex(int sock, const char *name){
+stbtic int getIndex(int sock, const chbr *nbme){
      /*
-      * Try to get the interface index
+      * Try to get the interfbce index
       */
 #if defined(_AIX)
-    return if_nametoindex(name);
+    return if_nbmetoindex(nbme);
 #else
     struct ifreq if2;
-    strcpy(if2.ifr_name, name);
+    strcpy(if2.ifr_nbme, nbme);
 
-    if (ioctl(sock, SIOCGIFINDEX, (char *)&if2) < 0) {
+    if (ioctl(sock, SIOCGIFINDEX, (chbr *)&if2) < 0) {
         return -1;
     }
 
@@ -1323,57 +1323,57 @@ static int getIndex(int sock, const char *name){
 }
 
 /**
- * Returns the IPv4 broadcast address of a named interface, if it exists.
- * Returns 0 if it doesn't have one.
+ * Returns the IPv4 brobdcbst bddress of b nbmed interfbce, if it exists.
+ * Returns 0 if it doesn't hbve one.
  */
-static struct sockaddr *getBroadcast(JNIEnv *env, int sock, const char *ifname, struct sockaddr *brdcast_store) {
-  struct sockaddr *ret = NULL;
+stbtic struct sockbddr *getBrobdcbst(JNIEnv *env, int sock, const chbr *ifnbme, struct sockbddr *brdcbst_store) {
+  struct sockbddr *ret = NULL;
   struct ifreq if2;
 
-  memset((char *) &if2, 0, sizeof(if2));
-  strcpy(if2.ifr_name, ifname);
+  memset((chbr *) &if2, 0, sizeof(if2));
+  strcpy(if2.ifr_nbme, ifnbme);
 
-  /* Let's make sure the interface does have a broadcast address */
-  if (ioctl(sock, SIOCGIFFLAGS, (char *)&if2)  < 0) {
-      NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGIFFLAGS failed");
+  /* Let's mbke sure the interfbce does hbve b brobdcbst bddress */
+  if (ioctl(sock, SIOCGIFFLAGS, (chbr *)&if2)  < 0) {
+      NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGIFFLAGS fbiled");
       return ret;
   }
 
-  if (if2.ifr_flags & IFF_BROADCAST) {
+  if (if2.ifr_flbgs & IFF_BROADCAST) {
       /* It does, let's retrieve it*/
-      if (ioctl(sock, SIOCGIFBRDADDR, (char *)&if2) < 0) {
-          NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFBRDADDR failed");
+      if (ioctl(sock, SIOCGIFBRDADDR, (chbr *)&if2) < 0) {
+          NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFBRDADDR fbiled");
           return ret;
       }
 
-      ret = brdcast_store;
-      memcpy(ret, &if2.ifr_broadaddr, sizeof(struct sockaddr));
+      ret = brdcbst_store;
+      memcpy(ret, &if2.ifr_brobdbddr, sizeof(struct sockbddr));
   }
 
   return ret;
 }
 
 /**
- * Returns the IPv4 subnet prefix length (aka subnet mask) for the named
- * interface, if it has one, otherwise return -1.
+ * Returns the IPv4 subnet prefix length (bkb subnet mbsk) for the nbmed
+ * interfbce, if it hbs one, otherwise return -1.
  */
-static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
-    unsigned int mask;
+stbtic short getSubnet(JNIEnv *env, int sock, const chbr *ifnbme) {
+    unsigned int mbsk;
     short ret;
     struct ifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.ifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.ifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGIFNETMASK, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFNETMASK failed");
+    if (ioctl(sock, SIOCGIFNETMASK, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFNETMASK fbiled");
         return -1;
     }
 
-    mask = ntohl(((struct sockaddr_in*)&(if2.ifr_addr))->sin_addr.s_addr);
+    mbsk = ntohl(((struct sockbddr_in*)&(if2.ifr_bddr))->sin_bddr.s_bddr);
     ret = 0;
-    while (mask) {
-       mask <<= 1;
+    while (mbsk) {
+       mbsk <<= 1;
        ret++;
     }
 
@@ -1381,11 +1381,11 @@ static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
 }
 
 /**
- * Get the Hardware address (usually MAC address) for the named interface.
- * return puts the data in buf, and returns the length, in byte, of the
- * MAC address. Returns -1 if there is no hardware address on that interface.
+ * Get the Hbrdwbre bddress (usublly MAC bddress) for the nbmed interfbce.
+ * return puts the dbtb in buf, bnd returns the length, in byte, of the
+ * MAC bddress. Returns -1 if there is no hbrdwbre bddress on thbt interfbce.
  */
-static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct in_addr* addr, unsigned char *buf) {
+stbtic int getMbcAddress(JNIEnv *env, int sock, const chbr* ifnbme, const struct in_bddr* bddr, unsigned chbr *buf) {
 #if defined (_AIX)
     int size;
     struct kinfo_ndd *nddp;
@@ -1401,10 +1401,10 @@ static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct
         return -1;
     }
 
-    nddp = (struct kinfo_ndd *)malloc(size);
+    nddp = (struct kinfo_ndd *)mblloc(size);
 
     if (!nddp) {
-        JNU_ThrowOutOfMemoryError(env, "Network interface getMacAddress native buffer allocation failed");
+        JNU_ThrowOutOfMemoryError(env, "Network interfbce getMbcAddress nbtive buffer bllocbtion fbiled");
         return -1;
     }
 
@@ -1415,9 +1415,9 @@ static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct
 
     end = (void *)nddp + size;
     while ((void *)nddp < end) {
-        if (!strcmp(nddp->ndd_alias, ifname) ||
-                !strcmp(nddp->ndd_name, ifname)) {
-            bcopy(nddp->ndd_addr, buf, 6);
+        if (!strcmp(nddp->ndd_blibs, ifnbme) ||
+                !strcmp(nddp->ndd_nbme, ifnbme)) {
+            bcopy(nddp->ndd_bddr, buf, 6);
             return 6;
         } else {
             nddp++;
@@ -1427,19 +1427,19 @@ static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct
     return -1;
 
 #elif defined(__linux__)
-    static struct ifreq ifr;
+    stbtic struct ifreq ifr;
     int i;
 
-    strcpy(ifr.ifr_name, ifname);
+    strcpy(ifr.ifr_nbme, ifnbme);
     if (ioctl(sock, SIOCGIFHWADDR, &ifr) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFHWADDR failed");
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFHWADDR fbiled");
         return -1;
     }
 
-    memcpy(buf, &ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
+    memcpy(buf, &ifr.ifr_hwbddr.sb_dbtb, IFHWADDRLEN);
 
    /*
-    * All bytes to 0 means no hardware address.
+    * All bytes to 0 mebns no hbrdwbre bddress.
     */
 
     for (i = 0; i < IFHWADDRLEN; i++) {
@@ -1451,83 +1451,83 @@ static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct
 #endif
 }
 
-static int getMTU(JNIEnv *env, int sock,  const char *ifname) {
+stbtic int getMTU(JNIEnv *env, int sock,  const chbr *ifnbme) {
     struct ifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.ifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.ifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGIFMTU, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFMTU failed");
+    if (ioctl(sock, SIOCGIFMTU, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFMTU fbiled");
         return -1;
     }
 
     return  if2.ifr_mtu;
 }
 
-static int getFlags(int sock, const char *ifname, int *flags) {
+stbtic int getFlbgs(int sock, const chbr *ifnbme, int *flbgs) {
   struct ifreq if2;
 
-  memset((char *) &if2, 0, sizeof(if2));
-  strcpy(if2.ifr_name, ifname);
+  memset((chbr *) &if2, 0, sizeof(if2));
+  strcpy(if2.ifr_nbme, ifnbme);
 
-  if (ioctl(sock, SIOCGIFFLAGS, (char *)&if2) < 0){
+  if (ioctl(sock, SIOCGIFFLAGS, (chbr *)&if2) < 0){
       return -1;
   }
 
-  if (sizeof(if2.ifr_flags) == sizeof(short)) {
-      *flags = (if2.ifr_flags & 0xffff);
+  if (sizeof(if2.ifr_flbgs) == sizeof(short)) {
+      *flbgs = (if2.ifr_flbgs & 0xffff);
   } else {
-      *flags = if2.ifr_flags;
+      *flbgs = if2.ifr_flbgs;
   }
   return 0;
 }
 
 #endif
 
-/** Solaris **/
-#ifdef __solaris__
-/* Open socket for further ioct calls, try v4 socket first and
- * if it falls return v6 socket
+/** Solbris **/
+#ifdef __solbris__
+/* Open socket for further ioct cblls, try v4 socket first bnd
+ * if it fblls return v6 socket
  */
 
 #ifdef AF_INET6
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
-    int sock, alreadyV6 = 0;
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
+    int sock, blrebdyV6 = 0;
     struct lifreq if2;
 
      if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
          if (errno == EPROTONOSUPPORT){
               if ( (sock = socket(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
-                 NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket creation failed");
+                 NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket crebtion fbiled");
                  return -1;
               }
 
-              alreadyV6=1;
+              blrebdyV6=1;
          }
          else{ // errno is not NOSUPPORT
-             NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket creation failed");
+             NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket crebtion fbiled");
              return -1;
          }
    }
 
      /**
-      * Solaris requires that we have an IPv6 socket to query an
-      * interface without an IPv4 address - check it here.
-      * POSIX 1 require the kernel to return ENOTTY if the call is
-      * inappropriate for a device e.g. the NETMASK for a device having IPv6
-      * only address but not all devices follow the standard so
-      * fall back on any error. It's not an ecologically friendly gesture
-      * but more reliable.
+      * Solbris requires thbt we hbve bn IPv6 socket to query bn
+      * interfbce without bn IPv4 bddress - check it here.
+      * POSIX 1 require the kernel to return ENOTTY if the cbll is
+      * inbppropribte for b device e.g. the NETMASK for b device hbving IPv6
+      * only bddress but not bll devices follow the stbndbrd so
+      * fbll bbck on bny error. It's not bn ecologicblly friendly gesture
+      * but more relibble.
       */
 
-    if (! alreadyV6 ){
-        memset((char *) &if2, 0, sizeof(if2));
-        strcpy(if2.lifr_name, ifname);
-        if (ioctl(sock, SIOCGLIFNETMASK, (char *)&if2) < 0) {
+    if (! blrebdyV6 ){
+        memset((chbr *) &if2, 0, sizeof(if2));
+        strcpy(if2.lifr_nbme, ifnbme);
+        if (ioctl(sock, SIOCGLIFNETMASK, (chbr *)&if2) < 0) {
                 close(sock);
                 if ( (sock = socket(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
-                      NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket creation failed");
+                      NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket crebtion fbiled");
                       return -1;
                 }
         }
@@ -1537,66 +1537,66 @@ static int openSocketWithFallback(JNIEnv *env, const char *ifname){
 }
 
 #else
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
     return openSocket(env,AF_INET);
 }
 #endif
 
 /*
- * Enumerates and returns all IPv4 interfaces
+ * Enumerbtes bnd returns bll IPv4 interfbces
  * (linux verision)
  */
 
-static netif *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs) {
-     return enumIPvXInterfaces(env,sock, ifs, AF_INET);
+stbtic netif *enumIPv4Interfbces(JNIEnv *env, int sock, netif *ifs) {
+     return enumIPvXInterfbces(env,sock, ifs, AF_INET);
 }
 
 #ifdef AF_INET6
-static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
-    return enumIPvXInterfaces(env,sock, ifs, AF_INET6);
+stbtic netif *enumIPv6Interfbces(JNIEnv *env, int sock, netif *ifs) {
+    return enumIPvXInterfbces(env,sock, ifs, AF_INET6);
 }
 #endif
 
 /*
-   Enumerates and returns all interfaces on Solaris
-   use the same code for IPv4 and IPv6
+   Enumerbtes bnd returns bll interfbces on Solbris
+   use the sbme code for IPv4 bnd IPv6
  */
-static netif *enumIPvXInterfaces(JNIEnv *env, int sock, netif *ifs, int family) {
+stbtic netif *enumIPvXInterfbces(JNIEnv *env, int sock, netif *ifs, int fbmily) {
     struct lifconf ifc;
     struct lifreq *ifr;
     int n;
-    char *buf;
+    chbr *buf;
     struct lifnum numifs;
     unsigned bufsize;
 
     /*
-     * Get the interface count
+     * Get the interfbce count
      */
-    numifs.lifn_family = family;
-    numifs.lifn_flags = 0;
-    if (ioctl(sock, SIOCGLIFNUM, (char *)&numifs) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGLIFNUM failed");
+    numifs.lifn_fbmily = fbmily;
+    numifs.lifn_flbgs = 0;
+    if (ioctl(sock, SIOCGLIFNUM, (chbr *)&numifs) < 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGLIFNUM fbiled");
         return ifs;
     }
 
     /*
-     *  Enumerate the interface configurations
+     *  Enumerbte the interfbce configurbtions
      */
     bufsize = numifs.lifn_count * sizeof (struct lifreq);
-    CHECKED_MALLOC3(buf, char *, bufsize);
+    CHECKED_MALLOC3(buf, chbr *, bufsize);
 
-    ifc.lifc_family = family;
-    ifc.lifc_flags = 0;
+    ifc.lifc_fbmily = fbmily;
+    ifc.lifc_flbgs = 0;
     ifc.lifc_len = bufsize;
     ifc.lifc_buf = buf;
-    if (ioctl(sock, SIOCGLIFCONF, (char *)&ifc) < 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGLIFCONF failed");
+    if (ioctl(sock, SIOCGLIFCONF, (chbr *)&ifc) < 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "ioctl SIOCGLIFCONF fbiled");
         free(buf);
         return ifs;
     }
 
     /*
-     * Iterate through each interface
+     * Iterbte through ebch interfbce
      */
     ifr = ifc.lifc_req;
     for (n=0; n<numifs.lifn_count; n++, ifr++) {
@@ -1604,24 +1604,24 @@ static netif *enumIPvXInterfaces(JNIEnv *env, int sock, netif *ifs, int family) 
         struct lifreq if2;
 
         /*
-        * Ignore either IPv4 or IPv6 addresses
+        * Ignore either IPv4 or IPv6 bddresses
         */
-        if (ifr->lifr_addr.ss_family != family) {
+        if (ifr->lifr_bddr.ss_fbmily != fbmily) {
             continue;
         }
 
 #ifdef AF_INET6
-        if (ifr->lifr_addr.ss_family == AF_INET6) {
-            struct sockaddr_in6 *s6= (struct sockaddr_in6 *)&(ifr->lifr_addr);
-            s6->sin6_scope_id = getIndex(sock, ifr->lifr_name);
+        if (ifr->lifr_bddr.ss_fbmily == AF_INET6) {
+            struct sockbddr_in6 *s6= (struct sockbddr_in6 *)&(ifr->lifr_bddr);
+            s6->sin6_scope_id = getIndex(sock, ifr->lifr_nbme);
         }
 #endif
 
-        /* add to the list */
-        ifs = addif(env, sock,ifr->lifr_name, ifs, (struct sockaddr *)&(ifr->lifr_addr),family, (short) ifr->lifr_addrlen);
+        /* bdd to the list */
+        ifs = bddif(env, sock,ifr->lifr_nbme, ifs, (struct sockbddr *)&(ifr->lifr_bddr),fbmily, (short) ifr->lifr_bddrlen);
 
         /*
-        * If an exception occurred we return immediately
+        * If bn exception occurred we return immedibtely
         */
         if ((*env)->ExceptionOccurred(env)) {
             free(buf);
@@ -1634,15 +1634,15 @@ static netif *enumIPvXInterfaces(JNIEnv *env, int sock, netif *ifs, int family) 
     return ifs;
 }
 
-static int getIndex(int sock, const char *name){
+stbtic int getIndex(int sock, const chbr *nbme){
    /*
-    * Try to get the interface index
-    * (Not supported on Solaris 2.6 or 7)
+    * Try to get the interfbce index
+    * (Not supported on Solbris 2.6 or 7)
     */
     struct lifreq if2;
-    strcpy(if2.lifr_name, name);
+    strcpy(if2.lifr_nbme, nbme);
 
-    if (ioctl(sock, SIOCGLIFINDEX, (char *)&if2) < 0) {
+    if (ioctl(sock, SIOCGLIFINDEX, (chbr *)&if2) < 0) {
         return -1;
     }
 
@@ -1650,58 +1650,58 @@ static int getIndex(int sock, const char *name){
 }
 
 /**
- * Returns the IPv4 broadcast address of a named interface, if it exists.
- * Returns 0 if it doesn't have one.
+ * Returns the IPv4 brobdcbst bddress of b nbmed interfbce, if it exists.
+ * Returns 0 if it doesn't hbve one.
  */
-static struct sockaddr *getBroadcast(JNIEnv *env, int sock, const char *ifname, struct sockaddr *brdcast_store) {
-    struct sockaddr *ret = NULL;
+stbtic struct sockbddr *getBrobdcbst(JNIEnv *env, int sock, const chbr *ifnbme, struct sockbddr *brdcbst_store) {
+    struct sockbddr *ret = NULL;
     struct lifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.lifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.lifr_nbme, ifnbme);
 
-    /* Let's make sure the interface does have a broadcast address */
-    if (ioctl(sock, SIOCGLIFFLAGS, (char *)&if2)  < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGLIFFLAGS failed");
+    /* Let's mbke sure the interfbce does hbve b brobdcbst bddress */
+    if (ioctl(sock, SIOCGLIFFLAGS, (chbr *)&if2)  < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL  SIOCGLIFFLAGS fbiled");
         return ret;
     }
 
-    if (if2.lifr_flags & IFF_BROADCAST) {
+    if (if2.lifr_flbgs & IFF_BROADCAST) {
         /* It does, let's retrieve it*/
-        if (ioctl(sock, SIOCGLIFBRDADDR, (char *)&if2) < 0) {
-            NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFBRDADDR failed");
+        if (ioctl(sock, SIOCGLIFBRDADDR, (chbr *)&if2) < 0) {
+            NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFBRDADDR fbiled");
             return ret;
         }
 
-        ret = brdcast_store;
-        memcpy(ret, &if2.lifr_broadaddr, sizeof(struct sockaddr));
+        ret = brdcbst_store;
+        memcpy(ret, &if2.lifr_brobdbddr, sizeof(struct sockbddr));
     }
 
     return ret;
 }
 
 /**
- * Returns the IPv4 subnet prefix length (aka subnet mask) for the named
- * interface, if it has one, otherwise return -1.
+ * Returns the IPv4 subnet prefix length (bkb subnet mbsk) for the nbmed
+ * interfbce, if it hbs one, otherwise return -1.
  */
-static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
-    unsigned int mask;
+stbtic short getSubnet(JNIEnv *env, int sock, const chbr *ifnbme) {
+    unsigned int mbsk;
     short ret;
     struct lifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.lifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.lifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGLIFNETMASK, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFNETMASK failed");
+    if (ioctl(sock, SIOCGLIFNETMASK, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFNETMASK fbiled");
         return -1;
     }
 
-    mask = ntohl(((struct sockaddr_in*)&(if2.lifr_addr))->sin_addr.s_addr);
+    mbsk = ntohl(((struct sockbddr_in*)&(if2.lifr_bddr))->sin_bddr.s_bddr);
     ret = 0;
 
-    while (mask) {
-       mask <<= 1;
+    while (mbsk) {
+       mbsk <<= 1;
        ret++;
     }
 
@@ -1713,122 +1713,122 @@ static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
 #define DEV_PREFIX  "/dev/"
 
 /**
- * Solaris specific DLPI code to get hardware address from a device.
- * Unfortunately, at least up to Solaris X, you have to have special
+ * Solbris specific DLPI code to get hbrdwbre bddress from b device.
+ * Unfortunbtely, bt lebst up to Solbris X, you hbve to hbve specibl
  * privileges (i.e. be root).
  */
-static int getMacFromDevice(JNIEnv *env, const char* ifname, unsigned char* retbuf) {
-    char style1dev[MAXPATHLEN];
+stbtic int getMbcFromDevice(JNIEnv *env, const chbr* ifnbme, unsigned chbr* retbuf) {
+    chbr style1dev[MAXPATHLEN];
     int fd;
-    dl_phys_addr_req_t dlpareq;
-    dl_phys_addr_ack_t *dlpaack;
+    dl_phys_bddr_req_t dlpbreq;
+    dl_phys_bddr_bck_t *dlpbbck;
     struct strbuf msg;
-    char buf[128];
-    int flags = 0;
+    chbr buf[128];
+    int flbgs = 0;
 
    /**
     * Device is in /dev
     * e.g.: /dev/bge0
     */
     strcpy(style1dev, DEV_PREFIX);
-    strcat(style1dev, ifname);
+    strcbt(style1dev, ifnbme);
     if ((fd = open(style1dev, O_RDWR)) < 0) {
         /*
-         * Can't open it. We probably are missing the privilege.
-         * We'll have to try something else
+         * Cbn't open it. We probbbly bre missing the privilege.
+         * We'll hbve to try something else
          */
          return 0;
     }
 
-    dlpareq.dl_primitive = DL_PHYS_ADDR_REQ;
-    dlpareq.dl_addr_type = DL_CURR_PHYS_ADDR;
+    dlpbreq.dl_primitive = DL_PHYS_ADDR_REQ;
+    dlpbreq.dl_bddr_type = DL_CURR_PHYS_ADDR;
 
-    msg.buf = (char *)&dlpareq;
+    msg.buf = (chbr *)&dlpbreq;
     msg.len = DL_PHYS_ADDR_REQ_SIZE;
 
     if (putmsg(fd, &msg, NULL, 0) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "putmsg failed");
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "putmsg fbiled");
         return -1;
     }
 
-    dlpaack = (dl_phys_addr_ack_t *)buf;
+    dlpbbck = (dl_phys_bddr_bck_t *)buf;
 
-    msg.buf = (char *)buf;
+    msg.buf = (chbr *)buf;
     msg.len = 0;
-    msg.maxlen = sizeof (buf);
-    if (getmsg(fd, &msg, NULL, &flags) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "getmsg failed");
+    msg.mbxlen = sizeof (buf);
+    if (getmsg(fd, &msg, NULL, &flbgs) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "getmsg fbiled");
         return -1;
     }
 
-    if (msg.len < DL_PHYS_ADDR_ACK_SIZE || dlpaack->dl_primitive != DL_PHYS_ADDR_ACK) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Couldn't obtain phys addr\n");
+    if (msg.len < DL_PHYS_ADDR_ACK_SIZE || dlpbbck->dl_primitive != DL_PHYS_ADDR_ACK) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Couldn't obtbin phys bddr\n");
         return -1;
     }
 
-    memcpy(retbuf, &buf[dlpaack->dl_addr_offset], dlpaack->dl_addr_length);
-    return dlpaack->dl_addr_length;
+    memcpy(retbuf, &buf[dlpbbck->dl_bddr_offset], dlpbbck->dl_bddr_length);
+    return dlpbbck->dl_bddr_length;
 }
 
 /**
- * Get the Hardware address (usually MAC address) for the named interface.
- * return puts the data in buf, and returns the length, in byte, of the
- * MAC address. Returns -1 if there is no hardware address on that interface.
+ * Get the Hbrdwbre bddress (usublly MAC bddress) for the nbmed interfbce.
+ * return puts the dbtb in buf, bnd returns the length, in byte, of the
+ * MAC bddress. Returns -1 if there is no hbrdwbre bddress on thbt interfbce.
  */
-static int getMacAddress(JNIEnv *env, int sock, const char *ifname,  const struct in_addr* addr, unsigned char *buf) {
-    struct arpreq arpreq;
-    struct sockaddr_in* sin;
-    struct sockaddr_in ipAddr;
+stbtic int getMbcAddress(JNIEnv *env, int sock, const chbr *ifnbme,  const struct in_bddr* bddr, unsigned chbr *buf) {
+    struct brpreq brpreq;
+    struct sockbddr_in* sin;
+    struct sockbddr_in ipAddr;
     int len, i;
     struct lifreq lif;
 
-    /* First, try the new (S11) SIOCGLIFHWADDR ioctl(). If that fails
-     * try the old way.
+    /* First, try the new (S11) SIOCGLIFHWADDR ioctl(). If thbt fbils
+     * try the old wby.
      */
     memset(&lif, 0, sizeof(lif));
-    strlcpy(lif.lifr_name, ifname, sizeof(lif.lifr_name));
+    strlcpy(lif.lifr_nbme, ifnbme, sizeof(lif.lifr_nbme));
 
     if (ioctl(sock, SIOCGLIFHWADDR, &lif) != -1) {
-        struct sockaddr_dl *sp;
-        sp = (struct sockaddr_dl *)&lif.lifr_addr;
-        memcpy(buf, &sp->sdl_data[0], sp->sdl_alen);
-        return sp->sdl_alen;
+        struct sockbddr_dl *sp;
+        sp = (struct sockbddr_dl *)&lif.lifr_bddr;
+        memcpy(buf, &sp->sdl_dbtb[0], sp->sdl_blen);
+        return sp->sdl_blen;
     }
 
    /**
-    * On Solaris we have to use DLPI, but it will only work if we have
-    * privileged access (i.e. root). If that fails, we try a lookup
-    * in the ARP table, which requires an IPv4 address.
+    * On Solbris we hbve to use DLPI, but it will only work if we hbve
+    * privileged bccess (i.e. root). If thbt fbils, we try b lookup
+    * in the ARP tbble, which requires bn IPv4 bddress.
     */
-    if ((len = getMacFromDevice(env, ifname, buf))  == 0) {
-        /*DLPI failed - trying to do arp lookup*/
+    if ((len = getMbcFromDevice(env, ifnbme, buf))  == 0) {
+        /*DLPI fbiled - trying to do brp lookup*/
 
-        if (addr == NULL) {
+        if (bddr == NULL) {
             /**
-             * No IPv4 address for that interface, so can't do an ARP lookup.
+             * No IPv4 bddress for thbt interfbce, so cbn't do bn ARP lookup.
              */
              return -1;
          }
 
          len = 6; //???
 
-         sin = (struct sockaddr_in *) &arpreq.arp_pa;
-         memset((char *) &arpreq, 0, sizeof(struct arpreq));
+         sin = (struct sockbddr_in *) &brpreq.brp_pb;
+         memset((chbr *) &brpreq, 0, sizeof(struct brpreq));
          ipAddr.sin_port = 0;
-         ipAddr.sin_family = AF_INET;
-         memcpy(&ipAddr.sin_addr, addr, sizeof(struct in_addr));
-         memcpy(&arpreq.arp_pa, &ipAddr, sizeof(struct sockaddr_in));
-         arpreq.arp_flags= ATF_PUBL;
+         ipAddr.sin_fbmily = AF_INET;
+         memcpy(&ipAddr.sin_bddr, bddr, sizeof(struct in_bddr));
+         memcpy(&brpreq.brp_pb, &ipAddr, sizeof(struct sockbddr_in));
+         brpreq.brp_flbgs= ATF_PUBL;
 
-         if (ioctl(sock, SIOCGARP, &arpreq) < 0) {
+         if (ioctl(sock, SIOCGARP, &brpreq) < 0) {
              return -1;
          }
 
-         memcpy(buf, &arpreq.arp_ha.sa_data[0], len );
+         memcpy(buf, &brpreq.brp_hb.sb_dbtb[0], len );
     }
 
     /*
-     * All bytes to 0 means no hardware address.
+     * All bytes to 0 mebns no hbrdwbre bddress.
      */
 
     for (i = 0; i < len; i++) {
@@ -1839,14 +1839,14 @@ static int getMacAddress(JNIEnv *env, int sock, const char *ifname,  const struc
     return -1;
 }
 
-static int getMTU(JNIEnv *env, int sock,  const char *ifname) {
+stbtic int getMTU(JNIEnv *env, int sock,  const chbr *ifnbme) {
     struct lifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.lifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.lifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGLIFMTU, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFMTU failed");
+    if (ioctl(sock, SIOCGLIFMTU, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGLIFMTU fbiled");
         return -1;
     }
 
@@ -1854,16 +1854,16 @@ static int getMTU(JNIEnv *env, int sock,  const char *ifname) {
 }
 
 
-static int getFlags(int sock, const char *ifname, int *flags) {
+stbtic int getFlbgs(int sock, const chbr *ifnbme, int *flbgs) {
      struct   lifreq lifr;
-     memset((caddr_t)&lifr, 0, sizeof(lifr));
-     strcpy((caddr_t)&(lifr.lifr_name), ifname);
+     memset((cbddr_t)&lifr, 0, sizeof(lifr));
+     strcpy((cbddr_t)&(lifr.lifr_nbme), ifnbme);
 
-     if (ioctl(sock, SIOCGLIFFLAGS, (char *)&lifr) < 0) {
+     if (ioctl(sock, SIOCGLIFFLAGS, (chbr *)&lifr) < 0) {
          return -1;
      }
 
-     *flags = lifr.lifr_flags;
+     *flbgs = lifr.lifr_flbgs;
      return 0;
 }
 
@@ -1873,24 +1873,24 @@ static int getFlags(int sock, const char *ifname, int *flags) {
 
 /** BSD **/
 #ifdef _ALLBSD_SOURCE
-/* Open socket for further ioct calls, try v4 socket first and
- * if it falls return v6 socket
+/* Open socket for further ioct cblls, try v4 socket first bnd
+ * if it fblls return v6 socket
  */
 
 #ifdef AF_INET6
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
     int sock;
     struct ifreq if2;
 
      if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
          if (errno == EPROTONOSUPPORT){
               if ( (sock = socket(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
-                 NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket creation failed");
+                 NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV6 Socket crebtion fbiled");
                  return -1;
               }
          }
          else{ // errno is not NOSUPPORT
-             NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket creation failed");
+             NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException", "IPV4 Socket crebtion fbiled");
              return -1;
          }
    }
@@ -1899,215 +1899,215 @@ static int openSocketWithFallback(JNIEnv *env, const char *ifname){
 }
 
 #else
-static int openSocketWithFallback(JNIEnv *env, const char *ifname){
+stbtic int openSocketWithFbllbbck(JNIEnv *env, const chbr *ifnbme){
     return openSocket(env,AF_INET);
 }
 #endif
 
 /*
- * Enumerates and returns all IPv4 interfaces
+ * Enumerbtes bnd returns bll IPv4 interfbces
  */
-static netif *enumIPv4Interfaces(JNIEnv *env, int sock, netif *ifs) {
-    struct ifaddrs *ifa, *origifa;
+stbtic netif *enumIPv4Interfbces(JNIEnv *env, int sock, netif *ifs) {
+    struct ifbddrs *ifb, *origifb;
 
-    if (getifaddrs(&origifa) != 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException",
-                         "getifaddrs() function failed");
+    if (getifbddrs(&origifb) != 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException",
+                         "getifbddrs() function fbiled");
         return ifs;
     }
 
-    for (ifa = origifa; ifa != NULL; ifa = ifa->ifa_next) {
+    for (ifb = origifb; ifb != NULL; ifb = ifb->ifb_next) {
 
         /*
          * Skip non-AF_INET entries.
          */
-        if (ifa->ifa_addr == NULL || ifa->ifa_addr->sa_family != AF_INET)
+        if (ifb->ifb_bddr == NULL || ifb->ifb_bddr->sb_fbmily != AF_INET)
             continue;
 
         /*
          * Add to the list.
          */
-        ifs = addif(env, sock, ifa->ifa_name, ifs, ifa->ifa_addr, AF_INET, 0);
+        ifs = bddif(env, sock, ifb->ifb_nbme, ifs, ifb->ifb_bddr, AF_INET, 0);
 
         /*
-         * If an exception occurred then free the list.
+         * If bn exception occurred then free the list.
          */
         if ((*env)->ExceptionOccurred(env)) {
-            freeifaddrs(origifa);
+            freeifbddrs(origifb);
             freeif(ifs);
             return NULL;
         }
     }
 
     /*
-     * Free socket and buffer
+     * Free socket bnd buffer
      */
-    freeifaddrs(origifa);
+    freeifbddrs(origifb);
     return ifs;
 }
 
 
 /*
- * Enumerates and returns all IPv6 interfaces on Linux
+ * Enumerbtes bnd returns bll IPv6 interfbces on Linux
  */
 
 #ifdef AF_INET6
 /*
- * Determines the prefix on BSD for IPv6 interfaces.
+ * Determines the prefix on BSD for IPv6 interfbces.
  */
-static
-int prefix(void *val, int size) {
-    u_char *name = (u_char *)val;
+stbtic
+int prefix(void *vbl, int size) {
+    u_chbr *nbme = (u_chbr *)vbl;
     int byte, bit, plen = 0;
 
     for (byte = 0; byte < size; byte++, plen += 8)
-        if (name[byte] != 0xff)
-            break;
+        if (nbme[byte] != 0xff)
+            brebk;
     if (byte == size)
         return (plen);
     for (bit = 7; bit != 0; bit--, plen++)
-        if (!(name[byte] & (1 << bit)))
-            break;
+        if (!(nbme[byte] & (1 << bit)))
+            brebk;
     for (; bit != 0; bit--)
-        if (name[byte] & (1 << bit))
+        if (nbme[byte] & (1 << bit))
             return (0);
     byte++;
     for (; byte < size; byte++)
-        if (name[byte])
+        if (nbme[byte])
             return (0);
     return (plen);
 }
 
 /*
- * Enumerates and returns all IPv6 interfaces on BSD
+ * Enumerbtes bnd returns bll IPv6 interfbces on BSD
  */
-static netif *enumIPv6Interfaces(JNIEnv *env, int sock, netif *ifs) {
-    struct ifaddrs *ifa, *origifa;
-    struct sockaddr_in6 *sin6;
+stbtic netif *enumIPv6Interfbces(JNIEnv *env, int sock, netif *ifs) {
+    struct ifbddrs *ifb, *origifb;
+    struct sockbddr_in6 *sin6;
     struct in6_ifreq ifr6;
 
-    if (getifaddrs(&origifa) != 0) {
-        NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException",
-                         "getifaddrs() function failed");
+    if (getifbddrs(&origifb) != 0) {
+        NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException",
+                         "getifbddrs() function fbiled");
         return ifs;
     }
 
-    for (ifa = origifa; ifa != NULL; ifa = ifa->ifa_next) {
+    for (ifb = origifb; ifb != NULL; ifb = ifb->ifb_next) {
 
         /*
          * Skip non-AF_INET6 entries.
          */
-        if (ifa->ifa_addr == NULL || ifa->ifa_addr->sa_family != AF_INET6)
+        if (ifb->ifb_bddr == NULL || ifb->ifb_bddr->sb_fbmily != AF_INET6)
             continue;
 
         memset(&ifr6, 0, sizeof(ifr6));
-        strlcpy(ifr6.ifr_name, ifa->ifa_name, sizeof(ifr6.ifr_name));
-        memcpy(&ifr6.ifr_addr, ifa->ifa_addr, MIN(sizeof(ifr6.ifr_addr), ifa->ifa_addr->sa_len));
+        strlcpy(ifr6.ifr_nbme, ifb->ifb_nbme, sizeof(ifr6.ifr_nbme));
+        memcpy(&ifr6.ifr_bddr, ifb->ifb_bddr, MIN(sizeof(ifr6.ifr_bddr), ifb->ifb_bddr->sb_len));
 
-        if (ioctl(sock, SIOCGIFNETMASK_IN6, (caddr_t)&ifr6) < 0) {
-            NET_ThrowByNameWithLastError(env , JNU_JAVANETPKG "SocketException",
-                             "ioctl SIOCGIFNETMASK_IN6 failed");
-            freeifaddrs(origifa);
+        if (ioctl(sock, SIOCGIFNETMASK_IN6, (cbddr_t)&ifr6) < 0) {
+            NET_ThrowByNbmeWithLbstError(env , JNU_JAVANETPKG "SocketException",
+                             "ioctl SIOCGIFNETMASK_IN6 fbiled");
+            freeifbddrs(origifb);
             freeif(ifs);
             return NULL;
         }
 
         /* Add to the list.  */
-        sin6 = (struct sockaddr_in6 *)&ifr6.ifr_addr;
-        ifs = addif(env, sock, ifa->ifa_name, ifs, ifa->ifa_addr, AF_INET6,
-                    prefix(&sin6->sin6_addr, sizeof(struct in6_addr)));
+        sin6 = (struct sockbddr_in6 *)&ifr6.ifr_bddr;
+        ifs = bddif(env, sock, ifb->ifb_nbme, ifs, ifb->ifb_bddr, AF_INET6,
+                    prefix(&sin6->sin6_bddr, sizeof(struct in6_bddr)));
 
-        /* If an exception occurred then free the list.  */
+        /* If bn exception occurred then free the list.  */
         if ((*env)->ExceptionOccurred(env)) {
-            freeifaddrs(origifa);
+            freeifbddrs(origifb);
             freeif(ifs);
             return NULL;
         }
     }
 
     /*
-     * Free socket and ifaddrs buffer
+     * Free socket bnd ifbddrs buffer
      */
-    freeifaddrs(origifa);
+    freeifbddrs(origifb);
     return ifs;
 }
 #endif
 
-static int getIndex(int sock, const char *name){
+stbtic int getIndex(int sock, const chbr *nbme){
 #ifdef __FreeBSD__
      /*
-      * Try to get the interface index
-      * (Not supported on Solaris 2.6 or 7)
+      * Try to get the interfbce index
+      * (Not supported on Solbris 2.6 or 7)
       */
     struct ifreq if2;
-    strcpy(if2.ifr_name, name);
+    strcpy(if2.ifr_nbme, nbme);
 
-    if (ioctl(sock, SIOCGIFINDEX, (char *)&if2) < 0) {
+    if (ioctl(sock, SIOCGIFINDEX, (chbr *)&if2) < 0) {
         return -1;
     }
 
     return if2.ifr_index;
 #else
     /*
-     * Try to get the interface index using BSD specific if_nametoindex
+     * Try to get the interfbce index using BSD specific if_nbmetoindex
      */
-    int index = if_nametoindex(name);
+    int index = if_nbmetoindex(nbme);
     return (index == 0) ? -1 : index;
 #endif
 }
 
 /**
- * Returns the IPv4 broadcast address of a named interface, if it exists.
- * Returns 0 if it doesn't have one.
+ * Returns the IPv4 brobdcbst bddress of b nbmed interfbce, if it exists.
+ * Returns 0 if it doesn't hbve one.
  */
-static struct sockaddr *getBroadcast(JNIEnv *env, int sock, const char *ifname, struct sockaddr *brdcast_store) {
-  struct sockaddr *ret = NULL;
+stbtic struct sockbddr *getBrobdcbst(JNIEnv *env, int sock, const chbr *ifnbme, struct sockbddr *brdcbst_store) {
+  struct sockbddr *ret = NULL;
   struct ifreq if2;
 
-  memset((char *) &if2, 0, sizeof(if2));
-  strcpy(if2.ifr_name, ifname);
+  memset((chbr *) &if2, 0, sizeof(if2));
+  strcpy(if2.ifr_nbme, ifnbme);
 
-  /* Let's make sure the interface does have a broadcast address */
-  if (ioctl(sock, SIOCGIFFLAGS, (char *)&if2) < 0) {
-      NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFFLAGS failed");
+  /* Let's mbke sure the interfbce does hbve b brobdcbst bddress */
+  if (ioctl(sock, SIOCGIFFLAGS, (chbr *)&if2) < 0) {
+      NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFFLAGS fbiled");
       return ret;
   }
 
-  if (if2.ifr_flags & IFF_BROADCAST) {
+  if (if2.ifr_flbgs & IFF_BROADCAST) {
       /* It does, let's retrieve it*/
-      if (ioctl(sock, SIOCGIFBRDADDR, (char *)&if2) < 0) {
-          NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFBRDADDR failed");
+      if (ioctl(sock, SIOCGIFBRDADDR, (chbr *)&if2) < 0) {
+          NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFBRDADDR fbiled");
           return ret;
       }
 
-      ret = brdcast_store;
-      memcpy(ret, &if2.ifr_broadaddr, sizeof(struct sockaddr));
+      ret = brdcbst_store;
+      memcpy(ret, &if2.ifr_brobdbddr, sizeof(struct sockbddr));
   }
 
   return ret;
 }
 
 /**
- * Returns the IPv4 subnet prefix length (aka subnet mask) for the named
- * interface, if it has one, otherwise return -1.
+ * Returns the IPv4 subnet prefix length (bkb subnet mbsk) for the nbmed
+ * interfbce, if it hbs one, otherwise return -1.
  */
-static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
-    unsigned int mask;
+stbtic short getSubnet(JNIEnv *env, int sock, const chbr *ifnbme) {
+    unsigned int mbsk;
     short ret;
     struct ifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.ifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.ifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGIFNETMASK, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFNETMASK failed");
+    if (ioctl(sock, SIOCGIFNETMASK, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFNETMASK fbiled");
         return -1;
     }
 
-    mask = ntohl(((struct sockaddr_in*)&(if2.ifr_addr))->sin_addr.s_addr);
+    mbsk = ntohl(((struct sockbddr_in*)&(if2.ifr_bddr))->sin_bddr.s_bddr);
     ret = 0;
-    while (mask) {
-       mask <<= 1;
+    while (mbsk) {
+       mbsk <<= 1;
        ret++;
     }
 
@@ -2115,66 +2115,66 @@ static short getSubnet(JNIEnv *env, int sock, const char *ifname) {
 }
 
 /**
- * Get the Hardware address (usually MAC address) for the named interface.
- * return puts the data in buf, and returns the length, in byte, of the
- * MAC address. Returns -1 if there is no hardware address on that interface.
+ * Get the Hbrdwbre bddress (usublly MAC bddress) for the nbmed interfbce.
+ * return puts the dbtb in buf, bnd returns the length, in byte, of the
+ * MAC bddress. Returns -1 if there is no hbrdwbre bddress on thbt interfbce.
  */
-static int getMacAddress(JNIEnv *env, int sock, const char* ifname, const struct in_addr* addr, unsigned char *buf) {
-    struct ifaddrs *ifa0, *ifa;
-    struct sockaddr *saddr;
+stbtic int getMbcAddress(JNIEnv *env, int sock, const chbr* ifnbme, const struct in_bddr* bddr, unsigned chbr *buf) {
+    struct ifbddrs *ifb0, *ifb;
+    struct sockbddr *sbddr;
     int i;
 
-    /* Grab the interface list */
-    if (!getifaddrs(&ifa0)) {
-        /* Cycle through the interfaces */
-        for (i = 0, ifa = ifa0; ifa != NULL; ifa = ifa->ifa_next, i++) {
-            saddr = ifa->ifa_addr;
-            /* Link layer contains the MAC address */
-            if (saddr->sa_family == AF_LINK && !strcmp(ifname, ifa->ifa_name)) {
-                struct sockaddr_dl *sadl = (struct sockaddr_dl *) saddr;
-                /* Check the address is the correct length */
-                if (sadl->sdl_alen == ETHER_ADDR_LEN) {
-                    memcpy(buf, (sadl->sdl_data + sadl->sdl_nlen), ETHER_ADDR_LEN);
-                    freeifaddrs(ifa0);
+    /* Grbb the interfbce list */
+    if (!getifbddrs(&ifb0)) {
+        /* Cycle through the interfbces */
+        for (i = 0, ifb = ifb0; ifb != NULL; ifb = ifb->ifb_next, i++) {
+            sbddr = ifb->ifb_bddr;
+            /* Link lbyer contbins the MAC bddress */
+            if (sbddr->sb_fbmily == AF_LINK && !strcmp(ifnbme, ifb->ifb_nbme)) {
+                struct sockbddr_dl *sbdl = (struct sockbddr_dl *) sbddr;
+                /* Check the bddress is the correct length */
+                if (sbdl->sdl_blen == ETHER_ADDR_LEN) {
+                    memcpy(buf, (sbdl->sdl_dbtb + sbdl->sdl_nlen), ETHER_ADDR_LEN);
+                    freeifbddrs(ifb0);
                     return ETHER_ADDR_LEN;
                 }
             }
         }
-        freeifaddrs(ifa0);
+        freeifbddrs(ifb0);
     }
 
     return -1;
 }
 
-static int getMTU(JNIEnv *env, int sock,  const char *ifname) {
+stbtic int getMTU(JNIEnv *env, int sock,  const chbr *ifnbme) {
     struct ifreq if2;
 
-    memset((char *) &if2, 0, sizeof(if2));
-    strcpy(if2.ifr_name, ifname);
+    memset((chbr *) &if2, 0, sizeof(if2));
+    strcpy(if2.ifr_nbme, ifnbme);
 
-    if (ioctl(sock, SIOCGIFMTU, (char *)&if2) < 0) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFMTU failed");
+    if (ioctl(sock, SIOCGIFMTU, (chbr *)&if2) < 0) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException", "IOCTL SIOCGIFMTU fbiled");
         return -1;
     }
 
     return  if2.ifr_mtu;
 }
 
-static int getFlags(int sock, const char *ifname, int *flags) {
+stbtic int getFlbgs(int sock, const chbr *ifnbme, int *flbgs) {
   struct ifreq if2;
   int ret = -1;
 
-  memset((char *) &if2, 0, sizeof(if2));
-  strcpy(if2.ifr_name, ifname);
+  memset((chbr *) &if2, 0, sizeof(if2));
+  strcpy(if2.ifr_nbme, ifnbme);
 
-  if (ioctl(sock, SIOCGIFFLAGS, (char *)&if2) < 0){
+  if (ioctl(sock, SIOCGIFFLAGS, (chbr *)&if2) < 0){
       return -1;
   }
 
-  if (sizeof(if2.ifr_flags) == sizeof(short)) {
-    *flags = (if2.ifr_flags & 0xffff);
+  if (sizeof(if2.ifr_flbgs) == sizeof(short)) {
+    *flbgs = (if2.ifr_flbgs & 0xffff);
   } else {
-    *flags = if2.ifr_flags;
+    *flbgs = if2.ifr_flbgs;
   }
   return 0;
 }

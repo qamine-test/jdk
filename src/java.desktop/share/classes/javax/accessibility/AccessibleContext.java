@@ -1,605 +1,605 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AppContext;
 
-import java.util.Locale;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeEvent;
-import java.awt.IllegalComponentStateException;
+import jbvb.util.Locble;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeSupport;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bwt.IllegblComponentStbteException;
 
 /**
- * AccessibleContext represents the minimum information all accessible objects
- * return.  This information includes the accessible name, description, role,
- * and state of the object, as well as information about its parent and
- * children.  AccessibleContext also contains methods for
- * obtaining more specific accessibility information about a component.
- * If the component supports them, these methods will return an object that
- * implements one or more of the following interfaces:
+ * AccessibleContext represents the minimum informbtion bll bccessible objects
+ * return.  This informbtion includes the bccessible nbme, description, role,
+ * bnd stbte of the object, bs well bs informbtion bbout its pbrent bnd
+ * children.  AccessibleContext blso contbins methods for
+ * obtbining more specific bccessibility informbtion bbout b component.
+ * If the component supports them, these methods will return bn object thbt
+ * implements one or more of the following interfbces:
  * <ul>
- * <li>{@link AccessibleAction} - the object can perform one or more actions.
- * This interface provides the standard mechanism for an assistive
- * technology to determine what those actions are and tell the object
- * to perform them.  Any object that can be manipulated should
- * support this interface.
- * <li>{@link AccessibleComponent} - the object has a graphical representation.
- * This interface provides the standard mechanism for an assistive
- * technology to determine and set the graphical representation of the
- * object.  Any object that is rendered on the screen should support
- * this interface.
- * <li>{@link  AccessibleSelection} - the object allows its children to be
- * selected.  This interface provides the standard mechanism for an
- * assistive technology to determine the currently selected children of the object
- * as well as modify its selection set.  Any object that has children
- * that can be selected should support this interface.
- * <li>{@link AccessibleText} - the object presents editable textual information
- * on the display.  This interface provides the standard mechanism for
- * an assistive technology to access that text via its content, attributes,
- * and spatial location.  Any object that contains editable text should
- * support this interface.
- * <li>{@link AccessibleValue} - the object supports a numerical value.  This
- * interface provides the standard mechanism for an assistive technology
- * to determine and set the current value of the object, as well as obtain its
- * minimum and maximum values.  Any object that supports a numerical value
- * should support this interface.</ul>
+ * <li>{@link AccessibleAction} - the object cbn perform one or more bctions.
+ * This interfbce provides the stbndbrd mechbnism for bn bssistive
+ * technology to determine whbt those bctions bre bnd tell the object
+ * to perform them.  Any object thbt cbn be mbnipulbted should
+ * support this interfbce.
+ * <li>{@link AccessibleComponent} - the object hbs b grbphicbl representbtion.
+ * This interfbce provides the stbndbrd mechbnism for bn bssistive
+ * technology to determine bnd set the grbphicbl representbtion of the
+ * object.  Any object thbt is rendered on the screen should support
+ * this interfbce.
+ * <li>{@link  AccessibleSelection} - the object bllows its children to be
+ * selected.  This interfbce provides the stbndbrd mechbnism for bn
+ * bssistive technology to determine the currently selected children of the object
+ * bs well bs modify its selection set.  Any object thbt hbs children
+ * thbt cbn be selected should support this interfbce.
+ * <li>{@link AccessibleText} - the object presents editbble textubl informbtion
+ * on the displby.  This interfbce provides the stbndbrd mechbnism for
+ * bn bssistive technology to bccess thbt text vib its content, bttributes,
+ * bnd spbtibl locbtion.  Any object thbt contbins editbble text should
+ * support this interfbce.
+ * <li>{@link AccessibleVblue} - the object supports b numericbl vblue.  This
+ * interfbce provides the stbndbrd mechbnism for bn bssistive technology
+ * to determine bnd set the current vblue of the object, bs well bs obtbin its
+ * minimum bnd mbximum vblues.  Any object thbt supports b numericbl vblue
+ * should support this interfbce.</ul>
  *
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: Minimal information that all accessible objects return
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: Minimbl informbtion thbt bll bccessible objects return
  *
 
- * @author      Peter Korn
- * @author      Hans Muller
- * @author      Willie Walker
- * @author      Lynn Monsanto
+ * @buthor      Peter Korn
+ * @buthor      Hbns Muller
+ * @buthor      Willie Wblker
+ * @buthor      Lynn Monsbnto
  */
-public abstract class AccessibleContext {
+public bbstrbct clbss AccessibleContext {
 
     /**
-     * The AppContext that should be used to dispatch events for this
+     * The AppContext thbt should be used to dispbtch events for this
      * AccessibleContext
      */
-    private volatile AppContext targetAppContext;
+    privbte volbtile AppContext tbrgetAppContext;
 
-    static {
+    stbtic {
         AWTAccessor.setAccessibleContextAccessor(new AWTAccessor.AccessibleContextAccessor() {
             @Override
-            public void setAppContext(AccessibleContext accessibleContext, AppContext appContext) {
-                accessibleContext.targetAppContext = appContext;
+            public void setAppContext(AccessibleContext bccessibleContext, AppContext bppContext) {
+                bccessibleContext.tbrgetAppContext = bppContext;
             }
 
             @Override
-            public AppContext getAppContext(AccessibleContext accessibleContext) {
-                return accessibleContext.targetAppContext;
+            public AppContext getAppContext(AccessibleContext bccessibleContext) {
+                return bccessibleContext.tbrgetAppContext;
             }
         });
     }
 
    /**
-    * Constant used to determine when the accessibleName property has
-    * changed.  The old value in the PropertyChangeEvent will be the old
-    * accessibleName and the new value will be the new accessibleName.
+    * Constbnt used to determine when the bccessibleNbme property hbs
+    * chbnged.  The old vblue in the PropertyChbngeEvent will be the old
+    * bccessibleNbme bnd the new vblue will be the new bccessibleNbme.
     *
-    * @see #getAccessibleName
-    * @see #addPropertyChangeListener
+    * @see #getAccessibleNbme
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_NAME_PROPERTY = "AccessibleName";
+   public stbtic finbl String ACCESSIBLE_NAME_PROPERTY = "AccessibleNbme";
 
    /**
-    * Constant used to determine when the accessibleDescription property has
-    * changed.  The old value in the PropertyChangeEvent will be the
-    * old accessibleDescription and the new value will be the new
-    * accessibleDescription.
+    * Constbnt used to determine when the bccessibleDescription property hbs
+    * chbnged.  The old vblue in the PropertyChbngeEvent will be the
+    * old bccessibleDescription bnd the new vblue will be the new
+    * bccessibleDescription.
     *
     * @see #getAccessibleDescription
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_DESCRIPTION_PROPERTY = "AccessibleDescription";
+   public stbtic finbl String ACCESSIBLE_DESCRIPTION_PROPERTY = "AccessibleDescription";
 
    /**
-    * Constant used to determine when the accessibleStateSet property has
-    * changed.  The old value will be the old AccessibleState and the new
-    * value will be the new AccessibleState in the accessibleStateSet.
-    * For example, if a component that supports the vertical and horizontal
-    * states changes its orientation from vertical to horizontal, the old
-    * value will be AccessibleState.VERTICAL and the new value will be
-    * AccessibleState.HORIZONTAL.  Please note that either value can also
-    * be null.  For example, when a component changes from being enabled
-    * to disabled, the old value will be AccessibleState.ENABLED
-    * and the new value will be null.
+    * Constbnt used to determine when the bccessibleStbteSet property hbs
+    * chbnged.  The old vblue will be the old AccessibleStbte bnd the new
+    * vblue will be the new AccessibleStbte in the bccessibleStbteSet.
+    * For exbmple, if b component thbt supports the verticbl bnd horizontbl
+    * stbtes chbnges its orientbtion from verticbl to horizontbl, the old
+    * vblue will be AccessibleStbte.VERTICAL bnd the new vblue will be
+    * AccessibleStbte.HORIZONTAL.  Plebse note thbt either vblue cbn blso
+    * be null.  For exbmple, when b component chbnges from being enbbled
+    * to disbbled, the old vblue will be AccessibleStbte.ENABLED
+    * bnd the new vblue will be null.
     *
-    * @see #getAccessibleStateSet
-    * @see AccessibleState
-    * @see AccessibleStateSet
-    * @see #addPropertyChangeListener
+    * @see #getAccessibleStbteSet
+    * @see AccessibleStbte
+    * @see AccessibleStbteSet
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_STATE_PROPERTY = "AccessibleState";
+   public stbtic finbl String ACCESSIBLE_STATE_PROPERTY = "AccessibleStbte";
 
    /**
-    * Constant used to determine when the accessibleValue property has
-    * changed.  The old value in the PropertyChangeEvent will be a Number
-    * representing the old value and the new value will be a Number
-    * representing the new value
+    * Constbnt used to determine when the bccessibleVblue property hbs
+    * chbnged.  The old vblue in the PropertyChbngeEvent will be b Number
+    * representing the old vblue bnd the new vblue will be b Number
+    * representing the new vblue
     *
-    * @see #getAccessibleValue
-    * @see #addPropertyChangeListener
+    * @see #getAccessibleVblue
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_VALUE_PROPERTY = "AccessibleValue";
+   public stbtic finbl String ACCESSIBLE_VALUE_PROPERTY = "AccessibleVblue";
 
    /**
-    * Constant used to determine when the accessibleSelection has changed.
-    * The old and new values in the PropertyChangeEvent are currently
+    * Constbnt used to determine when the bccessibleSelection hbs chbnged.
+    * The old bnd new vblues in the PropertyChbngeEvent bre currently
     * reserved for future use.
     *
     * @see #getAccessibleSelection
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_SELECTION_PROPERTY = "AccessibleSelection";
+   public stbtic finbl String ACCESSIBLE_SELECTION_PROPERTY = "AccessibleSelection";
 
    /**
-    * Constant used to determine when the accessibleText caret has changed.
-    * The old value in the PropertyChangeEvent will be an
-    * integer representing the old caret position, and the new value will
-    * be an integer representing the new/current caret position.
+    * Constbnt used to determine when the bccessibleText cbret hbs chbnged.
+    * The old vblue in the PropertyChbngeEvent will be bn
+    * integer representing the old cbret position, bnd the new vblue will
+    * be bn integer representing the new/current cbret position.
     *
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_CARET_PROPERTY = "AccessibleCaret";
+   public stbtic finbl String ACCESSIBLE_CARET_PROPERTY = "AccessibleCbret";
 
    /**
-    * Constant used to determine when the visual appearance of the object
-    * has changed.  The old and new values in the PropertyChangeEvent are
+    * Constbnt used to determine when the visubl bppebrbnce of the object
+    * hbs chbnged.  The old bnd new vblues in the PropertyChbngeEvent bre
     * currently reserved for future use.
     *
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_VISIBLE_DATA_PROPERTY = "AccessibleVisibleData";
+   public stbtic finbl String ACCESSIBLE_VISIBLE_DATA_PROPERTY = "AccessibleVisibleDbtb";
 
    /**
-    * Constant used to determine when Accessible children are added/removed
-    * from the object.  If an Accessible child is being added, the old
-    * value will be null and the new value will be the Accessible child.  If an
-    * Accessible child is being removed, the old value will be the Accessible
-    * child, and the new value will be null.
+    * Constbnt used to determine when Accessible children bre bdded/removed
+    * from the object.  If bn Accessible child is being bdded, the old
+    * vblue will be null bnd the new vblue will be the Accessible child.  If bn
+    * Accessible child is being removed, the old vblue will be the Accessible
+    * child, bnd the new vblue will be null.
     *
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_CHILD_PROPERTY = "AccessibleChild";
+   public stbtic finbl String ACCESSIBLE_CHILD_PROPERTY = "AccessibleChild";
 
    /**
-    * Constant used to determine when the active descendant of a component
-    * has changed.  The active descendant is used for objects such as
-    * list, tree, and table, which may have transient children.  When the
-    * active descendant has changed, the old value of the property change
-    * event will be the Accessible representing the previous active child, and
-    * the new value will be the Accessible representing the current active
+    * Constbnt used to determine when the bctive descendbnt of b component
+    * hbs chbnged.  The bctive descendbnt is used for objects such bs
+    * list, tree, bnd tbble, which mby hbve trbnsient children.  When the
+    * bctive descendbnt hbs chbnged, the old vblue of the property chbnge
+    * event will be the Accessible representing the previous bctive child, bnd
+    * the new vblue will be the Accessible representing the current bctive
     * child.
     *
-    * @see #addPropertyChangeListener
+    * @see #bddPropertyChbngeListener
     */
-   public static final String ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY = "AccessibleActiveDescendant";
+   public stbtic finbl String ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY = "AccessibleActiveDescendbnt";
 
     /**
-     * Constant used to indicate that the table caption has changed
-     * The old value in the PropertyChangeEvent will be an Accessible
-     * representing the previous table caption and the new value will
-     * be an Accessible representing the new table caption.
+     * Constbnt used to indicbte thbt the tbble cbption hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be bn Accessible
+     * representing the previous tbble cbption bnd the new vblue will
+     * be bn Accessible representing the new tbble cbption.
      * @see Accessible
-     * @see AccessibleTable
+     * @see AccessibleTbble
      */
-    public static final String ACCESSIBLE_TABLE_CAPTION_CHANGED =
-        "accessibleTableCaptionChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_CAPTION_CHANGED =
+        "bccessibleTbbleCbptionChbnged";
 
     /**
-     * Constant used to indicate that the table summary has changed
-     * The old value in the PropertyChangeEvent will be an Accessible
-     * representing the previous table summary and the new value will
-     * be an Accessible representing the new table summary.
+     * Constbnt used to indicbte thbt the tbble summbry hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be bn Accessible
+     * representing the previous tbble summbry bnd the new vblue will
+     * be bn Accessible representing the new tbble summbry.
      * @see Accessible
-     * @see AccessibleTable
+     * @see AccessibleTbble
      */
-    public static final String ACCESSIBLE_TABLE_SUMMARY_CHANGED =
-        "accessibleTableSummaryChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_SUMMARY_CHANGED =
+        "bccessibleTbbleSummbryChbnged";
 
     /**
-     * Constant used to indicate that table data has changed.
-     * The old value in the PropertyChangeEvent will be null and the
-     * new value will be an AccessibleTableModelChange representing
-     * the table change.
-     * @see AccessibleTable
-     * @see AccessibleTableModelChange
+     * Constbnt used to indicbte thbt tbble dbtb hbs chbnged.
+     * The old vblue in the PropertyChbngeEvent will be null bnd the
+     * new vblue will be bn AccessibleTbbleModelChbnge representing
+     * the tbble chbnge.
+     * @see AccessibleTbble
+     * @see AccessibleTbbleModelChbnge
      */
-    public static final String ACCESSIBLE_TABLE_MODEL_CHANGED =
-        "accessibleTableModelChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_MODEL_CHANGED =
+        "bccessibleTbbleModelChbnged";
 
     /**
-     * Constant used to indicate that the row header has changed
-     * The old value in the PropertyChangeEvent will be null and the
-     * new value will be an AccessibleTableModelChange representing
-     * the header change.
-     * @see AccessibleTable
-     * @see AccessibleTableModelChange
+     * Constbnt used to indicbte thbt the row hebder hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be null bnd the
+     * new vblue will be bn AccessibleTbbleModelChbnge representing
+     * the hebder chbnge.
+     * @see AccessibleTbble
+     * @see AccessibleTbbleModelChbnge
      */
-    public static final String ACCESSIBLE_TABLE_ROW_HEADER_CHANGED =
-        "accessibleTableRowHeaderChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_ROW_HEADER_CHANGED =
+        "bccessibleTbbleRowHebderChbnged";
 
     /**
-     * Constant used to indicate that the row description has changed
-     * The old value in the PropertyChangeEvent will be null and the
-     * new value will be an Integer representing the row index.
-     * @see AccessibleTable
+     * Constbnt used to indicbte thbt the row description hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be null bnd the
+     * new vblue will be bn Integer representing the row index.
+     * @see AccessibleTbble
      */
-    public static final String ACCESSIBLE_TABLE_ROW_DESCRIPTION_CHANGED =
-        "accessibleTableRowDescriptionChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_ROW_DESCRIPTION_CHANGED =
+        "bccessibleTbbleRowDescriptionChbnged";
 
     /**
-     * Constant used to indicate that the column header has changed
-     * The old value in the PropertyChangeEvent will be null and the
-     * new value will be an AccessibleTableModelChange representing
-     * the header change.
-     * @see AccessibleTable
-     * @see AccessibleTableModelChange
+     * Constbnt used to indicbte thbt the column hebder hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be null bnd the
+     * new vblue will be bn AccessibleTbbleModelChbnge representing
+     * the hebder chbnge.
+     * @see AccessibleTbble
+     * @see AccessibleTbbleModelChbnge
      */
-    public static final String ACCESSIBLE_TABLE_COLUMN_HEADER_CHANGED =
-        "accessibleTableColumnHeaderChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_COLUMN_HEADER_CHANGED =
+        "bccessibleTbbleColumnHebderChbnged";
 
     /**
-     * Constant used to indicate that the column description has changed
-     * The old value in the PropertyChangeEvent will be null and the
-     * new value will be an Integer representing the column index.
-     * @see AccessibleTable
+     * Constbnt used to indicbte thbt the column description hbs chbnged
+     * The old vblue in the PropertyChbngeEvent will be null bnd the
+     * new vblue will be bn Integer representing the column index.
+     * @see AccessibleTbble
      */
-    public static final String ACCESSIBLE_TABLE_COLUMN_DESCRIPTION_CHANGED =
-        "accessibleTableColumnDescriptionChanged";
+    public stbtic finbl String ACCESSIBLE_TABLE_COLUMN_DESCRIPTION_CHANGED =
+        "bccessibleTbbleColumnDescriptionChbnged";
 
     /**
-     * Constant used to indicate that the supported set of actions
-     * has changed.  The old value in the PropertyChangeEvent will
-     * be an Integer representing the old number of actions supported
-     * and the new value will be an Integer representing the new
-     * number of actions supported.
+     * Constbnt used to indicbte thbt the supported set of bctions
+     * hbs chbnged.  The old vblue in the PropertyChbngeEvent will
+     * be bn Integer representing the old number of bctions supported
+     * bnd the new vblue will be bn Integer representing the new
+     * number of bctions supported.
      * @see AccessibleAction
      */
-    public static final String ACCESSIBLE_ACTION_PROPERTY =
-        "accessibleActionProperty";
+    public stbtic finbl String ACCESSIBLE_ACTION_PROPERTY =
+        "bccessibleActionProperty";
 
     /**
-     * Constant used to indicate that a hypertext element has received focus.
-     * The old value in the PropertyChangeEvent will be an Integer
-     * representing the start index in the document of the previous element
-     * that had focus and the new value will be an Integer representing
-     * the start index in the document of the current element that has
-     * focus.  A value of -1 indicates that an element does not or did
-     * not have focus.
+     * Constbnt used to indicbte thbt b hypertext element hbs received focus.
+     * The old vblue in the PropertyChbngeEvent will be bn Integer
+     * representing the stbrt index in the document of the previous element
+     * thbt hbd focus bnd the new vblue will be bn Integer representing
+     * the stbrt index in the document of the current element thbt hbs
+     * focus.  A vblue of -1 indicbtes thbt bn element does not or did
+     * not hbve focus.
      * @see AccessibleHyperlink
      */
-    public static final String ACCESSIBLE_HYPERTEXT_OFFSET =
+    public stbtic finbl String ACCESSIBLE_HYPERTEXT_OFFSET =
         "AccessibleHypertextOffset";
 
     /**
-     * PropertyChangeEvent which indicates that text has changed.
+     * PropertyChbngeEvent which indicbtes thbt text hbs chbnged.
      * <br>
-     * For text insertion, the oldValue is null and the newValue
-     * is an AccessibleTextSequence specifying the text that was
+     * For text insertion, the oldVblue is null bnd the newVblue
+     * is bn AccessibleTextSequence specifying the text thbt wbs
      * inserted.
      * <br>
-     * For text deletion, the oldValue is an AccessibleTextSequence
-     * specifying the text that was deleted and the newValue is null.
+     * For text deletion, the oldVblue is bn AccessibleTextSequence
+     * specifying the text thbt wbs deleted bnd the newVblue is null.
      * <br>
-     * For text replacement, the oldValue is an AccessibleTextSequence
-     * specifying the old text and the newValue is an AccessibleTextSequence
+     * For text replbcement, the oldVblue is bn AccessibleTextSequence
+     * specifying the old text bnd the newVblue is bn AccessibleTextSequence
      * specifying the new text.
      *
      * @see #getAccessibleText
-     * @see #addPropertyChangeListener
+     * @see #bddPropertyChbngeListener
      * @see AccessibleTextSequence
      */
-    public static final String ACCESSIBLE_TEXT_PROPERTY
+    public stbtic finbl String ACCESSIBLE_TEXT_PROPERTY
         = "AccessibleText";
 
     /**
-     * PropertyChangeEvent which indicates that a significant change
-     * has occurred to the children of a component like a tree or text.
-     * This change notifies the event listener that it needs to
-     * reacquire the state of the subcomponents. The oldValue is
-     * null and the newValue is the component whose children have
-     * become invalid.
+     * PropertyChbngeEvent which indicbtes thbt b significbnt chbnge
+     * hbs occurred to the children of b component like b tree or text.
+     * This chbnge notifies the event listener thbt it needs to
+     * rebcquire the stbte of the subcomponents. The oldVblue is
+     * null bnd the newVblue is the component whose children hbve
+     * become invblid.
      *
      * @see #getAccessibleText
-     * @see #addPropertyChangeListener
+     * @see #bddPropertyChbngeListener
      * @see AccessibleTextSequence
      *
      * @since 1.5
      */
-    public static final String ACCESSIBLE_INVALIDATE_CHILDREN =
-        "accessibleInvalidateChildren";
+    public stbtic finbl String ACCESSIBLE_INVALIDATE_CHILDREN =
+        "bccessibleInvblidbteChildren";
 
      /**
-     * PropertyChangeEvent which indicates that text attributes have changed.
+     * PropertyChbngeEvent which indicbtes thbt text bttributes hbve chbnged.
      * <br>
-     * For attribute insertion, the oldValue is null and the newValue
-     * is an AccessibleAttributeSequence specifying the attributes that were
+     * For bttribute insertion, the oldVblue is null bnd the newVblue
+     * is bn AccessibleAttributeSequence specifying the bttributes thbt were
      * inserted.
      * <br>
-     * For attribute deletion, the oldValue is an AccessibleAttributeSequence
-     * specifying the attributes that were deleted and the newValue is null.
+     * For bttribute deletion, the oldVblue is bn AccessibleAttributeSequence
+     * specifying the bttributes thbt were deleted bnd the newVblue is null.
      * <br>
-     * For attribute replacement, the oldValue is an AccessibleAttributeSequence
-     * specifying the old attributes and the newValue is an
-     * AccessibleAttributeSequence specifying the new attributes.
+     * For bttribute replbcement, the oldVblue is bn AccessibleAttributeSequence
+     * specifying the old bttributes bnd the newVblue is bn
+     * AccessibleAttributeSequence specifying the new bttributes.
      *
      * @see #getAccessibleText
-     * @see #addPropertyChangeListener
+     * @see #bddPropertyChbngeListener
      * @see AccessibleAttributeSequence
      *
      * @since 1.5
      */
-    public static final String ACCESSIBLE_TEXT_ATTRIBUTES_CHANGED =
-        "accessibleTextAttributesChanged";
+    public stbtic finbl String ACCESSIBLE_TEXT_ATTRIBUTES_CHANGED =
+        "bccessibleTextAttributesChbnged";
 
    /**
-     * PropertyChangeEvent which indicates that a change has occurred
-     * in a component's bounds.
-     * The oldValue is the old component bounds and the newValue is
+     * PropertyChbngeEvent which indicbtes thbt b chbnge hbs occurred
+     * in b component's bounds.
+     * The oldVblue is the old component bounds bnd the newVblue is
      * the new component bounds.
      *
-     * @see #addPropertyChangeListener
+     * @see #bddPropertyChbngeListener
      *
      * @since 1.5
      */
-    public static final String ACCESSIBLE_COMPONENT_BOUNDS_CHANGED =
-        "accessibleComponentBoundsChanged";
+    public stbtic finbl String ACCESSIBLE_COMPONENT_BOUNDS_CHANGED =
+        "bccessibleComponentBoundsChbnged";
 
     /**
-     * The accessible parent of this object.
+     * The bccessible pbrent of this object.
      *
-     * @see #getAccessibleParent
-     * @see #setAccessibleParent
+     * @see #getAccessiblePbrent
+     * @see #setAccessiblePbrent
      */
-    protected Accessible accessibleParent = null;
+    protected Accessible bccessiblePbrent = null;
 
     /**
-     * A localized String containing the name of the object.
+     * A locblized String contbining the nbme of the object.
      *
-     * @see #getAccessibleName
-     * @see #setAccessibleName
+     * @see #getAccessibleNbme
+     * @see #setAccessibleNbme
      */
-    protected String accessibleName = null;
+    protected String bccessibleNbme = null;
 
     /**
-     * A localized String containing the description of the object.
+     * A locblized String contbining the description of the object.
      *
      * @see #getAccessibleDescription
      * @see #setAccessibleDescription
      */
-    protected String accessibleDescription = null;
+    protected String bccessibleDescription = null;
 
     /**
-     * Used to handle the listener list for property change events.
+     * Used to hbndle the listener list for property chbnge events.
      *
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
-     * @see #firePropertyChangeListener
+     * @see #bddPropertyChbngeListener
+     * @see #removePropertyChbngeListener
+     * @see #firePropertyChbngeListener
      */
-    private PropertyChangeSupport accessibleChangeSupport = null;
+    privbte PropertyChbngeSupport bccessibleChbngeSupport = null;
 
     /**
-     * Used to represent the context's relation set
-     * @see #getAccessibleRelationSet
+     * Used to represent the context's relbtion set
+     * @see #getAccessibleRelbtionSet
      */
-    private AccessibleRelationSet relationSet
-        = new AccessibleRelationSet();
+    privbte AccessibleRelbtionSet relbtionSet
+        = new AccessibleRelbtionSet();
 
-    private Object nativeAXResource;
+    privbte Object nbtiveAXResource;
 
     /**
-     * Gets the accessibleName property of this object.  The accessibleName
-     * property of an object is a localized String that designates the purpose
-     * of the object.  For example, the accessibleName property of a label
-     * or button might be the text of the label or button itself.  In the
-     * case of an object that doesn't display its name, the accessibleName
-     * should still be set.  For example, in the case of a text field used
-     * to enter the name of a city, the accessibleName for the en_US locale
+     * Gets the bccessibleNbme property of this object.  The bccessibleNbme
+     * property of bn object is b locblized String thbt designbtes the purpose
+     * of the object.  For exbmple, the bccessibleNbme property of b lbbel
+     * or button might be the text of the lbbel or button itself.  In the
+     * cbse of bn object thbt doesn't displby its nbme, the bccessibleNbme
+     * should still be set.  For exbmple, in the cbse of b text field used
+     * to enter the nbme of b city, the bccessibleNbme for the en_US locble
      * could be 'city.'
      *
-     * @return the localized name of the object; null if this
-     * object does not have a name
+     * @return the locblized nbme of the object; null if this
+     * object does not hbve b nbme
      *
-     * @see #setAccessibleName
+     * @see #setAccessibleNbme
      */
-    public String getAccessibleName() {
-        return accessibleName;
+    public String getAccessibleNbme() {
+        return bccessibleNbme;
     }
 
     /**
-     * Sets the localized accessible name of this object.  Changing the
-     * name will cause a PropertyChangeEvent to be fired for the
+     * Sets the locblized bccessible nbme of this object.  Chbnging the
+     * nbme will cbuse b PropertyChbngeEvent to be fired for the
      * ACCESSIBLE_NAME_PROPERTY property.
      *
-     * @param s the new localized name of the object.
+     * @pbrbm s the new locblized nbme of the object.
      *
-     * @see #getAccessibleName
-     * @see #addPropertyChangeListener
+     * @see #getAccessibleNbme
+     * @see #bddPropertyChbngeListener
      *
-     * @beaninfo
+     * @bebninfo
      *    preferred:   true
-     *    description: Sets the accessible name for the component.
+     *    description: Sets the bccessible nbme for the component.
      */
-    public void setAccessibleName(String s) {
-        String oldName = accessibleName;
-        accessibleName = s;
-        firePropertyChange(ACCESSIBLE_NAME_PROPERTY,oldName,accessibleName);
+    public void setAccessibleNbme(String s) {
+        String oldNbme = bccessibleNbme;
+        bccessibleNbme = s;
+        firePropertyChbnge(ACCESSIBLE_NAME_PROPERTY,oldNbme,bccessibleNbme);
     }
 
     /**
-     * Gets the accessibleDescription property of this object.  The
-     * accessibleDescription property of this object is a short localized
-     * phrase describing the purpose of the object.  For example, in the
-     * case of a 'Cancel' button, the accessibleDescription could be
-     * 'Ignore changes and close dialog box.'
+     * Gets the bccessibleDescription property of this object.  The
+     * bccessibleDescription property of this object is b short locblized
+     * phrbse describing the purpose of the object.  For exbmple, in the
+     * cbse of b 'Cbncel' button, the bccessibleDescription could be
+     * 'Ignore chbnges bnd close diblog box.'
      *
-     * @return the localized description of the object; null if
-     * this object does not have a description
+     * @return the locblized description of the object; null if
+     * this object does not hbve b description
      *
      * @see #setAccessibleDescription
      */
     public String getAccessibleDescription() {
-        return accessibleDescription;
+        return bccessibleDescription;
     }
 
     /**
-     * Sets the accessible description of this object.  Changing the
-     * name will cause a PropertyChangeEvent to be fired for the
+     * Sets the bccessible description of this object.  Chbnging the
+     * nbme will cbuse b PropertyChbngeEvent to be fired for the
      * ACCESSIBLE_DESCRIPTION_PROPERTY property.
      *
-     * @param s the new localized description of the object
+     * @pbrbm s the new locblized description of the object
      *
-     * @see #setAccessibleName
-     * @see #addPropertyChangeListener
+     * @see #setAccessibleNbme
+     * @see #bddPropertyChbngeListener
      *
-     * @beaninfo
+     * @bebninfo
      *    preferred:   true
-     *    description: Sets the accessible description for the component.
+     *    description: Sets the bccessible description for the component.
      */
     public void setAccessibleDescription(String s) {
-        String oldDescription = accessibleDescription;
-        accessibleDescription = s;
-        firePropertyChange(ACCESSIBLE_DESCRIPTION_PROPERTY,
-                           oldDescription,accessibleDescription);
+        String oldDescription = bccessibleDescription;
+        bccessibleDescription = s;
+        firePropertyChbnge(ACCESSIBLE_DESCRIPTION_PROPERTY,
+                           oldDescription,bccessibleDescription);
     }
 
     /**
      * Gets the role of this object.  The role of the object is the generic
-     * purpose or use of the class of this object.  For example, the role
-     * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-     * AccessibleRole are provided so component developers can pick from
-     * a set of predefined roles.  This enables assistive technologies to
-     * provide a consistent interface to various tweaked subclasses of
-     * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-     * that act like a push button) as well as distinguish between subclasses
-     * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-     * and AccessibleRole.RADIO_BUTTON for radio buttons).
-     * <p>Note that the AccessibleRole class is also extensible, so
-     * custom component developers can define their own AccessibleRole's
-     * if the set of predefined roles is inadequate.
+     * purpose or use of the clbss of this object.  For exbmple, the role
+     * of b push button is AccessibleRole.PUSH_BUTTON.  The roles in
+     * AccessibleRole bre provided so component developers cbn pick from
+     * b set of predefined roles.  This enbbles bssistive technologies to
+     * provide b consistent interfbce to vbrious twebked subclbsses of
+     * components (e.g., use AccessibleRole.PUSH_BUTTON for bll components
+     * thbt bct like b push button) bs well bs distinguish between subclbsses
+     * thbt behbve differently (e.g., AccessibleRole.CHECK_BOX for check boxes
+     * bnd AccessibleRole.RADIO_BUTTON for rbdio buttons).
+     * <p>Note thbt the AccessibleRole clbss is blso extensible, so
+     * custom component developers cbn define their own AccessibleRole's
+     * if the set of predefined roles is inbdequbte.
      *
-     * @return an instance of AccessibleRole describing the role of the object
+     * @return bn instbnce of AccessibleRole describing the role of the object
      * @see AccessibleRole
      */
-    public abstract AccessibleRole getAccessibleRole();
+    public bbstrbct AccessibleRole getAccessibleRole();
 
     /**
-     * Gets the state set of this object.  The AccessibleStateSet of an object
-     * is composed of a set of unique AccessibleStates.  A change in the
-     * AccessibleStateSet of an object will cause a PropertyChangeEvent to
+     * Gets the stbte set of this object.  The AccessibleStbteSet of bn object
+     * is composed of b set of unique AccessibleStbtes.  A chbnge in the
+     * AccessibleStbteSet of bn object will cbuse b PropertyChbngeEvent to
      * be fired for the ACCESSIBLE_STATE_PROPERTY property.
      *
-     * @return an instance of AccessibleStateSet containing the
-     * current state set of the object
-     * @see AccessibleStateSet
-     * @see AccessibleState
-     * @see #addPropertyChangeListener
+     * @return bn instbnce of AccessibleStbteSet contbining the
+     * current stbte set of the object
+     * @see AccessibleStbteSet
+     * @see AccessibleStbte
+     * @see #bddPropertyChbngeListener
      */
-    public abstract AccessibleStateSet getAccessibleStateSet();
+    public bbstrbct AccessibleStbteSet getAccessibleStbteSet();
 
     /**
-     * Gets the Accessible parent of this object.
+     * Gets the Accessible pbrent of this object.
      *
-     * @return the Accessible parent of this object; null if this
-     * object does not have an Accessible parent
+     * @return the Accessible pbrent of this object; null if this
+     * object does not hbve bn Accessible pbrent
      */
-    public Accessible getAccessibleParent() {
-        return accessibleParent;
+    public Accessible getAccessiblePbrent() {
+        return bccessiblePbrent;
     }
 
     /**
-     * Sets the Accessible parent of this object.  This is meant to be used
-     * only in the situations where the actual component's parent should
-     * not be treated as the component's accessible parent and is a method
-     * that should only be called by the parent of the accessible child.
+     * Sets the Accessible pbrent of this object.  This is mebnt to be used
+     * only in the situbtions where the bctubl component's pbrent should
+     * not be trebted bs the component's bccessible pbrent bnd is b method
+     * thbt should only be cblled by the pbrent of the bccessible child.
      *
-     * @param a - Accessible to be set as the parent
+     * @pbrbm b - Accessible to be set bs the pbrent
      */
-    public void setAccessibleParent(Accessible a) {
-        accessibleParent = a;
+    public void setAccessiblePbrent(Accessible b) {
+        bccessiblePbrent = b;
     }
 
     /**
-     * Gets the 0-based index of this object in its accessible parent.
+     * Gets the 0-bbsed index of this object in its bccessible pbrent.
      *
-     * @return the 0-based index of this object in its parent; -1 if this
-     * object does not have an accessible parent.
+     * @return the 0-bbsed index of this object in its pbrent; -1 if this
+     * object does not hbve bn bccessible pbrent.
      *
-     * @see #getAccessibleParent
+     * @see #getAccessiblePbrent
      * @see #getAccessibleChildrenCount
      * @see #getAccessibleChild
      */
-    public abstract int getAccessibleIndexInParent();
+    public bbstrbct int getAccessibleIndexInPbrent();
 
     /**
-     * Returns the number of accessible children of the object.
+     * Returns the number of bccessible children of the object.
      *
-     * @return the number of accessible children of the object.
+     * @return the number of bccessible children of the object.
      */
-    public abstract int getAccessibleChildrenCount();
+    public bbstrbct int getAccessibleChildrenCount();
 
     /**
      * Returns the specified Accessible child of the object.  The Accessible
-     * children of an Accessible object are zero-based, so the first child
-     * of an Accessible child is at index 0, the second child is at index 1,
-     * and so on.
+     * children of bn Accessible object bre zero-bbsed, so the first child
+     * of bn Accessible child is bt index 0, the second child is bt index 1,
+     * bnd so on.
      *
-     * @param i zero-based index of child
+     * @pbrbm i zero-bbsed index of child
      * @return the Accessible child of the object
      * @see #getAccessibleChildrenCount
      */
-    public abstract Accessible getAccessibleChild(int i);
+    public bbstrbct Accessible getAccessibleChild(int i);
 
     /**
-     * Gets the locale of the component. If the component does not have a
-     * locale, then the locale of its parent is returned.
+     * Gets the locble of the component. If the component does not hbve b
+     * locble, then the locble of its pbrent is returned.
      *
-     * @return this component's locale.  If this component does not have
-     * a locale, the locale of its parent is returned.
+     * @return this component's locble.  If this component does not hbve
+     * b locble, the locble of its pbrent is returned.
      *
-     * @exception IllegalComponentStateException
-     * If the Component does not have its own locale and has not yet been
-     * added to a containment hierarchy such that the locale can be
-     * determined from the containing parent.
+     * @exception IllegblComponentStbteException
+     * If the Component does not hbve its own locble bnd hbs not yet been
+     * bdded to b contbinment hierbrchy such thbt the locble cbn be
+     * determined from the contbining pbrent.
      */
-    public abstract Locale getLocale() throws IllegalComponentStateException;
+    public bbstrbct Locble getLocble() throws IllegblComponentStbteException;
 
     /**
-     * Adds a PropertyChangeListener to the listener list.
-     * The listener is registered for all Accessible properties and will
-     * be called when those properties change.
+     * Adds b PropertyChbngeListener to the listener list.
+     * The listener is registered for bll Accessible properties bnd will
+     * be cblled when those properties chbnge.
      *
      * @see #ACCESSIBLE_NAME_PROPERTY
      * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
@@ -609,31 +609,31 @@ public abstract class AccessibleContext {
      * @see #ACCESSIBLE_TEXT_PROPERTY
      * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
      *
-     * @param listener  The PropertyChangeListener to be added
+     * @pbrbm listener  The PropertyChbngeListener to be bdded
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (accessibleChangeSupport == null) {
-            accessibleChangeSupport = new PropertyChangeSupport(this);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        if (bccessibleChbngeSupport == null) {
+            bccessibleChbngeSupport = new PropertyChbngeSupport(this);
         }
-        accessibleChangeSupport.addPropertyChangeListener(listener);
+        bccessibleChbngeSupport.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
-     * This removes a PropertyChangeListener that was registered
-     * for all properties.
+     * Removes b PropertyChbngeListener from the listener list.
+     * This removes b PropertyChbngeListener thbt wbs registered
+     * for bll properties.
      *
-     * @param listener  The PropertyChangeListener to be removed
+     * @pbrbm listener  The PropertyChbngeListener to be removed
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (accessibleChangeSupport != null) {
-            accessibleChangeSupport.removePropertyChangeListener(listener);
+    public void removePropertyChbngeListener(PropertyChbngeListener listener) {
+        if (bccessibleChbngeSupport != null) {
+            bccessibleChbngeSupport.removePropertyChbngeListener(listener);
         }
     }
 
     /**
-     * Gets the AccessibleAction associated with this object that supports
-     * one or more actions.
+     * Gets the AccessibleAction bssocibted with this object thbt supports
+     * one or more bctions.
      *
      * @return AccessibleAction if supported by object; else return null
      * @see AccessibleAction
@@ -643,8 +643,8 @@ public abstract class AccessibleContext {
     }
 
     /**
-     * Gets the AccessibleComponent associated with this object that has a
-     * graphical representation.
+     * Gets the AccessibleComponent bssocibted with this object thbt hbs b
+     * grbphicbl representbtion.
      *
      * @return AccessibleComponent if supported by object; else return null
      * @see AccessibleComponent
@@ -654,7 +654,7 @@ public abstract class AccessibleContext {
     }
 
     /**
-     * Gets the AccessibleSelection associated with this object which allows its
+     * Gets the AccessibleSelection bssocibted with this object which bllows its
      * Accessible children to be selected.
      *
      * @return AccessibleSelection if supported by object; else return null
@@ -665,8 +665,8 @@ public abstract class AccessibleContext {
     }
 
     /**
-     * Gets the AccessibleText associated with this object presenting
-     * text on the display.
+     * Gets the AccessibleText bssocibted with this object presenting
+     * text on the displby.
      *
      * @return AccessibleText if supported by object; else return null
      * @see AccessibleText
@@ -676,34 +676,34 @@ public abstract class AccessibleContext {
     }
 
     /**
-     * Gets the AccessibleEditableText associated with this object
-     * presenting editable text on the display.
+     * Gets the AccessibleEditbbleText bssocibted with this object
+     * presenting editbble text on the displby.
      *
-     * @return AccessibleEditableText if supported by object; else return null
-     * @see AccessibleEditableText
+     * @return AccessibleEditbbleText if supported by object; else return null
+     * @see AccessibleEditbbleText
      * @since 1.4
      */
-    public AccessibleEditableText getAccessibleEditableText() {
+    public AccessibleEditbbleText getAccessibleEditbbleText() {
         return null;
     }
 
 
     /**
-     * Gets the AccessibleValue associated with this object that supports a
-     * Numerical value.
+     * Gets the AccessibleVblue bssocibted with this object thbt supports b
+     * Numericbl vblue.
      *
-     * @return AccessibleValue if supported by object; else return null
-     * @see AccessibleValue
+     * @return AccessibleVblue if supported by object; else return null
+     * @see AccessibleVblue
      */
-    public AccessibleValue getAccessibleValue() {
+    public AccessibleVblue getAccessibleVblue() {
         return null;
     }
 
     /**
-     * Gets the AccessibleIcons associated with an object that has
-     * one or more associated icons
+     * Gets the AccessibleIcons bssocibted with bn object thbt hbs
+     * one or more bssocibted icons
      *
-     * @return an array of AccessibleIcon if supported by object;
+     * @return bn brrby of AccessibleIcon if supported by object;
      * otherwise return null
      * @see AccessibleIcon
      * @since 1.3
@@ -713,42 +713,42 @@ public abstract class AccessibleContext {
     }
 
     /**
-     * Gets the AccessibleRelationSet associated with an object
+     * Gets the AccessibleRelbtionSet bssocibted with bn object
      *
-     * @return an AccessibleRelationSet if supported by object;
+     * @return bn AccessibleRelbtionSet if supported by object;
      * otherwise return null
-     * @see AccessibleRelationSet
+     * @see AccessibleRelbtionSet
      * @since 1.3
      */
-    public AccessibleRelationSet getAccessibleRelationSet() {
-        return relationSet;
+    public AccessibleRelbtionSet getAccessibleRelbtionSet() {
+        return relbtionSet;
     }
 
     /**
-     * Gets the AccessibleTable associated with an object
+     * Gets the AccessibleTbble bssocibted with bn object
      *
-     * @return an AccessibleTable if supported by object;
+     * @return bn AccessibleTbble if supported by object;
      * otherwise return null
-     * @see AccessibleTable
+     * @see AccessibleTbble
      * @since 1.3
      */
-    public AccessibleTable getAccessibleTable() {
+    public AccessibleTbble getAccessibleTbble() {
         return null;
     }
 
     /**
-     * Support for reporting bound property changes.  If oldValue and
-     * newValue are not equal and the PropertyChangeEvent listener list
-     * is not empty, then fire a PropertyChange event to each listener.
-     * In general, this is for use by the Accessible objects themselves
-     * and should not be called by an application program.
-     * @param propertyName  The programmatic name of the property that
-     * was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @see java.beans.PropertyChangeSupport
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
+     * Support for reporting bound property chbnges.  If oldVblue bnd
+     * newVblue bre not equbl bnd the PropertyChbngeEvent listener list
+     * is not empty, then fire b PropertyChbnge event to ebch listener.
+     * In generbl, this is for use by the Accessible objects themselves
+     * bnd should not be cblled by bn bpplicbtion progrbm.
+     * @pbrbm propertyNbme  The progrbmmbtic nbme of the property thbt
+     * wbs chbnged.
+     * @pbrbm oldVblue  The old vblue of the property.
+     * @pbrbm newVblue  The new vblue of the property.
+     * @see jbvb.bebns.PropertyChbngeSupport
+     * @see #bddPropertyChbngeListener
+     * @see #removePropertyChbngeListener
      * @see #ACCESSIBLE_NAME_PROPERTY
      * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
      * @see #ACCESSIBLE_STATE_PROPERTY
@@ -757,17 +757,17 @@ public abstract class AccessibleContext {
      * @see #ACCESSIBLE_TEXT_PROPERTY
      * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
      */
-    public void firePropertyChange(String propertyName,
-                                   Object oldValue,
-                                   Object newValue) {
-        if (accessibleChangeSupport != null) {
-            if (newValue instanceof PropertyChangeEvent) {
-                PropertyChangeEvent pce = (PropertyChangeEvent)newValue;
-                accessibleChangeSupport.firePropertyChange(pce);
+    public void firePropertyChbnge(String propertyNbme,
+                                   Object oldVblue,
+                                   Object newVblue) {
+        if (bccessibleChbngeSupport != null) {
+            if (newVblue instbnceof PropertyChbngeEvent) {
+                PropertyChbngeEvent pce = (PropertyChbngeEvent)newVblue;
+                bccessibleChbngeSupport.firePropertyChbnge(pce);
             } else {
-                accessibleChangeSupport.firePropertyChange(propertyName,
-                                                           oldValue,
-                                                           newValue);
+                bccessibleChbngeSupport.firePropertyChbnge(propertyNbme,
+                                                           oldVblue,
+                                                           newVblue);
             }
         }
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,225 +30,225 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import static java.nio.file.attribute.PosixFilePermission.*;
-import static java.nio.file.FileVisitResult.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import stbtic jbvb.nio.file.bttribute.PosixFilePermission.*;
+import stbtic jbvb.nio.file.FileVisitResult.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
 /**
- * Sample code that changes the permissions of files in a similar manner to the
- * chmod(1) program.
+ * Sbmple code thbt chbnges the permissions of files in b similbr mbnner to the
+ * chmod(1) progrbm.
  */
 
-public class Chmod {
+public clbss Chmod {
 
     /**
-     * Compiles a list of one or more <em>symbolic mode expressions</em> that
-     * may be used to change a set of file permissions. This method is
-     * intended for use where file permissions are required to be changed in
-     * a manner similar to the UNIX <i>chmod</i> program.
+     * Compiles b list of one or more <em>symbolic mode expressions</em> thbt
+     * mby be used to chbnge b set of file permissions. This method is
+     * intended for use where file permissions bre required to be chbnged in
+     * b mbnner similbr to the UNIX <i>chmod</i> progrbm.
      *
-     * <p> The {@code exprs} parameter is a comma separated list of expressions
-     * where each takes the form:
+     * <p> The {@code exprs} pbrbmeter is b commb sepbrbted list of expressions
+     * where ebch tbkes the form:
      * <blockquote>
-     * <i>who operator</i> [<i>permissions</i>]
+     * <i>who operbtor</i> [<i>permissions</i>]
      * </blockquote>
-     * where <i>who</i> is one or more of the characters {@code 'u'}, {@code 'g'},
-     * {@code 'o'}, or {@code 'a'} meaning the owner (user), group, others, or
-     * all (owner, group, and others) respectively.
+     * where <i>who</i> is one or more of the chbrbcters {@code 'u'}, {@code 'g'},
+     * {@code 'o'}, or {@code 'b'} mebning the owner (user), group, others, or
+     * bll (owner, group, bnd others) respectively.
      *
-     * <p> <i>operator</i> is the character {@code '+'}, {@code '-'}, or {@code
-     * '='} signifying how permissions are to be changed. {@code '+'} means the
-     * permissions are added, {@code '-'} means the permissions are removed, and
-     * {@code '='} means the permissions are assigned absolutely.
+     * <p> <i>operbtor</i> is the chbrbcter {@code '+'}, {@code '-'}, or {@code
+     * '='} signifying how permissions bre to be chbnged. {@code '+'} mebns the
+     * permissions bre bdded, {@code '-'} mebns the permissions bre removed, bnd
+     * {@code '='} mebns the permissions bre bssigned bbsolutely.
      *
-     * <p> <i>permissions</i> is a sequence of zero or more of the following:
-     * {@code 'r'} for read permission, {@code 'w'} for write permission, and
+     * <p> <i>permissions</i> is b sequence of zero or more of the following:
+     * {@code 'r'} for rebd permission, {@code 'w'} for write permission, bnd
      * {@code 'x'} for execute permission. If <i>permissions</i> is omitted
-     * when assigned absolutely, then the permissions are cleared for
-     * the owner, group, or others as identified by <i>who</i>. When omitted
-     * when adding or removing then the expression is ignored.
+     * when bssigned bbsolutely, then the permissions bre clebred for
+     * the owner, group, or others bs identified by <i>who</i>. When omitted
+     * when bdding or removing then the expression is ignored.
      *
-     * <p> The following examples demonstrate possible values for the {@code
-     * exprs} parameter:
+     * <p> The following exbmples demonstrbte possible vblues for the {@code
+     * exprs} pbrbmeter:
      *
-     * <table border="0">
+     * <tbble border="0">
      * <tr>
      *   <td> {@code u=rw} </td>
-     *   <td> Sets the owner permissions to be read and write. </td>
+     *   <td> Sets the owner permissions to be rebd bnd write. </td>
      * </tr>
      * <tr>
      *   <td> {@code ug+w} </td>
-     *   <td> Sets the owner write and group write permissions. </td>
+     *   <td> Sets the owner write bnd group write permissions. </td>
      * </tr>
      * <tr>
      *   <td> {@code u+w,o-rwx} </td>
-     *   <td> Sets the owner write, and removes the others read, others write
-     *     and others execute permissions. </td>
+     *   <td> Sets the owner write, bnd removes the others rebd, others write
+     *     bnd others execute permissions. </td>
      * </tr>
      * <tr>
      *   <td> {@code o=} </td>
-     *   <td> Sets the others permission to none (others read, others write and
-     *     others execute permissions are removed if set) </td>
+     *   <td> Sets the others permission to none (others rebd, others write bnd
+     *     others execute permissions bre removed if set) </td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * @param   exprs
+     * @pbrbm   exprs
      *          List of one or more <em>symbolic mode expressions</em>
      *
-     * @return  A {@code Changer} that may be used to changer a set of
+     * @return  A {@code Chbnger} thbt mby be used to chbnger b set of
      *          file permissions
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the {@code exprs} parameter is invalid
+     * @throws  IllegblArgumentException
+     *          If the vblue of the {@code exprs} pbrbmeter is invblid
      */
-    public static Changer compile(String exprs) {
-        // minimum is who and operator (u= for example)
+    public stbtic Chbnger compile(String exprs) {
+        // minimum is who bnd operbtor (u= for exbmple)
         if (exprs.length() < 2)
-            throw new IllegalArgumentException("Invalid mode");
+            throw new IllegblArgumentException("Invblid mode");
 
-        // permissions that the changer will add or remove
-        final Set<PosixFilePermission> toAdd = new HashSet<PosixFilePermission>();
-        final Set<PosixFilePermission> toRemove = new HashSet<PosixFilePermission>();
+        // permissions thbt the chbnger will bdd or remove
+        finbl Set<PosixFilePermission> toAdd = new HbshSet<PosixFilePermission>();
+        finbl Set<PosixFilePermission> toRemove = new HbshSet<PosixFilePermission>();
 
-        // iterate over each of expression modes
+        // iterbte over ebch of expression modes
         for (String expr: exprs.split(",")) {
-            // minimum of who and operator
+            // minimum of who bnd operbtor
             if (expr.length() < 2)
-                throw new IllegalArgumentException("Invalid mode");
+                throw new IllegblArgumentException("Invblid mode");
 
             int pos = 0;
 
             // who
-            boolean u = false;
-            boolean g = false;
-            boolean o = false;
-            boolean done = false;
+            boolebn u = fblse;
+            boolebn g = fblse;
+            boolebn o = fblse;
+            boolebn done = fblse;
             for (;;) {
-                switch (expr.charAt(pos)) {
-                    case 'u' : u = true; break;
-                    case 'g' : g = true; break;
-                    case 'o' : o = true; break;
-                    case 'a' : u = true; g = true; o = true; break;
-                    default : done = true;
+                switch (expr.chbrAt(pos)) {
+                    cbse 'u' : u = true; brebk;
+                    cbse 'g' : g = true; brebk;
+                    cbse 'o' : o = true; brebk;
+                    cbse 'b' : u = true; g = true; o = true; brebk;
+                    defbult : done = true;
                 }
                 if (done)
-                    break;
+                    brebk;
                 pos++;
             }
             if (!u && !g && !o)
-                throw new IllegalArgumentException("Invalid mode");
+                throw new IllegblArgumentException("Invblid mode");
 
-            // get operator and permissions
-            char op = expr.charAt(pos++);
-            String mask = (expr.length() == pos) ? "" : expr.substring(pos);
+            // get operbtor bnd permissions
+            chbr op = expr.chbrAt(pos++);
+            String mbsk = (expr.length() == pos) ? "" : expr.substring(pos);
 
-            // operator
-            boolean add = (op == '+');
-            boolean remove = (op == '-');
-            boolean assign = (op == '=');
-            if (!add && !remove && !assign)
-                throw new IllegalArgumentException("Invalid mode");
+            // operbtor
+            boolebn bdd = (op == '+');
+            boolebn remove = (op == '-');
+            boolebn bssign = (op == '=');
+            if (!bdd && !remove && !bssign)
+                throw new IllegblArgumentException("Invblid mode");
 
-            // who= means remove all
-            if (assign && mask.length() == 0) {
-                assign = false;
+            // who= mebns remove bll
+            if (bssign && mbsk.length() == 0) {
+                bssign = fblse;
                 remove = true;
-                mask = "rwx";
+                mbsk = "rwx";
             }
 
             // permissions
-            boolean r = false;
-            boolean w = false;
-            boolean x = false;
-            for (int i=0; i<mask.length(); i++) {
-                switch (mask.charAt(i)) {
-                    case 'r' : r = true; break;
-                    case 'w' : w = true; break;
-                    case 'x' : x = true; break;
-                    default:
-                        throw new IllegalArgumentException("Invalid mode");
+            boolebn r = fblse;
+            boolebn w = fblse;
+            boolebn x = fblse;
+            for (int i=0; i<mbsk.length(); i++) {
+                switch (mbsk.chbrAt(i)) {
+                    cbse 'r' : r = true; brebk;
+                    cbse 'w' : w = true; brebk;
+                    cbse 'x' : x = true; brebk;
+                    defbult:
+                        throw new IllegblArgumentException("Invblid mode");
                 }
             }
 
-            // update permissions set
-            if (add) {
+            // updbte permissions set
+            if (bdd) {
                 if (u) {
-                    if (r) toAdd.add(OWNER_READ);
-                    if (w) toAdd.add(OWNER_WRITE);
-                    if (x) toAdd.add(OWNER_EXECUTE);
+                    if (r) toAdd.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toAdd.add(GROUP_READ);
-                    if (w) toAdd.add(GROUP_WRITE);
-                    if (x) toAdd.add(GROUP_EXECUTE);
+                    if (r) toAdd.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toAdd.add(OTHERS_READ);
-                    if (w) toAdd.add(OTHERS_WRITE);
-                    if (x) toAdd.add(OTHERS_EXECUTE);
+                    if (r) toAdd.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
                 }
             }
             if (remove) {
                 if (u) {
-                    if (r) toRemove.add(OWNER_READ);
-                    if (w) toRemove.add(OWNER_WRITE);
-                    if (x) toRemove.add(OWNER_EXECUTE);
+                    if (r) toRemove.bdd(OWNER_READ);
+                    if (w) toRemove.bdd(OWNER_WRITE);
+                    if (x) toRemove.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toRemove.add(GROUP_READ);
-                    if (w) toRemove.add(GROUP_WRITE);
-                    if (x) toRemove.add(GROUP_EXECUTE);
+                    if (r) toRemove.bdd(GROUP_READ);
+                    if (w) toRemove.bdd(GROUP_WRITE);
+                    if (x) toRemove.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toRemove.add(OTHERS_READ);
-                    if (w) toRemove.add(OTHERS_WRITE);
-                    if (x) toRemove.add(OTHERS_EXECUTE);
+                    if (r) toRemove.bdd(OTHERS_READ);
+                    if (w) toRemove.bdd(OTHERS_WRITE);
+                    if (x) toRemove.bdd(OTHERS_EXECUTE);
                 }
             }
-            if (assign) {
+            if (bssign) {
                 if (u) {
-                    if (r) toAdd.add(OWNER_READ);
-                      else toRemove.add(OWNER_READ);
-                    if (w) toAdd.add(OWNER_WRITE);
-                      else toRemove.add(OWNER_WRITE);
-                    if (x) toAdd.add(OWNER_EXECUTE);
-                      else toRemove.add(OWNER_EXECUTE);
+                    if (r) toAdd.bdd(OWNER_READ);
+                      else toRemove.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                      else toRemove.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
+                      else toRemove.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toAdd.add(GROUP_READ);
-                      else toRemove.add(GROUP_READ);
-                    if (w) toAdd.add(GROUP_WRITE);
-                      else toRemove.add(GROUP_WRITE);
-                    if (x) toAdd.add(GROUP_EXECUTE);
-                      else toRemove.add(GROUP_EXECUTE);
+                    if (r) toAdd.bdd(GROUP_READ);
+                      else toRemove.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                      else toRemove.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
+                      else toRemove.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toAdd.add(OTHERS_READ);
-                      else toRemove.add(OTHERS_READ);
-                    if (w) toAdd.add(OTHERS_WRITE);
-                      else toRemove.add(OTHERS_WRITE);
-                    if (x) toAdd.add(OTHERS_EXECUTE);
-                      else toRemove.add(OTHERS_EXECUTE);
+                    if (r) toAdd.bdd(OTHERS_READ);
+                      else toRemove.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                      else toRemove.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
+                      else toRemove.bdd(OTHERS_EXECUTE);
                 }
             }
         }
 
-        // return changer
-        return new Changer() {
+        // return chbnger
+        return new Chbnger() {
             @Override
-            public Set<PosixFilePermission> change(Set<PosixFilePermission> perms) {
-                perms.addAll(toAdd);
+            public Set<PosixFilePermission> chbnge(Set<PosixFilePermission> perms) {
+                perms.bddAll(toAdd);
                 perms.removeAll(toRemove);
                 return perms;
             }
@@ -256,94 +256,94 @@ public class Chmod {
     }
 
     /**
-     * A task that <i>changes</i> a set of {@link PosixFilePermission} elements.
+     * A tbsk thbt <i>chbnges</i> b set of {@link PosixFilePermission} elements.
      */
-    public interface Changer {
+    public interfbce Chbnger {
         /**
-         * Applies the changes to the given set of permissions.
+         * Applies the chbnges to the given set of permissions.
          *
-         * @param   perms
-         *          The set of permissions to change
+         * @pbrbm   perms
+         *          The set of permissions to chbnge
          *
-         * @return  The {@code perms} parameter
+         * @return  The {@code perms} pbrbmeter
          */
-        Set<PosixFilePermission> change(Set<PosixFilePermission> perms);
+        Set<PosixFilePermission> chbnge(Set<PosixFilePermission> perms);
     }
 
     /**
-     * Changes the permissions of the file using the given Changer.
+     * Chbnges the permissions of the file using the given Chbnger.
      */
-    static void chmod(Path file, Changer changer) {
+    stbtic void chmod(Pbth file, Chbnger chbnger) {
         try {
             Set<PosixFilePermission> perms = Files.getPosixFilePermissions(file);
-            Files.setPosixFilePermissions(file, changer.change(perms));
-        } catch (IOException x) {
+            Files.setPosixFilePermissions(file, chbnger.chbnge(perms));
+        } cbtch (IOException x) {
             System.err.println(x);
         }
     }
 
     /**
-     * Changes the permission of each file and directory visited
+     * Chbnges the permission of ebch file bnd directory visited
      */
-    static class TreeVisitor implements FileVisitor<Path> {
-        private final Changer changer;
+    stbtic clbss TreeVisitor implements FileVisitor<Pbth> {
+        privbte finbl Chbnger chbnger;
 
-        TreeVisitor(Changer changer) {
-            this.changer = changer;
+        TreeVisitor(Chbnger chbnger) {
+            this.chbnger = chbnger;
         }
 
         @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-            chmod(dir, changer);
+        public FileVisitResult preVisitDirectory(Pbth dir, BbsicFileAttributes bttrs) {
+            chmod(dir, chbnger);
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            chmod(file, changer);
+        public FileVisitResult visitFile(Pbth file, BbsicFileAttributes bttrs) {
+            chmod(file, chbnger);
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+        public FileVisitResult postVisitDirectory(Pbth dir, IOException exc) {
             if (exc != null)
                 System.err.println("WARNING: " + exc);
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) {
+        public FileVisitResult visitFileFbiled(Pbth file, IOException exc) {
             System.err.println("WARNING: " + exc);
             return CONTINUE;
         }
     }
 
-    static void usage() {
-        System.err.println("java Chmod [-R] symbolic-mode-list file...");
+    stbtic void usbge() {
+        System.err.println("jbvb Chmod [-R] symbolic-mode-list file...");
         System.exit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length < 2)
-            usage();
-        int argi = 0;
-        int maxDepth = 0;
-        if (args[argi].equals("-R")) {
-            if (args.length < 3)
-                usage();
-            argi++;
-            maxDepth = Integer.MAX_VALUE;
+    public stbtic void mbin(String[] brgs) throws IOException {
+        if (brgs.length < 2)
+            usbge();
+        int brgi = 0;
+        int mbxDepth = 0;
+        if (brgs[brgi].equbls("-R")) {
+            if (brgs.length < 3)
+                usbge();
+            brgi++;
+            mbxDepth = Integer.MAX_VALUE;
         }
 
         // compile the symbolic mode expressions
-        Changer changer = compile(args[argi++]);
-        TreeVisitor visitor = new TreeVisitor(changer);
+        Chbnger chbnger = compile(brgs[brgi++]);
+        TreeVisitor visitor = new TreeVisitor(chbnger);
 
         Set<FileVisitOption> opts = Collections.emptySet();
-        while (argi < args.length) {
-            Path file = Paths.get(args[argi]);
-            Files.walkFileTree(file, opts, maxDepth, visitor);
-            argi++;
+        while (brgi < brgs.length) {
+            Pbth file = Pbths.get(brgs[brgi]);
+            Files.wblkFileTree(file, opts, mbxDepth, visitor);
+            brgi++;
         }
     }
 }

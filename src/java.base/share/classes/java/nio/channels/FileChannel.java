@@ -1,918 +1,918 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
-import java.nio.file.*;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.spi.*;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
+import jbvb.io.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.MbppedByteBuffer;
+import jbvb.nio.chbnnels.spi.AbstrbctInterruptibleChbnnel;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.FileAttribute;
+import jbvb.nio.file.spi.*;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Collections;
 
 /**
- * A channel for reading, writing, mapping, and manipulating a file.
+ * A chbnnel for rebding, writing, mbpping, bnd mbnipulbting b file.
  *
- * <p> A file channel is a {@link SeekableByteChannel} that is connected to
- * a file. It has a current <i>position</i> within its file which can
- * be both {@link #position() <i>queried</i>} and {@link #position(long)
- * <i>modified</i>}.  The file itself contains a variable-length sequence
- * of bytes that can be read and written and whose current {@link #size
- * <i>size</i>} can be queried.  The size of the file increases
- * when bytes are written beyond its current size; the size of the file
- * decreases when it is {@link #truncate <i>truncated</i>}.  The
- * file may also have some associated <i>metadata</i> such as access
- * permissions, content type, and last-modification time; this class does not
- * define methods for metadata access.
+ * <p> A file chbnnel is b {@link SeekbbleByteChbnnel} thbt is connected to
+ * b file. It hbs b current <i>position</i> within its file which cbn
+ * be both {@link #position() <i>queried</i>} bnd {@link #position(long)
+ * <i>modified</i>}.  The file itself contbins b vbribble-length sequence
+ * of bytes thbt cbn be rebd bnd written bnd whose current {@link #size
+ * <i>size</i>} cbn be queried.  The size of the file increbses
+ * when bytes bre written beyond its current size; the size of the file
+ * decrebses when it is {@link #truncbte <i>truncbted</i>}.  The
+ * file mby blso hbve some bssocibted <i>metbdbtb</i> such bs bccess
+ * permissions, content type, bnd lbst-modificbtion time; this clbss does not
+ * define methods for metbdbtb bccess.
  *
- * <p> In addition to the familiar read, write, and close operations of byte
- * channels, this class defines the following file-specific operations: </p>
+ * <p> In bddition to the fbmilibr rebd, write, bnd close operbtions of byte
+ * chbnnels, this clbss defines the following file-specific operbtions: </p>
  *
  * <ul>
  *
- *   <li><p> Bytes may be {@link #read(ByteBuffer, long) read} or
- *   {@link #write(ByteBuffer, long) <i>written</i>} at an absolute
- *   position in a file in a way that does not affect the channel's current
+ *   <li><p> Bytes mby be {@link #rebd(ByteBuffer, long) rebd} or
+ *   {@link #write(ByteBuffer, long) <i>written</i>} bt bn bbsolute
+ *   position in b file in b wby thbt does not bffect the chbnnel's current
  *   position.  </p></li>
  *
- *   <li><p> A region of a file may be {@link #map <i>mapped</i>}
- *   directly into memory; for large files this is often much more efficient
- *   than invoking the usual <tt>read</tt> or <tt>write</tt> methods.
+ *   <li><p> A region of b file mby be {@link #mbp <i>mbpped</i>}
+ *   directly into memory; for lbrge files this is often much more efficient
+ *   thbn invoking the usubl <tt>rebd</tt> or <tt>write</tt> methods.
  *   </p></li>
  *
- *   <li><p> Updates made to a file may be {@link #force <i>forced
- *   out</i>} to the underlying storage device, ensuring that data are not
- *   lost in the event of a system crash.  </p></li>
+ *   <li><p> Updbtes mbde to b file mby be {@link #force <i>forced
+ *   out</i>} to the underlying storbge device, ensuring thbt dbtb bre not
+ *   lost in the event of b system crbsh.  </p></li>
  *
- *   <li><p> Bytes can be transferred from a file {@link #transferTo <i>to
- *   some other channel</i>}, and {@link #transferFrom <i>vice
- *   versa</i>}, in a way that can be optimized by many operating systems
- *   into a very fast transfer directly to or from the filesystem cache.
+ *   <li><p> Bytes cbn be trbnsferred from b file {@link #trbnsferTo <i>to
+ *   some other chbnnel</i>}, bnd {@link #trbnsferFrom <i>vice
+ *   versb</i>}, in b wby thbt cbn be optimized by mbny operbting systems
+ *   into b very fbst trbnsfer directly to or from the filesystem cbche.
  *   </p></li>
  *
- *   <li><p> A region of a file may be {@link FileLock <i>locked</i>}
- *   against access by other programs.  </p></li>
+ *   <li><p> A region of b file mby be {@link FileLock <i>locked</i>}
+ *   bgbinst bccess by other progrbms.  </p></li>
  *
  * </ul>
  *
- * <p> File channels are safe for use by multiple concurrent threads.  The
- * {@link Channel#close close} method may be invoked at any time, as specified
- * by the {@link Channel} interface.  Only one operation that involves the
- * channel's position or can change its file's size may be in progress at any
- * given time; attempts to initiate a second such operation while the first is
- * still in progress will block until the first operation completes.  Other
- * operations, in particular those that take an explicit position, may proceed
- * concurrently; whether they in fact do so is dependent upon the underlying
- * implementation and is therefore unspecified.
+ * <p> File chbnnels bre sbfe for use by multiple concurrent threbds.  The
+ * {@link Chbnnel#close close} method mby be invoked bt bny time, bs specified
+ * by the {@link Chbnnel} interfbce.  Only one operbtion thbt involves the
+ * chbnnel's position or cbn chbnge its file's size mby be in progress bt bny
+ * given time; bttempts to initibte b second such operbtion while the first is
+ * still in progress will block until the first operbtion completes.  Other
+ * operbtions, in pbrticulbr those thbt tbke bn explicit position, mby proceed
+ * concurrently; whether they in fbct do so is dependent upon the underlying
+ * implementbtion bnd is therefore unspecified.
  *
- * <p> The view of a file provided by an instance of this class is guaranteed
- * to be consistent with other views of the same file provided by other
- * instances in the same program.  The view provided by an instance of this
- * class may or may not, however, be consistent with the views seen by other
- * concurrently-running programs due to caching performed by the underlying
- * operating system and delays induced by network-filesystem protocols.  This
- * is true regardless of the language in which these other programs are
- * written, and whether they are running on the same machine or on some other
- * machine.  The exact nature of any such inconsistencies are system-dependent
- * and are therefore unspecified.
+ * <p> The view of b file provided by bn instbnce of this clbss is gubrbnteed
+ * to be consistent with other views of the sbme file provided by other
+ * instbnces in the sbme progrbm.  The view provided by bn instbnce of this
+ * clbss mby or mby not, however, be consistent with the views seen by other
+ * concurrently-running progrbms due to cbching performed by the underlying
+ * operbting system bnd delbys induced by network-filesystem protocols.  This
+ * is true regbrdless of the lbngubge in which these other progrbms bre
+ * written, bnd whether they bre running on the sbme mbchine or on some other
+ * mbchine.  The exbct nbture of bny such inconsistencies bre system-dependent
+ * bnd bre therefore unspecified.
  *
- * <p> A file channel is created by invoking one of the {@link #open open}
- * methods defined by this class. A file channel can also be obtained from an
- * existing {@link java.io.FileInputStream#getChannel FileInputStream}, {@link
- * java.io.FileOutputStream#getChannel FileOutputStream}, or {@link
- * java.io.RandomAccessFile#getChannel RandomAccessFile} object by invoking
- * that object's <tt>getChannel</tt> method, which returns a file channel that
- * is connected to the same underlying file. Where the file channel is obtained
- * from an existing stream or random access file then the state of the file
- * channel is intimately connected to that of the object whose <tt>getChannel</tt>
- * method returned the channel.  Changing the channel's position, whether
- * explicitly or by reading or writing bytes, will change the file position of
- * the originating object, and vice versa. Changing the file's length via the
- * file channel will change the length seen via the originating object, and vice
- * versa.  Changing the file's content by writing bytes will change the content
- * seen by the originating object, and vice versa.
+ * <p> A file chbnnel is crebted by invoking one of the {@link #open open}
+ * methods defined by this clbss. A file chbnnel cbn blso be obtbined from bn
+ * existing {@link jbvb.io.FileInputStrebm#getChbnnel FileInputStrebm}, {@link
+ * jbvb.io.FileOutputStrebm#getChbnnel FileOutputStrebm}, or {@link
+ * jbvb.io.RbndomAccessFile#getChbnnel RbndomAccessFile} object by invoking
+ * thbt object's <tt>getChbnnel</tt> method, which returns b file chbnnel thbt
+ * is connected to the sbme underlying file. Where the file chbnnel is obtbined
+ * from bn existing strebm or rbndom bccess file then the stbte of the file
+ * chbnnel is intimbtely connected to thbt of the object whose <tt>getChbnnel</tt>
+ * method returned the chbnnel.  Chbnging the chbnnel's position, whether
+ * explicitly or by rebding or writing bytes, will chbnge the file position of
+ * the originbting object, bnd vice versb. Chbnging the file's length vib the
+ * file chbnnel will chbnge the length seen vib the originbting object, bnd vice
+ * versb.  Chbnging the file's content by writing bytes will chbnge the content
+ * seen by the originbting object, bnd vice versb.
  *
- * <a name="open-mode"></a> <p> At various points this class specifies that an
- * instance that is "open for reading," "open for writing," or "open for
- * reading and writing" is required.  A channel obtained via the {@link
- * java.io.FileInputStream#getChannel getChannel} method of a {@link
- * java.io.FileInputStream} instance will be open for reading.  A channel
- * obtained via the {@link java.io.FileOutputStream#getChannel getChannel}
- * method of a {@link java.io.FileOutputStream} instance will be open for
- * writing.  Finally, a channel obtained via the {@link
- * java.io.RandomAccessFile#getChannel getChannel} method of a {@link
- * java.io.RandomAccessFile} instance will be open for reading if the instance
- * was created with mode <tt>"r"</tt> and will be open for reading and writing
- * if the instance was created with mode <tt>"rw"</tt>.
+ * <b nbme="open-mode"></b> <p> At vbrious points this clbss specifies thbt bn
+ * instbnce thbt is "open for rebding," "open for writing," or "open for
+ * rebding bnd writing" is required.  A chbnnel obtbined vib the {@link
+ * jbvb.io.FileInputStrebm#getChbnnel getChbnnel} method of b {@link
+ * jbvb.io.FileInputStrebm} instbnce will be open for rebding.  A chbnnel
+ * obtbined vib the {@link jbvb.io.FileOutputStrebm#getChbnnel getChbnnel}
+ * method of b {@link jbvb.io.FileOutputStrebm} instbnce will be open for
+ * writing.  Finblly, b chbnnel obtbined vib the {@link
+ * jbvb.io.RbndomAccessFile#getChbnnel getChbnnel} method of b {@link
+ * jbvb.io.RbndomAccessFile} instbnce will be open for rebding if the instbnce
+ * wbs crebted with mode <tt>"r"</tt> bnd will be open for rebding bnd writing
+ * if the instbnce wbs crebted with mode <tt>"rw"</tt>.
  *
- * <a name="append-mode"></a><p> A file channel that is open for writing may be in
- * <i>append mode</i>, for example if it was obtained from a file-output stream
- * that was created by invoking the {@link
- * java.io.FileOutputStream#FileOutputStream(java.io.File,boolean)
- * FileOutputStream(File,boolean)} constructor and passing <tt>true</tt> for
- * the second parameter.  In this mode each invocation of a relative write
- * operation first advances the position to the end of the file and then writes
- * the requested data.  Whether the advancement of the position and the writing
- * of the data are done in a single atomic operation is system-dependent and
+ * <b nbme="bppend-mode"></b><p> A file chbnnel thbt is open for writing mby be in
+ * <i>bppend mode</i>, for exbmple if it wbs obtbined from b file-output strebm
+ * thbt wbs crebted by invoking the {@link
+ * jbvb.io.FileOutputStrebm#FileOutputStrebm(jbvb.io.File,boolebn)
+ * FileOutputStrebm(File,boolebn)} constructor bnd pbssing <tt>true</tt> for
+ * the second pbrbmeter.  In this mode ebch invocbtion of b relbtive write
+ * operbtion first bdvbnces the position to the end of the file bnd then writes
+ * the requested dbtb.  Whether the bdvbncement of the position bnd the writing
+ * of the dbtb bre done in b single btomic operbtion is system-dependent bnd
  * therefore unspecified.
  *
- * @see java.io.FileInputStream#getChannel()
- * @see java.io.FileOutputStream#getChannel()
- * @see java.io.RandomAccessFile#getChannel()
+ * @see jbvb.io.FileInputStrebm#getChbnnel()
+ * @see jbvb.io.FileOutputStrebm#getChbnnel()
+ * @see jbvb.io.RbndomAccessFile#getChbnnel()
  *
- * @author Mark Reinhold
- * @author Mike McCloskey
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor Mike McCloskey
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class FileChannel
-    extends AbstractInterruptibleChannel
-    implements SeekableByteChannel, GatheringByteChannel, ScatteringByteChannel
+public bbstrbct clbss FileChbnnel
+    extends AbstrbctInterruptibleChbnnel
+    implements SeekbbleByteChbnnel, GbtheringByteChbnnel, ScbtteringByteChbnnel
 {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected FileChannel() { }
+    protected FileChbnnel() { }
 
     /**
-     * Opens or creates a file, returning a file channel to access the file.
+     * Opens or crebtes b file, returning b file chbnnel to bccess the file.
      *
-     * <p> The {@code options} parameter determines how the file is opened.
-     * The {@link StandardOpenOption#READ READ} and {@link StandardOpenOption#WRITE
-     * WRITE} options determine if the file should be opened for reading and/or
-     * writing. If neither option (or the {@link StandardOpenOption#APPEND APPEND}
-     * option) is contained in the array then the file is opened for reading.
-     * By default reading or writing commences at the beginning of the file.
+     * <p> The {@code options} pbrbmeter determines how the file is opened.
+     * The {@link StbndbrdOpenOption#READ READ} bnd {@link StbndbrdOpenOption#WRITE
+     * WRITE} options determine if the file should be opened for rebding bnd/or
+     * writing. If neither option (or the {@link StbndbrdOpenOption#APPEND APPEND}
+     * option) is contbined in the brrby then the file is opened for rebding.
+     * By defbult rebding or writing commences bt the beginning of the file.
      *
-     * <p> In the addition to {@code READ} and {@code WRITE}, the following
-     * options may be present:
+     * <p> In the bddition to {@code READ} bnd {@code WRITE}, the following
+     * options mby be present:
      *
-     * <table border=1 cellpadding=5 summary="">
+     * <tbble border=1 cellpbdding=5 summbry="">
      * <tr> <th>Option</th> <th>Description</th> </tr>
      * <tr>
-     *   <td> {@link StandardOpenOption#APPEND APPEND} </td>
-     *   <td> If this option is present then the file is opened for writing and
-     *     each invocation of the channel's {@code write} method first advances
-     *     the position to the end of the file and then writes the requested
-     *     data. Whether the advancement of the position and the writing of the
-     *     data are done in a single atomic operation is system-dependent and
-     *     therefore unspecified. This option may not be used in conjunction
+     *   <td> {@link StbndbrdOpenOption#APPEND APPEND} </td>
+     *   <td> If this option is present then the file is opened for writing bnd
+     *     ebch invocbtion of the chbnnel's {@code write} method first bdvbnces
+     *     the position to the end of the file bnd then writes the requested
+     *     dbtb. Whether the bdvbncement of the position bnd the writing of the
+     *     dbtb bre done in b single btomic operbtion is system-dependent bnd
+     *     therefore unspecified. This option mby not be used in conjunction
      *     with the {@code READ} or {@code TRUNCATE_EXISTING} options. </td>
      * </tr>
      * <tr>
-     *   <td> {@link StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} </td>
-     *   <td> If this option is present then the existing file is truncated to
-     *   a size of 0 bytes. This option is ignored when the file is opened only
-     *   for reading. </td>
+     *   <td> {@link StbndbrdOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} </td>
+     *   <td> If this option is present then the existing file is truncbted to
+     *   b size of 0 bytes. This option is ignored when the file is opened only
+     *   for rebding. </td>
      * </tr>
      * <tr>
-     *   <td> {@link StandardOpenOption#CREATE_NEW CREATE_NEW} </td>
-     *   <td> If this option is present then a new file is created, failing if
-     *   the file already exists. When creating a file the check for the
-     *   existence of the file and the creation of the file if it does not exist
-     *   is atomic with respect to other file system operations. This option is
-     *   ignored when the file is opened only for reading. </td>
+     *   <td> {@link StbndbrdOpenOption#CREATE_NEW CREATE_NEW} </td>
+     *   <td> If this option is present then b new file is crebted, fbiling if
+     *   the file blrebdy exists. When crebting b file the check for the
+     *   existence of the file bnd the crebtion of the file if it does not exist
+     *   is btomic with respect to other file system operbtions. This option is
+     *   ignored when the file is opened only for rebding. </td>
      * </tr>
      * <tr>
-     *   <td > {@link StandardOpenOption#CREATE CREATE} </td>
-     *   <td> If this option is present then an existing file is opened if it
-     *   exists, otherwise a new file is created. When creating a file the check
-     *   for the existence of the file and the creation of the file if it does
-     *   not exist is atomic with respect to other file system operations. This
-     *   option is ignored if the {@code CREATE_NEW} option is also present or
-     *   the file is opened only for reading. </td>
+     *   <td > {@link StbndbrdOpenOption#CREATE CREATE} </td>
+     *   <td> If this option is present then bn existing file is opened if it
+     *   exists, otherwise b new file is crebted. When crebting b file the check
+     *   for the existence of the file bnd the crebtion of the file if it does
+     *   not exist is btomic with respect to other file system operbtions. This
+     *   option is ignored if the {@code CREATE_NEW} option is blso present or
+     *   the file is opened only for rebding. </td>
      * </tr>
      * <tr>
-     *   <td > {@link StandardOpenOption#DELETE_ON_CLOSE DELETE_ON_CLOSE} </td>
-     *   <td> When this option is present then the implementation makes a
-     *   <em>best effort</em> attempt to delete the file when closed by the
+     *   <td > {@link StbndbrdOpenOption#DELETE_ON_CLOSE DELETE_ON_CLOSE} </td>
+     *   <td> When this option is present then the implementbtion mbkes b
+     *   <em>best effort</em> bttempt to delete the file when closed by the
      *   the {@link #close close} method. If the {@code close} method is not
-     *   invoked then a <em>best effort</em> attempt is made to delete the file
-     *   when the Java virtual machine terminates. </td>
+     *   invoked then b <em>best effort</em> bttempt is mbde to delete the file
+     *   when the Jbvb virtubl mbchine terminbtes. </td>
      * </tr>
      * <tr>
-     *   <td>{@link StandardOpenOption#SPARSE SPARSE} </td>
-     *   <td> When creating a new file this option is a <em>hint</em> that the
-     *   new file will be sparse. This option is ignored when not creating
-     *   a new file. </td>
+     *   <td>{@link StbndbrdOpenOption#SPARSE SPARSE} </td>
+     *   <td> When crebting b new file this option is b <em>hint</em> thbt the
+     *   new file will be spbrse. This option is ignored when not crebting
+     *   b new file. </td>
      * </tr>
      * <tr>
-     *   <td> {@link StandardOpenOption#SYNC SYNC} </td>
-     *   <td> Requires that every update to the file's content or metadata be
-     *   written synchronously to the underlying storage device. (see <a
-     *   href="../file/package-summary.html#integrity"> Synchronized I/O file
-     *   integrity</a>). </td>
+     *   <td> {@link StbndbrdOpenOption#SYNC SYNC} </td>
+     *   <td> Requires thbt every updbte to the file's content or metbdbtb be
+     *   written synchronously to the underlying storbge device. (see <b
+     *   href="../file/pbckbge-summbry.html#integrity"> Synchronized I/O file
+     *   integrity</b>). </td>
      * </tr>
      * <tr>
-     *   <td> {@link StandardOpenOption#DSYNC DSYNC} </td>
-     *   <td> Requires that every update to the file's content be written
-     *   synchronously to the underlying storage device. (see <a
-     *   href="../file/package-summary.html#integrity"> Synchronized I/O file
-     *   integrity</a>). </td>
+     *   <td> {@link StbndbrdOpenOption#DSYNC DSYNC} </td>
+     *   <td> Requires thbt every updbte to the file's content be written
+     *   synchronously to the underlying storbge device. (see <b
+     *   href="../file/pbckbge-summbry.html#integrity"> Synchronized I/O file
+     *   integrity</b>). </td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * <p> An implementation may also support additional options.
+     * <p> An implementbtion mby blso support bdditionbl options.
      *
-     * <p> The {@code attrs} parameter is an optional array of file {@link
-     * FileAttribute file-attributes} to set atomically when creating the file.
+     * <p> The {@code bttrs} pbrbmeter is bn optionbl brrby of file {@link
+     * FileAttribute file-bttributes} to set btomicblly when crebting the file.
      *
-     * <p> The new channel is created by invoking the {@link
-     * FileSystemProvider#newFileChannel newFileChannel} method on the
-     * provider that created the {@code Path}.
+     * <p> The new chbnnel is crebted by invoking the {@link
+     * FileSystemProvider#newFileChbnnel newFileChbnnel} method on the
+     * provider thbt crebted the {@code Pbth}.
      *
-     * @param   path
-     *          The path of the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          The pbth of the file to open or crebte
+     * @pbrbm   options
      *          Options specifying how the file is opened
-     * @param   attrs
-     *          An optional list of file attributes to set atomically when
-     *          creating the file
+     * @pbrbm   bttrs
+     *          An optionbl list of file bttributes to set btomicblly when
+     *          crebting the file
      *
-     * @return  A new file channel
+     * @return  A new file chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          If the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          If the {@code path} is associated with a provider that does not
-     *          support creating file channels, or an unsupported open option is
-     *          specified, or the array contains an attribute that cannot be set
-     *          atomically when creating the file
+     * @throws  IllegblArgumentException
+     *          If the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          If the {@code pbth} is bssocibted with b provider thbt does not
+     *          support crebting file chbnnels, or bn unsupported open option is
+     *          specified, or the brrby contbins bn bttribute thbt cbnnot be set
+     *          btomicblly when crebting the file
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an
-     *          unspecified permission required by the implementation.
-     *          In the case of the default provider, the {@link
-     *          SecurityManager#checkRead(String)} method is invoked to check
-     *          read access if the file is opened for reading. The {@link
-     *          SecurityManager#checkWrite(String)} method is invoked to check
-     *          write access if the file is opened for writing
+     *          If b security mbnbger is instblled bnd it denies bn
+     *          unspecified permission required by the implementbtion.
+     *          In the cbse of the defbult provider, the {@link
+     *          SecurityMbnbger#checkRebd(String)} method is invoked to check
+     *          rebd bccess if the file is opened for rebding. The {@link
+     *          SecurityMbnbger#checkWrite(String)} method is invoked to check
+     *          write bccess if the file is opened for writing
      *
      * @since   1.7
      */
-    public static FileChannel open(Path path,
+    public stbtic FileChbnnel open(Pbth pbth,
                                    Set<? extends OpenOption> options,
-                                   FileAttribute<?>... attrs)
+                                   FileAttribute<?>... bttrs)
         throws IOException
     {
-        FileSystemProvider provider = path.getFileSystem().provider();
-        return provider.newFileChannel(path, options, attrs);
+        FileSystemProvider provider = pbth.getFileSystem().provider();
+        return provider.newFileChbnnel(pbth, options, bttrs);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"}) // generic array construction
-    private static final FileAttribute<?>[] NO_ATTRIBUTES = new FileAttribute[0];
+    @SuppressWbrnings({"unchecked", "rbwtypes"}) // generic brrby construction
+    privbte stbtic finbl FileAttribute<?>[] NO_ATTRIBUTES = new FileAttribute[0];
 
     /**
-     * Opens or creates a file, returning a file channel to access the file.
+     * Opens or crebtes b file, returning b file chbnnel to bccess the file.
      *
-     * <p> An invocation of this method behaves in exactly the same way as the
-     * invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme wby bs the
+     * invocbtion
      * <pre>
-     *     fc.{@link #open(Path,Set,FileAttribute[]) open}(file, opts, new FileAttribute&lt;?&gt;[0]);
+     *     fc.{@link #open(Pbth,Set,FileAttribute[]) open}(file, opts, new FileAttribute&lt;?&gt;[0]);
      * </pre>
-     * where {@code opts} is a set of the options specified in the {@code
-     * options} array.
+     * where {@code opts} is b set of the options specified in the {@code
+     * options} brrby.
      *
-     * @param   path
-     *          The path of the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          The pbth of the file to open or crebte
+     * @pbrbm   options
      *          Options specifying how the file is opened
      *
-     * @return  A new file channel
+     * @return  A new file chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          If the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          If the {@code path} is associated with a provider that does not
-     *          support creating file channels, or an unsupported open option is
+     * @throws  IllegblArgumentException
+     *          If the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          If the {@code pbth} is bssocibted with b provider thbt does not
+     *          support crebting file chbnnels, or bn unsupported open option is
      *          specified
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an
-     *          unspecified permission required by the implementation.
-     *          In the case of the default provider, the {@link
-     *          SecurityManager#checkRead(String)} method is invoked to check
-     *          read access if the file is opened for reading. The {@link
-     *          SecurityManager#checkWrite(String)} method is invoked to check
-     *          write access if the file is opened for writing
+     *          If b security mbnbger is instblled bnd it denies bn
+     *          unspecified permission required by the implementbtion.
+     *          In the cbse of the defbult provider, the {@link
+     *          SecurityMbnbger#checkRebd(String)} method is invoked to check
+     *          rebd bccess if the file is opened for rebding. The {@link
+     *          SecurityMbnbger#checkWrite(String)} method is invoked to check
+     *          write bccess if the file is opened for writing
      *
      * @since   1.7
      */
-    public static FileChannel open(Path path, OpenOption... options)
+    public stbtic FileChbnnel open(Pbth pbth, OpenOption... options)
         throws IOException
     {
-        Set<OpenOption> set = new HashSet<OpenOption>(options.length);
-        Collections.addAll(set, options);
-        return open(path, set, NO_ATTRIBUTES);
+        Set<OpenOption> set = new HbshSet<OpenOption>(options.length);
+        Collections.bddAll(set, options);
+        return open(pbth, set, NO_ATTRIBUTES);
     }
 
-    // -- Channel operations --
+    // -- Chbnnel operbtions --
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer.
      *
-     * <p> Bytes are read starting at this channel's current file position, and
-     * then the file position is updated with the number of bytes actually
-     * read.  Otherwise this method behaves exactly as specified in the {@link
-     * ReadableByteChannel} interface. </p>
+     * <p> Bytes bre rebd stbrting bt this chbnnel's current file position, bnd
+     * then the file position is updbted with the number of bytes bctublly
+     * rebd.  Otherwise this method behbves exbctly bs specified in the {@link
+     * RebdbbleByteChbnnel} interfbce. </p>
      */
-    public abstract int read(ByteBuffer dst) throws IOException;
+    public bbstrbct int rebd(ByteBuffer dst) throws IOException;
 
     /**
-     * Reads a sequence of bytes from this channel into a subsequence of the
+     * Rebds b sequence of bytes from this chbnnel into b subsequence of the
      * given buffers.
      *
-     * <p> Bytes are read starting at this channel's current file position, and
-     * then the file position is updated with the number of bytes actually
-     * read.  Otherwise this method behaves exactly as specified in the {@link
-     * ScatteringByteChannel} interface.  </p>
+     * <p> Bytes bre rebd stbrting bt this chbnnel's current file position, bnd
+     * then the file position is updbted with the number of bytes bctublly
+     * rebd.  Otherwise this method behbves exbctly bs specified in the {@link
+     * ScbtteringByteChbnnel} interfbce.  </p>
      */
-    public abstract long read(ByteBuffer[] dsts, int offset, int length)
+    public bbstrbct long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException;
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffers.
+     * Rebds b sequence of bytes from this chbnnel into the given buffers.
      *
-     * <p> Bytes are read starting at this channel's current file position, and
-     * then the file position is updated with the number of bytes actually
-     * read.  Otherwise this method behaves exactly as specified in the {@link
-     * ScatteringByteChannel} interface.  </p>
+     * <p> Bytes bre rebd stbrting bt this chbnnel's current file position, bnd
+     * then the file position is updbted with the number of bytes bctublly
+     * rebd.  Otherwise this method behbves exbctly bs specified in the {@link
+     * ScbtteringByteChbnnel} interfbce.  </p>
      */
-    public final long read(ByteBuffer[] dsts) throws IOException {
-        return read(dsts, 0, dsts.length);
+    public finbl long rebd(ByteBuffer[] dsts) throws IOException {
+        return rebd(dsts, 0, dsts.length);
     }
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writes b sequence of bytes to this chbnnel from the given buffer.
      *
-     * <p> Bytes are written starting at this channel's current file position
-     * unless the channel is in append mode, in which case the position is
-     * first advanced to the end of the file.  The file is grown, if necessary,
-     * to accommodate the written bytes, and then the file position is updated
-     * with the number of bytes actually written.  Otherwise this method
-     * behaves exactly as specified by the {@link WritableByteChannel}
-     * interface. </p>
+     * <p> Bytes bre written stbrting bt this chbnnel's current file position
+     * unless the chbnnel is in bppend mode, in which cbse the position is
+     * first bdvbnced to the end of the file.  The file is grown, if necessbry,
+     * to bccommodbte the written bytes, bnd then the file position is updbted
+     * with the number of bytes bctublly written.  Otherwise this method
+     * behbves exbctly bs specified by the {@link WritbbleByteChbnnel}
+     * interfbce. </p>
      */
-    public abstract int write(ByteBuffer src) throws IOException;
+    public bbstrbct int write(ByteBuffer src) throws IOException;
 
     /**
-     * Writes a sequence of bytes to this channel from a subsequence of the
+     * Writes b sequence of bytes to this chbnnel from b subsequence of the
      * given buffers.
      *
-     * <p> Bytes are written starting at this channel's current file position
-     * unless the channel is in append mode, in which case the position is
-     * first advanced to the end of the file.  The file is grown, if necessary,
-     * to accommodate the written bytes, and then the file position is updated
-     * with the number of bytes actually written.  Otherwise this method
-     * behaves exactly as specified in the {@link GatheringByteChannel}
-     * interface.  </p>
+     * <p> Bytes bre written stbrting bt this chbnnel's current file position
+     * unless the chbnnel is in bppend mode, in which cbse the position is
+     * first bdvbnced to the end of the file.  The file is grown, if necessbry,
+     * to bccommodbte the written bytes, bnd then the file position is updbted
+     * with the number of bytes bctublly written.  Otherwise this method
+     * behbves exbctly bs specified in the {@link GbtheringByteChbnnel}
+     * interfbce.  </p>
      */
-    public abstract long write(ByteBuffer[] srcs, int offset, int length)
+    public bbstrbct long write(ByteBuffer[] srcs, int offset, int length)
         throws IOException;
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffers.
+     * Writes b sequence of bytes to this chbnnel from the given buffers.
      *
-     * <p> Bytes are written starting at this channel's current file position
-     * unless the channel is in append mode, in which case the position is
-     * first advanced to the end of the file.  The file is grown, if necessary,
-     * to accommodate the written bytes, and then the file position is updated
-     * with the number of bytes actually written.  Otherwise this method
-     * behaves exactly as specified in the {@link GatheringByteChannel}
-     * interface.  </p>
+     * <p> Bytes bre written stbrting bt this chbnnel's current file position
+     * unless the chbnnel is in bppend mode, in which cbse the position is
+     * first bdvbnced to the end of the file.  The file is grown, if necessbry,
+     * to bccommodbte the written bytes, bnd then the file position is updbted
+     * with the number of bytes bctublly written.  Otherwise this method
+     * behbves exbctly bs specified in the {@link GbtheringByteChbnnel}
+     * interfbce.  </p>
      */
-    public final long write(ByteBuffer[] srcs) throws IOException {
+    public finbl long write(ByteBuffer[] srcs) throws IOException {
         return write(srcs, 0, srcs.length);
     }
 
 
-    // -- Other operations --
+    // -- Other operbtions --
 
     /**
-     * Returns this channel's file position.
+     * Returns this chbnnel's file position.
      *
-     * @return  This channel's file position,
-     *          a non-negative integer counting the number of bytes
+     * @return  This chbnnel's file position,
+     *          b non-negbtive integer counting the number of bytes
      *          from the beginning of the file to the current position
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract long position() throws IOException;
+    public bbstrbct long position() throws IOException;
 
     /**
-     * Sets this channel's file position.
+     * Sets this chbnnel's file position.
      *
-     * <p> Setting the position to a value that is greater than the file's
-     * current size is legal but does not change the size of the file.  A later
-     * attempt to read bytes at such a position will immediately return an
-     * end-of-file indication.  A later attempt to write bytes at such a
-     * position will cause the file to be grown to accommodate the new bytes;
-     * the values of any bytes between the previous end-of-file and the
-     * newly-written bytes are unspecified.  </p>
+     * <p> Setting the position to b vblue thbt is grebter thbn the file's
+     * current size is legbl but does not chbnge the size of the file.  A lbter
+     * bttempt to rebd bytes bt such b position will immedibtely return bn
+     * end-of-file indicbtion.  A lbter bttempt to write bytes bt such b
+     * position will cbuse the file to be grown to bccommodbte the new bytes;
+     * the vblues of bny bytes between the previous end-of-file bnd the
+     * newly-written bytes bre unspecified.  </p>
      *
-     * @param  newPosition
-     *         The new position, a non-negative integer counting
+     * @pbrbm  newPosition
+     *         The new position, b non-negbtive integer counting
      *         the number of bytes from the beginning of the file
      *
-     * @return  This file channel
+     * @return  This file chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  IllegalArgumentException
-     *          If the new position is negative
-     *
-     * @throws  IOException
-     *          If some other I/O error occurs
-     */
-    public abstract FileChannel position(long newPosition) throws IOException;
-
-    /**
-     * Returns the current size of this channel's file.
-     *
-     * @return  The current size of this channel's file,
-     *          measured in bytes
-     *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  IllegblArgumentException
+     *          If the new position is negbtive
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract long size() throws IOException;
+    public bbstrbct FileChbnnel position(long newPosition) throws IOException;
 
     /**
-     * Truncates this channel's file to the given size.
+     * Returns the current size of this chbnnel's file.
      *
-     * <p> If the given size is less than the file's current size then the file
-     * is truncated, discarding any bytes beyond the new end of the file.  If
-     * the given size is greater than or equal to the file's current size then
-     * the file is not modified.  In either case, if this channel's file
-     * position is greater than the given size then it is set to that size.
+     * @return  The current size of this chbnnel's file,
+     *          mebsured in bytes
+     *
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
+     *
+     * @throws  IOException
+     *          If some other I/O error occurs
+     */
+    public bbstrbct long size() throws IOException;
+
+    /**
+     * Truncbtes this chbnnel's file to the given size.
+     *
+     * <p> If the given size is less thbn the file's current size then the file
+     * is truncbted, discbrding bny bytes beyond the new end of the file.  If
+     * the given size is grebter thbn or equbl to the file's current size then
+     * the file is not modified.  In either cbse, if this chbnnel's file
+     * position is grebter thbn the given size then it is set to thbt size.
      * </p>
      *
-     * @param  size
-     *         The new size, a non-negative byte count
+     * @pbrbm  size
+     *         The new size, b non-negbtive byte count
      *
-     * @return  This file channel
+     * @return  This file chbnnel
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
+     * @throws  NonWritbbleChbnnelException
+     *          If this chbnnel wbs not opened for writing
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  IllegalArgumentException
-     *          If the new size is negative
+     * @throws  IllegblArgumentException
+     *          If the new size is negbtive
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract FileChannel truncate(long size) throws IOException;
+    public bbstrbct FileChbnnel truncbte(long size) throws IOException;
 
     /**
-     * Forces any updates to this channel's file to be written to the storage
-     * device that contains it.
+     * Forces bny updbtes to this chbnnel's file to be written to the storbge
+     * device thbt contbins it.
      *
-     * <p> If this channel's file resides on a local storage device then when
-     * this method returns it is guaranteed that all changes made to the file
-     * since this channel was created, or since this method was last invoked,
-     * will have been written to that device.  This is useful for ensuring that
-     * critical information is not lost in the event of a system crash.
+     * <p> If this chbnnel's file resides on b locbl storbge device then when
+     * this method returns it is gubrbnteed thbt bll chbnges mbde to the file
+     * since this chbnnel wbs crebted, or since this method wbs lbst invoked,
+     * will hbve been written to thbt device.  This is useful for ensuring thbt
+     * criticbl informbtion is not lost in the event of b system crbsh.
      *
-     * <p> If the file does not reside on a local device then no such guarantee
-     * is made.
+     * <p> If the file does not reside on b locbl device then no such gubrbntee
+     * is mbde.
      *
-     * <p> The <tt>metaData</tt> parameter can be used to limit the number of
-     * I/O operations that this method is required to perform.  Passing
-     * <tt>false</tt> for this parameter indicates that only updates to the
-     * file's content need be written to storage; passing <tt>true</tt>
-     * indicates that updates to both the file's content and metadata must be
-     * written, which generally requires at least one more I/O operation.
-     * Whether this parameter actually has any effect is dependent upon the
-     * underlying operating system and is therefore unspecified.
+     * <p> The <tt>metbDbtb</tt> pbrbmeter cbn be used to limit the number of
+     * I/O operbtions thbt this method is required to perform.  Pbssing
+     * <tt>fblse</tt> for this pbrbmeter indicbtes thbt only updbtes to the
+     * file's content need be written to storbge; pbssing <tt>true</tt>
+     * indicbtes thbt updbtes to both the file's content bnd metbdbtb must be
+     * written, which generblly requires bt lebst one more I/O operbtion.
+     * Whether this pbrbmeter bctublly hbs bny effect is dependent upon the
+     * underlying operbting system bnd is therefore unspecified.
      *
-     * <p> Invoking this method may cause an I/O operation to occur even if the
-     * channel was only opened for reading.  Some operating systems, for
-     * example, maintain a last-access time as part of a file's metadata, and
-     * this time is updated whenever the file is read.  Whether or not this is
-     * actually done is system-dependent and is therefore unspecified.
+     * <p> Invoking this method mby cbuse bn I/O operbtion to occur even if the
+     * chbnnel wbs only opened for rebding.  Some operbting systems, for
+     * exbmple, mbintbin b lbst-bccess time bs pbrt of b file's metbdbtb, bnd
+     * this time is updbted whenever the file is rebd.  Whether or not this is
+     * bctublly done is system-dependent bnd is therefore unspecified.
      *
-     * <p> This method is only guaranteed to force changes that were made to
-     * this channel's file via the methods defined in this class.  It may or
-     * may not force changes that were made by modifying the content of a
-     * {@link MappedByteBuffer <i>mapped byte buffer</i>} obtained by
-     * invoking the {@link #map map} method.  Invoking the {@link
-     * MappedByteBuffer#force force} method of the mapped byte buffer will
-     * force changes made to the buffer's content to be written.  </p>
+     * <p> This method is only gubrbnteed to force chbnges thbt were mbde to
+     * this chbnnel's file vib the methods defined in this clbss.  It mby or
+     * mby not force chbnges thbt were mbde by modifying the content of b
+     * {@link MbppedByteBuffer <i>mbpped byte buffer</i>} obtbined by
+     * invoking the {@link #mbp mbp} method.  Invoking the {@link
+     * MbppedByteBuffer#force force} method of the mbpped byte buffer will
+     * force chbnges mbde to the buffer's content to be written.  </p>
      *
-     * @param   metaData
-     *          If <tt>true</tt> then this method is required to force changes
-     *          to both the file's content and metadata to be written to
-     *          storage; otherwise, it need only force content changes to be
+     * @pbrbm   metbDbtb
+     *          If <tt>true</tt> then this method is required to force chbnges
+     *          to both the file's content bnd metbdbtb to be written to
+     *          storbge; otherwise, it need only force content chbnges to be
      *          written
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract void force(boolean metaData) throws IOException;
+    public bbstrbct void force(boolebn metbDbtb) throws IOException;
 
     /**
-     * Transfers bytes from this channel's file to the given writable byte
-     * channel.
+     * Trbnsfers bytes from this chbnnel's file to the given writbble byte
+     * chbnnel.
      *
-     * <p> An attempt is made to read up to <tt>count</tt> bytes starting at
-     * the given <tt>position</tt> in this channel's file and write them to the
-     * target channel.  An invocation of this method may or may not transfer
-     * all of the requested bytes; whether or not it does so depends upon the
-     * natures and states of the channels.  Fewer than the requested number of
-     * bytes are transferred if this channel's file contains fewer than
-     * <tt>count</tt> bytes starting at the given <tt>position</tt>, or if the
-     * target channel is non-blocking and it has fewer than <tt>count</tt>
+     * <p> An bttempt is mbde to rebd up to <tt>count</tt> bytes stbrting bt
+     * the given <tt>position</tt> in this chbnnel's file bnd write them to the
+     * tbrget chbnnel.  An invocbtion of this method mby or mby not trbnsfer
+     * bll of the requested bytes; whether or not it does so depends upon the
+     * nbtures bnd stbtes of the chbnnels.  Fewer thbn the requested number of
+     * bytes bre trbnsferred if this chbnnel's file contbins fewer thbn
+     * <tt>count</tt> bytes stbrting bt the given <tt>position</tt>, or if the
+     * tbrget chbnnel is non-blocking bnd it hbs fewer thbn <tt>count</tt>
      * bytes free in its output buffer.
      *
-     * <p> This method does not modify this channel's position.  If the given
-     * position is greater than the file's current size then no bytes are
-     * transferred.  If the target channel has a position then bytes are
-     * written starting at that position and then the position is incremented
+     * <p> This method does not modify this chbnnel's position.  If the given
+     * position is grebter thbn the file's current size then no bytes bre
+     * trbnsferred.  If the tbrget chbnnel hbs b position then bytes bre
+     * written stbrting bt thbt position bnd then the position is incremented
      * by the number of bytes written.
      *
-     * <p> This method is potentially much more efficient than a simple loop
-     * that reads from this channel and writes to the target channel.  Many
-     * operating systems can transfer bytes directly from the filesystem cache
-     * to the target channel without actually copying them.  </p>
+     * <p> This method is potentiblly much more efficient thbn b simple loop
+     * thbt rebds from this chbnnel bnd writes to the tbrget chbnnel.  Mbny
+     * operbting systems cbn trbnsfer bytes directly from the filesystem cbche
+     * to the tbrget chbnnel without bctublly copying them.  </p>
      *
-     * @param  position
-     *         The position within the file at which the transfer is to begin;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The position within the file bt which the trbnsfer is to begin;
+     *         must be non-negbtive
      *
-     * @param  count
-     *         The maximum number of bytes to be transferred; must be
-     *         non-negative
+     * @pbrbm  count
+     *         The mbximum number of bytes to be trbnsferred; must be
+     *         non-negbtive
      *
-     * @param  target
-     *         The target channel
+     * @pbrbm  tbrget
+     *         The tbrget chbnnel
      *
      * @return  The number of bytes, possibly zero,
-     *          that were actually transferred
+     *          thbt were bctublly trbnsferred
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @throws IllegblArgumentException
+     *         If the preconditions on the pbrbmeters do not hold
      *
-     * @throws  NonReadableChannelException
-     *          If this channel was not opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If this chbnnel wbs not opened for rebding
      *
-     * @throws  NonWritableChannelException
-     *          If the target channel was not opened for writing
+     * @throws  NonWritbbleChbnnelException
+     *          If the tbrget chbnnel wbs not opened for writing
      *
-     * @throws  ClosedChannelException
-     *          If either this channel or the target channel is closed
+     * @throws  ClosedChbnnelException
+     *          If either this chbnnel or the tbrget chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes either channel
-     *          while the transfer is in progress
+     *          If bnother threbd closes either chbnnel
+     *          while the trbnsfer is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread while the
-     *          transfer is in progress, thereby closing both channels and
-     *          setting the current thread's interrupt status
+     *          If bnother threbd interrupts the current threbd while the
+     *          trbnsfer is in progress, thereby closing both chbnnels bnd
+     *          setting the current threbd's interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract long transferTo(long position, long count,
-                                    WritableByteChannel target)
+    public bbstrbct long trbnsferTo(long position, long count,
+                                    WritbbleByteChbnnel tbrget)
         throws IOException;
 
     /**
-     * Transfers bytes into this channel's file from the given readable byte
-     * channel.
+     * Trbnsfers bytes into this chbnnel's file from the given rebdbble byte
+     * chbnnel.
      *
-     * <p> An attempt is made to read up to <tt>count</tt> bytes from the
-     * source channel and write them to this channel's file starting at the
-     * given <tt>position</tt>.  An invocation of this method may or may not
-     * transfer all of the requested bytes; whether or not it does so depends
-     * upon the natures and states of the channels.  Fewer than the requested
-     * number of bytes will be transferred if the source channel has fewer than
-     * <tt>count</tt> bytes remaining, or if the source channel is non-blocking
-     * and has fewer than <tt>count</tt> bytes immediately available in its
+     * <p> An bttempt is mbde to rebd up to <tt>count</tt> bytes from the
+     * source chbnnel bnd write them to this chbnnel's file stbrting bt the
+     * given <tt>position</tt>.  An invocbtion of this method mby or mby not
+     * trbnsfer bll of the requested bytes; whether or not it does so depends
+     * upon the nbtures bnd stbtes of the chbnnels.  Fewer thbn the requested
+     * number of bytes will be trbnsferred if the source chbnnel hbs fewer thbn
+     * <tt>count</tt> bytes rembining, or if the source chbnnel is non-blocking
+     * bnd hbs fewer thbn <tt>count</tt> bytes immedibtely bvbilbble in its
      * input buffer.
      *
-     * <p> This method does not modify this channel's position.  If the given
-     * position is greater than the file's current size then no bytes are
-     * transferred.  If the source channel has a position then bytes are read
-     * starting at that position and then the position is incremented by the
-     * number of bytes read.
+     * <p> This method does not modify this chbnnel's position.  If the given
+     * position is grebter thbn the file's current size then no bytes bre
+     * trbnsferred.  If the source chbnnel hbs b position then bytes bre rebd
+     * stbrting bt thbt position bnd then the position is incremented by the
+     * number of bytes rebd.
      *
-     * <p> This method is potentially much more efficient than a simple loop
-     * that reads from the source channel and writes to this channel.  Many
-     * operating systems can transfer bytes directly from the source channel
-     * into the filesystem cache without actually copying them.  </p>
+     * <p> This method is potentiblly much more efficient thbn b simple loop
+     * thbt rebds from the source chbnnel bnd writes to this chbnnel.  Mbny
+     * operbting systems cbn trbnsfer bytes directly from the source chbnnel
+     * into the filesystem cbche without bctublly copying them.  </p>
      *
-     * @param  src
-     *         The source channel
+     * @pbrbm  src
+     *         The source chbnnel
      *
-     * @param  position
-     *         The position within the file at which the transfer is to begin;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The position within the file bt which the trbnsfer is to begin;
+     *         must be non-negbtive
      *
-     * @param  count
-     *         The maximum number of bytes to be transferred; must be
-     *         non-negative
+     * @pbrbm  count
+     *         The mbximum number of bytes to be trbnsferred; must be
+     *         non-negbtive
      *
      * @return  The number of bytes, possibly zero,
-     *          that were actually transferred
+     *          thbt were bctublly trbnsferred
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @throws IllegblArgumentException
+     *         If the preconditions on the pbrbmeters do not hold
      *
-     * @throws  NonReadableChannelException
-     *          If the source channel was not opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If the source chbnnel wbs not opened for rebding
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
+     * @throws  NonWritbbleChbnnelException
+     *          If this chbnnel wbs not opened for writing
      *
-     * @throws  ClosedChannelException
-     *          If either this channel or the source channel is closed
+     * @throws  ClosedChbnnelException
+     *          If either this chbnnel or the source chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes either channel
-     *          while the transfer is in progress
+     *          If bnother threbd closes either chbnnel
+     *          while the trbnsfer is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread while the
-     *          transfer is in progress, thereby closing both channels and
-     *          setting the current thread's interrupt status
+     *          If bnother threbd interrupts the current threbd while the
+     *          trbnsfer is in progress, thereby closing both chbnnels bnd
+     *          setting the current threbd's interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract long transferFrom(ReadableByteChannel src,
+    public bbstrbct long trbnsferFrom(RebdbbleByteChbnnel src,
                                       long position, long count)
         throws IOException;
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffer,
-     * starting at the given file position.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer,
+     * stbrting bt the given file position.
      *
-     * <p> This method works in the same manner as the {@link
-     * #read(ByteBuffer)} method, except that bytes are read starting at the
-     * given file position rather than at the channel's current position.  This
-     * method does not modify this channel's position.  If the given position
-     * is greater than the file's current size then no bytes are read.  </p>
+     * <p> This method works in the sbme mbnner bs the {@link
+     * #rebd(ByteBuffer)} method, except thbt bytes bre rebd stbrting bt the
+     * given file position rbther thbn bt the chbnnel's current position.  This
+     * method does not modify this chbnnel's position.  If the given position
+     * is grebter thbn the file's current size then no bytes bre rebd.  </p>
      *
-     * @param  dst
-     *         The buffer into which bytes are to be transferred
+     * @pbrbm  dst
+     *         The buffer into which bytes bre to be trbnsferred
      *
-     * @param  position
-     *         The file position at which the transfer is to begin;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The file position bt which the trbnsfer is to begin;
+     *         must be non-negbtive
      *
-     * @return  The number of bytes read, possibly zero, or <tt>-1</tt> if the
-     *          given position is greater than or equal to the file's current
+     * @return  The number of bytes rebd, possibly zero, or <tt>-1</tt> if the
+     *          given position is grebter thbn or equbl to the file's current
      *          size
      *
-     * @throws  IllegalArgumentException
-     *          If the position is negative
+     * @throws  IllegblArgumentException
+     *          If the position is negbtive
      *
-     * @throws  NonReadableChannelException
-     *          If this channel was not opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If this chbnnel wbs not opened for rebding
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract int read(ByteBuffer dst, long position) throws IOException;
+    public bbstrbct int rebd(ByteBuffer dst, long position) throws IOException;
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer,
-     * starting at the given file position.
+     * Writes b sequence of bytes to this chbnnel from the given buffer,
+     * stbrting bt the given file position.
      *
-     * <p> This method works in the same manner as the {@link
-     * #write(ByteBuffer)} method, except that bytes are written starting at
-     * the given file position rather than at the channel's current position.
-     * This method does not modify this channel's position.  If the given
-     * position is greater than the file's current size then the file will be
-     * grown to accommodate the new bytes; the values of any bytes between the
-     * previous end-of-file and the newly-written bytes are unspecified.  </p>
+     * <p> This method works in the sbme mbnner bs the {@link
+     * #write(ByteBuffer)} method, except thbt bytes bre written stbrting bt
+     * the given file position rbther thbn bt the chbnnel's current position.
+     * This method does not modify this chbnnel's position.  If the given
+     * position is grebter thbn the file's current size then the file will be
+     * grown to bccommodbte the new bytes; the vblues of bny bytes between the
+     * previous end-of-file bnd the newly-written bytes bre unspecified.  </p>
      *
-     * @param  src
-     *         The buffer from which bytes are to be transferred
+     * @pbrbm  src
+     *         The buffer from which bytes bre to be trbnsferred
      *
-     * @param  position
-     *         The file position at which the transfer is to begin;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The file position bt which the trbnsfer is to begin;
+     *         must be non-negbtive
      *
      * @return  The number of bytes written, possibly zero
      *
-     * @throws  IllegalArgumentException
-     *          If the position is negative
+     * @throws  IllegblArgumentException
+     *          If the position is negbtive
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
+     * @throws  NonWritbbleChbnnelException
+     *          If this chbnnel wbs not opened for writing
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the write operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the write operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the write operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the write operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract int write(ByteBuffer src, long position) throws IOException;
+    public bbstrbct int write(ByteBuffer src, long position) throws IOException;
 
 
-    // -- Memory-mapped buffers --
+    // -- Memory-mbpped buffers --
 
     /**
-     * A typesafe enumeration for file-mapping modes.
+     * A typesbfe enumerbtion for file-mbpping modes.
      *
      * @since 1.4
      *
-     * @see java.nio.channels.FileChannel#map
+     * @see jbvb.nio.chbnnels.FileChbnnel#mbp
      */
-    public static class MapMode {
+    public stbtic clbss MbpMode {
 
         /**
-         * Mode for a read-only mapping.
+         * Mode for b rebd-only mbpping.
          */
-        public static final MapMode READ_ONLY
-            = new MapMode("READ_ONLY");
+        public stbtic finbl MbpMode READ_ONLY
+            = new MbpMode("READ_ONLY");
 
         /**
-         * Mode for a read/write mapping.
+         * Mode for b rebd/write mbpping.
          */
-        public static final MapMode READ_WRITE
-            = new MapMode("READ_WRITE");
+        public stbtic finbl MbpMode READ_WRITE
+            = new MbpMode("READ_WRITE");
 
         /**
-         * Mode for a private (copy-on-write) mapping.
+         * Mode for b privbte (copy-on-write) mbpping.
          */
-        public static final MapMode PRIVATE
-            = new MapMode("PRIVATE");
+        public stbtic finbl MbpMode PRIVATE
+            = new MbpMode("PRIVATE");
 
-        private final String name;
+        privbte finbl String nbme;
 
-        private MapMode(String name) {
-            this.name = name;
+        privbte MbpMode(String nbme) {
+            this.nbme = nbme;
         }
 
         /**
-         * Returns a string describing this file-mapping mode.
+         * Returns b string describing this file-mbpping mode.
          *
          * @return  A descriptive string
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
     }
 
     /**
-     * Maps a region of this channel's file directly into memory.
+     * Mbps b region of this chbnnel's file directly into memory.
      *
-     * <p> A region of a file may be mapped into memory in one of three modes:
+     * <p> A region of b file mby be mbpped into memory in one of three modes:
      * </p>
      *
      * <ul>
      *
-     *   <li><p> <i>Read-only:</i> Any attempt to modify the resulting buffer
-     *   will cause a {@link java.nio.ReadOnlyBufferException} to be thrown.
-     *   ({@link MapMode#READ_ONLY MapMode.READ_ONLY}) </p></li>
+     *   <li><p> <i>Rebd-only:</i> Any bttempt to modify the resulting buffer
+     *   will cbuse b {@link jbvb.nio.RebdOnlyBufferException} to be thrown.
+     *   ({@link MbpMode#READ_ONLY MbpMode.READ_ONLY}) </p></li>
      *
-     *   <li><p> <i>Read/write:</i> Changes made to the resulting buffer will
-     *   eventually be propagated to the file; they may or may not be made
-     *   visible to other programs that have mapped the same file.  ({@link
-     *   MapMode#READ_WRITE MapMode.READ_WRITE}) </p></li>
+     *   <li><p> <i>Rebd/write:</i> Chbnges mbde to the resulting buffer will
+     *   eventublly be propbgbted to the file; they mby or mby not be mbde
+     *   visible to other progrbms thbt hbve mbpped the sbme file.  ({@link
+     *   MbpMode#READ_WRITE MbpMode.READ_WRITE}) </p></li>
      *
-     *   <li><p> <i>Private:</i> Changes made to the resulting buffer will not
-     *   be propagated to the file and will not be visible to other programs
-     *   that have mapped the same file; instead, they will cause private
-     *   copies of the modified portions of the buffer to be created.  ({@link
-     *   MapMode#PRIVATE MapMode.PRIVATE}) </p></li>
+     *   <li><p> <i>Privbte:</i> Chbnges mbde to the resulting buffer will not
+     *   be propbgbted to the file bnd will not be visible to other progrbms
+     *   thbt hbve mbpped the sbme file; instebd, they will cbuse privbte
+     *   copies of the modified portions of the buffer to be crebted.  ({@link
+     *   MbpMode#PRIVATE MbpMode.PRIVATE}) </p></li>
      *
      * </ul>
      *
-     * <p> For a read-only mapping, this channel must have been opened for
-     * reading; for a read/write or private mapping, this channel must have
-     * been opened for both reading and writing.
+     * <p> For b rebd-only mbpping, this chbnnel must hbve been opened for
+     * rebding; for b rebd/write or privbte mbpping, this chbnnel must hbve
+     * been opened for both rebding bnd writing.
      *
-     * <p> The {@link MappedByteBuffer <i>mapped byte buffer</i>}
-     * returned by this method will have a position of zero and a limit and
-     * capacity of <tt>size</tt>; its mark will be undefined.  The buffer and
-     * the mapping that it represents will remain valid until the buffer itself
-     * is garbage-collected.
+     * <p> The {@link MbppedByteBuffer <i>mbpped byte buffer</i>}
+     * returned by this method will hbve b position of zero bnd b limit bnd
+     * cbpbcity of <tt>size</tt>; its mbrk will be undefined.  The buffer bnd
+     * the mbpping thbt it represents will rembin vblid until the buffer itself
+     * is gbrbbge-collected.
      *
-     * <p> A mapping, once established, is not dependent upon the file channel
-     * that was used to create it.  Closing the channel, in particular, has no
-     * effect upon the validity of the mapping.
+     * <p> A mbpping, once estbblished, is not dependent upon the file chbnnel
+     * thbt wbs used to crebte it.  Closing the chbnnel, in pbrticulbr, hbs no
+     * effect upon the vblidity of the mbpping.
      *
-     * <p> Many of the details of memory-mapped files are inherently dependent
-     * upon the underlying operating system and are therefore unspecified.  The
-     * behavior of this method when the requested region is not completely
-     * contained within this channel's file is unspecified.  Whether changes
-     * made to the content or size of the underlying file, by this program or
-     * another, are propagated to the buffer is unspecified.  The rate at which
-     * changes to the buffer are propagated to the file is unspecified.
+     * <p> Mbny of the detbils of memory-mbpped files bre inherently dependent
+     * upon the underlying operbting system bnd bre therefore unspecified.  The
+     * behbvior of this method when the requested region is not completely
+     * contbined within this chbnnel's file is unspecified.  Whether chbnges
+     * mbde to the content or size of the underlying file, by this progrbm or
+     * bnother, bre propbgbted to the buffer is unspecified.  The rbte bt which
+     * chbnges to the buffer bre propbgbted to the file is unspecified.
      *
-     * <p> For most operating systems, mapping a file into memory is more
-     * expensive than reading or writing a few tens of kilobytes of data via
-     * the usual {@link #read read} and {@link #write write} methods.  From the
-     * standpoint of performance it is generally only worth mapping relatively
-     * large files into memory.  </p>
+     * <p> For most operbting systems, mbpping b file into memory is more
+     * expensive thbn rebding or writing b few tens of kilobytes of dbtb vib
+     * the usubl {@link #rebd rebd} bnd {@link #write write} methods.  From the
+     * stbndpoint of performbnce it is generblly only worth mbpping relbtively
+     * lbrge files into memory.  </p>
      *
-     * @param  mode
-     *         One of the constants {@link MapMode#READ_ONLY READ_ONLY}, {@link
-     *         MapMode#READ_WRITE READ_WRITE}, or {@link MapMode#PRIVATE
-     *         PRIVATE} defined in the {@link MapMode} class, according to
-     *         whether the file is to be mapped read-only, read/write, or
-     *         privately (copy-on-write), respectively
+     * @pbrbm  mode
+     *         One of the constbnts {@link MbpMode#READ_ONLY READ_ONLY}, {@link
+     *         MbpMode#READ_WRITE READ_WRITE}, or {@link MbpMode#PRIVATE
+     *         PRIVATE} defined in the {@link MbpMode} clbss, bccording to
+     *         whether the file is to be mbpped rebd-only, rebd/write, or
+     *         privbtely (copy-on-write), respectively
      *
-     * @param  position
-     *         The position within the file at which the mapped region
-     *         is to start; must be non-negative
+     * @pbrbm  position
+     *         The position within the file bt which the mbpped region
+     *         is to stbrt; must be non-negbtive
      *
-     * @param  size
-     *         The size of the region to be mapped; must be non-negative and
-     *         no greater than {@link java.lang.Integer#MAX_VALUE}
+     * @pbrbm  size
+     *         The size of the region to be mbpped; must be non-negbtive bnd
+     *         no grebter thbn {@link jbvb.lbng.Integer#MAX_VALUE}
      *
-     * @return  The mapped byte buffer
+     * @return  The mbpped byte buffer
      *
-     * @throws NonReadableChannelException
-     *         If the <tt>mode</tt> is {@link MapMode#READ_ONLY READ_ONLY} but
-     *         this channel was not opened for reading
+     * @throws NonRebdbbleChbnnelException
+     *         If the <tt>mode</tt> is {@link MbpMode#READ_ONLY READ_ONLY} but
+     *         this chbnnel wbs not opened for rebding
      *
-     * @throws NonWritableChannelException
-     *         If the <tt>mode</tt> is {@link MapMode#READ_WRITE READ_WRITE} or
-     *         {@link MapMode#PRIVATE PRIVATE} but this channel was not opened
-     *         for both reading and writing
+     * @throws NonWritbbleChbnnelException
+     *         If the <tt>mode</tt> is {@link MbpMode#READ_WRITE READ_WRITE} or
+     *         {@link MbpMode#PRIVATE PRIVATE} but this chbnnel wbs not opened
+     *         for both rebding bnd writing
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @throws IllegblArgumentException
+     *         If the preconditions on the pbrbmeters do not hold
      *
      * @throws IOException
      *         If some other I/O error occurs
      *
-     * @see java.nio.channels.FileChannel.MapMode
-     * @see java.nio.MappedByteBuffer
+     * @see jbvb.nio.chbnnels.FileChbnnel.MbpMode
+     * @see jbvb.nio.MbppedByteBuffer
      */
-    public abstract MappedByteBuffer map(MapMode mode,
+    public bbstrbct MbppedByteBuffer mbp(MbpMode mode,
                                          long position, long size)
         throws IOException;
 
@@ -920,85 +920,85 @@ public abstract class FileChannel
     // -- Locks --
 
     /**
-     * Acquires a lock on the given region of this channel's file.
+     * Acquires b lock on the given region of this chbnnel's file.
      *
-     * <p> An invocation of this method will block until the region can be
-     * locked, this channel is closed, or the invoking thread is interrupted,
+     * <p> An invocbtion of this method will block until the region cbn be
+     * locked, this chbnnel is closed, or the invoking threbd is interrupted,
      * whichever comes first.
      *
-     * <p> If this channel is closed by another thread during an invocation of
-     * this method then an {@link AsynchronousCloseException} will be thrown.
+     * <p> If this chbnnel is closed by bnother threbd during bn invocbtion of
+     * this method then bn {@link AsynchronousCloseException} will be thrown.
      *
-     * <p> If the invoking thread is interrupted while waiting to acquire the
-     * lock then its interrupt status will be set and a {@link
+     * <p> If the invoking threbd is interrupted while wbiting to bcquire the
+     * lock then its interrupt stbtus will be set bnd b {@link
      * FileLockInterruptionException} will be thrown.  If the invoker's
-     * interrupt status is set when this method is invoked then that exception
-     * will be thrown immediately; the thread's interrupt status will not be
-     * changed.
+     * interrupt stbtus is set when this method is invoked then thbt exception
+     * will be thrown immedibtely; the threbd's interrupt stbtus will not be
+     * chbnged.
      *
-     * <p> The region specified by the <tt>position</tt> and <tt>size</tt>
-     * parameters need not be contained within, or even overlap, the actual
-     * underlying file.  Lock regions are fixed in size; if a locked region
-     * initially contains the end of the file and the file grows beyond the
+     * <p> The region specified by the <tt>position</tt> bnd <tt>size</tt>
+     * pbrbmeters need not be contbined within, or even overlbp, the bctubl
+     * underlying file.  Lock regions bre fixed in size; if b locked region
+     * initiblly contbins the end of the file bnd the file grows beyond the
      * region then the new portion of the file will not be covered by the lock.
-     * If a file is expected to grow in size and a lock on the entire file is
-     * required then a region starting at zero, and no smaller than the
-     * expected maximum size of the file, should be locked.  The zero-argument
-     * {@link #lock()} method simply locks a region of size {@link
+     * If b file is expected to grow in size bnd b lock on the entire file is
+     * required then b region stbrting bt zero, bnd no smbller thbn the
+     * expected mbximum size of the file, should be locked.  The zero-brgument
+     * {@link #lock()} method simply locks b region of size {@link
      * Long#MAX_VALUE}.
      *
-     * <p> Some operating systems do not support shared locks, in which case a
-     * request for a shared lock is automatically converted into a request for
-     * an exclusive lock.  Whether the newly-acquired lock is shared or
-     * exclusive may be tested by invoking the resulting lock object's {@link
-     * FileLock#isShared() isShared} method.
+     * <p> Some operbting systems do not support shbred locks, in which cbse b
+     * request for b shbred lock is butombticblly converted into b request for
+     * bn exclusive lock.  Whether the newly-bcquired lock is shbred or
+     * exclusive mby be tested by invoking the resulting lock object's {@link
+     * FileLock#isShbred() isShbred} method.
      *
-     * <p> File locks are held on behalf of the entire Java virtual machine.
-     * They are not suitable for controlling access to a file by multiple
-     * threads within the same virtual machine.  </p>
+     * <p> File locks bre held on behblf of the entire Jbvb virtubl mbchine.
+     * They bre not suitbble for controlling bccess to b file by multiple
+     * threbds within the sbme virtubl mbchine.  </p>
      *
-     * @param  position
-     *         The position at which the locked region is to start; must be
-     *         non-negative
+     * @pbrbm  position
+     *         The position bt which the locked region is to stbrt; must be
+     *         non-negbtive
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  size
+     *         The size of the locked region; must be non-negbtive, bnd the sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negbtive
      *
-     * @param  shared
-     *         <tt>true</tt> to request a shared lock, in which case this
-     *         channel must be open for reading (and possibly writing);
-     *         <tt>false</tt> to request an exclusive lock, in which case this
-     *         channel must be open for writing (and possibly reading)
+     * @pbrbm  shbred
+     *         <tt>true</tt> to request b shbred lock, in which cbse this
+     *         chbnnel must be open for rebding (bnd possibly writing);
+     *         <tt>fblse</tt> to request bn exclusive lock, in which cbse this
+     *         chbnnel must be open for writing (bnd possibly rebding)
      *
-     * @return  A lock object representing the newly-acquired lock
+     * @return  A lock object representing the newly-bcquired lock
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeters do not hold
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel while the invoking
-     *          thread is blocked in this method
+     *          If bnother threbd closes this chbnnel while the invoking
+     *          threbd is blocked in this method
      *
      * @throws  FileLockInterruptionException
-     *          If the invoking thread is interrupted while blocked in this
+     *          If the invoking threbd is interrupted while blocked in this
      *          method
      *
-     * @throws  OverlappingFileLockException
-     *          If a lock that overlaps the requested region is already held by
-     *          this Java virtual machine, or if another thread is already
-     *          blocked in this method and is attempting to lock an overlapping
+     * @throws  OverlbppingFileLockException
+     *          If b lock thbt overlbps the requested region is blrebdy held by
+     *          this Jbvb virtubl mbchine, or if bnother threbd is blrebdy
+     *          blocked in this method bnd is bttempting to lock bn overlbpping
      *          region
      *
-     * @throws  NonReadableChannelException
-     *          If <tt>shared</tt> is <tt>true</tt> this channel was not
-     *          opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If <tt>shbred</tt> is <tt>true</tt> this chbnnel wbs not
+     *          opened for rebding
      *
-     * @throws  NonWritableChannelException
-     *          If <tt>shared</tt> is <tt>false</tt> but this channel was not
+     * @throws  NonWritbbleChbnnelException
+     *          If <tt>shbred</tt> is <tt>fblse</tt> but this chbnnel wbs not
      *          opened for writing
      *
      * @throws  IOException
@@ -1006,153 +1006,153 @@ public abstract class FileChannel
      *
      * @see     #lock()
      * @see     #tryLock()
-     * @see     #tryLock(long,long,boolean)
+     * @see     #tryLock(long,long,boolebn)
      */
-    public abstract FileLock lock(long position, long size, boolean shared)
+    public bbstrbct FileLock lock(long position, long size, boolebn shbred)
         throws IOException;
 
     /**
-     * Acquires an exclusive lock on this channel's file.
+     * Acquires bn exclusive lock on this chbnnel's file.
      *
-     * <p> An invocation of this method of the form <tt>fc.lock()</tt> behaves
-     * in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>fc.lock()</tt> behbves
+     * in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     fc.{@link #lock(long,long,boolean) lock}(0L, Long.MAX_VALUE, false) </pre>
+     *     fc.{@link #lock(long,long,boolebn) lock}(0L, Long.MAX_VALUE, fblse) </pre>
      *
-     * @return  A lock object representing the newly-acquired lock
+     * @return  A lock object representing the newly-bcquired lock
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel while the invoking
-     *          thread is blocked in this method
+     *          If bnother threbd closes this chbnnel while the invoking
+     *          threbd is blocked in this method
      *
      * @throws  FileLockInterruptionException
-     *          If the invoking thread is interrupted while blocked in this
+     *          If the invoking threbd is interrupted while blocked in this
      *          method
      *
-     * @throws  OverlappingFileLockException
-     *          If a lock that overlaps the requested region is already held by
-     *          this Java virtual machine, or if another thread is already
-     *          blocked in this method and is attempting to lock an overlapping
-     *          region of the same file
+     * @throws  OverlbppingFileLockException
+     *          If b lock thbt overlbps the requested region is blrebdy held by
+     *          this Jbvb virtubl mbchine, or if bnother threbd is blrebdy
+     *          blocked in this method bnd is bttempting to lock bn overlbpping
+     *          region of the sbme file
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
+     * @throws  NonWritbbleChbnnelException
+     *          If this chbnnel wbs not opened for writing
      *
      * @throws  IOException
      *          If some other I/O error occurs
      *
-     * @see     #lock(long,long,boolean)
+     * @see     #lock(long,long,boolebn)
      * @see     #tryLock()
-     * @see     #tryLock(long,long,boolean)
+     * @see     #tryLock(long,long,boolebn)
      */
-    public final FileLock lock() throws IOException {
-        return lock(0L, Long.MAX_VALUE, false);
+    public finbl FileLock lock() throws IOException {
+        return lock(0L, Long.MAX_VALUE, fblse);
     }
 
     /**
-     * Attempts to acquire a lock on the given region of this channel's file.
+     * Attempts to bcquire b lock on the given region of this chbnnel's file.
      *
-     * <p> This method does not block.  An invocation always returns
-     * immediately, either having acquired a lock on the requested region or
-     * having failed to do so.  If it fails to acquire a lock because an
-     * overlapping lock is held by another program then it returns
-     * <tt>null</tt>.  If it fails to acquire a lock for any other reason then
-     * an appropriate exception is thrown.
+     * <p> This method does not block.  An invocbtion blwbys returns
+     * immedibtely, either hbving bcquired b lock on the requested region or
+     * hbving fbiled to do so.  If it fbils to bcquire b lock becbuse bn
+     * overlbpping lock is held by bnother progrbm then it returns
+     * <tt>null</tt>.  If it fbils to bcquire b lock for bny other rebson then
+     * bn bppropribte exception is thrown.
      *
-     * <p> The region specified by the <tt>position</tt> and <tt>size</tt>
-     * parameters need not be contained within, or even overlap, the actual
-     * underlying file.  Lock regions are fixed in size; if a locked region
-     * initially contains the end of the file and the file grows beyond the
+     * <p> The region specified by the <tt>position</tt> bnd <tt>size</tt>
+     * pbrbmeters need not be contbined within, or even overlbp, the bctubl
+     * underlying file.  Lock regions bre fixed in size; if b locked region
+     * initiblly contbins the end of the file bnd the file grows beyond the
      * region then the new portion of the file will not be covered by the lock.
-     * If a file is expected to grow in size and a lock on the entire file is
-     * required then a region starting at zero, and no smaller than the
-     * expected maximum size of the file, should be locked.  The zero-argument
-     * {@link #tryLock()} method simply locks a region of size {@link
+     * If b file is expected to grow in size bnd b lock on the entire file is
+     * required then b region stbrting bt zero, bnd no smbller thbn the
+     * expected mbximum size of the file, should be locked.  The zero-brgument
+     * {@link #tryLock()} method simply locks b region of size {@link
      * Long#MAX_VALUE}.
      *
-     * <p> Some operating systems do not support shared locks, in which case a
-     * request for a shared lock is automatically converted into a request for
-     * an exclusive lock.  Whether the newly-acquired lock is shared or
-     * exclusive may be tested by invoking the resulting lock object's {@link
-     * FileLock#isShared() isShared} method.
+     * <p> Some operbting systems do not support shbred locks, in which cbse b
+     * request for b shbred lock is butombticblly converted into b request for
+     * bn exclusive lock.  Whether the newly-bcquired lock is shbred or
+     * exclusive mby be tested by invoking the resulting lock object's {@link
+     * FileLock#isShbred() isShbred} method.
      *
-     * <p> File locks are held on behalf of the entire Java virtual machine.
-     * They are not suitable for controlling access to a file by multiple
-     * threads within the same virtual machine.  </p>
+     * <p> File locks bre held on behblf of the entire Jbvb virtubl mbchine.
+     * They bre not suitbble for controlling bccess to b file by multiple
+     * threbds within the sbme virtubl mbchine.  </p>
      *
-     * @param  position
-     *         The position at which the locked region is to start; must be
-     *         non-negative
+     * @pbrbm  position
+     *         The position bt which the locked region is to stbrt; must be
+     *         non-negbtive
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  size
+     *         The size of the locked region; must be non-negbtive, bnd the sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negbtive
      *
-     * @param  shared
-     *         <tt>true</tt> to request a shared lock,
-     *         <tt>false</tt> to request an exclusive lock
+     * @pbrbm  shbred
+     *         <tt>true</tt> to request b shbred lock,
+     *         <tt>fblse</tt> to request bn exclusive lock
      *
-     * @return  A lock object representing the newly-acquired lock,
-     *          or <tt>null</tt> if the lock could not be acquired
-     *          because another program holds an overlapping lock
+     * @return  A lock object representing the newly-bcquired lock,
+     *          or <tt>null</tt> if the lock could not be bcquired
+     *          becbuse bnother progrbm holds bn overlbpping lock
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeters do not hold
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  OverlappingFileLockException
-     *          If a lock that overlaps the requested region is already held by
-     *          this Java virtual machine, or if another thread is already
-     *          blocked in this method and is attempting to lock an overlapping
-     *          region of the same file
+     * @throws  OverlbppingFileLockException
+     *          If b lock thbt overlbps the requested region is blrebdy held by
+     *          this Jbvb virtubl mbchine, or if bnother threbd is blrebdy
+     *          blocked in this method bnd is bttempting to lock bn overlbpping
+     *          region of the sbme file
      *
      * @throws  IOException
      *          If some other I/O error occurs
      *
      * @see     #lock()
-     * @see     #lock(long,long,boolean)
+     * @see     #lock(long,long,boolebn)
      * @see     #tryLock()
      */
-    public abstract FileLock tryLock(long position, long size, boolean shared)
+    public bbstrbct FileLock tryLock(long position, long size, boolebn shbred)
         throws IOException;
 
     /**
-     * Attempts to acquire an exclusive lock on this channel's file.
+     * Attempts to bcquire bn exclusive lock on this chbnnel's file.
      *
-     * <p> An invocation of this method of the form <tt>fc.tryLock()</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>fc.tryLock()</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     fc.{@link #tryLock(long,long,boolean) tryLock}(0L, Long.MAX_VALUE, false) </pre>
+     *     fc.{@link #tryLock(long,long,boolebn) tryLock}(0L, Long.MAX_VALUE, fblse) </pre>
      *
-     * @return  A lock object representing the newly-acquired lock,
-     *          or <tt>null</tt> if the lock could not be acquired
-     *          because another program holds an overlapping lock
+     * @return  A lock object representing the newly-bcquired lock,
+     *          or <tt>null</tt> if the lock could not be bcquired
+     *          becbuse bnother progrbm holds bn overlbpping lock
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  OverlappingFileLockException
-     *          If a lock that overlaps the requested region is already held by
-     *          this Java virtual machine, or if another thread is already
-     *          blocked in this method and is attempting to lock an overlapping
+     * @throws  OverlbppingFileLockException
+     *          If b lock thbt overlbps the requested region is blrebdy held by
+     *          this Jbvb virtubl mbchine, or if bnother threbd is blrebdy
+     *          blocked in this method bnd is bttempting to lock bn overlbpping
      *          region
      *
      * @throws  IOException
      *          If some other I/O error occurs
      *
      * @see     #lock()
-     * @see     #lock(long,long,boolean)
-     * @see     #tryLock(long,long,boolean)
+     * @see     #lock(long,long,boolebn)
+     * @see     #tryLock(long,long,boolebn)
      */
-    public final FileLock tryLock() throws IOException {
-        return tryLock(0L, Long.MAX_VALUE, false);
+    public finbl FileLock tryLock() throws IOException {
+        return tryLock(0L, Long.MAX_VALUE, fblse);
     }
 
 }

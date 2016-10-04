@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.rmi.*;
+import jbvb.rmi.*;
 
 /**
- * <code>RemoteRef</code> represents the handle for a remote object. A
- * <code>RemoteStub</code> uses a remote reference to carry out a
- * remote method invocation to a remote object.
+ * <code>RemoteRef</code> represents the hbndle for b remote object. A
+ * <code>RemoteStub</code> uses b remote reference to cbrry out b
+ * remote method invocbtion to b remote object.
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.1
- * @see     java.rmi.server.RemoteStub
+ * @see     jbvb.rmi.server.RemoteStub
  */
-public interface RemoteRef extends java.io.Externalizable {
+public interfbce RemoteRef extends jbvb.io.Externblizbble {
 
-    /** indicate compatibility with JDK 1.1.x version of class. */
-    static final long serialVersionUID = 3632638527362204081L;
+    /** indicbte compbtibility with JDK 1.1.x version of clbss. */
+    stbtic finbl long seriblVersionUID = 3632638527362204081L;
 
     /**
-     * Initialize the server package prefix: assumes that the
-     * implementation of server ref classes (e.g., UnicastRef,
-     * UnicastServerRef) are located in the package defined by the
+     * Initiblize the server pbckbge prefix: bssumes thbt the
+     * implementbtion of server ref clbsses (e.g., UnicbstRef,
+     * UnicbstServerRef) bre locbted in the pbckbge defined by the
      * prefix.
      */
-    final static String packagePrefix = "sun.rmi.server";
+    finbl stbtic String pbckbgePrefix = "sun.rmi.server";
 
     /**
-     * Invoke a method. This form of delegating method invocation
-     * to the reference allows the reference to take care of
-     * setting up the connection to the remote host, marshaling
-     * some representation for the method and parameters, then
-     * communicating the method invocation to the remote host.
-     * This method either returns the result of a method invocation
+     * Invoke b method. This form of delegbting method invocbtion
+     * to the reference bllows the reference to tbke cbre of
+     * setting up the connection to the remote host, mbrshbling
+     * some representbtion for the method bnd pbrbmeters, then
+     * communicbting the method invocbtion to the remote host.
+     * This method either returns the result of b method invocbtion
      * on the remote object which resides on the remote host or
-     * throws a RemoteException if the call failed or an
-     * application-level exception if the remote invocation throws
-     * an exception.
+     * throws b RemoteException if the cbll fbiled or bn
+     * bpplicbtion-level exception if the remote invocbtion throws
+     * bn exception.
      *
-     * @param obj the object that contains the RemoteRef (e.g., the
+     * @pbrbm obj the object thbt contbins the RemoteRef (e.g., the
      *            RemoteStub for the object.
-     * @param method the method to be invoked
-     * @param params the parameter list
-     * @param opnum  a hash that may be used to represent the method
-     * @return result of remote method invocation
-     * @exception Exception if any exception occurs during remote method
-     * invocation
+     * @pbrbm method the method to be invoked
+     * @pbrbm pbrbms the pbrbmeter list
+     * @pbrbm opnum  b hbsh thbt mby be used to represent the method
+     * @return result of remote method invocbtion
+     * @exception Exception if bny exception occurs during remote method
+     * invocbtion
      * @since 1.2
      */
     Object invoke(Remote obj,
-                  java.lang.reflect.Method method,
-                  Object[] params,
+                  jbvb.lbng.reflect.Method method,
+                  Object[] pbrbms,
                   long opnum)
         throws Exception;
 
     /**
-     * Creates an appropriate call object for a new remote method
-     * invocation on this object.  Passing operation array and index,
-     * allows the stubs generator to assign the operation indexes and
-     * interpret them. The remote reference may need the operation to
-     * encode in the call.
+     * Crebtes bn bppropribte cbll object for b new remote method
+     * invocbtion on this object.  Pbssing operbtion brrby bnd index,
+     * bllows the stubs generbtor to bssign the operbtion indexes bnd
+     * interpret them. The remote reference mby need the operbtion to
+     * encode in the cbll.
      *
      * @since 1.1
-     * @deprecated 1.2 style stubs no longer use this method. Instead of
-     * using a sequence of method calls on the stub's the remote reference
-     * (<code>newCall</code>, <code>invoke</code>, and <code>done</code>), a
-     * stub uses a single method, <code>invoke(Remote, Method, Object[],
-     * int)</code>, on the remote reference to carry out parameter
-     * marshalling, remote method executing and unmarshalling of the return
-     * value.
+     * @deprecbted 1.2 style stubs no longer use this method. Instebd of
+     * using b sequence of method cblls on the stub's the remote reference
+     * (<code>newCbll</code>, <code>invoke</code>, bnd <code>done</code>), b
+     * stub uses b single method, <code>invoke(Remote, Method, Object[],
+     * int)</code>, on the remote reference to cbrry out pbrbmeter
+     * mbrshblling, remote method executing bnd unmbrshblling of the return
+     * vblue.
      *
-     * @param obj remote stub through which to make call
-     * @param op array of stub operations
-     * @param opnum operation number
-     * @param hash stub/skeleton interface hash
-     * @return call object representing remote call
-     * @throws RemoteException if failed to initiate new remote call
-     * @see #invoke(Remote,java.lang.reflect.Method,Object[],long)
+     * @pbrbm obj remote stub through which to mbke cbll
+     * @pbrbm op brrby of stub operbtions
+     * @pbrbm opnum operbtion number
+     * @pbrbm hbsh stub/skeleton interfbce hbsh
+     * @return cbll object representing remote cbll
+     * @throws RemoteException if fbiled to initibte new remote cbll
+     * @see #invoke(Remote,jbvb.lbng.reflect.Method,Object[],long)
      */
-    @Deprecated
-    RemoteCall newCall(RemoteObject obj, Operation[] op, int opnum, long hash)
+    @Deprecbted
+    RemoteCbll newCbll(RemoteObject obj, Operbtion[] op, int opnum, long hbsh)
         throws RemoteException;
 
     /**
-     * Executes the remote call.
+     * Executes the remote cbll.
      *
-     * Invoke will raise any "user" exceptions which
-     * should pass through and not be caught by the stub.  If any
-     * exception is raised during the remote invocation, invoke should
-     * take care of cleaning up the connection before raising the
+     * Invoke will rbise bny "user" exceptions which
+     * should pbss through bnd not be cbught by the stub.  If bny
+     * exception is rbised during the remote invocbtion, invoke should
+     * tbke cbre of clebning up the connection before rbising the
      * "user" or remote exception.
      *
      * @since 1.1
-     * @deprecated 1.2 style stubs no longer use this method. Instead of
-     * using a sequence of method calls to the remote reference
-     * (<code>newCall</code>, <code>invoke</code>, and <code>done</code>), a
-     * stub uses a single method, <code>invoke(Remote, Method, Object[],
-     * int)</code>, on the remote reference to carry out parameter
-     * marshalling, remote method executing and unmarshalling of the return
-     * value.
+     * @deprecbted 1.2 style stubs no longer use this method. Instebd of
+     * using b sequence of method cblls to the remote reference
+     * (<code>newCbll</code>, <code>invoke</code>, bnd <code>done</code>), b
+     * stub uses b single method, <code>invoke(Remote, Method, Object[],
+     * int)</code>, on the remote reference to cbrry out pbrbmeter
+     * mbrshblling, remote method executing bnd unmbrshblling of the return
+     * vblue.
      *
-     * @param call object representing remote call
-     * @throws Exception if any exception occurs during remote method
-     * @see #invoke(Remote,java.lang.reflect.Method,Object[],long)
+     * @pbrbm cbll object representing remote cbll
+     * @throws Exception if bny exception occurs during remote method
+     * @see #invoke(Remote,jbvb.lbng.reflect.Method,Object[],long)
      */
-    @Deprecated
-    void invoke(RemoteCall call) throws Exception;
+    @Deprecbted
+    void invoke(RemoteCbll cbll) throws Exception;
 
     /**
-     * Allows the remote reference to clean up (or reuse) the connection.
-     * Done should only be called if the invoke returns successfully
-     * (non-exceptionally) to the stub.
+     * Allows the remote reference to clebn up (or reuse) the connection.
+     * Done should only be cblled if the invoke returns successfully
+     * (non-exceptionblly) to the stub.
      *
      * @since 1.1
-     * @deprecated 1.2 style stubs no longer use this method. Instead of
-     * using a sequence of method calls to the remote reference
-     * (<code>newCall</code>, <code>invoke</code>, and <code>done</code>), a
-     * stub uses a single method, <code>invoke(Remote, Method, Object[],
-     * int)</code>, on the remote reference to carry out parameter
-     * marshalling, remote method executing and unmarshalling of the return
-     * value.
+     * @deprecbted 1.2 style stubs no longer use this method. Instebd of
+     * using b sequence of method cblls to the remote reference
+     * (<code>newCbll</code>, <code>invoke</code>, bnd <code>done</code>), b
+     * stub uses b single method, <code>invoke(Remote, Method, Object[],
+     * int)</code>, on the remote reference to cbrry out pbrbmeter
+     * mbrshblling, remote method executing bnd unmbrshblling of the return
+     * vblue.
      *
-     * @param call object representing remote call
-     * @throws RemoteException if remote error occurs during call cleanup
-     * @see #invoke(Remote,java.lang.reflect.Method,Object[],long)
+     * @pbrbm cbll object representing remote cbll
+     * @throws RemoteException if remote error occurs during cbll clebnup
+     * @see #invoke(Remote,jbvb.lbng.reflect.Method,Object[],long)
      */
-    @Deprecated
-    void done(RemoteCall call) throws RemoteException;
+    @Deprecbted
+    void done(RemoteCbll cbll) throws RemoteException;
 
     /**
-     * Returns the class name of the ref type to be serialized onto
-     * the stream 'out'.
-     * @param out the output stream to which the reference will be serialized
-     * @return the class name (without package qualification) of the reference
+     * Returns the clbss nbme of the ref type to be seriblized onto
+     * the strebm 'out'.
+     * @pbrbm out the output strebm to which the reference will be seriblized
+     * @return the clbss nbme (without pbckbge qublificbtion) of the reference
      * type
      * @since 1.1
      */
-    String getRefClass(java.io.ObjectOutput out);
+    String getRefClbss(jbvb.io.ObjectOutput out);
 
     /**
-     * Returns a hashcode for a remote object.  Two remote object stubs
-     * that refer to the same remote object will have the same hash code
-     * (in order to support remote objects as keys in hash tables).
+     * Returns b hbshcode for b remote object.  Two remote object stubs
+     * thbt refer to the sbme remote object will hbve the sbme hbsh code
+     * (in order to support remote objects bs keys in hbsh tbbles).
      *
-     * @return remote object hashcode
-     * @see             java.util.Hashtable
+     * @return remote object hbshcode
+     * @see             jbvb.util.Hbshtbble
      * @since 1.1
      */
-    int remoteHashCode();
+    int remoteHbshCode();
 
     /**
-     * Compares two remote objects for equality.
-     * Returns a boolean that indicates whether this remote object is
-     * equivalent to the specified Object. This method is used when a
-     * remote object is stored in a hashtable.
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
+     * Compbres two remote objects for equblity.
+     * Returns b boolebn thbt indicbtes whether this remote object is
+     * equivblent to the specified Object. This method is used when b
+     * remote object is stored in b hbshtbble.
+     * @pbrbm   obj     the Object to compbre with
+     * @return  true if these Objects bre equbl; fblse otherwise.
+     * @see             jbvb.util.Hbshtbble
      * @since 1.1
      */
-    boolean remoteEquals(RemoteRef obj);
+    boolebn remoteEqubls(RemoteRef obj);
 
     /**
-     * Returns a String that represents the reference of this remote
+     * Returns b String thbt represents the reference of this remote
      * object.
      * @return string representing remote object reference
      * @since 1.1

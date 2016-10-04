@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.*;
-import java.lang.reflect.Executable;
-import java.lang.annotation.Annotation;
-import java.security.AccessControlContext;
-import java.util.Properties;
-import java.util.PropertyPermission;
-import java.util.StringTokenizer;
-import java.util.Map;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.AllPermission;
-import java.nio.channels.Channel;
-import java.nio.channels.spi.SelectorProvider;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Executbble;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.security.AccessControlContext;
+import jbvb.util.Properties;
+import jbvb.util.PropertyPermission;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Mbp;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AllPermission;
+import jbvb.nio.chbnnels.Chbnnel;
+import jbvb.nio.chbnnels.spi.SelectorProvider;
 import sun.nio.ch.Interruptible;
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
-import sun.security.util.SecurityConstants;
-import sun.reflect.annotation.AnnotationType;
+import sun.security.util.SecurityConstbnts;
+import sun.reflect.bnnotbtion.AnnotbtionType;
 
 /**
- * The <code>System</code> class contains several useful class fields
- * and methods. It cannot be instantiated.
+ * The <code>System</code> clbss contbins severbl useful clbss fields
+ * bnd methods. It cbnnot be instbntibted.
  *
- * <p>Among the facilities provided by the <code>System</code> class
- * are standard input, standard output, and error output streams;
- * access to externally defined properties and environment
- * variables; a means of loading files and libraries; and a utility
- * method for quickly copying a portion of an array.
+ * <p>Among the fbcilities provided by the <code>System</code> clbss
+ * bre stbndbrd input, stbndbrd output, bnd error output strebms;
+ * bccess to externblly defined properties bnd environment
+ * vbribbles; b mebns of lobding files bnd librbries; bnd b utility
+ * method for quickly copying b portion of bn brrby.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
-public final class System {
+public finbl clbss System {
 
-    /* register the natives via the static initializer.
+    /* register the nbtives vib the stbtic initiblizer.
      *
-     * VM will invoke the initializeSystemClass method to complete
-     * the initialization for this class separated from clinit.
-     * Note that to use properties set by the VM, see the constraints
-     * described in the initializeSystemClass method.
+     * VM will invoke the initiblizeSystemClbss method to complete
+     * the initiblizbtion for this clbss sepbrbted from clinit.
+     * Note thbt to use properties set by the VM, see the constrbints
+     * described in the initiblizeSystemClbss method.
      */
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
     }
 
-    /** Don't let anyone instantiate this class */
-    private System() {
+    /** Don't let bnyone instbntibte this clbss */
+    privbte System() {
     }
 
     /**
-     * The "standard" input stream. This stream is already
-     * open and ready to supply input data. Typically this stream
-     * corresponds to keyboard input or another input source specified by
+     * The "stbndbrd" input strebm. This strebm is blrebdy
+     * open bnd rebdy to supply input dbtb. Typicblly this strebm
+     * corresponds to keybobrd input or bnother input source specified by
      * the host environment or user.
      */
-    public final static InputStream in = null;
+    public finbl stbtic InputStrebm in = null;
 
     /**
-     * The "standard" output stream. This stream is already
-     * open and ready to accept output data. Typically this stream
-     * corresponds to display output or another output destination
+     * The "stbndbrd" output strebm. This strebm is blrebdy
+     * open bnd rebdy to bccept output dbtb. Typicblly this strebm
+     * corresponds to displby output or bnother output destinbtion
      * specified by the host environment or user.
      * <p>
-     * For simple stand-alone Java applications, a typical way to write
-     * a line of output data is:
+     * For simple stbnd-blone Jbvb bpplicbtions, b typicbl wby to write
+     * b line of output dbtb is:
      * <blockquote><pre>
-     *     System.out.println(data)
+     *     System.out.println(dbtb)
      * </pre></blockquote>
      * <p>
-     * See the <code>println</code> methods in class <code>PrintStream</code>.
+     * See the <code>println</code> methods in clbss <code>PrintStrebm</code>.
      *
-     * @see     java.io.PrintStream#println()
-     * @see     java.io.PrintStream#println(boolean)
-     * @see     java.io.PrintStream#println(char)
-     * @see     java.io.PrintStream#println(char[])
-     * @see     java.io.PrintStream#println(double)
-     * @see     java.io.PrintStream#println(float)
-     * @see     java.io.PrintStream#println(int)
-     * @see     java.io.PrintStream#println(long)
-     * @see     java.io.PrintStream#println(java.lang.Object)
-     * @see     java.io.PrintStream#println(java.lang.String)
+     * @see     jbvb.io.PrintStrebm#println()
+     * @see     jbvb.io.PrintStrebm#println(boolebn)
+     * @see     jbvb.io.PrintStrebm#println(chbr)
+     * @see     jbvb.io.PrintStrebm#println(chbr[])
+     * @see     jbvb.io.PrintStrebm#println(double)
+     * @see     jbvb.io.PrintStrebm#println(flobt)
+     * @see     jbvb.io.PrintStrebm#println(int)
+     * @see     jbvb.io.PrintStrebm#println(long)
+     * @see     jbvb.io.PrintStrebm#println(jbvb.lbng.Object)
+     * @see     jbvb.io.PrintStrebm#println(jbvb.lbng.String)
      */
-    public final static PrintStream out = null;
+    public finbl stbtic PrintStrebm out = null;
 
     /**
-     * The "standard" error output stream. This stream is already
-     * open and ready to accept output data.
+     * The "stbndbrd" error output strebm. This strebm is blrebdy
+     * open bnd rebdy to bccept output dbtb.
      * <p>
-     * Typically this stream corresponds to display output or another
-     * output destination specified by the host environment or user. By
-     * convention, this output stream is used to display error messages
-     * or other information that should come to the immediate attention
-     * of a user even if the principal output stream, the value of the
-     * variable <code>out</code>, has been redirected to a file or other
-     * destination that is typically not continuously monitored.
+     * Typicblly this strebm corresponds to displby output or bnother
+     * output destinbtion specified by the host environment or user. By
+     * convention, this output strebm is used to displby error messbges
+     * or other informbtion thbt should come to the immedibte bttention
+     * of b user even if the principbl output strebm, the vblue of the
+     * vbribble <code>out</code>, hbs been redirected to b file or other
+     * destinbtion thbt is typicblly not continuously monitored.
      */
-    public final static PrintStream err = null;
+    public finbl stbtic PrintStrebm err = null;
 
-    /* The security manager for the system.
+    /* The security mbnbger for the system.
      */
-    private static volatile SecurityManager security = null;
+    privbte stbtic volbtile SecurityMbnbger security = null;
 
     /**
-     * Reassigns the "standard" input stream.
+     * Rebssigns the "stbndbrd" input strebm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" input stream.
+     * <p>First, if there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with b <code>RuntimePermission("setIO")</code> permission
+     *  to see if it's ok to rebssign the "stbndbrd" input strebm.
      *
-     * @param in the new standard input stream.
+     * @pbrbm in the new stbndbrd input strebm.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard input stream.
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow
+     *        rebssigning of the stbndbrd input strebm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      *
      * @since   1.1
      */
-    public static void setIn(InputStream in) {
+    public stbtic void setIn(InputStrebm in) {
         checkIO();
         setIn0(in);
     }
 
     /**
-     * Reassigns the "standard" output stream.
+     * Rebssigns the "stbndbrd" output strebm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" output stream.
+     * <p>First, if there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with b <code>RuntimePermission("setIO")</code> permission
+     *  to see if it's ok to rebssign the "stbndbrd" output strebm.
      *
-     * @param out the new standard output stream
+     * @pbrbm out the new stbndbrd output strebm
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard output stream.
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow
+     *        rebssigning of the stbndbrd output strebm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      *
      * @since   1.1
      */
-    public static void setOut(PrintStream out) {
+    public stbtic void setOut(PrintStrebm out) {
         checkIO();
         setOut0(out);
     }
 
     /**
-     * Reassigns the "standard" error output stream.
+     * Rebssigns the "stbndbrd" error output strebm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" error output stream.
+     * <p>First, if there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with b <code>RuntimePermission("setIO")</code> permission
+     *  to see if it's ok to rebssign the "stbndbrd" error output strebm.
      *
-     * @param err the new standard error output stream.
+     * @pbrbm err the new stbndbrd error output strebm.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard error output stream.
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow
+     *        rebssigning of the stbndbrd error output strebm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      *
      * @since   1.1
      */
-    public static void setErr(PrintStream err) {
+    public stbtic void setErr(PrintStrebm err) {
         checkIO();
         setErr0(err);
     }
 
-    private static volatile Console cons = null;
+    privbte stbtic volbtile Console cons = null;
     /**
-     * Returns the unique {@link java.io.Console Console} object associated
-     * with the current Java virtual machine, if any.
+     * Returns the unique {@link jbvb.io.Console Console} object bssocibted
+     * with the current Jbvb virtubl mbchine, if bny.
      *
-     * @return  The system console, if any, otherwise <tt>null</tt>.
+     * @return  The system console, if bny, otherwise <tt>null</tt>.
      *
      * @since   1.6
      */
-     public static Console console() {
+     public stbtic Console console() {
          if (cons == null) {
-             synchronized (System.class) {
-                 cons = sun.misc.SharedSecrets.getJavaIOAccess().console();
+             synchronized (System.clbss) {
+                 cons = sun.misc.ShbredSecrets.getJbvbIOAccess().console();
              }
          }
          return cons;
      }
 
     /**
-     * Returns the channel inherited from the entity that created this
-     * Java virtual machine.
+     * Returns the chbnnel inherited from the entity thbt crebted this
+     * Jbvb virtubl mbchine.
      *
-     * <p> This method returns the channel obtained by invoking the
-     * {@link java.nio.channels.spi.SelectorProvider#inheritedChannel
-     * inheritedChannel} method of the system-wide default
-     * {@link java.nio.channels.spi.SelectorProvider} object. </p>
+     * <p> This method returns the chbnnel obtbined by invoking the
+     * {@link jbvb.nio.chbnnels.spi.SelectorProvider#inheritedChbnnel
+     * inheritedChbnnel} method of the system-wide defbult
+     * {@link jbvb.nio.chbnnels.spi.SelectorProvider} object. </p>
      *
-     * <p> In addition to the network-oriented channels described in
-     * {@link java.nio.channels.spi.SelectorProvider#inheritedChannel
-     * inheritedChannel}, this method may return other kinds of
-     * channels in the future.
+     * <p> In bddition to the network-oriented chbnnels described in
+     * {@link jbvb.nio.chbnnels.spi.SelectorProvider#inheritedChbnnel
+     * inheritedChbnnel}, this method mby return other kinds of
+     * chbnnels in the future.
      *
-     * @return  The inherited channel, if any, otherwise <tt>null</tt>.
+     * @return  The inherited chbnnel, if bny, otherwise <tt>null</tt>.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  SecurityException
-     *          If a security manager is present and it does not
-     *          permit access to the channel.
+     *          If b security mbnbger is present bnd it does not
+     *          permit bccess to the chbnnel.
      *
      * @since 1.5
      */
-    public static Channel inheritedChannel() throws IOException {
-        return SelectorProvider.provider().inheritedChannel();
+    public stbtic Chbnnel inheritedChbnnel() throws IOException {
+        return SelectorProvider.provider().inheritedChbnnel();
     }
 
-    private static void checkIO() {
-        SecurityManager sm = getSecurityManager();
+    privbte stbtic void checkIO() {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("setIO"));
         }
     }
 
-    private static native void setIn0(InputStream in);
-    private static native void setOut0(PrintStream out);
-    private static native void setErr0(PrintStream err);
+    privbte stbtic nbtive void setIn0(InputStrebm in);
+    privbte stbtic nbtive void setOut0(PrintStrebm out);
+    privbte stbtic nbtive void setErr0(PrintStrebm err);
 
     /**
      * Sets the System security.
      *
-     * <p> If there is a security manager already installed, this method first
-     * calls the security manager's <code>checkPermission</code> method
-     * with a <code>RuntimePermission("setSecurityManager")</code>
-     * permission to ensure it's ok to replace the existing
-     * security manager.
-     * This may result in throwing a <code>SecurityException</code>.
+     * <p> If there is b security mbnbger blrebdy instblled, this method first
+     * cblls the security mbnbger's <code>checkPermission</code> method
+     * with b <code>RuntimePermission("setSecurityMbnbger")</code>
+     * permission to ensure it's ok to replbce the existing
+     * security mbnbger.
+     * This mby result in throwing b <code>SecurityException</code>.
      *
-     * <p> Otherwise, the argument is established as the current
-     * security manager. If the argument is <code>null</code> and no
-     * security manager has been established, then no action is taken and
+     * <p> Otherwise, the brgument is estbblished bs the current
+     * security mbnbger. If the brgument is <code>null</code> bnd no
+     * security mbnbger hbs been estbblished, then no bction is tbken bnd
      * the method simply returns.
      *
-     * @param      s   the security manager.
-     * @exception  SecurityException  if the security manager has already
-     *             been set and its <code>checkPermission</code> method
-     *             doesn't allow it to be replaced.
-     * @see #getSecurityManager
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @pbrbm      s   the security mbnbger.
+     * @exception  SecurityException  if the security mbnbger hbs blrebdy
+     *             been set bnd its <code>checkPermission</code> method
+     *             doesn't bllow it to be replbced.
+     * @see #getSecurityMbnbger
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      */
-    public static
-    void setSecurityManager(final SecurityManager s) {
+    public stbtic
+    void setSecurityMbnbger(finbl SecurityMbnbger s) {
         try {
-            s.checkPackageAccess("java.lang");
-        } catch (Exception e) {
+            s.checkPbckbgeAccess("jbvb.lbng");
+        } cbtch (Exception e) {
             // no-op
         }
-        setSecurityManager0(s);
+        setSecurityMbnbger0(s);
     }
 
-    private static synchronized
-    void setSecurityManager0(final SecurityManager s) {
-        SecurityManager sm = getSecurityManager();
+    privbte stbtic synchronized
+    void setSecurityMbnbger0(finbl SecurityMbnbger s) {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
-            // ask the currently installed security manager if we
-            // can replace it.
+            // bsk the currently instblled security mbnbger if we
+            // cbn replbce it.
             sm.checkPermission(new RuntimePermission
-                                     ("setSecurityManager"));
+                                     ("setSecurityMbnbger"));
         }
 
-        if ((s != null) && (s.getClass().getClassLoader() != null)) {
-            // New security manager class is not on bootstrap classpath.
-            // Cause policy to get initialized before we install the new
-            // security manager, in order to prevent infinite loops when
-            // trying to initialize the policy (which usually involves
-            // accessing some security and/or system properties, which in turn
-            // calls the installed security manager's checkPermission method
-            // which will loop infinitely if there is a non-system class
-            // (in this case: the new security manager class) on the stack).
+        if ((s != null) && (s.getClbss().getClbssLobder() != null)) {
+            // New security mbnbger clbss is not on bootstrbp clbsspbth.
+            // Cbuse policy to get initiblized before we instbll the new
+            // security mbnbger, in order to prevent infinite loops when
+            // trying to initiblize the policy (which usublly involves
+            // bccessing some security bnd/or system properties, which in turn
+            // cblls the instblled security mbnbger's checkPermission method
+            // which will loop infinitely if there is b non-system clbss
+            // (in this cbse: the new security mbnbger clbss) on the stbck).
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
-                    s.getClass().getProtectionDomain().implies
-                        (SecurityConstants.ALL_PERMISSION);
+                    s.getClbss().getProtectionDombin().implies
+                        (SecurityConstbnts.ALL_PERMISSION);
                     return null;
                 }
             });
@@ -322,306 +322,306 @@ public final class System {
     }
 
     /**
-     * Gets the system security interface.
+     * Gets the system security interfbce.
      *
-     * @return  if a security manager has already been established for the
-     *          current application, then that security manager is returned;
+     * @return  if b security mbnbger hbs blrebdy been estbblished for the
+     *          current bpplicbtion, then thbt security mbnbger is returned;
      *          otherwise, <code>null</code> is returned.
-     * @see     #setSecurityManager
+     * @see     #setSecurityMbnbger
      */
-    public static SecurityManager getSecurityManager() {
+    public stbtic SecurityMbnbger getSecurityMbnbger() {
         return security;
     }
 
     /**
-     * Returns the current time in milliseconds.  Note that
-     * while the unit of time of the return value is a millisecond,
-     * the granularity of the value depends on the underlying
-     * operating system and may be larger.  For example, many
-     * operating systems measure time in units of tens of
+     * Returns the current time in milliseconds.  Note thbt
+     * while the unit of time of the return vblue is b millisecond,
+     * the grbnulbrity of the vblue depends on the underlying
+     * operbting system bnd mby be lbrger.  For exbmple, mbny
+     * operbting systems mebsure time in units of tens of
      * milliseconds.
      *
-     * <p> See the description of the class <code>Date</code> for
-     * a discussion of slight discrepancies that may arise between
-     * "computer time" and coordinated universal time (UTC).
+     * <p> See the description of the clbss <code>Dbte</code> for
+     * b discussion of slight discrepbncies thbt mby brise between
+     * "computer time" bnd coordinbted universbl time (UTC).
      *
-     * @return  the difference, measured in milliseconds, between
-     *          the current time and midnight, January 1, 1970 UTC.
-     * @see     java.util.Date
+     * @return  the difference, mebsured in milliseconds, between
+     *          the current time bnd midnight, Jbnubry 1, 1970 UTC.
+     * @see     jbvb.util.Dbte
      */
-    public static native long currentTimeMillis();
+    public stbtic nbtive long currentTimeMillis();
 
     /**
-     * Returns the current value of the running Java Virtual Machine's
-     * high-resolution time source, in nanoseconds.
+     * Returns the current vblue of the running Jbvb Virtubl Mbchine's
+     * high-resolution time source, in nbnoseconds.
      *
-     * <p>This method can only be used to measure elapsed time and is
-     * not related to any other notion of system or wall-clock time.
-     * The value returned represents nanoseconds since some fixed but
-     * arbitrary <i>origin</i> time (perhaps in the future, so values
-     * may be negative).  The same origin is used by all invocations of
-     * this method in an instance of a Java virtual machine; other
-     * virtual machine instances are likely to use a different origin.
+     * <p>This method cbn only be used to mebsure elbpsed time bnd is
+     * not relbted to bny other notion of system or wbll-clock time.
+     * The vblue returned represents nbnoseconds since some fixed but
+     * brbitrbry <i>origin</i> time (perhbps in the future, so vblues
+     * mby be negbtive).  The sbme origin is used by bll invocbtions of
+     * this method in bn instbnce of b Jbvb virtubl mbchine; other
+     * virtubl mbchine instbnces bre likely to use b different origin.
      *
-     * <p>This method provides nanosecond precision, but not necessarily
-     * nanosecond resolution (that is, how frequently the value changes)
-     * - no guarantees are made except that the resolution is at least as
-     * good as that of {@link #currentTimeMillis()}.
+     * <p>This method provides nbnosecond precision, but not necessbrily
+     * nbnosecond resolution (thbt is, how frequently the vblue chbnges)
+     * - no gubrbntees bre mbde except thbt the resolution is bt lebst bs
+     * good bs thbt of {@link #currentTimeMillis()}.
      *
-     * <p>Differences in successive calls that span greater than
-     * approximately 292 years (2<sup>63</sup> nanoseconds) will not
-     * correctly compute elapsed time due to numerical overflow.
+     * <p>Differences in successive cblls thbt spbn grebter thbn
+     * bpproximbtely 292 yebrs (2<sup>63</sup> nbnoseconds) will not
+     * correctly compute elbpsed time due to numericbl overflow.
      *
-     * <p>The values returned by this method become meaningful only when
-     * the difference between two such values, obtained within the same
-     * instance of a Java virtual machine, is computed.
+     * <p>The vblues returned by this method become mebningful only when
+     * the difference between two such vblues, obtbined within the sbme
+     * instbnce of b Jbvb virtubl mbchine, is computed.
      *
-     * <p> For example, to measure how long some code takes to execute:
+     * <p> For exbmple, to mebsure how long some code tbkes to execute:
      *  <pre> {@code
-     * long startTime = System.nanoTime();
-     * // ... the code being measured ...
-     * long estimatedTime = System.nanoTime() - startTime;}</pre>
+     * long stbrtTime = System.nbnoTime();
+     * // ... the code being mebsured ...
+     * long estimbtedTime = System.nbnoTime() - stbrtTime;}</pre>
      *
-     * <p>To compare two nanoTime values
+     * <p>To compbre two nbnoTime vblues
      *  <pre> {@code
-     * long t0 = System.nanoTime();
+     * long t0 = System.nbnoTime();
      * ...
-     * long t1 = System.nanoTime();}</pre>
+     * long t1 = System.nbnoTime();}</pre>
      *
      * one should use {@code t1 - t0 < 0}, not {@code t1 < t0},
-     * because of the possibility of numerical overflow.
+     * becbuse of the possibility of numericbl overflow.
      *
-     * @return the current value of the running Java Virtual Machine's
-     *         high-resolution time source, in nanoseconds
+     * @return the current vblue of the running Jbvb Virtubl Mbchine's
+     *         high-resolution time source, in nbnoseconds
      * @since 1.5
      */
-    public static native long nanoTime();
+    public stbtic nbtive long nbnoTime();
 
     /**
-     * Copies an array from the specified source array, beginning at the
-     * specified position, to the specified position of the destination array.
-     * A subsequence of array components are copied from the source
-     * array referenced by <code>src</code> to the destination array
+     * Copies bn brrby from the specified source brrby, beginning bt the
+     * specified position, to the specified position of the destinbtion brrby.
+     * A subsequence of brrby components bre copied from the source
+     * brrby referenced by <code>src</code> to the destinbtion brrby
      * referenced by <code>dest</code>. The number of components copied is
-     * equal to the <code>length</code> argument. The components at
+     * equbl to the <code>length</code> brgument. The components bt
      * positions <code>srcPos</code> through
-     * <code>srcPos+length-1</code> in the source array are copied into
+     * <code>srcPos+length-1</code> in the source brrby bre copied into
      * positions <code>destPos</code> through
-     * <code>destPos+length-1</code>, respectively, of the destination
-     * array.
+     * <code>destPos+length-1</code>, respectively, of the destinbtion
+     * brrby.
      * <p>
-     * If the <code>src</code> and <code>dest</code> arguments refer to the
-     * same array object, then the copying is performed as if the
-     * components at positions <code>srcPos</code> through
-     * <code>srcPos+length-1</code> were first copied to a temporary
-     * array with <code>length</code> components and then the contents of
-     * the temporary array were copied into positions
+     * If the <code>src</code> bnd <code>dest</code> brguments refer to the
+     * sbme brrby object, then the copying is performed bs if the
+     * components bt positions <code>srcPos</code> through
+     * <code>srcPos+length-1</code> were first copied to b temporbry
+     * brrby with <code>length</code> components bnd then the contents of
+     * the temporbry brrby were copied into positions
      * <code>destPos</code> through <code>destPos+length-1</code> of the
-     * destination array.
+     * destinbtion brrby.
      * <p>
-     * If <code>dest</code> is <code>null</code>, then a
+     * If <code>dest</code> is <code>null</code>, then b
      * <code>NullPointerException</code> is thrown.
      * <p>
-     * If <code>src</code> is <code>null</code>, then a
-     * <code>NullPointerException</code> is thrown and the destination
-     * array is not modified.
+     * If <code>src</code> is <code>null</code>, then b
+     * <code>NullPointerException</code> is thrown bnd the destinbtion
+     * brrby is not modified.
      * <p>
-     * Otherwise, if any of the following is true, an
-     * <code>ArrayStoreException</code> is thrown and the destination is
+     * Otherwise, if bny of the following is true, bn
+     * <code>ArrbyStoreException</code> is thrown bnd the destinbtion is
      * not modified:
      * <ul>
-     * <li>The <code>src</code> argument refers to an object that is not an
-     *     array.
-     * <li>The <code>dest</code> argument refers to an object that is not an
-     *     array.
-     * <li>The <code>src</code> argument and <code>dest</code> argument refer
-     *     to arrays whose component types are different primitive types.
-     * <li>The <code>src</code> argument refers to an array with a primitive
-     *    component type and the <code>dest</code> argument refers to an array
-     *     with a reference component type.
-     * <li>The <code>src</code> argument refers to an array with a reference
-     *    component type and the <code>dest</code> argument refers to an array
-     *     with a primitive component type.
+     * <li>The <code>src</code> brgument refers to bn object thbt is not bn
+     *     brrby.
+     * <li>The <code>dest</code> brgument refers to bn object thbt is not bn
+     *     brrby.
+     * <li>The <code>src</code> brgument bnd <code>dest</code> brgument refer
+     *     to brrbys whose component types bre different primitive types.
+     * <li>The <code>src</code> brgument refers to bn brrby with b primitive
+     *    component type bnd the <code>dest</code> brgument refers to bn brrby
+     *     with b reference component type.
+     * <li>The <code>src</code> brgument refers to bn brrby with b reference
+     *    component type bnd the <code>dest</code> brgument refers to bn brrby
+     *     with b primitive component type.
      * </ul>
      * <p>
-     * Otherwise, if any of the following is true, an
+     * Otherwise, if bny of the following is true, bn
      * <code>IndexOutOfBoundsException</code> is
-     * thrown and the destination is not modified:
+     * thrown bnd the destinbtion is not modified:
      * <ul>
-     * <li>The <code>srcPos</code> argument is negative.
-     * <li>The <code>destPos</code> argument is negative.
-     * <li>The <code>length</code> argument is negative.
-     * <li><code>srcPos+length</code> is greater than
-     *     <code>src.length</code>, the length of the source array.
-     * <li><code>destPos+length</code> is greater than
-     *     <code>dest.length</code>, the length of the destination array.
+     * <li>The <code>srcPos</code> brgument is negbtive.
+     * <li>The <code>destPos</code> brgument is negbtive.
+     * <li>The <code>length</code> brgument is negbtive.
+     * <li><code>srcPos+length</code> is grebter thbn
+     *     <code>src.length</code>, the length of the source brrby.
+     * <li><code>destPos+length</code> is grebter thbn
+     *     <code>dest.length</code>, the length of the destinbtion brrby.
      * </ul>
      * <p>
-     * Otherwise, if any actual component of the source array from
+     * Otherwise, if bny bctubl component of the source brrby from
      * position <code>srcPos</code> through
-     * <code>srcPos+length-1</code> cannot be converted to the component
-     * type of the destination array by assignment conversion, an
-     * <code>ArrayStoreException</code> is thrown. In this case, let
-     * <b><i>k</i></b> be the smallest nonnegative integer less than
-     * length such that <code>src[srcPos+</code><i>k</i><code>]</code>
-     * cannot be converted to the component type of the destination
-     * array; when the exception is thrown, source array components from
+     * <code>srcPos+length-1</code> cbnnot be converted to the component
+     * type of the destinbtion brrby by bssignment conversion, bn
+     * <code>ArrbyStoreException</code> is thrown. In this cbse, let
+     * <b><i>k</i></b> be the smbllest nonnegbtive integer less thbn
+     * length such thbt <code>src[srcPos+</code><i>k</i><code>]</code>
+     * cbnnot be converted to the component type of the destinbtion
+     * brrby; when the exception is thrown, source brrby components from
      * positions <code>srcPos</code> through
      * <code>srcPos+</code><i>k</i><code>-1</code>
-     * will already have been copied to destination array positions
+     * will blrebdy hbve been copied to destinbtion brrby positions
      * <code>destPos</code> through
-     * <code>destPos+</code><i>k</I><code>-1</code> and no other
-     * positions of the destination array will have been modified.
-     * (Because of the restrictions already itemized, this
-     * paragraph effectively applies only to the situation where both
-     * arrays have component types that are reference types.)
+     * <code>destPos+</code><i>k</I><code>-1</code> bnd no other
+     * positions of the destinbtion brrby will hbve been modified.
+     * (Becbuse of the restrictions blrebdy itemized, this
+     * pbrbgrbph effectively bpplies only to the situbtion where both
+     * brrbys hbve component types thbt bre reference types.)
      *
-     * @param      src      the source array.
-     * @param      srcPos   starting position in the source array.
-     * @param      dest     the destination array.
-     * @param      destPos  starting position in the destination data.
-     * @param      length   the number of array elements to be copied.
-     * @exception  IndexOutOfBoundsException  if copying would cause
-     *               access of data outside array bounds.
-     * @exception  ArrayStoreException  if an element in the <code>src</code>
-     *               array could not be stored into the <code>dest</code> array
-     *               because of a type mismatch.
+     * @pbrbm      src      the source brrby.
+     * @pbrbm      srcPos   stbrting position in the source brrby.
+     * @pbrbm      dest     the destinbtion brrby.
+     * @pbrbm      destPos  stbrting position in the destinbtion dbtb.
+     * @pbrbm      length   the number of brrby elements to be copied.
+     * @exception  IndexOutOfBoundsException  if copying would cbuse
+     *               bccess of dbtb outside brrby bounds.
+     * @exception  ArrbyStoreException  if bn element in the <code>src</code>
+     *               brrby could not be stored into the <code>dest</code> brrby
+     *               becbuse of b type mismbtch.
      * @exception  NullPointerException if either <code>src</code> or
      *               <code>dest</code> is <code>null</code>.
      */
-    public static native void arraycopy(Object src,  int  srcPos,
+    public stbtic nbtive void brrbycopy(Object src,  int  srcPos,
                                         Object dest, int destPos,
                                         int length);
 
     /**
-     * Returns the same hash code for the given object as
-     * would be returned by the default method hashCode(),
-     * whether or not the given object's class overrides
-     * hashCode().
-     * The hash code for the null reference is zero.
+     * Returns the sbme hbsh code for the given object bs
+     * would be returned by the defbult method hbshCode(),
+     * whether or not the given object's clbss overrides
+     * hbshCode().
+     * The hbsh code for the null reference is zero.
      *
-     * @param x object for which the hashCode is to be calculated
-     * @return  the hashCode
+     * @pbrbm x object for which the hbshCode is to be cblculbted
+     * @return  the hbshCode
      * @since   1.1
      */
-    public static native int identityHashCode(Object x);
+    public stbtic nbtive int identityHbshCode(Object x);
 
     /**
-     * System properties. The following properties are guaranteed to be defined:
+     * System properties. The following properties bre gubrbnteed to be defined:
      * <dl>
-     * <dt>java.version         <dd>Java version number
-     * <dt>java.vendor          <dd>Java vendor specific string
-     * <dt>java.vendor.url      <dd>Java vendor URL
-     * <dt>java.home            <dd>Java installation directory
-     * <dt>java.class.version   <dd>Java class version number
-     * <dt>java.class.path      <dd>Java classpath
-     * <dt>os.name              <dd>Operating System Name
-     * <dt>os.arch              <dd>Operating System Architecture
-     * <dt>os.version           <dd>Operating System Version
-     * <dt>file.separator       <dd>File separator ("/" on Unix)
-     * <dt>path.separator       <dd>Path separator (":" on Unix)
-     * <dt>line.separator       <dd>Line separator ("\n" on Unix)
-     * <dt>user.name            <dd>User account name
+     * <dt>jbvb.version         <dd>Jbvb version number
+     * <dt>jbvb.vendor          <dd>Jbvb vendor specific string
+     * <dt>jbvb.vendor.url      <dd>Jbvb vendor URL
+     * <dt>jbvb.home            <dd>Jbvb instbllbtion directory
+     * <dt>jbvb.clbss.version   <dd>Jbvb clbss version number
+     * <dt>jbvb.clbss.pbth      <dd>Jbvb clbsspbth
+     * <dt>os.nbme              <dd>Operbting System Nbme
+     * <dt>os.brch              <dd>Operbting System Architecture
+     * <dt>os.version           <dd>Operbting System Version
+     * <dt>file.sepbrbtor       <dd>File sepbrbtor ("/" on Unix)
+     * <dt>pbth.sepbrbtor       <dd>Pbth sepbrbtor (":" on Unix)
+     * <dt>line.sepbrbtor       <dd>Line sepbrbtor ("\n" on Unix)
+     * <dt>user.nbme            <dd>User bccount nbme
      * <dt>user.home            <dd>User home directory
      * <dt>user.dir             <dd>User's current working directory
      * </dl>
      */
 
-    private static Properties props;
-    private static native Properties initProperties(Properties props);
+    privbte stbtic Properties props;
+    privbte stbtic nbtive Properties initProperties(Properties props);
 
     /**
      * Determines the current system properties.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertiesAccess</code> method is called with no
-     * arguments. This may result in a security exception.
+     * First, if there is b security mbnbger, its
+     * <code>checkPropertiesAccess</code> method is cblled with no
+     * brguments. This mby result in b security exception.
      * <p>
      * The current set of system properties for use by the
-     * {@link #getProperty(String)} method is returned as a
+     * {@link #getProperty(String)} method is returned bs b
      * <code>Properties</code> object. If there is no current set of
-     * system properties, a set of system properties is first created and
-     * initialized. This set of system properties always includes values
+     * system properties, b set of system properties is first crebted bnd
+     * initiblized. This set of system properties blwbys includes vblues
      * for the following keys:
-     * <table summary="Shows property keys and associated values">
+     * <tbble summbry="Shows property keys bnd bssocibted vblues">
      * <tr><th>Key</th>
-     *     <th>Description of Associated Value</th></tr>
-     * <tr><td><code>java.version</code></td>
-     *     <td>Java Runtime Environment version</td></tr>
-     * <tr><td><code>java.vendor</code></td>
-     *     <td>Java Runtime Environment vendor</td></tr>
-     * <tr><td><code>java.vendor.url</code></td>
-     *     <td>Java vendor URL</td></tr>
-     * <tr><td><code>java.home</code></td>
-     *     <td>Java installation directory</td></tr>
-     * <tr><td><code>java.vm.specification.version</code></td>
-     *     <td>Java Virtual Machine specification version</td></tr>
-     * <tr><td><code>java.vm.specification.vendor</code></td>
-     *     <td>Java Virtual Machine specification vendor</td></tr>
-     * <tr><td><code>java.vm.specification.name</code></td>
-     *     <td>Java Virtual Machine specification name</td></tr>
-     * <tr><td><code>java.vm.version</code></td>
-     *     <td>Java Virtual Machine implementation version</td></tr>
-     * <tr><td><code>java.vm.vendor</code></td>
-     *     <td>Java Virtual Machine implementation vendor</td></tr>
-     * <tr><td><code>java.vm.name</code></td>
-     *     <td>Java Virtual Machine implementation name</td></tr>
-     * <tr><td><code>java.specification.version</code></td>
-     *     <td>Java Runtime Environment specification  version</td></tr>
-     * <tr><td><code>java.specification.vendor</code></td>
-     *     <td>Java Runtime Environment specification  vendor</td></tr>
-     * <tr><td><code>java.specification.name</code></td>
-     *     <td>Java Runtime Environment specification  name</td></tr>
-     * <tr><td><code>java.class.version</code></td>
-     *     <td>Java class format version number</td></tr>
-     * <tr><td><code>java.class.path</code></td>
-     *     <td>Java class path</td></tr>
-     * <tr><td><code>java.library.path</code></td>
-     *     <td>List of paths to search when loading libraries</td></tr>
-     * <tr><td><code>java.io.tmpdir</code></td>
-     *     <td>Default temp file path</td></tr>
-     * <tr><td><code>java.compiler</code></td>
-     *     <td>Name of JIT compiler to use</td></tr>
-     * <tr><td><code>java.ext.dirs</code></td>
-     *     <td>Path of extension directory or directories</td></tr>
-     * <tr><td><code>os.name</code></td>
-     *     <td>Operating system name</td></tr>
-     * <tr><td><code>os.arch</code></td>
-     *     <td>Operating system architecture</td></tr>
+     *     <th>Description of Associbted Vblue</th></tr>
+     * <tr><td><code>jbvb.version</code></td>
+     *     <td>Jbvb Runtime Environment version</td></tr>
+     * <tr><td><code>jbvb.vendor</code></td>
+     *     <td>Jbvb Runtime Environment vendor</td></tr>
+     * <tr><td><code>jbvb.vendor.url</code></td>
+     *     <td>Jbvb vendor URL</td></tr>
+     * <tr><td><code>jbvb.home</code></td>
+     *     <td>Jbvb instbllbtion directory</td></tr>
+     * <tr><td><code>jbvb.vm.specificbtion.version</code></td>
+     *     <td>Jbvb Virtubl Mbchine specificbtion version</td></tr>
+     * <tr><td><code>jbvb.vm.specificbtion.vendor</code></td>
+     *     <td>Jbvb Virtubl Mbchine specificbtion vendor</td></tr>
+     * <tr><td><code>jbvb.vm.specificbtion.nbme</code></td>
+     *     <td>Jbvb Virtubl Mbchine specificbtion nbme</td></tr>
+     * <tr><td><code>jbvb.vm.version</code></td>
+     *     <td>Jbvb Virtubl Mbchine implementbtion version</td></tr>
+     * <tr><td><code>jbvb.vm.vendor</code></td>
+     *     <td>Jbvb Virtubl Mbchine implementbtion vendor</td></tr>
+     * <tr><td><code>jbvb.vm.nbme</code></td>
+     *     <td>Jbvb Virtubl Mbchine implementbtion nbme</td></tr>
+     * <tr><td><code>jbvb.specificbtion.version</code></td>
+     *     <td>Jbvb Runtime Environment specificbtion  version</td></tr>
+     * <tr><td><code>jbvb.specificbtion.vendor</code></td>
+     *     <td>Jbvb Runtime Environment specificbtion  vendor</td></tr>
+     * <tr><td><code>jbvb.specificbtion.nbme</code></td>
+     *     <td>Jbvb Runtime Environment specificbtion  nbme</td></tr>
+     * <tr><td><code>jbvb.clbss.version</code></td>
+     *     <td>Jbvb clbss formbt version number</td></tr>
+     * <tr><td><code>jbvb.clbss.pbth</code></td>
+     *     <td>Jbvb clbss pbth</td></tr>
+     * <tr><td><code>jbvb.librbry.pbth</code></td>
+     *     <td>List of pbths to sebrch when lobding librbries</td></tr>
+     * <tr><td><code>jbvb.io.tmpdir</code></td>
+     *     <td>Defbult temp file pbth</td></tr>
+     * <tr><td><code>jbvb.compiler</code></td>
+     *     <td>Nbme of JIT compiler to use</td></tr>
+     * <tr><td><code>jbvb.ext.dirs</code></td>
+     *     <td>Pbth of extension directory or directories</td></tr>
+     * <tr><td><code>os.nbme</code></td>
+     *     <td>Operbting system nbme</td></tr>
+     * <tr><td><code>os.brch</code></td>
+     *     <td>Operbting system brchitecture</td></tr>
      * <tr><td><code>os.version</code></td>
-     *     <td>Operating system version</td></tr>
-     * <tr><td><code>file.separator</code></td>
-     *     <td>File separator ("/" on UNIX)</td></tr>
-     * <tr><td><code>path.separator</code></td>
-     *     <td>Path separator (":" on UNIX)</td></tr>
-     * <tr><td><code>line.separator</code></td>
-     *     <td>Line separator ("\n" on UNIX)</td></tr>
-     * <tr><td><code>user.name</code></td>
-     *     <td>User's account name</td></tr>
+     *     <td>Operbting system version</td></tr>
+     * <tr><td><code>file.sepbrbtor</code></td>
+     *     <td>File sepbrbtor ("/" on UNIX)</td></tr>
+     * <tr><td><code>pbth.sepbrbtor</code></td>
+     *     <td>Pbth sepbrbtor (":" on UNIX)</td></tr>
+     * <tr><td><code>line.sepbrbtor</code></td>
+     *     <td>Line sepbrbtor ("\n" on UNIX)</td></tr>
+     * <tr><td><code>user.nbme</code></td>
+     *     <td>User's bccount nbme</td></tr>
      * <tr><td><code>user.home</code></td>
      *     <td>User's home directory</td></tr>
      * <tr><td><code>user.dir</code></td>
      *     <td>User's current working directory</td></tr>
-     * </table>
+     * </tbble>
      * <p>
-     * Multiple paths in a system property value are separated by the path
-     * separator character of the platform.
+     * Multiple pbths in b system property vblue bre sepbrbted by the pbth
+     * sepbrbtor chbrbcter of the plbtform.
      * <p>
-     * Note that even if the security manager does not permit the
-     * <code>getProperties</code> operation, it may choose to permit the
-     * {@link #getProperty(String)} operation.
+     * Note thbt even if the security mbnbger does not permit the
+     * <code>getProperties</code> operbtion, it mby choose to permit the
+     * {@link #getProperty(String)} operbtion.
      *
      * @return     the system properties
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow access
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *              to the system properties.
      * @see        #setProperties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
-     * @see        java.util.Properties
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkPropertiesAccess()
+     * @see        jbvb.util.Properties
      */
-    public static Properties getProperties() {
-        SecurityManager sm = getSecurityManager();
+    public stbtic Properties getProperties() {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
@@ -630,46 +630,46 @@ public final class System {
     }
 
     /**
-     * Returns the system-dependent line separator string.  It always
-     * returns the same value - the initial value of the {@linkplain
-     * #getProperty(String) system property} {@code line.separator}.
+     * Returns the system-dependent line sepbrbtor string.  It blwbys
+     * returns the sbme vblue - the initibl vblue of the {@linkplbin
+     * #getProperty(String) system property} {@code line.sepbrbtor}.
      *
      * <p>On UNIX systems, it returns {@code "\n"}; on Microsoft
      * Windows systems it returns {@code "\r\n"}.
      *
-     * @return the system-dependent line separator string
+     * @return the system-dependent line sepbrbtor string
      * @since 1.7
      */
-    public static String lineSeparator() {
-        return lineSeparator;
+    public stbtic String lineSepbrbtor() {
+        return lineSepbrbtor;
     }
 
-    private static String lineSeparator;
+    privbte stbtic String lineSepbrbtor;
 
     /**
      * Sets the system properties to the <code>Properties</code>
-     * argument.
+     * brgument.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertiesAccess</code> method is called with no
-     * arguments. This may result in a security exception.
+     * First, if there is b security mbnbger, its
+     * <code>checkPropertiesAccess</code> method is cblled with no
+     * brguments. This mby result in b security exception.
      * <p>
-     * The argument becomes the current set of system properties for use
-     * by the {@link #getProperty(String)} method. If the argument is
+     * The brgument becomes the current set of system properties for use
+     * by the {@link #getProperty(String)} method. If the brgument is
      * <code>null</code>, then the current set of system properties is
      * forgotten.
      *
-     * @param      props   the new system properties.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow access
+     * @pbrbm      props   the new system properties.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *              to the system properties.
      * @see        #getProperties
-     * @see        java.util.Properties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
+     * @see        jbvb.util.Properties
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkPropertiesAccess()
      */
-    public static void setProperties(Properties props) {
-        SecurityManager sm = getSecurityManager();
+    public stbtic void setProperties(Properties props) {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
@@ -681,34 +681,34 @@ public final class System {
     }
 
     /**
-     * Gets the system property indicated by the specified key.
+     * Gets the system property indicbted by the specified key.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertyAccess</code> method is called with the key as
-     * its argument. This may result in a SecurityException.
+     * First, if there is b security mbnbger, its
+     * <code>checkPropertyAccess</code> method is cblled with the key bs
+     * its brgument. This mby result in b SecurityException.
      * <p>
-     * If there is no current set of system properties, a set of system
-     * properties is first created and initialized in the same manner as
+     * If there is no current set of system properties, b set of system
+     * properties is first crebted bnd initiblized in the sbme mbnner bs
      * for the <code>getProperties</code> method.
      *
-     * @param      key   the name of the system property.
-     * @return     the string value of the system property,
-     *             or <code>null</code> if there is no property with that key.
+     * @pbrbm      key   the nbme of the system property.
+     * @return     the string vblue of the system property,
+     *             or <code>null</code> if there is no property with thbt key.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *              access to the specified system property.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertyAccess</code> method doesn't bllow
+     *              bccess to the specified system property.
      * @exception  NullPointerException if <code>key</code> is
      *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     * @exception  IllegblArgumentException if <code>key</code> is empty.
      * @see        #setProperty
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see        java.lang.System#getProperties()
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkPropertyAccess(jbvb.lbng.String)
+     * @see        jbvb.lbng.System#getProperties()
      */
-    public static String getProperty(String key) {
+    public stbtic String getProperty(String key) {
         checkKey(key);
-        SecurityManager sm = getSecurityManager();
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertyAccess(key);
         }
@@ -717,34 +717,34 @@ public final class System {
     }
 
     /**
-     * Gets the system property indicated by the specified key.
+     * Gets the system property indicbted by the specified key.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertyAccess</code> method is called with the
-     * <code>key</code> as its argument.
+     * First, if there is b security mbnbger, its
+     * <code>checkPropertyAccess</code> method is cblled with the
+     * <code>key</code> bs its brgument.
      * <p>
-     * If there is no current set of system properties, a set of system
-     * properties is first created and initialized in the same manner as
+     * If there is no current set of system properties, b set of system
+     * properties is first crebted bnd initiblized in the sbme mbnner bs
      * for the <code>getProperties</code> method.
      *
-     * @param      key   the name of the system property.
-     * @param      def   a default value.
-     * @return     the string value of the system property,
-     *             or the default value if there is no property with that key.
+     * @pbrbm      key   the nbme of the system property.
+     * @pbrbm      def   b defbult vblue.
+     * @return     the string vblue of the system property,
+     *             or the defbult vblue if there is no property with thbt key.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *             access to the specified system property.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertyAccess</code> method doesn't bllow
+     *             bccess to the specified system property.
      * @exception  NullPointerException if <code>key</code> is
      *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     * @exception  IllegblArgumentException if <code>key</code> is empty.
      * @see        #setProperty
-     * @see        java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see        java.lang.System#getProperties()
+     * @see        jbvb.lbng.SecurityMbnbger#checkPropertyAccess(jbvb.lbng.String)
+     * @see        jbvb.lbng.System#getProperties()
      */
-    public static String getProperty(String key, String def) {
+    public stbtic String getProperty(String key, String def) {
         checkKey(key);
-        SecurityManager sm = getSecurityManager();
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertyAccess(key);
         }
@@ -753,73 +753,73 @@ public final class System {
     }
 
     /**
-     * Sets the system property indicated by the specified key.
+     * Sets the system property indicbted by the specified key.
      * <p>
-     * First, if a security manager exists, its
-     * <code>SecurityManager.checkPermission</code> method
-     * is called with a <code>PropertyPermission(key, "write")</code>
-     * permission. This may result in a SecurityException being thrown.
+     * First, if b security mbnbger exists, its
+     * <code>SecurityMbnbger.checkPermission</code> method
+     * is cblled with b <code>PropertyPermission(key, "write")</code>
+     * permission. This mby result in b SecurityException being thrown.
      * If no exception is thrown, the specified property is set to the given
-     * value.
+     * vblue.
      *
-     * @param      key   the name of the system property.
-     * @param      value the value of the system property.
-     * @return     the previous value of the system property,
-     *             or <code>null</code> if it did not have one.
+     * @pbrbm      key   the nbme of the system property.
+     * @pbrbm      vblue the vblue of the system property.
+     * @return     the previous vblue of the system property,
+     *             or <code>null</code> if it did not hbve one.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPermission</code> method doesn't allow
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPermission</code> method doesn't bllow
      *             setting of the specified property.
      * @exception  NullPointerException if <code>key</code> or
-     *             <code>value</code> is <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     *             <code>vblue</code> is <code>null</code>.
+     * @exception  IllegblArgumentException if <code>key</code> is empty.
      * @see        #getProperty
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.lang.System#getProperty(java.lang.String, java.lang.String)
-     * @see        java.util.PropertyPermission
-     * @see        SecurityManager#checkPermission
+     * @see        jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see        jbvb.lbng.System#getProperty(jbvb.lbng.String, jbvb.lbng.String)
+     * @see        jbvb.util.PropertyPermission
+     * @see        SecurityMbnbger#checkPermission
      * @since      1.2
      */
-    public static String setProperty(String key, String value) {
+    public stbtic String setProperty(String key, String vblue) {
         checkKey(key);
-        SecurityManager sm = getSecurityManager();
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new PropertyPermission(key,
-                SecurityConstants.PROPERTY_WRITE_ACTION));
+                SecurityConstbnts.PROPERTY_WRITE_ACTION));
         }
 
-        return (String) props.setProperty(key, value);
+        return (String) props.setProperty(key, vblue);
     }
 
     /**
-     * Removes the system property indicated by the specified key.
+     * Removes the system property indicbted by the specified key.
      * <p>
-     * First, if a security manager exists, its
-     * <code>SecurityManager.checkPermission</code> method
-     * is called with a <code>PropertyPermission(key, "write")</code>
-     * permission. This may result in a SecurityException being thrown.
+     * First, if b security mbnbger exists, its
+     * <code>SecurityMbnbger.checkPermission</code> method
+     * is cblled with b <code>PropertyPermission(key, "write")</code>
+     * permission. This mby result in b SecurityException being thrown.
      * If no exception is thrown, the specified property is removed.
      *
-     * @param      key   the name of the system property to be removed.
-     * @return     the previous string value of the system property,
-     *             or <code>null</code> if there was no property with that key.
+     * @pbrbm      key   the nbme of the system property to be removed.
+     * @return     the previous string vblue of the system property,
+     *             or <code>null</code> if there wbs no property with thbt key.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *              access to the specified system property.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertyAccess</code> method doesn't bllow
+     *              bccess to the specified system property.
      * @exception  NullPointerException if <code>key</code> is
      *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     * @exception  IllegblArgumentException if <code>key</code> is empty.
      * @see        #getProperty
      * @see        #setProperty
-     * @see        java.util.Properties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
+     * @see        jbvb.util.Properties
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkPropertiesAccess()
      * @since 1.5
      */
-    public static String clearProperty(String key) {
+    public stbtic String clebrProperty(String key) {
         checkKey(key);
-        SecurityManager sm = getSecurityManager();
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new PropertyPermission(key, "write"));
         }
@@ -827,113 +827,113 @@ public final class System {
         return (String) props.remove(key);
     }
 
-    private static void checkKey(String key) {
+    privbte stbtic void checkKey(String key) {
         if (key == null) {
-            throw new NullPointerException("key can't be null");
+            throw new NullPointerException("key cbn't be null");
         }
-        if (key.equals("")) {
-            throw new IllegalArgumentException("key can't be empty");
+        if (key.equbls("")) {
+            throw new IllegblArgumentException("key cbn't be empty");
         }
     }
 
     /**
-     * Gets the value of the specified environment variable. An
-     * environment variable is a system-dependent external named
-     * value.
+     * Gets the vblue of the specified environment vbribble. An
+     * environment vbribble is b system-dependent externbl nbmed
+     * vblue.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkPermission checkPermission}
-     * method is called with a
-     * <code>{@link RuntimePermission}("getenv."+name)</code>
-     * permission.  This may result in a {@link SecurityException}
-     * being thrown.  If no exception is thrown the value of the
-     * variable <code>name</code> is returned.
+     * <p>If b security mbnbger exists, its
+     * {@link SecurityMbnbger#checkPermission checkPermission}
+     * method is cblled with b
+     * <code>{@link RuntimePermission}("getenv."+nbme)</code>
+     * permission.  This mby result in b {@link SecurityException}
+     * being thrown.  If no exception is thrown the vblue of the
+     * vbribble <code>nbme</code> is returned.
      *
-     * <p><a name="EnvironmentVSSystemProperties"><i>System
-     * properties</i> and <i>environment variables</i></a> are both
-     * conceptually mappings between names and values.  Both
-     * mechanisms can be used to pass user-defined information to a
-     * Java process.  Environment variables have a more global effect,
-     * because they are visible to all descendants of the process
-     * which defines them, not just the immediate Java subprocess.
-     * They can have subtly different semantics, such as case
-     * insensitivity, on different operating systems.  For these
-     * reasons, environment variables are more likely to have
+     * <p><b nbme="EnvironmentVSSystemProperties"><i>System
+     * properties</i> bnd <i>environment vbribbles</i></b> bre both
+     * conceptublly mbppings between nbmes bnd vblues.  Both
+     * mechbnisms cbn be used to pbss user-defined informbtion to b
+     * Jbvb process.  Environment vbribbles hbve b more globbl effect,
+     * becbuse they bre visible to bll descendbnts of the process
+     * which defines them, not just the immedibte Jbvb subprocess.
+     * They cbn hbve subtly different sembntics, such bs cbse
+     * insensitivity, on different operbting systems.  For these
+     * rebsons, environment vbribbles bre more likely to hbve
      * unintended side effects.  It is best to use system properties
-     * where possible.  Environment variables should be used when a
-     * global effect is desired, or when an external system interface
-     * requires an environment variable (such as <code>PATH</code>).
+     * where possible.  Environment vbribbles should be used when b
+     * globbl effect is desired, or when bn externbl system interfbce
+     * requires bn environment vbribble (such bs <code>PATH</code>).
      *
-     * <p>On UNIX systems the alphabetic case of <code>name</code> is
-     * typically significant, while on Microsoft Windows systems it is
-     * typically not.  For example, the expression
-     * <code>System.getenv("FOO").equals(System.getenv("foo"))</code>
+     * <p>On UNIX systems the blphbbetic cbse of <code>nbme</code> is
+     * typicblly significbnt, while on Microsoft Windows systems it is
+     * typicblly not.  For exbmple, the expression
+     * <code>System.getenv("FOO").equbls(System.getenv("foo"))</code>
      * is likely to be true on Microsoft Windows.
      *
-     * @param  name the name of the environment variable
-     * @return the string value of the variable, or <code>null</code>
-     *         if the variable is not defined in the system environment
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
+     * @pbrbm  nbme the nbme of the environment vbribble
+     * @return the string vblue of the vbribble, or <code>null</code>
+     *         if the vbribble is not defined in the system environment
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>
      * @throws SecurityException
-     *         if a security manager exists and its
-     *         {@link SecurityManager#checkPermission checkPermission}
-     *         method doesn't allow access to the environment variable
-     *         <code>name</code>
+     *         if b security mbnbger exists bnd its
+     *         {@link SecurityMbnbger#checkPermission checkPermission}
+     *         method doesn't bllow bccess to the environment vbribble
+     *         <code>nbme</code>
      * @see    #getenv()
      * @see    ProcessBuilder#environment()
      */
-    public static String getenv(String name) {
-        SecurityManager sm = getSecurityManager();
+    public stbtic String getenv(String nbme) {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getenv."+name));
+            sm.checkPermission(new RuntimePermission("getenv."+nbme));
         }
 
-        return ProcessEnvironment.getenv(name);
+        return ProcessEnvironment.getenv(nbme);
     }
 
 
     /**
-     * Returns an unmodifiable string map view of the current system environment.
-     * The environment is a system-dependent mapping from names to
-     * values which is passed from parent to child processes.
+     * Returns bn unmodifibble string mbp view of the current system environment.
+     * The environment is b system-dependent mbpping from nbmes to
+     * vblues which is pbssed from pbrent to child processes.
      *
-     * <p>If the system does not support environment variables, an
-     * empty map is returned.
+     * <p>If the system does not support environment vbribbles, bn
+     * empty mbp is returned.
      *
-     * <p>The returned map will never contain null keys or values.
-     * Attempting to query the presence of a null key or value will
-     * throw a {@link NullPointerException}.  Attempting to query
-     * the presence of a key or value which is not of type
-     * {@link String} will throw a {@link ClassCastException}.
+     * <p>The returned mbp will never contbin null keys or vblues.
+     * Attempting to query the presence of b null key or vblue will
+     * throw b {@link NullPointerException}.  Attempting to query
+     * the presence of b key or vblue which is not of type
+     * {@link String} will throw b {@link ClbssCbstException}.
      *
-     * <p>The returned map and its collection views may not obey the
-     * general contract of the {@link Object#equals} and
-     * {@link Object#hashCode} methods.
+     * <p>The returned mbp bnd its collection views mby not obey the
+     * generbl contrbct of the {@link Object#equbls} bnd
+     * {@link Object#hbshCode} methods.
      *
-     * <p>The returned map is typically case-sensitive on all platforms.
+     * <p>The returned mbp is typicblly cbse-sensitive on bll plbtforms.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkPermission checkPermission}
-     * method is called with a
+     * <p>If b security mbnbger exists, its
+     * {@link SecurityMbnbger#checkPermission checkPermission}
+     * method is cblled with b
      * <code>{@link RuntimePermission}("getenv.*")</code>
-     * permission.  This may result in a {@link SecurityException} being
+     * permission.  This mby result in b {@link SecurityException} being
      * thrown.
      *
-     * <p>When passing information to a Java subprocess,
-     * <a href=#EnvironmentVSSystemProperties>system properties</a>
-     * are generally preferred over environment variables.
+     * <p>When pbssing informbtion to b Jbvb subprocess,
+     * <b href=#EnvironmentVSSystemProperties>system properties</b>
+     * bre generblly preferred over environment vbribbles.
      *
-     * @return the environment as a map of variable names to values
+     * @return the environment bs b mbp of vbribble nbmes to vblues
      * @throws SecurityException
-     *         if a security manager exists and its
-     *         {@link SecurityManager#checkPermission checkPermission}
-     *         method doesn't allow access to the process environment
+     *         if b security mbnbger exists bnd its
+     *         {@link SecurityMbnbger#checkPermission checkPermission}
+     *         method doesn't bllow bccess to the process environment
      * @see    #getenv(String)
      * @see    ProcessBuilder#environment()
      * @since  1.5
      */
-    public static java.util.Map<String,String> getenv() {
-        SecurityManager sm = getSecurityManager();
+    public stbtic jbvb.util.Mbp<String,String> getenv() {
+        SecurityMbnbger sm = getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getenv.*"));
         }
@@ -942,332 +942,332 @@ public final class System {
     }
 
     /**
-     * Terminates the currently running Java Virtual Machine. The
-     * argument serves as a status code; by convention, a nonzero status
-     * code indicates abnormal termination.
+     * Terminbtes the currently running Jbvb Virtubl Mbchine. The
+     * brgument serves bs b stbtus code; by convention, b nonzero stbtus
+     * code indicbtes bbnormbl terminbtion.
      * <p>
-     * This method calls the <code>exit</code> method in class
-     * <code>Runtime</code>. This method never returns normally.
+     * This method cblls the <code>exit</code> method in clbss
+     * <code>Runtime</code>. This method never returns normblly.
      * <p>
-     * The call <code>System.exit(n)</code> is effectively equivalent to
-     * the call:
+     * The cbll <code>System.exit(n)</code> is effectively equivblent to
+     * the cbll:
      * <blockquote><pre>
      * Runtime.getRuntime().exit(n)
      * </pre></blockquote>
      *
-     * @param      status   exit status.
+     * @pbrbm      stbtus   exit stbtus.
      * @throws  SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow exit with the specified status.
-     * @see        java.lang.Runtime#exit(int)
+     *        if b security mbnbger exists bnd its <code>checkExit</code>
+     *        method doesn't bllow exit with the specified stbtus.
+     * @see        jbvb.lbng.Runtime#exit(int)
      */
-    public static void exit(int status) {
-        Runtime.getRuntime().exit(status);
+    public stbtic void exit(int stbtus) {
+        Runtime.getRuntime().exit(stbtus);
     }
 
     /**
-     * Runs the garbage collector.
+     * Runs the gbrbbge collector.
      * <p>
-     * Calling the <code>gc</code> method suggests that the Java Virtual
-     * Machine expend effort toward recycling unused objects in order to
-     * make the memory they currently occupy available for quick reuse.
-     * When control returns from the method call, the Java Virtual
-     * Machine has made a best effort to reclaim space from all discarded
+     * Cblling the <code>gc</code> method suggests thbt the Jbvb Virtubl
+     * Mbchine expend effort towbrd recycling unused objects in order to
+     * mbke the memory they currently occupy bvbilbble for quick reuse.
+     * When control returns from the method cbll, the Jbvb Virtubl
+     * Mbchine hbs mbde b best effort to reclbim spbce from bll discbrded
      * objects.
      * <p>
-     * The call <code>System.gc()</code> is effectively equivalent to the
-     * call:
+     * The cbll <code>System.gc()</code> is effectively equivblent to the
+     * cbll:
      * <blockquote><pre>
      * Runtime.getRuntime().gc()
      * </pre></blockquote>
      *
-     * @see     java.lang.Runtime#gc()
+     * @see     jbvb.lbng.Runtime#gc()
      */
-    public static void gc() {
+    public stbtic void gc() {
         Runtime.getRuntime().gc();
     }
 
     /**
-     * Runs the finalization methods of any objects pending finalization.
+     * Runs the finblizbtion methods of bny objects pending finblizbtion.
      * <p>
-     * Calling this method suggests that the Java Virtual Machine expend
-     * effort toward running the <code>finalize</code> methods of objects
-     * that have been found to be discarded but whose <code>finalize</code>
-     * methods have not yet been run. When control returns from the
-     * method call, the Java Virtual Machine has made a best effort to
-     * complete all outstanding finalizations.
+     * Cblling this method suggests thbt the Jbvb Virtubl Mbchine expend
+     * effort towbrd running the <code>finblize</code> methods of objects
+     * thbt hbve been found to be discbrded but whose <code>finblize</code>
+     * methods hbve not yet been run. When control returns from the
+     * method cbll, the Jbvb Virtubl Mbchine hbs mbde b best effort to
+     * complete bll outstbnding finblizbtions.
      * <p>
-     * The call <code>System.runFinalization()</code> is effectively
-     * equivalent to the call:
+     * The cbll <code>System.runFinblizbtion()</code> is effectively
+     * equivblent to the cbll:
      * <blockquote><pre>
-     * Runtime.getRuntime().runFinalization()
+     * Runtime.getRuntime().runFinblizbtion()
      * </pre></blockquote>
      *
-     * @see     java.lang.Runtime#runFinalization()
+     * @see     jbvb.lbng.Runtime#runFinblizbtion()
      */
-    public static void runFinalization() {
-        Runtime.getRuntime().runFinalization();
+    public stbtic void runFinblizbtion() {
+        Runtime.getRuntime().runFinblizbtion();
     }
 
     /**
-     * Enable or disable finalization on exit; doing so specifies that the
-     * finalizers of all objects that have finalizers that have not yet been
-     * automatically invoked are to be run before the Java runtime exits.
-     * By default, finalization on exit is disabled.
+     * Enbble or disbble finblizbtion on exit; doing so specifies thbt the
+     * finblizers of bll objects thbt hbve finblizers thbt hbve not yet been
+     * butombticblly invoked bre to be run before the Jbvb runtime exits.
+     * By defbult, finblizbtion on exit is disbbled.
      *
-     * <p>If there is a security manager,
-     * its <code>checkExit</code> method is first called
-     * with 0 as its argument to ensure the exit is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its <code>checkExit</code> method is first cblled
+     * with 0 bs its brgument to ensure the exit is bllowed.
+     * This could result in b SecurityException.
      *
-     * @deprecated  This method is inherently unsafe.  It may result in
-     *      finalizers being called on live objects while other threads are
-     *      concurrently manipulating those objects, resulting in erratic
-     *      behavior or deadlock.
-     * @param value indicating enabling or disabling of finalization
+     * @deprecbted  This method is inherently unsbfe.  It mby result in
+     *      finblizers being cblled on live objects while other threbds bre
+     *      concurrently mbnipulbting those objects, resulting in errbtic
+     *      behbvior or debdlock.
+     * @pbrbm vblue indicbting enbbling or disbbling of finblizbtion
      * @throws  SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow the exit.
+     *        if b security mbnbger exists bnd its <code>checkExit</code>
+     *        method doesn't bllow the exit.
      *
-     * @see     java.lang.Runtime#exit(int)
-     * @see     java.lang.Runtime#gc()
-     * @see     java.lang.SecurityManager#checkExit(int)
+     * @see     jbvb.lbng.Runtime#exit(int)
+     * @see     jbvb.lbng.Runtime#gc()
+     * @see     jbvb.lbng.SecurityMbnbger#checkExit(int)
      * @since   1.1
      */
-    @Deprecated
-    public static void runFinalizersOnExit(boolean value) {
-        Runtime.runFinalizersOnExit(value);
+    @Deprecbted
+    public stbtic void runFinblizersOnExit(boolebn vblue) {
+        Runtime.runFinblizersOnExit(vblue);
     }
 
     /**
-     * Loads the native library specified by the filename argument.  The filename
-     * argument must be an absolute path name.
+     * Lobds the nbtive librbry specified by the filenbme brgument.  The filenbme
+     * brgument must be bn bbsolute pbth nbme.
      *
-     * If the filename argument, when stripped of any platform-specific library
-     * prefix, path, and file extension, indicates a library whose name is,
-     * for example, L, and a native library called L is statically linked
-     * with the VM, then the JNI_OnLoad_L function exported by the library
-     * is invoked rather than attempting to load a dynamic library.
-     * A filename matching the argument does not have to exist in the
+     * If the filenbme brgument, when stripped of bny plbtform-specific librbry
+     * prefix, pbth, bnd file extension, indicbtes b librbry whose nbme is,
+     * for exbmple, L, bnd b nbtive librbry cblled L is stbticblly linked
+     * with the VM, then the JNI_OnLobd_L function exported by the librbry
+     * is invoked rbther thbn bttempting to lobd b dynbmic librbry.
+     * A filenbme mbtching the brgument does not hbve to exist in the
      * file system.
-     * See the JNI Specification for more details.
+     * See the JNI Specificbtion for more detbils.
      *
-     * Otherwise, the filename argument is mapped to a native library image in
-     * an implementation-dependent manner.
+     * Otherwise, the filenbme brgument is mbpped to b nbtive librbry imbge in
+     * bn implementbtion-dependent mbnner.
      *
      * <p>
-     * The call <code>System.load(name)</code> is effectively equivalent
-     * to the call:
+     * The cbll <code>System.lobd(nbme)</code> is effectively equivblent
+     * to the cbll:
      * <blockquote><pre>
-     * Runtime.getRuntime().load(name)
+     * Runtime.getRuntime().lobd(nbme)
      * </pre></blockquote>
      *
-     * @param      filename   the file to load.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError  if either the filename is not an
-     *             absolute path name, the native library is not statically
-     *             linked with the VM, or the library cannot be mapped to
-     *             a native library image by the host system.
-     * @exception  NullPointerException if <code>filename</code> is
+     * @pbrbm      filenbme   the file to lobd.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkLink</code> method doesn't bllow
+     *             lobding of the specified dynbmic librbry
+     * @exception  UnsbtisfiedLinkError  if either the filenbme is not bn
+     *             bbsolute pbth nbme, the nbtive librbry is not stbticblly
+     *             linked with the VM, or the librbry cbnnot be mbpped to
+     *             b nbtive librbry imbge by the host system.
+     * @exception  NullPointerException if <code>filenbme</code> is
      *             <code>null</code>
-     * @see        java.lang.Runtime#load(java.lang.String)
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @see        jbvb.lbng.Runtime#lobd(jbvb.lbng.String)
+     * @see        jbvb.lbng.SecurityMbnbger#checkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public static void load(String filename) {
-        Runtime.getRuntime().load0(Reflection.getCallerClass(), filename);
+    @CbllerSensitive
+    public stbtic void lobd(String filenbme) {
+        Runtime.getRuntime().lobd0(Reflection.getCbllerClbss(), filenbme);
     }
 
     /**
-     * Loads the native library specified by the <code>libname</code>
-     * argument.  The <code>libname</code> argument must not contain any platform
-     * specific prefix, file extension or path. If a native library
-     * called <code>libname</code> is statically linked with the VM, then the
-     * JNI_OnLoad_<code>libname</code> function exported by the library is invoked.
-     * See the JNI Specification for more details.
+     * Lobds the nbtive librbry specified by the <code>libnbme</code>
+     * brgument.  The <code>libnbme</code> brgument must not contbin bny plbtform
+     * specific prefix, file extension or pbth. If b nbtive librbry
+     * cblled <code>libnbme</code> is stbticblly linked with the VM, then the
+     * JNI_OnLobd_<code>libnbme</code> function exported by the librbry is invoked.
+     * See the JNI Specificbtion for more detbils.
      *
-     * Otherwise, the libname argument is loaded from a system library
-     * location and mapped to a native library image in an implementation-
-     * dependent manner.
+     * Otherwise, the libnbme brgument is lobded from b system librbry
+     * locbtion bnd mbpped to b nbtive librbry imbge in bn implementbtion-
+     * dependent mbnner.
      * <p>
-     * The call <code>System.loadLibrary(name)</code> is effectively
-     * equivalent to the call
+     * The cbll <code>System.lobdLibrbry(nbme)</code> is effectively
+     * equivblent to the cbll
      * <blockquote><pre>
-     * Runtime.getRuntime().loadLibrary(name)
+     * Runtime.getRuntime().lobdLibrbry(nbme)
      * </pre></blockquote>
      *
-     * @param      libname   the name of the library.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError if either the libname argument
-     *             contains a file path, the native library is not statically
-     *             linked with the VM,  or the library cannot be mapped to a
-     *             native library image by the host system.
-     * @exception  NullPointerException if <code>libname</code> is
+     * @pbrbm      libnbme   the nbme of the librbry.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkLink</code> method doesn't bllow
+     *             lobding of the specified dynbmic librbry
+     * @exception  UnsbtisfiedLinkError if either the libnbme brgument
+     *             contbins b file pbth, the nbtive librbry is not stbticblly
+     *             linked with the VM,  or the librbry cbnnot be mbpped to b
+     *             nbtive librbry imbge by the host system.
+     * @exception  NullPointerException if <code>libnbme</code> is
      *             <code>null</code>
-     * @see        java.lang.Runtime#loadLibrary(java.lang.String)
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @see        jbvb.lbng.Runtime#lobdLibrbry(jbvb.lbng.String)
+     * @see        jbvb.lbng.SecurityMbnbger#checkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public static void loadLibrary(String libname) {
-        Runtime.getRuntime().loadLibrary0(Reflection.getCallerClass(), libname);
+    @CbllerSensitive
+    public stbtic void lobdLibrbry(String libnbme) {
+        Runtime.getRuntime().lobdLibrbry0(Reflection.getCbllerClbss(), libnbme);
     }
 
     /**
-     * Maps a library name into a platform-specific string representing
-     * a native library.
+     * Mbps b librbry nbme into b plbtform-specific string representing
+     * b nbtive librbry.
      *
-     * @param      libname the name of the library.
-     * @return     a platform-dependent native library name.
-     * @exception  NullPointerException if <code>libname</code> is
+     * @pbrbm      libnbme the nbme of the librbry.
+     * @return     b plbtform-dependent nbtive librbry nbme.
+     * @exception  NullPointerException if <code>libnbme</code> is
      *             <code>null</code>
-     * @see        java.lang.System#loadLibrary(java.lang.String)
-     * @see        java.lang.ClassLoader#findLibrary(java.lang.String)
+     * @see        jbvb.lbng.System#lobdLibrbry(jbvb.lbng.String)
+     * @see        jbvb.lbng.ClbssLobder#findLibrbry(jbvb.lbng.String)
      * @since      1.2
      */
-    public static native String mapLibraryName(String libname);
+    public stbtic nbtive String mbpLibrbryNbme(String libnbme);
 
     /**
-     * Create PrintStream for stdout/err based on encoding.
+     * Crebte PrintStrebm for stdout/err bbsed on encoding.
      */
-    private static PrintStream newPrintStream(FileOutputStream fos, String enc) {
+    privbte stbtic PrintStrebm newPrintStrebm(FileOutputStrebm fos, String enc) {
        if (enc != null) {
             try {
-                return new PrintStream(new BufferedOutputStream(fos, 128), true, enc);
-            } catch (UnsupportedEncodingException uee) {}
+                return new PrintStrebm(new BufferedOutputStrebm(fos, 128), true, enc);
+            } cbtch (UnsupportedEncodingException uee) {}
         }
-        return new PrintStream(new BufferedOutputStream(fos, 128), true);
+        return new PrintStrebm(new BufferedOutputStrebm(fos, 128), true);
     }
 
 
     /**
-     * Initialize the system class.  Called after thread initialization.
+     * Initiblize the system clbss.  Cblled bfter threbd initiblizbtion.
      */
-    private static void initializeSystemClass() {
+    privbte stbtic void initiblizeSystemClbss() {
 
-        // VM might invoke JNU_NewStringPlatform() to set those encoding
-        // sensitive properties (user.home, user.name, boot.class.path, etc.)
-        // during "props" initialization, in which it may need access, via
-        // System.getProperty(), to the related system encoding property that
-        // have been initialized (put into "props") at early stage of the
-        // initialization. So make sure the "props" is available at the
-        // very beginning of the initialization and all system properties to
+        // VM might invoke JNU_NewStringPlbtform() to set those encoding
+        // sensitive properties (user.home, user.nbme, boot.clbss.pbth, etc.)
+        // during "props" initiblizbtion, in which it mby need bccess, vib
+        // System.getProperty(), to the relbted system encoding property thbt
+        // hbve been initiblized (put into "props") bt ebrly stbge of the
+        // initiblizbtion. So mbke sure the "props" is bvbilbble bt the
+        // very beginning of the initiblizbtion bnd bll system properties to
         // be put into it directly.
         props = new Properties();
-        initProperties(props);  // initialized by the VM
+        initProperties(props);  // initiblized by the VM
 
-        // There are certain system configurations that may be controlled by
-        // VM options such as the maximum amount of direct memory and
-        // Integer cache size used to support the object identity semantics
-        // of autoboxing.  Typically, the library will obtain these values
-        // from the properties set by the VM.  If the properties are for
-        // internal implementation use only, these properties should be
+        // There bre certbin system configurbtions thbt mby be controlled by
+        // VM options such bs the mbximum bmount of direct memory bnd
+        // Integer cbche size used to support the object identity sembntics
+        // of butoboxing.  Typicblly, the librbry will obtbin these vblues
+        // from the properties set by the VM.  If the properties bre for
+        // internbl implementbtion use only, these properties should be
         // removed from the system properties.
         //
-        // See java.lang.Integer.IntegerCache and the
-        // sun.misc.VM.saveAndRemoveProperties method for example.
+        // See jbvb.lbng.Integer.IntegerCbche bnd the
+        // sun.misc.VM.sbveAndRemoveProperties method for exbmple.
         //
-        // Save a private copy of the system properties object that
-        // can only be accessed by the internal implementation.  Remove
-        // certain system properties that are not intended for public access.
-        sun.misc.VM.saveAndRemoveProperties(props);
+        // Sbve b privbte copy of the system properties object thbt
+        // cbn only be bccessed by the internbl implementbtion.  Remove
+        // certbin system properties thbt bre not intended for public bccess.
+        sun.misc.VM.sbveAndRemoveProperties(props);
 
 
-        lineSeparator = props.getProperty("line.separator");
+        lineSepbrbtor = props.getProperty("line.sepbrbtor");
         sun.misc.Version.init();
 
-        FileInputStream fdIn = new FileInputStream(FileDescriptor.in);
-        FileOutputStream fdOut = new FileOutputStream(FileDescriptor.out);
-        FileOutputStream fdErr = new FileOutputStream(FileDescriptor.err);
-        setIn0(new BufferedInputStream(fdIn));
-        setOut0(newPrintStream(fdOut, props.getProperty("sun.stdout.encoding")));
-        setErr0(newPrintStream(fdErr, props.getProperty("sun.stderr.encoding")));
+        FileInputStrebm fdIn = new FileInputStrebm(FileDescriptor.in);
+        FileOutputStrebm fdOut = new FileOutputStrebm(FileDescriptor.out);
+        FileOutputStrebm fdErr = new FileOutputStrebm(FileDescriptor.err);
+        setIn0(new BufferedInputStrebm(fdIn));
+        setOut0(newPrintStrebm(fdOut, props.getProperty("sun.stdout.encoding")));
+        setErr0(newPrintStrebm(fdErr, props.getProperty("sun.stderr.encoding")));
 
-        // Load the zip library now in order to keep java.util.zip.ZipFile
-        // from trying to use itself to load this library later.
-        loadLibrary("zip");
+        // Lobd the zip librbry now in order to keep jbvb.util.zip.ZipFile
+        // from trying to use itself to lobd this librbry lbter.
+        lobdLibrbry("zip");
 
-        // Setup Java signal handlers for HUP, TERM, and INT (where available).
-        Terminator.setup();
+        // Setup Jbvb signbl hbndlers for HUP, TERM, bnd INT (where bvbilbble).
+        Terminbtor.setup();
 
-        // Initialize any miscellenous operating system settings that need to be
-        // set for the class libraries. Currently this is no-op everywhere except
-        // for Windows where the process-wide error mode is set before the java.io
-        // classes are used.
-        sun.misc.VM.initializeOSEnvironment();
+        // Initiblize bny miscellenous operbting system settings thbt need to be
+        // set for the clbss librbries. Currently this is no-op everywhere except
+        // for Windows where the process-wide error mode is set before the jbvb.io
+        // clbsses bre used.
+        sun.misc.VM.initiblizeOSEnvironment();
 
-        // The main thread is not added to its thread group in the same
-        // way as other threads; we must do it ourselves here.
-        Thread current = Thread.currentThread();
-        current.getThreadGroup().add(current);
+        // The mbin threbd is not bdded to its threbd group in the sbme
+        // wby bs other threbds; we must do it ourselves here.
+        Threbd current = Threbd.currentThrebd();
+        current.getThrebdGroup().bdd(current);
 
-        // register shared secrets
-        setJavaLangAccess();
+        // register shbred secrets
+        setJbvbLbngAccess();
 
-        // Subsystems that are invoked during initialization can invoke
-        // sun.misc.VM.isBooted() in order to avoid doing things that should
-        // wait until the application class loader has been set up.
-        // IMPORTANT: Ensure that this remains the last initialization action!
+        // Subsystems thbt bre invoked during initiblizbtion cbn invoke
+        // sun.misc.VM.isBooted() in order to bvoid doing things thbt should
+        // wbit until the bpplicbtion clbss lobder hbs been set up.
+        // IMPORTANT: Ensure thbt this rembins the lbst initiblizbtion bction!
         sun.misc.VM.booted();
     }
 
-    private static void setJavaLangAccess() {
-        // Allow privileged classes outside of java.lang
-        sun.misc.SharedSecrets.setJavaLangAccess(new sun.misc.JavaLangAccess(){
-            public sun.reflect.ConstantPool getConstantPool(Class<?> klass) {
-                return klass.getConstantPool();
+    privbte stbtic void setJbvbLbngAccess() {
+        // Allow privileged clbsses outside of jbvb.lbng
+        sun.misc.ShbredSecrets.setJbvbLbngAccess(new sun.misc.JbvbLbngAccess(){
+            public sun.reflect.ConstbntPool getConstbntPool(Clbss<?> klbss) {
+                return klbss.getConstbntPool();
             }
-            public boolean casAnnotationType(Class<?> klass, AnnotationType oldType, AnnotationType newType) {
-                return klass.casAnnotationType(oldType, newType);
+            public boolebn cbsAnnotbtionType(Clbss<?> klbss, AnnotbtionType oldType, AnnotbtionType newType) {
+                return klbss.cbsAnnotbtionType(oldType, newType);
             }
-            public AnnotationType getAnnotationType(Class<?> klass) {
-                return klass.getAnnotationType();
+            public AnnotbtionType getAnnotbtionType(Clbss<?> klbss) {
+                return klbss.getAnnotbtionType();
             }
-            public Map<Class<? extends Annotation>, Annotation> getDeclaredAnnotationMap(Class<?> klass) {
-                return klass.getDeclaredAnnotationMap();
+            public Mbp<Clbss<? extends Annotbtion>, Annotbtion> getDeclbredAnnotbtionMbp(Clbss<?> klbss) {
+                return klbss.getDeclbredAnnotbtionMbp();
             }
-            public byte[] getRawClassAnnotations(Class<?> klass) {
-                return klass.getRawAnnotations();
+            public byte[] getRbwClbssAnnotbtions(Clbss<?> klbss) {
+                return klbss.getRbwAnnotbtions();
             }
-            public byte[] getRawClassTypeAnnotations(Class<?> klass) {
-                return klass.getRawTypeAnnotations();
+            public byte[] getRbwClbssTypeAnnotbtions(Clbss<?> klbss) {
+                return klbss.getRbwTypeAnnotbtions();
             }
-            public byte[] getRawExecutableTypeAnnotations(Executable executable) {
-                return Class.getExecutableTypeAnnotationBytes(executable);
+            public byte[] getRbwExecutbbleTypeAnnotbtions(Executbble executbble) {
+                return Clbss.getExecutbbleTypeAnnotbtionBytes(executbble);
             }
             public <E extends Enum<E>>
-                    E[] getEnumConstantsShared(Class<E> klass) {
-                return klass.getEnumConstantsShared();
+                    E[] getEnumConstbntsShbred(Clbss<E> klbss) {
+                return klbss.getEnumConstbntsShbred();
             }
-            public void blockedOn(Thread t, Interruptible b) {
+            public void blockedOn(Threbd t, Interruptible b) {
                 t.blockedOn(b);
             }
-            public void registerShutdownHook(int slot, boolean registerShutdownInProgress, Runnable hook) {
-                Shutdown.add(slot, registerShutdownInProgress, hook);
+            public void registerShutdownHook(int slot, boolebn registerShutdownInProgress, Runnbble hook) {
+                Shutdown.bdd(slot, registerShutdownInProgress, hook);
             }
-            public int getStackTraceDepth(Throwable t) {
-                return t.getStackTraceDepth();
+            public int getStbckTrbceDepth(Throwbble t) {
+                return t.getStbckTrbceDepth();
             }
-            public StackTraceElement getStackTraceElement(Throwable t, int i) {
-                return t.getStackTraceElement(i);
+            public StbckTrbceElement getStbckTrbceElement(Throwbble t, int i) {
+                return t.getStbckTrbceElement(i);
             }
-            public String newStringUnsafe(char[] chars) {
-                return new String(chars, true);
+            public String newStringUnsbfe(chbr[] chbrs) {
+                return new String(chbrs, true);
             }
-            public Thread newThreadWithAcc(Runnable target, AccessControlContext acc) {
-                return new Thread(target, acc);
+            public Threbd newThrebdWithAcc(Runnbble tbrget, AccessControlContext bcc) {
+                return new Threbd(tbrget, bcc);
             }
-            public void invokeFinalize(Object o) throws Throwable {
-                o.finalize();
+            public void invokeFinblize(Object o) throws Throwbble {
+                o.finblize();
             }
-            public void formatUnsignedLong(long val, int shift, char[] buf, int offset, int len) {
-                Long.formatUnsignedLong(val, shift, buf, offset, len);
+            public void formbtUnsignedLong(long vbl, int shift, chbr[] buf, int offset, int len) {
+                Long.formbtUnsignedLong(vbl, shift, buf, offset, len);
             }
-            public void formatUnsignedInt(int val, int shift, char[] buf, int offset, int len) {
-                Integer.formatUnsignedInt(val, shift, buf, offset, len);
+            public void formbtUnsignedInt(int vbl, int shift, chbr[] buf, int offset, int len) {
+                Integer.formbtUnsignedInt(vbl, shift, buf, offset, len);
             }
         });
     }

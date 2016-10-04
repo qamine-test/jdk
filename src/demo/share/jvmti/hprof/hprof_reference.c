@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,134 +30,134 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Object references table (used in hprof_object.c). */
+/* Object references tbble (used in hprof_object.c). */
 
 /*
- * This table is used by the object table to store object reference
- *   and primitive data information obtained from iterations over the
- *   heap (see hprof_site.c).
+ * This tbble is used by the object tbble to store object reference
+ *   bnd primitive dbtb informbtion obtbined from iterbtions over the
+ *   hebp (see hprof_site.c).
  *
- * Most of these table entries have no Key, but the key is used to store
- *   the primitive array and primitive field jvalue. None of these entries
- *   are ever looked up, there will be no hash table, use of the
- *   LookupTable was just an easy way to handle a unbounded table of
- *   entries. The object table (see hprof_object.c) will completely
- *   free this reference table after each heap dump or after processing the
- *   references and primitive data.
+ * Most of these tbble entries hbve no Key, but the key is used to store
+ *   the primitive brrby bnd primitive field jvblue. None of these entries
+ *   bre ever looked up, there will be no hbsh tbble, use of the
+ *   LookupTbble wbs just bn ebsy wby to hbndle b unbounded tbble of
+ *   entries. The object tbble (see hprof_object.c) will completely
+ *   free this reference tbble bfter ebch hebp dump or bfter processing the
+ *   references bnd primitive dbtb.
  *
- * The hprof format required this accumulation of all heap iteration
- *   references and primitive data from objects in order to compose an
+ * The hprof formbt required this bccumulbtion of bll hebp iterbtion
+ *   references bnd primitive dbtb from objects in order to compose bn
  *   hprof records for it.
  *
- * This file contains detailed understandings of how an hprof CLASS
- *   and INSTANCE dump is constructed, most of this is derived from the
- *   original hprof code, but some has been derived by reading the HAT
- *   code that accepts this format.
+ * This file contbins detbiled understbndings of how bn hprof CLASS
+ *   bnd INSTANCE dump is constructed, most of this is derived from the
+ *   originbl hprof code, but some hbs been derived by rebding the HAT
+ *   code thbt bccepts this formbt.
  *
  */
 
 #include "hprof.h"
 
-/* The flavor of data being saved in the RefInfo */
+/* The flbvor of dbtb being sbved in the RefInfo */
 enum {
     INFO_OBJECT_REF_DATA    = 1,
     INFO_PRIM_FIELD_DATA    = 2,
     INFO_PRIM_ARRAY_DATA    = 3
 };
 
-/* Reference information, object reference or primitive data information */
+/* Reference informbtion, object reference or primitive dbtb informbtion */
 typedef struct RefInfo {
-    ObjectIndex object_index; /* If an object reference, the referree index */
-    jint        index;        /* If array or field, array or field index */
-    jint        length;       /* If array the element count, if not -1 */
-    RefIndex    next;         /* The next table element */
-    unsigned    flavor   : 8; /* INFO_*, flavor of RefInfo */
+    ObjectIndex object_index; /* If bn object reference, the referree index */
+    jint        index;        /* If brrby or field, brrby or field index */
+    jint        length;       /* If brrby the element count, if not -1 */
+    RefIndex    next;         /* The next tbble element */
+    unsigned    flbvor   : 8; /* INFO_*, flbvor of RefInfo */
     unsigned    refKind  : 8; /* The kind of reference */
-    unsigned    primType : 8; /* If primitive data involved, it's type */
+    unsigned    primType : 8; /* If primitive dbtb involved, it's type */
 } RefInfo;
 
-/* Private internal functions. */
+/* Privbte internbl functions. */
 
-/* Get the RefInfo structure from an entry */
-static RefInfo *
+/* Get the RefInfo structure from bn entry */
+stbtic RefInfo *
 get_info(RefIndex index)
 {
     RefInfo *info;
 
-    info = (RefInfo*)table_get_info(gdata->reference_table, index);
+    info = (RefInfo*)tbble_get_info(gdbtb->reference_tbble, index);
     return info;
 }
 
-/* Get a jvalue that was stored as the key. */
-static jvalue
-get_key_value(RefIndex index)
+/* Get b jvblue thbt wbs stored bs the key. */
+stbtic jvblue
+get_key_vblue(RefIndex index)
 {
     void  *key;
     int    len;
-    jvalue value;
-    static jvalue empty_value;
+    jvblue vblue;
+    stbtic jvblue empty_vblue;
 
     key = NULL;
-    table_get_key(gdata->reference_table, index, &key, &len);
+    tbble_get_key(gdbtb->reference_tbble, index, &key, &len);
     HPROF_ASSERT(key!=NULL);
-    HPROF_ASSERT(len==(int)sizeof(jvalue));
+    HPROF_ASSERT(len==(int)sizeof(jvblue));
     if ( key != NULL ) {
-        (void)memcpy(&value, key, (int)sizeof(jvalue));
+        (void)memcpy(&vblue, key, (int)sizeof(jvblue));
     } else {
-        value = empty_value;
+        vblue = empty_vblue;
     }
-    return value;
+    return vblue;
 }
 
-/* Get size of a primitive type */
-static jint
+/* Get size of b primitive type */
+stbtic jint
 get_prim_size(jvmtiPrimitiveType primType)
 {
     jint size;
 
     switch ( primType ) {
-        case JVMTI_PRIMITIVE_TYPE_BOOLEAN:
-            size = (jint)sizeof(jboolean);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_BYTE:
+        cbse JVMTI_PRIMITIVE_TYPE_BOOLEAN:
+            size = (jint)sizeof(jboolebn);
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_BYTE:
             size = (jint)sizeof(jbyte);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_CHAR:
-            size = (jint)sizeof(jchar);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_SHORT:
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_CHAR:
+            size = (jint)sizeof(jchbr);
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_SHORT:
             size = (jint)sizeof(jshort);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_INT:
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_INT:
             size = (jint)sizeof(jint);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_FLOAT:
-            size = (jint)sizeof(jfloat);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_LONG:
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_FLOAT:
+            size = (jint)sizeof(jflobt);
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_LONG:
             size = (jint)sizeof(jlong);
-            break;
-        case JVMTI_PRIMITIVE_TYPE_DOUBLE:
+            brebk;
+        cbse JVMTI_PRIMITIVE_TYPE_DOUBLE:
             size = (jint)sizeof(jdouble);
-            break;
-        default:
+            brebk;
+        defbult:
             HPROF_ASSERT(0);
             size = 1;
-            break;
+            brebk;
     }
     return size;
 }
 
-/* Get a void* elements array that was stored as the key. */
-static void *
+/* Get b void* elements brrby thbt wbs stored bs the key. */
+stbtic void *
 get_key_elements(RefIndex index, jvmtiPrimitiveType primType,
                  jint *nelements, jint *nbytes)
 {
@@ -167,7 +167,7 @@ get_key_elements(RefIndex index, jvmtiPrimitiveType primType,
     HPROF_ASSERT(nelements!=NULL);
     HPROF_ASSERT(nbytes!=NULL);
 
-    table_get_key(gdata->reference_table, index, &key, &byteLen);
+    tbble_get_key(gdbtb->reference_tbble, index, &key, &byteLen);
     HPROF_ASSERT(byteLen>=0);
     HPROF_ASSERT(byteLen!=0?key!=NULL:key==NULL);
     *nbytes      = byteLen;
@@ -175,11 +175,11 @@ get_key_elements(RefIndex index, jvmtiPrimitiveType primType,
     return key;
 }
 
-/* Dump a RefInfo* structure */
-static void
+/* Dump b RefInfo* structure */
+stbtic void
 dump_ref_info(RefInfo *info)
 {
-    debug_message("[%d]: flavor=%d"
+    debug_messbge("[%d]: flbvor=%d"
                           ", refKind=%d"
                           ", primType=%d"
                           ", object_index=0x%x"
@@ -187,7 +187,7 @@ dump_ref_info(RefInfo *info)
                           ", next=0x%x"
                           "\n",
             info->index,
-            info->flavor,
+            info->flbvor,
             info->refKind,
             info->primType,
             info->object_index,
@@ -195,14 +195,14 @@ dump_ref_info(RefInfo *info)
             info->next);
 }
 
-/* Dump a RefIndex list */
-static void
+/* Dump b RefIndex list */
+stbtic void
 dump_ref_list(RefIndex list)
 {
     RefInfo *info;
     RefIndex index;
 
-    debug_message("\nFOLLOW REFERENCES RETURNED:\n");
+    debug_messbge("\nFOLLOW REFERENCES RETURNED:\n");
     index = list;
     while ( index != 0 ) {
         info = get_info(index);
@@ -211,126 +211,126 @@ dump_ref_list(RefIndex list)
     }
 }
 
-/* Dump information about a field and what ref data we had on it */
-static void
-dump_field(FieldInfo *fields, jvalue *fvalues, int n_fields,
-                jint index, jvalue value, jvmtiPrimitiveType primType)
+/* Dump informbtion bbout b field bnd whbt ref dbtb we hbd on it */
+stbtic void
+dump_field(FieldInfo *fields, jvblue *fvblues, int n_fields,
+                jint index, jvblue vblue, jvmtiPrimitiveType primType)
 {
-    ClassIndex  cnum;
-    StringIndex name;
+    ClbssIndex  cnum;
+    StringIndex nbme;
     StringIndex sig;
 
     cnum = fields[index].cnum;
-    name = fields[index].name_index;
+    nbme = fields[index].nbme_index;
     sig  = fields[index].sig_index;
-    debug_message("[%d] %s \"%s\" \"%s\"",
+    debug_messbge("[%d] %s \"%s\" \"%s\"",
           index,
-          cnum!=0?string_get(class_get_signature(cnum)):"?",
-          name!=0?string_get(name):"?",
+          cnum!=0?string_get(clbss_get_signbture(cnum)):"?",
+          nbme!=0?string_get(nbme):"?",
           sig!=0?string_get(sig):"?");
     if ( fields[index].primType!=0 || fields[index].primType!=primType ) {
-        debug_message(" (primType=%d(%c)",
+        debug_messbge(" (primType=%d(%c)",
           fields[index].primType,
-          primTypeToSigChar(fields[index].primType));
+          primTypeToSigChbr(fields[index].primType));
         if ( primType != fields[index].primType ) {
-            debug_message(", got %d(%c)",
+            debug_messbge(", got %d(%c)",
               primType,
-              primTypeToSigChar(primType));
+              primTypeToSigChbr(primType));
         }
-        debug_message(")");
+        debug_messbge(")");
     } else {
-        debug_message("(ty=OBJ)");
+        debug_messbge("(ty=OBJ)");
     }
-    if ( value.j != (jlong)0 || fvalues[index].j != (jlong)0 ) {
-        debug_message(" val=[0x%08x,0x%08x] or [0x%08x,0x%08x]",
-            jlong_high(value.j), jlong_low(value.j),
-            jlong_high(fvalues[index].j), jlong_low(fvalues[index].j));
+    if ( vblue.j != (jlong)0 || fvblues[index].j != (jlong)0 ) {
+        debug_messbge(" vbl=[0x%08x,0x%08x] or [0x%08x,0x%08x]",
+            jlong_high(vblue.j), jlong_low(vblue.j),
+            jlong_high(fvblues[index].j), jlong_low(fvblues[index].j));
     }
-    debug_message("\n");
+    debug_messbge("\n");
 }
 
-/* Dump all the fields of interest */
-static void
-dump_fields(RefIndex list, FieldInfo *fields, jvalue *fvalues, int n_fields)
+/* Dump bll the fields of interest */
+stbtic void
+dump_fields(RefIndex list, FieldInfo *fields, jvblue *fvblues, int n_fields)
 {
     int i;
 
-    debug_message("\nHPROF LIST OF ALL FIELDS:\n");
+    debug_messbge("\nHPROF LIST OF ALL FIELDS:\n");
     for ( i = 0 ; i < n_fields ; i++ ) {
-        if ( fields[i].name_index != 0 ) {
-            dump_field(fields, fvalues, n_fields, i, fvalues[i], fields[i].primType);
+        if ( fields[i].nbme_index != 0 ) {
+            dump_field(fields, fvblues, n_fields, i, fvblues[i], fields[i].primType);
         }
     }
     dump_ref_list(list);
 }
 
-/* Verify field data */
-static void
-verify_field(RefIndex list, FieldInfo *fields, jvalue *fvalues, int n_fields,
-                jint index, jvalue value, jvmtiPrimitiveType primType)
+/* Verify field dbtb */
+stbtic void
+verify_field(RefIndex list, FieldInfo *fields, jvblue *fvblues, int n_fields,
+                jint index, jvblue vblue, jvmtiPrimitiveType primType)
 {
-    HPROF_ASSERT(fvalues != NULL);
+    HPROF_ASSERT(fvblues != NULL);
     HPROF_ASSERT(n_fields > 0);
     HPROF_ASSERT(index < n_fields);
     HPROF_ASSERT(index >= 0 );
     if ( primType!=fields[index].primType ) {
-        dump_fields(list, fields, fvalues, n_fields);
-        debug_message("\nPROBLEM WITH:\n");
-        dump_field(fields, fvalues, n_fields, index, value, primType);
-        debug_message("\n");
-        HPROF_ERROR(JNI_FALSE, "Trouble with fields and heap data");
+        dump_fields(list, fields, fvblues, n_fields);
+        debug_messbge("\nPROBLEM WITH:\n");
+        dump_field(fields, fvblues, n_fields, index, vblue, primType);
+        debug_messbge("\n");
+        HPROF_ERROR(JNI_FALSE, "Trouble with fields bnd hebp dbtb");
     }
     if ( primType == JVMTI_PRIMITIVE_TYPE_BOOLEAN &&
-         ( value.b != 1 && value.b != 0 ) ) {
-        dump_fields(list, fields, fvalues, n_fields);
-        debug_message("\nPROBLEM WITH:\n");
-        dump_field(fields, fvalues, n_fields, index, value, primType);
-        debug_message("\n");
-        HPROF_ERROR(JNI_FALSE, "Trouble with fields and heap data");
+         ( vblue.b != 1 && vblue.b != 0 ) ) {
+        dump_fields(list, fields, fvblues, n_fields);
+        debug_messbge("\nPROBLEM WITH:\n");
+        dump_field(fields, fvblues, n_fields, index, vblue, primType);
+        debug_messbge("\n");
+        HPROF_ERROR(JNI_FALSE, "Trouble with fields bnd hebp dbtb");
     }
 }
 
-/* Fill in a field value, making sure the index is safe */
-static void
-fill_in_field_value(RefIndex list, FieldInfo *fields, jvalue *fvalues,
-                    int n_fields, jint index, jvalue value,
+/* Fill in b field vblue, mbking sure the index is sbfe */
+stbtic void
+fill_in_field_vblue(RefIndex list, FieldInfo *fields, jvblue *fvblues,
+                    int n_fields, jint index, jvblue vblue,
                     jvmtiPrimitiveType primType)
 {
-    HPROF_ASSERT(fvalues != NULL);
+    HPROF_ASSERT(fvblues != NULL);
     HPROF_ASSERT(n_fields > 0);
     HPROF_ASSERT(index < n_fields);
     HPROF_ASSERT(index >= 0 );
-    HPROF_ASSERT(fvalues[index].j==(jlong)0);
-    verify_field(list, fields, fvalues, n_fields, index, value, primType);
+    HPROF_ASSERT(fvblues[index].j==(jlong)0);
+    verify_field(list, fields, fvblues, n_fields, index, vblue, primType);
     if (index >= 0 && index < n_fields) {
-        fvalues[index] = value;
+        fvblues[index] = vblue;
     }
 }
 
-/* Walk all references for an ObjectIndex and construct the hprof CLASS dump. */
-static void
-dump_class_and_supers(JNIEnv *env, ObjectIndex object_index, RefIndex list)
+/* Wblk bll references for bn ObjectIndex bnd construct the hprof CLASS dump. */
+stbtic void
+dump_clbss_bnd_supers(JNIEnv *env, ObjectIndex object_index, RefIndex list)
 {
     SiteIndex    site_index;
-    SerialNumber trace_serial_num;
+    SeriblNumber trbce_seribl_num;
     RefIndex     index;
-    ClassIndex   super_cnum;
+    ClbssIndex   super_cnum;
     ObjectIndex  super_index;
-    LoaderIndex  loader_index;
+    LobderIndex  lobder_index;
     ObjectIndex  signers_index;
-    ObjectIndex  domain_index;
+    ObjectIndex  dombin_index;
     FieldInfo   *fields;
-    jvalue      *fvalues;
+    jvblue      *fvblues;
     jint         n_fields;
-    jboolean     skip_fields;
+    jboolebn     skip_fields;
     jint         n_fields_set;
     jlong        size;
-    ClassIndex   cnum;
-    char        *sig;
+    ClbssIndex   cnum;
+    chbr        *sig;
     ObjectKind   kind;
-    TraceIndex   trace_index;
-    Stack       *cpool_values;
-    ConstantPoolValue *cpool;
+    TrbceIndex   trbce_index;
+    Stbck       *cpool_vblues;
+    ConstbntPoolVblue *cpool;
     jint         cpool_count;
 
     HPROF_ASSERT(object_index!=0);
@@ -340,188 +340,188 @@ dump_class_and_supers(JNIEnv *env, ObjectIndex object_index, RefIndex list)
     }
     site_index         = object_get_site(object_index);
     HPROF_ASSERT(site_index!=0);
-    cnum        = site_get_class_index(site_index);
+    cnum        = site_get_clbss_index(site_index);
     HPROF_ASSERT(cnum!=0);
-    if ( class_get_status(cnum) & CLASS_DUMPED ) {
+    if ( clbss_get_stbtus(cnum) & CLASS_DUMPED ) {
         return;
     }
-    class_add_status(cnum, CLASS_DUMPED);
+    clbss_bdd_stbtus(cnum, CLASS_DUMPED);
     size        = (jlong)object_get_size(object_index);
 
     super_index = 0;
-    super_cnum  = class_get_super(cnum);
+    super_cnum  = clbss_get_super(cnum);
     if ( super_cnum != 0 ) {
-        super_index  = class_get_object_index(super_cnum);
+        super_index  = clbss_get_object_index(super_cnum);
         if ( super_index != 0 ) {
-            dump_class_and_supers(env, super_index,
+            dump_clbss_bnd_supers(env, super_index,
                         object_get_references(super_index));
         }
     }
 
-    trace_index      = site_get_trace_index(site_index);
-    HPROF_ASSERT(trace_index!=0);
-    trace_serial_num = trace_get_serial_number(trace_index);
-    sig              = string_get(class_get_signature(cnum));
-    loader_index     = class_get_loader(cnum);
+    trbce_index      = site_get_trbce_index(site_index);
+    HPROF_ASSERT(trbce_index!=0);
+    trbce_seribl_num = trbce_get_seribl_number(trbce_index);
+    sig              = string_get(clbss_get_signbture(cnum));
+    lobder_index     = clbss_get_lobder(cnum);
     signers_index    = 0;
-    domain_index     = 0;
+    dombin_index     = 0;
 
-    /* Get field information */
+    /* Get field informbtion */
     n_fields     = 0;
     skip_fields  = JNI_FALSE;
     n_fields_set = 0;
     fields       = NULL;
-    fvalues      = NULL;
-    if ( class_get_all_fields(env, cnum, &n_fields, &fields) == 1 ) {
-        /* Problems getting all the fields, can't trust field index values */
+    fvblues      = NULL;
+    if ( clbss_get_bll_fields(env, cnum, &n_fields, &fields) == 1 ) {
+        /* Problems getting bll the fields, cbn't trust field index vblues */
         skip_fields = JNI_TRUE;
-        /* Class with no references at all? (ok to be unprepared if list==0?) */
+        /* Clbss with no references bt bll? (ok to be unprepbred if list==0?) */
         if ( list != 0 ) {
-            /* It is assumed that the reason why we didn't get the fields
-             *     was because the class is not prepared.
+            /* It is bssumed thbt the rebson why we didn't get the fields
+             *     wbs becbuse the clbss is not prepbred.
              */
-            if ( gdata->debugflags & DEBUGFLAG_UNPREPARED_CLASSES ) {
+            if ( gdbtb->debugflbgs & DEBUGFLAG_UNPREPARED_CLASSES ) {
                 dump_ref_list(list);
-                debug_message("Unprepared class with references: %s\n",
+                debug_messbge("Unprepbred clbss with references: %s\n",
                                sig);
             }
-            HPROF_ERROR(JNI_FALSE, "Trouble with unprepared classes");
+            HPROF_ERROR(JNI_FALSE, "Trouble with unprepbred clbsses");
         }
-        /* Why would an unprepared class contain references? */
+        /* Why would bn unprepbred clbss contbin references? */
     }
     if ( n_fields > 0 ) {
-        fvalues      = (jvalue*)HPROF_MALLOC(n_fields*(int)sizeof(jvalue));
-        (void)memset(fvalues, 0, n_fields*(int)sizeof(jvalue));
+        fvblues      = (jvblue*)HPROF_MALLOC(n_fields*(int)sizeof(jvblue));
+        (void)memset(fvblues, 0, n_fields*(int)sizeof(jvblue));
     }
 
-    /* We use a Stack just because it will automatically expand as needed */
-    cpool_values = stack_init(16, 16, sizeof(ConstantPoolValue));
+    /* We use b Stbck just becbuse it will butombticblly expbnd bs needed */
+    cpool_vblues = stbck_init(16, 16, sizeof(ConstbntPoolVblue));
     cpool = NULL;
     cpool_count = 0;
 
     index      = list;
     while ( index != 0 ) {
         RefInfo    *info;
-        jvalue      ovalue;
-        static jvalue empty_value;
+        jvblue      ovblue;
+        stbtic jvblue empty_vblue;
 
         info = get_info(index);
 
-        switch ( info->flavor ) {
-            case INFO_OBJECT_REF_DATA:
+        switch ( info->flbvor ) {
+            cbse INFO_OBJECT_REF_DATA:
                 switch ( info->refKind ) {
-                    case JVMTI_HEAP_REFERENCE_FIELD:
-                    case JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
-                        /* Should never be seen on a class dump */
+                    cbse JVMTI_HEAP_REFERENCE_FIELD:
+                    cbse JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+                        /* Should never be seen on b clbss dump */
                         HPROF_ASSERT(0);
-                        break;
-                    case JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_STATIC_FIELD:
                         if ( skip_fields == JNI_TRUE ) {
-                            break;
+                            brebk;
                         }
-                        ovalue   = empty_value;
-                        ovalue.i = info->object_index;
-                        fill_in_field_value(list, fields, fvalues, n_fields,
-                                        info->index, ovalue, 0);
+                        ovblue   = empty_vblue;
+                        ovblue.i = info->object_index;
+                        fill_in_field_vblue(list, fields, fvblues, n_fields,
+                                        info->index, ovblue, 0);
                         n_fields_set++;
                         HPROF_ASSERT(n_fields_set <= n_fields);
-                        break;
-                    case JVMTI_HEAP_REFERENCE_CONSTANT_POOL: {
-                        ConstantPoolValue cpv;
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_CONSTANT_POOL: {
+                        ConstbntPoolVblue cpv;
                         ObjectIndex       cp_object_index;
                         SiteIndex         cp_site_index;
-                        ClassIndex        cp_cnum;
+                        ClbssIndex        cp_cnum;
 
                         cp_object_index = info->object_index;
                         HPROF_ASSERT(cp_object_index!=0);
                         cp_site_index = object_get_site(cp_object_index);
                         HPROF_ASSERT(cp_site_index!=0);
-                        cp_cnum = site_get_class_index(cp_site_index);
-                        cpv.constant_pool_index = info->index;
-                        cpv.sig_index = class_get_signature(cp_cnum);
-                        cpv.value.i = cp_object_index;
-                        stack_push(cpool_values, (void*)&cpv);
+                        cp_cnum = site_get_clbss_index(cp_site_index);
+                        cpv.constbnt_pool_index = info->index;
+                        cpv.sig_index = clbss_get_signbture(cp_cnum);
+                        cpv.vblue.i = cp_object_index;
+                        stbck_push(cpool_vblues, (void*)&cpv);
                         cpool_count++;
-                        break;
+                        brebk;
                         }
-                    case JVMTI_HEAP_REFERENCE_SIGNERS:
+                    cbse JVMTI_HEAP_REFERENCE_SIGNERS:
                         signers_index = info->object_index;
-                        break;
-                    case JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
-                        domain_index = info->object_index;
-                        break;
-                    case JVMTI_HEAP_REFERENCE_CLASS_LOADER:
-                    case JVMTI_HEAP_REFERENCE_INTERFACE:
-                    default:
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+                        dombin_index = info->object_index;
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+                    cbse JVMTI_HEAP_REFERENCE_INTERFACE:
+                    defbult:
                         /* Ignore, not needed */
-                        break;
+                        brebk;
                 }
-                break;
-            case INFO_PRIM_FIELD_DATA:
+                brebk;
+            cbse INFO_PRIM_FIELD_DATA:
                 if ( skip_fields == JNI_TRUE ) {
-                    break;
+                    brebk;
                 }
                 HPROF_ASSERT(info->primType!=0);
                 HPROF_ASSERT(info->length==-1);
                 HPROF_ASSERT(info->refKind==JVMTI_HEAP_REFERENCE_STATIC_FIELD);
-                ovalue = get_key_value(index);
-                fill_in_field_value(list, fields, fvalues, n_fields,
-                                    info->index, ovalue, info->primType);
+                ovblue = get_key_vblue(index);
+                fill_in_field_vblue(list, fields, fvblues, n_fields,
+                                    info->index, ovblue, info->primType);
                 n_fields_set++;
                 HPROF_ASSERT(n_fields_set <= n_fields);
-                break;
-            case INFO_PRIM_ARRAY_DATA:
-            default:
+                brebk;
+            cbse INFO_PRIM_ARRAY_DATA:
+            defbult:
                 /* Should never see these */
                 HPROF_ASSERT(0);
-                break;
+                brebk;
         }
 
         index = info->next;
     }
 
-    /* Get constant pool data if we have any */
-    HPROF_ASSERT(cpool_count==stack_depth(cpool_values));
+    /* Get constbnt pool dbtb if we hbve bny */
+    HPROF_ASSERT(cpool_count==stbck_depth(cpool_vblues));
     if ( cpool_count > 0 ) {
-        cpool = (ConstantPoolValue*)stack_element(cpool_values, 0);
+        cpool = (ConstbntPoolVblue*)stbck_element(cpool_vblues, 0);
     }
-    io_heap_class_dump(cnum, sig, object_index, trace_serial_num,
+    io_hebp_clbss_dump(cnum, sig, object_index, trbce_seribl_num,
             super_index,
-            loader_object_index(env, loader_index),
-            signers_index, domain_index,
-            (jint)size, cpool_count, cpool, n_fields, fields, fvalues);
+            lobder_object_index(env, lobder_index),
+            signers_index, dombin_index,
+            (jint)size, cpool_count, cpool, n_fields, fields, fvblues);
 
-    stack_term(cpool_values);
-    if ( fvalues != NULL ) {
-        HPROF_FREE(fvalues);
+    stbck_term(cpool_vblues);
+    if ( fvblues != NULL ) {
+        HPROF_FREE(fvblues);
     }
 }
 
-/* Walk all references for an ObjectIndex and construct the hprof INST dump. */
-static void
-dump_instance(JNIEnv *env, ObjectIndex object_index, RefIndex list)
+/* Wblk bll references for bn ObjectIndex bnd construct the hprof INST dump. */
+stbtic void
+dump_instbnce(JNIEnv *env, ObjectIndex object_index, RefIndex list)
 {
     jvmtiPrimitiveType primType;
     SiteIndex    site_index;
-    SerialNumber trace_serial_num;
+    SeriblNumber trbce_seribl_num;
     RefIndex     index;
-    ObjectIndex  class_index;
+    ObjectIndex  clbss_index;
     jlong        size;
-    ClassIndex   cnum;
-    char        *sig;
+    ClbssIndex   cnum;
+    chbr        *sig;
     void        *elements;
     jint         num_elements;
     jint         num_bytes;
-    ObjectIndex *values;
+    ObjectIndex *vblues;
     FieldInfo   *fields;
-    jvalue      *fvalues;
+    jvblue      *fvblues;
     jint         n_fields;
-    jboolean     skip_fields;
+    jboolebn     skip_fields;
     jint         n_fields_set;
     ObjectKind   kind;
-    TraceIndex   trace_index;
-    jboolean     is_array;
-    jboolean     is_prim_array;
+    TrbceIndex   trbce_index;
+    jboolebn     is_brrby;
+    jboolebn     is_prim_brrby;
 
     HPROF_ASSERT(object_index!=0);
     kind        = object_get_kind(object_index);
@@ -530,16 +530,16 @@ dump_instance(JNIEnv *env, ObjectIndex object_index, RefIndex list)
     }
     site_index       = object_get_site(object_index);
     HPROF_ASSERT(site_index!=0);
-    cnum             = site_get_class_index(site_index);
+    cnum             = site_get_clbss_index(site_index);
     HPROF_ASSERT(cnum!=0);
     size             = (jlong)object_get_size(object_index);
-    trace_index      = site_get_trace_index(site_index);
-    HPROF_ASSERT(trace_index!=0);
-    trace_serial_num = trace_get_serial_number(trace_index);
-    sig              = string_get(class_get_signature(cnum));
-    class_index      = class_get_object_index(cnum);
+    trbce_index      = site_get_trbce_index(site_index);
+    HPROF_ASSERT(trbce_index!=0);
+    trbce_seribl_num = trbce_get_seribl_number(trbce_index);
+    sig              = string_get(clbss_get_signbture(cnum));
+    clbss_index      = clbss_get_object_index(cnum);
 
-    values       = NULL;
+    vblues       = NULL;
     elements     = NULL;
     num_elements = 0;
     num_bytes    = 0;
@@ -548,230 +548,230 @@ dump_instance(JNIEnv *env, ObjectIndex object_index, RefIndex list)
     skip_fields  = JNI_FALSE;
     n_fields_set = 0;
     fields       = NULL;
-    fvalues      = NULL;
+    fvblues      = NULL;
 
     index      = list;
 
-    is_array      = JNI_FALSE;
-    is_prim_array = JNI_FALSE;
+    is_brrby      = JNI_FALSE;
+    is_prim_brrby = JNI_FALSE;
 
     if ( sig[0] != JVM_SIGNATURE_ARRAY ) {
-        if ( class_get_all_fields(env, cnum, &n_fields, &fields) == 1 ) {
-            /* Trouble getting all the fields, can't trust field index values */
+        if ( clbss_get_bll_fields(env, cnum, &n_fields, &fields) == 1 ) {
+            /* Trouble getting bll the fields, cbn't trust field index vblues */
             skip_fields = JNI_TRUE;
-            /* It is assumed that the reason why we didn't get the fields
-             *     was because the class is not prepared.
+            /* It is bssumed thbt the rebson why we didn't get the fields
+             *     wbs becbuse the clbss is not prepbred.
              */
-            if ( gdata->debugflags & DEBUGFLAG_UNPREPARED_CLASSES ) {
+            if ( gdbtb->debugflbgs & DEBUGFLAG_UNPREPARED_CLASSES ) {
                 if ( list != 0 ) {
                     dump_ref_list(list);
-                    debug_message("Instance of unprepared class with refs: %s\n",
+                    debug_messbge("Instbnce of unprepbred clbss with refs: %s\n",
                                    sig);
                 } else {
-                    debug_message("Instance of unprepared class without refs: %s\n",
+                    debug_messbge("Instbnce of unprepbred clbss without refs: %s\n",
                                    sig);
                 }
-                HPROF_ERROR(JNI_FALSE, "Big Trouble with unprepared class instances");
+                HPROF_ERROR(JNI_FALSE, "Big Trouble with unprepbred clbss instbnces");
             }
         }
         if ( n_fields > 0 ) {
-            fvalues = (jvalue*)HPROF_MALLOC(n_fields*(int)sizeof(jvalue));
-            (void)memset(fvalues, 0, n_fields*(int)sizeof(jvalue));
+            fvblues = (jvblue*)HPROF_MALLOC(n_fields*(int)sizeof(jvblue));
+            (void)memset(fvblues, 0, n_fields*(int)sizeof(jvblue));
         }
     } else {
-        is_array = JNI_TRUE;
+        is_brrby = JNI_TRUE;
         if ( sig[0] != 0 && sigToPrimSize(sig+1) != 0 ) {
-            is_prim_array = JNI_TRUE;
+            is_prim_brrby = JNI_TRUE;
         }
     }
 
     while ( index != 0 ) {
         RefInfo *info;
-        jvalue   ovalue;
-        static jvalue empty_value;
+        jvblue   ovblue;
+        stbtic jvblue empty_vblue;
 
         info = get_info(index);
 
-        /* Process reference objects, many not used right now. */
-        switch ( info->flavor ) {
-            case INFO_OBJECT_REF_DATA:
+        /* Process reference objects, mbny not used right now. */
+        switch ( info->flbvor ) {
+            cbse INFO_OBJECT_REF_DATA:
                 switch ( info->refKind ) {
-                    case JVMTI_HEAP_REFERENCE_SIGNERS:
-                    case JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
-                    case JVMTI_HEAP_REFERENCE_CLASS_LOADER:
-                    case JVMTI_HEAP_REFERENCE_INTERFACE:
-                    case JVMTI_HEAP_REFERENCE_STATIC_FIELD:
-                    case JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
-                        /* Should never be seen on an instance dump */
+                    cbse JVMTI_HEAP_REFERENCE_SIGNERS:
+                    cbse JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+                    cbse JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+                    cbse JVMTI_HEAP_REFERENCE_INTERFACE:
+                    cbse JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+                    cbse JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
+                        /* Should never be seen on bn instbnce dump */
                         HPROF_ASSERT(0);
-                        break;
-                    case JVMTI_HEAP_REFERENCE_FIELD:
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_FIELD:
                         if ( skip_fields == JNI_TRUE ) {
-                            break;
+                            brebk;
                         }
-                        HPROF_ASSERT(is_array!=JNI_TRUE);
-                        ovalue   = empty_value;
-                        ovalue.i = info->object_index;
-                        fill_in_field_value(list, fields, fvalues, n_fields,
-                                        info->index, ovalue, 0);
+                        HPROF_ASSERT(is_brrby!=JNI_TRUE);
+                        ovblue   = empty_vblue;
+                        ovblue.i = info->object_index;
+                        fill_in_field_vblue(list, fields, fvblues, n_fields,
+                                        info->index, ovblue, 0);
                         n_fields_set++;
                         HPROF_ASSERT(n_fields_set <= n_fields);
-                        break;
-                    case JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
-                        /* We get each object element one at a time.  */
-                        HPROF_ASSERT(is_array==JNI_TRUE);
-                        HPROF_ASSERT(is_prim_array!=JNI_TRUE);
+                        brebk;
+                    cbse JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+                        /* We get ebch object element one bt b time.  */
+                        HPROF_ASSERT(is_brrby==JNI_TRUE);
+                        HPROF_ASSERT(is_prim_brrby!=JNI_TRUE);
                         if ( num_elements <= info->index ) {
                             int nbytes;
 
-                            if ( values == NULL ) {
+                            if ( vblues == NULL ) {
                                 num_elements = info->index + 1;
                                 nbytes = num_elements*(int)sizeof(ObjectIndex);
-                                values = (ObjectIndex*)HPROF_MALLOC(nbytes);
-                                (void)memset(values, 0, nbytes);
+                                vblues = (ObjectIndex*)HPROF_MALLOC(nbytes);
+                                (void)memset(vblues, 0, nbytes);
                             } else {
-                                void *new_values;
+                                void *new_vblues;
                                 int   new_size;
                                 int   obytes;
 
                                 obytes = num_elements*(int)sizeof(ObjectIndex);
                                 new_size = info->index + 1;
                                 nbytes = new_size*(int)sizeof(ObjectIndex);
-                                new_values = (void*)HPROF_MALLOC(nbytes);
-                                (void)memcpy(new_values, values, obytes);
-                                (void)memset(((char*)new_values)+obytes, 0,
+                                new_vblues = (void*)HPROF_MALLOC(nbytes);
+                                (void)memcpy(new_vblues, vblues, obytes);
+                                (void)memset(((chbr*)new_vblues)+obytes, 0,
                                                         nbytes-obytes);
-                                HPROF_FREE(values);
+                                HPROF_FREE(vblues);
                                 num_elements = new_size;
-                                values =  new_values;
+                                vblues =  new_vblues;
                             }
                         }
-                        HPROF_ASSERT(values[info->index]==0);
-                        values[info->index] = info->object_index;
-                        break;
-                    default:
+                        HPROF_ASSERT(vblues[info->index]==0);
+                        vblues[info->index] = info->object_index;
+                        brebk;
+                    defbult:
                         /* Ignore, not needed */
-                        break;
+                        brebk;
                 }
-                break;
-            case INFO_PRIM_FIELD_DATA:
+                brebk;
+            cbse INFO_PRIM_FIELD_DATA:
                 if ( skip_fields == JNI_TRUE ) {
-                    break;
+                    brebk;
                 }
                 HPROF_ASSERT(info->primType!=0);
                 HPROF_ASSERT(info->length==-1);
                 HPROF_ASSERT(info->refKind==JVMTI_HEAP_REFERENCE_FIELD);
-                HPROF_ASSERT(is_array!=JNI_TRUE);
-                ovalue = get_key_value(index);
-                fill_in_field_value(list, fields, fvalues, n_fields,
-                                    info->index, ovalue, info->primType);
+                HPROF_ASSERT(is_brrby!=JNI_TRUE);
+                ovblue = get_key_vblue(index);
+                fill_in_field_vblue(list, fields, fvblues, n_fields,
+                                    info->index, ovblue, info->primType);
                 n_fields_set++;
                 HPROF_ASSERT(n_fields_set <= n_fields);
-                break;
-            case INFO_PRIM_ARRAY_DATA:
-                /* Should only be one, and it's handled below */
+                brebk;
+            cbse INFO_PRIM_ARRAY_DATA:
+                /* Should only be one, bnd it's hbndled below */
                 HPROF_ASSERT(info->refKind==0);
-                /* We assert that nothing else was saved with this array */
+                /* We bssert thbt nothing else wbs sbved with this brrby */
                 HPROF_ASSERT(index==list&&info->next==0);
-                HPROF_ASSERT(is_array==JNI_TRUE);
-                HPROF_ASSERT(is_prim_array==JNI_TRUE);
+                HPROF_ASSERT(is_brrby==JNI_TRUE);
+                HPROF_ASSERT(is_prim_brrby==JNI_TRUE);
                 primType = info->primType;
                 elements = get_key_elements(index, primType,
                                             &num_elements, &num_bytes);
                 HPROF_ASSERT(info->length==num_elements);
                 size = num_bytes;
-                break;
-            default:
+                brebk;
+            defbult:
                 HPROF_ASSERT(0);
-                break;
+                brebk;
         }
         index = info->next;
     }
 
-    if ( is_array == JNI_TRUE ) {
-        if ( is_prim_array == JNI_TRUE ) {
-            HPROF_ASSERT(values==NULL);
-            io_heap_prim_array(object_index, trace_serial_num,
+    if ( is_brrby == JNI_TRUE ) {
+        if ( is_prim_brrby == JNI_TRUE ) {
+            HPROF_ASSERT(vblues==NULL);
+            io_hebp_prim_brrby(object_index, trbce_seribl_num,
                     (jint)size, num_elements, sig, elements);
         } else {
             HPROF_ASSERT(elements==NULL);
-            io_heap_object_array(object_index, trace_serial_num,
-                    (jint)size, num_elements, sig, values, class_index);
+            io_hebp_object_brrby(object_index, trbce_seribl_num,
+                    (jint)size, num_elements, sig, vblues, clbss_index);
         }
     } else {
-        io_heap_instance_dump(cnum, object_index, trace_serial_num,
-                    class_index, (jint)size, sig, fields, fvalues, n_fields);
+        io_hebp_instbnce_dump(cnum, object_index, trbce_seribl_num,
+                    clbss_index, (jint)size, sig, fields, fvblues, n_fields);
     }
-    if ( values != NULL ) {
-        HPROF_FREE(values);
+    if ( vblues != NULL ) {
+        HPROF_FREE(vblues);
     }
-    if ( fvalues != NULL ) {
-        HPROF_FREE(fvalues);
+    if ( fvblues != NULL ) {
+        HPROF_FREE(fvblues);
     }
     if ( elements != NULL ) {
-        /* Do NOT free elements, it's a key in the table, leave it be */
+        /* Do NOT free elements, it's b key in the tbble, lebve it be */
     }
 }
 
-/* External interfaces. */
+/* Externbl interfbces. */
 
 void
 reference_init(void)
 {
-    HPROF_ASSERT(gdata->reference_table==NULL);
-    gdata->reference_table = table_initialize("Ref", 2048, 4096, 0,
+    HPROF_ASSERT(gdbtb->reference_tbble==NULL);
+    gdbtb->reference_tbble = tbble_initiblize("Ref", 2048, 4096, 0,
                             (int)sizeof(RefInfo));
 }
 
-/* Save away a reference to an object */
+/* Sbve bwby b reference to bn object */
 RefIndex
-reference_obj(RefIndex next, jvmtiHeapReferenceKind refKind,
+reference_obj(RefIndex next, jvmtiHebpReferenceKind refKind,
               ObjectIndex object_index, jint index, jint length)
 {
-    static RefInfo  empty_info;
+    stbtic RefInfo  empty_info;
     RefIndex        entry;
     RefInfo         info;
 
     info                = empty_info;
-    info.flavor         = INFO_OBJECT_REF_DATA;
+    info.flbvor         = INFO_OBJECT_REF_DATA;
     info.refKind        = refKind;
     info.object_index   = object_index;
     info.index          = index;
     info.length         = length;
     info.next           = next;
-    entry = table_create_entry(gdata->reference_table, NULL, 0, (void*)&info);
+    entry = tbble_crebte_entry(gdbtb->reference_tbble, NULL, 0, (void*)&info);
     return entry;
 }
 
-/* Save away some primitive field data */
+/* Sbve bwby some primitive field dbtb */
 RefIndex
-reference_prim_field(RefIndex next, jvmtiHeapReferenceKind refKind,
-              jvmtiPrimitiveType primType, jvalue field_value, jint field_index)
+reference_prim_field(RefIndex next, jvmtiHebpReferenceKind refKind,
+              jvmtiPrimitiveType primType, jvblue field_vblue, jint field_index)
 {
-    static RefInfo  empty_info;
+    stbtic RefInfo  empty_info;
     RefIndex        entry;
     RefInfo         info;
 
-    HPROF_ASSERT(primType==JVMTI_PRIMITIVE_TYPE_BOOLEAN?(field_value.b==1||field_value.b==0):1);
+    HPROF_ASSERT(primType==JVMTI_PRIMITIVE_TYPE_BOOLEAN?(field_vblue.b==1||field_vblue.b==0):1);
 
     info                = empty_info;
-    info.flavor         = INFO_PRIM_FIELD_DATA;
+    info.flbvor         = INFO_PRIM_FIELD_DATA;
     info.refKind        = refKind;
     info.primType       = primType;
     info.index          = field_index;
     info.length         = -1;
     info.next           = next;
-    entry = table_create_entry(gdata->reference_table,
-                (void*)&field_value, (int)sizeof(jvalue), (void*)&info);
+    entry = tbble_crebte_entry(gdbtb->reference_tbble,
+                (void*)&field_vblue, (int)sizeof(jvblue), (void*)&info);
     return entry;
 }
 
-/* Save away some primitive array data */
+/* Sbve bwby some primitive brrby dbtb */
 RefIndex
-reference_prim_array(RefIndex next, jvmtiPrimitiveType primType,
+reference_prim_brrby(RefIndex next, jvmtiPrimitiveType primType,
               const void *elements, jint elementCount)
 {
-    static RefInfo  empty_info;
+    stbtic RefInfo  empty_info;
     RefIndex        entry;
     RefInfo         info;
 
@@ -780,35 +780,35 @@ reference_prim_array(RefIndex next, jvmtiPrimitiveType primType,
     HPROF_ASSERT(elements != NULL);
 
     info                = empty_info;
-    info.flavor         = INFO_PRIM_ARRAY_DATA;
+    info.flbvor         = INFO_PRIM_ARRAY_DATA;
     info.refKind        = 0;
     info.primType       = primType;
     info.index          = 0;
     info.length         = elementCount;
     info.next           = next;
-    entry = table_create_entry(gdata->reference_table, (void*)elements,
+    entry = tbble_crebte_entry(gdbtb->reference_tbble, (void*)elements,
                          elementCount * get_prim_size(primType), (void*)&info);
     return entry;
 }
 
 void
-reference_cleanup(void)
+reference_clebnup(void)
 {
-    if ( gdata->reference_table == NULL ) {
+    if ( gdbtb->reference_tbble == NULL ) {
         return;
     }
-    table_cleanup(gdata->reference_table, NULL, NULL);
-    gdata->reference_table = NULL;
+    tbble_clebnup(gdbtb->reference_tbble, NULL, NULL);
+    gdbtb->reference_tbble = NULL;
 }
 
 void
-reference_dump_instance(JNIEnv *env, ObjectIndex object_index, RefIndex list)
+reference_dump_instbnce(JNIEnv *env, ObjectIndex object_index, RefIndex list)
 {
-    dump_instance(env, object_index, list);
+    dump_instbnce(env, object_index, list);
 }
 
 void
-reference_dump_class(JNIEnv *env, ObjectIndex object_index, RefIndex list)
+reference_dump_clbss(JNIEnv *env, ObjectIndex object_index, RefIndex list)
 {
-    dump_class_and_supers(env, object_index, list);
+    dump_clbss_bnd_supers(env, object_index, list);
 }

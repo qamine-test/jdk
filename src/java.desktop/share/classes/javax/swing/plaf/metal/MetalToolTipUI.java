@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
 import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicToolTipUI;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicToolTipUI;
+import jbvbx.swing.plbf.bbsic.BbsicHTML;
+import jbvbx.swing.text.View;
 
 
 /**
- * A Metal L&amp;F extension of BasicToolTipUI.
+ * A Metbl L&bmp;F extension of BbsicToolTipUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalToolTipUI extends BasicToolTipUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblToolTipUI extends BbsicToolTipUI {
 
-    static MetalToolTipUI sharedInstance = new MetalToolTipUI();
-    private Font smallFont;
-    // Refer to note in getAcceleratorString about this field.
-    private JToolTip tip;
-
-    /**
-     * The space between strings.
-     */
-    public static final int padSpaceBetweenStrings = 12;
-    private String acceleratorDelimiter;
+    stbtic MetblToolTipUI shbredInstbnce = new MetblToolTipUI();
+    privbte Font smbllFont;
+    // Refer to note in getAccelerbtorString bbout this field.
+    privbte JToolTip tip;
 
     /**
-     * Constructs an instance of the {@code MetalToolTipUI}.
+     * The spbce between strings.
      */
-    public MetalToolTipUI() {
+    public stbtic finbl int pbdSpbceBetweenStrings = 12;
+    privbte String bccelerbtorDelimiter;
+
+    /**
+     * Constructs bn instbnce of the {@code MetblToolTipUI}.
+     */
+    public MetblToolTipUI() {
         super();
     }
 
     /**
-     * Returns an instance of the {@code MetalToolTipUI}.
+     * Returns bn instbnce of the {@code MetblToolTipUI}.
      *
-     * @param c a component
-     * @return an instance of the {@code MetalToolTipUI}.
+     * @pbrbm c b component
+     * @return bn instbnce of the {@code MetblToolTipUI}.
      */
-    public static ComponentUI createUI(JComponent c) {
-        return sharedInstance;
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return shbredInstbnce;
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
         tip = (JToolTip)c;
         Font f = c.getFont();
-        smallFont = new Font( f.getName(), f.getStyle(), f.getSize() - 2 );
-        acceleratorDelimiter = UIManager.getString( "MenuItem.acceleratorDelimiter" );
-        if ( acceleratorDelimiter == null ) { acceleratorDelimiter = "-"; }
+        smbllFont = new Font( f.getNbme(), f.getStyle(), f.getSize() - 2 );
+        bccelerbtorDelimiter = UIMbnbger.getString( "MenuItem.bccelerbtorDelimiter" );
+        if ( bccelerbtorDelimiter == null ) { bccelerbtorDelimiter = "-"; }
     }
 
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        super.uninstbllUI(c);
         tip = null;
     }
 
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         JToolTip tip = (JToolTip)c;
         Font font = c.getFont();
         FontMetrics metrics = SwingUtilities2.getFontMetrics(c, g, font);
         Dimension size = c.getSize();
-        int accelBL;
+        int bccelBL;
 
         g.setColor(c.getForeground());
         // fix for bug 4153892
@@ -110,98 +110,98 @@ public class MetalToolTipUI extends BasicToolTipUI {
             tipText = "";
         }
 
-        String accelString = getAcceleratorString(tip);
-        FontMetrics accelMetrics = SwingUtilities2.getFontMetrics(c, g, smallFont);
-        int accelSpacing = calcAccelSpacing(c, accelMetrics, accelString);
+        String bccelString = getAccelerbtorString(tip);
+        FontMetrics bccelMetrics = SwingUtilities2.getFontMetrics(c, g, smbllFont);
+        int bccelSpbcing = cblcAccelSpbcing(c, bccelMetrics, bccelString);
 
         Insets insets = tip.getInsets();
-        Rectangle paintTextR = new Rectangle(
+        Rectbngle pbintTextR = new Rectbngle(
             insets.left + 3,
             insets.top,
-            size.width - (insets.left + insets.right) - 6 - accelSpacing,
+            size.width - (insets.left + insets.right) - 6 - bccelSpbcing,
             size.height - (insets.top + insets.bottom));
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            v.paint(g, paintTextR);
-            accelBL = BasicHTML.getHTMLBaseline(v, paintTextR.width,
-                                                  paintTextR.height);
+            v.pbint(g, pbintTextR);
+            bccelBL = BbsicHTML.getHTMLBbseline(v, pbintTextR.width,
+                                                  pbintTextR.height);
         } else {
             g.setFont(font);
-            SwingUtilities2.drawString(tip, g, tipText, paintTextR.x,
-                                  paintTextR.y + metrics.getAscent());
-            accelBL = metrics.getAscent();
+            SwingUtilities2.drbwString(tip, g, tipText, pbintTextR.x,
+                                  pbintTextR.y + metrics.getAscent());
+            bccelBL = metrics.getAscent();
         }
 
-        if (!accelString.equals("")) {
-            g.setFont(smallFont);
-            g.setColor( MetalLookAndFeel.getPrimaryControlDarkShadow() );
-            SwingUtilities2.drawString(tip, g, accelString,
+        if (!bccelString.equbls("")) {
+            g.setFont(smbllFont);
+            g.setColor( MetblLookAndFeel.getPrimbryControlDbrkShbdow() );
+            SwingUtilities2.drbwString(tip, g, bccelString,
                                        tip.getWidth() - 1 - insets.right
-                                           - accelSpacing
-                                           + padSpaceBetweenStrings
+                                           - bccelSpbcing
+                                           + pbdSpbceBetweenStrings
                                            - 3,
-                                       paintTextR.y + accelBL);
+                                       pbintTextR.y + bccelBL);
         }
     }
 
-    private int calcAccelSpacing(JComponent c, FontMetrics fm, String accel) {
-        return accel.equals("")
+    privbte int cblcAccelSpbcing(JComponent c, FontMetrics fm, String bccel) {
+        return bccel.equbls("")
                ? 0
-               : padSpaceBetweenStrings +
-                 SwingUtilities2.stringWidth(c, fm, accel);
+               : pbdSpbceBetweenStrings +
+                 SwingUtilities2.stringWidth(c, fm, bccel);
     }
 
     public Dimension getPreferredSize(JComponent c) {
         Dimension d = super.getPreferredSize(c);
 
-        String key = getAcceleratorString((JToolTip)c);
-        if (!(key.equals(""))) {
-            d.width += calcAccelSpacing(c, c.getFontMetrics(smallFont), key);
+        String key = getAccelerbtorString((JToolTip)c);
+        if (!(key.equbls(""))) {
+            d.width += cblcAccelSpbcing(c, c.getFontMetrics(smbllFont), key);
         }
         return d;
     }
 
     /**
-     * If the accelerator is hidden, the method returns {@code true},
-     * otherwise, returns {@code false}.
+     * If the bccelerbtor is hidden, the method returns {@code true},
+     * otherwise, returns {@code fblse}.
      *
-     * @return {@code true} if the accelerator is hidden.
+     * @return {@code true} if the bccelerbtor is hidden.
      */
-    protected boolean isAcceleratorHidden() {
-        Boolean b = (Boolean)UIManager.get("ToolTip.hideAccelerator");
-        return b != null && b.booleanValue();
+    protected boolebn isAccelerbtorHidden() {
+        Boolebn b = (Boolebn)UIMbnbger.get("ToolTip.hideAccelerbtor");
+        return b != null && b.boolebnVblue();
     }
 
-    private String getAcceleratorString(JToolTip tip) {
+    privbte String getAccelerbtorString(JToolTip tip) {
         this.tip = tip;
 
-        String retValue = getAcceleratorString();
+        String retVblue = getAccelerbtorString();
 
         this.tip = null;
-        return retValue;
+        return retVblue;
     }
 
     /**
-     * Returns the accelerator string.
+     * Returns the bccelerbtor string.
      *
-     * @return the accelerator string.
+     * @return the bccelerbtor string.
      */
     // NOTE: This requires the tip field to be set before this is invoked.
-    // As MetalToolTipUI is shared between all JToolTips the tip field is
-    // set appropriately before this is invoked. Unfortunately this means
-    // that subclasses that randomly invoke this method will see varying
-    // results. If this becomes an issue, MetalToolTipUI should no longer be
-    // shared.
-    public String getAcceleratorString() {
-        if (tip == null || isAcceleratorHidden()) {
+    // As MetblToolTipUI is shbred between bll JToolTips the tip field is
+    // set bppropribtely before this is invoked. Unfortunbtely this mebns
+    // thbt subclbsses thbt rbndomly invoke this method will see vbrying
+    // results. If this becomes bn issue, MetblToolTipUI should no longer be
+    // shbred.
+    public String getAccelerbtorString() {
+        if (tip == null || isAccelerbtorHidden()) {
             return "";
         }
         JComponent comp = tip.getComponent();
-        if (!(comp instanceof AbstractButton)) {
+        if (!(comp instbnceof AbstrbctButton)) {
             return "";
         }
 
-        KeyStroke[] keys = comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).keys();
+        KeyStroke[] keys = comp.getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW).keys();
         if (keys == null) {
             return "";
         }
@@ -211,9 +211,9 @@ public class MetalToolTipUI extends BasicToolTipUI {
         for (int i = 0; i < keys.length; i++) {
             int mod = keys[i].getModifiers();
             controlKeyStr = KeyEvent.getKeyModifiersText(mod) +
-                            acceleratorDelimiter +
+                            bccelerbtorDelimiter +
                             KeyEvent.getKeyText(keys[i].getKeyCode());
-            break;
+            brebk;
         }
 
         return controlKeyStr;

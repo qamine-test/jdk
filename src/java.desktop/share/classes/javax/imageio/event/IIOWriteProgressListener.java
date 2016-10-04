@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.event;
+pbckbge jbvbx.imbgeio.event;
 
-import java.util.EventListener;
-import javax.imageio.ImageWriter;
+import jbvb.util.EventListener;
+import jbvbx.imbgeio.ImbgeWriter;
 
 /**
- * An interface used by <code>ImageWriter</code> implementations to notify
- * callers of their image writing methods of progress.
+ * An interfbce used by <code>ImbgeWriter</code> implementbtions to notify
+ * cbllers of their imbge writing methods of progress.
  *
- * @see javax.imageio.ImageWriter#write
+ * @see jbvbx.imbgeio.ImbgeWriter#write
  *
  */
-public interface IIOWriteProgressListener extends EventListener {
+public interfbce IIOWriteProgressListener extends EventListener {
 
     /**
-     * Reports that an image write operation is beginning.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once when beginning an image write
-     * operation.
+     * Reports thbt bn imbge write operbtion is beginning.  All
+     * <code>ImbgeWriter</code> implementbtions bre required to cbll
+     * this method exbctly once when beginning bn imbge write
+     * operbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this
      * method.
-     * @param imageIndex the index of the image being written within
-     * its containing input file or stream.
+     * @pbrbm imbgeIndex the index of the imbge being written within
+     * its contbining input file or strebm.
      */
-    void imageStarted(ImageWriter source, int imageIndex);
+    void imbgeStbrted(ImbgeWriter source, int imbgeIndex);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>write</code> call within the associated
-     * <code>ImageWriter</code>.
+     * Reports the bpproximbte degree of completion of the current
+     * <code>write</code> cbll within the bssocibted
+     * <code>ImbgeWriter</code>.
      *
-     * <p> The degree of completion is expressed as an index
-     * indicating which image is being written, and a percentage
-     * varying from <code>0.0F</code> to <code>100.0F</code>
-     * indicating how much of the current image has been output.  The
-     * percentage should ideally be calculated in terms of the
-     * remaining time to completion, but it is usually more practical
-     * to use a more well-defined metric such as pixels decoded or
-     * portion of input stream consumed.  In any case, a sequence of
-     * calls to this method during a given read operation should
-     * supply a monotonically increasing sequence of percentage
-     * values.  It is not necessary to supply the exact values
-     * <code>0</code> and <code>100</code>, as these may be inferred
-     * by the callee from other methods.
+     * <p> The degree of completion is expressed bs bn index
+     * indicbting which imbge is being written, bnd b percentbge
+     * vbrying from <code>0.0F</code> to <code>100.0F</code>
+     * indicbting how much of the current imbge hbs been output.  The
+     * percentbge should ideblly be cblculbted in terms of the
+     * rembining time to completion, but it is usublly more prbcticbl
+     * to use b more well-defined metric such bs pixels decoded or
+     * portion of input strebm consumed.  In bny cbse, b sequence of
+     * cblls to this method during b given rebd operbtion should
+     * supply b monotonicblly increbsing sequence of percentbge
+     * vblues.  It is not necessbry to supply the exbct vblues
+     * <code>0</code> bnd <code>100</code>, bs these mby be inferred
+     * by the cbllee from other methods.
      *
-     * <p> Each particular <code>ImageWriter</code> implementation may
-     * call this method at whatever frequency it desires.  A rule of
-     * thumb is to call it around each 5 percent mark.
+     * <p> Ebch pbrticulbr <code>ImbgeWriter</code> implementbtion mby
+     * cbll this method bt whbtever frequency it desires.  A rule of
+     * thumb is to cbll it bround ebch 5 percent mbrk.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this method.
+     * @pbrbm percentbgeDone the bpproximbte percentbge of decoding thbt
+     * hbs been completed.
      */
-    void imageProgress(ImageWriter source,
-                       float percentageDone);
+    void imbgeProgress(ImbgeWriter source,
+                       flobt percentbgeDone);
 
     /**
-     * Reports that the image write operation has completed.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once upon completion of each image write
-     * operation.
+     * Reports thbt the imbge write operbtion hbs completed.  All
+     * <code>ImbgeWriter</code> implementbtions bre required to cbll
+     * this method exbctly once upon completion of ebch imbge write
+     * operbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this method.
      */
-    void imageComplete(ImageWriter source);
+    void imbgeComplete(ImbgeWriter source);
 
     /**
-     * Reports that a thumbnail write operation is beginning.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once when beginning a thumbnail write
-     * operation.
+     * Reports thbt b thumbnbil write operbtion is beginning.  All
+     * <code>ImbgeWriter</code> implementbtions bre required to cbll
+     * this method exbctly once when beginning b thumbnbil write
+     * operbtion.
      *
-     * @param source the <code>ImageWrite</code> object calling this method.
-     * @param imageIndex the index of the image being written within its
-     * containing input file or stream.
-     * @param thumbnailIndex the index of the thumbnail being written.
+     * @pbrbm source the <code>ImbgeWrite</code> object cblling this method.
+     * @pbrbm imbgeIndex the index of the imbge being written within its
+     * contbining input file or strebm.
+     * @pbrbm thumbnbilIndex the index of the thumbnbil being written.
      */
-    void thumbnailStarted(ImageWriter source,
-                          int imageIndex, int thumbnailIndex);
+    void thumbnbilStbrted(ImbgeWriter source,
+                          int imbgeIndex, int thumbnbilIndex);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * thumbnail write within the associated <code>ImageWriter</code>.
-     * The semantics are identical to those of
-     * <code>imageProgress</code>.
+     * Reports the bpproximbte degree of completion of the current
+     * thumbnbil write within the bssocibted <code>ImbgeWriter</code>.
+     * The sembntics bre identicbl to those of
+     * <code>imbgeProgress</code>.
      *
-     * @param source the <code>ImageWriter</code> object calling this
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this
      * method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm percentbgeDone the bpproximbte percentbge of decoding thbt
+     * hbs been completed.
      */
-    void thumbnailProgress(ImageWriter source, float percentageDone);
+    void thumbnbilProgress(ImbgeWriter source, flobt percentbgeDone);
 
     /**
-     * Reports that a thumbnail write operation has completed.  All
-     * <code>ImageWriter</code> implementations are required to call
-     * this method exactly once upon completion of each thumbnail
-     * write operation.
+     * Reports thbt b thumbnbil write operbtion hbs completed.  All
+     * <code>ImbgeWriter</code> implementbtions bre required to cbll
+     * this method exbctly once upon completion of ebch thumbnbil
+     * write operbtion.
      *
-     * @param source the <code>ImageWriter</code> object calling this
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this
      * method.
      */
-    void thumbnailComplete(ImageWriter source);
+    void thumbnbilComplete(ImbgeWriter source);
 
     /**
-     * Reports that a write has been aborted via the writer's
-     * <code>abort</code> method.  No further notifications will be
+     * Reports thbt b write hbs been bborted vib the writer's
+     * <code>bbort</code> method.  No further notificbtions will be
      * given.
      *
-     * @param source the <code>ImageWriter</code> object calling this
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this
      * method.
      */
-    void writeAborted(ImageWriter source);
+    void writeAborted(ImbgeWriter source);
 }

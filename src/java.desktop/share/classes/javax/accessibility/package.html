@@ -1,264 +1,264 @@
 <HTML>
 <HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (WinNT; I) [Netscape]">
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; chbrset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.04 [en] (WinNT; I) [Netscbpe]">
 <!--
-Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
-Defines a contract between user-interface components and an assistive technology
-that provides access to those components. If a Java application fully supports
-the Java Accessibility API, then it should be compatible with, and friendly
-toward, assistive technologies such as screen readers, screen magnifiers,
-etc. With a Java application that fully supports the Java Accessibility
-API, no screen reader off screen model would be necessary because the API
-provides all of the information normally contained in an off screen model.
+Defines b contrbct between user-interfbce components bnd bn bssistive technology
+thbt provides bccess to those components. If b Jbvb bpplicbtion fully supports
+the Jbvb Accessibility API, then it should be compbtible with, bnd friendly
+towbrd, bssistive technologies such bs screen rebders, screen mbgnifiers,
+etc. With b Jbvb bpplicbtion thbt fully supports the Jbvb Accessibility
+API, no screen rebder off screen model would be necessbry becbuse the API
+provides bll of the informbtion normblly contbined in bn off screen model.
 
-<P>The Java Accessibility API package consists of 8 Java programming language
-interfaces, and 6 Java programming language classes. These are described
+<P>The Jbvb Accessibility API pbckbge consists of 8 Jbvb progrbmming lbngubge
+interfbces, bnd 6 Jbvb progrbmming lbngubge clbsses. These bre described
 below.
 <H3>
-<A NAME="Accessible"></A><A HREF="Accessible.html">Interface Accessible</A></H3>
-<A HREF="Accessible.html">Interface Accessible</A> is the main interface
-of the Java Accessibility API. All components that support the Java Accessibility
-API must implement this interface. It contains a single method, <TT>getAccessibleContext</TT>,
-that returns an instance of the class <A HREF="#AccessibleContext">AccessibleContext</A>.
-Sun thinks that implementing this interface is the absolute minimum requirement
-of every object that is part of the user interface of a Java application,
-if that program is to be compatible with assistive technologies.
+<A NAME="Accessible"></A><A HREF="Accessible.html">Interfbce Accessible</A></H3>
+<A HREF="Accessible.html">Interfbce Accessible</A> is the mbin interfbce
+of the Jbvb Accessibility API. All components thbt support the Jbvb Accessibility
+API must implement this interfbce. It contbins b single method, <TT>getAccessibleContext</TT>,
+thbt returns bn instbnce of the clbss <A HREF="#AccessibleContext">AccessibleContext</A>.
+Sun thinks thbt implementing this interfbce is the bbsolute minimum requirement
+of every object thbt is pbrt of the user interfbce of b Jbvb bpplicbtion,
+if thbt progrbm is to be compbtible with bssistive technologies.
 <H3>
-<A NAME="AccessibleContext"></A><A HREF="AccessibleContext.html">Class
+<A NAME="AccessibleContext"></A><A HREF="AccessibleContext.html">Clbss
 AccessibleContext</A></H3>
 <A HREF="AccessibleContext.html">AccessibleContext</A> represents the minimum
-information all accessible objects return and is obtained by calling the
-<TT>getAccessibleContext</TT> method on an object that implements the <A HREF="#Accessible">Accessible</A>
-interface. This information includes the accessible name, description,
-<A HREF="#AccessibleRole">role</A>, and <A HREF="#AccessibleState">state</A>
-of the object, as well as information about the parent and children of
-the object.&nbsp; In addition, JavaBeans <SUP><FONT SIZE=-2>TM</FONT></SUP>
-property change support is also included to allow assisitive technologies
-learn when the values of the accessible properties change. AccessibleContext
-also contains methods for obtaining more specific accessibility information
-about a component. If the component supports it, these methods will return
-an object that implements one or more of the following interfaces:
+informbtion bll bccessible objects return bnd is obtbined by cblling the
+<TT>getAccessibleContext</TT> method on bn object thbt implements the <A HREF="#Accessible">Accessible</A>
+interfbce. This informbtion includes the bccessible nbme, description,
+<A HREF="#AccessibleRole">role</A>, bnd <A HREF="#AccessibleStbte">stbte</A>
+of the object, bs well bs informbtion bbout the pbrent bnd children of
+the object.&nbsp; In bddition, JbvbBebns <SUP><FONT SIZE=-2>TM</FONT></SUP>
+property chbnge support is blso included to bllow bssisitive technologies
+lebrn when the vblues of the bccessible properties chbnge. AccessibleContext
+blso contbins methods for obtbining more specific bccessibility informbtion
+bbout b component. If the component supports it, these methods will return
+bn object thbt implements one or more of the following interfbces:
 <UL>
 <LI>
-<B><A HREF="#AccessibleAction">AccessibleAction</A></B> - the object can
-perform one or more actions. This interface provides the standard mechanism
-for an assistive technology to determine what those actions are and tell
-the object to perform those actions. Any object that can be manipulated
-should return an object that implements this interface when the <TT>getAccessibleAction</TT>
-method is called on an AccessibleContext.</LI>
+<B><A HREF="#AccessibleAction">AccessibleAction</A></B> - the object cbn
+perform one or more bctions. This interfbce provides the stbndbrd mechbnism
+for bn bssistive technology to determine whbt those bctions bre bnd tell
+the object to perform those bctions. Any object thbt cbn be mbnipulbted
+should return bn object thbt implements this interfbce when the <TT>getAccessibleAction</TT>
+method is cblled on bn AccessibleContext.</LI>
 
 <LI>
 <B><A HREF="#AccessibleComponent">AccessibleComponent</A></B> - the object
-has a graphical representation. This interface provides the standard mechanism
-for an assistive technology to determine and set the graphical representation
-of the object. Any object that is rendered on the screen should return
-an object that implements this interface when the <TT>getAccessibleComponent</TT>
-method is called on an AccessibleContext.</LI>
+hbs b grbphicbl representbtion. This interfbce provides the stbndbrd mechbnism
+for bn bssistive technology to determine bnd set the grbphicbl representbtion
+of the object. Any object thbt is rendered on the screen should return
+bn object thbt implements this interfbce when the <TT>getAccessibleComponent</TT>
+method is cblled on bn AccessibleContext.</LI>
 
 <LI>
 <B><A HREF="#AccessibleSelection">AccessibleSelection</A></B> - the object
-allows its children to be selected. This interface provides the standard
-mechanism for an assistive technology to determine the currently selected
-children as well as modify the selection set. Any object that has children
-that can be selected should return an object that implements this interface
-when the <TT>getAccessibleSelection</TT> method is called on an AccessibleContext.</LI>
+bllows its children to be selected. This interfbce provides the stbndbrd
+mechbnism for bn bssistive technology to determine the currently selected
+children bs well bs modify the selection set. Any object thbt hbs children
+thbt cbn be selected should return bn object thbt implements this interfbce
+when the <TT>getAccessibleSelection</TT> method is cblled on bn AccessibleContext.</LI>
 
 <LI>
 <B><A HREF="#AccessibleText">AccessibleText</A></B> - the object presents
-editable textual information on the display. This interface provides the
-standard mechanism for an assistive technology to access that text via
-its content, attributes, and spatial location. Any object that contains
-editable text should return an object that implements this interface when
-the <TT>getAccessibleText</TT> method is called on an AccessibleContext.</LI>
+editbble textubl informbtion on the displby. This interfbce provides the
+stbndbrd mechbnism for bn bssistive technology to bccess thbt text vib
+its content, bttributes, bnd spbtibl locbtion. Any object thbt contbins
+editbble text should return bn object thbt implements this interfbce when
+the <TT>getAccessibleText</TT> method is cblled on bn AccessibleContext.</LI>
 
 <LI>
 <B><A HREF="#AccessibleHypertext">AccessibleHypertext</A></B> - the object
-presents hypertext information on the display. This interface provides
-the standard mechanism for an assistive technology to access that hypertext
-via its content, attributes, and spatial location. Any object that contains
-hypertext should return an object that implements this interface when the
-<TT>getAccessibleText</TT> method is called on an AccessibleContext.</LI>
+presents hypertext informbtion on the displby. This interfbce provides
+the stbndbrd mechbnism for bn bssistive technology to bccess thbt hypertext
+vib its content, bttributes, bnd spbtibl locbtion. Any object thbt contbins
+hypertext should return bn object thbt implements this interfbce when the
+<TT>getAccessibleText</TT> method is cblled on bn AccessibleContext.</LI>
 
 <LI>
-<B><A HREF="#AccessibleValue">AccessibleValue</A></B> - the object supports
-a numerical value. This interface provides the standard mechanism for an
-assistive technology to determine and set the current value of the object,
-as well as the minimum and maximum values. Any object that supports a numerical
-value should return an object that implements this interface when the <TT>getAccessibleValue</TT>
-method is called on an AccessibleContext.</LI>
+<B><A HREF="#AccessibleVblue">AccessibleVblue</A></B> - the object supports
+b numericbl vblue. This interfbce provides the stbndbrd mechbnism for bn
+bssistive technology to determine bnd set the current vblue of the object,
+bs well bs the minimum bnd mbximum vblues. Any object thbt supports b numericbl
+vblue should return bn object thbt implements this interfbce when the <TT>getAccessibleVblue</TT>
+method is cblled on bn AccessibleContext.</LI>
 </UL>
 
 <H3>
-<A NAME="AccessibleRole"></A><A HREF="AccessibleRole.html">Class AccessibleRole</A></H3>
-This class encapsulates the Accessible object's role in the user interface
-and is obtained by calling the <TT>getAccessibleRole</TT> method on an
+<A NAME="AccessibleRole"></A><A HREF="AccessibleRole.html">Clbss AccessibleRole</A></H3>
+This clbss encbpsulbtes the Accessible object's role in the user interfbce
+bnd is obtbined by cblling the <TT>getAccessibleRole</TT> method on bn
 <A HREF="#AccessibleContext">AccessibleContext</A>. Accessible roles include
-"Check box", "Menu Item", "Panel", etc. These roles are identified by the
-constants in this class such as <TT>AccessibleRole.CHECK_BOX, AccessibleRole.MENU_ITEM,</TT>
-and <TT>AccessibleRole.PANEL</TT>. The constants in this class present
-a strongly typed enumeration of common object roles. A public constructor
-for this class has been purposely omitted and applications should use one
-of the constants from this class. Although this class pre-defines a large
-list of standard roles, it is extensible so additional programmer-defined
-roles can be added in the future without needing to modify the base class.
+"Check box", "Menu Item", "Pbnel", etc. These roles bre identified by the
+constbnts in this clbss such bs <TT>AccessibleRole.CHECK_BOX, AccessibleRole.MENU_ITEM,</TT>
+bnd <TT>AccessibleRole.PANEL</TT>. The constbnts in this clbss present
+b strongly typed enumerbtion of common object roles. A public constructor
+for this clbss hbs been purposely omitted bnd bpplicbtions should use one
+of the constbnts from this clbss. Although this clbss pre-defines b lbrge
+list of stbndbrd roles, it is extensible so bdditionbl progrbmmer-defined
+roles cbn be bdded in the future without needing to modify the bbse clbss.
 
 <H3>
-<A NAME="AccessibleState"></A><A HREF="AccessibleState.html">Class AccessibleState</A></H3>
-This class encapsulates a particular state of the Accessible object. Accessible
-states include things like "Armed", "Busy", "Checked", "Focused", etc.
-These roles are identified by the constants in this class such as <TT>AccessibleState.ARMED,
-AccessibleState.BUSY, AccessibleState.CHECKED,</TT> and <TT>AccessibleState.FOCUSED</TT>.
-The sum of all the states of an Accessible object is called the <A HREF="#AccessibleStateSet">AccessibleStateSet</A>,
-and can be obtained by calling the <TT>getAccessibleStateSet</TT> method
-on an <A HREF="#AccessibleContext">AccessibleContext</A>.
+<A NAME="AccessibleStbte"></A><A HREF="AccessibleStbte.html">Clbss AccessibleStbte</A></H3>
+This clbss encbpsulbtes b pbrticulbr stbte of the Accessible object. Accessible
+stbtes include things like "Armed", "Busy", "Checked", "Focused", etc.
+These roles bre identified by the constbnts in this clbss such bs <TT>AccessibleStbte.ARMED,
+AccessibleStbte.BUSY, AccessibleStbte.CHECKED,</TT> bnd <TT>AccessibleStbte.FOCUSED</TT>.
+The sum of bll the stbtes of bn Accessible object is cblled the <A HREF="#AccessibleStbteSet">AccessibleStbteSet</A>,
+bnd cbn be obtbined by cblling the <TT>getAccessibleStbteSet</TT> method
+on bn <A HREF="#AccessibleContext">AccessibleContext</A>.
 
-<P>The constants in this class present a strongly typed enumeration of
-common object roles. A public constructor for this class has been purposely
-omitted and applications should use one of the constants from this class.
-Although this class pre-defines a large list of standard roles, it is extensible
-so additional, programmer-defined roles can be added in the future without
-needing to modify the base class.
-
-<H3>
-<A NAME="AccessibleStateSet"></A><A HREF="AccessibleStateSet.html">Class
-AccessibleStateSet</A></H3>
-This class encapsulates a collection of states of the Accessible object
-and is obtained by calling the <TT>getAccessibleStateSet</TT> method on
-an <A HREF="#AccessibleContext">AccessibleContext</A>. Since an object
-might have multiple states (e.g. it might be both "Checked" and "Focused"),
-this class is needed to encapsulate a collection of these states. Methods
-in the class provide for retrieving the individual <A HREF="#AccessibleState">AccessibleStates</A>
-on the state set.
-<H3>
-<A NAME="AccessibleBundle"></A><A HREF="AccessibleBundle.html">Class AccessibleBundle</A></H3>
-This class is used to maintain a strongly typed enumeration. It is the
-super class of both the <A HREF="#AccessibleRole">AccessibleRole</A> and
-<A HREF="#AccessibleState">AccessibleState</A> classes. Programmers normally
-do not interact with this class directly, but will instead use the <A HREF="#AccessibleRole">AccessibleRole</A>
-and <A HREF="#AccessibleState">AccessibleState</A> classes.
+<P>The constbnts in this clbss present b strongly typed enumerbtion of
+common object roles. A public constructor for this clbss hbs been purposely
+omitted bnd bpplicbtions should use one of the constbnts from this clbss.
+Although this clbss pre-defines b lbrge list of stbndbrd roles, it is extensible
+so bdditionbl, progrbmmer-defined roles cbn be bdded in the future without
+needing to modify the bbse clbss.
 
 <H3>
-<A NAME="AccessibleAction"></A><A HREF="AccessibleAction.html">Interface
+<A NAME="AccessibleStbteSet"></A><A HREF="AccessibleStbteSet.html">Clbss
+AccessibleStbteSet</A></H3>
+This clbss encbpsulbtes b collection of stbtes of the Accessible object
+bnd is obtbined by cblling the <TT>getAccessibleStbteSet</TT> method on
+bn <A HREF="#AccessibleContext">AccessibleContext</A>. Since bn object
+might hbve multiple stbtes (e.g. it might be both "Checked" bnd "Focused"),
+this clbss is needed to encbpsulbte b collection of these stbtes. Methods
+in the clbss provide for retrieving the individubl <A HREF="#AccessibleStbte">AccessibleStbtes</A>
+on the stbte set.
+<H3>
+<A NAME="AccessibleBundle"></A><A HREF="AccessibleBundle.html">Clbss AccessibleBundle</A></H3>
+This clbss is used to mbintbin b strongly typed enumerbtion. It is the
+super clbss of both the <A HREF="#AccessibleRole">AccessibleRole</A> bnd
+<A HREF="#AccessibleStbte">AccessibleStbte</A> clbsses. Progrbmmers normblly
+do not interbct with this clbss directly, but will instebd use the <A HREF="#AccessibleRole">AccessibleRole</A>
+bnd <A HREF="#AccessibleStbte">AccessibleStbte</A> clbsses.
+
+<H3>
+<A NAME="AccessibleAction"></A><A HREF="AccessibleAction.html">Interfbce
 AccessibleAction</A></H3>
-The <A HREF="AccessibleAction.html">AccessibleAction</A> interface should
-be supported by any object that can perform one or more actions. This interface
-provides the standard mechanism for an assistive technology to determine
-what those actions are as well as tell the object to perform those actions.
-Any object that can be manipulated should support this interface.
+The <A HREF="AccessibleAction.html">AccessibleAction</A> interfbce should
+be supported by bny object thbt cbn perform one or more bctions. This interfbce
+provides the stbndbrd mechbnism for bn bssistive technology to determine
+whbt those bctions bre bs well bs tell the object to perform those bctions.
+Any object thbt cbn be mbnipulbted should support this interfbce.
 
-<P>Applications can determine if an object supports the AccessibleAction
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleAction</TT>
+<P>Applicbtions cbn determine if bn object supports the AccessibleAction
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the <TT>getAccessibleAction</TT>
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+vblue is not null, the object supports this interfbce.
 <H3>
-<A NAME="AccessibleComponent"></A><A HREF="AccessibleComponent.html">Interface
+<A NAME="AccessibleComponent"></A><A HREF="AccessibleComponent.html">Interfbce
 AccessibleComponent</A></H3>
-The <A HREF="AccessibleComponent.html">AccessibleComponent</A> interface
-should be supported by any object that is rendered on the screen. This
-interface provides the standard mechanism for an assistive technology to
-determine and set the graphical representation of an object.
+The <A HREF="AccessibleComponent.html">AccessibleComponent</A> interfbce
+should be supported by bny object thbt is rendered on the screen. This
+interfbce provides the stbndbrd mechbnism for bn bssistive technology to
+determine bnd set the grbphicbl representbtion of bn object.
 
-<P>Applications can determine if an object supports the AccessibleComponent
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleComponent</TT>
+<P>Applicbtions cbn determine if bn object supports the AccessibleComponent
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the <TT>getAccessibleComponent</TT>
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+vblue is not null, the object supports this interfbce.
 <H3>
-<A NAME="AccessibleSelection"></A><A HREF="AccessibleSelection.html">Interface
+<A NAME="AccessibleSelection"></A><A HREF="AccessibleSelection.html">Interfbce
 AccessibleSelection</A></H3>
-The <A HREF="AccessibleSelection.html">AccessibleSelection</A> interface
-provides the standard mechanism for an assistive technology to determine
-what the current selected children are, as well as modify the selection
-set. Any object that has children that can be selected should support this
-the AccessibleSelection interface.
+The <A HREF="AccessibleSelection.html">AccessibleSelection</A> interfbce
+provides the stbndbrd mechbnism for bn bssistive technology to determine
+whbt the current selected children bre, bs well bs modify the selection
+set. Any object thbt hbs children thbt cbn be selected should support this
+the AccessibleSelection interfbce.
 
-<P>Applications can determine if an object supports the AccessibleSelection
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleSelection</TT>
+<P>Applicbtions cbn determine if bn object supports the AccessibleSelection
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the <TT>getAccessibleSelection</TT>
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+vblue is not null, the object supports this interfbce.
 <H3>
-<A NAME="AccessibleText"></A><A HREF="AccessibleText.html">Interface AccessibleText</A></H3>
-Interface <A HREF="AccessibleText.html">AccessibleText</A> is the contract
-for making rich, editable text Accessible. Not all text displayed on the
-screen is rich and editable (e.g. text contained in buttons, labels, menus,
-etc., which users aren't expected to manipulate). However, objects containing
-editable text must implement interface AccessibleText if they are to interoperate
-with assistive technologies.
+<A NAME="AccessibleText"></A><A HREF="AccessibleText.html">Interfbce AccessibleText</A></H3>
+Interfbce <A HREF="AccessibleText.html">AccessibleText</A> is the contrbct
+for mbking rich, editbble text Accessible. Not bll text displbyed on the
+screen is rich bnd editbble (e.g. text contbined in buttons, lbbels, menus,
+etc., which users bren't expected to mbnipulbte). However, objects contbining
+editbble text must implement interfbce AccessibleText if they bre to interoperbte
+with bssistive technologies.
 
-<P>This interface provides support for going between pixel coordinates
-and the text at a given pixel coordinate, for retrieving the letter, word,
-and sentence at, before, or after a given position in the text. This interface
-provides support for retrieving the attributes of the character at a given
-position in the text (font, font size, style, etc.), as well as getting
-the selected text (if any), the length of the text, and the location of
-the text caret.
+<P>This interfbce provides support for going between pixel coordinbtes
+bnd the text bt b given pixel coordinbte, for retrieving the letter, word,
+bnd sentence bt, before, or bfter b given position in the text. This interfbce
+provides support for retrieving the bttributes of the chbrbcter bt b given
+position in the text (font, font size, style, etc.), bs well bs getting
+the selected text (if bny), the length of the text, bnd the locbtion of
+the text cbret.
 
-<P>Applications can determine if an object supports the AccessibleText
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleText</TT>
+<P>Applicbtions cbn determine if bn object supports the AccessibleText
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the <TT>getAccessibleText</TT>
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+vblue is not null, the object supports this interfbce.
 <H3><A NAME="AccessibleHypertext"></A>
-<A HREF="AccessibleHypertext.html">Interface AccessibleHypertext</A></H3>
-The <A HREF="AccessibleHypertext.html">AccessibleHypertext</A> interface
-should be supported by any object that presents hypertext information on
-the display. This interface provides the standard mechanism for an assistive
-technology to access that text via its content, attributes, and spatial
-location. It also provides standard mechanisms for manipulating <A HREF="#AccessibleHyperlink">hyperlinks</A>.
-Applications can determine if an object supports the AccessibleHypertext
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the AccessibleContext.getAccessibleText()
+<A HREF="AccessibleHypertext.html">Interfbce AccessibleHypertext</A></H3>
+The <A HREF="AccessibleHypertext.html">AccessibleHypertext</A> interfbce
+should be supported by bny object thbt presents hypertext informbtion on
+the displby. This interfbce provides the stbndbrd mechbnism for bn bssistive
+technology to bccess thbt text vib its content, bttributes, bnd spbtibl
+locbtion. It blso provides stbndbrd mechbnisms for mbnipulbting <A HREF="#AccessibleHyperlink">hyperlinks</A>.
+Applicbtions cbn determine if bn object supports the AccessibleHypertext
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the AccessibleContext.getAccessibleText()
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is a class which extends AccessibleHypertext, then that object supports
+vblue is b clbss which extends AccessibleHypertext, then thbt object supports
 AccessibleHypertext.
 <H3>
-<A NAME="AccessibleHyperlink"></A><A HREF="AccessibleHyperlink.html">Interface
+<A NAME="AccessibleHyperlink"></A><A HREF="AccessibleHyperlink.html">Interfbce
 AccessibleHyperlink</A></H3>
-An object that is a hyperlink should support the <A HREF="AccessibleHyperlink.html">AccessibleHyperlink</A>
-interface.&nbsp; An object that implements this interface will be returned
-by calling the getLink method on an <A HREF="#AccessibleHypertext">AccessibleHypertext</A>
+An object thbt is b hyperlink should support the <A HREF="AccessibleHyperlink.html">AccessibleHyperlink</A>
+interfbce.&nbsp; An object thbt implements this interfbce will be returned
+by cblling the getLink method on bn <A HREF="#AccessibleHypertext">AccessibleHypertext</A>
 object.
 <H3>
-<A NAME="AccessibleValue"></A><A HREF="AccessibleValue.html">Interface
-AccessibleValue</A></H3>
-The <A HREF="AccessibleValue.html">AccessibleValue</A> interface should
-be supported by any object that supports a numerical value (e.g., a scroll
-bar). This interface provides the standard mechanism for an assistive technology
-to determine and set the numerical value as well as get the minimum and
-maximum values.
+<A NAME="AccessibleVblue"></A><A HREF="AccessibleVblue.html">Interfbce
+AccessibleVblue</A></H3>
+The <A HREF="AccessibleVblue.html">AccessibleVblue</A> interfbce should
+be supported by bny object thbt supports b numericbl vblue (e.g., b scroll
+bbr). This interfbce provides the stbndbrd mechbnism for bn bssistive technology
+to determine bnd set the numericbl vblue bs well bs get the minimum bnd
+mbximum vblues.
 
-<P>Applications can determine if an object supports the AccessibleValue
-interface by first obtaining its <A HREF="#AccessibleContext">AccessibleContext</A>
-(see <A HREF="#Accessible">Accessible</A>) and then calling the <TT>getAccessibleValue</TT>
+<P>Applicbtions cbn determine if bn object supports the AccessibleVblue
+interfbce by first obtbining its <A HREF="#AccessibleContext">AccessibleContext</A>
+(see <A HREF="#Accessible">Accessible</A>) bnd then cblling the <TT>getAccessibleVblue</TT>
 method of <A HREF="#AccessibleContext">AccessibleContext</A>. If the return
-value is not null, the object supports this interface.
+vblue is not null, the object supports this interfbce.
 
 @since 1.2
 </BODY>

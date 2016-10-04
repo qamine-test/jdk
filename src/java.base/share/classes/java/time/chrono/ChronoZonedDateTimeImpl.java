@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,150 +59,150 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
+import stbtic jbvb.time.temporbl.ChronoUnit.SECONDS;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.zone.ZoneOffsetTransition;
-import java.time.zone.ZoneRules;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutput;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbteTime;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.zone.ZoneOffsetTrbnsition;
+import jbvb.time.zone.ZoneRules;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
 /**
- * A date-time with a time-zone in the calendar neutral API.
+ * A dbte-time with b time-zone in the cblendbr neutrbl API.
  * <p>
- * {@code ZoneChronoDateTime} is an immutable representation of a date-time with a time-zone.
- * This class stores all date and time fields, to a precision of nanoseconds,
- * as well as a time-zone and zone offset.
+ * {@code ZoneChronoDbteTime} is bn immutbble representbtion of b dbte-time with b time-zone.
+ * This clbss stores bll dbte bnd time fields, to b precision of nbnoseconds,
+ * bs well bs b time-zone bnd zone offset.
  * <p>
- * The purpose of storing the time-zone is to distinguish the ambiguous case where
- * the local time-line overlaps, typically as a result of the end of daylight time.
- * Information about the local-time can be obtained using methods on the time-zone.
+ * The purpose of storing the time-zone is to distinguish the bmbiguous cbse where
+ * the locbl time-line overlbps, typicblly bs b result of the end of dbylight time.
+ * Informbtion bbout the locbl-time cbn be obtbined using methods on the time-zone.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
- * @serial Document the delegation of this class in the serialized-form specification.
- * @param <D> the concrete type for the date of this date-time
+ * @seribl Document the delegbtion of this clbss in the seriblized-form specificbtion.
+ * @pbrbm <D> the concrete type for the dbte of this dbte-time
  * @since 1.8
  */
-final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
-        implements ChronoZonedDateTime<D>, Serializable {
+finbl clbss ChronoZonedDbteTimeImpl<D extends ChronoLocblDbte>
+        implements ChronoZonedDbteTime<D>, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -5261813987200935591L;
+    privbte stbtic finbl long seriblVersionUID = -5261813987200935591L;
 
     /**
-     * The local date-time.
+     * The locbl dbte-time.
      */
-    private final transient ChronoLocalDateTimeImpl<D> dateTime;
+    privbte finbl trbnsient ChronoLocblDbteTimeImpl<D> dbteTime;
     /**
      * The zone offset.
      */
-    private final transient ZoneOffset offset;
+    privbte finbl trbnsient ZoneOffset offset;
     /**
      * The zone ID.
      */
-    private final transient ZoneId zone;
+    privbte finbl trbnsient ZoneId zone;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance from a local date-time using the preferred offset if possible.
+     * Obtbins bn instbnce from b locbl dbte-time using the preferred offset if possible.
      *
-     * @param localDateTime  the local date-time, not null
-     * @param zone  the zone identifier, not null
-     * @param preferredOffset  the zone offset, null if no preference
-     * @return the zoned date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm zone  the zone identifier, not null
+     * @pbrbm preferredOffset  the zone offset, null if no preference
+     * @return the zoned dbte-time, not null
      */
-    static <R extends ChronoLocalDate> ChronoZonedDateTime<R> ofBest(
-            ChronoLocalDateTimeImpl<R> localDateTime, ZoneId zone, ZoneOffset preferredOffset) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
+    stbtic <R extends ChronoLocblDbte> ChronoZonedDbteTime<R> ofBest(
+            ChronoLocblDbteTimeImpl<R> locblDbteTime, ZoneId zone, ZoneOffset preferredOffset) {
+        Objects.requireNonNull(locblDbteTime, "locblDbteTime");
         Objects.requireNonNull(zone, "zone");
-        if (zone instanceof ZoneOffset) {
-            return new ChronoZonedDateTimeImpl<>(localDateTime, (ZoneOffset) zone, zone);
+        if (zone instbnceof ZoneOffset) {
+            return new ChronoZonedDbteTimeImpl<>(locblDbteTime, (ZoneOffset) zone, zone);
         }
         ZoneRules rules = zone.getRules();
-        LocalDateTime isoLDT = LocalDateTime.from(localDateTime);
-        List<ZoneOffset> validOffsets = rules.getValidOffsets(isoLDT);
+        LocblDbteTime isoLDT = LocblDbteTime.from(locblDbteTime);
+        List<ZoneOffset> vblidOffsets = rules.getVblidOffsets(isoLDT);
         ZoneOffset offset;
-        if (validOffsets.size() == 1) {
-            offset = validOffsets.get(0);
-        } else if (validOffsets.size() == 0) {
-            ZoneOffsetTransition trans = rules.getTransition(isoLDT);
-            localDateTime = localDateTime.plusSeconds(trans.getDuration().getSeconds());
-            offset = trans.getOffsetAfter();
+        if (vblidOffsets.size() == 1) {
+            offset = vblidOffsets.get(0);
+        } else if (vblidOffsets.size() == 0) {
+            ZoneOffsetTrbnsition trbns = rules.getTrbnsition(isoLDT);
+            locblDbteTime = locblDbteTime.plusSeconds(trbns.getDurbtion().getSeconds());
+            offset = trbns.getOffsetAfter();
         } else {
-            if (preferredOffset != null && validOffsets.contains(preferredOffset)) {
+            if (preferredOffset != null && vblidOffsets.contbins(preferredOffset)) {
                 offset = preferredOffset;
             } else {
-                offset = validOffsets.get(0);
+                offset = vblidOffsets.get(0);
             }
         }
-        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
-        return new ChronoZonedDateTimeImpl<>(localDateTime, offset, zone);
+        Objects.requireNonNull(offset, "offset");  // protect bgbinst bbd ZoneRules
+        return new ChronoZonedDbteTimeImpl<>(locblDbteTime, offset, zone);
     }
 
     /**
-     * Obtains an instance from an instant using the specified time-zone.
+     * Obtbins bn instbnce from bn instbnt using the specified time-zone.
      *
-     * @param chrono  the chronology, not null
-     * @param instant  the instant, not null
-     * @param zone  the zone identifier, not null
-     * @return the zoned date-time, not null
+     * @pbrbm chrono  the chronology, not null
+     * @pbrbm instbnt  the instbnt, not null
+     * @pbrbm zone  the zone identifier, not null
+     * @return the zoned dbte-time, not null
      */
-    static ChronoZonedDateTimeImpl<?> ofInstant(Chronology chrono, Instant instant, ZoneId zone) {
+    stbtic ChronoZonedDbteTimeImpl<?> ofInstbnt(Chronology chrono, Instbnt instbnt, ZoneId zone) {
         ZoneRules rules = zone.getRules();
-        ZoneOffset offset = rules.getOffset(instant);
-        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
-        LocalDateTime ldt = LocalDateTime.ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
-        ChronoLocalDateTimeImpl<?> cldt = (ChronoLocalDateTimeImpl<?>)chrono.localDateTime(ldt);
-        return new ChronoZonedDateTimeImpl<>(cldt, offset, zone);
+        ZoneOffset offset = rules.getOffset(instbnt);
+        Objects.requireNonNull(offset, "offset");  // protect bgbinst bbd ZoneRules
+        LocblDbteTime ldt = LocblDbteTime.ofEpochSecond(instbnt.getEpochSecond(), instbnt.getNbno(), offset);
+        ChronoLocblDbteTimeImpl<?> cldt = (ChronoLocblDbteTimeImpl<?>)chrono.locblDbteTime(ldt);
+        return new ChronoZonedDbteTimeImpl<>(cldt, offset, zone);
     }
 
     /**
-     * Obtains an instance from an {@code Instant}.
+     * Obtbins bn instbnce from bn {@code Instbnt}.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone to use, validated not null
-     * @return the zoned date-time, validated not null
+     * @pbrbm instbnt  the instbnt to crebte the dbte-time from, not null
+     * @pbrbm zone  the time-zone to use, vblidbted not null
+     * @return the zoned dbte-time, vblidbted not null
      */
-    @SuppressWarnings("unchecked")
-    private ChronoZonedDateTimeImpl<D> create(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTimeImpl<D>)ofInstant(getChronology(), instant, zone);
+    @SuppressWbrnings("unchecked")
+    privbte ChronoZonedDbteTimeImpl<D> crebte(Instbnt instbnt, ZoneId zone) {
+        return (ChronoZonedDbteTimeImpl<D>)ofInstbnt(getChronology(), instbnt, zone);
     }
 
     /**
-     * Casts the {@code Temporal} to {@code ChronoZonedDateTimeImpl} ensuring it bas the specified chronology.
+     * Cbsts the {@code Temporbl} to {@code ChronoZonedDbteTimeImpl} ensuring it bbs the specified chronology.
      *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal  a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoZonedDateTimeImpl}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoZonedDateTimeImpl
-     *  or the chronology is not equal this Chronology
+     * @pbrbm chrono  the chronology to check for, not null
+     * @pbrbm temporbl  b dbte-time to cbst, not null
+     * @return the dbte-time checked bnd cbst to {@code ChronoZonedDbteTimeImpl}, not null
+     * @throws ClbssCbstException if the dbte-time cbnnot be cbst to ChronoZonedDbteTimeImpl
+     *  or the chronology is not equbl this Chronology
      */
-    static <R extends ChronoLocalDate> ChronoZonedDateTimeImpl<R> ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        ChronoZonedDateTimeImpl<R> other = (ChronoZonedDateTimeImpl<R>) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, required: " + chrono.getId()
-                    + ", actual: " + other.getChronology().getId());
+    stbtic <R extends ChronoLocblDbte> ChronoZonedDbteTimeImpl<R> ensureVblid(Chronology chrono, Temporbl temporbl) {
+        @SuppressWbrnings("unchecked")
+        ChronoZonedDbteTimeImpl<R> other = (ChronoZonedDbteTimeImpl<R>) temporbl;
+        if (chrono.equbls(other.getChronology()) == fblse) {
+            throw new ClbssCbstException("Chronology mismbtch, required: " + chrono.getId()
+                    + ", bctubl: " + other.getChronology().getId());
         }
         return other;
     }
@@ -211,12 +211,12 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
     /**
      * Constructor.
      *
-     * @param dateTime  the date-time, not null
-     * @param offset  the zone offset, not null
-     * @param zone  the zone ID, not null
+     * @pbrbm dbteTime  the dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @pbrbm zone  the zone ID, not null
      */
-    private ChronoZonedDateTimeImpl(ChronoLocalDateTimeImpl<D> dateTime, ZoneOffset offset, ZoneId zone) {
-        this.dateTime = Objects.requireNonNull(dateTime, "dateTime");
+    privbte ChronoZonedDbteTimeImpl(ChronoLocblDbteTimeImpl<D> dbteTime, ZoneOffset offset, ZoneId zone) {
+        this.dbteTime = Objects.requireNonNull(dbteTime, "dbteTime");
         this.offset = Objects.requireNonNull(offset, "offset");
         this.zone = Objects.requireNonNull(zone, "zone");
     }
@@ -228,24 +228,24 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
     }
 
     @Override
-    public ChronoZonedDateTime<D> withEarlierOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(LocalDateTime.from(this));
-        if (trans != null && trans.isOverlap()) {
-            ZoneOffset earlierOffset = trans.getOffsetBefore();
-            if (earlierOffset.equals(offset) == false) {
-                return new ChronoZonedDateTimeImpl<>(dateTime, earlierOffset, zone);
+    public ChronoZonedDbteTime<D> withEbrlierOffsetAtOverlbp() {
+        ZoneOffsetTrbnsition trbns = getZone().getRules().getTrbnsition(LocblDbteTime.from(this));
+        if (trbns != null && trbns.isOverlbp()) {
+            ZoneOffset ebrlierOffset = trbns.getOffsetBefore();
+            if (ebrlierOffset.equbls(offset) == fblse) {
+                return new ChronoZonedDbteTimeImpl<>(dbteTime, ebrlierOffset, zone);
             }
         }
         return this;
     }
 
     @Override
-    public ChronoZonedDateTime<D> withLaterOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(LocalDateTime.from(this));
-        if (trans != null) {
-            ZoneOffset offset = trans.getOffsetAfter();
-            if (offset.equals(getOffset()) == false) {
-                return new ChronoZonedDateTimeImpl<>(dateTime, offset, zone);
+    public ChronoZonedDbteTime<D> withLbterOffsetAtOverlbp() {
+        ZoneOffsetTrbnsition trbns = getZone().getRules().getTrbnsition(LocblDbteTime.from(this));
+        if (trbns != null) {
+            ZoneOffset offset = trbns.getOffsetAfter();
+            if (offset.equbls(getOffset()) == fblse) {
+                return new ChronoZonedDbteTimeImpl<>(dbteTime, offset, zone);
             }
         }
         return this;
@@ -253,8 +253,8 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoLocalDateTime<D> toLocalDateTime() {
-        return dateTime;
+    public ChronoLocblDbteTime<D> toLocblDbteTime() {
+        return dbteTime;
     }
 
     @Override
@@ -263,57 +263,57 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
     }
 
     @Override
-    public ChronoZonedDateTime<D> withZoneSameLocal(ZoneId zone) {
-        return ofBest(dateTime, zone, offset);
+    public ChronoZonedDbteTime<D> withZoneSbmeLocbl(ZoneId zone) {
+        return ofBest(dbteTime, zone, offset);
     }
 
     @Override
-    public ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zone) {
+    public ChronoZonedDbteTime<D> withZoneSbmeInstbnt(ZoneId zone) {
         Objects.requireNonNull(zone, "zone");
-        return this.zone.equals(zone) ? this : create(dateTime.toInstant(offset), zone);
+        return this.zone.equbls(zone) ? this : crebte(dbteTime.toInstbnt(offset), zone);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isSupported(TemporalField field) {
-        return field instanceof ChronoField || (field != null && field.isSupportedBy(this));
+    public boolebn isSupported(TemporblField field) {
+        return field instbnceof ChronoField || (field != null && field.isSupportedBy(this));
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoZonedDateTime<D> with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public ChronoZonedDbteTime<D> with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
             switch (f) {
-                case INSTANT_SECONDS: return plus(newValue - toEpochSecond(), SECONDS);
-                case OFFSET_SECONDS: {
-                    ZoneOffset offset = ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue));
-                    return create(dateTime.toInstant(offset), zone);
+                cbse INSTANT_SECONDS: return plus(newVblue - toEpochSecond(), SECONDS);
+                cbse OFFSET_SECONDS: {
+                    ZoneOffset offset = ZoneOffset.ofTotblSeconds(f.checkVblidIntVblue(newVblue));
+                    return crebte(dbteTime.toInstbnt(offset), zone);
                 }
             }
-            return ofBest(dateTime.with(field, newValue), zone, offset);
+            return ofBest(dbteTime.with(field, newVblue), zone, offset);
         }
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), field.adjustInto(this, newValue));
+        return ChronoZonedDbteTimeImpl.ensureVblid(getChronology(), field.bdjustInto(this, newVblue));
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoZonedDateTime<D> plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return with(dateTime.plus(amountToAdd, unit));
+    public ChronoZonedDbteTime<D> plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
+            return with(dbteTime.plus(bmountToAdd, unit));
         }
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), unit.addTo(this, amountToAdd));   /// TODO: Generics replacement Risk!
+        return ChronoZonedDbteTimeImpl.ensureVblid(getChronology(), unit.bddTo(this, bmountToAdd));   /// TODO: Generics replbcement Risk!
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
         Objects.requireNonNull(endExclusive, "endExclusive");
-        @SuppressWarnings("unchecked")
-        ChronoZonedDateTime<D> end = (ChronoZonedDateTime<D>) getChronology().zonedDateTime(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            end = end.withZoneSameInstant(offset);
-            return dateTime.until(end.toLocalDateTime(), unit);
+        @SuppressWbrnings("unchecked")
+        ChronoZonedDbteTime<D> end = (ChronoZonedDbteTime<D>) getChronology().zonedDbteTime(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            end = end.withZoneSbmeInstbnt(offset);
+            return dbteTime.until(end.toLocblDbteTime(), unit);
         }
         Objects.requireNonNull(unit, "unit");
         return unit.between(this, end);
@@ -321,66 +321,66 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the ChronoZonedDateTime using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the ChronoZonedDbteTime using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(3);                  // identifies a ChronoZonedDateTime
-     *  out.writeObject(toLocalDateTime());
+     *  out.writeByte(3);                  // identifies b ChronoZonedDbteTime
+     *  out.writeObject(toLocblDbteTime());
      *  out.writeObject(getOffset());
      *  out.writeObject(getZone());
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.CHRONO_ZONE_DATE_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(dateTime);
+    void writeExternbl(ObjectOutput out) throws IOException {
+        out.writeObject(dbteTime);
         out.writeObject(offset);
         out.writeObject(zone);
     }
 
-    static ChronoZonedDateTime<?> readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        ChronoLocalDateTime<?> dateTime = (ChronoLocalDateTime<?>) in.readObject();
-        ZoneOffset offset = (ZoneOffset) in.readObject();
-        ZoneId zone = (ZoneId) in.readObject();
-        return dateTime.atZone(offset).withZoneSameLocal(zone);
+    stbtic ChronoZonedDbteTime<?> rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        ChronoLocblDbteTime<?> dbteTime = (ChronoLocblDbteTime<?>) in.rebdObject();
+        ZoneOffset offset = (ZoneOffset) in.rebdObject();
+        ZoneId zone = (ZoneId) in.rebdObject();
+        return dbteTime.btZone(offset).withZoneSbmeLocbl(zone);
         // TODO: ZDT uses ofLenient()
     }
 
     //-------------------------------------------------------------------------
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ChronoZonedDateTime) {
-            return compareTo((ChronoZonedDateTime<?>) obj) == 0;
+        if (obj instbnceof ChronoZonedDbteTime) {
+            return compbreTo((ChronoZonedDbteTime<?>) obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return toLocalDateTime().hashCode() ^ getOffset().hashCode() ^ Integer.rotateLeft(getZone().hashCode(), 3);
+    public int hbshCode() {
+        return toLocblDbteTime().hbshCode() ^ getOffset().hbshCode() ^ Integer.rotbteLeft(getZone().hbshCode(), 3);
     }
 
     @Override
     public String toString() {
-        String str = toLocalDateTime().toString() + getOffset().toString();
+        String str = toLocblDbteTime().toString() + getOffset().toString();
         if (getOffset() != getZone()) {
             str += '[' + getZone().toString() + ']';
         }

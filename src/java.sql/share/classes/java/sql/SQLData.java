@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * The interface used for the custom mapping of an SQL user-defined type (UDT) to
- * a class in the Java programming language. The class object for a class
- * implementing the <code>SQLData</code> interface will be entered in the
- * appropriate <code>Connection</code> object's type map along with the SQL
- * name of the UDT for which it is a custom mapping.
+ * The interfbce used for the custom mbpping of bn SQL user-defined type (UDT) to
+ * b clbss in the Jbvb progrbmming lbngubge. The clbss object for b clbss
+ * implementing the <code>SQLDbtb</code> interfbce will be entered in the
+ * bppropribte <code>Connection</code> object's type mbp blong with the SQL
+ * nbme of the UDT for which it is b custom mbpping.
  * <P>
- * Typically, a <code>SQLData</code> implementation
- * will define a field for each attribute of an SQL structured type or a
- * single field for an SQL <code>DISTINCT</code> type. When the UDT is
- * retrieved from a data source with the <code>ResultSet.getObject</code>
- * method, it will be mapped as an instance of this class.  A programmer
- * can operate on this class instance just as on any other object in the
- * Java programming language and then store any changes made to it by
- * calling the <code>PreparedStatement.setObject</code> method,
- * which will map it back to the SQL type.
+ * Typicblly, b <code>SQLDbtb</code> implementbtion
+ * will define b field for ebch bttribute of bn SQL structured type or b
+ * single field for bn SQL <code>DISTINCT</code> type. When the UDT is
+ * retrieved from b dbtb source with the <code>ResultSet.getObject</code>
+ * method, it will be mbpped bs bn instbnce of this clbss.  A progrbmmer
+ * cbn operbte on this clbss instbnce just bs on bny other object in the
+ * Jbvb progrbmming lbngubge bnd then store bny chbnges mbde to it by
+ * cblling the <code>PrepbredStbtement.setObject</code> method,
+ * which will mbp it bbck to the SQL type.
  * <p>
- * It is expected that the implementation of the class for a custom
- * mapping will be done by a tool.  In a typical implementation, the
- * programmer would simply supply the name of the SQL UDT, the name of
- * the class to which it is being mapped, and the names of the fields to
- * which each of the attributes of the UDT is to be mapped.  The tool will use
- * this information to implement the <code>SQLData.readSQL</code> and
- * <code>SQLData.writeSQL</code> methods.  The <code>readSQL</code> method
- * calls the appropriate <code>SQLInput</code> methods to read
- * each attribute from an <code>SQLInput</code> object, and the
- * <code>writeSQL</code> method calls <code>SQLOutput</code> methods
- * to write each attribute back to the data source via an
+ * It is expected thbt the implementbtion of the clbss for b custom
+ * mbpping will be done by b tool.  In b typicbl implementbtion, the
+ * progrbmmer would simply supply the nbme of the SQL UDT, the nbme of
+ * the clbss to which it is being mbpped, bnd the nbmes of the fields to
+ * which ebch of the bttributes of the UDT is to be mbpped.  The tool will use
+ * this informbtion to implement the <code>SQLDbtb.rebdSQL</code> bnd
+ * <code>SQLDbtb.writeSQL</code> methods.  The <code>rebdSQL</code> method
+ * cblls the bppropribte <code>SQLInput</code> methods to rebd
+ * ebch bttribute from bn <code>SQLInput</code> object, bnd the
+ * <code>writeSQL</code> method cblls <code>SQLOutput</code> methods
+ * to write ebch bttribute bbck to the dbtb source vib bn
  * <code>SQLOutput</code> object.
  * <P>
- * An application programmer will not normally call <code>SQLData</code> methods
- * directly, and the <code>SQLInput</code> and <code>SQLOutput</code> methods
- * are called internally by <code>SQLData</code> methods, not by application code.
+ * An bpplicbtion progrbmmer will not normblly cbll <code>SQLDbtb</code> methods
+ * directly, bnd the <code>SQLInput</code> bnd <code>SQLOutput</code> methods
+ * bre cblled internblly by <code>SQLDbtb</code> methods, not by bpplicbtion code.
  *
  * @since 1.2
  */
-public interface SQLData {
+public interfbce SQLDbtb {
 
  /**
-  * Returns the fully-qualified
-  * name of the SQL user-defined type that this object represents.
-  * This method is called by the JDBC driver to get the name of the
-  * UDT instance that is being mapped to this instance of
-  * <code>SQLData</code>.
+  * Returns the fully-qublified
+  * nbme of the SQL user-defined type thbt this object represents.
+  * This method is cblled by the JDBC driver to get the nbme of the
+  * UDT instbnce thbt is being mbpped to this instbnce of
+  * <code>SQLDbtb</code>.
   *
-  * @return the type name that was passed to the method <code>readSQL</code>
-  *            when this object was constructed and populated
-  * @exception SQLException if there is a database access error
-  * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+  * @return the type nbme thbt wbs pbssed to the method <code>rebdSQL</code>
+  *            when this object wbs constructed bnd populbted
+  * @exception SQLException if there is b dbtbbbse bccess error
+  * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
   * this method
   * @since 1.2
   */
-  String getSQLTypeName() throws SQLException;
+  String getSQLTypeNbme() throws SQLException;
 
  /**
-  * Populates this object with data read from the database.
-  * The implementation of the method must follow this protocol:
+  * Populbtes this object with dbtb rebd from the dbtbbbse.
+  * The implementbtion of the method must follow this protocol:
   * <UL>
-  * <LI>It must read each of the attributes or elements of the SQL
-  * type  from the given input stream.  This is done
-  * by calling a method of the input stream to read each
-  * item, in the order that they appear in the SQL definition
+  * <LI>It must rebd ebch of the bttributes or elements of the SQL
+  * type  from the given input strebm.  This is done
+  * by cblling b method of the input strebm to rebd ebch
+  * item, in the order thbt they bppebr in the SQL definition
   * of the type.
-  * <LI>The method <code>readSQL</code> then
-  * assigns the data to appropriate fields or
+  * <LI>The method <code>rebdSQL</code> then
+  * bssigns the dbtb to bppropribte fields or
   * elements (of this or other objects).
-  * Specifically, it must call the appropriate <i>reader</i> method
-  * (<code>SQLInput.readString</code>, <code>SQLInput.readBigDecimal</code>,
-  * and so on) method(s) to do the following:
-  * for a distinct type, read its single data element;
-  * for a structured type, read a value for each attribute of the SQL type.
+  * Specificblly, it must cbll the bppropribte <i>rebder</i> method
+  * (<code>SQLInput.rebdString</code>, <code>SQLInput.rebdBigDecimbl</code>,
+  * bnd so on) method(s) to do the following:
+  * for b distinct type, rebd its single dbtb element;
+  * for b structured type, rebd b vblue for ebch bttribute of the SQL type.
   * </UL>
-  * The JDBC driver initializes the input stream with a type map
-  * before calling this method, which is used by the appropriate
-  * <code>SQLInput</code> reader method on the stream.
+  * The JDBC driver initiblizes the input strebm with b type mbp
+  * before cblling this method, which is used by the bppropribte
+  * <code>SQLInput</code> rebder method on the strebm.
   *
-  * @param stream the <code>SQLInput</code> object from which to read the data for
-  * the value that is being custom mapped
-  * @param typeName the SQL type name of the value on the data stream
-  * @exception SQLException if there is a database access error
-  * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+  * @pbrbm strebm the <code>SQLInput</code> object from which to rebd the dbtb for
+  * the vblue thbt is being custom mbpped
+  * @pbrbm typeNbme the SQL type nbme of the vblue on the dbtb strebm
+  * @exception SQLException if there is b dbtbbbse bccess error
+  * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
   * this method
   * @see SQLInput
   * @since 1.2
   */
-  void readSQL (SQLInput stream, String typeName) throws SQLException;
+  void rebdSQL (SQLInput strebm, String typeNbme) throws SQLException;
 
   /**
-  * Writes this object to the given SQL data stream, converting it back to
-  * its SQL value in the data source.
-  * The implementation of the method must follow this protocol:<BR>
-  * It must write each of the attributes of the SQL type
-  * to the given output stream.  This is done by calling a
-  * method of the output stream to write each item, in the order that
-  * they appear in the SQL definition of the type.
-  * Specifically, it must call the appropriate <code>SQLOutput</code> writer
-  * method(s) (<code>writeInt</code>, <code>writeString</code>, and so on)
-  * to do the following: for a Distinct Type, write its single data element;
-  * for a Structured Type, write a value for each attribute of the SQL type.
+  * Writes this object to the given SQL dbtb strebm, converting it bbck to
+  * its SQL vblue in the dbtb source.
+  * The implementbtion of the method must follow this protocol:<BR>
+  * It must write ebch of the bttributes of the SQL type
+  * to the given output strebm.  This is done by cblling b
+  * method of the output strebm to write ebch item, in the order thbt
+  * they bppebr in the SQL definition of the type.
+  * Specificblly, it must cbll the bppropribte <code>SQLOutput</code> writer
+  * method(s) (<code>writeInt</code>, <code>writeString</code>, bnd so on)
+  * to do the following: for b Distinct Type, write its single dbtb element;
+  * for b Structured Type, write b vblue for ebch bttribute of the SQL type.
   *
-  * @param stream the <code>SQLOutput</code> object to which to write the data for
-  * the value that was custom mapped
-  * @exception SQLException if there is a database access error
-  * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+  * @pbrbm strebm the <code>SQLOutput</code> object to which to write the dbtb for
+  * the vblue thbt wbs custom mbpped
+  * @exception SQLException if there is b dbtbbbse bccess error
+  * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
   * this method
   * @see SQLOutput
   * @since 1.2
   */
-  void writeSQL (SQLOutput stream) throws SQLException;
+  void writeSQL (SQLOutput strebm) throws SQLException;
 }

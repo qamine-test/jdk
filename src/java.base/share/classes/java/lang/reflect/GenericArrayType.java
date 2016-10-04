@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * {@code GenericArrayType} represents an array type whose component
- * type is either a parameterized type or a type variable.
+ * {@code GenericArrbyType} represents bn brrby type whose component
+ * type is either b pbrbmeterized type or b type vbribble.
  * @since 1.5
  */
-public interface GenericArrayType extends Type {
+public interfbce GenericArrbyType extends Type {
     /**
-     * Returns a {@code Type} object representing the component type
-     * of this array. This method creates the component type of the
-     * array.  See the declaration of {@link
-     * java.lang.reflect.ParameterizedType ParameterizedType} for the
-     * semantics of the creation process for parameterized types and
-     * see {@link java.lang.reflect.TypeVariable TypeVariable} for the
-     * creation process for type variables.
+     * Returns b {@code Type} object representing the component type
+     * of this brrby. This method crebtes the component type of the
+     * brrby.  See the declbrbtion of {@link
+     * jbvb.lbng.reflect.PbrbmeterizedType PbrbmeterizedType} for the
+     * sembntics of the crebtion process for pbrbmeterized types bnd
+     * see {@link jbvb.lbng.reflect.TypeVbribble TypeVbribble} for the
+     * crebtion process for type vbribbles.
      *
-     * @return  a {@code Type} object representing the component type
-     *     of this array
-     * @throws TypeNotPresentException if the underlying array type's
-     *     component type refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if  the
-     *     underlying array type's component type refers to a
-     *     parameterized type that cannot be instantiated for any reason
+     * @return  b {@code Type} object representing the component type
+     *     of this brrby
+     * @throws TypeNotPresentException if the underlying brrby type's
+     *     component type refers to b non-existent type declbrbtion
+     * @throws MblformedPbrbmeterizedTypeException if  the
+     *     underlying brrby type's component type refers to b
+     *     pbrbmeterized type thbt cbnnot be instbntibted for bny rebson
      */
     Type getGenericComponentType();
 }

@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Linux specific system calls.
+ * Linux specific system cblls.
  */
 
-class LinuxNativeDispatcher extends UnixNativeDispatcher {
-    private LinuxNativeDispatcher() { }
+clbss LinuxNbtiveDispbtcher extends UnixNbtiveDispbtcher {
+    privbte LinuxNbtiveDispbtcher() { }
 
    /**
-    * FILE *setmntent(const char *filename, const char *type);
+    * FILE *setmntent(const chbr *filenbme, const chbr *type);
     */
-    static long setmntent(byte[] filename, byte[] type) throws UnixException {
-        NativeBuffer pathBuffer = NativeBuffers.asNativeBuffer(filename);
-        NativeBuffer typeBuffer = NativeBuffers.asNativeBuffer(type);
+    stbtic long setmntent(byte[] filenbme, byte[] type) throws UnixException {
+        NbtiveBuffer pbthBuffer = NbtiveBuffers.bsNbtiveBuffer(filenbme);
+        NbtiveBuffer typeBuffer = NbtiveBuffers.bsNbtiveBuffer(type);
         try {
-            return setmntent0(pathBuffer.address(), typeBuffer.address());
-        } finally {
-            typeBuffer.release();
-            pathBuffer.release();
+            return setmntent0(pbthBuffer.bddress(), typeBuffer.bddress());
+        } finblly {
+            typeBuffer.relebse();
+            pbthBuffer.relebse();
         }
     }
-    private static native long setmntent0(long pathAddress, long typeAddress)
+    privbte stbtic nbtive long setmntent0(long pbthAddress, long typeAddress)
         throws UnixException;
 
     /**
-     * int getmntent(FILE *fp, struct mnttab *mp, int len);
+     * int getmntent(FILE *fp, struct mnttbb *mp, int len);
      */
-    static native int getmntent(long fp, UnixMountEntry entry)
+    stbtic nbtive int getmntent(long fp, UnixMountEntry entry)
         throws UnixException;
 
     /**
      * int endmntent(FILE* filep);
      */
-    static native void endmntent(long stream) throws UnixException;
+    stbtic nbtive void endmntent(long strebm) throws UnixException;
 
     /**
-     * ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size);
+     * ssize_t fgetxbttr(int filedes, const chbr *nbme, void *vblue, size_t size);
      */
-    static int fgetxattr(int filedes, byte[] name, long valueAddress,
-                         int valueLen) throws UnixException
+    stbtic int fgetxbttr(int filedes, byte[] nbme, long vblueAddress,
+                         int vblueLen) throws UnixException
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(nbme);
         try {
-            return fgetxattr0(filedes, buffer.address(), valueAddress, valueLen);
-        } finally {
-            buffer.release();
+            return fgetxbttr0(filedes, buffer.bddress(), vblueAddress, vblueLen);
+        } finblly {
+            buffer.relebse();
         }
     }
 
-    private static native int fgetxattr0(int filedes, long nameAddress,
-        long valueAddress, int valueLen) throws UnixException;
+    privbte stbtic nbtive int fgetxbttr0(int filedes, long nbmeAddress,
+        long vblueAddress, int vblueLen) throws UnixException;
 
     /**
-     *  fsetxattr(int filedes, const char *name, const void *value, size_t size, int flags);
+     *  fsetxbttr(int filedes, const chbr *nbme, const void *vblue, size_t size, int flbgs);
      */
-    static void fsetxattr(int filedes, byte[] name, long valueAddress,
-        int valueLen) throws UnixException
+    stbtic void fsetxbttr(int filedes, byte[] nbme, long vblueAddress,
+        int vblueLen) throws UnixException
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(nbme);
         try {
-            fsetxattr0(filedes, buffer.address(), valueAddress, valueLen);
-        } finally {
-            buffer.release();
+            fsetxbttr0(filedes, buffer.bddress(), vblueAddress, vblueLen);
+        } finblly {
+            buffer.relebse();
         }
     }
 
-    private static native void fsetxattr0(int filedes, long nameAddress,
-        long valueAddress, int valueLen) throws UnixException;
+    privbte stbtic nbtive void fsetxbttr0(int filedes, long nbmeAddress,
+        long vblueAddress, int vblueLen) throws UnixException;
 
     /**
-     * fremovexattr(int filedes, const char *name);
+     * fremovexbttr(int filedes, const chbr *nbme);
      */
-    static void fremovexattr(int filedes, byte[] name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+    stbtic void fremovexbttr(int filedes, byte[] nbme) throws UnixException {
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(nbme);
         try {
-            fremovexattr0(filedes, buffer.address());
-        } finally {
-            buffer.release();
+            fremovexbttr0(filedes, buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
 
-    private static native void fremovexattr0(int filedes, long nameAddress)
+    privbte stbtic nbtive void fremovexbttr0(int filedes, long nbmeAddress)
         throws UnixException;
 
     /**
-     * size_t flistxattr(int filedes, const char *list, size_t size)
+     * size_t flistxbttr(int filedes, const chbr *list, size_t size)
      */
-    static native int flistxattr(int filedes, long listAddress, int size)
+    stbtic nbtive int flistxbttr(int filedes, long listAddress, int size)
         throws UnixException;
 
-    // initialize
-    private static native void init();
+    // initiblize
+    privbte stbtic nbtive void init();
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                System.loadLibrary("nio");
+                System.lobdLibrbry("nio");
                 return null;
         }});
         init();

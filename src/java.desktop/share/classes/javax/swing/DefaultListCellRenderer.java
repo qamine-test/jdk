@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Rectangle;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rectbngle;
 
-import java.io.Serializable;
-import sun.swing.DefaultLookup;
+import jbvb.io.Seriblizbble;
+import sun.swing.DefbultLookup;
 
 
 /**
- * Renders an item in a list.
+ * Renders bn item in b list.
  * <p>
- * <strong><a name="override">Implementation Note:</a></strong>
- * This class overrides
- * <code>invalidate</code>,
- * <code>validate</code>,
- * <code>revalidate</code>,
- * <code>repaint</code>,
- * <code>isOpaque</code>,
- * and
- * <code>firePropertyChange</code>
- * solely to improve performance.
- * If not overridden, these frequently called methods would execute code paths
- * that are unnecessary for the default list cell renderer.
+ * <strong><b nbme="override">Implementbtion Note:</b></strong>
+ * This clbss overrides
+ * <code>invblidbte</code>,
+ * <code>vblidbte</code>,
+ * <code>revblidbte</code>,
+ * <code>repbint</code>,
+ * <code>isOpbque</code>,
+ * bnd
+ * <code>firePropertyChbnge</code>
+ * solely to improve performbnce.
+ * If not overridden, these frequently cblled methods would execute code pbths
+ * thbt bre unnecessbry for the defbult list cell renderer.
  * If you write your own renderer,
- * take care to weigh the benefits and
- * drawbacks of overriding these methods.
+ * tbke cbre to weigh the benefits bnd
+ * drbwbbcks of overriding these methods.
  *
  * <p>
  *
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Philip Milne
- * @author Hans Muller
+ * @buthor Philip Milne
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultListCellRenderer extends JLabel
-    implements ListCellRenderer<Object>, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultListCellRenderer extends JLbbel
+    implements ListCellRenderer<Object>, Seriblizbble
 {
 
    /**
-    * An empty <code>Border</code>. This field might not be used. To change the
+    * An empty <code>Border</code>. This field might not be used. To chbnge the
     * <code>Border</code> used by this renderer override the
-    * <code>getListCellRendererComponent</code> method and set the border
+    * <code>getListCellRendererComponent</code> method bnd set the border
     * of the returned component directly.
     */
-    private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    protected static Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
+    privbte stbtic finbl Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    privbte stbtic finbl Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    protected stbtic Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
 
     /**
-     * Constructs a default renderer object for an item
-     * in a list.
+     * Constructs b defbult renderer object for bn item
+     * in b list.
      */
-    public DefaultListCellRenderer() {
+    public DefbultListCellRenderer() {
         super();
-        setOpaque(true);
+        setOpbque(true);
         setBorder(getNoFocusBorder());
-        setName("List.cellRenderer");
+        setNbme("List.cellRenderer");
     }
 
-    private Border getNoFocusBorder() {
-        Border border = DefaultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
-        if (System.getSecurityManager() != null) {
+    privbte Border getNoFocusBorder() {
+        Border border = DefbultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
+        if (System.getSecurityMbnbger() != null) {
             if (border != null) return border;
             return SAFE_NO_FOCUS_BORDER;
         } else {
@@ -114,55 +114,55 @@ public class DefaultListCellRenderer extends JLabel
 
     public Component getListCellRendererComponent(
         JList<?> list,
-        Object value,
+        Object vblue,
         int index,
-        boolean isSelected,
-        boolean cellHasFocus)
+        boolebn isSelected,
+        boolebn cellHbsFocus)
     {
-        setComponentOrientation(list.getComponentOrientation());
+        setComponentOrientbtion(list.getComponentOrientbtion());
 
         Color bg = null;
         Color fg = null;
 
-        JList.DropLocation dropLocation = list.getDropLocation();
-        if (dropLocation != null
-                && !dropLocation.isInsert()
-                && dropLocation.getIndex() == index) {
+        JList.DropLocbtion dropLocbtion = list.getDropLocbtion();
+        if (dropLocbtion != null
+                && !dropLocbtion.isInsert()
+                && dropLocbtion.getIndex() == index) {
 
-            bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-            fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+            bg = DefbultLookup.getColor(this, ui, "List.dropCellBbckground");
+            fg = DefbultLookup.getColor(this, ui, "List.dropCellForeground");
 
             isSelected = true;
         }
 
         if (isSelected) {
-            setBackground(bg == null ? list.getSelectionBackground() : bg);
+            setBbckground(bg == null ? list.getSelectionBbckground() : bg);
             setForeground(fg == null ? list.getSelectionForeground() : fg);
         }
         else {
-            setBackground(list.getBackground());
+            setBbckground(list.getBbckground());
             setForeground(list.getForeground());
         }
 
-        if (value instanceof Icon) {
-            setIcon((Icon)value);
+        if (vblue instbnceof Icon) {
+            setIcon((Icon)vblue);
             setText("");
         }
         else {
             setIcon(null);
-            setText((value == null) ? "" : value.toString());
+            setText((vblue == null) ? "" : vblue.toString());
         }
 
-        setEnabled(list.isEnabled());
+        setEnbbled(list.isEnbbled());
         setFont(list.getFont());
 
         Border border = null;
-        if (cellHasFocus) {
+        if (cellHbsFocus) {
             if (isSelected) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusSelectedCellHighlightBorder");
+                border = DefbultLookup.getBorder(this, ui, "List.focusSelectedCellHighlightBorder");
             }
             if (border == null) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusCellHighlightBorder");
+                border = DefbultLookup.getBorder(this, ui, "List.focusCellHighlightBorder");
             }
         } else {
             border = getNoFocusBorder();
@@ -173,179 +173,179 @@ public class DefaultListCellRenderer extends JLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      *
      * @since 1.5
-     * @return <code>true</code> if the background is completely opaque
-     *         and differs from the JList's background;
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the bbckground is completely opbque
+     *         bnd differs from the JList's bbckground;
+     *         <code>fblse</code> otherwise
      */
     @Override
-    public boolean isOpaque() {
-        Color back = getBackground();
-        Component p = getParent();
+    public boolebn isOpbque() {
+        Color bbck = getBbckground();
+        Component p = getPbrent();
         if (p != null) {
-            p = p.getParent();
+            p = p.getPbrent();
         }
         // p should now be the JList.
-        boolean colorMatch = (back != null) && (p != null) &&
-            back.equals(p.getBackground()) &&
-                        p.isOpaque();
-        return !colorMatch && super.isOpaque();
+        boolebn colorMbtch = (bbck != null) && (p != null) &&
+            bbck.equbls(p.getBbckground()) &&
+                        p.isOpbque();
+        return !colorMbtch && super.isOpbque();
     }
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void validate() {}
+    public void vblidbte() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     *
     * @since 1.5
     */
     @Override
-    public void invalidate() {}
+    public void invblidbte() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     *
     * @since 1.5
     */
     @Override
-    public void repaint() {}
+    public void repbint() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void revalidate() {}
+    public void revblidbte() {}
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void repaint(long tm, int x, int y, int width, int height) {}
+    public void repbint(long tm, int x, int y, int width, int height) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void repaint(Rectangle r) {}
+    public void repbint(Rectbngle r) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    protected void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
         // Strings get interned...
-        if (propertyName == "text"
-                || ((propertyName == "font" || propertyName == "foreground")
-                    && oldValue != newValue
-                    && getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null)) {
+        if (propertyNbme == "text"
+                || ((propertyNbme == "font" || propertyNbme == "foreground")
+                    && oldVblue != newVblue
+                    && getClientProperty(jbvbx.swing.plbf.bbsic.BbsicHTML.propertyKey) != null)) {
 
-            super.firePropertyChange(propertyName, oldValue, newValue);
+            super.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
         }
     }
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {}
+    public void firePropertyChbnge(String propertyNbme, byte oldVblue, byte newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, char oldValue, char newValue) {}
+    public void firePropertyChbnge(String propertyNbme, chbr oldVblue, chbr newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, short oldValue, short newValue) {}
+    public void firePropertyChbnge(String propertyNbme, short oldVblue, short newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {}
+    public void firePropertyChbnge(String propertyNbme, int oldVblue, int newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, long oldValue, long newValue) {}
+    public void firePropertyChbnge(String propertyNbme, long oldVblue, long newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, float oldValue, float newValue) {}
+    public void firePropertyChbnge(String propertyNbme, flobt oldVblue, flobt newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, double oldValue, double newValue) {}
+    public void firePropertyChbnge(String propertyNbme, double oldVblue, double newVblue) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Overridden for performbnce rebsons.
+    * See the <b href="#override">Implementbtion Note</b>
+    * for more informbtion.
     */
     @Override
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {}
+    public void firePropertyChbnge(String propertyNbme, boolebn oldVblue, boolebn newVblue) {}
 
     /**
-     * A subclass of DefaultListCellRenderer that implements UIResource.
-     * DefaultListCellRenderer doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with DefaultListCellRenderer subclasses.
+     * A subclbss of DefbultListCellRenderer thbt implements UIResource.
+     * DefbultListCellRenderer doesn't implement UIResource
+     * directly so thbt bpplicbtions cbn sbfely override the
+     * cellRenderer property with DefbultListCellRenderer subclbsses.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends DefaultListCellRenderer
-        implements javax.swing.plaf.UIResource
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UIResource extends DefbultListCellRenderer
+        implements jbvbx.swing.plbf.UIResource
     {
     }
 }

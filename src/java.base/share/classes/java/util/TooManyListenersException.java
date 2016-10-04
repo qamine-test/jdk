@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
  * <p>
- * The <code> TooManyListenersException </code> Exception is used as part of
- * the Java Event model to annotate and implement a unicast special case of
- * a multicast Event Source.
+ * The <code> TooMbnyListenersException </code> Exception is used bs pbrt of
+ * the Jbvb Event model to bnnotbte bnd implement b unicbst specibl cbse of
+ * b multicbst Event Source.
  * </p>
  * <p>
- * The presence of a "throws TooManyListenersException" clause on any given
- * concrete implementation of the normally multicast "void addXyzEventListener"
- * event listener registration pattern is used to annotate that interface as
- * implementing a unicast Listener special case, that is, that one and only
- * one Listener may be registered on the particular event listener source
+ * The presence of b "throws TooMbnyListenersException" clbuse on bny given
+ * concrete implementbtion of the normblly multicbst "void bddXyzEventListener"
+ * event listener registrbtion pbttern is used to bnnotbte thbt interfbce bs
+ * implementing b unicbst Listener specibl cbse, thbt is, thbt one bnd only
+ * one Listener mby be registered on the pbrticulbr event listener source
  * concurrently.
  * </p>
  *
- * @see java.util.EventObject
- * @see java.util.EventListener
+ * @see jbvb.util.EventObject
+ * @see jbvb.util.EventListener
  *
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  * @since  1.1
  */
 
-public class TooManyListenersException extends Exception {
-    private static final long serialVersionUID = 5074640544770687831L;
+public clbss TooMbnyListenersException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 5074640544770687831L;
 
     /**
-     * Constructs a TooManyListenersException with no detail message.
-     * A detail message is a String that describes this particular exception.
+     * Constructs b TooMbnyListenersException with no detbil messbge.
+     * A detbil messbge is b String thbt describes this pbrticulbr exception.
      */
 
-    public TooManyListenersException() {
+    public TooMbnyListenersException() {
         super();
     }
 
     /**
-     * Constructs a TooManyListenersException with the specified detail message.
-     * A detail message is a String that describes this particular exception.
-     * @param s the detail message
+     * Constructs b TooMbnyListenersException with the specified detbil messbge.
+     * A detbil messbge is b String thbt describes this pbrticulbr exception.
+     * @pbrbm s the detbil messbge
      */
 
-    public TooManyListenersException(String s) {
+    public TooMbnyListenersException(String s) {
         super(s);
     }
 }

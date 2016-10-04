@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,8 +30,8 @@
 #include <AudioUnit/AudioUnit.h>
 #include <CoreServices/CoreServices.h>
 #include <AudioToolbox/AudioConverter.h>
-#include <pthread.h>
-#include <math.h>
+#include <pthrebd.h>
+#include <mbth.h>
 /*
 #if !defined(__COREAUDIO_USE_FLAT_INCLUDES__)
 #include <CoreAudio/CoreAudioTypes.h>
@@ -40,7 +40,7 @@
 #endif
 */
 
-#include "PLATFORM_API_MacOSX_Utils.h"
+#include "PLATFORM_API_MbcOSX_Utils.h"
 
 extern "C" {
 #include "Utilities.h"
@@ -51,14 +51,14 @@ extern "C" {
 
 
 #ifdef USE_TRACE
-static void PrintStreamDesc(const AudioStreamBasicDescription *inDesc) {
-    TRACE4("ID='%c%c%c%c'", (char)(inDesc->mFormatID >> 24), (char)(inDesc->mFormatID >> 16), (char)(inDesc->mFormatID >> 8), (char)(inDesc->mFormatID));
-    TRACE2(", %f Hz, flags=0x%lX", (float)inDesc->mSampleRate, (long unsigned)inDesc->mFormatFlags);
-    TRACE2(", %ld channels, %ld bits", (long)inDesc->mChannelsPerFrame, (long)inDesc->mBitsPerChannel);
-    TRACE1(", %ld bytes per frame\n", (long)inDesc->mBytesPerFrame);
+stbtic void PrintStrebmDesc(const AudioStrebmBbsicDescription *inDesc) {
+    TRACE4("ID='%c%c%c%c'", (chbr)(inDesc->mFormbtID >> 24), (chbr)(inDesc->mFormbtID >> 16), (chbr)(inDesc->mFormbtID >> 8), (chbr)(inDesc->mFormbtID));
+    TRACE2(", %f Hz, flbgs=0x%lX", (flobt)inDesc->mSbmpleRbte, (long unsigned)inDesc->mFormbtFlbgs);
+    TRACE2(", %ld chbnnels, %ld bits", (long)inDesc->mChbnnelsPerFrbme, (long)inDesc->mBitsPerChbnnel);
+    TRACE1(", %ld bytes per frbme\n", (long)inDesc->mBytesPerFrbme);
 }
 #else
-static inline void PrintStreamDesc(const AudioStreamBasicDescription *inDesc) { }
+stbtic inline void PrintStrebmDesc(const AudioStrebmBbsicDescription *inDesc) { }
 #endif
 
 
@@ -67,15 +67,15 @@ static inline void PrintStreamDesc(const AudioStreamBasicDescription *inDesc) { 
 
 
 // =======================================
-// MixerProvider functions implementation
+// MixerProvider functions implementbtion
 
-static DeviceList deviceCache;
+stbtic DeviceList deviceCbche;
 
 INT32 DAUDIO_GetDirectAudioDeviceCount() {
-    deviceCache.Refresh();
-    int count = deviceCache.GetCount();
+    deviceCbche.Refresh();
+    int count = deviceCbche.GetCount();
     if (count > 0) {
-        // add "default" device
+        // bdd "defbult" device
         count++;
         TRACE1("DAUDIO_GetDirectAudioDeviceCount: returns %d devices\n", count);
     } else {
@@ -88,143 +88,143 @@ INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex, DirectAudioDevice
     bool result = true;
     desc->deviceID = 0;
     if (mixerIndex == 0) {
-        // default device
-        strncpy(desc->name, "Default Audio Device", DAUDIO_STRING_LENGTH);
-        strncpy(desc->description, "Default Audio Device", DAUDIO_STRING_LENGTH);
-        desc->maxSimulLines = -1;
+        // defbult device
+        strncpy(desc->nbme, "Defbult Audio Device", DAUDIO_STRING_LENGTH);
+        strncpy(desc->description, "Defbult Audio Device", DAUDIO_STRING_LENGTH);
+        desc->mbxSimulLines = -1;
     } else {
         AudioDeviceID deviceID;
-        result = deviceCache.GetDeviceInfo(mixerIndex-1, &deviceID, DAUDIO_STRING_LENGTH,
-            desc->name, desc->vendor, desc->description, desc->version);
+        result = deviceCbche.GetDeviceInfo(mixerIndex-1, &deviceID, DAUDIO_STRING_LENGTH,
+            desc->nbme, desc->vendor, desc->description, desc->version);
         if (result) {
             desc->deviceID = (INT32)deviceID;
-            desc->maxSimulLines = -1;
+            desc->mbxSimulLines = -1;
         }
     }
     return result ? TRUE : FALSE;
 }
 
 
-void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* creator) {
-    TRACE3(">>DAUDIO_GetFormats mixerIndex=%d deviceID=0x%x isSource=%d\n", (int)mixerIndex, (int)deviceID, isSource);
+void DAUDIO_GetFormbts(INT32 mixerIndex, INT32 deviceID, int isSource, void* crebtor) {
+    TRACE3(">>DAUDIO_GetFormbts mixerIndex=%d deviceID=0x%x isSource=%d\n", (int)mixerIndex, (int)deviceID, isSource);
 
-    AudioDeviceID audioDeviceID = deviceID == 0 ? GetDefaultDevice(isSource) : (AudioDeviceID)deviceID;
+    AudioDeviceID budioDeviceID = deviceID == 0 ? GetDefbultDevice(isSource) : (AudioDeviceID)deviceID;
 
-    if (audioDeviceID == 0) {
+    if (budioDeviceID == 0) {
         return;
     }
 
-    int totalChannels = GetChannelCount(audioDeviceID, isSource);
+    int totblChbnnels = GetChbnnelCount(budioDeviceID, isSource);
 
-    if (totalChannels == 0) {
-        TRACE0("<<DAUDIO_GetFormats, no streams!\n");
+    if (totblChbnnels == 0) {
+        TRACE0("<<DAUDIO_GetFormbts, no strebms!\n");
         return;
     }
 
-    if (isSource && totalChannels < 2) {
-        // report 2 channels even if only mono is supported
-        totalChannels = 2;
+    if (isSource && totblChbnnels < 2) {
+        // report 2 chbnnels even if only mono is supported
+        totblChbnnels = 2;
     }
 
-    int channels[] = {1, 2, totalChannels};
-    int channelsCount = MIN(totalChannels, 3);
+    int chbnnels[] = {1, 2, totblChbnnels};
+    int chbnnelsCount = MIN(totblChbnnels, 3);
 
-    float hardwareSampleRate = GetSampleRate(audioDeviceID, isSource);
-    TRACE2("  DAUDIO_GetFormats: got %d channels, sampleRate == %f\n", totalChannels, hardwareSampleRate);
+    flobt hbrdwbreSbmpleRbte = GetSbmpleRbte(budioDeviceID, isSource);
+    TRACE2("  DAUDIO_GetFormbts: got %d chbnnels, sbmpleRbte == %f\n", totblChbnnels, hbrdwbreSbmpleRbte);
 
-    // any sample rates are supported
-    float sampleRate = -1;
+    // bny sbmple rbtes bre supported
+    flobt sbmpleRbte = -1;
 
-    static int sampleBits[] = {8, 16, 24};
-    static int sampleBitsCount = sizeof(sampleBits)/sizeof(sampleBits[0]);
+    stbtic int sbmpleBits[] = {8, 16, 24};
+    stbtic int sbmpleBitsCount = sizeof(sbmpleBits)/sizeof(sbmpleBits[0]);
 
-    // the last audio format is the default one (used by DataLine.open() if format is not specified)
-    // consider as default 16bit PCM stereo (mono is stereo is not supported) with the current sample rate
+    // the lbst budio formbt is the defbult one (used by DbtbLine.open() if formbt is not specified)
+    // consider bs defbult 16bit PCM stereo (mono is stereo is not supported) with the current sbmple rbte
     int defBits = 16;
-    int defChannels = MIN(2, channelsCount);
-    float defSampleRate = hardwareSampleRate;
-    // don't add default format is sample rate is not specified
-    bool addDefault = defSampleRate > 0;
+    int defChbnnels = MIN(2, chbnnelsCount);
+    flobt defSbmpleRbte = hbrdwbreSbmpleRbte;
+    // don't bdd defbult formbt is sbmple rbte is not specified
+    bool bddDefbult = defSbmpleRbte > 0;
 
-    // TODO: CoreAudio can handle signed/unsigned, little-endian/big-endian
-    // TODO: register the formats (to prevent DirectAudio software conversion) - need to fix DirectAudioDevice.createDataLineInfo
-    // to avoid software conversions if both signed/unsigned or big-/little-endian are supported
-    for (int channelIndex = 0; channelIndex < channelsCount; channelIndex++) {
-        for (int bitIndex = 0; bitIndex < sampleBitsCount; bitIndex++) {
-            int bits = sampleBits[bitIndex];
-            if (addDefault && bits == defBits && channels[channelIndex] != defChannels && sampleRate == defSampleRate) {
-                // the format is the default one, don't add it now
+    // TODO: CoreAudio cbn hbndle signed/unsigned, little-endibn/big-endibn
+    // TODO: register the formbts (to prevent DirectAudio softwbre conversion) - need to fix DirectAudioDevice.crebteDbtbLineInfo
+    // to bvoid softwbre conversions if both signed/unsigned or big-/little-endibn bre supported
+    for (int chbnnelIndex = 0; chbnnelIndex < chbnnelsCount; chbnnelIndex++) {
+        for (int bitIndex = 0; bitIndex < sbmpleBitsCount; bitIndex++) {
+            int bits = sbmpleBits[bitIndex];
+            if (bddDefbult && bits == defBits && chbnnels[chbnnelIndex] != defChbnnels && sbmpleRbte == defSbmpleRbte) {
+                // the formbt is the defbult one, don't bdd it now
                 continue;
             }
-            DAUDIO_AddAudioFormat(creator,
-                bits,                       // sample size in bits
-                -1,                         // frame size (auto)
-                channels[channelIndex],     // channels
-                sampleRate,                 // sample rate
-                DAUDIO_PCM,                 // only accept PCM
+            DAUDIO_AddAudioFormbt(crebtor,
+                bits,                       // sbmple size in bits
+                -1,                         // frbme size (buto)
+                chbnnels[chbnnelIndex],     // chbnnels
+                sbmpleRbte,                 // sbmple rbte
+                DAUDIO_PCM,                 // only bccept PCM
                 bits == 8 ? FALSE : TRUE,   // signed
-                bits == 8 ? FALSE           // little-endian for 8bit
-                    : UTIL_IsBigEndianPlatform());
+                bits == 8 ? FALSE           // little-endibn for 8bit
+                    : UTIL_IsBigEndibnPlbtform());
         }
     }
-    // add default format
-    if (addDefault) {
-        DAUDIO_AddAudioFormat(creator,
+    // bdd defbult formbt
+    if (bddDefbult) {
+        DAUDIO_AddAudioFormbt(crebtor,
             defBits,                        // 16 bits
-            -1,                             // automatically calculate frame size
-            defChannels,                    // channels
-            defSampleRate,                  // sample rate
+            -1,                             // butombticblly cblculbte frbme size
+            defChbnnels,                    // chbnnels
+            defSbmpleRbte,                  // sbmple rbte
             DAUDIO_PCM,                     // PCM
             TRUE,                           // signed
-            UTIL_IsBigEndianPlatform());    // native endianess
+            UTIL_IsBigEndibnPlbtform());    // nbtive endibness
     }
 
-    TRACE0("<<DAUDIO_GetFormats\n");
+    TRACE0("<<DAUDIO_GetFormbts\n");
 }
 
 
 // =======================================
-// Source/Target DataLine functions implementation
+// Source/Tbrget DbtbLine functions implementbtion
 
 // ====
-/* 1writer-1reader ring buffer class with flush() support */
-class RingBuffer {
+/* 1writer-1rebder ring buffer clbss with flush() support */
+clbss RingBuffer {
 public:
     RingBuffer() : pBuffer(NULL), nBufferSize(0) {
-        pthread_mutex_init(&lockMutex, NULL);
+        pthrebd_mutex_init(&lockMutex, NULL);
     }
     ~RingBuffer() {
-        Deallocate();
-        pthread_mutex_destroy(&lockMutex);
+        Debllocbte();
+        pthrebd_mutex_destroy(&lockMutex);
     }
 
-    // extraBytes: number of additionally allocated bytes to prevent data
-    // overlapping when almost whole buffer is filled
-    // (required only if Write() can override the buffer)
-    bool Allocate(int requestedBufferSize, int extraBytes) {
-        int fullBufferSize = requestedBufferSize + extraBytes;
+    // extrbBytes: number of bdditionblly bllocbted bytes to prevent dbtb
+    // overlbpping when blmost whole buffer is filled
+    // (required only if Write() cbn override the buffer)
+    bool Allocbte(int requestedBufferSize, int extrbBytes) {
+        int fullBufferSize = requestedBufferSize + extrbBytes;
         int powerOfTwo = 1;
         while (powerOfTwo < fullBufferSize) {
             powerOfTwo <<= 1;
         }
-        pBuffer = (Byte*)malloc(powerOfTwo);
+        pBuffer = (Byte*)mblloc(powerOfTwo);
         if (pBuffer == NULL) {
-            ERROR0("RingBuffer::Allocate: OUT OF MEMORY\n");
-            return false;
+            ERROR0("RingBuffer::Allocbte: OUT OF MEMORY\n");
+            return fblse;
         }
 
         nBufferSize = requestedBufferSize;
-        nAllocatedBytes = powerOfTwo;
-        nPosMask = powerOfTwo - 1;
+        nAllocbtedBytes = powerOfTwo;
+        nPosMbsk = powerOfTwo - 1;
         nWritePos = 0;
-        nReadPos = 0;
+        nRebdPos = 0;
         nFlushPos = -1;
 
-        TRACE2("RingBuffer::Allocate: OK, bufferSize=%d, allocated:%d\n", nBufferSize, nAllocatedBytes);
+        TRACE2("RingBuffer::Allocbte: OK, bufferSize=%d, bllocbted:%d\n", nBufferSize, nAllocbtedBytes);
         return true;
     }
 
-    void Deallocate() {
+    void Debllocbte() {
         if (pBuffer) {
             free(pBuffer);
             pBuffer = NULL;
@@ -236,14 +236,14 @@ public:
         return nBufferSize;
     }
 
-    inline int GetAllocatedSize() {
-        return nAllocatedBytes;
+    inline int GetAllocbtedSize() {
+        return nAllocbtedBytes;
     }
 
-    // gets number of bytes available for reading
-    int GetValidByteCount() {
+    // gets number of bytes bvbilbble for rebding
+    int GetVblidByteCount() {
         lock();
-        INT64 result = nWritePos - (nFlushPos >= 0 ? nFlushPos : nReadPos);
+        INT64 result = nWritePos - (nFlushPos >= 0 ? nFlushPos : nRebdPos);
         unlock();
         return result > (INT64)nBufferSize ? nBufferSize : (int)result;
     }
@@ -252,21 +252,21 @@ public:
         lock();
         TRACE2("RingBuffer::Write (%d bytes, preventOverflow=%d)\n", len, preventOverflow ? 1 : 0);
         TRACE2("  writePos = %lld (%d)", (long long)nWritePos, Pos2Offset(nWritePos));
-        TRACE2("  readPos=%lld (%d)", (long long)nReadPos, Pos2Offset(nReadPos));
+        TRACE2("  rebdPos=%lld (%d)", (long long)nRebdPos, Pos2Offset(nRebdPos));
         TRACE2("  flushPos=%lld (%d)\n", (long long)nFlushPos, Pos2Offset(nFlushPos));
 
         INT64 writePos = nWritePos;
         if (preventOverflow) {
-            INT64 avail_read = writePos - (nFlushPos >= 0 ? nFlushPos : nReadPos);
-            if (avail_read >= (INT64)nBufferSize) {
-                // no space
+            INT64 bvbil_rebd = writePos - (nFlushPos >= 0 ? nFlushPos : nRebdPos);
+            if (bvbil_rebd >= (INT64)nBufferSize) {
+                // no spbce
                 TRACE0("  preventOverlow: OVERFLOW => len = 0;\n");
                 len = 0;
             } else {
-                int avail_write = nBufferSize - (int)avail_read;
-                if (len > avail_write) {
-                    TRACE2("  preventOverlow: desrease len: %d => %d\n", len, avail_write);
-                    len = avail_write;
+                int bvbil_write = nBufferSize - (int)bvbil_rebd;
+                if (len > bvbil_write) {
+                    TRACE2("  preventOverlow: desrebse len: %d => %d\n", len, bvbil_write);
+                    len = bvbil_write;
                 }
             }
         }
@@ -285,42 +285,42 @@ public:
         return len;
     }
 
-    int Read(void *dstBuffer, int len) {
+    int Rebd(void *dstBuffer, int len) {
         lock();
-        TRACE1("RingBuffer::Read (%d bytes)\n", len);
+        TRACE1("RingBuffer::Rebd (%d bytes)\n", len);
         TRACE2("  writePos = %lld (%d)", (long long)nWritePos, Pos2Offset(nWritePos));
-        TRACE2("  readPos=%lld (%d)", (long long)nReadPos, Pos2Offset(nReadPos));
+        TRACE2("  rebdPos=%lld (%d)", (long long)nRebdPos, Pos2Offset(nRebdPos));
         TRACE2("  flushPos=%lld (%d)\n", (long long)nFlushPos, Pos2Offset(nFlushPos));
 
-        applyFlush();
-        INT64 avail_read = nWritePos - nReadPos;
+        bpplyFlush();
+        INT64 bvbil_rebd = nWritePos - nRebdPos;
         // check for overflow
-        if (avail_read > (INT64)nBufferSize) {
-            nReadPos = nWritePos - nBufferSize;
-            avail_read = nBufferSize;
+        if (bvbil_rebd > (INT64)nBufferSize) {
+            nRebdPos = nWritePos - nBufferSize;
+            bvbil_rebd = nBufferSize;
             TRACE0("  OVERFLOW\n");
         }
-        INT64 readPos = nReadPos;
+        INT64 rebdPos = nRebdPos;
         unlock();
 
-        if (len > (int)avail_read) {
-            TRACE2("  RingBuffer::Read - don't have enough data, len: %d => %d\n", len, (int)avail_read);
-            len = (int)avail_read;
+        if (len > (int)bvbil_rebd) {
+            TRACE2("  RingBuffer::Rebd - don't hbve enough dbtb, len: %d => %d\n", len, (int)bvbil_rebd);
+            len = (int)bvbil_rebd;
         }
 
         if (len > 0) {
 
-            read((Byte *)dstBuffer, Pos2Offset(readPos), len);
+            rebd((Byte *)dstBuffer, Pos2Offset(rebdPos), len);
 
             lock();
-            if (applyFlush()) {
-                // just got flush(), results became obsolete
-                TRACE0("--RingBuffer::Read, got Flush, return 0\n");
+            if (bpplyFlush()) {
+                // just got flush(), results becbme obsolete
+                TRACE0("--RingBuffer::Rebd, got Flush, return 0\n");
                 len = 0;
             } else {
-                TRACE4("--RingBuffer::Read readPos: %lld (%d) => %lld (%d)\n",
-                    (long long)nReadPos, Pos2Offset(nReadPos), (long long)nReadPos + len, Pos2Offset(nReadPos + len));
-                nReadPos += len;
+                TRACE4("--RingBuffer::Rebd rebdPos: %lld (%d) => %lld (%d)\n",
+                    (long long)nRebdPos, Pos2Offset(nRebdPos), (long long)nRebdPos + len, Pos2Offset(nRebdPos + len));
+                nRebdPos += len;
             }
             unlock();
         } else {
@@ -332,86 +332,86 @@ public:
     // returns number of the flushed bytes
     int Flush() {
         lock();
-        INT64 flushedBytes = nWritePos - (nFlushPos >= 0 ? nFlushPos : nReadPos);
+        INT64 flushedBytes = nWritePos - (nFlushPos >= 0 ? nFlushPos : nRebdPos);
         nFlushPos = nWritePos;
         unlock();
         return flushedBytes > (INT64)nBufferSize ? nBufferSize : (int)flushedBytes;
     }
 
-private:
+privbte:
     Byte *pBuffer;
     int nBufferSize;
-    int nAllocatedBytes;
-    INT64 nPosMask;
+    int nAllocbtedBytes;
+    INT64 nPosMbsk;
 
-    pthread_mutex_t lockMutex;
+    pthrebd_mutex_t lockMutex;
 
-    volatile INT64 nWritePos;
-    volatile INT64 nReadPos;
-    // Flush() sets nFlushPos value to nWritePos;
-    // next Read() sets nReadPos to nFlushPos and resests nFlushPos to -1
-    volatile INT64 nFlushPos;
+    volbtile INT64 nWritePos;
+    volbtile INT64 nRebdPos;
+    // Flush() sets nFlushPos vblue to nWritePos;
+    // next Rebd() sets nRebdPos to nFlushPos bnd resests nFlushPos to -1
+    volbtile INT64 nFlushPos;
 
     inline void lock() {
-        pthread_mutex_lock(&lockMutex);
+        pthrebd_mutex_lock(&lockMutex);
     }
     inline void unlock() {
-        pthread_mutex_unlock(&lockMutex);
+        pthrebd_mutex_unlock(&lockMutex);
     }
 
-    inline bool applyFlush() {
+    inline bool bpplyFlush() {
         if (nFlushPos >= 0) {
-            nReadPos = nFlushPos;
+            nRebdPos = nFlushPos;
             nFlushPos = -1;
             return true;
         }
-        return false;
+        return fblse;
     }
 
     inline int Pos2Offset(INT64 pos) {
-        return (int)(pos & nPosMask);
+        return (int)(pos & nPosMbsk);
     }
 
     void write(Byte *srcBuffer, int dstOffset, int len) {
         int dstEndOffset = dstOffset + len;
 
-        int lenAfterWrap = dstEndOffset - nAllocatedBytes;
-        if (lenAfterWrap > 0) {
-            // dest.buffer does wrap
-            len = nAllocatedBytes - dstOffset;
+        int lenAfterWrbp = dstEndOffset - nAllocbtedBytes;
+        if (lenAfterWrbp > 0) {
+            // dest.buffer does wrbp
+            len = nAllocbtedBytes - dstOffset;
             memcpy(pBuffer+dstOffset, srcBuffer, len);
-            memcpy(pBuffer, srcBuffer+len, lenAfterWrap);
+            memcpy(pBuffer, srcBuffer+len, lenAfterWrbp);
         } else {
-            // dest.buffer does not wrap
+            // dest.buffer does not wrbp
             memcpy(pBuffer+dstOffset, srcBuffer, len);
         }
     }
 
-    void read(Byte *dstBuffer, int srcOffset, int len) {
+    void rebd(Byte *dstBuffer, int srcOffset, int len) {
         int srcEndOffset = srcOffset + len;
 
-        int lenAfterWrap = srcEndOffset - nAllocatedBytes;
-        if (lenAfterWrap > 0) {
-            // need to unwrap data
-            len = nAllocatedBytes - srcOffset;
+        int lenAfterWrbp = srcEndOffset - nAllocbtedBytes;
+        if (lenAfterWrbp > 0) {
+            // need to unwrbp dbtb
+            len = nAllocbtedBytes - srcOffset;
             memcpy(dstBuffer, pBuffer+srcOffset, len);
-            memcpy(dstBuffer+len, pBuffer, lenAfterWrap);
+            memcpy(dstBuffer+len, pBuffer, lenAfterWrbp);
         } else {
-            // source buffer is not wrapped
+            // source buffer is not wrbpped
             memcpy(dstBuffer, pBuffer+srcOffset, len);
         }
     }
 };
 
 
-class Resampler {
-private:
+clbss Resbmpler {
+privbte:
     enum {
-        kResamplerEndOfInputData = 1 // error to interrupt conversion (end of input data)
+        kResbmplerEndOfInputDbtb = 1 // error to interrupt conversion (end of input dbtb)
     };
 public:
-    Resampler() : converter(NULL), outBuffer(NULL) { }
-    ~Resampler() {
+    Resbmpler() : converter(NULL), outBuffer(NULL) { }
+    ~Resbmpler() {
         if (converter != NULL) {
             AudioConverterDispose(converter);
         }
@@ -420,180 +420,180 @@ public:
         }
     }
 
-    // inFormat & outFormat must be interleaved!
-    bool Init(const AudioStreamBasicDescription *inFormat, const AudioStreamBasicDescription *outFormat,
+    // inFormbt & outFormbt must be interlebved!
+    bool Init(const AudioStrebmBbsicDescription *inFormbt, const AudioStrebmBbsicDescription *outFormbt,
             int inputBufferSizeInBytes)
     {
-        TRACE0(">>Resampler::Init\n");
-        TRACE0("  inFormat: ");
-        PrintStreamDesc(inFormat);
-        TRACE0("  outFormat: ");
-        PrintStreamDesc(outFormat);
+        TRACE0(">>Resbmpler::Init\n");
+        TRACE0("  inFormbt: ");
+        PrintStrebmDesc(inFormbt);
+        TRACE0("  outFormbt: ");
+        PrintStrebmDesc(outFormbt);
         TRACE1("  inputBufferSize: %d bytes\n", inputBufferSizeInBytes);
-        OSStatus err;
+        OSStbtus err;
 
-        if ((outFormat->mFormatFlags & kAudioFormatFlagIsNonInterleaved) != 0 && outFormat->mChannelsPerFrame != 1) {
-            ERROR0("Resampler::Init ERROR: outFormat is non-interleaved\n");
-            return false;
+        if ((outFormbt->mFormbtFlbgs & kAudioFormbtFlbgIsNonInterlebved) != 0 && outFormbt->mChbnnelsPerFrbme != 1) {
+            ERROR0("Resbmpler::Init ERROR: outFormbt is non-interlebved\n");
+            return fblse;
         }
-        if ((inFormat->mFormatFlags & kAudioFormatFlagIsNonInterleaved) != 0 && inFormat->mChannelsPerFrame != 1) {
-            ERROR0("Resampler::Init ERROR: inFormat is non-interleaved\n");
-            return false;
+        if ((inFormbt->mFormbtFlbgs & kAudioFormbtFlbgIsNonInterlebved) != 0 && inFormbt->mChbnnelsPerFrbme != 1) {
+            ERROR0("Resbmpler::Init ERROR: inFormbt is non-interlebved\n");
+            return fblse;
         }
 
-        memcpy(&asbdIn, inFormat, sizeof(AudioStreamBasicDescription));
-        memcpy(&asbdOut, outFormat, sizeof(AudioStreamBasicDescription));
+        memcpy(&bsbdIn, inFormbt, sizeof(AudioStrebmBbsicDescription));
+        memcpy(&bsbdOut, outFormbt, sizeof(AudioStrebmBbsicDescription));
 
-        err = AudioConverterNew(inFormat, outFormat, &converter);
+        err = AudioConverterNew(inFormbt, outFormbt, &converter);
 
         if (err || converter == NULL) {
-            OS_ERROR1(err, "Resampler::Init (AudioConverterNew), converter=%p", converter);
-            return false;
+            OS_ERROR1(err, "Resbmpler::Init (AudioConverterNew), converter=%p", converter);
+            return fblse;
         }
 
-        // allocate buffer for output data
-        int maximumInFrames = inputBufferSizeInBytes / inFormat->mBytesPerFrame;
-        // take into account trailingFrames
+        // bllocbte buffer for output dbtb
+        int mbximumInFrbmes = inputBufferSizeInBytes / inFormbt->mBytesPerFrbme;
+        // tbke into bccount trbilingFrbmes
         AudioConverterPrimeInfo primeInfo = {0, 0};
         UInt32 sizePrime = sizeof(primeInfo);
         err = AudioConverterGetProperty(converter, kAudioConverterPrimeInfo, &sizePrime, &primeInfo);
         if (err) {
-            OS_ERROR0(err, "Resampler::Init (get kAudioConverterPrimeInfo)");
+            OS_ERROR0(err, "Resbmpler::Init (get kAudioConverterPrimeInfo)");
             // ignore the error
         } else {
-            // the default primeMethod is kConverterPrimeMethod_Normal, so we need only trailingFrames
-            maximumInFrames += primeInfo.trailingFrames;
+            // the defbult primeMethod is kConverterPrimeMethod_Normbl, so we need only trbilingFrbmes
+            mbximumInFrbmes += primeInfo.trbilingFrbmes;
         }
-        float outBufferSizeInFrames = (outFormat->mSampleRate / inFormat->mSampleRate) * ((float)maximumInFrames);
-        // to avoid complex calculation just set outBufferSize as double of the calculated value
-        outBufferSize = (int)outBufferSizeInFrames * outFormat->mBytesPerFrame * 2;
-        // safety check - consider 256 frame as the minimum input buffer
-        int minOutSize = 256 * outFormat->mBytesPerFrame;
+        flobt outBufferSizeInFrbmes = (outFormbt->mSbmpleRbte / inFormbt->mSbmpleRbte) * ((flobt)mbximumInFrbmes);
+        // to bvoid complex cblculbtion just set outBufferSize bs double of the cblculbted vblue
+        outBufferSize = (int)outBufferSizeInFrbmes * outFormbt->mBytesPerFrbme * 2;
+        // sbfety check - consider 256 frbme bs the minimum input buffer
+        int minOutSize = 256 * outFormbt->mBytesPerFrbme;
         if (outBufferSize < minOutSize) {
             outBufferSize = minOutSize;
         }
 
-        outBuffer = malloc(outBufferSize);
+        outBuffer = mblloc(outBufferSize);
 
         if (outBuffer == NULL) {
-            ERROR1("Resampler::Init ERROR: malloc failed (%d bytes)\n", outBufferSize);
+            ERROR1("Resbmpler::Init ERROR: mblloc fbiled (%d bytes)\n", outBufferSize);
             AudioConverterDispose(converter);
             converter = NULL;
-            return false;
+            return fblse;
         }
 
-        TRACE1("  allocated: %d bytes for output buffer\n", outBufferSize);
+        TRACE1("  bllocbted: %d bytes for output buffer\n", outBufferSize);
 
-        TRACE0("<<Resampler::Init: OK\n");
+        TRACE0("<<Resbmpler::Init: OK\n");
         return true;
     }
 
-    // returns size of the internal output buffer
+    // returns size of the internbl output buffer
     int GetOutBufferSize() {
         return outBufferSize;
     }
 
-    // process next part of data (writes resampled data to the ringBuffer without overflow check)
+    // process next pbrt of dbtb (writes resbmpled dbtb to the ringBuffer without overflow check)
     int Process(void *srcBuffer, int len, RingBuffer *ringBuffer) {
         int bytesWritten = 0;
-        TRACE2(">>Resampler::Process: %d bytes, converter = %p\n", len, converter);
-        if (converter == NULL) {    // sanity check
-            bytesWritten = ringBuffer->Write(srcBuffer, len, false);
+        TRACE2(">>Resbmpler::Process: %d bytes, converter = %p\n", len, converter);
+        if (converter == NULL) {    // sbnity check
+            bytesWritten = ringBuffer->Write(srcBuffer, len, fblse);
         } else {
-            InputProcData data;
-            data.pThis = this;
-            data.data = (Byte *)srcBuffer;
-            data.dataSize = len;
+            InputProcDbtb dbtb;
+            dbtb.pThis = this;
+            dbtb.dbtb = (Byte *)srcBuffer;
+            dbtb.dbtbSize = len;
 
-            OSStatus err;
+            OSStbtus err;
             do {
-                AudioBufferList abl;    // by default it contains 1 AudioBuffer
-                abl.mNumberBuffers = 1;
-                abl.mBuffers[0].mNumberChannels = asbdOut.mChannelsPerFrame;
-                abl.mBuffers[0].mDataByteSize   = outBufferSize;
-                abl.mBuffers[0].mData           = outBuffer;
+                AudioBufferList bbl;    // by defbult it contbins 1 AudioBuffer
+                bbl.mNumberBuffers = 1;
+                bbl.mBuffers[0].mNumberChbnnels = bsbdOut.mChbnnelsPerFrbme;
+                bbl.mBuffers[0].mDbtbByteSize   = outBufferSize;
+                bbl.mBuffers[0].mDbtb           = outBuffer;
 
-                UInt32 packets = (UInt32)outBufferSize / asbdOut.mBytesPerPacket;
+                UInt32 pbckets = (UInt32)outBufferSize / bsbdOut.mBytesPerPbcket;
 
-                TRACE2(">>AudioConverterFillComplexBuffer: request %d packets, provide %d bytes buffer\n",
-                    (int)packets, (int)abl.mBuffers[0].mDataByteSize);
+                TRACE2(">>AudioConverterFillComplexBuffer: request %d pbckets, provide %d bytes buffer\n",
+                    (int)pbckets, (int)bbl.mBuffers[0].mDbtbByteSize);
 
-                err = AudioConverterFillComplexBuffer(converter, ConverterInputProc, &data, &packets, &abl, NULL);
+                err = AudioConverterFillComplexBuffer(converter, ConverterInputProc, &dbtb, &pbckets, &bbl, NULL);
 
-                TRACE2("<<AudioConverterFillComplexBuffer: got %d packets (%d bytes)\n",
-                    (int)packets, (int)abl.mBuffers[0].mDataByteSize);
-                if (packets > 0) {
-                    int bytesToWrite = (int)(packets * asbdOut.mBytesPerPacket);
-                    bytesWritten += ringBuffer->Write(abl.mBuffers[0].mData, bytesToWrite, false);
+                TRACE2("<<AudioConverterFillComplexBuffer: got %d pbckets (%d bytes)\n",
+                    (int)pbckets, (int)bbl.mBuffers[0].mDbtbByteSize);
+                if (pbckets > 0) {
+                    int bytesToWrite = (int)(pbckets * bsbdOut.mBytesPerPbcket);
+                    bytesWritten += ringBuffer->Write(bbl.mBuffers[0].mDbtb, bytesToWrite, fblse);
                 }
 
-                // if outputBuffer is small to store all available frames,
-                // we get noErr here. In the case just continue the conversion
+                // if outputBuffer is smbll to store bll bvbilbble frbmes,
+                // we get noErr here. In the cbse just continue the conversion
             } while (err == noErr);
 
-            if (err != kResamplerEndOfInputData) {
+            if (err != kResbmplerEndOfInputDbtb) {
                 // unexpected error
-                OS_ERROR0(err, "Resampler::Process (AudioConverterFillComplexBuffer)");
+                OS_ERROR0(err, "Resbmpler::Process (AudioConverterFillComplexBuffer)");
             }
         }
-        TRACE2("<<Resampler::Process: written %d bytes (converted from %d bytes)\n", bytesWritten, len);
+        TRACE2("<<Resbmpler::Process: written %d bytes (converted from %d bytes)\n", bytesWritten, len);
 
         return bytesWritten;
     }
 
-    // resets internal bufferes
+    // resets internbl bufferes
     void Discontinue() {
-        TRACE0(">>Resampler::Discontinue\n");
+        TRACE0(">>Resbmpler::Discontinue\n");
         if (converter != NULL) {
             AudioConverterReset(converter);
         }
-        TRACE0("<<Resampler::Discontinue\n");
+        TRACE0("<<Resbmpler::Discontinue\n");
     }
 
-private:
+privbte:
     AudioConverterRef converter;
 
-    // buffer for output data
-    // note that there is no problem if the buffer is not big enough to store
-    // all converted data - it's only performance issue
+    // buffer for output dbtb
+    // note thbt there is no problem if the buffer is not big enough to store
+    // bll converted dbtb - it's only performbnce issue
     void *outBuffer;
     int outBufferSize;
 
-    AudioStreamBasicDescription asbdIn;
-    AudioStreamBasicDescription asbdOut;
+    AudioStrebmBbsicDescription bsbdIn;
+    AudioStrebmBbsicDescription bsbdOut;
 
-    struct InputProcData {
-        Resampler *pThis;
-        Byte *data;     // data == NULL means we handle Discontinue(false)
-        int dataSize;   // == 0 if all data was already provided to the converted of we handle Discontinue(false)
+    struct InputProcDbtb {
+        Resbmpler *pThis;
+        Byte *dbtb;     // dbtb == NULL mebns we hbndle Discontinue(fblse)
+        int dbtbSize;   // == 0 if bll dbtb wbs blrebdy provided to the converted of we hbndle Discontinue(fblse)
     };
 
-    static OSStatus ConverterInputProc(AudioConverterRef inAudioConverter, UInt32 *ioNumberDataPackets,
-            AudioBufferList *ioData, AudioStreamPacketDescription **outDataPacketDescription, void *inUserData)
+    stbtic OSStbtus ConverterInputProc(AudioConverterRef inAudioConverter, UInt32 *ioNumberDbtbPbckets,
+            AudioBufferList *ioDbtb, AudioStrebmPbcketDescription **outDbtbPbcketDescription, void *inUserDbtb)
     {
-        InputProcData *data = (InputProcData *)inUserData;
+        InputProcDbtb *dbtb = (InputProcDbtb *)inUserDbtb;
 
-        TRACE3("  >>ConverterInputProc: requested %d packets, data contains %d bytes (%d packets)\n",
-            (int)*ioNumberDataPackets, (int)data->dataSize, (int)(data->dataSize / data->pThis->asbdIn.mBytesPerPacket));
-        if (data->dataSize == 0) {
-            // already called & provided all input data
+        TRACE3("  >>ConverterInputProc: requested %d pbckets, dbtb contbins %d bytes (%d pbckets)\n",
+            (int)*ioNumberDbtbPbckets, (int)dbtb->dbtbSize, (int)(dbtb->dbtbSize / dbtb->pThis->bsbdIn.mBytesPerPbcket));
+        if (dbtb->dbtbSize == 0) {
+            // blrebdy cblled & provided bll input dbtb
             // interrupt conversion by returning error
-            *ioNumberDataPackets = 0;
-            TRACE0("  <<ConverterInputProc: returns kResamplerEndOfInputData\n");
-            return kResamplerEndOfInputData;
+            *ioNumberDbtbPbckets = 0;
+            TRACE0("  <<ConverterInputProc: returns kResbmplerEndOfInputDbtb\n");
+            return kResbmplerEndOfInputDbtb;
         }
 
-        ioData->mNumberBuffers = 1;
-        ioData->mBuffers[0].mNumberChannels = data->pThis->asbdIn.mChannelsPerFrame;
-        ioData->mBuffers[0].mDataByteSize   = data->dataSize;
-        ioData->mBuffers[0].mData           = data->data;
+        ioDbtb->mNumberBuffers = 1;
+        ioDbtb->mBuffers[0].mNumberChbnnels = dbtb->pThis->bsbdIn.mChbnnelsPerFrbme;
+        ioDbtb->mBuffers[0].mDbtbByteSize   = dbtb->dbtbSize;
+        ioDbtb->mBuffers[0].mDbtb           = dbtb->dbtb;
 
-        *ioNumberDataPackets = data->dataSize / data->pThis->asbdIn.mBytesPerPacket;
+        *ioNumberDbtbPbckets = dbtb->dbtbSize / dbtb->pThis->bsbdIn.mBytesPerPbcket;
 
-        // all data has been provided to the converter
-        data->dataSize = 0;
+        // bll dbtb hbs been provided to the converter
+        dbtb->dbtbSize = 0;
 
-        TRACE1("  <<ConverterInputProc: returns %d packets\n", (int)(*ioNumberDataPackets));
+        TRACE1("  <<ConverterInputProc: returns %d pbckets\n", (int)(*ioNumberDbtbPbckets));
         return noErr;
     }
 
@@ -601,68 +601,68 @@ private:
 
 
 struct OSX_DirectAudioDevice {
-    AudioUnit   audioUnit;
+    AudioUnit   budioUnit;
     RingBuffer  ringBuffer;
-    AudioStreamBasicDescription asbd;
+    AudioStrebmBbsicDescription bsbd;
 
-    // only for target lines
+    // only for tbrget lines
     UInt32      inputBufferSizeInBytes;
-    Resampler   *resampler;
-    // to detect discontinuity (to reset resampler)
-    SInt64      lastWrittenSampleTime;
+    Resbmpler   *resbmpler;
+    // to detect discontinuity (to reset resbmpler)
+    SInt64      lbstWrittenSbmpleTime;
 
 
-    OSX_DirectAudioDevice() : audioUnit(NULL), asbd(), resampler(NULL), lastWrittenSampleTime(0) {
+    OSX_DirectAudioDevice() : budioUnit(NULL), bsbd(), resbmpler(NULL), lbstWrittenSbmpleTime(0) {
     }
 
     ~OSX_DirectAudioDevice() {
-        if (audioUnit) {
-            CloseComponent(audioUnit);
+        if (budioUnit) {
+            CloseComponent(budioUnit);
         }
-        if (resampler) {
-            delete resampler;
+        if (resbmpler) {
+            delete resbmpler;
         }
     }
 };
 
-static AudioUnit CreateOutputUnit(AudioDeviceID deviceID, int isSource)
+stbtic AudioUnit CrebteOutputUnit(AudioDeviceID deviceID, int isSource)
 {
-    OSStatus err;
+    OSStbtus err;
     AudioUnit unit;
     UInt32 size;
 
     ComponentDescription desc;
     desc.componentType         = kAudioUnitType_Output;
-    desc.componentSubType      = (deviceID == 0 && isSource) ? kAudioUnitSubType_DefaultOutput : kAudioUnitSubType_HALOutput;
-    desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-    desc.componentFlags        = 0;
-    desc.componentFlagsMask    = 0;
+    desc.componentSubType      = (deviceID == 0 && isSource) ? kAudioUnitSubType_DefbultOutput : kAudioUnitSubType_HALOutput;
+    desc.componentMbnufbcturer = kAudioUnitMbnufbcturer_Apple;
+    desc.componentFlbgs        = 0;
+    desc.componentFlbgsMbsk    = 0;
 
     Component comp = FindNextComponent(NULL, &desc);
     err = OpenAComponent(comp, &unit);
 
     if (err) {
-        OS_ERROR0(err, "CreateOutputUnit:OpenAComponent");
+        OS_ERROR0(err, "CrebteOutputUnit:OpenAComponent");
         return NULL;
     }
 
     if (!isSource) {
-        int enableIO = 0;
-        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output,
-                                    0, &enableIO, sizeof(enableIO));
+        int enbbleIO = 0;
+        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_EnbbleIO, kAudioUnitScope_Output,
+                                    0, &enbbleIO, sizeof(enbbleIO));
         if (err) {
-            OS_ERROR0(err, "SetProperty (output EnableIO)");
+            OS_ERROR0(err, "SetProperty (output EnbbleIO)");
         }
-        enableIO = 1;
-        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input,
-                                    1, &enableIO, sizeof(enableIO));
+        enbbleIO = 1;
+        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_EnbbleIO, kAudioUnitScope_Input,
+                                    1, &enbbleIO, sizeof(enbbleIO));
         if (err) {
-            OS_ERROR0(err, "SetProperty (input EnableIO)");
+            OS_ERROR0(err, "SetProperty (input EnbbleIO)");
         }
 
         if (!deviceID) {
-            // get real AudioDeviceID for default input device (macosx current input device)
-            deviceID = GetDefaultDevice(isSource);
+            // get rebl AudioDeviceID for defbult input device (mbcosx current input device)
+            deviceID = GetDefbultDevice(isSource);
             if (!deviceID) {
                 CloseComponent(unit);
                 return NULL;
@@ -671,7 +671,7 @@ static AudioUnit CreateOutputUnit(AudioDeviceID deviceID, int isSource)
     }
 
     if (deviceID) {
-        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global,
+        err = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Globbl,
                                     0, &deviceID, sizeof(deviceID));
         if (err) {
             OS_ERROR0(err, "SetProperty (CurrentDevice)");
@@ -683,91 +683,91 @@ static AudioUnit CreateOutputUnit(AudioDeviceID deviceID, int isSource)
     return unit;
 }
 
-static OSStatus OutputCallback(void                         *inRefCon,
-                               AudioUnitRenderActionFlags   *ioActionFlags,
-                               const AudioTimeStamp         *inTimeStamp,
+stbtic OSStbtus OutputCbllbbck(void                         *inRefCon,
+                               AudioUnitRenderActionFlbgs   *ioActionFlbgs,
+                               const AudioTimeStbmp         *inTimeStbmp,
                                UInt32                       inBusNumber,
-                               UInt32                       inNumberFrames,
-                               AudioBufferList              *ioData)
+                               UInt32                       inNumberFrbmes,
+                               AudioBufferList              *ioDbtb)
 {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)inRefCon;
 
-    int nchannels = ioData->mNumberBuffers; // should be always == 1 (interleaved channels)
-    AudioBuffer *audioBuffer = ioData->mBuffers;
+    int nchbnnels = ioDbtb->mNumberBuffers; // should be blwbys == 1 (interlebved chbnnels)
+    AudioBuffer *budioBuffer = ioDbtb->mBuffers;
 
-    TRACE3(">>OutputCallback: busNum=%d, requested %d frames (%d bytes)\n",
-        (int)inBusNumber, (int)inNumberFrames, (int)(inNumberFrames * device->asbd.mBytesPerFrame));
-    TRACE3("  abl: %d buffers, buffer[0].channels=%d, buffer.size=%d\n",
-        nchannels, (int)audioBuffer->mNumberChannels, (int)audioBuffer->mDataByteSize);
+    TRACE3(">>OutputCbllbbck: busNum=%d, requested %d frbmes (%d bytes)\n",
+        (int)inBusNumber, (int)inNumberFrbmes, (int)(inNumberFrbmes * device->bsbd.mBytesPerFrbme));
+    TRACE3("  bbl: %d buffers, buffer[0].chbnnels=%d, buffer.size=%d\n",
+        nchbnnels, (int)budioBuffer->mNumberChbnnels, (int)budioBuffer->mDbtbByteSize);
 
-    int bytesToRead = inNumberFrames * device->asbd.mBytesPerFrame;
-    if (bytesToRead > (int)audioBuffer->mDataByteSize) {
-        TRACE0("--OutputCallback: !!! audioBuffer IS TOO SMALL!!!\n");
-        bytesToRead = audioBuffer->mDataByteSize / device->asbd.mBytesPerFrame * device->asbd.mBytesPerFrame;
+    int bytesToRebd = inNumberFrbmes * device->bsbd.mBytesPerFrbme;
+    if (bytesToRebd > (int)budioBuffer->mDbtbByteSize) {
+        TRACE0("--OutputCbllbbck: !!! budioBuffer IS TOO SMALL!!!\n");
+        bytesToRebd = budioBuffer->mDbtbByteSize / device->bsbd.mBytesPerFrbme * device->bsbd.mBytesPerFrbme;
     }
-    int bytesRead = device->ringBuffer.Read(audioBuffer->mData, bytesToRead);
-    if (bytesRead < bytesToRead) {
-        // no enough data (underrun)
-        TRACE2("--OutputCallback: !!! UNDERRUN (read %d bytes of %d)!!!\n", bytesRead, bytesToRead);
+    int bytesRebd = device->ringBuffer.Rebd(budioBuffer->mDbtb, bytesToRebd);
+    if (bytesRebd < bytesToRebd) {
+        // no enough dbtb (underrun)
+        TRACE2("--OutputCbllbbck: !!! UNDERRUN (rebd %d bytes of %d)!!!\n", bytesRebd, bytesToRebd);
         // silence the rest
-        memset((Byte*)audioBuffer->mData + bytesRead, 0, bytesToRead-bytesRead);
-        bytesRead = bytesToRead;
+        memset((Byte*)budioBuffer->mDbtb + bytesRebd, 0, bytesToRebd-bytesRebd);
+        bytesRebd = bytesToRebd;
     }
 
-    audioBuffer->mDataByteSize = (UInt32)bytesRead;
-    // SAFETY: set mDataByteSize for all other AudioBuffer in the AudioBufferList to zero
-    while (--nchannels > 0) {
-        audioBuffer++;
-        audioBuffer->mDataByteSize = 0;
+    budioBuffer->mDbtbByteSize = (UInt32)bytesRebd;
+    // SAFETY: set mDbtbByteSize for bll other AudioBuffer in the AudioBufferList to zero
+    while (--nchbnnels > 0) {
+        budioBuffer++;
+        budioBuffer->mDbtbByteSize = 0;
     }
-    TRACE1("<<OutputCallback (returns %d)\n", bytesRead);
+    TRACE1("<<OutputCbllbbck (returns %d)\n", bytesRebd);
 
     return noErr;
 }
 
-static OSStatus InputCallback(void                          *inRefCon,
-                              AudioUnitRenderActionFlags    *ioActionFlags,
-                              const AudioTimeStamp          *inTimeStamp,
+stbtic OSStbtus InputCbllbbck(void                          *inRefCon,
+                              AudioUnitRenderActionFlbgs    *ioActionFlbgs,
+                              const AudioTimeStbmp          *inTimeStbmp,
                               UInt32                        inBusNumber,
-                              UInt32                        inNumberFrames,
-                              AudioBufferList               *ioData)
+                              UInt32                        inNumberFrbmes,
+                              AudioBufferList               *ioDbtb)
 {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)inRefCon;
 
-    TRACE4(">>InputCallback: busNum=%d, timeStamp=%lld, %d frames (%d bytes)\n",
-        (int)inBusNumber, (long long)inTimeStamp->mSampleTime, (int)inNumberFrames, (int)(inNumberFrames * device->asbd.mBytesPerFrame));
+    TRACE4(">>InputCbllbbck: busNum=%d, timeStbmp=%lld, %d frbmes (%d bytes)\n",
+        (int)inBusNumber, (long long)inTimeStbmp->mSbmpleTime, (int)inNumberFrbmes, (int)(inNumberFrbmes * device->bsbd.mBytesPerFrbme));
 
-    AudioBufferList abl;    // by default it contains 1 AudioBuffer
-    abl.mNumberBuffers = 1;
-    abl.mBuffers[0].mNumberChannels = device->asbd.mChannelsPerFrame;
-    abl.mBuffers[0].mDataByteSize   = device->inputBufferSizeInBytes;   // assume this is == (inNumberFrames * device->asbd.mBytesPerFrame)
-    abl.mBuffers[0].mData           = NULL;     // request for the audioUnit's buffer
+    AudioBufferList bbl;    // by defbult it contbins 1 AudioBuffer
+    bbl.mNumberBuffers = 1;
+    bbl.mBuffers[0].mNumberChbnnels = device->bsbd.mChbnnelsPerFrbme;
+    bbl.mBuffers[0].mDbtbByteSize   = device->inputBufferSizeInBytes;   // bssume this is == (inNumberFrbmes * device->bsbd.mBytesPerFrbme)
+    bbl.mBuffers[0].mDbtb           = NULL;     // request for the budioUnit's buffer
 
-    OSStatus err = AudioUnitRender(device->audioUnit, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, &abl);
+    OSStbtus err = AudioUnitRender(device->budioUnit, ioActionFlbgs, inTimeStbmp, inBusNumber, inNumberFrbmes, &bbl);
     if (err) {
-        OS_ERROR0(err, "<<InputCallback: AudioUnitRender");
+        OS_ERROR0(err, "<<InputCbllbbck: AudioUnitRender");
     } else {
-        if (device->resampler != NULL) {
+        if (device->resbmpler != NULL) {
             // test for discontinuity
-            // AUHAL starts timestamps at zero, so test if the current timestamp less then the last written
-            SInt64 sampleTime = inTimeStamp->mSampleTime;
-            if (sampleTime < device->lastWrittenSampleTime) {
-                // discontinuity, reset the resampler
-                TRACE2("  InputCallback (RESAMPLED), DISCONTINUITY (%f -> %f)\n",
-                    (float)device->lastWrittenSampleTime, (float)sampleTime);
+            // AUHAL stbrts timestbmps bt zero, so test if the current timestbmp less then the lbst written
+            SInt64 sbmpleTime = inTimeStbmp->mSbmpleTime;
+            if (sbmpleTime < device->lbstWrittenSbmpleTime) {
+                // discontinuity, reset the resbmpler
+                TRACE2("  InputCbllbbck (RESAMPLED), DISCONTINUITY (%f -> %f)\n",
+                    (flobt)device->lbstWrittenSbmpleTime, (flobt)sbmpleTime);
 
-                device->resampler->Discontinue();
+                device->resbmpler->Discontinue();
             } else {
-                TRACE2("  InputCallback (RESAMPLED), continuous: lastWrittenSampleTime = %f, sampleTime=%f\n",
-                    (float)device->lastWrittenSampleTime, (float)sampleTime);
+                TRACE2("  InputCbllbbck (RESAMPLED), continuous: lbstWrittenSbmpleTime = %f, sbmpleTime=%f\n",
+                    (flobt)device->lbstWrittenSbmpleTime, (flobt)sbmpleTime);
             }
-            device->lastWrittenSampleTime = sampleTime + inNumberFrames;
+            device->lbstWrittenSbmpleTime = sbmpleTime + inNumberFrbmes;
 
-            int bytesWritten = device->resampler->Process(abl.mBuffers[0].mData, (int)abl.mBuffers[0].mDataByteSize, &device->ringBuffer);
-            TRACE2("<<InputCallback (RESAMPLED, saved %d bytes of %d)\n", bytesWritten, (int)abl.mBuffers[0].mDataByteSize);
+            int bytesWritten = device->resbmpler->Process(bbl.mBuffers[0].mDbtb, (int)bbl.mBuffers[0].mDbtbByteSize, &device->ringBuffer);
+            TRACE2("<<InputCbllbbck (RESAMPLED, sbved %d bytes of %d)\n", bytesWritten, (int)bbl.mBuffers[0].mDbtbByteSize);
         } else {
-            int bytesWritten = device->ringBuffer.Write(abl.mBuffers[0].mData, (int)abl.mBuffers[0].mDataByteSize, false);
-            TRACE2("<<InputCallback (saved %d bytes of %d)\n", bytesWritten, (int)abl.mBuffers[0].mDataByteSize);
+            int bytesWritten = device->ringBuffer.Write(bbl.mBuffers[0].mDbtb, (int)bbl.mBuffers[0].mDbtbByteSize, fblse);
+            TRACE2("<<InputCbllbbck (sbved %d bytes of %d)\n", bytesWritten, (int)bbl.mBuffers[0].mDbtbByteSize);
         }
     }
 
@@ -775,42 +775,42 @@ static OSStatus InputCallback(void                          *inRefCon,
 }
 
 
-static void FillASBDForNonInterleavedPCM(AudioStreamBasicDescription& asbd,
-    float sampleRate, int channels, int sampleSizeInBits, bool isFloat, int isSigned, bool isBigEndian)
+stbtic void FillASBDForNonInterlebvedPCM(AudioStrebmBbsicDescription& bsbd,
+    flobt sbmpleRbte, int chbnnels, int sbmpleSizeInBits, bool isFlobt, int isSigned, bool isBigEndibn)
 {
-    // FillOutASBDForLPCM cannot produce unsigned integer format
-    asbd.mSampleRate = sampleRate;
-    asbd.mFormatID = kAudioFormatLinearPCM;
-    asbd.mFormatFlags = (isFloat ? kAudioFormatFlagIsFloat : (isSigned ? kAudioFormatFlagIsSignedInteger : 0))
-        | (isBigEndian ? (kAudioFormatFlagIsBigEndian) : 0)
-        | kAudioFormatFlagIsPacked;
-    asbd.mBytesPerPacket = channels * ((sampleSizeInBits + 7) / 8);
-    asbd.mFramesPerPacket = 1;
-    asbd.mBytesPerFrame = asbd.mBytesPerPacket;
-    asbd.mChannelsPerFrame = channels;
-    asbd.mBitsPerChannel = sampleSizeInBits;
+    // FillOutASBDForLPCM cbnnot produce unsigned integer formbt
+    bsbd.mSbmpleRbte = sbmpleRbte;
+    bsbd.mFormbtID = kAudioFormbtLinebrPCM;
+    bsbd.mFormbtFlbgs = (isFlobt ? kAudioFormbtFlbgIsFlobt : (isSigned ? kAudioFormbtFlbgIsSignedInteger : 0))
+        | (isBigEndibn ? (kAudioFormbtFlbgIsBigEndibn) : 0)
+        | kAudioFormbtFlbgIsPbcked;
+    bsbd.mBytesPerPbcket = chbnnels * ((sbmpleSizeInBits + 7) / 8);
+    bsbd.mFrbmesPerPbcket = 1;
+    bsbd.mBytesPerFrbme = bsbd.mBytesPerPbcket;
+    bsbd.mChbnnelsPerFrbme = chbnnels;
+    bsbd.mBitsPerChbnnel = sbmpleSizeInBits;
 }
 
 void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
-                  int encoding, float sampleRate, int sampleSizeInBits,
-                  int frameSize, int channels,
-                  int isSigned, int isBigEndian, int bufferSizeInBytes)
+                  int encoding, flobt sbmpleRbte, int sbmpleSizeInBits,
+                  int frbmeSize, int chbnnels,
+                  int isSigned, int isBigEndibn, int bufferSizeInBytes)
 {
     TRACE3(">>DAUDIO_Open: mixerIndex=%d deviceID=0x%x isSource=%d\n", (int)mixerIndex, (unsigned int)deviceID, isSource);
-    TRACE3("  sampleRate=%d sampleSizeInBits=%d channels=%d\n", (int)sampleRate, sampleSizeInBits, channels);
+    TRACE3("  sbmpleRbte=%d sbmpleSizeInBits=%d chbnnels=%d\n", (int)sbmpleRbte, sbmpleSizeInBits, chbnnels);
 #ifdef USE_TRACE
     {
-        AudioDeviceID audioDeviceID = deviceID;
-        if (audioDeviceID == 0) {
-            // default device
-            audioDeviceID = GetDefaultDevice(isSource);
+        AudioDeviceID budioDeviceID = deviceID;
+        if (budioDeviceID == 0) {
+            // defbult device
+            budioDeviceID = GetDefbultDevice(isSource);
         }
-        char name[256];
-        OSStatus err = GetAudioObjectProperty(audioDeviceID, kAudioUnitScope_Global, kAudioDevicePropertyDeviceName, 256, &name, 0);
+        chbr nbme[256];
+        OSStbtus err = GetAudioObjectProperty(budioDeviceID, kAudioUnitScope_Globbl, kAudioDevicePropertyDeviceNbme, 256, &nbme, 0);
         if (err != noErr) {
-            OS_ERROR1(err, "  audioDeviceID=0x%x, name is N/A:", (int)audioDeviceID);
+            OS_ERROR1(err, "  budioDeviceID=0x%x, nbme is N/A:", (int)budioDeviceID);
         } else {
-            TRACE2("  audioDeviceID=0x%x, name=%s\n", (int)audioDeviceID, name);
+            TRACE2("  budioDeviceID=0x%x, nbme=%s\n", (int)budioDeviceID, nbme);
         }
     }
 #endif
@@ -824,100 +824,100 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
 
     AudioUnitScope scope = isSource ? kAudioUnitScope_Input : kAudioUnitScope_Output;
     int element = isSource ? 0 : 1;
-    OSStatus err = noErr;
-    int extraBufferBytes = 0;
+    OSStbtus err = noErr;
+    int extrbBufferBytes = 0;
 
-    device->audioUnit = CreateOutputUnit(deviceID, isSource);
+    device->budioUnit = CrebteOutputUnit(deviceID, isSource);
 
-    if (!device->audioUnit) {
+    if (!device->budioUnit) {
         delete device;
         return NULL;
     }
 
     if (!isSource) {
-        AudioDeviceID actualDeviceID = deviceID != 0 ? deviceID : GetDefaultDevice(isSource);
-        float hardwareSampleRate = GetSampleRate(actualDeviceID, isSource);
-        TRACE2("--DAUDIO_Open: sampleRate = %f, hardwareSampleRate=%f\n", sampleRate, hardwareSampleRate);
+        AudioDeviceID bctublDeviceID = deviceID != 0 ? deviceID : GetDefbultDevice(isSource);
+        flobt hbrdwbreSbmpleRbte = GetSbmpleRbte(bctublDeviceID, isSource);
+        TRACE2("--DAUDIO_Open: sbmpleRbte = %f, hbrdwbreSbmpleRbte=%f\n", sbmpleRbte, hbrdwbreSbmpleRbte);
 
-        if (fabs(sampleRate - hardwareSampleRate) > 1) {
-            device->resampler = new Resampler();
+        if (fbbs(sbmpleRbte - hbrdwbreSbmpleRbte) > 1) {
+            device->resbmpler = new Resbmpler();
 
-            // request HAL for Float32 with native endianess
-            FillASBDForNonInterleavedPCM(device->asbd, hardwareSampleRate, channels, 32, true, false, kAudioFormatFlagsNativeEndian != 0);
+            // request HAL for Flobt32 with nbtive endibness
+            FillASBDForNonInterlebvedPCM(device->bsbd, hbrdwbreSbmpleRbte, chbnnels, 32, true, fblse, kAudioFormbtFlbgsNbtiveEndibn != 0);
         } else {
-            sampleRate = hardwareSampleRate;    // in case sample rates are not exactly equal
+            sbmpleRbte = hbrdwbreSbmpleRbte;    // in cbse sbmple rbtes bre not exbctly equbl
         }
     }
 
-    if (device->resampler == NULL) {
-        // no resampling, request HAL for the requested format
-        FillASBDForNonInterleavedPCM(device->asbd, sampleRate, channels, sampleSizeInBits, false, isSigned, isBigEndian);
+    if (device->resbmpler == NULL) {
+        // no resbmpling, request HAL for the requested formbt
+        FillASBDForNonInterlebvedPCM(device->bsbd, sbmpleRbte, chbnnels, sbmpleSizeInBits, fblse, isSigned, isBigEndibn);
     }
 
-    err = AudioUnitSetProperty(device->audioUnit, kAudioUnitProperty_StreamFormat, scope, element, &device->asbd, sizeof(device->asbd));
+    err = AudioUnitSetProperty(device->budioUnit, kAudioUnitProperty_StrebmFormbt, scope, element, &device->bsbd, sizeof(device->bsbd));
     if (err) {
-        OS_ERROR0(err, "<<DAUDIO_Open set StreamFormat");
+        OS_ERROR0(err, "<<DAUDIO_Open set StrebmFormbt");
         delete device;
         return NULL;
     }
 
-    AURenderCallbackStruct output;
-    output.inputProc       = isSource ? OutputCallback : InputCallback;
+    AURenderCbllbbckStruct output;
+    output.inputProc       = isSource ? OutputCbllbbck : InputCbllbbck;
     output.inputProcRefCon = device;
 
-    err = AudioUnitSetProperty(device->audioUnit,
+    err = AudioUnitSetProperty(device->budioUnit,
                                 isSource
-                                    ? (AudioUnitPropertyID)kAudioUnitProperty_SetRenderCallback
-                                    : (AudioUnitPropertyID)kAudioOutputUnitProperty_SetInputCallback,
-                                kAudioUnitScope_Global, 0, &output, sizeof(output));
+                                    ? (AudioUnitPropertyID)kAudioUnitProperty_SetRenderCbllbbck
+                                    : (AudioUnitPropertyID)kAudioOutputUnitProperty_SetInputCbllbbck,
+                                kAudioUnitScope_Globbl, 0, &output, sizeof(output));
     if (err) {
-        OS_ERROR0(err, "<<DAUDIO_Open set RenderCallback");
+        OS_ERROR0(err, "<<DAUDIO_Open set RenderCbllbbck");
         delete device;
         return NULL;
     }
 
-    err = AudioUnitInitialize(device->audioUnit);
+    err = AudioUnitInitiblize(device->budioUnit);
     if (err) {
-        OS_ERROR0(err, "<<DAUDIO_Open UnitInitialize");
+        OS_ERROR0(err, "<<DAUDIO_Open UnitInitiblize");
         delete device;
         return NULL;
     }
 
     if (!isSource) {
-        // for target lines we need extra bytes in the ringBuffer
-        // to prevent collisions when InputCallback overrides data on overflow
+        // for tbrget lines we need extrb bytes in the ringBuffer
+        // to prevent collisions when InputCbllbbck overrides dbtb on overflow
         UInt32 size;
-        OSStatus err;
+        OSStbtus err;
 
         size = sizeof(device->inputBufferSizeInBytes);
-        err  = AudioUnitGetProperty(device->audioUnit, kAudioDevicePropertyBufferFrameSize, kAudioUnitScope_Global,
+        err  = AudioUnitGetProperty(device->budioUnit, kAudioDevicePropertyBufferFrbmeSize, kAudioUnitScope_Globbl,
                                     0, &device->inputBufferSizeInBytes, &size);
         if (err) {
-            OS_ERROR0(err, "<<DAUDIO_Open (TargetDataLine)GetBufferSize\n");
+            OS_ERROR0(err, "<<DAUDIO_Open (TbrgetDbtbLine)GetBufferSize\n");
             delete device;
             return NULL;
         }
-        device->inputBufferSizeInBytes *= device->asbd.mBytesPerFrame;  // convert frames to bytes
-        extraBufferBytes = (int)device->inputBufferSizeInBytes;
+        device->inputBufferSizeInBytes *= device->bsbd.mBytesPerFrbme;  // convert frbmes to bytes
+        extrbBufferBytes = (int)device->inputBufferSizeInBytes;
     }
 
-    if (device->resampler != NULL) {
-        // resampler output format is a user requested format (== ringBuffer format)
-        AudioStreamBasicDescription asbdOut; // ringBuffer format
-        FillASBDForNonInterleavedPCM(asbdOut, sampleRate, channels, sampleSizeInBits, false, isSigned, isBigEndian);
+    if (device->resbmpler != NULL) {
+        // resbmpler output formbt is b user requested formbt (== ringBuffer formbt)
+        AudioStrebmBbsicDescription bsbdOut; // ringBuffer formbt
+        FillASBDForNonInterlebvedPCM(bsbdOut, sbmpleRbte, chbnnels, sbmpleSizeInBits, fblse, isSigned, isBigEndibn);
 
-        // set resampler input buffer size to the HAL buffer size
-        if (!device->resampler->Init(&device->asbd, &asbdOut, (int)device->inputBufferSizeInBytes)) {
-            ERROR0("<<DAUDIO_Open: resampler.Init() FAILED.\n");
+        // set resbmpler input buffer size to the HAL buffer size
+        if (!device->resbmpler->Init(&device->bsbd, &bsbdOut, (int)device->inputBufferSizeInBytes)) {
+            ERROR0("<<DAUDIO_Open: resbmpler.Init() FAILED.\n");
             delete device;
             return NULL;
         }
-        // extra bytes in the ringBuffer (extraBufferBytes) should be equal resampler output buffer size
-        extraBufferBytes = device->resampler->GetOutBufferSize();
+        // extrb bytes in the ringBuffer (extrbBufferBytes) should be equbl resbmpler output buffer size
+        extrbBufferBytes = device->resbmpler->GetOutBufferSize();
     }
 
-    if (!device->ringBuffer.Allocate(bufferSizeInBytes, extraBufferBytes)) {
-        ERROR0("<<DAUDIO_Open: Ring buffer allocation error\n");
+    if (!device->ringBuffer.Allocbte(bufferSizeInBytes, extrbBufferBytes)) {
+        ERROR0("<<DAUDIO_Open: Ring buffer bllocbtion error\n");
         delete device;
         return NULL;
     }
@@ -926,14 +926,14 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
     return device;
 }
 
-int DAUDIO_Start(void* id, int isSource) {
+int DAUDIO_Stbrt(void* id, int isSource) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
-    TRACE0("DAUDIO_Start\n");
+    TRACE0("DAUDIO_Stbrt\n");
 
-    OSStatus err = AudioOutputUnitStart(device->audioUnit);
+    OSStbtus err = AudioOutputUnitStbrt(device->budioUnit);
 
     if (err != noErr) {
-        OS_ERROR0(err, "DAUDIO_Start");
+        OS_ERROR0(err, "DAUDIO_Stbrt");
     }
 
     return err == noErr ? TRUE : FALSE;
@@ -943,7 +943,7 @@ int DAUDIO_Stop(void* id, int isSource) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
     TRACE0("DAUDIO_Stop\n");
 
-    OSStatus err = AudioOutputUnitStop(device->audioUnit);
+    OSStbtus err = AudioOutputUnitStop(device->budioUnit);
 
     return err == noErr ? TRUE : FALSE;
 }
@@ -955,23 +955,23 @@ void DAUDIO_Close(void* id, int isSource) {
     delete device;
 }
 
-int DAUDIO_Write(void* id, char* data, int byteSize) {
+int DAUDIO_Write(void* id, chbr* dbtb, int byteSize) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
     TRACE1(">>DAUDIO_Write: %d bytes to write\n", byteSize);
 
-    int result = device->ringBuffer.Write(data, byteSize, true);
+    int result = device->ringBuffer.Write(dbtb, byteSize, true);
 
     TRACE1("<<DAUDIO_Write: %d bytes written\n", result);
     return result;
 }
 
-int DAUDIO_Read(void* id, char* data, int byteSize) {
+int DAUDIO_Rebd(void* id, chbr* dbtb, int byteSize) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
-    TRACE1(">>DAUDIO_Read: %d bytes to read\n", byteSize);
+    TRACE1(">>DAUDIO_Rebd: %d bytes to rebd\n", byteSize);
 
-    int result = device->ringBuffer.Read(data, byteSize);
+    int result = device->ringBuffer.Rebd(dbtb, byteSize);
 
-    TRACE1("<<DAUDIO_Read: %d bytes has been read\n", result);
+    TRACE1("<<DAUDIO_Rebd: %d bytes hbs been rebd\n", result);
     return result;
 }
 
@@ -984,13 +984,13 @@ int DAUDIO_GetBufferSize(void* id, int isSource) {
     return bufferSizeInBytes;
 }
 
-int DAUDIO_StillDraining(void* id, int isSource) {
+int DAUDIO_StillDrbining(void* id, int isSource) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
 
-    int draining = device->ringBuffer.GetValidByteCount() > 0 ? TRUE : FALSE;
+    int drbining = device->ringBuffer.GetVblidByteCount() > 0 ? TRUE : FALSE;
 
-    TRACE1("DAUDIO_StillDraining returns %d\n", draining);
-    return draining;
+    TRACE1("DAUDIO_StillDrbining returns %d\n", drbining);
+    return drbining;
 }
 
 int DAUDIO_Flush(void* id, int isSource) {
@@ -1002,10 +1002,10 @@ int DAUDIO_Flush(void* id, int isSource) {
     return TRUE;
 }
 
-int DAUDIO_GetAvailable(void* id, int isSource) {
+int DAUDIO_GetAvbilbble(void* id, int isSource) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
 
-    int bytesInBuffer = device->ringBuffer.GetValidByteCount();
+    int bytesInBuffer = device->ringBuffer.GetVblidByteCount();
     if (isSource) {
         return device->ringBuffer.GetBufferSize() - bytesInBuffer;
     } else {
@@ -1013,22 +1013,22 @@ int DAUDIO_GetAvailable(void* id, int isSource) {
     }
 }
 
-INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos) {
+INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 jbvbBytePos) {
     OSX_DirectAudioDevice *device = (OSX_DirectAudioDevice*)id;
     INT64 position;
 
     if (isSource) {
-        position = javaBytePos - device->ringBuffer.GetValidByteCount();
+        position = jbvbBytePos - device->ringBuffer.GetVblidByteCount();
     } else {
-        position = javaBytePos + device->ringBuffer.GetValidByteCount();
+        position = jbvbBytePos + device->ringBuffer.GetVblidByteCount();
     }
 
-    TRACE2("DAUDIO_GetBytePosition returns %lld (javaBytePos = %lld)\n", (long long)position, (long long)javaBytePos);
+    TRACE2("DAUDIO_GetBytePosition returns %lld (jbvbBytePos = %lld)\n", (long long)position, (long long)jbvbBytePos);
     return position;
 }
 
-void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos) {
-    // no need javaBytePos (it's available in DAUDIO_GetBytePosition)
+void DAUDIO_SetBytePosition(void* id, int isSource, INT64 jbvbBytePos) {
+    // no need jbvbBytePos (it's bvbilbble in DAUDIO_GetBytePosition)
 }
 
 int DAUDIO_RequiresServicing(void* id, int isSource) {
@@ -1036,7 +1036,7 @@ int DAUDIO_RequiresServicing(void* id, int isSource) {
 }
 
 void DAUDIO_Service(void* id, int isSource) {
-    // unreachable
+    // unrebchbble
 }
 
 #endif  // USE_DAUDIO == TRUE

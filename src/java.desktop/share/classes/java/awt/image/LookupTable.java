@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
 
 /**
- * This abstract class defines a lookup table object.  ByteLookupTable
- * and ShortLookupTable are subclasses, which
- * contain byte and short data, respectively.  A lookup table
- * contains data arrays for one or more bands (or components) of an image
- * (for example, separate arrays for R, G, and B),
- * and it contains an offset which will be subtracted from the
- * input values before indexing into the arrays.  This allows an array
- * smaller than the native data size to be provided for a
- * constrained input.  If there is only one array in the lookup
- * table, it will be applied to all bands.  All arrays must be the
- * same size.
+ * This bbstrbct clbss defines b lookup tbble object.  ByteLookupTbble
+ * bnd ShortLookupTbble bre subclbsses, which
+ * contbin byte bnd short dbtb, respectively.  A lookup tbble
+ * contbins dbtb brrbys for one or more bbnds (or components) of bn imbge
+ * (for exbmple, sepbrbte brrbys for R, G, bnd B),
+ * bnd it contbins bn offset which will be subtrbcted from the
+ * input vblues before indexing into the brrbys.  This bllows bn brrby
+ * smbller thbn the nbtive dbtb size to be provided for b
+ * constrbined input.  If there is only one brrby in the lookup
+ * tbble, it will be bpplied to bll bbnds.  All brrbys must be the
+ * sbme size.
  *
- * @see ByteLookupTable
- * @see ShortLookupTable
+ * @see ByteLookupTbble
+ * @see ShortLookupTbble
  * @see LookupOp
  */
-public abstract class LookupTable extends Object{
+public bbstrbct clbss LookupTbble extends Object{
 
     /**
-     * Constants
+     * Constbnts
      */
 
     int  numComponents;
@@ -54,31 +54,31 @@ public abstract class LookupTable extends Object{
     int  numEntries;
 
     /**
-     * Constructs a new LookupTable from the number of components and an offset
-     * into the lookup table.
-     * @param offset the offset to subtract from input values before indexing
-     *        into the data arrays for this <code>LookupTable</code>
-     * @param numComponents the number of data arrays in this
-     *        <code>LookupTable</code>
-     * @throws IllegalArgumentException if <code>offset</code> is less than 0
-     *         or if <code>numComponents</code> is less than 1
+     * Constructs b new LookupTbble from the number of components bnd bn offset
+     * into the lookup tbble.
+     * @pbrbm offset the offset to subtrbct from input vblues before indexing
+     *        into the dbtb brrbys for this <code>LookupTbble</code>
+     * @pbrbm numComponents the number of dbtb brrbys in this
+     *        <code>LookupTbble</code>
+     * @throws IllegblArgumentException if <code>offset</code> is less thbn 0
+     *         or if <code>numComponents</code> is less thbn 1
      */
-    protected LookupTable(int offset, int numComponents) {
+    protected LookupTbble(int offset, int numComponents) {
         if (offset < 0) {
             throw new
-                IllegalArgumentException("Offset must be greater than 0");
+                IllegblArgumentException("Offset must be grebter thbn 0");
         }
         if (numComponents < 1) {
-            throw new IllegalArgumentException("Number of components must "+
-                                               " be at least 1");
+            throw new IllegblArgumentException("Number of components must "+
+                                               " be bt lebst 1");
         }
         this.numComponents = numComponents;
         this.offset = offset;
     }
 
     /**
-     * Returns the number of components in the lookup table.
-     * @return the number of components in this <code>LookupTable</code>.
+     * Returns the number of components in the lookup tbble.
+     * @return the number of components in this <code>LookupTbble</code>.
      */
     public int getNumComponents() {
         return numComponents;
@@ -86,24 +86,24 @@ public abstract class LookupTable extends Object{
 
     /**
      * Returns the offset.
-     * @return the offset of this <code>LookupTable</code>.
+     * @return the offset of this <code>LookupTbble</code>.
      */
     public int getOffset() {
         return offset;
     }
 
     /**
-     * Returns an <code>int</code> array of components for
-     * one pixel.  The <code>dest</code> array contains the
-     * result of the lookup and is returned.  If dest is
-     * <code>null</code>, a new array is allocated.  The
-     * source and destination can be equal.
-     * @param src the source array of components of one pixel
-     * @param dest the destination array of components for one pixel,
-     *        translated with this <code>LookupTable</code>
-     * @return an <code>int</code> array of components for one
+     * Returns bn <code>int</code> brrby of components for
+     * one pixel.  The <code>dest</code> brrby contbins the
+     * result of the lookup bnd is returned.  If dest is
+     * <code>null</code>, b new brrby is bllocbted.  The
+     * source bnd destinbtion cbn be equbl.
+     * @pbrbm src the source brrby of components of one pixel
+     * @pbrbm dest the destinbtion brrby of components for one pixel,
+     *        trbnslbted with this <code>LookupTbble</code>
+     * @return bn <code>int</code> brrby of components for one
      *         pixel.
      */
-    public abstract int[] lookupPixel(int[] src, int[] dest);
+    public bbstrbct int[] lookupPixel(int[] src, int[] dest);
 
 }

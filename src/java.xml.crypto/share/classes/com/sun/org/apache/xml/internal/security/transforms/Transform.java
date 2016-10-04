@@ -3,367 +3,367 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.AlgorithmAlreadyRegisteredException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformBase64Decode;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14N;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14N11;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14N11_WithComments;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14NExclusive;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14NExclusiveWithComments;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformC14NWithComments;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformEnvelopedSignature;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformXPath;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformXPath2Filter;
-import com.sun.org.apache.xml.internal.security.transforms.implementations.TransformXSLT;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.AlgorithmAlrebdyRegisteredException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformBbse64Decode;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14N;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14N11;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14N11_WithComments;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14NExclusive;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14NExclusiveWithComments;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformC14NWithComments;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformEnvelopedSignbture;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformXPbth;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformXPbth2Filter;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.TrbnsformXSLT;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.HelperNodeList;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Implements the behaviour of the <code>ds:Transform</code> element.
+ * Implements the behbviour of the <code>ds:Trbnsform</code> element.
  *
- * This <code>Transform</code>(Factory) class acts as the Factory and Proxy of
- * the implementing class that supports the functionality of <a
- * href=http://www.w3.org/TR/xmldsig-core/#sec-TransformAlg>a Transform
- * algorithm</a>.
- * Implements the Factory and Proxy pattern for ds:Transform algorithms.
+ * This <code>Trbnsform</code>(Fbctory) clbss bcts bs the Fbctory bnd Proxy of
+ * the implementing clbss thbt supports the functionblity of <b
+ * href=http://www.w3.org/TR/xmldsig-core/#sec-TrbnsformAlg>b Trbnsform
+ * blgorithm</b>.
+ * Implements the Fbctory bnd Proxy pbttern for ds:Trbnsform blgorithms.
  *
- * @author Christian Geuer-Pollmann
- * @see Transforms
- * @see TransformSpi
+ * @buthor Christibn Geuer-Pollmbnn
+ * @see Trbnsforms
+ * @see TrbnsformSpi
  */
-public final class Transform extends SignatureElementProxy {
+public finbl clbss Trbnsform extends SignbtureElementProxy {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Transform.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(Trbnsform.clbss.getNbme());
 
-    /** All available Transform classes are registered here */
-    private static Map<String, Class<? extends TransformSpi>> transformSpiHash =
-        new ConcurrentHashMap<String, Class<? extends TransformSpi>>();
+    /** All bvbilbble Trbnsform clbsses bre registered here */
+    privbte stbtic Mbp<String, Clbss<? extends TrbnsformSpi>> trbnsformSpiHbsh =
+        new ConcurrentHbshMbp<String, Clbss<? extends TrbnsformSpi>>();
 
-    private final TransformSpi transformSpi;
+    privbte finbl TrbnsformSpi trbnsformSpi;
 
     /**
-     * Generates a Transform object that implements the specified
-     * <code>Transform algorithm</code> URI.
+     * Generbtes b Trbnsform object thbt implements the specified
+     * <code>Trbnsform blgorithm</code> URI.
      *
-     * @param doc the proxy {@link Document}
-     * @param algorithmURI <code>Transform algorithm</code> URI representation,
-     * such as specified in
-     * <a href=http://www.w3.org/TR/xmldsig-core/#sec-TransformAlg>Transform algorithm </a>
-     * @throws InvalidTransformException
+     * @pbrbm doc the proxy {@link Document}
+     * @pbrbm blgorithmURI <code>Trbnsform blgorithm</code> URI representbtion,
+     * such bs specified in
+     * <b href=http://www.w3.org/TR/xmldsig-core/#sec-TrbnsformAlg>Trbnsform blgorithm </b>
+     * @throws InvblidTrbnsformException
      */
-    public Transform(Document doc, String algorithmURI) throws InvalidTransformException {
-        this(doc, algorithmURI, (NodeList)null);
+    public Trbnsform(Document doc, String blgorithmURI) throws InvblidTrbnsformException {
+        this(doc, blgorithmURI, (NodeList)null);
     }
 
     /**
-     * Generates a Transform object that implements the specified
-     * <code>Transform algorithm</code> URI.
+     * Generbtes b Trbnsform object thbt implements the specified
+     * <code>Trbnsform blgorithm</code> URI.
      *
-     * @param algorithmURI <code>Transform algorithm</code> URI representation,
-     * such as specified in
-     * <a href=http://www.w3.org/TR/xmldsig-core/#sec-TransformAlg>Transform algorithm </a>
-     * @param contextChild the child element of <code>Transform</code> element
-     * @param doc the proxy {@link Document}
-     * @throws InvalidTransformException
+     * @pbrbm blgorithmURI <code>Trbnsform blgorithm</code> URI representbtion,
+     * such bs specified in
+     * <b href=http://www.w3.org/TR/xmldsig-core/#sec-TrbnsformAlg>Trbnsform blgorithm </b>
+     * @pbrbm contextChild the child element of <code>Trbnsform</code> element
+     * @pbrbm doc the proxy {@link Document}
+     * @throws InvblidTrbnsformException
      */
-    public Transform(Document doc, String algorithmURI, Element contextChild)
-        throws InvalidTransformException {
+    public Trbnsform(Document doc, String blgorithmURI, Element contextChild)
+        throws InvblidTrbnsformException {
         super(doc);
         HelperNodeList contextNodes = null;
 
         if (contextChild != null) {
             contextNodes = new HelperNodeList();
 
-            XMLUtils.addReturnToElement(doc, contextNodes);
-            contextNodes.appendChild(contextChild);
-            XMLUtils.addReturnToElement(doc, contextNodes);
+            XMLUtils.bddReturnToElement(doc, contextNodes);
+            contextNodes.bppendChild(contextChild);
+            XMLUtils.bddReturnToElement(doc, contextNodes);
         }
 
-        transformSpi = initializeTransform(algorithmURI, contextNodes);
+        trbnsformSpi = initiblizeTrbnsform(blgorithmURI, contextNodes);
     }
 
     /**
-     * Constructs {@link Transform}
+     * Constructs {@link Trbnsform}
      *
-     * @param doc the {@link Document} in which <code>Transform</code> will be
-     * placed
-     * @param algorithmURI URI representation of <code>Transform algorithm</code>
-     * @param contextNodes the child node list of <code>Transform</code> element
-     * @throws InvalidTransformException
+     * @pbrbm doc the {@link Document} in which <code>Trbnsform</code> will be
+     * plbced
+     * @pbrbm blgorithmURI URI representbtion of <code>Trbnsform blgorithm</code>
+     * @pbrbm contextNodes the child node list of <code>Trbnsform</code> element
+     * @throws InvblidTrbnsformException
      */
-    public Transform(Document doc, String algorithmURI, NodeList contextNodes)
-        throws InvalidTransformException {
+    public Trbnsform(Document doc, String blgorithmURI, NodeList contextNodes)
+        throws InvblidTrbnsformException {
         super(doc);
-        transformSpi = initializeTransform(algorithmURI, contextNodes);
+        trbnsformSpi = initiblizeTrbnsform(blgorithmURI, contextNodes);
     }
 
     /**
-     * @param element <code>ds:Transform</code> element
-     * @param BaseURI the URI of the resource where the XML instance was stored
-     * @throws InvalidTransformException
-     * @throws TransformationException
+     * @pbrbm element <code>ds:Trbnsform</code> element
+     * @pbrbm BbseURI the URI of the resource where the XML instbnce wbs stored
+     * @throws InvblidTrbnsformException
+     * @throws TrbnsformbtionException
      * @throws XMLSecurityException
      */
-    public Transform(Element element, String BaseURI)
-        throws InvalidTransformException, TransformationException, XMLSecurityException {
-        super(element, BaseURI);
+    public Trbnsform(Element element, String BbseURI)
+        throws InvblidTrbnsformException, TrbnsformbtionException, XMLSecurityException {
+        super(element, BbseURI);
 
-        // retrieve Algorithm Attribute from ds:Transform
-        String algorithmURI = element.getAttributeNS(null, Constants._ATT_ALGORITHM);
+        // retrieve Algorithm Attribute from ds:Trbnsform
+        String blgorithmURI = element.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
 
-        if (algorithmURI == null || algorithmURI.length() == 0) {
-            Object exArgs[] = { Constants._ATT_ALGORITHM, Constants._TAG_TRANSFORM };
-            throw new TransformationException("xml.WrongContent", exArgs);
+        if (blgorithmURI == null || blgorithmURI.length() == 0) {
+            Object exArgs[] = { Constbnts._ATT_ALGORITHM, Constbnts._TAG_TRANSFORM };
+            throw new TrbnsformbtionException("xml.WrongContent", exArgs);
         }
 
-        Class<? extends TransformSpi> transformSpiClass = transformSpiHash.get(algorithmURI);
-        if (transformSpiClass == null) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException("signature.Transform.UnknownTransform", exArgs);
+        Clbss<? extends TrbnsformSpi> trbnsformSpiClbss = trbnsformSpiHbsh.get(blgorithmURI);
+        if (trbnsformSpiClbss == null) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException("signbture.Trbnsform.UnknownTrbnsform", exArgs);
         }
         try {
-            transformSpi = transformSpiClass.newInstance();
-        } catch (InstantiationException ex) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException(
-                "signature.Transform.UnknownTransform", exArgs, ex
+            trbnsformSpi = trbnsformSpiClbss.newInstbnce();
+        } cbtch (InstbntibtionException ex) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException(
+                "signbture.Trbnsform.UnknownTrbnsform", exArgs, ex
             );
-        } catch (IllegalAccessException ex) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException(
-                "signature.Transform.UnknownTransform", exArgs, ex
+        } cbtch (IllegblAccessException ex) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException(
+                "signbture.Trbnsform.UnknownTrbnsform", exArgs, ex
             );
         }
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Registers implementing clbss of the Trbnsform blgorithm with blgorithmURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>
-     * @param implementingClass <code>implementingClass</code> the implementing
-     * class of {@link TransformSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI
-     * is already registered
+     * @pbrbm blgorithmURI blgorithmURI URI representbtion of <code>Trbnsform blgorithm</code>
+     * @pbrbm implementingClbss <code>implementingClbss</code> the implementing
+     * clbss of {@link TrbnsformSpi}
+     * @throws AlgorithmAlrebdyRegisteredException if specified blgorithmURI
+     * is blrebdy registered
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String algorithmURI, String implementingClass)
-        throws AlgorithmAlreadyRegisteredException, ClassNotFoundException,
-            InvalidTransformException {
-        // are we already registered?
-        Class<? extends TransformSpi> transformSpi = transformSpiHash.get(algorithmURI);
-        if (transformSpi != null) {
-            Object exArgs[] = { algorithmURI, transformSpi };
-            throw new AlgorithmAlreadyRegisteredException("algorithm.alreadyRegistered", exArgs);
+    @SuppressWbrnings("unchecked")
+    public stbtic void register(String blgorithmURI, String implementingClbss)
+        throws AlgorithmAlrebdyRegisteredException, ClbssNotFoundException,
+            InvblidTrbnsformException {
+        // bre we blrebdy registered?
+        Clbss<? extends TrbnsformSpi> trbnsformSpi = trbnsformSpiHbsh.get(blgorithmURI);
+        if (trbnsformSpi != null) {
+            Object exArgs[] = { blgorithmURI, trbnsformSpi };
+            throw new AlgorithmAlrebdyRegisteredException("blgorithm.blrebdyRegistered", exArgs);
         }
-        Class<? extends TransformSpi> transformSpiClass =
-            (Class<? extends TransformSpi>)
-                ClassLoaderUtils.loadClass(implementingClass, Transform.class);
-        transformSpiHash.put(algorithmURI, transformSpiClass);
+        Clbss<? extends TrbnsformSpi> trbnsformSpiClbss =
+            (Clbss<? extends TrbnsformSpi>)
+                ClbssLobderUtils.lobdClbss(implementingClbss, Trbnsform.clbss);
+        trbnsformSpiHbsh.put(blgorithmURI, trbnsformSpiClbss);
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Registers implementing clbss of the Trbnsform blgorithm with blgorithmURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>
-     * @param implementingClass <code>implementingClass</code> the implementing
-     * class of {@link TransformSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI
-     * is already registered
+     * @pbrbm blgorithmURI blgorithmURI URI representbtion of <code>Trbnsform blgorithm</code>
+     * @pbrbm implementingClbss <code>implementingClbss</code> the implementing
+     * clbss of {@link TrbnsformSpi}
+     * @throws AlgorithmAlrebdyRegisteredException if specified blgorithmURI
+     * is blrebdy registered
      */
-    public static void register(String algorithmURI, Class<? extends TransformSpi> implementingClass)
-        throws AlgorithmAlreadyRegisteredException {
-        // are we already registered?
-        Class<? extends TransformSpi> transformSpi = transformSpiHash.get(algorithmURI);
-        if (transformSpi != null) {
-            Object exArgs[] = { algorithmURI, transformSpi };
-            throw new AlgorithmAlreadyRegisteredException("algorithm.alreadyRegistered", exArgs);
+    public stbtic void register(String blgorithmURI, Clbss<? extends TrbnsformSpi> implementingClbss)
+        throws AlgorithmAlrebdyRegisteredException {
+        // bre we blrebdy registered?
+        Clbss<? extends TrbnsformSpi> trbnsformSpi = trbnsformSpiHbsh.get(blgorithmURI);
+        if (trbnsformSpi != null) {
+            Object exArgs[] = { blgorithmURI, trbnsformSpi };
+            throw new AlgorithmAlrebdyRegisteredException("blgorithm.blrebdyRegistered", exArgs);
         }
-        transformSpiHash.put(algorithmURI, implementingClass);
+        trbnsformSpiHbsh.put(blgorithmURI, implementingClbss);
     }
 
     /**
-     * This method registers the default algorithms.
+     * This method registers the defbult blgorithms.
      */
-    public static void registerDefaultAlgorithms() {
-        transformSpiHash.put(
-            Transforms.TRANSFORM_BASE64_DECODE, TransformBase64Decode.class
+    public stbtic void registerDefbultAlgorithms() {
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_BASE64_DECODE, TrbnsformBbse64Decode.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N_OMIT_COMMENTS, TransformC14N.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N_OMIT_COMMENTS, TrbnsformC14N.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N_WITH_COMMENTS, TransformC14NWithComments.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N_WITH_COMMENTS, TrbnsformC14NWithComments.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N11_OMIT_COMMENTS, TransformC14N11.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N11_OMIT_COMMENTS, TrbnsformC14N11.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N11_WITH_COMMENTS, TransformC14N11_WithComments.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N11_WITH_COMMENTS, TrbnsformC14N11_WithComments.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS, TransformC14NExclusive.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS, TrbnsformC14NExclusive.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS, TransformC14NExclusiveWithComments.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS, TrbnsformC14NExclusiveWithComments.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_XPATH, TransformXPath.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_XPATH, TrbnsformXPbth.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_ENVELOPED_SIGNATURE, TransformEnvelopedSignature.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_ENVELOPED_SIGNATURE, TrbnsformEnvelopedSignbture.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_XSLT, TransformXSLT.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_XSLT, TrbnsformXSLT.clbss
         );
-        transformSpiHash.put(
-            Transforms.TRANSFORM_XPATH2FILTER, TransformXPath2Filter.class
+        trbnsformSpiHbsh.put(
+            Trbnsforms.TRANSFORM_XPATH2FILTER, TrbnsformXPbth2Filter.clbss
         );
     }
 
     /**
-     * Returns the URI representation of Transformation algorithm
+     * Returns the URI representbtion of Trbnsformbtion blgorithm
      *
-     * @return the URI representation of Transformation algorithm
+     * @return the URI representbtion of Trbnsformbtion blgorithm
      */
     public String getURI() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ALGORITHM);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Transforms the input, and generates {@link XMLSignatureInput} as output.
+     * Trbnsforms the input, bnd generbtes {@link XMLSignbtureInput} bs output.
      *
-     * @param input input {@link XMLSignatureInput} which can supplied Octet
-     * Stream and NodeSet as Input of Transformation
-     * @return the {@link XMLSignatureInput} class as the result of
-     * transformation
-     * @throws CanonicalizationException
+     * @pbrbm input input {@link XMLSignbtureInput} which cbn supplied Octet
+     * Strebm bnd NodeSet bs Input of Trbnsformbtion
+     * @return the {@link XMLSignbtureInput} clbss bs the result of
+     * trbnsformbtion
+     * @throws CbnonicblizbtionException
      * @throws IOException
-     * @throws InvalidCanonicalizerException
-     * @throws TransformationException
+     * @throws InvblidCbnonicblizerException
+     * @throws TrbnsformbtionException
      */
-    public XMLSignatureInput performTransform(XMLSignatureInput input)
-        throws IOException, CanonicalizationException,
-               InvalidCanonicalizerException, TransformationException {
-        return performTransform(input, null);
+    public XMLSignbtureInput performTrbnsform(XMLSignbtureInput input)
+        throws IOException, CbnonicblizbtionException,
+               InvblidCbnonicblizerException, TrbnsformbtionException {
+        return performTrbnsform(input, null);
     }
 
     /**
-     * Transforms the input, and generates {@link XMLSignatureInput} as output.
+     * Trbnsforms the input, bnd generbtes {@link XMLSignbtureInput} bs output.
      *
-     * @param input input {@link XMLSignatureInput} which can supplied Octect
-     * Stream and NodeSet as Input of Transformation
-     * @param os where to output the result of the last transformation
-     * @return the {@link XMLSignatureInput} class as the result of
-     * transformation
-     * @throws CanonicalizationException
+     * @pbrbm input input {@link XMLSignbtureInput} which cbn supplied Octect
+     * Strebm bnd NodeSet bs Input of Trbnsformbtion
+     * @pbrbm os where to output the result of the lbst trbnsformbtion
+     * @return the {@link XMLSignbtureInput} clbss bs the result of
+     * trbnsformbtion
+     * @throws CbnonicblizbtionException
      * @throws IOException
-     * @throws InvalidCanonicalizerException
-     * @throws TransformationException
+     * @throws InvblidCbnonicblizerException
+     * @throws TrbnsformbtionException
      */
-    public XMLSignatureInput performTransform(
-        XMLSignatureInput input, OutputStream os
-    ) throws IOException, CanonicalizationException,
-        InvalidCanonicalizerException, TransformationException {
-        XMLSignatureInput result = null;
+    public XMLSignbtureInput performTrbnsform(
+        XMLSignbtureInput input, OutputStrebm os
+    ) throws IOException, CbnonicblizbtionException,
+        InvblidCbnonicblizerException, TrbnsformbtionException {
+        XMLSignbtureInput result = null;
 
         try {
-            result = transformSpi.enginePerformTransform(input, os, this);
-        } catch (ParserConfigurationException ex) {
-            Object exArgs[] = { this.getURI(), "ParserConfigurationException" };
-            throw new CanonicalizationException(
-                "signature.Transform.ErrorDuringTransform", exArgs, ex);
-        } catch (SAXException ex) {
+            result = trbnsformSpi.enginePerformTrbnsform(input, os, this);
+        } cbtch (PbrserConfigurbtionException ex) {
+            Object exArgs[] = { this.getURI(), "PbrserConfigurbtionException" };
+            throw new CbnonicblizbtionException(
+                "signbture.Trbnsform.ErrorDuringTrbnsform", exArgs, ex);
+        } cbtch (SAXException ex) {
             Object exArgs[] = { this.getURI(), "SAXException" };
-            throw new CanonicalizationException(
-                "signature.Transform.ErrorDuringTransform", exArgs, ex);
+            throw new CbnonicblizbtionException(
+                "signbture.Trbnsform.ErrorDuringTrbnsform", exArgs, ex);
         }
 
         return result;
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_TRANSFORM;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_TRANSFORM;
     }
 
     /**
-     * Initialize the transform object.
+     * Initiblize the trbnsform object.
      */
-    private TransformSpi initializeTransform(String algorithmURI, NodeList contextNodes)
-        throws InvalidTransformException {
+    privbte TrbnsformSpi initiblizeTrbnsform(String blgorithmURI, NodeList contextNodes)
+        throws InvblidTrbnsformException {
 
-        this.constructionElement.setAttributeNS(null, Constants._ATT_ALGORITHM, algorithmURI);
+        this.constructionElement.setAttributeNS(null, Constbnts._ATT_ALGORITHM, blgorithmURI);
 
-        Class<? extends TransformSpi> transformSpiClass = transformSpiHash.get(algorithmURI);
-        if (transformSpiClass == null) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException("signature.Transform.UnknownTransform", exArgs);
+        Clbss<? extends TrbnsformSpi> trbnsformSpiClbss = trbnsformSpiHbsh.get(blgorithmURI);
+        if (trbnsformSpiClbss == null) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException("signbture.Trbnsform.UnknownTrbnsform", exArgs);
         }
-        TransformSpi newTransformSpi = null;
+        TrbnsformSpi newTrbnsformSpi = null;
         try {
-            newTransformSpi = transformSpiClass.newInstance();
-        } catch (InstantiationException ex) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException(
-                "signature.Transform.UnknownTransform", exArgs, ex
+            newTrbnsformSpi = trbnsformSpiClbss.newInstbnce();
+        } cbtch (InstbntibtionException ex) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException(
+                "signbture.Trbnsform.UnknownTrbnsform", exArgs, ex
             );
-        } catch (IllegalAccessException ex) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidTransformException(
-                "signature.Transform.UnknownTransform", exArgs, ex
+        } cbtch (IllegblAccessException ex) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidTrbnsformException(
+                "signbture.Trbnsform.UnknownTrbnsform", exArgs, ex
             );
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Create URI \"" + algorithmURI + "\" class \""
-                      + newTransformSpi.getClass() + "\"");
-            log.log(java.util.logging.Level.FINE, "The NodeList is " + contextNodes);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Crebte URI \"" + blgorithmURI + "\" clbss \""
+                      + newTrbnsformSpi.getClbss() + "\"");
+            log.log(jbvb.util.logging.Level.FINE, "The NodeList is " + contextNodes);
         }
 
         // give it to the current document
         if (contextNodes != null) {
             for (int i = 0; i < contextNodes.getLength(); i++) {
-                this.constructionElement.appendChild(contextNodes.item(i).cloneNode(true));
+                this.constructionElement.bppendChild(contextNodes.item(i).cloneNode(true));
             }
         }
-        return newTransformSpi;
+        return newTrbnsformSpi;
     }
 
 }

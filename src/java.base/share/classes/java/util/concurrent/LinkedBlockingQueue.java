@@ -1,249 +1,249 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.AbstractQueue;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.AbstrbctQueue;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * An optionally-bounded {@linkplain BlockingQueue blocking queue} based on
+ * An optionblly-bounded {@linkplbin BlockingQueue blocking queue} bbsed on
  * linked nodes.
  * This queue orders elements FIFO (first-in-first-out).
- * The <em>head</em> of the queue is that element that has been on the
+ * The <em>hebd</em> of the queue is thbt element thbt hbs been on the
  * queue the longest time.
- * The <em>tail</em> of the queue is that element that has been on the
+ * The <em>tbil</em> of the queue is thbt element thbt hbs been on the
  * queue the shortest time. New elements
- * are inserted at the tail of the queue, and the queue retrieval
- * operations obtain elements at the head of the queue.
- * Linked queues typically have higher throughput than array-based queues but
- * less predictable performance in most concurrent applications.
+ * bre inserted bt the tbil of the queue, bnd the queue retrievbl
+ * operbtions obtbin elements bt the hebd of the queue.
+ * Linked queues typicblly hbve higher throughput thbn brrby-bbsed queues but
+ * less predictbble performbnce in most concurrent bpplicbtions.
  *
- * <p>The optional capacity bound constructor argument serves as a
- * way to prevent excessive queue expansion. The capacity, if unspecified,
- * is equal to {@link Integer#MAX_VALUE}.  Linked nodes are
- * dynamically created upon each insertion unless this would bring the
- * queue above capacity.
+ * <p>The optionbl cbpbcity bound constructor brgument serves bs b
+ * wby to prevent excessive queue expbnsion. The cbpbcity, if unspecified,
+ * is equbl to {@link Integer#MAX_VALUE}.  Linked nodes bre
+ * dynbmicblly crebted upon ebch insertion unless this would bring the
+ * queue bbove cbpbcity.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the
+ * <em>optionbl</em> methods of the {@link Collection} bnd {@link
+ * Iterbtor} interfbces.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class LinkedBlockingQueue<E> extends AbstractQueue<E>
-        implements BlockingQueue<E>, java.io.Serializable {
-    private static final long serialVersionUID = -6903933977591709194L;
+public clbss LinkedBlockingQueue<E> extends AbstrbctQueue<E>
+        implements BlockingQueue<E>, jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -6903933977591709194L;
 
     /*
-     * A variant of the "two lock queue" algorithm.  The putLock gates
-     * entry to put (and offer), and has an associated condition for
-     * waiting puts.  Similarly for the takeLock.  The "count" field
-     * that they both rely on is maintained as an atomic to avoid
-     * needing to get both locks in most cases. Also, to minimize need
-     * for puts to get takeLock and vice-versa, cascading notifies are
-     * used. When a put notices that it has enabled at least one take,
-     * it signals taker. That taker in turn signals others if more
-     * items have been entered since the signal. And symmetrically for
-     * takes signalling puts. Operations such as remove(Object) and
-     * iterators acquire both locks.
+     * A vbribnt of the "two lock queue" blgorithm.  The putLock gbtes
+     * entry to put (bnd offer), bnd hbs bn bssocibted condition for
+     * wbiting puts.  Similbrly for the tbkeLock.  The "count" field
+     * thbt they both rely on is mbintbined bs bn btomic to bvoid
+     * needing to get both locks in most cbses. Also, to minimize need
+     * for puts to get tbkeLock bnd vice-versb, cbscbding notifies bre
+     * used. When b put notices thbt it hbs enbbled bt lebst one tbke,
+     * it signbls tbker. Thbt tbker in turn signbls others if more
+     * items hbve been entered since the signbl. And symmetricblly for
+     * tbkes signblling puts. Operbtions such bs remove(Object) bnd
+     * iterbtors bcquire both locks.
      *
-     * Visibility between writers and readers is provided as follows:
+     * Visibility between writers bnd rebders is provided bs follows:
      *
-     * Whenever an element is enqueued, the putLock is acquired and
-     * count updated.  A subsequent reader guarantees visibility to the
-     * enqueued Node by either acquiring the putLock (via fullyLock)
-     * or by acquiring the takeLock, and then reading n = count.get();
+     * Whenever bn element is enqueued, the putLock is bcquired bnd
+     * count updbted.  A subsequent rebder gubrbntees visibility to the
+     * enqueued Node by either bcquiring the putLock (vib fullyLock)
+     * or by bcquiring the tbkeLock, bnd then rebding n = count.get();
      * this gives visibility to the first n items.
      *
-     * To implement weakly consistent iterators, it appears we need to
-     * keep all Nodes GC-reachable from a predecessor dequeued Node.
-     * That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
+     * To implement webkly consistent iterbtors, it bppebrs we need to
+     * keep bll Nodes GC-rebchbble from b predecessor dequeued Node.
+     * Thbt would cbuse two problems:
+     * - bllow b rogue Iterbtor to cbuse unbounded memory retention
+     * - cbuse cross-generbtionbl linking of old Nodes to new Nodes if
+     *   b Node wbs tenured while live, which generbtionbl GCs hbve b
+     *   hbrd time debling with, cbusing repebted mbjor collections.
+     * However, only non-deleted Nodes need to be rebchbble from
+     * dequeued Nodes, bnd rebchbbility does not necessbrily hbve to
      * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to advance to head.next.
+     * linking b Node thbt hbs just been dequeued to itself.  Such b
+     * self-link implicitly mebns to bdvbnce to hebd.next.
      */
 
     /**
-     * Linked list node class
+     * Linked list node clbss
      */
-    static class Node<E> {
+    stbtic clbss Node<E> {
         E item;
 
         /**
          * One of:
-         * - the real successor Node
-         * - this Node, meaning the successor is head.next
-         * - null, meaning there is no successor (this is the last node)
+         * - the rebl successor Node
+         * - this Node, mebning the successor is hebd.next
+         * - null, mebning there is no successor (this is the lbst node)
          */
         Node<E> next;
 
         Node(E x) { item = x; }
     }
 
-    /** The capacity bound, or Integer.MAX_VALUE if none */
-    private final int capacity;
+    /** The cbpbcity bound, or Integer.MAX_VALUE if none */
+    privbte finbl int cbpbcity;
 
     /** Current number of elements */
-    private final AtomicInteger count = new AtomicInteger();
+    privbte finbl AtomicInteger count = new AtomicInteger();
 
     /**
-     * Head of linked list.
-     * Invariant: head.item == null
+     * Hebd of linked list.
+     * Invbribnt: hebd.item == null
      */
-    transient Node<E> head;
+    trbnsient Node<E> hebd;
 
     /**
-     * Tail of linked list.
-     * Invariant: last.next == null
+     * Tbil of linked list.
+     * Invbribnt: lbst.next == null
      */
-    private transient Node<E> last;
+    privbte trbnsient Node<E> lbst;
 
-    /** Lock held by take, poll, etc */
-    private final ReentrantLock takeLock = new ReentrantLock();
+    /** Lock held by tbke, poll, etc */
+    privbte finbl ReentrbntLock tbkeLock = new ReentrbntLock();
 
-    /** Wait queue for waiting takes */
-    private final Condition notEmpty = takeLock.newCondition();
+    /** Wbit queue for wbiting tbkes */
+    privbte finbl Condition notEmpty = tbkeLock.newCondition();
 
     /** Lock held by put, offer, etc */
-    private final ReentrantLock putLock = new ReentrantLock();
+    privbte finbl ReentrbntLock putLock = new ReentrbntLock();
 
-    /** Wait queue for waiting puts */
-    private final Condition notFull = putLock.newCondition();
+    /** Wbit queue for wbiting puts */
+    privbte finbl Condition notFull = putLock.newCondition();
 
     /**
-     * Signals a waiting take. Called only from put/offer (which do not
-     * otherwise ordinarily lock takeLock.)
+     * Signbls b wbiting tbke. Cblled only from put/offer (which do not
+     * otherwise ordinbrily lock tbkeLock.)
      */
-    private void signalNotEmpty() {
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();
+    privbte void signblNotEmpty() {
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lock();
         try {
-            notEmpty.signal();
-        } finally {
-            takeLock.unlock();
+            notEmpty.signbl();
+        } finblly {
+            tbkeLock.unlock();
         }
     }
 
     /**
-     * Signals a waiting put. Called only from take/poll.
+     * Signbls b wbiting put. Cblled only from tbke/poll.
      */
-    private void signalNotFull() {
-        final ReentrantLock putLock = this.putLock;
+    privbte void signblNotFull() {
+        finbl ReentrbntLock putLock = this.putLock;
         putLock.lock();
         try {
-            notFull.signal();
-        } finally {
+            notFull.signbl();
+        } finblly {
             putLock.unlock();
         }
     }
 
     /**
-     * Links node at end of queue.
+     * Links node bt end of queue.
      *
-     * @param node the node
+     * @pbrbm node the node
      */
-    private void enqueue(Node<E> node) {
-        // assert putLock.isHeldByCurrentThread();
-        // assert last.next == null;
-        last = last.next = node;
+    privbte void enqueue(Node<E> node) {
+        // bssert putLock.isHeldByCurrentThrebd();
+        // bssert lbst.next == null;
+        lbst = lbst.next = node;
     }
 
     /**
-     * Removes a node from head of queue.
+     * Removes b node from hebd of queue.
      *
      * @return the node
      */
-    private E dequeue() {
-        // assert takeLock.isHeldByCurrentThread();
-        // assert head.item == null;
-        Node<E> h = head;
+    privbte E dequeue() {
+        // bssert tbkeLock.isHeldByCurrentThrebd();
+        // bssert hebd.item == null;
+        Node<E> h = hebd;
         Node<E> first = h.next;
         h.next = h; // help GC
-        head = first;
+        hebd = first;
         E x = first.item;
         first.item = null;
         return x;
     }
 
     /**
-     * Locks to prevent both puts and takes.
+     * Locks to prevent both puts bnd tbkes.
      */
     void fullyLock() {
         putLock.lock();
-        takeLock.lock();
+        tbkeLock.lock();
     }
 
     /**
-     * Unlocks to allow both puts and takes.
+     * Unlocks to bllow both puts bnd tbkes.
      */
     void fullyUnlock() {
-        takeLock.unlock();
+        tbkeLock.unlock();
         putLock.unlock();
     }
 
 //     /**
-//      * Tells whether both locks are held by current thread.
+//      * Tells whether both locks bre held by current threbd.
 //      */
-//     boolean isFullyLocked() {
-//         return (putLock.isHeldByCurrentThread() &&
-//                 takeLock.isHeldByCurrentThread());
+//     boolebn isFullyLocked() {
+//         return (putLock.isHeldByCurrentThrebd() &&
+//                 tbkeLock.isHeldByCurrentThrebd());
 //     }
 
     /**
-     * Creates a {@code LinkedBlockingQueue} with a capacity of
+     * Crebtes b {@code LinkedBlockingQueue} with b cbpbcity of
      * {@link Integer#MAX_VALUE}.
      */
     public LinkedBlockingQueue() {
@@ -251,50 +251,50 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Creates a {@code LinkedBlockingQueue} with the given (fixed) capacity.
+     * Crebtes b {@code LinkedBlockingQueue} with the given (fixed) cbpbcity.
      *
-     * @param capacity the capacity of this queue
-     * @throws IllegalArgumentException if {@code capacity} is not greater
-     *         than zero
+     * @pbrbm cbpbcity the cbpbcity of this queue
+     * @throws IllegblArgumentException if {@code cbpbcity} is not grebter
+     *         thbn zero
      */
-    public LinkedBlockingQueue(int capacity) {
-        if (capacity <= 0) throw new IllegalArgumentException();
-        this.capacity = capacity;
-        last = head = new Node<E>(null);
+    public LinkedBlockingQueue(int cbpbcity) {
+        if (cbpbcity <= 0) throw new IllegblArgumentException();
+        this.cbpbcity = cbpbcity;
+        lbst = hebd = new Node<E>(null);
     }
 
     /**
-     * Creates a {@code LinkedBlockingQueue} with a capacity of
-     * {@link Integer#MAX_VALUE}, initially containing the elements of the
+     * Crebtes b {@code LinkedBlockingQueue} with b cbpbcity of
+     * {@link Integer#MAX_VALUE}, initiblly contbining the elements of the
      * given collection,
-     * added in traversal order of the collection's iterator.
+     * bdded in trbversbl order of the collection's iterbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c the collection of elements to initiblly contbin
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
     public LinkedBlockingQueue(Collection<? extends E> c) {
         this(Integer.MAX_VALUE);
-        final ReentrantLock putLock = this.putLock;
-        putLock.lock(); // Never contended, but necessary for visibility
+        finbl ReentrbntLock putLock = this.putLock;
+        putLock.lock(); // Never contended, but necessbry for visibility
         try {
             int n = 0;
             for (E e : c) {
                 if (e == null)
                     throw new NullPointerException();
-                if (n == capacity)
-                    throw new IllegalStateException("Queue full");
+                if (n == cbpbcity)
+                    throw new IllegblStbteException("Queue full");
                 enqueue(new Node<E>(e));
                 ++n;
             }
             count.set(n);
-        } finally {
+        } finblly {
             putLock.unlock();
         }
     }
 
     // this doc comment is overridden to remove the reference to collections
-    // greater in size than Integer.MAX_VALUE
+    // grebter in size thbn Integer.MAX_VALUE
     /**
      * Returns the number of elements in this queue.
      *
@@ -304,362 +304,362 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
         return count.get();
     }
 
-    // this doc comment is a modified copy of the inherited doc comment,
+    // this doc comment is b modified copy of the inherited doc comment,
     // without the reference to unlimited queues.
     /**
-     * Returns the number of additional elements that this queue can ideally
-     * (in the absence of memory or resource constraints) accept without
-     * blocking. This is always equal to the initial capacity of this queue
+     * Returns the number of bdditionbl elements thbt this queue cbn ideblly
+     * (in the bbsence of memory or resource constrbints) bccept without
+     * blocking. This is blwbys equbl to the initibl cbpbcity of this queue
      * less the current {@code size} of this queue.
      *
-     * <p>Note that you <em>cannot</em> always tell if an attempt to insert
-     * an element will succeed by inspecting {@code remainingCapacity}
-     * because it may be the case that another thread is about to
-     * insert or remove an element.
+     * <p>Note thbt you <em>cbnnot</em> blwbys tell if bn bttempt to insert
+     * bn element will succeed by inspecting {@code rembiningCbpbcity}
+     * becbuse it mby be the cbse thbt bnother threbd is bbout to
+     * insert or remove bn element.
      */
-    public int remainingCapacity() {
-        return capacity - count.get();
+    public int rembiningCbpbcity() {
+        return cbpbcity - count.get();
     }
 
     /**
-     * Inserts the specified element at the tail of this queue, waiting if
-     * necessary for space to become available.
+     * Inserts the specified element bt the tbil of this queue, wbiting if
+     * necessbry for spbce to become bvbilbble.
      *
      * @throws InterruptedException {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
     public void put(E e) throws InterruptedException {
         if (e == null) throw new NullPointerException();
-        // Note: convention in all put/take/etc is to preset local var
-        // holding count negative to indicate failure unless set.
+        // Note: convention in bll put/tbke/etc is to preset locbl vbr
+        // holding count negbtive to indicbte fbilure unless set.
         int c = -1;
         Node<E> node = new Node<E>(e);
-        final ReentrantLock putLock = this.putLock;
-        final AtomicInteger count = this.count;
+        finbl ReentrbntLock putLock = this.putLock;
+        finbl AtomicInteger count = this.count;
         putLock.lockInterruptibly();
         try {
             /*
-             * Note that count is used in wait guard even though it is
-             * not protected by lock. This works because count can
-             * only decrease at this point (all other puts are shut
-             * out by lock), and we (or some other waiting put) are
-             * signalled if it ever changes from capacity. Similarly
-             * for all other uses of count in other wait guards.
+             * Note thbt count is used in wbit gubrd even though it is
+             * not protected by lock. This works becbuse count cbn
+             * only decrebse bt this point (bll other puts bre shut
+             * out by lock), bnd we (or some other wbiting put) bre
+             * signblled if it ever chbnges from cbpbcity. Similbrly
+             * for bll other uses of count in other wbit gubrds.
              */
-            while (count.get() == capacity) {
-                notFull.await();
+            while (count.get() == cbpbcity) {
+                notFull.bwbit();
             }
             enqueue(node);
             c = count.getAndIncrement();
-            if (c + 1 < capacity)
-                notFull.signal();
-        } finally {
+            if (c + 1 < cbpbcity)
+                notFull.signbl();
+        } finblly {
             putLock.unlock();
         }
         if (c == 0)
-            signalNotEmpty();
+            signblNotEmpty();
     }
 
     /**
-     * Inserts the specified element at the tail of this queue, waiting if
-     * necessary up to the specified wait time for space to become available.
+     * Inserts the specified element bt the tbil of this queue, wbiting if
+     * necessbry up to the specified wbit time for spbce to become bvbilbble.
      *
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before space is available
+     * @return {@code true} if successful, or {@code fblse} if
+     *         the specified wbiting time elbpses before spbce is bvbilbble
      * @throws InterruptedException {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    public boolean offer(E e, long timeout, TimeUnit unit)
+    public boolebn offer(E e, long timeout, TimeUnit unit)
         throws InterruptedException {
 
         if (e == null) throw new NullPointerException();
-        long nanos = unit.toNanos(timeout);
+        long nbnos = unit.toNbnos(timeout);
         int c = -1;
-        final ReentrantLock putLock = this.putLock;
-        final AtomicInteger count = this.count;
+        finbl ReentrbntLock putLock = this.putLock;
+        finbl AtomicInteger count = this.count;
         putLock.lockInterruptibly();
         try {
-            while (count.get() == capacity) {
-                if (nanos <= 0)
-                    return false;
-                nanos = notFull.awaitNanos(nanos);
+            while (count.get() == cbpbcity) {
+                if (nbnos <= 0)
+                    return fblse;
+                nbnos = notFull.bwbitNbnos(nbnos);
             }
             enqueue(new Node<E>(e));
             c = count.getAndIncrement();
-            if (c + 1 < capacity)
-                notFull.signal();
-        } finally {
+            if (c + 1 < cbpbcity)
+                notFull.signbl();
+        } finblly {
             putLock.unlock();
         }
         if (c == 0)
-            signalNotEmpty();
+            signblNotEmpty();
         return true;
     }
 
     /**
-     * Inserts the specified element at the tail of this queue if it is
-     * possible to do so immediately without exceeding the queue's capacity,
-     * returning {@code true} upon success and {@code false} if this queue
+     * Inserts the specified element bt the tbil of this queue if it is
+     * possible to do so immedibtely without exceeding the queue's cbpbcity,
+     * returning {@code true} upon success bnd {@code fblse} if this queue
      * is full.
-     * When using a capacity-restricted queue, this method is generally
-     * preferable to method {@link BlockingQueue#add add}, which can fail to
-     * insert an element only by throwing an exception.
+     * When using b cbpbcity-restricted queue, this method is generblly
+     * preferbble to method {@link BlockingQueue#bdd bdd}, which cbn fbil to
+     * insert bn element only by throwing bn exception.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
+    public boolebn offer(E e) {
         if (e == null) throw new NullPointerException();
-        final AtomicInteger count = this.count;
-        if (count.get() == capacity)
-            return false;
+        finbl AtomicInteger count = this.count;
+        if (count.get() == cbpbcity)
+            return fblse;
         int c = -1;
         Node<E> node = new Node<E>(e);
-        final ReentrantLock putLock = this.putLock;
+        finbl ReentrbntLock putLock = this.putLock;
         putLock.lock();
         try {
-            if (count.get() < capacity) {
+            if (count.get() < cbpbcity) {
                 enqueue(node);
                 c = count.getAndIncrement();
-                if (c + 1 < capacity)
-                    notFull.signal();
+                if (c + 1 < cbpbcity)
+                    notFull.signbl();
             }
-        } finally {
+        } finblly {
             putLock.unlock();
         }
         if (c == 0)
-            signalNotEmpty();
+            signblNotEmpty();
         return c >= 0;
     }
 
-    public E take() throws InterruptedException {
+    public E tbke() throws InterruptedException {
         E x;
         int c = -1;
-        final AtomicInteger count = this.count;
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lockInterruptibly();
+        finbl AtomicInteger count = this.count;
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lockInterruptibly();
         try {
             while (count.get() == 0) {
-                notEmpty.await();
+                notEmpty.bwbit();
             }
             x = dequeue();
             c = count.getAndDecrement();
             if (c > 1)
-                notEmpty.signal();
-        } finally {
-            takeLock.unlock();
+                notEmpty.signbl();
+        } finblly {
+            tbkeLock.unlock();
         }
-        if (c == capacity)
-            signalNotFull();
+        if (c == cbpbcity)
+            signblNotFull();
         return x;
     }
 
     public E poll(long timeout, TimeUnit unit) throws InterruptedException {
         E x = null;
         int c = -1;
-        long nanos = unit.toNanos(timeout);
-        final AtomicInteger count = this.count;
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lockInterruptibly();
+        long nbnos = unit.toNbnos(timeout);
+        finbl AtomicInteger count = this.count;
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lockInterruptibly();
         try {
             while (count.get() == 0) {
-                if (nanos <= 0)
+                if (nbnos <= 0)
                     return null;
-                nanos = notEmpty.awaitNanos(nanos);
+                nbnos = notEmpty.bwbitNbnos(nbnos);
             }
             x = dequeue();
             c = count.getAndDecrement();
             if (c > 1)
-                notEmpty.signal();
-        } finally {
-            takeLock.unlock();
+                notEmpty.signbl();
+        } finblly {
+            tbkeLock.unlock();
         }
-        if (c == capacity)
-            signalNotFull();
+        if (c == cbpbcity)
+            signblNotFull();
         return x;
     }
 
     public E poll() {
-        final AtomicInteger count = this.count;
+        finbl AtomicInteger count = this.count;
         if (count.get() == 0)
             return null;
         E x = null;
         int c = -1;
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lock();
         try {
             if (count.get() > 0) {
                 x = dequeue();
                 c = count.getAndDecrement();
                 if (c > 1)
-                    notEmpty.signal();
+                    notEmpty.signbl();
             }
-        } finally {
-            takeLock.unlock();
+        } finblly {
+            tbkeLock.unlock();
         }
-        if (c == capacity)
-            signalNotFull();
+        if (c == cbpbcity)
+            signblNotFull();
         return x;
     }
 
     public E peek() {
         if (count.get() == 0)
             return null;
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lock();
         try {
-            Node<E> first = head.next;
+            Node<E> first = hebd.next;
             if (first == null)
                 return null;
             else
                 return first.item;
-        } finally {
-            takeLock.unlock();
+        } finblly {
+            tbkeLock.unlock();
         }
     }
 
     /**
-     * Unlinks interior Node p with predecessor trail.
+     * Unlinks interior Node p with predecessor trbil.
      */
-    void unlink(Node<E> p, Node<E> trail) {
-        // assert isFullyLocked();
-        // p.next is not changed, to allow iterators that are
-        // traversing p to maintain their weak-consistency guarantee.
+    void unlink(Node<E> p, Node<E> trbil) {
+        // bssert isFullyLocked();
+        // p.next is not chbnged, to bllow iterbtors thbt bre
+        // trbversing p to mbintbin their webk-consistency gubrbntee.
         p.item = null;
-        trail.next = p.next;
-        if (last == p)
-            last = trail;
-        if (count.getAndDecrement() == capacity)
-            notFull.signal();
+        trbil.next = p.next;
+        if (lbst == p)
+            lbst = trbil;
+        if (count.getAndDecrement() == cbpbcity)
+            notFull.signbl();
     }
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * Removes b single instbnce of the specified element from this queue,
+     * if it is present.  More formblly, removes bn element {@code e} such
+     * thbt {@code o.equbls(e)}, if this queue contbins one or more such
      * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
+     * Returns {@code true} if this queue contbined the specified element
+     * (or equivblently, if this queue chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
+     * @pbrbm o element to be removed from this queue, if present
+     * @return {@code true} if this queue chbnged bs b result of the cbll
      */
-    public boolean remove(Object o) {
-        if (o == null) return false;
+    public boolebn remove(Object o) {
+        if (o == null) return fblse;
         fullyLock();
         try {
-            for (Node<E> trail = head, p = trail.next;
+            for (Node<E> trbil = hebd, p = trbil.next;
                  p != null;
-                 trail = p, p = p.next) {
-                if (o.equals(p.item)) {
-                    unlink(p, trail);
+                 trbil = p, p = p.next) {
+                if (o.equbls(p.item)) {
+                    unlink(p, trbil);
                     return true;
                 }
             }
-            return false;
-        } finally {
+            return fblse;
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this queue contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this queue contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
+     * @pbrbm o object to be checked for contbinment in this queue
+     * @return {@code true} if this queue contbins the specified element
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
+    public boolebn contbins(Object o) {
+        if (o == null) return fblse;
         fullyLock();
         try {
-            for (Node<E> p = head.next; p != null; p = p.next)
-                if (o.equals(p.item))
+            for (Node<E> p = hebd.next; p != null; p = p.next)
+                if (o.equbls(p.item))
                     return true;
-            return false;
-        } finally {
+            return fblse;
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
+     * Returns bn brrby contbining bll of the elements in this queue, in
      * proper sequence.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this queue.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @return bn brrby contbining bll of the elements in this queue
      */
-    public Object[] toArray() {
+    public Object[] toArrby() {
         fullyLock();
         try {
             int size = count.get();
-            Object[] a = new Object[size];
+            Object[] b = new Object[size];
             int k = 0;
-            for (Node<E> p = head.next; p != null; p = p.next)
-                a[k++] = p.item;
-            return a;
-        } finally {
+            for (Node<E> p = hebd.next; p != null; p = p.next)
+                b[k++] = p.item;
+            return b;
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
-     * proper sequence; the runtime type of the returned array is that of
-     * the specified array.  If the queue fits in the specified array, it
-     * is returned therein.  Otherwise, a new array is allocated with the
-     * runtime type of the specified array and the size of this queue.
+     * Returns bn brrby contbining bll of the elements in this queue, in
+     * proper sequence; the runtime type of the returned brrby is thbt of
+     * the specified brrby.  If the queue fits in the specified brrby, it
+     * is returned therein.  Otherwise, b new brrby is bllocbted with the
+     * runtime type of the specified brrby bnd the size of this queue.
      *
-     * <p>If this queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than this queue), the element in
-     * the array immediately following the end of the queue is set to
+     * <p>If this queue fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this queue), the element in
+     * the brrby immedibtely following the end of the queue is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a queue known to contain only strings.
-     * The following code can be used to dump the queue into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b queue known to contbin only strings.
+     * The following code cbn be used to dump the queue into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the queue bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose
+     * @return bn brrby contbining bll of the elements in this queue
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
         fullyLock();
         try {
             int size = count.get();
-            if (a.length < size)
-                a = (T[])java.lang.reflect.Array.newInstance
-                    (a.getClass().getComponentType(), size);
+            if (b.length < size)
+                b = (T[])jbvb.lbng.reflect.Arrby.newInstbnce
+                    (b.getClbss().getComponentType(), size);
 
             int k = 0;
-            for (Node<E> p = head.next; p != null; p = p.next)
-                a[k++] = (T)p.item;
-            if (a.length > k)
-                a[k] = null;
-            return a;
-        } finally {
+            for (Node<E> p = hebd.next; p != null; p = p.next)
+                b[k++] = (T)p.item;
+            if (b.length > k)
+                b[k] = null;
+            return b;
+        } finblly {
             fullyUnlock();
         }
     }
@@ -667,152 +667,152 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
     public String toString() {
         fullyLock();
         try {
-            Node<E> p = head.next;
+            Node<E> p = hebd.next;
             if (p == null)
                 return "[]";
 
             StringBuilder sb = new StringBuilder();
-            sb.append('[');
+            sb.bppend('[');
             for (;;) {
                 E e = p.item;
-                sb.append(e == this ? "(this Collection)" : e);
+                sb.bppend(e == this ? "(this Collection)" : e);
                 p = p.next;
                 if (p == null)
-                    return sb.append(']').toString();
-                sb.append(',').append(' ');
+                    return sb.bppend(']').toString();
+                sb.bppend(',').bppend(' ');
             }
-        } finally {
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * Atomically removes all of the elements from this queue.
-     * The queue will be empty after this call returns.
+     * Atomicblly removes bll of the elements from this queue.
+     * The queue will be empty bfter this cbll returns.
      */
-    public void clear() {
+    public void clebr() {
         fullyLock();
         try {
-            for (Node<E> p, h = head; (p = h.next) != null; h = p) {
+            for (Node<E> p, h = hebd; (p = h.next) != null; h = p) {
                 h.next = h;
                 p.item = null;
             }
-            head = last;
-            // assert head.item == null && head.next == null;
-            if (count.getAndSet(0) == capacity)
-                notFull.signal();
-        } finally {
+            hebd = lbst;
+            // bssert hebd.item == null && hebd.next == null;
+            if (count.getAndSet(0) == cbpbcity)
+                notFull.signbl();
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c) {
-        return drainTo(c, Integer.MAX_VALUE);
+    public int drbinTo(Collection<? super E> c) {
+        return drbinTo(c, Integer.MAX_VALUE);
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
+    public int drbinTo(Collection<? super E> c, int mbxElements) {
         if (c == null)
             throw new NullPointerException();
         if (c == this)
-            throw new IllegalArgumentException();
-        if (maxElements <= 0)
+            throw new IllegblArgumentException();
+        if (mbxElements <= 0)
             return 0;
-        boolean signalNotFull = false;
-        final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();
+        boolebn signblNotFull = fblse;
+        finbl ReentrbntLock tbkeLock = this.tbkeLock;
+        tbkeLock.lock();
         try {
-            int n = Math.min(maxElements, count.get());
+            int n = Mbth.min(mbxElements, count.get());
             // count.get provides visibility to first n Nodes
-            Node<E> h = head;
+            Node<E> h = hebd;
             int i = 0;
             try {
                 while (i < n) {
                     Node<E> p = h.next;
-                    c.add(p.item);
+                    c.bdd(p.item);
                     p.item = null;
                     h.next = h;
                     h = p;
                     ++i;
                 }
                 return n;
-            } finally {
-                // Restore invariants even if c.add() threw
+            } finblly {
+                // Restore invbribnts even if c.bdd() threw
                 if (i > 0) {
-                    // assert h.item == null;
-                    head = h;
-                    signalNotFull = (count.getAndAdd(-i) == capacity);
+                    // bssert h.item == null;
+                    hebd = h;
+                    signblNotFull = (count.getAndAdd(-i) == cbpbcity);
                 }
             }
-        } finally {
-            takeLock.unlock();
-            if (signalNotFull)
-                signalNotFull();
+        } finblly {
+            tbkeLock.unlock();
+            if (signblNotFull)
+                signblNotFull();
         }
     }
 
     /**
-     * Returns an iterator over the elements in this queue in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this queue in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this queue in proper sequence
+     * @return bn iterbtor over the elements in this queue in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
-    private class Itr implements Iterator<E> {
+    privbte clbss Itr implements Iterbtor<E> {
         /*
-         * Basic weakly-consistent iterator.  At all times hold the next
-         * item to hand out so that if hasNext() reports true, we will
-         * still have it to return even if lost race with a take etc.
+         * Bbsic webkly-consistent iterbtor.  At bll times hold the next
+         * item to hbnd out so thbt if hbsNext() reports true, we will
+         * still hbve it to return even if lost rbce with b tbke etc.
          */
 
-        private Node<E> current;
-        private Node<E> lastRet;
-        private E currentElement;
+        privbte Node<E> current;
+        privbte Node<E> lbstRet;
+        privbte E currentElement;
 
         Itr() {
             fullyLock();
             try {
-                current = head.next;
+                current = hebd.next;
                 if (current != null)
                     currentElement = current.item;
-            } finally {
+            } finblly {
                 fullyUnlock();
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return current != null;
         }
 
         /**
          * Returns the next live successor of p, or null if no such.
          *
-         * Unlike other traversal methods, iterators need to handle both:
+         * Unlike other trbversbl methods, iterbtors need to hbndle both:
          * - dequeued nodes (p.next == p)
          * - (possibly multiple) interior removed nodes (p.item == null)
          */
-        private Node<E> nextNode(Node<E> p) {
+        privbte Node<E> nextNode(Node<E> p) {
             for (;;) {
                 Node<E> s = p.next;
                 if (s == p)
-                    return head.next;
+                    return hebd.next;
                 if (s == null || s.item != null)
                     return s;
                 p = s;
@@ -825,220 +825,220 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
                 if (current == null)
                     throw new NoSuchElementException();
                 E x = currentElement;
-                lastRet = current;
+                lbstRet = current;
                 current = nextNode(current);
                 currentElement = (current == null) ? null : current.item;
                 return x;
-            } finally {
+            } finblly {
                 fullyUnlock();
             }
         }
 
         public void remove() {
-            if (lastRet == null)
-                throw new IllegalStateException();
+            if (lbstRet == null)
+                throw new IllegblStbteException();
             fullyLock();
             try {
-                Node<E> node = lastRet;
-                lastRet = null;
-                for (Node<E> trail = head, p = trail.next;
+                Node<E> node = lbstRet;
+                lbstRet = null;
+                for (Node<E> trbil = hebd, p = trbil.next;
                      p != null;
-                     trail = p, p = p.next) {
+                     trbil = p, p = p.next) {
                     if (p == node) {
-                        unlink(p, trail);
-                        break;
+                        unlink(p, trbil);
+                        brebk;
                     }
                 }
-            } finally {
+            } finblly {
                 fullyUnlock();
             }
         }
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class LBQSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final LinkedBlockingQueue<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        long est;           // size estimate
-        LBQSpliterator(LinkedBlockingQueue<E> queue) {
+    /** A customized vbribnt of Spliterbtors.IterbtorSpliterbtor */
+    stbtic finbl clbss LBQSpliterbtor<E> implements Spliterbtor<E> {
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        finbl LinkedBlockingQueue<E> queue;
+        Node<E> current;    // current node; null until initiblized
+        int bbtch;          // bbtch size for splits
+        boolebn exhbusted;  // true when no more nodes
+        long est;           // size estimbte
+        LBQSpliterbtor(LinkedBlockingQueue<E> queue) {
             this.queue = queue;
             this.est = queue.size();
         }
 
-        public long estimateSize() { return est; }
+        public long estimbteSize() { return est; }
 
-        public Spliterator<E> trySplit() {
+        public Spliterbtor<E> trySplit() {
             Node<E> h;
-            final LinkedBlockingQueue<E> q = this.queue;
-            int b = batch;
+            finbl LinkedBlockingQueue<E> q = this.queue;
+            int b = bbtch;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
-                ((h = current) != null || (h = q.head.next) != null) &&
+            if (!exhbusted &&
+                ((h = current) != null || (h = q.hebd.next) != null) &&
                 h.next != null) {
-                Object[] a = new Object[n];
+                Object[] b = new Object[n];
                 int i = 0;
                 Node<E> p = current;
                 q.fullyLock();
                 try {
-                    if (p != null || (p = q.head.next) != null) {
+                    if (p != null || (p = q.hebd.next) != null) {
                         do {
-                            if ((a[i] = p.item) != null)
+                            if ((b[i] = p.item) != null)
                                 ++i;
                         } while ((p = p.next) != null && i < n);
                     }
-                } finally {
+                } finblly {
                     q.fullyUnlock();
                 }
                 if ((current = p) == null) {
                     est = 0L;
-                    exhausted = true;
+                    exhbusted = true;
                 }
                 else if ((est -= i) < 0L)
                     est = 0L;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtch = i;
+                    return Spliterbtors.spliterbtor
+                        (b, 0, i, Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                         Spliterbtor.CONCURRENT);
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingQueue<E> q = this.queue;
-            if (!exhausted) {
-                exhausted = true;
+        public void forEbchRembining(Consumer<? super E> bction) {
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedBlockingQueue<E> q = this.queue;
+            if (!exhbusted) {
+                exhbusted = true;
                 Node<E> p = current;
                 do {
                     E e = null;
                     q.fullyLock();
                     try {
                         if (p == null)
-                            p = q.head.next;
+                            p = q.hebd.next;
                         while (p != null) {
                             e = p.item;
                             p = p.next;
                             if (e != null)
-                                break;
+                                brebk;
                         }
-                    } finally {
+                    } finblly {
                         q.fullyUnlock();
                     }
                     if (e != null)
-                        action.accept(e);
+                        bction.bccept(e);
                 } while (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingQueue<E> q = this.queue;
-            if (!exhausted) {
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedBlockingQueue<E> q = this.queue;
+            if (!exhbusted) {
                 E e = null;
                 q.fullyLock();
                 try {
                     if (current == null)
-                        current = q.head.next;
+                        current = q.hebd.next;
                     while (current != null) {
                         e = current.item;
                         current = current.next;
                         if (e != null)
-                            break;
+                            brebk;
                     }
-                } finally {
+                } finblly {
                     q.fullyUnlock();
                 }
                 if (current == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (e != null) {
-                    action.accept(e);
+                    bction.bccept(e);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                Spliterbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this queue.
+     * Returns b {@link Spliterbtor} over the elements in this queue.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned spliterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#ORDERED}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * The {@code Spliterbtor} implements {@code trySplit} to permit limited
+     * pbrbllelism.
      *
-     * @return a {@code Spliterator} over the elements in this queue
+     * @return b {@code Spliterbtor} over the elements in this queue
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new LBQSpliterator<E>(this);
+    public Spliterbtor<E> spliterbtor() {
+        return new LBQSpliterbtor<E>(this);
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbves this queue to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData The capacity is emitted (int), followed by all of
-     * its elements (each an {@code Object}) in the proper order,
-     * followed by a null
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb The cbpbcity is emitted (int), followed by bll of
+     * its elements (ebch bn {@code Object}) in the proper order,
+     * followed by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
 
         fullyLock();
         try {
-            // Write out any hidden stuff, plus capacity
-            s.defaultWriteObject();
+            // Write out bny hidden stuff, plus cbpbcity
+            s.defbultWriteObject();
 
-            // Write out all elements in the proper order.
-            for (Node<E> p = head.next; p != null; p = p.next)
+            // Write out bll elements in the proper order.
+            for (Node<E> p = hebd.next; p != null; p = p.next)
                 s.writeObject(p.item);
 
-            // Use trailing null as sentinel
+            // Use trbiling null bs sentinel
             s.writeObject(null);
-        } finally {
+        } finblly {
             fullyUnlock();
         }
     }
 
     /**
-     * Reconstitutes this queue from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this queue from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in capacity, and any hidden stuff
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in cbpbcity, bnd bny hidden stuff
+        s.defbultRebdObject();
 
         count.set(0);
-        last = head = new Node<E>(null);
+        lbst = hebd = new Node<E>(null);
 
-        // Read in all elements and place in queue
+        // Rebd in bll elements bnd plbce in queue
         for (;;) {
-            @SuppressWarnings("unchecked")
-            E item = (E)s.readObject();
+            @SuppressWbrnings("unchecked")
+            E item = (E)s.rebdObject();
             if (item == null)
-                break;
-            add(item);
+                brebk;
+            bdd(item);
         }
     }
 }

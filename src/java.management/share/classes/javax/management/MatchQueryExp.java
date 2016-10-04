@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * relations.
- * @serial include
+ * This clbss is used by the query-building mechbnism to represent binbry
+ * relbtions.
+ * @seribl include
  *
  * @since 1.5
  */
-class MatchQueryExp extends QueryEval implements QueryExp {
+clbss MbtchQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -7156603696948215014L;
-
-    /**
-     * @serial The attribute value to be matched
-     */
-    private AttributeValueExp exp;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -7156603696948215014L;
 
     /**
-     * @serial The pattern to be matched
+     * @seribl The bttribute vblue to be mbtched
      */
-    private String pattern;
+    privbte AttributeVblueExp exp;
+
+    /**
+     * @seribl The pbttern to be mbtched
+     */
+    privbte String pbttern;
 
 
     /**
-     * Basic Constructor.
+     * Bbsic Constructor.
      */
-    public MatchQueryExp() {
+    public MbtchQueryExp() {
     }
 
     /**
-     * Creates a new MatchQueryExp where the specified AttributeValueExp matches
-     * the specified pattern StringValueExp.
+     * Crebtes b new MbtchQueryExp where the specified AttributeVblueExp mbtches
+     * the specified pbttern StringVblueExp.
      */
-    public MatchQueryExp(AttributeValueExp a, StringValueExp s) {
-        exp     = a;
-        pattern = s.getValue();
+    public MbtchQueryExp(AttributeVblueExp b, StringVblueExp s) {
+        exp     = b;
+        pbttern = s.getVblue();
     }
 
 
     /**
-     * Returns the attribute of the query.
+     * Returns the bttribute of the query.
      */
-    public AttributeValueExp getAttribute()  {
+    public AttributeVblueExp getAttribute()  {
         return exp;
     }
 
     /**
-     * Returns the pattern of the query.
+     * Returns the pbttern of the query.
      */
-    public String getPattern()  {
-        return pattern;
+    public String getPbttern()  {
+        return pbttern;
     }
 
     /**
-     * Applies the MatchQueryExp on a MBean.
+     * Applies the MbtchQueryExp on b MBebn.
      *
-     * @param name The name of the MBean on which the MatchQueryExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the MbtchQueryExp will be bpplied.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @return  True if the query wbs successfully bpplied to the MBebn, fblse otherwise.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public boolean apply(ObjectName name) throws
-        BadStringOperationException,
-        BadBinaryOpValueExpException,
-        BadAttributeValueExpException,
-        InvalidApplicationException {
+    public boolebn bpply(ObjectNbme nbme) throws
+        BbdStringOperbtionException,
+        BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException,
+        InvblidApplicbtionException {
 
-        ValueExp val = exp.apply(name);
-        if (!(val instanceof StringValueExp)) {
-            return false;
+        VblueExp vbl = exp.bpply(nbme);
+        if (!(vbl instbnceof StringVblueExp)) {
+            return fblse;
         }
-        return wildmatch(((StringValueExp)val).getValue(), pattern);
+        return wildmbtch(((StringVblueExp)vbl).getVblue(), pbttern);
     }
 
     /**
      * Returns the string representing the object
      */
     public String toString()  {
-        return exp + " like " + new StringValueExp(pattern);
+        return exp + " like " + new StringVblueExp(pbttern);
     }
 
     /*
-     * Tests whether string s is matched by pattern p.
-     * Supports "?", "*", "[", each of which may be escaped with "\";
-     * character classes may use "!" for negation and "-" for range.
-     * Not yet supported: internationalization; "\" inside brackets.<P>
-     * Wildcard matching routine by Karl Heuer.  Public Domain.<P>
+     * Tests whether string s is mbtched by pbttern p.
+     * Supports "?", "*", "[", ebch of which mby be escbped with "\";
+     * chbrbcter clbsses mby use "!" for negbtion bnd "-" for rbnge.
+     * Not yet supported: internbtionblizbtion; "\" inside brbckets.<P>
+     * Wildcbrd mbtching routine by Kbrl Heuer.  Public Dombin.<P>
      */
-    private static boolean wildmatch(String s, String p) {
-        char c;
+    privbte stbtic boolebn wildmbtch(String s, String p) {
+        chbr c;
         int si = 0, pi = 0;
         int slen = s.length();
         int plen = p.length();
 
         while (pi < plen) { // While still string
-            c = p.charAt(pi++);
+            c = p.chbrAt(pi++);
             if (c == '?') {
                 if (++si > slen)
-                    return false;
-            } else if (c == '[') { // Start of choice
+                    return fblse;
+            } else if (c == '[') { // Stbrt of choice
                 if (si >= slen)
-                    return false;
-                boolean wantit = true;
-                boolean seenit = false;
-                if (p.charAt(pi) == '!') {
-                    wantit = false;
+                    return fblse;
+                boolebn wbntit = true;
+                boolebn seenit = fblse;
+                if (p.chbrAt(pi) == '!') {
+                    wbntit = fblse;
                     ++pi;
                 }
-                while ((c = p.charAt(pi)) != ']' && ++pi < plen) {
-                    if (p.charAt(pi) == '-' &&
+                while ((c = p.chbrAt(pi)) != ']' && ++pi < plen) {
+                    if (p.chbrAt(pi) == '-' &&
                         pi+1 < plen &&
-                        p.charAt(pi+1) != ']') {
-                        if (s.charAt(si) >= p.charAt(pi-1) &&
-                            s.charAt(si) <= p.charAt(pi+1)) {
+                        p.chbrAt(pi+1) != ']') {
+                        if (s.chbrAt(si) >= p.chbrAt(pi-1) &&
+                            s.chbrAt(si) <= p.chbrAt(pi+1)) {
                             seenit = true;
                         }
                         ++pi;
                     } else {
-                        if (c == s.charAt(si)) {
+                        if (c == s.chbrAt(si)) {
                             seenit = true;
                         }
                     }
                 }
-                if ((pi >= plen) || (wantit != seenit)) {
-                    return false;
+                if ((pi >= plen) || (wbntit != seenit)) {
+                    return fblse;
                 }
                 ++pi;
                 ++si;
-            } else if (c == '*') { // Wildcard
+            } else if (c == '*') { // Wildcbrd
                 if (pi >= plen)
                     return true;
                 do {
-                    if (wildmatch(s.substring(si), p.substring(pi)))
+                    if (wildmbtch(s.substring(si), p.substring(pi)))
                         return true;
                 } while (++si < slen);
-                return false;
+                return fblse;
             } else if (c == '\\') {
                 if (pi >= plen || si >= slen ||
-                    p.charAt(pi++) != s.charAt(si++))
-                    return false;
+                    p.chbrAt(pi++) != s.chbrAt(si++))
+                    return fblse;
             } else {
-                if (si >= slen || c != s.charAt(si++)) {
-                    return false;
+                if (si >= slen || c != s.chbrAt(si++)) {
+                    return fblse;
                 }
             }
         }

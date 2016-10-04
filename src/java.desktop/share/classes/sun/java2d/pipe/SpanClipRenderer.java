@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.PathIterator;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.PbthIterbtor;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This class uses a Region iterator to modify the extents of alpha
- * tiles created during Shape rendering based upon a non-rectangular
- * clipping path.
+ * This clbss uses b Region iterbtor to modify the extents of blphb
+ * tiles crebted during Shbpe rendering bbsed upon b non-rectbngulbr
+ * clipping pbth.
  */
-public class SpanClipRenderer implements CompositePipe
+public clbss SpbnClipRenderer implements CompositePipe
 {
     CompositePipe outpipe;
 
-    static Class<?> RegionClass = Region.class;
-    static Class<?> RegionIteratorClass = RegionIterator.class;
+    stbtic Clbss<?> RegionClbss = Region.clbss;
+    stbtic Clbss<?> RegionIterbtorClbss = RegionIterbtor.clbss;
 
-    static {
-        initIDs(RegionClass, RegionIteratorClass);
+    stbtic {
+        initIDs(RegionClbss, RegionIterbtorClbss);
     }
 
-    static native void initIDs(Class<?> rc, Class<?> ric);
+    stbtic nbtive void initIDs(Clbss<?> rc, Clbss<?> ric);
 
-    public SpanClipRenderer(CompositePipe pipe) {
+    public SpbnClipRenderer(CompositePipe pipe) {
         outpipe = pipe;
     }
 
-    class SCRcontext {
-        RegionIterator iterator;
+    clbss SCRcontext {
+        RegionIterbtor iterbtor;
         Object outcontext;
-        int band[];
+        int bbnd[];
         byte tile[];
 
-        public SCRcontext(RegionIterator ri, Object outctx) {
-            iterator = ri;
+        public SCRcontext(RegionIterbtor ri, Object outctx) {
+            iterbtor = ri;
             outcontext = outctx;
-            band = new int[4];
+            bbnd = new int[4];
         }
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle devR,
-                                int[] abox) {
-        RegionIterator ri = sg.clipRegion.getIterator();
+    public Object stbrtSequence(SunGrbphics2D sg, Shbpe s, Rectbngle devR,
+                                int[] bbox) {
+        RegionIterbtor ri = sg.clipRegion.getIterbtor();
 
-        return new SCRcontext(ri, outpipe.startSequence(sg, s, devR, abox));
+        return new SCRcontext(ri, outpipe.stbrtSequence(sg, s, devR, bbox));
     }
 
-    public boolean needTile(Object ctx, int x, int y, int w, int h) {
+    public boolebn needTile(Object ctx, int x, int y, int w, int h) {
         SCRcontext context = (SCRcontext) ctx;
         return (outpipe.needTile(context.outcontext, x, y, w, h));
     }
 
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tsize,
+    public void renderPbthTile(Object ctx,
+                               byte[] btile, int offset, int tsize,
                                int x, int y, int w, int h,
-                               ShapeSpanIterator sr) {
-        renderPathTile(ctx, atile, offset, tsize, x, y, w, h);
+                               ShbpeSpbnIterbtor sr) {
+        renderPbthTile(ctx, btile, offset, tsize, x, y, w, h);
     }
 
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tsize,
+    public void renderPbthTile(Object ctx,
+                               byte[] btile, int offset, int tsize,
                                int x, int y, int w, int h) {
         SCRcontext context = (SCRcontext) ctx;
-        RegionIterator ri = context.iterator.createCopy();
-        int[] band = context.band;
-        band[0] = x;
-        band[1] = y;
-        band[2] = x + w;
-        band[3] = y + h;
-        if (atile == null) {
+        RegionIterbtor ri = context.iterbtor.crebteCopy();
+        int[] bbnd = context.bbnd;
+        bbnd[0] = x;
+        bbnd[1] = y;
+        bbnd[2] = x + w;
+        bbnd[3] = y + h;
+        if (btile == null) {
             int size = w * h;
-            atile = context.tile;
-            if (atile != null && atile.length < size) {
-                atile = null;
+            btile = context.tile;
+            if (btile != null && btile.length < size) {
+                btile = null;
             }
-            if (atile == null) {
-                atile = new byte[size];
-                context.tile = atile;
+            if (btile == null) {
+                btile = new byte[size];
+                context.tile = btile;
             }
             offset = 0;
             tsize = w;
-            fillTile(ri, atile, offset, tsize, band);
+            fillTile(ri, btile, offset, tsize, bbnd);
         } else {
-            eraseTile(ri, atile, offset, tsize, band);
+            erbseTile(ri, btile, offset, tsize, bbnd);
         }
 
-        if (band[2] > band[0] && band[3] > band[1]) {
-            offset += (band[1] - y) * tsize + (band[0] - x);
-            outpipe.renderPathTile(context.outcontext,
-                                   atile, offset, tsize,
-                                   band[0], band[1],
-                                   band[2] - band[0],
-                                   band[3] - band[1]);
+        if (bbnd[2] > bbnd[0] && bbnd[3] > bbnd[1]) {
+            offset += (bbnd[1] - y) * tsize + (bbnd[0] - x);
+            outpipe.renderPbthTile(context.outcontext,
+                                   btile, offset, tsize,
+                                   bbnd[0], bbnd[1],
+                                   bbnd[2] - bbnd[0],
+                                   bbnd[3] - bbnd[1]);
         }
     }
 
-    public native void fillTile(RegionIterator ri,
-                                byte[] alpha, int offset, int tsize,
-                                int[] band);
+    public nbtive void fillTile(RegionIterbtor ri,
+                                byte[] blphb, int offset, int tsize,
+                                int[] bbnd);
 
-    public native void eraseTile(RegionIterator ri,
-                                 byte[] alpha, int offset, int tsize,
-                                 int[] band);
+    public nbtive void erbseTile(RegionIterbtor ri,
+                                 byte[] blphb, int offset, int tsize,
+                                 int[] bbnd);
 
     public void skipTile(Object ctx, int x, int y) {
         SCRcontext context = (SCRcontext) ctx;

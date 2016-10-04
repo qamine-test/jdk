@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2009-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,98 +59,98 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbckbge jbvb.time.zone;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NavigableMap;
-import java.util.Objects;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.time.ZoneId;
+import jbvb.time.ZonedDbteTime;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.NbvigbbleMbp;
+import jbvb.util.Objects;
+import jbvb.util.ServiceConfigurbtionError;
+import jbvb.util.ServiceLobder;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.CopyOnWriteArrbyList;
 
 /**
  * Provider of time-zone rules to the system.
  * <p>
- * This class manages the configuration of time-zone rules.
- * The static methods provide the public API that can be used to manage the providers.
- * The abstract methods provide the SPI that allows rules to be provided.
+ * This clbss mbnbges the configurbtion of time-zone rules.
+ * The stbtic methods provide the public API thbt cbn be used to mbnbge the providers.
+ * The bbstrbct methods provide the SPI thbt bllows rules to be provided.
  * <p>
- * ZoneRulesProvider may be installed in an instance of the Java Platform as
- * extension classes, that is, jar files placed into any of the usual extension
- * directories. Installed providers are loaded using the service-provider loading
- * facility defined by the {@link ServiceLoader} class. A ZoneRulesProvider
- * identifies itself with a provider configuration file named
- * {@code java.time.zone.ZoneRulesProvider} in the resource directory
- * {@code META-INF/services}. The file should contain a line that specifies the
- * fully qualified concrete zonerules-provider class name.
- * Providers may also be made available by adding them to the class path or by
- * registering themselves via {@link #registerProvider} method.
+ * ZoneRulesProvider mby be instblled in bn instbnce of the Jbvb Plbtform bs
+ * extension clbsses, thbt is, jbr files plbced into bny of the usubl extension
+ * directories. Instblled providers bre lobded using the service-provider lobding
+ * fbcility defined by the {@link ServiceLobder} clbss. A ZoneRulesProvider
+ * identifies itself with b provider configurbtion file nbmed
+ * {@code jbvb.time.zone.ZoneRulesProvider} in the resource directory
+ * {@code META-INF/services}. The file should contbin b line thbt specifies the
+ * fully qublified concrete zonerules-provider clbss nbme.
+ * Providers mby blso be mbde bvbilbble by bdding them to the clbss pbth or by
+ * registering themselves vib {@link #registerProvider} method.
  * <p>
- * The Java virtual machine has a default provider that provides zone rules
- * for the time-zones defined by IANA Time Zone Database (TZDB). If the system
- * property {@code java.time.zone.DefaultZoneRulesProvider} is defined then
- * it is taken to be the fully-qualified name of a concrete ZoneRulesProvider
- * class to be loaded as the default provider, using the system class loader.
- * If this system property is not defined, a system-default provider will be
- * loaded to serve as the default provider.
+ * The Jbvb virtubl mbchine hbs b defbult provider thbt provides zone rules
+ * for the time-zones defined by IANA Time Zone Dbtbbbse (TZDB). If the system
+ * property {@code jbvb.time.zone.DefbultZoneRulesProvider} is defined then
+ * it is tbken to be the fully-qublified nbme of b concrete ZoneRulesProvider
+ * clbss to be lobded bs the defbult provider, using the system clbss lobder.
+ * If this system property is not defined, b system-defbult provider will be
+ * lobded to serve bs the defbult provider.
  * <p>
- * Rules are looked up primarily by zone ID, as used by {@link ZoneId}.
- * Only zone region IDs may be used, zone offset IDs are not used here.
+ * Rules bre looked up primbrily by zone ID, bs used by {@link ZoneId}.
+ * Only zone region IDs mby be used, zone offset IDs bre not used here.
  * <p>
- * Time-zone rules are political, thus the data can change at any time.
- * Each provider will provide the latest rules for each zone ID, but they
- * may also provide the history of how the rules changed.
+ * Time-zone rules bre politicbl, thus the dbtb cbn chbnge bt bny time.
+ * Ebch provider will provide the lbtest rules for ebch zone ID, but they
+ * mby blso provide the history of how the rules chbnged.
  *
  * @implSpec
- * This interface is a service provider that can be called by multiple threads.
- * Implementations must be immutable and thread-safe.
+ * This interfbce is b service provider thbt cbn be cblled by multiple threbds.
+ * Implementbtions must be immutbble bnd threbd-sbfe.
  * <p>
- * Providers must ensure that once a rule has been seen by the application, the
- * rule must continue to be available.
+ * Providers must ensure thbt once b rule hbs been seen by the bpplicbtion, the
+ * rule must continue to be bvbilbble.
  * <p>
-*  Providers are encouraged to implement a meaningful {@code toString} method.
+*  Providers bre encourbged to implement b mebningful {@code toString} method.
  * <p>
- * Many systems would like to update time-zone rules dynamically without stopping the JVM.
- * When examined in detail, this is a complex problem.
- * Providers may choose to handle dynamic updates, however the default provider does not.
+ * Mbny systems would like to updbte time-zone rules dynbmicblly without stopping the JVM.
+ * When exbmined in detbil, this is b complex problem.
+ * Providers mby choose to hbndle dynbmic updbtes, however the defbult provider does not.
  *
  * @since 1.8
  */
-public abstract class ZoneRulesProvider {
+public bbstrbct clbss ZoneRulesProvider {
 
     /**
-     * The set of loaded providers.
+     * The set of lobded providers.
      */
-    private static final CopyOnWriteArrayList<ZoneRulesProvider> PROVIDERS = new CopyOnWriteArrayList<>();
+    privbte stbtic finbl CopyOnWriteArrbyList<ZoneRulesProvider> PROVIDERS = new CopyOnWriteArrbyList<>();
     /**
      * The lookup from zone ID to provider.
      */
-    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f, 2);
+    privbte stbtic finbl ConcurrentMbp<String, ZoneRulesProvider> ZONES = new ConcurrentHbshMbp<>(512, 0.75f, 2);
 
-    static {
-        // if the property java.time.zone.DefaultZoneRulesProvider is
-        // set then its value is the class name of the default provider
-        final List<ZoneRulesProvider> loaded = new ArrayList<>();
+    stbtic {
+        // if the property jbvb.time.zone.DefbultZoneRulesProvider is
+        // set then its vblue is the clbss nbme of the defbult provider
+        finbl List<ZoneRulesProvider> lobded = new ArrbyList<>();
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                String prop = System.getProperty("java.time.zone.DefaultZoneRulesProvider");
+                String prop = System.getProperty("jbvb.time.zone.DefbultZoneRulesProvider");
                 if (prop != null) {
                     try {
-                        Class<?> c = Class.forName(prop, true, ClassLoader.getSystemClassLoader());
-                        ZoneRulesProvider provider = ZoneRulesProvider.class.cast(c.newInstance());
+                        Clbss<?> c = Clbss.forNbme(prop, true, ClbssLobder.getSystemClbssLobder());
+                        ZoneRulesProvider provider = ZoneRulesProvider.clbss.cbst(c.newInstbnce());
                         registerProvider(provider);
-                        loaded.add(provider);
-                    } catch (Exception x) {
+                        lobded.bdd(provider);
+                    } cbtch (Exception x) {
                         throw new Error(x);
                     }
                 } else {
@@ -160,98 +160,98 @@ public abstract class ZoneRulesProvider {
             }
         });
 
-        ServiceLoader<ZoneRulesProvider> sl = ServiceLoader.load(ZoneRulesProvider.class, ClassLoader.getSystemClassLoader());
-        Iterator<ZoneRulesProvider> it = sl.iterator();
-        while (it.hasNext()) {
+        ServiceLobder<ZoneRulesProvider> sl = ServiceLobder.lobd(ZoneRulesProvider.clbss, ClbssLobder.getSystemClbssLobder());
+        Iterbtor<ZoneRulesProvider> it = sl.iterbtor();
+        while (it.hbsNext()) {
             ZoneRulesProvider provider;
             try {
                 provider = it.next();
-            } catch (ServiceConfigurationError ex) {
-                if (ex.getCause() instanceof SecurityException) {
+            } cbtch (ServiceConfigurbtionError ex) {
+                if (ex.getCbuse() instbnceof SecurityException) {
                     continue;  // ignore the security exception, try the next provider
                 }
                 throw ex;
             }
-            boolean found = false;
-            for (ZoneRulesProvider p : loaded) {
-                if (p.getClass() == provider.getClass()) {
+            boolebn found = fblse;
+            for (ZoneRulesProvider p : lobded) {
+                if (p.getClbss() == provider.getClbss()) {
                     found = true;
                 }
             }
             if (!found) {
                 registerProvider0(provider);
-                loaded.add(provider);
+                lobded.bdd(provider);
             }
         }
-        // CopyOnWriteList could be slow if lots of providers and each added individually
-        PROVIDERS.addAll(loaded);
+        // CopyOnWriteList could be slow if lots of providers bnd ebch bdded individublly
+        PROVIDERS.bddAll(lobded);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Gets the set of available zone IDs.
+     * Gets the set of bvbilbble zone IDs.
      * <p>
-     * These IDs are the string form of a {@link ZoneId}.
+     * These IDs bre the string form of b {@link ZoneId}.
      *
-     * @return a modifiable copy of the set of zone IDs, not null
+     * @return b modifibble copy of the set of zone IDs, not null
      */
-    public static Set<String> getAvailableZoneIds() {
-        return new HashSet<>(ZONES.keySet());
+    public stbtic Set<String> getAvbilbbleZoneIds() {
+        return new HbshSet<>(ZONES.keySet());
     }
 
     /**
      * Gets the rules for the zone ID.
      * <p>
-     * This returns the latest available rules for the zone ID.
+     * This returns the lbtest bvbilbble rules for the zone ID.
      * <p>
-     * This method relies on time-zone data provider files that are configured.
-     * These are loaded using a {@code ServiceLoader}.
+     * This method relies on time-zone dbtb provider files thbt bre configured.
+     * These bre lobded using b {@code ServiceLobder}.
      * <p>
-     * The caching flag is designed to allow provider implementations to
-     * prevent the rules being cached in {@code ZoneId}.
-     * Under normal circumstances, the caching of zone rules is highly desirable
-     * as it will provide greater performance. However, there is a use case where
-     * the caching would not be desirable, see {@link #provideRules}.
+     * The cbching flbg is designed to bllow provider implementbtions to
+     * prevent the rules being cbched in {@code ZoneId}.
+     * Under normbl circumstbnces, the cbching of zone rules is highly desirbble
+     * bs it will provide grebter performbnce. However, there is b use cbse where
+     * the cbching would not be desirbble, see {@link #provideRules}.
      *
-     * @param zoneId the zone ID as defined by {@code ZoneId}, not null
-     * @param forCaching whether the rules are being queried for caching,
-     * true if the returned rules will be cached by {@code ZoneId},
-     * false if they will be returned to the user without being cached in {@code ZoneId}
-     * @return the rules, null if {@code forCaching} is true and this
-     * is a dynamic provider that wants to prevent caching in {@code ZoneId},
+     * @pbrbm zoneId the zone ID bs defined by {@code ZoneId}, not null
+     * @pbrbm forCbching whether the rules bre being queried for cbching,
+     * true if the returned rules will be cbched by {@code ZoneId},
+     * fblse if they will be returned to the user without being cbched in {@code ZoneId}
+     * @return the rules, null if {@code forCbching} is true bnd this
+     * is b dynbmic provider thbt wbnts to prevent cbching in {@code ZoneId},
      * otherwise not null
-     * @throws ZoneRulesException if rules cannot be obtained for the zone ID
+     * @throws ZoneRulesException if rules cbnnot be obtbined for the zone ID
      */
-    public static ZoneRules getRules(String zoneId, boolean forCaching) {
+    public stbtic ZoneRules getRules(String zoneId, boolebn forCbching) {
         Objects.requireNonNull(zoneId, "zoneId");
-        return getProvider(zoneId).provideRules(zoneId, forCaching);
+        return getProvider(zoneId).provideRules(zoneId, forCbching);
     }
 
     /**
      * Gets the history of rules for the zone ID.
      * <p>
-     * Time-zones are defined by governments and change frequently.
-     * This method allows applications to find the history of changes to the
-     * rules for a single zone ID. The map is keyed by a string, which is the
-     * version string associated with the rules.
+     * Time-zones bre defined by governments bnd chbnge frequently.
+     * This method bllows bpplicbtions to find the history of chbnges to the
+     * rules for b single zone ID. The mbp is keyed by b string, which is the
+     * version string bssocibted with the rules.
      * <p>
-     * The exact meaning and format of the version is provider specific.
-     * The version must follow lexicographical order, thus the returned map will
-     * be order from the oldest known rules to the newest available rules.
-     * The default 'TZDB' group uses version numbering consisting of the year
-     * followed by a letter, such as '2009e' or '2012f'.
+     * The exbct mebning bnd formbt of the version is provider specific.
+     * The version must follow lexicogrbphicbl order, thus the returned mbp will
+     * be order from the oldest known rules to the newest bvbilbble rules.
+     * The defbult 'TZDB' group uses version numbering consisting of the yebr
+     * followed by b letter, such bs '2009e' or '2012f'.
      * <p>
-     * Implementations must provide a result for each valid zone ID, however
-     * they do not have to provide a history of rules.
-     * Thus the map will always contain one element, and will only contain more
-     * than one element if historical rule information is available.
+     * Implementbtions must provide b result for ebch vblid zone ID, however
+     * they do not hbve to provide b history of rules.
+     * Thus the mbp will blwbys contbin one element, bnd will only contbin more
+     * thbn one element if historicbl rule informbtion is bvbilbble.
      *
-     * @param zoneId  the zone ID as defined by {@code ZoneId}, not null
-     * @return a modifiable copy of the history of the rules for the ID, sorted
+     * @pbrbm zoneId  the zone ID bs defined by {@code ZoneId}, not null
+     * @return b modifibble copy of the history of the rules for the ID, sorted
      *  from oldest to newest, not null
-     * @throws ZoneRulesException if history cannot be obtained for the zone ID
+     * @throws ZoneRulesException if history cbnnot be obtbined for the zone ID
      */
-    public static NavigableMap<String, ZoneRules> getVersions(String zoneId) {
+    public stbtic NbvigbbleMbp<String, ZoneRules> getVersions(String zoneId) {
         Objects.requireNonNull(zoneId, "zoneId");
         return getProvider(zoneId).provideVersions(zoneId);
     }
@@ -259,15 +259,15 @@ public abstract class ZoneRulesProvider {
     /**
      * Gets the provider for the zone ID.
      *
-     * @param zoneId  the zone ID as defined by {@code ZoneId}, not null
+     * @pbrbm zoneId  the zone ID bs defined by {@code ZoneId}, not null
      * @return the provider, not null
      * @throws ZoneRulesException if the zone ID is unknown
      */
-    private static ZoneRulesProvider getProvider(String zoneId) {
+    privbte stbtic ZoneRulesProvider getProvider(String zoneId) {
         ZoneRulesProvider provider = ZONES.get(zoneId);
         if (provider == null) {
             if (ZONES.isEmpty()) {
-                throw new ZoneRulesException("No time-zone data files registered");
+                throw new ZoneRulesException("No time-zone dbtb files registered");
             }
             throw new ZoneRulesException("Unknown time-zone ID: " + zoneId);
         }
@@ -276,73 +276,73 @@ public abstract class ZoneRulesProvider {
 
     //-------------------------------------------------------------------------
     /**
-     * Registers a zone rules provider.
+     * Registers b zone rules provider.
      * <p>
-     * This adds a new provider to those currently available.
+     * This bdds b new provider to those currently bvbilbble.
      * A provider supplies rules for one or more zone IDs.
-     * A provider cannot be registered if it supplies a zone ID that has already been
-     * registered. See the notes on time-zone IDs in {@link ZoneId}, especially
-     * the section on using the concept of a "group" to make IDs unique.
+     * A provider cbnnot be registered if it supplies b zone ID thbt hbs blrebdy been
+     * registered. See the notes on time-zone IDs in {@link ZoneId}, especiblly
+     * the section on using the concept of b "group" to mbke IDs unique.
      * <p>
-     * To ensure the integrity of time-zones already created, there is no way
+     * To ensure the integrity of time-zones blrebdy crebted, there is no wby
      * to deregister providers.
      *
-     * @param provider  the provider to register, not null
-     * @throws ZoneRulesException if a zone ID is already registered
+     * @pbrbm provider  the provider to register, not null
+     * @throws ZoneRulesException if b zone ID is blrebdy registered
      */
-    public static void registerProvider(ZoneRulesProvider provider) {
+    public stbtic void registerProvider(ZoneRulesProvider provider) {
         Objects.requireNonNull(provider, "provider");
         registerProvider0(provider);
-        PROVIDERS.add(provider);
+        PROVIDERS.bdd(provider);
     }
 
     /**
      * Registers the provider.
      *
-     * @param provider  the provider to register, not null
-     * @throws ZoneRulesException if unable to complete the registration
+     * @pbrbm provider  the provider to register, not null
+     * @throws ZoneRulesException if unbble to complete the registrbtion
      */
-    private static void registerProvider0(ZoneRulesProvider provider) {
+    privbte stbtic void registerProvider0(ZoneRulesProvider provider) {
         for (String zoneId : provider.provideZoneIds()) {
             Objects.requireNonNull(zoneId, "zoneId");
             ZoneRulesProvider old = ZONES.putIfAbsent(zoneId, provider);
             if (old != null) {
                 throw new ZoneRulesException(
-                    "Unable to register zone as one already registered with that ID: " + zoneId +
-                    ", currently loading from provider: " + provider);
+                    "Unbble to register zone bs one blrebdy registered with thbt ID: " + zoneId +
+                    ", currently lobding from provider: " + provider);
             }
         }
     }
 
     /**
-     * Refreshes the rules from the underlying data provider.
+     * Refreshes the rules from the underlying dbtb provider.
      * <p>
-     * This method allows an application to request that the providers check
-     * for any updates to the provided rules.
-     * After calling this method, the offset stored in any {@link ZonedDateTime}
-     * may be invalid for the zone ID.
+     * This method bllows bn bpplicbtion to request thbt the providers check
+     * for bny updbtes to the provided rules.
+     * After cblling this method, the offset stored in bny {@link ZonedDbteTime}
+     * mby be invblid for the zone ID.
      * <p>
-     * Dynamic update of rules is a complex problem and most applications
-     * should not use this method or dynamic rules.
-     * To achieve dynamic rules, a provider implementation will have to be written
-     * as per the specification of this class.
-     * In addition, instances of {@code ZoneRules} must not be cached in the
-     * application as they will become stale. However, the boolean flag on
-     * {@link #provideRules(String, boolean)} allows provider implementations
-     * to control the caching of {@code ZoneId}, potentially ensuring that
-     * all objects in the system see the new rules.
-     * Note that there is likely to be a cost in performance of a dynamic rules
-     * provider. Note also that no dynamic rules provider is in this specification.
+     * Dynbmic updbte of rules is b complex problem bnd most bpplicbtions
+     * should not use this method or dynbmic rules.
+     * To bchieve dynbmic rules, b provider implementbtion will hbve to be written
+     * bs per the specificbtion of this clbss.
+     * In bddition, instbnces of {@code ZoneRules} must not be cbched in the
+     * bpplicbtion bs they will become stble. However, the boolebn flbg on
+     * {@link #provideRules(String, boolebn)} bllows provider implementbtions
+     * to control the cbching of {@code ZoneId}, potentiblly ensuring thbt
+     * bll objects in the system see the new rules.
+     * Note thbt there is likely to be b cost in performbnce of b dynbmic rules
+     * provider. Note blso thbt no dynbmic rules provider is in this specificbtion.
      *
-     * @return true if the rules were updated
-     * @throws ZoneRulesException if an error occurs during the refresh
+     * @return true if the rules were updbted
+     * @throws ZoneRulesException if bn error occurs during the refresh
      */
-    public static boolean refresh() {
-        boolean changed = false;
+    public stbtic boolebn refresh() {
+        boolebn chbnged = fblse;
         for (ZoneRulesProvider provider : PROVIDERS) {
-            changed |= provider.provideRefresh();
+            chbnged |= provider.provideRefresh();
         }
-        return changed;
+        return chbnged;
     }
 
     /**
@@ -353,87 +353,87 @@ public abstract class ZoneRulesProvider {
 
     //-----------------------------------------------------------------------
     /**
-     * SPI method to get the available zone IDs.
+     * SPI method to get the bvbilbble zone IDs.
      * <p>
-     * This obtains the IDs that this {@code ZoneRulesProvider} provides.
-     * A provider should provide data for at least one zone ID.
+     * This obtbins the IDs thbt this {@code ZoneRulesProvider} provides.
+     * A provider should provide dbtb for bt lebst one zone ID.
      * <p>
-     * The returned zone IDs remain available and valid for the lifetime of the application.
-     * A dynamic provider may increase the set of IDs as more data becomes available.
+     * The returned zone IDs rembin bvbilbble bnd vblid for the lifetime of the bpplicbtion.
+     * A dynbmic provider mby increbse the set of IDs bs more dbtb becomes bvbilbble.
      *
      * @return the set of zone IDs being provided, not null
-     * @throws ZoneRulesException if a problem occurs while providing the IDs
+     * @throws ZoneRulesException if b problem occurs while providing the IDs
      */
-    protected abstract Set<String> provideZoneIds();
+    protected bbstrbct Set<String> provideZoneIds();
 
     /**
      * SPI method to get the rules for the zone ID.
      * <p>
-     * This loads the rules for the specified zone ID.
-     * The provider implementation must validate that the zone ID is valid and
-     * available, throwing a {@code ZoneRulesException} if it is not.
-     * The result of the method in the valid case depends on the caching flag.
+     * This lobds the rules for the specified zone ID.
+     * The provider implementbtion must vblidbte thbt the zone ID is vblid bnd
+     * bvbilbble, throwing b {@code ZoneRulesException} if it is not.
+     * The result of the method in the vblid cbse depends on the cbching flbg.
      * <p>
-     * If the provider implementation is not dynamic, then the result of the
+     * If the provider implementbtion is not dynbmic, then the result of the
      * method must be the non-null set of rules selected by the ID.
      * <p>
-     * If the provider implementation is dynamic, then the flag gives the option
-     * of preventing the returned rules from being cached in {@link ZoneId}.
-     * When the flag is true, the provider is permitted to return null, where
-     * null will prevent the rules from being cached in {@code ZoneId}.
-     * When the flag is false, the provider must return non-null rules.
+     * If the provider implementbtion is dynbmic, then the flbg gives the option
+     * of preventing the returned rules from being cbched in {@link ZoneId}.
+     * When the flbg is true, the provider is permitted to return null, where
+     * null will prevent the rules from being cbched in {@code ZoneId}.
+     * When the flbg is fblse, the provider must return non-null rules.
      *
-     * @param zoneId the zone ID as defined by {@code ZoneId}, not null
-     * @param forCaching whether the rules are being queried for caching,
-     * true if the returned rules will be cached by {@code ZoneId},
-     * false if they will be returned to the user without being cached in {@code ZoneId}
-     * @return the rules, null if {@code forCaching} is true and this
-     * is a dynamic provider that wants to prevent caching in {@code ZoneId},
+     * @pbrbm zoneId the zone ID bs defined by {@code ZoneId}, not null
+     * @pbrbm forCbching whether the rules bre being queried for cbching,
+     * true if the returned rules will be cbched by {@code ZoneId},
+     * fblse if they will be returned to the user without being cbched in {@code ZoneId}
+     * @return the rules, null if {@code forCbching} is true bnd this
+     * is b dynbmic provider thbt wbnts to prevent cbching in {@code ZoneId},
      * otherwise not null
-     * @throws ZoneRulesException if rules cannot be obtained for the zone ID
+     * @throws ZoneRulesException if rules cbnnot be obtbined for the zone ID
      */
-    protected abstract ZoneRules provideRules(String zoneId, boolean forCaching);
+    protected bbstrbct ZoneRules provideRules(String zoneId, boolebn forCbching);
 
     /**
      * SPI method to get the history of rules for the zone ID.
      * <p>
-     * This returns a map of historical rules keyed by a version string.
-     * The exact meaning and format of the version is provider specific.
-     * The version must follow lexicographical order, thus the returned map will
-     * be order from the oldest known rules to the newest available rules.
-     * The default 'TZDB' group uses version numbering consisting of the year
-     * followed by a letter, such as '2009e' or '2012f'.
+     * This returns b mbp of historicbl rules keyed by b version string.
+     * The exbct mebning bnd formbt of the version is provider specific.
+     * The version must follow lexicogrbphicbl order, thus the returned mbp will
+     * be order from the oldest known rules to the newest bvbilbble rules.
+     * The defbult 'TZDB' group uses version numbering consisting of the yebr
+     * followed by b letter, such bs '2009e' or '2012f'.
      * <p>
-     * Implementations must provide a result for each valid zone ID, however
-     * they do not have to provide a history of rules.
-     * Thus the map will contain at least one element, and will only contain
-     * more than one element if historical rule information is available.
+     * Implementbtions must provide b result for ebch vblid zone ID, however
+     * they do not hbve to provide b history of rules.
+     * Thus the mbp will contbin bt lebst one element, bnd will only contbin
+     * more thbn one element if historicbl rule informbtion is bvbilbble.
      * <p>
-     * The returned versions remain available and valid for the lifetime of the application.
-     * A dynamic provider may increase the set of versions as more data becomes available.
+     * The returned versions rembin bvbilbble bnd vblid for the lifetime of the bpplicbtion.
+     * A dynbmic provider mby increbse the set of versions bs more dbtb becomes bvbilbble.
      *
-     * @param zoneId  the zone ID as defined by {@code ZoneId}, not null
-     * @return a modifiable copy of the history of the rules for the ID, sorted
+     * @pbrbm zoneId  the zone ID bs defined by {@code ZoneId}, not null
+     * @return b modifibble copy of the history of the rules for the ID, sorted
      *  from oldest to newest, not null
-     * @throws ZoneRulesException if history cannot be obtained for the zone ID
+     * @throws ZoneRulesException if history cbnnot be obtbined for the zone ID
      */
-    protected abstract NavigableMap<String, ZoneRules> provideVersions(String zoneId);
+    protected bbstrbct NbvigbbleMbp<String, ZoneRules> provideVersions(String zoneId);
 
     /**
-     * SPI method to refresh the rules from the underlying data provider.
+     * SPI method to refresh the rules from the underlying dbtb provider.
      * <p>
-     * This method provides the opportunity for a provider to dynamically
-     * recheck the underlying data provider to find the latest rules.
-     * This could be used to load new rules without stopping the JVM.
-     * Dynamic behavior is entirely optional and most providers do not support it.
+     * This method provides the opportunity for b provider to dynbmicblly
+     * recheck the underlying dbtb provider to find the lbtest rules.
+     * This could be used to lobd new rules without stopping the JVM.
+     * Dynbmic behbvior is entirely optionbl bnd most providers do not support it.
      * <p>
-     * This implementation returns false.
+     * This implementbtion returns fblse.
      *
-     * @return true if the rules were updated
-     * @throws ZoneRulesException if an error occurs during the refresh
+     * @return true if the rules were updbted
+     * @throws ZoneRulesException if bn error occurs during the refresh
      */
-    protected boolean provideRefresh() {
-        return false;
+    protected boolebn provideRefresh() {
+        return fblse;
     }
 
 }

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 /**
- * This class defines the UniqueIdentity class used by certificates.
+ * This clbss defines the UniqueIdentity clbss used by certificbtes.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class UniqueIdentity {
-    // Private data members
-    private BitArray    id;
+public clbss UniqueIdentity {
+    // Privbte dbtb members
+    privbte BitArrby    id;
 
     /**
-     * The default constructor for this class.
+     * The defbult constructor for this clbss.
      *
-     * @param id the byte array containing the unique identifier.
+     * @pbrbm id the byte brrby contbining the unique identifier.
      */
-    public UniqueIdentity(BitArray id) {
+    public UniqueIdentity(BitArrby id) {
         this.id = id;
     }
 
     /**
-     * The default constructor for this class.
+     * The defbult constructor for this clbss.
      *
-     * @param id the byte array containing the unique identifier.
+     * @pbrbm id the byte brrby contbining the unique identifier.
      */
     public UniqueIdentity(byte[] id) {
-        this.id = new BitArray(id.length*8, id);
+        this.id = new BitArrby(id.length*8, id);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the UniqueIdentity from.
+     * @pbrbm in the DerInputStrebm to rebd the UniqueIdentity from.
      * @exception IOException on decoding errors.
      */
-    public UniqueIdentity(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        id = derVal.getUnalignedBitString(true);
+    public UniqueIdentity(DerInputStrebm in) throws IOException {
+        DerVblue derVbl = in.getDerVblue();
+        id = derVbl.getUnblignedBitString(true);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param derVal the DerValue decoded from the stream.
-     * @param tag the tag the value is encoded under.
+     * @pbrbm derVbl the DerVblue decoded from the strebm.
+     * @pbrbm tbg the tbg the vblue is encoded under.
      * @exception IOException on decoding errors.
      */
-    public UniqueIdentity(DerValue derVal) throws IOException {
-        id = derVal.getUnalignedBitString(true);
+    public UniqueIdentity(DerVblue derVbl) throws IOException {
+        id = derVbl.getUnblignedBitString(true);
     }
 
     /**
-     * Return the UniqueIdentity as a printable string.
+     * Return the UniqueIdentity bs b printbble string.
      */
     public String toString() {
         return ("UniqueIdentity:" + id.toString() + "\n");
     }
 
     /**
-     * Encode the UniqueIdentity in DER form to the stream.
+     * Encode the UniqueIdentity in DER form to the strebm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @param tag enocode it under the following tag.
+     * @pbrbm out the DerOutputStrebm to mbrshbl the contents to.
+     * @pbrbm tbg enocode it under the following tbg.
      * @exception IOException on errors.
      */
-    public void encode(DerOutputStream out, byte tag) throws IOException {
-        byte[] bytes = id.toByteArray();
+    public void encode(DerOutputStrebm out, byte tbg) throws IOException {
+        byte[] bytes = id.toByteArrby();
         int excessBits = bytes.length*8 - id.length();
 
-        out.write(tag);
+        out.write(tbg);
         out.putLength(bytes.length + 1);
 
         out.write(excessBits);
@@ -108,9 +108,9 @@ public class UniqueIdentity {
     /**
      * Return the unique id.
      */
-    public boolean[] getId() {
+    public boolebn[] getId() {
         if (id == null) return null;
 
-        return id.toBooleanArray();
+        return id.toBoolebnArrby();
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,48 +31,48 @@
 #include "jvm.h"
 #include "TimeZone_md.h"
 
-#include "java_util_TimeZone.h"
+#include "jbvb_util_TimeZone.h"
 
 /*
- * Gets the platform defined TimeZone ID
+ * Gets the plbtform defined TimeZone ID
  */
 JNIEXPORT jstring JNICALL
-Java_java_util_TimeZone_getSystemTimeZoneID(JNIEnv *env, jclass ign,
-                                            jstring java_home)
+Jbvb_jbvb_util_TimeZone_getSystemTimeZoneID(JNIEnv *env, jclbss ign,
+                                            jstring jbvb_home)
 {
-    const char *java_home_dir;
-    char *javaTZ;
-    jstring jstrJavaTZ = NULL;
+    const chbr *jbvb_home_dir;
+    chbr *jbvbTZ;
+    jstring jstrJbvbTZ = NULL;
 
-    CHECK_NULL_RETURN(java_home, NULL);
+    CHECK_NULL_RETURN(jbvb_home, NULL);
 
-    java_home_dir = JNU_GetStringPlatformChars(env, java_home, 0);
-    CHECK_NULL_RETURN(java_home_dir, NULL);
+    jbvb_home_dir = JNU_GetStringPlbtformChbrs(env, jbvb_home, 0);
+    CHECK_NULL_RETURN(jbvb_home_dir, NULL);
 
     /*
-     * Invoke platform dependent mapping function
+     * Invoke plbtform dependent mbpping function
      */
-    javaTZ = findJavaTZ_md(java_home_dir);
-    if (javaTZ != NULL) {
-        jstrJavaTZ = JNU_NewStringPlatform(env, javaTZ);
-        free((void *)javaTZ);
+    jbvbTZ = findJbvbTZ_md(jbvb_home_dir);
+    if (jbvbTZ != NULL) {
+        jstrJbvbTZ = JNU_NewStringPlbtform(env, jbvbTZ);
+        free((void *)jbvbTZ);
     }
 
-    JNU_ReleaseStringPlatformChars(env, java_home, java_home_dir);
-    return jstrJavaTZ;
+    JNU_RelebseStringPlbtformChbrs(env, jbvb_home, jbvb_home_dir);
+    return jstrJbvbTZ;
 }
 
 /*
- * Gets a GMT offset-based time zone ID (e.g., "GMT-08:00")
+ * Gets b GMT offset-bbsed time zone ID (e.g., "GMT-08:00")
  */
 JNIEXPORT jstring JNICALL
-Java_java_util_TimeZone_getSystemGMTOffsetID(JNIEnv *env, jclass ign)
+Jbvb_jbvb_util_TimeZone_getSystemGMTOffsetID(JNIEnv *env, jclbss ign)
 {
-    char *id = getGMTOffsetID();
+    chbr *id = getGMTOffsetID();
     jstring jstrID = NULL;
 
     if (id != NULL) {
-        jstrID = JNU_NewStringPlatform(env, id);
+        jstrID = JNU_NewStringPlbtform(env, id);
         free((void *)id);
     }
     return jstrID;

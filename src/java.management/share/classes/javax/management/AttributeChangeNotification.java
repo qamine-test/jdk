@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 
 /**
- * Provides definitions of the attribute change notifications sent by MBeans.
+ * Provides definitions of the bttribute chbnge notificbtions sent by MBebns.
  * <P>
- * It's up to the MBean owning the attribute of interest to create and send
- * attribute change notifications when the attribute change occurs.
- * So the <CODE>NotificationBroadcaster</CODE> interface has to be implemented
- * by any MBean for which an attribute change is of interest.
+ * It's up to the MBebn owning the bttribute of interest to crebte bnd send
+ * bttribute chbnge notificbtions when the bttribute chbnge occurs.
+ * So the <CODE>NotificbtionBrobdcbster</CODE> interfbce hbs to be implemented
+ * by bny MBebn for which bn bttribute chbnge is of interest.
  * <P>
- * Example:
- * If an MBean called <CODE>myMbean</CODE> needs to notify registered listeners
- * when its attribute:
+ * Exbmple:
+ * If bn MBebn cblled <CODE>myMbebn</CODE> needs to notify registered listeners
+ * when its bttribute:
  * <BLOCKQUOTE><CODE>
  *      String myString
  * </CODE></BLOCKQUOTE>
- * is modified, <CODE>myMbean</CODE> creates and emits the following notification:
+ * is modified, <CODE>myMbebn</CODE> crebtes bnd emits the following notificbtion:
  * <BLOCKQUOTE><CODE>
- * new AttributeChangeNotification(myMbean, sequenceNumber, timeStamp, msg,
- *                                 "myString", "String", oldValue, newValue);
+ * new AttributeChbngeNotificbtion(myMbebn, sequenceNumber, timeStbmp, msg,
+ *                                 "myString", "String", oldVblue, newVblue);
  * </CODE></BLOCKQUOTE>
  *
  * @since 1.5
  */
-public class AttributeChangeNotification extends javax.management.Notification {
+public clbss AttributeChbngeNotificbtion extends jbvbx.mbnbgement.Notificbtion {
 
-    /* Serial version */
-    private static final long serialVersionUID = 535176054565814134L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = 535176054565814134L;
 
     /**
-     * Notification type which indicates that the observed MBean attribute value has changed.
-     * <BR>The value of this type string is <CODE>jmx.attribute.change</CODE>.
+     * Notificbtion type which indicbtes thbt the observed MBebn bttribute vblue hbs chbnged.
+     * <BR>The vblue of this type string is <CODE>jmx.bttribute.chbnge</CODE>.
      */
-    public static final String ATTRIBUTE_CHANGE = "jmx.attribute.change";
+    public stbtic finbl String ATTRIBUTE_CHANGE = "jmx.bttribute.chbnge";
 
 
     /**
-     * @serial The MBean attribute name.
+     * @seribl The MBebn bttribute nbme.
      */
-    private String attributeName = null;
+    privbte String bttributeNbme = null;
 
     /**
-     * @serial The MBean attribute type.
+     * @seribl The MBebn bttribute type.
      */
-    private String attributeType = null;
+    privbte String bttributeType = null;
 
     /**
-     * @serial The MBean attribute old value.
+     * @seribl The MBebn bttribute old vblue.
      */
-    private Object oldValue = null;
+    privbte Object oldVblue = null;
 
     /**
-     * @serial The MBean attribute new value.
+     * @seribl The MBebn bttribute new vblue.
      */
-    private Object newValue = null;
+    privbte Object newVblue = null;
 
 
     /**
-     * Constructs an attribute change notification object.
-     * In addition to the information common to all notification, the caller must supply the name and type
-     * of the attribute, as well as its old and new values.
+     * Constructs bn bttribute chbnge notificbtion object.
+     * In bddition to the informbtion common to bll notificbtion, the cbller must supply the nbme bnd type
+     * of the bttribute, bs well bs its old bnd new vblues.
      *
-     * @param source The notification producer, that is, the MBean the attribute belongs to.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The date at which the notification is being sent.
-     * @param msg A String containing the message of the notification.
-     * @param attributeName A String giving the name of the attribute.
-     * @param attributeType A String containing the type of the attribute.
-     * @param oldValue An object representing value of the attribute before the change.
-     * @param newValue An object representing value of the attribute after the change.
+     * @pbrbm source The notificbtion producer, thbt is, the MBebn the bttribute belongs to.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
+     * @pbrbm timeStbmp The dbte bt which the notificbtion is being sent.
+     * @pbrbm msg A String contbining the messbge of the notificbtion.
+     * @pbrbm bttributeNbme A String giving the nbme of the bttribute.
+     * @pbrbm bttributeType A String contbining the type of the bttribute.
+     * @pbrbm oldVblue An object representing vblue of the bttribute before the chbnge.
+     * @pbrbm newVblue An object representing vblue of the bttribute bfter the chbnge.
      */
-    public AttributeChangeNotification(Object source, long sequenceNumber, long timeStamp, String msg,
-                                       String attributeName, String attributeType, Object oldValue, Object newValue) {
+    public AttributeChbngeNotificbtion(Object source, long sequenceNumber, long timeStbmp, String msg,
+                                       String bttributeNbme, String bttributeType, Object oldVblue, Object newVblue) {
 
-        super(AttributeChangeNotification.ATTRIBUTE_CHANGE, source, sequenceNumber, timeStamp, msg);
-        this.attributeName = attributeName;
-        this.attributeType = attributeType;
-        this.oldValue = oldValue;
-        this.newValue = newValue;
+        super(AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE, source, sequenceNumber, timeStbmp, msg);
+        this.bttributeNbme = bttributeNbme;
+        this.bttributeType = bttributeType;
+        this.oldVblue = oldVblue;
+        this.newVblue = newVblue;
     }
 
 
     /**
-     * Gets the name of the attribute which has changed.
+     * Gets the nbme of the bttribute which hbs chbnged.
      *
-     * @return A String containing the name of the attribute.
+     * @return A String contbining the nbme of the bttribute.
      */
-    public String getAttributeName() {
-        return attributeName;
+    public String getAttributeNbme() {
+        return bttributeNbme;
     }
 
     /**
-     * Gets the type of the attribute which has changed.
+     * Gets the type of the bttribute which hbs chbnged.
      *
-     * @return A String containing the type of the attribute.
+     * @return A String contbining the type of the bttribute.
      */
     public String getAttributeType() {
-        return attributeType;
+        return bttributeType;
     }
 
     /**
-     * Gets the old value of the attribute which has changed.
+     * Gets the old vblue of the bttribute which hbs chbnged.
      *
-     * @return An Object containing the old value of the attribute.
+     * @return An Object contbining the old vblue of the bttribute.
      */
-    public Object getOldValue() {
-        return oldValue;
+    public Object getOldVblue() {
+        return oldVblue;
     }
 
     /**
-     * Gets the new value of the attribute which has changed.
+     * Gets the new vblue of the bttribute which hbs chbnged.
      *
-     * @return An Object containing the new value of the attribute.
+     * @return An Object contbining the new vblue of the bttribute.
      */
-    public Object getNewValue() {
-        return newValue;
+    public Object getNewVblue() {
+        return newVblue;
     }
 
 }

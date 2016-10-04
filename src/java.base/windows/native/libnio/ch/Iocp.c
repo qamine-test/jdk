@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,117 +34,117 @@
 #include "sun_nio_ch_Iocp.h"
 
 
-static jfieldID completionStatus_error;
-static jfieldID completionStatus_bytesTransferred;
-static jfieldID completionStatus_completionKey;
-static jfieldID completionStatus_overlapped;
+stbtic jfieldID completionStbtus_error;
+stbtic jfieldID completionStbtus_bytesTrbnsferred;
+stbtic jfieldID completionStbtus_completionKey;
+stbtic jfieldID completionStbtus_overlbpped;
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Iocp_initIDs(JNIEnv* env, jclass this)
+Jbvb_sun_nio_ch_Iocp_initIDs(JNIEnv* env, jclbss this)
 {
-    jclass clazz;
+    jclbss clbzz;
 
-    clazz = (*env)->FindClass(env, "sun/nio/ch/Iocp$CompletionStatus");
-    CHECK_NULL(clazz);
-    completionStatus_error = (*env)->GetFieldID(env, clazz, "error", "I");
-    CHECK_NULL(completionStatus_error);
-    completionStatus_bytesTransferred = (*env)->GetFieldID(env, clazz, "bytesTransferred", "I");
-    CHECK_NULL(completionStatus_bytesTransferred);
-    completionStatus_completionKey = (*env)->GetFieldID(env, clazz, "completionKey", "I");
-    CHECK_NULL(completionStatus_completionKey);
-    completionStatus_overlapped = (*env)->GetFieldID(env, clazz, "overlapped", "J");
-    CHECK_NULL(completionStatus_overlapped);
+    clbzz = (*env)->FindClbss(env, "sun/nio/ch/Iocp$CompletionStbtus");
+    CHECK_NULL(clbzz);
+    completionStbtus_error = (*env)->GetFieldID(env, clbzz, "error", "I");
+    CHECK_NULL(completionStbtus_error);
+    completionStbtus_bytesTrbnsferred = (*env)->GetFieldID(env, clbzz, "bytesTrbnsferred", "I");
+    CHECK_NULL(completionStbtus_bytesTrbnsferred);
+    completionStbtus_completionKey = (*env)->GetFieldID(env, clbzz, "completionKey", "I");
+    CHECK_NULL(completionStbtus_completionKey);
+    completionStbtus_overlbpped = (*env)->GetFieldID(env, clbzz, "overlbpped", "J");
+    CHECK_NULL(completionStbtus_overlbpped);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Iocp_osMajorVersion(JNIEnv* env, jclass this)
+Jbvb_sun_nio_ch_Iocp_osMbjorVersion(JNIEnv* env, jclbss this)
 {
     OSVERSIONINFOEX ver;
     ver.dwOSVersionInfoSize = sizeof(ver);
     GetVersionEx((OSVERSIONINFO *) &ver);
-    return (ver.dwPlatformId == VER_PLATFORM_WIN32_NT) ?
-        (jint)(ver.dwMajorVersion) : (jint)0;
+    return (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT) ?
+        (jint)(ver.dwMbjorVersion) : (jint)0;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_Iocp_createIoCompletionPort(JNIEnv* env, jclass this,
-    jlong handle, jlong existingPort, jint completionKey, jint concurrency)
+Jbvb_sun_nio_ch_Iocp_crebteIoCompletionPort(JNIEnv* env, jclbss this,
+    jlong hbndle, jlong existingPort, jint completionKey, jint concurrency)
 {
     ULONG_PTR ck = completionKey;
-    HANDLE port = CreateIoCompletionPort((HANDLE)jlong_to_ptr(handle),
+    HANDLE port = CrebteIoCompletionPort((HANDLE)jlong_to_ptr(hbndle),
                                          (HANDLE)jlong_to_ptr(existingPort),
                                          ck,
                                          (DWORD)concurrency);
     if (port == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "CreateIoCompletionPort failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "CrebteIoCompletionPort fbiled");
     }
     return ptr_to_jlong(port);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Iocp_close0(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_ch_Iocp_close0(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
-    CloseHandle(h);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
+    CloseHbndle(h);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Iocp_getQueuedCompletionStatus(JNIEnv* env, jclass this,
+Jbvb_sun_nio_ch_Iocp_getQueuedCompletionStbtus(JNIEnv* env, jclbss this,
     jlong completionPort, jobject obj)
 {
-    DWORD bytesTransferred;
+    DWORD bytesTrbnsferred;
     ULONG_PTR completionKey;
-    OVERLAPPED *lpOverlapped;
+    OVERLAPPED *lpOverlbpped;
     BOOL res;
 
-    res = GetQueuedCompletionStatus((HANDLE)jlong_to_ptr(completionPort),
-                                  &bytesTransferred,
+    res = GetQueuedCompletionStbtus((HANDLE)jlong_to_ptr(completionPort),
+                                  &bytesTrbnsferred,
                                   &completionKey,
-                                  &lpOverlapped,
+                                  &lpOverlbpped,
                                   INFINITE);
-    if (res == 0 && lpOverlapped == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "GetQueuedCompletionStatus failed");
+    if (res == 0 && lpOverlbpped == NULL) {
+        JNU_ThrowIOExceptionWithLbstError(env, "GetQueuedCompletionStbtus fbiled");
     } else {
-        DWORD ioResult = (res == 0) ? GetLastError() : 0;
-        (*env)->SetIntField(env, obj, completionStatus_error, ioResult);
-        (*env)->SetIntField(env, obj, completionStatus_bytesTransferred,
-            (jint)bytesTransferred);
-        (*env)->SetIntField(env, obj, completionStatus_completionKey,
+        DWORD ioResult = (res == 0) ? GetLbstError() : 0;
+        (*env)->SetIntField(env, obj, completionStbtus_error, ioResult);
+        (*env)->SetIntField(env, obj, completionStbtus_bytesTrbnsferred,
+            (jint)bytesTrbnsferred);
+        (*env)->SetIntField(env, obj, completionStbtus_completionKey,
             (jint)completionKey);
-        (*env)->SetLongField(env, obj, completionStatus_overlapped,
-            ptr_to_jlong(lpOverlapped));
+        (*env)->SetLongField(env, obj, completionStbtus_overlbpped,
+            ptr_to_jlong(lpOverlbpped));
 
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Iocp_postQueuedCompletionStatus(JNIEnv* env, jclass this,
+Jbvb_sun_nio_ch_Iocp_postQueuedCompletionStbtus(JNIEnv* env, jclbss this,
     jlong completionPort, jint completionKey)
 {
     BOOL res;
 
-    res = PostQueuedCompletionStatus((HANDLE)jlong_to_ptr(completionPort),
+    res = PostQueuedCompletionStbtus((HANDLE)jlong_to_ptr(completionPort),
                                      (DWORD)0,
                                      (DWORD)completionKey,
                                      NULL);
     if (res == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "PostQueuedCompletionStatus");
+        JNU_ThrowIOExceptionWithLbstError(env, "PostQueuedCompletionStbtus");
     }
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_ch_Iocp_getErrorMessage(JNIEnv* env, jclass this, jint errorCode)
+Jbvb_sun_nio_ch_Iocp_getErrorMessbge(JNIEnv* env, jclbss this, jint errorCode)
 {
-    WCHAR message[255];
+    WCHAR messbge[255];
 
-    DWORD len = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM,
+    DWORD len = FormbtMessbgeW(FORMAT_MESSAGE_FROM_SYSTEM,
                                NULL,
                                (DWORD)errorCode,
                                0,
-                               &message[0],
+                               &messbge[0],
                                255,
                                NULL);
 
@@ -152,6 +152,6 @@ Java_sun_nio_ch_Iocp_getErrorMessage(JNIEnv* env, jclass this, jint errorCode)
     if (len == 0) {
         return NULL;
     } else {
-        return (*env)->NewString(env, (const jchar *)message, (jsize)wcslen(message));
+        return (*env)->NewString(env, (const jchbr *)messbge, (jsize)wcslen(messbge));
     }
 }

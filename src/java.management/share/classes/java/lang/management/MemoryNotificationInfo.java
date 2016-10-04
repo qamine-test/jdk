@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
-import javax.management.openmbean.CompositeData;
-import sun.management.MemoryNotifInfoCompositeData;
+pbckbge jbvb.lbng.mbnbgement;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import sun.mbnbgement.MemoryNotifInfoCompositeDbtb;
 
 /**
- * The information about a memory notification.
+ * The informbtion bbout b memory notificbtion.
  *
  * <p>
- * A memory notification is emitted by {@link MemoryMXBean}
- * when the Java virtual machine detects that the memory usage
- * of a memory pool is exceeding a threshold value.
- * The notification emitted will contain the memory notification
- * information about the detected condition:
+ * A memory notificbtion is emitted by {@link MemoryMXBebn}
+ * when the Jbvb virtubl mbchine detects thbt the memory usbge
+ * of b memory pool is exceeding b threshold vblue.
+ * The notificbtion emitted will contbin the memory notificbtion
+ * informbtion bbout the detected condition:
  * <ul>
- *   <li>The name of the memory pool.</li>
- *   <li>The memory usage of the memory pool when the notification
- *       was constructed.</li>
- *   <li>The number of times that the memory usage has crossed
- *       a threshold when the notification was constructed.
- *       For usage threshold notifications, this count will be the
- *       {@link MemoryPoolMXBean#getUsageThresholdCount usage threshold
- *       count}.  For collection threshold notifications,
+ *   <li>The nbme of the memory pool.</li>
+ *   <li>The memory usbge of the memory pool when the notificbtion
+ *       wbs constructed.</li>
+ *   <li>The number of times thbt the memory usbge hbs crossed
+ *       b threshold when the notificbtion wbs constructed.
+ *       For usbge threshold notificbtions, this count will be the
+ *       {@link MemoryPoolMXBebn#getUsbgeThresholdCount usbge threshold
+ *       count}.  For collection threshold notificbtions,
  *       this count will be the
- *       {@link MemoryPoolMXBean#getCollectionUsageThresholdCount
- *       collection usage threshold count}.
+ *       {@link MemoryPoolMXBebn#getCollectionUsbgeThresholdCount
+ *       collection usbge threshold count}.
  *       </li>
  * </ul>
  *
  * <p>
- * A {@link CompositeData CompositeData} representing
- * the <tt>MemoryNotificationInfo</tt> object
+ * A {@link CompositeDbtb CompositeDbtb} representing
+ * the <tt>MemoryNotificbtionInfo</tt> object
  * is stored in the
- * {@link javax.management.Notification#setUserData user data}
- * of a {@link javax.management.Notification notification}.
+ * {@link jbvbx.mbnbgement.Notificbtion#setUserDbtb user dbtb}
+ * of b {@link jbvbx.mbnbgement.Notificbtion notificbtion}.
  * The {@link #from from} method is provided to convert from
- * a <tt>CompositeData</tt> to a <tt>MemoryNotificationInfo</tt>
- * object. For example:
+ * b <tt>CompositeDbtb</tt> to b <tt>MemoryNotificbtionInfo</tt>
+ * object. For exbmple:
  *
  * <blockquote><pre>
- *      Notification notif;
+ *      Notificbtion notif;
  *
- *      // receive the notification emitted by MemoryMXBean and set to notif
+ *      // receive the notificbtion emitted by MemoryMXBebn bnd set to notif
  *      ...
  *
  *      String notifType = notif.getType();
- *      if (notifType.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED) ||
- *          notifType.equals(MemoryNotificationInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
- *          // retrieve the memory notification information
- *          CompositeData cd = (CompositeData) notif.getUserData();
- *          MemoryNotificationInfo info = MemoryNotificationInfo.from(cd);
+ *      if (notifType.equbls(MemoryNotificbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+ *          notifType.equbls(MemoryNotificbtionInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
+ *          // retrieve the memory notificbtion informbtion
+ *          CompositeDbtb cd = (CompositeDbtb) notif.getUserDbtb();
+ *          MemoryNotificbtionInfo info = MemoryNotificbtionInfo.from(cd);
  *          ....
  *      }
  * </pre></blockquote>
  *
  * <p>
- * The types of notifications emitted by <tt>MemoryMXBean</tt> are:
+ * The types of notificbtions emitted by <tt>MemoryMXBebn</tt> bre:
  * <ul>
  *   <li>A {@link #MEMORY_THRESHOLD_EXCEEDED
- *       usage threshold exceeded notification}.
- *       <br>This notification will be emitted when
- *       the memory usage of a memory pool is increased and has reached
+ *       usbge threshold exceeded notificbtion}.
+ *       <br>This notificbtion will be emitted when
+ *       the memory usbge of b memory pool is increbsed bnd hbs rebched
  *       or exceeded its
- *       <a href="MemoryPoolMXBean.html#UsageThreshold"> usage threshold</a> value.
- *       Subsequent crossing of the usage threshold value does not cause
- *       further notification until the memory usage has returned
- *       to become less than the usage threshold value.
+ *       <b href="MemoryPoolMXBebn.html#UsbgeThreshold"> usbge threshold</b> vblue.
+ *       Subsequent crossing of the usbge threshold vblue does not cbuse
+ *       further notificbtion until the memory usbge hbs returned
+ *       to become less thbn the usbge threshold vblue.
  *       </li>
  *   <li>A {@link #MEMORY_COLLECTION_THRESHOLD_EXCEEDED
- *       collection usage threshold exceeded notification}.
- *       <br>This notification will be emitted when
- *       the memory usage of a memory pool is greater than or equal to its
- *       <a href="MemoryPoolMXBean.html#CollectionThreshold">
- *       collection usage threshold</a> after the Java virtual machine
- *       has expended effort in recycling unused objects in that
+ *       collection usbge threshold exceeded notificbtion}.
+ *       <br>This notificbtion will be emitted when
+ *       the memory usbge of b memory pool is grebter thbn or equbl to its
+ *       <b href="MemoryPoolMXBebn.html#CollectionThreshold">
+ *       collection usbge threshold</b> bfter the Jbvb virtubl mbchine
+ *       hbs expended effort in recycling unused objects in thbt
  *       memory pool.</li>
  * </ul>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  *
  */
-public class MemoryNotificationInfo {
-    private final String poolName;
-    private final MemoryUsage usage;
-    private final long count;
+public clbss MemoryNotificbtionInfo {
+    privbte finbl String poolNbme;
+    privbte finbl MemoryUsbge usbge;
+    privbte finbl long count;
 
     /**
-     * Notification type denoting that
-     * the memory usage of a memory pool has
-     * reached or exceeded its
-     * <a href="MemoryPoolMXBean.html#UsageThreshold"> usage threshold</a> value.
-     * This notification is emitted by {@link MemoryMXBean}.
-     * Subsequent crossing of the usage threshold value does not cause
-     * further notification until the memory usage has returned
-     * to become less than the usage threshold value.
-     * The value of this notification type is
-     * <tt>java.management.memory.threshold.exceeded</tt>.
+     * Notificbtion type denoting thbt
+     * the memory usbge of b memory pool hbs
+     * rebched or exceeded its
+     * <b href="MemoryPoolMXBebn.html#UsbgeThreshold"> usbge threshold</b> vblue.
+     * This notificbtion is emitted by {@link MemoryMXBebn}.
+     * Subsequent crossing of the usbge threshold vblue does not cbuse
+     * further notificbtion until the memory usbge hbs returned
+     * to become less thbn the usbge threshold vblue.
+     * The vblue of this notificbtion type is
+     * <tt>jbvb.mbnbgement.memory.threshold.exceeded</tt>.
      */
-    public static final String MEMORY_THRESHOLD_EXCEEDED =
-        "java.management.memory.threshold.exceeded";
+    public stbtic finbl String MEMORY_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgement.memory.threshold.exceeded";
 
     /**
-     * Notification type denoting that
-     * the memory usage of a memory pool is greater than or equal to its
-     * <a href="MemoryPoolMXBean.html#CollectionThreshold">
-     * collection usage threshold</a> after the Java virtual machine
-     * has expended effort in recycling unused objects in that
+     * Notificbtion type denoting thbt
+     * the memory usbge of b memory pool is grebter thbn or equbl to its
+     * <b href="MemoryPoolMXBebn.html#CollectionThreshold">
+     * collection usbge threshold</b> bfter the Jbvb virtubl mbchine
+     * hbs expended effort in recycling unused objects in thbt
      * memory pool.
-     * This notification is emitted by {@link MemoryMXBean}.
-     * The value of this notification type is
-     * <tt>java.management.memory.collection.threshold.exceeded</tt>.
+     * This notificbtion is emitted by {@link MemoryMXBebn}.
+     * The vblue of this notificbtion type is
+     * <tt>jbvb.mbnbgement.memory.collection.threshold.exceeded</tt>.
      */
-    public static final String MEMORY_COLLECTION_THRESHOLD_EXCEEDED =
-        "java.management.memory.collection.threshold.exceeded";
+    public stbtic finbl String MEMORY_COLLECTION_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgement.memory.collection.threshold.exceeded";
 
     /**
-     * Constructs a <tt>MemoryNotificationInfo</tt> object.
+     * Constructs b <tt>MemoryNotificbtionInfo</tt> object.
      *
-     * @param poolName The name of the memory pool which triggers this notification.
-     * @param usage Memory usage of the memory pool.
-     * @param count The threshold crossing count.
+     * @pbrbm poolNbme The nbme of the memory pool which triggers this notificbtion.
+     * @pbrbm usbge Memory usbge of the memory pool.
+     * @pbrbm count The threshold crossing count.
      */
-    public MemoryNotificationInfo(String poolName,
-                                  MemoryUsage usage,
+    public MemoryNotificbtionInfo(String poolNbme,
+                                  MemoryUsbge usbge,
                                   long count) {
-        if (poolName == null) {
-            throw new NullPointerException("Null poolName");
+        if (poolNbme == null) {
+            throw new NullPointerException("Null poolNbme");
         }
-        if (usage == null) {
-            throw new NullPointerException("Null usage");
+        if (usbge == null) {
+            throw new NullPointerException("Null usbge");
         }
 
-        this.poolName = poolName;
-        this.usage = usage;
+        this.poolNbme = poolNbme;
+        this.usbge = usbge;
         this.count = count;
     }
 
-    MemoryNotificationInfo(CompositeData cd) {
-        MemoryNotifInfoCompositeData.validateCompositeData(cd);
+    MemoryNotificbtionInfo(CompositeDbtb cd) {
+        MemoryNotifInfoCompositeDbtb.vblidbteCompositeDbtb(cd);
 
-        this.poolName = MemoryNotifInfoCompositeData.getPoolName(cd);
-        this.usage = MemoryNotifInfoCompositeData.getUsage(cd);
-        this.count = MemoryNotifInfoCompositeData.getCount(cd);
+        this.poolNbme = MemoryNotifInfoCompositeDbtb.getPoolNbme(cd);
+        this.usbge = MemoryNotifInfoCompositeDbtb.getUsbge(cd);
+        this.count = MemoryNotifInfoCompositeDbtb.getCount(cd);
     }
 
     /**
-     * Returns the name of the memory pool that triggers this notification.
-     * The memory pool usage has crossed a threshold.
+     * Returns the nbme of the memory pool thbt triggers this notificbtion.
+     * The memory pool usbge hbs crossed b threshold.
      *
-     * @return the name of the memory pool that triggers this notification.
+     * @return the nbme of the memory pool thbt triggers this notificbtion.
      */
-    public String getPoolName() {
-        return poolName;
+    public String getPoolNbme() {
+        return poolNbme;
     }
 
     /**
-     * Returns the memory usage of the memory pool
-     * when this notification was constructed.
+     * Returns the memory usbge of the memory pool
+     * when this notificbtion wbs constructed.
      *
-     * @return the memory usage of the memory pool
-     * when this notification was constructed.
+     * @return the memory usbge of the memory pool
+     * when this notificbtion wbs constructed.
      */
-    public MemoryUsage getUsage() {
-        return usage;
+    public MemoryUsbge getUsbge() {
+        return usbge;
     }
 
     /**
-     * Returns the number of times that the memory usage has crossed
-     * a threshold when the notification was constructed.
-     * For usage threshold notifications, this count will be the
-     * {@link MemoryPoolMXBean#getUsageThresholdCount threshold
-     * count}.  For collection threshold notifications,
+     * Returns the number of times thbt the memory usbge hbs crossed
+     * b threshold when the notificbtion wbs constructed.
+     * For usbge threshold notificbtions, this count will be the
+     * {@link MemoryPoolMXBebn#getUsbgeThresholdCount threshold
+     * count}.  For collection threshold notificbtions,
      * this count will be the
-     * {@link MemoryPoolMXBean#getCollectionUsageThresholdCount
-     * collection usage threshold count}.
+     * {@link MemoryPoolMXBebn#getCollectionUsbgeThresholdCount
+     * collection usbge threshold count}.
      *
-     * @return the number of times that the memory usage has crossed
-     * a threshold when the notification was constructed.
+     * @return the number of times thbt the memory usbge hbs crossed
+     * b threshold when the notificbtion wbs constructed.
      */
     public long getCount() {
         return count;
     }
 
     /**
-     * Returns a <tt>MemoryNotificationInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain
-     * the following attributes:
+     * Returns b <tt>MemoryNotificbtionInfo</tt> object represented by the
+     * given <tt>CompositeDbtb</tt>.
+     * The given <tt>CompositeDbtb</tt> must contbin
+     * the following bttributes:
      * <blockquote>
-     * <table border summary="The attributes and the types the given CompositeData contains">
+     * <tbble border summbry="The bttributes bnd the types the given CompositeDbtb contbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
-     *   <td>poolName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>poolNbme</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>usage</td>
-     *   <td><tt>javax.management.openmbean.CompositeData</tt></td>
+     *   <td>usbge</td>
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.CompositeDbtb</tt></td>
      * </tr>
      * <tr>
      *   <td>count</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @param cd <tt>CompositeData</tt> representing a
-     *           <tt>MemoryNotificationInfo</tt>
+     * @pbrbm cd <tt>CompositeDbtb</tt> representing b
+     *           <tt>MemoryNotificbtionInfo</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>MemoryNotificationInfo</tt> object.
+     * @throws IllegblArgumentException if <tt>cd</tt> does not
+     *   represent b <tt>MemoryNotificbtionInfo</tt> object.
      *
-     * @return a <tt>MemoryNotificationInfo</tt> object represented
+     * @return b <tt>MemoryNotificbtionInfo</tt> object represented
      *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
      *         <tt>null</tt> otherwise.
      */
-    public static MemoryNotificationInfo from(CompositeData cd) {
+    public stbtic MemoryNotificbtionInfo from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof MemoryNotifInfoCompositeData) {
-            return ((MemoryNotifInfoCompositeData) cd).getMemoryNotifInfo();
+        if (cd instbnceof MemoryNotifInfoCompositeDbtb) {
+            return ((MemoryNotifInfoCompositeDbtb) cd).getMemoryNotifInfo();
         } else {
-            return new MemoryNotificationInfo(cd);
+            return new MemoryNotificbtionInfo(cd);
         }
     }
 }

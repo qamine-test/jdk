@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.util.Enumeration;
+import jbvb.bwt.*;
+import jbvb.util.Enumerbtion;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTableHeaderUI;
-import javax.swing.table.*;
-import com.apple.laf.ClientPropertyApplicator;
-import com.apple.laf.ClientPropertyApplicator.Property;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicTbbleHebderUI;
+import jbvbx.swing.tbble.*;
+import com.bpple.lbf.ClientPropertyApplicbtor;
+import com.bpple.lbf.ClientPropertyApplicbtor.Property;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-public class AquaTableHeaderUI extends BasicTableHeaderUI {
-    private int originalHeaderAlignment;
+public clbss AqubTbbleHebderUI extends BbsicTbbleHebderUI {
+    privbte int originblHebderAlignment;
     protected int sortColumn;
     protected int sortOrder;
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTableHeaderUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTbbleHebderUI();
     }
 
-    public void installDefaults() {
-        super.installDefaults();
+    public void instbllDefbults() {
+        super.instbllDefbults();
 
-        final TableCellRenderer renderer = header.getDefaultRenderer();
-        if (renderer instanceof UIResource && renderer instanceof DefaultTableCellRenderer) {
-            final DefaultTableCellRenderer defaultRenderer = (DefaultTableCellRenderer)renderer;
-            originalHeaderAlignment = defaultRenderer.getHorizontalAlignment();
-            defaultRenderer.setHorizontalAlignment(SwingConstants.LEADING);
+        finbl TbbleCellRenderer renderer = hebder.getDefbultRenderer();
+        if (renderer instbnceof UIResource && renderer instbnceof DefbultTbbleCellRenderer) {
+            finbl DefbultTbbleCellRenderer defbultRenderer = (DefbultTbbleCellRenderer)renderer;
+            originblHebderAlignment = defbultRenderer.getHorizontblAlignment();
+            defbultRenderer.setHorizontblAlignment(SwingConstbnts.LEADING);
         }
     }
 
-    public void uninstallDefaults() {
-        final TableCellRenderer renderer = header.getDefaultRenderer();
-        if (renderer instanceof UIResource && renderer instanceof DefaultTableCellRenderer) {
-            final DefaultTableCellRenderer defaultRenderer = (DefaultTableCellRenderer)renderer;
-            defaultRenderer.setHorizontalAlignment(originalHeaderAlignment);
+    public void uninstbllDefbults() {
+        finbl TbbleCellRenderer renderer = hebder.getDefbultRenderer();
+        if (renderer instbnceof UIResource && renderer instbnceof DefbultTbbleCellRenderer) {
+            finbl DefbultTbbleCellRenderer defbultRenderer = (DefbultTbbleCellRenderer)renderer;
+            defbultRenderer.setHorizontblAlignment(originblHebderAlignment);
         }
 
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
-    final static RecyclableSingleton<ClientPropertyApplicator<JTableHeader, JTableHeader>> TABLE_HEADER_APPLICATORS = new RecyclableSingleton<ClientPropertyApplicator<JTableHeader, JTableHeader>>() {
+    finbl stbtic RecyclbbleSingleton<ClientPropertyApplicbtor<JTbbleHebder, JTbbleHebder>> TABLE_HEADER_APPLICATORS = new RecyclbbleSingleton<ClientPropertyApplicbtor<JTbbleHebder, JTbbleHebder>>() {
         @Override
-        @SuppressWarnings("unchecked")
-        protected ClientPropertyApplicator<JTableHeader, JTableHeader> getInstance() {
-            return new ClientPropertyApplicator<JTableHeader, JTableHeader>(
-                    new Property<JTableHeader>("JTableHeader.selectedColumn") {
-                        public void applyProperty(final JTableHeader target, final Object value) {
-                            tickle(target, value, target.getClientProperty("JTableHeader.sortDirection"));
+        @SuppressWbrnings("unchecked")
+        protected ClientPropertyApplicbtor<JTbbleHebder, JTbbleHebder> getInstbnce() {
+            return new ClientPropertyApplicbtor<JTbbleHebder, JTbbleHebder>(
+                    new Property<JTbbleHebder>("JTbbleHebder.selectedColumn") {
+                        public void bpplyProperty(finbl JTbbleHebder tbrget, finbl Object vblue) {
+                            tickle(tbrget, vblue, tbrget.getClientProperty("JTbbleHebder.sortDirection"));
                         }
                     },
-                    new Property<JTableHeader>("JTableHeader.sortDirection") {
-                        public void applyProperty(final JTableHeader target, final Object value) {
-                            tickle(target, target.getClientProperty("JTableHeader.selectedColumn"), value);
+                    new Property<JTbbleHebder>("JTbbleHebder.sortDirection") {
+                        public void bpplyProperty(finbl JTbbleHebder tbrget, finbl Object vblue) {
+                            tickle(tbrget, tbrget.getClientProperty("JTbbleHebder.selectedColumn"), vblue);
                         }
                     }
             );
         }
     };
-    static ClientPropertyApplicator<JTableHeader, JTableHeader> getTableHeaderApplicators() {
+    stbtic ClientPropertyApplicbtor<JTbbleHebder, JTbbleHebder> getTbbleHebderApplicbtors() {
         return TABLE_HEADER_APPLICATORS.get();
     }
 
-    static void tickle(final JTableHeader target, final Object selectedColumn, final Object direction) {
-        final TableColumn tableColumn = getTableColumn(target, selectedColumn);
-        if (tableColumn == null) return;
+    stbtic void tickle(finbl JTbbleHebder tbrget, finbl Object selectedColumn, finbl Object direction) {
+        finbl TbbleColumn tbbleColumn = getTbbleColumn(tbrget, selectedColumn);
+        if (tbbleColumn == null) return;
 
         int sortDirection = 0;
-        if ("ascending".equalsIgnoreCase(direction+"")) {
+        if ("bscending".equblsIgnoreCbse(direction+"")) {
             sortDirection = 1;
-        } else if ("descending".equalsIgnoreCase(direction+"")) {
+        } else if ("descending".equblsIgnoreCbse(direction+"")) {
             sortDirection = -1;
-        } else if ("decending".equalsIgnoreCase(direction+"")) {
-            sortDirection = -1; // stupid misspelling that GM'ed in 10.5.0
+        } else if ("decending".equblsIgnoreCbse(direction+"")) {
+            sortDirection = -1; // stupid misspelling thbt GM'ed in 10.5.0
         }
 
-        final TableHeaderUI headerUI = target.getUI();
-        if (headerUI == null || !(headerUI instanceof AquaTableHeaderUI)) return;
+        finbl TbbleHebderUI hebderUI = tbrget.getUI();
+        if (hebderUI == null || !(hebderUI instbnceof AqubTbbleHebderUI)) return;
 
-        final AquaTableHeaderUI aquaHeaderUI = (AquaTableHeaderUI)headerUI;
-        aquaHeaderUI.sortColumn = tableColumn.getModelIndex();
-        aquaHeaderUI.sortOrder = sortDirection;
-        final AquaTableCellRenderer renderer = aquaHeaderUI.new AquaTableCellRenderer();
-        tableColumn.setHeaderRenderer(renderer);
+        finbl AqubTbbleHebderUI bqubHebderUI = (AqubTbbleHebderUI)hebderUI;
+        bqubHebderUI.sortColumn = tbbleColumn.getModelIndex();
+        bqubHebderUI.sortOrder = sortDirection;
+        finbl AqubTbbleCellRenderer renderer = bqubHebderUI.new AqubTbbleCellRenderer();
+        tbbleColumn.setHebderRenderer(renderer);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class AquaTableCellRenderer extends DefaultTableCellRenderer implements UIResource {
-        public Component getTableCellRendererComponent(final JTable localTable, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-            if (localTable != null) {
-                if (header != null) {
-                    setForeground(header.getForeground());
-                    setBackground(header.getBackground());
-                    setFont(UIManager.getFont("TableHeader.font"));
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss AqubTbbleCellRenderer extends DefbultTbbleCellRenderer implements UIResource {
+        public Component getTbbleCellRendererComponent(finbl JTbble locblTbble, finbl Object vblue, finbl boolebn isSelected, finbl boolebn hbsFocus, finbl int row, finbl int column) {
+            if (locblTbble != null) {
+                if (hebder != null) {
+                    setForeground(hebder.getForeground());
+                    setBbckground(hebder.getBbckground());
+                    setFont(UIMbnbger.getFont("TbbleHebder.font"));
                 }
             }
 
-            setText((value == null) ? "" : value.toString());
+            setText((vblue == null) ? "" : vblue.toString());
 
-            // Modify the table "border" to draw smaller, and with the titles in the right position
-            // and sort indicators, just like an NSSave/Open panel.
-            final AquaTableHeaderBorder cellBorder = AquaTableHeaderBorder.getListHeaderBorder();
-            final boolean thisColumnSelected = localTable.getColumnModel().getColumn(column).getModelIndex() == sortColumn;
+            // Modify the tbble "border" to drbw smbller, bnd with the titles in the right position
+            // bnd sort indicbtors, just like bn NSSbve/Open pbnel.
+            finbl AqubTbbleHebderBorder cellBorder = AqubTbbleHebderBorder.getListHebderBorder();
+            finbl boolebn thisColumnSelected = locblTbble.getColumnModel().getColumn(column).getModelIndex() == sortColumn;
 
             cellBorder.setSelected(thisColumnSelected);
             if (thisColumnSelected) {
                 cellBorder.setSortOrder(sortOrder);
             } else {
-                cellBorder.setSortOrder(AquaTableHeaderBorder.SORT_NONE);
+                cellBorder.setSortOrder(AqubTbbleHebderBorder.SORT_NONE);
             }
             setBorder(cellBorder);
             return this;
         }
     }
 
-    protected static TableColumn getTableColumn(final JTableHeader target, final Object value) {
-        if (value == null || !(value instanceof Integer)) return null;
-        final int columnIndex = ((Integer)value).intValue();
+    protected stbtic TbbleColumn getTbbleColumn(finbl JTbbleHebder tbrget, finbl Object vblue) {
+        if (vblue == null || !(vblue instbnceof Integer)) return null;
+        finbl int columnIndex = ((Integer)vblue).intVblue();
 
-        final TableColumnModel columnModel = target.getColumnModel();
+        finbl TbbleColumnModel columnModel = tbrget.getColumnModel();
         if (columnIndex < 0 || columnIndex >= columnModel.getColumnCount()) return null;
 
         return columnModel.getColumn(columnIndex);
     }
 
-    protected static AquaTableHeaderBorder getAquaBorderFrom(final JTableHeader header, final TableColumn column) {
-        final TableCellRenderer renderer = column.getHeaderRenderer();
+    protected stbtic AqubTbbleHebderBorder getAqubBorderFrom(finbl JTbbleHebder hebder, finbl TbbleColumn column) {
+        finbl TbbleCellRenderer renderer = column.getHebderRenderer();
         if (renderer == null) return null;
 
-        final Component c = renderer.getTableCellRendererComponent(header.getTable(), column.getHeaderValue(), false, false, -1, column.getModelIndex());
-        if (!(c instanceof JComponent)) return null;
+        finbl Component c = renderer.getTbbleCellRendererComponent(hebder.getTbble(), column.getHebderVblue(), fblse, fblse, -1, column.getModelIndex());
+        if (!(c instbnceof JComponent)) return null;
 
-        final Border border = ((JComponent)c).getBorder();
-        if (!(border instanceof AquaTableHeaderBorder)) return null;
+        finbl Border border = ((JComponent)c).getBorder();
+        if (!(border instbnceof AqubTbbleHebderBorder)) return null;
 
-        return (AquaTableHeaderBorder)border;
+        return (AqubTbbleHebderBorder)border;
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        getTableHeaderApplicators().attachAndApplyClientProperties(header);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        getTbbleHebderApplicbtors().bttbchAndApplyClientProperties(hebder);
     }
 
-    protected void uninstallListeners() {
-        getTableHeaderApplicators().removeFrom(header);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        getTbbleHebderApplicbtors().removeFrom(hebder);
+        super.uninstbllListeners();
     }
 
-    private int getHeaderHeightAqua() {
+    privbte int getHebderHeightAqub() {
         int height = 0;
-        boolean accomodatedDefault = false;
+        boolebn bccomodbtedDefbult = fblse;
 
-        final TableColumnModel columnModel = header.getColumnModel();
+        finbl TbbleColumnModel columnModel = hebder.getColumnModel();
         for (int column = 0; column < columnModel.getColumnCount(); column++) {
-            final TableColumn aColumn = columnModel.getColumn(column);
-            // Configuring the header renderer to calculate its preferred size is expensive.
-            // Optimise this by assuming the default renderer always has the same height.
-            if (aColumn.getHeaderRenderer() != null || !accomodatedDefault) {
-                final Component comp = getHeaderRendererAqua(column);
-                final int rendererHeight = comp.getPreferredSize().height;
-                height = Math.max(height, rendererHeight);
-                // If the header value is empty (== "") in the
-                // first column (and this column is set up
-                // to use the default renderer) we will
-                // return zero from this routine and the header
-                // will disappear altogether. Avoiding the calculation
-                // of the preferred size is such a performance win for
-                // most applications that we will continue to
-                // use this cheaper calculation, handling these
-                // issues as `edge cases'.
+            finbl TbbleColumn bColumn = columnModel.getColumn(column);
+            // Configuring the hebder renderer to cblculbte its preferred size is expensive.
+            // Optimise this by bssuming the defbult renderer blwbys hbs the sbme height.
+            if (bColumn.getHebderRenderer() != null || !bccomodbtedDefbult) {
+                finbl Component comp = getHebderRendererAqub(column);
+                finbl int rendererHeight = comp.getPreferredSize().height;
+                height = Mbth.mbx(height, rendererHeight);
+                // If the hebder vblue is empty (== "") in the
+                // first column (bnd this column is set up
+                // to use the defbult renderer) we will
+                // return zero from this routine bnd the hebder
+                // will disbppebr bltogether. Avoiding the cblculbtion
+                // of the preferred size is such b performbnce win for
+                // most bpplicbtions thbt we will continue to
+                // use this chebper cblculbtion, hbndling these
+                // issues bs `edge cbses'.
 
-                // Mac OS X Change - since we have a border on our renderers
-                // it is possible the height of an empty header could be > 0,
-                // so we chose the relatively safe number of 4 to handle this case.
-                // Now if we get a size of 4 or less we assume it is empty and measure
-                // a different header.
+                // Mbc OS X Chbnge - since we hbve b border on our renderers
+                // it is possible the height of bn empty hebder could be > 0,
+                // so we chose the relbtively sbfe number of 4 to hbndle this cbse.
+                // Now if we get b size of 4 or less we bssume it is empty bnd mebsure
+                // b different hebder.
                 if (rendererHeight > 4) {
-                    accomodatedDefault = true;
+                    bccomodbtedDefbult = true;
                 }
             }
         }
         return height;
     }
 
-    private Component getHeaderRendererAqua(final int columnIndex) {
-        final TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);
-        TableCellRenderer renderer = aColumn.getHeaderRenderer();
+    privbte Component getHebderRendererAqub(finbl int columnIndex) {
+        finbl TbbleColumn bColumn = hebder.getColumnModel().getColumn(columnIndex);
+        TbbleCellRenderer renderer = bColumn.getHebderRenderer();
         if (renderer == null) {
-            renderer = header.getDefaultRenderer();
+            renderer = hebder.getDefbultRenderer();
         }
-        return renderer.getTableCellRendererComponent(header.getTable(), aColumn.getHeaderValue(), false, false, -1, columnIndex);
+        return renderer.getTbbleCellRendererComponent(hebder.getTbble(), bColumn.getHebderVblue(), fblse, fblse, -1, columnIndex);
     }
 
-    private Dimension createHeaderSizeAqua(long width) {
-        // None of the callers include the intercell spacing, do it here.
+    privbte Dimension crebteHebderSizeAqub(long width) {
+        // None of the cbllers include the intercell spbcing, do it here.
         if (width > Integer.MAX_VALUE) {
             width = Integer.MAX_VALUE;
         }
-        return new Dimension((int)width, getHeaderHeightAqua());
+        return new Dimension((int)width, getHebderHeightAqub());
     }
 
     /**
-     * Return the minimum size of the header. The minimum width is the sum of the minimum widths of each column (plus
-     * inter-cell spacing).
+     * Return the minimum size of the hebder. The minimum width is the sum of the minimum widths of ebch column (plus
+     * inter-cell spbcing).
      */
-    public Dimension getMinimumSize(final JComponent c) {
+    public Dimension getMinimumSize(finbl JComponent c) {
         long width = 0;
-        final Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            final TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMinWidth();
+        finbl Enumerbtion<TbbleColumn> enumerbtion = hebder.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            finbl TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getMinWidth();
         }
-        return createHeaderSizeAqua(width);
+        return crebteHebderSizeAqub(width);
     }
 
     /**
-     * Return the preferred size of the header. The preferred height is the maximum of the preferred heights of all of
-     * the components provided by the header renderers. The preferred width is the sum of the preferred widths of each
-     * column (plus inter-cell spacing).
+     * Return the preferred size of the hebder. The preferred height is the mbximum of the preferred heights of bll of
+     * the components provided by the hebder renderers. The preferred width is the sum of the preferred widths of ebch
+     * column (plus inter-cell spbcing).
      */
-    public Dimension getPreferredSize(final JComponent c) {
+    public Dimension getPreferredSize(finbl JComponent c) {
         long width = 0;
-        final Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            final TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getPreferredWidth();
+        finbl Enumerbtion<TbbleColumn> enumerbtion = hebder.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            finbl TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getPreferredWidth();
         }
-        return createHeaderSizeAqua(width);
+        return crebteHebderSizeAqub(width);
     }
 }

@@ -3,21 +3,21 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
@@ -28,134 +28,134 @@
  * ===========================================================================
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMXPathFilter2Transform.java 1203789 2011-11-18 18:46:07Z mullan $
+ * $Id: DOMXPbthFilter2Trbnsform.jbvb 1203789 2011-11-18 18:46:07Z mullbn $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
-import javax.xml.crypto.dsig.spec.XPathType;
-import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
+import jbvbx.xml.crypto.dsig.spec.XPbthType;
+import jbvbx.xml.crypto.dsig.spec.XPbthFilter2PbrbmeterSpec;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * DOM-based implementation of XPath Filter 2.0 Transform.
- * (Uses Apache XML-Sec Transform implementation)
+ * DOM-bbsed implementbtion of XPbth Filter 2.0 Trbnsform.
+ * (Uses Apbche XML-Sec Trbnsform implementbtion)
  *
- * @author Joyce Leung
+ * @buthor Joyce Leung
  */
-public final class DOMXPathFilter2Transform extends ApacheTransform {
+public finbl clbss DOMXPbthFilter2Trbnsform extends ApbcheTrbnsform {
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    public void init(TrbnsformPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (params == null) {
-            throw new InvalidAlgorithmParameterException("params are required");
-        } else if (!(params instanceof XPathFilter2ParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("params must be of type XPathFilter2ParameterSpec");
+        if (pbrbms == null) {
+            throw new InvblidAlgorithmPbrbmeterException("pbrbms bre required");
+        } else if (!(pbrbms instbnceof XPbthFilter2PbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("pbrbms must be of type XPbthFilter2PbrbmeterSpec");
         }
-        this.params = params;
+        this.pbrbms = pbrbms;
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    public void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        super.init(parent, context);
+        super.init(pbrent, context);
         try {
-            unmarshalParams(DOMUtils.getFirstChildElement(transformElem));
-        } catch (MarshalException me) {
-            throw new InvalidAlgorithmParameterException(me);
+            unmbrshblPbrbms(DOMUtils.getFirstChildElement(trbnsformElem));
+        } cbtch (MbrshblException me) {
+            throw new InvblidAlgorithmPbrbmeterException(me);
         }
     }
 
-    private void unmarshalParams(Element curXPathElem) throws MarshalException
+    privbte void unmbrshblPbrbms(Element curXPbthElem) throws MbrshblException
     {
-        List<XPathType> list = new ArrayList<XPathType>();
-        while (curXPathElem != null) {
-            String xPath = curXPathElem.getFirstChild().getNodeValue();
-            String filterVal = DOMUtils.getAttributeValue(curXPathElem,
+        List<XPbthType> list = new ArrbyList<XPbthType>();
+        while (curXPbthElem != null) {
+            String xPbth = curXPbthElem.getFirstChild().getNodeVblue();
+            String filterVbl = DOMUtils.getAttributeVblue(curXPbthElem,
                                                           "Filter");
-            if (filterVal == null) {
-                throw new MarshalException("filter cannot be null");
+            if (filterVbl == null) {
+                throw new MbrshblException("filter cbnnot be null");
             }
-            XPathType.Filter filter = null;
-            if (filterVal.equals("intersect")) {
-                filter = XPathType.Filter.INTERSECT;
-            } else if (filterVal.equals("subtract")) {
-                filter = XPathType.Filter.SUBTRACT;
-            } else if (filterVal.equals("union")) {
-                filter = XPathType.Filter.UNION;
+            XPbthType.Filter filter = null;
+            if (filterVbl.equbls("intersect")) {
+                filter = XPbthType.Filter.INTERSECT;
+            } else if (filterVbl.equbls("subtrbct")) {
+                filter = XPbthType.Filter.SUBTRACT;
+            } else if (filterVbl.equbls("union")) {
+                filter = XPbthType.Filter.UNION;
             } else {
-                throw new MarshalException("Unknown XPathType filter type" +
-                                           filterVal);
+                throw new MbrshblException("Unknown XPbthType filter type" +
+                                           filterVbl);
             }
-            NamedNodeMap attributes = curXPathElem.getAttributes();
-            if (attributes != null) {
-                int length = attributes.getLength();
-                Map<String, String> namespaceMap =
-                    new HashMap<String, String>(length);
+            NbmedNodeMbp bttributes = curXPbthElem.getAttributes();
+            if (bttributes != null) {
+                int length = bttributes.getLength();
+                Mbp<String, String> nbmespbceMbp =
+                    new HbshMbp<String, String>(length);
                 for (int i = 0; i < length; i++) {
-                    Attr attr = (Attr)attributes.item(i);
-                    String prefix = attr.getPrefix();
-                    if (prefix != null && prefix.equals("xmlns")) {
-                        namespaceMap.put(attr.getLocalName(), attr.getValue());
+                    Attr bttr = (Attr)bttributes.item(i);
+                    String prefix = bttr.getPrefix();
+                    if (prefix != null && prefix.equbls("xmlns")) {
+                        nbmespbceMbp.put(bttr.getLocblNbme(), bttr.getVblue());
                     }
                 }
-                list.add(new XPathType(xPath, filter, namespaceMap));
+                list.bdd(new XPbthType(xPbth, filter, nbmespbceMbp));
             } else {
-                list.add(new XPathType(xPath, filter));
+                list.bdd(new XPbthType(xPbth, filter));
             }
 
-            curXPathElem = DOMUtils.getNextSiblingElement(curXPathElem);
+            curXPbthElem = DOMUtils.getNextSiblingElement(curXPbthElem);
         }
-        this.params = new XPathFilter2ParameterSpec(list);
+        this.pbrbms = new XPbthFilter2PbrbmeterSpec(list);
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    public void mbrshblPbrbms(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException
     {
-        super.marshalParams(parent, context);
-        XPathFilter2ParameterSpec xp =
-            (XPathFilter2ParameterSpec)getParameterSpec();
-        String prefix = DOMUtils.getNSPrefix(context, Transform.XPATH2);
-        String qname = (prefix == null || prefix.length() == 0)
+        super.mbrshblPbrbms(pbrent, context);
+        XPbthFilter2PbrbmeterSpec xp =
+            (XPbthFilter2PbrbmeterSpec)getPbrbmeterSpec();
+        String prefix = DOMUtils.getNSPrefix(context, Trbnsform.XPATH2);
+        String qnbme = (prefix == null || prefix.length() == 0)
                        ? "xmlns" : "xmlns:" + prefix;
-        @SuppressWarnings("unchecked")
-        List<XPathType> xpathList = xp.getXPathList();
-        for (XPathType xpathType : xpathList) {
-            Element elem = DOMUtils.createElement(ownerDoc, "XPath",
-                                                  Transform.XPATH2, prefix);
-            elem.appendChild
-                (ownerDoc.createTextNode(xpathType.getExpression()));
+        @SuppressWbrnings("unchecked")
+        List<XPbthType> xpbthList = xp.getXPbthList();
+        for (XPbthType xpbthType : xpbthList) {
+            Element elem = DOMUtils.crebteElement(ownerDoc, "XPbth",
+                                                  Trbnsform.XPATH2, prefix);
+            elem.bppendChild
+                (ownerDoc.crebteTextNode(xpbthType.getExpression()));
             DOMUtils.setAttribute(elem, "Filter",
-                                  xpathType.getFilter().toString());
-            elem.setAttributeNS("http://www.w3.org/2000/xmlns/", qname,
-                                Transform.XPATH2);
+                                  xpbthType.getFilter().toString());
+            elem.setAttributeNS("http://www.w3.org/2000/xmlns/", qnbme,
+                                Trbnsform.XPATH2);
 
-            // add namespace attributes, if necessary
-            @SuppressWarnings("unchecked")
-            Set<Map.Entry<String, String>> entries =
-                xpathType.getNamespaceMap().entrySet();
-            for (Map.Entry<String, String> entry : entries) {
+            // bdd nbmespbce bttributes, if necessbry
+            @SuppressWbrnings("unchecked")
+            Set<Mbp.Entry<String, String>> entries =
+                xpbthType.getNbmespbceMbp().entrySet();
+            for (Mbp.Entry<String, String> entry : entries) {
                 elem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
                                     entry.getKey(),
-                                    entry.getValue());
+                                    entry.getVblue());
             }
 
-            transformElem.appendChild(elem);
+            trbnsformElem.bppendChild(elem);
         }
     }
 }

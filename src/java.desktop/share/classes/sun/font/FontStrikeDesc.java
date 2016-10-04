@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import static sun.awt.SunHints.*;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.geom.AffineTrbnsform;
+import stbtic sun.bwt.SunHints.*;
 
 /*
- * This class encapsulates every thing needed that distinguishes a strike.
- * It can be used as a key to locate a FontStrike in a Hashmap/cache.
- * It is not mutatable, but contains mutatable AffineTransform objects,
- * which for performance reasons it does not keep private copies of.
- * Therefore code constructing these must pass in transforms it guarantees
- * not to mutate.
+ * This clbss encbpsulbtes every thing needed thbt distinguishes b strike.
+ * It cbn be used bs b key to locbte b FontStrike in b Hbshmbp/cbche.
+ * It is not mutbtbble, but contbins mutbtbble AffineTrbnsform objects,
+ * which for performbnce rebsons it does not keep privbte copies of.
+ * Therefore code constructing these must pbss in trbnsforms it gubrbntees
+ * not to mutbte.
  */
-public class FontStrikeDesc {
+public clbss FontStrikeDesc {
 
-    /* Values to use as a mask that is used for faster comparison of
-     * two strikes using just an int equality test.
-     * The ones we don't use are listed here but commented out.
-     * ie style is already built and hint "OFF" values are zero.
-     * Note that this is used as a strike key and the same strike is used
-     * for HRGB and HBGR, so only the orientation needed (H or V) is needed
-     * to construct and distinguish a FontStrikeDesc. The rgb ordering
-     * needed for rendering is stored in the graphics state.
+    /* Vblues to use bs b mbsk thbt is used for fbster compbrison of
+     * two strikes using just bn int equblity test.
+     * The ones we don't use bre listed here but commented out.
+     * ie style is blrebdy built bnd hint "OFF" vblues bre zero.
+     * Note thbt this is used bs b strike key bnd the sbme strike is used
+     * for HRGB bnd HBGR, so only the orientbtion needed (H or V) is needed
+     * to construct bnd distinguish b FontStrikeDesc. The rgb ordering
+     * needed for rendering is stored in the grbphics stbte.
      */
-//     static final int STYLE_PLAIN       = Font.PLAIN;            // 0x0000
-//     static final int STYLE_BOLD        = Font.BOLD;             // 0x0001
-//     static final int STYLE_ITALIC      = Font.ITALIC;           // 0x0002
-//     static final int STYLE_BOLDITALIC  = Font.BOLD|Font.ITALIC; // 0x0003
-//     static final int AA_OFF            = 0x0000;
-    static final int AA_ON             = 0x0010;
-    static final int AA_LCD_H          = 0x0020;
-    static final int AA_LCD_V          = 0x0040;
-//     static final int FRAC_METRICS_OFF  = 0x0000;
-    static final int FRAC_METRICS_ON   = 0x0100;
-    static final int FRAC_METRICS_SP   = 0x0200;
+//     stbtic finbl int STYLE_PLAIN       = Font.PLAIN;            // 0x0000
+//     stbtic finbl int STYLE_BOLD        = Font.BOLD;             // 0x0001
+//     stbtic finbl int STYLE_ITALIC      = Font.ITALIC;           // 0x0002
+//     stbtic finbl int STYLE_BOLDITALIC  = Font.BOLD|Font.ITALIC; // 0x0003
+//     stbtic finbl int AA_OFF            = 0x0000;
+    stbtic finbl int AA_ON             = 0x0010;
+    stbtic finbl int AA_LCD_H          = 0x0020;
+    stbtic finbl int AA_LCD_V          = 0x0040;
+//     stbtic finbl int FRAC_METRICS_OFF  = 0x0000;
+    stbtic finbl int FRAC_METRICS_ON   = 0x0100;
+    stbtic finbl int FRAC_METRICS_SP   = 0x0200;
 
-    /* devTx is to get an inverse transform to get user space values
-     * for metrics. Its not used otherwise, as the glyphTx is the important
-     * one. But it does mean that a strike representing a 6pt font and identity
-     * graphics transform is not equal to one for a 12 pt font and 2x scaled
-     * graphics transform. Its likely to be very rare that this causes
-     * duplication.
+    /* devTx is to get bn inverse trbnsform to get user spbce vblues
+     * for metrics. Its not used otherwise, bs the glyphTx is the importbnt
+     * one. But it does mebn thbt b strike representing b 6pt font bnd identity
+     * grbphics trbnsform is not equbl to one for b 12 pt font bnd 2x scbled
+     * grbphics trbnsform. Its likely to be very rbre thbt this cbuses
+     * duplicbtion.
      */
-    AffineTransform devTx;
-    AffineTransform glyphTx; // all of ptSize, Font tx and Graphics tx.
+    AffineTrbnsform devTx;
+    AffineTrbnsform glyphTx; // bll of ptSize, Font tx bnd Grbphics tx.
     int style;
-    int aaHint;
+    int bbHint;
     int fmHint;
-    private int hashCode;
-    private int valuemask;
+    privbte int hbshCode;
+    privbte int vbluembsk;
 
-    public int hashCode() {
-        /* Can cache hashcode since a strike(desc) is immutable.*/
-        if (hashCode == 0) {
-            hashCode = glyphTx.hashCode() + devTx.hashCode() + valuemask;
+    public int hbshCode() {
+        /* Cbn cbche hbshcode since b strike(desc) is immutbble.*/
+        if (hbshCode == 0) {
+            hbshCode = glyphTx.hbshCode() + devTx.hbshCode() + vbluembsk;
         }
-        return hashCode;
+        return hbshCode;
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         try {
             FontStrikeDesc desc = (FontStrikeDesc)obj;
-            return (desc.valuemask == this.valuemask &&
-                    desc.glyphTx.equals(this.glyphTx) &&
-                    desc.devTx.equals(this.devTx));
-        } catch (Exception e) {
-            /* class cast or NP exceptions should not happen often, if ever,
-             * and I am hoping that this is faster than an instanceof check.
+            return (desc.vbluembsk == this.vbluembsk &&
+                    desc.glyphTx.equbls(this.glyphTx) &&
+                    desc.devTx.equbls(this.devTx));
+        } cbtch (Exception e) {
+            /* clbss cbst or NP exceptions should not hbppen often, if ever,
+             * bnd I bm hoping thbt this is fbster thbn bn instbnceof check.
              */
-            return false;
+            return fblse;
         }
     }
 
@@ -103,92 +103,92 @@ public class FontStrikeDesc {
     }
 
 
-    /* This maps a public text AA hint value into one of the subset of values
-     * used to index strikes. For the purpose of the strike cache there are
-     * only 4 values : OFF, ON, LCD_HRGB, LCD_VRGB.
-     * Font and ptSize are needed to resolve the 'gasp' table. The ptSize
-     * must therefore include device and font transforms.
+    /* This mbps b public text AA hint vblue into one of the subset of vblues
+     * used to index strikes. For the purpose of the strike cbche there bre
+     * only 4 vblues : OFF, ON, LCD_HRGB, LCD_VRGB.
+     * Font bnd ptSize bre needed to resolve the 'gbsp' tbble. The ptSize
+     * must therefore include device bnd font trbnsforms.
      */
-    public static int getAAHintIntVal(Object aa, Font2D font2D, int ptSize) {
-        if (aa == VALUE_TEXT_ANTIALIAS_OFF ||
-            aa == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+    public stbtic int getAAHintIntVbl(Object bb, Font2D font2D, int ptSize) {
+        if (bb == VALUE_TEXT_ANTIALIAS_OFF ||
+            bb == VALUE_TEXT_ANTIALIAS_DEFAULT) {
             return INTVAL_TEXT_ANTIALIAS_OFF;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_ON) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_ON) {
             return INTVAL_TEXT_ANTIALIAS_ON;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_GASP) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_GASP) {
             if (font2D.useAAForPtSize(ptSize)) {
                 return INTVAL_TEXT_ANTIALIAS_ON;
             } else {
                 return INTVAL_TEXT_ANTIALIAS_OFF;
             }
-        } else if (aa == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
-                   aa == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
             return INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
-                   aa == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
             return INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
         } else {
             return INTVAL_TEXT_ANTIALIAS_OFF;
         }
     }
 
-    /* This maps a public text AA hint value into one of the subset of values
-     * used to index strikes. For the purpose of the strike cache there are
-     * only 4 values : OFF, ON, LCD_HRGB, LCD_VRGB.
-     * Font and FontRenderContext are needed to resolve the 'gasp' table.
-     * This is similar to the method above, but used by callers which have not
-     * already calculated the glyph device point size.
+    /* This mbps b public text AA hint vblue into one of the subset of vblues
+     * used to index strikes. For the purpose of the strike cbche there bre
+     * only 4 vblues : OFF, ON, LCD_HRGB, LCD_VRGB.
+     * Font bnd FontRenderContext bre needed to resolve the 'gbsp' tbble.
+     * This is similbr to the method bbove, but used by cbllers which hbve not
+     * blrebdy cblculbted the glyph device point size.
      */
-    public static int getAAHintIntVal(Font2D font2D, Font font,
+    public stbtic int getAAHintIntVbl(Font2D font2D, Font font,
                                       FontRenderContext frc) {
-        Object aa = frc.getAntiAliasingHint();
-        if (aa == VALUE_TEXT_ANTIALIAS_OFF ||
-            aa == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+        Object bb = frc.getAntiAlibsingHint();
+        if (bb == VALUE_TEXT_ANTIALIAS_OFF ||
+            bb == VALUE_TEXT_ANTIALIAS_DEFAULT) {
             return INTVAL_TEXT_ANTIALIAS_OFF;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_ON) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_ON) {
             return INTVAL_TEXT_ANTIALIAS_ON;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_GASP) {
-            /* FRC.isIdentity() would have been useful */
+        } else if (bb == VALUE_TEXT_ANTIALIAS_GASP) {
+            /* FRC.isIdentity() would hbve been useful */
             int ptSize;
-            AffineTransform tx = frc.getTransform();
-            if (tx.isIdentity() && !font.isTransformed()) {
+            AffineTrbnsform tx = frc.getTrbnsform();
+            if (tx.isIdentity() && !font.isTrbnsformed()) {
                 ptSize = font.getSize();
             } else {
-                /* one or both transforms is not identity */
-                float size = font.getSize2D();
+                /* one or both trbnsforms is not identity */
+                flobt size = font.getSize2D();
                 if (tx.isIdentity()) {
-                    tx = font.getTransform();
-                    tx.scale(size, size);
+                    tx = font.getTrbnsform();
+                    tx.scble(size, size);
                 } else {
-                    tx.scale(size, size);
-                    if (font.isTransformed()) {
-                        tx.concatenate(font.getTransform());
+                    tx.scble(size, size);
+                    if (font.isTrbnsformed()) {
+                        tx.concbtenbte(font.getTrbnsform());
                     }
                 }
-                double shearx = tx.getShearX();
-                double scaley = tx.getScaleY();
-                if (shearx != 0) {
-                    scaley = Math.sqrt(shearx * shearx + scaley * scaley);
+                double shebrx = tx.getShebrX();
+                double scbley = tx.getScbleY();
+                if (shebrx != 0) {
+                    scbley = Mbth.sqrt(shebrx * shebrx + scbley * scbley);
                 }
-                ptSize = (int)(Math.abs(scaley)+0.5);
+                ptSize = (int)(Mbth.bbs(scbley)+0.5);
             }
             if (font2D.useAAForPtSize(ptSize)) {
                 return INTVAL_TEXT_ANTIALIAS_ON;
             } else {
                 return INTVAL_TEXT_ANTIALIAS_OFF;
             }
-        } else if (aa == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
-                   aa == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
             return INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
-        } else if (aa == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
-                   aa == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
+        } else if (bb == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
             return INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
         } else {
             return INTVAL_TEXT_ANTIALIAS_OFF;
         }
     }
 
-    public static int getFMHintIntVal(Object fm) {
+    public stbtic int getFMHintIntVbl(Object fm) {
         if (fm == VALUE_FRACTIONALMETRICS_OFF ||
             fm == VALUE_FRACTIONALMETRICS_DEFAULT) {
             return INTVAL_FRACTIONALMETRICS_OFF;
@@ -197,50 +197,50 @@ public class FontStrikeDesc {
         }
     }
 
-    public FontStrikeDesc(AffineTransform devAt, AffineTransform at,
-                          int fStyle, int aa, int fm) {
+    public FontStrikeDesc(AffineTrbnsform devAt, AffineTrbnsform bt,
+                          int fStyle, int bb, int fm) {
         devTx = devAt;
-        glyphTx = at; // not cloning glyphTx. Callers trusted to not mutate it.
+        glyphTx = bt; // not cloning glyphTx. Cbllers trusted to not mutbte it.
         style = fStyle;
-        aaHint = aa;
+        bbHint = bb;
         fmHint = fm;
-        valuemask = fStyle;
-        switch (aa) {
-           case INTVAL_TEXT_ANTIALIAS_OFF :
-                break;
-           case INTVAL_TEXT_ANTIALIAS_ON  :
-                valuemask |= AA_ON;
-                break;
-           case INTVAL_TEXT_ANTIALIAS_LCD_HRGB :
-           case INTVAL_TEXT_ANTIALIAS_LCD_HBGR :
-                valuemask |= AA_LCD_H;
-                break;
-           case INTVAL_TEXT_ANTIALIAS_LCD_VRGB :
-           case INTVAL_TEXT_ANTIALIAS_LCD_VBGR :
-                valuemask |= AA_LCD_V;
-                break;
-           default: break;
+        vbluembsk = fStyle;
+        switch (bb) {
+           cbse INTVAL_TEXT_ANTIALIAS_OFF :
+                brebk;
+           cbse INTVAL_TEXT_ANTIALIAS_ON  :
+                vbluembsk |= AA_ON;
+                brebk;
+           cbse INTVAL_TEXT_ANTIALIAS_LCD_HRGB :
+           cbse INTVAL_TEXT_ANTIALIAS_LCD_HBGR :
+                vbluembsk |= AA_LCD_H;
+                brebk;
+           cbse INTVAL_TEXT_ANTIALIAS_LCD_VRGB :
+           cbse INTVAL_TEXT_ANTIALIAS_LCD_VBGR :
+                vbluembsk |= AA_LCD_V;
+                brebk;
+           defbult: brebk;
         }
         if (fm == INTVAL_FRACTIONALMETRICS_ON) {
-           valuemask |= FRAC_METRICS_ON;
+           vbluembsk |= FRAC_METRICS_ON;
         }
     }
 
     FontStrikeDesc(FontStrikeDesc desc) {
         devTx = desc.devTx;
-        // Clone the TX in this case as this is called when its known
-        // that "desc" is being re-used by its creator.
-        glyphTx = (AffineTransform)desc.glyphTx.clone();
+        // Clone the TX in this cbse bs this is cblled when its known
+        // thbt "desc" is being re-used by its crebtor.
+        glyphTx = (AffineTrbnsform)desc.glyphTx.clone();
         style = desc.style;
-        aaHint = desc.aaHint;
+        bbHint = desc.bbHint;
         fmHint = desc.fmHint;
-        hashCode = desc.hashCode;
-        valuemask = desc.valuemask;
+        hbshCode = desc.hbshCode;
+        vbluembsk = desc.vbluembsk;
     }
 
 
     public String toString() {
-        return "FontStrikeDesc: Style="+style+ " AA="+aaHint+ " FM="+fmHint+
+        return "FontStrikeDesc: Style="+style+ " AA="+bbHint+ " FM="+fmHint+
             " devTx="+devTx+ " devTx.FontTx.ptSize="+glyphTx;
     }
 }

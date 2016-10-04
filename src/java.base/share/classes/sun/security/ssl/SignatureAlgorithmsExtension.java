@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
 
-import javax.net.ssl.SSLProtocolException;
+import jbvbx.net.ssl.SSLProtocolException;
 
 /*
- * [RFC5246] The client uses the "signature_algorithms" extension to
- * indicate to the server which signature/hash algorithm pairs may be
- * used in digital signatures.  The "extension_data" field of this
- * extension contains a "supported_signature_algorithms" value.
+ * [RFC5246] The client uses the "signbture_blgorithms" extension to
+ * indicbte to the server which signbture/hbsh blgorithm pbirs mby be
+ * used in digitbl signbtures.  The "extension_dbtb" field of this
+ * extension contbins b "supported_signbture_blgorithms" vblue.
  *
  *     enum {
- *         none(0), md5(1), sha1(2), sha224(3), sha256(4), sha384(5),
- *         sha512(6), (255)
- *     } HashAlgorithm;
+ *         none(0), md5(1), shb1(2), shb224(3), shb256(4), shb384(5),
+ *         shb512(6), (255)
+ *     } HbshAlgorithm;
  *
- *     enum { anonymous(0), rsa(1), dsa(2), ecdsa(3), (255) }
- *       SignatureAlgorithm;
+ *     enum { bnonymous(0), rsb(1), dsb(2), ecdsb(3), (255) }
+ *       SignbtureAlgorithm;
  *
  *     struct {
- *           HashAlgorithm hash;
- *           SignatureAlgorithm signature;
- *     } SignatureAndHashAlgorithm;
+ *           HbshAlgorithm hbsh;
+ *           SignbtureAlgorithm signbture;
+ *     } SignbtureAndHbshAlgorithm;
  *
- *     SignatureAndHashAlgorithm
- *       supported_signature_algorithms<2..2^16-2>;
+ *     SignbtureAndHbshAlgorithm
+ *       supported_signbture_blgorithms<2..2^16-2>;
  */
-final class SignatureAlgorithmsExtension extends HelloExtension {
+finbl clbss SignbtureAlgorithmsExtension extends HelloExtension {
 
-    private Collection<SignatureAndHashAlgorithm> algorithms;
-    private int algorithmsLen;  // length of supported_signature_algorithms
+    privbte Collection<SignbtureAndHbshAlgorithm> blgorithms;
+    privbte int blgorithmsLen;  // length of supported_signbture_blgorithms
 
-    SignatureAlgorithmsExtension(
-            Collection<SignatureAndHashAlgorithm> signAlgs) {
+    SignbtureAlgorithmsExtension(
+            Collection<SignbtureAndHbshAlgorithm> signAlgs) {
 
         super(ExtensionType.EXT_SIGNATURE_ALGORITHMS);
 
-        algorithms = new ArrayList<SignatureAndHashAlgorithm>(signAlgs);
-        algorithmsLen =
-            SignatureAndHashAlgorithm.sizeInRecord() * algorithms.size();
+        blgorithms = new ArrbyList<SignbtureAndHbshAlgorithm>(signAlgs);
+        blgorithmsLen =
+            SignbtureAndHbshAlgorithm.sizeInRecord() * blgorithms.size();
     }
 
-    SignatureAlgorithmsExtension(HandshakeInStream s, int len)
+    SignbtureAlgorithmsExtension(HbndshbkeInStrebm s, int len)
                 throws IOException {
         super(ExtensionType.EXT_SIGNATURE_ALGORITHMS);
 
-        algorithmsLen = s.getInt16();
-        if (algorithmsLen == 0 || algorithmsLen + 2 != len) {
-            throw new SSLProtocolException("Invalid " + type + " extension");
+        blgorithmsLen = s.getInt16();
+        if (blgorithmsLen == 0 || blgorithmsLen + 2 != len) {
+            throw new SSLProtocolException("Invblid " + type + " extension");
         }
 
-        algorithms = new ArrayList<SignatureAndHashAlgorithm>();
-        int remains = algorithmsLen;
+        blgorithms = new ArrbyList<SignbtureAndHbshAlgorithm>();
+        int rembins = blgorithmsLen;
         int sequence = 0;
-        while (remains > 1) {   // needs at least two bytes
-            int hash = s.getInt8();         // hash algorithm
-            int signature = s.getInt8();    // signature algorithm
+        while (rembins > 1) {   // needs bt lebst two bytes
+            int hbsh = s.getInt8();         // hbsh blgorithm
+            int signbture = s.getInt8();    // signbture blgorithm
 
-            SignatureAndHashAlgorithm algorithm =
-                SignatureAndHashAlgorithm.valueOf(hash, signature, ++sequence);
-            algorithms.add(algorithm);
-            remains -= 2;  // one byte for hash, one byte for signature
+            SignbtureAndHbshAlgorithm blgorithm =
+                SignbtureAndHbshAlgorithm.vblueOf(hbsh, signbture, ++sequence);
+            blgorithms.bdd(blgorithm);
+            rembins -= 2;  // one byte for hbsh, one byte for signbture
         }
 
-        if (remains != 0) {
-            throw new SSLProtocolException("Invalid server_name extension");
+        if (rembins != 0) {
+            throw new SSLProtocolException("Invblid server_nbme extension");
         }
     }
 
-    Collection<SignatureAndHashAlgorithm> getSignAlgorithms() {
-        return algorithms;
+    Collection<SignbtureAndHbshAlgorithm> getSignAlgorithms() {
+        return blgorithms;
     }
 
     @Override
     int length() {
-        return 6 + algorithmsLen;
+        return 6 + blgorithmsLen;
     }
 
     @Override
-    void send(HandshakeOutStream s) throws IOException {
+    void send(HbndshbkeOutStrebm s) throws IOException {
         s.putInt16(type.id);
-        s.putInt16(algorithmsLen + 2);
-        s.putInt16(algorithmsLen);
+        s.putInt16(blgorithmsLen + 2);
+        s.putInt16(blgorithmsLen);
 
-        for (SignatureAndHashAlgorithm algorithm : algorithms) {
-            s.putInt8(algorithm.getHashValue());      // HashAlgorithm
-            s.putInt8(algorithm.getSignatureValue()); // SignatureAlgorithm
+        for (SignbtureAndHbshAlgorithm blgorithm : blgorithms) {
+            s.putInt8(blgorithm.getHbshVblue());      // HbshAlgorithm
+            s.putInt8(blgorithm.getSignbtureVblue()); // SignbtureAlgorithm
         }
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        boolean opened = false;
-        for (SignatureAndHashAlgorithm signAlg : algorithms) {
+        boolebn opened = fblse;
+        for (SignbtureAndHbshAlgorithm signAlg : blgorithms) {
             if (opened) {
-                sb.append(", " + signAlg.getAlgorithmName());
+                sb.bppend(", " + signAlg.getAlgorithmNbme());
             } else {
-                sb.append(signAlg.getAlgorithmName());
+                sb.bppend(signAlg.getAlgorithmNbme());
                 opened = true;
             }
         }
 
-        return "Extension " + type + ", signature_algorithms: " + sb;
+        return "Extension " + type + ", signbture_blgorithms: " + sb;
     }
 }
 

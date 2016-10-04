@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
 /**
- * XRender pipeline backend interface.
- * Currently there are two different backends implemented:
- * - XRBackendJava: And experimental backend, generating protocol directly using java-code and xcb's socket handoff functionality.
- * - XRBackendNative: Native 1:1 binding with libX11.
+ * XRender pipeline bbckend interfbce.
+ * Currently there bre two different bbckends implemented:
+ * - XRBbckendJbvb: And experimentbl bbckend, generbting protocol directly using jbvb-code bnd xcb's socket hbndoff functionblity.
+ * - XRBbckendNbtive: Nbtive 1:1 binding with libX11.
  */
 
-import java.awt.geom.*;
-import java.util.*;
+import jbvb.bwt.geom.*;
+import jbvb.util.*;
 
 import sun.font.*;
-import sun.java2d.jules.*;
-import sun.java2d.pipe.*;
+import sun.jbvb2d.jules.*;
+import sun.jbvb2d.pipe.*;
 
-public interface XRBackend {
+public interfbce XRBbckend {
 
     public void freePicture(int picture);
 
-    public void freePixmap(int pixmap);
+    public void freePixmbp(int pixmbp);
 
-    public int createPixmap(int drawable, int depth, int width, int height);
+    public int crebtePixmbp(int drbwbble, int depth, int width, int height);
 
-    public int createPicture(int drawable, int formatID);
+    public int crebtePicture(int drbwbble, int formbtID);
 
-    public long createGC(int drawable);
+    public long crebteGC(int drbwbble);
 
     public void freeGC(long gc); /* TODO: Use!! */
 
-    public void copyArea(int src, int dst, long gc, int srcx, int srcy,
+    public void copyAreb(int src, int dst, long gc, int srcx, int srcy,
                          int width, int height, int dstx, int dsty);
 
-    public void putMaskImage(int drawable, long gc, byte[] imageData,
+    public void putMbskImbge(int drbwbble, long gc, byte[] imbgeDbtb,
                              int sx, int sy, int dx, int dy,
-                             int width, int height, int maskOff,
-                             int maskScan, float ea);
+                             int width, int height, int mbskOff,
+                             int mbskScbn, flobt eb);
 
-    public void setGCClipRectangles(long gc, Region clip);
+    public void setGCClipRectbngles(long gc, Region clip);
 
-    public void GCRectangles(int drawable, long gc, GrowableRectArray rects);
+    public void GCRectbngles(int drbwbble, long gc, GrowbbleRectArrby rects);
 
-    public void setClipRectangles(int picture, Region clip);
+    public void setClipRectbngles(int picture, Region clip);
 
-    public void setGCExposures(long gc, boolean exposure);
+    public void setGCExposures(long gc, boolebn exposure);
 
     public void setGCForeground(long gc, int pixel);
 
-    public void setPictureTransform(int picture, AffineTransform transform);
+    public void setPictureTrbnsform(int picture, AffineTrbnsform trbnsform);
 
-    public void setPictureRepeat(int picture, int repeat);
+    public void setPictureRepebt(int picture, int repebt);
 
     public void setFilter(int picture, int filter);
 
-    public void renderRectangle(int dst, byte op, XRColor color,
+    public void renderRectbngle(int dst, byte op, XRColor color,
                                 int x, int y, int width, int height);
 
-    public void renderRectangles(int dst, byte op, XRColor color,
-                                 GrowableRectArray rects);
+    public void renderRectbngles(int dst, byte op, XRColor color,
+                                 GrowbbleRectArrby rects);
 
-    public void renderComposite(byte op, int src, int mask, int dst,
-                                int srcX, int srcY, int maskX, int maskY,
+    public void renderComposite(byte op, int src, int mbsk, int dst,
+                                int srcX, int srcY, int mbskX, int mbskY,
                                 int dstX, int dstY, int width, int height);
 
-    public int XRenderCreateGlyphSet(int formatID);
+    public int XRenderCrebteGlyphSet(int formbtID);
 
     public void XRenderAddGlyphs(int glyphSet, GlyphList gl,
-                                 List<XRGlyphCacheEntry> cacheEntries,
-                                 byte[] pixelData);
+                                 List<XRGlyphCbcheEntry> cbcheEntries,
+                                 byte[] pixelDbtb);
 
     public void XRenderFreeGlyphs(int glyphSet, int[] gids);
 
     public void XRenderCompositeText(byte op, int src, int dst,
-                                     int maskFormatID,
+                                     int mbskFormbtID,
                                      int xSrc, int ySrc, int xDst, int yDst,
-                                     int glyphset, GrowableEltArray elts);
+                                     int glyphset, GrowbbleEltArrby elts);
 
-    public int createRadialGradient(float centerX, float centerY,
-                                    float innerRadius, float outerRadius,
-                                    float[] fractions, int[] pixels,
-                                    int repeat);
+    public int crebteRbdiblGrbdient(flobt centerX, flobt centerY,
+                                    flobt innerRbdius, flobt outerRbdius,
+                                    flobt[] frbctions, int[] pixels,
+                                    int repebt);
 
-    public int createLinearGradient(Point2D p1, Point2D p2, float[] fractions,
-                                    int[] pixels, int repeat);
+    public int crebteLinebrGrbdient(Point2D p1, Point2D p2, flobt[] frbctions,
+                                    int[] pixels, int repebt);
 
-    public void setGCMode(long gc, boolean copy);
+    public void setGCMode(long gc, boolebn copy);
 
-    public void renderCompositeTrapezoids(byte op, int src, int maskFormat,
+    public void renderCompositeTrbpezoids(byte op, int src, int mbskFormbt,
                                           int dst, int srcX, int srcY,
-                                          TrapezoidList trapList);
+                                          TrbpezoidList trbpList);
 }

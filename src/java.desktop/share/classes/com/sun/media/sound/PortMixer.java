@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
-import javax.sound.sampled.Control;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Port;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.CompoundControl;
-import javax.sound.sampled.FloatControl;
+import jbvbx.sound.sbmpled.Control;
+import jbvbx.sound.sbmpled.Line;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
+import jbvbx.sound.sbmpled.Port;
+import jbvbx.sound.sbmpled.BoolebnControl;
+import jbvbx.sound.sbmpled.CompoundControl;
+import jbvbx.sound.sbmpled.FlobtControl;
 
 
 /**
  * A Mixer which only provides Ports.
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-final class PortMixer extends AbstractMixer {
+finbl clbss PortMixer extends AbstrbctMixer {
 
     // CONSTANTS
-    private static final int SRC_UNKNOWN      = 0x01;
-    private static final int SRC_MICROPHONE   = 0x02;
-    private static final int SRC_LINE_IN      = 0x03;
-    private static final int SRC_COMPACT_DISC = 0x04;
-    private static final int SRC_MASK         = 0xFF;
+    privbte stbtic finbl int SRC_UNKNOWN      = 0x01;
+    privbte stbtic finbl int SRC_MICROPHONE   = 0x02;
+    privbte stbtic finbl int SRC_LINE_IN      = 0x03;
+    privbte stbtic finbl int SRC_COMPACT_DISC = 0x04;
+    privbte stbtic finbl int SRC_MASK         = 0xFF;
 
-    private static final int DST_UNKNOWN      = 0x0100;
-    private static final int DST_SPEAKER      = 0x0200;
-    private static final int DST_HEADPHONE    = 0x0300;
-    private static final int DST_LINE_OUT     = 0x0400;
-    private static final int DST_MASK         = 0xFF00;
+    privbte stbtic finbl int DST_UNKNOWN      = 0x0100;
+    privbte stbtic finbl int DST_SPEAKER      = 0x0200;
+    privbte stbtic finbl int DST_HEADPHONE    = 0x0300;
+    privbte stbtic finbl int DST_LINE_OUT     = 0x0400;
+    privbte stbtic finbl int DST_MASK         = 0xFF00;
 
     // INSTANCE VARIABLES
-    private Port.Info[] portInfos;
-    // cache of instantiated ports
-    private PortMixerPort[] ports;
+    privbte Port.Info[] portInfos;
+    // cbche of instbntibted ports
+    privbte PortMixerPort[] ports;
 
-    // instance ID of the native implementation
-    private long id = 0;
+    // instbnce ID of the nbtive implementbtion
+    privbte long id = 0;
 
     // CONSTRUCTOR
     PortMixer(PortMixerProvider.PortMixerInfo portMixerInfo) {
-        // pass in Line.Info, mixer, controls
+        // pbss in Line.Info, mixer, controls
         super(portMixerInfo,              // Mixer.Info
               null,                       // Control[]
               null,                       // Line.Info[] sourceLineInfo
-              null);                      // Line.Info[] targetLineInfo
+              null);                      // Line.Info[] tbrgetLineInfo
 
-        if (Printer.trace) Printer.trace(">> PortMixer: constructor");
+        if (Printer.trbce) Printer.trbce(">> PortMixer: constructor");
 
         int count = 0;
         int srcLineCount = 0;
@@ -84,11 +84,11 @@ final class PortMixer extends AbstractMixer {
                 if (id != 0) {
                     count = nGetPortCount(id);
                     if (count < 0) {
-                        if (Printer.trace) Printer.trace("nGetPortCount() returned error code: " + count);
+                        if (Printer.trbce) Printer.trbce("nGetPortCount() returned error code: " + count);
                         count = 0;
                     }
                 }
-            } catch (Exception e) {}
+            } cbtch (Exception e) {}
 
             portInfos = new Port.Info[count];
 
@@ -98,73 +98,73 @@ final class PortMixer extends AbstractMixer {
                 dstLineCount += ((type & DST_MASK) != 0)?1:0;
                 portInfos[i] = getPortInfo(i, type);
             }
-        } finally {
+        } finblly {
             if (id != 0) {
                 nClose(id);
             }
             id = 0;
         }
 
-        // fill sourceLineInfo and targetLineInfos with copies of the ones in portInfos
+        // fill sourceLineInfo bnd tbrgetLineInfos with copies of the ones in portInfos
         sourceLineInfo = new Port.Info[srcLineCount];
-        targetLineInfo = new Port.Info[dstLineCount];
+        tbrgetLineInfo = new Port.Info[dstLineCount];
 
         srcLineCount = 0; dstLineCount = 0;
         for (int i = 0; i < count; i++) {
             if (portInfos[i].isSource()) {
                 sourceLineInfo[srcLineCount++] = portInfos[i];
             } else {
-                targetLineInfo[dstLineCount++] = portInfos[i];
+                tbrgetLineInfo[dstLineCount++] = portInfos[i];
             }
         }
 
-        if (Printer.trace) Printer.trace("<< PortMixer: constructor completed");
+        if (Printer.trbce) Printer.trbce("<< PortMixer: constructor completed");
     }
 
 
     // ABSTRACT MIXER: ABSTRACT METHOD IMPLEMENTATIONS
 
-    public Line getLine(Line.Info info) throws LineUnavailableException {
+    public Line getLine(Line.Info info) throws LineUnbvbilbbleException {
         Line.Info fullInfo = getLineInfo(info);
 
-        if ((fullInfo != null) && (fullInfo instanceof Port.Info)) {
+        if ((fullInfo != null) && (fullInfo instbnceof Port.Info)) {
             for (int i = 0; i < portInfos.length; i++) {
-                if (fullInfo.equals(portInfos[i])) {
+                if (fullInfo.equbls(portInfos[i])) {
                     return getPort(i);
                 }
             }
         }
-        throw new IllegalArgumentException("Line unsupported: " + info);
+        throw new IllegblArgumentException("Line unsupported: " + info);
     }
 
 
-    public int getMaxLines(Line.Info info) {
+    public int getMbxLines(Line.Info info) {
         Line.Info fullInfo = getLineInfo(info);
 
-        // if it's not supported at all, return 0.
+        // if it's not supported bt bll, return 0.
         if (fullInfo == null) {
             return 0;
         }
 
-        if (fullInfo instanceof Port.Info) {
-            //return AudioSystem.NOT_SPECIFIED; // if several instances of PortMixerPort
+        if (fullInfo instbnceof Port.Info) {
+            //return AudioSystem.NOT_SPECIFIED; // if severbl instbnces of PortMixerPort
             return 1;
         }
         return 0;
     }
 
 
-    protected void implOpen() throws LineUnavailableException {
-        if (Printer.trace) Printer.trace(">> PortMixer: implOpen (id="+id+")");
+    protected void implOpen() throws LineUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce(">> PortMixer: implOpen (id="+id+")");
 
         // open the mixer device
         id = nOpen(getMixerIndex());
 
-        if (Printer.trace) Printer.trace("<< PortMixer: implOpen succeeded.");
+        if (Printer.trbce) Printer.trbce("<< PortMixer: implOpen succeeded.");
     }
 
     protected void implClose() {
-        if (Printer.trace) Printer.trace(">> PortMixer: implClose");
+        if (Printer.trbce) Printer.trbce(">> PortMixer: implClose");
 
         // close the mixer device
         long thisID = id;
@@ -178,27 +178,27 @@ final class PortMixer extends AbstractMixer {
             }
         }
 
-        if (Printer.trace) Printer.trace("<< PortMixer: implClose succeeded");
+        if (Printer.trbce) Printer.trbce("<< PortMixer: implClose succeeded");
     }
 
-    protected void implStart() {}
+    protected void implStbrt() {}
     protected void implStop() {}
 
     // IMPLEMENTATION HELPERS
 
-    private Port.Info getPortInfo(int portIndex, int type) {
+    privbte Port.Info getPortInfo(int portIndex, int type) {
         switch (type) {
-        case SRC_UNKNOWN:      return new PortInfo(nGetPortName(getID(), portIndex), true);
-        case SRC_MICROPHONE:   return Port.Info.MICROPHONE;
-        case SRC_LINE_IN:      return Port.Info.LINE_IN;
-        case SRC_COMPACT_DISC: return Port.Info.COMPACT_DISC;
+        cbse SRC_UNKNOWN:      return new PortInfo(nGetPortNbme(getID(), portIndex), true);
+        cbse SRC_MICROPHONE:   return Port.Info.MICROPHONE;
+        cbse SRC_LINE_IN:      return Port.Info.LINE_IN;
+        cbse SRC_COMPACT_DISC: return Port.Info.COMPACT_DISC;
 
-        case DST_UNKNOWN:      return new PortInfo(nGetPortName(getID(), portIndex), false);
-        case DST_SPEAKER:      return Port.Info.SPEAKER;
-        case DST_HEADPHONE:    return Port.Info.HEADPHONE;
-        case DST_LINE_OUT:     return Port.Info.LINE_OUT;
+        cbse DST_UNKNOWN:      return new PortInfo(nGetPortNbme(getID(), portIndex), fblse);
+        cbse DST_SPEAKER:      return Port.Info.SPEAKER;
+        cbse DST_HEADPHONE:    return Port.Info.HEADPHONE;
+        cbse DST_LINE_OUT:     return Port.Info.LINE_OUT;
         }
-        // should never happen...
+        // should never hbppen...
         if (Printer.debug) Printer.debug("unknown port type: "+type);
         return null;
     }
@@ -226,20 +226,20 @@ final class PortMixer extends AbstractMixer {
     // INNER CLASSES
 
     /**
-     * Private inner class representing a Port for the PortMixer.
+     * Privbte inner clbss representing b Port for the PortMixer.
      */
-    private static final class PortMixerPort extends AbstractLine
+    privbte stbtic finbl clbss PortMixerPort extends AbstrbctLine
             implements Port {
 
-        private final int portIndex;
-        private long id;
+        privbte finbl int portIndex;
+        privbte long id;
 
         // CONSTRUCTOR
-        private PortMixerPort(Port.Info info,
+        privbte PortMixerPort(Port.Info info,
                               PortMixer mixer,
                               int portIndex) {
             super(info, mixer, null);
-            if (Printer.trace) Printer.trace("PortMixerPort CONSTRUCTOR: info: " + info);
+            if (Printer.trbce) Printer.trbce("PortMixerPort CONSTRUCTOR: info: " + info);
             this.portIndex = portIndex;
         }
 
@@ -248,8 +248,8 @@ final class PortMixer extends AbstractMixer {
 
         // ABSTRACT LINE
 
-        void implOpen() throws LineUnavailableException {
-            if (Printer.trace) Printer.trace(">> PortMixerPort: implOpen().");
+        void implOpen() throws LineUnbvbilbbleException {
+            if (Printer.trbce) Printer.trbce(">> PortMixerPort: implOpen().");
             long newID = ((PortMixer) mixer).getID();
             if ((id == 0) || (newID != id) || (controls.length == 0)) {
                 id = newID;
@@ -262,245 +262,245 @@ final class PortMixer extends AbstractMixer {
                     }
                 }
             } else {
-                enableControls(controls, true);
+                enbbleControls(controls, true);
             }
-            if (Printer.trace) Printer.trace("<< PortMixerPort: implOpen() succeeded");
+            if (Printer.trbce) Printer.trbce("<< PortMixerPort: implOpen() succeeded");
         }
 
-        private void enableControls(Control[] controls, boolean enable) {
+        privbte void enbbleControls(Control[] controls, boolebn enbble) {
             for (int i = 0; i < controls.length; i++) {
-                if (controls[i] instanceof BoolCtrl) {
-                    ((BoolCtrl) controls[i]).closed = !enable;
+                if (controls[i] instbnceof BoolCtrl) {
+                    ((BoolCtrl) controls[i]).closed = !enbble;
                 }
-                else if (controls[i] instanceof FloatCtrl) {
-                    ((FloatCtrl) controls[i]).closed = !enable;
+                else if (controls[i] instbnceof FlobtCtrl) {
+                    ((FlobtCtrl) controls[i]).closed = !enbble;
                 }
-                else if (controls[i] instanceof CompoundControl) {
-                    enableControls(((CompoundControl) controls[i]).getMemberControls(), enable);
+                else if (controls[i] instbnceof CompoundControl) {
+                    enbbleControls(((CompoundControl) controls[i]).getMemberControls(), enbble);
                 }
             }
         }
 
-        private void disposeControls() {
-            enableControls(controls, false);
+        privbte void disposeControls() {
+            enbbleControls(controls, fblse);
             controls = new Control[0];
         }
 
 
         void implClose() {
-            if (Printer.trace) Printer.trace(">> PortMixerPort: implClose()");
+            if (Printer.trbce) Printer.trbce(">> PortMixerPort: implClose()");
             // get rid of controls
-            enableControls(controls, false);
-            if (Printer.trace) Printer.trace("<< PortMixerPort: implClose() succeeded");
+            enbbleControls(controls, fblse);
+            if (Printer.trbce) Printer.trbce("<< PortMixerPort: implClose() succeeded");
         }
 
         // METHOD OVERRIDES
 
-        // this is very similar to open(AudioFormat, int) in AbstractDataLine...
-        public void open() throws LineUnavailableException {
+        // this is very similbr to open(AudioFormbt, int) in AbstrbctDbtbLine...
+        public void open() throws LineUnbvbilbbleException {
             synchronized (mixer) {
-                // if the line is not currently open, try to open it with this format and buffer size
+                // if the line is not currently open, try to open it with this formbt bnd buffer size
                 if (!isOpen()) {
-                    if (Printer.trace) Printer.trace("> PortMixerPort: open");
+                    if (Printer.trbce) Printer.trbce("> PortMixerPort: open");
                     // reserve mixer resources for this line
                     mixer.open(this);
                     try {
-                        // open the line.  may throw LineUnavailableException.
+                        // open the line.  mby throw LineUnbvbilbbleException.
                         implOpen();
 
-                        // if we succeeded, set the open state to true and send events
+                        // if we succeeded, set the open stbte to true bnd send events
                         setOpen(true);
-                    } catch (LineUnavailableException e) {
-                        // release mixer resources for this line and then throw the exception
+                    } cbtch (LineUnbvbilbbleException e) {
+                        // relebse mixer resources for this line bnd then throw the exception
                         mixer.close(this);
                         throw e;
                     }
-                    if (Printer.trace) Printer.trace("< PortMixerPort: open succeeded");
+                    if (Printer.trbce) Printer.trbce("< PortMixerPort: open succeeded");
                 }
             }
         }
 
-        // this is very similar to close() in AbstractDataLine...
+        // this is very similbr to close() in AbstrbctDbtbLine...
         public void close() {
             synchronized (mixer) {
                 if (isOpen()) {
-                    if (Printer.trace) Printer.trace("> PortMixerPort.close()");
+                    if (Printer.trbce) Printer.trbce("> PortMixerPort.close()");
 
-                    // set the open state to false and send events
-                    setOpen(false);
+                    // set the open stbte to fblse bnd send events
+                    setOpen(fblse);
 
                     // close resources for this line
                     implClose();
 
-                    // release mixer resources for this line
+                    // relebse mixer resources for this line
                     mixer.close(this);
-                    if (Printer.trace) Printer.trace("< PortMixerPort.close() succeeded");
+                    if (Printer.trbce) Printer.trbce("< PortMixerPort.close() succeeded");
                 }
             }
         }
 
-    } // class PortMixerPort
+    } // clbss PortMixerPort
 
     /**
-     * Private inner class representing a BooleanControl for PortMixerPort
+     * Privbte inner clbss representing b BoolebnControl for PortMixerPort
      */
-    private static final class BoolCtrl extends BooleanControl {
-        // the handle to the native control function
-        private final long controlID;
-        private boolean closed = false;
+    privbte stbtic finbl clbss BoolCtrl extends BoolebnControl {
+        // the hbndle to the nbtive control function
+        privbte finbl long controlID;
+        privbte boolebn closed = fblse;
 
-        private static BooleanControl.Type createType(String name) {
-            if (name.equals("Mute")) {
-                return BooleanControl.Type.MUTE;
+        privbte stbtic BoolebnControl.Type crebteType(String nbme) {
+            if (nbme.equbls("Mute")) {
+                return BoolebnControl.Type.MUTE;
             }
-            else if (name.equals("Select")) {
-                // $$fb add as new static type?
-                //return BooleanControl.Type.SELECT;
+            else if (nbme.equbls("Select")) {
+                // $$fb bdd bs new stbtic type?
+                //return BoolebnControl.Type.SELECT;
             }
-            return new BCT(name);
+            return new BCT(nbme);
         }
 
 
-        private BoolCtrl(long controlID, String name) {
-            this(controlID, createType(name));
+        privbte BoolCtrl(long controlID, String nbme) {
+            this(controlID, crebteType(nbme));
         }
 
-        private BoolCtrl(long controlID, BooleanControl.Type typ) {
-            super(typ, false);
+        privbte BoolCtrl(long controlID, BoolebnControl.Type typ) {
+            super(typ, fblse);
             this.controlID = controlID;
         }
 
-        public void setValue(boolean value) {
+        public void setVblue(boolebn vblue) {
             if (!closed) {
-                nControlSetIntValue(controlID, value?1:0);
+                nControlSetIntVblue(controlID, vblue?1:0);
             }
         }
 
-        public boolean getValue() {
+        public boolebn getVblue() {
             if (!closed) {
-                // never use any cached values
-                return (nControlGetIntValue(controlID)!=0)?true:false;
+                // never use bny cbched vblues
+                return (nControlGetIntVblue(controlID)!=0)?true:fblse;
             }
             // ??
-            return false;
+            return fblse;
         }
 
         /**
-         * inner class for custom types
+         * inner clbss for custom types
          */
-        private static final class BCT extends BooleanControl.Type {
-            private BCT(String name) {
-                super(name);
+        privbte stbtic finbl clbss BCT extends BoolebnControl.Type {
+            privbte BCT(String nbme) {
+                super(nbme);
             }
         }
     }
 
     /**
-     * Private inner class representing a CompoundControl for PortMixerPort
+     * Privbte inner clbss representing b CompoundControl for PortMixerPort
      */
-    private static final class CompCtrl extends CompoundControl {
-        private CompCtrl(String name, Control[] controls) {
-            super(new CCT(name), controls);
+    privbte stbtic finbl clbss CompCtrl extends CompoundControl {
+        privbte CompCtrl(String nbme, Control[] controls) {
+            super(new CCT(nbme), controls);
         }
 
         /**
-         * inner class for custom compound control types
+         * inner clbss for custom compound control types
          */
-        private static final class CCT extends CompoundControl.Type {
-            private CCT(String name) {
-                super(name);
+        privbte stbtic finbl clbss CCT extends CompoundControl.Type {
+            privbte CCT(String nbme) {
+                super(nbme);
             }
         }
     }
 
     /**
-     * Private inner class representing a BooleanControl for PortMixerPort
+     * Privbte inner clbss representing b BoolebnControl for PortMixerPort
      */
-    private static final class FloatCtrl extends FloatControl {
-        // the handle to the native control function
-        private final long controlID;
-        private boolean closed = false;
+    privbte stbtic finbl clbss FlobtCtrl extends FlobtControl {
+        // the hbndle to the nbtive control function
+        privbte finbl long controlID;
+        privbte boolebn closed = fblse;
 
-        // predefined float control types. See also Ports.h
-        private final static FloatControl.Type[] FLOAT_CONTROL_TYPES = {
+        // predefined flobt control types. See blso Ports.h
+        privbte finbl stbtic FlobtControl.Type[] FLOAT_CONTROL_TYPES = {
             null,
-            FloatControl.Type.BALANCE,
-            FloatControl.Type.MASTER_GAIN,
-            FloatControl.Type.PAN,
-            FloatControl.Type.VOLUME
+            FlobtControl.Type.BALANCE,
+            FlobtControl.Type.MASTER_GAIN,
+            FlobtControl.Type.PAN,
+            FlobtControl.Type.VOLUME
         };
 
-        private FloatCtrl(long controlID, String name,
-                          float min, float max, float precision, String units) {
-            this(controlID, new FCT(name), min, max, precision, units);
+        privbte FlobtCtrl(long controlID, String nbme,
+                          flobt min, flobt mbx, flobt precision, String units) {
+            this(controlID, new FCT(nbme), min, mbx, precision, units);
         }
 
-        private FloatCtrl(long controlID, int type,
-                          float min, float max, float precision, String units) {
-            this(controlID, FLOAT_CONTROL_TYPES[type], min, max, precision, units);
+        privbte FlobtCtrl(long controlID, int type,
+                          flobt min, flobt mbx, flobt precision, String units) {
+            this(controlID, FLOAT_CONTROL_TYPES[type], min, mbx, precision, units);
         }
 
-        private FloatCtrl(long controlID, FloatControl.Type typ,
-                         float min, float max, float precision, String units) {
-            super(typ, min, max, precision, 1000, min, units);
+        privbte FlobtCtrl(long controlID, FlobtControl.Type typ,
+                         flobt min, flobt mbx, flobt precision, String units) {
+            super(typ, min, mbx, precision, 1000, min, units);
             this.controlID = controlID;
         }
 
-        public void setValue(float value) {
+        public void setVblue(flobt vblue) {
             if (!closed) {
-                nControlSetFloatValue(controlID, value);
+                nControlSetFlobtVblue(controlID, vblue);
             }
         }
 
-        public float getValue() {
+        public flobt getVblue() {
             if (!closed) {
-                // never use any cached values
-                return nControlGetFloatValue(controlID);
+                // never use bny cbched vblues
+                return nControlGetFlobtVblue(controlID);
             }
             // ??
             return getMinimum();
         }
 
         /**
-         * inner class for custom types
+         * inner clbss for custom types
          */
-        private static final class FCT extends FloatControl.Type {
-            private FCT(String name) {
-                super(name);
+        privbte stbtic finbl clbss FCT extends FlobtControl.Type {
+            privbte FCT(String nbme) {
+                super(nbme);
             }
         }
     }
 
     /**
-     * Private inner class representing a port info
+     * Privbte inner clbss representing b port info
      */
-    private static final class PortInfo extends Port.Info {
-        private PortInfo(String name, boolean isSource) {
-            super(Port.class, name, isSource);
+    privbte stbtic finbl clbss PortInfo extends Port.Info {
+        privbte PortInfo(String nbme, boolebn isSource) {
+            super(Port.clbss, nbme, isSource);
         }
     }
 
-    // open the mixer with the given index. Returns a handle ID
-    private static native long nOpen(int mixerIndex) throws LineUnavailableException;
-    private static native void nClose(long id);
+    // open the mixer with the given index. Returns b hbndle ID
+    privbte stbtic nbtive long nOpen(int mixerIndex) throws LineUnbvbilbbleException;
+    privbte stbtic nbtive void nClose(long id);
 
     // gets the number of ports for this mixer
-    private static native int nGetPortCount(long id);
+    privbte stbtic nbtive int nGetPortCount(long id);
 
     // gets the type of the port with this index
-    private static native int nGetPortType(long id, int portIndex);
+    privbte stbtic nbtive int nGetPortType(long id, int portIndex);
 
-    // gets the name of the port with this index
-    private static native String nGetPortName(long id, int portIndex);
+    // gets the nbme of the port with this index
+    privbte stbtic nbtive String nGetPortNbme(long id, int portIndex);
 
     // fills the vector with the controls for this port
-    @SuppressWarnings("rawtypes")
-    private static native void nGetControls(long id, int portIndex, Vector vector);
+    @SuppressWbrnings("rbwtypes")
+    privbte stbtic nbtive void nGetControls(long id, int portIndex, Vector vector);
 
     // getters/setters for controls
-    private static native void nControlSetIntValue(long controlID, int value);
-    private static native int nControlGetIntValue(long controlID);
-    private static native void nControlSetFloatValue(long controlID, float value);
-    private static native float nControlGetFloatValue(long controlID);
+    privbte stbtic nbtive void nControlSetIntVblue(long controlID, int vblue);
+    privbte stbtic nbtive int nControlGetIntVblue(long controlID);
+    privbte stbtic nbtive void nControlSetFlobtVblue(long controlID, flobt vblue);
+    privbte stbtic nbtive flobt nControlGetFlobtVblue(long controlID);
 
 }

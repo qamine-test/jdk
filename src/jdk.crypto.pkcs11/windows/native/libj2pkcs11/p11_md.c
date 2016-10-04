@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,132 +46,132 @@
  */
 
 /*
- * pkcs11wrapper.c
+ * pkcs11wrbpper.c
  * 18.05.2001
  *
- * This module contains the native functions of the Java to PKCS#11 interface
- * which are platform dependent. This includes loading a dynamic link libary,
- * retrieving the function list and unloading the dynamic link library.
+ * This module contbins the nbtive functions of the Jbvb to PKCS#11 interfbce
+ * which bre plbtform dependent. This includes lobding b dynbmic link libbry,
+ * retrieving the function list bnd unlobding the dynbmic link librbry.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
  */
 
-#include "pkcs11wrapper.h"
+#include "pkcs11wrbpper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <bssert.h>
 
 #include <windows.h>
 
 #include <jni.h>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#include "sun_security_pkcs11_wrbpper_PKCS11.h"
 
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    connect
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_connect
-    (JNIEnv *env, jobject obj, jstring jPkcs11ModulePath, jstring jGetFunctionList)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_connect
+    (JNIEnv *env, jobject obj, jstring jPkcs11ModulePbth, jstring jGetFunctionList)
 {
     HINSTANCE hModule;
     CK_C_GetFunctionList C_GetFunctionList;
     CK_RV rv;
-    ModuleData *moduleData;
-    jobject globalPKCS11ImplementationReference;
+    ModuleDbtb *moduleDbtb;
+    jobject globblPKCS11ImplementbtionReference;
     LPVOID lpMsgBuf;
-    char *exceptionMessage;
-    const char *getFunctionListStr;
+    chbr *exceptionMessbge;
+    const chbr *getFunctionListStr;
 
-    const char *libraryNameStr = (*env)->GetStringUTFChars(env, jPkcs11ModulePath, 0);
-    TRACE1("DEBUG: connect to PKCS#11 module: %s ... ", libraryNameStr);
+    const chbr *librbryNbmeStr = (*env)->GetStringUTFChbrs(env, jPkcs11ModulePbth, 0);
+    TRACE1("DEBUG: connect to PKCS#11 module: %s ... ", librbryNbmeStr);
 
 
   /*
-   * Load the PKCS #11 DLL
+   * Lobd the PKCS #11 DLL
    */
-    hModule = LoadLibrary(libraryNameStr);
+    hModule = LobdLibrbry(librbryNbmeStr);
     if (hModule == NULL) {
-        FormatMessage(
+        FormbtMessbge(
             FORMAT_MESSAGE_ALLOCATE_BUFFER |
             FORMAT_MESSAGE_FROM_SYSTEM |
             FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
-            GetLastError(),
-            0, /* Default language */
+            GetLbstError(),
+            0, /* Defbult lbngubge */
             (LPTSTR) &lpMsgBuf,
             0,
             NULL
         );
-        exceptionMessage = (char *) malloc(sizeof(char) * (strlen((LPTSTR) lpMsgBuf) + strlen(libraryNameStr) + 1));
-        strcpy(exceptionMessage, (LPTSTR) lpMsgBuf);
-        strcat(exceptionMessage, libraryNameStr);
-        throwIOException(env, (LPTSTR) exceptionMessage);
+        exceptionMessbge = (chbr *) mblloc(sizeof(chbr) * (strlen((LPTSTR) lpMsgBuf) + strlen(librbryNbmeStr) + 1));
+        strcpy(exceptionMessbge, (LPTSTR) lpMsgBuf);
+        strcbt(exceptionMessbge, librbryNbmeStr);
+        throwIOException(env, (LPTSTR) exceptionMessbge);
         /* Free the buffer. */
-        free(exceptionMessage);
-        LocalFree(lpMsgBuf);
+        free(exceptionMessbge);
+        LocblFree(lpMsgBuf);
         return;
     }
 
     /*
      * Get function pointer to C_GetFunctionList
      */
-    getFunctionListStr = (*env)->GetStringUTFChars(env, jGetFunctionList, 0);
+    getFunctionListStr = (*env)->GetStringUTFChbrs(env, jGetFunctionList, 0);
     C_GetFunctionList = (CK_C_GetFunctionList) GetProcAddress(hModule, getFunctionListStr);
-    (*env)->ReleaseStringUTFChars(env, jGetFunctionList, getFunctionListStr);
+    (*env)->RelebseStringUTFChbrs(env, jGetFunctionList, getFunctionListStr);
     if (C_GetFunctionList == NULL) {
-        FormatMessage(
+        FormbtMessbge(
             FORMAT_MESSAGE_ALLOCATE_BUFFER |
             FORMAT_MESSAGE_FROM_SYSTEM |
             FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
-            GetLastError(),
-            0, /* Default language */
+            GetLbstError(),
+            0, /* Defbult lbngubge */
             (LPTSTR) &lpMsgBuf,
             0,
             NULL
         );
         throwIOException(env, (LPTSTR) lpMsgBuf);
         /* Free the buffer. */
-        LocalFree( lpMsgBuf );
+        LocblFree( lpMsgBuf );
         return;
     }
 
     /*
-     * Get function pointers to all PKCS #11 functions
+     * Get function pointers to bll PKCS #11 functions
      */
-    moduleData = (ModuleData *) malloc(sizeof(ModuleData));
-    moduleData->hModule = hModule;
-    moduleData->applicationMutexHandler = NULL;
-    rv = (C_GetFunctionList)(&(moduleData->ckFunctionListPtr));
-    globalPKCS11ImplementationReference = (*env)->NewGlobalRef(env, obj);
-    putModuleEntry(env, globalPKCS11ImplementationReference, moduleData);
+    moduleDbtb = (ModuleDbtb *) mblloc(sizeof(ModuleDbtb));
+    moduleDbtb->hModule = hModule;
+    moduleDbtb->bpplicbtionMutexHbndler = NULL;
+    rv = (C_GetFunctionList)(&(moduleDbtb->ckFunctionListPtr));
+    globblPKCS11ImplementbtionReference = (*env)->NewGlobblRef(env, obj);
+    putModuleEntry(env, globblPKCS11ImplementbtionReference, moduleDbtb);
 
-    (*env)->ReleaseStringUTFChars(env, jPkcs11ModulePath, libraryNameStr);
+    (*env)->RelebseStringUTFChbrs(env, jPkcs11ModulePbth, librbryNbmeStr);
     TRACE0("FINISHED\n");
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if(ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    disconnect
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_disconnect
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_disconnect
     (JNIEnv *env, jobject obj)
 {
-    ModuleData *moduleData;
+    ModuleDbtb *moduleDbtb;
     TRACE0("DEBUG: disconnecting module...");
-    moduleData = removeModuleEntry(env, obj);
+    moduleDbtb = removeModuleEntry(env, obj);
 
-    if (moduleData != NULL) {
-        FreeLibrary(moduleData->hModule);
+    if (moduleDbtb != NULL) {
+        FreeLibrbry(moduleDbtb->hModule);
     }
 
-    free(moduleData);
+    free(moduleDbtb);
     TRACE0("FINISHED\n");
 }

@@ -3,32 +3,32 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content.x509;
 
-import java.security.MessageDigest;
-import java.security.cert.X509Certificate;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.cert.X509Certificbte;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.Signature11ElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.JCEMbpper;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.Signbture11ElementProxy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,55 +36,55 @@ import org.w3c.dom.Element;
 /**
  * Provides content model support for the <code>dsig11:X509Digest</code> element.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @buthor Brent Putmbn (putmbnb@georgetown.edu)
  */
-public class XMLX509Digest extends Signature11ElementProxy implements XMLX509DataContent {
+public clbss XMLX509Digest extends Signbture11ElementProxy implements XMLX509DbtbContent {
 
     /**
      * Constructor XMLX509Digest
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public XMLX509Digest(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public XMLX509Digest(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
     }
 
     /**
      * Constructor XMLX509Digest
      *
-     * @param doc
-     * @param digestBytes
-     * @param algorithmURI
+     * @pbrbm doc
+     * @pbrbm digestBytes
+     * @pbrbm blgorithmURI
      */
-    public XMLX509Digest(Document doc, byte[] digestBytes, String algorithmURI) {
+    public XMLX509Digest(Document doc, byte[] digestBytes, String blgorithmURI) {
         super(doc);
-        this.addBase64Text(digestBytes);
-        this.constructionElement.setAttributeNS(null, Constants._ATT_ALGORITHM, algorithmURI);
+        this.bddBbse64Text(digestBytes);
+        this.constructionElement.setAttributeNS(null, Constbnts._ATT_ALGORITHM, blgorithmURI);
     }
 
     /**
      * Constructor XMLX509Digest
      *
-     * @param doc
-     * @param x509certificate
-     * @param algorithmURI
+     * @pbrbm doc
+     * @pbrbm x509certificbte
+     * @pbrbm blgorithmURI
      * @throws XMLSecurityException
      */
-    public XMLX509Digest(Document doc, X509Certificate x509certificate, String algorithmURI) throws XMLSecurityException {
+    public XMLX509Digest(Document doc, X509Certificbte x509certificbte, String blgorithmURI) throws XMLSecurityException {
         super(doc);
-        this.addBase64Text(getDigestBytesFromCert(x509certificate, algorithmURI));
-        this.constructionElement.setAttributeNS(null, Constants._ATT_ALGORITHM, algorithmURI);
+        this.bddBbse64Text(getDigestBytesFromCert(x509certificbte, blgorithmURI));
+        this.constructionElement.setAttributeNS(null, Constbnts._ATT_ALGORITHM, blgorithmURI);
     }
 
     /**
      * Method getAlgorithmAttr
      *
-     * @return the Algorithm attribute
+     * @return the Algorithm bttribute
      */
     public Attr getAlgorithmAttr() {
-        return this.constructionElement.getAttributeNodeNS(null, Constants._ATT_ALGORITHM);
+        return this.constructionElement.getAttributeNodeNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
@@ -93,7 +93,7 @@ public class XMLX509Digest extends Signature11ElementProxy implements XMLX509Dat
      * @return Algorithm string
      */
     public String getAlgorithm() {
-        return this.getAlgorithmAttr().getNodeValue();
+        return this.getAlgorithmAttr().getNodeVblue();
     }
 
     /**
@@ -109,31 +109,31 @@ public class XMLX509Digest extends Signature11ElementProxy implements XMLX509Dat
     /**
      * Method getDigestBytesFromCert
      *
-     * @param cert
-     * @param algorithmURI
-     * @return digest bytes from the given certificate
+     * @pbrbm cert
+     * @pbrbm blgorithmURI
+     * @return digest bytes from the given certificbte
      *
      * @throws XMLSecurityException
      */
-    public static byte[] getDigestBytesFromCert(X509Certificate cert, String algorithmURI) throws XMLSecurityException {
-        String jcaDigestAlgorithm = JCEMapper.translateURItoJCEID(algorithmURI);
-        if (jcaDigestAlgorithm == null) {
-            Object exArgs[] = { algorithmURI };
+    public stbtic byte[] getDigestBytesFromCert(X509Certificbte cert, String blgorithmURI) throws XMLSecurityException {
+        String jcbDigestAlgorithm = JCEMbpper.trbnslbteURItoJCEID(blgorithmURI);
+        if (jcbDigestAlgorithm == null) {
+            Object exArgs[] = { blgorithmURI };
             throw new XMLSecurityException("XMLX509Digest.UnknownDigestAlgorithm", exArgs);
         }
 
         try {
-            MessageDigest md = MessageDigest.getInstance(jcaDigestAlgorithm);
+            MessbgeDigest md = MessbgeDigest.getInstbnce(jcbDigestAlgorithm);
             return md.digest(cert.getEncoded());
-        } catch (Exception e) {
-            Object exArgs[] = { jcaDigestAlgorithm };
-            throw new XMLSecurityException("XMLX509Digest.FailedDigest", exArgs);
+        } cbtch (Exception e) {
+            Object exArgs[] = { jcbDigestAlgorithm };
+            throw new XMLSecurityException("XMLX509Digest.FbiledDigest", exArgs);
         }
 
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509DIGEST;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_X509DIGEST;
     }
 }

@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.jar.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.*;
+import jbvb.util.jbr.*;
 
 /**
- * This class verifies JAR files (and any supporting JAR files), and
- * determines whether they may be used in this implementation.
+ * This clbss verifies JAR files (bnd bny supporting JAR files), bnd
+ * determines whether they mby be used in this implementbtion.
  *
- * The JCE in OpenJDK has an open cryptographic interface, meaning it
- * does not restrict which providers can be used.  Compliance with
- * United States export controls and with local law governing the
- * import/export of products incorporating the JCE in the OpenJDK is
+ * The JCE in OpenJDK hbs bn open cryptogrbphic interfbce, mebning it
+ * does not restrict which providers cbn be used.  Complibnce with
+ * United Stbtes export controls bnd with locbl lbw governing the
+ * import/export of products incorporbting the JCE in the OpenJDK is
  * the responsibility of the licensee.
  *
  * @since 1.7
  */
-final class JarVerifier {
+finbl clbss JbrVerifier {
 
-    // The URL for the JAR file we want to verify.
-    private URL jarURL;
-    private boolean savePerms;
-    private CryptoPermissions appPerms = null;
+    // The URL for the JAR file we wbnt to verify.
+    privbte URL jbrURL;
+    privbte boolebn sbvePerms;
+    privbte CryptoPermissions bppPerms = null;
 
     /**
-     * Creates a JarVerifier object to verify the given URL.
+     * Crebtes b JbrVerifier object to verify the given URL.
      *
-     * @param jarURL the JAR file to be verified.
-     * @param savePerms if true, save the permissions allowed by the
-     *          exemption mechanism
+     * @pbrbm jbrURL the JAR file to be verified.
+     * @pbrbm sbvePerms if true, sbve the permissions bllowed by the
+     *          exemption mechbnism
      */
-    JarVerifier(URL jarURL, boolean savePerms) {
-        this.jarURL = jarURL;
-        this.savePerms = savePerms;
+    JbrVerifier(URL jbrURL, boolebn sbvePerms) {
+        this.jbrURL = jbrURL;
+        this.sbvePerms = sbvePerms;
     }
 
     /**
-     * Verify the JAR file is signed by an entity which has a certificate
-     * issued by a trusted CA.
+     * Verify the JAR file is signed by bn entity which hbs b certificbte
+     * issued by b trusted CA.
      *
-     * In OpenJDK, we just need to examine the "cryptoperms" file to see
-     * if any permissions were bundled together with this jar file.
+     * In OpenJDK, we just need to exbmine the "cryptoperms" file to see
+     * if bny permissions were bundled together with this jbr file.
      */
-    void verify() throws JarException, IOException {
+    void verify() throws JbrException, IOException {
 
-        // Short-circuit.  If we weren't asked to save any, we're done.
-        if (!savePerms) {
+        // Short-circuit.  If we weren't bsked to sbve bny, we're done.
+        if (!sbvePerms) {
             return;
         }
 
-        // If the protocol of jarURL isn't "jar", we should
-        // construct a JAR URL so we can open a JarURLConnection
+        // If the protocol of jbrURL isn't "jbr", we should
+        // construct b JAR URL so we cbn open b JbrURLConnection
         // for verifying this provider.
-        final URL url = jarURL.getProtocol().equalsIgnoreCase("jar")?
-                        jarURL : new URL("jar:" + jarURL.toString() + "!/");
+        finbl URL url = jbrURL.getProtocol().equblsIgnoreCbse("jbr")?
+                        jbrURL : new URL("jbr:" + jbrURL.toString() + "!/");
 
-        JarFile jf = null;
+        JbrFile jf = null;
         try {
 
-            // Get a link to the Jarfile to search.
+            // Get b link to the Jbrfile to sebrch.
             try {
                 jf = AccessController.doPrivileged(
-                         new PrivilegedExceptionAction<JarFile>() {
-                             public JarFile run() throws Exception {
-                                 JarURLConnection conn =
-                                     (JarURLConnection) url.openConnection();
-                                 // You could do some caching here as
-                                 // an optimization.
-                                 conn.setUseCaches(false);
-                                 return conn.getJarFile();
+                         new PrivilegedExceptionAction<JbrFile>() {
+                             public JbrFile run() throws Exception {
+                                 JbrURLConnection conn =
+                                     (JbrURLConnection) url.openConnection();
+                                 // You could do some cbching here bs
+                                 // bn optimizbtion.
+                                 conn.setUseCbches(fblse);
+                                 return conn.getJbrFile();
                              }
                          });
-            } catch (java.security.PrivilegedActionException pae) {
-                throw new SecurityException("Cannot load " + url.toString(), pae);
+            } cbtch (jbvb.security.PrivilegedActionException pbe) {
+                throw new SecurityException("Cbnnot lobd " + url.toString(), pbe);
             }
 
             if (jf != null) {
-                JarEntry je = jf.getJarEntry("cryptoPerms");
+                JbrEntry je = jf.getJbrEntry("cryptoPerms");
                 if (je == null) {
-                    throw new JarException(
-                        "Can not find cryptoPerms");
+                    throw new JbrException(
+                        "Cbn not find cryptoPerms");
                 }
                 try {
-                    appPerms = new CryptoPermissions();
-                    appPerms.load(jf.getInputStream(je));
-                } catch (Exception ex) {
-                    JarException jex =
-                        new JarException("Cannot load/parse" +
-                            jarURL.toString());
-                    jex.initCause(ex);
+                    bppPerms = new CryptoPermissions();
+                    bppPerms.lobd(jf.getInputStrebm(je));
+                } cbtch (Exception ex) {
+                    JbrException jex =
+                        new JbrException("Cbnnot lobd/pbrse" +
+                            jbrURL.toString());
+                    jex.initCbuse(ex);
                     throw jex;
                 }
             }
-        } finally {
-            // Only call close() when caching is not enabled.
-            // Otherwise, exceptions will be thrown for all
-            // subsequent accesses of this cached jar.
+        } finblly {
+            // Only cbll close() when cbching is not enbbled.
+            // Otherwise, exceptions will be thrown for bll
+            // subsequent bccesses of this cbched jbr.
             if (jf != null) {
                 jf.close();
             }
@@ -129,25 +129,25 @@ final class JarVerifier {
     }
 
     /**
-     * Verify that the provided certs include the
-     * framework signing certificate.
+     * Verify thbt the provided certs include the
+     * frbmework signing certificbte.
      *
-     * @param certs the list of certs to be checked.
-     * @throws Exception if the list of certs did not contain
-     *          the framework signing certificate
+     * @pbrbm certs the list of certs to be checked.
+     * @throws Exception if the list of certs did not contbin
+     *          the frbmework signing certificbte
      */
-    static void verifyPolicySigned(java.security.cert.Certificate[] certs)
+    stbtic void verifyPolicySigned(jbvb.security.cert.Certificbte[] certs)
             throws Exception {
     }
 
     /**
-     * Returns the permissions which are bundled with the JAR file,
-     * aka the "cryptoperms" file.
+     * Returns the permissions which bre bundled with the JAR file,
+     * bkb the "cryptoperms" file.
      *
-     * NOTE: if this JarVerifier instance is constructed with "savePerms"
-     * equal to false, then this method would always return null.
+     * NOTE: if this JbrVerifier instbnce is constructed with "sbvePerms"
+     * equbl to fblse, then this method would blwbys return null.
      */
     CryptoPermissions getPermissions() {
-        return appPerms;
+        return bppPerms;
     }
 }

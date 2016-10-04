@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.DataOutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.SequenceInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.PipedInputStrebm;
+import jbvb.io.PipedOutputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.SequenceInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.SysexMessage;
-import javax.sound.midi.Track;
-import javax.sound.midi.spi.MidiFileWriter;
+import jbvbx.sound.midi.InvblidMidiDbtbException;
+import jbvbx.sound.midi.MidiEvent;
+import jbvbx.sound.midi.MetbMessbge;
+import jbvbx.sound.midi.Sequence;
+import jbvbx.sound.midi.ShortMessbge;
+import jbvbx.sound.midi.SysexMessbge;
+import jbvbx.sound.midi.Trbck;
+import jbvbx.sound.midi.spi.MidiFileWriter;
 
 
 /**
  * MIDI file writer.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
+ * @buthor Kbrb Kytle
+ * @buthor Jbn Borgersen
  */
-public final class StandardMidiFileWriter extends MidiFileWriter {
+public finbl clbss StbndbrdMidiFileWriter extends MidiFileWriter {
 
-    private static final int MThd_MAGIC = 0x4d546864;  // 'MThd'
-    private static final int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
+    privbte stbtic finbl int MThd_MAGIC = 0x4d546864;  // 'MThd'
+    privbte stbtic finbl int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
 
-    private static final int ONE_BYTE   = 1;
-    private static final int TWO_BYTE   = 2;
-    private static final int SYSEX      = 3;
-    private static final int META       = 4;
-    private static final int ERROR      = 5;
-    private static final int IGNORE     = 6;
+    privbte stbtic finbl int ONE_BYTE   = 1;
+    privbte stbtic finbl int TWO_BYTE   = 2;
+    privbte stbtic finbl int SYSEX      = 3;
+    privbte stbtic finbl int META       = 4;
+    privbte stbtic finbl int ERROR      = 5;
+    privbte stbtic finbl int IGNORE     = 6;
 
-    private static final int MIDI_TYPE_0 = 0;
-    private static final int MIDI_TYPE_1 = 1;
+    privbte stbtic finbl int MIDI_TYPE_0 = 0;
+    privbte stbtic finbl int MIDI_TYPE_1 = 1;
 
-    private static final int bufferSize = 16384;  // buffersize for write
-    private DataOutputStream tddos;               // data output stream for track writing
+    privbte stbtic finbl int bufferSize = 16384;  // buffersize for write
+    privbte DbtbOutputStrebm tddos;               // dbtb output strebm for trbck writing
 
 
 
     /**
-     * MIDI parser types
+     * MIDI pbrser types
      */
-    private static final int types[] = {
+    privbte stbtic finbl int types[] = {
         MIDI_TYPE_0,
         MIDI_TYPE_1
     };
@@ -86,70 +86,70 @@ public final class StandardMidiFileWriter extends MidiFileWriter {
      * new
      */
     public int[] getMidiFileTypes() {
-        int[] localArray = new int[types.length];
-        System.arraycopy(types, 0, localArray, 0, types.length);
-        return localArray;
+        int[] locblArrby = new int[types.length];
+        System.brrbycopy(types, 0, locblArrby, 0, types.length);
+        return locblArrby;
     }
 
     /**
-     * Obtains the file types that this provider can write from the
+     * Obtbins the file types thbt this provider cbn write from the
      * sequence specified.
-     * @param sequence the sequence for which midi file type support
+     * @pbrbm sequence the sequence for which midi file type support
      * is queried
-     * @return array of file types.  If no file types are supported,
-     * returns an array of length 0.
+     * @return brrby of file types.  If no file types bre supported,
+     * returns bn brrby of length 0.
      */
     public int[] getMidiFileTypes(Sequence sequence){
-        int typesArray[];
-        Track tracks[] = sequence.getTracks();
+        int typesArrby[];
+        Trbck trbcks[] = sequence.getTrbcks();
 
-        if( tracks.length==1 ) {
-            typesArray = new int[2];
-            typesArray[0] = MIDI_TYPE_0;
-            typesArray[1] = MIDI_TYPE_1;
+        if( trbcks.length==1 ) {
+            typesArrby = new int[2];
+            typesArrby[0] = MIDI_TYPE_0;
+            typesArrby[1] = MIDI_TYPE_1;
         } else {
-            typesArray = new int[1];
-            typesArray[0] = MIDI_TYPE_1;
+            typesArrby = new int[1];
+            typesArrby[0] = MIDI_TYPE_1;
         }
 
-        return typesArray;
+        return typesArrby;
     }
 
-    public boolean isFileTypeSupported(int type) {
+    public boolebn isFileTypeSupported(int type) {
         for(int i=0; i<types.length; i++) {
             if( type == types[i] ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public int write(Sequence in, int type, OutputStream out) throws IOException {
+    public int write(Sequence in, int type, OutputStrebm out) throws IOException {
         byte [] buffer = null;
 
-        int bytesRead = 0;
+        int bytesRebd = 0;
         long bytesWritten = 0;
 
         if( !isFileTypeSupported(type,in) ) {
-            throw new IllegalArgumentException("Could not write MIDI file");
+            throw new IllegblArgumentException("Could not write MIDI file");
         }
-        // First get the fileStream from this sequence
-        InputStream fileStream = getFileStream(type,in);
-        if (fileStream == null) {
-            throw new IllegalArgumentException("Could not write MIDI file");
+        // First get the fileStrebm from this sequence
+        InputStrebm fileStrebm = getFileStrebm(type,in);
+        if (fileStrebm == null) {
+            throw new IllegblArgumentException("Could not write MIDI file");
         }
         buffer = new byte[bufferSize];
 
-        while( (bytesRead = fileStream.read( buffer )) >= 0 ) {
-            out.write( buffer, 0, bytesRead );
-            bytesWritten += bytesRead;
+        while( (bytesRebd = fileStrebm.rebd( buffer )) >= 0 ) {
+            out.write( buffer, 0, bytesRebd );
+            bytesWritten += bytesRebd;
         }
         // Done....return bytesWritten
         return (int) bytesWritten;
     }
 
     public int write(Sequence in, int type, File out) throws IOException {
-        FileOutputStream fos = new FileOutputStream(out); // throws IOException
+        FileOutputStrebm fos = new FileOutputStrebm(out); // throws IOException
         int bytesWritten = write( in, type, fos );
         fos.close();
         return bytesWritten;
@@ -158,83 +158,83 @@ public final class StandardMidiFileWriter extends MidiFileWriter {
     //=================================================================================
 
 
-    private InputStream getFileStream(int type, Sequence sequence) throws IOException {
-        Track tracks[] = sequence.getTracks();
+    privbte InputStrebm getFileStrebm(int type, Sequence sequence) throws IOException {
+        Trbck trbcks[] = sequence.getTrbcks();
         int bytesBuilt = 0;
-        int headerLength = 14;
+        int hebderLength = 14;
         int length = 0;
-        int timeFormat;
-        float divtype;
+        int timeFormbt;
+        flobt divtype;
 
-        PipedOutputStream   hpos = null;
-        DataOutputStream    hdos = null;
-        PipedInputStream    headerStream = null;
+        PipedOutputStrebm   hpos = null;
+        DbtbOutputStrebm    hdos = null;
+        PipedInputStrebm    hebderStrebm = null;
 
-        InputStream         trackStreams [] = null;
-        InputStream         trackStream = null;
-        InputStream fStream = null;
+        InputStrebm         trbckStrebms [] = null;
+        InputStrebm         trbckStrebm = null;
+        InputStrebm fStrebm = null;
 
         // Determine the filetype to write
         if( type==MIDI_TYPE_0 ) {
-            if (tracks.length != 1) {
+            if (trbcks.length != 1) {
                 return null;
             }
         } else if( type==MIDI_TYPE_1 ) {
-            if (tracks.length < 1) { // $$jb: 05.31.99: we _can_ write TYPE_1 if tracks.length==1
+            if (trbcks.length < 1) { // $$jb: 05.31.99: we _cbn_ write TYPE_1 if trbcks.length==1
                 return null;
             }
         } else {
-            if(tracks.length==1) {
+            if(trbcks.length==1) {
                 type = MIDI_TYPE_0;
-            } else if(tracks.length>1) {
+            } else if(trbcks.length>1) {
                 type = MIDI_TYPE_1;
             } else {
                 return null;
             }
         }
 
-        // Now build the file one track at a time
-        // Note that above we made sure that MIDI_TYPE_0 only happens
-        // if tracks.length==1
+        // Now build the file one trbck bt b time
+        // Note thbt bbove we mbde sure thbt MIDI_TYPE_0 only hbppens
+        // if trbcks.length==1
 
-        trackStreams = new InputStream[tracks.length];
-        int trackCount = 0;
-        for(int i=0; i<tracks.length; i++) {
+        trbckStrebms = new InputStrebm[trbcks.length];
+        int trbckCount = 0;
+        for(int i=0; i<trbcks.length; i++) {
             try {
-                trackStreams[trackCount] = writeTrack( tracks[i], type );
-                trackCount++;
-            } catch (InvalidMidiDataException e) {
-                if(Printer.err) Printer.err("Exception in write: " + e.getMessage());
+                trbckStrebms[trbckCount] = writeTrbck( trbcks[i], type );
+                trbckCount++;
+            } cbtch (InvblidMidiDbtbException e) {
+                if(Printer.err) Printer.err("Exception in write: " + e.getMessbge());
             }
-            //bytesBuilt += trackStreams[i].getLength();
+            //bytesBuilt += trbckStrebms[i].getLength();
         }
 
-        // Now seqence the track streams
-        if( trackCount == 1 ) {
-            trackStream = trackStreams[0];
-        } else if( trackCount > 1 ){
-            trackStream = trackStreams[0];
-            for(int i=1; i<tracks.length; i++) {
-                // fix for 5048381: NullPointerException when saving a MIDI sequence
-                // don't include failed track streams
-                if (trackStreams[i] != null) {
-                    trackStream = new SequenceInputStream( trackStream, trackStreams[i]);
+        // Now seqence the trbck strebms
+        if( trbckCount == 1 ) {
+            trbckStrebm = trbckStrebms[0];
+        } else if( trbckCount > 1 ){
+            trbckStrebm = trbckStrebms[0];
+            for(int i=1; i<trbcks.length; i++) {
+                // fix for 5048381: NullPointerException when sbving b MIDI sequence
+                // don't include fbiled trbck strebms
+                if (trbckStrebms[i] != null) {
+                    trbckStrebm = new SequenceInputStrebm( trbckStrebm, trbckStrebms[i]);
                 }
             }
         } else {
-            throw new IllegalArgumentException("invalid MIDI data in sequence");
+            throw new IllegblArgumentException("invblid MIDI dbtb in sequence");
         }
 
-        // Now build the header...
-        hpos = new PipedOutputStream();
-        hdos = new DataOutputStream(hpos);
-        headerStream = new PipedInputStream(hpos);
+        // Now build the hebder...
+        hpos = new PipedOutputStrebm();
+        hdos = new DbtbOutputStrebm(hpos);
+        hebderStrebm = new PipedInputStrebm(hpos);
 
-        // Write the magic number
+        // Write the mbgic number
         hdos.writeInt( MThd_MAGIC );
 
-        // Write the header length
-        hdos.writeInt( headerLength - 8 );
+        // Write the hebder length
+        hdos.writeInt( hebderLength - 8 );
 
         // Write the filetype
         if(type==MIDI_TYPE_0) {
@@ -244,224 +244,224 @@ public final class StandardMidiFileWriter extends MidiFileWriter {
             hdos.writeShort( 1 );
         }
 
-        // Write the number of tracks
-        hdos.writeShort( (short) trackCount );
+        // Write the number of trbcks
+        hdos.writeShort( (short) trbckCount );
 
-        // Determine and write the timing format
+        // Determine bnd write the timing formbt
         divtype = sequence.getDivisionType();
         if( divtype == Sequence.PPQ ) {
-            timeFormat = sequence.getResolution();
+            timeFormbt = sequence.getResolution();
         } else if( divtype == Sequence.SMPTE_24) {
-            timeFormat = (24<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
+            timeFormbt = (24<<8) * -1;
+            timeFormbt += (sequence.getResolution() & 0xFF);
         } else if( divtype == Sequence.SMPTE_25) {
-            timeFormat = (25<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
+            timeFormbt = (25<<8) * -1;
+            timeFormbt += (sequence.getResolution() & 0xFF);
         } else if( divtype == Sequence.SMPTE_30DROP) {
-            timeFormat = (29<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
+            timeFormbt = (29<<8) * -1;
+            timeFormbt += (sequence.getResolution() & 0xFF);
         } else if( divtype == Sequence.SMPTE_30) {
-            timeFormat = (30<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
+            timeFormbt = (30<<8) * -1;
+            timeFormbt += (sequence.getResolution() & 0xFF);
         } else {
-            // $$jb: 04.08.99: What to really do here?
+            // $$jb: 04.08.99: Whbt to reblly do here?
             return null;
         }
-        hdos.writeShort( timeFormat );
+        hdos.writeShort( timeFormbt );
 
-        // now construct an InputStream to become the FileStream
-        fStream = new SequenceInputStream(headerStream, trackStream);
+        // now construct bn InputStrebm to become the FileStrebm
+        fStrebm = new SequenceInputStrebm(hebderStrebm, trbckStrebm);
         hdos.close();
 
-        length = bytesBuilt + headerLength;
-        return fStream;
+        length = bytesBuilt + hebderLength;
+        return fStrebm;
     }
 
     /**
      * Returns ONE_BYTE, TWO_BYTE, SYSEX, META,
-     * ERROR, or IGNORE (i.e. invalid for a MIDI file)
+     * ERROR, or IGNORE (i.e. invblid for b MIDI file)
      */
-    private int getType(int byteValue) {
-        if ((byteValue & 0xF0) == 0xF0) {
-            switch(byteValue) {
-            case 0xF0:
-            case 0xF7:
+    privbte int getType(int byteVblue) {
+        if ((byteVblue & 0xF0) == 0xF0) {
+            switch(byteVblue) {
+            cbse 0xF0:
+            cbse 0xF7:
                 return SYSEX;
-            case 0xFF:
+            cbse 0xFF:
                 return META;
             }
             return IGNORE;
         }
 
-        switch(byteValue & 0xF0) {
-        case 0x80:
-        case 0x90:
-        case 0xA0:
-        case 0xB0:
-        case 0xE0:
+        switch(byteVblue & 0xF0) {
+        cbse 0x80:
+        cbse 0x90:
+        cbse 0xA0:
+        cbse 0xB0:
+        cbse 0xE0:
             return TWO_BYTE;
-        case 0xC0:
-        case 0xD0:
+        cbse 0xC0:
+        cbse 0xD0:
             return ONE_BYTE;
         }
         return ERROR;
     }
 
-    private final static long mask = 0x7F;
+    privbte finbl stbtic long mbsk = 0x7F;
 
-    private int writeVarInt(long value) throws IOException {
+    privbte int writeVbrInt(long vblue) throws IOException {
         int len = 1;
-        int shift=63; // number of bitwise left-shifts of mask
-        // first screen out leading zeros
-        while ((shift > 0) && ((value & (mask << shift)) == 0)) shift-=7;
-        // then write actual values
+        int shift=63; // number of bitwise left-shifts of mbsk
+        // first screen out lebding zeros
+        while ((shift > 0) && ((vblue & (mbsk << shift)) == 0)) shift-=7;
+        // then write bctubl vblues
         while (shift > 0) {
-            tddos.writeByte((int) (((value & (mask << shift)) >> shift) | 0x80));
+            tddos.writeByte((int) (((vblue & (mbsk << shift)) >> shift) | 0x80));
             shift-=7;
             len++;
         }
-        tddos.writeByte((int) (value & mask));
+        tddos.writeByte((int) (vblue & mbsk));
         return len;
     }
 
-    private InputStream writeTrack( Track track, int type ) throws IOException, InvalidMidiDataException {
+    privbte InputStrebm writeTrbck( Trbck trbck, int type ) throws IOException, InvblidMidiDbtbException {
         int bytesWritten = 0;
-        int lastBytesWritten = 0;
-        int size = track.size();
-        PipedOutputStream thpos = new PipedOutputStream();
-        DataOutputStream  thdos = new DataOutputStream(thpos);
-        PipedInputStream  thpis = new PipedInputStream(thpos);
+        int lbstBytesWritten = 0;
+        int size = trbck.size();
+        PipedOutputStrebm thpos = new PipedOutputStrebm();
+        DbtbOutputStrebm  thdos = new DbtbOutputStrebm(thpos);
+        PipedInputStrebm  thpis = new PipedInputStrebm(thpos);
 
-        ByteArrayOutputStream tdbos = new ByteArrayOutputStream();
-        tddos = new DataOutputStream(tdbos);
-        ByteArrayInputStream tdbis = null;
+        ByteArrbyOutputStrebm tdbos = new ByteArrbyOutputStrebm();
+        tddos = new DbtbOutputStrebm(tdbos);
+        ByteArrbyInputStrebm tdbis = null;
 
-        SequenceInputStream  fStream = null;
+        SequenceInputStrebm  fStrebm = null;
 
         long currentTick = 0;
-        long deltaTick = 0;
+        long deltbTick = 0;
         long eventTick = 0;
-        int runningStatus = -1;
+        int runningStbtus = -1;
 
         // -----------------------------
-        // Write each event in the track
+        // Write ebch event in the trbck
         // -----------------------------
         for(int i=0; i<size; i++) {
-            MidiEvent event = track.get(i);
+            MidiEvent event = trbck.get(i);
 
-            int status;
+            int stbtus;
             int eventtype;
-            int metatype;
-            int data1, data2;
+            int metbtype;
+            int dbtb1, dbtb2;
             int length;
-            byte data[] = null;
-            ShortMessage shortMessage = null;
-            MetaMessage  metaMessage  = null;
-            SysexMessage sysexMessage = null;
+            byte dbtb[] = null;
+            ShortMessbge shortMessbge = null;
+            MetbMessbge  metbMessbge  = null;
+            SysexMessbge sysexMessbge = null;
 
             // get the tick
-            // $$jb: this gets easier if we change all system-wide time to delta ticks
+            // $$jb: this gets ebsier if we chbnge bll system-wide time to deltb ticks
             eventTick = event.getTick();
-            deltaTick = event.getTick() - currentTick;
+            deltbTick = event.getTick() - currentTick;
             currentTick = event.getTick();
 
-            // get the status byte
-            status = event.getMessage().getStatus();
-            eventtype = getType( status );
+            // get the stbtus byte
+            stbtus = event.getMessbge().getStbtus();
+            eventtype = getType( stbtus );
 
             switch( eventtype ) {
-            case ONE_BYTE:
-                shortMessage = (ShortMessage) event.getMessage();
-                data1 = shortMessage.getData1();
-                bytesWritten += writeVarInt( deltaTick );
+            cbse ONE_BYTE:
+                shortMessbge = (ShortMessbge) event.getMessbge();
+                dbtb1 = shortMessbge.getDbtb1();
+                bytesWritten += writeVbrInt( deltbTick );
 
-                if(status!=runningStatus) {
-                    runningStatus=status;
-                    tddos.writeByte(status);  bytesWritten += 1;
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writeByte(stbtus);  bytesWritten += 1;
                 }
-                tddos.writeByte(data1);   bytesWritten += 1;
-                break;
+                tddos.writeByte(dbtb1);   bytesWritten += 1;
+                brebk;
 
-            case TWO_BYTE:
-                shortMessage = (ShortMessage) event.getMessage();
-                data1 = shortMessage.getData1();
-                data2 = shortMessage.getData2();
+            cbse TWO_BYTE:
+                shortMessbge = (ShortMessbge) event.getMessbge();
+                dbtb1 = shortMessbge.getDbtb1();
+                dbtb2 = shortMessbge.getDbtb2();
 
-                bytesWritten += writeVarInt( deltaTick );
-                if(status!=runningStatus) {
-                    runningStatus=status;
-                    tddos.writeByte(status);  bytesWritten += 1;
+                bytesWritten += writeVbrInt( deltbTick );
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writeByte(stbtus);  bytesWritten += 1;
                 }
-                tddos.writeByte(data1);   bytesWritten += 1;
-                tddos.writeByte(data2);   bytesWritten += 1;
-                break;
+                tddos.writeByte(dbtb1);   bytesWritten += 1;
+                tddos.writeByte(dbtb2);   bytesWritten += 1;
+                brebk;
 
-            case SYSEX:
-                sysexMessage = (SysexMessage) event.getMessage();
-                length     = sysexMessage.getLength();
-                data       = sysexMessage.getMessage();
-                bytesWritten += writeVarInt( deltaTick );
+            cbse SYSEX:
+                sysexMessbge = (SysexMessbge) event.getMessbge();
+                length     = sysexMessbge.getLength();
+                dbtb       = sysexMessbge.getMessbge();
+                bytesWritten += writeVbrInt( deltbTick );
 
-                // $$jb: 04.08.99: always write status for sysex
-                runningStatus=status;
-                tddos.writeByte( data[0] ); bytesWritten += 1;
+                // $$jb: 04.08.99: blwbys write stbtus for sysex
+                runningStbtus=stbtus;
+                tddos.writeByte( dbtb[0] ); bytesWritten += 1;
 
-                // $$jb: 10.18.99: we don't maintain length in
-                // the message data for SysEx (it is not transmitted
-                // over the line), so write the calculated length
-                // minus the status byte
-                bytesWritten += writeVarInt( (data.length-1) );
+                // $$jb: 10.18.99: we don't mbintbin length in
+                // the messbge dbtb for SysEx (it is not trbnsmitted
+                // over the line), so write the cblculbted length
+                // minus the stbtus byte
+                bytesWritten += writeVbrInt( (dbtb.length-1) );
 
                 // $$jb: 10.18.99: now write the rest of the
-                // message
-                tddos.write(data, 1, (data.length-1));
-                bytesWritten += (data.length-1);
-                break;
+                // messbge
+                tddos.write(dbtb, 1, (dbtb.length-1));
+                bytesWritten += (dbtb.length-1);
+                brebk;
 
-            case META:
-                metaMessage = (MetaMessage) event.getMessage();
-                length    = metaMessage.getLength();
-                data      = metaMessage.getMessage();
-                bytesWritten += writeVarInt( deltaTick );
+            cbse META:
+                metbMessbge = (MetbMessbge) event.getMessbge();
+                length    = metbMessbge.getLength();
+                dbtb      = metbMessbge.getMessbge();
+                bytesWritten += writeVbrInt( deltbTick );
 
-                // $$jb: 10.18.99: getMessage() returns the
-                // entire valid midi message for a file,
-                // including the status byte and the var-length-int
-                // length value, so we can just write the data
-                // here.  note that we must _always_ write the
-                // status byte, regardless of runningStatus.
-                runningStatus=status;
-                tddos.write( data, 0, data.length );
-                bytesWritten += data.length;
-                break;
+                // $$jb: 10.18.99: getMessbge() returns the
+                // entire vblid midi messbge for b file,
+                // including the stbtus byte bnd the vbr-length-int
+                // length vblue, so we cbn just write the dbtb
+                // here.  note thbt we must _blwbys_ write the
+                // stbtus byte, regbrdless of runningStbtus.
+                runningStbtus=stbtus;
+                tddos.write( dbtb, 0, dbtb.length );
+                bytesWritten += dbtb.length;
+                brebk;
 
-            case IGNORE:
+            cbse IGNORE:
                 // ignore this event
-                break;
+                brebk;
 
-            case ERROR:
+            cbse ERROR:
                 // ignore this event
-                break;
+                brebk;
 
-            default:
-                throw new InvalidMidiDataException("internal file writer error");
+            defbult:
+                throw new InvblidMidiDbtbException("internbl file writer error");
             }
         }
         // ---------------------------------
-        // End write each event in the track
+        // End write ebch event in the trbck
         // ---------------------------------
 
-        // Build Track header now that we know length
+        // Build Trbck hebder now thbt we know length
         thdos.writeInt(MTrk_MAGIC);
         thdos.writeInt(bytesWritten);
         bytesWritten += 8;
 
         // Now sequence them
-        tdbis = new ByteArrayInputStream( tdbos.toByteArray() );
-        fStream = new SequenceInputStream(thpis,tdbis);
+        tdbis = new ByteArrbyInputStrebm( tdbos.toByteArrby() );
+        fStrebm = new SequenceInputStrebm(thpis,tdbis);
         thdos.close();
         tddos.close();
 
-        return fStream;
+        return fStrebm;
     }
 }

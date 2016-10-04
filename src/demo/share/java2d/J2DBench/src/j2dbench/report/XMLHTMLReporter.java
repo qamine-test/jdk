@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,147 +30,147 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /**
- * XMLHTMLReporter.java
+ * XMLHTMLReporter.jbvb
  *
- * Generates HTML reports from XML results
+ * Generbtes HTML reports from XML results
  *
- * @author Rakesh Menon
+ * @buthor Rbkesh Menon
  */
 
-package j2dbench.report;
+pbckbge j2dbench.report;
 
-import java.io.*;
-import java.util.*;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.text.DecimblFormbt;
+import jbvb.text.SimpleDbteFormbt;
 
-public class XMLHTMLReporter {
-
-    /**
-     * Flag to indicate - Generate new report or append to existing report
-     */
-    private static final int HTMLGEN_FILE_NEW = 1;
-    private static final int HTMLGEN_FILE_UPDATE = 2;
+public clbss XMLHTMLReporter {
 
     /**
-     * Path to results directory where all results are stored
+     * Flbg to indicbte - Generbte new report or bppend to existing report
      */
-    public static String resultsDir = ".";
+    privbte stbtic finbl int HTMLGEN_FILE_NEW = 1;
+    privbte stbtic finbl int HTMLGEN_FILE_UPDATE = 2;
 
     /**
-     * Holds the groups and corresponding group-display-names
+     * Pbth to results directory where bll results bre stored
      */
-    public static List groups = new ArrayList();
-    public static Map groupNames = new HashMap();
+    public stbtic String resultsDir = ".";
 
     /**
-     * Level at which tests are grouped to be displayed in summary
+     * Holds the groups bnd corresponding group-displby-nbmes
      */
-    public static int LEVEL = 2;
+    public stbtic List groups = new ArrbyList();
+    public stbtic Mbp groupNbmes = new HbshMbp();
 
     /**
-     * Color -> Better, Same, Worse
+     * Level bt which tests bre grouped to be displbyed in summbry
      */
-    private static final String[] color = {"#99FF99", "#CCFFFF", "#FFCC00"};
+    public stbtic int LEVEL = 2;
 
     /**
-     * String for holding base-build and target-build version
+     * Color -> Better, Sbme, Worse
      */
-    private static String baseBuild = "";
-    private static String targetBuild = "";
+    privbte stbtic finbl String[] color = {"#99FF99", "#CCFFFF", "#FFCC00"};
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.##");
-    private static final SimpleDateFormat dateFormat =
-        new SimpleDateFormat("EEE, MMM d, yyyy G 'at' HH:mm:ss z");
+    /**
+     * String for holding bbse-build bnd tbrget-build version
+     */
+    privbte stbtic String bbseBuild = "";
+    privbte stbtic String tbrgetBuild = "";
 
-    public static void setGroupLevel(int level) {
+    privbte stbtic finbl DecimblFormbt decimblFormbt =
+        new DecimblFormbt("0.##");
+    privbte stbtic finbl SimpleDbteFormbt dbteFormbt =
+        new SimpleDbteFormbt("EEE, MMM d, yyyy G 'bt' HH:mm:ss z");
+
+    public stbtic void setGroupLevel(int level) {
         XMLHTMLReporter.LEVEL = level;
     }
 
     /**
      * Add Test Group to the list
      */
-    private static void addGroup(String testName) {
+    privbte stbtic void bddGroup(String testNbme) {
 
-        String testNameSplit[] = testName.replace('.', '_').split("_");
-        String group = testNameSplit[0];
+        String testNbmeSplit[] = testNbme.replbce('.', '_').split("_");
+        String group = testNbmeSplit[0];
         for(int i=1; i<LEVEL; i++) {
-            group = group + "." + testNameSplit[i];
+            group = group + "." + testNbmeSplit[i];
         }
 
-        if( ! groups.contains(group)) {
-            groups.add(group);
-            groupNames.put(group, getDisplayGroupName(group));
+        if( ! groups.contbins(group)) {
+            groups.bdd(group);
+            groupNbmes.put(group, getDisplbyGroupNbme(group));
         }
     }
 
     /**
-     * Generate a Display Name for this group
+     * Generbte b Displby Nbme for this group
      */
-    private static String getDisplayGroupName(String group) {
+    privbte stbtic String getDisplbyGroupNbme(String group) {
 
-        String groupSplit[] = group.replace('.', '_').split("_");
+        String groupSplit[] = group.replbce('.', '_').split("_");
 
-        StringBuffer groupName = new StringBuffer();
-        String tempName = null;
+        StringBuffer groupNbme = new StringBuffer();
+        String tempNbme = null;
 
         for(int i=0; i<groupSplit.length; i++) {
-            tempName = groupSplit[i].substring(0, 1).toUpperCase() +
+            tempNbme = groupSplit[i].substring(0, 1).toUpperCbse() +
                 groupSplit[i].substring(1);
             if(i == 0) {
-                groupName.append(tempName);
+                groupNbme.bppend(tempNbme);
             } else {
-                groupName.append(" " + tempName);
+                groupNbme.bppend(" " + tempNbme);
             }
         }
 
-        return groupName.toString();
+        return groupNbme.toString();
     }
 
     /**
-     * Get the group to which this testcase belongs
+     * Get the group to which this testcbse belongs
      */
-    private static String getGroup(String testName) {
+    privbte stbtic String getGroup(String testNbme) {
 
-        String testNameSplit[] = testName.replace('.', '_').split("_");
-        String group = testNameSplit[0];
+        String testNbmeSplit[] = testNbme.replbce('.', '_').split("_");
+        String group = testNbmeSplit[0];
         for(int i=1; i<LEVEL; i++) {
-            group = group + "." + testNameSplit[i];
+            group = group + "." + testNbmeSplit[i];
         }
 
         return group;
     }
 
     /**
-     * Opens a File and returns a PrintWriter instance based on new/update
-     * option specified in argument.
+     * Opens b File bnd returns b PrintWriter instbnce bbsed on new/updbte
+     * option specified in brgument.
      */
-    private static PrintWriter openFile(String name, int nSwitch) {
+    privbte stbtic PrintWriter openFile(String nbme, int nSwitch) {
 
-        FileOutputStream file = null;
-        OutputStreamWriter writer = null;
+        FileOutputStrebm file = null;
+        OutputStrebmWriter writer = null;
 
         try {
             switch (nSwitch) {
-                case 1: // HTMLGEN_FILE_NEW
-                    file = new FileOutputStream(name, false);
-                    break;
-                case 2: // HTMLGEN_FILE_UPDATE
-                    file = new FileOutputStream(name, true);
-                    break;
+                cbse 1: // HTMLGEN_FILE_NEW
+                    file = new FileOutputStrebm(nbme, fblse);
+                    brebk;
+                cbse 2: // HTMLGEN_FILE_UPDATE
+                    file = new FileOutputStrebm(nbme, true);
+                    brebk;
             }
-            writer = new OutputStreamWriter(file);
-        } catch (IOException ee) {
+            writer = new OutputStrebmWriter(file);
+        } cbtch (IOException ee) {
             System.out.println("Error opening file: " + ee);
             System.exit(1);
         }
@@ -179,10 +179,10 @@ public class XMLHTMLReporter {
     }
 
     /**
-     * Generate an HTML report based on the XML results file passed -
+     * Generbte bn HTML report bbsed on the XML results file pbssed -
      * J2DBench_Results.html
      */
-    public static void generateReport(String resultsDir, String xmlFileName) {
+    public stbtic void generbteReport(String resultsDir, String xmlFileNbme) {
 
         try {
 
@@ -191,108 +191,108 @@ public class XMLHTMLReporter {
             String[] tempstr2 = new String[2];
             String[] tempstr = new String[2];
 
-            J2DAnalyzer.readResults(xmlFileName);
-            J2DAnalyzer.SingleResultSetHolder srsh =
-                (J2DAnalyzer.SingleResultSetHolder)
-                J2DAnalyzer.results.elementAt(0);
-            Enumeration enum_ = srsh.getKeyEnumeration();
+            J2DAnblyzer.rebdResults(xmlFileNbme);
+            J2DAnblyzer.SingleResultSetHolder srsh =
+                (J2DAnblyzer.SingleResultSetHolder)
+                J2DAnblyzer.results.elementAt(0);
+            Enumerbtion enum_ = srsh.getKeyEnumerbtion();
             Vector keyvector = new Vector();
-            while (enum_.hasMoreElements()) {
-                keyvector.add(enum_.nextElement());
+            while (enum_.hbsMoreElements()) {
+                keyvector.bdd(enum_.nextElement());
             }
             String keys[] = new String[keyvector.size()];
             keyvector.copyInto(keys);
-            J2DAnalyzer.sort(keys);
+            J2DAnblyzer.sort(keys);
 
             File reportFile = new File(resultsDir, "J2DBench_Results.html");
             PrintWriter writer =
-                openFile(reportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+                openFile(reportFile.getAbsolutePbth(), HTMLGEN_FILE_NEW);
 
             writer.println("<html><body bgcolor=\"#ffffff\"><hr size=\"1\">");
             writer.println("<center><h2>J2DBench2 - Report</h2>");
             writer.println("</center><hr size=\"1\"><br>");
-            writer.println("<table cols=\"2\" cellspacing=\"2\" " +
-                           "cellpadding=\"5\" " +
+            writer.println("<tbble cols=\"2\" cellspbcing=\"2\" " +
+                           "cellpbdding=\"5\" " +
                            "border=\"0\" width=\"80%\">");
-            writer.println("<tr><td bgcolor=\"#CCCCFF\" colspan=\"2\">" +
-                           "<b>Build Details</b></td></tr>");
+            writer.println("<tr><td bgcolor=\"#CCCCFF\" colspbn=\"2\">" +
+                           "<b>Build Detbils</b></td></tr>");
             writer.println("<tr>");
             writer.println("<td bgcolor=\"#f0f0f0\">Description</td>");
             writer.println("<td>" + srsh.getDescription() + "</td>");
             writer.println("</tr>");
-            writer.println("<tr><td bgcolor=\"#f0f0f0\">From Date</td>");
+            writer.println("<tr><td bgcolor=\"#f0f0f0\">From Dbte</td>");
             writer.println("<td>" +
-                           dateFormat.format(new Date(srsh.getStartTime())) +
+                           dbteFormbt.formbt(new Dbte(srsh.getStbrtTime())) +
                            "</td></tr>");
-            writer.println("<tr><td bgcolor=\"#f0f0f0\">To Date</td>");
+            writer.println("<tr><td bgcolor=\"#f0f0f0\">To Dbte</td>");
             writer.println("<td>" +
-                           dateFormat.format(new Date(srsh.getEndTime())) +
+                           dbteFormbt.formbt(new Dbte(srsh.getEndTime())) +
                            "</td></tr>");
             writer.flush();
 
             //System Properties
             writer.println("<tr><td bgcolor=\"#CCCCFF\"><b>System Property</b>"+
                            "</td><td bgcolor=\"#CCCCFF\">" +
-                           "<b>Value</b></td></tr>");
+                           "<b>Vblue</b></td></tr>");
             String key = null;
-            String value = null;
-            Map sysProps = srsh.getProperties();
-            Iterator iter = sysProps.keySet().iterator();
-            while(iter.hasNext()) {
+            String vblue = null;
+            Mbp sysProps = srsh.getProperties();
+            Iterbtor iter = sysProps.keySet().iterbtor();
+            while(iter.hbsNext()) {
                 key = iter.next().toString();
-                value = sysProps.get(key).toString();
+                vblue = sysProps.get(key).toString();
                 writer.println("<tr><td bgcolor=\"#f0f0f0\">" +
-                               key + "</td><td>" + value + "&nbsp;</td></tr>");
+                               key + "</td><td>" + vblue + "&nbsp;</td></tr>");
             }
             writer.flush();
 
-            writer.println("</table>");
+            writer.println("</tbble>");
             writer.println("<br>");
             writer.println("<hr size=\"1\">");
             writer.println("<br>");
 
-            writer.println("<table cellspacing=\"0\" " +
-                           "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+            writer.println("<tbble cellspbcing=\"0\" " +
+                           "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
             writer.println("<tr>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Num Reps</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Num Units</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Name</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
+                           "<b>Nbme</b></td>");
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Options</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Score</b></td>");
             writer.println("</tr>");
             writer.flush();
 
             for (int k = 0; k < keys.length; k++) {
 
-                J2DAnalyzer.ResultHolder testResult =
+                J2DAnblyzer.ResultHolder testResult =
                     srsh.getResultByKey(keys[k]);
 
                 writer.println("<tr>");
                 writer.println("<td>" + testResult.getReps() + "</td>");
                 writer.println("<td>" + testResult.getUnits() + "</td>");
-                writer.println("<td>" + testResult.getName() + "</td>");
-                writer.println("<td valign=\"center\"><ul>");
-                Map map = testResult.getOptions();
-                iter = map.keySet().iterator();
-                while(iter.hasNext()) {
+                writer.println("<td>" + testResult.getNbme() + "</td>");
+                writer.println("<td vblign=\"center\"><ul>");
+                Mbp mbp = testResult.getOptions();
+                iter = mbp.keySet().iterbtor();
+                while(iter.hbsNext()) {
                     key = iter.next().toString();
-                    value = map.get(key).toString();
-                    writer.println("<li>" + key + " = " + value + "</li>");
+                    vblue = mbp.get(key).toString();
+                    writer.println("<li>" + key + " = " + vblue + "</li>");
                 }
                 writer.println("</ul></td>");
-                writer.println("<td valign=\"center\">" +
-                               decimalFormat.format(testResult.getScore()) +
+                writer.println("<td vblign=\"center\">" +
+                               decimblFormbt.formbt(testResult.getScore()) +
                                "</td>");
                 writer.println("</tr>");
             }
             writer.flush();
 
-            writer.println("</table>");
+            writer.println("</tbble>");
 
             writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
             writer.println("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
@@ -300,397 +300,397 @@ public class XMLHTMLReporter {
             writer.flush();
             writer.close();
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        cbtch(Exception e) {
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Generate the reports from the base & target result XML
+     * Generbte the reports from the bbse & tbrget result XML
      */
-    public static void generateComparisonReport(String resultsDir,
-                                                String baseXMLFileName,
-                                                String targetXMLFileName) {
+    public stbtic void generbteCompbrisonReport(String resultsDir,
+                                                String bbseXMLFileNbme,
+                                                String tbrgetXMLFileNbme) {
 
         XMLHTMLReporter.resultsDir = resultsDir;
 
-        //Get Base XML File ResultSetHolder
-        J2DAnalyzer.readResults(baseXMLFileName);
-        J2DAnalyzer.SingleResultSetHolder baseSRSH =
-            (J2DAnalyzer.SingleResultSetHolder) J2DAnalyzer.results.elementAt(0);
-        Enumeration baseEnum_ = baseSRSH.getKeyEnumeration();
-        Vector baseKeyvector = new Vector();
-        while (baseEnum_.hasMoreElements()) {
-            baseKeyvector.add(baseEnum_.nextElement());
+        //Get Bbse XML File ResultSetHolder
+        J2DAnblyzer.rebdResults(bbseXMLFileNbme);
+        J2DAnblyzer.SingleResultSetHolder bbseSRSH =
+            (J2DAnblyzer.SingleResultSetHolder) J2DAnblyzer.results.elementAt(0);
+        Enumerbtion bbseEnum_ = bbseSRSH.getKeyEnumerbtion();
+        Vector bbseKeyvector = new Vector();
+        while (bbseEnum_.hbsMoreElements()) {
+            bbseKeyvector.bdd(bbseEnum_.nextElement());
         }
-        String baseKeys[] = new String[baseKeyvector.size()];
-        baseKeyvector.copyInto(baseKeys);
-        J2DAnalyzer.sort(baseKeys);
+        String bbseKeys[] = new String[bbseKeyvector.size()];
+        bbseKeyvector.copyInto(bbseKeys);
+        J2DAnblyzer.sort(bbseKeys);
 
-        //Get Target XML File ResultSetHolder
-        J2DAnalyzer.readResults(targetXMLFileName);
-        J2DAnalyzer.SingleResultSetHolder targetSRSH =
-            (J2DAnalyzer.SingleResultSetHolder)
-                J2DAnalyzer.results.elementAt(1);
-        Enumeration targetEnum_ = baseSRSH.getKeyEnumeration();
-        Vector targetKeyvector = new Vector();
-        while (targetEnum_.hasMoreElements()) {
-            targetKeyvector.add(targetEnum_.nextElement());
+        //Get Tbrget XML File ResultSetHolder
+        J2DAnblyzer.rebdResults(tbrgetXMLFileNbme);
+        J2DAnblyzer.SingleResultSetHolder tbrgetSRSH =
+            (J2DAnblyzer.SingleResultSetHolder)
+                J2DAnblyzer.results.elementAt(1);
+        Enumerbtion tbrgetEnum_ = bbseSRSH.getKeyEnumerbtion();
+        Vector tbrgetKeyvector = new Vector();
+        while (tbrgetEnum_.hbsMoreElements()) {
+            tbrgetKeyvector.bdd(tbrgetEnum_.nextElement());
         }
-        String targetKeys[] = new String[targetKeyvector.size()];
-        targetKeyvector.copyInto(targetKeys);
-        J2DAnalyzer.sort(targetKeys);
+        String tbrgetKeys[] = new String[tbrgetKeyvector.size()];
+        tbrgetKeyvector.copyInto(tbrgetKeys);
+        J2DAnblyzer.sort(tbrgetKeys);
 
-        baseBuild = (String)baseSRSH.getProperties().get("java.vm.version");
-        targetBuild = (String)targetSRSH.getProperties().get("java.vm.version");
-        generateSysPropsReport(targetSRSH);
+        bbseBuild = (String)bbseSRSH.getProperties().get("jbvb.vm.version");
+        tbrgetBuild = (String)tbrgetSRSH.getProperties().get("jbvb.vm.version");
+        generbteSysPropsReport(tbrgetSRSH);
 
         File reportFile = new File(resultsDir, "J2DBench_Complete_Report.html");
-        PrintWriter writer = openFile(reportFile.getAbsolutePath(),
+        PrintWriter writer = openFile(reportFile.getAbsolutePbth(),
                                       HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
+        String hebder = getHebder(bbseSRSH, tbrgetSRSH,
                                   "J2DBench - Complete Report",
                                   "System_Properties.html");
-        writer.println(header);
+        writer.println(hebder);
         writer.flush();
 
-        StringBuffer startTags = new StringBuffer();
-        startTags.append("<tr>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        StringBuffer stbrtTbgs = new StringBuffer();
+        stbrtTbgs.bppend("<tr>");
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                          "<b>Num Reps</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                          "<b>Num Units</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>Name</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
+                         "<b>Nbme</b></td>");
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                          "<b>Options</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                         "<b>" + baseBuild + " Score</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                         targetBuild + " Score</b></td>");
-        startTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
+                         "<b>" + bbseBuild + " Score</b></td>");
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\"><b>" +
+                         tbrgetBuild + " Score</b></td>");
+        stbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                          "<b>% Speedup</b></td>");
-        startTags.append("</tr>");
+        stbrtTbgs.bppend("</tr>");
 
-        StringBuffer worseResultTags = new StringBuffer(startTags.toString());
-        StringBuffer sameResultTags = new StringBuffer(startTags.toString());
-        StringBuffer betterResultTags = new StringBuffer(startTags.toString());
+        StringBuffer worseResultTbgs = new StringBuffer(stbrtTbgs.toString());
+        StringBuffer sbmeResultTbgs = new StringBuffer(stbrtTbgs.toString());
+        StringBuffer betterResultTbgs = new StringBuffer(stbrtTbgs.toString());
 
-        Map consolBaseRes = new HashMap();
-        Map consolTargetResult = new HashMap();
+        Mbp consolBbseRes = new HbshMbp();
+        Mbp consolTbrgetResult = new HbshMbp();
 
-        Map testCaseBaseResult = new HashMap();
-        Map testCaseResultCount = new HashMap();
-        Map testCaseTargetResult = new HashMap();
+        Mbp testCbseBbseResult = new HbshMbp();
+        Mbp testCbseResultCount = new HbshMbp();
+        Mbp testCbseTbrgetResult = new HbshMbp();
 
-        for (int k = 0; k < targetKeys.length; k++) {
+        for (int k = 0; k < tbrgetKeys.length; k++) {
 
-            J2DAnalyzer.ResultHolder baseTCR =
-                baseSRSH.getResultByKey(targetKeys[k]);
-            J2DAnalyzer.ResultHolder targetTCR =
-                targetSRSH.getResultByKey(targetKeys[k]);
+            J2DAnblyzer.ResultHolder bbseTCR =
+                bbseSRSH.getResultByKey(tbrgetKeys[k]);
+            J2DAnblyzer.ResultHolder tbrgetTCR =
+                tbrgetSRSH.getResultByKey(tbrgetKeys[k]);
 
-            Object curTestCountObj = testCaseResultCount.get(baseTCR.getName());
+            Object curTestCountObj = testCbseResultCount.get(bbseTCR.getNbme());
             int curTestCount = 0;
             if(curTestCountObj != null) {
-                curTestCount = ((Integer) curTestCountObj).intValue();
+                curTestCount = ((Integer) curTestCountObj).intVblue();
             }
             curTestCount++;
-            testCaseBaseResult.put(baseTCR.getName() + "_" +
-                                   (curTestCount - 1), baseTCR);
-            testCaseTargetResult.put(targetTCR.getName() + "_" +
-                                     (curTestCount - 1), targetTCR);
-            testCaseResultCount.put(baseTCR.getName(),
+            testCbseBbseResult.put(bbseTCR.getNbme() + "_" +
+                                   (curTestCount - 1), bbseTCR);
+            testCbseTbrgetResult.put(tbrgetTCR.getNbme() + "_" +
+                                     (curTestCount - 1), tbrgetTCR);
+            testCbseResultCount.put(bbseTCR.getNbme(),
                                     new Integer(curTestCount));
 
             /******************************************************************
              * Add the Test to Group List
              ******************************************************************/
-            addGroup(baseTCR.getName());
+            bddGroup(bbseTCR.getNbme());
 
-            double baseScore = baseTCR.getScore();
-            double targetScore = targetTCR.getScore();
+            double bbseScore = bbseTCR.getScore();
+            double tbrgetScore = tbrgetTCR.getScore();
 
-            int selColorIndex = selectColor(baseScore, targetScore);
+            int selColorIndex = selectColor(bbseScore, tbrgetScore);
 
-            StringBuffer tagBuffer = new StringBuffer();
+            StringBuffer tbgBuffer = new StringBuffer();
 
-            tagBuffer.append("<tr bgcolor=\""+ color[selColorIndex] + "\">");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getScore() +
+            tbgBuffer.bppend("<tr bgcolor=\""+ color[selColorIndex] + "\">");
+            tbgBuffer.bppend("<td blign=\"center\">" + bbseTCR.getScore() +
                              "</td>");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getUnits() +
+            tbgBuffer.bppend("<td blign=\"center\">" + bbseTCR.getUnits() +
                              "</td>");
-            tagBuffer.append("<td align=\"center\">" + baseTCR.getName() +
+            tbgBuffer.bppend("<td blign=\"center\">" + bbseTCR.getNbme() +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\"><ul>");
-            Map map = baseTCR.getOptions();
-            Iterator iter = map.keySet().iterator();
-            while(iter.hasNext()) {
+            tbgBuffer.bppend("<td vblign=\"center\"><ul>");
+            Mbp mbp = bbseTCR.getOptions();
+            Iterbtor iter = mbp.keySet().iterbtor();
+            while(iter.hbsNext()) {
                 Object key = iter.next().toString();
-                Object value = map.get(key).toString();
-                tagBuffer.append("<li>" + key + " = " + value + "</li>");
+                Object vblue = mbp.get(key).toString();
+                tbgBuffer.bppend("<li>" + key + " = " + vblue + "</li>");
             }
-            tagBuffer.append("</ul></td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(baseTCR.getScore()) +
+            tbgBuffer.bppend("</ul></td>");
+            tbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                             decimblFormbt.formbt(bbseTCR.getScore()) +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(targetTCR.getScore()) +
+            tbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                             decimblFormbt.formbt(tbrgetTCR.getScore()) +
                              "</td>");
-            tagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                             decimalFormat.format(
-                                 calculateSpeedupPercentage(
-                                     baseTCR.getScore(),
-                                     targetTCR.getScore())) + "</td>");
-            tagBuffer.append("</tr>");
+            tbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                             decimblFormbt.formbt(
+                                 cblculbteSpeedupPercentbge(
+                                     bbseTCR.getScore(),
+                                     tbrgetTCR.getScore())) + "</td>");
+            tbgBuffer.bppend("</tr>");
 
             switch(selColorIndex) {
-                case 0:
-                    betterResultTags.append(tagBuffer.toString());
-                    break;
-                case 1:
-                    sameResultTags.append(tagBuffer.toString());
-                    break;
-                case 2:
-                    worseResultTags.append(tagBuffer.toString());
-                    break;
+                cbse 0:
+                    betterResultTbgs.bppend(tbgBuffer.toString());
+                    brebk;
+                cbse 1:
+                    sbmeResultTbgs.bppend(tbgBuffer.toString());
+                    brebk;
+                cbse 2:
+                    worseResultTbgs.bppend(tbgBuffer.toString());
+                    brebk;
             }
 
-            Object curTotalScoreObj = consolBaseRes.get(baseTCR.getName());
-            double curTotalScore = 0;
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            Object curTotblScoreObj = consolBbseRes.get(bbseTCR.getNbme());
+            double curTotblScore = 0;
+            if(curTotblScoreObj != null) {
+                curTotblScore = ((Double) curTotblScoreObj).doubleVblue();
             }
-            curTotalScore = curTotalScore + baseTCR.getScore();
-            consolBaseRes.put(baseTCR.getName(), new Double(curTotalScore));
+            curTotblScore = curTotblScore + bbseTCR.getScore();
+            consolBbseRes.put(bbseTCR.getNbme(), new Double(curTotblScore));
 
-            curTotalScoreObj = consolTargetResult.get(targetTCR.getName());
-            curTotalScore = 0;
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            curTotblScoreObj = consolTbrgetResult.get(tbrgetTCR.getNbme());
+            curTotblScore = 0;
+            if(curTotblScoreObj != null) {
+                curTotblScore = ((Double) curTotblScoreObj).doubleVblue();
             }
-            curTotalScore = curTotalScore + targetTCR.getScore();
-            consolTargetResult.put(targetTCR.getName(),
-                                   new Double(curTotalScore));
+            curTotblScore = curTotblScore + tbrgetTCR.getScore();
+            consolTbrgetResult.put(tbrgetTCR.getNbme(),
+                                   new Double(curTotblScore));
         }
 
         writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
         writer.println("<A NAME=\"results\"></A><H3>Results:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                         "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writer.println("<tbble cellspbcing=\"0\" " +
+                         "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
 
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
-                       "<font size=\"+1\">Tests which run BETTER on target" +
+        writer.println("<tr><td colspbn=\"7\" bgcolor=\"#f0f0f0\">" +
+                       "<font size=\"+1\">Tests which run BETTER on tbrget" +
                        "</font></td></tr>");
-        writer.println(betterResultTags.toString());
+        writer.println(betterResultTbgs.toString());
         writer.flush();
 
-        writer.println("<tr><td colspan=\"7\">&nbsp;<br>&nbsp;</td></tr>");
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
+        writer.println("<tr><td colspbn=\"7\">&nbsp;<br>&nbsp;</td></tr>");
+        writer.println("<tr><td colspbn=\"7\" bgcolor=\"#f0f0f0\">" +
                        "<font size=\"+1\">Tests which run " +
-                       "SAME on target</font></td></tr>");
-        writer.println(sameResultTags.toString());
+                       "SAME on tbrget</font></td></tr>");
+        writer.println(sbmeResultTbgs.toString());
         writer.flush();
 
-        writer.println("<tr><td colspan=\"7\">&nbsp;<br>&nbsp;</td></tr>");
-        writer.println("<tr><td colspan=\"7\" bgcolor=\"#f0f0f0\">" +
-                       "<font size=\"+1\">Tests which run WORSE on target" +
+        writer.println("<tr><td colspbn=\"7\">&nbsp;<br>&nbsp;</td></tr>");
+        writer.println("<tr><td colspbn=\"7\" bgcolor=\"#f0f0f0\">" +
+                       "<font size=\"+1\">Tests which run WORSE on tbrget" +
                        "</font></td></tr>");
-        writer.println(worseResultTags.toString());
+        writer.println(worseResultTbgs.toString());
         writer.flush();
 
-        writer.println("</table>");
+        writer.println("</tbble>");
 
         writer.println(getFooter());
         writer.flush();
 
         writer.close();
 
-        generateTestCaseSummaryReport(baseSRSH, targetSRSH,
-                                      consolBaseRes, consolTargetResult,
-                                      testCaseBaseResult,
-                                      testCaseResultCount,
-                                      testCaseTargetResult);
+        generbteTestCbseSummbryReport(bbseSRSH, tbrgetSRSH,
+                                      consolBbseRes, consolTbrgetResult,
+                                      testCbseBbseResult,
+                                      testCbseResultCount,
+                                      testCbseTbrgetResult);
 
-        generateGroupSummaryReport(baseSRSH, targetSRSH,
-                                   consolBaseRes, consolTargetResult,
-                                   testCaseBaseResult,
-                                   testCaseResultCount, testCaseTargetResult);
+        generbteGroupSummbryReport(bbseSRSH, tbrgetSRSH,
+                                   consolBbseRes, consolTbrgetResult,
+                                   testCbseBbseResult,
+                                   testCbseResultCount, testCbseTbrgetResult);
     }
 
     /**
-     * Generate Group-Summary report - Summary_Report.html
+     * Generbte Group-Summbry report - Summbry_Report.html
      */
-    private static void generateGroupSummaryReport(
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map consolBaseResult,
-        Map consolTargetResult,
-        Map testCaseBaseResult,
-        Map testCaseResultCount,
-        Map testCaseTargetResult) {
+    privbte stbtic void generbteGroupSummbryReport(
+        J2DAnblyzer.SingleResultSetHolder bbseSRSH,
+        J2DAnblyzer.SingleResultSetHolder tbrgetSRSH,
+        Mbp consolBbseResult,
+        Mbp consolTbrgetResult,
+        Mbp testCbseBbseResult,
+        Mbp testCbseResultCount,
+        Mbp testCbseTbrgetResult) {
 
-        File groupSummaryReportFile =
-            new File(resultsDir, "Summary_Report.html");
+        File groupSummbryReportFile =
+            new File(resultsDir, "Summbry_Report.html");
         PrintWriter writer =
-            openFile(groupSummaryReportFile.getAbsolutePath(),
+            openFile(groupSummbryReportFile.getAbsolutePbth(),
                      HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - Summary Report",
+        String hebder = getHebder(bbseSRSH, tbrgetSRSH,
+                                  "J2DBench - Summbry Report",
                                   "System_Properties.html");
-        writer.println(header);
+        writer.println(hebder);
         writer.flush();
 
         writer.println("<br><hr size=\"1\">");
 
-        Map baseValuesMap = new HashMap();
-        Map targetValuesMap = new HashMap();
+        Mbp bbseVbluesMbp = new HbshMbp();
+        Mbp tbrgetVbluesMbp = new HbshMbp();
 
         String tempGroup = null;
         for(int i=0; i<groups.size(); i++) {
             tempGroup = groups.get(i).toString();
-            baseValuesMap.put(tempGroup, new Double(0));
-            targetValuesMap.put(tempGroup, new Double(0));
+            bbseVbluesMbp.put(tempGroup, new Double(0));
+            tbrgetVbluesMbp.put(tempGroup, new Double(0));
         }
 
 
         Object key = null;
-        double baseValue = 0, targetValue = 0;
-        Iterator resultsIter = consolBaseResult.keySet().iterator();
+        double bbseVblue = 0, tbrgetVblue = 0;
+        Iterbtor resultsIter = consolBbseResult.keySet().iterbtor();
 
-        while(resultsIter.hasNext()) {
+        while(resultsIter.hbsNext()) {
 
             key = resultsIter.next();
 
-            baseValue = ((Double) consolBaseResult.get(key)).doubleValue();
-            targetValue = ((Double) consolTargetResult.get(key)).doubleValue();
+            bbseVblue = ((Double) consolBbseResult.get(key)).doubleVblue();
+            tbrgetVblue = ((Double) consolTbrgetResult.get(key)).doubleVblue();
 
             tempGroup = getGroup(key.toString());
 
-            Object curTotalScoreObj = null;
-            double curTotalScore = 0;
+            Object curTotblScoreObj = null;
+            double curTotblScore = 0;
 
-            curTotalScoreObj = baseValuesMap.get(tempGroup);
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            curTotblScoreObj = bbseVbluesMbp.get(tempGroup);
+            if(curTotblScoreObj != null) {
+                curTotblScore = ((Double) curTotblScoreObj).doubleVblue();
             }
-            curTotalScore = curTotalScore + baseValue;
-            baseValuesMap.put(tempGroup, new Double(curTotalScore));
+            curTotblScore = curTotblScore + bbseVblue;
+            bbseVbluesMbp.put(tempGroup, new Double(curTotblScore));
 
-            curTotalScore = 0;
-            curTotalScoreObj = targetValuesMap.get(tempGroup);
-            if(curTotalScoreObj != null) {
-                curTotalScore = ((Double) curTotalScoreObj).doubleValue();
+            curTotblScore = 0;
+            curTotblScoreObj = tbrgetVbluesMbp.get(tempGroup);
+            if(curTotblScoreObj != null) {
+                curTotblScore = ((Double) curTotblScoreObj).doubleVblue();
             }
-            curTotalScore = curTotalScore + targetValue;
-            targetValuesMap.put(tempGroup, new Double(curTotalScore));
+            curTotblScore = curTotblScore + tbrgetVblue;
+            tbrgetVbluesMbp.put(tempGroup, new Double(curTotblScore));
         }
 
-        writer.println("<A NAME=\"results_summary\"></A>" +
-                       "<H3>Results Summary:</H3>");
-        writer.println("<table cols=\"4\" cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writer.println("<A NAME=\"results_summbry\"></A>" +
+                       "<H3>Results Summbry:</H3>");
+        writer.println("<tbble cols=\"4\" cellspbcing=\"0\" " +
+                       "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
         writer.println("<TR BGCOLOR=\"#CCCCFF\">");
-        writer.println("<TD><B>Testcase</B></TD>");
-        writer.println("<TD align=\"center\"><B>Score for " + baseBuild +
+        writer.println("<TD><B>Testcbse</B></TD>");
+        writer.println("<TD blign=\"center\"><B>Score for " + bbseBuild +
                        "</B></TD>");
-        writer.println("<TD align=\"center\"><B>Score for " + targetBuild +
+        writer.println("<TD blign=\"center\"><B>Score for " + tbrgetBuild +
                        "</B></TD>");
-        writer.println("<TD align=\"center\"><B>% Speedup</TD>");
+        writer.println("<TD blign=\"center\"><B>% Speedup</TD>");
         writer.println("</TR>");
 
-        StringBuffer betterResultTags = new StringBuffer();
-        StringBuffer sameResultTags = new StringBuffer();
-        StringBuffer worseResultTags = new StringBuffer();
+        StringBuffer betterResultTbgs = new StringBuffer();
+        StringBuffer sbmeResultTbgs = new StringBuffer();
+        StringBuffer worseResultTbgs = new StringBuffer();
 
-        resultsIter = baseValuesMap.keySet().iterator();
+        resultsIter = bbseVbluesMbp.keySet().iterbtor();
 
         double speedup = 0;
 
-        while(resultsIter.hasNext()) {
+        while(resultsIter.hbsNext()) {
 
             key = resultsIter.next();
 
-            baseValue = ((Double) baseValuesMap.get(key)).doubleValue();
-            targetValue = ((Double) targetValuesMap.get(key)).doubleValue();
-            speedup = calculateSpeedupPercentage(baseValue, targetValue);
+            bbseVblue = ((Double) bbseVbluesMbp.get(key)).doubleVblue();
+            tbrgetVblue = ((Double) tbrgetVbluesMbp.get(key)).doubleVblue();
+            speedup = cblculbteSpeedupPercentbge(bbseVblue, tbrgetVblue);
 
-            int selColorIndex = selectColor(baseValue, targetValue);
+            int selColorIndex = selectColor(bbseVblue, tbrgetVblue);
 
-            String tcFileName = key.toString().replace('.', '_');
-            tcFileName = tcFileName.toLowerCase() + ".html";
+            String tcFileNbme = key.toString().replbce('.', '_');
+            tcFileNbme = tcFileNbme.toLowerCbse() + ".html";
 
             switch(selColorIndex) {
-                case 0:
-                    betterResultTags.append("<tr bgcolor=\""+
+                cbse 0:
+                    betterResultTbgs.bppend("<tr bgcolor=\""+
                                             color[selColorIndex] + "\">");
-                    betterResultTags.append("<td><a href=" +
-                        "\"Testcase_Summary_Report.html#status_" + key +
-                                            "\">" + groupNames.get(key) +
-                                            "</a></td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(baseValue) +
+                    betterResultTbgs.bppend("<td><b href=" +
+                        "\"Testcbse_Summbry_Report.html#stbtus_" + key +
+                                            "\">" + groupNbmes.get(key) +
+                                            "</b></td>");
+                    betterResultTbgs.bppend("<td blign=\"center\">" +
+                                            decimblFormbt.formbt(bbseVblue) +
                                             "</td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(targetValue) +
+                    betterResultTbgs.bppend("<td blign=\"center\">" +
+                                            decimblFormbt.formbt(tbrgetVblue) +
                                             "</td>");
-                    betterResultTags.append("<td align=\"center\">" +
-                                            decimalFormat.format(speedup) +
+                    betterResultTbgs.bppend("<td blign=\"center\">" +
+                                            decimblFormbt.formbt(speedup) +
                                             "</td>");
-                    betterResultTags.append("</tr>");
-                    break;
-                case 1:
-                    sameResultTags.append("<tr bgcolor=\""+
+                    betterResultTbgs.bppend("</tr>");
+                    brebk;
+                cbse 1:
+                    sbmeResultTbgs.bppend("<tr bgcolor=\""+
                                           color[selColorIndex] + "\">");
-                    sameResultTags.append("<td>" +
-                        "<a href=\"Testcase_Summary_Report.html#status_" + key +
-                                          "\">" + groupNames.get(key) +
-                                          "</a></td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(baseValue) +
+                    sbmeResultTbgs.bppend("<td>" +
+                        "<b href=\"Testcbse_Summbry_Report.html#stbtus_" + key +
+                                          "\">" + groupNbmes.get(key) +
+                                          "</b></td>");
+                    sbmeResultTbgs.bppend("<td blign=\"center\">" +
+                                          decimblFormbt.formbt(bbseVblue) +
                                           "</td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(targetValue) +
+                    sbmeResultTbgs.bppend("<td blign=\"center\">" +
+                                          decimblFormbt.formbt(tbrgetVblue) +
                                           "</td>");
-                    sameResultTags.append("<td align=\"center\">" +
-                                          decimalFormat.format(speedup) +
+                    sbmeResultTbgs.bppend("<td blign=\"center\">" +
+                                          decimblFormbt.formbt(speedup) +
                                           "</td>");
-                    sameResultTags.append("</tr>");
-                    break;
-                case 2:
-                    worseResultTags.append("<tr bgcolor=\""+
+                    sbmeResultTbgs.bppend("</tr>");
+                    brebk;
+                cbse 2:
+                    worseResultTbgs.bppend("<tr bgcolor=\""+
                                            color[selColorIndex] + "\">");
-                    worseResultTags.append("<td>" +
-                        "<a href=\"Testcase_Summary_Report.html#status_" + key +
-                                           "\">" + groupNames.get(key) +
-                                           "</a></td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(baseValue) +
+                    worseResultTbgs.bppend("<td>" +
+                        "<b href=\"Testcbse_Summbry_Report.html#stbtus_" + key +
+                                           "\">" + groupNbmes.get(key) +
+                                           "</b></td>");
+                    worseResultTbgs.bppend("<td blign=\"center\">" +
+                                           decimblFormbt.formbt(bbseVblue) +
                                            "</td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(targetValue) +
+                    worseResultTbgs.bppend("<td blign=\"center\">" +
+                                           decimblFormbt.formbt(tbrgetVblue) +
                                            "</td>");
-                    worseResultTags.append("<td align=\"center\">" +
-                                           decimalFormat.format(speedup) +
+                    worseResultTbgs.bppend("<td blign=\"center\">" +
+                                           decimblFormbt.formbt(speedup) +
                                            "</td>");
-                    worseResultTags.append("</tr>");
-                    break;
+                    worseResultTbgs.bppend("</tr>");
+                    brebk;
             }
         }
 
-        writer.println(betterResultTags.toString());
+        writer.println(betterResultTbgs.toString());
         writer.flush();
 
-        writer.println(sameResultTags.toString());
+        writer.println(sbmeResultTbgs.toString());
         writer.flush();
 
-        writer.println(worseResultTags.toString());
+        writer.println(worseResultTbgs.toString());
         writer.flush();
 
-        writer.println("</table>");
+        writer.println("</tbble>");
 
         writer.println(getFooter());
         writer.flush();
@@ -698,128 +698,128 @@ public class XMLHTMLReporter {
     }
 
     /**
-     * Generate Testcase Summary Report - Testcase_Summary_Report.html
+     * Generbte Testcbse Summbry Report - Testcbse_Summbry_Report.html
      */
-    private static void generateTestCaseSummaryReport(
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map consolBaseResult,
-        Map consolTargetResult,
-        Map testCaseBaseResult,
-        Map testCaseResultCount,
-        Map testCaseTargetResult) {
+    privbte stbtic void generbteTestCbseSummbryReport(
+        J2DAnblyzer.SingleResultSetHolder bbseSRSH,
+        J2DAnblyzer.SingleResultSetHolder tbrgetSRSH,
+        Mbp consolBbseResult,
+        Mbp consolTbrgetResult,
+        Mbp testCbseBbseResult,
+        Mbp testCbseResultCount,
+        Mbp testCbseTbrgetResult) {
 
-        File tcSummaryReportFile =
-            new File(resultsDir, "Testcase_Summary_Report.html");
+        File tcSummbryReportFile =
+            new File(resultsDir, "Testcbse_Summbry_Report.html");
         PrintWriter writer =
-            openFile(tcSummaryReportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+            openFile(tcSummbryReportFile.getAbsolutePbth(), HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
-                                  "J2DBench - Testcase Summary Report",
+        String hebder = getHebder(bbseSRSH, tbrgetSRSH,
+                                  "J2DBench - Testcbse Summbry Report",
                                   "System_Properties.html");
-        writer.println(header);
+        writer.println(hebder);
         writer.flush();
 
-        StringBuffer testResultsStartBuffer = new StringBuffer();
-        testResultsStartBuffer.append("<TR BGCOLOR=\"#CCCCFF\">");
-        testResultsStartBuffer.append("<TD><B>Testcase</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>Score for " +
-                                      baseBuild + "</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>Score for " +
-                                     targetBuild + "</B></TD>");
-        testResultsStartBuffer.append("<TD align=\"center\"><B>% Speedup</TD>");
-        testResultsStartBuffer.append("</TR>");
+        StringBuffer testResultsStbrtBuffer = new StringBuffer();
+        testResultsStbrtBuffer.bppend("<TR BGCOLOR=\"#CCCCFF\">");
+        testResultsStbrtBuffer.bppend("<TD><B>Testcbse</B></TD>");
+        testResultsStbrtBuffer.bppend("<TD blign=\"center\"><B>Score for " +
+                                      bbseBuild + "</B></TD>");
+        testResultsStbrtBuffer.bppend("<TD blign=\"center\"><B>Score for " +
+                                     tbrgetBuild + "</B></TD>");
+        testResultsStbrtBuffer.bppend("<TD blign=\"center\"><B>% Speedup</TD>");
+        testResultsStbrtBuffer.bppend("</TR>");
 
         StringBuffer testResultsScoreBuffer = new StringBuffer();
-        testResultsScoreBuffer.append("<table cols=\"4\" cellspacing=\"0\" " +
-                                      "cellpadding=\"3\" border=\"1\" " +
+        testResultsScoreBuffer.bppend("<tbble cols=\"4\" cellspbcing=\"0\" " +
+                                      "cellpbdding=\"3\" border=\"1\" " +
                                       "width=\"80%\">");
 
-        StringBuffer betterResultTags = new StringBuffer();
-        StringBuffer sameResultTags = new StringBuffer();
-        StringBuffer worseResultTags = new StringBuffer();
+        StringBuffer betterResultTbgs = new StringBuffer();
+        StringBuffer sbmeResultTbgs = new StringBuffer();
+        StringBuffer worseResultTbgs = new StringBuffer();
 
-        Double baseValue = null, targetValue = null;
+        Double bbseVblue = null, tbrgetVblue = null;
 
-        String curGroupName = null;
-        String curTestName = null;
+        String curGroupNbme = null;
+        String curTestNbme = null;
 
-        Object[] groupNameArray = groups.toArray();
-        Arrays.sort(groupNameArray);
+        Object[] groupNbmeArrby = groups.toArrby();
+        Arrbys.sort(groupNbmeArrby);
 
-        Object[] testCaseList = consolBaseResult.keySet().toArray();
-        Arrays.sort(testCaseList);
+        Object[] testCbseList = consolBbseResult.keySet().toArrby();
+        Arrbys.sort(testCbseList);
 
         writer.println("<br><hr size=\"1\"><br>");
-        writer.println("<A NAME=\"status\"></A><H3>Status:</H3>");
+        writer.println("<A NAME=\"stbtus\"></A><H3>Stbtus:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writer.println("<tbble cellspbcing=\"0\" " +
+                       "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
 
-        for(int j=0; j<groupNameArray.length; j++) {
+        for(int j=0; j<groupNbmeArrby.length; j++) {
 
             if(j != 0) {
-                testResultsScoreBuffer.append("<tr><td colspan=\"4\">&nbsp;" +
+                testResultsScoreBuffer.bppend("<tr><td colspbn=\"4\">&nbsp;" +
                                               "<br>&nbsp;</td></tr>");
-                writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;" +
+                writer.println("<tr><td colspbn=\"5\">&nbsp;<br>&nbsp;" +
                                "</td></tr>");
             }
 
-            curGroupName = groupNameArray[j].toString();
+            curGroupNbme = groupNbmeArrby[j].toString();
 
-            writer.println("<tr><td colspan=\"5\" valign=\"center\" " +
+            writer.println("<tr><td colspbn=\"5\" vblign=\"center\" " +
                            "bgcolor=\"#f0f0f0\">" +
-                           "<A NAME=\"status_" + curGroupName + "\"></A>" +
-                           "<font size=\"+1\">Status - " +
-                           groupNames.get(curGroupName) + "</font></td></tr>");
+                           "<A NAME=\"stbtus_" + curGroupNbme + "\"></A>" +
+                           "<font size=\"+1\">Stbtus - " +
+                           groupNbmes.get(curGroupNbme) + "</font></td></tr>");
             writer.println("<tr>");
             writer.println("<td bgcolor=\"#CCCCFF\"><b>Tests " +
-                           "Performance</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+                           "Performbnce</b></td>");
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>BETTER (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>SAME (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>WORSE (Num / %)</b></td>");
-            writer.println("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
-                           "<b>Total</b></td>");
+            writer.println("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
+                           "<b>Totbl</b></td>");
             writer.println("</tr>");
             writer.flush();
 
-            testResultsScoreBuffer.append("<tr><td colspan=\"4\" " +
-                                          "valign=\"center\" " +
+            testResultsScoreBuffer.bppend("<tr><td colspbn=\"4\" " +
+                                          "vblign=\"center\" " +
                                           "bgcolor=\"#f0f0f0\">" +
                                           "<A NAME=\"test_result_" +
-                                          curGroupName +
+                                          curGroupNbme +
                                           "\"></A><font size=\"+1\">" +
                                           "Test Results - " +
-                                          groupNames.get(curGroupName) +
+                                          groupNbmes.get(curGroupNbme) +
                                           "</font></td></tr>");
-            testResultsScoreBuffer.append(testResultsStartBuffer);
+            testResultsScoreBuffer.bppend(testResultsStbrtBuffer);
 
-            String tableTags[] = null;
+            String tbbleTbgs[] = null;
 
-            for(int i=0; i<testCaseList.length; i++) {
+            for(int i=0; i<testCbseList.length; i++) {
 
-                curTestName = testCaseList[i].toString();
+                curTestNbme = testCbseList[i].toString();
 
-                if(curTestName.startsWith(curGroupName)) {
+                if(curTestNbme.stbrtsWith(curGroupNbme)) {
 
-                    tableTags = generateTestCaseReport(
-                        curGroupName, curTestName, baseSRSH, targetSRSH,
-                        testCaseResultCount, testCaseBaseResult,
-                        testCaseTargetResult);
+                    tbbleTbgs = generbteTestCbseReport(
+                        curGroupNbme, curTestNbme, bbseSRSH, tbrgetSRSH,
+                        testCbseResultCount, testCbseBbseResult,
+                        testCbseTbrgetResult);
 
-                    writer.println(tableTags[0]);
+                    writer.println(tbbleTbgs[0]);
                     writer.flush();
 
-                    testResultsScoreBuffer.append(tableTags[1]);
+                    testResultsScoreBuffer.bppend(tbbleTbgs[1]);
                 }
             }
         }
 
-        testResultsScoreBuffer.append("</table>");
-        writer.println("</table>");
+        testResultsScoreBuffer.bppend("</tbble>");
+        writer.println("</tbble>");
 
         writer.println("<br><hr size=\"1\"><br>");
         writer.println("<A NAME=\"test_results\"></A><H3>Test Results:</H3>");
@@ -834,457 +834,457 @@ public class XMLHTMLReporter {
 
     /**
      *|----------|------------------------|--------------------------|-----------|
-     *| Testcase | Score for <base build> | Score for <target build> | % Speedup |
+     *| Testcbse | Score for <bbse build> | Score for <tbrget build> | % Speedup |
      *|----------|------------------------|--------------------------|-----------|
      *
      */
-    private static String getTestResultsTableForSummary(String testName,
-                                                        double baseScore,
-                                                        double targetScore)
+    privbte stbtic String getTestResultsTbbleForSummbry(String testNbme,
+                                                        double bbseScore,
+                                                        double tbrgetScore)
     {
 
-        double totalScore = baseScore + targetScore;
+        double totblScore = bbseScore + tbrgetScore;
 
-        String fileName = testName.replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
+        String fileNbme = testNbme.replbce('.', '_');
+        fileNbme = fileNbme.toLowerCbse() + ".html";
 
-        int selColorIndex = selectColor(baseScore, targetScore);
+        int selColorIndex = selectColor(bbseScore, tbrgetScore);
 
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<TR BGCOLOR=\"" + color[selColorIndex] + "\">");
-        buffer.append("<TD><P><A HREF=\"testcases/" + fileName +
-                      "\">" + testName + "</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName +
-                      "\"><B>" + decimalFormat.format(baseScore) +
+        buffer.bppend("<TR BGCOLOR=\"" + color[selColorIndex] + "\">");
+        buffer.bppend("<TD><P><A HREF=\"testcbses/" + fileNbme +
+                      "\">" + testNbme + "</A></P></TD>");
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"testcbses/" +
+                      fileNbme +
+                      "\"><B>" + decimblFormbt.formbt(bbseScore) +
                       "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName + "\"><B>" + decimalFormat.format(targetScore) +
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"testcbses/" +
+                      fileNbme + "\"><B>" + decimblFormbt.formbt(tbrgetScore) +
                       "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"testcases/" +
-                      fileName + "\"><B>" +
-                      decimalFormat.format(calculateSpeedupPercentage(
-                          baseScore,
-                          targetScore)) +
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"testcbses/" +
+                      fileNbme + "\"><B>" +
+                      decimblFormbt.formbt(cblculbteSpeedupPercentbge(
+                          bbseScore,
+                          tbrgetScore)) +
                       "</B></A></P></TD>");
-        buffer.append("</TR>");
+        buffer.bppend("</TR>");
 
         return buffer.toString();
     }
 
     /**
      *|-------------------|-------------------|-----------------|-------------------|--------|
-     *| Tests Performance | BETTER  (Num / %) | SAME  (Num / %) | WORSE  ( Num / %) | Total  |
+     *| Tests Performbnce | BETTER  (Num / %) | SAME  (Num / %) | WORSE  ( Num / %) | Totbl  |
      *|-------------------|-------------------|-----------------|-------------------|--------|
      *
      */
-    private static String getStatusTableForSummary(
-        String curGroupName, String testName, int nBetter,
-        int nSame, int nWorse)
+    privbte stbtic String getStbtusTbbleForSummbry(
+        String curGroupNbme, String testNbme, int nBetter,
+        int nSbme, int nWorse)
     {
 
-        String fileName = testName.replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
+        String fileNbme = testNbme.replbce('.', '_');
+        fileNbme = fileNbme.toLowerCbse() + ".html";
 
-        int totalTests = nBetter + nSame + nWorse;
+        int totblTests = nBetter + nSbme + nWorse;
 
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<TR>");
-        buffer.append("<TD><P><A HREF=\"#test_result_" + curGroupName +
-                      "\">" + testName + "</A></P></TD>");
-        buffer.append("<TD BGCOLOR=\"#99FF99\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
+        buffer.bppend("<TR>");
+        buffer.bppend("<TD><P><A HREF=\"#test_result_" + curGroupNbme +
+                      "\">" + testNbme + "</A></P></TD>");
+        buffer.bppend("<TD BGCOLOR=\"#99FF99\" blign=\"center\"><P>" +
+                      "<A HREF=\"#test_result_" + curGroupNbme +
                       "\"><B>" + nBetter + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nBetter * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#CCFFFF\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + nSame + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nSame * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#FFCC00\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
+                      (nBetter * 100)/totblTests + "%)</P></TD>");
+        buffer.bppend("<TD BGCOLOR=\"#CCFFFF\" blign=\"center\"><P>" +
+                      "<A HREF=\"#test_result_" + curGroupNbme +
+                      "\"><B>" + nSbme + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
+                      (nSbme * 100)/totblTests + "%)</P></TD>");
+        buffer.bppend("<TD BGCOLOR=\"#FFCC00\" blign=\"center\"><P>" +
+                      "<A HREF=\"#test_result_" + curGroupNbme +
                       "\"><B>" + nWorse + "</A></B>&nbsp;&nbsp;&nbsp;&nbsp;(" +
-                      (nWorse * 100)/totalTests + "%)</P></TD>");
-        buffer.append("<TD BGCOLOR=\"#FFFFFF\" align=\"center\"><P>" +
-                      "<A HREF=\"#test_result_" + curGroupName +
-                      "\"><B>" + totalTests + "</B></A></P></TD>");
-        buffer.append("</TR>");
+                      (nWorse * 100)/totblTests + "%)</P></TD>");
+        buffer.bppend("<TD BGCOLOR=\"#FFFFFF\" blign=\"center\"><P>" +
+                      "<A HREF=\"#test_result_" + curGroupNbme +
+                      "\"><B>" + totblTests + "</B></A></P></TD>");
+        buffer.bppend("</TR>");
 
         return buffer.toString();
     }
 
     /**
      *  |-------------------|-----------------|------------------------------|
-     *  | Tests performance | Number of tests | % from total number of tests |
+     *  | Tests performbnce | Number of tests | % from totbl number of tests |
      *  |-------------------|-----------------|------------------------------|
      *
      */
-    private static String getPerformanceTableForTestcase(
-        String testName, int nBetter, int nSame, int nWorse) {
+    privbte stbtic String getPerformbnceTbbleForTestcbse(
+        String testNbme, int nBetter, int nSbme, int nWorse) {
 
         StringBuffer buffer = new StringBuffer();
 
-        int totalTests = nBetter + nSame + nWorse;
+        int totblTests = nBetter + nSbme + nWorse;
 
-        buffer.append("<hr size=\"1\">");
-        buffer.append("<H3>Status:</H3>");
+        buffer.bppend("<hr size=\"1\">");
+        buffer.bppend("<H3>Stbtus:</H3>");
 
-        buffer.append("<table cols=\"4\" cellspacing=\"0\" " +
-                      "cellpadding=\"3\" border=\"1\" width=\"80%\">");
-        buffer.append("<TR BGCOLOR=\"#CCCCFF\">");
-        buffer.append("<TD align=\"center\"><B>Tests performance</B></TD>");
-        buffer.append("<TD align=\"center\"><B>Number of tests</B></TD>");
-        buffer.append("<TD align=\"center\"><B>% from total number of " +
+        buffer.bppend("<tbble cols=\"4\" cellspbcing=\"0\" " +
+                      "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
+        buffer.bppend("<TR BGCOLOR=\"#CCCCFF\">");
+        buffer.bppend("<TD blign=\"center\"><B>Tests performbnce</B></TD>");
+        buffer.bppend("<TD blign=\"center\"><B>Number of tests</B></TD>");
+        buffer.bppend("<TD blign=\"center\"><B>% from totbl number of " +
                       "tests</B></TD>");
-        buffer.append("</TR>");
+        buffer.bppend("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#99FF99\">");
-        buffer.append("<TD><P><A HREF=\"#better\">" +
-                      "Target is at least 10 percent BETTER</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#better\"><B>" +
+        buffer.bppend("<TR BGCOLOR=\"#99FF99\">");
+        buffer.bppend("<TD><P><A HREF=\"#better\">" +
+                      "Tbrget is bt lebst 10 percent BETTER</A></P></TD>");
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"#better\"><B>" +
                       nBetter + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nBetter * 100/totalTests) +
+        buffer.bppend("<TD blign=\"center\"><P>" + (nBetter * 100/totblTests) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        buffer.bppend("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#CCFFFF\">");
-        buffer.append("<TD><P><A HREF=\"#same\">" +
-                      "The same within 10 percent</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#same\"><B>" +
-                      nSame + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nSame * 100/totalTests) +
+        buffer.bppend("<TR BGCOLOR=\"#CCFFFF\">");
+        buffer.bppend("<TD><P><A HREF=\"#sbme\">" +
+                      "The sbme within 10 percent</A></P></TD>");
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"#sbme\"><B>" +
+                      nSbme + "</B></A></P></TD>");
+        buffer.bppend("<TD blign=\"center\"><P>" + (nSbme * 100/totblTests) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        buffer.bppend("</TR>");
 
-        buffer.append("<TR BGCOLOR=\"#FFCC00\">");
-        buffer.append("<TD><P><A HREF=\"#worse\">" +
-                      "Target is at least 10 percent WORSE</A></P></TD>");
-        buffer.append("<TD align=\"center\"><P><A HREF=\"#worse\"><B>" +
+        buffer.bppend("<TR BGCOLOR=\"#FFCC00\">");
+        buffer.bppend("<TD><P><A HREF=\"#worse\">" +
+                      "Tbrget is bt lebst 10 percent WORSE</A></P></TD>");
+        buffer.bppend("<TD blign=\"center\"><P><A HREF=\"#worse\"><B>" +
                       nWorse + "</B></A></P></TD>");
-        buffer.append("<TD align=\"center\"><P>" + (nWorse * 100/totalTests) +
+        buffer.bppend("<TD blign=\"center\"><P>" + (nWorse * 100/totblTests) +
                       "</P></TD>");
-        buffer.append("</TR>");
+        buffer.bppend("</TR>");
 
-        buffer.append("</TABLE>");
+        buffer.bppend("</TABLE>");
 
         return buffer.toString();
     }
 
     /**
      *  |-----------|---------|--------------------|----------------------|------------|
-     *  | Num Units | Options | <base build> Score | <target build> Score | % Speedup  |
+     *  | Num Units | Options | <bbse build> Score | <tbrget build> Score | % Speedup  |
      *  |-----------|---------|--------------------|----------------------|------------|
      *
-     *  String[0] = getStatusTableForSummary()
-     *  String[1] = getTestResultsTableForSummary()
+     *  String[0] = getStbtusTbbleForSummbry()
+     *  String[1] = getTestResultsTbbleForSummbry()
      *
-     * Generate Testcase Report - testcases/<testcase name>.html
+     * Generbte Testcbse Report - testcbses/<testcbse nbme>.html
      */
-    private static String[] generateTestCaseReport(
-        String curGroupName,
+    privbte stbtic String[] generbteTestCbseReport(
+        String curGroupNbme,
         Object key,
-        J2DAnalyzer.SingleResultSetHolder baseSRSH,
-        J2DAnalyzer.SingleResultSetHolder targetSRSH,
-        Map testCaseResultCount,
-        Map testCaseBaseResult,
-        Map testCaseTargetResult) {
+        J2DAnblyzer.SingleResultSetHolder bbseSRSH,
+        J2DAnblyzer.SingleResultSetHolder tbrgetSRSH,
+        Mbp testCbseResultCount,
+        Mbp testCbseBbseResult,
+        Mbp testCbseTbrgetResult) {
 
-        int numBetterTestCases = 0;
-        int numWorseTestCases = 0;
-        int numSameTestCases = 0;
+        int numBetterTestCbses = 0;
+        int numWorseTestCbses = 0;
+        int numSbmeTestCbses = 0;
 
-        StringBuffer tcStartTags = new StringBuffer();
-        tcStartTags.append("<tr>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        StringBuffer tcStbrtTbgs = new StringBuffer();
+        tcStbrtTbgs.bppend("<tr>");
+        tcStbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Num Units</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        tcStbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>Options</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                           baseBuild + " Score</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\"><b>" +
-                           targetBuild + " Score</b></td>");
-        tcStartTags.append("<td bgcolor=\"#CCCCFF\" align=\"center\">" +
+        tcStbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\"><b>" +
+                           bbseBuild + " Score</b></td>");
+        tcStbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\"><b>" +
+                           tbrgetBuild + " Score</b></td>");
+        tcStbrtTbgs.bppend("<td bgcolor=\"#CCCCFF\" blign=\"center\">" +
                            "<b>% Speedup</b></td>");
-        tcStartTags.append("</tr>");
+        tcStbrtTbgs.bppend("</tr>");
 
-        StringBuffer worseTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
-        StringBuffer sameTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
-        StringBuffer betterTestcaseResultTags =
-            new StringBuffer(tcStartTags.toString());
+        StringBuffer worseTestcbseResultTbgs =
+            new StringBuffer(tcStbrtTbgs.toString());
+        StringBuffer sbmeTestcbseResultTbgs =
+            new StringBuffer(tcStbrtTbgs.toString());
+        StringBuffer betterTestcbseResultTbgs =
+            new StringBuffer(tcStbrtTbgs.toString());
 
-        Object curTestCountObj = testCaseResultCount.get(key.toString());
+        Object curTestCountObj = testCbseResultCount.get(key.toString());
         int curTestCount = 0;
         if(curTestCountObj != null) {
-            curTestCount = ((Integer) curTestCountObj).intValue();
+            curTestCount = ((Integer) curTestCountObj).intVblue();
         }
 
-        String fileName = key.toString().replace('.', '_');
-        fileName = fileName.toLowerCase() + ".html";
-        File testcaseReportFile =
-            new File(resultsDir + File.separator + "testcases", fileName);
+        String fileNbme = key.toString().replbce('.', '_');
+        fileNbme = fileNbme.toLowerCbse() + ".html";
+        File testcbseReportFile =
+            new File(resultsDir + File.sepbrbtor + "testcbses", fileNbme);
         PrintWriter writer = openFile(
-            testcaseReportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+            testcbseReportFile.getAbsolutePbth(), HTMLGEN_FILE_NEW);
 
-        String header = getHeader(baseSRSH, targetSRSH,
+        String hebder = getHebder(bbseSRSH, tbrgetSRSH,
                                   "J2DBench - " + key.toString(),
                                   "../System_Properties.html");
-        writer.println(header);
+        writer.println(hebder);
         writer.flush();
 
-        double totalBaseScore = 0;
-        double totalTargetScore = 0;
+        double totblBbseScore = 0;
+        double totblTbrgetScore = 0;
 
         for(int i=0; i<curTestCount; i++) {
 
-            J2DAnalyzer.ResultHolder baseTCR =
-                (J2DAnalyzer.ResultHolder)testCaseBaseResult.get(
+            J2DAnblyzer.ResultHolder bbseTCR =
+                (J2DAnblyzer.ResultHolder)testCbseBbseResult.get(
                     key.toString() + "_" + i);
-            J2DAnalyzer.ResultHolder targetTCR =
-                (J2DAnalyzer.ResultHolder) testCaseTargetResult.get(
+            J2DAnblyzer.ResultHolder tbrgetTCR =
+                (J2DAnblyzer.ResultHolder) testCbseTbrgetResult.get(
                     key.toString() + "_" + i);
 
-            double baseScore = baseTCR.getScore();
-            double targetScore = targetTCR.getScore();
+            double bbseScore = bbseTCR.getScore();
+            double tbrgetScore = tbrgetTCR.getScore();
 
-            StringBuffer tcTagBuffer = new StringBuffer();
+            StringBuffer tcTbgBuffer = new StringBuffer();
 
-            int selColorIndex = selectColor(baseScore, targetScore);
-            tcTagBuffer.append("<tr bgcolor=\""+ color[selColorIndex] + "\">");
-            tcTagBuffer.append("<td align=\"center\">" + baseTCR.getUnits() +
+            int selColorIndex = selectColor(bbseScore, tbrgetScore);
+            tcTbgBuffer.bppend("<tr bgcolor=\""+ color[selColorIndex] + "\">");
+            tcTbgBuffer.bppend("<td blign=\"center\">" + bbseTCR.getUnits() +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\">");
+            tcTbgBuffer.bppend("<td vblign=\"center\">");
 
-            Map map = baseTCR.getOptions();
-            Iterator iter = map.keySet().iterator();
-            Object subKey=null, subValue=null;
-            tcTagBuffer.append("<ul>");
-            while(iter.hasNext()) {
+            Mbp mbp = bbseTCR.getOptions();
+            Iterbtor iter = mbp.keySet().iterbtor();
+            Object subKey=null, subVblue=null;
+            tcTbgBuffer.bppend("<ul>");
+            while(iter.hbsNext()) {
                 subKey = iter.next().toString();
-                subValue = map.get(subKey).toString();
-                tcTagBuffer.append("<li>" + subKey + " = " +
-                                   subValue + "</li>");
+                subVblue = mbp.get(subKey).toString();
+                tcTbgBuffer.bppend("<li>" + subKey + " = " +
+                                   subVblue + "</li>");
             }
-            tcTagBuffer.append("</ul></td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(baseTCR.getScore()) +
+            tcTbgBuffer.bppend("</ul></td>");
+            tcTbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                               decimblFormbt.formbt(bbseTCR.getScore()) +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(targetTCR.getScore()) +
+            tcTbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                               decimblFormbt.formbt(tbrgetTCR.getScore()) +
                                "</td>");
-            tcTagBuffer.append("<td valign=\"center\" align=\"center\">" +
-                               decimalFormat.format(
-                                   calculateSpeedupPercentage(
-                                       baseTCR.getScore(),
-                                       targetTCR.getScore())) +
+            tcTbgBuffer.bppend("<td vblign=\"center\" blign=\"center\">" +
+                               decimblFormbt.formbt(
+                                   cblculbteSpeedupPercentbge(
+                                       bbseTCR.getScore(),
+                                       tbrgetTCR.getScore())) +
                                    "</td>");
-            tcTagBuffer.append("</tr>");
+            tcTbgBuffer.bppend("</tr>");
 
-            totalBaseScore = totalBaseScore + baseTCR.getScore();
-            totalTargetScore = totalTargetScore + targetTCR.getScore();
+            totblBbseScore = totblBbseScore + bbseTCR.getScore();
+            totblTbrgetScore = totblTbrgetScore + tbrgetTCR.getScore();
 
             switch(selColorIndex) {
-                case 0:
-                    betterTestcaseResultTags.append(tcTagBuffer.toString());
-                    numBetterTestCases++;
-                    break;
-                case 1:
-                    sameTestcaseResultTags.append(tcTagBuffer.toString());
-                    numSameTestCases++;
-                    break;
-                case 2:
-                    worseTestcaseResultTags.append(tcTagBuffer.toString());
-                    numWorseTestCases++;
-                    break;
+                cbse 0:
+                    betterTestcbseResultTbgs.bppend(tcTbgBuffer.toString());
+                    numBetterTestCbses++;
+                    brebk;
+                cbse 1:
+                    sbmeTestcbseResultTbgs.bppend(tcTbgBuffer.toString());
+                    numSbmeTestCbses++;
+                    brebk;
+                cbse 2:
+                    worseTestcbseResultTbgs.bppend(tcTbgBuffer.toString());
+                    numWorseTestCbses++;
+                    brebk;
             }
         }
 
-        String performanceTable =
-            getPerformanceTableForTestcase(key.toString(),
-                                           numBetterTestCases, numSameTestCases,
-                                           numWorseTestCases);
+        String performbnceTbble =
+            getPerformbnceTbbleForTestcbse(key.toString(),
+                                           numBetterTestCbses, numSbmeTestCbses,
+                                           numWorseTestCbses);
 
-        writer.println(performanceTable);
+        writer.println(performbnceTbble);
         writer.flush();
 
         writer.println("<hr size=\"1\">");
-        writer.println("<A NAME=\"details\"></A><H3>Details:</H3>");
+        writer.println("<A NAME=\"detbils\"></A><H3>Detbils:</H3>");
 
-        writer.println("<table cellspacing=\"0\" " +
-                       "cellpadding=\"3\" border=\"1\" width=\"80%\">");
+        writer.println("<tbble cellspbcing=\"0\" " +
+                       "cellpbdding=\"3\" border=\"1\" width=\"80%\">");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"better\"></a><font size=\"+1\">" +
+        writer.println("<tr><td colspbn=\"5\" " +
+                       "vblign=\"center\" bgcolor=\"#f0f0f0\">" +
+                       "<b nbme=\"better\"></b><font size=\"+1\">" +
                        key.toString() +
-                       " Tests which run BETTER on target</font></td></tr>");
-        writer.println(betterTestcaseResultTags.toString());
+                       " Tests which run BETTER on tbrget</font></td></tr>");
+        writer.println(betterTestcbseResultTbgs.toString());
         writer.flush();
 
-        writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;</td></tr>");
+        writer.println("<tr><td colspbn=\"5\">&nbsp;<br>&nbsp;</td></tr>");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"same\"></a><font size=\"+1\">" +
+        writer.println("<tr><td colspbn=\"5\" " +
+                       "vblign=\"center\" bgcolor=\"#f0f0f0\">" +
+                       "<b nbme=\"sbme\"></b><font size=\"+1\">" +
                        key.toString() +
-                       " Tests which run SAME on target</font></td></tr>");
-        writer.println(sameTestcaseResultTags.toString());
+                       " Tests which run SAME on tbrget</font></td></tr>");
+        writer.println(sbmeTestcbseResultTbgs.toString());
         writer.flush();
 
-        writer.println("<tr><td colspan=\"5\">&nbsp;<br>&nbsp;</td></tr>");
+        writer.println("<tr><td colspbn=\"5\">&nbsp;<br>&nbsp;</td></tr>");
 
-        writer.println("<tr><td colspan=\"5\" " +
-                       "valign=\"center\" bgcolor=\"#f0f0f0\">" +
-                       "<a name=\"worse\"></a><font size=\"+1\">" +
+        writer.println("<tr><td colspbn=\"5\" " +
+                       "vblign=\"center\" bgcolor=\"#f0f0f0\">" +
+                       "<b nbme=\"worse\"></b><font size=\"+1\">" +
                        key.toString() +
-                       " Tests which run WORSE on target</font></td></tr>");
-        writer.println(worseTestcaseResultTags.toString());
+                       " Tests which run WORSE on tbrget</font></td></tr>");
+        writer.println(worseTestcbseResultTbgs.toString());
         writer.flush();
 
-        writer.println("</table>");
+        writer.println("</tbble>");
 
         writer.println(getFooter());
         writer.flush();
 
         writer.close();
 
-        String statusTable =
-            getStatusTableForSummary(curGroupName, key.toString(),
-                                     numBetterTestCases,
-                                     numSameTestCases, numWorseTestCases);
+        String stbtusTbble =
+            getStbtusTbbleForSummbry(curGroupNbme, key.toString(),
+                                     numBetterTestCbses,
+                                     numSbmeTestCbses, numWorseTestCbses);
 
-        String testResultsTable =
-            getTestResultsTableForSummary(key.toString(),
-                                          totalBaseScore, totalTargetScore);
+        String testResultsTbble =
+            getTestResultsTbbleForSummbry(key.toString(),
+                                          totblBbseScore, totblTbrgetScore);
 
-        return new String[] {statusTable, testResultsTable};
+        return new String[] {stbtusTbble, testResultsTbble};
     }
 
     /**
-     * Returns footer tag for HTML files
+     * Returns footer tbg for HTML files
      */
-    private static String getFooter() {
+    privbte stbtic String getFooter() {
 
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<br><hr WIDTH=\"100%\" size=\"1\">");
-        buffer.append("<A NAME=\"legend\"></A><H3>Legend:</H3>");
-        buffer.append("<table cellspacing=\"0\" cellpadding=\"3\" " +
+        buffer.bppend("<br><hr WIDTH=\"100%\" size=\"1\">");
+        buffer.bppend("<A NAME=\"legend\"></A><H3>Legend:</H3>");
+        buffer.bppend("<tbble cellspbcing=\"0\" cellpbdding=\"3\" " +
                       "border=\"1\" width=\"80%\">");
-        buffer.append("<TR BGCOLOR=\"" + color[0] +
-                      "\"><TD>The result for " + targetBuild +
-                      " is at least 10 percent BETTER than for " + baseBuild +
+        buffer.bppend("<TR BGCOLOR=\"" + color[0] +
+                      "\"><TD>The result for " + tbrgetBuild +
+                      " is bt lebst 10 percent BETTER thbn for " + bbseBuild +
                       "</TD></TR>");
-        buffer.append("<TR BGCOLOR=\"" + color[1] +
-                      "\"><TD>The results for " + targetBuild + " and " +
-                      baseBuild + " are within 10 percent</TD></TR>");
-        buffer.append("<TR BGCOLOR=\"" + color[2] +
-                      "\"><TD>The result for " + targetBuild +
-                      " is at least 10 percent WORSE than " + baseBuild +
+        buffer.bppend("<TR BGCOLOR=\"" + color[1] +
+                      "\"><TD>The results for " + tbrgetBuild + " bnd " +
+                      bbseBuild + " bre within 10 percent</TD></TR>");
+        buffer.bppend("<TR BGCOLOR=\"" + color[2] +
+                      "\"><TD>The result for " + tbrgetBuild +
+                      " is bt lebst 10 percent WORSE thbn " + bbseBuild +
                       "</TD></TR>");
-        buffer.append("<TR><TD>The 'Score' is a number of " +
+        buffer.bppend("<TR><TD>The 'Score' is b number of " +
                       "successful rendering " +
-                      "operations per second</TD></TR>");
-        buffer.append("</table>");
+                      "operbtions per second</TD></TR>");
+        buffer.bppend("</tbble>");
 
-        buffer.append("<br><hr WIDTH=\"100%\" size=\"1\">");
-        buffer.append("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
+        buffer.bppend("<br><hr WIDTH=\"100%\" size=\"1\">");
+        buffer.bppend("</p><hr WIDTH=\"100%\" size=\"1\"></body></html>");
 
         return buffer.toString();
     }
 
     /**
-     * Returns header tag for HTML files
+     * Returns hebder tbg for HTML files
      */
-    private static String
-        getHeader(J2DAnalyzer.SingleResultSetHolder baseSRSH,
-                  J2DAnalyzer.SingleResultSetHolder targetSRSH,
+    privbte stbtic String
+        getHebder(J2DAnblyzer.SingleResultSetHolder bbseSRSH,
+                  J2DAnblyzer.SingleResultSetHolder tbrgetSRSH,
                   String title,
                  String sysPropLoc)
     {
 
         StringBuffer buffer = new StringBuffer();
 
-        String headerTitle = getHeaderTitle(title);
-        buffer.append(headerTitle);
+        String hebderTitle = getHebderTitle(title);
+        buffer.bppend(hebderTitle);
 
         //System Properties
-        buffer.append("<tr><td bgcolor=\"#CCCCFF\">" +
+        buffer.bppend("<tr><td bgcolor=\"#CCCCFF\">" +
                       "<b><A HREF=\"" + sysPropLoc + "\">System Property</A>" +
                       "</b></td>" +
                       "<td bgcolor=\"#CCCCFF\"><b><A HREF=\"" +
-                      sysPropLoc + "\">Value<A></b></td></tr>");
-        Map sysProps = targetSRSH.getProperties();
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.name</td><td>" +
-                      sysProps.get("os.name") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.version</td><td>" +
+                      sysPropLoc + "\">Vblue<A></b></td></tr>");
+        Mbp sysProps = tbrgetSRSH.getProperties();
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">os.nbme</td><td>" +
+                      sysProps.get("os.nbme") + "</td></tr>");
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">os.version</td><td>" +
                       sysProps.get("os.version") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">os.arch</td><td>" +
-                      sysProps.get("os.arch") + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">sun.desktop</td><td>" +
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">os.brch</td><td>" +
+                      sysProps.get("os.brch") + "</td></tr>");
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">sun.desktop</td><td>" +
                       sysProps.get("sun.desktop") + "</td></tr>");
 
-        buffer.append("</table>");
+        buffer.bppend("</tbble>");
 
         return buffer.toString();
     }
 
     /**
-     * Returns start tag and title tag for HTML files
+     * Returns stbrt tbg bnd title tbg for HTML files
      */
-    private static String getHeaderTitle(String title) {
+    privbte stbtic String getHebderTitle(String title) {
 
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<html><head><title>" + title + "</title></head>");
-        buffer.append("<body bgcolor=\"#ffffff\"><hr size=\"1\">");
-        buffer.append("<center><h2>" + title + "</h2>");
-        buffer.append("</center><hr size=\"1\"><br>");
-        buffer.append("<table cols=\"2\" cellspacing=\"2\" cellpadding=\"5\" " +
+        buffer.bppend("<html><hebd><title>" + title + "</title></hebd>");
+        buffer.bppend("<body bgcolor=\"#ffffff\"><hr size=\"1\">");
+        buffer.bppend("<center><h2>" + title + "</h2>");
+        buffer.bppend("</center><hr size=\"1\"><br>");
+        buffer.bppend("<tbble cols=\"2\" cellspbcing=\"2\" cellpbdding=\"5\" " +
                       "border=\"0\" width=\"80%\">");
-        buffer.append("<tr><td bgcolor=\"#CCCCFF\" colspan=\"2\">" +
-                      "<b>Test Details</b></td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">Base Build</td>");
-        buffer.append("<td>" + baseBuild + "</td></tr>");
-        buffer.append("<tr><td bgcolor=\"#f0f0f0\">Target Build</td>");
-        buffer.append("<td>" + targetBuild + "</td></tr>");
+        buffer.bppend("<tr><td bgcolor=\"#CCCCFF\" colspbn=\"2\">" +
+                      "<b>Test Detbils</b></td></tr>");
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">Bbse Build</td>");
+        buffer.bppend("<td>" + bbseBuild + "</td></tr>");
+        buffer.bppend("<tr><td bgcolor=\"#f0f0f0\">Tbrget Build</td>");
+        buffer.bppend("<td>" + tbrgetBuild + "</td></tr>");
 
         return buffer.toString();
     }
 
     /**
-     * Generats System-Properties HTML file - System_Property.html
+     * Generbts System-Properties HTML file - System_Property.html
      */
-    private static void
-        generateSysPropsReport(J2DAnalyzer.SingleResultSetHolder srsh)
+    privbte stbtic void
+        generbteSysPropsReport(J2DAnblyzer.SingleResultSetHolder srsh)
     {
 
         File sysPropsFile =
             new File(resultsDir, "System_Properties.html");
         PrintWriter writer =
-            openFile(sysPropsFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+            openFile(sysPropsFile.getAbsolutePbth(), HTMLGEN_FILE_NEW);
 
-        String headerTitle = getHeaderTitle("System Properties");
-        writer.println(headerTitle);
+        String hebderTitle = getHebderTitle("System Properties");
+        writer.println(hebderTitle);
         writer.flush();
 
         writer.println("<tr><td bgcolor=\"#CCCCFF\"><b>" +
                        "System Property</b></td><td bgcolor=\"#CCCCFF\">" +
-                       "<b>Value</b></td></tr>");
+                       "<b>Vblue</b></td></tr>");
 
         String key = null;
-        String value = null;
-        Map sysProps = srsh.getProperties();
-        Iterator iter = sysProps.keySet().iterator();
-        while(iter.hasNext()) {
+        String vblue = null;
+        Mbp sysProps = srsh.getProperties();
+        Iterbtor iter = sysProps.keySet().iterbtor();
+        while(iter.hbsNext()) {
             key = iter.next().toString();
-            value = sysProps.get(key).toString();
+            vblue = sysProps.get(key).toString();
             writer.println("<tr><td bgcolor=\"#f0f0f0\">" +
-                           key + "</td><td>" + value + "</td></tr>");
+                           key + "</td><td>" + vblue + "</td></tr>");
         }
-        writer.println("</table>");
+        writer.println("</tbble>");
         writer.flush();
 
         writer.println("<br><hr WIDTH=\"100%\" size=\"1\">");
@@ -1294,12 +1294,12 @@ public class XMLHTMLReporter {
     }
 
     /**
-     * Returns the index of color from color array based on the results
-     * Can change this implementation so as to select based on some analysis.
+     * Returns the index of color from color brrby bbsed on the results
+     * Cbn chbnge this implementbtion so bs to select bbsed on some bnblysis.
      */
-    private static int selectColor(double baseScore, double targetScore) {
+    privbte stbtic int selectColor(double bbseScore, double tbrgetScore) {
 
-        double res = calculateSpeedupPercentage(baseScore, targetScore);
+        double res = cblculbteSpeedupPercentbge(bbseScore, tbrgetScore);
 
         if (res < -10) {
             return 2;
@@ -1311,129 +1311,129 @@ public class XMLHTMLReporter {
     }
 
     /**
-     * Calculate Speedup Percentage ->
-     *     ((target_score - base_score) * 100) / baseScore
-     * Can change this implementation so as to provide some analysis.
+     * Cblculbte Speedup Percentbge ->
+     *     ((tbrget_score - bbse_score) * 100) / bbseScore
+     * Cbn chbnge this implementbtion so bs to provide some bnblysis.
      */
-    private static double calculateSpeedupPercentage(double baseScore,
-                                                     double targetScore)
+    privbte stbtic double cblculbteSpeedupPercentbge(double bbseScore,
+                                                     double tbrgetScore)
     {
-        return ((targetScore - baseScore) * 100)/baseScore;
+        return ((tbrgetScore - bbseScore) * 100)/bbseScore;
     }
 
-    private static void printUsage() {
-        String usage =
-            "\njava XMLHTMLReporter [options]      "     +
+    privbte stbtic void printUsbge() {
+        String usbge =
+            "\njbvb XMLHTMLReporter [options]      "     +
             "                                      \n\n" +
             "where options include:                "     +
             "                                      \n"   +
             "    -r | -results <result directory>  "     +
-            "directory to which reports are stored \n"   +
-            "    -basexml | -b <xml file path>     "     +
-            "path to base-build result             \n"   +
-            "    -targetxml | -t <xml file path>   "     +
-            "path to target-build result           \n"   +
-            "    -resultxml | -xml <xml file path> "     +
-            "path to result XML                    \n"   +
+            "directory to which reports bre stored \n"   +
+            "    -bbsexml | -b <xml file pbth>     "     +
+            "pbth to bbse-build result             \n"   +
+            "    -tbrgetxml | -t <xml file pbth>   "     +
+            "pbth to tbrget-build result           \n"   +
+            "    -resultxml | -xml <xml file pbth> "     +
+            "pbth to result XML                    \n"   +
             "    -group | -g  <level>              "     +
             "group-level for tests                 \n"   +
             "                                      "     +
             " [ 1 , 2 , 3 or 4 ]                   \n"   +
-            "    -analyzermode | -am               "     +
+            "    -bnblyzermode | -bm               "     +
             "mode to be used for finding score     \n"   +
             "                                      "     +
             " [ BEST , WORST , AVERAGE , MIDAVG ]  ";
-        System.out.println(usage);
+        System.out.println(usbge);
         System.exit(0);
     }
 
     /**
-     * main
+     * mbin
      */
-    public static void main(String args[]) {
+    public stbtic void mbin(String brgs[]) {
 
         String resDir = ".";
-        String baseXML = null;
-        String targetXML = null;
+        String bbseXML = null;
+        String tbrgetXML = null;
         String resultXML = null;
         int group = 2;
 
-        /* ---- Analysis Mode ----
+        /* ---- Anblysis Mode ----
             BEST    = 1;
             WORST   = 2;
             AVERAGE = 3;
             MIDAVG  = 4;
          ------------------------ */
-        int analyzerMode = 4;
+        int bnblyzerMode = 4;
 
         try {
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].startsWith("-results") ||
-                    args[i].startsWith("-r"))
+            for (int i = 0; i < brgs.length; i++) {
+                if (brgs[i].stbrtsWith("-results") ||
+                    brgs[i].stbrtsWith("-r"))
                 {
                     i++;
-                    resDir = args[i];
-                } else if (args[i].startsWith("-basexml") ||
-                           args[i].startsWith("-b"))
+                    resDir = brgs[i];
+                } else if (brgs[i].stbrtsWith("-bbsexml") ||
+                           brgs[i].stbrtsWith("-b"))
                 {
                     i++;
-                    baseXML = args[i];
-                } else if (args[i].startsWith("-targetxml") ||
-                           args[i].startsWith("-t"))
+                    bbseXML = brgs[i];
+                } else if (brgs[i].stbrtsWith("-tbrgetxml") ||
+                           brgs[i].stbrtsWith("-t"))
                 {
                     i++;
-                    targetXML = args[i];
-                } else if (args[i].startsWith("-resultxml") ||
-                           args[i].startsWith("-xml"))
+                    tbrgetXML = brgs[i];
+                } else if (brgs[i].stbrtsWith("-resultxml") ||
+                           brgs[i].stbrtsWith("-xml"))
                 {
                     i++;
-                    resultXML = args[i];
-                } else if (args[i].startsWith("-group") ||
-                           args[i].startsWith("-g"))
+                    resultXML = brgs[i];
+                } else if (brgs[i].stbrtsWith("-group") ||
+                           brgs[i].stbrtsWith("-g"))
                 {
                     i++;
-                    group = Integer.parseInt(args[i]);
+                    group = Integer.pbrseInt(brgs[i]);
                     System.out.println("Grouping Level for tests: " + group);
-                } else if (args[i].startsWith("-analyzermode") ||
-                           args[i].startsWith("-am"))
+                } else if (brgs[i].stbrtsWith("-bnblyzermode") ||
+                           brgs[i].stbrtsWith("-bm"))
                 {
                     i++;
-                    String strAnalyzerMode = args[i];
-                    if(strAnalyzerMode.equalsIgnoreCase("BEST")) {
-                        analyzerMode = 0;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("WORST")) {
-                        analyzerMode = 1;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("AVERAGE")) {
-                        analyzerMode = 2;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("MIDAVG")) {
-                        analyzerMode = 3;
+                    String strAnblyzerMode = brgs[i];
+                    if(strAnblyzerMode.equblsIgnoreCbse("BEST")) {
+                        bnblyzerMode = 0;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("WORST")) {
+                        bnblyzerMode = 1;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("AVERAGE")) {
+                        bnblyzerMode = 2;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("MIDAVG")) {
+                        bnblyzerMode = 3;
                     } else {
-                        printUsage();
+                        printUsbge();
                     }
-                    System.out.println("Analyzer-Mode: " + analyzerMode);
+                    System.out.println("Anblyzer-Mode: " + bnblyzerMode);
                 }
             }
         }
-        catch(Exception e) {
-            printUsage();
+        cbtch(Exception e) {
+            printUsbge();
         }
 
         if(resDir != null) {
 
             XMLHTMLReporter.setGroupLevel(group);
-            J2DAnalyzer.setMode(analyzerMode);
+            J2DAnblyzer.setMode(bnblyzerMode);
 
-            if(targetXML != null && baseXML != null) {
-                XMLHTMLReporter.generateComparisonReport(resDir, baseXML,
-                                                         targetXML);
+            if(tbrgetXML != null && bbseXML != null) {
+                XMLHTMLReporter.generbteCompbrisonReport(resDir, bbseXML,
+                                                         tbrgetXML);
             } else if (resultXML != null) {
-                XMLHTMLReporter.generateReport(resDir, resultXML);
+                XMLHTMLReporter.generbteReport(resDir, resultXML);
             } else {
-                printUsage();
+                printUsbge();
             }
         } else {
-            printUsage();
+            printUsbge();
         }
     }
 }

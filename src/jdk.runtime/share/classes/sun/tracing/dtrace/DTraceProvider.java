@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tracing.dtrace;
+pbckbge sun.trbcing.dtrbce;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.annotation.Annotation;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.bnnotbtion.Annotbtion;
 
-import sun.tracing.ProviderSkeleton;
-import sun.tracing.ProbeSkeleton;
-import com.sun.tracing.Provider;
-import com.sun.tracing.ProbeName;
-import com.sun.tracing.dtrace.Attributes;
-import com.sun.tracing.dtrace.ModuleName;
-import com.sun.tracing.dtrace.FunctionName;
-import com.sun.tracing.dtrace.StabilityLevel;
-import com.sun.tracing.dtrace.DependencyClass;
+import sun.trbcing.ProviderSkeleton;
+import sun.trbcing.ProbeSkeleton;
+import com.sun.trbcing.Provider;
+import com.sun.trbcing.ProbeNbme;
+import com.sun.trbcing.dtrbce.Attributes;
+import com.sun.trbcing.dtrbce.ModuleNbme;
+import com.sun.trbcing.dtrbce.FunctionNbme;
+import com.sun.trbcing.dtrbce.StbbilityLevel;
+import com.sun.trbcing.dtrbce.DependencyClbss;
 
-import sun.misc.ProxyGenerator;
+import sun.misc.ProxyGenerbtor;
 
-class DTraceProvider extends ProviderSkeleton {
+clbss DTrbceProvider extends ProviderSkeleton {
 
-    private Activation activation;
-    private Object proxy;
+    privbte Activbtion bctivbtion;
+    privbte Object proxy;
 
-    // For proxy generation
-    private final static Class<?>[] constructorParams = { InvocationHandler.class };
-    private final String proxyClassNamePrefix = "$DTraceTracingProxy";
+    // For proxy generbtion
+    privbte finbl stbtic Clbss<?>[] constructorPbrbms = { InvocbtionHbndler.clbss };
+    privbte finbl String proxyClbssNbmePrefix = "$DTrbceTrbcingProxy";
 
-    static final String DEFAULT_MODULE = "java_tracing";
-    static final String DEFAULT_FUNCTION = "unspecified";
+    stbtic finbl String DEFAULT_MODULE = "jbvb_trbcing";
+    stbtic finbl String DEFAULT_FUNCTION = "unspecified";
 
-    private static long nextUniqueNumber = 0;
-    private static synchronized long getUniqueNumber() {
+    privbte stbtic long nextUniqueNumber = 0;
+    privbte stbtic synchronized long getUniqueNumber() {
         return nextUniqueNumber++;
     }
 
-    protected ProbeSkeleton createProbe(Method m) {
-        return new DTraceProbe(proxy, m);
+    protected ProbeSkeleton crebteProbe(Method m) {
+        return new DTrbceProbe(proxy, m);
     }
 
-    DTraceProvider(Class<? extends Provider> type) {
+    DTrbceProvider(Clbss<? extends Provider> type) {
         super(type);
     }
 
@@ -73,138 +73,138 @@ class DTraceProvider extends ProviderSkeleton {
         proxy = p;
     }
 
-    void setActivation(Activation a) {
-        this.activation = a;
+    void setActivbtion(Activbtion b) {
+        this.bctivbtion = b;
     }
 
     public void dispose() {
-        if (activation != null) {
-            activation.disposeProvider(this);
-            activation = null;
+        if (bctivbtion != null) {
+            bctivbtion.disposeProvider(this);
+            bctivbtion = null;
         }
         super.dispose();
     }
 
     /**
-     * Magic routine which creates an implementation of the user's interface.
+     * Mbgic routine which crebtes bn implementbtion of the user's interfbce.
      *
-     * This method uses the ProxyGenerator directly to bypass the
-     * java.lang.reflect.proxy cache so that we get a unique class each
-     * time it's called and can't accidently reuse a $Proxy class.
+     * This method uses the ProxyGenerbtor directly to bypbss the
+     * jbvb.lbng.reflect.proxy cbche so thbt we get b unique clbss ebch
+     * time it's cblled bnd cbn't bccidently reuse b $Proxy clbss.
      *
-     * @return an implementation of the user's interface
+     * @return bn implementbtion of the user's interfbce
      */
-    @SuppressWarnings("unchecked")
-    public <T extends Provider> T newProxyInstance() {
+    @SuppressWbrnings("unchecked")
+    public <T extends Provider> T newProxyInstbnce() {
         /*
-         * Choose a name for the proxy class to generate.
+         * Choose b nbme for the proxy clbss to generbte.
          */
         long num = getUniqueNumber();
 
         String proxyPkg = "";
         if (!Modifier.isPublic(providerType.getModifiers())) {
-            String name = providerType.getName();
-            int n = name.lastIndexOf('.');
-            proxyPkg = ((n == -1) ? "" : name.substring(0, n + 1));
+            String nbme = providerType.getNbme();
+            int n = nbme.lbstIndexOf('.');
+            proxyPkg = ((n == -1) ? "" : nbme.substring(0, n + 1));
         }
 
-        String proxyName = proxyPkg + proxyClassNamePrefix + num;
+        String proxyNbme = proxyPkg + proxyClbssNbmePrefix + num;
 
         /*
-         * Generate the specified proxy class.
+         * Generbte the specified proxy clbss.
          */
-        Class<?> proxyClass = null;
-        byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
-                proxyName, new Class<?>[] { providerType });
+        Clbss<?> proxyClbss = null;
+        byte[] proxyClbssFile = ProxyGenerbtor.generbteProxyClbss(
+                proxyNbme, new Clbss<?>[] { providerType });
         try {
-            proxyClass = JVM.defineClass(
-                providerType.getClassLoader(), proxyName,
-                proxyClassFile, 0, proxyClassFile.length);
-        } catch (ClassFormatError e) {
+            proxyClbss = JVM.defineClbss(
+                providerType.getClbssLobder(), proxyNbme,
+                proxyClbssFile, 0, proxyClbssFile.length);
+        } cbtch (ClbssFormbtError e) {
             /*
-             * A ClassFormatError here means that (barring bugs in the
-             * proxy class generation code) there was some other
-             * invalid aspect of the arguments supplied to the proxy
-             * class creation (such as virtual machine limitations
+             * A ClbssFormbtError here mebns thbt (bbrring bugs in the
+             * proxy clbss generbtion code) there wbs some other
+             * invblid bspect of the brguments supplied to the proxy
+             * clbss crebtion (such bs virtubl mbchine limitbtions
              * exceeded).
              */
-            throw new IllegalArgumentException(e.toString());
+            throw new IllegblArgumentException(e.toString());
         }
 
         /*
-         * Invoke its constructor with the designated invocation handler.
+         * Invoke its constructor with the designbted invocbtion hbndler.
          */
         try {
-            Constructor<?> cons = proxyClass.getConstructor(constructorParams);
-            return (T)cons.newInstance(new Object[] { this });
-        } catch (ReflectiveOperationException e) {
-            throw new InternalError(e.toString(), e);
+            Constructor<?> cons = proxyClbss.getConstructor(constructorPbrbms);
+            return (T)cons.newInstbnce(new Object[] { this });
+        } cbtch (ReflectiveOperbtionException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 
-    // In the normal case, the proxy object's method implementations will call
-    // this method (it usually calls the ProviderSkeleton's version).  That
-    // method uses the passed 'method' object to lookup the associated
-    // 'ProbeSkeleton' and calls uncheckedTrigger() on that probe to cause the
-    // probe to fire.  DTrace probes are different in that the proxy class's
-    // methods are immediately overridden with native code to fire the probe
-    // directly.  So this method should never get invoked.  We also wire up the
-    // DTraceProbe.uncheckedTrigger() method to call the proxy method instead
+    // In the normbl cbse, the proxy object's method implementbtions will cbll
+    // this method (it usublly cblls the ProviderSkeleton's version).  Thbt
+    // method uses the pbssed 'method' object to lookup the bssocibted
+    // 'ProbeSkeleton' bnd cblls uncheckedTrigger() on thbt probe to cbuse the
+    // probe to fire.  DTrbce probes bre different in thbt the proxy clbss's
+    // methods bre immedibtely overridden with nbtive code to fire the probe
+    // directly.  So this method should never get invoked.  We blso wire up the
+    // DTrbceProbe.uncheckedTrigger() method to cbll the proxy method instebd
     // of doing the work itself.
-    protected void triggerProbe(Method method, Object[] args) {
-        assert false : "This method should have been overridden by the JVM";
+    protected void triggerProbe(Method method, Object[] brgs) {
+        bssert fblse : "This method should hbve been overridden by the JVM";
     }
 
-    public String getProviderName() {
-        return super.getProviderName();
+    public String getProviderNbme() {
+        return super.getProviderNbme();
     }
 
-    String getModuleName() {
-        return getAnnotationString(
-            providerType, ModuleName.class, DEFAULT_MODULE);
+    String getModuleNbme() {
+        return getAnnotbtionString(
+            providerType, ModuleNbme.clbss, DEFAULT_MODULE);
     }
 
-    static String getProbeName(Method method) {
-        return getAnnotationString(
-            method, ProbeName.class, method.getName());
+    stbtic String getProbeNbme(Method method) {
+        return getAnnotbtionString(
+            method, ProbeNbme.clbss, method.getNbme());
     }
 
-    static String getFunctionName(Method method) {
-        return getAnnotationString(
-            method, FunctionName.class, DEFAULT_FUNCTION);
+    stbtic String getFunctionNbme(Method method) {
+        return getAnnotbtionString(
+            method, FunctionNbme.clbss, DEFAULT_FUNCTION);
     }
 
-    DTraceProbe[] getProbes() {
-        return probes.values().toArray(new DTraceProbe[0]);
+    DTrbceProbe[] getProbes() {
+        return probes.vblues().toArrby(new DTrbceProbe[0]);
     }
 
-    StabilityLevel getNameStabilityFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return StabilityLevel.PRIVATE;
+    StbbilityLevel getNbmeStbbilityFor(Clbss<? extends Annotbtion> type) {
+        Attributes bttrs = (Attributes)getAnnotbtionVblue(
+            providerType, type, "vblue", null);
+        if (bttrs == null) {
+            return StbbilityLevel.PRIVATE;
         } else {
-            return attrs.name();
+            return bttrs.nbme();
         }
     }
 
-    StabilityLevel getDataStabilityFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return StabilityLevel.PRIVATE;
+    StbbilityLevel getDbtbStbbilityFor(Clbss<? extends Annotbtion> type) {
+        Attributes bttrs = (Attributes)getAnnotbtionVblue(
+            providerType, type, "vblue", null);
+        if (bttrs == null) {
+            return StbbilityLevel.PRIVATE;
         } else {
-            return attrs.data();
+            return bttrs.dbtb();
         }
     }
 
-    DependencyClass getDependencyClassFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return DependencyClass.UNKNOWN;
+    DependencyClbss getDependencyClbssFor(Clbss<? extends Annotbtion> type) {
+        Attributes bttrs = (Attributes)getAnnotbtionVblue(
+            providerType, type, "vblue", null);
+        if (bttrs == null) {
+            return DependencyClbss.UNKNOWN;
         } else {
-            return attrs.dependency();
+            return bttrs.dependency();
         }
     }
 }

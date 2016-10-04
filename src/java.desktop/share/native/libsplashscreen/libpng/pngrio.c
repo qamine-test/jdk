@@ -1,177 +1,177 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* pngrio.c - functions for data input
+/* pngrio.c - functions for dbtb input
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
+ * file bnd, per its terms, should not be removed:
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Lbst chbnged in libpng 1.5.0 [Jbnubry 6, 2011]
+ * Copyright (c) 1998-2011 Glenn Rbnders-Pehrson
+ * (Version 0.96 Copyright (c) 1996, 1997 Andrebs Dilger)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schblnbt, Group 42, Inc.)
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * This code is relebsed under the libpng license.
+ * For conditions of distribution bnd use, see the disclbimer
+ * bnd license in png.h
  *
- * This file provides a location for all input.  Users who need
- * special handling are expected to write a function that has the same
- * arguments as this and performs a similar function, but that possibly
- * has a different input method.  Note that you shouldn't change this
- * function, but rather write a replacement function and then make
- * libpng use it at run time with png_set_read_fn(...).
+ * This file provides b locbtion for bll input.  Users who need
+ * specibl hbndling bre expected to write b function thbt hbs the sbme
+ * brguments bs this bnd performs b similbr function, but thbt possibly
+ * hbs b different input method.  Note thbt you shouldn't chbnge this
+ * function, but rbther write b replbcement function bnd then mbke
+ * libpng use it bt run time with png_set_rebd_fn(...).
  */
 
 #include "pngpriv.h"
 
 #ifdef PNG_READ_SUPPORTED
 
-/* Read the data from whatever input you are using.  The default routine
- * reads from a file pointer.  Note that this routine sometimes gets called
- * with very small lengths, so you should implement some kind of simple
- * buffering if you are using unbuffered reads.  This should never be asked
- * to read more then 64K on a 16 bit machine.
+/* Rebd the dbtb from whbtever input you bre using.  The defbult routine
+ * rebds from b file pointer.  Note thbt this routine sometimes gets cblled
+ * with very smbll lengths, so you should implement some kind of simple
+ * buffering if you bre using unbuffered rebds.  This should never be bsked
+ * to rebd more then 64K on b 16 bit mbchine.
  */
 void /* PRIVATE */
-png_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+png_rebd_dbtb(png_structp png_ptr, png_bytep dbtb, png_size_t length)
 {
-   png_debug1(4, "reading %d bytes", (int)length);
+   png_debug1(4, "rebding %d bytes", (int)length);
 
-   if (png_ptr->read_data_fn != NULL)
-      (*(png_ptr->read_data_fn))(png_ptr, data, length);
+   if (png_ptr->rebd_dbtb_fn != NULL)
+      (*(png_ptr->rebd_dbtb_fn))(png_ptr, dbtb, length);
 
    else
-      png_error(png_ptr, "Call to NULL read function");
+      png_error(png_ptr, "Cbll to NULL rebd function");
 }
 
 #ifdef PNG_STDIO_SUPPORTED
-/* This is the function that does the actual reading of data.  If you are
- * not reading from a standard C stream, you should create a replacement
- * read_data function and use it at run time with png_set_read_fn(), rather
- * than changing the library.
+/* This is the function thbt does the bctubl rebding of dbtb.  If you bre
+ * not rebding from b stbndbrd C strebm, you should crebte b replbcement
+ * rebd_dbtb function bnd use it bt run time with png_set_rebd_fn(), rbther
+ * thbn chbnging the librbry.
  */
 #  ifndef USE_FAR_KEYWORD
 void PNGCBAPI
-png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+png_defbult_rebd_dbtb(png_structp png_ptr, png_bytep dbtb, png_size_t length)
 {
    png_size_t check;
 
    if (png_ptr == NULL)
       return;
 
-   /* fread() returns 0 on error, so it is OK to store this in a png_size_t
-    * instead of an int, which is what fread() actually returns.
+   /* frebd() returns 0 on error, so it is OK to store this in b png_size_t
+    * instebd of bn int, which is whbt frebd() bctublly returns.
     */
-   check = fread(data, 1, length, (png_FILE_p)png_ptr->io_ptr);
+   check = frebd(dbtb, 1, length, (png_FILE_p)png_ptr->io_ptr);
 
    if (check != length)
-      png_error(png_ptr, "Read Error");
+      png_error(png_ptr, "Rebd Error");
 }
 #  else
-/* This is the model-independent version. Since the standard I/O library
-   can't handle far buffers in the medium and small models, we have to copy
-   the data.
+/* This is the model-independent version. Since the stbndbrd I/O librbry
+   cbn't hbndle fbr buffers in the medium bnd smbll models, we hbve to copy
+   the dbtb.
 */
 
 #define NEAR_BUF_SIZE 1024
-#define MIN(a,b) (a <= b ? a : b)
+#define MIN(b,b) (b <= b ? b : b)
 
-static void PNGCBAPI
-png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+stbtic void PNGCBAPI
+png_defbult_rebd_dbtb(png_structp png_ptr, png_bytep dbtb, png_size_t length)
 {
    png_size_t check;
-   png_byte *n_data;
+   png_byte *n_dbtb;
    png_FILE_p io_ptr;
 
    if (png_ptr == NULL)
       return;
 
-   /* Check if data really is near. If so, use usual code. */
-   n_data = (png_byte *)CVT_PTR_NOCHECK(data);
+   /* Check if dbtb reblly is nebr. If so, use usubl code. */
+   n_dbtb = (png_byte *)CVT_PTR_NOCHECK(dbtb);
    io_ptr = (png_FILE_p)CVT_PTR(png_ptr->io_ptr);
 
-   if ((png_bytep)n_data == data)
+   if ((png_bytep)n_dbtb == dbtb)
    {
-      check = fread(n_data, 1, length, io_ptr);
+      check = frebd(n_dbtb, 1, length, io_ptr);
    }
 
    else
    {
       png_byte buf[NEAR_BUF_SIZE];
-      png_size_t read, remaining, err;
+      png_size_t rebd, rembining, err;
       check = 0;
-      remaining = length;
+      rembining = length;
 
       do
       {
-         read = MIN(NEAR_BUF_SIZE, remaining);
-         err = fread(buf, 1, read, io_ptr);
-         png_memcpy(data, buf, read); /* copy far buffer to near buffer */
+         rebd = MIN(NEAR_BUF_SIZE, rembining);
+         err = frebd(buf, 1, rebd, io_ptr);
+         png_memcpy(dbtb, buf, rebd); /* copy fbr buffer to nebr buffer */
 
-         if (err != read)
-            break;
+         if (err != rebd)
+            brebk;
 
          else
             check += err;
 
-         data += read;
-         remaining -= read;
+         dbtb += rebd;
+         rembining -= rebd;
       }
-      while (remaining != 0);
+      while (rembining != 0);
    }
 
    if ((png_uint_32)check != (png_uint_32)length)
-      png_error(png_ptr, "read Error");
+      png_error(png_ptr, "rebd Error");
 }
 #  endif
 #endif
 
-/* This function allows the application to supply a new input function
- * for libpng if standard C streams aren't being used.
+/* This function bllows the bpplicbtion to supply b new input function
+ * for libpng if stbndbrd C strebms bren't being used.
  *
- * This function takes as its arguments:
+ * This function tbkes bs its brguments:
  *
- * png_ptr      - pointer to a png input data structure
+ * png_ptr      - pointer to b png input dbtb structure
  *
- * io_ptr       - pointer to user supplied structure containing info about
- *                the input functions.  May be NULL.
+ * io_ptr       - pointer to user supplied structure contbining info bbout
+ *                the input functions.  Mby be NULL.
  *
- * read_data_fn - pointer to a new input function that takes as its
- *                arguments a pointer to a png_struct, a pointer to
- *                a location where input data can be stored, and a 32-bit
- *                unsigned int that is the number of bytes to be read.
- *                To exit and output any fatal error messages the new write
- *                function should call png_error(png_ptr, "Error msg").
- *                May be NULL, in which case libpng's default function will
+ * rebd_dbtb_fn - pointer to b new input function thbt tbkes bs its
+ *                brguments b pointer to b png_struct, b pointer to
+ *                b locbtion where input dbtb cbn be stored, bnd b 32-bit
+ *                unsigned int thbt is the number of bytes to be rebd.
+ *                To exit bnd output bny fbtbl error messbges the new write
+ *                function should cbll png_error(png_ptr, "Error msg").
+ *                Mby be NULL, in which cbse libpng's defbult function will
  *                be used.
  */
 void PNGAPI
-png_set_read_fn(png_structp png_ptr, png_voidp io_ptr,
-   png_rw_ptr read_data_fn)
+png_set_rebd_fn(png_structp png_ptr, png_voidp io_ptr,
+   png_rw_ptr rebd_dbtb_fn)
 {
    if (png_ptr == NULL)
       return;
@@ -179,22 +179,22 @@ png_set_read_fn(png_structp png_ptr, png_voidp io_ptr,
    png_ptr->io_ptr = io_ptr;
 
 #ifdef PNG_STDIO_SUPPORTED
-   if (read_data_fn != NULL)
-      png_ptr->read_data_fn = read_data_fn;
+   if (rebd_dbtb_fn != NULL)
+      png_ptr->rebd_dbtb_fn = rebd_dbtb_fn;
 
    else
-      png_ptr->read_data_fn = png_default_read_data;
+      png_ptr->rebd_dbtb_fn = png_defbult_rebd_dbtb;
 #else
-   png_ptr->read_data_fn = read_data_fn;
+   png_ptr->rebd_dbtb_fn = rebd_dbtb_fn;
 #endif
 
-   /* It is an error to write to a read device */
-   if (png_ptr->write_data_fn != NULL)
+   /* It is bn error to write to b rebd device */
+   if (png_ptr->write_dbtb_fn != NULL)
    {
-      png_ptr->write_data_fn = NULL;
-      png_warning(png_ptr,
-          "Can't set both read_data_fn and write_data_fn in the"
-          " same structure");
+      png_ptr->write_dbtb_fn = NULL;
+      png_wbrning(png_ptr,
+          "Cbn't set both rebd_dbtb_fn bnd write_dbtb_fn in the"
+          " sbme structure");
    }
 
 #ifdef PNG_WRITE_FLUSH_SUPPORTED

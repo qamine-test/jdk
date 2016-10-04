@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Spliterator;
+import jbvb.util.Spliterbtor;
 
 /**
- * An operation in a stream pipeline that takes a stream as input and produces
- * a result or side-effect.  A {@code TerminalOp} has an input type and stream
- * shape, and a result type.  A {@code TerminalOp} also has a set of
- * <em>operation flags</em> that describes how the operation processes elements
- * of the stream (such as short-circuiting or respecting encounter order; see
- * {@link StreamOpFlag}).
+ * An operbtion in b strebm pipeline thbt tbkes b strebm bs input bnd produces
+ * b result or side-effect.  A {@code TerminblOp} hbs bn input type bnd strebm
+ * shbpe, bnd b result type.  A {@code TerminblOp} blso hbs b set of
+ * <em>operbtion flbgs</em> thbt describes how the operbtion processes elements
+ * of the strebm (such bs short-circuiting or respecting encounter order; see
+ * {@link StrebmOpFlbg}).
  *
- * <p>A {@code TerminalOp} must provide a sequential and parallel implementation
- * of the operation relative to a given stream source and set of intermediate
- * operations.
+ * <p>A {@code TerminblOp} must provide b sequentibl bnd pbrbllel implementbtion
+ * of the operbtion relbtive to b given strebm source bnd set of intermedibte
+ * operbtions.
  *
- * @param <E_IN> the type of input elements
- * @param <R>    the type of the result
+ * @pbrbm <E_IN> the type of input elements
+ * @pbrbm <R>    the type of the result
  * @since 1.8
  */
-interface TerminalOp<E_IN, R> {
+interfbce TerminblOp<E_IN, R> {
     /**
-     * Gets the shape of the input type of this operation.
+     * Gets the shbpe of the input type of this operbtion.
      *
-     * @implSpec The default returns {@code StreamShape.REFERENCE}.
+     * @implSpec The defbult returns {@code StrebmShbpe.REFERENCE}.
      *
-     * @return StreamShape of the input type of this operation
+     * @return StrebmShbpe of the input type of this operbtion
      */
-    default StreamShape inputShape() { return StreamShape.REFERENCE; }
+    defbult StrebmShbpe inputShbpe() { return StrebmShbpe.REFERENCE; }
 
     /**
-     * Gets the stream flags of the operation.  Terminal operations may set a
-     * limited subset of the stream flags defined in {@link StreamOpFlag}, and
-     * these flags are combined with the previously combined stream and
-     * intermediate operation flags for the pipeline.
+     * Gets the strebm flbgs of the operbtion.  Terminbl operbtions mby set b
+     * limited subset of the strebm flbgs defined in {@link StrebmOpFlbg}, bnd
+     * these flbgs bre combined with the previously combined strebm bnd
+     * intermedibte operbtion flbgs for the pipeline.
      *
-     * @implSpec The default implementation returns zero.
+     * @implSpec The defbult implementbtion returns zero.
      *
-     * @return the stream flags for this operation
-     * @see StreamOpFlag
+     * @return the strebm flbgs for this operbtion
+     * @see StrebmOpFlbg
      */
-    default int getOpFlags() { return 0; }
+    defbult int getOpFlbgs() { return 0; }
 
     /**
-     * Performs a parallel evaluation of the operation using the specified
-     * {@code PipelineHelper}, which describes the upstream intermediate
-     * operations.
+     * Performs b pbrbllel evblubtion of the operbtion using the specified
+     * {@code PipelineHelper}, which describes the upstrebm intermedibte
+     * operbtions.
      *
-     * @implSpec The default performs a sequential evaluation of the operation
+     * @implSpec The defbult performs b sequentibl evblubtion of the operbtion
      * using the specified {@code PipelineHelper}.
      *
-     * @param helper the pipeline helper
-     * @param spliterator the source spliterator
-     * @return the result of the evaluation
+     * @pbrbm helper the pipeline helper
+     * @pbrbm spliterbtor the source spliterbtor
+     * @return the result of the evblubtion
      */
-    default <P_IN> R evaluateParallel(PipelineHelper<E_IN> helper,
-                                      Spliterator<P_IN> spliterator) {
+    defbult <P_IN> R evblubtePbrbllel(PipelineHelper<E_IN> helper,
+                                      Spliterbtor<P_IN> spliterbtor) {
         if (Tripwire.ENABLED)
-            Tripwire.trip(getClass(), "{0} triggering TerminalOp.evaluateParallel serial default");
-        return evaluateSequential(helper, spliterator);
+            Tripwire.trip(getClbss(), "{0} triggering TerminblOp.evblubtePbrbllel seribl defbult");
+        return evblubteSequentibl(helper, spliterbtor);
     }
 
     /**
-     * Performs a sequential evaluation of the operation using the specified
-     * {@code PipelineHelper}, which describes the upstream intermediate
-     * operations.
+     * Performs b sequentibl evblubtion of the operbtion using the specified
+     * {@code PipelineHelper}, which describes the upstrebm intermedibte
+     * operbtions.
      *
-     * @param helper the pipeline helper
-     * @param spliterator the source spliterator
-     * @return the result of the evaluation
+     * @pbrbm helper the pipeline helper
+     * @pbrbm spliterbtor the source spliterbtor
+     * @return the result of the evblubtion
      */
-    <P_IN> R evaluateSequential(PipelineHelper<E_IN> helper,
-                                Spliterator<P_IN> spliterator);
+    <P_IN> R evblubteSequentibl(PipelineHelper<E_IN> helper,
+                                Spliterbtor<P_IN> spliterbtor);
 }

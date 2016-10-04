@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
 /**
- * Defines the requirements for a tree node object that can change --
- * by adding or removing child nodes, or by changing the contents
- * of a user object stored in the node.
+ * Defines the requirements for b tree node object thbt cbn chbnge --
+ * by bdding or removing child nodes, or by chbnging the contents
+ * of b user object stored in the node.
  *
- * @see DefaultMutableTreeNode
- * @see javax.swing.JTree
+ * @see DefbultMutbbleTreeNode
+ * @see jbvbx.swing.JTree
  *
- * @author Rob Davis
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Scott Violet
  */
 
-public interface MutableTreeNode extends TreeNode
+public interfbce MutbbleTreeNode extends TreeNode
 {
     /**
-     * Adds <code>child</code> to the receiver at <code>index</code>.
-     * <code>child</code> will be messaged with <code>setParent</code>.
+     * Adds <code>child</code> to the receiver bt <code>index</code>.
+     * <code>child</code> will be messbged with <code>setPbrent</code>.
      *
-     * @param child node to be added
-     * @param index index of the receiver
+     * @pbrbm child node to be bdded
+     * @pbrbm index index of the receiver
      */
-    void insert(MutableTreeNode child, int index);
+    void insert(MutbbleTreeNode child, int index);
 
     /**
-     * Removes the child at <code>index</code> from the receiver.
+     * Removes the child bt <code>index</code> from the receiver.
      *
-     * @param index index of child to be removed
+     * @pbrbm index index of child to be removed
      */
     void remove(int index);
 
     /**
-     * Removes <code>node</code> from the receiver. <code>setParent</code>
-     * will be messaged on <code>node</code>.
+     * Removes <code>node</code> from the receiver. <code>setPbrent</code>
+     * will be messbged on <code>node</code>.
      *
-     * @param node node to be removed from the receiver
+     * @pbrbm node node to be removed from the receiver
      */
-    void remove(MutableTreeNode node);
+    void remove(MutbbleTreeNode node);
 
     /**
      * Resets the user object of the receiver to <code>object</code>.
      *
-     * @param object object to be set as a receiver
+     * @pbrbm object object to be set bs b receiver
      */
     void setUserObject(Object object);
 
     /**
-     * Removes the receiver from its parent.
+     * Removes the receiver from its pbrent.
      */
-    void removeFromParent();
+    void removeFromPbrent();
 
     /**
-     * Sets the parent of the receiver to <code>newParent</code>.
+     * Sets the pbrent of the receiver to <code>newPbrent</code>.
      *
-     * @param newParent node to be set as parent of the receiver
+     * @pbrbm newPbrent node to be set bs pbrent of the receiver
      */
-    void setParent(MutableTreeNode newParent);
+    void setPbrent(MutbbleTreeNode newPbrent);
 }

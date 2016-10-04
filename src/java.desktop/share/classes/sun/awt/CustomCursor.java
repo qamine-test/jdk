@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A clbss to encbpsulbte b custom imbge-bbsed cursor.
  *
- * @author      ThomasBall
+ * @buthor      ThombsBbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class CustomCursor extends Cursor {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public bbstrbct clbss CustomCursor extends Cursor {
 
-    protected Image image;
+    protected Imbge imbge;
 
-    public CustomCursor(Image cursor, Point hotSpot, String name)
+    public CustomCursor(Imbge cursor, Point hotSpot, String nbme)
             throws IndexOutOfBoundsException {
-        super(name);
-        image = cursor;
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        super(nbme);
+        imbge = cursor;
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
 
-        // Make sure image is fully loaded.
-        Component c = new Canvas(); // for its imageUpdate method
-        MediaTracker tracker = new MediaTracker(c);
-        tracker.addImage(cursor, 0);
+        // Mbke sure imbge is fully lobded.
+        Component c = new Cbnvbs(); // for its imbgeUpdbte method
+        MedibTrbcker trbcker = new MedibTrbcker(c);
+        trbcker.bddImbge(cursor, 0);
         try {
-            tracker.waitForAll();
-        } catch (InterruptedException e) {
+            trbcker.wbitForAll();
+        } cbtch (InterruptedException e) {
         }
         int width = cursor.getWidth(c);
         int height = cursor.getHeight(c);
 
-        // Fix for bug 4212593 The Toolkit.createCustomCursor does not
-        //                     check absence of the image of cursor
-        // If the image is invalid, the cursor will be hidden (made completely
-        // transparent). In this case, getBestCursorSize() will adjust negative w and h,
-        // but we need to set the hotspot inside the image here.
-        if (tracker.isErrorAny() || width < 0 || height < 0) {
+        // Fix for bug 4212593 The Toolkit.crebteCustomCursor does not
+        //                     check bbsence of the imbge of cursor
+        // If the imbge is invblid, the cursor will be hidden (mbde completely
+        // trbnspbrent). In this cbse, getBestCursorSize() will bdjust negbtive w bnd h,
+        // but we need to set the hotspot inside the imbge here.
+        if (trbcker.isErrorAny() || width < 0 || height < 0) {
               hotSpot.x = hotSpot.y = 0;
         }
 
-        // Scale image to nearest supported size.
-        Dimension nativeSize = toolkit.getBestCursorSize(width, height);
-        if (nativeSize.width != width || nativeSize.height != height) {
-            cursor = cursor.getScaledInstance(nativeSize.width,
-                                              nativeSize.height,
-                                              Image.SCALE_DEFAULT);
-            width = nativeSize.width;
-            height = nativeSize.height;
+        // Scble imbge to nebrest supported size.
+        Dimension nbtiveSize = toolkit.getBestCursorSize(width, height);
+        if (nbtiveSize.width != width || nbtiveSize.height != height) {
+            cursor = cursor.getScbledInstbnce(nbtiveSize.width,
+                                              nbtiveSize.height,
+                                              Imbge.SCALE_DEFAULT);
+            width = nbtiveSize.width;
+            height = nbtiveSize.height;
         }
 
-        // Verify that the hotspot is within cursor bounds.
+        // Verify thbt the hotspot is within cursor bounds.
         if (hotSpot.x >= width || hotSpot.y >= height || hotSpot.x < 0 || hotSpot.y < 0) {
-            throw new IndexOutOfBoundsException("invalid hotSpot");
+            throw new IndexOutOfBoundsException("invblid hotSpot");
         }
 
-        /* Extract ARGB array from image.
+        /* Extrbct ARGB brrby from imbge.
          *
-         * A transparency mask can be created in native code by checking
-         * each pixel's top byte -- a 0 value means the pixel's transparent.
-         * Since each platform's format of the bitmap and mask are likely to
-         * be different, their creation shouldn't be here.
+         * A trbnspbrency mbsk cbn be crebted in nbtive code by checking
+         * ebch pixel's top byte -- b 0 vblue mebns the pixel's trbnspbrent.
+         * Since ebch plbtform's formbt of the bitmbp bnd mbsk bre likely to
+         * be different, their crebtion shouldn't be here.
          */
         int[] pixels = new int[width * height];
-        ImageProducer ip = cursor.getSource();
-        PixelGrabber pg = new PixelGrabber(ip, 0, 0, width, height,
+        ImbgeProducer ip = cursor.getSource();
+        PixelGrbbber pg = new PixelGrbbber(ip, 0, 0, width, height,
                                            pixels, 0, width);
         try {
-            pg.grabPixels();
-        } catch (InterruptedException e) {
+            pg.grbbPixels();
+        } cbtch (InterruptedException e) {
         }
 
-        createNativeCursor(image, pixels, width, height, hotSpot.x, hotSpot.y);
+        crebteNbtiveCursor(imbge, pixels, width, height, hotSpot.x, hotSpot.y);
     }
 
-    protected abstract void createNativeCursor(Image im,  int[] pixels,
+    protected bbstrbct void crebteNbtiveCursor(Imbge im,  int[] pixels,
                                                int width, int height,
                                                int xHotSpot, int yHotSpot);
 }

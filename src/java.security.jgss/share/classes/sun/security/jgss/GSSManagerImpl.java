@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.spi.*;
-import java.security.Provider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.Provider;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * This class provides the default implementation of the GSSManager
- * interface.
+ * This clbss provides the defbult implementbtion of the GSSMbnbger
+ * interfbce.
  */
-public class GSSManagerImpl extends GSSManager {
+public clbss GSSMbnbgerImpl extends GSSMbnbger {
 
     // Undocumented property
-    private static final String USE_NATIVE_PROP =
-        "sun.security.jgss.native";
-    private static final Boolean USE_NATIVE;
+    privbte stbtic finbl String USE_NATIVE_PROP =
+        "sun.security.jgss.nbtive";
+    privbte stbtic finbl Boolebn USE_NATIVE;
 
-    static {
+    stbtic {
         USE_NATIVE =
-            AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-                    public Boolean run() {
-                            String osname = System.getProperty("os.name");
-                            if (osname.startsWith("SunOS") ||
-                                osname.contains("OS X") ||
-                                osname.startsWith("Linux")) {
-                                return Boolean.valueOf(System.getProperty
+            AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+                    public Boolebn run() {
+                            String osnbme = System.getProperty("os.nbme");
+                            if (osnbme.stbrtsWith("SunOS") ||
+                                osnbme.contbins("OS X") ||
+                                osnbme.stbrtsWith("Linux")) {
+                                return Boolebn.vblueOf(System.getProperty
                                         (USE_NATIVE_PROP));
                             }
-                            return Boolean.FALSE;
+                            return Boolebn.FALSE;
                     }
             });
 
     }
 
-    private ProviderList list;
+    privbte ProviderList list;
 
-    // Used by java SPNEGO impl to make sure native is disabled
-    public GSSManagerImpl(GSSCaller caller, boolean useNative) {
-        list = new ProviderList(caller, useNative);
+    // Used by jbvb SPNEGO impl to mbke sure nbtive is disbbled
+    public GSSMbnbgerImpl(GSSCbller cbller, boolebn useNbtive) {
+        list = new ProviderList(cbller, useNbtive);
     }
 
-    // Used by HTTP/SPNEGO NegotiatorImpl
-    public GSSManagerImpl(GSSCaller caller) {
-        list = new ProviderList(caller, USE_NATIVE);
+    // Used by HTTP/SPNEGO NegotibtorImpl
+    public GSSMbnbgerImpl(GSSCbller cbller) {
+        list = new ProviderList(cbller, USE_NATIVE);
     }
 
-    public GSSManagerImpl() {
-        list = new ProviderList(GSSCaller.CALLER_UNKNOWN, USE_NATIVE);
+    public GSSMbnbgerImpl() {
+        list = new ProviderList(GSSCbller.CALLER_UNKNOWN, USE_NATIVE);
     }
 
     public Oid[] getMechs(){
         return list.getMechs();
     }
 
-    public Oid[] getNamesForMech(Oid mech)
+    public Oid[] getNbmesForMech(Oid mech)
         throws GSSException {
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameTypes().clone();
+        MechbnismFbctory fbctory = list.getMechFbctory(mech);
+        return fbctory.getNbmeTypes().clone();
     }
 
-    public Oid[] getMechsForName(Oid nameType){
+    public Oid[] getMechsForNbme(Oid nbmeType){
         Oid[] mechs = list.getMechs();
-        Oid[] retVal = new Oid[mechs.length];
+        Oid[] retVbl = new Oid[mechs.length];
         int pos = 0;
 
-        // Compatibility with RFC 2853 old NT_HOSTBASED_SERVICE value.
-        if (nameType.equals(GSSNameImpl.oldHostbasedServiceName)) {
-            nameType = GSSName.NT_HOSTBASED_SERVICE;
+        // Compbtibility with RFC 2853 old NT_HOSTBASED_SERVICE vblue.
+        if (nbmeType.equbls(GSSNbmeImpl.oldHostbbsedServiceNbme)) {
+            nbmeType = GSSNbme.NT_HOSTBASED_SERVICE;
         }
 
-        // Iterate thru all mechs in GSS
+        // Iterbte thru bll mechs in GSS
         for (int i = 0; i < mechs.length; i++) {
-            // what nametypes does this mech support?
+            // whbt nbmetypes does this mech support?
             Oid mech = mechs[i];
             try {
-                Oid[] namesForMech = getNamesForMech(mech);
-                // Is the desired Oid present in that list?
-                if (nameType.containedIn(namesForMech)) {
-                    retVal[pos++] = mech;
+                Oid[] nbmesForMech = getNbmesForMech(mech);
+                // Is the desired Oid present in thbt list?
+                if (nbmeType.contbinedIn(nbmesForMech)) {
+                    retVbl[pos++] = mech;
                 }
-            } catch (GSSException e) {
-                // Squelch it and just skip over this mechanism
+            } cbtch (GSSException e) {
+                // Squelch it bnd just skip over this mechbnism
                 GSSUtil.debug("Skip " + mech +
-                              ": error retrieving supported name types");
+                              ": error retrieving supported nbme types");
             }
         }
 
         // Trim the list if needed
-        if (pos < retVal.length) {
+        if (pos < retVbl.length) {
             Oid[] temp = new Oid[pos];
             for (int i = 0; i < pos; i++)
-                temp[i] = retVal[i];
-            retVal = temp;
+                temp[i] = retVbl[i];
+            retVbl = temp;
         }
 
-        return retVal;
+        return retVbl;
     }
 
-    public GSSName createName(String nameStr, Oid nameType)
+    public GSSNbme crebteNbme(String nbmeStr, Oid nbmeType)
         throws GSSException {
-        return new GSSNameImpl(this, nameStr, nameType);
+        return new GSSNbmeImpl(this, nbmeStr, nbmeType);
     }
 
-    public GSSName createName(byte name[], Oid nameType)
+    public GSSNbme crebteNbme(byte nbme[], Oid nbmeType)
         throws GSSException {
-        return new GSSNameImpl(this, name, nameType);
+        return new GSSNbmeImpl(this, nbme, nbmeType);
     }
 
-    public GSSName createName(String nameStr, Oid nameType,
+    public GSSNbme crebteNbme(String nbmeStr, Oid nbmeType,
                               Oid mech) throws GSSException {
-        return new GSSNameImpl(this, nameStr, nameType, mech);
+        return new GSSNbmeImpl(this, nbmeStr, nbmeType, mech);
     }
 
-    public GSSName createName(byte name[], Oid nameType, Oid mech)
+    public GSSNbme crebteNbme(byte nbme[], Oid nbmeType, Oid mech)
         throws GSSException {
-        return new GSSNameImpl(this, name, nameType, mech);
+        return new GSSNbmeImpl(this, nbme, nbmeType, mech);
     }
 
-    public GSSCredential createCredential(int usage)
+    public GSSCredentibl crebteCredentibl(int usbge)
         throws GSSException {
-        return new GSSCredentialImpl(this, usage);
+        return new GSSCredentiblImpl(this, usbge);
     }
 
-    public GSSCredential createCredential(GSSName aName,
-                                          int lifetime, Oid mech, int usage)
+    public GSSCredentibl crebteCredentibl(GSSNbme bNbme,
+                                          int lifetime, Oid mech, int usbge)
         throws GSSException {
-        return new GSSCredentialImpl(this, aName, lifetime, mech, usage);
+        return new GSSCredentiblImpl(this, bNbme, lifetime, mech, usbge);
     }
 
-    public GSSCredential createCredential(GSSName aName,
-                                          int lifetime, Oid mechs[], int usage)
+    public GSSCredentibl crebteCredentibl(GSSNbme bNbme,
+                                          int lifetime, Oid mechs[], int usbge)
         throws GSSException {
-        return new GSSCredentialImpl(this, aName, lifetime, mechs, usage);
+        return new GSSCredentiblImpl(this, bNbme, lifetime, mechs, usbge);
     }
 
-    public GSSContext createContext(GSSName peer, Oid mech,
-                                    GSSCredential myCred, int lifetime)
+    public GSSContext crebteContext(GSSNbme peer, Oid mech,
+                                    GSSCredentibl myCred, int lifetime)
         throws GSSException {
         return new GSSContextImpl(this, peer, mech, myCred, lifetime);
     }
 
-    public GSSContext createContext(GSSCredential myCred)
+    public GSSContext crebteContext(GSSCredentibl myCred)
         throws GSSException {
         return new GSSContextImpl(this, myCred);
     }
 
-    public GSSContext createContext(byte[] interProcessToken)
+    public GSSContext crebteContext(byte[] interProcessToken)
         throws GSSException {
         return new GSSContextImpl(this, interProcessToken);
     }
 
-    public void addProviderAtFront(Provider p, Oid mech)
+    public void bddProviderAtFront(Provider p, Oid mech)
         throws GSSException {
-        list.addProviderAtFront(p, mech);
+        list.bddProviderAtFront(p, mech);
     }
 
-    public void addProviderAtEnd(Provider p, Oid mech)
+    public void bddProviderAtEnd(Provider p, Oid mech)
         throws GSSException {
-        list.addProviderAtEnd(p, mech);
+        list.bddProviderAtEnd(p, mech);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name, int initLifetime,
-                                          int acceptLifetime, Oid mech, int usage)
+    public GSSCredentiblSpi getCredentiblElement(GSSNbmeSpi nbme, int initLifetime,
+                                          int bcceptLifetime, Oid mech, int usbge)
         throws GSSException {
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getCredentialElement(name, initLifetime,
-                                            acceptLifetime, usage);
+        MechbnismFbctory fbctory = list.getMechFbctory(mech);
+        return fbctory.getCredentiblElement(nbme, initLifetime,
+                                            bcceptLifetime, usbge);
     }
 
-    // Used by java SPNEGO impl
-    public GSSNameSpi getNameElement(String name, Oid nameType, Oid mech)
+    // Used by jbvb SPNEGO impl
+    public GSSNbmeSpi getNbmeElement(String nbme, Oid nbmeType, Oid mech)
         throws GSSException {
-        // Just use the most preferred MF impl assuming GSSNameSpi
-        // objects are interoperable among providers
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameElement(name, nameType);
+        // Just use the most preferred MF impl bssuming GSSNbmeSpi
+        // objects bre interoperbble bmong providers
+        MechbnismFbctory fbctory = list.getMechFbctory(mech);
+        return fbctory.getNbmeElement(nbme, nbmeType);
     }
 
-    // Used by java SPNEGO impl
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType, Oid mech)
+    // Used by jbvb SPNEGO impl
+    public GSSNbmeSpi getNbmeElement(byte[] nbme, Oid nbmeType, Oid mech)
         throws GSSException {
-        // Just use the most preferred MF impl assuming GSSNameSpi
-        // objects are interoperable among providers
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameElement(name, nameType);
+        // Just use the most preferred MF impl bssuming GSSNbmeSpi
+        // objects bre interoperbble bmong providers
+        MechbnismFbctory fbctory = list.getMechFbctory(mech);
+        return fbctory.getNbmeElement(nbme, nbmeType);
     }
 
-    GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                                      GSSCredentialSpi myInitiatorCred,
+    GSSContextSpi getMechbnismContext(GSSNbmeSpi peer,
+                                      GSSCredentiblSpi myInitibtorCred,
                                       int lifetime, Oid mech)
         throws GSSException {
         Provider p = null;
-        if (myInitiatorCred != null) {
-            p = myInitiatorCred.getProvider();
+        if (myInitibtorCred != null) {
+            p = myInitibtorCred.getProvider();
         }
-        MechanismFactory factory = list.getMechFactory(mech, p);
-        return factory.getMechanismContext(peer, myInitiatorCred, lifetime);
+        MechbnismFbctory fbctory = list.getMechFbctory(mech, p);
+        return fbctory.getMechbnismContext(peer, myInitibtorCred, lifetime);
     }
 
-    GSSContextSpi getMechanismContext(GSSCredentialSpi myAcceptorCred,
+    GSSContextSpi getMechbnismContext(GSSCredentiblSpi myAcceptorCred,
                                       Oid mech)
         throws GSSException {
         Provider p = null;
         if (myAcceptorCred != null) {
             p = myAcceptorCred.getProvider();
         }
-        MechanismFactory factory = list.getMechFactory(mech, p);
-        return factory.getMechanismContext(myAcceptorCred);
+        MechbnismFbctory fbctory = list.getMechFbctory(mech, p);
+        return fbctory.getMechbnismContext(myAcceptorCred);
     }
 
-    GSSContextSpi getMechanismContext(byte[] exportedContext)
+    GSSContextSpi getMechbnismContext(byte[] exportedContext)
         throws GSSException {
         if ((exportedContext == null) || (exportedContext.length == 0)) {
             throw new GSSException(GSSException.NO_CONTEXT);
         }
         GSSContextSpi result = null;
 
-        // Only allow context import with native provider since JGSS
-        // still has not defined its own interprocess token format
+        // Only bllow context import with nbtive provider since JGSS
+        // still hbs not defined its own interprocess token formbt
         Oid[] mechs = list.getMechs();
         for (int i = 0; i < mechs.length; i++) {
-            MechanismFactory factory = list.getMechFactory(mechs[i]);
-            if (factory.getProvider().getName().equals("SunNativeGSS")) {
-                result = factory.getMechanismContext(exportedContext);
-                if (result != null) break;
+            MechbnismFbctory fbctory = list.getMechFbctory(mechs[i]);
+            if (fbctory.getProvider().getNbme().equbls("SunNbtiveGSS")) {
+                result = fbctory.getMechbnismContext(exportedContext);
+                if (result != null) brebk;
             }
         }
         if (result == null) {

@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-public class CalendarUtils {
+public clbss CblendbrUtils {
 
     /**
-     * Returns whether the specified year is a leap year in the Gregorian
-     * calendar system.
+     * Returns whether the specified yebr is b lebp yebr in the Gregoribn
+     * cblendbr system.
      *
-     * @param gregorianYear a Gregorian calendar year
-     * @return true if the given year is a leap year in the Gregorian
-     * calendar system.
-     * @see CalendarDate#isLeapYear
+     * @pbrbm gregoribnYebr b Gregoribn cblendbr yebr
+     * @return true if the given yebr is b lebp yebr in the Gregoribn
+     * cblendbr system.
+     * @see CblendbrDbte#isLebpYebr
      */
-    public static final boolean isGregorianLeapYear(int gregorianYear) {
-        return (((gregorianYear % 4) == 0)
-                && (((gregorianYear % 100) != 0) || ((gregorianYear % 400) == 0)));
+    public stbtic finbl boolebn isGregoribnLebpYebr(int gregoribnYebr) {
+        return (((gregoribnYebr % 4) == 0)
+                && (((gregoribnYebr % 100) != 0) || ((gregoribnYebr % 400) == 0)));
     }
 
     /**
-     * Returns whether the specified year is a leap year in the Julian
-     * calendar system. The year number must be a normalized one
+     * Returns whether the specified yebr is b lebp yebr in the Julibn
+     * cblendbr system. The yebr number must be b normblized one
      * (e.g., 45 B.C.E. is 1-45).
      *
-     * @param normalizedJulianYear a normalized Julian calendar year
-     * @return true if the given year is a leap year in the Julian
-     * calendar system.
-     * @see CalendarDate#isLeapYear
+     * @pbrbm normblizedJulibnYebr b normblized Julibn cblendbr yebr
+     * @return true if the given yebr is b lebp yebr in the Julibn
+     * cblendbr system.
+     * @see CblendbrDbte#isLebpYebr
      */
-    public static final boolean isJulianLeapYear(int normalizedJulianYear) {
-        return (normalizedJulianYear % 4) == 0;
+    public stbtic finbl boolebn isJulibnLebpYebr(int normblizedJulibnYebr) {
+        return (normblizedJulibnYebr % 4) == 0;
     }
 
     /**
-     * Divides two integers and returns the floor of the quotient.
-     * For example, <code>floorDivide(-1, 4)</code> returns -1 while
+     * Divides two integers bnd returns the floor of the quotient.
+     * For exbmple, <code>floorDivide(-1, 4)</code> returns -1 while
      * -1/4 is 0.
      *
-     * @param n the numerator
-     * @param d a divisor that must be greater than 0
+     * @pbrbm n the numerbtor
+     * @pbrbm d b divisor thbt must be grebter thbn 0
      * @return the floor of the quotient
      */
-    public static final long floorDivide(long n, long d) {
+    public stbtic finbl long floorDivide(long n, long d) {
         return ((n >= 0) ?
                 (n / d) : (((n + 1L) / d) - 1L));
     }
 
     /**
-     * Divides two integers and returns the floor of the quotient.
-     * For example, <code>floorDivide(-1, 4)</code> returns -1 while
+     * Divides two integers bnd returns the floor of the quotient.
+     * For exbmple, <code>floorDivide(-1, 4)</code> returns -1 while
      * -1/4 is 0.
      *
-     * @param n the numerator
-     * @param d a divisor that must be greater than 0
+     * @pbrbm n the numerbtor
+     * @pbrbm d b divisor thbt must be grebter thbn 0
      * @return the floor of the quotient
      */
-    public static final int floorDivide(int n, int d) {
+    public stbtic finbl int floorDivide(int n, int d) {
         return ((n >= 0) ?
                 (n / d) : (((n + 1) / d) - 1));
     }
 
     /**
-     * Divides two integers and returns the floor of the quotient and
-     * the modulus remainder.  For example,
+     * Divides two integers bnd returns the floor of the quotient bnd
+     * the modulus rembinder.  For exbmple,
      * <code>floorDivide(-1,4)</code> returns <code>-1</code> with
-     * <code>3</code> as its remainder, while <code>-1/4</code> is
-     * <code>0</code> and <code>-1%4</code> is <code>-1</code>.
+     * <code>3</code> bs its rembinder, while <code>-1/4</code> is
+     * <code>0</code> bnd <code>-1%4</code> is <code>-1</code>.
      *
-     * @param n the numerator
-     * @param d a divisor which must be > 0
-     * @param r an array of at least one element in which the value
+     * @pbrbm n the numerbtor
+     * @pbrbm d b divisor which must be > 0
+     * @pbrbm r bn brrby of bt lebst one element in which the vblue
      * <code>mod(n, d)</code> is returned.
      * @return the floor of the quotient.
      */
-    public static final int floorDivide(int n, int d, int[] r) {
+    public stbtic finbl int floorDivide(int n, int d, int[] r) {
         if (n >= 0) {
             r[0] = n % d;
             return n / d;
@@ -110,19 +110,19 @@ public class CalendarUtils {
     }
 
     /**
-     * Divides two integers and returns the floor of the quotient and
-     * the modulus remainder.  For example,
+     * Divides two integers bnd returns the floor of the quotient bnd
+     * the modulus rembinder.  For exbmple,
      * <code>floorDivide(-1,4)</code> returns <code>-1</code> with
-     * <code>3</code> as its remainder, while <code>-1/4</code> is
-     * <code>0</code> and <code>-1%4</code> is <code>-1</code>.
+     * <code>3</code> bs its rembinder, while <code>-1/4</code> is
+     * <code>0</code> bnd <code>-1%4</code> is <code>-1</code>.
      *
-     * @param n the numerator
-     * @param d a divisor which must be > 0
-     * @param r an array of at least one element in which the value
+     * @pbrbm n the numerbtor
+     * @pbrbm d b divisor which must be > 0
+     * @pbrbm r bn brrby of bt lebst one element in which the vblue
      * <code>mod(n, d)</code> is returned.
      * @return the floor of the quotient.
      */
-    public static final int floorDivide(long n, int d, int[] r) {
+    public stbtic finbl int floorDivide(long n, int d, int[] r) {
         if (n >= 0) {
             r[0] = (int)(n % d);
             return (int)(n / d);
@@ -132,31 +132,31 @@ public class CalendarUtils {
         return q;
     }
 
-    public static final long mod(long x, long y) {
+    public stbtic finbl long mod(long x, long y) {
         return (x - y * floorDivide(x, y));
     }
 
-    public static final int mod(int x, int y) {
+    public stbtic finbl int mod(int x, int y) {
         return (x - y * floorDivide(x, y));
     }
 
-    public static final int amod(int x, int y) {
+    public stbtic finbl int bmod(int x, int y) {
         int z = mod(x, y);
         return (z == 0) ? y : z;
     }
 
-    public static final long amod(long x, long y) {
+    public stbtic finbl long bmod(long x, long y) {
         long z = mod(x, y);
         return (z == 0) ? y : z;
     }
 
     /**
-     * Mimics sprintf(buf, "%0*d", decaimal, width).
+     * Mimics sprintf(buf, "%0*d", decbimbl, width).
      */
-    public static final StringBuilder sprintf0d(StringBuilder sb, int value, int width) {
-        long d = value;
+    public stbtic finbl StringBuilder sprintf0d(StringBuilder sb, int vblue, int width) {
+        long d = vblue;
         if (d < 0) {
-            sb.append('-');
+            sb.bppend('-');
             d = -d;
             --width;
         }
@@ -165,17 +165,17 @@ public class CalendarUtils {
             n *= 10;
         }
         for (int i = 1; i < width && d < n; i++) {
-            sb.append('0');
+            sb.bppend('0');
             n /= 10;
         }
-        sb.append(d);
+        sb.bppend(d);
         return sb;
     }
 
-    public static final StringBuffer sprintf0d(StringBuffer sb, int value, int width) {
-        long d = value;
+    public stbtic finbl StringBuffer sprintf0d(StringBuffer sb, int vblue, int width) {
+        long d = vblue;
         if (d < 0) {
-            sb.append('-');
+            sb.bppend('-');
             d = -d;
             --width;
         }
@@ -184,10 +184,10 @@ public class CalendarUtils {
             n *= 10;
         }
         for (int i = 1; i < width && d < n; i++) {
-            sb.append('0');
+            sb.bppend('0');
             n /= 10;
         }
-        sb.append(d);
+        sb.bppend(d);
         return sb;
     }
 }

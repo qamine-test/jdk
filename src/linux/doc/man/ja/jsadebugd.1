@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jsadebugd
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
+.\" Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: jsbdebugd
+.\" Lbngubge: English
+.\" Dbte: 2013Ç¯11·î21Æü
 .\" SectDesc: ¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë
-.\" Software: JDK 8
+.\" Softwbre: JDK 8
 .\" Arch: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "jsadebugd" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë"
+.TH "jsbdebugd" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jsadebugd \- Java¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ¡Ç½¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£
+jsbdebugd \- Jbvb¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ¡Ç½¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjsadebugd\fR \fIpid\fR [ \fIserver\-id\fR ]
+\fIjsbdebugd\fR \fIpid\fR [ \fIserver\-id\fR ]
 .fi
 .if n \{\
 .RE
@@ -66,7 +66,7 @@ jsadebugd \- Java¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ
 .RS 4
 .\}
 .nf
-\fIjsadebugd\fR \fIexecutable\fR \fIcore\fR [ \fIserver\-id\fR ]
+\fIjsbdebugd\fR \fIexecutbble\fR \fIcore\fR [ \fIserver\-id\fR ]
 .fi
 .if n \{\
 .RE
@@ -74,12 +74,12 @@ jsadebugd \- Java¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ
 .PP
 \fIpid\fR
 .RS 4
-¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤¬ÀÜÂ³¤¹¤ë¥×¥í¥»¥¹¤Î¥×¥í¥»¥¹ID¤Ç¤¹¡£¥×¥í¥»¥¹¤ÏJava¥×¥í¥»¥¹¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¥Þ¥·¥ó¾å¤Ç¼Â¹Ô¤·¤Æ¤¤¤ëJava¥×¥í¥»¥¹¤Î°ìÍ÷¤ò¼èÆÀ¤¹¤ë¤Ë¤Ï¡¢jps(1)¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£Ã±°ì¤Î¥×¥í¥»¥¹¤ËÀÜÂ³¤Ç¤­¤ë¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï¡¢1¤Ä¤ËÀ©¸Â¤µ¤ì¤Þ¤¹¡£
+¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤¬ÀÜÂ³¤¹¤ë¥×¥í¥»¥¹¤Î¥×¥í¥»¥¹ID¤Ç¤¹¡£¥×¥í¥»¥¹¤ÏJbvb¥×¥í¥»¥¹¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¥Þ¥·¥ó¾å¤Ç¼Â¹Ô¤·¤Æ¤¤¤ëJbvb¥×¥í¥»¥¹¤Î°ìÍ÷¤ò¼èÆÀ¤¹¤ë¤Ë¤Ï¡¢jps(1)¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£Ã±°ì¤Î¥×¥í¥»¥¹¤ËÀÜÂ³¤Ç¤­¤ë¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï¡¢1¤Ä¤ËÀ©¸Â¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
 \fI¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë\fR
 .RS 4
-¥³¥¢¡¦¥À¥ó¥×¤ÎºîÀ®¸µ¤ÎJava¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë¡£
+¥³¥¢¡¦¥À¥ó¥×¤ÎºîÀ®¸µ¤ÎJbvb¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë¡£
 .RE
 .PP
 \fI¥³¥¢\fR
@@ -93,19 +93,19 @@ jsadebugd \- Java¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIjsadebugd\fR¥³¥Þ¥ó¥É¤Ï¡¢Java¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ¡Ç½¤·¤Þ¤¹¡£\fIjstack\fR¡¢\fIjmap\fR¤ª¤è¤Ó\fIjinfo\fR¤Ê¤É¤Î¥ê¥â¡¼¥È¡¦¥¯¥é¥¤¥¢¥ó¥È¤Ï¡¢Java Remote Method Invocation (RMI)¤ò»ÈÍÑ¤·¤Æ¤¤¤ë¥µ¡¼¥Ð¡¼¤ËÀÜÂ³¤Ç¤­¤Þ¤¹¡£\fIjsadebugd\fR¥³¥Þ¥ó¥É¤òµ¯Æ°¤¹¤ëÁ°¤Ë¡¢\fIrmiregistry\fR¥³¥Þ¥ó¥É¤ÇRMI¥ì¥¸¥¹¥È¥ê¤ò¼¡¤Î¤è¤¦¤Ëµ¯Æ°¤·¤Þ¤¹¡£\fI$JAVA_HOME\fR¤ÏJDK¤Î¥¤¥ó¥¹¥È¡¼¥ë¡¦¥Ç¥£¥ì¥¯¥È¥ê¤Ç¤¹¡£
+\fIjsbdebugd\fR¥³¥Þ¥ó¥É¤Ï¡¢Jbvb¥×¥í¥»¥¹¤Þ¤¿¤Ï¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤ËÀÜÂ³¤·¡¢¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤È¤·¤Æµ¡Ç½¤·¤Þ¤¹¡£\fIjstbck\fR¡¢\fIjmbp\fR¤ª¤è¤Ó\fIjinfo\fR¤Ê¤É¤Î¥ê¥â¡¼¥È¡¦¥¯¥é¥¤¥¢¥ó¥È¤Ï¡¢Jbvb Remote Method Invocbtion (RMI)¤ò»ÈÍÑ¤·¤Æ¤¤¤ë¥µ¡¼¥Ð¡¼¤ËÀÜÂ³¤Ç¤­¤Þ¤¹¡£\fIjsbdebugd\fR¥³¥Þ¥ó¥É¤òµ¯Æ°¤¹¤ëÁ°¤Ë¡¢\fIrmiregistry\fR¥³¥Þ¥ó¥É¤ÇRMI¥ì¥¸¥¹¥È¥ê¤ò¼¡¤Î¤è¤¦¤Ëµ¯Æ°¤·¤Þ¤¹¡£\fI$JAVA_HOME\fR¤ÏJDK¤Î¥¤¥ó¥¹¥È¡¼¥ë¡¦¥Ç¥£¥ì¥¯¥È¥ê¤Ç¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmiregistry \-J\-Xbootclasspath/p:$JAVA_HOME/lib/sajdi\&.jar
+rmiregistry \-J\-Xbootclbsspbth/p:$JAVA_HOME/lib/sbjdi\&.jbr
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-RMI¥ì¥¸¥¹¥È¥ê¤¬µ¯Æ°¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢\fIjsadebugd\fR¥³¥Þ¥ó¥É¤ÏRMI¥ì¥¸¥¹¥È¥ê¤òÉ¸½à(1099)¥Ý¡¼¥È¤ÇÆâÉô¤Çµ¯Æ°¤·¤Þ¤¹¡£¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Ï¡¢\fISIGINT\fR¤òÁ÷¿®¤¹¤ë¤³¤È¤Ë¤è¤êÄä»ß¤Ç¤­¤Þ¤¹¡£SIGINT¤òÁ÷¿®¤¹¤ë¤Ë¤Ï¡¢\fB[Ctrl] + [C]\fR¤ò²¡¤·¤Þ¤¹¡£
+RMI¥ì¥¸¥¹¥È¥ê¤¬µ¯Æ°¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢\fIjsbdebugd\fR¥³¥Þ¥ó¥É¤ÏRMI¥ì¥¸¥¹¥È¥ê¤òÉ¸½à(1099)¥Ý¡¼¥È¤ÇÆâÉô¤Çµ¯Æ°¤·¤Þ¤¹¡£¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Ï¡¢\fISIGINT\fR¤òÁ÷¿®¤¹¤ë¤³¤È¤Ë¤è¤êÄä»ß¤Ç¤­¤Þ¤¹¡£SIGINT¤òÁ÷¿®¤¹¤ë¤Ë¤Ï¡¢\fB[Ctrl] + [C]\fR¤ò²¡¤·¤Þ¤¹¡£
 .PP
 \fBÃí°Õ:\fR
 ¤³¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Ï¥µ¥Ý¡¼¥ÈÂÐ¾Ý³°¤Ç¤¢¤ê¡¢¾­Íè¤ÎJDK¤Î¥ê¥ê¡¼¥¹¤Ç¤ÏÍøÍÑ¤Ç¤­¤Ê¤¯¤Ê¤ë²ÄÇ½À­¤¬¤¢¤ê¤Þ¤¹¡£\fIdbgeng\&.dll\fR¤¬Â¸ºß¤·¤Æ¤¤¤Ê¤¤Windows¥·¥¹¥Æ¥à¤Ç¤Ï¡¢Debugging Tools For Windows¤ò¥¤¥ó¥¹¥È¡¼¥ë¤·¤Ê¤¤¤È¤³¤ì¤é¤Î¥Ä¡¼¥ë¤¬Àµ¾ï¤ËÆ°ºî¤·¤Þ¤»¤ó¡£\fIPATH\fR´Ä¶­ÊÑ¿ô¤Ë¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥×¥í¥»¥¹¤Ë¤è¤Ã¤Æ»ÈÍÑ¤µ¤ì¤ëjvm\&.dll¤Î¾ì½ê¡¢¤Þ¤¿¤Ï¥¯¥é¥Ã¥·¥å¡¦¥À¥ó¥×¡¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤¿¾ì½ê¤¬´Þ¤Þ¤ì¤ë¤è¤¦¤Ë¤·¤Æ¤¯¤À¤µ¤¤¡£Îã:
@@ -131,7 +131,7 @@ jinfo(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-jmap(1)
+jmbp(1)
 .RE
 .sp
 .RS 4
@@ -153,7 +153,7 @@ jps(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-jstack(1)
+jstbck(1)
 .RE
 .sp
 .RS 4

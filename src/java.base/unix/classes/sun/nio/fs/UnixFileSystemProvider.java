@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.FileTypeDetector;
-import java.nio.channels.*;
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
-import java.io.IOException;
-import java.io.FilePermission;
-import java.util.*;
-import java.security.AccessController;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.FileTypeDetector;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.URI;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.io.IOException;
+import jbvb.io.FilePermission;
+import jbvb.util.*;
+import jbvb.security.AccessController;
 
-import sun.nio.ch.ThreadPool;
-import sun.security.util.SecurityConstants;
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import sun.nio.ch.ThrebdPool;
+import sun.security.util.SecurityConstbnts;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Base implementation of FileSystemProvider
+ * Bbse implementbtion of FileSystemProvider
  */
 
-public abstract class UnixFileSystemProvider
-    extends AbstractFileSystemProvider
+public bbstrbct clbss UnixFileSystemProvider
+    extends AbstrbctFileSystemProvider
 {
-    private static final String USER_DIR = "user.dir";
-    private final UnixFileSystem theFileSystem;
+    privbte stbtic finbl String USER_DIR = "user.dir";
+    privbte finbl UnixFileSystem theFileSystem;
 
     public UnixFileSystemProvider() {
         String userDir = System.getProperty(USER_DIR);
@@ -57,142 +57,142 @@ public abstract class UnixFileSystemProvider
     }
 
     /**
-     * Constructs a new file system using the given default directory.
+     * Constructs b new file system using the given defbult directory.
      */
-    abstract UnixFileSystem newFileSystem(String dir);
+    bbstrbct UnixFileSystem newFileSystem(String dir);
 
     @Override
-    public final String getScheme() {
+    public finbl String getScheme() {
         return "file";
     }
 
-    private void checkUri(URI uri) {
-        if (!uri.getScheme().equalsIgnoreCase(getScheme()))
-            throw new IllegalArgumentException("URI does not match this provider");
+    privbte void checkUri(URI uri) {
+        if (!uri.getScheme().equblsIgnoreCbse(getScheme()))
+            throw new IllegblArgumentException("URI does not mbtch this provider");
         if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("Authority component present");
-        if (uri.getPath() == null)
-            throw new IllegalArgumentException("Path component is undefined");
-        if (!uri.getPath().equals("/"))
-            throw new IllegalArgumentException("Path component should be '/'");
+            throw new IllegblArgumentException("Authority component present");
+        if (uri.getPbth() == null)
+            throw new IllegblArgumentException("Pbth component is undefined");
+        if (!uri.getPbth().equbls("/"))
+            throw new IllegblArgumentException("Pbth component should be '/'");
         if (uri.getQuery() != null)
-            throw new IllegalArgumentException("Query component present");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("Fragment component present");
+            throw new IllegblArgumentException("Query component present");
+        if (uri.getFrbgment() != null)
+            throw new IllegblArgumentException("Frbgment component present");
     }
 
     @Override
-    public final FileSystem newFileSystem(URI uri, Map<String,?> env) {
+    public finbl FileSystem newFileSystem(URI uri, Mbp<String,?> env) {
         checkUri(uri);
-        throw new FileSystemAlreadyExistsException();
+        throw new FileSystemAlrebdyExistsException();
     }
 
     @Override
-    public final FileSystem getFileSystem(URI uri) {
+    public finbl FileSystem getFileSystem(URI uri) {
         checkUri(uri);
         return theFileSystem;
     }
 
     @Override
-    public Path getPath(URI uri) {
+    public Pbth getPbth(URI uri) {
         return UnixUriUtils.fromUri(theFileSystem, uri);
     }
 
-    UnixPath checkPath(Path obj) {
+    UnixPbth checkPbth(Pbth obj) {
         if (obj == null)
             throw new NullPointerException();
-        if (!(obj instanceof UnixPath))
-            throw new ProviderMismatchException();
-        return (UnixPath)obj;
+        if (!(obj instbnceof UnixPbth))
+            throw new ProviderMismbtchException();
+        return (UnixPbth)obj;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileAttributeView> V getFileAttributeView(Path obj,
-                                                                Class<V> type,
+    @SuppressWbrnings("unchecked")
+    public <V extends FileAttributeView> V getFileAttributeView(Pbth obj,
+                                                                Clbss<V> type,
                                                                 LinkOption... options)
     {
-        UnixPath file = UnixPath.toUnixPath(obj);
-        boolean followLinks = Util.followLinks(options);
-        if (type == BasicFileAttributeView.class)
-            return (V) UnixFileAttributeViews.createBasicView(file, followLinks);
-        if (type == PosixFileAttributeView.class)
-            return (V) UnixFileAttributeViews.createPosixView(file, followLinks);
-        if (type == FileOwnerAttributeView.class)
-            return (V) UnixFileAttributeViews.createOwnerView(file, followLinks);
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
+        boolebn followLinks = Util.followLinks(options);
+        if (type == BbsicFileAttributeView.clbss)
+            return (V) UnixFileAttributeViews.crebteBbsicView(file, followLinks);
+        if (type == PosixFileAttributeView.clbss)
+            return (V) UnixFileAttributeViews.crebtePosixView(file, followLinks);
+        if (type == FileOwnerAttributeView.clbss)
+            return (V) UnixFileAttributeViews.crebteOwnerView(file, followLinks);
         if (type == null)
             throw new NullPointerException();
         return (V) null;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <A extends BasicFileAttributes> A readAttributes(Path file,
-                                                               Class<A> type,
+    @SuppressWbrnings("unchecked")
+    public <A extends BbsicFileAttributes> A rebdAttributes(Pbth file,
+                                                               Clbss<A> type,
                                                                LinkOption... options)
         throws IOException
     {
-        Class<? extends BasicFileAttributeView> view;
-        if (type == BasicFileAttributes.class)
-            view = BasicFileAttributeView.class;
-        else if (type == PosixFileAttributes.class)
-            view = PosixFileAttributeView.class;
+        Clbss<? extends BbsicFileAttributeView> view;
+        if (type == BbsicFileAttributes.clbss)
+            view = BbsicFileAttributeView.clbss;
+        else if (type == PosixFileAttributes.clbss)
+            view = PosixFileAttributeView.clbss;
         else if (type == null)
             throw new NullPointerException();
         else
-            throw new UnsupportedOperationException();
-        return (A) getFileAttributeView(file, view, options).readAttributes();
+            throw new UnsupportedOperbtionException();
+        return (A) getFileAttributeView(file, view, options).rebdAttributes();
     }
 
     @Override
-    protected DynamicFileAttributeView getFileAttributeView(Path obj,
-                                                            String name,
+    protected DynbmicFileAttributeView getFileAttributeView(Pbth obj,
+                                                            String nbme,
                                                             LinkOption... options)
     {
-        UnixPath file = UnixPath.toUnixPath(obj);
-        boolean followLinks = Util.followLinks(options);
-        if (name.equals("basic"))
-            return UnixFileAttributeViews.createBasicView(file, followLinks);
-        if (name.equals("posix"))
-            return UnixFileAttributeViews.createPosixView(file, followLinks);
-        if (name.equals("unix"))
-            return UnixFileAttributeViews.createUnixView(file, followLinks);
-        if (name.equals("owner"))
-            return UnixFileAttributeViews.createOwnerView(file, followLinks);
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
+        boolebn followLinks = Util.followLinks(options);
+        if (nbme.equbls("bbsic"))
+            return UnixFileAttributeViews.crebteBbsicView(file, followLinks);
+        if (nbme.equbls("posix"))
+            return UnixFileAttributeViews.crebtePosixView(file, followLinks);
+        if (nbme.equbls("unix"))
+            return UnixFileAttributeViews.crebteUnixView(file, followLinks);
+        if (nbme.equbls("owner"))
+            return UnixFileAttributeViews.crebteOwnerView(file, followLinks);
         return null;
     }
 
     @Override
-    public FileChannel newFileChannel(Path obj,
+    public FileChbnnel newFileChbnnel(Pbth obj,
                                       Set<? extends OpenOption> options,
-                                      FileAttribute<?>... attrs)
+                                      FileAttribute<?>... bttrs)
         throws IOException
     {
-        UnixPath file = checkPath(obj);
+        UnixPbth file = checkPbth(obj);
         int mode = UnixFileModeAttribute
-            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, attrs);
+            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, bttrs);
         try {
-            return UnixChannelFactory.newFileChannel(file, options, mode);
-        } catch (UnixException x) {
+            return UnixChbnnelFbctory.newFileChbnnel(file, options, mode);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
             return null;
         }
     }
 
     @Override
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path obj,
+    public AsynchronousFileChbnnel newAsynchronousFileChbnnel(Pbth obj,
                                                               Set<? extends OpenOption> options,
                                                               ExecutorService executor,
-                                                              FileAttribute<?>... attrs) throws IOException
+                                                              FileAttribute<?>... bttrs) throws IOException
     {
-        UnixPath file = checkPath(obj);
+        UnixPbth file = checkPbth(obj);
         int mode = UnixFileModeAttribute
-            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, attrs);
-        ThreadPool pool = (executor == null) ? null : ThreadPool.wrap(executor, 0);
+            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, bttrs);
+        ThrebdPool pool = (executor == null) ? null : ThrebdPool.wrbp(executor, 0);
         try {
-            return UnixChannelFactory
-                .newAsynchronousFileChannel(file, options, mode, pool);
-        } catch (UnixException x) {
+            return UnixChbnnelFbctory
+                .newAsynchronousFileChbnnel(file, options, mode, pool);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
             return null;
         }
@@ -200,94 +200,94 @@ public abstract class UnixFileSystemProvider
 
 
     @Override
-    public SeekableByteChannel newByteChannel(Path obj,
+    public SeekbbleByteChbnnel newByteChbnnel(Pbth obj,
                                               Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
+                                              FileAttribute<?>... bttrs)
          throws IOException
     {
-        UnixPath file = UnixPath.toUnixPath(obj);
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
         int mode = UnixFileModeAttribute
-            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, attrs);
+            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, bttrs);
         try {
-            return UnixChannelFactory.newFileChannel(file, options, mode);
-        } catch (UnixException x) {
+            return UnixChbnnelFbctory.newFileChbnnel(file, options, mode);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
-            return null;  // keep compiler happy
+            return null;  // keep compiler hbppy
         }
     }
 
     @Override
-    boolean implDelete(Path obj, boolean failIfNotExists) throws IOException {
-        UnixPath file = UnixPath.toUnixPath(obj);
+    boolebn implDelete(Pbth obj, boolebn fbilIfNotExists) throws IOException {
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
         file.checkDelete();
 
-        // need file attributes to know if file is directory
-        UnixFileAttributes attrs = null;
+        // need file bttributes to know if file is directory
+        UnixFileAttributes bttrs = null;
         try {
-            attrs = UnixFileAttributes.get(file, false);
-            if (attrs.isDirectory()) {
+            bttrs = UnixFileAttributes.get(file, fblse);
+            if (bttrs.isDirectory()) {
                 rmdir(file);
             } else {
                 unlink(file);
             }
             return true;
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             // no-op if file does not exist
-            if (!failIfNotExists && x.errno() == ENOENT)
-                return false;
+            if (!fbilIfNotExists && x.errno() == ENOENT)
+                return fblse;
 
             // DirectoryNotEmptyException if not empty
-            if (attrs != null && attrs.isDirectory() &&
+            if (bttrs != null && bttrs.isDirectory() &&
                 (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
-                throw new DirectoryNotEmptyException(file.getPathForExceptionMessage());
+                throw new DirectoryNotEmptyException(file.getPbthForExceptionMessbge());
 
             x.rethrowAsIOException(file);
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    public void copy(Path source, Path target, CopyOption... options)
+    public void copy(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        UnixCopyFile.copy(UnixPath.toUnixPath(source),
-                          UnixPath.toUnixPath(target),
+        UnixCopyFile.copy(UnixPbth.toUnixPbth(source),
+                          UnixPbth.toUnixPbth(tbrget),
                           options);
     }
 
     @Override
-    public void move(Path source, Path target, CopyOption... options)
+    public void move(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        UnixCopyFile.move(UnixPath.toUnixPath(source),
-                          UnixPath.toUnixPath(target),
+        UnixCopyFile.move(UnixPbth.toUnixPbth(source),
+                          UnixPbth.toUnixPbth(tbrget),
                           options);
     }
 
     @Override
-    public void checkAccess(Path obj, AccessMode... modes) throws IOException {
-        UnixPath file = UnixPath.toUnixPath(obj);
-        boolean e = false;
-        boolean r = false;
-        boolean w = false;
-        boolean x = false;
+    public void checkAccess(Pbth obj, AccessMode... modes) throws IOException {
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
+        boolebn e = fblse;
+        boolebn r = fblse;
+        boolebn w = fblse;
+        boolebn x = fblse;
 
         if (modes.length == 0) {
             e = true;
         } else {
             for (AccessMode mode: modes) {
                 switch (mode) {
-                    case READ : r = true; break;
-                    case WRITE : w = true; break;
-                    case EXECUTE : x = true; break;
-                    default: throw new AssertionError("Should not get here");
+                    cbse READ : r = true; brebk;
+                    cbse WRITE : w = true; brebk;
+                    cbse EXECUTE : x = true; brebk;
+                    defbult: throw new AssertionError("Should not get here");
                 }
             }
         }
 
         int mode = 0;
         if (e || r) {
-            file.checkRead();
+            file.checkRebd();
             mode |= (r) ? R_OK : F_OK;
         }
         if (w) {
@@ -295,121 +295,121 @@ public abstract class UnixFileSystemProvider
             mode |= W_OK;
         }
         if (x) {
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                // not cached
-                sm.checkExec(file.getPathForPermissionCheck());
+                // not cbched
+                sm.checkExec(file.getPbthForPermissionCheck());
             }
             mode |= X_OK;
         }
         try {
-            access(file, mode);
-        } catch (UnixException exc) {
+            bccess(file, mode);
+        } cbtch (UnixException exc) {
             exc.rethrowAsIOException(file);
         }
     }
 
     @Override
-    public boolean isSameFile(Path obj1, Path obj2) throws IOException {
-        UnixPath file1 = UnixPath.toUnixPath(obj1);
-        if (file1.equals(obj2))
+    public boolebn isSbmeFile(Pbth obj1, Pbth obj2) throws IOException {
+        UnixPbth file1 = UnixPbth.toUnixPbth(obj1);
+        if (file1.equbls(obj2))
             return true;
         if (obj2 == null)
             throw new NullPointerException();
-        if (!(obj2 instanceof UnixPath))
-            return false;
-        UnixPath file2 = (UnixPath)obj2;
+        if (!(obj2 instbnceof UnixPbth))
+            return fblse;
+        UnixPbth file2 = (UnixPbth)obj2;
 
-        // check security manager access to both files
-        file1.checkRead();
-        file2.checkRead();
+        // check security mbnbger bccess to both files
+        file1.checkRebd();
+        file2.checkRebd();
 
-        UnixFileAttributes attrs1;
-        UnixFileAttributes attrs2;
+        UnixFileAttributes bttrs1;
+        UnixFileAttributes bttrs2;
         try {
-             attrs1 = UnixFileAttributes.get(file1, true);
-        } catch (UnixException x) {
+             bttrs1 = UnixFileAttributes.get(file1, true);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file1);
-            return false;    // keep compiler happy
+            return fblse;    // keep compiler hbppy
         }
         try {
-            attrs2 = UnixFileAttributes.get(file2, true);
-        } catch (UnixException x) {
+            bttrs2 = UnixFileAttributes.get(file2, true);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file2);
-            return false;    // keep compiler happy
+            return fblse;    // keep compiler hbppy
         }
-        return attrs1.isSameFile(attrs2);
+        return bttrs1.isSbmeFile(bttrs2);
     }
 
     @Override
-    public boolean isHidden(Path obj) {
-        UnixPath file = UnixPath.toUnixPath(obj);
-        file.checkRead();
-        UnixPath name = file.getFileName();
-        if (name == null)
-            return false;
-        return (name.asByteArray()[0] == '.');
+    public boolebn isHidden(Pbth obj) {
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
+        file.checkRebd();
+        UnixPbth nbme = file.getFileNbme();
+        if (nbme == null)
+            return fblse;
+        return (nbme.bsByteArrby()[0] == '.');
     }
 
     /**
-     * Returns a FileStore to represent the file system where the given file
+     * Returns b FileStore to represent the file system where the given file
      * reside.
      */
-    abstract FileStore getFileStore(UnixPath path) throws IOException;
+    bbstrbct FileStore getFileStore(UnixPbth pbth) throws IOException;
 
     @Override
-    public FileStore getFileStore(Path obj) throws IOException {
-        UnixPath file = UnixPath.toUnixPath(obj);
-        SecurityManager sm = System.getSecurityManager();
+    public FileStore getFileStore(Pbth obj) throws IOException {
+        UnixPbth file = UnixPbth.toUnixPbth(obj);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            file.checkRead();
+            file.checkRebd();
         }
         return getFileStore(file);
     }
 
     @Override
-    public void createDirectory(Path obj, FileAttribute<?>... attrs)
+    public void crebteDirectory(Pbth obj, FileAttribute<?>... bttrs)
         throws IOException
     {
-        UnixPath dir = UnixPath.toUnixPath(obj);
+        UnixPbth dir = UnixPbth.toUnixPbth(obj);
         dir.checkWrite();
 
-        int mode = UnixFileModeAttribute.toUnixMode(UnixFileModeAttribute.ALL_PERMISSIONS, attrs);
+        int mode = UnixFileModeAttribute.toUnixMode(UnixFileModeAttribute.ALL_PERMISSIONS, bttrs);
         try {
             mkdir(dir, mode);
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             if (x.errno() == EISDIR)
-                throw new FileAlreadyExistsException(dir.toString());
+                throw new FileAlrebdyExistsException(dir.toString());
             x.rethrowAsIOException(dir);
         }
     }
 
 
     @Override
-    public DirectoryStream<Path> newDirectoryStream(Path obj, DirectoryStream.Filter<? super Path> filter)
+    public DirectoryStrebm<Pbth> newDirectoryStrebm(Pbth obj, DirectoryStrebm.Filter<? super Pbth> filter)
         throws IOException
     {
-        UnixPath dir = UnixPath.toUnixPath(obj);
-        dir.checkRead();
+        UnixPbth dir = UnixPbth.toUnixPbth(obj);
+        dir.checkRebd();
         if (filter == null)
             throw new NullPointerException();
 
-        // can't return SecureDirectoryStream on kernels that don't support openat
+        // cbn't return SecureDirectoryStrebm on kernels thbt don't support openbt
         // or O_NOFOLLOW
-        if (!openatSupported() || O_NOFOLLOW == 0) {
+        if (!openbtSupported() || O_NOFOLLOW == 0) {
             try {
                 long ptr = opendir(dir);
-                return new UnixDirectoryStream(dir, ptr, filter);
-            } catch (UnixException x) {
+                return new UnixDirectoryStrebm(dir, ptr, filter);
+            } cbtch (UnixException x) {
                 if (x.errno() == ENOTDIR)
-                    throw new NotDirectoryException(dir.getPathForExceptionMessage());
+                    throw new NotDirectoryException(dir.getPbthForExceptionMessbge());
                 x.rethrowAsIOException(dir);
             }
         }
 
-        // open directory and dup file descriptor for use by
-        // opendir/readdir/closedir
+        // open directory bnd dup file descriptor for use by
+        // opendir/rebddir/closedir
         int dfd1 = -1;
         int dfd2 = -1;
         long dp = 0L;
@@ -417,110 +417,110 @@ public abstract class UnixFileSystemProvider
             dfd1 = open(dir, O_RDONLY, 0);
             dfd2 = dup(dfd1);
             dp = fdopendir(dfd1);
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             if (dfd1 != -1)
-                UnixNativeDispatcher.close(dfd1);
+                UnixNbtiveDispbtcher.close(dfd1);
             if (dfd2 != -1)
-                UnixNativeDispatcher.close(dfd2);
-            if (x.errno() == UnixConstants.ENOTDIR)
-                throw new NotDirectoryException(dir.getPathForExceptionMessage());
+                UnixNbtiveDispbtcher.close(dfd2);
+            if (x.errno() == UnixConstbnts.ENOTDIR)
+                throw new NotDirectoryException(dir.getPbthForExceptionMessbge());
             x.rethrowAsIOException(dir);
         }
-        return new UnixSecureDirectoryStream(dir, dp, dfd2, filter);
+        return new UnixSecureDirectoryStrebm(dir, dp, dfd2, filter);
     }
 
     @Override
-    public void createSymbolicLink(Path obj1, Path obj2, FileAttribute<?>... attrs)
+    public void crebteSymbolicLink(Pbth obj1, Pbth obj2, FileAttribute<?>... bttrs)
         throws IOException
     {
-        UnixPath link = UnixPath.toUnixPath(obj1);
-        UnixPath target = UnixPath.toUnixPath(obj2);
+        UnixPbth link = UnixPbth.toUnixPbth(obj1);
+        UnixPbth tbrget = UnixPbth.toUnixPbth(obj2);
 
-        // no attributes supported when creating links
-        if (attrs.length > 0) {
-            UnixFileModeAttribute.toUnixMode(0, attrs);  // may throw NPE or UOE
-            throw new UnsupportedOperationException("Initial file attributes" +
-                "not supported when creating symbolic link");
+        // no bttributes supported when crebting links
+        if (bttrs.length > 0) {
+            UnixFileModeAttribute.toUnixMode(0, bttrs);  // mby throw NPE or UOE
+            throw new UnsupportedOperbtionException("Initibl file bttributes" +
+                "not supported when crebting symbolic link");
         }
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new LinkPermission("symbolic"));
             link.checkWrite();
         }
 
-        // create link
+        // crebte link
         try {
-            symlink(target.asByteArray(), link);
-        } catch (UnixException x) {
+            symlink(tbrget.bsByteArrby(), link);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(link);
         }
     }
 
     @Override
-    public void createLink(Path obj1, Path obj2) throws IOException {
-        UnixPath link = UnixPath.toUnixPath(obj1);
-        UnixPath existing = UnixPath.toUnixPath(obj2);
+    public void crebteLink(Pbth obj1, Pbth obj2) throws IOException {
+        UnixPbth link = UnixPbth.toUnixPbth(obj1);
+        UnixPbth existing = UnixPbth.toUnixPbth(obj2);
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new LinkPermission("hard"));
+            sm.checkPermission(new LinkPermission("hbrd"));
             link.checkWrite();
             existing.checkWrite();
         }
         try {
             link(existing, link);
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(link, existing);
         }
     }
 
     @Override
-    public Path readSymbolicLink(Path obj1) throws IOException {
-        UnixPath link = UnixPath.toUnixPath(obj1);
+    public Pbth rebdSymbolicLink(Pbth obj1) throws IOException {
+        UnixPbth link = UnixPbth.toUnixPbth(obj1);
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            FilePermission perm = new FilePermission(link.getPathForPermissionCheck(),
-                SecurityConstants.FILE_READLINK_ACTION);
+            FilePermission perm = new FilePermission(link.getPbthForPermissionCheck(),
+                SecurityConstbnts.FILE_READLINK_ACTION);
             sm.checkPermission(perm);
         }
         try {
-            byte[] target = readlink(link);
-            return new UnixPath(link.getFileSystem(), target);
-        } catch (UnixException x) {
-           if (x.errno() == UnixConstants.EINVAL)
-                throw new NotLinkException(link.getPathForExceptionMessage());
+            byte[] tbrget = rebdlink(link);
+            return new UnixPbth(link.getFileSystem(), tbrget);
+        } cbtch (UnixException x) {
+           if (x.errno() == UnixConstbnts.EINVAL)
+                throw new NotLinkException(link.getPbthForExceptionMessbge());
             x.rethrowAsIOException(link);
-            return null;    // keep compiler happy
+            return null;    // keep compiler hbppy
         }
     }
 
     /**
-     * Returns a {@code FileTypeDetector} for this platform.
+     * Returns b {@code FileTypeDetector} for this plbtform.
      */
     FileTypeDetector getFileTypeDetector() {
-        return new AbstractFileTypeDetector() {
+        return new AbstrbctFileTypeDetector() {
             @Override
-            public String implProbeContentType(Path file) {
+            public String implProbeContentType(Pbth file) {
                 return null;
             }
         };
     }
 
     /**
-     * Returns a {@code FileTypeDetector} that chains the given array of file
+     * Returns b {@code FileTypeDetector} thbt chbins the given brrby of file
      * type detectors. When the {@code implProbeContentType} method is invoked
-     * then each of the detectors is invoked in turn, the result from the
+     * then ebch of the detectors is invoked in turn, the result from the
      * first to detect the file type is returned.
      */
-    final FileTypeDetector chain(final AbstractFileTypeDetector... detectors) {
-        return new AbstractFileTypeDetector() {
+    finbl FileTypeDetector chbin(finbl AbstrbctFileTypeDetector... detectors) {
+        return new AbstrbctFileTypeDetector() {
             @Override
-            protected String implProbeContentType(Path file) throws IOException {
-                for (AbstractFileTypeDetector detector : detectors) {
+            protected String implProbeContentType(Pbth file) throws IOException {
+                for (AbstrbctFileTypeDetector detector : detectors) {
                     String result = detector.implProbeContentType(file);
                     if (result != null && !result.isEmpty()) {
                         return result;

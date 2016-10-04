@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels.spi;
+pbckbge jbvb.nio.chbnnels.spi;
 
-import java.nio.channels.*;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import java.util.concurrent.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.chbnnels.*;
+import jbvb.io.IOException;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
+import jbvb.util.concurrent.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Service-provider class for asynchronous channels.
+ * Service-provider clbss for bsynchronous chbnnels.
  *
- * <p> An asynchronous channel provider is a concrete subclass of this class that
- * has a zero-argument constructor and implements the abstract methods specified
- * below.  A given invocation of the Java virtual machine maintains a single
- * system-wide default provider instance, which is returned by the {@link
- * #provider() provider} method.  The first invocation of that method will locate
- * the default provider as specified below.
+ * <p> An bsynchronous chbnnel provider is b concrete subclbss of this clbss thbt
+ * hbs b zero-brgument constructor bnd implements the bbstrbct methods specified
+ * below.  A given invocbtion of the Jbvb virtubl mbchine mbintbins b single
+ * system-wide defbult provider instbnce, which is returned by the {@link
+ * #provider() provider} method.  The first invocbtion of thbt method will locbte
+ * the defbult provider bs specified below.
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.  </p>
+ * <p> All of the methods in this clbss bre sbfe for use by multiple concurrent
+ * threbds.  </p>
  *
  * @since 1.7
  */
 
-public abstract class AsynchronousChannelProvider {
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+public bbstrbct clbss AsynchronousChbnnelProvider {
+    privbte stbtic Void checkPermission() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("asynchronousChannelProvider"));
+            sm.checkPermission(new RuntimePermission("bsynchronousChbnnelProvider"));
         return null;
     }
-    private AsynchronousChannelProvider(Void ignore) { }
+    privbte AsynchronousChbnnelProvider(Void ignore) { }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("asynchronousChannelProvider")</tt>
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link RuntimePermission}<tt>("bsynchronousChbnnelProvider")</tt>
      */
-    protected AsynchronousChannelProvider() {
+    protected AsynchronousChbnnelProvider() {
         this(checkPermission());
     }
 
-    // lazy initialization of default provider
-    private static class ProviderHolder {
-        static final AsynchronousChannelProvider provider = load();
+    // lbzy initiblizbtion of defbult provider
+    privbte stbtic clbss ProviderHolder {
+        stbtic finbl AsynchronousChbnnelProvider provider = lobd();
 
-        private static AsynchronousChannelProvider load() {
+        privbte stbtic AsynchronousChbnnelProvider lobd() {
             return AccessController
-                .doPrivileged(new PrivilegedAction<AsynchronousChannelProvider>() {
-                    public AsynchronousChannelProvider run() {
-                        AsynchronousChannelProvider p;
-                        p = loadProviderFromProperty();
+                .doPrivileged(new PrivilegedAction<AsynchronousChbnnelProvider>() {
+                    public AsynchronousChbnnelProvider run() {
+                        AsynchronousChbnnelProvider p;
+                        p = lobdProviderFromProperty();
                         if (p != null)
                             return p;
-                        p = loadProviderAsService();
+                        p = lobdProviderAsService();
                         if (p != null)
                             return p;
-                        return sun.nio.ch.DefaultAsynchronousChannelProvider.create();
+                        return sun.nio.ch.DefbultAsynchronousChbnnelProvider.crebte();
                     }});
         }
 
-        private static AsynchronousChannelProvider loadProviderFromProperty() {
-            String cn = System.getProperty("java.nio.channels.spi.AsynchronousChannelProvider");
+        privbte stbtic AsynchronousChbnnelProvider lobdProviderFromProperty() {
+            String cn = System.getProperty("jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider");
             if (cn == null)
                 return null;
             try {
-                Class<?> c = Class.forName(cn, true,
-                                           ClassLoader.getSystemClassLoader());
-                return (AsynchronousChannelProvider)c.newInstance();
-            } catch (ClassNotFoundException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (IllegalAccessException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (InstantiationException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (SecurityException x) {
-                throw new ServiceConfigurationError(null, x);
+                Clbss<?> c = Clbss.forNbme(cn, true,
+                                           ClbssLobder.getSystemClbssLobder());
+                return (AsynchronousChbnnelProvider)c.newInstbnce();
+            } cbtch (ClbssNotFoundException x) {
+                throw new ServiceConfigurbtionError(null, x);
+            } cbtch (IllegblAccessException x) {
+                throw new ServiceConfigurbtionError(null, x);
+            } cbtch (InstbntibtionException x) {
+                throw new ServiceConfigurbtionError(null, x);
+            } cbtch (SecurityException x) {
+                throw new ServiceConfigurbtionError(null, x);
             }
         }
 
-        private static AsynchronousChannelProvider loadProviderAsService() {
-            ServiceLoader<AsynchronousChannelProvider> sl =
-                ServiceLoader.load(AsynchronousChannelProvider.class,
-                                   ClassLoader.getSystemClassLoader());
-            Iterator<AsynchronousChannelProvider> i = sl.iterator();
+        privbte stbtic AsynchronousChbnnelProvider lobdProviderAsService() {
+            ServiceLobder<AsynchronousChbnnelProvider> sl =
+                ServiceLobder.lobd(AsynchronousChbnnelProvider.clbss,
+                                   ClbssLobder.getSystemClbssLobder());
+            Iterbtor<AsynchronousChbnnelProvider> i = sl.iterbtor();
             for (;;) {
                 try {
-                    return (i.hasNext()) ? i.next() : null;
-                } catch (ServiceConfigurationError sce) {
-                    if (sce.getCause() instanceof SecurityException) {
+                    return (i.hbsNext()) ? i.next() : null;
+                } cbtch (ServiceConfigurbtionError sce) {
+                    if (sce.getCbuse() instbnceof SecurityException) {
                         // Ignore the security exception, try the next provider
                         continue;
                     }
@@ -128,118 +128,118 @@ public abstract class AsynchronousChannelProvider {
     }
 
     /**
-     * Returns the system-wide default asynchronous channel provider for this
-     * invocation of the Java virtual machine.
+     * Returns the system-wide defbult bsynchronous chbnnel provider for this
+     * invocbtion of the Jbvb virtubl mbchine.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> The first invocbtion of this method locbtes the defbult provider
+     * object bs follows: </p>
      *
      * <ol>
      *
      *   <li><p> If the system property
-     *   <tt>java.nio.channels.spi.AsynchronousChannelProvider</tt> is defined
-     *   then it is taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
+     *   <tt>jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider</tt> is defined
+     *   then it is tbken to be the fully-qublified nbme of b concrete provider clbss.
+     *   The clbss is lobded bnd instbntibted; if this process fbils then bn
      *   unspecified error is thrown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
-     *   <tt>java.nio.channels.spi.AsynchronousChannelProvider</tt> in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified error is
+     *   <li><p> If b provider clbss hbs been instblled in b jbr file thbt is
+     *   visible to the system clbss lobder, bnd thbt jbr file contbins b
+     *   provider-configurbtion file nbmed
+     *   <tt>jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider</tt> in the resource
+     *   directory <tt>META-INF/services</tt>, then the first clbss nbme
+     *   specified in thbt file is tbken.  The clbss is lobded bnd
+     *   instbntibted; if this process fbils then bn unspecified error is
      *   thrown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
+     *   <li><p> Finblly, if no provider hbs been specified by bny of the bbove
+     *   mebns then the system-defbult provider clbss is instbntibted bnd the
      *   result is returned.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsequent invocbtions of this method return the provider thbt wbs
+     * returned by the first invocbtion.  </p>
      *
-     * @return  The system-wide default AsynchronousChannel provider
+     * @return  The system-wide defbult AsynchronousChbnnel provider
      */
-    public static AsynchronousChannelProvider provider() {
+    public stbtic AsynchronousChbnnelProvider provider() {
         return ProviderHolder.provider;
     }
 
     /**
-     * Constructs a new asynchronous channel group with a fixed thread pool.
+     * Constructs b new bsynchronous chbnnel group with b fixed threbd pool.
      *
-     * @param   nThreads
-     *          The number of threads in the pool
-     * @param   threadFactory
-     *          The factory to use when creating new threads
+     * @pbrbm   nThrebds
+     *          The number of threbds in the pool
+     * @pbrbm   threbdFbctory
+     *          The fbctory to use when crebting new threbds
      *
-     * @return  A new asynchronous channel group
+     * @return  A new bsynchronous chbnnel group
      *
-     * @throws  IllegalArgumentException
-     *          If {@code nThreads <= 0}
+     * @throws  IllegblArgumentException
+     *          If {@code nThrebds <= 0}
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see AsynchronousChannelGroup#withFixedThreadPool
+     * @see AsynchronousChbnnelGroup#withFixedThrebdPool
      */
-    public abstract AsynchronousChannelGroup
-        openAsynchronousChannelGroup(int nThreads, ThreadFactory threadFactory) throws IOException;
+    public bbstrbct AsynchronousChbnnelGroup
+        openAsynchronousChbnnelGroup(int nThrebds, ThrebdFbctory threbdFbctory) throws IOException;
 
     /**
-     * Constructs a new asynchronous channel group with the given thread pool.
+     * Constructs b new bsynchronous chbnnel group with the given threbd pool.
      *
-     * @param   executor
-     *          The thread pool
-     * @param   initialSize
-     *          A value {@code >=0} or a negative value for implementation
-     *          specific default
+     * @pbrbm   executor
+     *          The threbd pool
+     * @pbrbm   initiblSize
+     *          A vblue {@code >=0} or b negbtive vblue for implementbtion
+     *          specific defbult
      *
-     * @return  A new asynchronous channel group
+     * @return  A new bsynchronous chbnnel group
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see AsynchronousChannelGroup#withCachedThreadPool
+     * @see AsynchronousChbnnelGroup#withCbchedThrebdPool
      */
-    public abstract AsynchronousChannelGroup
-        openAsynchronousChannelGroup(ExecutorService executor, int initialSize) throws IOException;
+    public bbstrbct AsynchronousChbnnelGroup
+        openAsynchronousChbnnelGroup(ExecutorService executor, int initiblSize) throws IOException;
 
     /**
-     * Opens an asynchronous server-socket channel.
+     * Opens bn bsynchronous server-socket chbnnel.
      *
-     * @param   group
-     *          The group to which the channel is bound, or {@code null} to
-     *          bind to the default group
+     * @pbrbm   group
+     *          The group to which the chbnnel is bound, or {@code null} to
+     *          bind to the defbult group
      *
-     * @return  The new channel
+     * @return  The new chbnnel
      *
-     * @throws  IllegalChannelGroupException
-     *          If the provider that created the group differs from this provider
-     * @throws  ShutdownChannelGroupException
+     * @throws  IllegblChbnnelGroupException
+     *          If the provider thbt crebted the group differs from this provider
+     * @throws  ShutdownChbnnelGroupException
      *          The group is shutdown
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract AsynchronousServerSocketChannel openAsynchronousServerSocketChannel
-        (AsynchronousChannelGroup group) throws IOException;
+    public bbstrbct AsynchronousServerSocketChbnnel openAsynchronousServerSocketChbnnel
+        (AsynchronousChbnnelGroup group) throws IOException;
 
     /**
-     * Opens an asynchronous socket channel.
+     * Opens bn bsynchronous socket chbnnel.
      *
-     * @param   group
-     *          The group to which the channel is bound, or {@code null} to
-     *          bind to the default group
+     * @pbrbm   group
+     *          The group to which the chbnnel is bound, or {@code null} to
+     *          bind to the defbult group
      *
-     * @return  The new channel
+     * @return  The new chbnnel
      *
-     * @throws  IllegalChannelGroupException
-     *          If the provider that created the group differs from this provider
-     * @throws  ShutdownChannelGroupException
+     * @throws  IllegblChbnnelGroupException
+     *          If the provider thbt crebted the group differs from this provider
+     * @throws  ShutdownChbnnelGroupException
      *          The group is shutdown
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract AsynchronousSocketChannel openAsynchronousSocketChannel
-        (AsynchronousChannelGroup group) throws IOException;
+    public bbstrbct AsynchronousSocketChbnnel openAsynchronousSocketChbnnel
+        (AsynchronousChbnnelGroup group) throws IOException;
 }

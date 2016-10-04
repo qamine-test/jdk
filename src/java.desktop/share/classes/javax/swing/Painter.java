@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Graphics2D;
+import jbvb.bwt.Grbphics2D;
 
 /**
- * <p>A painting delegate. The Painter interface defines exactly one method,
- * <code>paint</code>. It is used in situations where the developer can change
- * the painting routine of a component without having to resort to subclassing
- * the component. It is also generically useful when doing any form of painting
- * delegation.</p>
+ * <p>A pbinting delegbte. The Pbinter interfbce defines exbctly one method,
+ * <code>pbint</code>. It is used in situbtions where the developer cbn chbnge
+ * the pbinting routine of b component without hbving to resort to subclbssing
+ * the component. It is blso genericblly useful when doing bny form of pbinting
+ * delegbtion.</p>
  *
- * <p><code>Painter</code>s are simply encapsulations of Java2D code and make
- * it fairly trivial to reuse existing <code>Painter</code>s or to combine
- * them together. Implementations of this interface are also trivial to write,
- * such that if you can't find a <code>Painter</code> that does what you need,
- * you can write one with minimal effort. Writing a <code>Painter</code> requires
- * knowledge of Java2D.</p>
+ * <p><code>Pbinter</code>s bre simply encbpsulbtions of Jbvb2D code bnd mbke
+ * it fbirly trivibl to reuse existing <code>Pbinter</code>s or to combine
+ * them together. Implementbtions of this interfbce bre blso trivibl to write,
+ * such thbt if you cbn't find b <code>Pbinter</code> thbt does whbt you need,
+ * you cbn write one with minimbl effort. Writing b <code>Pbinter</code> requires
+ * knowledge of Jbvb2D.</p>
  *
- * <p>A <code>Painter</code> may be created with a type parameter. This type will be
- * expected in the <code>paint</code> method. For example, you may wish to write a
- * <code>Painter</code> that only works with subclasses of {@link java.awt.Component}.
- * In that case, when the <code>Painter</code> is declared, you may declare that
- * it requires a <code>Component</code>, allowing the paint method to be type safe. Ex:
+ * <p>A <code>Pbinter</code> mby be crebted with b type pbrbmeter. This type will be
+ * expected in the <code>pbint</code> method. For exbmple, you mby wish to write b
+ * <code>Pbinter</code> thbt only works with subclbsses of {@link jbvb.bwt.Component}.
+ * In thbt cbse, when the <code>Pbinter</code> is declbred, you mby declbre thbt
+ * it requires b <code>Component</code>, bllowing the pbint method to be type sbfe. Ex:
  * <pre>
  * {@code
- * Painter<Component> p = new Painter<Component>() {
- *     public void paint(Graphics2D g, Component c, int width, int height) {
- *         g.setColor(c.getBackground());
- *         //and so forth
+ * Pbinter<Component> p = new Pbinter<Component>() {
+ *     public void pbint(Grbphics2D g, Component c, int width, int height) {
+ *         g.setColor(c.getBbckground());
+ *         //bnd so forth
  *     }
  * }
  * }
  * </pre>
  *
- * <p>This interface makes no guarantees of threadsafety.</p>
+ * <p>This interfbce mbkes no gubrbntees of threbdsbfety.</p>
  *
- * @author rbair
+ * @buthor rbbir
  * @since 1.7
  */
-public interface Painter<T> {
+public interfbce Pbinter<T> {
     /**
-     * <p>Renders to the given {@link java.awt.Graphics2D} object. Implementations
-     * of this method <em>may</em> modify state on the <code>Graphics2D</code>, and are not
-     * required to restore that state upon completion. In most cases, it is recommended
-     * that the caller pass in a scratch graphics object. The <code>Graphics2D</code>
+     * <p>Renders to the given {@link jbvb.bwt.Grbphics2D} object. Implementbtions
+     * of this method <em>mby</em> modify stbte on the <code>Grbphics2D</code>, bnd bre not
+     * required to restore thbt stbte upon completion. In most cbses, it is recommended
+     * thbt the cbller pbss in b scrbtch grbphics object. The <code>Grbphics2D</code>
      * must never be null.</p>
      *
-     * <p>State on the graphics object may be honored by the <code>paint</code> method,
-     * but may not be. For instance, setting the antialiasing rendering hint on the
-     * graphics may or may not be respected by the <code>Painter</code> implementation.</p>
+     * <p>Stbte on the grbphics object mby be honored by the <code>pbint</code> method,
+     * but mby not be. For instbnce, setting the bntiblibsing rendering hint on the
+     * grbphics mby or mby not be respected by the <code>Pbinter</code> implementbtion.</p>
      *
-     * <p>The supplied object parameter acts as an optional configuration argument.
-     * For example, it could be of type <code>Component</code>. A <code>Painter</code>
-     * that expected it could then read state from that <code>Component</code> and
-     * use the state for painting. For example, an implementation may read the
-     * backgroundColor and use that.</p>
+     * <p>The supplied object pbrbmeter bcts bs bn optionbl configurbtion brgument.
+     * For exbmple, it could be of type <code>Component</code>. A <code>Pbinter</code>
+     * thbt expected it could then rebd stbte from thbt <code>Component</code> bnd
+     * use the stbte for pbinting. For exbmple, bn implementbtion mby rebd the
+     * bbckgroundColor bnd use thbt.</p>
      *
-     * <p>Generally, to enhance reusability, most standard <code>Painter</code>s ignore
-     * this parameter. They can thus be reused in any context. The <code>object</code>
-     * may be null. Implementations must not throw a NullPointerException if the object
-     * parameter is null.</p>
+     * <p>Generblly, to enhbnce reusbbility, most stbndbrd <code>Pbinter</code>s ignore
+     * this pbrbmeter. They cbn thus be reused in bny context. The <code>object</code>
+     * mby be null. Implementbtions must not throw b NullPointerException if the object
+     * pbrbmeter is null.</p>
      *
-     * <p>Finally, the <code>width</code> and <code>height</code> arguments specify the
-     * width and height that the <code>Painter</code> should paint into. More
-     * specifically, the specified width and height instruct the painter that it should
-     * paint fully within this width and height. Any specified clip on the
-     * <code>g</code> param will further constrain the region.</p>
+     * <p>Finblly, the <code>width</code> bnd <code>height</code> brguments specify the
+     * width bnd height thbt the <code>Pbinter</code> should pbint into. More
+     * specificblly, the specified width bnd height instruct the pbinter thbt it should
+     * pbint fully within this width bnd height. Any specified clip on the
+     * <code>g</code> pbrbm will further constrbin the region.</p>
      *
-     * <p>For example, suppose I have a <code>Painter</code> implementation that draws
-     * a gradient. The gradient goes from white to black. It "stretches" to fill the
-     * painted region. Thus, if I use this <code>Painter</code> to paint a 500 x 500
-     * region, the far left would be black, the far right would be white, and a smooth
-     * gradient would be painted between. I could then, without modification, reuse the
-     * <code>Painter</code> to paint a region that is 20x20 in size. This region would
-     * also be black on the left, white on the right, and a smooth gradient painted
+     * <p>For exbmple, suppose I hbve b <code>Pbinter</code> implementbtion thbt drbws
+     * b grbdient. The grbdient goes from white to blbck. It "stretches" to fill the
+     * pbinted region. Thus, if I use this <code>Pbinter</code> to pbint b 500 x 500
+     * region, the fbr left would be blbck, the fbr right would be white, bnd b smooth
+     * grbdient would be pbinted between. I could then, without modificbtion, reuse the
+     * <code>Pbinter</code> to pbint b region thbt is 20x20 in size. This region would
+     * blso be blbck on the left, white on the right, bnd b smooth grbdient pbinted
      * between.</p>
      *
-     * @param g The Graphics2D to render to. This must not be null.
-     * @param object an optional configuration parameter. This may be null.
-     * @param width width of the area to paint.
-     * @param height height of the area to paint.
+     * @pbrbm g The Grbphics2D to render to. This must not be null.
+     * @pbrbm object bn optionbl configurbtion pbrbmeter. This mby be null.
+     * @pbrbm width width of the breb to pbint.
+     * @pbrbm height height of the breb to pbint.
      */
-    public void paint(Graphics2D g, T object, int width, int height);
+    public void pbint(Grbphics2D g, T object, int width, int height);
 }

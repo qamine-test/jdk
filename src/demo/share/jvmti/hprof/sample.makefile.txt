@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,110 +31,110 @@
 
 ########################################################################
 #
-# Sample GNU Makefile for building 
+# Sbmple GNU Mbkefile for building 
 #
-#  Example uses:    
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparc]
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparcv9]
-#       gnumake JDK=<java_home> OSNAME=linux   [OPT=true]
-#       gnumake JDK=<java_home> OSNAME=win32   [OPT=true]
+#  Exbmple uses:    
+#       gnumbke JDK=<jbvb_home> OSNAME=solbris [OPT=true] [LIBARCH=spbrc]
+#       gnumbke JDK=<jbvb_home> OSNAME=solbris [OPT=true] [LIBARCH=spbrcv9]
+#       gnumbke JDK=<jbvb_home> OSNAME=linux   [OPT=true]
+#       gnumbke JDK=<jbvb_home> OSNAME=win32   [OPT=true]
 #
 ########################################################################
 
 # Source lists
 LIBNAME=hprof
 SOURCES= \
-    debug_malloc.c	\
+    debug_mblloc.c	\
     hprof_blocks.c	\
-    hprof_class.c	\
+    hprof_clbss.c	\
     hprof_cpu.c		\
     hprof_error.c	\
     hprof_event.c	\
-    hprof_frame.c	\
+    hprof_frbme.c	\
     hprof_init.c	\
     hprof_io.c		\
-    hprof_ioname.c	\
+    hprof_ionbme.c	\
     hprof_listener.c	\
-    hprof_loader.c	\
+    hprof_lobder.c	\
     hprof_monitor.c	\
     hprof_object.c	\
     hprof_reference.c	\
     hprof_site.c	\
-    hprof_stack.c	\
+    hprof_stbck.c	\
     hprof_string.c	\
-    hprof_table.c	\
-    hprof_tag.c		\
+    hprof_tbble.c	\
+    hprof_tbg.c		\
     hprof_tls.c		\
-    hprof_trace.c	\
-    hprof_tracker.c	\
+    hprof_trbce.c	\
+    hprof_trbcker.c	\
     hprof_util.c	\
     hprof_md.c
 
-JAVA_SOURCES=Tracker.java
+JAVA_SOURCES=Trbcker.jbvb
 
-# Name of jar file that needs to be created
-#JARFILE=hprof.jar
+# Nbme of jbr file thbt needs to be crebted
+#JARFILE=hprof.jbr
 
-# Solaris Sun C Compiler Version 5.5
-ifeq ($(OSNAME), solaris)
-    # Sun Solaris Compiler options needed
+# Solbris Sun C Compiler Version 5.5
+ifeq ($(OSNAME), solbris)
+    # Sun Solbris Compiler options needed
     COMMON_FLAGS=-mt -KPIC
-    # Options that help find errors
-    COMMON_FLAGS+= -Xa -v -xstrconst -xc99=%none
-    # To make hprof logging code available
+    # Options thbt help find errors
+    COMMON_FLAGS+= -Xb -v -xstrconst -xc99=%none
+    # To mbke hprof logging code bvbilbble
     COMMON_FLAGS+= -DHPROF_LOGGING
-    # Check LIBARCH for any special compiler options
-    LIBARCH=$(shell uname -p)
-    ifeq ($(LIBARCH), sparc)
-        COMMON_FLAGS+=-xarch=v8 -xregs=no%appl
+    # Check LIBARCH for bny specibl compiler options
+    LIBARCH=$(shell unbme -p)
+    ifeq ($(LIBARCH), spbrc)
+        COMMON_FLAGS+=-xbrch=v8 -xregs=no%bppl
     endif
-    ifeq ($(LIBARCH), sparcv9)
-        COMMON_FLAGS+=-xarch=v9 -xregs=no%appl
+    ifeq ($(LIBARCH), spbrcv9)
+        COMMON_FLAGS+=-xbrch=v9 -xregs=no%bppl
     endif
     ifeq ($(OPT), true)
         CFLAGS=-xO2 $(COMMON_FLAGS)  -DNDEBUG
     else
         CFLAGS=-g $(COMMON_FLAGS) -DDEBUG
     endif
-    # Object files needed to create library
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=lib$(LIBNAME).so
     LDFLAGS=-z defs -ztext
-    # Libraries we are dependent on
+    # Librbries we bre dependent on
     LIBRARIES=-lsocket -lnsl -ldl -lc
-    # Building a shared library
+    # Building b shbred librbry
     LINK_SHARED=$(LINK.c) -G -o $@
 endif
 
 # Linux GNU C Compiler
 ifeq ($(OSNAME), linux)
     # GNU Compiler options needed to build it
-    COMMON_FLAGS=-fno-strict-aliasing -fPIC -fno-omit-frame-pointer
-    # Options that help find errors
-    COMMON_FLAGS+= -W -Wall  -Wno-unused -Wno-parentheses
-    # To allow access to dladdr()
+    COMMON_FLAGS=-fno-strict-blibsing -fPIC -fno-omit-frbme-pointer
+    # Options thbt help find errors
+    COMMON_FLAGS+= -W -Wbll  -Wno-unused -Wno-pbrentheses
+    # To bllow bccess to dlbddr()
     COMMON_FLAGS+= -D_GNU_SOURCE
     # To prevent include of procfs.h
     COMMON_FLAGS+= -DLINUX
-    # To make sure code is reentrant
+    # To mbke sure code is reentrbnt
     COMMON_FLAGS+= -D_REENTRANT
-    # To make hprof logging code available
+    # To mbke hprof logging code bvbilbble
     COMMON_FLAGS+= -DHPROF_LOGGING
     ifeq ($(OPT), true)
         CFLAGS=-O2 $(COMMON_FLAGS)  -DNDEBUG
     else
         CFLAGS=-g $(COMMON_FLAGS)  -DDEBUG
     endif
-    # Object files needed to create library
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=lib$(LIBNAME).so
-    LDFLAGS=-Wl,-soname=$(LIBRARY) -static-libgcc
-    # Libraries we are dependent on
+    LDFLAGS=-Wl,-sonbme=$(LIBRARY) -stbtic-libgcc
+    # Librbries we bre dependent on
     LIBRARIES= -ldl -lc
-    # Building a shared library
-    LINK_SHARED=$(LINK.c) -shared -o $@
+    # Building b shbred librbry
+    LINK_SHARED=$(LINK.c) -shbred -o $@
 endif
 
 # Windows Microsoft C/C++ Optimizing Compiler Version 12
@@ -142,62 +142,62 @@ ifeq ($(OSNAME), win32)
     CC=cl
     # Compiler options needed to build it
     COMMON_FLAGS=-Gy -DWIN32
-    # Options that help find errors
+    # Options thbt help find errors
     COMMON_FLAGS+=-W0 -WX
-    # To make hprof logging code available
+    # To mbke hprof logging code bvbilbble
     COMMON_FLAGS+= -DHPROF_LOGGING
     ifeq ($(OPT), true)
         CFLAGS= -Ox -Op -Zi $(COMMON_FLAGS)  -DNDEBUG
     else
         CFLAGS= -Od -Zi $(COMMON_FLAGS)  -DDEBUG
     endif
-    # Add java_crw_demo source
-    SOURCES += ../java_crw_demo.c
-    # Object files needed to create library
+    # Add jbvb_crw_demo source
+    SOURCES += ../jbvb_crw_demo.c
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.obj)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=$(LIBNAME).dll
     LDFLAGS=
-    # Libraries we are dependent on
+    # Librbries we bre dependent on
     LIBRARIES=wsock32.lib winmm.lib
-    # Building a shared library
+    # Building b shbred librbry
     LINK_SHARED=link -dll -out:$@
 endif
 
 # Common -I options
 CFLAGS += -I.
-CFLAGS += -I../java_crw_demo
+CFLAGS += -I../jbvb_crw_demo
 CFLAGS += -I$(JDK)/include -I$(JDK)/include/$(OSNAME)
 
-# Default rule (build both native library and jar file)
-all: hprof_md.c $(LIBRARY) $(JARFILE)
+# Defbult rule (build both nbtive librbry bnd jbr file)
+bll: hprof_md.c $(LIBRARY) $(JARFILE)
 
-# Get platform specific hprof_md.c
+# Get plbtform specific hprof_md.c
 hprof_md.c:
 	rm -f $@
 	cp $(OSNAME)/hprof_md.c $@
 
-# Build native library
+# Build nbtive librbry
 $(LIBRARY): $(OBJECTS)
 	$(LINK_SHARED) $(OBJECTS) $(LIBRARIES)
 
-# Build jar file
+# Build jbr file
 $(JARFILE): $(JAVA_SOURCES)
-	rm -f -r classes
-	mkdir -p classes
-	$(JDK)/bin/javac -d classes $(JAVA_SOURCES)
-	(cd classes; $(JDK)/bin/jar cf ../$@ *)
+	rm -f -r clbsses
+	mkdir -p clbsses
+	$(JDK)/bin/jbvbc -d clbsses $(JAVA_SOURCES)
+	(cd clbsses; $(JDK)/bin/jbr cf ../$@ *)
 
-# Cleanup the built bits
-clean:
-	rm -f -r classes
+# Clebnup the built bits
+clebn:
+	rm -f -r clbsses
 	rm -f $(LIBRARY) $(JARFILE) $(OBJECTS)
 
 # Simple tester
-test: all
-	LD_LIBRARY_PATH=. $(JDK)/bin/java -agentlib:$(LIBNAME) -Xbootclasspath/a:./$(JARFILE) -version
+test: bll
+	LD_LIBRARY_PATH=. $(JDK)/bin/jbvb -bgentlib:$(LIBNAME) -Xbootclbsspbth/b:./$(JARFILE) -version
 
-# Compilation rule only needed on Windows
+# Compilbtion rule only needed on Windows
 ifeq ($(OSNAME), win32)
 %.obj: %.c
 	$(COMPILE.c) $<

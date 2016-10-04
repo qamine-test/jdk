@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
 import sun.security.krb5.Confounder;
 import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
+import sun.security.krb5.internbl.*;
 
-abstract class DesCbcEType extends EType {
-    protected abstract byte[] calculateChecksum(byte[] data, int size)
+bbstrbct clbss DesCbcEType extends EType {
+    protected bbstrbct byte[] cblculbteChecksum(byte[] dbtb, int size)
         throws KrbCryptoException;
 
     public int blockSize() {
@@ -52,171 +52,171 @@ abstract class DesCbcEType extends EType {
     }
 
     /**
-     * Encrypts the data using DES in CBC mode.
-     * @param data the buffer for plain text.
-     * @param key the key to encrypt the data.
-     * @return the buffer for encrypted data.
+     * Encrypts the dbtb using DES in CBC mode.
+     * @pbrbm dbtb the buffer for plbin text.
+     * @pbrbm key the key to encrypt the dbtb.
+     * @return the buffer for encrypted dbtb.
      *
-     * @written by Yanni Zhang, Dec 6 99.
+     * @written by Ybnni Zhbng, Dec 6 99.
      */
 
-    public byte[] encrypt(byte[] data, byte[] key, int usage)
+    public byte[] encrypt(byte[] dbtb, byte[] key, int usbge)
          throws KrbCryptoException {
         byte[] ivec = new byte[keySize()];
-        return encrypt(data, key, ivec, usage);
+        return encrypt(dbtb, key, ivec, usbge);
     }
 
     /**
-     * Encrypts the data using DES in CBC mode.
-     * @param data the buffer for plain text.
-     * @param key the key to encrypt the data.
-     * @param ivec initialization vector.
-     * @return buffer for encrypted data.
+     * Encrypts the dbtb using DES in CBC mode.
+     * @pbrbm dbtb the buffer for plbin text.
+     * @pbrbm key the key to encrypt the dbtb.
+     * @pbrbm ivec initiblizbtion vector.
+     * @return buffer for encrypted dbtb.
      *
-     * @modified by Yanni Zhang, Feb 24 00.
+     * @modified by Ybnni Zhbng, Feb 24 00.
      */
-    public byte[] encrypt(byte[] data, byte[] key, byte[] ivec,
-        int usage) throws KrbCryptoException {
+    public byte[] encrypt(byte[] dbtb, byte[] key, byte[] ivec,
+        int usbge) throws KrbCryptoException {
 
         /*
-         * To meet export control requirements, double check that the
-         * key being used is no longer than 64 bits.
+         * To meet export control requirements, double check thbt the
+         * key being used is no longer thbn 64 bits.
          *
-         * Note that from a protocol point of view, an
-         * algorithm that is not DES will be rejected before this
-         * point. Also, a  DES key that is not 64 bits will be
-         * rejected by a good implementations of JCE.
+         * Note thbt from b protocol point of view, bn
+         * blgorithm thbt is not DES will be rejected before this
+         * point. Also, b  DES key thbt is not 64 bits will be
+         * rejected by b good implementbtions of JCE.
          */
         if (key.length > 8)
-        throw new KrbCryptoException("Invalid DES Key!");
+        throw new KrbCryptoException("Invblid DES Key!");
 
-        int new_size = data.length + confounderSize() + checksumSize();
-        byte[] new_data;
-        byte pad;
-        /*Data padding: using Kerberos 5 GSS-API mechanism (1.2.2.3), Jun 1996.
-         *Before encryption, plain text data is padded to the next highest multiple of blocksize.
-         *by appending between 1 and 8 bytes, the value of each such byte being the total number
-         *of pad bytes. For example, if new_size = 10, blockSize is 8, we should pad 2 bytes,
-         *and the value of each byte is 2.
-         *If plaintext data is a multiple of blocksize, we pad a 8 bytes of 8.
+        int new_size = dbtb.length + confounderSize() + checksumSize();
+        byte[] new_dbtb;
+        byte pbd;
+        /*Dbtb pbdding: using Kerberos 5 GSS-API mechbnism (1.2.2.3), Jun 1996.
+         *Before encryption, plbin text dbtb is pbdded to the next highest multiple of blocksize.
+         *by bppending between 1 bnd 8 bytes, the vblue of ebch such byte being the totbl number
+         *of pbd bytes. For exbmple, if new_size = 10, blockSize is 8, we should pbd 2 bytes,
+         *bnd the vblue of ebch byte is 2.
+         *If plbintext dbtb is b multiple of blocksize, we pbd b 8 bytes of 8.
          */
         if (new_size % blockSize() == 0) {
-            new_data = new byte[new_size + blockSize()];
-            pad = (byte)8;
+            new_dbtb = new byte[new_size + blockSize()];
+            pbd = (byte)8;
         }
         else {
-            new_data = new byte[new_size + blockSize() - new_size % blockSize()];
-            pad = (byte)(blockSize() - new_size % blockSize());
+            new_dbtb = new byte[new_size + blockSize() - new_size % blockSize()];
+            pbd = (byte)(blockSize() - new_size % blockSize());
         }
-        for (int i = new_size; i < new_data.length; i++) {
-            new_data[i] = pad;
+        for (int i = new_size; i < new_dbtb.length; i++) {
+            new_dbtb[i] = pbd;
         }
         byte[] conf = Confounder.bytes(confounderSize());
-        System.arraycopy(conf, 0, new_data, 0, confounderSize());
-        System.arraycopy(data, 0, new_data, startOfData(), data.length);
-        byte[] cksum = calculateChecksum(new_data, new_data.length);
-        System.arraycopy(cksum, 0, new_data, startOfChecksum(),
+        System.brrbycopy(conf, 0, new_dbtb, 0, confounderSize());
+        System.brrbycopy(dbtb, 0, new_dbtb, stbrtOfDbtb(), dbtb.length);
+        byte[] cksum = cblculbteChecksum(new_dbtb, new_dbtb.length);
+        System.brrbycopy(cksum, 0, new_dbtb, stbrtOfChecksum(),
                          checksumSize());
-        byte[] cipher = new byte[new_data.length];
-        Des.cbc_encrypt(new_data, cipher, key, ivec, true);
+        byte[] cipher = new byte[new_dbtb.length];
+        Des.cbc_encrypt(new_dbtb, cipher, key, ivec, true);
         return cipher;
     }
 
     /**
-     * Decrypts the data using DES in CBC mode.
-     * @param cipher the input buffer.
-     * @param key the key to decrypt the data.
+     * Decrypts the dbtb using DES in CBC mode.
+     * @pbrbm cipher the input buffer.
+     * @pbrbm key the key to decrypt the dbtb.
      *
-     * @written by Yanni Zhang, Dec 6 99.
+     * @written by Ybnni Zhbng, Dec 6 99.
      */
-    public byte[] decrypt(byte[] cipher, byte[] key, int usage)
+    public byte[] decrypt(byte[] cipher, byte[] key, int usbge)
         throws KrbApErrException, KrbCryptoException{
         byte[] ivec = new byte[keySize()];
-        return decrypt(cipher, key, ivec, usage);
+        return decrypt(cipher, key, ivec, usbge);
     }
 
     /**
-     * Decrypts the data using DES in CBC mode.
-     * @param cipher the input buffer.
-     * @param key the key to decrypt the data.
-     * @param ivec initialization vector.
+     * Decrypts the dbtb using DES in CBC mode.
+     * @pbrbm cipher the input buffer.
+     * @pbrbm key the key to decrypt the dbtb.
+     * @pbrbm ivec initiblizbtion vector.
      *
-     * @modified by Yanni Zhang, Dec 6 99.
+     * @modified by Ybnni Zhbng, Dec 6 99.
      */
-    public byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec, int usage)
+    public byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec, int usbge)
         throws KrbApErrException, KrbCryptoException {
 
         /*
-         * To meet export control requirements, double check that the
-         * key being used is no longer than 64 bits.
+         * To meet export control requirements, double check thbt the
+         * key being used is no longer thbn 64 bits.
          *
-         * Note that from a protocol point of view, an
-         * algorithm that is not DES will be rejected before this
-         * point. Also, a DES key that is not 64 bits will be
-         * rejected by a good JCE provider.
+         * Note thbt from b protocol point of view, bn
+         * blgorithm thbt is not DES will be rejected before this
+         * point. Also, b DES key thbt is not 64 bits will be
+         * rejected by b good JCE provider.
          */
         if (key.length > 8)
-            throw new KrbCryptoException("Invalid DES Key!");
+            throw new KrbCryptoException("Invblid DES Key!");
 
-        byte[] data = new byte[cipher.length];
-        Des.cbc_encrypt(cipher, data, key, ivec, false);
-        if (!isChecksumValid(data))
+        byte[] dbtb = new byte[cipher.length];
+        Des.cbc_encrypt(cipher, dbtb, key, ivec, fblse);
+        if (!isChecksumVblid(dbtb))
             throw new KrbApErrException(Krb5.KRB_AP_ERR_BAD_INTEGRITY);
-        return data;
+        return dbtb;
     }
 
-    private void copyChecksumField(byte[] data, byte[] cksum) {
+    privbte void copyChecksumField(byte[] dbtb, byte[] cksum) {
         for (int i = 0; i < checksumSize();  i++)
-            data[startOfChecksum() + i] = cksum[i];
+            dbtb[stbrtOfChecksum() + i] = cksum[i];
     }
 
-    private byte[] checksumField(byte[] data) {
+    privbte byte[] checksumField(byte[] dbtb) {
         byte[] result = new byte[checksumSize()];
         for (int i = 0; i < checksumSize(); i++)
-        result[i] = data[startOfChecksum() + i];
+        result[i] = dbtb[stbrtOfChecksum() + i];
         return result;
     }
 
-    private void resetChecksumField(byte[] data) {
-        for (int i = startOfChecksum(); i < startOfChecksum() +
+    privbte void resetChecksumField(byte[] dbtb) {
+        for (int i = stbrtOfChecksum(); i < stbrtOfChecksum() +
                  checksumSize();  i++)
-            data[i] = 0;
+            dbtb[i] = 0;
     }
 
     /*
         // Not used.
-    public void setChecksum(byte[] data, int size) throws KrbCryptoException{
-        resetChecksumField(data);
-        byte[] cksum = calculateChecksum(data, size);
-        copyChecksumField(data, cksum);
+    public void setChecksum(byte[] dbtb, int size) throws KrbCryptoException{
+        resetChecksumField(dbtb);
+        byte[] cksum = cblculbteChecksum(dbtb, size);
+        copyChecksumField(dbtb, cksum);
     }
 */
 
-    private byte[] generateChecksum(byte[] data) throws KrbCryptoException{
-        byte[] cksum1 = checksumField(data);
-        resetChecksumField(data);
-        byte[] cksum2 = calculateChecksum(data, data.length);
-        copyChecksumField(data, cksum1);
+    privbte byte[] generbteChecksum(byte[] dbtb) throws KrbCryptoException{
+        byte[] cksum1 = checksumField(dbtb);
+        resetChecksumField(dbtb);
+        byte[] cksum2 = cblculbteChecksum(dbtb, dbtb.length);
+        copyChecksumField(dbtb, cksum1);
         return cksum2;
     }
 
-    private boolean isChecksumEqual(byte[] cksum1, byte[] cksum2) {
+    privbte boolebn isChecksumEqubl(byte[] cksum1, byte[] cksum2) {
         if (cksum1 == cksum2)
             return true;
         if ((cksum1 == null && cksum2 != null) ||
             (cksum1 != null && cksum2 == null))
-            return false;
+            return fblse;
         if (cksum1.length != cksum2.length)
-            return false;
+            return fblse;
         for (int i = 0; i < cksum1.length; i++)
             if (cksum1[i] != cksum2[i])
-                return false;
+                return fblse;
         return true;
     }
 
-    protected boolean isChecksumValid(byte[] data) throws KrbCryptoException {
-        byte[] cksum1 = checksumField(data);
-        byte[] cksum2 = generateChecksum(data);
-        return isChecksumEqual(cksum1, cksum2);
+    protected boolebn isChecksumVblid(byte[] dbtb) throws KrbCryptoException {
+        byte[] cksum1 = checksumField(dbtb);
+        byte[] cksum2 = generbteChecksum(dbtb);
+        return isChecksumEqubl(cksum1, cksum2);
     }
 }

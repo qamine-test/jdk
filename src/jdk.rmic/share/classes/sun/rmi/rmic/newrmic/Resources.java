@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic;
+pbckbge sun.rmi.rmic.newrmic;
 
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
  * Provides resource support for rmic.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-public final class Resources {
+public finbl clbss Resources {
 
-    private static ResourceBundle resources = null;
-    private static ResourceBundle resourcesExt = null;
-    static {
+    privbte stbtic ResourceBundle resources = null;
+    privbte stbtic ResourceBundle resourcesExt = null;
+    stbtic {
         try {
             resources =
                 ResourceBundle.getBundle("sun.rmi.rmic.resources.rmic");
-        } catch (MissingResourceException e) {
-            // gracefully handle this later
+        } cbtch (MissingResourceException e) {
+            // grbcefully hbndle this lbter
         }
         try {
             resourcesExt =
                 ResourceBundle.getBundle("sun.rmi.rmic.resources.rmicext");
-        } catch (MissingResourceException e) {
+        } cbtch (MissingResourceException e) {
             // OK if this isn't found
         }
     }
 
-    private Resources() { throw new AssertionError(); }
+    privbte Resources() { throw new AssertionError(); }
 
     /**
      * Returns the text of the rmic resource for the specified key
-     * formatted with the specified arguments.
+     * formbtted with the specified brguments.
      **/
-    public static String getText(String key, String... args) {
-        String format = getString(key);
-        if (format == null) {
-            format = "missing resource key: key = \"" + key + "\", " +
-                "arguments = \"{0}\", \"{1}\", \"{2}\"";
+    public stbtic String getText(String key, String... brgs) {
+        String formbt = getString(key);
+        if (formbt == null) {
+            formbt = "missing resource key: key = \"" + key + "\", " +
+                "brguments = \"{0}\", \"{1}\", \"{2}\"";
         }
-        return MessageFormat.format(format, (Object[]) args);
+        return MessbgeFormbt.formbt(formbt, (Object[]) brgs);
     }
 
     /**
      * Returns the rmic resource string for the specified key.
      **/
-    private static String getString(String key) {
+    privbte stbtic String getString(String key) {
         if (resourcesExt != null) {
             try {
                 return resourcesExt.getString(key);
-            } catch (MissingResourceException e) {
+            } cbtch (MissingResourceException e) {
             }
         }
         if (resources != null) {
             try {
                 return resources.getString(key);
-            } catch (MissingResourceException e) {
+            } cbtch (MissingResourceException e) {
                 return null;
             }
         }
         return "missing resource bundle: key = \"" + key + "\", " +
-            "arguments = \"{0}\", \"{1}\", \"{2}\"";
+            "brguments = \"{0}\", \"{1}\", \"{2}\"";
     }
 }

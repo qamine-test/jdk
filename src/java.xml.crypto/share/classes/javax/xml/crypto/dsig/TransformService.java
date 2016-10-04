@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: TransformService.java,v 1.6.4.1 2005/09/15 12:42:11 mullan Exp $
+ * $Id: TrbnsformService.jbvb,v 1.6.4.1 2005/09/15 12:42:11 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.Provider.Service;
-import java.security.Security;
-import java.util.*;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.Provider;
+import jbvb.security.Provider.Service;
+import jbvb.security.Security;
+import jbvb.util.*;
+import jbvbx.xml.crypto.MbrshblException;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * A Service Provider Interface for transform and canonicalization algorithms.
+ * A Service Provider Interfbce for trbnsform bnd cbnonicblizbtion blgorithms.
  *
- * <p>Each instance of <code>TransformService</code> supports a specific
- * transform or canonicalization algorithm and XML mechanism type. To create a
- * <code>TransformService</code>, call one of the static
- * {@link #getInstance getInstance} methods, passing in the algorithm URI and
- * XML mechanism type desired, for example:
+ * <p>Ebch instbnce of <code>TrbnsformService</code> supports b specific
+ * trbnsform or cbnonicblizbtion blgorithm bnd XML mechbnism type. To crebte b
+ * <code>TrbnsformService</code>, cbll one of the stbtic
+ * {@link #getInstbnce getInstbnce} methods, pbssing in the blgorithm URI bnd
+ * XML mechbnism type desired, for exbmple:
  *
  * <blockquote><code>
- * TransformService ts = TransformService.getInstance(Transform.XPATH2, "DOM");
+ * TrbnsformService ts = TrbnsformService.getInstbnce(Trbnsform.XPATH2, "DOM");
  * </code></blockquote>
  *
- * <p><code>TransformService</code> implementations are registered and loaded
- * using the {@link java.security.Provider} mechanism.  Each
- * <code>TransformService</code> service provider implementation should include
- * a <code>MechanismType</code> service attribute that identifies the XML
- * mechanism type that it supports. If the attribute is not specified,
- * "DOM" is assumed. For example, a service provider that supports the
- * XPath Filter 2 Transform and DOM mechanism would be specified in the
- * <code>Provider</code> subclass as:
+ * <p><code>TrbnsformService</code> implementbtions bre registered bnd lobded
+ * using the {@link jbvb.security.Provider} mechbnism.  Ebch
+ * <code>TrbnsformService</code> service provider implementbtion should include
+ * b <code>MechbnismType</code> service bttribute thbt identifies the XML
+ * mechbnism type thbt it supports. If the bttribute is not specified,
+ * "DOM" is bssumed. For exbmple, b service provider thbt supports the
+ * XPbth Filter 2 Trbnsform bnd DOM mechbnism would be specified in the
+ * <code>Provider</code> subclbss bs:
  * <pre>
- *     put("TransformService." + Transform.XPATH2,
- *         "org.example.XPath2TransformService");
- *     put("TransformService." + Transform.XPATH2 + " MechanismType", "DOM");
+ *     put("TrbnsformService." + Trbnsform.XPATH2,
+ *         "org.exbmple.XPbth2TrbnsformService");
+ *     put("TrbnsformService." + Trbnsform.XPATH2 + " MechbnismType", "DOM");
  * </pre>
- * <code>TransformService</code> implementations that support the DOM
- * mechanism type must abide by the DOM interoperability requirements defined
+ * <code>TrbnsformService</code> implementbtions thbt support the DOM
+ * mechbnism type must bbide by the DOM interoperbbility requirements defined
  * in the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechanism%20Requirements">
- * DOM Mechanism Requirements</a> section of the API overview. See the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
- * Service Providers</a> section of the API overview for a list of standard
- * mechanism types.
+ * <b href="../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechbnism%20Requirements">
+ * DOM Mechbnism Requirements</b> section of the API overview. See the
+ * <b href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
+ * Service Providers</b> section of the API overview for b list of stbndbrd
+ * mechbnism types.
  * <p>
- * Once a <code>TransformService</code> has been created, it can be used
- * to process <code>Transform</code> or <code>CanonicalizationMethod</code>
- * objects. If the <code>Transform</code> or <code>CanonicalizationMethod</code>
- * exists in XML form (for example, when validating an existing
- * <code>XMLSignature</code>), the {@link #init(XMLStructure, XMLCryptoContext)}
- * method must be first called to initialize the transform and provide document
- * context (even if there are no parameters). Alternatively, if the
- * <code>Transform</code> or <code>CanonicalizationMethod</code> is being
- * created from scratch, the {@link #init(TransformParameterSpec)} method
- * is called to initialize the transform with parameters and the
- * {@link #marshalParams marshalParams} method is called to marshal the
- * parameters to XML and provide the transform with document context. Finally,
- * the {@link #transform transform} method is called to perform the
- * transformation.
+ * Once b <code>TrbnsformService</code> hbs been crebted, it cbn be used
+ * to process <code>Trbnsform</code> or <code>CbnonicblizbtionMethod</code>
+ * objects. If the <code>Trbnsform</code> or <code>CbnonicblizbtionMethod</code>
+ * exists in XML form (for exbmple, when vblidbting bn existing
+ * <code>XMLSignbture</code>), the {@link #init(XMLStructure, XMLCryptoContext)}
+ * method must be first cblled to initiblize the trbnsform bnd provide document
+ * context (even if there bre no pbrbmeters). Alternbtively, if the
+ * <code>Trbnsform</code> or <code>CbnonicblizbtionMethod</code> is being
+ * crebted from scrbtch, the {@link #init(TrbnsformPbrbmeterSpec)} method
+ * is cblled to initiblize the trbnsform with pbrbmeters bnd the
+ * {@link #mbrshblPbrbms mbrshblPbrbms} method is cblled to mbrshbl the
+ * pbrbmeters to XML bnd provide the trbnsform with document context. Finblly,
+ * the {@link #trbnsform trbnsform} method is cblled to perform the
+ * trbnsformbtion.
  * <p>
  * <b>Concurrent Access</b>
- * <p>The static methods of this class are guaranteed to be thread-safe.
- * Multiple threads may concurrently invoke the static methods defined in this
- * class with no ill effects.
+ * <p>The stbtic methods of this clbss bre gubrbnteed to be threbd-sbfe.
+ * Multiple threbds mby concurrently invoke the stbtic methods defined in this
+ * clbss with no ill effects.
  *
- * <p>However, this is not true for the non-static methods defined by this
- * class. Unless otherwise documented by a specific provider, threads that
- * need to access a single <code>TransformService</code> instance
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking. Multiple threads each manipulating a different
- * <code>TransformService</code> instance need not synchronize.
+ * <p>However, this is not true for the non-stbtic methods defined by this
+ * clbss. Unless otherwise documented by b specific provider, threbds thbt
+ * need to bccess b single <code>TrbnsformService</code> instbnce
+ * concurrently should synchronize bmongst themselves bnd provide the
+ * necessbry locking. Multiple threbds ebch mbnipulbting b different
+ * <code>TrbnsformService</code> instbnce need not synchronize.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public abstract class TransformService implements Transform {
+public bbstrbct clbss TrbnsformService implements Trbnsform {
 
-    private String algorithm;
-    private String mechanism;
-    private Provider provider;
+    privbte String blgorithm;
+    privbte String mechbnism;
+    privbte Provider provider;
 
     /**
-     * Default constructor, for invocation by subclasses.
+     * Defbult constructor, for invocbtion by subclbsses.
      */
-    protected TransformService() {}
+    protected TrbnsformService() {}
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
+     * Returns b <code>TrbnsformService</code> thbt supports the specified
+     * blgorithm URI (ex: {@link Trbnsform#XPATH2}) bnd mechbnism type
      * (ex: DOM).
      *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate a <code>TransformService</code> implementation
-     * of the desired algorithm and <code>MechanismType</code> service
-     * attribute. It traverses the list of registered security
-     * <code>Provider</code>s, starting with the most preferred
-     * <code>Provider</code>. A new <code>TransformService</code> object
-     * from the first <code>Provider</code> that supports the specified
-     * algorithm and mechanism type is returned.
+     * <p>This method uses the stbndbrd JCA provider lookup mechbnism to
+     * locbte bnd instbntibte b <code>TrbnsformService</code> implementbtion
+     * of the desired blgorithm bnd <code>MechbnismType</code> service
+     * bttribute. It trbverses the list of registered security
+     * <code>Provider</code>s, stbrting with the most preferred
+     * <code>Provider</code>. A new <code>TrbnsformService</code> object
+     * from the first <code>Provider</code> thbt supports the specified
+     * blgorithm bnd mechbnism type is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @return a new <code>TransformService</code>
-     * @throws NullPointerException if <code>algorithm</code> or
-     *   <code>mechanismType</code> is  <code>null</code>
-     * @throws NoSuchAlgorithmException if no <code>Provider</code> supports a
-     *   <code>TransformService</code> implementation for the specified
-     *   algorithm and mechanism type
+     * @pbrbm blgorithm the URI of the blgorithm
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *   representbtion
+     * @return b new <code>TrbnsformService</code>
+     * @throws NullPointerException if <code>blgorithm</code> or
+     *   <code>mechbnismType</code> is  <code>null</code>
+     * @throws NoSuchAlgorithmException if no <code>Provider</code> supports b
+     *   <code>TrbnsformService</code> implementbtion for the specified
+     *   blgorithm bnd mechbnism type
      * @see Provider
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType)
+    public stbtic TrbnsformService getInstbnce
+        (String blgorithm, String mechbnismType)
         throws NoSuchAlgorithmException {
-        if (mechanismType == null || algorithm == null) {
+        if (mechbnismType == null || blgorithm == null) {
             throw new NullPointerException();
         }
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
+        boolebn dom = fblse;
+        if (mechbnismType.equbls("DOM")) {
             dom = true;
         }
-        List<Service> services = GetInstance.getServices("TransformService", algorithm);
-        for (Iterator<Service> t = services.iterator(); t.hasNext(); ) {
+        List<Service> services = GetInstbnce.getServices("TrbnsformService", blgorithm);
+        for (Iterbtor<Service> t = services.iterbtor(); t.hbsNext(); ) {
             Service s = t.next();
-            String value = s.getAttribute("MechanismType");
-            if ((value == null && dom) ||
-                (value != null && value.equals(mechanismType))) {
-                Instance instance = GetInstance.getInstance(s, null);
-                TransformService ts = (TransformService) instance.impl;
-                ts.algorithm = algorithm;
-                ts.mechanism = mechanismType;
-                ts.provider = instance.provider;
+            String vblue = s.getAttribute("MechbnismType");
+            if ((vblue == null && dom) ||
+                (vblue != null && vblue.equbls(mechbnismType))) {
+                Instbnce instbnce = GetInstbnce.getInstbnce(s, null);
+                TrbnsformService ts = (TrbnsformService) instbnce.impl;
+                ts.blgorithm = blgorithm;
+                ts.mechbnism = mechbnismType;
+                ts.provider = instbnce.provider;
                 return ts;
             }
         }
         throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+            (blgorithm + " blgorithm bnd " + mechbnismType
+                 + " mechbnism not bvbilbble");
     }
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
-     * (ex: DOM) as supplied by the specified provider. Note that the specified
-     * <code>Provider</code> object does not have to be registered in the
+     * Returns b <code>TrbnsformService</code> thbt supports the specified
+     * blgorithm URI (ex: {@link Trbnsform#XPATH2}) bnd mechbnism type
+     * (ex: DOM) bs supplied by the specified provider. Note thbt the specified
+     * <code>Provider</code> object does not hbve to be registered in the
      * provider list.
      *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @param provider the <code>Provider</code> object
-     * @return a new <code>TransformService</code>
+     * @pbrbm blgorithm the URI of the blgorithm
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *   representbtion
+     * @pbrbm provider the <code>Provider</code> object
+     * @return b new <code>TrbnsformService</code>
      * @throws NullPointerException if <code>provider</code>,
-     *   <code>algorithm</code>, or <code>mechanismType</code> is
+     *   <code>blgorithm</code>, or <code>mechbnismType</code> is
      *   <code>null</code>
-     * @throws NoSuchAlgorithmException if a <code>TransformService</code>
-     *   implementation for the specified algorithm and mechanism type is not
-     *   available from the specified <code>Provider</code> object
+     * @throws NoSuchAlgorithmException if b <code>TrbnsformService</code>
+     *   implementbtion for the specified blgorithm bnd mechbnism type is not
+     *   bvbilbble from the specified <code>Provider</code> object
      * @see Provider
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType, Provider provider)
+    public stbtic TrbnsformService getInstbnce
+        (String blgorithm, String mechbnismType, Provider provider)
         throws NoSuchAlgorithmException {
-        if (mechanismType == null || algorithm == null || provider == null) {
+        if (mechbnismType == null || blgorithm == null || provider == null) {
             throw new NullPointerException();
         }
 
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
+        boolebn dom = fblse;
+        if (mechbnismType.equbls("DOM")) {
             dom = true;
         }
-        Service s = GetInstance.getService
-            ("TransformService", algorithm, provider);
-        String value = s.getAttribute("MechanismType");
-        if ((value == null && dom) ||
-            (value != null && value.equals(mechanismType))) {
-            Instance instance = GetInstance.getInstance(s, null);
-            TransformService ts = (TransformService) instance.impl;
-            ts.algorithm = algorithm;
-            ts.mechanism = mechanismType;
-            ts.provider = instance.provider;
+        Service s = GetInstbnce.getService
+            ("TrbnsformService", blgorithm, provider);
+        String vblue = s.getAttribute("MechbnismType");
+        if ((vblue == null && dom) ||
+            (vblue != null && vblue.equbls(mechbnismType))) {
+            Instbnce instbnce = GetInstbnce.getInstbnce(s, null);
+            TrbnsformService ts = (TrbnsformService) instbnce.impl;
+            ts.blgorithm = blgorithm;
+            ts.mechbnism = mechbnismType;
+            ts.provider = instbnce.provider;
             return ts;
         }
         throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+            (blgorithm + " blgorithm bnd " + mechbnismType
+                 + " mechbnism not bvbilbble");
     }
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
-     * (ex: DOM) as supplied by the specified provider. The specified provider
+     * Returns b <code>TrbnsformService</code> thbt supports the specified
+     * blgorithm URI (ex: {@link Trbnsform#XPATH2}) bnd mechbnism type
+     * (ex: DOM) bs supplied by the specified provider. The specified provider
      * must be registered in the security provider list.
      *
-     * <p>Note that the list of registered providers may be retrieved via
+     * <p>Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @param provider the string name of the provider
-     * @return a new <code>TransformService</code>
+     * @pbrbm blgorithm the URI of the blgorithm
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *   representbtion
+     * @pbrbm provider the string nbme of the provider
+     * @return b new <code>TrbnsformService</code>
      * @throws NoSuchProviderException if the specified provider is not
      *   registered in the security provider list
      * @throws NullPointerException if <code>provider</code>,
-     *   <code>mechanismType</code>, or <code>algorithm</code> is
+     *   <code>mechbnismType</code>, or <code>blgorithm</code> is
      *   <code>null</code>
-     * @throws NoSuchAlgorithmException if a <code>TransformService</code>
-     *   implementation for the specified algorithm and mechanism type is not
-     *   available from the specified provider
+     * @throws NoSuchAlgorithmException if b <code>TrbnsformService</code>
+     *   implementbtion for the specified blgorithm bnd mechbnism type is not
+     *   bvbilbble from the specified provider
      * @see Provider
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType, String provider)
+    public stbtic TrbnsformService getInstbnce
+        (String blgorithm, String mechbnismType, String provider)
         throws NoSuchAlgorithmException, NoSuchProviderException {
-        if (mechanismType == null || algorithm == null || provider == null) {
+        if (mechbnismType == null || blgorithm == null || provider == null) {
             throw new NullPointerException();
         } else if (provider.length() == 0) {
             throw new NoSuchProviderException();
         }
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
+        boolebn dom = fblse;
+        if (mechbnismType.equbls("DOM")) {
             dom = true;
         }
-        Service s = GetInstance.getService
-            ("TransformService", algorithm, provider);
-        String value = s.getAttribute("MechanismType");
-        if ((value == null && dom) ||
-            (value != null && value.equals(mechanismType))) {
-            Instance instance = GetInstance.getInstance(s, null);
-            TransformService ts = (TransformService) instance.impl;
-            ts.algorithm = algorithm;
-            ts.mechanism = mechanismType;
-            ts.provider = instance.provider;
+        Service s = GetInstbnce.getService
+            ("TrbnsformService", blgorithm, provider);
+        String vblue = s.getAttribute("MechbnismType");
+        if ((vblue == null && dom) ||
+            (vblue != null && vblue.equbls(mechbnismType))) {
+            Instbnce instbnce = GetInstbnce.getInstbnce(s, null);
+            TrbnsformService ts = (TrbnsformService) instbnce.impl;
+            ts.blgorithm = blgorithm;
+            ts.mechbnism = mechbnismType;
+            ts.provider = instbnce.provider;
             return ts;
         }
         throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+            (blgorithm + " blgorithm bnd " + mechbnismType
+                 + " mechbnism not bvbilbble");
     }
 
-    private static class MechanismMapEntry implements Map.Entry<String,String> {
-        private final String mechanism;
-        private final String algorithm;
-        private final String key;
-        MechanismMapEntry(String algorithm, String mechanism) {
-            this.algorithm = algorithm;
-            this.mechanism = mechanism;
-            this.key = "TransformService." + algorithm + " MechanismType";
+    privbte stbtic clbss MechbnismMbpEntry implements Mbp.Entry<String,String> {
+        privbte finbl String mechbnism;
+        privbte finbl String blgorithm;
+        privbte finbl String key;
+        MechbnismMbpEntry(String blgorithm, String mechbnism) {
+            this.blgorithm = blgorithm;
+            this.mechbnism = mechbnism;
+            this.key = "TrbnsformService." + blgorithm + " MechbnismType";
         }
-        public boolean equals(Object o) {
-            if (!(o instanceof Map.Entry)) {
-                return false;
+        public boolebn equbls(Object o) {
+            if (!(o instbnceof Mbp.Entry)) {
+                return fblse;
             }
-            Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
             return (getKey()==null ?
-                    e.getKey()==null : getKey().equals(e.getKey())) &&
-                   (getValue()==null ?
-                    e.getValue()==null : getValue().equals(e.getValue()));
+                    e.getKey()==null : getKey().equbls(e.getKey())) &&
+                   (getVblue()==null ?
+                    e.getVblue()==null : getVblue().equbls(e.getVblue()));
         }
         public String getKey() {
             return key;
         }
-        public String getValue() {
-            return mechanism;
+        public String getVblue() {
+            return mechbnism;
         }
-        public String setValue(String value) {
-            throw new UnsupportedOperationException();
+        public String setVblue(String vblue) {
+            throw new UnsupportedOperbtionException();
         }
-        public int hashCode() {
-            return (getKey()==null ? 0 : getKey().hashCode()) ^
-                   (getValue()==null ? 0 : getValue().hashCode());
+        public int hbshCode() {
+            return (getKey()==null ? 0 : getKey().hbshCode()) ^
+                   (getVblue()==null ? 0 : getVblue().hbshCode());
         }
     }
 
     /**
-     * Returns the mechanism type supported by this <code>TransformService</code>.
+     * Returns the mechbnism type supported by this <code>TrbnsformService</code>.
      *
-     * @return the mechanism type
+     * @return the mechbnism type
      */
-    public final String getMechanismType() {
-        return mechanism;
+    public finbl String getMechbnismType() {
+        return mechbnism;
     }
 
     /**
-     * Returns the URI of the algorithm supported by this
-     * <code>TransformService</code>.
+     * Returns the URI of the blgorithm supported by this
+     * <code>TrbnsformService</code>.
      *
-     * @return the algorithm URI
+     * @return the blgorithm URI
      */
-    public final String getAlgorithm() {
-        return algorithm;
+    public finbl String getAlgorithm() {
+        return blgorithm;
     }
 
     /**
-     * Returns the provider of this <code>TransformService</code>.
+     * Returns the provider of this <code>TrbnsformService</code>.
      *
      * @return the provider
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return provider;
     }
 
     /**
-     * Initializes this <code>TransformService</code> with the specified
-     * parameters.
+     * Initiblizes this <code>TrbnsformService</code> with the specified
+     * pbrbmeters.
      *
-     * <p>If the parameters exist in XML form, the
+     * <p>If the pbrbmeters exist in XML form, the
      * {@link #init(XMLStructure, XMLCryptoContext)} method should be used to
-     * initialize the <code>TransformService</code>.
+     * initiblize the <code>TrbnsformService</code>.
      *
-     * @param params the algorithm parameters (may be <code>null</code> if
-     *   not required or optional)
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *   are invalid for this algorithm
+     * @pbrbm pbrbms the blgorithm pbrbmeters (mby be <code>null</code> if
+     *   not required or optionbl)
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *   bre invblid for this blgorithm
      */
-    public abstract void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException;
+    public bbstrbct void init(TrbnsformPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Marshals the algorithm-specific parameters. If there are no parameters
-     * to be marshalled, this method returns without throwing an exception.
+     * Mbrshbls the blgorithm-specific pbrbmeters. If there bre no pbrbmeters
+     * to be mbrshblled, this method returns without throwing bn exception.
      *
-     * @param parent a mechanism-specific structure containing the parent
-     *    node that the marshalled parameters should be appended to
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @throws ClassCastException if the type of <code>parent</code> or
-     *    <code>context</code> is not compatible with this
-     *    <code>TransformService</code>
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
-     * @throws MarshalException if the parameters cannot be marshalled
+     * @pbrbm pbrent b mechbnism-specific structure contbining the pbrent
+     *    node thbt the mbrshblled pbrbmeters should be bppended to
+     * @pbrbm context the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @throws ClbssCbstException if the type of <code>pbrent</code> or
+     *    <code>context</code> is not compbtible with this
+     *    <code>TrbnsformService</code>
+     * @throws NullPointerException if <code>pbrent</code> is <code>null</code>
+     * @throws MbrshblException if the pbrbmeters cbnnot be mbrshblled
      */
-    public abstract void marshalParams
-        (XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException;
+    public bbstrbct void mbrshblPbrbms
+        (XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException;
 
     /**
-     * Initializes this <code>TransformService</code> with the specified
-     * parameters and document context.
+     * Initiblizes this <code>TrbnsformService</code> with the specified
+     * pbrbmeters bnd document context.
      *
-     * @param parent a mechanism-specific structure containing the parent
+     * @pbrbm pbrent b mechbnism-specific structure contbining the pbrent
      *    structure
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @throws ClassCastException if the type of <code>parent</code> or
-     *    <code>context</code> is not compatible with this
-     *    <code>TransformService</code>
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *   are invalid for this algorithm
+     * @pbrbm context the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @throws ClbssCbstException if the type of <code>pbrent</code> or
+     *    <code>context</code> is not compbtible with this
+     *    <code>TrbnsformService</code>
+     * @throws NullPointerException if <code>pbrent</code> is <code>null</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *   bre invblid for this blgorithm
      */
-    public abstract void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException;
+    public bbstrbct void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException;
 }

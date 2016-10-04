@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTIONS
- *      mlib_ImageCopy - Direct copy from one image to another.
+ *      mlib_ImbgeCopy - Direct copy from one imbge to bnother.
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageCopy(mlib_image       *dst,
- *                                 const mlib_image *src);
+ *      mlib_stbtus mlib_ImbgeCopy(mlib_imbge       *dst,
+ *                                 const mlib_imbge *src);
  *
  * ARGUMENT
- *      dst     pointer to output or destination image
- *      src     pointer to input or source image
+ *      dst     pointer to output or destinbtion imbge
+ *      src     pointer to input or source imbge
  *
  * RESTRICTION
- *      src and dst must have the same size, type and number of channels.
- *      They can have 1, 2, 3 or 4 channels of MLIB_BIT, MLIB_BYTE, MLIB_SHORT,
- *      MLIB_USHORT, MLIB_INT, MLIB_FLOAT or MLIB_DOUBLE data type.
+ *      src bnd dst must hbve the sbme size, type bnd number of chbnnels.
+ *      They cbn hbve 1, 2, 3 or 4 chbnnels of MLIB_BIT, MLIB_BYTE, MLIB_SHORT,
+ *      MLIB_USHORT, MLIB_INT, MLIB_FLOAT or MLIB_DOUBLE dbtb type.
  *
  * DESCRIPTION
- *      Direct copy from one image to another
+ *      Direct copy from one imbge to bnother
  */
 
 #include <stdlib.h>
-#include "mlib_image.h"
-#include "mlib_ImageCheck.h"
-#include "mlib_ImageCopy.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeCheck.h"
+#include "mlib_ImbgeCopy.h"
 
 /***************************************************************/
 #ifdef _MSC_VER
-#pragma optimize("", off)                   /* Fix bug 4195132 */
+#prbgmb optimize("", off)                   /* Fix bug 4195132 */
 #endif /* _MSC_VER */
 
 /***************************************************************/
-/* do not perform the coping by mlib_d64 data type for x86 */
+/* do not perform the coping by mlib_d64 dbtb type for x86 */
 #ifdef i386
 
 typedef struct {
@@ -71,27 +71,27 @@ typedef struct {
 #endif /* i386 */
 
 /***************************************************************/
-static void mlib_c_ImageCopy_u8(const mlib_image *src,
-                                mlib_image       *dst);
-static void mlib_c_ImageCopy_s16(const mlib_image *src,
-                                 mlib_image       *dst);
-static void mlib_c_ImageCopy_s32(const mlib_image *src,
-                                 mlib_image       *dst);
-static void mlib_c_ImageCopy_d64(const mlib_image *src,
-                                 mlib_image       *dst);
-static void mlib_c_ImageCopy_a1(const TYPE_64BIT *sp,
+stbtic void mlib_c_ImbgeCopy_u8(const mlib_imbge *src,
+                                mlib_imbge       *dst);
+stbtic void mlib_c_ImbgeCopy_s16(const mlib_imbge *src,
+                                 mlib_imbge       *dst);
+stbtic void mlib_c_ImbgeCopy_s32(const mlib_imbge *src,
+                                 mlib_imbge       *dst);
+stbtic void mlib_c_ImbgeCopy_d64(const mlib_imbge *src,
+                                 mlib_imbge       *dst);
+stbtic void mlib_c_ImbgeCopy_b1(const TYPE_64BIT *sp,
                                 TYPE_64BIT       *dp,
                                 mlib_s32         size);
 
 /***************************************************************/
-mlib_status mlib_ImageCopy(mlib_image       *dst,
-                           const mlib_image *src)
+mlib_stbtus mlib_ImbgeCopy(mlib_imbge       *dst,
+                           const mlib_imbge *src)
 {
   mlib_s32 s_offset, d_offset;
   mlib_s32 size, s_stride, d_stride;
-  mlib_s32 width;                                     /* width in bytes of src and dst */
-  mlib_s32 height;                                    /* height in lines of src and dst */
-  mlib_u8 *sa, *da;
+  mlib_s32 width;                                     /* width in bytes of src bnd dst */
+  mlib_s32 height;                                    /* height in lines of src bnd dst */
+  mlib_u8 *sb, *db;
   mlib_s32 j;
 
   MLIB_IMAGE_CHECK(src);
@@ -100,61 +100,61 @@ mlib_status mlib_ImageCopy(mlib_image       *dst,
   MLIB_IMAGE_CHAN_EQUAL(src, dst);
   MLIB_IMAGE_SIZE_EQUAL(src, dst);
 
-  switch (mlib_ImageGetType(dst)) {
-    case MLIB_BIT:
-      width = mlib_ImageGetWidth(dst) * mlib_ImageGetChannels(dst); /* size in bits */
-      height = mlib_ImageGetHeight(src);
-      sa = (mlib_u8 *) mlib_ImageGetData(src);
-      da = (mlib_u8 *) mlib_ImageGetData(dst);
+  switch (mlib_ImbgeGetType(dst)) {
+    cbse MLIB_BIT:
+      width = mlib_ImbgeGetWidth(dst) * mlib_ImbgeGetChbnnels(dst); /* size in bits */
+      height = mlib_ImbgeGetHeight(src);
+      sb = (mlib_u8 *) mlib_ImbgeGetDbtb(src);
+      db = (mlib_u8 *) mlib_ImbgeGetDbtb(dst);
 
-      if (!mlib_ImageIsNotOneDvector(src) && !mlib_ImageIsNotOneDvector(dst)) {
+      if (!mlib_ImbgeIsNotOneDvector(src) && !mlib_ImbgeIsNotOneDvector(dst)) {
         size = height * (width >> 3);
-        if (!mlib_ImageIsNotAligned8(src) && !mlib_ImageIsNotAligned8(dst) && ((size & 7) == 0)) {
+        if (!mlib_ImbgeIsNotAligned8(src) && !mlib_ImbgeIsNotAligned8(dst) && ((size & 7) == 0)) {
 
-          mlib_c_ImageCopy_a1((TYPE_64BIT *) sa, (TYPE_64BIT *) da, size >> 3);
+          mlib_c_ImbgeCopy_b1((TYPE_64BIT *) sb, (TYPE_64BIT *) db, size >> 3);
         }
         else {
 
-          mlib_ImageCopy_na(sa, da, size);
+          mlib_ImbgeCopy_nb(sb, db, size);
         }
       }
       else {
-        s_stride = mlib_ImageGetStride(src);
-        d_stride = mlib_ImageGetStride(dst);
-        s_offset = mlib_ImageGetBitOffset(src); /* in bits */
-        d_offset = mlib_ImageGetBitOffset(dst); /* in bits */
+        s_stride = mlib_ImbgeGetStride(src);
+        d_stride = mlib_ImbgeGetStride(dst);
+        s_offset = mlib_ImbgeGetBitOffset(src); /* in bits */
+        d_offset = mlib_ImbgeGetBitOffset(dst); /* in bits */
         if (s_offset == d_offset) {
           for (j = 0; j < height; j++) {
-            mlib_ImageCopy_bit_al(sa, da, width, s_offset);
-            sa += s_stride;
-            da += d_stride;
+            mlib_ImbgeCopy_bit_bl(sb, db, width, s_offset);
+            sb += s_stride;
+            db += d_stride;
           }
         }
         else {
           for (j = 0; j < height; j++) {
-            mlib_ImageCopy_bit_na(sa, da, width, s_offset, d_offset);
-            sa += s_stride;
-            da += d_stride;
+            mlib_ImbgeCopy_bit_nb(sb, db, width, s_offset, d_offset);
+            sb += s_stride;
+            db += d_stride;
           }
         }
       }
 
-      break;
-    case MLIB_BYTE:
-      mlib_c_ImageCopy_u8(src, dst);
-      break;
-    case MLIB_SHORT:
-    case MLIB_USHORT:
-      mlib_c_ImageCopy_s16(src, dst);
-      break;
-    case MLIB_INT:
-    case MLIB_FLOAT:
-      mlib_c_ImageCopy_s32(src, dst);
-      break;
-    case MLIB_DOUBLE:
-      mlib_c_ImageCopy_d64(src, dst);
-      break;
-    default:
+      brebk;
+    cbse MLIB_BYTE:
+      mlib_c_ImbgeCopy_u8(src, dst);
+      brebk;
+    cbse MLIB_SHORT:
+    cbse MLIB_USHORT:
+      mlib_c_ImbgeCopy_s16(src, dst);
+      brebk;
+    cbse MLIB_INT:
+    cbse MLIB_FLOAT:
+      mlib_c_ImbgeCopy_s32(src, dst);
+      brebk;
+    cbse MLIB_DOUBLE:
+      mlib_c_ImbgeCopy_d64(src, dst);
+      brebk;
+    defbult:
       return MLIB_FAILURE;                  /* MLIB_BIT is not supported here */
   }
 
@@ -163,24 +163,24 @@ mlib_status mlib_ImageCopy(mlib_image       *dst,
 
 /***************************************************************/
 #define PREPAREVARS(type)                                        \
-  type *psrc = (type *) mlib_ImageGetData(src);                  \
-  type *pdst = (type *) mlib_ImageGetData(dst);                  \
-  mlib_s32 src_height = mlib_ImageGetHeight(src);                \
-  mlib_s32 src_width  = mlib_ImageGetWidth(src);                 \
-  mlib_s32 src_stride = mlib_ImageGetStride(src) / sizeof(type); \
-  mlib_s32 dst_stride = mlib_ImageGetStride(dst) / sizeof(type); \
-  mlib_s32 chan = mlib_ImageGetChannels(dst);                    \
+  type *psrc = (type *) mlib_ImbgeGetDbtb(src);                  \
+  type *pdst = (type *) mlib_ImbgeGetDbtb(dst);                  \
+  mlib_s32 src_height = mlib_ImbgeGetHeight(src);                \
+  mlib_s32 src_width  = mlib_ImbgeGetWidth(src);                 \
+  mlib_s32 src_stride = mlib_ImbgeGetStride(src) / sizeof(type); \
+  mlib_s32 dst_stride = mlib_ImbgeGetStride(dst) / sizeof(type); \
+  mlib_s32 chbn = mlib_ImbgeGetChbnnels(dst);                    \
   mlib_s32 i, j;                                                 \
                                                                  \
-  src_width *= chan;                                             \
+  src_width *= chbn;                                             \
   if (src_width == src_stride && src_width == dst_stride) {      \
     src_width *= src_height;                                     \
     src_height = 1;                                              \
   }
 
 /***************************************************************/
-#define STRIP(pd, ps, w, h, data_type) {                        \
-  data_type s0, s1;                                             \
+#define STRIP(pd, ps, w, h, dbtb_type) {                        \
+  dbtb_type s0, s1;                                             \
   for ( i = 0; i < h; i++ ) {                                   \
     if (j = w & 1)                                              \
       pd[i * dst_stride] = ps[i * src_stride];                  \
@@ -195,82 +195,82 @@ mlib_status mlib_ImageCopy(mlib_image       *dst,
 
 /***************************************************************/
 /*
- * Both bit offsets of source and distination are the same
+ * Both bit offsets of source bnd distinbtion bre the sbme
  */
 
-void mlib_ImageCopy_bit_al(const mlib_u8 *sa,
-                           mlib_u8       *da,
+void mlib_ImbgeCopy_bit_bl(const mlib_u8 *sb,
+                           mlib_u8       *db,
                            mlib_s32      size,
                            mlib_s32      offset)
 {
   mlib_s32 b_size, i, j;
   TYPE_64BIT *sp, *dp;
-  mlib_u8 mask0 = 0xFF;
-  mlib_u8 src, mask;
+  mlib_u8 mbsk0 = 0xFF;
+  mlib_u8 src, mbsk;
 
   if (size <= 0) return;
 
   if (size <= (8 - offset)) {
-    mask = mask0 << (8 - size);
-    mask >>= offset;
-    src = da[0];
-    da[0] = (src & (~mask)) | (sa[0] & mask);
+    mbsk = mbsk0 << (8 - size);
+    mbsk >>= offset;
+    src = db[0];
+    db[0] = (src & (~mbsk)) | (sb[0] & mbsk);
     return;
   }
 
-  mask = mask0 >> offset;
-  src = da[0];
-  da[0] = (src & (~mask)) | (sa[0] & mask);
-  da++;
-  sa++;
+  mbsk = mbsk0 >> offset;
+  src = db[0];
+  db[0] = (src & (~mbsk)) | (sb[0] & mbsk);
+  db++;
+  sb++;
   size = size - 8 + offset;
   b_size = size >> 3;                       /* size in bytes */
 
-  for (j = 0; (j < b_size) && (((mlib_addr) da & 7) != 0); j++)
-    *da++ = *sa++;
+  for (j = 0; (j < b_size) && (((mlib_bddr) db & 7) != 0); j++)
+    *db++ = *sb++;
 
-  if ((((mlib_addr) sa ^ (mlib_addr) da) & 7) == 0) {
-    sp = (TYPE_64BIT *) sa;
-    dp = (TYPE_64BIT *) da;
+  if ((((mlib_bddr) sb ^ (mlib_bddr) db) & 7) == 0) {
+    sp = (TYPE_64BIT *) sb;
+    dp = (TYPE_64BIT *) db;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; j <= (b_size - 8); j += 8, i++) {
       dp[i] = sp[i];
     }
 
-    sa += i << 3;
-    da += i << 3;
+    sb += i << 3;
+    db += i << 3;
   }
   else {
 #ifdef _NO_LONGLONG
-    if ((((mlib_addr) sa ^ (mlib_addr) da) & 3) == 0) {
+    if ((((mlib_bddr) sb ^ (mlib_bddr) db) & 3) == 0) {
       mlib_u32 *pws, *pwd;
 
-      pws = (mlib_u32 *) sa;
-      pwd = (mlib_u32 *) da;
+      pws = (mlib_u32 *) sb;
+      pwd = (mlib_u32 *) db;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; j <= (b_size - 4); j += 4, i++) {
         pwd[i] = pws[i];
       }
 
-      sa += i << 2;
-      da += i << 2;
+      sb += i << 2;
+      db += i << 2;
     }
     else {
       mlib_u32 *pws, *pwd, src0, src1;
-      mlib_s32 lshift = (mlib_addr) sa & 3, rshift;
+      mlib_s32 lshift = (mlib_bddr) sb & 3, rshift;
 
-      pwd = (mlib_u32 *) da;
-      pws = (mlib_u32 *) (sa - lshift);
+      pwd = (mlib_u32 *) db;
+      pws = (mlib_u32 *) (sb - lshift);
       lshift <<= 3;
       rshift = 32 - lshift;
 
       src1 = pws[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; j <= (b_size - 4); j += 4, i++) {
         src0 = src1;
@@ -282,22 +282,22 @@ void mlib_ImageCopy_bit_al(const mlib_u8 *sa,
 #endif /* _LITTLE_ENDIAN */
       }
 
-      sa += i << 2;
-      da += i << 2;
+      sb += i << 2;
+      db += i << 2;
     }
 
 #else
     mlib_u64 *pws, *pwd, src0, src1;
-    mlib_s32 lshift = (mlib_s32) ((mlib_addr) sa & 7), rshift;
+    mlib_s32 lshift = (mlib_s32) ((mlib_bddr) sb & 7), rshift;
 
-    pwd = (mlib_u64 *) da;
-    pws = (mlib_u64 *) (sa - lshift);
+    pwd = (mlib_u64 *) db;
+    pws = (mlib_u64 *) (sb - lshift);
     lshift <<= 3;
     rshift = 64 - lshift;
 
     src1 = pws[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; j <= (b_size - 8); j += 8, i++) {
       src0 = src1;
@@ -305,26 +305,26 @@ void mlib_ImageCopy_bit_al(const mlib_u8 *sa,
       pwd[i] = (src0 << lshift) | (src1 >> rshift);
     }
 
-    sa += i << 3;
-    da += i << 3;
+    sb += i << 3;
+    db += i << 3;
 #endif /* _NO_LONGLONG */
   }
 
   for (; j < b_size; j++)
-    *da++ = *sa++;
+    *db++ = *sb++;
 
   j = size & 7;
 
   if (j > 0) {
-    mask = mask0 << (8 - j);
-    src = da[0];
-    da[0] = (src & (~mask)) | (sa[0] & mask);
+    mbsk = mbsk0 << (8 - j);
+    src = db[0];
+    db[0] = (src & (~mbsk)) | (sb[0] & mbsk);
   }
 }
 
 /***************************************************************/
-void mlib_c_ImageCopy_u8(const mlib_image *src,
-                         mlib_image       *dst)
+void mlib_c_ImbgeCopy_u8(const mlib_imbge *src,
+                         mlib_imbge       *dst)
 {
   PREPAREVARS(mlib_u8);
   if (src_width < 16) {
@@ -335,13 +335,13 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
   for (i = 0; i < src_height; i++) {
     mlib_u8 *psrc_row = psrc + i * src_stride, *pdst_row = pdst + i * dst_stride;
 
-    if (!(((mlib_addr) psrc_row ^ (mlib_addr) pdst_row) & 7)) {
-      for (j = 0; j < (mlib_s32) ((8 - (mlib_addr) psrc_row) & 7); j++) {
+    if (!(((mlib_bddr) psrc_row ^ (mlib_bddr) pdst_row) & 7)) {
+      for (j = 0; j < (mlib_s32) ((8 - (mlib_bddr) psrc_row) & 7); j++) {
         pdst_row[j] = psrc_row[j];
       }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (; j <= (src_width - 8); j += 8) {
         TYPE_64BIT dsrc0 = *((TYPE_64BIT *) (psrc_row + j));
@@ -353,13 +353,13 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
 
 #ifdef _NO_LONGLONG
 
-      for (j = 0; j < (mlib_s32) ((4 - (mlib_addr) pdst_row) & 3); j++) {
+      for (j = 0; j < (mlib_s32) ((4 - (mlib_bddr) pdst_row) & 3); j++) {
         pdst_row[j] = psrc_row[j];
       }
 
-      if (!(((mlib_addr) psrc_row ^ (mlib_addr) pdst_row) & 3)) {
+      if (!(((mlib_bddr) psrc_row ^ (mlib_bddr) pdst_row) & 3)) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 4); j += 4) {
           *((mlib_s32 *) (pdst_row + j)) = *((mlib_s32 *) (psrc_row + j));
@@ -369,14 +369,14 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
         mlib_u32 *ps, shl, shr, src0, src1;
 
         ps = (mlib_u32 *) (psrc_row + j);
-        shl = (mlib_addr) ps & 3;
-        ps = (mlib_u32 *) ((mlib_addr) ps - shl);
+        shl = (mlib_bddr) ps & 3;
+        ps = (mlib_u32 *) ((mlib_bddr) ps - shl);
         shl <<= 3;
         shr = 32 - shl;
 
         src1 = ps[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 4); j += 4) {
           src0 = src1;
@@ -392,7 +392,7 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
 
 #else
 
-      for (j = 0; j < (mlib_s32) ((8 - (mlib_addr) pdst_row) & 7); j++) {
+      for (j = 0; j < (mlib_s32) ((8 - (mlib_bddr) pdst_row) & 7); j++) {
         pdst_row[j] = psrc_row[j];
       }
 
@@ -401,15 +401,15 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
         mlib_u64 *ps, src0, src1;
 
         ps = (mlib_u64 *) (psrc_row + j);
-        /* shl and shr are in range [0, 64] */
-        shl = (mlib_s32) ((mlib_addr) ps & 7);
-        ps = (mlib_u64 *) ((mlib_addr) ps - shl);
+        /* shl bnd shr bre in rbnge [0, 64] */
+        shl = (mlib_s32) ((mlib_bddr) ps & 7);
+        ps = (mlib_u64 *) ((mlib_bddr) ps - shl);
         shl <<= 3;
         shr = 64 - shl;
 
         src1 = ps[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 8); j += 8) {
           src0 = src1;
@@ -431,8 +431,8 @@ void mlib_c_ImageCopy_u8(const mlib_image *src,
 }
 
 /***************************************************************/
-void mlib_c_ImageCopy_s16(const mlib_image       *src,
-                          mlib_image *dst)
+void mlib_c_ImbgeCopy_s16(const mlib_imbge       *src,
+                          mlib_imbge *dst)
 {
   PREPAREVARS(mlib_u16);
   if (src_width < 8) {
@@ -443,13 +443,13 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
   for (i = 0; i < src_height; i++) {
     mlib_u16 *psrc_row = psrc + i * src_stride, *pdst_row = pdst + i * dst_stride;
 
-    if (!(((mlib_addr) psrc_row ^ (mlib_addr) pdst_row) & 7)) {
-      for (j = 0; j < (mlib_s32) (((8 - (mlib_addr) psrc_row) & 7) >> 1); j++) {
+    if (!(((mlib_bddr) psrc_row ^ (mlib_bddr) pdst_row) & 7)) {
+      for (j = 0; j < (mlib_s32) (((8 - (mlib_bddr) psrc_row) & 7) >> 1); j++) {
         pdst_row[j] = psrc_row[j];
       }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (; j <= (src_width - 4); j += 4) {
         TYPE_64BIT dsrc0 = *((TYPE_64BIT *) (psrc_row + j));
@@ -461,13 +461,13 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
 
 #ifdef _NO_LONGLONG
 
-      if (j = (((mlib_addr) pdst_row & 2) != 0)) {
+      if (j = (((mlib_bddr) pdst_row & 2) != 0)) {
         pdst_row[0] = psrc_row[0];
       }
 
-      if (!(((mlib_addr) psrc_row ^ (mlib_addr) pdst_row) & 3)) {
+      if (!(((mlib_bddr) psrc_row ^ (mlib_bddr) pdst_row) & 3)) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 2); j += 2) {
           *((mlib_s32 *) (pdst_row + j)) = *((mlib_s32 *) (psrc_row + j));
@@ -479,7 +479,7 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
         ps = (mlib_u32 *) (psrc_row + j - 1);
         src1 = ps[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 2); j += 2) {
           src0 = src1;
@@ -495,7 +495,7 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
 
 #else
 
-      for (j = 0; j < (mlib_s32) (((8 - (mlib_addr) pdst_row) & 7) >> 1); j++) {
+      for (j = 0; j < (mlib_s32) (((8 - (mlib_bddr) pdst_row) & 7) >> 1); j++) {
         pdst_row[j] = psrc_row[j];
       }
 
@@ -504,14 +504,14 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
         mlib_u64 *ps, src0, src1;
 
         ps = (mlib_u64 *) (psrc_row + j);
-        shl = (mlib_s32) ((mlib_addr) ps & 7);
-        ps = (mlib_u64 *) ((mlib_addr) ps - shl);
+        shl = (mlib_s32) ((mlib_bddr) ps & 7);
+        ps = (mlib_u64 *) ((mlib_bddr) ps - shl);
         shl <<= 3;
         shr = 64 - shl;
 
         src1 = ps[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 4); j += 4) {
           src0 = src1;
@@ -533,8 +533,8 @@ void mlib_c_ImageCopy_s16(const mlib_image       *src,
 }
 
 /***************************************************************/
-void mlib_c_ImageCopy_s32(const mlib_image       *src,
-                          mlib_image *dst)
+void mlib_c_ImbgeCopy_s32(const mlib_imbge       *src,
+                          mlib_imbge *dst)
 {
   PREPAREVARS(mlib_u32);
   if (src_width < 4) {
@@ -545,13 +545,13 @@ void mlib_c_ImageCopy_s32(const mlib_image       *src,
   for (i = 0; i < src_height; i++) {
     mlib_u32 *psrc_row = psrc + i * src_stride, *pdst_row = pdst + i * dst_stride;
 
-    if (!(((mlib_addr) psrc_row ^ (mlib_addr) pdst_row) & 7)) {
-      if (j = ((mlib_s32) ((mlib_addr) psrc_row & 4) >> 2)) {
+    if (!(((mlib_bddr) psrc_row ^ (mlib_bddr) pdst_row) & 7)) {
+      if (j = ((mlib_s32) ((mlib_bddr) psrc_row & 4) >> 2)) {
         pdst_row[0] = psrc_row[0];
       }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (; j <= (src_width - 2); j += 2) {
         TYPE_64BIT dsrc0 = *((TYPE_64BIT *) (psrc_row + j));
@@ -564,7 +564,7 @@ void mlib_c_ImageCopy_s32(const mlib_image       *src,
 #ifdef _NO_LONGLONG
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (j = 0; j <= (src_width - 1); j++) {
         *((mlib_s32 *) (pdst_row + j)) = *((mlib_s32 *) (psrc_row + j));
@@ -575,12 +575,12 @@ void mlib_c_ImageCopy_s32(const mlib_image       *src,
       {
         mlib_u64 *ps, src0, src1;
 
-        if (j = ((mlib_s32) ((mlib_addr) pdst_row & 4) >> 2))
+        if (j = ((mlib_s32) ((mlib_bddr) pdst_row & 4) >> 2))
           pdst_row[0] = psrc_row[0];
         ps = (mlib_u64 *) (psrc_row + j - 1);
         src1 = ps[0];
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (; j <= (src_width - 2); j += 2) {
           src0 = src1;
@@ -602,15 +602,15 @@ void mlib_c_ImageCopy_s32(const mlib_image       *src,
 }
 
 /***************************************************************/
-void mlib_c_ImageCopy_d64(const mlib_image       *src,
-                          mlib_image *dst)
+void mlib_c_ImbgeCopy_d64(const mlib_imbge       *src,
+                          mlib_imbge *dst)
 {
   PREPAREVARS(mlib_d64);
   for (i = 0; i < src_height; i++) {
     mlib_d64 *psrc_row = psrc + i * src_stride, *pdst_row = pdst + i * dst_stride;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j < src_width; j++)
       *((mlib_d64 *) (pdst_row + j)) = *((mlib_d64 *) (psrc_row + j));
@@ -619,18 +619,18 @@ void mlib_c_ImageCopy_d64(const mlib_image       *src,
 
 /***************************************************************/
 /*
- * Both source and destination image data are 1 - d vectors and
- * 8 - byte aligned. And size is in 8 - bytes.
+ * Both source bnd destinbtion imbge dbtb bre 1 - d vectors bnd
+ * 8 - byte bligned. And size is in 8 - bytes.
  */
 
-void mlib_c_ImageCopy_a1(const TYPE_64BIT *sp,
+void mlib_c_ImbgeCopy_b1(const TYPE_64BIT *sp,
                          TYPE_64BIT       *dp,
                          mlib_s32         size)
 {
   mlib_s32 i;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (i = 0; i < size; i++) {
     *dp++ = *sp++;
@@ -649,24 +649,24 @@ void mlib_c_ImageCopy_a1(const TYPE_64BIT *sp,
 #endif /* _NO_LONGLONG */
 
 /***************************************************************/
-void mlib_ImageCopy_na(const mlib_u8 *sp,
+void mlib_ImbgeCopy_nb(const mlib_u8 *sp,
                        mlib_u8       *dp,
                        mlib_s32      n)
 {
   mlib_s32 shr, shl;
   TYPE *tmp, s0, s1;
 
-  if (((mlib_addr) sp ^ (mlib_addr) dp) & 7) {
+  if (((mlib_bddr) sp ^ (mlib_bddr) dp) & 7) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-    for (; (n > 0) && (mlib_addr) dp & (SIZE - 1); n--)
+    for (; (n > 0) && (mlib_bddr) dp & (SIZE - 1); n--)
       *dp++ = *sp++;
 
 #ifdef _NO_LONGLONG
 
-    if (((mlib_addr) sp & (SIZE - 1)) == 0) {
+    if (((mlib_bddr) sp & (SIZE - 1)) == 0) {
       for (; n > SIZE; n -= SIZE) {
         *(TYPE *) dp = *(TYPE *) sp;
         dp += SIZE;
@@ -676,14 +676,14 @@ void mlib_ImageCopy_na(const mlib_u8 *sp,
     else
 #endif /* _NO_LONGLONG */
     {
-      tmp = (TYPE *) ((mlib_addr) sp & ~(SIZE - 1));
-      /* shl and shr do not exceed 64 here */
-      shl = (mlib_s32) (((mlib_addr) sp & (SIZE - 1)) << 3);
+      tmp = (TYPE *) ((mlib_bddr) sp & ~(SIZE - 1));
+      /* shl bnd shr do not exceed 64 here */
+      shl = (mlib_s32) (((mlib_bddr) sp & (SIZE - 1)) << 3);
       shr = BSIZE - shl;
       s0 = *tmp++;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (; n > SIZE; n -= SIZE) {
         s1 = *tmp++;
@@ -700,13 +700,13 @@ void mlib_ImageCopy_na(const mlib_u8 *sp,
   }
   else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-    for (; (n > 0) && (mlib_addr) dp & 7; n--)
+    for (; (n > 0) && (mlib_bddr) dp & 7; n--)
       *dp++ = *sp++;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; n > 8; n -= 8) {
       *(TYPE_64BIT *) dp = *(TYPE_64BIT *) sp;
@@ -716,7 +716,7 @@ void mlib_ImageCopy_na(const mlib_u8 *sp,
   }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (; n > 0; n--)
     *dp++ = *sp++;
@@ -724,7 +724,7 @@ void mlib_ImageCopy_na(const mlib_u8 *sp,
 
 /***************************************************************/
 #ifdef _MSC_VER
-#pragma optimize("", on)
+#prbgmb optimize("", on)
 #endif /* _MSC_VER */
 
 /***************************************************************/

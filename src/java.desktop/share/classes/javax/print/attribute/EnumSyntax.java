@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.Seriblizbble;
 
 /**
- * Class EnumSyntax is an abstract base class providing the common
- * implementation of all "type safe enumeration" objects. An enumeration class
- * (which extends class EnumSyntax) provides a group of enumeration values
- * (objects) that are singleton instances of the enumeration class; for example:
+ * Clbss EnumSyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll "type sbfe enumerbtion" objects. An enumerbtion clbss
+ * (which extends clbss EnumSyntbx) provides b group of enumerbtion vblues
+ * (objects) thbt bre singleton instbnces of the enumerbtion clbss; for exbmple:
  * <PRE>
- *     public class Bach extends EnumSyntax {
- *         public static final Bach JOHANN_SEBASTIAN     = new Bach(0);
- *         public static final Bach WILHELM_FRIEDEMANN   = new Bach(1);
- *         public static final Bach CARL_PHILIP_EMMANUEL = new Bach(2);
- *         public static final Bach JOHANN_CHRISTIAN     = new Bach(3);
- *         public static final Bach P_D_Q                = new Bach(4);
+ *     public clbss Bbch extends EnumSyntbx {
+ *         public stbtic finbl Bbch JOHANN_SEBASTIAN     = new Bbch(0);
+ *         public stbtic finbl Bbch WILHELM_FRIEDEMANN   = new Bbch(1);
+ *         public stbtic finbl Bbch CARL_PHILIP_EMMANUEL = new Bbch(2);
+ *         public stbtic finbl Bbch JOHANN_CHRISTIAN     = new Bbch(3);
+ *         public stbtic finbl Bbch P_D_Q                = new Bbch(4);
  *
- *         private static final String[] stringTable = {
- *             "Johann Sebastian Bach",
- *              "Wilhelm Friedemann Bach",
- *              "Carl Philip Emmanuel Bach",
- *              "Johann Christian Bach",
- *              "P.D.Q. Bach"
+ *         privbte stbtic finbl String[] stringTbble = {
+ *             "Johbnn Sebbstibn Bbch",
+ *              "Wilhelm Friedembnn Bbch",
+ *              "Cbrl Philip Emmbnuel Bbch",
+ *              "Johbnn Christibn Bbch",
+ *              "P.D.Q. Bbch"
  *         };
  *
- *         protected String[] getStringTable() {
- *             return stringTable;
+ *         protected String[] getStringTbble() {
+ *             return stringTbble;
  *         }
  *
- *         private static final Bach[] enumValueTable = {
+ *         privbte stbtic finbl Bbch[] enumVblueTbble = {
  *             JOHANN_SEBASTIAN,
  *              WILHELM_FRIEDEMANN,
  *              CARL_PHILIP_EMMANUEL,
@@ -63,215 +63,215 @@ import java.io.Serializable;
  *              P_D_Q
  *         };
  *
- *         protected EnumSyntax[] getEnumValueTable() {
- *             return enumValueTable;
+ *         protected EnumSyntbx[] getEnumVblueTbble() {
+ *             return enumVblueTbble;
  *         }
  *     }
  * </PRE>
- * You can then write code that uses the <CODE>==</CODE> and <CODE>!=</CODE>
- * operators to test enumeration values; for example:
+ * You cbn then write code thbt uses the <CODE>==</CODE> bnd <CODE>!=</CODE>
+ * operbtors to test enumerbtion vblues; for exbmple:
  * <PRE>
- *     Bach theComposer;
+ *     Bbch theComposer;
  *     . . .
- *     if (theComposer == Bach.JOHANN_SEBASTIAN) {
- *         System.out.println ("The greatest composer of all time!");
+ *     if (theComposer == Bbch.JOHANN_SEBASTIAN) {
+ *         System.out.println ("The grebtest composer of bll time!");
  *     }
  * </PRE>
- * The <CODE>equals()</CODE> method for an enumeration class just does a test
- * for identical objects (<CODE>==</CODE>).
+ * The <CODE>equbls()</CODE> method for bn enumerbtion clbss just does b test
+ * for identicbl objects (<CODE>==</CODE>).
  * <P>
- * You can convert an enumeration value to a string by calling {@link
- * #toString() toString()}. The string is obtained from a table
- * supplied by the enumeration class.
+ * You cbn convert bn enumerbtion vblue to b string by cblling {@link
+ * #toString() toString()}. The string is obtbined from b tbble
+ * supplied by the enumerbtion clbss.
  * <P>
- * Under the hood, an enumeration value is just an integer, a different integer
- * for each enumeration value within an enumeration class. You can get an
- * enumeration value's integer value by calling {@link #getValue()
- * getValue()}. An enumeration value's integer value is established
- * when it is constructed (see {@link #EnumSyntax(int)
- * EnumSyntax(int)}). Since the constructor is protected, the only
- * possible enumeration values are the singleton objects declared in the
- * enumeration class; additional enumeration values cannot be created at run
+ * Under the hood, bn enumerbtion vblue is just bn integer, b different integer
+ * for ebch enumerbtion vblue within bn enumerbtion clbss. You cbn get bn
+ * enumerbtion vblue's integer vblue by cblling {@link #getVblue()
+ * getVblue()}. An enumerbtion vblue's integer vblue is estbblished
+ * when it is constructed (see {@link #EnumSyntbx(int)
+ * EnumSyntbx(int)}). Since the constructor is protected, the only
+ * possible enumerbtion vblues bre the singleton objects declbred in the
+ * enumerbtion clbss; bdditionbl enumerbtion vblues cbnnot be crebted bt run
  * time.
  * <P>
- * You can define a subclass of an enumeration class that extends it with
- * additional enumeration values. The subclass's enumeration values' integer
- * values need not be distinct from the superclass's enumeration values' integer
- * values; the <CODE>==</CODE>, <CODE>!=</CODE>, <CODE>equals()</CODE>, and
- * <CODE>toString()</CODE> methods will still work properly even if the subclass
- * uses some of the same integer values as the superclass. However, the
- * application in which the enumeration class and subclass are used may need to
- * have distinct integer values in the superclass and subclass.
+ * You cbn define b subclbss of bn enumerbtion clbss thbt extends it with
+ * bdditionbl enumerbtion vblues. The subclbss's enumerbtion vblues' integer
+ * vblues need not be distinct from the superclbss's enumerbtion vblues' integer
+ * vblues; the <CODE>==</CODE>, <CODE>!=</CODE>, <CODE>equbls()</CODE>, bnd
+ * <CODE>toString()</CODE> methods will still work properly even if the subclbss
+ * uses some of the sbme integer vblues bs the superclbss. However, the
+ * bpplicbtion in which the enumerbtion clbss bnd subclbss bre used mby need to
+ * hbve distinct integer vblues in the superclbss bnd subclbss.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public abstract class EnumSyntax implements Serializable, Cloneable {
+public bbstrbct clbss EnumSyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -2739521845085831642L;
+    privbte stbtic finbl long seriblVersionUID = -2739521845085831642L;
 
     /**
-     * This enumeration value's integer value.
-     * @serial
+     * This enumerbtion vblue's integer vblue.
+     * @seribl
      */
-    private int value;
+    privbte int vblue;
 
     /**
-     * Construct a new enumeration value with the given integer value.
+     * Construct b new enumerbtion vblue with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected EnumSyntax(int value) {
-        this.value = value;
+    protected EnumSyntbx(int vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Returns this enumeration value's integer value.
-     * @return the value
+     * Returns this enumerbtion vblue's integer vblue.
+     * @return the vblue
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Returns a clone of this enumeration value, which to preserve the
-     * semantics of enumeration values is the same object as this enumeration
-     * value.
+     * Returns b clone of this enumerbtion vblue, which to preserve the
+     * sembntics of enumerbtion vblues is the sbme object bs this enumerbtion
+     * vblue.
      */
     public Object clone() {
         return this;
     }
 
     /**
-     * Returns a hash code value for this enumeration value. The hash code is
-     * just this enumeration value's integer value.
+     * Returns b hbsh code vblue for this enumerbtion vblue. The hbsh code is
+     * just this enumerbtion vblue's integer vblue.
      */
-    public int hashCode() {
-        return value;
+    public int hbshCode() {
+        return vblue;
     }
 
     /**
-     * Returns a string value corresponding to this enumeration value.
+     * Returns b string vblue corresponding to this enumerbtion vblue.
      */
     public String toString() {
 
-        String[] theTable = getStringTable();
-        int theIndex = value - getOffset();
+        String[] theTbble = getStringTbble();
+        int theIndex = vblue - getOffset();
         return
-            theTable != null && theIndex >= 0 && theIndex < theTable.length ?
-            theTable[theIndex] :
-            Integer.toString (value);
+            theTbble != null && theIndex >= 0 && theIndex < theTbble.length ?
+            theTbble[theIndex] :
+            Integer.toString (vblue);
     }
 
     /**
-     * During object input, convert this deserialized enumeration instance to
-     * the proper enumeration value defined in the enumeration attribute class.
+     * During object input, convert this deseriblized enumerbtion instbnce to
+     * the proper enumerbtion vblue defined in the enumerbtion bttribute clbss.
      *
-     * @return  The enumeration singleton value stored at index
-     *          <I>i</I>-<I>L</I> in the enumeration value table returned by
-     *          {@link #getEnumValueTable() getEnumValueTable()},
-     *          where <I>i</I> is this enumeration value's integer value and
-     *          <I>L</I> is the value returned by {@link #getOffset()
+     * @return  The enumerbtion singleton vblue stored bt index
+     *          <I>i</I>-<I>L</I> in the enumerbtion vblue tbble returned by
+     *          {@link #getEnumVblueTbble() getEnumVblueTbble()},
+     *          where <I>i</I> is this enumerbtion vblue's integer vblue bnd
+     *          <I>L</I> is the vblue returned by {@link #getOffset()
      *          getOffset()}.
      *
-     * @throws ObjectStreamException if the stream can't be deserialised
-     * @throws  InvalidObjectException
-     *     Thrown if the enumeration value table is null, this enumeration
-     *     value's integer value does not correspond to an element in the
-     *     enumeration value table, or the corresponding element in the
-     *     enumeration value table is null. (Note: {@link
-     *     java.io.InvalidObjectException InvalidObjectException} is a subclass
-     *     of {@link java.io.ObjectStreamException ObjectStreamException}, which
-     *     <CODE>readResolve()</CODE> is declared to throw.)
+     * @throws ObjectStrebmException if the strebm cbn't be deseriblised
+     * @throws  InvblidObjectException
+     *     Thrown if the enumerbtion vblue tbble is null, this enumerbtion
+     *     vblue's integer vblue does not correspond to bn element in the
+     *     enumerbtion vblue tbble, or the corresponding element in the
+     *     enumerbtion vblue tbble is null. (Note: {@link
+     *     jbvb.io.InvblidObjectException InvblidObjectException} is b subclbss
+     *     of {@link jbvb.io.ObjectStrebmException ObjectStrebmException}, which
+     *     <CODE>rebdResolve()</CODE> is declbred to throw.)
      */
-    protected Object readResolve() throws ObjectStreamException {
+    protected Object rebdResolve() throws ObjectStrebmException {
 
-        EnumSyntax[] theTable = getEnumValueTable();
+        EnumSyntbx[] theTbble = getEnumVblueTbble();
 
-        if (theTable == null) {
-            throw new InvalidObjectException(
-                                "Null enumeration value table for class " +
-                                getClass());
+        if (theTbble == null) {
+            throw new InvblidObjectException(
+                                "Null enumerbtion vblue tbble for clbss " +
+                                getClbss());
         }
 
         int theOffset = getOffset();
-        int theIndex = value - theOffset;
+        int theIndex = vblue - theOffset;
 
-        if (0 > theIndex || theIndex >= theTable.length) {
-            throw new InvalidObjectException
-                ("Integer value = " +  value + " not in valid range " +
-                 theOffset + ".." + (theOffset + theTable.length - 1) +
-                 "for class " + getClass());
+        if (0 > theIndex || theIndex >= theTbble.length) {
+            throw new InvblidObjectException
+                ("Integer vblue = " +  vblue + " not in vblid rbnge " +
+                 theOffset + ".." + (theOffset + theTbble.length - 1) +
+                 "for clbss " + getClbss());
         }
 
-        EnumSyntax result = theTable[theIndex];
+        EnumSyntbx result = theTbble[theIndex];
         if (result == null) {
-            throw new InvalidObjectException
-                ("No enumeration value for integer value = " +
-                 value + "for class " + getClass());
+            throw new InvblidObjectException
+                ("No enumerbtion vblue for integer vblue = " +
+                 vblue + "for clbss " + getClbss());
         }
         return result;
     }
 
-    // Hidden operations to be implemented in a subclass.
+    // Hidden operbtions to be implemented in b subclbss.
 
     /**
-     * Returns the string table for this enumeration value's enumeration class.
-     * The enumeration class's integer values are assumed to lie in the range
-     * <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the value returned by
-     * {@link #getOffset() getOffset()} and <I>N</I> is the length
-     * of the string table. The element in the string table at index
-     * <I>i</I>-<I>L</I> is the value returned by {@link #toString()
-     * toString()} for the enumeration value whose integer value
-     * is <I>i</I>. If an integer within the above range is not used by any
-     * enumeration value, leave the corresponding table element null.
+     * Returns the string tbble for this enumerbtion vblue's enumerbtion clbss.
+     * The enumerbtion clbss's integer vblues bre bssumed to lie in the rbnge
+     * <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the vblue returned by
+     * {@link #getOffset() getOffset()} bnd <I>N</I> is the length
+     * of the string tbble. The element in the string tbble bt index
+     * <I>i</I>-<I>L</I> is the vblue returned by {@link #toString()
+     * toString()} for the enumerbtion vblue whose integer vblue
+     * is <I>i</I>. If bn integer within the bbove rbnge is not used by bny
+     * enumerbtion vblue, lebve the corresponding tbble element null.
      * <P>
-     * The default implementation returns null. If the enumeration class (a
-     * subclass of class EnumSyntax) does not override this method to return a
-     * non-null string table, and the subclass does not override the {@link
-     * #toString() toString()} method, the base class {@link
-     * #toString() toString()} method will return just a string
-     * representation of this enumeration value's integer value.
-     * @return the string table
+     * The defbult implementbtion returns null. If the enumerbtion clbss (b
+     * subclbss of clbss EnumSyntbx) does not override this method to return b
+     * non-null string tbble, bnd the subclbss does not override the {@link
+     * #toString() toString()} method, the bbse clbss {@link
+     * #toString() toString()} method will return just b string
+     * representbtion of this enumerbtion vblue's integer vblue.
+     * @return the string tbble
      */
-    protected String[] getStringTable() {
+    protected String[] getStringTbble() {
         return null;
     }
 
     /**
-     * Returns the enumeration value table for this enumeration value's
-     * enumeration class. The enumeration class's integer values are assumed to
-     * lie in the range <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the
-     * value returned by {@link #getOffset() getOffset()} and
-     * <I>N</I> is the length of the enumeration value table. The element in the
-     * enumeration value table at index <I>i</I>-<I>L</I> is the enumeration
-     * value object whose integer value is <I>i</I>; the {@link #readResolve()
-     * readResolve()} method needs this to preserve singleton
-     * semantics during deserialization of an enumeration instance. If an
-     * integer within the above range is not used by any enumeration value,
-     * leave the corresponding table element null.
+     * Returns the enumerbtion vblue tbble for this enumerbtion vblue's
+     * enumerbtion clbss. The enumerbtion clbss's integer vblues bre bssumed to
+     * lie in the rbnge <I>L</I>..<I>L</I>+<I>N</I>-1, where <I>L</I> is the
+     * vblue returned by {@link #getOffset() getOffset()} bnd
+     * <I>N</I> is the length of the enumerbtion vblue tbble. The element in the
+     * enumerbtion vblue tbble bt index <I>i</I>-<I>L</I> is the enumerbtion
+     * vblue object whose integer vblue is <I>i</I>; the {@link #rebdResolve()
+     * rebdResolve()} method needs this to preserve singleton
+     * sembntics during deseriblizbtion of bn enumerbtion instbnce. If bn
+     * integer within the bbove rbnge is not used by bny enumerbtion vblue,
+     * lebve the corresponding tbble element null.
      * <P>
-     * The default implementation returns null. If the enumeration class (a
-     * subclass of class EnumSyntax) does not override this method to return
-     * a non-null enumeration value table, and the subclass does not override
-     * the {@link #readResolve() readResolve()} method, the base
-     * class {@link #readResolve() readResolve()} method will throw
-     * an exception whenever an enumeration instance is deserialized from an
-     * object input stream.
-     * @return the value table
+     * The defbult implementbtion returns null. If the enumerbtion clbss (b
+     * subclbss of clbss EnumSyntbx) does not override this method to return
+     * b non-null enumerbtion vblue tbble, bnd the subclbss does not override
+     * the {@link #rebdResolve() rebdResolve()} method, the bbse
+     * clbss {@link #rebdResolve() rebdResolve()} method will throw
+     * bn exception whenever bn enumerbtion instbnce is deseriblized from bn
+     * object input strebm.
+     * @return the vblue tbble
      */
-    protected EnumSyntax[] getEnumValueTable() {
+    protected EnumSyntbx[] getEnumVblueTbble() {
         return null;
     }
 
     /**
-     * Returns the lowest integer value used by this enumeration value's
-     * enumeration class.
+     * Returns the lowest integer vblue used by this enumerbtion vblue's
+     * enumerbtion clbss.
      * <P>
-     * The default implementation returns 0. If the enumeration class (a
-     * subclass of class EnumSyntax) uses integer values starting at other than
-     * 0, override this method in the subclass.
-     * @return the offset of the lowest enumeration value.
+     * The defbult implementbtion returns 0. If the enumerbtion clbss (b
+     * subclbss of clbss EnumSyntbx) uses integer vblues stbrting bt other thbn
+     * 0, override this method in the subclbss.
+     * @return the offset of the lowest enumerbtion vblue.
      */
     protected int getOffset() {
         return 0;

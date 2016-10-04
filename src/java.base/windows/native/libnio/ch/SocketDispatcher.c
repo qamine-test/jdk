@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,66 +30,66 @@
 #include "jni_util.h"
 #include "jvm.h"
 #include "jlong.h"
-#include "sun_nio_ch_SocketDispatcher.h"
+#include "sun_nio_ch_SocketDispbtcher.h"
 #include "nio.h"
 #include "nio_util.h"
 
 
 /**************************************************************
- * SocketDispatcher.c
+ * SocketDispbtcher.c
  */
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketDispatcher_read0(JNIEnv *env, jclass clazz, jobject fdo,
-                                      jlong address, jint len)
+Jbvb_sun_nio_ch_SocketDispbtcher_rebd0(JNIEnv *env, jclbss clbzz, jobject fdo,
+                                      jlong bddress, jint len)
 {
     /* set up */
     int i = 0;
-    DWORD read = 0;
-    DWORD flags = 0;
-    jint fd = fdval(env, fdo);
+    DWORD rebd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(env, fdo);
     WSABUF buf;
 
     /* limit size */
     if (len > MAX_BUFFER_SIZE)
         len = MAX_BUFFER_SIZE;
 
-    /* destination buffer and size */
-    buf.buf = (char *)address;
+    /* destinbtion buffer bnd size */
+    buf.buf = (chbr *)bddress;
     buf.len = (u_long)len;
 
-    /* read into the buffers */
+    /* rebd into the buffers */
     i = WSARecv((SOCKET)fd, /* Socket */
             &buf,           /* pointers to the buffers */
             (DWORD)1,       /* number of buffers to process */
-            &read,          /* receives number of bytes read */
-            &flags,         /* no flags */
-            0,              /* no overlapped sockets */
+            &rebd,          /* receives number of bytes rebd */
+            &flbgs,         /* no flbgs */
+            0,              /* no overlbpped sockets */
             0);             /* no completion routine */
 
     if (i == SOCKET_ERROR) {
-        int theErr = (jint)WSAGetLastError();
+        int theErr = (jint)WSAGetLbstError();
         if (theErr == WSAEWOULDBLOCK) {
             return IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Rebd fbiled");
         return IOS_THROWN;
     }
 
-    return convertReturnVal(env, (jint)read, JNI_TRUE);
+    return convertReturnVbl(env, (jint)rebd, JNI_TRUE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_SocketDispatcher_readv0(JNIEnv *env, jclass clazz, jobject fdo,
-                                       jlong address, jint len)
+Jbvb_sun_nio_ch_SocketDispbtcher_rebdv0(JNIEnv *env, jclbss clbzz, jobject fdo,
+                                       jlong bddress, jint len)
 {
     /* set up */
     int i = 0;
-    DWORD read = 0;
-    DWORD flags = 0;
-    jint fd = fdval(env, fdo);
-    struct iovec *iovp = (struct iovec *)address;
-    WSABUF *bufs = malloc(len * sizeof(WSABUF));
+    DWORD rebd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(env, fdo);
+    struct iovec *iovp = (struct iovec *)bddress;
+    WSABUF *bufs = mblloc(len * sizeof(WSABUF));
     jint rem = MAX_BUFFER_SIZE;
 
     if (bufs == 0) {
@@ -102,58 +102,58 @@ Java_sun_nio_ch_SocketDispatcher_readv0(JNIEnv *env, jclass clazz, jobject fdo,
         jint iov_len = iovp[i].iov_len;
         if (iov_len > rem)
             iov_len = rem;
-        bufs[i].buf = (char *)iovp[i].iov_base;
+        bufs[i].buf = (chbr *)iovp[i].iov_bbse;
         bufs[i].len = (u_long)iov_len;
         rem -= iov_len;
         if (rem == 0) {
             len = i+1;
-            break;
+            brebk;
         }
     }
 
-    /* read into the buffers */
+    /* rebd into the buffers */
     i = WSARecv((SOCKET)fd, /* Socket */
             bufs,           /* pointers to the buffers */
             (DWORD)len,     /* number of buffers to process */
-            &read,          /* receives number of bytes read */
-            &flags,         /* no flags */
-            0,              /* no overlapped sockets */
+            &rebd,          /* receives number of bytes rebd */
+            &flbgs,         /* no flbgs */
+            0,              /* no overlbpped sockets */
             0);             /* no completion routine */
 
-    /* clean up */
+    /* clebn up */
     free(bufs);
 
     if (i != 0) {
-        int theErr = (jint)WSAGetLastError();
+        int theErr = (jint)WSAGetLbstError();
         if (theErr == WSAEWOULDBLOCK) {
             return IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Vector read failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Vector rebd fbiled");
         return IOS_THROWN;
     }
 
-    return convertLongReturnVal(env, (jlong)read, JNI_TRUE);
+    return convertLongReturnVbl(env, (jlong)rebd, JNI_TRUE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketDispatcher_write0(JNIEnv *env, jclass clazz, jobject fdo,
-                                       jlong address, jint total)
+Jbvb_sun_nio_ch_SocketDispbtcher_write0(JNIEnv *env, jclbss clbzz, jobject fdo,
+                                       jlong bddress, jint totbl)
 {
     /* set up */
     int i = 0;
     DWORD written = 0;
     jint count = 0;
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     WSABUF buf;
 
     do {
         /* limit size */
-        jint len = total - count;
+        jint len = totbl - count;
         if (len > MAX_BUFFER_SIZE)
             len = MAX_BUFFER_SIZE;
 
         /* copy iovec into WSABUF */
-        buf.buf = (char *)address;
+        buf.buf = (chbr *)bddress;
         buf.len = (u_long)len;
 
         /* write from the buffer */
@@ -161,42 +161,42 @@ Java_sun_nio_ch_SocketDispatcher_write0(JNIEnv *env, jclass clazz, jobject fdo,
                     &buf,           /* pointers to the buffers */
                     (DWORD)1,       /* number of buffers to process */
                     &written,       /* receives number of bytes written */
-                    0,              /* no flags */
-                    0,              /* no overlapped sockets */
+                    0,              /* no flbgs */
+                    0,              /* no overlbpped sockets */
                     0);             /* no completion routine */
 
         if (i == SOCKET_ERROR) {
             if (count > 0) {
-                /* can't throw exception when some bytes have been written */
-                break;
+                /* cbn't throw exception when some bytes hbve been written */
+                brebk;
             } else {
-               int theErr = (jint)WSAGetLastError();
+               int theErr = (jint)WSAGetLbstError();
                if (theErr == WSAEWOULDBLOCK) {
                    return IOS_UNAVAILABLE;
                }
-               JNU_ThrowIOExceptionWithLastError(env, "Write failed");
+               JNU_ThrowIOExceptionWithLbstError(env, "Write fbiled");
                return IOS_THROWN;
             }
         }
 
         count += written;
-        address += written;
+        bddress += written;
 
-    } while ((count < total) && (written == MAX_BUFFER_SIZE));
+    } while ((count < totbl) && (written == MAX_BUFFER_SIZE));
 
     return count;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_SocketDispatcher_writev0(JNIEnv *env, jclass clazz,
-                                         jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_ch_SocketDispbtcher_writev0(JNIEnv *env, jclbss clbzz,
+                                         jobject fdo, jlong bddress, jint len)
 {
     /* set up */
     int next_index, next_offset, ret=0;
     DWORD written = 0;
-    jint fd = fdval(env, fdo);
-    struct iovec *iovp = (struct iovec *)address;
-    WSABUF *bufs = malloc(len * sizeof(WSABUF));
+    jint fd = fdvbl(env, fdo);
+    struct iovec *iovp = (struct iovec *)bddress;
+    WSABUF *bufs = mblloc(len * sizeof(WSABUF));
     jlong count = 0;
 
     if (bufs == 0) {
@@ -204,18 +204,18 @@ Java_sun_nio_ch_SocketDispatcher_writev0(JNIEnv *env, jclass clazz,
         return IOS_THROWN;
     }
 
-    // next buffer and offset to consume
+    // next buffer bnd offset to consume
     next_index = 0;
     next_offset = 0;
 
     while (next_index  < len) {
         DWORD buf_count = 0;
 
-        /* Prepare the WSABUF array to a maximum total size of MAX_BUFFER_SIZE */
+        /* Prepbre the WSABUF brrby to b mbximum totbl size of MAX_BUFFER_SIZE */
         jint rem = MAX_BUFFER_SIZE;
         while (next_index < len && rem > 0) {
             jint iov_len = iovp[next_index].iov_len - next_offset;
-            char* ptr = (char *)iovp[next_index].iov_base;
+            chbr* ptr = (chbr *)iovp[next_index].iov_bbse;
             ptr += next_offset;
             if (iov_len > rem) {
                 iov_len = rem;
@@ -237,40 +237,40 @@ Java_sun_nio_ch_SocketDispatcher_writev0(JNIEnv *env, jclass clazz,
                               bufs,         /* pointers to the buffers */
                               buf_count,    /* number of buffers to process */
                               &written,     /* receives number of bytes written */
-                              0,            /* no flags */
-                              0,            /* no overlapped sockets */
+                              0,            /* no flbgs */
+                              0,            /* no overlbpped sockets */
                               0);           /* no completion routine */
 
         if (ret == SOCKET_ERROR) {
-            break;
+            brebk;
         }
 
         count += written;
     }
 
-    /* clean up */
+    /* clebn up */
     free(bufs);
 
     if (ret == SOCKET_ERROR && count == 0) {
-        int theErr = (jint)WSAGetLastError();
+        int theErr = (jint)WSAGetLbstError();
         if (theErr == WSAEWOULDBLOCK) {
             return IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Vector write failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Vector write fbiled");
         return IOS_THROWN;
     }
 
-    return convertLongReturnVal(env, count, JNI_FALSE);
+    return convertLongReturnVbl(env, count, JNI_FALSE);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_SocketDispatcher_preClose0(JNIEnv *env, jclass clazz,
+Jbvb_sun_nio_ch_SocketDispbtcher_preClose0(JNIEnv *env, jclbss clbzz,
                                            jobject fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     struct linger l;
     int len = sizeof(l);
-    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (char *)&l, &len) == 0) {
+    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (chbr *)&l, &len) == 0) {
         if (l.l_onoff == 0) {
             WSASendDisconnect(fd, NULL);
         }
@@ -278,11 +278,11 @@ Java_sun_nio_ch_SocketDispatcher_preClose0(JNIEnv *env, jclass clazz,
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_SocketDispatcher_close0(JNIEnv *env, jclass clazz,
+Jbvb_sun_nio_ch_SocketDispbtcher_close0(JNIEnv *env, jclbss clbzz,
                                          jobject fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     if (closesocket(fd) == SOCKET_ERROR) {
-        JNU_ThrowIOExceptionWithLastError(env, "Socket close failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Socket close fbiled");
     }
 }

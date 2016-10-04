@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "FileSystemSupport_md.h"
 
 /**
- * Return the local filesystem's path-separator character.
+ * Return the locbl filesystem's pbth-sepbrbtor chbrbcter.
  */
-char pathSeparator();
+chbr pbthSepbrbtor();
 
 /**
- * Compare two filenames represent and tell if they represent the same file
+ * Compbre two filenbmes represent bnd tell if they represent the sbme file
  * or not.
  */
-int filenameStrcmp(const char* s1, const char* s2);
+int filenbmeStrcmp(const chbr* s1, const chbr* s2);
 
 /**
- * Post-process the given URI path string if necessary.  This is used on
- * win32, e.g., to transform "/c:/foo" into "c:/foo".  The path string
- * still has slash separators; code in the File class will translate them
- * after this method returns.
+ * Post-process the given URI pbth string if necessbry.  This is used on
+ * win32, e.g., to trbnsform "/c:/foo" into "c:/foo".  The pbth string
+ * still hbs slbsh sepbrbtors; code in the File clbss will trbnslbte them
+ * bfter this method returns.
  */
-char* fromURIPath(const char* path);
+chbr* fromURIPbth(const chbr* pbth);
 
 /**
- * Return the basen path of the given pathname. If the string is already
- * the base path then it is simply returned.
+ * Return the bbsen pbth of the given pbthnbme. If the string is blrebdy
+ * the bbse pbth then it is simply returned.
  */
-char* basePath(const char* path);
+chbr* bbsePbth(const chbr* pbth);
 
 /**
- * Convert the given pathname string to normal form.  If the string is
- * already in normal form then it is simply returned.
+ * Convert the given pbthnbme string to normbl form.  If the string is
+ * blrebdy in normbl form then it is simply returned.
  */
-char* normalize(const char* path);
+chbr* normblize(const chbr* pbth);
 
 /**
- * Tell whether or not the given abstract pathname is absolute.
+ * Tell whether or not the given bbstrbct pbthnbme is bbsolute.
  */
-int isAbsolute(const char * path);
+int isAbsolute(const chbr * pbth);
 
 /**
- * Resolve the child pathname string against the parent.
+ * Resolve the child pbthnbme string bgbinst the pbrent.
  */
-char* resolve(const char* parent, const char* child);
+chbr* resolve(const chbr* pbrent, const chbr* child);

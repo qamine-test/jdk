@@ -1,472 +1,472 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.invoke.anon;
+pbckbge sun.invoke.bnon;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshSet;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
 
-import static sun.invoke.anon.ConstantPoolVisitor.*;
+import stbtic sun.invoke.bnon.ConstbntPoolVisitor.*;
 
-/** A class and its patched constant pool.
+/** A clbss bnd its pbtched constbnt pool.
  *
- *  This class allow to modify (patch) a constant pool
- *  by changing the value of its entry.
- *  Entry are referenced using index that can be get
- *  by parsing the constant pool using
- *  {@link ConstantPoolParser#parse(ConstantPoolVisitor)}.
+ *  This clbss bllow to modify (pbtch) b constbnt pool
+ *  by chbnging the vblue of its entry.
+ *  Entry bre referenced using index thbt cbn be get
+ *  by pbrsing the constbnt pool using
+ *  {@link ConstbntPoolPbrser#pbrse(ConstbntPoolVisitor)}.
  *
- * @see ConstantPoolVisitor
- * @see ConstantPoolParser#createPatch()
+ * @see ConstbntPoolVisitor
+ * @see ConstbntPoolPbrser#crebtePbtch()
  */
-public class ConstantPoolPatch {
-    final ConstantPoolParser outer;
-    final Object[] patchArray;
+public clbss ConstbntPoolPbtch {
+    finbl ConstbntPoolPbrser outer;
+    finbl Object[] pbtchArrby;
 
-    ConstantPoolPatch(ConstantPoolParser outer) {
+    ConstbntPoolPbtch(ConstbntPoolPbrser outer) {
         this.outer      = outer;
-        this.patchArray = new Object[outer.getLength()];
+        this.pbtchArrby = new Object[outer.getLength()];
     }
 
-    /** Create a {@link ConstantPoolParser} and
-     *  a {@link ConstantPoolPatch} in one step.
-     *  Equivalent to {@code new ConstantPoolParser(classFile).createPatch()}.
+    /** Crebte b {@link ConstbntPoolPbrser} bnd
+     *  b {@link ConstbntPoolPbtch} in one step.
+     *  Equivblent to {@code new ConstbntPoolPbrser(clbssFile).crebtePbtch()}.
      *
-     * @param classFile an array of bytes containing a class.
-     * @see #ConstantPoolParser(Class)
+     * @pbrbm clbssFile bn brrby of bytes contbining b clbss.
+     * @see #ConstbntPoolPbrser(Clbss)
      */
-    public ConstantPoolPatch(byte[] classFile) throws InvalidConstantPoolFormatException {
-        this(new ConstantPoolParser(classFile));
+    public ConstbntPoolPbtch(byte[] clbssFile) throws InvblidConstbntPoolFormbtException {
+        this(new ConstbntPoolPbrser(clbssFile));
     }
 
-    /** Create a {@link ConstantPoolParser} and
-     *  a {@link ConstantPoolPatch} in one step.
-     *  Equivalent to {@code new ConstantPoolParser(templateClass).createPatch()}.
+    /** Crebte b {@link ConstbntPoolPbrser} bnd
+     *  b {@link ConstbntPoolPbtch} in one step.
+     *  Equivblent to {@code new ConstbntPoolPbrser(templbteClbss).crebtePbtch()}.
      *
-     * @param templateClass the class to parse.
-     * @see #ConstantPoolParser(Class)
+     * @pbrbm templbteClbss the clbss to pbrse.
+     * @see #ConstbntPoolPbrser(Clbss)
      */
-    public ConstantPoolPatch(Class<?> templateClass) throws IOException, InvalidConstantPoolFormatException {
-        this(new ConstantPoolParser(templateClass));
+    public ConstbntPoolPbtch(Clbss<?> templbteClbss) throws IOException, InvblidConstbntPoolFormbtException {
+        this(new ConstbntPoolPbrser(templbteClbss));
     }
 
 
-    /** Creates a patch from an existing patch.
-     *  All changes are copied from that patch.
-     * @param patch a patch
+    /** Crebtes b pbtch from bn existing pbtch.
+     *  All chbnges bre copied from thbt pbtch.
+     * @pbrbm pbtch b pbtch
      *
-     * @see ConstantPoolParser#createPatch()
+     * @see ConstbntPoolPbrser#crebtePbtch()
      */
-    public ConstantPoolPatch(ConstantPoolPatch patch) {
-        outer      = patch.outer;
-        patchArray = patch.patchArray.clone();
+    public ConstbntPoolPbtch(ConstbntPoolPbtch pbtch) {
+        outer      = pbtch.outer;
+        pbtchArrby = pbtch.pbtchArrby.clone();
     }
 
-    /** Which parser built this patch? */
-    public ConstantPoolParser getParser() {
+    /** Which pbrser built this pbtch? */
+    public ConstbntPoolPbrser getPbrser() {
         return outer;
     }
 
-    /** Report the tag at the given index in the constant pool. */
-    public byte getTag(int index) {
-        return outer.getTag(index);
+    /** Report the tbg bt the given index in the constbnt pool. */
+    public byte getTbg(int index) {
+        return outer.getTbg(index);
     }
 
-    /** Report the current patch at the given index of the constant pool.
-     *  Null means no patch will be made.
-     *  To observe the unpatched entry at the given index, use
-     *  {@link #getParser()}{@code .}@link ConstantPoolParser#parse(ConstantPoolVisitor)}
+    /** Report the current pbtch bt the given index of the constbnt pool.
+     *  Null mebns no pbtch will be mbde.
+     *  To observe the unpbtched entry bt the given index, use
+     *  {@link #getPbrser()}{@code .}@link ConstbntPoolPbrser#pbrse(ConstbntPoolVisitor)}
      */
-    public Object getPatch(int index) {
-        Object value = patchArray[index];
-        if (value == null)  return null;
-        switch (getTag(index)) {
-        case CONSTANT_Fieldref:
-        case CONSTANT_Methodref:
-        case CONSTANT_InterfaceMethodref:
-            if (value instanceof String)
-                value = stripSemis(2, (String) value);
-            break;
-        case CONSTANT_NameAndType:
-            if (value instanceof String)
-                value = stripSemis(1, (String) value);
-            break;
+    public Object getPbtch(int index) {
+        Object vblue = pbtchArrby[index];
+        if (vblue == null)  return null;
+        switch (getTbg(index)) {
+        cbse CONSTANT_Fieldref:
+        cbse CONSTANT_Methodref:
+        cbse CONSTANT_InterfbceMethodref:
+            if (vblue instbnceof String)
+                vblue = stripSemis(2, (String) vblue);
+            brebk;
+        cbse CONSTANT_NbmeAndType:
+            if (vblue instbnceof String)
+                vblue = stripSemis(1, (String) vblue);
+            brebk;
         }
-        return value;
+        return vblue;
     }
 
-    /** Clear all patches. */
-    public void clear() {
-        Arrays.fill(patchArray, null);
+    /** Clebr bll pbtches. */
+    public void clebr() {
+        Arrbys.fill(pbtchArrby, null);
     }
 
-    /** Clear one patch. */
-    public void clear(int index) {
-        patchArray[index] = null;
+    /** Clebr one pbtch. */
+    public void clebr(int index) {
+        pbtchArrby[index] = null;
     }
 
-    /** Produce the patches as an array. */
-    public Object[] getPatches() {
-        return patchArray.clone();
+    /** Produce the pbtches bs bn brrby. */
+    public Object[] getPbtches() {
+        return pbtchArrby.clone();
     }
 
-    /** Produce the original constant pool as an array. */
-    public Object[] getOriginalCP() throws InvalidConstantPoolFormatException {
-        return getOriginalCP(0, patchArray.length, -1);
+    /** Produce the originbl constbnt pool bs bn brrby. */
+    public Object[] getOriginblCP() throws InvblidConstbntPoolFormbtException {
+        return getOriginblCP(0, pbtchArrby.length, -1);
     }
 
-    /** Walk the constant pool, applying patches using the given map.
+    /** Wblk the constbnt pool, bpplying pbtches using the given mbp.
      *
-     * @param utf8Map Utf8 strings to modify, if encountered
-     * @param classMap Classes (or their names) to modify, if encountered
-     * @param valueMap Constant values to modify, if encountered
-     * @param deleteUsedEntries if true, delete map entries that are used
+     * @pbrbm utf8Mbp Utf8 strings to modify, if encountered
+     * @pbrbm clbssMbp Clbsses (or their nbmes) to modify, if encountered
+     * @pbrbm vblueMbp Constbnt vblues to modify, if encountered
+     * @pbrbm deleteUsedEntries if true, delete mbp entries thbt bre used
      */
-    public void putPatches(final Map<String,String> utf8Map,
-                           final Map<String,Object> classMap,
-                           final Map<Object,Object> valueMap,
-                           boolean deleteUsedEntries) throws InvalidConstantPoolFormatException {
-        final HashSet<String> usedUtf8Keys;
-        final HashSet<String> usedClassKeys;
-        final HashSet<Object> usedValueKeys;
+    public void putPbtches(finbl Mbp<String,String> utf8Mbp,
+                           finbl Mbp<String,Object> clbssMbp,
+                           finbl Mbp<Object,Object> vblueMbp,
+                           boolebn deleteUsedEntries) throws InvblidConstbntPoolFormbtException {
+        finbl HbshSet<String> usedUtf8Keys;
+        finbl HbshSet<String> usedClbssKeys;
+        finbl HbshSet<Object> usedVblueKeys;
         if (deleteUsedEntries) {
-            usedUtf8Keys  = (utf8Map  == null) ? null : new HashSet<String>();
-            usedClassKeys = (classMap == null) ? null : new HashSet<String>();
-            usedValueKeys = (valueMap == null) ? null : new HashSet<Object>();
+            usedUtf8Keys  = (utf8Mbp  == null) ? null : new HbshSet<String>();
+            usedClbssKeys = (clbssMbp == null) ? null : new HbshSet<String>();
+            usedVblueKeys = (vblueMbp == null) ? null : new HbshSet<Object>();
         } else {
             usedUtf8Keys = null;
-            usedClassKeys = null;
-            usedValueKeys = null;
+            usedClbssKeys = null;
+            usedVblueKeys = null;
         }
 
-        outer.parse(new ConstantPoolVisitor() {
+        outer.pbrse(new ConstbntPoolVisitor() {
 
             @Override
-            public void visitUTF8(int index, byte tag, String utf8) {
-                putUTF8(index, utf8Map.get(utf8));
-                if (usedUtf8Keys != null)  usedUtf8Keys.add(utf8);
+            public void visitUTF8(int index, byte tbg, String utf8) {
+                putUTF8(index, utf8Mbp.get(utf8));
+                if (usedUtf8Keys != null)  usedUtf8Keys.bdd(utf8);
             }
 
             @Override
-            public void visitConstantValue(int index, byte tag, Object value) {
-                putConstantValue(index, tag, valueMap.get(value));
-                if (usedValueKeys != null)  usedValueKeys.add(value);
+            public void visitConstbntVblue(int index, byte tbg, Object vblue) {
+                putConstbntVblue(index, tbg, vblueMbp.get(vblue));
+                if (usedVblueKeys != null)  usedVblueKeys.bdd(vblue);
             }
 
             @Override
-            public void visitConstantString(int index, byte tag, String name, int nameIndex) {
-                if (tag == CONSTANT_Class) {
-                    putConstantValue(index, tag, classMap.get(name));
-                    if (usedClassKeys != null)  usedClassKeys.add(name);
+            public void visitConstbntString(int index, byte tbg, String nbme, int nbmeIndex) {
+                if (tbg == CONSTANT_Clbss) {
+                    putConstbntVblue(index, tbg, clbssMbp.get(nbme));
+                    if (usedClbssKeys != null)  usedClbssKeys.bdd(nbme);
                 } else {
-                    assert(tag == CONSTANT_String);
-                    visitConstantValue(index, tag, name);
+                    bssert(tbg == CONSTANT_String);
+                    visitConstbntVblue(index, tbg, nbme);
                 }
             }
         });
-        if (usedUtf8Keys != null)   utf8Map.keySet().removeAll(usedUtf8Keys);
-        if (usedClassKeys != null)  classMap.keySet().removeAll(usedClassKeys);
-        if (usedValueKeys != null)  valueMap.keySet().removeAll(usedValueKeys);
+        if (usedUtf8Keys != null)   utf8Mbp.keySet().removeAll(usedUtf8Keys);
+        if (usedClbssKeys != null)  clbssMbp.keySet().removeAll(usedClbssKeys);
+        if (usedVblueKeys != null)  vblueMbp.keySet().removeAll(usedVblueKeys);
     }
 
-    Object[] getOriginalCP(final int startIndex,
-                           final int endIndex,
-                           final int tagMask) throws InvalidConstantPoolFormatException {
-        final Object[] cpArray = new Object[endIndex - startIndex];
-        outer.parse(new ConstantPoolVisitor() {
+    Object[] getOriginblCP(finbl int stbrtIndex,
+                           finbl int endIndex,
+                           finbl int tbgMbsk) throws InvblidConstbntPoolFormbtException {
+        finbl Object[] cpArrby = new Object[endIndex - stbrtIndex];
+        outer.pbrse(new ConstbntPoolVisitor() {
 
-            void show(int index, byte tag, Object value) {
-                if (index < startIndex || index >= endIndex)  return;
-                if (((1 << tag) & tagMask) == 0)  return;
-                cpArray[index - startIndex] = value;
+            void show(int index, byte tbg, Object vblue) {
+                if (index < stbrtIndex || index >= endIndex)  return;
+                if (((1 << tbg) & tbgMbsk) == 0)  return;
+                cpArrby[index - stbrtIndex] = vblue;
             }
 
             @Override
-            public void visitUTF8(int index, byte tag, String utf8) {
-                show(index, tag, utf8);
+            public void visitUTF8(int index, byte tbg, String utf8) {
+                show(index, tbg, utf8);
             }
 
             @Override
-            public void visitConstantValue(int index, byte tag, Object value) {
-                assert(tag != CONSTANT_String);
-                show(index, tag, value);
+            public void visitConstbntVblue(int index, byte tbg, Object vblue) {
+                bssert(tbg != CONSTANT_String);
+                show(index, tbg, vblue);
             }
 
             @Override
-            public void visitConstantString(int index, byte tag,
-                                            String value, int j) {
-                show(index, tag, value);
+            public void visitConstbntString(int index, byte tbg,
+                                            String vblue, int j) {
+                show(index, tbg, vblue);
             }
 
             @Override
-            public void visitMemberRef(int index, byte tag,
-                    String className, String memberName,
-                    String signature,
+            public void visitMemberRef(int index, byte tbg,
+                    String clbssNbme, String memberNbme,
+                    String signbture,
                     int j, int k) {
-                show(index, tag, new String[]{ className, memberName, signature });
+                show(index, tbg, new String[]{ clbssNbme, memberNbme, signbture });
             }
 
             @Override
-            public void visitDescriptor(int index, byte tag,
-                    String memberName, String signature,
+            public void visitDescriptor(int index, byte tbg,
+                    String memberNbme, String signbture,
                     int j, int k) {
-                show(index, tag, new String[]{ memberName, signature });
+                show(index, tbg, new String[]{ memberNbme, signbture });
             }
         });
-        return cpArray;
+        return cpArrby;
     }
 
-    /** Write the head (header plus constant pool)
-     *  of the patched class file to the indicated stream.
+    /** Write the hebd (hebder plus constbnt pool)
+     *  of the pbtched clbss file to the indicbted strebm.
      */
-    void writeHead(OutputStream out) throws IOException {
-        outer.writePatchedHead(out, patchArray);
+    void writeHebd(OutputStrebm out) throws IOException {
+        outer.writePbtchedHebd(out, pbtchArrby);
     }
 
-    /** Write the tail (everything after the constant pool)
-     *  of the patched class file to the indicated stream.
+    /** Write the tbil (everything bfter the constbnt pool)
+     *  of the pbtched clbss file to the indicbted strebm.
      */
-    void writeTail(OutputStream out) throws IOException {
-        outer.writeTail(out);
+    void writeTbil(OutputStrebm out) throws IOException {
+        outer.writeTbil(out);
     }
 
-    private void checkConstantTag(byte tag, Object value) {
-        if (value == null)
-            throw new IllegalArgumentException(
-                    "invalid null constant value");
-        if (classForTag(tag) != value.getClass())
-            throw new IllegalArgumentException(
-                    "invalid constant value"
-                    + (tag == CONSTANT_None ? ""
-                        : " for tag "+tagName(tag))
-                    + " of class "+value.getClass());
+    privbte void checkConstbntTbg(byte tbg, Object vblue) {
+        if (vblue == null)
+            throw new IllegblArgumentException(
+                    "invblid null constbnt vblue");
+        if (clbssForTbg(tbg) != vblue.getClbss())
+            throw new IllegblArgumentException(
+                    "invblid constbnt vblue"
+                    + (tbg == CONSTANT_None ? ""
+                        : " for tbg "+tbgNbme(tbg))
+                    + " of clbss "+vblue.getClbss());
     }
 
-    private void checkTag(int index, byte putTag) {
-        byte tag = outer.tags[index];
-        if (tag != putTag)
-            throw new IllegalArgumentException(
-                "invalid put operation"
-                + " for " + tagName(putTag)
-                + " at index " + index + " found " + tagName(tag));
+    privbte void checkTbg(int index, byte putTbg) {
+        byte tbg = outer.tbgs[index];
+        if (tbg != putTbg)
+            throw new IllegblArgumentException(
+                "invblid put operbtion"
+                + " for " + tbgNbme(putTbg)
+                + " bt index " + index + " found " + tbgNbme(tbg));
     }
 
-    private void checkTagMask(int index, int tagBitMask) {
-        byte tag = outer.tags[index];
-        int tagBit = ((tag & 0x1F) == tag) ? (1 << tag) : 0;
-        if ((tagBit & tagBitMask) == 0)
-            throw new IllegalArgumentException(
-                "invalid put operation"
-                + " at index " + index + " found " + tagName(tag));
+    privbte void checkTbgMbsk(int index, int tbgBitMbsk) {
+        byte tbg = outer.tbgs[index];
+        int tbgBit = ((tbg & 0x1F) == tbg) ? (1 << tbg) : 0;
+        if ((tbgBit & tbgBitMbsk) == 0)
+            throw new IllegblArgumentException(
+                "invblid put operbtion"
+                + " bt index " + index + " found " + tbgNbme(tbg));
     }
 
-    private static void checkMemberName(String memberName) {
-        if (memberName.indexOf(';') >= 0)
-            throw new IllegalArgumentException("memberName " + memberName + " contains a ';'");
+    privbte stbtic void checkMemberNbme(String memberNbme) {
+        if (memberNbme.indexOf(';') >= 0)
+            throw new IllegblArgumentException("memberNbme " + memberNbme + " contbins b ';'");
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new string.
+    /** Set the entry of the constbnt pool indexed by index to
+     *  b new string.
      *
-     * @param index an index to a constant pool entry containing a
-     *        {@link ConstantPoolVisitor#CONSTANT_Utf8} value.
-     * @param utf8 a string
+     * @pbrbm index bn index to b constbnt pool entry contbining b
+     *        {@link ConstbntPoolVisitor#CONSTANT_Utf8} vblue.
+     * @pbrbm utf8 b string
      *
-     * @see ConstantPoolVisitor#visitUTF8(int, byte, String)
+     * @see ConstbntPoolVisitor#visitUTF8(int, byte, String)
      */
     public void putUTF8(int index, String utf8) {
-        if (utf8 == null) { clear(index); return; }
-        checkTag(index, CONSTANT_Utf8);
-        patchArray[index] = utf8;
+        if (utf8 == null) { clebr(index); return; }
+        checkTbg(index, CONSTANT_Utf8);
+        pbtchArrby[index] = utf8;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new value, depending on its dynamic type.
+    /** Set the entry of the constbnt pool indexed by index to
+     *  b new vblue, depending on its dynbmic type.
      *
-     * @param index an index to a constant pool entry containing a
+     * @pbrbm index bn index to b constbnt pool entry contbining b
      *        one of the following structures:
-     *        {@link ConstantPoolVisitor#CONSTANT_Integer},
-     *        {@link ConstantPoolVisitor#CONSTANT_Float},
-     *        {@link ConstantPoolVisitor#CONSTANT_Long},
-     *        {@link ConstantPoolVisitor#CONSTANT_Double},
-     *        {@link ConstantPoolVisitor#CONSTANT_String}, or
-     *        {@link ConstantPoolVisitor#CONSTANT_Class}
-     * @param value a boxed int, float, long or double; or a string or class object
-     * @throws IllegalArgumentException if the type of the constant does not
-     *         match the constant pool entry type,
-     *         as reported by {@link #getTag(int)}
+     *        {@link ConstbntPoolVisitor#CONSTANT_Integer},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Flobt},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Long},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Double},
+     *        {@link ConstbntPoolVisitor#CONSTANT_String}, or
+     *        {@link ConstbntPoolVisitor#CONSTANT_Clbss}
+     * @pbrbm vblue b boxed int, flobt, long or double; or b string or clbss object
+     * @throws IllegblArgumentException if the type of the constbnt does not
+     *         mbtch the constbnt pool entry type,
+     *         bs reported by {@link #getTbg(int)}
      *
-     * @see #putConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantString(int, byte, String, int)
+     * @see #putConstbntVblue(int, byte, Object)
+     * @see ConstbntPoolVisitor#visitConstbntVblue(int, byte, Object)
+     * @see ConstbntPoolVisitor#visitConstbntString(int, byte, String, int)
      */
-    public void putConstantValue(int index, Object value) {
-        if (value == null) { clear(index); return; }
-        byte tag = tagForConstant(value.getClass());
-        checkConstantTag(tag, value);
-        checkTag(index, tag);
-        patchArray[index] = value;
+    public void putConstbntVblue(int index, Object vblue) {
+        if (vblue == null) { clebr(index); return; }
+        byte tbg = tbgForConstbnt(vblue.getClbss());
+        checkConstbntTbg(tbg, vblue);
+        checkTbg(index, tbg);
+        pbtchArrby[index] = vblue;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new value.
+    /** Set the entry of the constbnt pool indexed by index to
+     *  b new vblue.
      *
-     * @param index an index to a constant pool entry matching the given tag
-     * @param tag one of the following values:
-     *        {@link ConstantPoolVisitor#CONSTANT_Integer},
-     *        {@link ConstantPoolVisitor#CONSTANT_Float},
-     *        {@link ConstantPoolVisitor#CONSTANT_Long},
-     *        {@link ConstantPoolVisitor#CONSTANT_Double},
-     *        {@link ConstantPoolVisitor#CONSTANT_String}, or
-     *        {@link ConstantPoolVisitor#CONSTANT_Class}
-     * @param value a boxed number, string, or class object
-     * @throws IllegalArgumentException if the type of the constant does not
-     *         match the constant pool entry type, or if a class name contains
+     * @pbrbm index bn index to b constbnt pool entry mbtching the given tbg
+     * @pbrbm tbg one of the following vblues:
+     *        {@link ConstbntPoolVisitor#CONSTANT_Integer},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Flobt},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Long},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Double},
+     *        {@link ConstbntPoolVisitor#CONSTANT_String}, or
+     *        {@link ConstbntPoolVisitor#CONSTANT_Clbss}
+     * @pbrbm vblue b boxed number, string, or clbss object
+     * @throws IllegblArgumentException if the type of the constbnt does not
+     *         mbtch the constbnt pool entry type, or if b clbss nbme contbins
      *         '/' or ';'
      *
-     * @see #putConstantValue(int, Object)
-     * @see ConstantPoolVisitor#visitConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantString(int, byte, String, int)
+     * @see #putConstbntVblue(int, Object)
+     * @see ConstbntPoolVisitor#visitConstbntVblue(int, byte, Object)
+     * @see ConstbntPoolVisitor#visitConstbntString(int, byte, String, int)
      */
-    public void putConstantValue(int index, byte tag, Object value) {
-        if (value == null) { clear(index); return; }
-        checkTag(index, tag);
-        if (tag == CONSTANT_Class && value instanceof String) {
-            checkClassName((String) value);
-        } else if (tag == CONSTANT_String) {
-            // the JVM accepts any object as a patch for a string
+    public void putConstbntVblue(int index, byte tbg, Object vblue) {
+        if (vblue == null) { clebr(index); return; }
+        checkTbg(index, tbg);
+        if (tbg == CONSTANT_Clbss && vblue instbnceof String) {
+            checkClbssNbme((String) vblue);
+        } else if (tbg == CONSTANT_String) {
+            // the JVM bccepts bny object bs b pbtch for b string
         } else {
-            // make sure the incoming value is the right type
-            checkConstantTag(tag, value);
+            // mbke sure the incoming vblue is the right type
+            checkConstbntTbg(tbg, vblue);
         }
-        checkTag(index, tag);
-        patchArray[index] = value;
+        checkTbg(index, tbg);
+        pbtchArrby[index] = vblue;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new {@link ConstantPoolVisitor#CONSTANT_NameAndType} value.
+    /** Set the entry of the constbnt pool indexed by index to
+     *  b new {@link ConstbntPoolVisitor#CONSTANT_NbmeAndType} vblue.
      *
-     * @param index an index to a constant pool entry containing a
-     *        {@link ConstantPoolVisitor#CONSTANT_NameAndType} value.
-     * @param memberName a memberName
-     * @param signature a signature
-     * @throws IllegalArgumentException if memberName contains the character ';'
+     * @pbrbm index bn index to b constbnt pool entry contbining b
+     *        {@link ConstbntPoolVisitor#CONSTANT_NbmeAndType} vblue.
+     * @pbrbm memberNbme b memberNbme
+     * @pbrbm signbture b signbture
+     * @throws IllegblArgumentException if memberNbme contbins the chbrbcter ';'
      *
-     * @see ConstantPoolVisitor#visitDescriptor(int, byte, String, String, int, int)
+     * @see ConstbntPoolVisitor#visitDescriptor(int, byte, String, String, int, int)
      */
-    public void putDescriptor(int index, String memberName, String signature) {
-        checkTag(index, CONSTANT_NameAndType);
-        checkMemberName(memberName);
-        patchArray[index] = addSemis(memberName, signature);
+    public void putDescriptor(int index, String memberNbme, String signbture) {
+        checkTbg(index, CONSTANT_NbmeAndType);
+        checkMemberNbme(memberNbme);
+        pbtchArrby[index] = bddSemis(memberNbme, signbture);
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new {@link ConstantPoolVisitor#CONSTANT_Fieldref},
-     *  {@link ConstantPoolVisitor#CONSTANT_Methodref}, or
-     *  {@link ConstantPoolVisitor#CONSTANT_InterfaceMethodref} value.
+    /** Set the entry of the constbnt pool indexed by index to
+     *  b new {@link ConstbntPoolVisitor#CONSTANT_Fieldref},
+     *  {@link ConstbntPoolVisitor#CONSTANT_Methodref}, or
+     *  {@link ConstbntPoolVisitor#CONSTANT_InterfbceMethodref} vblue.
      *
-     * @param index an index to a constant pool entry containing a member reference
-     * @param className a class name
-     * @param memberName a field or method name
-     * @param signature a field or method signature
-     * @throws IllegalArgumentException if memberName contains the character ';'
-     *             or signature is not a correct signature
+     * @pbrbm index bn index to b constbnt pool entry contbining b member reference
+     * @pbrbm clbssNbme b clbss nbme
+     * @pbrbm memberNbme b field or method nbme
+     * @pbrbm signbture b field or method signbture
+     * @throws IllegblArgumentException if memberNbme contbins the chbrbcter ';'
+     *             or signbture is not b correct signbture
      *
-     * @see ConstantPoolVisitor#visitMemberRef(int, byte, String, String, String, int, int)
+     * @see ConstbntPoolVisitor#visitMemberRef(int, byte, String, String, String, int, int)
      */
-    public void putMemberRef(int index, byte tag,
-                    String className, String memberName, String signature) {
-        checkTagMask(tag, CONSTANT_MemberRef_MASK);
-        checkTag(index, tag);
-        checkClassName(className);
-        checkMemberName(memberName);
-        if (signature.startsWith("(") == (tag == CONSTANT_Fieldref))
-            throw new IllegalArgumentException("bad signature: "+signature);
-        patchArray[index] = addSemis(className, memberName, signature);
+    public void putMemberRef(int index, byte tbg,
+                    String clbssNbme, String memberNbme, String signbture) {
+        checkTbgMbsk(tbg, CONSTANT_MemberRef_MASK);
+        checkTbg(index, tbg);
+        checkClbssNbme(clbssNbme);
+        checkMemberNbme(memberNbme);
+        if (signbture.stbrtsWith("(") == (tbg == CONSTANT_Fieldref))
+            throw new IllegblArgumentException("bbd signbture: "+signbture);
+        pbtchArrby[index] = bddSemis(clbssNbme, memberNbme, signbture);
     }
 
-    static private final int CONSTANT_MemberRef_MASK =
+    stbtic privbte finbl int CONSTANT_MemberRef_MASK =
               CONSTANT_Fieldref
             | CONSTANT_Methodref
-            | CONSTANT_InterfaceMethodref;
+            | CONSTANT_InterfbceMethodref;
 
-    private static final Map<Class<?>, Byte> CONSTANT_VALUE_CLASS_TAG
-        = new IdentityHashMap<Class<?>, Byte>();
-    private static final Class<?>[] CONSTANT_VALUE_CLASS = new Class<?>[16];
-    static {
-        Object[][] values = {
-            {Integer.class, CONSTANT_Integer},
-            {Long.class, CONSTANT_Long},
-            {Float.class, CONSTANT_Float},
-            {Double.class, CONSTANT_Double},
-            {String.class, CONSTANT_String},
-            {Class.class, CONSTANT_Class}
+    privbte stbtic finbl Mbp<Clbss<?>, Byte> CONSTANT_VALUE_CLASS_TAG
+        = new IdentityHbshMbp<Clbss<?>, Byte>();
+    privbte stbtic finbl Clbss<?>[] CONSTANT_VALUE_CLASS = new Clbss<?>[16];
+    stbtic {
+        Object[][] vblues = {
+            {Integer.clbss, CONSTANT_Integer},
+            {Long.clbss, CONSTANT_Long},
+            {Flobt.clbss, CONSTANT_Flobt},
+            {Double.clbss, CONSTANT_Double},
+            {String.clbss, CONSTANT_String},
+            {Clbss.clbss, CONSTANT_Clbss}
         };
-        for (Object[] value : values) {
-            Class<?> cls = (Class<?>)value[0];
-            Byte     tag = (Byte) value[1];
-            CONSTANT_VALUE_CLASS_TAG.put(cls, tag);
-            CONSTANT_VALUE_CLASS[(byte)tag] = cls;
+        for (Object[] vblue : vblues) {
+            Clbss<?> cls = (Clbss<?>)vblue[0];
+            Byte     tbg = (Byte) vblue[1];
+            CONSTANT_VALUE_CLASS_TAG.put(cls, tbg);
+            CONSTANT_VALUE_CLASS[(byte)tbg] = cls;
         }
     }
 
-    static Class<?> classForTag(byte tag) {
-        if ((tag & 0xFF) >= CONSTANT_VALUE_CLASS.length)
+    stbtic Clbss<?> clbssForTbg(byte tbg) {
+        if ((tbg & 0xFF) >= CONSTANT_VALUE_CLASS.length)
             return null;
-        return CONSTANT_VALUE_CLASS[tag];
+        return CONSTANT_VALUE_CLASS[tbg];
     }
 
-    static byte tagForConstant(Class<?> cls) {
-        Byte tag = CONSTANT_VALUE_CLASS_TAG.get(cls);
-        return (tag == null) ? CONSTANT_None : (byte)tag;
+    stbtic byte tbgForConstbnt(Clbss<?> cls) {
+        Byte tbg = CONSTANT_VALUE_CLASS_TAG.get(cls);
+        return (tbg == null) ? CONSTANT_None : (byte)tbg;
     }
 
-    private static void checkClassName(String className) {
-        if (className.indexOf('/') >= 0 || className.indexOf(';') >= 0)
-            throw new IllegalArgumentException("invalid class name " + className);
+    privbte stbtic void checkClbssNbme(String clbssNbme) {
+        if (clbssNbme.indexOf('/') >= 0 || clbssNbme.indexOf(';') >= 0)
+            throw new IllegblArgumentException("invblid clbss nbme " + clbssNbme);
     }
 
-    static String addSemis(String name, String... names) {
-        StringBuilder buf = new StringBuilder(name.length() * 5);
-        buf.append(name);
-        for (String name2 : names) {
-            buf.append(';').append(name2);
+    stbtic String bddSemis(String nbme, String... nbmes) {
+        StringBuilder buf = new StringBuilder(nbme.length() * 5);
+        buf.bppend(nbme);
+        for (String nbme2 : nbmes) {
+            buf.bppend(';').bppend(nbme2);
         }
         String res = buf.toString();
-        assert(stripSemis(names.length, res)[0].equals(name));
-        assert(stripSemis(names.length, res)[1].equals(names[0]));
-        assert(names.length == 1 ||
-               stripSemis(names.length, res)[2].equals(names[1]));
+        bssert(stripSemis(nbmes.length, res)[0].equbls(nbme));
+        bssert(stripSemis(nbmes.length, res)[1].equbls(nbmes[0]));
+        bssert(nbmes.length == 1 ||
+               stripSemis(nbmes.length, res)[2].equbls(nbmes[1]));
         return res;
     }
 
-    static String[] stripSemis(int count, String string) {
+    stbtic String[] stripSemis(int count, String string) {
         String[] res = new String[count+1];
         int pos = 0;
         for (int i = 0; i < count; i++) {
@@ -480,24 +480,24 @@ public class ConstantPoolPatch {
     }
 
     public String toString() {
-        StringBuilder buf = new StringBuilder(this.getClass().getName());
-        buf.append("{");
+        StringBuilder buf = new StringBuilder(this.getClbss().getNbme());
+        buf.bppend("{");
         Object[] origCP = null;
-        for (int i = 0; i < patchArray.length; i++) {
-            if (patchArray[i] == null)  continue;
+        for (int i = 0; i < pbtchArrby.length; i++) {
+            if (pbtchArrby[i] == null)  continue;
             if (origCP != null) {
-                buf.append(", ");
+                buf.bppend(", ");
             } else {
                 try {
-                    origCP = getOriginalCP();
-                } catch (InvalidConstantPoolFormatException ee) {
+                    origCP = getOriginblCP();
+                } cbtch (InvblidConstbntPoolFormbtException ee) {
                     origCP = new Object[0];
                 }
             }
             Object orig = (i < origCP.length) ? origCP[i] : "?";
-            buf.append(orig).append("=").append(patchArray[i]);
+            buf.bppend(orig).bppend("=").bppend(pbtchArrby[i]);
         }
-        buf.append("}");
+        buf.bppend("}");
         return buf.toString();
     }
 }

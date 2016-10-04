@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * Interface for an observer to register to receive notifications
- * of changes to a text document.
+ * Interfbce for bn observer to register to receive notificbtions
+ * of chbnges to b text document.
  * <p>
- * The default implementation of
- * the Document interface (AbstractDocument) supports asynchronous
- * mutations.  If this feature is used (i.e. mutations are made
- * from a thread other than the Swing event thread), the listeners
- * will be notified via the mutating thread.  <em>This means that
- * if asynchronous updates are made, the implementation of this
- * interface must be threadsafe</em>!
+ * The defbult implementbtion of
+ * the Document interfbce (AbstrbctDocument) supports bsynchronous
+ * mutbtions.  If this febture is used (i.e. mutbtions bre mbde
+ * from b threbd other thbn the Swing event threbd), the listeners
+ * will be notified vib the mutbting threbd.  <em>This mebns thbt
+ * if bsynchronous updbtes bre mbde, the implementbtion of this
+ * interfbce must be threbdsbfe</em>!
  * <p>
- * The DocumentEvent notification is based upon the JavaBeans
- * event model.  There is no guarantee about the order of delivery
- * to listeners, and all listeners must be notified prior to making
- * further mutations to the Document.  <em>This means implementations
- * of the DocumentListener may not mutate the source of the event
- * (i.e. the associated Document)</em>.
+ * The DocumentEvent notificbtion is bbsed upon the JbvbBebns
+ * event model.  There is no gubrbntee bbout the order of delivery
+ * to listeners, bnd bll listeners must be notified prior to mbking
+ * further mutbtions to the Document.  <em>This mebns implementbtions
+ * of the DocumentListener mby not mutbte the source of the event
+ * (i.e. the bssocibted Document)</em>.
  *
- * @author  Timothy Prinzing
- * @see javax.swing.text.Document
- * @see javax.swing.text.StyledDocument
+ * @buthor  Timothy Prinzing
+ * @see jbvbx.swing.text.Document
+ * @see jbvbx.swing.text.StyledDocument
  * @see DocumentEvent
  */
-public interface DocumentListener extends EventListener {
+public interfbce DocumentListener extends EventListener {
 
     /**
-     * Gives notification that there was an insert into the document.  The
-     * range given by the DocumentEvent bounds the freshly inserted region.
+     * Gives notificbtion thbt there wbs bn insert into the document.  The
+     * rbnge given by the DocumentEvent bounds the freshly inserted region.
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void insertUpdate(DocumentEvent e);
+    public void insertUpdbte(DocumentEvent e);
 
     /**
-     * Gives notification that a portion of the document has been
-     * removed.  The range is given in terms of what the view last
-     * saw (that is, before updating sticky positions).
+     * Gives notificbtion thbt b portion of the document hbs been
+     * removed.  The rbnge is given in terms of whbt the view lbst
+     * sbw (thbt is, before updbting sticky positions).
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void removeUpdate(DocumentEvent e);
+    public void removeUpdbte(DocumentEvent e);
 
     /**
-     * Gives notification that an attribute or set of attributes changed.
+     * Gives notificbtion thbt bn bttribute or set of bttributes chbnged.
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void changedUpdate(DocumentEvent e);
+    public void chbngedUpdbte(DocumentEvent e);
 }

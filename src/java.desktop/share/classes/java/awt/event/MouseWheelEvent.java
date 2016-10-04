@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.awt.Component;
+import jbvb.bwt.Component;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * An event which indicates that the mouse wheel was rotated in a component.
+ * An event which indicbtes thbt the mouse wheel wbs rotbted in b component.
  * <P>
- * A wheel mouse is a mouse which has a wheel in place of the middle button.
- * This wheel can be rotated towards or away from the user.  Mouse wheels are
- * most often used for scrolling, though other uses are possible.
+ * A wheel mouse is b mouse which hbs b wheel in plbce of the middle button.
+ * This wheel cbn be rotbted towbrds or bwby from the user.  Mouse wheels bre
+ * most often used for scrolling, though other uses bre possible.
  * <P>
- * A MouseWheelEvent object is passed to every <code>MouseWheelListener</code>
+ * A MouseWheelEvent object is pbssed to every <code>MouseWheelListener</code>
  * object which registered to receive the "interesting" mouse events using the
- * component's <code>addMouseWheelListener</code> method.  Each such listener
- * object gets a <code>MouseEvent</code> containing the mouse event.
+ * component's <code>bddMouseWheelListener</code> method.  Ebch such listener
+ * object gets b <code>MouseEvent</code> contbining the mouse event.
  * <P>
- * Due to the mouse wheel's special relationship to scrolling Components,
- * MouseWheelEvents are delivered somewhat differently than other MouseEvents.
- * This is because while other MouseEvents usually affect a change on
+ * Due to the mouse wheel's specibl relbtionship to scrolling Components,
+ * MouseWheelEvents bre delivered somewhbt differently thbn other MouseEvents.
+ * This is becbuse while other MouseEvents usublly bffect b chbnge on
  * the Component directly under the mouse
- * cursor (for instance, when clicking a button), MouseWheelEvents often have
- * an effect away from the mouse cursor (moving the wheel while
- * over a Component inside a ScrollPane should scroll one of the
- * Scrollbars on the ScrollPane).
+ * cursor (for instbnce, when clicking b button), MouseWheelEvents often hbve
+ * bn effect bwby from the mouse cursor (moving the wheel while
+ * over b Component inside b ScrollPbne should scroll one of the
+ * Scrollbbrs on the ScrollPbne).
  * <P>
- * MouseWheelEvents start delivery from the Component underneath the
- * mouse cursor.  If MouseWheelEvents are not enabled on the
- * Component, the event is delivered to the first ancestor
- * Container with MouseWheelEvents enabled.  This will usually be
- * a ScrollPane with wheel scrolling enabled.  The source
- * Component and x,y coordinates will be relative to the event's
- * final destination (the ScrollPane).  This allows a complex
- * GUI to be installed without modification into a ScrollPane, and
- * for all MouseWheelEvents to be delivered to the ScrollPane for
+ * MouseWheelEvents stbrt delivery from the Component undernebth the
+ * mouse cursor.  If MouseWheelEvents bre not enbbled on the
+ * Component, the event is delivered to the first bncestor
+ * Contbiner with MouseWheelEvents enbbled.  This will usublly be
+ * b ScrollPbne with wheel scrolling enbbled.  The source
+ * Component bnd x,y coordinbtes will be relbtive to the event's
+ * finbl destinbtion (the ScrollPbne).  This bllows b complex
+ * GUI to be instblled without modificbtion into b ScrollPbne, bnd
+ * for bll MouseWheelEvents to be delivered to the ScrollPbne for
  * scrolling.
  * <P>
- * Some AWT Components are implemented using native widgets which
- * display their own scrollbars and handle their own scrolling.
- * The particular Components for which this is true will vary from
- * platform to platform.  When the mouse wheel is
- * moved over one of these Components, the event is delivered straight to
- * the native widget, and not propagated to ancestors.
+ * Some AWT Components bre implemented using nbtive widgets which
+ * displby their own scrollbbrs bnd hbndle their own scrolling.
+ * The pbrticulbr Components for which this is true will vbry from
+ * plbtform to plbtform.  When the mouse wheel is
+ * moved over one of these Components, the event is delivered strbight to
+ * the nbtive widget, bnd not propbgbted to bncestors.
  * <P>
- * Platforms offer customization of the amount of scrolling that
- * should take place when the mouse wheel is moved.  The two most
- * common settings are to scroll a certain number of "units"
- * (commonly lines of text in a text-based component) or an entire "block"
- * (similar to page-up/page-down).  The MouseWheelEvent offers
- * methods for conforming to the underlying platform settings.  These
- * platform settings can be changed at any time by the user.  MouseWheelEvents
+ * Plbtforms offer customizbtion of the bmount of scrolling thbt
+ * should tbke plbce when the mouse wheel is moved.  The two most
+ * common settings bre to scroll b certbin number of "units"
+ * (commonly lines of text in b text-bbsed component) or bn entire "block"
+ * (similbr to pbge-up/pbge-down).  The MouseWheelEvent offers
+ * methods for conforming to the underlying plbtform settings.  These
+ * plbtform settings cbn be chbnged bt bny time by the user.  MouseWheelEvents
  * reflect the most recent settings.
  * <P>
- * The <code>MouseWheelEvent</code> class includes methods for
- * getting the number of "clicks" by which the mouse wheel is rotated.
- * The {@link #getWheelRotation} method returns the integer number
- * of "clicks" corresponding to the number of notches by which the wheel was
- * rotated. In addition to this method, the <code>MouseWheelEvent</code>
- * class provides the {@link #getPreciseWheelRotation} method which returns
- * a double number of "clicks" in case a partial rotation occurred.
- * The {@link #getPreciseWheelRotation} method is useful if a mouse supports
- * a high-resolution wheel, such as a freely rotating wheel with no
- * notches. Applications can benefit by using this method to process
- * mouse wheel events more precisely, and thus, making visual perception
+ * The <code>MouseWheelEvent</code> clbss includes methods for
+ * getting the number of "clicks" by which the mouse wheel is rotbted.
+ * The {@link #getWheelRotbtion} method returns the integer number
+ * of "clicks" corresponding to the number of notches by which the wheel wbs
+ * rotbted. In bddition to this method, the <code>MouseWheelEvent</code>
+ * clbss provides the {@link #getPreciseWheelRotbtion} method which returns
+ * b double number of "clicks" in cbse b pbrtibl rotbtion occurred.
+ * The {@link #getPreciseWheelRotbtion} method is useful if b mouse supports
+ * b high-resolution wheel, such bs b freely rotbting wheel with no
+ * notches. Applicbtions cbn benefit by using this method to process
+ * mouse wheel events more precisely, bnd thus, mbking visubl perception
  * smoother.
  *
- * @author Brent Christian
+ * @buthor Brent Christibn
  * @see MouseWheelListener
- * @see java.awt.ScrollPane
- * @see java.awt.ScrollPane#setWheelScrollingEnabled(boolean)
- * @see javax.swing.JScrollPane
- * @see javax.swing.JScrollPane#setWheelScrollingEnabled(boolean)
+ * @see jbvb.bwt.ScrollPbne
+ * @see jbvb.bwt.ScrollPbne#setWheelScrollingEnbbled(boolebn)
+ * @see jbvbx.swing.JScrollPbne
+ * @see jbvbx.swing.JScrollPbne#setWheelScrollingEnbbled(boolebn)
  * @since 1.4
  */
 
-public class MouseWheelEvent extends MouseEvent {
+public clbss MouseWheelEvent extends MouseEvent {
 
     /**
-     * Constant representing scrolling by "units" (like scrolling with the
-     * arrow keys)
+     * Constbnt representing scrolling by "units" (like scrolling with the
+     * brrow keys)
      *
      * @see #getScrollType
      */
-    @Native public static final int WHEEL_UNIT_SCROLL = 0;
+    @Nbtive public stbtic finbl int WHEEL_UNIT_SCROLL = 0;
 
     /**
-     * Constant representing scrolling by a "block" (like scrolling
-     * with page-up, page-down keys)
+     * Constbnt representing scrolling by b "block" (like scrolling
+     * with pbge-up, pbge-down keys)
      *
      * @see #getScrollType
      */
-    @Native public static final int WHEEL_BLOCK_SCROLL = 1;
+    @Nbtive public stbtic finbl int WHEEL_BLOCK_SCROLL = 1;
 
     /**
-     * Indicates what sort of scrolling should take place in response to this
-     * event, based on platform settings.  Legal values are:
+     * Indicbtes whbt sort of scrolling should tbke plbce in response to this
+     * event, bbsed on plbtform settings.  Legbl vblues bre:
      * <ul>
      * <li> WHEEL_UNIT_SCROLL
      * <li> WHEEL_BLOCK_SCROLL
@@ -130,9 +130,9 @@ public class MouseWheelEvent extends MouseEvent {
     int scrollType;
 
     /**
-     * Only valid for scrollType WHEEL_UNIT_SCROLL.
-     * Indicates number of units that should be scrolled per
-     * click of mouse wheel rotation, based on platform settings.
+     * Only vblid for scrollType WHEEL_UNIT_SCROLL.
+     * Indicbtes number of units thbt should be scrolled per
+     * click of mouse wheel rotbtion, bbsed on plbtform settings.
      *
      * @see #getScrollAmount
      * @see #getScrollType
@@ -140,202 +140,202 @@ public class MouseWheelEvent extends MouseEvent {
     int scrollAmount;
 
     /**
-     * Indicates how far the mouse wheel was rotated.
+     * Indicbtes how fbr the mouse wheel wbs rotbted.
      *
-     * @see #getWheelRotation
+     * @see #getWheelRotbtion
      */
-    int wheelRotation;
+    int wheelRotbtion;
 
     /**
-     * Indicates how far the mouse wheel was rotated.
+     * Indicbtes how fbr the mouse wheel wbs rotbted.
      *
-     * @see #getPreciseWheelRotation
+     * @see #getPreciseWheelRotbtion
      */
-    double preciseWheelRotation;
+    double preciseWheelRotbtion;
 
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
 
-    private static final long serialVersionUID = 6459879390515399677L;
+    privbte stbtic finbl long seriblVersionUID = 6459879390515399677L;
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the
-     * specified source component, type, modifiers, coordinates,
-     * scroll type, scroll amount, and wheel rotation.
-     * <p>Absolute coordinates xAbs and yAbs are set to source's location on screen plus
-     * relative coordinates x and y. xAbs and yAbs are set to zero if the source is not showing.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs b <code>MouseWheelEvent</code> object with the
+     * specified source component, type, modifiers, coordinbtes,
+     * scroll type, scroll bmount, bnd wheel rotbtion.
+     * <p>Absolute coordinbtes xAbs bnd yAbs bre set to source's locbtion on screen plus
+     * relbtive coordinbtes x bnd y. xAbs bnd yAbs bre set to zero if the source is not showing.
+     * <p>Note thbt pbssing in bn invblid <code>id</code> results in
+     * unspecified behbvior. This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source         the <code>Component</code> that originated
+     * @pbrbm source         the <code>Component</code> thbt originbted
      *                       the event
-     * @param id             the integer that identifies the event
-     * @param when           a long that gives the time the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal x coordinate for the mouse location
-     * @param y              the vertical y coordinate for the mouse location
-     * @param clickCount     the number of mouse clicks associated with event
-     * @param popupTrigger   a boolean, true if this event is a trigger for a
+     * @pbrbm id             the integer thbt identifies the event
+     * @pbrbm when           b long thbt gives the time the event occurred
+     * @pbrbm modifiers      the modifier keys down during event
+     *                       (shift, ctrl, blt, metb)
+     * @pbrbm x              the horizontbl x coordinbte for the mouse locbtion
+     * @pbrbm y              the verticbl y coordinbte for the mouse locbtion
+     * @pbrbm clickCount     the number of mouse clicks bssocibted with event
+     * @pbrbm popupTrigger   b boolebn, true if this event is b trigger for b
      *                       popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
+     * @pbrbm scrollType     the type of scrolling which should tbke plbce in
+     *                       response to this event;  vblid vblues bre
+     *                       <code>WHEEL_UNIT_SCROLL</code> bnd
      *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
+     * @pbrbm  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
      *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse
-     *                       wheel was rotated
+     * @pbrbm wheelRotbtion  the integer number of "clicks" by which the mouse
+     *                       wheel wbs rotbted
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
+     * @throws IllegblArgumentException if <code>source</code> is null
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, boolebn)
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, int, int, boolebn, int)
      */
     public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger,
-                      int scrollType, int scrollAmount, int wheelRotation) {
+                      int x, int y, int clickCount, boolebn popupTrigger,
+                      int scrollType, int scrollAmount, int wheelRotbtion) {
 
         this(source, id, when, modifiers, x, y, 0, 0, clickCount,
-             popupTrigger, scrollType, scrollAmount, wheelRotation);
+             popupTrigger, scrollType, scrollAmount, wheelRotbtion);
     }
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the
-     * specified source component, type, modifiers, coordinates,
-     * absolute coordinates, scroll type, scroll amount, and wheel rotation.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs b <code>MouseWheelEvent</code> object with the
+     * specified source component, type, modifiers, coordinbtes,
+     * bbsolute coordinbtes, scroll type, scroll bmount, bnd wheel rotbtion.
+     * <p>Note thbt pbssing in bn invblid <code>id</code> results in
+     * unspecified behbvior. This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.<p>
-     * Even if inconsistent values for relative and absolute coordinates are
-     * passed to the constructor, the MouseWheelEvent instance is still
-     * created and no exception is thrown.
+     * Even if inconsistent vblues for relbtive bnd bbsolute coordinbtes bre
+     * pbssed to the constructor, the MouseWheelEvent instbnce is still
+     * crebted bnd no exception is thrown.
      *
-     * @param source         the <code>Component</code> that originated
+     * @pbrbm source         the <code>Component</code> thbt originbted
      *                       the event
-     * @param id             the integer that identifies the event
-     * @param when           a long that gives the time the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal x coordinate for the mouse location
-     * @param y              the vertical y coordinate for the mouse location
-     * @param xAbs           the absolute horizontal x coordinate for the mouse location
-     * @param yAbs           the absolute vertical y coordinate for the mouse location
-     * @param clickCount     the number of mouse clicks associated with event
-     * @param popupTrigger   a boolean, true if this event is a trigger for a
+     * @pbrbm id             the integer thbt identifies the event
+     * @pbrbm when           b long thbt gives the time the event occurred
+     * @pbrbm modifiers      the modifier keys down during event
+     *                       (shift, ctrl, blt, metb)
+     * @pbrbm x              the horizontbl x coordinbte for the mouse locbtion
+     * @pbrbm y              the verticbl y coordinbte for the mouse locbtion
+     * @pbrbm xAbs           the bbsolute horizontbl x coordinbte for the mouse locbtion
+     * @pbrbm yAbs           the bbsolute verticbl y coordinbte for the mouse locbtion
+     * @pbrbm clickCount     the number of mouse clicks bssocibted with event
+     * @pbrbm popupTrigger   b boolebn, true if this event is b trigger for b
      *                       popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
+     * @pbrbm scrollType     the type of scrolling which should tbke plbce in
+     *                       response to this event;  vblid vblues bre
+     *                       <code>WHEEL_UNIT_SCROLL</code> bnd
      *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
+     * @pbrbm  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
      *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse
-     *                       wheel was rotated
+     * @pbrbm wheelRotbtion  the integer number of "clicks" by which the mouse
+     *                       wheel wbs rotbted
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
+     * @throws IllegblArgumentException if <code>source</code> is null
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, boolebn)
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, int, int, boolebn, int)
      * @since 1.6
      */
     public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                            int x, int y, int xAbs, int yAbs, int clickCount, boolean popupTrigger,
-                            int scrollType, int scrollAmount, int wheelRotation) {
+                            int x, int y, int xAbs, int yAbs, int clickCount, boolebn popupTrigger,
+                            int scrollType, int scrollAmount, int wheelRotbtion) {
 
         this(source, id, when, modifiers, x, y, xAbs, yAbs, clickCount, popupTrigger,
-             scrollType, scrollAmount, wheelRotation, wheelRotation);
+             scrollType, scrollAmount, wheelRotbtion, wheelRotbtion);
 
     }
 
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the specified
-     * source component, type, modifiers, coordinates, absolute coordinates,
-     * scroll type, scroll amount, and wheel rotation.
-     * <p>Note that passing in an invalid <code>id</code> parameter results
-     * in unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code> equals
+     * Constructs b <code>MouseWheelEvent</code> object with the specified
+     * source component, type, modifiers, coordinbtes, bbsolute coordinbtes,
+     * scroll type, scroll bmount, bnd wheel rotbtion.
+     * <p>Note thbt pbssing in bn invblid <code>id</code> pbrbmeter results
+     * in unspecified behbvior. This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code> equbls
      * <code>null</code>.
-     * <p>Even if inconsistent values for relative and absolute coordinates
-     * are passed to the constructor, a <code>MouseWheelEvent</code> instance
-     * is still created and no exception is thrown.
+     * <p>Even if inconsistent vblues for relbtive bnd bbsolute coordinbtes
+     * bre pbssed to the constructor, b <code>MouseWheelEvent</code> instbnce
+     * is still crebted bnd no exception is thrown.
      *
-     * @param source         the <code>Component</code> that originated the event
-     * @param id             the integer value that identifies the event
-     * @param when           a long value that gives the time when the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal <code>x</code> coordinate for the
-     *                       mouse location
-     * @param y              the vertical <code>y</code> coordinate for the
-     *                       mouse location
-     * @param xAbs           the absolute horizontal <code>x</code> coordinate for
-     *                       the mouse location
-     * @param yAbs           the absolute vertical <code>y</code> coordinate for
-     *                       the mouse location
-     * @param clickCount     the number of mouse clicks associated with the event
-     * @param popupTrigger   a boolean value, <code>true</code> if this event is a trigger
-     *                       for a popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
+     * @pbrbm source         the <code>Component</code> thbt originbted the event
+     * @pbrbm id             the integer vblue thbt identifies the event
+     * @pbrbm when           b long vblue thbt gives the time when the event occurred
+     * @pbrbm modifiers      the modifier keys down during event
+     *                       (shift, ctrl, blt, metb)
+     * @pbrbm x              the horizontbl <code>x</code> coordinbte for the
+     *                       mouse locbtion
+     * @pbrbm y              the verticbl <code>y</code> coordinbte for the
+     *                       mouse locbtion
+     * @pbrbm xAbs           the bbsolute horizontbl <code>x</code> coordinbte for
+     *                       the mouse locbtion
+     * @pbrbm yAbs           the bbsolute verticbl <code>y</code> coordinbte for
+     *                       the mouse locbtion
+     * @pbrbm clickCount     the number of mouse clicks bssocibted with the event
+     * @pbrbm popupTrigger   b boolebn vblue, <code>true</code> if this event is b trigger
+     *                       for b popup-menu
+     * @pbrbm scrollType     the type of scrolling which should tbke plbce in
+     *                       response to this event;  vblid vblues bre
+     *                       <code>WHEEL_UNIT_SCROLL</code> bnd
      *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
+     * @pbrbm  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
      *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse wheel
-     *                       was rotated
-     * @param preciseWheelRotation the double number of "clicks" by which the mouse wheel
-     *                       was rotated
+     * @pbrbm wheelRotbtion  the integer number of "clicks" by which the mouse wheel
+     *                       wbs rotbted
+     * @pbrbm preciseWheelRotbtion the double number of "clicks" by which the mouse wheel
+     *                       wbs rotbted
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
+     * @throws IllegblArgumentException if <code>source</code> is null
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, boolebn)
+     * @see MouseEvent#MouseEvent(jbvb.bwt.Component, int, long, int, int, int, int, int, int, boolebn, int)
      * @since 1.7
      */
     public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                            int x, int y, int xAbs, int yAbs, int clickCount, boolean popupTrigger,
-                            int scrollType, int scrollAmount, int wheelRotation, double preciseWheelRotation) {
+                            int x, int y, int xAbs, int yAbs, int clickCount, boolebn popupTrigger,
+                            int scrollType, int scrollAmount, int wheelRotbtion, double preciseWheelRotbtion) {
 
         super(source, id, when, modifiers, x, y, xAbs, yAbs, clickCount,
               popupTrigger, MouseEvent.NOBUTTON);
 
         this.scrollType = scrollType;
         this.scrollAmount = scrollAmount;
-        this.wheelRotation = wheelRotation;
-        this.preciseWheelRotation = preciseWheelRotation;
+        this.wheelRotbtion = wheelRotbtion;
+        this.preciseWheelRotbtion = preciseWheelRotbtion;
 
     }
 
     /**
-     * Returns the type of scrolling that should take place in response to this
-     * event.  This is determined by the native platform.  Legal values are:
+     * Returns the type of scrolling thbt should tbke plbce in response to this
+     * event.  This is determined by the nbtive plbtform.  Legbl vblues bre:
      * <ul>
      * <li> MouseWheelEvent.WHEEL_UNIT_SCROLL
      * <li> MouseWheelEvent.WHEEL_BLOCK_SCROLL
      * </ul>
      *
      * @return either MouseWheelEvent.WHEEL_UNIT_SCROLL or
-     *  MouseWheelEvent.WHEEL_BLOCK_SCROLL, depending on the configuration of
-     *  the native platform.
-     * @see java.awt.Adjustable#getUnitIncrement
-     * @see java.awt.Adjustable#getBlockIncrement
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement
-     * @see javax.swing.Scrollable#getScrollableBlockIncrement
+     *  MouseWheelEvent.WHEEL_BLOCK_SCROLL, depending on the configurbtion of
+     *  the nbtive plbtform.
+     * @see jbvb.bwt.Adjustbble#getUnitIncrement
+     * @see jbvb.bwt.Adjustbble#getBlockIncrement
+     * @see jbvbx.swing.Scrollbble#getScrollbbleUnitIncrement
+     * @see jbvbx.swing.Scrollbble#getScrollbbleBlockIncrement
      */
     public int getScrollType() {
         return scrollType;
     }
 
     /**
-     * Returns the number of units that should be scrolled per
-     * click of mouse wheel rotation.
-     * Only valid if <code>getScrollType</code> returns
+     * Returns the number of units thbt should be scrolled per
+     * click of mouse wheel rotbtion.
+     * Only vblid if <code>getScrollType</code> returns
      * <code>MouseWheelEvent.WHEEL_UNIT_SCROLL</code>
      *
-     * @return number of units to scroll, or an undefined value if
+     * @return number of units to scroll, or bn undefined vblue if
      *  <code>getScrollType</code> returns
      *  <code>MouseWheelEvent.WHEEL_BLOCK_SCROLL</code>
      * @see #getScrollType
@@ -345,92 +345,92 @@ public class MouseWheelEvent extends MouseEvent {
     }
 
     /**
-     * Returns the number of "clicks" the mouse wheel was rotated, as an integer.
-     * A partial rotation may occur if the mouse supports a high-resolution wheel.
-     * In this case, the method returns zero until a full "click" has been accumulated.
+     * Returns the number of "clicks" the mouse wheel wbs rotbted, bs bn integer.
+     * A pbrtibl rotbtion mby occur if the mouse supports b high-resolution wheel.
+     * In this cbse, the method returns zero until b full "click" hbs been bccumulbted.
      *
-     * @return negative values if the mouse wheel was rotated up/away from
-     * the user, and positive values if the mouse wheel was rotated down/
-     * towards the user
-     * @see #getPreciseWheelRotation
+     * @return negbtive vblues if the mouse wheel wbs rotbted up/bwby from
+     * the user, bnd positive vblues if the mouse wheel wbs rotbted down/
+     * towbrds the user
+     * @see #getPreciseWheelRotbtion
      */
-    public int getWheelRotation() {
-        return wheelRotation;
+    public int getWheelRotbtion() {
+        return wheelRotbtion;
     }
 
     /**
-     * Returns the number of "clicks" the mouse wheel was rotated, as a double.
-     * A partial rotation may occur if the mouse supports a high-resolution wheel.
-     * In this case, the return value will include a fractional "click".
+     * Returns the number of "clicks" the mouse wheel wbs rotbted, bs b double.
+     * A pbrtibl rotbtion mby occur if the mouse supports b high-resolution wheel.
+     * In this cbse, the return vblue will include b frbctionbl "click".
      *
-     * @return negative values if the mouse wheel was rotated up or away from
-     * the user, and positive values if the mouse wheel was rotated down or
-     * towards the user
-     * @see #getWheelRotation
+     * @return negbtive vblues if the mouse wheel wbs rotbted up or bwby from
+     * the user, bnd positive vblues if the mouse wheel wbs rotbted down or
+     * towbrds the user
+     * @see #getWheelRotbtion
      * @since 1.7
      */
-    public double getPreciseWheelRotation() {
-        return preciseWheelRotation;
+    public double getPreciseWheelRotbtion() {
+        return preciseWheelRotbtion;
     }
 
     /**
-     * This is a convenience method to aid in the implementation of
-     * the common-case MouseWheelListener - to scroll a ScrollPane or
-     * JScrollPane by an amount which conforms to the platform settings.
-     * (Note, however, that <code>ScrollPane</code> and
-     * <code>JScrollPane</code> already have this functionality built in.)
+     * This is b convenience method to bid in the implementbtion of
+     * the common-cbse MouseWheelListener - to scroll b ScrollPbne or
+     * JScrollPbne by bn bmount which conforms to the plbtform settings.
+     * (Note, however, thbt <code>ScrollPbne</code> bnd
+     * <code>JScrollPbne</code> blrebdy hbve this functionblity built in.)
      * <P>
      * This method returns the number of units to scroll when scroll type is
-     * MouseWheelEvent.WHEEL_UNIT_SCROLL, and should only be called if
+     * MouseWheelEvent.WHEEL_UNIT_SCROLL, bnd should only be cblled if
      * <code>getScrollType</code> returns MouseWheelEvent.WHEEL_UNIT_SCROLL.
      * <P>
-     * Direction of scroll, amount of wheel movement,
-     * and platform settings for wheel scrolling are all accounted for.
-     * This method does not and cannot take into account value of the
-     * Adjustable/Scrollable unit increment, as this will vary among
+     * Direction of scroll, bmount of wheel movement,
+     * bnd plbtform settings for wheel scrolling bre bll bccounted for.
+     * This method does not bnd cbnnot tbke into bccount vblue of the
+     * Adjustbble/Scrollbble unit increment, bs this will vbry bmong
      * scrolling components.
      * <P>
-     * A simplified example of how this method might be used in a
+     * A simplified exbmple of how this method might be used in b
      * listener:
      * <pre>
      *  mouseWheelMoved(MouseWheelEvent event) {
-     *      ScrollPane sp = getScrollPaneFromSomewhere();
-     *      Adjustable adj = sp.getVAdjustable()
+     *      ScrollPbne sp = getScrollPbneFromSomewhere();
+     *      Adjustbble bdj = sp.getVAdjustbble()
      *      if (MouseWheelEvent.getScrollType() == WHEEL_UNIT_SCROLL) {
-     *          int totalScrollAmount =
+     *          int totblScrollAmount =
      *              event.getUnitsToScroll() *
-     *              adj.getUnitIncrement();
-     *          adj.setValue(adj.getValue() + totalScrollAmount);
+     *              bdj.getUnitIncrement();
+     *          bdj.setVblue(bdj.getVblue() + totblScrollAmount);
      *      }
      *  }
      * </pre>
      *
-     * @return the number of units to scroll based on the direction and amount
-     *  of mouse wheel rotation, and on the wheel scrolling settings of the
-     *  native platform
+     * @return the number of units to scroll bbsed on the direction bnd bmount
+     *  of mouse wheel rotbtion, bnd on the wheel scrolling settings of the
+     *  nbtive plbtform
      * @see #getScrollType
      * @see #getScrollAmount
      * @see MouseWheelListener
-     * @see java.awt.Adjustable
-     * @see java.awt.Adjustable#getUnitIncrement
-     * @see javax.swing.Scrollable
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement
-     * @see java.awt.ScrollPane
-     * @see java.awt.ScrollPane#setWheelScrollingEnabled
-     * @see javax.swing.JScrollPane
-     * @see javax.swing.JScrollPane#setWheelScrollingEnabled
+     * @see jbvb.bwt.Adjustbble
+     * @see jbvb.bwt.Adjustbble#getUnitIncrement
+     * @see jbvbx.swing.Scrollbble
+     * @see jbvbx.swing.Scrollbble#getScrollbbleUnitIncrement
+     * @see jbvb.bwt.ScrollPbne
+     * @see jbvb.bwt.ScrollPbne#setWheelScrollingEnbbled
+     * @see jbvbx.swing.JScrollPbne
+     * @see jbvbx.swing.JScrollPbne#setWheelScrollingEnbbled
      */
     public int getUnitsToScroll() {
-        return scrollAmount * wheelRotation;
+        return scrollAmount * wheelRotbtion;
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Returns b pbrbmeter string identifying this event.
+     * This method is useful for event-logging bnd for debugging.
      *
-     * @return a string identifying the event and its attributes
+     * @return b string identifying the event bnd its bttributes
      */
-    public String paramString() {
+    public String pbrbmString() {
         String scrollTypeStr = null;
 
         if (getScrollType() == WHEEL_UNIT_SCROLL) {
@@ -442,8 +442,8 @@ public class MouseWheelEvent extends MouseEvent {
         else {
             scrollTypeStr = "unknown scroll type";
         }
-        return super.paramString()+",scrollType="+scrollTypeStr+
-         ",scrollAmount="+getScrollAmount()+",wheelRotation="+
-         getWheelRotation()+",preciseWheelRotation="+getPreciseWheelRotation();
+        return super.pbrbmString()+",scrollType="+scrollTypeStr+
+         ",scrollAmount="+getScrollAmount()+",wheelRotbtion="+
+         getWheelRotbtion()+",preciseWheelRotbtion="+getPreciseWheelRotbtion();
     }
 }

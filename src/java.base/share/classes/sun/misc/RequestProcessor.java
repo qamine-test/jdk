@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * The request processor allows functors (Request instances) to be created
- * in arbitrary threads, and to be posted for execution in a non-restricted
- * thread.
+ * The request processor bllows functors (Request instbnces) to be crebted
+ * in brbitrbry threbds, bnd to be posted for execution in b non-restricted
+ * threbd.
  *
- * @author      Steven B. Byrne
+ * @buthor      Steven B. Byrne
  */
 
 
-public class RequestProcessor implements Runnable {
+public clbss RequestProcessor implements Runnbble {
 
-    private static Queue<Request> requestQueue;
-    private static Thread dispatcher;
+    privbte stbtic Queue<Request> requestQueue;
+    privbte stbtic Threbd dispbtcher;
 
     /**
-     * Queues a Request instance for execution by the request procesor
-     * thread.
+     * Queues b Request instbnce for execution by the request procesor
+     * threbd.
      */
-    public static void postRequest(Request req) {
-        lazyInitialize();
+    public stbtic void postRequest(Request req) {
+        lbzyInitiblize();
         requestQueue.enqueue(req);
     }
 
     /**
-     * Process requests as they are queued.
+     * Process requests bs they bre queued.
      */
     public void run() {
-        lazyInitialize();
+        lbzyInitiblize();
         while (true) {
             try {
                 Request req = requestQueue.dequeue();
                 try {
                     req.execute();
-                } catch (Throwable t) {
-                    // do nothing at the moment...maybe report an error
+                } cbtch (Throwbble t) {
+                    // do nothing bt the moment...mbybe report bn error
                     // in the future
                 }
-            } catch (InterruptedException e) {
-                // do nothing at the present time.
+            } cbtch (InterruptedException e) {
+                // do nothing bt the present time.
             }
         }
     }
 
 
     /**
-     * This method initiates the request processor thread.  It is safe
-     * to call it after the thread has been started.  It provides a way for
-     * clients to deliberately control the context in which the request
-     * processor thread is created
+     * This method initibtes the request processor threbd.  It is sbfe
+     * to cbll it bfter the threbd hbs been stbrted.  It provides b wby for
+     * clients to deliberbtely control the context in which the request
+     * processor threbd is crebted
      */
-    public static synchronized void startProcessing() {
-        if (dispatcher == null) {
-            dispatcher = new Thread(new RequestProcessor(), "Request Processor");
-            dispatcher.setPriority(Thread.NORM_PRIORITY + 2);
-            dispatcher.start();
+    public stbtic synchronized void stbrtProcessing() {
+        if (dispbtcher == null) {
+            dispbtcher = new Threbd(new RequestProcessor(), "Request Processor");
+            dispbtcher.setPriority(Threbd.NORM_PRIORITY + 2);
+            dispbtcher.stbrt();
         }
     }
 
 
     /**
-     * This method performs lazy initialization.
+     * This method performs lbzy initiblizbtion.
      */
-    private static synchronized void lazyInitialize() {
+    privbte stbtic synchronized void lbzyInitiblize() {
         if (requestQueue == null) {
             requestQueue = new Queue<Request>();
         }

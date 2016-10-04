@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.datatransfer;
+pbckbge sun.bwt.dbtbtrbnsfer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * Reads all of the data from the system Clipboard which the data transfer
- * subsystem knows how to translate. This includes all text data, File Lists,
- * Serializable objects, Remote objects, and properly registered, arbitrary
- * data as InputStreams. The data is stored in byte format until requested
- * by client code. At that point, the data is converted, if necessary, into
- * the proper format to deliver to the application.
+ * Rebds bll of the dbtb from the system Clipbobrd which the dbtb trbnsfer
+ * subsystem knows how to trbnslbte. This includes bll text dbtb, File Lists,
+ * Seriblizbble objects, Remote objects, bnd properly registered, brbitrbry
+ * dbtb bs InputStrebms. The dbtb is stored in byte formbt until requested
+ * by client code. At thbt point, the dbtb is converted, if necessbry, into
+ * the proper formbt to deliver to the bpplicbtion.
  *
- * This hybrid pre-fetch/delayed-rendering approach allows us to circumvent
- * the API restriction that client code cannot lock the Clipboard to discover
- * its formats before requesting data in a particular format, while avoiding
- * the overhead of fully rendering all data ahead of time.
+ * This hybrid pre-fetch/delbyed-rendering bpprobch bllows us to circumvent
+ * the API restriction thbt client code cbnnot lock the Clipbobrd to discover
+ * its formbts before requesting dbtb in b pbrticulbr formbt, while bvoiding
+ * the overhebd of fully rendering bll dbtb bhebd of time.
  *
- * @author David Mendenhall
- * @author Danila Sinopalnikov
+ * @buthor Dbvid Mendenhbll
+ * @buthor Dbnilb Sinopblnikov
  *
- * @since 1.4 (appeared in modified form as FullyRenderedTransferable in 1.3.1)
+ * @since 1.4 (bppebred in modified form bs FullyRenderedTrbnsferbble in 1.3.1)
  */
-public class ClipboardTransferable implements Transferable {
-    private final Map<DataFlavor, Object> flavorsToData = new HashMap<>();
-    private DataFlavor[] flavors = new DataFlavor[0];
+public clbss ClipbobrdTrbnsferbble implements Trbnsferbble {
+    privbte finbl Mbp<DbtbFlbvor, Object> flbvorsToDbtb = new HbshMbp<>();
+    privbte DbtbFlbvor[] flbvors = new DbtbFlbvor[0];
 
-    private final class DataFactory {
-        final long format;
-        final byte[] data;
-        DataFactory(long format, byte[] data) {
-            this.format = format;
-            this.data   = data;
+    privbte finbl clbss DbtbFbctory {
+        finbl long formbt;
+        finbl byte[] dbtb;
+        DbtbFbctory(long formbt, byte[] dbtb) {
+            this.formbt = formbt;
+            this.dbtb   = dbtb;
         }
 
-        public Object getTransferData(DataFlavor flavor) throws IOException {
-            return DataTransferer.getInstance().
-                translateBytes(data, flavor, format,
-                               ClipboardTransferable.this);
+        public Object getTrbnsferDbtb(DbtbFlbvor flbvor) throws IOException {
+            return DbtbTrbnsferer.getInstbnce().
+                trbnslbteBytes(dbtb, flbvor, formbt,
+                               ClipbobrdTrbnsferbble.this);
         }
     }
 
-    public ClipboardTransferable(SunClipboard clipboard) {
+    public ClipbobrdTrbnsferbble(SunClipbobrd clipbobrd) {
 
-        clipboard.openClipboard(null);
+        clipbobrd.openClipbobrd(null);
 
         try {
-            long[] formats = clipboard.getClipboardFormats();
+            long[] formbts = clipbobrd.getClipbobrdFormbts();
 
-            if (formats != null && formats.length > 0) {
-                // Since the SystemFlavorMap will specify many DataFlavors
-                // which map to the same format, we should cache data as we
-                // read it.
-                Map<Long, Object> cached_data = new HashMap<>(formats.length, 1.0f);
-                DataTransferer.getInstance()
-                        .getFlavorsForFormats(formats, SunClipboard.getDefaultFlavorTable())
+            if (formbts != null && formbts.length > 0) {
+                // Since the SystemFlbvorMbp will specify mbny DbtbFlbvors
+                // which mbp to the sbme formbt, we should cbche dbtb bs we
+                // rebd it.
+                Mbp<Long, Object> cbched_dbtb = new HbshMbp<>(formbts.length, 1.0f);
+                DbtbTrbnsferer.getInstbnce()
+                        .getFlbvorsForFormbts(formbts, SunClipbobrd.getDefbultFlbvorTbble())
                         .entrySet()
-                        .forEach(entry -> fetchOneFlavor(clipboard, entry.getKey(), entry.getValue(), cached_data));
-                flavors = DataTransferer.setToSortedDataFlavorArray(flavorsToData.keySet());
+                        .forEbch(entry -> fetchOneFlbvor(clipbobrd, entry.getKey(), entry.getVblue(), cbched_dbtb));
+                flbvors = DbtbTrbnsferer.setToSortedDbtbFlbvorArrby(flbvorsToDbtb.keySet());
 
             }
-        } finally {
-            clipboard.closeClipboard();
+        } finblly {
+            clipbobrd.closeClipbobrd();
         }
     }
 
-    private boolean fetchOneFlavor(SunClipboard clipboard, DataFlavor flavor,
-                                   long format, Map<Long, Object> cached_data)
+    privbte boolebn fetchOneFlbvor(SunClipbobrd clipbobrd, DbtbFlbvor flbvor,
+                                   long formbt, Mbp<Long, Object> cbched_dbtb)
     {
-        if (!flavorsToData.containsKey(flavor)) {
-            Object data = null;
+        if (!flbvorsToDbtb.contbinsKey(flbvor)) {
+            Object dbtb = null;
 
-            if (!cached_data.containsKey(format)) {
+            if (!cbched_dbtb.contbinsKey(formbt)) {
                 try {
-                    data = clipboard.getClipboardData(format);
-                } catch (IOException e) {
-                    data = e;
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                    dbtb = clipbobrd.getClipbobrdDbtb(formbt);
+                } cbtch (IOException e) {
+                    dbtb = e;
+                } cbtch (Throwbble e) {
+                    e.printStbckTrbce();
                 }
 
-                // Cache this data, even if it's null, so we don't have to go
-                // to native code again for this format.
-                cached_data.put(format, data);
+                // Cbche this dbtb, even if it's null, so we don't hbve to go
+                // to nbtive code bgbin for this formbt.
+                cbched_dbtb.put(formbt, dbtb);
             } else {
-                data = cached_data.get(format);
+                dbtb = cbched_dbtb.get(formbt);
             }
 
-            // Casting IOException to byte array causes ClassCastException.
-            // We should handle IOException separately - do not wrap them into
-            // DataFactory and report failure.
-            if (data instanceof IOException) {
-                flavorsToData.put(flavor, data);
-                return false;
-            } else if (data != null) {
-                flavorsToData.put(flavor, new DataFactory(format, (byte[])data));
+            // Cbsting IOException to byte brrby cbuses ClbssCbstException.
+            // We should hbndle IOException sepbrbtely - do not wrbp them into
+            // DbtbFbctory bnd report fbilure.
+            if (dbtb instbnceof IOException) {
+                flbvorsToDbtb.put(flbvor, dbtb);
+                return fblse;
+            } else if (dbtb != null) {
+                flbvorsToDbtb.put(flbvor, new DbtbFbctory(formbt, (byte[])dbtb));
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     @Override
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors.clone();
+    public DbtbFlbvor[] getTrbnsferDbtbFlbvors() {
+        return flbvors.clone();
     }
 
     @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavorsToData.containsKey(flavor);
+    public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor) {
+        return flbvorsToDbtb.contbinsKey(flbvor);
     }
 
     @Override
-    public Object getTransferData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException
+    public Object getTrbnsferDbtb(DbtbFlbvor flbvor)
+        throws UnsupportedFlbvorException, IOException
     {
-        if (!isDataFlavorSupported(flavor)) {
-            throw new UnsupportedFlavorException(flavor);
+        if (!isDbtbFlbvorSupported(flbvor)) {
+            throw new UnsupportedFlbvorException(flbvor);
         }
-        Object ret = flavorsToData.get(flavor);
-        if (ret instanceof IOException) {
-            // rethrow IOExceptions generated while fetching data
-            throw new IOException("Exception fetching data: ", (IOException)ret);
-        } else if (ret instanceof DataFactory) {
-            // Now we can render the data
-            DataFactory factory = (DataFactory)ret;
-            ret = factory.getTransferData(flavor);
+        Object ret = flbvorsToDbtb.get(flbvor);
+        if (ret instbnceof IOException) {
+            // rethrow IOExceptions generbted while fetching dbtb
+            throw new IOException("Exception fetching dbtb: ", (IOException)ret);
+        } else if (ret instbnceof DbtbFbctory) {
+            // Now we cbn render the dbtb
+            DbtbFbctory fbctory = (DbtbFbctory)ret;
+            ret = fbctory.getTrbnsferDbtb(flbvor);
         }
         return ret;
     }

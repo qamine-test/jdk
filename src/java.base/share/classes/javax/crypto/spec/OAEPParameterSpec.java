@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.math.BigInteger;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.MGF1ParameterSpec;
+import jbvb.mbth.BigInteger;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.MGF1PbrbmeterSpec;
 
 /**
- * This class specifies the set of parameters used with OAEP Padding,
- * as defined in the
- * <a href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1</a>
- * standard.
+ * This clbss specifies the set of pbrbmeters used with OAEP Pbdding,
+ * bs defined in the
+ * <b href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1</b>
+ * stbndbrd.
  *
- * Its ASN.1 definition in PKCS#1 standard is described below:
+ * Its ASN.1 definition in PKCS#1 stbndbrd is described below:
  * <pre>
- * RSAES-OAEP-params ::= SEQUENCE {
- *   hashAlgorithm      [0] OAEP-PSSDigestAlgorithms     DEFAULT sha1,
- *   maskGenAlgorithm   [1] PKCS1MGFAlgorithms  DEFAULT mgf1SHA1,
+ * RSAES-OAEP-pbrbms ::= SEQUENCE {
+ *   hbshAlgorithm      [0] OAEP-PSSDigestAlgorithms     DEFAULT shb1,
+ *   mbskGenAlgorithm   [1] PKCS1MGFAlgorithms  DEFAULT mgf1SHA1,
  *   pSourceAlgorithm   [2] PKCS1PSourceAlgorithms  DEFAULT pSpecifiedEmpty
  * }
  * </pre>
  * where
  * <pre>
  * OAEP-PSSDigestAlgorithms    ALGORITHM-IDENTIFIER ::= {
- *   { OID id-sha1 PARAMETERS NULL   }|
- *   { OID id-sha256 PARAMETERS NULL }|
- *   { OID id-sha384 PARAMETERS NULL }|
- *   { OID id-sha512 PARAMETERS NULL },
- *   ...  -- Allows for future expansion --
+ *   { OID id-shb1 PARAMETERS NULL   }|
+ *   { OID id-shb256 PARAMETERS NULL }|
+ *   { OID id-shb384 PARAMETERS NULL }|
+ *   { OID id-shb512 PARAMETERS NULL },
+ *   ...  -- Allows for future expbnsion --
  * }
  * PKCS1MGFAlgorithms    ALGORITHM-IDENTIFIER ::= {
  *   { OID id-mgf1 PARAMETERS OAEP-PSSDigestAlgorithms },
- *   ...  -- Allows for future expansion --
+ *   ...  -- Allows for future expbnsion --
  * }
  * PKCS1PSourceAlgorithms    ALGORITHM-IDENTIFIER ::= {
  *   { OID id-pSpecified PARAMETERS OCTET STRING },
- *   ...  -- Allows for future expansion --
+ *   ...  -- Allows for future expbnsion --
  * }
  * </pre>
- * <p>Note: the OAEPParameterSpec.DEFAULT uses the following:
- *     message digest  -- "SHA-1"
- *     mask generation function (mgf) -- "MGF1"
- *     parameters for mgf -- MGF1ParameterSpec.SHA1
+ * <p>Note: the OAEPPbrbmeterSpec.DEFAULT uses the following:
+ *     messbge digest  -- "SHA-1"
+ *     mbsk generbtion function (mgf) -- "MGF1"
+ *     pbrbmeters for mgf -- MGF1PbrbmeterSpec.SHA1
  *     source of encoding input -- PSource.PSpecified.DEFAULT
  *
- * @see java.security.spec.MGF1ParameterSpec
+ * @see jbvb.security.spec.MGF1PbrbmeterSpec
  * @see PSource
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  * @since 1.5
  */
-public class OAEPParameterSpec implements AlgorithmParameterSpec {
+public clbss OAEPPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private String mdName = "SHA-1";
-    private String mgfName = "MGF1";
-    private AlgorithmParameterSpec mgfSpec = MGF1ParameterSpec.SHA1;
-    private PSource pSrc = PSource.PSpecified.DEFAULT;
-
-    /**
-     * The OAEP parameter set with all default values.
-     */
-    public static final OAEPParameterSpec DEFAULT = new OAEPParameterSpec();
+    privbte String mdNbme = "SHA-1";
+    privbte String mgfNbme = "MGF1";
+    privbte AlgorithmPbrbmeterSpec mgfSpec = MGF1PbrbmeterSpec.SHA1;
+    privbte PSource pSrc = PSource.PSpecified.DEFAULT;
 
     /**
-     * Constructs a parameter set for OAEP padding as defined in
-     * the PKCS #1 standard using the default values.
+     * The OAEP pbrbmeter set with bll defbult vblues.
      */
-    private OAEPParameterSpec() {
+    public stbtic finbl OAEPPbrbmeterSpec DEFAULT = new OAEPPbrbmeterSpec();
+
+    /**
+     * Constructs b pbrbmeter set for OAEP pbdding bs defined in
+     * the PKCS #1 stbndbrd using the defbult vblues.
+     */
+    privbte OAEPPbrbmeterSpec() {
     }
 
     /**
-     * Constructs a parameter set for OAEP padding as defined in
-     * the PKCS #1 standard using the specified message digest
-     * algorithm <code>mdName</code>, mask generation function
-     * algorithm <code>mgfName</code>, parameters for the mask
-     * generation function <code>mgfSpec</code>, and source of
+     * Constructs b pbrbmeter set for OAEP pbdding bs defined in
+     * the PKCS #1 stbndbrd using the specified messbge digest
+     * blgorithm <code>mdNbme</code>, mbsk generbtion function
+     * blgorithm <code>mgfNbme</code>, pbrbmeters for the mbsk
+     * generbtion function <code>mgfSpec</code>, bnd source of
      * the encoding input P <code>pSrc</code>.
      *
-     * @param mdName the algorithm name for the message digest.
-     * @param mgfName the algorithm name for the mask generation
+     * @pbrbm mdNbme the blgorithm nbme for the messbge digest.
+     * @pbrbm mgfNbme the blgorithm nbme for the mbsk generbtion
      * function.
-     * @param mgfSpec the parameters for the mask generation function.
-     * If null is specified, null will be returned by getMGFParameters().
-     * @param pSrc the source of the encoding input P.
-     * @exception NullPointerException if <code>mdName</code>,
-     * <code>mgfName</code>, or <code>pSrc</code> is null.
+     * @pbrbm mgfSpec the pbrbmeters for the mbsk generbtion function.
+     * If null is specified, null will be returned by getMGFPbrbmeters().
+     * @pbrbm pSrc the source of the encoding input P.
+     * @exception NullPointerException if <code>mdNbme</code>,
+     * <code>mgfNbme</code>, or <code>pSrc</code> is null.
      */
-    public OAEPParameterSpec(String mdName, String mgfName,
-                             AlgorithmParameterSpec mgfSpec,
+    public OAEPPbrbmeterSpec(String mdNbme, String mgfNbme,
+                             AlgorithmPbrbmeterSpec mgfSpec,
                              PSource pSrc) {
-        if (mdName == null) {
-            throw new NullPointerException("digest algorithm is null");
+        if (mdNbme == null) {
+            throw new NullPointerException("digest blgorithm is null");
         }
-        if (mgfName == null) {
-            throw new NullPointerException("mask generation function " +
-                                           "algorithm is null");
+        if (mgfNbme == null) {
+            throw new NullPointerException("mbsk generbtion function " +
+                                           "blgorithm is null");
         }
         if (pSrc == null) {
             throw new NullPointerException("source of the encoding input " +
                                            "is null");
         }
-        this.mdName =  mdName;
-        this.mgfName =  mgfName;
+        this.mdNbme =  mdNbme;
+        this.mgfNbme =  mgfNbme;
         this.mgfSpec =  mgfSpec;
         this.pSrc =  pSrc;
     }
 
     /**
-     * Returns the message digest algorithm name.
+     * Returns the messbge digest blgorithm nbme.
      *
-     * @return the message digest algorithm name.
+     * @return the messbge digest blgorithm nbme.
      */
     public String getDigestAlgorithm() {
-        return mdName;
+        return mdNbme;
     }
 
     /**
-     * Returns the mask generation function algorithm name.
+     * Returns the mbsk generbtion function blgorithm nbme.
      *
-     * @return the mask generation function algorithm name.
+     * @return the mbsk generbtion function blgorithm nbme.
      */
     public String getMGFAlgorithm() {
-        return mgfName;
+        return mgfNbme;
     }
 
     /**
-     * Returns the parameters for the mask generation function.
+     * Returns the pbrbmeters for the mbsk generbtion function.
      *
-     * @return the parameters for the mask generation function.
+     * @return the pbrbmeters for the mbsk generbtion function.
      */
-    public AlgorithmParameterSpec getMGFParameters() {
+    public AlgorithmPbrbmeterSpec getMGFPbrbmeters() {
         return mgfSpec;
     }
 

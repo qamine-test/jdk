@@ -1,420 +1,420 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateException;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertificbteException;
+import jbvb.util.*;
 
 import sun.misc.IOUtils;
-import sun.security.pkcs.EncryptedPrivateKeyInfo;
+import sun.security.pkcs.EncryptedPrivbteKeyInfo;
 import sun.security.util.PolicyUtil;
 
 /**
- * This class provides the domain keystore type identified as "DKS".
- * DKS presents a collection of separate keystores as a single logical keystore.
- * The collection of keystores is specified in a domain configuration file which
- * is passed to DKS in a {@link DomainLoadStoreParameter}.
+ * This clbss provides the dombin keystore type identified bs "DKS".
+ * DKS presents b collection of sepbrbte keystores bs b single logicbl keystore.
+ * The collection of keystores is specified in b dombin configurbtion file which
+ * is pbssed to DKS in b {@link DombinLobdStorePbrbmeter}.
  * <p>
- * The following properties are supported:
+ * The following properties bre supported:
  * <dl>
  * <dt> {@code keystoreType="<type>"} </dt>
  *     <dd> The keystore type. </dd>
  * <dt> {@code keystoreURI="<url>"} </dt>
- *     <dd> The keystore location. </dd>
- * <dt> {@code keystoreProviderName="<name>"} </dt>
- *     <dd> The name of the keystore's JCE provider. </dd>
- * <dt> {@code keystorePasswordEnv="<environment-variable>"} </dt>
- *     <dd> The environment variable that stores a keystore password.
- * <dt> {@code entryNameSeparator="<separator>"} </dt>
- *     <dd> The separator between a keystore name prefix and an entry name.
- *          When specified, it applies to all the entries in a domain.
- *          Its default value is a space. </dd>
+ *     <dd> The keystore locbtion. </dd>
+ * <dt> {@code keystoreProviderNbme="<nbme>"} </dt>
+ *     <dd> The nbme of the keystore's JCE provider. </dd>
+ * <dt> {@code keystorePbsswordEnv="<environment-vbribble>"} </dt>
+ *     <dd> The environment vbribble thbt stores b keystore pbssword.
+ * <dt> {@code entryNbmeSepbrbtor="<sepbrbtor>"} </dt>
+ *     <dd> The sepbrbtor between b keystore nbme prefix bnd bn entry nbme.
+ *          When specified, it bpplies to bll the entries in b dombin.
+ *          Its defbult vblue is b spbce. </dd>
  * </dl>
  *
  * @since 1.8
  */
 
-abstract class DomainKeyStore extends KeyStoreSpi {
+bbstrbct clbss DombinKeyStore extends KeyStoreSpi {
 
-    // regular DKS
-    public static final class DKS extends DomainKeyStore {
-        String convertAlias(String alias) {
-            return alias.toLowerCase(Locale.ENGLISH);
+    // regulbr DKS
+    public stbtic finbl clbss DKS extends DombinKeyStore {
+        String convertAlibs(String blibs) {
+            return blibs.toLowerCbse(Locble.ENGLISH);
         }
     }
 
-    // DKS property names
-    private static final String ENTRY_NAME_SEPARATOR = "entrynameseparator";
-    private static final String KEYSTORE_PROVIDER_NAME = "keystoreprovidername";
-    private static final String KEYSTORE_TYPE = "keystoretype";
-    private static final String KEYSTORE_URI = "keystoreuri";
-    private static final String KEYSTORE_PASSWORD_ENV = "keystorepasswordenv";
+    // DKS property nbmes
+    privbte stbtic finbl String ENTRY_NAME_SEPARATOR = "entrynbmesepbrbtor";
+    privbte stbtic finbl String KEYSTORE_PROVIDER_NAME = "keystoreprovidernbme";
+    privbte stbtic finbl String KEYSTORE_TYPE = "keystoretype";
+    privbte stbtic finbl String KEYSTORE_URI = "keystoreuri";
+    privbte stbtic finbl String KEYSTORE_PASSWORD_ENV = "keystorepbsswordenv";
 
-    // RegEx meta characters
-    private static final String REGEX_META = ".$|()[{^?*+\\";
+    // RegEx metb chbrbcters
+    privbte stbtic finbl String REGEX_META = ".$|()[{^?*+\\";
 
-    // Default prefix for keystores loaded-by-stream
-    private static final String DEFAULT_STREAM_PREFIX = "iostream";
-    private int streamCounter = 1;
-    private String entryNameSeparator = " ";
-    private String entryNameSeparatorRegEx = " ";
+    // Defbult prefix for keystores lobded-by-strebm
+    privbte stbtic finbl String DEFAULT_STREAM_PREFIX = "iostrebm";
+    privbte int strebmCounter = 1;
+    privbte String entryNbmeSepbrbtor = " ";
+    privbte String entryNbmeSepbrbtorRegEx = " ";
 
-    // Default keystore type
-    private static final String DEFAULT_KEYSTORE_TYPE =
-        KeyStore.getDefaultType();
+    // Defbult keystore type
+    privbte stbtic finbl String DEFAULT_KEYSTORE_TYPE =
+        KeyStore.getDefbultType();
 
-    // Domain keystores
-    private final Map<String, KeyStore> keystores = new HashMap<>();
+    // Dombin keystores
+    privbte finbl Mbp<String, KeyStore> keystores = new HbshMbp<>();
 
-    DomainKeyStore() {
+    DombinKeyStore() {
     }
 
-    // convert an alias to internal form, overridden in subclasses:
-    // lower case for regular DKS
-    abstract String convertAlias(String alias);
+    // convert bn blibs to internbl form, overridden in subclbsses:
+    // lower cbse for regulbr DKS
+    bbstrbct String convertAlibs(String blibs);
 
     /**
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.
+     * Returns the key bssocibted with the given blibs, using the given
+     * pbssword to recover it.
      *
-     * @param alias the alias name
-     * @param password the password for recovering the key
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm pbssword the pbssword for recovering the key
      *
-     * @return the requested key, or null if the given alias does not exist
-     * or does not identify a <i>key entry</i>.
+     * @return the requested key, or null if the given blibs does not exist
+     * or does not identify b <i>key entry</i>.
      *
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     * key cannot be found
-     * @exception UnrecoverableKeyException if the key cannot be recovered
-     * (e.g., the given password is wrong).
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     * key cbnnot be found
+     * @exception UnrecoverbbleKeyException if the key cbnnot be recovered
+     * (e.g., the given pbssword is wrong).
      */
-    public Key engineGetKey(String alias, char[] password)
-        throws NoSuchAlgorithmException, UnrecoverableKeyException
+    public Key engineGetKey(String blibs, chbr[] pbssword)
+        throws NoSuchAlgorithmException, UnrecoverbbleKeyException
     {
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
         Key key = null;
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                key = keystore.getKey(entryAlias, password);
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                key = keystore.getKey(entryAlibs, pbssword);
                 if (key != null) {
-                    break;
+                    brebk;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
         return key;
     }
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last), or null if the given alias
-     * does not exist or does not contain a certificate chain (i.e., the given
-     * alias identifies either a <i>trusted certificate entry</i> or a
-     * <i>key entry</i> without a certificate chain).
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst), or null if the given blibs
+     * does not exist or does not contbin b certificbte chbin (i.e., the given
+     * blibs identifies either b <i>trusted certificbte entry</i> or b
+     * <i>key entry</i> without b certificbte chbin).
      */
-    public Certificate[] engineGetCertificateChain(String alias) {
+    public Certificbte[] engineGetCertificbteChbin(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
-        Certificate[] chain = null;
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
+        Certificbte[] chbin = null;
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                chain = keystore.getCertificateChain(entryAlias);
-                if (chain != null) {
-                    break;
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                chbin = keystore.getCertificbteChbin(entryAlibs);
+                if (chbin != null) {
+                    brebk;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        return chain;
+        return chbin;
     }
 
     /**
-     * Returns the certificate associated with the given alias.
+     * Returns the certificbte bssocibted with the given blibs.
      *
-     * <p>If the given alias name identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with that
-     * entry is returned. If the given alias name identifies a
-     * <i>key entry</i>, the first element of the certificate chain of that
-     * entry is returned, or null if that entry does not have a certificate
-     * chain.
+     * <p>If the given blibs nbme identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with thbt
+     * entry is returned. If the given blibs nbme identifies b
+     * <i>key entry</i>, the first element of the certificbte chbin of thbt
+     * entry is returned, or null if thbt entry does not hbve b certificbte
+     * chbin.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate, or null if the given alias does not exist or
-     * does not contain a certificate.
+     * @return the certificbte, or null if the given blibs does not exist or
+     * does not contbin b certificbte.
      */
-    public Certificate engineGetCertificate(String alias) {
+    public Certificbte engineGetCertificbte(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
-        Certificate cert = null;
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
+        Certificbte cert = null;
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                cert = keystore.getCertificate(entryAlias);
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                cert = keystore.getCertificbte(entryAlibs);
                 if (cert != null) {
-                    break;
+                    brebk;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
         return cert;
     }
 
     /**
-     * Returns the creation date of the entry identified by the given alias.
+     * Returns the crebtion dbte of the entry identified by the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the creation date of this entry, or null if the given alias does
+     * @return the crebtion dbte of this entry, or null if the given blibs does
      * not exist
      */
-    public Date engineGetCreationDate(String alias) {
+    public Dbte engineGetCrebtionDbte(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
-        Date date = null;
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
+        Dbte dbte = null;
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                date = keystore.getCreationDate(entryAlias);
-                if (date != null) {
-                    break;
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                dbte = keystore.getCrebtionDbte(entryAlibs);
+                if (dbte != null) {
+                    brebk;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        return date;
+        return dbte;
     }
 
     /**
-     * Assigns the given private key to the given alias, protecting
-     * it with the given password as defined in PKCS8.
+     * Assigns the given privbte key to the given blibs, protecting
+     * it with the given pbssword bs defined in PKCS8.
      *
-     * <p>The given java.security.PrivateKey <code>key</code> must
-     * be accompanied by a certificate chain certifying the
+     * <p>The given jbvb.security.PrivbteKey <code>key</code> must
+     * be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key and certificate
-     * chain.
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key bnd certificbte
+     * chbin.
      *
-     * @param alias the alias name
-     * @param key the private key to be associated with the alias
-     * @param password the password to protect the key
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the privbte key to be bssocibted with the blibs
+     * @pbrbm pbssword the pbssword to protect the key
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only required if the given key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if the given key is not a private key,
-     * cannot be protected, or this operation fails for some other reason
+     * @exception KeyStoreException if the given key is not b privbte key,
+     * cbnnot be protected, or this operbtion fbils for some other rebson
      */
-    public void engineSetKeyEntry(String alias, Key key, char[] password,
-                                  Certificate[] chain)
+    public void engineSetKeyEntry(String blibs, Key key, chbr[] pbssword,
+                                  Certificbte[] chbin)
         throws KeyStoreException
     {
-        AbstractMap.SimpleEntry<String,
-            AbstractMap.SimpleEntry<String, KeyStore>> pair =
-                getKeystoreForWriting(alias);
+        AbstrbctMbp.SimpleEntry<String,
+            AbstrbctMbp.SimpleEntry<String, KeyStore>> pbir =
+                getKeystoreForWriting(blibs);
 
-        if (pair == null) {
+        if (pbir == null) {
             throw new KeyStoreException("Error setting key entry for '" +
-                alias + "'");
+                blibs + "'");
         }
-        String entryAlias = pair.getKey();
-        Map.Entry<String, KeyStore> keystore = pair.getValue();
-        keystore.getValue().setKeyEntry(entryAlias, key, password, chain);
+        String entryAlibs = pbir.getKey();
+        Mbp.Entry<String, KeyStore> keystore = pbir.getVblue();
+        keystore.getVblue().setKeyEntry(entryAlibs, key, pbssword, chbin);
     }
 
     /**
-     * Assigns the given key (that has already been protected) to the given
-     * alias.
+     * Assigns the given key (thbt hbs blrebdy been protected) to the given
+     * blibs.
      *
      * <p>If the protected key is of type
-     * <code>java.security.PrivateKey</code>, it must be accompanied by a
-     * certificate chain certifying the corresponding public key. If the
-     * underlying keystore implementation is of type <code>jks</code>,
-     * <code>key</code> must be encoded as an
-     * <code>EncryptedPrivateKeyInfo</code> as defined in the PKCS #8 standard.
+     * <code>jbvb.security.PrivbteKey</code>, it must be bccompbnied by b
+     * certificbte chbin certifying the corresponding public key. If the
+     * underlying keystore implementbtion is of type <code>jks</code>,
+     * <code>key</code> must be encoded bs bn
+     * <code>EncryptedPrivbteKeyInfo</code> bs defined in the PKCS #8 stbndbrd.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key (in protected format) to be associated with the alias
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key (in protected formbt) to be bssocibted with the blibs
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only useful if the protected key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if this operation fails.
+     * @exception KeyStoreException if this operbtion fbils.
      */
-    public void engineSetKeyEntry(String alias, byte[] key,
-                                  Certificate[] chain)
+    public void engineSetKeyEntry(String blibs, byte[] key,
+                                  Certificbte[] chbin)
         throws KeyStoreException
     {
-        AbstractMap.SimpleEntry<String,
-            AbstractMap.SimpleEntry<String, KeyStore>> pair =
-                getKeystoreForWriting(alias);
+        AbstrbctMbp.SimpleEntry<String,
+            AbstrbctMbp.SimpleEntry<String, KeyStore>> pbir =
+                getKeystoreForWriting(blibs);
 
-        if (pair == null) {
+        if (pbir == null) {
             throw new KeyStoreException(
-                "Error setting protected key entry for '" + alias + "'");
+                "Error setting protected key entry for '" + blibs + "'");
         }
-        String entryAlias = pair.getKey();
-        Map.Entry<String, KeyStore> keystore = pair.getValue();
-        keystore.getValue().setKeyEntry(entryAlias, key, chain);
+        String entryAlibs = pbir.getKey();
+        Mbp.Entry<String, KeyStore> keystore = pbir.getVblue();
+        keystore.getVblue().setKeyEntry(entryAlibs, key, chbin);
     }
 
     /**
-     * Assigns the given certificate to the given alias.
+     * Assigns the given certificbte to the given blibs.
      *
-     * <p>If the given alias already exists in this keystore and identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with it is
-     * overridden by the given certificate.
+     * <p>If the given blibs blrebdy exists in this keystore bnd identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with it is
+     * overridden by the given certificbte.
      *
-     * @param alias the alias name
-     * @param cert the certificate
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm cert the certificbte
      *
-     * @exception KeyStoreException if the given alias already exists and does
-     * not identify a <i>trusted certificate entry</i>, or this operation
-     * fails for some other reason.
+     * @exception KeyStoreException if the given blibs blrebdy exists bnd does
+     * not identify b <i>trusted certificbte entry</i>, or this operbtion
+     * fbils for some other rebson.
      */
-    public void engineSetCertificateEntry(String alias, Certificate cert)
+    public void engineSetCertificbteEntry(String blibs, Certificbte cert)
         throws KeyStoreException
     {
-        AbstractMap.SimpleEntry<String,
-            AbstractMap.SimpleEntry<String, KeyStore>> pair =
-                getKeystoreForWriting(alias);
+        AbstrbctMbp.SimpleEntry<String,
+            AbstrbctMbp.SimpleEntry<String, KeyStore>> pbir =
+                getKeystoreForWriting(blibs);
 
-        if (pair == null) {
-            throw new KeyStoreException("Error setting certificate entry for '"
-                + alias + "'");
+        if (pbir == null) {
+            throw new KeyStoreException("Error setting certificbte entry for '"
+                + blibs + "'");
         }
-        String entryAlias = pair.getKey();
-        Map.Entry<String, KeyStore> keystore = pair.getValue();
-        keystore.getValue().setCertificateEntry(entryAlias, cert);
+        String entryAlibs = pbir.getKey();
+        Mbp.Entry<String, KeyStore> keystore = pbir.getVblue();
+        keystore.getVblue().setCertificbteEntry(entryAlibs, cert);
     }
 
     /**
-     * Deletes the entry identified by the given alias from this keystore.
+     * Deletes the entry identified by the given blibs from this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @exception KeyStoreException if the entry cannot be removed.
+     * @exception KeyStoreException if the entry cbnnot be removed.
      */
-    public void engineDeleteEntry(String alias) throws KeyStoreException
+    public void engineDeleteEntry(String blibs) throws KeyStoreException
     {
-        AbstractMap.SimpleEntry<String,
-            AbstractMap.SimpleEntry<String, KeyStore>> pair =
-                getKeystoreForWriting(alias);
+        AbstrbctMbp.SimpleEntry<String,
+            AbstrbctMbp.SimpleEntry<String, KeyStore>> pbir =
+                getKeystoreForWriting(blibs);
 
-        if (pair == null) {
-            throw new KeyStoreException("Error deleting entry for '" + alias +
+        if (pbir == null) {
+            throw new KeyStoreException("Error deleting entry for '" + blibs +
                 "'");
         }
-        String entryAlias = pair.getKey();
-        Map.Entry<String, KeyStore> keystore = pair.getValue();
-        keystore.getValue().deleteEntry(entryAlias);
+        String entryAlibs = pbir.getKey();
+        Mbp.Entry<String, KeyStore> keystore = pbir.getVblue();
+        keystore.getVblue().deleteEntry(entryAlibs);
     }
 
     /**
-     * Lists all the alias names of this keystore.
+     * Lists bll the blibs nbmes of this keystore.
      *
-     * @return enumeration of the alias names
+     * @return enumerbtion of the blibs nbmes
      */
-    public Enumeration<String> engineAliases() {
-        final Iterator<Map.Entry<String, KeyStore>> iterator =
-            keystores.entrySet().iterator();
+    public Enumerbtion<String> engineAlibses() {
+        finbl Iterbtor<Mbp.Entry<String, KeyStore>> iterbtor =
+            keystores.entrySet().iterbtor();
 
-        return new Enumeration<String>() {
-            private int index = 0;
-            private Map.Entry<String, KeyStore> keystoresEntry = null;
-            private String prefix = null;
-            private Enumeration<String> aliases = null;
+        return new Enumerbtion<String>() {
+            privbte int index = 0;
+            privbte Mbp.Entry<String, KeyStore> keystoresEntry = null;
+            privbte String prefix = null;
+            privbte Enumerbtion<String> blibses = null;
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 try {
-                    if (aliases == null) {
-                        if (iterator.hasNext()) {
-                            keystoresEntry = iterator.next();
+                    if (blibses == null) {
+                        if (iterbtor.hbsNext()) {
+                            keystoresEntry = iterbtor.next();
                             prefix = keystoresEntry.getKey() +
-                                entryNameSeparator;
-                            aliases = keystoresEntry.getValue().aliases();
+                                entryNbmeSepbrbtor;
+                            blibses = keystoresEntry.getVblue().blibses();
                         } else {
-                            return false;
+                            return fblse;
                         }
                     }
-                    if (aliases.hasMoreElements()) {
+                    if (blibses.hbsMoreElements()) {
                         return true;
                     } else {
-                        if (iterator.hasNext()) {
-                            keystoresEntry = iterator.next();
+                        if (iterbtor.hbsNext()) {
+                            keystoresEntry = iterbtor.next();
                             prefix = keystoresEntry.getKey() +
-                                entryNameSeparator;
-                            aliases = keystoresEntry.getValue().aliases();
+                                entryNbmeSepbrbtor;
+                            blibses = keystoresEntry.getVblue().blibses();
                         } else {
-                            return false;
+                            return fblse;
                         }
                     }
-                } catch (KeyStoreException e) {
-                    return false;
+                } cbtch (KeyStoreException e) {
+                    return fblse;
                 }
 
-                return aliases.hasMoreElements();
+                return blibses.hbsMoreElements();
             }
 
             public String nextElement() {
-                if (hasMoreElements()) {
-                    return prefix + aliases.nextElement();
+                if (hbsMoreElements()) {
+                    return prefix + blibses.nextElement();
                 }
                 throw new NoSuchElementException();
             }
@@ -422,29 +422,29 @@ abstract class DomainKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Checks if the given alias exists in this keystore.
+     * Checks if the given blibs exists in this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return true if the alias exists, false otherwise
+     * @return true if the blibs exists, fblse otherwise
      */
-    public boolean engineContainsAlias(String alias) {
+    public boolebn engineContbinsAlibs(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                if (keystore.containsAlias(entryAlias)) {
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                if (keystore.contbinsAlibs(entryAlibs)) {
                     return true;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
@@ -456,443 +456,443 @@ abstract class DomainKeyStore extends KeyStoreSpi {
 
         int size = 0;
         try {
-            for (KeyStore keystore : keystores.values()) {
+            for (KeyStore keystore : keystores.vblues()) {
                 size += keystore.size();
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
         return size;
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>key entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>key entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>key entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>key entry</i>, fblse otherwise.
      */
-    public boolean engineIsKeyEntry(String alias) {
+    public boolebn engineIsKeyEntry(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                if (keystore.isKeyEntry(entryAlias)) {
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                if (keystore.isKeyEntry(entryAlibs)) {
                     return true;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, fblse otherwise.
      */
-    public boolean engineIsCertificateEntry(String alias) {
+    public boolebn engineIsCertificbteEntry(String blibs) {
 
-        AbstractMap.SimpleEntry<String, Collection<KeyStore>> pair =
-            getKeystoresForReading(alias);
+        AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>> pbir =
+            getKeystoresForRebding(blibs);
 
         try {
-            String entryAlias = pair.getKey();
-            for (KeyStore keystore : pair.getValue()) {
-                if (keystore.isCertificateEntry(entryAlias)) {
+            String entryAlibs = pbir.getKey();
+            for (KeyStore keystore : pbir.getVblue()) {
+                if (keystore.isCertificbteEntry(entryAlibs)) {
                     return true;
                 }
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        return false;
+        return fblse;
     }
 
     /*
-     * Returns a keystore entry alias and a list of target keystores.
-     * When the supplied alias prefix identifies a keystore then that single
-     * keystore is returned. When no alias prefix is supplied then all the
-     * keystores are returned.
+     * Returns b keystore entry blibs bnd b list of tbrget keystores.
+     * When the supplied blibs prefix identifies b keystore then thbt single
+     * keystore is returned. When no blibs prefix is supplied then bll the
+     * keystores bre returned.
      */
-    private AbstractMap.SimpleEntry<String, Collection<KeyStore>>
-        getKeystoresForReading(String alias) {
+    privbte AbstrbctMbp.SimpleEntry<String, Collection<KeyStore>>
+        getKeystoresForRebding(String blibs) {
 
-        String[] splits = alias.split(this.entryNameSeparatorRegEx, 2);
-        if (splits.length == 2) { // prefixed alias
+        String[] splits = blibs.split(this.entryNbmeSepbrbtorRegEx, 2);
+        if (splits.length == 2) { // prefixed blibs
             KeyStore keystore = keystores.get(splits[0]);
             if (keystore != null) {
-                return new AbstractMap.SimpleEntry<>(splits[1],
+                return new AbstrbctMbp.SimpleEntry<>(splits[1],
                     (Collection<KeyStore>) Collections.singleton(keystore));
             }
-        } else if (splits.length == 1) { // unprefixed alias
-            // Check all keystores for the first occurrence of the alias
-            return new AbstractMap.SimpleEntry<>(alias, keystores.values());
+        } else if (splits.length == 1) { // unprefixed blibs
+            // Check bll keystores for the first occurrence of the blibs
+            return new AbstrbctMbp.SimpleEntry<>(blibs, keystores.vblues());
         }
-        return new AbstractMap.SimpleEntry<>("",
+        return new AbstrbctMbp.SimpleEntry<>("",
             (Collection<KeyStore>) Collections.<KeyStore>emptyList());
     }
 
     /*
-     * Returns a keystore entry alias and a single target keystore.
-     * An alias prefix must be supplied.
+     * Returns b keystore entry blibs bnd b single tbrget keystore.
+     * An blibs prefix must be supplied.
      */
-    private
-    AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<String, KeyStore>>
-        getKeystoreForWriting(String alias) {
+    privbte
+    AbstrbctMbp.SimpleEntry<String, AbstrbctMbp.SimpleEntry<String, KeyStore>>
+        getKeystoreForWriting(String blibs) {
 
-        String[] splits = alias.split(this.entryNameSeparator, 2);
-        if (splits.length == 2) { // prefixed alias
+        String[] splits = blibs.split(this.entryNbmeSepbrbtor, 2);
+        if (splits.length == 2) { // prefixed blibs
             KeyStore keystore = keystores.get(splits[0]);
             if (keystore != null) {
-                return new AbstractMap.SimpleEntry<>(splits[1],
-                    new AbstractMap.SimpleEntry<>(splits[0], keystore));
+                return new AbstrbctMbp.SimpleEntry<>(splits[1],
+                    new AbstrbctMbp.SimpleEntry<>(splits[0], keystore));
             }
         }
         return null;
     }
 
     /**
-     * Returns the (alias) name of the first keystore entry whose certificate
-     * matches the given certificate.
+     * Returns the (blibs) nbme of the first keystore entry whose certificbte
+     * mbtches the given certificbte.
      *
-     * <p>This method attempts to match the given certificate with each
+     * <p>This method bttempts to mbtch the given certificbte with ebch
      * keystore entry. If the entry being considered
-     * is a <i>trusted certificate entry</i>, the given certificate is
-     * compared to that entry's certificate. If the entry being considered is
-     * a <i>key entry</i>, the given certificate is compared to the first
-     * element of that entry's certificate chain (if a chain exists).
+     * is b <i>trusted certificbte entry</i>, the given certificbte is
+     * compbred to thbt entry's certificbte. If the entry being considered is
+     * b <i>key entry</i>, the given certificbte is compbred to the first
+     * element of thbt entry's certificbte chbin (if b chbin exists).
      *
-     * @param cert the certificate to match with.
+     * @pbrbm cert the certificbte to mbtch with.
      *
-     * @return the (alias) name of the first entry with matching certificate,
+     * @return the (blibs) nbme of the first entry with mbtching certificbte,
      * or null if no such entry exists in this keystore.
      */
-    public String engineGetCertificateAlias(Certificate cert) {
+    public String engineGetCertificbteAlibs(Certificbte cert) {
 
         try {
 
-            String alias = null;
-            for (KeyStore keystore : keystores.values()) {
-                if ((alias = keystore.getCertificateAlias(cert)) != null) {
-                    break;
+            String blibs = null;
+            for (KeyStore keystore : keystores.vblues()) {
+                if ((blibs = keystore.getCertificbteAlibs(cert)) != null) {
+                    brebk;
                 }
             }
-            return alias;
+            return blibs;
 
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
     }
 
     /**
-     * Stores this keystore to the given output stream, and protects its
-     * integrity with the given password.
+     * Stores this keystore to the given output strebm, bnd protects its
+     * integrity with the given pbssword.
      *
-     * @param stream the output stream to which this keystore is written.
-     * @param password the password to generate the keystore integrity check
+     * @pbrbm strebm the output strebm to which this keystore is written.
+     * @pbrbm pbssword the pbssword to generbte the keystore integrity check
      *
-     * @exception IOException if there was an I/O problem with data
-     * @exception NoSuchAlgorithmException if the appropriate data integrity
-     * algorithm could not be found
-     * @exception CertificateException if any of the certificates included in
-     * the keystore data could not be stored
+     * @exception IOException if there wbs bn I/O problem with dbtb
+     * @exception NoSuchAlgorithmException if the bppropribte dbtb integrity
+     * blgorithm could not be found
+     * @exception CertificbteException if bny of the certificbtes included in
+     * the keystore dbtb could not be stored
      */
-    public void engineStore(OutputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineStore(OutputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        // Support storing to a stream only when a single keystore has been
+        // Support storing to b strebm only when b single keystore hbs been
         // configured
         try {
             if (keystores.size() == 1) {
-                keystores.values().iterator().next().store(stream, password);
+                keystores.vblues().iterbtor().next().store(strebm, pbssword);
                 return;
             }
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException(e);
+        } cbtch (KeyStoreException e) {
+            throw new IllegblStbteException(e);
         }
 
-        throw new UnsupportedOperationException(
-            "This keystore must be stored using a DomainLoadStoreParameter");
+        throw new UnsupportedOperbtionException(
+            "This keystore must be stored using b DombinLobdStorePbrbmeter");
     }
 
     @Override
-    public void engineStore(KeyStore.LoadStoreParameter param)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineStore(KeyStore.LobdStorePbrbmeter pbrbm)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        if (param instanceof DomainLoadStoreParameter) {
-            DomainLoadStoreParameter domainParameter =
-                (DomainLoadStoreParameter) param;
+        if (pbrbm instbnceof DombinLobdStorePbrbmeter) {
+            DombinLobdStorePbrbmeter dombinPbrbmeter =
+                (DombinLobdStorePbrbmeter) pbrbm;
             List<KeyStoreBuilderComponents> builders = getBuilders(
-                domainParameter.getConfiguration(),
-                    domainParameter.getProtectionParams());
+                dombinPbrbmeter.getConfigurbtion(),
+                    dombinPbrbmeter.getProtectionPbrbms());
 
             for (KeyStoreBuilderComponents builder : builders) {
 
                 try {
 
-                    KeyStore.ProtectionParameter pp = builder.protection;
-                    if (!(pp instanceof KeyStore.PasswordProtection)) {
+                    KeyStore.ProtectionPbrbmeter pp = builder.protection;
+                    if (!(pp instbnceof KeyStore.PbsswordProtection)) {
                         throw new KeyStoreException(
-                            new IllegalArgumentException("ProtectionParameter" +
-                                " must be a KeyStore.PasswordProtection"));
+                            new IllegblArgumentException("ProtectionPbrbmeter" +
+                                " must be b KeyStore.PbsswordProtection"));
                     }
-                    char[] password =
-                        ((KeyStore.PasswordProtection) builder.protection)
-                            .getPassword();
+                    chbr[] pbssword =
+                        ((KeyStore.PbsswordProtection) builder.protection)
+                            .getPbssword();
 
                     // Store the keystores
-                    KeyStore keystore = keystores.get(builder.name);
+                    KeyStore keystore = keystores.get(builder.nbme);
 
-                    try (FileOutputStream stream =
-                        new FileOutputStream(builder.file)) {
+                    try (FileOutputStrebm strebm =
+                        new FileOutputStrebm(builder.file)) {
 
-                        keystore.store(stream, password);
+                        keystore.store(strebm, pbssword);
                     }
-                } catch (KeyStoreException e) {
+                } cbtch (KeyStoreException e) {
                     throw new IOException(e);
                 }
             }
         } else {
-            throw new UnsupportedOperationException(
-                "This keystore must be stored using a " +
-                "DomainLoadStoreParameter");
+            throw new UnsupportedOperbtionException(
+                "This keystore must be stored using b " +
+                "DombinLobdStorePbrbmeter");
         }
     }
 
     /**
-     * Loads the keystore from the given input stream.
+     * Lobds the keystore from the given input strebm.
      *
-     * <p>If a password is given, it is used to check the integrity of the
-     * keystore data. Otherwise, the integrity of the keystore is not checked.
+     * <p>If b pbssword is given, it is used to check the integrity of the
+     * keystore dbtb. Otherwise, the integrity of the keystore is not checked.
      *
-     * @param stream the input stream from which the keystore is loaded
-     * @param password the (optional) password used to check the integrity of
+     * @pbrbm strebm the input strebm from which the keystore is lobded
+     * @pbrbm pbssword the (optionbl) pbssword used to check the integrity of
      * the keystore.
      *
-     * @exception IOException if there is an I/O or format problem with the
-     * keystore data
-     * @exception NoSuchAlgorithmException if the algorithm used to check
-     * the integrity of the keystore cannot be found
-     * @exception CertificateException if any of the certificates in the
-     * keystore could not be loaded
+     * @exception IOException if there is bn I/O or formbt problem with the
+     * keystore dbtb
+     * @exception NoSuchAlgorithmException if the blgorithm used to check
+     * the integrity of the keystore cbnnot be found
+     * @exception CertificbteException if bny of the certificbtes in the
+     * keystore could not be lobded
      */
-    public void engineLoad(InputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineLobd(InputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        // Support loading from a stream only for a JKS or default type keystore
+        // Support lobding from b strebm only for b JKS or defbult type keystore
         try {
             KeyStore keystore = null;
 
             try {
-                keystore = KeyStore.getInstance("JKS");
-                keystore.load(stream, password);
+                keystore = KeyStore.getInstbnce("JKS");
+                keystore.lobd(strebm, pbssword);
 
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // Retry
-                if (!"JKS".equalsIgnoreCase(DEFAULT_KEYSTORE_TYPE)) {
-                    keystore = KeyStore.getInstance(DEFAULT_KEYSTORE_TYPE);
-                    keystore.load(stream, password);
+                if (!"JKS".equblsIgnoreCbse(DEFAULT_KEYSTORE_TYPE)) {
+                    keystore = KeyStore.getInstbnce(DEFAULT_KEYSTORE_TYPE);
+                    keystore.lobd(strebm, pbssword);
                 } else {
                     throw e;
                 }
             }
-            String keystoreName = DEFAULT_STREAM_PREFIX + streamCounter++;
-            keystores.put(keystoreName, keystore);
+            String keystoreNbme = DEFAULT_STREAM_PREFIX + strebmCounter++;
+            keystores.put(keystoreNbme, keystore);
 
-        } catch (Exception e) {
-            throw new UnsupportedOperationException(
-                "This keystore must be loaded using a " +
-                "DomainLoadStoreParameter");
+        } cbtch (Exception e) {
+            throw new UnsupportedOperbtionException(
+                "This keystore must be lobded using b " +
+                "DombinLobdStorePbrbmeter");
         }
     }
 
     @Override
-    public void engineLoad(KeyStore.LoadStoreParameter param)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineLobd(KeyStore.LobdStorePbrbmeter pbrbm)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
-        if (param instanceof DomainLoadStoreParameter) {
-            DomainLoadStoreParameter domainParameter =
-                (DomainLoadStoreParameter) param;
+        if (pbrbm instbnceof DombinLobdStorePbrbmeter) {
+            DombinLobdStorePbrbmeter dombinPbrbmeter =
+                (DombinLobdStorePbrbmeter) pbrbm;
             List<KeyStoreBuilderComponents> builders = getBuilders(
-                domainParameter.getConfiguration(),
-                    domainParameter.getProtectionParams());
+                dombinPbrbmeter.getConfigurbtion(),
+                    dombinPbrbmeter.getProtectionPbrbms());
 
             for (KeyStoreBuilderComponents builder : builders) {
 
                 try {
-                    // Load the keystores (file-based and non-file-based)
+                    // Lobd the keystores (file-bbsed bnd non-file-bbsed)
                     if (builder.file != null) {
-                        keystores.put(builder.name,
-                            KeyStore.Builder.newInstance(builder.type,
+                        keystores.put(builder.nbme,
+                            KeyStore.Builder.newInstbnce(builder.type,
                                 builder.provider, builder.file,
                                 builder.protection)
                                     .getKeyStore());
                     } else {
-                        keystores.put(builder.name,
-                            KeyStore.Builder.newInstance(builder.type,
+                        keystores.put(builder.nbme,
+                            KeyStore.Builder.newInstbnce(builder.type,
                                 builder.provider, builder.protection)
                                     .getKeyStore());
                     }
-                } catch (KeyStoreException e) {
+                } cbtch (KeyStoreException e) {
                     throw new IOException(e);
                 }
             }
         } else {
-            throw new UnsupportedOperationException(
-                "This keystore must be loaded using a " +
-                "DomainLoadStoreParameter");
+            throw new UnsupportedOperbtionException(
+                "This keystore must be lobded using b " +
+                "DombinLobdStorePbrbmeter");
         }
     }
 
     /*
-     * Parse a keystore domain configuration file and associated collection
-     * of keystore passwords to create a collection of KeyStore.Builder.
+     * Pbrse b keystore dombin configurbtion file bnd bssocibted collection
+     * of keystore pbsswords to crebte b collection of KeyStore.Builder.
      */
-    private List<KeyStoreBuilderComponents> getBuilders(URI configuration,
-        Map<String, KeyStore.ProtectionParameter> passwords)
+    privbte List<KeyStoreBuilderComponents> getBuilders(URI configurbtion,
+        Mbp<String, KeyStore.ProtectionPbrbmeter> pbsswords)
             throws IOException {
 
-        PolicyParser parser = new PolicyParser(true); // expand properties
-        Collection<PolicyParser.DomainEntry> domains = null;
-        List<KeyStoreBuilderComponents> builders = new ArrayList<>();
-        String uriDomain = configuration.getFragment();
+        PolicyPbrser pbrser = new PolicyPbrser(true); // expbnd properties
+        Collection<PolicyPbrser.DombinEntry> dombins = null;
+        List<KeyStoreBuilderComponents> builders = new ArrbyList<>();
+        String uriDombin = configurbtion.getFrbgment();
 
-        try (InputStreamReader configurationReader =
-            new InputStreamReader(
-                PolicyUtil.getInputStream(configuration.toURL()), "UTF-8")) {
-            parser.read(configurationReader);
-            domains = parser.getDomainEntries();
+        try (InputStrebmRebder configurbtionRebder =
+            new InputStrebmRebder(
+                PolicyUtil.getInputStrebm(configurbtion.toURL()), "UTF-8")) {
+            pbrser.rebd(configurbtionRebder);
+            dombins = pbrser.getDombinEntries();
 
-        } catch (MalformedURLException mue) {
+        } cbtch (MblformedURLException mue) {
             throw new IOException(mue);
 
-        } catch (PolicyParser.ParsingException pe) {
+        } cbtch (PolicyPbrser.PbrsingException pe) {
             throw new IOException(pe);
         }
 
-        for (PolicyParser.DomainEntry domain : domains) {
-            Map<String, String> domainProperties = domain.getProperties();
+        for (PolicyPbrser.DombinEntry dombin : dombins) {
+            Mbp<String, String> dombinProperties = dombin.getProperties();
 
-            if (uriDomain != null &&
-                (!uriDomain.equalsIgnoreCase(domain.getName()))) {
-                continue; // skip this domain
+            if (uriDombin != null &&
+                (!uriDombin.equblsIgnoreCbse(dombin.getNbme()))) {
+                continue; // skip this dombin
             }
 
-            if (domainProperties.containsKey(ENTRY_NAME_SEPARATOR)) {
-                this.entryNameSeparator =
-                    domainProperties.get(ENTRY_NAME_SEPARATOR);
-                // escape any regex meta characters
-                char ch = 0;
+            if (dombinProperties.contbinsKey(ENTRY_NAME_SEPARATOR)) {
+                this.entryNbmeSepbrbtor =
+                    dombinProperties.get(ENTRY_NAME_SEPARATOR);
+                // escbpe bny regex metb chbrbcters
+                chbr ch = 0;
                 StringBuilder s = new StringBuilder();
-                for (int i = 0; i < this.entryNameSeparator.length(); i++) {
-                    ch = this.entryNameSeparator.charAt(i);
+                for (int i = 0; i < this.entryNbmeSepbrbtor.length(); i++) {
+                    ch = this.entryNbmeSepbrbtor.chbrAt(i);
                     if (REGEX_META.indexOf(ch) != -1) {
-                        s.append('\\');
+                        s.bppend('\\');
                     }
-                    s.append(ch);
+                    s.bppend(ch);
                 }
-                this.entryNameSeparatorRegEx = s.toString();
+                this.entryNbmeSepbrbtorRegEx = s.toString();
             }
 
-            Collection<PolicyParser.KeyStoreEntry> keystores =
-                domain.getEntries();
-            for (PolicyParser.KeyStoreEntry keystore : keystores) {
-                String keystoreName = keystore.getName();
-                Map<String, String> properties =
-                    new HashMap<>(domainProperties);
+            Collection<PolicyPbrser.KeyStoreEntry> keystores =
+                dombin.getEntries();
+            for (PolicyPbrser.KeyStoreEntry keystore : keystores) {
+                String keystoreNbme = keystore.getNbme();
+                Mbp<String, String> properties =
+                    new HbshMbp<>(dombinProperties);
                 properties.putAll(keystore.getProperties());
 
                 String keystoreType = DEFAULT_KEYSTORE_TYPE;
-                if (properties.containsKey(KEYSTORE_TYPE)) {
+                if (properties.contbinsKey(KEYSTORE_TYPE)) {
                     keystoreType = properties.get(KEYSTORE_TYPE);
                 }
 
                 Provider keystoreProvider = null;
-                if (properties.containsKey(KEYSTORE_PROVIDER_NAME)) {
-                    String keystoreProviderName =
+                if (properties.contbinsKey(KEYSTORE_PROVIDER_NAME)) {
+                    String keystoreProviderNbme =
                         properties.get(KEYSTORE_PROVIDER_NAME);
                     keystoreProvider =
-                        Security.getProvider(keystoreProviderName);
+                        Security.getProvider(keystoreProviderNbme);
                     if (keystoreProvider == null) {
-                        throw new IOException("Error locating JCE provider: " +
-                            keystoreProviderName);
+                        throw new IOException("Error locbting JCE provider: " +
+                            keystoreProviderNbme);
                     }
                 }
 
                 File keystoreFile = null;
-                if (properties.containsKey(KEYSTORE_URI)) {
+                if (properties.contbinsKey(KEYSTORE_URI)) {
                     String uri = properties.get(KEYSTORE_URI);
 
                     try {
-                        if (uri.startsWith("file://")) {
+                        if (uri.stbrtsWith("file://")) {
                             keystoreFile = new File(new URI(uri));
                         } else {
                             keystoreFile = new File(uri);
                         }
 
-                    } catch (URISyntaxException | IllegalArgumentException e) {
+                    } cbtch (URISyntbxException | IllegblArgumentException e) {
                         throw new IOException(
                             "Error processing keystore property: " +
                                 "keystoreURI=\"" + uri + "\"", e);
                     }
                 }
 
-                KeyStore.ProtectionParameter keystoreProtection = null;
-                if (passwords.containsKey(keystoreName)) {
-                    keystoreProtection = passwords.get(keystoreName);
+                KeyStore.ProtectionPbrbmeter keystoreProtection = null;
+                if (pbsswords.contbinsKey(keystoreNbme)) {
+                    keystoreProtection = pbsswords.get(keystoreNbme);
 
-                } else if (properties.containsKey(KEYSTORE_PASSWORD_ENV)) {
+                } else if (properties.contbinsKey(KEYSTORE_PASSWORD_ENV)) {
                     String env = properties.get(KEYSTORE_PASSWORD_ENV);
                     String pwd = System.getenv(env);
                     if (pwd != null) {
                         keystoreProtection =
-                            new KeyStore.PasswordProtection(pwd.toCharArray());
+                            new KeyStore.PbsswordProtection(pwd.toChbrArrby());
                     } else {
                         throw new IOException(
                             "Error processing keystore property: " +
-                                "keystorePasswordEnv=\"" + env + "\"");
+                                "keystorePbsswordEnv=\"" + env + "\"");
                     }
                 } else {
-                    keystoreProtection = new KeyStore.PasswordProtection(null);
+                    keystoreProtection = new KeyStore.PbsswordProtection(null);
                 }
 
-                builders.add(new KeyStoreBuilderComponents(keystoreName,
+                builders.bdd(new KeyStoreBuilderComponents(keystoreNbme,
                     keystoreType, keystoreProvider, keystoreFile,
                     keystoreProtection));
             }
-            break; // skip other domains
+            brebk; // skip other dombins
         }
         if (builders.isEmpty()) {
-            throw new IOException("Error locating domain configuration data " +
-                "for: " + configuration);
+            throw new IOException("Error locbting dombin configurbtion dbtb " +
+                "for: " + configurbtion);
         }
 
         return builders;
     }
 
 /*
- * Utility class that holds the components used to construct a KeyStore.Builder
+ * Utility clbss thbt holds the components used to construct b KeyStore.Builder
  */
-class KeyStoreBuilderComponents {
-    String name;
+clbss KeyStoreBuilderComponents {
+    String nbme;
     String type;
     Provider provider;
     File file;
-    KeyStore.ProtectionParameter protection;
+    KeyStore.ProtectionPbrbmeter protection;
 
-    KeyStoreBuilderComponents(String name, String type, Provider provider,
-        File file, KeyStore.ProtectionParameter protection) {
-        this.name = name;
+    KeyStoreBuilderComponents(String nbme, String type, Provider provider,
+        File file, KeyStore.ProtectionPbrbmeter protection) {
+        this.nbme = nbme;
         this.type = type;
         this.provider = provider;
         this.file = file;

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,55 +30,55 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #ifndef HPROF_TRACKER_H
 #define HPROF_TRACKER_H
 
-/* The internal qualified classname */
+/* The internbl qublified clbssnbme */
 
-#define OBJECT_CLASS_SIG        "Ljava/lang/Object;"
+#define OBJECT_CLASS_SIG        "Ljbvb/lbng/Object;"
 #define OBJECT_INIT_NAME        "<init>"
 #define OBJECT_INIT_SIG         "()V"
 
 #define TRACKER_PACKAGE         "com/sun/demo/jvmti/hprof"
-#define TRACKER_CLASS_NAME      TRACKER_PACKAGE "/Tracker"
+#define TRACKER_CLASS_NAME      TRACKER_PACKAGE "/Trbcker"
 #define TRACKER_CLASS_SIG       "L" TRACKER_CLASS_NAME ";"
 
-#define TRACKER_NEWARRAY_NAME        "NewArray"
-#define TRACKER_NEWARRAY_SIG         "(Ljava/lang/Object;)V"
-#define TRACKER_NEWARRAY_NATIVE_NAME "nativeNewArray"
-#define TRACKER_NEWARRAY_NATIVE_SIG  "(Ljava/lang/Object;Ljava/lang/Object;)V"
+#define TRACKER_NEWARRAY_NAME        "NewArrby"
+#define TRACKER_NEWARRAY_SIG         "(Ljbvb/lbng/Object;)V"
+#define TRACKER_NEWARRAY_NATIVE_NAME "nbtiveNewArrby"
+#define TRACKER_NEWARRAY_NATIVE_SIG  "(Ljbvb/lbng/Object;Ljbvb/lbng/Object;)V"
 
 #define TRACKER_OBJECT_INIT_NAME        "ObjectInit"
-#define TRACKER_OBJECT_INIT_SIG         "(Ljava/lang/Object;)V"
-#define TRACKER_OBJECT_INIT_NATIVE_NAME "nativeObjectInit"
-#define TRACKER_OBJECT_INIT_NATIVE_SIG  "(Ljava/lang/Object;Ljava/lang/Object;)V"
+#define TRACKER_OBJECT_INIT_SIG         "(Ljbvb/lbng/Object;)V"
+#define TRACKER_OBJECT_INIT_NATIVE_NAME "nbtiveObjectInit"
+#define TRACKER_OBJECT_INIT_NATIVE_SIG  "(Ljbvb/lbng/Object;Ljbvb/lbng/Object;)V"
 
-#define TRACKER_CALL_NAME               "CallSite"
+#define TRACKER_CALL_NAME               "CbllSite"
 #define TRACKER_CALL_SIG                "(II)V"
-#define TRACKER_CALL_NATIVE_NAME        "nativeCallSite"
-#define TRACKER_CALL_NATIVE_SIG         "(Ljava/lang/Object;II)V"
+#define TRACKER_CALL_NATIVE_NAME        "nbtiveCbllSite"
+#define TRACKER_CALL_NATIVE_SIG         "(Ljbvb/lbng/Object;II)V"
 
 
 #define TRACKER_RETURN_NAME             "ReturnSite"
 #define TRACKER_RETURN_SIG              "(II)V"
-#define TRACKER_RETURN_NATIVE_NAME      "nativeReturnSite"
-#define TRACKER_RETURN_NATIVE_SIG       "(Ljava/lang/Object;II)V"
+#define TRACKER_RETURN_NATIVE_NAME      "nbtiveReturnSite"
+#define TRACKER_RETURN_NATIVE_SIG       "(Ljbvb/lbng/Object;II)V"
 
-#define TRACKER_ENGAGED_NAME               "engaged"
+#define TRACKER_ENGAGED_NAME               "engbged"
 #define TRACKER_ENGAGED_SIG                "I"
 
-void     tracker_setup_class(void);
-void     tracker_setup_methods(JNIEnv *env);
-void     tracker_engage(JNIEnv *env);
-void     tracker_disengage(JNIEnv *env);
-jboolean tracker_method(jmethodID method);
+void     trbcker_setup_clbss(void);
+void     trbcker_setup_methods(JNIEnv *env);
+void     trbcker_engbge(JNIEnv *env);
+void     trbcker_disengbge(JNIEnv *env);
+jboolebn trbcker_method(jmethodID method);
 
 #endif

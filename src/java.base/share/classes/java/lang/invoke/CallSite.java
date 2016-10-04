@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
 import sun.invoke.empty.Empty;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import stbtic jbvb.lbng.invoke.MethodHbndles.Lookup.IMPL_LOOKUP;
 
 /**
- * A {@code CallSite} is a holder for a variable {@link MethodHandle},
- * which is called its {@code target}.
- * An {@code invokedynamic} instruction linked to a {@code CallSite} delegates
- * all calls to the site's current target.
- * A {@code CallSite} may be associated with several {@code invokedynamic}
- * instructions, or it may be "free floating", associated with none.
- * In any case, it may be invoked through an associated method handle
- * called its {@linkplain #dynamicInvoker dynamic invoker}.
+ * A {@code CbllSite} is b holder for b vbribble {@link MethodHbndle},
+ * which is cblled its {@code tbrget}.
+ * An {@code invokedynbmic} instruction linked to b {@code CbllSite} delegbtes
+ * bll cblls to the site's current tbrget.
+ * A {@code CbllSite} mby be bssocibted with severbl {@code invokedynbmic}
+ * instructions, or it mby be "free flobting", bssocibted with none.
+ * In bny cbse, it mby be invoked through bn bssocibted method hbndle
+ * cblled its {@linkplbin #dynbmicInvoker dynbmic invoker}.
  * <p>
- * {@code CallSite} is an abstract class which does not allow
- * direct subclassing by users.  It has three immediate,
- * concrete subclasses that may be either instantiated or subclassed.
+ * {@code CbllSite} is bn bbstrbct clbss which does not bllow
+ * direct subclbssing by users.  It hbs three immedibte,
+ * concrete subclbsses thbt mby be either instbntibted or subclbssed.
  * <ul>
- * <li>If a mutable target is not required, an {@code invokedynamic} instruction
- * may be permanently bound by means of a {@linkplain ConstantCallSite constant call site}.
- * <li>If a mutable target is required which has volatile variable semantics,
- * because updates to the target must be immediately and reliably witnessed by other threads,
- * a {@linkplain VolatileCallSite volatile call site} may be used.
- * <li>Otherwise, if a mutable target is required,
- * a {@linkplain MutableCallSite mutable call site} may be used.
+ * <li>If b mutbble tbrget is not required, bn {@code invokedynbmic} instruction
+ * mby be permbnently bound by mebns of b {@linkplbin ConstbntCbllSite constbnt cbll site}.
+ * <li>If b mutbble tbrget is required which hbs volbtile vbribble sembntics,
+ * becbuse updbtes to the tbrget must be immedibtely bnd relibbly witnessed by other threbds,
+ * b {@linkplbin VolbtileCbllSite volbtile cbll site} mby be used.
+ * <li>Otherwise, if b mutbble tbrget is required,
+ * b {@linkplbin MutbbleCbllSite mutbble cbll site} mby be used.
  * </ul>
  * <p>
- * A non-constant call site may be <em>relinked</em> by changing its target.
- * The new target must have the same {@linkplain MethodHandle#type() type}
- * as the previous target.
- * Thus, though a call site can be relinked to a series of
- * successive targets, it cannot change its type.
+ * A non-constbnt cbll site mby be <em>relinked</em> by chbnging its tbrget.
+ * The new tbrget must hbve the sbme {@linkplbin MethodHbndle#type() type}
+ * bs the previous tbrget.
+ * Thus, though b cbll site cbn be relinked to b series of
+ * successive tbrgets, it cbnnot chbnge its type.
  * <p>
- * Here is a sample use of call sites and bootstrap methods which links every
- * dynamic call site to print its arguments:
+ * Here is b sbmple use of cbll sites bnd bootstrbp methods which links every
+ * dynbmic cbll site to print its brguments:
 <blockquote><pre>{@code
-static void test() throws Throwable {
+stbtic void test() throws Throwbble {
     // THE FOLLOWING LINE IS PSEUDOCODE FOR A JVM INSTRUCTION
-    InvokeDynamic[#bootstrapDynamic].baz("baz arg", 2, 3.14);
+    InvokeDynbmic[#bootstrbpDynbmic].bbz("bbz brg", 2, 3.14);
 }
-private static void printArgs(Object... args) {
-  System.out.println(java.util.Arrays.deepToString(args));
+privbte stbtic void printArgs(Object... brgs) {
+  System.out.println(jbvb.util.Arrbys.deepToString(brgs));
 }
-private static final MethodHandle printArgs;
-static {
-  MethodHandles.Lookup lookup = MethodHandles.lookup();
-  Class thisClass = lookup.lookupClass();  // (who am I?)
-  printArgs = lookup.findStatic(thisClass,
-      "printArgs", MethodType.methodType(void.class, Object[].class));
+privbte stbtic finbl MethodHbndle printArgs;
+stbtic {
+  MethodHbndles.Lookup lookup = MethodHbndles.lookup();
+  Clbss thisClbss = lookup.lookupClbss();  // (who bm I?)
+  printArgs = lookup.findStbtic(thisClbss,
+      "printArgs", MethodType.methodType(void.clbss, Object[].clbss));
 }
-private static CallSite bootstrapDynamic(MethodHandles.Lookup caller, String name, MethodType type) {
-  // ignore caller and name, but match the type:
-  return new ConstantCallSite(printArgs.asType(type));
+privbte stbtic CbllSite bootstrbpDynbmic(MethodHbndles.Lookup cbller, String nbme, MethodType type) {
+  // ignore cbller bnd nbme, but mbtch the type:
+  return new ConstbntCbllSite(printArgs.bsType(type));
 }
 }</pre></blockquote>
- * @author John Rose, JSR 292 EG
+ * @buthor John Rose, JSR 292 EG
  */
-abstract
-public class CallSite {
-    static { MethodHandleImpl.initStatics(); }
+bbstrbct
+public clbss CbllSite {
+    stbtic { MethodHbndleImpl.initStbtics(); }
 
-    // The actual payload of this call site:
-    /*package-private*/
-    MethodHandle target;    // Note: This field is known to the JVM.  Do not change.
+    // The bctubl pbylobd of this cbll site:
+    /*pbckbge-privbte*/
+    MethodHbndle tbrget;    // Note: This field is known to the JVM.  Do not chbnge.
 
     /**
-     * Make a blank call site object with the given method type.
-     * An initial target method is supplied which will throw
-     * an {@link IllegalStateException} if called.
+     * Mbke b blbnk cbll site object with the given method type.
+     * An initibl tbrget method is supplied which will throw
+     * bn {@link IllegblStbteException} if cblled.
      * <p>
-     * Before this {@code CallSite} object is returned from a bootstrap method,
-     * it is usually provided with a more useful target method,
-     * via a call to {@link CallSite#setTarget(MethodHandle) setTarget}.
+     * Before this {@code CbllSite} object is returned from b bootstrbp method,
+     * it is usublly provided with b more useful tbrget method,
+     * vib b cbll to {@link CbllSite#setTbrget(MethodHbndle) setTbrget}.
      * @throws NullPointerException if the proposed type is null
      */
-    /*package-private*/
-    CallSite(MethodType type) {
-        target = type.invokers().uninitializedCallSite();
+    /*pbckbge-privbte*/
+    CbllSite(MethodType type) {
+        tbrget = type.invokers().uninitiblizedCbllSite();
     }
 
     /**
-     * Make a call site object equipped with an initial target method handle.
-     * @param target the method handle which will be the initial target of the call site
-     * @throws NullPointerException if the proposed target is null
+     * Mbke b cbll site object equipped with bn initibl tbrget method hbndle.
+     * @pbrbm tbrget the method hbndle which will be the initibl tbrget of the cbll site
+     * @throws NullPointerException if the proposed tbrget is null
      */
-    /*package-private*/
-    CallSite(MethodHandle target) {
-        target.type();  // null check
-        this.target = target;
+    /*pbckbge-privbte*/
+    CbllSite(MethodHbndle tbrget) {
+        tbrget.type();  // null check
+        this.tbrget = tbrget;
     }
 
     /**
-     * Make a call site object equipped with an initial target method handle.
-     * @param targetType the desired type of the call site
-     * @param createTargetHook a hook which will bind the call site to the target method handle
-     * @throws WrongMethodTypeException if the hook cannot be invoked on the required arguments,
-     *         or if the target returned by the hook is not of the given {@code targetType}
-     * @throws NullPointerException if the hook returns a null value
-     * @throws ClassCastException if the hook returns something other than a {@code MethodHandle}
-     * @throws Throwable anything else thrown by the hook function
+     * Mbke b cbll site object equipped with bn initibl tbrget method hbndle.
+     * @pbrbm tbrgetType the desired type of the cbll site
+     * @pbrbm crebteTbrgetHook b hook which will bind the cbll site to the tbrget method hbndle
+     * @throws WrongMethodTypeException if the hook cbnnot be invoked on the required brguments,
+     *         or if the tbrget returned by the hook is not of the given {@code tbrgetType}
+     * @throws NullPointerException if the hook returns b null vblue
+     * @throws ClbssCbstException if the hook returns something other thbn b {@code MethodHbndle}
+     * @throws Throwbble bnything else thrown by the hook function
      */
-    /*package-private*/
-    CallSite(MethodType targetType, MethodHandle createTargetHook) throws Throwable {
-        this(targetType);
-        ConstantCallSite selfCCS = (ConstantCallSite) this;
-        MethodHandle boundTarget = (MethodHandle) createTargetHook.invokeWithArguments(selfCCS);
-        checkTargetChange(this.target, boundTarget);
-        this.target = boundTarget;
+    /*pbckbge-privbte*/
+    CbllSite(MethodType tbrgetType, MethodHbndle crebteTbrgetHook) throws Throwbble {
+        this(tbrgetType);
+        ConstbntCbllSite selfCCS = (ConstbntCbllSite) this;
+        MethodHbndle boundTbrget = (MethodHbndle) crebteTbrgetHook.invokeWithArguments(selfCCS);
+        checkTbrgetChbnge(this.tbrget, boundTbrget);
+        this.tbrget = boundTbrget;
     }
 
     /**
-     * Returns the type of this call site's target.
-     * Although targets may change, any call site's type is permanent, and can never change to an unequal type.
-     * The {@code setTarget} method enforces this invariant by refusing any new target that does
-     * not have the previous target's type.
-     * @return the type of the current target, which is also the type of any future target
+     * Returns the type of this cbll site's tbrget.
+     * Although tbrgets mby chbnge, bny cbll site's type is permbnent, bnd cbn never chbnge to bn unequbl type.
+     * The {@code setTbrget} method enforces this invbribnt by refusing bny new tbrget thbt does
+     * not hbve the previous tbrget's type.
+     * @return the type of the current tbrget, which is blso the type of bny future tbrget
      */
     public MethodType type() {
-        // warning:  do not call getTarget here, because CCS.getTarget can throw IllegalStateException
-        return target.type();
+        // wbrning:  do not cbll getTbrget here, becbuse CCS.getTbrget cbn throw IllegblStbteException
+        return tbrget.type();
     }
 
     /**
-     * Returns the target method of the call site, according to the
-     * behavior defined by this call site's specific class.
-     * The immediate subclasses of {@code CallSite} document the
-     * class-specific behaviors of this method.
+     * Returns the tbrget method of the cbll site, bccording to the
+     * behbvior defined by this cbll site's specific clbss.
+     * The immedibte subclbsses of {@code CbllSite} document the
+     * clbss-specific behbviors of this method.
      *
-     * @return the current linkage state of the call site, its target method handle
-     * @see ConstantCallSite
-     * @see VolatileCallSite
-     * @see #setTarget
-     * @see ConstantCallSite#getTarget
-     * @see MutableCallSite#getTarget
-     * @see VolatileCallSite#getTarget
+     * @return the current linkbge stbte of the cbll site, its tbrget method hbndle
+     * @see ConstbntCbllSite
+     * @see VolbtileCbllSite
+     * @see #setTbrget
+     * @see ConstbntCbllSite#getTbrget
+     * @see MutbbleCbllSite#getTbrget
+     * @see VolbtileCbllSite#getTbrget
      */
-    public abstract MethodHandle getTarget();
+    public bbstrbct MethodHbndle getTbrget();
 
     /**
-     * Updates the target method of this call site, according to the
-     * behavior defined by this call site's specific class.
-     * The immediate subclasses of {@code CallSite} document the
-     * class-specific behaviors of this method.
+     * Updbtes the tbrget method of this cbll site, bccording to the
+     * behbvior defined by this cbll site's specific clbss.
+     * The immedibte subclbsses of {@code CbllSite} document the
+     * clbss-specific behbviors of this method.
      * <p>
-     * The type of the new target must be {@linkplain MethodType#equals equal to}
-     * the type of the old target.
+     * The type of the new tbrget must be {@linkplbin MethodType#equbls equbl to}
+     * the type of the old tbrget.
      *
-     * @param newTarget the new target
-     * @throws NullPointerException if the proposed new target is null
-     * @throws WrongMethodTypeException if the proposed new target
-     *         has a method type that differs from the previous target
-     * @see CallSite#getTarget
-     * @see ConstantCallSite#setTarget
-     * @see MutableCallSite#setTarget
-     * @see VolatileCallSite#setTarget
+     * @pbrbm newTbrget the new tbrget
+     * @throws NullPointerException if the proposed new tbrget is null
+     * @throws WrongMethodTypeException if the proposed new tbrget
+     *         hbs b method type thbt differs from the previous tbrget
+     * @see CbllSite#getTbrget
+     * @see ConstbntCbllSite#setTbrget
+     * @see MutbbleCbllSite#setTbrget
+     * @see VolbtileCbllSite#setTbrget
      */
-    public abstract void setTarget(MethodHandle newTarget);
+    public bbstrbct void setTbrget(MethodHbndle newTbrget);
 
-    void checkTargetChange(MethodHandle oldTarget, MethodHandle newTarget) {
-        MethodType oldType = oldTarget.type();
-        MethodType newType = newTarget.type();  // null check!
-        if (!newType.equals(oldType))
-            throw wrongTargetType(newTarget, oldType);
+    void checkTbrgetChbnge(MethodHbndle oldTbrget, MethodHbndle newTbrget) {
+        MethodType oldType = oldTbrget.type();
+        MethodType newType = newTbrget.type();  // null check!
+        if (!newType.equbls(oldType))
+            throw wrongTbrgetType(newTbrget, oldType);
     }
 
-    private static WrongMethodTypeException wrongTargetType(MethodHandle target, MethodType type) {
-        return new WrongMethodTypeException(String.valueOf(target)+" should be of type "+type);
+    privbte stbtic WrongMethodTypeException wrongTbrgetType(MethodHbndle tbrget, MethodType type) {
+        return new WrongMethodTypeException(String.vblueOf(tbrget)+" should be of type "+type);
     }
 
     /**
-     * Produces a method handle equivalent to an invokedynamic instruction
-     * which has been linked to this call site.
+     * Produces b method hbndle equivblent to bn invokedynbmic instruction
+     * which hbs been linked to this cbll site.
      * <p>
-     * This method is equivalent to the following code:
+     * This method is equivblent to the following code:
      * <blockquote><pre>{@code
-     * MethodHandle getTarget, invoker, result;
-     * getTarget = MethodHandles.publicLookup().bind(this, "getTarget", MethodType.methodType(MethodHandle.class));
-     * invoker = MethodHandles.exactInvoker(this.type());
-     * result = MethodHandles.foldArguments(invoker, getTarget)
+     * MethodHbndle getTbrget, invoker, result;
+     * getTbrget = MethodHbndles.publicLookup().bind(this, "getTbrget", MethodType.methodType(MethodHbndle.clbss));
+     * invoker = MethodHbndles.exbctInvoker(this.type());
+     * result = MethodHbndles.foldArguments(invoker, getTbrget)
      * }</pre></blockquote>
      *
-     * @return a method handle which always invokes this call site's current target
+     * @return b method hbndle which blwbys invokes this cbll site's current tbrget
      */
-    public abstract MethodHandle dynamicInvoker();
+    public bbstrbct MethodHbndle dynbmicInvoker();
 
-    /*non-public*/ MethodHandle makeDynamicInvoker() {
-        MethodHandle getTarget = GET_TARGET.bindReceiver(this);
-        MethodHandle invoker = MethodHandles.exactInvoker(this.type());
-        return MethodHandles.foldArguments(invoker, getTarget);
+    /*non-public*/ MethodHbndle mbkeDynbmicInvoker() {
+        MethodHbndle getTbrget = GET_TARGET.bindReceiver(this);
+        MethodHbndle invoker = MethodHbndles.exbctInvoker(this.type());
+        return MethodHbndles.foldArguments(invoker, getTbrget);
     }
 
-    private static final MethodHandle GET_TARGET;
-    static {
+    privbte stbtic finbl MethodHbndle GET_TARGET;
+    stbtic {
         try {
             GET_TARGET = IMPL_LOOKUP.
-                findVirtual(CallSite.class, "getTarget", MethodType.methodType(MethodHandle.class));
-        } catch (ReflectiveOperationException e) {
-            throw newInternalError(e);
+                findVirtubl(CbllSite.clbss, "getTbrget", MethodType.methodType(MethodHbndle.clbss));
+        } cbtch (ReflectiveOperbtionException e) {
+            throw newInternblError(e);
         }
     }
 
-    /** This guy is rolled into the default target if a MethodType is supplied to the constructor. */
-    /*package-private*/
-    static Empty uninitializedCallSite() {
-        throw new IllegalStateException("uninitialized call site");
+    /** This guy is rolled into the defbult tbrget if b MethodType is supplied to the constructor. */
+    /*pbckbge-privbte*/
+    stbtic Empty uninitiblizedCbllSite() {
+        throw new IllegblStbteException("uninitiblized cbll site");
     }
 
-    // unsafe stuff:
-    private static final long TARGET_OFFSET;
-    static {
+    // unsbfe stuff:
+    privbte stbtic finbl long TARGET_OFFSET;
+    stbtic {
         try {
-            TARGET_OFFSET = UNSAFE.objectFieldOffset(CallSite.class.getDeclaredField("target"));
-        } catch (Exception ex) { throw new Error(ex); }
+            TARGET_OFFSET = UNSAFE.objectFieldOffset(CbllSite.clbss.getDeclbredField("tbrget"));
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
 
-    /*package-private*/
-    void setTargetNormal(MethodHandle newTarget) {
-        MethodHandleNatives.setCallSiteTargetNormal(this, newTarget);
+    /*pbckbge-privbte*/
+    void setTbrgetNormbl(MethodHbndle newTbrget) {
+        MethodHbndleNbtives.setCbllSiteTbrgetNormbl(this, newTbrget);
     }
-    /*package-private*/
-    MethodHandle getTargetVolatile() {
-        return (MethodHandle) UNSAFE.getObjectVolatile(this, TARGET_OFFSET);
+    /*pbckbge-privbte*/
+    MethodHbndle getTbrgetVolbtile() {
+        return (MethodHbndle) UNSAFE.getObjectVolbtile(this, TARGET_OFFSET);
     }
-    /*package-private*/
-    void setTargetVolatile(MethodHandle newTarget) {
-        MethodHandleNatives.setCallSiteTargetVolatile(this, newTarget);
+    /*pbckbge-privbte*/
+    void setTbrgetVolbtile(MethodHbndle newTbrget) {
+        MethodHbndleNbtives.setCbllSiteTbrgetVolbtile(this, newTbrget);
     }
 
-    // this implements the upcall from the JVM, MethodHandleNatives.makeDynamicCallSite:
-    static CallSite makeSite(MethodHandle bootstrapMethod,
-                             // Callee information:
-                             String name, MethodType type,
-                             // Extra arguments for BSM, if any:
+    // this implements the upcbll from the JVM, MethodHbndleNbtives.mbkeDynbmicCbllSite:
+    stbtic CbllSite mbkeSite(MethodHbndle bootstrbpMethod,
+                             // Cbllee informbtion:
+                             String nbme, MethodType type,
+                             // Extrb brguments for BSM, if bny:
                              Object info,
-                             // Caller information:
-                             Class<?> callerClass) {
-        MethodHandles.Lookup caller = IMPL_LOOKUP.in(callerClass);
-        CallSite site;
+                             // Cbller informbtion:
+                             Clbss<?> cbllerClbss) {
+        MethodHbndles.Lookup cbller = IMPL_LOOKUP.in(cbllerClbss);
+        CbllSite site;
         try {
             Object binding;
-            info = maybeReBox(info);
+            info = mbybeReBox(info);
             if (info == null) {
-                binding = bootstrapMethod.invoke(caller, name, type);
-            } else if (!info.getClass().isArray()) {
-                binding = bootstrapMethod.invoke(caller, name, type, info);
+                binding = bootstrbpMethod.invoke(cbller, nbme, type);
+            } else if (!info.getClbss().isArrby()) {
+                binding = bootstrbpMethod.invoke(cbller, nbme, type, info);
             } else {
-                Object[] argv = (Object[]) info;
-                maybeReBoxElements(argv);
-                switch (argv.length) {
-                case 0:
-                    binding = bootstrapMethod.invoke(caller, name, type);
-                    break;
-                case 1:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0]);
-                    break;
-                case 2:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0], argv[1]);
-                    break;
-                case 3:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0], argv[1], argv[2]);
-                    break;
-                case 4:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0], argv[1], argv[2], argv[3]);
-                    break;
-                case 5:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0], argv[1], argv[2], argv[3], argv[4]);
-                    break;
-                case 6:
-                    binding = bootstrapMethod.invoke(caller, name, type,
-                                                     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
-                    break;
-                default:
-                    final int NON_SPREAD_ARG_COUNT = 3;  // (caller, name, type)
-                    if (NON_SPREAD_ARG_COUNT + argv.length > MethodType.MAX_MH_ARITY)
-                        throw new BootstrapMethodError("too many bootstrap method arguments");
-                    MethodType bsmType = bootstrapMethod.type();
-                    MethodType invocationType = MethodType.genericMethodType(NON_SPREAD_ARG_COUNT + argv.length);
-                    MethodHandle typedBSM = bootstrapMethod.asType(invocationType);
-                    MethodHandle spreader = invocationType.invokers().spreadInvoker(NON_SPREAD_ARG_COUNT);
-                    binding = spreader.invokeExact(typedBSM, (Object)caller, (Object)name, (Object)type, argv);
+                Object[] brgv = (Object[]) info;
+                mbybeReBoxElements(brgv);
+                switch (brgv.length) {
+                cbse 0:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type);
+                    brebk;
+                cbse 1:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0]);
+                    brebk;
+                cbse 2:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0], brgv[1]);
+                    brebk;
+                cbse 3:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0], brgv[1], brgv[2]);
+                    brebk;
+                cbse 4:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0], brgv[1], brgv[2], brgv[3]);
+                    brebk;
+                cbse 5:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0], brgv[1], brgv[2], brgv[3], brgv[4]);
+                    brebk;
+                cbse 6:
+                    binding = bootstrbpMethod.invoke(cbller, nbme, type,
+                                                     brgv[0], brgv[1], brgv[2], brgv[3], brgv[4], brgv[5]);
+                    brebk;
+                defbult:
+                    finbl int NON_SPREAD_ARG_COUNT = 3;  // (cbller, nbme, type)
+                    if (NON_SPREAD_ARG_COUNT + brgv.length > MethodType.MAX_MH_ARITY)
+                        throw new BootstrbpMethodError("too mbny bootstrbp method brguments");
+                    MethodType bsmType = bootstrbpMethod.type();
+                    MethodType invocbtionType = MethodType.genericMethodType(NON_SPREAD_ARG_COUNT + brgv.length);
+                    MethodHbndle typedBSM = bootstrbpMethod.bsType(invocbtionType);
+                    MethodHbndle sprebder = invocbtionType.invokers().sprebdInvoker(NON_SPREAD_ARG_COUNT);
+                    binding = sprebder.invokeExbct(typedBSM, (Object)cbller, (Object)nbme, (Object)type, brgv);
                 }
             }
-            //System.out.println("BSM for "+name+type+" => "+binding);
-            if (binding instanceof CallSite) {
-                site = (CallSite) binding;
+            //System.out.println("BSM for "+nbme+type+" => "+binding);
+            if (binding instbnceof CbllSite) {
+                site = (CbllSite) binding;
             }  else {
-                throw new ClassCastException("bootstrap method failed to produce a CallSite");
+                throw new ClbssCbstException("bootstrbp method fbiled to produce b CbllSite");
             }
-            if (!site.getTarget().type().equals(type))
-                throw new WrongMethodTypeException("wrong type: "+site.getTarget());
-        } catch (Throwable ex) {
-            BootstrapMethodError bex;
-            if (ex instanceof BootstrapMethodError)
-                bex = (BootstrapMethodError) ex;
+            if (!site.getTbrget().type().equbls(type))
+                throw new WrongMethodTypeException("wrong type: "+site.getTbrget());
+        } cbtch (Throwbble ex) {
+            BootstrbpMethodError bex;
+            if (ex instbnceof BootstrbpMethodError)
+                bex = (BootstrbpMethodError) ex;
             else
-                bex = new BootstrapMethodError("call site initialization exception", ex);
+                bex = new BootstrbpMethodError("cbll site initiblizbtion exception", ex);
             throw bex;
         }
         return site;
     }
 
-    private static Object maybeReBox(Object x) {
-        if (x instanceof Integer) {
+    privbte stbtic Object mbybeReBox(Object x) {
+        if (x instbnceof Integer) {
             int xi = (int) x;
             if (xi == (byte) xi)
                 x = xi;  // must rebox; see JLS 5.1.7
         }
         return x;
     }
-    private static void maybeReBoxElements(Object[] xa) {
-        for (int i = 0; i < xa.length; i++) {
-            xa[i] = maybeReBox(xa[i]);
+    privbte stbtic void mbybeReBoxElements(Object[] xb) {
+        for (int i = 0; i < xb.length; i++) {
+            xb[i] = mbybeReBox(xb[i]);
         }
     }
 }

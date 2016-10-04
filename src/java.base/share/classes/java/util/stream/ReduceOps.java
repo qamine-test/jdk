@@ -1,761 +1,761 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.IntBinaryOperator;
-import java.util.function.LongBinaryOperator;
-import java.util.function.ObjDoubleConsumer;
-import java.util.function.ObjIntConsumer;
-import java.util.function.ObjLongConsumer;
-import java.util.function.Supplier;
+import jbvb.util.Objects;
+import jbvb.util.Optionbl;
+import jbvb.util.OptionblDouble;
+import jbvb.util.OptionblInt;
+import jbvb.util.OptionblLong;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.CountedCompleter;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.DoubleBinbryOperbtor;
+import jbvb.util.function.IntBinbryOperbtor;
+import jbvb.util.function.LongBinbryOperbtor;
+import jbvb.util.function.ObjDoubleConsumer;
+import jbvb.util.function.ObjIntConsumer;
+import jbvb.util.function.ObjLongConsumer;
+import jbvb.util.function.Supplier;
 
 /**
- * Factory for creating instances of {@code TerminalOp} that implement
+ * Fbctory for crebting instbnces of {@code TerminblOp} thbt implement
  * reductions.
  *
  * @since 1.8
  */
-final class ReduceOps {
+finbl clbss ReduceOps {
 
-    private ReduceOps() { }
+    privbte ReduceOps() { }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * reference values.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * reference vblues.
      *
-     * @param <T> the type of the input elements
-     * @param <U> the type of the result
-     * @param seed the identity element for the reduction
-     * @param reducer the accumulating function that incorporates an additional
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <U> the type of the result
+     * @pbrbm seed the identity element for the reduction
+     * @pbrbm reducer the bccumulbting function thbt incorporbtes bn bdditionbl
      *        input element into the result
-     * @param combiner the combining function that combines two intermediate
+     * @pbrbm combiner the combining function thbt combines two intermedibte
      *        results
-     * @return a {@code TerminalOp} implementing the reduction
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static <T, U> TerminalOp<T, U>
-    makeRef(U seed, BiFunction<U, ? super T, U> reducer, BinaryOperator<U> combiner) {
+    public stbtic <T, U> TerminblOp<T, U>
+    mbkeRef(U seed, BiFunction<U, ? super T, U> reducer, BinbryOperbtor<U> combiner) {
         Objects.requireNonNull(reducer);
         Objects.requireNonNull(combiner);
-        class ReducingSink extends Box<U> implements AccumulatingSink<T, U, ReducingSink> {
+        clbss ReducingSink extends Box<U> implements AccumulbtingSink<T, U, ReducingSink> {
             @Override
             public void begin(long size) {
-                state = seed;
+                stbte = seed;
             }
 
             @Override
-            public void accept(T t) {
-                state = reducer.apply(state, t);
+            public void bccept(T t) {
+                stbte = reducer.bpply(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                state = combiner.apply(state, other.state);
+                stbte = combiner.bpply(stbte, other.stbte);
             }
         }
-        return new ReduceOp<T, U, ReducingSink>(StreamShape.REFERENCE) {
+        return new ReduceOp<T, U, ReducingSink>(StrebmShbpe.REFERENCE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * reference values producing an optional reference result.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * reference vblues producing bn optionbl reference result.
      *
-     * @param <T> The type of the input elements, and the type of the result
-     * @param operator The reducing function
-     * @return A {@code TerminalOp} implementing the reduction
+     * @pbrbm <T> The type of the input elements, bnd the type of the result
+     * @pbrbm operbtor The reducing function
+     * @return A {@code TerminblOp} implementing the reduction
      */
-    public static <T> TerminalOp<T, Optional<T>>
-    makeRef(BinaryOperator<T> operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<T, Optional<T>, ReducingSink> {
-            private boolean empty;
-            private T state;
+    public stbtic <T> TerminblOp<T, Optionbl<T>>
+    mbkeRef(BinbryOperbtor<T> operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<T, Optionbl<T>, ReducingSink> {
+            privbte boolebn empty;
+            privbte T stbte;
 
             public void begin(long size) {
                 empty = true;
-                state = null;
+                stbte = null;
             }
 
             @Override
-            public void accept(T t) {
+            public void bccept(T t) {
                 if (empty) {
-                    empty = false;
-                    state = t;
+                    empty = fblse;
+                    stbte = t;
                 } else {
-                    state = operator.apply(state, t);
+                    stbte = operbtor.bpply(stbte, t);
                 }
             }
 
             @Override
-            public Optional<T> get() {
-                return empty ? Optional.empty() : Optional.of(state);
+            public Optionbl<T> get() {
+                return empty ? Optionbl.empty() : Optionbl.of(stbte);
             }
 
             @Override
             public void combine(ReducingSink other) {
                 if (!other.empty)
-                    accept(other.state);
+                    bccept(other.stbte);
             }
         }
-        return new ReduceOp<T, Optional<T>, ReducingSink>(StreamShape.REFERENCE) {
+        return new ReduceOp<T, Optionbl<T>, ReducingSink>(StrebmShbpe.REFERENCE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a mutable reduce on
-     * reference values.
+     * Constructs b {@code TerminblOp} thbt implements b mutbble reduce on
+     * reference vblues.
      *
-     * @param <T> the type of the input elements
-     * @param <I> the type of the intermediate reduction result
-     * @param collector a {@code Collector} defining the reduction
-     * @return a {@code ReduceOp} implementing the reduction
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <I> the type of the intermedibte reduction result
+     * @pbrbm collector b {@code Collector} defining the reduction
+     * @return b {@code ReduceOp} implementing the reduction
      */
-    public static <T, I> TerminalOp<T, I>
-    makeRef(Collector<? super T, I, ?> collector) {
+    public stbtic <T, I> TerminblOp<T, I>
+    mbkeRef(Collector<? super T, I, ?> collector) {
         Supplier<I> supplier = Objects.requireNonNull(collector).supplier();
-        BiConsumer<I, ? super T> accumulator = collector.accumulator();
-        BinaryOperator<I> combiner = collector.combiner();
-        class ReducingSink extends Box<I>
-                implements AccumulatingSink<T, I, ReducingSink> {
+        BiConsumer<I, ? super T> bccumulbtor = collector.bccumulbtor();
+        BinbryOperbtor<I> combiner = collector.combiner();
+        clbss ReducingSink extends Box<I>
+                implements AccumulbtingSink<T, I, ReducingSink> {
             @Override
             public void begin(long size) {
-                state = supplier.get();
+                stbte = supplier.get();
             }
 
             @Override
-            public void accept(T t) {
-                accumulator.accept(state, t);
+            public void bccept(T t) {
+                bccumulbtor.bccept(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                state = combiner.apply(state, other.state);
+                stbte = combiner.bpply(stbte, other.stbte);
             }
         }
-        return new ReduceOp<T, I, ReducingSink>(StreamShape.REFERENCE) {
+        return new ReduceOp<T, I, ReducingSink>(StrebmShbpe.REFERENCE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
 
             @Override
-            public int getOpFlags() {
-                return collector.characteristics().contains(Collector.Characteristics.UNORDERED)
-                       ? StreamOpFlag.NOT_ORDERED
+            public int getOpFlbgs() {
+                return collector.chbrbcteristics().contbins(Collector.Chbrbcteristics.UNORDERED)
+                       ? StrebmOpFlbg.NOT_ORDERED
                        : 0;
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a mutable reduce on
-     * reference values.
+     * Constructs b {@code TerminblOp} thbt implements b mutbble reduce on
+     * reference vblues.
      *
-     * @param <T> the type of the input elements
-     * @param <R> the type of the result
-     * @param seedFactory a factory to produce a new base accumulator
-     * @param accumulator a function to incorporate an element into an
-     *        accumulator
-     * @param reducer a function to combine an accumulator into another
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <R> the type of the result
+     * @pbrbm seedFbctory b fbctory to produce b new bbse bccumulbtor
+     * @pbrbm bccumulbtor b function to incorporbte bn element into bn
+     *        bccumulbtor
+     * @pbrbm reducer b function to combine bn bccumulbtor into bnother
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static <T, R> TerminalOp<T, R>
-    makeRef(Supplier<R> seedFactory,
-            BiConsumer<R, ? super T> accumulator,
+    public stbtic <T, R> TerminblOp<T, R>
+    mbkeRef(Supplier<R> seedFbctory,
+            BiConsumer<R, ? super T> bccumulbtor,
             BiConsumer<R,R> reducer) {
-        Objects.requireNonNull(seedFactory);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(seedFbctory);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(reducer);
-        class ReducingSink extends Box<R>
-                implements AccumulatingSink<T, R, ReducingSink> {
+        clbss ReducingSink extends Box<R>
+                implements AccumulbtingSink<T, R, ReducingSink> {
             @Override
             public void begin(long size) {
-                state = seedFactory.get();
+                stbte = seedFbctory.get();
             }
 
             @Override
-            public void accept(T t) {
-                accumulator.accept(state, t);
+            public void bccept(T t) {
+                bccumulbtor.bccept(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                reducer.accept(state, other.state);
+                reducer.bccept(stbte, other.stbte);
             }
         }
-        return new ReduceOp<T, R, ReducingSink>(StreamShape.REFERENCE) {
+        return new ReduceOp<T, R, ReducingSink>(StrebmShbpe.REFERENCE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code int} values.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code int} vblues.
      *
-     * @param identity the identity for the combining function
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm identity the identity for the combining function
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Integer, Integer>
-    makeInt(int identity, IntBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Integer, Integer, ReducingSink>, Sink.OfInt {
-            private int state;
+    public stbtic TerminblOp<Integer, Integer>
+    mbkeInt(int identity, IntBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Integer, Integer, ReducingSink>, Sink.OfInt {
+            privbte int stbte;
 
             @Override
             public void begin(long size) {
-                state = identity;
+                stbte = identity;
             }
 
             @Override
-            public void accept(int t) {
-                state = operator.applyAsInt(state, t);
+            public void bccept(int t) {
+                stbte = operbtor.bpplyAsInt(stbte, t);
             }
 
             @Override
             public Integer get() {
-                return state;
+                return stbte;
             }
 
             @Override
             public void combine(ReducingSink other) {
-                accept(other.state);
+                bccept(other.stbte);
             }
         }
-        return new ReduceOp<Integer, Integer, ReducingSink>(StreamShape.INT_VALUE) {
+        return new ReduceOp<Integer, Integer, ReducingSink>(StrebmShbpe.INT_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code int} values, producing an optional integer result.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code int} vblues, producing bn optionbl integer result.
      *
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Integer, OptionalInt>
-    makeInt(IntBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Integer, OptionalInt, ReducingSink>, Sink.OfInt {
-            private boolean empty;
-            private int state;
+    public stbtic TerminblOp<Integer, OptionblInt>
+    mbkeInt(IntBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Integer, OptionblInt, ReducingSink>, Sink.OfInt {
+            privbte boolebn empty;
+            privbte int stbte;
 
             public void begin(long size) {
                 empty = true;
-                state = 0;
+                stbte = 0;
             }
 
             @Override
-            public void accept(int t) {
+            public void bccept(int t) {
                 if (empty) {
-                    empty = false;
-                    state = t;
+                    empty = fblse;
+                    stbte = t;
                 }
                 else {
-                    state = operator.applyAsInt(state, t);
+                    stbte = operbtor.bpplyAsInt(stbte, t);
                 }
             }
 
             @Override
-            public OptionalInt get() {
-                return empty ? OptionalInt.empty() : OptionalInt.of(state);
+            public OptionblInt get() {
+                return empty ? OptionblInt.empty() : OptionblInt.of(stbte);
             }
 
             @Override
             public void combine(ReducingSink other) {
                 if (!other.empty)
-                    accept(other.state);
+                    bccept(other.stbte);
             }
         }
-        return new ReduceOp<Integer, OptionalInt, ReducingSink>(StreamShape.INT_VALUE) {
+        return new ReduceOp<Integer, OptionblInt, ReducingSink>(StrebmShbpe.INT_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a mutable reduce on
-     * {@code int} values.
+     * Constructs b {@code TerminblOp} thbt implements b mutbble reduce on
+     * {@code int} vblues.
      *
-     * @param <R> The type of the result
-     * @param supplier a factory to produce a new accumulator of the result type
-     * @param accumulator a function to incorporate an int into an
-     *        accumulator
-     * @param combiner a function to combine an accumulator into another
+     * @pbrbm <R> The type of the result
+     * @pbrbm supplier b fbctory to produce b new bccumulbtor of the result type
+     * @pbrbm bccumulbtor b function to incorporbte bn int into bn
+     *        bccumulbtor
+     * @pbrbm combiner b function to combine bn bccumulbtor into bnother
      * @return A {@code ReduceOp} implementing the reduction
      */
-    public static <R> TerminalOp<Integer, R>
-    makeInt(Supplier<R> supplier,
-            ObjIntConsumer<R> accumulator,
-            BinaryOperator<R> combiner) {
+    public stbtic <R> TerminblOp<Integer, R>
+    mbkeInt(Supplier<R> supplier,
+            ObjIntConsumer<R> bccumulbtor,
+            BinbryOperbtor<R> combiner) {
         Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(combiner);
-        class ReducingSink extends Box<R>
-                implements AccumulatingSink<Integer, R, ReducingSink>, Sink.OfInt {
+        clbss ReducingSink extends Box<R>
+                implements AccumulbtingSink<Integer, R, ReducingSink>, Sink.OfInt {
             @Override
             public void begin(long size) {
-                state = supplier.get();
+                stbte = supplier.get();
             }
 
             @Override
-            public void accept(int t) {
-                accumulator.accept(state, t);
+            public void bccept(int t) {
+                bccumulbtor.bccept(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                state = combiner.apply(state, other.state);
+                stbte = combiner.bpply(stbte, other.stbte);
             }
         }
-        return new ReduceOp<Integer, R, ReducingSink>(StreamShape.INT_VALUE) {
+        return new ReduceOp<Integer, R, ReducingSink>(StrebmShbpe.INT_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code long} values.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code long} vblues.
      *
-     * @param identity the identity for the combining function
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm identity the identity for the combining function
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Long, Long>
-    makeLong(long identity, LongBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Long, Long, ReducingSink>, Sink.OfLong {
-            private long state;
+    public stbtic TerminblOp<Long, Long>
+    mbkeLong(long identity, LongBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Long, Long, ReducingSink>, Sink.OfLong {
+            privbte long stbte;
 
             @Override
             public void begin(long size) {
-                state = identity;
+                stbte = identity;
             }
 
             @Override
-            public void accept(long t) {
-                state = operator.applyAsLong(state, t);
+            public void bccept(long t) {
+                stbte = operbtor.bpplyAsLong(stbte, t);
             }
 
             @Override
             public Long get() {
-                return state;
+                return stbte;
             }
 
             @Override
             public void combine(ReducingSink other) {
-                accept(other.state);
+                bccept(other.stbte);
             }
         }
-        return new ReduceOp<Long, Long, ReducingSink>(StreamShape.LONG_VALUE) {
+        return new ReduceOp<Long, Long, ReducingSink>(StrebmShbpe.LONG_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code long} values, producing an optional long result.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code long} vblues, producing bn optionbl long result.
      *
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Long, OptionalLong>
-    makeLong(LongBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Long, OptionalLong, ReducingSink>, Sink.OfLong {
-            private boolean empty;
-            private long state;
+    public stbtic TerminblOp<Long, OptionblLong>
+    mbkeLong(LongBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Long, OptionblLong, ReducingSink>, Sink.OfLong {
+            privbte boolebn empty;
+            privbte long stbte;
 
             public void begin(long size) {
                 empty = true;
-                state = 0;
+                stbte = 0;
             }
 
             @Override
-            public void accept(long t) {
+            public void bccept(long t) {
                 if (empty) {
-                    empty = false;
-                    state = t;
+                    empty = fblse;
+                    stbte = t;
                 }
                 else {
-                    state = operator.applyAsLong(state, t);
+                    stbte = operbtor.bpplyAsLong(stbte, t);
                 }
             }
 
             @Override
-            public OptionalLong get() {
-                return empty ? OptionalLong.empty() : OptionalLong.of(state);
+            public OptionblLong get() {
+                return empty ? OptionblLong.empty() : OptionblLong.of(stbte);
             }
 
             @Override
             public void combine(ReducingSink other) {
                 if (!other.empty)
-                    accept(other.state);
+                    bccept(other.stbte);
             }
         }
-        return new ReduceOp<Long, OptionalLong, ReducingSink>(StreamShape.LONG_VALUE) {
+        return new ReduceOp<Long, OptionblLong, ReducingSink>(StrebmShbpe.LONG_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a mutable reduce on
-     * {@code long} values.
+     * Constructs b {@code TerminblOp} thbt implements b mutbble reduce on
+     * {@code long} vblues.
      *
-     * @param <R> the type of the result
-     * @param supplier a factory to produce a new accumulator of the result type
-     * @param accumulator a function to incorporate an int into an
-     *        accumulator
-     * @param combiner a function to combine an accumulator into another
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm <R> the type of the result
+     * @pbrbm supplier b fbctory to produce b new bccumulbtor of the result type
+     * @pbrbm bccumulbtor b function to incorporbte bn int into bn
+     *        bccumulbtor
+     * @pbrbm combiner b function to combine bn bccumulbtor into bnother
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static <R> TerminalOp<Long, R>
-    makeLong(Supplier<R> supplier,
-             ObjLongConsumer<R> accumulator,
-             BinaryOperator<R> combiner) {
+    public stbtic <R> TerminblOp<Long, R>
+    mbkeLong(Supplier<R> supplier,
+             ObjLongConsumer<R> bccumulbtor,
+             BinbryOperbtor<R> combiner) {
         Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(combiner);
-        class ReducingSink extends Box<R>
-                implements AccumulatingSink<Long, R, ReducingSink>, Sink.OfLong {
+        clbss ReducingSink extends Box<R>
+                implements AccumulbtingSink<Long, R, ReducingSink>, Sink.OfLong {
             @Override
             public void begin(long size) {
-                state = supplier.get();
+                stbte = supplier.get();
             }
 
             @Override
-            public void accept(long t) {
-                accumulator.accept(state, t);
+            public void bccept(long t) {
+                bccumulbtor.bccept(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                state = combiner.apply(state, other.state);
+                stbte = combiner.bpply(stbte, other.stbte);
             }
         }
-        return new ReduceOp<Long, R, ReducingSink>(StreamShape.LONG_VALUE) {
+        return new ReduceOp<Long, R, ReducingSink>(StrebmShbpe.LONG_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code double} values.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code double} vblues.
      *
-     * @param identity the identity for the combining function
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm identity the identity for the combining function
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Double, Double>
-    makeDouble(double identity, DoubleBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Double, Double, ReducingSink>, Sink.OfDouble {
-            private double state;
+    public stbtic TerminblOp<Double, Double>
+    mbkeDouble(double identity, DoubleBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Double, Double, ReducingSink>, Sink.OfDouble {
+            privbte double stbte;
 
             @Override
             public void begin(long size) {
-                state = identity;
+                stbte = identity;
             }
 
             @Override
-            public void accept(double t) {
-                state = operator.applyAsDouble(state, t);
+            public void bccept(double t) {
+                stbte = operbtor.bpplyAsDouble(stbte, t);
             }
 
             @Override
             public Double get() {
-                return state;
+                return stbte;
             }
 
             @Override
             public void combine(ReducingSink other) {
-                accept(other.state);
+                bccept(other.stbte);
             }
         }
-        return new ReduceOp<Double, Double, ReducingSink>(StreamShape.DOUBLE_VALUE) {
+        return new ReduceOp<Double, Double, ReducingSink>(StrebmShbpe.DOUBLE_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a functional reduce on
-     * {@code double} values, producing an optional double result.
+     * Constructs b {@code TerminblOp} thbt implements b functionbl reduce on
+     * {@code double} vblues, producing bn optionbl double result.
      *
-     * @param operator the combining function
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm operbtor the combining function
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static TerminalOp<Double, OptionalDouble>
-    makeDouble(DoubleBinaryOperator operator) {
-        Objects.requireNonNull(operator);
-        class ReducingSink
-                implements AccumulatingSink<Double, OptionalDouble, ReducingSink>, Sink.OfDouble {
-            private boolean empty;
-            private double state;
+    public stbtic TerminblOp<Double, OptionblDouble>
+    mbkeDouble(DoubleBinbryOperbtor operbtor) {
+        Objects.requireNonNull(operbtor);
+        clbss ReducingSink
+                implements AccumulbtingSink<Double, OptionblDouble, ReducingSink>, Sink.OfDouble {
+            privbte boolebn empty;
+            privbte double stbte;
 
             public void begin(long size) {
                 empty = true;
-                state = 0;
+                stbte = 0;
             }
 
             @Override
-            public void accept(double t) {
+            public void bccept(double t) {
                 if (empty) {
-                    empty = false;
-                    state = t;
+                    empty = fblse;
+                    stbte = t;
                 }
                 else {
-                    state = operator.applyAsDouble(state, t);
+                    stbte = operbtor.bpplyAsDouble(stbte, t);
                 }
             }
 
             @Override
-            public OptionalDouble get() {
-                return empty ? OptionalDouble.empty() : OptionalDouble.of(state);
+            public OptionblDouble get() {
+                return empty ? OptionblDouble.empty() : OptionblDouble.of(stbte);
             }
 
             @Override
             public void combine(ReducingSink other) {
                 if (!other.empty)
-                    accept(other.state);
+                    bccept(other.stbte);
             }
         }
-        return new ReduceOp<Double, OptionalDouble, ReducingSink>(StreamShape.DOUBLE_VALUE) {
+        return new ReduceOp<Double, OptionblDouble, ReducingSink>(StrebmShbpe.DOUBLE_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * Constructs a {@code TerminalOp} that implements a mutable reduce on
-     * {@code double} values.
+     * Constructs b {@code TerminblOp} thbt implements b mutbble reduce on
+     * {@code double} vblues.
      *
-     * @param <R> the type of the result
-     * @param supplier a factory to produce a new accumulator of the result type
-     * @param accumulator a function to incorporate an int into an
-     *        accumulator
-     * @param combiner a function to combine an accumulator into another
-     * @return a {@code TerminalOp} implementing the reduction
+     * @pbrbm <R> the type of the result
+     * @pbrbm supplier b fbctory to produce b new bccumulbtor of the result type
+     * @pbrbm bccumulbtor b function to incorporbte bn int into bn
+     *        bccumulbtor
+     * @pbrbm combiner b function to combine bn bccumulbtor into bnother
+     * @return b {@code TerminblOp} implementing the reduction
      */
-    public static <R> TerminalOp<Double, R>
-    makeDouble(Supplier<R> supplier,
-               ObjDoubleConsumer<R> accumulator,
-               BinaryOperator<R> combiner) {
+    public stbtic <R> TerminblOp<Double, R>
+    mbkeDouble(Supplier<R> supplier,
+               ObjDoubleConsumer<R> bccumulbtor,
+               BinbryOperbtor<R> combiner) {
         Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(combiner);
-        class ReducingSink extends Box<R>
-                implements AccumulatingSink<Double, R, ReducingSink>, Sink.OfDouble {
+        clbss ReducingSink extends Box<R>
+                implements AccumulbtingSink<Double, R, ReducingSink>, Sink.OfDouble {
             @Override
             public void begin(long size) {
-                state = supplier.get();
+                stbte = supplier.get();
             }
 
             @Override
-            public void accept(double t) {
-                accumulator.accept(state, t);
+            public void bccept(double t) {
+                bccumulbtor.bccept(stbte, t);
             }
 
             @Override
             public void combine(ReducingSink other) {
-                state = combiner.apply(state, other.state);
+                stbte = combiner.bpply(stbte, other.stbte);
             }
         }
-        return new ReduceOp<Double, R, ReducingSink>(StreamShape.DOUBLE_VALUE) {
+        return new ReduceOp<Double, R, ReducingSink>(StrebmShbpe.DOUBLE_VALUE) {
             @Override
-            public ReducingSink makeSink() {
+            public ReducingSink mbkeSink() {
                 return new ReducingSink();
             }
         };
     }
 
     /**
-     * A type of {@code TerminalSink} that implements an associative reducing
-     * operation on elements of type {@code T} and producing a result of type
+     * A type of {@code TerminblSink} thbt implements bn bssocibtive reducing
+     * operbtion on elements of type {@code T} bnd producing b result of type
      * {@code R}.
      *
-     * @param <T> the type of input element to the combining operation
-     * @param <R> the result type
-     * @param <K> the type of the {@code AccumulatingSink}.
+     * @pbrbm <T> the type of input element to the combining operbtion
+     * @pbrbm <R> the result type
+     * @pbrbm <K> the type of the {@code AccumulbtingSink}.
      */
-    private interface AccumulatingSink<T, R, K extends AccumulatingSink<T, R, K>>
-            extends TerminalSink<T, R> {
+    privbte interfbce AccumulbtingSink<T, R, K extends AccumulbtingSink<T, R, K>>
+            extends TerminblSink<T, R> {
         public void combine(K other);
     }
 
     /**
-     * State box for a single state element, used as a base class for
-     * {@code AccumulatingSink} instances
+     * Stbte box for b single stbte element, used bs b bbse clbss for
+     * {@code AccumulbtingSink} instbnces
      *
-     * @param <U> The type of the state element
+     * @pbrbm <U> The type of the stbte element
      */
-    private static abstract class Box<U> {
-        U state;
+    privbte stbtic bbstrbct clbss Box<U> {
+        U stbte;
 
-        Box() {} // Avoid creation of special accessor
+        Box() {} // Avoid crebtion of specibl bccessor
 
         public U get() {
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * A {@code TerminalOp} that evaluates a stream pipeline and sends the
-     * output into an {@code AccumulatingSink}, which performs a reduce
-     * operation. The {@code AccumulatingSink} must represent an associative
-     * reducing operation.
+     * A {@code TerminblOp} thbt evblubtes b strebm pipeline bnd sends the
+     * output into bn {@code AccumulbtingSink}, which performs b reduce
+     * operbtion. The {@code AccumulbtingSink} must represent bn bssocibtive
+     * reducing operbtion.
      *
-     * @param <T> the output type of the stream pipeline
-     * @param <R> the result type of the reducing operation
-     * @param <S> the type of the {@code AccumulatingSink}
+     * @pbrbm <T> the output type of the strebm pipeline
+     * @pbrbm <R> the result type of the reducing operbtion
+     * @pbrbm <S> the type of the {@code AccumulbtingSink}
      */
-    private static abstract class ReduceOp<T, R, S extends AccumulatingSink<T, R, S>>
-            implements TerminalOp<T, R> {
-        private final StreamShape inputShape;
+    privbte stbtic bbstrbct clbss ReduceOp<T, R, S extends AccumulbtingSink<T, R, S>>
+            implements TerminblOp<T, R> {
+        privbte finbl StrebmShbpe inputShbpe;
 
         /**
-         * Create a {@code ReduceOp} of the specified stream shape which uses
-         * the specified {@code Supplier} to create accumulating sinks.
+         * Crebte b {@code ReduceOp} of the specified strebm shbpe which uses
+         * the specified {@code Supplier} to crebte bccumulbting sinks.
          *
-         * @param shape The shape of the stream pipeline
+         * @pbrbm shbpe The shbpe of the strebm pipeline
          */
-        ReduceOp(StreamShape shape) {
-            inputShape = shape;
+        ReduceOp(StrebmShbpe shbpe) {
+            inputShbpe = shbpe;
         }
 
-        public abstract S makeSink();
+        public bbstrbct S mbkeSink();
 
         @Override
-        public StreamShape inputShape() {
-            return inputShape;
-        }
-
-        @Override
-        public <P_IN> R evaluateSequential(PipelineHelper<T> helper,
-                                           Spliterator<P_IN> spliterator) {
-            return helper.wrapAndCopyInto(makeSink(), spliterator).get();
+        public StrebmShbpe inputShbpe() {
+            return inputShbpe;
         }
 
         @Override
-        public <P_IN> R evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<P_IN> spliterator) {
-            return new ReduceTask<>(this, helper, spliterator).invoke().get();
+        public <P_IN> R evblubteSequentibl(PipelineHelper<T> helper,
+                                           Spliterbtor<P_IN> spliterbtor) {
+            return helper.wrbpAndCopyInto(mbkeSink(), spliterbtor).get();
+        }
+
+        @Override
+        public <P_IN> R evblubtePbrbllel(PipelineHelper<T> helper,
+                                         Spliterbtor<P_IN> spliterbtor) {
+            return new ReduceTbsk<>(this, helper, spliterbtor).invoke().get();
         }
     }
 
     /**
-     * A {@code ForkJoinTask} for performing a parallel reduce operation.
+     * A {@code ForkJoinTbsk} for performing b pbrbllel reduce operbtion.
      */
-    @SuppressWarnings("serial")
-    private static final class ReduceTask<P_IN, P_OUT, R,
-                                          S extends AccumulatingSink<P_OUT, R, S>>
-            extends AbstractTask<P_IN, P_OUT, S, ReduceTask<P_IN, P_OUT, R, S>> {
-        private final ReduceOp<P_OUT, R, S> op;
+    @SuppressWbrnings("seribl")
+    privbte stbtic finbl clbss ReduceTbsk<P_IN, P_OUT, R,
+                                          S extends AccumulbtingSink<P_OUT, R, S>>
+            extends AbstrbctTbsk<P_IN, P_OUT, S, ReduceTbsk<P_IN, P_OUT, R, S>> {
+        privbte finbl ReduceOp<P_OUT, R, S> op;
 
-        ReduceTask(ReduceOp<P_OUT, R, S> op,
+        ReduceTbsk(ReduceOp<P_OUT, R, S> op,
                    PipelineHelper<P_OUT> helper,
-                   Spliterator<P_IN> spliterator) {
-            super(helper, spliterator);
+                   Spliterbtor<P_IN> spliterbtor) {
+            super(helper, spliterbtor);
             this.op = op;
         }
 
-        ReduceTask(ReduceTask<P_IN, P_OUT, R, S> parent,
-                   Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
+        ReduceTbsk(ReduceTbsk<P_IN, P_OUT, R, S> pbrent,
+                   Spliterbtor<P_IN> spliterbtor) {
+            super(pbrent, spliterbtor);
+            this.op = pbrent.op;
         }
 
         @Override
-        protected ReduceTask<P_IN, P_OUT, R, S> makeChild(Spliterator<P_IN> spliterator) {
-            return new ReduceTask<>(this, spliterator);
+        protected ReduceTbsk<P_IN, P_OUT, R, S> mbkeChild(Spliterbtor<P_IN> spliterbtor) {
+            return new ReduceTbsk<>(this, spliterbtor);
         }
 
         @Override
-        protected S doLeaf() {
-            return helper.wrapAndCopyInto(op.makeSink(), spliterator);
+        protected S doLebf() {
+            return helper.wrbpAndCopyInto(op.mbkeSink(), spliterbtor);
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
-            if (!isLeaf()) {
-                S leftResult = leftChild.getLocalResult();
-                leftResult.combine(rightChild.getLocalResult());
-                setLocalResult(leftResult);
+        public void onCompletion(CountedCompleter<?> cbller) {
+            if (!isLebf()) {
+                S leftResult = leftChild.getLocblResult();
+                leftResult.combine(rightChild.getLocblResult());
+                setLocblResult(leftResult);
             }
-            // GC spliterator, left and right child
-            super.onCompletion(caller);
+            // GC spliterbtor, left bnd right child
+            super.onCompletion(cbller);
         }
     }
 }

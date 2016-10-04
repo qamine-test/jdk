@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Rectangle;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import sun.awt.SunHints;
-import sun.awt.SunToolkit;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.GlyphListPipe;
-import sun.java2d.pipe.Region;
-import sun.java2d.loops.FontInfo;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.x11.X11SurfaceData;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import sun.bwt.SunHints;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.GlyphListPipe;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.loops.FontInfo;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.x11.X11SurfbceDbtb;
 
 /**
- * A delegate pipe of SG2D for drawing text with
- * a solid source colour to an X11 drawable destination.
+ * A delegbte pipe of SG2D for drbwing text with
+ * b solid source colour to bn X11 drbwbble destinbtion.
  */
-public class X11TextRenderer extends GlyphListPipe {
+public clbss X11TextRenderer extends GlyphListPipe {
     /*
-     * Override super class method to call the AA pipe if
+     * Override super clbss method to cbll the AA pipe if
      * AA is specified in the GlyphVector's FontRenderContext
      */
-    public void drawGlyphVector(SunGraphics2D sg2d, GlyphVector g,
-                                float x, float y)
+    public void drbwGlyphVector(SunGrbphics2D sg2d, GlyphVector g,
+                                flobt x, flobt y)
     {
         FontRenderContext frc = g.getFontRenderContext();
         FontInfo info = sg2d.getGVFontInfo(g.getFont(), frc);
-        switch (info.aaHint) {
-        case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
-            super.drawGlyphVector(sg2d, g, x, y);
+        switch (info.bbHint) {
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+            super.drbwGlyphVector(sg2d, g, x, y);
             return;
-        case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-             SurfaceData.aaTextRenderer.drawGlyphVector(sg2d, g, x, y);
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+             SurfbceDbtb.bbTextRenderer.drbwGlyphVector(sg2d, g, x, y);
             return;
-        case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-        case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
-             SurfaceData.lcdTextRenderer.drawGlyphVector(sg2d, g, x, y);
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+             SurfbceDbtb.lcdTextRenderer.drbwGlyphVector(sg2d, g, x, y);
             return;
-        default:
+        defbult:
         }
     }
 
-    native void doDrawGlyphList(long dstData, long xgc,
+    nbtive void doDrbwGlyphList(long dstDbtb, long xgc,
                                 Region clip, GlyphList gl);
 
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl) {
-        SunToolkit.awtLock();
+    protected void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl) {
+        SunToolkit.bwtLock();
         try {
-            X11SurfaceData x11sd = (X11SurfaceData)sg2d.surfaceData;
+            X11SurfbceDbtb x11sd = (X11SurfbceDbtb)sg2d.surfbceDbtb;
             Region clip = sg2d.getCompClip();
-            long xgc = x11sd.getRenderGC(clip, SunGraphics2D.COMP_ISCOPY,
+            long xgc = x11sd.getRenderGC(clip, SunGrbphics2D.COMP_ISCOPY,
                                          null, sg2d.pixel);
-            doDrawGlyphList(x11sd.getNativeOps(), xgc, clip, gl);
-        } finally {
-            SunToolkit.awtUnlock();
+            doDrbwGlyphList(x11sd.getNbtiveOps(), xgc, clip, gl);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    public X11TextRenderer traceWrap() {
-        return new Tracer();
+    public X11TextRenderer trbceWrbp() {
+        return new Trbcer();
     }
 
-    public static class Tracer extends X11TextRenderer {
-        void doDrawGlyphList(long dstData, long xgc,
+    public stbtic clbss Trbcer extends X11TextRenderer {
+        void doDrbwGlyphList(long dstDbtb, long xgc,
                              Region clip, GlyphList gl)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawGlyphs");
-            super.doDrawGlyphList(dstData, xgc, clip, gl);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwGlyphs");
+            super.doDrbwGlyphList(dstDbtb, xgc, clip, gl);
         }
     }
 }

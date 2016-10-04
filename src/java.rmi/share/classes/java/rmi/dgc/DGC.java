@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1996, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.rmi.dgc;
+pbckbge jbvb.rmi.dgc;
 
-import java.rmi.*;
-import java.rmi.server.ObjID;
+import jbvb.rmi.*;
+import jbvb.rmi.server.ObjID;
 
 /**
- * The DGC abstraction is used for the server side of the distributed
- * garbage collection algorithm. This interface contains the two
- * methods: dirty and clean. A dirty call is made when a remote
- * reference is unmarshaled in a client (the client is indicated by
- * its VMID). A corresponding clean call is made when no more
- * references to the remote reference exist in the client. A failed
- * dirty call must schedule a strong clean call so that the call's
- * sequence number can be retained in order to detect future calls
- * received out of order by the distributed garbage collector.
+ * The DGC bbstrbction is used for the server side of the distributed
+ * gbrbbge collection blgorithm. This interfbce contbins the two
+ * methods: dirty bnd clebn. A dirty cbll is mbde when b remote
+ * reference is unmbrshbled in b client (the client is indicbted by
+ * its VMID). A corresponding clebn cbll is mbde when no more
+ * references to the remote reference exist in the client. A fbiled
+ * dirty cbll must schedule b strong clebn cbll so thbt the cbll's
+ * sequence number cbn be retbined in order to detect future cblls
+ * received out of order by the distributed gbrbbge collector.
  *
- * A reference to a remote object is leased for a period of time by
- * the client holding the reference. The lease period starts when the
- * dirty call is received. It is the client's responsibility to renew
- * the leases, by making additional dirty calls, on the remote
- * references it holds before such leases expire. If the client does
- * not renew the lease before it expires, the distributed garbage
- * collector assumes that the remote object is no longer referenced by
- * that client.
+ * A reference to b remote object is lebsed for b period of time by
+ * the client holding the reference. The lebse period stbrts when the
+ * dirty cbll is received. It is the client's responsibility to renew
+ * the lebses, by mbking bdditionbl dirty cblls, on the remote
+ * references it holds before such lebses expire. If the client does
+ * not renew the lebse before it expires, the distributed gbrbbge
+ * collector bssumes thbt the remote object is no longer referenced by
+ * thbt client.
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-public interface DGC extends Remote {
+public interfbce DGC extends Remote {
 
     /**
-     * The dirty call requests leases for the remote object references
-     * associated with the object identifiers contained in the array
-     * 'ids'. The 'lease' contains a client's unique VM identifier (VMID)
-     * and a requested lease period. For each remote object exported
-     * in the local VM, the garbage collector maintains a reference
-     * list-a list of clients that hold references to it. If the lease
-     * is granted, the garbage collector adds the client's VMID to the
-     * reference list for each remote object indicated in 'ids'. The
-     * 'sequenceNum' parameter is a sequence number that is used to
-     * detect and discard late calls to the garbage collector. The
-     * sequence number should always increase for each subsequent call
-     * to the garbage collector.
+     * The dirty cbll requests lebses for the remote object references
+     * bssocibted with the object identifiers contbined in the brrby
+     * 'ids'. The 'lebse' contbins b client's unique VM identifier (VMID)
+     * bnd b requested lebse period. For ebch remote object exported
+     * in the locbl VM, the gbrbbge collector mbintbins b reference
+     * list-b list of clients thbt hold references to it. If the lebse
+     * is grbnted, the gbrbbge collector bdds the client's VMID to the
+     * reference list for ebch remote object indicbted in 'ids'. The
+     * 'sequenceNum' pbrbmeter is b sequence number thbt is used to
+     * detect bnd discbrd lbte cblls to the gbrbbge collector. The
+     * sequence number should blwbys increbse for ebch subsequent cbll
+     * to the gbrbbge collector.
      *
-     * Some clients are unable to generate a VMID, since a VMID is a
-     * universally unique identifier that contains a host address
-     * which some clients are unable to obtain due to security
-     * restrictions. In this case, a client can use a VMID of null,
-     * and the distributed garbage collector will assign a VMID for
+     * Some clients bre unbble to generbte b VMID, since b VMID is b
+     * universblly unique identifier thbt contbins b host bddress
+     * which some clients bre unbble to obtbin due to security
+     * restrictions. In this cbse, b client cbn use b VMID of null,
+     * bnd the distributed gbrbbge collector will bssign b VMID for
      * the client.
      *
-     * The dirty call returns a Lease object that contains the VMID
-     * used and the lease period granted for the remote references (a
-     * server may decide to grant a smaller lease period than the
-     * client requests). A client must use the VMID the garbage
-     * collector uses in order to make corresponding clean calls when
+     * The dirty cbll returns b Lebse object thbt contbins the VMID
+     * used bnd the lebse period grbnted for the remote references (b
+     * server mby decide to grbnt b smbller lebse period thbn the
+     * client requests). A client must use the VMID the gbrbbge
+     * collector uses in order to mbke corresponding clebn cblls when
      * the client drops remote object references.
      *
-     * A client VM need only make one initial dirty call for each
-     * remote reference referenced in the VM (even if it has multiple
-     * references to the same remote object). The client must also
-     * make a dirty call to renew leases on remote references before
-     * such leases expire. When the client no longer has any
-     * references to a specific remote object, it must schedule a
-     * clean call for the object ID associated with the reference.
+     * A client VM need only mbke one initibl dirty cbll for ebch
+     * remote reference referenced in the VM (even if it hbs multiple
+     * references to the sbme remote object). The client must blso
+     * mbke b dirty cbll to renew lebses on remote references before
+     * such lebses expire. When the client no longer hbs bny
+     * references to b specific remote object, it must schedule b
+     * clebn cbll for the object ID bssocibted with the reference.
      *
-     * @param ids IDs of objects to mark as referenced by calling client
-     * @param sequenceNum sequence number
-     * @param lease requested lease
-     * @return granted lease
-     * @throws RemoteException if dirty call fails
+     * @pbrbm ids IDs of objects to mbrk bs referenced by cblling client
+     * @pbrbm sequenceNum sequence number
+     * @pbrbm lebse requested lebse
+     * @return grbnted lebse
+     * @throws RemoteException if dirty cbll fbils
      */
-    Lease dirty(ObjID[] ids, long sequenceNum, Lease lease)
+    Lebse dirty(ObjID[] ids, long sequenceNum, Lebse lebse)
         throws RemoteException;
 
     /**
-     * The clean call removes the 'vmid' from the reference list of
-     * each remote object indicated in 'id's.  The sequence number is
-     * used to detect late clean calls.  If the argument 'strong' is
-     * true, then the clean call is a result of a failed dirty call,
+     * The clebn cbll removes the 'vmid' from the reference list of
+     * ebch remote object indicbted in 'id's.  The sequence number is
+     * used to detect lbte clebn cblls.  If the brgument 'strong' is
+     * true, then the clebn cbll is b result of b fbiled dirty cbll,
      * thus the sequence number for the client 'vmid' needs to be
      * remembered.
      *
-     * @param ids IDs of objects to mark as unreferenced by calling client
-     * @param sequenceNum sequence number
-     * @param vmid client VMID
-     * @param strong make 'strong' clean call
-     * @throws RemoteException if clean call fails
+     * @pbrbm ids IDs of objects to mbrk bs unreferenced by cblling client
+     * @pbrbm sequenceNum sequence number
+     * @pbrbm vmid client VMID
+     * @pbrbm strong mbke 'strong' clebn cbll
+     * @throws RemoteException if clebn cbll fbils
      */
-    void clean(ObjID[] ids, long sequenceNum, VMID vmid, boolean strong)
+    void clebn(ObjID[] ids, long sequenceNum, VMID vmid, boolebn strong)
         throws RemoteException;
 }

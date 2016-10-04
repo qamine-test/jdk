@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * MultiplexOutputStream manages sending data over a connection managed
- * by a ConnectionMultiplexer object.  Data written is buffered until the
- * internal buffer is full or the flush() method is called, at which
- * point it attempts to push a packet of bytes through to the remote
- * endpoint.  This will never push more bytes than the amount already
+ * MultiplexOutputStrebm mbnbges sending dbtb over b connection mbnbged
+ * by b ConnectionMultiplexer object.  Dbtb written is buffered until the
+ * internbl buffer is full or the flush() method is cblled, bt which
+ * point it bttempts to push b pbcket of bytes through to the remote
+ * endpoint.  This will never push more bytes thbn the bmount blrebdy
  * requested by the remote endpoint (to prevent receive buffer from
- * overflowing), so if the write() and flush() methods will block
- * until their operation can complete if enough bytes cannot be
- * pushed immediately.
+ * overflowing), so if the write() bnd flush() methods will block
+ * until their operbtion cbn complete if enough bytes cbnnot be
+ * pushed immedibtely.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  */
-final class MultiplexOutputStream extends OutputStream {
+finbl clbss MultiplexOutputStrebm extends OutputStrebm {
 
-    /** object managing multiplexed connection */
-    private ConnectionMultiplexer manager;
+    /** object mbnbging multiplexed connection */
+    privbte ConnectionMultiplexer mbnbger;
 
-    /** information about the connection this is the output stream for */
-    private MultiplexConnectionInfo info;
+    /** informbtion bbout the connection this is the output strebm for */
+    privbte MultiplexConnectionInfo info;
 
     /** output buffer */
-    private byte buffer[];
+    privbte byte buffer[];
 
     /** current position to write to in output buffer */
-    private int pos = 0;
+    privbte int pos = 0;
 
     /** pending number of bytes requested by remote endpoint */
-    private int requested = 0;
+    privbte int requested = 0;
 
-    /** true if this connection has been disconnected */
-    private boolean disconnected = false;
+    /** true if this connection hbs been disconnected */
+    privbte boolebn disconnected = fblse;
 
     /**
-     * lock acquired to access shared variables:
+     * lock bcquired to bccess shbred vbribbles:
      * requested & disconnected
-     * WARNING:  Any of the methods manager.send*() should not be
-     * invoked while this lock is held, since they could potentially
-     * block if the underlying connection's transport buffers are
-     * full, and the manager may need to acquire this lock to process
-     * and consume data coming over the underlying connection.
+     * WARNING:  Any of the methods mbnbger.send*() should not be
+     * invoked while this lock is held, since they could potentiblly
+     * block if the underlying connection's trbnsport buffers bre
+     * full, bnd the mbnbger mby need to bcquire this lock to process
+     * bnd consume dbtb coming over the underlying connection.
      */
-    private Object lock = new Object();
+    privbte Object lock = new Object();
 
     /**
-     * Create a new MultiplexOutputStream for the given manager.
-     * @param manager object that manages this connection
-     * @param info structure for connection this stream writes to
-     * @param bufferLength length of output buffer
+     * Crebte b new MultiplexOutputStrebm for the given mbnbger.
+     * @pbrbm mbnbger object thbt mbnbges this connection
+     * @pbrbm info structure for connection this strebm writes to
+     * @pbrbm bufferLength length of output buffer
      */
-    MultiplexOutputStream(
-        ConnectionMultiplexer    manager,
+    MultiplexOutputStrebm(
+        ConnectionMultiplexer    mbnbger,
         MultiplexConnectionInfo  info,
         int                      bufferLength)
     {
-        this.manager = manager;
+        this.mbnbger = mbnbger;
         this.info    = info;
 
         buffer = new byte[bufferLength];
@@ -89,8 +89,8 @@ final class MultiplexOutputStream extends OutputStream {
     }
 
     /**
-     * Write a byte over connection.
-     * @param b byte of data to write
+     * Write b byte over connection.
+     * @pbrbm b byte of dbtb to write
      */
     public synchronized void write(int b) throws IOException
     {
@@ -100,10 +100,10 @@ final class MultiplexOutputStream extends OutputStream {
     }
 
     /**
-     * Write a subarray of bytes over connection.
-     * @param b array containing bytes to write
-     * @param off offset of beginning of bytes to write
-     * @param len number of bytes to write
+     * Write b subbrrby of bytes over connection.
+     * @pbrbm b brrby contbining bytes to write
+     * @pbrbm off offset of beginning of bytes to write
+     * @pbrbm len number of bytes to write
      */
     public synchronized void write(byte b[], int off, int len)
         throws IOException
@@ -111,51 +111,51 @@ final class MultiplexOutputStream extends OutputStream {
         if (len <= 0)
             return;
 
-        // if enough free space in output buffer, just copy into there
-        int freeSpace = buffer.length - pos;
-        if (len <= freeSpace) {
-            System.arraycopy(b, off, buffer, pos, len);
+        // if enough free spbce in output buffer, just copy into there
+        int freeSpbce = buffer.length - pos;
+        if (len <= freeSpbce) {
+            System.brrbycopy(b, off, buffer, pos, len);
             pos += len;
             return;
         }
 
-        // else, flush buffer and send rest directly to avoid array copy
+        // else, flush buffer bnd send rest directly to bvoid brrby copy
         flush();
-        int local_requested;
+        int locbl_requested;
         while (true) {
             synchronized (lock) {
-                while ((local_requested = requested) < 1 && !disconnected) {
+                while ((locbl_requested = requested) < 1 && !disconnected) {
                     try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
+                        lock.wbit();
+                    } cbtch (InterruptedException e) {
                     }
                 }
                 if (disconnected)
                     throw new IOException("Connection closed");
             }
 
-            if (local_requested < len) {
-                manager.sendTransmit(info, b, off, local_requested);
-                off += local_requested;
-                len -= local_requested;
+            if (locbl_requested < len) {
+                mbnbger.sendTrbnsmit(info, b, off, locbl_requested);
+                off += locbl_requested;
+                len -= locbl_requested;
                 synchronized (lock) {
-                    requested -= local_requested;
+                    requested -= locbl_requested;
                 }
             }
             else {
-                manager.sendTransmit(info, b, off, len);
+                mbnbger.sendTrbnsmit(info, b, off, len);
                 synchronized (lock) {
                     requested -= len;
                 }
                 // len = 0;
-                break;
+                brebk;
             }
         }
     }
 
     /**
-     * Guarantee that all data written to this stream has been pushed
-     * over and made available to the remote endpoint.
+     * Gubrbntee thbt bll dbtb written to this strebm hbs been pushed
+     * over bnd mbde bvbilbble to the remote endpoint.
      */
     public synchronized void flush() throws IOException {
         while (pos > 0)
@@ -167,12 +167,12 @@ final class MultiplexOutputStream extends OutputStream {
      */
     public void close() throws IOException
     {
-        manager.sendClose(info);
+        mbnbger.sendClose(info);
     }
 
     /**
-     * Take note of more bytes requested by connection at remote endpoint.
-     * @param num number of additional bytes requested
+     * Tbke note of more bytes requested by connection bt remote endpoint.
+     * @pbrbm num number of bdditionbl bytes requested
      */
     void request(int num)
     {
@@ -183,7 +183,7 @@ final class MultiplexOutputStream extends OutputStream {
     }
 
     /**
-     * Disconnect this stream from all connection activity.
+     * Disconnect this strebm from bll connection bctivity.
      */
     void disconnect()
     {
@@ -194,34 +194,34 @@ final class MultiplexOutputStream extends OutputStream {
     }
 
     /**
-     * Push bytes in output buffer to connection at remote endpoint.
-     * This method blocks until at least one byte has been pushed across.
+     * Push bytes in output buffer to connection bt remote endpoint.
+     * This method blocks until bt lebst one byte hbs been pushed bcross.
      */
-    private void push() throws IOException
+    privbte void push() throws IOException
     {
-        int local_requested;
+        int locbl_requested;
         synchronized (lock) {
-            while ((local_requested = requested) < 1 && !disconnected) {
+            while ((locbl_requested = requested) < 1 && !disconnected) {
                 try {
-                    lock.wait();
-                } catch (InterruptedException e) {
+                    lock.wbit();
+                } cbtch (InterruptedException e) {
                 }
             }
             if (disconnected)
                 throw new IOException("Connection closed");
         }
 
-        if (local_requested < pos) {
-            manager.sendTransmit(info, buffer, 0, local_requested);
-            System.arraycopy(buffer, local_requested,
-                             buffer, 0, pos - local_requested);
-            pos -= local_requested;
+        if (locbl_requested < pos) {
+            mbnbger.sendTrbnsmit(info, buffer, 0, locbl_requested);
+            System.brrbycopy(buffer, locbl_requested,
+                             buffer, 0, pos - locbl_requested);
+            pos -= locbl_requested;
             synchronized (lock) {
-                requested -= local_requested;
+                requested -= locbl_requested;
             }
         }
         else {
-            manager.sendTransmit(info, buffer, 0, pos);
+            mbnbger.sendTrbnsmit(info, buffer, 0, pos);
             synchronized (lock) {
                 requested -= pos;
             }

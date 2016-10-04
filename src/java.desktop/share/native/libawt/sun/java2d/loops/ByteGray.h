@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef ByteGray_h_Included
-#define ByteGray_h_Included
+#ifndef ByteGrby_h_Included
+#define ByteGrby_h_Included
 
 #include "IntDcm.h"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "ByteGray".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "ByteGrby".
  */
 
-typedef jubyte  ByteGrayPixelType;
-typedef jubyte  ByteGrayDataType;
+typedef jubyte  ByteGrbyPixelType;
+typedef jubyte  ByteGrbyDbtbType;
 
-#define ByteGrayIsOpaque 1
+#define ByteGrbyIsOpbque 1
 
-#define ByteGrayPixelStride     1
-#define ByteGrayBitsPerPixel    8
+#define ByteGrbyPixelStride     1
+#define ByteGrbyBitsPerPixel    8
 
-#define DeclareByteGrayLoadVars(PREFIX)
-#define DeclareByteGrayStoreVars(PREFIX)
-#define SetByteGrayStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetByteGrayStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitByteGrayLoadVars(PREFIX, pRasInfo)
-#define InitByteGrayStoreVarsY(PREFIX, pRasInfo)
-#define InitByteGrayStoreVarsX(PREFIX, pRasInfo)
-#define NextByteGrayStoreVarsX(PREFIX)
-#define NextByteGrayStoreVarsY(PREFIX)
-#define DeclareByteGrayPixelData(PREFIX)
-#define ExtractByteGrayPixelData(PIXEL, PREFIX)
+#define DeclbreByteGrbyLobdVbrs(PREFIX)
+#define DeclbreByteGrbyStoreVbrs(PREFIX)
+#define SetByteGrbyStoreVbrsYPos(PREFIX, pRbsInfo, y)
+#define SetByteGrbyStoreVbrsXPos(PREFIX, pRbsInfo, x)
+#define InitByteGrbyLobdVbrs(PREFIX, pRbsInfo)
+#define InitByteGrbyStoreVbrsY(PREFIX, pRbsInfo)
+#define InitByteGrbyStoreVbrsX(PREFIX, pRbsInfo)
+#define NextByteGrbyStoreVbrsX(PREFIX)
+#define NextByteGrbyStoreVbrsY(PREFIX)
+#define DeclbreByteGrbyPixelDbtb(PREFIX)
+#define ExtrbctByteGrbyPixelDbtb(PIXEL, PREFIX)
 
-#define ByteGrayXparLutEntry            -1
-#define ByteGrayIsXparLutEntry(pix)     (pix < 0)
-#define StoreByteGrayNonXparFromArgb    StoreByteGrayFrom1IntArgb
-
-
-#define ComposeByteGrayFrom3ByteRgb(r, g, b) \
-    (ByteGrayDataType)(((77*(r)) + (150*(g)) + (29*(b)) + 128) / 256)
+#define ByteGrbyXpbrLutEntry            -1
+#define ByteGrbyIsXpbrLutEntry(pix)     (pix < 0)
+#define StoreByteGrbyNonXpbrFromArgb    StoreByteGrbyFrom1IntArgb
 
 
-#define StoreByteGrayPixel(pRas, x, pixel) \
-    ((pRas)[x] = (jubyte) (pixel))
+#define ComposeByteGrbyFrom3ByteRgb(r, g, b) \
+    (ByteGrbyDbtbType)(((77*(r)) + (150*(g)) + (29*(b)) + 128) / 256)
 
-#define StoreByteGrayPixelData(pPix, x, pixel, PREFIX) \
-    StoreByteGrayPixel(pPix, x, pixel)
 
-#define ByteGrayPixelFromArgb(pixel, rgb, pRasInfo) \
+#define StoreByteGrbyPixel(pRbs, x, pixel) \
+    ((pRbs)[x] = (jubyte) (pixel))
+
+#define StoreByteGrbyPixelDbtb(pPix, x, pixel, PREFIX) \
+    StoreByteGrbyPixel(pPix, x, pixel)
+
+#define ByteGrbyPixelFromArgb(pixel, rgb, pRbsInfo) \
     do { \
         jint r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        (pixel) = ComposeByteGrayFrom3ByteRgb(r, g, b); \
+        ExtrbctIntDcmComponentsX123(rgb, r, g, b); \
+        (pixel) = ComposeByteGrbyFrom3ByteRgb(r, g, b); \
     } while (0)
 
 
-#define LoadByteGrayTo1IntRgb(pRas, PREFIX, x, rgb) \
+#define LobdByteGrbyTo1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        int gray = (pRas)[x]; \
-        (rgb) = (((gray << 8) | gray) << 8) | gray; \
+        int grby = (pRbs)[x]; \
+        (rgb) = (((grby << 8) | grby) << 8) | grby; \
     } while (0)
 
-#define LoadByteGrayTo1IntArgb(pRas, PREFIX, x, argb) \
+#define LobdByteGrbyTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        int gray = (pRas)[x]; \
-        (argb) = (((((0xff << 8) | gray) << 8) | gray) << 8) | gray; \
+        int grby = (pRbs)[x]; \
+        (brgb) = (((((0xff << 8) | grby) << 8) | grby) << 8) | grby; \
     } while (0)
 
-#define LoadByteGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    ((r) = (g) = (b) = (pRas)[x])
+#define LobdByteGrbyTo3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    ((r) = (g) = (b) = (pRbs)[x])
 
-#define LoadByteGrayTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define LobdByteGrbyTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        LoadByteGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
-        (a) = 0xff; \
+        LobdByteGrbyTo3ByteRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
     } while (0)
 
-#define LoadByteGrayTo1ByteGray(pRas, PREFIX, x, gray) \
-    (gray) = (pRas)[x]
+#define LobdByteGrbyTo1ByteGrby(pRbs, PREFIX, x, grby) \
+    (grby) = (pRbs)[x]
 
-#define StoreByteGrayFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#define StoreByteGrbyFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b); \
+        ExtrbctIntDcmComponentsX123(rgb, r, g, b); \
+        StoreByteGrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b); \
     } while (0)
 
-#define StoreByteGrayFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreByteGrayFrom1IntRgb(pRas, PREFIX, x, argb)
+#define StoreByteGrbyFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StoreByteGrbyFrom1IntRgb(pRbs, PREFIX, x, brgb)
 
-#define StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = ComposeByteGrayFrom3ByteRgb(r, g, b)
+#define StoreByteGrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposeByteGrbyFrom3ByteRgb(r, g, b)
 
-#define StoreByteGrayFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#define StoreByteGrbyFrom4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StoreByteGrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b)
 
-#define StoreByteGrayFrom1ByteGray(pRas, PREFIX, x, gray) \
-    StoreByteGrayPixel(pRas, x, gray)
+#define StoreByteGrbyFrom1ByteGrby(pRbs, PREFIX, x, grby) \
+    StoreByteGrbyPixel(pRbs, x, grby)
 
-#define CopyByteGrayToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
-    LoadByteGrayTo1IntArgb(pRow, PREFIX, x, pRGB[i])
+#define CopyByteGrbyToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
+    LobdByteGrbyTo1IntArgb(pRow, PREFIX, x, pRGB[i])
 
 
-#define DeclareByteGrayAlphaLoadData(PREFIX)
-#define InitByteGrayAlphaLoadData(PREFIX, pRasInfo)
+#define DeclbreByteGrbyAlphbLobdDbtb(PREFIX)
+#define InitByteGrbyAlphbLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromByteGrayFor1ByteGray(pRas, PREFIX, COMP_PREFIX) \
+#define LobdAlphbFromByteGrbyFor1ByteGrby(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xff
 
-#define Postload1ByteGrayFromByteGray(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## G = pRas[0]
+#define Postlobd1ByteGrbyFromByteGrby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## G = pRbs[0]
 
 
-#define ByteGrayIsPremultiplied 0
+#define ByteGrbyIsPremultiplied 0
 
-#define DeclareByteGrayBlendFillVars(PREFIX) \
+#define DeclbreByteGrbyBlendFillVbrs(PREFIX) \
     jubyte PREFIX;
 
-#define ClearByteGrayBlendFillVars(PREFIX, argb) \
+#define ClebrByteGrbyBlendFillVbrs(PREFIX, brgb) \
     PREFIX = 0
 
-#define InitByteGrayBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
+#define InitByteGrbyBlendFillVbrsNonPre(PREFIX, brgb, COMP_PREFIX) \
     PREFIX = (jubyte) COMP_PREFIX ## G
 
-#define InitByteGrayBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#define InitByteGrbyBlendFillVbrsPre(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreByteGrayBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = PREFIX
+#define StoreByteGrbyBlendFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
 
-#define StoreByteGrayFrom1ByteGrayComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreByteGrayPixel(pRas, x, COMP_PREFIX ## G)
+#define StoreByteGrbyFrom1ByteGrbyComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StoreByteGrbyPixel(pRbs, x, COMP_PREFIX ## G)
 
-#endif /* ByteGray_h_Included */
+#endif /* ByteGrby_h_Included */

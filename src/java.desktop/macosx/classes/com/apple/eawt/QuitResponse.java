@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
 /**
- * Used to respond to a request to quit the application.
- * The QuitResponse may be used after the {@link QuitHandler#handleQuitRequestWith(AppEvent.QuitEvent, QuitResponse)} method has returned, and may be used from any thread.
+ * Used to respond to b request to quit the bpplicbtion.
+ * The QuitResponse mby be used bfter the {@link QuitHbndler#hbndleQuitRequestWith(AppEvent.QuitEvent, QuitResponse)} method hbs returned, bnd mby be used from bny threbd.
  *
- * @see Application#setQuitHandler(QuitHandler)
- * @see QuitHandler
- * @see Application#setQuitStrategy(QuitStrategy)
+ * @see Applicbtion#setQuitHbndler(QuitHbndler)
+ * @see QuitHbndler
+ * @see Applicbtion#setQuitStrbtegy(QuitStrbtegy)
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @since Jbvb for Mbc OS X 10.6 Updbte 3
+ * @since Jbvb for Mbc OS X 10.5 Updbte 8
  */
-public class QuitResponse {
-    final _AppEventHandler appEventHandler;
+public clbss QuitResponse {
+    finbl _AppEventHbndler bppEventHbndler;
 
-    QuitResponse(final _AppEventHandler appEventHandler) {
-        this.appEventHandler = appEventHandler;
+    QuitResponse(finbl _AppEventHbndler bppEventHbndler) {
+        this.bppEventHbndler = bppEventHbndler;
     }
 
     /**
-     * Notifies the external quit requester that the quit will proceed, and performs the default {@link QuitStrategy}.
+     * Notifies the externbl quit requester thbt the quit will proceed, bnd performs the defbult {@link QuitStrbtegy}.
      */
     public void performQuit() {
-        if (appEventHandler.currentQuitResponse != this) return;
-        appEventHandler.performQuit();
+        if (bppEventHbndler.currentQuitResponse != this) return;
+        bppEventHbndler.performQuit();
     }
 
     /**
-     * Notifies the external quit requester that the user has explicitly canceled the pending quit, and leaves the application running.
-     * <b>Note: this will cancel a pending log-out, restart, or shutdown.</b>
+     * Notifies the externbl quit requester thbt the user hbs explicitly cbnceled the pending quit, bnd lebves the bpplicbtion running.
+     * <b>Note: this will cbncel b pending log-out, restbrt, or shutdown.</b>
      */
-    public void cancelQuit() {
-        if (appEventHandler.currentQuitResponse != this) return;
-        appEventHandler.cancelQuit();
+    public void cbncelQuit() {
+        if (bppEventHbndler.currentQuitResponse != this) return;
+        bppEventHbndler.cbncelQuit();
     }
 }

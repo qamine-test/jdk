@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
 
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.Permissions;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.util.Map;
-import java.util.logging.Level;
+import stbtic com.sun.jmx.defbults.JmxProperties.MBEANSERVER_LOGGER;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.Permissions;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Level;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanPermission;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.ReflectionException;
-import javax.management.RuntimeErrorException;
-import javax.management.RuntimeMBeanException;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnPermission;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.OperbtionsException;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.RuntimeErrorException;
+import jbvbx.mbnbgement.RuntimeMBebnException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 import sun.reflect.misc.ConstructorUtil;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Implements the MBeanInstantiator interface. Provides methods for
- * instantiating objects, finding the class given its name and using
- * different class loaders, deserializing objects in the context of a
- * given class loader.
+ * Implements the MBebnInstbntibtor interfbce. Provides methods for
+ * instbntibting objects, finding the clbss given its nbme bnd using
+ * different clbss lobders, deseriblizing objects in the context of b
+ * given clbss lobder.
  *
  * @since 1.5
  */
-public class MBeanInstantiator {
-    private final ModifiableClassLoaderRepository clr;
-    //    private MetaData meta = null;
+public clbss MBebnInstbntibtor {
+    privbte finbl ModifibbleClbssLobderRepository clr;
+    //    privbte MetbDbtb metb = null;
 
-    MBeanInstantiator(ModifiableClassLoaderRepository clr) {
+    MBebnInstbntibtor(ModifibbleClbssLobderRepository clr) {
         this.clr = clr;
     }
 
 
     /**
-     * This methods tests if the MBean class makes it possible to
-     * instantiate an MBean of this class in the MBeanServer.
-     * e.g. it must have a public constructor, be a concrete class...
+     * This methods tests if the MBebn clbss mbkes it possible to
+     * instbntibte bn MBebn of this clbss in the MBebnServer.
+     * e.g. it must hbve b public constructor, be b concrete clbss...
      */
-    public void testCreation(Class<?> c) throws NotCompliantMBeanException {
-        Introspector.testCreation(c);
+    public void testCrebtion(Clbss<?> c) throws NotComplibntMBebnException {
+        Introspector.testCrebtion(c);
     }
 
     /**
-     * Loads the class with the specified name using this object's
-     * Default Loader Repository.
+     * Lobds the clbss with the specified nbme using this object's
+     * Defbult Lobder Repository.
      **/
-    public Class<?> findClassWithDefaultLoaderRepository(String className)
+    public Clbss<?> findClbssWithDefbultLobderRepository(String clbssNbme)
         throws ReflectionException {
 
-        Class<?> theClass;
-        if (className == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("The class name cannot be null"),
-                             "Exception occurred during object instantiation");
+        Clbss<?> theClbss;
+        if (clbssNbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("The clbss nbme cbnnot be null"),
+                             "Exception occurred during object instbntibtion");
         }
 
-        ReflectUtil.checkPackageAccess(className);
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
         try {
-            if (clr == null) throw new ClassNotFoundException(className);
-            theClass = clr.loadClass(className);
+            if (clr == null) throw new ClbssNotFoundException(clbssNbme);
+            theClbss = clr.lobdClbss(clbssNbme);
         }
-        catch (ClassNotFoundException ee) {
+        cbtch (ClbssNotFoundException ee) {
             throw new ReflectionException(ee,
-       "The MBean class could not be loaded by the default loader repository");
+       "The MBebn clbss could not be lobded by the defbult lobder repository");
         }
 
-        return theClass;
+        return theClbss;
     }
 
 
     /**
-     * Gets the class for the specified class name using the MBean
-     * Interceptor's classloader
+     * Gets the clbss for the specified clbss nbme using the MBebn
+     * Interceptor's clbsslobder
      */
-    public Class<?> findClass(String className, ClassLoader loader)
+    public Clbss<?> findClbss(String clbssNbme, ClbssLobder lobder)
         throws ReflectionException {
 
-        return loadClass(className,loader);
+        return lobdClbss(clbssNbme,lobder);
     }
 
     /**
-     * Gets the class for the specified class name using the specified
-     * class loader
+     * Gets the clbss for the specified clbss nbme using the specified
+     * clbss lobder
      */
-    public Class<?> findClass(String className, ObjectName aLoader)
-        throws ReflectionException, InstanceNotFoundException  {
+    public Clbss<?> findClbss(String clbssNbme, ObjectNbme bLobder)
+        throws ReflectionException, InstbnceNotFoundException  {
 
-        if (aLoader == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException(), "Null loader passed in parameter");
+        if (bLobder == null)
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException(), "Null lobder pbssed in pbrbmeter");
 
-        // Retrieve the class loader from the repository
-        ClassLoader loader = null;
+        // Retrieve the clbss lobder from the repository
+        ClbssLobder lobder = null;
         synchronized (this) {
-            loader = getClassLoader(aLoader);
+            lobder = getClbssLobder(bLobder);
         }
-        if (loader == null) {
-            throw new InstanceNotFoundException("The loader named " +
-                       aLoader + " is not registered in the MBeanServer");
+        if (lobder == null) {
+            throw new InstbnceNotFoundException("The lobder nbmed " +
+                       bLobder + " is not registered in the MBebnServer");
         }
-        return findClass(className,loader);
+        return findClbss(clbssNbme,lobder);
     }
 
 
     /**
-     * Return an array of Class corresponding to the given signature, using
-     * the specified class loader.
+     * Return bn brrby of Clbss corresponding to the given signbture, using
+     * the specified clbss lobder.
      */
-    public Class<?>[] findSignatureClasses(String signature[],
-                                           ClassLoader loader)
+    public Clbss<?>[] findSignbtureClbsses(String signbture[],
+                                           ClbssLobder lobder)
         throws ReflectionException {
 
-        if (signature == null) return null;
-        final ClassLoader aLoader = loader;
-        final int length= signature.length;
-        final Class<?> tab[]=new Class<?>[length];
+        if (signbture == null) return null;
+        finbl ClbssLobder bLobder = lobder;
+        finbl int length= signbture.length;
+        finbl Clbss<?> tbb[]=new Clbss<?>[length];
 
-        if (length == 0) return tab;
+        if (length == 0) return tbb;
         try {
             for (int i= 0; i < length; i++) {
-                // Start handling primitive types (int. boolean and so
+                // Stbrt hbndling primitive types (int. boolebn bnd so
                 // forth)
                 //
 
-                final Class<?> primCla = primitiveClasses.get(signature[i]);
-                if (primCla != null) {
-                    tab[i] = primCla;
+                finbl Clbss<?> primClb = primitiveClbsses.get(signbture[i]);
+                if (primClb != null) {
+                    tbb[i] = primClb;
                     continue;
                 }
 
-                ReflectUtil.checkPackageAccess(signature[i]);
-                // Ok we do not have a primitive type ! We need to build
-                // the signature of the method
+                ReflectUtil.checkPbckbgeAccess(signbture[i]);
+                // Ok we do not hbve b primitive type ! We need to build
+                // the signbture of the method
                 //
-                if (aLoader != null) {
-                    // We need to load the class through the class
-                    // loader of the target object.
+                if (bLobder != null) {
+                    // We need to lobd the clbss through the clbss
+                    // lobder of the tbrget object.
                     //
-                    tab[i] = Class.forName(signature[i], false, aLoader);
+                    tbb[i] = Clbss.forNbme(signbture[i], fblse, bLobder);
                 } else {
-                    // Load through the default class loader
+                    // Lobd through the defbult clbss lobder
                     //
-                    tab[i] = findClass(signature[i],
-                                       this.getClass().getClassLoader());
+                    tbb[i] = findClbss(signbture[i],
+                                       this.getClbss().getClbssLobder());
                 }
             }
-        } catch (ClassNotFoundException e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+        } cbtch (ClbssNotFoundException e) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        MBeanInstantiator.class.getName(),
-                        "findSignatureClasses",
-                        "The parameter class could not be found", e);
+                        MBebnInstbntibtor.clbss.getNbme(),
+                        "findSignbtureClbsses",
+                        "The pbrbmeter clbss could not be found", e);
             }
             throw new ReflectionException(e,
-                      "The parameter class could not be found");
-        } catch (RuntimeException e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+                      "The pbrbmeter clbss could not be found");
+        } cbtch (RuntimeException e) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        MBeanInstantiator.class.getName(),
-                        "findSignatureClasses",
+                        MBebnInstbntibtor.clbss.getNbme(),
+                        "findSignbtureClbsses",
                         "Unexpected exception", e);
             }
             throw e;
         }
-        return tab;
+        return tbb;
     }
 
 
     /**
-     * Instantiates an object given its class, using its empty constructor.
-     * The call returns a reference to the newly created object.
+     * Instbntibtes bn object given its clbss, using its empty constructor.
+     * The cbll returns b reference to the newly crebted object.
      */
-    public Object instantiate(Class<?> theClass)
-        throws ReflectionException, MBeanException {
+    public Object instbntibte(Clbss<?> theClbss)
+        throws ReflectionException, MBebnException {
 
-        checkMBeanPermission(theClass, null, null, "instantiate");
+        checkMBebnPermission(theClbss, null, null, "instbntibte");
 
         Object moi;
 
         // ------------------------------
         // ------------------------------
-        Constructor<?> cons = findConstructor(theClass, null);
+        Constructor<?> cons = findConstructor(theClbss, null);
         if (cons == null) {
             throw new ReflectionException(new
                 NoSuchMethodException("No such constructor"));
         }
-        // Instantiate the new object
+        // Instbntibte the new object
         try {
-            ReflectUtil.checkPackageAccess(theClass);
-            ensureClassAccess(theClass);
-            moi= cons.newInstance();
-        } catch (InvocationTargetException e) {
-            // Wrap the exception.
-            Throwable t = e.getTargetException();
-            if (t instanceof RuntimeException) {
-                throw new RuntimeMBeanException((RuntimeException)t,
-                   "RuntimeException thrown in the MBean's empty constructor");
-            } else if (t instanceof Error) {
+            ReflectUtil.checkPbckbgeAccess(theClbss);
+            ensureClbssAccess(theClbss);
+            moi= cons.newInstbnce();
+        } cbtch (InvocbtionTbrgetException e) {
+            // Wrbp the exception.
+            Throwbble t = e.getTbrgetException();
+            if (t instbnceof RuntimeException) {
+                throw new RuntimeMBebnException((RuntimeException)t,
+                   "RuntimeException thrown in the MBebn's empty constructor");
+            } else if (t instbnceof Error) {
                 throw new RuntimeErrorException((Error) t,
-                   "Error thrown in the MBean's empty constructor");
+                   "Error thrown in the MBebn's empty constructor");
             } else {
-                throw new MBeanException((Exception) t,
-                   "Exception thrown in the MBean's empty constructor");
+                throw new MBebnException((Exception) t,
+                   "Exception thrown in the MBebn's empty constructor");
             }
-        } catch (NoSuchMethodError error) {
+        } cbtch (NoSuchMethodError error) {
             throw new ReflectionException(new
                 NoSuchMethodException("No constructor"),
                                           "No such constructor");
-        } catch (InstantiationException e) {
+        } cbtch (InstbntibtionException e) {
             throw new ReflectionException(e,
-            "Exception thrown trying to invoke the MBean's empty constructor");
-        } catch (IllegalAccessException e) {
+            "Exception thrown trying to invoke the MBebn's empty constructor");
+        } cbtch (IllegblAccessException e) {
             throw new ReflectionException(e,
-            "Exception thrown trying to invoke the MBean's empty constructor");
-        } catch (IllegalArgumentException e) {
+            "Exception thrown trying to invoke the MBebn's empty constructor");
+        } cbtch (IllegblArgumentException e) {
             throw new ReflectionException(e,
-            "Exception thrown trying to invoke the MBean's empty constructor");
+            "Exception thrown trying to invoke the MBebn's empty constructor");
         }
         return moi;
 
@@ -264,198 +264,198 @@ public class MBeanInstantiator {
 
 
    /**
-     * Instantiates an object given its class, the parameters and
-     * signature of its constructor The call returns a reference to
-     * the newly created object.
+     * Instbntibtes bn object given its clbss, the pbrbmeters bnd
+     * signbture of its constructor The cbll returns b reference to
+     * the newly crebted object.
      */
-    public Object instantiate(Class<?> theClass, Object params[],
-                              String signature[], ClassLoader loader)
-        throws ReflectionException, MBeanException {
+    public Object instbntibte(Clbss<?> theClbss, Object pbrbms[],
+                              String signbture[], ClbssLobder lobder)
+        throws ReflectionException, MBebnException {
 
-        checkMBeanPermission(theClass, null, null, "instantiate");
+        checkMBebnPermission(theClbss, null, null, "instbntibte");
 
-        // Instantiate the new object
+        // Instbntibte the new object
         // ------------------------------
         // ------------------------------
-        final Class<?>[] tab;
+        finbl Clbss<?>[] tbb;
         Object moi;
         try {
-            // Build the signature of the method
+            // Build the signbture of the method
             //
-            ClassLoader aLoader= theClass.getClassLoader();
-            // Build the signature of the method
+            ClbssLobder bLobder= theClbss.getClbssLobder();
+            // Build the signbture of the method
             //
-            tab =
-                ((signature == null)?null:
-                 findSignatureClasses(signature,aLoader));
+            tbb =
+                ((signbture == null)?null:
+                 findSignbtureClbsses(signbture,bLobder));
         }
-        // Exception IllegalArgumentException raised in Jdk1.1.8
-        catch (IllegalArgumentException e) {
+        // Exception IllegblArgumentException rbised in Jdk1.1.8
+        cbtch (IllegblArgumentException e) {
             throw new ReflectionException(e,
-                    "The constructor parameter classes could not be loaded");
+                    "The constructor pbrbmeter clbsses could not be lobded");
         }
 
-        // Query the metadata service to get the right constructor
-        Constructor<?> cons = findConstructor(theClass, tab);
+        // Query the metbdbtb service to get the right constructor
+        Constructor<?> cons = findConstructor(theClbss, tbb);
 
         if (cons == null) {
             throw new ReflectionException(new
                 NoSuchMethodException("No such constructor"));
         }
         try {
-            ReflectUtil.checkPackageAccess(theClass);
-            ensureClassAccess(theClass);
-            moi = cons.newInstance(params);
+            ReflectUtil.checkPbckbgeAccess(theClbss);
+            ensureClbssAccess(theClbss);
+            moi = cons.newInstbnce(pbrbms);
         }
-        catch (NoSuchMethodError error) {
+        cbtch (NoSuchMethodError error) {
             throw new ReflectionException(new
                 NoSuchMethodException("No such constructor found"),
                                           "No such constructor" );
         }
-        catch (InstantiationException e) {
+        cbtch (InstbntibtionException e) {
             throw new ReflectionException(e,
-                "Exception thrown trying to invoke the MBean's constructor");
+                "Exception thrown trying to invoke the MBebn's constructor");
         }
-        catch (IllegalAccessException e) {
+        cbtch (IllegblAccessException e) {
             throw new ReflectionException(e,
-                "Exception thrown trying to invoke the MBean's constructor");
+                "Exception thrown trying to invoke the MBebn's constructor");
         }
-        catch (InvocationTargetException e) {
-            // Wrap the exception.
-            Throwable th = e.getTargetException();
-            if (th instanceof RuntimeException) {
-                throw new RuntimeMBeanException((RuntimeException)th,
-                      "RuntimeException thrown in the MBean's constructor");
-            } else if (th instanceof Error) {
+        cbtch (InvocbtionTbrgetException e) {
+            // Wrbp the exception.
+            Throwbble th = e.getTbrgetException();
+            if (th instbnceof RuntimeException) {
+                throw new RuntimeMBebnException((RuntimeException)th,
+                      "RuntimeException thrown in the MBebn's constructor");
+            } else if (th instbnceof Error) {
                 throw new RuntimeErrorException((Error) th,
-                      "Error thrown in the MBean's constructor");
+                      "Error thrown in the MBebn's constructor");
             } else {
-                throw new MBeanException((Exception) th,
-                      "Exception thrown in the MBean's constructor");
+                throw new MBebnException((Exception) th,
+                      "Exception thrown in the MBebn's constructor");
             }
         }
         return moi;
     }
 
     /**
-     * De-serializes a byte array in the context of a classloader.
+     * De-seriblizes b byte brrby in the context of b clbsslobder.
      *
-     * @param loader the classloader to use for de-serialization
-     * @param data The byte array to be de-sererialized.
+     * @pbrbm lobder the clbsslobder to use for de-seriblizbtion
+     * @pbrbm dbtb The byte brrby to be de-sereriblized.
      *
-     * @return  The de-serialized object stream.
+     * @return  The de-seriblized object strebm.
      *
-     * @exception OperationsException Any of the usual Input/Output related
+     * @exception OperbtionsException Any of the usubl Input/Output relbted
      * exceptions.
      */
-    public ObjectInputStream deserialize(ClassLoader loader, byte[] data)
-        throws OperationsException {
+    public ObjectInputStrebm deseriblize(ClbssLobder lobder, byte[] dbtb)
+        throws OperbtionsException {
 
-        // Check parameter validity
-        if (data == null) {
-            throw new  RuntimeOperationsException(new
-                IllegalArgumentException(), "Null data passed in parameter");
+        // Check pbrbmeter vblidity
+        if (dbtb == null) {
+            throw new  RuntimeOperbtionsException(new
+                IllegblArgumentException(), "Null dbtb pbssed in pbrbmeter");
         }
-        if (data.length == 0) {
-            throw new  RuntimeOperationsException(new
-                IllegalArgumentException(), "Empty data passed in parameter");
+        if (dbtb.length == 0) {
+            throw new  RuntimeOperbtionsException(new
+                IllegblArgumentException(), "Empty dbtb pbssed in pbrbmeter");
         }
 
-        // Object deserialization
-        ByteArrayInputStream bIn;
-        ObjectInputStream    objIn;
+        // Object deseriblizbtion
+        ByteArrbyInputStrebm bIn;
+        ObjectInputStrebm    objIn;
 
-        bIn   = new ByteArrayInputStream(data);
+        bIn   = new ByteArrbyInputStrebm(dbtb);
         try {
-            objIn = new ObjectInputStreamWithLoader(bIn,loader);
-        } catch (IOException e) {
-            throw new OperationsException(
-                     "An IOException occurred trying to de-serialize the data");
+            objIn = new ObjectInputStrebmWithLobder(bIn,lobder);
+        } cbtch (IOException e) {
+            throw new OperbtionsException(
+                     "An IOException occurred trying to de-seriblize the dbtb");
         }
 
         return objIn;
     }
 
     /**
-     * De-serializes a byte array in the context of a given MBean class loader.
-     * <P>The class loader is the one that loaded the class with name
-     * "className".
-     * <P>The name of the class loader to be used for loading the specified
-     * class is specified. If null, a default one has to be provided (for a
-     * MBean Server, its own class loader will be used).
+     * De-seriblizes b byte brrby in the context of b given MBebn clbss lobder.
+     * <P>The clbss lobder is the one thbt lobded the clbss with nbme
+     * "clbssNbme".
+     * <P>The nbme of the clbss lobder to be used for lobding the specified
+     * clbss is specified. If null, b defbult one hbs to be provided (for b
+     * MBebn Server, its own clbss lobder will be used).
      *
-     * @param className The name of the class whose class loader should
-     *  be used for the de-serialization.
-     * @param data The byte array to be de-sererialized.
-     * @param loaderName The name of the class loader to be used for loading
-     * the specified class. If null, a default one has to be provided (for a
-     * MBean Server, its own class loader will be used).
+     * @pbrbm clbssNbme The nbme of the clbss whose clbss lobder should
+     *  be used for the de-seriblizbtion.
+     * @pbrbm dbtb The byte brrby to be de-sereriblized.
+     * @pbrbm lobderNbme The nbme of the clbss lobder to be used for lobding
+     * the specified clbss. If null, b defbult one hbs to be provided (for b
+     * MBebn Server, its own clbss lobder will be used).
      *
-     * @return  The de-serialized object stream.
+     * @return  The de-seriblized object strebm.
      *
-     * @exception InstanceNotFoundException The specified class loader MBean is
+     * @exception InstbnceNotFoundException The specified clbss lobder MBebn is
      * not found.
-     * @exception OperationsException Any of the usual Input/Output related
+     * @exception OperbtionsException Any of the usubl Input/Output relbted
      * exceptions.
-     * @exception ReflectionException The specified class could not be loaded
-     * by the specified class loader.
+     * @exception ReflectionException The specified clbss could not be lobded
+     * by the specified clbss lobder.
      */
-    public ObjectInputStream deserialize(String className,
-                                         ObjectName loaderName,
-                                         byte[] data,
-                                         ClassLoader loader)
-        throws InstanceNotFoundException,
-               OperationsException,
+    public ObjectInputStrebm deseriblize(String clbssNbme,
+                                         ObjectNbme lobderNbme,
+                                         byte[] dbtb,
+                                         ClbssLobder lobder)
+        throws InstbnceNotFoundException,
+               OperbtionsException,
                ReflectionException  {
 
-        // Check parameter validity
-        if (data == null) {
-            throw new  RuntimeOperationsException(new
-                IllegalArgumentException(), "Null data passed in parameter");
+        // Check pbrbmeter vblidity
+        if (dbtb == null) {
+            throw new  RuntimeOperbtionsException(new
+                IllegblArgumentException(), "Null dbtb pbssed in pbrbmeter");
         }
-        if (data.length == 0) {
-            throw new  RuntimeOperationsException(new
-                IllegalArgumentException(), "Empty data passed in parameter");
+        if (dbtb.length == 0) {
+            throw new  RuntimeOperbtionsException(new
+                IllegblArgumentException(), "Empty dbtb pbssed in pbrbmeter");
         }
-        if (className == null) {
-            throw new  RuntimeOperationsException(new
-             IllegalArgumentException(), "Null className passed in parameter");
+        if (clbssNbme == null) {
+            throw new  RuntimeOperbtionsException(new
+             IllegblArgumentException(), "Null clbssNbme pbssed in pbrbmeter");
         }
 
-        ReflectUtil.checkPackageAccess(className);
-        Class<?> theClass;
-        if (loaderName == null) {
-            // Load the class using the agent class loader
-            theClass = findClass(className, loader);
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
+        Clbss<?> theClbss;
+        if (lobderNbme == null) {
+            // Lobd the clbss using the bgent clbss lobder
+            theClbss = findClbss(clbssNbme, lobder);
 
         } else {
-            // Get the class loader MBean
+            // Get the clbss lobder MBebn
             try {
-                ClassLoader instance = null;
+                ClbssLobder instbnce = null;
 
-                instance = getClassLoader(loaderName);
-                if (instance == null)
-                    throw new ClassNotFoundException(className);
-                theClass = Class.forName(className, false, instance);
+                instbnce = getClbssLobder(lobderNbme);
+                if (instbnce == null)
+                    throw new ClbssNotFoundException(clbssNbme);
+                theClbss = Clbss.forNbme(clbssNbme, fblse, instbnce);
             }
-            catch (ClassNotFoundException e) {
+            cbtch (ClbssNotFoundException e) {
                 throw new ReflectionException(e,
-                               "The MBean class could not be loaded by the " +
-                               loaderName.toString() + " class loader");
+                               "The MBebn clbss could not be lobded by the " +
+                               lobderNbme.toString() + " clbss lobder");
             }
         }
 
-        // Object deserialization
-        ByteArrayInputStream bIn;
-        ObjectInputStream    objIn;
+        // Object deseriblizbtion
+        ByteArrbyInputStrebm bIn;
+        ObjectInputStrebm    objIn;
 
-        bIn   = new ByteArrayInputStream(data);
+        bIn   = new ByteArrbyInputStrebm(dbtb);
         try {
-            objIn = new ObjectInputStreamWithLoader(bIn,
-                                           theClass.getClassLoader());
-        } catch (IOException e) {
-            throw new OperationsException(
-                    "An IOException occurred trying to de-serialize the data");
+            objIn = new ObjectInputStrebmWithLobder(bIn,
+                                           theClbss.getClbssLobder());
+        } cbtch (IOException e) {
+            throw new OperbtionsException(
+                    "An IOException occurred trying to de-seriblize the dbtb");
         }
 
         return objIn;
@@ -463,324 +463,324 @@ public class MBeanInstantiator {
 
 
     /**
-     * Instantiates an object using the list of all class loaders registered
-     * in the MBean Interceptor
-     * (using its {@link javax.management.loading.ClassLoaderRepository}).
-     * <P>The object's class should have a public constructor.
-     * <P>It returns a reference to the newly created object.
-     * <P>The newly created object is not registered in the MBean Interceptor.
+     * Instbntibtes bn object using the list of bll clbss lobders registered
+     * in the MBebn Interceptor
+     * (using its {@link jbvbx.mbnbgement.lobding.ClbssLobderRepository}).
+     * <P>The object's clbss should hbve b public constructor.
+     * <P>It returns b reference to the newly crebted object.
+     * <P>The newly crebted object is not registered in the MBebn Interceptor.
      *
-     * @param className The class name of the object to be instantiated.
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to invoke the
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to invoke the
      * object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception MBebnException The constructor of the object hbs thrown bn
      * exception
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: the className passed in
-     * parameter is null.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: the clbssNbme pbssed in
+     * pbrbmeter is null.
      */
-    public Object instantiate(String className)
+    public Object instbntibte(String clbssNbme)
         throws ReflectionException,
-        MBeanException {
+        MBebnException {
 
-        return instantiate(className, (Object[]) null, (String[]) null, null);
+        return instbntibte(clbssNbme, (Object[]) null, (String[]) null, null);
     }
 
 
 
     /**
-     * Instantiates an object using the class Loader specified by its
-     * <CODE>ObjectName</CODE>.
-     * <P>If the loader name is null, a default one has to be provided (for a
-     * MBean Server, the ClassLoader that loaded it will be used).
-     * <P>The object's class should have a public constructor.
-     * <P>It returns a reference to the newly created object.
-     * <P>The newly created object is not registered in the MBean Interceptor.
+     * Instbntibtes bn object using the clbss Lobder specified by its
+     * <CODE>ObjectNbme</CODE>.
+     * <P>If the lobder nbme is null, b defbult one hbs to be provided (for b
+     * MBebn Server, the ClbssLobder thbt lobded it will be used).
+     * <P>The object's clbss should hbve b public constructor.
+     * <P>It returns b reference to the newly crebted object.
+     * <P>The newly crebted object is not registered in the MBebn Interceptor.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to invoke the
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to invoke the
      * object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception MBebnException The constructor of the object hbs thrown bn
      * exception.
-     * @exception InstanceNotFoundException The specified class loader is not
-     * registered in the MBeanServerInterceptor.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: the className passed in
-     * parameter is null.
+     * @exception InstbnceNotFoundException The specified clbss lobder is not
+     * registered in the MBebnServerInterceptor.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: the clbssNbme pbssed in
+     * pbrbmeter is null.
      */
-    public Object instantiate(String className, ObjectName loaderName,
-                              ClassLoader loader)
-        throws ReflectionException, MBeanException,
-               InstanceNotFoundException {
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme,
+                              ClbssLobder lobder)
+        throws ReflectionException, MBebnException,
+               InstbnceNotFoundException {
 
-        return instantiate(className, loaderName, (Object[]) null,
-                           (String[]) null, loader);
+        return instbntibte(clbssNbme, lobderNbme, (Object[]) null,
+                           (String[]) null, lobder);
     }
 
 
     /**
-     * Instantiates an object using the list of all class loaders registered
-     * in the MBean server
-     * (using its {@link javax.management.loading.ClassLoaderRepository}).
-     * <P>The object's class should have a public constructor.
-     * <P>The call returns a reference to the newly created object.
-     * <P>The newly created object is not registered in the MBean Interceptor.
+     * Instbntibtes bn object using the list of bll clbss lobders registered
+     * in the MBebn server
+     * (using its {@link jbvbx.mbnbgement.lobding.ClbssLobderRepository}).
+     * <P>The object's clbss should hbve b public constructor.
+     * <P>The cbll returns b reference to the newly crebted object.
+     * <P>The newly crebted object is not registered in the MBebn Interceptor.
      *
-     * @param className The class name of the object to be instantiated.
-     * @param params An array containing the parameters of the constructor to
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the constructor to
      * be invoked.
-     * @param signature An array containing the signature of the constructor to
+     * @pbrbm signbture An brrby contbining the signbture of the constructor to
      * be invoked.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to invoke the
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to invoke the
      * object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception MBebnException The constructor of the object hbs thrown bn
      * exception
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: the className passed in
-     * parameter is null.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: the clbssNbme pbssed in
+     * pbrbmeter is null.
      */
-    public Object instantiate(String className,
-                              Object params[],
-                              String signature[],
-                              ClassLoader loader)
+    public Object instbntibte(String clbssNbme,
+                              Object pbrbms[],
+                              String signbture[],
+                              ClbssLobder lobder)
         throws ReflectionException,
-        MBeanException {
+        MBebnException {
 
-        Class<?> theClass = findClassWithDefaultLoaderRepository(className);
-        return instantiate(theClass, params, signature, loader);
+        Clbss<?> theClbss = findClbssWithDefbultLobderRepository(clbssNbme);
+        return instbntibte(theClbss, pbrbms, signbture, lobder);
     }
 
 
 
     /**
-     * Instantiates an object. The class loader to be used is identified by its
-     * object name.
-     * <P>If the object name of the loader is null, a default has to be
-     * provided (for example, for a MBean Server, the ClassLoader that loaded
+     * Instbntibtes bn object. The clbss lobder to be used is identified by its
+     * object nbme.
+     * <P>If the object nbme of the lobder is null, b defbult hbs to be
+     * provided (for exbmple, for b MBebn Server, the ClbssLobder thbt lobded
      * it will be used).
-     * <P>The object's class should have a public constructor.
-     * <P>The call returns a reference to the newly created object.
-     * <P>The newly created object is not registered in the MBean server.
+     * <P>The object's clbss should hbve b public constructor.
+     * <P>The cbll returns b reference to the newly crebted object.
+     * <P>The newly crebted object is not registered in the MBebn server.
      *
-     * @param className The class name of the object to be instantiated.
-     * @param params An array containing the parameters of the constructor to
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the constructor to
      * be invoked.
-     * @param signature An array containing the signature of the constructor to
+     * @pbrbm signbture An brrby contbining the signbture of the constructor to
      * be invoked.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to invoke the
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to invoke the
      * object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception MBebnException The constructor of the object hbs thrown bn
      * exception
-     * @exception InstanceNotFoundException The specified class loader is not
-     * registered in the MBean Interceptor.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: the className passed in
-     * parameter is null.
+     * @exception InstbnceNotFoundException The specified clbss lobder is not
+     * registered in the MBebn Interceptor.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: the clbssNbme pbssed in
+     * pbrbmeter is null.
      */
-    public Object instantiate(String className,
-                              ObjectName loaderName,
-                              Object params[],
-                              String signature[],
-                              ClassLoader loader)
+    public Object instbntibte(String clbssNbme,
+                              ObjectNbme lobderNbme,
+                              Object pbrbms[],
+                              String signbture[],
+                              ClbssLobder lobder)
         throws ReflectionException,
-               MBeanException,
-        InstanceNotFoundException {
+               MBebnException,
+        InstbnceNotFoundException {
 
         // ------------------------------
         // ------------------------------
-        Class<?> theClass;
+        Clbss<?> theClbss;
 
-        if (loaderName == null) {
-            theClass = findClass(className, loader);
+        if (lobderNbme == null) {
+            theClbss = findClbss(clbssNbme, lobder);
         } else {
-            theClass = findClass(className, loaderName);
+            theClbss = findClbss(clbssNbme, lobderNbme);
         }
-        return instantiate(theClass, params, signature, loader);
+        return instbntibte(theClbss, pbrbms, signbture, lobder);
     }
 
 
     /**
-     * Return the Default Loader Repository used by this instantiator object.
+     * Return the Defbult Lobder Repository used by this instbntibtor object.
      **/
-    public ModifiableClassLoaderRepository getClassLoaderRepository() {
-        checkMBeanPermission((String)null, null, null, "getClassLoaderRepository");
+    public ModifibbleClbssLobderRepository getClbssLobderRepository() {
+        checkMBebnPermission((String)null, null, null, "getClbssLobderRepository");
         return clr;
     }
 
     /**
-     * Load a class with the specified loader, or with this object
-     * class loader if the specified loader is null.
+     * Lobd b clbss with the specified lobder, or with this object
+     * clbss lobder if the specified lobder is null.
      **/
-    static Class<?> loadClass(String className, ClassLoader loader)
+    stbtic Clbss<?> lobdClbss(String clbssNbme, ClbssLobder lobder)
         throws ReflectionException {
-        Class<?> theClass;
-        if (className == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("The class name cannot be null"),
-                              "Exception occurred during object instantiation");
+        Clbss<?> theClbss;
+        if (clbssNbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("The clbss nbme cbnnot be null"),
+                              "Exception occurred during object instbntibtion");
         }
-        ReflectUtil.checkPackageAccess(className);
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
         try {
-            if (loader == null)
-                loader = MBeanInstantiator.class.getClassLoader();
-            if (loader != null) {
-                theClass = Class.forName(className, false, loader);
+            if (lobder == null)
+                lobder = MBebnInstbntibtor.clbss.getClbssLobder();
+            if (lobder != null) {
+                theClbss = Clbss.forNbme(clbssNbme, fblse, lobder);
             } else {
-                theClass = Class.forName(className);
+                theClbss = Clbss.forNbme(clbssNbme);
             }
-        } catch (ClassNotFoundException e) {
+        } cbtch (ClbssNotFoundException e) {
             throw new ReflectionException(e,
-            "The MBean class could not be loaded");
+            "The MBebn clbss could not be lobded");
         }
-        return theClass;
+        return theClbss;
     }
 
 
 
     /**
-     * Load the classes specified in the signature with the given loader,
-     * or with this object class loader.
+     * Lobd the clbsses specified in the signbture with the given lobder,
+     * or with this object clbss lobder.
      **/
-    static Class<?>[] loadSignatureClasses(String signature[],
-                                           ClassLoader loader)
+    stbtic Clbss<?>[] lobdSignbtureClbsses(String signbture[],
+                                           ClbssLobder lobder)
         throws  ReflectionException {
 
-        if (signature == null) return null;
-        final ClassLoader aLoader =
-           (loader==null?MBeanInstantiator.class.getClassLoader():loader);
-        final int length= signature.length;
-        final Class<?> tab[]=new Class<?>[length];
+        if (signbture == null) return null;
+        finbl ClbssLobder bLobder =
+           (lobder==null?MBebnInstbntibtor.clbss.getClbssLobder():lobder);
+        finbl int length= signbture.length;
+        finbl Clbss<?> tbb[]=new Clbss<?>[length];
 
-        if (length == 0) return tab;
+        if (length == 0) return tbb;
         try {
             for (int i= 0; i < length; i++) {
-                // Start handling primitive types (int. boolean and so
+                // Stbrt hbndling primitive types (int. boolebn bnd so
                 // forth)
                 //
 
-                final Class<?> primCla = primitiveClasses.get(signature[i]);
-                if (primCla != null) {
-                    tab[i] = primCla;
+                finbl Clbss<?> primClb = primitiveClbsses.get(signbture[i]);
+                if (primClb != null) {
+                    tbb[i] = primClb;
                     continue;
                 }
 
-                // Ok we do not have a primitive type ! We need to build
-                // the signature of the method
+                // Ok we do not hbve b primitive type ! We need to build
+                // the signbture of the method
                 //
-                // We need to load the class through the class
-                // loader of the target object.
+                // We need to lobd the clbss through the clbss
+                // lobder of the tbrget object.
                 //
-                ReflectUtil.checkPackageAccess(signature[i]);
-                tab[i] = Class.forName(signature[i], false, aLoader);
+                ReflectUtil.checkPbckbgeAccess(signbture[i]);
+                tbb[i] = Clbss.forNbme(signbture[i], fblse, bLobder);
             }
-        } catch (ClassNotFoundException e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+        } cbtch (ClbssNotFoundException e) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        MBeanInstantiator.class.getName(),
-                        "findSignatureClasses",
-                        "The parameter class could not be found", e);
+                        MBebnInstbntibtor.clbss.getNbme(),
+                        "findSignbtureClbsses",
+                        "The pbrbmeter clbss could not be found", e);
             }
             throw new ReflectionException(e,
-                      "The parameter class could not be found");
-        } catch (RuntimeException e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+                      "The pbrbmeter clbss could not be found");
+        } cbtch (RuntimeException e) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        MBeanInstantiator.class.getName(),
-                        "findSignatureClasses",
+                        MBebnInstbntibtor.clbss.getNbme(),
+                        "findSignbtureClbsses",
                         "Unexpected exception", e);
             }
             throw e;
         }
-        return tab;
+        return tbb;
     }
 
-    private Constructor<?> findConstructor(Class<?> c, Class<?>[] params) {
+    privbte Constructor<?> findConstructor(Clbss<?> c, Clbss<?>[] pbrbms) {
         try {
-            return ConstructorUtil.getConstructor(c, params);
-        } catch (Exception e) {
+            return ConstructorUtil.getConstructor(c, pbrbms);
+        } cbtch (Exception e) {
             return null;
         }
     }
 
 
-    private static final Map<String, Class<?>> primitiveClasses = Util.newMap();
-    static {
-        for (Class<?> c : new Class<?>[] {byte.class, short.class, int.class,
-                                          long.class, float.class, double.class,
-                                          char.class, boolean.class})
-            primitiveClasses.put(c.getName(), c);
+    privbte stbtic finbl Mbp<String, Clbss<?>> primitiveClbsses = Util.newMbp();
+    stbtic {
+        for (Clbss<?> c : new Clbss<?>[] {byte.clbss, short.clbss, int.clbss,
+                                          long.clbss, flobt.clbss, double.clbss,
+                                          chbr.clbss, boolebn.clbss})
+            primitiveClbsses.put(c.getNbme(), c);
     }
 
-    private static void checkMBeanPermission(Class<?> clazz,
+    privbte stbtic void checkMBebnPermission(Clbss<?> clbzz,
                                              String member,
-                                             ObjectName objectName,
-                                             String actions) {
-        if (clazz != null) {
-            checkMBeanPermission(clazz.getName(), member, objectName, actions);
+                                             ObjectNbme objectNbme,
+                                             String bctions) {
+        if (clbzz != null) {
+            checkMBebnPermission(clbzz.getNbme(), member, objectNbme, bctions);
         }
     }
 
-    private static void checkMBeanPermission(String classname,
+    privbte stbtic void checkMBebnPermission(String clbssnbme,
                                              String member,
-                                             ObjectName objectName,
-                                             String actions)
+                                             ObjectNbme objectNbme,
+                                             String bctions)
         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            Permission perm = new MBeanPermission(classname,
+            Permission perm = new MBebnPermission(clbssnbme,
                                                   member,
-                                                  objectName,
-                                                  actions);
+                                                  objectNbme,
+                                                  bctions);
             sm.checkPermission(perm);
         }
     }
 
-    private static void ensureClassAccess(Class<?> clazz)
-            throws IllegalAccessException
+    privbte stbtic void ensureClbssAccess(Clbss<?> clbzz)
+            throws IllegblAccessException
     {
-        int mod = clazz.getModifiers();
+        int mod = clbzz.getModifiers();
         if (!Modifier.isPublic(mod)) {
-            throw new IllegalAccessException("Class is not public and can't be instantiated");
+            throw new IllegblAccessException("Clbss is not public bnd cbn't be instbntibted");
         }
     }
 
-    private ClassLoader getClassLoader(final ObjectName name) {
+    privbte ClbssLobder getClbssLobder(finbl ObjectNbme nbme) {
         if(clr == null){
             return null;
         }
-        // Restrict to getClassLoader permission only
+        // Restrict to getClbssLobder permission only
         Permissions permissions = new Permissions();
-        permissions.add(new MBeanPermission("*", null, name, "getClassLoader"));
-        ProtectionDomain protectionDomain = new ProtectionDomain(null, permissions);
-        ProtectionDomain[] domains = {protectionDomain};
-        AccessControlContext ctx = new AccessControlContext(domains);
-        ClassLoader loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-            public ClassLoader run() {
-                return clr.getClassLoader(name);
+        permissions.bdd(new MBebnPermission("*", null, nbme, "getClbssLobder"));
+        ProtectionDombin protectionDombin = new ProtectionDombin(null, permissions);
+        ProtectionDombin[] dombins = {protectionDombin};
+        AccessControlContext ctx = new AccessControlContext(dombins);
+        ClbssLobder lobder = AccessController.doPrivileged(new PrivilegedAction<ClbssLobder>() {
+            public ClbssLobder run() {
+                return clr.getClbssLobder(nbme);
             }
         }, ctx);
-        return loader;
+        return lobder;
     }
 }

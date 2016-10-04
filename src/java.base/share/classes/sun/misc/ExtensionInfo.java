@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.StringTokenizer;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.text.MessageFormat;
-import java.lang.Character.*;
+import jbvb.util.StringTokenizer;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.Attributes.Nbme;
+import jbvb.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.text.MessbgeFormbt;
+import jbvb.lbng.Chbrbcter.*;
 
 
 /**
- * This class holds all necessary information to install or
- * upgrade a extension on the user's disk
+ * This clbss holds bll necessbry informbtion to instbll or
+ * upgrbde b extension on the user's disk
  *
- * @author  Jerome Dochez
+ * @buthor  Jerome Dochez
  */
-public class ExtensionInfo {
+public clbss ExtensionInfo {
 
     /**
      * <p>
-     * public static values returned by the isCompatible method
+     * public stbtic vblues returned by the isCompbtible method
      * </p>
      */
-    public static final int COMPATIBLE = 0;
-    public static final int REQUIRE_SPECIFICATION_UPGRADE = 1;
-    public static final int REQUIRE_IMPLEMENTATION_UPGRADE = 2;
-    public static final int REQUIRE_VENDOR_SWITCH = 3;
-    public static final int INCOMPATIBLE = 4;
+    public stbtic finbl int COMPATIBLE = 0;
+    public stbtic finbl int REQUIRE_SPECIFICATION_UPGRADE = 1;
+    public stbtic finbl int REQUIRE_IMPLEMENTATION_UPGRADE = 2;
+    public stbtic finbl int REQUIRE_VENDOR_SWITCH = 3;
+    public stbtic finbl int INCOMPATIBLE = 4;
 
     /**
      * <p>
-     * attributes fully describer an extension. The underlying described
-     * extension may be installed and requested.
+     * bttributes fully describer bn extension. The underlying described
+     * extension mby be instblled bnd requested.
      * <p>
      */
     public String title;
-    public String name;
+    public String nbme;
     public String specVersion;
     public String specVendor;
-    public String implementationVersion;
+    public String implementbtionVersion;
     public String vendor;
     public String vendorId;
     public String url;
 
     // For I18N support
-    private static final ResourceBundle rb =
-        ResourceBundle.getBundle("sun.misc.resources.Messages");
+    privbte stbtic finbl ResourceBundle rb =
+        ResourceBundle.getBundle("sun.misc.resources.Messbges");
 
 
     /**
      * <p>
-     * Create a new uninitialized extension information object
+     * Crebte b new uninitiblized extension informbtion object
      * </p>
      */
     public ExtensionInfo() {
@@ -83,19 +83,19 @@ public class ExtensionInfo {
 
     /**
      * <p>
-     * Create and initialize an extension information object.
-     * The initialization uses the attributes passed as being
-     * the content of a manifest file to load the extension
-     * information from.
-     * Since manifest file may contain information on several
-     * extension they may depend on, the extension key parameter
-     * is prepanded to the attribute name to make the key used
-     * to retrieve the attribute from the manifest file
+     * Crebte bnd initiblize bn extension informbtion object.
+     * The initiblizbtion uses the bttributes pbssed bs being
+     * the content of b mbnifest file to lobd the extension
+     * informbtion from.
+     * Since mbnifest file mby contbin informbtion on severbl
+     * extension they mby depend on, the extension key pbrbmeter
+     * is prepbnded to the bttribute nbme to mbke the key used
+     * to retrieve the bttribute from the mbnifest file
      * <p>
-     * @param extensionKey unique extension key in the manifest
-     * @param attr Attributes of a manifest file
+     * @pbrbm extensionKey unique extension key in the mbnifest
+     * @pbrbm bttr Attributes of b mbnifest file
      */
-    public ExtensionInfo(String extensionKey, Attributes attr)
+    public ExtensionInfo(String extensionKey, Attributes bttr)
         throws NullPointerException
     {
         String s;
@@ -105,96 +105,96 @@ public class ExtensionInfo {
             s ="";
         }
 
-        String attrKey = s + Name.EXTENSION_NAME.toString();
-        name = attr.getValue(attrKey);
-        if (name != null)
-            name = name.trim();
+        String bttrKey = s + Nbme.EXTENSION_NAME.toString();
+        nbme = bttr.getVblue(bttrKey);
+        if (nbme != null)
+            nbme = nbme.trim();
 
-        attrKey = s + Name.SPECIFICATION_TITLE.toString();
-        title = attr.getValue(attrKey);
+        bttrKey = s + Nbme.SPECIFICATION_TITLE.toString();
+        title = bttr.getVblue(bttrKey);
         if (title != null)
             title = title.trim();
 
-        attrKey = s + Name.SPECIFICATION_VERSION.toString();
-        specVersion = attr.getValue(attrKey);
+        bttrKey = s + Nbme.SPECIFICATION_VERSION.toString();
+        specVersion = bttr.getVblue(bttrKey);
         if (specVersion != null)
             specVersion = specVersion.trim();
 
-        attrKey = s + Name.SPECIFICATION_VENDOR.toString();
-        specVendor = attr.getValue(attrKey);
+        bttrKey = s + Nbme.SPECIFICATION_VENDOR.toString();
+        specVendor = bttr.getVblue(bttrKey);
         if (specVendor != null)
             specVendor = specVendor.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VERSION.toString();
-        implementationVersion = attr.getValue(attrKey);
-        if (implementationVersion != null)
-            implementationVersion = implementationVersion.trim();
+        bttrKey = s + Nbme.IMPLEMENTATION_VERSION.toString();
+        implementbtionVersion = bttr.getVblue(bttrKey);
+        if (implementbtionVersion != null)
+            implementbtionVersion = implementbtionVersion.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VENDOR.toString();
-        vendor = attr.getValue(attrKey);
+        bttrKey = s + Nbme.IMPLEMENTATION_VENDOR.toString();
+        vendor = bttr.getVblue(bttrKey);
         if (vendor != null)
             vendor = vendor.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VENDOR_ID.toString();
-        vendorId = attr.getValue(attrKey);
+        bttrKey = s + Nbme.IMPLEMENTATION_VENDOR_ID.toString();
+        vendorId = bttr.getVblue(bttrKey);
         if (vendorId != null)
             vendorId = vendorId.trim();
 
-        attrKey =s + Name.IMPLEMENTATION_URL.toString();
-        url = attr.getValue(attrKey);
+        bttrKey =s + Nbme.IMPLEMENTATION_URL.toString();
+        url = bttr.getVblue(bttrKey);
         if (url != null)
             url = url.trim();
     }
 
     /**
      * <p>
-     * @return true if the extension described by this extension information
-     * is compatible with the extension described by the extension
-     * information passed as a parameter
+     * @return true if the extension described by this extension informbtion
+     * is compbtible with the extension described by the extension
+     * informbtion pbssed bs b pbrbmeter
      * </p>
      *
-     * @param the requested extension information to compare to
+     * @pbrbm the requested extension informbtion to compbre to
      */
-    public int isCompatibleWith(ExtensionInfo ei) {
+    public int isCompbtibleWith(ExtensionInfo ei) {
 
-        if (name == null || ei.name == null)
+        if (nbme == null || ei.nbme == null)
             return INCOMPATIBLE;
-        if (name.compareTo(ei.name)==0) {
+        if (nbme.compbreTo(ei.nbme)==0) {
             // is this true, if not spec version is specified, we consider
-            // the value as being "any".
+            // the vblue bs being "bny".
             if (specVersion == null || ei.specVersion == null)
                 return COMPATIBLE;
 
-            int version = compareExtensionVersion(specVersion, ei.specVersion);
+            int version = compbreExtensionVersion(specVersion, ei.specVersion);
             if (version<0) {
-                // this extension specification is "older"
+                // this extension specificbtion is "older"
                 if (vendorId != null && ei.vendorId !=null) {
-                    if (vendorId.compareTo(ei.vendorId)!=0) {
+                    if (vendorId.compbreTo(ei.vendorId)!=0) {
                         return REQUIRE_VENDOR_SWITCH;
                     }
                 }
                 return REQUIRE_SPECIFICATION_UPGRADE;
             } else {
-                // the extension spec is compatible, let's look at the
-                // implementation attributes
+                // the extension spec is compbtible, let's look bt the
+                // implementbtion bttributes
                 if (vendorId != null && ei.vendorId != null) {
-                    // They care who provides the extension
-                    if (vendorId.compareTo(ei.vendorId)!=0) {
-                        // They want to use another vendor implementation
+                    // They cbre who provides the extension
+                    if (vendorId.compbreTo(ei.vendorId)!=0) {
+                        // They wbnt to use bnother vendor implementbtion
                         return REQUIRE_VENDOR_SWITCH;
                     } else {
-                        // Vendor matches, let's see the implementation version
-                        if (implementationVersion != null && ei.implementationVersion != null) {
-                            // they care about the implementation version
-                            version = compareExtensionVersion(implementationVersion, ei.implementationVersion);
+                        // Vendor mbtches, let's see the implementbtion version
+                        if (implementbtionVersion != null && ei.implementbtionVersion != null) {
+                            // they cbre bbout the implementbtion version
+                            version = compbreExtensionVersion(implementbtionVersion, ei.implementbtionVersion);
                             if (version<0) {
-                                // This extension is an older implementation
+                                // This extension is bn older implementbtion
                                 return REQUIRE_IMPLEMENTATION_UPGRADE;
                             }
                         }
                     }
                 }
-                // All othe cases, we consider the extensions to be compatible
+                // All othe cbses, we consider the extensions to be compbtible
                 return COMPATIBLE;
             }
         }
@@ -203,67 +203,67 @@ public class ExtensionInfo {
 
     /**
      * <p>
-     * helper method to print sensible information on the undelying described
+     * helper method to print sensible informbtion on the undelying described
      * extension
      * </p>
      */
     public String toString() {
-        return "Extension : title(" + title + "), name(" + name + "), spec vendor(" +
+        return "Extension : title(" + title + "), nbme(" + nbme + "), spec vendor(" +
             specVendor + "), spec version(" + specVersion + "), impl vendor(" +
             vendor + "), impl vendor id(" + vendorId + "), impl version(" +
-            implementationVersion + "), impl url(" + url + ")";
+            implementbtionVersion + "), impl url(" + url + ")";
     }
 
     /*
      * <p>
-     * helper method to compare two versions.
-     * version are in the x.y.z.t pattern.
+     * helper method to compbre two versions.
+     * version bre in the x.y.z.t pbttern.
      * </p>
-     * @param source version to compare to
-     * @param target version used to compare against
+     * @pbrbm source version to compbre to
+     * @pbrbm tbrget version used to compbre bgbinst
      * @return < 0 if source < version
      *         > 0 if source > version
      *         = 0 if source = version
      */
-    private int compareExtensionVersion(String source, String target)
-        throws NumberFormatException
+    privbte int compbreExtensionVersion(String source, String tbrget)
+        throws NumberFormbtException
     {
-        source = source.toLowerCase();
-        target = target.toLowerCase();
+        source = source.toLowerCbse();
+        tbrget = tbrget.toLowerCbse();
 
-        return strictCompareExtensionVersion(source, target);
+        return strictCompbreExtensionVersion(source, tbrget);
     }
 
 
     /*
      * <p>
-     * helper method to compare two versions.
-     * version are in the x.y.z.t pattern.
+     * helper method to compbre two versions.
+     * version bre in the x.y.z.t pbttern.
      * </p>
-     * @param source version to compare to
-     * @param target version used to compare against
+     * @pbrbm source version to compbre to
+     * @pbrbm tbrget version used to compbre bgbinst
      * @return < 0 if source < version
      *         > 0 if source > version
      *         = 0 if source = version
      */
-    private int strictCompareExtensionVersion(String source, String target)
-        throws NumberFormatException
+    privbte int strictCompbreExtensionVersion(String source, String tbrget)
+        throws NumberFormbtException
     {
-        if (source.equals(target))
+        if (source.equbls(tbrget))
             return 0;
 
         StringTokenizer stk = new StringTokenizer(source, ".,");
-        StringTokenizer ttk = new StringTokenizer(target, ".,");
+        StringTokenizer ttk = new StringTokenizer(tbrget, ".,");
 
-        // Compare number
+        // Compbre number
         int n = 0, m = 0, result = 0;
 
-        // Convert token into meaning number for comparision
-        if (stk.hasMoreTokens())
+        // Convert token into mebning number for compbrision
+        if (stk.hbsMoreTokens())
             n = convertToken(stk.nextToken().toString());
 
-        // Convert token into meaning number for comparision
-        if (ttk.hasMoreTokens())
+        // Convert token into mebning number for compbrision
+        if (ttk.hbsMoreTokens())
             m = convertToken(ttk.nextToken().toString());
 
         if (n > m)
@@ -274,139 +274,139 @@ public class ExtensionInfo {
         {
             // Look for index of "." in the string
             int sIdx = source.indexOf('.');
-            int tIdx = target.indexOf('.');
+            int tIdx = tbrget.indexOf('.');
 
             if (sIdx == -1)
                 sIdx = source.length() - 1;
 
             if (tIdx == -1)
-                tIdx = target.length() - 1;
+                tIdx = tbrget.length() - 1;
 
-            return strictCompareExtensionVersion(source.substring(sIdx + 1),
-                                                 target.substring(tIdx + 1));
+            return strictCompbreExtensionVersion(source.substring(sIdx + 1),
+                                                 tbrget.substring(tIdx + 1));
         }
     }
 
-    private int convertToken(String token)
+    privbte int convertToken(String token)
     {
-        if (token == null || token.equals(""))
+        if (token == null || token.equbls(""))
             return 0;
 
-        int charValue = 0;
-        int charVersion = 0;
-        int patchVersion = 0;
+        int chbrVblue = 0;
+        int chbrVersion = 0;
+        int pbtchVersion = 0;
         int strLength = token.length();
         int endIndex = strLength;
-        char lastChar;
+        chbr lbstChbr;
 
-        Object[] args = {name};
-        MessageFormat mf = new MessageFormat(rb.getString("optpkg.versionerror"));
-        String versionError = mf.format(args);
+        Object[] brgs = {nbme};
+        MessbgeFormbt mf = new MessbgeFormbt(rb.getString("optpkg.versionerror"));
+        String versionError = mf.formbt(brgs);
 
-        // Look for "-" for pre-release
+        // Look for "-" for pre-relebse
         int prIndex = token.indexOf('-');
 
-        // Look for "_" for patch release
-        int patchIndex = token.indexOf('_');
+        // Look for "_" for pbtch relebse
+        int pbtchIndex = token.indexOf('_');
 
-        if (prIndex == -1 && patchIndex == -1)
+        if (prIndex == -1 && pbtchIndex == -1)
         {
-            // This is a FCS release
+            // This is b FCS relebse
             try {
-                return Integer.parseInt(token) * 100;
-            } catch (NumberFormatException e) {
+                return Integer.pbrseInt(token) * 100;
+            } cbtch (NumberFormbtException e) {
                 System.out.println(versionError);
                 return 0;
             }
         }
-        else if (patchIndex != -1)
+        else if (pbtchIndex != -1)
         {
-            // This is a patch (update) release
+            // This is b pbtch (updbte) relebse
             int prversion;
             try {
-                // Obtain the version
-                prversion = Integer.parseInt(token.substring(0, patchIndex));
+                // Obtbin the version
+                prversion = Integer.pbrseInt(token.substring(0, pbtchIndex));
 
-                // Check to see if the patch version is in the n.n.n_nnl format (special release)
-                lastChar = token.charAt(strLength-1);
-                if (Character.isLetter(lastChar)) {
-                    // letters a-z have values from 10-35
-                    charValue = Character.getNumericValue(lastChar);
+                // Check to see if the pbtch version is in the n.n.n_nnl formbt (specibl relebse)
+                lbstChbr = token.chbrAt(strLength-1);
+                if (Chbrbcter.isLetter(lbstChbr)) {
+                    // letters b-z hbve vblues from 10-35
+                    chbrVblue = Chbrbcter.getNumericVblue(lbstChbr);
                     endIndex = strLength-1;
 
-                    // Obtain the patch version id
-                    patchVersion = Integer.parseInt(token.substring(patchIndex+1, endIndex));
+                    // Obtbin the pbtch version id
+                    pbtchVersion = Integer.pbrseInt(token.substring(pbtchIndex+1, endIndex));
 
-                    if (charValue >= Character.getNumericValue('a') && charValue <= Character.getNumericValue('z')) {
-                        // This is a special release
-                        charVersion = (patchVersion * 100) + charValue;
+                    if (chbrVblue >= Chbrbcter.getNumericVblue('b') && chbrVblue <= Chbrbcter.getNumericVblue('z')) {
+                        // This is b specibl relebse
+                        chbrVersion = (pbtchVersion * 100) + chbrVblue;
                     } else {
-                        // character is not a a-z letter, ignore
-                        charVersion = 0;
+                        // chbrbcter is not b b-z letter, ignore
+                        chbrVersion = 0;
                         System.out.println(versionError);
                     }
                 } else {
-                    // This is a regular update release. Obtain the patch version id
-                    patchVersion = Integer.parseInt(token.substring(patchIndex+1, endIndex));
+                    // This is b regulbr updbte relebse. Obtbin the pbtch version id
+                    pbtchVersion = Integer.pbrseInt(token.substring(pbtchIndex+1, endIndex));
                 }
-            } catch (NumberFormatException e) {
+            } cbtch (NumberFormbtException e) {
                 System.out.println(versionError);
                 return 0;
             }
-            return prversion * 100 + (patchVersion + charVersion);
+            return prversion * 100 + (pbtchVersion + chbrVersion);
         }
         else
         {
-            //This is a milestone release, either a early access, alpha, beta, or RC
+            //This is b milestone relebse, either b ebrly bccess, blphb, betb, or RC
 
-            // Obtain the version
+            // Obtbin the version
             int mrversion;
             try {
-                mrversion = Integer.parseInt(token.substring(0, prIndex));
-            } catch (NumberFormatException e) {
+                mrversion = Integer.pbrseInt(token.substring(0, prIndex));
+            } cbtch (NumberFormbtException e) {
                 System.out.println(versionError);
                 return 0;
             }
 
-            // Obtain the patch version string, including the milestone + version
+            // Obtbin the pbtch version string, including the milestone + version
             String prString = token.substring(prIndex + 1);
 
             // Milestone version
             String msVersion = "";
-            int delta = 0;
+            int deltb = 0;
 
-            if (prString.indexOf("ea") != -1)
+            if (prString.indexOf("eb") != -1)
             {
                 msVersion = prString.substring(2);
-                delta = 50;
+                deltb = 50;
             }
-            else if (prString.indexOf("alpha") != -1)
+            else if (prString.indexOf("blphb") != -1)
             {
                 msVersion = prString.substring(5);
-                delta = 40;
+                deltb = 40;
             }
-            else if (prString.indexOf("beta") != -1)
+            else if (prString.indexOf("betb") != -1)
             {
                 msVersion = prString.substring(4);
-                delta = 30;
+                deltb = 30;
             }
             else if (prString.indexOf("rc") != -1)
             {
                 msVersion = prString.substring(2);
-                delta = 20;
+                deltb = 20;
             }
 
-            if (msVersion == null || msVersion.equals(""))
+            if (msVersion == null || msVersion.equbls(""))
             {
-                // No version after the milestone, assume 0
-                return mrversion * 100 - delta ;
+                // No version bfter the milestone, bssume 0
+                return mrversion * 100 - deltb ;
             }
             else
             {
                 // Convert the milestone version
                 try {
-                    return mrversion * 100 - delta + Integer.parseInt(msVersion);
-                } catch (NumberFormatException e) {
+                    return mrversion * 100 - deltb + Integer.pbrseInt(msVersion);
+                } cbtch (NumberFormbtException e) {
                     System.out.println(versionError);
                     return 0;
                 }

@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class Tab extends JPanel {
-    private String name;
-    private Worker worker;
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss Tbb extends JPbnel {
+    privbte String nbme;
+    privbte Worker worker;
 
-    protected VMPanel vmPanel;
+    protected VMPbnel vmPbnel;
 
-    private SwingWorker<?, ?> prevSW;
+    privbte SwingWorker<?, ?> prevSW;
 
-    public Tab(VMPanel vmPanel, String name) {
-        this.vmPanel = vmPanel;
-        this.name = name;
+    public Tbb(VMPbnel vmPbnel, String nbme) {
+        this.vmPbnel = vmPbnel;
+        this.nbme = nbme;
     }
 
     public SwingWorker<?, ?> newSwingWorker() {
         return null;
     }
 
-    public void update() {
-        final ProxyClient proxyClient = vmPanel.getProxyClient();
-        if (!proxyClient.hasPlatformMXBeans()) {
-            throw new UnsupportedOperationException(
-                "Platform MXBeans not registered in MBeanServer");
+    public void updbte() {
+        finbl ProxyClient proxyClient = vmPbnel.getProxyClient();
+        if (!proxyClient.hbsPlbtformMXBebns()) {
+            throw new UnsupportedOperbtionException(
+                "Plbtform MXBebns not registered in MBebnServer");
         }
 
         SwingWorker<?,?> sw = newSwingWorker();
         // schedule SwingWorker to run only if the previous
-        // SwingWorker has finished its task and it hasn't started.
+        // SwingWorker hbs finished its tbsk bnd it hbsn't stbrted.
         if (prevSW == null || prevSW.isDone()) {
-            if (sw == null || sw.getState() == SwingWorker.StateValue.PENDING) {
+            if (sw == null || sw.getStbte() == SwingWorker.StbteVblue.PENDING) {
                 prevSW = sw;
                 if (sw != null) {
                     sw.execute();
@@ -70,23 +70,23 @@ public abstract class Tab extends JPanel {
         if(worker != null)
             worker.stopWorker();
 
-        // Subclasses will override to clean up
+        // Subclbsses will override to clebn up
     }
 
-    protected VMPanel getVMPanel() {
-        return vmPanel;
+    protected VMPbnel getVMPbnel() {
+        return vmPbnel;
     }
 
-    OverviewPanel[] getOverviewPanels() {
+    OverviewPbnel[] getOverviewPbnels() {
         return null;
     }
 
-    public synchronized void workerAdd(Runnable job) {
+    public synchronized void workerAdd(Runnbble job) {
         if (worker == null) {
-            worker = new Worker(name+"-"+vmPanel.getConnectionName());
-            worker.start();
+            worker = new Worker(nbme+"-"+vmPbnel.getConnectionNbme());
+            worker.stbrt();
         }
-        worker.add(job);
+        worker.bdd(job);
     }
 
     public Dimension getPreferredSize() {

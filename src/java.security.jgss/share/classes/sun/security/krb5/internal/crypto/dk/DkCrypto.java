@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
 /*
@@ -7,97 +7,97 @@
  *
  * All rights reserved.
  *
- * Export of this software from the United States of America may require
- * a specific license from the United States Government.  It is the
- * responsibility of any person or organization contemplating export to
- * obtain such a license before exporting.
+ * Export of this softwbre from the United Stbtes of Americb mby require
+ * b specific license from the United Stbtes Government.  It is the
+ * responsibility of bny person or orgbnizbtion contemplbting export to
+ * obtbin such b license before exporting.
  *
- * WITHIN THAT CONSTRAINT, permission to use, copy, modify, and
- * distribute this software and its documentation for any purpose and
- * without fee is hereby granted, provided that the above copyright
- * notice appear in all copies and that both that copyright notice and
- * this permission notice appear in supporting documentation, and that
- * the name of FundsXpress. not be used in advertising or publicity pertaining
- * to distribution of the software without specific, written prior
- * permission.  FundsXpress makes no representations about the suitability of
- * this software for any purpose.  It is provided "as is" without express
- * or implied warranty.
+ * WITHIN THAT CONSTRAINT, permission to use, copy, modify, bnd
+ * distribute this softwbre bnd its documentbtion for bny purpose bnd
+ * without fee is hereby grbnted, provided thbt the bbove copyright
+ * notice bppebr in bll copies bnd thbt both thbt copyright notice bnd
+ * this permission notice bppebr in supporting documentbtion, bnd thbt
+ * the nbme of FundsXpress. not be used in bdvertising or publicity pertbining
+ * to distribution of the softwbre without specific, written prior
+ * permission.  FundsXpress mbkes no representbtions bbout the suitbbility of
+ * this softwbre for bny purpose.  It is provided "bs is" without express
+ * or implied wbrrbnty.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-package sun.security.krb5.internal.crypto.dk;
+pbckbge sun.security.krb5.internbl.crypto.dk;
 
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import java.security.GeneralSecurityException;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.Mbc;
+import jbvb.security.GenerblSecurityException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.Arrbys;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.ByteBuffer;
 import sun.misc.HexDumpEncoder;
 import sun.security.krb5.Confounder;
-import sun.security.krb5.internal.crypto.KeyUsage;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
 import sun.security.krb5.KrbCryptoException;
 
 /**
- * Implements Derive Key cryptography functionality as defined in RFC 3961.
+ * Implements Derive Key cryptogrbphy functionblity bs defined in RFC 3961.
  * http://www.ietf.org/rfc/rfc3961.txt
  *
- * This is an abstract class. Concrete subclasses need to implement
- * the abstract methods.
+ * This is bn bbstrbct clbss. Concrete subclbsses need to implement
+ * the bbstrbct methods.
  */
 
-public abstract class DkCrypto {
+public bbstrbct clbss DkCrypto {
 
-    protected static final boolean debug = false;
+    protected stbtic finbl boolebn debug = fblse;
 
-    // These values correspond to the ASCII encoding for the string "kerberos"
-    static final byte[] KERBEROS_CONSTANT =
+    // These vblues correspond to the ASCII encoding for the string "kerberos"
+    stbtic finbl byte[] KERBEROS_CONSTANT =
         {0x6b, 0x65, 0x72, 0x62, 0x65, 0x72, 0x6f, 0x73};
 
-    protected abstract int getKeySeedLength();  // in bits
+    protected bbstrbct int getKeySeedLength();  // in bits
 
-    protected abstract byte[] randomToKey(byte[] in);
+    protected bbstrbct byte[] rbndomToKey(byte[] in);
 
-    protected abstract Cipher getCipher(byte[] key, byte[] ivec, int mode)
-        throws GeneralSecurityException;
+    protected bbstrbct Cipher getCipher(byte[] key, byte[] ivec, int mode)
+        throws GenerblSecurityException;
 
-    public abstract int getChecksumLength();  // in bytes
+    public bbstrbct int getChecksumLength();  // in bytes
 
-    protected abstract byte[] getHmac(byte[] key, byte[] plaintext)
-        throws GeneralSecurityException;
+    protected bbstrbct byte[] getHmbc(byte[] key, byte[] plbintext)
+        throws GenerblSecurityException;
 
     /**
      * From RFC 3961.
      *
-     * encryption function       conf = random string of length c
-     *                     pad = shortest string to bring confounder
-     *                           and plaintext to a length that's a
+     * encryption function       conf = rbndom string of length c
+     *                     pbd = shortest string to bring confounder
+     *                           bnd plbintext to b length thbt's b
      *                           multiple of m
-     *                     (C1, newIV) = E(Ke, conf | plaintext | pad,
-     *                                     oldstate.ivec)
-     *                    H1 = HMAC(Ki, conf | plaintext | pad)
+     *                     (C1, newIV) = E(Ke, conf | plbintext | pbd,
+     *                                     oldstbte.ivec)
+     *                    H1 = HMAC(Ki, conf | plbintext | pbd)
      *                     ciphertext =  C1 | H1[1..h]
-     *                     newstate.ivec = newIV
+     *                     newstbte.ivec = newIV
      *
-     * @param ivec initial vector to use when initializing the cipher; if null,
-     *     then blocksize number of zeros are used,
-     * @param new_ivec if non-null, it is updated upon return to be the
-     *       new ivec to use when calling encrypt next time
+     * @pbrbm ivec initibl vector to use when initiblizing the cipher; if null,
+     *     then blocksize number of zeros bre used,
+     * @pbrbm new_ivec if non-null, it is updbted upon return to be the
+     *       new ivec to use when cblling encrypt next time
      */
-    public byte[] encrypt(byte[] baseKey, int usage,
-        byte[] ivec, byte[] new_ivec, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] encrypt(byte[] bbseKey, int usbge,
+        byte[] ivec, byte[] new_ivec, byte[] plbintext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         byte[] Ke = null;
@@ -106,186 +106,186 @@ public abstract class DkCrypto {
         try {
             // Derive encryption key
 
-            byte[] constant = new byte[5];
-            constant[0] = (byte) ((usage>>24)&0xff);
-            constant[1] = (byte) ((usage>>16)&0xff);
-            constant[2] = (byte) ((usage>>8)&0xff);
-            constant[3] = (byte) (usage&0xff);
+            byte[] constbnt = new byte[5];
+            constbnt[0] = (byte) ((usbge>>24)&0xff);
+            constbnt[1] = (byte) ((usbge>>16)&0xff);
+            constbnt[2] = (byte) ((usbge>>8)&0xff);
+            constbnt[3] = (byte) (usbge&0xff);
 
-            constant[4] = (byte) 0xaa;
+            constbnt[4] = (byte) 0xbb;
 
-            Ke = dk(baseKey, constant);
+            Ke = dk(bbseKey, constbnt);
             if (debug) {
-                System.err.println("usage: " + usage);
+                System.err.println("usbge: " + usbge);
                 if (ivec != null) {
-                    traceOutput("old_state.ivec", ivec, 0, ivec.length);
+                    trbceOutput("old_stbte.ivec", ivec, 0, ivec.length);
                 }
-                traceOutput("plaintext", plaintext, start, Math.min(len, 32));
-                traceOutput("constant", constant, 0, constant.length);
-                traceOutput("baseKey", baseKey, 0, baseKey.length);
-                traceOutput("Ke", Ke, 0, Ke.length);
+                trbceOutput("plbintext", plbintext, stbrt, Mbth.min(len, 32));
+                trbceOutput("constbnt", constbnt, 0, constbnt.length);
+                trbceOutput("bbseKey", bbseKey, 0, bbseKey.length);
+                trbceOutput("Ke", Ke, 0, Ke.length);
             }
 
             // Encrypt
-            // C1 = E(Ke, conf | plaintext | pad, oldivec)
+            // C1 = E(Ke, conf | plbintext | pbd, oldivec)
             Cipher encCipher = getCipher(Ke, ivec, Cipher.ENCRYPT_MODE);
             int blockSize = encCipher.getBlockSize();
             byte[] confounder = Confounder.bytes(blockSize);
 
-            int plainSize = roundup(confounder.length + len, blockSize);
+            int plbinSize = roundup(confounder.length + len, blockSize);
             if (debug) {
                 System.err.println("confounder = " + confounder.length +
-                    "; plaintext = " + len + "; padding = " +
-                    (plainSize - confounder.length - len) + "; total = " +
-                        plainSize);
-                traceOutput("confounder", confounder, 0, confounder.length);
+                    "; plbintext = " + len + "; pbdding = " +
+                    (plbinSize - confounder.length - len) + "; totbl = " +
+                        plbinSize);
+                trbceOutput("confounder", confounder, 0, confounder.length);
             }
 
-            byte[] toBeEncrypted = new byte[plainSize];
-            System.arraycopy(confounder, 0, toBeEncrypted,
+            byte[] toBeEncrypted = new byte[plbinSize];
+            System.brrbycopy(confounder, 0, toBeEncrypted,
                                 0, confounder.length);
-            System.arraycopy(plaintext, start, toBeEncrypted,
+            System.brrbycopy(plbintext, stbrt, toBeEncrypted,
                                 confounder.length, len);
 
-            // Set padding bytes to zero
-            Arrays.fill(toBeEncrypted, confounder.length + len, plainSize,
+            // Set pbdding bytes to zero
+            Arrbys.fill(toBeEncrypted, confounder.length + len, plbinSize,
                         (byte)0);
 
-            int cipherSize = encCipher.getOutputSize(plainSize);
-            int ccSize =  cipherSize + getChecksumLength();  // cipher | hmac
+            int cipherSize = encCipher.getOutputSize(plbinSize);
+            int ccSize =  cipherSize + getChecksumLength();  // cipher | hmbc
 
             byte[] ciphertext = new byte[ccSize];
 
-            encCipher.doFinal(toBeEncrypted, 0, plainSize, ciphertext, 0);
+            encCipher.doFinbl(toBeEncrypted, 0, plbinSize, ciphertext, 0);
 
-            // Update ivec for next operation
-            // (last blockSize bytes of ciphertext)
-            // newstate.ivec = newIV
+            // Updbte ivec for next operbtion
+            // (lbst blockSize bytes of ciphertext)
+            // newstbte.ivec = newIV
             if (new_ivec != null && new_ivec.length == blockSize) {
-                System.arraycopy(ciphertext,  cipherSize - blockSize,
+                System.brrbycopy(ciphertext,  cipherSize - blockSize,
                     new_ivec, 0, blockSize);
                 if (debug) {
-                    traceOutput("new_ivec", new_ivec, 0, new_ivec.length);
+                    trbceOutput("new_ivec", new_ivec, 0, new_ivec.length);
                 }
             }
 
             // Derive integrity key
-            constant[4] = (byte) 0x55;
-            Ki = dk(baseKey, constant);
+            constbnt[4] = (byte) 0x55;
+            Ki = dk(bbseKey, constbnt);
             if (debug) {
-                traceOutput("constant", constant, 0, constant.length);
-                traceOutput("Ki", Ki, 0, Ke.length);
+                trbceOutput("constbnt", constbnt, 0, constbnt.length);
+                trbceOutput("Ki", Ki, 0, Ke.length);
             }
 
-            // Generate checksum
-            // H1 = HMAC(Ki, conf | plaintext | pad)
-            byte[] hmac = getHmac(Ki, toBeEncrypted);
+            // Generbte checksum
+            // H1 = HMAC(Ki, conf | plbintext | pbd)
+            byte[] hmbc = getHmbc(Ki, toBeEncrypted);
 
             if (debug) {
-                traceOutput("hmac", hmac, 0, hmac.length);
-                traceOutput("ciphertext", ciphertext, 0,
-                                Math.min(ciphertext.length, 32));
+                trbceOutput("hmbc", hmbc, 0, hmbc.length);
+                trbceOutput("ciphertext", ciphertext, 0,
+                                Mbth.min(ciphertext.length, 32));
             }
 
             // C1 | H1[1..h]
-            System.arraycopy(hmac, 0, ciphertext, cipherSize,
+            System.brrbycopy(hmbc, 0, ciphertext, cipherSize,
                                 getChecksumLength());
             return ciphertext;
-        } finally {
+        } finblly {
             if (Ke != null) {
-                Arrays.fill(Ke, 0, Ke.length, (byte) 0);
+                Arrbys.fill(Ke, 0, Ke.length, (byte) 0);
             }
             if (Ki != null) {
-                Arrays.fill(Ki, 0, Ki.length, (byte) 0);
+                Arrbys.fill(Ki, 0, Ki.length, (byte) 0);
             }
         }
     }
 
     /**
-     * Performs encryption using given key only; does not add
-     * confounder, padding, or checksum. Incoming data to be encrypted
-     * assumed to have the correct blocksize.
-     * Ignore key usage.
+     * Performs encryption using given key only; does not bdd
+     * confounder, pbdding, or checksum. Incoming dbtb to be encrypted
+     * bssumed to hbve the correct blocksize.
+     * Ignore key usbge.
      */
-    public byte[] encryptRaw(byte[] baseKey, int usage,
-        byte[] ivec, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] encryptRbw(byte[] bbseKey, int usbge,
+        byte[] ivec, byte[] plbintext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
         if (debug) {
-            System.err.println("usage: " + usage);
+            System.err.println("usbge: " + usbge);
             if (ivec != null) {
-                traceOutput("old_state.ivec", ivec, 0, ivec.length);
+                trbceOutput("old_stbte.ivec", ivec, 0, ivec.length);
             }
-            traceOutput("plaintext", plaintext, start, Math.min(len, 32));
-            traceOutput("baseKey", baseKey, 0, baseKey.length);
+            trbceOutput("plbintext", plbintext, stbrt, Mbth.min(len, 32));
+            trbceOutput("bbseKey", bbseKey, 0, bbseKey.length);
         }
 
         // Encrypt
-        Cipher encCipher = getCipher(baseKey, ivec, Cipher.ENCRYPT_MODE);
+        Cipher encCipher = getCipher(bbseKey, ivec, Cipher.ENCRYPT_MODE);
         int blockSize = encCipher.getBlockSize();
 
         if ((len % blockSize) != 0) {
-            throw new GeneralSecurityException(
-                "length of data to be encrypted (" + len +
-                ") is not a multiple of the blocksize (" + blockSize + ")");
+            throw new GenerblSecurityException(
+                "length of dbtb to be encrypted (" + len +
+                ") is not b multiple of the blocksize (" + blockSize + ")");
         }
 
         int cipherSize = encCipher.getOutputSize(len);
         byte[] ciphertext = new byte[cipherSize];
 
-        encCipher.doFinal(plaintext, 0, len, ciphertext, 0);
+        encCipher.doFinbl(plbintext, 0, len, ciphertext, 0);
         return ciphertext;
     }
 
     /**
-     * Decrypts data using specified key and initial vector.
-     * @param baseKey encryption key to use
-     * @param ciphertext  encrypted data to be decrypted
-     * @param usage ignored
+     * Decrypts dbtb using specified key bnd initibl vector.
+     * @pbrbm bbseKey encryption key to use
+     * @pbrbm ciphertext  encrypted dbtb to be decrypted
+     * @pbrbm usbge ignored
      */
-    public byte[] decryptRaw(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len)
-        throws GeneralSecurityException {
+    public byte[] decryptRbw(byte[] bbseKey, int usbge, byte[] ivec,
+        byte[] ciphertext, int stbrt, int len)
+        throws GenerblSecurityException {
 
         if (debug) {
-            System.err.println("usage: " + usage);
+            System.err.println("usbge: " + usbge);
             if (ivec != null) {
-                traceOutput("old_state.ivec", ivec, 0, ivec.length);
+                trbceOutput("old_stbte.ivec", ivec, 0, ivec.length);
             }
-            traceOutput("ciphertext", ciphertext, start, Math.min(len, 32));
-            traceOutput("baseKey", baseKey, 0, baseKey.length);
+            trbceOutput("ciphertext", ciphertext, stbrt, Mbth.min(len, 32));
+            trbceOutput("bbseKey", bbseKey, 0, bbseKey.length);
         }
 
-        Cipher decCipher = getCipher(baseKey, ivec, Cipher.DECRYPT_MODE);
+        Cipher decCipher = getCipher(bbseKey, ivec, Cipher.DECRYPT_MODE);
 
         int blockSize = decCipher.getBlockSize();
 
         if ((len % blockSize) != 0) {
-            throw new GeneralSecurityException(
-                "length of data to be decrypted (" + len +
-                ") is not a multiple of the blocksize (" + blockSize + ")");
+            throw new GenerblSecurityException(
+                "length of dbtb to be decrypted (" + len +
+                ") is not b multiple of the blocksize (" + blockSize + ")");
         }
 
-        byte[] decrypted = decCipher.doFinal(ciphertext, start, len);
+        byte[] decrypted = decCipher.doFinbl(ciphertext, stbrt, len);
 
         if (debug) {
-            traceOutput("decrypted", decrypted, 0,
-                Math.min(decrypted.length, 32));
+            trbceOutput("decrypted", decrypted, 0,
+                Mbth.min(decrypted.length, 32));
         }
 
         return decrypted;
     }
 
     /**
-     * @param baseKey key from which keys are to be derived using usage
-     * @param ciphertext  E(Ke, conf | plaintext | padding, ivec) | H1[1..h]
+     * @pbrbm bbseKey key from which keys bre to be derived using usbge
+     * @pbrbm ciphertext  E(Ke, conf | plbintext | pbdding, ivec) | H1[1..h]
      */
-    public byte[] decrypt(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len) throws GeneralSecurityException {
+    public byte[] decrypt(byte[] bbseKey, int usbge, byte[] ivec,
+        byte[] ciphertext, int stbrt, int len) throws GenerblSecurityException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         byte[] Ke = null;
@@ -293,97 +293,97 @@ public abstract class DkCrypto {
 
         try {
             // Derive encryption key
-            byte[] constant = new byte[5];
-            constant[0] = (byte) ((usage>>24)&0xff);
-            constant[1] = (byte) ((usage>>16)&0xff);
-            constant[2] = (byte) ((usage>>8)&0xff);
-            constant[3] = (byte) (usage&0xff);
+            byte[] constbnt = new byte[5];
+            constbnt[0] = (byte) ((usbge>>24)&0xff);
+            constbnt[1] = (byte) ((usbge>>16)&0xff);
+            constbnt[2] = (byte) ((usbge>>8)&0xff);
+            constbnt[3] = (byte) (usbge&0xff);
 
-            constant[4] = (byte) 0xaa;
+            constbnt[4] = (byte) 0xbb;
 
-            Ke = dk(baseKey, constant);  // Encryption key
+            Ke = dk(bbseKey, constbnt);  // Encryption key
 
             if (debug) {
-                System.err.println("usage: " + usage);
+                System.err.println("usbge: " + usbge);
                 if (ivec != null) {
-                    traceOutput("old_state.ivec", ivec, 0, ivec.length);
+                    trbceOutput("old_stbte.ivec", ivec, 0, ivec.length);
                 }
-                traceOutput("ciphertext", ciphertext, start, Math.min(len, 32));
-                traceOutput("constant", constant, 0, constant.length);
-                traceOutput("baseKey", baseKey, 0, baseKey.length);
-                traceOutput("Ke", Ke, 0, Ke.length);
+                trbceOutput("ciphertext", ciphertext, stbrt, Mbth.min(len, 32));
+                trbceOutput("constbnt", constbnt, 0, constbnt.length);
+                trbceOutput("bbseKey", bbseKey, 0, bbseKey.length);
+                trbceOutput("Ke", Ke, 0, Ke.length);
             }
 
             Cipher decCipher = getCipher(Ke, ivec, Cipher.DECRYPT_MODE);
             int blockSize = decCipher.getBlockSize();
 
-            // Decrypt [confounder | plaintext | padding] (without checksum)
+            // Decrypt [confounder | plbintext | pbdding] (without checksum)
             int cksumSize = getChecksumLength();
             int cipherSize = len - cksumSize;
-            byte[] decrypted = decCipher.doFinal(ciphertext, start, cipherSize);
+            byte[] decrypted = decCipher.doFinbl(ciphertext, stbrt, cipherSize);
 
             if (debug) {
-                traceOutput("decrypted", decrypted, 0,
-                                Math.min(decrypted.length, 32));
+                trbceOutput("decrypted", decrypted, 0,
+                                Mbth.min(decrypted.length, 32));
             }
 
-            // decrypted = [confounder | plaintext | padding]
+            // decrypted = [confounder | plbintext | pbdding]
 
             // Derive integrity key
-            constant[4] = (byte) 0x55;
-            Ki = dk(baseKey, constant);  // Integrity key
+            constbnt[4] = (byte) 0x55;
+            Ki = dk(bbseKey, constbnt);  // Integrity key
             if (debug) {
-                traceOutput("constant", constant, 0, constant.length);
-                traceOutput("Ki", Ki, 0, Ke.length);
+                trbceOutput("constbnt", constbnt, 0, constbnt.length);
+                trbceOutput("Ki", Ki, 0, Ke.length);
             }
 
             // Verify checksum
-            // H1 = HMAC(Ki, conf | plaintext | pad)
-            byte[] calculatedHmac = getHmac(Ki, decrypted);
+            // H1 = HMAC(Ki, conf | plbintext | pbd)
+            byte[] cblculbtedHmbc = getHmbc(Ki, decrypted);
 
             if (debug) {
-                traceOutput("calculated Hmac", calculatedHmac, 0,
-                    calculatedHmac.length);
-                traceOutput("message Hmac", ciphertext, cipherSize,
+                trbceOutput("cblculbted Hmbc", cblculbtedHmbc, 0,
+                    cblculbtedHmbc.length);
+                trbceOutput("messbge Hmbc", ciphertext, cipherSize,
                     cksumSize);
             }
 
-            boolean cksumFailed = false;
-            if (calculatedHmac.length >= cksumSize) {
+            boolebn cksumFbiled = fblse;
+            if (cblculbtedHmbc.length >= cksumSize) {
                 for (int i = 0; i < cksumSize; i++) {
-                    if (calculatedHmac[i] != ciphertext[cipherSize+i]) {
-                        cksumFailed = true;
-                        break;
+                    if (cblculbtedHmbc[i] != ciphertext[cipherSize+i]) {
+                        cksumFbiled = true;
+                        brebk;
                     }
                 }
             }
 
-            if (cksumFailed) {
-                throw new GeneralSecurityException("Checksum failed");
+            if (cksumFbiled) {
+                throw new GenerblSecurityException("Checksum fbiled");
             }
 
-            // Prepare decrypted msg and ivec to be returned
-            // Last blockSize bytes of ciphertext without checksum
+            // Prepbre decrypted msg bnd ivec to be returned
+            // Lbst blockSize bytes of ciphertext without checksum
             if (ivec != null && ivec.length == blockSize) {
-                System.arraycopy(ciphertext,  start + cipherSize - blockSize,
+                System.brrbycopy(ciphertext,  stbrt + cipherSize - blockSize,
                     ivec, 0, blockSize);
                 if (debug) {
-                    traceOutput("new_state.ivec", ivec, 0, ivec.length);
+                    trbceOutput("new_stbte.ivec", ivec, 0, ivec.length);
                 }
             }
 
             // Get rid of confounder
-            // [plaintext | padding]
-            byte[] plaintext = new byte[decrypted.length - blockSize];
-            System.arraycopy(decrypted, blockSize, plaintext,
-                                0, plaintext.length);
-            return plaintext; // padding still there
-        } finally {
+            // [plbintext | pbdding]
+            byte[] plbintext = new byte[decrypted.length - blockSize];
+            System.brrbycopy(decrypted, blockSize, plbintext,
+                                0, plbintext.length);
+            return plbintext; // pbdding still there
+        } finblly {
             if (Ke != null) {
-                Arrays.fill(Ke, 0, Ke.length, (byte) 0);
+                Arrbys.fill(Ke, 0, Ke.length, (byte) 0);
             }
             if (Ki != null) {
-                Arrays.fill(Ki, 0, Ki.length, (byte) 0);
+                Arrbys.fill(Ki, 0, Ki.length, (byte) 0);
             }
         }
     }
@@ -393,107 +393,107 @@ public abstract class DkCrypto {
         return (((n + blocksize - 1) / blocksize) * blocksize);
     }
 
-    public byte[] calculateChecksum(byte[] baseKey, int usage, byte[] input,
-        int start, int len) throws GeneralSecurityException {
+    public byte[] cblculbteChecksum(byte[] bbseKey, int usbge, byte[] input,
+        int stbrt, int len) throws GenerblSecurityException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         // Derive keys
-        byte[] constant = new byte[5];
-        constant[0] = (byte) ((usage>>24)&0xff);
-        constant[1] = (byte) ((usage>>16)&0xff);
-        constant[2] = (byte) ((usage>>8)&0xff);
-        constant[3] = (byte) (usage&0xff);
+        byte[] constbnt = new byte[5];
+        constbnt[0] = (byte) ((usbge>>24)&0xff);
+        constbnt[1] = (byte) ((usbge>>16)&0xff);
+        constbnt[2] = (byte) ((usbge>>8)&0xff);
+        constbnt[3] = (byte) (usbge&0xff);
 
-        constant[4] = (byte) 0x99;
+        constbnt[4] = (byte) 0x99;
 
-        byte[] Kc = dk(baseKey, constant);  // Checksum key
+        byte[] Kc = dk(bbseKey, constbnt);  // Checksum key
         if (debug) {
-            System.err.println("usage: " + usage);
-            traceOutput("input", input, start, Math.min(len, 32));
-            traceOutput("constant", constant, 0, constant.length);
-            traceOutput("baseKey", baseKey, 0, baseKey.length);
-            traceOutput("Kc", Kc, 0, Kc.length);
+            System.err.println("usbge: " + usbge);
+            trbceOutput("input", input, stbrt, Mbth.min(len, 32));
+            trbceOutput("constbnt", constbnt, 0, constbnt.length);
+            trbceOutput("bbseKey", bbseKey, 0, bbseKey.length);
+            trbceOutput("Kc", Kc, 0, Kc.length);
         }
 
         try {
-            // Generate checksum
+            // Generbte checksum
             // H1 = HMAC(Kc, input)
-            byte[] hmac = getHmac(Kc, input);
+            byte[] hmbc = getHmbc(Kc, input);
             if (debug) {
-                traceOutput("hmac", hmac, 0, hmac.length);
+                trbceOutput("hmbc", hmbc, 0, hmbc.length);
             }
-            if (hmac.length == getChecksumLength()) {
-                return hmac;
-            } else if (hmac.length > getChecksumLength()) {
+            if (hmbc.length == getChecksumLength()) {
+                return hmbc;
+            } else if (hmbc.length > getChecksumLength()) {
                 byte[] buf = new byte[getChecksumLength()];
-                System.arraycopy(hmac, 0, buf, 0, buf.length);
+                System.brrbycopy(hmbc, 0, buf, 0, buf.length);
                 return buf;
             } else {
-                throw new GeneralSecurityException("checksum size too short: " +
-                    hmac.length + "; expecting : " + getChecksumLength());
+                throw new GenerblSecurityException("checksum size too short: " +
+                    hmbc.length + "; expecting : " + getChecksumLength());
             }
-        } finally {
-            Arrays.fill(Kc, 0, Kc.length, (byte)0);
+        } finblly {
+            Arrbys.fill(Kc, 0, Kc.length, (byte)0);
         }
     }
 
-    // DK(Key, Constant) = random-to-key(DR(Key, Constant))
-    byte[] dk(byte[] key, byte[] constant)
-        throws GeneralSecurityException {
-        return randomToKey(dr(key, constant));
+    // DK(Key, Constbnt) = rbndom-to-key(DR(Key, Constbnt))
+    byte[] dk(byte[] key, byte[] constbnt)
+        throws GenerblSecurityException {
+        return rbndomToKey(dr(key, constbnt));
     }
 
     /*
      * From RFC 3961.
      *
-     * DR(Key, Constant) = k-truncate(E(Key, Constant,
-     *                                  initial-cipher-state))
+     * DR(Key, Constbnt) = k-truncbte(E(Key, Constbnt,
+     *                                  initibl-cipher-stbte))
      *
-     * Here DR is the random-octet generation function described below, and
-     * DK is the key-derivation function produced from it.  In this
-     * construction, E(Key, Plaintext, CipherState) is a cipher, Constant is
-     * a well-known constant determined by the specific usage of this
-     * function, and k-truncate truncates its argument by taking the first k
-     * bits.  Here, k is the key generation seed length needed for the
+     * Here DR is the rbndom-octet generbtion function described below, bnd
+     * DK is the key-derivbtion function produced from it.  In this
+     * construction, E(Key, Plbintext, CipherStbte) is b cipher, Constbnt is
+     * b well-known constbnt determined by the specific usbge of this
+     * function, bnd k-truncbte truncbtes its brgument by tbking the first k
+     * bits.  Here, k is the key generbtion seed length needed for the
      * encryption system.
      *
-     * The output of the DR function is a string of bits; the actual key is
-     * produced by applying the cryptosystem's random-to-key operation on
+     * The output of the DR function is b string of bits; the bctubl key is
+     * produced by bpplying the cryptosystem's rbndom-to-key operbtion on
      * this bitstring.
      *
-     * If the Constant is smaller than the cipher block size of E, then it
-     * must be expanded with n-fold() so it can be encrypted.  If the output
-     * of E is shorter than k bits it is fed back into the encryption as
-     * many times as necessary.  The construct is as follows (where |
-     * indicates concatentation):
+     * If the Constbnt is smbller thbn the cipher block size of E, then it
+     * must be expbnded with n-fold() so it cbn be encrypted.  If the output
+     * of E is shorter thbn k bits it is fed bbck into the encryption bs
+     * mbny times bs necessbry.  The construct is bs follows (where |
+     * indicbtes concbtentbtion):
      *
-     * K1 = E(Key, n-fold(Constant), initial-cipher-state)
-     * K2 = E(Key, K1, initial-cipher-state)
-     * K3 = E(Key, K2, initial-cipher-state)
+     * K1 = E(Key, n-fold(Constbnt), initibl-cipher-stbte)
+     * K2 = E(Key, K1, initibl-cipher-stbte)
+     * K3 = E(Key, K2, initibl-cipher-stbte)
      * K4 = ...
      *
-     * DR(Key, Constant) = k-truncate(K1 | K2 | K3 | K4 ...)
+     * DR(Key, Constbnt) = k-truncbte(K1 | K2 | K3 | K4 ...)
      */
-    private byte[] dr(byte[] key, byte[] constant)
-        throws GeneralSecurityException {
+    privbte byte[] dr(byte[] key, byte[] constbnt)
+        throws GenerblSecurityException {
 
         Cipher encCipher = getCipher(key, null, Cipher.ENCRYPT_MODE);
         int blocksize = encCipher.getBlockSize();
 
-        if (constant.length != blocksize) {
-            constant = nfold(constant, blocksize * 8);
+        if (constbnt.length != blocksize) {
+            constbnt = nfold(constbnt, blocksize * 8);
         }
-        byte[] toBeEncrypted = constant;
+        byte[] toBeEncrypted = constbnt;
 
         int keybytes = (getKeySeedLength()>>3);  // from bits to bytes
-        byte[] rawkey = new byte[keybytes];
+        byte[] rbwkey = new byte[keybytes];
         int posn = 0;
 
-        /* loop encrypting the blocks until enough key bytes are generated */
+        /* loop encrypting the blocks until enough key bytes bre generbted */
         int n = 0, len;
         while (n < keybytes) {
             if (debug) {
@@ -501,7 +501,7 @@ public abstract class DkCrypto {
                     bytesToString(toBeEncrypted));
             }
 
-            byte[] cipherBlock = encCipher.doFinal(toBeEncrypted);
+            byte[] cipherBlock = encCipher.doFinbl(toBeEncrypted);
             if (debug) {
                 System.err.println("K: " + ++posn + " = " +
                     bytesToString(cipherBlock));
@@ -512,11 +512,11 @@ public abstract class DkCrypto {
             if (debug) {
                 System.err.println("copying " + len + " key bytes");
             }
-            System.arraycopy(cipherBlock, 0, rawkey, n, len);
+            System.brrbycopy(cipherBlock, 0, rbwkey, n, len);
             n += len;
             toBeEncrypted = cipherBlock;
         }
-        return rawkey;
+        return rbwkey;
     }
 
 // ---------------------------------
@@ -532,29 +532,29 @@ public abstract class DkCrypto {
      */
 
     /*
-     * representation: msb first, assume n and k are multiples of 8, and
-     *  that k>=16.  this is the case of all the cryptosystems which are
-     *  likely to be used.  this function can be replaced if that
-     *  assumption ever fails.
+     * representbtion: msb first, bssume n bnd k bre multiples of 8, bnd
+     *  thbt k>=16.  this is the cbse of bll the cryptosystems which bre
+     *  likely to be used.  this function cbn be replbced if thbt
+     *  bssumption ever fbils.
      */
 
     /* input length is in bits */
-    static byte[] nfold(byte[] in, int outbits) {
+    stbtic byte[] nfold(byte[] in, int outbits) {
 
         int inbits = in.length;
         outbits >>= 3;    // count in bytes
 
         /* first compute lcm(n,k) */
-        int a, b, c, lcm;
-        a = outbits;  // n
+        int b, b, c, lcm;
+        b = outbits;  // n
         b = inbits;   // k
 
         while (b != 0) {
             c = b;
-            b = a % b;
-            a = c;
+            b = b % b;
+            b = c;
         }
-        lcm = outbits*inbits/a;
+        lcm = outbits*inbits/b;
 
         if (debug) {
             System.err.println("k: " + inbits);
@@ -562,28 +562,28 @@ public abstract class DkCrypto {
             System.err.println("lcm: " + lcm);
         }
 
-        /* now do the real work */
+        /* now do the rebl work */
         byte[] out = new byte[outbits];
-        Arrays.fill(out, (byte)0);
+        Arrbys.fill(out, (byte)0);
 
         int thisbyte = 0;
-        int msbit, i, bval, oval;
+        int msbit, i, bvbl, ovbl;
 
         // this will end up cycling through k lcm(k,n)/k times, which
         // is correct
         for (i = lcm-1; i >= 0; i--) {
-            /* compute the msbit in k which gets added into this byte */
-            msbit = (/* first, start with msbit in the first, unrotated byte */
+            /* compute the msbit in k which gets bdded into this byte */
+            msbit = (/* first, stbrt with msbit in the first, unrotbted byte */
                 ((inbits<<3)-1)
-                /* then, for each byte, shift to right for each repetition */
+                /* then, for ebch byte, shift to right for ebch repetition */
                 + (((inbits<<3)+13)*(i/inbits))
-                /* last, pick out correct byte within that shifted repetition */
+                /* lbst, pick out correct byte within thbt shifted repetition */
                 + ((inbits-(i%inbits)) << 3)) % (inbits << 3);
 
-            /* pull out the byte value itself */
-            // Mask off values using &0xff to get only the lower byte
-            // Use >>> to avoid sign extension
-            bval =  ((((in[((inbits-1)-(msbit>>>3))%inbits]&0xff)<<8)|
+            /* pull out the byte vblue itself */
+            // Mbsk off vblues using &0xff to get only the lower byte
+            // Use >>> to bvoid sign extension
+            bvbl =  ((((in[((inbits-1)-(msbit>>>3))%inbits]&0xff)<<8)|
                 (in[((inbits)-(msbit>>>3))%inbits]&0xff))
                 >>>((msbit&7)+1))&0xff;
 
@@ -591,41 +591,41 @@ public abstract class DkCrypto {
             System.err.println("((" +
                 ((in[((inbits-1)-(msbit>>>3))%inbits]&0xff)<<8)
                 + "|" + (in[((inbits)-(msbit>>>3))%inbits]&0xff) + ")"
-                + ">>>" + ((msbit&7)+1) + ")&0xff = " + bval);
+                + ">>>" + ((msbit&7)+1) + ")&0xff = " + bvbl);
             */
 
-            thisbyte += bval;
+            thisbyte += bvbl;
 
-            /* do the addition */
-            // Mask off values using &0xff to get only the lower byte
-            oval = (out[i%outbits]&0xff);
-            thisbyte += oval;
+            /* do the bddition */
+            // Mbsk off vblues using &0xff to get only the lower byte
+            ovbl = (out[i%outbits]&0xff);
+            thisbyte += ovbl;
             out[i%outbits] = (byte) (thisbyte&0xff);
 
             if (debug) {
-                System.err.println("msbit[" + i + "] = " +  msbit + "\tbval=" +
-                    Integer.toHexString(bval) + "\toval=" +
-                    Integer.toHexString(oval)
+                System.err.println("msbit[" + i + "] = " +  msbit + "\tbvbl=" +
+                    Integer.toHexString(bvbl) + "\tovbl=" +
+                    Integer.toHexString(ovbl)
                     + "\tsum = " + Integer.toHexString(thisbyte));
             }
 
 
-            /* keep around the carry bit, if any */
+            /* keep bround the cbrry bit, if bny */
             thisbyte >>>= 8;
 
             if (debug) {
-                System.err.println("carry=" + thisbyte);
+                System.err.println("cbrry=" + thisbyte);
             }
         }
 
-        /* if there's a carry bit left over, add it back in */
+        /* if there's b cbrry bit left over, bdd it bbck in */
         if (thisbyte != 0) {
             for (i = outbits-1; i >= 0; i--) {
-                /* do the addition */
+                /* do the bddition */
                 thisbyte += (out[i]&0xff);
                 out[i] = (byte) (thisbyte&0xff);
 
-                /* keep around the carry bit, if any */
+                /* keep bround the cbrry bit, if bny */
                 thisbyte >>>= 8;
             }
         }
@@ -634,66 +634,66 @@ public abstract class DkCrypto {
     }
 
     // Routines used for debugging
-    static String bytesToString(byte[] digest) {
-        // Get character representation of digest
+    stbtic String bytesToString(byte[] digest) {
+        // Get chbrbcter representbtion of digest
         StringBuilder digestString = new StringBuilder();
 
         for (int i = 0; i < digest.length; i++) {
             if ((digest[i] & 0x000000ff) < 0x10) {
-                digestString.append("0" +
+                digestString.bppend("0" +
                     Integer.toHexString(digest[i] & 0x000000ff));
             } else {
-                digestString.append(
+                digestString.bppend(
                     Integer.toHexString(digest[i] & 0x000000ff));
             }
         }
         return digestString.toString();
     }
 
-    private static byte[] binaryStringToBytes(String str) {
-        char[] usageStr = str.toCharArray();
-        byte[] usage = new byte[usageStr.length/2];
-        for (int i = 0; i < usage.length; i++) {
-            byte a = Byte.parseByte(new String(usageStr, i*2, 1), 16);
-            byte b = Byte.parseByte(new String(usageStr, i*2 + 1, 1), 16);
-            usage[i] = (byte) ((a<<4)|b);
+    privbte stbtic byte[] binbryStringToBytes(String str) {
+        chbr[] usbgeStr = str.toChbrArrby();
+        byte[] usbge = new byte[usbgeStr.length/2];
+        for (int i = 0; i < usbge.length; i++) {
+            byte b = Byte.pbrseByte(new String(usbgeStr, i*2, 1), 16);
+            byte b = Byte.pbrseByte(new String(usbgeStr, i*2 + 1, 1), 16);
+            usbge[i] = (byte) ((b<<4)|b);
         }
-        return usage;
+        return usbge;
     }
 
-    static void traceOutput(String traceTag, byte[] output, int offset,
+    stbtic void trbceOutput(String trbceTbg, byte[] output, int offset,
         int len) {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(len);
+            ByteArrbyOutputStrebm out = new ByteArrbyOutputStrebm(len);
             new HexDumpEncoder().encodeBuffer(
-                new ByteArrayInputStream(output, offset, len), out);
+                new ByteArrbyInputStrebm(output, offset, len), out);
 
-            System.err.println(traceTag + ":" + out.toString());
-        } catch (Exception e) {
+            System.err.println(trbceTbg + ":" + out.toString());
+        } cbtch (Exception e) {
         }
     }
 
 // String.getBytes("UTF-8");
-// Do this instead of using String to avoid making password immutable
-    static byte[] charToUtf8(char[] chars) {
-        Charset utf8 = Charset.forName("UTF-8");
+// Do this instebd of using String to bvoid mbking pbssword immutbble
+    stbtic byte[] chbrToUtf8(chbr[] chbrs) {
+        Chbrset utf8 = Chbrset.forNbme("UTF-8");
 
-        CharBuffer cb = CharBuffer.wrap(chars);
+        ChbrBuffer cb = ChbrBuffer.wrbp(chbrs);
         ByteBuffer bb = utf8.encode(cb);
         int len = bb.limit();
-        byte[] answer = new byte[len];
-        bb.get(answer, 0, len);
-        return answer;
+        byte[] bnswer = new byte[len];
+        bb.get(bnswer, 0, len);
+        return bnswer;
     }
 
-    static byte[] charToUtf16(char[] chars) {
-        Charset utf8 = Charset.forName("UTF-16LE");
+    stbtic byte[] chbrToUtf16(chbr[] chbrs) {
+        Chbrset utf8 = Chbrset.forNbme("UTF-16LE");
 
-        CharBuffer cb = CharBuffer.wrap(chars);
+        ChbrBuffer cb = ChbrBuffer.wrbp(chbrs);
         ByteBuffer bb = utf8.encode(cb);
         int len = bb.limit();
-        byte[] answer = new byte[len];
-        bb.get(answer, 0, len);
-        return answer;
+        byte[] bnswer = new byte[len];
+        bb.get(bnswer, 0, len);
+        return bnswer;
     }
 }

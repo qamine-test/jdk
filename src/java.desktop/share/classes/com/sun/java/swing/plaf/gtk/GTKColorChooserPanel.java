@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import javax.swing.*;
-import javax.swing.colorchooser.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvbx.swing.*;
+import jbvbx.swing.colorchooser.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * A color chooser panel mimicking that of GTK's: a color wheel showing
- * hue and a triangle that varies saturation and brightness.
+ * A color chooser pbnel mimicking thbt of GTK's: b color wheel showing
+ * hue bnd b tribngle thbt vbries sbturbtion bnd brightness.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class GTKColorChooserPanel extends AbstractColorChooserPanel implements
-              ChangeListener {
-    private static final float PI_3 = (float)(Math.PI / 3);
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss GTKColorChooserPbnel extends AbstrbctColorChooserPbnel implements
+              ChbngeListener {
+    privbte stbtic finbl flobt PI_3 = (flobt)(Mbth.PI / 3);
 
-    private ColorTriangle triangle;
-    private JLabel lastLabel;
-    private JLabel label;
+    privbte ColorTribngle tribngle;
+    privbte JLbbel lbstLbbel;
+    privbte JLbbel lbbel;
 
-    private JSpinner hueSpinner;
-    private JSpinner saturationSpinner;
-    private JSpinner valueSpinner;
+    privbte JSpinner hueSpinner;
+    privbte JSpinner sbturbtionSpinner;
+    privbte JSpinner vblueSpinner;
 
-    private JSpinner redSpinner;
-    private JSpinner greenSpinner;
-    private JSpinner blueSpinner;
+    privbte JSpinner redSpinner;
+    privbte JSpinner greenSpinner;
+    privbte JSpinner blueSpinner;
 
-    private JTextField colorNameTF;
+    privbte JTextField colorNbmeTF;
 
-    private boolean settingColor;
+    privbte boolebn settingColor;
 
-    // The colors are mirrored to avoid creep in adjusting an individual
-    // value.
-    private float hue;
-    private float saturation;
-    private float brightness;
+    // The colors bre mirrored to bvoid creep in bdjusting bn individubl
+    // vblue.
+    privbte flobt hue;
+    privbte flobt sbturbtion;
+    privbte flobt brightness;
 
 
 
     /**
-     * Convenience method to transfer focus to the next child of component.
+     * Convenience method to trbnsfer focus to the next child of component.
      */
-    // PENDING: remove this when a variant of this is added to awt.
-    static void compositeRequestFocus(Component component, boolean direction) {
-        if (component instanceof Container) {
-            Container container = (Container)component;
-            if (container.isFocusCycleRoot()) {
-                FocusTraversalPolicy policy = container.
-                                              getFocusTraversalPolicy();
-                Component comp = policy.getDefaultComponent(container);
+    // PENDING: remove this when b vbribnt of this is bdded to bwt.
+    stbtic void compositeRequestFocus(Component component, boolebn direction) {
+        if (component instbnceof Contbiner) {
+            Contbiner contbiner = (Contbiner)component;
+            if (contbiner.isFocusCycleRoot()) {
+                FocusTrbversblPolicy policy = contbiner.
+                                              getFocusTrbversblPolicy();
+                Component comp = policy.getDefbultComponent(contbiner);
                 if (comp!=null) {
                     comp.requestFocus();
                     return;
                 }
             }
-            Container rootAncestor = container.getFocusCycleRootAncestor();
+            Contbiner rootAncestor = contbiner.getFocusCycleRootAncestor();
             if (rootAncestor!=null) {
-                FocusTraversalPolicy policy = rootAncestor.
-                                                  getFocusTraversalPolicy();
+                FocusTrbversblPolicy policy = rootAncestor.
+                                                  getFocusTrbversblPolicy();
                 Component comp;
 
                 if (direction) {
-                    comp = policy.getComponentAfter(rootAncestor, container);
+                    comp = policy.getComponentAfter(rootAncestor, contbiner);
                 }
                 else {
-                    comp = policy.getComponentBefore(rootAncestor, container);
+                    comp = policy.getComponentBefore(rootAncestor, contbiner);
                 }
                 if (comp != null) {
                     comp.requestFocus();
@@ -106,517 +106,517 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
 
 
     /**
-     * Returns a user presentable description of this GTKColorChooserPane.
+     * Returns b user presentbble description of this GTKColorChooserPbne.
      */
-    public String getDisplayName() {
-        return (String)UIManager.get("GTKColorChooserPanel.nameText");
+    public String getDisplbyNbme() {
+        return (String)UIMbnbger.get("GTKColorChooserPbnel.nbmeText");
     }
 
     /**
-     * Returns the mnemonic to use with <code>getDisplayName</code>.
+     * Returns the mnemonic to use with <code>getDisplbyNbme</code>.
      */
     public int getMnemonic() {
-        String m = (String)UIManager.get("GTKColorChooserPanel.mnemonic");
+        String m = (String)UIMbnbger.get("GTKColorChooserPbnel.mnemonic");
 
         if (m != null) {
             try {
-                int value = Integer.parseInt(m);
+                int vblue = Integer.pbrseInt(m);
 
-                return value;
-            } catch (NumberFormatException nfe) {}
+                return vblue;
+            } cbtch (NumberFormbtException nfe) {}
         }
         return -1;
     }
 
     /**
-     * Character to underline that represents the mnemonic.
+     * Chbrbcter to underline thbt represents the mnemonic.
      */
-    public int getDisplayedMnemonicIndex() {
-        String m = (String)UIManager.get(
-                           "GTKColorChooserPanel.displayedMnemonicIndex");
+    public int getDisplbyedMnemonicIndex() {
+        String m = (String)UIMbnbger.get(
+                           "GTKColorChooserPbnel.displbyedMnemonicIndex");
 
         if (m != null) {
             try {
-                int value = Integer.parseInt(m);
+                int vblue = Integer.pbrseInt(m);
 
-                return value;
-            } catch (NumberFormatException nfe) {}
+                return vblue;
+            } cbtch (NumberFormbtException nfe) {}
         }
         return -1;
     }
 
-    public Icon getSmallDisplayIcon() {
+    public Icon getSmbllDisplbyIcon() {
         return null;
     }
 
-    public Icon getLargeDisplayIcon() {
+    public Icon getLbrgeDisplbyIcon() {
         return null;
     }
 
-    public void uninstallChooserPanel(JColorChooser enclosingChooser) {
-        super.uninstallChooserPanel(enclosingChooser);
+    public void uninstbllChooserPbnel(JColorChooser enclosingChooser) {
+        super.uninstbllChooserPbnel(enclosingChooser);
         removeAll();
     }
 
     /**
-     * Builds and configures the widgets for the GTKColorChooserPanel.
+     * Builds bnd configures the widgets for the GTKColorChooserPbnel.
      */
     protected void buildChooser() {
-        triangle = new ColorTriangle();
-        triangle.setName("GTKColorChooserPanel.triangle");
+        tribngle = new ColorTribngle();
+        tribngle.setNbme("GTKColorChooserPbnel.tribngle");
 
-        // PENDING: when we straighten out user setting opacity, this should
-        // be changed.
-        label = new OpaqueLabel();
-        label.setName("GTKColorChooserPanel.colorWell");
-        label.setOpaque(true);
-        label.setMinimumSize(new Dimension(67, 32));
-        label.setPreferredSize(new Dimension(67, 32));
-        label.setMaximumSize(new Dimension(67, 32));
+        // PENDING: when we strbighten out user setting opbcity, this should
+        // be chbnged.
+        lbbel = new OpbqueLbbel();
+        lbbel.setNbme("GTKColorChooserPbnel.colorWell");
+        lbbel.setOpbque(true);
+        lbbel.setMinimumSize(new Dimension(67, 32));
+        lbbel.setPreferredSize(new Dimension(67, 32));
+        lbbel.setMbximumSize(new Dimension(67, 32));
 
-        // PENDING: when we straighten out user setting opacity, this should
-        // be changed.
-        lastLabel = new OpaqueLabel();
-        lastLabel.setName("GTKColorChooserPanel.lastColorWell");
-        lastLabel.setOpaque(true);
-        lastLabel.setMinimumSize(new Dimension(67, 32));
-        lastLabel.setPreferredSize(new Dimension(67, 32));
-        lastLabel.setMaximumSize(new Dimension(67, 32));
+        // PENDING: when we strbighten out user setting opbcity, this should
+        // be chbnged.
+        lbstLbbel = new OpbqueLbbel();
+        lbstLbbel.setNbme("GTKColorChooserPbnel.lbstColorWell");
+        lbstLbbel.setOpbque(true);
+        lbstLbbel.setMinimumSize(new Dimension(67, 32));
+        lbstLbbel.setPreferredSize(new Dimension(67, 32));
+        lbstLbbel.setMbximumSize(new Dimension(67, 32));
 
         hueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 360, 1));
-        configureSpinner(hueSpinner, "GTKColorChooserPanel.hueSpinner");
-        saturationSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(saturationSpinner,
-                         "GTKColorChooserPanel.saturationSpinner");
-        valueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(valueSpinner, "GTKColorChooserPanel.valueSpinner");
+        configureSpinner(hueSpinner, "GTKColorChooserPbnel.hueSpinner");
+        sbturbtionSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        configureSpinner(sbturbtionSpinner,
+                         "GTKColorChooserPbnel.sbturbtionSpinner");
+        vblueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        configureSpinner(vblueSpinner, "GTKColorChooserPbnel.vblueSpinner");
         redSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(redSpinner, "GTKColorChooserPanel.redSpinner");
+        configureSpinner(redSpinner, "GTKColorChooserPbnel.redSpinner");
         greenSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(greenSpinner, "GTKColorChooserPanel.greenSpinner");
+        configureSpinner(greenSpinner, "GTKColorChooserPbnel.greenSpinner");
         blueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(blueSpinner, "GTKColorChooserPanel.blueSpinner");
+        configureSpinner(blueSpinner, "GTKColorChooserPbnel.blueSpinner");
 
-        colorNameTF = new JTextField(8);
+        colorNbmeTF = new JTextField(8);
 
-        setLayout(new GridBagLayout());
+        setLbyout(new GridBbgLbyout());
 
-        add(this, "GTKColorChooserPanel.hue", hueSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.red", redSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.saturation", saturationSpinner, -1,-1);
-        add(this, "GTKColorChooserPanel.green", greenSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.value", valueSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.blue", blueSpinner, -1, -1);
+        bdd(this, "GTKColorChooserPbnel.hue", hueSpinner, -1, -1);
+        bdd(this, "GTKColorChooserPbnel.red", redSpinner, -1, -1);
+        bdd(this, "GTKColorChooserPbnel.sbturbtion", sbturbtionSpinner, -1,-1);
+        bdd(this, "GTKColorChooserPbnel.green", greenSpinner, -1, -1);
+        bdd(this, "GTKColorChooserPbnel.vblue", vblueSpinner, -1, -1);
+        bdd(this, "GTKColorChooserPbnel.blue", blueSpinner, -1, -1);
 
-        add(new JSeparator(SwingConstants.HORIZONTAL), new
-                  GridBagConstraints(1, 3, 4, 1, 1, 0,
-                  GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
+        bdd(new JSepbrbtor(SwingConstbnts.HORIZONTAL), new
+                  GridBbgConstrbints(1, 3, 4, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
                   new Insets(14, 0, 0, 0), 0, 0));
 
-        add(this, "GTKColorChooserPanel.colorName", colorNameTF, 0, 4);
+        bdd(this, "GTKColorChooserPbnel.colorNbme", colorNbmeTF, 0, 4);
 
-        add(triangle, new GridBagConstraints(0, 0, 1, 5, 0, 0,
-                      GridBagConstraints.LINE_START, GridBagConstraints.NONE,
+        bdd(tribngle, new GridBbgConstrbints(0, 0, 1, 5, 0, 0,
+                      GridBbgConstrbints.LINE_START, GridBbgConstrbints.NONE,
                       new Insets(14, 20, 2, 9), 0, 0));
 
-        Box hBox = Box.createHorizontalBox();
-        hBox.add(lastLabel);
-        hBox.add(label);
-        add(hBox, new GridBagConstraints(0, 5, 1, 1, 0, 0,
-                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        Box hBox = Box.crebteHorizontblBox();
+        hBox.bdd(lbstLbbel);
+        hBox.bdd(lbbel);
+        bdd(hBox, new GridBbgConstrbints(0, 5, 1, 1, 0, 0,
+                      GridBbgConstrbints.CENTER, GridBbgConstrbints.NONE,
                       new Insets(0, 0, 0, 0), 0, 0));
 
-        add(new JSeparator(SwingConstants.HORIZONTAL), new
-                  GridBagConstraints(0, 6, 5, 1, 1, 0,
-                  GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
+        bdd(new JSepbrbtor(SwingConstbnts.HORIZONTAL), new
+                  GridBbgConstrbints(0, 6, 5, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
                   new Insets(12, 0, 0, 0), 0, 0));
     }
 
     /**
      * Configures the spinner.
      */
-    private void configureSpinner(JSpinner spinner, String name) {
-        spinner.addChangeListener(this);
-        spinner.setName(name);
+    privbte void configureSpinner(JSpinner spinner, String nbme) {
+        spinner.bddChbngeListener(this);
+        spinner.setNbme(nbme);
         JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JFormattedTextField ftf = ((JSpinner.DefaultEditor)editor).
+        if (editor instbnceof JSpinner.DefbultEditor) {
+            JFormbttedTextField ftf = ((JSpinner.DefbultEditor)editor).
                                                  getTextField();
 
-            ftf.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
+            ftf.setFocusLostBehbvior(JFormbttedTextField.COMMIT_OR_REVERT);
         }
     }
 
     /**
-     * Adds the widget creating a JLabel with the specified name.
+     * Adds the widget crebting b JLbbel with the specified nbme.
      */
-    private void add(Container parent, String key, JComponent widget,
+    privbte void bdd(Contbiner pbrent, String key, JComponent widget,
                      int x, int y) {
-        JLabel label = new JLabel(UIManager.getString(key + "Text",
-                                                      getLocale()));
-        String mnemonic = (String)UIManager.get(key + "Mnemonic", getLocale());
+        JLbbel lbbel = new JLbbel(UIMbnbger.getString(key + "Text",
+                                                      getLocble()));
+        String mnemonic = (String)UIMbnbger.get(key + "Mnemonic", getLocble());
 
         if (mnemonic != null) {
             try {
-                label.setDisplayedMnemonic(Integer.parseInt(mnemonic));
-            } catch (NumberFormatException nfe) {
+                lbbel.setDisplbyedMnemonic(Integer.pbrseInt(mnemonic));
+            } cbtch (NumberFormbtException nfe) {
             }
-            String mnemonicIndex = (String)UIManager.get(key + "MnemonicIndex",
-                                                    getLocale());
+            String mnemonicIndex = (String)UIMbnbger.get(key + "MnemonicIndex",
+                                                    getLocble());
 
             if (mnemonicIndex != null) {
                 try {
-                    label.setDisplayedMnemonicIndex(Integer.parseInt(
+                    lbbel.setDisplbyedMnemonicIndex(Integer.pbrseInt(
                                                         mnemonicIndex));
-                } catch (NumberFormatException nfe) {
+                } cbtch (NumberFormbtException nfe) {
                 }
             }
         }
-        label.setLabelFor(widget);
+        lbbel.setLbbelFor(widget);
         if (x < 0) {
-            x = parent.getComponentCount() % 4;
+            x = pbrent.getComponentCount() % 4;
         }
         if (y < 0) {
-            y = parent.getComponentCount() / 4;
+            y = pbrent.getComponentCount() / 4;
         }
-        GridBagConstraints con = new GridBagConstraints(x + 1, y, 1, 1, 0, 0,
-                   GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE,
+        GridBbgConstrbints con = new GridBbgConstrbints(x + 1, y, 1, 1, 0, 0,
+                   GridBbgConstrbints.FIRST_LINE_END, GridBbgConstrbints.NONE,
                    new Insets(4, 0, 0, 4), 0, 0);
         if (y == 0) {
             con.insets.top = 14;
         }
-        parent.add(label, con);
+        pbrent.bdd(lbbel, con);
         con.gridx++;
-        parent.add(widget, con);
+        pbrent.bdd(widget, con);
     }
 
     /**
-     * Refreshes the display from the model.
+     * Refreshes the displby from the model.
      */
-    public void updateChooser() {
+    public void updbteChooser() {
         if (!settingColor) {
-            lastLabel.setBackground(getColorFromModel());
-            setColor(getColorFromModel(), true, true, false);
+            lbstLbbel.setBbckground(getColorFromModel());
+            setColor(getColorFromModel(), true, true, fblse);
         }
     }
 
     /**
      * Resets the red component of the selected color.
      */
-    private void setRed(int red) {
+    privbte void setRed(int red) {
         setRGB(red << 16 | getColor().getGreen() << 8 | getColor().getBlue());
     }
 
     /**
      * Resets the green component of the selected color.
      */
-    private void setGreen(int green) {
+    privbte void setGreen(int green) {
         setRGB(getColor().getRed() << 16 | green << 8 | getColor().getBlue());
     }
 
     /**
      * Resets the blue component of the selected color.
      */
-    private void setBlue(int blue) {
+    privbte void setBlue(int blue) {
         setRGB(getColor().getRed() << 16 | getColor().getGreen() << 8 | blue);
     }
 
     /**
-     * Sets the hue of the selected color and updates the display if
-     * necessary.
+     * Sets the hue of the selected color bnd updbtes the displby if
+     * necessbry.
      */
-    private void setHue(float hue, boolean update) {
-        setHSB(hue, saturation, brightness);
-        if (update) {
+    privbte void setHue(flobt hue, boolebn updbte) {
+        setHSB(hue, sbturbtion, brightness);
+        if (updbte) {
             settingColor = true;
-            hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-            settingColor = false;
+            hueSpinner.setVblue(Integer.vblueOf((int)(hue * 360)));
+            settingColor = fblse;
         }
     }
 
     /**
-     * Returns the current amount of hue.
+     * Returns the current bmount of hue.
      */
-    private float getHue() {
+    privbte flobt getHue() {
         return hue;
     }
 
     /**
-     * Resets the saturation.
+     * Resets the sbturbtion.
      */
-    private void setSaturation(float saturation) {
-        setHSB(hue, saturation, brightness);
+    privbte void setSbturbtion(flobt sbturbtion) {
+        setHSB(hue, sbturbtion, brightness);
     }
 
     /**
-     * Returns the saturation.
+     * Returns the sbturbtion.
      */
-    private float getSaturation() {
-        return saturation;
+    privbte flobt getSbturbtion() {
+        return sbturbtion;
     }
 
     /**
      * Sets the brightness.
      */
-    private void setBrightness(float brightness) {
-        setHSB(hue, saturation, brightness);
+    privbte void setBrightness(flobt brightness) {
+        setHSB(hue, sbturbtion, brightness);
     }
 
     /**
      * Returns the brightness.
      */
-    private float getBrightness() {
+    privbte flobt getBrightness() {
         return brightness;
     }
 
     /**
-     * Sets the saturation and brightness and updates the display if
-     * necessary.
+     * Sets the sbturbtion bnd brightness bnd updbtes the displby if
+     * necessbry.
      */
-    private void setSaturationAndBrightness(float s, float b, boolean update) {
+    privbte void setSbturbtionAndBrightness(flobt s, flobt b, boolebn updbte) {
         setHSB(hue, s, b);
-        if (update) {
+        if (updbte) {
             settingColor = true;
-            saturationSpinner.setValue(Integer.valueOf((int)(s * 255)));
-            valueSpinner.setValue(Integer.valueOf((int)(b * 255)));
-            settingColor = false;
+            sbturbtionSpinner.setVblue(Integer.vblueOf((int)(s * 255)));
+            vblueSpinner.setVblue(Integer.vblueOf((int)(b * 255)));
+            settingColor = fblse;
         }
     }
 
     /**
-     * Resets the rgb values.
+     * Resets the rgb vblues.
      */
-    private void setRGB(int rgb) {
+    privbte void setRGB(int rgb) {
         Color color = new Color(rgb);
 
-        setColor(color, false, true, true);
+        setColor(color, fblse, true, true);
 
         settingColor = true;
-        hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-        saturationSpinner.setValue(Integer.valueOf((int)(saturation * 255)));
-        valueSpinner.setValue(Integer.valueOf((int)(brightness * 255)));
-        settingColor = false;
+        hueSpinner.setVblue(Integer.vblueOf((int)(hue * 360)));
+        sbturbtionSpinner.setVblue(Integer.vblueOf((int)(sbturbtion * 255)));
+        vblueSpinner.setVblue(Integer.vblueOf((int)(brightness * 255)));
+        settingColor = fblse;
     }
 
     /**
-     * Resets the hsb values.
+     * Resets the hsb vblues.
      */
-    private void setHSB(float h, float s, float b) {
+    privbte void setHSB(flobt h, flobt s, flobt b) {
         Color color = Color.getHSBColor(h, s, b);
 
         this.hue = h;
-        this.saturation = s;
+        this.sbturbtion = s;
         this.brightness = b;
-        setColor(color, false, false, true);
+        setColor(color, fblse, fblse, true);
 
         settingColor = true;
-        redSpinner.setValue(Integer.valueOf(color.getRed()));
-        greenSpinner.setValue(Integer.valueOf(color.getGreen()));
-        blueSpinner.setValue(Integer.valueOf(color.getBlue()));
-        settingColor = false;
+        redSpinner.setVblue(Integer.vblueOf(color.getRed()));
+        greenSpinner.setVblue(Integer.vblueOf(color.getGreen()));
+        blueSpinner.setVblue(Integer.vblueOf(color.getBlue()));
+        settingColor = fblse;
     }
 
 
     /**
      * Rests the color.
      *
-     * @param color new Color
-     * @param updateSpinners whether or not to update the spinners.
-     * @param updateHSB if true, the hsb fields are updated based on the
+     * @pbrbm color new Color
+     * @pbrbm updbteSpinners whether or not to updbte the spinners.
+     * @pbrbm updbteHSB if true, the hsb fields bre updbted bbsed on the
      *                  new color
-     * @param updateModel if true, the model is set.
+     * @pbrbm updbteModel if true, the model is set.
      */
-    private void setColor(Color color, boolean updateSpinners,
-                          boolean updateHSB, boolean updateModel) {
+    privbte void setColor(Color color, boolebn updbteSpinners,
+                          boolebn updbteHSB, boolebn updbteModel) {
         if (color == null) {
             color = Color.BLACK;
         }
 
         settingColor = true;
 
-        if (updateHSB) {
-            float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(),
+        if (updbteHSB) {
+            flobt[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(),
                                          color.getBlue(), null);
             hue = hsb[0];
-            saturation = hsb[1];
+            sbturbtion = hsb[1];
             brightness = hsb[2];
         }
 
-        if (updateModel) {
+        if (updbteModel) {
             ColorSelectionModel model = getColorSelectionModel();
             if (model != null) {
                 model.setSelectedColor(color);
             }
         }
 
-        triangle.setColor(hue, saturation, brightness);
-        label.setBackground(color);
-        // Force Integer to pad the string with 0's by adding 0x1000000 and
-        // then removing the first character.
+        tribngle.setColor(hue, sbturbtion, brightness);
+        lbbel.setBbckground(color);
+        // Force Integer to pbd the string with 0's by bdding 0x1000000 bnd
+        // then removing the first chbrbcter.
         String hexString = Integer.toHexString(
                   (color.getRGB() & 0xFFFFFF) | 0x1000000);
-        colorNameTF.setText("#" + hexString.substring(1));
+        colorNbmeTF.setText("#" + hexString.substring(1));
 
-        if (updateSpinners) {
-            redSpinner.setValue(Integer.valueOf(color.getRed()));
-            greenSpinner.setValue(Integer.valueOf(color.getGreen()));
-            blueSpinner.setValue(Integer.valueOf(color.getBlue()));
+        if (updbteSpinners) {
+            redSpinner.setVblue(Integer.vblueOf(color.getRed()));
+            greenSpinner.setVblue(Integer.vblueOf(color.getGreen()));
+            blueSpinner.setVblue(Integer.vblueOf(color.getBlue()));
 
-            hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-            saturationSpinner.setValue(Integer.valueOf((int)(saturation * 255)));
-            valueSpinner.setValue(Integer.valueOf((int)(brightness * 255)));
+            hueSpinner.setVblue(Integer.vblueOf((int)(hue * 360)));
+            sbturbtionSpinner.setVblue(Integer.vblueOf((int)(sbturbtion * 255)));
+            vblueSpinner.setVblue(Integer.vblueOf((int)(brightness * 255)));
         }
-        settingColor = false;
+        settingColor = fblse;
     }
 
     public Color getColor() {
-        return label.getBackground();
+        return lbbel.getBbckground();
     }
 
     /**
-     * ChangeListener method, updates the necessary display widgets.
+     * ChbngeListener method, updbtes the necessbry displby widgets.
      */
-    public void stateChanged(ChangeEvent e) {
+    public void stbteChbnged(ChbngeEvent e) {
         if (settingColor) {
             return;
         }
         Color color = getColor();
 
         if (e.getSource() == hueSpinner) {
-            setHue(((Number)hueSpinner.getValue()).floatValue() / 360, false);
+            setHue(((Number)hueSpinner.getVblue()).flobtVblue() / 360, fblse);
         }
-        else if (e.getSource() == saturationSpinner) {
-            setSaturation(((Number)saturationSpinner.getValue()).
-                          floatValue() / 255);
+        else if (e.getSource() == sbturbtionSpinner) {
+            setSbturbtion(((Number)sbturbtionSpinner.getVblue()).
+                          flobtVblue() / 255);
         }
-        else if (e.getSource() == valueSpinner) {
-            setBrightness(((Number)valueSpinner.getValue()).
-                          floatValue() / 255);
+        else if (e.getSource() == vblueSpinner) {
+            setBrightness(((Number)vblueSpinner.getVblue()).
+                          flobtVblue() / 255);
         }
         else if (e.getSource() == redSpinner) {
-            setRed(((Number)redSpinner.getValue()).intValue());
+            setRed(((Number)redSpinner.getVblue()).intVblue());
         }
         else if (e.getSource() == greenSpinner) {
-            setGreen(((Number)greenSpinner.getValue()).intValue());
+            setGreen(((Number)greenSpinner.getVblue()).intVblue());
         }
         else if (e.getSource() == blueSpinner) {
-            setBlue(((Number)blueSpinner.getValue()).intValue());
+            setBlue(((Number)blueSpinner.getVblue()).intVblue());
         }
     }
 
 
 
     /**
-     * Flag indicating the angle, or hue, has changed and the triangle
-     * needs to be recreated.
+     * Flbg indicbting the bngle, or hue, hbs chbnged bnd the tribngle
+     * needs to be recrebted.
      */
-    private static final int FLAGS_CHANGED_ANGLE = 1 << 0;
+    privbte stbtic finbl int FLAGS_CHANGED_ANGLE = 1 << 0;
     /**
-     * Indicates the wheel is being dragged.
+     * Indicbtes the wheel is being drbgged.
      */
-    private static final int FLAGS_DRAGGING = 1 << 1;
+    privbte stbtic finbl int FLAGS_DRAGGING = 1 << 1;
     /**
-     * Indicates the triangle is being dragged.
+     * Indicbtes the tribngle is being drbgged.
      */
-    private static final int FLAGS_DRAGGING_TRIANGLE = 1 << 2;
+    privbte stbtic finbl int FLAGS_DRAGGING_TRIANGLE = 1 << 2;
     /**
-     * Indicates a color is being set and we should ignore setColor
+     * Indicbtes b color is being set bnd we should ignore setColor
      */
-    private static final int FLAGS_SETTING_COLOR = 1 << 3;
+    privbte stbtic finbl int FLAGS_SETTING_COLOR = 1 << 3;
     /**
-     * Indicates the wheel has focus.
+     * Indicbtes the wheel hbs focus.
      */
-    private static final int FLAGS_FOCUSED_WHEEL = 1 << 4;
+    privbte stbtic finbl int FLAGS_FOCUSED_WHEEL = 1 << 4;
     /**
-     * Indicates the triangle has focus.
+     * Indicbtes the tribngle hbs focus.
      */
-    private static final int FLAGS_FOCUSED_TRIANGLE = 1 << 5;
+    privbte stbtic finbl int FLAGS_FOCUSED_TRIANGLE = 1 << 5;
 
 
     /**
-     * Class responsible for rendering a color wheel and color triangle.
+     * Clbss responsible for rendering b color wheel bnd color tribngle.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ColorTriangle extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ColorTribngle extends JPbnel {
         /**
-         * Cached image of the wheel.
+         * Cbched imbge of the wheel.
          */
-        private Image wheelImage;
-
-        /**
-         * Cached image of the triangle.
-         */
-        private Image triangleImage;
+        privbte Imbge wheelImbge;
 
         /**
-         * Angle triangle is rotated by.
+         * Cbched imbge of the tribngle.
          */
-        private double angle;
+        privbte Imbge tribngleImbge;
 
         /**
-         * Boolean bitmask.
+         * Angle tribngle is rotbted by.
          */
-        private int flags;
+        privbte double bngle;
 
         /**
-         * X location of selected color indicator.
+         * Boolebn bitmbsk.
          */
-        private int circleX;
+        privbte int flbgs;
+
         /**
-         * Y location of selected color indicator.
+         * X locbtion of selected color indicbtor.
          */
-        private int circleY;
+        privbte int circleX;
+        /**
+         * Y locbtion of selected color indicbtor.
+         */
+        privbte int circleY;
 
 
-        public ColorTriangle() {
-            enableEvents(AWTEvent.FOCUS_EVENT_MASK);
-            enableEvents(AWTEvent.MOUSE_EVENT_MASK);
-            enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
+        public ColorTribngle() {
+            enbbleEvents(AWTEvent.FOCUS_EVENT_MASK);
+            enbbleEvents(AWTEvent.MOUSE_EVENT_MASK);
+            enbbleEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
-            setMinimumSize(new Dimension(getWheelRadius() * 2 + 2,
-                                         getWheelRadius() * 2 + 2));
-            setPreferredSize(new Dimension(getWheelRadius() * 2 + 2,
-                                           getWheelRadius() * 2 + 2));
+            setMinimumSize(new Dimension(getWheelRbdius() * 2 + 2,
+                                         getWheelRbdius() * 2 + 2));
+            setPreferredSize(new Dimension(getWheelRbdius() * 2 + 2,
+                                           getWheelRbdius() * 2 + 2));
 
-            // We want to handle tab ourself.
-            setFocusTraversalKeysEnabled(false);
+            // We wbnt to hbndle tbb ourself.
+            setFocusTrbversblKeysEnbbled(fblse);
 
             // PENDING: this should come from the style.
-            getInputMap().put(KeyStroke.getKeyStroke("UP"), "up");
-            getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "down");
-            getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "left");
-            getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "right");
+            getInputMbp().put(KeyStroke.getKeyStroke("UP"), "up");
+            getInputMbp().put(KeyStroke.getKeyStroke("DOWN"), "down");
+            getInputMbp().put(KeyStroke.getKeyStroke("LEFT"), "left");
+            getInputMbp().put(KeyStroke.getKeyStroke("RIGHT"), "right");
 
-            getInputMap().put(KeyStroke.getKeyStroke("KP_UP"), "up");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_DOWN"), "down");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_LEFT"), "left");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_RIGHT"), "right");
+            getInputMbp().put(KeyStroke.getKeyStroke("KP_UP"), "up");
+            getInputMbp().put(KeyStroke.getKeyStroke("KP_DOWN"), "down");
+            getInputMbp().put(KeyStroke.getKeyStroke("KP_LEFT"), "left");
+            getInputMbp().put(KeyStroke.getKeyStroke("KP_RIGHT"), "right");
 
-            getInputMap().put(KeyStroke.getKeyStroke("TAB"), "focusNext");
-            getInputMap().put(KeyStroke.getKeyStroke("shift TAB"),"focusLast");
+            getInputMbp().put(KeyStroke.getKeyStroke("TAB"), "focusNext");
+            getInputMbp().put(KeyStroke.getKeyStroke("shift TAB"),"focusLbst");
 
-            ActionMap map = (ActionMap)UIManager.get(
-                                       "GTKColorChooserPanel.actionMap");
+            ActionMbp mbp = (ActionMbp)UIMbnbger.get(
+                                       "GTKColorChooserPbnel.bctionMbp");
 
-            if (map == null) {
-                map = new ActionMapUIResource();
-                map.put("left", new ColorAction("left", 2));
-                map.put("right", new ColorAction("right", 3));
-                map.put("up", new ColorAction("up", 0));
-                map.put("down", new ColorAction("down", 1));
-                map.put("focusNext", new ColorAction("focusNext", 4));
-                map.put("focusLast", new ColorAction("focusLast", 5));
-                UIManager.getLookAndFeelDefaults().put(
-                             "GTKColorChooserPanel.actionMap", map);
+            if (mbp == null) {
+                mbp = new ActionMbpUIResource();
+                mbp.put("left", new ColorAction("left", 2));
+                mbp.put("right", new ColorAction("right", 3));
+                mbp.put("up", new ColorAction("up", 0));
+                mbp.put("down", new ColorAction("down", 1));
+                mbp.put("focusNext", new ColorAction("focusNext", 4));
+                mbp.put("focusLbst", new ColorAction("focusLbst", 5));
+                UIMbnbger.getLookAndFeelDefbults().put(
+                             "GTKColorChooserPbnel.bctionMbp", mbp);
             }
-            SwingUtilities.replaceUIActionMap(this, map);
+            SwingUtilities.replbceUIActionMbp(this, mbp);
         }
 
         /**
-         * Returns the GTKColorChooserPanel.
+         * Returns the GTKColorChooserPbnel.
          */
-        GTKColorChooserPanel getGTKColorChooserPanel() {
-            return GTKColorChooserPanel.this;
+        GTKColorChooserPbnel getGTKColorChooserPbnel() {
+            return GTKColorChooserPbnel.this;
         }
 
         /**
@@ -627,73 +627,73 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
         }
 
         /**
-         * Gives focus to the triangle.
+         * Gives focus to the tribngle.
          */
-        void focusTriangle() {
+        void focusTribngle() {
             setFocusType(2);
         }
 
         /**
-         * Returns true if the wheel currently has focus.
+         * Returns true if the wheel currently hbs focus.
          */
-        boolean isWheelFocused() {
+        boolebn isWheelFocused() {
             return isSet(FLAGS_FOCUSED_WHEEL);
         }
 
         /**
          * Resets the selected color.
          */
-        public void setColor(float h, float s, float b) {
+        public void setColor(flobt h, flobt s, flobt b) {
             if (isSet(FLAGS_SETTING_COLOR)) {
                 return;
             }
 
             setAngleFromHue(h);
-            setSaturationAndBrightness(s, b);
+            setSbturbtionAndBrightness(s, b);
         }
 
         /**
          * Returns the selected color.
          */
         public Color getColor() {
-            return GTKColorChooserPanel.this.getColor();
+            return GTKColorChooserPbnel.this.getColor();
         }
 
         /**
-         * Returns the x location of the selected color indicator.
+         * Returns the x locbtion of the selected color indicbtor.
          */
         int getColorX() {
-            return circleX + getIndicatorSize() / 2 - getWheelXOrigin();
+            return circleX + getIndicbtorSize() / 2 - getWheelXOrigin();
         }
 
         /**
-         * Returns the y location of the selected color indicator.
+         * Returns the y locbtion of the selected color indicbtor.
          */
         int getColorY() {
-            return circleY + getIndicatorSize() / 2 - getWheelYOrigin();
+            return circleY + getIndicbtorSize() / 2 - getWheelYOrigin();
         }
 
         protected void processEvent(AWTEvent e) {
             if (e.getID() == MouseEvent.MOUSE_PRESSED ||
                    ((isSet(FLAGS_DRAGGING) ||isSet(FLAGS_DRAGGING_TRIANGLE)) &&
                    e.getID() == MouseEvent.MOUSE_DRAGGED)) {
-                // Assign focus to either the wheel or triangle and attempt
-                // to drag either the wheel or triangle.
-                int size = getWheelRadius();
+                // Assign focus to either the wheel or tribngle bnd bttempt
+                // to drbg either the wheel or tribngle.
+                int size = getWheelRbdius();
                 int x = ((MouseEvent)e).getX() - size;
                 int y = ((MouseEvent)e).getY() - size;
 
-                if (!hasFocus()) {
+                if (!hbsFocus()) {
                     requestFocus();
                 }
                 if (!isSet(FLAGS_DRAGGING_TRIANGLE) &&
-                      adjustHue(x, y, e.getID() == MouseEvent.MOUSE_PRESSED)) {
-                    setFlag(FLAGS_DRAGGING, true);
+                      bdjustHue(x, y, e.getID() == MouseEvent.MOUSE_PRESSED)) {
+                    setFlbg(FLAGS_DRAGGING, true);
                     setFocusType(1);
                 }
-                else if (adjustSB(x, y, e.getID() ==
+                else if (bdjustSB(x, y, e.getID() ==
                                         MouseEvent.MOUSE_PRESSED)) {
-                    setFlag(FLAGS_DRAGGING_TRIANGLE, true);
+                    setFlbg(FLAGS_DRAGGING_TRIANGLE, true);
                     setFocusType(2);
                 }
                 else {
@@ -701,144 +701,144 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
                 }
             }
             else if (e.getID() == MouseEvent.MOUSE_RELEASED) {
-                // Stopped dragging
-                setFlag(FLAGS_DRAGGING_TRIANGLE, false);
-                setFlag(FLAGS_DRAGGING, false);
+                // Stopped drbgging
+                setFlbg(FLAGS_DRAGGING_TRIANGLE, fblse);
+                setFlbg(FLAGS_DRAGGING, fblse);
             }
             else if (e.getID() == FocusEvent.FOCUS_LOST) {
-                // Reset the flags to indicate no one has focus
+                // Reset the flbgs to indicbte no one hbs focus
                 setFocusType(0);
             }
             else if (e.getID() == FocusEvent.FOCUS_GAINED) {
-                // Gained focus, reassign focus to the wheel if no one
-                // currently has focus.
+                // Gbined focus, rebssign focus to the wheel if no one
+                // currently hbs focus.
                 if (!isSet(FLAGS_FOCUSED_TRIANGLE) &&
                           !isSet(FLAGS_FOCUSED_WHEEL)) {
-                    setFlag(FLAGS_FOCUSED_WHEEL, true);
+                    setFlbg(FLAGS_FOCUSED_WHEEL, true);
                     setFocusType(1);
                 }
-                repaint();
+                repbint();
             }
             super.processEvent(e);
         }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        public void pbintComponent(Grbphics g) {
+            super.pbintComponent(g);
 
-            // Draw the wheel and triangle
-            int size = getWheelRadius();
+            // Drbw the wheel bnd tribngle
+            int size = getWheelRbdius();
             int width = getWheelWidth();
-            Image image = getImage(size);
-            g.drawImage(image, getWheelXOrigin() - size,
+            Imbge imbge = getImbge(size);
+            g.drbwImbge(imbge, getWheelXOrigin() - size,
                         getWheelYOrigin() - size, null);
 
-            // Draw the focus indicator for the wheel
-            if (hasFocus() && isSet(FLAGS_FOCUSED_WHEEL)) {
+            // Drbw the focus indicbtor for the wheel
+            if (hbsFocus() && isSet(FLAGS_FOCUSED_WHEEL)) {
                 g.setColor(Color.BLACK);
-                g.drawOval(getWheelXOrigin() - size, getWheelYOrigin() - size,
+                g.drbwOvbl(getWheelXOrigin() - size, getWheelYOrigin() - size,
                            2 * size, 2 * size);
-                g.drawOval(getWheelXOrigin() - size + width, getWheelYOrigin()-
+                g.drbwOvbl(getWheelXOrigin() - size + width, getWheelYOrigin()-
                            size + width, 2 * (size - width), 2 *
                            (size - width));
             }
 
-            // Draw a line on the wheel indicating the selected hue.
-            if (Math.toDegrees(Math.PI * 2 - angle) <= 20 ||
-                     Math.toDegrees(Math.PI * 2 - angle) >= 201) {
+            // Drbw b line on the wheel indicbting the selected hue.
+            if (Mbth.toDegrees(Mbth.PI * 2 - bngle) <= 20 ||
+                     Mbth.toDegrees(Mbth.PI * 2 - bngle) >= 201) {
                 g.setColor(Color.WHITE);
             }
             else {
                 g.setColor(Color.BLACK);
             }
-            int lineX0 = (int)(Math.cos(angle) * size);
-            int lineY0 = (int)(Math.sin(angle) * size);
-            int lineX1 = (int)(Math.cos(angle) * (size - width));
-            int lineY1 = (int)(Math.sin(angle) * (size - width));
-            g.drawLine(lineX0 + size, lineY0 + size, lineX1 + size,
+            int lineX0 = (int)(Mbth.cos(bngle) * size);
+            int lineY0 = (int)(Mbth.sin(bngle) * size);
+            int lineX1 = (int)(Mbth.cos(bngle) * (size - width));
+            int lineY1 = (int)(Mbth.sin(bngle) * (size - width));
+            g.drbwLine(lineX0 + size, lineY0 + size, lineX1 + size,
                        lineY1 + size);
 
-            // Draw the focus indicator on the triangle
-            if (hasFocus() && isSet(FLAGS_FOCUSED_TRIANGLE)) {
-                Graphics g2 = g.create();
-                int innerR = getTriangleCircumscribedRadius();
-                int a = (int)(3 * innerR / Math.sqrt(3));
-                g2.translate(getWheelXOrigin(), getWheelYOrigin());
-                ((Graphics2D)g2).rotate(angle + Math.PI / 2);
+            // Drbw the focus indicbtor on the tribngle
+            if (hbsFocus() && isSet(FLAGS_FOCUSED_TRIANGLE)) {
+                Grbphics g2 = g.crebte();
+                int innerR = getTribngleCircumscribedRbdius();
+                int b = (int)(3 * innerR / Mbth.sqrt(3));
+                g2.trbnslbte(getWheelXOrigin(), getWheelYOrigin());
+                ((Grbphics2D)g2).rotbte(bngle + Mbth.PI / 2);
                 g2.setColor(Color.BLACK);
-                g2.drawLine(0, -innerR, a / 2, innerR / 2);
-                g2.drawLine(a / 2, innerR / 2, -a / 2, innerR / 2);
-                g2.drawLine(-a / 2, innerR / 2, 0, -innerR);
+                g2.drbwLine(0, -innerR, b / 2, innerR / 2);
+                g2.drbwLine(b / 2, innerR / 2, -b / 2, innerR / 2);
+                g2.drbwLine(-b / 2, innerR / 2, 0, -innerR);
                 g2.dispose();
             }
 
-            // Draw the selected color indicator.
+            // Drbw the selected color indicbtor.
             g.setColor(Color.BLACK);
-            g.drawOval(circleX, circleY, getIndicatorSize() - 1,
-                       getIndicatorSize() - 1);
+            g.drbwOvbl(circleX, circleY, getIndicbtorSize() - 1,
+                       getIndicbtorSize() - 1);
             g.setColor(Color.WHITE);
-            g.drawOval(circleX + 1, circleY + 1, getIndicatorSize() - 3,
-                       getIndicatorSize() - 3);
+            g.drbwOvbl(circleX + 1, circleY + 1, getIndicbtorSize() - 3,
+                       getIndicbtorSize() - 3);
         }
 
         /**
-         * Returns an image representing the triangle and wheel.
+         * Returns bn imbge representing the tribngle bnd wheel.
          */
-        private Image getImage(int size) {
-            if (!isSet(FLAGS_CHANGED_ANGLE) && wheelImage != null &&
-                        wheelImage.getWidth(null) == size * 2) {
-                return wheelImage;
+        privbte Imbge getImbge(int size) {
+            if (!isSet(FLAGS_CHANGED_ANGLE) && wheelImbge != null &&
+                        wheelImbge.getWidth(null) == size * 2) {
+                return wheelImbge;
             }
-            if (wheelImage == null || wheelImage.getWidth(null) != size) {
-                wheelImage = getWheelImage(size);
+            if (wheelImbge == null || wheelImbge.getWidth(null) != size) {
+                wheelImbge = getWheelImbge(size);
             }
-            int innerR = getTriangleCircumscribedRadius();
-            int triangleSize = (int)(innerR * 3.0 / 2.0);
-            int a = (int)(2 * triangleSize / Math.sqrt(3));
-            if (triangleImage == null || triangleImage.getWidth(null) != a) {
-                triangleImage = new BufferedImage(a, a,
-                                                  BufferedImage.TYPE_INT_ARGB);
+            int innerR = getTribngleCircumscribedRbdius();
+            int tribngleSize = (int)(innerR * 3.0 / 2.0);
+            int b = (int)(2 * tribngleSize / Mbth.sqrt(3));
+            if (tribngleImbge == null || tribngleImbge.getWidth(null) != b) {
+                tribngleImbge = new BufferedImbge(b, b,
+                                                  BufferedImbge.TYPE_INT_ARGB);
             }
-            Graphics g = triangleImage.getGraphics();
+            Grbphics g = tribngleImbge.getGrbphics();
             g.setColor(new Color(0, 0, 0, 0));
-            g.fillRect(0, 0, a, a);
-            g.translate(a / 2, 0);
-            paintTriangle(g, triangleSize, getColor());
-            g.translate(-a / 2, 0);
+            g.fillRect(0, 0, b, b);
+            g.trbnslbte(b / 2, 0);
+            pbintTribngle(g, tribngleSize, getColor());
+            g.trbnslbte(-b / 2, 0);
             g.dispose();
 
-            g = wheelImage.getGraphics();
+            g = wheelImbge.getGrbphics();
             g.setColor(new Color(0, 0, 0, 0));
-            g.fillOval(getWheelWidth(), getWheelWidth(),
+            g.fillOvbl(getWheelWidth(), getWheelWidth(),
                        2 * (size - getWheelWidth()),
                        2 * (size - getWheelWidth()));
 
-            double rotate = Math.toRadians(-30.0) + angle;
-            g.translate(size, size);
-            ((Graphics2D)g).rotate(rotate);
-            g.drawImage(triangleImage, -a / 2,
+            double rotbte = Mbth.toRbdibns(-30.0) + bngle;
+            g.trbnslbte(size, size);
+            ((Grbphics2D)g).rotbte(rotbte);
+            g.drbwImbge(tribngleImbge, -b / 2,
                         getWheelWidth() - size, null);
-            ((Graphics2D)g).rotate(-rotate);
-            g.translate(a / 2, size - getWheelWidth());
+            ((Grbphics2D)g).rotbte(-rotbte);
+            g.trbnslbte(b / 2, size - getWheelWidth());
 
-            setFlag(FLAGS_CHANGED_ANGLE, false);
+            setFlbg(FLAGS_CHANGED_ANGLE, fblse);
 
-            return wheelImage;
+            return wheelImbge;
         }
 
-        private void paintTriangle(Graphics g, int size, Color color) {
-            float[] colors = Color.RGBtoHSB(color.getRed(),
+        privbte void pbintTribngle(Grbphics g, int size, Color color) {
+            flobt[] colors = Color.RGBtoHSB(color.getRed(),
                                             color.getGreen(),
                                             color.getBlue(), null);
-            float hue = colors[0];
+            flobt hue = colors[0];
             double dSize = (double)size;
             for (int y = 0; y < size; y++) {
-                int maxX = (int)(y * Math.tan(Math.toRadians(30.0)));
-                float factor = maxX * 2;
-                if (maxX > 0) {
-                    float value = (float)(y / dSize);
-                    for (int x = -maxX; x <= maxX; x++) {
-                        float saturation = (float)x / factor + .5f;
-                        g.setColor(Color.getHSBColor(hue, saturation, value));
+                int mbxX = (int)(y * Mbth.tbn(Mbth.toRbdibns(30.0)));
+                flobt fbctor = mbxX * 2;
+                if (mbxX > 0) {
+                    flobt vblue = (flobt)(y / dSize);
+                    for (int x = -mbxX; x <= mbxX; x++) {
+                        flobt sbturbtion = (flobt)x / fbctor + .5f;
+                        g.setColor(Color.getHSBColor(hue, sbturbtion, vblue));
                         g.fillRect(x, y, 1, 1);
                     }
                 }
@@ -850,261 +850,261 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
         }
 
         /**
-         * Returns a color wheel image for the specified size.
+         * Returns b color wheel imbge for the specified size.
          *
-         * @param size Integer giving size of color wheel.
-         * @return Color wheel image
+         * @pbrbm size Integer giving size of color wheel.
+         * @return Color wheel imbge
          */
-        private Image getWheelImage(int size) {
+        privbte Imbge getWheelImbge(int size) {
             int minSize = size - getWheelWidth();
             int doubleSize = size * 2;
-            BufferedImage image = new BufferedImage(doubleSize, doubleSize,
-                                              BufferedImage.TYPE_INT_ARGB);
+            BufferedImbge imbge = new BufferedImbge(doubleSize, doubleSize,
+                                              BufferedImbge.TYPE_INT_ARGB);
 
             for (int y = -size; y < size; y++) {
-                int ySquared = y * y;
+                int ySqubred = y * y;
                 for (int x = -size; x < size; x++) {
-                    double rad = Math.sqrt(ySquared + x * x);
+                    double rbd = Mbth.sqrt(ySqubred + x * x);
 
-                    if (rad < size && rad > minSize) {
-                        int rgb = colorWheelLocationToRGB(x, y, rad) |
+                    if (rbd < size && rbd > minSize) {
+                        int rgb = colorWheelLocbtionToRGB(x, y, rbd) |
                               0xFF000000;
-                        image.setRGB(x + size, y + size, rgb);
+                        imbge.setRGB(x + size, y + size, rgb);
                     }
                 }
             }
-            wheelImage = image;
-            return wheelImage;
+            wheelImbge = imbge;
+            return wheelImbge;
         }
 
         /**
-         * Adjusts the saturation and brightness. <code>x</code> and
-         * <code>y</code> give the location to adjust to and are relative
-         * to the origin of the wheel/triangle.
+         * Adjusts the sbturbtion bnd brightness. <code>x</code> bnd
+         * <code>y</code> give the locbtion to bdjust to bnd bre relbtive
+         * to the origin of the wheel/tribngle.
          *
-         * @param x X coordinate on the triangle to adjust to
-         * @param y Y coordinate on the triangle to adjust to
-         * @param checkLoc if true the location is checked to make sure
-         *        it is contained in the triangle, if false the location is
-         *        constrained to fit in the triangle.
-         * @return true if the location is valid
+         * @pbrbm x X coordinbte on the tribngle to bdjust to
+         * @pbrbm y Y coordinbte on the tribngle to bdjust to
+         * @pbrbm checkLoc if true the locbtion is checked to mbke sure
+         *        it is contbined in the tribngle, if fblse the locbtion is
+         *        constrbined to fit in the tribngle.
+         * @return true if the locbtion is vblid
          */
-        boolean adjustSB(int x, int y, boolean checkLoc) {
-            int innerR = getWheelRadius() - getWheelWidth();
-            boolean resetXY = false;
-            // Invert the axis.
+        boolebn bdjustSB(int x, int y, boolebn checkLoc) {
+            int innerR = getWheelRbdius() - getWheelWidth();
+            boolebn resetXY = fblse;
+            // Invert the bxis.
             y = -y;
             if (checkLoc && (x < -innerR || x > innerR || y < -innerR ||
                              y > innerR)) {
-                return false;
+                return fblse;
             }
-            // Rotate to origin and and verify x is valid.
-            int triangleSize = innerR * 3 / 2;
-            double x1 = Math.cos(angle) * x - Math.sin(angle) * y;
-            double y1 = Math.sin(angle) * x + Math.cos(angle) * y;
+            // Rotbte to origin bnd bnd verify x is vblid.
+            int tribngleSize = innerR * 3 / 2;
+            double x1 = Mbth.cos(bngle) * x - Mbth.sin(bngle) * y;
+            double y1 = Mbth.sin(bngle) * x + Mbth.cos(bngle) * y;
             if (x1 < -(innerR / 2)) {
                 if (checkLoc) {
-                    return false;
+                    return fblse;
                 }
                 x1 = -innerR / 2;
                 resetXY = true;
             }
             else if ((int)x1 > innerR) {
                 if (checkLoc) {
-                    return false;
+                    return fblse;
                 }
                 x1 = innerR;
                 resetXY = true;
             }
-            // Verify y location is valid.
-            int maxY = (int)((triangleSize - x1 - innerR / 2.0) *
-                             Math.tan(Math.toRadians(30.0)));
-            if (y1 <= -maxY) {
+            // Verify y locbtion is vblid.
+            int mbxY = (int)((tribngleSize - x1 - innerR / 2.0) *
+                             Mbth.tbn(Mbth.toRbdibns(30.0)));
+            if (y1 <= -mbxY) {
                 if (checkLoc) {
-                    return false;
+                    return fblse;
                 }
-                y1 = -maxY;
+                y1 = -mbxY;
                 resetXY = true;
             }
-            else if (y1 > maxY) {
+            else if (y1 > mbxY) {
                 if (checkLoc) {
-                    return false;
+                    return fblse;
                 }
-                y1 = maxY;
+                y1 = mbxY;
                 resetXY = true;
             }
-            // Rotate again to determine value and scale
-            double x2 = Math.cos(Math.toRadians(-30.0)) * x1 -
-                 Math.sin(Math.toRadians(-30.0)) * y1;
-            double y2 = Math.sin(Math.toRadians(-30.0)) * x1 +
-                 Math.cos(Math.toRadians(-30.0)) * y1;
-            float value = Math.min(1.0f, (float)((innerR - y2) /
-                                                (double)triangleSize));
-            float maxX = (float)(Math.tan(Math.toRadians(30)) * (innerR - y2));
-            float saturation = Math.min(1.0f, (float)(x2 / maxX / 2 + .5));
+            // Rotbte bgbin to determine vblue bnd scble
+            double x2 = Mbth.cos(Mbth.toRbdibns(-30.0)) * x1 -
+                 Mbth.sin(Mbth.toRbdibns(-30.0)) * y1;
+            double y2 = Mbth.sin(Mbth.toRbdibns(-30.0)) * x1 +
+                 Mbth.cos(Mbth.toRbdibns(-30.0)) * y1;
+            flobt vblue = Mbth.min(1.0f, (flobt)((innerR - y2) /
+                                                (double)tribngleSize));
+            flobt mbxX = (flobt)(Mbth.tbn(Mbth.toRbdibns(30)) * (innerR - y2));
+            flobt sbturbtion = Mbth.min(1.0f, (flobt)(x2 / mbxX / 2 + .5));
 
-            setFlag(FLAGS_SETTING_COLOR, true);
+            setFlbg(FLAGS_SETTING_COLOR, true);
             if (resetXY) {
-                setSaturationAndBrightness(saturation, value);
+                setSbturbtionAndBrightness(sbturbtion, vblue);
             }
             else {
-                setSaturationAndBrightness(saturation, value, x +
+                setSbturbtionAndBrightness(sbturbtion, vblue, x +
                                       getWheelXOrigin(),getWheelYOrigin() - y);
             }
-            GTKColorChooserPanel.this.setSaturationAndBrightness(saturation,
-                                                                 value, true);
-            setFlag(FLAGS_SETTING_COLOR, false);
+            GTKColorChooserPbnel.this.setSbturbtionAndBrightness(sbturbtion,
+                                                                 vblue, true);
+            setFlbg(FLAGS_SETTING_COLOR, fblse);
             return true;
         }
 
         /**
-         * Sets the saturation and brightness.
+         * Sets the sbturbtion bnd brightness.
          */
-        private void setSaturationAndBrightness(float s, float b) {
-            int innerR = getTriangleCircumscribedRadius();
-            int triangleSize = innerR * 3 / 2;
-            double x = b * triangleSize;
-            double maxY = x * Math.tan(Math.toRadians(30.0));
-            double y = 2 * maxY * s - maxY;
+        privbte void setSbturbtionAndBrightness(flobt s, flobt b) {
+            int innerR = getTribngleCircumscribedRbdius();
+            int tribngleSize = innerR * 3 / 2;
+            double x = b * tribngleSize;
+            double mbxY = x * Mbth.tbn(Mbth.toRbdibns(30.0));
+            double y = 2 * mbxY * s - mbxY;
             x = x - innerR;
-            double x1 = Math.cos(Math.toRadians(-60.0) - angle) *
-                        x - Math.sin(Math.toRadians(-60.0) - angle) * y;
-            double y1 = Math.sin(Math.toRadians(-60.0) - angle) * x +
-                        Math.cos(Math.toRadians(-60.0) - angle) * y;
+            double x1 = Mbth.cos(Mbth.toRbdibns(-60.0) - bngle) *
+                        x - Mbth.sin(Mbth.toRbdibns(-60.0) - bngle) * y;
+            double y1 = Mbth.sin(Mbth.toRbdibns(-60.0) - bngle) * x +
+                        Mbth.cos(Mbth.toRbdibns(-60.0) - bngle) * y;
             int newCircleX = (int)x1 + getWheelXOrigin();
             int newCircleY = getWheelYOrigin() - (int)y1;
 
-            setSaturationAndBrightness(s, b, newCircleX, newCircleY);
+            setSbturbtionAndBrightness(s, b, newCircleX, newCircleY);
         }
 
 
         /**
-         * Sets the saturation and brightness.
+         * Sets the sbturbtion bnd brightness.
          */
-        private void setSaturationAndBrightness(float s, float b,
+        privbte void setSbturbtionAndBrightness(flobt s, flobt b,
                                              int newCircleX, int newCircleY) {
-            newCircleX -= getIndicatorSize() / 2;
-            newCircleY -= getIndicatorSize() / 2;
+            newCircleX -= getIndicbtorSize() / 2;
+            newCircleY -= getIndicbtorSize() / 2;
 
-            int minX = Math.min(newCircleX, circleX);
-            int minY = Math.min(newCircleY, circleY);
+            int minX = Mbth.min(newCircleX, circleX);
+            int minY = Mbth.min(newCircleY, circleY);
 
-            repaint(minX, minY, Math.max(circleX, newCircleX) - minX +
-                    getIndicatorSize() + 1, Math.max(circleY, newCircleY) -
-                    minY + getIndicatorSize() + 1);
+            repbint(minX, minY, Mbth.mbx(circleX, newCircleX) - minX +
+                    getIndicbtorSize() + 1, Mbth.mbx(circleY, newCircleY) -
+                    minY + getIndicbtorSize() + 1);
             circleX = newCircleX;
             circleY = newCircleY;
         }
 
         /**
-         * Adjusts the hue based on the passed in location.
+         * Adjusts the hue bbsed on the pbssed in locbtion.
          *
-         * @param x X location to adjust to, relative to the origin of the
+         * @pbrbm x X locbtion to bdjust to, relbtive to the origin of the
          *        wheel
-         * @param y Y location to adjust to, relative to the origin of the
+         * @pbrbm y Y locbtion to bdjust to, relbtive to the origin of the
          *        wheel
-         * @param check if true the location is checked to make sure
-         *        it is contained in the wheel, if false the location is
-         *        constrained to fit in the wheel
-         * @return true if the location is valid.
+         * @pbrbm check if true the locbtion is checked to mbke sure
+         *        it is contbined in the wheel, if fblse the locbtion is
+         *        constrbined to fit in the wheel
+         * @return true if the locbtion is vblid.
          */
-        private boolean adjustHue(int x, int y, boolean check) {
-            double rad = Math.sqrt(x * x + y * y);
-            int size = getWheelRadius();
+        privbte boolebn bdjustHue(int x, int y, boolebn check) {
+            double rbd = Mbth.sqrt(x * x + y * y);
+            int size = getWheelRbdius();
 
-            if (!check || (rad >= size - getWheelWidth() && rad < size)) {
-                // Map the location to an angle and reset hue
-                double angle;
+            if (!check || (rbd >= size - getWheelWidth() && rbd < size)) {
+                // Mbp the locbtion to bn bngle bnd reset hue
+                double bngle;
                 if (x == 0) {
                     if (y > 0) {
-                        angle = Math.PI / 2.0;
+                        bngle = Mbth.PI / 2.0;
                     }
                     else {
-                        angle = Math.PI + Math.PI / 2.0;
+                        bngle = Mbth.PI + Mbth.PI / 2.0;
                     }
                 }
                 else {
-                    angle = Math.atan((double)y / (double)x);
+                    bngle = Mbth.btbn((double)y / (double)x);
                     if (x < 0) {
-                        angle += Math.PI;
+                        bngle += Mbth.PI;
                     }
-                    else if (angle < 0) {
-                        angle += 2 * Math.PI;
+                    else if (bngle < 0) {
+                        bngle += 2 * Mbth.PI;
                     }
                 }
-                setFlag(FLAGS_SETTING_COLOR, true);
-                setHue((float)(1.0 - angle / Math.PI / 2), true);
-                setFlag(FLAGS_SETTING_COLOR, false);
-                setHueAngle(angle);
-                setSaturationAndBrightness(getSaturation(), getBrightness());
+                setFlbg(FLAGS_SETTING_COLOR, true);
+                setHue((flobt)(1.0 - bngle / Mbth.PI / 2), true);
+                setFlbg(FLAGS_SETTING_COLOR, fblse);
+                setHueAngle(bngle);
+                setSbturbtionAndBrightness(getSbturbtion(), getBrightness());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Rotates the triangle to accommodate the passed in hue.
+         * Rotbtes the tribngle to bccommodbte the pbssed in hue.
          */
-        private void setAngleFromHue(float hue) {
-            setHueAngle((1.0 - hue) * Math.PI * 2);
+        privbte void setAngleFromHue(flobt hue) {
+            setHueAngle((1.0 - hue) * Mbth.PI * 2);
         }
 
         /**
-         * Sets the angle representing the hue.
+         * Sets the bngle representing the hue.
          */
-        private void setHueAngle(double angle) {
-            double oldAngle = this.angle;
+        privbte void setHueAngle(double bngle) {
+            double oldAngle = this.bngle;
 
-            this.angle = angle;
-            if (angle != oldAngle) {
-                setFlag(FLAGS_CHANGED_ANGLE, true);
-                repaint();
+            this.bngle = bngle;
+            if (bngle != oldAngle) {
+                setFlbg(FLAGS_CHANGED_ANGLE, true);
+                repbint();
             }
         }
 
         /**
-         * Returns the size of the color indicator.
+         * Returns the size of the color indicbtor.
          */
-        private int getIndicatorSize() {
+        privbte int getIndicbtorSize() {
             return 8;
         }
 
         /**
-         * Returns the circumscribed radius of the triangle.
+         * Returns the circumscribed rbdius of the tribngle.
          */
-        private int getTriangleCircumscribedRadius() {
+        privbte int getTribngleCircumscribedRbdius() {
             return 72;
         }
 
         /**
-         * Returns the x origin of the wheel and triangle.
+         * Returns the x origin of the wheel bnd tribngle.
          */
-        private int getWheelXOrigin() {
+        privbte int getWheelXOrigin() {
             return 85;
         }
 
         /**
-         * Returns y origin of the wheel and triangle.
+         * Returns y origin of the wheel bnd tribngle.
          */
-        private int getWheelYOrigin() {
+        privbte int getWheelYOrigin() {
             return 85;
         }
 
         /**
          * Returns the width of the wheel.
          */
-        private int getWheelWidth() {
+        privbte int getWheelWidth() {
             return 13;
         }
 
         /**
-         * Sets the focus to one of: 0 no one, 1 the wheel or 2 the triangle.
+         * Sets the focus to one of: 0 no one, 1 the wheel or 2 the tribngle.
          */
-        private void setFocusType(int type) {
+        privbte void setFocusType(int type) {
             if (type == 0) {
-                setFlag(FLAGS_FOCUSED_WHEEL, false);
-                setFlag(FLAGS_FOCUSED_TRIANGLE, false);
-                repaint();
+                setFlbg(FLAGS_FOCUSED_WHEEL, fblse);
+                setFlbg(FLAGS_FOCUSED_TRIANGLE, fblse);
+                repbint();
             }
             else {
                 int toSet = FLAGS_FOCUSED_WHEEL;
@@ -1115,91 +1115,91 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
                     toUnset = FLAGS_FOCUSED_WHEEL;
                 }
                 if (!isSet(toSet)) {
-                    setFlag(toSet, true);
-                    repaint();
-                    setFlag(toUnset, false);
+                    setFlbg(toSet, true);
+                    repbint();
+                    setFlbg(toUnset, fblse);
                 }
             }
         }
 
         /**
-         * Returns the radius of the wheel.
+         * Returns the rbdius of the wheel.
          */
-        private int getWheelRadius() {
-            // As far as I can tell, GTK doesn't allow stretching this
+        privbte int getWheelRbdius() {
+            // As fbr bs I cbn tell, GTK doesn't bllow stretching this
             // widget
             return 85;
         }
 
         /**
-         * Updates the flags bitmask.
+         * Updbtes the flbgs bitmbsk.
          */
-        private void setFlag(int flag, boolean value) {
-            if (value) {
-                flags |= flag;
+        privbte void setFlbg(int flbg, boolebn vblue) {
+            if (vblue) {
+                flbgs |= flbg;
             }
             else {
-                flags &= ~flag;
+                flbgs &= ~flbg;
             }
         }
 
         /**
-         * Returns true if a particular flag has been set.
+         * Returns true if b pbrticulbr flbg hbs been set.
          */
-        private boolean isSet(int flag) {
-            return ((flags & flag) == flag);
+        privbte boolebn isSet(int flbg) {
+            return ((flbgs & flbg) == flbg);
         }
 
         /**
-         * Returns the RGB color to use for the specified location. The
-         * passed in point must be on the color wheel and be relative to the
+         * Returns the RGB color to use for the specified locbtion. The
+         * pbssed in point must be on the color wheel bnd be relbtive to the
          * origin of the color wheel.
          *
-         * @param x X location to get color for
-         * @param y Y location to get color for
-         * @param rad Radius from center of color wheel
-         * @return integer with red, green and blue components
+         * @pbrbm x X locbtion to get color for
+         * @pbrbm y Y locbtion to get color for
+         * @pbrbm rbd Rbdius from center of color wheel
+         * @return integer with red, green bnd blue components
          */
-        private int colorWheelLocationToRGB(int x, int y, double rad) {
-            double angle = Math.acos((double)x / rad);
+        privbte int colorWheelLocbtionToRGB(int x, int y, double rbd) {
+            double bngle = Mbth.bcos((double)x / rbd);
             int rgb;
 
-            if (angle < PI_3) {
+            if (bngle < PI_3) {
                 if (y < 0) {
                     // FFFF00 - FF0000
-                    rgb = 0xFF0000 | Math.min(255,
-                                           (int)(255 * angle / PI_3)) << 8;
+                    rgb = 0xFF0000 | Mbth.min(255,
+                                           (int)(255 * bngle / PI_3)) << 8;
                 }
                 else {
                     // FF0000 - FF00FF
-                    rgb = 0xFF0000 | Math.min(255,
-                                           (int)(255 * angle / PI_3));
+                    rgb = 0xFF0000 | Mbth.min(255,
+                                           (int)(255 * bngle / PI_3));
                 }
             }
-            else if (angle < 2 * PI_3) {
-                angle -= PI_3;
+            else if (bngle < 2 * PI_3) {
+                bngle -= PI_3;
                 if (y < 0) {
                     // 00FF00 - FFFF00
-                    rgb = 0x00FF00 | Math.max(0, 255 -
-                                           (int)(255 * angle / PI_3)) << 16;
+                    rgb = 0x00FF00 | Mbth.mbx(0, 255 -
+                                           (int)(255 * bngle / PI_3)) << 16;
                 }
                 else {
                     // FF00FF - 0000FF
-                    rgb = 0x0000FF | Math.max(0, 255 -
-                                           (int)(255 * angle / PI_3)) << 16;
+                    rgb = 0x0000FF | Mbth.mbx(0, 255 -
+                                           (int)(255 * bngle / PI_3)) << 16;
                 }
             }
             else {
-                angle -= 2 * PI_3;
+                bngle -= 2 * PI_3;
                 if (y < 0) {
                     // 00FFFF - 00FF00
-                    rgb = 0x00FF00 | Math.min(255,
-                                           (int)(255 * angle / PI_3));
+                    rgb = 0x00FF00 | Mbth.min(255,
+                                           (int)(255 * bngle / PI_3));
                 }
                 else {
                     // 0000FF - 00FFFF
-                    rgb = 0x0000FF | Math.min(255,
-                                           (int)(255 * angle / PI_3)) << 8;
+                    rgb = 0x0000FF | Mbth.min(255,
+                                           (int)(255 * bngle / PI_3)) << 8;
                 }
             }
             return rgb;
@@ -1208,8 +1208,8 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
         /**
          * Increments the hue.
          */
-        void incrementHue(boolean positive) {
-            float hue = triangle.getGTKColorChooserPanel().getHue();
+        void incrementHue(boolebn positive) {
+            flobt hue = tribngle.getGTKColorChooserPbnel().getHue();
 
             if (positive) {
                 hue += 1.0f / 360.0f;
@@ -1223,83 +1223,83 @@ class GTKColorChooserPanel extends AbstractColorChooserPanel implements
             else if (hue < 0) {
                 hue += 1;
             }
-            getGTKColorChooserPanel().setHue(hue, true);
+            getGTKColorChooserPbnel().setHue(hue, true);
         }
     }
 
 
     /**
-     * Action class used for colors.
+     * Action clbss used for colors.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class ColorAction extends AbstractAction {
-        private int type;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss ColorAction extends AbstrbctAction {
+        privbte int type;
 
-        ColorAction(String name, int type) {
-            super(name);
+        ColorAction(String nbme, int type) {
+            super(nbme);
             this.type = type;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            ColorTriangle triangle = (ColorTriangle)e.getSource();
+        public void bctionPerformed(ActionEvent e) {
+            ColorTribngle tribngle = (ColorTribngle)e.getSource();
 
-            if (triangle.isWheelFocused()) {
-                float hue = triangle.getGTKColorChooserPanel().getHue();
+            if (tribngle.isWheelFocused()) {
+                flobt hue = tribngle.getGTKColorChooserPbnel().getHue();
 
                 switch (type) {
-                case 0:
-                case 2:
-                    triangle.incrementHue(true);
-                    break;
-                case 1:
-                case 3:
-                    triangle.incrementHue(false);
-                    break;
-                case 4:
-                    triangle.focusTriangle();
-                    break;
-                case 5:
-                    compositeRequestFocus(triangle, false);
-                    break;
+                cbse 0:
+                cbse 2:
+                    tribngle.incrementHue(true);
+                    brebk;
+                cbse 1:
+                cbse 3:
+                    tribngle.incrementHue(fblse);
+                    brebk;
+                cbse 4:
+                    tribngle.focusTribngle();
+                    brebk;
+                cbse 5:
+                    compositeRequestFocus(tribngle, fblse);
+                    brebk;
                 }
             }
             else {
-                int xDelta = 0;
-                int yDelta = 0;
+                int xDeltb = 0;
+                int yDeltb = 0;
 
                 switch (type) {
-                case 0:
+                cbse 0:
                     // up
-                    yDelta--;
-                    break;
-                case 1:
+                    yDeltb--;
+                    brebk;
+                cbse 1:
                     // down
-                    yDelta++;
-                    break;
-                case 2:
+                    yDeltb++;
+                    brebk;
+                cbse 2:
                     // left
-                    xDelta--;
-                    break;
-                case 3:
+                    xDeltb--;
+                    brebk;
+                cbse 3:
                     // right
-                    xDelta++;
-                    break;
-                case 4:
-                    compositeRequestFocus(triangle, true);
+                    xDeltb++;
+                    brebk;
+                cbse 4:
+                    compositeRequestFocus(tribngle, true);
                     return;
-                case 5:
-                    triangle.focusWheel();
+                cbse 5:
+                    tribngle.focusWheel();
                     return;
                 }
-                triangle.adjustSB(triangle.getColorX() + xDelta,
-                                  triangle.getColorY() + yDelta, true);
+                tribngle.bdjustSB(tribngle.getColorX() + xDeltb,
+                                  tribngle.getColorY() + yDeltb, true);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class OpaqueLabel extends JLabel {
-        public boolean isOpaque() {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss OpbqueLbbel extends JLbbel {
+        public boolebn isOpbque() {
             return true;
         }
     }

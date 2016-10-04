@@ -3,47 +3,47 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="de"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="de"/>
 		<territory type="CH"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="be">Weissrussisch</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="be">Weissrussisch</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="BD">Bangladesh</territory>
+			<territory type="BD">Bbnglbdesh</territory>
 			<territory type="BN">Brunei</territory>
-			<territory type="BW">Botswana</territory>
-			<territory type="BY">Weissrussland</territory>
-			<territory type="CV">Kapverden</territory>
+			<territory type="BW">Botswbnb</territory>
+			<territory type="BY">Weissrusslbnd</territory>
+			<territory type="CV">Kbpverden</territory>
 			<territory type="DJ">Djibouti</territory>
-			<territory type="GB">Grossbritannien</territory>
-			<territory type="MH">Marshall-Inseln</territory>
-			<territory type="QO">Äusseres Ozeanien</territory>
-			<territory type="RW">Rwanda</territory>
-			<territory type="SB">Salomon-Inseln</territory>
-			<territory type="ST">Sao Tomé und Principe</territory>
-			<territory type="ZW">Zimbabwe</territory>
+			<territory type="GB">Grossbritbnnien</territory>
+			<territory type="MH">Mbrshbll-Inseln</territory>
+			<territory type="QO">Äusseres Ozebnien</territory>
+			<territory type="RW">Rwbndb</territory>
+			<territory type="SB">Sblomon-Inseln</territory>
+			<territory type="ST">Sbo Tomé und Principe</territory>
+			<territory type="ZW">Zimbbbwe</territory>
 		</territories>
-	</localeDisplayNames>
+	</locbleDisplbyNbmes>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>‹</alternateQuotationStart>
-		<alternateQuotationEnd>›</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‹</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>›</blternbteQuotbtionEnd>
 	</delimiters>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>.</decimbl>
 			<group>'</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #,##0.00;¤-#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤ #,##0.00;¤-#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 </ldml>

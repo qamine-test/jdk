@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_TEXTCOMPONENT_H
 #define AWT_TEXTCOMPONENT_H
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
-#include "sun_awt_windows_WTextComponentPeer.h"
+#include "sun_bwt_windows_WTextComponentPeer.h"
 
 #include <ole2.h>
 #include <richedit.h>
@@ -36,141 +36,141 @@
 
 
 /************************************************************************
- * AwtTextComponent class
+ * AwtTextComponent clbss
  */
 
-class AwtTextComponent : public AwtComponent {
+clbss AwtTextComponent : public AwtComponent {
 public:
-    static jmethodID canAccessClipboardMID;
+    stbtic jmethodID cbnAccessClipbobrdMID;
 
     AwtTextComponent();
 
-    static AwtTextComponent* Create(jobject self, jobject parent, BOOL isMultiline);
+    stbtic AwtTextComponent* Crebte(jobject self, jobject pbrent, BOOL isMultiline);
 
-    virtual LPCTSTR GetClassName();
-    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtubl LPCTSTR GetClbssNbme();
+    LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
 
     int RemoveCR(WCHAR *pStr);
 
-    virtual LONG getJavaSelPos(LONG orgPos);
-    virtual LONG getWin32SelPos(LONG orgPos);
+    virtubl LONG getJbvbSelPos(LONG orgPos);
+    virtubl LONG getWin32SelPos(LONG orgPos);
 
-    void CheckLineSeparator(WCHAR *pStr);
+    void CheckLineSepbrbtor(WCHAR *pStr);
 
-    virtual void SetSelRange(LONG start, LONG end);
+    virtubl void SetSelRbnge(LONG stbrt, LONG end);
 
     INLINE void SetText(LPCTSTR text) {
         ::SetWindowText(GetHWnd(), text);
     }
 
-    INLINE virtual int GetText(LPTSTR buffer, int size) {
+    INLINE virtubl int GetText(LPTSTR buffer, int size) {
         return ::GetWindowText(GetHWnd(), buffer, size);
     }
 
-    // called on Toolkit thread from JNI
-    static jstring _GetText(void *param);
+    // cblled on Toolkit threbd from JNI
+    stbtic jstring _GetText(void *pbrbm);
 
     void SetFont(AwtFont* font);
 
-    virtual void Enable(BOOL bEnable);
-    virtual void SetColor(COLORREF c);
-    virtual void SetBackgroundColor(COLORREF c);
+    virtubl void Enbble(BOOL bEnbble);
+    virtubl void SetColor(COLORREF c);
+    virtubl void SetBbckgroundColor(COLORREF c);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
     MsgRouting WmNotify(UINT notifyCode);
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
-    MsgRouting WmPaste();
+    MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting WmPbste();
 
-    virtual BOOL IsFocusingMouseMessage(MSG *pMsg);
+    virtubl BOOL IsFocusingMouseMessbge(MSG *pMsg);
 
-/*  To be fully implemented in a future release
+/*  To be fully implemented in b future relebse
 
     MsgRouting WmKeyDown(UINT wkey, UINT repCnt,
-                         UINT flags, BOOL system);  // accessibility support
+                         UINT flbgs, BOOL system);  // bccessibility support
 */
 
 
     //im --- for over the spot composition
     void SetCompositionWindow(RECT& rect);
 
-    INLINE HWND GetDBCSEditHandle() { return GetHWnd(); }
+    INLINE HWND GetDBCSEditHbndle() { return GetHWnd(); }
 
     BOOL m_isLFonly;
     BOOL m_EOLchecked;
 
-    // some methods invoked on Toolkit thread
-    static void _SetText(void *param);
-    static jint _GetSelectionStart(void *param);
-    static jint _GetSelectionEnd(void *param);
-    static void _Select(void *param);
-    static void _EnableEditing(void *param);
+    // some methods invoked on Toolkit threbd
+    stbtic void _SetText(void *pbrbm);
+    stbtic jint _GetSelectionStbrt(void *pbrbm);
+    stbtic jint _GetSelectionEnd(void *pbrbm);
+    stbtic void _Select(void *pbrbm);
+    stbtic void _EnbbleEditing(void *pbrbm);
 
   protected:
-    INLINE LONG GetStartSelectionPos() { return m_lStartPos; }
+    INLINE LONG GetStbrtSelectionPos() { return m_lStbrtPos; }
     INLINE LONG GetEndSelectionPos() { return m_lEndPos; }
-    INLINE LONG GetLastSelectionPos() { return m_lLastPos; }
-    INLINE VOID SetStartSelectionPos(LONG lPos) { m_lStartPos = lPos; }
+    INLINE LONG GetLbstSelectionPos() { return m_lLbstPos; }
+    INLINE VOID SetStbrtSelectionPos(LONG lPos) { m_lStbrtPos = lPos; }
     INLINE VOID SetEndSelectionPos(LONG lPos) { m_lEndPos = lPos; }
-    INLINE VOID SetLastSelectionPos(LONG lPos) { m_lLastPos = lPos; }
+    INLINE VOID SetLbstSelectionPos(LONG lPos) { m_lLbstPos = lPos; }
 
-    // Used to prevent untrusted code from synthesizing a WM_PASTE message
-    // by posting a <CTRL>-V KeyEvent
+    // Used to prevent untrusted code from synthesizing b WM_PASTE messbge
+    // by posting b <CTRL>-V KeyEvent
     BOOL    m_synthetic;
-    LONG EditGetCharFromPos(POINT& pt);
+    LONG EditGetChbrFromPos(POINT& pt);
 
     /*****************************************************************
-     * Inner class OleCallback declaration.
+     * Inner clbss OleCbllbbck declbrbtion.
      */
-    class OleCallback : public IRichEditOleCallback {
+    clbss OleCbllbbck : public IRichEditOleCbllbbck {
     public:
-        OleCallback();
+        OleCbllbbck();
 
-        STDMETHODIMP QueryInterface(REFIID riid, LPVOID * ppvObj);
+        STDMETHODIMP QueryInterfbce(REFIID riid, LPVOID * ppvObj);
         STDMETHODIMP_(ULONG) AddRef();
-        STDMETHODIMP_(ULONG) Release();
-        STDMETHODIMP GetNewStorage(LPSTORAGE FAR * ppstg);
-        STDMETHODIMP GetInPlaceContext(LPOLEINPLACEFRAME FAR * ppipframe,
+        STDMETHODIMP_(ULONG) Relebse();
+        STDMETHODIMP GetNewStorbge(LPSTORAGE FAR * ppstg);
+        STDMETHODIMP GetInPlbceContext(LPOLEINPLACEFRAME FAR * ppipfrbme,
                                        LPOLEINPLACEUIWINDOW FAR* ppipuiDoc,
                                        LPOLEINPLACEFRAMEINFO pipfinfo);
-        STDMETHODIMP ShowContainerUI(BOOL fShow);
+        STDMETHODIMP ShowContbinerUI(BOOL fShow);
         STDMETHODIMP QueryInsertObject(LPCLSID pclsid, LPSTORAGE pstg, LONG cp);
         STDMETHODIMP DeleteObject(LPOLEOBJECT poleobj);
-        STDMETHODIMP QueryAcceptData(LPDATAOBJECT pdataobj, CLIPFORMAT *pcfFormat,
-                                     DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
+        STDMETHODIMP QueryAcceptDbtb(LPDATAOBJECT pdbtbobj, CLIPFORMAT *pcfFormbt,
+                                     DWORD reco, BOOL fReblly, HGLOBAL hMetbPict);
         STDMETHODIMP ContextSensitiveHelp(BOOL fEnterMode);
-        STDMETHODIMP GetClipboardData(CHARRANGE *pchrg, DWORD reco,
-                                      LPDATAOBJECT *ppdataobj);
-        STDMETHODIMP GetDragDropEffect(BOOL fDrag, DWORD grfKeyState,
+        STDMETHODIMP GetClipbobrdDbtb(CHARRANGE *pchrg, DWORD reco,
+                                      LPDATAOBJECT *ppdbtbobj);
+        STDMETHODIMP GetDrbgDropEffect(BOOL fDrbg, DWORD grfKeyStbte,
                                        LPDWORD pdwEffect);
         STDMETHODIMP GetContextMenu(WORD seltype, LPOLEOBJECT poleobj,
                                     CHARRANGE FAR * pchrg, HMENU FAR * phmenu);
-    private:
+    privbte:
         ULONG             m_refs; // Reference count
-    };//OleCallback class
+    };//OleCbllbbck clbss
 
-    INLINE static OleCallback& GetOleCallback() { return sm_oleCallback; }
+    INLINE stbtic OleCbllbbck& GetOleCbllbbck() { return sm_oleCbllbbck; }
 
 
-private:
+privbte:
 
-    // Fields to track the selection state while the left mouse button is
-    // pressed. They are used to simulate autoscrolling.
-    LONG    m_lStartPos;
+    // Fields to trbck the selection stbte while the left mouse button is
+    // pressed. They bre used to simulbte butoscrolling.
+    LONG    m_lStbrtPos;
     LONG    m_lEndPos;
-    LONG    m_lLastPos;
+    LONG    m_lLbstPos;
 
     HFONT m_hFont;
     //im --- end
 
-    static OleCallback sm_oleCallback;
+    stbtic OleCbllbbck sm_oleCbllbbck;
 
     //
     // Accessibility support
     //
 //public:
-//    jlong javaEventsMask;
+//    jlong jbvbEventsMbsk;
 };
 
 #endif /* AWT_TEXTCOMPONENT_H */

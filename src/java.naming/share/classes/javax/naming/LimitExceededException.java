@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import javax.naming.Name;
+import jbvbx.nbming.Nbme;
 
 /**
-  * This exception is thrown when a method
-  * terminates abnormally due to a user or system specified limit.
-  * This is different from a InsufficientResourceException in that
-  * LimitExceededException is due to a user/system specified limit.
-  * For example, running out of memory to complete the request would
-  * be an insufficient resource. The client asking for 10 answers and
-  * getting back 11 is a size limit exception.
+  * This exception is thrown when b method
+  * terminbtes bbnormblly due to b user or system specified limit.
+  * This is different from b InsufficientResourceException in thbt
+  * LimitExceededException is due to b user/system specified limit.
+  * For exbmple, running out of memory to complete the request would
+  * be bn insufficient resource. The client bsking for 10 bnswers bnd
+  * getting bbck 11 is b size limit exception.
   *<p>
-  * Examples of these limits include client and server configuration
-  * limits such as size, time, number of hops, etc.
+  * Exbmples of these limits include client bnd server configurbtion
+  * limits such bs size, time, number of hops, etc.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-public class LimitExceededException extends NamingException {
+public clbss LimitExceededException extends NbmingException {
     /**
-     * Constructs a new instance of LimitExceededException with
-      * all name resolution fields and explanation initialized to null.
+     * Constructs b new instbnce of LimitExceededException with
+      * bll nbme resolution fields bnd explbnbtion initiblized to null.
      */
     public LimitExceededException() {
         super();
     }
 
     /**
-     * Constructs a new instance of LimitExceededException using an
-     * explanation. All other fields default to null.
-     * @param explanation Possibly null detail about this exception.
-     * @see java.lang.Throwable#getMessage
+     * Constructs b new instbnce of LimitExceededException using bn
+     * explbnbtion. All other fields defbult to null.
+     * @pbrbm explbnbtion Possibly null detbil bbout this exception.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public LimitExceededException(String explanation) {
-        super(explanation);
+    public LimitExceededException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -776898738660207856L;
+    privbte stbtic finbl long seriblVersionUID = -776898738660207856L;
 }

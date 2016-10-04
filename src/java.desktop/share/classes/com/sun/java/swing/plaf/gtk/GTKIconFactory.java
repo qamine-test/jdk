@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.util.*;
-import javax.swing.plaf.synth.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import sun.swing.plaf.synth.*;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ExpanderStyle;
-import com.sun.java.swing.plaf.gtk.GTKConstants.Orientation;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ShadowType;
+import jbvb.util.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.lbng.reflect.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.plbf.synth.*;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ExpbnderStyle;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.Orientbtion;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ShbdowType;
 
 /**
  */
-class GTKIconFactory {
-    static final int CHECK_ICON_EXTRA_INSET        = 1;
-    static final int DEFAULT_ICON_SPACING          = 2;
-    static final int DEFAULT_ICON_SIZE             = 13;
-    static final int DEFAULT_TOGGLE_MENU_ITEM_SIZE = 12; // For pre-gtk2.4
+clbss GTKIconFbctory {
+    stbtic finbl int CHECK_ICON_EXTRA_INSET        = 1;
+    stbtic finbl int DEFAULT_ICON_SPACING          = 2;
+    stbtic finbl int DEFAULT_ICON_SIZE             = 13;
+    stbtic finbl int DEFAULT_TOGGLE_MENU_ITEM_SIZE = 12; // For pre-gtk2.4
 
-    private static final String RADIO_BUTTON_ICON    = "paintRadioButtonIcon";
-    private static final String CHECK_BOX_ICON       = "paintCheckBoxIcon";
-    private static final String MENU_ARROW_ICON      = "paintMenuArrowIcon";
-    private static final String CHECK_BOX_MENU_ITEM_CHECK_ICON =
-                                      "paintCheckBoxMenuItemCheckIcon";
-    private static final String RADIO_BUTTON_MENU_ITEM_CHECK_ICON =
-                                      "paintRadioButtonMenuItemCheckIcon";
-    private static final String TREE_EXPANDED_ICON = "paintTreeExpandedIcon";
-    private static final String TREE_COLLAPSED_ICON = "paintTreeCollapsedIcon";
-    private static final String ASCENDING_SORT_ICON = "paintAscendingSortIcon";
-    private static final String DESCENDING_SORT_ICON = "paintDescendingSortIcon";
-    private static final String TOOL_BAR_HANDLE_ICON = "paintToolBarHandleIcon";
+    privbte stbtic finbl String RADIO_BUTTON_ICON    = "pbintRbdioButtonIcon";
+    privbte stbtic finbl String CHECK_BOX_ICON       = "pbintCheckBoxIcon";
+    privbte stbtic finbl String MENU_ARROW_ICON      = "pbintMenuArrowIcon";
+    privbte stbtic finbl String CHECK_BOX_MENU_ITEM_CHECK_ICON =
+                                      "pbintCheckBoxMenuItemCheckIcon";
+    privbte stbtic finbl String RADIO_BUTTON_MENU_ITEM_CHECK_ICON =
+                                      "pbintRbdioButtonMenuItemCheckIcon";
+    privbte stbtic finbl String TREE_EXPANDED_ICON = "pbintTreeExpbndedIcon";
+    privbte stbtic finbl String TREE_COLLAPSED_ICON = "pbintTreeCollbpsedIcon";
+    privbte stbtic finbl String ASCENDING_SORT_ICON = "pbintAscendingSortIcon";
+    privbte stbtic finbl String DESCENDING_SORT_ICON = "pbintDescendingSortIcon";
+    privbte stbtic finbl String TOOL_BAR_HANDLE_ICON = "pbintToolBbrHbndleIcon";
 
-    private static Map<String, DelegatingIcon> iconsPool =
-            Collections.synchronizedMap(new HashMap<String, DelegatingIcon>());
+    privbte stbtic Mbp<String, DelegbtingIcon> iconsPool =
+            Collections.synchronizedMbp(new HbshMbp<String, DelegbtingIcon>());
 
-    private static DelegatingIcon getIcon(String methodName) {
-        DelegatingIcon result = iconsPool.get(methodName);
+    privbte stbtic DelegbtingIcon getIcon(String methodNbme) {
+        DelegbtingIcon result = iconsPool.get(methodNbme);
         if (result == null) {
-            if (methodName == TREE_COLLAPSED_ICON ||
-                methodName == TREE_EXPANDED_ICON)
+            if (methodNbme == TREE_COLLAPSED_ICON ||
+                methodNbme == TREE_EXPANDED_ICON)
             {
-                result = new SynthExpanderIcon(methodName);
+                result = new SynthExpbnderIcon(methodNbme);
 
-            } else if (methodName == TOOL_BAR_HANDLE_ICON) {
-                result = new ToolBarHandleIcon();
+            } else if (methodNbme == TOOL_BAR_HANDLE_ICON) {
+                result = new ToolBbrHbndleIcon();
 
-            } else if (methodName == MENU_ARROW_ICON) {
+            } else if (methodNbme == MENU_ARROW_ICON) {
                 result = new MenuArrowIcon();
 
             } else {
-                result = new DelegatingIcon(methodName);
+                result = new DelegbtingIcon(methodNbme);
             }
-            iconsPool.put(methodName, result);
+            iconsPool.put(methodNbme, result);
         }
         return result;
     }
 
     //
-    // Sort arrow
+    // Sort brrow
     //
-    public static Icon getAscendingSortIcon() {
+    public stbtic Icon getAscendingSortIcon() {
         return getIcon(ASCENDING_SORT_ICON);
     }
 
-    public static Icon getDescendingSortIcon() {
+    public stbtic Icon getDescendingSortIcon() {
         return getIcon(DESCENDING_SORT_ICON);
     }
 
     //
     // Tree methods
     //
-    public static SynthIcon getTreeExpandedIcon() {
+    public stbtic SynthIcon getTreeExpbndedIcon() {
         return getIcon(TREE_EXPANDED_ICON);
     }
 
-    public static SynthIcon getTreeCollapsedIcon() {
+    public stbtic SynthIcon getTreeCollbpsedIcon() {
         return getIcon(TREE_COLLAPSED_ICON);
     }
 
     //
-    // Radio button
+    // Rbdio button
     //
-    public static SynthIcon getRadioButtonIcon() {
+    public stbtic SynthIcon getRbdioButtonIcon() {
         return getIcon(RADIO_BUTTON_ICON);
     }
 
     //
     // CheckBox
     //
-    public static SynthIcon getCheckBoxIcon() {
+    public stbtic SynthIcon getCheckBoxIcon() {
         return getIcon(CHECK_BOX_ICON);
     }
 
     //
     // Menus
     //
-    public static SynthIcon getMenuArrowIcon() {
+    public stbtic SynthIcon getMenuArrowIcon() {
         return getIcon(MENU_ARROW_ICON);
     }
 
-    public static SynthIcon getCheckBoxMenuItemCheckIcon() {
+    public stbtic SynthIcon getCheckBoxMenuItemCheckIcon() {
         return getIcon(CHECK_BOX_MENU_ITEM_CHECK_ICON);
     }
 
-    public static SynthIcon getRadioButtonMenuItemCheckIcon() {
+    public stbtic SynthIcon getRbdioButtonMenuItemCheckIcon() {
         return getIcon(RADIO_BUTTON_MENU_ITEM_CHECK_ICON);
     }
 
     //
-    // ToolBar Handle
+    // ToolBbr Hbndle
     //
-    public static SynthIcon getToolBarHandleIcon() {
+    public stbtic SynthIcon getToolBbrHbndleIcon() {
         return getIcon(TOOL_BAR_HANDLE_ICON);
     }
 
-    static void resetIcons() {
+    stbtic void resetIcons() {
         synchronized (iconsPool) {
-            for (DelegatingIcon di: iconsPool.values()) {
+            for (DelegbtingIcon di: iconsPool.vblues()) {
                 di.resetIconDimensions();
             }
         }
     }
 
-    private static class DelegatingIcon extends SynthIcon implements
+    privbte stbtic clbss DelegbtingIcon extends SynthIcon implements
                                    UIResource {
-        private static final Class<?>[] PARAM_TYPES = new Class<?>[] {
-            SynthContext.class, Graphics.class, int.class,
-            int.class, int.class, int.class, int.class
+        privbte stbtic finbl Clbss<?>[] PARAM_TYPES = new Clbss<?>[] {
+            SynthContext.clbss, Grbphics.clbss, int.clbss,
+            int.clbss, int.clbss, int.clbss, int.clbss
         };
 
-        private Object method;
+        privbte Object method;
         int iconDimension = -1;
 
-        DelegatingIcon(String methodName ){
-            this.method = methodName;
+        DelegbtingIcon(String methodNbme ){
+            this.method = methodNbme;
         }
 
-        public void paintIcon(SynthContext context, Graphics g,
+        public void pbintIcon(SynthContext context, Grbphics g,
                               int x, int y, int w, int h) {
             if (context != null) {
-                GTKPainter.INSTANCE.paintIcon(context, g,
+                GTKPbinter.INSTANCE.pbintIcon(context, g,
                         getMethod(), x, y, w, h);
             }
         }
@@ -184,21 +184,21 @@ class GTKIconFactory {
         }
 
         protected Method getMethod() {
-            if (method instanceof String) {
+            if (method instbnceof String) {
                 method = resolveMethod((String)method);
             }
             return (Method)method;
         }
 
-        protected Class<?>[] getMethodParamTypes() {
+        protected Clbss<?>[] getMethodPbrbmTypes() {
             return PARAM_TYPES;
         }
 
-        private Method resolveMethod(String name) {
+        privbte Method resolveMethod(String nbme) {
             try {
-                return GTKPainter.class.getMethod(name, getMethodParamTypes());
-            } catch (NoSuchMethodException e) {
-                assert false;
+                return GTKPbinter.clbss.getMethod(nbme, getMethodPbrbmTypes());
+            } cbtch (NoSuchMethodException e) {
+                bssert fblse;
             }
             return null;
         }
@@ -214,15 +214,15 @@ class GTKIconFactory {
 
             Region region = context.getRegion();
             GTKStyle style = (GTKStyle) context.getStyle();
-            iconDimension = style.getClassSpecificIntValue(context,
-                    "indicator-size",
+            iconDimension = style.getClbssSpecificIntVblue(context,
+                    "indicbtor-size",
                     (region == Region.CHECK_BOX_MENU_ITEM ||
                      region == Region.RADIO_BUTTON_MENU_ITEM) ?
                         DEFAULT_TOGGLE_MENU_ITEM_SIZE : DEFAULT_ICON_SIZE);
 
             if (region == Region.CHECK_BOX || region == Region.RADIO_BUTTON) {
-                iconDimension += 2 * style.getClassSpecificIntValue(context,
-                        "indicator-spacing", DEFAULT_ICON_SPACING);
+                iconDimension += 2 * style.getClbssSpecificIntVblue(context,
+                        "indicbtor-spbcing", DEFAULT_ICON_SPACING);
             } else if (region == Region.CHECK_BOX_MENU_ITEM ||
                        region == Region.RADIO_BUTTON_MENU_ITEM) {
                 iconDimension += 2 * CHECK_ICON_EXTRA_INSET;
@@ -231,69 +231,69 @@ class GTKIconFactory {
         }
     }
 
-    private static class SynthExpanderIcon extends DelegatingIcon {
-        SynthExpanderIcon(String method) {
+    privbte stbtic clbss SynthExpbnderIcon extends DelegbtingIcon {
+        SynthExpbnderIcon(String method) {
             super(method);
         }
 
-        public void paintIcon(SynthContext context, Graphics g, int x, int y,
+        public void pbintIcon(SynthContext context, Grbphics g, int x, int y,
                               int w, int h) {
             if (context != null) {
-                super.paintIcon(context, g, x, y, w, h);
-                updateSizeIfNecessary(context);
+                super.pbintIcon(context, g, x, y, w, h);
+                updbteSizeIfNecessbry(context);
             }
         }
 
         int getIconDimension(SynthContext context) {
-            updateSizeIfNecessary(context);
+            updbteSizeIfNecessbry(context);
             return (iconDimension == -1) ? DEFAULT_ICON_SIZE :
                                            iconDimension;
         }
 
-        private void updateSizeIfNecessary(SynthContext context) {
+        privbte void updbteSizeIfNecessbry(SynthContext context) {
             if (iconDimension == -1 && context != null) {
                 iconDimension = context.getStyle().getInt(context,
-                        "Tree.expanderSize", 10);
+                        "Tree.expbnderSize", 10);
             }
         }
     }
 
-    // GTK has a separate widget for the handle box, to mirror this
-    // we create a unique icon per ToolBar and lookup the style for the
-    // HandleBox.
-    private static class ToolBarHandleIcon extends DelegatingIcon {
-        private static final Class<?>[] PARAM_TYPES = new Class<?>[] {
-            SynthContext.class, Graphics.class, int.class,
-            int.class, int.class, int.class, int.class, Orientation.class,
+    // GTK hbs b sepbrbte widget for the hbndle box, to mirror this
+    // we crebte b unique icon per ToolBbr bnd lookup the style for the
+    // HbndleBox.
+    privbte stbtic clbss ToolBbrHbndleIcon extends DelegbtingIcon {
+        privbte stbtic finbl Clbss<?>[] PARAM_TYPES = new Clbss<?>[] {
+            SynthContext.clbss, Grbphics.clbss, int.clbss,
+            int.clbss, int.clbss, int.clbss, int.clbss, Orientbtion.clbss,
         };
 
-        private SynthStyle style;
+        privbte SynthStyle style;
 
-        public ToolBarHandleIcon() {
+        public ToolBbrHbndleIcon() {
             super(TOOL_BAR_HANDLE_ICON);
         }
 
-        protected Class<?>[] getMethodParamTypes() {
+        protected Clbss<?>[] getMethodPbrbmTypes() {
             return PARAM_TYPES;
         }
 
-        public void paintIcon(SynthContext context, Graphics g, int x, int y,
+        public void pbintIcon(SynthContext context, Grbphics g, int x, int y,
                               int w, int h) {
             if (context != null) {
-                JToolBar toolbar = (JToolBar)context.getComponent();
-                Orientation orientation =
-                        (toolbar.getOrientation() == JToolBar.HORIZONTAL ?
-                            Orientation.HORIZONTAL : Orientation.VERTICAL);
+                JToolBbr toolbbr = (JToolBbr)context.getComponent();
+                Orientbtion orientbtion =
+                        (toolbbr.getOrientbtion() == JToolBbr.HORIZONTAL ?
+                            Orientbtion.HORIZONTAL : Orientbtion.VERTICAL);
 
                 if (style == null) {
-                    style = SynthLookAndFeel.getStyleFactory().getStyle(
+                    style = SynthLookAndFeel.getStyleFbctory().getStyle(
                             context.getComponent(), GTKRegion.HANDLE_BOX);
                 }
-                context = new SynthContext(toolbar, GTKRegion.HANDLE_BOX,
-                        style, SynthConstants.ENABLED);
+                context = new SynthContext(toolbbr, GTKRegion.HANDLE_BOX,
+                        style, SynthConstbnts.ENABLED);
 
-                GTKPainter.INSTANCE.paintIcon(context, g,
-                        getMethod(), x, y, w, h, orientation);
+                GTKPbinter.INSTANCE.pbintIcon(context, g,
+                        getMethod(), x, y, w, h, orientbtion);
             }
         }
 
@@ -301,8 +301,8 @@ class GTKIconFactory {
             if (context == null) {
                 return 10;
             }
-            if (((JToolBar)context.getComponent()).getOrientation() ==
-                    JToolBar.HORIZONTAL) {
+            if (((JToolBbr)context.getComponent()).getOrientbtion() ==
+                    JToolBbr.HORIZONTAL) {
                 return 10;
             } else {
                 return context.getComponent().getWidth();
@@ -313,8 +313,8 @@ class GTKIconFactory {
             if (context == null) {
                 return 10;
             }
-            if (((JToolBar)context.getComponent()).getOrientation() ==
-                    JToolBar.HORIZONTAL) {
+            if (((JToolBbr)context.getComponent()).getOrientbtion() ==
+                    JToolBbr.HORIZONTAL) {
                 return context.getComponent().getHeight();
             } else {
                 return 10;
@@ -322,29 +322,29 @@ class GTKIconFactory {
         }
     }
 
-    private static class MenuArrowIcon extends DelegatingIcon {
-        private static final Class<?>[] PARAM_TYPES = new Class<?>[] {
-            SynthContext.class, Graphics.class, int.class,
-            int.class, int.class, int.class, int.class, ArrowType.class,
+    privbte stbtic clbss MenuArrowIcon extends DelegbtingIcon {
+        privbte stbtic finbl Clbss<?>[] PARAM_TYPES = new Clbss<?>[] {
+            SynthContext.clbss, Grbphics.clbss, int.clbss,
+            int.clbss, int.clbss, int.clbss, int.clbss, ArrowType.clbss,
         };
 
         public MenuArrowIcon() {
             super(MENU_ARROW_ICON);
         }
 
-        protected Class<?>[] getMethodParamTypes() {
+        protected Clbss<?>[] getMethodPbrbmTypes() {
             return PARAM_TYPES;
         }
 
-        public void paintIcon(SynthContext context, Graphics g, int x, int y,
+        public void pbintIcon(SynthContext context, Grbphics g, int x, int y,
                               int w, int h) {
             if (context != null) {
-                ArrowType arrowDir = ArrowType.RIGHT;
-                if (!context.getComponent().getComponentOrientation().isLeftToRight()) {
-                    arrowDir = ArrowType.LEFT;
+                ArrowType brrowDir = ArrowType.RIGHT;
+                if (!context.getComponent().getComponentOrientbtion().isLeftToRight()) {
+                    brrowDir = ArrowType.LEFT;
                 }
-                GTKPainter.INSTANCE.paintIcon(context, g,
-                        getMethod(), x, y, w, h, arrowDir);
+                GTKPbinter.INSTANCE.pbintIcon(context, g,
+                        getMethod(), x, y, w, h, brrowDir);
             }
         }
     }

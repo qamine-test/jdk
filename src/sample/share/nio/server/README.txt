@@ -1,279 +1,279 @@
-        A Simple NIO-based HTTP/HTTPS Server Example
+        A Simple NIO-bbsed HTTP/HTTPS Server Exbmple
 
 
 INTRODUCTION
 ============
-This directory contains a simple HTTP/HTTPS server.  HTTP/HTTPS are two
-common network protocols that provide for data transfer, and are more
-fully described in RFC 2616 and RFC 2818 (Available at
-http://www.ietf.org ). HTTPS is essentially HTTP after the connection
-has been secured with SSL/TLS.  TLS is the successor to SSL, and is
+This directory contbins b simple HTTP/HTTPS server.  HTTP/HTTPS bre two
+common network protocols thbt provide for dbtb trbnsfer, bnd bre more
+fully described in RFC 2616 bnd RFC 2818 (Avbilbble bt
+http://www.ietf.org ). HTTPS is essentiblly HTTP bfter the connection
+hbs been secured with SSL/TLS.  TLS is the successor to SSL, bnd is
 described in RFC 2246.
 
-This server was written to demonstrate some of the functionality new to
-the Java 2 platform.  The demo is not meant to be a full tutorial, and
-assumes the reader has some familiarity with the subject matter.
+This server wbs written to demonstrbte some of the functionblity new to
+the Jbvb 2 plbtform.  The demo is not mebnt to be b full tutoribl, bnd
+bssumes the rebder hbs some fbmilibrity with the subject mbtter.
 
-In particular, it shows:
+In pbrticulbr, it shows:
 
-    New I/O (java.nio, java.nio.channels, java.util.regex, java.nio.charset)
+    New I/O (jbvb.nio, jbvb.nio.chbnnels, jbvb.util.regex, jbvb.nio.chbrset)
 
-        Introduced in version 1.4 of the platform, NIO was designed to
-        overcome some of the scalability limitations found in the
-        existing blocking java.net.* API's, and to address other
-        concepts such as Regular Expression parsing and Character
+        Introduced in version 1.4 of the plbtform, NIO wbs designed to
+        overcome some of the scblbbility limitbtions found in the
+        existing blocking jbvb.net.* API's, bnd to bddress other
+        concepts such bs Regulbr Expression pbrsing bnd Chbrbcter
         Sets.
 
-        This server demonstrates:
+        This server demonstrbtes:
 
             ByteBuffer
-            Blocking and Non-Blocking I/O
-            SocketChannel
-            ServerSocketChannel
+            Blocking bnd Non-Blocking I/O
+            SocketChbnnel
+            ServerSocketChbnnel
             Selector
-            CharacterSet
-            Pattern matching using Regular Expressions
+            ChbrbcterSet
+            Pbttern mbtching using Regulbr Expressions
 
-    JSSE (javax.net.ssl)
+    JSSE (jbvbx.net.ssl)
 
-	Introduced in version 1.4 of the platform, JSSE provides
-	network security using SSL/TLS for java.net.Socket-based
-	traffic.  In version 1.5, the SSLEngine API was introduced
-	which separates the SSL/TLS functionality from the underlying
-	I/O model.  By making this separation, applications can adapt
-	I/O and compute strategies to best fit their circumstances.
+	Introduced in version 1.4 of the plbtform, JSSE provides
+	network security using SSL/TLS for jbvb.net.Socket-bbsed
+	trbffic.  In version 1.5, the SSLEngine API wbs introduced
+	which sepbrbtes the SSL/TLS functionblity from the underlying
+	I/O model.  By mbking this sepbrbtion, bpplicbtions cbn bdbpt
+	I/O bnd compute strbtegies to best fit their circumstbnces.
 
-        This server demonstrates:
+        This server demonstrbtes:
 
-            Using SSLEngine to create a HTTPS server
-	    Creating simple key material for use with HTTPS
+            Using SSLEngine to crebte b HTTPS server
+	    Crebting simple key mbteribl for use with HTTPS
 
-    Concurrency Library (java.util.concurrent)
+    Concurrency Librbry (jbvb.util.concurrent)
 
-        Introduced in version 1.5 of the platform, the concurrency
-        library provides a mechanism which decouples task submission
-        from the mechanics of how each task will be run.
+        Introduced in version 1.5 of the plbtform, the concurrency
+        librbry provides b mechbnism which decouples tbsk submission
+        from the mechbnics of how ebch tbsk will be run.
 
-        This server demonstrates:
+        This server demonstrbtes:
 
-            A ThreadPool with a fixed number of threads, which is
-            based on the number of available processors.
+            A ThrebdPool with b fixed number of threbds, which is
+            bbsed on the number of bvbilbble processors.
 
 
 SETUP
 =====
 
-The server must be built on version 1.5 (or later) of the platform.
+The server must be built on version 1.5 (or lbter) of the plbtform.
 Invoking the following should be sufficient:
 
     % mkdir build
-    % javac -source 1.5 -target 1.5 -d build *.java
+    % jbvbc -source 1.5 -tbrget 1.5 -d build *.jbvb
 
-The following creates the document root:
+The following crebtes the document root:
 
     % mkdir root
 
-All documents should be placed in this directory.
+All documents should be plbced in this directory.
 
-For HTTPS, the server authenticates itself to clients by using simple
-Public Key Infrastructure (PKI) credentials in the form of
-X509Certificates.  You must create the server's credentials before
-attempting to run the server in "-secure" mode.  The server is
-currently hardcoded to look for its credentials in a file called
+For HTTPS, the server buthenticbtes itself to clients by using simple
+Public Key Infrbstructure (PKI) credentibls in the form of
+X509Certificbtes.  You must crebte the server's credentibls before
+bttempting to run the server in "-secure" mode.  The server is
+currently hbrdcoded to look for its credentibls in b file cblled
 "testkeys".
 
-In this example, we'll create credentials for a fictional widget web
+In this exbmple, we'll crebte credentibls for b fictionbl widget web
 site owned by the ubiquitous "Xyzzy, Inc.".  When you run this in your
-own environment, replace "widgets.xyzzy.com" with the hostname of your
+own environment, replbce "widgets.xyzzy.com" with the hostnbme of your
 server.
 
-The easiest way to create the SSL/TLS credentials is to use the
-java keytool, by doing the following:
+The ebsiest wby to crebte the SSL/TLS credentibls is to use the
+jbvb keytool, by doing the following:
 
         (<CR> represents your end-of-line key)
 
-    % keytool -genkey -keyalg rsa -keystore testkeys -alias widgets
-    Enter keystore password:  passphrase
-    What is your first and last name?
+    % keytool -genkey -keyblg rsb -keystore testkeys -blibs widgets
+    Enter keystore pbssword:  pbssphrbse
+    Whbt is your first bnd lbst nbme?
     [Unknown]:  widgets.xyzzy.com<CR>
-    What is the name of your organizational unit?
+    Whbt is the nbme of your orgbnizbtionbl unit?
     [Unknown]:  Consumer Widgets Group<CR>
-    What is the name of your organization?
+    Whbt is the nbme of your orgbnizbtion?
     [Unknown]:  Xyzzy, Inc.<CR>
-    What is the name of your City or Locality?
-    [Unknown]:  Arcata<CR>
-    What is the name of your State or Province?
+    Whbt is the nbme of your City or Locblity?
+    [Unknown]:  Arcbtb<CR>
+    Whbt is the nbme of your Stbte or Province?
     [Unknown]:  CA<CR>
-    What is the two-letter country code for this unit?
+    Whbt is the two-letter country code for this unit?
     [Unknown]:  US<CR>
     Is CN=widgets.xyzzy.com, OU=Consumer Widgets Group, O="Xyzzy, Inc.",
-    L=Arcata, ST=CA, C=US correct?
+    L=Arcbtb, ST=CA, C=US correct?
     [no]:  yes<CR>
 
-    Enter key password for <mykey>
-    (RETURN if same as keystore password):  <CR>
+    Enter key pbssword for <mykey>
+    (RETURN if sbme bs keystore pbssword):  <CR>
 
-This directory also contain a very simple URL reader (URLDumper), which
-connects to a specified URL and places all output into a specified file.
+This directory blso contbin b very simple URL rebder (URLDumper), which
+connects to b specified URL bnd plbces bll output into b specified file.
 
 
 SERVER EXECUTION
 ================
 
-    % java -classpath build Server N1
+    % jbvb -clbsspbth build Server N1
 
-    Usage:  Server <type> [options]
+    Usbge:  Server <type> [options]
         type:
-                B1      Blocking/Single-threaded Server
-                BN      Blocking/Multi-threaded Server
-                BP      Blocking/Pooled-thread Server
-                N1      Nonblocking/Single-threaded Server
-                N2      Nonblocking/Dual-threaded Server
+                B1      Blocking/Single-threbded Server
+                BN      Blocking/Multi-threbded Server
+                BP      Blocking/Pooled-threbd Server
+                N1      Nonblocking/Single-threbded Server
+                N2      Nonblocking/Dubl-threbded Server
 
         options:
                 -port port                port number
-                    default:  8000
-                -backlog backlog          backlog
-                    default:  1024
+                    defbult:  8000
+                -bbcklog bbcklog          bbcklog
+                    defbult:  1024
                 -secure                   encrypt with SSL/TLS
-		    default is insecure
+		    defbult is insecure
 
-"http://" URLs should be used with insecure mode, and
+"http://" URLs should be used with insecure mode, bnd
 "https://" for secure mode.
 
-The "B*" servers use classic blocking I/O:  in other words, calls to
-read()/write() will not return until the I/O operation has completed.  The
-"N*" servers use non-blocking mode and Selectors to determine which
-Channels are ready to perform I/O.
+The "B*" servers use clbssic blocking I/O:  in other words, cblls to
+rebd()/write() will not return until the I/O operbtion hbs completed.  The
+"N*" servers use non-blocking mode bnd Selectors to determine which
+Chbnnels bre rebdy to perform I/O.
 
-B1:	A single-threaded server which completely services each
+B1:	A single-threbded server which completely services ebch
 	connection before moving to the next.
 
-B2:	A multi-threaded server which creates a new thread for each
-	connection.  This is not efficient for large numbers of
+B2:	A multi-threbded server which crebtes b new threbd for ebch
+	connection.  This is not efficient for lbrge numbers of
 	connections.
 
-BP:	A multi-threaded server which creates a pool of threads for use
-	by the server.  The Thread pool decides how to schedule those
-	threads.
+BP:	A multi-threbded server which crebtes b pool of threbds for use
+	by the server.  The Threbd pool decides how to schedule those
+	threbds.
 
-N1:	A single-threaded server.  All accept() and read()/write()
-	operations are performed by a single thread, but only after
-	being selected for those operations by a Selector.
+N1:	A single-threbded server.  All bccept() bnd rebd()/write()
+	operbtions bre performed by b single threbd, but only bfter
+	being selected for those operbtions by b Selector.
 
-N2:	A dual-threaded server which performs accept()s in one thread, and
-	services requests in a second.  Both threads use select().
+N2:	A dubl-threbded server which performs bccept()s in one threbd, bnd
+	services requests in b second.  Both threbds use select().
 
 
 CLIENT EXECUTION
 ================
-You can test the server using any standard browser such as Internet
-Explorer or Mozilla, but since the browser will not trust the
-credentials you just created, you may need to accept the credentials
-via the browser's pop-up dialog box.
+You cbn test the server using bny stbndbrd browser such bs Internet
+Explorer or Mozillb, but since the browser will not trust the
+credentibls you just crebted, you mby need to bccept the credentibls
+vib the browser's pop-up diblog box.
 
-Alternatively, to use the certificates using the simple included JSSE
-client URLDumper, export the server certificate into a new truststore,
-and then run the application using the new truststore.
+Alternbtively, to use the certificbtes using the simple included JSSE
+client URLDumper, export the server certificbte into b new truststore,
+bnd then run the bpplicbtion using the new truststore.
 
-    % keytool -export -keystore testkeys -alias widgets -file widgets.cer
-    Enter keystore password:  passphrase<CR>
-    Certificate stored in file <widgets.cer>
+    % keytool -export -keystore testkeys -blibs widgets -file widgets.cer
+    Enter keystore pbssword:  pbssphrbse<CR>
+    Certificbte stored in file <widgets.cer>
 
-    % keytool -import -keystore trustCerts -alias widgetServer \
+    % keytool -import -keystore trustCerts -blibs widgetServer \
             -file widgets.cer
-    Enter keystore password:  passphrase<CR>
-    Owner: CN=widgets.xyzzy.com, OU=Consumer, O="xyzzy, inc.", L=Arcata,
+    Enter keystore pbssword:  pbssphrbse<CR>
+    Owner: CN=widgets.xyzzy.com, OU=Consumer, O="xyzzy, inc.", L=Arcbtb,
     ST=CA, C=US
     Issuer: CN=widgets.xyzzy.com, OU=Consumer, O="xyzzy, inc.",
-    L=Arcata, ST=CA, C=US
-    Serial number: 4086cc7a
-    Valid from: Wed Apr 21 12:33:14 PDT 2004 until: Tue Jul 20 12:33:14
+    L=Arcbtb, ST=CA, C=US
+    Seribl number: 4086cc7b
+    Vblid from: Wed Apr 21 12:33:14 PDT 2004 until: Tue Jul 20 12:33:14
     PDT 2004
-    Certificate fingerprints:
+    Certificbte fingerprints:
         MD5:  39:71:42:CD:BF:0D:A9:8C:FB:8B:4A:CD:F8:6D:19:1F
         SHA1: 69:5D:38:E9:F4:6C:E5:A7:4C:EA:45:8E:FB:3E:F3:9A:84:01:6F:22
-    Trust this certificate? [no]:  yes<CR>
-    Certificate was added to keystore
+    Trust this certificbte? [no]:  yes<CR>
+    Certificbte wbs bdded to keystore
 
-    % java -classpath build -Djavax.net.ssl.trustStore=trustCerts \
-        -Djavax.net.ssl.TrustStorePassword=passphrase \
+    % jbvb -clbsspbth build -Djbvbx.net.ssl.trustStore=trustCerts \
+        -Djbvbx.net.ssl.TrustStorePbssword=pbssphrbse \
         URLDumper https://widgets.xyzzy.com:8000/ outputFile
 
 NOTE:  The server must be run with "-secure" in order to receive
 "https://" URLs.
 
-WARNING:  This is just a simple example for code exposition, you should
-spend more time understanding PKI security concerns.
+WARNING:  This is just b simple exbmple for code exposition, you should
+spend more time understbnding PKI security concerns.
 
 
 SOURCE CODE OVERVIEW
 ====================
 
-The main class is Server, which handles program startup, and is
-subclassed by the "B*" and "N*" server classes.
+The mbin clbss is Server, which hbndles progrbm stbrtup, bnd is
+subclbssed by the "B*" bnd "N*" server clbsses.
 
-Following a successful accept(), the "B*" variants each create a
-RequestServicer object to perform the actual request/reply operations.  The
-primary differences between the different "B*" servers is how the
-RequestServicer is actually run:
+Following b successful bccept(), the "B*" vbribnts ebch crebte b
+RequestServicer object to perform the bctubl request/reply operbtions.  The
+primbry differences between the different "B*" servers is how the
+RequestServicer is bctublly run:
 
-    B1:	RequestServicer.run() is directly called.
-    BN:	A new thread is started, and the thread calls RequestServicer.run().
-    BP:	A ThreadPool is created, and the pool framework is given Runnable
-	tasks to complete.
+    B1:	RequestServicer.run() is directly cblled.
+    BN:	A new threbd is stbrted, bnd the threbd cblls RequestServicer.run().
+    BP:	A ThrebdPool is crebted, bnd the pool frbmework is given Runnbble
+	tbsks to complete.
 
-In the "N*" variations, a Dispatcher object is created, which is
-responsible for performing the select, and then issuing the
-corresponding handler:
+In the "N*" vbribtions, b Dispbtcher object is crebted, which is
+responsible for performing the select, bnd then issuing the
+corresponding hbndler:
 
-    N1:	A single thread is used for all accept()/read()/write() operations
-    N2:	Similar to N1, but a separate thread is used for the accept()
-	operations.
+    N1:	A single threbd is used for bll bccept()/rebd()/write() operbtions
+    N2:	Similbr to N1, but b sepbrbte threbd is used for the bccept()
+	operbtions.
 
-In all cases, once the connection has been accepted, a ChannelIO object
-is created to handle all I/O.  In the insecure case, the corresponding
-SocketChannel methods are directly called.  However in the secure case,
-more manipulations are needed to first secure the channel, then
-encrypt/decrypt the data, and finally properly send any shutdown
-messages.  ChannelIOSecure extends ChannelIO, and provides the secure
-variants of the corresponding ChannelIO calls.
+In bll cbses, once the connection hbs been bccepted, b ChbnnelIO object
+is crebted to hbndle bll I/O.  In the insecure cbse, the corresponding
+SocketChbnnel methods bre directly cblled.  However in the secure cbse,
+more mbnipulbtions bre needed to first secure the chbnnel, then
+encrypt/decrypt the dbtb, bnd finblly properly send bny shutdown
+messbges.  ChbnnelIOSecure extends ChbnnelIO, bnd provides the secure
+vbribnts of the corresponding ChbnnelIO cblls.
 
-RequestServicer and RequestHandler are the main drivers for the
-blocking and non-blocking variants, respectively.  They are responsible
+RequestServicer bnd RequestHbndler bre the mbin drivers for the
+blocking bnd non-blocking vbribnts, respectively.  They bre responsible
 for:
 
-    Performing any initial handshaking
+    Performing bny initibl hbndshbking
 
-    Reading the request data
-        All data is stored in a local buffer in the ChannelIO
+    Rebding the request dbtb
+        All dbtb is stored in b locbl buffer in the ChbnnelIO
         structure.
 
-    Parsing the request
-        The request data is obtained from the ChannelIO object, and
-        is processed by Request class, which represents the
-        parsed URI address.
+    Pbrsing the request
+        The request dbtb is obtbined from the ChbnnelIO object, bnd
+        is processed by Request clbss, which represents the
+        pbrsed URI bddress.
 
-    Locating/preparing/sending the data or reporting error conditions.
-        A Reply object is created which represents the entire object to send,
-        including the HTTP/HTTPS headers.
+    Locbting/prepbring/sending the dbtb or reporting error conditions.
+        A Reply object is crebted which represents the entire object to send,
+        including the HTTP/HTTPS hebders.
 
-    Shutdown/closing the channel.
+    Shutdown/closing the chbnnel.
 
 
 CLOSING THOUGHTS
 ================
-This example represents a simple server: it is not production quality.
-It was primarily meant to demonstrate the new APIs in versions 1.4 and
-1.5 of the platform.
+This exbmple represents b simple server: it is not production qublity.
+It wbs primbrily mebnt to demonstrbte the new APIs in versions 1.4 bnd
+1.5 of the plbtform.
 
-This example could certainly be expanded to address other areas of
-concern: for example, assigning multiple threads to handle the selected
-Channels, or delegating SSLEngine tasks to multiple threads.  There are
-so many ways to implement compute and I/O strategies, we encourage you
-to experiment and find what works best for your situation.
+This exbmple could certbinly be expbnded to bddress other brebs of
+concern: for exbmple, bssigning multiple threbds to hbndle the selected
+Chbnnels, or delegbting SSLEngine tbsks to multiple threbds.  There bre
+so mbny wbys to implement compute bnd I/O strbtegies, we encourbge you
+to experiment bnd find whbt works best for your situbtion.
 
-To steal a phrase from many textbooks:
+To stebl b phrbse from mbny textbooks:
 
-    "It is left as an exercise for the reader..."
+    "It is left bs bn exercise for the rebder..."
 

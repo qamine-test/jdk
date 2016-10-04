@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,590 +59,590 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.INSTANT_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.OFFSET_SECONDS;
 
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.ChronoZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.zone.ZoneOffsetTransition;
-import java.time.zone.ZoneRules;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.chrono.ChronoZonedDbteTime;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.time.zone.ZoneOffsetTrbnsition;
+import jbvb.time.zone.ZoneRules;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
 /**
- * A date-time with a time-zone in the ISO-8601 calendar system,
- * such as {@code 2007-12-03T10:15:30+01:00 Europe/Paris}.
+ * A dbte-time with b time-zone in the ISO-8601 cblendbr system,
+ * such bs {@code 2007-12-03T10:15:30+01:00 Europe/Pbris}.
  * <p>
- * {@code ZonedDateTime} is an immutable representation of a date-time with a time-zone.
- * This class stores all date and time fields, to a precision of nanoseconds,
- * and a time-zone, with a zone offset used to handle ambiguous local date-times.
- * For example, the value
- * "2nd October 2007 at 13:45.30.123456789 +02:00 in the Europe/Paris time-zone"
- * can be stored in a {@code ZonedDateTime}.
+ * {@code ZonedDbteTime} is bn immutbble representbtion of b dbte-time with b time-zone.
+ * This clbss stores bll dbte bnd time fields, to b precision of nbnoseconds,
+ * bnd b time-zone, with b zone offset used to hbndle bmbiguous locbl dbte-times.
+ * For exbmple, the vblue
+ * "2nd October 2007 bt 13:45.30.123456789 +02:00 in the Europe/Pbris time-zone"
+ * cbn be stored in b {@code ZonedDbteTime}.
  * <p>
- * This class handles conversion from the local time-line of {@code LocalDateTime}
- * to the instant time-line of {@code Instant}.
+ * This clbss hbndles conversion from the locbl time-line of {@code LocblDbteTime}
+ * to the instbnt time-line of {@code Instbnt}.
  * The difference between the two time-lines is the offset from UTC/Greenwich,
- * represented by a {@code ZoneOffset}.
+ * represented by b {@code ZoneOffset}.
  * <p>
- * Converting between the two time-lines involves calculating the offset using the
- * {@link ZoneRules rules} accessed from the {@code ZoneId}.
- * Obtaining the offset for an instant is simple, as there is exactly one valid
- * offset for each instant. By contrast, obtaining the offset for a local date-time
- * is not straightforward. There are three cases:
+ * Converting between the two time-lines involves cblculbting the offset using the
+ * {@link ZoneRules rules} bccessed from the {@code ZoneId}.
+ * Obtbining the offset for bn instbnt is simple, bs there is exbctly one vblid
+ * offset for ebch instbnt. By contrbst, obtbining the offset for b locbl dbte-time
+ * is not strbightforwbrd. There bre three cbses:
  * <ul>
- * <li>Normal, with one valid offset. For the vast majority of the year, the normal
- *  case applies, where there is a single valid offset for the local date-time.</li>
- * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
- *  due to the spring daylight savings change from "winter" to "summer".
- *  In a gap there are local date-time values with no valid offset.</li>
- * <li>Overlap, with two valid offsets. This is when clocks are set back typically
- *  due to the autumn daylight savings change from "summer" to "winter".
- *  In an overlap there are local date-time values with two valid offsets.</li>
+ * <li>Normbl, with one vblid offset. For the vbst mbjority of the yebr, the normbl
+ *  cbse bpplies, where there is b single vblid offset for the locbl dbte-time.</li>
+ * <li>Gbp, with zero vblid offsets. This is when clocks jump forwbrd typicblly
+ *  due to the spring dbylight sbvings chbnge from "winter" to "summer".
+ *  In b gbp there bre locbl dbte-time vblues with no vblid offset.</li>
+ * <li>Overlbp, with two vblid offsets. This is when clocks bre set bbck typicblly
+ *  due to the butumn dbylight sbvings chbnge from "summer" to "winter".
+ *  In bn overlbp there bre locbl dbte-time vblues with two vblid offsets.</li>
  * </ul>
  * <p>
- * Any method that converts directly or implicitly from a local date-time to an
- * instant by obtaining the offset has the potential to be complicated.
+ * Any method thbt converts directly or implicitly from b locbl dbte-time to bn
+ * instbnt by obtbining the offset hbs the potentibl to be complicbted.
  * <p>
- * For Gaps, the general strategy is that if the local date-time falls in the
- * middle of a Gap, then the resulting zoned date-time will have a local date-time
- * shifted forwards by the length of the Gap, resulting in a date-time in the later
- * offset, typically "summer" time.
+ * For Gbps, the generbl strbtegy is thbt if the locbl dbte-time fblls in the
+ * middle of b Gbp, then the resulting zoned dbte-time will hbve b locbl dbte-time
+ * shifted forwbrds by the length of the Gbp, resulting in b dbte-time in the lbter
+ * offset, typicblly "summer" time.
  * <p>
- * For Overlaps, the general strategy is that if the local date-time falls in the
- * middle of an Overlap, then the previous offset will be retained. If there is no
- * previous offset, or the previous offset is invalid, then the earlier offset is
- * used, typically "summer" time.. Two additional methods,
- * {@link #withEarlierOffsetAtOverlap()} and {@link #withLaterOffsetAtOverlap()},
- * help manage the case of an overlap.
+ * For Overlbps, the generbl strbtegy is thbt if the locbl dbte-time fblls in the
+ * middle of bn Overlbp, then the previous offset will be retbined. If there is no
+ * previous offset, or the previous offset is invblid, then the ebrlier offset is
+ * used, typicblly "summer" time.. Two bdditionbl methods,
+ * {@link #withEbrlierOffsetAtOverlbp()} bnd {@link #withLbterOffsetAtOverlbp()},
+ * help mbnbge the cbse of bn overlbp.
  * <p>
- * In terms of design, this class should be viewed primarily as the combination
- * of a {@code LocalDateTime} and a {@code ZoneId}. The {@code ZoneOffset} is
- * a vital, but secondary, piece of information, used to ensure that the class
- * represents an instant, especially during a daylight savings overlap.
+ * In terms of design, this clbss should be viewed primbrily bs the combinbtion
+ * of b {@code LocblDbteTime} bnd b {@code ZoneId}. The {@code ZoneOffset} is
+ * b vitbl, but secondbry, piece of informbtion, used to ensure thbt the clbss
+ * represents bn instbnt, especiblly during b dbylight sbvings overlbp.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code ZonedDateTime} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code ZonedDbteTime} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * A {@code ZonedDateTime} holds state equivalent to three separate objects,
- * a {@code LocalDateTime}, a {@code ZoneId} and the resolved {@code ZoneOffset}.
- * The offset and local date-time are used to define an instant when necessary.
- * The zone ID is used to obtain the rules for how and when the offset changes.
- * The offset cannot be freely set, as the zone controls which offsets are valid.
+ * A {@code ZonedDbteTime} holds stbte equivblent to three sepbrbte objects,
+ * b {@code LocblDbteTime}, b {@code ZoneId} bnd the resolved {@code ZoneOffset}.
+ * The offset bnd locbl dbte-time bre used to define bn instbnt when necessbry.
+ * The zone ID is used to obtbin the rules for how bnd when the offset chbnges.
+ * The offset cbnnot be freely set, bs the zone controls which offsets bre vblid.
  * <p>
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ZonedDateTime
-        implements Temporal, ChronoZonedDateTime<LocalDate>, Serializable {
+public finbl clbss ZonedDbteTime
+        implements Temporbl, ChronoZonedDbteTime<LocblDbte>, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -6260982410461394882L;
+    privbte stbtic finbl long seriblVersionUID = -6260982410461394882L;
 
     /**
-     * The local date-time.
+     * The locbl dbte-time.
      */
-    private final LocalDateTime dateTime;
+    privbte finbl LocblDbteTime dbteTime;
     /**
      * The offset from UTC/Greenwich.
      */
-    private final ZoneOffset offset;
+    privbte finbl ZoneOffset offset;
     /**
      * The time-zone.
      */
-    private final ZoneId zone;
+    privbte finbl ZoneId zone;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current date-time from the system clock in the default time-zone.
+     * Obtbins the current dbte-time from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date-time.
-     * The zone and offset will be set based on the time-zone in the clock.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte-time.
+     * The zone bnd offset will be set bbsed on the time-zone in the clock.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date-time using the system clock, not null
+     * @return the current dbte-time using the system clock, not null
      */
-    public static ZonedDateTime now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic ZonedDbteTime now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current date-time from the system clock in the specified time-zone.
+     * Obtbins the current dbte-time from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date-time.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * The offset will be calculated from the specified time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte-time.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
+     * The offset will be cblculbted from the specified time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date-time using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte-time using the system clock, not null
      */
-    public static ZonedDateTime now(ZoneId zone) {
+    public stbtic ZonedDbteTime now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current date-time from the specified clock.
+     * Obtbins the current dbte-time from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date-time.
-     * The zone and offset will be set based on the time-zone in the clock.
+     * This will query the specified clock to obtbin the current dbte-time.
+     * The zone bnd offset will be set bbsed on the time-zone in the clock.
      * <p>
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date-time, not null
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte-time, not null
      */
-    public static ZonedDateTime now(Clock clock) {
+    public stbtic ZonedDbteTime now(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        final Instant now = clock.instant();  // called once
-        return ofInstant(now, clock.getZone());
+        finbl Instbnt now = clock.instbnt();  // cblled once
+        return ofInstbnt(now, clock.getZone());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a local date and time.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b locbl dbte bnd time.
      * <p>
-     * This creates a zoned date-time matching the input local date and time as closely as possible.
-     * Time-zone rules, such as daylight savings, mean that not every local date-time
-     * is valid for the specified zone, thus the local date-time may be adjusted.
+     * This crebtes b zoned dbte-time mbtching the input locbl dbte bnd time bs closely bs possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every locbl dbte-time
+     * is vblid for the specified zone, thus the locbl dbte-time mby be bdjusted.
      * <p>
-     * The local date time and first combined to form a local date-time.
-     * The local date-time is then resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte time bnd first combined to form b locbl dbte-time.
+     * The locbl dbte-time is then resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, when clocks are set back, there are two valid offsets.
-     * This method uses the earlier offset typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, when clocks bre set bbck, there bre two vblid offsets.
+     * This method uses the ebrlier offset typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, when clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, when clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      *
-     * @param date  the local date, not null
-     * @param time  the local time, not null
-     * @param zone  the time-zone, not null
-     * @return the offset date-time, not null
+     * @pbrbm dbte  the locbl dbte, not null
+     * @pbrbm time  the locbl time, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the offset dbte-time, not null
      */
-    public static ZonedDateTime of(LocalDate date, LocalTime time, ZoneId zone) {
-        return of(LocalDateTime.of(date, time), zone);
+    public stbtic ZonedDbteTime of(LocblDbte dbte, LocblTime time, ZoneId zone) {
+        return of(LocblDbteTime.of(dbte, time), zone);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a local date-time.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b locbl dbte-time.
      * <p>
-     * This creates a zoned date-time matching the input local date-time as closely as possible.
-     * Time-zone rules, such as daylight savings, mean that not every local date-time
-     * is valid for the specified zone, thus the local date-time may be adjusted.
+     * This crebtes b zoned dbte-time mbtching the input locbl dbte-time bs closely bs possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every locbl dbte-time
+     * is vblid for the specified zone, thus the locbl dbte-time mby be bdjusted.
      * <p>
-     * The local date-time is resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte-time is resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, when clocks are set back, there are two valid offsets.
-     * This method uses the earlier offset typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, when clocks bre set bbck, there bre two vblid offsets.
+     * This method uses the ebrlier offset typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, when clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, when clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      *
-     * @param localDateTime  the local date-time, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
      */
-    public static ZonedDateTime of(LocalDateTime localDateTime, ZoneId zone) {
-        return ofLocal(localDateTime, zone, null);
+    public stbtic ZonedDbteTime of(LocblDbteTime locblDbteTime, ZoneId zone) {
+        return ofLocbl(locblDbteTime, zone, null);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a year, month, day,
-     * hour, minute, second, nanosecond and time-zone.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b yebr, month, dby,
+     * hour, minute, second, nbnosecond bnd time-zone.
      * <p>
-     * This creates a zoned date-time matching the local date-time of the seven
-     * specified fields as closely as possible.
-     * Time-zone rules, such as daylight savings, mean that not every local date-time
-     * is valid for the specified zone, thus the local date-time may be adjusted.
+     * This crebtes b zoned dbte-time mbtching the locbl dbte-time of the seven
+     * specified fields bs closely bs possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every locbl dbte-time
+     * is vblid for the specified zone, thus the locbl dbte-time mby be bdjusted.
      * <p>
-     * The local date-time is resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte-time is resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, when clocks are set back, there are two valid offsets.
-     * This method uses the earlier offset typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, when clocks bre set bbck, there bre two vblid offsets.
+     * This method uses the ebrlier offset typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, when clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, when clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      * <p>
-     * This method exists primarily for writing test cases.
-     * Non test-code will typically use other methods to create an offset time.
-     * {@code LocalDateTime} has five additional convenience variants of the
-     * equivalent factory method taking fewer arguments.
-     * They are not provided here to reduce the footprint of the API.
+     * This method exists primbrily for writing test cbses.
+     * Non test-code will typicblly use other methods to crebte bn offset time.
+     * {@code LocblDbteTime} hbs five bdditionbl convenience vbribnts of the
+     * equivblent fbctory method tbking fewer brguments.
+     * They bre not provided here to reduce the footprint of the API.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @param zone  the time-zone, not null
-     * @return the offset date-time, not null
-     * @throws DateTimeException if the value of any field is out of range, or
-     *  if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @pbrbm zone  the time-zone, not null
+     * @return the offset dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge, or
+     *  if the dby-of-month is invblid for the month-yebr
      */
-    public static ZonedDateTime of(
-            int year, int month, int dayOfMonth,
-            int hour, int minute, int second, int nanoOfSecond, ZoneId zone) {
-        LocalDateTime dt = LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond);
-        return ofLocal(dt, zone, null);
+    public stbtic ZonedDbteTime of(
+            int yebr, int month, int dbyOfMonth,
+            int hour, int minute, int second, int nbnoOfSecond, ZoneId zone) {
+        LocblDbteTime dt = LocblDbteTime.of(yebr, month, dbyOfMonth, hour, minute, second, nbnoOfSecond);
+        return ofLocbl(dt, zone, null);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a local date-time
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b locbl dbte-time
      * using the preferred offset if possible.
      * <p>
-     * The local date-time is resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte-time is resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, where clocks are set back, there are two valid offsets.
-     * If the preferred offset is one of the valid offsets then it is used.
-     * Otherwise the earlier valid offset is used, typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, where clocks bre set bbck, there bre two vblid offsets.
+     * If the preferred offset is one of the vblid offsets then it is used.
+     * Otherwise the ebrlier vblid offset is used, typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, where clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, where clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      *
-     * @param localDateTime  the local date-time, not null
-     * @param zone  the time-zone, not null
-     * @param preferredOffset  the zone offset, null if no preference
-     * @return the zoned date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm zone  the time-zone, not null
+     * @pbrbm preferredOffset  the zone offset, null if no preference
+     * @return the zoned dbte-time, not null
      */
-    public static ZonedDateTime ofLocal(LocalDateTime localDateTime, ZoneId zone, ZoneOffset preferredOffset) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
+    public stbtic ZonedDbteTime ofLocbl(LocblDbteTime locblDbteTime, ZoneId zone, ZoneOffset preferredOffset) {
+        Objects.requireNonNull(locblDbteTime, "locblDbteTime");
         Objects.requireNonNull(zone, "zone");
-        if (zone instanceof ZoneOffset) {
-            return new ZonedDateTime(localDateTime, (ZoneOffset) zone, zone);
+        if (zone instbnceof ZoneOffset) {
+            return new ZonedDbteTime(locblDbteTime, (ZoneOffset) zone, zone);
         }
         ZoneRules rules = zone.getRules();
-        List<ZoneOffset> validOffsets = rules.getValidOffsets(localDateTime);
+        List<ZoneOffset> vblidOffsets = rules.getVblidOffsets(locblDbteTime);
         ZoneOffset offset;
-        if (validOffsets.size() == 1) {
-            offset = validOffsets.get(0);
-        } else if (validOffsets.size() == 0) {
-            ZoneOffsetTransition trans = rules.getTransition(localDateTime);
-            localDateTime = localDateTime.plusSeconds(trans.getDuration().getSeconds());
-            offset = trans.getOffsetAfter();
+        if (vblidOffsets.size() == 1) {
+            offset = vblidOffsets.get(0);
+        } else if (vblidOffsets.size() == 0) {
+            ZoneOffsetTrbnsition trbns = rules.getTrbnsition(locblDbteTime);
+            locblDbteTime = locblDbteTime.plusSeconds(trbns.getDurbtion().getSeconds());
+            offset = trbns.getOffsetAfter();
         } else {
-            if (preferredOffset != null && validOffsets.contains(preferredOffset)) {
+            if (preferredOffset != null && vblidOffsets.contbins(preferredOffset)) {
                 offset = preferredOffset;
             } else {
-                offset = Objects.requireNonNull(validOffsets.get(0), "offset");  // protect against bad ZoneRules
+                offset = Objects.requireNonNull(vblidOffsets.get(0), "offset");  // protect bgbinst bbd ZoneRules
             }
         }
-        return new ZonedDateTime(localDateTime, offset, zone);
+        return new ZonedDbteTime(locblDbteTime, offset, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZonedDateTime} from an {@code Instant}.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from bn {@code Instbnt}.
      * <p>
-     * This creates a zoned date-time with the same instant as that specified.
-     * Calling {@link #toInstant()} will return an instant equal to the one used here.
+     * This crebtes b zoned dbte-time with the sbme instbnt bs thbt specified.
+     * Cblling {@link #toInstbnt()} will return bn instbnt equbl to the one used here.
      * <p>
-     * Converting an instant to a zoned date-time is simple as there is only one valid
-     * offset for each instant.
+     * Converting bn instbnt to b zoned dbte-time is simple bs there is only one vblid
+     * offset for ebch instbnt.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm instbnt  the instbnt to crebte the dbte-time from, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public static ZonedDateTime ofInstant(Instant instant, ZoneId zone) {
-        Objects.requireNonNull(instant, "instant");
+    public stbtic ZonedDbteTime ofInstbnt(Instbnt instbnt, ZoneId zone) {
+        Objects.requireNonNull(instbnt, "instbnt");
         Objects.requireNonNull(zone, "zone");
-        return create(instant.getEpochSecond(), instant.getNano(), zone);
+        return crebte(instbnt.getEpochSecond(), instbnt.getNbno(), zone);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} from the instant formed by combining
-     * the local date-time and offset.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from the instbnt formed by combining
+     * the locbl dbte-time bnd offset.
      * <p>
-     * This creates a zoned date-time by {@link LocalDateTime#toInstant(ZoneOffset) combining}
-     * the {@code LocalDateTime} and {@code ZoneOffset}.
-     * This combination uniquely specifies an instant without ambiguity.
+     * This crebtes b zoned dbte-time by {@link LocblDbteTime#toInstbnt(ZoneOffset) combining}
+     * the {@code LocblDbteTime} bnd {@code ZoneOffset}.
+     * This combinbtion uniquely specifies bn instbnt without bmbiguity.
      * <p>
-     * Converting an instant to a zoned date-time is simple as there is only one valid
-     * offset for each instant. If the valid offset is different to the offset specified,
-     * then the date-time and offset of the zoned date-time will differ from those specified.
+     * Converting bn instbnt to b zoned dbte-time is simple bs there is only one vblid
+     * offset for ebch instbnt. If the vblid offset is different to the offset specified,
+     * then the dbte-time bnd offset of the zoned dbte-time will differ from those specified.
      * <p>
-     * If the {@code ZoneId} to be used is a {@code ZoneOffset}, this method is equivalent
-     * to {@link #of(LocalDateTime, ZoneId)}.
+     * If the {@code ZoneId} to be used is b {@code ZoneOffset}, this method is equivblent
+     * to {@link #of(LocblDbteTime, ZoneId)}.
      *
-     * @param localDateTime  the local date-time, not null
-     * @param offset  the zone offset, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
      */
-    public static ZonedDateTime ofInstant(LocalDateTime localDateTime, ZoneOffset offset, ZoneId zone) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
+    public stbtic ZonedDbteTime ofInstbnt(LocblDbteTime locblDbteTime, ZoneOffset offset, ZoneId zone) {
+        Objects.requireNonNull(locblDbteTime, "locblDbteTime");
         Objects.requireNonNull(offset, "offset");
         Objects.requireNonNull(zone, "zone");
-        if (zone.getRules().isValidOffset(localDateTime, offset)) {
-            return new ZonedDateTime(localDateTime, offset, zone);
+        if (zone.getRules().isVblidOffset(locblDbteTime, offset)) {
+            return new ZonedDbteTime(locblDbteTime, offset, zone);
         }
-        return create(localDateTime.toEpochSecond(offset), localDateTime.getNano(), zone);
+        return crebte(locblDbteTime.toEpochSecond(offset), locblDbteTime.getNbno(), zone);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} using seconds from the
+     * Obtbins bn instbnce of {@code ZonedDbteTime} using seconds from the
      * epoch of 1970-01-01T00:00:00Z.
      *
-     * @param epochSecond  the number of seconds from the epoch of 1970-01-01T00:00:00Z
-     * @param nanoOfSecond  the nanosecond within the second, from 0 to 999,999,999
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm epochSecond  the number of seconds from the epoch of 1970-01-01T00:00:00Z
+     * @pbrbm nbnoOfSecond  the nbnosecond within the second, from 0 to 999,999,999
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    private static ZonedDateTime create(long epochSecond, int nanoOfSecond, ZoneId zone) {
+    privbte stbtic ZonedDbteTime crebte(long epochSecond, int nbnoOfSecond, ZoneId zone) {
         ZoneRules rules = zone.getRules();
-        Instant instant = Instant.ofEpochSecond(epochSecond, nanoOfSecond);  // TODO: rules should be queryable by epochSeconds
-        ZoneOffset offset = rules.getOffset(instant);
-        LocalDateTime ldt = LocalDateTime.ofEpochSecond(epochSecond, nanoOfSecond, offset);
-        return new ZonedDateTime(ldt, offset, zone);
+        Instbnt instbnt = Instbnt.ofEpochSecond(epochSecond, nbnoOfSecond);  // TODO: rules should be querybble by epochSeconds
+        ZoneOffset offset = rules.getOffset(instbnt);
+        LocblDbteTime ldt = LocblDbteTime.ofEpochSecond(epochSecond, nbnoOfSecond, offset);
+        return new ZonedDbteTime(ldt, offset, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZonedDateTime} strictly validating the
-     * combination of local date-time, offset and zone ID.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} strictly vblidbting the
+     * combinbtion of locbl dbte-time, offset bnd zone ID.
      * <p>
-     * This creates a zoned date-time ensuring that the offset is valid for the
-     * local date-time according to the rules of the specified zone.
-     * If the offset is invalid, an exception is thrown.
+     * This crebtes b zoned dbte-time ensuring thbt the offset is vblid for the
+     * locbl dbte-time bccording to the rules of the specified zone.
+     * If the offset is invblid, bn exception is thrown.
      *
-     * @param localDateTime  the local date-time, not null
-     * @param offset  the zone offset, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if the combination of arguments is invalid
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
+     * @throws DbteTimeException if the combinbtion of brguments is invblid
      */
-    public static ZonedDateTime ofStrict(LocalDateTime localDateTime, ZoneOffset offset, ZoneId zone) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
+    public stbtic ZonedDbteTime ofStrict(LocblDbteTime locblDbteTime, ZoneOffset offset, ZoneId zone) {
+        Objects.requireNonNull(locblDbteTime, "locblDbteTime");
         Objects.requireNonNull(offset, "offset");
         Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
-        if (rules.isValidOffset(localDateTime, offset) == false) {
-            ZoneOffsetTransition trans = rules.getTransition(localDateTime);
-            if (trans != null && trans.isGap()) {
-                // error message says daylight savings for simplicity
-                // even though there are other kinds of gaps
-                throw new DateTimeException("LocalDateTime '" + localDateTime +
+        if (rules.isVblidOffset(locblDbteTime, offset) == fblse) {
+            ZoneOffsetTrbnsition trbns = rules.getTrbnsition(locblDbteTime);
+            if (trbns != null && trbns.isGbp()) {
+                // error messbge sbys dbylight sbvings for simplicity
+                // even though there bre other kinds of gbps
+                throw new DbteTimeException("LocblDbteTime '" + locblDbteTime +
                         "' does not exist in zone '" + zone +
-                        "' due to a gap in the local time-line, typically caused by daylight savings");
+                        "' due to b gbp in the locbl time-line, typicblly cbused by dbylight sbvings");
             }
-            throw new DateTimeException("ZoneOffset '" + offset + "' is not valid for LocalDateTime '" +
-                    localDateTime + "' in zone '" + zone + "'");
+            throw new DbteTimeException("ZoneOffset '" + offset + "' is not vblid for LocblDbteTime '" +
+                    locblDbteTime + "' in zone '" + zone + "'");
         }
-        return new ZonedDateTime(localDateTime, offset, zone);
+        return new ZonedDbteTime(locblDbteTime, offset, zone);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} leniently, for advanced use cases,
-     * allowing any combination of local date-time, offset and zone ID.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} leniently, for bdvbnced use cbses,
+     * bllowing bny combinbtion of locbl dbte-time, offset bnd zone ID.
      * <p>
-     * This creates a zoned date-time with no checks other than no nulls.
-     * This means that the resulting zoned date-time may have an offset that is in conflict
+     * This crebtes b zoned dbte-time with no checks other thbn no nulls.
+     * This mebns thbt the resulting zoned dbte-time mby hbve bn offset thbt is in conflict
      * with the zone ID.
      * <p>
-     * This method is intended for advanced use cases.
-     * For example, consider the case where a zoned date-time with valid fields is created
-     * and then stored in a database or serialization-based store. At some later point,
-     * the object is then re-loaded. However, between those points in time, the government
-     * that defined the time-zone has changed the rules, such that the originally stored
-     * local date-time now does not occur. This method can be used to create the object
-     * in an "invalid" state, despite the change in rules.
+     * This method is intended for bdvbnced use cbses.
+     * For exbmple, consider the cbse where b zoned dbte-time with vblid fields is crebted
+     * bnd then stored in b dbtbbbse or seriblizbtion-bbsed store. At some lbter point,
+     * the object is then re-lobded. However, between those points in time, the government
+     * thbt defined the time-zone hbs chbnged the rules, such thbt the originblly stored
+     * locbl dbte-time now does not occur. This method cbn be used to crebte the object
+     * in bn "invblid" stbte, despite the chbnge in rules.
      *
-     * @param localDateTime  the local date-time, not null
-     * @param offset  the zone offset, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
      */
-    private static ZonedDateTime ofLenient(LocalDateTime localDateTime, ZoneOffset offset, ZoneId zone) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
+    privbte stbtic ZonedDbteTime ofLenient(LocblDbteTime locblDbteTime, ZoneOffset offset, ZoneId zone) {
+        Objects.requireNonNull(locblDbteTime, "locblDbteTime");
         Objects.requireNonNull(offset, "offset");
         Objects.requireNonNull(zone, "zone");
-        if (zone instanceof ZoneOffset && offset.equals(zone) == false) {
-            throw new IllegalArgumentException("ZoneId must match ZoneOffset");
+        if (zone instbnceof ZoneOffset && offset.equbls(zone) == fblse) {
+            throw new IllegblArgumentException("ZoneId must mbtch ZoneOffset");
         }
-        return new ZonedDateTime(localDateTime, offset, zone);
+        return new ZonedDbteTime(locblDbteTime, offset, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a temporal object.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b temporbl object.
      * <p>
-     * This obtains a zoned date-time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ZonedDateTime}.
+     * This obtbins b zoned dbte-time bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ZonedDbteTime}.
      * <p>
-     * The conversion will first obtain a {@code ZoneId} from the temporal object,
-     * falling back to a {@code ZoneOffset} if necessary. It will then try to obtain
-     * an {@code Instant}, falling back to a {@code LocalDateTime} if necessary.
-     * The result will be either the combination of {@code ZoneId} or {@code ZoneOffset}
-     * with {@code Instant} or {@code LocalDateTime}.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion will first obtbin b {@code ZoneId} from the temporbl object,
+     * fblling bbck to b {@code ZoneOffset} if necessbry. It will then try to obtbin
+     * bn {@code Instbnt}, fblling bbck to b {@code LocblDbteTime} if necessbry.
+     * The result will be either the combinbtion of {@code ZoneId} or {@code ZoneOffset}
+     * with {@code Instbnt} or {@code LocblDbteTime}.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ZonedDateTime::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code ZonedDbteTime::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if unable to convert to an {@code ZonedDateTime}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the zoned dbte-time, not null
+     * @throws DbteTimeException if unbble to convert to bn {@code ZonedDbteTime}
      */
-    public static ZonedDateTime from(TemporalAccessor temporal) {
-        if (temporal instanceof ZonedDateTime) {
-            return (ZonedDateTime) temporal;
+    public stbtic ZonedDbteTime from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof ZonedDbteTime) {
+            return (ZonedDbteTime) temporbl;
         }
         try {
-            ZoneId zone = ZoneId.from(temporal);
-            if (temporal.isSupported(INSTANT_SECONDS)) {
-                long epochSecond = temporal.getLong(INSTANT_SECONDS);
-                int nanoOfSecond = temporal.get(NANO_OF_SECOND);
-                return create(epochSecond, nanoOfSecond, zone);
+            ZoneId zone = ZoneId.from(temporbl);
+            if (temporbl.isSupported(INSTANT_SECONDS)) {
+                long epochSecond = temporbl.getLong(INSTANT_SECONDS);
+                int nbnoOfSecond = temporbl.get(NANO_OF_SECOND);
+                return crebte(epochSecond, nbnoOfSecond, zone);
             } else {
-                LocalDate date = LocalDate.from(temporal);
-                LocalTime time = LocalTime.from(temporal);
-                return of(date, time, zone);
+                LocblDbte dbte = LocblDbte.from(temporbl);
+                LocblTime time = LocblTime.from(temporbl);
+                return of(dbte, time, zone);
             }
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain ZonedDateTime from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin ZonedDbteTime from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a text string such as
-     * {@code 2007-12-03T10:15:30+01:00[Europe/Paris]}.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b text string such bs
+     * {@code 2007-12-03T10:15:30+01:00[Europe/Pbris]}.
      * <p>
-     * The string must represent a valid date-time and is parsed using
-     * {@link java.time.format.DateTimeFormatter#ISO_ZONED_DATE_TIME}.
+     * The string must represent b vblid dbte-time bnd is pbrsed using
+     * {@link jbvb.time.formbt.DbteTimeFormbtter#ISO_ZONED_DATE_TIME}.
      *
-     * @param text  the text to parse such as "2007-12-03T10:15:30+01:00[Europe/Paris]", not null
-     * @return the parsed zoned date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse such bs "2007-12-03T10:15:30+01:00[Europe/Pbris]", not null
+     * @return the pbrsed zoned dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static ZonedDateTime parse(CharSequence text) {
-        return parse(text, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+    public stbtic ZonedDbteTime pbrse(ChbrSequence text) {
+        return pbrse(text, DbteTimeFormbtter.ISO_ZONED_DATE_TIME);
     }
 
     /**
-     * Obtains an instance of {@code ZonedDateTime} from a text string using a specific formatter.
+     * Obtbins bn instbnce of {@code ZonedDbteTime} from b text string using b specific formbtter.
      * <p>
-     * The text is parsed using the formatter, returning a date-time.
+     * The text is pbrsed using the formbtter, returning b dbte-time.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed zoned date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the pbrsed zoned dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static ZonedDateTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, ZonedDateTime::from);
+    public stbtic ZonedDbteTime pbrse(ChbrSequence text, DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.pbrse(text, ZonedDbteTime::from);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Constructor.
      *
-     * @param dateTime  the date-time, validated as not null
-     * @param offset  the zone offset, validated as not null
-     * @param zone  the time-zone, validated as not null
+     * @pbrbm dbteTime  the dbte-time, vblidbted bs not null
+     * @pbrbm offset  the zone offset, vblidbted bs not null
+     * @pbrbm zone  the time-zone, vblidbted bs not null
      */
-    private ZonedDateTime(LocalDateTime dateTime, ZoneOffset offset, ZoneId zone) {
-        this.dateTime = dateTime;
+    privbte ZonedDbteTime(LocblDbteTime dbteTime, ZoneOffset offset, ZoneId zone) {
+        this.dbteTime = dbteTime;
         this.offset = offset;
         this.zone = zone;
     }
 
     /**
-     * Resolves the new local date-time using this zone ID, retaining the offset if possible.
+     * Resolves the new locbl dbte-time using this zone ID, retbining the offset if possible.
      *
-     * @param newDateTime  the new local date-time, not null
-     * @return the zoned date-time, not null
+     * @pbrbm newDbteTime  the new locbl dbte-time, not null
+     * @return the zoned dbte-time, not null
      */
-    private ZonedDateTime resolveLocal(LocalDateTime newDateTime) {
-        return ofLocal(newDateTime, zone, offset);
+    privbte ZonedDbteTime resolveLocbl(LocblDbteTime newDbteTime) {
+        return ofLocbl(newDbteTime, zone, offset);
     }
 
     /**
-     * Resolves the new local date-time using the offset to identify the instant.
+     * Resolves the new locbl dbte-time using the offset to identify the instbnt.
      *
-     * @param newDateTime  the new local date-time, not null
-     * @return the zoned date-time, not null
+     * @pbrbm newDbteTime  the new locbl dbte-time, not null
+     * @return the zoned dbte-time, not null
      */
-    private ZonedDateTime resolveInstant(LocalDateTime newDateTime) {
-        return ofInstant(newDateTime, offset, zone);
+    privbte ZonedDbteTime resolveInstbnt(LocblDbteTime newDbteTime) {
+        return ofInstbnt(newDbteTime, offset, zone);
     }
 
     /**
-     * Resolves the offset into this zoned date-time for the with methods.
+     * Resolves the offset into this zoned dbte-time for the with methods.
      * <p>
-     * This typically ignores the offset, unless it can be used to switch offset in a DST overlap.
+     * This typicblly ignores the offset, unless it cbn be used to switch offset in b DST overlbp.
      *
-     * @param offset  the offset, not null
-     * @return the zoned date-time, not null
+     * @pbrbm offset  the offset, not null
+     * @return the zoned dbte-time, not null
      */
-    private ZonedDateTime resolveOffset(ZoneOffset offset) {
-        if (offset.equals(this.offset) == false && zone.getRules().isValidOffset(dateTime, offset)) {
-            return new ZonedDateTime(dateTime, offset, zone);
+    privbte ZonedDbteTime resolveOffset(ZoneOffset offset) {
+        if (offset.equbls(this.offset) == fblse && zone.getRules().isVblidOffset(dbteTime, offset)) {
+            return new ZonedDbteTime(dbteTime, offset, zone);
         }
         return this;
     }
@@ -651,13 +651,13 @@ public final class ZonedDateTime
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this date-time can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this dbte-time cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code NANO_OF_SECOND}
      * <li>{@code NANO_OF_DAY}
@@ -690,30 +690,30 @@ public final class ZonedDateTime
      * <li>{@code INSTANT_SECONDS}
      * <li>{@code OFFSET_SECONDS}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this date-time, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this dbte-time, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        return field instanceof ChronoField || (field != null && field.isSupportedBy(this));
+    public boolebn isSupported(TemporblField field) {
+        return field instbnceof ChronoField || (field != null && field.isSupportedBy(this));
     }
 
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this dbte-time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code NANOS}
      * <li>{@code MICROS}
@@ -731,138 +731,138 @@ public final class ZonedDateTime
      * <li>{@code MILLENNIA}
      * <li>{@code ERAS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
-    @Override  // override for Javadoc
-    public boolean isSupported(TemporalUnit unit) {
-        return ChronoZonedDateTime.super.isSupported(unit);
+    @Override  // override for Jbvbdoc
+    public boolebn isSupported(TemporblUnit unit) {
+        return ChronoZonedDbteTime.super.isSupported(unit);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This date-time is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This dbte-time is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
-                return field.range();
+                return field.rbnge();
             }
-            return dateTime.range(field);
+            return dbteTime.rbnge(field);
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as an {@code int}.
+     * Gets the vblue of the specified field from this dbte-time bs bn {@code int}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
-     * {@code EPOCH_DAY}, {@code PROLEPTIC_MONTH} and {@code INSTANT_SECONDS} which are too
-     * large to fit in an {@code int} and throw a {@code UnsupportedTemporalTypeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
+     * {@code EPOCH_DAY}, {@code PROLEPTIC_MONTH} bnd {@code INSTANT_SECONDS} which bre too
+     * lbrge to fit in bn {@code int} bnd throw b {@code UnsupportedTemporblTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc and performance
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    @Override  // override for Jbvbdoc bnd performbnce
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case INSTANT_SECONDS:
-                    throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
-                case OFFSET_SECONDS:
-                    return getOffset().getTotalSeconds();
+                cbse INSTANT_SECONDS:
+                    throw new UnsupportedTemporblTypeException("Invblid field 'InstbntSeconds' for get() method, use getLong() instebd");
+                cbse OFFSET_SECONDS:
+                    return getOffset().getTotblSeconds();
             }
-            return dateTime.get(field);
+            return dbteTime.get(field);
         }
-        return ChronoZonedDateTime.super.get(field);
+        return ChronoZonedDbteTime.super.get(field);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as a {@code long}.
+     * Gets the vblue of the specified field from this dbte-time bs b {@code long}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case INSTANT_SECONDS: return toEpochSecond();
-                case OFFSET_SECONDS: return getOffset().getTotalSeconds();
+                cbse INSTANT_SECONDS: return toEpochSecond();
+                cbse OFFSET_SECONDS: return getOffset().getTotblSeconds();
             }
-            return dateTime.getLong(field);
+            return dbteTime.getLong(field);
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the zone offset, such as '+01:00'.
+     * Gets the zone offset, such bs '+01:00'.
      * <p>
-     * This is the offset of the local date-time from UTC/Greenwich.
+     * This is the offset of the locbl dbte-time from UTC/Greenwich.
      *
      * @return the zone offset, not null
      */
@@ -872,56 +872,56 @@ public final class ZonedDateTime
     }
 
     /**
-     * Returns a copy of this date-time changing the zone offset to the
-     * earlier of the two valid offsets at a local time-line overlap.
+     * Returns b copy of this dbte-time chbnging the zone offset to the
+     * ebrlier of the two vblid offsets bt b locbl time-line overlbp.
      * <p>
-     * This method only has any effect when the local time-line overlaps, such as
-     * at an autumn daylight savings cutover. In this scenario, there are two
-     * valid offsets for the local date-time. Calling this method will return
-     * a zoned date-time with the earlier of the two selected.
+     * This method only hbs bny effect when the locbl time-line overlbps, such bs
+     * bt bn butumn dbylight sbvings cutover. In this scenbrio, there bre two
+     * vblid offsets for the locbl dbte-time. Cblling this method will return
+     * b zoned dbte-time with the ebrlier of the two selected.
      * <p>
-     * If this method is called when it is not an overlap, {@code this}
+     * If this method is cblled when it is not bn overlbp, {@code this}
      * is returned.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code ZonedDateTime} based on this date-time with the earlier offset, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the ebrlier offset, not null
      */
     @Override
-    public ZonedDateTime withEarlierOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(dateTime);
-        if (trans != null && trans.isOverlap()) {
-            ZoneOffset earlierOffset = trans.getOffsetBefore();
-            if (earlierOffset.equals(offset) == false) {
-                return new ZonedDateTime(dateTime, earlierOffset, zone);
+    public ZonedDbteTime withEbrlierOffsetAtOverlbp() {
+        ZoneOffsetTrbnsition trbns = getZone().getRules().getTrbnsition(dbteTime);
+        if (trbns != null && trbns.isOverlbp()) {
+            ZoneOffset ebrlierOffset = trbns.getOffsetBefore();
+            if (ebrlierOffset.equbls(offset) == fblse) {
+                return new ZonedDbteTime(dbteTime, ebrlierOffset, zone);
             }
         }
         return this;
     }
 
     /**
-     * Returns a copy of this date-time changing the zone offset to the
-     * later of the two valid offsets at a local time-line overlap.
+     * Returns b copy of this dbte-time chbnging the zone offset to the
+     * lbter of the two vblid offsets bt b locbl time-line overlbp.
      * <p>
-     * This method only has any effect when the local time-line overlaps, such as
-     * at an autumn daylight savings cutover. In this scenario, there are two
-     * valid offsets for the local date-time. Calling this method will return
-     * a zoned date-time with the later of the two selected.
+     * This method only hbs bny effect when the locbl time-line overlbps, such bs
+     * bt bn butumn dbylight sbvings cutover. In this scenbrio, there bre two
+     * vblid offsets for the locbl dbte-time. Cblling this method will return
+     * b zoned dbte-time with the lbter of the two selected.
      * <p>
-     * If this method is called when it is not an overlap, {@code this}
+     * If this method is cblled when it is not bn overlbp, {@code this}
      * is returned.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code ZonedDateTime} based on this date-time with the later offset, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the lbter offset, not null
      */
     @Override
-    public ZonedDateTime withLaterOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(toLocalDateTime());
-        if (trans != null) {
-            ZoneOffset laterOffset = trans.getOffsetAfter();
-            if (laterOffset.equals(offset) == false) {
-                return new ZonedDateTime(dateTime, laterOffset, zone);
+    public ZonedDbteTime withLbterOffsetAtOverlbp() {
+        ZoneOffsetTrbnsition trbns = getZone().getRules().getTrbnsition(toLocblDbteTime());
+        if (trbns != null) {
+            ZoneOffset lbterOffset = trbns.getOffsetAfter();
+            if (lbterOffset.equbls(offset) == fblse) {
+                return new ZonedDbteTime(dbteTime, lbterOffset, zone);
             }
         }
         return this;
@@ -929,15 +929,15 @@ public final class ZonedDateTime
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the time-zone, such as 'Europe/Paris'.
+     * Gets the time-zone, such bs 'Europe/Pbris'.
      * <p>
      * This returns the zone ID. This identifies the time-zone {@link ZoneRules rules}
-     * that determine when and how the offset from UTC/Greenwich changes.
+     * thbt determine when bnd how the offset from UTC/Greenwich chbnges.
      * <p>
-     * The zone ID may be same as the {@linkplain #getOffset() offset}.
-     * If this is true, then any future calculations, such as addition or subtraction,
-     * have no complex edge cases due to time-zone rules.
-     * See also {@link #withFixedOffsetZone()}.
+     * The zone ID mby be sbme bs the {@linkplbin #getOffset() offset}.
+     * If this is true, then bny future cblculbtions, such bs bddition or subtrbction,
+     * hbve no complex edge cbses due to time-zone rules.
+     * See blso {@link #withFixedOffsetZone()}.
      *
      * @return the time-zone, not null
      */
@@ -947,204 +947,204 @@ public final class ZonedDateTime
     }
 
     /**
-     * Returns a copy of this date-time with a different time-zone,
-     * retaining the local date-time if possible.
+     * Returns b copy of this dbte-time with b different time-zone,
+     * retbining the locbl dbte-time if possible.
      * <p>
-     * This method changes the time-zone and retains the local date-time.
-     * The local date-time is only changed if it is invalid for the new zone,
-     * determined using the same approach as
-     * {@link #ofLocal(LocalDateTime, ZoneId, ZoneOffset)}.
+     * This method chbnges the time-zone bnd retbins the locbl dbte-time.
+     * The locbl dbte-time is only chbnged if it is invblid for the new zone,
+     * determined using the sbme bpprobch bs
+     * {@link #ofLocbl(LocblDbteTime, ZoneId, ZoneOffset)}.
      * <p>
-     * To change the zone and adjust the local date-time,
-     * use {@link #withZoneSameInstant(ZoneId)}.
+     * To chbnge the zone bnd bdjust the locbl dbte-time,
+     * use {@link #withZoneSbmeInstbnt(ZoneId)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the requested zone, not null
+     * @pbrbm zone  the time-zone to chbnge to, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested zone, not null
      */
     @Override
-    public ZonedDateTime withZoneSameLocal(ZoneId zone) {
+    public ZonedDbteTime withZoneSbmeLocbl(ZoneId zone) {
         Objects.requireNonNull(zone, "zone");
-        return this.zone.equals(zone) ? this : ofLocal(dateTime, zone, offset);
+        return this.zone.equbls(zone) ? this : ofLocbl(dbteTime, zone, offset);
     }
 
     /**
-     * Returns a copy of this date-time with a different time-zone,
-     * retaining the instant.
+     * Returns b copy of this dbte-time with b different time-zone,
+     * retbining the instbnt.
      * <p>
-     * This method changes the time-zone and retains the instant.
-     * This normally results in a change to the local date-time.
+     * This method chbnges the time-zone bnd retbins the instbnt.
+     * This normblly results in b chbnge to the locbl dbte-time.
      * <p>
-     * This method is based on retaining the same instant, thus gaps and overlaps
-     * in the local time-line have no effect on the result.
+     * This method is bbsed on retbining the sbme instbnt, thus gbps bnd overlbps
+     * in the locbl time-line hbve no effect on the result.
      * <p>
-     * To change the offset while keeping the local time,
-     * use {@link #withZoneSameLocal(ZoneId)}.
+     * To chbnge the offset while keeping the locbl time,
+     * use {@link #withZoneSbmeLocbl(ZoneId)}.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the requested zone, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm zone  the time-zone to chbnge to, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested zone, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
     @Override
-    public ZonedDateTime withZoneSameInstant(ZoneId zone) {
+    public ZonedDbteTime withZoneSbmeInstbnt(ZoneId zone) {
         Objects.requireNonNull(zone, "zone");
-        return this.zone.equals(zone) ? this :
-            create(dateTime.toEpochSecond(offset), dateTime.getNano(), zone);
+        return this.zone.equbls(zone) ? this :
+            crebte(dbteTime.toEpochSecond(offset), dbteTime.getNbno(), zone);
     }
 
     /**
-     * Returns a copy of this date-time with the zone ID set to the offset.
+     * Returns b copy of this dbte-time with the zone ID set to the offset.
      * <p>
-     * This returns a zoned date-time where the zone ID is the same as {@link #getOffset()}.
-     * The local date-time, offset and instant of the result will be the same as in this date-time.
+     * This returns b zoned dbte-time where the zone ID is the sbme bs {@link #getOffset()}.
+     * The locbl dbte-time, offset bnd instbnt of the result will be the sbme bs in this dbte-time.
      * <p>
-     * Setting the date-time to a fixed single offset means that any future
-     * calculations, such as addition or subtraction, have no complex edge cases
+     * Setting the dbte-time to b fixed single offset mebns thbt bny future
+     * cblculbtions, such bs bddition or subtrbction, hbve no complex edge cbses
      * due to time-zone rules.
-     * This might also be useful when sending a zoned date-time across a network,
-     * as most protocols, such as ISO-8601, only handle offsets,
-     * and not region-based zone IDs.
+     * This might blso be useful when sending b zoned dbte-time bcross b network,
+     * bs most protocols, such bs ISO-8601, only hbndle offsets,
+     * bnd not region-bbsed zone IDs.
      * <p>
-     * This is equivalent to {@code ZonedDateTime.of(zdt.toLocalDateTime(), zdt.getOffset())}.
+     * This is equivblent to {@code ZonedDbteTime.of(zdt.toLocblDbteTime(), zdt.getOffset())}.
      *
-     * @return a {@code ZonedDateTime} with the zone ID set to the offset, not null
+     * @return b {@code ZonedDbteTime} with the zone ID set to the offset, not null
      */
-    public ZonedDateTime withFixedOffsetZone() {
-        return this.zone.equals(offset) ? this : new ZonedDateTime(dateTime, offset, offset);
+    public ZonedDbteTime withFixedOffsetZone() {
+        return this.zone.equbls(offset) ? this : new ZonedDbteTime(dbteTime, offset, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalDateTime} part of this date-time.
+     * Gets the {@code LocblDbteTime} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalDateTime} with the same year, month, day and time
-     * as this date-time.
+     * This returns b {@code LocblDbteTime} with the sbme yebr, month, dby bnd time
+     * bs this dbte-time.
      *
-     * @return the local date-time part of this date-time, not null
+     * @return the locbl dbte-time pbrt of this dbte-time, not null
      */
     @Override  // override for return type
-    public LocalDateTime toLocalDateTime() {
-        return dateTime;
+    public LocblDbteTime toLocblDbteTime() {
+        return dbteTime;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalDate} part of this date-time.
+     * Gets the {@code LocblDbte} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalDate} with the same year, month and day
-     * as this date-time.
+     * This returns b {@code LocblDbte} with the sbme yebr, month bnd dby
+     * bs this dbte-time.
      *
-     * @return the date part of this date-time, not null
+     * @return the dbte pbrt of this dbte-time, not null
      */
     @Override  // override for return type
-    public LocalDate toLocalDate() {
-        return dateTime.toLocalDate();
+    public LocblDbte toLocblDbte() {
+        return dbteTime.toLocblDbte();
     }
 
     /**
-     * Gets the year field.
+     * Gets the yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the year.
+     * This method returns the primitive {@code int} vblue for the yebr.
      * <p>
-     * The year returned by this method is proleptic as per {@code get(YEAR)}.
-     * To obtain the year-of-era, use {@code get(YEAR_OF_ERA)}.
+     * The yebr returned by this method is proleptic bs per {@code get(YEAR)}.
+     * To obtbin the yebr-of-erb, use {@code get(YEAR_OF_ERA)}.
      *
-     * @return the year, from MIN_YEAR to MAX_YEAR
+     * @return the yebr, from MIN_YEAR to MAX_YEAR
      */
-    public int getYear() {
-        return dateTime.getYear();
+    public int getYebr() {
+        return dbteTime.getYebr();
     }
 
     /**
-     * Gets the month-of-year field from 1 to 12.
+     * Gets the month-of-yebr field from 1 to 12.
      * <p>
-     * This method returns the month as an {@code int} from 1 to 12.
-     * Application code is frequently clearer if the enum {@link Month}
-     * is used by calling {@link #getMonth()}.
+     * This method returns the month bs bn {@code int} from 1 to 12.
+     * Applicbtion code is frequently clebrer if the enum {@link Month}
+     * is used by cblling {@link #getMonth()}.
      *
-     * @return the month-of-year, from 1 to 12
+     * @return the month-of-yebr, from 1 to 12
      * @see #getMonth()
      */
-    public int getMonthValue() {
-        return dateTime.getMonthValue();
+    public int getMonthVblue() {
+        return dbteTime.getMonthVblue();
     }
 
     /**
-     * Gets the month-of-year field using the {@code Month} enum.
+     * Gets the month-of-yebr field using the {@code Month} enum.
      * <p>
      * This method returns the enum {@link Month} for the month.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link Month#getValue() int value}.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link Month#getVblue() int vblue}.
      *
-     * @return the month-of-year, not null
-     * @see #getMonthValue()
+     * @return the month-of-yebr, not null
+     * @see #getMonthVblue()
      */
     public Month getMonth() {
-        return dateTime.getMonth();
+        return dbteTime.getMonth();
     }
 
     /**
-     * Gets the day-of-month field.
+     * Gets the dby-of-month field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-month.
+     * This method returns the primitive {@code int} vblue for the dby-of-month.
      *
-     * @return the day-of-month, from 1 to 31
+     * @return the dby-of-month, from 1 to 31
      */
-    public int getDayOfMonth() {
-        return dateTime.getDayOfMonth();
+    public int getDbyOfMonth() {
+        return dbteTime.getDbyOfMonth();
     }
 
     /**
-     * Gets the day-of-year field.
+     * Gets the dby-of-yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-year.
+     * This method returns the primitive {@code int} vblue for the dby-of-yebr.
      *
-     * @return the day-of-year, from 1 to 365, or 366 in a leap year
+     * @return the dby-of-yebr, from 1 to 365, or 366 in b lebp yebr
      */
-    public int getDayOfYear() {
-        return dateTime.getDayOfYear();
+    public int getDbyOfYebr() {
+        return dbteTime.getDbyOfYebr();
     }
 
     /**
-     * Gets the day-of-week field, which is an enum {@code DayOfWeek}.
+     * Gets the dby-of-week field, which is bn enum {@code DbyOfWeek}.
      * <p>
-     * This method returns the enum {@link DayOfWeek} for the day-of-week.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link DayOfWeek#getValue() int value}.
+     * This method returns the enum {@link DbyOfWeek} for the dby-of-week.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link DbyOfWeek#getVblue() int vblue}.
      * <p>
-     * Additional information can be obtained from the {@code DayOfWeek}.
-     * This includes textual names of the values.
+     * Additionbl informbtion cbn be obtbined from the {@code DbyOfWeek}.
+     * This includes textubl nbmes of the vblues.
      *
-     * @return the day-of-week, not null
+     * @return the dby-of-week, not null
      */
-    public DayOfWeek getDayOfWeek() {
-        return dateTime.getDayOfWeek();
+    public DbyOfWeek getDbyOfWeek() {
+        return dbteTime.getDbyOfWeek();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalTime} part of this date-time.
+     * Gets the {@code LocblTime} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalTime} with the same hour, minute, second and
-     * nanosecond as this date-time.
+     * This returns b {@code LocblTime} with the sbme hour, minute, second bnd
+     * nbnosecond bs this dbte-time.
      *
-     * @return the time part of this date-time, not null
+     * @return the time pbrt of this dbte-time, not null
      */
-    @Override  // override for Javadoc and performance
-    public LocalTime toLocalTime() {
-        return dateTime.toLocalTime();
+    @Override  // override for Jbvbdoc bnd performbnce
+    public LocblTime toLocblTime() {
+        return dbteTime.toLocblTime();
     }
 
     /**
-     * Gets the hour-of-day field.
+     * Gets the hour-of-dby field.
      *
-     * @return the hour-of-day, from 0 to 23
+     * @return the hour-of-dby, from 0 to 23
      */
     public int getHour() {
-        return dateTime.getHour();
+        return dbteTime.getHour();
     }
 
     /**
@@ -1153,7 +1153,7 @@ public final class ZonedDateTime
      * @return the minute-of-hour, from 0 to 59
      */
     public int getMinute() {
-        return dateTime.getMinute();
+        return dbteTime.getMinute();
     }
 
     /**
@@ -1162,553 +1162,553 @@ public final class ZonedDateTime
      * @return the second-of-minute, from 0 to 59
      */
     public int getSecond() {
-        return dateTime.getSecond();
+        return dbteTime.getSecond();
     }
 
     /**
-     * Gets the nano-of-second field.
+     * Gets the nbno-of-second field.
      *
-     * @return the nano-of-second, from 0 to 999,999,999
+     * @return the nbno-of-second, from 0 to 999,999,999
      */
-    public int getNano() {
-        return dateTime.getNano();
+    public int getNbno() {
+        return dbteTime.getNbno();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this date-time.
+     * Returns bn bdjusted copy of this dbte-time.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the date-time adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the dbte-time bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * A simple adjuster might simply set the one of the fields, such as the year field.
-     * A more complex adjuster might set the date to the last day of the month.
-     * A selection of common adjustments is provided in
-     * {@link java.time.temporal.TemporalAdjusters TemporalAdjusters}.
-     * These include finding the "last day of the month" and "next Wednesday".
-     * Key date-time classes also implement the {@code TemporalAdjuster} interface,
-     * such as {@link Month} and {@link java.time.MonthDay MonthDay}.
-     * The adjuster is responsible for handling special cases, such as the varying
-     * lengths of month and leap years.
+     * A simple bdjuster might simply set the one of the fields, such bs the yebr field.
+     * A more complex bdjuster might set the dbte to the lbst dby of the month.
+     * A selection of common bdjustments is provided in
+     * {@link jbvb.time.temporbl.TemporblAdjusters TemporblAdjusters}.
+     * These include finding the "lbst dby of the month" bnd "next Wednesdby".
+     * Key dbte-time clbsses blso implement the {@code TemporblAdjuster} interfbce,
+     * such bs {@link Month} bnd {@link jbvb.time.MonthDby MonthDby}.
+     * The bdjuster is responsible for hbndling specibl cbses, such bs the vbrying
+     * lengths of month bnd lebp yebrs.
      * <p>
-     * For example this code returns a date on the last day of July:
+     * For exbmple this code returns b dbte on the lbst dby of July:
      * <pre>
-     *  import static java.time.Month.*;
-     *  import static java.time.temporal.TemporalAdjusters.*;
+     *  import stbtic jbvb.time.Month.*;
+     *  import stbtic jbvb.time.temporbl.TemporblAdjusters.*;
      *
-     *  result = zonedDateTime.with(JULY).with(lastDayOfMonth());
+     *  result = zonedDbteTime.with(JULY).with(lbstDbyOfMonth());
      * </pre>
      * <p>
-     * The classes {@link LocalDate} and {@link LocalTime} implement {@code TemporalAdjuster},
-     * thus this method can be used to change the date, time or offset:
+     * The clbsses {@link LocblDbte} bnd {@link LocblTime} implement {@code TemporblAdjuster},
+     * thus this method cbn be used to chbnge the dbte, time or offset:
      * <pre>
-     *  result = zonedDateTime.with(date);
-     *  result = zonedDateTime.with(time);
+     *  result = zonedDbteTime.with(dbte);
+     *  result = zonedDbteTime.with(time);
      * </pre>
      * <p>
-     * {@link ZoneOffset} also implements {@code TemporalAdjuster} however using it
-     * as an argument typically has no effect. The offset of a {@code ZonedDateTime} is
-     * controlled primarily by the time-zone. As such, changing the offset does not generally
-     * make sense, because there is only one valid offset for the local date-time and zone.
-     * If the zoned date-time is in a daylight savings overlap, then the offset is used
-     * to switch between the two valid offsets. In all other cases, the offset is ignored.
+     * {@link ZoneOffset} blso implements {@code TemporblAdjuster} however using it
+     * bs bn brgument typicblly hbs no effect. The offset of b {@code ZonedDbteTime} is
+     * controlled primbrily by the time-zone. As such, chbnging the offset does not generblly
+     * mbke sense, becbuse there is only one vblid offset for the locbl dbte-time bnd zone.
+     * If the zoned dbte-time is in b dbylight sbvings overlbp, then the offset is used
+     * to switch between the two vblid offsets. In bll other cbses, the offset is ignored.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return a {@code ZonedDateTime} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return b {@code ZonedDbteTime} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime with(TemporalAdjuster adjuster) {
-        // optimizations
-        if (adjuster instanceof LocalDate) {
-            return resolveLocal(LocalDateTime.of((LocalDate) adjuster, dateTime.toLocalTime()));
-        } else if (adjuster instanceof LocalTime) {
-            return resolveLocal(LocalDateTime.of(dateTime.toLocalDate(), (LocalTime) adjuster));
-        } else if (adjuster instanceof LocalDateTime) {
-            return resolveLocal((LocalDateTime) adjuster);
-        } else if (adjuster instanceof OffsetDateTime) {
-            OffsetDateTime odt = (OffsetDateTime) adjuster;
-            return ofLocal(odt.toLocalDateTime(), zone, odt.getOffset());
-        } else if (adjuster instanceof Instant) {
-            Instant instant = (Instant) adjuster;
-            return create(instant.getEpochSecond(), instant.getNano(), zone);
-        } else if (adjuster instanceof ZoneOffset) {
-            return resolveOffset((ZoneOffset) adjuster);
+    public ZonedDbteTime with(TemporblAdjuster bdjuster) {
+        // optimizbtions
+        if (bdjuster instbnceof LocblDbte) {
+            return resolveLocbl(LocblDbteTime.of((LocblDbte) bdjuster, dbteTime.toLocblTime()));
+        } else if (bdjuster instbnceof LocblTime) {
+            return resolveLocbl(LocblDbteTime.of(dbteTime.toLocblDbte(), (LocblTime) bdjuster));
+        } else if (bdjuster instbnceof LocblDbteTime) {
+            return resolveLocbl((LocblDbteTime) bdjuster);
+        } else if (bdjuster instbnceof OffsetDbteTime) {
+            OffsetDbteTime odt = (OffsetDbteTime) bdjuster;
+            return ofLocbl(odt.toLocblDbteTime(), zone, odt.getOffset());
+        } else if (bdjuster instbnceof Instbnt) {
+            Instbnt instbnt = (Instbnt) bdjuster;
+            return crebte(instbnt.getEpochSecond(), instbnt.getNbno(), zone);
+        } else if (bdjuster instbnceof ZoneOffset) {
+            return resolveOffset((ZoneOffset) bdjuster);
         }
-        return (ZonedDateTime) adjuster.adjustInto(this);
+        return (ZonedDbteTime) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified field set to a new value.
+     * Returns b copy of this dbte-time with the specified field set to b new vblue.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the value
-     * for the specified field changed.
-     * This can be used to change any supported field, such as the year, month or day-of-month.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * This cbn be used to chbnge bny supported field, such bs the yebr, month or dby-of-month.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * In some cases, changing the specified field can cause the resulting date-time to become invalid,
-     * such as changing the month from 31st January to February would make the day-of-month invalid.
-     * In cases like this, the field is responsible for resolving the date. Typically it will choose
-     * the previous valid date, which would be the last valid day of February in this example.
+     * In some cbses, chbnging the specified field cbn cbuse the resulting dbte-time to become invblid,
+     * such bs chbnging the month from 31st Jbnubry to Februbry would mbke the dby-of-month invblid.
+     * In cbses like this, the field is responsible for resolving the dbte. Typicblly it will choose
+     * the previous vblid dbte, which would be the lbst vblid dby of Februbry in this exbmple.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
      * <p>
-     * The {@code INSTANT_SECONDS} field will return a date-time with the specified instant.
-     * The zone and nano-of-second are unchanged.
-     * The result will have an offset derived from the new instant and original zone.
-     * If the new instant value is outside the valid range then a {@code DateTimeException} will be thrown.
+     * The {@code INSTANT_SECONDS} field will return b dbte-time with the specified instbnt.
+     * The zone bnd nbno-of-second bre unchbnged.
+     * The result will hbve bn offset derived from the new instbnt bnd originbl zone.
+     * If the new instbnt vblue is outside the vblid rbnge then b {@code DbteTimeException} will be thrown.
      * <p>
-     * The {@code OFFSET_SECONDS} field will typically be ignored.
-     * The offset of a {@code ZonedDateTime} is controlled primarily by the time-zone.
-     * As such, changing the offset does not generally make sense, because there is only
-     * one valid offset for the local date-time and zone.
-     * If the zoned date-time is in a daylight savings overlap, then the offset is used
-     * to switch between the two valid offsets. In all other cases, the offset is ignored.
-     * If the new offset value is outside the valid range then a {@code DateTimeException} will be thrown.
+     * The {@code OFFSET_SECONDS} field will typicblly be ignored.
+     * The offset of b {@code ZonedDbteTime} is controlled primbrily by the time-zone.
+     * As such, chbnging the offset does not generblly mbke sense, becbuse there is only
+     * one vblid offset for the locbl dbte-time bnd zone.
+     * If the zoned dbte-time is in b dbylight sbvings overlbp, then the offset is used
+     * to switch between the two vblid offsets. In bll other cbses, the offset is ignored.
+     * If the new offset vblue is outside the vblid rbnge then b {@code DbteTimeException} will be thrown.
      * <p>
-     * The other {@link #isSupported(TemporalField) supported fields} will behave as per
-     * the matching method on {@link LocalDateTime#with(TemporalField, long) LocalDateTime}.
-     * The zone is not part of the calculation and will be unchanged.
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * The other {@link #isSupported(TemporblField) supported fields} will behbve bs per
+     * the mbtching method on {@link LocblDbteTime#with(TemporblField, long) LocblDbteTime}.
+     * The zone is not pbrt of the cblculbtion bnd will be unchbnged.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return a {@code ZonedDateTime} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return b {@code ZonedDbteTime} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public ZonedDbteTime with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
             switch (f) {
-                case INSTANT_SECONDS:
-                    return create(newValue, getNano(), zone);
-                case OFFSET_SECONDS:
-                    ZoneOffset offset = ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue));
+                cbse INSTANT_SECONDS:
+                    return crebte(newVblue, getNbno(), zone);
+                cbse OFFSET_SECONDS:
+                    ZoneOffset offset = ZoneOffset.ofTotblSeconds(f.checkVblidIntVblue(newVblue));
                     return resolveOffset(offset);
             }
-            return resolveLocal(dateTime.with(field, newValue));
+            return resolveLocbl(dbteTime.with(field, newVblue));
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the year altered.
+     * Returns b copy of this {@code ZonedDbteTime} with the yebr bltered.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#withYear(int) changing the year} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#withYebr(int) chbnging the yebr} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param year  the year to set in the result, from MIN_YEAR to MAX_YEAR
-     * @return a {@code ZonedDateTime} based on this date-time with the requested year, not null
-     * @throws DateTimeException if the year value is invalid
+     * @pbrbm yebr  the yebr to set in the result, from MIN_YEAR to MAX_YEAR
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested yebr, not null
+     * @throws DbteTimeException if the yebr vblue is invblid
      */
-    public ZonedDateTime withYear(int year) {
-        return resolveLocal(dateTime.withYear(year));
+    public ZonedDbteTime withYebr(int yebr) {
+        return resolveLocbl(dbteTime.withYebr(yebr));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the month-of-year altered.
+     * Returns b copy of this {@code ZonedDbteTime} with the month-of-yebr bltered.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#withMonth(int) changing the month} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#withMonth(int) chbnging the month} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param month  the month-of-year to set in the result, from 1 (January) to 12 (December)
-     * @return a {@code ZonedDateTime} based on this date-time with the requested month, not null
-     * @throws DateTimeException if the month-of-year value is invalid
+     * @pbrbm month  the month-of-yebr to set in the result, from 1 (Jbnubry) to 12 (December)
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested month, not null
+     * @throws DbteTimeException if the month-of-yebr vblue is invblid
      */
-    public ZonedDateTime withMonth(int month) {
-        return resolveLocal(dateTime.withMonth(month));
+    public ZonedDbteTime withMonth(int month) {
+        return resolveLocbl(dbteTime.withMonth(month));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the day-of-month altered.
+     * Returns b copy of this {@code ZonedDbteTime} with the dby-of-month bltered.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#withDayOfMonth(int) changing the day-of-month} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#withDbyOfMonth(int) chbnging the dby-of-month} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfMonth  the day-of-month to set in the result, from 1 to 28-31
-     * @return a {@code ZonedDateTime} based on this date-time with the requested day, not null
-     * @throws DateTimeException if the day-of-month value is invalid,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm dbyOfMonth  the dby-of-month to set in the result, from 1 to 28-31
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-month vblue is invblid,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public ZonedDateTime withDayOfMonth(int dayOfMonth) {
-        return resolveLocal(dateTime.withDayOfMonth(dayOfMonth));
+    public ZonedDbteTime withDbyOfMonth(int dbyOfMonth) {
+        return resolveLocbl(dbteTime.withDbyOfMonth(dbyOfMonth));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the day-of-year altered.
+     * Returns b copy of this {@code ZonedDbteTime} with the dby-of-yebr bltered.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#withDayOfYear(int) changing the day-of-year} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#withDbyOfYebr(int) chbnging the dby-of-yebr} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfYear  the day-of-year to set in the result, from 1 to 365-366
-     * @return a {@code ZonedDateTime} based on this date with the requested day, not null
-     * @throws DateTimeException if the day-of-year value is invalid,
-     *  or if the day-of-year is invalid for the year
+     * @pbrbm dbyOfYebr  the dby-of-yebr to set in the result, from 1 to 365-366
+     * @return b {@code ZonedDbteTime} bbsed on this dbte with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-yebr vblue is invblid,
+     *  or if the dby-of-yebr is invblid for the yebr
      */
-    public ZonedDateTime withDayOfYear(int dayOfYear) {
-        return resolveLocal(dateTime.withDayOfYear(dayOfYear));
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this {@code ZonedDateTime} with the hour-of-day altered.
-     * <p>
-     * This operates on the local time-line,
-     * {@linkplain LocalDateTime#withHour(int) changing the time} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
-     * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param hour  the hour-of-day to set in the result, from 0 to 23
-     * @return a {@code ZonedDateTime} based on this date-time with the requested hour, not null
-     * @throws DateTimeException if the hour value is invalid
-     */
-    public ZonedDateTime withHour(int hour) {
-        return resolveLocal(dateTime.withHour(hour));
-    }
-
-    /**
-     * Returns a copy of this {@code ZonedDateTime} with the minute-of-hour altered.
-     * <p>
-     * This operates on the local time-line,
-     * {@linkplain LocalDateTime#withMinute(int) changing the time} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
-     * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param minute  the minute-of-hour to set in the result, from 0 to 59
-     * @return a {@code ZonedDateTime} based on this date-time with the requested minute, not null
-     * @throws DateTimeException if the minute value is invalid
-     */
-    public ZonedDateTime withMinute(int minute) {
-        return resolveLocal(dateTime.withMinute(minute));
-    }
-
-    /**
-     * Returns a copy of this {@code ZonedDateTime} with the second-of-minute altered.
-     * <p>
-     * This operates on the local time-line,
-     * {@linkplain LocalDateTime#withSecond(int) changing the time} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
-     * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param second  the second-of-minute to set in the result, from 0 to 59
-     * @return a {@code ZonedDateTime} based on this date-time with the requested second, not null
-     * @throws DateTimeException if the second value is invalid
-     */
-    public ZonedDateTime withSecond(int second) {
-        return resolveLocal(dateTime.withSecond(second));
-    }
-
-    /**
-     * Returns a copy of this {@code ZonedDateTime} with the nano-of-second altered.
-     * <p>
-     * This operates on the local time-line,
-     * {@linkplain LocalDateTime#withNano(int) changing the time} of the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
-     * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param nanoOfSecond  the nano-of-second to set in the result, from 0 to 999,999,999
-     * @return a {@code ZonedDateTime} based on this date-time with the requested nanosecond, not null
-     * @throws DateTimeException if the nano value is invalid
-     */
-    public ZonedDateTime withNano(int nanoOfSecond) {
-        return resolveLocal(dateTime.withNano(nanoOfSecond));
+    public ZonedDbteTime withDbyOfYebr(int dbyOfYebr) {
+        return resolveLocbl(dbteTime.withDbyOfYebr(dbyOfYebr));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the time truncated.
+     * Returns b copy of this {@code ZonedDbteTime} with the hour-of-dby bltered.
      * <p>
-     * Truncation returns a copy of the original date-time with fields
-     * smaller than the specified unit set to zero.
-     * For example, truncating with the {@link ChronoUnit#MINUTES minutes} unit
-     * will set the second-of-minute and nano-of-second field to zero.
+     * This operbtes on the locbl time-line,
+     * {@linkplbin LocblDbteTime#withHour(int) chbnging the time} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#truncatedTo(TemporalUnit) truncating}
-     * the underlying local date-time. This is then converted back to a
-     * {@code ZonedDateTime}, using the zone ID to obtain the offset.
-     * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the time truncated, not null
-     * @throws DateTimeException if unable to truncate
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm hour  the hour-of-dby to set in the result, from 0 to 23
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested hour, not null
+     * @throws DbteTimeException if the hour vblue is invblid
      */
-    public ZonedDateTime truncatedTo(TemporalUnit unit) {
-        return resolveLocal(dateTime.truncatedTo(unit));
+    public ZonedDbteTime withHour(int hour) {
+        return resolveLocbl(dbteTime.withHour(hour));
+    }
+
+    /**
+     * Returns b copy of this {@code ZonedDbteTime} with the minute-of-hour bltered.
+     * <p>
+     * This operbtes on the locbl time-line,
+     * {@linkplbin LocblDbteTime#withMinute(int) chbnging the time} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
+     * <p>
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm minute  the minute-of-hour to set in the result, from 0 to 59
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested minute, not null
+     * @throws DbteTimeException if the minute vblue is invblid
+     */
+    public ZonedDbteTime withMinute(int minute) {
+        return resolveLocbl(dbteTime.withMinute(minute));
+    }
+
+    /**
+     * Returns b copy of this {@code ZonedDbteTime} with the second-of-minute bltered.
+     * <p>
+     * This operbtes on the locbl time-line,
+     * {@linkplbin LocblDbteTime#withSecond(int) chbnging the time} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
+     * <p>
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm second  the second-of-minute to set in the result, from 0 to 59
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested second, not null
+     * @throws DbteTimeException if the second vblue is invblid
+     */
+    public ZonedDbteTime withSecond(int second) {
+        return resolveLocbl(dbteTime.withSecond(second));
+    }
+
+    /**
+     * Returns b copy of this {@code ZonedDbteTime} with the nbno-of-second bltered.
+     * <p>
+     * This operbtes on the locbl time-line,
+     * {@linkplbin LocblDbteTime#withNbno(int) chbnging the time} of the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
+     * <p>
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm nbnoOfSecond  the nbno-of-second to set in the result, from 0 to 999,999,999
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the requested nbnosecond, not null
+     * @throws DbteTimeException if the nbno vblue is invblid
+     */
+    public ZonedDbteTime withNbno(int nbnoOfSecond) {
+        return resolveLocbl(dbteTime.withNbno(nbnoOfSecond));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this {@code ZonedDbteTime} with the time truncbted.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the specified amount added.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
+     * Truncbtion returns b copy of the originbl dbte-time with fields
+     * smbller thbn the specified unit set to zero.
+     * For exbmple, truncbting with the {@link ChronoUnit#MINUTES minutes} unit
+     * will set the second-of-minute bnd nbno-of-second field to zero.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The unit must hbve b {@linkplbin TemporblUnit#getDurbtion() durbtion}
+     * thbt divides into the length of b stbndbrd dby without rembinder.
+     * This includes bll supplied time units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#truncbtedTo(TemporblUnit) truncbting}
+     * the underlying locbl dbte-time. This is then converted bbck to b
+     * {@code ZonedDbteTime}, using the zone ID to obtbin the offset.
+     * <p>
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm unit  the unit to truncbte to, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the time truncbted, not null
+     * @throws DbteTimeException if unbble to truncbte
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
+     */
+    public ZonedDbteTime truncbtedTo(TemporblUnit unit) {
+        return resolveLocbl(dbteTime.truncbtedTo(unit));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Returns b copy of this dbte-time with the specified bmount bdded.
+     * <p>
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
+     * <p>
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime plus(TemporalAmount amountToAdd) {
-        if (amountToAdd instanceof Period) {
-            Period periodToAdd = (Period) amountToAdd;
-            return resolveLocal(dateTime.plus(periodToAdd));
+    public ZonedDbteTime plus(TemporblAmount bmountToAdd) {
+        if (bmountToAdd instbnceof Period) {
+            Period periodToAdd = (Period) bmountToAdd;
+            return resolveLocbl(dbteTime.plus(periodToAdd));
         }
-        Objects.requireNonNull(amountToAdd, "amountToAdd");
-        return (ZonedDateTime) amountToAdd.addTo(this);
+        Objects.requireNonNull(bmountToAdd, "bmountToAdd");
+        return (ZonedDbteTime) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this dbte-time with the specified bmount bdded.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * The zone is not part of the calculation and will be unchanged in the result.
-     * The calculation for date and time units differ.
+     * If the field is b {@link ChronoUnit} then the bddition is implemented here.
+     * The zone is not pbrt of the cblculbtion bnd will be unchbnged in the result.
+     * The cblculbtion for dbte bnd time units differ.
      * <p>
-     * Date units operate on the local time-line.
-     * The period is first added to the local date-time, then converted back
-     * to a zoned date-time using the zone ID.
-     * The conversion uses {@link #ofLocal(LocalDateTime, ZoneId, ZoneOffset)}
-     * with the offset before the addition.
+     * Dbte units operbte on the locbl time-line.
+     * The period is first bdded to the locbl dbte-time, then converted bbck
+     * to b zoned dbte-time using the zone ID.
+     * The conversion uses {@link #ofLocbl(LocblDbteTime, ZoneId, ZoneOffset)}
+     * with the offset before the bddition.
      * <p>
-     * Time units operate on the instant time-line.
-     * The period is first added to the local date-time, then converted back to
-     * a zoned date-time using the zone ID.
-     * The conversion uses {@link #ofInstant(LocalDateTime, ZoneOffset, ZoneId)}
-     * with the offset before the addition.
+     * Time units operbte on the instbnt time-line.
+     * The period is first bdded to the locbl dbte-time, then converted bbck to
+     * b zoned dbte-time using the zone ID.
+     * The conversion uses {@link #ofInstbnt(LocblDbteTime, ZoneOffset, ZoneId)}
+     * with the offset before the bddition.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            if (unit.isDateBased()) {
-                return resolveLocal(dateTime.plus(amountToAdd, unit));
+    public ZonedDbteTime plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
+            if (unit.isDbteBbsed()) {
+                return resolveLocbl(dbteTime.plus(bmountToAdd, unit));
             } else {
-                return resolveInstant(dateTime.plus(amountToAdd, unit));
+                return resolveInstbnt(dbteTime.plus(bmountToAdd, unit));
             }
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of years added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of yebrs bdded.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#plusYears(long) adding years} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#plusYebrs(long) bdding yebrs} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the yebrs bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusYears(long years) {
-        return resolveLocal(dateTime.plusYears(years));
+    public ZonedDbteTime plusYebrs(long yebrs) {
+        return resolveLocbl(dbteTime.plusYebrs(yebrs));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of months added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of months bdded.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#plusMonths(long) adding months} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#plusMonths(long) bdding months} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the months bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusMonths(long months) {
-        return resolveLocal(dateTime.plusMonths(months));
+    public ZonedDbteTime plusMonths(long months) {
+        return resolveLocbl(dbteTime.plusMonths(months));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of weeks added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of weeks bdded.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#plusWeeks(long) adding weeks} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#plusWeeks(long) bdding weeks} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the weeks added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the weeks bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusWeeks(long weeks) {
-        return resolveLocal(dateTime.plusWeeks(weeks));
+    public ZonedDbteTime plusWeeks(long weeks) {
+        return resolveLocbl(dbteTime.plusWeeks(weeks));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of days added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of dbys bdded.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#plusDays(long) adding days} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#plusDbys(long) bdding dbys} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the days added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the dbys bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusDays(long days) {
-        return resolveLocal(dateTime.plusDays(days));
+    public ZonedDbteTime plusDbys(long dbys) {
+        return resolveLocbl(dbteTime.plusDbys(dbys));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of hours added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of hours bdded.
      * <p>
-     * This operates on the instant time-line, such that adding one hour will
-     * always be a duration of one hour later.
-     * This may cause the local date-time to change by an amount other than one hour.
-     * Note that this is a different approach to that used by days, months and years,
-     * thus adding one day is not the same as adding 24 hours.
+     * This operbtes on the instbnt time-line, such thbt bdding one hour will
+     * blwbys be b durbtion of one hour lbter.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one hour.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs,
+     * thus bdding one dby is not the sbme bs bdding 24 hours.
      * <p>
-     * For example, consider a time-zone where the spring DST cutover means that the
-     * local times 01:00 to 01:59 occur twice changing from offset +02:00 to +01:00.
+     * For exbmple, consider b time-zone where the spring DST cutover mebns thbt the
+     * locbl times 01:00 to 01:59 occur twice chbnging from offset +02:00 to +01:00.
      * <ul>
      * <li>Adding one hour to 00:30+02:00 will result in 01:30+02:00
      * <li>Adding one hour to 01:30+02:00 will result in 01:30+01:00
@@ -1716,495 +1716,495 @@ public final class ZonedDateTime
      * <li>Adding three hours to 00:30+02:00 will result in 02:30+01:00
      * </ul>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hours  the hours to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the hours added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm hours  the hours to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the hours bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusHours(long hours) {
-        return resolveInstant(dateTime.plusHours(hours));
+    public ZonedDbteTime plusHours(long hours) {
+        return resolveInstbnt(dbteTime.plusHours(hours));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of minutes added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of minutes bdded.
      * <p>
-     * This operates on the instant time-line, such that adding one minute will
-     * always be a duration of one minute later.
-     * This may cause the local date-time to change by an amount other than one minute.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt bdding one minute will
+     * blwbys be b durbtion of one minute lbter.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one minute.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutes  the minutes to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the minutes added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm minutes  the minutes to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the minutes bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusMinutes(long minutes) {
-        return resolveInstant(dateTime.plusMinutes(minutes));
+    public ZonedDbteTime plusMinutes(long minutes) {
+        return resolveInstbnt(dbteTime.plusMinutes(minutes));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of seconds added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of seconds bdded.
      * <p>
-     * This operates on the instant time-line, such that adding one second will
-     * always be a duration of one second later.
-     * This may cause the local date-time to change by an amount other than one second.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt bdding one second will
+     * blwbys be b durbtion of one second lbter.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one second.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the seconds added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm seconds  the seconds to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the seconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusSeconds(long seconds) {
-        return resolveInstant(dateTime.plusSeconds(seconds));
+    public ZonedDbteTime plusSeconds(long seconds) {
+        return resolveInstbnt(dbteTime.plusSeconds(seconds));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of nanoseconds added.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of nbnoseconds bdded.
      * <p>
-     * This operates on the instant time-line, such that adding one nano will
-     * always be a duration of one nano later.
-     * This may cause the local date-time to change by an amount other than one nano.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt bdding one nbno will
+     * blwbys be b durbtion of one nbno lbter.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one nbno.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanos  the nanos to add, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the nanoseconds added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm nbnos  the nbnos to bdd, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the nbnoseconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime plusNanos(long nanos) {
-        return resolveInstant(dateTime.plusNanos(nanos));
+    public ZonedDbteTime plusNbnos(long nbnos) {
+        return resolveInstbnt(dbteTime.plusNbnos(nbnos));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime minus(TemporalAmount amountToSubtract) {
-        if (amountToSubtract instanceof Period) {
-            Period periodToSubtract = (Period) amountToSubtract;
-            return resolveLocal(dateTime.minus(periodToSubtract));
+    public ZonedDbteTime minus(TemporblAmount bmountToSubtrbct) {
+        if (bmountToSubtrbct instbnceof Period) {
+            Period periodToSubtrbct = (Period) bmountToSubtrbct;
+            return resolveLocbl(dbteTime.minus(periodToSubtrbct));
         }
-        Objects.requireNonNull(amountToSubtract, "amountToSubtract");
-        return (ZonedDateTime) amountToSubtract.subtractFrom(this);
+        Objects.requireNonNull(bmountToSubtrbct, "bmountToSubtrbct");
+        return (ZonedDbteTime) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code ZonedDateTime}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code ZonedDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * The calculation for date and time units differ.
+     * The cblculbtion for dbte bnd time units differ.
      * <p>
-     * Date units operate on the local time-line.
-     * The period is first subtracted from the local date-time, then converted back
-     * to a zoned date-time using the zone ID.
-     * The conversion uses {@link #ofLocal(LocalDateTime, ZoneId, ZoneOffset)}
-     * with the offset before the subtraction.
+     * Dbte units operbte on the locbl time-line.
+     * The period is first subtrbcted from the locbl dbte-time, then converted bbck
+     * to b zoned dbte-time using the zone ID.
+     * The conversion uses {@link #ofLocbl(LocblDbteTime, ZoneId, ZoneOffset)}
+     * with the offset before the subtrbction.
      * <p>
-     * Time units operate on the instant time-line.
-     * The period is first subtracted from the local date-time, then converted back to
-     * a zoned date-time using the zone ID.
-     * The conversion uses {@link #ofInstant(LocalDateTime, ZoneOffset, ZoneId)}
-     * with the offset before the subtraction.
+     * Time units operbte on the instbnt time-line.
+     * The period is first subtrbcted from the locbl dbte-time, then converted bbck to
+     * b zoned dbte-time using the zone ID.
+     * The conversion uses {@link #ofInstbnt(LocblDbteTime, ZoneOffset, ZoneId)}
+     * with the offset before the subtrbction.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return a {@code ZonedDateTime} based on this date-time with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public ZonedDateTime minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public ZonedDbteTime minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of years subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of yebrs subtrbcted.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#minusYears(long) subtracting years} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#minusYebrs(long) subtrbcting yebrs} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the yebrs subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusYears(long years) {
-        return (years == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-years));
+    public ZonedDbteTime minusYebrs(long yebrs) {
+        return (yebrs == Long.MIN_VALUE ? plusYebrs(Long.MAX_VALUE).plusYebrs(1) : plusYebrs(-yebrs));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of months subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of months subtrbcted.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#minusMonths(long) subtracting months} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#minusMonths(long) subtrbcting months} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the months subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusMonths(long months) {
+    public ZonedDbteTime minusMonths(long months) {
         return (months == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-months));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of weeks subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of weeks subtrbcted.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#minusWeeks(long) subtracting weeks} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#minusWeeks(long) subtrbcting weeks} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the weeks subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the weeks subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusWeeks(long weeks) {
+    public ZonedDbteTime minusWeeks(long weeks) {
         return (weeks == Long.MIN_VALUE ? plusWeeks(Long.MAX_VALUE).plusWeeks(1) : plusWeeks(-weeks));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of days subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of dbys subtrbcted.
      * <p>
-     * This operates on the local time-line,
-     * {@link LocalDateTime#minusDays(long) subtracting days} to the local date-time.
-     * This is then converted back to a {@code ZonedDateTime}, using the zone ID
-     * to obtain the offset.
+     * This operbtes on the locbl time-line,
+     * {@link LocblDbteTime#minusDbys(long) subtrbcting dbys} to the locbl dbte-time.
+     * This is then converted bbck to b {@code ZonedDbteTime}, using the zone ID
+     * to obtbin the offset.
      * <p>
-     * When converting back to {@code ZonedDateTime}, if the local date-time is in an overlap,
-     * then the offset will be retained if possible, otherwise the earlier offset will be used.
-     * If in a gap, the local date-time will be adjusted forward by the length of the gap.
+     * When converting bbck to {@code ZonedDbteTime}, if the locbl dbte-time is in bn overlbp,
+     * then the offset will be retbined if possible, otherwise the ebrlier offset will be used.
+     * If in b gbp, the locbl dbte-time will be bdjusted forwbrd by the length of the gbp.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the days subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the dbys subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusDays(long days) {
-        return (days == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-days));
+    public ZonedDbteTime minusDbys(long dbys) {
+        return (dbys == Long.MIN_VALUE ? plusDbys(Long.MAX_VALUE).plusDbys(1) : plusDbys(-dbys));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of hours subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of hours subtrbcted.
      * <p>
-     * This operates on the instant time-line, such that subtracting one hour will
-     * always be a duration of one hour earlier.
-     * This may cause the local date-time to change by an amount other than one hour.
-     * Note that this is a different approach to that used by days, months and years,
-     * thus subtracting one day is not the same as adding 24 hours.
+     * This operbtes on the instbnt time-line, such thbt subtrbcting one hour will
+     * blwbys be b durbtion of one hour ebrlier.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one hour.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs,
+     * thus subtrbcting one dby is not the sbme bs bdding 24 hours.
      * <p>
-     * For example, consider a time-zone where the spring DST cutover means that the
-     * local times 01:00 to 01:59 occur twice changing from offset +02:00 to +01:00.
+     * For exbmple, consider b time-zone where the spring DST cutover mebns thbt the
+     * locbl times 01:00 to 01:59 occur twice chbnging from offset +02:00 to +01:00.
      * <ul>
-     * <li>Subtracting one hour from 02:30+01:00 will result in 01:30+02:00
-     * <li>Subtracting one hour from 01:30+01:00 will result in 01:30+02:00
-     * <li>Subtracting one hour from 01:30+02:00 will result in 00:30+01:00
-     * <li>Subtracting three hours from 02:30+01:00 will result in 00:30+02:00
+     * <li>Subtrbcting one hour from 02:30+01:00 will result in 01:30+02:00
+     * <li>Subtrbcting one hour from 01:30+01:00 will result in 01:30+02:00
+     * <li>Subtrbcting one hour from 01:30+02:00 will result in 00:30+01:00
+     * <li>Subtrbcting three hours from 02:30+01:00 will result in 00:30+02:00
      * </ul>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hours  the hours to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the hours subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm hours  the hours to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the hours subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusHours(long hours) {
+    public ZonedDbteTime minusHours(long hours) {
         return (hours == Long.MIN_VALUE ? plusHours(Long.MAX_VALUE).plusHours(1) : plusHours(-hours));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of minutes subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of minutes subtrbcted.
      * <p>
-     * This operates on the instant time-line, such that subtracting one minute will
-     * always be a duration of one minute earlier.
-     * This may cause the local date-time to change by an amount other than one minute.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt subtrbcting one minute will
+     * blwbys be b durbtion of one minute ebrlier.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one minute.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutes  the minutes to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the minutes subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm minutes  the minutes to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the minutes subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusMinutes(long minutes) {
+    public ZonedDbteTime minusMinutes(long minutes) {
         return (minutes == Long.MIN_VALUE ? plusMinutes(Long.MAX_VALUE).plusMinutes(1) : plusMinutes(-minutes));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of seconds subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of seconds subtrbcted.
      * <p>
-     * This operates on the instant time-line, such that subtracting one second will
-     * always be a duration of one second earlier.
-     * This may cause the local date-time to change by an amount other than one second.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt subtrbcting one second will
+     * blwbys be b durbtion of one second ebrlier.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one second.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the seconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm seconds  the seconds to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the seconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusSeconds(long seconds) {
+    public ZonedDbteTime minusSeconds(long seconds) {
         return (seconds == Long.MIN_VALUE ? plusSeconds(Long.MAX_VALUE).plusSeconds(1) : plusSeconds(-seconds));
     }
 
     /**
-     * Returns a copy of this {@code ZonedDateTime} with the specified number of nanoseconds subtracted.
+     * Returns b copy of this {@code ZonedDbteTime} with the specified number of nbnoseconds subtrbcted.
      * <p>
-     * This operates on the instant time-line, such that subtracting one nano will
-     * always be a duration of one nano earlier.
-     * This may cause the local date-time to change by an amount other than one nano.
-     * Note that this is a different approach to that used by days, months and years.
+     * This operbtes on the instbnt time-line, such thbt subtrbcting one nbno will
+     * blwbys be b durbtion of one nbno ebrlier.
+     * This mby cbuse the locbl dbte-time to chbnge by bn bmount other thbn one nbno.
+     * Note thbt this is b different bpprobch to thbt used by dbys, months bnd yebrs.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanos  the nanos to subtract, may be negative
-     * @return a {@code ZonedDateTime} based on this date-time with the nanoseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm nbnos  the nbnos to subtrbct, mby be negbtive
+     * @return b {@code ZonedDbteTime} bbsed on this dbte-time with the nbnoseconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public ZonedDateTime minusNanos(long nanos) {
-        return (nanos == Long.MIN_VALUE ? plusNanos(Long.MAX_VALUE).plusNanos(1) : plusNanos(-nanos));
+    public ZonedDbteTime minusNbnos(long nbnos) {
+        return (nbnos == Long.MIN_VALUE ? plusNbnos(Long.MAX_VALUE).plusNbnos(1) : plusNbnos(-nbnos));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this date-time using the specified query.
+     * Queries this dbte-time using the specified query.
      * <p>
-     * This queries this date-time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this dbte-time using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
-    @Override  // override for Javadoc
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.localDate()) {
-            return (R) toLocalDate();
+    @SuppressWbrnings("unchecked")
+    @Override  // override for Jbvbdoc
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.locblDbte()) {
+            return (R) toLocblDbte();
         }
-        return ChronoZonedDateTime.super.query(query);
+        return ChronoZonedDbteTime.super.query(query);
     }
 
     /**
-     * Calculates the amount of time until another date-time in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother dbte-time in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code ZonedDateTime}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified date-time.
-     * The result will be negative if the end is before the start.
-     * For example, the amount in days between two date-times can be calculated
-     * using {@code startDateTime.until(endDateTime, DAYS)}.
+     * This cblculbtes the bmount of time between two {@code ZonedDbteTime}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified dbte-time.
+     * The result will be negbtive if the end is before the stbrt.
+     * For exbmple, the bmount in dbys between two dbte-times cbn be cblculbted
+     * using {@code stbrtDbteTime.until(endDbteTime, DAYS)}.
      * <p>
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code ZonedDateTime} using {@link #from(TemporalAccessor)}.
-     * If the time-zone differs between the two zoned date-times, the specified
-     * end date-time is normalized to have the same zone as this date-time.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code ZonedDbteTime} using {@link #from(TemporblAccessor)}.
+     * If the time-zone differs between the two zoned dbte-times, the specified
+     * end dbte-time is normblized to hbve the sbme zone bs this dbte-time.
      * <p>
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two date-times.
-     * For example, the amount in months between 2012-06-15T00:00Z and 2012-08-14T23:59Z
-     * will only be one month as it is one minute short of two months.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two dbte-times.
+     * For exbmple, the bmount in months between 2012-06-15T00:00Z bnd 2012-08-14T23:59Z
+     * will only be one month bs it is one minute short of two months.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, MONTHS);
-     *   amount = MONTHS.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, MONTHS);
+     *   bmount = MONTHS.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS} and {@code HALF_DAYS}, {@code DAYS},
+     * {@code MINUTES}, {@code HOURS} bnd {@code HALF_DAYS}, {@code DAYS},
      * {@code WEEKS}, {@code MONTHS}, {@code YEARS}, {@code DECADES},
-     * {@code CENTURIES}, {@code MILLENNIA} and {@code ERAS} are supported.
-     * Other {@code ChronoUnit} values will throw an exception.
+     * {@code CENTURIES}, {@code MILLENNIA} bnd {@code ERAS} bre supported.
+     * Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * The calculation for date and time units differ.
+     * The cblculbtion for dbte bnd time units differ.
      * <p>
-     * Date units operate on the local time-line, using the local date-time.
-     * For example, the period from noon on day 1 to noon the following day
-     * in days will always be counted as exactly one day, irrespective of whether
-     * there was a daylight savings change or not.
+     * Dbte units operbte on the locbl time-line, using the locbl dbte-time.
+     * For exbmple, the period from noon on dby 1 to noon the following dby
+     * in dbys will blwbys be counted bs exbctly one dby, irrespective of whether
+     * there wbs b dbylight sbvings chbnge or not.
      * <p>
-     * Time units operate on the instant time-line.
-     * The calculation effectively converts both zoned date-times to instants
-     * and then calculates the period between the instants.
-     * For example, the period from noon on day 1 to noon the following day
-     * in hours may be 23, 24 or 25 hours (or some other amount) depending on
-     * whether there was a daylight savings change or not.
+     * Time units operbte on the instbnt time-line.
+     * The cblculbtion effectively converts both zoned dbte-times to instbnts
+     * bnd then cblculbtes the period between the instbnts.
+     * For exbmple, the period from noon on dby 1 to noon the following dby
+     * in hours mby be 23, 24 or 25 hours (or some other bmount) depending on
+     * whether there wbs b dbylight sbvings chbnge or not.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to a {@code ZonedDateTime}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this date-time and the end date-time
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to a {@code ZonedDateTime}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end dbte, exclusive, which is converted to b {@code ZonedDbteTime}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this dbte-time bnd the end dbte-time
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to b {@code ZonedDbteTime}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        ZonedDateTime end = ZonedDateTime.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            end = end.withZoneSameInstant(zone);
-            if (unit.isDateBased()) {
-                return dateTime.until(end.dateTime, unit);
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        ZonedDbteTime end = ZonedDbteTime.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            end = end.withZoneSbmeInstbnt(zone);
+            if (unit.isDbteBbsed()) {
+                return dbteTime.until(end.dbteTime, unit);
             } else {
-                return toOffsetDateTime().until(end.toOffsetDateTime(), unit);
+                return toOffsetDbteTime().until(end.toOffsetDbteTime(), unit);
             }
         }
         return unit.between(this, end);
     }
 
     /**
-     * Formats this date-time using the specified formatter.
+     * Formbts this dbte-time using the specified formbtter.
      * <p>
-     * This date-time will be passed to the formatter to produce a string.
+     * This dbte-time will be pbssed to the formbtter to produce b string.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted date-time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted dbte-time string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    @Override  // override for Javadoc and performance
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    @Override  // override for Jbvbdoc bnd performbnce
+    public String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this date-time to an {@code OffsetDateTime}.
+     * Converts this dbte-time to bn {@code OffsetDbteTime}.
      * <p>
-     * This creates an offset date-time using the local date-time and offset.
+     * This crebtes bn offset dbte-time using the locbl dbte-time bnd offset.
      * The zone ID is ignored.
      *
-     * @return an offset date-time representing the same local date-time and offset, not null
+     * @return bn offset dbte-time representing the sbme locbl dbte-time bnd offset, not null
      */
-    public OffsetDateTime toOffsetDateTime() {
-        return OffsetDateTime.of(dateTime, offset);
+    public OffsetDbteTime toOffsetDbteTime() {
+        return OffsetDbteTime.of(dbteTime, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this date-time is equal to another date-time.
+     * Checks if this dbte-time is equbl to bnother dbte-time.
      * <p>
-     * The comparison is based on the offset date-time and the zone.
-     * Only objects of type {@code ZonedDateTime} are compared, other types return false.
+     * The compbrison is bbsed on the offset dbte-time bnd the zone.
+     * Only objects of type {@code ZonedDbteTime} bre compbred, other types return fblse.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte-time
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ZonedDateTime) {
-            ZonedDateTime other = (ZonedDateTime) obj;
-            return dateTime.equals(other.dateTime) &&
-                offset.equals(other.offset) &&
-                zone.equals(other.zone);
+        if (obj instbnceof ZonedDbteTime) {
+            ZonedDbteTime other = (ZonedDbteTime) obj;
+            return dbteTime.equbls(other.dbteTime) &&
+                offset.equbls(other.offset) &&
+                zone.equbls(other.zone);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date-time.
+     * A hbsh code for this dbte-time.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return dateTime.hashCode() ^ offset.hashCode() ^ Integer.rotateLeft(zone.hashCode(), 3);
+    public int hbshCode() {
+        return dbteTime.hbshCode() ^ offset.hbshCode() ^ Integer.rotbteLeft(zone.hbshCode(), 3);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this date-time as a {@code String}, such as
-     * {@code 2007-12-03T10:15:30+01:00[Europe/Paris]}.
+     * Outputs this dbte-time bs b {@code String}, such bs
+     * {@code 2007-12-03T10:15:30+01:00[Europe/Pbris]}.
      * <p>
-     * The format consists of the {@code LocalDateTime} followed by the {@code ZoneOffset}.
-     * If the {@code ZoneId} is not the same as the offset, then the ID is output.
-     * The output is compatible with ISO-8601 if the offset and ID are the same.
+     * The formbt consists of the {@code LocblDbteTime} followed by the {@code ZoneOffset}.
+     * If the {@code ZoneId} is not the sbme bs the offset, then the ID is output.
+     * The output is compbtible with ISO-8601 if the offset bnd ID bre the sbme.
      *
-     * @return a string representation of this date-time, not null
+     * @return b string representbtion of this dbte-time, not null
      */
-    @Override  // override for Javadoc
+    @Override  // override for Jbvbdoc
     public String toString() {
-        String str = dateTime.toString() + offset.toString();
+        String str = dbteTime.toString() + offset.toString();
         if (offset != zone) {
             str += '[' + zone.toString() + ']';
         }
@@ -2213,43 +2213,43 @@ public final class ZonedDateTime
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(6);  // identifies a ZonedDateTime
-     *  // the <a href="../../serialized-form.html#java.time.LocalDateTime">dateTime</a> excluding the one byte header
-     *  // the <a href="../../serialized-form.html#java.time.ZoneOffset">offset</a> excluding the one byte header
-     *  // the <a href="../../serialized-form.html#java.time.ZoneId">zone ID</a> excluding the one byte header
+     *  out.writeByte(6);  // identifies b ZonedDbteTime
+     *  // the <b href="../../seriblized-form.html#jbvb.time.LocblDbteTime">dbteTime</b> excluding the one byte hebder
+     *  // the <b href="../../seriblized-form.html#jbvb.time.ZoneOffset">offset</b> excluding the one byte hebder
+     *  // the <b href="../../seriblized-form.html#jbvb.time.ZoneId">zone ID</b> excluding the one byte hebder
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.ZONE_DATE_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        dateTime.writeExternal(out);
-        offset.writeExternal(out);
+    void writeExternbl(DbtbOutput out) throws IOException {
+        dbteTime.writeExternbl(out);
+        offset.writeExternbl(out);
         zone.write(out);
     }
 
-    static ZonedDateTime readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        LocalDateTime dateTime = LocalDateTime.readExternal(in);
-        ZoneOffset offset = ZoneOffset.readExternal(in);
-        ZoneId zone = (ZoneId) Ser.read(in);
-        return ZonedDateTime.ofLenient(dateTime, offset, zone);
+    stbtic ZonedDbteTime rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        LocblDbteTime dbteTime = LocblDbteTime.rebdExternbl(in);
+        ZoneOffset offset = ZoneOffset.rebdExternbl(in);
+        ZoneId zone = (ZoneId) Ser.rebd(in);
+        return ZonedDbteTime.ofLenient(dbteTime, offset, zone);
     }
 
 }

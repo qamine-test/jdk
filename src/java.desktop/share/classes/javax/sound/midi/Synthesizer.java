@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import javax.sound.sampled.Control;
+import jbvbx.sound.sbmpled.Control;
 
 
 /**
- * A <code>Synthesizer</code> generates sound.  This usually happens when one of
- * the <code>Synthesizer</code>'s {@link MidiChannel} objects receives a
- * {@link MidiChannel#noteOn(int, int) noteOn} message, either
- * directly or via the <code>Synthesizer</code> object.
- * Many <code>Synthesizer</code>s support <code>Receivers</code>, through which
- * MIDI events can be delivered to the <code>Synthesizer</code>.
- * In such cases, the <code>Synthesizer</code> typically responds by sending
- * a corresponding message to the appropriate <code>MidiChannel</code>, or by
- * processing the event itself if the event isn't one of the MIDI channel
- * messages.
+ * A <code>Synthesizer</code> generbtes sound.  This usublly hbppens when one of
+ * the <code>Synthesizer</code>'s {@link MidiChbnnel} objects receives b
+ * {@link MidiChbnnel#noteOn(int, int) noteOn} messbge, either
+ * directly or vib the <code>Synthesizer</code> object.
+ * Mbny <code>Synthesizer</code>s support <code>Receivers</code>, through which
+ * MIDI events cbn be delivered to the <code>Synthesizer</code>.
+ * In such cbses, the <code>Synthesizer</code> typicblly responds by sending
+ * b corresponding messbge to the bppropribte <code>MidiChbnnel</code>, or by
+ * processing the event itself if the event isn't one of the MIDI chbnnel
+ * messbges.
  * <p>
- * The <code>Synthesizer</code> interface includes methods for loading and
- * unloading instruments from soundbanks.  An instrument is a specification for synthesizing a
- * certain type of sound, whether that sound emulates a traditional instrument or is
- * some kind of sound effect or other imaginary sound. A soundbank is a collection of instruments, organized
- * by bank and program number (via the instrument's <code>Patch</code> object).
- * Different <code>Synthesizer</code> classes might implement different sound-synthesis
- * techniques, meaning that some instruments and not others might be compatible with a
+ * The <code>Synthesizer</code> interfbce includes methods for lobding bnd
+ * unlobding instruments from soundbbnks.  An instrument is b specificbtion for synthesizing b
+ * certbin type of sound, whether thbt sound emulbtes b trbditionbl instrument or is
+ * some kind of sound effect or other imbginbry sound. A soundbbnk is b collection of instruments, orgbnized
+ * by bbnk bnd progrbm number (vib the instrument's <code>Pbtch</code> object).
+ * Different <code>Synthesizer</code> clbsses might implement different sound-synthesis
+ * techniques, mebning thbt some instruments bnd not others might be compbtible with b
  * given synthesizer.
- * Also, synthesizers may have a limited amount of memory for instruments, meaning
- * that not every soundbank and instrument can be used by every synthesizer, even if
- * the synthesis technique is compatible.
+ * Also, synthesizers mby hbve b limited bmount of memory for instruments, mebning
+ * thbt not every soundbbnk bnd instrument cbn be used by every synthesizer, even if
+ * the synthesis technique is compbtible.
  * To see whether the instruments from
- * a certain soundbank can be played by a given synthesizer, invoke the
- * {@link #isSoundbankSupported(Soundbank) isSoundbankSupported} method of
+ * b certbin soundbbnk cbn be plbyed by b given synthesizer, invoke the
+ * {@link #isSoundbbnkSupported(Soundbbnk) isSoundbbnkSupported} method of
  * <code>Synthesizer</code>.
  * <p>
- * "Loading" an instrument means that that instrument becomes available for
- * synthesizing notes.  The instrument is loaded into the bank and
- * program location specified by its <code>Patch</code> object.  Loading does
- * not necessarily mean that subsequently played notes will immediately have
- * the sound of this newly loaded instrument.  For the instrument to play notes,
- * one of the synthesizer's <code>MidiChannel</code> objects must receive (or have received)
- * a program-change message that causes that particular instrument's
- * bank and program number to be selected.
+ * "Lobding" bn instrument mebns thbt thbt instrument becomes bvbilbble for
+ * synthesizing notes.  The instrument is lobded into the bbnk bnd
+ * progrbm locbtion specified by its <code>Pbtch</code> object.  Lobding does
+ * not necessbrily mebn thbt subsequently plbyed notes will immedibtely hbve
+ * the sound of this newly lobded instrument.  For the instrument to plby notes,
+ * one of the synthesizer's <code>MidiChbnnel</code> objects must receive (or hbve received)
+ * b progrbm-chbnge messbge thbt cbuses thbt pbrticulbr instrument's
+ * bbnk bnd progrbm number to be selected.
  *
  * @see MidiSystem#getSynthesizer
- * @see Soundbank
+ * @see Soundbbnk
  * @see Instrument
- * @see MidiChannel#programChange(int, int)
+ * @see MidiChbnnel#progrbmChbnge(int, int)
  * @see Receiver
- * @see Transmitter
+ * @see Trbnsmitter
  * @see MidiDevice
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-public interface Synthesizer extends MidiDevice {
+public interfbce Synthesizer extends MidiDevice {
 
 
     // SYNTHESIZER METHODS
 
 
     /**
-     * Obtains the maximum number of notes that this synthesizer can sound simultaneously.
-     * @return the maximum number of simultaneous notes
-     * @see #getVoiceStatus
+     * Obtbins the mbximum number of notes thbt this synthesizer cbn sound simultbneously.
+     * @return the mbximum number of simultbneous notes
+     * @see #getVoiceStbtus
      */
-    public int getMaxPolyphony();
+    public int getMbxPolyphony();
 
 
     /**
-     * Obtains the processing latency incurred by this synthesizer, expressed in
-     * microseconds.  This latency measures the worst-case delay between the
-     * time a MIDI message is delivered to the synthesizer and the time that the
-     * synthesizer actually produces the corresponding result.
+     * Obtbins the processing lbtency incurred by this synthesizer, expressed in
+     * microseconds.  This lbtency mebsures the worst-cbse delby between the
+     * time b MIDI messbge is delivered to the synthesizer bnd the time thbt the
+     * synthesizer bctublly produces the corresponding result.
      * <p>
-     * Although the latency is expressed in microseconds, a synthesizer's actual measured
-     * delay may vary over a wider range than this resolution suggests.  For example,
-     * a synthesizer might have a worst-case delay of a few milliseconds or more.
+     * Although the lbtency is expressed in microseconds, b synthesizer's bctubl mebsured
+     * delby mby vbry over b wider rbnge thbn this resolution suggests.  For exbmple,
+     * b synthesizer might hbve b worst-cbse delby of b few milliseconds or more.
      *
-     * @return the worst-case delay, in microseconds
+     * @return the worst-cbse delby, in microseconds
      */
-    public long getLatency();
+    public long getLbtency();
 
 
     /**
-     * Obtains the set of MIDI channels controlled by this synthesizer.  Each
-     * non-null element in the returned array is a <code>MidiChannel</code> that
-     * receives the MIDI messages sent on that channel number.
+     * Obtbins the set of MIDI chbnnels controlled by this synthesizer.  Ebch
+     * non-null element in the returned brrby is b <code>MidiChbnnel</code> thbt
+     * receives the MIDI messbges sent on thbt chbnnel number.
      * <p>
-     * The MIDI 1.0 specification provides for 16 channels, so this
-     * method returns an array of at least 16 elements.  However, if this synthesizer
-     * doesn't make use of all 16 channels, some of the elements of the array
-     * might be <code>null</code>, so you should check each element
+     * The MIDI 1.0 specificbtion provides for 16 chbnnels, so this
+     * method returns bn brrby of bt lebst 16 elements.  However, if this synthesizer
+     * doesn't mbke use of bll 16 chbnnels, some of the elements of the brrby
+     * might be <code>null</code>, so you should check ebch element
      * before using it.
-     * @return an array of the <code>MidiChannel</code> objects managed by this
-     * <code>Synthesizer</code>.  Some of the array elements may be <code>null</code>.
+     * @return bn brrby of the <code>MidiChbnnel</code> objects mbnbged by this
+     * <code>Synthesizer</code>.  Some of the brrby elements mby be <code>null</code>.
      */
-    public MidiChannel[] getChannels();
+    public MidiChbnnel[] getChbnnels();
 
 
     /**
-     * Obtains the current status of the voices produced by this synthesizer.
-     * If this class of <code>Synthesizer</code> does not provide voice
-     * information, the returned array will always be of length 0.  Otherwise,
-     * its length is always equal to the total number of voices, as returned by
-     * <code>getMaxPolyphony()</code>.  (See the <code>VoiceStatus</code> class
-     * description for an explanation of synthesizer voices.)
+     * Obtbins the current stbtus of the voices produced by this synthesizer.
+     * If this clbss of <code>Synthesizer</code> does not provide voice
+     * informbtion, the returned brrby will blwbys be of length 0.  Otherwise,
+     * its length is blwbys equbl to the totbl number of voices, bs returned by
+     * <code>getMbxPolyphony()</code>.  (See the <code>VoiceStbtus</code> clbss
+     * description for bn explbnbtion of synthesizer voices.)
      *
-     * @return an array of <code>VoiceStatus</code> objects that supply
-     * information about the corresponding synthesizer voices
-     * @see #getMaxPolyphony
-     * @see VoiceStatus
+     * @return bn brrby of <code>VoiceStbtus</code> objects thbt supply
+     * informbtion bbout the corresponding synthesizer voices
+     * @see #getMbxPolyphony
+     * @see VoiceStbtus
      */
-    public VoiceStatus[] getVoiceStatus();
+    public VoiceStbtus[] getVoiceStbtus();
 
 
     /**
-     * Informs the caller whether this synthesizer is capable of loading
-     * instruments from the specified soundbank.
-     * If the soundbank is unsupported, any attempts to load instruments from
-     * it will result in an <code>IllegalArgumentException</code>.
-     * @param soundbank soundbank for which support is queried
-     * @return <code>true</code> if the soundbank is supported, otherwise <code>false</code>
-     * @see #loadInstruments
-     * @see #loadAllInstruments
-     * @see #unloadInstruments
-     * @see #unloadAllInstruments
-     * @see #getDefaultSoundbank
+     * Informs the cbller whether this synthesizer is cbpbble of lobding
+     * instruments from the specified soundbbnk.
+     * If the soundbbnk is unsupported, bny bttempts to lobd instruments from
+     * it will result in bn <code>IllegblArgumentException</code>.
+     * @pbrbm soundbbnk soundbbnk for which support is queried
+     * @return <code>true</code> if the soundbbnk is supported, otherwise <code>fblse</code>
+     * @see #lobdInstruments
+     * @see #lobdAllInstruments
+     * @see #unlobdInstruments
+     * @see #unlobdAllInstruments
+     * @see #getDefbultSoundbbnk
      */
-    public boolean isSoundbankSupported(Soundbank soundbank);
+    public boolebn isSoundbbnkSupported(Soundbbnk soundbbnk);
 
 
     /**
-     * Makes a particular instrument available for synthesis.  This instrument
-     * is loaded into the patch location specified by its <code>Patch</code>
-     * object, so that if a program-change message is
-     * received (or has been received) that causes that patch to be selected,
-     * subsequent notes will be played using the sound of
-     * <code>instrument</code>.  If the specified instrument is already loaded,
-     * this method does nothing and returns <code>true</code>.
+     * Mbkes b pbrticulbr instrument bvbilbble for synthesis.  This instrument
+     * is lobded into the pbtch locbtion specified by its <code>Pbtch</code>
+     * object, so thbt if b progrbm-chbnge messbge is
+     * received (or hbs been received) thbt cbuses thbt pbtch to be selected,
+     * subsequent notes will be plbyed using the sound of
+     * <code>instrument</code>.  If the specified instrument is blrebdy lobded,
+     * this method does nothing bnd returns <code>true</code>.
      * <p>
-     * The instrument must be part of a soundbank
-     * that this <code>Synthesizer</code> supports.  (To make sure, you can use
-     * the <code>getSoundbank</code> method of <code>Instrument</code> and the
-     * <code>isSoundbankSupported</code> method of <code>Synthesizer</code>.)
-     * @param instrument instrument to load
-     * @return <code>true</code> if the instrument is successfully loaded (or
-     * already had been), <code>false</code> if the instrument could not be
-     * loaded (for example, if the synthesizer has insufficient
-     * memory to load it)
-     * @throws IllegalArgumentException if this
+     * The instrument must be pbrt of b soundbbnk
+     * thbt this <code>Synthesizer</code> supports.  (To mbke sure, you cbn use
+     * the <code>getSoundbbnk</code> method of <code>Instrument</code> bnd the
+     * <code>isSoundbbnkSupported</code> method of <code>Synthesizer</code>.)
+     * @pbrbm instrument instrument to lobd
+     * @return <code>true</code> if the instrument is successfully lobded (or
+     * blrebdy hbd been), <code>fblse</code> if the instrument could not be
+     * lobded (for exbmple, if the synthesizer hbs insufficient
+     * memory to lobd it)
+     * @throws IllegblArgumentException if this
      * <code>Synthesizer</code> doesn't support the specified instrument's
-     * soundbank
-     * @see #unloadInstrument
-     * @see #loadInstruments
-     * @see #loadAllInstruments
-     * @see #remapInstrument
-     * @see SoundbankResource#getSoundbank
-     * @see MidiChannel#programChange(int, int)
+     * soundbbnk
+     * @see #unlobdInstrument
+     * @see #lobdInstruments
+     * @see #lobdAllInstruments
+     * @see #rembpInstrument
+     * @see SoundbbnkResource#getSoundbbnk
+     * @see MidiChbnnel#progrbmChbnge(int, int)
      */
-    public boolean loadInstrument(Instrument instrument);
+    public boolebn lobdInstrument(Instrument instrument);
 
 
     /**
-     * Unloads a particular instrument.
-     * @param instrument instrument to unload
-     * @throws IllegalArgumentException if this
+     * Unlobds b pbrticulbr instrument.
+     * @pbrbm instrument instrument to unlobd
+     * @throws IllegblArgumentException if this
      * <code>Synthesizer</code> doesn't support the specified instrument's
-     * soundbank
-     * @see #loadInstrument
-     * @see #unloadInstruments
-     * @see #unloadAllInstruments
-     * @see #getLoadedInstruments
-     * @see #remapInstrument
+     * soundbbnk
+     * @see #lobdInstrument
+     * @see #unlobdInstruments
+     * @see #unlobdAllInstruments
+     * @see #getLobdedInstruments
+     * @see #rembpInstrument
      */
-    public void unloadInstrument(Instrument instrument);
+    public void unlobdInstrument(Instrument instrument);
 
 
     /**
-     * Remaps an instrument. Instrument <code>to</code> takes the
-     * place of instrument <code>from</code>.<br>
-     * For example, if <code>from</code> was located at bank number 2,
-     * program number 11, remapping causes that bank and program location
-     * to be occupied instead by <code>to</code>.<br>
-     * If the function succeeds,  instrument <code>from</code> is unloaded.
-     * <p>To cancel the remapping reload instrument <code>from</code> by
-     * invoking one of {@link #loadInstrument}, {@link #loadInstruments}
-     * or {@link #loadAllInstruments}.
+     * Rembps bn instrument. Instrument <code>to</code> tbkes the
+     * plbce of instrument <code>from</code>.<br>
+     * For exbmple, if <code>from</code> wbs locbted bt bbnk number 2,
+     * progrbm number 11, rembpping cbuses thbt bbnk bnd progrbm locbtion
+     * to be occupied instebd by <code>to</code>.<br>
+     * If the function succeeds,  instrument <code>from</code> is unlobded.
+     * <p>To cbncel the rembpping relobd instrument <code>from</code> by
+     * invoking one of {@link #lobdInstrument}, {@link #lobdInstruments}
+     * or {@link #lobdAllInstruments}.
      *
-     * @param from the <code>Instrument</code> object to be replaced
-     * @param to the <code>Instrument</code> object to be used in place
-     * of the old instrument, it should be loaded into the synthesizer
-     * @return <code>true</code> if the instrument successfully remapped,
-     * <code>false</code> if feature is not implemented by synthesizer
-     * @throws IllegalArgumentException if instrument
-     * <code>from</code> or instrument <code>to</code> aren't supported by
-     * synthesizer or if instrument <code>to</code> is not loaded
+     * @pbrbm from the <code>Instrument</code> object to be replbced
+     * @pbrbm to the <code>Instrument</code> object to be used in plbce
+     * of the old instrument, it should be lobded into the synthesizer
+     * @return <code>true</code> if the instrument successfully rembpped,
+     * <code>fblse</code> if febture is not implemented by synthesizer
+     * @throws IllegblArgumentException if instrument
+     * <code>from</code> or instrument <code>to</code> bren't supported by
+     * synthesizer or if instrument <code>to</code> is not lobded
      * @throws NullPointerException if <code>from</code> or
-     * <code>to</code> parameters have null value
-     * @see #loadInstrument
-     * @see #loadInstruments
-     * @see #loadAllInstruments
+     * <code>to</code> pbrbmeters hbve null vblue
+     * @see #lobdInstrument
+     * @see #lobdInstruments
+     * @see #lobdAllInstruments
      */
-    public boolean remapInstrument(Instrument from, Instrument to);
+    public boolebn rembpInstrument(Instrument from, Instrument to);
 
 
     /**
-     * Obtains the default soundbank for the synthesizer, if one exists.
-     * (Some synthesizers provide a default or built-in soundbank.)
-     * If a synthesizer doesn't have a default soundbank, instruments must
-     * be loaded explicitly from an external soundbank.
-     * @return default soundbank, or <code>null</code> if one does not exist.
-     * @see #isSoundbankSupported
+     * Obtbins the defbult soundbbnk for the synthesizer, if one exists.
+     * (Some synthesizers provide b defbult or built-in soundbbnk.)
+     * If b synthesizer doesn't hbve b defbult soundbbnk, instruments must
+     * be lobded explicitly from bn externbl soundbbnk.
+     * @return defbult soundbbnk, or <code>null</code> if one does not exist.
+     * @see #isSoundbbnkSupported
      */
-    public Soundbank getDefaultSoundbank();
+    public Soundbbnk getDefbultSoundbbnk();
 
 
     /**
-     * Obtains a list of instruments that come with the synthesizer.  These
+     * Obtbins b list of instruments thbt come with the synthesizer.  These
      * instruments might be built into the synthesizer, or they might be
-     * part of a default soundbank provided with the synthesizer, etc.
+     * pbrt of b defbult soundbbnk provided with the synthesizer, etc.
      * <p>
-     * Note that you don't use this method  to find out which instruments are
-     * currently loaded onto the synthesizer; for that purpose, you use
-     * <code>getLoadedInstruments()</code>.
-     * Nor does the method indicate all the instruments that can be loaded onto
-     * the synthesizer; it only indicates the subset that come with the synthesizer.
-     * To learn whether another instrument can be loaded, you can invoke
-     * <code>isSoundbankSupported()</code>, and if the instrument's
-     * <code>Soundbank</code> is supported, you can try loading the instrument.
+     * Note thbt you don't use this method  to find out which instruments bre
+     * currently lobded onto the synthesizer; for thbt purpose, you use
+     * <code>getLobdedInstruments()</code>.
+     * Nor does the method indicbte bll the instruments thbt cbn be lobded onto
+     * the synthesizer; it only indicbtes the subset thbt come with the synthesizer.
+     * To lebrn whether bnother instrument cbn be lobded, you cbn invoke
+     * <code>isSoundbbnkSupported()</code>, bnd if the instrument's
+     * <code>Soundbbnk</code> is supported, you cbn try lobding the instrument.
      *
-     * @return list of available instruments. If the synthesizer
-     * has no instruments coming with it, an array of length 0 is returned.
-     * @see #getLoadedInstruments
-     * @see #isSoundbankSupported(Soundbank)
-     * @see #loadInstrument
+     * @return list of bvbilbble instruments. If the synthesizer
+     * hbs no instruments coming with it, bn brrby of length 0 is returned.
+     * @see #getLobdedInstruments
+     * @see #isSoundbbnkSupported(Soundbbnk)
+     * @see #lobdInstrument
      */
-    public Instrument[] getAvailableInstruments();
+    public Instrument[] getAvbilbbleInstruments();
 
 
     /**
-     * Obtains a list of the instruments that are currently loaded onto this
+     * Obtbins b list of the instruments thbt bre currently lobded onto this
      * <code>Synthesizer</code>.
-     * @return a list of currently loaded instruments
-     * @see #loadInstrument
-     * @see #getAvailableInstruments
-     * @see Soundbank#getInstruments
+     * @return b list of currently lobded instruments
+     * @see #lobdInstrument
+     * @see #getAvbilbbleInstruments
+     * @see Soundbbnk#getInstruments
      */
-    public Instrument[] getLoadedInstruments();
+    public Instrument[] getLobdedInstruments();
 
 
     /**
-     * Loads onto the <code>Synthesizer</code> all instruments contained
-     * in the specified <code>Soundbank</code>.
-     * @param soundbank the <code>Soundbank</code> whose are instruments are
-     * to be loaded
-     * @return <code>true</code> if the instruments are all successfully loaded (or
-     * already had been), <code>false</code> if any instrument could not be
-     * loaded (for example, if the <code>Synthesizer</code> had insufficient memory)
-     * @throws IllegalArgumentException if the requested soundbank is
-     * incompatible with this synthesizer.
-     * @see #isSoundbankSupported
-     * @see #loadInstrument
-     * @see #loadInstruments
+     * Lobds onto the <code>Synthesizer</code> bll instruments contbined
+     * in the specified <code>Soundbbnk</code>.
+     * @pbrbm soundbbnk the <code>Soundbbnk</code> whose bre instruments bre
+     * to be lobded
+     * @return <code>true</code> if the instruments bre bll successfully lobded (or
+     * blrebdy hbd been), <code>fblse</code> if bny instrument could not be
+     * lobded (for exbmple, if the <code>Synthesizer</code> hbd insufficient memory)
+     * @throws IllegblArgumentException if the requested soundbbnk is
+     * incompbtible with this synthesizer.
+     * @see #isSoundbbnkSupported
+     * @see #lobdInstrument
+     * @see #lobdInstruments
      */
-    public boolean loadAllInstruments(Soundbank soundbank);
+    public boolebn lobdAllInstruments(Soundbbnk soundbbnk);
 
 
 
     /**
-     * Unloads all instruments contained in the specified <code>Soundbank</code>.
-     * @param soundbank soundbank containing instruments to unload
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
-     * @see #isSoundbankSupported
-     * @see #unloadInstrument
-     * @see #unloadInstruments
+     * Unlobds bll instruments contbined in the specified <code>Soundbbnk</code>.
+     * @pbrbm soundbbnk soundbbnk contbining instruments to unlobd
+     * @throws IllegblArgumentException thrown if the soundbbnk is not supported.
+     * @see #isSoundbbnkSupported
+     * @see #unlobdInstrument
+     * @see #unlobdInstruments
      */
-    public void unloadAllInstruments(Soundbank soundbank);
+    public void unlobdAllInstruments(Soundbbnk soundbbnk);
 
 
     /**
-     * Loads the instruments referenced by the specified patches, from the
-     * specified <code>Soundbank</code>.  Each of the <code>Patch</code> objects
-     * indicates a bank and program number; the <code>Instrument</code> that
-     * has the matching <code>Patch</code> is loaded into that bank and program
-     * location.
-     * @param soundbank the <code>Soundbank</code> containing the instruments to load
-     * @param patchList list of patches for which instruments should be loaded
-     * @return <code>true</code> if the instruments are all successfully loaded (or
-     * already had been), <code>false</code> if any instrument could not be
-     * loaded (for example, if the <code>Synthesizer</code> had insufficient memory)
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
-     * @see #isSoundbankSupported
-     * @see Instrument#getPatch
-     * @see #loadAllInstruments
-     * @see #loadInstrument
-     * @see Soundbank#getInstrument(Patch)
-     * @see Sequence#getPatchList()
+     * Lobds the instruments referenced by the specified pbtches, from the
+     * specified <code>Soundbbnk</code>.  Ebch of the <code>Pbtch</code> objects
+     * indicbtes b bbnk bnd progrbm number; the <code>Instrument</code> thbt
+     * hbs the mbtching <code>Pbtch</code> is lobded into thbt bbnk bnd progrbm
+     * locbtion.
+     * @pbrbm soundbbnk the <code>Soundbbnk</code> contbining the instruments to lobd
+     * @pbrbm pbtchList list of pbtches for which instruments should be lobded
+     * @return <code>true</code> if the instruments bre bll successfully lobded (or
+     * blrebdy hbd been), <code>fblse</code> if bny instrument could not be
+     * lobded (for exbmple, if the <code>Synthesizer</code> hbd insufficient memory)
+     * @throws IllegblArgumentException thrown if the soundbbnk is not supported.
+     * @see #isSoundbbnkSupported
+     * @see Instrument#getPbtch
+     * @see #lobdAllInstruments
+     * @see #lobdInstrument
+     * @see Soundbbnk#getInstrument(Pbtch)
+     * @see Sequence#getPbtchList()
      */
-    public boolean loadInstruments(Soundbank soundbank, Patch[] patchList);
+    public boolebn lobdInstruments(Soundbbnk soundbbnk, Pbtch[] pbtchList);
 
     /**
-     * Unloads the instruments referenced by the specified patches, from the MIDI sound bank specified.
-     * @param soundbank soundbank containing instruments to unload
-     * @param patchList list of patches for which instruments should be unloaded
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
+     * Unlobds the instruments referenced by the specified pbtches, from the MIDI sound bbnk specified.
+     * @pbrbm soundbbnk soundbbnk contbining instruments to unlobd
+     * @pbrbm pbtchList list of pbtches for which instruments should be unlobded
+     * @throws IllegblArgumentException thrown if the soundbbnk is not supported.
      *
-     * @see #unloadInstrument
-     * @see #unloadAllInstruments
-     * @see #isSoundbankSupported
-     * @see Instrument#getPatch
-     * @see #loadInstruments
+     * @see #unlobdInstrument
+     * @see #unlobdAllInstruments
+     * @see #isSoundbbnkSupported
+     * @see Instrument#getPbtch
+     * @see #lobdInstruments
      */
-    public void unloadInstruments(Soundbank soundbank, Patch[] patchList);
+    public void unlobdInstruments(Soundbbnk soundbbnk, Pbtch[] pbtchList);
 
 
     // RECEIVER METHODS
 
     /**
-     * Obtains the name of the receiver.
-     * @return receiver name
+     * Obtbins the nbme of the receiver.
+     * @return receiver nbme
      */
-    //  public abstract String getName();
+    //  public bbstrbct String getNbme();
 
 
     /**
      * Opens the receiver.
-     * @throws MidiUnavailableException if the receiver is cannot be opened,
-     * usually because the MIDI device is in use by another application.
-     * @throws SecurityException if the receiver cannot be opened due to security
+     * @throws MidiUnbvbilbbleException if the receiver is cbnnot be opened,
+     * usublly becbuse the MIDI device is in use by bnother bpplicbtion.
+     * @throws SecurityException if the receiver cbnnot be opened due to security
      * restrictions.
      */
-    //  public abstract void open() throws MidiUnavailableException, SecurityException;
+    //  public bbstrbct void open() throws MidiUnbvbilbbleException, SecurityException;
 
 
     /**
      * Closes the receiver.
      */
-    //  public abstract void close();
+    //  public bbstrbct void close();
 
 
     /**
-     * Sends a MIDI event to the receiver.
-     * @param event event to send.
-     * @throws IllegalStateException if the receiver is not open.
+     * Sends b MIDI event to the receiver.
+     * @pbrbm event event to send.
+     * @throws IllegblStbteException if the receiver is not open.
      */
-    //  public void send(MidiEvent event) throws IllegalStateException {
+    //  public void send(MidiEvent event) throws IllegblStbteException {
     //
     //  }
 
 
     /**
-     * Obtains the set of controls supported by the
-     * element.  If no controls are supported, returns an
-     * array of length 0.
+     * Obtbins the set of controls supported by the
+     * element.  If no controls bre supported, returns bn
+     * brrby of length 0.
      * @return set of controls
      */
     // $$kk: 03.04.99: josh bloch recommends getting rid of this:
-    // what can you really do with a set of untyped controls??
-    // $$kk: 03.05.99: i am putting this back in.  for one thing,
-    // you can check the length and know whether you should keep
+    // whbt cbn you reblly do with b set of untyped controls??
+    // $$kk: 03.05.99: i bm putting this bbck in.  for one thing,
+    // you cbn check the length bnd know whether you should keep
     // looking....
     // public Control[] getControls();
 
     /**
-     * Obtains the specified control.
-     * @param controlClass class of the requested control
+     * Obtbins the specified control.
+     * @pbrbm controlClbss clbss of the requested control
      * @return requested control object, or null if the
      * control is not supported.
      */
-    // public Control getControl(Class controlClass);
+    // public Control getControl(Clbss controlClbss);
 }

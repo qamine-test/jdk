@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,120 +30,120 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.InputStream;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.UIManager;
-import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalTheme;
-import javax.swing.plaf.metal.OceanTheme;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.io.InputStrebm;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.JCheckBoxMenuItem;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JDesktopPbne;
+import jbvbx.swing.JFileChooser;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JInternblFrbme;
+import jbvbx.swing.JMenu;
+import jbvbx.swing.JMenuBbr;
+import jbvbx.swing.JMenuItem;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JRbdioButtonMenuItem;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.metbl.DefbultMetblTheme;
+import jbvbx.swing.plbf.metbl.MetblTheme;
+import jbvbx.swing.plbf.metbl.OcebnTheme;
 
 
 /**
- * This is the main container frame for the Metalworks demo app
+ * This is the mbin contbiner frbme for the Metblworks demo bpp
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @buthor Steve Wilson
+ * @buthor Alexbnder Kouznetsov
  */
-@SuppressWarnings("serial")
-public final class MetalworksFrame extends JFrame {
+@SuppressWbrnings("seribl")
+public finbl clbss MetblworksFrbme extends JFrbme {
 
-    JMenuBar menuBar;
-    JDesktopPane desktop;
-    JInternalFrame toolPalette;
-    JCheckBoxMenuItem showToolPaletteMenuItem;
-    static final Integer DOCLAYER = 5;
-    static final Integer TOOLLAYER = 6;
-    static final Integer HELPLAYER = 7;
-    static final String ABOUTMSG = "Metalworks \n \nAn application written to "
-            + "show off the Java Look & Feel. \n \nWritten by the JavaSoft "
-            + "Look & Feel Team \n  Michael Albers\n  Tom Santos\n  "
-            + "Jeff Shapiro\n  Steve Wilson";
+    JMenuBbr menuBbr;
+    JDesktopPbne desktop;
+    JInternblFrbme toolPblette;
+    JCheckBoxMenuItem showToolPbletteMenuItem;
+    stbtic finbl Integer DOCLAYER = 5;
+    stbtic finbl Integer TOOLLAYER = 6;
+    stbtic finbl Integer HELPLAYER = 7;
+    stbtic finbl String ABOUTMSG = "Metblworks \n \nAn bpplicbtion written to "
+            + "show off the Jbvb Look & Feel. \n \nWritten by the JbvbSoft "
+            + "Look & Feel Tebm \n  Michbel Albers\n  Tom Sbntos\n  "
+            + "Jeff Shbpiro\n  Steve Wilson";
 
-    public MetalworksFrame() {
-        super("Metalworks");
-        final int inset = 50;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public MetblworksFrbme() {
+        super("Metblworks");
+        finbl int inset = 50;
+        Dimension screenSize = Toolkit.getDefbultToolkit().getScreenSize();
         setBounds(inset, inset, screenSize.width - inset * 2, screenSize.height - inset
                 * 2);
         buildContent();
         buildMenus();
-        this.addWindowListener(new WindowAdapter() {
+        this.bddWindowListener(new WindowAdbpter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
                 quit();
             }
         });
-        UIManager.addPropertyChangeListener(new UISwitchListener(
-                (JComponent) getRootPane()));
+        UIMbnbger.bddPropertyChbngeListener(new UISwitchListener(
+                (JComponent) getRootPbne()));
     }
 
     protected void buildMenus() {
-        menuBar = new JMenuBar();
-        menuBar.setOpaque(true);
+        menuBbr = new JMenuBbr();
+        menuBbr.setOpbque(true);
         JMenu file = buildFileMenu();
         JMenu edit = buildEditMenu();
         JMenu views = buildViewsMenu();
         JMenu speed = buildSpeedMenu();
         JMenu help = buildHelpMenu();
 
-        // load a theme from a text file
-        MetalTheme myTheme = null;
+        // lobd b theme from b text file
+        MetblTheme myTheme = null;
         try {
-            InputStream istream = getClass().getResourceAsStream(
+            InputStrebm istrebm = getClbss().getResourceAsStrebm(
                     "/resources/MyTheme.theme");
-            myTheme = new PropertiesMetalTheme(istream);
-        } catch (NullPointerException e) {
+            myTheme = new PropertiesMetblTheme(istrebm);
+        } cbtch (NullPointerException e) {
             System.out.println(e);
         }
 
-        // build an array of themes
-        MetalTheme[] themes = { new OceanTheme(),
-            new DefaultMetalTheme(),
-            new GreenMetalTheme(),
-            new AquaMetalTheme(),
-            new KhakiMetalTheme(),
-            new DemoMetalTheme(),
-            new ContrastMetalTheme(),
-            new BigContrastMetalTheme(),
+        // build bn brrby of themes
+        MetblTheme[] themes = { new OcebnTheme(),
+            new DefbultMetblTheme(),
+            new GreenMetblTheme(),
+            new AqubMetblTheme(),
+            new KhbkiMetblTheme(),
+            new DemoMetblTheme(),
+            new ContrbstMetblTheme(),
+            new BigContrbstMetblTheme(),
             myTheme };
 
-        // put the themes in a menu
-        JMenu themeMenu = new MetalThemeMenu("Theme", themes);
+        // put the themes in b menu
+        JMenu themeMenu = new MetblThemeMenu("Theme", themes);
 
-        menuBar.add(file);
-        menuBar.add(edit);
-        menuBar.add(views);
-        menuBar.add(themeMenu);
-        menuBar.add(speed);
-        menuBar.add(help);
-        setJMenuBar(menuBar);
+        menuBbr.bdd(file);
+        menuBbr.bdd(edit);
+        menuBbr.bdd(views);
+        menuBbr.bdd(themeMenu);
+        menuBbr.bdd(speed);
+        menuBbr.bdd(help);
+        setJMenuBbr(menuBbr);
     }
 
     protected JMenu buildFileMenu() {
@@ -152,31 +152,31 @@ public final class MetalworksFrame extends JFrame {
         JMenuItem open = new JMenuItem("Open");
         JMenuItem quit = new JMenuItem("Quit");
 
-        newWin.addActionListener(new ActionListener() {
+        newWin.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 newDocument();
             }
         });
 
-        open.addActionListener(new ActionListener() {
+        open.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 openDocument();
             }
         });
 
-        quit.addActionListener(new ActionListener() {
+        quit.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 quit();
             }
         });
 
-        file.add(newWin);
-        file.add(open);
-        file.addSeparator();
-        file.add(quit);
+        file.bdd(newWin);
+        file.bdd(open);
+        file.bddSepbrbtor();
+        file.bdd(quit);
         return file;
     }
 
@@ -185,28 +185,28 @@ public final class MetalworksFrame extends JFrame {
         JMenuItem undo = new JMenuItem("Undo");
         JMenuItem copy = new JMenuItem("Copy");
         JMenuItem cut = new JMenuItem("Cut");
-        JMenuItem paste = new JMenuItem("Paste");
+        JMenuItem pbste = new JMenuItem("Pbste");
         JMenuItem prefs = new JMenuItem("Preferences...");
 
-        undo.setEnabled(false);
-        copy.setEnabled(false);
-        cut.setEnabled(false);
-        paste.setEnabled(false);
+        undo.setEnbbled(fblse);
+        copy.setEnbbled(fblse);
+        cut.setEnbbled(fblse);
+        pbste.setEnbbled(fblse);
 
-        prefs.addActionListener(new ActionListener() {
+        prefs.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 openPrefsWindow();
             }
         });
 
-        edit.add(undo);
-        edit.addSeparator();
-        edit.add(cut);
-        edit.add(copy);
-        edit.add(paste);
-        edit.addSeparator();
-        edit.add(prefs);
+        edit.bdd(undo);
+        edit.bddSepbrbtor();
+        edit.bdd(cut);
+        edit.bdd(copy);
+        edit.bdd(pbste);
+        edit.bddSepbrbtor();
+        edit.bdd(prefs);
         return edit;
     }
 
@@ -215,96 +215,96 @@ public final class MetalworksFrame extends JFrame {
 
         JMenuItem inBox = new JMenuItem("Open In-Box");
         JMenuItem outBox = new JMenuItem("Open Out-Box");
-        outBox.setEnabled(false);
+        outBox.setEnbbled(fblse);
 
-        inBox.addActionListener(new ActionListener() {
+        inBox.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 openInBox();
             }
         });
 
-        views.add(inBox);
-        views.add(outBox);
+        views.bdd(inBox);
+        views.bdd(outBox);
         return views;
     }
 
     protected JMenu buildSpeedMenu() {
-        JMenu speed = new JMenu("Drag");
+        JMenu speed = new JMenu("Drbg");
 
-        JRadioButtonMenuItem live = new JRadioButtonMenuItem("Live");
-        JRadioButtonMenuItem outline = new JRadioButtonMenuItem("Outline");
+        JRbdioButtonMenuItem live = new JRbdioButtonMenuItem("Live");
+        JRbdioButtonMenuItem outline = new JRbdioButtonMenuItem("Outline");
 
-        JRadioButtonMenuItem slow = new JRadioButtonMenuItem("Old and Slow");
+        JRbdioButtonMenuItem slow = new JRbdioButtonMenuItem("Old bnd Slow");
 
         ButtonGroup group = new ButtonGroup();
 
-        group.add(live);
-        group.add(outline);
-        group.add(slow);
+        group.bdd(live);
+        group.bdd(outline);
+        group.bdd(slow);
 
         live.setSelected(true);
 
-        slow.addActionListener(new ActionListener() {
+        slow.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                // for right now I'm saying if you set the mode
-                // to something other than a specified mode
-                // it will revert to the old way
-                // This is mostly for comparison's sake
-                desktop.setDragMode(-1);
+            public void bctionPerformed(ActionEvent e) {
+                // for right now I'm sbying if you set the mode
+                // to something other thbn b specified mode
+                // it will revert to the old wby
+                // This is mostly for compbrison's sbke
+                desktop.setDrbgMode(-1);
             }
         });
 
-        live.addActionListener(new ActionListener() {
+        live.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                desktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
+            public void bctionPerformed(ActionEvent e) {
+                desktop.setDrbgMode(JDesktopPbne.LIVE_DRAG_MODE);
             }
         });
 
-        outline.addActionListener(new ActionListener() {
+        outline.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+            public void bctionPerformed(ActionEvent e) {
+                desktop.setDrbgMode(JDesktopPbne.OUTLINE_DRAG_MODE);
             }
         });
 
 
-        speed.add(live);
-        speed.add(outline);
-        speed.add(slow);
+        speed.bdd(live);
+        speed.bdd(outline);
+        speed.bdd(slow);
         return speed;
     }
 
     protected JMenu buildHelpMenu() {
         JMenu help = new JMenu("Help");
-        JMenuItem about = new JMenuItem("About Metalworks...");
+        JMenuItem bbout = new JMenuItem("About Metblworks...");
         JMenuItem openHelp = new JMenuItem("Open Help Window");
 
-        about.addActionListener(new ActionListener() {
+        bbout.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 showAboutBox();
             }
         });
 
-        openHelp.addActionListener(new ActionListener() {
+        openHelp.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 openHelpWindow();
             }
         });
 
-        help.add(about);
-        help.add(openHelp);
+        help.bdd(bbout);
+        help.bdd(openHelp);
 
         return help;
     }
 
     protected void buildContent() {
-        desktop = new JDesktopPane();
-        getContentPane().add(desktop);
+        desktop = new JDesktopPbne();
+        getContentPbne().bdd(desktop);
     }
 
     public void quit() {
@@ -312,47 +312,47 @@ public final class MetalworksFrame extends JFrame {
     }
 
     public void newDocument() {
-        JInternalFrame doc = new MetalworksDocumentFrame();
-        desktop.add(doc, DOCLAYER);
+        JInternblFrbme doc = new MetblworksDocumentFrbme();
+        desktop.bdd(doc, DOCLAYER);
         try {
             doc.setVisible(true);
             doc.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+        } cbtch (jbvb.bebns.PropertyVetoException e2) {
         }
     }
 
     public void openDocument() {
         JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(this);
+        chooser.showOpenDiblog(this);
     }
 
     public void openHelpWindow() {
-        JInternalFrame help = new MetalworksHelp();
-        desktop.add(help, HELPLAYER);
+        JInternblFrbme help = new MetblworksHelp();
+        desktop.bdd(help, HELPLAYER);
         try {
             help.setVisible(true);
             help.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+        } cbtch (jbvb.bebns.PropertyVetoException e2) {
         }
     }
 
     public void showAboutBox() {
-        JOptionPane.showMessageDialog(this, ABOUTMSG);
+        JOptionPbne.showMessbgeDiblog(this, ABOUTMSG);
     }
 
     public void openPrefsWindow() {
-        MetalworksPrefs dialog = new MetalworksPrefs(this);
-        dialog.setVisible(true);
+        MetblworksPrefs diblog = new MetblworksPrefs(this);
+        diblog.setVisible(true);
 
     }
 
     public void openInBox() {
-        JInternalFrame doc = new MetalworksInBox();
-        desktop.add(doc, DOCLAYER);
+        JInternblFrbme doc = new MetblworksInBox();
+        desktop.bdd(doc, DOCLAYER);
         try {
             doc.setVisible(true);
             doc.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+        } cbtch (jbvb.bebns.PropertyVetoException e2) {
         }
     }
 }

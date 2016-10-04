@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,101 +34,101 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "GlyphDefinitionTables.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphDefinitionTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
-class GlyphPositionAdjustments;
+clbss LEGlyphStorbge;
+clbss GlyphPositionAdjustments;
 
-class GlyphIterator : public UMemory {
+clbss GlyphIterbtor : public UMemory {
 public:
-    GlyphIterator(LEGlyphStorage &theGlyphStorage, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlags,
-                  FeatureMask theFeatureMask, const LEReferenceTo<GlyphDefinitionTableHeader> &theGlyphDefinitionTableHeader, LEErrorCode &success);
+    GlyphIterbtor(LEGlyphStorbge &theGlyphStorbge, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlbgs,
+                  FebtureMbsk theFebtureMbsk, const LEReferenceTo<GlyphDefinitionTbbleHebder> &theGlyphDefinitionTbbleHebder, LEErrorCode &success);
 
-    GlyphIterator(GlyphIterator &that);
+    GlyphIterbtor(GlyphIterbtor &thbt);
 
-    GlyphIterator(GlyphIterator &that, FeatureMask newFeatureMask);
+    GlyphIterbtor(GlyphIterbtor &thbt, FebtureMbsk newFebtureMbsk);
 
-    GlyphIterator(GlyphIterator &that, le_uint16 newLookupFlags);
+    GlyphIterbtor(GlyphIterbtor &thbt, le_uint16 newLookupFlbgs);
 
-    virtual ~GlyphIterator();
+    virtubl ~GlyphIterbtor();
 
-    void reset(le_uint16 newLookupFlags, LETag newFeatureTag);
+    void reset(le_uint16 newLookupFlbgs, LETbg newFebtureTbg);
 
-    le_bool next(le_uint32 delta = 1);
-    le_bool prev(le_uint32 delta = 1);
-    le_bool findFeatureTag();
+    le_bool next(le_uint32 deltb = 1);
+    le_bool prev(le_uint32 deltb = 1);
+    le_bool findFebtureTbg();
 
     le_bool isRightToLeft() const;
-    le_bool ignoresMarks() const;
+    le_bool ignoresMbrks() const;
 
-    le_bool baselineIsLogicalEnd() const;
+    le_bool bbselineIsLogicblEnd() const;
 
     LEGlyphID getCurrGlyphID() const;
-    le_int32  getCurrStreamPosition() const;
+    le_int32  getCurrStrebmPosition() const;
 
-    le_int32  getMarkComponent(le_int32 markPosition) const;
-    le_bool   findMark2Glyph();
+    le_int32  getMbrkComponent(le_int32 mbrkPosition) const;
+    le_bool   findMbrk2Glyph();
 
     void getCursiveEntryPoint(LEPoint &entryPoint) const;
     void getCursiveExitPoint(LEPoint &exitPoint) const;
 
     void setCurrGlyphID(TTGlyphID glyphID);
-    void setCurrStreamPosition(le_int32 position);
-    void setCurrGlyphBaseOffset(le_int32 baseOffset);
-    void adjustCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                           float xAdvanceAdjust,   float yAdvanceAdjust);
+    void setCurrStrebmPosition(le_int32 position);
+    void setCurrGlyphBbseOffset(le_int32 bbseOffset);
+    void bdjustCurrGlyphPositionAdjustment(flobt xPlbcementAdjust, flobt yPlbcementAdjust,
+                                           flobt xAdvbnceAdjust,   flobt yAdvbnceAdjust);
 
-    void setCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                        float xAdvanceAdjust,   float yAdvanceAdjust);
+    void setCurrGlyphPositionAdjustment(flobt xPlbcementAdjust, flobt yPlbcementAdjust,
+                                        flobt xAdvbnceAdjust,   flobt yAdvbnceAdjust);
 
-    void clearCursiveEntryPoint();
-    void clearCursiveExitPoint();
+    void clebrCursiveEntryPoint();
+    void clebrCursiveExitPoint();
     void setCursiveEntryPoint(LEPoint &entryPoint);
     void setCursiveExitPoint(LEPoint &exitPoint);
     void setCursiveGlyph();
 
     LEGlyphID *insertGlyphs(le_int32 count, LEErrorCode& success);
-    le_int32 applyInsertions();
+    le_int32 bpplyInsertions();
 
-private:
+privbte:
     le_bool filterGlyph(le_uint32 index);
-    le_bool hasFeatureTag(le_bool matchGroup) const;
-    le_bool nextInternal(le_uint32 delta = 1);
-    le_bool prevInternal(le_uint32 delta = 1);
+    le_bool hbsFebtureTbg(le_bool mbtchGroup) const;
+    le_bool nextInternbl(le_uint32 deltb = 1);
+    le_bool prevInternbl(le_uint32 deltb = 1);
 
     le_int32  direction;
     le_int32  position;
     le_int32  nextLimit;
     le_int32  prevLimit;
 
-    LEGlyphStorage &glyphStorage;
+    LEGlyphStorbge &glyphStorbge;
     GlyphPositionAdjustments *glyphPositionAdjustments;
 
     le_int32    srcIndex;
     le_int32    destIndex;
-    le_uint16   lookupFlags;
-    FeatureMask featureMask;
+    le_uint16   lookupFlbgs;
+    FebtureMbsk febtureMbsk;
     le_int32    glyphGroup;
 
-    LEReferenceTo<GlyphClassDefinitionTable> glyphClassDefinitionTable;
-    LEReferenceTo<MarkAttachClassDefinitionTable> markAttachClassDefinitionTable;
+    LEReferenceTo<GlyphClbssDefinitionTbble> glyphClbssDefinitionTbble;
+    LEReferenceTo<MbrkAttbchClbssDefinitionTbble> mbrkAttbchClbssDefinitionTbble;
 
-    GlyphIterator &operator=(const GlyphIterator &other); // forbid copying of this class
+    GlyphIterbtor &operbtor=(const GlyphIterbtor &other); // forbid copying of this clbss
 
     struct {
       LEGlyphID   id;
       le_bool     result;
-    } filterCache;
-    le_bool   filterCacheValid;
+    } filterCbche;
+    le_bool   filterCbcheVblid;
 
-    void filterResetCache(void);
+    void filterResetCbche(void);
 };
 
 U_NAMESPACE_END

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.wrapper;
+pbckbge sun.security.jgss.wrbpper;
 
-import java.io.UnsupportedEncodingException;
-import java.security.Provider;
-import java.util.Vector;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.security.Provider;
+import jbvb.util.Vector;
 import org.ietf.jgss.*;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 import sun.security.jgss.GSSExceptionImpl;
 import sun.security.jgss.spi.*;
 
 /**
- * JGSS plugin for generic mechanisms provided through native GSS framework.
+ * JGSS plugin for generic mechbnisms provided through nbtive GSS frbmework.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  */
 
-public final class NativeGSSFactory implements MechanismFactory {
+public finbl clbss NbtiveGSSFbctory implements MechbnismFbctory {
 
     GSSLibStub cStub = null;
-    private final GSSCaller caller;
+    privbte finbl GSSCbller cbller;
 
-    private GSSCredElement getCredFromSubject(GSSNameElement name,
-                                              boolean initiate)
+    privbte GSSCredElement getCredFromSubject(GSSNbmeElement nbme,
+                                              boolebn initibte)
         throws GSSException {
         Oid mech = cStub.getMech();
-        Vector<GSSCredElement> creds = GSSUtil.searchSubject
-            (name, mech, initiate, GSSCredElement.class);
+        Vector<GSSCredElement> creds = GSSUtil.sebrchSubject
+            (nbme, mech, initibte, GSSCredElement.clbss);
 
-        // If Subject is present but no native creds available
+        // If Subject is present but no nbtive creds bvbilbble
         if (creds != null && creds.isEmpty()) {
-            if (GSSUtil.useSubjectCredsOnly(caller)) {
+            if (GSSUtil.useSubjectCredsOnly(cbller)) {
                 throw new GSSException(GSSException.NO_CRED);
             }
         }
 
         GSSCredElement result = ((creds == null || creds.isEmpty()) ?
                                  null : creds.firstElement());
-        // Force permission check before returning the cred to caller
+        // Force permission check before returning the cred to cbller
         if (result != null) {
             result.doServicePermCheck();
         }
         return result;
     }
 
-    public NativeGSSFactory(GSSCaller caller) {
-        this.caller = caller;
-        // Have to call setMech(Oid) explicitly before calling other
-        // methods. Otherwise, NPE may be thrown unexpectantly
+    public NbtiveGSSFbctory(GSSCbller cbller) {
+        this.cbller = cbller;
+        // Hbve to cbll setMech(Oid) explicitly before cblling other
+        // methods. Otherwise, NPE mby be thrown unexpectbntly
     }
 
     public void setMech(Oid mech) throws GSSException {
-        cStub = GSSLibStub.getInstance(mech);
+        cStub = GSSLibStub.getInstbnce(mech);
     }
 
-    public GSSNameSpi getNameElement(String nameStr, Oid nameType)
+    public GSSNbmeSpi getNbmeElement(String nbmeStr, Oid nbmeType)
         throws GSSException {
         try {
-            byte[] nameBytes =
-                (nameStr == null ? null : nameStr.getBytes("UTF-8"));
-            return new GSSNameElement(nameBytes, nameType, cStub);
-        } catch (UnsupportedEncodingException uee) {
-            // Shouldn't happen
+            byte[] nbmeBytes =
+                (nbmeStr == null ? null : nbmeStr.getBytes("UTF-8"));
+            return new GSSNbmeElement(nbmeBytes, nbmeType, cStub);
+        } cbtch (UnsupportedEncodingException uee) {
+            // Shouldn't hbppen
             throw new GSSExceptionImpl(GSSException.FAILURE, uee);
         }
     }
 
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType)
+    public GSSNbmeSpi getNbmeElement(byte[] nbme, Oid nbmeType)
         throws GSSException {
-        return new GSSNameElement(name, nameType, cStub);
+        return new GSSNbmeElement(nbme, nbmeType, cStub);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name,
+    public GSSCredentiblSpi getCredentiblElement(GSSNbmeSpi nbme,
                                                  int initLifetime,
-                                                 int acceptLifetime,
-                                                 int usage)
+                                                 int bcceptLifetime,
+                                                 int usbge)
         throws GSSException {
-        GSSNameElement nname = null;
-        if (name != null && !(name instanceof GSSNameElement)) {
-            nname = (GSSNameElement)
-                getNameElement(name.toString(), name.getStringNameType());
-        } else nname = (GSSNameElement) name;
+        GSSNbmeElement nnbme = null;
+        if (nbme != null && !(nbme instbnceof GSSNbmeElement)) {
+            nnbme = (GSSNbmeElement)
+                getNbmeElement(nbme.toString(), nbme.getStringNbmeType());
+        } else nnbme = (GSSNbmeElement) nbme;
 
-        if (usage == GSSCredential.INITIATE_AND_ACCEPT) {
-            // Force separate acqusition of cred element since
+        if (usbge == GSSCredentibl.INITIATE_AND_ACCEPT) {
+            // Force sepbrbte bcqusition of cred element since
             // MIT's impl does not correctly report NO_CRED error.
-            usage = GSSCredential.INITIATE_ONLY;
+            usbge = GSSCredentibl.INITIATE_ONLY;
         }
 
         GSSCredElement credElement =
-            getCredFromSubject(nname, (usage == GSSCredential.INITIATE_ONLY));
+            getCredFromSubject(nnbme, (usbge == GSSCredentibl.INITIATE_ONLY));
 
         if (credElement == null) {
             // No cred in the Subject
-            if (usage == GSSCredential.INITIATE_ONLY) {
-                credElement = new GSSCredElement(nname, initLifetime,
-                                                 usage, cStub);
-            } else if (usage == GSSCredential.ACCEPT_ONLY) {
-                if (nname == null) {
-                    nname = GSSNameElement.DEF_ACCEPTOR;
+            if (usbge == GSSCredentibl.INITIATE_ONLY) {
+                credElement = new GSSCredElement(nnbme, initLifetime,
+                                                 usbge, cStub);
+            } else if (usbge == GSSCredentibl.ACCEPT_ONLY) {
+                if (nnbme == null) {
+                    nnbme = GSSNbmeElement.DEF_ACCEPTOR;
                 }
-                credElement = new GSSCredElement(nname, acceptLifetime,
-                                                 usage, cStub);
+                credElement = new GSSCredElement(nnbme, bcceptLifetime,
+                                                 usbge, cStub);
             } else {
                 throw new GSSException(GSSException.FAILURE, -1,
-                                       "Unknown usage mode requested");
+                                       "Unknown usbge mode requested");
             }
         }
         return credElement;
     }
 
-    public GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                                             GSSCredentialSpi myCred,
+    public GSSContextSpi getMechbnismContext(GSSNbmeSpi peer,
+                                             GSSCredentiblSpi myCred,
                                              int lifetime)
         throws GSSException {
         if (peer == null) {
             throw new GSSException(GSSException.BAD_NAME);
-        } else if (!(peer instanceof GSSNameElement)) {
-            peer = (GSSNameElement)
-                getNameElement(peer.toString(), peer.getStringNameType());
+        } else if (!(peer instbnceof GSSNbmeElement)) {
+            peer = (GSSNbmeElement)
+                getNbmeElement(peer.toString(), peer.getStringNbmeType());
         }
         if (myCred == null) {
             myCred = getCredFromSubject(null, true);
-        } else if (!(myCred instanceof GSSCredElement)) {
+        } else if (!(myCred instbnceof GSSCredElement)) {
             throw new GSSException(GSSException.NO_CRED);
         }
-        return new NativeGSSContext((GSSNameElement) peer,
+        return new NbtiveGSSContext((GSSNbmeElement) peer,
                                      (GSSCredElement) myCred,
                                      lifetime, cStub);
     }
 
-    public GSSContextSpi getMechanismContext(GSSCredentialSpi myCred)
+    public GSSContextSpi getMechbnismContext(GSSCredentiblSpi myCred)
         throws GSSException {
         if (myCred == null) {
-            myCred = getCredFromSubject(null, false);
-        } else if (!(myCred instanceof GSSCredElement)) {
+            myCred = getCredFromSubject(null, fblse);
+        } else if (!(myCred instbnceof GSSCredElement)) {
             throw new GSSException(GSSException.NO_CRED);
         }
-        return new NativeGSSContext((GSSCredElement) myCred, cStub);
+        return new NbtiveGSSContext((GSSCredElement) myCred, cStub);
     }
 
-    public GSSContextSpi getMechanismContext(byte[] exportedContext)
+    public GSSContextSpi getMechbnismContext(byte[] exportedContext)
         throws GSSException {
         return cStub.importContext(exportedContext);
     }
 
-    public final Oid getMechanismOid() {
+    public finbl Oid getMechbnismOid() {
         return cStub.getMech();
     }
 
     public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+        return SunNbtiveProvider.INSTANCE;
     }
 
-    public Oid[] getNameTypes() throws GSSException {
-        return cStub.inquireNamesForMech();
+    public Oid[] getNbmeTypes() throws GSSException {
+        return cStub.inquireNbmesForMech();
     }
 }

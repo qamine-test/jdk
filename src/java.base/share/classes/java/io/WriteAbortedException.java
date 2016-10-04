@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * Signals that one of the ObjectStreamExceptions was thrown during a
- * write operation.  Thrown during a read operation when one of the
- * ObjectStreamExceptions was thrown during a write operation.  The
- * exception that terminated the write can be found in the detail
- * field. The stream is reset to it's initial state and all references
- * to objects already deserialized are discarded.
+ * Signbls thbt one of the ObjectStrebmExceptions wbs thrown during b
+ * write operbtion.  Thrown during b rebd operbtion when one of the
+ * ObjectStrebmExceptions wbs thrown during b write operbtion.  The
+ * exception thbt terminbted the write cbn be found in the detbil
+ * field. The strebm is reset to it's initibl stbte bnd bll references
+ * to objects blrebdy deseriblized bre discbrded.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "exception causing
- * the abort" that is provided at construction time and
- * accessed via the public {@link #detail} field is now known as the
- * <i>cause</i>, and may be accessed via the {@link Throwable#getCause()}
- * method, as well as the aforementioned "legacy field."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The "exception cbusing
+ * the bbort" thbt is provided bt construction time bnd
+ * bccessed vib the public {@link #detbil} field is now known bs the
+ * <i>cbuse</i>, bnd mby be bccessed vib the {@link Throwbble#getCbuse()}
+ * method, bs well bs the bforementioned "legbcy field."
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.1
  */
-public class WriteAbortedException extends ObjectStreamException {
-    private static final long serialVersionUID = -3326426625597282442L;
+public clbss WriteAbortedException extends ObjectStrebmException {
+    privbte stbtic finbl long seriblVersionUID = -3326426625597282442L;
 
     /**
-     * Exception that was caught while writing the ObjectStream.
+     * Exception thbt wbs cbught while writing the ObjectStrebm.
      *
-     * <p>This field predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This field predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @serial
+     * @seribl
      */
-    public Exception detail;
+    public Exception detbil;
 
     /**
-     * Constructs a WriteAbortedException with a string describing
-     * the exception and the exception causing the abort.
-     * @param s   String describing the exception.
-     * @param ex  Exception causing the abort.
+     * Constructs b WriteAbortedException with b string describing
+     * the exception bnd the exception cbusing the bbort.
+     * @pbrbm s   String describing the exception.
+     * @pbrbm ex  Exception cbusing the bbort.
      */
     public WriteAbortedException(String s, Exception ex) {
         super(s);
-        initCause(null);  // Disallow subsequent initCause
-        detail = ex;
+        initCbuse(null);  // Disbllow subsequent initCbuse
+        detbil = ex;
     }
 
     /**
-     * Produce the message and include the message from the nested
+     * Produce the messbge bnd include the messbge from the nested
      * exception, if there is one.
      */
-    public String getMessage() {
-        if (detail == null)
-            return super.getMessage();
+    public String getMessbge() {
+        if (detbil == null)
+            return super.getMessbge();
         else
-            return super.getMessage() + "; " + detail.toString();
+            return super.getMessbge() + "; " + detbil.toString();
     }
 
     /**
-     * Returns the exception that terminated the operation (the <i>cause</i>).
+     * Returns the exception thbt terminbted the operbtion (the <i>cbuse</i>).
      *
-     * @return  the exception that terminated the operation (the <i>cause</i>),
-     *          which may be null.
+     * @return  the exception thbt terminbted the operbtion (the <i>cbuse</i>),
+     *          which mby be null.
      * @since   1.4
      */
-    public Throwable getCause() {
-        return detail;
+    public Throwbble getCbuse() {
+        return detbil;
     }
 }

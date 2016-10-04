@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.Timer;
+import jbvb.util.TimerTbsk;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
 
-import java.security.PrivilegedAction;
-import java.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
 
-import sun.awt.PeerEvent;
+import sun.bwt.PeerEvent;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * This utility class is used to suspend execution on a thread
- * while still allowing {@code EventDispatchThread} to dispatch events.
- * The API methods of the class are thread-safe.
+ * This utility clbss is used to suspend execution on b threbd
+ * while still bllowing {@code EventDispbtchThrebd} to dispbtch events.
+ * The API methods of the clbss bre threbd-sbfe.
  *
- * @author Anton Tarasov, Artem Ananiev
+ * @buthor Anton Tbrbsov, Artem Anbniev
  *
  * @since 1.7
  */
-class WaitDispatchSupport implements SecondaryLoop {
+clbss WbitDispbtchSupport implements SecondbryLoop {
 
-    private final static PlatformLogger log =
-        PlatformLogger.getLogger("java.awt.event.WaitDispatchSupport");
+    privbte finbl stbtic PlbtformLogger log =
+        PlbtformLogger.getLogger("jbvb.bwt.event.WbitDispbtchSupport");
 
-    private EventDispatchThread dispatchThread;
-    private EventFilter filter;
+    privbte EventDispbtchThrebd dispbtchThrebd;
+    privbte EventFilter filter;
 
-    private volatile Conditional extCondition;
-    private volatile Conditional condition;
+    privbte volbtile Conditionbl extCondition;
+    privbte volbtile Conditionbl condition;
 
-    private long interval;
-    // Use a shared daemon timer to serve all the WaitDispatchSupports
-    private static Timer timer;
-    // When this WDS expires, we cancel the timer task leaving the
-    // shared timer up and running
-    private TimerTask timerTask;
+    privbte long intervbl;
+    // Use b shbred dbemon timer to serve bll the WbitDispbtchSupports
+    privbte stbtic Timer timer;
+    // When this WDS expires, we cbncel the timer tbsk lebving the
+    // shbred timer up bnd running
+    privbte TimerTbsk timerTbsk;
 
-    private AtomicBoolean keepBlockingEDT = new AtomicBoolean(false);
-    private AtomicBoolean keepBlockingCT = new AtomicBoolean(false);
+    privbte AtomicBoolebn keepBlockingEDT = new AtomicBoolebn(fblse);
+    privbte AtomicBoolebn keepBlockingCT = new AtomicBoolebn(fblse);
 
-    private static synchronized void initializeTimer() {
+    privbte stbtic synchronized void initiblizeTimer() {
         if (timer == null) {
-            timer = new Timer("AWT-WaitDispatchSupport-Timer", true);
+            timer = new Timer("AWT-WbitDispbtchSupport-Timer", true);
         }
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crebtes b {@code WbitDispbtchSupport} instbnce to
+     * serve the given event dispbtch threbd.
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
+     * @pbrbm dispbtchThrebd An event dispbtch threbd thbt
+     *        should not stop dispbtching events while wbiting
      *
      * @since 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread) {
-        this(dispatchThread, null);
+    public WbitDispbtchSupport(EventDispbtchThrebd dispbtchThrebd) {
+        this(dispbtchThrebd, null);
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crebtes b {@code WbitDispbtchSupport} instbnce to
+     * serve the given event dispbtch threbd.
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
-     * @param extCond A conditional object used to determine
-     *        if the loop should be terminated
+     * @pbrbm dispbtchThrebd An event dispbtch threbd thbt
+     *        should not stop dispbtching events while wbiting
+     * @pbrbm extCond A conditionbl object used to determine
+     *        if the loop should be terminbted
      *
      * @since 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread,
-                               Conditional extCond)
+    public WbitDispbtchSupport(EventDispbtchThrebd dispbtchThrebd,
+                               Conditionbl extCond)
     {
-        if (dispatchThread == null) {
-            throw new IllegalArgumentException("The dispatchThread can not be null");
+        if (dispbtchThrebd == null) {
+            throw new IllegblArgumentException("The dispbtchThrebd cbn not be null");
         }
 
-        this.dispatchThread = dispatchThread;
+        this.dispbtchThrebd = dispbtchThrebd;
         this.extCondition = extCond;
-        this.condition = new Conditional() {
+        this.condition = new Conditionbl() {
             @Override
-            public boolean evaluate() {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("evaluate(): blockingEDT=" + keepBlockingEDT.get() +
+            public boolebn evblubte() {
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("evblubte(): blockingEDT=" + keepBlockingEDT.get() +
                                ", blockingCT=" + keepBlockingCT.get());
                 }
-                boolean extEvaluate =
-                    (extCondition != null) ? extCondition.evaluate() : true;
-                if (!keepBlockingEDT.get() || !extEvaluate) {
-                    if (timerTask != null) {
-                        timerTask.cancel();
-                        timerTask = null;
+                boolebn extEvblubte =
+                    (extCondition != null) ? extCondition.evblubte() : true;
+                if (!keepBlockingEDT.get() || !extEvblubte) {
+                    if (timerTbsk != null) {
+                        timerTbsk.cbncel();
+                        timerTbsk = null;
                     }
-                    return false;
+                    return fblse;
                 }
                 return true;
             }
@@ -127,36 +127,36 @@ class WaitDispatchSupport implements SecondaryLoop {
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crebtes b {@code WbitDispbtchSupport} instbnce to
+     * serve the given event dispbtch threbd.
      * <p>
-     * The {@link EventFilter} is set on the {@code dispatchThread}
-     * while waiting. The filter is removed on completion of the
-     * waiting process.
+     * The {@link EventFilter} is set on the {@code dispbtchThrebd}
+     * while wbiting. The filter is removed on completion of the
+     * wbiting process.
      * <p>
      *
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
-     * @param filter {@code EventFilter} to be set
-     * @param interval A time interval to wait for. Note that
-     *        when the waiting process takes place on EDT
-     *        there is no guarantee to stop it in the given time
+     * @pbrbm dispbtchThrebd An event dispbtch threbd thbt
+     *        should not stop dispbtching events while wbiting
+     * @pbrbm filter {@code EventFilter} to be set
+     * @pbrbm intervbl A time intervbl to wbit for. Note thbt
+     *        when the wbiting process tbkes plbce on EDT
+     *        there is no gubrbntee to stop it in the given time
      *
      * @since 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread,
-                               Conditional extCondition,
-                               EventFilter filter, long interval)
+    public WbitDispbtchSupport(EventDispbtchThrebd dispbtchThrebd,
+                               Conditionbl extCondition,
+                               EventFilter filter, long intervbl)
     {
-        this(dispatchThread, extCondition);
+        this(dispbtchThrebd, extCondition);
         this.filter = filter;
-        if (interval < 0) {
-            throw new IllegalArgumentException("The interval value must be >= 0");
+        if (intervbl < 0) {
+            throw new IllegblArgumentException("The intervbl vblue must be >= 0");
         }
-        this.interval = interval;
-        if (interval != 0) {
-            initializeTimer();
+        this.intervbl = intervbl;
+        if (intervbl != 0) {
+            initiblizeTimer();
         }
     }
 
@@ -164,64 +164,64 @@ class WaitDispatchSupport implements SecondaryLoop {
      * {@inheritDoc}
      */
     @Override
-    public boolean enter() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    public boolebn enter() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("enter(): blockingEDT=" + keepBlockingEDT.get() +
                      ", blockingCT=" + keepBlockingCT.get());
         }
 
-        if (!keepBlockingEDT.compareAndSet(false, true)) {
-            log.fine("The secondary loop is already running, aborting");
-            return false;
+        if (!keepBlockingEDT.compbreAndSet(fblse, true)) {
+            log.fine("The secondbry loop is blrebdy running, bborting");
+            return fblse;
         }
 
-        final Runnable run = new Runnable() {
+        finbl Runnbble run = new Runnbble() {
             public void run() {
-                log.fine("Starting a new event pump");
+                log.fine("Stbrting b new event pump");
                 if (filter == null) {
-                    dispatchThread.pumpEvents(condition);
+                    dispbtchThrebd.pumpEvents(condition);
                 } else {
-                    dispatchThread.pumpEventsForFilter(condition, filter);
+                    dispbtchThrebd.pumpEventsForFilter(condition, filter);
                 }
             }
         };
 
-        // We have two mechanisms for blocking: if we're on the
-        // dispatch thread, start a new event pump; if we're
-        // on any other thread, call wait() on the treelock
+        // We hbve two mechbnisms for blocking: if we're on the
+        // dispbtch threbd, stbrt b new event pump; if we're
+        // on bny other threbd, cbll wbit() on the treelock
 
-        Thread currentThread = Thread.currentThread();
-        if (currentThread == dispatchThread) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("On dispatch thread: " + dispatchThread);
+        Threbd currentThrebd = Threbd.currentThrebd();
+        if (currentThrebd == dispbtchThrebd) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("On dispbtch threbd: " + dispbtchThrebd);
             }
-            if (interval != 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("scheduling the timer for " + interval + " ms");
+            if (intervbl != 0) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("scheduling the timer for " + intervbl + " ms");
                 }
-                timer.schedule(timerTask = new TimerTask() {
+                timer.schedule(timerTbsk = new TimerTbsk() {
                     @Override
                     public void run() {
-                        if (keepBlockingEDT.compareAndSet(true, false)) {
-                            wakeupEDT();
+                        if (keepBlockingEDT.compbreAndSet(true, fblse)) {
+                            wbkeupEDT();
                         }
                     }
-                }, interval);
+                }, intervbl);
             }
-            // Dispose SequencedEvent we are dispatching on the the current
-            // AppContext, to prevent us from hang - see 4531693 for details
-            SequencedEvent currentSE = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().getCurrentSequencedEvent();
+            // Dispose SequencedEvent we bre dispbtching on the the current
+            // AppContext, to prevent us from hbng - see 4531693 for detbils
+            SequencedEvent currentSE = KeybobrdFocusMbnbger.
+                getCurrentKeybobrdFocusMbnbger().getCurrentSequencedEvent();
             if (currentSE != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("Dispose current SequencedEvent: " + currentSE);
                 }
                 currentSE.dispose();
             }
-            // In case the exit() method is called before starting
-            // new event pump it will post the waking event to EDT.
-            // The event will be handled after the the new event pump
-            // starts. Thus, the enter() method will not hang.
+            // In cbse the exit() method is cblled before stbrting
+            // new event pump it will post the wbking event to EDT.
+            // The event will be hbndled bfter the the new event pump
+            // stbrts. Thus, the enter() method will not hbng.
             //
             // Event pump should be privileged. See 6300270.
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
@@ -231,49 +231,49 @@ class WaitDispatchSupport implements SecondaryLoop {
                 }
             });
         } else {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("On non-dispatch thread: " + currentThread);
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("On non-dispbtch threbd: " + currentThrebd);
             }
             synchronized (getTreeLock()) {
                 if (filter != null) {
-                    dispatchThread.addEventFilter(filter);
+                    dispbtchThrebd.bddEventFilter(filter);
                 }
                 try {
-                    EventQueue eq = dispatchThread.getEventQueue();
+                    EventQueue eq = dispbtchThrebd.getEventQueue();
                     eq.postEvent(new PeerEvent(this, run, PeerEvent.PRIORITY_EVENT));
                     keepBlockingCT.set(true);
-                    if (interval > 0) {
+                    if (intervbl > 0) {
                         long currTime = System.currentTimeMillis();
                         while (keepBlockingCT.get() &&
-                               ((extCondition != null) ? extCondition.evaluate() : true) &&
-                               (currTime + interval > System.currentTimeMillis()))
+                               ((extCondition != null) ? extCondition.evblubte() : true) &&
+                               (currTime + intervbl > System.currentTimeMillis()))
                         {
-                            getTreeLock().wait(interval);
+                            getTreeLock().wbit(intervbl);
                         }
                     } else {
                         while (keepBlockingCT.get() &&
-                               ((extCondition != null) ? extCondition.evaluate() : true))
+                               ((extCondition != null) ? extCondition.evblubte() : true))
                         {
-                            getTreeLock().wait();
+                            getTreeLock().wbit();
                         }
                     }
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("waitDone " + keepBlockingEDT.get() + " " + keepBlockingCT.get());
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("wbitDone " + keepBlockingEDT.get() + " " + keepBlockingCT.get());
                     }
-                } catch (InterruptedException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("Exception caught while waiting: " + e);
+                } cbtch (InterruptedException e) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("Exception cbught while wbiting: " + e);
                     }
-                } finally {
+                } finblly {
                     if (filter != null) {
-                        dispatchThread.removeEventFilter(filter);
+                        dispbtchThrebd.removeEventFilter(filter);
                     }
                 }
-                // If the waiting process has been stopped because of the
-                // time interval passed or an exception occurred, the state
-                // should be changed
-                keepBlockingEDT.set(false);
-                keepBlockingCT.set(false);
+                // If the wbiting process hbs been stopped becbuse of the
+                // time intervbl pbssed or bn exception occurred, the stbte
+                // should be chbnged
+                keepBlockingEDT.set(fblse);
+                keepBlockingCT.set(fblse);
             }
         }
 
@@ -283,38 +283,38 @@ class WaitDispatchSupport implements SecondaryLoop {
     /**
      * {@inheritDoc}
      */
-    public boolean exit() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    public boolebn exit() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("exit(): blockingEDT=" + keepBlockingEDT.get() +
                      ", blockingCT=" + keepBlockingCT.get());
         }
-        if (keepBlockingEDT.compareAndSet(true, false)) {
-            wakeupEDT();
+        if (keepBlockingEDT.compbreAndSet(true, fblse)) {
+            wbkeupEDT();
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private final static Object getTreeLock() {
+    privbte finbl stbtic Object getTreeLock() {
         return Component.LOCK;
     }
 
-    private final Runnable wakingRunnable = new Runnable() {
+    privbte finbl Runnbble wbkingRunnbble = new Runnbble() {
         public void run() {
-            log.fine("Wake up EDT");
+            log.fine("Wbke up EDT");
             synchronized (getTreeLock()) {
-                keepBlockingCT.set(false);
+                keepBlockingCT.set(fblse);
                 getTreeLock().notifyAll();
             }
-            log.fine("Wake up EDT done");
+            log.fine("Wbke up EDT done");
         }
     };
 
-    private void wakeupEDT() {
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("wakeupEDT(): EDT == " + dispatchThread);
+    privbte void wbkeupEDT() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            log.finest("wbkeupEDT(): EDT == " + dispbtchThrebd);
         }
-        EventQueue eq = dispatchThread.getEventQueue();
-        eq.postEvent(new PeerEvent(this, wakingRunnable, PeerEvent.PRIORITY_EVENT));
+        EventQueue eq = dispbtchThrebd.getEventQueue();
+        eq.postEvent(new PeerEvent(this, wbkingRunnbble, PeerEvent.PRIORITY_EVENT));
     }
 }

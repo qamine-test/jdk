@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -43,20 +43,20 @@
 
 void         object_init(void);
 ObjectIndex  object_new(SiteIndex site_index, jint size, ObjectKind kind,
-                        SerialNumber thread_serial_num);
+                        SeriblNumber threbd_seribl_num);
 SiteIndex    object_get_site(ObjectIndex index);
 jint         object_get_size(ObjectIndex index);
 ObjectKind   object_get_kind(ObjectIndex index);
 ObjectKind   object_free(ObjectIndex index);
 void         object_list(void);
-void         object_cleanup(void);
+void         object_clebnup(void);
 
-void         object_set_thread_serial_number(ObjectIndex index,
-                                             SerialNumber thread_serial_num);
-SerialNumber object_get_thread_serial_number(ObjectIndex index);
+void         object_set_threbd_seribl_number(ObjectIndex index,
+                                             SeriblNumber threbd_seribl_num);
+SeriblNumber object_get_threbd_seribl_number(ObjectIndex index);
 RefIndex     object_get_references(ObjectIndex index);
 void         object_set_references(ObjectIndex index, RefIndex ref_index);
-void         object_clear_references(void);
+void         object_clebr_references(void);
 void         object_reference_dump(JNIEnv *env);
 
 #endif

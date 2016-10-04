@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.serialver;
+pbckbge sun.tools.seriblver;
 
-import java.io.*;
-import java.io.ObjectStreamClass;
-import java.util.Properties;
-import java.text.MessageFormat;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.StringTokenizer;
-import sun.net.www.ParseUtil;
+import jbvb.io.*;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.util.Properties;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.net.URLClbssLobder;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.util.StringTokenizer;
+import sun.net.www.PbrseUtil;
 
-public class SerialVer {
-
-    /*
-     * A class loader that will load from the CLASSPATH environment
-     * variable set by the user.
-     */
-    static URLClassLoader loader = null;
+public clbss SeriblVer {
 
     /*
-     * Create a URL class loader that will load classes from the
-     * specified classpath.
+     * A clbss lobder thbt will lobd from the CLASSPATH environment
+     * vbribble set by the user.
      */
-    static void initializeLoader(String cp)
-                                throws MalformedURLException, IOException {
+    stbtic URLClbssLobder lobder = null;
+
+    /*
+     * Crebte b URL clbss lobder thbt will lobd clbsses from the
+     * specified clbsspbth.
+     */
+    stbtic void initiblizeLobder(String cp)
+                                throws MblformedURLException, IOException {
         URL[] urls;
-        StringTokenizer st = new StringTokenizer(cp, File.pathSeparator);
+        StringTokenizer st = new StringTokenizer(cp, File.pbthSepbrbtor);
         int count = st.countTokens();
         urls = new URL[count];
         for (int i = 0; i < count; i++) {
-            urls[i] = ParseUtil.fileToEncodedURL(
-                new File(new File(st.nextToken()).getCanonicalPath()));
+            urls[i] = PbrseUtil.fileToEncodedURL(
+                new File(new File(st.nextToken()).getCbnonicblPbth()));
         }
-        loader = new URLClassLoader(urls);
+        lobder = new URLClbssLobder(urls);
     }
 
     /*
-     * From the classname find the serialVersionUID string formatted
-     * for to be copied to a java class.
+     * From the clbssnbme find the seriblVersionUID string formbtted
+     * for to be copied to b jbvb clbss.
      */
-    static String serialSyntax(String classname) throws ClassNotFoundException {
+    stbtic String seriblSyntbx(String clbssnbme) throws ClbssNotFoundException {
         String ret = null;
-        boolean classFound = false;
+        boolebn clbssFound = fblse;
 
-        // If using old style of qualifyling inner classes with '$'s.
-        if (classname.indexOf('$') != -1) {
-            ret = resolveClass(classname);
+        // If using old style of qublifyling inner clbsses with '$'s.
+        if (clbssnbme.indexOf('$') != -1) {
+            ret = resolveClbss(clbssnbme);
         } else {
-            /* Try to resolve the fully qualified name and if that fails, start
-             * replacing the '.'s with '$'s starting from the last '.', until
-             * the class is resolved.
+            /* Try to resolve the fully qublified nbme bnd if thbt fbils, stbrt
+             * replbcing the '.'s with '$'s stbrting from the lbst '.', until
+             * the clbss is resolved.
              */
             try {
-                ret = resolveClass(classname);
-                classFound = true;
-            } catch (ClassNotFoundException e) {
-                /* Class not found so far */
+                ret = resolveClbss(clbssnbme);
+                clbssFound = true;
+            } cbtch (ClbssNotFoundException e) {
+                /* Clbss not found so fbr */
             }
-            if (!classFound) {
-                StringBuilder workBuffer = new StringBuilder(classname);
-                String workName = workBuffer.toString();
+            if (!clbssFound) {
+                StringBuilder workBuffer = new StringBuilder(clbssnbme);
+                String workNbme = workBuffer.toString();
                 int i;
-                while ((i = workName.lastIndexOf('.')) != -1 && !classFound) {
-                    workBuffer.setCharAt(i, '$');
+                while ((i = workNbme.lbstIndexOf('.')) != -1 && !clbssFound) {
+                    workBuffer.setChbrAt(i, '$');
                     try {
-                        workName = workBuffer.toString();
-                        ret = resolveClass(workName);
-                        classFound = true;
-                    } catch (ClassNotFoundException e) {
-                        /* Continue searching */
+                        workNbme = workBuffer.toString();
+                        ret = resolveClbss(workNbme);
+                        clbssFound = true;
+                    } cbtch (ClbssNotFoundException e) {
+                        /* Continue sebrching */
                     }
                 }
             }
-            if (!classFound) {
-                throw new ClassNotFoundException();
+            if (!clbssFound) {
+                throw new ClbssNotFoundException();
             }
         }
         return ret;
     }
 
-    static String resolveClass(String classname) throws ClassNotFoundException {
-        Class<?> cl = Class.forName(classname, false, loader);
-        ObjectStreamClass desc = ObjectStreamClass.lookup(cl);
+    stbtic String resolveClbss(String clbssnbme) throws ClbssNotFoundException {
+        Clbss<?> cl = Clbss.forNbme(clbssnbme, fblse, lobder);
+        ObjectStrebmClbss desc = ObjectStrebmClbss.lookup(cl);
         if (desc != null) {
-            return "    private static final long serialVersionUID = " +
-                desc.getSerialVersionUID() + "L;";
+            return "    privbte stbtic finbl long seriblVersionUID = " +
+                desc.getSeriblVersionUID() + "L;";
         } else {
             return null;
         }
     }
 
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         String envcp = null;
         int i = 0;
 
-        if (args.length == 0) {
-            usage();
+        if (brgs.length == 0) {
+            usbge();
             System.exit(1);
         }
 
-        for (i = 0; i < args.length; i++) {
-            if (args[i].equals("-classpath")) {
-                if ((i+1 == args.length) || args[i+1].startsWith("-")) {
-                    System.err.println(Res.getText("error.missing.classpath"));
-                    usage();
+        for (i = 0; i < brgs.length; i++) {
+            if (brgs[i].equbls("-clbsspbth")) {
+                if ((i+1 == brgs.length) || brgs[i+1].stbrtsWith("-")) {
+                    System.err.println(Res.getText("error.missing.clbsspbth"));
+                    usbge();
                     System.exit(1);
                 }
-                envcp = new String(args[i+1]);
+                envcp = new String(brgs[i+1]);
                 i++;
-            }  else if (args[i].startsWith("-")) {
-                System.err.println(Res.getText("invalid.flag", args[i]));
-                usage();
+            }  else if (brgs[i].stbrtsWith("-")) {
+                System.err.println(Res.getText("invblid.flbg", brgs[i]));
+                usbge();
                 System.exit(1);
             } else {
-                break;          // drop into processing class names
+                brebk;          // drop into processing clbss nbmes
             }
         }
 
 
         /*
-         * Get user's CLASSPATH environment variable, if the -classpath option
-         * is not defined, and make a loader that can read from that path.
+         * Get user's CLASSPATH environment vbribble, if the -clbsspbth option
+         * is not defined, bnd mbke b lobder thbt cbn rebd from thbt pbth.
          */
         if (envcp == null) {
-            envcp = System.getProperty("env.class.path");
+            envcp = System.getProperty("env.clbss.pbth");
             /*
-             * If environment variable not set, add current directory to path.
+             * If environment vbribble not set, bdd current directory to pbth.
              */
             if (envcp == null) {
                 envcp = ".";
@@ -160,128 +160,128 @@ public class SerialVer {
         }
 
         try {
-            initializeLoader(envcp);
-        } catch (MalformedURLException mue) {
-            System.err.println(Res.getText("error.parsing.classpath", envcp));
+            initiblizeLobder(envcp);
+        } cbtch (MblformedURLException mue) {
+            System.err.println(Res.getText("error.pbrsing.clbsspbth", envcp));
             System.exit(2);
-        } catch (IOException ioe) {
-            System.err.println(Res.getText("error.parsing.classpath", envcp));
+        } cbtch (IOException ioe) {
+            System.err.println(Res.getText("error.pbrsing.clbsspbth", envcp));
             System.exit(3);
         }
 
         /*
-         * Check if there are any class names specified
+         * Check if there bre bny clbss nbmes specified
          */
-        if (i == args.length) {
-            usage();
+        if (i == brgs.length) {
+            usbge();
             System.exit(1);
         }
 
         /*
-         * The rest of the parameters are classnames.
+         * The rest of the pbrbmeters bre clbssnbmes.
          */
-        boolean exitFlag = false;
-        for (i = i; i < args.length; i++ ) {
+        boolebn exitFlbg = fblse;
+        for (i = i; i < brgs.length; i++ ) {
             try {
-                String syntax = serialSyntax(args[i]);
-                if (syntax != null)
-                    System.out.println(args[i] + ":" + syntax);
+                String syntbx = seriblSyntbx(brgs[i]);
+                if (syntbx != null)
+                    System.out.println(brgs[i] + ":" + syntbx);
                 else {
-                    System.err.println(Res.getText("NotSerializable",
-                        args[i]));
-                    exitFlag = true;
+                    System.err.println(Res.getText("NotSeriblizbble",
+                        brgs[i]));
+                    exitFlbg = true;
                 }
-            } catch (ClassNotFoundException cnf) {
-                System.err.println(Res.getText("ClassNotFound", args[i]));
-                exitFlag = true;
+            } cbtch (ClbssNotFoundException cnf) {
+                System.err.println(Res.getText("ClbssNotFound", brgs[i]));
+                exitFlbg = true;
             }
         }
-        if (exitFlag) {
+        if (exitFlbg) {
             System.exit(1);
         }
     }
 
 
     /**
-     * Usage
+     * Usbge
      */
-    public static void usage() {
-        System.err.println(Res.getText("usage"));
+    public stbtic void usbge() {
+        System.err.println(Res.getText("usbge"));
     }
 
 }
 
 /**
- * Utility for integrating with serialver and for localization.
- * Handle Resources. Access to error and warning counts.
- * Message formatting.
+ * Utility for integrbting with seriblver bnd for locblizbtion.
+ * Hbndle Resources. Access to error bnd wbrning counts.
+ * Messbge formbtting.
  *
- * @see java.util.ResourceBundle
- * @see java.text.MessageFormat
+ * @see jbvb.util.ResourceBundle
+ * @see jbvb.text.MessbgeFormbt
  */
-class Res {
+clbss Res {
 
-    private static ResourceBundle messageRB;
+    privbte stbtic ResourceBundle messbgeRB;
 
     /**
-     * Initialize ResourceBundle
+     * Initiblize ResourceBundle
      */
-    static void initResource() {
+    stbtic void initResource() {
         try {
-            messageRB =
-                ResourceBundle.getBundle("sun.tools.serialver.resources.serialver");
-        } catch (MissingResourceException e) {
-            throw new Error("Fatal: Resource for serialver is missing");
+            messbgeRB =
+                ResourceBundle.getBundle("sun.tools.seriblver.resources.seriblver");
+        } cbtch (MissingResourceException e) {
+            throw new Error("Fbtbl: Resource for seriblver is missing");
         }
     }
 
     /**
-     * get and format message string from resource
+     * get bnd formbt messbge string from resource
      *
-     * @param key selects message from resource
+     * @pbrbm key selects messbge from resource
      */
-    static String getText(String key) {
+    stbtic String getText(String key) {
         return getText(key, (String)null);
     }
 
     /**
-     * get and format message string from resource
+     * get bnd formbt messbge string from resource
      *
-     * @param key selects message from resource
-     * @param a1 first argument
+     * @pbrbm key selects messbge from resource
+     * @pbrbm b1 first brgument
      */
-    static String getText(String key, String a1) {
-        return getText(key, a1, null);
+    stbtic String getText(String key, String b1) {
+        return getText(key, b1, null);
     }
 
     /**
-     * get and format message string from resource
+     * get bnd formbt messbge string from resource
      *
-     * @param key selects message from resource
-     * @param a1 first argument
-     * @param a2 second argument
+     * @pbrbm key selects messbge from resource
+     * @pbrbm b1 first brgument
+     * @pbrbm b2 second brgument
      */
-    static String getText(String key, String a1, String a2) {
-        return getText(key, a1, a2, null);
+    stbtic String getText(String key, String b1, String b2) {
+        return getText(key, b1, b2, null);
     }
 
     /**
-     * get and format message string from resource
+     * get bnd formbt messbge string from resource
      *
-     * @param key selects message from resource
-     * @param a1 first argument
-     * @param a2 second argument
-     * @param a3 third argument
+     * @pbrbm key selects messbge from resource
+     * @pbrbm b1 first brgument
+     * @pbrbm b2 second brgument
+     * @pbrbm b3 third brgument
      */
-    static String getText(String key, String a1, String a2, String a3) {
-        if (messageRB == null) {
+    stbtic String getText(String key, String b1, String b2, String b3) {
+        if (messbgeRB == null) {
             initResource();
         }
         try {
-            String message = messageRB.getString(key);
-            return MessageFormat.format(message, a1, a2, a3);
-        } catch (MissingResourceException e) {
-            throw new Error("Fatal: Resource for serialver is broken. There is no " + key + " key in resource.");
+            String messbge = messbgeRB.getString(key);
+            return MessbgeFormbt.formbt(messbge, b1, b2, b3);
+        } cbtch (MissingResourceException e) {
+            throw new Error("Fbtbl: Resource for seriblver is broken. There is no " + key + " key in resource.");
         }
     }
 }

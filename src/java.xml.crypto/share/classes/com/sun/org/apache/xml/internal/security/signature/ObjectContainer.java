@@ -3,135 +3,135 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 
 /**
- * Handles <code>&lt;ds:Object&gt;</code> elements
- * <code>Object<code> {@link Element} supply facility which can contain any kind data
+ * Hbndles <code>&lt;ds:Object&gt;</code> elements
+ * <code>Object<code> {@link Element} supply fbcility which cbn contbin bny kind dbtb
  *
- * @author Christian Geuer-Pollmann
- * $todo$ if we remove childen, the boolean values are not updated
+ * @buthor Christibn Geuer-Pollmbnn
+ * $todo$ if we remove childen, the boolebn vblues bre not updbted
  */
-public class ObjectContainer extends SignatureElementProxy {
+public clbss ObjectContbiner extends SignbtureElementProxy {
 
     /**
-     * Constructs {@link ObjectContainer}
+     * Constructs {@link ObjectContbiner}
      *
-     * @param doc the {@link Document} in which <code>Object</code> element is placed
+     * @pbrbm doc the {@link Document} in which <code>Object</code> element is plbced
      */
-    public ObjectContainer(Document doc) {
+    public ObjectContbiner(Document doc) {
         super(doc);
     }
 
     /**
-     * Constructs {@link ObjectContainer} from {@link Element}
+     * Constructs {@link ObjectContbiner} from {@link Element}
      *
-     * @param element is <code>Object</code> element
-     * @param baseURI the URI of the resource where the XML instance was stored
+     * @pbrbm element is <code>Object</code> element
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
      * @throws XMLSecurityException
      */
-    public ObjectContainer(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    public ObjectContbiner(Element element, String bbseURI) throws XMLSecurityException {
+        super(element, bbseURI);
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sets the <code>Id</code> bttribute
      *
-     * @param Id <code>Id</code> attribute
+     * @pbrbm Id <code>Id</code> bttribute
      */
     public void setId(String Id) {
         if (Id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, Id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, Id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Returns the <code>Id</code> bttribute
      *
-     * @return the <code>Id</code> attribute
+     * @return the <code>Id</code> bttribute
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Sets the <code>MimeType</code> attribute
+     * Sets the <code>MimeType</code> bttribute
      *
-     * @param MimeType the <code>MimeType</code> attribute
+     * @pbrbm MimeType the <code>MimeType</code> bttribute
      */
     public void setMimeType(String MimeType) {
         if (MimeType != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_MIMETYPE, MimeType);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_MIMETYPE, MimeType);
         }
     }
 
     /**
-     * Returns the <code>MimeType</code> attribute
+     * Returns the <code>MimeType</code> bttribute
      *
-     * @return the <code>MimeType</code> attribute
+     * @return the <code>MimeType</code> bttribute
      */
     public String getMimeType() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_MIMETYPE);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_MIMETYPE);
     }
 
     /**
-     * Sets the <code>Encoding</code> attribute
+     * Sets the <code>Encoding</code> bttribute
      *
-     * @param Encoding the <code>Encoding</code> attribute
+     * @pbrbm Encoding the <code>Encoding</code> bttribute
      */
     public void setEncoding(String Encoding) {
         if (Encoding != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ENCODING, Encoding);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ENCODING, Encoding);
         }
     }
 
     /**
-     * Returns the <code>Encoding</code> attribute
+     * Returns the <code>Encoding</code> bttribute
      *
-     * @return the <code>Encoding</code> attribute
+     * @return the <code>Encoding</code> bttribute
      */
     public String getEncoding() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ENCODING);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ENCODING);
     }
 
     /**
      * Adds child Node
      *
-     * @param node child Node
+     * @pbrbm node child Node
      * @return the new node in the tree.
      */
-    public Node appendChild(Node node) {
-        return this.constructionElement.appendChild(node);
+    public Node bppendChild(Node node) {
+        return this.constructionElement.bppendChild(node);
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_OBJECT;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_OBJECT;
     }
 }

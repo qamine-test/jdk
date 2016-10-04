@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import javax.swing.text.html.HTMLEditorKit;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.DataInputStream;
-import java.io.ObjectInputStream;
-import java.io.Reader;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvbx.swing.text.html.HTMLEditorKit;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Responsible for starting up a new DocumentParser
- * each time its parse method is invoked. Stores a
+ * Responsible for stbrting up b new DocumentPbrser
+ * ebch time its pbrse method is invoked. Stores b
  * reference to the dtd.
  *
- * @author  Sunita Mani
+ * @buthor  Sunitb Mbni
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ParserDelegator extends HTMLEditorKit.Parser implements Serializable {
-    private static final Object DTD_KEY = new Object();
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss PbrserDelegbtor extends HTMLEditorKit.Pbrser implements Seriblizbble {
+    privbte stbtic finbl Object DTD_KEY = new Object();
 
     /**
-     * Sets the default DTD.
+     * Sets the defbult DTD.
      */
-    protected static void setDefaultDTD() {
-        getDefaultDTD();
+    protected stbtic void setDefbultDTD() {
+        getDefbultDTD();
     }
 
-    private static synchronized DTD getDefaultDTD() {
-        AppContext appContext = AppContext.getAppContext();
+    privbte stbtic synchronized DTD getDefbultDTD() {
+        AppContext bppContext = AppContext.getAppContext();
 
-        DTD dtd = (DTD) appContext.get(DTD_KEY);
+        DTD dtd = (DTD) bppContext.get(DTD_KEY);
 
         if (dtd == null) {
             DTD _dtd = null;
-            // (PENDING) Hate having to hard code!
+            // (PENDING) Hbte hbving to hbrd code!
             String nm = "html32";
             try {
                 _dtd = DTD.getDTD(nm);
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 // (PENDING) UGLY!
-                System.out.println("Throw an exception: could not get default dtd: " + nm);
+                System.out.println("Throw bn exception: could not get defbult dtd: " + nm);
             }
-            dtd = createDTD(_dtd, nm);
+            dtd = crebteDTD(_dtd, nm);
 
-            appContext.put(DTD_KEY, dtd);
+            bppContext.put(DTD_KEY, dtd);
         }
 
         return dtd;
     }
 
     /**
-     * Recreates a DTD from an archived format with the specified {@code name}.
+     * Recrebtes b DTD from bn brchived formbt with the specified {@code nbme}.
      *
-     * @param dtd a DTD
-     * @param name the name of the resource, relative to the  ParserDelegator class.
-     * @return the DTD with the specified {@code name}.
+     * @pbrbm dtd b DTD
+     * @pbrbm nbme the nbme of the resource, relbtive to the  PbrserDelegbtor clbss.
+     * @return the DTD with the specified {@code nbme}.
      */
-    protected static DTD createDTD(DTD dtd, String name) {
+    protected stbtic DTD crebteDTD(DTD dtd, String nbme) {
 
-        InputStream in = null;
-        boolean debug = true;
+        InputStrebm in = null;
+        boolebn debug = true;
         try {
-            String path = name + ".bdtd";
-            in = getResourceAsStream(path);
+            String pbth = nbme + ".bdtd";
+            in = getResourceAsStrebm(pbth);
             if (in != null) {
-                dtd.read(new DataInputStream(new BufferedInputStream(in)));
-                DTD.putDTDHash(name, dtd);
+                dtd.rebd(new DbtbInputStrebm(new BufferedInputStrebm(in)));
+                DTD.putDTDHbsh(nbme, dtd);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.out.println(e);
         }
         return dtd;
     }
 
     /**
-     * Creates {@code ParserDelegator} with default DTD.
+     * Crebtes {@code PbrserDelegbtor} with defbult DTD.
      */
-    public ParserDelegator() {
-        setDefaultDTD();
+    public PbrserDelegbtor() {
+        setDefbultDTD();
     }
 
-    public void parse(Reader r, HTMLEditorKit.ParserCallback cb, boolean ignoreCharSet) throws IOException {
-        new DocumentParser(getDefaultDTD()).parse(r, cb, ignoreCharSet);
+    public void pbrse(Rebder r, HTMLEditorKit.PbrserCbllbbck cb, boolebn ignoreChbrSet) throws IOException {
+        new DocumentPbrser(getDefbultDTD()).pbrse(r, cb, ignoreChbrSet);
     }
 
     /**
-     * Fetch a resource relative to the ParserDelegator classfile.
-     * If this is called on 1.2 the loading will occur under the
-     * protection of a doPrivileged call to allow the ParserDelegator
-     * to function when used in an applet.
+     * Fetch b resource relbtive to the PbrserDelegbtor clbssfile.
+     * If this is cblled on 1.2 the lobding will occur under the
+     * protection of b doPrivileged cbll to bllow the PbrserDelegbtor
+     * to function when used in bn bpplet.
      *
-     * @param name the name of the resource, relative to the
-     *  ParserDelegator class.
-     * @return a stream representing the resource
+     * @pbrbm nbme the nbme of the resource, relbtive to the
+     *  PbrserDelegbtor clbss.
+     * @return b strebm representing the resource
      */
-    static InputStream getResourceAsStream(final String name) {
+    stbtic InputStrebm getResourceAsStrebm(finbl String nbme) {
         return AccessController.doPrivileged(
-                new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return ParserDelegator.class.getResourceAsStream(name);
+                new PrivilegedAction<InputStrebm>() {
+                    public InputStrebm run() {
+                        return PbrserDelegbtor.clbss.getResourceAsStrebm(nbme);
                     }
                 });
     }
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
-        setDefaultDTD();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException {
+        s.defbultRebdObject();
+        setDefbultDTD();
     }
 }

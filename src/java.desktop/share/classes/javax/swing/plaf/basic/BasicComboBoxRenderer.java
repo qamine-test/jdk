@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 
 /**
  * ComboBox renderer
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicComboBoxRenderer extends JLabel
-implements ListCellRenderer<Object>, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicComboBoxRenderer extends JLbbel
+implements ListCellRenderer<Object>, Seriblizbble {
 
    /**
-    * An empty <code>Border</code>. This field might not be used. To change the
+    * An empty <code>Border</code>. This field might not be used. To chbnge the
     * <code>Border</code> used by this renderer directly set it using
     * the <code>setBorder</code> method.
     */
-    protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-    private final static Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    protected stbtic Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+    privbte finbl stbtic Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
 
     /**
-     * Constructs a new instance of {@code BasicComboBoxRenderer}.
+     * Constructs b new instbnce of {@code BbsicComboBoxRenderer}.
      */
-    public BasicComboBoxRenderer() {
+    public BbsicComboBoxRenderer() {
         super();
-        setOpaque(true);
+        setOpbque(true);
         setBorder(getNoFocusBorder());
     }
 
-    private static Border getNoFocusBorder() {
-        if (System.getSecurityManager() != null) {
+    privbte stbtic Border getNoFocusBorder() {
+        if (System.getSecurityMbnbger() != null) {
             return SAFE_NO_FOCUS_BORDER;
         } else {
             return noFocusBorder;
@@ -79,7 +79,7 @@ implements ListCellRenderer<Object>, Serializable {
     public Dimension getPreferredSize() {
         Dimension size;
 
-        if ((this.getText() == null) || (this.getText().equals( "" ))) {
+        if ((this.getText() == null) || (this.getText().equbls( "" ))) {
             setText( " " );
             size = super.getPreferredSize();
             setText( "" );
@@ -93,57 +93,57 @@ implements ListCellRenderer<Object>, Serializable {
 
     @Override
     public Component getListCellRendererComponent(JList<?> list,
-                                                 Object value,
+                                                 Object vblue,
                                                  int index,
-                                                 boolean isSelected,
-                                                 boolean cellHasFocus)
+                                                 boolebn isSelected,
+                                                 boolebn cellHbsFocus)
     {
 
         /**if (isSelected) {
-            setBackground(UIManager.getColor("ComboBox.selectionBackground"));
-            setForeground(UIManager.getColor("ComboBox.selectionForeground"));
+            setBbckground(UIMbnbger.getColor("ComboBox.selectionBbckground"));
+            setForeground(UIMbnbger.getColor("ComboBox.selectionForeground"));
         } else {
-            setBackground(UIManager.getColor("ComboBox.background"));
-            setForeground(UIManager.getColor("ComboBox.foreground"));
+            setBbckground(UIMbnbger.getColor("ComboBox.bbckground"));
+            setForeground(UIMbnbger.getColor("ComboBox.foreground"));
         }**/
 
         if (isSelected) {
-            setBackground(list.getSelectionBackground());
+            setBbckground(list.getSelectionBbckground());
             setForeground(list.getSelectionForeground());
         }
         else {
-            setBackground(list.getBackground());
+            setBbckground(list.getBbckground());
             setForeground(list.getForeground());
         }
 
         setFont(list.getFont());
 
-        if (value instanceof Icon) {
-            setIcon((Icon)value);
+        if (vblue instbnceof Icon) {
+            setIcon((Icon)vblue);
         }
         else {
-            setText((value == null) ? "" : value.toString());
+            setText((vblue == null) ? "" : vblue.toString());
         }
         return this;
     }
 
 
     /**
-     * A subclass of BasicComboBoxRenderer that implements UIResource.
-     * BasicComboBoxRenderer doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with BasicListCellRenderer subclasses.
+     * A subclbss of BbsicComboBoxRenderer thbt implements UIResource.
+     * BbsicComboBoxRenderer doesn't implement UIResource
+     * directly so thbt bpplicbtions cbn sbfely override the
+     * cellRenderer property with BbsicListCellRenderer subclbsses.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends BasicComboBoxRenderer implements javax.swing.plaf.UIResource {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UIResource extends BbsicComboBoxRenderer implements jbvbx.swing.plbf.UIResource {
     }
 }

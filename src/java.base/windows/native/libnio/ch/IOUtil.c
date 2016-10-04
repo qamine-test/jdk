@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -36,91 +36,91 @@
 #include "net_util.h"
 #include "sun_nio_ch_IOUtil.h"
 
-/* field id for jlong 'handle' in java.io.FileDescriptor used for file fds */
-static jfieldID handle_fdID;
+/* field id for jlong 'hbndle' in jbvb.io.FileDescriptor used for file fds */
+stbtic jfieldID hbndle_fdID;
 
-/* field id for jint 'fd' in java.io.FileDescriptor used for socket fds */
-static jfieldID fd_fdID;
+/* field id for jint 'fd' in jbvb.io.FileDescriptor used for socket fds */
+stbtic jfieldID fd_fdID;
 
-JNIEXPORT jboolean JNICALL
-Java_sun_security_provider_NativeSeedGenerator_nativeGenerateSeed
-(JNIEnv *env, jclass clazz, jbyteArray randArray);
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_security_provider_NbtiveSeedGenerbtor_nbtiveGenerbteSeed
+(JNIEnv *env, jclbss clbzz, jbyteArrby rbndArrby);
 
 /**************************************************************
- * static method to store field IDs in initializers
+ * stbtic method to store field IDs in initiblizers
  */
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_ch_IOUtil_initIDs(JNIEnv *env, jclbss clbzz)
 {
-    CHECK_NULL(clazz = (*env)->FindClass(env, "java/io/FileDescriptor"));
-    CHECK_NULL(fd_fdID = (*env)->GetFieldID(env, clazz, "fd", "I"));
-    CHECK_NULL(handle_fdID = (*env)->GetFieldID(env, clazz, "handle", "J"));
+    CHECK_NULL(clbzz = (*env)->FindClbss(env, "jbvb/io/FileDescriptor"));
+    CHECK_NULL(fd_fdID = (*env)->GetFieldID(env, clbzz, "fd", "I"));
+    CHECK_NULL(hbndle_fdID = (*env)->GetFieldID(env, clbzz, "hbndle", "J"));
     initInetAddressIDs(env);
 }
 
 /**************************************************************
  * IOUtil.c
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_IOUtil_randomBytes(JNIEnv *env, jclass clazz,
-                                  jbyteArray randArray)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_nio_ch_IOUtil_rbndomBytes(JNIEnv *env, jclbss clbzz,
+                                  jbyteArrby rbndArrby)
 {
     return
-        Java_sun_security_provider_NativeSeedGenerator_nativeGenerateSeed(env,
-                                                                    clazz,
-                                                                    randArray);
+        Jbvb_sun_security_provider_NbtiveSeedGenerbtor_nbtiveGenerbteSeed(env,
+                                                                    clbzz,
+                                                                    rbndArrby);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_IOUtil_iovMax(JNIEnv *env, jclass this)
+Jbvb_sun_nio_ch_IOUtil_iovMbx(JNIEnv *env, jclbss this)
 {
     return 16;
 }
 
 
 jint
-convertReturnVal(JNIEnv *env, jint n, jboolean reading)
+convertReturnVbl(JNIEnv *env, jint n, jboolebn rebding)
 {
     if (n > 0) /* Number of bytes written */
         return n;
     if (n == 0) {
-        if (reading) {
-            return IOS_EOF; /* EOF is -1 in javaland */
+        if (rebding) {
+            return IOS_EOF; /* EOF is -1 in jbvblbnd */
         } else {
             return 0;
         }
     }
-    JNU_ThrowIOExceptionWithLastError(env, "Read/write failed");
+    JNU_ThrowIOExceptionWithLbstError(env, "Rebd/write fbiled");
     return IOS_THROWN;
 }
 
 jlong
-convertLongReturnVal(JNIEnv *env, jlong n, jboolean reading)
+convertLongReturnVbl(JNIEnv *env, jlong n, jboolebn rebding)
 {
     if (n > 0) /* Number of bytes written */
         return n;
     if (n == 0) {
-        if (reading) {
-            return IOS_EOF; /* EOF is -1 in javaland */
+        if (rebding) {
+            return IOS_EOF; /* EOF is -1 in jbvblbnd */
         } else {
             return 0;
         }
     }
-    JNU_ThrowIOExceptionWithLastError(env, "Read/write failed");
+    JNU_ThrowIOExceptionWithLbstError(env, "Rebd/write fbiled");
     return IOS_THROWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_IOUtil_fdVal(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_ch_IOUtil_fdVbl(JNIEnv *env, jclbss clbzz, jobject fdo)
 {
-    return fdval(env, fdo);
+    return fdvbl(env, fdo);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_setfdVal(JNIEnv *env, jclass clazz, jobject fdo, jint val)
+Jbvb_sun_nio_ch_IOUtil_setfdVbl(JNIEnv *env, jclbss clbzz, jobject fdo, jint vbl)
 {
-    (*env)->SetIntField(env, fdo, fd_fdID, val);
+    (*env)->SetIntField(env, fdo, fd_fdID, vbl);
 }
 
 
@@ -128,79 +128,79 @@ Java_sun_nio_ch_IOUtil_setfdVal(JNIEnv *env, jclass clazz, jobject fdo, jint val
 #define SET_NONBLOCKING 1
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_configureBlocking(JNIEnv *env, jclass clazz,
-                                        jobject fdo, jboolean blocking)
+Jbvb_sun_nio_ch_IOUtil_configureBlocking(JNIEnv *env, jclbss clbzz,
+                                        jobject fdo, jboolebn blocking)
 {
-    u_long argp;
+    u_long brgp;
     int result = 0;
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
 
     if (blocking == JNI_FALSE) {
-        argp = SET_NONBLOCKING;
+        brgp = SET_NONBLOCKING;
     } else {
-        argp = SET_BLOCKING;
-        /* Blocking fd cannot be registered with EventSelect */
+        brgp = SET_BLOCKING;
+        /* Blocking fd cbnnot be registered with EventSelect */
         WSAEventSelect(fd, NULL, 0);
     }
-    result = ioctlsocket(fd, FIONBIO, &argp);
+    result = ioctlsocket(fd, FIONBIO, &brgp);
     if (result == SOCKET_ERROR) {
-        int error = WSAGetLastError();
-        handleSocketError(env, (jint)error);
+        int error = WSAGetLbstError();
+        hbndleSocketError(env, (jint)error);
     }
 }
 
-/* Note: Drain uses the int fd value. It is currently not called
+/* Note: Drbin uses the int fd vblue. It is currently not cblled
    on windows.
 */
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_IOUtil_drain(JNIEnv *env, jclass cl, jint fd)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_nio_ch_IOUtil_drbin(JNIEnv *env, jclbss cl, jint fd)
 {
-    DWORD read = 0;
-    int totalRead = 0;
+    DWORD rebd = 0;
+    int totblRebd = 0;
     BOOL result = 0;
-    HANDLE h = (HANDLE)_get_osfhandle(fd);
-    char buf[128];
+    HANDLE h = (HANDLE)_get_osfhbndle(fd);
+    chbr buf[128];
 
     if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Rebd fbiled");
         return JNI_FALSE;
     }
 
     for (;;) {
-        result = ReadFile(h,          /* File handle to read */
-                          (LPVOID)&buf,    /* address to put data */
-                          128,        /* number of bytes to read */
-                          &read,      /* number of bytes read */
-                          NULL);      /* no overlapped struct */
+        result = RebdFile(h,          /* File hbndle to rebd */
+                          (LPVOID)&buf,    /* bddress to put dbtb */
+                          128,        /* number of bytes to rebd */
+                          &rebd,      /* number of bytes rebd */
+                          NULL);      /* no overlbpped struct */
 
         if (result == 0) {
-            int error = GetLastError();
+            int error = GetLbstError();
             if (error == ERROR_NO_DATA) {
-                return (totalRead > 0) ? JNI_TRUE : JNI_FALSE;
+                return (totblRebd > 0) ? JNI_TRUE : JNI_FALSE;
             }
-            JNU_ThrowIOExceptionWithLastError(env, "Drain");
+            JNU_ThrowIOExceptionWithLbstError(env, "Drbin");
             return JNI_FALSE;
         }
-        if (read > 0) {
-            totalRead += read;
+        if (rebd > 0) {
+            totblRebd += rebd;
         } else {
-            break;
+            brebk;
         }
     }
-    return (totalRead > 0) ? JNI_TRUE : JNI_FALSE;
+    return (totblRebd > 0) ? JNI_TRUE : JNI_FALSE;
 }
 
-/* Note: This function returns the int fd value from file descriptor.
-   It is mostly used for sockets which should use the int fd value.
+/* Note: This function returns the int fd vblue from file descriptor.
+   It is mostly used for sockets which should use the int fd vblue.
 */
 jint
-fdval(JNIEnv *env, jobject fdo)
+fdvbl(JNIEnv *env, jobject fdo)
 {
     return (*env)->GetIntField(env, fdo, fd_fdID);
 }
 
 jlong
-handleval(JNIEnv *env, jobject fdo)
+hbndlevbl(JNIEnv *env, jobject fdo)
 {
-    return (*env)->GetLongField(env, fdo, handle_fdID);
+    return (*env)->GetLongField(env, fdo, hbndle_fdID);
 }

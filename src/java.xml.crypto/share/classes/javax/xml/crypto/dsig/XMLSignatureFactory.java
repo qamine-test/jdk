@@ -1,804 +1,804 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XMLSignatureFactory.java,v 1.14 2005/09/15 14:29:01 mullan Exp $
+ * $Id: XMLSignbtureFbctory.jbvb,v 1.14 2005/09/15 14:29:01 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import javax.xml.crypto.Data;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.NoSuchMechanismException;
-import javax.xml.crypto.URIDereferencer;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dom.DOMStructure;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
-import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
-import javax.xml.crypto.dsig.spec.*;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.dom.DOMSignContext;
+import jbvbx.xml.crypto.Dbtb;
+import jbvbx.xml.crypto.MbrshblException;
+import jbvbx.xml.crypto.NoSuchMechbnismException;
+import jbvbx.xml.crypto.URIDereferencer;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.dom.DOMStructure;
+import jbvbx.xml.crypto.dsig.keyinfo.KeyInfo;
+import jbvbx.xml.crypto.dsig.keyinfo.KeyInfoFbctory;
+import jbvbx.xml.crypto.dsig.spec.*;
+import jbvbx.xml.crypto.dsig.dom.DOMVblidbteContext;
+import jbvbx.xml.crypto.dsig.dom.DOMSignContext;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.Security;
-import java.util.List;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.Provider;
+import jbvb.security.Security;
+import jbvb.util.List;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * A factory for creating {@link XMLSignature} objects from scratch or
- * for unmarshalling an <code>XMLSignature</code> object from a corresponding
- * XML representation.
+ * A fbctory for crebting {@link XMLSignbture} objects from scrbtch or
+ * for unmbrshblling bn <code>XMLSignbture</code> object from b corresponding
+ * XML representbtion.
  *
- * <h2>XMLSignatureFactory Type</h2>
+ * <h2>XMLSignbtureFbctory Type</h2>
  *
- * <p>Each instance of <code>XMLSignatureFactory</code> supports a specific
- * XML mechanism type. To create an <code>XMLSignatureFactory</code>, call one
- * of the static {@link #getInstance getInstance} methods, passing in the XML
- * mechanism type desired, for example:
+ * <p>Ebch instbnce of <code>XMLSignbtureFbctory</code> supports b specific
+ * XML mechbnism type. To crebte bn <code>XMLSignbtureFbctory</code>, cbll one
+ * of the stbtic {@link #getInstbnce getInstbnce} methods, pbssing in the XML
+ * mechbnism type desired, for exbmple:
  *
  * <blockquote><code>
- * XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
+ * XMLSignbtureFbctory fbctory = XMLSignbtureFbctory.getInstbnce("DOM");
  * </code></blockquote>
  *
- * <p>The objects that this factory produces will be based
- * on DOM and abide by the DOM interoperability requirements as defined in the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechanism%20Requirements">
- * DOM Mechanism Requirements</a> section of the API overview. See the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
- * Service Providers</a> section of the API overview for a list of standard
- * mechanism types.
+ * <p>The objects thbt this fbctory produces will be bbsed
+ * on DOM bnd bbide by the DOM interoperbbility requirements bs defined in the
+ * <b href="../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechbnism%20Requirements">
+ * DOM Mechbnism Requirements</b> section of the API overview. See the
+ * <b href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
+ * Service Providers</b> section of the API overview for b list of stbndbrd
+ * mechbnism types.
  *
- * <p><code>XMLSignatureFactory</code> implementations are registered and loaded
- * using the {@link java.security.Provider} mechanism.
- * For example, a service provider that supports the
- * DOM mechanism would be specified in the <code>Provider</code> subclass as:
+ * <p><code>XMLSignbtureFbctory</code> implementbtions bre registered bnd lobded
+ * using the {@link jbvb.security.Provider} mechbnism.
+ * For exbmple, b service provider thbt supports the
+ * DOM mechbnism would be specified in the <code>Provider</code> subclbss bs:
  * <pre>
- *     put("XMLSignatureFactory.DOM", "org.example.DOMXMLSignatureFactory");
+ *     put("XMLSignbtureFbctory.DOM", "org.exbmple.DOMXMLSignbtureFbctory");
  * </pre>
  *
- * <p>An implementation MUST minimally support the default mechanism type: DOM.
+ * <p>An implementbtion MUST minimblly support the defbult mechbnism type: DOM.
  *
- * <p>Note that a caller must use the same <code>XMLSignatureFactory</code>
- * instance to create the <code>XMLStructure</code>s of a particular
- * <code>XMLSignature</code> that is to be generated. The behavior is
+ * <p>Note thbt b cbller must use the sbme <code>XMLSignbtureFbctory</code>
+ * instbnce to crebte the <code>XMLStructure</code>s of b pbrticulbr
+ * <code>XMLSignbture</code> thbt is to be generbted. The behbvior is
  * undefined if <code>XMLStructure</code>s from different providers or
- * different mechanism types are used together.
+ * different mechbnism types bre used together.
  *
- * <p>Also, the <code>XMLStructure</code>s that are created by this factory
- * may contain state specific to the <code>XMLSignature</code> and are not
- * intended to be reusable.
+ * <p>Also, the <code>XMLStructure</code>s thbt bre crebted by this fbctory
+ * mby contbin stbte specific to the <code>XMLSignbture</code> bnd bre not
+ * intended to be reusbble.
  *
- * <h2>Creating XMLSignatures from scratch</h2>
+ * <h2>Crebting XMLSignbtures from scrbtch</h2>
  *
- * <p>Once the <code>XMLSignatureFactory</code> has been created, objects
- * can be instantiated by calling the appropriate method. For example, a
- * {@link Reference} instance may be created by invoking one of the
+ * <p>Once the <code>XMLSignbtureFbctory</code> hbs been crebted, objects
+ * cbn be instbntibted by cblling the bppropribte method. For exbmple, b
+ * {@link Reference} instbnce mby be crebted by invoking one of the
  * {@link #newReference newReference} methods.
  *
- * <h2>Unmarshalling XMLSignatures from XML</h2>
+ * <h2>Unmbrshblling XMLSignbtures from XML</h2>
  *
- * <p>Alternatively, an <code>XMLSignature</code> may be created from an
- * existing XML representation by invoking the {@link #unmarshalXMLSignature
- * unmarshalXMLSignature} method and passing it a mechanism-specific
- * {@link XMLValidateContext} instance containing the XML content:
+ * <p>Alternbtively, bn <code>XMLSignbture</code> mby be crebted from bn
+ * existing XML representbtion by invoking the {@link #unmbrshblXMLSignbture
+ * unmbrshblXMLSignbture} method bnd pbssing it b mechbnism-specific
+ * {@link XMLVblidbteContext} instbnce contbining the XML content:
  *
  * <pre>
- * DOMValidateContext context = new DOMValidateContext(key, signatureElement);
- * XMLSignature signature = factory.unmarshalXMLSignature(context);
+ * DOMVblidbteContext context = new DOMVblidbteContext(key, signbtureElement);
+ * XMLSignbture signbture = fbctory.unmbrshblXMLSignbture(context);
  * </pre>
  *
- * Each <code>XMLSignatureFactory</code> must support the required
- * <code>XMLValidateContext</code> types for that factory type, but may support
- * others. A DOM <code>XMLSignatureFactory</code> must support {@link
- * DOMValidateContext} objects.
+ * Ebch <code>XMLSignbtureFbctory</code> must support the required
+ * <code>XMLVblidbteContext</code> types for thbt fbctory type, but mby support
+ * others. A DOM <code>XMLSignbtureFbctory</code> must support {@link
+ * DOMVblidbteContext} objects.
  *
- * <h2>Signing and marshalling XMLSignatures to XML</h2>
+ * <h2>Signing bnd mbrshblling XMLSignbtures to XML</h2>
  *
- * Each <code>XMLSignature</code> created by the factory can also be
- * marshalled to an XML representation and signed, by invoking the
- * {@link XMLSignature#sign sign} method of the
- * {@link XMLSignature} object and passing it a mechanism-specific
- * {@link XMLSignContext} object containing the signing key and
- * marshalling parameters (see {@link DOMSignContext}).
- * For example:
+ * Ebch <code>XMLSignbture</code> crebted by the fbctory cbn blso be
+ * mbrshblled to bn XML representbtion bnd signed, by invoking the
+ * {@link XMLSignbture#sign sign} method of the
+ * {@link XMLSignbture} object bnd pbssing it b mechbnism-specific
+ * {@link XMLSignContext} object contbining the signing key bnd
+ * mbrshblling pbrbmeters (see {@link DOMSignContext}).
+ * For exbmple:
  *
  * <pre>
- *    DOMSignContext context = new DOMSignContext(privateKey, document);
- *    signature.sign(context);
+ *    DOMSignContext context = new DOMSignContext(privbteKey, document);
+ *    signbture.sign(context);
  * </pre>
  *
  * <b>Concurrent Access</b>
- * <p>The static methods of this class are guaranteed to be thread-safe.
- * Multiple threads may concurrently invoke the static methods defined in this
- * class with no ill effects.
+ * <p>The stbtic methods of this clbss bre gubrbnteed to be threbd-sbfe.
+ * Multiple threbds mby concurrently invoke the stbtic methods defined in this
+ * clbss with no ill effects.
  *
- * <p>However, this is not true for the non-static methods defined by this
- * class. Unless otherwise documented by a specific provider, threads that
- * need to access a single <code>XMLSignatureFactory</code> instance
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking. Multiple threads each manipulating a different
- * <code>XMLSignatureFactory</code> instance need not synchronize.
+ * <p>However, this is not true for the non-stbtic methods defined by this
+ * clbss. Unless otherwise documented by b specific provider, threbds thbt
+ * need to bccess b single <code>XMLSignbtureFbctory</code> instbnce
+ * concurrently should synchronize bmongst themselves bnd provide the
+ * necessbry locking. Multiple threbds ebch mbnipulbting b different
+ * <code>XMLSignbtureFbctory</code> instbnce need not synchronize.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public abstract class XMLSignatureFactory {
+public bbstrbct clbss XMLSignbtureFbctory {
 
-    private String mechanismType;
-    private Provider provider;
+    privbte String mechbnismType;
+    privbte Provider provider;
 
     /**
-     * Default constructor, for invocation by subclasses.
+     * Defbult constructor, for invocbtion by subclbsses.
      */
-    protected XMLSignatureFactory() {}
+    protected XMLSignbtureFbctory() {}
 
     /**
-     * Returns an <code>XMLSignatureFactory</code> that supports the
-     * specified XML processing mechanism and representation type (ex: "DOM").
+     * Returns bn <code>XMLSignbtureFbctory</code> thbt supports the
+     * specified XML processing mechbnism bnd representbtion type (ex: "DOM").
      *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate an <code>XMLSignatureFactory</code>
-     * implementation of the desired mechanism type. It traverses the list of
-     * registered security <code>Provider</code>s, starting with the most
-     * preferred <code>Provider</code>.  A new <code>XMLSignatureFactory</code>
-     * object from the first <code>Provider</code> that supports the specified
-     * mechanism is returned.
+     * <p>This method uses the stbndbrd JCA provider lookup mechbnism to
+     * locbte bnd instbntibte bn <code>XMLSignbtureFbctory</code>
+     * implementbtion of the desired mechbnism type. It trbverses the list of
+     * registered security <code>Provider</code>s, stbrting with the most
+     * preferred <code>Provider</code>.  A new <code>XMLSignbtureFbctory</code>
+     * object from the first <code>Provider</code> thbt supports the specified
+     * mechbnism is returned.
      *
-     * <p>Note that the list of registered providers may be retrieved via
+     * <p>Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *    representbtion. See the <b
      *    href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @return a new <code>XMLSignatureFactory</code>
-     * @throws NullPointerException if <code>mechanismType</code> is
+     *    Service Providers</b> section of the API overview for b list of
+     *    stbndbrd mechbnism types.
+     * @return b new <code>XMLSignbtureFbctory</code>
+     * @throws NullPointerException if <code>mechbnismType</code> is
      *    <code>null</code>
-     * @throws NoSuchMechanismException if no <code>Provider</code> supports an
-     *    <code>XMLSignatureFactory</code> implementation for the specified
-     *    mechanism
+     * @throws NoSuchMechbnismException if no <code>Provider</code> supports bn
+     *    <code>XMLSignbtureFbctory</code> implementbtion for the specified
+     *    mechbnism
      * @see Provider
      */
-    public static XMLSignatureFactory getInstance(String mechanismType) {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
+    public stbtic XMLSignbtureFbctory getInstbnce(String mechbnismType) {
+        if (mechbnismType == null) {
+            throw new NullPointerException("mechbnismType cbnnot be null");
         }
-        Instance instance;
+        Instbnce instbnce;
         try {
-            instance = GetInstance.getInstance
-                ("XMLSignatureFactory", null, mechanismType);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbnce = GetInstbnce.getInstbnce
+                ("XMLSignbtureFbctory", null, mechbnismType);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new NoSuchMechbnismException(nsbe);
         }
-        XMLSignatureFactory factory = (XMLSignatureFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        XMLSignbtureFbctory fbctory = (XMLSignbtureFbctory) instbnce.impl;
+        fbctory.mechbnismType = mechbnismType;
+        fbctory.provider = instbnce.provider;
+        return fbctory;
     }
 
     /**
-     * Returns an <code>XMLSignatureFactory</code> that supports the
-     * requested XML processing mechanism and representation type (ex: "DOM"),
-     * as supplied by the specified provider. Note that the specified
-     * <code>Provider</code> object does not have to be registered in the
+     * Returns bn <code>XMLSignbtureFbctory</code> thbt supports the
+     * requested XML processing mechbnism bnd representbtion type (ex: "DOM"),
+     * bs supplied by the specified provider. Note thbt the specified
+     * <code>Provider</code> object does not hbve to be registered in the
      * provider list.
      *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *    representbtion. See the <b
      *    href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @param provider the <code>Provider</code> object
-     * @return a new <code>XMLSignatureFactory</code>
+     *    Service Providers</b> section of the API overview for b list of
+     *    stbndbrd mechbnism types.
+     * @pbrbm provider the <code>Provider</code> object
+     * @return b new <code>XMLSignbtureFbctory</code>
      * @throws NullPointerException if <code>provider</code> or
-     *    <code>mechanismType</code> is <code>null</code>
-     * @throws NoSuchMechanismException if an <code>XMLSignatureFactory</code>
-     *   implementation for the specified mechanism is not available
+     *    <code>mechbnismType</code> is <code>null</code>
+     * @throws NoSuchMechbnismException if bn <code>XMLSignbtureFbctory</code>
+     *   implementbtion for the specified mechbnism is not bvbilbble
      *   from the specified <code>Provider</code> object
      * @see Provider
      */
-    public static XMLSignatureFactory getInstance(String mechanismType,
+    public stbtic XMLSignbtureFbctory getInstbnce(String mechbnismType,
         Provider provider) {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
+        if (mechbnismType == null) {
+            throw new NullPointerException("mechbnismType cbnnot be null");
         } else if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+            throw new NullPointerException("provider cbnnot be null");
         }
 
-        Instance instance;
+        Instbnce instbnce;
         try {
-            instance = GetInstance.getInstance
-                ("XMLSignatureFactory", null, mechanismType, provider);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbnce = GetInstbnce.getInstbnce
+                ("XMLSignbtureFbctory", null, mechbnismType, provider);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new NoSuchMechbnismException(nsbe);
         }
-        XMLSignatureFactory factory = (XMLSignatureFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        XMLSignbtureFbctory fbctory = (XMLSignbtureFbctory) instbnce.impl;
+        fbctory.mechbnismType = mechbnismType;
+        fbctory.provider = instbnce.provider;
+        return fbctory;
     }
 
     /**
-     * Returns an <code>XMLSignatureFactory</code> that supports the
-     * requested XML processing mechanism and representation type (ex: "DOM"),
-     * as supplied by the specified provider. The specified provider must be
+     * Returns bn <code>XMLSignbtureFbctory</code> thbt supports the
+     * requested XML processing mechbnism bnd representbtion type (ex: "DOM"),
+     * bs supplied by the specified provider. The specified provider must be
      * registered in the security provider list.
      *
-     * <p>Note that the list of registered providers may be retrieved via
+     * <p>Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
+     * @pbrbm mechbnismType the type of the XML processing mechbnism bnd
+     *    representbtion. See the <b
      *    href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @param provider the string name of the provider
-     * @return a new <code>XMLSignatureFactory</code>
+     *    Service Providers</b> section of the API overview for b list of
+     *    stbndbrd mechbnism types.
+     * @pbrbm provider the string nbme of the provider
+     * @return b new <code>XMLSignbtureFbctory</code>
      * @throws NoSuchProviderException if the specified provider is not
      *    registered in the security provider list
      * @throws NullPointerException if <code>provider</code> or
-     *    <code>mechanismType</code> is <code>null</code>
-     * @throws NoSuchMechanismException if an <code>XMLSignatureFactory</code>
-     *    implementation for the specified mechanism is not
-     *    available from the specified provider
+     *    <code>mechbnismType</code> is <code>null</code>
+     * @throws NoSuchMechbnismException if bn <code>XMLSignbtureFbctory</code>
+     *    implementbtion for the specified mechbnism is not
+     *    bvbilbble from the specified provider
      * @see Provider
      */
-    public static XMLSignatureFactory getInstance(String mechanismType,
+    public stbtic XMLSignbtureFbctory getInstbnce(String mechbnismType,
         String provider) throws NoSuchProviderException {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
+        if (mechbnismType == null) {
+            throw new NullPointerException("mechbnismType cbnnot be null");
         } else if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+            throw new NullPointerException("provider cbnnot be null");
         } else if (provider.length() == 0) {
             throw new NoSuchProviderException();
         }
 
-        Instance instance;
+        Instbnce instbnce;
         try {
-            instance = GetInstance.getInstance
-                ("XMLSignatureFactory", null, mechanismType, provider);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbnce = GetInstbnce.getInstbnce
+                ("XMLSignbtureFbctory", null, mechbnismType, provider);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new NoSuchMechbnismException(nsbe);
         }
-        XMLSignatureFactory factory = (XMLSignatureFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        XMLSignbtureFbctory fbctory = (XMLSignbtureFbctory) instbnce.impl;
+        fbctory.mechbnismType = mechbnismType;
+        fbctory.provider = instbnce.provider;
+        return fbctory;
     }
 
     /**
-     * Returns an <code>XMLSignatureFactory</code> that supports the
-     * default XML processing mechanism and representation type ("DOM").
+     * Returns bn <code>XMLSignbtureFbctory</code> thbt supports the
+     * defbult XML processing mechbnism bnd representbtion type ("DOM").
      *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate an <code>XMLSignatureFactory</code>
-     * implementation of the default mechanism type. It traverses the list of
-     * registered security <code>Provider</code>s, starting with the most
-     * preferred <code>Provider</code>.  A new <code>XMLSignatureFactory</code>
-     * object from the first <code>Provider</code> that supports the DOM
-     * mechanism is returned.
+     * <p>This method uses the stbndbrd JCA provider lookup mechbnism to
+     * locbte bnd instbntibte bn <code>XMLSignbtureFbctory</code>
+     * implementbtion of the defbult mechbnism type. It trbverses the list of
+     * registered security <code>Provider</code>s, stbrting with the most
+     * preferred <code>Provider</code>.  A new <code>XMLSignbtureFbctory</code>
+     * object from the first <code>Provider</code> thbt supports the DOM
+     * mechbnism is returned.
      *
-     * <p>Note that the list of registered providers may be retrieved via
+     * <p>Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @return a new <code>XMLSignatureFactory</code>
-     * @throws NoSuchMechanismException if no <code>Provider</code> supports an
-     *    <code>XMLSignatureFactory</code> implementation for the DOM
-     *    mechanism
+     * @return b new <code>XMLSignbtureFbctory</code>
+     * @throws NoSuchMechbnismException if no <code>Provider</code> supports bn
+     *    <code>XMLSignbtureFbctory</code> implementbtion for the DOM
+     *    mechbnism
      * @see Provider
      */
-    public static XMLSignatureFactory getInstance() {
-        return getInstance("DOM");
+    public stbtic XMLSignbtureFbctory getInstbnce() {
+        return getInstbnce("DOM");
     }
 
     /**
-     * Returns the type of the XML processing mechanism and representation
-     * supported by this <code>XMLSignatureFactory</code> (ex: "DOM").
+     * Returns the type of the XML processing mechbnism bnd representbtion
+     * supported by this <code>XMLSignbtureFbctory</code> (ex: "DOM").
      *
-     * @return the XML processing mechanism type supported by this
-     *    <code>XMLSignatureFactory</code>
+     * @return the XML processing mechbnism type supported by this
+     *    <code>XMLSignbtureFbctory</code>
      */
-    public final String getMechanismType() {
-        return mechanismType;
+    public finbl String getMechbnismType() {
+        return mechbnismType;
     }
 
     /**
-     * Returns the provider of this <code>XMLSignatureFactory</code>.
+     * Returns the provider of this <code>XMLSignbtureFbctory</code>.
      *
-     * @return the provider of this <code>XMLSignatureFactory</code>
+     * @return the provider of this <code>XMLSignbtureFbctory</code>
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return provider;
     }
 
     /**
-     * Creates an <code>XMLSignature</code> and initializes it with the contents
-     * of the specified <code>SignedInfo</code> and <code>KeyInfo</code>
+     * Crebtes bn <code>XMLSignbture</code> bnd initiblizes it with the contents
+     * of the specified <code>SignedInfo</code> bnd <code>KeyInfo</code>
      * objects.
      *
-     * @param si the signed info
-     * @param ki the key info (may be <code>null</code>)
-     * @return an <code>XMLSignature</code>
+     * @pbrbm si the signed info
+     * @pbrbm ki the key info (mby be <code>null</code>)
+     * @return bn <code>XMLSignbture</code>
      * @throws NullPointerException if <code>si</code> is <code>null</code>
      */
-    public abstract XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki);
+    public bbstrbct XMLSignbture newXMLSignbture(SignedInfo si, KeyInfo ki);
 
     /**
-     * Creates an <code>XMLSignature</code> and initializes it with the
-     * specified parameters.
+     * Crebtes bn <code>XMLSignbture</code> bnd initiblizes it with the
+     * specified pbrbmeters.
      *
-     * @param si the signed info
-     * @param ki the key info (may be <code>null</code>)
-     * @param objects a list of {@link XMLObject}s (may be empty or
+     * @pbrbm si the signed info
+     * @pbrbm ki the key info (mby be <code>null</code>)
+     * @pbrbm objects b list of {@link XMLObject}s (mby be empty or
      *    <code>null</code>)
-     * @param id the Id (may be <code>null</code>)
-     * @param signatureValueId the SignatureValue Id (may be <code>null</code>)
-     * @return an <code>XMLSignature</code>
+     * @pbrbm id the Id (mby be <code>null</code>)
+     * @pbrbm signbtureVblueId the SignbtureVblue Id (mby be <code>null</code>)
+     * @return bn <code>XMLSignbture</code>
      * @throws NullPointerException if <code>si</code> is <code>null</code>
-     * @throws ClassCastException if any of the <code>objects</code> are not of
+     * @throws ClbssCbstException if bny of the <code>objects</code> bre not of
      *    type <code>XMLObject</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki,
-        List objects, String id, String signatureValueId);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct XMLSignbture newXMLSignbture(SignedInfo si, KeyInfo ki,
+        List objects, String id, String signbtureVblueId);
 
     /**
-     * Creates a <code>Reference</code> with the specified URI and digest
+     * Crebtes b <code>Reference</code> with the specified URI bnd digest
      * method.
      *
-     * @param uri the reference URI (may be <code>null</code>)
-     * @param dm the digest method
-     * @return a <code>Reference</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant
+     * @pbrbm uri the reference URI (mby be <code>null</code>)
+     * @pbrbm dm the digest method
+     * @return b <code>Reference</code>
+     * @throws IllegblArgumentException if <code>uri</code> is not RFC 2396
+     *    complibnt
      * @throws NullPointerException if <code>dm</code> is <code>null</code>
      */
-    public abstract Reference newReference(String uri, DigestMethod dm);
+    public bbstrbct Reference newReference(String uri, DigestMethod dm);
 
     /**
-     * Creates a <code>Reference</code> with the specified parameters.
+     * Crebtes b <code>Reference</code> with the specified pbrbmeters.
      *
-     * @param uri the reference URI (may be <code>null</code>)
-     * @param dm the digest method
-     * @param transforms a list of {@link Transform}s. The list is defensively
-     *    copied to protect against subsequent modification. May be
+     * @pbrbm uri the reference URI (mby be <code>null</code>)
+     * @pbrbm dm the digest method
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. The list is defensively
+     *    copied to protect bgbinst subsequent modificbtion. Mby be
      *    <code>null</code> or empty.
-     * @param type the reference type, as a URI (may be <code>null</code>)
-     * @param id the reference ID (may be <code>null</code>)
-     * @return a <code>Reference</code>
-     * @throws ClassCastException if any of the <code>transforms</code> are
-     *    not of type <code>Transform</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant
+     * @pbrbm type the reference type, bs b URI (mby be <code>null</code>)
+     * @pbrbm id the reference ID (mby be <code>null</code>)
+     * @return b <code>Reference</code>
+     * @throws ClbssCbstException if bny of the <code>trbnsforms</code> bre
+     *    not of type <code>Trbnsform</code>
+     * @throws IllegblArgumentException if <code>uri</code> is not RFC 2396
+     *    complibnt
      * @throws NullPointerException if <code>dm</code> is <code>null</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Reference newReference(String uri, DigestMethod dm,
-        List transforms, String type, String id);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct Reference newReference(String uri, DigestMethod dm,
+        List trbnsforms, String type, String id);
 
     /**
-     * Creates a <code>Reference</code> with the specified parameters and
-     * pre-calculated digest value.
+     * Crebtes b <code>Reference</code> with the specified pbrbmeters bnd
+     * pre-cblculbted digest vblue.
      *
-     * <p>This method is useful when the digest value of a
-     * <code>Reference</code> has been previously computed. See for example,
+     * <p>This method is useful when the digest vblue of b
+     * <code>Reference</code> hbs been previously computed. See for exbmple,
      * the
-     * <a href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dss">
-     * OASIS-DSS (Digital Signature Services)</a> specification.
+     * <b href="http://www.obsis-open.org/committees/tc_home.php?wg_bbbrev=dss">
+     * OASIS-DSS (Digitbl Signbture Services)</b> specificbtion.
      *
-     * @param uri the reference URI (may be <code>null</code>)
-     * @param dm the digest method
-     * @param transforms a list of {@link Transform}s. The list is defensively
-     *    copied to protect against subsequent modification. May be
+     * @pbrbm uri the reference URI (mby be <code>null</code>)
+     * @pbrbm dm the digest method
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. The list is defensively
+     *    copied to protect bgbinst subsequent modificbtion. Mby be
      *    <code>null</code> or empty.
-     * @param type the reference type, as a URI (may be <code>null</code>)
-     * @param id the reference ID (may be <code>null</code>)
-     * @param digestValue the digest value. The array is cloned to protect
-     *    against subsequent modification.
-     * @return a <code>Reference</code>
-     * @throws ClassCastException if any of the <code>transforms</code> are
-     *    not of type <code>Transform</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant
+     * @pbrbm type the reference type, bs b URI (mby be <code>null</code>)
+     * @pbrbm id the reference ID (mby be <code>null</code>)
+     * @pbrbm digestVblue the digest vblue. The brrby is cloned to protect
+     *    bgbinst subsequent modificbtion.
+     * @return b <code>Reference</code>
+     * @throws ClbssCbstException if bny of the <code>trbnsforms</code> bre
+     *    not of type <code>Trbnsform</code>
+     * @throws IllegblArgumentException if <code>uri</code> is not RFC 2396
+     *    complibnt
      * @throws NullPointerException if <code>dm</code> or
-     *    <code>digestValue</code> is <code>null</code>
+     *    <code>digestVblue</code> is <code>null</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Reference newReference(String uri, DigestMethod dm,
-        List transforms, String type, String id, byte[] digestValue);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct Reference newReference(String uri, DigestMethod dm,
+        List trbnsforms, String type, String id, byte[] digestVblue);
 
     /**
-     * Creates a <code>Reference</code> with the specified parameters.
+     * Crebtes b <code>Reference</code> with the specified pbrbmeters.
      *
-     * <p>This method is useful when a list of transforms have already been
-     * applied to the <code>Reference</code>. See for example,
+     * <p>This method is useful when b list of trbnsforms hbve blrebdy been
+     * bpplied to the <code>Reference</code>. See for exbmple,
      * the
-     * <a href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dss">
-     * OASIS-DSS (Digital Signature Services)</a> specification.
+     * <b href="http://www.obsis-open.org/committees/tc_home.php?wg_bbbrev=dss">
+     * OASIS-DSS (Digitbl Signbture Services)</b> specificbtion.
      *
-     * <p>When an <code>XMLSignature</code> containing this reference is
-     * generated, the specified <code>transforms</code> (if non-null) are
-     * applied to the specified <code>result</code>. The
-     * <code>Transforms</code> element of the resulting <code>Reference</code>
-     * element is set to the concatenation of the
-     * <code>appliedTransforms</code> and <code>transforms</code>.
+     * <p>When bn <code>XMLSignbture</code> contbining this reference is
+     * generbted, the specified <code>trbnsforms</code> (if non-null) bre
+     * bpplied to the specified <code>result</code>. The
+     * <code>Trbnsforms</code> element of the resulting <code>Reference</code>
+     * element is set to the concbtenbtion of the
+     * <code>bppliedTrbnsforms</code> bnd <code>trbnsforms</code>.
      *
-     * @param uri the reference URI (may be <code>null</code>)
-     * @param dm the digest method
-     * @param appliedTransforms a list of {@link Transform}s that have
-     *    already been applied. The list is defensively
-     *    copied to protect against subsequent modification. The list must
-     *    contain at least one entry.
-     * @param result the result of processing the sequence of
-     *    <code>appliedTransforms</code>
-     * @param transforms a list of {@link Transform}s that are to be applied
-     *    when generating the signature. The list is defensively copied to
-     *    protect against subsequent modification. May be <code>null</code>
+     * @pbrbm uri the reference URI (mby be <code>null</code>)
+     * @pbrbm dm the digest method
+     * @pbrbm bppliedTrbnsforms b list of {@link Trbnsform}s thbt hbve
+     *    blrebdy been bpplied. The list is defensively
+     *    copied to protect bgbinst subsequent modificbtion. The list must
+     *    contbin bt lebst one entry.
+     * @pbrbm result the result of processing the sequence of
+     *    <code>bppliedTrbnsforms</code>
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s thbt bre to be bpplied
+     *    when generbting the signbture. The list is defensively copied to
+     *    protect bgbinst subsequent modificbtion. Mby be <code>null</code>
      *    or empty.
-     * @param type the reference type, as a URI (may be <code>null</code>)
-     * @param id the reference ID (may be <code>null</code>)
-     * @return a <code>Reference</code>
-     * @throws ClassCastException if any of the transforms (in either list)
-     *    are not of type <code>Transform</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant or <code>appliedTransforms</code> is empty
+     * @pbrbm type the reference type, bs b URI (mby be <code>null</code>)
+     * @pbrbm id the reference ID (mby be <code>null</code>)
+     * @return b <code>Reference</code>
+     * @throws ClbssCbstException if bny of the trbnsforms (in either list)
+     *    bre not of type <code>Trbnsform</code>
+     * @throws IllegblArgumentException if <code>uri</code> is not RFC 2396
+     *    complibnt or <code>bppliedTrbnsforms</code> is empty
      * @throws NullPointerException if <code>dm</code>,
-     *    <code>appliedTransforms</code> or <code>result</code> is
+     *    <code>bppliedTrbnsforms</code> or <code>result</code> is
      *    <code>null</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Reference newReference(String uri, DigestMethod dm,
-        List appliedTransforms, Data result, List transforms, String type,
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct Reference newReference(String uri, DigestMethod dm,
+        List bppliedTrbnsforms, Dbtb result, List trbnsforms, String type,
         String id);
 
     /**
-     * Creates a <code>SignedInfo</code> with the specified canonicalization
-     * and signature methods, and list of one or more references.
+     * Crebtes b <code>SignedInfo</code> with the specified cbnonicblizbtion
+     * bnd signbture methods, bnd list of one or more references.
      *
-     * @param cm the canonicalization method
-     * @param sm the signature method
-     * @param references a list of one or more {@link Reference}s. The list is
-     *    defensively copied to protect against subsequent modification.
-     * @return a <code>SignedInfo</code>
-     * @throws ClassCastException if any of the references are not of
+     * @pbrbm cm the cbnonicblizbtion method
+     * @pbrbm sm the signbture method
+     * @pbrbm references b list of one or more {@link Reference}s. The list is
+     *    defensively copied to protect bgbinst subsequent modificbtion.
+     * @return b <code>SignedInfo</code>
+     * @throws ClbssCbstException if bny of the references bre not of
      *    type <code>Reference</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws NullPointerException if any of the parameters
-     *    are <code>null</code>
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws NullPointerException if bny of the pbrbmeters
+     *    bre <code>null</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct SignedInfo newSignedInfo(CbnonicblizbtionMethod cm,
+        SignbtureMethod sm, List references);
 
     /**
-     * Creates a <code>SignedInfo</code> with the specified parameters.
+     * Crebtes b <code>SignedInfo</code> with the specified pbrbmeters.
      *
-     * @param cm the canonicalization method
-     * @param sm the signature method
-     * @param references a list of one or more {@link Reference}s. The list is
-     *    defensively copied to protect against subsequent modification.
-     * @param id the id (may be <code>null</code>)
-     * @return a <code>SignedInfo</code>
-     * @throws ClassCastException if any of the references are not of
+     * @pbrbm cm the cbnonicblizbtion method
+     * @pbrbm sm the signbture method
+     * @pbrbm references b list of one or more {@link Reference}s. The list is
+     *    defensively copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm id the id (mby be <code>null</code>)
+     * @return b <code>SignedInfo</code>
+     * @throws ClbssCbstException if bny of the references bre not of
      *    type <code>Reference</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
+     * @throws IllegblArgumentException if <code>references</code> is empty
      * @throws NullPointerException if <code>cm</code>, <code>sm</code>, or
-     *    <code>references</code> are <code>null</code>
+     *    <code>references</code> bre <code>null</code>
      */
-    @SuppressWarnings("rawtypes")
-    public abstract SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references, String id);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct SignedInfo newSignedInfo(CbnonicblizbtionMethod cm,
+        SignbtureMethod sm, List references, String id);
 
-    // Object factory methods
+    // Object fbctory methods
     /**
-     * Creates an <code>XMLObject</code> from the specified parameters.
+     * Crebtes bn <code>XMLObject</code> from the specified pbrbmeters.
      *
-     * @param content a list of {@link XMLStructure}s. The list
-     *    is defensively copied to protect against subsequent modification.
-     *    May be <code>null</code> or empty.
-     * @param id the Id (may be <code>null</code>)
-     * @param mimeType the mime type (may be <code>null</code>)
-     * @param encoding the encoding (may be <code>null</code>)
-     * @return an <code>XMLObject</code>
-     * @throws ClassCastException if <code>content</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     * @pbrbm content b list of {@link XMLStructure}s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     *    Mby be <code>null</code> or empty.
+     * @pbrbm id the Id (mby be <code>null</code>)
+     * @pbrbm mimeType the mime type (mby be <code>null</code>)
+     * @pbrbm encoding the encoding (mby be <code>null</code>)
+     * @return bn <code>XMLObject</code>
+     * @throws ClbssCbstException if <code>content</code> contbins bny
+     *    entries thbt bre not of type {@link XMLStructure}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract XMLObject newXMLObject(List content, String id,
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct XMLObject newXMLObject(List content, String id,
         String mimeType, String encoding);
 
     /**
-     * Creates a <code>Manifest</code> containing the specified
+     * Crebtes b <code>Mbnifest</code> contbining the specified
      * list of {@link Reference}s.
      *
-     * @param references a list of one or more <code>Reference</code>s. The list
-     *    is defensively copied to protect against subsequent modification.
-     * @return a <code>Manifest</code>
+     * @pbrbm references b list of one or more <code>Reference</code>s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     * @return b <code>Mbnifest</code>
      * @throws NullPointerException if <code>references</code> is
      *    <code>null</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws ClassCastException if <code>references</code> contains any
-     *    entries that are not of type {@link Reference}
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws ClbssCbstException if <code>references</code> contbins bny
+     *    entries thbt bre not of type {@link Reference}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Manifest newManifest(List references);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct Mbnifest newMbnifest(List references);
 
     /**
-     * Creates a <code>Manifest</code> containing the specified
-     * list of {@link Reference}s and optional id.
+     * Crebtes b <code>Mbnifest</code> contbining the specified
+     * list of {@link Reference}s bnd optionbl id.
      *
-     * @param references a list of one or more <code>Reference</code>s. The list
-     *    is defensively copied to protect against subsequent modification.
-     * @param id the id (may be <code>null</code>)
-     * @return a <code>Manifest</code>
+     * @pbrbm references b list of one or more <code>Reference</code>s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm id the id (mby be <code>null</code>)
+     * @return b <code>Mbnifest</code>
      * @throws NullPointerException if <code>references</code> is
      *    <code>null</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws ClassCastException if <code>references</code> contains any
-     *    entries that are not of type {@link Reference}
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws ClbssCbstException if <code>references</code> contbins bny
+     *    entries thbt bre not of type {@link Reference}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Manifest newManifest(List references, String id);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct Mbnifest newMbnifest(List references, String id);
 
     /**
-     * Creates a <code>SignatureProperty</code> containing the specified
-     * list of {@link XMLStructure}s, target URI and optional id.
+     * Crebtes b <code>SignbtureProperty</code> contbining the specified
+     * list of {@link XMLStructure}s, tbrget URI bnd optionbl id.
      *
-     * @param content a list of one or more <code>XMLStructure</code>s. The list
-     *    is defensively copied to protect against subsequent modification.
-     * @param target the target URI of the Signature that this property applies
+     * @pbrbm content b list of one or more <code>XMLStructure</code>s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm tbrget the tbrget URI of the Signbture thbt this property bpplies
      *    to
-     * @param id the id (may be <code>null</code>)
-     * @return a <code>SignatureProperty</code>
+     * @pbrbm id the id (mby be <code>null</code>)
+     * @return b <code>SignbtureProperty</code>
      * @throws NullPointerException if <code>content</code> or
-     *    <code>target</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>content</code> is empty
-     * @throws ClassCastException if <code>content</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     *    <code>tbrget</code> is <code>null</code>
+     * @throws IllegblArgumentException if <code>content</code> is empty
+     * @throws ClbssCbstException if <code>content</code> contbins bny
+     *    entries thbt bre not of type {@link XMLStructure}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract SignatureProperty newSignatureProperty
-        (List content, String target, String id);
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct SignbtureProperty newSignbtureProperty
+        (List content, String tbrget, String id);
 
     /**
-     * Creates a <code>SignatureProperties</code> containing the specified
-     * list of {@link SignatureProperty}s and optional id.
+     * Crebtes b <code>SignbtureProperties</code> contbining the specified
+     * list of {@link SignbtureProperty}s bnd optionbl id.
      *
-     * @param properties a list of one or more <code>SignatureProperty</code>s.
-     *    The list is defensively copied to protect against subsequent
-     *    modification.
-     * @param id the id (may be <code>null</code>)
-     * @return a <code>SignatureProperties</code>
+     * @pbrbm properties b list of one or more <code>SignbtureProperty</code>s.
+     *    The list is defensively copied to protect bgbinst subsequent
+     *    modificbtion.
+     * @pbrbm id the id (mby be <code>null</code>)
+     * @return b <code>SignbtureProperties</code>
      * @throws NullPointerException if <code>properties</code>
      *    is <code>null</code>
-     * @throws IllegalArgumentException if <code>properties</code> is empty
-     * @throws ClassCastException if <code>properties</code> contains any
-     *    entries that are not of type {@link SignatureProperty}
+     * @throws IllegblArgumentException if <code>properties</code> is empty
+     * @throws ClbssCbstException if <code>properties</code> contbins bny
+     *    entries thbt bre not of type {@link SignbtureProperty}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract SignatureProperties newSignatureProperties
+    @SuppressWbrnings("rbwtypes")
+    public bbstrbct SignbtureProperties newSignbtureProperties
         (List properties, String id);
 
-    // Algorithm factory methods
+    // Algorithm fbctory methods
     /**
-     * Creates a <code>DigestMethod</code> for the specified algorithm URI
-     * and parameters.
+     * Crebtes b <code>DigestMethod</code> for the specified blgorithm URI
+     * bnd pbrbmeters.
      *
-     * @param algorithm the URI identifying the digest algorithm
-     * @param params algorithm-specific digest parameters (may be
+     * @pbrbm blgorithm the URI identifying the digest blgorithm
+     * @pbrbm pbrbms blgorithm-specific digest pbrbmeters (mby be
      *    <code>null</code>)
      * @return the <code>DigestMethod</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract DigestMethod newDigestMethod(String algorithm,
-        DigestMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException;
+    public bbstrbct DigestMethod newDigestMethod(String blgorithm,
+        DigestMethodPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Creates a <code>SignatureMethod</code> for the specified algorithm URI
-     * and parameters.
+     * Crebtes b <code>SignbtureMethod</code> for the specified blgorithm URI
+     * bnd pbrbmeters.
      *
-     * @param algorithm the URI identifying the signature algorithm
-     * @param params algorithm-specific signature parameters (may be
+     * @pbrbm blgorithm the URI identifying the signbture blgorithm
+     * @pbrbm pbrbms blgorithm-specific signbture pbrbmeters (mby be
      *    <code>null</code>)
-     * @return the <code>SignatureMethod</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @return the <code>SignbtureMethod</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract SignatureMethod newSignatureMethod(String algorithm,
-        SignatureMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException;
+    public bbstrbct SignbtureMethod newSignbtureMethod(String blgorithm,
+        SignbtureMethodPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Creates a <code>Transform</code> for the specified algorithm URI
-     * and parameters.
+     * Crebtes b <code>Trbnsform</code> for the specified blgorithm URI
+     * bnd pbrbmeters.
      *
-     * @param algorithm the URI identifying the transform algorithm
-     * @param params algorithm-specific transform parameters (may be
+     * @pbrbm blgorithm the URI identifying the trbnsform blgorithm
+     * @pbrbm pbrbms blgorithm-specific trbnsform pbrbmeters (mby be
      *    <code>null</code>)
-     * @return the <code>Transform</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @return the <code>Trbnsform</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract Transform newTransform(String algorithm,
-        TransformParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException;
+    public bbstrbct Trbnsform newTrbnsform(String blgorithm,
+        TrbnsformPbrbmeterSpec pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Creates a <code>Transform</code> for the specified algorithm URI
-     * and parameters. The parameters are specified as a mechanism-specific
+     * Crebtes b <code>Trbnsform</code> for the specified blgorithm URI
+     * bnd pbrbmeters. The pbrbmeters bre specified bs b mechbnism-specific
      * <code>XMLStructure</code> (ex: {@link DOMStructure}). This method is
-     * useful when the parameters are in XML form or there is no standard
-     * class for specifying the parameters.
+     * useful when the pbrbmeters bre in XML form or there is no stbndbrd
+     * clbss for specifying the pbrbmeters.
      *
-     * @param algorithm the URI identifying the transform algorithm
-     * @param params a mechanism-specific XML structure from which to
-     *   unmarshal the parameters from (may be <code>null</code> if
-     *   not required or optional)
-     * @return the <code>Transform</code>
-     * @throws ClassCastException if the type of <code>params</code> is
-     *   inappropriate for this <code>XMLSignatureFactory</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @pbrbm blgorithm the URI identifying the trbnsform blgorithm
+     * @pbrbm pbrbms b mechbnism-specific XML structure from which to
+     *   unmbrshbl the pbrbmeters from (mby be <code>null</code> if
+     *   not required or optionbl)
+     * @return the <code>Trbnsform</code>
+     * @throws ClbssCbstException if the type of <code>pbrbms</code> is
+     *   inbppropribte for this <code>XMLSignbtureFbctory</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract Transform newTransform(String algorithm,
-        XMLStructure params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException;
+    public bbstrbct Trbnsform newTrbnsform(String blgorithm,
+        XMLStructure pbrbms) throws NoSuchAlgorithmException,
+        InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Creates a <code>CanonicalizationMethod</code> for the specified
-     * algorithm URI and parameters.
+     * Crebtes b <code>CbnonicblizbtionMethod</code> for the specified
+     * blgorithm URI bnd pbrbmeters.
      *
-     * @param algorithm the URI identifying the canonicalization algorithm
-     * @param params algorithm-specific canonicalization parameters (may be
+     * @pbrbm blgorithm the URI identifying the cbnonicblizbtion blgorithm
+     * @pbrbm pbrbms blgorithm-specific cbnonicblizbtion pbrbmeters (mby be
      *    <code>null</code>)
-     * @return the <code>CanonicalizationMethod</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @return the <code>CbnonicblizbtionMethod</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract CanonicalizationMethod newCanonicalizationMethod(
-        String algorithm, C14NMethodParameterSpec params)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException;
+    public bbstrbct CbnonicblizbtionMethod newCbnonicblizbtionMethod(
+        String blgorithm, C14NMethodPbrbmeterSpec pbrbms)
+        throws NoSuchAlgorithmException, InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Creates a <code>CanonicalizationMethod</code> for the specified
-     * algorithm URI and parameters. The parameters are specified as a
-     * mechanism-specific <code>XMLStructure</code> (ex: {@link DOMStructure}).
-     * This method is useful when the parameters are in XML form or there is
-     * no standard class for specifying the parameters.
+     * Crebtes b <code>CbnonicblizbtionMethod</code> for the specified
+     * blgorithm URI bnd pbrbmeters. The pbrbmeters bre specified bs b
+     * mechbnism-specific <code>XMLStructure</code> (ex: {@link DOMStructure}).
+     * This method is useful when the pbrbmeters bre in XML form or there is
+     * no stbndbrd clbss for specifying the pbrbmeters.
      *
-     * @param algorithm the URI identifying the canonicalization algorithm
-     * @param params a mechanism-specific XML structure from which to
-     *   unmarshal the parameters from (may be <code>null</code> if
-     *   not required or optional)
-     * @return the <code>CanonicalizationMethod</code>
-     * @throws ClassCastException if the type of <code>params</code> is
-     *   inappropriate for this <code>XMLSignatureFactory</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *    are inappropriate for the requested algorithm
-     * @throws NoSuchAlgorithmException if an implementation of the
-     *    specified algorithm cannot be found
-     * @throws NullPointerException if <code>algorithm</code> is
+     * @pbrbm blgorithm the URI identifying the cbnonicblizbtion blgorithm
+     * @pbrbm pbrbms b mechbnism-specific XML structure from which to
+     *   unmbrshbl the pbrbmeters from (mby be <code>null</code> if
+     *   not required or optionbl)
+     * @return the <code>CbnonicblizbtionMethod</code>
+     * @throws ClbssCbstException if the type of <code>pbrbms</code> is
+     *   inbppropribte for this <code>XMLSignbtureFbctory</code>
+     * @throws InvblidAlgorithmPbrbmeterException if the specified pbrbmeters
+     *    bre inbppropribte for the requested blgorithm
+     * @throws NoSuchAlgorithmException if bn implementbtion of the
+     *    specified blgorithm cbnnot be found
+     * @throws NullPointerException if <code>blgorithm</code> is
      *    <code>null</code>
      */
-    public abstract CanonicalizationMethod newCanonicalizationMethod(
-        String algorithm, XMLStructure params)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException;
+    public bbstrbct CbnonicblizbtionMethod newCbnonicblizbtionMethod(
+        String blgorithm, XMLStructure pbrbms)
+        throws NoSuchAlgorithmException, InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Returns a <code>KeyInfoFactory</code> that creates <code>KeyInfo</code>
-     * objects. The returned <code>KeyInfoFactory</code> has the same
-     * mechanism type and provider as this <code>XMLSignatureFactory</code>.
+     * Returns b <code>KeyInfoFbctory</code> thbt crebtes <code>KeyInfo</code>
+     * objects. The returned <code>KeyInfoFbctory</code> hbs the sbme
+     * mechbnism type bnd provider bs this <code>XMLSignbtureFbctory</code>.
      *
-     * @return a <code>KeyInfoFactory</code>
-     * @throws NoSuchMechanismException if a <code>KeyFactory</code>
-     *    implementation with the same mechanism type and provider
-     *    is not available
+     * @return b <code>KeyInfoFbctory</code>
+     * @throws NoSuchMechbnismException if b <code>KeyFbctory</code>
+     *    implementbtion with the sbme mechbnism type bnd provider
+     *    is not bvbilbble
      */
-    public final KeyInfoFactory getKeyInfoFactory() {
-        return KeyInfoFactory.getInstance(getMechanismType(), getProvider());
+    public finbl KeyInfoFbctory getKeyInfoFbctory() {
+        return KeyInfoFbctory.getInstbnce(getMechbnismType(), getProvider());
     }
 
     /**
-     * Unmarshals a new <code>XMLSignature</code> instance from a
-     * mechanism-specific <code>XMLValidateContext</code> instance.
+     * Unmbrshbls b new <code>XMLSignbture</code> instbnce from b
+     * mechbnism-specific <code>XMLVblidbteContext</code> instbnce.
      *
-     * @param context a mechanism-specific context from which to unmarshal the
-     *    signature from
-     * @return the <code>XMLSignature</code>
+     * @pbrbm context b mechbnism-specific context from which to unmbrshbl the
+     *    signbture from
+     * @return the <code>XMLSignbture</code>
      * @throws NullPointerException if <code>context</code> is
      *    <code>null</code>
-     * @throws ClassCastException if the type of <code>context</code> is
-     *    inappropriate for this factory
-     * @throws MarshalException if an unrecoverable exception occurs
-     *    during unmarshalling
+     * @throws ClbssCbstException if the type of <code>context</code> is
+     *    inbppropribte for this fbctory
+     * @throws MbrshblException if bn unrecoverbble exception occurs
+     *    during unmbrshblling
      */
-    public abstract XMLSignature unmarshalXMLSignature
-        (XMLValidateContext context) throws MarshalException;
+    public bbstrbct XMLSignbture unmbrshblXMLSignbture
+        (XMLVblidbteContext context) throws MbrshblException;
 
     /**
-     * Unmarshals a new <code>XMLSignature</code> instance from a
-     * mechanism-specific <code>XMLStructure</code> instance.
-     * This method is useful if you only want to unmarshal (and not
-     * validate) an <code>XMLSignature</code>.
+     * Unmbrshbls b new <code>XMLSignbture</code> instbnce from b
+     * mechbnism-specific <code>XMLStructure</code> instbnce.
+     * This method is useful if you only wbnt to unmbrshbl (bnd not
+     * vblidbte) bn <code>XMLSignbture</code>.
      *
-     * @param xmlStructure a mechanism-specific XML structure from which to
-     *    unmarshal the signature from
-     * @return the <code>XMLSignature</code>
+     * @pbrbm xmlStructure b mechbnism-specific XML structure from which to
+     *    unmbrshbl the signbture from
+     * @return the <code>XMLSignbture</code>
      * @throws NullPointerException if <code>xmlStructure</code> is
      *    <code>null</code>
-     * @throws ClassCastException if the type of <code>xmlStructure</code> is
-     *    inappropriate for this factory
-     * @throws MarshalException if an unrecoverable exception occurs
-     *    during unmarshalling
+     * @throws ClbssCbstException if the type of <code>xmlStructure</code> is
+     *    inbppropribte for this fbctory
+     * @throws MbrshblException if bn unrecoverbble exception occurs
+     *    during unmbrshblling
      */
-    public abstract XMLSignature unmarshalXMLSignature
-        (XMLStructure xmlStructure) throws MarshalException;
+    public bbstrbct XMLSignbture unmbrshblXMLSignbture
+        (XMLStructure xmlStructure) throws MbrshblException;
 
     /**
-     * Indicates whether a specified feature is supported.
+     * Indicbtes whether b specified febture is supported.
      *
-     * @param feature the feature name (as an absolute URI)
-     * @return <code>true</code> if the specified feature is supported,
-     *    <code>false</code> otherwise
-     * @throws NullPointerException if <code>feature</code> is <code>null</code>
+     * @pbrbm febture the febture nbme (bs bn bbsolute URI)
+     * @return <code>true</code> if the specified febture is supported,
+     *    <code>fblse</code> otherwise
+     * @throws NullPointerException if <code>febture</code> is <code>null</code>
      */
-    public abstract boolean isFeatureSupported(String feature);
+    public bbstrbct boolebn isFebtureSupported(String febture);
 
     /**
-     * Returns a reference to the <code>URIDereferencer</code> that is used by
-     * default to dereference URIs in {@link Reference} objects.
+     * Returns b reference to the <code>URIDereferencer</code> thbt is used by
+     * defbult to dereference URIs in {@link Reference} objects.
      *
-     * @return a reference to the default <code>URIDereferencer</code> (never
+     * @return b reference to the defbult <code>URIDereferencer</code> (never
      *    <code>null</code>)
      */
-    public abstract URIDereferencer getURIDereferencer();
+    public bbstrbct URIDereferencer getURIDereferencer();
 }

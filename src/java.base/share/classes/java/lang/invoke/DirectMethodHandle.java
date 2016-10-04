@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import sun.misc.Unsafe;
-import java.lang.reflect.Method;
-import java.util.Arrays;
+import sun.misc.Unsbfe;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
 import sun.invoke.util.VerifyAccess;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.LambdaForm.*;
-import static java.lang.invoke.LambdaForm.BasicType.*;
-import static java.lang.invoke.MethodTypeForm.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import sun.invoke.util.ValueConversions;
+import stbtic jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.BbsicType.*;
+import stbtic jbvb.lbng.invoke.MethodTypeForm.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Field;
+import sun.invoke.util.VblueConversions;
 import sun.invoke.util.VerifyType;
-import sun.invoke.util.Wrapper;
+import sun.invoke.util.Wrbpper;
 
 /**
- * The flavor of method handle which implements a constant reference
- * to a class member.
- * @author jrose
+ * The flbvor of method hbndle which implements b constbnt reference
+ * to b clbss member.
+ * @buthor jrose
  */
-class DirectMethodHandle extends MethodHandle {
-    final MemberName member;
+clbss DirectMethodHbndle extends MethodHbndle {
+    finbl MemberNbme member;
 
-    // Constructors and factory methods in this class *must* be package scoped or private.
-    private DirectMethodHandle(MethodType mtype, LambdaForm form, MemberName member) {
+    // Constructors bnd fbctory methods in this clbss *must* be pbckbge scoped or privbte.
+    privbte DirectMethodHbndle(MethodType mtype, LbmbdbForm form, MemberNbme member) {
         super(mtype, form);
-        if (!member.isResolved())  throw new InternalError();
+        if (!member.isResolved())  throw new InternblError();
 
-        if (member.getDeclaringClass().isInterface() &&
-                member.isMethod() && !member.isAbstract()) {
-            // Check for corner case: invokeinterface of Object method
-            MemberName m = new MemberName(Object.class, member.getName(), member.getMethodType(), member.getReferenceKind());
-            m = MemberName.getFactory().resolveOrNull(m.getReferenceKind(), m, null);
+        if (member.getDeclbringClbss().isInterfbce() &&
+                member.isMethod() && !member.isAbstrbct()) {
+            // Check for corner cbse: invokeinterfbce of Object method
+            MemberNbme m = new MemberNbme(Object.clbss, member.getNbme(), member.getMethodType(), member.getReferenceKind());
+            m = MemberNbme.getFbctory().resolveOrNull(m.getReferenceKind(), m, null);
             if (m != null && m.isPublic()) {
                 member = m;
             }
@@ -66,452 +66,452 @@ class DirectMethodHandle extends MethodHandle {
         this.member = member;
     }
 
-    // Factory methods:
-    static DirectMethodHandle make(byte refKind, Class<?> receiver, MemberName member) {
+    // Fbctory methods:
+    stbtic DirectMethodHbndle mbke(byte refKind, Clbss<?> receiver, MemberNbme member) {
         MethodType mtype = member.getMethodOrFieldType();
-        if (!member.isStatic()) {
-            if (!member.getDeclaringClass().isAssignableFrom(receiver) || member.isConstructor())
-                throw new InternalError(member.toString());
-            mtype = mtype.insertParameterTypes(0, receiver);
+        if (!member.isStbtic()) {
+            if (!member.getDeclbringClbss().isAssignbbleFrom(receiver) || member.isConstructor())
+                throw new InternblError(member.toString());
+            mtype = mtype.insertPbrbmeterTypes(0, receiver);
         }
         if (!member.isField()) {
-            if (refKind == REF_invokeSpecial) {
-                member = member.asSpecial();
-                LambdaForm lform = preparedLambdaForm(member);
-                return new Special(mtype, lform, member);
+            if (refKind == REF_invokeSpecibl) {
+                member = member.bsSpecibl();
+                LbmbdbForm lform = prepbredLbmbdbForm(member);
+                return new Specibl(mtype, lform, member);
             } else {
-                LambdaForm lform = preparedLambdaForm(member);
-                return new DirectMethodHandle(mtype, lform, member);
+                LbmbdbForm lform = prepbredLbmbdbForm(member);
+                return new DirectMethodHbndle(mtype, lform, member);
             }
         } else {
-            LambdaForm lform = preparedFieldLambdaForm(member);
-            if (member.isStatic()) {
-                long offset = MethodHandleNatives.staticFieldOffset(member);
-                Object base = MethodHandleNatives.staticFieldBase(member);
-                return new StaticAccessor(mtype, lform, member, base, offset);
+            LbmbdbForm lform = prepbredFieldLbmbdbForm(member);
+            if (member.isStbtic()) {
+                long offset = MethodHbndleNbtives.stbticFieldOffset(member);
+                Object bbse = MethodHbndleNbtives.stbticFieldBbse(member);
+                return new StbticAccessor(mtype, lform, member, bbse, offset);
             } else {
-                long offset = MethodHandleNatives.objectFieldOffset(member);
-                assert(offset == (int)offset);
+                long offset = MethodHbndleNbtives.objectFieldOffset(member);
+                bssert(offset == (int)offset);
                 return new Accessor(mtype, lform, member, (int)offset);
             }
         }
     }
-    static DirectMethodHandle make(Class<?> receiver, MemberName member) {
+    stbtic DirectMethodHbndle mbke(Clbss<?> receiver, MemberNbme member) {
         byte refKind = member.getReferenceKind();
-        if (refKind == REF_invokeSpecial)
-            refKind =  REF_invokeVirtual;
-        return make(refKind, receiver, member);
+        if (refKind == REF_invokeSpecibl)
+            refKind =  REF_invokeVirtubl;
+        return mbke(refKind, receiver, member);
     }
-    static DirectMethodHandle make(MemberName member) {
+    stbtic DirectMethodHbndle mbke(MemberNbme member) {
         if (member.isConstructor())
-            return makeAllocator(member);
-        return make(member.getDeclaringClass(), member);
+            return mbkeAllocbtor(member);
+        return mbke(member.getDeclbringClbss(), member);
     }
-    static DirectMethodHandle make(Method method) {
-        return make(method.getDeclaringClass(), new MemberName(method));
+    stbtic DirectMethodHbndle mbke(Method method) {
+        return mbke(method.getDeclbringClbss(), new MemberNbme(method));
     }
-    static DirectMethodHandle make(Field field) {
-        return make(field.getDeclaringClass(), new MemberName(field));
+    stbtic DirectMethodHbndle mbke(Field field) {
+        return mbke(field.getDeclbringClbss(), new MemberNbme(field));
     }
-    private static DirectMethodHandle makeAllocator(MemberName ctor) {
-        assert(ctor.isConstructor() && ctor.getName().equals("<init>"));
-        Class<?> instanceClass = ctor.getDeclaringClass();
-        ctor = ctor.asConstructor();
-        assert(ctor.isConstructor() && ctor.getReferenceKind() == REF_newInvokeSpecial) : ctor;
-        MethodType mtype = ctor.getMethodType().changeReturnType(instanceClass);
-        LambdaForm lform = preparedLambdaForm(ctor);
-        MemberName init = ctor.asSpecial();
-        assert(init.getMethodType().returnType() == void.class);
-        return new Constructor(mtype, lform, ctor, init, instanceClass);
+    privbte stbtic DirectMethodHbndle mbkeAllocbtor(MemberNbme ctor) {
+        bssert(ctor.isConstructor() && ctor.getNbme().equbls("<init>"));
+        Clbss<?> instbnceClbss = ctor.getDeclbringClbss();
+        ctor = ctor.bsConstructor();
+        bssert(ctor.isConstructor() && ctor.getReferenceKind() == REF_newInvokeSpecibl) : ctor;
+        MethodType mtype = ctor.getMethodType().chbngeReturnType(instbnceClbss);
+        LbmbdbForm lform = prepbredLbmbdbForm(ctor);
+        MemberNbme init = ctor.bsSpecibl();
+        bssert(init.getMethodType().returnType() == void.clbss);
+        return new Constructor(mtype, lform, ctor, init, instbnceClbss);
     }
 
     @Override
-    String internalProperties() {
+    String internblProperties() {
         return "/DMH="+member.toString();
     }
 
-    //// Implementation methods.
+    //// Implementbtion methods.
     @Override
-    MethodHandle viewAsType(MethodType newType) {
-        return new DirectMethodHandle(newType, form, member);
+    MethodHbndle viewAsType(MethodType newType) {
+        return new DirectMethodHbndle(newType, form, member);
     }
     @Override
     @ForceInline
-    MemberName internalMemberName() {
+    MemberNbme internblMemberNbme() {
         return member;
     }
 
     @Override
-    MethodHandle bindArgument(int pos, BasicType basicType, Object value) {
-        // If the member needs dispatching, do so.
-        if (pos == 0 && basicType == L_TYPE) {
-            DirectMethodHandle concrete = maybeRebind(value);
+    MethodHbndle bindArgument(int pos, BbsicType bbsicType, Object vblue) {
+        // If the member needs dispbtching, do so.
+        if (pos == 0 && bbsicType == L_TYPE) {
+            DirectMethodHbndle concrete = mbybeRebind(vblue);
             if (concrete != null)
-                return concrete.bindReceiver(value);
+                return concrete.bindReceiver(vblue);
         }
-        return super.bindArgument(pos, basicType, value);
+        return super.bindArgument(pos, bbsicType, vblue);
     }
 
     @Override
-    MethodHandle bindReceiver(Object receiver) {
-        // If the member needs dispatching, do so.
-        DirectMethodHandle concrete = maybeRebind(receiver);
+    MethodHbndle bindReceiver(Object receiver) {
+        // If the member needs dispbtching, do so.
+        DirectMethodHbndle concrete = mbybeRebind(receiver);
         if (concrete != null)
             return concrete.bindReceiver(receiver);
         return super.bindReceiver(receiver);
     }
 
-    private static final MemberName.Factory IMPL_NAMES = MemberName.getFactory();
+    privbte stbtic finbl MemberNbme.Fbctory IMPL_NAMES = MemberNbme.getFbctory();
 
-    private DirectMethodHandle maybeRebind(Object receiver) {
+    privbte DirectMethodHbndle mbybeRebind(Object receiver) {
         if (receiver != null) {
             switch (member.getReferenceKind()) {
-            case REF_invokeInterface:
-            case REF_invokeVirtual:
-                // Pre-dispatch the member.
-                Class<?> concreteClass = receiver.getClass();
-                MemberName concrete = new MemberName(concreteClass, member.getName(), member.getMethodType(), REF_invokeSpecial);
-                concrete = IMPL_NAMES.resolveOrNull(REF_invokeSpecial, concrete, concreteClass);
+            cbse REF_invokeInterfbce:
+            cbse REF_invokeVirtubl:
+                // Pre-dispbtch the member.
+                Clbss<?> concreteClbss = receiver.getClbss();
+                MemberNbme concrete = new MemberNbme(concreteClbss, member.getNbme(), member.getMethodType(), REF_invokeSpecibl);
+                concrete = IMPL_NAMES.resolveOrNull(REF_invokeSpecibl, concrete, concreteClbss);
                 if (concrete != null)
-                    return new DirectMethodHandle(type(), preparedLambdaForm(concrete), concrete);
-                break;
+                    return new DirectMethodHbndle(type(), prepbredLbmbdbForm(concrete), concrete);
+                brebk;
             }
         }
         return null;
     }
 
     /**
-     * Create a LF which can invoke the given method.
-     * Cache and share this structure among all methods with
-     * the same basicType and refKind.
+     * Crebte b LF which cbn invoke the given method.
+     * Cbche bnd shbre this structure bmong bll methods with
+     * the sbme bbsicType bnd refKind.
      */
-    private static LambdaForm preparedLambdaForm(MemberName m) {
-        assert(m.isInvocable()) : m;  // call preparedFieldLambdaForm instead
-        MethodType mtype = m.getInvocationType().basicType();
-        assert(!m.isMethodHandleInvoke() || "invokeBasic".equals(m.getName())) : m;
+    privbte stbtic LbmbdbForm prepbredLbmbdbForm(MemberNbme m) {
+        bssert(m.isInvocbble()) : m;  // cbll prepbredFieldLbmbdbForm instebd
+        MethodType mtype = m.getInvocbtionType().bbsicType();
+        bssert(!m.isMethodHbndleInvoke() || "invokeBbsic".equbls(m.getNbme())) : m;
         int which;
         switch (m.getReferenceKind()) {
-        case REF_invokeVirtual:    which = LF_INVVIRTUAL;    break;
-        case REF_invokeStatic:     which = LF_INVSTATIC;     break;
-        case REF_invokeSpecial:    which = LF_INVSPECIAL;    break;
-        case REF_invokeInterface:  which = LF_INVINTERFACE;  break;
-        case REF_newInvokeSpecial: which = LF_NEWINVSPECIAL; break;
-        default:  throw new InternalError(m.toString());
+        cbse REF_invokeVirtubl:    which = LF_INVVIRTUAL;    brebk;
+        cbse REF_invokeStbtic:     which = LF_INVSTATIC;     brebk;
+        cbse REF_invokeSpecibl:    which = LF_INVSPECIAL;    brebk;
+        cbse REF_invokeInterfbce:  which = LF_INVINTERFACE;  brebk;
+        cbse REF_newInvokeSpecibl: which = LF_NEWINVSPECIAL; brebk;
+        defbult:  throw new InternblError(m.toString());
         }
-        if (which == LF_INVSTATIC && shouldBeInitialized(m)) {
-            // precompute the barrier-free version:
-            preparedLambdaForm(mtype, which);
+        if (which == LF_INVSTATIC && shouldBeInitiblized(m)) {
+            // precompute the bbrrier-free version:
+            prepbredLbmbdbForm(mtype, which);
             which = LF_INVSTATIC_INIT;
         }
-        LambdaForm lform = preparedLambdaForm(mtype, which);
-        maybeCompile(lform, m);
-        assert(lform.methodType().dropParameterTypes(0, 1)
-                .equals(m.getInvocationType().basicType()))
-                : Arrays.asList(m, m.getInvocationType().basicType(), lform, lform.methodType());
+        LbmbdbForm lform = prepbredLbmbdbForm(mtype, which);
+        mbybeCompile(lform, m);
+        bssert(lform.methodType().dropPbrbmeterTypes(0, 1)
+                .equbls(m.getInvocbtionType().bbsicType()))
+                : Arrbys.bsList(m, m.getInvocbtionType().bbsicType(), lform, lform.methodType());
         return lform;
     }
 
-    private static LambdaForm preparedLambdaForm(MethodType mtype, int which) {
-        LambdaForm lform = mtype.form().cachedLambdaForm(which);
+    privbte stbtic LbmbdbForm prepbredLbmbdbForm(MethodType mtype, int which) {
+        LbmbdbForm lform = mtype.form().cbchedLbmbdbForm(which);
         if (lform != null)  return lform;
-        lform = makePreparedLambdaForm(mtype, which);
-        return mtype.form().setCachedLambdaForm(which, lform);
+        lform = mbkePrepbredLbmbdbForm(mtype, which);
+        return mtype.form().setCbchedLbmbdbForm(which, lform);
     }
 
-    private static LambdaForm makePreparedLambdaForm(MethodType mtype, int which) {
-        boolean needsInit = (which == LF_INVSTATIC_INIT);
-        boolean doesAlloc = (which == LF_NEWINVSPECIAL);
-        String linkerName, lambdaName;
+    privbte stbtic LbmbdbForm mbkePrepbredLbmbdbForm(MethodType mtype, int which) {
+        boolebn needsInit = (which == LF_INVSTATIC_INIT);
+        boolebn doesAlloc = (which == LF_NEWINVSPECIAL);
+        String linkerNbme, lbmbdbNbme;
         switch (which) {
-        case LF_INVVIRTUAL:    linkerName = "linkToVirtual";    lambdaName = "DMH.invokeVirtual";    break;
-        case LF_INVSTATIC:     linkerName = "linkToStatic";     lambdaName = "DMH.invokeStatic";     break;
-        case LF_INVSTATIC_INIT:linkerName = "linkToStatic";     lambdaName = "DMH.invokeStaticInit"; break;
-        case LF_INVSPECIAL:    linkerName = "linkToSpecial";    lambdaName = "DMH.invokeSpecial";    break;
-        case LF_INVINTERFACE:  linkerName = "linkToInterface";  lambdaName = "DMH.invokeInterface";  break;
-        case LF_NEWINVSPECIAL: linkerName = "linkToSpecial";    lambdaName = "DMH.newInvokeSpecial"; break;
-        default:  throw new InternalError("which="+which);
+        cbse LF_INVVIRTUAL:    linkerNbme = "linkToVirtubl";    lbmbdbNbme = "DMH.invokeVirtubl";    brebk;
+        cbse LF_INVSTATIC:     linkerNbme = "linkToStbtic";     lbmbdbNbme = "DMH.invokeStbtic";     brebk;
+        cbse LF_INVSTATIC_INIT:linkerNbme = "linkToStbtic";     lbmbdbNbme = "DMH.invokeStbticInit"; brebk;
+        cbse LF_INVSPECIAL:    linkerNbme = "linkToSpecibl";    lbmbdbNbme = "DMH.invokeSpecibl";    brebk;
+        cbse LF_INVINTERFACE:  linkerNbme = "linkToInterfbce";  lbmbdbNbme = "DMH.invokeInterfbce";  brebk;
+        cbse LF_NEWINVSPECIAL: linkerNbme = "linkToSpecibl";    lbmbdbNbme = "DMH.newInvokeSpecibl"; brebk;
+        defbult:  throw new InternblError("which="+which);
         }
-        MethodType mtypeWithArg = mtype.appendParameterTypes(MemberName.class);
+        MethodType mtypeWithArg = mtype.bppendPbrbmeterTypes(MemberNbme.clbss);
         if (doesAlloc)
             mtypeWithArg = mtypeWithArg
-                    .insertParameterTypes(0, Object.class)  // insert newly allocated obj
-                    .changeReturnType(void.class);          // <init> returns void
-        MemberName linker = new MemberName(MethodHandle.class, linkerName, mtypeWithArg, REF_invokeStatic);
+                    .insertPbrbmeterTypes(0, Object.clbss)  // insert newly bllocbted obj
+                    .chbngeReturnType(void.clbss);          // <init> returns void
+        MemberNbme linker = new MemberNbme(MethodHbndle.clbss, linkerNbme, mtypeWithArg, REF_invokeStbtic);
         try {
-            linker = IMPL_NAMES.resolveOrFail(REF_invokeStatic, linker, null, NoSuchMethodException.class);
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            linker = IMPL_NAMES.resolveOrFbil(REF_invokeStbtic, linker, null, NoSuchMethodException.clbss);
+        } cbtch (ReflectiveOperbtionException ex) {
+            throw newInternblError(ex);
         }
-        final int DMH_THIS    = 0;
-        final int ARG_BASE    = 1;
-        final int ARG_LIMIT   = ARG_BASE + mtype.parameterCount();
-        int nameCursor = ARG_LIMIT;
-        final int NEW_OBJ     = (doesAlloc ? nameCursor++ : -1);
-        final int GET_MEMBER  = nameCursor++;
-        final int LINKER_CALL = nameCursor++;
-        Name[] names = arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        assert(names.length == nameCursor);
+        finbl int DMH_THIS    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtype.pbrbmeterCount();
+        int nbmeCursor = ARG_LIMIT;
+        finbl int NEW_OBJ     = (doesAlloc ? nbmeCursor++ : -1);
+        finbl int GET_MEMBER  = nbmeCursor++;
+        finbl int LINKER_CALL = nbmeCursor++;
+        Nbme[] nbmes = brguments(nbmeCursor - ARG_LIMIT, mtype.invokerType());
+        bssert(nbmes.length == nbmeCursor);
         if (doesAlloc) {
-            // names = { argx,y,z,... new C, init method }
-            names[NEW_OBJ] = new Name(Lazy.NF_allocateInstance, names[DMH_THIS]);
-            names[GET_MEMBER] = new Name(Lazy.NF_constructorMethod, names[DMH_THIS]);
+            // nbmes = { brgx,y,z,... new C, init method }
+            nbmes[NEW_OBJ] = new Nbme(Lbzy.NF_bllocbteInstbnce, nbmes[DMH_THIS]);
+            nbmes[GET_MEMBER] = new Nbme(Lbzy.NF_constructorMethod, nbmes[DMH_THIS]);
         } else if (needsInit) {
-            names[GET_MEMBER] = new Name(Lazy.NF_internalMemberNameEnsureInit, names[DMH_THIS]);
+            nbmes[GET_MEMBER] = new Nbme(Lbzy.NF_internblMemberNbmeEnsureInit, nbmes[DMH_THIS]);
         } else {
-            names[GET_MEMBER] = new Name(Lazy.NF_internalMemberName, names[DMH_THIS]);
+            nbmes[GET_MEMBER] = new Nbme(Lbzy.NF_internblMemberNbme, nbmes[DMH_THIS]);
         }
-        Object[] outArgs = Arrays.copyOfRange(names, ARG_BASE, GET_MEMBER+1, Object[].class);
-        assert(outArgs[outArgs.length-1] == names[GET_MEMBER]);  // look, shifted args!
-        int result = LambdaForm.LAST_RESULT;
+        Object[] outArgs = Arrbys.copyOfRbnge(nbmes, ARG_BASE, GET_MEMBER+1, Object[].clbss);
+        bssert(outArgs[outArgs.length-1] == nbmes[GET_MEMBER]);  // look, shifted brgs!
+        int result = LbmbdbForm.LAST_RESULT;
         if (doesAlloc) {
-            assert(outArgs[outArgs.length-2] == names[NEW_OBJ]);  // got to move this one
-            System.arraycopy(outArgs, 0, outArgs, 1, outArgs.length-2);
-            outArgs[0] = names[NEW_OBJ];
+            bssert(outArgs[outArgs.length-2] == nbmes[NEW_OBJ]);  // got to move this one
+            System.brrbycopy(outArgs, 0, outArgs, 1, outArgs.length-2);
+            outArgs[0] = nbmes[NEW_OBJ];
             result = NEW_OBJ;
         }
-        names[LINKER_CALL] = new Name(linker, outArgs);
-        lambdaName += "_" + shortenSignature(basicTypeSignature(mtype));
-        LambdaForm lform = new LambdaForm(lambdaName, ARG_LIMIT, names, result);
-        // This is a tricky bit of code.  Don't send it through the LF interpreter.
+        nbmes[LINKER_CALL] = new Nbme(linker, outArgs);
+        lbmbdbNbme += "_" + shortenSignbture(bbsicTypeSignbture(mtype));
+        LbmbdbForm lform = new LbmbdbForm(lbmbdbNbme, ARG_LIMIT, nbmes, result);
+        // This is b tricky bit of code.  Don't send it through the LF interpreter.
         lform.compileToBytecode();
         return lform;
     }
 
-    private static void maybeCompile(LambdaForm lform, MemberName m) {
-        if (VerifyAccess.isSamePackage(m.getDeclaringClass(), MethodHandle.class))
-            // Help along bootstrapping...
+    privbte stbtic void mbybeCompile(LbmbdbForm lform, MemberNbme m) {
+        if (VerifyAccess.isSbmePbckbge(m.getDeclbringClbss(), MethodHbndle.clbss))
+            // Help blong bootstrbpping...
             lform.compileToBytecode();
     }
 
-    /** Static wrapper for DirectMethodHandle.internalMemberName. */
+    /** Stbtic wrbpper for DirectMethodHbndle.internblMemberNbme. */
     @ForceInline
-    /*non-public*/ static Object internalMemberName(Object mh) {
-        return ((DirectMethodHandle)mh).member;
+    /*non-public*/ stbtic Object internblMemberNbme(Object mh) {
+        return ((DirectMethodHbndle)mh).member;
     }
 
-    /** Static wrapper for DirectMethodHandle.internalMemberName.
-     * This one also forces initialization.
+    /** Stbtic wrbpper for DirectMethodHbndle.internblMemberNbme.
+     * This one blso forces initiblizbtion.
      */
-    /*non-public*/ static Object internalMemberNameEnsureInit(Object mh) {
-        DirectMethodHandle dmh = (DirectMethodHandle)mh;
-        dmh.ensureInitialized();
+    /*non-public*/ stbtic Object internblMemberNbmeEnsureInit(Object mh) {
+        DirectMethodHbndle dmh = (DirectMethodHbndle)mh;
+        dmh.ensureInitiblized();
         return dmh.member;
     }
 
-    /*non-public*/ static
-    boolean shouldBeInitialized(MemberName member) {
+    /*non-public*/ stbtic
+    boolebn shouldBeInitiblized(MemberNbme member) {
         switch (member.getReferenceKind()) {
-        case REF_invokeStatic:
-        case REF_getStatic:
-        case REF_putStatic:
-        case REF_newInvokeSpecial:
-            break;
-        default:
-            // No need to initialize the class on this kind of member.
-            return false;
+        cbse REF_invokeStbtic:
+        cbse REF_getStbtic:
+        cbse REF_putStbtic:
+        cbse REF_newInvokeSpecibl:
+            brebk;
+        defbult:
+            // No need to initiblize the clbss on this kind of member.
+            return fblse;
         }
-        Class<?> cls = member.getDeclaringClass();
-        if (cls == ValueConversions.class ||
-            cls == MethodHandleImpl.class ||
-            cls == Invokers.class) {
-            // These guys have lots of <clinit> DMH creation but we know
+        Clbss<?> cls = member.getDeclbringClbss();
+        if (cls == VblueConversions.clbss ||
+            cls == MethodHbndleImpl.clbss ||
+            cls == Invokers.clbss) {
+            // These guys hbve lots of <clinit> DMH crebtion but we know
             // the MHs will not be used until the system is booted.
-            return false;
+            return fblse;
         }
-        if (VerifyAccess.isSamePackage(MethodHandle.class, cls) ||
-            VerifyAccess.isSamePackage(ValueConversions.class, cls)) {
-            // It is a system class.  It is probably in the process of
-            // being initialized, but we will help it along just to be safe.
-            if (UNSAFE.shouldBeInitialized(cls)) {
-                UNSAFE.ensureClassInitialized(cls);
+        if (VerifyAccess.isSbmePbckbge(MethodHbndle.clbss, cls) ||
+            VerifyAccess.isSbmePbckbge(VblueConversions.clbss, cls)) {
+            // It is b system clbss.  It is probbbly in the process of
+            // being initiblized, but we will help it blong just to be sbfe.
+            if (UNSAFE.shouldBeInitiblized(cls)) {
+                UNSAFE.ensureClbssInitiblized(cls);
             }
-            return false;
+            return fblse;
         }
-        return UNSAFE.shouldBeInitialized(cls);
+        return UNSAFE.shouldBeInitiblized(cls);
     }
 
-    private static class EnsureInitialized extends ClassValue<WeakReference<Thread>> {
+    privbte stbtic clbss EnsureInitiblized extends ClbssVblue<WebkReference<Threbd>> {
         @Override
-        protected WeakReference<Thread> computeValue(Class<?> type) {
-            UNSAFE.ensureClassInitialized(type);
-            if (UNSAFE.shouldBeInitialized(type))
-                // If the previous call didn't block, this can happen.
-                // We are executing inside <clinit>.
-                return new WeakReference<>(Thread.currentThread());
+        protected WebkReference<Threbd> computeVblue(Clbss<?> type) {
+            UNSAFE.ensureClbssInitiblized(type);
+            if (UNSAFE.shouldBeInitiblized(type))
+                // If the previous cbll didn't block, this cbn hbppen.
+                // We bre executing inside <clinit>.
+                return new WebkReference<>(Threbd.currentThrebd());
             return null;
         }
-        static final EnsureInitialized INSTANCE = new EnsureInitialized();
+        stbtic finbl EnsureInitiblized INSTANCE = new EnsureInitiblized();
     }
 
-    private void ensureInitialized() {
-        if (checkInitialized(member)) {
-            // The coast is clear.  Delete the <clinit> barrier.
+    privbte void ensureInitiblized() {
+        if (checkInitiblized(member)) {
+            // The cobst is clebr.  Delete the <clinit> bbrrier.
             if (member.isField())
-                updateForm(preparedFieldLambdaForm(member));
+                updbteForm(prepbredFieldLbmbdbForm(member));
             else
-                updateForm(preparedLambdaForm(member));
+                updbteForm(prepbredLbmbdbForm(member));
         }
     }
-    private static boolean checkInitialized(MemberName member) {
-        Class<?> defc = member.getDeclaringClass();
-        WeakReference<Thread> ref = EnsureInitialized.INSTANCE.get(defc);
+    privbte stbtic boolebn checkInitiblized(MemberNbme member) {
+        Clbss<?> defc = member.getDeclbringClbss();
+        WebkReference<Threbd> ref = EnsureInitiblized.INSTANCE.get(defc);
         if (ref == null) {
-            return true;  // the final state
+            return true;  // the finbl stbte
         }
-        Thread clinitThread = ref.get();
-        // Somebody may still be running defc.<clinit>.
-        if (clinitThread == Thread.currentThread()) {
-            // If anybody is running defc.<clinit>, it is this thread.
-            if (UNSAFE.shouldBeInitialized(defc))
-                // Yes, we are running it; keep the barrier for now.
-                return false;
+        Threbd clinitThrebd = ref.get();
+        // Somebody mby still be running defc.<clinit>.
+        if (clinitThrebd == Threbd.currentThrebd()) {
+            // If bnybody is running defc.<clinit>, it is this threbd.
+            if (UNSAFE.shouldBeInitiblized(defc))
+                // Yes, we bre running it; keep the bbrrier for now.
+                return fblse;
         } else {
-            // We are in a random thread.  Block.
-            UNSAFE.ensureClassInitialized(defc);
+            // We bre in b rbndom threbd.  Block.
+            UNSAFE.ensureClbssInitiblized(defc);
         }
-        assert(!UNSAFE.shouldBeInitialized(defc));
-        // put it into the final state
-        EnsureInitialized.INSTANCE.remove(defc);
+        bssert(!UNSAFE.shouldBeInitiblized(defc));
+        // put it into the finbl stbte
+        EnsureInitiblized.INSTANCE.remove(defc);
         return true;
     }
 
-    /*non-public*/ static void ensureInitialized(Object mh) {
-        ((DirectMethodHandle)mh).ensureInitialized();
+    /*non-public*/ stbtic void ensureInitiblized(Object mh) {
+        ((DirectMethodHbndle)mh).ensureInitiblized();
     }
 
-    /** This subclass represents invokespecial instructions. */
-    static class Special extends DirectMethodHandle {
-        private Special(MethodType mtype, LambdaForm form, MemberName member) {
+    /** This subclbss represents invokespecibl instructions. */
+    stbtic clbss Specibl extends DirectMethodHbndle {
+        privbte Specibl(MethodType mtype, LbmbdbForm form, MemberNbme member) {
             super(mtype, form, member);
         }
         @Override
-        boolean isInvokeSpecial() {
+        boolebn isInvokeSpecibl() {
             return true;
         }
         @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new Special(newType, form, member);
+        MethodHbndle viewAsType(MethodType newType) {
+            return new Specibl(newType, form, member);
         }
     }
 
-    /** This subclass handles constructor references. */
-    static class Constructor extends DirectMethodHandle {
-        final MemberName initMethod;
-        final Class<?>   instanceClass;
+    /** This subclbss hbndles constructor references. */
+    stbtic clbss Constructor extends DirectMethodHbndle {
+        finbl MemberNbme initMethod;
+        finbl Clbss<?>   instbnceClbss;
 
-        private Constructor(MethodType mtype, LambdaForm form, MemberName constructor,
-                            MemberName initMethod, Class<?> instanceClass) {
+        privbte Constructor(MethodType mtype, LbmbdbForm form, MemberNbme constructor,
+                            MemberNbme initMethod, Clbss<?> instbnceClbss) {
             super(mtype, form, constructor);
             this.initMethod = initMethod;
-            this.instanceClass = instanceClass;
-            assert(initMethod.isResolved());
+            this.instbnceClbss = instbnceClbss;
+            bssert(initMethod.isResolved());
         }
         @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new Constructor(newType, form, member, initMethod, instanceClass);
+        MethodHbndle viewAsType(MethodType newType) {
+            return new Constructor(newType, form, member, initMethod, instbnceClbss);
         }
     }
 
-    /*non-public*/ static Object constructorMethod(Object mh) {
+    /*non-public*/ stbtic Object constructorMethod(Object mh) {
         Constructor dmh = (Constructor)mh;
         return dmh.initMethod;
     }
 
-    /*non-public*/ static Object allocateInstance(Object mh) throws InstantiationException {
+    /*non-public*/ stbtic Object bllocbteInstbnce(Object mh) throws InstbntibtionException {
         Constructor dmh = (Constructor)mh;
-        return UNSAFE.allocateInstance(dmh.instanceClass);
+        return UNSAFE.bllocbteInstbnce(dmh.instbnceClbss);
     }
 
-    /** This subclass handles non-static field references. */
-    static class Accessor extends DirectMethodHandle {
-        final Class<?> fieldType;
-        final int      fieldOffset;
-        private Accessor(MethodType mtype, LambdaForm form, MemberName member,
+    /** This subclbss hbndles non-stbtic field references. */
+    stbtic clbss Accessor extends DirectMethodHbndle {
+        finbl Clbss<?> fieldType;
+        finbl int      fieldOffset;
+        privbte Accessor(MethodType mtype, LbmbdbForm form, MemberNbme member,
                          int fieldOffset) {
             super(mtype, form, member);
             this.fieldType   = member.getFieldType();
             this.fieldOffset = fieldOffset;
         }
 
-        @Override Object checkCast(Object obj) {
-            return fieldType.cast(obj);
+        @Override Object checkCbst(Object obj) {
+            return fieldType.cbst(obj);
         }
         @Override
-        MethodHandle viewAsType(MethodType newType) {
+        MethodHbndle viewAsType(MethodType newType) {
             return new Accessor(newType, form, member, fieldOffset);
         }
     }
 
     @ForceInline
-    /*non-public*/ static long fieldOffset(Object accessorObj) {
-        // Note: We return a long because that is what Unsafe.getObject likes.
-        // We store a plain int because it is more compact.
-        return ((Accessor)accessorObj).fieldOffset;
+    /*non-public*/ stbtic long fieldOffset(Object bccessorObj) {
+        // Note: We return b long becbuse thbt is whbt Unsbfe.getObject likes.
+        // We store b plbin int becbuse it is more compbct.
+        return ((Accessor)bccessorObj).fieldOffset;
     }
 
     @ForceInline
-    /*non-public*/ static Object checkBase(Object obj) {
-        // Note that the object's class has already been verified,
-        // since the parameter type of the Accessor method handle
-        // is either member.getDeclaringClass or a subclass.
-        // This was verified in DirectMethodHandle.make.
-        // Therefore, the only remaining check is for null.
-        // Since this check is *not* guaranteed by Unsafe.getInt
-        // and its siblings, we need to make an explicit one here.
-        obj.getClass();  // maybe throw NPE
+    /*non-public*/ stbtic Object checkBbse(Object obj) {
+        // Note thbt the object's clbss hbs blrebdy been verified,
+        // since the pbrbmeter type of the Accessor method hbndle
+        // is either member.getDeclbringClbss or b subclbss.
+        // This wbs verified in DirectMethodHbndle.mbke.
+        // Therefore, the only rembining check is for null.
+        // Since this check is *not* gubrbnteed by Unsbfe.getInt
+        // bnd its siblings, we need to mbke bn explicit one here.
+        obj.getClbss();  // mbybe throw NPE
         return obj;
     }
 
-    /** This subclass handles static field references. */
-    static class StaticAccessor extends DirectMethodHandle {
-        final private Class<?> fieldType;
-        final private Object   staticBase;
-        final private long     staticOffset;
+    /** This subclbss hbndles stbtic field references. */
+    stbtic clbss StbticAccessor extends DirectMethodHbndle {
+        finbl privbte Clbss<?> fieldType;
+        finbl privbte Object   stbticBbse;
+        finbl privbte long     stbticOffset;
 
-        private StaticAccessor(MethodType mtype, LambdaForm form, MemberName member,
-                               Object staticBase, long staticOffset) {
+        privbte StbticAccessor(MethodType mtype, LbmbdbForm form, MemberNbme member,
+                               Object stbticBbse, long stbticOffset) {
             super(mtype, form, member);
             this.fieldType    = member.getFieldType();
-            this.staticBase   = staticBase;
-            this.staticOffset = staticOffset;
+            this.stbticBbse   = stbticBbse;
+            this.stbticOffset = stbticOffset;
         }
 
-        @Override Object checkCast(Object obj) {
-            return fieldType.cast(obj);
+        @Override Object checkCbst(Object obj) {
+            return fieldType.cbst(obj);
         }
         @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new StaticAccessor(newType, form, member, staticBase, staticOffset);
+        MethodHbndle viewAsType(MethodType newType) {
+            return new StbticAccessor(newType, form, member, stbticBbse, stbticOffset);
         }
     }
 
     @ForceInline
-    /*non-public*/ static Object nullCheck(Object obj) {
-        obj.getClass();
+    /*non-public*/ stbtic Object nullCheck(Object obj) {
+        obj.getClbss();
         return obj;
     }
 
     @ForceInline
-    /*non-public*/ static Object staticBase(Object accessorObj) {
-        return ((StaticAccessor)accessorObj).staticBase;
+    /*non-public*/ stbtic Object stbticBbse(Object bccessorObj) {
+        return ((StbticAccessor)bccessorObj).stbticBbse;
     }
 
     @ForceInline
-    /*non-public*/ static long staticOffset(Object accessorObj) {
-        return ((StaticAccessor)accessorObj).staticOffset;
+    /*non-public*/ stbtic long stbticOffset(Object bccessorObj) {
+        return ((StbticAccessor)bccessorObj).stbticOffset;
     }
 
     @ForceInline
-    /*non-public*/ static Object checkCast(Object mh, Object obj) {
-        return ((DirectMethodHandle) mh).checkCast(obj);
+    /*non-public*/ stbtic Object checkCbst(Object mh, Object obj) {
+        return ((DirectMethodHbndle) mh).checkCbst(obj);
     }
 
-    Object checkCast(Object obj) {
-        return member.getReturnType().cast(obj);
+    Object checkCbst(Object obj) {
+        return member.getReturnType().cbst(obj);
     }
 
-    // Caching machinery for field accessors:
-    private static byte
+    // Cbching mbchinery for field bccessors:
+    privbte stbtic byte
             AF_GETFIELD        = 0,
             AF_PUTFIELD        = 1,
             AF_GETSTATIC       = 2,
@@ -519,195 +519,195 @@ class DirectMethodHandle extends MethodHandle {
             AF_GETSTATIC_INIT  = 4,
             AF_PUTSTATIC_INIT  = 5,
             AF_LIMIT           = 6;
-    // Enumerate the different field kinds using Wrapper,
-    // with an extra case added for checked references.
-    private static int
-            FT_LAST_WRAPPER    = Wrapper.values().length-1,
-            FT_UNCHECKED_REF   = Wrapper.OBJECT.ordinal(),
+    // Enumerbte the different field kinds using Wrbpper,
+    // with bn extrb cbse bdded for checked references.
+    privbte stbtic int
+            FT_LAST_WRAPPER    = Wrbpper.vblues().length-1,
+            FT_UNCHECKED_REF   = Wrbpper.OBJECT.ordinbl(),
             FT_CHECKED_REF     = FT_LAST_WRAPPER+1,
             FT_LIMIT           = FT_LAST_WRAPPER+2;
-    private static int afIndex(byte formOp, boolean isVolatile, int ftypeKind) {
+    privbte stbtic int bfIndex(byte formOp, boolebn isVolbtile, int ftypeKind) {
         return ((formOp * FT_LIMIT * 2)
-                + (isVolatile ? FT_LIMIT : 0)
+                + (isVolbtile ? FT_LIMIT : 0)
                 + ftypeKind);
     }
-    private static final LambdaForm[] ACCESSOR_FORMS
-            = new LambdaForm[afIndex(AF_LIMIT, false, 0)];
-    private static int ftypeKind(Class<?> ftype) {
+    privbte stbtic finbl LbmbdbForm[] ACCESSOR_FORMS
+            = new LbmbdbForm[bfIndex(AF_LIMIT, fblse, 0)];
+    privbte stbtic int ftypeKind(Clbss<?> ftype) {
         if (ftype.isPrimitive())
-            return Wrapper.forPrimitiveType(ftype).ordinal();
-        else if (VerifyType.isNullReferenceConversion(Object.class, ftype))
+            return Wrbpper.forPrimitiveType(ftype).ordinbl();
+        else if (VerifyType.isNullReferenceConversion(Object.clbss, ftype))
             return FT_UNCHECKED_REF;
         else
             return FT_CHECKED_REF;
     }
 
     /**
-     * Create a LF which can access the given field.
-     * Cache and share this structure among all fields with
-     * the same basicType and refKind.
+     * Crebte b LF which cbn bccess the given field.
+     * Cbche bnd shbre this structure bmong bll fields with
+     * the sbme bbsicType bnd refKind.
      */
-    private static LambdaForm preparedFieldLambdaForm(MemberName m) {
-        Class<?> ftype = m.getFieldType();
-        boolean isVolatile = m.isVolatile();
+    privbte stbtic LbmbdbForm prepbredFieldLbmbdbForm(MemberNbme m) {
+        Clbss<?> ftype = m.getFieldType();
+        boolebn isVolbtile = m.isVolbtile();
         byte formOp;
         switch (m.getReferenceKind()) {
-        case REF_getField:      formOp = AF_GETFIELD;    break;
-        case REF_putField:      formOp = AF_PUTFIELD;    break;
-        case REF_getStatic:     formOp = AF_GETSTATIC;   break;
-        case REF_putStatic:     formOp = AF_PUTSTATIC;   break;
-        default:  throw new InternalError(m.toString());
+        cbse REF_getField:      formOp = AF_GETFIELD;    brebk;
+        cbse REF_putField:      formOp = AF_PUTFIELD;    brebk;
+        cbse REF_getStbtic:     formOp = AF_GETSTATIC;   brebk;
+        cbse REF_putStbtic:     formOp = AF_PUTSTATIC;   brebk;
+        defbult:  throw new InternblError(m.toString());
         }
-        if (shouldBeInitialized(m)) {
-            // precompute the barrier-free version:
-            preparedFieldLambdaForm(formOp, isVolatile, ftype);
-            assert((AF_GETSTATIC_INIT - AF_GETSTATIC) ==
+        if (shouldBeInitiblized(m)) {
+            // precompute the bbrrier-free version:
+            prepbredFieldLbmbdbForm(formOp, isVolbtile, ftype);
+            bssert((AF_GETSTATIC_INIT - AF_GETSTATIC) ==
                    (AF_PUTSTATIC_INIT - AF_PUTSTATIC));
             formOp += (AF_GETSTATIC_INIT - AF_GETSTATIC);
         }
-        LambdaForm lform = preparedFieldLambdaForm(formOp, isVolatile, ftype);
-        maybeCompile(lform, m);
-        assert(lform.methodType().dropParameterTypes(0, 1)
-                .equals(m.getInvocationType().basicType()))
-                : Arrays.asList(m, m.getInvocationType().basicType(), lform, lform.methodType());
+        LbmbdbForm lform = prepbredFieldLbmbdbForm(formOp, isVolbtile, ftype);
+        mbybeCompile(lform, m);
+        bssert(lform.methodType().dropPbrbmeterTypes(0, 1)
+                .equbls(m.getInvocbtionType().bbsicType()))
+                : Arrbys.bsList(m, m.getInvocbtionType().bbsicType(), lform, lform.methodType());
         return lform;
     }
-    private static LambdaForm preparedFieldLambdaForm(byte formOp, boolean isVolatile, Class<?> ftype) {
-        int afIndex = afIndex(formOp, isVolatile, ftypeKind(ftype));
-        LambdaForm lform = ACCESSOR_FORMS[afIndex];
+    privbte stbtic LbmbdbForm prepbredFieldLbmbdbForm(byte formOp, boolebn isVolbtile, Clbss<?> ftype) {
+        int bfIndex = bfIndex(formOp, isVolbtile, ftypeKind(ftype));
+        LbmbdbForm lform = ACCESSOR_FORMS[bfIndex];
         if (lform != null)  return lform;
-        lform = makePreparedFieldLambdaForm(formOp, isVolatile, ftypeKind(ftype));
-        ACCESSOR_FORMS[afIndex] = lform;  // don't bother with a CAS
+        lform = mbkePrepbredFieldLbmbdbForm(formOp, isVolbtile, ftypeKind(ftype));
+        ACCESSOR_FORMS[bfIndex] = lform;  // don't bother with b CAS
         return lform;
     }
 
-    private static LambdaForm makePreparedFieldLambdaForm(byte formOp, boolean isVolatile, int ftypeKind) {
-        boolean isGetter  = (formOp & 1) == (AF_GETFIELD & 1);
-        boolean isStatic  = (formOp >= AF_GETSTATIC);
-        boolean needsInit = (formOp >= AF_GETSTATIC_INIT);
-        boolean needsCast = (ftypeKind == FT_CHECKED_REF);
-        Wrapper fw = (needsCast ? Wrapper.OBJECT : Wrapper.values()[ftypeKind]);
-        Class<?> ft = fw.primitiveType();
-        assert(ftypeKind(needsCast ? String.class : ft) == ftypeKind);
-        String tname  = fw.primitiveSimpleName();
-        String ctname = Character.toUpperCase(tname.charAt(0)) + tname.substring(1);
-        if (isVolatile)  ctname += "Volatile";
+    privbte stbtic LbmbdbForm mbkePrepbredFieldLbmbdbForm(byte formOp, boolebn isVolbtile, int ftypeKind) {
+        boolebn isGetter  = (formOp & 1) == (AF_GETFIELD & 1);
+        boolebn isStbtic  = (formOp >= AF_GETSTATIC);
+        boolebn needsInit = (formOp >= AF_GETSTATIC_INIT);
+        boolebn needsCbst = (ftypeKind == FT_CHECKED_REF);
+        Wrbpper fw = (needsCbst ? Wrbpper.OBJECT : Wrbpper.vblues()[ftypeKind]);
+        Clbss<?> ft = fw.primitiveType();
+        bssert(ftypeKind(needsCbst ? String.clbss : ft) == ftypeKind);
+        String tnbme  = fw.primitiveSimpleNbme();
+        String ctnbme = Chbrbcter.toUpperCbse(tnbme.chbrAt(0)) + tnbme.substring(1);
+        if (isVolbtile)  ctnbme += "Volbtile";
         String getOrPut = (isGetter ? "get" : "put");
-        String linkerName = (getOrPut + ctname);  // getObject, putIntVolatile, etc.
+        String linkerNbme = (getOrPut + ctnbme);  // getObject, putIntVolbtile, etc.
         MethodType linkerType;
         if (isGetter)
-            linkerType = MethodType.methodType(ft, Object.class, long.class);
+            linkerType = MethodType.methodType(ft, Object.clbss, long.clbss);
         else
-            linkerType = MethodType.methodType(void.class, Object.class, long.class, ft);
-        MemberName linker = new MemberName(Unsafe.class, linkerName, linkerType, REF_invokeVirtual);
+            linkerType = MethodType.methodType(void.clbss, Object.clbss, long.clbss, ft);
+        MemberNbme linker = new MemberNbme(Unsbfe.clbss, linkerNbme, linkerType, REF_invokeVirtubl);
         try {
-            linker = IMPL_NAMES.resolveOrFail(REF_invokeVirtual, linker, null, NoSuchMethodException.class);
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            linker = IMPL_NAMES.resolveOrFbil(REF_invokeVirtubl, linker, null, NoSuchMethodException.clbss);
+        } cbtch (ReflectiveOperbtionException ex) {
+            throw newInternblError(ex);
         }
 
-        // What is the external type of the lambda form?
+        // Whbt is the externbl type of the lbmbdb form?
         MethodType mtype;
         if (isGetter)
             mtype = MethodType.methodType(ft);
         else
-            mtype = MethodType.methodType(void.class, ft);
-        mtype = mtype.basicType();  // erase short to int, etc.
-        if (!isStatic)
-            mtype = mtype.insertParameterTypes(0, Object.class);
-        final int DMH_THIS  = 0;
-        final int ARG_BASE  = 1;
-        final int ARG_LIMIT = ARG_BASE + mtype.parameterCount();
-        // if this is for non-static access, the base pointer is stored at this index:
-        final int OBJ_BASE  = isStatic ? -1 : ARG_BASE;
-        // if this is for write access, the value to be written is stored at this index:
-        final int SET_VALUE  = isGetter ? -1 : ARG_LIMIT - 1;
-        int nameCursor = ARG_LIMIT;
-        final int F_HOLDER  = (isStatic ? nameCursor++ : -1);  // static base if any
-        final int F_OFFSET  = nameCursor++;  // Either static offset or field offset.
-        final int OBJ_CHECK = (OBJ_BASE >= 0 ? nameCursor++ : -1);
-        final int INIT_BAR  = (needsInit ? nameCursor++ : -1);
-        final int PRE_CAST  = (needsCast && !isGetter ? nameCursor++ : -1);
-        final int LINKER_CALL = nameCursor++;
-        final int POST_CAST = (needsCast && isGetter ? nameCursor++ : -1);
-        final int RESULT    = nameCursor-1;  // either the call or the cast
-        Name[] names = arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
+            mtype = MethodType.methodType(void.clbss, ft);
+        mtype = mtype.bbsicType();  // erbse short to int, etc.
+        if (!isStbtic)
+            mtype = mtype.insertPbrbmeterTypes(0, Object.clbss);
+        finbl int DMH_THIS  = 0;
+        finbl int ARG_BASE  = 1;
+        finbl int ARG_LIMIT = ARG_BASE + mtype.pbrbmeterCount();
+        // if this is for non-stbtic bccess, the bbse pointer is stored bt this index:
+        finbl int OBJ_BASE  = isStbtic ? -1 : ARG_BASE;
+        // if this is for write bccess, the vblue to be written is stored bt this index:
+        finbl int SET_VALUE  = isGetter ? -1 : ARG_LIMIT - 1;
+        int nbmeCursor = ARG_LIMIT;
+        finbl int F_HOLDER  = (isStbtic ? nbmeCursor++ : -1);  // stbtic bbse if bny
+        finbl int F_OFFSET  = nbmeCursor++;  // Either stbtic offset or field offset.
+        finbl int OBJ_CHECK = (OBJ_BASE >= 0 ? nbmeCursor++ : -1);
+        finbl int INIT_BAR  = (needsInit ? nbmeCursor++ : -1);
+        finbl int PRE_CAST  = (needsCbst && !isGetter ? nbmeCursor++ : -1);
+        finbl int LINKER_CALL = nbmeCursor++;
+        finbl int POST_CAST = (needsCbst && isGetter ? nbmeCursor++ : -1);
+        finbl int RESULT    = nbmeCursor-1;  // either the cbll or the cbst
+        Nbme[] nbmes = brguments(nbmeCursor - ARG_LIMIT, mtype.invokerType());
         if (needsInit)
-            names[INIT_BAR] = new Name(Lazy.NF_ensureInitialized, names[DMH_THIS]);
-        if (needsCast && !isGetter)
-            names[PRE_CAST] = new Name(Lazy.NF_checkCast, names[DMH_THIS], names[SET_VALUE]);
-        Object[] outArgs = new Object[1 + linkerType.parameterCount()];
-        assert(outArgs.length == (isGetter ? 3 : 4));
+            nbmes[INIT_BAR] = new Nbme(Lbzy.NF_ensureInitiblized, nbmes[DMH_THIS]);
+        if (needsCbst && !isGetter)
+            nbmes[PRE_CAST] = new Nbme(Lbzy.NF_checkCbst, nbmes[DMH_THIS], nbmes[SET_VALUE]);
+        Object[] outArgs = new Object[1 + linkerType.pbrbmeterCount()];
+        bssert(outArgs.length == (isGetter ? 3 : 4));
         outArgs[0] = UNSAFE;
-        if (isStatic) {
-            outArgs[1] = names[F_HOLDER]  = new Name(Lazy.NF_staticBase, names[DMH_THIS]);
-            outArgs[2] = names[F_OFFSET]  = new Name(Lazy.NF_staticOffset, names[DMH_THIS]);
+        if (isStbtic) {
+            outArgs[1] = nbmes[F_HOLDER]  = new Nbme(Lbzy.NF_stbticBbse, nbmes[DMH_THIS]);
+            outArgs[2] = nbmes[F_OFFSET]  = new Nbme(Lbzy.NF_stbticOffset, nbmes[DMH_THIS]);
         } else {
-            outArgs[1] = names[OBJ_CHECK] = new Name(Lazy.NF_checkBase, names[OBJ_BASE]);
-            outArgs[2] = names[F_OFFSET]  = new Name(Lazy.NF_fieldOffset, names[DMH_THIS]);
+            outArgs[1] = nbmes[OBJ_CHECK] = new Nbme(Lbzy.NF_checkBbse, nbmes[OBJ_BASE]);
+            outArgs[2] = nbmes[F_OFFSET]  = new Nbme(Lbzy.NF_fieldOffset, nbmes[DMH_THIS]);
         }
         if (!isGetter) {
-            outArgs[3] = (needsCast ? names[PRE_CAST] : names[SET_VALUE]);
+            outArgs[3] = (needsCbst ? nbmes[PRE_CAST] : nbmes[SET_VALUE]);
         }
-        for (Object a : outArgs)  assert(a != null);
-        names[LINKER_CALL] = new Name(linker, outArgs);
-        if (needsCast && isGetter)
-            names[POST_CAST] = new Name(Lazy.NF_checkCast, names[DMH_THIS], names[LINKER_CALL]);
-        for (Name n : names)  assert(n != null);
-        String fieldOrStatic = (isStatic ? "Static" : "Field");
-        String lambdaName = (linkerName + fieldOrStatic);  // significant only for debugging
-        if (needsCast)  lambdaName += "Cast";
-        if (needsInit)  lambdaName += "Init";
-        return new LambdaForm(lambdaName, ARG_LIMIT, names, RESULT);
+        for (Object b : outArgs)  bssert(b != null);
+        nbmes[LINKER_CALL] = new Nbme(linker, outArgs);
+        if (needsCbst && isGetter)
+            nbmes[POST_CAST] = new Nbme(Lbzy.NF_checkCbst, nbmes[DMH_THIS], nbmes[LINKER_CALL]);
+        for (Nbme n : nbmes)  bssert(n != null);
+        String fieldOrStbtic = (isStbtic ? "Stbtic" : "Field");
+        String lbmbdbNbme = (linkerNbme + fieldOrStbtic);  // significbnt only for debugging
+        if (needsCbst)  lbmbdbNbme += "Cbst";
+        if (needsInit)  lbmbdbNbme += "Init";
+        return new LbmbdbForm(lbmbdbNbme, ARG_LIMIT, nbmes, RESULT);
     }
 
     /**
-     * Pre-initialized NamedFunctions for bootstrapping purposes.
-     * Factored in an inner class to delay initialization until first usage.
+     * Pre-initiblized NbmedFunctions for bootstrbpping purposes.
+     * Fbctored in bn inner clbss to delby initiblizbtion until first usbge.
      */
-    private static class Lazy {
-        static final NamedFunction
-                NF_internalMemberName,
-                NF_internalMemberNameEnsureInit,
-                NF_ensureInitialized,
+    privbte stbtic clbss Lbzy {
+        stbtic finbl NbmedFunction
+                NF_internblMemberNbme,
+                NF_internblMemberNbmeEnsureInit,
+                NF_ensureInitiblized,
                 NF_fieldOffset,
-                NF_checkBase,
-                NF_staticBase,
-                NF_staticOffset,
-                NF_checkCast,
-                NF_allocateInstance,
+                NF_checkBbse,
+                NF_stbticBbse,
+                NF_stbticOffset,
+                NF_checkCbst,
+                NF_bllocbteInstbnce,
                 NF_constructorMethod;
-        static {
+        stbtic {
             try {
-                NamedFunction nfs[] = {
-                        NF_internalMemberName = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("internalMemberName", Object.class)),
-                        NF_internalMemberNameEnsureInit = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("internalMemberNameEnsureInit", Object.class)),
-                        NF_ensureInitialized = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("ensureInitialized", Object.class)),
-                        NF_fieldOffset = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("fieldOffset", Object.class)),
-                        NF_checkBase = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("checkBase", Object.class)),
-                        NF_staticBase = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("staticBase", Object.class)),
-                        NF_staticOffset = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("staticOffset", Object.class)),
-                        NF_checkCast = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("checkCast", Object.class, Object.class)),
-                        NF_allocateInstance = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("allocateInstance", Object.class)),
-                        NF_constructorMethod = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("constructorMethod", Object.class))
+                NbmedFunction nfs[] = {
+                        NF_internblMemberNbme = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("internblMemberNbme", Object.clbss)),
+                        NF_internblMemberNbmeEnsureInit = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("internblMemberNbmeEnsureInit", Object.clbss)),
+                        NF_ensureInitiblized = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("ensureInitiblized", Object.clbss)),
+                        NF_fieldOffset = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("fieldOffset", Object.clbss)),
+                        NF_checkBbse = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("checkBbse", Object.clbss)),
+                        NF_stbticBbse = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("stbticBbse", Object.clbss)),
+                        NF_stbticOffset = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("stbticOffset", Object.clbss)),
+                        NF_checkCbst = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("checkCbst", Object.clbss, Object.clbss)),
+                        NF_bllocbteInstbnce = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("bllocbteInstbnce", Object.clbss)),
+                        NF_constructorMethod = new NbmedFunction(DirectMethodHbndle.clbss
+                                .getDeclbredMethod("constructorMethod", Object.clbss))
                 };
-                for (NamedFunction nf : nfs) {
-                    // Each nf must be statically invocable or we get tied up in our bootstraps.
-                    assert(InvokerBytecodeGenerator.isStaticallyInvocable(nf.member)) : nf;
+                for (NbmedFunction nf : nfs) {
+                    // Ebch nf must be stbticblly invocbble or we get tied up in our bootstrbps.
+                    bssert(InvokerBytecodeGenerbtor.isStbticbllyInvocbble(nf.member)) : nf;
                     nf.resolve();
                 }
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError(ex);
+            } cbtch (ReflectiveOperbtionException ex) {
+                throw newInternblError(ex);
             }
         }
     }

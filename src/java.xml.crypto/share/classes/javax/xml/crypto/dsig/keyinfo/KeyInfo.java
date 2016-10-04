@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: KeyInfo.java,v 1.7 2005/05/10 16:35:34 mullan Exp $
+ * $Id: KeyInfo.jbvb,v 1.7 2005/05/10 16:35:34 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbckbge jbvbx.xml.crypto.dsig.keyinfo;
 
-import java.util.List;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.XMLStructure;
+import jbvb.util.List;
+import jbvbx.xml.crypto.MbrshblException;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import jbvbx.xml.crypto.XMLStructure;
 
 /**
- * A representation of the XML <code>KeyInfo</code> element as defined in
- * the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * A <code>KeyInfo</code> contains a list of {@link XMLStructure}s, each of
- * which contain information that enables the recipient(s) to obtain the key
- * needed to validate an XML signature. The XML Schema Definition is defined as:
+ * A representbtion of the XML <code>KeyInfo</code> element bs defined in
+ * the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * A <code>KeyInfo</code> contbins b list of {@link XMLStructure}s, ebch of
+ * which contbin informbtion thbt enbbles the recipient(s) to obtbin the key
+ * needed to vblidbte bn XML signbture. The XML Schemb Definition is defined bs:
  *
  * <pre>
- * &lt;element name="KeyInfo" type="ds:KeyInfoType"/&gt;
- * &lt;complexType name="KeyInfoType" mixed="true"&gt;
- *   &lt;choice maxOccurs="unbounded"&gt;
- *     &lt;element ref="ds:KeyName"/&gt;
- *     &lt;element ref="ds:KeyValue"/&gt;
- *     &lt;element ref="ds:RetrievalMethod"/&gt;
- *     &lt;element ref="ds:X509Data"/&gt;
- *     &lt;element ref="ds:PGPData"/&gt;
- *     &lt;element ref="ds:SPKIData"/&gt;
- *     &lt;element ref="ds:MgmtData"/&gt;
- *     &lt;any processContents="lax" namespace="##other"/&gt;
- *     &lt;!-- (1,1) elements from (0,unbounded) namespaces --&gt;
+ * &lt;element nbme="KeyInfo" type="ds:KeyInfoType"/&gt;
+ * &lt;complexType nbme="KeyInfoType" mixed="true"&gt;
+ *   &lt;choice mbxOccurs="unbounded"&gt;
+ *     &lt;element ref="ds:KeyNbme"/&gt;
+ *     &lt;element ref="ds:KeyVblue"/&gt;
+ *     &lt;element ref="ds:RetrievblMethod"/&gt;
+ *     &lt;element ref="ds:X509Dbtb"/&gt;
+ *     &lt;element ref="ds:PGPDbtb"/&gt;
+ *     &lt;element ref="ds:SPKIDbtb"/&gt;
+ *     &lt;element ref="ds:MgmtDbtb"/&gt;
+ *     &lt;bny processContents="lbx" nbmespbce="##other"/&gt;
+ *     &lt;!-- (1,1) elements from (0,unbounded) nbmespbces --&gt;
  *   &lt;/choice&gt;
- *   &lt;attribute name="Id" type="ID" use="optional"/&gt;
+ *   &lt;bttribute nbme="Id" type="ID" use="optionbl"/&gt;
  * &lt;/complexType&gt;
  * </pre>
  *
- * A <code>KeyInfo</code> instance may be created by invoking one of the
- * {@link KeyInfoFactory#newKeyInfo newKeyInfo} methods of the
- * {@link KeyInfoFactory} class, and passing it a list of one or more
- * <code>XMLStructure</code>s and an optional id parameter;
- * for example:
+ * A <code>KeyInfo</code> instbnce mby be crebted by invoking one of the
+ * {@link KeyInfoFbctory#newKeyInfo newKeyInfo} methods of the
+ * {@link KeyInfoFbctory} clbss, bnd pbssing it b list of one or more
+ * <code>XMLStructure</code>s bnd bn optionbl id pbrbmeter;
+ * for exbmple:
  * <pre>
- *   KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- *   KeyInfo keyInfo = factory.newKeyInfo
- *      (Collections.singletonList(factory.newKeyName("Alice"), "keyinfo-1"));
+ *   KeyInfoFbctory fbctory = KeyInfoFbctory.getInstbnce("DOM");
+ *   KeyInfo keyInfo = fbctory.newKeyInfo
+ *      (Collections.singletonList(fbctory.newKeyNbme("Alice"), "keyinfo-1"));
  * </pre>
  *
- * <p><code>KeyInfo</code> objects can also be marshalled to XML by invoking
- * the {@link #marshal marshal} method.
+ * <p><code>KeyInfo</code> objects cbn blso be mbrshblled to XML by invoking
+ * the {@link #mbrshbl mbrshbl} method.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see KeyInfoFactory#newKeyInfo(List)
- * @see KeyInfoFactory#newKeyInfo(List, String)
+ * @see KeyInfoFbctory#newKeyInfo(List)
+ * @see KeyInfoFbctory#newKeyInfo(List, String)
  */
-public interface KeyInfo extends XMLStructure {
+public interfbce KeyInfo extends XMLStructure {
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} containing the key information. Each entry of the list is
-     * an {@link XMLStructure}.
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} contbining the key informbtion. Ebch entry of the list is
+     * bn {@link XMLStructure}.
      *
-     * <p>If there is a public subclass representing the type of
-     * <code>XMLStructure</code>, it is returned as an instance of that
-     * class (ex: an <code>X509Data</code> element would be returned as an
-     * instance of {@link javax.xml.crypto.dsig.keyinfo.X509Data}).
+     * <p>If there is b public subclbss representing the type of
+     * <code>XMLStructure</code>, it is returned bs bn instbnce of thbt
+     * clbss (ex: bn <code>X509Dbtb</code> element would be returned bs bn
+     * instbnce of {@link jbvbx.xml.crypto.dsig.keyinfo.X509Dbtb}).
      *
-     * @return an unmodifiable list of one or more <code>XMLStructure</code>s
-     *    in this <code>KeyInfo</code>. Never returns <code>null</code> or an
+     * @return bn unmodifibble list of one or more <code>XMLStructure</code>s
+     *    in this <code>KeyInfo</code>. Never returns <code>null</code> or bn
      *    empty list.
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     List getContent();
 
     /**
-     * Return the optional Id attribute of this <code>KeyInfo</code>, which
-     * may be useful for referencing this <code>KeyInfo</code> from other
+     * Return the optionbl Id bttribute of this <code>KeyInfo</code>, which
+     * mby be useful for referencing this <code>KeyInfo</code> from other
      * XML structures.
      *
-     * @return the Id attribute of this <code>KeyInfo</code> (may be
+     * @return the Id bttribute of this <code>KeyInfo</code> (mby be
      *    <code>null</code> if not specified)
      */
     String getId();
 
     /**
-     * Marshals the key info to XML.
+     * Mbrshbls the key info to XML.
      *
-     * @param parent a mechanism-specific structure containing the parent node
-     *    that the marshalled key info will be appended to
-     * @param context the <code>XMLCryptoContext</code> containing additional
-     *    context (may be null if not applicable)
-     * @throws ClassCastException if the type of <code>parent</code> or
-     *    <code>context</code> is not compatible with this key info
-     * @throws MarshalException if the key info cannot be marshalled
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
+     * @pbrbm pbrent b mechbnism-specific structure contbining the pbrent node
+     *    thbt the mbrshblled key info will be bppended to
+     * @pbrbm context the <code>XMLCryptoContext</code> contbining bdditionbl
+     *    context (mby be null if not bpplicbble)
+     * @throws ClbssCbstException if the type of <code>pbrent</code> or
+     *    <code>context</code> is not compbtible with this key info
+     * @throws MbrshblException if the key info cbnnot be mbrshblled
+     * @throws NullPointerException if <code>pbrent</code> is <code>null</code>
      */
-    void marshal(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException;
+    void mbrshbl(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException;
 }
